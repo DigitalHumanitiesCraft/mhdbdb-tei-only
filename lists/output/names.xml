@@ -1,0 +1,729 @@
+<?xml version='1.0' encoding='utf-8'?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>MHDBDB Onomastic System</title>
+      </titleStmt>
+      <publicationStmt>
+        <publisher>Middle High German Database (MHDBDB)</publisher>
+        <date>2025-04-07</date>
+      </publicationStmt>
+      <sourceDesc>
+        <p>Converted from RDF data</p>
+      </sourceDesc>
+    </fileDesc>
+    <encodingDesc>
+      <classDecl>
+        <taxonomy xml:id="mhdbdb-names">
+          <desc>Onomastic system of the Middle High German Database</desc>
+          <category xml:id="name_40000000">
+            <catDesc>
+              <term xml:lang="de">Namen</term>
+              <term xml:lang="en">Names</term>
+            </catDesc>
+          </category>
+          <category xml:id="name_41000000">
+            <catDesc>
+              <term xml:lang="de">Namen: Geographika (Toponyme)</term>
+              <term xml:lang="en">Names: Geographika (Toponyms)</term>
+              <ptr type="broader" target="#name_40000000"/>
+              <ptr type="exactMatch" target="concepts.xml#concept_32810000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_41100000">
+            <catDesc>
+              <term xml:lang="de">Namen: Universum &amp; Himmelskörper (Astronyme)</term>
+              <term xml:lang="en">Names: Universe &amp; Celestial Bodies (Astronymies)</term>
+              <ptr type="broader" target="#name_41000000"/>
+              <ptr type="exactMatch" target="concepts.xml#concept_32161000"/>
+              <ptr type="exactMatch" target="concepts.xml#concept_11100000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_41110000">
+            <catDesc>
+              <term xml:lang="de">Namen: Sphärennamen (Kosmonyme)</term>
+              <term xml:lang="en">Names: Names of spheres (cosmonyms)</term>
+              <ptr type="broader" target="#name_41100000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_41120000">
+            <catDesc>
+              <term xml:lang="de">Namen: Gestirne &amp; Sternbilder (Astronyme)</term>
+              <term xml:lang="en">Names: Stars &amp; Constellations (Astronyms)</term>
+              <ptr type="broader" target="#name_41100000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_41130000">
+            <catDesc>
+              <term xml:lang="de">Namen: Planetennamen (Astronyme)</term>
+              <term xml:lang="en">Names: Planet names (Astronyms)</term>
+              <ptr type="broader" target="#name_41100000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_41200000">
+            <catDesc>
+              <term xml:lang="de">Namen: Größere Ortsnamen (Makrotoponyme)</term>
+              <term xml:lang="en">Names: Larger Place Names (Macrotoponyms)</term>
+              <ptr type="broader" target="#name_41000000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_41210000">
+            <catDesc>
+              <term xml:lang="de">Namen: Erdteile (Choronyme)</term>
+              <term xml:lang="en">Names: Earth Parts (Choronyms)</term>
+              <ptr type="broader" target="#name_41200000"/>
+              <ptr type="exactMatch" target="concepts.xml#concept_24122000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_41220000">
+            <catDesc>
+              <term xml:lang="de">Namen: Regionennamen (Choronyme)</term>
+              <term xml:lang="en">Names: Region names (Choronyms)</term>
+              <ptr type="broader" target="#name_41200000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_41230000">
+            <catDesc>
+              <term xml:lang="de">Namen: Größere menschl Ortseinheiten (Choronyme)</term>
+              <term xml:lang="en">Names: Larger Human Local Units (Choronyms)</term>
+              <ptr type="broader" target="#name_41200000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_41231000">
+            <catDesc>
+              <term xml:lang="de">Namen: Politische Einheiten &amp; Staaten (Choronyme)</term>
+              <term xml:lang="en">Names: Political Units &amp; States (Choronyms)</term>
+              <ptr type="broader" target="#name_41230000"/>
+              <ptr type="exactMatch" target="concepts.xml#concept_24120000"/>
+              <ptr type="closeMatch" target="concepts.xml#concept_24121000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_41232000">
+            <catDesc>
+              <term xml:lang="de">Namen: Städtenamen (Urbanonyme)</term>
+              <term xml:lang="en">Names: City names (Urbanonyms)</term>
+              <ptr type="broader" target="#name_41230000"/>
+              <ptr type="exactMatch" target="concepts.xml#concept_24212000"/>
+              <ptr type="closeMatch" target="concepts.xml#concept_24212100"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_41233000">
+            <catDesc>
+              <term xml:lang="de">Namen: Dörfernamen (Oikonyme)</term>
+              <term xml:lang="en">Names: Village names (Oikonyms)</term>
+              <ptr type="broader" target="#name_41230000"/>
+              <ptr type="exactMatch" target="concepts.xml#concept_24222000"/>
+              <ptr type="closeMatch" target="concepts.xml#concept_24222300"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_41240000">
+            <catDesc>
+              <term xml:lang="de">Namen: Makro-Flurnamen (Choronyme)</term>
+              <term xml:lang="en">Names: Macro Field Names (Choronyms)</term>
+              <ptr type="broader" target="#name_41200000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_41241000">
+            <catDesc>
+              <term xml:lang="de">Namen: Geografische Erscheinungen (Agronyme)</term>
+              <term xml:lang="en">Names: Geographical Appearances (Agronyms)</term>
+              <ptr type="broader" target="#name_41240000"/>
+              <ptr type="exactMatch" target="concepts.xml#concept_12011000"/>
+              <ptr type="closeMatch" target="concepts.xml#concept_12014000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_41242000">
+            <catDesc>
+              <term xml:lang="de">Namen: Gebirgsnamen/Bergnamen (Oronyme)</term>
+              <term xml:lang="en">Names: Mountain names (Oronyms)</term>
+              <ptr type="broader" target="#name_41240000"/>
+              <ptr type="exactMatch" target="concepts.xml#concept_12012000"/>
+              <ptr type="closeMatch" target="concepts.xml#concept_12015000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_41243000">
+            <catDesc>
+              <term xml:lang="de">Namen: Inselnamen (Choronyme)</term>
+              <term xml:lang="en">Names: Island names (Choronyms)</term>
+              <ptr type="broader" target="#name_41240000"/>
+              <ptr type="exactMatch" target="concepts.xml#concept_12013000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_41300000">
+            <catDesc>
+              <term xml:lang="de">Namen: Kleinere Ortsnamen (Mikrotoponyme)</term>
+              <term xml:lang="en">Names: Smaller Place Names (Microtoponyms)</term>
+              <ptr type="broader" target="#name_41000000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_41310000">
+            <catDesc>
+              <term xml:lang="de">Namen: Mikro-Flurnamen (Agronyme)</term>
+              <term xml:lang="en">Names Micro Field Names (Agronyms)</term>
+              <ptr type="broader" target="#name_41300000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_41311000">
+            <catDesc>
+              <term xml:lang="de">Namen: Wälder &amp; Forste (Drymonyme)</term>
+              <term xml:lang="en">Names: Forests (Drymonymes)</term>
+              <ptr type="broader" target="#name_41310000"/>
+              <ptr type="exactMatch" target="concepts.xml#concept_12016000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_41312000">
+            <catDesc>
+              <term xml:lang="de">Namen: Landwirtschaftsflächen (Agronyme)</term>
+              <term xml:lang="en">Names: Farmland (Agronyms)</term>
+              <ptr type="broader" target="#name_41310000"/>
+              <ptr type="closeMatch" target="concepts.xml#concept_23303010"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_41320000">
+            <catDesc>
+              <term xml:lang="de">Namen: Kleinere menschl Ortseinheiten (Oikonyme)</term>
+              <term xml:lang="en">Names: Smaller Human Local Units (Oikonyms)</term>
+              <ptr type="broader" target="#name_41300000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_41321000">
+            <catDesc>
+              <term xml:lang="de">Namen: Gebäudenamen (Oikodomonyme)</term>
+              <term xml:lang="en">Names: Building names (Oikodomonyms)</term>
+              <ptr type="broader" target="#name_41320000"/>
+              <ptr type="exactMatch" target="concepts.xml#concept_23309021"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_41321100">
+            <catDesc>
+              <term xml:lang="de">Namen: Burgnamen/Schlossnamen (Oikodomonyme)</term>
+              <term xml:lang="en">Names: Castle names (Oikodomonyms)</term>
+              <ptr type="broader" target="#name_41321000"/>
+              <ptr type="exactMatch" target="concepts.xml#concept_23253000"/>
+              <ptr type="closeMatch" target="concepts.xml#concept_23254000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_41321200">
+            <catDesc>
+              <term xml:lang="de">Namen: Gehöfte/Hofnamen (Oikonyme)</term>
+              <term xml:lang="en">Names: Homestead names (Oikonyms)</term>
+              <ptr type="broader" target="#name_41321000"/>
+              <ptr type="exactMatch" target="concepts.xml#concept_23303140"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_41321300">
+            <catDesc>
+              <term xml:lang="de">Namen: Kirchennamen &amp; Kultstätten (Ekklesionyme)</term>
+              <term xml:lang="en">Names: Churches &amp; Religious sites  (Ekklesionyms)</term>
+              <ptr type="broader" target="#name_41321000"/>
+              <ptr type="exactMatch" target="concepts.xml#concept_24455100"/>
+              <ptr type="exactMatch" target="concepts.xml#concept_24453100"/>
+              <ptr type="closeMatch" target="concepts.xml#concept_24422100"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_41321400">
+            <catDesc>
+              <term xml:lang="de">Namen: Wirtshäuser (Oikonyme)</term>
+              <term xml:lang="en">Names: Inns (Oikonymes)</term>
+              <ptr type="broader" target="#name_41321000"/>
+              <ptr type="exactMatch" target="concepts.xml#concept_23307320"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_41322000">
+            <catDesc>
+              <term xml:lang="de">Namen: Orte im urbanen Freiraum (Oikonyme)</term>
+              <term xml:lang="en">Names: Places in Urban Open Space (Oikonyms)</term>
+              <ptr type="broader" target="#name_41320000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_41322100">
+            <catDesc>
+              <term xml:lang="de">Namen: Straßennamen &amp; Wege (Hodonyme &amp; Dromonyme)</term>
+              <term xml:lang="en">Names: Roads and Lanes (Hodonyms &amp; Dromonyms)</term>
+              <ptr type="broader" target="#name_41322000"/>
+              <ptr type="closeMatch" target="concepts.xml#concept_23307120"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_41322200">
+            <catDesc>
+              <term xml:lang="de">Namen: Platznamen (Agoronyme)</term>
+              <term xml:lang="en">Names: Place names (Agoronyms)</term>
+              <ptr type="broader" target="#name_41322000"/>
+              <ptr type="closeMatch" target="concepts.xml#concept_23307120"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_41322300">
+            <catDesc>
+              <term xml:lang="de">Namen: Wasserwege &amp; Anlagen am Wasser</term>
+              <term xml:lang="en">Names: Waterways &amp; Installations on/near Water</term>
+              <ptr type="broader" target="#name_41322000"/>
+              <ptr type="closeMatch" target="concepts.xml#concept_23307220"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_41400000">
+            <catDesc>
+              <term xml:lang="de">Namen: Gewässernamen (Hydronyme)</term>
+              <term xml:lang="en">Names: Water names (Hydronyms)</term>
+              <ptr type="broader" target="#name_41000000"/>
+              <ptr type="closeMatch" target="concepts.xml#concept_12021200"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_41410000">
+            <catDesc>
+              <term xml:lang="de">Namen: Meere &amp; Ozeane (Pelagonyme &amp; Okeanonyme)</term>
+              <term xml:lang="en">Names: Seas &amp; Oceans (Pelagonyms &amp; Okeanonymes)</term>
+              <ptr type="broader" target="#name_41400000"/>
+              <ptr type="exactMatch" target="concepts.xml#concept_12022100"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_41420000">
+            <catDesc>
+              <term xml:lang="de">Namen: Seennamen (Limnonyme)</term>
+              <term xml:lang="en">Names: Lake names (Limnonymes)</term>
+              <ptr type="broader" target="#name_41400000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_41430000">
+            <catDesc>
+              <term xml:lang="de">Namen: Flussnamen/Bachnamen (Potamonyme)</term>
+              <term xml:lang="en">Names: River/Brook names (Potamonyms)</term>
+              <ptr type="broader" target="#name_41400000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_42000000">
+            <catDesc>
+              <term xml:lang="de">Namen: Personennamen (Anthroponyme)</term>
+              <term xml:lang="en">Names: Personal Names (Anthroponymes)</term>
+              <ptr type="broader" target="#name_40000000"/>
+              <ptr type="exactMatch" target="concepts.xml#concept_23112500"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_42100000">
+            <catDesc>
+              <term xml:lang="de">Namen: Menschennamen (Anthroponyme)</term>
+              <term xml:lang="en">Names: Human names (Anthroponymes)</term>
+              <ptr type="broader" target="#name_42000000"/>
+              <ptr type="exactMatch" target="concepts.xml#concept_23112500"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_42110000">
+            <catDesc>
+              <term xml:lang="de">Namen: Rufnamen (Anthroponyme)</term>
+              <term xml:lang="en">Names: First names (Anthroponymes)</term>
+              <ptr type="broader" target="#name_42100000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_42120000">
+            <catDesc>
+              <term xml:lang="de">Namen: Beinamen &amp; Familiennamen (Anthroponyme)</term>
+              <term xml:lang="en">Names: Nicknames &amp; Family Names (Anthroponymes)</term>
+              <ptr type="broader" target="#name_42100000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_42121000">
+            <catDesc>
+              <term xml:lang="de">Namen: Herkunftsnamen (Anthroponyme)</term>
+              <term xml:lang="en">Names: Names of Origin (Anthroponymes)</term>
+              <ptr type="broader" target="#name_42120000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_42122000">
+            <catDesc>
+              <term xml:lang="de">Namen: Wohnstättennamen (Anthroponyme)</term>
+              <term xml:lang="en">Names: Place names (Anthroponyme)</term>
+              <ptr type="broader" target="#name_42120000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_42123000">
+            <catDesc>
+              <term xml:lang="de">Namen: Berufsnamen (Anthroponyme)</term>
+              <term xml:lang="en">Names: Professional Names (Anthroponyms)</term>
+              <ptr type="broader" target="#name_42120000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_42124000">
+            <catDesc>
+              <term xml:lang="de">Namen: Übernamen (Anthroponyme)</term>
+              <term xml:lang="en">Names: Nicknames (Anthroponyms)</term>
+              <ptr type="broader" target="#name_42120000"/>
+              <ptr type="closeMatch" target="concepts.xml#concept_23112501"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_42125000">
+            <catDesc>
+              <term xml:lang="de">Familiennamen nach Rufnamen (Patronyme/Matronyme)</term>
+              <term xml:lang="en">Surnames by given name (Patronyms/Matronyms)</term>
+              <ptr type="broader" target="#name_42120000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_42130000">
+            <catDesc>
+              <term xml:lang="de">Namen: Spitznamen, Schimpfnamen, Kosenamen</term>
+              <term xml:lang="en">Names: Nicknames, Swearnames, Cosenames</term>
+              <ptr type="broader" target="#name_42100000"/>
+              <ptr type="closeMatch" target="concepts.xml#concept_23112501"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_42200000">
+            <catDesc>
+              <term xml:lang="de">Namen: Menschengruppen (Anthroponyme)</term>
+              <term xml:lang="en">Names: Human Groups (Anthroponymes)</term>
+              <ptr type="broader" target="#name_42000000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_42210000">
+            <catDesc>
+              <term xml:lang="de">Namen: Namen von Ethnien</term>
+              <term xml:lang="en">Names: Names of ethnicities</term>
+              <ptr type="broader" target="#name_42200000"/>
+              <ptr type="exactMatch" target="concepts.xml#concept_23111200"/>
+              <ptr type="closeMatch" target="concepts.xml#concept_23111300"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_42220000">
+            <catDesc>
+              <term xml:lang="de">Namen: Religionsnamen</term>
+              <term xml:lang="en">Names: Religion names</term>
+              <ptr type="broader" target="#name_42200000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_42300000">
+            <catDesc>
+              <term xml:lang="de">Namhafte Individuen nach Berufen (Anthroponyme)</term>
+              <term xml:lang="en">Renowned individuals by profession (anthroponyms)</term>
+              <ptr type="broader" target="#name_42000000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_42310000">
+            <catDesc>
+              <term xml:lang="de">Namhafte AlchemistInnen</term>
+              <term xml:lang="en">Renowned alchemists</term>
+              <ptr type="broader" target="#name_42300000"/>
+              <ptr type="exactMatch" target="concepts.xml#concept_32310000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_42320000">
+            <catDesc>
+              <term xml:lang="de">Namhafte ArithmetikerInnen/MathematikerInnen</term>
+              <term xml:lang="en">Renowned arithmeticians/mathematician</term>
+              <ptr type="broader" target="#name_42300000"/>
+              <ptr type="exactMatch" target="concepts.xml#concept_32141000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_42330000">
+            <catDesc>
+              <term xml:lang="de">Namhafte DialektikerInnen</term>
+              <term xml:lang="en">Renowned dialecticians</term>
+              <ptr type="broader" target="#name_42300000"/>
+              <ptr type="exactMatch" target="concepts.xml#concept_32131000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_42340000">
+            <catDesc>
+              <term xml:lang="de">Namhafte GeografInnen</term>
+              <term xml:lang="en">Renowned geographers</term>
+              <ptr type="broader" target="#name_42300000"/>
+              <ptr type="exactMatch" target="concepts.xml#concept_32810000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_42350000">
+            <catDesc>
+              <term xml:lang="de">Namhafte GrammatikerInnen</term>
+              <term xml:lang="en">Renowned grammarians</term>
+              <ptr type="broader" target="#name_42300000"/>
+              <ptr type="exactMatch" target="concepts.xml#concept_32111000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_42360000">
+            <catDesc>
+              <term xml:lang="de">Namhafte HistorikerInnen</term>
+              <term xml:lang="en">Renowned grammarians</term>
+              <ptr type="broader" target="#name_42300000"/>
+              <ptr type="exactMatch" target="concepts.xml#concept_32910000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_42370000">
+            <catDesc>
+              <term xml:lang="de">Namhafte KünstlerInnen</term>
+              <term xml:lang="en">Renowned artists</term>
+              <ptr type="broader" target="#name_42300000"/>
+              <ptr type="exactMatch" target="concepts.xml#concept_25141000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_42380000">
+            <catDesc>
+              <term xml:lang="de">Namhafte LiteratInnen</term>
+              <term xml:lang="en">Renowned writers</term>
+              <ptr type="broader" target="#name_42300000"/>
+              <ptr type="exactMatch" target="concepts.xml#concept_25121000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_42391000">
+            <catDesc>
+              <term xml:lang="de">Namhafte MedizinerInnen</term>
+              <term xml:lang="en">Renowned physicians</term>
+              <ptr type="broader" target="#name_42300000"/>
+              <ptr type="exactMatch" target="concepts.xml#concept_32610000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_42393000">
+            <catDesc>
+              <term xml:lang="de">Namhafte MusiktheoretikerInnen</term>
+              <term xml:lang="en">Renowned music theorists</term>
+              <ptr type="broader" target="#name_42300000"/>
+              <ptr type="exactMatch" target="concepts.xml#concept_32171000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_42394000">
+            <catDesc>
+              <term xml:lang="de">Namhafte PhilosophInnen</term>
+              <term xml:lang="en">Renowned philosophers</term>
+              <ptr type="broader" target="#name_42300000"/>
+              <ptr type="exactMatch" target="concepts.xml#concept_32710000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_42395000">
+            <catDesc>
+              <term xml:lang="de">Namhafte RhetorikerInnen</term>
+              <term xml:lang="en">Renowned rhetoricians</term>
+              <ptr type="broader" target="#name_42300000"/>
+              <ptr type="exactMatch" target="concepts.xml#concept_32121000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_42396000">
+            <catDesc>
+              <term xml:lang="de">Namhafte KriegerInnen</term>
+              <term xml:lang="en">Renowned warriors</term>
+              <ptr type="broader" target="#name_42300000"/>
+              <ptr type="exactMatch" target="concepts.xml#concept_23241000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_42397000">
+            <catDesc>
+              <term xml:lang="de">Namhafte AstrologInnen/AstronomInnen</term>
+              <term xml:lang="en">Renowned astrologers/astronomers</term>
+              <ptr type="broader" target="#name_42300000"/>
+              <ptr type="exactMatch" target="concepts.xml#concept_32162000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_43000000">
+            <catDesc>
+              <term xml:lang="de">Namen: Tiernamen (Zoonyme)</term>
+              <term xml:lang="en">Names: Animal Names (Zoonyms)</term>
+              <ptr type="broader" target="#name_40000000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_43100000">
+            <catDesc>
+              <term xml:lang="de">Namen: Säugetiernamen (Zoonyme)</term>
+              <term xml:lang="en">Names: Mammals names (Zoonyms)</term>
+              <ptr type="broader" target="#name_43000000"/>
+              <ptr type="exactMatch" target="concepts.xml#concept_14011400"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_43110000">
+            <catDesc>
+              <term xml:lang="de">Namen: Haustiere &amp; Nutztiere (Zoonyme)</term>
+              <term xml:lang="en">Names: Pets &amp; Farm animals (Zoonyms)</term>
+              <ptr type="broader" target="#name_43100000"/>
+              <ptr type="closeMatch" target="concepts.xml#concept_14012100"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_43111000">
+            <catDesc>
+              <term xml:lang="de">Namen: Pferdenamen (Zoonyme)</term>
+              <term xml:lang="en">Names: Horse names (Zoonyms)</term>
+              <ptr type="broader" target="#name_43110000"/>
+              <ptr type="exactMatch" target="concepts.xml#concept_23221000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_43200000">
+            <catDesc>
+              <term xml:lang="de">Namen: Vogelnamen (Zoonyme)</term>
+              <term xml:lang="en">Names: Bird names (Zoonyms)</term>
+              <ptr type="broader" target="#name_43000000"/>
+              <ptr type="exactMatch" target="concepts.xml#concept_14027000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_43300000">
+            <catDesc>
+              <term xml:lang="de">Namen: Fischnamen (Zoonyme)</term>
+              <term xml:lang="en">Names: Fish names (Zoonyms)</term>
+              <ptr type="broader" target="#name_43000000"/>
+              <ptr type="exactMatch" target="concepts.xml#concept_14034000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_43400000">
+            <catDesc>
+              <term xml:lang="de">Namen: Reptiliennamen (Zoonyme)</term>
+              <term xml:lang="en">Names: Reptile names (Zoonyms)</term>
+              <ptr type="broader" target="#name_43000000"/>
+              <ptr type="exactMatch" target="concepts.xml#concept_14043000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_43500000">
+            <catDesc>
+              <term xml:lang="de">Namen: Exotische Tiere (Zoonyme)</term>
+              <term xml:lang="en">Names: Exotic animals (zoonyms)</term>
+              <ptr type="broader" target="#name_43000000"/>
+              <ptr type="exactMatch" target="concepts.xml#concept_14017100"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_44000000">
+            <catDesc>
+              <term xml:lang="de">Namen: Mythische Geschöpfe (Theonyme &amp; Mythonyme)</term>
+              <term xml:lang="en">Names: Mythical Beings (Theonyms &amp; Mythonyms)</term>
+              <ptr type="broader" target="#name_40000000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_44100000">
+            <catDesc>
+              <term xml:lang="de">Namen: Götternamen (Theonyme)</term>
+              <term xml:lang="en">Names: God names (Theonyms)</term>
+              <ptr type="broader" target="#name_44000000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_44200000">
+            <catDesc>
+              <term xml:lang="de">Namen: Namen von Fabelwesen (Mythonyme)</term>
+              <term xml:lang="en">Names: Names of mythical beings (Mythonyms)</term>
+              <ptr type="broader" target="#name_44000000"/>
+              <ptr type="closeMatch" target="concepts.xml#concept_21022000"/>
+              <ptr type="closeMatch" target="concepts.xml#concept_14110000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_45000000">
+            <catDesc>
+              <term xml:lang="de">Namen: Objektnamen (Chrematonyme)</term>
+              <term xml:lang="en">Names: Object Names (Chrematonyms)</term>
+              <ptr type="broader" target="#name_40000000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_45100000">
+            <catDesc>
+              <term xml:lang="de">Namen: Pflanzennamen (Phytonyme)</term>
+              <term xml:lang="en">Names: Plant names (Phytonyme)</term>
+              <ptr type="broader" target="#name_45000000"/>
+              <ptr type="closeMatch" target="concepts.xml#concept_13131000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_45200000">
+            <catDesc>
+              <term xml:lang="de">Namen: Unbelebte Objekte (Chrematonyme)</term>
+              <term xml:lang="en">Names: Inanimate objects (Chrematonyms)</term>
+              <ptr type="broader" target="#name_45000000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_45210000">
+            <catDesc>
+              <term xml:lang="de">Namen: Waffennamen</term>
+              <term xml:lang="en">Names: Weapon names</term>
+              <ptr type="broader" target="#name_45200000"/>
+              <ptr type="exactMatch" target="concepts.xml#concept_23231100"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_45220000">
+            <catDesc>
+              <term xml:lang="de">Namen: Rüstungsnamen</term>
+              <term xml:lang="en">Names: Armour names</term>
+              <ptr type="broader" target="#name_45200000"/>
+              <ptr type="exactMatch" target="concepts.xml#concept_23233000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_45230000">
+            <catDesc>
+              <term xml:lang="de">Namen: Namen von Tänzen &amp; Musikstücken</term>
+              <term xml:lang="en">Names: Names of dances &amp; pieces of music</term>
+              <ptr type="broader" target="#name_45200000"/>
+              <ptr type="exactMatch" target="concepts.xml#concept_25132100"/>
+              <ptr type="exactMatch" target="concepts.xml#concept_25152100"/>
+              <ptr type="closeMatch" target="concepts.xml#concept_25153100"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_45240000">
+            <catDesc>
+              <term xml:lang="de">Namen: Weinnamen</term>
+              <term xml:lang="en">Names: Wine names</term>
+              <ptr type="broader" target="#name_45200000"/>
+              <ptr type="exactMatch" target="concepts.xml#concept_23303610"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_45250000">
+            <catDesc>
+              <term xml:lang="de">Namen: Materialnamen/Rohstoffnamen</term>
+              <term xml:lang="en">Names: Raw material names</term>
+              <ptr type="broader" target="#name_45200000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_45260000">
+            <catDesc>
+              <term xml:lang="de">Namen von Schmuckgegenständen</term>
+              <term xml:lang="en">Names: Names of Jewelry</term>
+              <ptr type="broader" target="#name_45200000"/>
+              <ptr type="closeMatch" target="concepts.xml#concept_21113060"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_45270000">
+            <catDesc>
+              <term xml:lang="de">Namen von literarischen Werken/Werktitel</term>
+              <term xml:lang="en">Names of literary works/work titles</term>
+              <ptr type="broader" target="#name_45200000"/>
+              <ptr type="exactMatch" target="concepts.xml#concept_25122000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_46000000">
+            <catDesc>
+              <term xml:lang="de">Namen: Zeit- &amp; Ereignisnamen (Chrononyme)</term>
+              <term xml:lang="en">Names: Time &amp; Event Names (Chrononyms)</term>
+              <ptr type="broader" target="#name_40000000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_46100000">
+            <catDesc>
+              <term xml:lang="de">Namen: Zeitnamen (Chrononyme)</term>
+              <term xml:lang="en">Names: Time names (Chrononyms)</term>
+              <ptr type="broader" target="#name_46000000"/>
+              <ptr type="exactMatch" target="concepts.xml#concept_31610000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_46110000">
+            <catDesc>
+              <term xml:lang="de">Namen: Namen von Feiertagen (Chrononyme)</term>
+              <term xml:lang="en">Names: Names of festive holidays (Chrononyms)</term>
+              <ptr type="broader" target="#name_46100000"/>
+              <ptr type="closeMatch" target="concepts.xml#concept_24458000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_46200000">
+            <catDesc>
+              <term xml:lang="de">Namen: Naturphänomene (Phänonyme)</term>
+              <term xml:lang="en">Names: Natural phenomena (phenonyms)</term>
+              <ptr type="broader" target="#name_46000000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_46210000">
+            <catDesc>
+              <term xml:lang="de">Namen: Wetternamen/Windnamen (Anemonyme)</term>
+              <term xml:lang="en">Names: Weather name/Wind names (Anemonyms)</term>
+              <ptr type="broader" target="#name_46200000"/>
+              <ptr type="exactMatch" target="concepts.xml#concept_11210000"/>
+            </catDesc>
+          </category>
+          <category xml:id="name_46300000">
+            <catDesc>
+              <term xml:lang="de">Namen: Menschenbezogene Ereignisse (Praxonyme)</term>
+              <term xml:lang="en">Names: Human related events (Praxonyms)</term>
+              <ptr type="broader" target="#name_46000000"/>
+            </catDesc>
+          </category>
+        </taxonomy>
+      </classDecl>
+    </encodingDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <p>This file contains the onomastic system of the Middle High German Database (MHDBDB). The taxonomy is defined in the header's &lt;classDecl&gt; section.</p>
+    </body>
+  </text>
+</TEI>

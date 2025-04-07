@@ -1,0 +1,571 @@
+conceptId,prefLabelDe,prefLabelEn,altLabelDe,altLabelEn,broaderConcepts
+10000000,Universum/Welt,Universe/world,,,
+11000000,Himmel/Atmosphäre/Himmelskörper,Sky/Atmosphere/Celestial bodies,Astronomische Objekte,Space,"10000000,32160000"
+11100000,Himmelskörper/Namen,Celestial Bodies/Names,,,11000000
+11200000,Wetter/Winde,Weather/Winds,Witterung,Weather conditions,11000000
+11210000,Wetter und Winde/Namen,Weather and Winds/Names,,,11200000
+11300000,Himmelsrichtungen,Cardinal points,,,11000000
+12000000,Planet Erde,Planet Earth,Globus,Globe,10000000
+12010000,Geografische Erscheinungen/Landschaft,Geographic phenomena/Landscape,Geographische Erscheinungen/Landschaft,Terrain,"12000000,32800000"
+12011000,Geografische Erscheinungen/Landschaft/Namen,Geographic Phenomena/Landscape/Names,,,12010000
+12012000,Gebirge/Berge/Namen,Mountains/Names,,,12010000
+12013000,Inseln/Namen,Islands/Names,,,12010000
+12014000,Fantast. Geogr. Ersch./Namen,Phantast Geographical Names,,,12010000
+12015000,Fantast. Gebirge/Berge/Namen,Phantast Mountains/Names,,,12010000
+12016000,Wälder/Forste/Namen,Woods/Forests/Names,,,12010000
+12020000,Gewässer auf der Erde,Waters on earth,Wasser auf der Erde,Water on the earth,12000000
+12021000,Binnengewässer,Inland water,,,12020000
+12021100,Binnengewässer/Namen,Inland Water/Names,,,12021000
+12021200,Fantastische Gewässer/Namen,Fantastic Waters/Names,,,12021000
+12022000,Meer,Sea,Ozean,Ocean,12020000
+12022100,Meer/Namen,Ocean/Names,,,12022000
+12030000,Boden/Bodenbeschaffenheit,Ground/Surface conditions,,,"12000000,32800000"
+12040000,Mineralien,Minerals,,,"12000000,32200000,32800000"
+12041000,Mineralien/Namen,Minerals/Names,,,12040000
+12050000,Metalle,Metals,,,"12000000,12050000"
+12051000,Metalle/Namen,Metals/Names,,,12050000
+13000000,Vegetation,Vegetation,Flora,Plants,"10000000,32400000"
+13020000,Bäume,Trees,,,13000000
+13022000,Waldbäume/Flurbäume,Forest trees/Meadow trees,,,13020000
+13023000,Obstbäume,Fruit trees,,,13020000
+13023100,Obst,Fruits,Früchte,,13020000
+13025000,Exotische Bäume,Exotic trees,,,13020000
+13030000,Büsche,Bushes,Unterholz,Underwood,13000000
+13031000,Beeren,Berries,Beerensträucher,Berry bushes,13030000
+13033000,Nüsse/Kerne/Saaten,Nuts/Kernels/Seeds,,,"13023000,13030000"
+13040000,Getreide,Cereals,Korn,Grain,13000000
+13050000,Gemüse,Vegetables,Vegetabilien,Greens,13000000
+13051000,Hülsenfrüchte,Pulses,,Legumes,"13000000,13050000"
+13051100,Hülsenfrüchte/Verarbeitung,Legumes/Pulses/Processing,,,"13051000,23305400"
+13060000,Futterpflanzen,Forage plants,Futtermittel,Fodder crops,13000000
+13070000,Weitere Nutzpflanzen,Other useful plants,Weitere Kulturpflanzen,Other cultivated plants,13000000
+13071000,Nutzpflanzen/Verarbeitung,Useful plants/Further processing,Kulturpflanzen/Verarbeitung,Other cultivated plants/Further processing,"13070000,23305400"
+13080000,Weitere Wiesenpflanzen/Waldpflanzen/Gewächse,Other meadow plants/Forest plants,,,13000000
+13081000,Pilze,Mushrooms,Fungus,Fungus,13080000
+13082000,Algen/Moose/Flechten,Algae/Mosses/Lichens,,,13080000
+13090000,Arzneipflanzen,Medicinal plants,Humoralpathologisch relevante Pflanzen,Humoralpathologically relevant plants,"13000000,13070000,13080000,32600000,32620000"
+13100000,Zierpflanzen,Ornamental plants,Blühpflanzen,Flowering plants,13000000
+13101000,Verarbeitung von Zierpflanzen,Further processing of ornamental plants,Verarbeitung von Blühpflanzen,Further processing of flowering plants,13100000
+13110000,Giftpflanzen,Poisonous plants,Giftige Pflanzen,Toxic plants,"13000000,21091100"
+13130000,Fantastische Pflanzen,Fantastic plants,Mythologische Pflanzen,Mythological plants,13000000
+13131000,Fantastische Pflanzen/Namen,Fantastic Plants/Names,,,13130000
+13140000,Wasserpflanzen,Water plants,Hydrophyten,Aquatic plants,13000000
+13150000,Gewürzpflanzen,Spice plants,Pflanzliche Würzmittel,Herbal seasonings,"13000000,13070000,21111305"
+13160000,Pflanzenkrankheiten,Plant diseases,Pflanzenerkrankungen,Phytopathology,13000000
+14000000,Tierwelt,Wildlife,Tierreich,Fauna,
+14010000,Säugetiere,Mammals,,,14000000
+14011100,Körper/Gliedmaßen von Säugetieren,Body/Limbs of mammals,,,14010000
+14011200,Organe von Säugetieren und ihre Funktionen,Organs of mammals and their functions,Säugetierorgane und ihre Funktion,,14010000
+14011210,Gehirn/Nervensystem von Säugetieren,Brain/Nervous system of mammals,,,14011200
+14011220,Kreislaufsystem von Säugetieren,Circulatory system of mammals,Blutkreislauf von Säugetieren,Mammalian blood circulation,14011200
+14011230,Atmung von Säugetieren,Respiratory system of mammals,Respiration von Säugetieren,Breathing of mammals,14011200
+14011240,Stoffwechsel von Säugetieren,Metabolism of mammals,Metabolismus von Säugetieren,Mammalian metabolism,14011200
+14011300,Säugetiere/Verarbeitung,Mammals/Processing,,,"14010000,23305400,23305900"
+14011400,Säugetiere/Namen,Mammals/Names,,,14010000
+14012000,Haustiere/Nutztiere,Domestic Animals/Pets,,,14010000
+14012100,Haustiere/Namen,Domestic Animals/Names,,,14012000
+14013000,Kleinsäuger,Small mammals,Kleingetier in menschlicher Nachbarschaft,Small animals within human environment,14010000
+14014000,Feldsäugetiere/Waldsäugetiere,Field mammals/Forest mammals,Feldtiere/Waldtiere,Field animals/Forest animals,14010000
+14015000,Bergtiere,Mountain animals,,,14010000
+14016000,Wassersäugetiere,Water mammals,Säugetiere im und am Wasser,Aquatic and semi-aquatic mammals,14010000
+14017000,Exotische Säugetiere,Exotic mammals,Exotische Tiere,Exotic animals,14010000
+14017100,Exotische Tiere/Namen,Exotic Animals/Names,,,14017000
+14020000,Vögel,Birds,Vogel,,14000000
+14021100,Körper/Gliedmaßen von Vögeln,Body/Limbs of birds,Körper/Gliedmaßen vom Vogel,,14020000
+14021200,Organe von Vögeln und ihre Funktionen,Organs of birds and their functions,,Vogelorgane und ihre Funktion,14020000
+14021220,Gehirn/Nervensystem von Vögeln,Brain/Nervous system of birds,Vogelgehirn und Nervensystem vom Vogel,,14021200
+14021230,Stoffwechsel von Vögeln,Metabolism of birds,Metabolismus vom Vogel,,14021200
+14021300,Verarbeitung von Vögeln,Processing of birds,"
+Vogelverarbeitung",Poultry processing,"14020000,23305400"
+14022000,Feldvögel/Waldvögel,Field birds/Forest birds,Geflügel im Feld/Wald,Poultry in field/forest,14020000
+14023000,Wasservögel/Seevögel,Aquatic birds/Seabirds,Wassergeflügel,Waterfowl,14020000
+14024000,Raubvögel,Birds of prey,Greifvogel/Eule,Raptors/Owls,14020000
+14025000,Hausgeflügel,Domestic fowl,Vogel im Haushalt,Domestic birds,14020000
+14026000,Exotische Vögel,Exotic birds,Exotischer Vogel,,14020000
+14027000,Vögel/Namen,Birds/Names,,,14020000
+14028000,Vogelzucht,Bird breeding,"
+Zucht von Vögeln",Poultry farming,14020000
+14030000,Fische,Fishes,,,14000000
+14031100,Körper/Gliedmaßen von Fischen,Body/Limbs of fish,,,14030000
+14031200,Organe von Fischen und ihre Funktionen,Organs of fish and their functions,Fischorgane und ihre Funktion,,14030000
+14031210,Atmung von Fischen,Respiratory system of fish,Respiration von Fischen,Breathing of fish,14031200
+14031300,Verarbeitung von Fischen,Processing of fish,Fischverarbeitung,,"14030000,23305400,23305900"
+14032000,Süßwasserfische,Freshwater fish,,Fresh water fish,14030000
+14033000,Salzwasserfische,Salt Water Fish,,,14030000
+14034000,Fische/Namen,Fishes/Names,,,14030000
+14040000,Reptilien,Reptiles,Kriechtiere,,14000000
+14041000,Körper/Gliedmaßen von Reptilien,Body/Limbs of reptiles,Körper/Gliedmaßen von Kriechtieren,,14040000
+14042000,Organe von Reptilien und ihre Funktionen,Organs of reptiles and their functions,Reptilienorgane und ihre Funktion,,14040000
+14043000,Reptilien/Namen,Reptiles/Names,,,14040000
+14044000,Verarbeitung von Reptilien,Processing of reptiles,Verarbeitung von Kriechtieren,,"14040000,23305900"
+14050000,Amphibien,Amphibians,Lurche,,14000000
+14051000,Körper/Gliedmaßen von Amphibien,Body/Limbs of amphibians,Körper/Gliedmaßen von Lurchen,Body/Limbs of lurches,14050000
+14052000,Organe von Amphibien und ihre Funktionen,Organs of amphibians and their functions,Amphibienorgane und ihre Funktion,Organs of lurches and their functions,14050000
+14060000,Mollusken/Schalentiere,Molluscs/Shellfish,Weichtiere,,14000000
+14061000,Körper/Gliedmaßen von Mollusken und Schalentieren,Body/Limbs of molluscs and shellfish,Körper/Gliedmaßen von Weichtieren,,14060000
+14062000,Verarbeitung von Mollusken und Schalentiere,Processing of molluscs and shellfish,Verarbeitung von Weichtieren,,"14060000,23305400"
+14080000,Insekten/Würmer/Spinnentiere,Insects/Worms/Spiders,,,14000000
+14081100,Körper/Gliedmaßen von Insekten,Body/Limbs of insects,,,14080000
+14081200,Organe von Insekten und ihre Funktionen,Organs of insects and their functions,,,14080000
+14090000,Tierkrankheiten/Unregelmäßigkeiten bei Tieren,Animal diseases/Animal irregularities,Zoonose,Zoonosis,"14000000,21091000,21091200,32600000"
+14100000,Fantastische Tiere,Fantastic animals,Tierische Fabelwesen,Mythical creatures,14000000
+14110000,Fantastische Tiere/Namen,Fantastic Animals/Names,,,14100000
+20000000,Mensch,Humans,,,
+21000000,Mensch/Körperliches Wesen,Humans/Physical beings,,,20000000
+21010000,Biologisches Geschlecht/Soziales Geschlecht,Sex/Gender,,,21000000
+21011000,Weiblich/Frau,Female/Woman,,,21010000
+21012000,Männlich/Mann,Male/Man,,,21010000
+21020000,Außergewöhnliche/Fantastische Spezies,Extraordinary/Fantastic species,,,21000000
+21021000,Fantastische menschenähnliche Wesen,Fantastic humanoid beings,Mythische humanoide Wesen,Mythological human-like beings,21020000
+21022000,Fantastische menschenähnliche Wesen/Namen,Fantastic Humanoid Beings/Names,,,21020000
+21030000,Körper/Gliedmaßen von Menschen,Body/Limbs of humans,,,21000000
+21031000,Haare/Körperbehaarung von Menschen,Human hair,,,21030000
+21032000,Körperflüssigkeiten,Body fluids,,,21030000
+21040000,Organe von Menschen und ihre Funktionen,Organs of humans and their functions,Menschenorgane und ihre Funktion,,21000000
+21041000,Gehirn/Nervensystem von Menschen,Human brain/Human nervous system,,,21040000
+21042000,Kreislaufsystem von Menschen,Circulatory system of humans,Menschlicher Blutkreislauf,Human blood circulation,21040000
+21043000,Atmung von Menschen,Respiratory system of humans,Menschliche Respiration,Human breathing,21040000
+21044000,Stoffwechsel von Menschen,Metabolism of humans,Menschlicher Metabolismus,Human metabolic processes,21040000
+21045000,Geschlechtsmerkmale/Zeugung/Geburt ,Sexual characteristics/Procreation/Birth ,Genitalien/Zeugung/Schwangerschaft,Genitals/Fertilization/Giving birth,"21040000,21112000"
+21050000,Sprechwerkzeuge,Organs of speech,Sprechorgan,,21000000
+21060000,Sinnesorgane und ihre Funktion,Sense organs and their functions,,,21000000
+21061000,Gesichtssinn,Sense of seeing,Sehorgan,Optics,21060000
+21062000,Gehörsinn,Sense of hearing,Hören,Hearing,21060000
+21063000,Geruchsinn,Sense of smell,Riechorgan,Olfaction,21060000
+21064000,Geschmackssinn,Sense of taste,Schmecken,Tasting,21060000
+21065000,Tastsinn,Sense of touch,Tasten,Perception of touch,21060000
+21066000,Temperaturwahrnehmung,Sense of temperature,Thermorezeption,Perception of temperature,21060000
+21070000,Bewegungen/Stellungen/Haltungen,Motion/Positions/Posture,Posen/Körperhaltung,Movements/Positions/Poses,21000000
+21071000,Selbstbezogene Aktivität/Tätigkeit,Self-centered activity,,,21070000
+21072000,Objektbezogene Aktivität/Tätigkeit,Object-related activity,,,21070000
+21080000,Schlaf,Sleep,Ausruhen,Resting,21000000
+21090000,Gesundheit,Health,Körperliches Wohlergehen,Physical well-being,"21000000,32600000"
+21091000,Krankheiten/Deformationen/Unregelmäßigkeiten von Menschen,Diseases/Deformities/Irregularities of humans,Körperliches Unwohlsein,Pain,"21090000,32600000"
+21091100,Heilung und Pflege/Gift,Remedy and cure/Poison,Heilkunst,Healing arts,"21091000,32600000,32620000"
+21091110,Säuglingspflege/Kinderpflege,Baby care/Child care,,,"21045000,21091100,21101000"
+21091200,Bestimmte Krankheiten,Specific diseases,Bestimmtes körperliches Unwohlsein,Specific pain,"21091000,32600000"
+21100000,Leben allgemein,Life in general,Wandel,Change,21000000
+21101000,Geburt,Birth,,,21100000
+21103000,Altersstufen,Stages of life,Lebensphasen,,21100000
+21104000,Natürlicher Tod/Gewaltsamer Tod,Natural death/Violent death,Sterben,Natural death/Murder/Manslaughter,21100000
+21110000,Allgemeine menschliche Bedürfnisse,General human needs,,,21000000
+21111000,Ernährung von Menschen,Human nutrition,Nahrungsaufnahme,Diet,21110000
+21111200,Mahlzeiten,Meals,Abendessen/Nachtmahl/Festmahl/Imbiss/Frühstück/Suppe,Dinner/Supper/Feast/Snack/Breakfast/Soup,21111000
+21111300,Lebensmittel,Food products,Nahrungsmittel,Food,21111000
+21111301,Fleisch,Meat,,,21111300
+21111302,Backwaren,Baked goods,,,"21111300,21111306,23303350"
+21111303,Milchprodukte,Milk products,,,"21111300,21111306,23303120"
+21111304,Nahrungszubereitung,Food preparation,Kochen/Backen,Cooking/Baking,"21111300,23305400"
+21111305,Zutaten/Gewürze/Kräuter,Ingredients/Spices/Herbs,,,21111300
+21111306,Speisen,Dishes,Gerichte,,21111300
+21111307,Getränke,Beverages,Trinken,Drinking,21111300
+21111308,Eier,Eggs,,,21111300
+21111400,Genussmittel,Means of luxury consumption,,Luxury food and beverages,21111000
+21112000,Sexualleben/Erotik,Sexual life/Eroticism,Intimität,Love life,21110000
+21113000,Kleidung,Clothing,Bekleidung,Clothes,21110000
+21113020,Männerbekleidung,Men's clothes,Herrenbekleidung,Men's wear,21113000
+21113021,Männer/Oberbekleidung,Men's upper clothes,Herren-Oberbekleidung,Men's upper clothing,21113020
+21113022,Männer/Unterbekleidung,Men's underclothes,Männer/Unterkleider,Men's underclothing,21113020
+21113023,Männerbekleidung/Zubehör,Men's clothing accessories,Herrenkleidung/Zubehör,Menswear accessories,21113020
+21113030,Frauenbekleidung,Women's clothes,Damenbekleidung,Women's wear,21113000
+21113031,Frauen/Oberbekleidung,Women's upper clothes,Damen-Oberbekleidung,Women's outerwear,21113030
+21113032,Frauen/Unterbekleidung,Women's underclothes,Frauen/Unterkleidung,Women's underclothing,21113030
+21113033,Frauenbekleidung/Zubehör,Women's clothing accessories,Damenbekleidung/Zubehör,Women's wear accessories,21113030
+21113040,Kopfbedeckungen,Headgear,,Headwear,21113000
+21113050,Schuhe,Shoes,Schuhwerk,Footwear,21113000
+21113060,Schmuck/Verzierung,Jewelry/Adornment,Accessoires,Jewellery/Adornment,21113000
+21113061,Schmuck/Verzierung/Namen,Jewelry/Adornment/Names,,,21113060
+21113070,Stoffe/Leder/Pelze,Fabrics/Leather/Furs,,,"21113000,23305500,23305900"
+21113080,Hygiene/Kosmetik/Haarpflege,Hygiene/Cosmetics/Hair care,Sauberkeit,Cleanness,21113000
+21113100,Trachten/Kostüme/Uniformen,Traditional costumes/Uniforms,,,21113000
+22000000,Geist/Seele,Mental activity/Spirit/Soul,,,20000000
+22200000,Wahrnehmung,Perception,Perzeption,,22000000
+22220000,Übersinnliche Wahrnehmung,Extrasensory perception,,,22200000
+22300000,Bewusstsein,Consciousness,,,22000000
+22400000,Erinnerung,Memory,Erinnerungsvermögen,,22000000
+22500000,Einbildung,Imagination,Fantasie,Fantasy,22000000
+22600000,Denken,Thinking,,,22000000
+22620000,Anschauung/Begriff/Vorstellung,Observation/Conceptualization/Idea,Anschauung/Begriff/Vorstellung/Denkprozesse,Observation/Conceptualisation/Idea/Thought processes ,22600000
+22630000,Gedankengang,Thought process,,,22600000
+22640000,Urteilen/Schließen,Judgment/Conclusion,Erkenntnis,Understanding,22600000
+22641000,Beweis/Zustimmung/Widerspruch,Proof/Agreement/Objection,Dankbarkeit,Gratitude,22640000
+22642000,Wahrheit/Irrtum/Lüge/Täuschung,Truth/Error/Lie/Deception,Bekenntnis,Confession,22640000
+22650000,Aufmerksamkeit,Attention,Verständnis,Comprehension,22600000
+22660000,Wissen,Knowledge,Gedächtnis,Experience,22600000
+22700000,Gemütszustand/Gefühl,State of mind/Feeling,Empfindung,,22000000
+22702000,Gemütszustände,States of mind,Gefühlslagen,Mental state,22700000
+22702010,Gefallen/Missfallen,Pleasure/Displeasure,,,22702000
+22702020,Glückseligkeit/Unglück,Happiness/Unhappiness,Glücksgefühl,Luck,22702000
+22702030,Freude/Leid,Joy/Affliction,Elend,Misery,22702000
+22702040,Sorge/Unbeschwertheit,Worry/Lightheartedness,Angst,Fear,22702000
+22702050,Langeweile,Boredom,,,22702000
+22702060,Schmerz,Pain,Pein,Agony,22702000
+22702070,Scherz/Ernst,Joke/Seriousness,Spiel,Game,22702000
+22702080,Ruhe/Unruhe,Calmness/Restlessness,Friede/Unfriede,Peace/Strife,22702000
+22702090,Sicherheit/Zweifel,Certainty/Doubt,Glaube/Unglaube,Faith/Faithlessness,22702000
+22702100,Erwartung/Enttäuschung/Befriedigung,Expectation/Disappointment/Satisfaction,,,22702000
+22702110,Hoffnung/Verzweiflung,Hope/Despair,Jammer,Lamentation,22702000
+22702120,Geduld/Ungeduld/Resignation,Patience/Impatience/Resignation,Erdulden,Endure,22702000
+22702130,Verwunderung,Amazement,Erstaunen,Surprise,22702000
+22702140,Wahnsinn,Insanity,Tobsucht,Madness,22702000
+22702150,Gewohnheit,Habit,Üblich,Usual,22702000
+22703000,Selbstbezogene Gefühle,Self-contained feelings,,,22700000
+22704000,Nach außen bezogene Gefühle,Feelings towards others,,,22700000
+22704010,Liebe/Zuneigung/Abneigung/Gleichgültigkeit,Love/Affection/Disaffection/Indifference,,,22704000
+22704020,Vertrauen/Misstrauen,Trust/Distrust,,,22704000
+22704030,Ergebenheit/Starrsinn,Submissiveness/Stubbornness,Bündnis/Widerstand,Alliance/Resistance,22704000
+22704040,Mitleid/Härte,Compassion/Hardness,Milde/Strenge,Mercy/Merciless,22704000
+22704050,Trost,Consolation,,,22704000
+22704060,Neid/Wohlwollen/Hass,Envy/Goodwill/Hatred,Gunst,Favour,22704000
+22704070,Respekt/Bewunderung,Respect/Admiration,Verehrung,Adoration,22704000
+22704080,Verachtung,Contempt,Beschimpfung,Villain,22704000
+22704090,Dankbarkeit/Undankbarkeit,Gratitude/Ingratitude,Belohnung,Reward,22704000
+22704100,Erregung/Beruhigung,Agitation/Calmness,Toben,Irritate,22704000
+22705000,Übermäßige Gefühle,Excessive feelings,Begierde,Desire,22700000
+22705100,Enthusiasmus,Enthusiasm,,,22705000
+22705200,Wut,Rage,Aggression,Fury,22705000
+22705300,Abscheu,Abhorrence,Ekel,Repulsivness,22705000
+22705400,Angst/Mut,Anxiety/Courage,Schrecken,Horror,22705000
+22706000,Ästhetisches Empfinden,Aesthetic sensation,,Sense of aesthetics,22700000
+22707000,Moralisches Empfinden,Moral sense,,,22700000
+22708000,Religiöses Empfinden,Religious feelings,,,22700000
+22709000,Ursachen der Gefühle,Causes of feelings,Ursachen der Empfindungen,Causes of sentiments,22700000
+22710000,Gefühlsäußerungen,Expressions of feelings,,Expressions of sentiments,22700000
+22800000,Absicht/Wollen,Intention/Want,Vorsatz,Claim,22000000
+22810000,Wunsch,Wish,Bitte,Need,22800000
+22820000,Wille,Will,Bereitschaft,Willingness,22800000
+22822000,Zweck,Purpose,Ziel,Goal,22820000
+22823000,Beweggrund,Motivation,Motiv,Motive,22820000
+22824000,Abwägen/Zögern,Pondering/Hesitation,Trägheit,Laziness,22820000
+22825000,Entscheidung/Annahme/Aufgabe,Decision/Acceptance/Resignation,Resignation,,22820000
+22826000,Willensausübung auf andere,Enforcement of will upon others,,,22820000
+22826100,Autorität/Anordnung,Authority/Command,Befehl,Order,22826000
+22826200,Gehorsam/Ungehorsam,Obedience/Disobedience,Folgen/Widersetzen,Follow/Oppose,22826000
+22826300,Erlaubnis/Verbot,Permission/Prohibition,Gebot,Commandment,22826000
+22826400,Versprechen,Promise,Gelöbnis,Vow,22826000
+22826500,Gewalt/Strafe/Vergebung,Violence/Punishment/Forgiveness,Gnädig/Gnadenlos,Merciful/Merciless,22826000
+22830000,Aktion,Action,Tun,Doing,22800000
+22831000,Voraussetzungen zur Aktion,Prerequisite for action,,Conditions for action,22830000
+22831100,Fähigkeiten,Capabilities,Fertigkeiten,Skills,22831000
+22831200,Art und Weise der Handlung,Way of action,,Type of action,22831000
+22831300,Grund der Aktion,Reason for action,Grund der Handlung,Causality,22831000
+22831400,Zielrichtung der Aktion,Direction of action,Zielrichtung der Handlung,,22831000
+22831500,Handlungsmittel,Means of action,Mittel der Aktion,,22831000
+22831600,Möglichkeit,Possibility,,,22831000
+22831700,Planung,Planning,List,Plan,22831000
+22831800,Vorbereitung,Preparation,,,22831000
+22831900,Vorteil/Nachteil,Advantage/Disadvantage,Heil/Schaden,Salvation/Damage,22831000
+22832000,Verwirklichung,Realization,Ausführung,Execution,22830000
+22833000,Unterstützung/Hinderung,Support/Obstruction,,,22830000
+22834000,Ergebnis der Aktion,Result of action,Ergebnis der Handlung,,22830000
+22835000,Aktion im Urteil anderer,Action as viewed by others,Handlung im Urteil anderer,,22830000
+22900000,Moral,Ethics,Christenlehre,Doctrine of god,22000000
+22910000,Pflicht,Obligation,Verantwortung,Responsibility,22900000
+22920000,Moralische Eigenschaften/Charaktereigenschaften,Moral traits/Character traits,Charakterzug,Trait of character,22900000
+22930000,Ehre/Unehre,Honor/Dishonor,Reputation,Reputation,22900000
+23000000,Mensch als soziales Wesen,Human as a social being,,,20000000
+23100000,Gesellschaftliches Leben,General social phenomena,,,23000000
+23110000,Gesellschaftliche Gruppen,Social groupings,,,23100000
+23111000,Größte Gruppierungen,Largest groupings,,,23110000
+23111100,Ethnische Einheiten,Ethnic unities,Ethnie,Ethnic group,23111000
+23111200,Ethn. Einheit/Volk/Stamm/Namen,Ethnic Community/People/Tribe/Names,,,23111000
+23111300,Fantastische Ethnie/Namen,Fantastic Ethnic Community/People/Tribe/Names,,,23111000
+23112000,Ehe/Familie,Matrimony/Family,,,23110000
+23112100,Familie/Herkunft,Family/Ancestry,Abstammung,Descent,23112000
+23112200,Ehe,Marriage,,,23112000
+23112300,Verwandtschaft,Kinship,,,23112000
+23112400,Taufe,Baptism,,,23112000
+23112500,Personennamen/Familiennamen,Given and Family Names,,,23112000
+23112501,Sprechende Eigennamen/Namen,Meaningful/Descreptive Names/Names,,,23112500
+23112600,Bestattung,Funeral/Cremation,Beerdigung,Death,23112000
+23112700,Witwen/Waisen,Widows/Orphans,,,23112000
+23113000,Erziehung/Bildung/Allgemein,Upbringing/Education/General,,,23110000
+23113200,Formelle Bildung,Formal education,,,23113000
+23120000,Kommunikation/Sprache,Communication/Language,,,23100000
+23121000,Mündliche Kommunikation,Oral communication,,,23120000
+23121100,Eigenschaften der stimmlichen Äußerung,Attributes of vocal expression,Mängel der stimmlichen Äußerung,Deficiencies in vocal expression,23121000
+23121200,Stimmlicher Ausdruck,Vocal expression,Mündlicher Ausdruck,Oral expression,23121000
+23122000,Schriftliche Kommunikation,Written communication,,,23120000
+23122200,Formen der schriftlichen Kommunikation,Forms of written communication,,,23122000
+23123000,Einzelsprachen,Individual languages,Fremdsprachen,Foreign languages,23120000
+23123100,Lateinisch,Latin,Latein,,23123000
+23123200,Französisch,French,,,23123000
+23123300,Arabisch,Arabic,,,23123000
+23123400,Hebräisch,Hebrew,,,23123000
+23123500,Griechisch,Greek,,,23123000
+23123600,Slawisch,Slavic,,,23123000
+23123610,Tschechisch,Czech,,,23123600
+23123700,Persisch,Persian,,,23123000
+23123800,Italienisch,Italian,,,23123000
+23123900,Spanisch,Spanish,,,23123000
+23123901,Ungarisch,Hungarian,,,23123000
+23123902,Rätoromanisch,Rhaeto-Romanic,,,23123000
+23123903,Englisch,English,,,23123000
+23123904,Phönizisch-Punisch,Phoenician-Punic,,,23123000
+23123905,Aramäisch,Aramaic,,,23123000
+23123909,Jiddisch,Yiddish,,,23123000
+23123910,Rotwelsch,Rotwelsch,,,23123000
+23124000,Benennung,Denomination,,Naming,23120000
+23130000,Gesellschaftliche Beziehungen im Allgemeinen,Social relations in general,,General social relations,23100000
+23132000,Etikette/Zeremoniell,Etiquette/Ceremonies,,,23130000
+23133000,Hilfeleistung/Widerstand,Assistance/Resistance,Dienst,Service,23130000
+23134000,Frauendienst,Service for the ladies,,,23130000
+23135000,Feste/Spiel/Unterhaltung,Festivities/Games/Entertainment,,,23130000
+23135100,Festlichkeiten/Feiern,Festivities/Celebrate,Feier,Celebration,23135000
+23135200,Spiel/Zerstreuung,Games/Distraction,Zeitvertreib,Pastime,23135000
+23135210,Schachspiel,Chess,,,23135200
+23135220,Spielzeug,Toys,Spielsachen,,23135200
+23135230,Andere Spiele,Other games,,,23135200
+23135300,Sport,Sports,,,23135000
+23135400,Sitten/Gebräuche,Manners/Customs,Bräuche,Traditions,23135000
+23200000,Ritterwesen im Allgemeinen,Knighthood in general,Ritterlichkeit,Chivalry,23000000
+23220000,Pferd/Reiten,Horse/Riding,,,"14012000,23200000"
+23221000,Pferd und Reiten/Namen,Horse and Riding/Names,,,23220000
+23230000,Waffenhandwerk,Arms craft,,Weaponry,23200000
+23231000,Waffen,Weapons,,Arms,23230000
+23231100,Waffen/Namen,Weapons/Names,,,23231000
+23231200,Kampftechnik/Waffentechnik,Fighting technique/Weapon skills,,,"23230000,23240000"
+23232000,Rüstung,Armor,,Armour,23230000
+23233000,Rüstung/Namen,Armor/Names,,,23230000
+23240000,Kriegswesen/Kampf/Gewalt,Warfare/Battle/Violence,,,23200000
+23241000,Kriegswesen/Kampf/Namen,Warfare/Fighting/Names,,,23240000
+23242000,Heerfahrt,Military expedition,Kampagne,Military campaign,23240000
+23243000,Schlacht,Battle,Kampf,Fight,23240000
+23244000,Aventiure,Adventure/Quest,Abenteuer,,23240000
+23245000,Belagerung,Siege,,,23240000
+23246000,Zweikampf,Duel,Duell,,"23240000,23260000"
+23250000,Burg,Castle,Befestigung,Fort,"23200000,23309020"
+23251000,Burg/Äußeres,Castle/Exterior,Feste/Äußeres,Fort/Exterior,23250000
+23252000,Burg/Inneres,Castle/Interior,Befestigung/Inneres,Fortress/Interior,23250000
+23253000,Burg/Namen,Castle/Names,,,23250000
+23254000,Fantastische Burg/Namen,Fantastic Castle/Names,,,23250000
+23260000,Turnierwesen,Tournament,Kampfspiel,Tourney,23200000
+23261000,Turnier/Organisation,Tournament/Organization,,Tournament/Organisation,23260000
+23262000,Turnier/Schauplatz,Tournament/Location,,,23260000
+23263000,Turnier/Kampfformen,Tournament/Forms of combat,Turnier/Kampfereignisse,Tournament/Fighting events,23260000
+23264000,Turnier/Rituale,Tournament/Rituals,,,23260000
+23300000,Welt der Arbeit im Allgemeinen,Work in general,Arbeitswelt im Allgemeinen,Labor in general,23000000
+23302000,Jagd/Fischerei,Hunting/Fishing,,Hunt/Fishery,23300000
+23302200,Jagd/Fischerei/Ausrüstung,Hunting/Fishing/Gear,Jagd/Fischerei/Geräte,Hunting/Fishing/Weapons,23302000
+23302300,Jagd/Fischerei/Gebräuche/Rituale,Hunting/Fishing/Customs/Rituals,Jagd/Fischerei/Bräuche,Hunt/Fishery/Customs/Rituals,23302000
+23302500,Fischzucht,Fish farming,,Fish breeding,23302000
+23303000,Landwirtschaft,Farming,,Husbandry,23300000
+23303010,Landwirtschaft/Namen,Farming and Husbandry/Names,,,23303000
+23303100,Bauernhof,Farm,Gutshof,Grange,"23303000,23309020"
+23303110,Viehzucht/Viehhaltung,Stock farming,,"
+Livestock breeding","14012000,23303100"
+23303120,Milchwirtschaft,Dairy farming,,,23303100
+23303140,Gehöft/Namen,Farmstead/Names,,,23303100
+23303200,Ackerbau,Agriculture,,Cultivation,23303000
+23303300,Feldarbeit,Tillage,,,"23303000,23303200"
+23303310,Landwirtschaftliches Gerät,Farm gear,,Agricultural equipment,"23303300,23304100"
+23303320,Wiesenwirtschaft,Agricultural meadows,,Grassland,23303300
+23303330,Getreideanbau,Grain farming,,Cereal growing,"13040000,23303300"
+23303340,Ernte,Harvest,Ernten,Harvesting,23303300
+23303350,Verarbeitung von Getreide,Processing of grain,Getreideverarbeitung,Grain processing,"13040000,23303300,23305400"
+23303360,Ölproduktion,Oil production,,,"23303300,23305400"
+23303400,Weidewirtschaft,Managed pasture,,Pasturage,23303000
+23303500,Imkerei,Beekeeping,,Apiculture,23303000
+23303600,Weinbau/Weinherstellung,Winegrowing/Winemaking,,Viticulture/Vinification,23303000
+23303610,Weine/Namen,Wines/Names,,,23303600
+23303700,Obstbau,Fruit growing,,Orchard,23303000
+23303800,Gartenbau,Horticulture,,Gardening,23303000
+23303900,Waldwirtschaft,Forestry,Waldbau,Silviculture,"13020000,23303000"
+23304000,Beruf,Profession,Handwerk,Craft,23300000
+23304100,Handarbeit/Werkzeuge/Ausrüstung,Manual work/Tools/Equipment,Handarbeit/Utensilien,Manual work/Utensils,23304000
+23304200,Spezifische Berufe,Specific professions,Spezifisches Handwerk,Individual professions,23304000
+23304300,Gefäße,Vessels,Büchse,Cup,23304000
+23305000,Industrie,Industry,,,23300000
+23305200,Bergbau,Mining,,,23305000
+23305300,Metallverarbeitung,Metal processing,,,23305000
+23305310,Eisenverarbeitung,Iron processing,,,23305300
+23305320,Gießerei,Foundry,,,23305300
+23305330,Münzen,Coins,Prägung,Minting,23305300
+23305400,Lebensmittelherstellung,Food processing,Nahrungsmittelherstellung,,23305000
+23305410,Verarbeitung von Fleisch,Meat processing,Fleischverarbeitung,,"14011300,21111301,23305000"
+23305500,Textilherstellung/Textilverarbeitung,Textile manufacturing,,Textile industry,"23305000,23309090"
+23305600,Holzverarbeitung,Wood processing,Holzarbeit,Woodwork,"13020000,23305000"
+23305700,Steinbrucharbeiten/Steinmetzarbeiten,Quarrying/Stonemasonry,Steinmetz,Stonemason,23305000
+23305800,Keramikarbeit/Glasarbeit,Ceramic work/Glass work,Glaser,Glazier,23305000
+23305900,Lederherstellung/Lederverarbeitung,Tanning/Leather processing,Gerben,,23305000
+23305901,Buchherstellung,Book production,Setzen,Letterpress,23305000
+23306000,Handel/Finanzen,Trade/Finances,,,23300000
+23307000,Transport/Verkehr,Transportation/Traffic,,,23300000
+23307100,Landwege/Plätze,Roads and ways/Squares,,Land route,23307000
+23307120,Landwege/Plätze/Namen,Roads and Ways/Squares/Names,,,23307100
+23307200,Wasserwege,Waterways,,,23307000
+23307210,Anlagen am Wasser,Installations on water/Installations near water,Brücke,Bridge,23307200
+23307220,Anlagen am Wasser/Namen,Installations on/near water /names,,,23307200
+23307230,Seefahrt/Binnenschifffahrt,Seafaring/Inland navigation,Schifffahrt,,23307200
+23307300,Reisen,Travel,Fahrt,Journey,23307000
+23307310,Gastgewerbe,Hospitality industry,Wirtshaus,Tavern,23307300
+23307320,Gastgewerbe/Namen,Taverns/Inns/Hostelry/Names,,,23307300
+23307400,Nachrichtenwesen,Communications,Bote,Courier,23307000
+23307500,Transportmittel,Means of transportation,Wagen,Carriage,23307000
+23307510,Landfahrzeuge,Land craft,Wagen,Cart,23307500
+23307520,Wasserfahrzeuge,Water craft,Galeere,Galley,23307500
+23308000,Besitz,Property,Betteln,Alms,23300000
+23308100,Mangel/Bedürfnis/Misserfolg,Deficiency/Want/Failure,Bedürfen,Modest,23308000
+23309000,Wohnen/Haushalt/Heim,Habitation/Household/Home,Unterkunft,House,23300000
+23309020,Gebäude,Building,Errichten,Build,23309000
+23309021,Gebäude/Namen,Building/Names,,,23309000
+23309030,Äußeres von Gebäuden,Exterior of buildings,,,23309020
+23309040,Inneres von Gebäuden,Interior of buildings,,,23309020
+23309050,Möbel,Furniture,Einrichtung,Dishes,23309000
+23309060,Küche/Küchenutensilien,Kitchen/Kitchen utensils,,,"21111304,23309000"
+23309070,Heizung,Heating,Verbrennen,Ignite,23309000
+23309080,Beleuchtung,Lighting,Leuchten,Light,23309000
+23309090,Haushaltsführung,Home keeping,Hausarbeit,Domestic work,23309000
+23309091,Reinigung,Cleaning,,,23309090
+23309100,Wäsche,Linen,Ausstattung,Decoration,23309000
+23309110,Spezielle Frauenarbeiten,Special female crafts and labors,,,23309000
+23310000,Hof/Hofhaltung,Court/Hold court,Höfling,Court servants,23300000
+23310200,Ämter,Offices,,,23310000
+23310300,Herrschaftssymbolik/Amtssymbolik,Symbols of power/Symbols of office,Wappen,Regalia,23310000
+24000000,Sozialer Aufbau,Social entities and hierarchy,,,20000000
+24100000,Politische Einheiten,Political entities,,Political unit,24000000
+24120000,Politische Einheiten/Namen,Political Entities/Names,,,24100000
+24121000,Fantastische politische Einheiten/Namen,Fantastic Political Entities/Names,,,24120000
+24122000,Erdteile/Namen,Continents/Names,,,24120000
+24200000,Kommunen,Communities,,Medieval communes,24000000
+24210000,Stadt,City,Bürgerin,Citizen,24200000
+24212000,Stadt/Namen,City/Names,,,24210000
+24212100,Fantast. Städte/Namen,Phantast. Cities/Names,,,24212000
+24213000,Kommunale Verwaltung,Local government,Stadtverwaltung,Local administration,24210000
+24220000,Gemeinde/Ortschaft/Dorf,Municipality/Town/Village,Gemeinschaft,Township,24200000
+24222000,Gemeinde/Ortschaft/Dorf/Namen,Township/Town/Village/Names,,,24220000
+24222100,Gemeinde/Dorf: Straßen/Plätze/Namen,Township/Village: Streets/Squares/Names,,,24220000
+24222300,Fantastische Gemeinde/Ortschaft/Dorf/Namen,Fantastic Township/Town/Village/Names,,,24220000
+24223000,Verwaltung von Gemeinde/Ortschaft/Dorf,Administration of municipality/town/village,Amt,Office,24220000
+24224000,Kreis/Bezirk/Grafschaft,District/County,,,24220000
+24300000,Gesellschaftliche Ordnung,Social order,Allgemeine soziale Ordnungskategorien,Society in general,24000000
+24320000,Soziale Klassen,Social classes,,,24300000
+24321000,Adel,Nobility,Edelfrau,Nobleman,24320000
+24322000,Freie,Freemen,,,24320000
+24323000,Dienstklasse,Servants,Diener,Servant,24320000
+24323100,Lehenswesen,Fiefdom,,,24323000
+24324000,Bürgertum,Citizenship,Bürgerschaft,Burgher,24320000
+24325000,Unterste Klassen,Lowest classes,Bettlerin,Beggar,24320000
+24326000,Weltliche Hierarchie,Secular hierarchy,,,24320000
+24330000,Rechtswesen,Legal system,Recht,Law,24300000
+24340000,Ordnungsmacht,Order,,,24300000
+24400000,Mythologie/Religion,Mythology/Religion,,,24000000
+24410000,Judäo-Christliche Mythologie,Judeo-Christian mythology,Kreatur,Angel,24400000
+24411000,Bibel/Religionsgeschichte,Bible/Religious history,Gleichnis,Parable,24410000
+24411100,Bibel/Religionsgeschichte/Namen,Bible/Religious History/Names,,,24411000
+24420000,Nichtchristliche Mythologie,Non-Christian mythology,Teufel,Heresy,24400000
+24421000,Nichtchristliche Mythologie/Namen,Non-Christian Mythology/Names,,,24420000
+24422000,Nichtchristliche Kultstätten,Non-Christian places of worship,Tempel,Temple,24420000
+24422100,Nichtchristliche Mythologie/Kultstätten/Namen,Non-Christian Mythology/Places of Worship /Names,,,24422000
+24423000,Nichtchristliche Riten und Kulte,Non-Christian rites and cults,,,24420000
+24423200,Nichtchristliche Kultgegenstände,Non-Christian ritual objects,,,24423000
+24430000,Volksmythologie/Aberglaube/Magie,Popular mythology/Superstition/Magic,Zauberei,Hell,24400000
+24431000,Volksmythologie/Aberglaube/Namen,Popular Mythology/Superstition/Magic/Names,,,24430000
+24440000,Christentum/Theologie,Christianity/Theology,,,24400000
+24450000,Kirche,Church,Stift,Abbey,24400000
+24451000,Kirchliche Organisation,Ecclesiastical organization,Klerus,Bishopric,24450000
+24452000,Kirchliche Hierarchie,Ecclesiastical hierarchy,,,24450000
+24453000,Ordenswesen,Monasticism,Bruderschaft,Monastery,24450000
+24453100,Ordenswesen/Namen,Monastic Orders/Names,,,24453000
+24454000,Kirchliche Ausstattung/Kultgegenstände,Ecclesiastical furnishings/Cult objects,Ritualgegenstände,Church ornaments,24450000
+24455000,Christliche Kultstätten,Christian places of worship,,,24450000
+24455100,Christliche Kultstätten/Namen,Christian Places of Worship/Names,,,24450000
+24456000,Christliche Riten und Kulte,Christian rites und cults,,,24450000
+24457000,Christliche Feiertage,Christian holidays,,,24450000
+24458000,Christliche Feiertage/Namen,Christian Holidays Names,,,24450000
+24460000,Jüdische Glaubensgemeinschaft,Jewish faith community,Jüdische Religionsgemeinschaft,Jewish religious community,24400000
+24470000,Himmel in Mythologie/Religion,Heaven in mythology/religion,Paradies,Paradise,24000000
+25000000,Kunst/Kunsthandwerk,Arts/Handicraft,,Arts and crafts,20000000
+25100000,Künste,Arts,Kunstwerk,Artwork,25000000
+25120000,Literatur,Literature,Schrift,Script,25100000
+25121000,Literatur/Namen,Literature/Names,,,25120000
+25122000,Literatur/Titel,Literature/Titles,Buchtitel,Book title,25120000
+25130000,Darstellende Kunst,Performing arts,Spiel,Play,"25100000,32170000"
+25131000,Theater,Theatre,Spiel,Spectacle,"25130000,32170000"
+25132000,Tanz,Dance,,,25130000
+25132100,Tanz/Namen,Dance/Names,,,25132000
+25140000,Bildende Kunst,Fine arts,,Visual arts,25100000
+25141000,Bildende Kunst/Namen,Fine Arts/Names,,,25140000
+25150000,Musik im Allgemeinen,Music in general,,,25100000
+25151000,Musiklehre,Music theory,,,"25150000,32170000"
+25152000,Gesang,Chant,Singen,Singing,"25150000,32170000"
+25152100,Gesang/Namen,Singing/Chant/Names,,,25152000
+25153000,Instrumentalmusik,Instrumental music,,,"25150000,32170000"
+25153100,Instrumentalmusik/Namen,Instrumental Music/Names,,,25153000
+30000000,Mensch und Welt,Human and world,Menschen und ihre Umwelt,Humans and their environment,
+31000000,A Priori,A priori,,,30000000
+31100000,Existenz,Existence,Leben,Life,31000000
+31200000,Eigenschaften/Zustände,Characteristic/Conditions,,,31000000
+31210000,Ausdehnung,Expanse,,,31200000
+31220000,Gestalt,Shape,,,31200000
+31230000,Physikalische Eigenschaften/Chemische Eigenschaften,Physical conditions/Chemical conditions,,,31200000
+31231000,Feuer,Fire,,,31230000
+31232000,Physikalische Substanzen/Chemische Substanzen,Physical substances/Chemical substances,,,31230000
+31232100,Physikal. Chem. Substanzen/Namen,Physical and Chemical Substances,,,31232000
+31232200,Materialien,Materials,,,31232000
+31240000,Sinnlich wahrnehmbare Eigenschaften,Sensually perceptible properties,,,31200000
+31241000,Visuell,Visual,Blicken,See,31240000
+31241100,Farben,Colours,,Colors,31241000
+31241200,Formen,Shapes,,Forms,31241000
+31242000,Geräusche,Sounds,,Noises,31240000
+31243000,Gerüche,Smells,Geruch,Odour,31240000
+31244000,Geschmäcke,Tastes,Würze,Flavor,31240000
+31245000,Taktile Empfindungen,Tactile sensations,Tastsinn,Sense of touch,31240000
+31246000,Temperaturempfindungen,Temperature perception,Temperatur,Temperature,31240000
+31300000,Verhältnis/Ordnung/Wert,Relationship/Order/Value,,,31000000
+31310000,Verhältnis,Relationship,,,31300000
+31320000,Ordnung/Unordnung,Order/Disorder,Durcheinander,Chaos,31300000
+31330000,Wert/Unwert,Value//Worthlessness,,,31300000
+31340000,Maße/Gewichte,Measures/Weights,,,31300000
+31400000,Zahlen/Mengenbegriffe,Numbers/Quantity terms,,Quantity concepts,31000000
+31410000,Mengenbegriffe,Quantity terms,,Quantity concepts,31400000
+31420000,Zahlen im Allgemeinen,Numbers in general,,,31400000
+31422000,Kardinalzahlen,Cardinal numbers,,,31420000
+31422100,Römische Ziffern,Roman numerals,,,31422000
+31422200,Arabische Ziffern,Arabic numerals,,,31422000
+31423000,Ordinalzahlen,Ordinal numbers,,,31420000
+31424000,Brüche,Fractions,Bruch,Fraction,31420000
+31425000,Sonstige mathematische Begriffe,Other mathematical terms,,Other mathematical concepts,31420000
+31500000,Raum,Space,,Area,31000000
+31600000,Zeit,Time,,,31000000
+31610000,Zeit/Namen,Time/Names,,,31600000
+31620000,Werden,Becoming,Gedeihen,Thriving,31600000
+31630000,Vergehen,Fading,Enden,End,31600000
+31700000,Glück/Pech,Fortune/Misfortune,Fortuna,Luck,31000000
+31800000,Bewegung,Movement,,,31000000
+31900000,Werden im Allgemeinen/Vergehen im Allgemeinen,Becoming in general/Fading in general,,,31000000
+32000000,Wissenschaft/Technik,Science/Technology,,,30000000
+32100000,Septem artes liberales,Septem artes liberales,Die sieben freien Künste,The seven liberal arts,32000000
+32110000,Grammatik,Grammar,,,32100000
+32111000,Grammatik/Namen,Grammar/Names,,,32110000
+32120000,Rhetorik,Rhetoric,,,32100000
+32121000,Rhetorik/Namen,Rhetoric/Names,,,32120000
+32130000,Dialektik,Dialectic,,,32100000
+32131000,Dialektik/Namen,Dialectic/Names,,,32130000
+32140000,Arithmetik,Arithmetic,,,32100000
+32141000,Arithmetik/Namen,Arithmetic/Names,,,32140000
+32150000,Geometrie,Geometry,,,32100000
+32151000,Geometrie/Namen,Geometry/Names,,,32100000
+32160000,Astronomie/Astrologie,Astronomy/Astrology,,,32100000
+32161000,Astronomie/Astrologie/Namen,Astronomy/Astrology/Names,,,32160000
+32162000,AstronomInnen/AstrologInnen/Namen,Astronomers/Astrologers/Names,,,32160000
+32170000,Musiktheorie,Music theory,,,32100000
+32171000,Musiktheorie/Namen,Music Theory/Names,,,32170000
+32200000,Mineralogie/Petrologie,Mineralogy/Petrology,Steinkunde,,32000000
+32300000,Alchemie,Alchemy,,,32000000
+32310000,Alchemie/Namen,Alchemy/Names,,,32300000
+32400000,Botanik,Botany,,,32000000
+32500000,Zoologie,Zoology,,,32000000
+32600000,Medizin/Anatomie,Medicine/Anatomy,,,32000000
+32610000,Medizin/Anatomie/Namen,Medicine/Anatomy/Names,,,32600000
+32620000,Humoralmedizin/Diätetik,Humoral medicine/Dietetics,Humoralpathologie/Diätologie,Humoral pathology/Dietology,"21091000,21090000,32600000"
+32700000,Philosophie,Philosophy,,,32000000
+32710000,Philosophie/Namen,Philosophy/Names,,,32000000
+32800000,Geografie,Geography,,,32000000
+32810000,Geografie/Namen,Geography/Names,,,32800000
+32900000,Geschichtswissenschaft,History,,,32000000
+32910000,Geschichtswissenschaft/Namen,History/Namen,,,32900000
+90000000,Funktionswörter,Functional Words,,,
+91000000,Nicht bestimmbare Formen,Not Identifiable Words,,,90000000
+92000000,Nhd. Kommentare,NHG Commentaries,,,90000000
+93000000,Abkürzungen,Abbreviations,,,90000000

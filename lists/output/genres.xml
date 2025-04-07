@@ -1,0 +1,184 @@
+<?xml version='1.0' encoding='utf-8'?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>MHDBDB Text Type Taxonomy</title>
+      </titleStmt>
+      <publicationStmt>
+        <publisher>Middle High German Database (MHDBDB)</publisher>
+        <date>2025-04-07</date>
+      </publicationStmt>
+      <sourceDesc>
+        <p>Converted from RDF data</p>
+      </sourceDesc>
+    </fileDesc>
+    <encodingDesc>
+      <classDecl>
+        <taxonomy xml:id="mhdbdb-genres">
+          <desc>Text type taxonomy of the Middle High German Database</desc>
+          <category xml:id="genre_1">
+            <catDesc>
+              <term xml:lang="de">Höfischer Roman</term>
+            </catDesc>
+          </category>
+          <category xml:id="genre_10">
+            <catDesc>
+              <term xml:lang="de">Klassische Epen</term>
+            </catDesc>
+          </category>
+          <category xml:id="genre_101">
+            <catDesc>
+              <term xml:lang="de">Lehrdichtung</term>
+            </catDesc>
+          </category>
+          <category xml:id="genre_12">
+            <catDesc>
+              <term xml:lang="de">Frühhöfische Epik</term>
+            </catDesc>
+          </category>
+          <category xml:id="genre_121">
+            <catDesc>
+              <term xml:lang="de">Religiöse Prosa</term>
+            </catDesc>
+          </category>
+          <category xml:id="genre_122">
+            <catDesc>
+              <term xml:lang="de">Naturwissenschaftliche Schriften</term>
+            </catDesc>
+          </category>
+          <category xml:id="genre_123">
+            <catDesc>
+              <term xml:lang="de">Religiöse Kleinepik</term>
+            </catDesc>
+          </category>
+          <category xml:id="genre_13">
+            <catDesc>
+              <term xml:lang="de">Schwank und Satire</term>
+            </catDesc>
+          </category>
+          <category xml:id="genre_14">
+            <catDesc>
+              <term xml:lang="de">Aventiurenroman</term>
+            </catDesc>
+          </category>
+          <category xml:id="genre_141">
+            <catDesc>
+              <term xml:lang="de">Rechtsurkunden</term>
+            </catDesc>
+          </category>
+          <category xml:id="genre_16">
+            <catDesc>
+              <term xml:lang="de">Artusdichtung</term>
+            </catDesc>
+          </category>
+          <category xml:id="genre_161">
+            <catDesc>
+              <term xml:lang="de">Kochbücher</term>
+            </catDesc>
+          </category>
+          <category xml:id="genre_162">
+            <catDesc>
+              <term xml:lang="de">Juridische Texte</term>
+            </catDesc>
+          </category>
+          <category xml:id="genre_163">
+            <catDesc>
+              <term xml:lang="de">Predigten</term>
+            </catDesc>
+          </category>
+          <category xml:id="genre_183">
+            <catDesc>
+              <term xml:lang="de">Medizinische Texte</term>
+            </catDesc>
+          </category>
+          <category xml:id="genre_2">
+            <catDesc>
+              <term xml:lang="de">Heldenepik</term>
+            </catDesc>
+          </category>
+          <category xml:id="genre_223">
+            <catDesc>
+              <term xml:lang="de">Spruchdichtung</term>
+            </catDesc>
+          </category>
+          <category xml:id="genre_224">
+            <catDesc>
+              <term xml:lang="de">Kampftechnik und Waffenhandwerk</term>
+            </catDesc>
+          </category>
+          <category xml:id="genre_244">
+            <catDesc>
+              <term xml:lang="de">Minne- und Ehelehre</term>
+            </catDesc>
+          </category>
+          <category xml:id="genre_264">
+            <catDesc>
+              <term xml:lang="de">Flugschriften</term>
+            </catDesc>
+          </category>
+          <category xml:id="genre_284">
+            <catDesc>
+              <term xml:lang="de">Alchemistische Schriften</term>
+            </catDesc>
+          </category>
+          <category xml:id="genre_3">
+            <catDesc>
+              <term xml:lang="de">Kleinere Erzählungen, Fabeln und Lehrgedichte</term>
+            </catDesc>
+          </category>
+          <category xml:id="genre_304">
+            <catDesc>
+              <term xml:lang="de">Spielmannsepik</term>
+            </catDesc>
+          </category>
+          <category xml:id="genre_4">
+            <catDesc>
+              <term xml:lang="de">Religiöse Versdichtung</term>
+            </catDesc>
+          </category>
+          <category xml:id="genre_41">
+            <catDesc>
+              <term xml:lang="de">Historiografische Texte</term>
+            </catDesc>
+          </category>
+          <category xml:id="genre_5">
+            <catDesc>
+              <term xml:lang="de">Lyrik</term>
+            </catDesc>
+          </category>
+          <category xml:id="genre_61">
+            <catDesc>
+              <term xml:lang="de">Versdialog</term>
+            </catDesc>
+          </category>
+          <category xml:id="genre_62">
+            <catDesc>
+              <term xml:lang="de">Autobiogr. Roman</term>
+            </catDesc>
+          </category>
+          <category xml:id="genre_63">
+            <catDesc>
+              <term xml:lang="de">Verserzählung</term>
+            </catDesc>
+          </category>
+          <category xml:id="genre_7">
+            <catDesc>
+              <term xml:lang="de">Karlsepik</term>
+            </catDesc>
+          </category>
+          <category xml:id="genre_81">
+            <catDesc>
+              <term xml:lang="de">Lyrik (Minnesangs Frühling)</term>
+            </catDesc>
+          </category>
+        </taxonomy>
+      </classDecl>
+    </encodingDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <p>This file contains the text type (genre) taxonomy of the Middle High German Database (MHDBDB). The taxonomy is defined in the header's &lt;classDecl&gt; section.</p>
+    </body>
+  </text>
+</TEI>

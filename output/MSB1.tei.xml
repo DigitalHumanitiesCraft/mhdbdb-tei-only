@@ -1,0 +1,1128 @@
+<?xml version='1.0' encoding='utf-8'?>
+<tei:TEI xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:mhdbdb="http://www.dhplus.sbg.ac.at/mhdbdb/" xml:id="MSB1">
+  <tei:teiHeader>
+    <tei:fileDesc>
+      <tei:titleStmt>
+        <tei:title>Das Kochbuch aus der Stiftsbibliothek Michaelbeuern</tei:title>
+        <tei:author ref="persons.xml#person_anonym">Anonym</tei:author>
+      </tei:titleStmt>
+      <tei:publicationStmt>
+        <tei:publisher>
+          <tei:orgName>Paris Lodron Universität Salzburg</tei:orgName>
+          <tei:orgName type="project">Mittelhochdeutsche Begriffsdatenbank (MHDBDB)</tei:orgName>
+          <tei:address>
+            <tei:street>Erzabt-Klotz-Straße 1</tei:street>
+            <tei:postCode>5020</tei:postCode>
+            <tei:settlement>Salzburg</tei:settlement>
+            <tei:country>Österreich</tei:country>
+          </tei:address>
+          <tei:email>mhdbdb@plus.ac.at</tei:email>
+          <tei:ptr target="https://mhdbdb.plus.ac.at"/>
+        </tei:publisher>
+        <tei:authority>
+          <tei:persName role="coordinator">
+            <tei:forename>Katharina</tei:forename>
+            <tei:surname>Zeppezauer-Wachauer</tei:surname>
+          </tei:persName>
+        </tei:authority>
+        <tei:availability>
+          <tei:licence target="https://creativecommons.org/licenses/by-nc-sa/3.0/at/">CC BY-NC-SA 3.0 AT</tei:licence>
+          <tei:p>Die Annotationen der MHDBDB stehen unter der Lizenz CC BY-NC-SA 3.0 AT. Die E-Texte selbst sind individuell ausgezeichnet.</tei:p>
+        </tei:availability>
+        <tei:date when="2025">2025</tei:date>
+        <tei:idno type="URI">https://mhdbdb.plus.ac.at</tei:idno>
+        <tei:ref type="history" target="https://doi.org/10.25619/BmE20223203">Zeppezauer-Wachauer, Katharina (2022): 50 Jahre Mittelhochdeutsche Begriffsdatenbank (MHDBDB)</tei:ref>
+        <tei:ref type="documentation" target="https://doi.org/10.14220/mdge.2022.69.2.135">Zeppezauer-Wachauer, Katharina (2022). Die Mittelhochdeutsche Begriffsdatenbank (MHDBDB): Rückschau auf 50 Jahre digitale Mediävistik</tei:ref>
+      </tei:publicationStmt>
+      <tei:sourceDesc>
+        <tei:msDesc>
+          <tei:msIdentifier corresp="works.xml#work_575">
+            <tei:idno type="sigle">MSB1</tei:idno>
+          </tei:msIdentifier>
+        </tei:msDesc>
+      </tei:sourceDesc>
+    </tei:fileDesc>
+  </tei:teiHeader>
+  <tei:text>
+    <tei:body>
+      <tei:p>
+        <tei:lb n="1"/>
+        <tei:hi rend="initial">
+          <tei:w xml:id="MSB1_157101_0" lemmaRef="lexicon.xml#lemma_27037" meaningRef="lexicon.xml#lemma_27037_sense_43002" pos="ADV CNJ" wordRef="types.xml#type_131288">item</tei:w>
+        </tei:hi>
+        <tei:seg xml:id="MSB1_157101_1" type="pc">:</tei:seg>
+        <tei:w xml:id="MSB1_157101_2">wilt</tei:w>
+        <tei:w xml:id="MSB1_157101_3" lemmaRef="lexicon.xml#lemma_3917" pos="VRB" wordRef="types.xml#type_13685">machen</tei:w>
+        <tei:w xml:id="MSB1_157101_4" lemmaRef="lexicon.xml#lemma_1331" meaningRef="lexicon.xml#lemma_1331_sense_2068" pos="ART NUM" wordRef="types.xml#type_4316">ain</tei:w>
+        <tei:w xml:id="MSB1_157101_5" lemmaRef="lexicon.xml#lemma_21151" meaningRef="lexicon.xml#lemma_21151_sense_34726" pos="VRB" wordRef="types.xml#type_131753">pachen</tei:w>
+        <tei:w xml:id="MSB1_157101_6" lemmaRef="lexicon.xml#lemma_7193" meaningRef="lexicon.xml#lemma_7193_sense_11656" pos="PRP" wordRef="types.xml#type_25544">von</tei:w>
+        <tei:w xml:id="MSB1_157101_7" lemmaRef="lexicon.xml#lemma_4882" pos="NOM" wordRef="types.xml#type_131732">reyß</tei:w>
+        <tei:seg xml:id="MSB1_157101_8" type="pc">,</tei:seg>
+        <tei:w xml:id="MSB1_157101_9" lemmaRef="lexicon.xml#lemma_5601" meaningRef="lexicon.xml#lemma_5601_sense_8764" pos="ADV" wordRef="types.xml#type_19596">so</tei:w>
+        <tei:w xml:id="MSB1_157101_10" lemmaRef="lexicon.xml#lemma_5458" meaningRef="lexicon.xml#lemma_5458_sense_8511" pos="VRB" wordRef="types.xml#type_269220">sewd</tei:w>
+        <tei:w xml:id="MSB1_157101_11">in</tei:w>
+        <tei:w xml:id="MSB1_157101_12">in</tei:w>
+        <tei:w xml:id="MSB1_157101_13" lemmaRef="lexicon.xml#lemma_7419" meaningRef="lexicon.xml#lemma_7419_sense_12070" pos="NOM" wordRef="types.xml#type_77434">wasser</tei:w>
+        <tei:w xml:id="MSB1_157101_14" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:lb n="2"/>
+        <tei:w xml:id="MSB1_157102_0">laz</tei:w>
+        <tei:w xml:id="MSB1_157102_1" lemmaRef="lexicon.xml#lemma_1517" meaningRef="lexicon.xml#lemma_1517_sense_2355" pos="PRO" wordRef="types.xml#type_5008">in</tei:w>
+        <tei:w xml:id="MSB1_157102_2" lemmaRef="lexicon.xml#lemma_4377" meaningRef="lexicon.xml#lemma_4377_sense_6838" pos="ADJ ADV NEG" wordRef="types.xml#type_15283">nicht</tei:w>
+        <tei:w xml:id="MSB1_157102_3" lemmaRef="lexicon.xml#lemma_6768" meaningRef="lexicon.xml#lemma_6768_sense_17373" pos="ADJ ADV" wordRef="types.xml#type_59489">fast</tei:w>
+        <tei:w xml:id="MSB1_157102_4" lemmaRef="lexicon.xml#lemma_5458" meaningRef="lexicon.xml#lemma_5458_sense_8511" pos="VRB" wordRef="types.xml#type_19061">sieden</tei:w>
+        <tei:seg xml:id="MSB1_157102_5" type="pc">.</tei:seg>
+        <tei:w xml:id="MSB1_157102_6" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_157102_7" lemmaRef="lexicon.xml#lemma_5375" meaningRef="lexicon.xml#lemma_5375_sense_57998" pos="VRB" wordRef="types.xml#type_296070">saich</tei:w>
+        <tei:w xml:id="MSB1_157102_8">es</tei:w>
+        <tei:w xml:id="MSB1_157102_9" lemmaRef="lexicon.xml#lemma_5280" meaningRef="lexicon.xml#lemma_5280_sense_8229" pos="NOM ADJ ADV" wordRef="types.xml#type_44516">schön</tei:w>
+        <tei:w xml:id="MSB1_157102_10" lemmaRef="lexicon.xml#lemma_29" meaningRef="lexicon.xml#lemma_29_sense_39" pos="ADV PRP" wordRef="types.xml#type_86">ab</tei:w>
+        <tei:w xml:id="MSB1_157102_11" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_157102_12" lemmaRef="lexicon.xml#lemma_6301" meaningRef="lexicon.xml#lemma_6301_sense_9929" pos="VRB" wordRef="types.xml#type_102053">tue</tei:w>
+        <tei:w xml:id="MSB1_157102_13" lemmaRef="lexicon.xml#lemma_1762" meaningRef="lexicon.xml#lemma_1762_sense_2752" pos="PRO" wordRef="types.xml#type_6021">ez</tei:w>
+        <tei:w xml:id="MSB1_157102_14">in</tei:w>
+        <tei:lb n="3"/>
+        <tei:w xml:id="MSB1_157103_0" lemmaRef="lexicon.xml#lemma_1331" meaningRef="lexicon.xml#lemma_1331_sense_2068" pos="ART NUM" wordRef="types.xml#type_4316">ain</tei:w>
+        <tei:w xml:id="MSB1_157103_1" lemmaRef="lexicon.xml#lemma_9507" pos="VRB" wordRef="types.xml#type_131484">reib</tei:w>
+        <tei:w xml:id="MSB1_157103_2" lemmaRef="lexicon.xml#lemma_5266" pos="NOM" wordRef="types.xml#type_70138">scherben</tei:w>
+        <tei:w xml:id="MSB1_157103_3" pos="" wordRef="types.xml#type_-7">-</tei:w>
+        <tei:w xml:id="MSB1_157103_4">oder</tei:w>
+        <tei:w xml:id="MSB1_157103_5" lemmaRef="lexicon.xml#lemma_5782" pos="NOM" wordRef="types.xml#type_20342">stoz</tei:w>
+        <tei:w xml:id="MSB1_157103_6" lemmaRef="lexicon.xml#lemma_1762" meaningRef="lexicon.xml#lemma_1762_sense_2752" pos="PRO" wordRef="types.xml#type_6021">ez</tei:w>
+        <tei:w xml:id="MSB1_157103_7">in</tei:w>
+        <tei:w xml:id="MSB1_157103_8" lemmaRef="lexicon.xml#lemma_1331" meaningRef="lexicon.xml#lemma_1331_sense_2068" pos="ART NUM" wordRef="types.xml#type_255022">ainnem</tei:w>
+        <tei:w xml:id="MSB1_157103_9" lemmaRef="lexicon.xml#lemma_26724" meaningRef="lexicon.xml#lemma_26724_sense_42539" pos="NOM" wordRef="types.xml#type_270400">morsar</tei:w>
+        <tei:w xml:id="MSB1_157103_10" pos="" wordRef="types.xml#type_-7">-</tei:w>
+        <tei:w xml:id="MSB1_157103_11" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_157103_12" lemmaRef="lexicon.xml#lemma_9507" pos="VRB" wordRef="types.xml#type_131484">reib</tei:w>
+        <tei:w xml:id="MSB1_157103_13" lemmaRef="lexicon.xml#lemma_1762" meaningRef="lexicon.xml#lemma_1762_sense_2752" pos="PRO" wordRef="types.xml#type_6021">ez</tei:w>
+        <tei:lb n="4"/>
+        <tei:w xml:id="MSB1_157104_0" lemmaRef="lexicon.xml#lemma_3349" pos="ADJ ADV" wordRef="types.xml#type_44860">clain</tei:w>
+        <tei:seg xml:id="MSB1_157104_1" type="pc">.</tei:seg>
+        <tei:w xml:id="MSB1_157104_2" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_157104_3" lemmaRef="lexicon.xml#lemma_9507" pos="VRB" wordRef="types.xml#type_131484">reib</tei:w>
+        <tei:w xml:id="MSB1_157104_4" lemmaRef="lexicon.xml#lemma_1324" pos="NOM" wordRef="types.xml#type_83658">ayr</tei:w>
+        <tei:w xml:id="MSB1_157104_5" lemmaRef="lexicon.xml#lemma_1055" meaningRef="lexicon.xml#lemma_1055_sense_1689" pos="ADV" wordRef="types.xml#type_3258">dar</tei:w>
+        <tei:w xml:id="MSB1_157104_6" lemmaRef="lexicon.xml#lemma_6471" meaningRef="lexicon.xml#lemma_6471_sense_10240" pos="ADJ ADV PRP" wordRef="types.xml#type_104429">vntter</tei:w>
+        <tei:seg xml:id="MSB1_157104_7" type="pc">.</tei:seg>
+        <tei:w xml:id="MSB1_157104_8" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_157104_9">mach</tei:w>
+        <tei:w xml:id="MSB1_157104_10" lemmaRef="lexicon.xml#lemma_1762" meaningRef="lexicon.xml#lemma_1762_sense_2752" pos="PRO" wordRef="types.xml#type_6021">ez</tei:w>
+        <tei:w xml:id="MSB1_157104_11" lemmaRef="lexicon.xml#lemma_4377" meaningRef="lexicon.xml#lemma_4377_sense_6838" pos="ADJ ADV NEG" wordRef="types.xml#type_15283">nicht</tei:w>
+        <tei:w xml:id="MSB1_157104_12">zwo</tei:w>
+        <tei:w xml:id="MSB1_157104_13" lemmaRef="lexicon.xml#lemma_1245" meaningRef="lexicon.xml#lemma_1245_sense_1961" pos="ADJ" wordRef="types.xml#type_116602">dün</tei:w>
+        <tei:seg xml:id="MSB1_157104_14" type="pc">.</tei:seg>
+        <tei:w xml:id="MSB1_157104_15" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:lb n="5"/>
+        <tei:w xml:id="MSB1_157105_0" lemmaRef="lexicon.xml#lemma_6301" meaningRef="lexicon.xml#lemma_6301_sense_9929" pos="VRB" wordRef="types.xml#type_102053">tue</tei:w>
+        <tei:w xml:id="MSB1_157105_1" lemmaRef="lexicon.xml#lemma_1331" meaningRef="lexicon.xml#lemma_1331_sense_2068" pos="ART NUM" wordRef="types.xml#type_4316">ain</tei:w>
+        <tei:w xml:id="MSB1_157105_2" lemmaRef="lexicon.xml#lemma_9808" meaningRef="lexicon.xml#lemma_9808_sense_15809" pos="NOM" wordRef="types.xml#type_131038">smalcz</tei:w>
+        <tei:w xml:id="MSB1_157105_3">in</tei:w>
+        <tei:w xml:id="MSB1_157105_4">ein</tei:w>
+        <tei:w xml:id="MSB1_157105_5" lemmaRef="lexicon.xml#lemma_4623" meaningRef="lexicon.xml#lemma_4623_sense_7186" pos="NOM" wordRef="types.xml#type_149364">pfann</tei:w>
+        <tei:w xml:id="MSB1_157105_6" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_157105_7">laz</tei:w>
+        <tei:w xml:id="MSB1_157105_8" lemmaRef="lexicon.xml#lemma_1762" meaningRef="lexicon.xml#lemma_1762_sense_2752" pos="PRO" wordRef="types.xml#type_6021">ez</tei:w>
+        <tei:w xml:id="MSB1_157105_9" lemmaRef="lexicon.xml#lemma_1258" meaningRef="lexicon.xml#lemma_1258_sense_1977" pos="PRP" wordRef="types.xml#type_4044">durch</tei:w>
+        <tei:w xml:id="MSB1_157105_10" lemmaRef="lexicon.xml#lemma_1139" meaningRef="lexicon.xml#lemma_1139_sense_1797" pos="ART" wordRef="types.xml#type_3568">die</tei:w>
+        <tei:w xml:id="MSB1_157105_11" lemmaRef="lexicon.xml#lemma_2640" meaningRef="lexicon.xml#lemma_2640_sense_4250" pos="NOM" wordRef="types.xml#type_8900">hend</tei:w>
+        <tei:w xml:id="MSB1_157105_12">in</tei:w>
+        <tei:w xml:id="MSB1_157105_13" lemmaRef="lexicon.xml#lemma_1331" meaningRef="lexicon.xml#lemma_1331_sense_2068" pos="ART NUM" wordRef="types.xml#type_255022">ainnem</tei:w>
+        <tei:lb n="6"/>
+        <tei:w xml:id="MSB1_157106_0" lemmaRef="lexicon.xml#lemma_71371" meaningRef="lexicon.xml#lemma_71371_sense_109130" pos="ADJ" wordRef="types.xml#type_352269">geprantten</tei:w>
+        <tei:w xml:id="MSB1_157106_1" lemmaRef="lexicon.xml#lemma_3391" meaningRef="lexicon.xml#lemma_3391_sense_5347" pos="VRB" wordRef="types.xml#type_270403">köchel</tei:w>
+        <tei:seg xml:id="MSB1_157106_2" type="pc">,</tei:seg>
+        <tei:w xml:id="MSB1_157106_3" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_157106_4">wann</tei:w>
+        <tei:w xml:id="MSB1_157106_5" lemmaRef="lexicon.xml#lemma_1762" meaningRef="lexicon.xml#lemma_1762_sense_2752" pos="PRO" wordRef="types.xml#type_6021">ez</tei:w>
+        <tei:w xml:id="MSB1_157106_6" lemmaRef="lexicon.xml#lemma_21151" meaningRef="lexicon.xml#lemma_21151_sense_34726" pos="VRB" wordRef="types.xml#type_154287">gepachen</tei:w>
+        <tei:w xml:id="MSB1_157106_7" lemmaRef="lexicon.xml#lemma_5432" meaningRef="lexicon.xml#lemma_5432_sense_8479" pos="VRB VEX" wordRef="types.xml#type_18956">ist</tei:w>
+        <tei:seg xml:id="MSB1_157106_8" type="pc">,</tei:seg>
+        <tei:w xml:id="MSB1_157106_9" lemmaRef="lexicon.xml#lemma_5601" meaningRef="lexicon.xml#lemma_5601_sense_8764" pos="ADV" wordRef="types.xml#type_19596">so</tei:w>
+        <tei:w xml:id="MSB1_157106_10" lemmaRef="lexicon.xml#lemma_6301" meaningRef="lexicon.xml#lemma_6301_sense_9929" pos="VRB" wordRef="types.xml#type_102053">tue</tei:w>
+        <tei:w xml:id="MSB1_157106_11">ein</tei:w>
+        <tei:w xml:id="MSB1_157106_12" lemmaRef="lexicon.xml#lemma_7916" meaningRef="lexicon.xml#lemma_7916_sense_12990" pos="NOM" wordRef="types.xml#type_269670">zukkar</tei:w>
+        <tei:lb n="7"/>
+        <tei:w xml:id="MSB1_157107_0" lemmaRef="lexicon.xml#lemma_1055" meaningRef="lexicon.xml#lemma_1055_sense_1689" pos="ADV" wordRef="types.xml#type_3258">dar</tei:w>
+        <tei:w xml:id="MSB1_157107_1" lemmaRef="lexicon.xml#lemma_6330" meaningRef="lexicon.xml#lemma_6330_sense_9973" pos="ADV PRP" wordRef="types.xml#type_67481">auff</tei:w>
+        <tei:w xml:id="MSB1_157107_2" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_157107_3" lemmaRef="lexicon.xml#lemma_26849" meaningRef="lexicon.xml#lemma_26849_sense_42742" pos="VRB" wordRef="types.xml#type_131135">versalcz</tei:w>
+        <tei:w xml:id="MSB1_157107_4" lemmaRef="lexicon.xml#lemma_1762" meaningRef="lexicon.xml#lemma_1762_sense_2752" pos="PRO" wordRef="types.xml#type_6021">ez</tei:w>
+        <tei:w xml:id="MSB1_157107_5" lemmaRef="lexicon.xml#lemma_4377" meaningRef="lexicon.xml#lemma_4377_sense_6838" pos="ADJ ADV NEG" wordRef="types.xml#type_15283">nicht</tei:w>
+        <tei:seg xml:id="MSB1_157107_6" type="pc">.</tei:seg>
+        <tei:lb n="1"/>
+        <tei:w xml:id="MSB1_257101_0" lemmaRef="lexicon.xml#lemma_9050" pos="PRO VEM" wordRef="types.xml#type_269297">wildw</tei:w>
+        <tei:w xml:id="MSB1_257101_1" lemmaRef="lexicon.xml#lemma_3917" pos="VRB" wordRef="types.xml#type_13685">machen</tei:w>
+        <tei:w xml:id="MSB1_257101_2" lemmaRef="lexicon.xml#lemma_1331" meaningRef="lexicon.xml#lemma_1331_sense_2068" pos="ART NUM" wordRef="types.xml#type_4316">ain</tei:w>
+        <tei:w xml:id="MSB1_257101_3" lemmaRef="lexicon.xml#lemma_48946" pos="NOM" wordRef="types.xml#type_270404">gemüez</tei:w>
+        <tei:w xml:id="MSB1_257101_4" lemmaRef="lexicon.xml#lemma_7193" meaningRef="lexicon.xml#lemma_7193_sense_11656" pos="PRP" wordRef="types.xml#type_25544">von</tei:w>
+        <tei:w xml:id="MSB1_257101_5" lemmaRef="lexicon.xml#lemma_1324" pos="NOM" wordRef="types.xml#type_162028">air</tei:w>
+        <tei:w xml:id="MSB1_257101_6" lemmaRef="lexicon.xml#lemma_25352" meaningRef="lexicon.xml#lemma_25352_sense_40613" pos="NOM" wordRef="types.xml#type_270405">tötter</tei:w>
+        <tei:seg xml:id="MSB1_257101_7" type="pc">,</tei:seg>
+        <tei:w xml:id="MSB1_257101_8" lemmaRef="lexicon.xml#lemma_5601" meaningRef="lexicon.xml#lemma_5601_sense_8764" pos="ADV" wordRef="types.xml#type_19596">so</tei:w>
+        <tei:w xml:id="MSB1_257101_9" lemmaRef="lexicon.xml#lemma_4330" pos="VRB" wordRef="types.xml#type_44507">nym</tei:w>
+        <tei:w xml:id="MSB1_257101_10" lemmaRef="lexicon.xml#lemma_1055" meaningRef="lexicon.xml#lemma_1055_sense_1689" pos="ADV" wordRef="types.xml#type_3258">dar</tei:w>
+        <tei:w xml:id="MSB1_257101_11" lemmaRef="lexicon.xml#lemma_7929" meaningRef="lexicon.xml#lemma_7929_sense_13005" pos="ADJ NUM" wordRef="types.xml#type_117989">zwe</tei:w>
+        <tei:w xml:id="MSB1_257101_12" lemmaRef="lexicon.xml#lemma_48969" meaningRef="lexicon.xml#lemma_48969_sense_76900" pos="NOM" wordRef="types.xml#type_270409">walswein</tei:w>
+        <tei:lb n="2"/>
+        <tei:w xml:id="MSB1_257102_0" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_257102_1">ein</tei:w>
+        <tei:w xml:id="MSB1_257102_2" lemmaRef="lexicon.xml#lemma_7428" pos="ADJ ADV" wordRef="types.xml#type_44425">wenig</tei:w>
+        <tei:w xml:id="MSB1_257102_3" lemmaRef="lexicon.xml#lemma_5393" meaningRef="lexicon.xml#lemma_5393_sense_8414" pos="NOM" wordRef="types.xml#type_54293">semel</tei:w>
+        <tei:w xml:id="MSB1_257102_4" lemmaRef="lexicon.xml#lemma_4067" pos="NOM" wordRef="types.xml#type_14185">mel</tei:w>
+        <tei:w xml:id="MSB1_257102_5" lemmaRef="lexicon.xml#lemma_1055" meaningRef="lexicon.xml#lemma_1055_sense_1689" pos="ADV" wordRef="types.xml#type_3258">dar</tei:w>
+        <tei:w xml:id="MSB1_257102_6" lemmaRef="lexicon.xml#lemma_6471" meaningRef="lexicon.xml#lemma_6471_sense_10240" pos="ADJ ADV PRP" wordRef="types.xml#type_104429">vntter</tei:w>
+        <tei:w xml:id="MSB1_257102_7" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_257102_8">streich</tei:w>
+        <tei:w xml:id="MSB1_257102_9" lemmaRef="lexicon.xml#lemma_1762" meaningRef="lexicon.xml#lemma_1762_sense_2752" pos="PRO" wordRef="types.xml#type_6021">ez</tei:w>
+        <tei:w xml:id="MSB1_257102_10" lemmaRef="lexicon.xml#lemma_1258" meaningRef="lexicon.xml#lemma_1258_sense_1977" pos="PRP" wordRef="types.xml#type_4044">durch</tei:w>
+        <tei:w xml:id="MSB1_257102_11" lemmaRef="lexicon.xml#lemma_1331" meaningRef="lexicon.xml#lemma_1331_sense_2068" pos="ART NUM" wordRef="types.xml#type_4316">ain</tei:w>
+        <tei:w xml:id="MSB1_257102_12" lemmaRef="lexicon.xml#lemma_6298" meaningRef="lexicon.xml#lemma_6298_sense_9923" pos="NOM" wordRef="types.xml#type_121178">tuech</tei:w>
+        <tei:lb n="3"/>
+        <tei:w xml:id="MSB1_257103_0" lemmaRef="lexicon.xml#lemma_4172" meaningRef="lexicon.xml#lemma_4172_sense_6544" pos="PRP" wordRef="types.xml#type_14531">mit</tei:w>
+        <tei:w xml:id="MSB1_257103_1">ein</tei:w>
+        <tei:w xml:id="MSB1_257103_2" lemmaRef="lexicon.xml#lemma_204" meaningRef="lexicon.xml#lemma_204_sense_256" pos="ADJ" wordRef="types.xml#type_537">ander</tei:w>
+        <tei:seg xml:id="MSB1_257103_3" type="pc">.</tei:seg>
+        <tei:w xml:id="MSB1_257103_4" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_257103_5" lemmaRef="lexicon.xml#lemma_6301" meaningRef="lexicon.xml#lemma_6301_sense_9929" pos="VRB" wordRef="types.xml#type_151875">tüe</tei:w>
+        <tei:w xml:id="MSB1_257103_6" lemmaRef="lexicon.xml#lemma_1055" meaningRef="lexicon.xml#lemma_1055_sense_1689" pos="ADV" wordRef="types.xml#type_3258">dar</tei:w>
+        <tei:w xml:id="MSB1_257103_7">ein</tei:w>
+        <tei:w xml:id="MSB1_257103_8" lemmaRef="lexicon.xml#lemma_7916" meaningRef="lexicon.xml#lemma_7916_sense_12990" pos="NOM" wordRef="types.xml#type_98761">zukker</tei:w>
+        <tei:w xml:id="MSB1_257103_9">oder</tei:w>
+        <tei:w xml:id="MSB1_257103_10" lemmaRef="lexicon.xml#lemma_2898" meaningRef="lexicon.xml#lemma_2898_sense_4653" pos="NOM" wordRef="types.xml#type_270411">honnig</tei:w>
+        <tei:w xml:id="MSB1_257103_11" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_257103_12">lass</tei:w>
+        <tei:w xml:id="MSB1_257103_13" lemmaRef="lexicon.xml#lemma_1762" meaningRef="lexicon.xml#lemma_1762_sense_2752" pos="PRO" wordRef="types.xml#type_6021">ez</tei:w>
+        <tei:lb n="4"/>
+        <tei:w xml:id="MSB1_257104_0" lemmaRef="lexicon.xml#lemma_21151" meaningRef="lexicon.xml#lemma_21151_sense_34726" pos="VRB" wordRef="types.xml#type_131753">pachen</tei:w>
+        <tei:seg xml:id="MSB1_257104_1" type="pc">.</tei:seg>
+        <tei:lb n="1"/>
+        <tei:w xml:id="MSB1_357101_0" lemmaRef="lexicon.xml#lemma_9050" pos="PRO VEM" wordRef="types.xml#type_269297">wildw</tei:w>
+        <tei:w xml:id="MSB1_357101_1" lemmaRef="lexicon.xml#lemma_7193" meaningRef="lexicon.xml#lemma_7193_sense_11656" pos="PRP" wordRef="types.xml#type_25544">von</tei:w>
+        <tei:w xml:id="MSB1_357101_2" lemmaRef="lexicon.xml#lemma_1331" meaningRef="lexicon.xml#lemma_1331_sense_2068" pos="ART NUM" wordRef="types.xml#type_4321">einem</tei:w>
+        <tei:w xml:id="MSB1_357101_3" lemmaRef="lexicon.xml#lemma_2854" meaningRef="lexicon.xml#lemma_2854_sense_4580" pos="NOM" wordRef="types.xml#type_91432">hirssen</tei:w>
+        <tei:w xml:id="MSB1_357101_4">ein</tei:w>
+        <tei:w xml:id="MSB1_357101_5" lemmaRef="lexicon.xml#lemma_48946" pos="NOM" wordRef="types.xml#type_270412">gemuß</tei:w>
+        <tei:w xml:id="MSB1_357101_6" lemmaRef="lexicon.xml#lemma_3917" pos="VRB" wordRef="types.xml#type_13685">machen</tei:w>
+        <tei:seg xml:id="MSB1_357101_7" type="pc">,</tei:seg>
+        <tei:w xml:id="MSB1_357101_8" lemmaRef="lexicon.xml#lemma_5601" meaningRef="lexicon.xml#lemma_5601_sense_8764" pos="ADV" wordRef="types.xml#type_19596">so</tei:w>
+        <tei:w xml:id="MSB1_357101_9" lemmaRef="lexicon.xml#lemma_5458" meaningRef="lexicon.xml#lemma_5458_sense_8511" pos="VRB" wordRef="types.xml#type_270413">seüd</tei:w>
+        <tei:w xml:id="MSB1_357101_10" lemmaRef="lexicon.xml#lemma_1097" meaningRef="lexicon.xml#lemma_1097_sense_1741" pos="ART CNJ" wordRef="types.xml#type_3397">das</tei:w>
+        <tei:w xml:id="MSB1_357101_11" lemmaRef="lexicon.xml#lemma_7628" meaningRef="lexicon.xml#lemma_7628_sense_12502" pos="NOM" wordRef="types.xml#type_270414">wilbrät</tei:w>
+        <tei:lb n="2"/>
+        <tei:w xml:id="MSB1_357102_0">an</tei:w>
+        <tei:w xml:id="MSB1_357102_1" lemmaRef="lexicon.xml#lemma_1139" meaningRef="lexicon.xml#lemma_1139_sense_1797" pos="ART" wordRef="types.xml#type_3568">die</tei:w>
+        <tei:w xml:id="MSB1_357102_2">stat</tei:w>
+        <tei:seg xml:id="MSB1_357102_3" type="pc">.</tei:seg>
+        <tei:w xml:id="MSB1_357102_4" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_357102_5">wann</tei:w>
+        <tei:w xml:id="MSB1_357102_6" lemmaRef="lexicon.xml#lemma_1762" meaningRef="lexicon.xml#lemma_1762_sense_2752" pos="PRO" wordRef="types.xml#type_6021">ez</tei:w>
+        <tei:w xml:id="MSB1_357102_7" lemmaRef="lexicon.xml#lemma_5458" meaningRef="lexicon.xml#lemma_5458_sense_8511" pos="VRB" wordRef="types.xml#type_129485">gesotten</tei:w>
+        <tei:w xml:id="MSB1_357102_8" lemmaRef="lexicon.xml#lemma_5432" meaningRef="lexicon.xml#lemma_5432_sense_8479" pos="VRB VEX" wordRef="types.xml#type_18956">ist</tei:w>
+        <tei:seg xml:id="MSB1_357102_9" type="pc">,</tei:seg>
+        <tei:w xml:id="MSB1_357102_10" lemmaRef="lexicon.xml#lemma_5601" meaningRef="lexicon.xml#lemma_5601_sense_8764" pos="ADV" wordRef="types.xml#type_19596">so</tei:w>
+        <tei:w xml:id="MSB1_357102_11">laz</tei:w>
+        <tei:w xml:id="MSB1_357102_12" lemmaRef="lexicon.xml#lemma_3188" meaningRef="lexicon.xml#lemma_3188_sense_5030" pos="ADJ" wordRef="types.xml#type_46301">chalt</tei:w>
+        <tei:w xml:id="MSB1_357102_13">werden</tei:w>
+        <tei:w xml:id="MSB1_357102_14" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:lb n="3"/>
+        <tei:w xml:id="MSB1_357103_0" lemmaRef="lexicon.xml#lemma_2601" pos="NOM" wordRef="types.xml#type_59424">hak</tei:w>
+        <tei:w xml:id="MSB1_357103_1" lemmaRef="lexicon.xml#lemma_1762" meaningRef="lexicon.xml#lemma_1762_sense_2752" pos="PRO" wordRef="types.xml#type_6021">ez</tei:w>
+        <tei:w xml:id="MSB1_357103_2" lemmaRef="lexicon.xml#lemma_3349" pos="ADJ ADV" wordRef="types.xml#type_44860">clain</tei:w>
+        <tei:seg xml:id="MSB1_357103_3" type="pc">.</tei:seg>
+        <tei:w xml:id="MSB1_357103_4" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_357103_5" lemmaRef="lexicon.xml#lemma_4330" pos="VRB" wordRef="types.xml#type_15091">nim</tei:w>
+        <tei:w xml:id="MSB1_357103_6" lemmaRef="lexicon.xml#lemma_1331" meaningRef="lexicon.xml#lemma_1331_sense_2068" pos="ART NUM" wordRef="types.xml#type_4316">ain</tei:w>
+        <tei:w xml:id="MSB1_357103_7" lemmaRef="lexicon.xml#lemma_48980" meaningRef="lexicon.xml#lemma_48980_sense_76926" pos="NOM" wordRef="types.xml#type_270623">kapfwais</tei:w>
+        <tei:w xml:id="MSB1_357103_8">oder</tei:w>
+        <tei:w xml:id="MSB1_357103_9">ains</tei:w>
+        <tei:w xml:id="MSB1_357103_10" lemmaRef="lexicon.xml#lemma_48981" meaningRef="lexicon.xml#lemma_48981_sense_76927" pos="NOM" wordRef="types.xml#type_270625">lannpleis</tei:w>
+        <tei:w xml:id="MSB1_357103_11" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_357103_12" lemmaRef="lexicon.xml#lemma_5458" meaningRef="lexicon.xml#lemma_5458_sense_8511" pos="VRB" wordRef="types.xml#type_269220">sewd</tei:w>
+        <tei:w xml:id="MSB1_357103_13">in</tei:w>
+        <tei:lb n="4"/>
+        <tei:w xml:id="MSB1_357204_0" lemmaRef="lexicon.xml#lemma_4172" meaningRef="lexicon.xml#lemma_4172_sense_6544" pos="PRP" wordRef="types.xml#type_14531">mit</tei:w>
+        <tei:w xml:id="MSB1_357204_1" lemmaRef="lexicon.xml#lemma_7532" meaningRef="lexicon.xml#lemma_7532_sense_12297" pos="NOM" wordRef="types.xml#type_67774">wein</tei:w>
+        <tei:w xml:id="MSB1_357204_2" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_357204_3" lemmaRef="lexicon.xml#lemma_9507" pos="VRB" wordRef="types.xml#type_131484">reib</tei:w>
+        <tei:w xml:id="MSB1_357204_4" lemmaRef="lexicon.xml#lemma_1762" meaningRef="lexicon.xml#lemma_1762_sense_2752" pos="PRO" wordRef="types.xml#type_6021">ez</tei:w>
+        <tei:w xml:id="MSB1_357204_5" lemmaRef="lexicon.xml#lemma_1258" meaningRef="lexicon.xml#lemma_1258_sense_1977" pos="PRP" wordRef="types.xml#type_4044">durch</tei:w>
+        <tei:w xml:id="MSB1_357204_6">ein</tei:w>
+        <tei:w xml:id="MSB1_357204_7" lemmaRef="lexicon.xml#lemma_4630" meaningRef="lexicon.xml#lemma_4630_sense_7195" pos="NOM" wordRef="types.xml#type_34490">pfeffer</tei:w>
+        <tei:w xml:id="MSB1_357204_8" lemmaRef="lexicon.xml#lemma_4623" meaningRef="lexicon.xml#lemma_4623_sense_7186" pos="NOM" wordRef="types.xml#type_149364">pfann</tei:w>
+        <tei:seg xml:id="MSB1_357204_9" type="pc">.</tei:seg>
+        <tei:lb n="5"/>
+        <tei:w xml:id="MSB1_357205_0" lemmaRef="lexicon.xml#lemma_7736" pos="NOM" wordRef="types.xml#type_269329">gewurcz</tei:w>
+        <tei:w xml:id="MSB1_357205_1" lemmaRef="lexicon.xml#lemma_1762" meaningRef="lexicon.xml#lemma_1762_sense_2752" pos="PRO" wordRef="types.xml#type_6021">ez</tei:w>
+        <tei:w xml:id="MSB1_357205_2" lemmaRef="lexicon.xml#lemma_7677" meaningRef="lexicon.xml#lemma_7677_sense_12586" pos="NOM ADV" wordRef="types.xml#type_27811">wol</tei:w>
+        <tei:w xml:id="MSB1_357205_3" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_357205_4" lemmaRef="lexicon.xml#lemma_4172" meaningRef="lexicon.xml#lemma_4172_sense_6544" pos="PRP" wordRef="types.xml#type_14531">mit</tei:w>
+        <tei:w xml:id="MSB1_357205_5" lemmaRef="lexicon.xml#lemma_7916" meaningRef="lexicon.xml#lemma_7916_sense_12990" pos="NOM" wordRef="types.xml#type_98761">zukker</tei:w>
+        <tei:seg xml:id="MSB1_357205_6" type="pc">.</tei:seg>
+        <tei:w xml:id="MSB1_357205_7" lemmaRef="lexicon.xml#lemma_5601" meaningRef="lexicon.xml#lemma_5601_sense_8764" pos="ADV" wordRef="types.xml#type_19596">so</tei:w>
+        <tei:w xml:id="MSB1_357205_8">du</tei:w>
+        <tei:w xml:id="MSB1_357205_9" lemmaRef="lexicon.xml#lemma_1119" meaningRef="lexicon.xml#lemma_1119_sense_1770" pos="ART" wordRef="types.xml#type_3512">dez</tei:w>
+        <tei:w xml:id="MSB1_357205_10" lemmaRef="lexicon.xml#lemma_4377" meaningRef="lexicon.xml#lemma_4377_sense_6838" pos="ADJ ADV NEG" wordRef="types.xml#type_15283">nicht</tei:w>
+        <tei:w xml:id="MSB1_357205_11">hast</tei:w>
+        <tei:seg xml:id="MSB1_357205_12" type="pc">,</tei:seg>
+        <tei:w xml:id="MSB1_357205_13" lemmaRef="lexicon.xml#lemma_5601" meaningRef="lexicon.xml#lemma_5601_sense_8764" pos="ADV" wordRef="types.xml#type_19596">so</tei:w>
+        <tei:w xml:id="MSB1_357205_14" lemmaRef="lexicon.xml#lemma_4330" pos="VRB" wordRef="types.xml#type_143337">nymb</tei:w>
+        <tei:lb n="6"/>
+        <tei:w xml:id="MSB1_357206_0" lemmaRef="lexicon.xml#lemma_2898" meaningRef="lexicon.xml#lemma_2898_sense_4653" pos="NOM" wordRef="types.xml#type_270411">honnig</tei:w>
+        <tei:seg xml:id="MSB1_357206_1" type="pc">.</tei:seg>
+        <tei:w xml:id="MSB1_357206_2" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_357206_3">lass</tei:w>
+        <tei:w xml:id="MSB1_357206_4" lemmaRef="lexicon.xml#lemma_1762" meaningRef="lexicon.xml#lemma_1762_sense_2752" pos="PRO" wordRef="types.xml#type_6021">ez</tei:w>
+        <tei:w xml:id="MSB1_357206_5" lemmaRef="lexicon.xml#lemma_7374" pos="VRB" wordRef="types.xml#type_26611">wallen</tei:w>
+        <tei:seg xml:id="MSB1_357206_6" type="pc">,</tei:seg>
+        <tei:w xml:id="MSB1_357206_7" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_357206_8">gib</tei:w>
+        <tei:w xml:id="MSB1_357206_9" lemmaRef="lexicon.xml#lemma_1762" meaningRef="lexicon.xml#lemma_1762_sense_2752" pos="PRO" wordRef="types.xml#type_6021">ez</tei:w>
+        <tei:w xml:id="MSB1_357206_10" lemmaRef="lexicon.xml#lemma_6330" meaningRef="lexicon.xml#lemma_6330_sense_9973" pos="ADV PRP" wordRef="types.xml#type_67481">auff</tei:w>
+        <tei:w xml:id="MSB1_357206_11" lemmaRef="lexicon.xml#lemma_1119" meaningRef="lexicon.xml#lemma_1119_sense_1770" pos="ART" wordRef="types.xml#type_3506">den</tei:w>
+        <tei:w xml:id="MSB1_357206_12" lemmaRef="lexicon.xml#lemma_6093" meaningRef="lexicon.xml#lemma_6093_sense_9619" pos="NOM" wordRef="types.xml#type_21424">tisch</tei:w>
+        <tei:seg xml:id="MSB1_357206_13" type="pc">.</tei:seg>
+        <tei:lb n="1"/>
+        <tei:hi rend="initial">
+          <tei:w xml:id="MSB1_457201_0" lemmaRef="lexicon.xml#lemma_9050" pos="PRO VEM" wordRef="types.xml#type_30687">wildu</tei:w>
+        </tei:hi>
+        <tei:w xml:id="MSB1_457201_1" lemmaRef="lexicon.xml#lemma_3917" pos="VRB" wordRef="types.xml#type_13685">machen</tei:w>
+        <tei:w xml:id="MSB1_457201_2" lemmaRef="lexicon.xml#lemma_1331" meaningRef="lexicon.xml#lemma_1331_sense_2068" pos="ART NUM" wordRef="types.xml#type_4316">ain</tei:w>
+        <tei:w xml:id="MSB1_457201_3" lemmaRef="lexicon.xml#lemma_48946" pos="NOM" wordRef="types.xml#type_270415">gemuos</tei:w>
+        <tei:seg xml:id="MSB1_457201_4" type="pc">,</tei:seg>
+        <tei:w xml:id="MSB1_457201_5" lemmaRef="lexicon.xml#lemma_1097" meaningRef="lexicon.xml#lemma_1097_sense_1741" pos="ART CNJ" wordRef="types.xml#type_3398">daz</tei:w>
+        <tei:w xml:id="MSB1_457201_6">an</tei:w>
+        <tei:w xml:id="MSB1_457201_7" lemmaRef="lexicon.xml#lemma_1331" meaningRef="lexicon.xml#lemma_1331_sense_2068" pos="ART NUM" wordRef="types.xml#type_44563">ainem</tei:w>
+        <tei:w xml:id="MSB1_457201_8" lemmaRef="lexicon.xml#lemma_23072" meaningRef="lexicon.xml#lemma_23072_sense_37441" pos="NOM" wordRef="types.xml#type_106269">vastag</tei:w>
+        <tei:w xml:id="MSB1_457201_9">guet</tei:w>
+        <tei:w xml:id="MSB1_457201_10" lemmaRef="lexicon.xml#lemma_5432" meaningRef="lexicon.xml#lemma_5432_sense_8479" pos="VRB VEX" wordRef="types.xml#type_18956">ist</tei:w>
+        <tei:seg xml:id="MSB1_457201_11" type="pc">,</tei:seg>
+        <tei:w xml:id="MSB1_457201_12" lemmaRef="lexicon.xml#lemma_5601" meaningRef="lexicon.xml#lemma_5601_sense_8764" pos="ADV" wordRef="types.xml#type_19596">so</tei:w>
+        <tei:w xml:id="MSB1_457201_13" lemmaRef="lexicon.xml#lemma_4330" pos="VRB" wordRef="types.xml#type_15091">nim</tei:w>
+        <tei:lb n="2"/>
+        <tei:w xml:id="MSB1_457202_0">mandel</tei:w>
+        <tei:w xml:id="MSB1_457202_1" lemmaRef="lexicon.xml#lemma_4123" meaningRef="lexicon.xml#lemma_4123_sense_6476" pos="NOM" wordRef="types.xml#type_270416">millich</tei:w>
+        <tei:w xml:id="MSB1_457202_2" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_457202_3">laz</tei:w>
+        <tei:w xml:id="MSB1_457202_4" lemmaRef="lexicon.xml#lemma_5196" pos="VRB" wordRef="types.xml#type_270417">schiedn</tei:w>
+        <tei:w xml:id="MSB1_457202_5" lemmaRef="lexicon.xml#lemma_1331" meaningRef="lexicon.xml#lemma_1331_sense_2068" pos="ART NUM" wordRef="types.xml#type_4316">ain</tei:w>
+        <tei:w xml:id="MSB1_457202_6" lemmaRef="lexicon.xml#lemma_4118" meaningRef="lexicon.xml#lemma_4118_sense_6471" pos="ADJ" wordRef="types.xml#type_270418">michlein</tei:w>
+        <tei:w xml:id="MSB1_457202_7" lemmaRef="lexicon.xml#lemma_7100" meaningRef="lexicon.xml#lemma_7100_sense_11499" pos="NOM" wordRef="types.xml#type_65436">fisch</tei:w>
+        <tei:seg xml:id="MSB1_457202_8" type="pc">.</tei:seg>
+        <tei:w xml:id="MSB1_457202_9" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_457202_10">schuep</tei:w>
+        <tei:w xml:id="MSB1_457202_11">in</tei:w>
+        <tei:lb n="3"/>
+        <tei:w xml:id="MSB1_457203_0" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_457203_1" lemmaRef="lexicon.xml#lemma_5458" meaningRef="lexicon.xml#lemma_5458_sense_8511" pos="VRB" wordRef="types.xml#type_131719">seud</tei:w>
+        <tei:w xml:id="MSB1_457203_2" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_457203_3" lemmaRef="lexicon.xml#lemma_526" pos="ADJ ADV" wordRef="types.xml#type_168641">perait</tei:w>
+        <tei:w xml:id="MSB1_457203_4">in</tei:w>
+        <tei:w xml:id="MSB1_457203_5">an</tei:w>
+        <tei:w xml:id="MSB1_457203_6" lemmaRef="lexicon.xml#lemma_1139" meaningRef="lexicon.xml#lemma_1139_sense_1797" pos="ART" wordRef="types.xml#type_106438">dew</tei:w>
+        <tei:w xml:id="MSB1_457203_7">stat</tei:w>
+        <tei:seg xml:id="MSB1_457203_8" type="pc">,</tei:seg>
+        <tei:w xml:id="MSB1_457203_9" lemmaRef="lexicon.xml#lemma_152" meaningRef="lexicon.xml#lemma_152_sense_187" pos="ADV" wordRef="types.xml#type_378">also</tei:w>
+        <tei:w xml:id="MSB1_457203_10" lemmaRef="lexicon.xml#lemma_1097" meaningRef="lexicon.xml#lemma_1097_sense_1741" pos="ART CNJ" wordRef="types.xml#type_3398">daz</tei:w>
+        <tei:w xml:id="MSB1_457203_11">er</tei:w>
+        <tei:w xml:id="MSB1_457203_12" lemmaRef="lexicon.xml#lemma_1139" meaningRef="lexicon.xml#lemma_1139_sense_1797" pos="ART" wordRef="types.xml#type_3568">die</tei:w>
+        <tei:w xml:id="MSB1_457203_13" lemmaRef="lexicon.xml#lemma_2482" pos="NOM" wordRef="types.xml#type_73000">grat</tei:w>
+        <tei:w xml:id="MSB1_457203_14">lass</tei:w>
+        <tei:seg xml:id="MSB1_457203_15" type="pc">.</tei:seg>
+        <tei:lb n="4"/>
+        <tei:w xml:id="MSB1_457204_0" lemmaRef="lexicon.xml#lemma_1097" meaningRef="lexicon.xml#lemma_1097_sense_1741" pos="ART CNJ" wordRef="types.xml#type_3397">das</tei:w>
+        <tei:w xml:id="MSB1_457204_1" lemmaRef="lexicon.xml#lemma_828" pos="NOM" wordRef="types.xml#type_269261">geprät</tei:w>
+        <tei:w xml:id="MSB1_457204_2" lemmaRef="lexicon.xml#lemma_2601" pos="NOM" wordRef="types.xml#type_59424">hak</tei:w>
+        <tei:w xml:id="MSB1_457204_3" lemmaRef="lexicon.xml#lemma_3349" pos="ADJ ADV" wordRef="types.xml#type_44875">klain</tei:w>
+        <tei:w xml:id="MSB1_457204_4" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_457204_5" lemmaRef="lexicon.xml#lemma_6301" meaningRef="lexicon.xml#lemma_6301_sense_9929" pos="VRB" wordRef="types.xml#type_102053">tue</tei:w>
+        <tei:w xml:id="MSB1_457204_6" lemmaRef="lexicon.xml#lemma_1762" meaningRef="lexicon.xml#lemma_1762_sense_2752" pos="PRO" wordRef="types.xml#type_6021">ez</tei:w>
+        <tei:w xml:id="MSB1_457204_7">in</tei:w>
+        <tei:w xml:id="MSB1_457204_8" lemmaRef="lexicon.xml#lemma_1139" meaningRef="lexicon.xml#lemma_1139_sense_1797" pos="ART" wordRef="types.xml#type_3568">die</tei:w>
+        <tei:w xml:id="MSB1_457204_9">mandel</tei:w>
+        <tei:w xml:id="MSB1_457204_10" lemmaRef="lexicon.xml#lemma_4123" meaningRef="lexicon.xml#lemma_4123_sense_6476" pos="NOM" wordRef="types.xml#type_270416">millich</tei:w>
+        <tei:seg xml:id="MSB1_457204_11" type="pc">.</tei:seg>
+        <tei:w xml:id="MSB1_457204_12" lemmaRef="lexicon.xml#lemma_5601" meaningRef="lexicon.xml#lemma_5601_sense_8764" pos="ADV" wordRef="types.xml#type_19596">so</tei:w>
+        <tei:w xml:id="MSB1_457204_13" lemmaRef="lexicon.xml#lemma_1762" meaningRef="lexicon.xml#lemma_1762_sense_2752" pos="PRO" wordRef="types.xml#type_6021">ez</tei:w>
+        <tei:w xml:id="MSB1_457204_14" lemmaRef="lexicon.xml#lemma_7770" meaningRef="lexicon.xml#lemma_7770_sense_12736" pos="PRP CNJ" wordRef="types.xml#type_237554">czw</tei:w>
+        <tei:lb n="5"/>
+        <tei:w xml:id="MSB1_457205_0" lemmaRef="lexicon.xml#lemma_7428" pos="ADJ ADV" wordRef="types.xml#type_44425">wenig</tei:w>
+        <tei:w xml:id="MSB1_457205_1" lemmaRef="lexicon.xml#lemma_5432" meaningRef="lexicon.xml#lemma_5432_sense_8479" pos="VRB VEX" wordRef="types.xml#type_18956">ist</tei:w>
+        <tei:seg xml:id="MSB1_457205_2" type="pc">,</tei:seg>
+        <tei:w xml:id="MSB1_457205_3" lemmaRef="lexicon.xml#lemma_5601" meaningRef="lexicon.xml#lemma_5601_sense_8764" pos="ADV" wordRef="types.xml#type_19596">so</tei:w>
+        <tei:w xml:id="MSB1_457205_4" lemmaRef="lexicon.xml#lemma_4330" pos="VRB" wordRef="types.xml#type_15091">nim</tei:w>
+        <tei:w xml:id="MSB1_457205_5">ein</tei:w>
+        <tei:w xml:id="MSB1_457205_6" lemmaRef="lexicon.xml#lemma_5783" pos="VRB" wordRef="types.xml#type_59218">gestossen</tei:w>
+        <tei:w xml:id="MSB1_457205_7">reis</tei:w>
+        <tei:w xml:id="MSB1_457205_8" lemmaRef="lexicon.xml#lemma_1055" meaningRef="lexicon.xml#lemma_1055_sense_1689" pos="ADV" wordRef="types.xml#type_3258">dar</tei:w>
+        <tei:w xml:id="MSB1_457205_9" lemmaRef="lexicon.xml#lemma_6471" meaningRef="lexicon.xml#lemma_6471_sense_10240" pos="ADJ ADV PRP" wordRef="types.xml#type_104429">vntter</tei:w>
+        <tei:seg xml:id="MSB1_457205_10" type="pc">.</tei:seg>
+        <tei:w xml:id="MSB1_457205_11" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_457205_12">lass</tei:w>
+        <tei:w xml:id="MSB1_457205_13" lemmaRef="lexicon.xml#lemma_1762" meaningRef="lexicon.xml#lemma_1762_sense_2752" pos="PRO" wordRef="types.xml#type_6021">ez</tei:w>
+        <tei:lb n="6"/>
+        <tei:w xml:id="MSB1_457206_0" lemmaRef="lexicon.xml#lemma_5458" meaningRef="lexicon.xml#lemma_5458_sense_8511" pos="VRB" wordRef="types.xml#type_19061">sieden</tei:w>
+        <tei:w xml:id="MSB1_457206_1" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_457206_2" lemmaRef="lexicon.xml#lemma_4330" pos="VRB" wordRef="types.xml#type_15091">nim</tei:w>
+        <tei:w xml:id="MSB1_457206_3">sein</tei:w>
+        <tei:w xml:id="MSB1_457206_4" lemmaRef="lexicon.xml#lemma_11184" meaningRef="lexicon.xml#lemma_11184_sense_17886" pos="NOM" wordRef="types.xml#type_125227">mass</tei:w>
+        <tei:w xml:id="MSB1_457206_5" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_457206_6" lemmaRef="lexicon.xml#lemma_6855" meaningRef="lexicon.xml#lemma_6855_sense_10949" pos="VRB" wordRef="types.xml#type_119777">vergiß</tei:w>
+        <tei:w xml:id="MSB1_457206_7" lemmaRef="lexicon.xml#lemma_1119" meaningRef="lexicon.xml#lemma_1119_sense_1770" pos="ART" wordRef="types.xml#type_3512">dez</tei:w>
+        <tei:w xml:id="MSB1_457206_8" lemmaRef="lexicon.xml#lemma_7916" meaningRef="lexicon.xml#lemma_7916_sense_12990" pos="NOM" wordRef="types.xml#type_270420">zukars</tei:w>
+        <tei:w xml:id="MSB1_457206_9" lemmaRef="lexicon.xml#lemma_4377" meaningRef="lexicon.xml#lemma_4377_sense_6838" pos="ADJ ADV NEG" wordRef="types.xml#type_15283">nicht</tei:w>
+        <tei:seg xml:id="MSB1_457206_10" type="pc">.</tei:seg>
+        <tei:lb n="1"/>
+        <tei:hi rend="initial">
+          <tei:w xml:id="MSB1_557201_0" lemmaRef="lexicon.xml#lemma_9050" pos="PRO VEM" wordRef="types.xml#type_30687">wildu</tei:w>
+        </tei:hi>
+        <tei:w xml:id="MSB1_557201_1" lemmaRef="lexicon.xml#lemma_3917" pos="VRB" wordRef="types.xml#type_13685">machen</tei:w>
+        <tei:w xml:id="MSB1_557201_2">ein</tei:w>
+        <tei:w xml:id="MSB1_557201_3" lemmaRef="lexicon.xml#lemma_4261" meaningRef="lexicon.xml#lemma_4261_sense_6666" pos="NOM" wordRef="types.xml#type_270421">müess</tei:w>
+        <tei:w xml:id="MSB1_557201_4" lemmaRef="lexicon.xml#lemma_7193" meaningRef="lexicon.xml#lemma_7193_sense_11656" pos="PRP" wordRef="types.xml#type_25544">von</tei:w>
+        <tei:w xml:id="MSB1_557201_5" lemmaRef="lexicon.xml#lemma_48970" pos="NOM" wordRef="types.xml#type_270422">kleczen</tei:w>
+        <tei:seg xml:id="MSB1_557201_6" type="pc">,</tei:seg>
+        <tei:w xml:id="MSB1_557201_7" lemmaRef="lexicon.xml#lemma_5601" meaningRef="lexicon.xml#lemma_5601_sense_8764" pos="ADV" wordRef="types.xml#type_19596">so</tei:w>
+        <tei:w xml:id="MSB1_557201_8">mach</tei:w>
+        <tei:w xml:id="MSB1_557201_9">dy</tei:w>
+        <tei:w xml:id="MSB1_557201_10" lemmaRef="lexicon.xml#lemma_48970" pos="NOM" wordRef="types.xml#type_270424">kloczen</tei:w>
+        <tei:w xml:id="MSB1_557201_11" lemmaRef="lexicon.xml#lemma_5280" meaningRef="lexicon.xml#lemma_5280_sense_8229" pos="NOM ADJ ADV" wordRef="types.xml#type_31441">schon</tei:w>
+        <tei:seg xml:id="MSB1_557201_12" type="pc">.</tei:seg>
+        <tei:lb n="2"/>
+        <tei:w xml:id="MSB1_557202_0" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_557202_1" lemmaRef="lexicon.xml#lemma_5458" meaningRef="lexicon.xml#lemma_5458_sense_8511" pos="VRB" wordRef="types.xml#type_131719">seud</tei:w>
+        <tei:w xml:id="MSB1_557202_2">s</tei:w>
+        <tei:w xml:id="MSB1_557202_3" lemmaRef="lexicon.xml#lemma_1913" meaningRef="lexicon.xml#lemma_1913_sense_2938" pos="ADJ ADV" wordRef="types.xml#type_6476">gar</tei:w>
+        <tei:w xml:id="MSB1_557202_4" lemmaRef="lexicon.xml#lemma_7677" meaningRef="lexicon.xml#lemma_7677_sense_12586" pos="NOM ADV" wordRef="types.xml#type_27811">wol</tei:w>
+        <tei:w xml:id="MSB1_557202_5" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_557202_6" lemmaRef="lexicon.xml#lemma_5783" pos="VRB" wordRef="types.xml#type_270429">stews</tei:w>
+        <tei:w xml:id="MSB1_557202_7">sy</tei:w>
+        <tei:w xml:id="MSB1_557202_8">in</tei:w>
+        <tei:w xml:id="MSB1_557202_9" lemmaRef="lexicon.xml#lemma_7532" meaningRef="lexicon.xml#lemma_7532_sense_12297" pos="NOM" wordRef="types.xml#type_67774">wein</tei:w>
+        <tei:w xml:id="MSB1_557202_10" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_557202_11">streich</tei:w>
+        <tei:w xml:id="MSB1_557202_12">s</tei:w>
+        <tei:w xml:id="MSB1_557202_13" lemmaRef="lexicon.xml#lemma_1258" meaningRef="lexicon.xml#lemma_1258_sense_1977" pos="PRP" wordRef="types.xml#type_4044">durch</tei:w>
+        <tei:w xml:id="MSB1_557202_14">ein</tei:w>
+        <tei:lb n="3"/>
+        <tei:w xml:id="MSB1_557203_0" lemmaRef="lexicon.xml#lemma_4623" meaningRef="lexicon.xml#lemma_4623_sense_7186" pos="NOM" wordRef="types.xml#type_149364">pfann</tei:w>
+        <tei:w xml:id="MSB1_557203_1">oder</tei:w>
+        <tei:w xml:id="MSB1_557203_2" lemmaRef="lexicon.xml#lemma_5500" meaningRef="lexicon.xml#lemma_5500_sense_8570" pos="NOM" wordRef="types.xml#type_129509">sib</tei:w>
+        <tei:seg xml:id="MSB1_557203_3" type="pc">.</tei:seg>
+        <tei:w xml:id="MSB1_557203_4" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_557203_5" lemmaRef="lexicon.xml#lemma_5458" meaningRef="lexicon.xml#lemma_5458_sense_8511" pos="VRB" wordRef="types.xml#type_131719">seud</tei:w>
+        <tei:w xml:id="MSB1_557203_6">sy</tei:w>
+        <tei:lb n="4"/>
+        <tei:w xml:id="MSB1_558104_0" lemmaRef="lexicon.xml#lemma_1073" meaningRef="lexicon.xml#lemma_1073_sense_1716" pos="ADV" wordRef="types.xml#type_3320">dan</tei:w>
+        <tei:w xml:id="MSB1_558104_1" lemmaRef="lexicon.xml#lemma_7677" meaningRef="lexicon.xml#lemma_7677_sense_12586" pos="NOM ADV" wordRef="types.xml#type_27811">wol</tei:w>
+        <tei:seg xml:id="MSB1_558104_2" type="pc">.</tei:seg>
+        <tei:w xml:id="MSB1_558104_3" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_558104_4" lemmaRef="lexicon.xml#lemma_6301" meaningRef="lexicon.xml#lemma_6301_sense_9929" pos="VRB" wordRef="types.xml#type_102053">tue</tei:w>
+        <tei:w xml:id="MSB1_558104_5" lemmaRef="lexicon.xml#lemma_1055" meaningRef="lexicon.xml#lemma_1055_sense_1689" pos="ADV" wordRef="types.xml#type_3258">dar</tei:w>
+        <tei:w xml:id="MSB1_558104_6">ein</tei:w>
+        <tei:lb n="5"/>
+        <tei:w xml:id="MSB1_558105_0" lemmaRef="lexicon.xml#lemma_2898" meaningRef="lexicon.xml#lemma_2898_sense_4653" pos="NOM" wordRef="types.xml#type_290384">hönig</tei:w>
+        <tei:w xml:id="MSB1_558105_1" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_558105_2" lemmaRef="lexicon.xml#lemma_4302" pos="NOM" wordRef="types.xml#type_270430">näglein</tei:w>
+        <tei:w xml:id="MSB1_558105_3">geng</tei:w>
+        <tei:w xml:id="MSB1_558105_4" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_558105_5" lemmaRef="lexicon.xml#lemma_9214" pos="NOM" wordRef="types.xml#type_77019">stupp</tei:w>
+        <tei:w xml:id="MSB1_558105_6">si</tei:w>
+        <tei:w xml:id="MSB1_558105_7" lemmaRef="lexicon.xml#lemma_7677" meaningRef="lexicon.xml#lemma_7677_sense_12586" pos="NOM ADV" wordRef="types.xml#type_27811">wol</tei:w>
+        <tei:seg xml:id="MSB1_558105_8" type="pc">.</tei:seg>
+        <tei:w xml:id="MSB1_558105_9" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_558105_10">wär</tei:w>
+        <tei:w xml:id="MSB1_558105_11">es</tei:w>
+        <tei:w xml:id="MSB1_558105_12" lemmaRef="lexicon.xml#lemma_7770" meaningRef="lexicon.xml#lemma_7770_sense_12736" pos="PRP CNJ" wordRef="types.xml#type_110677">zw</tei:w>
+        <tei:w xml:id="MSB1_558105_13" lemmaRef="lexicon.xml#lemma_1245" meaningRef="lexicon.xml#lemma_1245_sense_1961" pos="ADJ" wordRef="types.xml#type_270440">tn</tei:w>
+        <tei:seg xml:id="MSB1_558105_14" type="pc">,</tei:seg>
+        <tei:hi rend="upper_case_first_letter">
+          <tei:w xml:id="MSB1_558105_15" lemmaRef="lexicon.xml#lemma_5601" meaningRef="lexicon.xml#lemma_5601_sense_8764" pos="ADV" wordRef="types.xml#type_19596">so</tei:w>
+        </tei:hi>
+        <tei:lb n="6"/>
+        <tei:w xml:id="MSB1_558106_0" lemmaRef="lexicon.xml#lemma_9507" pos="VRB" wordRef="types.xml#type_131484">reib</tei:w>
+        <tei:w xml:id="MSB1_558106_1" lemmaRef="lexicon.xml#lemma_7428" pos="ADJ ADV" wordRef="types.xml#type_44425">wenig</tei:w>
+        <tei:w xml:id="MSB1_558106_2" lemmaRef="lexicon.xml#lemma_879" meaningRef="lexicon.xml#lemma_879_sense_1449" pos="NOM" wordRef="types.xml#type_45855">prot</tei:w>
+        <tei:w xml:id="MSB1_558106_3" lemmaRef="lexicon.xml#lemma_1055" meaningRef="lexicon.xml#lemma_1055_sense_1689" pos="ADV" wordRef="types.xml#type_3258">dar</tei:w>
+        <tei:w xml:id="MSB1_558106_4">an</tei:w>
+        <tei:w xml:id="MSB1_558106_5" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_558106_6" lemmaRef="lexicon.xml#lemma_6301" meaningRef="lexicon.xml#lemma_6301_sense_9929" pos="VRB" wordRef="types.xml#type_102053">tue</tei:w>
+        <tei:w xml:id="MSB1_558106_7" lemmaRef="lexicon.xml#lemma_1762" meaningRef="lexicon.xml#lemma_1762_sense_2752" pos="PRO" wordRef="types.xml#type_6021">ez</tei:w>
+        <tei:w xml:id="MSB1_558106_8">in</tei:w>
+        <tei:w xml:id="MSB1_558106_9">einen</tei:w>
+        <tei:w xml:id="MSB1_558106_10" lemmaRef="lexicon.xml#lemma_2676" meaningRef="lexicon.xml#lemma_2676_sense_4307" pos="NOM" wordRef="types.xml#type_129763">haffen</tei:w>
+        <tei:seg xml:id="MSB1_558106_11" type="pc">:</tei:seg>
+        <tei:w xml:id="MSB1_558106_12" lemmaRef="lexicon.xml#lemma_5601" meaningRef="lexicon.xml#lemma_5601_sense_8764" pos="ADV" wordRef="types.xml#type_19596">so</tei:w>
+        <tei:w xml:id="MSB1_558106_13" lemmaRef="lexicon.xml#lemma_8385" pos="PRO VRB" wordRef="types.xml#type_29803">hastu</tei:w>
+        <tei:w xml:id="MSB1_558106_14">fier</tei:w>
+        <tei:lb n="7"/>
+        <tei:w xml:id="MSB1_558107_0" lemmaRef="lexicon.xml#lemma_7676" meaningRef="lexicon.xml#lemma_7676_sense_12585" pos="NOM" wordRef="types.xml#type_27809">wochen</tei:w>
+        <tei:w xml:id="MSB1_558107_1" lemmaRef="lexicon.xml#lemma_48946" pos="NOM" wordRef="types.xml#type_270441">gemues</tei:w>
+        <tei:seg xml:id="MSB1_558107_2" type="pc">.</tei:seg>
+        <tei:lb n="1"/>
+        <tei:w xml:id="MSB1_658101_0" lemmaRef="lexicon.xml#lemma_9050" pos="PRO VEM" wordRef="types.xml#type_30687">wildu</tei:w>
+        <tei:w xml:id="MSB1_658101_1" lemmaRef="lexicon.xml#lemma_3917" pos="VRB" wordRef="types.xml#type_13685">machen</tei:w>
+        <tei:w xml:id="MSB1_658101_2" lemmaRef="lexicon.xml#lemma_1216" meaningRef="lexicon.xml#lemma_1216_sense_1915" pos="NUM" wordRef="types.xml#type_270442">trey</tei:w>
+        <tei:w xml:id="MSB1_658101_3" lemmaRef="lexicon.xml#lemma_3685" pos="NOM" wordRef="types.xml#type_156911">lay</tei:w>
+        <tei:w xml:id="MSB1_658101_4" lemmaRef="lexicon.xml#lemma_1764" meaningRef="lexicon.xml#lemma_1764_sense_2754" pos="VRB" wordRef="types.xml#type_6041">essen</tei:w>
+        <tei:w xml:id="MSB1_658101_5" lemmaRef="lexicon.xml#lemma_6342" meaningRef="lexicon.xml#lemma_6342_sense_9997" pos="ADV PRP" wordRef="types.xml#type_84231">aus</tei:w>
+        <tei:w xml:id="MSB1_658101_6" lemmaRef="lexicon.xml#lemma_1331" meaningRef="lexicon.xml#lemma_1331_sense_2068" pos="ART NUM" wordRef="types.xml#type_91166">aim</tei:w>
+        <tei:w xml:id="MSB1_658101_7" lemmaRef="lexicon.xml#lemma_24961" meaningRef="lexicon.xml#lemma_24961_sense_40112" pos="NOM" wordRef="types.xml#type_270443">hachten</tei:w>
+        <tei:w xml:id="MSB1_658101_8">oder</tei:w>
+        <tei:w xml:id="MSB1_658101_9" lemmaRef="lexicon.xml#lemma_7100" meaningRef="lexicon.xml#lemma_7100_sense_11499" pos="NOM" wordRef="types.xml#type_25090">visch</tei:w>
+        <tei:seg xml:id="MSB1_658101_10" type="pc">,</tei:seg>
+        <tei:w xml:id="MSB1_658101_11" lemmaRef="lexicon.xml#lemma_1097" meaningRef="lexicon.xml#lemma_1097_sense_1741" pos="ART CNJ" wordRef="types.xml#type_3397">das</tei:w>
+        <tei:w xml:id="MSB1_658101_12" lemmaRef="lexicon.xml#lemma_1119" meaningRef="lexicon.xml#lemma_1119_sense_1770" pos="ART" wordRef="types.xml#type_3507">der</tei:w>
+        <tei:lb n="2"/>
+        <tei:w xml:id="MSB1_658102_0" lemmaRef="lexicon.xml#lemma_7100" meaningRef="lexicon.xml#lemma_7100_sense_11499" pos="NOM" wordRef="types.xml#type_25090">visch</tei:w>
+        <tei:w xml:id="MSB1_658102_1" lemmaRef="lexicon.xml#lemma_1912" meaningRef="lexicon.xml#lemma_1912_sense_2937" pos="ADJ" wordRef="types.xml#type_43784">gancz</tei:w>
+        <tei:w xml:id="MSB1_658102_2" lemmaRef="lexicon.xml#lemma_504" meaningRef="lexicon.xml#lemma_504_sense_722" pos="VRB" wordRef="types.xml#type_102069">peleib</tei:w>
+        <tei:seg xml:id="MSB1_658102_3" type="pc">,</tei:seg>
+        <tei:w xml:id="MSB1_658102_4" lemmaRef="lexicon.xml#lemma_5601" meaningRef="lexicon.xml#lemma_5601_sense_8764" pos="ADV" wordRef="types.xml#type_19596">so</tei:w>
+        <tei:w xml:id="MSB1_658102_5">slach</tei:w>
+        <tei:w xml:id="MSB1_658102_6" lemmaRef="lexicon.xml#lemma_6422" pos="ADV PRP" wordRef="types.xml#type_44515">vmb</tei:w>
+        <tei:w xml:id="MSB1_658102_7" lemmaRef="lexicon.xml#lemma_1097" meaningRef="lexicon.xml#lemma_1097_sense_1741" pos="ART CNJ" wordRef="types.xml#type_3397">das</tei:w>
+        <tei:w xml:id="MSB1_658102_8">mitter</tei:w>
+        <tei:w xml:id="MSB1_658102_9" lemmaRef="lexicon.xml#lemma_1119" meaningRef="lexicon.xml#lemma_1119_sense_1770" pos="ART" wordRef="types.xml#type_3510">des</tei:w>
+        <tei:w xml:id="MSB1_658102_10" lemmaRef="lexicon.xml#lemma_7100" meaningRef="lexicon.xml#lemma_7100_sense_11499" pos="NOM" wordRef="types.xml#type_25090">visch</tei:w>
+        <tei:w xml:id="MSB1_658102_11">ein</tei:w>
+        <tei:w xml:id="MSB1_658102_12">weiss</tei:w>
+        <tei:lb n="3"/>
+        <tei:w xml:id="MSB1_658103_0" lemmaRef="lexicon.xml#lemma_6298" meaningRef="lexicon.xml#lemma_6298_sense_9923" pos="NOM" wordRef="types.xml#type_121178">tuech</tei:w>
+        <tei:seg xml:id="MSB1_658103_1" type="pc">,</tei:seg>
+        <tei:w xml:id="MSB1_658103_2" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_658103_3">lass</tei:w>
+        <tei:w xml:id="MSB1_658103_4" lemmaRef="lexicon.xml#lemma_1097" meaningRef="lexicon.xml#lemma_1097_sense_1741" pos="ART CNJ" wordRef="types.xml#type_3398">daz</tei:w>
+        <tei:w xml:id="MSB1_658103_5" lemmaRef="lexicon.xml#lemma_2912" pos="NOM" wordRef="types.xml#type_83962">haupt</tei:w>
+        <tei:w xml:id="MSB1_658103_6" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_658103_7" lemmaRef="lexicon.xml#lemma_1119" meaningRef="lexicon.xml#lemma_1119_sense_1770" pos="ART" wordRef="types.xml#type_3506">den</tei:w>
+        <tei:w xml:id="MSB1_658103_8" lemmaRef="lexicon.xml#lemma_14229" pos="NOM" wordRef="types.xml#type_95182">swancz</tei:w>
+        <tei:w xml:id="MSB1_658103_9" lemmaRef="lexicon.xml#lemma_7677" meaningRef="lexicon.xml#lemma_7677_sense_12586" pos="NOM ADV" wordRef="types.xml#type_27811">wol</tei:w>
+        <tei:w xml:id="MSB1_658103_10" lemmaRef="lexicon.xml#lemma_6342" meaningRef="lexicon.xml#lemma_6342_sense_9997" pos="ADV PRP" wordRef="types.xml#type_84231">aus</tei:w>
+        <tei:w xml:id="MSB1_658103_11">gen</tei:w>
+        <tei:seg xml:id="MSB1_658103_12" type="pc">.</tei:seg>
+        <tei:w xml:id="MSB1_658103_13">salcz</tei:w>
+        <tei:w xml:id="MSB1_658103_14">in</tei:w>
+        <tei:lb n="4"/>
+        <tei:w xml:id="MSB1_658104_0" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_658104_1">leg</tei:w>
+        <tei:w xml:id="MSB1_658104_2">in</tei:w>
+        <tei:w xml:id="MSB1_658104_3" lemmaRef="lexicon.xml#lemma_6330" meaningRef="lexicon.xml#lemma_6330_sense_9973" pos="ADV PRP" wordRef="types.xml#type_41213">auf</tei:w>
+        <tei:w xml:id="MSB1_658104_4" lemmaRef="lexicon.xml#lemma_1331" meaningRef="lexicon.xml#lemma_1331_sense_2068" pos="ART NUM" wordRef="types.xml#type_4316">ain</tei:w>
+        <tei:w xml:id="MSB1_658104_5" lemmaRef="lexicon.xml#lemma_4977" meaningRef="lexicon.xml#lemma_4977_sense_7734" pos="NOM" wordRef="types.xml#type_17198">rost</tei:w>
+        <tei:w xml:id="MSB1_658104_6" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_658104_7">laz</tei:w>
+        <tei:w xml:id="MSB1_658104_8">in</tei:w>
+        <tei:w xml:id="MSB1_658104_9" lemmaRef="lexicon.xml#lemma_828" pos="NOM" wordRef="types.xml#type_168535">pratten</tei:w>
+        <tei:seg xml:id="MSB1_658104_10" type="pc">.</tei:seg>
+        <tei:w xml:id="MSB1_658104_11" lemmaRef="lexicon.xml#lemma_1097" meaningRef="lexicon.xml#lemma_1097_sense_1741" pos="ART CNJ" wordRef="types.xml#type_3397">das</tei:w>
+        <tei:w xml:id="MSB1_658104_12" lemmaRef="lexicon.xml#lemma_7199" pos="VRB" wordRef="types.xml#type_134243">voder</tei:w>
+        <tei:w xml:id="MSB1_658104_13" lemmaRef="lexicon.xml#lemma_6041" pos="NOM" wordRef="types.xml#type_21276">tail</tei:w>
+        <tei:lb n="5"/>
+        <tei:w xml:id="MSB1_658105_0" lemmaRef="lexicon.xml#lemma_445" meaningRef="lexicon.xml#lemma_445_sense_611" pos="VRB" wordRef="types.xml#type_270444">pegeuß</tei:w>
+        <tei:w xml:id="MSB1_658105_1" lemmaRef="lexicon.xml#lemma_4172" meaningRef="lexicon.xml#lemma_4172_sense_6544" pos="PRP" wordRef="types.xml#type_14531">mit</tei:w>
+        <tei:w xml:id="MSB1_658105_2">haissen</tei:w>
+        <tei:w xml:id="MSB1_658105_3" lemmaRef="lexicon.xml#lemma_9808" meaningRef="lexicon.xml#lemma_9808_sense_15809" pos="NOM" wordRef="types.xml#type_131038">smalcz</tei:w>
+        <tei:w xml:id="MSB1_658105_4" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_658105_5" lemmaRef="lexicon.xml#lemma_26901" pos="PRO VRB" wordRef="types.xml#type_270445">sprengs</tei:w>
+        <tei:w xml:id="MSB1_658105_6" lemmaRef="lexicon.xml#lemma_4172" meaningRef="lexicon.xml#lemma_4172_sense_6544" pos="PRP" wordRef="types.xml#type_14531">mit</tei:w>
+        <tei:w xml:id="MSB1_658105_7" lemmaRef="lexicon.xml#lemma_4067" pos="NOM" wordRef="types.xml#type_14185">mel</tei:w>
+        <tei:seg xml:id="MSB1_658105_8" type="pc">,</tei:seg>
+        <tei:w xml:id="MSB1_658105_9" lemmaRef="lexicon.xml#lemma_1097" meaningRef="lexicon.xml#lemma_1097_sense_1741" pos="ART CNJ" wordRef="types.xml#type_3398">daz</tei:w>
+        <tei:w xml:id="MSB1_658105_10" lemmaRef="lexicon.xml#lemma_6298" meaningRef="lexicon.xml#lemma_6298_sense_9923" pos="NOM" wordRef="types.xml#type_121178">tuech</tei:w>
+        <tei:w xml:id="MSB1_658105_11" lemmaRef="lexicon.xml#lemma_4339" pos="NOM" wordRef="types.xml#type_95246">necz</tei:w>
+        <tei:lb n="6"/>
+        <tei:w xml:id="MSB1_658106_0" lemmaRef="lexicon.xml#lemma_4172" meaningRef="lexicon.xml#lemma_4172_sense_6544" pos="PRP" wordRef="types.xml#type_14531">mit</tei:w>
+        <tei:w xml:id="MSB1_658106_1" lemmaRef="lexicon.xml#lemma_2730" meaningRef="lexicon.xml#lemma_2730_sense_4400" pos="ADJ" wordRef="types.xml#type_182062">haissem</tei:w>
+        <tei:w xml:id="MSB1_658106_2" lemmaRef="lexicon.xml#lemma_7532" meaningRef="lexicon.xml#lemma_7532_sense_12297" pos="NOM" wordRef="types.xml#type_67774">wein</tei:w>
+        <tei:seg xml:id="MSB1_658106_3" type="pc">,</tei:seg>
+        <tei:w xml:id="MSB1_658106_4" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_658106_5" lemmaRef="lexicon.xml#lemma_1119" meaningRef="lexicon.xml#lemma_1119_sense_1770" pos="ART" wordRef="types.xml#type_3507">der</tei:w>
+        <tei:w xml:id="MSB1_658106_6" lemmaRef="lexicon.xml#lemma_2840" meaningRef="lexicon.xml#lemma_2840_sense_4562" pos="ADJ ADV" wordRef="types.xml#type_270446">hintter</tei:w>
+        <tei:w xml:id="MSB1_658106_7" lemmaRef="lexicon.xml#lemma_6041" meaningRef="lexicon.xml#lemma_6041_sense_17201" pos="NOM" wordRef="types.xml#type_21276">tail</tei:w>
+        <tei:w xml:id="MSB1_658106_8" lemmaRef="lexicon.xml#lemma_829" meaningRef="lexicon.xml#lemma_829_sense_1349" pos="VRB" wordRef="types.xml#type_343766">prat</tei:w>
+        <tei:w xml:id="MSB1_658106_9">sich</tei:w>
+        <tei:w xml:id="MSB1_658106_10" lemmaRef="lexicon.xml#lemma_5385" meaningRef="lexicon.xml#lemma_5385_sense_8406" pos="ADJ" wordRef="types.xml#type_30937">selber</tei:w>
+        <tei:seg xml:id="MSB1_658106_11" type="pc">.</tei:seg>
+        <tei:w xml:id="MSB1_658106_12" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_658106_13">gib</tei:w>
+        <tei:lb n="7"/>
+        <tei:w xml:id="MSB1_658107_0">guete</tei:w>
+        <tei:w xml:id="MSB1_658107_1" lemmaRef="lexicon.xml#lemma_5077" meaningRef="lexicon.xml#lemma_5077_sense_7908" pos="NOM" wordRef="types.xml#type_17605">salsen</tei:w>
+        <tei:w xml:id="MSB1_658107_2" lemmaRef="lexicon.xml#lemma_1055" meaningRef="lexicon.xml#lemma_1055_sense_1689" pos="ADV" wordRef="types.xml#type_3258">dar</tei:w>
+        <tei:w xml:id="MSB1_658107_3" lemmaRef="lexicon.xml#lemma_7929" meaningRef="lexicon.xml#lemma_7929_sense_13005" pos="ADJ NUM" wordRef="types.xml#type_110778">zwa</tei:w>
+        <tei:seg xml:id="MSB1_658107_4" type="pc">.</tei:seg>
+        <tei:lb n="1"/>
+        <tei:w xml:id="MSB1_758101_0">wilt</tei:w>
+        <tei:w xml:id="MSB1_758101_1">du</tei:w>
+        <tei:w xml:id="MSB1_758101_2" lemmaRef="lexicon.xml#lemma_3917" pos="VRB" wordRef="types.xml#type_13685">machen</tei:w>
+        <tei:w xml:id="MSB1_758101_3" lemmaRef="lexicon.xml#lemma_1331" meaningRef="lexicon.xml#lemma_1331_sense_2068" pos="ART NUM" wordRef="types.xml#type_4316">ain</tei:w>
+        <tei:w xml:id="MSB1_758101_4">rech</tei:w>
+        <tei:w xml:id="MSB1_758101_5" lemmaRef="lexicon.xml#lemma_828" pos="NOM" wordRef="types.xml#type_270447">protten</tei:w>
+        <tei:w xml:id="MSB1_758101_6" lemmaRef="lexicon.xml#lemma_7193" meaningRef="lexicon.xml#lemma_7193_sense_11656" pos="PRP" wordRef="types.xml#type_25544">von</tei:w>
+        <tei:w xml:id="MSB1_758101_7">vischen</tei:w>
+        <tei:seg xml:id="MSB1_758101_8" type="pc">,</tei:seg>
+        <tei:w xml:id="MSB1_758101_9" lemmaRef="lexicon.xml#lemma_5601" meaningRef="lexicon.xml#lemma_5601_sense_8764" pos="ADV" wordRef="types.xml#type_19596">so</tei:w>
+        <tei:w xml:id="MSB1_758101_10" lemmaRef="lexicon.xml#lemma_4330" pos="VRB" wordRef="types.xml#type_44507">nym</tei:w>
+        <tei:w xml:id="MSB1_758101_11" lemmaRef="lexicon.xml#lemma_7100" meaningRef="lexicon.xml#lemma_7100_sense_11499" pos="NOM" wordRef="types.xml#type_25090">visch</tei:w>
+        <tei:w xml:id="MSB1_758101_12" lemmaRef="lexicon.xml#lemma_828" pos="NOM" wordRef="types.xml#type_269241">prät</tei:w>
+        <tei:seg xml:id="MSB1_758101_13" type="pc">,</tei:seg>
+        <tei:lb n="2"/>
+        <tei:w xml:id="MSB1_758102_0" lemmaRef="lexicon.xml#lemma_7469" meaningRef="lexicon.xml#lemma_7469_sense_12152" pos="ADJ IPA" wordRef="types.xml#type_41378">welcher</tei:w>
+        <tei:w xml:id="MSB1_758102_1" lemmaRef="lexicon.xml#lemma_3685" pos="NOM" wordRef="types.xml#type_156911">lay</tei:w>
+        <tei:w xml:id="MSB1_758102_2" lemmaRef="lexicon.xml#lemma_1762" meaningRef="lexicon.xml#lemma_1762_sense_2752" pos="PRO" wordRef="types.xml#type_6021">ez</tei:w>
+        <tei:w xml:id="MSB1_758102_3">sey</tei:w>
+        <tei:seg xml:id="MSB1_758102_4" type="pc">,</tei:seg>
+        <tei:w xml:id="MSB1_758102_5">dy</tei:w>
+        <tei:w xml:id="MSB1_758102_6" lemmaRef="lexicon.xml#lemma_2534" pos="ADJ" wordRef="types.xml#type_8496">groz</tei:w>
+        <tei:w xml:id="MSB1_758102_7" lemmaRef="lexicon.xml#lemma_5432" meaningRef="lexicon.xml#lemma_5432_sense_8479" pos="VRB VEX" wordRef="types.xml#type_18966">sind</tei:w>
+        <tei:seg xml:id="MSB1_758102_8" type="pc">,</tei:seg>
+        <tei:w xml:id="MSB1_758102_9" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_758102_10" lemmaRef="lexicon.xml#lemma_6301" meaningRef="lexicon.xml#lemma_6301_sense_9929" pos="VRB" wordRef="types.xml#type_102053">tue</tei:w>
+        <tei:w xml:id="MSB1_758102_11">dy</tei:w>
+        <tei:w xml:id="MSB1_758102_12" lemmaRef="lexicon.xml#lemma_2482" pos="NOM" wordRef="types.xml#type_270448">grät</tei:w>
+        <tei:w xml:id="MSB1_758102_13" lemmaRef="lexicon.xml#lemma_1055" meaningRef="lexicon.xml#lemma_1055_sense_1689" pos="ADV" wordRef="types.xml#type_3258">dar</tei:w>
+        <tei:w xml:id="MSB1_758102_14" lemmaRef="lexicon.xml#lemma_6342" meaningRef="lexicon.xml#lemma_6342_sense_9997" pos="ADV PRP" wordRef="types.xml#type_84231">aus</tei:w>
+        <tei:w xml:id="MSB1_758102_15" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_758102_16" lemmaRef="lexicon.xml#lemma_11597" pos="NOM" wordRef="types.xml#type_221654">schueppen</tei:w>
+        <tei:lb n="3"/>
+        <tei:w xml:id="MSB1_758203_0" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_758203_1" lemmaRef="lexicon.xml#lemma_2601" pos="NOM" wordRef="types.xml#type_59424">hak</tei:w>
+        <tei:w xml:id="MSB1_758203_2">dy</tei:w>
+        <tei:w xml:id="MSB1_758203_3" lemmaRef="lexicon.xml#lemma_3349" pos="ADJ ADV" wordRef="types.xml#type_44860">clain</tei:w>
+        <tei:seg xml:id="MSB1_758203_4" type="pc">.</tei:seg>
+        <tei:w xml:id="MSB1_758203_5" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_758203_6" lemmaRef="lexicon.xml#lemma_9507" pos="VRB" wordRef="types.xml#type_144369">reyb</tei:w>
+        <tei:w xml:id="MSB1_758203_7" lemmaRef="lexicon.xml#lemma_879" meaningRef="lexicon.xml#lemma_879_sense_1449" pos="NOM" wordRef="types.xml#type_45855">prot</tei:w>
+        <tei:w xml:id="MSB1_758203_8" lemmaRef="lexicon.xml#lemma_1055" meaningRef="lexicon.xml#lemma_1055_sense_1689" pos="ADV" wordRef="types.xml#type_3258">dar</tei:w>
+        <tei:w xml:id="MSB1_758203_9" lemmaRef="lexicon.xml#lemma_6471" meaningRef="lexicon.xml#lemma_6471_sense_10240" pos="ADJ ADV PRP" wordRef="types.xml#type_104429">vntter</tei:w>
+        <tei:lb n="4"/>
+        <tei:w xml:id="MSB1_758204_0" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_758204_1" lemmaRef="lexicon.xml#lemma_26712" meaningRef="lexicon.xml#lemma_26712_sense_42512" pos="VRB" wordRef="types.xml#type_270449">wrcz</tei:w>
+        <tei:w xml:id="MSB1_758204_2" lemmaRef="lexicon.xml#lemma_7677" meaningRef="lexicon.xml#lemma_7677_sense_12586" pos="NOM ADV" wordRef="types.xml#type_27811">wol</tei:w>
+        <tei:seg xml:id="MSB1_758204_3" type="pc">.</tei:seg>
+        <tei:w xml:id="MSB1_758204_4" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_758204_5" lemmaRef="lexicon.xml#lemma_6301" meaningRef="lexicon.xml#lemma_6301_sense_9929" pos="VRB" wordRef="types.xml#type_102053">tue</tei:w>
+        <tei:w xml:id="MSB1_758204_6" lemmaRef="lexicon.xml#lemma_1762" meaningRef="lexicon.xml#lemma_1762_sense_2752" pos="PRO" wordRef="types.xml#type_6021">ez</tei:w>
+        <tei:w xml:id="MSB1_758204_7" lemmaRef="lexicon.xml#lemma_7770" meaningRef="lexicon.xml#lemma_7770_sense_12736" pos="PRP CNJ" wordRef="types.xml#type_110677">zw</tei:w>
+        <tei:w xml:id="MSB1_758204_8">samen</tei:w>
+        <tei:w xml:id="MSB1_758204_9" lemmaRef="lexicon.xml#lemma_4172" meaningRef="lexicon.xml#lemma_4172_sense_6544" pos="PRP" wordRef="types.xml#type_14531">mit</tei:w>
+        <tei:w xml:id="MSB1_758204_10" lemmaRef="lexicon.xml#lemma_1331" meaningRef="lexicon.xml#lemma_1331_sense_2068" pos="ART NUM" wordRef="types.xml#type_44563">ainem</tei:w>
+        <tei:w xml:id="MSB1_758204_11" lemmaRef="lexicon.xml#lemma_4317" pos="NOM" wordRef="types.xml#type_93888">nassen</tei:w>
+        <tei:w xml:id="MSB1_758204_12" lemmaRef="lexicon.xml#lemma_4111" meaningRef="lexicon.xml#lemma_4111_sense_6460" pos="NOM" wordRef="types.xml#type_60735">messer</tei:w>
+        <tei:w xml:id="MSB1_758204_13" lemmaRef="lexicon.xml#lemma_6330" meaningRef="lexicon.xml#lemma_6330_sense_9973" pos="ADV PRP" wordRef="types.xml#type_41213">auf</tei:w>
+        <tei:lb n="5"/>
+        <tei:w xml:id="MSB1_758205_0" lemmaRef="lexicon.xml#lemma_1331" meaningRef="lexicon.xml#lemma_1331_sense_2068" pos="ART NUM" wordRef="types.xml#type_44957">ainer</tei:w>
+        <tei:w xml:id="MSB1_758205_1" lemmaRef="lexicon.xml#lemma_13113" meaningRef="lexicon.xml#lemma_13113_sense_20557" pos="NOM PRP" wordRef="types.xml#type_270451">anricht</tei:w>
+        <tei:w xml:id="MSB1_758205_2" lemmaRef="lexicon.xml#lemma_369" pos="NOM" wordRef="types.xml#type_189966">pank</tei:w>
+        <tei:w xml:id="MSB1_758205_3">in</tei:w>
+        <tei:w xml:id="MSB1_758205_4" lemmaRef="lexicon.xml#lemma_1119" meaningRef="lexicon.xml#lemma_1119_sense_1770" pos="ART" wordRef="types.xml#type_3507">der</tei:w>
+        <tei:w xml:id="MSB1_758205_5">gestalt</tei:w>
+        <tei:w xml:id="MSB1_758205_6" lemmaRef="lexicon.xml#lemma_1336" pos="ADV" wordRef="types.xml#type_107032">ainez</tei:w>
+        <tei:w xml:id="MSB1_758205_7">rech</tei:w>
+        <tei:w xml:id="MSB1_758205_8" lemmaRef="lexicon.xml#lemma_828" pos="NOM" wordRef="types.xml#type_168535">pratten</tei:w>
+        <tei:seg xml:id="MSB1_758205_9" type="pc">.</tei:seg>
+        <tei:w xml:id="MSB1_758205_10">slach</tei:w>
+        <tei:w xml:id="MSB1_758205_11">in</tei:w>
+        <tei:w xml:id="MSB1_758205_12">in</tei:w>
+        <tei:lb n="6"/>
+        <tei:w xml:id="MSB1_758206_0">ein</tei:w>
+        <tei:w xml:id="MSB1_758206_1" lemmaRef="lexicon.xml#lemma_6298" meaningRef="lexicon.xml#lemma_6298_sense_9923" pos="NOM" wordRef="types.xml#type_121178">tuech</tei:w>
+        <tei:seg xml:id="MSB1_758206_2" type="pc">,</tei:seg>
+        <tei:w xml:id="MSB1_758206_3" lemmaRef="lexicon.xml#lemma_1097" meaningRef="lexicon.xml#lemma_1097_sense_1741" pos="ART CNJ" wordRef="types.xml#type_3398">daz</tei:w>
+        <tei:w xml:id="MSB1_758206_4">er</tei:w>
+        <tei:w xml:id="MSB1_758206_5" lemmaRef="lexicon.xml#lemma_4377" meaningRef="lexicon.xml#lemma_4377_sense_6838" pos="ADJ ADV NEG" wordRef="types.xml#type_15283">nicht</tei:w>
+        <tei:w xml:id="MSB1_758206_6">her</tei:w>
+        <tei:w xml:id="MSB1_758206_7" lemmaRef="lexicon.xml#lemma_6342" meaningRef="lexicon.xml#lemma_6342_sense_9997" pos="ADV PRP" wordRef="types.xml#type_84231">aus</tei:w>
+        <tei:w xml:id="MSB1_758206_8" lemmaRef="lexicon.xml#lemma_4240" pos="VRB VEM" wordRef="types.xml#type_270452">müeg</tei:w>
+        <tei:seg xml:id="MSB1_758206_9" type="pc">,</tei:seg>
+        <tei:w xml:id="MSB1_758206_10" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_758206_11">lass</tei:w>
+        <tei:w xml:id="MSB1_758206_12">in</tei:w>
+        <tei:w xml:id="MSB1_758206_13" lemmaRef="lexicon.xml#lemma_4377" meaningRef="lexicon.xml#lemma_4377_sense_6838" pos="ADJ ADV NEG" wordRef="types.xml#type_15283">nicht</tei:w>
+        <tei:w xml:id="MSB1_758206_14">vast</tei:w>
+        <tei:lb n="7"/>
+        <tei:w xml:id="MSB1_758207_0" lemmaRef="lexicon.xml#lemma_5458" meaningRef="lexicon.xml#lemma_5458_sense_8511" pos="VRB" wordRef="types.xml#type_158082">syeden</tei:w>
+        <tei:w xml:id="MSB1_758207_1" lemmaRef="lexicon.xml#lemma_1055" meaningRef="lexicon.xml#lemma_1055_sense_1689" pos="ADV CNJ" wordRef="types.xml#type_3255">da</tei:w>
+        <tei:w xml:id="MSB1_758207_2" lemmaRef="lexicon.xml#lemma_4172" meaningRef="lexicon.xml#lemma_4172_sense_6544" pos="PRP" wordRef="types.xml#type_14531">mit</tei:w>
+        <tei:seg xml:id="MSB1_758207_3" type="pc">,</tei:seg>
+        <tei:w xml:id="MSB1_758207_4">vnz</tei:w>
+        <tei:w xml:id="MSB1_758207_5">er</tei:w>
+        <tei:w xml:id="MSB1_758207_6" lemmaRef="lexicon.xml#lemma_1119" meaningRef="lexicon.xml#lemma_1119_sense_1770" pos="ART" wordRef="types.xml#type_3507">der</tei:w>
+        <tei:w xml:id="MSB1_758207_7" lemmaRef="lexicon.xml#lemma_5729" pos="ADJ ADV" wordRef="types.xml#type_20147">stark</tei:w>
+        <tei:seg xml:id="MSB1_758207_8" type="pc">.</tei:seg>
+        <tei:lb n="1"/>
+        <tei:hi rend="initial">
+          <tei:w xml:id="MSB1_858201_0" lemmaRef="lexicon.xml#lemma_5458" meaningRef="lexicon.xml#lemma_5458_sense_8511" pos="VRB" wordRef="types.xml#type_129485">gesotten</tei:w>
+        </tei:hi>
+        <tei:w xml:id="MSB1_858201_1" lemmaRef="lexicon.xml#lemma_2961" meaningRef="lexicon.xml#lemma_2961_sense_4753" pos="NOM" wordRef="types.xml#type_132173">hennen</tei:w>
+        <tei:w xml:id="MSB1_858201_2">in</tei:w>
+        <tei:w xml:id="MSB1_858201_3" lemmaRef="lexicon.xml#lemma_1331" meaningRef="lexicon.xml#lemma_1331_sense_2068" pos="ART NUM" wordRef="types.xml#type_44957">ainer</tei:w>
+        <tei:w xml:id="MSB1_858201_4" lemmaRef="lexicon.xml#lemma_5185" pos="ADJ" wordRef="types.xml#type_80678">scharffen</tei:w>
+        <tei:w xml:id="MSB1_858201_5" lemmaRef="lexicon.xml#lemma_26715" meaningRef="lexicon.xml#lemma_26715_sense_42515" pos="NOM" wordRef="types.xml#type_131595">prüe</tei:w>
+        <tei:seg xml:id="MSB1_858201_6" type="pc">:</tei:seg>
+        <tei:w xml:id="MSB1_858201_7" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_858201_8">mach</tei:w>
+        <tei:w xml:id="MSB1_858201_9">sy</tei:w>
+        <tei:w xml:id="MSB1_858201_10" lemmaRef="lexicon.xml#lemma_7677" meaningRef="lexicon.xml#lemma_7677_sense_12586" pos="NOM ADV" wordRef="types.xml#type_27811">wol</tei:w>
+        <tei:w xml:id="MSB1_858201_11" lemmaRef="lexicon.xml#lemma_2049" meaningRef="lexicon.xml#lemma_2049_sense_3166" pos="ADJ" wordRef="types.xml#type_131492">gell</tei:w>
+        <tei:lb n="2"/>
+        <tei:w xml:id="MSB1_858202_0" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_858202_1" lemmaRef="lexicon.xml#lemma_7736" pos="NOM" wordRef="types.xml#type_95192">wurcz</tei:w>
+        <tei:w xml:id="MSB1_858202_2">sy</tei:w>
+        <tei:w xml:id="MSB1_858202_3" lemmaRef="lexicon.xml#lemma_7677" meaningRef="lexicon.xml#lemma_7677_sense_12586" pos="NOM ADV" wordRef="types.xml#type_27811">wol</tei:w>
+        <tei:seg xml:id="MSB1_858202_4" type="pc">.</tei:seg>
+        <tei:lb n="1"/>
+        <tei:hi rend="initial">
+          <tei:w xml:id="MSB1_958201_0" lemmaRef="lexicon.xml#lemma_27037" meaningRef="lexicon.xml#lemma_27037_sense_43002" pos="ADV CNJ" wordRef="types.xml#type_131288">item</tei:w>
+        </tei:hi>
+        <tei:w xml:id="MSB1_958201_1">ein</tei:w>
+        <tei:w xml:id="MSB1_958201_2" lemmaRef="lexicon.xml#lemma_2540" pos="ADJ" wordRef="types.xml#type_129653">grün</tei:w>
+        <tei:w xml:id="MSB1_958201_3" lemmaRef="lexicon.xml#lemma_1244" meaningRef="lexicon.xml#lemma_1244_sense_1960" pos="VRB" wordRef="types.xml#type_69619">turten</tei:w>
+        <tei:seg xml:id="MSB1_958201_4" type="pc">:</tei:seg>
+        <tei:w xml:id="MSB1_958201_5" lemmaRef="lexicon.xml#lemma_4330" pos="VRB" wordRef="types.xml#type_44507">nym</tei:w>
+        <tei:w xml:id="MSB1_958201_6" lemmaRef="lexicon.xml#lemma_1324" pos="NOM" wordRef="types.xml#type_162028">air</tei:w>
+        <tei:w xml:id="MSB1_958201_7" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_958201_8" lemmaRef="lexicon.xml#lemma_5393" meaningRef="lexicon.xml#lemma_5393_sense_8414" pos="NOM" wordRef="types.xml#type_54293">semel</tei:w>
+        <tei:w xml:id="MSB1_958201_9" lemmaRef="lexicon.xml#lemma_4067" pos="NOM" wordRef="types.xml#type_14185">mel</tei:w>
+        <tei:w xml:id="MSB1_958201_10" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_958201_11" lemmaRef="lexicon.xml#lemma_49322" pos="PRO VRB" wordRef="types.xml#type_290557">streychs</tei:w>
+        <tei:w xml:id="MSB1_958201_12" lemmaRef="lexicon.xml#lemma_1258" meaningRef="lexicon.xml#lemma_1258_sense_1977" pos="PRP" wordRef="types.xml#type_4044">durch</tei:w>
+        <tei:lb n="2"/>
+        <tei:w xml:id="MSB1_958202_0" lemmaRef="lexicon.xml#lemma_1331" meaningRef="lexicon.xml#lemma_1331_sense_2068" pos="ART NUM" wordRef="types.xml#type_4316">ain</tei:w>
+        <tei:w xml:id="MSB1_958202_1" lemmaRef="lexicon.xml#lemma_4630" meaningRef="lexicon.xml#lemma_4630_sense_7195" pos="NOM" wordRef="types.xml#type_34490">pfeffer</tei:w>
+        <tei:w xml:id="MSB1_958202_2" lemmaRef="lexicon.xml#lemma_4623" meaningRef="lexicon.xml#lemma_4623_sense_7186" pos="NOM" wordRef="types.xml#type_149364">pfann</tei:w>
+        <tei:w xml:id="MSB1_958202_3" lemmaRef="lexicon.xml#lemma_4172" meaningRef="lexicon.xml#lemma_4172_sense_6544" pos="PRP" wordRef="types.xml#type_14531">mit</tei:w>
+        <tei:w xml:id="MSB1_958202_4">ein</tei:w>
+        <tei:w xml:id="MSB1_958202_5" lemmaRef="lexicon.xml#lemma_204" meaningRef="lexicon.xml#lemma_204_sense_256" pos="ADJ" wordRef="types.xml#type_537">ander</tei:w>
+        <tei:w xml:id="MSB1_958202_6">oder</tei:w>
+        <tei:w xml:id="MSB1_958202_7" lemmaRef="lexicon.xml#lemma_1258" meaningRef="lexicon.xml#lemma_1258_sense_1977" pos="PRP" wordRef="types.xml#type_4044">durch</tei:w>
+        <tei:w xml:id="MSB1_958202_8" lemmaRef="lexicon.xml#lemma_1331" meaningRef="lexicon.xml#lemma_1331_sense_2068" pos="ART NUM" wordRef="types.xml#type_4316">ain</tei:w>
+        <tei:w xml:id="MSB1_958202_9" lemmaRef="lexicon.xml#lemma_5280" meaningRef="lexicon.xml#lemma_5280_sense_8229" pos="ADJ" wordRef="types.xml#type_155083">schons</tei:w>
+        <tei:w xml:id="MSB1_958202_10" lemmaRef="lexicon.xml#lemma_6298" meaningRef="lexicon.xml#lemma_6298_sense_9923" pos="NOM" wordRef="types.xml#type_121178">tuech</tei:w>
+        <tei:w xml:id="MSB1_958202_11" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:lb n="3"/>
+        <tei:w xml:id="MSB1_958203_0">dy</tei:w>
+        <tei:w xml:id="MSB1_958203_1" lemmaRef="lexicon.xml#lemma_2540" pos="ADJ" wordRef="types.xml#type_129653">grün</tei:w>
+        <tei:w xml:id="MSB1_958203_2" lemmaRef="lexicon.xml#lemma_5077" meaningRef="lexicon.xml#lemma_5077_sense_7908" pos="NOM" wordRef="types.xml#type_131644">salssen</tei:w>
+        <tei:w xml:id="MSB1_958203_3" lemmaRef="lexicon.xml#lemma_1055" meaningRef="lexicon.xml#lemma_1055_sense_1689" pos="ADV" wordRef="types.xml#type_3258">dar</tei:w>
+        <tei:w xml:id="MSB1_958203_4" lemmaRef="lexicon.xml#lemma_4172" meaningRef="lexicon.xml#lemma_4172_sense_6544" pos="PRP" wordRef="types.xml#type_14531">mit</tei:w>
+        <tei:w xml:id="MSB1_958203_5" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_958203_6">in</tei:w>
+        <tei:w xml:id="MSB1_958203_7" lemmaRef="lexicon.xml#lemma_1119" meaningRef="lexicon.xml#lemma_1119_sense_1770" pos="ART" wordRef="types.xml#type_3506">den</tei:w>
+        <tei:w xml:id="MSB1_958203_8" lemmaRef="lexicon.xml#lemma_6313" meaningRef="lexicon.xml#lemma_6313_sense_9942" pos="VRB" wordRef="types.xml#type_61345">türt</tei:w>
+        <tei:seg xml:id="MSB1_958203_9" type="pc">.</tei:seg>
+        <tei:w xml:id="MSB1_958203_10" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_958203_11" lemmaRef="lexicon.xml#lemma_5696" pos="VRB" wordRef="types.xml#type_61814">spreng</tei:w>
+        <tei:w xml:id="MSB1_958203_12" lemmaRef="lexicon.xml#lemma_1119" meaningRef="lexicon.xml#lemma_1119_sense_1770" pos="ART" wordRef="types.xml#type_3506">den</tei:w>
+        <tei:w xml:id="MSB1_958203_13" lemmaRef="lexicon.xml#lemma_6313" meaningRef="lexicon.xml#lemma_6313_sense_9942" pos="VRB" wordRef="types.xml#type_61345">türt</tei:w>
+        <tei:lb n="4"/>
+        <tei:w xml:id="MSB1_958204_0" lemmaRef="lexicon.xml#lemma_4172" meaningRef="lexicon.xml#lemma_4172_sense_6544" pos="PRP" wordRef="types.xml#type_14531">mit</tei:w>
+        <tei:w xml:id="MSB1_958204_1" lemmaRef="lexicon.xml#lemma_4067" pos="NOM" wordRef="types.xml#type_14185">mel</tei:w>
+        <tei:seg xml:id="MSB1_958204_2" type="pc">,</tei:seg>
+        <tei:w xml:id="MSB1_958204_3" lemmaRef="lexicon.xml#lemma_5601" meaningRef="lexicon.xml#lemma_5601_sense_8764" pos="ADV" wordRef="types.xml#type_19596">so</tei:w>
+        <tei:w xml:id="MSB1_958204_4" lemmaRef="lexicon.xml#lemma_870" pos="VRB" wordRef="types.xml#type_352292">print</tei:w>
+        <tei:w xml:id="MSB1_958204_5" lemmaRef="lexicon.xml#lemma_1762" meaningRef="lexicon.xml#lemma_1762_sense_2752" pos="PRO" wordRef="types.xml#type_6021">ez</tei:w>
+        <tei:w xml:id="MSB1_958204_6" lemmaRef="lexicon.xml#lemma_4377" meaningRef="lexicon.xml#lemma_4377_sense_6838" pos="ADJ ADV NEG" wordRef="types.xml#type_15283">nicht</tei:w>
+        <tei:w xml:id="MSB1_958204_7">an</tei:w>
+        <tei:seg xml:id="MSB1_958204_8" type="pc">.</tei:seg>
+        <tei:w xml:id="MSB1_958204_9" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_958204_10" lemmaRef="lexicon.xml#lemma_1100" pos="NOM" wordRef="types.xml#type_101186">dek</tei:w>
+        <tei:w xml:id="MSB1_958204_11" lemmaRef="lexicon.xml#lemma_1762" meaningRef="lexicon.xml#lemma_1762_sense_2752" pos="PRO" wordRef="types.xml#type_6021">ez</tei:w>
+        <tei:w xml:id="MSB1_958204_12" lemmaRef="lexicon.xml#lemma_7770" meaningRef="lexicon.xml#lemma_7770_sense_12736" pos="PRP CNJ" wordRef="types.xml#type_28131">ze</tei:w>
+        <tei:w xml:id="MSB1_958204_13" lemmaRef="lexicon.xml#lemma_4172" meaningRef="lexicon.xml#lemma_4172_sense_6544" pos="PRP" wordRef="types.xml#type_14531">mit</tei:w>
+        <tei:w xml:id="MSB1_958204_14" lemmaRef="lexicon.xml#lemma_1331" meaningRef="lexicon.xml#lemma_1331_sense_2068" pos="ART NUM" wordRef="types.xml#type_44957">ainer</tei:w>
+        <tei:hi rend="upper_case_first_letter">
+          <tei:w xml:id="MSB1_958204_15" lemmaRef="lexicon.xml#lemma_2988" meaningRef="lexicon.xml#lemma_2988_sense_4791" pos="ADJ" wordRef="types.xml#type_92792">eysnen</tei:w>
+        </tei:hi>
+        <tei:lb n="5"/>
+        <tei:w xml:id="MSB1_958205_0" lemmaRef="lexicon.xml#lemma_1100" pos="NOM" wordRef="types.xml#type_270459">dekn</tei:w>
+        <tei:w xml:id="MSB1_958205_1" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_958205_2" lemmaRef="lexicon.xml#lemma_2438" meaningRef="lexicon.xml#lemma_2438_sense_3921" pos="VRB" wordRef="types.xml#type_251121">glüent</tei:w>
+        <tei:w xml:id="MSB1_958205_3" lemmaRef="lexicon.xml#lemma_3395" meaningRef="lexicon.xml#lemma_3395_sense_5352" pos="NOM" wordRef="types.xml#type_270461">kolln</tei:w>
+        <tei:w xml:id="MSB1_958205_4" lemmaRef="lexicon.xml#lemma_13166" meaningRef="lexicon.xml#lemma_13166_sense_20781" pos="ART PRP" wordRef="types.xml#type_51498">obn</tei:w>
+        <tei:w xml:id="MSB1_958205_5" lemmaRef="lexicon.xml#lemma_1055" meaningRef="lexicon.xml#lemma_1055_sense_1689" pos="ADV" wordRef="types.xml#type_3258">dar</tei:w>
+        <tei:w xml:id="MSB1_958205_6" lemmaRef="lexicon.xml#lemma_6330" meaningRef="lexicon.xml#lemma_6330_sense_9973" pos="ADV PRP" wordRef="types.xml#type_41213">auf</tei:w>
+        <tei:seg xml:id="MSB1_958205_7" type="pc">,</tei:seg>
+        <tei:w xml:id="MSB1_958205_8" lemmaRef="lexicon.xml#lemma_1097" meaningRef="lexicon.xml#lemma_1097_sense_1741" pos="ART CNJ" wordRef="types.xml#type_3397">das</tei:w>
+        <tei:w xml:id="MSB1_958205_9" lemmaRef="lexicon.xml#lemma_1119" meaningRef="lexicon.xml#lemma_1119_sense_1770" pos="ART" wordRef="types.xml#type_3504">dem</tei:w>
+        <tei:w xml:id="MSB1_958205_10" lemmaRef="lexicon.xml#lemma_1082" meaningRef="lexicon.xml#lemma_1082_sense_1725" pos="ADV" wordRef="types.xml#type_270462">dadren</tei:w>
+        <tei:w xml:id="MSB1_958205_11" lemmaRef="lexicon.xml#lemma_2065" pos="ADJ ADV" wordRef="types.xml#type_83914">geleich</tei:w>
+        <tei:w xml:id="MSB1_958205_12" lemmaRef="lexicon.xml#lemma_828" pos="NOM" wordRef="types.xml#type_269241">prät</tei:w>
+        <tei:seg xml:id="MSB1_958205_13" type="pc">.</tei:seg>
+        <tei:lb n="6"/>
+        <tei:w xml:id="MSB1_958206_0">wann</tei:w>
+        <tei:w xml:id="MSB1_958206_1" lemmaRef="lexicon.xml#lemma_1762" meaningRef="lexicon.xml#lemma_1762_sense_2752" pos="PRO" wordRef="types.xml#type_6021">ez</tei:w>
+        <tei:w xml:id="MSB1_958206_2">sich</tei:w>
+        <tei:w xml:id="MSB1_958206_3" lemmaRef="lexicon.xml#lemma_828" pos="NOM" wordRef="types.xml#type_270447">protten</tei:w>
+        <tei:w xml:id="MSB1_958206_4" lemmaRef="lexicon.xml#lemma_2598" pos="VRB VEX" wordRef="types.xml#type_8758">hat</tei:w>
+        <tei:seg xml:id="MSB1_958206_5" type="pc">,</tei:seg>
+        <tei:w xml:id="MSB1_958206_6" lemmaRef="lexicon.xml#lemma_5601" meaningRef="lexicon.xml#lemma_5601_sense_8764" pos="ADV" wordRef="types.xml#type_19596">so</tei:w>
+        <tei:w xml:id="MSB1_958206_7" lemmaRef="lexicon.xml#lemma_8586" pos="PRO VRB" wordRef="types.xml#type_105030">nims</tei:w>
+        <tei:w xml:id="MSB1_958206_8">her</tei:w>
+        <tei:w xml:id="MSB1_958206_9" lemmaRef="lexicon.xml#lemma_6342" meaningRef="lexicon.xml#lemma_6342_sense_9997" pos="ADV PRP" wordRef="types.xml#type_84231">aus</tei:w>
+        <tei:w xml:id="MSB1_958206_10" lemmaRef="lexicon.xml#lemma_6330" meaningRef="lexicon.xml#lemma_6330_sense_9973" pos="ADV PRP" wordRef="types.xml#type_41213">auf</tei:w>
+        <tei:w xml:id="MSB1_958206_11" lemmaRef="lexicon.xml#lemma_1331" meaningRef="lexicon.xml#lemma_1331_sense_2068" pos="ART NUM" wordRef="types.xml#type_4316">ain</tei:w>
+        <tei:w xml:id="MSB1_958206_12" lemmaRef="lexicon.xml#lemma_5280" meaningRef="lexicon.xml#lemma_5280_sense_8229" pos="ADJ" wordRef="types.xml#type_155083">schons</tei:w>
+        <tei:w xml:id="MSB1_958206_13" lemmaRef="lexicon.xml#lemma_6298" meaningRef="lexicon.xml#lemma_6298_sense_9923" pos="NOM" wordRef="types.xml#type_270463">tuach</tei:w>
+        <tei:w xml:id="MSB1_958206_14">in</tei:w>
+        <tei:lb n="7"/>
+        <tei:w xml:id="MSB1_958207_0" lemmaRef="lexicon.xml#lemma_1331" meaningRef="lexicon.xml#lemma_1331_sense_2068" pos="ART NUM" wordRef="types.xml#type_4316">ain</tei:w>
+        <tei:w xml:id="MSB1_958207_1" lemmaRef="lexicon.xml#lemma_5331" meaningRef="lexicon.xml#lemma_5331_sense_8327" pos="NOM" wordRef="types.xml#type_131754">schussel</tei:w>
+        <tei:seg xml:id="MSB1_958207_2" type="pc">,</tei:seg>
+        <tei:w xml:id="MSB1_958207_3" lemmaRef="lexicon.xml#lemma_1097" meaningRef="lexicon.xml#lemma_1097_sense_1741" pos="ART CNJ" wordRef="types.xml#type_3397">das</tei:w>
+        <tei:w xml:id="MSB1_958207_4" lemmaRef="lexicon.xml#lemma_1762" meaningRef="lexicon.xml#lemma_1762_sense_2752" pos="PRO" wordRef="types.xml#type_6021">ez</tei:w>
+        <tei:w xml:id="MSB1_958207_5" lemmaRef="lexicon.xml#lemma_1912" meaningRef="lexicon.xml#lemma_1912_sense_2937" pos="ADJ" wordRef="types.xml#type_43784">gancz</tei:w>
+        <tei:w xml:id="MSB1_958207_6" lemmaRef="lexicon.xml#lemma_732" meaningRef="lexicon.xml#lemma_732_sense_1198" pos="ADJ" wordRef="types.xml#type_120729">plab</tei:w>
+        <tei:seg xml:id="MSB1_958207_7" type="pc">,</tei:seg>
+        <tei:w xml:id="MSB1_958207_8" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_958207_9" lemmaRef="lexicon.xml#lemma_5594" pos="NOM VRB" wordRef="types.xml#type_270465">snayd</tei:w>
+        <tei:w xml:id="MSB1_958207_10" lemmaRef="lexicon.xml#lemma_1762" meaningRef="lexicon.xml#lemma_1762_sense_2752" pos="PRO" wordRef="types.xml#type_6021">ez</tei:w>
+        <tei:w xml:id="MSB1_958207_11" lemmaRef="lexicon.xml#lemma_4459" pos="ADV" wordRef="types.xml#type_15514">oben</tei:w>
+        <tei:w xml:id="MSB1_958207_12" lemmaRef="lexicon.xml#lemma_6330" meaningRef="lexicon.xml#lemma_6330_sense_9973" pos="ADV PRP" wordRef="types.xml#type_41213">auf</tei:w>
+        <tei:w xml:id="MSB1_958207_13" lemmaRef="lexicon.xml#lemma_3477" meaningRef="lexicon.xml#lemma_3477_sense_5504" pos="NOM" wordRef="types.xml#type_270466">kreicz</tei:w>
+        <tei:lb n="8"/>
+        <tei:w xml:id="MSB1_958208_0">weys</tei:w>
+        <tei:w xml:id="MSB1_958208_1" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_958208_2" lemmaRef="lexicon.xml#lemma_6301" meaningRef="lexicon.xml#lemma_6301_sense_9929" pos="VRB" wordRef="types.xml#type_151875">tüe</tei:w>
+        <tei:w xml:id="MSB1_958208_3" lemmaRef="lexicon.xml#lemma_7916" meaningRef="lexicon.xml#lemma_7916_sense_12990" pos="NOM" wordRef="types.xml#type_28775">zuker</tei:w>
+        <tei:w xml:id="MSB1_958208_4" lemmaRef="lexicon.xml#lemma_1055" meaningRef="lexicon.xml#lemma_1055_sense_1689" pos="ADV" wordRef="types.xml#type_3258">dar</tei:w>
+        <tei:w xml:id="MSB1_958208_5" lemmaRef="lexicon.xml#lemma_6330" meaningRef="lexicon.xml#lemma_6330_sense_9973" pos="ADV PRP" wordRef="types.xml#type_41213">auf</tei:w>
+        <tei:seg xml:id="MSB1_958208_6" type="pc">.</tei:seg>
+        <tei:lb n="1"/>
+        <tei:hi rend="initial">
+          <tei:w xml:id="MSB1_1058201_0" lemmaRef="lexicon.xml#lemma_27037" meaningRef="lexicon.xml#lemma_27037_sense_43002" pos="ADV CNJ" wordRef="types.xml#type_131288">item</tei:w>
+        </tei:hi>
+        <tei:w xml:id="MSB1_1058201_1" lemmaRef="lexicon.xml#lemma_1331" meaningRef="lexicon.xml#lemma_1331_sense_2068" pos="ART NUM" wordRef="types.xml#type_4316">ain</tei:w>
+        <tei:w xml:id="MSB1_1058201_2" lemmaRef="lexicon.xml#lemma_3589" meaningRef="lexicon.xml#lemma_3589_sense_5688" pos="NOM" wordRef="types.xml#type_270467">lannb</tei:w>
+        <tei:w xml:id="MSB1_1058201_3">in</tei:w>
+        <tei:w xml:id="MSB1_1058201_4" lemmaRef="lexicon.xml#lemma_1331" meaningRef="lexicon.xml#lemma_1331_sense_2068" pos="ART NUM" wordRef="types.xml#type_44957">ainer</tei:w>
+        <tei:w xml:id="MSB1_1058201_5" lemmaRef="lexicon.xml#lemma_26709" meaningRef="lexicon.xml#lemma_26709_sense_42506" pos="NOM" wordRef="types.xml#type_270468">pastekken</tei:w>
+        <tei:seg xml:id="MSB1_1058201_6" type="pc">:</tei:seg>
+        <tei:w xml:id="MSB1_1058201_7" lemmaRef="lexicon.xml#lemma_5458" meaningRef="lexicon.xml#lemma_5458_sense_8511" pos="VRB" wordRef="types.xml#type_131719">seud</tei:w>
+        <tei:w xml:id="MSB1_1058201_8">in</tei:w>
+        <tei:w xml:id="MSB1_1058201_9" lemmaRef="lexicon.xml#lemma_4172" meaningRef="lexicon.xml#lemma_4172_sense_6544" pos="PRP" wordRef="types.xml#type_14531">mit</tei:w>
+        <tei:w xml:id="MSB1_1058201_10" lemmaRef="lexicon.xml#lemma_7532" meaningRef="lexicon.xml#lemma_7532_sense_12297" pos="NOM" wordRef="types.xml#type_67774">wein</tei:w>
+        <tei:w xml:id="MSB1_1058201_11" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_1058201_12">mach</tei:w>
+        <tei:w xml:id="MSB1_1058201_13">in</tei:w>
+        <tei:lb n="2"/>
+        <tei:w xml:id="MSB1_1058202_0">in</tei:w>
+        <tei:w xml:id="MSB1_1058202_1" lemmaRef="lexicon.xml#lemma_1331" meaningRef="lexicon.xml#lemma_1331_sense_2068" pos="ART NUM" wordRef="types.xml#type_4316">ain</tei:w>
+        <tei:w xml:id="MSB1_1058202_2" lemmaRef="lexicon.xml#lemma_26709" meaningRef="lexicon.xml#lemma_26709_sense_42506" pos="NOM" wordRef="types.xml#type_270468">pastekken</tei:w>
+        <tei:w xml:id="MSB1_1058202_3" lemmaRef="lexicon.xml#lemma_6330" meaningRef="lexicon.xml#lemma_6330_sense_9973" pos="ADV PRP" wordRef="types.xml#type_41213">auf</tei:w>
+        <tei:w xml:id="MSB1_1058202_4" lemmaRef="lexicon.xml#lemma_1097" meaningRef="lexicon.xml#lemma_1097_sense_1741" pos="ART CNJ" wordRef="types.xml#type_3398">daz</tei:w>
+        <tei:w xml:id="MSB1_1058202_5" lemmaRef="lexicon.xml#lemma_106" meaningRef="lexicon.xml#lemma_106_sense_139" pos="ADJ" wordRef="types.xml#type_261">aller</tei:w>
+        <tei:w xml:id="MSB1_1058202_6" lemmaRef="lexicon.xml#lemma_3416" meaningRef="lexicon.xml#lemma_3416_sense_5386" pos="ADJ GRA" wordRef="types.xml#type_270469">kostleichist</tei:w>
+        <tei:seg xml:id="MSB1_1058202_7" type="pc">,</tei:seg>
+        <tei:w xml:id="MSB1_1058202_8" lemmaRef="lexicon.xml#lemma_5601" meaningRef="lexicon.xml#lemma_5601_sense_8764" pos="ADV" wordRef="types.xml#type_19596">so</tei:w>
+        <tei:w xml:id="MSB1_1058202_9">stat</tei:w>
+        <tei:w xml:id="MSB1_1058202_10" lemmaRef="lexicon.xml#lemma_1762" meaningRef="lexicon.xml#lemma_1762_sense_2752" pos="PRO" wordRef="types.xml#type_6021">ez</tei:w>
+        <tei:w xml:id="MSB1_1058202_11" lemmaRef="lexicon.xml#lemma_7677" meaningRef="lexicon.xml#lemma_7677_sense_12586" pos="NOM ADV" wordRef="types.xml#type_27811">wol</tei:w>
+        <tei:w xml:id="MSB1_1058202_12" lemmaRef="lexicon.xml#lemma_7194" meaningRef="lexicon.xml#lemma_7194_sense_11657" pos="ADV PRP" wordRef="types.xml#type_25545">vor</tei:w>
+        <tei:lb n="3"/>
+        <tei:w xml:id="MSB1_1058203_0" lemmaRef="lexicon.xml#lemma_7307" meaningRef="lexicon.xml#lemma_7307_sense_11843" pos="NOM" wordRef="types.xml#type_67910">fursten</tei:w>
+        <tei:w xml:id="MSB1_1058203_1" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_1058203_2">herren</tei:w>
+        <tei:seg xml:id="MSB1_1058203_3" type="pc">.</tei:seg>
+        <tei:lb n="1"/>
+        <tei:hi rend="initial">
+          <tei:w xml:id="MSB1_1158201_0" lemmaRef="lexicon.xml#lemma_18526" meaningRef="lexicon.xml#lemma_18526_sense_31233" pos="NOM" wordRef="types.xml#type_270470">karppfen</tei:w>
+        </tei:hi>
+        <tei:w xml:id="MSB1_1158201_1">in</tei:w>
+        <tei:w xml:id="MSB1_1158201_2" lemmaRef="lexicon.xml#lemma_1331" meaningRef="lexicon.xml#lemma_1331_sense_2068" pos="ART NUM" wordRef="types.xml#type_44957">ainer</tei:w>
+        <tei:w xml:id="MSB1_1158201_3" lemmaRef="lexicon.xml#lemma_5937" pos="ADJ" wordRef="types.xml#type_270471">swarczn</tei:w>
+        <tei:w xml:id="MSB1_1158201_4" lemmaRef="lexicon.xml#lemma_26715" meaningRef="lexicon.xml#lemma_26715_sense_42515" pos="NOM" wordRef="types.xml#type_131595">prüe</tei:w>
+        <tei:w xml:id="MSB1_1158201_5" lemmaRef="lexicon.xml#lemma_7770" meaningRef="lexicon.xml#lemma_7770_sense_12736" pos="PRP CNJ" wordRef="types.xml#type_110677">zw</tei:w>
+        <tei:w xml:id="MSB1_1158201_6" lemmaRef="lexicon.xml#lemma_3917" pos="VRB" wordRef="types.xml#type_13685">machen</tei:w>
+        <tei:seg xml:id="MSB1_1158201_7" type="pc">:</tei:seg>
+        <tei:w xml:id="MSB1_1158201_8" lemmaRef="lexicon.xml#lemma_5601" meaningRef="lexicon.xml#lemma_5601_sense_8764" pos="ADV" wordRef="types.xml#type_19596">so</tei:w>
+        <tei:w xml:id="MSB1_1158201_9">slach</tei:w>
+        <tei:w xml:id="MSB1_1158201_10">in</tei:w>
+        <tei:w xml:id="MSB1_1158201_11" lemmaRef="lexicon.xml#lemma_6330" meaningRef="lexicon.xml#lemma_6330_sense_9973" pos="ADV PRP" wordRef="types.xml#type_41213">auf</tei:w>
+        <tei:w xml:id="MSB1_1158201_12" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:lb n="2"/>
+        <tei:w xml:id="MSB1_1158202_0" lemmaRef="lexicon.xml#lemma_4330" pos="VRB" wordRef="types.xml#type_15091">nim</tei:w>
+        <tei:w xml:id="MSB1_1158202_1" lemmaRef="lexicon.xml#lemma_1119" meaningRef="lexicon.xml#lemma_1119_sense_1770" pos="ART" wordRef="types.xml#type_3506">den</tei:w>
+        <tei:w xml:id="MSB1_1158202_2" lemmaRef="lexicon.xml#lemma_5949" pos="NOM" wordRef="types.xml#type_270472">swaiß</tei:w>
+        <tei:w xml:id="MSB1_1158202_3" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_1158202_4" lemmaRef="lexicon.xml#lemma_7532" meaningRef="lexicon.xml#lemma_7532_sense_12297" pos="NOM" wordRef="types.xml#type_67774">wein</tei:w>
+        <tei:w xml:id="MSB1_1158202_5" lemmaRef="lexicon.xml#lemma_1055" meaningRef="lexicon.xml#lemma_1055_sense_1689" pos="ADV" wordRef="types.xml#type_3258">dar</tei:w>
+        <tei:w xml:id="MSB1_1158202_6">ein</tei:w>
+        <tei:w xml:id="MSB1_1158202_7" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_1158202_8">leg</tei:w>
+        <tei:w xml:id="MSB1_1158202_9">dy</tei:w>
+        <tei:w xml:id="MSB1_1158202_10" lemmaRef="lexicon.xml#lemma_5835" pos="NOM" wordRef="types.xml#type_60784">stuk</tei:w>
+        <tei:w xml:id="MSB1_1158202_11" lemmaRef="lexicon.xml#lemma_1055" meaningRef="lexicon.xml#lemma_1055_sense_1689" pos="ADV" wordRef="types.xml#type_3258">dar</tei:w>
+        <tei:w xml:id="MSB1_1158202_12">ein</tei:w>
+        <tei:seg xml:id="MSB1_1158202_13" type="pc">,</tei:seg>
+        <tei:w xml:id="MSB1_1158202_14" lemmaRef="lexicon.xml#lemma_1097" meaningRef="lexicon.xml#lemma_1097_sense_1741" pos="ART CNJ" wordRef="types.xml#type_3398">daz</tei:w>
+        <tei:w xml:id="MSB1_1158202_15">dy</tei:w>
+        <tei:lb n="3"/>
+        <tei:w xml:id="MSB1_1158203_0" lemmaRef="lexicon.xml#lemma_5458" meaningRef="lexicon.xml#lemma_5458_sense_8511" pos="VRB" wordRef="types.xml#type_129485">gesotten</tei:w>
+        <tei:w xml:id="MSB1_1158203_1">sein</tei:w>
+        <tei:seg xml:id="MSB1_1158203_2" type="pc">.</tei:seg>
+        <tei:w xml:id="MSB1_1158203_3" lemmaRef="lexicon.xml#lemma_20290" meaningRef="lexicon.xml#lemma_20290_sense_33757" pos="NOM" wordRef="types.xml#type_270473">zwifall</tei:w>
+        <tei:w xml:id="MSB1_1158203_4">oder</tei:w>
+        <tei:w xml:id="MSB1_1158203_5" lemmaRef="lexicon.xml#lemma_5858" pos="NOM ADJ ADV" wordRef="types.xml#type_85705">saur</tei:w>
+        <tei:w xml:id="MSB1_1158203_6" lemmaRef="lexicon.xml#lemma_261" pos="NOM" wordRef="types.xml#type_269975">oppfel</tei:w>
+        <tei:w xml:id="MSB1_1158203_7" lemmaRef="lexicon.xml#lemma_5594" pos="NOM VRB" wordRef="types.xml#type_143877">sneid</tei:w>
+        <tei:w xml:id="MSB1_1158203_8" lemmaRef="lexicon.xml#lemma_1055" meaningRef="lexicon.xml#lemma_1055_sense_1689" pos="ADV" wordRef="types.xml#type_3258">dar</tei:w>
+        <tei:w xml:id="MSB1_1158203_9">an</tei:w>
+        <tei:seg xml:id="MSB1_1158203_10" type="pc">,</tei:seg>
+        <tei:w xml:id="MSB1_1158203_11" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_1158203_12">lass</tei:w>
+        <tei:w xml:id="MSB1_1158203_13" lemmaRef="lexicon.xml#lemma_1762" meaningRef="lexicon.xml#lemma_1762_sense_2752" pos="PRO" wordRef="types.xml#type_6021">ez</tei:w>
+        <tei:lb n="4"/>
+        <tei:w xml:id="MSB1_1158204_0" lemmaRef="lexicon.xml#lemma_5458" meaningRef="lexicon.xml#lemma_5458_sense_8511" pos="VRB" wordRef="types.xml#type_270475">sewden</tei:w>
+        <tei:w xml:id="MSB1_1158204_1">oder</tei:w>
+        <tei:w xml:id="MSB1_1158204_2">ein</tei:w>
+        <tei:w xml:id="MSB1_1158204_3" lemmaRef="lexicon.xml#lemma_7677" meaningRef="lexicon.xml#lemma_7677_sense_12586" pos="NOM ADV" wordRef="types.xml#type_155871">wall</tei:w>
+        <tei:w xml:id="MSB1_1158204_4" lemmaRef="lexicon.xml#lemma_6301" meaningRef="lexicon.xml#lemma_6301_sense_9929" pos="VRB" wordRef="types.xml#type_101732">tuen</tei:w>
+        <tei:w xml:id="MSB1_1158204_5" lemmaRef="lexicon.xml#lemma_148" meaningRef="lexicon.xml#lemma_148_sense_183" pos="CNJ" wordRef="types.xml#type_369">als</tei:w>
+        <tei:w xml:id="MSB1_1158204_6" lemmaRef="lexicon.xml#lemma_4172" meaningRef="lexicon.xml#lemma_4172_sense_6544" pos="PRP" wordRef="types.xml#type_14531">mit</tei:w>
+        <tei:w xml:id="MSB1_1158204_7">ein</tei:w>
+        <tei:w xml:id="MSB1_1158204_8" lemmaRef="lexicon.xml#lemma_204" meaningRef="lexicon.xml#lemma_204_sense_256" pos="ADJ" wordRef="types.xml#type_537">ander</tei:w>
+        <tei:w xml:id="MSB1_1158204_9" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_1158204_10" lemmaRef="lexicon.xml#lemma_1913" meaningRef="lexicon.xml#lemma_1913_sense_2938" pos="ADJ ADV" wordRef="types.xml#type_6476">gar</tei:w>
+        <tei:w xml:id="MSB1_1158204_11" lemmaRef="lexicon.xml#lemma_7677" meaningRef="lexicon.xml#lemma_7677_sense_12586" pos="NOM ADV" wordRef="types.xml#type_27811">wol</tei:w>
+        <tei:seg xml:id="MSB1_1158204_12" type="pc">.</tei:seg>
+        <tei:w xml:id="MSB1_1158204_13" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:lb n="5"/>
+        <tei:w xml:id="MSB1_1158205_0" lemmaRef="lexicon.xml#lemma_7736" pos="NOM" wordRef="types.xml#type_95192">wurcz</tei:w>
+        <tei:w xml:id="MSB1_1158205_1" lemmaRef="lexicon.xml#lemma_1762" meaningRef="lexicon.xml#lemma_1762_sense_2752" pos="PRO" wordRef="types.xml#type_6021">ez</tei:w>
+        <tei:w xml:id="MSB1_1158205_2" lemmaRef="lexicon.xml#lemma_4523" meaningRef="lexicon.xml#lemma_4523_sense_7060" pos="CNJ" wordRef="types.xml#type_61484">auch</tei:w>
+        <tei:w xml:id="MSB1_1158205_3" lemmaRef="lexicon.xml#lemma_7677" meaningRef="lexicon.xml#lemma_7677_sense_12586" pos="NOM ADV" wordRef="types.xml#type_27811">wol</tei:w>
+        <tei:seg xml:id="MSB1_1158205_4" type="pc">,</tei:seg>
+        <tei:w xml:id="MSB1_1158205_5" lemmaRef="lexicon.xml#lemma_5601" meaningRef="lexicon.xml#lemma_5601_sense_8764" pos="ADV" wordRef="types.xml#type_19596">so</tei:w>
+        <tei:w xml:id="MSB1_1158205_6">wirt</tei:w>
+        <tei:w xml:id="MSB1_1158205_7" lemmaRef="lexicon.xml#lemma_1762" meaningRef="lexicon.xml#lemma_1762_sense_2752" pos="PRO" wordRef="types.xml#type_6021">ez</tei:w>
+        <tei:w xml:id="MSB1_1158205_8">guet</tei:w>
+        <tei:seg xml:id="MSB1_1158205_9" type="pc">.</tei:seg>
+        <tei:lb n="1"/>
+        <tei:hi rend="initial">
+          <tei:w xml:id="MSB1_1258201_0" lemmaRef="lexicon.xml#lemma_27037" meaningRef="lexicon.xml#lemma_27037_sense_43002" pos="ADV CNJ" wordRef="types.xml#type_131288">item</tei:w>
+        </tei:hi>
+        <tei:seg xml:id="MSB1_1258201_1" type="pc">:</tei:seg>
+        <tei:w xml:id="MSB1_1258201_2" lemmaRef="lexicon.xml#lemma_9050" pos="PRO VEM" wordRef="types.xml#type_270476">wiltdw</tei:w>
+        <tei:w xml:id="MSB1_1258201_3" lemmaRef="lexicon.xml#lemma_3917" pos="VRB" wordRef="types.xml#type_13685">machen</tei:w>
+        <tei:w xml:id="MSB1_1258201_4" lemmaRef="lexicon.xml#lemma_48974" meaningRef="lexicon.xml#lemma_48974_sense_76916" pos="NOM" wordRef="types.xml#type_270478">hacharbaz</tei:w>
+        <tei:seg xml:id="MSB1_1258201_5" type="pc">,</tei:seg>
+        <tei:w xml:id="MSB1_1258201_6" lemmaRef="lexicon.xml#lemma_5601" meaningRef="lexicon.xml#lemma_5601_sense_8764" pos="ADV" wordRef="types.xml#type_19596">so</tei:w>
+        <tei:w xml:id="MSB1_1258201_7" lemmaRef="lexicon.xml#lemma_4330" pos="VRB" wordRef="types.xml#type_44507">nym</tei:w>
+        <tei:w xml:id="MSB1_1258201_8">weiß</tei:w>
+        <tei:w xml:id="MSB1_1258201_9" lemmaRef="lexicon.xml#lemma_17882" meaningRef="lexicon.xml#lemma_17882_sense_30284" pos="NOM" wordRef="types.xml#type_270477">arbass</tei:w>
+        <tei:w xml:id="MSB1_1258201_10" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_1258201_11" lemmaRef="lexicon.xml#lemma_7520" meaningRef="lexicon.xml#lemma_7520_sense_12278" pos="NOM VRB" wordRef="types.xml#type_27214">waich</tei:w>
+        <tei:hi rend="upper_case_first_letter">
+          <tei:w xml:id="MSB1_1258201_12">sy</tei:w>
+        </tei:hi>
+        <tei:lb n="2"/>
+        <tei:w xml:id="MSB1_1258202_0">in</tei:w>
+        <tei:w xml:id="MSB1_1258202_1" lemmaRef="lexicon.xml#lemma_1331" meaningRef="lexicon.xml#lemma_1331_sense_2068" pos="ART NUM" wordRef="types.xml#type_4316">ain</tei:w>
+        <tei:w xml:id="MSB1_1258202_2" lemmaRef="lexicon.xml#lemma_7419" meaningRef="lexicon.xml#lemma_7419_sense_12070" pos="NOM" wordRef="types.xml#type_77434">wasser</tei:w>
+        <tei:seg xml:id="MSB1_1258202_3" type="pc">.</tei:seg>
+        <tei:w xml:id="MSB1_1258202_4" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_1258202_5">wann</tei:w>
+        <tei:w xml:id="MSB1_1258202_6" lemmaRef="lexicon.xml#lemma_2266" meaningRef="lexicon.xml#lemma_2266_sense_3616" pos="VRB" wordRef="types.xml#type_7643">geswollen</tei:w>
+        <tei:w xml:id="MSB1_1258202_7">sein</tei:w>
+        <tei:seg xml:id="MSB1_1258202_8" type="pc">,</tei:seg>
+        <tei:w xml:id="MSB1_1258202_9" lemmaRef="lexicon.xml#lemma_5601" meaningRef="lexicon.xml#lemma_5601_sense_8764" pos="ADV" wordRef="types.xml#type_19596">so</tei:w>
+        <tei:w xml:id="MSB1_1258202_10" lemmaRef="lexicon.xml#lemma_16553" pos="VRB" wordRef="types.xml#type_270481">seych</tei:w>
+        <tei:w xml:id="MSB1_1258202_11">sy</tei:w>
+        <tei:w xml:id="MSB1_1258202_12" lemmaRef="lexicon.xml#lemma_29" meaningRef="lexicon.xml#lemma_29_sense_39" pos="ADV PRP" wordRef="types.xml#type_86">ab</tei:w>
+        <tei:w xml:id="MSB1_1258202_13" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_1258202_14">lass</tei:w>
+        <tei:w xml:id="MSB1_1258202_15">sy</tei:w>
+        <tei:w xml:id="MSB1_1258202_16">sten</tei:w>
+        <tei:lb n="3"/>
+        <tei:hi rend="initial">
+          <tei:w xml:id="MSB1_1259203_0">ein</tei:w>
+        </tei:hi>
+        <tei:w xml:id="MSB1_1259203_1" lemmaRef="lexicon.xml#lemma_4303" meaningRef="lexicon.xml#lemma_4303_sense_6730" pos="NOM" wordRef="types.xml#type_42098">nacht</tei:w>
+        <tei:w xml:id="MSB1_1259203_2" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_1259203_3">mach</tei:w>
+        <tei:w xml:id="MSB1_1259203_4">ein</tei:w>
+        <tei:w xml:id="MSB1_1259203_5" lemmaRef="lexicon.xml#lemma_29030" meaningRef="lexicon.xml#lemma_29030_sense_45661" pos="NOM" wordRef="types.xml#type_270483">kaltgoz</tei:w>
+        <tei:seg xml:id="MSB1_1259203_6" type="pc">,</tei:seg>
+        <tei:w xml:id="MSB1_1259203_7">dy</tei:w>
+        <tei:w xml:id="MSB1_1259203_8" lemmaRef="lexicon.xml#lemma_1913" meaningRef="lexicon.xml#lemma_1913_sense_2938" pos="ADJ ADV" wordRef="types.xml#type_6476">gar</tei:w>
+        <tei:w xml:id="MSB1_1259203_9" lemmaRef="lexicon.xml#lemma_5185" pos="ADJ ADV" wordRef="types.xml#type_95364">scharff</tei:w>
+        <tei:w xml:id="MSB1_1259203_10">sey</tei:w>
+        <tei:seg xml:id="MSB1_1259203_11" type="pc">.</tei:seg>
+        <tei:lb n="4"/>
+        <tei:w xml:id="MSB1_1259204_0">seych</tei:w>
+        <tei:w xml:id="MSB1_1259204_1">sy</tei:w>
+        <tei:w xml:id="MSB1_1259204_2" lemmaRef="lexicon.xml#lemma_5851" meaningRef="lexicon.xml#lemma_5851_sense_9266" pos="ADJ" wordRef="types.xml#type_131294">sauber</tei:w>
+        <tei:w xml:id="MSB1_1259204_3" lemmaRef="lexicon.xml#lemma_29" meaningRef="lexicon.xml#lemma_29_sense_39" pos="ADV PRP" wordRef="types.xml#type_86">ab</tei:w>
+        <tei:w xml:id="MSB1_1259204_4" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_1259204_5" lemmaRef="lexicon.xml#lemma_6301" meaningRef="lexicon.xml#lemma_6301_sense_9929" pos="VRB" wordRef="types.xml#type_151875">tüe</tei:w>
+        <tei:w xml:id="MSB1_1259204_6">sy</tei:w>
+        <tei:w xml:id="MSB1_1259204_7">in</tei:w>
+        <tei:w xml:id="MSB1_1259204_8" lemmaRef="lexicon.xml#lemma_1331" meaningRef="lexicon.xml#lemma_1331_sense_2068" pos="ART NUM" wordRef="types.xml#type_4316">ain</tei:w>
+        <tei:w xml:id="MSB1_1259204_9" lemmaRef="lexicon.xml#lemma_4623" meaningRef="lexicon.xml#lemma_4623_sense_7186" pos="NOM" wordRef="types.xml#type_15903">pfannen</tei:w>
+        <tei:w xml:id="MSB1_1259204_10">oder</tei:w>
+        <tei:w xml:id="MSB1_1259204_11" lemmaRef="lexicon.xml#lemma_3299" meaningRef="lexicon.xml#lemma_3299_sense_5179" pos="NOM" wordRef="types.xml#type_299802">kessel</tei:w>
+        <tei:seg xml:id="MSB1_1259204_12" type="pc">,</tei:seg>
+        <tei:w xml:id="MSB1_1259204_13" lemmaRef="lexicon.xml#lemma_148" meaningRef="lexicon.xml#lemma_148_sense_183" pos="CNJ" wordRef="types.xml#type_369">als</tei:w>
+        <tei:lb n="5"/>
+        <tei:w xml:id="MSB1_1259205_0" lemmaRef="lexicon.xml#lemma_7075" meaningRef="lexicon.xml#lemma_7075_sense_11459" pos="ADJ ADV" wordRef="types.xml#type_25008">vil</tei:w>
+        <tei:w xml:id="MSB1_1259205_1" lemmaRef="lexicon.xml#lemma_1242" meaningRef="lexicon.xml#lemma_1242_sense_1958" pos="PRO" wordRef="types.xml#type_3966">du</tei:w>
+        <tei:w xml:id="MSB1_1259205_2" lemmaRef="lexicon.xml#lemma_3917" pos="VRB" wordRef="types.xml#type_13685">machen</tei:w>
+        <tei:w xml:id="MSB1_1259205_3" lemmaRef="lexicon.xml#lemma_7473" meaningRef="lexicon.xml#lemma_7473_sense_12160" pos="VRB VEM" wordRef="types.xml#type_260243">wild</tei:w>
+        <tei:seg xml:id="MSB1_1259205_4" type="pc">,</tei:seg>
+        <tei:w xml:id="MSB1_1259205_5" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_1259205_6" lemmaRef="lexicon.xml#lemma_3567" meaningRef="lexicon.xml#lemma_3567_sense_5652" pos="VRB" wordRef="types.xml#type_264302">lass</tei:w>
+        <tei:w xml:id="MSB1_1259205_7">sy</tei:w>
+        <tei:w xml:id="MSB1_1259205_8" lemmaRef="lexicon.xml#lemma_5458" meaningRef="lexicon.xml#lemma_5458_sense_8511" pos="VRB" wordRef="types.xml#type_158082">syeden</tei:w>
+        <tei:seg xml:id="MSB1_1259205_9" type="pc">,</tei:seg>
+        <tei:w xml:id="MSB1_1259205_10" lemmaRef="lexicon.xml#lemma_10651" meaningRef="lexicon.xml#lemma_10651_sense_17074" pos="ADV" wordRef="types.xml#type_83871">pis</tei:w>
+        <tei:w xml:id="MSB1_1259205_11" lemmaRef="lexicon.xml#lemma_5445" meaningRef="lexicon.xml#lemma_5445_sense_8495" pos="PRO" wordRef="types.xml#type_19017">sich</tei:w>
+        <tei:w xml:id="MSB1_1259205_12" lemmaRef="lexicon.xml#lemma_356" pos="NOM" wordRef="types.xml#type_270484">paulgen</tei:w>
+        <tei:w xml:id="MSB1_1259205_13" lemmaRef="lexicon.xml#lemma_7473" pos="VRB VEM" wordRef="types.xml#type_26911">wellen</tei:w>
+        <tei:seg xml:id="MSB1_1259205_14" type="pc">.</tei:seg>
+        <tei:lb n="6"/>
+        <tei:w xml:id="MSB1_1259206_0" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_1259206_1" lemmaRef="lexicon.xml#lemma_2688" pos="VRB" wordRef="types.xml#type_9052">heb</tei:w>
+        <tei:w xml:id="MSB1_1259206_2">sy</tei:w>
+        <tei:w xml:id="MSB1_1259206_3">her</tei:w>
+        <tei:w xml:id="MSB1_1259206_4" lemmaRef="lexicon.xml#lemma_29" meaningRef="lexicon.xml#lemma_29_sense_39" pos="ADV PRP" wordRef="types.xml#type_86">ab</tei:w>
+        <tei:w xml:id="MSB1_1259206_5" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_1259206_6" lemmaRef="lexicon.xml#lemma_5375" pos="VRB" wordRef="types.xml#type_56306">seich</tei:w>
+        <tei:w xml:id="MSB1_1259206_7">sy</tei:w>
+        <tei:seg xml:id="MSB1_1259206_8" type="pc">,</tei:seg>
+        <tei:w xml:id="MSB1_1259206_9" lemmaRef="lexicon.xml#lemma_1097" meaningRef="lexicon.xml#lemma_1097_sense_1741" pos="ART CNJ" wordRef="types.xml#type_3397">das</tei:w>
+        <tei:w xml:id="MSB1_1259206_10" lemmaRef="lexicon.xml#lemma_6255" meaningRef="lexicon.xml#lemma_6255_sense_9868" pos="ADJ ADV" wordRef="types.xml#type_142845">trukken</tei:w>
+        <tei:w xml:id="MSB1_1259206_11">werden</tei:w>
+        <tei:seg xml:id="MSB1_1259206_12" type="pc">.</tei:seg>
+        <tei:w xml:id="MSB1_1259206_13" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_1259206_14" lemmaRef="lexicon.xml#lemma_6301" meaningRef="lexicon.xml#lemma_6301_sense_9929" pos="VRB" wordRef="types.xml#type_151875">tüe</tei:w>
+        <tei:w xml:id="MSB1_1259206_15">sy</tei:w>
+        <tei:lb n="7"/>
+        <tei:w xml:id="MSB1_1259207_0">in</tei:w>
+        <tei:w xml:id="MSB1_1259207_1" lemmaRef="lexicon.xml#lemma_1331" meaningRef="lexicon.xml#lemma_1331_sense_2068" pos="ART NUM" wordRef="types.xml#type_4316">ain</tei:w>
+        <tei:w xml:id="MSB1_1259207_2" lemmaRef="lexicon.xml#lemma_2676" meaningRef="lexicon.xml#lemma_2676_sense_4307" pos="NOM" wordRef="types.xml#type_129763">haffen</tei:w>
+        <tei:w xml:id="MSB1_1259207_3" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_1259207_4" lemmaRef="lexicon.xml#lemma_9507" pos="VRB" wordRef="types.xml#type_131484">reib</tei:w>
+        <tei:w xml:id="MSB1_1259207_5">sy</tei:w>
+        <tei:w xml:id="MSB1_1259207_6" lemmaRef="lexicon.xml#lemma_4172" meaningRef="lexicon.xml#lemma_4172_sense_6544" pos="PRP" wordRef="types.xml#type_14531">mit</tei:w>
+        <tei:w xml:id="MSB1_1259207_7" lemmaRef="lexicon.xml#lemma_1331" meaningRef="lexicon.xml#lemma_1331_sense_2068" pos="ART NUM" wordRef="types.xml#type_4316">ain</tei:w>
+        <tei:w xml:id="MSB1_1259207_8" lemmaRef="lexicon.xml#lemma_5782" pos="NOM" wordRef="types.xml#type_270485">stossel</tei:w>
+        <tei:w xml:id="MSB1_1259207_9">oder</tei:w>
+        <tei:w xml:id="MSB1_1259207_10">trit</tei:w>
+        <tei:w xml:id="MSB1_1259207_11">sy</tei:w>
+        <tei:seg xml:id="MSB1_1259207_12" type="pc">,</tei:seg>
+        <tei:w xml:id="MSB1_1259207_13" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_1259207_14">waz</tei:w>
+        <tei:lb n="8"/>
+        <tei:w xml:id="MSB1_1259208_0" lemmaRef="lexicon.xml#lemma_11140" pos="ADV" wordRef="types.xml#type_132571">albeg</tei:w>
+        <tei:w xml:id="MSB1_1259208_1">dy</tei:w>
+        <tei:w xml:id="MSB1_1259208_2" lemmaRef="lexicon.xml#lemma_356" pos="NOM" wordRef="types.xml#type_197850">palg</tei:w>
+        <tei:w xml:id="MSB1_1259208_3" lemmaRef="lexicon.xml#lemma_1055" meaningRef="lexicon.xml#lemma_1055_sense_1689" pos="ADV" wordRef="types.xml#type_3258">dar</tei:w>
+        <tei:w xml:id="MSB1_1259208_4" lemmaRef="lexicon.xml#lemma_7193" meaningRef="lexicon.xml#lemma_7193_sense_11656" pos="PRP" wordRef="types.xml#type_25544">von</tei:w>
+        <tei:seg xml:id="MSB1_1259208_5" type="pc">,</tei:seg>
+        <tei:w xml:id="MSB1_1259208_6" lemmaRef="lexicon.xml#lemma_10651" pos="ADV" wordRef="types.xml#type_240416">pys</tei:w>
+        <tei:w xml:id="MSB1_1259208_7" lemmaRef="lexicon.xml#lemma_2049" meaningRef="lexicon.xml#lemma_2049_sense_3166" pos="ADJ" wordRef="types.xml#type_235084">gelb</tei:w>
+        <tei:w xml:id="MSB1_1259208_8" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_1259208_9" lemmaRef="lexicon.xml#lemma_5280" meaningRef="lexicon.xml#lemma_5280_sense_8229" pos="NOM ADJ ADV" wordRef="types.xml#type_31441">schon</tei:w>
+        <tei:w xml:id="MSB1_1259208_10">werden</tei:w>
+        <tei:seg xml:id="MSB1_1259208_11" type="pc">.</tei:seg>
+        <tei:w xml:id="MSB1_1259208_12" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_1259208_13" lemmaRef="lexicon.xml#lemma_6301" meaningRef="lexicon.xml#lemma_6301_sense_9929" pos="VRB" wordRef="types.xml#type_102053">tue</tei:w>
+        <tei:w xml:id="MSB1_1259208_14">sy</tei:w>
+        <tei:w xml:id="MSB1_1259208_15">in</tei:w>
+        <tei:lb n="9"/>
+        <tei:w xml:id="MSB1_1259209_0" lemmaRef="lexicon.xml#lemma_1331" meaningRef="lexicon.xml#lemma_1331_sense_2068" pos="ART NUM" wordRef="types.xml#type_4316">ain</tei:w>
+        <tei:w xml:id="MSB1_1259209_1" lemmaRef="lexicon.xml#lemma_2676" meaningRef="lexicon.xml#lemma_2676_sense_4307" pos="NOM" wordRef="types.xml#type_129763">haffen</tei:w>
+        <tei:w xml:id="MSB1_1259209_2" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_1259209_3">laz</tei:w>
+        <tei:w xml:id="MSB1_1259209_4" lemmaRef="lexicon.xml#lemma_5458" meaningRef="lexicon.xml#lemma_5458_sense_8511" pos="VRB" wordRef="types.xml#type_270475">sewden</tei:w>
+        <tei:w xml:id="MSB1_1259209_5">richt</tei:w>
+        <tei:w xml:id="MSB1_1259209_6" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_1259209_7">seych</tei:w>
+        <tei:w xml:id="MSB1_1259209_8">sy</tei:w>
+        <tei:w xml:id="MSB1_1259209_9" lemmaRef="lexicon.xml#lemma_29" meaningRef="lexicon.xml#lemma_29_sense_39" pos="ADV PRP" wordRef="types.xml#type_86">ab</tei:w>
+        <tei:seg xml:id="MSB1_1259209_10" type="pc">,</tei:seg>
+        <tei:w xml:id="MSB1_1259209_11" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_1259209_12">secz</tei:w>
+        <tei:w xml:id="MSB1_1259209_13">sy</tei:w>
+        <tei:w xml:id="MSB1_1259209_14" lemmaRef="lexicon.xml#lemma_6330" meaningRef="lexicon.xml#lemma_6330_sense_9973" pos="ADV PRP" wordRef="types.xml#type_41213">auf</tei:w>
+        <tei:lb n="10"/>
+        <tei:w xml:id="MSB1_1259210_0" lemmaRef="lexicon.xml#lemma_1331" meaningRef="lexicon.xml#lemma_1331_sense_2068" pos="ART NUM" wordRef="types.xml#type_4316">ain</tei:w>
+        <tei:w xml:id="MSB1_1259210_1" lemmaRef="lexicon.xml#lemma_66488" meaningRef="lexicon.xml#lemma_66488_sense_103582" pos="ADJ" wordRef="types.xml#type_359757">gluent</tei:w>
+        <tei:w xml:id="MSB1_1259210_2" lemmaRef="lexicon.xml#lemma_3395" meaningRef="lexicon.xml#lemma_3395_sense_5352" pos="NOM" wordRef="types.xml#type_270488">kollär</tei:w>
+        <tei:w xml:id="MSB1_1259210_3" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_1259210_4">lass</tei:w>
+        <tei:w xml:id="MSB1_1259210_5">sy</tei:w>
+        <tei:w xml:id="MSB1_1259210_6" lemmaRef="lexicon.xml#lemma_7374" pos="VRB" wordRef="types.xml#type_26611">wallen</tei:w>
+        <tei:seg xml:id="MSB1_1259210_7" type="pc">.</tei:seg>
+        <tei:w xml:id="MSB1_1259210_8" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_1259210_9" lemmaRef="lexicon.xml#lemma_7193" meaningRef="lexicon.xml#lemma_7193_sense_11656" pos="PRP" wordRef="types.xml#type_25544">von</tei:w>
+        <tei:w xml:id="MSB1_1259210_10">stund</tei:w>
+        <tei:w xml:id="MSB1_1259210_11" lemmaRef="lexicon.xml#lemma_6301" meaningRef="lexicon.xml#lemma_6301_sense_9929" pos="VRB" wordRef="types.xml#type_102053">tue</tei:w>
+        <tei:w xml:id="MSB1_1259210_12">sy</tei:w>
+        <tei:w xml:id="MSB1_1259210_13">in</tei:w>
+        <tei:lb n="11"/>
+        <tei:w xml:id="MSB1_1259211_0" lemmaRef="lexicon.xml#lemma_1331" meaningRef="lexicon.xml#lemma_1331_sense_2068" pos="ART NUM" wordRef="types.xml#type_4316">ain</tei:w>
+        <tei:w xml:id="MSB1_1259211_1" lemmaRef="lexicon.xml#lemma_2676" meaningRef="lexicon.xml#lemma_2676_sense_4307" pos="NOM" wordRef="types.xml#type_129763">haffen</tei:w>
+        <tei:w xml:id="MSB1_1259211_2" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_1259211_3" lemmaRef="lexicon.xml#lemma_9507" pos="VRB" wordRef="types.xml#type_131484">reib</tei:w>
+        <tei:w xml:id="MSB1_1259211_4">s</tei:w>
+        <tei:w xml:id="MSB1_1259211_5" lemmaRef="lexicon.xml#lemma_1913" meaningRef="lexicon.xml#lemma_1913_sense_2938" pos="ADJ ADV" wordRef="types.xml#type_6476">gar</tei:w>
+        <tei:w xml:id="MSB1_1259211_6" lemmaRef="lexicon.xml#lemma_7677" meaningRef="lexicon.xml#lemma_7677_sense_12586" pos="NOM ADV" wordRef="types.xml#type_27811">wol</tei:w>
+        <tei:w xml:id="MSB1_1259211_7" lemmaRef="lexicon.xml#lemma_1331" meaningRef="lexicon.xml#lemma_1331_sense_2068" pos="ART NUM" wordRef="types.xml#type_4316">ain</tei:w>
+        <tei:w xml:id="MSB1_1259211_8">stund</tei:w>
+        <tei:w xml:id="MSB1_1259211_9">oder</tei:w>
+        <tei:w xml:id="MSB1_1259211_10" lemmaRef="lexicon.xml#lemma_13826" meaningRef="lexicon.xml#lemma_13826_sense_22789" pos="DIG" wordRef="types.xml#type_192609">iij</tei:w>
+        <tei:seg xml:id="MSB1_1259211_11" type="pc">.</tei:seg>
+        <tei:w xml:id="MSB1_1259211_12" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_1259211_13" lemmaRef="lexicon.xml#lemma_4330" pos="VRB" wordRef="types.xml#type_44507">nym</tei:w>
+        <tei:w xml:id="MSB1_1259211_14" lemmaRef="lexicon.xml#lemma_7532" meaningRef="lexicon.xml#lemma_7532_sense_12297" pos="NOM" wordRef="types.xml#type_67774">wein</tei:w>
+        <tei:seg xml:id="MSB1_1259211_15" type="pc">,</tei:seg>
+        <tei:lb n="12"/>
+        <tei:w xml:id="MSB1_1259212_0" lemmaRef="lexicon.xml#lemma_1119" meaningRef="lexicon.xml#lemma_1119_sense_1770" pos="ART" wordRef="types.xml#type_3507">der</tei:w>
+        <tei:w xml:id="MSB1_1259212_1" lemmaRef="lexicon.xml#lemma_5864" pos="ADJ" wordRef="types.xml#type_102251">süeß</tei:w>
+        <tei:w xml:id="MSB1_1259212_2" lemmaRef="lexicon.xml#lemma_5432" meaningRef="lexicon.xml#lemma_5432_sense_8479" pos="VRB VEX" wordRef="types.xml#type_84605">say</tei:w>
+        <tei:seg xml:id="MSB1_1259212_3" type="pc">,</tei:seg>
+        <tei:w xml:id="MSB1_1259212_4" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_1259212_5" lemmaRef="lexicon.xml#lemma_6917" pos="VRB" wordRef="types.xml#type_270489">verreyb</tei:w>
+        <tei:w xml:id="MSB1_1259212_6">sy</tei:w>
+        <tei:w xml:id="MSB1_1259212_7" lemmaRef="lexicon.xml#lemma_1055" meaningRef="lexicon.xml#lemma_1055_sense_1689" pos="ADV" wordRef="types.xml#type_3258">dar</tei:w>
+        <tei:w xml:id="MSB1_1259212_8" lemmaRef="lexicon.xml#lemma_4172" meaningRef="lexicon.xml#lemma_4172_sense_6544" pos="PRP" wordRef="types.xml#type_14531">mit</tei:w>
+        <tei:w xml:id="MSB1_1259212_9" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_1259212_10" lemmaRef="lexicon.xml#lemma_6857" pos="VRB" wordRef="types.xml#type_270490">vergeuss</tei:w>
+        <tei:w xml:id="MSB1_1259212_11">sy</tei:w>
+        <tei:w xml:id="MSB1_1259212_12" lemmaRef="lexicon.xml#lemma_4377" meaningRef="lexicon.xml#lemma_4377_sense_6838" pos="ADJ ADV NEG" wordRef="types.xml#type_15283">nicht</tei:w>
+        <tei:seg xml:id="MSB1_1259212_13" type="pc">.</tei:seg>
+        <tei:w xml:id="MSB1_1259212_14" lemmaRef="lexicon.xml#lemma_1055" meaningRef="lexicon.xml#lemma_1055_sense_1689" pos="ADV" wordRef="types.xml#type_3258">dar</tei:w>
+        <tei:lb n="13"/>
+        <tei:w xml:id="MSB1_1259213_0">z</tei:w>
+        <tei:w xml:id="MSB1_1259213_1" lemmaRef="lexicon.xml#lemma_4330" pos="VRB" wordRef="types.xml#type_15091">nim</tei:w>
+        <tei:w xml:id="MSB1_1259213_2" lemmaRef="lexicon.xml#lemma_1331" meaningRef="lexicon.xml#lemma_1331_sense_2068" pos="ART NUM" wordRef="types.xml#type_4316">ain</tei:w>
+        <tei:w xml:id="MSB1_1259213_3" lemmaRef="lexicon.xml#lemma_7428" pos="ADJ ADV" wordRef="types.xml#type_131229">wennig</tei:w>
+        <tei:w xml:id="MSB1_1259213_4" lemmaRef="lexicon.xml#lemma_18659" meaningRef="lexicon.xml#lemma_18659_sense_31417" pos="NOM" wordRef="types.xml#type_270491">sennif</tei:w>
+        <tei:seg xml:id="MSB1_1259213_5" type="pc">.</tei:seg>
+        <tei:w xml:id="MSB1_1259213_6" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="types.xml#type_38749">vnd</tei:w>
+        <tei:w xml:id="MSB1_1259213_7">wann</tei:w>
+        <tei:w xml:id="MSB1_1259213_8">du</tei:w>
+        <tei:w xml:id="MSB1_1259213_9">sy</tei:w>
+        <tei:w xml:id="MSB1_1259213_10" lemmaRef="lexicon.xml#lemma_9507" pos="VRB" wordRef="types.xml#type_270493">gereibst</tei:w>
+        <tei:seg xml:id="MSB1_1259213_11" type="pc">,</tei:seg>
+        <tei:w xml:id="MSB1_1259213_12" lemmaRef="lexicon.xml#lemma_1097" meaningRef="lexicon.xml#lemma_1097_sense_1741" pos="ART CNJ" wordRef="types.xml#type_3397">das</tei:w>
+        <tei:w xml:id="MSB1_1259213_13">sy</tei:w>
+        <tei:w xml:id="MSB1_1259213_14">sein</tei:w>
+        <tei:lb n="14"/>
+        <tei:w xml:id="MSB1_1259214_0" lemmaRef="lexicon.xml#lemma_2141" meaningRef="lexicon.xml#lemma_2141_sense_3333" pos="ADJ ADV" wordRef="types.xml#type_270494">genüeg</tei:w>
+        <tei:w xml:id="MSB1_1259214_1">habent</tei:w>
+        <tei:seg xml:id="MSB1_1259214_2" type="pc">,</tei:seg>
+        <tei:w xml:id="MSB1_1259214_3" lemmaRef="lexicon.xml#lemma_5601" meaningRef="lexicon.xml#lemma_5601_sense_8764" pos="ADV" wordRef="types.xml#type_19596">so</tei:w>
+        <tei:w xml:id="MSB1_1259214_4">truk</tei:w>
+        <tei:w xml:id="MSB1_1259214_5">si</tei:w>
+        <tei:w xml:id="MSB1_1259214_6" lemmaRef="lexicon.xml#lemma_7770" meaningRef="lexicon.xml#lemma_7770_sense_12736" pos="PRP CNJ" wordRef="types.xml#type_110677">zw</tei:w>
+        <tei:w xml:id="MSB1_1259214_7" lemmaRef="lexicon.xml#lemma_1216" meaningRef="lexicon.xml#lemma_1216_sense_1915" pos="NUM" wordRef="types.xml#type_270495">train</tei:w>
+        <tei:w xml:id="MSB1_1259214_8" lemmaRef="lexicon.xml#lemma_12921" meaningRef="lexicon.xml#lemma_12921_sense_20230" pos="NOM" wordRef="types.xml#type_72589">pallen</tei:w>
+        <tei:w xml:id="MSB1_1259214_9" lemmaRef="lexicon.xml#lemma_6330" meaningRef="lexicon.xml#lemma_6330_sense_9973" pos="ADV PRP" wordRef="types.xml#type_41213">auf</tei:w>
+        <tei:w xml:id="MSB1_1259214_10" lemmaRef="lexicon.xml#lemma_1331" meaningRef="lexicon.xml#lemma_1331_sense_2068" pos="ART NUM" wordRef="types.xml#type_4316">ain</tei:w>
+      </tei:p>
+    </tei:body>
+  </tei:text>
+</tei:TEI>

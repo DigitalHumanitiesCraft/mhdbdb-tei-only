@@ -1,0 +1,91 @@
+nameConceptId,prefLabelDe,prefLabelEn,broaderConcepts,exactMatches,closeMatches
+40000000,Namen,Names,,,
+41000000,Namen: Geographika (Toponyme),Names: Geographika (Toponyms),40000000,concept_32810000,
+41100000,Namen: Universum & Himmelskörper (Astronyme),Names: Universe & Celestial Bodies (Astronymies),41000000,"concept_11100000,concept_32161000",
+41110000,Namen: Sphärennamen (Kosmonyme),Names: Names of spheres (cosmonyms),41100000,,
+41120000,Namen: Gestirne & Sternbilder (Astronyme),Names: Stars & Constellations (Astronyms),41100000,,
+41130000,Namen: Planetennamen (Astronyme),Names: Planet names (Astronyms),41100000,,
+41200000,Namen: Größere Ortsnamen (Makrotoponyme),Names: Larger Place Names (Macrotoponyms),41000000,,
+41210000,Namen: Erdteile (Choronyme),Names: Earth Parts (Choronyms),41200000,concept_24122000,
+41220000,Namen: Regionennamen (Choronyme),Names: Region names (Choronyms),41200000,,
+41230000,Namen: Größere menschl Ortseinheiten (Choronyme),Names: Larger Human Local Units (Choronyms),41200000,,
+41231000,Namen: Politische Einheiten & Staaten (Choronyme),Names: Political Units & States (Choronyms),41230000,concept_24120000,concept_24121000
+41232000,Namen: Städtenamen (Urbanonyme),Names: City names (Urbanonyms),41230000,concept_24212000,concept_24212100
+41233000,Namen: Dörfernamen (Oikonyme),Names: Village names (Oikonyms),41230000,concept_24222000,concept_24222300
+41240000,Namen: Makro-Flurnamen (Choronyme),Names: Macro Field Names (Choronyms),41200000,,
+41241000,Namen: Geografische Erscheinungen (Agronyme),Names: Geographical Appearances (Agronyms),41240000,concept_12011000,concept_12014000
+41242000,Namen: Gebirgsnamen/Bergnamen (Oronyme),Names: Mountain names (Oronyms),41240000,concept_12012000,concept_12015000
+41243000,Namen: Inselnamen (Choronyme),Names: Island names (Choronyms),41240000,concept_12013000,
+41300000,Namen: Kleinere Ortsnamen (Mikrotoponyme),Names: Smaller Place Names (Microtoponyms),41000000,,
+41310000,Namen: Mikro-Flurnamen (Agronyme),Names Micro Field Names (Agronyms),41300000,,
+41311000,Namen: Wälder & Forste (Drymonyme),Names: Forests (Drymonymes),41310000,concept_12016000,
+41312000,Namen: Landwirtschaftsflächen (Agronyme),Names: Farmland (Agronyms),41310000,,concept_23303010
+41320000,Namen: Kleinere menschl Ortseinheiten (Oikonyme),Names: Smaller Human Local Units (Oikonyms),41300000,,
+41321000,Namen: Gebäudenamen (Oikodomonyme),Names: Building names (Oikodomonyms),41320000,concept_23309021,
+41321100,Namen: Burgnamen/Schlossnamen (Oikodomonyme),Names: Castle names (Oikodomonyms),41321000,concept_23253000,concept_23254000
+41321200,Namen: Gehöfte/Hofnamen (Oikonyme),Names: Homestead names (Oikonyms),41321000,concept_23303140,
+41321300,Namen: Kirchennamen & Kultstätten (Ekklesionyme),Names: Churches & Religious sites  (Ekklesionyms),41321000,"concept_24453100,concept_24455100",concept_24422100
+41321400,Namen: Wirtshäuser (Oikonyme),Names: Inns (Oikonymes),41321000,concept_23307320,
+41322000,Namen: Orte im urbanen Freiraum (Oikonyme),Names: Places in Urban Open Space (Oikonyms),41320000,,
+41322100,Namen: Straßennamen & Wege (Hodonyme & Dromonyme),Names: Roads and Lanes (Hodonyms & Dromonyms),41322000,,concept_23307120
+41322200,Namen: Platznamen (Agoronyme),Names: Place names (Agoronyms),41322000,,concept_23307120
+41322300,Namen: Wasserwege & Anlagen am Wasser,Names: Waterways & Installations on/near Water,41322000,,concept_23307220
+41400000,Namen: Gewässernamen (Hydronyme),Names: Water names (Hydronyms),41000000,,concept_12021200
+41410000,Namen: Meere & Ozeane (Pelagonyme & Okeanonyme),Names: Seas & Oceans (Pelagonyms & Okeanonymes),41400000,concept_12022100,
+41420000,Namen: Seennamen (Limnonyme),Names: Lake names (Limnonymes),41400000,,
+41430000,Namen: Flussnamen/Bachnamen (Potamonyme),Names: River/Brook names (Potamonyms),41400000,,
+42000000,Namen: Personennamen (Anthroponyme),Names: Personal Names (Anthroponymes),40000000,concept_23112500,
+42100000,Namen: Menschennamen (Anthroponyme),Names: Human names (Anthroponymes),42000000,concept_23112500,
+42110000,Namen: Rufnamen (Anthroponyme),Names: First names (Anthroponymes),42100000,,
+42120000,Namen: Beinamen & Familiennamen (Anthroponyme),Names: Nicknames & Family Names (Anthroponymes),42100000,,
+42121000,Namen: Herkunftsnamen (Anthroponyme),Names: Names of Origin (Anthroponymes),42120000,,
+42122000,Namen: Wohnstättennamen (Anthroponyme),Names: Place names (Anthroponyme),42120000,,
+42123000,Namen: Berufsnamen (Anthroponyme),Names: Professional Names (Anthroponyms),42120000,,
+42124000,Namen: Übernamen (Anthroponyme),Names: Nicknames (Anthroponyms),42120000,,concept_23112501
+42125000,Familiennamen nach Rufnamen (Patronyme/Matronyme),Surnames by given name (Patronyms/Matronyms),42120000,,
+42130000,"Namen: Spitznamen, Schimpfnamen, Kosenamen","Names: Nicknames, Swearnames, Cosenames",42100000,,concept_23112501
+42200000,Namen: Menschengruppen (Anthroponyme),Names: Human Groups (Anthroponymes),42000000,,
+42210000,Namen: Namen von Ethnien,Names: Names of ethnicities,42200000,concept_23111200,concept_23111300
+42220000,Namen: Religionsnamen,Names: Religion names,42200000,,
+42300000,Namhafte Individuen nach Berufen (Anthroponyme),Renowned individuals by profession (anthroponyms),42000000,,
+42310000,Namhafte AlchemistInnen,Renowned alchemists,42300000,concept_32310000,
+42320000,Namhafte ArithmetikerInnen/MathematikerInnen,Renowned arithmeticians/mathematician,42300000,concept_32141000,
+42330000,Namhafte DialektikerInnen,Renowned dialecticians,42300000,concept_32131000,
+42340000,Namhafte GeografInnen,Renowned geographers,42300000,concept_32810000,
+42350000,Namhafte GrammatikerInnen,Renowned grammarians,42300000,concept_32111000,
+42360000,Namhafte HistorikerInnen,Renowned grammarians,42300000,concept_32910000,
+42370000,Namhafte KünstlerInnen,Renowned artists,42300000,concept_25141000,
+42380000,Namhafte LiteratInnen,Renowned writers,42300000,concept_25121000,
+42391000,Namhafte MedizinerInnen,Renowned physicians,42300000,concept_32610000,
+42393000,Namhafte MusiktheoretikerInnen,Renowned music theorists,42300000,concept_32171000,
+42394000,Namhafte PhilosophInnen,Renowned philosophers,42300000,concept_32710000,
+42395000,Namhafte RhetorikerInnen,Renowned rhetoricians,42300000,concept_32121000,
+42396000,Namhafte KriegerInnen,Renowned warriors,42300000,concept_23241000,
+42397000,Namhafte AstrologInnen/AstronomInnen,Renowned astrologers/astronomers,42300000,concept_32162000,
+43000000,Namen: Tiernamen (Zoonyme),Names: Animal Names (Zoonyms),40000000,,
+43100000,Namen: Säugetiernamen (Zoonyme),Names: Mammals names (Zoonyms),43000000,concept_14011400,
+43110000,Namen: Haustiere & Nutztiere (Zoonyme),Names: Pets & Farm animals (Zoonyms),43100000,,concept_14012100
+43111000,Namen: Pferdenamen (Zoonyme),Names: Horse names (Zoonyms),43110000,concept_23221000,
+43200000,Namen: Vogelnamen (Zoonyme),Names: Bird names (Zoonyms),43000000,concept_14027000,
+43300000,Namen: Fischnamen (Zoonyme),Names: Fish names (Zoonyms),43000000,concept_14034000,
+43400000,Namen: Reptiliennamen (Zoonyme),Names: Reptile names (Zoonyms),43000000,concept_14043000,
+43500000,Namen: Exotische Tiere (Zoonyme),Names: Exotic animals (zoonyms),43000000,concept_14017100,
+44000000,Namen: Mythische Geschöpfe (Theonyme & Mythonyme),Names: Mythical Beings (Theonyms & Mythonyms),40000000,,
+44100000,Namen: Götternamen (Theonyme),Names: God names (Theonyms),44000000,,
+44200000,Namen: Namen von Fabelwesen (Mythonyme),Names: Names of mythical beings (Mythonyms),44000000,,"concept_14110000,concept_21022000"
+45000000,Namen: Objektnamen (Chrematonyme),Names: Object Names (Chrematonyms),40000000,,
+45100000,Namen: Pflanzennamen (Phytonyme),Names: Plant names (Phytonyme),45000000,,concept_13131000
+45200000,Namen: Unbelebte Objekte (Chrematonyme),Names: Inanimate objects (Chrematonyms),45000000,,
+45210000,Namen: Waffennamen,Names: Weapon names,45200000,concept_23231100,
+45220000,Namen: Rüstungsnamen,Names: Armour names,45200000,concept_23233000,
+45230000,Namen: Namen von Tänzen & Musikstücken,Names: Names of dances & pieces of music,45200000,"concept_25132100,concept_25152100",concept_25153100
+45240000,Namen: Weinnamen,Names: Wine names,45200000,concept_23303610,
+45250000,Namen: Materialnamen/Rohstoffnamen,Names: Raw material names,45200000,,
+45260000,Namen von Schmuckgegenständen,Names: Names of Jewelry,45200000,,concept_21113060
+45270000,Namen von literarischen Werken/Werktitel,Names of literary works/work titles,45200000,concept_25122000,
+46000000,Namen: Zeit- & Ereignisnamen (Chrononyme),Names: Time & Event Names (Chrononyms),40000000,,
+46100000,Namen: Zeitnamen (Chrononyme),Names: Time names (Chrononyms),46000000,concept_31610000,
+46110000,Namen: Namen von Feiertagen (Chrononyme),Names: Names of festive holidays (Chrononyms),46100000,,concept_24458000
+46200000,Namen: Naturphänomene (Phänonyme),Names: Natural phenomena (phenonyms),46000000,,
+46210000,Namen: Wetternamen/Windnamen (Anemonyme),Names: Weather name/Wind names (Anemonyms),46200000,concept_11210000,
+46300000,Namen: Menschenbezogene Ereignisse (Praxonyme),Names: Human related events (Praxonyms),46000000,,
