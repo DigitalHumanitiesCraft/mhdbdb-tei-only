@@ -934,6 +934,120 @@ def create_works_tei(csv_file, output_file, persons_file=None):
         logger.error(f"Error creating works TEI file: {str(e)}")
         return False
 
+def parse_xml_dump(xml_dump_file):
+    """Parse the XML dump to extract word type to sense mappings"""
+    type_to_sense = {}
+
+    try:
+        # Create a parser that ignores DTD declarations
+        parser = etree.XMLParser(dtd_validation=False, load_dtd=False, resolve_entities=False)
+
+        # Parse the full file (safer for this specific XML format)
+        tree = etree.parse(xml_dump_file, parser)
+
+        # Find all DATA_RECORD elements
+        for record in tree.findall("//DATA_RECORD"):
+            word_elem = record.find("WORD")
+            meaning_elem = record.find("MEANING")
+
+            if word_elem is not None and word_elem.text and meaning_elem is not None and meaning_elem.text:
+                type_id = word_elem.text.strip()
+                sense_id = meaning_elem.text.strip()
+
+                # Store the mapping
+                if type_id and sense_id:
+                    type_to_sense[type_id] = sense_id
+
+        logger.info(f"Parsed {len(type_to_sense)} type-sense mappings from XML dump")
+        return type_to_sense
+    except Exception as e:
+        logger.error(f"Error parsing XML dump: {str(e)}")
+        return {}
+
+
+def extract_sense_concepts(lexicon_file):
+    """Extract sense-concept mappings from lexicon.xml"""
+    sense_to_concepts = {}
+
+    try:
+        tree = etree.parse(lexicon_file)
+        ns = {"tei": TEI_NS, "xml": XML_NS}
+
+        for sense in tree.findall(f".//tei:sense", ns):
+            sense_id_full = sense.get(f"{{{XML_NS}}}id")
+            if not sense_id_full or "_sense_" not in sense_id_full:
+                continue
+
+            # Extract the basic sense ID
+            sense_id = sense_id_full.split("_sense_")[1]
+
+            # Get all concept references
+            concepts = []
+            for ptr in sense.findall(f".//tei:ptr", ns):
+                target = ptr.get('target')
+                if target and 'concept_' in target:
+                    concept_id = target.split('concept_')[1]
+                    concepts.append(concept_id)
+
+            # Store mapping
+            sense_to_concepts[sense_id] = concepts
+
+        logger.info(f"Extracted {len(sense_to_concepts)} sense-concept mappings from lexicon.xml")
+        return sense_to_concepts
+    except Exception as e:
+        logger.error(f"Error extracting sense-concept mappings: {str(e)}")
+        return {}
+
+
+def create_types_tei(xml_dump_file, lexicon_file, output_file):
+    """Create types.xml connecting types to senses and concepts"""
+    logger.info(f"Creating TEI types registry from {xml_dump_file}")
+
+    try:
+        # Get type-sense mappings from XML dump
+        type_to_sense = parse_xml_dump(xml_dump_file)
+
+        # Get sense-concept mappings from lexicon.xml
+        sense_to_concepts = extract_sense_concepts(lexicon_file)
+
+        # Create TEI structure
+        tei, body = create_tei_base("MHDBDB Word Type Registry")
+        type_registry = ET.SubElement(body, "{" + TEI_NS + "}div")
+        type_registry.set("type", "typeRegistry")
+
+        # Count of processed types
+        processed = 0
+
+        # Create entries
+        for type_id, sense_id in type_to_sense.items():
+            form = ET.SubElement(type_registry, "{" + TEI_NS + "}form")
+            form.set("{" + XML_NS + "}id", f"type_{type_id}")
+
+            # Add sense reference
+            ptr = ET.SubElement(form, "{" + TEI_NS + "}ptr")
+            ptr.set("type", "sense")
+            ptr.set("target", f"lexicon.xml#sense_{sense_id}")
+
+            # Add concept references if available
+            if sense_id in sense_to_concepts:
+                for concept_id in sense_to_concepts[sense_id]:
+                    concept_ptr = ET.SubElement(form, "{" + TEI_NS + "}ptr")
+                    concept_ptr.set("type", "concept")
+                    concept_ptr.set("target", f"concepts.xml#concept_{concept_id}")
+
+            processed += 1
+
+        # Write to file
+        success = write_tei_file(tei, output_file)
+        if success:
+            logger.info(f"Created TEI types file: {output_file}")
+            logger.info(f"Processed {processed} unique word types")
+
+        return success
+    except Exception as e:
+        logger.error(f"Error creating types TEI file: {str(e)}")
+        return False
+
 
 def enhance_tei_header(tei_file, works_csv, persons_csv, output_file):
     """Add metadata from works and persons data to TEI file headers"""
@@ -1358,6 +1472,7 @@ if __name__ == "__main__":
         print("    python tei-transformation.py --lists genres")
         print("    python tei-transformation.py --lists names")
         print("    python tei-transformation.py --lists works")
+        print("    python tei-transformation.py --lists types path/to/xml_dump.xml")
 
         print("\n  Change output directory:")
         print("    python tei-transformation.py --output output_dir")
@@ -1503,6 +1618,26 @@ if __name__ == "__main__":
                 os.path.join(output_dir, "works.xml"),
                 os.path.join(csv_dir, "persons.csv")
             )
+
+        elif list_type == "types":
+            if len(sys.argv) < 4:
+                logger.error("Error: Missing XML dump file path for types list generation")
+                print("Usage: python tei-transformation.py --lists types path/to/xml_dump.xml")
+                sys.exit(1)
+
+            xml_dump_file = sys.argv[3]
+            lexicon_file = os.path.join(output_dir, "lexicon.xml")
+            types_output_file = os.path.join(output_dir, "types.xml")
+
+            # Check if lexicon.xml exists, create it if not
+            if not os.path.exists(lexicon_file):
+                logger.info("lexicon.xml not found, creating it first...")
+                create_lexicon_tei(
+                    os.path.join(csv_dir, "lexicon.csv"),
+                    lexicon_file
+                )
+
+            create_types_tei(xml_dump_file, lexicon_file, types_output_file)
 
         else:
             logger.error(f"Unknown list type: {list_type}")
