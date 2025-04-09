@@ -1458,6 +1458,35 @@ def get_authority_file_path(file_name):
     """Get the full path to an authority file in the output directory."""
     return os.path.join(authority_output_dir, file_name)
 
+def check_skipped_files(input_dir="./", output_dir="./output"):
+    """
+    Check if all TEI files from the input directory have been processed and exist
+    in the output directory. Reports any files that were skipped during processing.
+
+    Args:
+        input_dir: Directory containing original TEI files (default: current directory)
+        output_dir: Directory containing processed TEI files (default: ./output)
+
+    Returns:
+        A set of filenames that were skipped
+    """
+    # Get lists of TEI files in both directories
+    input_files = set([f for f in os.listdir(input_dir) if f.endswith(".tei.xml")])
+    output_files = set([f for f in os.listdir(output_dir) if f.endswith(".tei.xml")])
+
+    # Find files in input directory that are missing from output directory
+    skipped_files = input_files - output_files
+
+    # Report results
+    if skipped_files:
+        print(f"Found {len(skipped_files)} files that were not processed:")
+        for file in sorted(skipped_files):
+            print(f"  - {file}")
+    else:
+        print(f"All {len(input_files)} input files were successfully processed.")
+
+    return skipped_files
+
 
 if __name__ == "__main__":
     # Setup command line argument parsing
@@ -1485,6 +1514,9 @@ if __name__ == "__main__":
 
         print("\n  Enable debug output:")
         print("    TEI_DEBUG=1 python tei-transformation.py")
+
+        print("\n  Check for skipped files:")
+        print("    python tei-transformation.py --check-skipped")
         sys.exit(0)
 
     # Default paths
@@ -1647,10 +1679,15 @@ if __name__ == "__main__":
 
             create_types_tei(xml_dump_file, lexicon_file, types_output_file)
 
+
+
         else:
             logger.error(f"Unknown list type: {list_type}")
             logger.error("Valid options: all, persons, lexicon, concepts, genres, names, works")
             sys.exit(1)
+
+    elif len(sys.argv) > 1 and sys.argv[1] == "--check-skipped":
+        check_skipped_files()
 
     # Default behavior: Process all TEI files
     else:
