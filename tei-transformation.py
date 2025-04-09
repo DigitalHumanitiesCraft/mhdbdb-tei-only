@@ -1191,7 +1191,7 @@ def enhance_tei_header(tei_file, works_csv, persons_csv, output_file):
 
                 # Add author element
                 author = etree.SubElement(title_stmt, "{" + TEI_NS + "}author")
-                author.set("ref", f"persons.xml#person_{author_id}")
+                author.set("ref", f"../lists/output/persons.xml#person_{author_id}")
                 if author_name:
                     author.text = author_name
 
@@ -1264,7 +1264,7 @@ def enhance_tei_header(tei_file, works_csv, persons_csv, output_file):
         # Create msDesc structure
         ms_desc = etree.SubElement(source_desc, "{" + TEI_NS + "}msDesc")
         ms_identifier = etree.SubElement(ms_desc, "{" + TEI_NS + "}msIdentifier")
-        ms_identifier.set("corresp", f"works.xml#work_{work_id}")
+        ms_identifier.set("corresp", f"../lists/output/works.xml#work_{work_id}")
 
         # Add sigle
         idno = etree.SubElement(ms_identifier, "{" + TEI_NS + "}idno")
@@ -1325,7 +1325,7 @@ def update_tei_references(tei_file, output_file):
 
                 # Skip if already updated
                 if not lemma_ref.startswith("lexicon.xml#"):
-                    w_elem.attrib['lemmaRef'] = f"lexicon.xml#lemma_{lemma_ref}"
+                    w_elem.attrib['lemmaRef'] = f"../lists/output/lexicon.xml#lemma_{lemma_ref}"
                     lemma_id = lemma_ref  # Store raw lemma ID
                 else:
                     # Extract lemma ID from fully formed reference
@@ -1347,7 +1347,7 @@ def update_tei_references(tei_file, output_file):
 
                         if lemma_id:
                             # Convert to proper lemma-based sense reference
-                            w_elem.attrib['meaningRef'] = f"lexicon.xml#lemma_{lemma_id}_sense_{sense_num}"
+                            w_elem.attrib['meaningRef'] = f"../lists/output/lexicon.xml#lemma_{lemma_id}_sense_{sense_num}"
 
                     # Case 2: Referencing concept file
                     elif sense_ref.startswith("concepts.xml#concept_"):
@@ -1355,10 +1355,10 @@ def update_tei_references(tei_file, output_file):
 
                         if lemma_id:
                             # Convert concept reference to lemma-based sense reference
-                            w_elem.attrib['meaningRef'] = f"lexicon.xml#lemma_{lemma_id}_sense_{sense_num}"
+                            w_elem.attrib['meaningRef'] = f"../lists/output/lexicon.xml#lemma_{lemma_id}_sense_{sense_num}"
                         else:
                             # No lemma available, use basic sense reference
-                            w_elem.attrib['meaningRef'] = f"lexicon.xml#sense_{sense_num}"
+                            w_elem.attrib['meaningRef'] = f"../lists/output/lexicon.xml#sense_{sense_num}"
 
                     # Case 3: Raw sense ID (not formatted yet)
                     else:
@@ -1366,17 +1366,17 @@ def update_tei_references(tei_file, output_file):
 
                         if lemma_id:
                             # Create proper lemma-based sense reference
-                            w_elem.attrib['meaningRef'] = f"lexicon.xml#lemma_{lemma_id}_sense_{sense_num}"
+                            w_elem.attrib['meaningRef'] = f"../lists/output/lexicon.xml#lemma_{lemma_id}_sense_{sense_num}"
                         else:
                             # No lemma available, use basic sense reference
-                            w_elem.attrib['meaningRef'] = f"lexicon.xml#sense_{sense_num}"
+                            w_elem.attrib['meaningRef'] = f"../lists/output/lexicon.xml#sense_{sense_num}"
 
             # Update word reference
             if 'wordRef' in w_elem.attrib:
                 word_id = w_elem.attrib['wordRef']
                 # Skip if already updated
                 if not word_id.startswith("types.xml#"):
-                    w_elem.attrib['wordRef'] = f"types.xml#type_{word_id}"
+                    w_elem.attrib['wordRef'] = f"../lists/output/types.xml#type_{word_id}"
 
             # Copy any child elements (though tokens shouldn't typically have children)
             for child in token:
@@ -1453,6 +1453,12 @@ def process_text_files(input_dir, works_csv, persons_csv, output_dir):
         return 0
 
 
+# Get absolute paths for consistent reference handling
+def get_authority_file_path(file_name):
+    """Get the full path to an authority file in the output directory."""
+    return os.path.join(authority_output_dir, file_name)
+
+
 if __name__ == "__main__":
     # Setup command line argument parsing
     if len(sys.argv) == 1 or sys.argv[1] == "--help":
@@ -1483,8 +1489,9 @@ if __name__ == "__main__":
 
     # Default paths
     input_dir = "./"  # Current directory, where the script is now
-    csv_dir = "./lists"  # Lists subdirectory
-    output_dir = "./output"  # Output directory
+    csv_dir = "./lists"  # Lists subdirectory for input CSVs
+    output_dir = "./output"  # Output directory for processed TEI files
+    authority_output_dir = os.path.join(csv_dir, "output")  # Authority files output directory
 
     # Check for output directory override
     if "--output" in sys.argv:
@@ -1495,12 +1502,13 @@ if __name__ == "__main__":
             sys.argv.pop(output_idx)
             sys.argv.pop(output_idx)
 
-    # Create output directory
+    # Create output directories
     try:
         os.makedirs(output_dir, exist_ok=True)
-        logger.debug(f"Output directory ensured: {output_dir}")
+        os.makedirs(authority_output_dir, exist_ok=True)
+        logger.debug(f"Output directories ensured: {output_dir} and {authority_output_dir}")
     except Exception as e:
-        logger.error(f"Cannot create output directory {output_dir}: {str(e)}")
+        logger.error(f"Cannot create output directories: {str(e)}")
         sys.exit(1)
 
     # Handle a single file
@@ -1557,65 +1565,65 @@ if __name__ == "__main__":
             logger.info("Generating all authority files...")
             create_persons_tei(
                 os.path.join(csv_dir, "persons.csv"),
-                os.path.join(output_dir, "persons.xml")
+                get_authority_file_path("persons.xml")
             )
             create_lexicon_tei(
                 os.path.join(csv_dir, "lexicon.csv"),
-                os.path.join(output_dir, "lexicon.xml")
+                get_authority_file_path("lexicon.xml")
             )
             create_concepts_tei(
                 os.path.join(csv_dir, "concepts.csv"),
-                os.path.join(output_dir, "concepts.xml")
+                get_authority_file_path("concepts.xml")
             )
             create_genres_tei(
                 os.path.join(csv_dir, "genres.csv"),
-                os.path.join(output_dir, "genres.xml")
+                get_authority_file_path("genres.xml")
             )
             create_names_tei(
                 os.path.join(csv_dir, "onomastic.csv"),
-                os.path.join(output_dir, "names.xml")
+                get_authority_file_path("names.xml")
             )
             create_works_tei(
                 os.path.join(csv_dir, "works.csv"),
-                os.path.join(output_dir, "works.xml"),
+                get_authority_file_path("works.xml"),
                 os.path.join(csv_dir, "persons.csv")
             )
-            logger.info(f"All authority files generated in {output_dir}")
+            logger.info(f"All authority files generated in {authority_output_dir}")
 
         elif list_type == "persons":
             create_persons_tei(
                 os.path.join(csv_dir, "persons.csv"),
-                os.path.join(output_dir, "persons.xml")
+                get_authority_file_path("persons.xml")
             )
 
         elif list_type == "lexicon":
             create_lexicon_tei(
                 os.path.join(csv_dir, "lexicon.csv"),
-                os.path.join(output_dir, "lexicon.xml")
+                get_authority_file_path("lexicon.xml")
             )
 
         elif list_type == "concepts":
             create_concepts_tei(
                 os.path.join(csv_dir, "concepts.csv"),
-                os.path.join(output_dir, "concepts.xml")
+                get_authority_file_path("concepts.xml")
             )
 
         elif list_type == "genres":
             create_genres_tei(
                 os.path.join(csv_dir, "genres.csv"),
-                os.path.join(output_dir, "genres.xml")
+                get_authority_file_path("genres.xml")
             )
 
         elif list_type == "names":
             create_names_tei(
                 os.path.join(csv_dir, "onomastic.csv"),
-                os.path.join(output_dir, "names.xml")
+                get_authority_file_path("names.xml")
             )
 
         elif list_type == "works":
             create_works_tei(
                 os.path.join(csv_dir, "works.csv"),
-                os.path.join(output_dir, "works.xml"),
+                get_authority_file_path("works.xml"),
                 os.path.join(csv_dir, "persons.csv")
             )
 
@@ -1626,12 +1634,12 @@ if __name__ == "__main__":
                 sys.exit(1)
 
             xml_dump_file = sys.argv[3]
-            lexicon_file = os.path.join(output_dir, "lexicon.xml")
-            types_output_file = os.path.join(output_dir, "types.xml")
+            lexicon_file = get_authority_file_path("lexicon.xml")
+            types_output_file = get_authority_file_path("types.xml")
 
             # Check if lexicon.xml exists, create it if not
             if not os.path.exists(lexicon_file):
-                logger.info("lexicon.xml not found, creating it first...")
+                logger.info(f"lexicon.xml not found at {lexicon_file}, creating it first...")
                 create_lexicon_tei(
                     os.path.join(csv_dir, "lexicon.csv"),
                     lexicon_file
