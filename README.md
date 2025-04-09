@@ -30,7 +30,8 @@ These files serve as the source data for generating the TEI authority files and 
 
 - `./*.tei.xml` - TEI text files to be processed (input)
 - `./lists/` - Directory containing CSV files
-- `./output/` - Generated output files
+- `./lists/output/` - Generated authority files (persons.xml, lexicon.xml, etc.)
+- `./output/` - Generated processed TEI text files
 
 ## Usage
 
@@ -75,10 +76,12 @@ Generate the word types authority file from XML dump:
 python tei-transformation.py --lists types path/to/xml_dump.xml
 ```
 
-Generate the word types authority file from XML dump:
+### Check for Skipped Files
+
+Verify that all input files have been successfully processed:
 
 ```bash
-python tei-transformation.py --lists types path/to/xml_dump.xml
+python tei-transformation.py --check-skipped
 ```
 
 ### Change Output Directory
@@ -105,6 +108,16 @@ The script generates the following TEI XML files:
 - `works.xml` - Registry of works with sigles, titles, and author information
 - `types.xml` - Registry of word types with references to senses and concepts
 - Enhanced TEI text files with proper headers and updated reference systems
+
+## TODO
+
+Known issues that need attention:
+
+- Currently, some files are skipped during processing due to missing work data:
+  - REG.tei.xml
+  - VOR.tei.xml
+  - ZWR.tei.xml
+- These files need to be manually verified and their corresponding work data added to the CSV files.
 
 ## Terminology Reference
 
