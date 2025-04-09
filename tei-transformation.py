@@ -1191,7 +1191,7 @@ def enhance_tei_header(tei_file, works_csv, persons_csv, output_file):
 
                 # Add author element
                 author = etree.SubElement(title_stmt, "{" + TEI_NS + "}author")
-                author.set("ref", f"../lists/output/persons.xml#person_{author_id}")
+                author.set("ref", f"persons.xml#person_{author_id}")
                 if author_name:
                     author.text = author_name
 
@@ -1264,7 +1264,7 @@ def enhance_tei_header(tei_file, works_csv, persons_csv, output_file):
         # Create msDesc structure
         ms_desc = etree.SubElement(source_desc, "{" + TEI_NS + "}msDesc")
         ms_identifier = etree.SubElement(ms_desc, "{" + TEI_NS + "}msIdentifier")
-        ms_identifier.set("corresp", f"../lists/output/works.xml#work_{work_id}")
+        ms_identifier.set("corresp", f"works.xml#work_{work_id}")
 
         # Add sigle
         idno = etree.SubElement(ms_identifier, "{" + TEI_NS + "}idno")
@@ -1325,7 +1325,7 @@ def update_tei_references(tei_file, output_file):
 
                 # Skip if already updated
                 if not lemma_ref.startswith("lexicon.xml#"):
-                    w_elem.attrib['lemmaRef'] = f"../lists/output/lexicon.xml#lemma_{lemma_ref}"
+                    w_elem.attrib['lemmaRef'] = f"lexicon.xml#lemma_{lemma_ref}"
                     lemma_id = lemma_ref  # Store raw lemma ID
                 else:
                     # Extract lemma ID from fully formed reference
@@ -1347,7 +1347,7 @@ def update_tei_references(tei_file, output_file):
 
                         if lemma_id:
                             # Convert to proper lemma-based sense reference
-                            w_elem.attrib['meaningRef'] = f"../lists/output/lexicon.xml#lemma_{lemma_id}_sense_{sense_num}"
+                            w_elem.attrib['meaningRef'] = f"lexicon.xml#lemma_{lemma_id}_sense_{sense_num}"
 
                     # Case 2: Referencing concept file
                     elif sense_ref.startswith("concepts.xml#concept_"):
@@ -1355,10 +1355,10 @@ def update_tei_references(tei_file, output_file):
 
                         if lemma_id:
                             # Convert concept reference to lemma-based sense reference
-                            w_elem.attrib['meaningRef'] = f"../lists/output/lexicon.xml#lemma_{lemma_id}_sense_{sense_num}"
+                            w_elem.attrib['meaningRef'] = f"lexicon.xml#lemma_{lemma_id}_sense_{sense_num}"
                         else:
                             # No lemma available, use basic sense reference
-                            w_elem.attrib['meaningRef'] = f"../lists/output/lexicon.xml#sense_{sense_num}"
+                            w_elem.attrib['meaningRef'] = f"lexicon.xml#sense_{sense_num}"
 
                     # Case 3: Raw sense ID (not formatted yet)
                     else:
@@ -1366,17 +1366,17 @@ def update_tei_references(tei_file, output_file):
 
                         if lemma_id:
                             # Create proper lemma-based sense reference
-                            w_elem.attrib['meaningRef'] = f"../lists/output/lexicon.xml#lemma_{lemma_id}_sense_{sense_num}"
+                            w_elem.attrib['meaningRef'] = f"lexicon.xml#lemma_{lemma_id}_sense_{sense_num}"
                         else:
                             # No lemma available, use basic sense reference
-                            w_elem.attrib['meaningRef'] = f"../lists/output/lexicon.xml#sense_{sense_num}"
+                            w_elem.attrib['meaningRef'] = f"lexicon.xml#sense_{sense_num}"
 
             # Update word reference
             if 'wordRef' in w_elem.attrib:
                 word_id = w_elem.attrib['wordRef']
                 # Skip if already updated
                 if not word_id.startswith("types.xml#"):
-                    w_elem.attrib['wordRef'] = f"../lists/output/types.xml#type_{word_id}"
+                    w_elem.attrib['wordRef'] = f"types.xml#type_{word_id}"
 
             # Copy any child elements (though tokens shouldn't typically have children)
             for child in token:
@@ -1490,7 +1490,7 @@ def check_skipped_files(input_dir="./", output_dir="./output"):
 
 if __name__ == "__main__":
     # Setup command line argument parsing
-    if len(sys.argv) == 1 or sys.argv[1] == "--help":
+    if len(sys.argv) > 1 and sys.argv[1] == "--help":
         print("MHDBDB TEI Migration Tool")
         print("\nUsage:")
         print("  Default (process all TEI files):")
