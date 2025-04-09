@@ -199,6 +199,20 @@ GROUP BY ?genreId ?labelDe
 ORDER BY ?genreId
 ```
 
+There are textTypes and :textreihentypologie. But where is the connection to work?
+
+```sparql
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX mhdbdbi: <https://dh.plus.ac.at/mhdbdb/instance/>
+PREFIX : <https://dhplus.sbg.ac.at/mhdbdb/instance/> 
+
+SELECT ?textType ?prefLabel ?altLabel
+WHERE {
+    {?textType skos:inScheme mhdbdbi:textTypes.} UNION { ?textType skos:inScheme :textreihentypologie .}
+  OPTIONAL { ?textType skos:prefLabel ?prefLabel . }
+  OPTIONAL { ?textType skos:altLabel ?altLabel . }
+}
+```
 ## 5. Names/Onomastic Concepts Query
 
 **Purpose**: Extracts name system concepts with language labels and relationships
