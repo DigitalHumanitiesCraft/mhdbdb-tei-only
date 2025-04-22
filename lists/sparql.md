@@ -373,7 +373,7 @@ WHERE {
   #     • leave the BIND line for single‑work testing
   #     • delete it for a full export of the repository
   ###########################################################################
-  BIND(mhdbdbi:work_89 AS ?id)      # ← remove this line to export all works
+      
   ?id a dhpluso:Text .
 
   ###########################################################################
@@ -449,5 +449,5 @@ WHERE {
     OPTIONAL { ?bib bf:provisionActivityDate ?bibDate }
   }
 }
-ORDER BY ?id ?labelLang
+ORDER BY ?label
 ```
