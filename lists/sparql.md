@@ -21,7 +21,7 @@ SELECT DISTINCT ?personId ?preferredName
                 (SAMPLE(?labelEn) AS ?labelEn) 
                 ?gndId ?wikidataId
                 (MAX(?creationDate) AS ?latestDate)
-                (GROUP_CONCAT(DISTINCT ?workId; SEPARATOR=",") AS ?associatedWorks)
+                (GROUP_CONCAT(DISTINCT ?workId; SEPARATOR=",") AS ?associated)
 WHERE {
   # Person basic data
   ?personURI a dhpluso:Person .
@@ -265,58 +265,162 @@ ORDER BY ?nameConceptId
 **Purpose**: Extracts work metadata with sigle, title, author references, and external identifiers
 
 ```sparql
-PREFIX dhpluso: <https://dh.plus.ac.at/ontology#>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX owl: <http://www.w3.org/2002/07/owl#>
+###############################################################################
+#  MHDBDB  –  WORK‑LEVEL EXPORT (lean, no heavy joins, no aggregation)
+#  ---------------------------------------------------------------------------
+#  • 1 row for every *literal or URI* that matters
+#  • Language tags kept only where they exist (work / genre labels)
+#  • “bib*” literals kept once – they are not language‑tagged in the dataset
+#  • Genre URIs filtered to the useful dhplus.sbg.ac.at namespace
+#
+#  Result columns
+#  --------------
+#    id                          work URI
+#    label                       work label literal
+#    labelLang                   its @xml:lang
+#    sameAs                      every owl:sameAs link
+#    authorId                    URI of every contributor with role=aut
+#    instance                    every electronic instance URI
+#    genreForm                   specific genre concept URI
+#    genreFormLabel              its German/English prefLabel (with lang tag)
+#    genreFormLabelLang
+#    genreFormMainParent         parent genre URI (if stored separately)
+#    genreFormMainParentLabel    its prefLabel
+#    genreParentLabelLang
+#    bibTitle                    every BIBFRAME main title literal (no lang tag)
+#    bibPlace                    place literal  (if any, no lang tag)
+#    bibAgent                    agent literal  (if any, no lang tag)
+#    bibDate                     date literal   (if any)
+#
+#  To export ALL works: ***PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+# delete the `BIND` line*** (marked below)
+#  ---------------------------------------------------------------------------
+###############################################################################
 
-SELECT DISTINCT ?workURI ?workId ?title ?sigle ?handschriftencensusId ?wikidataId ?gndId
+PREFIX dhpluso: <https://dh.plus.ac.at/ontology#>
+PREFIX rel:     <http://id.loc.gov/vocabulary/relators/>
+PREFIX bf:      <http://id.loc.gov/ontologies/bibframe/>
+PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl:     <http://www.w3.org/2002/07/owl#>
+PREFIX skos:    <http://www.w3.org/2004/02/skos/core#>
+PREFIX mhdbdbi: <https://dh.plus.ac.at/mhdbdb/instance/>
+
+SELECT DISTINCT
+       #######################################################################
+       # work identity & label ----------------------------------------------
+       #######################################################################
+       ?id
+       ?label                         (LANG(?label) AS ?labelLang)
+
+       #######################################################################
+       # external identifier -----------------------------------------------
+       #######################################################################
+       ?sameAs
+
+       #######################################################################
+       # authors (role = aut) -----------------------------------------------
+       #######################################################################
+       ?authorId
+
+       #######################################################################
+       # electronic instance URI --------------------------------------------
+       #######################################################################
+       ?instance
+
+       #######################################################################
+       # genre hierarchy -----------------------------------------------------
+       #######################################################################
+       ?genreForm           ?genreFormLabel
+                            (LANG(?genreFormLabel) AS ?genreFormLabelLang)
+       ?genreFormMainParent ?genreFormMainParentLabel
+                            (LANG(?genreFormMainParentLabel) AS ?genreParentLabelLang)
+
+       #######################################################################
+       # BIBFRAME literals ---------------------------------------------------
+       #######################################################################
+       ?bibTitle ?bibPlace ?bibAgent ?bibDate
 WHERE {
-  # Find all works
-  ?workURI a dhpluso:Text .
-  
-  # Get the work ID (whether numeric or UUID)
-  BIND(REPLACE(STR(?workURI), "^.*/", "") AS ?workId)
-  
-  # Get titles
+
+  ###########################################################################
+  # 0)  CHOOSE SCOPE  -------------------------------------------------------
+  #     • leave the BIND line for single‑work testing
+  #     • delete it for a full export of the repository
+  ###########################################################################
+  BIND(mhdbdbi:work_89 AS ?id)      # ← remove this line to export all works
+  ?id a dhpluso:Text .
+
+  ###########################################################################
+  # 1)  work labels (we keep ALL languages) ---------------------------------
+  ###########################################################################
+  ?id rdfs:label ?label .
+
+  ###########################################################################
+  # 2)  external identifiers -----------------------------------------------
+  ###########################################################################
+  OPTIONAL { ?id owl:sameAs ?sameAs }
+
+  ###########################################################################
+  # 3)  author links (URIs only) --------------------------------------------
+  ###########################################################################
   OPTIONAL {
-    ?workURI rdfs:label ?label .
-    FILTER(LANG(?label) = "de" || LANG(?label) = "")
-    BIND(STR(?label) AS ?title)
+    ?id dhpluso:contribution ?c .
+    ?c dhpluso:agent ?authorId ;
+       dhpluso:role  rel:aut .
   }
-  
-  # Get sigles through expression and instance
+
+  ###########################################################################
+  # 4)  electronic instances (URIs only) ------------------------------------
+  ###########################################################################
   OPTIONAL {
-    ?workURI dhpluso:hasExpression ?expressionURI .
-    ?expressionURI dhpluso:hasInstance ?instanceURI .
-    
-    # Extract sigle from instance URI
-    BIND(REPLACE(STR(?instanceURI), "^.*/([^/]+)(?:/.*)?$", "$1") AS ?rawSigle)
-    
-    # Filter out non-sigle values
-    FILTER(?rawSigle != "print")
-    FILTER(!REGEX(?rawSigle, "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"))
-    
-    BIND(?rawSigle AS ?sigle)
+    ?id dhpluso:hasExpression/dhpluso:hasInstance ?instance .
+    ?instance a dhpluso:Electronic .
   }
-  
-  # Get external identifiers
+
+  ###########################################################################
+  # 5)  genre / text‑type ---------------------------------------------------
+  #     • keep only URIs in the dhplus.sbg.ac.at namespace
+  #     • pull prefLabels for both the direct genre and its main parent
+  ###########################################################################
   OPTIONAL {
-    ?workURI owl:sameAs ?hcURI .
-    FILTER(CONTAINS(STR(?hcURI), "handschriftencensus.de"))
-    BIND(REPLACE(STR(?hcURI), "^.*werke/", "") AS ?handschriftencensusId)
+    ?id dhpluso:genreForm ?genreForm .
+    FILTER(STRSTARTS(STR(?genreForm), "https://dhplus.sbg.ac.at/"))
+    OPTIONAL { ?genreForm skos:prefLabel ?genreFormLabel }
   }
-  
   OPTIONAL {
-    ?workURI owl:sameAs ?wdURI .
-    FILTER(CONTAINS(STR(?wdURI), "wikidata.org"))
-    BIND(REPLACE(STR(?wdURI), "^.*/", "") AS ?wikidataId)
+    ?id dhpluso:genreFormMainparent ?genreFormMainParent .
+    FILTER(STRSTARTS(STR(?genreFormMainParent), "https://dhplus.sbg.ac.at/"))
+    OPTIONAL { ?genreFormMainParent skos:prefLabel ?genreFormMainParentLabel }
   }
-  
+
+  ###########################################################################
+  # 6)  BIBFRAME data -------------------------------------------------------
+  #     literals are stored WITHOUT language tags – no LANG() columns here
+  ###########################################################################
   OPTIONAL {
-    ?workURI owl:sameAs ?gndURI .
-    FILTER(CONTAINS(STR(?gndURI), "d-nb.info/gnd"))
-    BIND(REPLACE(STR(?gndURI), "^.*/gnd/", "") AS ?gndId)
+    ?bib bf:instanceOf ?id .
+
+    # main title (nested or flat)
+    { ?bib bf:title/bf:mainTitle ?bibTitle }
+    UNION
+    { ?bib bf:title ?t FILTER(isLiteral(?t)) BIND(?t AS ?bibTitle) }
+
+    # provisionActivity on bib
+    OPTIONAL {
+      ?bib bf:provisionActivity ?pa .
+      OPTIONAL { ?pa bf:place/(rdfs:label|bf:placeTerm/rdfs:label) ?bibPlace }
+      OPTIONAL { ?pa bf:agent/(rdfs:label|bf:agentLiteral)        ?bibAgent }
+      OPTIONAL { ?pa bf:date                                     ?bibDate  }
+    }
+    # provisionActivity on parent record
+    OPTIONAL {
+      ?bib bf:partOf/bf:provisionActivity ?pa2 .
+      OPTIONAL { ?pa2 bf:place/(rdfs:label|bf:placeTerm/rdfs:label) ?bibPlace }
+      OPTIONAL { ?pa2 bf:agent/(rdfs:label|bf:agentLiteral)         ?bibAgent }
+      OPTIONAL { ?pa2 bf:date                                      ?bibDate  }
+    }
+    # legacy date literal on bib record
+    OPTIONAL { ?bib bf:provisionActivityDate ?bibDate }
   }
 }
-ORDER BY ?workId ?sigle
+ORDER BY ?id ?labelLang
 ```
