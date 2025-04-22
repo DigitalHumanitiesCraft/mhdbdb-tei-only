@@ -171,32 +171,59 @@ ORDER BY ?conceptId
 **Purpose**: Extracts text genre classifications with German labels and hierarchies
 
 ```sparql
+###############################################################################
+#  FLAT export: every label on every concept and on every broader ancestor
+###############################################################################
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
-SELECT DISTINCT ?genreId ?labelDe
-       (GROUP_CONCAT(DISTINCT ?broaderGenreId; SEPARATOR=",") AS ?broaderGenres)
+SELECT
+  ###########################################################################
+  # ── focus concept (child) -------------------------------------------------
+  ###########################################################################
+  ?concept                                   # full URI
+  (REPLACE(STR(?concept), "^.*/(?:textType_|c_)", "")
+                                             AS ?conceptId)
+  ?conceptLabel                              # literal (pref OR alt)
+  (LANG(?conceptLabel)                       AS ?conceptLang)
+  (REPLACE(STR(?scheme), "^.*/", "")
+                                             AS ?schemeId)
+
+  ###########################################################################
+  # ── immediate or distant broader concept ---------------------------------
+  ###########################################################################
+  ?broader                                   # ancestor URI (UNDEF if none)
+  ?broaderLabel                              # every label of that ancestor
+  (LANG(?broaderLabel)                       AS ?broaderLang)
+  (REPLACE(STR(?broader), "^.*/(?:textType_|c_)", "")
+                                             AS ?broaderId)
 WHERE {
-  # Focus only on text types
-  ?genreURI a skos:Concept .
-  FILTER(REGEX(STR(?genreURI), "textType_"))
-  
-  # Extract the genre ID
-  BIND(REPLACE(STR(?genreURI), "^.*/textType_", "") AS ?genreId)
-  
-  # Get German labels
-  ?genreURI skos:prefLabel ?labelDe . 
-  FILTER(LANG(?labelDe) = "de")
-  
-  # Get broader genres
+  ###########################################################################
+  # 1  restrict to both genre schemes
+  ###########################################################################
+  ?concept a skos:Concept ;
+           skos:inScheme ?scheme .
+
+  FILTER(?scheme IN (
+      <https://dhplus.sbg.ac.at/mhdbdb/instance/textTypes>,
+      <https://dhplus.sbg.ac.at/mhdbdb/instance/textreihentypologie>
+  ))
+
+  ###########################################################################
+  # 2  every label on the focus concept
+  ###########################################################################
+  { ?concept skos:prefLabel | skos:altLabel  ?conceptLabel }
+
+  ###########################################################################
+  # 3  walk the entire broader chain (zero‑to‑many)
+  ###########################################################################
   OPTIONAL {
-    ?genreURI skos:broader ?broaderURI .
-    FILTER(REGEX(STR(?broaderURI), "textType_"))
-    BIND(REPLACE(STR(?broaderURI), "^.*/textType_", "") AS ?broaderGenreId)
+    ?concept skos:broader+ ?broader .
+
+    # every label on each ancestor
+    ?broader skos:prefLabel | skos:altLabel ?broaderLabel .
   }
 }
-GROUP BY ?genreId ?labelDe
-ORDER BY ?genreId
+ORDER BY ?schemeId ?conceptId ?conceptLang ?broaderId ?broaderLang
 ```
 
 There are textTypes and :textreihentypologie. But where is the connection to work?
