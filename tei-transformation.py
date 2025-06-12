@@ -349,8 +349,8 @@ def create_persons_tei(csv_file, output_file):
         return False
 
 
-def create_lexicon_tei(csv_file, output_file):
-    """Transform lemma data to TEI dictionary format based on actual data model"""
+def create_lexicon_tei(csv_file, output_file, textword_file=None):
+    """Transform lemma data to TEI dictionary format with integrated word types via @ana"""
     logger.info(f"Creating TEI lexicon from {csv_file}")
 
     tei, body = create_tei_base("MHDBDB Middle High German Lexicon")
@@ -361,6 +361,15 @@ def create_lexicon_tei(csv_file, output_file):
 
     # Dictionary to collect data for each lemma
     lemma_data = {}
+
+    # NEW: Build sense_id → [word_types] mapping from TEXTWORD.xml
+    sense_to_types = defaultdict(list)
+    if textword_file and os.path.exists(textword_file):
+        logger.info(f"Processing word types from {textword_file}")
+        type_to_sense = parse_xml_dump(textword_file)
+        for word_type, sense_id in type_to_sense.items():
+            sense_to_types[sense_id].append(word_type)
+        logger.info(f"Found word types for {len(sense_to_types)} senses")
 
     try:
         # Read CSV data
@@ -446,6 +455,12 @@ def create_lexicon_tei(csv_file, output_file):
                 # Make the ID unique by combining lemma ID and sense ID
                 sense.set("{" + XML_NS + "}id", f"lemma_{lemma_id}_sense_{sense_id}")
 
+                # NEW: Add @ana with word types if available
+                if sense_id in sense_to_types:
+                    word_types = sense_to_types[sense_id]
+                    ana_value = " ".join(f"#type_{wt}" for wt in sorted(word_types))
+                    sense.set("ana", ana_value)
+
                 # Add concept references
                 for concept in concepts:
                     concept = normalize_id(concept, strip_prefix="concept_")
@@ -460,6 +475,14 @@ def create_lexicon_tei(csv_file, output_file):
             logger.info(
                 f"Number of lemmas with multiple parts of speech: {sum(1 for data in lemma_data.values() if len(data['pos_variants']) > 1)}"
             )
+            # NEW: Report word type integration
+            senses_with_types = sum(
+                1
+                for sense_id in sense_to_types
+                if sense_id
+                in [sid for ld in lemma_data.values() for sid in ld["senses"]]
+            )
+            logger.info(f"Integrated word types for {senses_with_types} senses")
 
         return success
     except Exception as e:
@@ -1040,7 +1063,7 @@ def parse_xml_dump(xml_dump_file):
         tree = etree.parse(xml_dump_file, parser)
 
         # Find all DATA_RECORD elements
-        for record in tree.findall("//DATA_RECORD"):
+        for record in tree.findall(".//DATA_RECORD"):
             word_elem = record.find("WORD")
             meaning_elem = record.find("MEANING")
 
@@ -1062,92 +1085,6 @@ def parse_xml_dump(xml_dump_file):
     except Exception as e:
         logger.error(f"Error parsing XML dump: {str(e)}")
         return {}
-
-
-def extract_sense_concepts(lexicon_file):
-    """Extract sense-concept mappings from lexicon.xml"""
-    sense_to_concepts = {}
-
-    try:
-        tree = etree.parse(lexicon_file)
-        ns = {"tei": TEI_NS, "xml": XML_NS}
-
-        for sense in tree.findall(f".//tei:sense", ns):
-            sense_id_full = sense.get(f"{{{XML_NS}}}id")
-            if not sense_id_full or "_sense_" not in sense_id_full:
-                continue
-
-            # Extract the basic sense ID
-            sense_id = sense_id_full.split("_sense_")[1]
-
-            # Get all concept references
-            concepts = []
-            for ptr in sense.findall(f".//tei:ptr", ns):
-                target = ptr.get("target")
-                if target and "concept_" in target:
-                    concept_id = target.split("concept_")[1]
-                    concepts.append(concept_id)
-
-            # Store mapping
-            sense_to_concepts[sense_id] = concepts
-
-        logger.info(
-            f"Extracted {len(sense_to_concepts)} sense-concept mappings from lexicon.xml"
-        )
-        return sense_to_concepts
-    except Exception as e:
-        logger.error(f"Error extracting sense-concept mappings: {str(e)}")
-        return {}
-
-
-def create_types_tei(xml_dump_file, lexicon_file, output_file):
-    """Create types.xml connecting types to senses and concepts"""
-    logger.info(f"Creating TEI types registry from {xml_dump_file}")
-
-    try:
-        # Get type-sense mappings from XML dump
-        type_to_sense = parse_xml_dump(xml_dump_file)
-
-        # Get sense-concept mappings from lexicon.xml
-        sense_to_concepts = extract_sense_concepts(lexicon_file)
-
-        # Create TEI structure
-        tei, body = create_tei_base("MHDBDB Word Type Registry")
-        type_registry = ET.SubElement(body, "{" + TEI_NS + "}div")
-        type_registry.set("type", "typeRegistry")
-
-        # Count of processed types
-        processed = 0
-
-        # Create entries
-        for type_id, sense_id in type_to_sense.items():
-            form = ET.SubElement(type_registry, "{" + TEI_NS + "}form")
-            form.set("{" + XML_NS + "}id", f"type_{type_id}")
-
-            # Add sense reference
-            ptr = ET.SubElement(form, "{" + TEI_NS + "}ptr")
-            ptr.set("type", "sense")
-            ptr.set("target", f"lexicon.xml#sense_{sense_id}")
-
-            # Add concept references if available
-            if sense_id in sense_to_concepts:
-                for concept_id in sense_to_concepts[sense_id]:
-                    concept_ptr = ET.SubElement(form, "{" + TEI_NS + "}ptr")
-                    concept_ptr.set("type", "concept")
-                    concept_ptr.set("target", f"concepts.xml#concept_{concept_id}")
-
-            processed += 1
-
-        # Write to file
-        success = write_tei_file(tei, output_file)
-        if success:
-            logger.info(f"Created TEI types file: {output_file}")
-            logger.info(f"Processed {processed} unique word types")
-
-        return success
-    except Exception as e:
-        logger.error(f"Error creating types TEI file: {str(e)}")
-        return False
 
 
 def enhance_tei_header(tei_file, works_csv, persons_csv, output_file):
@@ -1295,6 +1232,35 @@ def update_tei_references(tei_file, output_file):
         tree = etree.parse(tei_file, parser)
         root = tree.getroot()
 
+        # NEW: Build type_to_sense mapping from lexicon.xml
+        type_to_sense = {}
+        lexicon_path = get_authority_file_path("lexicon.xml")
+        if os.path.exists(lexicon_path):
+            logger.info("Building type-to-sense mapping from lexicon.xml")
+            try:
+                lexicon_tree = etree.parse(lexicon_path)
+                lex_ns = {
+                    "tei": "http://www.tei-c.org/ns/1.0",
+                    "xml": "http://www.w3.org/XML/1998/namespace",
+                }
+
+                for sense in lexicon_tree.findall(".//tei:sense", lex_ns):
+                    sense_id = sense.get(
+                        f"{{{XML_NS}}}id"
+                    )  # e.g., "lemma_1097_sense_1741"
+                    ana_attr = sense.get("ana")  # e.g., "#type_3398 #type_5567"
+
+                    if sense_id and ana_attr:
+                        # Extract type IDs from @ana attribute
+                        for ana_value in ana_attr.split():
+                            if ana_value.startswith("#type_"):
+                                type_id = ana_value[6:]  # Remove "#type_" prefix
+                                type_to_sense[type_id] = sense_id
+
+                logger.info(f"Built mapping for {len(type_to_sense)} word types")
+            except Exception as e:
+                logger.warning(f"Could not build type-to-sense mapping: {e}")
+
         # Find all token segments
         ns = {"tei": "http://www.tei-c.org/ns/1.0"}
         tokens = root.findall(".//tei:seg[@type='token']", ns)
@@ -1335,6 +1301,9 @@ def update_tei_references(tei_file, output_file):
                         lemma_id = lemma_num
 
             # Update meaning reference - now pointing to sense in lexicon.xml
+            sense_full_id = (
+                None  # Will store the full sense ID like "lemma_1097_sense_1741"
+            )
             if "meaningRef" in w_elem.attrib:
                 sense_ref = w_elem.attrib["meaningRef"]
 
@@ -1348,9 +1317,8 @@ def update_tei_references(tei_file, output_file):
 
                         if lemma_id:
                             # Convert to proper lemma-based sense reference
-                            w_elem.attrib["meaningRef"] = (
-                                f"lexicon.xml#lemma_{lemma_id}_sense_{sense_num}"
-                            )
+                            sense_full_id = f"lemma_{lemma_id}_sense_{sense_num}"
+                            w_elem.attrib["meaningRef"] = f"lexicon.xml#{sense_full_id}"
 
                     # Case 2: Referencing concept file
                     elif sense_ref.startswith("concepts.xml#concept_"):
@@ -1358,9 +1326,8 @@ def update_tei_references(tei_file, output_file):
 
                         if lemma_id:
                             # Convert concept reference to lemma-based sense reference
-                            w_elem.attrib["meaningRef"] = (
-                                f"lexicon.xml#lemma_{lemma_id}_sense_{sense_num}"
-                            )
+                            sense_full_id = f"lemma_{lemma_id}_sense_{sense_num}"
+                            w_elem.attrib["meaningRef"] = f"lexicon.xml#{sense_full_id}"
                         else:
                             # No lemma available, use basic sense reference
                             w_elem.attrib["meaningRef"] = (
@@ -1373,21 +1340,40 @@ def update_tei_references(tei_file, output_file):
 
                         if lemma_id:
                             # Create proper lemma-based sense reference
-                            w_elem.attrib["meaningRef"] = (
-                                f"lexicon.xml#lemma_{lemma_id}_sense_{sense_num}"
-                            )
+                            sense_full_id = f"lemma_{lemma_id}_sense_{sense_num}"
+                            w_elem.attrib["meaningRef"] = f"lexicon.xml#{sense_full_id}"
                         else:
                             # No lemma available, use basic sense reference
                             w_elem.attrib["meaningRef"] = (
                                 f"lexicon.xml#sense_{sense_num}"
                             )
+                else:
+                    # Already has proper format, extract the sense ID
+                    if "#lemma_" in sense_ref:
+                        sense_full_id = sense_ref.split("#")[1]
 
-            # Update word reference
+            # NEW: Update word reference with hierarchical format
             if "wordRef" in w_elem.attrib:
                 word_id = w_elem.attrib["wordRef"]
-                # Skip if already updated
-                if not word_id.startswith("types.xml#"):
-                    w_elem.attrib["wordRef"] = f"types.xml#type_{word_id}"
+
+                # Skip if already updated (contains "lexicon.xml#")
+                if not word_id.startswith("lexicon.xml#"):
+                    # Try to build hierarchical reference
+                    if sense_full_id:
+                        # We have the sense from meaningRef
+                        w_elem.attrib["wordRef"] = (
+                            f"lexicon.xml#{sense_full_id}_type_{word_id}"
+                        )
+                    elif word_id in type_to_sense:
+                        # Lookup sense from our mapping
+                        mapped_sense = type_to_sense[word_id]
+                        w_elem.attrib["wordRef"] = (
+                            f"lexicon.xml#{mapped_sense}_type_{word_id}"
+                        )
+                    else:
+                        # Fallback: use just the type ID
+                        logger.warning(f"Could not find sense for word type {word_id}")
+                        w_elem.attrib["wordRef"] = f"lexicon.xml#type_{word_id}"
 
             # Copy any child elements (though tokens shouldn't typically have children)
             for child in token:
@@ -1525,7 +1511,6 @@ if __name__ == "__main__":
         print("    python tei-transformation.py --lists genres")
         print("    python tei-transformation.py --lists names")
         print("    python tei-transformation.py --lists works")
-        print("    python tei-transformation.py --lists types path/to/xml_dump.xml")
 
         print("\n  Change output directory:")
         print("    python tei-transformation.py --output output_dir")
@@ -1621,6 +1606,10 @@ if __name__ == "__main__":
 
         if list_type == "all":
             logger.info("Generating all authority files...")
+
+            # Check for TEXTWORD.xml for word type integration
+            textword_file = os.path.join(csv_dir, "TEXTWORD.xml") if os.path.exists(os.path.join(csv_dir, "TEXTWORD.xml")) else None
+
             create_persons_tei(
                 os.path.join(csv_dir, "persons.csv"),
                 get_authority_file_path("persons.xml"),
@@ -1628,6 +1617,7 @@ if __name__ == "__main__":
             create_lexicon_tei(
                 os.path.join(csv_dir, "lexicon.csv"),
                 get_authority_file_path("lexicon.xml"),
+                textword_file,  # NEW: Pass TEXTWORD.xml for @ana integration
             )
             create_concepts_tei(
                 os.path.join(csv_dir, "concepts.csv"),
@@ -1655,9 +1645,11 @@ if __name__ == "__main__":
             )
 
         elif list_type == "lexicon":
+            textword_file = os.path.join(csv_dir, "TEXTWORD.xml") if os.path.exists(os.path.join(csv_dir, "TEXTWORD.xml")) else None
             create_lexicon_tei(
                 os.path.join(csv_dir, "lexicon.csv"),
                 get_authority_file_path("lexicon.xml"),
+                textword_file,
             )
 
         elif list_type == "concepts":
@@ -1684,29 +1676,6 @@ if __name__ == "__main__":
                 get_authority_file_path("works.xml"),
                 os.path.join(csv_dir, "persons.csv"),
             )
-
-        elif list_type == "types":
-            if len(sys.argv) < 4:
-                logger.error(
-                    "Error: Missing XML dump file path for types list generation"
-                )
-                print(
-                    "Usage: python tei-transformation.py --lists types path/to/xml_dump.xml"
-                )
-                sys.exit(1)
-
-            xml_dump_file = sys.argv[3]
-            lexicon_file = get_authority_file_path("lexicon.xml")
-            types_output_file = get_authority_file_path("types.xml")
-
-            # Check if lexicon.xml exists, create it if not
-            if not os.path.exists(lexicon_file):
-                logger.info(
-                    f"lexicon.xml not found at {lexicon_file}, creating it first..."
-                )
-                create_lexicon_tei(os.path.join(csv_dir, "lexicon.csv"), lexicon_file)
-
-            create_types_tei(xml_dump_file, lexicon_file, types_output_file)
 
         else:
             logger.error(f"Unknown list type: {list_type}")

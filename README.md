@@ -21,8 +21,8 @@ The input CSV files were generated from the MHDBDB RDF database using SPARQL que
 - `onomastic.csv` - Name system concepts with language labels and relationships
 - `works.csv` - Work metadata with sigle, title, author references, and external identifiers
 
-Additionally, an XML dump file is used to create the word types authority file:
-- `xml_dump.xml` - Contains mappings between word types and their senses/meanings
+Additionally, an XML dump file is used to create the word types authority:
+- `TEXTWORD.xml` - Contains mappings between word types and their senses/meanings
 
 These files serve as the source data for generating the TEI authority files and enhancing TEI text documents.
 
@@ -70,12 +70,6 @@ python tei-transformation.py --lists names
 python tei-transformation.py --lists works
 ```
 
-Generate the word types authority file from XML dump:
-
-```bash
-python tei-transformation.py --lists types path/to/xml_dump.xml
-```
-
 ### Check for Skipped Files
 
 Verify that all input files have been successfully processed:
@@ -86,8 +80,10 @@ python tei-transformation.py --check-skipped
 
 ### Change Output Directory
 
+**Note**: The `--output` option only affects the location of processed TEI text files. Authority files are always created in `./lists/output/`.
+
 ```bash
-python tei-transformation.py --output custom_output_dir
+python tei-transformation.py --output output_dir
 ```
 
 ### Enable Debug Output
@@ -100,13 +96,15 @@ TEI_DEBUG=1 python tei-transformation.py
 
 The script generates the following TEI XML files:
 
+**Authority Files** (always in `./lists/output/`):
 - `persons.xml` - Registry of persons/authors with identifiers and references
 - `lexicon.xml` - Dictionary of Middle High German lexical entries with grammatical and semantic information
 - `concepts.xml` - Taxonomy of semantic concepts
 - `genres.xml` - Taxonomy of text types/genres
 - `names.xml` - Onomastic system with name categories
 - `works.xml` - Registry of works with sigles, titles, and author information
-- `types.xml` - Registry of word types with references to senses and concepts
+
+**Processed TEI Files** (in `./output/` or custom directory specified with `--output`):
 - Enhanced TEI text files with proper headers and updated reference systems
 
 ## TODO
@@ -131,5 +129,5 @@ For clarity on the various terms used in different data sources (SQL, RDF, TEI),
 
 ## Requirements
 
-- Python 3.6+
+- Python 3.10+
 - lxml library for XML processing
