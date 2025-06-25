@@ -49,7 +49,7 @@ The input CSV files were generated from the MHDBDB RDF database using SPARQL que
 
 Additionally, an XML dump file is used to create the word types authority:
 
-- `TEXTWORD.xml` - Contains mappings between word types and their senses/meanings
+- `TEXTWORD.xml` - Contains mappings between word types and their senses/meanings (it lives on Zenodo because it's too big for Github: https://zenodo.org/records/15741815)
 
 These files serve as the source data for generating the TEI authority files and enhancing TEI text documents.
 
