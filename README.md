@@ -10,6 +10,32 @@ This tool performs three main functions:
 2. **Header Enhancement**: Adds detailed metadata to existing TEI files based on work and person information
 3. **Reference System Update**: Converts token references to standardized formats and transforms `<seg>` elements to TEI-compliant `<w>` elements
 
+## Quick Start
+
+⚠️ **Important**: Authority files must be generated before processing TEI files, as the TEI processing depends on these reference files.
+
+### Step 1: Generate Authority Files (Required First)
+
+```bash
+python tei-transformation.py --lists all
+```
+
+This creates the required reference files in `./lists/output/`:
+
+- `persons.xml`, `lexicon.xml`, `concepts.xml`, `genres.xml`, `names.xml`, `works.xml`
+
+### Step 2: Process TEI Files
+
+After authority files exist, process your TEI text files:
+
+```bash
+# Process all TEI files in current directory
+python tei-transformation.py
+
+# OR process a single file
+python tei-transformation.py --file input.tei.xml
+```
+
 ## Data Sources
 
 The input CSV files were generated from the MHDBDB RDF database using SPARQL queries ([see detailed queries in lists/sparql.md](lists/sparql.md)). Each CSV file corresponds to a specific aspect of the database:
@@ -22,6 +48,7 @@ The input CSV files were generated from the MHDBDB RDF database using SPARQL que
 - `works.csv` - Work metadata with sigle, title, author references, and external identifiers
 
 Additionally, an XML dump file is used to create the word types authority:
+
 - `TEXTWORD.xml` - Contains mappings between word types and their senses/meanings
 
 These files serve as the source data for generating the TEI authority files and enhancing TEI text documents.
@@ -33,33 +60,17 @@ These files serve as the source data for generating the TEI authority files and 
 - `./lists/output/` - Generated authority files (persons.xml, lexicon.xml, etc.)
 - `./output/` - Generated processed TEI text files
 
-## Usage
+## Complete Usage Reference
 
-### Process All TEI Files (Default)
+### 1. Generate Authority Files (Must Run First)
 
-Enhances headers and updates references for all TEI files in the current directory:
-
-```bash
-python tei-transformation.py
-```
-
-### Process a Single TEI File
-
-Processes just one specific TEI file:
-
-```bash
-python tei-transformation.py --file input.tei.xml [output.tei.xml]
-```
-
-### Generate Authority Files
-
-Creates all authority files from CSV data:
+Create all authority files from CSV data:
 
 ```bash
 python tei-transformation.py --lists all
 ```
 
-Generate a specific authority file:
+Generate individual authority files:
 
 ```bash
 python tei-transformation.py --lists persons
@@ -70,33 +81,72 @@ python tei-transformation.py --lists names
 python tei-transformation.py --lists works
 ```
 
-### Check for Skipped Files
+**Output**: Creates authority XML files in `./lists/output/`
 
-Verify that all input files have been successfully processed:
+### 2. Process TEI Files (Requires Authority Files)
+
+Process all TEI files in the current directory:
+
+```bash
+python tei-transformation.py
+```
+
+Process a single TEI file:
+
+```bash
+python tei-transformation.py --file input.tei.xml [output.tei.xml]
+```
+
+**Output**: Enhanced TEI files in `./output/`
+
+### 3. Utility Commands
+
+Check for files that were skipped during processing:
 
 ```bash
 python tei-transformation.py --check-skipped
 ```
 
-### Change Output Directory
-
-**Note**: The `--output` option only affects the location of processed TEI text files. Authority files are always created in `./lists/output/`.
+Change output directory for processed TEI files:
 
 ```bash
-python tei-transformation.py --output output_dir
+python tei-transformation.py --output custom_output_dir
 ```
 
-### Enable Debug Output
+**Note**: The `--output` option only affects processed TEI text files. Authority files are always created in `./lists/output/`.
+
+Enable debug output:
 
 ```bash
 TEI_DEBUG=1 python tei-transformation.py
 ```
+
+Show help:
+
+```bash
+python tei-transformation.py --help
+```
+
+## Workflow Dependencies
+
+```
+CSV Files + TEXTWORD.xml
+         ↓
+   Authority Files (Step 1)
+         ↓
+   TEI File Processing (Step 2)
+         ↓
+   Enhanced TEI Files
+```
+
+**Important**: You cannot process TEI files without first generating the authority files, as the TEI enhancement process reads metadata from these XML authority files.
 
 ## Output Files
 
 The script generates the following TEI XML files:
 
 **Authority Files** (always in `./lists/output/`):
+
 - `persons.xml` - Registry of persons/authors with identifiers and references
 - `lexicon.xml` - Dictionary of Middle High German lexical entries with grammatical and semantic information
 - `concepts.xml` - Taxonomy of semantic concepts
@@ -105,7 +155,17 @@ The script generates the following TEI XML files:
 - `works.xml` - Registry of works with sigles, titles, and author information
 
 **Processed TEI Files** (in `./output/` or custom directory specified with `--output`):
+
 - Enhanced TEI text files with proper headers and updated reference systems
+
+## Typical Workflow
+
+1. **Prepare data**: Ensure CSV files and TEXTWORD.xml are in `./lists/`
+2. **Generate authorities**: `python tei-transformation.py --lists all`
+3. **Verify authorities**: Check `./lists/output/` for generated XML files
+4. **Process texts**: `python tei-transformation.py`
+5. **Check results**: Verify enhanced TEI files in `./output/`
+6. **Debug if needed**: Use `--check-skipped` to find any problematic files
 
 ## TODO
 
@@ -126,6 +186,7 @@ For clarity on the various terms used in different data sources (SQL, RDF, TEI),
 - The script includes robust error handling and logging
 - Debug mode can be enabled by setting the `TEI_DEBUG=1` environment variable
 - Logs include warnings for missing data and errors during processing
+- If TEI processing fails, check that authority files were generated successfully first
 
 ## Requirements
 

@@ -7,7 +7,7 @@
       </titleStmt>
       <publicationStmt>
         <publisher>Middle High German Database (MHDBDB)</publisher>
-        <date>2025-04-07</date>
+        <date>2025-06-25</date>
       </publicationStmt>
       <sourceDesc>
         <p>Converted from RDF data</p>
@@ -304,8 +304,8 @@
               <term xml:lang="de">Hülsenfrüchte</term>
               <term xml:lang="en">Pulses</term>
               <term type="alternative" xml:lang="en">Legumes</term>
-              <ptr type="broader" target="#concept_13000000"/>
               <ptr type="broader" target="#concept_13050000"/>
+              <ptr type="broader" target="#concept_13000000"/>
             </catDesc>
           </category>
           <category xml:id="concept_13051100">
@@ -340,8 +340,8 @@
               <term xml:lang="en">Useful plants/Further processing</term>
               <term type="alternative" xml:lang="de">Kulturpflanzen/Verarbeitung</term>
               <term type="alternative" xml:lang="en">Other cultivated plants/Further processing</term>
-              <ptr type="broader" target="#concept_23305400"/>
               <ptr type="broader" target="#concept_13070000"/>
+              <ptr type="broader" target="#concept_23305400"/>
             </catDesc>
           </category>
           <category xml:id="concept_13080000">
@@ -373,11 +373,11 @@
               <term xml:lang="en">Medicinal plants</term>
               <term type="alternative" xml:lang="de">Humoralpathologisch relevante Pflanzen</term>
               <term type="alternative" xml:lang="en">Humoralpathologically relevant plants</term>
-              <ptr type="broader" target="#concept_13000000"/>
-              <ptr type="broader" target="#concept_32620000"/>
               <ptr type="broader" target="#concept_32600000"/>
+              <ptr type="broader" target="#concept_32620000"/>
               <ptr type="broader" target="#concept_13080000"/>
               <ptr type="broader" target="#concept_13070000"/>
+              <ptr type="broader" target="#concept_13000000"/>
             </catDesc>
           </category>
           <category xml:id="concept_13100000">
@@ -404,8 +404,8 @@
               <term xml:lang="en">Poisonous plants</term>
               <term type="alternative" xml:lang="de">Giftige Pflanzen</term>
               <term type="alternative" xml:lang="en">Toxic plants</term>
-              <ptr type="broader" target="#concept_13000000"/>
               <ptr type="broader" target="#concept_21091100"/>
+              <ptr type="broader" target="#concept_13000000"/>
             </catDesc>
           </category>
           <category xml:id="concept_13130000">
@@ -439,9 +439,9 @@
               <term xml:lang="en">Spice plants</term>
               <term type="alternative" xml:lang="de">Pflanzliche Würzmittel</term>
               <term type="alternative" xml:lang="en">Herbal seasonings</term>
-              <ptr type="broader" target="#concept_13000000"/>
               <ptr type="broader" target="#concept_13070000"/>
               <ptr type="broader" target="#concept_21111305"/>
+              <ptr type="broader" target="#concept_13000000"/>
             </catDesc>
           </category>
           <category xml:id="concept_13160000">
@@ -644,8 +644,8 @@
               <term type="alternative" xml:lang="de">
 Vogelverarbeitung</term>
               <term type="alternative" xml:lang="en">Poultry processing</term>
-              <ptr type="broader" target="#concept_23305400"/>
               <ptr type="broader" target="#concept_14020000"/>
+              <ptr type="broader" target="#concept_23305400"/>
             </catDesc>
           </category>
           <category xml:id="concept_14022000">
@@ -745,8 +745,8 @@ Zucht von Vögeln</term>
               <term xml:lang="de">Verarbeitung von Fischen</term>
               <term xml:lang="en">Processing of fish</term>
               <term type="alternative" xml:lang="de">Fischverarbeitung</term>
-              <ptr type="broader" target="#concept_23305400"/>
               <ptr type="broader" target="#concept_23305900"/>
+              <ptr type="broader" target="#concept_23305400"/>
               <ptr type="broader" target="#concept_14030000"/>
             </catDesc>
           </category>
@@ -808,8 +808,8 @@ Zucht von Vögeln</term>
               <term xml:lang="de">Verarbeitung von Reptilien</term>
               <term xml:lang="en">Processing of reptiles</term>
               <term type="alternative" xml:lang="de">Verarbeitung von Kriechtieren</term>
-              <ptr type="broader" target="#concept_14040000"/>
               <ptr type="broader" target="#concept_23305900"/>
+              <ptr type="broader" target="#concept_14040000"/>
             </catDesc>
           </category>
           <category xml:id="concept_14050000">
@@ -859,8 +859,8 @@ Zucht von Vögeln</term>
               <term xml:lang="de">Verarbeitung von Mollusken und Schalentiere</term>
               <term xml:lang="en">Processing of molluscs and shellfish</term>
               <term type="alternative" xml:lang="de">Verarbeitung von Weichtieren</term>
-              <ptr type="broader" target="#concept_23305400"/>
               <ptr type="broader" target="#concept_14060000"/>
+              <ptr type="broader" target="#concept_23305400"/>
             </catDesc>
           </category>
           <category xml:id="concept_14080000">
@@ -890,10 +890,10 @@ Zucht von Vögeln</term>
               <term xml:lang="en">Animal diseases/Animal irregularities</term>
               <term type="alternative" xml:lang="de">Zoonose</term>
               <term type="alternative" xml:lang="en">Zoonosis</term>
-              <ptr type="broader" target="#concept_21091000"/>
               <ptr type="broader" target="#concept_21091200"/>
-              <ptr type="broader" target="#concept_32600000"/>
+              <ptr type="broader" target="#concept_21091000"/>
               <ptr type="broader" target="#concept_14000000"/>
+              <ptr type="broader" target="#concept_32600000"/>
             </catDesc>
           </category>
           <category xml:id="concept_14100000">
@@ -1149,8 +1149,8 @@ Zucht von Vögeln</term>
               <term xml:lang="en">Health</term>
               <term type="alternative" xml:lang="de">Körperliches Wohlergehen</term>
               <term type="alternative" xml:lang="en">Physical well-being</term>
-              <ptr type="broader" target="#concept_21000000"/>
               <ptr type="broader" target="#concept_32600000"/>
+              <ptr type="broader" target="#concept_21000000"/>
             </catDesc>
           </category>
           <category xml:id="concept_21091000">
@@ -1159,8 +1159,8 @@ Zucht von Vögeln</term>
               <term xml:lang="en">Diseases/Deformities/Irregularities of humans</term>
               <term type="alternative" xml:lang="de">Körperliches Unwohlsein</term>
               <term type="alternative" xml:lang="en">Pain</term>
-              <ptr type="broader" target="#concept_21090000"/>
               <ptr type="broader" target="#concept_32600000"/>
+              <ptr type="broader" target="#concept_21090000"/>
             </catDesc>
           </category>
           <category xml:id="concept_21091100">
@@ -1178,9 +1178,9 @@ Zucht von Vögeln</term>
             <catDesc>
               <term xml:lang="de">Säuglingspflege/Kinderpflege</term>
               <term xml:lang="en">Baby care/Child care</term>
-              <ptr type="broader" target="#concept_21101000"/>
-              <ptr type="broader" target="#concept_21091100"/>
               <ptr type="broader" target="#concept_21045000"/>
+              <ptr type="broader" target="#concept_21091100"/>
+              <ptr type="broader" target="#concept_21101000"/>
             </catDesc>
           </category>
           <category xml:id="concept_21091200">
@@ -1271,18 +1271,18 @@ Zucht von Vögeln</term>
             <catDesc>
               <term xml:lang="de">Backwaren</term>
               <term xml:lang="en">Baked goods</term>
-              <ptr type="broader" target="#concept_21111306"/>
-              <ptr type="broader" target="#concept_23303350"/>
               <ptr type="broader" target="#concept_21111300"/>
+              <ptr type="broader" target="#concept_23303350"/>
+              <ptr type="broader" target="#concept_21111306"/>
             </catDesc>
           </category>
           <category xml:id="concept_21111303">
             <catDesc>
               <term xml:lang="de">Milchprodukte</term>
               <term xml:lang="en">Milk products</term>
-              <ptr type="broader" target="#concept_21111306"/>
-              <ptr type="broader" target="#concept_23303120"/>
               <ptr type="broader" target="#concept_21111300"/>
+              <ptr type="broader" target="#concept_23303120"/>
+              <ptr type="broader" target="#concept_21111306"/>
             </catDesc>
           </category>
           <category xml:id="concept_21111304">
@@ -1291,8 +1291,8 @@ Zucht von Vögeln</term>
               <term xml:lang="en">Food preparation</term>
               <term type="alternative" xml:lang="de">Kochen/Backen</term>
               <term type="alternative" xml:lang="en">Cooking/Baking</term>
-              <ptr type="broader" target="#concept_23305400"/>
               <ptr type="broader" target="#concept_21111300"/>
+              <ptr type="broader" target="#concept_23305400"/>
             </catDesc>
           </category>
           <category xml:id="concept_21111305">
@@ -1462,8 +1462,8 @@ Zucht von Vögeln</term>
               <term xml:lang="de">Stoffe/Leder/Pelze</term>
               <term xml:lang="en">Fabrics/Leather/Furs</term>
               <ptr type="broader" target="#concept_23305500"/>
-              <ptr type="broader" target="#concept_23305900"/>
               <ptr type="broader" target="#concept_21113000"/>
+              <ptr type="broader" target="#concept_23305900"/>
             </catDesc>
           </category>
           <category xml:id="concept_21113080">
@@ -2876,8 +2876,8 @@ Zucht von Vögeln</term>
               <term xml:lang="en">Farm</term>
               <term type="alternative" xml:lang="de">Gutshof</term>
               <term type="alternative" xml:lang="en">Grange</term>
-              <ptr type="broader" target="#concept_23303000"/>
               <ptr type="broader" target="#concept_23309020"/>
+              <ptr type="broader" target="#concept_23303000"/>
             </catDesc>
           </category>
           <category xml:id="concept_23303110">
@@ -2925,8 +2925,8 @@ Livestock breeding</term>
               <term xml:lang="de">Landwirtschaftliches Gerät</term>
               <term xml:lang="en">Farm gear</term>
               <term type="alternative" xml:lang="en">Agricultural equipment</term>
-              <ptr type="broader" target="#concept_23304100"/>
               <ptr type="broader" target="#concept_23303300"/>
+              <ptr type="broader" target="#concept_23304100"/>
             </catDesc>
           </category>
           <category xml:id="concept_23303320">
@@ -2961,17 +2961,17 @@ Livestock breeding</term>
               <term xml:lang="en">Processing of grain</term>
               <term type="alternative" xml:lang="de">Getreideverarbeitung</term>
               <term type="alternative" xml:lang="en">Grain processing</term>
-              <ptr type="broader" target="#concept_23305400"/>
               <ptr type="broader" target="#concept_23303300"/>
               <ptr type="broader" target="#concept_13040000"/>
+              <ptr type="broader" target="#concept_23305400"/>
             </catDesc>
           </category>
           <category xml:id="concept_23303360">
             <catDesc>
               <term xml:lang="de">Ölproduktion</term>
               <term xml:lang="en">Oil production</term>
-              <ptr type="broader" target="#concept_23305400"/>
               <ptr type="broader" target="#concept_23303300"/>
+              <ptr type="broader" target="#concept_23305400"/>
             </catDesc>
           </category>
           <category xml:id="concept_23303400">
@@ -3124,9 +3124,9 @@ Livestock breeding</term>
               <term xml:lang="de">Verarbeitung von Fleisch</term>
               <term xml:lang="en">Meat processing</term>
               <term type="alternative" xml:lang="de">Fleischverarbeitung</term>
-              <ptr type="broader" target="#concept_14011300"/>
-              <ptr type="broader" target="#concept_21111301"/>
               <ptr type="broader" target="#concept_23305000"/>
+              <ptr type="broader" target="#concept_21111301"/>
+              <ptr type="broader" target="#concept_14011300"/>
             </catDesc>
           </category>
           <category xml:id="concept_23305500">
@@ -3134,8 +3134,8 @@ Livestock breeding</term>
               <term xml:lang="de">Textilherstellung/Textilverarbeitung</term>
               <term xml:lang="en">Textile manufacturing</term>
               <term type="alternative" xml:lang="en">Textile industry</term>
-              <ptr type="broader" target="#concept_23309090"/>
               <ptr type="broader" target="#concept_23305000"/>
+              <ptr type="broader" target="#concept_23309090"/>
             </catDesc>
           </category>
           <category xml:id="concept_23305600">
@@ -3144,8 +3144,8 @@ Livestock breeding</term>
               <term xml:lang="en">Wood processing</term>
               <term type="alternative" xml:lang="de">Holzarbeit</term>
               <term type="alternative" xml:lang="en">Woodwork</term>
-              <ptr type="broader" target="#concept_13020000"/>
               <ptr type="broader" target="#concept_23305000"/>
+              <ptr type="broader" target="#concept_13020000"/>
             </catDesc>
           </category>
           <category xml:id="concept_23305700">
@@ -3916,8 +3916,8 @@ Livestock breeding</term>
               <term xml:lang="en">Performing arts</term>
               <term type="alternative" xml:lang="de">Spiel</term>
               <term type="alternative" xml:lang="en">Play</term>
-              <ptr type="broader" target="#concept_32170000"/>
               <ptr type="broader" target="#concept_25100000"/>
+              <ptr type="broader" target="#concept_32170000"/>
             </catDesc>
           </category>
           <category xml:id="concept_25131000">
@@ -3926,8 +3926,8 @@ Livestock breeding</term>
               <term xml:lang="en">Theatre</term>
               <term type="alternative" xml:lang="de">Spiel</term>
               <term type="alternative" xml:lang="en">Spectacle</term>
-              <ptr type="broader" target="#concept_32170000"/>
               <ptr type="broader" target="#concept_25130000"/>
+              <ptr type="broader" target="#concept_32170000"/>
             </catDesc>
           </category>
           <category xml:id="concept_25132000">
@@ -3970,8 +3970,8 @@ Livestock breeding</term>
             <catDesc>
               <term xml:lang="de">Musiklehre</term>
               <term xml:lang="en">Music theory</term>
-              <ptr type="broader" target="#concept_32170000"/>
               <ptr type="broader" target="#concept_25150000"/>
+              <ptr type="broader" target="#concept_32170000"/>
             </catDesc>
           </category>
           <category xml:id="concept_25152000">
@@ -3980,8 +3980,8 @@ Livestock breeding</term>
               <term xml:lang="en">Chant</term>
               <term type="alternative" xml:lang="de">Singen</term>
               <term type="alternative" xml:lang="en">Singing</term>
-              <ptr type="broader" target="#concept_32170000"/>
               <ptr type="broader" target="#concept_25150000"/>
+              <ptr type="broader" target="#concept_32170000"/>
             </catDesc>
           </category>
           <category xml:id="concept_25152100">
@@ -3995,8 +3995,8 @@ Livestock breeding</term>
             <catDesc>
               <term xml:lang="de">Instrumentalmusik</term>
               <term xml:lang="en">Instrumental music</term>
-              <ptr type="broader" target="#concept_32170000"/>
               <ptr type="broader" target="#concept_25150000"/>
+              <ptr type="broader" target="#concept_32170000"/>
             </catDesc>
           </category>
           <category xml:id="concept_25153100">
@@ -4508,8 +4508,8 @@ Livestock breeding</term>
               <term type="alternative" xml:lang="de">Humoralpathologie/Diätologie</term>
               <term type="alternative" xml:lang="en">Humoral pathology/Dietology</term>
               <ptr type="broader" target="#concept_21091000"/>
-              <ptr type="broader" target="#concept_21090000"/>
               <ptr type="broader" target="#concept_32600000"/>
+              <ptr type="broader" target="#concept_21090000"/>
             </catDesc>
           </category>
           <category xml:id="concept_32700000">

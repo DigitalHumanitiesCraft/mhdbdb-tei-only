@@ -292,7 +292,7 @@ def create_persons_tei(csv_file, output_file):
 
         for pid, data in persons.items():
             person = ET.SubElement(listPerson, f"{{{TEI_NS}}}person")
-            person.set(f"{{{XML_NS}}}id", f"person_{pid}")
+            person.set(f"{{{XML_NS}}}id", normalize_id(pid, prefix="person_"))
 
             # preferredName – first of any preferred, else first German, else any
             pref = (
@@ -330,9 +330,9 @@ def create_persons_tei(csv_file, output_file):
                 note = ET.SubElement(person, f"{{{TEI_NS}}}note", type="works")
                 note.text = ",".join(sorted(data["works"]))
                 for wid in data["works"]:
-                    relations.append(
-                        ("isAuthorOf", f"#person_{pid}", f"works.xml#work_{wid}")
-                    )
+                    person_ref = f"#{normalize_id(pid, prefix='person_')}"
+                    work_ref = f"works.xml#{normalize_id(wid, prefix='work_')}"
+                    relations.append(("isAuthorOf", person_ref, work_ref))
 
         # relations section
         if relations:
@@ -790,6 +790,9 @@ def create_works_tei(csv_file, output_file, persons_file=None, genres_csv=None):
                 ),
             ):
                 gid = _local_id(row.get(gid_col))
+                # Strip c_ prefix if present to match genres.xml format
+                if gid and gid.startswith("c_"):
+                    gid = gid[2:]  # Remove "c_" prefix
                 lbl = (row.get(lbl_col) or "").strip()
                 lang = (row.get(lang_col) or "").strip()
                 if gid:
@@ -874,7 +877,7 @@ def create_works_tei(csv_file, output_file, persons_file=None, genres_csv=None):
             # ----- authors -----
             for aid in sorted(d["authors"]):
                 a = ET.SubElement(bibl, f"{{{TEI_NS}}}author")
-                a.set("ref", f"persons.xml#person_{aid}")
+                a.set("ref", f"persons.xml#{aid}")
                 if aid in persons:
                     a.text = persons[aid]
 
@@ -1087,140 +1090,436 @@ def parse_xml_dump(xml_dump_file):
         return {}
 
 
-def enhance_tei_header(tei_file, works_csv, persons_csv, output_file):
-    """Add metadata from works/persons CSVs to the TEI header of a text file."""
-    logger.info(f"Enhancing TEI header for {tei_file}")
+def enhance_tei_header_from_xml(tei_file, output_file, authority_dir="./lists/output"):
+    """
+    Enhanced TEI header generation reading directly from authority XML files.
+    Creates comprehensive headers matching the manual template standard.
+    """
+    logger.info(f"Enhancing TEI header from XML authorities for {tei_file}")
 
     try:
-        # ------------------------------------------------------------------ #
-        # 1.  Parse TEI file
+        # Parse TEI file
         parser = etree.XMLParser(remove_blank_text=True)
         tree = etree.parse(tei_file, parser)
         root = tree.getroot()
-
         ns = {"tei": TEI_NS}
 
-        sigle = os.path.basename(tei_file).split(".")[0]  # filename‑based siglum
-        logger.debug(f"Extracted sigle (instance): {sigle}")
+        sigle = os.path.basename(tei_file).split(".")[0]
+        logger.debug(f"Extracted sigle: {sigle}")
 
-        # ------------------------------------------------------------------ #
-        # 2.  Load CSVs
-        works_by_sigle = read_csv_data(works_csv, key_field="instance")
-        works_by_iduri = read_csv_data(works_csv, key_field="id")
+        # Add xml:id to root TEI element
+        root.set(f"{{{XML_NS}}}id", sigle)
 
-        persons_data = read_csv_data(persons_csv, key_field="personId")
-        # supplement with personURI
-        for row in read_csv_data(persons_csv):
-            if row.get("personURI"):
-                pid = _local_id(row["personURI"])
-                if pid and pid not in persons_data:
-                    persons_data[pid] = [row]
+        # Load authority XML files
+        def load_authority_xml(filename):
+            filepath = os.path.join(authority_dir, filename)
+            if os.path.exists(filepath):
+                return etree.parse(filepath)
+            return None
 
-        if sigle not in works_by_sigle:
-            logger.warning(f"No work row with instance={sigle}")
+        works_xml = load_authority_xml("works.xml")
+        persons_xml = load_authority_xml("persons.xml")
+        genres_xml = load_authority_xml("genres.xml")
+
+        # Find work data by sigle
+        work_data = None
+        work_id_local = None
+        if works_xml is not None:
+            # Look for work with matching sigle
+            for bibl in works_xml.findall(f".//{{{TEI_NS}}}bibl"):
+                sigle_elems = bibl.findall(
+                    f".//{{{TEI_NS}}}idno[@type='sigle']"
+                )  # Find ALL sigles
+                for sigle_elem in sigle_elems:  # Check each sigle
+                    if sigle_elem is not None and sigle_elem.text == sigle:
+                        work_data = bibl
+                        work_id_local = bibl.get(f"{{{XML_NS}}}id", "")
+                        break
+                if work_data is not None:  # Break outer loop if found
+                    break
+
+        if work_data is None:
+            logger.warning(f"No work found with sigle={sigle} in works.xml")
             return False
 
-        # ------------------------------------------------------------------ #
-        # 3.  Collect work metadata (title, authors, ext IDs …)
-        first_row = works_by_sigle[sigle][0]
-        work_id_local = _local_id(first_row["id"])
+        # Extract work metadata
+        work_title = ""
+        title_elem = work_data.find(f".//{{{TEI_NS}}}title")
+        if title_elem is not None:
+            work_title = title_elem.text or sigle
 
-        work_data = defaultdict(set)
+        # Get authors
+        work_authors = []
+        for author in work_data.findall(f".//{{{TEI_NS}}}author"):
+            ref = author.get("ref", "")
+            if ref.startswith("persons.xml#"):
+                person_id = ref.split("#")[1]
+                author_name = author.text or ""
+                work_authors.append((person_id, author_name))
 
-        def harvest(row):
-            if row.get("label"):
-                work_data["title"].add(row["label"].strip())
-            if row.get("instance"):
-                work_data["sigle"].add(_local_id(row["instance"]))
-            if row.get("authorId"):
-                work_data["authors"].add(_local_id(row["authorId"]))
-            # external IDs come from sameAs
-            uri = (row.get("sameAs") or "").strip()
-            if uri:
-                host = urllib.parse.urlparse(uri).hostname or ""
-                if "wikidata.org" in host:
-                    work_data["wikidata"].add(uri)
-                elif "handschriftencensus" in host:
-                    work_data["handschriftencensus"].add(uri)
-                elif "d-nb.info" in host or "gnd" in host:
-                    work_data["gnd"].add(uri)
+        # Get genres
+        work_genres = []
+        for ref in work_data.findall(f".//{{{TEI_NS}}}ref"):
+            target = ref.get("target", "")
+            if target.startswith("genres.xml#"):
+                genre_id = target.split("#")[1]
+                genre_label = ref.text or ""
+                genre_lang = ref.get(f"{{{XML_NS}}}lang", "de")
+                is_parent = ref.get("type") == "parent"
+                is_preferred = ref.get("n") == "prefLabel"
+                work_genres.append(
+                    (genre_id, genre_label, genre_lang, is_parent, is_preferred)
+                )
 
-        for r in works_by_sigle[sigle]:
-            harvest(r)
-        # harvest other rows of same work (same URI id)
-        for r in works_by_iduri.get(first_row["id"], []):
-            harvest(r)
+        # Get edition info
+        edition_data = {}
+        edition_bibl = work_data.find(f".//{{{TEI_NS}}}bibl[@type='edition']")
+        if edition_bibl is not None:
+            title_ed = edition_bibl.find(f".//{{{TEI_NS}}}title")
+            if title_ed is not None:
+                edition_data["title"] = title_ed.text
 
-        # ------------------------------------------------------------------ #
-        # 4.  TEI header manipulation
+            place_ed = edition_bibl.find(f".//{{{TEI_NS}}}pubPlace")
+            if place_ed is not None:
+                edition_data["place"] = place_ed.text
+
+            pub_ed = edition_bibl.find(f".//{{{TEI_NS}}}publisher")
+            if pub_ed is not None:
+                edition_data["publisher"] = pub_ed.text
+
+            date_ed = edition_bibl.find(f".//{{{TEI_NS}}}date")
+            if date_ed is not None:
+                edition_data["date"] = date_ed.text
+                edition_data["when"] = date_ed.get("when", date_ed.text)
+
+            # Edition authors
+            edition_data["authors"] = []
+            for auth_ed in edition_bibl.findall(f".//{{{TEI_NS}}}author"):
+                if auth_ed.text:
+                    edition_data["authors"].append(auth_ed.text)
+
+        # Clear existing header and rebuild
         header = root.find(".//tei:teiHeader", ns)
         if header is None:
-            logger.error("teiHeader missing")
-            return False
+            header = etree.SubElement(root, f"{{{TEI_NS}}}teiHeader")
+        header.clear()
 
-        fileDesc = header.find(".//tei:fileDesc", ns)
-        if fileDesc is None:
-            fileDesc = etree.SubElement(header, f"{{{TEI_NS}}}fileDesc")
-        # wipe existing children for clean rebuild
-        for c in list(fileDesc):
-            fileDesc.remove(c)
+        # ================================================================
+        # 1. fileDesc
+        # ================================================================
+        fileDesc = etree.SubElement(header, f"{{{TEI_NS}}}fileDesc")
 
-        # ----- titleStmt ----------------------------------------------------
+        # titleStmt
         titleStmt = etree.SubElement(fileDesc, f"{{{TEI_NS}}}titleStmt")
         title_el = etree.SubElement(titleStmt, f"{{{TEI_NS}}}title")
-        title_el.text = sorted(work_data["title"])[0] if work_data["title"] else sigle
+        title_el.text = work_title
 
-        # authors
-        for aid in sorted(work_data["authors"]):
+        # Authors with internal references for profileDesc
+        for person_id, author_name in work_authors:
             auth = etree.SubElement(titleStmt, f"{{{TEI_NS}}}author")
-            auth.set("ref", f"persons.xml#person_{aid}")
-            pref = None
-            if aid in persons_data and persons_data[aid]:
-                pref = persons_data[aid][0].get("preferredName")
-            if pref:
-                auth.text = pref
+            auth.set("ref", f"#{person_id}")
+            if author_name:
+                auth.text = author_name
 
-        # ----- publicationStmt ---------------------------------------------
+        # Responsibility statement
+        respStmt = etree.SubElement(titleStmt, f"{{{TEI_NS}}}respStmt")
+        resp = etree.SubElement(respStmt, f"{{{TEI_NS}}}resp")
+        resp.text = (
+            "digitale Zusammenführung, Annotation und semantische Klassifikation"
+        )
+        name = etree.SubElement(respStmt, f"{{{TEI_NS}}}name")
+        name.set("ref", "https://mhdbdb.plus.ac.at")
+        name.set(f"{{{XML_NS}}}lang", "de")
+        name.text = "Mittelhochdeutsche Begriffsdatenbank (MHDBDB)"
+
+        # Enhanced publicationStmt
         pubStmt = etree.SubElement(fileDesc, f"{{{TEI_NS}}}publicationStmt")
+
+        # Publisher with structured info
         publisher = etree.SubElement(pubStmt, f"{{{TEI_NS}}}publisher")
-        publisher.text = "Mittelhochdeutsche Begriffsdatenbank (MHDBDB)"
+
+        orgName1 = etree.SubElement(publisher, f"{{{TEI_NS}}}orgName")
+        orgName1.text = "Mittelhochdeutsche Begriffsdatenbank (MHDBDB)"
+
+        orgName2 = etree.SubElement(publisher, f"{{{TEI_NS}}}orgName")
+        orgName2.text = "Paris Lodron Universität Salzburg"
+
+        # Structured address
+        address = etree.SubElement(publisher, f"{{{TEI_NS}}}address")
+        etree.SubElement(address, f"{{{TEI_NS}}}street").text = "Erzabt-Klotz-Straße 1"
+        etree.SubElement(address, f"{{{TEI_NS}}}postCode").text = "5020"
+        etree.SubElement(address, f"{{{TEI_NS}}}settlement").text = "Salzburg"
+        etree.SubElement(address, f"{{{TEI_NS}}}country").text = "Österreich"
+
+        etree.SubElement(publisher, f"{{{TEI_NS}}}email").text = "mhdbdb@plus.ac.at"
+        ptr = etree.SubElement(publisher, f"{{{TEI_NS}}}ptr")
+        ptr.set("target", "https://mhdbdb.plus.ac.at")
+
+        # Authority
+        authority = etree.SubElement(pubStmt, f"{{{TEI_NS}}}authority")
+        persName = etree.SubElement(authority, f"{{{TEI_NS}}}persName")
+        persName.set("role", "coordinator")
+        etree.SubElement(persName, f"{{{TEI_NS}}}forename").text = "Katharina"
+        etree.SubElement(persName, f"{{{TEI_NS}}}surname").text = "Zeppezauer-Wachauer"
+
+        # Availability and licensing
+        availability = etree.SubElement(pubStmt, f"{{{TEI_NS}}}availability")
+        licence = etree.SubElement(availability, f"{{{TEI_NS}}}licence")
+        licence.set("target", "https://creativecommons.org/licenses/by-nc-sa/3.0/at/")
+        licence.text = "CC BY-NC-SA 3.0 AT"
+
+        p = etree.SubElement(availability, f"{{{TEI_NS}}}p")
+        p.text = (
+            "Die semantischen Annotationen stehen unter der Lizenz CC BY-NC-SA 3.0 AT. "
+            "Die zugrunde liegenden E-Texte stammen aus unterschiedlichen Editionen und "
+            "unterliegen je nach Quelle eigenen rechtlichen Bedingungen. Bitte beachten "
+            "Sie die jeweiligen Angaben im Quellenverzeichnis."
+        )
+
+        # Date
         date_el = etree.SubElement(pubStmt, f"{{{TEI_NS}}}date")
-        date_el.set("when", datetime.now().strftime("%Y"))
-        date_el.text = datetime.now().strftime("%Y")
+        date_el.set("when", "2025")
+        date_el.text = "2025"
 
-        # external IDs
-        for coll, tp in (
-            (work_data["wikidata"], "wikidata"),
-            (work_data["handschriftencensus"], "handschriftencensus"),
-            (work_data["gnd"], "gnd"),
-        ):
-            for uri in sorted(coll):
-                idno = etree.SubElement(pubStmt, f"{{{TEI_NS}}}idno")
-                idno.set("type", tp)
-                idno.text = uri
+        # References
+        ref1 = etree.SubElement(pubStmt, f"{{{TEI_NS}}}ref")
+        ref1.set("type", "history")
+        ref1.set("target", "https://doi.org/10.25619/BmE20223203")
+        ref1.text = (
+            "Zeppezauer-Wachauer, Katharina (2022): 50 Jahre Mittelhochdeutsche "
+            "Begriffsdatenbank (MHDBDB)"
+        )
 
-        # ----- sourceDesc ---------------------------------------------------
+        ref2 = etree.SubElement(pubStmt, f"{{{TEI_NS}}}ref")
+        ref2.set("type", "documentation")
+        ref2.set("target", "https://doi.org/10.14220/mdge.2022.69.2.135")
+        ref2.text = (
+            "Zeppezauer-Wachauer, Katharina (2022). Die Mittelhochdeutsche "
+            "Begriffsdatenbank (MHDBDB): Rückschau auf 50 Jahre digitale Mediävistik"
+        )
+
+        # Enhanced sourceDesc
         sourceDesc = etree.SubElement(fileDesc, f"{{{TEI_NS}}}sourceDesc")
         msDesc = etree.SubElement(sourceDesc, f"{{{TEI_NS}}}msDesc")
         msId = etree.SubElement(msDesc, f"{{{TEI_NS}}}msIdentifier")
-        msId.set("corresp", f"works.xml#work_{work_id_local}")
+        msId.set("corresp", f"works.xml#{work_id_local}")
 
         idno_sigle = etree.SubElement(msId, f"{{{TEI_NS}}}idno")
         idno_sigle.set("type", "sigle")
         idno_sigle.text = sigle
 
-        # ------------------------------------------------------------------ #
-        success = write_tei_file(root, output_file)
-        if success:
-            logger.info(f"Enhanced header for {sigle}")
-        return success
+        # Add msName
+        msName = etree.SubElement(msId, f"{{{TEI_NS}}}msName")
+        msName.text = work_title
+
+        # Edition bibliography if available
+        if edition_data:
+            additional = etree.SubElement(msDesc, f"{{{TEI_NS}}}additional")
+            listBibl = etree.SubElement(additional, f"{{{TEI_NS}}}listBibl")
+            bibl = etree.SubElement(listBibl, f"{{{TEI_NS}}}bibl")
+            bibl.set("type", "edition")
+
+            # Edition authors
+            for auth_name in edition_data.get("authors", []):
+                etree.SubElement(bibl, f"{{{TEI_NS}}}author").text = auth_name
+
+            # Edition details
+            if "title" in edition_data:
+                etree.SubElement(bibl, f"{{{TEI_NS}}}title").text = edition_data[
+                    "title"
+                ]
+            if "place" in edition_data:
+                etree.SubElement(bibl, f"{{{TEI_NS}}}pubPlace").text = edition_data[
+                    "place"
+                ]
+            if "publisher" in edition_data:
+                etree.SubElement(bibl, f"{{{TEI_NS}}}publisher").text = edition_data[
+                    "publisher"
+                ]
+            if "date" in edition_data:
+                date_ed = etree.SubElement(bibl, f"{{{TEI_NS}}}date")
+                if "when" in edition_data:
+                    date_ed.set("when", edition_data["when"])
+                date_ed.text = edition_data["date"]
+
+        # ================================================================
+        # 2. encodingDesc
+        # ================================================================
+        encodingDesc = etree.SubElement(header, f"{{{TEI_NS}}}encodingDesc")
+
+        # Project description
+        projectDesc = etree.SubElement(encodingDesc, f"{{{TEI_NS}}}projectDesc")
+
+        p_de = etree.SubElement(projectDesc, f"{{{TEI_NS}}}p")
+        p_de.set(f"{{{XML_NS}}}lang", "de")
+        p_de.text = (
+            "Die Annotationen der MHDBDB basieren auf kontrollierten Vokabularen "
+            "und domänenspezifischen Ontologien. Hierzu zählen das auf SKOS strukturierte "
+            "Begriffssystem mit semantischen Polyhierarchien, ein eigenständiges Onomastikon "
+            "zur systematischen Erfassung von Eigennamen sowie eine umfassende "
+            "Textreihentypologie mit über 600 Gattungsbezeichnungen. Diese Komponenten "
+            "gewährleisten eine konsistente semantische Auszeichnung und fördern die "
+            "Interoperabilität im Sinne der FAIR-Prinzipien."
+        )
+
+        p_en = etree.SubElement(projectDesc, f"{{{TEI_NS}}}p")
+        p_en.set(f"{{{XML_NS}}}lang", "en")
+        p_en.text = (
+            "The annotations of the MHDBDB are based on controlled vocabularies "
+            "and domain-specific ontologies. These include a SKOS-structured conceptual "
+            "system with semantic polyhierarchies, a dedicated onomasticon for the systematic "
+            "encoding of proper names, and a comprehensive typology of text series "
+            "encompassing more than 600 genre designations. These components ensure "
+            "consistent semantic markup and promote interoperability in line with FAIR "
+            "principles."
+        )
+
+        # Genre taxonomy in classDecl
+        classDecl = etree.SubElement(encodingDesc, f"{{{TEI_NS}}}classDecl")
+        taxonomy = etree.SubElement(classDecl, f"{{{TEI_NS}}}taxonomy")
+        taxonomy.set(f"{{{XML_NS}}}id", "genres")
+
+        bibl_tax = etree.SubElement(taxonomy, f"{{{TEI_NS}}}bibl")
+        bibl_tax.text = "Genreklassifikation gemäß der Textreihentypologie "
+        ptr_tax = etree.SubElement(bibl_tax, f"{{{TEI_NS}}}ptr")
+        ptr_tax.set("target", "https://www.mhdbdb.sbg.ac.at/textreihen")
+
+        # Add relevant genres for this work from genres.xml
+        if genres_xml is not None:
+            genre_ids = set()
+            for (
+                genre_id,
+                genre_label,
+                genre_lang,
+                is_parent,
+                is_preferred,
+            ) in work_genres:
+                genre_ids.add(genre_id)
+
+            # Find categories in genres.xml that match our work's genres
+            for category in genres_xml.findall(f".//{{{TEI_NS}}}category"):
+                cat_id = category.get(f"{{{XML_NS}}}id", "")
+
+                if cat_id in genre_ids:
+                    # Copy the category structure
+                    new_category = etree.SubElement(taxonomy, f"{{{TEI_NS}}}category")
+                    new_category.set(f"{{{XML_NS}}}id", cat_id)
+
+                    # Check if this is a parent genre
+                    is_parent_genre = any(
+                        is_parent
+                        for gid, _, _, is_parent, _ in work_genres
+                        if gid == cat_id
+                    )
+                    if is_parent_genre:
+                        new_category.set("ana", "parent")
+
+                    # Add glosses from genres.xml
+                    catDesc = category.find(f".//{{{TEI_NS}}}catDesc")
+                    if catDesc is not None:
+                        for term in catDesc.findall(f".//{{{TEI_NS}}}term"):
+                            gloss = etree.SubElement(new_category, f"{{{TEI_NS}}}gloss")
+                            lang = term.get(f"{{{XML_NS}}}lang", "de")
+                            gloss.set(f"{{{XML_NS}}}lang", lang)
+                            gloss.text = term.text
+
+        # ================================================================
+        # 3. profileDesc
+        # ================================================================
+        profileDesc = etree.SubElement(header, f"{{{TEI_NS}}}profileDesc")
+        particDesc = etree.SubElement(profileDesc, f"{{{TEI_NS}}}particDesc")
+        listPerson = etree.SubElement(particDesc, f"{{{TEI_NS}}}listPerson")
+
+        # Add person details from persons.xml
+        if persons_xml is not None:
+            for person_id, author_name in work_authors:
+                # Find person in persons.xml
+                person_elem = persons_xml.find(
+                    f".//{{{TEI_NS}}}person[@{{{XML_NS}}}id='{person_id}']"
+                )
+                if person_elem is not None:
+                    # Copy person structure
+                    new_person = etree.SubElement(listPerson, f"{{{TEI_NS}}}person")
+                    new_person.set(f"{{{XML_NS}}}id", person_id)
+
+                    # Copy all child elements
+                    for child in person_elem:
+                        new_person.append(copy.deepcopy(child))
+
+        # ================================================================
+        # 4. revisionDesc
+        # ================================================================
+        revisionDesc = etree.SubElement(header, f"{{{TEI_NS}}}revisionDesc")
+        change = etree.SubElement(revisionDesc, f"{{{TEI_NS}}}change")
+        change.set("when", datetime.now().strftime("%Y-%m-%d"))
+        change.set("who", "#editor")
+        change.text = (
+            f"Version 1.0 ({datetime.now().strftime('%d.%m.%Y')}): "
+            "Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der "
+            "Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung "
+            "des Autors."
+        )
+
+        return write_tei_file(root, output_file)
 
     except Exception as e:
-        logger.error(f"Error enhancing TEI header: {str(e)}", exc_info=True)
+        logger.error(f"Error enhancing TEI header from XML: {str(e)}", exc_info=True)
         return False
 
 
-def update_tei_references(tei_file, output_file):
+def process_text_files_with_xml_authorities(
+    input_dir, output_dir, authority_dir="./lists/output"
+):
+    """
+    Process TEI files using XML authority files instead of CSV sources.
+    """
+    logger.info(f"Processing TEI files from {input_dir} to {output_dir}")
+    logger.info(f"Using authority files from {authority_dir}")
+
+    text_output_dir = output_dir
+    os.makedirs(text_output_dir, exist_ok=True)
+
+    file_count = 0
+    skipped_count = 0
+
+    try:
+        tei_files = [f for f in os.listdir(input_dir) if f.endswith(".tei.xml")]
+        logger.info(f"Found {len(tei_files)} TEI files to process")
+
+        for filename in tei_files:
+            logger.info(f"Processing {filename}...")
+            input_file = os.path.join(input_dir, filename)
+            temp_file = os.path.join(output_dir, f"temp_{filename}")
+
+            # Step 1: Enhance header from XML authorities
+            success = enhance_tei_header_from_xml(input_file, temp_file, authority_dir)
+
+            if success:
+                # Step 2: Update references and convert seg to w
+                final_file = os.path.join(text_output_dir, filename)
+                update_tei_references(temp_file, final_file, authority_dir)
+
+                # Remove temp file
+                try:
+                    os.remove(temp_file)
+                except Exception as e:
+                    logger.warning(f"Could not remove temp file {temp_file}: {str(e)}")
+
+                file_count += 1
+            else:
+                logger.warning(f"Skipping {filename} due to missing work data")
+                skipped_count += 1
+
+        logger.info(f"Completed processing {file_count} TEI text files.")
+        logger.info(f"Skipped {skipped_count} files due to missing work data.")
+        return file_count
+
+    except Exception as e:
+        logger.error(f"Error processing TEI files: {str(e)}")
+        return 0
+
+
+def update_tei_references(tei_file, output_file, authority_dir="./lists/output"):
     """
     Update token references in TEI file to point to authority files and
     convert <seg type="token"> elements to <w> elements with properly formatted references
@@ -1234,7 +1533,7 @@ def update_tei_references(tei_file, output_file):
 
         # NEW: Build type_to_sense mapping from lexicon.xml
         type_to_sense = {}
-        lexicon_path = get_authority_file_path("lexicon.xml")
+        lexicon_path = os.path.join(authority_dir, "lexicon.xml")
         if os.path.exists(lexicon_path):
             logger.info("Building type-to-sense mapping from lexicon.xml")
             try:
@@ -1399,63 +1698,6 @@ def update_tei_references(tei_file, output_file):
         return 0
 
 
-def process_text_files(input_dir, works_csv, persons_csv, output_dir):
-    """
-    Process only the TEI text files to enhance headers and update references,
-    without recreating the authority files.
-    """
-    logger.info(f"Processing TEI files from {input_dir} to {output_dir}")
-
-    # Use output directory directly instead of creating a texts subdirectory
-    text_output_dir = output_dir
-    os.makedirs(text_output_dir, exist_ok=True)
-
-    # Process all TEI files
-    file_count = 0
-    skipped_count = 0
-
-    try:
-        tei_files = [f for f in os.listdir(input_dir) if f.endswith(".tei.xml")]
-        logger.info(f"Found {len(tei_files)} TEI files to process")
-
-        for filename in tei_files:
-            logger.info(f"Processing {filename}...")
-            input_file = os.path.join(input_dir, filename)
-
-            # Create a temporary file for the intermediate step
-            temp_file = os.path.join(output_dir, f"temp_{filename}")
-
-            # Step 1: Enhance header
-            success = enhance_tei_header(input_file, works_csv, persons_csv, temp_file)
-
-            # Only proceed if enhancement was successful
-            if success:
-                # Step 2: Update references and convert seg to w
-                final_file = os.path.join(text_output_dir, filename)
-                update_tei_references(temp_file, final_file)
-
-                # Remove the temporary file
-                try:
-                    os.remove(temp_file)
-                except Exception as e:
-                    logger.warning(
-                        f"Could not remove temporary file {temp_file}: {str(e)}"
-                    )
-
-                file_count += 1
-            else:
-                logger.warning(f"Skipping {filename} due to missing work data")
-                skipped_count += 1
-
-        logger.info(f"Completed processing {file_count} TEI text files.")
-        logger.info(f"Skipped {skipped_count} files due to missing work data.")
-        logger.info(f"Enhanced files are in: {text_output_dir}")
-        return file_count
-    except Exception as e:
-        logger.error(f"Error processing TEI files: {str(e)}")
-        return 0
-
-
 # Get absolute paths for consistent reference handling
 def get_authority_file_path(file_name):
     """Get the full path to an authority file in the output directory."""
@@ -1568,19 +1810,30 @@ if __name__ == "__main__":
         # Create a temporary file for the intermediate step
         temp_file = os.path.join(output_dir, f"temp_{os.path.basename(input_file)}")
 
-        # Files needed for processing
-        works_csv = os.path.join(csv_dir, "works.csv")
-        persons_csv = os.path.join(csv_dir, "persons.csv")
-
         logger.info(f"Processing single file: {input_file}")
 
+        # Validate that authority files exist
+        required_files = ["works.xml", "persons.xml", "genres.xml"]
+        missing_files = []
+        for filename in required_files:
+            filepath = os.path.join(authority_output_dir, filename)
+            if not os.path.exists(filepath):
+                missing_files.append(filename)
+
+        if missing_files:
+            logger.error(f"Missing authority files: {missing_files}")
+            logger.error("Please run 'python tei-transformation.py --lists all' first")
+            sys.exit(1)
+
         # Step 1: Enhance header
-        success = enhance_tei_header(input_file, works_csv, persons_csv, temp_file)
+        success = enhance_tei_header_from_xml(
+            input_file, temp_file, authority_output_dir
+        )
 
         # Only proceed if enhancement was successful
         if success:
             # Step 2: Update references and convert seg to w
-            update_tei_references(temp_file, output_file)
+            update_tei_references(temp_file, output_file, authority_output_dir)
             logger.info(f"Successfully processed {input_file} to {output_file}")
         else:
             logger.error(
@@ -1608,7 +1861,11 @@ if __name__ == "__main__":
             logger.info("Generating all authority files...")
 
             # Check for TEXTWORD.xml for word type integration
-            textword_file = os.path.join(csv_dir, "TEXTWORD.xml") if os.path.exists(os.path.join(csv_dir, "TEXTWORD.xml")) else None
+            textword_file = (
+                os.path.join(csv_dir, "TEXTWORD.xml")
+                if os.path.exists(os.path.join(csv_dir, "TEXTWORD.xml"))
+                else None
+            )
 
             create_persons_tei(
                 os.path.join(csv_dir, "persons.csv"),
@@ -1645,7 +1902,11 @@ if __name__ == "__main__":
             )
 
         elif list_type == "lexicon":
-            textword_file = os.path.join(csv_dir, "TEXTWORD.xml") if os.path.exists(os.path.join(csv_dir, "TEXTWORD.xml")) else None
+            textword_file = (
+                os.path.join(csv_dir, "TEXTWORD.xml")
+                if os.path.exists(os.path.join(csv_dir, "TEXTWORD.xml"))
+                else None
+            )
             create_lexicon_tei(
                 os.path.join(csv_dir, "lexicon.csv"),
                 get_authority_file_path("lexicon.xml"),
@@ -1689,11 +1950,24 @@ if __name__ == "__main__":
 
     # Default behavior: Process all TEI files
     else:
-        works_csv = os.path.join(csv_dir, "works.csv")
-        persons_csv = os.path.join(csv_dir, "persons.csv")
 
         logger.info(f"Processing all TEI files in {input_dir}...")
         logger.info(f"Output will be written to {output_dir}")
 
+        # Validate that authority files exist
+        required_files = ["works.xml", "persons.xml", "genres.xml"]
+        missing_files = []
+        for filename in required_files:
+            filepath = os.path.join(authority_output_dir, filename)
+            if not os.path.exists(filepath):
+                missing_files.append(filename)
+
+        if missing_files:
+            logger.error(f"Missing authority files: {missing_files}")
+            logger.error("Please run 'python tei-transformation.py --lists all' first")
+            sys.exit(1)
+
         # Process all TEI files
-        process_text_files(input_dir, works_csv, persons_csv, output_dir)
+        process_text_files_with_xml_authorities(
+            input_dir, output_dir, authority_output_dir
+        )
