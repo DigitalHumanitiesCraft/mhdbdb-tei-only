@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MHDBDB Playground - TEI Data Explorer</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="playground-container">
+        <header class="header">
+            <h1>MHDBDB Playground</h1>
+            <span class="subtitle">TEI Data Explorer für Mittelhochdeutsche Begriffsdatenbank</span>
+            <div class="authority-status" id="authorityStatus">
+                <span class="status-indicator" id="statusIndicator">🔄</span>
+                <span class="status-text" id="statusText">Lade Authority Files...</span>
+            </div>
+        </header>
+
+        <div class="upload-panel">
+            <h2 class="panel-title">📁 TEI Upload & Struktur</h2>
+
+            <div class="upload-zone" id="uploadZone">
+                <div class="upload-icon">📄</div>
+                <div class="upload-text">TEI-Textdateien hier hinziehen</div>
+                <div class="upload-subtext">oder klicken zum Auswählen</div>
+                <input type="file" class="file-input" id="fileInput" multiple accept=".xml,.tei">
+            </div>
+
+            <div class="uploaded-files" id="uploadedFiles"></div>
+
+            <!-- Authority Files Overview (always loaded) -->
+            <div class="authority-overview" id="authorityOverview">
+                <h3 style="margin-bottom: 10px; color: #667eea;">📊 Authority Files (geladen)</h3>
+                <div id="authorityStats"></div>
+            </div>
+
+            <!-- TEI Files Analysis -->
+            <div class="tei-overview" id="teiOverview" style="display: none;">
+                <h3 style="margin-bottom: 10px; color: #667eea;">📜 TEI Textanalyse</h3>
+                <div id="teiStats"></div>
+            </div>
+        </div>
+
+        <div class="query-panel">
+            <h2 class="panel-title">🔍 Query Interface</h2>
+
+            <div class="query-templates">
+                <h3 style="margin-bottom: 10px; color: #666;">Authority Files durchsuchen</h3>
+                <button class="query-button" disabled id="showAuthorsBtn">👥 Alle Autoren anzeigen</button>
+                <button class="query-button" disabled id="showWorksBtn">📚 Alle Werke anzeigen</button>
+                <button class="query-button" disabled id="showLemmataBtn">🔤 Alle Lemmata anzeigen</button>
+                <button class="query-button" disabled id="showConceptsBtn">💭 Alle Konzepte anzeigen</button>
+                <button class="query-button" disabled id="showGenresBtn">🎭 Alle Gattungen anzeigen</button>
+                <button class="query-button" disabled id="showNamesBtn">📛 Alle Namen anzeigen</button>
+
+                <div class="tei-queries" id="teiQueries" style="display: none;">
+                    <h3 style="margin-bottom: 10px; margin-top: 20px; color: #666;">TEI Textanalyse</h3>
+                    <button class="query-button" id="showWordsBtn">📝 Alle Wörter im Text</button>
+                    <button class="query-button" id="showLinesBtn">📏 Alle Textzeilen</button>
+                    <button class="query-button" id="findLemmaBtn">🔍 Lemma im Text suchen</button>
+                    <button class="query-button" id="showAnnotationsBtn">🏷️ Alle Annotationen</button>
+                </div>
+            </div>
+
+            <div class="xpath-section">
+                <h3 style="margin-bottom: 10px; color: #666;">XPath Power-User</h3>
+                <div class="xpath-target">
+                    <label for="xpathTarget">Ziel:</label>
+                    <select id="xpathTarget">
+                        <option value="authority">Authority Files</option>
+                        <option value="tei">TEI Texte</option>
+                        <option value="all">Alle Dateien</option>
+                    </select>
+                </div>
+                <textarea class="xpath-input" id="xpathInput"
+                    placeholder="//person[@xml:id]//persName[@type='preferred']"
+                    rows="3"></textarea>
+                <button class="xpath-button" id="xpathExecute" disabled>▶ XPath ausführen</button>
+            </div>
+        </div>
+
+        <div class="results-panel">
+            <h2 class="panel-title">📋 Ergebnisse</h2>
+            <div class="results-container" id="resultsContainer">
+                <div class="loading" style="color: #999;">
+                    Authority Files werden geladen...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
