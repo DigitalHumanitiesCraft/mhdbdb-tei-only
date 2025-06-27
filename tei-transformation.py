@@ -731,7 +731,6 @@ def create_works_tei(csv_file, output_file, persons_file=None, genres_csv=None):
                 "titles": defaultdict(set),  # lang -> {title}
                 "sigles": set(),
                 "authors": set(),
-                "idno_uri": set(),
                 "wikidata": set(),
                 "handschriftencensus": set(),
                 "gnd": set(),
@@ -749,7 +748,6 @@ def create_works_tei(csv_file, output_file, persons_file=None, genres_csv=None):
                 continue
             d = work[wid]
             d["uri"] = wid_uri
-            d["idno_uri"].add(wid_uri)
 
             # ----- titles -----
             title = (row.get("label") or "").strip()
@@ -862,9 +860,8 @@ def create_works_tei(csv_file, output_file, persons_file=None, genres_csv=None):
                                 ref.set("n", "prefLabel")
                             ref.text = lbl
 
-            # ----- idnos -----
+            # ----- idnos (excluding URI type) -----
             for col, tp in (
-                (d["idno_uri"], "URI"),
                 (d["wikidata"], "wikidata"),
                 (d["handschriftencensus"], "handschriftencensus"),
                 (d["gnd"], "gnd"),
