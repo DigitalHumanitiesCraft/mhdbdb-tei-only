@@ -390,6 +390,7 @@ def create_lexicon_tei(csv_file, output_file, textword_file=None):
                     "writtenRep": set(),
                     "pos_variants": set(),
                     "senses": {},  # Dictionary to map sense IDs to concepts
+                    "subterms": set()  # NEW: morphological components
                 }
 
             # Collect written form and POS
@@ -398,37 +399,29 @@ def create_lexicon_tei(csv_file, output_file, textword_file=None):
 
             lemma_data[lemma_id]["pos_variants"].add(pos)
 
-            # Process senses and concepts
-            senses = []
-            if "senses" in row and row["senses"]:
-                if "," in row["senses"]:
-                    senses = [s.strip() for s in row["senses"].split(",") if s.strip()]
-                else:
-                    senses = [row["senses"].strip()]
+            # NEW: Handle subterms (morphological components)
+            if "subterms" in row and row["subterms"]:
+                subterms = [s.strip() for s in row["subterms"].split(",") if s.strip()]
+                for subterm in subterms:
+                    lemma_data[lemma_id]["subterms"].add(subterm)
 
+            # CHANGED: Process single sense and its concepts (no more Cartesian product!)
+            sense_id = row.get("senseId", "").strip()
             concepts = []
             if "relatedConcepts" in row and row["relatedConcepts"]:
-                if "," in row["relatedConcepts"]:
-                    concepts = [
-                        c.strip()
-                        for c in row["relatedConcepts"].split(",")
-                        if c.strip()
-                    ]
-                else:
-                    concepts = [row["relatedConcepts"].strip()]
+                concepts = [c.strip() for c in row["relatedConcepts"].split(",") if c.strip()]
 
-            # Associate concepts with senses
-            if senses:
-                for sense_id in senses:
-                    sense_id = normalize_id(sense_id, strip_prefix="sense_")
+            # FIXED: Associate concepts with specific sense only
+            if sense_id and concepts:
+                sense_id = normalize_id(sense_id, strip_prefix="sense_")
 
-                    # Initialize this sense if not seen
-                    if sense_id not in lemma_data[lemma_id]["senses"]:
-                        lemma_data[lemma_id]["senses"][sense_id] = set()
+                # Initialize this sense if not seen
+                if sense_id not in lemma_data[lemma_id]["senses"]:
+                    lemma_data[lemma_id]["senses"][sense_id] = set()
 
-                    # Add concepts to this sense
-                    for concept in concepts:
-                        lemma_data[lemma_id]["senses"][sense_id].add(concept)
+                # Add concepts to this specific sense
+                for concept in concepts:
+                    lemma_data[lemma_id]["senses"][sense_id].add(concept)
 
         # Now create entry elements from collected data
         for lemma_id, data in lemma_data.items():
@@ -449,6 +442,25 @@ def create_lexicon_tei(csv_file, output_file, textword_file=None):
                 pos_elem = ET.SubElement(gramGrp, "{" + TEI_NS + "}pos")
                 pos_elem.text = pos
 
+            # NEW: Add morphological information (subterms) with actual forms
+            if data["subterms"]:
+                etym = ET.SubElement(entry, "{" + TEI_NS + "}etym")
+                etym.set("type", "morphological")
+
+                # Look up actual written forms for subterms
+                for subterm_id in sorted(data["subterms"]):
+                    # Find the written form for this subterm in our lemma_data
+                    subterm_form = None
+                    if subterm_id in lemma_data and lemma_data[subterm_id]["writtenRep"]:
+                        subterm_form = next(iter(lemma_data[subterm_id]["writtenRep"]))
+
+                    seg = ET.SubElement(etym, "{" + TEI_NS + "}seg")
+                    seg.set("type", "component")
+                    seg.set("corresp", f"lexicon.xml#lemma_{subterm_id}")
+
+                    # Use actual form if found, otherwise fallback to ID
+                    seg.text = subterm_form if subterm_form else f"word_{subterm_id}"
+
             # Add senses
             for sense_id, concepts in data["senses"].items():
                 sense = ET.SubElement(entry, "{" + TEI_NS + "}sense")
@@ -462,7 +474,7 @@ def create_lexicon_tei(csv_file, output_file, textword_file=None):
                     sense.set("ana", ana_value)
 
                 # Add concept references
-                for concept in concepts:
+                for concept in sorted(concepts):
                     concept = normalize_id(concept, strip_prefix="concept_")
                     ptr = ET.SubElement(sense, "{" + TEI_NS + "}ptr")
                     ptr.set("target", f"concepts.xml#concept_{concept}")

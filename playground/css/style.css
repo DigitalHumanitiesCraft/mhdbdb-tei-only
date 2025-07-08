@@ -341,6 +341,21 @@ body {
     font-size: 0.85rem;
 }
 
+.result-snippet {
+    font-family: 'Georgia', serif;
+    line-height: 1.5;
+    color: #333;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+    word-break: break-word !important;
+    hyphens: auto;
+}
+
+.result-item {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
 .highlight {
     background: rgba(255, 255, 0, 0.3);
     padding: 2px 4px;
