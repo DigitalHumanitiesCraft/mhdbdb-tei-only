@@ -240,6 +240,7 @@ WHERE {
   OPTIONAL { ?textType skos:altLabel ?altLabel . }
 }
 ```
+
 ## 5. Names/Onomastic Concepts Query
 
 **Purpose**: Extracts name system concepts with language labels and relationships
@@ -297,7 +298,7 @@ ORDER BY ?nameConceptId
 #  ---------------------------------------------------------------------------
 #  • 1 row for every *literal or URI* that matters
 #  • Language tags kept only where they exist (work / genre labels)
-#  • “bib*” literals kept once – they are not language‑tagged in the dataset
+#  • "bib*" literals kept once – they are not language‑tagged in the dataset
 #  • Genre URIs filtered to the useful dhplus.sbg.ac.at namespace
 #
 #  Result columns
@@ -451,3 +452,35 @@ WHERE {
 }
 ORDER BY ?label
 ```
+
+## 7. Print Works Query
+
+**Purpose**: Extracts print edition metadata with editor information and titles for enhancing works data
+
+```sparql
+PREFIX dhpluso: <https://dh.plus.ac.at/ontology#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX mhdbdbi: <https://dh.plus.ac.at/mhdbdb/instance/>
+
+SELECT DISTINCT ?workId ?responsibilityStatement ?printTitle
+       (GROUP_CONCAT(DISTINCT ?sigle; SEPARATOR=",") AS ?sigles)
+WHERE {
+  ?workId a dhpluso:Text .
+
+  # Get sigle expressions and electronic instances
+  ?workId dhpluso:hasExpression ?sigleExpr .
+  ?sigleExpr dhpluso:hasInstance ?electronicInstance .
+  ?electronicInstance a dhpluso:Electronic .
+  BIND(REPLACE(STR(?sigleExpr), "^.*/([^/]+)/text$", "$1") AS ?sigle)
+  FILTER(REGEX(STR(?sigleExpr), "/[A-Z0-9]+/text$"))
+
+  # Get print instances from electronic instances
+  ?electronicInstance dhpluso:derivativeOf ?printInstance .
+  ?printInstance a dhpluso:Print .
+  OPTIONAL { ?printInstance dhpluso:responsibilityStatement ?responsibilityStatement }
+  OPTIONAL { ?printInstance rdfs:label ?printTitle }
+}
+GROUP BY ?workId ?responsibilityStatement ?printTitle
+ORDER BY ?workId
+```
+

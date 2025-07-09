@@ -298,25 +298,68 @@ export class AuthorityExplorers {
                 `;
       }
 
-      // Edition info
-      if (workDetails.edition) {
+      // Editions info - MULTIPLE SUPPORT
+      if (workDetails.editions && workDetails.editions.length > 0) {
         detailsHTML += `
-                    <div style="margin-bottom: 8px;">
-                        <strong>📅 Edition:</strong> ${
-                          workDetails.edition.title || workTitle
-                        }<br>
-                        <span style="font-size: 0.85rem; color: #666;">
-                            ${formatMetadata(
-                              [
-                                workDetails.edition.pubPlace,
-                                workDetails.edition.publisher,
-                                workDetails.edition.date,
-                              ],
-                              ": "
-                            )}
-                        </span>
-                    </div>
-                `;
+    <div style="margin-bottom: 8px;">
+      <strong>📅 ${
+        workDetails.editions.length === 1 ? "Edition" : "Editionen"
+      } (${workDetails.editions.length}):</strong><br>
+  `;
+
+        workDetails.editions.forEach((edition, index) => {
+          const editionNumber =
+            workDetails.editions.length > 1 ? `${index + 1}. ` : "";
+
+          detailsHTML += `
+      <div style="margin-left: 15px; margin-bottom: 8px; padding: 8px; background: rgba(102, 126, 234, 0.05); border-radius: 4px;">
+        <strong>${editionNumber}Edition:</strong><br>
+    `;
+
+          // Show titles
+          if (edition.titles && edition.titles.length > 0) {
+            edition.titles.forEach((title) => {
+              const anaLabel = title.ana ? ` (${title.ana})` : "";
+              detailsHTML += `
+          <div style="font-size: 0.85rem; color: #666; margin-left: 10px;">
+            • ${title.text}${anaLabel}
+          </div>
+        `;
+            });
+          }
+
+          // Editor, publisher, etc.
+          const editionMeta = [
+            edition.editor ? `Hrsg.: ${edition.editor}` : null,
+            edition.pubPlace,
+            edition.publisher,
+            edition.date,
+          ].filter(Boolean);
+
+          if (editionMeta.length > 0) {
+            detailsHTML += `
+        <div style="font-size: 0.85rem; color: #666; margin-left: 10px; margin-top: 3px;">
+          ${editionMeta.join(" • ")}
+        </div>
+      `;
+          }
+
+          detailsHTML += `</div>`;
+        });
+
+        detailsHTML += `</div>`;
+      }
+
+      // Handschriftencensus link
+      if (workDetails.handschriftencensus) {
+        detailsHTML += `
+        <div style="margin-bottom: 8px;">
+            <strong>📜 Handschriftencensus:</strong>
+            <a href="${workDetails.handschriftencensus}" target="_blank" style="color: #667eea;">
+                ${workDetails.handschriftencensus}
+            </a>
+        </div>
+    `;
       }
 
       return detailsHTML;
@@ -368,17 +411,34 @@ export class AuthorityExplorers {
       details.author = authorElement.textContent?.trim();
     }
 
-    // Extract edition
-    const editionElement = workElement.querySelector('bibl[type="edition"]');
-    if (editionElement) {
-      details.edition = {
-        title: editionElement.querySelector("title")?.textContent?.trim(),
+    // Extract editions - MULTIPLE SUPPORT
+    const editionElements = workElement.querySelectorAll(
+      'bibl[type="edition"]'
+    );
+    if (editionElements.length > 0) {
+      details.editions = Array.from(editionElements).map((editionElement) => ({
+        titles: Array.from(editionElement.querySelectorAll("title")).map(
+          (title) => ({
+            text: title.textContent?.trim(),
+            ana: title.getAttribute("ana"),
+          })
+        ),
+        editor: editionElement.querySelector("editor")?.textContent?.trim(),
         pubPlace: editionElement.querySelector("pubPlace")?.textContent?.trim(),
         publisher: editionElement
           .querySelector("publisher")
           ?.textContent?.trim(),
         date: editionElement.querySelector("date")?.textContent?.trim(),
-      };
+      }));
+    }
+
+    // Extract handschriftencensus link
+    const handschriftencensusElement = workElement.querySelector(
+      'idno[type="handschriftencensus"]'
+    );
+    if (handschriftencensusElement) {
+      details.handschriftencensus =
+        handschriftencensusElement.textContent?.trim();
     }
 
     return details;
@@ -423,7 +483,7 @@ export class AuthorityExplorers {
 
   showLemmataWithSearch() {
     const searchHTML = createSearchInterface({
-      title: "🔤 Lemmata-Suche",
+      title: "🔤 Lemmata-Explorer",
       placeholder: "Lemma eingeben (z.B. vriunt, minne, ere)",
       searchInputId: "lemmaSearch",
       resultsId: "lemmaResults",
@@ -487,64 +547,152 @@ export class AuthorityExplorers {
       const lexiconXML = this.authorityData.parsedXML.find((xml) =>
         xml.filename.includes("lexicon")
       );
-
       if (!lexiconXML) return "Lexicon XML nicht gefunden";
 
       const lemmaEntry = Array.from(
         lexiconXML.doc.querySelectorAll("entry")
       ).find((entry) => entry.getAttribute("xml:id") === lemmaId);
-
       if (!lemmaEntry) return "Lemma nicht im XML gefunden";
 
-      const senses = lemmaEntry.querySelectorAll("sense");
-      if (senses.length === 0) return "Keine Bedeutungen gefunden";
+      return this.generateLemmaSenseContent(lemmaEntry, lemmaId);
+    });
+  }
 
-      const sensesHTML = Array.from(senses)
-        .map((sense, index) => {
-          const senseId = sense.getAttribute("xml:id") || `sense_${index + 1}`;
-          const conceptPtrs = sense.querySelectorAll(
-            'ptr[target*="concepts.xml#"]'
-          );
+  showComponentLemma(originalLemmaId, componentLemmaId, componentText) {
+    const container = document.getElementById(`senses-${originalLemmaId}`);
+    if (!container) return;
 
-          let conceptsHTML = "";
-          if (conceptPtrs.length > 0) {
-            const concepts = Array.from(conceptPtrs)
-              .map((ptr) => {
-                const conceptId = ptr.getAttribute("target").split("#")[1];
-                const concept = this.authorityData.concepts.find(
-                  (c) => c.id === conceptId
-                );
-                return concept ? concept.termDE || concept.termEN : conceptId;
-              })
-              .filter(Boolean);
+    const lexiconXML = this.authorityData.parsedXML.find((xml) =>
+      xml.filename.includes("lexicon")
+    );
+    if (!lexiconXML) {
+      container.innerHTML = "Lexicon XML nicht gefunden";
+      return;
+    }
 
-            if (concepts.length > 0) {
-              conceptsHTML = `
-                            <div style="margin-top: 5px; font-size: 0.85rem; color: #666;">
-                                <strong>Konzepte:</strong> ${concepts.join(
-                                  " • "
-                                )}
-                            </div>
-                        `;
+    const lemmaEntry = Array.from(
+      lexiconXML.doc.querySelectorAll("entry")
+    ).find((entry) => entry.getAttribute("xml:id") === componentLemmaId);
+
+    if (!lemmaEntry) {
+      container.innerHTML = `Lemma "${componentText}" nicht gefunden`;
+      return;
+    }
+
+    // Get lemma text
+    const lemmaText = lemmaEntry
+      .querySelector('form[type="lemma"] orth')
+      ?.textContent?.trim();
+
+    // Generate content using existing logic
+    const content = this.generateLemmaSenseContent(
+      lemmaEntry,
+      componentLemmaId,
+      originalLemmaId
+    );
+
+    container.innerHTML = `
+        <div style="margin-bottom: 10px; padding: 8px; background: rgba(40, 167, 69, 0.1); border-radius: 4px;">
+            <strong>🔗 Komponente:</strong> ${componentText} → ${lemmaText}
+            <button onclick="window.playground.ui.authorityExplorers.showLemmaSenses('${originalLemmaId}')"
+                    style="float: right; padding: 2px 6px; background: #6c757d; color: white; border: none; border-radius: 3px; font-size: 0.75rem; cursor: pointer;">
+                ← Zurück
+            </button>
+        </div>
+        ${content}
+    `;
+  }
+
+  generateLemmaSenseContent(lemmaEntry, lemmaId, originalLemmaId = null) {
+    let resultHTML = "";
+
+    // Extract etymology
+    const etymElement = lemmaEntry.querySelector('etym[type="morphological"]');
+    if (etymElement) {
+      const components = etymElement.querySelectorAll('seg[type="component"]');
+      if (components.length > 0) {
+        const componentsHTML = Array.from(components)
+          .map((comp) => {
+            const corresp = comp.getAttribute("corresp");
+            const text = comp.textContent?.trim();
+            const referencedLemmaId = corresp ? corresp.split("#")[1] : null;
+
+            if (referencedLemmaId) {
+              const targetOriginal = originalLemmaId || lemmaId;
+              return `
+                        <span style="background: rgba(40, 167, 69, 0.1); padding: 2px 6px; border-radius: 3px; margin-right: 5px;">
+                            <strong>${text}</strong>
+                            <button onclick="window.playground.ui.authorityExplorers.showComponentLemma('${targetOriginal}', '${referencedLemmaId}', '${text}')"
+                                    style="margin-left: 4px; padding: 1px 4px; background: #28a745; color: white; border: none; border-radius: 2px; font-size: 0.7rem; cursor: pointer;">
+                                →
+                            </button>
+                        </span>
+                    `;
             }
-          }
+            return `<span style="background: rgba(108, 117, 125, 0.1); padding: 2px 6px; border-radius: 3px; margin-right: 5px;">${text}</span>`;
+          })
+          .join("");
 
-          return `
-                    <div style="margin-bottom: 8px; font-size: 0.9rem;">
-                        <strong>Bedeutung ${index + 1}:</strong> ${senseId}
-                        ${conceptsHTML}
+        resultHTML += `
+                <div style="font-weight: 500; margin-bottom: 8px; color: #28a745;">
+                    🔗 Morphologie: ${componentsHTML}
+                </div>
+            `;
+      }
+    }
+
+    // Extract senses
+    const senses = lemmaEntry.querySelectorAll("sense");
+    if (senses.length === 0) {
+      resultHTML += "Keine Bedeutungen gefunden";
+      return resultHTML;
+    }
+
+    const sensesHTML = Array.from(senses)
+      .map((sense, index) => {
+        const senseId = sense.getAttribute("xml:id") || `sense_${index + 1}`;
+        const conceptPtrs = sense.querySelectorAll(
+          'ptr[target*="concepts.xml#"]'
+        );
+
+        let conceptsHTML = "";
+        if (conceptPtrs.length > 0) {
+          const concepts = Array.from(conceptPtrs)
+            .map((ptr) => {
+              const conceptId = ptr.getAttribute("target").split("#")[1];
+              const concept = this.authorityData.concepts.find(
+                (c) => c.id === conceptId
+              );
+              return concept ? concept.termDE || concept.termEN : conceptId;
+            })
+            .filter(Boolean);
+
+          if (concepts.length > 0) {
+            conceptsHTML = `
+                    <div style="margin-top: 5px; font-size: 0.85rem; color: #666;">
+                        <strong>Konzepte:</strong> ${concepts.join(" • ")}
                     </div>
                 `;
-        })
-        .join("");
+          }
+        }
 
-      return `
-                <div style="font-weight: 500; margin-bottom: 8px; color: #667eea;">
-                    🔍 ${senses.length} Bedeutungen:
-                </div>
-                ${sensesHTML}
-            `;
-    });
+        return `
+            <div style="margin-bottom: 8px; font-size: 0.9rem;">
+                <strong>Bedeutung ${index + 1}:</strong> ${senseId}
+                ${conceptsHTML}
+            </div>
+        `;
+      })
+      .join("");
+
+    resultHTML += `
+        <div style="font-weight: 500; margin-bottom: 8px; color: #667eea;">
+            🔍 ${senses.length} Bedeutungen:
+        </div>
+        ${sensesHTML}
+    `;
+
+    return resultHTML;
   }
 
   // ==================== CONCEPTS EXPLORER ====================
