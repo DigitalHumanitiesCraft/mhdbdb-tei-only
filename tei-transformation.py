@@ -390,7 +390,7 @@ def create_lexicon_tei(csv_file, output_file, textword_file=None):
                     "writtenRep": set(),
                     "pos_variants": set(),
                     "senses": {},  # Dictionary to map sense IDs to concepts
-                    "subterms": set()  # NEW: morphological components
+                    "subterms": set(),  # NEW: morphological components
                 }
 
             # Collect written form and POS
@@ -409,7 +409,9 @@ def create_lexicon_tei(csv_file, output_file, textword_file=None):
             sense_id = row.get("senseId", "").strip()
             concepts = []
             if "relatedConcepts" in row and row["relatedConcepts"]:
-                concepts = [c.strip() for c in row["relatedConcepts"].split(",") if c.strip()]
+                concepts = [
+                    c.strip() for c in row["relatedConcepts"].split(",") if c.strip()
+                ]
 
             # FIXED: Associate concepts with specific sense only
             if sense_id and concepts:
@@ -451,7 +453,10 @@ def create_lexicon_tei(csv_file, output_file, textword_file=None):
                 for subterm_id in sorted(data["subterms"]):
                     # Find the written form for this subterm in our lemma_data
                     subterm_form = None
-                    if subterm_id in lemma_data and lemma_data[subterm_id]["writtenRep"]:
+                    if (
+                        subterm_id in lemma_data
+                        and lemma_data[subterm_id]["writtenRep"]
+                    ):
                         subterm_form = next(iter(lemma_data[subterm_id]["writtenRep"]))
 
                     seg = ET.SubElement(etym, "{" + TEI_NS + "}seg")
@@ -1151,11 +1156,13 @@ def enhance_tei_header_from_xml(tei_file, output_file, authority_dir="./lists/ou
             logger.warning(f"No work found with sigle={sigle} in works.xml")
             return False
 
-        # Extract work metadata
-        work_title = ""
-        title_elem = work_data.find(f".//{{{TEI_NS}}}title")
-        if title_elem is not None:
-            work_title = title_elem.text or sigle
+        # Extract ALL work titles
+        work_titles = []
+        work_title = sigle  # fallback
+        for title_elem in work_data.findall(f".//{{{TEI_NS}}}title"):
+            work_titles.append(title_elem)
+            if not work_title or work_title == sigle:  # Use first title as primary
+                work_title = title_elem.text or sigle
 
         # Get authors
         work_authors = []
@@ -1180,33 +1187,6 @@ def enhance_tei_header_from_xml(tei_file, output_file, authority_dir="./lists/ou
                     (genre_id, genre_label, genre_lang, is_parent, is_preferred)
                 )
 
-        # Get edition info
-        edition_data = {}
-        edition_bibl = work_data.find(f".//{{{TEI_NS}}}bibl[@type='edition']")
-        if edition_bibl is not None:
-            title_ed = edition_bibl.find(f".//{{{TEI_NS}}}title")
-            if title_ed is not None:
-                edition_data["title"] = title_ed.text
-
-            place_ed = edition_bibl.find(f".//{{{TEI_NS}}}pubPlace")
-            if place_ed is not None:
-                edition_data["place"] = place_ed.text
-
-            pub_ed = edition_bibl.find(f".//{{{TEI_NS}}}publisher")
-            if pub_ed is not None:
-                edition_data["publisher"] = pub_ed.text
-
-            date_ed = edition_bibl.find(f".//{{{TEI_NS}}}date")
-            if date_ed is not None:
-                edition_data["date"] = date_ed.text
-                edition_data["when"] = date_ed.get("when", date_ed.text)
-
-            # Edition authors
-            edition_data["authors"] = []
-            for auth_ed in edition_bibl.findall(f".//{{{TEI_NS}}}author"):
-                if auth_ed.text:
-                    edition_data["authors"].append(auth_ed.text)
-
         # Clear existing header and rebuild
         header = root.find(".//tei:teiHeader", ns)
         if header is None:
@@ -1220,8 +1200,14 @@ def enhance_tei_header_from_xml(tei_file, output_file, authority_dir="./lists/ou
 
         # titleStmt
         titleStmt = etree.SubElement(fileDesc, f"{{{TEI_NS}}}titleStmt")
-        title_el = etree.SubElement(titleStmt, f"{{{TEI_NS}}}title")
-        title_el.text = work_title
+
+        # Add ALL titles with their attributes
+        for title_elem in work_titles:
+            title_el = etree.SubElement(titleStmt, f"{{{TEI_NS}}}title")
+            title_el.text = title_elem.text
+            # Copy all attributes
+            for attr_name, attr_value in title_elem.attrib.items():
+                title_el.set(attr_name, attr_value)
 
         # Authors with internal references for profileDesc
         for person_id, author_name in work_authors:
@@ -1317,39 +1303,21 @@ def enhance_tei_header_from_xml(tei_file, output_file, authority_dir="./lists/ou
         idno_sigle.set("type", "sigle")
         idno_sigle.text = sigle
 
-        # Add msName
-        msName = etree.SubElement(msId, f"{{{TEI_NS}}}msName")
-        msName.text = work_title
+        # Add ALL titles as msName elements
+        for title_elem in work_titles:
+            msName = etree.SubElement(msId, f"{{{TEI_NS}}}msName")
+            msName.text = title_elem.text
+            # Copy language attribute if present
+            if f"{{{XML_NS}}}lang" in title_elem.attrib:
+                msName.set(f"{{{XML_NS}}}lang", title_elem.get(f"{{{XML_NS}}}lang"))
 
-        # Edition bibliography if available
-        if edition_data:
+        # Find and copy biblStruct for this sigle
+        biblstruct_elem = work_data.find(f".//{{{TEI_NS}}}biblStruct[@key='{sigle}']")
+        if biblstruct_elem is not None:
             additional = etree.SubElement(msDesc, f"{{{TEI_NS}}}additional")
             listBibl = etree.SubElement(additional, f"{{{TEI_NS}}}listBibl")
-            bibl = etree.SubElement(listBibl, f"{{{TEI_NS}}}bibl")
-            bibl.set("type", "edition")
-
-            # Edition authors
-            for auth_name in edition_data.get("authors", []):
-                etree.SubElement(bibl, f"{{{TEI_NS}}}author").text = auth_name
-
-            # Edition details
-            if "title" in edition_data:
-                etree.SubElement(bibl, f"{{{TEI_NS}}}title").text = edition_data[
-                    "title"
-                ]
-            if "place" in edition_data:
-                etree.SubElement(bibl, f"{{{TEI_NS}}}pubPlace").text = edition_data[
-                    "place"
-                ]
-            if "publisher" in edition_data:
-                etree.SubElement(bibl, f"{{{TEI_NS}}}publisher").text = edition_data[
-                    "publisher"
-                ]
-            if "date" in edition_data:
-                date_ed = etree.SubElement(bibl, f"{{{TEI_NS}}}date")
-                if "when" in edition_data:
-                    date_ed.set("when", edition_data["when"])
-                date_ed.text = edition_data["date"]
+            # Copy the entire biblStruct element
+            listBibl.append(copy.deepcopy(biblstruct_elem))
 
         # ================================================================
         # 2. encodingDesc
