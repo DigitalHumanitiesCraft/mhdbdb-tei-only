@@ -1159,7 +1159,7 @@ def enhance_tei_header_from_xml(tei_file, output_file, authority_dir="./lists/ou
         # Extract ALL work titles
         work_titles = []
         work_title = sigle  # fallback
-        for title_elem in work_data.findall(f".//{{{TEI_NS}}}title"):
+        for title_elem in work_data.findall(f"{{{TEI_NS}}}title"):
             work_titles.append(title_elem)
             if not work_title or work_title == sigle:  # Use first title as primary
                 work_title = title_elem.text or sigle
@@ -1311,13 +1311,12 @@ def enhance_tei_header_from_xml(tei_file, output_file, authority_dir="./lists/ou
             if f"{{{XML_NS}}}lang" in title_elem.attrib:
                 msName.set(f"{{{XML_NS}}}lang", title_elem.get(f"{{{XML_NS}}}lang"))
 
-        # Find and copy biblStruct for this sigle
-        biblstruct_elem = work_data.find(f".//{{{TEI_NS}}}biblStruct[@key='{sigle}']")
-        if biblstruct_elem is not None:
+        biblstruct_elems = work_data.findall(f".//{{{TEI_NS}}}biblStruct[@key='{sigle}']")
+        if biblstruct_elems:
             additional = etree.SubElement(msDesc, f"{{{TEI_NS}}}additional")
             listBibl = etree.SubElement(additional, f"{{{TEI_NS}}}listBibl")
-            # Copy the entire biblStruct element
-            listBibl.append(copy.deepcopy(biblstruct_elem))
+            for biblstruct_elem in biblstruct_elems:
+                listBibl.append(copy.deepcopy(biblstruct_elem))
 
         # ================================================================
         # 2. encodingDesc

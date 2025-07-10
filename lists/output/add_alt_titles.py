@@ -3,10 +3,16 @@
 TEI XML Alternate Titles Adder
 
 Reads work-addons files and adds alternate titles to works.xml based on
-label elements with labelImportance != "primary".
+label elements with labelImportance != "primary" and labelGiver != "false".
+
+The script can be run multiple times safely - it removes any existing
+alternate titles before adding new ones, preventing duplicates.
+
+Features text normalization (whitespace cleanup).
 """
 
 import os
+import re
 from lxml import etree
 import logging
 
@@ -25,6 +31,14 @@ def parse_xml_file(filename):
         logger.error(f"Error parsing {filename}: {e}")
         raise
 
+def normalize_text(text):
+    """Normalize text by collapsing multiple whitespace into single spaces."""
+    if not text:
+        return text
+    # Replace multiple whitespace (spaces, tabs, newlines) with single spaces
+    normalized = re.sub(r'\s+', ' ', text.strip())
+    return normalized
+
 def extract_alternate_labels(addon_file_path):
     """Extract alternate labels from a work-addons file."""
     if not os.path.exists(addon_file_path):
@@ -34,8 +48,8 @@ def extract_alternate_labels(addon_file_path):
         tree = parse_xml_file(addon_file_path)
         ns = {'tei': 'http://www.tei-c.org/ns/1.0'}
         
-        # Find all label elements that are not primary
-        labels = tree.xpath('//tei:label[@labelImportance!="primary"]', namespaces=ns)
+        # Find all label elements that are not primary and don't have labelGiver="false"
+        labels = tree.xpath('//tei:label[@labelImportance!="primary" and @labelGiver!="false"]', namespaces=ns)
         
         alternate_titles = []
         
@@ -49,6 +63,9 @@ def extract_alternate_labels(addon_file_path):
                 logger.warning(f"Empty label text in {addon_file_path}")
                 continue
             
+            # Normalize text content
+            label_text = normalize_text(label_text)
+
             # Log missing attributes
             if lang == 'unknown':
                 logger.warning(f"Missing lang attribute in {addon_file_path}")
@@ -119,12 +136,21 @@ def add_alternate_titles_to_works(works_tree, work_addons_dir):
     logger.info(f"Found {len(works)} work entries")
     
     total_titles_added = 0
+    total_titles_removed = 0
     works_processed = 0
     missing_files = []
     
     for work in works:
         work_id = work.get('{http://www.w3.org/XML/1998/namespace}id', 'unknown')
         
+        # FIRST: Remove any existing alternate titles to avoid duplicates
+        existing_alt_titles = work.xpath('.//tei:title[@type="alternate"]', namespaces=ns)
+        if existing_alt_titles:
+            logger.debug(f"Removing {len(existing_alt_titles)} existing alternate titles from {work_id}")
+            for existing_title in existing_alt_titles:
+                existing_title.getparent().remove(existing_title)
+            total_titles_removed += len(existing_alt_titles)
+
         # Extract work number from work_id (e.g., "work_294" -> "294")
         if work_id.startswith('work_'):
             work_number = work_id[5:]  # Remove "work_" prefix
@@ -154,7 +180,8 @@ def add_alternate_titles_to_works(works_tree, work_addons_dir):
     
     # Log summary
     logger.info(f"Processing summary:")
-    logger.info(f"- Total alternate titles added: {total_titles_added}")
+    logger.info(f"- Existing alternate titles removed: {total_titles_removed}")
+    logger.info(f"- New alternate titles added: {total_titles_added}")
     logger.info(f"- Works with alternate titles: {works_processed}")
     logger.info(f"- Missing addon files: {len(missing_files)}")
     
@@ -192,9 +219,10 @@ def main():
         
         logger.info("Process completed successfully!")
         logger.info(f"Final summary:")
-        logger.info(f"- {total_titles_added} alternate titles added")
+        logger.info(f"- {total_titles_added} new alternate titles added")
         logger.info(f"- {works_processed} works modified")
         logger.info(f"- {len(missing_files)} works with missing addon files")
+        logger.info("Script can be run multiple times safely - existing alternate titles are removed before adding new ones")
         
         return True
         

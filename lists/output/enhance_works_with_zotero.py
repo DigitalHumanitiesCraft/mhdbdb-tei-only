@@ -7,6 +7,9 @@ from zotero-export.xml, matching on sigle/callNumber values.
 
 The script can be run multiple times safely - it removes any existing biblStruct 
 elements before adding new ones, preventing duplicates when new Zotero data is available.
+
+The script also handles xml:id conflicts from Zotero exports by automatically
+generating unique xml:id values when duplicates are detected.
 """
 
 from lxml import etree
@@ -68,18 +71,56 @@ def extract_work_sigles(work_elem):
     
     return sigles
 
+def make_xml_id_unique(original_id, used_ids, sigle=None):
+    """Generate a unique xml:id based on the original, avoiding conflicts."""
+    if not original_id:
+        # If no original ID, create one based on sigle
+        base_id = f"biblStruct_{sigle}" if sigle else "biblStruct_unknown"
+    else:
+        base_id = original_id
+
+    # If the original ID is unique, use it
+    if base_id not in used_ids:
+        used_ids.add(base_id)
+        return base_id
+
+    # If there's a conflict, try adding the sigle
+    if sigle and f"{base_id}_{sigle}" not in used_ids:
+        unique_id = f"{base_id}_{sigle}"
+        used_ids.add(unique_id)
+        return unique_id
+
+    # If still conflicts, use a counter
+    counter = 1
+    while f"{base_id}_{counter}" in used_ids:
+        counter += 1
+
+    unique_id = f"{base_id}_{counter}"
+    used_ids.add(unique_id)
+    return unique_id
+
 def replace_editions_with_biblstructs(works_tree, zotero_data):
     """Replace bibl type='edition' elements with matching biblStruct elements."""
     ns = {'tei': 'http://www.tei-c.org/ns/1.0'}
     
+    # Track used xml:id values across the entire document to ensure uniqueness
+    used_xml_ids = set()
+
+    # First, collect all existing xml:id values in the document
+    existing_ids = works_tree.xpath('//@xml:id', namespaces={'xml': 'http://www.w3.org/XML/1998/namespace'})
+    for existing_id in existing_ids:
+        used_xml_ids.add(existing_id)
+
     # Find all work entries
     works = works_tree.xpath('//tei:bibl[starts-with(@xml:id, "work_")]', namespaces=ns)
     logger.info(f"Found {len(works)} work entries")
+    logger.info(f"Found {len(used_xml_ids)} existing xml:id values in document")
     
     total_replacements = 0
     works_with_replacements = 0
     missing_sigles = []
     total_removed = 0
+    id_conflicts_fixed = 0
     
     for work in works:
         work_id = work.get('{http://www.w3.org/XML/1998/namespace}id', 'unknown')
@@ -111,6 +152,17 @@ def replace_editions_with_biblstructs(works_tree, zotero_data):
                     # Add key attribute with the matching sigle
                     biblstruct_copy = etree.fromstring(etree.tostring(biblstruct))
                     biblstruct_copy.set('key', sigle)
+
+                    # Fix xml:id conflicts
+                    original_id = biblstruct_copy.get('{http://www.w3.org/XML/1998/namespace}id')
+                    if original_id and original_id in used_xml_ids:
+                        new_id = make_xml_id_unique(original_id, used_xml_ids, sigle)
+                        biblstruct_copy.set('{http://www.w3.org/XML/1998/namespace}id', new_id)
+                        logger.debug(f"Fixed xml:id conflict: {original_id} -> {new_id}")
+                        id_conflicts_fixed += 1
+                    elif original_id:
+                        used_xml_ids.add(original_id)
+
                     matching_biblstructs.append(biblstruct_copy)
                     matched_sigles.add(sigle)
                     logger.debug(f"Found match for sigle {sigle}")
@@ -155,6 +207,7 @@ def replace_editions_with_biblstructs(works_tree, zotero_data):
     logger.info(f"Replacement summary:")
     logger.info(f"- Existing biblStruct elements removed: {total_removed}")
     logger.info(f"- New biblStruct elements added: {total_replacements}")
+    logger.info(f"- xml:id conflicts fixed: {id_conflicts_fixed}")
     logger.info(f"- Works with replacements: {works_with_replacements}")
     logger.info(f"- Missing sigles: {len(missing_sigles)}")
     
@@ -194,6 +247,7 @@ def main():
         logger.info(f"- {works_with_replacements} works modified")
         logger.info(f"- {len(missing_sigles)} sigles without matches")
         logger.info("Script can be run multiple times safely - existing biblStruct elements are removed before adding new ones")
+        logger.info("xml:id conflicts from Zotero export are automatically resolved")
         
         return True
         
