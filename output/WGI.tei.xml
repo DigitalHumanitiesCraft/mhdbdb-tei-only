@@ -3,7 +3,8 @@
   <teiHeader>
     <fileDesc>
       <titleStmt>
-        <title>Der Welsche Gast</title>
+        <title xml:lang="de">Der Welsche Gast</title>
+        <title xml:lang="de" type="alternate" ana="unspecific">Der Welhische Gast</title>
         <author ref="#person_405">Thomasin von Zirclaere</author>
         <respStmt>
           <resp>digitale Zusammenführung, Annotation und semantische Klassifikation</resp>
@@ -41,16 +42,79 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_668">
             <idno type="sigle">WGI</idno>
-            <msName>Der Welsche Gast</msName>
+            <msName xml:lang="de">Der Welsche Gast</msName>
+            <msName xml:lang="de">Der Welhische Gast</msName>
           </msIdentifier>
           <additional>
             <listBibl>
-              <bibl type="edition">
-                <title>Der wälsche Gast des Thomasin von Zirclaria</title>
-                <pubPlace>Leipzig</pubPlace>
-                <publisher>Basse</publisher>
-                <date when="1852">1852</date>
-              </bibl>
+              <biblStruct type="bookSection" xml:id="DIGIVORLAGE.WGI_WGI" corresp="http://zotero.org/groups/5043625/items/9WET5UHU" key="WGI">
+                <analytic>
+                  <title level="a">Der welsche gast (prosavorrede)</title>
+                  <author>
+                    <name>Thomasin von Zerklaere</name>
+                  </author>
+                </analytic>
+                <monogr>
+                  <title level="m">Der welsche gast: Digitale textedition</title>
+                  <idno type="callNumber">WGI</idno>
+                  <editor>
+                    <forename>Steven M.</forename>
+                    <surname>Wight</surname>
+                  </editor>
+                  <editor>
+                    <forename>Minoru</forename>
+                    <surname>Shigeto</surname>
+                  </editor>
+                  <editor>
+                    <forename>Ute</forename>
+                    <surname>Recker</surname>
+                  </editor>
+                  <editor>
+                    <forename>Ulrich</forename>
+                    <surname>Harsch</surname>
+                  </editor>
+                  <imprint>
+                    <date>2000</date>
+                    <note type="accessed">2018-08-03</note>
+                    <note type="url">
+                  https://www.hs-augsburg.de/~harsch/germanica/Chronologie/13Jh/Thomasin/dwgprt.htm</note>
+                  </imprint>
+                </monogr>
+                <note>Der Wälsche Gast des Thomasin von Zirclaria. Hrsg. von Heinrich Rückert. Mit
+              einer Einleitung und einem Register von Friedrich Naumann (Deutsche Neudrucke. Reihe:
+              Texte des Mittelalters, Berlin, 1965</note>
+              </biblStruct>
+              <biblStruct type="bookSection" xml:id="WGI_WGI" corresp="http://zotero.org/groups/5043625/items/ZYV4Z7MG" key="WGI">
+                <analytic>
+                  <title level="a">Der welsche gast (prosavorrede)</title>
+                  <author>
+                    <name>Thomasin von Zerklaere</name>
+                  </author>
+                </analytic>
+                <monogr>
+                  <title level="m">Der wälsche Gast des Thomasin von Zirclaria: Mit sprachlichen und
+                geschichtlichen Anmerkungen</title>
+                  <idno type="callNumber">WGI</idno>
+                  <editor>
+                    <forename>Heinrich</forename>
+                    <surname>Rückert</surname>
+                  </editor>
+                  <imprint>
+                    <pubPlace>Quedlinburg and Leipzig</pubPlace>
+                    <biblScope unit="volume">30</biblScope>
+                    <biblScope unit="page">1–4</biblScope>
+                    <publisher>Basse</publisher>
+                    <date>1852</date>
+                  </imprint>
+                </monogr>
+                <series>
+                  <title level="s">Bibliothek der gesammten deutschen Nationalliteratur von der ältesten
+                bis auf die neuere Zeit</title>
+                </series>
+                <note>Der Wälsche Gast des Thomasin von Zirclaria. Hrsg. von Heinrich Rückert. Mit
+              einer Einleitung und einem Register von Friedrich Naumann (Deutsche Neudrucke. Reihe:
+              Texte des Mittelalters, Berlin, 1965</note>
+              </biblStruct>
             </listBibl>
           </additional>
         </msDesc>
@@ -98,12 +162,12 @@
       </particDesc>
     </profileDesc>
     <revisionDesc>
-      <change when="2025-06-25" who="#editor">Version 1.0 (25.06.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
     </revisionDesc>
   </teiHeader>
   <text>
     <body>
-      <p>
+      <p resp="Generated by Export-Script">
         <pb n="403"/>
         <hi rend="upper_case">
           <hi rend="initial">

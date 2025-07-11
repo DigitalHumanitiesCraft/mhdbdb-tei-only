@@ -3,7 +3,8 @@
   <teiHeader>
     <fileDesc>
       <titleStmt>
-        <title>Münchner Kochbuchhandschriften aus dem 15. Jahrhundert; München, Bayerische Staatsbibliothek, Cgm 811</title>
+        <title xml:lang="de">Münchner Kochbuchhandschriften aus dem 15. Jahrhundert; München,
+            Bayerische Staatsbibliothek, Cgm 811</title>
         <author ref="#person_anonym">Anonym</author>
         <respStmt>
           <resp>digitale Zusammenführung, Annotation und semantische Klassifikation</resp>
@@ -41,16 +42,34 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_599">
             <idno type="sigle">MBS1</idno>
-            <msName>Münchner Kochbuchhandschriften aus dem 15. Jahrhundert; München, Bayerische Staatsbibliothek, Cgm 811</msName>
+            <msName xml:lang="de">Münchner Kochbuchhandschriften aus dem 15. Jahrhundert; München,
+            Bayerische Staatsbibliothek, Cgm 811</msName>
           </msIdentifier>
           <additional>
             <listBibl>
-              <bibl type="edition">
-                <title>[Rezepte aus Cgm 811]</title>
-                <pubPlace>Frankfurt</pubPlace>
-                <publisher>Tupperware</publisher>
-                <date when="1999">1999</date>
-              </bibl>
+              <biblStruct type="bookSection" xml:id="MBS1b_MBS1" corresp="http://zotero.org/groups/5043625/items/ADH8J83U" key="MBS1">
+                <analytic>
+                  <title level="a">Cgm 811: [Rezepte aus cgm 811]</title>
+                  <author>
+                    <name>Anonym</name>
+                  </author>
+                </analytic>
+                <monogr>
+                  <title level="m">Münchner kochbuchhandschriften aus dem 15. Jahrhundert</title>
+                  <idno type="ISBN">978-3-403-03364-6</idno>
+                  <idno type="callNumber">MBS1</idno>
+                  <editor>
+                    <forename>Trude</forename>
+                    <surname>Ehlert</surname>
+                  </editor>
+                  <imprint>
+                    <pubPlace>Frankfurt</pubPlace>
+                    <biblScope unit="page">220–227</biblScope>
+                    <publisher>Tupperware</publisher>
+                    <date>1999</date>
+                  </imprint>
+                </monogr>
+              </biblStruct>
             </listBibl>
           </additional>
         </msDesc>
@@ -93,7 +112,7 @@
       </particDesc>
     </profileDesc>
     <revisionDesc>
-      <change when="2025-06-25" who="#editor">Version 1.0 (25.06.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
     </revisionDesc>
   </teiHeader>
   <text>

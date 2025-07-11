@@ -3,7 +3,15 @@
   <teiHeader>
     <fileDesc>
       <titleStmt>
-        <title>Die beiden Königinnen</title>
+        <title xml:lang="de">Die beiden Königinnen</title>
+        <title xml:lang="gmh" type="alternate" ana="historic">Merck fürbas (C)</title>
+        <title xml:lang="gmh" type="alternate" ana="historic">Ditz ist ein selzen mere / Von vier
+            scharen lobebere (H)</title>
+        <title xml:lang="gmh" type="alternate" ana="historic">Ditz ist von vier scharen vnd von
+            tzwein kvnicrichen ein mere (K)</title>
+        <title xml:lang="gmh" type="alternate" ana="historic">Daz ist uo iamer vnd uo klag / Di
+            sich hebent am iungste tag (M)</title>
+        <title xml:lang="lat" type="alternate" ana="historic">Pugnabit percis orbis terrarum (Q)</title>
         <author ref="#person_4">Der Stricker</author>
         <respStmt>
           <resp>digitale Zusammenführung, Annotation und semantische Klassifikation</resp>
@@ -41,16 +49,46 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_283">
             <idno type="sigle">BEK</idno>
-            <msName>Die beiden Königinnen</msName>
+            <msName xml:lang="de">Die beiden Königinnen</msName>
+            <msName xml:lang="gmh">Merck fürbas (C)</msName>
+            <msName xml:lang="gmh">Ditz ist ein selzen mere / Von vier
+            scharen lobebere (H)</msName>
+            <msName xml:lang="gmh">Ditz ist von vier scharen vnd von
+            tzwein kvnicrichen ein mere (K)</msName>
+            <msName xml:lang="gmh">Daz ist uo iamer vnd uo klag / Di
+            sich hebent am iungste tag (M)</msName>
+            <msName xml:lang="lat">Pugnabit percis orbis terrarum (Q)</msName>
           </msIdentifier>
           <additional>
             <listBibl>
-              <bibl type="edition">
-                <title>Die beiden Königinnen</title>
-                <pubPlace>Göppingen</pubPlace>
-                <publisher>Kümmerle</publisher>
-                <date when="1974">1974</date>
-              </bibl>
+              <biblStruct type="bookSection" xml:id="BEK_BEK" corresp="http://zotero.org/groups/5043625/items/MIPSJ678" key="BEK">
+                <analytic>
+                  <title level="a">Die beiden königinnen</title>
+                  <author>
+                    <name>Der Stricker</name>
+                  </author>
+                </analytic>
+                <monogr>
+                  <title level="m">Die kleindichtung des strickers</title>
+                  <idno type="callNumber">BEK</idno>
+                  <editor>
+                    <forename>Wolfgang Wilfried</forename>
+                    <surname>Moelleken</surname>
+                  </editor>
+                  <imprint>
+                    <pubPlace>Göppingen</pubPlace>
+                    <biblScope unit="volume">4</biblScope>
+                    <biblScope unit="page">302–317</biblScope>
+                    <publisher>Kümmerle</publisher>
+                    <date>1974</date>
+                  </imprint>
+                </monogr>
+                <series>
+                  <title level="s">Göppinger arbeiten zur germanistik</title>
+                </series>
+                <note>Die Kleindichtung des Strickers. Gesamtausgabe in fünf Bänden. Hrsg. v. Wolfgang
+              Wilfried Moelleken. Göppingen, 1974. (GAG 107/I-V)</note>
+              </biblStruct>
             </listBibl>
           </additional>
         </msDesc>
@@ -91,7 +129,7 @@
       </particDesc>
     </profileDesc>
     <revisionDesc>
-      <change when="2025-06-25" who="#editor">Version 1.0 (25.06.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
     </revisionDesc>
   </teiHeader>
   <text>

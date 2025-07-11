@@ -3,7 +3,7 @@
   <teiHeader>
     <fileDesc>
       <titleStmt>
-        <title>Helmasperger Notariatsinstrument</title>
+        <title xml:lang="de">Helmasperger Notariatsinstrument</title>
         <author ref="#person_1527">Ulrich Helmasperger</author>
         <respStmt>
           <resp>digitale Zusammenführung, Annotation und semantische Klassifikation</resp>
@@ -41,16 +41,39 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_560">
             <idno type="sigle">HNI</idno>
-            <msName>Helmasperger Notariatsinstrument</msName>
+            <msName xml:lang="de">Helmasperger Notariatsinstrument</msName>
           </msIdentifier>
           <additional>
             <listBibl>
-              <bibl type="edition">
-                <title>Das Helmaspergersche Notariatsinstrument</title>
-                <pubPlace>München</pubPlace>
-                <publisher>Saur</publisher>
-                <date when="2000">2000</date>
-              </bibl>
+              <biblStruct type="bookSection" xml:id="HNI_HNI" corresp="http://zotero.org/groups/5043625/items/VRWA668B" key="HNI">
+                <analytic>
+                  <title level="a">Das helmaspergersche notariatsinstrument</title>
+                  <author>
+                    <forename>Ulrich</forename>
+                    <surname>Helmasperger</surname>
+                  </author>
+                </analytic>
+                <monogr>
+                  <title level="m">Gutenberg digital</title>
+                  <idno type="ISBN">978-3-598-40470-2</idno>
+                  <idno type="callNumber">HNI</idno>
+                  <editor>
+                    <forename>Elmar</forename>
+                    <surname>Mittler</surname>
+                  </editor>
+                  <imprint>
+                    <pubPlace>München</pubPlace>
+                    <publisher>Saur</publisher>
+                    <date>2000</date>
+                    <note type="url">
+                  http://www.gutenbergdigital.de/gudi/dframes/texte/frameset/indexnot.htm</note>
+                  </imprint>
+                </monogr>
+                <note>Das Helmaspergersche Notariatsinstrument. In: Gutenberg digital Hrsg.:
+              Niedersächsische Staats- und Universitätsbibliothek, Göttingen 2000. Digitale
+              Version: Ulrich Harsch 2004. http://www.fh-augsburg.de/
+              ̃harsch/germanica/Chronologie/15Jh/Helmasperger/hel_text.html</note>
+              </biblStruct>
             </listBibl>
           </additional>
         </msDesc>
@@ -84,7 +107,7 @@
       </particDesc>
     </profileDesc>
     <revisionDesc>
-      <change when="2025-06-25" who="#editor">Version 1.0 (25.06.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
     </revisionDesc>
   </teiHeader>
   <text>

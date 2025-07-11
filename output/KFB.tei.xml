@@ -3,7 +3,8 @@
   <teiHeader>
     <fileDesc>
       <titleStmt>
-        <title>Kölner Fechtbuch</title>
+        <title xml:lang="de">Kölner Fechtbuch</title>
+        <title xml:lang="en">Cologne Fechtbuch</title>
         <author ref="#person_anonym">Anonym</author>
         <respStmt>
           <resp>digitale Zusammenführung, Annotation und semantische Klassifikation</resp>
@@ -41,16 +42,31 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_364">
             <idno type="sigle">KFB</idno>
-            <msName>Kölner Fechtbuch</msName>
+            <msName xml:lang="de">Kölner Fechtbuch</msName>
+            <msName xml:lang="en">Cologne Fechtbuch</msName>
           </msIdentifier>
           <additional>
             <listBibl>
-              <bibl type="edition">
-                <title>Langes Schwert und Schweinespiess</title>
-                <pubPlace>Graz/Austria</pubPlace>
-                <publisher>Akad. Dr.- u. Verl.-Anst.</publisher>
-                <date when="2009">2009</date>
-              </bibl>
+              <biblStruct type="book" xml:id="KFB_KFB" corresp="http://zotero.org/groups/5043625/items/ZLJZ6I8V" key="KFB">
+                <monogr>
+                  <title level="m">Langes schwert und schweinespiesz: Die anonyme fechthandschrift aus
+                den verschütteten beständen des historischen archivs der stadt köln</title>
+                  <idno type="ISBN">978-3-201-01920-0</idno>
+                  <idno type="callNumber">KFB</idno>
+                  <author>
+                    <name>Anonym</name>
+                  </author>
+                  <imprint>
+                    <pubPlace>Graz</pubPlace>
+                    <publisher>Akademische Druck- und Verlagsanstalt</publisher>
+                    <date>2009</date>
+                  </imprint>
+                </monogr>
+                <note>Matthias Johannes Bauer. Langes Schwert und Schweinespiess. Die anonyme
+              Fechthandschrift aus den verschütteten Beständen des historischen Archivs der Stadt
+              Köln. Graz: ADEVA, 2009. Eine digitale Vorlage wurde von Herrn Bauer zur Verfügung
+              gestellt</note>
+              </biblStruct>
             </listBibl>
           </additional>
         </msDesc>
@@ -109,7 +125,7 @@
       </particDesc>
     </profileDesc>
     <revisionDesc>
-      <change when="2025-06-25" who="#editor">Version 1.0 (25.06.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
     </revisionDesc>
   </teiHeader>
   <text>

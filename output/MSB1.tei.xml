@@ -3,7 +3,7 @@
   <teiHeader>
     <fileDesc>
       <titleStmt>
-        <title>Das Kochbuch aus der Stiftsbibliothek Michaelbeuern</title>
+        <title xml:lang="de">Das Kochbuch aus der Stiftsbibliothek Michaelbeuern</title>
         <author ref="#person_anonym">Anonym</author>
         <respStmt>
           <resp>digitale Zusammenführung, Annotation und semantische Klassifikation</resp>
@@ -41,14 +41,32 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_575">
             <idno type="sigle">MSB1</idno>
-            <msName>Das Kochbuch aus der Stiftsbibliothek Michaelbeuern</msName>
+            <msName xml:lang="de">Das Kochbuch aus der Stiftsbibliothek Michaelbeuern</msName>
           </msIdentifier>
           <additional>
             <listBibl>
-              <bibl type="edition">
-                <title>Das Kochbuch aus der Stiftsbibliothek Michaelbeuern (Man. cart. 81)</title>
-                <date when="2005">2005</date>
-              </bibl>
+              <biblStruct type="journalArticle" xml:id="MSB1_MSB1" corresp="http://zotero.org/groups/5043625/items/R8QR3LNF" key="MSB1">
+                <analytic>
+                  <title level="a">Das kochbuch aus der stiftsbibliothek michaelbeuern (man. cart. 81)</title>
+                  <author>
+                    <name>Anonym</name>
+                  </author>
+                </analytic>
+                <monogr>
+                  <title level="j">Würzburger medizinhistorische Mitteilungen</title>
+                  <idno type="callNumber">MSB1</idno>
+                  <imprint>
+                    <biblScope unit="volume">24</biblScope>
+                    <biblScope unit="page">121–143</biblScope>
+                    <date>2005</date>
+                  </imprint>
+                </monogr>
+                <note>Ehlert, Trude: Das Kochbuch aus der Stiftsbibliothek Michaelbeuern (Man. cart.
+              81). Edition und Kommentar. Hrsg. in Zusammenarbeit mit Florian Bambeck, Heike Bezold,
+              Katharina Boll, Martina Fath, Nora Fischer, Michaela Lindner, Markus Nolda, Maria
+              Schaible, Andrea Schartner, Christian Schwaderer und Katrin Wenig. In: Würzburger
+              medizihistorische Mitteilungen 24 (2005), S. 121-43</note>
+              </biblStruct>
             </listBibl>
           </additional>
         </msDesc>
@@ -91,7 +109,7 @@
       </particDesc>
     </profileDesc>
     <revisionDesc>
-      <change when="2025-06-25" who="#editor">Version 1.0 (25.06.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
     </revisionDesc>
   </teiHeader>
   <text>

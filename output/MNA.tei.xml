@@ -3,7 +3,7 @@
   <teiHeader>
     <fileDesc>
       <titleStmt>
-        <title>Mainauer Naturlehre</title>
+        <title xml:lang="de">Mainauer Naturlehre</title>
         <author ref="#person_anonym">Anonym</author>
         <respStmt>
           <resp>digitale Zusammenführung, Annotation und semantische Klassifikation</resp>
@@ -41,16 +41,30 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_192">
             <idno type="sigle">MNA</idno>
-            <msName>Mainauer Naturlehre</msName>
+            <msName xml:lang="de">Mainauer Naturlehre</msName>
           </msIdentifier>
           <additional>
             <listBibl>
-              <bibl type="edition">
-                <title>Die sogenannte "Mainauer Naturlehre" der Basler Hs. B VIII 27</title>
-                <pubPlace>Göppingen</pubPlace>
-                <publisher>Kümmerle</publisher>
-                <date when="1972">1972</date>
-              </bibl>
+              <biblStruct type="book" xml:id="MNA_MNA" corresp="http://zotero.org/groups/5043625/items/96U8BILB" key="MNA">
+                <monogr>
+                  <title level="m">Die sogenannte "mainauer naturlehre" der basler hs. B VIII 27:
+                Abbildung, transkription, kommentar</title>
+                  <idno type="callNumber">MNA</idno>
+                  <author>
+                    <name>Anonym</name>
+                  </author>
+                  <imprint>
+                    <pubPlace>Göppingen</pubPlace>
+                    <publisher>Kümmerle</publisher>
+                    <date>1972</date>
+                  </imprint>
+                </monogr>
+                <note>Die sogenannte Mainauer Naturlehre. Hrsg.v. Helmut R. Plant, Marie Rowlands und
+              Rolf Burkhart, Göppingen: Kümmerle 1972. (= Litterae. Göppinger Beiträge zur
+              Textgeschichte Nr. 18). Der Text ist eine abgeänderte Version des digitalen Textes
+              von Ulrich Harsch 1999. http://www.fh-augsburg.de/
+              ̃harsch/germanica/Chronologie/14Jh/Naturlehre/mai_n000.html</note>
+              </biblStruct>
             </listBibl>
           </additional>
         </msDesc>
@@ -95,7 +109,7 @@
       </particDesc>
     </profileDesc>
     <revisionDesc>
-      <change when="2025-06-25" who="#editor">Version 1.0 (25.06.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
     </revisionDesc>
   </teiHeader>
   <text>

@@ -3,7 +3,18 @@
   <teiHeader>
     <fileDesc>
       <titleStmt>
-        <title>Der ernsthafte König</title>
+        <title xml:lang="de">Der ernsthafte König</title>
+        <title xml:lang="gmh" type="alternate" ana="historic">Merck weiter (C)</title>
+        <title xml:lang="gmh" type="alternate" ana="historic">Von küng ernsten (D)</title>
+        <title xml:lang="gmh" type="alternate" ana="historic">Von dem ernsthaftn könig (B)</title>
+        <title xml:lang="gmh" type="alternate" ana="historic">Von aine könig der nie gelacht (N)</title>
+        <title xml:lang="gmh" type="alternate" ana="historic">Ditz ist von einem kvnege / Der
+            wolde nie niht gelachen (HK)</title>
+        <title xml:lang="gmh" type="alternate" ana="historic">Ein kunic wolt ni gelachen / Daz kom
+            uo grozen sachen (M)</title>
+        <title xml:lang="gmh" type="alternate" ana="historic">Dit heizit kung Ernst (l)</title>
+        <title xml:lang="lat" type="alternate" ana="historic">Cor meum conturbatum est in me et
+            formido mortis cecidit super me (Q)</title>
         <author ref="#person_4">Der Stricker</author>
         <respStmt>
           <resp>digitale Zusammenführung, Annotation und semantische Klassifikation</resp>
@@ -41,16 +52,54 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_399">
             <idno type="sigle">DEK</idno>
-            <msName>Der ernsthafte König</msName>
+            <msName xml:lang="de">Der ernsthafte König</msName>
+            <msName xml:lang="gmh">Merck weiter (C)</msName>
+            <msName xml:lang="gmh">Von küng ernsten (D)</msName>
+            <msName xml:lang="gmh">Von dem ernsthaftn könig (B)</msName>
+            <msName xml:lang="gmh">Von aine könig der nie gelacht (N)</msName>
+            <msName xml:lang="gmh">Ditz ist von einem kvnege / Der
+            wolde nie niht gelachen (HK)</msName>
+            <msName xml:lang="gmh">Ein kunic wolt ni gelachen / Daz kom
+            uo grozen sachen (M)</msName>
+            <msName xml:lang="gmh">Dit heizit kung Ernst (l)</msName>
+            <msName xml:lang="lat">Cor meum conturbatum est in me et
+            formido mortis cecidit super me (Q)</msName>
           </msIdentifier>
           <additional>
             <listBibl>
-              <bibl type="edition">
-                <title>Der ernsthafte König</title>
-                <pubPlace>Berlin</pubPlace>
-                <publisher>Weidmann</publisher>
-                <date when="1909">1909</date>
-              </bibl>
+              <biblStruct type="bookSection" xml:id="DEK_DEK" corresp="http://zotero.org/groups/5043625/items/XZQZHUD4" key="DEK">
+                <analytic>
+                  <title level="a">Der ernsthafte König: Ditz ist von einem kunege / Der wolde nie niht
+                gelachen</title>
+                  <author>
+                    <name>Der Stricker</name>
+                  </author>
+                </analytic>
+                <monogr>
+                  <title level="m">Die heidelberger handschrift</title>
+                  <idno type="callNumber">DEK</idno>
+                  <editor>
+                    <forename>Gustav</forename>
+                    <surname>Rosenhagen</surname>
+                  </editor>
+                  <imprint>
+                    <pubPlace>Berlin</pubPlace>
+                    <biblScope unit="page">63–68</biblScope>
+                    <publisher>Weidmann</publisher>
+                    <date>1909</date>
+                  </imprint>
+                </monogr>
+                <series>
+                  <title level="s">Kleinere mittelhochdeutsche erzählungen, fabeln und lehrgedichte</title>
+                </series>
+                <note>Kleinere mittelhochdeutsche Erzählungen, Fabeln und Lehrgedichte. III. Die
+              Heidelberger Handschrift Cod. Pal. Germ. 341. Hrsg. v. Gustav Rosenhagen,
+              Dublin/Zürich: Weidmann 1970. (= Deutsche Texte des Mittelalters Bd. XVII). Der
+              elektronische Text basiert zum Teil auf dem vom Electronic Text Center der University
+              of Virginia / Kompetenzzentrum für elektronische Erschließungs- und
+              Publikationsverfahren in den Geisteswissenschaften an der Universität Trier
+              erstellten Text, revidiert von Lesley C. Pleasant and Cindy Filer Speer</note>
+              </biblStruct>
             </listBibl>
           </additional>
         </msDesc>
@@ -94,12 +143,12 @@
       </particDesc>
     </profileDesc>
     <revisionDesc>
-      <change when="2025-06-25" who="#editor">Version 1.0 (25.06.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
     </revisionDesc>
   </teiHeader>
   <text>
     <body>
-      <div>
+      <div resp="Generated by Export-Script">
         <head>
           <l n="h_1">
             <hi rend="initial">
@@ -121,7 +170,7 @@
             <seg xml:id="DEK_810002_5" type="pc">.</seg>
           </l>
         </head>
-        <p>
+        <p resp="Generated by Export-Script">
           <l n="1">
             <hi rend="initial">
               <w xml:id="DEK_810010_0">ein</w>
