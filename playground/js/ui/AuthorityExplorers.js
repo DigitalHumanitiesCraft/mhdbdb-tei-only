@@ -839,7 +839,7 @@ export class AuthorityExplorers {
       window.playground.authorityManager.indexes.genreHierarchy.get(genreId);
     if (!hierarchyArray || hierarchyArray.length === 0) return null;
 
-    return hierarchyArray.join(" und ");
+    return hierarchyArray.join(" UND ");
   }
 
   showGenres() {
