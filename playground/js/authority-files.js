@@ -116,27 +116,35 @@ export class AuthorityFilesManager {
 
     if (!genresXML) return;
 
-    const categories = genresXML.doc.querySelectorAll(
-      'category[xml\\:id*="genre_"]'
-    );
+    const categories = Array.from(
+      genresXML.doc.querySelectorAll("category")
+    ).filter((cat) => {
+      const id = cat.getAttribute("xml:id");
+      return id && id.includes("genre_");
+    });
 
     categories.forEach((category) => {
       const genreId = category.getAttribute("xml:id");
-      const parentPtr = category.querySelector('ptr[type="broader"]');
+      const parentPtrs = category.querySelectorAll('ptr[type="broader"]');
 
-      if (parentPtr) {
-        const parentTarget = parentPtr.getAttribute("target");
-        if (parentTarget) {
-          const parentId = parentTarget.replace("#", "");
-          const parentGenre = this.authorityData.genres.find(
-            (g) => g.id === parentId
-          );
-          if (parentGenre) {
-            this.indexes.genreHierarchy.set(
-              genreId,
-              parentGenre.termDE || parentGenre.termEN
+      if (parentPtrs.length > 0) {
+        const parentNames = [];
+
+        parentPtrs.forEach((parentPtr) => {
+          const parentTarget = parentPtr.getAttribute("target");
+          if (parentTarget) {
+            const parentId = parentTarget.replace("#", "");
+            const parentGenre = this.authorityData.genres.find(
+              (g) => g.id === parentId
             );
+            if (parentGenre) {
+              parentNames.push(parentGenre.termDE || parentGenre.termEN);
+            }
           }
+        });
+
+        if (parentNames.length > 0) {
+          this.indexes.genreHierarchy.set(genreId, parentNames);
         }
       }
     });
@@ -398,37 +406,6 @@ export class AuthorityFilesManager {
       const id = entry.getAttribute("xml:id");
       return id === lemmaId;
     });
-  }
-
-  getGenreHierarchy(genreId) {
-    // Find genre in the XML to get hierarchy info
-    const genresXML = this.authorityData.parsedXML.find((xml) =>
-      xml.filename.includes("genres")
-    );
-
-    if (!genresXML) return null;
-
-    const categoryElement =
-      genresXML.doc.querySelector(`category[xml\\:id="${genreId}"]`) ||
-      Array.from(genresXML.doc.querySelectorAll("category")).find(
-        (cat) => cat.getAttribute("xml:id") === genreId
-      );
-
-    if (!categoryElement) return null;
-
-    // Look for parent pointer
-    const parentPtr = categoryElement.querySelector('ptr[type="broader"]');
-    if (!parentPtr) return null;
-
-    const parentTarget = parentPtr.getAttribute("target");
-    if (!parentTarget) return null;
-
-    const parentId = parentTarget.replace("#", "");
-    const parentGenre = this.authorityData.genres.find(
-      (g) => g.id === parentId
-    );
-
-    return parentGenre ? parentGenre.termDE || parentGenre.termEN : parentId;
   }
 
   findWorksInGenre(genreId) {

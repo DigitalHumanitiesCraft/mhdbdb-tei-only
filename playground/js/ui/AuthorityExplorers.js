@@ -834,12 +834,12 @@ export class AuthorityExplorers {
       .map((workId) => this.authorityData.works.find((w) => w.id === workId))
       .filter(Boolean);
   }
-
   getGenreHierarchy(genreId) {
-    return (
-      window.playground.authorityManager.indexes.genreHierarchy.get(genreId) ||
-      null
-    );
+    const hierarchyArray =
+      window.playground.authorityManager.indexes.genreHierarchy.get(genreId);
+    if (!hierarchyArray || hierarchyArray.length === 0) return null;
+
+    return hierarchyArray.join(" und ");
   }
 
   showGenres() {
