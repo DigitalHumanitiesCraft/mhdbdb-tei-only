@@ -243,20 +243,46 @@ export class AuthorityExplorers {
       if (!workDetails) return null;
 
       let detailsHTML = `
-                <div style="font-weight: 500; margin-bottom: 10px; color: #667eea;">
-                    📖 Details zu "${workTitle}"
-                </div>
-            `;
+      <div style="font-weight: 500; margin-bottom: 10px; color: #667eea;">
+        📖 Details zu "${workTitle}"
+      </div>
+    `;
+
+      // Multiple titles
+      if (workDetails.titles && workDetails.titles.length > 1) {
+        const mainTitle =
+          workDetails.titles.find((t) => t.lang === "de" && !t.type) ||
+          workDetails.titles[0];
+        const alternateCount = workDetails.titles.length - 1;
+
+        detailsHTML += `
+    <div style="margin-bottom: 8px;">
+      <strong>📝 Titel:</strong> ${mainTitle.text}
+      <span onclick="window.playground.ui.authorityExplorers.toggleAlternateTitles('${workId}')"
+            style="color: #667eea; cursor: pointer; text-decoration: underline;">
+        (+ ${alternateCount} weitere)
+      </span>
+      <div id="alternate-titles-${workId}" style="display: none; margin-top: 8px; padding: 8px; background: rgba(102, 126, 234, 0.05); border-radius: 4px;">
+        ${workDetails.titles
+          .filter((t) => t !== mainTitle)
+          .map((title) => {
+            const langLabel = title.lang ? `[${title.lang}]` : "";
+            const typeLabel = title.type ? `(${title.type})` : "";
+            return `<div style="font-size: 0.85rem; margin-bottom: 3px;">• ${title.text} ${langLabel} ${typeLabel}</div>`;
+          })
+          .join("")}
+      </div>
+    </div>
+  `;
+      }
 
       // Sigles
       if (workDetails.sigles && workDetails.sigles.length > 0) {
         detailsHTML += `
-                    <div style="margin-bottom: 8px;">
-                        <strong>🏷️ Sigle:</strong> ${workDetails.sigles.join(
-                          ", "
-                        )}
-                    </div>
-                `;
+        <div style="margin-bottom: 8px;">
+          <strong>🏷️ Sigle:</strong> ${workDetails.sigles.join(", ")}
+        </div>
+      `;
       }
 
       // Genres with hierarchy
@@ -268,83 +294,53 @@ export class AuthorityExplorers {
             if (genre.parent) genreText += ` → ${genre.parent}`;
 
             return `
-                        <span style="background: rgba(102, 126, 234, 0.1); padding: 2px 6px; border-radius: 3px; font-size: 0.8rem; margin-right: 5px;">
-                            ${genreText}
-                        </span>
-                    `;
+            <span style="background: rgba(102, 126, 234, 0.1); padding: 2px 6px; border-radius: 3px; font-size: 0.8rem; margin-right: 5px;">
+              ${genreText}
+            </span>
+          `;
           })
           .join("");
 
         detailsHTML += `
-                    <div style="margin-bottom: 8px;">
-                        <strong>🎭 Gattung:</strong><br>
-                        <div style="margin-top: 3px;">${genreHTML}</div>
-                    </div>
-                `;
+        <div style="margin-bottom: 8px;">
+          <strong>🎭 Gattung:</strong><br>
+          <div style="margin-top: 3px;">${genreHTML}</div>
+        </div>
+      `;
       }
 
       // Author with navigation
       if (workDetails.author) {
         detailsHTML += `
-                    <div style="margin-bottom: 8px;">
-                        <strong>👤 Autor:</strong> ${workDetails.author}
-                        <button onclick="window.playground.ui.authorityExplorers.searchAuthorFromWork('${escapeForJS(
-                          workDetails.author
-                        )}')"
-                                style="margin-left: 10px; padding: 2px 6px; background: #28a745; color: white; border: none; border-radius: 3px; font-size: 0.75rem; cursor: pointer;">
-                            Andere Werke
-                        </button>
-                    </div>
-                `;
-      }
-
-      // Editions info - MULTIPLE SUPPORT
-      if (workDetails.editions && workDetails.editions.length > 0) {
-        detailsHTML += `
-    <div style="margin-bottom: 8px;">
-      <strong>📅 ${
-        workDetails.editions.length === 1 ? "Edition" : "Editionen"
-      } (${workDetails.editions.length}):</strong><br>
-  `;
-
-        workDetails.editions.forEach((edition, index) => {
-          const editionNumber =
-            workDetails.editions.length > 1 ? `${index + 1}. ` : "";
-
-          detailsHTML += `
-      <div style="margin-left: 15px; margin-bottom: 8px; padding: 8px; background: rgba(102, 126, 234, 0.05); border-radius: 4px;">
-        <strong>${editionNumber}Edition:</strong><br>
-    `;
-
-          // Show titles
-          if (edition.titles && edition.titles.length > 0) {
-            edition.titles.forEach((title) => {
-              const anaLabel = title.ana ? ` (${title.ana})` : "";
-              detailsHTML += `
-          <div style="font-size: 0.85rem; color: #666; margin-left: 10px;">
-            • ${title.text}${anaLabel}
-          </div>
-        `;
-            });
-          }
-
-          // Editor, publisher, etc.
-          const editionMeta = [
-            edition.editor ? `Hrsg.: ${edition.editor}` : null,
-            edition.pubPlace,
-            edition.publisher,
-            edition.date,
-          ].filter(Boolean);
-
-          if (editionMeta.length > 0) {
-            detailsHTML += `
-        <div style="font-size: 0.85rem; color: #666; margin-left: 10px; margin-top: 3px;">
-          ${editionMeta.join(" • ")}
+        <div style="margin-bottom: 8px;">
+          <strong>👤 Autor:</strong> ${workDetails.author}
+          <button onclick="window.playground.ui.authorityExplorers.searchAuthorFromWork('${escapeForJS(
+            workDetails.author
+          )}')"
+            style="margin-left: 10px; padding: 2px 6px; background: #28a745; color: white; border: none; border-radius: 3px; font-size: 0.75rem; cursor: pointer;">
+            Andere Werke
+          </button>
         </div>
       `;
-          }
+      }
 
-          detailsHTML += `</div>`;
+      // biblStruct sources
+      if (workDetails.biblStructs && workDetails.biblStructs.length > 0) {
+        detailsHTML += `
+        <div style="margin-bottom: 8px;">
+          <strong>📚 Bibliographic Sources (${workDetails.biblStructs.length}):</strong><br>
+      `;
+
+        workDetails.biblStructs.forEach((biblStruct) => {
+          const zoteroIcon = biblStruct.corresp
+            ? `<a href="${biblStruct.corresp}" target="_blank" style="color: #667eea; text-decoration: none;">🔗</a>`
+            : "";
+
+          detailsHTML += `
+          <div style="margin: 8px 0; padding: 8px; background: rgba(102, 126, 234, 0.05); border-radius: 4px;">
+            <strong>${biblStruct.key}:</strong> ${biblStruct.textContent} ${zoteroIcon}
+          </div>
+        `;
         });
 
         detailsHTML += `</div>`;
@@ -354,18 +350,24 @@ export class AuthorityExplorers {
       if (workDetails.handschriftencensus) {
         detailsHTML += `
         <div style="margin-bottom: 8px;">
-            <strong>📜 Handschriftencensus:</strong>
-            <a href="${workDetails.handschriftencensus}" target="_blank" style="color: #667eea;">
-                ${workDetails.handschriftencensus}
-            </a>
+          <strong>📜 Handschriftencensus:</strong>
+          <a href="${workDetails.handschriftencensus}" target="_blank" style="color: #667eea;">
+            ${workDetails.handschriftencensus}
+          </a>
         </div>
-    `;
+      `;
       }
 
       return detailsHTML;
     });
   }
-
+  toggleAlternateTitles(workId) {
+    const container = document.getElementById(`alternate-titles-${workId}`);
+    if (container) {
+      container.style.display =
+        container.style.display === "none" ? "block" : "none";
+    }
+  }
   getWorkDetailsFromXML(workId) {
     const worksXML = this.authorityData.parsedXML.find((xml) =>
       xml.filename.includes("works")
@@ -380,6 +382,15 @@ export class AuthorityExplorers {
     if (!workElement) return null;
 
     const details = {};
+
+    // Extract titles - MULTIPLE SUPPORT (only direct children, not from biblStruct)
+    const titleElements = workElement.querySelectorAll(":scope > title");
+    details.titles = Array.from(titleElements).map((title) => ({
+      text: title.textContent?.trim(),
+      lang: title.getAttribute("xml:lang"),
+      type: title.getAttribute("type"),
+      ana: title.getAttribute("ana"),
+    }));
 
     // Extract sigles
     const sigleElements = workElement.querySelectorAll('idno[type="sigle"]');
@@ -411,25 +422,16 @@ export class AuthorityExplorers {
       details.author = authorElement.textContent?.trim();
     }
 
-    // Extract editions - MULTIPLE SUPPORT
-    const editionElements = workElement.querySelectorAll(
-      'bibl[type="edition"]'
-    );
-    if (editionElements.length > 0) {
-      details.editions = Array.from(editionElements).map((editionElement) => ({
-        titles: Array.from(editionElement.querySelectorAll("title")).map(
-          (title) => ({
-            text: title.textContent?.trim(),
-            ana: title.getAttribute("ana"),
-          })
-        ),
-        editor: editionElement.querySelector("editor")?.textContent?.trim(),
-        pubPlace: editionElement.querySelector("pubPlace")?.textContent?.trim(),
-        publisher: editionElement
-          .querySelector("publisher")
-          ?.textContent?.trim(),
-        date: editionElement.querySelector("date")?.textContent?.trim(),
-      }));
+    // Extract biblStruct elements
+    const biblStructElements = workElement.querySelectorAll("biblStruct");
+    if (biblStructElements.length > 0) {
+      details.biblStructs = Array.from(biblStructElements).map(
+        (biblStruct) => ({
+          key: biblStruct.getAttribute("key"),
+          corresp: biblStruct.getAttribute("corresp"),
+          textContent: biblStruct.textContent?.replace(/\s+/g, " ").trim(),
+        })
+      );
     }
 
     // Extract handschriftencensus link
