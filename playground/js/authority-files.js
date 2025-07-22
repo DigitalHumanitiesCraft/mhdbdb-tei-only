@@ -180,7 +180,7 @@ export class AuthorityFilesManager {
   }
 
   async loadAuthorityFile(filename) {
-    const response = await fetch(`../lists/output/${filename}`);
+    const response = await fetch(`../authority-files/${filename}`);
     if (!response.ok) {
       throw new Error(`HTTP ${response.status}: ${filename}`);
     }
