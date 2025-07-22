@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../schemata/tei_all.rnc" type="application/relax-ng-compact-syntax"?>
+<tei:TEI xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:mhdbdb="http://www.dhplus.sbg.ac.at/mhdbdb/" xml:id="MBS1">
+  <tei:teiHeader>
+            <tei:fileDesc>
+                <tei:titleStmt>
+                    <tei:title>MBS1</tei:title>
+                </tei:titleStmt>
+                <tei:publicationStmt>
+                    <tei:p>
+                        Dieser Header ist ein Platzhalter zur Validierung der Datei. 
+                        Der Eigentliche Header wird aus den RDF-Daten erzeugt werden.
+                    </tei:p>
+                </tei:publicationStmt>
+                <tei:sourceDesc>
+                    <tei:p>MHDBDB</tei:p>
+                </tei:sourceDesc>
+            </tei:fileDesc>
+        </tei:teiHeader>
+  <tei:text>
+    <tei:body>
+      <tei:p>
+        <tei:lb n="1"/>
+        <tei:hi rend="initial">
+          <tei:seg xml:id="MBS1_135201_0" type="token" lemmaRef="9050" meaningRef="20722" pos="PRO VEM" wordRef="30688">wiltu</tei:seg>
+        </tei:hi>
+        <tei:seg xml:id="MBS1_135201_1" type="token" lemmaRef="3917" meaningRef="6182" pos="VRB" wordRef="13685">machen</tei:seg>
+        <tei:seg xml:id="MBS1_135201_2" type="token" lemmaRef="1331" meaningRef="2068" pos="ART NUM" wordRef="4319">ein</tei:seg>
+        <tei:seg xml:id="MBS1_135201_3" type="token" lemmaRef="2573" meaningRef="13672" pos="NOM ADJ ADV" wordRef="42730">gute</tei:seg>
+        <tei:seg xml:id="MBS1_135201_4" type="token" lemmaRef="5388" meaningRef="8409" pos="ADJ ADV" wordRef="157679">selczen</tei:seg>
+        <tei:seg xml:id="MBS1_135201_5" type="token" lemmaRef="7193" meaningRef="11656" pos="PRP" wordRef="42424">uon</tei:seg>
+        <tei:seg xml:id="MBS1_135201_6" type="token" lemmaRef="7532" meaningRef="12297" pos="NOM" wordRef="67774">wein</tei:seg>
+        <tei:seg xml:id="MBS1_135201_7" type="token" lemmaRef="15282" meaningRef="25272" pos="NOM" wordRef="272313">trawben</tei:seg>
+        <tei:seg xml:id="MBS1_135201_8" type="token" lemmaRef="6467" meaningRef="10233" pos="CNJ" wordRef="38749">vnd</tei:seg>
+        <tei:seg xml:id="MBS1_135201_9" type="token" lemmaRef="7193" meaningRef="11656" pos="PRP" wordRef="42424">uon</tei:seg>
+        <tei:seg xml:id="MBS1_135201_10" type="token" lemmaRef="5858" meaningRef="42809" pos="NOM ADJ" wordRef="165983">sauren</tei:seg>
+        <tei:lb n="2"/>
+        <tei:seg xml:id="MBS1_135202_0" type="token" lemmaRef="261" meaningRef="330" pos="NOM" wordRef="273154">oeppfeln</tei:seg>
+        <tei:seg xml:id="MBS1_135202_1" type="pc">,</tei:seg>
+        <tei:seg xml:id="MBS1_135202_2" type="token" lemmaRef="5601" meaningRef="8764" pos="ADV" wordRef="19596">so</tei:seg>
+        <tei:seg xml:id="MBS1_135202_3" type="token" lemmaRef="5783" meaningRef="9109" pos="VRB" wordRef="293473">stoß</tei:seg>
+        <tei:seg xml:id="MBS1_135202_4" type="token" lemmaRef="1762" meaningRef="2752" pos="PRO" wordRef="6020">es</tei:seg>
+        <tei:seg xml:id="MBS1_135202_5" type="token" lemmaRef="7847" meaningRef="12865" pos="ADV" wordRef="367841">zuisamen</tei:seg>
+        <tei:seg xml:id="MBS1_135202_6" type="token" lemmaRef="6467" meaningRef="10233" pos="CNJ" wordRef="38749">vnd</tei:seg>
+        <tei:seg xml:id="MBS1_135202_7" type="token" lemmaRef="4138" meaningRef="6495" pos="VRB" wordRef="100203">misch</tei:seg>
+        <tei:seg xml:id="MBS1_135202_8" type="token" lemmaRef="1762" meaningRef="2752" pos="PRO" wordRef="6020">es</tei:seg>
+        <tei:seg xml:id="MBS1_135202_9" type="token" lemmaRef="4172" meaningRef="6544" pos="PRP" wordRef="14531">mit</tei:seg>
+        <tei:seg xml:id="MBS1_135202_10" type="token" lemmaRef="7532" meaningRef="12297" pos="NOM" wordRef="67774">wein</tei:seg>
+        <tei:seg xml:id="MBS1_135202_11" type="token" lemmaRef="4470" meaningRef="6973" pos="CNJ" wordRef="15544">oder</tei:seg>
+        <tei:lb n="3"/>
+        <tei:seg xml:id="MBS1_135203_0" type="token" lemmaRef="4172" meaningRef="6544" pos="PRP" wordRef="14531">mit</tei:seg>
+        <tei:seg xml:id="MBS1_135203_1" type="token" lemmaRef="1765" meaningRef="2755" pos="NOM" wordRef="131033">essig</tei:seg>
+        <tei:seg xml:id="MBS1_135203_2" type="token" lemmaRef="6467" meaningRef="10233" pos="CNJ" wordRef="38749">vnd</tei:seg>
+        <tei:seg xml:id="MBS1_135203_3" type="token" lemmaRef="1236" meaningRef="1945" pos="VRB" wordRef="133067">trück</tei:seg>
+        <tei:seg xml:id="MBS1_135203_4" type="token" lemmaRef="1097" meaningRef="1741" pos="ART CNJ" wordRef="3397">das</tei:seg>
+        <tei:seg xml:id="MBS1_135203_5" type="token" lemmaRef="5055" meaningRef="25822" pos="NOM" wordRef="131628">safft</tei:seg>
+        <tei:seg xml:id="MBS1_135203_6" type="token" lemmaRef="1055" meaningRef="1689" pos="ADV" wordRef="3258">dar</tei:seg>
+        <tei:seg xml:id="MBS1_135203_7" type="token" lemmaRef="6342" meaningRef="9997" pos="ADV PRP" wordRef="84231">aus</tei:seg>
+        <tei:seg xml:id="MBS1_135203_8" type="pc">.</tei:seg>
+        <tei:seg xml:id="MBS1_135203_9" type="token" lemmaRef="1139" meaningRef="1797" pos="ART" wordRef="3568">die</tei:seg>
+        <tei:seg xml:id="MBS1_135203_10" type="token" lemmaRef="5077" meaningRef="7908" pos="NOM" wordRef="274075">selßen</tei:seg>
+        <tei:seg xml:id="MBS1_135203_11" type="token" lemmaRef="5432" meaningRef="8479" pos="VRB VEX" wordRef="18956">ist</tei:seg>
+        <tei:lb n="4"/>
+        <tei:seg xml:id="MBS1_135204_0" type="token" lemmaRef="7770" meaningRef="12736" pos="PRP CNJ" wordRef="31260">zu</tei:seg>
+        <tei:seg xml:id="MBS1_135204_1" type="token" lemmaRef="27068" meaningRef="43041" pos="ADJ" wordRef="274076">saftigen</tei:seg>
+        <tei:seg xml:id="MBS1_135204_2" type="token" lemmaRef="828" meaningRef="1347" pos="NOM" wordRef="199818">praten</tei:seg>
+        <tei:seg xml:id="MBS1_135204_3" type="token" lemmaRef="2573" meaningRef="13672" pos="NOM ADJ ADV" wordRef="8633">guot</tei:seg>
+        <tei:seg xml:id="MBS1_135204_4" type="token" lemmaRef="6467" meaningRef="10233" pos="CNJ" wordRef="38749">vnd</tei:seg>
+        <tei:seg xml:id="MBS1_135204_5" type="token" lemmaRef="7770" meaningRef="12736" pos="PRP CNJ" wordRef="31260">zu</tei:seg>
+        <tei:seg xml:id="MBS1_135204_6" type="token" lemmaRef="2961" meaningRef="4753" pos="NOM" wordRef="274077">hunnern</tei:seg>
+        <tei:seg xml:id="MBS1_135204_7" type="token" lemmaRef="6467" meaningRef="10233" pos="CNJ" wordRef="38749">vnd</tei:seg>
+        <tei:seg xml:id="MBS1_135204_8" type="token" lemmaRef="7770" meaningRef="12736" pos="PRP CNJ" wordRef="31260">zu</tei:seg>
+        <tei:seg xml:id="MBS1_135204_9" type="token" lemmaRef="7100" meaningRef="11499" pos="NOM" wordRef="25092">vischen</tei:seg>
+        <tei:seg xml:id="MBS1_135204_10" type="token" lemmaRef="6467" meaningRef="10233" pos="CNJ" wordRef="22825">und</tei:seg>
+        <tei:seg xml:id="MBS1_135204_11" type="token" lemmaRef="2731" meaningRef="4404" pos="VRB" wordRef="168405">haysset</tei:seg>
+        <tei:lb n="5"/>
+        <tei:seg xml:id="MBS1_135205_0" type="token" lemmaRef="1517" meaningRef="2355" pos="PRO" wordRef="5008">in</tei:seg>
+        <tei:seg xml:id="MBS1_135205_1" type="token" lemmaRef="7469" meaningRef="12152" pos="ADJ IPA" wordRef="34267">welche</tei:seg>
+        <tei:seg xml:id="MBS1_135205_2" type="token" lemmaRef="84" meaningRef="106" pos="NOM" wordRef="270210">agrest</tei:seg>
+        <tei:seg xml:id="MBS1_135205_3" type="pc">.</tei:seg>
+        <tei:lb n="1"/>
+        <tei:hi rend="initial">
+          <tei:seg xml:id="MBS1_235201_0" type="token" lemmaRef="9050" meaningRef="20722" pos="PRO VEM" wordRef="30688">wiltu</tei:seg>
+        </tei:hi>
+        <tei:seg xml:id="MBS1_235201_1" type="token" lemmaRef="3917" meaningRef="6182" pos="VRB" wordRef="13685">machen</tei:seg>
+        <tei:seg xml:id="MBS1_235201_2" type="token" lemmaRef="1331" meaningRef="2068" pos="ART NUM" wordRef="4319">ein</tei:seg>
+        <tei:seg xml:id="MBS1_235201_3" type="token" lemmaRef="2551" meaningRef="4091" pos="NOM" wordRef="151808">güte</tei:seg>
+        <tei:seg xml:id="MBS1_235201_4" type="token" lemmaRef="5388" meaningRef="8409" pos="ADJ ADV" wordRef="157679">selczen</tei:seg>
+        <tei:seg xml:id="MBS1_235201_5" type="token" lemmaRef="7193" meaningRef="11656" pos="PRP" wordRef="42424">uon</tei:seg>
+        <tei:seg xml:id="MBS1_235201_6" type="token" lemmaRef="26946" meaningRef="42863" pos="NOM" wordRef="270768">aschlach</tei:seg>
+        <tei:seg xml:id="MBS1_235201_7" type="pc">,</tei:seg>
+        <tei:seg xml:id="MBS1_235201_8" type="token" lemmaRef="5601" meaningRef="8764" pos="ADV" wordRef="19596">so</tei:seg>
+        <tei:seg xml:id="MBS1_235201_9" type="token" lemmaRef="9507" meaningRef="15446" pos="VRB" wordRef="131484">reib</tei:seg>
+        <tei:seg xml:id="MBS1_235201_10" type="token" lemmaRef="1517" meaningRef="2355" pos="PRO" wordRef="5008">in</tei:seg>
+        <tei:seg xml:id="MBS1_235201_11" type="token" lemmaRef="4172" meaningRef="6544" pos="PRP" wordRef="14531">mit</tei:seg>
+        <tei:lb n="2"/>
+        <tei:seg xml:id="MBS1_235202_0" type="token" lemmaRef="5081" meaningRef="7912" pos="NOM" wordRef="95190">salcz</tei:seg>
+        <tei:seg xml:id="MBS1_235202_1" type="token" lemmaRef="6467" meaningRef="10233" pos="CNJ" wordRef="22825">und</tei:seg>
+        <tei:seg xml:id="MBS1_235202_2" type="token" lemmaRef="4138" meaningRef="6495" pos="VRB" wordRef="274078">missch</tei:seg>
+        <tei:seg xml:id="MBS1_235202_3" type="token" lemmaRef="1517" meaningRef="2355" pos="PRO" wordRef="5008">in</tei:seg>
+        <tei:seg xml:id="MBS1_235202_4" type="token" lemmaRef="4172" meaningRef="6544" pos="PRP" wordRef="14531">mit</tei:seg>
+        <tei:seg xml:id="MBS1_235202_5" type="token" lemmaRef="7532" meaningRef="12297" pos="NOM" wordRef="67774">wein</tei:seg>
+        <tei:seg xml:id="MBS1_235202_6" type="token" lemmaRef="4470" meaningRef="6973" pos="CNJ" wordRef="15544">oder</tei:seg>
+        <tei:seg xml:id="MBS1_235202_7" type="token" lemmaRef="4172" meaningRef="6544" pos="PRP" wordRef="14531">mit</tei:seg>
+        <tei:seg xml:id="MBS1_235202_8" type="token" lemmaRef="1765" meaningRef="2755" pos="NOM" wordRef="131033">essig</tei:seg>
+        <tei:seg xml:id="MBS1_235202_9" type="token" lemmaRef="6467" meaningRef="10233" pos="CNJ" wordRef="38749">vnd</tei:seg>
+        <tei:seg xml:id="MBS1_235202_10" type="token" lemmaRef="1236" meaningRef="1945" pos="VRB" wordRef="45850">truckt</tei:seg>
+        <tei:seg xml:id="MBS1_235202_11" type="token" lemmaRef="1097" meaningRef="1741" pos="ART CNJ" wordRef="3397">das</tei:seg>
+        <tei:seg xml:id="MBS1_235202_12" type="token" lemmaRef="5055" meaningRef="25822" pos="NOM" wordRef="131628">safft</tei:seg>
+        <tei:lb n="3"/>
+        <tei:seg xml:id="MBS1_235203_0" type="token" lemmaRef="1055" meaningRef="1689" pos="ADV" wordRef="3258">dar</tei:seg>
+        <tei:seg xml:id="MBS1_235203_1" type="token" lemmaRef="6342" meaningRef="9997" pos="ADV PRP" wordRef="68026">auß</tei:seg>
+        <tei:seg xml:id="MBS1_235203_2" type="pc">.</tei:seg>
+        <tei:seg xml:id="MBS1_235203_3" type="token" lemmaRef="1139" meaningRef="1797" pos="ART" wordRef="3568">die</tei:seg>
+        <tei:seg xml:id="MBS1_235203_4" type="token" lemmaRef="5077" meaningRef="7908" pos="NOM" wordRef="274079">selsen</tei:seg>
+        <tei:seg xml:id="MBS1_235203_5" type="token" lemmaRef="5432" meaningRef="8479" pos="VRB VEX" wordRef="18956">ist</tei:seg>
+        <tei:seg xml:id="MBS1_235203_6" type="token" lemmaRef="2573" meaningRef="13672" pos="NOM ADJ ADV" wordRef="8633">guot</tei:seg>
+        <tei:seg xml:id="MBS1_235203_7" type="token" lemmaRef="7770" meaningRef="12736" pos="PRP CNJ" wordRef="196209">zuo</tei:seg>
+        <tei:seg xml:id="MBS1_235203_8" type="token" lemmaRef="49004" meaningRef="76966" pos="ADJ" wordRef="274080">rindrin</tei:seg>
+        <tei:lb n="4"/>
+        <tei:seg xml:id="MBS1_235204_0" type="token" lemmaRef="828" meaningRef="1347" pos="NOM" wordRef="199818">praten</tei:seg>
+        <tei:seg xml:id="MBS1_235204_1" type="pc">.</tei:seg>
+        <tei:lb n="1"/>
+        <tei:hi rend="initial">
+          <tei:seg xml:id="MBS1_335201_0" type="token" lemmaRef="9050" meaningRef="20722" pos="PRO VEM" wordRef="30688">wiltu</tei:seg>
+        </tei:hi>
+        <tei:seg xml:id="MBS1_335201_1" type="token" lemmaRef="3917" meaningRef="6182" pos="VRB" wordRef="13685">machen</tei:seg>
+        <tei:seg xml:id="MBS1_335201_2" type="token" lemmaRef="1331" meaningRef="2068" pos="ART NUM" wordRef="4319">ein</tei:seg>
+        <tei:seg xml:id="MBS1_335201_3" type="token" lemmaRef="2573" meaningRef="13672" pos="NOM ADJ ADV" wordRef="42794">gut</tei:seg>
+        <tei:seg xml:id="MBS1_335201_4" type="token" lemmaRef="53768" meaningRef="87484" pos="ADJ" wordRef="297327">maysche</tei:seg>
+        <tei:seg xml:id="MBS1_335201_5" type="token" lemmaRef="5081" meaningRef="7912" pos="NOM" wordRef="274081">selcz</tei:seg>
+        <tei:seg xml:id="MBS1_335201_6" type="pc">,</tei:seg>
+        <tei:seg xml:id="MBS1_335201_7" type="token" lemmaRef="5601" meaningRef="8764" pos="ADV" wordRef="19596">so</tei:seg>
+        <tei:seg xml:id="MBS1_335201_8" type="token" lemmaRef="4330" meaningRef="17203" pos="VRB" wordRef="44507">nym</tei:seg>
+        <tei:seg xml:id="MBS1_335201_9" type="token" lemmaRef="26717" meaningRef="42517" pos="NOM" wordRef="262659">peterlein</tei:seg>
+        <tei:seg xml:id="MBS1_335201_10" type="token" lemmaRef="6467" meaningRef="10233" pos="CNJ" wordRef="38749">vnd</tei:seg>
+        <tei:seg xml:id="MBS1_335201_11" type="token" lemmaRef="4630" meaningRef="7195" pos="NOM" wordRef="34490">pfeffer</tei:seg>
+        <tei:lb n="2"/>
+        <tei:seg xml:id="MBS1_335202_0" type="token" lemmaRef="3487" meaningRef="5525" pos="NOM" wordRef="169157">krawt</tei:seg>
+        <tei:seg xml:id="MBS1_335202_1" type="token" lemmaRef="6467" meaningRef="10233" pos="CNJ" wordRef="38749">vnd</tei:seg>
+        <tei:seg xml:id="MBS1_335202_2" type="token" lemmaRef="5080" meaningRef="7911" pos="NOM" wordRef="272303">salway</tei:seg>
+        <tei:seg xml:id="MBS1_335202_3" type="token" lemmaRef="6467" meaningRef="10233" pos="CNJ" wordRef="38749">vnd</tei:seg>
+        <tei:seg xml:id="MBS1_335202_4" type="token" lemmaRef="3157" meaningRef="4990" pos="ADJ" wordRef="77652">iung</tei:seg>
+        <tei:seg xml:id="MBS1_335202_5" type="token" lemmaRef="17931" meaningRef="30356" pos="NOM" wordRef="269577">piessen</tei:seg>
+        <tei:seg xml:id="MBS1_335202_6" type="token" lemmaRef="737" meaningRef="1206" pos="NOM" wordRef="106683">pleter</tei:seg>
+        <tei:seg xml:id="MBS1_335202_7" type="token" lemmaRef="6467" meaningRef="10233" pos="CNJ" wordRef="38749">vnd</tei:seg>
+        <tei:seg xml:id="MBS1_335202_8" type="token" lemmaRef="12459" meaningRef="19667" pos="NOM VRB" wordRef="129396">hack</tei:seg>
+        <tei:seg xml:id="MBS1_335202_9" type="token" lemmaRef="1097" meaningRef="1741" pos="ART CNJ" wordRef="3397">das</tei:seg>
+        <tei:seg xml:id="MBS1_335202_10" type="token" lemmaRef="1913" meaningRef="2938" pos="ADJ ADV" wordRef="6476">gar</tei:seg>
+        <tei:seg xml:id="MBS1_335202_11" type="token" lemmaRef="3349" meaningRef="5259" pos="ADJ ADV" wordRef="44875">klain</tei:seg>
+        <tei:lb n="3"/>
+        <tei:seg xml:id="MBS1_335203_0" type="token" lemmaRef="6471" meaningRef="10240" pos="ADJ ADV PRP" wordRef="45574">vnder</tei:seg>
+        <tei:seg xml:id="MBS1_335203_1" type="token" lemmaRef="1331" meaningRef="2068" pos="ART NUM" wordRef="4319">ein</tei:seg>
+        <tei:seg xml:id="MBS1_335203_2" type="token" lemmaRef="204" meaningRef="256" pos="ADJ" wordRef="537">ander</tei:seg>
+        <tei:seg xml:id="MBS1_335203_3" type="pc">.</tei:seg>
+        <tei:seg xml:id="MBS1_335203_4" type="token" lemmaRef="6467" meaningRef="10233" pos="CNJ" wordRef="38749">vnd</tei:seg>
+        <tei:seg xml:id="MBS1_335203_5" type="token" lemmaRef="199" meaningRef="37996" pos="PRP" wordRef="522">an</tei:seg>
+        <tei:seg xml:id="MBS1_335203_6" type="token" lemmaRef="1119" meaningRef="1770" pos="ART" wordRef="3504">dem</tei:seg>
+        <tei:seg xml:id="MBS1_335203_7" type="token" lemmaRef="4201" meaningRef="6578" pos="NOM ADV" wordRef="14596">morgen</tei:seg>
+        <tei:seg xml:id="MBS1_335203_8" type="token" lemmaRef="7277" meaningRef="11797" pos="ADJ ADV" wordRef="84956">fru</tei:seg>
+        <tei:seg xml:id="MBS1_335203_9" type="pc">,</tei:seg>
+        <tei:seg xml:id="MBS1_335203_10" type="token" lemmaRef="5601" meaningRef="8764" pos="ADV" wordRef="19596">so</tei:seg>
+        <tei:seg xml:id="MBS1_335203_11" type="token" lemmaRef="6722" meaningRef="24316" pos="VRB" wordRef="367842">fach</tei:seg>
+        <tei:seg xml:id="MBS1_335203_12" type="token" lemmaRef="1119" meaningRef="1770" pos="ART" wordRef="3506">den</tei:seg>
+        <tei:seg xml:id="MBS1_335203_13" type="token" lemmaRef="6154" meaningRef="9704" pos="NOM" wordRef="106928">taw</tei:seg>
+        <tei:seg xml:id="MBS1_335203_14" type="token" lemmaRef="6330" meaningRef="9973" pos="ADV PRP" wordRef="67481">auff</tei:seg>
+        <tei:seg xml:id="MBS1_335203_15" type="token" lemmaRef="1331" meaningRef="2068" pos="ART NUM" wordRef="4319">ein</tei:seg>
+        <tei:lb n="4"/>
+        <tei:seg xml:id="MBS1_335204_0" type="token" lemmaRef="6298" meaningRef="9923" pos="NOM" wordRef="22273">tuoch</tei:seg>
+        <tei:seg xml:id="MBS1_335204_1" type="token" lemmaRef="6467" meaningRef="10233" pos="CNJ" wordRef="38749">vnd</tei:seg>
+        <tei:lb n="5"/>
+        <tei:seg xml:id="MBS1_336105_0" type="token" lemmaRef="3674" meaningRef="16663" pos="VRB" wordRef="12770">leg</tei:seg>
+        <tei:seg xml:id="MBS1_336105_1" type="token" lemmaRef="1097" meaningRef="1741" pos="ART CNJ" wordRef="3397">das</tei:seg>
+        <tei:seg xml:id="MBS1_336105_2" type="token" lemmaRef="3487" meaningRef="5525" pos="NOM" wordRef="169157">krawt</tei:seg>
+        <tei:seg xml:id="MBS1_336105_3" type="token" lemmaRef="1055" meaningRef="1689" pos="ADV" wordRef="3258">dar</tei:seg>
+        <tei:seg xml:id="MBS1_336105_4" type="token" lemmaRef="2975" meaningRef="4777" pos="ADV PRP" wordRef="173754">ein</tei:seg>
+        <tei:seg xml:id="MBS1_336105_5" type="token" lemmaRef="6467" meaningRef="10233" pos="CNJ" wordRef="38749">vnd</tei:seg>
+        <tei:seg xml:id="MBS1_336105_6" type="token" lemmaRef="6301" meaningRef="9929" pos="VRB" wordRef="22322">tuo</tei:seg>
+        <tei:seg xml:id="MBS1_336105_7" type="token" lemmaRef="1762" meaningRef="2752" pos="PRO" wordRef="6020">es</tei:seg>
+        <tei:seg xml:id="MBS1_336105_8" type="token" lemmaRef="1073" meaningRef="1716" pos="ADV" wordRef="288751">denn</tei:seg>
+        <tei:seg xml:id="MBS1_336105_9" type="token" lemmaRef="1331" meaningRef="2068" pos="ART NUM" wordRef="272752">in</tei:seg>
+        <tei:seg xml:id="MBS1_336105_10" type="token" lemmaRef="1331" meaningRef="2068" pos="ART NUM" wordRef="4319">ein</tei:seg>
+        <tei:lb n="6"/>
+        <tei:seg xml:id="MBS1_336106_0" type="token" lemmaRef="24288" meaningRef="77506" pos="NOM" wordRef="274082">muoltern</tei:seg>
+        <tei:seg xml:id="MBS1_336106_1" type="token" lemmaRef="6467" meaningRef="10233" pos="CNJ" wordRef="38749">vnd</tei:seg>
+        <tei:seg xml:id="MBS1_336106_2" type="token" lemmaRef="5423" meaningRef="8463" pos="VRB" wordRef="84577">secz</tei:seg>
+        <tei:seg xml:id="MBS1_336106_3" type="token" lemmaRef="1762" meaningRef="2752" pos="PRO" wordRef="6020">es</tei:seg>
+        <tei:seg xml:id="MBS1_336106_4" type="token" lemmaRef="199" meaningRef="248" pos="PRP" wordRef="522">an</tei:seg>
+        <tei:seg xml:id="MBS1_336106_5" type="token" lemmaRef="1139" meaningRef="1797" pos="ART" wordRef="80400">dye</tei:seg>
+        <tei:seg xml:id="MBS1_336106_6" type="token" lemmaRef="5899" meaningRef="9342" pos="NOM" wordRef="20799">sunnen</tei:seg>
+        <tei:seg xml:id="MBS1_336106_7" type="pc">;</tei:seg>
+        <tei:seg xml:id="MBS1_336106_8" type="token" lemmaRef="5601" meaningRef="8764" pos="ADV" wordRef="19596">so</tei:seg>
+        <tei:seg xml:id="MBS1_336106_9" type="token" lemmaRef="6888" meaningRef="11018" pos="VRB" wordRef="274083">uerleusset</tei:seg>
+        <tei:seg xml:id="MBS1_336106_10" type="token" lemmaRef="1762" meaningRef="2752" pos="PRO" wordRef="6020">es</tei:seg>
+        <tei:seg xml:id="MBS1_336106_11" type="token" lemmaRef="1119" meaningRef="1770" pos="ART" wordRef="3506">den</tei:seg>
+        <tei:seg xml:id="MBS1_336106_12" type="token" lemmaRef="6154" meaningRef="9704" pos="NOM" wordRef="106928">taw</tei:seg>
+        <tei:seg xml:id="MBS1_336106_13" type="pc">.</tei:seg>
+        <tei:seg xml:id="MBS1_336106_14" type="token" lemmaRef="6467" meaningRef="10233" pos="CNJ" wordRef="38749">vnd</tei:seg>
+        <tei:lb n="7"/>
+        <tei:seg xml:id="MBS1_336107_0" type="token" lemmaRef="3567" meaningRef="5652" pos="VRB" wordRef="12414">la</tei:seg>
+        <tei:seg xml:id="MBS1_336107_1" type="token" lemmaRef="1762" meaningRef="2752" pos="PRO" wordRef="95536">eß</tei:seg>
+        <tei:seg xml:id="MBS1_336107_2" type="token" lemmaRef="6255" meaningRef="9868" pos="ADJ ADV" wordRef="22130">trucken</tei:seg>
+        <tei:seg xml:id="MBS1_336107_3" type="token" lemmaRef="7489" meaningRef="16763" pos="VRB VEX" wordRef="27050">werden</tei:seg>
+        <tei:seg xml:id="MBS1_336107_4" type="token" lemmaRef="148" meaningRef="183" pos="CNJ" wordRef="369">als</tei:seg>
+        <tei:seg xml:id="MBS1_336107_5" type="token" lemmaRef="1331" meaningRef="2068" pos="ART NUM" wordRef="4319">ein</tei:seg>
+        <tei:seg xml:id="MBS1_336107_6" type="token" lemmaRef="2262" meaningRef="43049" pos="NOM" wordRef="274084">gestüpp</tei:seg>
+        <tei:seg xml:id="MBS1_336107_7" type="token" lemmaRef="6467" meaningRef="10233" pos="CNJ" wordRef="38749">vnd</tei:seg>
+        <tei:seg xml:id="MBS1_336107_8" type="token" lemmaRef="6301" meaningRef="9929" pos="VRB" wordRef="22322">tuo</tei:seg>
+        <tei:seg xml:id="MBS1_336107_9" type="token" lemmaRef="1762" meaningRef="2752" pos="PRO" wordRef="95536">eß</tei:seg>
+        <tei:seg xml:id="MBS1_336107_10" type="token" lemmaRef="1073" meaningRef="1716" pos="ADV" wordRef="288751">denn</tei:seg>
+        <tei:seg xml:id="MBS1_336107_11" type="token" lemmaRef="3028" meaningRef="4834" pos="PRP" wordRef="10369">in</tei:seg>
+        <tei:seg xml:id="MBS1_336107_12" type="token" lemmaRef="1331" meaningRef="2068" pos="ART NUM" wordRef="4319">ein</tei:seg>
+        <tei:lb n="8"/>
+        <tei:seg xml:id="MBS1_336108_0" type="token" lemmaRef="734" meaningRef="1203" pos="NOM" wordRef="153734">plater</tei:seg>
+        <tei:seg xml:id="MBS1_336108_1" type="pc">.</tei:seg>
+        <tei:seg xml:id="MBS1_336108_2" type="token" lemmaRef="6467" meaningRef="10233" pos="CNJ" wordRef="38749">vnd</tei:seg>
+        <tei:seg xml:id="MBS1_336108_3" type="token" lemmaRef="5933" meaningRef="9403" pos="ADV CNJ IPA" wordRef="259850">wan</tei:seg>
+        <tei:seg xml:id="MBS1_336108_4" type="token" lemmaRef="1242" meaningRef="1958" pos="PRO" wordRef="3966">du</tei:seg>
+        <tei:seg xml:id="MBS1_336108_5" type="token" lemmaRef="7473" meaningRef="12160" pos="VRB VEM" wordRef="26924">wilt</tei:seg>
+        <tei:seg xml:id="MBS1_336108_6" type="token" lemmaRef="3028" meaningRef="4833" pos="PRP" wordRef="10369">in</tei:seg>
+        <tei:seg xml:id="MBS1_336108_7" type="token" lemmaRef="1119" meaningRef="1770" pos="ART" wordRef="3504">dem</tei:seg>
+        <tei:seg xml:id="MBS1_336108_8" type="token" lemmaRef="3096" meaningRef="4919" pos="NOM" wordRef="42480">iar</tei:seg>
+        <tei:seg xml:id="MBS1_336108_9" type="token" lemmaRef="5601" meaningRef="8764" pos="ADV" wordRef="19596">so</tei:seg>
+        <tei:seg xml:id="MBS1_336108_10" type="token" lemmaRef="2007" meaningRef="3099" pos="ADV PRP" wordRef="6801">gegen</tei:seg>
+        <tei:seg xml:id="MBS1_336108_11" type="token" lemmaRef="1119" meaningRef="1770" pos="ART" wordRef="3507">der</tei:seg>
+        <tei:seg xml:id="MBS1_336108_12" type="token" lemmaRef="62291" meaningRef="98849" pos="NOM" wordRef="325866">schrat</tei:seg>
+        <tei:seg xml:id="MBS1_336108_13" type="token" lemmaRef="49600" meaningRef="78001" pos="NOM" wordRef="274649">elsen</tei:seg>
+        <tei:seg xml:id="MBS1_336108_14" type="token" lemmaRef="4172" meaningRef="6544" pos="PRP" wordRef="14531">mit</tei:seg>
+        <tei:lb n="9"/>
+        <tei:seg xml:id="MBS1_336109_0" type="token" lemmaRef="1119" meaningRef="1770" pos="ART" wordRef="3507">der</tei:seg>
+        <tei:seg xml:id="MBS1_336109_1" type="token" lemmaRef="5607" meaningRef="8770" pos="ADJ" wordRef="203508">selchen</tei:seg>
+        <tei:seg xml:id="MBS1_336109_2" type="token" lemmaRef="5601" meaningRef="8764" pos="ADV" wordRef="19596">so</tei:seg>
+        <tei:seg xml:id="MBS1_336109_3" type="token" lemmaRef="4340" meaningRef="6790" pos="VRB" wordRef="367859">necz</tei:seg>
+        <tei:seg xml:id="MBS1_336109_4" type="token" lemmaRef="1762" meaningRef="2752" pos="PRO" wordRef="6020">es</tei:seg>
+        <tei:seg xml:id="MBS1_336109_5" type="token" lemmaRef="29" meaningRef="39" pos="ADV PRP" wordRef="86">ab</tei:seg>
+        <tei:seg xml:id="MBS1_336109_6" type="token" lemmaRef="4172" meaningRef="6544" pos="PRP" wordRef="14531">mit</tei:seg>
+        <tei:seg xml:id="MBS1_336109_7" type="token" lemmaRef="7532" meaningRef="12297" pos="NOM" wordRef="67774">wein</tei:seg>
+        <tei:seg xml:id="MBS1_336109_8" type="token" lemmaRef="4470" meaningRef="6973" pos="CNJ" wordRef="15544">oder</tei:seg>
+        <tei:seg xml:id="MBS1_336109_9" type="token" lemmaRef="4172" meaningRef="6544" pos="PRP" wordRef="14531">mit</tei:seg>
+        <tei:seg xml:id="MBS1_336109_10" type="token" lemmaRef="1765" meaningRef="2755" pos="NOM" wordRef="131033">essig</tei:seg>
+        <tei:seg xml:id="MBS1_336109_11" type="token" lemmaRef="148" meaningRef="183" pos="CNJ" wordRef="369">als</tei:seg>
+        <tei:seg xml:id="MBS1_336109_12" type="token" lemmaRef="1331" meaningRef="2068" pos="ART NUM" wordRef="4319">ein</tei:seg>
+        <tei:seg xml:id="MBS1_336109_13" type="token" lemmaRef="204" meaningRef="256" pos="ADJ" wordRef="537">ander</tei:seg>
+        <tei:lb n="10"/>
+        <tei:seg xml:id="MBS1_336110_0" type="token" lemmaRef="5077" meaningRef="7908" pos="NOM" wordRef="274075">selßen</tei:seg>
+        <tei:seg xml:id="MBS1_336110_1" type="pc">.</tei:seg>
+        <tei:lb n="1"/>
+        <tei:hi rend="initial">
+          <tei:seg xml:id="MBS1_436101_0" type="token" lemmaRef="9050" meaningRef="20722" pos="PRO VEM" wordRef="30688">wiltu</tei:seg>
+        </tei:hi>
+        <tei:seg xml:id="MBS1_436101_1" type="token" lemmaRef="3917" meaningRef="6182" pos="VRB" wordRef="13685">machen</tei:seg>
+        <tei:seg xml:id="MBS1_436101_2" type="token" lemmaRef="1331" meaningRef="2068" pos="ART NUM" wordRef="4319">ein</tei:seg>
+        <tei:seg xml:id="MBS1_436101_3" type="token" lemmaRef="2573" meaningRef="13672" pos="NOM ADJ ADV" wordRef="8633">guot</tei:seg>
+        <tei:seg xml:id="MBS1_436101_4" type="token" lemmaRef="20991" meaningRef="34525" pos="NOM" wordRef="271820">latwerg</tei:seg>
+        <tei:seg xml:id="MBS1_436101_5" type="token" lemmaRef="7193" meaningRef="11656" pos="PRP" wordRef="25544">von</tei:seg>
+        <tei:seg xml:id="MBS1_436101_6" type="token" lemmaRef="27005" meaningRef="42956" pos="NOM" wordRef="274085">weichseln</tei:seg>
+        <tei:seg xml:id="MBS1_436101_7" type="pc">,</tei:seg>
+        <tei:seg xml:id="MBS1_436101_8" type="token" lemmaRef="5601" meaningRef="8764" pos="ADV" wordRef="19596">so</tei:seg>
+        <tei:seg xml:id="MBS1_436101_9" type="token" lemmaRef="6301" meaningRef="9929" pos="VRB" wordRef="22322">tuo</tei:seg>
+        <tei:seg xml:id="MBS1_436101_10" type="token" lemmaRef="5454" meaningRef="8506" pos="POS PRO" wordRef="19044">sie</tei:seg>
+        <tei:seg xml:id="MBS1_436101_11" type="token" lemmaRef="3028" meaningRef="4834" pos="PRP" wordRef="43043">jn</tei:seg>
+        <tei:seg xml:id="MBS1_436101_12" type="token" lemmaRef="1331" meaningRef="2068" pos="ART NUM" wordRef="4319">ein</tei:seg>
+        <tei:lb n="2"/>
+        <tei:seg xml:id="MBS1_436102_0" type="token" lemmaRef="2676" meaningRef="4307" pos="NOM" wordRef="129394">hafen</tei:seg>
+        <tei:seg xml:id="MBS1_436102_1" type="token" lemmaRef="6467" meaningRef="10233" pos="CNJ" wordRef="22825">und</tei:seg>
+        <tei:seg xml:id="MBS1_436102_2" type="token" lemmaRef="5423" meaningRef="8463" pos="VRB" wordRef="84577">secz</tei:seg>
+        <tei:seg xml:id="MBS1_436102_3" type="token" lemmaRef="1517" meaningRef="2355" pos="PRO" wordRef="5008">in</tei:seg>
+        <tei:seg xml:id="MBS1_436102_4" type="token" lemmaRef="6330" meaningRef="9973" pos="ADV PRP" wordRef="67481">auff</tei:seg>
+        <tei:seg xml:id="MBS1_436102_5" type="token" lemmaRef="1331" meaningRef="2068" pos="ART NUM" wordRef="4319">ein</tei:seg>
+        <tei:seg xml:id="MBS1_436102_6" type="token" lemmaRef="2573" meaningRef="13672" pos="NOM ADJ ADV" wordRef="8633">guot</tei:seg>
+        <tei:seg xml:id="MBS1_436102_7" type="token" lemmaRef="2440" meaningRef="3923" pos="NOM" wordRef="8196">gluot</tei:seg>
+        <tei:seg xml:id="MBS1_436102_8" type="token" lemmaRef="6467" meaningRef="10233" pos="CNJ" wordRef="22825">und</tei:seg>
+        <tei:seg xml:id="MBS1_436102_9" type="token" lemmaRef="2392" meaningRef="3860" pos="VRB" wordRef="131214">geuß</tei:seg>
+        <tei:seg xml:id="MBS1_436102_10" type="token" lemmaRef="4377" meaningRef="6838" pos="ADJ ADV NEG" wordRef="158951">nit</tei:seg>
+        <tei:seg xml:id="MBS1_436102_11" type="token" lemmaRef="1055" meaningRef="1689" pos="ADV" wordRef="3258">dar</tei:seg>
+        <tei:seg xml:id="MBS1_436102_12" type="token" lemmaRef="199" meaningRef="248" pos="PRP" wordRef="522">an</tei:seg>
+        <tei:seg xml:id="MBS1_436102_13" type="pc">.</tei:seg>
+        <tei:lb n="3"/>
+        <tei:seg xml:id="MBS1_436103_0" type="token" lemmaRef="6467" meaningRef="10233" pos="CNJ" wordRef="38749">vnd</tei:seg>
+        <tei:seg xml:id="MBS1_436103_1" type="token" lemmaRef="5933" meaningRef="9403" pos="ADV CNJ IPA" wordRef="259849">wen</tei:seg>
+        <tei:seg xml:id="MBS1_436103_2" type="token" lemmaRef="1762" meaningRef="2752" pos="PRO" wordRef="95536">eß</tei:seg>
+        <tei:seg xml:id="MBS1_436103_3" type="token" lemmaRef="5458" meaningRef="8511" pos="VRB" wordRef="274086">seydent</tei:seg>
+        <tei:seg xml:id="MBS1_436103_4" type="token" lemmaRef="7489" meaningRef="16763" pos="VRB VEX" wordRef="27059">wirt</tei:seg>
+        <tei:seg xml:id="MBS1_436103_5" type="pc">,</tei:seg>
+        <tei:seg xml:id="MBS1_436103_6" type="token" lemmaRef="5601" meaningRef="8764" pos="ADV" wordRef="19596">so</tei:seg>
+        <tei:seg xml:id="MBS1_436103_7" type="token" lemmaRef="3567" meaningRef="5652" pos="VRB" wordRef="65026">laß</tei:seg>
+        <tei:seg xml:id="MBS1_436103_8" type="token" lemmaRef="1762" meaningRef="2752" pos="PRO" wordRef="95536">eß</tei:seg>
+        <tei:seg xml:id="MBS1_436103_9" type="token" lemmaRef="3188" meaningRef="5030" pos="ADJ" wordRef="10930">kalt</tei:seg>
+        <tei:seg xml:id="MBS1_436103_10" type="token" lemmaRef="7489" meaningRef="16763" pos="VRB VEX" wordRef="27050">werden</tei:seg>
+        <tei:lb n="4"/>
+        <tei:seg xml:id="MBS1_436104_0" type="token" lemmaRef="6467" meaningRef="10233" pos="CNJ" wordRef="38749">vnd</tei:seg>
+        <tei:seg xml:id="MBS1_436104_1" type="token" lemmaRef="5813" meaningRef="117242" pos="VRB" wordRef="20467">streich</tei:seg>
+        <tei:seg xml:id="MBS1_436104_2" type="token" lemmaRef="1762" meaningRef="2752" pos="PRO" wordRef="6020">es</tei:seg>
+        <tei:seg xml:id="MBS1_436104_3" type="token" lemmaRef="1258" meaningRef="1977" pos="PRP" wordRef="4044">durch</tei:seg>
+        <tei:seg xml:id="MBS1_436104_4" type="token" lemmaRef="1331" meaningRef="2068" pos="ART NUM" wordRef="4319">ein</tei:seg>
+        <tei:seg xml:id="MBS1_436104_5" type="token" lemmaRef="6298" meaningRef="9923" pos="NOM" wordRef="203184">duoch</tei:seg>
+        <tei:seg xml:id="MBS1_436104_6" type="token" lemmaRef="6467" meaningRef="10233" pos="CNJ" wordRef="38749">vnd</tei:seg>
+        <tei:seg xml:id="MBS1_436104_7" type="token" lemmaRef="6301" meaningRef="9929" pos="VRB" wordRef="22322">tuo</tei:seg>
+        <tei:seg xml:id="MBS1_436104_8" type="token" lemmaRef="1762" meaningRef="2752" pos="PRO" wordRef="6020">es</tei:seg>
+        <tei:seg xml:id="MBS1_436104_9" type="token" lemmaRef="3028" meaningRef="4834" pos="PRP" wordRef="10369">in</tei:seg>
+        <tei:seg xml:id="MBS1_436104_10" type="token" lemmaRef="1331" meaningRef="2068" pos="ART NUM" wordRef="4319">ein</tei:seg>
+        <tei:seg xml:id="MBS1_436104_11" type="token" lemmaRef="3299" meaningRef="5179" pos="NOM" wordRef="299802">kessel</tei:seg>
+        <tei:seg xml:id="MBS1_436104_12" type="token" lemmaRef="6467" meaningRef="10233" pos="CNJ" wordRef="38749">vnd</tei:seg>
+        <tei:seg xml:id="MBS1_436104_13" type="token" lemmaRef="5423" meaningRef="8463" pos="VRB" wordRef="84577">secz</tei:seg>
+        <tei:lb n="5"/>
+        <tei:seg xml:id="MBS1_436105_0" type="token" lemmaRef="1762" meaningRef="2752" pos="PRO" wordRef="6020">es</tei:seg>
+        <tei:seg xml:id="MBS1_436105_1" type="token" lemmaRef="6330" meaningRef="9973" pos="ADV PRP" wordRef="67481">auff</tei:seg>
+        <tei:seg xml:id="MBS1_436105_2" type="token" lemmaRef="1331" meaningRef="2068" pos="ART NUM" wordRef="4322">einen</tei:seg>
+        <tei:seg xml:id="MBS1_436105_3" type="token" lemmaRef="26964" meaningRef="42887" pos="NOM NUM" wordRef="271787">trifuß</tei:seg>
+        <tei:seg xml:id="MBS1_436105_4" type="pc">.</tei:seg>
+        <tei:seg xml:id="MBS1_436105_5" type="token" lemmaRef="6467" meaningRef="10233" pos="CNJ" wordRef="38749">vnd</tei:seg>
+        <tei:seg xml:id="MBS1_436105_6" type="token" lemmaRef="6301" meaningRef="9929" pos="VRB" wordRef="22322">tuo</tei:seg>
+        <tei:seg xml:id="MBS1_436105_7" type="token" lemmaRef="1331" meaningRef="2068" pos="ART NUM" wordRef="4319">ein</tei:seg>
+        <tei:seg xml:id="MBS1_436105_8" type="token" lemmaRef="2573" meaningRef="13672" pos="NOM ADJ ADV" wordRef="8633">guot</tei:seg>
+        <tei:seg xml:id="MBS1_436105_9" type="token" lemmaRef="2440" meaningRef="3923" pos="NOM" wordRef="8196">gluot</tei:seg>
+        <tei:seg xml:id="MBS1_436105_10" type="token" lemmaRef="1055" meaningRef="1689" pos="ADV" wordRef="3258">dar</tei:seg>
+        <tei:seg xml:id="MBS1_436105_11" type="token" lemmaRef="6471" meaningRef="10240" pos="ADJ ADV PRP" wordRef="45574">vnder</tei:seg>
+        <tei:seg xml:id="MBS1_436105_12" type="token" lemmaRef="6467" meaningRef="10233" pos="CNJ" wordRef="38749">vnd</tei:seg>
+        <tei:lb n="6"/>
+        <tei:seg xml:id="MBS1_436106_0" type="token" lemmaRef="3567" meaningRef="5652" pos="VRB" wordRef="84202">las</tei:seg>
+        <tei:seg xml:id="MBS1_436106_1" type="token" lemmaRef="1762" meaningRef="2752" pos="PRO" wordRef="6020">es</tei:seg>
+        <tei:seg xml:id="MBS1_436106_2" type="token" lemmaRef="5458" meaningRef="8511" pos="VRB" wordRef="158082">syeden</tei:seg>
+        <tei:seg xml:id="MBS1_436106_3" type="token" lemmaRef="10651" meaningRef="17074" pos="ADV" wordRef="83990">piß</tei:seg>
+        <tei:seg xml:id="MBS1_436106_4" type="pc">,</tei:seg>
+        <tei:seg xml:id="MBS1_436106_5" type="token" lemmaRef="1762" meaningRef="2752" pos="PRO" wordRef="6020">es</tei:seg>
+        <tei:seg xml:id="MBS1_436106_6" type="token" lemmaRef="1136" meaningRef="1791" pos="ADJ ADV" wordRef="3555">dick</tei:seg>
+        <tei:seg xml:id="MBS1_436106_7" type="token" lemmaRef="7489" meaningRef="16763" pos="VRB VEX" wordRef="27059">wirt</tei:seg>
+        <tei:seg xml:id="MBS1_436106_8" type="pc">.</tei:seg>
+        <tei:seg xml:id="MBS1_436106_9" type="token" lemmaRef="6467" meaningRef="10233" pos="CNJ" wordRef="22825">und</tei:seg>
+        <tei:seg xml:id="MBS1_436106_10" type="token" lemmaRef="6301" meaningRef="9929" pos="VRB" wordRef="22322">tuo</tei:seg>
+        <tei:seg xml:id="MBS1_436106_11" type="token" lemmaRef="1119" meaningRef="1770" pos="ART" wordRef="3506">den</tei:seg>
+        <tei:seg xml:id="MBS1_436106_12" type="token" lemmaRef="1055" meaningRef="1689" pos="ADV" wordRef="3258">dar</tei:seg>
+        <tei:seg xml:id="MBS1_436106_13" type="token" lemmaRef="1331" meaningRef="2068" pos="ART NUM" wordRef="4319">ein</tei:seg>
+        <tei:seg xml:id="MBS1_436106_14" type="token" lemmaRef="2898" meaningRef="4653" pos="NOM" wordRef="65602">honig</tei:seg>
+        <tei:lb n="7"/>
+        <tei:seg xml:id="MBS1_436107_0" type="token" lemmaRef="6467" meaningRef="10233" pos="CNJ" wordRef="22825">und</tei:seg>
+        <tei:seg xml:id="MBS1_436107_1" type="token" lemmaRef="73848" meaningRef="111902" pos="ADJ" wordRef="357422">geribens</tei:seg>
+        <tei:seg xml:id="MBS1_436107_2" type="token" lemmaRef="879" meaningRef="1449" pos="NOM" wordRef="45855">prot</tei:seg>
+        <tei:seg xml:id="MBS1_436107_3" type="token" lemmaRef="6467" meaningRef="10233" pos="CNJ" wordRef="22825">und</tei:seg>
+        <tei:seg xml:id="MBS1_436107_4" type="token" lemmaRef="26712" meaningRef="42512" pos="VRB" wordRef="270449">wrcz</tei:seg>
+        <tei:seg xml:id="MBS1_436107_5" type="token" lemmaRef="1762" meaningRef="2752" pos="PRO" wordRef="6020">es</tei:seg>
+        <tei:seg xml:id="MBS1_436107_6" type="token" lemmaRef="7677" meaningRef="12586" pos="NOM ADV" wordRef="27811">wol</tei:seg>
+        <tei:seg xml:id="MBS1_436107_7" type="token" lemmaRef="6467" meaningRef="10233" pos="CNJ" wordRef="22825">und</tei:seg>
+        <tei:seg xml:id="MBS1_436107_8" type="token" lemmaRef="5005" meaningRef="14169" pos="NOM VRB" wordRef="129626">rür</tei:seg>
+        <tei:seg xml:id="MBS1_436107_9" type="token" lemmaRef="1762" meaningRef="2752" pos="PRO" wordRef="6020">es</tei:seg>
+        <tei:seg xml:id="MBS1_436107_10" type="pc">,</tei:seg>
+        <tei:seg xml:id="MBS1_436107_11" type="token" lemmaRef="10651" meaningRef="17074" pos="ADV" wordRef="83990">piß</tei:seg>
+        <tei:seg xml:id="MBS1_436107_12" type="token" lemmaRef="1762" meaningRef="2752" pos="PRO" wordRef="6020">es</tei:seg>
+        <tei:lb n="8"/>
+        <tei:seg xml:id="MBS1_436108_0" type="token" lemmaRef="1136" meaningRef="1791" pos="ADJ ADV" wordRef="3555">dick</tei:seg>
+        <tei:seg xml:id="MBS1_436108_1" type="token" lemmaRef="7489" meaningRef="16763" pos="VRB VEX" wordRef="27059">wirt</tei:seg>
+        <tei:seg xml:id="MBS1_436108_2" type="token" lemmaRef="1732" meaningRef="2721" pos="CNJ" wordRef="5898">et</tei:seg>
+        <tei:seg xml:id="MBS1_436108_3" type="token" lemmaRef="49520" meaningRef="77924" pos="VRB" wordRef="274087">sufficit</tei:seg>
+        <tei:seg xml:id="MBS1_436108_4" type="pc">.</tei:seg>
+      </tei:p>
+    </tei:body>
+  </tei:text>
+</tei:TEI>
