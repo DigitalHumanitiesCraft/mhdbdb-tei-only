@@ -1,84 +1,54 @@
 
 # MHDBDB TEI Repository
 
-Dieses Repository enthält:
+TEI-encoded Middle High German literature texts with semantic annotations and web-based exploration interface from the [Mittelhochdeutsche Begriffsdatenbank (MHDBDB)](https://www.mhdbdb.sbg.ac.at), University of Salzburg.
 
-- **TEI-kodierte mittelhochdeutsche Literaturtexte**
-- **Kontrollierte Normdateien** (Authority Files)
-- **Ein webbasiertes Explorationstool**
-- **Ein Python-Tool zur Transformation und Metadatenanreicherung**
+## Content
 
 Alle Inhalte basieren auf den Daten der [Mittelhochdeutschen Begriffsdatenbank (MHDBDB)](https://www.mhdbdb.sbg.ac.at) der Universität Salzburg – einem Forschungsprojekt mit über 50 Jahren mediävistischer Text- und Begriffsforschung.
+- **666 TEI-encoded texts** (Middle High German literature)
+- **6 authority files** (34.8 MB): persons, works, lexicon, concepts, genres, names
+- **Web playground** for exploration and XPath queries
 
----
+## Structure
 
-## TEI Transformation Tool
+```
+├── tei/                     # 666 TEI texts (.tei.xml)
+├── authority-files/         # 6 controlled vocabularies
+└── playground/              # Web-based exploration tool
+```
 
-Ein Python-Werkzeug zur automatisierten Erzeugung, Anreicherung und Konvertierung von TEI-Dateien auf Basis von RDF-Daten, SPARQL-Exports und Volltextquellen.
+## Usage
 
-### Hauptfunktionen
+### Web Interface
+Open `playground/index.html` in a browser or run:
+```bash
+python -m http.server 8000
+```
 
-1. **Authority File Generation**  
-   Erstellt TEI-konforme Referenzdateien (`persons.xml`, `lexicon.xml`, `concepts.xml` usw.) aus CSV-Quellen
+### Programmatic Access
+TEI files reference authority data via `xml:id`:
+```xml
+<author ref="#person_445">Meister Eckhart</author>
+<w lemma="vriunt" ana="#concept_12345">vriunt</w>
+```
 
-2. **Works Enhancement**  
-   Ergänzt `works.xml` mit bibliografischen Metadaten aus `print-works.csv`
-
-3. **Header Enhancement**  
-   Bereichert die TEI-Dateien mit Werk- und Personenmetadaten
-
-4. **Reference System Update**  
-   Vereinheitlicht Referenzformate und ersetzt `<seg>`-Elemente durch TEI-konforme `<w>`-Tokens
-
-
----
+### XPath Examples
+```xpath
+//tei:persName[@type='preferred']  # All preferred person names
+//tei:w[@lemma='vriunt']           # All instances of 'vriunt'
+```
 
 ## Authority Files
 
-Kontrollierte Vokabulare zur Verknüpfung und Annotation der TEI-Daten:
+- **persons.xml** (0.12 MB) - Authors and historical persons
+- **works.xml** (1.41 MB) - Work and manuscript metadata  
+- **lexicon.xml** (32.59 MB) - Dictionary with grammatical annotations
+- **concepts.xml** (0.21 MB) - Semantic concept taxonomy
+- **genres.xml** (0.4 MB) - Literary genre classification
+- **names.xml** (0.03 MB) - Proper names with semantic relations
 
-- `persons.xml` – Autoren und historische Personen  
-- `lexicon.xml` – Wörterbuch mit grammatischen und semantischen Informationen  
-- `concepts.xml` – Begriffssystematik mit Hierarchien  
-- `genres.xml` – Klassifikation literarischer Gattungen  
-- `works.xml` – Werk- und Handschriftenmetadaten  
-- `names.xml` – Eigennamen mit semantischen Relationen  
-- `works_enhanced.xml` – Erweiterte Werkdaten mit Druckausgaben  
+## License & Contact
 
----
-
-##  Typischer Workflow
-
-1. **Daten vorbereiten**: RDF-Daten in CSV umwandeln (mittels SPARQL)
-2. **Authority Files generieren**:
-   ```bash
-   python tei-transformation.py --lists all
-   ```
-3. **Optional: Druckdaten einfügen**:
-   ```bash
-   python enhance_works.py works.xml print-works.csv works_enhanced.xml
-   ```
-4. **TEI-Dateien transformieren**:
-   ```bash
-   python tei-transformation.py
-   ```
-
-Weitere Optionen und Debug-Informationen siehe [Tool-Dokumentation](./README.md).
-
----
-
-## Webbasierte Exploration (`/playground/`)
-
-Ein clientseitiges Interface zur Analyse, Navigation und Recherche im TEI-Korpus und den Normdaten. Ermöglicht:
-
-- Durchsuchen von Texten, Autoren, Werken und Begriffen
-- XPath-Suche
-- Visualisierung semantischer Relationen
-
-Details: [`playground/README.md`](./playground/README.md)
-
----
-
-## Lizenz
-
-Alle Inhalte stehen unter der Lizenz **CC BY-NC-SA 3.0 AT**, sofern nicht anders in den Datei-Headern angegeben.
+**License:** [CC BY-NC-SA 3.0 AT](https://creativecommons.org/licenses/by-nc-sa/3.0/at/)  
+**Contact:** mhdbdb@plus.ac.at | https://mhdbdb.plus.ac.at
