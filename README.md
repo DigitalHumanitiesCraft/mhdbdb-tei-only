@@ -1,26 +1,101 @@
+
 # MHDBDB TEI Repository
 
-Dieses Repository enthält TEI-kodierte mittelhochdeutsche Texte und Normdateien der **Mittelhochdeutschen Begriffsdatenbank (MHDBDB)** der Universität Salzburg sowie ein webbasiertes Explorationstool.
+Dieses Repository enthält:
+
+- **TEI-kodierte mittelhochdeutsche Literaturtexte**
+- **Kontrollierte Normdateien** (Authority Files)
+- **Ein webbasiertes Explorationstool**
+- **Ein Python-Tool zur Transformation und Metadatenanreicherung**
+
+Alle Inhalte basieren auf den Daten der [Mittelhochdeutschen Begriffsdatenbank (MHDBDB)](https://www.mhdbdb.sbg.ac.at) der Universität Salzburg – einem Forschungsprojekt mit über 50 Jahren mediävistischer Text- und Begriffsforschung.
+
+---
+
+## TEI Transformation Tool
+
+Ein Python-Werkzeug zur automatisierten Erzeugung, Anreicherung und Konvertierung von TEI-Dateien auf Basis von RDF-Daten, SPARQL-Exports und Volltextquellen.
+
+### Hauptfunktionen
+
+1. **Authority File Generation**  
+   Erstellt TEI-konforme Referenzdateien (`persons.xml`, `lexicon.xml`, `concepts.xml` usw.) aus CSV-Quellen
+
+2. **Works Enhancement**  
+   Ergänzt `works.xml` mit bibliografischen Metadaten aus `print-works.csv`
+
+3. **Header Enhancement**  
+   Bereichert die TEI-Dateien mit Werk- und Personenmetadaten
+
+4. **Reference System Update**  
+   Vereinheitlicht Referenzformate und ersetzt `<seg>`-Elemente durch TEI-konforme `<w>`-Tokens
+
+
+---
 
 ## Repository-Struktur
 
-### `/authority-files/`
-Sechs XML-Normdateien als kontrollierte Vokabulare und Referenzdaten:
-- **persons.xml** - Autoren und historische Personen
-- **lexicon.xml** - Mittelhochdeutsches Wörterbuch mit semantischen Verknüpfungen
-- **concepts.xml** - Hierarchische Begriffsystematik
-- **genres.xml** - Literarische Gattungsklassifikation
-- **works.xml** - Handschriften- und Werkmetadaten
-- **names.xml** - Eigennamen mit semantischen Verbindungen
+```text
+/
+├── authority-files/        # Generierte Referenzdaten (XML)
+├── tei/                    # Mittelhochdeutsche TEI-Textdateien
+├── lists/                  # CSV-Datenquellen & Output
+│   ├── *.csv
+│   ├── print-works.csv
+│   └── output/
+├── output/                 # Ergebnisdateien nach Transformation
+├── playground/             # Web-Interface zur Exploration
+└── tei-transformation.py   # Hauptskript
+```
 
-### `/tei/`
-TEI-kodierte mittelhochdeutsche Literaturtexte mit linguistischen Annotationen.
+---
 
-### `/playground/`
-Webbasiertes Explorationstool zur interaktiven Analyse des TEI-Korpus und der Normdateien. Details siehe `/playground/README.md`.
+## Authority Files
 
-## Über die MHDBDB
+Kontrollierte Vokabulare zur Verknüpfung und Annotation der TEI-Daten:
 
-Die Mittelhochdeutsche Begriffsdatenbank repräsentiert 50+ Jahre mediävistische Sprachforschung der Universität Salzburg. Alle Texte und Normdateien verwenden TEI P5-Kodierung mit semantischen Cross-References zwischen den Dateien.
+- `persons.xml` – Autoren und historische Personen  
+- `lexicon.xml` – Wörterbuch mit grammatischen und semantischen Informationen  
+- `concepts.xml` – Begriffssystematik mit Hierarchien  
+- `genres.xml` – Klassifikation literarischer Gattungen  
+- `works.xml` – Werk- und Handschriftenmetadaten  
+- `names.xml` – Eigennamen mit semantischen Relationen  
+- `works_enhanced.xml` – Erweiterte Werkdaten mit Druckausgaben  
 
-**Lizenz:** Inhalte verfügbar unter CC BY-NC-SA 3.0 AT (siehe individuelle Datei-Header für spezifische Lizenzierung).
+---
+
+##  Typischer Workflow
+
+1. **Daten vorbereiten**: RDF-Daten in CSV umwandeln (mittels SPARQL)
+2. **Authority Files generieren**:
+   ```bash
+   python tei-transformation.py --lists all
+   ```
+3. **Optional: Druckdaten einfügen**:
+   ```bash
+   python enhance_works.py works.xml print-works.csv works_enhanced.xml
+   ```
+4. **TEI-Dateien transformieren**:
+   ```bash
+   python tei-transformation.py
+   ```
+
+Weitere Optionen und Debug-Informationen siehe [Tool-Dokumentation](./README.md).
+
+---
+
+## Webbasierte Exploration (`/playground/`)
+
+Ein clientseitiges Interface zur Analyse, Navigation und Recherche im TEI-Korpus und den Normdaten. Ermöglicht:
+
+- Durchsuchen von Texten, Autoren, Werken und Begriffen
+- XPath-Suche
+- Visualisierung semantischer Relationen
+
+Details: [`playground/README.md`](./playground/README.md)
+
+---
+
+## Lizenz
+
+Alle Inhalte stehen unter der Lizenz **CC BY-NC-SA 3.0 AT**, sofern nicht anders in den Datei-Headern angegeben.
