@@ -1,6 +1,6 @@
 # MHDBDB Playground
 
-## WARUM? (Motivation & Kontext)
+## Kontext
 
 **Problem:** Mediävist:innen haben kein flexibles, exploratives Tool, um ihre TEI-Textkorpora und Authority Files interaktiv zu analysieren.
 
@@ -10,10 +10,9 @@
 
 **Was sind MHDBDB-Daten?**
 
-- **TEI-XML Texte:** Mittelhochdeutsche Literatur mit linguistischen Annotationen
+- **TEI-XML Texte:** Mittelhochdeutsche Literatur mit mehreren Annotationsniveaus
 - **6 Authority Files:** persons, lexicon, concepts, genres, works, names
 - **Semantische Verknüpfungen:** Cross-References zwischen allen Dateien
-- **50+ Jahre Forschungsdaten** der Universität Salzburg
 
 **Typische Forschungsfragen:**
 
@@ -28,19 +27,19 @@
 - _"Welche Eigenheiten hat mein Dissertationskorpus, bestehend aus 'Erec', 'Iwein' und 'Parzival' im Vergleich zum Gesamtbestand?"_
 
 
-**Zielgruppe:** MHDBDB-Kerntam, externe germanistische und mediävistische Forscher:innen, Promovierende, Editionseditor:innen (Desktop-Arbeitsplätze, Power User)
+**Zielgruppe:** MHDBDB-Kernteam, externe germanistische und mediävistische Forscher:innen, Promovierende, Editionseditor:innen
 
 **Offene Probleme**
 
-- Kein Standard-Interface für XPath-Queries auf lokal gehostete TEI-Korpora
-- Komplexität von TEI-Strukturen erschwert Einstieg für Nicht-ITler:innen
+- kein Standard-Interface für XPath-Queries auf lokal gehostete TEI-Korpora
+- Komplexität von TEI-Strukturen erschwert Einstieg, wenn keine Vorkenntnisse vorhanden sind
 - Visualisierungen (z. B. Begriffsverteilung, Named Entities) fehlen in vielen TEI-Tools
 - Kein gemeinsames Tool für Editionsarbeit, Query-Prototyping und Datenreview
 
 ## Ziel des Playground
 
 - Interne Testumgebung für MHDBDB 4.0-Komponenten
-- Einstiegspunkt für externe Power-User:innen
+- Einstiegstor für externe Power-User:innen
 - Technologisches Labor für neue Analyse-Features
 - Plattform für die kollaborative Weiterentwicklung der MHDBDB-Datenmodelle
 
