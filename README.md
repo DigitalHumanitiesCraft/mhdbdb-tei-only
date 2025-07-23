@@ -33,23 +33,6 @@ Ein Python-Werkzeug zur automatisierten Erzeugung, Anreicherung und Konvertierun
 
 ---
 
-## Repository-Struktur
-
-```text
-/
-├── authority-files/        # Generierte Referenzdaten (XML)
-├── tei/                    # Mittelhochdeutsche TEI-Textdateien
-├── lists/                  # CSV-Datenquellen & Output
-│   ├── *.csv
-│   ├── print-works.csv
-│   └── output/
-├── output/                 # Ergebnisdateien nach Transformation
-├── playground/             # Web-Interface zur Exploration
-└── tei-transformation.py   # Hauptskript
-```
-
----
-
 ## Authority Files
 
 Kontrollierte Vokabulare zur Verknüpfung und Annotation der TEI-Daten:
