@@ -117,6 +117,8 @@ class MHDBDBPlayground {
             { id: 'showWordsBtn', handler: () => this.ui.teiExplorer.showWords() },
             { id: 'showLinesBtn', handler: () => this.ui.teiExplorer.showLines() },
             { id: 'findLemmaBtn', handler: () => this.ui.teiExplorer.findLemmaInText() },
+            { id: 'findMultiLemmaBtn', handler: () => this.ui.teiExplorer.findMultipleLemmasInText() },
+            { id: 'findCooccurrenceBtn', handler: () => this.ui.teiExplorer.findCooccurringLemmas() },
             { id: 'showAnnotationsBtn', handler: () => this.ui.teiExplorer.showAnnotations() }
         ];
 

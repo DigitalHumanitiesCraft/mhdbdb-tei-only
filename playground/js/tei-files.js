@@ -306,4 +306,223 @@ export class TEIFilesManager {
 
         return results;
     }
+
+    // ==================== MULTI-LEMMA SEARCH ====================
+
+    searchMultipleLemmas(lemmaIds, contextType = 'paragraph') {
+        const results = [];
+        
+        this.teiData.parsedXML.forEach(xmlData => {
+            if (contextType === 'paragraph') {
+                // Search within paragraphs
+                const paragraphs = xmlData.doc.querySelectorAll('p');
+                
+                paragraphs.forEach((paragraph, pIndex) => {
+                    const containsAllLemmas = lemmaIds.every(lemmaId => {
+                        // Try multiple selector approaches for robustness
+                        const selectors = [
+                            `w[lemmaRef*="lexicon.xml#lemma_${lemmaId}"]`,
+                            `w[lemmaRef="lexicon.xml#lemma_${lemmaId}"]`,
+                            `w[lemmaRef$="#lemma_${lemmaId}"]`
+                        ];
+                        
+                        return selectors.some(selector => {
+                            const elements = paragraph.querySelectorAll(selector);
+                            return elements.length > 0;
+                        });
+                    });
+                    
+                    if (containsAllLemmas) {
+                        const matchingWords = this.extractMatchingWordsFromParagraph(paragraph, lemmaIds);
+                        results.push({
+                            filename: xmlData.filename,
+                            context: 'paragraph',
+                            paragraphIndex: pIndex,
+                            paragraphId: paragraph.getAttribute('n') || `p_${pIndex}`,
+                            text: paragraph.textContent?.trim(),
+                            matchingWords: matchingWords,
+                            htmlContent: paragraph.outerHTML?.substring(0, 1000)
+                        });
+                    }
+                });
+            } else if (contextType === 'document') {
+                // Search across entire document
+                const containsAllLemmas = lemmaIds.every(lemmaId => {
+                    const elements = xmlData.doc.querySelectorAll(`w[lemmaRef*="lexicon.xml#lemma_${lemmaId}"]`);
+                    return elements.length > 0;
+                });
+                
+                if (containsAllLemmas) {
+                    const matchingWords = this.extractMatchingWordsFromDocument(xmlData.doc, lemmaIds);
+                    results.push({
+                        filename: xmlData.filename,
+                        context: 'document',
+                        matchingWords: matchingWords,
+                        totalWords: this.teiData.words.filter(w => w.filename === xmlData.filename).length
+                    });
+                }
+            }
+        });
+        
+        return results;
+    }
+
+    findCooccurringLemmas(lemmaIds, maxDistance = 10) {
+        const results = [];
+        
+        this.teiData.parsedXML.forEach(xmlData => {
+            const words = xmlData.doc.querySelectorAll('w');
+            const wordArray = Array.from(words);
+            
+            // Find positions of each lemma
+            const lemmaPositions = {};
+            lemmaIds.forEach(lemmaId => {
+                lemmaPositions[lemmaId] = [];
+                wordArray.forEach((word, index) => {
+                    const lemmaRef = word.getAttribute('lemmaRef');
+                    if (lemmaRef && lemmaRef.includes(`lexicon.xml#lemma_${lemmaId}`)) {
+                        lemmaPositions[lemmaId].push({
+                            index: index,
+                            word: word,
+                            text: word.textContent?.trim()
+                        });
+                    }
+                });
+            });
+            
+            // Find co-occurrences within specified distance
+            const cooccurrences = this.findProximityMatches(lemmaPositions, maxDistance, wordArray);
+            
+            if (cooccurrences.length > 0) {
+                results.push({
+                    filename: xmlData.filename,
+                    cooccurrences: cooccurrences,
+                    maxDistance: maxDistance
+                });
+            }
+        });
+        
+        return results;
+    }
+
+    extractMatchingWordsFromParagraph(paragraph, lemmaIds) {
+        const matchingWords = {};
+        
+        lemmaIds.forEach(lemmaId => {
+            matchingWords[lemmaId] = [];
+            
+            // Try multiple selector approaches
+            const selectors = [
+                `w[lemmaRef*="lexicon.xml#lemma_${lemmaId}"]`,
+                `w[lemmaRef="lexicon.xml#lemma_${lemmaId}"]`,
+                `w[lemmaRef$="#lemma_${lemmaId}"]`
+            ];
+            
+            const foundWords = new Set(); // Avoid duplicates
+            
+            selectors.forEach(selector => {
+                const words = paragraph.querySelectorAll(selector);
+                words.forEach(word => {
+                    const wordId = word.getAttribute('xml:id');
+                    if (!foundWords.has(wordId)) {
+                        foundWords.add(wordId);
+                        matchingWords[lemmaId].push({
+                            text: word.textContent?.trim(),
+                            id: wordId,
+                            lemmaRef: word.getAttribute('lemmaRef')
+                        });
+                    }
+                });
+            });
+            
+        });
+        
+        return matchingWords;
+    }
+
+    extractMatchingWordsFromDocument(doc, lemmaIds) {
+        const matchingWords = {};
+        
+        lemmaIds.forEach(lemmaId => {
+            matchingWords[lemmaId] = [];
+            
+            // Try multiple selector approaches
+            const selectors = [
+                `w[lemmaRef*="lexicon.xml#lemma_${lemmaId}"]`,
+                `w[lemmaRef="lexicon.xml#lemma_${lemmaId}"]`,
+                `w[lemmaRef$="#lemma_${lemmaId}"]`
+            ];
+            
+            const foundWords = new Set(); // Avoid duplicates
+            
+            selectors.forEach(selector => {
+                const words = doc.querySelectorAll(selector);
+                words.forEach(word => {
+                    const wordId = word.getAttribute('xml:id');
+                    if (!foundWords.has(wordId)) {
+                        foundWords.add(wordId);
+                        matchingWords[lemmaId].push({
+                            text: word.textContent?.trim(),
+                            id: wordId,
+                            lemmaRef: word.getAttribute('lemmaRef'),
+                            context: this.getWordParagraphContext(word)
+                        });
+                    }
+                });
+            });
+            
+        });
+        
+        return matchingWords;
+    }
+
+    findProximityMatches(lemmaPositions, maxDistance, wordArray) {
+        const cooccurrences = [];
+        const lemmaIds = Object.keys(lemmaPositions);
+        
+        if (lemmaIds.length < 2) return cooccurrences;
+        
+        // Compare positions between first lemma and others
+        const firstLemmaId = lemmaIds[0];
+        const firstLemmaPositions = lemmaPositions[firstLemmaId];
+        
+        firstLemmaPositions.forEach(firstPos => {
+            lemmaIds.slice(1).forEach(otherLemmaId => {
+                const otherPositions = lemmaPositions[otherLemmaId];
+                
+                otherPositions.forEach(otherPos => {
+                    const distance = Math.abs(firstPos.index - otherPos.index);
+                    
+                    if (distance <= maxDistance) {
+                        const startIndex = Math.min(firstPos.index, otherPos.index);
+                        const endIndex = Math.max(firstPos.index, otherPos.index);
+                        const contextWords = wordArray.slice(
+                            Math.max(0, startIndex - 3),
+                            Math.min(wordArray.length, endIndex + 4)
+                        );
+                        
+                        cooccurrences.push({
+                            lemma1: { id: firstLemmaId, ...firstPos },
+                            lemma2: { id: otherLemmaId, ...otherPos },
+                            distance: distance,
+                            context: contextWords.map(w => w.textContent?.trim()).join(' ')
+                        });
+                    }
+                });
+            });
+        });
+        
+        return cooccurrences;
+    }
+
+    getWordParagraphContext(wordElement) {
+        const paragraph = wordElement.closest('p');
+        if (paragraph) {
+            return {
+                paragraphId: paragraph.getAttribute('n') || paragraph.getAttribute('xml:id'),
+                text: paragraph.textContent?.trim().substring(0, 200) + '...'
+            };
+        }
+        return null;
+    }
 }

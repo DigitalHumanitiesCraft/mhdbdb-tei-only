@@ -62,6 +62,264 @@ export class TEIExplorer {
         );
     }
 
+    // ==================== MULTI-LEMMA SEARCH ====================
+
+    findMultipleLemmasInText() {
+        const searchInput = prompt('Geben Sie mehrere Lemmata ein (getrennt durch " + "):\nBeispiel: brôt + wîn');
+        if (!searchInput) return;
+
+        // Parse input - support both lemma IDs and Middle High German terms
+        const searchTerms = searchInput.split('+').map(term => term.trim());
+        const lemmaIds = this.resolveLemmaIds(searchTerms);
+        
+        if (lemmaIds.length === 0) {
+            displayResults('❌ Fehler', [{ 
+                meta: 'Keine gültigen Lemmata gefunden', 
+                snippet: `Eingabe: "${searchInput}"` 
+            }]);
+            return;
+        }
+
+        // Show context selection dialog
+        const contextType = this.showContextSelectionDialog();
+        if (!contextType) return;
+
+        if (contextType === 'proximity') {
+            this.executeProximitySearch(lemmaIds, searchTerms);
+        } else {
+            this.executeMultiLemmaSearch(lemmaIds, searchTerms, contextType);
+        }
+    }
+
+    executeMultiLemmaSearch(lemmaIds, searchTerms, contextType) {
+        // Get TEI manager from global reference
+        const teiManager = window.playground?.teiManager;
+        if (!teiManager) {
+            displayResults('❌ Fehler', [{ 
+                meta: 'TEI Manager nicht verfügbar', 
+                snippet: 'Bitte laden Sie TEI-Dateien' 
+            }]);
+            return;
+        }
+
+        const results = teiManager.searchMultipleLemmas(lemmaIds, contextType);
+        this.displayMultiLemmaResults(results, searchTerms, contextType);
+    }
+
+    executeProximitySearch(lemmaIds, searchTerms) {
+        const maxDistance = parseInt(prompt('Maximaler Wortabstand (empfohlen: 5-15):', '10')) || 10;
+        
+        // Get TEI manager from global reference
+        const teiManager = window.playground?.teiManager;
+        if (!teiManager) {
+            displayResults('❌ Fehler', [{ 
+                meta: 'TEI Manager nicht verfügbar', 
+                snippet: 'Bitte laden Sie TEI-Dateien' 
+            }]);
+            return;
+        }
+
+        const results = teiManager.findCooccurringLemmas(lemmaIds, maxDistance);
+        this.displayCooccurrenceResults(results, searchTerms, maxDistance);
+    }
+
+    resolveLemmaIds(searchTerms) {
+        const lemmaIds = [];
+        
+        searchTerms.forEach(term => {
+            // Check if it's already a lemma ID (numeric)
+            if (/^\d+$/.test(term)) {
+                lemmaIds.push(term);
+                return;
+            }
+            
+            // Try to find lemma by Middle High German orthography
+            const lemmaId = this.findLemmaIdByOrthography(term);
+            if (lemmaId) {
+                lemmaIds.push(lemmaId);
+            } else {
+                // Try authority data if available
+                const authorityManager = window.playground?.authorityManager;
+                if (authorityManager) {
+                    const matches = authorityManager.searchLemmaByOrthography(term);
+                    if (matches.length > 0) {
+                        const lemmaId = matches[0].id.replace('lemma_', '');
+                        lemmaIds.push(lemmaId);
+                    }
+                }
+            }
+        });
+        
+        return lemmaIds;
+    }
+
+    findLemmaIdByOrthography(orthography) {
+        // Common Middle High German lemma mappings
+        const commonLemmas = {
+            'brôt': '879',
+            'brot': '879', 
+            'wîn': '7532',
+            'win': '7532',
+            'wein': '7532',
+            'fleisch': '1816',
+            'vleisch': '1816',
+            'käse': '26713',
+            'kæse': '26713',
+            'bier': '712',
+            'bîr': '712'
+        };
+        
+        const normalized = orthography.toLowerCase();
+        return commonLemmas[normalized] || null;
+    }
+
+    showContextSelectionDialog() {
+        const contextOptions = [
+            { value: 'paragraph', label: 'In Absätzen (empfohlen)' },
+            { value: 'document', label: 'In ganzen Dokumenten' },
+            { value: 'proximity', label: 'Nähebasiert (max. 10 Wörter)' }
+        ];
+        
+        let dialogHtml = 'Wählen Sie den Suchkontext:\n\n';
+        contextOptions.forEach((option, index) => {
+            dialogHtml += `${index + 1}. ${option.label}\n`;
+        });
+        
+        const choice = prompt(dialogHtml + '\nGeben Sie die Nummer ein (1-3):');
+        const choiceIndex = parseInt(choice) - 1;
+        
+        if (choiceIndex >= 0 && choiceIndex < contextOptions.length) {
+            return contextOptions[choiceIndex].value;
+        }
+        
+        return null;
+    }
+
+    displayMultiLemmaResults(results, searchTerms, contextType) {
+        if (results.length === 0) {
+            displayResults(
+                `🔍 Multi-Lemma-Suche: ${searchTerms.join(' + ')} (0 Treffer)`,
+                [{ 
+                    meta: `Keine Treffer in ${contextType}`, 
+                    snippet: 'Versuchen Sie andere Suchbegriffe oder einen anderen Kontext' 
+                }]
+            );
+            return;
+        }
+
+        const displayResults_data = results.map(result => {
+            if (contextType === 'paragraph') {
+                const matchingSummary = this.formatMatchingWords(result.matchingWords);
+                return {
+                    meta: `${result.filename} • Absatz ${result.paragraphId} • ${matchingSummary}`,
+                    snippet: this.highlightLemmasInText(result.text, result.matchingWords)
+                };
+            } else if (contextType === 'document') {
+                const matchingSummary = this.formatMatchingWords(result.matchingWords);
+                return {
+                    meta: `${result.filename} • Dokument • ${matchingSummary}`,
+                    snippet: `Gefunden in ${result.totalWords} Wörtern`
+                };
+            } else if (contextType === 'proximity') {
+                const cooccurrences = result.cooccurrences || [];
+                return {
+                    meta: `${result.filename} • ${cooccurrences.length} Nähe-Treffer`,
+                    snippet: cooccurrences.slice(0, 3).map(c => 
+                        `Abstand: ${c.distance} Wörter - "${c.context}"`
+                    ).join('<br>')
+                };
+            }
+        });
+
+        displayResults(
+            `🔍 Multi-Lemma-Suche: ${searchTerms.join(' + ')} (${results.length} Treffer)`,
+            displayResults_data
+        );
+    }
+
+    formatMatchingWords(matchingWords) {
+        const summaries = [];
+        for (const [lemmaId, words] of Object.entries(matchingWords)) {
+            const uniqueTexts = [...new Set(words.map(w => w.text))];
+            summaries.push(`${uniqueTexts.join(', ')} (${words.length}x)`);
+        }
+        return summaries.join(' • ');
+    }
+
+    highlightLemmasInText(text, matchingWords) {
+        let highlightedText = text;
+        
+        for (const [lemmaId, words] of Object.entries(matchingWords)) {
+            words.forEach(word => {
+                const regex = new RegExp(`\\b${word.text}\\b`, 'gi');
+                highlightedText = highlightedText.replace(regex, 
+                    `<span class="highlight multi-lemma-${lemmaId}">${word.text}</span>`
+                );
+            });
+        }
+        
+        return highlightedText;
+    }
+
+    findCooccurringLemmas() {
+        const searchInput = prompt('Geben Sie Lemmata für Nähe-Analyse ein (getrennt durch " + "):\nBeispiel: brôt + wîn');
+        if (!searchInput) return;
+
+        const searchTerms = searchInput.split('+').map(term => term.trim());
+        const lemmaIds = this.resolveLemmaIds(searchTerms);
+        
+        if (lemmaIds.length < 2) {
+            displayResults('❌ Fehler', [{ 
+                meta: 'Mindestens 2 gültige Lemmata benötigt', 
+                snippet: `Eingabe: "${searchInput}"` 
+            }]);
+            return;
+        }
+
+        const maxDistance = parseInt(prompt('Maximaler Wortabstand (empfohlen: 5-15):', '10')) || 10;
+
+        // Get TEI manager from global reference
+        const teiManager = window.playground?.teiManager;
+        if (!teiManager) {
+            displayResults('❌ Fehler', [{ 
+                meta: 'TEI Manager nicht verfügbar', 
+                snippet: 'Bitte laden Sie TEI-Dateien' 
+            }]);
+            return;
+        }
+
+        const results = teiManager.findCooccurringLemmas(lemmaIds, maxDistance);
+        this.displayCooccurrenceResults(results, searchTerms, maxDistance);
+    }
+
+    displayCooccurrenceResults(results, searchTerms, maxDistance) {
+        if (results.length === 0) {
+            displayResults(
+                `🔗 Kookkurrenz-Analyse: ${searchTerms.join(' + ')} (0 Treffer)`,
+                [{ 
+                    meta: `Keine Treffer im Abstand von ${maxDistance} Wörtern`, 
+                    snippet: 'Versuchen Sie einen größeren Abstand oder andere Begriffe' 
+                }]
+            );
+            return;
+        }
+
+        const displayResults_data = [];
+        results.forEach(result => {
+            result.cooccurrences.forEach((cooc, index) => {
+                displayResults_data.push({
+                    meta: `${result.filename} • Abstand: ${cooc.distance} Wörter • ${cooc.lemma1.text} ↔ ${cooc.lemma2.text}`,
+                    snippet: `"${cooc.context}"`
+                });
+            });
+        });
+
+        displayResults(
+            `🔗 Kookkurrenz-Analyse: ${searchTerms.join(' + ')} (${displayResults_data.length} Treffer)`,
+            displayResults_data
+        );
+    }
+
     // ==================== ANNOTATIONS EXPLORER ====================
 
     showAnnotations() {

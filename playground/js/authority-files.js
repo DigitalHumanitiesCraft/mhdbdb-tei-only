@@ -441,6 +441,71 @@ export class AuthorityFilesManager {
     return matchingWorks;
   }
 
+  // ==================== LEMMA RESOLUTION ====================
+
+  resolveLemmaNames(searchTerms) {
+    const resolvedLemmas = [];
+    
+    searchTerms.forEach(term => {
+      // Check if it's already a lemma ID
+      if (/^lemma_\d+$/.test(term) || /^\d+$/.test(term)) {
+        const lemmaId = term.replace('lemma_', '');
+        const lemma = this.authorityData.lemmata.find(l => l.id === `lemma_${lemmaId}`);
+        if (lemma) {
+          resolvedLemmas.push({
+            input: term,
+            lemmaId: lemmaId,
+            lemma: lemma
+          });
+        }
+        return;
+      }
+      
+      // Search by orthography
+      const normalizedTerm = term.toLowerCase();
+      const matchingLemma = this.authorityData.lemmata.find(l => 
+        l.lemma && l.lemma.toLowerCase() === normalizedTerm
+      );
+      
+      if (matchingLemma) {
+        resolvedLemmas.push({
+          input: term,
+          lemmaId: matchingLemma.id.replace('lemma_', ''),
+          lemma: matchingLemma
+        });
+      }
+    });
+    
+    return resolvedLemmas;
+  }
+
+  searchLemmaByOrthography(orthography) {
+    const normalized = orthography.toLowerCase();
+    return this.authorityData.lemmata.filter(lemma => 
+      lemma.lemma && lemma.lemma.toLowerCase().includes(normalized)
+    );
+  }
+
+  findLemmaById(lemmaId) {
+    return this.authorityData.lemmata.find(l => 
+      l.id === `lemma_${lemmaId}` || l.id === lemmaId
+    );
+  }
+
+  getLemmaSuggestions(partialInput, maxSuggestions = 10) {
+    const normalized = partialInput.toLowerCase();
+    return this.authorityData.lemmata
+      .filter(lemma => 
+        lemma.lemma && lemma.lemma.toLowerCase().startsWith(normalized)
+      )
+      .slice(0, maxSuggestions)
+      .map(lemma => ({
+        lemma: lemma.lemma,
+        id: lemma.id.replace('lemma_', ''),
+        pos: lemma.pos
+      }));
+  }
+
   // ==================== UTILITY METHODS ====================
 
   updateStatus(indicator, text) {

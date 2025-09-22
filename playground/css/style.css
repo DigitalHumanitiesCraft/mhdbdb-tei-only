@@ -389,6 +389,51 @@ body {
   color: #080;
 }
 
+/* Multi-lemma search highlighting */
+.highlight {
+  background-color: #ffeb3b;
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-weight: 600;
+}
+
+.multi-lemma-879 {
+  background-color: #ffcdd2;
+  border: 1px solid #f44336;
+  color: #d32f2f;
+}
+
+.multi-lemma-7532 {
+  background-color: #c8e6c9;
+  border: 1px solid #4caf50;
+  color: #388e3c;
+}
+
+.multi-lemma-1816 {
+  background-color: #bbdefb;
+  border: 1px solid #2196f3;
+  color: #1976d2;
+}
+
+.multi-lemma-26713 {
+  background-color: #f8bbd9;
+  border: 1px solid #e91e63;
+  color: #c2185b;
+}
+
+.multi-lemma-712 {
+  background-color: #ffe0b2;
+  border: 1px solid #ff9800;
+  color: #f57c00;
+}
+
+/* Default styling for unknown lemma IDs */
+[class*="multi-lemma-"]:not(.multi-lemma-879):not(.multi-lemma-7532):not(.multi-lemma-1816):not(.multi-lemma-26713):not(.multi-lemma-712) {
+  background-color: #e1bee7;
+  border: 1px solid #9c27b0;
+  color: #7b1fa2;
+}
+
 /* Responsive adjustments for smaller desktop screens */
 @media (max-width: 1400px) {
   .playground-container {
