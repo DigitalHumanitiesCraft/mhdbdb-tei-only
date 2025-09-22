@@ -3,7 +3,7 @@
  * Handles TEI text analysis and word-level exploration
  */
 
-import { displayResults } from './UICore.js';
+import { displayResults, showOverlaySpinner, hideSpinner, displaySummaryResults } from './UICore.js';
 
 export class TEIExplorer {
     constructor(teiData, authorityData) {
@@ -92,9 +92,13 @@ export class TEIExplorer {
     }
 
     executeMultiLemmaSearch(lemmaIds, searchTerms, contextType) {
+        // Show loading spinner
+        showOverlaySpinner('resultsContainer', 'Durchsuche TEI-Texte...', true);
+
         // Get TEI manager from global reference
         const teiManager = window.playground?.teiManager;
         if (!teiManager) {
+            hideSpinner('resultsContainer');
             displayResults('❌ Fehler', [{ 
                 meta: 'TEI Manager nicht verfügbar', 
                 snippet: 'Bitte laden Sie TEI-Dateien' 
@@ -102,16 +106,32 @@ export class TEIExplorer {
             return;
         }
 
-        const results = teiManager.searchMultipleLemmas(lemmaIds, contextType);
-        this.displayMultiLemmaResults(results, searchTerms, contextType);
+        // Use setTimeout to allow UI to update with spinner before heavy processing
+        setTimeout(() => {
+            try {
+                const results = teiManager.searchMultipleLemmas(lemmaIds, contextType);
+                hideSpinner('resultsContainer');
+                this.displayMultiLemmaResults(results, searchTerms, contextType);
+            } catch (error) {
+                hideSpinner('resultsContainer');
+                displayResults('❌ Fehler', [{ 
+                    meta: 'Suchfehler', 
+                    snippet: error.message 
+                }]);
+            }
+        }, 100);
     }
 
     executeProximitySearch(lemmaIds, searchTerms) {
         const maxDistance = parseInt(prompt('Maximaler Wortabstand (empfohlen: 5-15):', '10')) || 10;
         
+        // Show loading spinner
+        showOverlaySpinner('resultsContainer', 'Analysiere Nähe-Beziehungen...', true);
+        
         // Get TEI manager from global reference
         const teiManager = window.playground?.teiManager;
         if (!teiManager) {
+            hideSpinner('resultsContainer');
             displayResults('❌ Fehler', [{ 
                 meta: 'TEI Manager nicht verfügbar', 
                 snippet: 'Bitte laden Sie TEI-Dateien' 
@@ -119,8 +139,20 @@ export class TEIExplorer {
             return;
         }
 
-        const results = teiManager.findCooccurringLemmas(lemmaIds, maxDistance);
-        this.displayCooccurrenceResults(results, searchTerms, maxDistance);
+        // Use setTimeout to allow UI to update with spinner before heavy processing
+        setTimeout(() => {
+            try {
+                const results = teiManager.findCooccurringLemmas(lemmaIds, maxDistance);
+                hideSpinner('resultsContainer');
+                this.displayCooccurrenceResults(results, searchTerms, maxDistance);
+            } catch (error) {
+                hideSpinner('resultsContainer');
+                displayResults('❌ Fehler', [{ 
+                    meta: 'Nähe-Analyse Fehler', 
+                    snippet: error.message 
+                }]);
+            }
+        }, 100);
     }
 
     resolveLemmaIds(searchTerms) {
@@ -207,34 +239,87 @@ export class TEIExplorer {
             return;
         }
 
-        const displayResults_data = results.map(result => {
+        // Create summary data for the new display format
+        const summaryData = this.createMultiLemmaSummary(results, searchTerms, contextType);
+
+        displaySummaryResults(
+            `🔍 Multi-Lemma-Suche: ${searchTerms.join(' + ')}`,
+            summaryData
+        );
+    }
+
+    createMultiLemmaSummary(results, searchTerms, contextType) {
+        // Group results by filename for better organization
+        const fileGroups = {};
+        
+        results.forEach(result => {
+            if (!fileGroups[result.filename]) {
+                fileGroups[result.filename] = [];
+            }
+            fileGroups[result.filename].push(result);
+        });
+
+        return Object.entries(fileGroups).map(([filename, fileResults]) => {
+            const count = this.getResultCount(fileResults, contextType);
+            const preview = this.createPreviewText(fileResults, contextType);
+            const details = this.createDetailItems(fileResults, contextType);
+
+            return {
+                title: `📄 ${filename}`,
+                count: count,
+                preview: preview,
+                details: details
+            };
+        });
+    }
+
+    getResultCount(fileResults, contextType) {
+        if (contextType === 'paragraph') {
+            return fileResults.length; // Each result is a paragraph
+        } else if (contextType === 'document') {
+            return fileResults.reduce((sum, result) => sum + (result.totalWords || 1), 0);
+        } else if (contextType === 'proximity') {
+            return fileResults.reduce((sum, result) => 
+                sum + (result.cooccurrences ? result.cooccurrences.length : 0), 0);
+        }
+        return fileResults.length;
+    }
+
+    createPreviewText(fileResults, contextType) {
+        const count = this.getResultCount(fileResults, contextType);
+        
+        if (contextType === 'paragraph') {
+            return `Kombinationen in ${count} Absätzen gefunden`;
+        } else if (contextType === 'document') {
+            return `Alle Lemmas im Dokument vorhanden (${count} Wörter)`;
+        } else if (contextType === 'proximity') {
+            return `${count} Nähe-Beziehungen gefunden`;
+        }
+        return `${count} Treffer`;
+    }
+
+    createDetailItems(fileResults, contextType) {
+        return fileResults.map((result, index) => {
             if (contextType === 'paragraph') {
                 const matchingSummary = this.formatMatchingWords(result.matchingWords);
                 return {
-                    meta: `${result.filename} • Absatz ${result.paragraphId} • ${matchingSummary}`,
+                    meta: `Absatz ${result.paragraphId} • ${matchingSummary}`,
                     snippet: this.highlightLemmasInText(result.text, result.matchingWords)
                 };
             } else if (contextType === 'document') {
                 const matchingSummary = this.formatMatchingWords(result.matchingWords);
                 return {
-                    meta: `${result.filename} • Dokument • ${matchingSummary}`,
-                    snippet: `Gefunden in ${result.totalWords} Wörtern`
+                    meta: `Volltext • ${matchingSummary}`,
+                    snippet: `Alle Suchbegriffe im Dokument vorhanden (${result.totalWords} Wörter)`
                 };
             } else if (contextType === 'proximity') {
                 const cooccurrences = result.cooccurrences || [];
-                return {
-                    meta: `${result.filename} • ${cooccurrences.length} Nähe-Treffer`,
-                    snippet: cooccurrences.slice(0, 3).map(c => 
-                        `Abstand: ${c.distance} Wörter - "${c.context}"`
-                    ).join('<br>')
-                };
+                return cooccurrences.slice(0, 10).map(c => ({
+                    meta: `Abstand: ${c.distance} Wörter • ${c.lemma1.text} ↔ ${c.lemma2.text}`,
+                    snippet: `"${c.context}"`
+                }));
             }
-        });
-
-        displayResults(
-            `🔍 Multi-Lemma-Suche: ${searchTerms.join(' + ')} (${results.length} Treffer)`,
-            displayResults_data
-        );
+        }).flat().slice(0, 50); // Limit to 50 detail items for performance
     }
 
     formatMatchingWords(matchingWords) {
@@ -278,9 +363,13 @@ export class TEIExplorer {
 
         const maxDistance = parseInt(prompt('Maximaler Wortabstand (empfohlen: 5-15):', '10')) || 10;
 
+        // Show loading spinner
+        showOverlaySpinner('resultsContainer', 'Analysiere Nähe-Beziehungen...', true);
+
         // Get TEI manager from global reference
         const teiManager = window.playground?.teiManager;
         if (!teiManager) {
+            hideSpinner('resultsContainer');
             displayResults('❌ Fehler', [{ 
                 meta: 'TEI Manager nicht verfügbar', 
                 snippet: 'Bitte laden Sie TEI-Dateien' 
@@ -288,8 +377,20 @@ export class TEIExplorer {
             return;
         }
 
-        const results = teiManager.findCooccurringLemmas(lemmaIds, maxDistance);
-        this.displayCooccurrenceResults(results, searchTerms, maxDistance);
+        // Use setTimeout to allow UI to update with spinner before heavy processing
+        setTimeout(() => {
+            try {
+                const results = teiManager.findCooccurringLemmas(lemmaIds, maxDistance);
+                hideSpinner('resultsContainer');
+                this.displayCooccurrenceResults(results, searchTerms, maxDistance);
+            } catch (error) {
+                hideSpinner('resultsContainer');
+                displayResults('❌ Fehler', [{ 
+                    meta: 'Nähe-Analyse Fehler', 
+                    snippet: error.message 
+                }]);
+            }
+        }, 100);
     }
 
     displayCooccurrenceResults(results, searchTerms, maxDistance) {
@@ -304,19 +405,29 @@ export class TEIExplorer {
             return;
         }
 
-        const displayResults_data = [];
-        results.forEach(result => {
-            result.cooccurrences.forEach((cooc, index) => {
-                displayResults_data.push({
-                    meta: `${result.filename} • Abstand: ${cooc.distance} Wörter • ${cooc.lemma1.text} ↔ ${cooc.lemma2.text}`,
-                    snippet: `"${cooc.context}"`
-                });
-            });
-        });
+        // Create summary data for cooccurrence results
+        const summaryData = results.map(result => {
+            const cooccurrences = result.cooccurrences || [];
+            const count = cooccurrences.length;
+            
+            const preview = `${count} Nähe-Beziehungen im Abstand von max. ${maxDistance} Wörtern`;
+            
+            const details = cooccurrences.slice(0, 20).map(cooc => ({
+                meta: `Abstand: ${cooc.distance} Wörter • ${cooc.lemma1.text} ↔ ${cooc.lemma2.text}`,
+                snippet: `"${cooc.context}"`
+            }));
 
-        displayResults(
-            `🔗 Kookkurrenz-Analyse: ${searchTerms.join(' + ')} (${displayResults_data.length} Treffer)`,
-            displayResults_data
+            return {
+                title: `📄 ${result.filename}`,
+                count: count,
+                preview: preview,
+                details: details
+            };
+        }).filter(summary => summary.count > 0); // Only show files with results
+
+        displaySummaryResults(
+            `🔗 Kookkurrenz-Analyse: ${searchTerms.join(' + ')} (max. ${maxDistance} Wörter Abstand)`,
+            summaryData
         );
     }
 

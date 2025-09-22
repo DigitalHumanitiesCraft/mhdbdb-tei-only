@@ -151,6 +151,124 @@ export function displayResults(title, results) {
     `;
 }
 
+// ==================== SUMMARY RESULTS DISPLAY ====================
+
+export function displaySummaryResults(title, summaryData) {
+    const container = document.getElementById('resultsContainer');
+    if (!container) return;
+
+    if (summaryData.length === 0) {
+        container.innerHTML = `
+            <div class="result-item">
+                <div class="result-meta">${title}</div>
+                <div class="result-snippet">Keine Ergebnisse gefunden.</div>
+            </div>
+        `;
+        return;
+    }
+
+    const summariesHTML = summaryData.map((summary, index) => 
+        createSummaryCard(summary, index)
+    ).join('');
+
+    const totalResults = summaryData.reduce((sum, s) => sum + s.count, 0);
+
+    container.innerHTML = `
+        <div style="margin-bottom: 15px; font-weight: 600; color: #667eea;">
+            ${title} (${totalResults} Treffer in ${summaryData.length} Kontexten)
+        </div>
+        ${summariesHTML}
+    `;
+
+    // Add click handlers for expansion
+    setupSummaryExpansion();
+}
+
+function createSummaryCard(summary, index) {
+    const previewText = summary.preview || 'Klicken für Details...';
+    const detailsHTML = summary.details ? createDetailsHTML(summary.details) : '';
+
+    return `
+        <div class="result-summary" data-summary-id="${index}">
+            <div class="summary-header">
+                <span>${summary.title}</span>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span class="summary-count">${summary.count}</span>
+                    <span class="expand-icon">▼</span>
+                </div>
+            </div>
+            <div class="summary-preview">${previewText}</div>
+            <div class="summary-expand-hint">Klicken zum Erweitern</div>
+            <div class="result-details">
+                ${detailsHTML}
+            </div>
+        </div>
+    `;
+}
+
+function createDetailsHTML(details) {
+    if (Array.isArray(details)) {
+        return details.map(detail => `
+            <div class="detail-item">
+                <div class="detail-meta">${detail.meta || ''}</div>
+                <div class="detail-snippet">${detail.snippet || detail.text || ''}</div>
+            </div>
+        `).join('');
+    }
+    return `<div class="detail-snippet">${details}</div>`;
+}
+
+function setupSummaryExpansion() {
+    // Remove existing listeners to prevent duplicates
+    document.querySelectorAll('.result-summary').forEach(summary => {
+        summary.replaceWith(summary.cloneNode(true));
+    });
+
+    // Add click handlers
+    document.querySelectorAll('.result-summary').forEach(summary => {
+        summary.addEventListener('click', (e) => {
+            e.preventDefault();
+            summary.classList.toggle('expanded');
+        });
+    });
+}
+
+// ==================== FILE-GROUPED RESULTS ====================
+
+export function displayGroupedResults(title, groupedData) {
+    const container = document.getElementById('resultsContainer');
+    if (!container) return;
+
+    const groupsHTML = Object.entries(groupedData).map(([filename, results]) => {
+        const groupId = `group_${filename.replace(/[^a-z0-9]/gi, '_')}`;
+        return `
+            <div class="file-group">
+                <div class="file-group-header" data-group-id="${groupId}">
+                    <span>📄 ${filename}</span>
+                    <span class="file-group-count">${results.length}</span>
+                </div>
+                <div id="${groupId}" class="group-results">
+                    ${results.map(result => `
+                        <div class="detail-item">
+                            <div class="detail-meta">${result.meta || ''}</div>
+                            <div class="detail-snippet">${result.snippet || result.text || ''}</div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+    }).join('');
+
+    const totalResults = Object.values(groupedData).reduce((sum, results) => sum + results.length, 0);
+
+    container.innerHTML = `
+        <div style="margin-bottom: 15px; font-weight: 600; color: #667eea;">
+            ${title} (${totalResults} Treffer in ${Object.keys(groupedData).length} Dateien)
+        </div>
+        ${groupsHTML}
+    `;
+}
+
 // ==================== WELCOME & ERROR STATES ====================
 
 export function showWelcomeMessage() {
@@ -200,6 +318,110 @@ export function hideLoading(containerId) {
         return true;
     }
     return false;
+}
+
+// ==================== SPINNER INFRASTRUCTURE ====================
+
+export function showSpinner(containerId, message = "Lädt...", large = false) {
+    const container = document.getElementById(containerId);
+    if (!container) return false;
+
+    const spinnerClass = large ? 'spinner spinner-large' : 'spinner';
+    const loadingHTML = `
+        <div class="loading-message">
+            <div class="${spinnerClass}"></div>
+            ${message}
+        </div>
+    `;
+
+    container.innerHTML = loadingHTML;
+    return true;
+}
+
+export function showOverlaySpinner(containerId, message = "Lädt...", large = false) {
+    const container = document.getElementById(containerId);
+    if (!container) return false;
+
+    // Make container position relative if it isn't already
+    const computedStyle = window.getComputedStyle(container);
+    if (computedStyle.position === 'static') {
+        container.style.position = 'relative';
+    }
+
+    const spinnerClass = large ? 'spinner spinner-large' : 'spinner';
+    const overlayHTML = `
+        <div class="loading-overlay">
+            <div class="loading-message">
+                <div class="${spinnerClass}"></div>
+                ${message}
+            </div>
+        </div>
+    `;
+
+    // Remove existing overlay if present
+    const existingOverlay = container.querySelector('.loading-overlay');
+    if (existingOverlay) {
+        existingOverlay.remove();
+    }
+
+    container.insertAdjacentHTML('beforeend', overlayHTML);
+    return true;
+}
+
+export function hideSpinner(containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) return false;
+
+    // Remove overlay spinner
+    const overlay = container.querySelector('.loading-overlay');
+    if (overlay) {
+        overlay.remove();
+        return true;
+    }
+
+    // Or clear container if it was a full replacement
+    container.innerHTML = '';
+    return true;
+}
+
+// ==================== PROGRESS TRACKING ====================
+
+export function showProgress(containerId, current, total, message = "Bearbeitung...") {
+    const container = document.getElementById(containerId);
+    if (!container) return false;
+
+    const percentage = Math.round((current / total) * 100);
+    const progressHTML = `
+        <div class="upload-progress">
+            <div class="upload-progress-text">
+                ${message} (${current}/${total})
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: ${percentage}%"></div>
+            </div>
+        </div>
+    `;
+
+    container.innerHTML = progressHTML;
+    return true;
+}
+
+export function updateProgress(containerId, current, total, message = "Bearbeitung...") {
+    const container = document.getElementById(containerId);
+    if (!container) return false;
+
+    const progressText = container.querySelector('.upload-progress-text');
+    const progressFill = container.querySelector('.progress-fill');
+
+    if (progressText && progressFill) {
+        const percentage = Math.round((current / total) * 100);
+        progressText.textContent = `${message} (${current}/${total})`;
+        progressFill.style.width = `${percentage}%`;
+        return true;
+    }
+
+    // Fallback to full recreate if elements not found
+    return showProgress(containerId, current, total, message);
 }
 
 // ==================== CONTAINER MANAGEMENT ====================

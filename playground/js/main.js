@@ -7,7 +7,7 @@ import { AuthorityFilesManager } from './authority-files.js';
 import { TEIFilesManager } from './tei-files.js';
 
 // NEW: Import modular UI components (replacing ui-helpers.js)
-import { updateAllUI, displayFileItem } from './ui/UICore.js';
+import { updateAllUI, displayFileItem, showProgress, updateProgress, hideSpinner } from './ui/UICore.js';
 import { AuthorityExplorers } from './ui/AuthorityExplorers.js';
 import { TEIExplorer } from './ui/TEIExplorer.js';
 import { XPathInterface } from './ui/XPathInterface.js';
@@ -147,12 +147,53 @@ class MHDBDBPlayground {
     async handleTEIFiles(files) {
         const fileArray = Array.from(files);
         const uploadedFilesContainer = document.getElementById('uploadedFiles');
+        const totalFiles = fileArray.length;
+        
+        if (totalFiles === 0) return;
+
+        // Show progress if uploading multiple files
+        if (totalFiles > 1) {
+            showProgress('uploadedFiles', 0, totalFiles, 'Lade TEI-Dateien');
+        }
+        
+        let processedCount = 0;
         
         for (const file of fileArray) {
             if (this.teiManager.isTEIFile(file)) {
-                await this.teiManager.processTEIFile(file);
-                displayFileItem(file, uploadedFilesContainer); // NEW: Use UICore function
+                try {
+                    // Update progress for multi-file uploads
+                    if (totalFiles > 1) {
+                        updateProgress('uploadedFiles', processedCount, totalFiles, 
+                            `Verarbeite: ${file.name}`);
+                    }
+                    
+                    await this.teiManager.processTEIFile(file);
+                    processedCount++;
+                    
+                    // For single file, show immediate feedback
+                    if (totalFiles === 1) {
+                        displayFileItem(file, uploadedFilesContainer);
+                    }
+                } catch (error) {
+                    console.error(`❌ Fehler beim Verarbeiten von ${file.name}:`, error);
+                    // Continue with other files even if one fails
+                }
             }
+        }
+        
+        // Complete progress and show all files for multi-file uploads
+        if (totalFiles > 1) {
+            updateProgress('uploadedFiles', totalFiles, totalFiles, 'Abgeschlossen');
+            
+            // After a brief delay, show the file list
+            setTimeout(() => {
+                hideSpinner('uploadedFiles');
+                
+                // Display all successfully processed files
+                this.teiData.files.forEach(file => {
+                    displayFileItem(file, uploadedFilesContainer);
+                });
+            }, 500);
         }
         
         this.updateUI();
