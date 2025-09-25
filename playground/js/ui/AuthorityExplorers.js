@@ -44,12 +44,12 @@ export class AuthorityExplorers {
       snippet: p.preferredName,
     }));
 
-    displayResults("👥 Alle Autoren aus Authority Files", results);
+    displayResults("Alle Autoren aus Authority Files", results);
   }
 
   showAuthorsWithSearch() {
     const searchHTML = createSearchInterface({
-      title: "👥 Autoren-Explorer",
+      title: "Autoren-Explorer",
       placeholder: "Autor eingeben (z.B. Hartmann, Wolfram, Walther)",
       searchInputId: "authorSearch",
       resultsId: "authorResults",
@@ -150,7 +150,7 @@ export class AuthorityExplorers {
 
       return `
                 <div style="font-weight: 500; margin-bottom: 8px; color: #667eea;">
-                    📚 ${authorWorks.length} Werke von "${authorName}"${
+                    ${authorWorks.length} Werke von "${authorName}"${
         authorWorks.length > 20 ? " (erste 20)" : ""
       }:
                 </div>
@@ -167,7 +167,7 @@ export class AuthorityExplorers {
 
   showWorksWithSearch() {
     const searchHTML = createSearchInterface({
-      title: "📚 Werke-Explorer",
+      title: "Werke-Explorer",
       placeholder:
         "Werk suchen (Titel, Autor, Sigle) - z.B. Iwein, Hartmann, PT",
       searchInputId: "workSearch",
@@ -218,8 +218,8 @@ export class AuthorityExplorers {
           ]),
           title: work.title,
           subtitle: formatMetadata([
-            genre ? `🎭 ${genre}` : null,
-            authorName ? `👤 ${authorName}` : null,
+            genre ? genre : null,
+            authorName ? `Autor: ${authorName}` : null,
           ]),
           buttons: [
             {
@@ -244,7 +244,7 @@ export class AuthorityExplorers {
 
       let detailsHTML = `
       <div style="font-weight: 500; margin-bottom: 10px; color: #667eea;">
-        📖 Details zu "${workTitle}"
+        Details zu "${workTitle}"
       </div>
     `;
 
@@ -257,7 +257,7 @@ export class AuthorityExplorers {
 
         detailsHTML += `
     <div style="margin-bottom: 8px;">
-      <strong>📝 Titel:</strong> ${mainTitle.text}
+      <strong>Titel:</strong> ${mainTitle.text}
       <span onclick="window.playground.ui.authorityExplorers.toggleAlternateTitles('${workId}')"
             style="color: #667eea; cursor: pointer; text-decoration: underline;">
         (+ ${alternateCount} weitere)
@@ -280,7 +280,7 @@ export class AuthorityExplorers {
       if (workDetails.sigles && workDetails.sigles.length > 0) {
         detailsHTML += `
         <div style="margin-bottom: 8px;">
-          <strong>🏷️ Sigle:</strong> ${workDetails.sigles.join(", ")}
+          <strong>Sigle:</strong> ${workDetails.sigles.join(", ")}
         </div>
       `;
       }
@@ -303,7 +303,7 @@ export class AuthorityExplorers {
 
         detailsHTML += `
         <div style="margin-bottom: 8px;">
-          <strong>🎭 Gattung:</strong><br>
+          <strong>Gattung:</strong><br>
           <div style="margin-top: 3px;">${genreHTML}</div>
         </div>
       `;
@@ -313,7 +313,7 @@ export class AuthorityExplorers {
       if (workDetails.author) {
         detailsHTML += `
         <div style="margin-bottom: 8px;">
-          <strong>👤 Autor:</strong> ${workDetails.author}
+          <strong>Autor:</strong> ${workDetails.author}
           <button onclick="window.playground.ui.authorityExplorers.searchAuthorFromWork('${escapeForJS(
             workDetails.author
           )}')"
@@ -328,12 +328,12 @@ export class AuthorityExplorers {
       if (workDetails.biblStructs && workDetails.biblStructs.length > 0) {
         detailsHTML += `
         <div style="margin-bottom: 8px;">
-          <strong>📚 Bibliographic Sources (${workDetails.biblStructs.length}):</strong><br>
+          <strong>Bibliographic Sources (${workDetails.biblStructs.length}):</strong><br>
       `;
 
         workDetails.biblStructs.forEach((biblStruct) => {
           const zoteroIcon = biblStruct.corresp
-            ? `<a href="${biblStruct.corresp}" target="_blank" style="color: #667eea; text-decoration: none;">🔗</a>`
+            ? `<a href="${biblStruct.corresp}" target="_blank" style="color: #667eea; text-decoration: none;">→</a>`
             : "";
 
           detailsHTML += `
@@ -350,7 +350,7 @@ export class AuthorityExplorers {
       if (workDetails.handschriftencensus) {
         detailsHTML += `
         <div style="margin-bottom: 8px;">
-          <strong>📜 Handschriftencensus:</strong>
+          <strong>Handschriftencensus:</strong>
           <a href="${workDetails.handschriftencensus}" target="_blank" style="color: #667eea;">
             ${workDetails.handschriftencensus}
           </a>
@@ -478,14 +478,14 @@ export class AuthorityExplorers {
       }));
 
     displayResults(
-      `🔤 Lemmata aus Authority Files (erste ${displayCount} von ${this.authorityData.lemmata.length})`,
+      `Lemmata aus Authority Files (erste ${displayCount} von ${this.authorityData.lemmata.length})`,
       results
     );
   }
 
   showLemmataWithSearch() {
     const searchHTML = createSearchInterface({
-      title: "🔤 Lemmata-Explorer",
+      title: "Lemmata-Explorer",
       placeholder: "Lemma eingeben (z.B. vriunt, minne, ere)",
       searchInputId: "lemmaSearch",
       resultsId: "lemmaResults",
@@ -595,7 +595,7 @@ export class AuthorityExplorers {
 
     container.innerHTML = `
         <div style="margin-bottom: 10px; padding: 8px; background: rgba(40, 167, 69, 0.1); border-radius: 4px;">
-            <strong>🔗 Komponente:</strong> ${componentText} → ${lemmaText}
+            <strong>Komponente:</strong> ${componentText} → ${lemmaText}
             <button onclick="window.playground.ui.authorityExplorers.showLemmaSenses('${originalLemmaId}')"
                     style="float: right; padding: 2px 6px; background: #6c757d; color: white; border: none; border-radius: 3px; font-size: 0.75rem; cursor: pointer;">
                 ← Zurück
@@ -637,7 +637,7 @@ export class AuthorityExplorers {
 
         resultHTML += `
                 <div style="font-weight: 500; margin-bottom: 8px; color: #28a745;">
-                    🔗 Morphologie: ${componentsHTML}
+                    Morphologie: ${componentsHTML}
                 </div>
             `;
       }
@@ -689,7 +689,7 @@ export class AuthorityExplorers {
 
     resultHTML += `
         <div style="font-weight: 500; margin-bottom: 8px; color: #667eea;">
-            🔍 ${senses.length} Bedeutungen:
+            ${senses.length} Bedeutungen:
         </div>
         ${sensesHTML}
     `;
@@ -713,12 +713,12 @@ export class AuthorityExplorers {
       snippet: formatMultiLanguage(c.termDE, c.termEN),
     }));
 
-    displayResults("💭 Alle Konzepte aus Authority Files", results);
+    displayResults("Alle Konzepte aus Authority Files", results);
   }
 
   showConceptsWithSearch() {
     const searchHTML = createSearchInterface({
-      title: "💭 Konzepte-Explorer",
+      title: "Konzepte-Explorer",
       placeholder: "Konzept suchen (z.B. Freundschaft, Liebe, Ehre)",
       searchInputId: "conceptSearch",
       resultsId: "conceptResults",
@@ -797,7 +797,7 @@ export class AuthorityExplorers {
 
       return `
             <div style="font-weight: 500; margin-bottom: 8px; color: #667eea;">
-                🔤 ${
+                ${
                   lemmasWithConcept.length
                 } Lemmata mit Konzept "${conceptName}"${
         lemmasWithConcept.length > 20 ? " (erste 20)" : ""
@@ -856,12 +856,12 @@ export class AuthorityExplorers {
       snippet: g.termDE || g.termEN,
     }));
 
-    displayResults("🎭 Alle Gattungen aus Authority Files", results);
+    displayResults("Alle Gattungen aus Authority Files", results);
   }
 
   showGenresWithSearch() {
     const searchHTML = createSearchInterface({
-      title: "🎭 Gattungen-Explorer",
+      title: "Gattungen-Explorer",
       placeholder: "Gattung suchen (z.B. Höfischer Roman, Epik, Lyrik)",
       searchInputId: "genreSearch",
       resultsId: "genreResults",
@@ -955,7 +955,7 @@ export class AuthorityExplorers {
 
       return `
             <div style="font-weight: 500; margin-bottom: 8px; color: #667eea;">
-                📚 ${worksInGenre.length} Werke in "${genreName}"${
+                ${worksInGenre.length} Werke in "${genreName}"${
         worksInGenre.length > 20 ? " (erste 20)" : ""
       }:
             </div>
@@ -991,7 +991,7 @@ export class AuthorityExplorers {
 
       return `
             <div style="font-weight: 500; margin-bottom: 8px; color: #667eea;">
-                👥 ${authorsInGenre.length} Autoren in "${genreName}"${
+                ${authorsInGenre.length} Autoren in "${genreName}"${
         authorsInGenre.length > 15 ? " (erste 15)" : ""
       }:
             </div>
@@ -1016,12 +1016,12 @@ export class AuthorityExplorers {
       snippet: n.termDE || n.termEN,
     }));
 
-    displayResults("📛 Alle Namen aus Authority Files", results);
+    displayResults("Alle Namen aus Authority Files", results);
   }
 
   showNamesWithSearch() {
     const searchHTML = createSearchInterface({
-      title: "📛 Namen-Explorer",
+      title: "Namen-Explorer",
       placeholder: "Name suchen (z.B. Universum, PhilosophInnen)",
       searchInputId: "nameSearch",
       resultsId: "nameResults",
@@ -1107,7 +1107,7 @@ export class AuthorityExplorers {
 
       return `
             <div style="font-weight: 500; margin-bottom: 8px; color: #667eea;">
-                💭 ${concepts.length} verwandte Konzepte zu "${nameText}"${
+                ${concepts.length} verwandte Konzepte zu "${nameText}"${
         concepts.length > 10 ? " (erste 10)" : ""
       }:
             </div>

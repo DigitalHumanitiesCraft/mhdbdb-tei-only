@@ -1,6 +1,6 @@
 /**
  * MHDBDB Playground - Search Helpers
- * Common search patterns and utilities (no over-engineering)
+ * Tailwind-first search interfaces and utilities
  */
 
 // ==================== SEARCH INTERFACE CREATION ====================
@@ -12,21 +12,31 @@ export function createSearchInterface(config) {
     searchInputId,
     resultsId,
     totalCount,
-    helpText = "Geben Sie einen Suchbegriff ein, um zu suchen...",
+    helpText = 'Geben Sie einen Suchbegriff ein, um zu starten.',
   } = config;
 
   return `
-        <div style="margin-bottom: 15px; font-weight: 600; color: #667eea;">
-            ${title} (${totalCount} verfügbar)
-        </div>
-        <div style="margin-bottom: 15px;">
-            <input type="text" id="${searchInputId}" placeholder="${placeholder}" 
-                   style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.9rem;">
-        </div>
-        <div id="${resultsId}" style="color: #666; font-style: italic; padding: 20px; text-align: center;">
-            ${helpText}
-        </div>
-    `;
+    <section class="space-y-4">
+      <header class="rounded-xl bg-slate-50/80 px-4 py-2 text-sm font-medium text-slate-600">
+        <span>${title}</span>
+        <span class="ml-2 text-xs uppercase tracking-wide text-slate-400">${totalCount} Einträge</span>
+      </header>
+      <div>
+        <input
+          type="text"
+          id="${searchInputId}"
+          placeholder="${placeholder}"
+          class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm text-slate-700 shadow-sm transition focus:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-200"
+        />
+      </div>
+      <div
+        id="${resultsId}"
+        class="rounded-2xl border border-dashed border-slate-200 bg-slate-50/70 p-6 text-center text-sm text-slate-500"
+      >
+        ${helpText}
+      </div>
+    </section>
+  `;
 }
 
 // ==================== SEARCH RESULT HANDLING ====================
@@ -40,23 +50,22 @@ export function handleSearchResults(searchTerm, matches, config) {
 
   if (matches.length === 0) {
     return `
-            <div style="color: #999; padding: 20px; text-align: center;">
-                ${emptyMessage.replace("{term}", searchTermForDisplay)}
-            </div>
-        `;
+      <div class="rounded-2xl border border-dashed border-slate-200 bg-slate-50/70 p-6 text-center text-sm text-slate-500">
+        ${emptyMessage.replace('{term}', searchTermForDisplay)}
+      </div>
+    `;
   }
 
   const displayMatches = matches.slice(0, maxResults);
-  const countInfo =
-    matches.length > maxResults ? ` (erste ${maxResults} angezeigt)` : "";
+  const countInfo = matches.length > maxResults ? ` (erste ${maxResults} angezeigt)` : '';
 
   return {
     matches: displayMatches,
     headerHTML: `
-            <div style="margin-bottom: 15px; color: #667eea; font-weight: 500;">
-                ${matches.length} Treffer für "${searchTermForDisplay}"${countInfo}
-            </div>
-        `,
+      <div class="rounded-xl bg-slate-50/80 px-4 py-2 text-sm font-medium text-slate-600">
+        ${matches.length} Treffer für "${searchTermForDisplay}"${countInfo}
+      </div>
+    `,
   };
 }
 
@@ -65,124 +74,103 @@ export function handleSearchResults(searchTerm, matches, config) {
 export function setupSearchInput(inputId, searchHandler) {
   const searchInput = document.getElementById(inputId);
   if (searchInput) {
-    searchInput.addEventListener("input", (e) => {
-      searchHandler(e.target.value);
+    searchInput.addEventListener('input', (event) => {
+      searchHandler(event.target.value);
     });
     return searchInput;
   }
-  console.warn(`⚠️ Search input not found: ${inputId}`);
+  console.warn(`Search input not found: ${inputId}`);
   return null;
 }
 
 // ==================== RESULT ITEM GENERATION ====================
 
 export function generateResultItem(config) {
-  const {
-    meta,
-    title,
-    subtitle = "",
-    buttons = [],
-    detailsId = "",
-    highlight = false,
-  } = config;
+  const { meta, title, subtitle = '', buttons = [], detailsId = '', highlight = false } = config;
 
   const buttonHTML = buttons
     .map(
       (btn) => `
-        <button onclick="${btn.action}"
-                style="margin-left: 10px; padding: 4px 8px; background: ${
-                  btn.color || "#667eea"
-                }; color: white; border: none; border-radius: 4px; font-size: 0.8rem; cursor: pointer;">
-            ${btn.text}
+        <button
+          type="button"
+          onclick="${btn.action}"
+          class="rounded-lg bg-brand-600 px-3 py-1 text-xs font-semibold text-white shadow-sm transition hover:bg-brand-700"
+        >
+          ${btn.text}
         </button>
-    `
+      `
     )
-    .join("");
+    .join('');
 
-  const subtitleHTML = subtitle
-    ? `
-        <div style="font-size: 0.85rem; color: #666; margin-top: 5px;">
-            ${subtitle}
-        </div>
-    `
-    : "";
+  const subtitleHTML = subtitle ? `<p class="mt-2 text-xs text-slate-500">${subtitle}</p>` : '';
 
   const detailsHTML = detailsId
-    ? `
-        <div id="${detailsId}" style="display: none; margin-top: 10px; padding: 10px; background: rgba(102, 126, 234, 0.05); border-radius: 6px;"></div>
-    `
-    : "";
+    ? `<div id="${detailsId}" class="mt-3 hidden rounded-xl border border-slate-200 bg-slate-50/70 p-3 text-sm text-slate-600"></div>`
+    : '';
 
-  const titleClass = highlight ? 'class="highlight"' : "";
+  const titleClass = highlight ? 'highlight' : '';
 
   return `
-        <div class="result-item">
-            <div class="result-meta">${meta}</div>
-            <div class="result-snippet">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <span ${titleClass}><strong>${title}</strong></span>
-                    ${buttonHTML}
-                </div>
-                ${subtitleHTML}
-            </div>
-            ${detailsHTML}
+    <article class="result-item rounded-2xl border border-slate-200 bg-white/95 p-4 shadow-sm">
+      <header class="result-meta text-xs font-semibold uppercase tracking-wide text-brand-600">${meta}</header>
+      <div class="result-snippet mt-2 space-y-2">
+        <div class="flex items-start justify-between gap-3">
+          <span class="${titleClass} text-sm font-semibold text-slate-900">${title}</span>
+          <div class="flex flex-wrap gap-2">${buttonHTML}</div>
         </div>
-    `;
+        ${subtitleHTML}
+      </div>
+      ${detailsHTML}
+    </article>
+  `;
 }
 
 // ==================== TOGGLE DETAILS FUNCTIONALITY ====================
 
-export function toggleDetails(
-  detailsId,
-  contentGenerator,
-  emptyMessage = "Details nicht verfügbar"
-) {
+export function toggleDetails(detailsId, contentGenerator, emptyMessage = 'Details nicht verfügbar') {
   const container = document.getElementById(detailsId);
   if (!container) return false;
 
-  // Toggle visibility
-  if (container.style.display !== "none") {
-    container.style.display = "none";
+  const isHidden = container.classList.contains('hidden') || container.style.display === 'none' || container.style.display === '';
+
+  if (!isHidden) {
+    container.classList.add('hidden');
+    container.style.display = 'none';
     return true;
   }
 
   try {
     const content = contentGenerator();
-    if (content === null || content === "") {
+    if (content === null || content === '') {
       container.innerHTML = `
-                <div style="color: #999; font-style: italic;">
-                    ${emptyMessage}
-                </div>
-            `;
+        <div class="text-xs italic text-slate-500">${emptyMessage}</div>
+      `;
     } else {
       container.innerHTML = content;
     }
-    container.style.display = "block";
+    container.classList.remove('hidden');
+    container.style.display = 'block';
     return true;
   } catch (error) {
     container.innerHTML = `
-            <div style="color: #dc3545; font-style: italic;">
-                Fehler beim Laden: ${error.message}
-            </div>
-        `;
-    container.style.display = "block";
+      <div class="text-xs text-red-600">Fehler beim Laden: ${error.message}</div>
+    `;
+    container.classList.remove('hidden');
+    container.style.display = 'block';
     return false;
   }
 }
 
 // ==================== EMPTY STATE HANDLING ====================
 
-export function showEmptySearchState(
-  containerId,
-  message = "Geben Sie einen Suchbegriff ein, um zu suchen..."
-) {
+export function showEmptySearchState(containerId, message = 'Geben Sie einen Suchbegriff ein, um zu starten.') {
   const container = document.getElementById(containerId);
   if (container) {
     container.innerHTML = `
-            <div style="color: #666; font-style: italic; padding: 20px; text-align: center;">
-                ${message}
-            </div>
-        `;
+      <div class="rounded-2xl border border-dashed border-slate-200 bg-slate-50/70 p-6 text-center text-sm text-slate-500">
+        ${message}
+      </div>
+    `;
     return true;
   }
   return false;
@@ -196,7 +184,7 @@ export function renderToContainer(containerId, html) {
     container.innerHTML = html;
     return true;
   }
-  console.warn(`⚠️ Container not found: ${containerId}`);
+  console.warn(`Container not found: ${containerId}`);
   return false;
 }
 
@@ -206,30 +194,26 @@ export function escapeForJS(str) {
   return str.replace(/'/g, "\\'").replace(/"/g, '\\"');
 }
 
-export function formatMetadata(items, separator = " • ") {
+export function formatMetadata(items, separator = ' • ') {
   return items.filter(Boolean).join(separator);
 }
 
 export function formatMultiLanguage(termDE, termEN) {
   if (termDE && termEN) return `${termDE} / ${termEN}`;
-  return termDE || termEN || "";
+  return termDE || termEN || '';
 }
 
 // ==================== SEARCH PATTERNS ====================
 
 export const SearchPatterns = {
-  // Simple text search
   textContains: (items, searchTerm, fieldGetter) => {
     const term = searchTerm.toLowerCase().trim();
-    return items.filter((item) =>
-      fieldGetter(item).toLowerCase().includes(term)
-    );
+    return items.filter((item) => fieldGetter(item).toLowerCase().includes(term));
   },
 
-  /// Multi-field search
   multiField: (items, searchTerm, fieldGetters) => {
     const term = searchTerm.toLowerCase().trim();
-    const matchedItems = new Set(); // Use Set to prevent duplicates
+    const matchedItems = new Set();
 
     items.forEach((item) => {
       const hasMatch = fieldGetters.some(
@@ -243,7 +227,6 @@ export const SearchPatterns = {
     return Array.from(matchedItems);
   },
 
-  // Exact match search
   exactMatch: (items, searchTerm, fieldGetter) => {
     const term = searchTerm.toLowerCase().trim();
     return items.filter((item) => fieldGetter(item).toLowerCase() === term);

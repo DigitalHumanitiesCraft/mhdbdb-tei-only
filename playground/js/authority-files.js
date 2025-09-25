@@ -30,7 +30,7 @@ export class AuthorityFilesManager {
 
     const loadPromises = this.authorityFiles.map((filename) =>
       this.loadAuthorityFile(filename).catch((error) => {
-        console.warn(`⚠️ Failed to load ${filename}:`, error.message);
+        console.warn(`Failed to load ${filename}:`, error.message);
         return null; // Continue with other files
       })
     );
@@ -54,11 +54,11 @@ export class AuthorityFilesManager {
 
   //  Index building methods
   buildIndexes() {
-    console.log("🔄 Building performance indexes...");
+    console.log("Building performance indexes...");
     this.buildGenreWorkIndexes();
     this.buildGenreHierarchyIndex();
     this.buildConceptLemmaIndex();
-    console.log("✅ Indexes built successfully");
+    console.log("Indexes built successfully");
   }
 
   buildGenreWorkIndexes() {
@@ -223,7 +223,7 @@ export class AuthorityFilesManager {
     } else if (filename.includes("names") || this.hasNameCategories(xmlDoc)) {
       this.extractNames(xmlDoc);
     } else {
-      console.warn(`⚠️ Unknown authority file structure: ${filename}`);
+      console.warn(`Unknown authority file structure: ${filename}`);
     }
   }
 
@@ -271,7 +271,7 @@ export class AuthorityFilesManager {
       }
     });
 
-    console.log(`👥 Persons extracted: ${extracted}`);
+    console.log(`Persons extracted: ${extracted}`);
   }
 
   extractWorks(xmlDoc) {
@@ -310,7 +310,7 @@ export class AuthorityFilesManager {
       }
     });
 
-    console.log(`📚 Works extracted: ${extracted}`);
+    console.log(`Works extracted: ${extracted}`);
   }
 
   extractLemmata(xmlDoc) {
@@ -336,25 +336,25 @@ export class AuthorityFilesManager {
       }
     });
 
-    console.log(`🔤 Lemmata extracted: ${extracted}`);
+    console.log(`Lemmata extracted: ${extracted}`);
   }
 
   extractConcepts(xmlDoc) {
     const categories = this.extractTaxonomyCategories(xmlDoc, "concept_");
     this.authorityData.concepts = categories;
-    console.log(`💭 Concepts extracted: ${categories.length}`);
+    console.log(`Concepts extracted: ${categories.length}`);
   }
 
   extractGenres(xmlDoc) {
     const categories = this.extractTaxonomyCategories(xmlDoc, "genre_");
     this.authorityData.genres = categories;
-    console.log(`🎭 Genres extracted: ${categories.length}`);
+    console.log(`Genres extracted: ${categories.length}`);
   }
 
   extractNames(xmlDoc) {
     const categories = this.extractTaxonomyCategories(xmlDoc, "name_");
     this.authorityData.names = categories;
-    console.log(`📛 Names extracted: ${categories.length}`);
+    console.log(`Names extracted: ${categories.length}`);
   }
 
   // Unified extraction for taxonomy-based authority files (concepts, genres, names)

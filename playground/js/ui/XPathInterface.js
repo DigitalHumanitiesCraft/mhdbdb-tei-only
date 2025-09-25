@@ -101,7 +101,7 @@ export class XPathInterface {
         
         if (results.length === 0) {
             displayResults(
-                `⚡ XPath auf ${targetDescription}: ${xpath}`,
+                `XPath auf ${targetDescription}: ${xpath}`,
                 [{ meta: 'Keine Ergebnisse', snippet: 'Der XPath-Ausdruck ergab keine Treffer.' }]
             );
             return;
@@ -110,7 +110,7 @@ export class XPathInterface {
         const formattedResults = results.map(result => {
             if (result.error) {
                 return {
-                    meta: `❌ ${result.filename}`,
+                    meta: `Fehler: ${result.filename}`,
                     snippet: result.error
                 };
             }
@@ -122,7 +122,7 @@ export class XPathInterface {
         });
 
         displayResults(
-            `⚡ XPath auf ${targetDescription}: ${xpath} (${results.length} Treffer)`,
+            `XPath auf ${targetDescription}: ${xpath} (${results.length} Treffer)`,
             formattedResults
         );
     }
@@ -207,15 +207,15 @@ export class XPathInterface {
         const templates = this.getCommonXPathTemplates();
         let helpHTML = `
             <div style="margin-bottom: 15px; font-weight: 600; color: #667eea;">
-                ⚡ XPath Beispiele und Hilfe
+                XPath Beispiele und Hilfe
             </div>
         `;
 
         Object.entries(templates).forEach(([category, xpaths]) => {
             const categoryTitle = {
-                authority: '📄 Authority Files',
-                tei: '📜 TEI Texte', 
-                advanced: '🔧 Erweiterte Queries'
+                authority: 'Authority Files',
+                tei: 'TEI Texte', 
+                advanced: 'Erweiterte Queries'
             }[category];
 
             helpHTML += `
@@ -286,7 +286,7 @@ export class XPathInterface {
     // ==================== ERROR HANDLING ====================
 
     showError(message) {
-        displayResults('❌ XPath Fehler', [{
+        displayResults('XPath Fehler', [{
             meta: 'Fehler',
             snippet: message
         }]);

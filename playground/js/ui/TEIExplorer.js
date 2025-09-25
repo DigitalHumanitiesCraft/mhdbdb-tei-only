@@ -21,7 +21,7 @@ export class TEIExplorer {
         }));
 
         displayResults(
-            `📝 Wörter aus TEI Texten (erste ${displayCount} von ${this.teiData.words.length})`,
+            `Wörter aus TEI Texten (erste ${displayCount} von ${this.teiData.words.length})`,
             results
         );
     }
@@ -35,7 +35,7 @@ export class TEIExplorer {
         }));
 
         displayResults(
-            `📏 Textzeilen aus TEI Texten (${this.teiData.lines.length} Zeilen)`,
+            `Textzeilen aus TEI Texten (${this.teiData.lines.length} Zeilen)`,
             results
         );
     }
@@ -57,7 +57,7 @@ export class TEIExplorer {
         }));
 
         displayResults(
-            `🔍 Lemma-Suche: "${searchTerm}" (${matches.length} Treffer)`,
+            `Lemma-Suche: "${searchTerm}" (${matches.length} Treffer)`,
             results
         );
     }
@@ -73,7 +73,7 @@ export class TEIExplorer {
         const lemmaIds = this.resolveLemmaIds(searchTerms);
         
         if (lemmaIds.length === 0) {
-            displayResults('❌ Fehler', [{ 
+            displayResults('Fehler', [{ 
                 meta: 'Keine gültigen Lemmata gefunden', 
                 snippet: `Eingabe: "${searchInput}"` 
             }]);
@@ -99,7 +99,7 @@ export class TEIExplorer {
         const teiManager = window.playground?.teiManager;
         if (!teiManager) {
             hideSpinner('resultsContainer');
-            displayResults('❌ Fehler', [{ 
+            displayResults('Fehler', [{ 
                 meta: 'TEI Manager nicht verfügbar', 
                 snippet: 'Bitte laden Sie TEI-Dateien' 
             }]);
@@ -114,7 +114,7 @@ export class TEIExplorer {
                 this.displayMultiLemmaResults(results, searchTerms, contextType);
             } catch (error) {
                 hideSpinner('resultsContainer');
-                displayResults('❌ Fehler', [{ 
+                displayResults('Fehler', [{ 
                     meta: 'Suchfehler', 
                     snippet: error.message 
                 }]);
@@ -132,7 +132,7 @@ export class TEIExplorer {
         const teiManager = window.playground?.teiManager;
         if (!teiManager) {
             hideSpinner('resultsContainer');
-            displayResults('❌ Fehler', [{ 
+            displayResults('Fehler', [{ 
                 meta: 'TEI Manager nicht verfügbar', 
                 snippet: 'Bitte laden Sie TEI-Dateien' 
             }]);
@@ -147,7 +147,7 @@ export class TEIExplorer {
                 this.displayCooccurrenceResults(results, searchTerms, maxDistance);
             } catch (error) {
                 hideSpinner('resultsContainer');
-                displayResults('❌ Fehler', [{ 
+                displayResults('Fehler', [{ 
                     meta: 'Nähe-Analyse Fehler', 
                     snippet: error.message 
                 }]);
@@ -230,7 +230,7 @@ export class TEIExplorer {
     displayMultiLemmaResults(results, searchTerms, contextType) {
         if (results.length === 0) {
             displayResults(
-                `🔍 Multi-Lemma-Suche: ${searchTerms.join(' + ')} (0 Treffer)`,
+                `Multi-Lemma-Suche: ${searchTerms.join(' + ')} (0 Treffer)`,
                 [{ 
                     meta: `Keine Treffer in ${contextType}`, 
                     snippet: 'Versuchen Sie andere Suchbegriffe oder einen anderen Kontext' 
@@ -243,7 +243,7 @@ export class TEIExplorer {
         const summaryData = this.createMultiLemmaSummary(results, searchTerms, contextType);
 
         displaySummaryResults(
-            `🔍 Multi-Lemma-Suche: ${searchTerms.join(' + ')}`,
+            `Multi-Lemma-Suche: ${searchTerms.join(' + ')}`,
             summaryData
         );
     }
@@ -265,7 +265,7 @@ export class TEIExplorer {
             const details = this.createDetailItems(fileResults, contextType);
 
             return {
-                title: `📄 ${filename}`,
+                title: `${filename}`,
                 count: count,
                 preview: preview,
                 details: details
@@ -354,7 +354,7 @@ export class TEIExplorer {
         const lemmaIds = this.resolveLemmaIds(searchTerms);
         
         if (lemmaIds.length < 2) {
-            displayResults('❌ Fehler', [{ 
+            displayResults('Fehler', [{ 
                 meta: 'Mindestens 2 gültige Lemmata benötigt', 
                 snippet: `Eingabe: "${searchInput}"` 
             }]);
@@ -370,7 +370,7 @@ export class TEIExplorer {
         const teiManager = window.playground?.teiManager;
         if (!teiManager) {
             hideSpinner('resultsContainer');
-            displayResults('❌ Fehler', [{ 
+            displayResults('Fehler', [{ 
                 meta: 'TEI Manager nicht verfügbar', 
                 snippet: 'Bitte laden Sie TEI-Dateien' 
             }]);
@@ -385,7 +385,7 @@ export class TEIExplorer {
                 this.displayCooccurrenceResults(results, searchTerms, maxDistance);
             } catch (error) {
                 hideSpinner('resultsContainer');
-                displayResults('❌ Fehler', [{ 
+                displayResults('Fehler', [{ 
                     meta: 'Nähe-Analyse Fehler', 
                     snippet: error.message 
                 }]);
@@ -396,7 +396,7 @@ export class TEIExplorer {
     displayCooccurrenceResults(results, searchTerms, maxDistance) {
         if (results.length === 0) {
             displayResults(
-                `🔗 Kookkurrenz-Analyse: ${searchTerms.join(' + ')} (0 Treffer)`,
+                `Kookkurrenz-Analyse: ${searchTerms.join(' + ')} (0 Treffer)`,
                 [{ 
                     meta: `Keine Treffer im Abstand von ${maxDistance} Wörtern`, 
                     snippet: 'Versuchen Sie einen größeren Abstand oder andere Begriffe' 
@@ -418,7 +418,7 @@ export class TEIExplorer {
             }));
 
             return {
-                title: `📄 ${result.filename}`,
+                title: `${result.filename}`,
                 count: count,
                 preview: preview,
                 details: details
@@ -426,7 +426,7 @@ export class TEIExplorer {
         }).filter(summary => summary.count > 0); // Only show files with results
 
         displaySummaryResults(
-            `🔗 Kookkurrenz-Analyse: ${searchTerms.join(' + ')} (max. ${maxDistance} Wörter Abstand)`,
+            `Kookkurrenz-Analyse: ${searchTerms.join(' + ')} (max. ${maxDistance} Wörter Abstand)`,
             summaryData
         );
     }
@@ -440,7 +440,7 @@ export class TEIExplorer {
         }));
 
         displayResults(
-            `🏷️ Alle Annotationen aus TEI Texten (${this.teiData.annotations.length} Annotationen)`,
+            `Alle Annotationen aus TEI Texten (${this.teiData.annotations.length} Annotationen)`,
             results
         );
     }
@@ -454,7 +454,7 @@ export class TEIExplorer {
             snippet: word
         }));
 
-        displayResults('📊 Häufigste Wörter (Top 50)', results);
+        displayResults('Häufigste Wörter (Top 50)', results);
     }
 
     showLemmaFrequency() {
@@ -469,7 +469,7 @@ export class TEIExplorer {
             };
         });
 
-        displayResults('📊 Häufigste Lemmata (Top 30)', results);
+        displayResults('Häufigste Lemmata (Top 30)', results);
     }
 
     showPOSDistribution() {
@@ -481,7 +481,7 @@ export class TEIExplorer {
                 snippet: pos
             }));
 
-        displayResults('📊 Wortarten-Verteilung', results);
+        displayResults('Wortarten-Verteilung', results);
     }
 
     // ==================== CONTEXT ANALYSIS ====================
@@ -498,7 +498,7 @@ export class TEIExplorer {
             };
         });
 
-        displayResults(`🔍 Kontext für Wort (±${contextSize})`, results);
+        displayResults(`Kontext für Wort (±${contextSize})`, results);
     }
 
     showLineInContext(lineNumber, filename, contextSize = 2) {
@@ -513,7 +513,7 @@ export class TEIExplorer {
             };
         });
 
-        displayResults(`🔍 Kontext für Zeile ${lineNumber} (±${contextSize})`, results);
+        displayResults(`Kontext für Zeile ${lineNumber} (±${contextSize})`, results);
     }
 
     // ==================== CROSS-REFERENCE ANALYSIS ====================
@@ -541,7 +541,7 @@ export class TEIExplorer {
         }));
 
         displayResults(
-            `🔗 Wörter mit aufgelösten Lemma-Referenzen (erste 100 von ${resultsWithLemma.length})`,
+            `Wörter mit aufgelösten Lemma-Referenzen (erste 100 von ${resultsWithLemma.length})`,
             results
         );
     }
@@ -572,7 +572,7 @@ export class TEIExplorer {
         }));
 
         displayResults(
-            `🔗 Annotationen mit aufgelösten Konzept-Referenzen (erste 50 von ${resultsWithConcepts.length})`,
+            `Annotationen mit aufgelösten Konzept-Referenzen (erste 50 von ${resultsWithConcepts.length})`,
             results
         );
     }

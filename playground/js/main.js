@@ -7,7 +7,7 @@ import { AuthorityFilesManager } from './authority-files.js';
 import { TEIFilesManager } from './tei-files.js';
 
 // NEW: Import modular UI components (replacing ui-helpers.js)
-import { updateAllUI, displayFileItem, showProgress, updateProgress, hideSpinner } from './ui/UICore.js';
+import { updateAllUI, displayFileItem, showProgress, updateProgress, hideSpinner, setupCollapsibleFileList, setupFileFilter } from './ui/UICore.js';
 import { AuthorityExplorers } from './ui/AuthorityExplorers.js';
 import { TEIExplorer } from './ui/TEIExplorer.js';
 import { XPathInterface } from './ui/XPathInterface.js';
@@ -61,6 +61,10 @@ class MHDBDBPlayground {
         this.setupAuthorityQueries();
         this.setupTEIQueries();
         this.setupXPathInterface();
+
+        // Setup collapsible file list functionality
+        setupCollapsibleFileList();
+        setupFileFilter();
     }
 
     setupFileUpload() {
@@ -68,7 +72,7 @@ class MHDBDBPlayground {
         const fileInput = document.getElementById('fileInput');
 
         if (!uploadZone || !fileInput) {
-            console.error('❌ Upload elements not found');
+            console.error('Upload elements not found');
             return;
         }
 
@@ -106,7 +110,7 @@ class MHDBDBPlayground {
             if (button) {
                 button.addEventListener('click', handler);
             } else {
-                console.warn(`⚠️ Missing authority button: ${id}`);
+                console.warn(`Missing authority button: ${id}`);
             }
         });
     }
@@ -127,7 +131,7 @@ class MHDBDBPlayground {
             if (button) {
                 button.addEventListener('click', handler);
             } else {
-                console.warn(`⚠️ Missing TEI button: ${id}`);
+                console.warn(`Missing TEI button: ${id}`);
             }
         });
     }
@@ -138,7 +142,7 @@ class MHDBDBPlayground {
         if (xpathExecute) {
             xpathExecute.addEventListener('click', () => this.ui.xpathInterface.executeXPath());
         } else {
-            console.warn('⚠️ XPath button not found');
+            console.warn('XPath button not found');
         }
     }
 
@@ -153,7 +157,7 @@ class MHDBDBPlayground {
 
         // Show progress if uploading multiple files
         if (totalFiles > 1) {
-            showProgress('uploadedFiles', 0, totalFiles, 'Lade TEI-Dateien');
+            showProgress('uploadedFilesSection', 0, totalFiles, 'Lade TEI-Dateien');
         }
         
         let processedCount = 0;
@@ -163,7 +167,7 @@ class MHDBDBPlayground {
                 try {
                     // Update progress for multi-file uploads
                     if (totalFiles > 1) {
-                        updateProgress('uploadedFiles', processedCount, totalFiles, 
+                        updateProgress('uploadedFilesSection', processedCount, totalFiles,
                             `Verarbeite: ${file.name}`);
                     }
                     
@@ -175,7 +179,7 @@ class MHDBDBPlayground {
                         displayFileItem(file, uploadedFilesContainer);
                     }
                 } catch (error) {
-                    console.error(`❌ Fehler beim Verarbeiten von ${file.name}:`, error);
+                    console.error(`Fehler beim Verarbeiten von ${file.name}:`, error);
                     // Continue with other files even if one fails
                 }
             }
@@ -183,11 +187,11 @@ class MHDBDBPlayground {
         
         // Complete progress and show all files for multi-file uploads
         if (totalFiles > 1) {
-            updateProgress('uploadedFiles', totalFiles, totalFiles, 'Abgeschlossen');
-            
+            updateProgress('uploadedFilesSection', totalFiles, totalFiles, 'Abgeschlossen');
+
             // After a brief delay, show the file list
             setTimeout(() => {
-                hideSpinner('uploadedFiles');
+                hideSpinner('uploadedFilesSection');
                 
                 // Display all successfully processed files
                 this.teiData.files.forEach(file => {
@@ -225,6 +229,6 @@ document.addEventListener('DOMContentLoaded', () => {
         window.playground.ui.xpathInterface = window.playground.ui.xpathInterface;
     }
 
-    console.log('🎉 MHDBDB Playground migrated to modular UI successfully!');
+    console.log('MHDBDB Playground migrated to modular UI successfully!');
     console.log('Available UI modules:', Object.keys(window.playground.ui));
 });

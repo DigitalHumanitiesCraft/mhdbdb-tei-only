@@ -37,10 +37,10 @@ export class TEIFilesManager {
             });
             
             this.analyzeTEIStructure(xmlDoc, file.name);
-            console.log(`✅ TEI File processed: ${file.name}`);
+            console.log(`TEI File processed: ${file.name}`);
             
         } catch (error) {
-            console.error(`❌ Error processing ${file.name}:`, error);
+            console.error(`Error processing ${file.name}:`, error);
             throw error;
         }
     }
@@ -87,7 +87,7 @@ export class TEIFilesManager {
             });
         });
 
-        console.log(`📜 TEI Analysis complete: ${words.length} words, ${lines.length} lines, ${annotatedElements.length} annotations`);
+        console.log(`TEI Analysis complete: ${words.length} words, ${lines.length} lines, ${annotatedElements.length} annotations`);
     }
 
     // ==================== SEARCH AND FILTERING ====================
