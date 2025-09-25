@@ -192,10 +192,13 @@ class MHDBDBPlayground {
             // After a brief delay, show the file list
             setTimeout(() => {
                 hideSpinner('uploadedFilesSection');
-                
+
+                // Get fresh reference to container after HTML reset
+                const freshUploadedFilesContainer = document.getElementById('uploadedFiles');
+
                 // Display all successfully processed files
                 this.teiData.files.forEach(file => {
-                    displayFileItem(file, uploadedFilesContainer);
+                    displayFileItem(file, freshUploadedFilesContainer);
                 });
             }, 500);
         }
