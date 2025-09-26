@@ -50,8 +50,36 @@ class MHDBDBPlayground {
 
     async init() {
         this.initializeEventListeners();
+
+        // Load authority files
         await this.authorityManager.loadAuthorityFiles();
+
+        // Load TEI files from session storage
+        await this.loadSessionTEIFiles();
+
         this.updateUI();
+    }
+
+    async loadSessionTEIFiles() {
+        try {
+            const loadedCount = await this.teiManager.loadFromSession();
+
+            if (loadedCount > 0) {
+                console.log(`📁 Restored ${loadedCount} TEI files from session`);
+
+                // Display loaded files in UI
+                const uploadedFilesContainer = document.getElementById('uploadedFiles');
+                if (uploadedFilesContainer) {
+                    this.teiData.files.forEach(file => {
+                        if (file && file.isSessionFile) {
+                            displayFileItem(file, uploadedFilesContainer);
+                        }
+                    });
+                }
+            }
+        } catch (error) {
+            console.error('❌ Error loading session TEI files:', error);
+        }
     }
 
     // ==================== EVENT LISTENERS (UPDATED) ====================
@@ -202,8 +230,47 @@ class MHDBDBPlayground {
                 });
             }, 500);
         }
-        
+
         this.updateUI();
+    }
+
+    // ==================== SESSION FILE MANAGEMENT ====================
+
+    removeTEIFile(filename) {
+        if (this.teiManager.removeTEIFile(filename)) {
+            // Update UI
+            const fileItem = document.querySelector(`[data-filename="${filename.toLowerCase()}"]`);
+            if (fileItem) {
+                fileItem.remove();
+            }
+
+            // Update file count and overview
+            updateFileCount();
+            this.updateUI();
+        }
+    }
+
+    clearAllSessionFiles() {
+        const removedCount = this.teiManager.clearAllSessionFiles();
+
+        if (removedCount > 0) {
+            // Clear UI
+            const uploadedFiles = document.getElementById('uploadedFiles');
+            if (uploadedFiles) {
+                const sessionFileItems = uploadedFiles.querySelectorAll('[data-session-file="true"]');
+                sessionFileItems.forEach(item => item.remove());
+            }
+
+            // Update file count and overview
+            updateFileCount();
+            this.updateUI();
+
+            alert(`Cleared ${removedCount} session files`);
+        }
+    }
+
+    getStorageInfo() {
+        return this.teiManager.getStorageInfo();
     }
 
     // ==================== UI UPDATES (SIMPLIFIED) ====================

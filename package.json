@@ -1,0 +1,27 @@
+{
+  "name": "mhdbdb-tei-playground",
+  "version": "1.0.0",
+  "description": "Test suite for MHDBDB TEI Playground",
+  "type": "module",
+  "scripts": {
+    "test": "cd testing && playwright test",
+    "test:ui": "cd testing && playwright test --ui",
+    "test:debug": "cd testing && playwright test --debug",
+    "test:headed": "cd testing && playwright test --headed",
+    "serve": "http-server . -p 8080 -c-1",
+    "report": "cd testing && playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.40.0",
+    "http-server": "^14.1.1"
+  },
+  "keywords": [
+    "tei",
+    "medieval",
+    "digital-humanities",
+    "testing",
+    "playwright"
+  ],
+  "author": "MHDBDB Project",
+  "license": "CC-BY-NC-SA-3.0"
+}

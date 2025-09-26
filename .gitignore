@@ -1,0 +1,64 @@
+# Node.js dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+
+# Testing and development
+testing/
+test-results/
+playwright-report/
+*.spec.js
+*.test.js
+test.html
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# Logs
+*.log
+logs/
+
+# Runtime and temporary files
+.tmp/
+.temp/
+*.pid
+*.seed
+*.pid.lock
+
+# Build outputs
+dist/
+build/
+out/
+
+# Environment files
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Claude Code specific
+.claude/
+
+# GitHub specific (keep workflows but ignore local artifacts)
+.github/workflows/
+
+# Backup files
+*.bak
+*.backup

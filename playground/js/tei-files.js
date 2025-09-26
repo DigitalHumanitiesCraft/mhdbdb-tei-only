@@ -1,11 +1,14 @@
 /**
  * MHDBDB Playground - TEI Files Manager
- * Handles TEI file upload, parsing, and structural analysis
+ * Handles TEI file upload, parsing, and structural analysis with SessionStorage
  */
+
+import { TEIStorageManager } from './storage-manager.js';
 
 export class TEIFilesManager {
     constructor(teiData) {
         this.teiData = teiData;
+        this.storageManager = new TEIStorageManager();
     }
 
     // ==================== FILE VALIDATION ====================
@@ -16,29 +19,96 @@ export class TEIFilesManager {
                file.name.endsWith('.tei');
     }
 
-    // ==================== FILE PROCESSING ====================
+    // ==================== SESSION STORAGE INTEGRATION ====================
 
-    async processTEIFile(file) {
+    async loadFromSession() {
         try {
-            const content = await this.readFileAsText(file);
+            const sessionFiles = this.storageManager.listSessionFiles();
+            let loadedCount = 0;
+
+            for (const sessionFile of sessionFiles) {
+                const content = this.storageManager.loadFromSession(sessionFile.filename);
+                if (content) {
+                    await this.processTEIFromContent(sessionFile.filename, content, true);
+                    loadedCount++;
+                }
+            }
+
+            if (loadedCount > 0) {
+                console.log(`📁 Loaded ${loadedCount} TEI files from session storage`);
+            }
+
+            return loadedCount;
+        } catch (error) {
+            console.error('❌ Error loading TEI files from session:', error);
+            return 0;
+        }
+    }
+
+    async processTEIFromContent(filename, content, isSessionFile = false, fileObj = null) {
+        try {
             const parser = new DOMParser();
             const xmlDoc = parser.parseFromString(content, 'text/xml');
-            
+
             const parseError = xmlDoc.querySelector('parsererror');
             if (parseError) {
                 throw new Error('XML Parsing Error: ' + parseError.textContent);
             }
-            
-            this.teiData.files.push(file);
+
+            // Create a file-like object if not provided
+            if (!fileObj) {
+                fileObj = {
+                    name: filename,
+                    size: content.length,
+                    type: 'text/xml',
+                    isSessionFile: isSessionFile
+                };
+            } else {
+                // Add session file flag to existing file object
+                fileObj.isSessionFile = isSessionFile;
+            }
+
+            this.teiData.files.push(fileObj);
             this.teiData.parsedXML.push({
-                filename: file.name,
+                filename: filename,
                 doc: xmlDoc,
-                content: content
+                content: content,
+                isSessionFile: isSessionFile
             });
-            
-            this.analyzeTEIStructure(xmlDoc, file.name);
-            console.log(`TEI File processed: ${file.name}`);
-            
+
+            this.analyzeTEIStructure(xmlDoc, filename);
+            console.log(`TEI File processed: ${filename} ${isSessionFile ? '(from session)' : ''}`);
+
+        } catch (error) {
+            console.error(`Error processing ${filename}:`, error);
+            throw error;
+        }
+    }
+
+    // ==================== FILE PROCESSING ====================
+
+    async processTEIFile(file) {
+        try {
+            // Check if file is already in session to avoid duplicates
+            if (this.storageManager.isInSession(file.name)) {
+                console.log(`⚠️ File ${file.name} already exists in session storage`);
+                return 'duplicate';
+            }
+
+            const content = await this.readFileAsText(file);
+
+            // Try to save to session storage
+            const savedToSession = this.storageManager.saveToSession(file.name, content);
+
+            // Process the file
+            await this.processTEIFromContent(file.name, content, false, file);
+
+            // Add session storage info
+            const lastIndex = this.teiData.files.length - 1;
+            if (this.teiData.files[lastIndex]) {
+                this.teiData.files[lastIndex].savedToSession = savedToSession;
+            }
+
         } catch (error) {
             console.error(`Error processing ${file.name}:`, error);
             throw error;
@@ -524,5 +594,64 @@ export class TEIFilesManager {
             };
         }
         return null;
+    }
+
+    // ==================== SESSION MANAGEMENT ====================
+
+    removeTEIFile(filename) {
+        try {
+            // Remove from session storage
+            const removedFromSession = this.storageManager.removeFromSession(filename);
+
+            // Remove from in-memory data
+            this.teiData.files = this.teiData.files.filter(file => file && file.name !== filename);
+            this.teiData.parsedXML = this.teiData.parsedXML.filter(xml => xml.filename !== filename);
+
+            // Remove related analysis data
+            this.teiData.words = this.teiData.words.filter(word => word.filename !== filename);
+            this.teiData.lines = this.teiData.lines.filter(line => line.filename !== filename);
+            this.teiData.annotations = this.teiData.annotations.filter(annotation => annotation.filename !== filename);
+
+            console.log(`🗑️ TEI file removed: ${filename}`);
+            return removedFromSession;
+        } catch (error) {
+            console.error(`❌ Error removing ${filename}:`, error);
+            return false;
+        }
+    }
+
+    clearAllSessionFiles() {
+        try {
+            const sessionFiles = this.storageManager.listSessionFiles();
+
+            // Remove all session files from storage
+            const removedCount = this.storageManager.clearAllSession();
+
+            // Remove session files from in-memory data
+            this.teiData.files = this.teiData.files.filter(file => !file || !file.isSessionFile);
+            this.teiData.parsedXML = this.teiData.parsedXML.filter(xml => !xml.isSessionFile);
+
+            // Remove related analysis data for session files
+            sessionFiles.forEach(sessionFile => {
+                const filename = sessionFile.filename;
+                this.teiData.words = this.teiData.words.filter(word => word.filename !== filename);
+                this.teiData.lines = this.teiData.lines.filter(line => line.filename !== filename);
+                this.teiData.annotations = this.teiData.annotations.filter(annotation => annotation.filename !== filename);
+            });
+
+            console.log(`🧹 Cleared all session TEI files: ${removedCount} files removed`);
+            return removedCount;
+        } catch (error) {
+            console.error('❌ Error clearing all session files:', error);
+            return 0;
+        }
+    }
+
+    getStorageInfo() {
+        return {
+            sessionFiles: this.storageManager.listSessionFiles(),
+            quota: this.storageManager.getStorageQuotaInfo(),
+            stats: this.storageManager.getStorageStats()
+        };
     }
 }

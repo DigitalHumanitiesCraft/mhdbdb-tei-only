@@ -21,12 +21,17 @@ This is the MHDBDB TEI Repository - a collection of TEI-encoded Middle High Germ
 ### Web Interface
 - **playground/**: Web-based exploration tool for TEI data analysis
   - `index.html` - Main interface
+  - `test.html` - Test suite interface
   - `js/` - JavaScript modules for data processing
-    - `main.js` - Application entry point
-    - `authority-files.js` - Authority data handling
-    - `tei-files.js` - TEI text processing
-    - `ui/` - UI component modules
+    - `main.js` - Application entry point (`MHDBDBPlayground` class)
+    - `authority-files.js` - Authority data handling (`AuthorityFilesManager`)
+    - `tei-files.js` - TEI text processing (`TEIFilesManager`)
+    - `storage-manager.js` - Data persistence
+    - `test-utils.js` - Testing utilities
+    - `ui/` - Modular UI components (replaced monolithic ui-helpers.js)
   - `css/style.css` - Application styling
+- **tests/**: Playwright test suite
+  - `playwright.spec.js` - End-to-end testing
 
 ## Data Architecture
 
@@ -43,17 +48,32 @@ All files use consistent cross-referencing:
 <w lemma="vriunt" ana="#concept_12345">vriunt</w>
 ```
 
-## Development Tasks
+## Development Commands
 
-### Starting the Web Interface
+### Testing
 ```bash
-# Option 1: Simple HTTP server (Python)
+# Run all Playwright tests
+npm test
+
+# Run tests with UI (interactive)
+npm run test:ui
+
+# Run tests in debug mode
+npm run test:debug
+
+# View test report
+npm run report
+```
+
+### Development Server
+```bash
+# Serve the project locally (preferred method)
+npm run serve
+
+# Alternative: Simple HTTP server (Python)
 python -m http.server 8000
 
-# Option 2: Node.js server (if available)
-npx http-server
-
-# Then open: http://localhost:8000/playground/
+# Then open: http://localhost:8080/playground/
 ```
 
 ### Common XPath Queries
@@ -77,6 +97,32 @@ npx http-server
 
 **License:** [CC BY-NC-SA 3.0 AT](https://creativecommons.org/licenses/by-nc-sa/3.0/at/)  
 **Contact:** mhdbdb@plus.ac.at | https://mhdbdb.plus.ac.at
+
+## Application Architecture
+
+The playground uses a modular class-based architecture:
+
+### Core Classes
+- **`MHDBDBPlayground`** (main.js) - Main application controller, orchestrates data managers and UI components
+- **`AuthorityFilesManager`** - Handles loading and parsing of authority XML files
+- **`TEIFilesManager`** - Manages TEI document processing and text analysis
+- **Modular UI Components** (ui/ directory) - Replaced monolithic ui-helpers.js:
+  - `UICore.js` - Core UI utilities and progress tracking
+  - `AuthorityExplorers.js` - Authority file exploration interfaces
+  - `TEIExplorer.js` - TEI document analysis interface
+  - `XPathInterface.js` - XPath query execution
+
+### Data Flow
+1. Authority files loaded first (persons, works, lexicon, concepts, genres, names)
+2. TEI files processed with cross-references to authority data
+3. UI components provide interactive exploration of linked data
+4. All data cached in `sessionStorage` for performance
+
+### Testing Architecture
+- **Playwright** end-to-end tests with local server setup
+- **Test isolation** - each test clears sessionStorage
+- **Headless Chrome** with disabled web security for local XML file access
+- Tests run against `test.html` interface with automated progress tracking
 
 ## Project Context
 
