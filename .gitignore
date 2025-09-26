@@ -57,7 +57,7 @@ out/
 .claude/
 
 # GitHub specific (keep workflows but ignore local artifacts)
-.github/workflows/
+# Note: workflows should be tracked, not ignored
 
 # Backup files
 *.bak
