@@ -12,7 +12,7 @@ export class AuthorityStorageManager {
         this.initPromise = null;
 
         // Cache expiration settings
-        this.defaultExpirationHours = 24; // Authority files expire after 24 hours
+        this.defaultExpirationHours = 720; // Authority files expire after 30 days (24 * 30)
         this.maxRetries = 3;
 
         // Network fetch settings

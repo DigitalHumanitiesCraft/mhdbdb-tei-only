@@ -26,7 +26,9 @@ This is the MHDBDB TEI Repository - a collection of TEI-encoded Middle High Germ
     - `main.js` - Application entry point (`MHDBDBPlayground` class)
     - `authority-files.js` - Authority data handling (`AuthorityFilesManager`)
     - `tei-files.js` - TEI text processing (`TEIFilesManager`)
-    - `storage-manager.js` - Data persistence
+    - `storage-manager.js` - TEI file caching (`TEIStorageManager`)
+    - `indexed-db-manager.js` - Core IndexedDB operations
+    - `authority-storage-manager.js` - Authority file caching with 30-day expiration
     - `test-utils.js` - Testing utilities
     - `ui/` - Modular UI components (replaced monolithic ui-helpers.js)
   - `css/style.css` - Application styling
@@ -106,6 +108,9 @@ The playground uses a modular class-based architecture:
 - **`MHDBDBPlayground`** (main.js) - Main application controller, orchestrates data managers and UI components
 - **`AuthorityFilesManager`** - Handles loading and parsing of authority XML files
 - **`TEIFilesManager`** - Manages TEI document processing and text analysis
+- **`TEIStorageManager`** - TEI file caching with IndexedDB persistence
+- **`IndexedDBManager`** - Core IndexedDB operations for large file storage
+- **`AuthorityStorageManager`** - Authority file caching with 30-day expiration policy
 - **Modular UI Components** (ui/ directory) - Replaced monolithic ui-helpers.js:
   - `UICore.js` - Core UI utilities and progress tracking
   - `AuthorityExplorers.js` - Authority file exploration interfaces
@@ -113,16 +118,18 @@ The playground uses a modular class-based architecture:
   - `XPathInterface.js` - XPath query execution
 
 ### Data Flow
-1. Authority files loaded first (persons, works, lexicon, concepts, genres, names)
+1. Authority files loaded first (persons, works, lexicon, concepts, genres, names) with 30-day IndexedDB caching
 2. TEI files processed with cross-references to authority data
-3. UI components provide interactive exploration of linked data
-4. All data cached in `sessionStorage` for performance
+3. Large TEI files (>5MB) automatically cached in IndexedDB for persistence across sessions
+4. UI components provide interactive exploration of linked data
+5. All data cached in IndexedDB for performance (sessionStorage deprecated due to size limitations)
 
 ### Testing Architecture
 - **Playwright** end-to-end tests with local server setup
-- **Test isolation** - each test clears sessionStorage
+- **Test isolation** - each test clears IndexedDB cache for clean state
 - **Headless Chrome** with disabled web security for local XML file access
 - Tests run against `test.html` interface with automated progress tracking
+- IndexedDB operations tested for large file handling and storage quota management
 
 ## Project Context
 
