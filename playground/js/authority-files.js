@@ -1,7 +1,9 @@
 /**
  * MHDBDB Playground - Authority Files Manager
- * Handles loading, parsing, and extraction of authority files
+ * Handles loading, parsing, and extraction of authority files with IndexedDB caching
  */
+
+import { AuthorityStorageManager } from './authority-storage-manager.js';
 
 export class AuthorityFilesManager {
   constructor(authorityData) {
@@ -21,6 +23,14 @@ export class AuthorityFilesManager {
       genreHierarchy: new Map(),
       conceptToLemmas: new Map(),
     };
+    // Storage manager for caching
+    this.storageManager = new AuthorityStorageManager();
+    this.loadStats = {
+      totalFiles: 0,
+      cachedFiles: 0,
+      networkFiles: 0,
+      failedFiles: 0
+    };
   }
 
   // ==================== AUTHORITY FILES LOADING ====================
@@ -28,23 +38,33 @@ export class AuthorityFilesManager {
   async loadAuthorityFiles() {
     this.updateStatus("🔄", "Lade Authority Files...");
 
-    const loadPromises = this.authorityFiles.map((filename) =>
-      this.loadAuthorityFile(filename).catch((error) => {
-        console.warn(`Failed to load ${filename}:`, error.message);
-        return null; // Continue with other files
-      })
-    );
-
     try {
-      await Promise.all(loadPromises);
-      const successCount = this.authorityData.files.length;
+      // Use batch loading from storage manager
+      const results = await this.storageManager.loadAllAuthorityFiles(this.authorityFiles);
+
+      // Update load statistics
+      this.loadStats.totalFiles = results.successful.length + results.failed.length;
+      this.loadStats.cachedFiles = results.successful.filter(r => r.cached).length;
+      this.loadStats.networkFiles = results.successful.filter(r => !r.cached).length;
+      this.loadStats.failedFiles = results.failed.length;
+
+      // Process successful loads
+      for (const result of results.successful) {
+        await this.processAuthorityFileContent(result.filename, result.content, result.cached, result.source);
+      }
 
       // Build performance indexes
       this.buildIndexes();
 
+      const successCount = results.successful.length;
       console.log(
-        `✅ Authority Files loaded: ${successCount}/${this.authorityFiles.length}`
+        `✅ Authority Files loaded: ${successCount}/${this.authorityFiles.length} (${this.loadStats.cachedFiles} cached, ${this.loadStats.networkFiles} network)`
       );
+
+      if (results.failed.length > 0) {
+        console.warn(`⚠️ Failed to load ${results.failed.length} authority files:`, results.failed.map(f => f.filename));
+      }
+
       return successCount;
     } catch (error) {
       console.error("❌ Error loading authority files:", error);
@@ -179,30 +199,33 @@ export class AuthorityFilesManager {
     });
   }
 
-  async loadAuthorityFile(filename) {
-    const response = await fetch(`../authority-files/${filename}`);
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}: ${filename}`);
+  async processAuthorityFileContent(filename, content, cached = false, source = 'Unknown') {
+    try {
+      const parser = new DOMParser();
+      const xmlDoc = parser.parseFromString(content, "text/xml");
+
+      const parseError = xmlDoc.querySelector("parsererror");
+      if (parseError) {
+        throw new Error(`XML Parse Error: ${parseError.textContent}`);
+      }
+
+      this.authorityData.files.push(filename);
+      this.authorityData.parsedXML.push({
+        filename: filename,
+        doc: xmlDoc,
+        content: content,
+        cached: cached,
+        source: source
+      });
+
+      this.analyzeAuthorityFile(xmlDoc, filename);
+
+      const statusIcon = cached ? "📁" : "🌐";
+      this.updateStatus(statusIcon, `${filename} geladen (${source})`);
+    } catch (error) {
+      console.error(`❌ Error processing ${filename}:`, error);
+      throw error;
     }
-
-    const content = await response.text();
-    const parser = new DOMParser();
-    const xmlDoc = parser.parseFromString(content, "text/xml");
-
-    const parseError = xmlDoc.querySelector("parsererror");
-    if (parseError) {
-      throw new Error(`XML Parse Error: ${parseError.textContent}`);
-    }
-
-    this.authorityData.files.push(filename);
-    this.authorityData.parsedXML.push({
-      filename: filename,
-      doc: xmlDoc,
-      content: content,
-    });
-
-    this.analyzeAuthorityFile(xmlDoc, filename);
-    return xmlDoc;
   }
 
   analyzeAuthorityFile(xmlDoc, filename) {
@@ -514,5 +537,84 @@ export class AuthorityFilesManager {
 
     if (statusIndicator) statusIndicator.textContent = indicator;
     if (statusText) statusText.textContent = text;
+
+    // Enhanced logging with cache information
+    console.log(`${indicator} ${text}`);
+  }
+
+  // ==================== CACHE MANAGEMENT ====================
+
+  async getCacheStatus() {
+    return await this.storageManager.getCacheStatus();
+  }
+
+  async clearCache() {
+    const cleared = await this.storageManager.clearCache();
+    if (cleared) {
+      console.log('🧹 Authority files cache cleared');
+    }
+    return cleared;
+  }
+
+  async clearExpiredCache() {
+    const removedCount = await this.storageManager.clearExpired();
+    if (removedCount > 0) {
+      console.log(`🧹 Removed ${removedCount} expired authority files from cache`);
+    }
+    return removedCount;
+  }
+
+  getLoadStatistics() {
+    return {
+      ...this.loadStats,
+      cacheHitRate: this.loadStats.totalFiles > 0 ?
+        Math.round((this.loadStats.cachedFiles / this.loadStats.totalFiles) * 100) : 0
+    };
+  }
+
+  // Enhanced search with caching awareness
+  async refreshAuthorityFile(filename) {
+    try {
+      // Remove from cache and reload
+      await this.storageManager.removeCachedFile(filename);
+
+      // Remove from current data
+      this.authorityData.files = this.authorityData.files.filter(f => f !== filename);
+      this.authorityData.parsedXML = this.authorityData.parsedXML.filter(x => x.filename !== filename);
+
+      // Reload from network
+      const result = await this.storageManager.loadAuthorityFile(filename);
+      if (result.success) {
+        await this.processAuthorityFileContent(filename, result.content, false, 'Network (refreshed)');
+        // Rebuild indexes if needed
+        this.buildIndexes();
+        console.log(`🔄 Authority file refreshed: ${filename}`);
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error(`❌ Failed to refresh ${filename}:`, error);
+      return false;
+    }
+  }
+
+  // ==================== DEBUG INFORMATION ====================
+
+  async getStorageDebugInfo() {
+    const storageStats = await this.storageManager.getStorageStats();
+    const loadStats = this.getLoadStatistics();
+
+    return {
+      loadStats,
+      storageStats,
+      authorityFiles: this.authorityFiles,
+      loadedFiles: this.authorityData.files,
+      indexSizes: {
+        genreToWorks: this.indexes.genreToWorks.size,
+        workToGenres: this.indexes.workToGenres.size,
+        genreHierarchy: this.indexes.genreHierarchy.size,
+        conceptToLemmas: this.indexes.conceptToLemmas.size
+      }
+    };
   }
 }

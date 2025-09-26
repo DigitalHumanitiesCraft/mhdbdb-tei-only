@@ -5,13 +5,10 @@ yarn-debug.log*
 yarn-error.log*
 package-lock.json
 
-# Testing and development
-testing/
+# Testing and development (keep testing code, ignore results)
 test-results/
+testing/test-results/
 playwright-report/
-*.spec.js
-*.test.js
-test.html
 
 # IDE and editor files
 .vscode/

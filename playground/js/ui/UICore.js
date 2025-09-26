@@ -131,37 +131,37 @@ export function displayFileItem(file, container) {
   fileItem.className = 'file-item shadow-sm ring-1 ring-slate-200/70 bg-white/90 backdrop-blur-sm relative';
   fileItem.setAttribute('data-filename', file.name.toLowerCase());
 
-  // Mark session files for filtering
-  if (file.isSessionFile) {
-    fileItem.setAttribute('data-session-file', 'true');
+  // Mark cached files for filtering
+  if (file.isCachedFile) {
+    fileItem.setAttribute('data-cached-file', 'true');
   }
 
   // Choose icon and styling based on file source
-  const isSessionFile = file.isSessionFile;
-  const savedToSession = file.savedToSession;
+  const isCachedFile = file.isCachedFile;
+  const savedToCache = file.savedToCache;
 
   let statusIcon, statusText, statusColor;
 
-  if (isSessionFile) {
-    // File loaded from session storage
+  if (isCachedFile) {
+    // File loaded from storage (IndexedDB cache)
     statusIcon = `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 1.79 4 4 4h8c2.21 0 4-1.79 4-4V7M4 7c0-2.21 1.79-4 4-4h8c2.21 0 4 1.79 4 4M4 7l8 4 8-4"></path>
     </svg>`;
-    statusText = 'Session file';
+    statusText = 'Cached file';
     statusColor = 'text-green-600';
-  } else if (savedToSession) {
-    // New upload that was saved to session
+  } else if (savedToCache) {
+    // New upload that was successfully saved
     statusIcon = `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
     </svg>`;
-    statusText = 'New upload (saved)';
+    statusText = 'New upload (cached)';
     statusColor = 'text-blue-600';
   } else {
-    // New upload not saved (storage full, etc.)
+    // New upload not cached (will be lost on refresh)
     statusIcon = `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5l-6.928-12c-.77-.833-1.732-.833-2.5 0L4.732 18.5c-.77.833.192 2.5 1.732 2.5z"></path>
     </svg>`;
-    statusText = 'Temporary file';
+    statusText = 'Not cached (lost on refresh)';
     statusColor = 'text-amber-600';
   }
 
@@ -175,7 +175,7 @@ export function displayFileItem(file, container) {
         <div class="file-info">${(file.size / 1024).toFixed(1)} KB • ${statusText}</div>
       </div>
       <div class="flex items-center gap-1 flex-shrink-0">
-        ${isSessionFile || savedToSession ? `
+        ${isCachedFile || savedToCache ? `
           <button
             onclick="window.playground.removeTEIFile('${file.name}')"
             class="p-1 text-red-500 hover:text-red-700 hover:bg-red-50 rounded transition-colors"
@@ -249,14 +249,14 @@ export function updateFileCount() {
   const uploadedFiles = document.getElementById('uploadedFiles');
   const fileCount = document.getElementById('fileCount');
   const filesSummary = document.getElementById('filesSummary');
-  const sessionControls = document.getElementById('sessionControls');
-  const sessionInfo = document.getElementById('sessionInfo');
+  const cacheControls = document.getElementById('cacheControls');
+  const cacheInfo = document.getElementById('cacheInfo');
 
   if (!uploadedFiles || !fileCount || !filesSummary) return;
 
   const totalFiles = uploadedFiles.querySelectorAll('.file-item').length;
-  const sessionFiles = uploadedFiles.querySelectorAll('[data-session-file="true"]').length;
-  const newFiles = totalFiles - sessionFiles;
+  const cachedFiles = uploadedFiles.querySelectorAll('[data-cached-file="true"]').length;
+  const newFiles = totalFiles - cachedFiles;
 
   fileCount.textContent = totalFiles;
 
@@ -267,22 +267,22 @@ export function updateFileCount() {
     filesSummary.style.display = 'none';
   }
 
-  // Show/hide session controls based on session files
-  if (sessionControls && sessionInfo) {
-    if (sessionFiles > 0) {
-      sessionControls.style.display = 'flex';
+  // Show/hide cache controls based on cached files
+  if (cacheControls && cacheInfo) {
+    if (cachedFiles > 0) {
+      cacheControls.style.display = 'flex';
 
-      // Update session info text
-      const sessionText = sessionFiles === 1
-        ? `1 session file`
-        : `${sessionFiles} session files`;
+      // Update cache info text
+      const cacheText = cachedFiles === 1
+        ? `1 cached file`
+        : `${cachedFiles} cached files`;
       const newText = newFiles > 0
         ? ` • ${newFiles} new this session`
         : '';
 
-      sessionInfo.textContent = `${sessionText}${newText} • Persists during research`;
+      cacheInfo.textContent = `${cacheText}${newText} • Persists across sessions`;
     } else {
-      sessionControls.style.display = 'none';
+      cacheControls.style.display = 'none';
     }
   }
 }

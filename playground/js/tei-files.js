@@ -1,6 +1,6 @@
 /**
  * MHDBDB Playground - TEI Files Manager
- * Handles TEI file upload, parsing, and structural analysis with SessionStorage
+ * Handles TEI file upload, parsing, and structural analysis with IndexedDB
  */
 
 import { TEIStorageManager } from './storage-manager.js';
@@ -21,31 +21,31 @@ export class TEIFilesManager {
 
     // ==================== SESSION STORAGE INTEGRATION ====================
 
-    async loadFromSession() {
+    async loadFromCache() {
         try {
-            const sessionFiles = this.storageManager.listSessionFiles();
+            const cachedFiles = await this.storageManager.listCachedFiles();
             let loadedCount = 0;
 
-            for (const sessionFile of sessionFiles) {
-                const content = this.storageManager.loadFromSession(sessionFile.filename);
+            for (const cachedFile of cachedFiles) {
+                const content = await this.storageManager.loadFromCache(cachedFile.filename);
                 if (content) {
-                    await this.processTEIFromContent(sessionFile.filename, content, true);
+                    await this.processTEIFromContent(cachedFile.filename, content, true);
                     loadedCount++;
                 }
             }
 
             if (loadedCount > 0) {
-                console.log(`📁 Loaded ${loadedCount} TEI files from session storage`);
+                console.log(`📁 Loaded ${loadedCount} TEI files from IndexedDB cache`);
             }
 
             return loadedCount;
         } catch (error) {
-            console.error('❌ Error loading TEI files from session:', error);
+            console.error('❌ Error loading TEI files from storage:', error);
             return 0;
         }
     }
 
-    async processTEIFromContent(filename, content, isSessionFile = false, fileObj = null) {
+    async processTEIFromContent(filename, content, isCachedFile = false, fileObj = null) {
         try {
             const parser = new DOMParser();
             const xmlDoc = parser.parseFromString(content, 'text/xml');
@@ -61,11 +61,11 @@ export class TEIFilesManager {
                     name: filename,
                     size: content.length,
                     type: 'text/xml',
-                    isSessionFile: isSessionFile
+                    isCachedFile: isCachedFile
                 };
             } else {
                 // Add session file flag to existing file object
-                fileObj.isSessionFile = isSessionFile;
+                fileObj.isCachedFile = isCachedFile;
             }
 
             this.teiData.files.push(fileObj);
@@ -73,11 +73,11 @@ export class TEIFilesManager {
                 filename: filename,
                 doc: xmlDoc,
                 content: content,
-                isSessionFile: isSessionFile
+                isCachedFile: isCachedFile
             });
 
             this.analyzeTEIStructure(xmlDoc, filename);
-            console.log(`TEI File processed: ${filename} ${isSessionFile ? '(from session)' : ''}`);
+            console.log(`TEI File processed: ${filename} ${isCachedFile ? '(from cache)' : ''}`);
 
         } catch (error) {
             console.error(`Error processing ${filename}:`, error);
@@ -89,24 +89,24 @@ export class TEIFilesManager {
 
     async processTEIFile(file) {
         try {
-            // Check if file is already in session to avoid duplicates
-            if (this.storageManager.isInSession(file.name)) {
-                console.log(`⚠️ File ${file.name} already exists in session storage`);
+            // Check if file is already in storage to avoid duplicates
+            if (await this.storageManager.isInCache(file.name)) {
+                console.log(`⚠️ File ${file.name} already exists in storage`);
                 return 'duplicate';
             }
 
             const content = await this.readFileAsText(file);
 
-            // Try to save to session storage
-            const savedToSession = this.storageManager.saveToSession(file.name, content);
+            // Try to save to storage
+            const savedToCache = await this.storageManager.saveToCache(file.name, content);
 
             // Process the file
             await this.processTEIFromContent(file.name, content, false, file);
 
-            // Add session storage info
+            // Add storage info
             const lastIndex = this.teiData.files.length - 1;
             if (this.teiData.files[lastIndex]) {
-                this.teiData.files[lastIndex].savedToSession = savedToSession;
+                this.teiData.files[lastIndex].savedToCache = savedToCache;
             }
 
         } catch (error) {
@@ -598,10 +598,10 @@ export class TEIFilesManager {
 
     // ==================== SESSION MANAGEMENT ====================
 
-    removeTEIFile(filename) {
+    async removeTEIFile(filename) {
         try {
-            // Remove from session storage
-            const removedFromSession = this.storageManager.removeFromSession(filename);
+            // Remove from storage
+            const removedFromStorage = await this.storageManager.removeFromCache(filename);
 
             // Remove from in-memory data
             this.teiData.files = this.teiData.files.filter(file => file && file.name !== filename);
@@ -613,45 +613,45 @@ export class TEIFilesManager {
             this.teiData.annotations = this.teiData.annotations.filter(annotation => annotation.filename !== filename);
 
             console.log(`🗑️ TEI file removed: ${filename}`);
-            return removedFromSession;
+            return removedFromStorage;
         } catch (error) {
             console.error(`❌ Error removing ${filename}:`, error);
             return false;
         }
     }
 
-    clearAllSessionFiles() {
+    async clearAllCachedFiles() {
         try {
-            const sessionFiles = this.storageManager.listSessionFiles();
+            const cachedFiles = await this.storageManager.listCachedFiles();
 
-            // Remove all session files from storage
-            const removedCount = this.storageManager.clearAllSession();
+            // Remove all files from storage
+            const removedCount = await this.storageManager.clearAllCache();
 
             // Remove session files from in-memory data
-            this.teiData.files = this.teiData.files.filter(file => !file || !file.isSessionFile);
-            this.teiData.parsedXML = this.teiData.parsedXML.filter(xml => !xml.isSessionFile);
+            this.teiData.files = this.teiData.files.filter(file => !file || !file.isCachedFile);
+            this.teiData.parsedXML = this.teiData.parsedXML.filter(xml => !xml.isCachedFile);
 
             // Remove related analysis data for session files
-            sessionFiles.forEach(sessionFile => {
-                const filename = sessionFile.filename;
+            cachedFiles.forEach(cachedFile => {
+                const filename = cachedFile.filename;
                 this.teiData.words = this.teiData.words.filter(word => word.filename !== filename);
                 this.teiData.lines = this.teiData.lines.filter(line => line.filename !== filename);
                 this.teiData.annotations = this.teiData.annotations.filter(annotation => annotation.filename !== filename);
             });
 
-            console.log(`🧹 Cleared all session TEI files: ${removedCount} files removed`);
+            console.log(`🧹 Cleared all cached TEI files: ${removedCount} files removed`);
             return removedCount;
         } catch (error) {
-            console.error('❌ Error clearing all session files:', error);
+            console.error('❌ Error clearing all cached files:', error);
             return 0;
         }
     }
 
-    getStorageInfo() {
+    async getStorageInfo() {
         return {
-            sessionFiles: this.storageManager.listSessionFiles(),
-            quota: this.storageManager.getStorageQuotaInfo(),
-            stats: this.storageManager.getStorageStats()
+            cachedFiles: await this.storageManager.listCachedFiles(),
+            quota: await this.storageManager.getStorageQuotaInfo(),
+            stats: await this.storageManager.getStorageStats()
         };
     }
 }

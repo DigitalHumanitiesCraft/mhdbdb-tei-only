@@ -7,7 +7,7 @@ import { AuthorityFilesManager } from './authority-files.js';
 import { TEIFilesManager } from './tei-files.js';
 
 // NEW: Import modular UI components (replacing ui-helpers.js)
-import { updateAllUI, displayFileItem, showProgress, updateProgress, hideSpinner, setupCollapsibleFileList, setupFileFilter } from './ui/UICore.js';
+import { updateAllUI, displayFileItem, showProgress, updateProgress, hideSpinner, setupCollapsibleFileList, setupFileFilter, updateFileCount } from './ui/UICore.js';
 import { AuthorityExplorers } from './ui/AuthorityExplorers.js';
 import { TEIExplorer } from './ui/TEIExplorer.js';
 import { XPathInterface } from './ui/XPathInterface.js';
@@ -54,31 +54,31 @@ class MHDBDBPlayground {
         // Load authority files
         await this.authorityManager.loadAuthorityFiles();
 
-        // Load TEI files from session storage
-        await this.loadSessionTEIFiles();
+        // Load TEI files from IndexedDB cache
+        await this.loadCachedTEIFiles();
 
         this.updateUI();
     }
 
-    async loadSessionTEIFiles() {
+    async loadCachedTEIFiles() {
         try {
-            const loadedCount = await this.teiManager.loadFromSession();
+            const loadedCount = await this.teiManager.loadFromCache();
 
             if (loadedCount > 0) {
-                console.log(`📁 Restored ${loadedCount} TEI files from session`);
+                console.log(`📁 Restored ${loadedCount} TEI files from IndexedDB`);
 
                 // Display loaded files in UI
                 const uploadedFilesContainer = document.getElementById('uploadedFiles');
                 if (uploadedFilesContainer) {
                     this.teiData.files.forEach(file => {
-                        if (file && file.isSessionFile) {
+                        if (file && file.isCachedFile) {
                             displayFileItem(file, uploadedFilesContainer);
                         }
                     });
                 }
             }
         } catch (error) {
-            console.error('❌ Error loading session TEI files:', error);
+            console.error('❌ Error loading cached TEI files:', error);
         }
     }
 
@@ -236,8 +236,8 @@ class MHDBDBPlayground {
 
     // ==================== SESSION FILE MANAGEMENT ====================
 
-    removeTEIFile(filename) {
-        if (this.teiManager.removeTEIFile(filename)) {
+    async removeTEIFile(filename) {
+        if (await this.teiManager.removeTEIFile(filename)) {
             // Update UI
             const fileItem = document.querySelector(`[data-filename="${filename.toLowerCase()}"]`);
             if (fileItem) {
@@ -250,27 +250,46 @@ class MHDBDBPlayground {
         }
     }
 
-    clearAllSessionFiles() {
-        const removedCount = this.teiManager.clearAllSessionFiles();
+    async clearAllCachedFiles() {
+        try {
+            // Clear TEI files
+            const removedCount = await this.teiManager.clearAllCachedFiles();
 
-        if (removedCount > 0) {
-            // Clear UI
-            const uploadedFiles = document.getElementById('uploadedFiles');
-            if (uploadedFiles) {
-                const sessionFileItems = uploadedFiles.querySelectorAll('[data-session-file="true"]');
-                sessionFileItems.forEach(item => item.remove());
+            // Clear authority file cache
+            await this.authorityManager.clearCache();
+
+            if (removedCount > 0) {
+                // Clear UI
+                const uploadedFiles = document.getElementById('uploadedFiles');
+                if (uploadedFiles) {
+                    const cachedFileItems = uploadedFiles.querySelectorAll('[data-cached-file="true"]');
+                    cachedFileItems.forEach(item => item.remove());
+                }
+
+                // Update file count and overview
+                updateFileCount();
+                this.updateUI();
+
+                // Show success message and offer full page reload
+                const reload = confirm(`Cleared ${removedCount} cached TEI files and authority cache.\n\nReload the page for a complete reset?`);
+                if (reload) {
+                    window.location.reload();
+                }
+            } else {
+                // Even if no TEI files, clear authority cache
+                const reload = confirm(`Cache cleared.\n\nReload the page for a complete reset?`);
+                if (reload) {
+                    window.location.reload();
+                }
             }
-
-            // Update file count and overview
-            updateFileCount();
-            this.updateUI();
-
-            alert(`Cleared ${removedCount} session files`);
+        } catch (error) {
+            console.error('❌ Error clearing cache:', error);
+            alert('Error clearing cache. Please reload the page manually.');
         }
     }
 
-    getStorageInfo() {
-        return this.teiManager.getStorageInfo();
+    async getStorageInfo() {
+        return await this.teiManager.getStorageInfo();
     }
 
     // ==================== UI UPDATES (SIMPLIFIED) ====================
