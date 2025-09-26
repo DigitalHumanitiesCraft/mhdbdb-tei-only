@@ -1,2 +1,20 @@
-# Auto detect text files and perform LF normalization
-* text=auto
+# TEI/XML files should preserve original encoding and line endings
+*.xml -text
+*.tei.xml -text
+
+# Text files with proper normalization
+*.md text=auto
+*.js text=auto
+*.css text=auto
+*.html text=auto
+*.json text=auto
+*.yml text=auto
+*.yaml text=auto
+
+# Binary files
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
