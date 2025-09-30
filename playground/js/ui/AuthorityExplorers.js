@@ -77,7 +77,7 @@ export class AuthorityExplorers {
       return;
     }
 
-    const matches = SearchPatterns.textContains(
+    const matches = SearchPatterns.textContainsNormalized(
       this.authorityData.persons,
       searchTerm,
       (person) => person.preferredName
@@ -185,7 +185,7 @@ export class AuthorityExplorers {
       return;
     }
 
-    const matches = SearchPatterns.multiField(
+    const matches = SearchPatterns.multiFieldNormalized(
       this.authorityData.works,
       searchTerm,
       [
@@ -502,7 +502,7 @@ export class AuthorityExplorers {
       return;
     }
 
-    const matches = SearchPatterns.textContains(
+    const matches = SearchPatterns.textContainsNormalized(
       this.authorityData.lemmata,
       searchTerm,
       (lemma) => lemma.lemma
@@ -735,7 +735,7 @@ export class AuthorityExplorers {
       return;
     }
 
-    const matches = SearchPatterns.multiField(
+    const matches = SearchPatterns.multiFieldNormalized(
       this.authorityData.concepts,
       searchTerm,
       [(concept) => concept.termDE || "", (concept) => concept.termEN || ""]
@@ -878,7 +878,7 @@ export class AuthorityExplorers {
       return;
     }
 
-    const matches = SearchPatterns.multiField(
+    const matches = SearchPatterns.multiFieldNormalized(
       this.authorityData.genres,
       searchTerm,
       [(genre) => genre.termDE || "", (genre) => genre.termEN || ""]
@@ -1038,7 +1038,7 @@ export class AuthorityExplorers {
       return;
     }
 
-    const matches = SearchPatterns.multiField(
+    const matches = SearchPatterns.multiFieldNormalized(
       this.authorityData.names,
       searchTerm,
       [(name) => name.termDE || "", (name) => name.termEN || ""]

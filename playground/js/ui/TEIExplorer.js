@@ -1,9 +1,10 @@
 /**
  * MHDBDB Playground - TEI Explorer
- * Handles TEI text analysis and word-level exploration
+ * Handles TEI text analysis and word-level exploration with MHG normalization
  */
 
 import { displayResults, showOverlaySpinner, hideSpinner, displaySummaryResults } from './UICore.js';
+import { TextNormalizer } from '../utils/text-normalizer.js';
 
 export class TEIExplorer {
     constructor(teiData, authorityData) {
@@ -46,9 +47,10 @@ export class TEIExplorer {
         const searchTerm = prompt('Welches Lemma soll im Text gesucht werden?');
         if (!searchTerm) return;
 
+        // Search with MHG normalization support
         const matches = this.teiData.words.filter(w =>
             (w.lemmaRef && w.lemmaRef.includes(searchTerm)) ||
-            w.text.toLowerCase().includes(searchTerm.toLowerCase())
+            TextNormalizer.matchesNormalized(w.text, searchTerm)
         );
 
         const results = matches.map(m => ({
@@ -63,33 +65,8 @@ export class TEIExplorer {
     }
 
     // ==================== MULTI-LEMMA SEARCH ====================
-
-    findMultipleLemmasInText() {
-        const searchInput = prompt('Geben Sie mehrere Lemmata ein (getrennt durch " + "):\nBeispiel: brôt + wîn');
-        if (!searchInput) return;
-
-        // Parse input - support both lemma IDs and Middle High German terms
-        const searchTerms = searchInput.split('+').map(term => term.trim());
-        const lemmaIds = this.resolveLemmaIds(searchTerms);
-        
-        if (lemmaIds.length === 0) {
-            displayResults('Fehler', [{ 
-                meta: 'Keine gültigen Lemmata gefunden', 
-                snippet: `Eingabe: "${searchInput}"` 
-            }]);
-            return;
-        }
-
-        // Show context selection dialog
-        const contextType = this.showContextSelectionDialog();
-        if (!contextType) return;
-
-        if (contextType === 'proximity') {
-            this.executeProximitySearch(lemmaIds, searchTerms);
-        } else {
-            this.executeMultiLemmaSearch(lemmaIds, searchTerms, contextType);
-        }
-    }
+    // Note: The UI modal is now handled by MultiLemmaSearchUI class
+    // This method is kept for backward compatibility but delegates to the modal
 
     executeMultiLemmaSearch(lemmaIds, searchTerms, contextType) {
         // Show loading spinner
@@ -157,20 +134,26 @@ export class TEIExplorer {
 
     resolveLemmaIds(searchTerms) {
         const lemmaIds = [];
-        
+
         searchTerms.forEach(term => {
             // Check if it's already a lemma ID (numeric)
             if (/^\d+$/.test(term)) {
                 lemmaIds.push(term);
                 return;
             }
-            
-            // Try to find lemma by Middle High German orthography
+
+            // Try hardcoded common lemma mappings first (fast path)
+            // Supports exact variants like: brôt/brot, wîn/win/wein, etc.
             const lemmaId = this.findLemmaIdByOrthography(term);
             if (lemmaId) {
                 lemmaIds.push(lemmaId);
             } else {
-                // Try authority data if available
+                // Fallback: Search through lexicon.xml for any matching lemma
+                // This uses 'includes()' so it's very flexible:
+                // - Searches all lemma entries in the lexicon
+                // - Finds partial matches (e.g., "brot" finds "brôt")
+                // - Works with any orthographic variant present in the lexicon
+                // Note: Takes first match if multiple lemmata contain the search term
                 const authorityManager = window.playground?.authorityManager;
                 if (authorityManager) {
                     const matches = authorityManager.searchLemmaByOrthography(term);
@@ -181,7 +164,7 @@ export class TEIExplorer {
                 }
             }
         });
-        
+
         return lemmaIds;
     }
 
@@ -205,27 +188,7 @@ export class TEIExplorer {
         return commonLemmas[normalized] || null;
     }
 
-    showContextSelectionDialog() {
-        const contextOptions = [
-            { value: 'paragraph', label: 'In Absätzen (empfohlen)' },
-            { value: 'document', label: 'In ganzen Dokumenten' },
-            { value: 'proximity', label: 'Nähebasiert (max. 10 Wörter)' }
-        ];
-        
-        let dialogHtml = 'Wählen Sie den Suchkontext:\n\n';
-        contextOptions.forEach((option, index) => {
-            dialogHtml += `${index + 1}. ${option.label}\n`;
-        });
-        
-        const choice = prompt(dialogHtml + '\nGeben Sie die Nummer ein (1-3):');
-        const choiceIndex = parseInt(choice) - 1;
-        
-        if (choiceIndex >= 0 && choiceIndex < contextOptions.length) {
-            return contextOptions[choiceIndex].value;
-        }
-        
-        return null;
-    }
+    // Context selection is now handled by the MultiLemmaSearchUI modal
 
     displayMultiLemmaResults(results, searchTerms, contextType) {
         if (results.length === 0) {
@@ -314,10 +277,17 @@ export class TEIExplorer {
                 };
             } else if (contextType === 'proximity') {
                 const cooccurrences = result.cooccurrences || [];
-                return cooccurrences.slice(0, 10).map(c => ({
-                    meta: `Abstand: ${c.distance} Wörter • ${c.lemma1.text} ↔ ${c.lemma2.text}`,
-                    snippet: `"${c.context}"`
-                }));
+                return cooccurrences.slice(0, 10).map(c => {
+                    const highlightedContext = this.highlightCooccurrenceContext(
+                        c.context,
+                        c.lemma1,
+                        c.lemma2
+                    );
+                    return {
+                        meta: `Abstand: ${c.distance} Wörter • ${c.lemma1.text} ↔ ${c.lemma2.text}`,
+                        snippet: `"${highlightedContext}"`
+                    };
+                });
             }
         }).flat().slice(0, 50); // Limit to 50 detail items for performance
     }
@@ -333,65 +303,44 @@ export class TEIExplorer {
 
     highlightLemmasInText(text, matchingWords) {
         let highlightedText = text;
-        
+
         for (const [lemmaId, words] of Object.entries(matchingWords)) {
             words.forEach(word => {
-                const regex = new RegExp(`\\b${word.text}\\b`, 'gi');
-                highlightedText = highlightedText.replace(regex, 
+                // Escape special regex characters in word.text
+                const escapedWord = word.text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                // Use negative lookahead to avoid double-wrapping already highlighted text
+                const regex = new RegExp(`(?<!<[^>]*)\\b${escapedWord}\\b(?![^<]*<\\/span>)`, 'gi');
+                highlightedText = highlightedText.replace(regex,
                     `<span class="highlight multi-lemma-${lemmaId}">${word.text}</span>`
                 );
             });
         }
-        
+
         return highlightedText;
     }
 
-    findCooccurringLemmas() {
-        const searchInput = prompt('Geben Sie Lemmata für Nähe-Analyse ein (getrennt durch " + "):\nBeispiel: brôt + wîn');
-        if (!searchInput) return;
+    highlightCooccurrenceContext(context, lemma1, lemma2) {
+        let highlightedContext = context;
 
-        const searchTerms = searchInput.split('+').map(term => term.trim());
-        const lemmaIds = this.resolveLemmaIds(searchTerms);
-        
-        if (lemmaIds.length < 2) {
-            displayResults('Fehler', [{ 
-                meta: 'Mindestens 2 gültige Lemmata benötigt', 
-                snippet: `Eingabe: "${searchInput}"` 
-            }]);
-            return;
-        }
+        // Highlight lemma1
+        const escapedText1 = lemma1.text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const regex1 = new RegExp(`\\b${escapedText1}\\b`, 'gi');
+        highlightedContext = highlightedContext.replace(regex1,
+            `<span class="highlight multi-lemma-${lemma1.id}">${lemma1.text}</span>`
+        );
 
-        const maxDistance = parseInt(prompt('Maximaler Wortabstand (empfohlen: 5-15):', '10')) || 10;
+        // Highlight lemma2 (avoid double-wrapping)
+        const escapedText2 = lemma2.text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const regex2 = new RegExp(`(?<!<[^>]*)\\b${escapedText2}\\b(?![^<]*<\\/span>)`, 'gi');
+        highlightedContext = highlightedContext.replace(regex2,
+            `<span class="highlight multi-lemma-${lemma2.id}">${lemma2.text}</span>`
+        );
 
-        // Show loading spinner
-        showOverlaySpinner('resultsContainer', 'Analysiere Nähe-Beziehungen...', true);
-
-        // Get TEI manager from global reference
-        const teiManager = window.playground?.teiManager;
-        if (!teiManager) {
-            hideSpinner('resultsContainer');
-            displayResults('Fehler', [{ 
-                meta: 'TEI Manager nicht verfügbar', 
-                snippet: 'Bitte laden Sie TEI-Dateien' 
-            }]);
-            return;
-        }
-
-        // Use setTimeout to allow UI to update with spinner before heavy processing
-        setTimeout(() => {
-            try {
-                const results = teiManager.findCooccurringLemmas(lemmaIds, maxDistance);
-                hideSpinner('resultsContainer');
-                this.displayCooccurrenceResults(results, searchTerms, maxDistance);
-            } catch (error) {
-                hideSpinner('resultsContainer');
-                displayResults('Fehler', [{ 
-                    meta: 'Nähe-Analyse Fehler', 
-                    snippet: error.message 
-                }]);
-            }
-        }, 100);
+        return highlightedContext;
     }
+
+    // findCooccurringLemmas() method removed - now handled by MultiLemmaSearchUI modal
+    // Co-occurrence analysis is available as "Nähe-Analyse" mode in the multi-lemma search
 
     displayCooccurrenceResults(results, searchTerms, maxDistance) {
         if (results.length === 0) {
@@ -409,13 +358,22 @@ export class TEIExplorer {
         const summaryData = results.map(result => {
             const cooccurrences = result.cooccurrences || [];
             const count = cooccurrences.length;
-            
+
             const preview = `${count} Nähe-Beziehungen im Abstand von max. ${maxDistance} Wörtern`;
-            
-            const details = cooccurrences.slice(0, 20).map(cooc => ({
-                meta: `Abstand: ${cooc.distance} Wörter • ${cooc.lemma1.text} ↔ ${cooc.lemma2.text}`,
-                snippet: `"${cooc.context}"`
-            }));
+
+            const details = cooccurrences.slice(0, 20).map(cooc => {
+                // Highlight both lemmas in the context
+                const highlightedContext = this.highlightCooccurrenceContext(
+                    cooc.context,
+                    cooc.lemma1,
+                    cooc.lemma2
+                );
+
+                return {
+                    meta: `Abstand: ${cooc.distance} Wörter • ${cooc.lemma1.text} ↔ ${cooc.lemma2.text}`,
+                    snippet: `"${highlightedContext}"`
+                };
+            });
 
             return {
                 title: `${result.filename}`,

@@ -4,6 +4,7 @@
  */
 
 import { AuthorityStorageManager } from './authority-storage-manager.js';
+import { TextNormalizer } from './utils/text-normalizer.js';
 
 export class AuthorityFilesManager {
   constructor(authorityData) {
@@ -15,6 +16,7 @@ export class AuthorityFilesManager {
       "concepts.xml",
       "genres.xml",
       "names.xml",
+      "variants.xml",
     ];
     // Performance indexes
     this.indexes = {
@@ -230,7 +232,10 @@ export class AuthorityFilesManager {
 
   analyzeAuthorityFile(xmlDoc, filename) {
     // Detect file type and extract data accordingly
-    if (filename.includes("persons") || xmlDoc.querySelector("listPerson")) {
+    // IMPORTANT: Check variants BEFORE lexicon since both have <entry> elements
+    if (filename.includes("variants")) {
+      this.extractVariants(xmlDoc);
+    } else if (filename.includes("persons") || xmlDoc.querySelector("listPerson")) {
       this.extractPersons(xmlDoc);
     } else if (filename.includes("works") || xmlDoc.querySelector("listBibl")) {
       this.extractWorks(xmlDoc);
@@ -380,6 +385,50 @@ export class AuthorityFilesManager {
     console.log(`Names extracted: ${categories.length}`);
   }
 
+  extractVariants(xmlDoc) {
+    // variants.xml uses TEI namespace, need to query without namespace or use getElementsByTagName
+    const allEntries = Array.from(xmlDoc.getElementsByTagName('entry'));
+    const entries = allEntries.filter(entry => entry.getAttribute('corresp'));
+
+    let extracted = 0;
+    let totalForms = 0;
+
+    entries.forEach(entry => {
+      const lemmaRef = entry.getAttribute('corresp');
+      if (!lemmaRef) return;
+
+      // Extract lemma ID: "lexicon.xml#lemma_879" -> "lemma_879"
+      const lemmaId = lemmaRef.includes('#') ? lemmaRef.split('#')[1] : null;
+      if (!lemmaId) return;
+
+      const forms = [];
+      const formElements = Array.from(entry.getElementsByTagName('form'));
+
+      formElements.forEach(form => {
+        const typeId = form.getAttribute('xml:id');
+        const orth = form.textContent?.trim();
+
+        if (typeId && orth) {
+          forms.push({
+            typeId: typeId,
+            orth: orth
+          });
+          totalForms++;
+        }
+      });
+
+      if (forms.length > 0) {
+        this.authorityData.variants.push({
+          lemmaId: lemmaId,
+          forms: forms
+        });
+        extracted++;
+      }
+    });
+
+    console.log(`Variants extracted: ${extracted} lemmas with ${totalForms} orthographic forms`);
+  }
+
   // Unified extraction for taxonomy-based authority files (concepts, genres, names)
   extractTaxonomyCategories(xmlDoc, idPrefix) {
     const categories = xmlDoc.querySelectorAll("category");
@@ -504,9 +553,61 @@ export class AuthorityFilesManager {
 
   searchLemmaByOrthography(orthography) {
     const normalized = orthography.toLowerCase();
-    return this.authorityData.lemmata.filter(lemma => 
-      lemma.lemma && lemma.lemma.toLowerCase().includes(normalized)
-    );
+    const normalizedCharacters = TextNormalizer.normalizeMHG(normalized);
+    console.log(`🔎 searchLemmaByOrthography("${orthography}") → normalized: "${normalizedCharacters}"`);
+
+    // Stage 1: Try exact match in lexicon (fastest, canonical forms)
+    // Try both original and normalized
+    const exactMatch = this.authorityData.lemmata.find(lemma => {
+      if (!lemma.lemma) return false;
+      const lemmaLower = lemma.lemma.toLowerCase();
+      const lemmaNormalized = TextNormalizer.normalizeMHG(lemmaLower);
+      return lemmaLower === normalized || lemmaNormalized === normalizedCharacters;
+    });
+    if (exactMatch) {
+      console.log(`  ✅ Stage 1 (lexicon exact): Found ${exactMatch.id}`);
+      return [exactMatch];
+    }
+
+    // Stage 2: Search in variants index (orthographic variants from TEI corpus)
+    console.log(`  📊 Variants index size: ${this.authorityData.variants.length} entries`);
+    if (this.authorityData.variants.length > 0) {
+      const matchingVariants = [];
+
+      for (const variantEntry of this.authorityData.variants) {
+        // Check if any form matches the search term (with normalization)
+        const hasMatch = variantEntry.forms.some(form => {
+          const formLower = form.orth.toLowerCase();
+          const formNormalized = TextNormalizer.normalizeMHG(formLower);
+          return formLower === normalized || formNormalized === normalizedCharacters;
+        });
+
+        if (hasMatch) {
+          // Find the corresponding lemma in lemmata array
+          const lemma = this.authorityData.lemmata.find(l => l.id === variantEntry.lemmaId);
+          if (lemma) {
+            matchingVariants.push(lemma);
+            console.log(`  ✅ Stage 2 (variants): Found ${lemma.id} via variant "${orthography}"`);
+          }
+        }
+      }
+
+      if (matchingVariants.length > 0) {
+        return matchingVariants;
+      }
+    }
+
+    // Stage 3: Fallback to partial match in lexicon (includes search with normalization)
+    const partialMatches = this.authorityData.lemmata.filter(lemma => {
+      if (!lemma.lemma) return false;
+      return TextNormalizer.matchesNormalized(lemma.lemma, orthography);
+    });
+    if (partialMatches.length > 0) {
+      console.log(`  ⚠️ Stage 3 (partial): Found ${partialMatches.length} matches`);
+    } else {
+      console.log(`  ❌ No matches found for "${orthography}"`);
+    }
+    return partialMatches;
   }
 
   findLemmaById(lemmaId) {
@@ -552,6 +653,17 @@ export class AuthorityFilesManager {
     const cleared = await this.storageManager.clearCache();
     if (cleared) {
       console.log('🧹 Authority files cache cleared');
+      // Clear in-memory data too
+      this.authorityData.files = [];
+      this.authorityData.parsedXML = [];
+      this.authorityData.persons = [];
+      this.authorityData.works = [];
+      this.authorityData.lemmata = [];
+      this.authorityData.concepts = [];
+      this.authorityData.genres = [];
+      this.authorityData.names = [];
+      this.authorityData.variants = [];
+      console.log('🧹 In-memory authority data cleared');
     }
     return cleared;
   }

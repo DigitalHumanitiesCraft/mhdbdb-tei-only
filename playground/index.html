@@ -160,8 +160,7 @@
                         <button id="showWordsBtn" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700">Alle Wörter</button>
                         <button id="showLinesBtn" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700">Alle Zeilen</button>
                         <button id="findLemmaBtn" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700">Lemma-Suche</button>
-                        <button id="findMultiLemmaBtn" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700">Multi-Lemma-Suche</button>
-                        <button id="findCooccurrenceBtn" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700">Kookkurrenz-Analyse</button>
+                        <button id="findMultiLemmaBtn" class="w-full rounded-xl border border-brand-200 bg-brand-50 px-4 py-2 text-left text-sm font-medium text-brand-700 transition hover:border-brand-400 hover:bg-brand-100">🔍+ Multi-Lemma-Suche</button>
                         <button id="showAnnotationsBtn" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700">Alle Annotationen</button>
                     </div>
                 </div>
@@ -196,6 +195,113 @@
                 </div>
             </section>
         </main>
+    </div>
+
+    <!-- Multi-Lemma Search Modal -->
+    <div id="multiLemmaModal" class="modal-overlay" style="display: none;">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 class="modal-title">Multi-Lemma-Suche</h3>
+                <button id="closeModal" class="modal-close" aria-label="Schließen">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <!-- Lemma Input Section -->
+                <div class="input-section">
+                    <label for="lemmaInput" class="input-label">
+                        Lemmata eingeben
+                        <span class="text-slate-500 font-normal">(getrennt durch Komma oder +)</span>
+                    </label>
+                    <div class="input-wrapper">
+                        <input
+                            type="text"
+                            id="lemmaInput"
+                            class="lemma-input"
+                            placeholder="z.B. brôt, wîn oder 879 + 7532"
+                            autocomplete="off"
+                        />
+                        <div class="input-hint">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <span>Sie können Lemma-IDs (z.B. "879") oder Lemma-Formen verwenden (z.B. "brôt" oder einfach "brot"). Sonderzeichen (â, ê, î, ô, û, ä, ö, ü) werden automatisch normalisiert. Alle 192.674 Varianten aus dem Korpus werden erkannt.</span>
+                        </div>
+                    </div>
+
+                    <!-- Lemma Chips Display -->
+                    <div id="lemmaChips" class="lemma-chips"></div>
+                </div>
+
+                <!-- Search Mode Selection -->
+                <div class="input-section">
+                    <label class="input-label">Suchmodus wählen</label>
+                    <div class="search-modes">
+                        <!-- Paragraph Mode -->
+                        <label class="mode-card">
+                            <input type="radio" name="searchMode" value="paragraph" class="mode-radio" checked />
+                            <div class="mode-content">
+                                <div class="mode-header">
+                                    <svg class="mode-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"></path>
+                                    </svg>
+                                    <span class="mode-title">Absatz-Suche</span>
+                                    <span class="mode-badge">Empfohlen</span>
+                                </div>
+                                <p class="mode-description">Findet Absätze, die alle angegebenen Lemmata enthalten</p>
+                            </div>
+                        </label>
+
+                        <!-- Document Mode -->
+                        <label class="mode-card">
+                            <input type="radio" name="searchMode" value="document" class="mode-radio" />
+                            <div class="mode-content">
+                                <div class="mode-header">
+                                    <svg class="mode-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                    </svg>
+                                    <span class="mode-title">Dokument-Suche</span>
+                                </div>
+                                <p class="mode-description">Listet Texte auf, die alle Lemmata irgendwo enthalten</p>
+                            </div>
+                        </label>
+
+                        <!-- Proximity Mode -->
+                        <label class="mode-card">
+                            <input type="radio" name="searchMode" value="proximity" class="mode-radio" />
+                            <div class="mode-content">
+                                <div class="mode-header">
+                                    <svg class="mode-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
+                                    </svg>
+                                    <span class="mode-title">Nähe-Analyse</span>
+                                </div>
+                                <p class="mode-description">Findet Lemmata, die nahe beieinander stehen (Kookkurrenz)</p>
+                                <div class="proximity-controls" id="proximityControls" style="display: none;">
+                                    <label class="proximity-label">
+                                        Maximaler Wortabstand:
+                                        <input type="number" id="proximityDistance" value="10" min="1" max="50" class="proximity-input" />
+                                    </label>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button id="cancelSearch" class="btn-secondary">Abbrechen</button>
+                <button id="executeSearch" class="btn-primary" disabled>
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                    Suche starten
+                </button>
+            </div>
+        </div>
     </div>
 
     <script type="module" src="js/main.js"></script>

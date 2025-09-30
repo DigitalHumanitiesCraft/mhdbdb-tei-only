@@ -310,8 +310,8 @@
                     window.testUtils.assertExists(teiData.words[0].text);
                 });
 
-                await window.testUtils.it('should handle session file removal', () => {
-                    const result = manager.removeTEIFile('test.xml');
+                await window.testUtils.it('should handle session file removal', async () => {
+                    const result = await manager.removeTEIFile('test.xml');
                     window.testUtils.assertTrue(result);
                     window.testUtils.assertEqual(teiData.files.length, 0);
                 });
@@ -346,9 +346,10 @@
                     window.testUtils.assert(endTime - startTime < 100, 'Large content generation should be fast');
                 });
 
-                await window.testUtils.it('should not exceed storage quota', () => {
+                await window.testUtils.it('should not exceed storage quota', async () => {
                     const storage = new TEIStorageManager();
-                    const quota = storage.getStorageQuotaInfo();
+                    await storage.initialize();
+                    const quota = await storage.getStorageQuotaInfo();
                     window.testUtils.assert(quota.percentUsed < 90, 'Storage usage should be reasonable');
                 });
 

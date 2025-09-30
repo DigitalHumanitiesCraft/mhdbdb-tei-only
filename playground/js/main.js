@@ -11,6 +11,11 @@ import { updateAllUI, displayFileItem, showProgress, updateProgress, hideSpinner
 import { AuthorityExplorers } from './ui/AuthorityExplorers.js';
 import { TEIExplorer } from './ui/TEIExplorer.js';
 import { XPathInterface } from './ui/XPathInterface.js';
+import { MultiLemmaSearchUI } from './ui/MultiLemmaSearch.js';
+
+// Import utilities for global exposure (needed for testing)
+import { TextNormalizer } from './utils/text-normalizer.js';
+import { SearchPatterns } from './ui/SearchHelpers.js';
 
 class MHDBDBPlayground {
     constructor() {
@@ -23,7 +28,8 @@ class MHDBDBPlayground {
             lemmata: [],
             concepts: [],
             genres: [],
-            names: []
+            names: [],
+            variants: []
         };
         
         this.teiData = {
@@ -44,6 +50,12 @@ class MHDBDBPlayground {
             teiExplorer: new TEIExplorer(this.teiData, this.authorityData),
             xpathInterface: new XPathInterface(this.authorityData, this.teiData)
         };
+
+        // Initialize after teiExplorer is created
+        this.ui.multiLemmaSearch = new MultiLemmaSearchUI(
+            this.ui.teiExplorer,
+            this.authorityManager
+        );
 
         this.init();
     }
@@ -149,8 +161,7 @@ class MHDBDBPlayground {
             { id: 'showWordsBtn', handler: () => this.ui.teiExplorer.showWords() },
             { id: 'showLinesBtn', handler: () => this.ui.teiExplorer.showLines() },
             { id: 'findLemmaBtn', handler: () => this.ui.teiExplorer.findLemmaInText() },
-            { id: 'findMultiLemmaBtn', handler: () => this.ui.teiExplorer.findMultipleLemmasInText() },
-            { id: 'findCooccurrenceBtn', handler: () => this.ui.teiExplorer.findCooccurringLemmas() },
+            { id: 'findMultiLemmaBtn', handler: () => this.ui.multiLemmaSearch.open() }, // Use new modal UI
             { id: 'showAnnotationsBtn', handler: () => this.ui.teiExplorer.showAnnotations() }
         ];
 
@@ -317,6 +328,10 @@ document.addEventListener('DOMContentLoaded', () => {
         window.playground.ui.teiExplorer = window.playground.ui.teiExplorer;
         window.playground.ui.xpathInterface = window.playground.ui.xpathInterface;
     }
+
+    // Expose utilities globally for testing
+    window.TextNormalizer = TextNormalizer;
+    window.SearchPatterns = SearchPatterns;
 
     console.log('MHDBDB Playground migrated to modular UI successfully!');
     console.log('Available UI modules:', Object.keys(window.playground.ui));

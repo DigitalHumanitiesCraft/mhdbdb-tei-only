@@ -1,7 +1,9 @@
 /**
  * MHDBDB Playground - Search Helpers
- * Tailwind-first search interfaces and utilities
+ * Tailwind-first search interfaces and utilities with MHG normalization support
  */
+
+import { TextNormalizer } from '../utils/text-normalizer.js';
 
 // ==================== SEARCH INTERFACE CREATION ====================
 
@@ -206,6 +208,7 @@ export function formatMultiLanguage(termDE, termEN) {
 // ==================== SEARCH PATTERNS ====================
 
 export const SearchPatterns = {
+  // Legacy patterns (kept for backward compatibility, but consider using normalized versions)
   textContains: (items, searchTerm, fieldGetter) => {
     const term = searchTerm.toLowerCase().trim();
     return items.filter((item) => fieldGetter(item).toLowerCase().includes(term));
@@ -230,5 +233,57 @@ export const SearchPatterns = {
   exactMatch: (items, searchTerm, fieldGetter) => {
     const term = searchTerm.toLowerCase().trim();
     return items.filter((item) => fieldGetter(item).toLowerCase() === term);
+  },
+
+  // ==================== NORMALIZED PATTERNS (MHG-aware) ====================
+  // Use these for Middle High German text search with special character normalization
+
+  /**
+   * Search with MHG character normalization (â→a, ô→o, ü→ue, etc.)
+   * Example: searching "brot" will find "brôt"
+   */
+  textContainsNormalized: (items, searchTerm, fieldGetter) => {
+    return items.filter((item) =>
+      TextNormalizer.matchesNormalized(fieldGetter(item), searchTerm)
+    );
+  },
+
+  /**
+   * Multi-field search with MHG normalization
+   * Searches across multiple fields, matching if ANY field contains the term
+   */
+  multiFieldNormalized: (items, searchTerm, fieldGetters) => {
+    const matchedItems = new Set();
+
+    items.forEach((item) => {
+      const hasMatch = fieldGetters.some(
+        (getter) => getter(item) && TextNormalizer.matchesNormalized(getter(item), searchTerm)
+      );
+      if (hasMatch) {
+        matchedItems.add(item);
+      }
+    });
+
+    return Array.from(matchedItems);
+  },
+
+  /**
+   * Exact match with MHG normalization
+   * Normalized versions must be identical
+   */
+  exactMatchNormalized: (items, searchTerm, fieldGetter) => {
+    return items.filter((item) =>
+      TextNormalizer.exactMatchNormalized(fieldGetter(item), searchTerm)
+    );
+  },
+
+  /**
+   * Starts-with search with MHG normalization
+   * Useful for autocomplete/prefix matching
+   */
+  startsWithNormalized: (items, searchTerm, fieldGetter) => {
+    return items.filter((item) =>
+      TextNormalizer.startsWithNormalized(fieldGetter(item), searchTerm)
+    );
   },
 };

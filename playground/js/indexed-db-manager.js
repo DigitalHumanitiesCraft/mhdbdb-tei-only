@@ -401,6 +401,42 @@ export class IndexedDBManager {
         }
     }
 
+    async getStorageQuotaInfo() {
+        await this.ensureInitialized();
+
+        try {
+            const estimate = await this.getStorageEstimate();
+            const dbSize = await this.getDatabaseSize();
+
+            return {
+                storageType: 'IndexedDB',
+                quota: estimate.quota,
+                usage: estimate.usage,
+                used: estimate.usage, // Alias for backward compatibility
+                available: estimate.available,
+                estimatedQuota: estimate.quota, // Alias for backward compatibility
+                percentUsed: estimate.percentUsed,
+                dbSize: dbSize.total.size,
+                teiFiles: dbSize.teiFiles,
+                authorityFiles: dbSize.authorityFiles
+            };
+        } catch (error) {
+            console.error('❌ Failed to get storage quota info:', error);
+            return {
+                storageType: 'IndexedDB',
+                quota: 0,
+                usage: 0,
+                used: 0,
+                available: 0,
+                estimatedQuota: 0,
+                percentUsed: 0,
+                dbSize: 0,
+                teiFiles: { count: 0, size: 0 },
+                authorityFiles: { count: 0, size: 0 }
+            };
+        }
+    }
+
 
     // ==================== UTILITY METHODS ====================
 

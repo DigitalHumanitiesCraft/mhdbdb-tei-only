@@ -1,0 +1,267 @@
+/**
+ * MHDBDB Playground - Multi-Lemma Search UI Controller
+ * Handles the modal interface for advanced multi-lemma search
+ */
+
+export class MultiLemmaSearchUI {
+    constructor(teiExplorer, authorityManager) {
+        this.teiExplorer = teiExplorer;
+        this.authorityManager = authorityManager;
+        this.lemmas = [];
+        this.isOpen = false;
+
+        this.initializeElements();
+        this.attachEventListeners();
+    }
+
+    initializeElements() {
+        this.modal = document.getElementById('multiLemmaModal');
+        this.lemmaInput = document.getElementById('lemmaInput');
+        this.lemmaChips = document.getElementById('lemmaChips');
+        this.executeBtn = document.getElementById('executeSearch');
+        this.cancelBtn = document.getElementById('cancelSearch');
+        this.closeBtn = document.getElementById('closeModal');
+        this.proximityControls = document.getElementById('proximityControls');
+        this.proximityDistance = document.getElementById('proximityDistance');
+        this.searchModeRadios = document.querySelectorAll('input[name="searchMode"]');
+    }
+
+    attachEventListeners() {
+        // Modal controls
+        this.closeBtn.addEventListener('click', () => this.close());
+        this.cancelBtn.addEventListener('click', () => this.close());
+        this.executeBtn.addEventListener('click', () => this.executeSearch());
+
+        // Close on overlay click
+        this.modal.addEventListener('click', (e) => {
+            if (e.target === this.modal) {
+                this.close();
+            }
+        });
+
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && this.isOpen) {
+                this.close();
+            }
+        });
+
+        // Lemma input handling
+        this.lemmaInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ',' || e.key === '+') {
+                e.preventDefault();
+                this.addLemmaFromInput();
+            }
+        });
+
+        this.lemmaInput.addEventListener('blur', () => {
+            // Add lemma when input loses focus (if there's text)
+            if (this.lemmaInput.value.trim()) {
+                this.addLemmaFromInput();
+            }
+        });
+
+        // Search mode change handler
+        this.searchModeRadios.forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                if (e.target.value === 'proximity') {
+                    this.proximityControls.style.display = 'block';
+                } else {
+                    this.proximityControls.style.display = 'none';
+                }
+            });
+        });
+    }
+
+    open() {
+        this.isOpen = true;
+        this.modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+
+        // Focus the input
+        setTimeout(() => {
+            this.lemmaInput.focus();
+        }, 100);
+    }
+
+    close() {
+        this.isOpen = false;
+        this.modal.style.display = 'none';
+        document.body.style.overflow = '';
+
+        // Reset form
+        this.reset();
+    }
+
+    reset() {
+        this.lemmas = [];
+        this.lemmaInput.value = '';
+        this.lemmaChips.innerHTML = '';
+        this.executeBtn.disabled = true;
+
+        // Reset to paragraph mode
+        const paragraphRadio = document.querySelector('input[name="searchMode"][value="paragraph"]');
+        if (paragraphRadio) {
+            paragraphRadio.checked = true;
+        }
+        this.proximityControls.style.display = 'none';
+        this.proximityDistance.value = '10';
+    }
+
+    addLemmaFromInput() {
+        const input = this.lemmaInput.value.trim();
+        if (!input) return;
+
+        // Split by comma or plus sign
+        const terms = input.split(/[,+]/).map(t => t.trim()).filter(t => t);
+
+        terms.forEach(term => {
+            if (term && !this.lemmas.includes(term)) {
+                this.lemmas.push(term);
+                this.addLemmaChip(term);
+            }
+        });
+
+        this.lemmaInput.value = '';
+        this.updateExecuteButton();
+    }
+
+    addLemmaChip(lemma) {
+        const chip = document.createElement('div');
+        chip.className = 'lemma-chip';
+        chip.dataset.lemma = lemma;
+
+        chip.innerHTML = `
+            <span>${this.escapeHtml(lemma)}</span>
+            <button type="button" aria-label="Remove ${this.escapeHtml(lemma)}">
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        `;
+
+        const removeBtn = chip.querySelector('button');
+        removeBtn.addEventListener('click', () => {
+            this.removeLemma(lemma);
+        });
+
+        this.lemmaChips.appendChild(chip);
+    }
+
+    removeLemma(lemma) {
+        this.lemmas = this.lemmas.filter(l => l !== lemma);
+
+        const chip = this.lemmaChips.querySelector(`[data-lemma="${lemma}"]`);
+        if (chip) {
+            chip.style.animation = 'chipOut 200ms ease-in forwards';
+            setTimeout(() => {
+                chip.remove();
+            }, 200);
+        }
+
+        this.updateExecuteButton();
+    }
+
+    updateExecuteButton() {
+        this.executeBtn.disabled = this.lemmas.length === 0;
+    }
+
+    getSelectedSearchMode() {
+        const selected = document.querySelector('input[name="searchMode"]:checked');
+        return selected ? selected.value : 'paragraph';
+    }
+
+    async executeSearch() {
+        if (this.lemmas.length === 0) return;
+
+        const searchMode = this.getSelectedSearchMode();
+        const searchTerms = [...this.lemmas]; // Create copy
+
+        // Close modal first
+        this.close();
+
+        // Show loading immediately
+        const resultsContainer = document.getElementById('resultsContainer');
+        if (resultsContainer) {
+            resultsContainer.innerHTML = `
+                <div class="loading-overlay" style="position: relative;">
+                    <div class="spinner spinner-large"></div>
+                    <p class="loading-message">Durchsuche TEI-Texte...</p>
+                </div>
+            `;
+        }
+
+        // Get TEI manager
+        const teiManager = window.playground?.teiManager;
+        if (!teiManager) {
+            if (resultsContainer) {
+                resultsContainer.innerHTML = `
+                    <div class="text-sm text-red-600">
+                        ❌ Fehler: TEI Manager nicht verfügbar. Bitte laden Sie TEI-Dateien.
+                    </div>
+                `;
+            }
+            return;
+        }
+
+        try {
+            // Resolve lemma IDs
+            console.log('🔍 Multi-Lemma Search:', searchTerms);
+            const lemmaIds = this.teiExplorer.resolveLemmaIds(searchTerms);
+            console.log('✅ Resolved lemma IDs:', lemmaIds);
+
+            if (lemmaIds.length === 0) {
+                if (resultsContainer) {
+                    resultsContainer.innerHTML = `
+                        <div class="text-sm text-red-600">
+                            ❌ Keine gültigen Lemmata gefunden für: ${searchTerms.join(', ')}
+                        </div>
+                    `;
+                }
+                return;
+            }
+
+            // Execute search based on mode
+            let results;
+            if (searchMode === 'proximity') {
+                const maxDistance = parseInt(this.proximityDistance.value) || 10;
+                results = teiManager.findCooccurringLemmas(lemmaIds, maxDistance);
+                this.teiExplorer.displayCooccurrenceResults(results, searchTerms, maxDistance);
+            } else {
+                results = teiManager.searchMultipleLemmas(lemmaIds, searchMode);
+                this.teiExplorer.displayMultiLemmaResults(results, searchTerms, searchMode);
+            }
+
+        } catch (error) {
+            console.error('Search error:', error);
+            if (resultsContainer) {
+                resultsContainer.innerHTML = `
+                    <div class="text-sm text-red-600">
+                        ❌ Suchfehler: ${error.message}
+                    </div>
+                `;
+            }
+        }
+    }
+
+    escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+}
+
+// Add chipOut animation to CSS (will be added via style tag if needed)
+if (!document.querySelector('#chipOut-keyframes')) {
+    const style = document.createElement('style');
+    style.id = 'chipOut-keyframes';
+    style.textContent = `
+        @keyframes chipOut {
+            to {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+        }
+    `;
+    document.head.appendChild(style);
+}

@@ -7,7 +7,7 @@ TEI-encoded Middle High German literature texts with semantic annotations and we
 
 Alle Inhalte basieren auf den Daten der [Mittelhochdeutschen Begriffsdatenbank (MHDBDB)](https://www.mhdbdb.sbg.ac.at) der Universität Salzburg – einem Forschungsprojekt mit über 50 Jahren mediävistischer Text- und Begriffsforschung.
 - **666 TEI-encoded texts** (Middle High German literature)
-- **6 authority files** (34.8 MB): persons, works, lexicon, concepts, genres, names
+- **7 authority files** (47.3 MB): persons, works, lexicon, concepts, genres, names, variants
 - **Web playground** with IndexedDB caching for large file support
 - **Comprehensive test suite** with Playwright integration
 
@@ -43,11 +43,12 @@ TEI files reference authority data via `xml:id`:
 ## Authority Files
 
 - **persons.xml** (0.12 MB) - Authors and historical persons
-- **works.xml** (1.41 MB) - Work and manuscript metadata  
+- **works.xml** (1.41 MB) - Work and manuscript metadata
 - **lexicon.xml** (32.59 MB) - Dictionary with grammatical annotations
 - **concepts.xml** (0.21 MB) - Semantic concept taxonomy
 - **genres.xml** (0.4 MB) - Literary genre classification
 - **names.xml** (0.03 MB) - Proper names with semantic relations
+- **variants.xml** (12.46 MB) - Orthographic variants (39,436 lemmas, 192,674 forms)
 
 ## License & Contact
 
