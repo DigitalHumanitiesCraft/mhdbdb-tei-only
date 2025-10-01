@@ -6,7 +6,7 @@
 export class IndexedDBManager {
     constructor() {
         this.dbName = 'MHDBDB_Playground';
-        this.dbVersion = 1;
+        this.dbVersion = 2; // Bumped to 2 for corpus support
         this.db = null;
         this.isInitialized = false;
     }
@@ -50,11 +50,23 @@ export class IndexedDBManager {
             request.onupgradeneeded = (event) => {
                 const db = event.target.result;
 
-                // Create object store for TEI files
+                // Create object store for TEI files (user uploads)
                 if (!db.objectStoreNames.contains('tei_files')) {
                     const teiStore = db.createObjectStore('tei_files', { keyPath: 'filename' });
                     teiStore.createIndex('timestamp', 'timestamp', { unique: false });
                     teiStore.createIndex('size', 'size', { unique: false });
+                    teiStore.createIndex('source', 'source', { unique: false }); // NEW: Track source
+                }
+
+                // Create object store for Corpus TEI files (pre-loaded 666 files)
+                if (!db.objectStoreNames.contains('corpus_tei_files')) {
+                    const corpusStore = db.createObjectStore('corpus_tei_files', { keyPath: 'filename' });
+                    corpusStore.createIndex('timestamp', 'timestamp', { unique: false });
+                    corpusStore.createIndex('size', 'size', { unique: false });
+                    corpusStore.createIndex('sigle', 'metadata.sigle', { unique: false });
+                    corpusStore.createIndex('author', 'metadata.author', { unique: false });
+                    corpusStore.createIndex('title', 'metadata.title', { unique: false });
+                    console.log('📦 Created corpus_tei_files store for 666 pre-loaded texts');
                 }
 
                 // Create object store for Authority files
@@ -89,6 +101,7 @@ export class IndexedDBManager {
                 size: content.length,
                 timestamp: Date.now(),
                 type: 'tei',
+                source: metadata.source || 'user-upload', // Default to user-upload
                 ...metadata
             };
 
@@ -460,6 +473,194 @@ export class IndexedDBManager {
         if (bytes < 1024) return bytes + ' B';
         if (bytes < 1024 * 1024) return Math.round(bytes / 1024) + ' KB';
         return Math.round(bytes / 1024 / 1024 * 100) / 100 + ' MB';
+    }
+
+    // ==================== CORPUS TEI FILES OPERATIONS ====================
+
+    async saveCorpusFile(filename, content, metadata = {}) {
+        await this.ensureInitialized();
+
+        try {
+            const transaction = this.db.transaction(['corpus_tei_files'], 'readwrite');
+            const store = transaction.objectStore('corpus_tei_files');
+
+            const fileData = {
+                filename: filename,
+                content: content,
+                size: content.length,
+                timestamp: Date.now(),
+                metadata: {
+                    sigle: metadata.sigle || '',
+                    title: metadata.title || '',
+                    author: metadata.author || '',
+                    authorRef: metadata.authorRef || '',
+                    workRef: metadata.workRef || ''
+                },
+                source: 'corpus'
+            };
+
+            await this.promisifyRequest(store.put(fileData));
+            console.log(`✅ Corpus file saved: ${filename} (${(content.length / 1024).toFixed(1)} KB)`);
+            return true;
+        } catch (error) {
+            console.error(`❌ Failed to save corpus file ${filename}:`, error);
+            return false;
+        }
+    }
+
+    async loadCorpusFile(filename) {
+        await this.ensureInitialized();
+
+        try {
+            const transaction = this.db.transaction(['corpus_tei_files'], 'readonly');
+            const store = transaction.objectStore('corpus_tei_files');
+
+            const result = await this.promisifyRequest(store.get(filename));
+
+            if (result) {
+                console.log(`📁 Corpus file loaded: ${filename}`);
+                return result.content;
+            }
+            return null;
+        } catch (error) {
+            console.error(`❌ Failed to load corpus file ${filename}:`, error);
+            return null;
+        }
+    }
+
+    async listCorpusFiles() {
+        await this.ensureInitialized();
+
+        try {
+            const transaction = this.db.transaction(['corpus_tei_files'], 'readonly');
+            const store = transaction.objectStore('corpus_tei_files');
+
+            const files = await this.promisifyRequest(store.getAll());
+
+            return files.map(file => ({
+                filename: file.filename,
+                size: file.size || 0,
+                timestamp: file.timestamp || 0,
+                sigle: file.metadata?.sigle || '',
+                title: file.metadata?.title || '',
+                author: file.metadata?.author || '',
+                authorRef: file.metadata?.authorRef || '',
+                workRef: file.metadata?.workRef || ''
+            })).sort((a, b) => (a.sigle || '').localeCompare(b.sigle || ''));
+        } catch (error) {
+            console.error('❌ Failed to list corpus files:', error);
+            return [];
+        }
+    }
+
+    async isCorpusLoaded() {
+        await this.ensureInitialized();
+
+        try {
+            const transaction = this.db.transaction(['corpus_tei_files'], 'readonly');
+            const store = transaction.objectStore('corpus_tei_files');
+            const count = await this.promisifyRequest(store.count());
+
+            console.log(`📊 Corpus status: ${count}/666 files loaded`);
+            return count === 666;
+        } catch (error) {
+            console.error('❌ Failed to check corpus status:', error);
+            return false;
+        }
+    }
+
+    async getCorpusCount() {
+        await this.ensureInitialized();
+
+        try {
+            const transaction = this.db.transaction(['corpus_tei_files'], 'readonly');
+            const store = transaction.objectStore('corpus_tei_files');
+            return await this.promisifyRequest(store.count());
+        } catch (error) {
+            console.error('❌ Failed to get corpus count:', error);
+            return 0;
+        }
+    }
+
+    async copyCorpusToPlayground(filename) {
+        await this.ensureInitialized();
+
+        try {
+            const transaction = this.db.transaction(['corpus_tei_files', 'tei_files'], 'readwrite');
+
+            // Read from corpus
+            const corpusStore = transaction.objectStore('corpus_tei_files');
+            const corpusFile = await this.promisifyRequest(corpusStore.get(filename));
+
+            if (!corpusFile) {
+                throw new Error(`Corpus file not found: ${filename}`);
+            }
+
+            // Write to playground with source marker
+            const teiStore = transaction.objectStore('tei_files');
+            const playgroundFile = {
+                filename: corpusFile.filename,
+                content: corpusFile.content,
+                size: corpusFile.size,
+                timestamp: Date.now(),  // Update timestamp
+                type: 'tei',
+                source: 'corpus-copy',  // Mark as copied from corpus
+                metadata: corpusFile.metadata  // Preserve metadata
+            };
+
+            await this.promisifyRequest(teiStore.put(playgroundFile));
+            console.log(`✅ Copied corpus file to playground: ${filename}`);
+            return true;
+        } catch (error) {
+            console.error(`❌ Failed to copy corpus file ${filename}:`, error);
+            return false;
+        }
+    }
+
+    async copyAllCorpusToPlayground(progressCallback) {
+        await this.ensureInitialized();
+
+        try {
+            const corpusFiles = await this.listCorpusFiles();
+            let copiedCount = 0;
+
+            for (const file of corpusFiles) {
+                const success = await this.copyCorpusToPlayground(file.filename);
+                if (success) {
+                    copiedCount++;
+
+                    if (progressCallback) {
+                        progressCallback(copiedCount, corpusFiles.length);
+                    }
+                }
+            }
+
+            console.log(`✅ Copied ${copiedCount} corpus files to playground`);
+            return copiedCount;
+        } catch (error) {
+            console.error('❌ Failed to copy corpus to playground:', error);
+            return 0;
+        }
+    }
+
+    async clearCorpusFiles() {
+        await this.ensureInitialized();
+
+        try {
+            const transaction = this.db.transaction(['corpus_tei_files'], 'readwrite');
+            const store = transaction.objectStore('corpus_tei_files');
+
+            const countRequest = store.count();
+            const count = await this.promisifyRequest(countRequest);
+
+            await this.promisifyRequest(store.clear());
+
+            console.log(`🧹 Cleared ${count} corpus files from IndexedDB`);
+            return count;
+        } catch (error) {
+            console.error('❌ Failed to clear corpus files:', error);
+            return 0;
+        }
     }
 
     // ==================== ERROR RECOVERY ====================

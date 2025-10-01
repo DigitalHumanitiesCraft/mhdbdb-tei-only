@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MHDBDB Playground - TEI Data Explorer</title>
+    <!-- Pako: Cross-browser gzip decompression (Safari 14+ compatible) -->
+    <script src="https://cdn.jsdelivr.net/npm/pako@2.1.0/dist/pako.min.js"></script>
+    <!-- Dexie.js: IndexedDB wrapper with better API -->
+    <script src="https://cdn.jsdelivr.net/npm/dexie@3.2.4/dist/dexie.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -58,6 +62,17 @@
                     <p class="mt-4 text-base font-medium text-slate-800">TEI-Dateien hierhin ziehen</p>
                     <p class="mt-1 text-sm text-slate-500">oder klicken, um Dateien auszuwählen</p>
                     <input type="file" id="fileInput" multiple accept=".xml,.tei" class="sr-only">
+                </div>
+
+                <!-- Load Corpus Button -->
+                <div class="mt-4 pt-4 border-t border-slate-200">
+                    <button id="loadCorpusBtn" class="w-full flex items-center justify-center gap-2 px-4 py-3 text-sm font-medium text-brand-700 bg-brand-50 hover:bg-brand-100 border border-brand-200 rounded-lg transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                        </svg>
+                        <span>Load Full Corpus (666 Files)</span>
+                    </button>
+                    <p class="mt-2 text-xs text-slate-500 text-center">Load all 666 TEI texts from the main site corpus</p>
                 </div>
 
                 <div id="uploadedFilesSection" class="space-y-3">

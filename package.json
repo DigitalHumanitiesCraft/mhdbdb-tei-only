@@ -9,7 +9,12 @@
     "test:debug": "cd testing && playwright test --debug",
     "test:headed": "cd testing && playwright test --headed",
     "serve": "http-server . -p 8080 -c-1",
-    "report": "cd testing && playwright show-report"
+    "report": "cd testing && playwright show-report",
+    "build:authority": "python3.13 scripts/build-authority-index.py",
+    "build:corpus": "python3.13 scripts/build-corpus-index.py",
+    "build:manifest": "python3.13 scripts/generate-manifest.py",
+    "build": "npm run build:authority && npm run build:corpus && npm run build:manifest",
+    "validate:indices": "python3.13 scripts/validate-indices.py"
   },
   "devDependencies": {
     "@playwright/test": "^1.40.0",

@@ -654,4 +654,88 @@ export class TEIFilesManager {
             stats: await this.storageManager.getStorageStats()
         };
     }
+
+    // ==================== CORPUS LOADING ====================
+
+    async loadCorpusIntoPlayground(progressCallback) {
+        console.log('📦 Loading corpus into playground using pre-built index...');
+
+        try {
+            // Dynamically import CorpusLoader from main site
+            const { CorpusLoader } = await import('../../js/corpus-loader.js');
+
+            // Create corpus loader with correct base path (playground is in playground/ subdirectory)
+            const corpusLoader = new CorpusLoader('../data');
+
+            // Wait for database to initialize
+            await corpusLoader.dbReady;
+
+            // Load corpus index
+            if (progressCallback) progressCallback(0, 666);
+            console.log('📥 Loading corpus index...');
+            const corpusIndex = await corpusLoader.loadCorpusIndex();
+
+            console.log(`📚 Corpus index loaded: ${corpusIndex.texts.length} texts`);
+
+            // Create TEI file wrappers (lazy-loading)
+            let loadedCount = 0;
+            for (const text of corpusIndex.texts) {
+                // Create metadata structure compatible with playground
+                const teiData = {
+                    filename: text.filename,
+                    title: text.title,
+                    author: text.author,
+                    authorRef: text.authorRef,
+                    workRef: text.workRef,
+                    genre: text.genre || '',
+                    wordCount: text.wordCount,
+                    lemmata: text.lemmata,
+
+                    // Lazy-load full XML when needed
+                    _xml: null,
+                    get xmlDoc() {
+                        if (!this._xml) {
+                            return this.loadXML();
+                        }
+                        return Promise.resolve(this._xml);
+                    },
+                    async loadXML() {
+                        if (this._xml) return this._xml;
+
+                        try {
+                            const response = await fetch(`../tei/${this.filename}`);
+                            if (!response.ok) {
+                                throw new Error(`HTTP ${response.status}`);
+                            }
+                            const xmlText = await response.text();
+                            const parser = new DOMParser();
+                            this._xml = parser.parseFromString(xmlText, 'text/xml');
+                            return this._xml;
+                        } catch (error) {
+                            console.error(`Failed to load XML for ${this.filename}:`, error);
+                            throw error;
+                        }
+                    }
+                };
+
+                // Add to playground's TEI files list (both files and parsedXML arrays)
+                // Note: We don't add to this.teiData.files (file objects), only to parsedXML
+                this.teiData.parsedXML.push(teiData);
+                loadedCount++;
+
+                if (progressCallback && loadedCount % 10 === 0) {
+                    progressCallback(loadedCount, corpusIndex.texts.length);
+                }
+            }
+
+            if (progressCallback) progressCallback(loadedCount, corpusIndex.texts.length);
+
+            console.log(`✅ Corpus loaded: ${loadedCount} files (lazy-loading enabled)`);
+            return { loaded: loadedCount, skipped: 0, total: loadedCount };
+
+        } catch (error) {
+            console.error('❌ Corpus loading failed:', error);
+            throw error;
+        }
+    }
 }
