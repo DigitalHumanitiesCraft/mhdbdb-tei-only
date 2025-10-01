@@ -114,9 +114,10 @@ test.describe('Main Site', () => {
             const firstResult = page.locator('#resultsList > div').first();
             await expect(firstResult).toBeVisible();
 
-            // Check for title, author, match count
+            // Check for title, author, match count (more specific selectors)
             await expect(firstResult.locator('h3')).toBeVisible();
-            await expect(firstResult.locator('.text-sm')).toBeVisible();
+            await expect(firstResult.locator('.text-sm').first()).toBeVisible(); // First .text-sm (author)
+            await expect(firstResult.locator('.bg-blue-100')).toBeVisible(); // Match count badge
         }
     });
 
