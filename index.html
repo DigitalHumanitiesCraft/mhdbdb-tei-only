@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Mittelhochdeutsche Begriffsdatenbank (MHDBDB) - TEI-encoded Middle High German literature corpus with semantic annotations">
+    <meta name="keywords" content="Middle High German, TEI, medieval literature, digital humanities, MHDBDB">
+    <meta name="author" content="Universität Salzburg">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://mhdbdb.plus.ac.at/">
+    <meta property="og:title" content="Mittelhochdeutsche Begriffsdatenbank">
+    <meta property="og:description" content="TEI-encoded Middle High German literature corpus with semantic annotations">
+    <meta property="og:image" content="assets/images/mhdbdb-logo.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://mhdbdb.plus.ac.at/">
+    <meta property="twitter:title" content="Mittelhochdeutsche Begriffsdatenbank">
+    <meta property="twitter:description" content="TEI-encoded Middle High German literature corpus with semantic annotations">
+    <meta property="twitter:image" content="assets/images/mhdbdb-logo.png">
+
+    <title>Mittelhochdeutsche Begriffsdatenbank (MHDBDB)</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Pako for gzip decompression (Safari 14+ compatible) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.1.0/pako.min.js"></script>
+
+    <!-- Dexie.js for IndexedDB -->
+    <script src="https://unpkg.com/dexie@3.2.4/dist/dexie.min.js"></script>
+
+    <link rel="icon" type="image/png" href="assets/images/mhdbdb-logo.png">
+
+    <style>
+        .highlight-lemma-1 { background-color: #fef3c7; }
+        .highlight-lemma-2 { background-color: #dbeafe; }
+        .highlight-lemma-3 { background-color: #fce7f3; }
+        .highlight-lemma-4 { background-color: #dcfce7; }
+        .highlight-lemma-5 { background-color: #e0e7ff; }
+
+        .spinner {
+            border: 3px solid #f3f4f6;
+            border-top: 3px solid #3b82f6;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .text-modal {
+            display: none;
+        }
+
+        .text-modal.active {
+            display: flex;
+        }
+
+        #searchInput:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+
+    <!-- Header -->
+    <header class="bg-blue-700 text-white shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <img src="assets/images/mhdbdb-logo.png" alt="MHDBDB Logo" class="h-12 w-12">
+                    <div>
+                        <h1 class="text-2xl font-bold">Mittelhochdeutsche Begriffsdatenbank</h1>
+                        <p class="text-blue-100 text-sm">Universität Salzburg</p>
+                    </div>
+                </div>
+                <a href="playground/index.html" class="bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded-lg transition-colors">
+                    Zum Playground →
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="fixed inset-0 bg-white z-50 flex items-center justify-center">
+        <div class="text-center">
+            <div class="spinner mx-auto mb-4"></div>
+            <h2 class="text-xl font-semibold text-gray-800 mb-2">Corpus wird geladen...</h2>
+            <p id="loadingStatus" class="text-gray-600">Initialisiere Datenbank...</p>
+            <div class="mt-4 w-64 bg-gray-200 rounded-full h-2">
+                <div id="loadingProgress" class="bg-blue-600 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8 max-w-6xl">
+
+        <!-- About Section -->
+        <section class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Über das Projekt</h2>
+            <p class="text-gray-700 mb-4">
+                Die Mittelhochdeutsche Begriffsdatenbank (MHDBDB) ist eine Forschungsinfrastruktur der Universität Salzburg
+                für die digitale Erschließung mittelhochdeutscher Literatur. Das Projekt kombiniert TEI-Kodierung mit
+                semantischen Annotationen zur systematischen Analyse mittelalterlicher Texte.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <div class="text-3xl font-bold text-blue-700">666</div>
+                    <div class="text-gray-600">TEI-kodierte Texte</div>
+                </div>
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <div class="text-3xl font-bold text-blue-700">39,436</div>
+                    <div class="text-gray-600">Lemmata</div>
+                </div>
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <div class="text-3xl font-bold text-blue-700">192,674</div>
+                    <div class="text-gray-600">Orthographische Varianten</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Search Interface -->
+        <section class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Texte durchsuchen</h2>
+
+            <!-- Search Input -->
+            <div class="mb-4">
+                <label for="searchInput" class="block text-gray-700 font-semibold mb-2">
+                    Suche nach Wort oder Lemma:
+                </label>
+                <div class="flex space-x-2">
+                    <input
+                        type="text"
+                        id="searchInput"
+                        placeholder="z.B. brot, vriunt, liebe..."
+                        class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    >
+                    <button
+                        id="searchButton"
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors"
+                    >
+                        Suchen
+                    </button>
+                </div>
+                <p class="text-sm text-gray-500 mt-2">
+                    Automatische Normalisierung: â→a, ê→e, î→i, ô→o, û→u, ä→ae, ö→oe, ü→ue
+                </p>
+            </div>
+
+            <!-- Filters -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label for="genreFilter" class="block text-gray-700 font-semibold mb-2">
+                        Nach Gattung filtern:
+                    </label>
+                    <select
+                        id="genreFilter"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    >
+                        <option value="">Alle Gattungen</option>
+                        <!-- Dynamically populated -->
+                    </select>
+                </div>
+                <div>
+                    <label for="authorFilter" class="block text-gray-700 font-semibold mb-2">
+                        Nach Autor filtern:
+                    </label>
+                    <select
+                        id="authorFilter"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    >
+                        <option value="">Alle Autoren</option>
+                        <!-- Dynamically populated -->
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <!-- Search Results -->
+        <section id="resultsSection" class="hidden">
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">
+                    Suchergebnisse
+                    <span id="resultsCount" class="text-blue-600"></span>
+                </h2>
+
+                <div id="resultsList" class="space-y-4">
+                    <!-- Dynamically populated with search results -->
+                </div>
+
+                <!-- Load More Button -->
+                <div id="loadMoreContainer" class="hidden mt-6 text-center">
+                    <button
+                        id="loadMoreButton"
+                        class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-2 rounded-lg transition-colors"
+                    >
+                        Mehr Ergebnisse laden
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- No Results Message -->
+        <div id="noResults" class="hidden bg-yellow-50 border border-yellow-200 rounded-lg p-6 text-center">
+            <p class="text-gray-700 mb-2">Keine Ergebnisse gefunden.</p>
+            <p class="text-sm text-gray-600">
+                Versuchen Sie eine alternative Schreibweise oder durchsuchen Sie die
+                <a href="playground/index.html" class="text-blue-600 hover:underline">erweiterten Suchfunktionen im Playground</a>.
+            </p>
+        </div>
+
+    </main>
+
+    <!-- Text Reading Modal -->
+    <div id="textModal" class="text-modal fixed inset-0 bg-black bg-opacity-50 z-50 items-center justify-center p-4">
+        <div class="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] flex flex-col">
+
+            <!-- Modal Header -->
+            <div class="border-b border-gray-200 px-6 py-4 flex items-center justify-between">
+                <div>
+                    <h3 id="modalTitle" class="text-xl font-bold text-gray-800"></h3>
+                    <p id="modalAuthor" class="text-sm text-gray-600"></p>
+                </div>
+                <button
+                    id="closeModal"
+                    class="text-gray-400 hover:text-gray-600 text-2xl font-bold"
+                >
+                    ×
+                </button>
+            </div>
+
+            <!-- Modal Content -->
+            <div id="modalContent" class="flex-1 overflow-y-auto px-6 py-4">
+                <!-- Dynamically populated with TEI text content -->
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="border-t border-gray-200 px-6 py-4 flex justify-between items-center">
+                <button
+                    id="prevContext"
+                    class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                    ← Vorheriger Treffer
+                </button>
+                <span id="contextIndicator" class="text-sm text-gray-600"></span>
+                <button
+                    id="nextContext"
+                    class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                    Nächster Treffer →
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error Display -->
+    <div id="errorDisplay" class="hidden fixed bottom-4 right-4 bg-red-100 border border-red-400 text-red-700 px-6 py-4 rounded-lg shadow-lg max-w-md">
+        <div class="flex items-start">
+            <span class="font-bold mr-2">Fehler:</span>
+            <span id="errorMessage"></span>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white mt-16 py-8">
+        <div class="container mx-auto px-4 text-center">
+            <p class="mb-2">
+                © 2025 Universität Salzburg |
+                <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/at/" class="hover:underline" target="_blank" rel="noopener">
+                    CC BY-NC-SA 3.0 AT
+                </a>
+            </p>
+            <p class="text-sm text-gray-400">
+                <a href="mailto:mhdbdb@plus.ac.at" class="hover:underline">mhdbdb@plus.ac.at</a> |
+                <a href="https://mhdbdb.plus.ac.at" class="hover:underline" target="_blank" rel="noopener">mhdbdb.plus.ac.at</a> |
+                <a href="playground/index.html" class="hover:underline">Playground</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Application Scripts (ES Modules) -->
+    <script type="module" src="js/main-site.js"></script>
+
+</body>
+</html>

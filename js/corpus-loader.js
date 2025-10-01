@@ -1,0 +1,201 @@
+/**
+ * Corpus Loader
+ * Handles loading and caching of pre-built corpus indices
+ * Uses Pako for gzip decompression (Safari 14+ compatible)
+ * Uses Dexie.js for IndexedDB caching
+ */
+
+const INDEX_VERSION = '1.0.0';
+const CACHE_DURATION = 30 * 24 * 60 * 60 * 1000; // 30 days in milliseconds
+
+class CorpusLoader {
+    constructor(basePath = 'data') {
+        this.basePath = basePath; // Allow custom base path (e.g., '../data' from playground)
+        this.db = null;
+        this.dbReady = this.initDatabase();
+    }
+
+    async initDatabase() {
+        try {
+            // Initialize Dexie database
+            this.db = new Dexie('MHDBDBMainSite');
+
+            this.db.version(1).stores({
+                indices: 'name, version, timestamp, data'
+            });
+
+            await this.db.open();
+
+            console.log('[CorpusLoader] IndexedDB initialized');
+        } catch (error) {
+            console.error('[CorpusLoader] Failed to initialize IndexedDB:', error);
+            throw error;
+        }
+    }
+
+    /**
+     * Load authority index (persons, works, lemmata, variants)
+     */
+    async loadAuthorityIndex() {
+        await this.dbReady;
+        const cachedIndex = await this.getCachedIndex('authority-index');
+
+        if (cachedIndex) {
+            console.log('[CorpusLoader] Using cached authority index');
+            return cachedIndex;
+        }
+
+        console.log('[CorpusLoader] Fetching authority index from network...');
+
+        try {
+            const response = await fetch(`${this.basePath}/authority-index.json.gz`);
+
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            }
+
+            const compressedData = await response.arrayBuffer();
+            const decompressedData = pako.ungzip(new Uint8Array(compressedData), { to: 'string' });
+            const index = JSON.parse(decompressedData);
+
+            console.log(`[CorpusLoader] Authority index loaded: ${index.lemmata.length} lemmata, ${Object.keys(index.variants).length} variant mappings`);
+
+            // Cache for future use
+            await this.cacheIndex('authority-index', index);
+
+            return index;
+
+        } catch (error) {
+            console.error('[CorpusLoader] Failed to load authority index:', error);
+            throw new Error(`Authority index konnte nicht geladen werden: ${error.message}`);
+        }
+    }
+
+    /**
+     * Load corpus index (texts metadata and lemma positions)
+     */
+    async loadCorpusIndex() {
+        await this.dbReady;
+        const cachedIndex = await this.getCachedIndex('corpus-index');
+
+        if (cachedIndex) {
+            console.log('[CorpusLoader] Using cached corpus index');
+            return cachedIndex;
+        }
+
+        console.log('[CorpusLoader] Fetching corpus index from network...');
+
+        try {
+            const response = await fetch(`${this.basePath}/corpus-index.json.gz`);
+
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            }
+
+            const compressedData = await response.arrayBuffer();
+            const decompressedData = pako.ungzip(new Uint8Array(compressedData), { to: 'string' });
+            const index = JSON.parse(decompressedData);
+
+            console.log(`[CorpusLoader] Corpus index loaded: ${index.texts.length} texts indexed`);
+
+            // Cache for future use
+            await this.cacheIndex('corpus-index', index);
+
+            return index;
+
+        } catch (error) {
+            console.error('[CorpusLoader] Failed to load corpus index:', error);
+            throw new Error(`Corpus index konnte nicht geladen werden: ${error.message}`);
+        }
+    }
+
+    /**
+     * Get cached index from IndexedDB
+     */
+    async getCachedIndex(name) {
+        try {
+            const cached = await this.db.indices.get(name);
+
+            if (!cached) {
+                return null;
+            }
+
+            // Check version
+            if (cached.version !== INDEX_VERSION) {
+                console.log(`[CorpusLoader] Cache version mismatch for ${name}: ${cached.version} != ${INDEX_VERSION}`);
+                await this.db.indices.delete(name);
+                return null;
+            }
+
+            // Check expiration
+            const age = Date.now() - cached.timestamp;
+            if (age > CACHE_DURATION) {
+                console.log(`[CorpusLoader] Cache expired for ${name} (age: ${Math.round(age / (24 * 60 * 60 * 1000))} days)`);
+                await this.db.indices.delete(name);
+                return null;
+            }
+
+            return cached.data;
+
+        } catch (error) {
+            console.error(`[CorpusLoader] Failed to read cache for ${name}:`, error);
+            return null;
+        }
+    }
+
+    /**
+     * Cache index in IndexedDB
+     */
+    async cacheIndex(name, data) {
+        try {
+            await this.db.indices.put({
+                name: name,
+                version: INDEX_VERSION,
+                timestamp: Date.now(),
+                data: data
+            });
+
+            console.log(`[CorpusLoader] Cached ${name} (version ${INDEX_VERSION})`);
+
+        } catch (error) {
+            console.error(`[CorpusLoader] Failed to cache ${name}:`, error);
+            // Non-critical error, continue without caching
+        }
+    }
+
+    /**
+     * Clear all cached indices (useful for debugging)
+     */
+    async clearCache() {
+        try {
+            await this.db.indices.clear();
+            console.log('[CorpusLoader] Cache cleared');
+        } catch (error) {
+            console.error('[CorpusLoader] Failed to clear cache:', error);
+        }
+    }
+
+    /**
+     * Get cache statistics
+     */
+    async getCacheStats() {
+        try {
+            const indices = await this.db.indices.toArray();
+
+            const stats = indices.map(index => ({
+                name: index.name,
+                version: index.version,
+                age: Math.round((Date.now() - index.timestamp) / (24 * 60 * 60 * 1000)),
+                size: JSON.stringify(index.data).length
+            }));
+
+            return stats;
+
+        } catch (error) {
+            console.error('[CorpusLoader] Failed to get cache stats:', error);
+            return [];
+        }
+    }
+}
+
+export { CorpusLoader, INDEX_VERSION };
