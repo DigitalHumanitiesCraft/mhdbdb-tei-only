@@ -43,7 +43,9 @@ class MainSiteApp {
             nextContext: document.getElementById('nextContext'),
             contextIndicator: document.getElementById('contextIndicator'),
             errorDisplay: document.getElementById('errorDisplay'),
-            errorMessage: document.getElementById('errorMessage')
+            errorMessage: document.getElementById('errorMessage'),
+            cacheClearBtn: document.getElementById('cacheClearBtn'),
+            cacheInfo: document.getElementById('cacheInfo')
         };
     }
 
@@ -70,6 +72,9 @@ class MainSiteApp {
 
             // Setup event listeners
             this.setupEventListeners();
+
+            // Update cache info
+            this.updateCacheInfo();
 
             this.updateLoadingStatus('Fertig!', 100);
 
@@ -160,6 +165,9 @@ class MainSiteApp {
                 this.closeModal();
             }
         });
+
+        // Cache management
+        this.elements.cacheClearBtn.addEventListener('click', () => this.handleCacheClear());
 
         console.log('[MainSiteApp] Event listeners attached');
     }
@@ -281,6 +289,9 @@ class MainSiteApp {
             this.elements.modalLoading.classList.add('hidden');
             this.elements.modalTextContent.classList.remove('hidden');
 
+            // Update cache info after loading a text
+            this.updateCacheInfo();
+
         } catch (error) {
             console.error('[MainSiteApp] Failed to open text:', error);
             this.elements.modalLoading.classList.add('hidden');
@@ -315,6 +326,43 @@ class MainSiteApp {
         const div = document.createElement('div');
         div.textContent = text;
         return div.innerHTML;
+    }
+
+    async updateCacheInfo() {
+        try {
+            if (!this.textRenderer || !this.textRenderer.cache) {
+                this.elements.cacheInfo.textContent = 'Cache';
+                return;
+            }
+
+            const stats = await this.textRenderer.cache.getStats();
+            if (stats && stats.count > 0) {
+                const sizeMB = (stats.totalSize / (1024 * 1024)).toFixed(1);
+                this.elements.cacheInfo.textContent = `Cache (${stats.count} / ${sizeMB}MB)`;
+            } else {
+                this.elements.cacheInfo.textContent = 'Cache (leer)';
+            }
+        } catch (error) {
+            console.error('[MainSiteApp] Error updating cache info:', error);
+            this.elements.cacheInfo.textContent = 'Cache';
+        }
+    }
+
+    async handleCacheClear() {
+        if (!confirm('Cache für TEI-Dateien löschen? Dies verbessert die Performance beim nächsten Laden.')) {
+            return;
+        }
+
+        try {
+            console.log('[MainSiteApp] Clearing TEI cache...');
+            await this.textRenderer.cache.clear();
+            await this.updateCacheInfo();
+            alert('Cache erfolgreich geleert!');
+            console.log('[MainSiteApp] Cache cleared successfully');
+        } catch (error) {
+            console.error('[MainSiteApp] Error clearing cache:', error);
+            alert('Fehler beim Leeren des Caches: ' + error.message);
+        }
     }
 }
 
