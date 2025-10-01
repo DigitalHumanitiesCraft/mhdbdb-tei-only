@@ -2,7 +2,7 @@
 
 **Last Updated**: 2025-10-01
 **Current Phase**: Phase 4 IN PROGRESS 🚧
-**Overall Progress**: 36/41 steps (88%)
+**Overall Progress**: 37/41 steps (90%)
 
 ---
 
@@ -12,7 +12,7 @@
 ✅ **Phase 1 Complete** (11/11 steps) - Infrastructure
 ✅ **Phase 2 Mostly Complete** (8/10 steps) - Main site implementation (core features working)
 ✅ **Phase 3 Complete** (6/6 steps) - Playground enhancement ⚡ 95% faster
-🚧 **Phase 4 In Progress** (4/8 steps) - Production readiness & performance optimization
+🚧 **Phase 4 In Progress** (5/8 steps) - Production readiness & performance optimization
 
 ---
 
@@ -148,11 +148,11 @@ npm test                   # Run Playwright tests (normalization + main-site)
 
 ---
 
-## Phase 4: Production Readiness (4/8 Complete)
+## Phase 4: Production Readiness (5/8 Complete)
 
 **Goal**: Performance optimization, polish, testing, and deployment preparation
 
-**Completed** (4/8):
+**Completed** (5/8):
 1. ✅ Modal loading indicator ([index.html](index.html:138), [js/main-site.js](js/main-site.js:67))
 2. ✅ TEI DOM caching (97% faster repeat loads: 60s → 2-3s)
    - [js/tei-cache-manager.js](js/tei-cache-manager.js:1) - IndexedDB cache manager
@@ -167,11 +167,15 @@ npm test                   # Run Playwright tests (normalization + main-site)
    - All 11 searches verified working (6 authority + 5 TEI)
    - Cross-referencing verified (work→author, variant→lemma)
    - Performance: 1.4s corpus load, all 666 texts accessible
+5. ✅ Code cleanup & architecture documentation 📚
+   - Removed 1,523 lines of obsolete code (5 files)
+   - Created comprehensive JS-ARCHITECTURE.md
+   - Verified naming conventions (100% consistent)
+   - No TODO/FIXME comments remaining
 
-**Remaining** (4/8):
-5. ⏸️ Cross-browser testing (Safari, Firefox, Edge)
-6. ⏸️ Mobile responsive optimization
-7. ⏸️ Final documentation updates
+**Remaining** (3/8):
+6. ⏸️ Cross-browser testing (Safari, Firefox, Edge)
+7. ⏸️ Mobile responsive optimization
 8. ⏸️ Deployment preparation (minification, CDN)
 
 **Performance Improvements**:
