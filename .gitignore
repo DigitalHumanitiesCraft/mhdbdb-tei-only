@@ -60,4 +60,10 @@ out/
 
 # Backup files
 *.bak
-*.backup__pycache__/
+*.backup
+__pycache__/
+
+# Debug and manual test files
+nul
+testing/manual-*.html
+testing/test-debug.html
