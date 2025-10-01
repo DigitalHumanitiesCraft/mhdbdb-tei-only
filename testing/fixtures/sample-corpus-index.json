@@ -1,0 +1,48 @@
+{
+  "version": "1.0.0",
+  "generatedAt": "2025-01-01T00:00:00Z",
+  "totalTexts": 2,
+  "totalLemmata": 6,
+  "texts": [
+    {
+      "id": "TEST",
+      "filename": "TEST.tei.xml",
+      "title": "Sample Test Document",
+      "author": "Test Author",
+      "authorRef": "#person_1",
+      "genre": "test",
+      "wordCount": 12,
+      "lemmata": {
+        "lemma_879": [0, 7],
+        "lemma_7532": [3, 9],
+        "lemma_1234": [1, 4],
+        "lemma_5678": [2, 11],
+        "lemma_9012": [6],
+        "lemma_3456": [8],
+        "lemma_1119": [10]
+      }
+    },
+    {
+      "id": "TEST2",
+      "filename": "TEST2.tei.xml",
+      "title": "Second Test Document",
+      "author": "Another Author",
+      "authorRef": "#person_2",
+      "genre": "test",
+      "wordCount": 5,
+      "lemmata": {
+        "lemma_879": [0],
+        "lemma_7532": [2]
+      }
+    }
+  ],
+  "lemmaIndex": {
+    "lemma_879": ["TEST", "TEST2"],
+    "lemma_7532": ["TEST", "TEST2"],
+    "lemma_1234": ["TEST"],
+    "lemma_5678": ["TEST"],
+    "lemma_9012": ["TEST"],
+    "lemma_3456": ["TEST"],
+    "lemma_1119": ["TEST"]
+  }
+}

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<authority xmlns="http://www.tei-c.org/ns/1.0">
+  <listPerson>
+    <person xml:id="person_1">
+      <persName type="preferred">Test Author</persName>
+    </person>
+    <person xml:id="person_2">
+      <persName type="preferred">Another Author</persName>
+    </person>
+  </listPerson>
+
+  <lexicon>
+    <entry xml:id="lemma_879">
+      <form type="lemma">brôt</form>
+      <sense>
+        <def>bread</def>
+      </sense>
+    </entry>
+    <entry xml:id="lemma_7532">
+      <form type="lemma">wîn</form>
+      <sense>
+        <def>wine</def>
+      </sense>
+    </entry>
+    <entry xml:id="lemma_1234">
+      <form type="lemma">sîn</form>
+      <sense>
+        <def>to be</def>
+      </sense>
+    </entry>
+    <entry xml:id="lemma_5678">
+      <form type="lemma">guot</form>
+      <sense>
+        <def>good</def>
+      </sense>
+    </entry>
+  </lexicon>
+
+  <variants>
+    <entry lemmaRef="#lemma_879">
+      <orth>brôt</orth>
+      <orth>brott</orth>
+      <orth>brot</orth>
+    </entry>
+    <entry lemmaRef="#lemma_7532">
+      <orth>wîn</orth>
+      <orth>win</orth>
+      <orth>wijn</orth>
+    </entry>
+  </variants>
+</authority>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>Sample Test Document</title>
+        <author ref="#person_1">Test Author</author>
+      </titleStmt>
+      <publicationStmt>
+        <publisher>MHDBDB Test Suite</publisher>
+        <idno type="sigle">TEST</idno>
+      </publicationStmt>
+      <sourceDesc>
+        <bibl>Test source for automated testing</bibl>
+      </sourceDesc>
+    </fileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <div type="chapter">
+        <head>Test Chapter</head>
+        <p>
+          <w lemmaRef="lexicon.xml#lemma_879" wordRef="variants.xml#word_1">brôt</w>
+          <w lemmaRef="lexicon.xml#lemma_1234" wordRef="variants.xml#word_2">ist</w>
+          <w lemmaRef="lexicon.xml#lemma_5678" wordRef="variants.xml#word_3">guot</w>
+          <w lemmaRef="lexicon.xml#lemma_7532" wordRef="variants.xml#word_4">wîn</w>
+          <w lemmaRef="lexicon.xml#lemma_1234" wordRef="variants.xml#word_5">ist</w>
+          <w lemmaRef="lexicon.xml#lemma_9012" wordRef="variants.xml#word_6">bezzer</w>.
+        </p>
+        <p>
+          <w lemmaRef="lexicon.xml#lemma_879" wordRef="variants.xml#word_7">brott</w>
+          <w lemmaRef="lexicon.xml#lemma_3456" wordRef="variants.xml#word_8">und</w>
+          <w lemmaRef="lexicon.xml#lemma_7532" wordRef="variants.xml#word_9">win</w>
+          <w lemmaRef="lexicon.xml#lemma_1119" wordRef="variants.xml#word_10">sint</w>
+          <w lemmaRef="lexicon.xml#lemma_5678" wordRef="variants.xml#word_11">guot</w>.
+        </p>
+      </div>
+    </body>
+  </text>
+</TEI>
