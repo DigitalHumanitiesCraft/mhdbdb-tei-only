@@ -241,7 +241,17 @@
 
             <!-- Modal Content -->
             <div id="modalContent" class="flex-1 overflow-y-auto px-6 py-4">
-                <!-- Dynamically populated with TEI text content -->
+                <!-- Loading indicator (shown while loading TEI) -->
+                <div id="modalLoading" class="hidden flex flex-col items-center justify-center py-12">
+                    <div class="spinner mb-4"></div>
+                    <p id="modalLoadingStatus" class="text-gray-600 mb-2">Lade Text...</p>
+                    <p class="text-sm text-gray-500">Dies kann 30-60 Sekunden dauern</p>
+                </div>
+
+                <!-- Text content container (hidden during load) -->
+                <div id="modalTextContent">
+                    <!-- Dynamically populated with TEI text content -->
+                </div>
             </div>
 
             <!-- Modal Footer -->

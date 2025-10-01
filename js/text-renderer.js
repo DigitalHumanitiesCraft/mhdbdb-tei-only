@@ -43,7 +43,8 @@ class TextRenderer {
             console.log(`[TextRenderer] Found ${this.currentContexts.length} occurrences`);
 
             if (this.currentContexts.length === 0) {
-                elements.modalContent.innerHTML = '<p class="text-gray-600">Keine Treffer in diesem Text gefunden.</p>';
+                const targetElement = elements.modalTextContent || elements.modalContent;
+                targetElement.innerHTML = '<p class="text-gray-600">Keine Treffer in diesem Text gefunden.</p>';
                 this.updateNavigationButtons();
                 return;
             }
@@ -54,7 +55,8 @@ class TextRenderer {
 
         } catch (error) {
             console.error('[TextRenderer] Rendering failed:', error);
-            elements.modalContent.innerHTML = `<p class="text-red-600">Fehler beim Laden: ${error.message}</p>`;
+            const targetElement = elements.modalTextContent || elements.modalContent;
+            targetElement.innerHTML = `<p class="text-red-600">Fehler beim Laden: ${error.message}</p>`;
         }
     }
 
@@ -164,8 +166,9 @@ class TextRenderer {
             }
         }).join(' ');
 
-        // Render in modal
-        this.elements.modalContent.innerHTML = `
+        // Render in modal (use modalTextContent if available, fallback to modalContent)
+        const targetElement = this.elements.modalTextContent || this.elements.modalContent;
+        targetElement.innerHTML = `
             <div class="text-gray-800 leading-relaxed">
                 ${html}
             </div>
@@ -176,7 +179,7 @@ class TextRenderer {
 
         // Scroll highlighted word into view
         setTimeout(() => {
-            const highlighted = this.elements.modalContent.querySelector('.highlight-lemma-1');
+            const highlighted = targetElement.querySelector('.highlight-lemma-1');
             if (highlighted) {
                 highlighted.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }

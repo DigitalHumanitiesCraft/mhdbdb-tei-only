@@ -35,6 +35,9 @@ class MainSiteApp {
             modalTitle: document.getElementById('modalTitle'),
             modalAuthor: document.getElementById('modalAuthor'),
             modalContent: document.getElementById('modalContent'),
+            modalLoading: document.getElementById('modalLoading'),
+            modalLoadingStatus: document.getElementById('modalLoadingStatus'),
+            modalTextContent: document.getElementById('modalTextContent'),
             closeModal: document.getElementById('closeModal'),
             prevContext: document.getElementById('prevContext'),
             nextContext: document.getElementById('nextContext'),
@@ -263,21 +266,39 @@ class MainSiteApp {
             this.elements.modalTitle.textContent = result.title;
             this.elements.modalAuthor.textContent = result.author || 'Unbekannter Autor';
 
-            // Render text content with highlighting
+            // Show modal immediately with loading indicator
+            this.elements.textModal.classList.add('active');
+            this.elements.modalLoading.classList.remove('hidden');
+            this.elements.modalTextContent.classList.add('hidden');
+
+            // Update loading status
+            this.updateModalLoadingStatus('Lade TEI-Datei...');
+
+            // Render text content with highlighting (this is slow: 30-60s)
             await this.textRenderer.renderText(result.textId, result.lemmaId, this.elements);
 
-            // Show modal
-            this.elements.textModal.classList.add('active');
+            // Hide loading, show content
+            this.elements.modalLoading.classList.add('hidden');
+            this.elements.modalTextContent.classList.remove('hidden');
 
         } catch (error) {
             console.error('[MainSiteApp] Failed to open text:', error);
+            this.elements.modalLoading.classList.add('hidden');
             this.showError(`Fehler beim Laden des Textes: ${error.message}`);
+        }
+    }
+
+    updateModalLoadingStatus(message) {
+        if (this.elements.modalLoadingStatus) {
+            this.elements.modalLoadingStatus.textContent = message;
         }
     }
 
     closeModal() {
         this.elements.textModal.classList.remove('active');
-        this.elements.modalContent.innerHTML = '';
+        this.elements.modalTextContent.innerHTML = '';
+        this.elements.modalLoading.classList.add('hidden');
+        this.elements.modalTextContent.classList.remove('hidden');
         console.log('[MainSiteApp] Modal closed');
     }
 
