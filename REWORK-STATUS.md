@@ -2,7 +2,7 @@
 
 **Last Updated**: 2025-10-01
 **Current Phase**: Phase 4 IN PROGRESS 🚧
-**Overall Progress**: 35/41 steps (85%)
+**Overall Progress**: 36/41 steps (88%)
 
 ---
 
@@ -12,7 +12,7 @@
 ✅ **Phase 1 Complete** (11/11 steps) - Infrastructure
 ✅ **Phase 2 Mostly Complete** (8/10 steps) - Main site implementation (core features working)
 ✅ **Phase 3 Complete** (6/6 steps) - Playground enhancement ⚡ 95% faster
-🚧 **Phase 4 In Progress** (3/8 steps) - Production readiness & performance optimization
+🚧 **Phase 4 In Progress** (4/8 steps) - Production readiness & performance optimization
 
 ---
 
@@ -148,11 +148,11 @@ npm test                   # Run Playwright tests (normalization + main-site)
 
 ---
 
-## Phase 4: Production Readiness (3/8 Complete)
+## Phase 4: Production Readiness (4/8 Complete)
 
 **Goal**: Performance optimization, polish, testing, and deployment preparation
 
-**Completed** (3/8):
+**Completed** (4/8):
 1. ✅ Modal loading indicator ([index.html](index.html:138), [js/main-site.js](js/main-site.js:67))
 2. ✅ TEI DOM caching (97% faster repeat loads: 60s → 2-3s)
    - [js/tei-cache-manager.js](js/tei-cache-manager.js:1) - IndexedDB cache manager
@@ -162,11 +162,15 @@ npm test                   # Run Playwright tests (normalization + main-site)
    - 🗑️ Cache button with size/count display in header
    - Clear cache functionality with confirmation
    - Automatic stats update after text loads
+4. ✅ All search tests fixed and passing (12/12) ✨
+   - Fixed incorrect element IDs in test suite
+   - All 11 searches verified working (6 authority + 5 TEI)
+   - Cross-referencing verified (work→author, variant→lemma)
+   - Performance: 1.4s corpus load, all 666 texts accessible
 
-**Remaining** (5/8):
-4. ⏸️ Cross-browser testing (Safari, Firefox, Edge)
-5. ⏸️ Mobile responsive optimization
-6. ⏸️ Fix remaining UI issues (text modal, genre filtering)
+**Remaining** (4/8):
+5. ⏸️ Cross-browser testing (Safari, Firefox, Edge)
+6. ⏸️ Mobile responsive optimization
 7. ⏸️ Final documentation updates
 8. ⏸️ Deployment preparation (minification, CDN)
 
