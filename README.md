@@ -23,6 +23,26 @@ Alle Inhalte basieren auf den Daten der [Mittelhochdeutschen Begriffsdatenbank (
 | **Search** | Single lemma with filters | 11 search types (incl. multi-lemma, XPath) |
 | **Target Users** | General public, students | Researchers, medievalists |
 
+## 📚 Documentation
+
+**Complete documentation is available in the [docs/](docs/) directory:**
+
+### For Users
+- **[User Guide](docs/USER-GUIDE.md)** - Getting started, how to search, tips & tricks
+- **[Search Guide](docs/SEARCH-GUIDE.md)** - Detailed guide to all 11 search functions
+- **[FAQ](docs/FAQ.md)** - Frequently asked questions
+- **[Glossary](docs/GLOSSARY.md)** - MHG terminology and technical concepts
+
+### For Developers
+- **[Developer Guide](docs/DEVELOPER-GUIDE.md)** - Architecture, setup, development workflow
+- **[JS Architecture](JS-ARCHITECTURE.md)** - JavaScript file organization
+- **[API Reference](docs/API-REFERENCE.md)** - JavaScript API documentation *(coming soon)*
+- **[Testing Guide](docs/TESTING-GUIDE.md)** - Writing and running tests *(coming soon)*
+
+### Project Status
+- **[REWORK-STATUS.md](REWORK-STATUS.md)** - Current implementation status (90% complete)
+- **[PHASE-3-COMPLETION.md](PHASE-3-COMPLETION.md)** - Performance optimization report
+
 ## Quick Start
 
 ### Start Web Server
