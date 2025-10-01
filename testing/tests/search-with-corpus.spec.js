@@ -32,10 +32,10 @@ test.describe('Search Functions with Pre-Built Corpus', () => {
         await page.click('button:has-text("Autoren anzeigen")');
 
         // Wait for search input to appear
-        await page.waitForSelector('#authorsSearchInput', { timeout: 5000 });
+        await page.waitForSelector('#authorSearch', { timeout: 5000 });
 
         // Search for "Eckhart"
-        await page.fill('#authorsSearchInput', 'Eckhart');
+        await page.fill('#authorSearch', 'Eckhart');
         await page.waitForTimeout(500); // Wait for search to execute
 
         // Check results appeared
@@ -47,10 +47,10 @@ test.describe('Search Functions with Pre-Built Corpus', () => {
     test('Search 2: Werke anzeigen (Works search)', async ({ page }) => {
         await page.click('button:has-text("Werke anzeigen")');
 
-        await page.waitForSelector('#worksSearchInput', { timeout: 5000 });
+        await page.waitForSelector('#workSearch', { timeout: 5000 });
 
         // Search for "Predigt"
-        await page.fill('#worksSearchInput', 'Predigt');
+        await page.fill('#workSearch', 'Predigt');
         await page.waitForTimeout(500);
 
         const results = await page.locator('#resultsContainer').textContent();
@@ -61,10 +61,10 @@ test.describe('Search Functions with Pre-Built Corpus', () => {
     test('Search 3: Lemmata anzeigen (Lexicon search)', async ({ page }) => {
         await page.click('button:has-text("Lemmata anzeigen")');
 
-        await page.waitForSelector('#lemmataSearchInput', { timeout: 5000 });
+        await page.waitForSelector('#lemmaSearch', { timeout: 5000 });
 
         // Search for "brot" (should match "brôt")
-        await page.fill('#lemmataSearchInput', 'brot');
+        await page.fill('#lemmaSearch', 'brot');
         await page.waitForTimeout(500);
 
         const results = await page.locator('#resultsContainer').textContent();
@@ -75,10 +75,10 @@ test.describe('Search Functions with Pre-Built Corpus', () => {
     test('Search 4: Konzepte anzeigen (Concepts search)', async ({ page }) => {
         await page.click('button:has-text("Konzepte anzeigen")');
 
-        await page.waitForSelector('#conceptsSearchInput', { timeout: 5000 });
+        await page.waitForSelector('#conceptSearch', { timeout: 5000 });
 
         // Search for "Liebe"
-        await page.fill('#conceptsSearchInput', 'Liebe');
+        await page.fill('#conceptSearch', 'Liebe');
         await page.waitForTimeout(500);
 
         const results = await page.locator('#resultsContainer').textContent();
@@ -89,10 +89,10 @@ test.describe('Search Functions with Pre-Built Corpus', () => {
     test('Search 5: Gattungen anzeigen (Genres search)', async ({ page }) => {
         await page.click('button:has-text("Gattungen anzeigen")');
 
-        await page.waitForSelector('#genresSearchInput', { timeout: 5000 });
+        await page.waitForSelector('#genreSearch', { timeout: 5000 });
 
         // Search for "Predigt"
-        await page.fill('#genresSearchInput', 'Predigt');
+        await page.fill('#genreSearch', 'Predigt');
         await page.waitForTimeout(500);
 
         const results = await page.locator('#resultsContainer').textContent();
@@ -103,10 +103,10 @@ test.describe('Search Functions with Pre-Built Corpus', () => {
     test('Search 6: Namen anzeigen (Names search)', async ({ page }) => {
         await page.click('button:has-text("Namen anzeigen")');
 
-        await page.waitForSelector('#namesSearchInput', { timeout: 5000 });
+        await page.waitForSelector('#nameSearch', { timeout: 5000 });
 
         // Search for "Maria"
-        await page.fill('#namesSearchInput', 'Maria');
+        await page.fill('#nameSearch', 'Maria');
         await page.waitForTimeout(500);
 
         const results = await page.locator('#resultsContainer').textContent();
@@ -246,7 +246,7 @@ test.describe('Search Functions with Pre-Built Corpus', () => {
                 const xmlDoc = await firstText.xmlDoc;
 
                 // Check if it's a valid XML document
-                return xmlDoc && xmlDoc.documentElement && xmlDoc.documentElement.tagName;
+                return xmlDoc && xmlDoc.documentElement && xmlDoc.documentElement.tagName === 'TEI';
             } catch (error) {
                 console.error('XML load error:', error);
                 return false;
