@@ -94,14 +94,20 @@ cd mhdbdb-tei-only
 
 ### Is MHDBDB mobile-friendly?
 
-**Not currently.** MHDBDB is optimized for desktop research:
-- Minimum width: 1200px
-- Complex UI not suited for small screens
-- Large data downloads (~22 MB indices)
+**Yes!** MHDBDB now includes comprehensive mobile optimization:
+- ✅ Responsive design (375px - 4K displays)
+- ✅ Touch-friendly interfaces (min 44x44px tap targets)
+- ✅ Mobile-first CSS with fluid layouts
+- ✅ Optimized modals for small screens
+- ✅ Landscape orientation support
+- ✅ Works on phones, tablets, and desktops
 
-**iPad/Tablet**: May work in landscape mode with Safari/Chrome.
+**Tested on**:
+- iPhone (375px)
+- iPad (768px, 1024px)
+- Desktop (1200px+)
 
-**Future Plans**: Mobile optimization is on the roadmap but not a current priority.
+**Note**: Large data downloads (~22 MB indices) may take longer on mobile networks.
 
 ---
 

@@ -528,6 +528,71 @@ textarea:focus {
   .file-group {
     padding: var(--space-3) var(--space-4);
   }
+
+  /* Header adjustments */
+  header .flex-col.lg\\:flex-row {
+    gap: var(--space-3);
+  }
+
+  header h1 {
+    font-size: var(--text-2xl);
+  }
+
+  /* Main grid adjustments */
+  main.grid.lg\\:grid-cols-\\[1fr_1fr_2fr\\] {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  /* Button grid adjustments */
+  .grid.grid-cols-2.gap-2 {
+    grid-template-columns: 1fr;
+    gap: var(--space-2);
+  }
+}
+
+@media (max-width: 768px) {
+  /* Header mobile optimization */
+  header .px-6 {
+    padding-left: var(--space-4);
+    padding-right: var(--space-4);
+  }
+
+  header .py-10 {
+    padding-top: var(--space-5);
+    padding-bottom: var(--space-5);
+  }
+
+  header h1 {
+    font-size: var(--text-xl);
+  }
+
+  header p {
+    font-size: var(--text-sm);
+  }
+
+  /* Main content padding */
+  main.px-6 {
+    padding-left: var(--space-3);
+    padding-right: var(--space-3);
+  }
+
+  /* Section padding */
+  section.p-6 {
+    padding: var(--space-4);
+  }
+
+  /* Button text sizing */
+  button {
+    font-size: var(--text-sm);
+    padding: var(--space-2) var(--space-3);
+  }
+
+  /* Search input sizing */
+  input[type="text"],
+  input[type="search"] {
+    font-size: 16px; /* Prevent iOS zoom */
+  }
 }
 
 @media (max-width: 640px) {
@@ -552,6 +617,122 @@ textarea:focus {
   .result-summary {
     cursor: pointer;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+  }
+
+  /* Header ultra-compact */
+  header .px-6 {
+    padding-left: var(--space-3);
+    padding-right: var(--space-3);
+  }
+
+  header .py-10 {
+    padding-top: var(--space-4);
+    padding-bottom: var(--space-4);
+  }
+
+  header h1 {
+    font-size: var(--text-lg);
+  }
+
+  header .text-sm {
+    font-size: var(--text-xs);
+  }
+
+  /* Main content ultra-compact */
+  main.px-6 {
+    padding-left: var(--space-2);
+    padding-right: var(--space-2);
+  }
+
+  main.mt-10 {
+    margin-top: var(--space-6);
+  }
+
+  /* Section ultra-compact */
+  section.p-6 {
+    padding: var(--space-3);
+    border-radius: var(--radius-lg);
+  }
+
+  /* Typography adjustments */
+  h2 {
+    font-size: var(--text-lg);
+  }
+
+  h3 {
+    font-size: var(--text-base);
+  }
+
+  /* Button full-width on tiny screens */
+  .grid.grid-cols-2 button {
+    width: 100%;
+  }
+
+  /* File upload zone */
+  #uploadZone {
+    min-height: 120px;
+    padding: var(--space-4);
+  }
+
+  /* Result cards compact */
+  .result-summary {
+    padding: var(--space-3);
+  }
+
+  .result-summary h3 {
+    font-size: var(--text-sm);
+  }
+
+  /* Detail items compact */
+  .detail-item {
+    padding: var(--space-2) var(--space-3);
+  }
+}
+
+/* Landscape mobile optimization */
+@media (max-width: 768px) and (orientation: landscape) {
+  header .py-10 {
+    padding-top: var(--space-3);
+    padding-bottom: var(--space-3);
+  }
+
+  header h1 {
+    font-size: var(--text-lg);
+  }
+
+  header p {
+    display: none; /* Hide description in landscape to save space */
+  }
+
+  main.mt-10 {
+    margin-top: var(--space-4);
+  }
+}
+
+/* Touch device optimizations */
+@media (pointer: coarse) {
+  /* Larger tap targets */
+  button,
+  a,
+  [role="button"] {
+    min-height: 48px;
+    min-width: 48px;
+  }
+
+  /* Remove hover effects on touch devices */
+  .file-item:hover,
+  .result-summary:hover,
+  .file-group:hover {
+    transform: none;
+    box-shadow: initial;
+  }
+
+  /* Add active state instead */
+  .file-item:active,
+  .result-summary:active,
+  .file-group:active {
+    transform: scale(0.98);
+    opacity: 0.9;
   }
 }
 
