@@ -36,9 +36,25 @@ This is the MHDBDB TEI Repository - a collection of TEI-encoded Middle High Germ
   - `validate-indices.py` - Index validation and integrity checks
   - `generate-manifest.py` - Generates corpus manifest
 
-### Web Interface
-- **playground/**: Web-based exploration tool for TEI data analysis
-  - `index.html` - Main interface
+### Web Interfaces
+
+#### Main Site (index.html)
+- **Purpose**: Public-facing corpus browser for general users and students
+- **Architecture**: Simple search and display with pre-built corpus index
+- **Key Files**:
+  - `index.html` - Main landing page with corpus search
+  - `js/app.js` - Main site application controller
+  - `js/search/search-engine.js` - Search functionality across corpus
+  - `js/rendering/text-renderer.js` - Text display and rendering
+  - `js/storage/tei-cache-manager.js` - TEI file caching
+- **Data Source**: Uses `data/corpus-index.json.gz` (21 MB) for instant search
+- **Features**: Single lemma search, text browsing, basic filtering
+
+#### Playground (playground/)
+- **Purpose**: Advanced research tool for medievalists and researchers
+- **Architecture**: Modular UI with 18 specialized components
+- **Key Files**:
+  - `index.html` - Playground interface
   - `js/` - JavaScript modules for data processing (modular architecture)
     - `playground-main.js` - Application entry point (`MHDBDBPlayground` class)
     - `indexed-db-manager.js` - Core IndexedDB operations
@@ -162,6 +178,25 @@ All files use consistent cross-referencing:
 **What Still Uses XML Parsing**:
 - TEI files (user-uploaded) - still parsed in browser as needed
 - This is correct and expected for user content
+
+## System Requirements
+
+### Prerequisites
+- **Node.js**: 16+ (for npm scripts and testing)
+- **Python**: 3.13+ (for building pre-built indexes from XML sources)
+  - Required packages: `lxml`, `datetime`
+  - Install: `pip install lxml`
+- **Web Browser**: Chrome/Chromium (for Playwright tests)
+- **Git**: For version control
+
+### Python Usage
+Python is **required** for:
+- Building authority index: `python scripts/build-authority-index.py`
+- Building corpus index: `python scripts/build-corpus-index.py`
+- Extracting variants: `python scripts/extract-variants.py`
+- Validating indices: `python scripts/validate-indices.py`
+
+**Note**: Pre-built indexes are included in the repository, so Python is only needed if you modify source XML files in `authority-files/` or `tei/` directories.
 
 ## Development Commands
 
@@ -478,6 +513,56 @@ This is a research repository focused on:
 - Interactive data exploration for medievalists
 
 When working with this codebase, respect the academic nature of the data and maintain the existing annotation standards and cross-reference integrity.
+
+## Git Workflow
+
+### Branch Strategy
+- **`main`**: Production-ready code, stable releases
+- **`pre-main-site`**: Preserved branch with old XML parsing architecture (for reference)
+- **Feature branches**: Use descriptive names (e.g., `refactor/js-architecture`, `feature/search-improvements`)
+
+### Common Git Tasks
+
+#### Starting New Work
+```bash
+# Ensure main is up to date
+git checkout main
+git pull origin main
+
+# Create feature branch
+git checkout -b feature/your-feature-name
+
+# Make changes and commit
+git add .
+git commit -m "Description of changes"
+
+# Push branch
+git push -u origin feature/your-feature-name
+```
+
+#### Committing Changes
+- Use descriptive commit messages
+- Include "🤖 Generated with [Claude Code](https://claude.com/claude-code)" footer
+- Add "Co-Authored-By: Claude <noreply@anthropic.com>" for AI-assisted commits
+- Reference related issues/PRs when applicable
+
+#### After Refactoring/Major Changes
+1. Update `CLAUDE.md` with new architecture details
+2. Update `README.md` if user-facing changes
+3. Update `docs/` if needed
+4. Rebuild pre-built indexes if XML sources changed:
+   ```bash
+   python scripts/build-authority-index.py
+   python scripts/build-corpus-index.py
+   ```
+5. Run tests: `npm test`
+6. Update documentation in commit message
+
+### Important Notes
+- **Never force push to `main`** - merge conflicts should be resolved properly
+- **Rebuild indexes** after modifying XML files in `authority-files/` or `tei/`
+- **Run tests** before pushing to ensure nothing breaks
+- **Update docs** when file structure or architecture changes
 
 ## Important Constraints
 
