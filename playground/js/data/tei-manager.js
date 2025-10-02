@@ -3,7 +3,7 @@
  * Handles TEI file upload, parsing, and structural analysis with IndexedDB
  */
 
-import { TEIStorageManager } from './storage-manager.js';
+import { TEIStorageManager } from './storage/tei-storage.js';
 
 export class TEIFilesManager {
     constructor(teiData) {

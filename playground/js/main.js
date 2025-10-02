@@ -3,8 +3,8 @@
  * Now using modular UI components instead of monolithic ui-helpers.js
  */
 
-import { AuthorityFilesManager } from './authority-files.js';
-import { TEIFilesManager } from './tei-files.js';
+import { AuthorityFilesManager } from './data/authority-manager.js';
+import { TEIFilesManager } from './data/tei-manager.js';
 
 // NEW: Import modular UI components (decomposed from UICore.js)
 import { updateAllUI } from './ui/core/ui-helpers.js';
@@ -12,7 +12,7 @@ import { displayFileItem, setupCollapsibleFileList, setupFileFilter, updateFileC
 import { showProgress, updateProgress, hideSpinner, setFileDisplayHelpers } from './ui/core/progress.js';
 import { AuthorityUI } from './ui/authority/authority-ui.js';
 import { TEIExplorer } from './ui/TEIExplorer.js';
-import { MultiLemmaSearchUI } from './ui/MultiLemmaSearch.js';
+import { MultiLemmaSearchUI } from './ui/tei/multi-lemma-search.js';
 
 // Wire up file display helpers for progress.js
 setFileDisplayHelpers(setupCollapsibleFileList, setupFileFilter);

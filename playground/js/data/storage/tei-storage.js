@@ -3,7 +3,7 @@
  * Handles TEI file storage using IndexedDB
  */
 
-import { IndexedDBManager } from './indexed-db-manager.js';
+import { IndexedDBManager } from '../../indexed-db-manager.js';
 
 export class TEIStorageManager {
     constructor() {
