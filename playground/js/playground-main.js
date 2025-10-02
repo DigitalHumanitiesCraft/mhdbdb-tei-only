@@ -11,14 +11,14 @@ import { updateAllUI } from './ui/core/ui-helpers.js';
 import { displayFileItem, setupCollapsibleFileList, setupFileFilter, updateFileCount } from './ui/core/file-display.js';
 import { showProgress, updateProgress, hideSpinner, setFileDisplayHelpers } from './ui/core/progress.js';
 import { AuthorityUI } from './ui/authority/authority-ui.js';
-import { TEIExplorer } from './ui/TEIExplorer.js';
+import { TEIExplorer } from './ui/tei/tei-ui.js';
 import { MultiLemmaSearchUI } from './ui/tei/multi-lemma-search.js';
 
 // Wire up file display helpers for progress.js
 setFileDisplayHelpers(setupCollapsibleFileList, setupFileFilter);
 
 // Import utilities for global exposure (needed for testing)
-import { TextNormalizer } from '../../lib/text-normalizer.js';
+import { TextNormalizer } from '/lib/text-normalizer.js';
 import { SearchPatterns } from './ui/search/SearchHelpers.js';
 
 class MHDBDBPlayground {
@@ -80,7 +80,7 @@ class MHDBDBPlayground {
             console.log('📥 Loading pre-built authority index...');
 
             // Dynamically import CorpusLoader (from parent directory)
-            const { CorpusLoader } = await import('../../js/corpus-loader.js');
+            const { CorpusLoader } = await import('/lib/corpus-loader.js');
 
             // Create loader with correct path (playground is in playground/ subdirectory)
             const loader = new CorpusLoader('../data');

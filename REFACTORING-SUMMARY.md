@@ -24,6 +24,16 @@ lib/                              # ✨ NEW - Shared utilities
 ├── text-normalizer.js
 └── corpus-loader.js
 
+js/                               # Main site (reorganized)
+├── site-main.js                  # ✨ RENAMED from main.js
+├── app.js                        # ✨ RENAMED from main-site.js
+├── search/                       # ✨ NEW
+│   └── search-engine.js
+├── rendering/                    # ✨ NEW
+│   └── text-renderer.js
+└── storage/                      # ✨ NEW
+    └── tei-cache-manager.js
+
 playground/js/
 ├── playground-main.js            # ✨ RENAMED (was main.js)
 ├── data/                         # ✨ NEW - Data layer
@@ -45,7 +55,7 @@ playground/js/
 │   │   ├── genre-explorer.js
 │   │   └── name-explorer.js
 │   ├── tei/                      # ✨ NEW - TEI tools
-│   │   ├── TEIExplorer.js
+│   │   ├── tei-ui.js              # ✨ RENAMED from TEIExplorer.js
 │   │   └── multi-lemma-search.js
 │   └── search/
 │       └── SearchHelpers.js
@@ -89,9 +99,11 @@ Moved to logical structure:
 - `authority-files.js` → `data/authority-manager.js`
 - `tei-files.js` → `data/tei-manager.js`
 - `storage-manager.js` → `data/storage/tei-storage.js`
+- `TEIExplorer.js` → `ui/tei/tei-ui.js` (667 lines - not split as originally planned)
 - `MultiLemmaSearch.js` → `ui/tei/multi-lemma-search.js`
 
 **Impact:** Clear data/UI separation, MVC pattern
+**Note:** tei-ui.js was moved/renamed but not split into smaller files (plan called for tei-ui.js + lemma-search.js split)
 
 ### ✅ Phase 8: Eliminate Name Collision
 - Renamed `playground/js/main.js` → `playground-main.js`
@@ -177,18 +189,39 @@ import { updateAllUI } from './ui/core/ui-helpers.js';
 5. **f086406** - Phase 8: Eliminate main.js collision
 6. **1e8d59b** - Phase 9: Delete old monolithic files
 
-## Next Steps
+## Incomplete Items
 
-### Phase 7 (Deferred)
-Main site `/js` folder reorganization was deferred as it's separate from playground refactor. Can be done independently:
-- Move `js/main.js` → `js/site-main.js`
-- Create `js/search/`, `js/rendering/`, `js/storage/` subdirectories
+### Phase 6: TEI File Splitting
+**Status:** Partially complete
+- ✅ TEIExplorer.js moved to `ui/tei/tei-ui.js`
+- ⏭️ **Not split:** Still 667 lines (plan called for splitting into tei-ui.js + lemma-search.js)
+- **Reason:** Deferred to keep refactor focused on organization, not decomposition of this particular file
 
-### Future Enhancements
-1. **TypeScript Migration** - Add type safety to modules
-2. **Unit Testing** - Jest tests for individual modules
-3. **Build System** - Vite/Webpack for bundling and optimization
-4. **Performance Monitoring** - Metrics for large file operations
+### ✅ Phase 7: Main Site Reorganization
+**Status:** Complete
+Main site `/js` folder reorganized with logical subdirectories:
+- ✅ Renamed `js/main.js` → `js/site-main.js`
+- ✅ Renamed `js/main-site.js` → `js/app.js`
+- ✅ Moved `js/search-engine.js` → `js/search/search-engine.js`
+- ✅ Moved `js/text-renderer.js` → `js/rendering/text-renderer.js`
+- ✅ Moved `js/tei-cache-manager.js` → `js/storage/tei-cache-manager.js`
+- ✅ Updated `index.html` script reference (app.js)
+- ✅ Updated all import paths to use `/lib/text-normalizer.js` and new subdirectory structure
+
+**Impact:** Eliminates ALL name collisions, clear separation of concerns, consistent with playground architecture
+
+### Phase 10: Validation
+**Status:** Not yet run
+- ⏭️ Run full test suite: `npm test`
+- ⏭️ Manual testing of all 11 search entry points
+- ⏭️ Verify no regressions
+
+## Future Enhancements
+1. **Split tei-ui.js** - Further decompose 667-line file into lemma-search.js + tei-ui.js
+2. **TypeScript Migration** - Add type safety to modules
+3. **Unit Testing** - Jest tests for individual modules
+4. **Build System** - Vite/Webpack for bundling and optimization
+5. **Performance Monitoring** - Metrics for large file operations
 
 ## Conclusion
 

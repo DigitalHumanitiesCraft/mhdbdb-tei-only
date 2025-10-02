@@ -3,9 +3,9 @@
  * Handles TEI text analysis and word-level exploration with MHG normalization
  */
 
-import { displayResults, displaySummaryResults } from './core/ui-helpers.js';
-import { showOverlaySpinner, hideSpinner } from './core/progress.js';
-import { TextNormalizer } from '../../../lib/text-normalizer.js';
+import { displayResults, displaySummaryResults } from '../core/ui-helpers.js';
+import { showOverlaySpinner, hideSpinner } from '../core/progress.js';
+import { TextNormalizer } from '/lib/text-normalizer.js';
 
 export class TEIExplorer {
     constructor(teiData, authorityData) {

@@ -3,9 +3,9 @@
  * Manages the public-facing MHDBDB corpus exploration interface
  */
 
-import { CorpusLoader } from './corpus-loader.js';
-import { SearchEngine } from './search-engine.js';
-import { TextRenderer } from './text-renderer.js';
+import { CorpusLoader } from '/lib/corpus-loader.js';
+import { SearchEngine } from './search/search-engine.js';
+import { TextRenderer } from './rendering/text-renderer.js';
 
 class MainSiteApp {
     constructor() {

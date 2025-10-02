@@ -5,7 +5,7 @@
  * Now with DOM caching for 97% faster repeat loads!
  */
 
-import { TEICacheManager } from './tei-cache-manager.js';
+import { TEICacheManager } from '../storage/tei-cache-manager.js';
 
 class TextRenderer {
     constructor(corpusIndex, authorityIndex) {

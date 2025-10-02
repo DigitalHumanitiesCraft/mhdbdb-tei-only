@@ -54,7 +54,7 @@ test.describe('MHG Normalization Parity', () => {
     // Load TextNormalizer module
     const normalizationResults = await page.evaluate(async (testCases) => {
       // Dynamically import TextNormalizer
-      const { TextNormalizer } = await import('./js/utils/text-normalizer.js');
+      const { TextNormalizer } = await import('./lib/text-normalizer.js');
 
       const results = [];
       for (const testCase of testCases) {
@@ -92,7 +92,7 @@ test.describe('MHG Normalization Parity', () => {
     for (const input of testInputs) {
       // Get JavaScript result
       const jsResult = await page.evaluate(async (text) => {
-        const { TextNormalizer } = await import('./js/utils/text-normalizer.js');
+        const { TextNormalizer } = await import('./lib/text-normalizer.js');
         return TextNormalizer.normalizeMHG(text);
       }, input);
 
@@ -116,7 +116,7 @@ test.describe('MHG Normalization Parity', () => {
 
     for (const input of testCases) {
       const result = await page.evaluate(async (text) => {
-        const { TextNormalizer } = await import('./js/utils/text-normalizer.js');
+        const { TextNormalizer } = await import('./lib/text-normalizer.js');
         const normalized1 = TextNormalizer.normalizeMHG(text);
         const normalized2 = TextNormalizer.normalizeMHG(normalized1);
         return { normalized1, normalized2 };
@@ -141,7 +141,7 @@ test.describe('MHG Normalization Parity', () => {
 
     for (const testCase of testCases) {
       const result = await page.evaluate(async ({ text, search }) => {
-        const { TextNormalizer } = await import('./js/utils/text-normalizer.js');
+        const { TextNormalizer } = await import('./lib/text-normalizer.js');
         return TextNormalizer.matchesNormalized(text, search);
       }, testCase);
 
@@ -162,7 +162,7 @@ test.describe('MHG Normalization Parity', () => {
 
     for (const testCase of testCases) {
       const result = await page.evaluate(async ({ text, search }) => {
-        const { TextNormalizer } = await import('./js/utils/text-normalizer.js');
+        const { TextNormalizer } = await import('./lib/text-normalizer.js');
         return TextNormalizer.exactMatchNormalized(text, search);
       }, testCase);
 

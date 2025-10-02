@@ -4,8 +4,8 @@
  * Uses MHG normalization for robust search
  */
 
-// Import MHG normalizer (reuse from playground)
-import { TextNormalizer } from '../playground/js/utils/text-normalizer.js';
+// Import MHG normalizer from shared library
+import { TextNormalizer } from '/lib/text-normalizer.js';
 
 class SearchEngine {
     constructor(authorityIndex, corpusIndex) {
