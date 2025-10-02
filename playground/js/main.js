@@ -10,11 +10,10 @@ import { TEIFilesManager } from './tei-files.js';
 import { updateAllUI, displayFileItem, showProgress, updateProgress, hideSpinner, setupCollapsibleFileList, setupFileFilter, updateFileCount } from './ui/UICore.js';
 import { AuthorityExplorers } from './ui/AuthorityExplorers.js';
 import { TEIExplorer } from './ui/TEIExplorer.js';
-import { XPathInterface } from './ui/XPathInterface.js';
 import { MultiLemmaSearchUI } from './ui/MultiLemmaSearch.js';
 
 // Import utilities for global exposure (needed for testing)
-import { TextNormalizer } from './utils/text-normalizer.js';
+import { TextNormalizer } from '../../lib/text-normalizer.js';
 import { SearchPatterns } from './ui/SearchHelpers.js';
 
 class MHDBDBPlayground {
@@ -47,8 +46,7 @@ class MHDBDBPlayground {
         // NEW: Modular UI instead of single UIHelpers
         this.ui = {
             authorityExplorers: new AuthorityExplorers(this.authorityData),
-            teiExplorer: new TEIExplorer(this.teiData, this.authorityData),
-            xpathInterface: new XPathInterface(this.authorityData, this.teiData)
+            teiExplorer: new TEIExplorer(this.teiData, this.authorityData)
         };
 
         // Initialize after teiExplorer is created
@@ -157,7 +155,6 @@ class MHDBDBPlayground {
         this.setupFileUpload();
         this.setupAuthorityQueries();
         this.setupTEIQueries();
-        this.setupXPathInterface();
 
         // Setup collapsible file list functionality
         setupCollapsibleFileList();
@@ -230,16 +227,6 @@ class MHDBDBPlayground {
                 console.warn(`Missing TEI button: ${id}`);
             }
         });
-    }
-
-    setupXPathInterface() {
-        // UPDATED: Use new XPath interface
-        const xpathExecute = document.getElementById('xpathExecute');
-        if (xpathExecute) {
-            xpathExecute.addEventListener('click', () => this.ui.xpathInterface.executeXPath());
-        } else {
-            console.warn('XPath button not found');
-        }
     }
 
     // ==================== TEI FILE HANDLING (UPDATED) ====================
@@ -383,7 +370,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // Make authority explorers methods available globally
         window.playground.ui.authorityExplorers = window.playground.ui.authorityExplorers;
         window.playground.ui.teiExplorer = window.playground.ui.teiExplorer;
-        window.playground.ui.xpathInterface = window.playground.ui.xpathInterface;
     }
 
     // Expose utilities globally for testing

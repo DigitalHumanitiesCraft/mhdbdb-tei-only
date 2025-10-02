@@ -100,7 +100,40 @@ def parse_lexicon():
         pos_el = entry.xpath('.//tei:pos', namespaces=ns)
         pos = pos_el[0].text.strip() if pos_el and pos_el[0].text else ''
 
-        # Note: No definition field in this structure, concepts linked via pointers
+        # Extract etymology (morphological components)
+        etym_components = []
+        etym_el = entry.xpath('.//tei:etym[@type="morphological"]', namespaces=ns)
+        if etym_el:
+            comp_els = etym_el[0].xpath('.//tei:seg[@type="component"]', namespaces=ns)
+            for comp in comp_els:
+                corresp = comp.get('corresp')
+                text = comp.text.strip() if comp.text else ''
+                if text:
+                    component_data = {'text': text}
+                    if corresp and '#' in corresp:
+                        component_data['lemmaRef'] = corresp.split('#')[1]
+                    etym_components.append(component_data)
+
+        # Extract all senses with details
+        sense_els = entry.xpath('.//tei:sense', namespaces=ns)
+        senses = []
+        for sense_el in sense_els:
+            sense_id = sense_el.get('{http://www.w3.org/XML/1998/namespace}id')
+            if not sense_id:
+                continue
+
+            # Extract concept pointers
+            concept_ptrs = sense_el.xpath('.//tei:ptr[contains(@target, "concepts.xml#")]', namespaces=ns)
+            concept_ids = []
+            for ptr in concept_ptrs:
+                target = ptr.get('target')
+                if target and '#' in target:
+                    concept_ids.append(target.split('#')[1])
+
+            senses.append({
+                'id': sense_id,
+                'conceptIds': concept_ids
+            })
 
         # Normalize lemma for search
         normalized = normalize_mhg(lemma_text)
@@ -109,7 +142,10 @@ def parse_lexicon():
             'id': lemma_id,
             'lemma': lemma_text,
             'normalized': normalized,
-            'pos': pos
+            'pos': pos,
+            'senseCount': len(senses),
+            'etymology': etym_components if etym_components else None,
+            'senses': senses if senses else None
         })
 
     print(f"   Found {len(lemmata)} lemmata")
@@ -141,14 +177,29 @@ def parse_persons():
         if not name_el:
             continue
 
-        name = name_el[0].text.strip() if name_el[0].text else ''
-        if not name:
+        preferred_name = name_el[0].text.strip() if name_el[0].text else ''
+        if not preferred_name:
             continue
+
+        # Extract GND identifier
+        gnd_el = person_el.xpath('.//tei:idno[@type="GND"]', namespaces=ns)
+        gnd = gnd_el[0].text.strip() if gnd_el and gnd_el[0].text else None
+
+        # Extract Wikidata identifier
+        wikidata_el = person_el.xpath('.//tei:idno[@type="wikidata"]', namespaces=ns)
+        wikidata = wikidata_el[0].text.strip() if wikidata_el and wikidata_el[0].text else None
+
+        # Extract works list (comma-separated work IDs)
+        works_el = person_el.xpath('.//tei:note[@type="works"]', namespaces=ns)
+        works = works_el[0].text.strip() if works_el and works_el[0].text else None
 
         persons.append({
             'id': person_id,
-            'name': name,
-            'normalized': normalize_mhg(name)
+            'preferredName': preferred_name,
+            'gnd': gnd,
+            'wikidata': wikidata,
+            'works': works,
+            'normalized': normalize_mhg(preferred_name)
         })
 
     print(f"   Found {len(persons)} persons")
@@ -156,7 +207,7 @@ def parse_persons():
 
 
 def parse_works():
-    """Parse works.xml to extract works."""
+    """Parse works.xml to extract works with full details."""
     print("📚 Parsing works.xml...")
     works_file = AUTHORITY_DIR / 'works.xml'
 
@@ -180,27 +231,91 @@ def parse_works():
         if not work_id:
             continue
 
-        # Get title
-        title_el = work_el.xpath('.//tei:title', namespaces=ns)
-        if not title_el:
-            title_el = work_el.xpath('.//title', namespaces=ns)
+        # Extract ALL titles (multiple support with metadata)
+        title_els = work_el.xpath('./tei:title', namespaces=ns)
+        if not title_els:
+            title_els = work_el.xpath('./title', namespaces=ns)
 
-        title = title_el[0].text.strip() if title_el and title_el[0].text else ''
-        if not title:
+        titles = []
+        main_title = None
+        for title_el in title_els:
+            title_text = title_el.text.strip() if title_el.text else ''
+            if title_text:
+                title_data = {
+                    'text': title_text,
+                    'lang': title_el.get('{http://www.w3.org/XML/1998/namespace}lang'),
+                    'type': title_el.get('type'),
+                    'ana': title_el.get('ana')
+                }
+                titles.append(title_data)
+                if not main_title:
+                    main_title = title_text
+
+        if not main_title:
             continue
 
-        # Get author ref
+        # Extract ALL sigle values (can be multiple)
+        sigle_els = work_el.xpath('.//tei:idno[@type="sigle"]', namespaces=ns)
+        sigles = [s.text.strip() for s in sigle_els if s.text]
+        sigle = ', '.join(sigles) if sigles else None
+
+        # Get author - prefer text content over ref
         author_el = work_el.xpath('.//tei:author', namespaces=ns)
         if not author_el:
             author_el = work_el.xpath('.//author', namespaces=ns)
 
-        author_ref = author_el[0].get('ref') if author_el else ''
+        author_ref = author_el[0].get('ref') if author_el else None
+        author_text = author_el[0].text.strip() if author_el and author_el[0].text else None
+        author = author_text or author_ref or "Unbekannt"
+
+        # Extract genre references
+        genre_refs = work_el.xpath('.//tei:ref[contains(@target, "genres.xml#")]', namespaces=ns)
+        genres = []
+        for ref in genre_refs:
+            lang = ref.get('{http://www.w3.org/XML/1998/namespace}lang')
+            if lang == 'de':  # Only German genre labels
+                target = ref.get('target')
+                if target:
+                    genre_id = target.split('#')[1] if '#' in target else target
+                    genre_text = ref.text.strip() if ref.text else ''
+                    genres.append({
+                        'id': genre_id,
+                        'text': genre_text
+                    })
+
+        # Extract biblStruct elements (bibliographic sources)
+        bibl_struct_els = work_el.xpath('.//tei:biblStruct', namespaces=ns)
+        bibl_structs = []
+        for bibl_struct in bibl_struct_els:
+            key = bibl_struct.get('key')
+            corresp = bibl_struct.get('corresp')
+            # Get full text content (normalized whitespace)
+            text_content = ' '.join(bibl_struct.itertext()).strip()
+            text_content = ' '.join(text_content.split())  # Normalize whitespace
+
+            if key:
+                bibl_structs.append({
+                    'key': key,
+                    'corresp': corresp,
+                    'textContent': text_content
+                })
+
+        # Extract Handschriftencensus link
+        hc_el = work_el.xpath('.//tei:idno[@type="handschriftencensus"]', namespaces=ns)
+        handschriftencensus = hc_el[0].text.strip() if hc_el and hc_el[0].text else None
 
         works.append({
             'id': work_id,
-            'title': title,
+            'title': main_title,
+            'titles': titles,
+            'sigle': sigle,
+            'sigles': sigles,
+            'author': author,
             'authorRef': author_ref,
-            'normalized': normalize_mhg(title)
+            'genres': genres,
+            'biblStructs': bibl_structs,
+            'handschriftencensus': handschriftencensus,
+            'normalized': normalize_mhg(main_title)
         })
 
     print(f"   Found {len(works)} works")
@@ -364,10 +479,19 @@ def parse_names():
         if not term_de:
             continue
 
+        # Extract concept pointers (for semantic connections)
+        concept_ptrs = category_el.xpath('.//tei:ptr[contains(@target, "concepts.xml#")]', namespaces=ns)
+        concept_ids = []
+        for ptr in concept_ptrs:
+            target = ptr.get('target')
+            if target and '#' in target:
+                concept_ids.append(target.split('#')[1])
+
         names.append({
             'id': category_id,
             'termDE': term_de,
             'termEN': term_en,
+            'conceptIds': concept_ids if concept_ids else None,
             'normalized': normalize_mhg(term_de)
         })
 
@@ -441,13 +565,42 @@ def build_performance_maps(lemmata, works, concepts, genres):
 
     # 1. Build conceptToLemmas map
     # Map concept IDs to lists of lemma IDs
-    # NOTE: This requires linking data between concepts and lemmata
-    # For now, skip as we don't have this relationship in the XML
+    # NEW: Now we have this data from lemma senses!
+    for lemma in lemmata:
+        if not lemma.get('senses'):
+            continue
+
+        lemma_id = lemma['id']
+        for sense in lemma['senses']:
+            if not sense.get('conceptIds'):
+                continue
+
+            for concept_id in sense['conceptIds']:
+                if concept_id not in maps['conceptToLemmas']:
+                    maps['conceptToLemmas'][concept_id] = []
+                # Deduplicate: only add each lemma once per concept
+                # (fixes bug in old version that counted same lemma multiple times)
+                if lemma_id not in maps['conceptToLemmas'][concept_id]:
+                    maps['conceptToLemmas'][concept_id].append(lemma_id)
+
+    print(f"   Built conceptToLemmas: {len(maps['conceptToLemmas'])} concepts mapped to lemmas")
 
     # 2. Build genreToWorks map
     # Map genre IDs to lists of work IDs
-    # NOTE: Works don't have genre references in the current data structure
-    # For now, skip as we don't have this relationship
+    # NEW: Now we have this data from work genres!
+    for work in works:
+        if not work.get('genres'):
+            continue
+
+        work_id = work['id']
+        for genre_ref in work['genres']:
+            genre_id = genre_ref['id']
+            if genre_id not in maps['genreToWorks']:
+                maps['genreToWorks'][genre_id] = []
+            if work_id not in maps['genreToWorks'][genre_id]:
+                maps['genreToWorks'][genre_id].append(work_id)
+
+    print(f"   Built genreToWorks: {len(maps['genreToWorks'])} genres mapped to works")
 
     # 3. Build genreHierarchy map
     # Map genre IDs to their parent genre names

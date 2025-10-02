@@ -369,79 +369,40 @@ export class AuthorityExplorers {
     }
   }
   getWorkDetailsFromXML(workId) {
-    const worksXML = this.authorityData.parsedXML.find((xml) =>
-      xml.filename.includes("works")
-    );
+    // NEW: Use pre-built index data instead of parsing XML
+    const work = this.authorityData.works.find((w) => w.id === workId);
 
-    if (!worksXML) return null;
-
-    const workElement = Array.from(worksXML.doc.querySelectorAll("bibl")).find(
-      (bibl) => bibl.getAttribute("xml:id") === workId
-    );
-
-    if (!workElement) return null;
+    if (!work) return null;
 
     const details = {};
 
-    // Extract titles - MULTIPLE SUPPORT (only direct children, not from biblStruct)
-    const titleElements = workElement.querySelectorAll(":scope > title");
-    details.titles = Array.from(titleElements).map((title) => ({
-      text: title.textContent?.trim(),
-      lang: title.getAttribute("xml:lang"),
-      type: title.getAttribute("type"),
-      ana: title.getAttribute("ana"),
-    }));
+    // Titles (already in index)
+    details.titles = work.titles || [];
 
-    // Extract sigles
-    const sigleElements = workElement.querySelectorAll('idno[type="sigle"]');
-    details.sigles = Array.from(sigleElements)
-      .map((s) => s.textContent?.trim())
-      .filter(Boolean);
+    // Sigles (already in index)
+    details.sigles = work.sigles || [];
 
-    // Extract genres with hierarchy
-    const genreRefs = workElement.querySelectorAll(
-      'ref[target*="genres.xml#"]'
-    );
-    details.genres = Array.from(genreRefs)
-      .filter((ref) => ref.getAttribute("xml:lang") === "de")
-      .map((ref) => {
-        const target = ref.getAttribute("target");
-        const genreId = target.split("#")[1];
-        const genre = this.authorityData.genres.find((g) => g.id === genreId);
+    // Genres - resolve genre IDs to full genre data
+    if (work.genres && work.genres.length > 0) {
+      details.genres = work.genres.map((genreRef) => {
+        const genre = this.authorityData.genres.find((g) => g.id === genreRef.id);
         return {
-          id: genreId,
+          id: genreRef.id,
           termDE: genre ? genre.termDE : null,
           termEN: genre ? genre.termEN : null,
-          text: ref.textContent?.trim(),
+          text: genreRef.text,
         };
       });
-
-    // Extract author
-    const authorElement = workElement.querySelector("author");
-    if (authorElement) {
-      details.author = authorElement.textContent?.trim();
     }
 
-    // Extract biblStruct elements
-    const biblStructElements = workElement.querySelectorAll("biblStruct");
-    if (biblStructElements.length > 0) {
-      details.biblStructs = Array.from(biblStructElements).map(
-        (biblStruct) => ({
-          key: biblStruct.getAttribute("key"),
-          corresp: biblStruct.getAttribute("corresp"),
-          textContent: biblStruct.textContent?.replace(/\s+/g, " ").trim(),
-        })
-      );
-    }
+    // Author (already in index)
+    details.author = work.author;
 
-    // Extract handschriftencensus link
-    const handschriftencensusElement = workElement.querySelector(
-      'idno[type="handschriftencensus"]'
-    );
-    if (handschriftencensusElement) {
-      details.handschriftencensus =
-        handschriftencensusElement.textContent?.trim();
-    }
+    // biblStructs (already in index)
+    details.biblStructs = work.biblStructs || [];
+
+    // Handschriftencensus (already in index)
+    details.handschriftencensus = work.handschriftencensus;
 
     return details;
   }
@@ -546,17 +507,11 @@ export class AuthorityExplorers {
 
   showLemmaSenses(lemmaId) {
     toggleDetails(`senses-${lemmaId}`, () => {
-      const lexiconXML = this.authorityData.parsedXML.find((xml) =>
-        xml.filename.includes("lexicon")
-      );
-      if (!lexiconXML) return "Lexicon XML nicht gefunden";
+      // NEW: Use pre-built index data instead of XML
+      const lemma = this.authorityData.lemmata.find((l) => l.id === lemmaId);
+      if (!lemma) return "Lemma nicht gefunden";
 
-      const lemmaEntry = Array.from(
-        lexiconXML.doc.querySelectorAll("entry")
-      ).find((entry) => entry.getAttribute("xml:id") === lemmaId);
-      if (!lemmaEntry) return "Lemma nicht im XML gefunden";
-
-      return this.generateLemmaSenseContent(lemmaEntry, lemmaId);
+      return this.generateLemmaSenseContent(lemma, lemmaId);
     });
   }
 
@@ -564,38 +519,24 @@ export class AuthorityExplorers {
     const container = document.getElementById(`senses-${originalLemmaId}`);
     if (!container) return;
 
-    const lexiconXML = this.authorityData.parsedXML.find((xml) =>
-      xml.filename.includes("lexicon")
-    );
-    if (!lexiconXML) {
-      container.innerHTML = "Lexicon XML nicht gefunden";
-      return;
-    }
+    // NEW: Use pre-built index data instead of XML
+    const lemma = this.authorityData.lemmata.find((l) => l.id === componentLemmaId);
 
-    const lemmaEntry = Array.from(
-      lexiconXML.doc.querySelectorAll("entry")
-    ).find((entry) => entry.getAttribute("xml:id") === componentLemmaId);
-
-    if (!lemmaEntry) {
+    if (!lemma) {
       container.innerHTML = `Lemma "${componentText}" nicht gefunden`;
       return;
     }
 
-    // Get lemma text
-    const lemmaText = lemmaEntry
-      .querySelector('form[type="lemma"] orth')
-      ?.textContent?.trim();
-
     // Generate content using existing logic
     const content = this.generateLemmaSenseContent(
-      lemmaEntry,
+      lemma,
       componentLemmaId,
       originalLemmaId
     );
 
     container.innerHTML = `
         <div style="margin-bottom: 10px; padding: 8px; background: rgba(40, 167, 69, 0.1); border-radius: 4px;">
-            <strong>Komponente:</strong> ${componentText} → ${lemmaText}
+            <strong>Komponente:</strong> ${componentText} → ${lemma.lemma}
             <button onclick="window.playground.ui.authorityExplorers.showLemmaSenses('${originalLemmaId}')"
                     style="float: right; padding: 2px 6px; background: #6c757d; color: white; border: none; border-radius: 3px; font-size: 0.75rem; cursor: pointer;">
                 ← Zurück
@@ -605,63 +546,53 @@ export class AuthorityExplorers {
     `;
   }
 
-  generateLemmaSenseContent(lemmaEntry, lemmaId, originalLemmaId = null) {
+  generateLemmaSenseContent(lemma, lemmaId, originalLemmaId = null) {
     let resultHTML = "";
 
-    // Extract etymology
-    const etymElement = lemmaEntry.querySelector('etym[type="morphological"]');
-    if (etymElement) {
-      const components = etymElement.querySelectorAll('seg[type="component"]');
-      if (components.length > 0) {
-        const componentsHTML = Array.from(components)
-          .map((comp) => {
-            const corresp = comp.getAttribute("corresp");
-            const text = comp.textContent?.trim();
-            const referencedLemmaId = corresp ? corresp.split("#")[1] : null;
+    // Extract etymology from index data
+    if (lemma.etymology && lemma.etymology.length > 0) {
+      const componentsHTML = lemma.etymology
+        .map((comp) => {
+          const text = comp.text;
+          const referencedLemmaId = comp.lemmaRef;
 
-            if (referencedLemmaId) {
-              const targetOriginal = originalLemmaId || lemmaId;
-              return `
-                        <span style="background: rgba(40, 167, 69, 0.1); padding: 2px 6px; border-radius: 3px; margin-right: 5px;">
-                            <strong>${text}</strong>
-                            <button onclick="window.playground.ui.authorityExplorers.showComponentLemma('${targetOriginal}', '${referencedLemmaId}', '${text}')"
-                                    style="margin-left: 4px; padding: 1px 4px; background: #28a745; color: white; border: none; border-radius: 2px; font-size: 0.7rem; cursor: pointer;">
-                                →
-                            </button>
-                        </span>
-                    `;
-            }
-            return `<span style="background: rgba(108, 117, 125, 0.1); padding: 2px 6px; border-radius: 3px; margin-right: 5px;">${text}</span>`;
-          })
-          .join("");
+          if (referencedLemmaId) {
+            const targetOriginal = originalLemmaId || lemmaId;
+            return `
+                      <span style="background: rgba(40, 167, 69, 0.1); padding: 2px 6px; border-radius: 3px; margin-right: 5px;">
+                          <strong>${text}</strong>
+                          <button onclick="window.playground.ui.authorityExplorers.showComponentLemma('${targetOriginal}', '${referencedLemmaId}', '${text}')"
+                                  style="margin-left: 4px; padding: 1px 4px; background: #28a745; color: white; border: none; border-radius: 2px; font-size: 0.7rem; cursor: pointer;">
+                              →
+                          </button>
+                      </span>
+                  `;
+          }
+          return `<span style="background: rgba(108, 117, 125, 0.1); padding: 2px 6px; border-radius: 3px; margin-right: 5px;">${text}</span>`;
+        })
+        .join("");
 
-        resultHTML += `
-                <div style="font-weight: 500; margin-bottom: 8px; color: #28a745;">
-                    Morphologie: ${componentsHTML}
-                </div>
-            `;
-      }
+      resultHTML += `
+              <div style="font-weight: 500; margin-bottom: 8px; color: #28a745;">
+                  Morphologie: ${componentsHTML}
+              </div>
+          `;
     }
 
-    // Extract senses
-    const senses = lemmaEntry.querySelectorAll("sense");
-    if (senses.length === 0) {
+    // Extract senses from index data
+    if (!lemma.senses || lemma.senses.length === 0) {
       resultHTML += "Keine Bedeutungen gefunden";
       return resultHTML;
     }
 
-    const sensesHTML = Array.from(senses)
+    const sensesHTML = lemma.senses
       .map((sense, index) => {
-        const senseId = sense.getAttribute("xml:id") || `sense_${index + 1}`;
-        const conceptPtrs = sense.querySelectorAll(
-          'ptr[target*="concepts.xml#"]'
-        );
+        const senseId = sense.id || `sense_${index + 1}`;
 
         let conceptsHTML = "";
-        if (conceptPtrs.length > 0) {
-          const concepts = Array.from(conceptPtrs)
-            .map((ptr) => {
-              const conceptId = ptr.getAttribute("target").split("#")[1];
+        if (sense.conceptIds && sense.conceptIds.length > 0) {
+          const concepts = sense.conceptIds
+            .map((conceptId) => {
               const concept = this.authorityData.concepts.find(
                 (c) => c.id === conceptId
               );
@@ -689,7 +620,7 @@ export class AuthorityExplorers {
 
     resultHTML += `
         <div style="font-weight: 500; margin-bottom: 8px; color: #667eea;">
-            ${senses.length} Bedeutungen:
+            ${lemma.senses.length} Bedeutungen:
         </div>
         ${sensesHTML}
     `;
@@ -1117,39 +1048,17 @@ export class AuthorityExplorers {
   }
 
   findConceptsForName(nameId) {
-    // Look for semantic connections between names and concepts
-    // This would need to be implemented based on actual data structure
-    // For now, return empty array as we don't have explicit name->concept mappings
-    const namesXML = this.authorityData.parsedXML.find((xml) =>
-      xml.filename.includes("names")
-    );
+    // NEW: Use pre-built index data instead of XML
+    const name = this.authorityData.names.find((n) => n.id === nameId);
 
-    if (!namesXML) return [];
+    if (!name || !name.conceptIds) return [];
 
-    const nameElement = Array.from(
-      namesXML.doc.querySelectorAll("category")
-    ).find((cat) => cat.getAttribute("xml:id") === nameId);
-
-    if (!nameElement) return [];
-
-    // Look for exactMatch or related pointers to concepts
-    const conceptPtrs = nameElement.querySelectorAll(
-      'ptr[target*="concepts.xml#"]'
-    );
-    const relatedConcepts = [];
-
-    conceptPtrs.forEach((ptr) => {
-      const target = ptr.getAttribute("target");
-      if (target) {
-        const conceptId = target.split("#")[1];
-        const concept = this.authorityData.concepts.find(
-          (c) => c.id === conceptId
-        );
-        if (concept) {
-          relatedConcepts.push(concept);
-        }
-      }
-    });
+    // Resolve concept IDs to full concept objects
+    const relatedConcepts = name.conceptIds
+      .map((conceptId) => {
+        return this.authorityData.concepts.find((c) => c.id === conceptId);
+      })
+      .filter(Boolean);
 
     return relatedConcepts;
   }

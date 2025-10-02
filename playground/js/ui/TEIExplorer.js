@@ -4,7 +4,7 @@
  */
 
 import { displayResults, showOverlaySpinner, hideSpinner, displaySummaryResults } from './UICore.js';
-import { TextNormalizer } from '../utils/text-normalizer.js';
+import { TextNormalizer } from '../../../lib/text-normalizer.js';
 
 export class TEIExplorer {
     constructor(teiData, authorityData) {
