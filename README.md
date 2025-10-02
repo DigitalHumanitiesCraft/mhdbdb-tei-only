@@ -27,9 +27,9 @@ Alle Inhalte basieren auf den Daten der [Mittelhochdeutschen Begriffsdatenbank (
 
 ### For Developers
 - **[CLAUDE.md](CLAUDE.md)** - Complete developer guide and architecture overview (primary reference)
-- **[REFACTORING-SUMMARY.md](REFACTORING-SUMMARY.md)** - Recent refactoring work (Phase 7 modular UI)
-- **[BUGFIX-2025-10-02.md](BUGFIX-2025-10-02.md)** - Recent bug fixes and improvements
-- **[REFACTORING-PLAN.md](REFACTORING-PLAN.md)** - Multi-phase refactoring plan
+- **[REFACTORING-SUMMARY.md](docs/REFACTORING-SUMMARY.md)** - Recent refactoring work (Phase 7 modular UI)
+- **[BUGFIX-2025-10-02.md](docs/BUGFIX-2025-10-02.md)** - Recent bug fixes and improvements
+- **[REFACTORING-PLAN.md](docs/REFACTORING-PLAN.md)** - Multi-phase refactoring plan
 
 ### For Users
 - Playground includes built-in help and search examples
@@ -126,7 +126,7 @@ All search functions use centralized MHG character normalization:
 - ✅ Rebuilt authority index (2.90 MB compressed)
 - ✅ Net reduction: 5,536 lines removed from codebase
 
-See [REFACTORING-SUMMARY.md](REFACTORING-SUMMARY.md) and [BUGFIX-2025-10-02.md](BUGFIX-2025-10-02.md) for details.
+See [REFACTORING-SUMMARY.md](docs/REFACTORING-SUMMARY.md) and [BUGFIX-2025-10-02.md](docs/BUGFIX-2025-10-02.md) for details.
 
 ## License & Contact
 

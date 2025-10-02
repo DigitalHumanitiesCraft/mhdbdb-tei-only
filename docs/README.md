@@ -55,9 +55,9 @@ User-friendly guides for exploring the corpus and using the tools
 | Document | Description | Status |
 |----------|-------------|--------|
 | **[CLAUDE.md](../CLAUDE.md)** | Complete architecture & developer reference | ✅ Active |
-| **[REFACTORING-SUMMARY.md](../REFACTORING-SUMMARY.md)** | Phase 7 modular UI refactoring | ✅ Active |
-| **[REFACTORING-PLAN.md](../REFACTORING-PLAN.md)** | Multi-phase refactoring plan | ✅ Active |
-| **[BUGFIX-2025-10-02.md](../BUGFIX-2025-10-02.md)** | Recent bug fixes & test suite improvements | ✅ Active |
+| **[REFACTORING-SUMMARY.md](./REFACTORING-SUMMARY.md)** | Phase 7 modular UI refactoring | ✅ Active |
+| **[REFACTORING-PLAN.md](./REFACTORING-PLAN.md)** | Multi-phase refactoring plan | ✅ Active |
+| **[BUGFIX-2025-10-02.md](./BUGFIX-2025-10-02.md)** | Recent bug fixes & test suite improvements | ✅ Active |
 
 ---
 
@@ -90,14 +90,14 @@ All documentation in this project follows these standards:
 Currently maintained, up-to-date (October 2025)
 
 - **[CLAUDE.md](../CLAUDE.md)** - Primary developer reference
-- **[REFACTORING-SUMMARY.md](../REFACTORING-SUMMARY.md)** - Phase 7 completion
-- **[BUGFIX-2025-10-02.md](../BUGFIX-2025-10-02.md)** - Recent fixes
+- **[REFACTORING-SUMMARY.md](./REFACTORING-SUMMARY.md)** - Phase 7 completion
+- **[BUGFIX-2025-10-02.md](./BUGFIX-2025-10-02.md)** - Recent fixes
 - All docs/ files (user guides, developer docs)
 
 ### Reference Documents 📚
 Historical reference, completed work
 
-- **[REFACTORING-PLAN.md](../REFACTORING-PLAN.md)** - Multi-phase refactoring plan
+- **[REFACTORING-PLAN.md](./REFACTORING-PLAN.md)** - Multi-phase refactoring plan
 
 ### Removed Documents 🗑️
 Cleaned up during Phase 7 merge (October 2, 2025)

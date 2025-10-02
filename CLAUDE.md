@@ -157,7 +157,7 @@ All files use consistent cross-referencing:
 - ✅ Rebuilt empty authority index (0 bytes → 3.0 MB)
 - ✅ Added *.code-workspace to .gitignore
 - ✅ Test suite now completes in 2.7 minutes (40 passing, 25 skipped)
-- See [BUGFIX-2025-10-02.md](BUGFIX-2025-10-02.md) for details
+- See [BUGFIX-2025-10-02.md](docs/BUGFIX-2025-10-02.md) for details
 
 **What Still Uses XML Parsing**:
 - TEI files (user-uploaded) - still parsed in browser as needed
