@@ -8,13 +8,13 @@ import { TEIFilesManager } from './tei-files.js';
 
 // NEW: Import modular UI components (replacing ui-helpers.js)
 import { updateAllUI, displayFileItem, showProgress, updateProgress, hideSpinner, setupCollapsibleFileList, setupFileFilter, updateFileCount } from './ui/UICore.js';
-import { AuthorityExplorers } from './ui/AuthorityExplorers.js';
+import { AuthorityUI } from './ui/authority/authority-ui.js';
 import { TEIExplorer } from './ui/TEIExplorer.js';
 import { MultiLemmaSearchUI } from './ui/MultiLemmaSearch.js';
 
 // Import utilities for global exposure (needed for testing)
 import { TextNormalizer } from '../../lib/text-normalizer.js';
-import { SearchPatterns } from './ui/SearchHelpers.js';
+import { SearchPatterns } from './ui/search/SearchHelpers.js';
 
 class MHDBDBPlayground {
     constructor() {
@@ -45,7 +45,7 @@ class MHDBDBPlayground {
 
         // NEW: Modular UI instead of single UIHelpers
         this.ui = {
-            authorityExplorers: new AuthorityExplorers(this.authorityData),
+            authorityExplorers: new AuthorityUI(this.authorityData),
             teiExplorer: new TEIExplorer(this.teiData, this.authorityData)
         };
 
