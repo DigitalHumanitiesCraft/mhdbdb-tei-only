@@ -1,7 +1,7 @@
 # MHDBDB Developer Guide
 
-**Last Updated**: 2025-10-01
-**Version**: 1.0
+**Last Updated**: 2025-10-02
+**Version**: 2.0 (Post Phase 7 Refactoring)
 **Target Audience**: Developers, AI Agents, Maintainers
 
 ---
@@ -58,12 +58,13 @@ npm test
 
 ### Project Status
 
-✅ **Production Ready** (90% complete - Phase 4)
+✅ **Production Ready** (Phase 7 Complete - October 2025)
 
 - 666 TEI files indexed
 - 43,750 lemmata with 176,056 orthographic variants
-- 12/12 tests passing
-- Performance optimized (97% faster caching)
+- 40 tests passing, 25 skipped (2.7 min runtime)
+- Modular UI architecture (18 specialized modules)
+- Performance optimized (19.4× smaller downloads)
 
 ---
 
@@ -85,9 +86,9 @@ npm test
    - **Playground** (`/playground/`) - Advanced research tool
 
 2. **Performance**
-   - 95% faster playground load (3.8s vs 3-4 min)
-   - 97% faster TEI text repeat loads (2-3s vs 60s)
-   - Pre-built compressed indices (22 MB)
+   - Instant playground load with pre-built index
+   - 19.4× smaller downloads (47.3 MB XML → 2.90 MB JSON)
+   - Pre-built compressed indices (24 MB total)
 
 3. **Search Capabilities**
    - 11 search entry points (6 authority + 5 TEI)

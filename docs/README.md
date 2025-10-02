@@ -1,6 +1,6 @@
 # MHDBDB Documentation Hub
 
-**Last Updated**: 2025-10-01
+**Last Updated**: 2025-10-02
 **Project**: Mittelhochdeutsche Begriffsdatenbank (MHDBDB) TEI Repository
 
 ---
@@ -50,28 +50,14 @@ User-friendly guides for exploring the corpus and using the tools
 | **[Testing Guide](./TESTING-GUIDE.md)** | Running and writing tests | Developers |
 | **[Deployment Guide](./DEPLOYMENT-GUIDE.md)** | Production deployment steps | DevOps |
 
-### Technical Specifications
+### Technical Specifications & Project Status
 
-| Document | Description | Purpose |
-|----------|-------------|---------|
-| **[JS-ARCHITECTURE.md](../JS-ARCHITECTURE.md)** | JavaScript file organization | Development |
-| **[TEI-PERFORMANCE-OPTIMIZATION.md](../TEI-PERFORMANCE-OPTIMIZATION.md)** | Performance strategy | Optimization |
-| **[BROWSER-COMPATIBILITY.md](../BROWSER-COMPATIBILITY.md)** | Cross-browser support | Testing |
-
-### Project Management
-
-| Document | Description | Purpose |
-|----------|-------------|---------|
-| **[REWORK-STATUS.md](../REWORK-STATUS.md)** | Current project status (90% complete) | Progress tracking |
-| **[PHASE-3-COMPLETION.md](../PHASE-3-COMPLETION.md)** | Phase 3 completion report | Historical record |
-| **[CODEBASE-STATUS-REPORT.md](../CODEBASE-STATUS-REPORT.md)** | Comprehensive status report | Overview |
-
-### AI Agent Instructions
-
-| Document | Description | Purpose |
-|----------|-------------|---------|
-| **[CLAUDE.md](../CLAUDE.md)** | Instructions for Claude Code | AI development |
-| **[REWORK.md](../REWORK.md)** | Complete 41-step implementation plan | Reference |
+| Document | Description | Status |
+|----------|-------------|--------|
+| **[CLAUDE.md](../CLAUDE.md)** | Complete architecture & developer reference | ✅ Active |
+| **[REFACTORING-SUMMARY.md](../REFACTORING-SUMMARY.md)** | Phase 7 modular UI refactoring | ✅ Active |
+| **[REFACTORING-PLAN.md](../REFACTORING-PLAN.md)** | Multi-phase refactoring plan | ✅ Active |
+| **[BUGFIX-2025-10-02.md](../BUGFIX-2025-10-02.md)** | Recent bug fixes & test suite improvements | ✅ Active |
 
 ---
 
@@ -101,24 +87,28 @@ All documentation in this project follows these standards:
 ## 📝 Document Lifecycle
 
 ### Active Documents ✅
-Currently maintained, up-to-date
+Currently maintained, up-to-date (October 2025)
 
-- CLAUDE.md
-- REWORK-STATUS.md
-- JS-ARCHITECTURE.md
-- All docs/ files
+- **[CLAUDE.md](../CLAUDE.md)** - Primary developer reference
+- **[REFACTORING-SUMMARY.md](../REFACTORING-SUMMARY.md)** - Phase 7 completion
+- **[BUGFIX-2025-10-02.md](../BUGFIX-2025-10-02.md)** - Recent fixes
+- All docs/ files (user guides, developer docs)
 
 ### Reference Documents 📚
-Historical record, no longer updated
+Historical reference, completed work
 
-- PHASE-3-COMPLETION.md
-- CODEBASE-STATUS-REPORT.md
-- REWORK.md (completed implementation plan)
+- **[REFACTORING-PLAN.md](../REFACTORING-PLAN.md)** - Multi-phase refactoring plan
 
-### Deprecated Documents 🗑️
-Replaced by newer documents
+### Removed Documents 🗑️
+Cleaned up during Phase 7 merge (October 2, 2025)
 
-- None currently (all cleaned up!)
+- JS-ARCHITECTURE.md (merged into CLAUDE.md)
+- TEI-PERFORMANCE-OPTIMIZATION.md (obsolete, architecture changed)
+- BROWSER-COMPATIBILITY.md (obsolete)
+- REWORK-STATUS.md (obsolete, work completed)
+- PHASE-3-COMPLETION.md (obsolete)
+- CODEBASE-STATUS-REPORT.md (obsolete)
+- REWORK.md (obsolete, 3325 lines removed)
 
 ---
 
@@ -177,18 +167,21 @@ When creating/updating docs:
 
 ## 📊 Documentation Statistics
 
-```
-Total Documents:     13 files
-User Documentation:  4 files (planned)
-Developer Docs:      4 files (planned)
-Technical Specs:     3 files (existing)
-Project Management:  3 files (existing)
-AI Agent Docs:       2 files (existing)
+**As of October 2, 2025:**
 
-Total Size:         ~210 KB
-Largest Doc:        REWORK.md (102 KB)
-Most Important:     CLAUDE.md (for AI agents)
-Most Accessed:      User Guide (planned)
+```
+Root Documentation:   5 active files
+- CLAUDE.md                    (primary developer reference)
+- README.md                    (user-facing overview)
+- REFACTORING-SUMMARY.md       (Phase 7 completion)
+- REFACTORING-PLAN.md          (refactoring roadmap)
+- BUGFIX-2025-10-02.md         (recent fixes)
+
+User Documentation:   6 files in docs/
+- README.md, USER-GUIDE.md, SEARCH-GUIDE.md
+- FAQ.md, GLOSSARY.md, DEVELOPER-GUIDE.md
+
+Removed Documents:    7 obsolete files (5,536 lines cleaned up)
 ```
 
 ---
