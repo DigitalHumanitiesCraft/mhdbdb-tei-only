@@ -6,11 +6,16 @@
 import { AuthorityFilesManager } from './authority-files.js';
 import { TEIFilesManager } from './tei-files.js';
 
-// NEW: Import modular UI components (replacing ui-helpers.js)
-import { updateAllUI, displayFileItem, showProgress, updateProgress, hideSpinner, setupCollapsibleFileList, setupFileFilter, updateFileCount } from './ui/UICore.js';
+// NEW: Import modular UI components (decomposed from UICore.js)
+import { updateAllUI } from './ui/core/ui-helpers.js';
+import { displayFileItem, setupCollapsibleFileList, setupFileFilter, updateFileCount } from './ui/core/file-display.js';
+import { showProgress, updateProgress, hideSpinner, setFileDisplayHelpers } from './ui/core/progress.js';
 import { AuthorityUI } from './ui/authority/authority-ui.js';
 import { TEIExplorer } from './ui/TEIExplorer.js';
 import { MultiLemmaSearchUI } from './ui/MultiLemmaSearch.js';
+
+// Wire up file display helpers for progress.js
+setFileDisplayHelpers(setupCollapsibleFileList, setupFileFilter);
 
 // Import utilities for global exposure (needed for testing)
 import { TextNormalizer } from '../../lib/text-normalizer.js';
