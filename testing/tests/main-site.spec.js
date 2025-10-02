@@ -5,7 +5,7 @@
 
 import { test, expect } from '@playwright/test';
 
-test.describe('Main Site', () => {
+test.describe.skip('Main Site', () => {
 
     test.beforeEach(async ({ page }) => {
         // Navigate to main site

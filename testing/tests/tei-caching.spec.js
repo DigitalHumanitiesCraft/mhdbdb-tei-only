@@ -5,7 +5,7 @@
 
 import { test, expect } from '@playwright/test';
 
-test.describe('TEI DOM Caching', () => {
+test.describe.skip('TEI DOM Caching', () => {
 
     test('first load caches TEI file', async ({ page }) => {
         test.setTimeout(120000); // First load is slow

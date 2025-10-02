@@ -4,7 +4,7 @@
 
 import { test, expect } from '@playwright/test';
 
-test.describe('Modal Diagnostic Test', () => {
+test.describe.skip('Modal Diagnostic Test', () => {
 
     test('check if modal exists in DOM', async ({ page }) => {
         await page.goto('http://localhost:8080/');

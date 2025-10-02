@@ -19,21 +19,36 @@ This is the MHDBDB TEI Repository - a collection of TEI-encoded Middle High Germ
   - `names.xml` (0.03 MB) - Proper names with semantic relations
   - `variants.xml` (12.46 MB) - Orthographic variants extracted from TEI corpus
 
+### Pre-Built Data Indexes
+- **data/**: Pre-built JSON indexes for fast loading (replaces runtime XML parsing)
+  - `authority-index.json.gz` (2.90 MB compressed) - Complete authority data with:
+    - 43,750 lemmata with full sense details, etymology, and concept mappings
+    - 210 persons with GND, Wikidata, and work references
+    - 583 works with complete bibliographic details (titles, sigles, genres, biblStructs, handschriftencensus)
+    - 567 concepts, 615 genres, 90 names (with concept connections)
+    - 176,056 orthographic variant mappings
+    - Performance maps: conceptToLemmas (581), genreToWorks (113)
+  - `corpus-index.json.gz` (21 MB compressed) - TEI corpus data (666 texts)
+- **scripts/**: Python build scripts for generating pre-built indexes
+  - `build-authority-index.py` - Extracts complete authority data from XML files
+  - `build-corpus-index.py` - Extracts TEI corpus data
+  - `mhg_normalizer.py` - Middle High German text normalization utilities
+  - `validate-indices.py` - Index validation and integrity checks
+  - `generate-manifest.py` - Generates corpus manifest
+
 ### Web Interface
 - **playground/**: Web-based exploration tool for TEI data analysis
   - `index.html` - Main interface
   - `js/` - JavaScript modules for data processing
     - `main.js` - Application entry point (`MHDBDBPlayground` class)
-    - `authority-files.js` - Authority data handling (`AuthorityFilesManager`)
+    - `authority-files.js` - Authority data handling (`AuthorityFilesManager`) - simplified loader
     - `tei-files.js` - TEI text processing (`TEIFilesManager`) with multi-lemma search
     - `storage-manager.js` - TEI file caching (`TEIStorageManager`)
     - `indexed-db-manager.js` - Core IndexedDB operations
-    - `authority-storage-manager.js` - Authority file caching with 30-day expiration
-    - `ui/` - Modular UI components (replaced monolithic ui-helpers.js)
+    - `ui/` - Modular UI components
       - `UICore.js` - Core UI utilities and progress tracking
-      - `AuthorityExplorers.js` - Authority file exploration interfaces
+      - `AuthorityExplorers.js` - Authority file exploration interfaces (uses pre-built index)
       - `TEIExplorer.js` - TEI document analysis interface
-      - `XPathInterface.js` - XPath query execution
       - `SearchHelpers.js` - Search patterns with MHG normalization
       - `MultiLemmaSearch.js` - Multi-lemma search modal interface
     - `utils/` - Utility modules
@@ -47,6 +62,55 @@ This is the MHDBDB TEI Repository - a collection of TEI-encoded Middle High Germ
 
 ## Data Architecture
 
+### Pre-Built Index Architecture (Current - Main Branch)
+
+**Loading Strategy**: Authority data is loaded from pre-built, compressed JSON indexes instead of parsing XML at runtime.
+
+**Benefits**:
+- **19.4× smaller download** (47.3 MB XML → 2.90 MB compressed JSON)
+- **Faster loading** (no browser XML parsing overhead)
+- **Lower memory usage** (no DOM trees stored in memory)
+- **Simpler code** (direct object/array access instead of XPath/querySelector)
+
+**Data Flow**:
+1. Browser fetches `data/authority-index.json.gz` (2.90 MB)
+2. Browser decompresses gzip in-memory
+3. JSON parsed into `authorityData` arrays (persons, works, lemmata, etc.)
+4. UI directly queries arrays/objects (no XML DOM)
+
+**Index Structure** (`authority-index.json.gz`):
+```javascript
+{
+  version: "1.0.0",
+  generatedAt: "2025-10-02T08:10:00Z",
+  persons: [{id, preferredName, gnd, wikidata, works, normalized}, ...],
+  works: [{id, title, titles[], sigle, sigles[], author, authorRef, genres[], biblStructs[], handschriftencensus, normalized}, ...],
+  lemmata: [{id, lemma, pos, senseCount, etymology[], senses[], normalized}, ...],
+  concepts: [{id, termDE, termEN, normalized}, ...],
+  genres: [{id, termDE, termEN, normalized}, ...],
+  names: [{id, termDE, termEN, conceptIds[], normalized}, ...],
+  variants: {normalizedForm: lemmaId, ...}, // 176,056 mappings
+  maps: {
+    conceptToLemmas: {conceptId: [lemmaIds]}, // 581 concepts
+    genreToWorks: {genreId: [workIds]}, // 113 genres
+    genreHierarchy: {genreId: [parentNames]} // 0 entries currently
+  }
+}
+```
+
+**Rebuilding Indexes**:
+```bash
+# Rebuild authority index (when authority-files/ XML changes)
+python scripts/build-authority-index.py
+# Output: data/authority-index.json.gz (2.90 MB)
+
+# Rebuild corpus index (when tei/ files change)
+python scripts/build-corpus-index.py
+# Output: data/corpus-index.json.gz (21 MB)
+```
+
+**Note**: The `pre-main-site` branch uses the old architecture (runtime XML parsing) and can be used for comparison via git worktree.
+
 ### TEI Structure
 TEI files follow standard TEI P5 guidelines with MHDBDB-specific annotations:
 - Cross-references to authority files via `xml:id` attributes
@@ -59,6 +123,20 @@ All files use consistent cross-referencing:
 <author ref="#person_445">Meister Eckhart</author>
 <w lemma="vriunt" ana="#concept_12345">vriunt</w>
 ```
+
+### Key Architectural Changes (October 2025)
+
+**Migration from XML Parsing to Pre-Built Indexes**:
+- ✅ Removed runtime XML parsing for authority files (`parsedXML` dependency eliminated)
+- ✅ Build scripts extract complete data structures with all nested relationships
+- ✅ Performance maps pre-computed (conceptToLemmas, genreToWorks)
+- ✅ All UI code refactored to use index data instead of XML DOM queries
+- ✅ XPath interface removed (low priority feature, can be re-added later if needed)
+- ✅ Fixed deduplication bug in concept-to-lemmas mapping (old version counted duplicates)
+
+**What Still Uses XML Parsing**:
+- TEI files (user-uploaded) - still parsed in browser as needed
+- This is correct and expected for user content
 
 ## Development Commands
 

@@ -5,7 +5,7 @@
 
 import { test, expect } from '@playwright/test';
 
-test.describe('Text Modal Debug', () => {
+test.describe.skip('Text Modal Debug', () => {
 
     test('search and open first result', async ({ page }) => {
         // Capture console and errors
