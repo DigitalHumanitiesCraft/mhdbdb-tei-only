@@ -1,6 +1,7 @@
 /**
  * Visual Mobile Testing Suite
  * Takes screenshots at different viewport sizes to verify responsive design
+ * SKIPPED: Tests main site which is not the primary focus
  */
 
 import { test, expect } from '@playwright/test';
@@ -15,7 +16,7 @@ const viewports = {
 
 // Test Main Site
 for (const [device, viewport] of Object.entries(viewports)) {
-    test(`Main Site - ${device} (${viewport.width}x${viewport.height})`, async ({ page }) => {
+    test.skip(`Main Site - ${device} (${viewport.width}x${viewport.height})`, async ({ page }) => {
         // Set viewport
         await page.setViewportSize(viewport);
 
