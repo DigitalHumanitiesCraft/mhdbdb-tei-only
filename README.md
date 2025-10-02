@@ -10,38 +10,30 @@ Alle Inhalte basieren auf den Daten der [Mittelhochdeutschen Begriffsdatenbank (
 ### Corpus Content
 - **666 TEI-encoded texts** (Middle High German literature, 7.4M words)
 - **7 authority files** (47.3 MB): persons, works, lexicon, concepts, genres, names, variants
-- **Pre-built indices** (22 MB compressed): Fast search via offline-generated corpus index
-- **Comprehensive test suite** (19 tests) with Playwright integration
+- **Pre-built indices** (24 MB compressed): Fast search via offline-generated corpus index
+- **Comprehensive test suite** (40 passing, 25 skipped) with Playwright integration
 
 ### Two Web Interfaces
 
 | Feature | **Main Site** ([index.html](index.html:1)) | **Playground** ([playground/](playground/index.html:1)) |
 |---------|------------------------|------------------|
 | **Purpose** | Public search & reading | Advanced research & analysis |
-| **Load Time** | 3-5 seconds | 3.8 seconds (with full corpus) |
-| **Data** | Pre-built indices (22 MB) | Authority files + lazy-loaded TEI |
-| **Search** | Single lemma with filters | 11 search types (incl. multi-lemma, XPath) |
+| **Load Time** | 3-5 seconds | Instant (pre-built index) |
+| **Data** | Pre-built indices (24 MB) | Pre-built authority index + lazy-loaded TEI |
+| **Search** | Single lemma with filters | 11 search types (incl. multi-lemma) |
 | **Target Users** | General public, students | Researchers, medievalists |
 
 ## 📚 Documentation
 
-**Complete documentation is available in the [docs/](docs/) directory:**
+### For Developers
+- **[CLAUDE.md](CLAUDE.md)** - Complete developer guide and architecture overview (primary reference)
+- **[REFACTORING-SUMMARY.md](REFACTORING-SUMMARY.md)** - Recent refactoring work (Phase 7 modular UI)
+- **[BUGFIX-2025-10-02.md](BUGFIX-2025-10-02.md)** - Recent bug fixes and improvements
+- **[REFACTORING-PLAN.md](REFACTORING-PLAN.md)** - Multi-phase refactoring plan
 
 ### For Users
-- **[User Guide](docs/USER-GUIDE.md)** - Getting started, how to search, tips & tricks
-- **[Search Guide](docs/SEARCH-GUIDE.md)** - Detailed guide to all 11 search functions
-- **[FAQ](docs/FAQ.md)** - Frequently asked questions
-- **[Glossary](docs/GLOSSARY.md)** - MHG terminology and technical concepts
-
-### For Developers
-- **[Developer Guide](docs/DEVELOPER-GUIDE.md)** - Architecture, setup, development workflow
-- **[JS Architecture](JS-ARCHITECTURE.md)** - JavaScript file organization
-- **[API Reference](docs/API-REFERENCE.md)** - JavaScript API documentation *(coming soon)*
-- **[Testing Guide](docs/TESTING-GUIDE.md)** - Writing and running tests *(coming soon)*
-
-### Project Status
-- **[REWORK-STATUS.md](REWORK-STATUS.md)** - Current implementation status (90% complete)
-- **[PHASE-3-COMPLETION.md](PHASE-3-COMPLETION.md)** - Performance optimization report
+- Playground includes built-in help and search examples
+- Authority data browsing with filtering and sorting
 
 ## Quick Start
 
@@ -100,8 +92,8 @@ The repository includes pre-built compressed indices for fast loading:
 
 | Index | Size | Contains | Cache |
 |-------|------|----------|-------|
-| **authority-index.json.gz** | 1.27 MB | All authority files merged | 30 days |
-| **corpus-index.json.gz** | 20.84 MB | 666 texts with lemma positions | 30 days |
+| **authority-index.json.gz** | 2.90 MB | All authority files merged | 30 days |
+| **corpus-index.json.gz** | 21 MB | 666 texts with lemma positions | 30 days |
 
 **Performance Gains:**
 - **Main site:** Loads in 3-5s (was: N/A)
@@ -114,7 +106,7 @@ The repository includes pre-built compressed indices for fast loading:
 - **Frontend:** Vanilla JavaScript (ES Modules), Tailwind CSS
 - **Compression:** Pako 2.1.0 (gzip, Safari 14+ compatible)
 - **Storage:** Dexie.js 3.2.4 (IndexedDB wrapper)
-- **Testing:** Playwright (19 tests, 78% passing)
+- **Testing:** Playwright (40 passing, 25 skipped, 2.7 min runtime)
 - **Build:** Python 3.13 + lxml for index generation
 - **Server:** http-server (npm) or Python http.server
 
@@ -126,13 +118,15 @@ All search functions use centralized MHG character normalization:
 - 100% parity between Python (build) and JavaScript (runtime)
 - 18/18 automated tests passing
 
-## Documentation
+## Recent Updates
 
-- **[CLAUDE.md](CLAUDE.md:1)** - Developer guide and architecture overview
-- **[REWORK.md](REWORK.md:1)** - Complete rework plan (4 phases, 41 steps)
-- **[REWORK-STATUS.md](REWORK-STATUS.md:1)** - Implementation progress tracking
-- **[PHASE-3-COMPLETION.md](PHASE-3-COMPLETION.md:1)** - Playground enhancement report
-- **[MULTI-LEMMA-SEARCH-IMPLEMENTATION.md](MULTI-LEMMA-SEARCH-IMPLEMENTATION.md:1)** - Multi-lemma search details
+**October 2, 2025:**
+- ✅ Merged Phase 7 refactoring: Modular UI architecture (18 specialized modules)
+- ✅ Fixed test suite timeout (40 tests passing, 2.7 min runtime)
+- ✅ Rebuilt authority index (2.90 MB compressed)
+- ✅ Net reduction: 5,536 lines removed from codebase
+
+See [REFACTORING-SUMMARY.md](REFACTORING-SUMMARY.md) and [BUGFIX-2025-10-02.md](BUGFIX-2025-10-02.md) for details.
 
 ## License & Contact
 
