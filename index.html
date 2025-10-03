@@ -23,9 +23,6 @@
 
     <title>Mittelhochdeutsche Begriffsdatenbank (MHDBDB)</title>
 
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-
     <!-- Pako for gzip decompression (Safari 14+ compatible) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.1.0/pako.min.js"></script>
 
@@ -34,211 +31,356 @@
 
     <link rel="icon" type="image/png" href="assets/images/mhdbdb-logo.png">
 
-    <!-- Custom Styles (Mobile-First Responsive) -->
-    <link rel="stylesheet" href="css/style.css">
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="css/main.css">
 </head>
-<body class="bg-gray-50 font-sans">
-
+<body>
     <!-- Header -->
-    <header class="bg-blue-700 text-white shadow-lg">
-        <div class="container mx-auto px-4 py-6">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-4">
-                    <img src="assets/images/mhdbdb-logo.png" alt="MHDBDB Logo" class="h-12 w-12">
-                    <div>
-                        <h1 class="text-2xl font-bold">Mittelhochdeutsche Begriffsdatenbank</h1>
-                        <p class="text-blue-100 text-sm">Universität Salzburg</p>
-                    </div>
-                </div>
-                <div class="flex items-center space-x-3">
-                    <button id="cacheClearBtn" class="bg-gray-600 hover:bg-gray-500 px-3 py-2 rounded-lg transition-colors text-sm" title="Cache leeren">
-                        🗑️ <span id="cacheInfo">Cache</span>
-                    </button>
-                    <a href="playground/index.html" class="bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded-lg transition-colors">
-                        Zum Playground →
-                    </a>
-                </div>
+    <header class="site-header">
+        <nav class="main-nav">
+            <div class="nav-container">
+                <a href="#about" class="nav-link">Über das Projekt</a>
+                <a href="#corpus" class="nav-link">Korpus</a>
+                <a href="#search" class="nav-link">Suche</a>
+                <a href="#playground" class="nav-link">Playground</a>
+                <a href="#documentation" class="nav-link">Dokumentation</a>
+                <a href="#contact" class="nav-link">Kontakt</a>
             </div>
-        </div>
+        </nav>
     </header>
 
     <!-- Loading Screen -->
-    <div id="loadingScreen" class="fixed inset-0 bg-white z-50 flex items-center justify-center">
-        <div class="text-center">
-            <div class="spinner mx-auto mb-4"></div>
-            <h2 class="text-xl font-semibold text-gray-800 mb-2">Corpus wird geladen...</h2>
-            <p id="loadingStatus" class="text-gray-600">Initialisiere Datenbank...</p>
-            <div class="mt-4 w-64 bg-gray-200 rounded-full h-2">
-                <div id="loadingProgress" class="bg-blue-600 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+    <div id="loadingScreen" class="loading-screen">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <h2>Corpus wird geladen...</h2>
+            <p id="loadingStatus">Initialisiere Datenbank...</p>
+            <div class="progress-bar-container">
+                <div id="loadingProgress" class="progress-bar"></div>
             </div>
         </div>
     </div>
 
-    <!-- Main Content -->
-    <main class="container mx-auto px-4 py-8 max-w-6xl">
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <img src="assets/images/mhdbdb-logo.png" alt="MHDBDB Logo" class="hero-logo">
+                <h1>Mittelhochdeutsche Begriffsdatenbank</h1>
+                <p class="hero-subtitle">TEI-encoded Middle High German Literature Corpus with Semantic Annotations</p>
+                <div class="hero-actions">
+                    <a href="playground/index.html" class="btn btn-primary">Playground öffnen</a>
+                    <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only" class="btn btn-secondary" target="_blank" rel="noopener">GitHub Repository</a>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        <!-- About Section -->
-        <section class="bg-white rounded-lg shadow-md p-6 mb-8">
-            <h2 class="text-2xl font-bold text-gray-800 mb-4">Über das Projekt</h2>
-            <p class="text-gray-700 mb-4">
-                Die Mittelhochdeutsche Begriffsdatenbank (MHDBDB) ist eine Forschungsinfrastruktur der Universität Salzburg
-                für die digitale Erschließung mittelhochdeutscher Literatur. Das Projekt kombiniert TEI-Kodierung mit
-                semantischen Annotationen zur systematischen Analyse mittelalterlicher Texte.
+    <!-- About Section -->
+    <section id="about" class="section section-light">
+        <div class="container">
+            <h2>Über das Projekt</h2>
+            <div class="content-grid">
+                <div class="content-card">
+                    <h3>Projektziel</h3>
+                    <p>Die Mittelhochdeutsche Begriffsdatenbank (MHDBDB) ist eine Forschungsinfrastruktur der Universität Salzburg für die digitale Erschließung mittelhochdeutscher Literatur. Das Projekt kombiniert TEI-Kodierung mit semantischen Annotationen zur systematischen Analyse mittelalterlicher Texte.</p>
+                </div>
+                <div class="content-card">
+                    <h3>TEI-Korpus</h3>
+                    <p>666 TEI-kodierte mittelhochdeutsche Texte mit Word-Level-Annotationen, verknüpft mit kontrollierten Vokabularen für Autoren, Werke, Lemmata, Konzepte, Gattungen und Namen.</p>
+                </div>
+                <div class="content-card">
+                    <h3>Semantic Annotations</h3>
+                    <p>Jedes Wort ist mit lemmatischen und semantischen Informationen annotiert, die auf Authority Files basieren und komplexe linguistische und konzeptuelle Analysen ermöglichen.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Corpus Section -->
+    <section id="corpus" class="section">
+        <div class="container">
+            <h2>Korpus-Übersicht</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">666</div>
+                    <div class="stat-label">TEI-Texte</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">7</div>
+                    <div class="stat-label">Authority Files</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">39,436</div>
+                    <div class="stat-label">Lemmata</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">192,674</div>
+                    <div class="stat-label">Orthographic Variants</div>
+                </div>
+            </div>
+
+            <div class="authority-files">
+                <h3>Authority Files</h3>
+                <ul class="file-list">
+                    <li><strong>persons.xml</strong> (0.12 MB) - Autoren und historische Personen</li>
+                    <li><strong>works.xml</strong> (1.41 MB) - Werk- und Handschriftenmetadaten</li>
+                    <li><strong>lexicon.xml</strong> (32.59 MB) - Wörterbuch mit grammatischen Annotationen</li>
+                    <li><strong>concepts.xml</strong> (0.21 MB) - Semantische Konzepttaxonomie</li>
+                    <li><strong>genres.xml</strong> (0.4 MB) - Literarische Gattungsklassifikation</li>
+                    <li><strong>names.xml</strong> (0.03 MB) - Eigennamen mit semantischen Relationen</li>
+                    <li><strong>variants.xml</strong> (12.46 MB) - Orthographische Varianten aus TEI-Korpus</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search Section -->
+    <section id="search" class="section section-light">
+        <div class="container">
+            <h2>Texte durchsuchen</h2>
+            <p class="section-intro">
+                Durchsuchen Sie 666 mittelhochdeutsche Texte mit automatischer Normalisierung (â→a, ê→e, î→i, ô→o, û→u, ä→ae, ö→oe, ü→ue)
             </p>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="bg-blue-50 p-4 rounded-lg">
-                    <div class="text-3xl font-bold text-blue-700">666</div>
-                    <div class="text-gray-600">TEI-kodierte Texte</div>
-                </div>
-                <div class="bg-blue-50 p-4 rounded-lg">
-                    <div class="text-3xl font-bold text-blue-700">39,436</div>
-                    <div class="text-gray-600">Lemmata</div>
-                </div>
-                <div class="bg-blue-50 p-4 rounded-lg">
-                    <div class="text-3xl font-bold text-blue-700">192,674</div>
-                    <div class="text-gray-600">Orthographische Varianten</div>
-                </div>
-            </div>
-        </section>
 
-        <!-- Search Interface -->
-        <section class="bg-white rounded-lg shadow-md p-6 mb-8">
-            <h2 class="text-2xl font-bold text-gray-800 mb-4">Texte durchsuchen</h2>
-
-            <!-- Search Input -->
-            <div class="mb-4">
-                <label for="searchInput" class="block text-gray-700 font-semibold mb-2">
-                    Suche nach Wort oder Lemma:
-                </label>
-                <div class="flex space-x-2">
-                    <input
-                        type="text"
-                        id="searchInput"
-                        placeholder="z.B. brot, vriunt, liebe..."
-                        class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    >
-                    <button
-                        id="searchButton"
-                        class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors"
-                    >
-                        Suchen
-                    </button>
-                </div>
-                <p class="text-sm text-gray-500 mt-2">
-                    Automatische Normalisierung: â→a, ê→e, î→i, ô→o, û→u, ä→ae, ö→oe, ü→ue
-                </p>
-            </div>
-
-            <!-- Filters -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <label for="genreFilter" class="block text-gray-700 font-semibold mb-2">
-                        Nach Gattung filtern:
+            <!-- Search Interface Card -->
+            <div class="search-card">
+                <!-- Search Input -->
+                <div class="search-input-group">
+                    <label for="searchInput" class="search-label">
+                        Suche nach Wort oder Lemma:
                     </label>
-                    <select
-                        id="genreFilter"
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                    >
-                        <option value="">Alle Gattungen</option>
-                        <!-- Dynamically populated -->
-                    </select>
+                    <div class="search-input-wrapper">
+                        <input
+                            type="text"
+                            id="searchInput"
+                            placeholder="z.B. brot, vriunt, liebe..."
+                            class="search-input"
+                        >
+                        <button id="searchButton" class="btn btn-primary">
+                            Suchen
+                        </button>
+                    </div>
                 </div>
-                <div>
-                    <label for="authorFilter" class="block text-gray-700 font-semibold mb-2">
-                        Nach Autor filtern:
-                    </label>
-                    <select
-                        id="authorFilter"
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                    >
-                        <option value="">Alle Autoren</option>
-                        <!-- Dynamically populated -->
-                    </select>
+
+                <!-- Filters -->
+                <div class="filters-grid">
+                    <div class="filter-group">
+                        <label for="genreFilter" class="filter-label">
+                            Nach Gattung filtern:
+                        </label>
+                        <select id="genreFilter" class="filter-select">
+                            <option value="">Alle Gattungen</option>
+                            <!-- Dynamically populated -->
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="authorFilter" class="filter-label">
+                            Nach Autor filtern:
+                        </label>
+                        <select id="authorFilter" class="filter-select">
+                            <option value="">Alle Autoren</option>
+                            <!-- Dynamically populated -->
+                        </select>
+                    </div>
                 </div>
             </div>
-        </section>
 
-        <!-- Search Results -->
-        <section id="resultsSection" class="hidden">
-            <div class="bg-white rounded-lg shadow-md p-6">
-                <h2 class="text-2xl font-bold text-gray-800 mb-4">
+            <!-- Search Results -->
+            <div id="resultsSection" class="results-section hidden">
+                <h3 class="results-title">
                     Suchergebnisse
-                    <span id="resultsCount" class="text-blue-600"></span>
-                </h2>
-
-                <div id="resultsList" class="space-y-4">
+                    <span id="resultsCount" class="results-count"></span>
+                </h3>
+                <div id="resultsList" class="results-list">
                     <!-- Dynamically populated with search results -->
                 </div>
-
                 <!-- Load More Button -->
-                <div id="loadMoreContainer" class="hidden mt-6 text-center">
-                    <button
-                        id="loadMoreButton"
-                        class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-2 rounded-lg transition-colors"
-                    >
+                <div id="loadMoreContainer" class="load-more-container hidden">
+                    <button id="loadMoreButton" class="btn btn-secondary">
                         Mehr Ergebnisse laden
                     </button>
                 </div>
             </div>
-        </section>
 
-        <!-- No Results Message -->
-        <div id="noResults" class="hidden bg-yellow-50 border border-yellow-200 rounded-lg p-6 text-center">
-            <p class="text-gray-700 mb-2">Keine Ergebnisse gefunden.</p>
-            <p class="text-sm text-gray-600">
-                Versuchen Sie eine alternative Schreibweise oder durchsuchen Sie die
-                <a href="playground/index.html" class="text-blue-600 hover:underline">erweiterten Suchfunktionen im Playground</a>.
-            </p>
+            <!-- No Results Message -->
+            <div id="noResults" class="no-results hidden">
+                <p>Keine Ergebnisse gefunden.</p>
+                <p class="no-results-hint">
+                    Versuchen Sie eine alternative Schreibweise oder durchsuchen Sie die
+                    <a href="playground/index.html">erweiterten Suchfunktionen im Playground</a>.
+                </p>
+            </div>
         </div>
+    </section>
 
-    </main>
+    <!-- Playground Section -->
+    <section id="playground" class="section">
+        <div class="container">
+            <h2>MHDBDB Playground</h2>
+            <p class="section-intro">Der Playground bietet eine interaktive Web-Oberfläche zur Exploration des TEI-Korpus mit 11 spezialisierten Suchfunktionen.</p>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>Authority Files Exploration</h3>
+                    <ul>
+                        <li>Autoren durchsuchen</li>
+                        <li>Werke anzeigen</li>
+                        <li>Lemmata-Suche</li>
+                        <li>Konzepte erkunden</li>
+                        <li>Gattungen filtern</li>
+                        <li>Namen-Datenbank</li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <h3>TEI Text Analysis</h3>
+                    <ul>
+                        <li>Einzelne Lemma-Suche</li>
+                        <li>Multi-Lemma-Suche (Absatz)</li>
+                        <li>Multi-Lemma-Suche (Dokument)</li>
+                        <li>Kookkurrenz-Analyse (Nähe)</li>
+                        <li>XPath-Queries</li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <h3>MHG Character Normalization</h3>
+                    <p>Alle Suchfunktionen unterstützen automatische Normalisierung mittelhochdeutscher Zeichen:</p>
+                    <ul>
+                        <li>Langvokale: â→a, ê→e, î→i, ô→o, û→u</li>
+                        <li>Umlaute: ä→ae, ö→oe, ü→ue</li>
+                        <li>Ligaturen: æ→ae, œ→oe</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="cta-container">
+                <a href="playground/index.html" class="btn btn-primary btn-large">Playground starten</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Documentation Section -->
+    <section id="documentation" class="section section-light">
+        <div class="container">
+            <h2>Dokumentation</h2>
+            <div class="doc-grid">
+                <div class="doc-card">
+                    <h3>Technische Dokumentation</h3>
+                    <ul>
+                        <li><a href="README.md">README.md</a> - Projekt-Übersicht</li>
+                        <li><a href="CLAUDE.md">CLAUDE.md</a> - Entwicklerdokumentation</li>
+                        <li><a href="docs/REFACTORING-SUMMARY.md">Refactoring Summary</a> - Phase 7 Architektur</li>
+                        <li><a href="docs/BUGFIX-2025-10-02.md">Recent Bugfixes</a> - Oktober 2025 Updates</li>
+                    </ul>
+                </div>
+                <div class="doc-card">
+                    <h3>TEI Guidelines</h3>
+                    <p>Alle TEI-Dateien folgen den TEI P5-Richtlinien mit MHDBDB-spezifischen Annotationen:</p>
+                    <ul>
+                        <li>TEI-Namespace: <code>http://www.tei-c.org/ns/1.0</code></li>
+                        <li>Encoding: UTF-8</li>
+                        <li>Cross-References via <code>xml:id</code></li>
+                        <li>Semantic Annotations via <code>@ana</code></li>
+                        <li>Lemma Attributes via <code>@lemma</code></li>
+                    </ul>
+                </div>
+                <div class="doc-card">
+                    <h3>Testing & Development</h3>
+                    <ul>
+                        <li><strong>Testing Framework:</strong> Playwright</li>
+                        <li><strong>Dev Server:</strong> <code>npm run serve</code></li>
+                        <li><strong>Test Suite:</strong> <code>npm test</code></li>
+                        <li><strong>Test Report:</strong> <code>npm run report</code></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section">
+        <div class="container">
+            <h2>Kontakt & Lizenz</h2>
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <h3>Universität Salzburg</h3>
+                    <p>Mittelhochdeutsche Begriffsdatenbank (MHDBDB)<br>
+                    Fachbereich Germanistik</p>
+                    <p><strong>E-Mail:</strong> <a href="mailto:mhdbdb@plus.ac.at">mhdbdb@plus.ac.at</a><br>
+                    <strong>Web:</strong> <a href="https://mhdbdb.plus.ac.at" target="_blank" rel="noopener">mhdbdb.plus.ac.at</a></p>
+                </div>
+                <div class="contact-card">
+                    <h3>Lizenz</h3>
+                    <p>Dieses Projekt steht unter der <strong>CC BY-NC-SA 3.0 AT</strong> Lizenz.</p>
+                    <p><a href="https://creativecommons.org/licenses/by-nc-sa/3.0/at/" target="_blank" rel="noopener">Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Austria</a></p>
+                </div>
+                <div class="contact-card">
+                    <h3>Förderung</h3>
+                    <div class="logos">
+                        <img src="assets/images/clariah-logo.png" alt="CLARIAH-AT" class="partner-logo">
+                    </div>
+                    <p>Gefördert durch CLARIAH-AT im Rahmen der österreichischen Forschungsinfrastruktur für Digital Humanities.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logos">
+                    <img src="assets/images/mhdbdb-logo.png" alt="MHDBDB Logo" class="footer-logo-main">
+                    <img src="assets/images/header-banner.png" alt="Mittelhochdeutsche Begriffsdatenbank" class="footer-logo-banner">
+                </div>
+                <div class="footer-links">
+                    <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only" target="_blank" rel="noopener">GitHub</a>
+                    <a href="playground/index.html">Playground</a>
+                    <a href="mailto:mhdbdb@plus.ac.at">Kontakt</a>
+                </div>
+                <div class="footer-copyright">
+                    <p>&copy; 2025 Universität Salzburg | CC BY-NC-SA 3.0 AT</p>
+                </div>
+            </div>
+        </div>
+    </footer>
 
     <!-- Text Reading Modal -->
-    <div id="textModal" class="text-modal fixed inset-0 bg-black bg-opacity-50 z-50 items-center justify-center p-4">
-        <div class="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] flex flex-col">
-
+    <div id="textModal" class="text-modal">
+        <div class="modal-dialog">
             <!-- Modal Header -->
-            <div class="border-b border-gray-200 px-6 py-4 flex items-center justify-between">
+            <div class="modal-header">
                 <div>
-                    <h3 id="modalTitle" class="text-xl font-bold text-gray-800"></h3>
-                    <p id="modalAuthor" class="text-sm text-gray-600"></p>
+                    <h3 id="modalTitle" class="modal-title"></h3>
+                    <p id="modalAuthor" class="modal-author"></p>
                 </div>
-                <button
-                    id="closeModal"
-                    class="text-gray-400 hover:text-gray-600 text-2xl font-bold"
-                >
+                <button id="closeModal" class="modal-close">
                     ×
                 </button>
             </div>
 
             <!-- Modal Content -->
-            <div id="modalContent" class="flex-1 overflow-y-auto px-6 py-4">
-                <!-- Loading indicator (shown while loading TEI) -->
-                <div id="modalLoading" class="hidden flex flex-col items-center justify-center py-12">
-                    <div class="spinner mb-4"></div>
-                    <p id="modalLoadingStatus" class="text-gray-600 mb-2">Lade Text...</p>
-                    <p class="text-sm text-gray-500">Dies kann 30-60 Sekunden dauern</p>
+            <div id="modalContent" class="modal-body">
+                <!-- Loading indicator -->
+                <div id="modalLoading" class="modal-loading hidden">
+                    <div class="spinner"></div>
+                    <p id="modalLoadingStatus">Lade Text...</p>
+                    <p class="modal-loading-hint">Dies kann 30-60 Sekunden dauern</p>
                 </div>
 
-                <!-- Text content container (hidden during load) -->
+                <!-- Text content container -->
                 <div id="modalTextContent">
                     <!-- Dynamically populated with TEI text content -->
                 </div>
             </div>
 
             <!-- Modal Footer -->
-            <div class="border-t border-gray-200 px-6 py-4 flex justify-between items-center">
-                <button
-                    id="prevContext"
-                    class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                >
+            <div class="modal-footer">
+                <button id="prevContext" class="btn btn-secondary" disabled>
                     ← Vorheriger Treffer
                 </button>
-                <span id="contextIndicator" class="text-sm text-gray-600"></span>
-                <button
-                    id="nextContext"
-                    class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                >
+                <span id="contextIndicator" class="context-indicator"></span>
+                <button id="nextContext" class="btn btn-secondary" disabled>
                     Nächster Treffer →
                 </button>
             </div>
@@ -246,29 +388,17 @@
     </div>
 
     <!-- Error Display -->
-    <div id="errorDisplay" class="hidden fixed bottom-4 right-4 bg-red-100 border border-red-400 text-red-700 px-6 py-4 rounded-lg shadow-lg max-w-md">
-        <div class="flex items-start">
-            <span class="font-bold mr-2">Fehler:</span>
+    <div id="errorDisplay" class="error-display hidden">
+        <div class="error-content">
+            <span class="error-label">Fehler:</span>
             <span id="errorMessage"></span>
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="bg-gray-800 text-white mt-16 py-8">
-        <div class="container mx-auto px-4 text-center">
-            <p class="mb-2">
-                © 2025 Universität Salzburg |
-                <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/at/" class="hover:underline" target="_blank" rel="noopener">
-                    CC BY-NC-SA 3.0 AT
-                </a>
-            </p>
-            <p class="text-sm text-gray-400">
-                <a href="mailto:mhdbdb@plus.ac.at" class="hover:underline">mhdbdb@plus.ac.at</a> |
-                <a href="https://mhdbdb.plus.ac.at" class="hover:underline" target="_blank" rel="noopener">mhdbdb.plus.ac.at</a> |
-                <a href="playground/index.html" class="hover:underline">Playground</a>
-            </p>
-        </div>
-    </footer>
+    <!-- Cache Clear Button (floating) -->
+    <button id="cacheClearBtn" class="cache-btn" title="Cache leeren">
+        🗑️ <span id="cacheInfo">Cache</span>
+    </button>
 
     <!-- Application Scripts (ES Modules) -->
     <script type="module" src="js/app.js"></script>
