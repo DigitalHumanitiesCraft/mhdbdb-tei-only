@@ -323,6 +323,14 @@
   color: var(--text-primary);
 }
 
+.progress-bar {
+  position: relative;
+  height: 8px;
+  border-radius: 9999px;
+  background: color-mix(in srgb, var(--border-secondary) 60%, transparent);
+  overflow: hidden;
+}
+
 .progress-fill {
   position: absolute;
   inset: 0;

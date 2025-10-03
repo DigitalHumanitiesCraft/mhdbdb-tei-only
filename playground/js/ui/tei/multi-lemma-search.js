@@ -221,14 +221,14 @@ export class MultiLemmaSearchUI {
                 return;
             }
 
-            // Execute search based on mode
+            // Execute search based on mode (now async)
             let results;
             if (searchMode === 'proximity') {
                 const maxDistance = parseInt(this.proximityDistance.value) || 10;
-                results = teiManager.findCooccurringLemmas(lemmaIds, maxDistance);
+                results = await teiManager.findCooccurringLemmas(lemmaIds, maxDistance);
                 this.teiExplorer.displayCooccurrenceResults(results, searchTerms, maxDistance);
             } else {
-                results = teiManager.searchMultipleLemmas(lemmaIds, searchMode);
+                results = await teiManager.searchMultipleLemmas(lemmaIds, searchMode);
                 this.teiExplorer.displayMultiLemmaResults(results, searchTerms, searchMode);
             }
 

@@ -78,30 +78,95 @@
             <!-- Upload & Overview -->
             <section class="space-y-6 rounded-3xl border border-slate-200 bg-white/95 p-6 shadow-sm ring-1 ring-slate-100/40">
                 <div class="flex items-center justify-between">
-                    <h2 class="text-xl font-semibold text-slate-900">TEI Upload &amp; Struktur</h2>
+                    <h2 class="text-xl font-semibold text-slate-900">TEI-Daten laden</h2>
                     <span class="rounded-full bg-brand-50 px-3 py-1 text-xs font-medium text-brand-700">Schritt 1</span>
                 </div>
 
-                <div id="uploadZone" class="group flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-slate-300 bg-white/80 px-6 py-10 text-center transition duration-200 hover:border-brand-400 hover:bg-brand-50/60">
-                    <div class="flex h-14 w-14 items-center justify-center rounded-full bg-brand-100 text-brand-700">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
-                        </svg>
-                    </div>
-                    <p class="mt-4 text-base font-medium text-slate-800">TEI-Dateien hierhin ziehen</p>
-                    <p class="mt-1 text-sm text-slate-500">oder klicken, um Dateien auszuwählen</p>
-                    <input type="file" id="fileInput" multiple accept=".xml,.tei" class="sr-only">
+                <!-- Section Introduction -->
+                <div class="space-y-1">
+                    <h3 class="text-sm font-semibold text-slate-900">Datenquelle wählen</h3>
+                    <p class="text-xs text-slate-600">Wählen Sie, wie Sie TEI-Dateien für die Analyse laden möchten</p>
                 </div>
 
-                <!-- Load Corpus Button -->
-                <div class="mt-4 pt-4 border-t border-slate-200">
-                    <button id="loadCorpusBtn" class="w-full flex items-center justify-center gap-2 px-4 py-3 text-sm font-medium text-brand-700 bg-brand-50 hover:bg-brand-100 border border-brand-200 rounded-lg transition-colors">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
-                        </svg>
-                        <span>Load Full Corpus (666 Files)</span>
+                <!-- Option A: Manual Upload -->
+                <div class="space-y-3">
+                    <div class="flex items-center gap-2">
+                        <span class="flex h-6 w-6 items-center justify-center rounded-full bg-brand-100 text-xs font-bold text-brand-700">A</span>
+                        <h4 class="text-sm font-semibold text-slate-900">Eigene Dateien hochladen</h4>
+                    </div>
+
+                    <div id="uploadZone" class="group flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-slate-300 bg-white/80 px-6 py-8 text-center transition duration-200 hover:border-brand-400 hover:bg-brand-50/60">
+                        <div class="flex h-12 w-12 items-center justify-center rounded-full bg-brand-100 text-brand-700">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                            </svg>
+                        </div>
+                        <p class="mt-3 text-sm font-medium text-slate-800">TEI-Dateien hierhin ziehen</p>
+                        <p class="mt-1 text-xs text-slate-500">oder klicken, um Dateien auszuwählen</p>
+                        <input type="file" id="fileInput" multiple accept=".xml,.tei" class="sr-only">
+                    </div>
+
+                    <div class="flex flex-wrap gap-1.5">
+                        <span class="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-medium text-emerald-700">
+                            <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                            Eigene Auswahl
+                        </span>
+                        <span class="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-0.5 text-xs font-medium text-blue-700">
+                            <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                            Browser-Cache
+                        </span>
+                    </div>
+
+                    <p class="text-xs text-slate-500 leading-relaxed">
+                        <strong>Optimal für:</strong> Analyse spezifischer Texte, Tests mit eigenen Dateien. Hochgeladene Dateien werden im Browser gecacht.
+                    </p>
+                </div>
+
+                <!-- OR Separator -->
+                <div class="relative">
+                    <div class="absolute inset-0 flex items-center" aria-hidden="true">
+                        <div class="w-full border-t border-slate-300"></div>
+                    </div>
+                    <div class="relative flex justify-center">
+                        <span class="bg-white px-3 text-xs font-semibold uppercase tracking-wider text-slate-500">Oder</span>
+                    </div>
+                </div>
+
+                <!-- Option B: Full Corpus -->
+                <div class="space-y-3">
+                    <div class="flex items-center gap-2">
+                        <span class="flex h-6 w-6 items-center justify-center rounded-full bg-brand-100 text-xs font-bold text-brand-700">B</span>
+                        <h4 class="text-sm font-semibold text-slate-900">Vollständigen Korpus laden</h4>
+                    </div>
+
+                    <button id="loadCorpusBtn" class="w-full flex flex-col items-center justify-center gap-2 px-6 py-6 text-sm font-medium text-brand-700 bg-gradient-to-br from-brand-50 to-brand-100/50 hover:from-brand-100 hover:to-brand-100 border-2 border-brand-200 rounded-xl transition-all duration-200 hover:shadow-md group">
+                        <div class="flex items-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                            </svg>
+                            <span class="font-semibold">666 TEI-Texte sofort laden</span>
+                        </div>
+                        <span class="text-xs text-brand-600 group-hover:text-brand-700">Kompletter MHDBDB-Korpus (21 MB Download)</span>
                     </button>
-                    <p class="mt-2 text-xs text-slate-500 text-center">Load all 666 TEI texts from the main site corpus</p>
+
+                    <div class="flex flex-wrap gap-1.5">
+                        <span class="inline-flex items-center gap-1 rounded-full bg-purple-50 px-2 py-0.5 text-xs font-medium text-purple-700">
+                            <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                            666 Texte
+                        </span>
+                        <span class="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-2 py-0.5 text-xs font-medium text-indigo-700">
+                            <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                            Vorindiziert
+                        </span>
+                        <span class="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2 py-0.5 text-xs font-medium text-amber-700">
+                            <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                            Schnelle Suche
+                        </span>
+                    </div>
+
+                    <p class="text-xs text-slate-500 leading-relaxed">
+                        <strong>Optimal für:</strong> Umfassende Suchen, statistische Analysen, Übersichtsarbeiten. Alle MHDBDB-Texte mit Metadaten.
+                    </p>
                 </div>
 
                 <div id="uploadedFilesSection" class="space-y-3">
@@ -129,18 +194,18 @@
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                 </svg>
-                                <span id="cacheInfo">Cached files persist across browser sessions</span>
+                                <span id="cacheInfo">Gecachte Dateien bleiben über Browser-Sitzungen erhalten</span>
                             </div>
                             <button
                                 id="clearCacheBtn"
                                 onclick="window.playground.clearAllCachedFiles()"
                                 class="flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-red-700 bg-red-50 hover:bg-red-100 border border-red-200 rounded-md transition-colors"
-                                title="Clear all cached files"
+                                title="Alle gecachten Dateien löschen"
                             >
                                 <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-2.995-1.858L4 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
                                 </svg>
-                                Clear Cache
+                                Cache leeren
                             </button>
                         </div>
 
@@ -201,10 +266,10 @@
                         <p class="mt-1 text-sm text-slate-500">Analysieren Sie Wörter, Zeilen, Lemmata und Annotationen im Korpus.</p>
                     </div>
                     <div class="grid gap-2">
+                        <button id="findMultiLemmaBtn" class="w-full rounded-xl border border-brand-200 bg-brand-50 px-4 py-2 text-left text-sm font-medium text-brand-700 transition hover:border-brand-400 hover:bg-brand-100">🔍+ Multi-Lemma-Suche</button>
+                        <button id="findLemmaBtn" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700">Lemma-Suche</button>
                         <button id="showWordsBtn" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700">Alle Wörter</button>
                         <button id="showLinesBtn" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700">Alle Zeilen</button>
-                        <button id="findLemmaBtn" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700">Lemma-Suche</button>
-                        <button id="findMultiLemmaBtn" class="w-full rounded-xl border border-brand-200 bg-brand-50 px-4 py-2 text-left text-sm font-medium text-brand-700 transition hover:border-brand-400 hover:bg-brand-100">🔍+ Multi-Lemma-Suche</button>
                         <button id="showAnnotationsBtn" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700">Alle Annotationen</button>
                     </div>
                 </div>

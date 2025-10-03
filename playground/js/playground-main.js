@@ -240,8 +240,58 @@ class MHDBDBPlayground {
         const fileArray = Array.from(files);
         const uploadedFilesContainer = document.getElementById('uploadedFiles');
         const totalFiles = fileArray.length;
-        
+
         if (totalFiles === 0) return;
+
+        // Check if corpus is already loaded
+        if (this.teiData.parsedXML.length > 0) {
+            const hasCorpusData = this.teiData.parsedXML.some(item => 'xmlDoc' in item);
+            if (hasCorpusData) {
+                const confirmed = confirm(
+                    `Der vollständige Korpus (${this.teiData.parsedXML.length} Dateien) ist bereits geladen.\n\n` +
+                    `Möchten Sie diesen löschen und stattdessen ${totalFiles} neue Datei(en) hochladen?`
+                );
+                if (!confirmed) return;
+
+                // Clear corpus data before uploading
+                await this.teiManager.clearAllTEIData();
+
+                // Reset load corpus button to original state
+                const loadCorpusBtn = document.getElementById('loadCorpusBtn');
+                if (loadCorpusBtn) {
+                    loadCorpusBtn.disabled = false;
+                    loadCorpusBtn.classList.remove('bg-green-50', 'border-green-200', 'text-green-700');
+                    loadCorpusBtn.classList.add('hover:bg-brand-100');
+                    loadCorpusBtn.innerHTML = `
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                        </svg>
+                        <span>Load Full Corpus (666 Files)</span>
+                    `;
+                }
+
+                // Clear corpus UI indicators
+                const fileCountBadge = document.getElementById('fileCount');
+                if (fileCountBadge) {
+                    fileCountBadge.textContent = '0';
+                }
+
+                // Clear file list container
+                const uploadedFilesContainer = document.getElementById('uploadedFiles');
+                if (uploadedFilesContainer) {
+                    uploadedFilesContainer.innerHTML = '';
+                }
+
+                // Show file filter again
+                const fileFilter = document.getElementById('fileFilter');
+                if (fileFilter) {
+                    fileFilter.style.display = '';
+                    fileFilter.value = ''; // Reset filter
+                }
+
+                this.updateUI();
+            }
+        }
 
         // Show progress if uploading multiple files
         if (totalFiles > 1) {
@@ -390,9 +440,13 @@ document.addEventListener('DOMContentLoaded', () => {
             // Show loading state
             const originalText = loadCorpusBtn.innerHTML;
             loadCorpusBtn.disabled = true;
-            loadCorpusBtn.innerHTML = '<span>Loading corpus...</span>';
+            loadCorpusBtn.innerHTML = '<span>Clearing previous data...</span>';
 
             try {
+                // Clear any previously uploaded TEI files first
+                await window.playground.teiManager.clearAllTEIData();
+
+                loadCorpusBtn.innerHTML = '<span>Loading corpus...</span>';
                 const result = await window.playground.teiManager.loadCorpusIntoPlayground((loaded, total) => {
                     const percentage = Math.round((loaded / total) * 100);
                     loadCorpusBtn.innerHTML = `<span>Loading: ${loaded}/${total} (${percentage}%)</span>`;
@@ -403,6 +457,36 @@ document.addEventListener('DOMContentLoaded', () => {
                 loadCorpusBtn.disabled = true; // Keep disabled to prevent re-loading
                 loadCorpusBtn.classList.remove('hover:bg-brand-100');
                 loadCorpusBtn.classList.add('bg-green-50', 'border-green-200', 'text-green-700');
+
+                // Clear and repopulate the file display with corpus entries
+                const uploadedFilesContainer = document.getElementById('uploadedFiles');
+                if (uploadedFilesContainer) {
+                    uploadedFilesContainer.innerHTML = '';
+
+                    // Display corpus files with metadata
+                    window.playground.teiData.parsedXML.forEach(teiData => {
+                        displayFileItem(teiData, uploadedFilesContainer);
+                    });
+                }
+
+                // Update file count badge (just the number)
+                const fileCountBadge = document.getElementById('fileCount');
+                if (fileCountBadge) {
+                    fileCountBadge.textContent = result.loaded;
+                }
+
+                // Show file filter for corpus data (useful for 666 files)
+                const fileFilter = document.getElementById('fileFilter');
+                if (fileFilter) {
+                    fileFilter.style.display = '';
+                    fileFilter.value = ''; // Reset filter
+                }
+
+                // Show files summary section
+                const filesSummary = document.getElementById('filesSummary');
+                if (filesSummary) {
+                    filesSummary.style.display = 'flex';
+                }
 
                 // Update UI
                 window.playground.updateUI();

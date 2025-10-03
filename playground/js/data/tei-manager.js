@@ -14,9 +14,31 @@ export class TEIFilesManager {
     // ==================== FILE VALIDATION ====================
 
     isTEIFile(file) {
-        return file.type === 'text/xml' || 
-               file.name.endsWith('.xml') || 
+        return file.type === 'text/xml' ||
+               file.name.endsWith('.xml') ||
                file.name.endsWith('.tei');
+    }
+
+    // ==================== DATA MANAGEMENT ====================
+
+    /**
+     * Clear all TEI data (used when switching between upload and corpus loading)
+     */
+    async clearAllTEIData() {
+        console.log('🗑️ Clearing all TEI data...');
+
+        // Clear in-memory data
+        this.teiData.files = [];
+        this.teiData.parsedXML = [];
+        this.teiData.words = [];
+        this.teiData.lines = [];
+        this.teiData.annotations = [];
+        this.teiData.lemmaCounts = {};
+
+        // Clear storage cache (IndexedDB)
+        await this.storageManager.clearAllCache();
+
+        console.log('✅ All TEI data cleared');
     }
 
     // ==================== SESSION STORAGE INTEGRATION ====================
@@ -55,17 +77,27 @@ export class TEIFilesManager {
                 throw new Error('XML Parsing Error: ' + parseError.textContent);
             }
 
+            // Extract metadata from TEI header
+            const metadata = this.extractTEIMetadata(xmlDoc);
+
             // Create a file-like object if not provided
             if (!fileObj) {
                 fileObj = {
                     name: filename,
                     size: content.length,
                     type: 'text/xml',
-                    isCachedFile: isCachedFile
+                    isCachedFile: isCachedFile,
+                    // Add extracted metadata
+                    title: metadata.title,
+                    author: metadata.author,
+                    authorRef: metadata.authorRef
                 };
             } else {
-                // Add session file flag to existing file object
+                // Add session file flag and metadata to existing file object
                 fileObj.isCachedFile = isCachedFile;
+                fileObj.title = metadata.title;
+                fileObj.author = metadata.author;
+                fileObj.authorRef = metadata.authorRef;
             }
 
             this.teiData.files.push(fileObj);
@@ -83,6 +115,34 @@ export class TEIFilesManager {
             console.error(`Error processing ${filename}:`, error);
             throw error;
         }
+    }
+
+    extractTEIMetadata(xmlDoc) {
+        const metadata = {
+            title: '',
+            author: '',
+            authorRef: ''
+        };
+
+        try {
+            // Extract title from titleStmt
+            const titleElement = xmlDoc.querySelector('titleStmt title[xml\\:lang="de"]') ||
+                                 xmlDoc.querySelector('titleStmt title');
+            if (titleElement) {
+                metadata.title = titleElement.textContent.trim();
+            }
+
+            // Extract author from titleStmt
+            const authorElement = xmlDoc.querySelector('titleStmt author');
+            if (authorElement) {
+                metadata.author = authorElement.textContent.trim();
+                metadata.authorRef = authorElement.getAttribute('ref') || '';
+            }
+        } catch (error) {
+            console.warn(`Failed to extract metadata:`, error);
+        }
+
+        return metadata;
     }
 
     // ==================== FILE PROCESSING ====================
@@ -379,13 +439,43 @@ export class TEIFilesManager {
 
     // ==================== MULTI-LEMMA SEARCH ====================
 
-    searchMultipleLemmas(lemmaIds, contextType = 'paragraph') {
+    /**
+     * Helper method to get XML doc from either uploaded file or corpus index
+     * Handles both structures transparently
+     */
+    async getXMLDoc(xmlData) {
+        // Check if this is an uploaded file (has 'doc' property)
+        if (xmlData.doc) {
+            return xmlData.doc;
+        }
+
+        // Otherwise, it's from corpus index (has xmlDoc getter that returns a Promise)
+        if ('xmlDoc' in xmlData) {
+            try {
+                // xmlDoc is a getter, not a function - access it as a property
+                const doc = await xmlData.xmlDoc;
+                return doc;
+            } catch (error) {
+                console.error(`Failed to load XML for ${xmlData.filename}:`, error);
+                return null;
+            }
+        }
+
+        console.warn(`No XML doc available for ${xmlData.filename}`);
+        return null;
+    }
+
+    async searchMultipleLemmas(lemmaIds, contextType = 'paragraph') {
         const results = [];
-        
-        this.teiData.parsedXML.forEach(xmlData => {
+
+        for (const xmlData of this.teiData.parsedXML) {
+            // Get XML doc (handles both uploaded files and corpus index)
+            const doc = await this.getXMLDoc(xmlData);
+            if (!doc) continue;
+
             if (contextType === 'paragraph') {
                 // Search within paragraphs
-                const paragraphs = xmlData.doc.querySelectorAll('p');
+                const paragraphs = doc.querySelectorAll('p');
                 
                 paragraphs.forEach((paragraph, pIndex) => {
                     const containsAllLemmas = lemmaIds.every(lemmaId => {
@@ -418,12 +508,12 @@ export class TEIFilesManager {
             } else if (contextType === 'document') {
                 // Search across entire document
                 const containsAllLemmas = lemmaIds.every(lemmaId => {
-                    const elements = xmlData.doc.querySelectorAll(`w[lemmaRef*="lexicon.xml#lemma_${lemmaId}"]`);
+                    const elements = doc.querySelectorAll(`w[lemmaRef*="lexicon.xml#lemma_${lemmaId}"]`);
                     return elements.length > 0;
                 });
-                
+
                 if (containsAllLemmas) {
-                    const matchingWords = this.extractMatchingWordsFromDocument(xmlData.doc, lemmaIds);
+                    const matchingWords = this.extractMatchingWordsFromDocument(doc, lemmaIds);
                     results.push({
                         filename: xmlData.filename,
                         context: 'document',
@@ -432,16 +522,20 @@ export class TEIFilesManager {
                     });
                 }
             }
-        });
-        
+        }
+
         return results;
     }
 
-    findCooccurringLemmas(lemmaIds, maxDistance = 10) {
+    async findCooccurringLemmas(lemmaIds, maxDistance = 10) {
         const results = [];
-        
-        this.teiData.parsedXML.forEach(xmlData => {
-            const words = xmlData.doc.querySelectorAll('w');
+
+        for (const xmlData of this.teiData.parsedXML) {
+            // Get XML doc (handles both uploaded files and corpus index)
+            const doc = await this.getXMLDoc(xmlData);
+            if (!doc) continue;
+
+            const words = doc.querySelectorAll('w');
             const wordArray = Array.from(words);
             
             // Find positions of each lemma
@@ -470,8 +564,8 @@ export class TEIFilesManager {
                     maxDistance: maxDistance
                 });
             }
-        });
-        
+        }
+
         return results;
     }
 
