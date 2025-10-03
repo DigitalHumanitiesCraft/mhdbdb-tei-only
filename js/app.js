@@ -17,6 +17,10 @@ class MainSiteApp {
         this.currentPage = 0;
         this.resultsPerPage = 20;
 
+        this.elements = null; // Will be initialized in initElements()
+    }
+
+    initElements() {
         this.elements = {
             loadingScreen: document.getElementById('loadingScreen'),
             loadingStatus: document.getElementById('loadingStatus'),
@@ -69,6 +73,9 @@ class MainSiteApp {
     async init() {
         try {
             console.log('[MainSiteApp] Initializing...');
+
+            // Initialize DOM element references
+            this.initElements();
 
             // Load corpus indices
             this.updateLoadingStatus('Lade Authority-Index...', 10);
@@ -384,14 +391,9 @@ class MainSiteApp {
 }
 
 // Initialize app when DOM is ready
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-        const app = new MainSiteApp();
-        app.init();
-    });
-} else {
+document.addEventListener('DOMContentLoaded', () => {
     const app = new MainSiteApp();
     app.init();
-}
+});
 
 export { MainSiteApp };
