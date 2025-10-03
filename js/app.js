@@ -47,6 +47,23 @@ class MainSiteApp {
             cacheClearBtn: document.getElementById('cacheClearBtn'),
             cacheInfo: document.getElementById('cacheInfo')
         };
+
+        // Validate all elements exist
+        this.validateElements();
+    }
+
+    validateElements() {
+        const missing = [];
+        for (const [key, element] of Object.entries(this.elements)) {
+            if (!element) {
+                missing.push(key);
+            }
+        }
+        if (missing.length > 0) {
+            console.error('[MainSiteApp] Missing elements:', missing);
+            throw new Error(`Missing required elements: ${missing.join(', ')}`);
+        }
+        console.log('[MainSiteApp] All required elements found');
     }
 
     async init() {
