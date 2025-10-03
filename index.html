@@ -1,405 +1,670 @@
 <!DOCTYPE html>
 <html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Mittelhochdeutsche Begriffsdatenbank (MHDBDB) - TEI-encoded Middle High German literature corpus with semantic annotations">
-    <meta name="keywords" content="Middle High German, TEI, medieval literature, digital humanities, MHDBDB">
-    <meta name="author" content="Universität Salzburg">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Mittelhochdeutsche Begriffsdatenbank (MHDBDB) - TEI-encoded Middle High German literature corpus with semantic annotations"
+    />
+    <meta
+      name="keywords"
+      content="Middle High German, TEI, medieval literature, digital humanities, MHDBDB"
+    />
+    <meta name="author" content="Universität Salzburg" />
 
     <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://mhdbdb.plus.ac.at/">
-    <meta property="og:title" content="Mittelhochdeutsche Begriffsdatenbank">
-    <meta property="og:description" content="TEI-encoded Middle High German literature corpus with semantic annotations">
-    <meta property="og:image" content="assets/images/mhdbdb-logo.png">
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://mhdbdb.plus.ac.at/" />
+    <meta property="og:title" content="Mittelhochdeutsche Begriffsdatenbank" />
+    <meta
+      property="og:description"
+      content="TEI-encoded Middle High German literature corpus with semantic annotations"
+    />
+    <meta property="og:image" content="assets/images/mhdbdb-logo.png" />
 
     <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://mhdbdb.plus.ac.at/">
-    <meta property="twitter:title" content="Mittelhochdeutsche Begriffsdatenbank">
-    <meta property="twitter:description" content="TEI-encoded Middle High German literature corpus with semantic annotations">
-    <meta property="twitter:image" content="assets/images/mhdbdb-logo.png">
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://mhdbdb.plus.ac.at/" />
+    <meta
+      property="twitter:title"
+      content="Mittelhochdeutsche Begriffsdatenbank"
+    />
+    <meta
+      property="twitter:description"
+      content="TEI-encoded Middle High German literature corpus with semantic annotations"
+    />
+    <meta property="twitter:image" content="assets/images/mhdbdb-logo.png" />
 
     <title>Mittelhochdeutsche Begriffsdatenbank (MHDBDB)</title>
 
-    <!-- Pako for gzip decompression (Safari 14+ compatible) -->
+    <!-- Pako for gzip decompression -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.1.0/pako.min.js"></script>
 
     <!-- Dexie.js for IndexedDB -->
     <script src="https://unpkg.com/dexie@3.2.4/dist/dexie.min.js"></script>
 
-    <link rel="icon" type="image/png" href="assets/images/mhdbdb-logo.png">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              brand: {
+                50: "#f1f5fd",
+                100: "#e2ebfa",
+                200: "#c0d3f4",
+                300: "#96b3ec",
+                400: "#6690e3",
+                500: "#3b75d8",
+                600: "#265cc4",
+                700: "#1f4aa2",
+                800: "#1e3e80",
+                900: "#1c3568",
+              },
+            },
+          },
+        },
+      };
+    </script>
 
-    <!-- Main CSS -->
-    <link rel="stylesheet" href="css/main.css">
-</head>
-<body>
-    <!-- Header -->
-    <header class="site-header">
-        <nav class="main-nav">
-            <div class="nav-container">
-                <a href="#about" class="nav-link">Über das Projekt</a>
-                <a href="#corpus" class="nav-link">Korpus</a>
-                <a href="#search" class="nav-link">Suche</a>
-                <a href="#playground" class="nav-link">Playground</a>
-                <a href="#documentation" class="nav-link">Dokumentation</a>
-                <a href="#contact" class="nav-link">Kontakt</a>
-            </div>
-        </nav>
-    </header>
-
-    <!-- Loading Screen -->
+    <link rel="icon" type="image/png" href="assets/images/mhdbdb-logo.png" />
+    <link rel="stylesheet" href="css/shared.css" />
+  </head>
+  <body class="bg-slate-100 text-slate-900">
+    <!-- Loading Screen (for initial data load) -->
     <div id="loadingScreen" class="loading-screen">
-        <div class="loading-content">
-            <div class="spinner"></div>
-            <h2>Corpus wird geladen...</h2>
-            <p id="loadingStatus">Initialisiere Datenbank...</p>
-            <div class="progress-bar-container">
-                <div id="loadingProgress" class="progress-bar"></div>
-            </div>
+      <div class="loading-content">
+        <div class="spinner-large spinner"></div>
+        <h2 class="text-xl font-semibold text-slate-800">
+          Lade Statistiken...
+        </h2>
+        <p id="loadingStatus" class="loading-message">
+          Initialisiere Datenbank...
+        </p>
+        <div class="progress-bar-container">
+          <div
+            id="loadingProgress"
+            class="progress-bar"
+            style="width: 0%"
+          ></div>
         </div>
+      </div>
     </div>
 
+    <!-- Header/Navigation -->
+    <header
+      class="border-b border-slate-200 bg-white/90 backdrop-blur sticky top-0 z-50"
+    >
+      <div class="container mx-auto px-6 py-4">
+        <nav class="flex items-center justify-between">
+          <a href="index.html" class="flex items-center gap-3">
+            <img
+              src="assets/images/mhdbdb-logo.png"
+              alt="MHDBDB Logo"
+              class="w-40"
+            />
+            <span class="text-lg font-bold text-brand-600">MHDBDB</span>
+          </a>
+          <div class="flex items-center gap-6">
+            <a
+              href="index.html"
+              class="text-sm font-medium text-slate-600 hover:text-slate-900 transition"
+            >
+              Startseite
+            </a>
+            <a
+              href="korpus.html"
+              class="text-sm font-medium text-slate-600 hover:text-slate-900 transition"
+            >
+              Korpus
+            </a>
+            <a
+              href="playground/index.html"
+              class="text-sm font-medium text-slate-600 hover:text-slate-900 transition"
+            >
+              Playground
+            </a>
+            <a
+              href="index.html#documentation"
+              class="text-sm font-medium text-slate-600 hover:text-slate-900 transition"
+            >
+              Dokumentation
+            </a>
+            <a
+              href="index.html#contact"
+              class="text-sm font-medium text-slate-600 hover:text-slate-900 transition"
+            >
+              Kontakt
+            </a>
+          </div>
+        </nav>
+      </div>
+    </header>
+
     <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <img src="assets/images/mhdbdb-logo.png" alt="MHDBDB Logo" class="hero-logo">
-                <h1>Mittelhochdeutsche Begriffsdatenbank</h1>
-                <p class="hero-subtitle">TEI-encoded Middle High German Literature Corpus with Semantic Annotations</p>
-                <div class="hero-actions">
-                    <a href="playground/index.html" class="btn btn-primary">Playground öffnen</a>
-                    <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only" class="btn btn-secondary" target="_blank" rel="noopener">GitHub Repository</a>
-                </div>
+    <section
+      class="bg-gradient-to-br from-brand-50 via-white to-slate-50 py-20"
+    >
+      <div class="container mx-auto px-6 max-w-6xl">
+        <div class="flex flex-col items-center text-center gap-8">
+          <img src="assets/images/mhdbdb-logo.png" alt="MHDBDB Logo" />
+          <div>
+            <p class="text-xl text-slate-600 max-w-3xl mx-auto mb-8">
+              TEI-kodiertes Korpus mittelhochdeutscher Literatur mit
+              semantischen Annotationen
+            </p>
+            <div class="flex items-center justify-center gap-4">
+              <a href="korpus.html" class="btn-primary px-8 py-4 text-base">
+                Korpus durchsuchen
+              </a>
+              <a
+                href="playground/index.html"
+                class="btn-secondary px-8 py-4 text-base"
+              >
+                Playground öffnen
+              </a>
             </div>
+          </div>
         </div>
+      </div>
     </section>
 
     <!-- About Section -->
-    <section id="about" class="section section-light">
-        <div class="container">
-            <h2>Über das Projekt</h2>
-            <div class="content-grid">
-                <div class="content-card">
-                    <h3>Projektziel</h3>
-                    <p>Die Mittelhochdeutsche Begriffsdatenbank (MHDBDB) ist eine Forschungsinfrastruktur der Universität Salzburg für die digitale Erschließung mittelhochdeutscher Literatur. Das Projekt kombiniert TEI-Kodierung mit semantischen Annotationen zur systematischen Analyse mittelalterlicher Texte.</p>
-                </div>
-                <div class="content-card">
-                    <h3>TEI-Korpus</h3>
-                    <p>666 TEI-kodierte mittelhochdeutsche Texte mit Word-Level-Annotationen, verknüpft mit kontrollierten Vokabularen für Autoren, Werke, Lemmata, Konzepte, Gattungen und Namen.</p>
-                </div>
-                <div class="content-card">
-                    <h3>Semantic Annotations</h3>
-                    <p>Jedes Wort ist mit lemmatischen und semantischen Informationen annotiert, die auf Authority Files basieren und komplexe linguistische und konzeptuelle Analysen ermöglichen.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Corpus Section -->
-    <section id="corpus" class="section">
-        <div class="container">
-            <h2>Korpus-Übersicht</h2>
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-number">666</div>
-                    <div class="stat-label">TEI-Texte</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">7</div>
-                    <div class="stat-label">Authority Files</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">39,436</div>
-                    <div class="stat-label">Lemmata</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">192,674</div>
-                    <div class="stat-label">Orthographic Variants</div>
-                </div>
-            </div>
-
-            <div class="authority-files">
-                <h3>Authority Files</h3>
-                <ul class="file-list">
-                    <li><strong>persons.xml</strong> (0.12 MB) - Autoren und historische Personen</li>
-                    <li><strong>works.xml</strong> (1.41 MB) - Werk- und Handschriftenmetadaten</li>
-                    <li><strong>lexicon.xml</strong> (32.59 MB) - Wörterbuch mit grammatischen Annotationen</li>
-                    <li><strong>concepts.xml</strong> (0.21 MB) - Semantische Konzepttaxonomie</li>
-                    <li><strong>genres.xml</strong> (0.4 MB) - Literarische Gattungsklassifikation</li>
-                    <li><strong>names.xml</strong> (0.03 MB) - Eigennamen mit semantischen Relationen</li>
-                    <li><strong>variants.xml</strong> (12.46 MB) - Orthographische Varianten aus TEI-Korpus</li>
-                </ul>
-            </div>
-        </div>
-    </section>
-
-    <!-- Search Section -->
-    <section id="search" class="section section-light">
-        <div class="container">
-            <h2>Texte durchsuchen</h2>
-            <p class="section-intro">
-                Durchsuchen Sie 666 mittelhochdeutsche Texte mit automatischer Normalisierung (â→a, ê→e, î→i, ô→o, û→u, ä→ae, ö→oe, ü→ue)
+    <section id="about" class="py-20 bg-white">
+      <div class="container mx-auto px-6 max-w-6xl">
+        <h2 class="text-3xl font-bold text-slate-900 mb-12 text-center">
+          Über das Projekt
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="bg-slate-50 rounded-2xl p-8 border border-slate-200">
+            <h3 class="text-xl font-bold text-slate-900 mb-4">Projektziel</h3>
+            <p class="text-slate-600 leading-relaxed">
+              Die Mittelhochdeutsche Begriffsdatenbank (MHDBDB) ist eine
+              Forschungsinfrastruktur der Universität Salzburg für die digitale
+              Erschließung mittelhochdeutscher Literatur. Das Projekt kombiniert
+              TEI-Kodierung mit semantischen Annotationen zur systematischen
+              Analyse mittelalterlicher Texte.
             </p>
-
-            <!-- Search Interface Card -->
-            <div class="search-card">
-                <!-- Search Input -->
-                <div class="search-input-group">
-                    <label for="searchInput" class="search-label">
-                        Suche nach Wort oder Lemma:
-                    </label>
-                    <div class="search-input-wrapper">
-                        <input
-                            type="text"
-                            id="searchInput"
-                            placeholder="z.B. brot, vriunt, liebe..."
-                            class="search-input"
-                        >
-                        <button id="searchButton" class="btn btn-primary">
-                            Suchen
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Filters -->
-                <div class="filters-grid">
-                    <div class="filter-group">
-                        <label for="genreFilter" class="filter-label">
-                            Nach Gattung filtern:
-                        </label>
-                        <select id="genreFilter" class="filter-select">
-                            <option value="">Alle Gattungen</option>
-                            <!-- Dynamically populated -->
-                        </select>
-                    </div>
-                    <div class="filter-group">
-                        <label for="authorFilter" class="filter-label">
-                            Nach Autor filtern:
-                        </label>
-                        <select id="authorFilter" class="filter-select">
-                            <option value="">Alle Autoren</option>
-                            <!-- Dynamically populated -->
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Search Results -->
-            <div id="resultsSection" class="results-section hidden">
-                <h3 class="results-title">
-                    Suchergebnisse
-                    <span id="resultsCount" class="results-count"></span>
-                </h3>
-                <div id="resultsList" class="results-list">
-                    <!-- Dynamically populated with search results -->
-                </div>
-                <!-- Load More Button -->
-                <div id="loadMoreContainer" class="load-more-container hidden">
-                    <button id="loadMoreButton" class="btn btn-secondary">
-                        Mehr Ergebnisse laden
-                    </button>
-                </div>
-            </div>
-
-            <!-- No Results Message -->
-            <div id="noResults" class="no-results hidden">
-                <p>Keine Ergebnisse gefunden.</p>
-                <p class="no-results-hint">
-                    Versuchen Sie eine alternative Schreibweise oder durchsuchen Sie die
-                    <a href="playground/index.html">erweiterten Suchfunktionen im Playground</a>.
-                </p>
-            </div>
+          </div>
+          <div class="bg-slate-50 rounded-2xl p-8 border border-slate-200">
+            <h3 class="text-xl font-bold text-slate-900 mb-4">TEI-Korpus</h3>
+            <p class="text-slate-600 leading-relaxed">
+              666 TEI-kodierte mittelhochdeutsche Texte mit
+              Word-Level-Annotationen, verknüpft mit kontrollierten Vokabularen
+              für Autoren, Werke, Lemmata, Konzepte, Gattungen und Namen.
+            </p>
+          </div>
+          <div class="bg-slate-50 rounded-2xl p-8 border border-slate-200">
+            <h3 class="text-xl font-bold text-slate-900 mb-4">
+              Semantic Annotations
+            </h3>
+            <p class="text-slate-600 leading-relaxed">
+              Jedes Wort ist mit lemmatischen und semantischen Informationen
+              annotiert, die auf Authority Files basieren und komplexe
+              linguistische und konzeptuelle Analysen ermöglichen.
+            </p>
+          </div>
         </div>
+      </div>
+    </section>
+
+    <!-- Corpus Overview Section -->
+    <section id="corpus" class="py-20 bg-slate-50">
+      <div class="container mx-auto px-6 max-w-6xl">
+        <h2 class="text-3xl font-bold text-slate-900 mb-12 text-center">
+          Korpus-Übersicht
+        </h2>
+
+        <!-- Statistics Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+          <div
+            class="bg-white rounded-2xl p-8 text-center border border-slate-200 shadow-sm"
+          >
+            <div class="text-4xl font-bold text-brand-600 mb-2">666</div>
+            <div class="text-sm font-medium text-slate-600">TEI-Texte</div>
+          </div>
+          <div
+            class="bg-white rounded-2xl p-8 text-center border border-slate-200 shadow-sm"
+          >
+            <div class="text-4xl font-bold text-brand-600 mb-2">7</div>
+            <div class="text-sm font-medium text-slate-600">
+              Authority Files
+            </div>
+          </div>
+          <div
+            class="bg-white rounded-2xl p-8 text-center border border-slate-200 shadow-sm"
+          >
+            <div class="text-4xl font-bold text-brand-600 mb-2">39,436</div>
+            <div class="text-sm font-medium text-slate-600">Lemmata</div>
+          </div>
+          <div
+            class="bg-white rounded-2xl p-8 text-center border border-slate-200 shadow-sm"
+          >
+            <div class="text-4xl font-bold text-brand-600 mb-2">192,674</div>
+            <div class="text-sm font-medium text-slate-600">
+              Orthographic Variants
+            </div>
+          </div>
+        </div>
+
+        <!-- Authority Files List -->
+        <div class="bg-white rounded-2xl p-8 border border-slate-200">
+          <h3 class="text-2xl font-bold text-slate-900 mb-6">
+            Authority Files
+          </h3>
+          <ul class="space-y-3">
+            <li class="flex items-start gap-3">
+              <span class="text-brand-600 font-bold">•</span>
+              <div>
+                <strong class="text-slate-900">persons.xml</strong>
+                <span class="text-slate-500"> (0.12 MB)</span>
+                <span class="text-slate-600">
+                  - Autoren und historische Personen</span
+                >
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="text-brand-600 font-bold">•</span>
+              <div>
+                <strong class="text-slate-900">works.xml</strong>
+                <span class="text-slate-500"> (1.41 MB)</span>
+                <span class="text-slate-600">
+                  - Werk- und Handschriftenmetadaten</span
+                >
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="text-brand-600 font-bold">•</span>
+              <div>
+                <strong class="text-slate-900">lexicon.xml</strong>
+                <span class="text-slate-500"> (32.59 MB)</span>
+                <span class="text-slate-600">
+                  - Wörterbuch mit grammatischen Annotationen</span
+                >
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="text-brand-600 font-bold">•</span>
+              <div>
+                <strong class="text-slate-900">concepts.xml</strong>
+                <span class="text-slate-500"> (0.21 MB)</span>
+                <span class="text-slate-600">
+                  - Semantische Konzepttaxonomie</span
+                >
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="text-brand-600 font-bold">•</span>
+              <div>
+                <strong class="text-slate-900">genres.xml</strong>
+                <span class="text-slate-500"> (0.4 MB)</span>
+                <span class="text-slate-600">
+                  - Literarische Gattungsklassifikation</span
+                >
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="text-brand-600 font-bold">•</span>
+              <div>
+                <strong class="text-slate-900">names.xml</strong>
+                <span class="text-slate-500"> (0.03 MB)</span>
+                <span class="text-slate-600">
+                  - Eigennamen mit semantischen Relationen</span
+                >
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="text-brand-600 font-bold">•</span>
+              <div>
+                <strong class="text-slate-900">variants.xml</strong>
+                <span class="text-slate-500"> (12.46 MB)</span>
+                <span class="text-slate-600">
+                  - Orthographische Varianten aus TEI-Korpus</span
+                >
+              </div>
+            </li>
+          </ul>
+          <div class="mt-8 text-center">
+            <a href="korpus.html" class="btn-primary px-8">
+              → Korpus durchsuchen
+            </a>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- Playground Section -->
-    <section id="playground" class="section">
-        <div class="container">
-            <h2>MHDBDB Playground</h2>
-            <p class="section-intro">Der Playground bietet eine interaktive Web-Oberfläche zur Exploration des TEI-Korpus mit 11 spezialisierten Suchfunktionen.</p>
+    <section id="playground" class="py-20 bg-white">
+      <div class="container mx-auto px-6 max-w-6xl">
+        <h2 class="text-3xl font-bold text-slate-900 mb-6 text-center">
+          MHDBDB Playground
+        </h2>
+        <p class="text-xl text-slate-600 text-center max-w-3xl mx-auto mb-12">
+          Der Playground bietet eine interaktive Web-Oberfläche zur Exploration
+          des TEI-Korpus mit 11 spezialisierten Suchfunktionen.
+        </p>
 
-            <div class="features-grid">
-                <div class="feature-card">
-                    <h3>Authority Files Exploration</h3>
-                    <ul>
-                        <li>Autoren durchsuchen</li>
-                        <li>Werke anzeigen</li>
-                        <li>Lemmata-Suche</li>
-                        <li>Konzepte erkunden</li>
-                        <li>Gattungen filtern</li>
-                        <li>Namen-Datenbank</li>
-                    </ul>
-                </div>
-                <div class="feature-card">
-                    <h3>TEI Text Analysis</h3>
-                    <ul>
-                        <li>Einzelne Lemma-Suche</li>
-                        <li>Multi-Lemma-Suche (Absatz)</li>
-                        <li>Multi-Lemma-Suche (Dokument)</li>
-                        <li>Kookkurrenz-Analyse (Nähe)</li>
-                        <li>XPath-Queries</li>
-                    </ul>
-                </div>
-                <div class="feature-card">
-                    <h3>MHG Character Normalization</h3>
-                    <p>Alle Suchfunktionen unterstützen automatische Normalisierung mittelhochdeutscher Zeichen:</p>
-                    <ul>
-                        <li>Langvokale: â→a, ê→e, î→i, ô→o, û→u</li>
-                        <li>Umlaute: ä→ae, ö→oe, ü→ue</li>
-                        <li>Ligaturen: æ→ae, œ→oe</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="cta-container">
-                <a href="playground/index.html" class="btn btn-primary btn-large">Playground starten</a>
-            </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+          <div class="bg-slate-50 rounded-2xl p-8 border border-slate-200">
+            <h3 class="text-xl font-bold text-slate-900 mb-4">
+              Authority Files Exploration
+            </h3>
+            <ul class="space-y-2 text-slate-600">
+              <li>• Autoren durchsuchen</li>
+              <li>• Werke anzeigen</li>
+              <li>• Lemmata-Suche</li>
+              <li>• Konzepte erkunden</li>
+              <li>• Gattungen filtern</li>
+              <li>• Namen-Datenbank</li>
+            </ul>
+          </div>
+          <div class="bg-slate-50 rounded-2xl p-8 border border-slate-200">
+            <h3 class="text-xl font-bold text-slate-900 mb-4">
+              TEI Text Analysis
+            </h3>
+            <ul class="space-y-2 text-slate-600">
+              <li>• Einzelne Lemma-Suche</li>
+              <li>• Multi-Lemma-Suche (Absatz)</li>
+              <li>• Multi-Lemma-Suche (Dokument)</li>
+              <li>• Kookkurrenz-Analyse (Nähe)</li>
+              <li>• XPath-Queries</li>
+            </ul>
+          </div>
+          <div class="bg-slate-50 rounded-2xl p-8 border border-slate-200">
+            <h3 class="text-xl font-bold text-slate-900 mb-4">
+              MHG Character Normalization
+            </h3>
+            <p class="text-slate-600 mb-4">
+              Alle Suchfunktionen unterstützen automatische Normalisierung
+              mittelhochdeutscher Zeichen:
+            </p>
+            <ul class="space-y-2 text-slate-600">
+              <li>• Langvokale: â→a, ê→e, î→i, ô→o, û→u</li>
+              <li>• Umlaute: ä→ae, ö→oe, ü→ue</li>
+              <li>• Ligaturen: æ→ae, œ→oe</li>
+            </ul>
+          </div>
         </div>
+
+        <div class="text-center">
+          <a
+            href="playground/index.html"
+            class="btn-primary px-12 py-4 text-base"
+          >
+            Playground starten →
+          </a>
+        </div>
+      </div>
     </section>
 
     <!-- Documentation Section -->
-    <section id="documentation" class="section section-light">
-        <div class="container">
-            <h2>Dokumentation</h2>
-            <div class="doc-grid">
-                <div class="doc-card">
-                    <h3>Technische Dokumentation</h3>
-                    <ul>
-                        <li><a href="README.md">README.md</a> - Projekt-Übersicht</li>
-                        <li><a href="CLAUDE.md">CLAUDE.md</a> - Entwicklerdokumentation</li>
-                        <li><a href="docs/REFACTORING-SUMMARY.md">Refactoring Summary</a> - Phase 7 Architektur</li>
-                        <li><a href="docs/BUGFIX-2025-10-02.md">Recent Bugfixes</a> - Oktober 2025 Updates</li>
-                    </ul>
-                </div>
-                <div class="doc-card">
-                    <h3>TEI Guidelines</h3>
-                    <p>Alle TEI-Dateien folgen den TEI P5-Richtlinien mit MHDBDB-spezifischen Annotationen:</p>
-                    <ul>
-                        <li>TEI-Namespace: <code>http://www.tei-c.org/ns/1.0</code></li>
-                        <li>Encoding: UTF-8</li>
-                        <li>Cross-References via <code>xml:id</code></li>
-                        <li>Semantic Annotations via <code>@ana</code></li>
-                        <li>Lemma Attributes via <code>@lemma</code></li>
-                    </ul>
-                </div>
-                <div class="doc-card">
-                    <h3>Testing & Development</h3>
-                    <ul>
-                        <li><strong>Testing Framework:</strong> Playwright</li>
-                        <li><strong>Dev Server:</strong> <code>npm run serve</code></li>
-                        <li><strong>Test Suite:</strong> <code>npm test</code></li>
-                        <li><strong>Test Report:</strong> <code>npm run report</code></li>
-                    </ul>
-                </div>
-            </div>
+    <section id="documentation" class="py-20 bg-slate-50">
+      <div class="container mx-auto px-6 max-w-6xl">
+        <h2 class="text-3xl font-bold text-slate-900 mb-12 text-center">
+          Dokumentation
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="bg-white rounded-2xl p-8 border border-slate-200">
+            <h3 class="text-xl font-bold text-slate-900 mb-4">
+              Technische Dokumentation
+            </h3>
+            <ul class="space-y-2">
+              <li>
+                <a
+                  href="README.md"
+                  class="text-brand-600 hover:text-brand-700 font-medium"
+                  >README.md</a
+                >
+                <span class="text-slate-600"> - Projekt-Übersicht</span>
+              </li>
+              <li>
+                <a
+                  href="CLAUDE.md"
+                  class="text-brand-600 hover:text-brand-700 font-medium"
+                  >CLAUDE.md</a
+                >
+                <span class="text-slate-600"> - Entwicklerdokumentation</span>
+              </li>
+              <li>
+                <a
+                  href="docs/REFACTORING-SUMMARY.md"
+                  class="text-brand-600 hover:text-brand-700 font-medium"
+                  >Refactoring Summary</a
+                >
+                <span class="text-slate-600"> - Phase 7 Architektur</span>
+              </li>
+              <li>
+                <a
+                  href="docs/BUGFIX-2025-10-02.md"
+                  class="text-brand-600 hover:text-brand-700 font-medium"
+                  >Recent Bugfixes</a
+                >
+                <span class="text-slate-600"> - Oktober 2025 Updates</span>
+              </li>
+            </ul>
+          </div>
+          <div class="bg-white rounded-2xl p-8 border border-slate-200">
+            <h3 class="text-xl font-bold text-slate-900 mb-4">
+              TEI Guidelines
+            </h3>
+            <p class="text-slate-600 mb-4">
+              Alle TEI-Dateien folgen den TEI P5-Richtlinien mit
+              MHDBDB-spezifischen Annotationen:
+            </p>
+            <ul class="space-y-2 text-slate-600">
+              <li>
+                • TEI-Namespace:
+                <code class="bg-slate-100 px-2 py-1 rounded text-sm"
+                  >http://www.tei-c.org/ns/1.0</code
+                >
+              </li>
+              <li>• Encoding: UTF-8</li>
+              <li>
+                • Cross-References via
+                <code class="bg-slate-100 px-2 py-1 rounded text-sm"
+                  >xml:id</code
+                >
+              </li>
+              <li>
+                • Semantic Annotations via
+                <code class="bg-slate-100 px-2 py-1 rounded text-sm">@ana</code>
+              </li>
+              <li>
+                • Lemma Attributes via
+                <code class="bg-slate-100 px-2 py-1 rounded text-sm"
+                  >@lemma</code
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="bg-white rounded-2xl p-8 border border-slate-200">
+            <h3 class="text-xl font-bold text-slate-900 mb-4">
+              Testing & Development
+            </h3>
+            <ul class="space-y-2 text-slate-600">
+              <li><strong>Testing Framework:</strong> Playwright</li>
+              <li>
+                <strong>Dev Server:</strong>
+                <code class="bg-slate-100 px-2 py-1 rounded text-sm"
+                  >npm run serve</code
+                >
+              </li>
+              <li>
+                <strong>Test Suite:</strong>
+                <code class="bg-slate-100 px-2 py-1 rounded text-sm"
+                  >npm test</code
+                >
+              </li>
+              <li>
+                <strong>Test Report:</strong>
+                <code class="bg-slate-100 px-2 py-1 rounded text-sm"
+                  >npm run report</code
+                >
+              </li>
+            </ul>
+          </div>
         </div>
+      </div>
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="section">
-        <div class="container">
-            <h2>Kontakt & Lizenz</h2>
-            <div class="contact-grid">
-                <div class="contact-card">
-                    <h3>Universität Salzburg</h3>
-                    <p>Mittelhochdeutsche Begriffsdatenbank (MHDBDB)<br>
-                    Fachbereich Germanistik</p>
-                    <p><strong>E-Mail:</strong> <a href="mailto:mhdbdb@plus.ac.at">mhdbdb@plus.ac.at</a><br>
-                    <strong>Web:</strong> <a href="https://mhdbdb.plus.ac.at" target="_blank" rel="noopener">mhdbdb.plus.ac.at</a></p>
-                </div>
-                <div class="contact-card">
-                    <h3>Lizenz</h3>
-                    <p>Dieses Projekt steht unter der <strong>CC BY-NC-SA 3.0 AT</strong> Lizenz.</p>
-                    <p><a href="https://creativecommons.org/licenses/by-nc-sa/3.0/at/" target="_blank" rel="noopener">Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Austria</a></p>
-                </div>
-                <div class="contact-card">
-                    <h3>Förderung</h3>
-                    <div class="logos">
-                        <img src="assets/images/clariah-logo.png" alt="CLARIAH-AT" class="partner-logo">
-                    </div>
-                    <p>Gefördert durch CLARIAH-AT im Rahmen der österreichischen Forschungsinfrastruktur für Digital Humanities.</p>
-                </div>
+    <section id="contact" class="py-20 bg-white">
+      <div class="container mx-auto px-6 max-w-6xl">
+        <h2 class="text-3xl font-bold text-slate-900 mb-12 text-center">
+          Kontakt & Lizenz
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="bg-slate-50 rounded-2xl p-8 border border-slate-200">
+            <h3 class="text-xl font-bold text-slate-900 mb-4">
+              Universität Salzburg
+            </h3>
+            <p class="text-slate-600 mb-4">
+              Mittelhochdeutsche Begriffsdatenbank (MHDBDB)<br />
+              Fachbereich Germanistik
+            </p>
+            <p class="text-slate-600">
+              <strong>E-Mail:</strong>
+              <a
+                href="mailto:mhdbdb@plus.ac.at"
+                class="text-brand-600 hover:text-brand-700"
+                >mhdbdb@plus.ac.at</a
+              ><br />
+              <strong>Web:</strong>
+              <a
+                href="https://mhdbdb.plus.ac.at"
+                class="text-brand-600 hover:text-brand-700"
+                target="_blank"
+                rel="noopener"
+                >mhdbdb.plus.ac.at</a
+              >
+            </p>
+          </div>
+          <div class="bg-slate-50 rounded-2xl p-8 border border-slate-200">
+            <h3 class="text-xl font-bold text-slate-900 mb-4">Lizenz</h3>
+            <p class="text-slate-600 mb-4">
+              Dieses Projekt steht unter der
+              <strong>CC BY-NC-SA 3.0 AT</strong> Lizenz.
+            </p>
+            <p>
+              <a
+                href="https://creativecommons.org/licenses/by-nc-sa/3.0/at/"
+                class="text-brand-600 hover:text-brand-700 font-medium"
+                target="_blank"
+                rel="noopener"
+              >
+                Creative Commons Attribution-NonCommercial-ShareAlike 3.0
+                Austria
+              </a>
+            </p>
+          </div>
+          <div class="bg-slate-50 rounded-2xl p-8 border border-slate-200">
+            <h3 class="text-xl font-bold text-slate-900 mb-4">Förderung</h3>
+            <div class="mb-4">
+              <img
+                src="assets/images/clariah-logo.png"
+                alt="CLARIAH-AT"
+                class="h-16"
+              />
             </div>
+            <p class="text-slate-600">
+              Gefördert durch CLARIAH-AT im Rahmen der österreichischen
+              Forschungsinfrastruktur für Digital Humanities.
+            </p>
+          </div>
         </div>
+      </div>
     </section>
 
     <!-- Footer -->
-    <footer class="site-footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-logos">
-                    <img src="assets/images/mhdbdb-logo.png" alt="MHDBDB Logo" class="footer-logo-main">
-                    <img src="assets/images/header-banner.png" alt="Mittelhochdeutsche Begriffsdatenbank" class="footer-logo-banner">
-                </div>
-                <div class="footer-links">
-                    <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only" target="_blank" rel="noopener">GitHub</a>
-                    <a href="playground/index.html">Playground</a>
-                    <a href="mailto:mhdbdb@plus.ac.at">Kontakt</a>
-                    <button id="cacheClearBtn" class="cache-btn-footer" title="Cache leeren">
-                        🗑️ <span id="cacheInfo">Cache</span>
-                    </button>
-                </div>
-                <div class="footer-copyright">
-                    <p>&copy; 2025 Universität Salzburg | CC BY-NC-SA 3.0 AT</p>
-                </div>
-            </div>
+    <footer class="bg-slate-100 text-slate-900 py-8">
+      <div class="container mx-auto px-6">
+        <!-- Logos Row -->
+        <div
+          class="flex flex-wrap items-center justify-center gap-8 mb-6 pb-6 border-b border-slate-300"
+        >
+          <img
+            src="assets/images/mhdbdb-logo.png"
+            alt="MHDBDB Logo"
+            class="h-16 w-auto"
+          />
+          <img
+            src="assets/images/university-logo.png"
+            alt="Universität Salzburg"
+            class="h-24 w-auto"
+          />
+          <img
+            src="assets/images/clariah-logo.png"
+            alt="CLARIAH-AT"
+            class="h-24 w-auto"
+          />
         </div>
+
+        <!-- Info and Button Row -->
+        <div
+          class="flex flex-col md:flex-row justify-between items-center gap-6"
+        >
+          <div class="text-center md:text-left">
+            <p class="text-sm mb-2">
+              © 2025 Universität Salzburg |
+              <a
+                href="https://creativecommons.org/licenses/by-nc-sa/3.0/at/"
+                class="hover:text-brand-600 transition"
+                target="_blank"
+                rel="noopener"
+              >
+                CC BY-NC-SA 3.0 AT
+              </a>
+            </p>
+            <div
+              class="flex flex-wrap justify-center md:justify-start gap-4 text-sm text-slate-600"
+            >
+              <a
+                href="mailto:mhdbdb@plus.ac.at"
+                class="hover:text-brand-600 transition"
+                >mhdbdb@plus.ac.at</a
+              >
+              <span>|</span>
+              <a
+                href="https://mhdbdb.plus.ac.at"
+                class="hover:text-brand-600 transition"
+                target="_blank"
+                rel="noopener"
+              >
+                mhdbdb.plus.ac.at
+              </a>
+              <span>|</span>
+              <a
+                href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only"
+                class="hover:text-brand-600 transition"
+                target="_blank"
+                rel="noopener"
+              >
+                GitHub
+              </a>
+            </div>
+          </div>
+          <button
+            id="clearSiteDataBtn"
+            class="btn-secondary text-sm"
+            title="Alle gespeicherten Daten löschen (Cache, IndexedDB, etc.)"
+          >
+            🗑️ Clear Site Data
+          </button>
+        </div>
+      </div>
     </footer>
-
-    <!-- Text Reading Modal -->
-    <div id="textModal" class="text-modal">
-        <div class="modal-dialog">
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <div>
-                    <h3 id="modalTitle" class="modal-title"></h3>
-                    <p id="modalAuthor" class="modal-author"></p>
-                </div>
-                <button id="closeModal" class="modal-close">
-                    ×
-                </button>
-            </div>
-
-            <!-- Modal Content -->
-            <div id="modalContent" class="modal-body">
-                <!-- Loading indicator -->
-                <div id="modalLoading" class="modal-loading hidden">
-                    <div class="spinner"></div>
-                    <p id="modalLoadingStatus">Lade Text...</p>
-                    <p class="modal-loading-hint">Dies kann 30-60 Sekunden dauern</p>
-                </div>
-
-                <!-- Text content container -->
-                <div id="modalTextContent">
-                    <!-- Dynamically populated with TEI text content -->
-                </div>
-            </div>
-
-            <!-- Modal Footer -->
-            <div class="modal-footer">
-                <button id="prevContext" class="btn btn-secondary" disabled>
-                    ← Vorheriger Treffer
-                </button>
-                <span id="contextIndicator" class="context-indicator"></span>
-                <button id="nextContext" class="btn btn-secondary" disabled>
-                    Nächster Treffer →
-                </button>
-            </div>
-        </div>
-    </div>
 
     <!-- Error Display -->
     <div id="errorDisplay" class="error-display hidden">
-        <div class="error-content">
-            <span class="error-label">Fehler:</span>
-            <span id="errorMessage"></span>
-        </div>
+      <div class="error-content">
+        <span class="error-label">Fehler:</span>
+        <span id="errorMessage"></span>
+      </div>
     </div>
 
     <!-- Application Scripts (ES Modules) -->
     <script type="module" src="js/app.js"></script>
-
-</body>
+  </body>
 </html>

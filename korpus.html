@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MHDBDB Korpus-Suche - Durchsuchen Sie 666 TEI-kodierte mittelhochdeutsche Texte">
+    <meta name="keywords" content="Middle High German, TEI, medieval literature, corpus search, MHDBDB">
+    <meta name="author" content="Universität Salzburg">
+
+    <title>Korpus-Suche - MHDBDB</title>
+
+    <!-- Pako for gzip decompression -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.1.0/pako.min.js"></script>
+
+    <!-- Dexie.js for IndexedDB -->
+    <script src="https://unpkg.com/dexie@3.2.4/dist/dexie.min.js"></script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              brand: {
+                50: '#f1f5fd',
+                100: '#e2ebfa',
+                200: '#c0d3f4',
+                300: '#96b3ec',
+                400: '#6690e3',
+                500: '#3b75d8',
+                600: '#265cc4',
+                700: '#1f4aa2',
+                800: '#1e3e80',
+                900: '#1c3568'
+              }
+            }
+          }
+        }
+      };
+    </script>
+
+    <link rel="icon" type="image/png" href="assets/images/mhdbdb-logo.png">
+    <link rel="stylesheet" href="css/shared.css">
+    <link rel="stylesheet" href="css/korpus.css">
+</head>
+<body class="bg-slate-100 text-slate-900">
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="loading-screen">
+        <div class="loading-content">
+            <div class="spinner-large spinner"></div>
+            <h2 class="text-xl font-semibold text-slate-800">Corpus wird geladen...</h2>
+            <p id="loadingStatus" class="loading-message">Initialisiere Datenbank...</p>
+            <div class="progress-bar-container">
+                <div id="loadingProgress" class="progress-bar" style="width: 0%"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="border-b border-slate-200 bg-white/90 backdrop-blur sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4">
+            <nav class="flex items-center justify-between">
+                <a href="index.html" class="flex items-center gap-3">
+                    <img src="assets/images/mhdbdb-logo.png" alt="MHDBDB Logo" class="w-40">
+                    <span class="text-lg font-bold text-brand-600">MHDBDB</span>
+                </a>
+                <div class="flex items-center gap-6">
+                    <a href="index.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                        Startseite
+                    </a>
+                    <a href="korpus.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                        Korpus
+                    </a>
+                    <a href="playground/index.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                        Playground
+                    </a>
+                    <a href="index.html#documentation" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                        Dokumentation
+                    </a>
+                    <a href="index.html#contact" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                        Kontakt
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-12 max-w-6xl">
+        <!-- Search Interface -->
+        <section class="search-card mb-8">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-slate-900 mb-2">Texte durchsuchen</h2>
+                <p class="text-slate-600">
+                    Durchsuchen Sie 666 mittelhochdeutsche Texte mit automatischer Normalisierung
+                    (â→a, ê→e, î→i, ô→o, û→u, ä→ae, ö→oe, ü→ue)
+                </p>
+            </div>
+
+            <!-- Search Input -->
+            <div class="mb-6">
+                <label for="searchInput" class="block text-sm font-semibold text-slate-700 mb-2">
+                    Suche nach Wort oder Lemma:
+                </label>
+                <div class="flex gap-3">
+                    <input
+                        type="text"
+                        id="searchInput"
+                        placeholder="z.B. brot, vriunt, liebe..."
+                        class="flex-1 px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition"
+                    >
+                    <button
+                        id="searchButton"
+                        class="btn-primary px-8"
+                    >
+                        Suchen
+                    </button>
+                </div>
+            </div>
+
+            <!-- Filters -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label for="genreFilter" class="block text-sm font-semibold text-slate-700 mb-2">
+                        Nach Gattung filtern:
+                    </label>
+                    <select
+                        id="genreFilter"
+                        class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition"
+                    >
+                        <option value="">Alle Gattungen</option>
+                        <!-- Dynamically populated -->
+                    </select>
+                </div>
+                <div>
+                    <label for="authorFilter" class="block text-sm font-semibold text-slate-700 mb-2">
+                        Nach Autor filtern:
+                    </label>
+                    <select
+                        id="authorFilter"
+                        class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition"
+                    >
+                        <option value="">Alle Autoren</option>
+                        <!-- Dynamically populated -->
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <!-- Search Results -->
+        <section id="resultsSection" class="hidden">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-slate-900">
+                    Suchergebnisse
+                    <span id="resultsCount" class="text-brand-600"></span>
+                </h2>
+            </div>
+
+            <div id="resultsList" class="space-y-4">
+                <!-- Dynamically populated with search results -->
+            </div>
+
+            <!-- Load More Button -->
+            <div id="loadMoreContainer" class="hidden mt-8 text-center">
+                <button
+                    id="loadMoreButton"
+                    class="btn-secondary px-8"
+                >
+                    Mehr Ergebnisse laden
+                </button>
+            </div>
+        </section>
+
+        <!-- No Results Message -->
+        <div id="noResults" class="hidden bg-yellow-50 border border-yellow-200 rounded-2xl p-8 text-center">
+            <p class="text-slate-700 font-medium mb-2">Keine Ergebnisse gefunden.</p>
+            <p class="text-sm text-slate-600">
+                Versuchen Sie eine alternative Schreibweise oder durchsuchen Sie die
+                <a href="playground/index.html" class="text-brand-600 hover:text-brand-700 font-medium underline">
+                    erweiterten Suchfunktionen im Playground
+                </a>.
+            </p>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-100 text-slate-900 py-12 mt-20">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-wrap items-center justify-center gap-8 mb-6 pb-6 border-b border-slate-300">
+                <img src="assets/images/mhdbdb-logo.png" alt="MHDBDB Logo" class="h-16 w-auto">
+                <img src="assets/images/university-logo.png" alt="Universität Salzburg" class="h-24 w-auto">
+                <img src="assets/images/clariah-logo.png" alt="CLARIAH-AT" class="h-24 w-auto">
+            </div>
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="text-center md:text-left">
+                    <p class="text-sm mb-2">
+                        © 2025 Universität Salzburg |
+                        <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/at/" class="hover:text-brand-600 transition" target="_blank" rel="noopener">
+                            CC BY-NC-SA 3.0 AT
+                        </a>
+                    </p>
+                    <div class="flex flex-wrap justify-center md:justify-start gap-4 text-sm text-slate-600">
+                        <a href="mailto:mhdbdb@plus.ac.at" class="hover:text-brand-600 transition">mhdbdb@plus.ac.at</a>
+                        <span>|</span>
+                        <a href="https://mhdbdb.plus.ac.at" class="hover:text-brand-600 transition" target="_blank" rel="noopener">
+                            mhdbdb.plus.ac.at
+                        </a>
+                        <span>|</span>
+                        <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only" class="hover:text-brand-600 transition" target="_blank" rel="noopener">
+                            GitHub
+                        </a>
+                    </div>
+                </div>
+                <button
+                    id="clearSiteDataBtn"
+                    class="btn-secondary text-sm"
+                    title="Alle gespeicherten Daten löschen (Cache, IndexedDB, etc.)"
+                >
+                    🗑️ Clear Site Data
+                </button>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Text Reading Modal -->
+    <div id="textModal" class="text-modal">
+        <div class="modal-dialog">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <div>
+                    <h3 id="modalTitle" class="modal-title"></h3>
+                    <p id="modalAuthor" class="modal-author"></p>
+                </div>
+                <button id="closeModal" class="modal-close">
+                    ×
+                </button>
+            </div>
+
+            <!-- Modal Content -->
+            <div id="modalContent" class="modal-body">
+                <!-- Loading indicator -->
+                <div id="modalLoading" class="modal-loading hidden">
+                    <div class="spinner"></div>
+                    <p id="modalLoadingStatus" class="loading-message">Lade Text...</p>
+                    <p class="modal-loading-hint">Dies kann 30-60 Sekunden dauern</p>
+                </div>
+
+                <!-- Text content container -->
+                <div id="modalTextContent">
+                    <!-- Dynamically populated with TEI text content -->
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button id="prevContext" class="btn-secondary">
+                    ← Vorheriger Treffer
+                </button>
+                <span id="contextIndicator" class="context-indicator"></span>
+                <button id="nextContext" class="btn-secondary">
+                    Nächster Treffer →
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error Display -->
+    <div id="errorDisplay" class="error-display hidden">
+        <div class="error-content">
+            <span class="error-label">Fehler:</span>
+            <span id="errorMessage"></span>
+        </div>
+    </div>
+
+    <!-- Application Scripts (ES Modules) -->
+    <script type="module" src="js/app.js"></script>
+
+</body>
+</html>

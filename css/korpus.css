@@ -1,0 +1,313 @@
+/* Korpus Search Page Specific Styles
+ * Used by: korpus.html
+ * Includes: modals, search results, text rendering, highlighting
+ */
+
+/* ========================================
+   SEARCH INTERFACE
+   ======================================== */
+
+.search-card {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-6);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
+}
+
+@media (prefers-color-scheme: dark) {
+  .search-card {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+}
+
+/* ========================================
+   RESULTS DISPLAY
+   ======================================== */
+
+.result-card {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-xl);
+  padding: var(--space-5);
+  transition: var(--transition-base);
+  cursor: pointer;
+}
+
+.result-card:hover {
+  border-color: var(--border-secondary);
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
+  transform: translateY(-2px);
+}
+
+@media (prefers-color-scheme: dark) {
+  .result-card:hover {
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+  }
+}
+
+/* ========================================
+   TEXT MODAL
+   ======================================== */
+
+.text-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(4px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: var(--space-4);
+}
+
+.text-modal.active {
+  display: flex;
+  animation: fadeIn 200ms ease-out;
+}
+
+.modal-dialog {
+  background: var(--bg-primary);
+  border-radius: var(--radius-2xl);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  max-width: 900px;
+  width: 100%;
+  max-height: 90vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 300ms ease-out;
+}
+
+/* Modal Header */
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-6) var(--space-6) var(--space-4);
+  border-bottom: 1px solid var(--border-primary);
+}
+
+.modal-title {
+  font-size: var(--text-2xl);
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+.modal-author {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  margin-top: var(--space-1);
+}
+
+.modal-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: var(--transition-fast);
+  font-size: 28px;
+  line-height: 1;
+}
+
+.modal-close:hover {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+
+/* Modal Body */
+.modal-body {
+  padding: var(--space-6);
+  overflow-y: auto;
+  flex: 1;
+}
+
+.modal-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-12);
+  gap: var(--space-4);
+}
+
+.modal-loading-hint {
+  font-size: var(--text-sm);
+  color: var(--text-tertiary);
+}
+
+/* Modal Footer */
+.modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-4) var(--space-6);
+  border-top: 1px solid var(--border-primary);
+  background: var(--bg-secondary);
+}
+
+.context-indicator {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+/* ========================================
+   TEXT HIGHLIGHTING
+   ======================================== */
+
+.highlight {
+  background-color: #fbbf24;
+  color: #78350f;
+  border-radius: var(--radius-sm);
+  padding: var(--space-1) var(--space-2);
+  font-weight: 600;
+  border: 1px solid #f59e0b;
+}
+
+@media (prefers-color-scheme: dark) {
+  .highlight {
+    background-color: #d97706;
+    color: #fef3c7;
+    border-color: #f59e0b;
+  }
+}
+
+/* Multi-lemma highlighting (color-coded by lemma ID) */
+.multi-lemma-879 {
+  background-color: #fecaca;
+  border: 1px solid #ef4444;
+  color: #991b1b;
+  border-radius: var(--radius-sm);
+  padding: var(--space-1) var(--space-2);
+  font-weight: 600;
+}
+
+.multi-lemma-7532 {
+  background-color: #bbf7d0;
+  border: 1px solid #22c55e;
+  color: #14532d;
+  border-radius: var(--radius-sm);
+  padding: var(--space-1) var(--space-2);
+  font-weight: 600;
+}
+
+.multi-lemma-1816 {
+  background-color: #bfdbfe;
+  border: 1px solid #3b82f6;
+  color: #1e3a8a;
+  border-radius: var(--radius-sm);
+  padding: var(--space-1) var(--space-2);
+  font-weight: 600;
+}
+
+.multi-lemma-26713 {
+  background-color: #f9a8d4;
+  border: 1px solid #ec4899;
+  color: #831843;
+  border-radius: var(--radius-sm);
+  padding: var(--space-1) var(--space-2);
+  font-weight: 600;
+}
+
+.multi-lemma-712 {
+  background-color: #fed7aa;
+  border: 1px solid #f97316;
+  color: #9a3412;
+  border-radius: var(--radius-sm);
+  padding: var(--space-1) var(--space-2);
+  font-weight: 600;
+}
+
+/* Fallback for other lemma IDs */
+[class*="multi-lemma-"]:not(.multi-lemma-879):not(.multi-lemma-7532):not(.multi-lemma-1816):not(.multi-lemma-26713):not(.multi-lemma-712) {
+  background-color: #c4b5fd;
+  border: 1px solid #8b5cf6;
+  color: #581c87;
+  border-radius: var(--radius-sm);
+  padding: var(--space-1) var(--space-2);
+  font-weight: 600;
+}
+
+/* Dark mode variants */
+@media (prefers-color-scheme: dark) {
+  .multi-lemma-879 {
+    background-color: #7f1d1d;
+    border-color: #dc2626;
+    color: #fecaca;
+  }
+
+  .multi-lemma-7532 {
+    background-color: #14532d;
+    border-color: #16a34a;
+    color: #bbf7d0;
+  }
+
+  .multi-lemma-1816 {
+    background-color: #1e3a8a;
+    border-color: #2563eb;
+    color: #bfdbfe;
+  }
+
+  .multi-lemma-26713 {
+    background-color: #831843;
+    border-color: #db2777;
+    color: #f9a8d4;
+  }
+
+  .multi-lemma-712 {
+    background-color: #9a3412;
+    border-color: #ea580c;
+    color: #fed7aa;
+  }
+
+  [class*="multi-lemma-"]:not(.multi-lemma-879):not(.multi-lemma-7532):not(.multi-lemma-1816):not(.multi-lemma-26713):not(.multi-lemma-712) {
+    background-color: #581c87;
+    border-color: #7c3aed;
+    color: #c4b5fd;
+  }
+}
+
+/* ========================================
+   ERROR DISPLAY
+   ======================================== */
+
+.error-display {
+  position: fixed;
+  bottom: var(--space-4);
+  right: var(--space-4);
+  background: #fee2e2;
+  border: 1px solid #ef4444;
+  color: #991b1b;
+  padding: var(--space-4) var(--space-5);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 12px 32px rgba(239, 68, 68, 0.2);
+  max-width: 400px;
+  z-index: 10000;
+  animation: slideUp 300ms ease-out;
+}
+
+@media (prefers-color-scheme: dark) {
+  .error-display {
+    background: #7f1d1d;
+    border-color: #dc2626;
+    color: #fecaca;
+  }
+}
+
+.error-content {
+  display: flex;
+  align-items: start;
+  gap: var(--space-2);
+}
+
+.error-label {
+  font-weight: 600;
+}

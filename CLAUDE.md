@@ -523,6 +523,11 @@ When working with this codebase, respect the academic nature of the data and mai
 
 ### Common Git Tasks
 
+#### CRITICAL: Testing Before Commits
+- **NEVER commit or push without user confirmation after testing**
+- **ALWAYS wait for user to test changes locally before committing**
+- Make changes, let user test, then ask if they want to commit
+
 #### Starting New Work
 ```bash
 # Ensure main is up to date
@@ -532,15 +537,16 @@ git pull origin main
 # Create feature branch
 git checkout -b feature/your-feature-name
 
-# Make changes and commit
+# Make changes and commit (ONLY AFTER USER TESTS AND CONFIRMS)
 git add .
 git commit -m "Description of changes"
 
-# Push branch
+# Push branch (ONLY AFTER USER APPROVAL)
 git push -u origin feature/your-feature-name
 ```
 
 #### Committing Changes
+- **CRITICAL**: Wait for user testing and approval before committing
 - Use descriptive commit messages
 - Include "🤖 Generated with [Claude Code](https://claude.com/claude-code)" footer
 - Add "Co-Authored-By: Claude <noreply@anthropic.com>" for AI-assisted commits
@@ -555,10 +561,13 @@ git push -u origin feature/your-feature-name
    python scripts/build-authority-index.py
    python scripts/build-corpus-index.py
    ```
-5. Run tests: `npm test`
-6. Update documentation in commit message
+5. **TEST LOCALLY** - let user verify changes work
+6. **WAIT FOR USER APPROVAL** before committing
+7. Run tests: `npm test` (if applicable)
+8. Update documentation in commit message
 
 ### Important Notes
+- **NEVER commit or push without user testing and approval first**
 - **Never force push to `main`** - merge conflicts should be resolved properly
 - **Rebuild indexes** after modifying XML files in `authority-files/` or `tei/`
 - **Run tests** before pushing to ensure nothing breaks

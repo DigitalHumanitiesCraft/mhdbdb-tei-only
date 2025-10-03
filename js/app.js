@@ -1,6 +1,8 @@
 /**
  * Main Site Application Controller
- * Manages the public-facing MHDBDB corpus exploration interface
+ * Manages both landing page (index.html) and search page (korpus.html)
+ * - index.html: Stats display only (no search)
+ * - korpus.html: Full search functionality
  */
 
 import { CorpusLoader } from '/lib/corpus-loader.js';
@@ -17,88 +19,62 @@ class MainSiteApp {
         this.currentPage = 0;
         this.resultsPerPage = 20;
 
-        this.elements = null; // Will be initialized in initElements()
-    }
+        // Detect which page we're on
+        this.isSearchPage = window.location.pathname.includes('korpus.html');
 
-    initElements() {
+        // Common elements (both pages)
         this.elements = {
             loadingScreen: document.getElementById('loadingScreen'),
             loadingStatus: document.getElementById('loadingStatus'),
             loadingProgress: document.getElementById('loadingProgress'),
-            searchInput: document.getElementById('searchInput'),
-            searchButton: document.getElementById('searchButton'),
-            genreFilter: document.getElementById('genreFilter'),
-            authorFilter: document.getElementById('authorFilter'),
-            resultsSection: document.getElementById('resultsSection'),
-            resultsList: document.getElementById('resultsList'),
-            resultsCount: document.getElementById('resultsCount'),
-            noResults: document.getElementById('noResults'),
-            loadMoreContainer: document.getElementById('loadMoreContainer'),
-            loadMoreButton: document.getElementById('loadMoreButton'),
-            textModal: document.getElementById('textModal'),
-            modalTitle: document.getElementById('modalTitle'),
-            modalAuthor: document.getElementById('modalAuthor'),
-            modalContent: document.getElementById('modalContent'),
-            modalLoading: document.getElementById('modalLoading'),
-            modalLoadingStatus: document.getElementById('modalLoadingStatus'),
-            modalTextContent: document.getElementById('modalTextContent'),
-            closeModal: document.getElementById('closeModal'),
-            prevContext: document.getElementById('prevContext'),
-            nextContext: document.getElementById('nextContext'),
-            contextIndicator: document.getElementById('contextIndicator'),
             errorDisplay: document.getElementById('errorDisplay'),
             errorMessage: document.getElementById('errorMessage'),
-            cacheClearBtn: document.getElementById('cacheClearBtn'),
-            cacheInfo: document.getElementById('cacheInfo')
+            clearSiteDataBtn: document.getElementById('clearSiteDataBtn')
         };
 
-        // Validate all elements exist
-        this.validateElements();
-    }
-
-    validateElements() {
-        const missing = [];
-        for (const [key, element] of Object.entries(this.elements)) {
-            if (!element) {
-                missing.push(key);
-            }
+        // Search page specific elements
+        if (this.isSearchPage) {
+            this.elements = {
+                ...this.elements,
+                searchInput: document.getElementById('searchInput'),
+                searchButton: document.getElementById('searchButton'),
+                genreFilter: document.getElementById('genreFilter'),
+                authorFilter: document.getElementById('authorFilter'),
+                resultsSection: document.getElementById('resultsSection'),
+                resultsList: document.getElementById('resultsList'),
+                resultsCount: document.getElementById('resultsCount'),
+                noResults: document.getElementById('noResults'),
+                loadMoreContainer: document.getElementById('loadMoreContainer'),
+                loadMoreButton: document.getElementById('loadMoreButton'),
+                textModal: document.getElementById('textModal'),
+                modalTitle: document.getElementById('modalTitle'),
+                modalAuthor: document.getElementById('modalAuthor'),
+                modalContent: document.getElementById('modalContent'),
+                modalLoading: document.getElementById('modalLoading'),
+                modalLoadingStatus: document.getElementById('modalLoadingStatus'),
+                modalTextContent: document.getElementById('modalTextContent'),
+                closeModal: document.getElementById('closeModal'),
+                prevContext: document.getElementById('prevContext'),
+                nextContext: document.getElementById('nextContext'),
+                contextIndicator: document.getElementById('contextIndicator')
+            };
         }
-        if (missing.length > 0) {
-            console.error('[MainSiteApp] Missing elements:', missing);
-            throw new Error(`Missing required elements: ${missing.join(', ')}`);
-        }
-        console.log('[MainSiteApp] All required elements found');
     }
 
     async init() {
         try {
-            console.log('[MainSiteApp] Initializing...');
+            console.log(`[MainSiteApp] Initializing (${this.isSearchPage ? 'Search' : 'Landing'} page)...`);
 
-            // Initialize DOM element references
-            this.initElements();
+            if (this.isSearchPage) {
+                // Search page: Full initialization
+                await this.initSearchPage();
+            } else {
+                // Landing page: Stats only (no search functionality needed)
+                await this.initLandingPage();
+            }
 
-            // Load corpus indices
-            this.updateLoadingStatus('Lade Authority-Index...', 10);
-            const authorityIndex = await this.corpusLoader.loadAuthorityIndex();
-
-            this.updateLoadingStatus('Lade Corpus-Index...', 50);
-            const corpusIndex = await this.corpusLoader.loadCorpusIndex();
-
-            // Initialize search engine
-            this.updateLoadingStatus('Initialisiere Suchmaschine...', 80);
-            this.searchEngine = new SearchEngine(authorityIndex, corpusIndex);
-
-            // Initialize text renderer
-            this.textRenderer = new TextRenderer(corpusIndex, authorityIndex);
-
-            // Populate filter dropdowns
-            this.populateFilters(authorityIndex);
-
-            // Setup event listeners
+            // Setup event listeners (page-specific)
             this.setupEventListeners();
-
-            // Update cache info
-            this.updateCacheInfo();
 
             this.updateLoadingStatus('Fertig!', 100);
 
@@ -113,6 +89,40 @@ class MainSiteApp {
             this.showError(`Fehler beim Laden: ${error.message}`);
             this.updateLoadingStatus('Fehler beim Laden', 100);
         }
+    }
+
+    /**
+     * Initialize landing page (stats display only)
+     */
+    async initLandingPage() {
+        // Landing page doesn't need any data loading
+        // Stats are hard-coded in the HTML
+        console.log('[MainSiteApp] Landing page ready (no data loading needed)');
+        this.updateLoadingStatus('Bereit!', 100);
+    }
+
+    /**
+     * Initialize search page (full functionality)
+     */
+    async initSearchPage() {
+        // Load corpus indices
+        this.updateLoadingStatus('Lade Authority-Index...', 10);
+        const authorityIndex = await this.corpusLoader.loadAuthorityIndex();
+
+        this.updateLoadingStatus('Lade Corpus-Index...', 50);
+        const corpusIndex = await this.corpusLoader.loadCorpusIndex();
+
+        // Initialize search engine
+        this.updateLoadingStatus('Initialisiere Suchmaschine...', 80);
+        this.searchEngine = new SearchEngine(authorityIndex, corpusIndex);
+
+        // Initialize text renderer
+        this.textRenderer = new TextRenderer(corpusIndex, authorityIndex);
+
+        // Populate filter dropdowns
+        this.populateFilters(authorityIndex);
+
+        console.log('[MainSiteApp] Search page initialized');
     }
 
     updateLoadingStatus(message, progress) {
@@ -155,45 +165,50 @@ class MainSiteApp {
     }
 
     setupEventListeners() {
-        // Search
-        this.elements.searchButton.addEventListener('click', () => this.handleSearch());
-        this.elements.searchInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                this.handleSearch();
-            }
-        });
+        // Clear Site Data button (both pages)
+        if (this.elements.clearSiteDataBtn) {
+            this.elements.clearSiteDataBtn.addEventListener('click', () => this.handleClearSiteData());
+        }
 
-        // Filters
-        this.elements.genreFilter.addEventListener('change', () => {
-            if (this.currentResults.length > 0) {
-                this.handleSearch(); // Re-run search with new filter
-            }
-        });
-        this.elements.authorFilter.addEventListener('change', () => {
-            if (this.currentResults.length > 0) {
-                this.handleSearch(); // Re-run search with new filter
-            }
-        });
+        // Search page specific listeners
+        if (this.isSearchPage) {
+            // Search
+            this.elements.searchButton.addEventListener('click', () => this.handleSearch());
+            this.elements.searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    this.handleSearch();
+                }
+            });
 
-        // Load more results
-        this.elements.loadMoreButton.addEventListener('click', () => this.loadMoreResults());
+            // Filters
+            this.elements.genreFilter.addEventListener('click', () => {
+                if (this.currentResults.length > 0) {
+                    this.handleSearch(); // Re-run search with new filter
+                }
+            });
+            this.elements.authorFilter.addEventListener('change', () => {
+                if (this.currentResults.length > 0) {
+                    this.handleSearch(); // Re-run search with new filter
+                }
+            });
 
-        // Modal controls
-        this.elements.closeModal.addEventListener('click', () => this.closeModal());
-        this.elements.prevContext.addEventListener('click', () => this.textRenderer.navigateContext(-1));
-        this.elements.nextContext.addEventListener('click', () => this.textRenderer.navigateContext(1));
+            // Load more results
+            this.elements.loadMoreButton.addEventListener('click', () => this.loadMoreResults());
 
-        // Close modal on background click
-        this.elements.textModal.addEventListener('click', (e) => {
-            if (e.target === this.elements.textModal) {
-                this.closeModal();
-            }
-        });
+            // Modal controls
+            this.elements.closeModal.addEventListener('click', () => this.closeModal());
+            this.elements.prevContext.addEventListener('click', () => this.textRenderer.navigateContext(-1));
+            this.elements.nextContext.addEventListener('click', () => this.textRenderer.navigateContext(1));
 
-        // Cache management
-        this.elements.cacheClearBtn.addEventListener('click', () => this.handleCacheClear());
+            // Close modal on background click
+            this.elements.textModal.addEventListener('click', (e) => {
+                if (e.target === this.elements.textModal) {
+                    this.closeModal();
+                }
+            });
+        }
 
-        console.log('[MainSiteApp] Event listeners attached');
+        console.log(`[MainSiteApp] Event listeners attached (${this.isSearchPage ? 'Search' : 'Landing'} page)`);
     }
 
     async handleSearch() {
@@ -313,9 +328,6 @@ class MainSiteApp {
             this.elements.modalLoading.classList.add('hidden');
             this.elements.modalTextContent.classList.remove('hidden');
 
-            // Update cache info after loading a text
-            this.updateCacheInfo();
-
         } catch (error) {
             console.error('[MainSiteApp] Failed to open text:', error);
             this.elements.modalLoading.classList.add('hidden');
@@ -352,48 +364,75 @@ class MainSiteApp {
         return div.innerHTML;
     }
 
-    async updateCacheInfo() {
-        try {
-            if (!this.textRenderer || !this.textRenderer.cache) {
-                this.elements.cacheInfo.textContent = 'Cache';
-                return;
-            }
+    /**
+     * Clear all site data (equivalent to Chrome DevTools "Clear site data")
+     * Clears:
+     * - TEI cache (IndexedDB: MHDBDB_TEI_Cache)
+     * - Authority/Corpus indices (IndexedDB: MHDBDBMainSite)
+     * - localStorage
+     * - sessionStorage
+     */
+    async handleClearSiteData() {
+        const message = `Alle gespeicherten Daten löschen?\n\nDies umfasst:\n` +
+            `• TEI-Dateien Cache\n` +
+            `• Authority- und Corpus-Indizes\n` +
+            `• Alle lokalen Einstellungen\n\n` +
+            `Die Seite wird neu geladen.`;
 
-            const stats = await this.textRenderer.cache.getStats();
-            if (stats && stats.count > 0) {
-                const sizeMB = (stats.totalSize / (1024 * 1024)).toFixed(1);
-                this.elements.cacheInfo.textContent = `Cache (${stats.count} / ${sizeMB}MB)`;
-            } else {
-                this.elements.cacheInfo.textContent = 'Cache (leer)';
-            }
-        } catch (error) {
-            console.error('[MainSiteApp] Error updating cache info:', error);
-            this.elements.cacheInfo.textContent = 'Cache';
-        }
-    }
-
-    async handleCacheClear() {
-        if (!confirm('Cache für TEI-Dateien löschen? Dies verbessert die Performance beim nächsten Laden.')) {
+        if (!confirm(message)) {
             return;
         }
 
         try {
-            console.log('[MainSiteApp] Clearing TEI cache...');
-            await this.textRenderer.cache.clear();
-            await this.updateCacheInfo();
-            alert('Cache erfolgreich geleert!');
-            console.log('[MainSiteApp] Cache cleared successfully');
+            console.log('[MainSiteApp] Clearing all site data...');
+
+            // 1. Clear TEI cache
+            if (this.textRenderer && this.textRenderer.cache) {
+                console.log('[MainSiteApp] Clearing TEI cache...');
+                await this.textRenderer.cache.clear();
+            }
+
+            // 2. Clear corpus loader IndexedDB (authority/corpus indices)
+            if (this.corpusLoader && this.corpusLoader.db) {
+                console.log('[MainSiteApp] Clearing corpus indices...');
+                await this.corpusLoader.db.indices.clear();
+            }
+
+            // 3. Clear all IndexedDB databases
+            console.log('[MainSiteApp] Clearing all IndexedDB databases...');
+            const databases = await indexedDB.databases();
+            for (const db of databases) {
+                console.log(`[MainSiteApp] Deleting database: ${db.name}`);
+                indexedDB.deleteDatabase(db.name);
+            }
+
+            // 4. Clear localStorage and sessionStorage
+            console.log('[MainSiteApp] Clearing localStorage and sessionStorage...');
+            localStorage.clear();
+            sessionStorage.clear();
+
+            console.log('[MainSiteApp] All site data cleared successfully');
+
+            // Reload page to reinitialize
+            alert('Alle Daten wurden gelöscht. Die Seite wird neu geladen.');
+            window.location.reload();
+
         } catch (error) {
-            console.error('[MainSiteApp] Error clearing cache:', error);
-            alert('Fehler beim Leeren des Caches: ' + error.message);
+            console.error('[MainSiteApp] Error clearing site data:', error);
+            alert('Fehler beim Löschen der Daten: ' + error.message);
         }
     }
 }
 
 // Initialize app when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        const app = new MainSiteApp();
+        app.init();
+    });
+} else {
     const app = new MainSiteApp();
     app.init();
-});
+}
 
 export { MainSiteApp };
