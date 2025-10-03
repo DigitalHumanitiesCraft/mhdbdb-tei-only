@@ -438,6 +438,22 @@ code {
     color: var(--text-light);
 }
 
+.cache-btn-footer {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: var(--text-light);
+    padding: 0.5rem 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.875rem;
+    transition: background-color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.cache-btn-footer:hover {
+    background-color: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
 .footer-copyright {
     font-size: 0.9rem;
     color: var(--text-muted);
@@ -811,27 +827,6 @@ code {
     margin-right: var(--spacing-xs);
 }
 
-/* --- Cache Clear Button --- */
-.cache-btn {
-    position: fixed;
-    bottom: var(--spacing-sm);
-    left: var(--spacing-sm);
-    background-color: var(--bg-dark);
-    color: var(--text-light);
-    padding: 0.75rem 1rem;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: background-color var(--transition-fast);
-    box-shadow: 0 4px 12px var(--shadow-medium);
-    z-index: 9996;
-}
-
-.cache-btn:hover {
-    background-color: #4b5563;
-}
-
 /* --- Utility Classes --- */
 .hidden {
     display: none !important;
@@ -844,7 +839,6 @@ code {
     .hero-actions,
     .cta-container,
     .site-footer,
-    .cache-btn,
     .error-display,
     .loading-screen {
         display: none;
