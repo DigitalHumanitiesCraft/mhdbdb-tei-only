@@ -38,17 +38,23 @@ This is the MHDBDB TEI Repository - a collection of TEI-encoded Middle High Germ
 
 ### Web Interfaces
 
-#### Main Site (index.html)
+#### Main Site (index.html + korpus.html)
 - **Purpose**: Public-facing corpus browser for general users and students
 - **Architecture**: Simple search and display with pre-built corpus index
 - **Key Files**:
-  - `index.html` - Main landing page with corpus search
-  - `js/app.js` - Main site application controller
+  - `index.html` - Main landing page with corpus statistics
+  - `korpus.html` - Search page with text selection interface
+  - `js/app.js` - Main site application controller (`MainSiteApp`)
   - `js/search/search-engine.js` - Search functionality across corpus
   - `js/rendering/text-renderer.js` - Text display and rendering
   - `js/storage/tei-cache-manager.js` - TEI file caching
 - **Data Source**: Uses `data/corpus-index.json.gz` (21 MB) for instant search
-- **Features**: Single lemma search, text browsing, basic filtering
+- **Features**:
+  - Single lemma search with MHG normalization
+  - Text selection via checkboxes (include/exclude texts from search)
+  - Filter text list by title, sigle, or author
+  - Auto-scroll to results with sticky header offset
+  - White result cards on gray background for visual distinction
 
 #### Playground (playground/)
 - **Purpose**: Advanced research tool for medievalists and researchers
@@ -177,6 +183,14 @@ All files use consistent cross-referencing:
 - ✅ **Complete text display** - context now includes ALL `<w>` elements (with or without `@lemmaRef`) for readable output
 - ✅ **Smaller index size** - ~30% reduction by removing paragraph metadata
 - ✅ **Simplified architecture** - removed paragraph search mode entirely (only proximity + document modes remain)
+
+**Main Site Simplification** (Oct 5, 2025):
+- ✅ **Removed genre/author filter dropdowns** - replaced with text selection interface matching playground
+- ✅ **Added text selection feature** - 666 texts displayed with checkboxes (all selected by default)
+- ✅ **Text filtering** - live search by title, sigle, or author with "Alle/Keine" buttons
+- ✅ **Improved search UX** - auto-scroll to results with 80px offset for sticky header
+- ✅ **Better visual hierarchy** - white result cards on gray background with brand color accents
+- ✅ **Search filtering** - SearchEngine now respects `includedTexts` Set for selective corpus search
 
 **Recent Bug Fixes** (Oct 2-5, 2025):
 - ✅ Fixed test suite timeout issue (skipped main site tests)

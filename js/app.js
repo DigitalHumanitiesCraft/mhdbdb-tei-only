@@ -19,6 +19,12 @@ class MainSiteApp {
         this.currentPage = 0;
         this.resultsPerPage = 20;
 
+        // Corpus data (for text selection)
+        this.corpusData = {
+            texts: [],
+            includedTexts: new Set() // IDs of texts to include in search
+        };
+
         // Detect which page we're on
         this.isSearchPage = window.location.pathname.includes('korpus.html');
 
@@ -38,8 +44,14 @@ class MainSiteApp {
                 ...this.elements,
                 searchInput: document.getElementById('searchInput'),
                 searchButton: document.getElementById('searchButton'),
-                genreFilter: document.getElementById('genreFilter'),
-                authorFilter: document.getElementById('authorFilter'),
+                textList: document.getElementById('textList'),
+                textFilter: document.getElementById('textFilter'),
+                selectAllTexts: document.getElementById('selectAllTexts'),
+                selectNoneTexts: document.getElementById('selectNoneTexts'),
+                selectedTextCount: document.getElementById('selectedTextCount'),
+                filterInfoText: document.getElementById('filterInfoText'),
+                visibleTextCount: document.getElementById('visibleTextCount'),
+                clearTextFilter: document.getElementById('clearTextFilter'),
                 resultsSection: document.getElementById('resultsSection'),
                 resultsList: document.getElementById('resultsList'),
                 resultsCount: document.getElementById('resultsCount'),
@@ -112,6 +124,14 @@ class MainSiteApp {
         this.updateLoadingStatus('Lade Corpus-Index...', 50);
         const corpusIndex = await this.corpusLoader.loadCorpusIndex();
 
+        // Store corpus data
+        this.corpusData.texts = corpusIndex.texts || [];
+
+        // Initialize all texts as included
+        this.corpusData.texts.forEach(text => {
+            this.corpusData.includedTexts.add(text.id);
+        });
+
         // Initialize search engine
         this.updateLoadingStatus('Initialisiere Suchmaschine...', 80);
         this.searchEngine = new SearchEngine(authorityIndex, corpusIndex);
@@ -119,8 +139,8 @@ class MainSiteApp {
         // Initialize text renderer
         this.textRenderer = new TextRenderer(corpusIndex, authorityIndex);
 
-        // Populate filter dropdowns
-        this.populateFilters(authorityIndex);
+        // Populate text list with checkboxes
+        this.populateTextList();
 
         console.log('[MainSiteApp] Search page initialized');
     }
@@ -130,38 +150,67 @@ class MainSiteApp {
         this.elements.loadingProgress.style.width = `${progress}%`;
     }
 
-    populateFilters(authorityIndex) {
-        // Populate genre filter from genres list (if available)
-        if (authorityIndex.genres && authorityIndex.genres.length > 0) {
-            authorityIndex.genres
-                .filter(g => g.termDE)
-                .sort((a, b) => a.termDE.localeCompare(b.termDE))
-                .forEach(genre => {
-                    const option = document.createElement('option');
-                    option.value = genre.id;
-                    option.textContent = genre.termDE;
-                    this.elements.genreFilter.appendChild(option);
-                });
-        }
+    populateTextList() {
+        const textList = this.elements.textList;
+        if (!textList) return;
 
-        // Populate author filter from persons list
-        if (authorityIndex.persons && authorityIndex.persons.length > 0) {
-            authorityIndex.persons
-                .filter(p => p.preferredName || p.name)
-                .sort((a, b) => {
-                    const nameA = a.preferredName || a.name;
-                    const nameB = b.preferredName || b.name;
-                    return nameA.localeCompare(nameB);
-                })
-                .forEach(person => {
-                    const option = document.createElement('option');
-                    option.value = person.id;
-                    option.textContent = person.preferredName || person.name;
-                    this.elements.authorFilter.appendChild(option);
-                });
-        }
+        textList.innerHTML = '';
 
-        console.log(`[MainSiteApp] Filters populated: ${this.elements.genreFilter.options.length - 1} genres, ${this.elements.authorFilter.options.length - 1} authors`);
+        this.corpusData.texts.forEach(text => {
+            const label = document.createElement('label');
+            label.className = 'flex items-start gap-2 p-2 hover:bg-slate-50 rounded cursor-pointer transition-colors';
+            label.dataset.textId = text.id;
+            label.dataset.title = (text.title || '').toLowerCase();
+            label.dataset.author = (text.author || '').toLowerCase();
+
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.checked = true;
+            checkbox.className = 'mt-1 w-4 h-4 text-brand-600 border-slate-300 rounded focus:ring-brand-500';
+            checkbox.dataset.textId = text.id;
+            checkbox.addEventListener('change', () => this.handleTextToggle(text.id, checkbox.checked));
+
+            const info = document.createElement('div');
+            info.className = 'flex-1 min-w-0';
+
+            const title = document.createElement('div');
+            title.className = 'text-sm font-medium text-slate-900 truncate';
+            title.textContent = text.title;
+
+            const meta = document.createElement('div');
+            meta.className = 'text-xs text-slate-500 truncate';
+            const author = text.author || 'Unbekannt';
+            const wordCount = text.wordCount ? text.wordCount.toLocaleString() : '0';
+            meta.textContent = `${text.id} • ${author} • ${wordCount} Wörter`;
+
+            info.appendChild(title);
+            info.appendChild(meta);
+
+            label.appendChild(checkbox);
+            label.appendChild(info);
+
+            textList.appendChild(label);
+        });
+
+        console.log(`[MainSiteApp] Text list populated: ${this.corpusData.texts.length} texts`);
+        this.updateTextListStats();
+    }
+
+    handleTextToggle(textId, isIncluded) {
+        if (isIncluded) {
+            this.corpusData.includedTexts.add(textId);
+        } else {
+            this.corpusData.includedTexts.delete(textId);
+        }
+        this.updateTextListStats();
+    }
+
+    updateTextListStats() {
+        const selectedCount = this.corpusData.includedTexts.size;
+        const selectedTextCountEl = this.elements.selectedTextCount;
+        if (selectedTextCountEl) {
+            selectedTextCountEl.textContent = selectedCount;
+        }
     }
 
     setupEventListeners() {
@@ -180,17 +229,8 @@ class MainSiteApp {
                 }
             });
 
-            // Filters
-            this.elements.genreFilter.addEventListener('click', () => {
-                if (this.currentResults.length > 0) {
-                    this.handleSearch(); // Re-run search with new filter
-                }
-            });
-            this.elements.authorFilter.addEventListener('change', () => {
-                if (this.currentResults.length > 0) {
-                    this.handleSearch(); // Re-run search with new filter
-                }
-            });
+            // Text filtering
+            this.setupTextFiltering();
 
             // Load more results
             this.elements.loadMoreButton.addEventListener('click', () => this.loadMoreResults());
@@ -211,6 +251,82 @@ class MainSiteApp {
         console.log(`[MainSiteApp] Event listeners attached (${this.isSearchPage ? 'Search' : 'Landing'} page)`);
     }
 
+    setupTextFiltering() {
+        const textFilter = this.elements.textFilter;
+        const textList = this.elements.textList;
+        const filterInfoText = this.elements.filterInfoText;
+        const visibleTextCount = this.elements.visibleTextCount;
+        const clearTextFilter = this.elements.clearTextFilter;
+
+        // Text filter input
+        if (textFilter && textList) {
+            textFilter.addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase().trim();
+                const items = textList.querySelectorAll('label');
+                let visibleCount = 0;
+
+                items.forEach(item => {
+                    const title = item.dataset.title || '';
+                    const author = item.dataset.author || '';
+                    const textId = item.dataset.textId || '';
+
+                    const matches = title.includes(query) ||
+                                   author.includes(query) ||
+                                   textId.toLowerCase().includes(query);
+
+                    if (matches) {
+                        item.style.display = '';
+                        visibleCount++;
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+
+                // Show/hide filter info
+                if (query) {
+                    if (filterInfoText) filterInfoText.style.display = '';
+                    if (visibleTextCount) visibleTextCount.textContent = visibleCount;
+                } else {
+                    if (filterInfoText) filterInfoText.style.display = 'none';
+                }
+            });
+        }
+
+        // Clear filter button
+        if (clearTextFilter && textFilter) {
+            clearTextFilter.addEventListener('click', () => {
+                textFilter.value = '';
+                textFilter.dispatchEvent(new Event('input'));
+            });
+        }
+
+        // Select All / None buttons
+        const selectAllTexts = this.elements.selectAllTexts;
+        const selectNoneTexts = this.elements.selectNoneTexts;
+
+        if (selectAllTexts && textList) {
+            selectAllTexts.addEventListener('click', () => {
+                const visibleCheckboxes = Array.from(textList.querySelectorAll('label:not([style*="display: none"]) input[type="checkbox"]'));
+                visibleCheckboxes.forEach(cb => {
+                    cb.checked = true;
+                    this.corpusData.includedTexts.add(cb.dataset.textId);
+                });
+                this.updateTextListStats();
+            });
+        }
+
+        if (selectNoneTexts && textList) {
+            selectNoneTexts.addEventListener('click', () => {
+                const visibleCheckboxes = Array.from(textList.querySelectorAll('label:not([style*="display: none"]) input[type="checkbox"]'));
+                visibleCheckboxes.forEach(cb => {
+                    cb.checked = false;
+                    this.corpusData.includedTexts.delete(cb.dataset.textId);
+                });
+                this.updateTextListStats();
+            });
+        }
+    }
+
     async handleSearch() {
         const searchTerm = this.elements.searchInput.value.trim();
 
@@ -219,16 +335,18 @@ class MainSiteApp {
             return;
         }
 
-        const genreFilter = this.elements.genreFilter.value;
-        const authorFilter = this.elements.authorFilter.value;
+        // Check if any texts are selected
+        if (this.corpusData.includedTexts.size === 0) {
+            this.showError('Bitte wählen Sie mindestens einen Text aus.');
+            return;
+        }
 
-        console.log(`[MainSiteApp] Searching for: "${searchTerm}" (genre: ${genreFilter || 'all'}, author: ${authorFilter || 'all'})`);
+        console.log(`[MainSiteApp] Searching for: "${searchTerm}" in ${this.corpusData.includedTexts.size} texts`);
 
         try {
-            // Execute search
+            // Execute search with text selection filter
             const results = await this.searchEngine.searchLemma(searchTerm, {
-                genre: genreFilter,
-                authorId: authorFilter
+                includedTexts: this.corpusData.includedTexts
             });
 
             this.currentResults = results;
@@ -247,6 +365,8 @@ class MainSiteApp {
         if (this.currentResults.length === 0) {
             this.elements.resultsSection.classList.add('hidden');
             this.elements.noResults.classList.remove('hidden');
+            // Scroll to no results message (with offset for sticky header)
+            this.scrollToElement(this.elements.noResults);
             return;
         }
 
@@ -262,6 +382,27 @@ class MainSiteApp {
 
         // Display first page
         this.loadMoreResults();
+
+        // Auto-scroll to results section (with offset for sticky header)
+        setTimeout(() => {
+            this.scrollToElement(this.elements.resultsSection);
+        }, 100);
+    }
+
+    /**
+     * Scroll to element with offset for sticky header
+     */
+    scrollToElement(element) {
+        if (!element) return;
+
+        const headerHeight = 80; // Approximate header height
+        const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+        const offsetPosition = elementPosition - headerHeight;
+
+        window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+        });
     }
 
     loadMoreResults() {
@@ -288,16 +429,16 @@ class MainSiteApp {
 
     createResultCard(result) {
         const card = document.createElement('div');
-        card.className = 'border border-gray-200 rounded-lg p-4 hover:bg-gray-50 transition-colors cursor-pointer';
+        card.className = 'bg-white border border-slate-200 rounded-2xl p-6 hover:border-brand-300 hover:shadow-md transition-all cursor-pointer';
 
         card.innerHTML = `
-            <div class="flex justify-between items-start mb-2">
-                <h3 class="font-bold text-lg text-gray-800">${this.escapeHtml(result.title)}</h3>
-                <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2 py-1 rounded">${result.matchCount} Treffer</span>
+            <div class="flex justify-between items-start mb-3">
+                <h3 class="font-bold text-lg text-slate-900">${this.escapeHtml(result.title)}</h3>
+                <span class="bg-brand-100 text-brand-700 text-xs font-semibold px-3 py-1 rounded-full">${result.matchCount} Treffer</span>
             </div>
-            <p class="text-sm text-gray-600 mb-2">${this.escapeHtml(result.author || 'Unbekannter Autor')}</p>
-            ${result.genre ? `<span class="inline-block bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded mr-2">${this.escapeHtml(result.genre)}</span>` : ''}
-            <p class="text-sm text-gray-700 mt-2 italic">${this.escapeHtml(result.snippet)}</p>
+            <p class="text-sm text-slate-600 mb-3">${this.escapeHtml(result.author || 'Unbekannter Autor')}</p>
+            ${result.genre ? `<span class="inline-block bg-slate-100 text-slate-700 text-xs px-3 py-1 rounded-full mr-2">${this.escapeHtml(result.genre)}</span>` : ''}
+            <p class="text-sm text-slate-700 mt-3 italic leading-relaxed">${this.escapeHtml(result.snippet)}</p>
         `;
 
         card.addEventListener('click', () => this.openText(result));

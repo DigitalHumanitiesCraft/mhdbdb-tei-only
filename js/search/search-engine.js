@@ -159,6 +159,13 @@ class SearchEngine {
      * Check if text passes filters
      */
     passesFilters(text, filters) {
+        // Text inclusion filter (from checkbox selection)
+        if (filters.includedTexts) {
+            if (!filters.includedTexts.has(text.id)) {
+                return false;
+            }
+        }
+
         // Genre filter
         if (filters.genre) {
             const textGenre = this.getGenre(text.workRef);

@@ -119,31 +119,40 @@
                 </div>
             </div>
 
-            <!-- Filters -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <label for="genreFilter" class="block text-sm font-semibold text-slate-700 mb-2">
-                        Nach Gattung filtern:
-                    </label>
-                    <select
-                        id="genreFilter"
-                        class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition"
-                    >
-                        <option value="">Alle Gattungen</option>
-                        <!-- Dynamically populated -->
-                    </select>
+            <!-- Text Filtering -->
+            <div class="space-y-3">
+                <div class="flex items-center justify-between">
+                    <label class="text-sm font-semibold text-slate-700">Texte für Suche auswählen:</label>
+                    <div class="flex gap-2">
+                        <button id="selectAllTexts" class="text-xs font-medium text-brand-600 hover:text-brand-700 transition">Alle</button>
+                        <span class="text-slate-300">|</span>
+                        <button id="selectNoneTexts" class="text-xs font-medium text-brand-600 hover:text-brand-700 transition">Keine</button>
+                    </div>
                 </div>
-                <div>
-                    <label for="authorFilter" class="block text-sm font-semibold text-slate-700 mb-2">
-                        Nach Autor filtern:
-                    </label>
-                    <select
-                        id="authorFilter"
-                        class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition"
-                    >
-                        <option value="">Alle Autoren</option>
-                        <!-- Dynamically populated -->
-                    </select>
+
+                <!-- Filter Input -->
+                <div class="relative">
+                    <input type="text"
+                           id="textFilter"
+                           placeholder="Texte filtern (Titel, Sigle, Autor)..."
+                           class="w-full pl-10 pr-3 py-2 text-sm border border-slate-300 rounded-lg focus:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-200">
+                    <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </div>
+
+                <!-- Text List with Checkboxes -->
+                <div id="textList" class="space-y-1 max-h-[400px] overflow-y-auto overflow-x-hidden border border-slate-300 rounded-lg p-3 bg-white">
+                    <!-- Texts will be populated here dynamically -->
+                </div>
+
+                <!-- Selection Summary -->
+                <div class="flex items-center justify-between text-xs text-slate-600 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2">
+                    <span><span id="selectedTextCount" class="font-semibold text-brand-600">666</span> / 666 Texte ausgewählt</span>
+                    <span id="filterInfoText" style="display: none;" class="text-slate-500">
+                        <span id="visibleTextCount">0</span> Texte sichtbar
+                        <button id="clearTextFilter" class="text-brand-600 hover:text-brand-700 font-medium ml-2">Filter löschen</button>
+                    </span>
                 </div>
             </div>
         </section>
