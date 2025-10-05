@@ -465,7 +465,7 @@ export class TEIFilesManager {
         return null;
     }
 
-    async searchMultipleLemmas(lemmaIds, contextType = 'paragraph') {
+    async searchMultipleLemmas(lemmaIds, contextType = 'document') {
         const results = [];
 
         for (const xmlData of this.teiData.parsedXML) {
@@ -473,39 +473,7 @@ export class TEIFilesManager {
             const doc = await this.getXMLDoc(xmlData);
             if (!doc) continue;
 
-            if (contextType === 'paragraph') {
-                // Search within paragraphs
-                const paragraphs = doc.querySelectorAll('p');
-                
-                paragraphs.forEach((paragraph, pIndex) => {
-                    const containsAllLemmas = lemmaIds.every(lemmaId => {
-                        // Try multiple selector approaches for robustness
-                        const selectors = [
-                            `w[lemmaRef*="lexicon.xml#lemma_${lemmaId}"]`,
-                            `w[lemmaRef="lexicon.xml#lemma_${lemmaId}"]`,
-                            `w[lemmaRef$="#lemma_${lemmaId}"]`
-                        ];
-                        
-                        return selectors.some(selector => {
-                            const elements = paragraph.querySelectorAll(selector);
-                            return elements.length > 0;
-                        });
-                    });
-                    
-                    if (containsAllLemmas) {
-                        const matchingWords = this.extractMatchingWordsFromParagraph(paragraph, lemmaIds);
-                        results.push({
-                            filename: xmlData.filename,
-                            context: 'paragraph',
-                            paragraphIndex: pIndex,
-                            paragraphId: paragraph.getAttribute('n') || `p_${pIndex}`,
-                            text: paragraph.textContent?.trim(),
-                            matchingWords: matchingWords,
-                            htmlContent: paragraph.outerHTML?.substring(0, 1000)
-                        });
-                    }
-                });
-            } else if (contextType === 'document') {
+            if (contextType === 'document') {
                 // Search across entire document
                 const containsAllLemmas = lemmaIds.every(lemmaId => {
                     const elements = doc.querySelectorAll(`w[lemmaRef*="lexicon.xml#lemma_${lemmaId}"]`);
@@ -825,11 +793,517 @@ export class TEIFilesManager {
             if (progressCallback) progressCallback(loadedCount, corpusIndex.texts.length);
 
             console.log(`✅ Corpus loaded: ${loadedCount} files (lazy-loading enabled)`);
+
+            // Store corpus index reference for fast searches
+            this.corpusIndex = corpusIndex;
+
             return { loaded: loadedCount, skipped: 0, total: loadedCount };
 
         } catch (error) {
             console.error('❌ Corpus loading failed:', error);
             throw error;
         }
+    }
+
+    // ==================== INDEX-BASED SEARCH (FAST) ====================
+
+    /**
+     * Check if corpus is loaded from pre-built index (enables fast search)
+     */
+    hasCorpusIndex() {
+        return this.corpusIndex && this.corpusIndex.texts && this.corpusIndex.lemmaIndex;
+    }
+
+    /**
+     * Find texts containing all specified lemmas using index (instant filtering)
+     */
+    findTextsContainingLemmas(lemmaIds) {
+        if (!this.hasCorpusIndex()) return null;
+
+        console.log(`🔍 Filtering ${this.corpusIndex.texts.length} texts using index...`);
+
+        // Get texts for each lemma from lemmaIndex
+        const textSets = lemmaIds.map(lemmaId => {
+            const lemmaKey = lemmaId.toString().startsWith('lemma_') ? lemmaId : `lemma_${lemmaId}`;
+            return new Set(this.corpusIndex.lemmaIndex[lemmaKey] || []);
+        });
+
+        // Find intersection (texts containing ALL lemmas)
+        const firstSet = textSets[0];
+        const intersection = Array.from(firstSet).filter(textId =>
+            textSets.every(set => set.has(textId))
+        );
+
+        console.log(`   Found ${intersection.length} texts containing all ${lemmaIds.length} lemmas`);
+        return intersection;
+    }
+
+    /**
+     * Find proximity matches using index data (word positions)
+     * Returns: {textId: [{lemma1Pos, lemma2Pos, distance}, ...]}
+     */
+    findProximityMatchesInIndex(lemmaIds, maxDistance) {
+        if (!this.hasCorpusIndex()) return null;
+
+        const candidateTextIds = this.findTextsContainingLemmas(lemmaIds);
+        if (!candidateTextIds || candidateTextIds.length === 0) return {};
+
+        console.log(`🔍 Checking proximity in ${candidateTextIds.length} candidate texts...`);
+
+        const matches = {};
+
+        for (const textId of candidateTextIds) {
+            // Find text data
+            const text = this.corpusIndex.texts.find(t => t.id === textId);
+            if (!text || !text.lemmata) continue;
+
+            // Get positions for each lemma
+            const positionSets = lemmaIds.map(lemmaId => {
+                const lemmaKey = lemmaId.toString().startsWith('lemma_') ? lemmaId : `lemma_${lemmaId}`;
+                return text.lemmata[lemmaKey] || [];
+            });
+
+            // Check all position combinations for proximity
+            const proximityMatches = [];
+
+            // For each position of first lemma
+            for (const pos1 of positionSets[0]) {
+                // Check if any position of second lemma is within maxDistance
+                for (const pos2 of positionSets[1]) {
+                    const distance = Math.abs(pos1 - pos2);
+                    if (distance <= maxDistance && distance > 0) {
+                        proximityMatches.push({
+                            positions: [pos1, pos2],
+                            distance: distance
+                        });
+                    }
+                }
+            }
+
+            if (proximityMatches.length > 0) {
+                matches[textId] = proximityMatches;
+            }
+        }
+
+        console.log(`   Found ${Object.keys(matches).length} texts with proximity matches`);
+        return matches;
+    }
+
+    /**
+     * Fast multi-lemma search using index data (when available)
+     * Falls back to XML search for uploaded files
+     */
+    async searchMultipleLemmasUsingIndex(lemmaIds, contextType = 'document', maxDistance = 10) {
+        // v4.0.0: Use document-level index (no paragraph mode)
+        const corpusData = window.playground?.corpusData;
+        if (!corpusData || !corpusData.texts) {
+            console.warn('⚠️ Corpus data not available, falling back to XML search');
+            // Fallback to old XML-based search
+            if (contextType === 'proximity') {
+                return await this.findCooccurringLemmas(lemmaIds, maxDistance);
+            } else {
+                return await this.searchMultipleLemmas(lemmaIds, contextType);
+            }
+        }
+
+        // v4.0.0: Pure index-based search (instant results!)
+        console.log(`🚀 Using enhanced corpus index v${corpusData.version || '4.0.0'} (${contextType} search)`);
+
+        if (contextType === 'proximity') {
+            return this.searchProximityUsingEnhancedIndex(lemmaIds, maxDistance, corpusData);
+        } else if (contextType === 'document') {
+            return this.searchDocumentUsingEnhancedIndex(lemmaIds, corpusData);
+        }
+
+        return [];
+    }
+
+    /**
+     * v4.0.0: Document search using index (fast filtering)
+     * Paragraph mode removed in v4.0.0
+     */
+    async searchDocumentUsingIndex(lemmaIds) {
+        console.log(`🚀 Using index-based document search (fast path)`);
+
+        // Step 1: Fast filtering using index
+        const candidateTextIds = this.findTextsContainingLemmas(lemmaIds);
+        if (!candidateTextIds || candidateTextIds.length === 0) return [];
+
+        const results = [];
+
+        // Step 2: Load XML only for matching texts
+        console.log(`📥 Loading XML for ${candidateTextIds.length} matching texts...`);
+
+        for (const textId of candidateTextIds) {
+            const textData = this.teiData.parsedXML.find(t =>
+                t.filename && t.filename.replace('.tei.xml', '') === textId
+            );
+
+            if (!textData) continue;
+
+            const doc = await this.getXMLDoc(textData);
+            if (!doc) continue;
+
+            // Document-level search (already filtered by index)
+            const matchingWords = this.extractMatchingWordsFromDocument(doc, lemmaIds);
+            results.push({
+                filename: textData.filename,
+                title: textData.title,
+                author: textData.author,
+                context: 'document',
+                matchingWords: matchingWords,
+                totalWords: Object.values(textData.lemmata || {}).flat().length
+            });
+        }
+
+        console.log(`✅ Index-based search complete: ${results.length} matches`);
+        return results;
+    }
+
+    /**
+     * Proximity search using index data (super fast!)
+     */
+    async searchProximityUsingIndex(lemmaIds, maxDistance) {
+        console.log(`🚀 Using index-based proximity search (fast path)`);
+
+        const proximityMatches = this.findProximityMatchesInIndex(lemmaIds, maxDistance);
+        if (!proximityMatches) {
+            // Index not available, fall back to XML search
+            console.log('   Index not available, falling back to XML search');
+            return await this.findCooccurringLemmas(lemmaIds, maxDistance);
+        }
+
+        const results = [];
+
+        // Now fetch XML only for matching texts (not all 666!)
+        console.log(`📥 Loading XML for ${Object.keys(proximityMatches).length} matching texts...`);
+
+        for (const [textId, matches] of Object.entries(proximityMatches)) {
+            // Find the text data
+            const textData = this.teiData.parsedXML.find(t =>
+                t.filename && t.filename.replace('.tei.xml', '') === textId
+            );
+
+            if (!textData) {
+                console.warn(`   Text ${textId} not found in parsedXML`);
+                continue;
+            }
+
+            // Load XML for this specific text
+            const doc = await this.getXMLDoc(textData);
+            if (!doc) continue;
+
+            // Get all words
+            const words = doc.querySelectorAll('w');
+            const wordArray = Array.from(words);
+
+            // Extract context for each proximity match
+            for (const match of matches) {
+                const positions = match.positions;
+                const distance = match.distance;
+
+                // Get surrounding context (±10 words)
+                const minPos = Math.min(...positions);
+                const maxPos = Math.max(...positions);
+                const contextStart = Math.max(0, minPos - 10);
+                const contextEnd = Math.min(wordArray.length, maxPos + 10);
+
+                const contextWords = wordArray.slice(contextStart, contextEnd);
+                const contextText = contextWords.map(w => w.textContent).join(' ');
+
+                // Highlight the matching words
+                const highlightedWords = {};
+                lemmaIds.forEach((lemmaId, idx) => {
+                    highlightedWords[lemmaId] = positions[idx];
+                });
+
+                results.push({
+                    filename: textData.filename,
+                    title: textData.title,
+                    author: textData.author,
+                    matchPositions: positions,
+                    distance: distance,
+                    contextText: contextText,
+                    contextStart: contextStart,
+                    contextEnd: contextEnd
+                });
+            }
+        }
+
+        console.log(`✅ Index-based search complete: ${results.length} proximity matches`);
+        return results;
+    }
+
+    // ========== REDESIGN: Enhanced Index Search Methods (v2.0.0) ==========
+    // These methods use the pre-built corpus index with full word data
+    // NO XML LOADING REQUIRED - instant results!
+
+    /**
+     * Document-level search using enhanced index (instant!)
+     * Returns texts that contain all specified lemmas
+     */
+    searchDocumentUsingEnhancedIndex(lemmaIds, corpusData) {
+        const results = [];
+        const includedTexts = corpusData.includedTexts || new Set();
+
+        corpusData.texts.forEach(text => {
+            // Skip excluded texts
+            if (!includedTexts.has(text.id)) return;
+
+            // Check if text contains all lemmas
+            const containsAll = lemmaIds.every(lemmaId => {
+                const cleanId = lemmaId.toString().replace('lemma_', '');
+                return text.lemmata && (text.lemmata[`lemma_${cleanId}`] || text.lemmata[cleanId]);
+            });
+
+            if (containsAll) {
+                // Count total matches for each lemma
+                const matchingWords = {};
+                lemmaIds.forEach(lemmaId => {
+                    const cleanId = lemmaId.toString().replace('lemma_', '');
+                    const positions = text.lemmata[`lemma_${cleanId}`] || text.lemmata[cleanId] || [];
+                    matchingWords[lemmaId] = positions.length;
+                });
+
+                results.push({
+                    filename: text.filename,
+                    title: text.title,
+                    author: text.author || 'Unbekannt',
+                    context: 'document',
+                    matchingWords: matchingWords,
+                    totalWords: text.wordCount
+                });
+            }
+        });
+
+        console.log(`✅ Document search complete: ${results.length} texts contain all lemmas`);
+        return results;
+    }
+
+    // v4.0.0: Paragraph search removed (document-level indexing only)
+
+    /**
+     * Enrich v3.0.0 compact results with actual TEI text
+     */
+    async enrichResultsWithTEIText(results, lemmaIds) {
+        console.log('📄 Fetching TEI files to extract actual text...');
+
+        for (const result of results) {
+            try {
+                // Fetch TEI file
+                const teiPath = `../tei/${result.filename}`;
+                const response = await fetch(teiPath);
+                if (!response.ok) continue;
+
+                const xmlText = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(xmlText, 'text/xml');
+
+                // Get paragraphs
+                const paragraphs = doc.querySelectorAll('p, lg');
+                const para = paragraphs[result.paragraphIndex];
+
+                if (para) {
+                    // Extract paragraph text
+                    result.text = para.textContent?.trim() || '';
+
+                    // Extract matching words with actual text
+                    const words = para.querySelectorAll('w[lemmaRef]');
+                    result.matchingWords = {};
+
+                    lemmaIds.forEach(lemmaId => {
+                        const cleanId = lemmaId.toString().replace('lemma_', '');
+                        result.matchingWords[lemmaId] = [];
+
+                        words.forEach(word => {
+                            const lemmaRef = word.getAttribute('lemmaRef');
+                            if (lemmaRef && (lemmaRef.includes(`lemma_${cleanId}`) || lemmaRef.includes(cleanId))) {
+                                result.matchingWords[lemmaId].push({
+                                    text: word.textContent?.trim() || '',
+                                    lemmaRef: lemmaRef
+                                });
+                            }
+                        });
+                    });
+                }
+            } catch (error) {
+                console.warn(`Failed to enrich ${result.filename}:`, error);
+            }
+        }
+
+        console.log('✅ TEI text enrichment complete');
+    }
+
+    /**
+     * Proximity search using enhanced index (instant!)
+     * Finds lemmas within maxDistance words of each other
+     */
+    async searchProximityUsingEnhancedIndex(lemmaIds, maxDistance, corpusData) {
+        const results = [];
+        const includedTexts = corpusData.includedTexts || new Set();
+
+        corpusData.texts.forEach(text => {
+            // Skip excluded texts
+            if (!includedTexts.has(text.id)) return;
+
+            // Skip texts that don't have the enhanced data structure
+            if (!text.words) {
+                console.warn(`⚠️ Text ${text.id} missing enhanced index data (words)`);
+                return;
+            }
+
+            // Find all positions for each lemma
+            const lemmaPositions = {};
+            lemmaIds.forEach(lemmaId => {
+                const cleanId = lemmaId.toString().replace('lemma_', '');
+                lemmaPositions[lemmaId] = [];
+
+                text.words.forEach((lemmaRef, idx) => {
+                    // v3.0.0: words array contains just lemma IDs as strings
+                    const cleanLemmaRef = lemmaRef.replace('lemma_', '');
+                    if (cleanLemmaRef === cleanId) {
+                        lemmaPositions[lemmaId].push(idx);
+                    }
+                });
+            });
+
+            // Check if text contains all lemmas (quick validation)
+
+            // Check if text contains all lemmas
+            if (Object.values(lemmaPositions).some(positions => positions.length === 0)) {
+                return; // Skip if any lemma is missing
+            }
+
+            // Find proximity matches
+            // For each occurrence of the first lemma, check if other lemmas are nearby
+            const firstLemma = lemmaIds[0];
+            const firstPositions = lemmaPositions[firstLemma];
+
+            firstPositions.forEach(firstPos => {
+                // Check if all other lemmas have at least one occurrence within maxDistance
+                const nearbyPositions = {};
+                let allNearby = true;
+
+                for (let i = 1; i < lemmaIds.length; i++) {
+                    const lemmaId = lemmaIds[i];
+                    const positions = lemmaPositions[lemmaId];
+
+                    // Find closest position to firstPos
+                    const nearbyPos = positions.find(pos =>
+                        Math.abs(pos - firstPos) <= maxDistance
+                    );
+
+                    if (nearbyPos !== undefined) {
+                        nearbyPositions[lemmaId] = nearbyPos;
+                    } else {
+                        allNearby = false;
+                        break;
+                    }
+                }
+
+                if (allNearby) {
+                    // Calculate actual distance (max distance between any pair)
+                    const allPositions = [firstPos, ...Object.values(nearbyPositions)];
+                    const minPos = Math.min(...allPositions);
+                    const maxPos = Math.max(...allPositions);
+                    const actualDistance = maxPos - minPos;
+
+                    // Extract context (±10 words)
+                    const contextStart = Math.max(0, minPos - 10);
+                    const contextEnd = Math.min(text.words.length, maxPos + 11);
+
+                    // Store positions and metadata - UI will fetch TEI for actual text
+                    results.push({
+                        filename: text.filename,
+                        title: text.title,
+                        author: text.author || 'Unbekannt',
+                        matchPositions: allPositions,
+                        distance: actualDistance,
+                        contextStart: contextStart,
+                        contextEnd: contextEnd,
+                        contextLemmas: text.words.slice(contextStart, contextEnd)
+                    });
+                }
+            });
+        });
+
+        console.log(`✅ Proximity search complete: ${results.length} raw matches within ${maxDistance} words`);
+
+        // v4.0.0: Deduplicate overlapping matches
+        // Keep only the closest match when context windows overlap
+        const deduplicated = [];
+
+        // Group by filename first
+        const byFile = {};
+        results.forEach(result => {
+            if (!byFile[result.filename]) byFile[result.filename] = [];
+            byFile[result.filename].push(result);
+        });
+
+        // For each file, remove overlapping matches (keep closest)
+        Object.entries(byFile).forEach(([filename, fileResults]) => {
+            // Sort by contextStart for easier overlap detection
+            fileResults.sort((a, b) => a.contextStart - b.contextStart);
+
+            fileResults.forEach(result => {
+                // Check if this result overlaps with any already added result
+                const overlaps = deduplicated.some(existing => {
+                    if (existing.filename !== result.filename) return false;
+
+                    // Check if context windows overlap
+                    const overlapStart = Math.max(existing.contextStart, result.contextStart);
+                    const overlapEnd = Math.min(existing.contextEnd, result.contextEnd);
+                    const hasOverlap = overlapStart < overlapEnd;
+
+                    if (hasOverlap) {
+                        console.log(`  🔄 Overlap detected: ${filename} [${result.contextStart}-${result.contextEnd}] overlaps with [${existing.contextStart}-${existing.contextEnd}], keeping shorter distance (${existing.distance} vs ${result.distance})`);
+                    }
+
+                    return hasOverlap;
+                });
+
+                if (!overlaps) {
+                    deduplicated.push(result);
+                }
+            });
+        });
+
+        const removedCount = results.length - deduplicated.length;
+        console.log(`✅ After deduplication: ${deduplicated.length} unique matches (${removedCount > 0 ? `removed ${removedCount} overlapping` : 'no overlaps'})`);
+
+        // v3.0.0: Don't fetch TEI text immediately - only on expand
+
+        return deduplicated;
+    }
+
+    /**
+     * Enrich v3.0.0 proximity results with actual TEI text
+     */
+    async enrichProximityResultsWithText(results) {
+        console.log('📄 Fetching TEI files for proximity context...');
+
+        for (const result of results) {
+            try {
+                const teiPath = `../tei/${result.filename}`;
+                const response = await fetch(teiPath);
+                if (!response.ok) continue;
+
+                const xmlText = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(xmlText, 'text/xml');
+
+                // Get all words
+                const words = doc.querySelectorAll('w');
+
+                // Extract context text
+                const contextWords = Array.from(words).slice(result.contextStart, result.contextEnd);
+                result.contextText = contextWords.map(w => w.textContent?.trim()).join(' ');
+
+            } catch (error) {
+                console.warn(`Failed to enrich proximity result ${result.filename}:`, error);
+            }
+        }
+
+        console.log('✅ Proximity text enrichment complete');
     }
 }

@@ -99,12 +99,12 @@ export class MultiLemmaSearchUI {
         this.lemmaChips.innerHTML = '';
         this.executeBtn.disabled = true;
 
-        // Reset to paragraph mode
-        const paragraphRadio = document.querySelector('input[name="searchMode"][value="paragraph"]');
-        if (paragraphRadio) {
-            paragraphRadio.checked = true;
+        // Reset to proximity mode (v4.0.0: paragraph mode removed)
+        const proximityRadio = document.querySelector('input[name="searchMode"][value="proximity"]');
+        if (proximityRadio) {
+            proximityRadio.checked = true;
         }
-        this.proximityControls.style.display = 'none';
+        this.proximityControls.style.display = 'block';
         this.proximityDistance.value = '10';
     }
 
@@ -168,7 +168,7 @@ export class MultiLemmaSearchUI {
 
     getSelectedSearchMode() {
         const selected = document.querySelector('input[name="searchMode"]:checked');
-        return selected ? selected.value : 'paragraph';
+        return selected ? selected.value : 'proximity'; // v4.0.0: default to proximity
     }
 
     async executeSearch() {
@@ -222,13 +222,16 @@ export class MultiLemmaSearchUI {
             }
 
             // Execute search based on mode (now async)
+            // Use fast index-based search when available (corpus index)
             let results;
             if (searchMode === 'proximity') {
                 const maxDistance = parseInt(this.proximityDistance.value) || 10;
-                results = await teiManager.findCooccurringLemmas(lemmaIds, maxDistance);
-                this.teiExplorer.displayCooccurrenceResults(results, searchTerms, maxDistance);
+                // Try fast index-based search first (falls back to XML if needed)
+                results = await teiManager.searchMultipleLemmasUsingIndex(lemmaIds, 'proximity', maxDistance);
+                this.teiExplorer.displayCooccurrenceResults(results, searchTerms, maxDistance, lemmaIds);
             } else {
-                results = await teiManager.searchMultipleLemmas(lemmaIds, searchMode);
+                // Use fast index-based search for paragraph/document mode
+                results = await teiManager.searchMultipleLemmasUsingIndex(lemmaIds, searchMode);
                 this.teiExplorer.displayMultiLemmaResults(results, searchTerms, searchMode);
             }
 

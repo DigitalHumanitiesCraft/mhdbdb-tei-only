@@ -74,143 +74,87 @@
             </div>
         </div>
 
-        <main class="mt-10 grid gap-6 px-6 lg:grid-cols-[1fr_1fr_2fr] lg:items-start">
-            <!-- Upload & Overview -->
-            <section class="space-y-6 rounded-3xl border border-slate-200 bg-white/95 p-6 shadow-sm ring-1 ring-slate-100/40">
+        <main class="mt-10 grid gap-6 px-6 lg:items-start" style="grid-template-columns: 1fr 1fr 2fr;">
+            <!-- File Browser & Overview -->
+            <section class="space-y-6 rounded-3xl border border-slate-200 bg-white/95 p-6 shadow-sm ring-1 ring-slate-100/40" style="min-width: 0;">
                 <div class="flex items-center justify-between">
-                    <h2 class="text-xl font-semibold text-slate-900">TEI-Daten laden</h2>
+                    <h2 class="text-xl font-semibold text-slate-900">Korpus-Browser</h2>
                     <span class="rounded-full bg-brand-50 px-3 py-1 text-xs font-medium text-brand-700">Schritt 1</span>
                 </div>
 
-                <!-- Section Introduction -->
-                <div class="space-y-1">
-                    <h3 class="text-sm font-semibold text-slate-900">Datenquelle wählen</h3>
-                    <p class="text-xs text-slate-600">Wählen Sie, wie Sie TEI-Dateien für die Analyse laden möchten</p>
+                <!-- Loading State (shown on startup) -->
+                <div id="corpusLoadingState" class="space-y-3">
+                    <div class="flex items-center gap-3 p-4 bg-blue-50 border border-blue-200 rounded-xl">
+                        <div class="animate-spin h-5 w-5 border-2 border-brand-600 border-t-transparent rounded-full"></div>
+                        <span class="text-sm font-medium text-brand-700">Lade 666 TEI-Texte...</span>
+                    </div>
+                    <p class="text-xs text-slate-600">Der vollständige MHDBDB-Korpus wird automatisch geladen (21 MB, einmalig). Dies dauert etwa 5-10 Sekunden.</p>
                 </div>
 
-                <!-- Option A: Manual Upload -->
-                <div class="space-y-3">
-                    <div class="flex items-center gap-2">
-                        <span class="flex h-6 w-6 items-center justify-center rounded-full bg-brand-100 text-xs font-bold text-brand-700">A</span>
-                        <h4 class="text-sm font-semibold text-slate-900">Eigene Dateien hochladen</h4>
-                    </div>
-
-                    <div id="uploadZone" class="group flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-slate-300 bg-white/80 px-6 py-8 text-center transition duration-200 hover:border-brand-400 hover:bg-brand-50/60">
-                        <div class="flex h-12 w-12 items-center justify-center rounded-full bg-brand-100 text-brand-700">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
-                            </svg>
+                <!-- File Browser (shown after loading) -->
+                <div id="fileBrowserSection" class="space-y-3" style="display: none;">
+                    <!-- Summary Stats -->
+                    <div class="p-4 bg-gradient-to-br from-brand-50 to-brand-100/50 border border-brand-200 rounded-xl">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-sm font-semibold text-brand-900">Korpus geladen</span>
+                            <span class="text-xs font-medium text-brand-600"><span id="includedCount">666</span> / 666 Texte aktiv</span>
                         </div>
-                        <p class="mt-3 text-sm font-medium text-slate-800">TEI-Dateien hierhin ziehen</p>
-                        <p class="mt-1 text-xs text-slate-500">oder klicken, um Dateien auszuwählen</p>
-                        <input type="file" id="fileInput" multiple accept=".xml,.tei" class="sr-only">
-                    </div>
-
-                    <div class="flex flex-wrap gap-1.5">
-                        <span class="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-medium text-emerald-700">
-                            <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
-                            Eigene Auswahl
-                        </span>
-                        <span class="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-0.5 text-xs font-medium text-blue-700">
-                            <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
-                            Browser-Cache
-                        </span>
-                    </div>
-
-                    <p class="text-xs text-slate-500 leading-relaxed">
-                        <strong>Optimal für:</strong> Analyse spezifischer Texte, Tests mit eigenen Dateien. Hochgeladene Dateien werden im Browser gecacht.
-                    </p>
-                </div>
-
-                <!-- OR Separator -->
-                <div class="relative">
-                    <div class="absolute inset-0 flex items-center" aria-hidden="true">
-                        <div class="w-full border-t border-slate-300"></div>
-                    </div>
-                    <div class="relative flex justify-center">
-                        <span class="bg-white px-3 text-xs font-semibold uppercase tracking-wider text-slate-500">Oder</span>
-                    </div>
-                </div>
-
-                <!-- Option B: Full Corpus -->
-                <div class="space-y-3">
-                    <div class="flex items-center gap-2">
-                        <span class="flex h-6 w-6 items-center justify-center rounded-full bg-brand-100 text-xs font-bold text-brand-700">B</span>
-                        <h4 class="text-sm font-semibold text-slate-900">Vollständigen Korpus laden</h4>
-                    </div>
-
-                    <button id="loadCorpusBtn" class="w-full flex flex-col items-center justify-center gap-2 px-6 py-6 text-sm font-medium text-brand-700 bg-gradient-to-br from-brand-50 to-brand-100/50 hover:from-brand-100 hover:to-brand-100 border-2 border-brand-200 rounded-xl transition-all duration-200 hover:shadow-md group">
-                        <div class="flex items-center gap-2">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
-                            </svg>
-                            <span class="font-semibold">666 TEI-Texte sofort laden</span>
-                        </div>
-                        <span class="text-xs text-brand-600 group-hover:text-brand-700">Kompletter MHDBDB-Korpus (21 MB Download)</span>
-                    </button>
-
-                    <div class="flex flex-wrap gap-1.5">
-                        <span class="inline-flex items-center gap-1 rounded-full bg-purple-50 px-2 py-0.5 text-xs font-medium text-purple-700">
-                            <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
-                            666 Texte
-                        </span>
-                        <span class="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-2 py-0.5 text-xs font-medium text-indigo-700">
-                            <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
-                            Vorindiziert
-                        </span>
-                        <span class="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2 py-0.5 text-xs font-medium text-amber-700">
-                            <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
-                            Schnelle Suche
-                        </span>
-                    </div>
-
-                    <p class="text-xs text-slate-500 leading-relaxed">
-                        <strong>Optimal für:</strong> Umfassende Suchen, statistische Analysen, Übersichtsarbeiten. Alle MHDBDB-Texte mit Metadaten.
-                    </p>
-                </div>
-
-                <div id="uploadedFilesSection" class="space-y-3">
-                    <!-- Summary header (always visible) -->
-                    <div id="filesSummary" class="flex items-center justify-between p-3 bg-slate-50 rounded-lg cursor-pointer hover:bg-slate-100 transition" style="display: none;">
-                        <span class="font-medium text-slate-700">
-                            <span id="fileCount">0</span> TEI-Dateien geladen
-                        </span>
-                        <svg id="expandIcon" class="w-5 h-5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                        </svg>
-                    </div>
-
-                    <!-- Collapsible content -->
-                    <div id="filesContent" class="hidden space-y-3">
-                        <!-- Search/filter input -->
-                        <input type="text"
-                               id="fileFilter"
-                               placeholder="Dateinamen filtern (z.B. 'ABG')..."
-                               class="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-200">
-
-                        <!-- Cache management controls -->
-                        <div id="cacheControls" class="flex items-center justify-between gap-2 p-3 bg-amber-50 border border-amber-200 rounded-lg" style="display: none;">
-                            <div class="flex items-center gap-2 text-sm text-amber-800">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                </svg>
-                                <span id="cacheInfo">Gecachte Dateien bleiben über Browser-Sitzungen erhalten</span>
+                        <div class="grid grid-cols-2 gap-2 text-xs">
+                            <div class="flex items-center gap-1 text-slate-700">
+                                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/></svg>
+                                <span id="totalWords">~</span> Wörter
                             </div>
-                            <button
-                                id="clearCacheBtn"
-                                onclick="window.playground.clearAllCachedFiles()"
-                                class="flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-red-700 bg-red-50 hover:bg-red-100 border border-red-200 rounded-md transition-colors"
-                                title="Alle gecachten Dateien löschen"
-                            >
-                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-2.995-1.858L4 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                </svg>
-                                Cache leeren
-                            </button>
+                            <div class="flex items-center gap-1 text-slate-700">
+                                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z"/></svg>
+                                <span id="totalLemmata">~</span> Lemmata
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- File Selection Controls -->
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between">
+                            <label class="text-xs font-semibold uppercase tracking-wide text-slate-700">Texte für Analyse auswählen</label>
+                            <div class="flex gap-2">
+                                <button id="selectAllBtn" class="text-xs font-medium text-brand-600 hover:text-brand-700 transition">Alle</button>
+                                <span class="text-slate-300">|</span>
+                                <button id="selectNoneBtn" class="text-xs font-medium text-brand-600 hover:text-brand-700 transition">Keine</button>
+                            </div>
                         </div>
 
-                        <!-- File list container -->
-                        <div id="uploadedFiles" class="space-y-2 max-h-96 overflow-y-auto"></div>
+                        <!-- Search/Filter Input -->
+                        <div class="relative">
+                            <input type="text"
+                                   id="fileFilter"
+                                   placeholder="Texte filtern (Titel, Sigle, Autor)..."
+                                   class="w-full pl-9 pr-3 py-2 text-sm border border-slate-200 rounded-lg focus:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-200">
+                            <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- File List with Checkboxes -->
+                    <div id="fileList" class="space-y-1 max-h-[500px] overflow-y-auto overflow-x-hidden border border-slate-200 rounded-lg p-2 bg-white">
+                        <!-- Files will be populated here dynamically -->
+                        <!-- Example structure:
+                        <label class="file-item">
+                            <input type="checkbox" checked />
+                            <div class="file-info">
+                                <span class="file-title">Von der Abgeschiedenheit</span>
+                                <span class="file-meta">ABG • Meister Eckhart • 1,234 Wörter</span>
+                            </div>
+                        </label>
+                        -->
+                    </div>
+
+                    <!-- Filter Info -->
+                    <div id="filterInfo" class="text-xs text-slate-500 flex items-center gap-2" style="display: none;">
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span>Zeige <span id="visibleCount">0</span> von 666 Texten</span>
+                        <button id="clearFilterBtn" class="text-brand-600 hover:text-brand-700 font-medium ml-1">Filter löschen</button>
                     </div>
                 </div>
 
@@ -332,18 +276,24 @@
                 <div class="input-section">
                     <label class="input-label">Suchmodus wählen</label>
                     <div class="search-modes">
-                        <!-- Paragraph Mode -->
+                        <!-- Proximity Mode -->
                         <label class="mode-card">
-                            <input type="radio" name="searchMode" value="paragraph" class="mode-radio" checked />
+                            <input type="radio" name="searchMode" value="proximity" class="mode-radio" checked />
                             <div class="mode-content">
                                 <div class="mode-header">
                                     <svg class="mode-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
                                     </svg>
-                                    <span class="mode-title">Absatz-Suche</span>
+                                    <span class="mode-title">Nähe-Analyse</span>
                                     <span class="mode-badge">Empfohlen</span>
                                 </div>
-                                <p class="mode-description">Findet Absätze, die alle angegebenen Lemmata enthalten</p>
+                                <p class="mode-description">Findet Lemmata, die nahe beieinander stehen (Kookkurrenz)</p>
+                                <div class="proximity-controls" id="proximityControls" style="display: block;">
+                                    <label class="proximity-label">
+                                        Maximaler Wortabstand:
+                                        <input type="number" id="proximityDistance" value="10" min="1" max="50" class="proximity-input" />
+                                    </label>
+                                </div>
                             </div>
                         </label>
 
@@ -360,28 +310,9 @@
                                 <p class="mode-description">Listet Texte auf, die alle Lemmata irgendwo enthalten</p>
                             </div>
                         </label>
-
-                        <!-- Proximity Mode -->
-                        <label class="mode-card">
-                            <input type="radio" name="searchMode" value="proximity" class="mode-radio" />
-                            <div class="mode-content">
-                                <div class="mode-header">
-                                    <svg class="mode-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
-                                    </svg>
-                                    <span class="mode-title">Nähe-Analyse</span>
-                                </div>
-                                <p class="mode-description">Findet Lemmata, die nahe beieinander stehen (Kookkurrenz)</p>
-                                <div class="proximity-controls" id="proximityControls" style="display: none;">
-                                    <label class="proximity-label">
-                                        Maximaler Wortabstand:
-                                        <input type="number" id="proximityDistance" value="10" min="1" max="50" class="proximity-input" />
-                                    </label>
-                                </div>
-                            </div>
-                        </label>
                     </div>
                 </div>
+                <!-- v4.0.0: Paragraph mode removed (document-level indexing only) -->
             </div>
 
             <div class="modal-footer">

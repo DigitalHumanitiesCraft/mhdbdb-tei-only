@@ -69,8 +69,8 @@ class MHDBDBPlayground {
         // Load authority files from pre-built index (UPDATED)
         await this.loadAuthorityIndex();
 
-        // Load TEI files from IndexedDB cache (user-uploaded files)
-        await this.loadCachedTEIFiles();
+        // NEW: Auto-load corpus on startup
+        await this.autoLoadCorpus();
 
         this.updateUI();
     }
@@ -132,7 +132,216 @@ class MHDBDBPlayground {
         }
     }
 
+    async autoLoadCorpus() {
+        try {
+            console.log('📥 Auto-loading corpus on startup...');
+
+            // Show loading state
+            const loadingState = document.getElementById('corpusLoadingState');
+            const fileBrowserSection = document.getElementById('fileBrowserSection');
+
+            if (loadingState) loadingState.style.display = 'block';
+            if (fileBrowserSection) fileBrowserSection.style.display = 'none';
+
+            // Load corpus from pre-built index
+            const { CorpusLoader } = await import('/lib/corpus-loader.js');
+            const loader = new CorpusLoader('../data');
+            await loader.dbReady;
+
+            const corpusIndex = await loader.loadCorpusIndex();
+
+            // Store corpus data (not parsedXML - we'll use the index directly)
+            this.corpusData = {
+                texts: corpusIndex.texts || [],
+                lemmaIndex: corpusIndex.lemmaIndex || {},
+                includedTexts: new Set() // Track which texts are included in search
+            };
+
+            // Initially include all texts
+            this.corpusData.texts.forEach(text => {
+                this.corpusData.includedTexts.add(text.id);
+            });
+
+            console.log(`✅ Corpus loaded: ${this.corpusData.texts.length} texts`);
+
+            // Hide loading, show file browser
+            if (loadingState) loadingState.style.display = 'none';
+            if (fileBrowserSection) fileBrowserSection.style.display = 'block';
+
+            // Populate file browser
+            this.populateFileBrowser();
+
+            // Enable TEI queries
+            const teiQueries = document.getElementById('teiQueries');
+            if (teiQueries) teiQueries.style.display = 'block';
+
+        } catch (error) {
+            console.error('❌ Failed to auto-load corpus:', error);
+            alert('Failed to load corpus. Please refresh the page.');
+        }
+    }
+
+    populateFileBrowser() {
+        const fileList = document.getElementById('fileList');
+        if (!fileList) return;
+
+        fileList.innerHTML = '';
+
+        this.corpusData.texts.forEach(text => {
+            const label = document.createElement('label');
+            label.className = 'file-item';
+            label.dataset.textId = text.id;
+            label.dataset.title = text.title.toLowerCase();
+            label.dataset.author = (text.author || '').toLowerCase();
+
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.checked = true;
+            checkbox.dataset.textId = text.id;
+            checkbox.addEventListener('change', () => this.handleTextToggle(text.id, checkbox.checked));
+
+            const info = document.createElement('div');
+            info.className = 'file-info';
+
+            const title = document.createElement('span');
+            title.className = 'file-title';
+            title.textContent = text.title;
+
+            const meta = document.createElement('span');
+            meta.className = 'file-meta';
+            const author = text.author || 'Unbekannt';
+            const wordCount = text.wordCount ? text.wordCount.toLocaleString() : '0';
+            meta.textContent = `${text.id} • ${author} • ${wordCount} Wörter`;
+
+            info.appendChild(title);
+            info.appendChild(meta);
+
+            label.appendChild(checkbox);
+            label.appendChild(info);
+
+            fileList.appendChild(label);
+        });
+
+        // Update summary stats
+        this.updateFileBrowserStats();
+
+        // Setup filter
+        this.setupFileBrowserFilter();
+    }
+
+    handleTextToggle(textId, isIncluded) {
+        if (isIncluded) {
+            this.corpusData.includedTexts.add(textId);
+        } else {
+            this.corpusData.includedTexts.delete(textId);
+        }
+        this.updateFileBrowserStats();
+    }
+
+    updateFileBrowserStats() {
+        const includedCount = this.corpusData.includedTexts.size;
+        const totalTexts = this.corpusData.texts.length;
+
+        // Update included count
+        const includedCountEl = document.getElementById('includedCount');
+        if (includedCountEl) includedCountEl.textContent = includedCount;
+
+        // Calculate total words and lemmata for included texts
+        let totalWords = 0;
+        let lemmataSet = new Set();
+
+        this.corpusData.texts.forEach(text => {
+            if (this.corpusData.includedTexts.has(text.id)) {
+                totalWords += text.wordCount || 0;
+                Object.keys(text.lemmata || {}).forEach(lemmaId => lemmataSet.add(lemmaId));
+            }
+        });
+
+        const totalWordsEl = document.getElementById('totalWords');
+        const totalLemmataEl = document.getElementById('totalLemmata');
+
+        if (totalWordsEl) totalWordsEl.textContent = totalWords.toLocaleString();
+        if (totalLemmataEl) totalLemmataEl.textContent = lemmataSet.size.toLocaleString();
+    }
+
+    setupFileBrowserFilter() {
+        const fileFilter = document.getElementById('fileFilter');
+        const fileList = document.getElementById('fileList');
+        const filterInfo = document.getElementById('filterInfo');
+        const visibleCountEl = document.getElementById('visibleCount');
+        const clearFilterBtn = document.getElementById('clearFilterBtn');
+
+        if (!fileFilter || !fileList) return;
+
+        fileFilter.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            const items = fileList.querySelectorAll('.file-item');
+            let visibleCount = 0;
+
+            items.forEach(item => {
+                const title = item.dataset.title || '';
+                const author = item.dataset.author || '';
+                const textId = item.dataset.textId || '';
+
+                const matches = title.includes(query) ||
+                               author.includes(query) ||
+                               textId.toLowerCase().includes(query);
+
+                if (matches) {
+                    item.style.display = '';
+                    visibleCount++;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+
+            // Show/hide filter info
+            if (query) {
+                if (filterInfo) filterInfo.style.display = 'flex';
+                if (visibleCountEl) visibleCountEl.textContent = visibleCount;
+            } else {
+                if (filterInfo) filterInfo.style.display = 'none';
+            }
+        });
+
+        // Clear filter button
+        if (clearFilterBtn) {
+            clearFilterBtn.addEventListener('click', () => {
+                fileFilter.value = '';
+                fileFilter.dispatchEvent(new Event('input'));
+            });
+        }
+
+        // Select All / None buttons
+        const selectAllBtn = document.getElementById('selectAllBtn');
+        const selectNoneBtn = document.getElementById('selectNoneBtn');
+
+        if (selectAllBtn) {
+            selectAllBtn.addEventListener('click', () => {
+                const visibleCheckboxes = Array.from(fileList.querySelectorAll('.file-item:not([style*="display: none"]) input[type="checkbox"]'));
+                visibleCheckboxes.forEach(cb => {
+                    cb.checked = true;
+                    this.corpusData.includedTexts.add(cb.dataset.textId);
+                });
+                this.updateFileBrowserStats();
+            });
+        }
+
+        if (selectNoneBtn) {
+            selectNoneBtn.addEventListener('click', () => {
+                const visibleCheckboxes = Array.from(fileList.querySelectorAll('.file-item:not([style*="display: none"]) input[type="checkbox"]'));
+                visibleCheckboxes.forEach(cb => {
+                    cb.checked = false;
+                    this.corpusData.includedTexts.delete(cb.dataset.textId);
+                });
+                this.updateFileBrowserStats();
+            });
+        }
+    }
+
     async loadCachedTEIFiles() {
+        // DEPRECATED: No longer needed with auto-load corpus
+        // Keeping for compatibility but will not be called
         try {
             const loadedCount = await this.teiManager.loadFromCache();
 
@@ -171,7 +380,7 @@ class MHDBDBPlayground {
         const fileInput = document.getElementById('fileInput');
 
         if (!uploadZone || !fileInput) {
-            console.error('Upload elements not found');
+            // Upload UI removed in redesign - corpus auto-loads instead
             return;
         }
 

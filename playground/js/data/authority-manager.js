@@ -115,30 +115,21 @@ export class AuthorityFilesManager {
     }
 
     // Stage 2: Search in variants index (orthographic variants from TEI corpus)
-    console.log(`  📊 Variants index size: ${this.authorityData.variants.length} entries`);
-    if (this.authorityData.variants.length > 0) {
-      const matchingVariants = [];
+    // Structure: variants = {normalized_variant: lemma_id, ...}
+    const variantsCount = Object.keys(this.authorityData.variants || {}).length;
+    console.log(`  📊 Variants index size: ${variantsCount} mappings`);
 
-      for (const variantEntry of this.authorityData.variants) {
-        // Check if any form matches the search term (with normalization)
-        const hasMatch = variantEntry.forms.some(form => {
-          const formLower = form.orth.toLowerCase();
-          const formNormalized = TextNormalizer.normalizeMHG(formLower);
-          return formLower === normalized || formNormalized === normalizedCharacters;
-        });
+    if (variantsCount > 0) {
+      // Try normalized lookup in variants dictionary
+      const lemmaId = this.authorityData.variants[normalizedCharacters];
 
-        if (hasMatch) {
-          // Find the corresponding lemma in lemmata array
-          const lemma = this.authorityData.lemmata.find(l => l.id === variantEntry.lemmaId);
-          if (lemma) {
-            matchingVariants.push(lemma);
-            console.log(`  ✅ Stage 2 (variants): Found ${lemma.id} via variant "${orthography}"`);
-          }
+      if (lemmaId) {
+        // Find the corresponding lemma in lemmata array
+        const lemma = this.authorityData.lemmata.find(l => l.id === lemmaId);
+        if (lemma) {
+          console.log(`  ✅ Stage 2 (variants): Found ${lemma.id} via normalized variant "${normalizedCharacters}"`);
+          return [lemma];
         }
-      }
-
-      if (matchingVariants.length > 0) {
-        return matchingVariants;
       }
     }
 

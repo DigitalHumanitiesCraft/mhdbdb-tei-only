@@ -102,17 +102,17 @@ export class TEIExplorer {
 
     executeProximitySearch(lemmaIds, searchTerms) {
         const maxDistance = parseInt(prompt('Maximaler Wortabstand (empfohlen: 5-15):', '10')) || 10;
-        
+
         // Show loading spinner
         showOverlaySpinner('resultsContainer', 'Analysiere Nähe-Beziehungen...', true);
-        
+
         // Get TEI manager from global reference
         const teiManager = window.playground?.teiManager;
         if (!teiManager) {
             hideSpinner('resultsContainer');
-            displayResults('Fehler', [{ 
-                meta: 'TEI Manager nicht verfügbar', 
-                snippet: 'Bitte laden Sie TEI-Dateien' 
+            displayResults('Fehler', [{
+                meta: 'TEI Manager nicht verfügbar',
+                snippet: 'Bitte laden Sie TEI-Dateien'
             }]);
             return;
         }
@@ -122,12 +122,13 @@ export class TEIExplorer {
             try {
                 const results = teiManager.findCooccurringLemmas(lemmaIds, maxDistance);
                 hideSpinner('resultsContainer');
-                this.displayCooccurrenceResults(results, searchTerms, maxDistance);
+                console.log('🔍 executeProximitySearch - calling displayCooccurrenceResults with lemmaIds:', lemmaIds);
+                this.displayCooccurrenceResults(results, searchTerms, maxDistance, lemmaIds);
             } catch (error) {
                 hideSpinner('resultsContainer');
-                displayResults('Fehler', [{ 
-                    meta: 'Nähe-Analyse Fehler', 
-                    snippet: error.message 
+                displayResults('Fehler', [{
+                    meta: 'Nähe-Analyse Fehler',
+                    snippet: error.message
                 }]);
             }
         }, 100);
@@ -206,9 +207,16 @@ export class TEIExplorer {
         // Create summary data for the new display format
         const summaryData = this.createMultiLemmaSummary(results, searchTerms, contextType);
 
+        // Pass raw results and lemma IDs for lazy TEI loading
+        const lemmaIds = results.length > 0 && results[0].matchingPositions
+            ? [...new Set(results.flatMap(r => r.matchingPositions || []).map(p => p.lemmaRef.replace('lemma_', '')))]
+            : [];
+
         displaySummaryResults(
             `Multi-Lemma-Suche: ${searchTerms.join(' + ')}`,
-            summaryData
+            summaryData,
+            results,  // Raw results
+            lemmaIds  // Lemma IDs for enrichment
         );
     }
 
@@ -238,12 +246,11 @@ export class TEIExplorer {
     }
 
     getResultCount(fileResults, contextType) {
-        if (contextType === 'paragraph') {
-            return fileResults.length; // Each result is a paragraph
-        } else if (contextType === 'document') {
+        // v4.0.0: Paragraph mode removed
+        if (contextType === 'document') {
             return fileResults.reduce((sum, result) => sum + (result.totalWords || 1), 0);
         } else if (contextType === 'proximity') {
-            return fileResults.reduce((sum, result) => 
+            return fileResults.reduce((sum, result) =>
                 sum + (result.cooccurrences ? result.cooccurrences.length : 0), 0);
         }
         return fileResults.length;
@@ -251,11 +258,11 @@ export class TEIExplorer {
 
     createPreviewText(fileResults, contextType) {
         const count = this.getResultCount(fileResults, contextType);
-        
-        if (contextType === 'paragraph') {
-            return `Kombinationen in ${count} Absätzen gefunden`;
-        } else if (contextType === 'document') {
-            return `Alle Lemmas im Dokument vorhanden (${count} Wörter)`;
+
+        // v4.0.0: Paragraph mode removed
+        if (contextType === 'document') {
+            // Document search: show just word count as metadata
+            return `${count} Wörter`;
         } else if (contextType === 'proximity') {
             return `${count} Nähe-Beziehungen gefunden`;
         }
@@ -263,34 +270,66 @@ export class TEIExplorer {
     }
 
     createDetailItems(fileResults, contextType) {
+        // v4.0.0: Paragraph mode removed - only document and proximity modes remain
+        if (contextType === 'document') {
+            return []; // Document search: no detail items - just show file list
+        }
+
         return fileResults.map((result, index) => {
-            if (contextType === 'paragraph') {
-                const matchingSummary = this.formatMatchingWords(result.matchingWords);
-                return {
-                    meta: `Absatz ${result.paragraphId} • ${matchingSummary}`,
-                    snippet: this.highlightLemmasInText(result.text, result.matchingWords)
-                };
-            } else if (contextType === 'document') {
-                const matchingSummary = this.formatMatchingWords(result.matchingWords);
-                return {
-                    meta: `Volltext • ${matchingSummary}`,
-                    snippet: `Alle Suchbegriffe im Dokument vorhanden (${result.totalWords} Wörter)`
-                };
-            } else if (contextType === 'proximity') {
-                const cooccurrences = result.cooccurrences || [];
-                return cooccurrences.slice(0, 10).map(c => {
-                    const highlightedContext = this.highlightCooccurrenceContext(
-                        c.context,
-                        c.lemma1,
-                        c.lemma2
-                    );
+            if (contextType === 'proximity') {
+                // v3.0.0: proximity results are flat, not nested in cooccurrences
+                if (result.contextText) {
+                    // Has actual text (enriched)
                     return {
-                        meta: `Abstand: ${c.distance} Wörter • ${c.lemma1.text} ↔ ${c.lemma2.text}`,
-                        snippet: `"${highlightedContext}"`
+                        meta: `Abstand: ${result.distance} Wörter`,
+                        snippet: `"${result.contextText}"`
                     };
-                });
+                } else {
+                    // Fallback: show lemma IDs
+                    const preview = result.contextLemmas ? result.contextLemmas.slice(0, 20).join(' ') : '';
+                    return {
+                        meta: `Abstand: ${result.distance} Wörter`,
+                        snippet: `<code style="font-size: 0.85em;">${preview}...</code>`
+                    };
+                }
             }
         }).flat().slice(0, 50); // Limit to 50 detail items for performance
+    }
+
+    // v3.0.0 compact format helpers
+    formatMatchingPositions(matchingPositions) {
+        if (!matchingPositions || matchingPositions.length === 0) {
+            return 'Keine Positionen';
+        }
+        const lemmaRefs = matchingPositions.map(p => p.lemmaRef).filter(Boolean);
+        const uniqueLemmas = [...new Set(lemmaRefs)];
+        return `${uniqueLemmas.length} Lemmata (${matchingPositions.length} Vorkommen)`;
+    }
+
+    formatParagraphLemmas(paragraphLemmas) {
+        if (!paragraphLemmas || paragraphLemmas.length === 0) {
+            return 'Kein Text verfügbar';
+        }
+        // Show first 100 lemma IDs as placeholder
+        const preview = paragraphLemmas.slice(0, 100).join(' ');
+        const more = paragraphLemmas.length > 100 ? ` ... (+${paragraphLemmas.length - 100} weitere)` : '';
+        return `<code style="font-size: 0.85em; color: #64748b;">${preview}${more}</code>`;
+    }
+
+    formatMatchingWordsOrCounts(matchingWords) {
+        // Handle both formats: array of words (paragraph) or counts (document)
+        const summaries = [];
+        for (const [lemmaId, data] of Object.entries(matchingWords)) {
+            if (typeof data === 'number') {
+                // Document search: data is a count
+                summaries.push(`lemma_${lemmaId} (${data}x)`);
+            } else if (Array.isArray(data)) {
+                // Paragraph search: data is array of word objects
+                const uniqueTexts = [...new Set(data.map(w => w.text))];
+                summaries.push(`${uniqueTexts.join(', ')} (${data.length}x)`);
+            }
+        }
+        return summaries.join(' • ');
     }
 
     formatMatchingWords(matchingWords) {
@@ -343,50 +382,65 @@ export class TEIExplorer {
     // findCooccurringLemmas() method removed - now handled by MultiLemmaSearchUI modal
     // Co-occurrence analysis is available as "Nähe-Analyse" mode in the multi-lemma search
 
-    displayCooccurrenceResults(results, searchTerms, maxDistance) {
+    displayCooccurrenceResults(results, searchTerms, maxDistance, searchedLemmaIds) {
         if (results.length === 0) {
             displayResults(
                 `Kookkurrenz-Analyse: ${searchTerms.join(' + ')} (0 Treffer)`,
-                [{ 
-                    meta: `Keine Treffer im Abstand von ${maxDistance} Wörtern`, 
-                    snippet: 'Versuchen Sie einen größeren Abstand oder andere Begriffe' 
+                [{
+                    meta: `Keine Treffer im Abstand von ${maxDistance} Wörtern`,
+                    snippet: 'Versuchen Sie einen größeren Abstand oder andere Begriffe'
                 }]
             );
             return;
         }
 
-        // Create summary data for cooccurrence results
-        const summaryData = results.map(result => {
-            const cooccurrences = result.cooccurrences || [];
-            const count = cooccurrences.length;
+        // v3.0.0: results is a flat array, group by filename
+        const fileGroups = {};
+        results.forEach(result => {
+            if (!fileGroups[result.filename]) {
+                fileGroups[result.filename] = [];
+            }
+            fileGroups[result.filename].push(result);
+        });
 
+        // Create summary data for cooccurrence results
+        const summaryData = Object.entries(fileGroups).map(([filename, fileResults]) => {
+            const count = fileResults.length;
             const preview = `${count} Nähe-Beziehungen im Abstand von max. ${maxDistance} Wörtern`;
 
-            const details = cooccurrences.slice(0, 20).map(cooc => {
-                // Highlight both lemmas in the context
-                const highlightedContext = this.highlightCooccurrenceContext(
-                    cooc.context,
-                    cooc.lemma1,
-                    cooc.lemma2
-                );
-
-                return {
-                    meta: `Abstand: ${cooc.distance} Wörter • ${cooc.lemma1.text} ↔ ${cooc.lemma2.text}`,
-                    snippet: `"${highlightedContext}"`
-                };
+            // v3.0.0: Show placeholder until user expands
+            const details = fileResults.slice(0, 50).map(match => {
+                if (match.contextText) {
+                    // Has enriched text (after expand)
+                    return {
+                        meta: `Abstand: ${match.distance} Wörter`,
+                        snippet: `"${match.contextText}"`
+                    };
+                } else {
+                    // No text yet - show lemma IDs preview
+                    const preview = match.contextLemmas ? match.contextLemmas.slice(0, 20).join(' ') : '';
+                    return {
+                        meta: `Abstand: ${match.distance} Wörter`,
+                        snippet: `<em style="color: #64748b;">Klicken Sie auf "KLICKEN ZUM ERWEITERN" um den vollständigen Text anzuzeigen</em>`
+                    };
+                }
             });
 
             return {
-                title: `${result.filename}`,
+                title: filename,
                 count: count,
                 preview: preview,
                 details: details
             };
-        }).filter(summary => summary.count > 0); // Only show files with results
+        }).filter(summary => summary.count > 0);
 
+        // Use the searched lemma IDs (e.g., [879, 7532]) not all positions from results
+        console.log('📍 Proximity search - passing lemmaIds to displaySummaryResults:', searchedLemmaIds);
         displaySummaryResults(
             `Kookkurrenz-Analyse: ${searchTerms.join(' + ')} (max. ${maxDistance} Wörter Abstand)`,
-            summaryData
+            summaryData,
+            results,  // Raw results
+            searchedLemmaIds  // ONLY the searched lemmas for highlighting
         );
     }
 

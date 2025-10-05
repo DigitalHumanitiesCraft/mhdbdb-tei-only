@@ -168,12 +168,24 @@ All files use consistent cross-referencing:
 - ✅ Improved maintainability and code organization
 - ✅ Net reduction: 5,536 lines removed from codebase
 
-**Recent Bug Fixes** (Oct 2, 2025):
+**Corpus Index v4.0.0 Migration** (Oct 5, 2025):
+- ✅ **Fixed proximity search position alignment** - removed paragraph-based indexing
+- ✅ **Document-level word indexing** - Python and JavaScript now use identical `//tei:body//tei:w[@lemmaRef]` extraction
+- ✅ **100% word coverage** - all words in `<body>` are indexed (no missing `<head>` content)
+- ✅ **Variant resolution fixed** - "brot" and "brott" now correctly resolve to same lemma via variants.xml (176,056 mappings)
+- ✅ **Overlap deduplication** - proximity search no longer shows redundant results with overlapping context windows
+- ✅ **Complete text display** - context now includes ALL `<w>` elements (with or without `@lemmaRef`) for readable output
+- ✅ **Smaller index size** - ~30% reduction by removing paragraph metadata
+- ✅ **Simplified architecture** - removed paragraph search mode entirely (only proximity + document modes remain)
+
+**Recent Bug Fixes** (Oct 2-5, 2025):
 - ✅ Fixed test suite timeout issue (skipped main site tests)
 - ✅ Rebuilt empty authority index (0 bytes → 3.0 MB)
 - ✅ Added *.code-workspace to .gitignore
 - ✅ Test suite now completes in 2.7 minutes (40 passing, 25 skipped)
-- See [BUGFIX-2025-10-02.md](docs/BUGFIX-2025-10-02.md) for details
+- ✅ Fixed missing words in proximity search results (words without `@lemmaRef` now included)
+- ✅ Fixed variant normalization in authority-manager.js (flat dictionary lookup instead of array iteration)
+- See [BUGFIX-2025-10-02.md](docs/BUGFIX-2025-10-02.md) and [PROXIMITY-SEARCH-FIX-PLAN.md](PROXIMITY-SEARCH-FIX-PLAN.md) for details
 
 **What Still Uses XML Parsing**:
 - TEI files (user-uploaded) - still parsed in browser as needed
@@ -262,7 +274,7 @@ The extraction script analyzes all 666 TEI files, extracting orthographic varian
 
 ## Search Architecture
 
-The MHDBDB Playground provides **11 distinct search entry points** across two main categories, all with Middle High German character normalization (â→a, ô→o, ü→ue, etc.).
+The MHDBDB Playground provides **10 distinct search entry points** across two main categories, all with Middle High German character normalization (â→a, ô→o, ü→ue, etc.).
 
 ### Search Categories
 
@@ -293,26 +305,24 @@ Browse and search reference vocabularies (persons, works, lexicon, concepts, gen
    - Searches `termDE`/`termEN` fields
    - Normalization: ✅ `SearchPatterns.textContainsNormalized()`
 
-#### B. TEI Text Analysis (5 searches)
+#### B. TEI Text Analysis (4 searches)
 Search within user-uploaded TEI corpus:
+
+**Note:** v4.0.0 removed paragraph-based multi-lemma search due to position alignment issues. Only document-level and proximity searches remain.
 
 7. **Lemma-Suche** → `TEIExplorer.findLemmaInText()`
    - Searches `teiData.words[]` array
    - Normalization: ✅ `TextNormalizer.matchesNormalized()`
 
-8. **Multi-Lemma-Suche (Absatz)** → `TEIFilesManager.searchMultipleLemmas()` with `contextType='paragraph'`
+8. **Multi-Lemma-Suche (Dokument)** → `TEIFilesManager.searchMultipleLemmas()` with `contextType='document'`
    - XML query: `<w lemmaRef*="lemma_879">`
    - Normalization: ✅ Via `searchLemmaByOrthography()` with variants index
 
-9. **Multi-Lemma-Suche (Dokument)** → `TEIFilesManager.searchMultipleLemmas()` with `contextType='document'`
-   - XML query: `<w lemmaRef*="lemma_879">`
-   - Normalization: ✅ Via `searchLemmaByOrthography()` with variants index
-
-10. **Multi-Lemma-Suche (Nähe)** → `TEIFilesManager.findCooccurringLemmas()`
-    - XML query: `<w lemmaRef*="lemma_879">` with proximity analysis
+9. **Multi-Lemma-Suche (Nähe)** → `TEIFilesManager.findCooccurringLemmas()`
+    - XML query: `<w lemmaRef*="lemma_879">` with proximity analysis (document-level positions)
     - Normalization: ✅ Via `searchLemmaByOrthography()` with variants index
 
-11. **XPath Query** → `TEIFilesManager.executeXPathOnTEI()`
+10. **XPath Query** → `TEIFilesManager.executeXPathOnTEI()`
     - Raw XPath on TEI XML
     - Normalization: ⚠️ N/A (advanced users, direct XML query)
 
@@ -366,7 +376,7 @@ Multi-lemma searches use a 3-stage resolution process in `AuthorityFilesManager.
 
 **Example:**
 ```
-User searches "brott + win" in Multi-Lemma-Suche
+User searches "brott + win" in Multi-Lemma-Suche (Nähe)
    ↓
 resolveLemmaIds(["brott", "win"])
    ↓
@@ -375,12 +385,11 @@ searchLemmaByOrthography("brott")
 searchLemmaByOrthography("win")
   → Stage 2: variants.xml → lemma_7532 (wîn)
    ↓
-searchMultipleLemmas([879, 7532], "paragraph")
+findCooccurringLemmas([879, 7532], maxDistance=10)
    ↓
-XML: <w lemmaRef="lexicon.xml#lemma_879">brott</w>
-     <w lemmaRef="lexicon.xml#lemma_7532">win</w>
+v4.0.0: Uses document-level word positions from corpus index
    ↓
-✅ Results: Paragraphs containing both lemmas
+✅ Results: Proximity matches within 10 words of each other
 ```
 
 ## License and Attribution
@@ -402,8 +411,8 @@ The playground uses a modular class-based architecture:
   - Stage 3: Partial match fallback (includes search)
 - **`TEIFilesManager`** (data/tei-manager.js) - TEI document processing, text analysis, and advanced search features:
   - Single lemma search with context extraction
-  - Multi-lemma search (paragraph/document level)
-  - Co-occurrence analysis (proximity-based lemma search)
+  - Multi-lemma search (document level, v4.0.0)
+  - Co-occurrence analysis (proximity-based lemma search with document-level indexing, v4.0.0)
   - Word-level annotation extraction
 - **`CorpusLoader`** (lib/corpus-loader.js) - Shared loader for pre-built indexes:
   - Loads authority-index.json.gz and corpus-index.json.gz
@@ -485,17 +494,18 @@ Replaced monolithic files with specialized modules organized by feature:
 
 ### Multi-Lemma Search
 The playground implements advanced multi-lemma search capabilities:
-- **Paragraph-level search**: Find paragraphs containing all specified lemmas
-- **Document-level search**: List texts containing all lemmas anywhere
-- **Co-occurrence analysis**: Find lemmas within specified word distance (proximity search)
+- **Document-level search**: List texts containing all lemmas anywhere (v4.0.0)
+- **Co-occurrence analysis**: Find lemmas within specified word distance (proximity search, v4.0.0)
 - **Smart lemma resolution**: Supports both lemma IDs (`879`) and Middle High German terms (`brôt`)
-- **Color-coded highlighting**: Different colors for different lemmas in results
+- **Color-coded highlighting**: Different colors for different lemmas in proximity results
 - See [MULTI-LEMMA-SEARCH-IMPLEMENTATION.md](MULTI-LEMMA-SEARCH-IMPLEMENTATION.md) for detailed documentation
+
+**Important:** v4.0.0 removed paragraph-based multi-lemma search due to position misalignment issues between Python indexing and JavaScript extraction. The corpus index now uses document-level word indexing for accurate proximity search.
 
 ### Advanced Search Examples
 ```javascript
-// Search for paragraphs containing both "brôt" (bread) and "wîn" (wine)
-teiManager.searchMultipleLemmas(['879', '7532'], 'paragraph')
+// List texts containing both "brôt" (bread) and "wîn" (wine)
+teiManager.searchMultipleLemmas(['879', '7532'], 'document')
 
 // Find co-occurring lemmas within 10 words of each other
 teiManager.findCooccurringLemmas(['879', '7532'], 10)

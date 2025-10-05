@@ -10,41 +10,64 @@
   box-shadow: 0 12px 32px color-mix(in srgb, var(--accent-primary) 12%, transparent);
 }
 
-/* File list presentation */
+/* File list presentation (checkbox version) */
 .file-item {
   display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-  padding: var(--space-3) var(--space-4);
-  border-radius: var(--radius-lg);
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-primary);
-  transition: var(--transition-base);
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.625rem 0.75rem;
+  border-radius: 0.5rem;
+  background: white;
+  border: 1px solid #e2e8f0;
+  cursor: pointer;
+  transition: all 0.15s ease;
 }
 
 .file-item:hover {
-  background: var(--bg-primary);
-  border-color: var(--border-secondary);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.1);
+  background: #f8fafc;
+  border-color: #cbd5e1;
 }
 
-@media (prefers-color-scheme: dark) {
-  .file-item:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  }
+.file-item input[type="checkbox"] {
+  width: 1rem;
+  height: 1rem;
+  margin-top: 0.125rem;
+  cursor: pointer;
+  accent-color: #3b75d8;
+  flex-shrink: 0;
 }
 
+.file-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.file-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #1e293b;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.file-meta {
+  font-size: 0.75rem;
+  color: #64748b;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Old file item styles (kept for compatibility) */
 .file-name {
   font-weight: 600;
   color: var(--text-primary);
   font-size: var(--text-base);
   word-break: break-word;
-}
-
-.file-info {
-  font-size: var(--text-sm);
-  color: var(--text-secondary);
 }
 
 /* Highlighting for lemma matches - Improved contrast */

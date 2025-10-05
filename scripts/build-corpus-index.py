@@ -6,9 +6,9 @@ Build Corpus Index
 Generates pre-built corpus index from tei/ directory (666 TEI files).
 Output: data/corpus-index.json.gz (~3-5 MB compressed)
 
-Index structure:
+Index structure (v4.0.0 - DOCUMENT-LEVEL):
 {
-  "version": "1.0.0",
+  "version": "4.0.0",
   "generatedAt": "2025-01-01T00:00:00Z",
   "totalTexts": 666,
   "totalLemmata": 45000,
@@ -22,15 +22,16 @@ Index structure:
       "workRef": "#work_89",
       "genre": "genre_x",
       "wordCount": 1500,
+      "words": ["lemma_879", "lemma_123", "lemma_879", ...],  # ALL words in <body>
       "lemmata": {
-        "lemma_879": [0, 15, 42],  # Word positions
-        "lemma_7532": [8, 23]
+        "lemma_879": [0, 2, 15],  # Word positions
+        "lemma_123": [1]
       }
     }
   ],
   "lemmaIndex": {
     "lemma_879": ["ABG", "BRZ", "HZU2"],  # Texts containing this lemma
-    "lemma_7532": ["ABG", "AXR"]
+    "lemma_123": ["ABG"]
   }
 }
 """
@@ -139,44 +140,58 @@ def extract_metadata(filepath):
         return None
 
 
-def extract_lemma_positions(filepath, text_id):
+def extract_word_data(filepath, text_id):
     """
-    Extract word positions for each lemma in the text.
+    Extract word data using document-level indexing (v4.0.0).
 
-    Returns: (lemmata_dict, word_count)
-    where lemmata_dict = {"lemma_879": [0, 15, 42], ...}
+    Returns: (words_list, lemmata_dict, word_count)
+    where:
+      words_list = ["lemma_879", "lemma_123", ...]  # ALL words in <body> in document order
+      lemmata_dict = {"lemma_879": [0, 2, 15], ...}
     """
     try:
         tree = etree.parse(str(filepath))
         ns = get_namespaces(tree)
 
-        # Get all <w> elements with lemmaRef
-        word_els = tree.xpath('//tei:w[@lemmaRef]', namespaces=ns)
+        # Get body element
+        body = tree.xpath('//tei:body', namespaces=ns)
+        if not body:
+            return [], {}, 0
 
-        lemmata = defaultdict(list)  # lemma_id -> list of positions
+        # Get ALL words in <body> in document order (single XPath)
+        word_els = tree.xpath('//tei:body//tei:w[@lemmaRef]', namespaces=ns)
+
+        words = []  # All lemma IDs in document order
+        lemmata = defaultdict(list)
         word_count = 0
 
-        for idx, word_el in enumerate(word_els):
+        for word_el in word_els:
             lemma_ref = word_el.get('lemmaRef')
-            if not lemma_ref:
+            text_content = ''.join(word_el.itertext()).strip()
+
+            if not lemma_ref or not text_content:
                 continue
 
-            # Extract lemma ID from reference
+            # Extract lemma ID
             # Format: "lexicon.xml#lemma_879" -> "lemma_879"
             if '#' in lemma_ref:
                 lemma_id = lemma_ref.split('#')[1]
             else:
                 lemma_id = lemma_ref
 
-            # Record position
-            lemmata[lemma_id].append(idx)
+            # Store word data (just lemma ID)
+            word_idx = len(words)
+            words.append(lemma_id)
+
+            # Record position in lemma index
+            lemmata[lemma_id].append(word_idx)
             word_count += 1
 
-        return dict(lemmata), word_count
+        return words, dict(lemmata), word_count
 
     except Exception as e:
-        print(f"⚠️  Error extracting lemma positions from {filepath.name}: {e}")
-        return {}, 0
+        print(f"⚠️  Error extracting word data from {filepath.name}: {e}")
+        return [], {}, 0
 
 
 def process_tei_file(filepath):
@@ -188,13 +203,14 @@ def process_tei_file(filepath):
 
     text_id = metadata['id']
 
-    # Extract lemma positions
-    lemmata, word_count = extract_lemma_positions(filepath, text_id)
+    # Extract full word data (document-level)
+    words, lemmata, word_count = extract_word_data(filepath, text_id)
 
     # Combine
     text_data = {
         **metadata,
         'wordCount': word_count,
+        'words': words,
         'lemmata': lemmata
     }
 
@@ -248,7 +264,7 @@ def build_corpus_index():
 
     # Build final index
     index = {
-        'version': '1.0.0',  # Must match INDEX_VERSION in db-schema.js
+        'version': '4.0.0',  # Version 4.0.0: Document-level indexing (removed paragraph logic)
         'generatedAt': datetime.now().isoformat() + 'Z',
         'totalTexts': len(texts),
         'totalLemmata': len(lemma_index),

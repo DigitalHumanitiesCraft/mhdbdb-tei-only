@@ -163,9 +163,18 @@ export function displayResults(title, results) {
 
 // ==================== SUMMARY RESULTS DISPLAY ====================
 
-export function displaySummaryResults(title, summaryData) {
+// Store raw results for lazy TEI loading
+let storedRawResults = null;
+let storedLemmaIds = null;
+
+export function displaySummaryResults(title, summaryData, rawResults = null, lemmaIds = null) {
   const container = document.getElementById('resultsContainer');
   if (!container) return;
+
+  // Store raw results for later enrichment
+  storedRawResults = rawResults;
+  storedLemmaIds = lemmaIds;
+  console.log('📦 displaySummaryResults storing lemmaIds:', lemmaIds);
 
   if (!summaryData || summaryData.length === 0) {
     container.innerHTML = `
@@ -193,10 +202,33 @@ export function displaySummaryResults(title, summaryData) {
   setupSummaryExpansion();
 }
 
+export function getRawResults() {
+  return { results: storedRawResults, lemmaIds: storedLemmaIds };
+}
+
 function createSummaryCard(summary, index) {
   const previewText = summary.preview || 'Klicken für Details…';
-  const detailsHTML = summary.details ? createDetailsHTML(summary.details) : '';
+  const hasDetails = summary.details && Array.isArray(summary.details) && summary.details.length > 0;
+  const detailsHTML = hasDetails ? createDetailsHTML(summary.details) : '';
 
+  // For document search (no details), don't show expand icon or hint
+  if (!hasDetails) {
+    return `
+      <article class="result-summary-static group overflow-hidden rounded-2xl border border-slate-200 bg-white/95 p-5 shadow-sm" data-summary-id="${index}">
+        <div class="summary-header flex items-start justify-between gap-4">
+          <div class="flex-1">
+            <h4 class="text-sm font-semibold text-slate-900">${summary.title}</h4>
+            <p class="summary-preview mt-2 text-sm text-slate-600">${previewText}</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="summary-count">${summary.count}</span>
+          </div>
+        </div>
+      </article>
+    `;
+  }
+
+  // For paragraph/proximity search (with details), show expandable UI
   return `
     <article class="result-summary group overflow-hidden rounded-2xl border border-slate-200 bg-white/95 p-5 shadow-sm transition hover:border-brand-200" data-summary-id="${index}">
       <div class="summary-header flex items-start justify-between gap-4">
@@ -241,11 +273,240 @@ function setupSummaryExpansion() {
   });
 
   document.querySelectorAll('.result-summary').forEach((summary) => {
-    summary.addEventListener('click', (event) => {
+    summary.addEventListener('click', async (event) => {
       event.preventDefault();
+
+      const isExpanding = !summary.classList.contains('expanded');
+
+      if (isExpanding && storedRawResults && !summary.dataset.enriched) {
+        // First time expanding - fetch TEI text
+        const filename = summary.querySelector('h4').textContent;
+        const fileResults = storedRawResults.filter(r => r.filename === filename);
+
+        console.log(`Enriching ${filename}: found ${fileResults.length} results, lemmaIds:`, storedLemmaIds);
+
+        if (fileResults.length > 0 && !fileResults[0].text) {
+          // Show loading indicator
+          summary.querySelector('.summary-expand-hint').textContent = 'Lade Text...';
+
+          try {
+            // Fetch TEI and enrich results
+            await enrichFileResults(fileResults, storedLemmaIds);
+
+            console.log('Enriched results:', fileResults.map(r => ({
+              para: r.paragraphId,
+              hasText: !!r.text,
+              hasContextText: !!r.contextText,
+              contextTextLength: r.contextText?.length,
+              distance: r.distance,
+              matchingWords: Object.keys(r.matchingWords || {})
+            })));
+
+            // Rebuild the details HTML with enriched data
+            const details = createDetailsFromEnrichedResults(fileResults);
+            console.log('📋 Generated details:', details);
+            const detailsHTML = createDetailsHTML(details);
+            console.log('📋 Generated HTML length:', detailsHTML.length);
+            const detailsContainer = summary.querySelector('.result-details');
+            if (detailsContainer) {
+              detailsContainer.innerHTML = detailsHTML;
+              console.log('📋 Updated details container');
+            } else {
+              console.warn('📋 Details container not found!');
+            }
+
+            // Mark as enriched
+            summary.dataset.enriched = 'true';
+            summary.querySelector('.summary-expand-hint').textContent = 'Klicken zum Zuklappen';
+          } catch (error) {
+            console.error('Failed to enrich results:', error);
+            summary.querySelector('.summary-expand-hint').textContent = 'Fehler beim Laden';
+          }
+        }
+      }
+
       summary.classList.toggle('expanded');
     });
   });
+}
+
+// Enrich file results with TEI text
+async function enrichFileResults(fileResults, lemmaIds) {
+  // Guard against null/undefined lemmaIds
+  if (!lemmaIds || !Array.isArray(lemmaIds)) {
+    console.warn(`No lemmaIds provided for enrichment`);
+    return;
+  }
+
+  // v4.0.0: Only proximity search (paragraph mode removed)
+  const isProximitySearch = fileResults[0].contextStart !== undefined;
+
+  for (const result of fileResults) {
+    if (result.text || result.contextText) continue; // Already enriched
+
+    try {
+      const teiPath = `../tei/${result.filename}`;
+      const response = await fetch(teiPath);
+      if (!response.ok) continue;
+
+      const xmlText = await response.text();
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(xmlText, 'text/xml');
+
+      // v4.0.0: Only proximity search remains (paragraph search removed)
+      if (isProximitySearch) {
+        // Proximity search: extract context text from word range with highlighting
+        // v4.0.0: Match Python's simplified document-level logic
+        // Python now uses: word_els = tree.xpath('//tei:body//tei:w[@lemmaRef]')
+        const nsResolver = () => 'http://www.tei-c.org/ns/1.0';
+
+        // Get words WITH lemmaRef (for position matching - matches Python index)
+        const xpathIndexed = doc.evaluate(
+          '//tei:body//tei:w[@lemmaRef]',
+          doc,
+          nsResolver,
+          XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
+          null
+        );
+
+        const indexedWords = [];
+        for (let i = 0; i < xpathIndexed.snapshotLength; i++) {
+          indexedWords.push(xpathIndexed.snapshotItem(i));
+        }
+
+        // Get the matched word elements from index
+        const matchedWords = indexedWords.slice(result.contextStart, result.contextEnd);
+
+        // Expand to include ALL <w> elements (with or without lemmaRef) for complete text
+        let contextWords = [];
+
+        if (matchedWords.length > 0) {
+          const firstWord = matchedWords[0];
+          const lastWord = matchedWords[matchedWords.length - 1];
+
+          // Get all <w> elements in document order
+          const xpathAll = doc.evaluate(
+            '//tei:body//tei:w',
+            doc,
+            nsResolver,
+            XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
+            null
+          );
+
+          const allWords = [];
+          let startIdx = -1;
+          let endIdx = -1;
+
+          for (let i = 0; i < xpathAll.snapshotLength; i++) {
+            const word = xpathAll.snapshotItem(i);
+            allWords.push(word);
+
+            // Find boundaries based on matched words
+            if (word.isSameNode(firstWord)) startIdx = i;
+            if (word.isSameNode(lastWord)) endIdx = i + 1;
+          }
+
+          // Extract complete context (including words without lemmaRef)
+          contextWords = startIdx >= 0 && endIdx > startIdx
+            ? allWords.slice(startIdx, endIdx)
+            : matchedWords;
+        }
+
+        // Build highlighted context text
+        const highlightedParts = contextWords.map(word => {
+          const text = word.textContent?.trim() || '';
+          const lemmaRef = word.getAttribute('lemmaRef') || '';
+
+          // Highlight matched lemmas
+          for (let i = 0; i < lemmaIds.length; i++) {
+            const lemmaId = lemmaIds[i];
+            const cleanId = lemmaId.toString().replace('lemma_', '');
+            if (lemmaRef.includes(`lemma_${cleanId}`)) {
+              const color = LEMMA_COLORS[i % LEMMA_COLORS.length];
+              return `<span style="background-color: ${color.bg}; color: ${color.text}; border-bottom: 2px solid ${color.border}; padding: 2px 4px; border-radius: 3px; font-weight: 500;">${text}</span>`;
+            }
+          }
+          return text;
+        });
+
+        result.contextText = highlightedParts.join(' ');
+      } else {
+        // v4.0.0: Paragraph search removed - this should not be reached
+        console.warn('⚠️ Unexpected: non-proximity enrichment called in v4.0.0');
+      }
+    } catch (error) {
+      console.warn(`Failed to enrich ${result.filename}:`, error);
+    }
+  }
+}
+
+// Create details from enriched results
+// v4.0.0: Only proximity search remains (paragraph search removed)
+function createDetailsFromEnrichedResults(results) {
+  return results.map((result) => {
+    // v4.0.0: Proximity results with contextText
+    if (result.contextText !== undefined) {
+      return {
+        meta: `Abstand: ${result.distance} Wörter`,
+        snippet: `"${result.contextText}"`
+      };
+    }
+
+    // Fallback for unexpected result types
+    return {
+      meta: 'Unbekannter Ergebnistyp',
+      snippet: 'Keine Daten verfügbar'
+    };
+  });
+}
+
+// Color palette for multi-lemma highlighting
+const LEMMA_COLORS = [
+  { bg: '#fecaca', text: '#991b1b', border: '#ef4444' },  // Red
+  { bg: '#bfdbfe', text: '#1e3a8a', border: '#3b82f6' },  // Blue
+  { bg: '#bbf7d0', text: '#14532d', border: '#22c55e' },  // Green
+  { bg: '#fde68a', text: '#78350f', border: '#fbbf24' },  // Yellow
+  { bg: '#e9d5ff', text: '#581c87', border: '#a855f7' },  // Purple
+  { bg: '#fed7aa', text: '#7c2d12', border: '#fb923c' },  // Orange
+];
+
+// Highlight matched words in text with different colors per lemma
+function highlightMatchedWords(text, matchingWords) {
+  let highlightedText = text;
+
+  console.log('Highlighting words:', Object.entries(matchingWords).map(([id, words]) =>
+    `lemma_${id}: [${words.map(w => w.text).join(', ')}]`
+  ).join(' | '));
+
+  const lemmaIds = Object.keys(matchingWords);
+
+  lemmaIds.forEach((lemmaId, index) => {
+    const words = matchingWords[lemmaId];
+    if (!words || words.length === 0) return;
+
+    // Get color for this lemma (cycle through palette)
+    const color = LEMMA_COLORS[index % LEMMA_COLORS.length];
+
+    words.forEach(word => {
+      if (!word.text) return;
+
+      // Escape special regex characters
+      const escapedWord = word.text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      // Use word boundaries to match whole words only
+      const regex = new RegExp(`\\b${escapedWord}\\b`, 'gi');
+
+      const beforeCount = (highlightedText.match(regex) || []).length;
+      highlightedText = highlightedText.replace(regex,
+        `<span class="highlight lemma-${index}" style="background-color: ${color.bg}; color: ${color.text}; border: 1px solid ${color.border}; padding: 2px 4px; border-radius: 3px; font-weight: 600;">$&</span>`
+      );
+
+      if (beforeCount > 0) {
+        console.log(`  Highlighted "${word.text}" (${beforeCount} matches) with color ${index}`);
+      }
+    });
+  });
+
+  return highlightedText;
 }
 
 // ==================== FILE-GROUPED RESULTS ====================
