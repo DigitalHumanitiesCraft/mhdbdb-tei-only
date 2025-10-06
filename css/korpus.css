@@ -15,12 +15,6 @@
   box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
 }
 
-@media (prefers-color-scheme: dark) {
-  .search-card {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  }
-}
-
 /* ========================================
    TEXT LIST ICON BUTTONS
    ======================================== */
@@ -53,12 +47,6 @@
   box-shadow: 0 2px 8px rgba(59, 117, 216, 0.3);
 }
 
-@media (prefers-color-scheme: dark) {
-  .icon-btn:hover {
-    box-shadow: 0 2px 8px rgba(96, 165, 250, 0.4);
-  }
-}
-
 /* ========================================
    RESULTS DISPLAY
    ======================================== */
@@ -76,12 +64,6 @@
   border-color: var(--border-secondary);
   box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
   transform: translateY(-2px);
-}
-
-@media (prefers-color-scheme: dark) {
-  .result-card:hover {
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
-  }
 }
 
 /* ========================================
@@ -475,13 +457,6 @@
   transition: transform 0.3s ease;
 }
 
-@media (prefers-color-scheme: dark) {
-  .reading-body mark.highlight {
-    background: #d97706;
-    color: #fef3c7;
-  }
-}
-
 /* ========================================
    TEXT HIGHLIGHTING
    ======================================== */
@@ -493,14 +468,6 @@
   padding: var(--space-1) var(--space-2);
   font-weight: 600;
   border: 1px solid #f59e0b;
-}
-
-@media (prefers-color-scheme: dark) {
-  .highlight {
-    background-color: #d97706;
-    color: #fef3c7;
-    border-color: #f59e0b;
-  }
 }
 
 /* Multi-lemma highlighting (color-coded by lemma ID) */
@@ -559,45 +526,6 @@
   font-weight: 600;
 }
 
-/* Dark mode variants */
-@media (prefers-color-scheme: dark) {
-  .multi-lemma-879 {
-    background-color: #7f1d1d;
-    border-color: #dc2626;
-    color: #fecaca;
-  }
-
-  .multi-lemma-7532 {
-    background-color: #14532d;
-    border-color: #16a34a;
-    color: #bbf7d0;
-  }
-
-  .multi-lemma-1816 {
-    background-color: #1e3a8a;
-    border-color: #2563eb;
-    color: #bfdbfe;
-  }
-
-  .multi-lemma-26713 {
-    background-color: #831843;
-    border-color: #db2777;
-    color: #f9a8d4;
-  }
-
-  .multi-lemma-712 {
-    background-color: #9a3412;
-    border-color: #ea580c;
-    color: #fed7aa;
-  }
-
-  [class*="multi-lemma-"]:not(.multi-lemma-879):not(.multi-lemma-7532):not(.multi-lemma-1816):not(.multi-lemma-26713):not(.multi-lemma-712) {
-    background-color: #581c87;
-    border-color: #7c3aed;
-    color: #c4b5fd;
-  }
-}
-
 /* ========================================
    ERROR DISPLAY
    ======================================== */
@@ -615,14 +543,6 @@
   max-width: 400px;
   z-index: 10000;
   animation: slideUp 300ms ease-out;
-}
-
-@media (prefers-color-scheme: dark) {
-  .error-display {
-    background: #7f1d1d;
-    border-color: #dc2626;
-    color: #fecaca;
-  }
 }
 
 .error-content {

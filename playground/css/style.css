@@ -80,14 +80,6 @@
   border: 1px solid #f59e0b;
 }
 
-@media (prefers-color-scheme: dark) {
-  .highlight {
-    background-color: #d97706;
-    color: #fef3c7;
-    border-color: #f59e0b;
-  }
-}
-
 /* Multi-lemma highlighting with improved contrast */
 .multi-lemma-879 {
   background-color: #fecaca;
@@ -143,45 +135,6 @@
   font-weight: 600;
 }
 
-/* Dark mode variants for multi-lemma highlights */
-@media (prefers-color-scheme: dark) {
-  .multi-lemma-879 {
-    background-color: #7f1d1d;
-    border-color: #dc2626;
-    color: #fecaca;
-  }
-
-  .multi-lemma-7532 {
-    background-color: #14532d;
-    border-color: #16a34a;
-    color: #bbf7d0;
-  }
-
-  .multi-lemma-1816 {
-    background-color: #1e3a8a;
-    border-color: #2563eb;
-    color: #bfdbfe;
-  }
-
-  .multi-lemma-26713 {
-    background-color: #831843;
-    border-color: #db2777;
-    color: #f9a8d4;
-  }
-
-  .multi-lemma-712 {
-    background-color: #9a3412;
-    border-color: #ea580c;
-    color: #fed7aa;
-  }
-
-  [class*="multi-lemma-"]:not(.multi-lemma-879):not(.multi-lemma-7532):not(.multi-lemma-1816):not(.multi-lemma-26713):not(.multi-lemma-712) {
-    background-color: #581c87;
-    border-color: #7c3aed;
-    color: #c4b5fd;
-  }
-}
-
 /* Results summaries */
 .result-summary {
   border-radius: var(--radius-xl);
@@ -196,12 +149,6 @@
   border-color: var(--border-secondary);
   box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
   transform: translateY(-2px);
-}
-
-@media (prefers-color-scheme: dark) {
-  .result-summary:hover {
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
-  }
 }
 
 .result-summary .summary-preview {
