@@ -70,7 +70,7 @@
             <div class="container mx-auto px-6 py-6">
                 <p class="text-sm font-semibold uppercase tracking-[0.2em] text-brand-600">MHDBDB Playground</p>
                 <h1 class="text-3xl font-semibold tracking-tight text-slate-900 mt-1">TEI Data Explorer</h1>
-                <p class="max-w-3xl text-base text-slate-600 mt-2">Eine schlanke, akademische Oberfläche zur Analyse der Mittelhochdeutschen Begriffsdatenbank. Laden Sie TEI- und Authority-Daten, formulieren Sie Abfragen und untersuchen Sie Ergebnisse mit wissenschaftlicher Präzision.</p>
+                <p class="max-w-3xl text-base text-slate-600 mt-2">Forschungsplattform für mittelhochdeutsche Korpusanalyse. Multi-Lemma-Suche, 43.750 Lexikoneinträge, semantische Konzeptnetzwerke, 666 annotierte Texte.</p>
             </div>
         </div>
 
@@ -210,7 +210,12 @@
                         <p class="mt-1 text-sm text-slate-500">Analysieren Sie Wörter, Zeilen, Lemmata und Annotationen im Korpus.</p>
                     </div>
                     <div class="grid gap-2">
-                        <button id="findMultiLemmaBtn" class="w-full rounded-xl border border-brand-200 bg-brand-50 px-4 py-2 text-left text-sm font-medium text-brand-700 transition hover:border-brand-400 hover:bg-brand-100">🔍+ Multi-Lemma-Suche</button>
+                        <button id="findMultiLemmaBtn" class="w-full rounded-xl border border-brand-200 bg-brand-50 px-4 py-2 text-left text-sm font-medium text-brand-700 transition hover:border-brand-400 hover:bg-brand-100 flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                            <span>Multi-Lemma-Suche</span>
+                        </button>
                         <button id="findLemmaBtn" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700">Lemma-Suche</button>
                         <button id="showWordsBtn" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700">Alle Wörter</button>
                         <button id="showLinesBtn" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700">Alle Zeilen</button>
