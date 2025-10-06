@@ -100,7 +100,7 @@ class MHDBDBPlayground {
 
             // Load pre-built performance Maps (if available)
             if (authorityIndex.maps) {
-                // Convert objects to Maps for compatibility with old code
+                // Convert objects to Maps for efficient lookup
                 if (authorityIndex.maps.conceptToLemmas) {
                     this.authorityManager.indexes.conceptToLemmas = new Map(Object.entries(authorityIndex.maps.conceptToLemmas));
                 }
@@ -113,7 +113,7 @@ class MHDBDBPlayground {
                 console.log(`📊 Performance Maps loaded: concept→lemmas: ${this.authorityManager.indexes.conceptToLemmas.size}, genre→works: ${this.authorityManager.indexes.genreToWorks.size}, genreHierarchy: ${this.authorityManager.indexes.genreHierarchy.size}`);
             }
 
-            // Mark as loaded (for compatibility with old code)
+            // Mark authority files as loaded
             this.authorityData.files = [
                 { name: 'persons.xml' },
                 { name: 'works.xml' },
@@ -339,29 +339,6 @@ class MHDBDBPlayground {
         }
     }
 
-    async loadCachedTEIFiles() {
-        // DEPRECATED: No longer needed with auto-load corpus
-        // Keeping for compatibility but will not be called
-        try {
-            const loadedCount = await this.teiManager.loadFromCache();
-
-            if (loadedCount > 0) {
-                console.log(`📁 Restored ${loadedCount} TEI files from IndexedDB`);
-
-                // Display loaded files in UI
-                const uploadedFilesContainer = document.getElementById('uploadedFiles');
-                if (uploadedFilesContainer) {
-                    this.teiData.files.forEach(file => {
-                        if (file && file.isCachedFile) {
-                            displayFileItem(file, uploadedFilesContainer);
-                        }
-                    });
-                }
-            }
-        } catch (error) {
-            console.error('❌ Error loading cached TEI files:', error);
-        }
-    }
 
     // ==================== EVENT LISTENERS (UPDATED) ====================
     

@@ -112,8 +112,7 @@ test.describe('Playground Authority Index Loading', () => {
 
         console.log(`⏱️  Authority index load time: ${loadTime}ms (${(loadTime / 1000).toFixed(1)}s)`);
 
-        // Should load much faster than old XML approach (was 5-7 seconds)
-        // With index, should be under 3 seconds
+        // Pre-built index should load in under 3 seconds
         expect(loadTime).toBeLessThan(5000);
 
         if (loadTime < 3000) {

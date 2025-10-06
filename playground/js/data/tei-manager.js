@@ -898,7 +898,7 @@ export class TEIFilesManager {
         const corpusData = window.playground?.corpusData;
         if (!corpusData || !corpusData.texts) {
             console.warn('⚠️ Corpus data not available, falling back to XML search');
-            // Fallback to old XML-based search
+            // Fallback to XML-based search if index unavailable
             if (contextType === 'proximity') {
                 return await this.findCooccurringLemmas(lemmaIds, maxDistance);
             } else {
