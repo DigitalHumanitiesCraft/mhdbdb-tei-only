@@ -119,10 +119,16 @@
                 </div>
             </div>
 
-            <!-- Text Filtering -->
+            <!-- Text Selection and Browsing -->
             <div class="space-y-3">
                 <div class="flex items-center justify-between">
-                    <label class="text-sm font-semibold text-slate-700">Texte für Suche auswählen:</label>
+                    <label class="text-sm font-semibold text-slate-700 flex items-center gap-2">
+                        Texte auswählen,
+                        <svg class="w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                        TEI anzeigen und
+                        <svg class="w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                        Text lesen:
+                    </label>
                     <div class="flex gap-2">
                         <button id="selectAllTexts" class="text-xs font-medium text-brand-600 hover:text-brand-700 transition">Alle</button>
                         <span class="text-slate-300">|</span>
@@ -232,43 +238,62 @@
         </div>
     </footer>
 
-    <!-- Text Reading Modal -->
-    <div id="textModal" class="text-modal">
-        <div class="modal-dialog">
+    <!-- Unified Reading Modal -->
+    <div id="readingModal" class="text-modal">
+        <div class="modal-dialog modal-reading">
             <!-- Modal Header -->
             <div class="modal-header">
                 <div>
-                    <h3 id="modalTitle" class="modal-title"></h3>
-                    <p id="modalAuthor" class="modal-author"></p>
+                    <h3 id="readingTitle" class="modal-title"></h3>
+                    <p id="readingAuthor" class="modal-author"></p>
                 </div>
-                <button id="closeModal" class="modal-close">
+                <button id="closeReadingModal" class="modal-close">
                     ×
                 </button>
             </div>
 
-            <!-- Modal Content -->
-            <div id="modalContent" class="modal-body">
-                <!-- Loading indicator -->
-                <div id="modalLoading" class="modal-loading hidden">
-                    <div class="spinner"></div>
-                    <p id="modalLoadingStatus" class="loading-message">Lade Text...</p>
-                    <p class="modal-loading-hint">Dies kann 30-60 Sekunden dauern</p>
-                </div>
+            <!-- Loading Indicator -->
+            <div id="readingLoading" class="modal-loading hidden">
+                <div class="spinner"></div>
+                <p class="loading-message">Lade Text...</p>
+                <p class="modal-loading-hint">Dies kann 30-60 Sekunden dauern</p>
+            </div>
 
-                <!-- Text content container -->
-                <div id="modalTextContent">
-                    <!-- Dynamically populated with TEI text content -->
+            <!-- Metadata Section -->
+            <div id="readingMetadata" class="reading-metadata hidden">
+                <div class="metadata-grid">
+                    <div class="metadata-item">
+                        <span class="metadata-label">Autor:</span>
+                        <span id="metaAuthor"></span>
+                    </div>
+                    <div class="metadata-item">
+                        <span class="metadata-label">Sigle:</span>
+                        <span id="metaSigle"></span>
+                    </div>
+                    <div class="metadata-item">
+                        <span class="metadata-label">Gattung:</span>
+                        <span id="metaGenre"></span>
+                    </div>
+                    <div class="metadata-item">
+                        <span class="metadata-label">Quelle:</span>
+                        <span id="metaSource"></span>
+                    </div>
                 </div>
             </div>
 
-            <!-- Modal Footer -->
-            <div class="modal-footer">
-                <button id="prevContext" class="btn-secondary">
-                    ← Vorheriger Treffer
+            <!-- Text Body -->
+            <div id="readingBody" class="reading-body modal-body">
+                <!-- Formatted text with optional highlights -->
+            </div>
+
+            <!-- Navigation Footer (only shown when highlighting) -->
+            <div id="readingNavigation" class="modal-footer hidden">
+                <button id="prevHighlight" class="btn-secondary">
+                    ↑ Vorheriger Treffer
                 </button>
-                <span id="contextIndicator" class="context-indicator"></span>
-                <button id="nextContext" class="btn-secondary">
-                    Nächster Treffer →
+                <span id="highlightIndicator" class="context-indicator"></span>
+                <button id="nextHighlight" class="btn-secondary">
+                    Nächster Treffer ↓
                 </button>
             </div>
         </div>

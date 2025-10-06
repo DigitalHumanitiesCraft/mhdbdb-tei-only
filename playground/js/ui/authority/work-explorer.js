@@ -184,6 +184,31 @@ export class WorkExplorer {
       `;
       }
 
+      // GND and Wikidata for the work
+      if (workDetails.gnd || workDetails.wikidata) {
+        detailsHTML += `
+        <div style="margin-bottom: 8px;">
+          <strong>Identifikatoren:</strong><br>
+        `;
+        if (workDetails.gnd) {
+          detailsHTML += `
+          <a href="https://d-nb.info/gnd/${workDetails.gnd}" target="_blank" style="color: #667eea; margin-right: 10px; text-decoration: none;">
+            GND: ${workDetails.gnd} →
+          </a>
+          `;
+        }
+        if (workDetails.wikidata) {
+          detailsHTML += `
+          <a href="https://www.wikidata.org/wiki/${workDetails.wikidata}" target="_blank" style="color: #667eea; text-decoration: none;">
+            Wikidata: ${workDetails.wikidata} →
+          </a>
+          `;
+        }
+        detailsHTML += `
+        </div>
+      `;
+      }
+
       // biblStruct sources
       if (workDetails.biblStructs && workDetails.biblStructs.length > 0) {
         detailsHTML += `
@@ -259,6 +284,10 @@ export class WorkExplorer {
 
     // Author (already in index)
     details.author = work.author;
+
+    // GND and Wikidata (from authority index v1.1.0+)
+    details.gnd = work.gnd || null;
+    details.wikidata = work.wikidata || null;
 
     // biblStructs (already in index)
     details.biblStructs = work.biblStructs || [];

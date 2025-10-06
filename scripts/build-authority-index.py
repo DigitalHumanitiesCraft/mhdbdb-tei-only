@@ -304,6 +304,28 @@ def parse_works():
         hc_el = work_el.xpath('.//tei:idno[@type="handschriftencensus"]', namespaces=ns)
         handschriftencensus = hc_el[0].text.strip() if hc_el and hc_el[0].text else None
 
+        # Extract GND identifier (for works)
+        gnd_el = work_el.xpath('.//tei:idno[@type="gnd"]', namespaces=ns)
+        gnd = None
+        if gnd_el and gnd_el[0].text:
+            gnd_text = gnd_el[0].text.strip()
+            # Extract just the ID if it's a full URL
+            if 'gnd/' in gnd_text:
+                gnd = gnd_text.split('gnd/')[-1]
+            else:
+                gnd = gnd_text
+
+        # Extract Wikidata identifier (for works)
+        wikidata_el = work_el.xpath('.//tei:idno[@type="wikidata"]', namespaces=ns)
+        wikidata = None
+        if wikidata_el and wikidata_el[0].text:
+            wikidata_text = wikidata_el[0].text.strip()
+            # Extract just the Q-ID if it's a full URL
+            if '/entity/' in wikidata_text:
+                wikidata = wikidata_text.split('/entity/')[-1]
+            else:
+                wikidata = wikidata_text
+
         works.append({
             'id': work_id,
             'title': main_title,
@@ -315,6 +337,8 @@ def parse_works():
             'genres': genres,
             'biblStructs': bibl_structs,
             'handschriftencensus': handschriftencensus,
+            'gnd': gnd,
+            'wikidata': wikidata,
             'normalized': normalize_mhg(main_title)
         })
 
@@ -679,7 +703,7 @@ def build_index():
 
     # Build index structure
     index = {
-        'version': '1.0.0',  # Must match INDEX_VERSION in db-schema.js
+        'version': '1.1.0',  # Bumped for GND/Wikidata in works
         'generatedAt': datetime.utcnow().isoformat() + 'Z',
         'lemmata': lemmata,
         'persons': persons,

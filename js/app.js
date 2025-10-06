@@ -8,12 +8,14 @@
 import { CorpusLoader } from '/lib/corpus-loader.js';
 import { SearchEngine } from './search/search-engine.js';
 import { TextRenderer } from './rendering/text-renderer.js';
+import { TEITextReader } from './rendering/tei-text-reader.js';
 
 class MainSiteApp {
     constructor() {
         this.corpusLoader = new CorpusLoader();
         this.searchEngine = null;
         this.textRenderer = null;
+        this.teiReader = null; // Unified reading view
 
         this.currentResults = [];
         this.currentPage = 0;
@@ -58,17 +60,22 @@ class MainSiteApp {
                 noResults: document.getElementById('noResults'),
                 loadMoreContainer: document.getElementById('loadMoreContainer'),
                 loadMoreButton: document.getElementById('loadMoreButton'),
-                textModal: document.getElementById('textModal'),
-                modalTitle: document.getElementById('modalTitle'),
-                modalAuthor: document.getElementById('modalAuthor'),
-                modalContent: document.getElementById('modalContent'),
-                modalLoading: document.getElementById('modalLoading'),
-                modalLoadingStatus: document.getElementById('modalLoadingStatus'),
-                modalTextContent: document.getElementById('modalTextContent'),
-                closeModal: document.getElementById('closeModal'),
-                prevContext: document.getElementById('prevContext'),
-                nextContext: document.getElementById('nextContext'),
-                contextIndicator: document.getElementById('contextIndicator')
+                // New unified reading modal elements
+                readingModal: document.getElementById('readingModal'),
+                readingTitle: document.getElementById('readingTitle'),
+                readingAuthor: document.getElementById('readingAuthor'),
+                readingLoading: document.getElementById('readingLoading'),
+                readingMetadata: document.getElementById('readingMetadata'),
+                readingBody: document.getElementById('readingBody'),
+                metaAuthor: document.getElementById('metaAuthor'),
+                metaSigle: document.getElementById('metaSigle'),
+                metaGenre: document.getElementById('metaGenre'),
+                metaSource: document.getElementById('metaSource'),
+                closeReadingModal: document.getElementById('closeReadingModal'),
+                readingNavigation: document.getElementById('readingNavigation'),
+                prevHighlight: document.getElementById('prevHighlight'),
+                nextHighlight: document.getElementById('nextHighlight'),
+                highlightIndicator: document.getElementById('highlightIndicator')
             };
         }
     }
@@ -136,8 +143,11 @@ class MainSiteApp {
         this.updateLoadingStatus('Initialisiere Suchmaschine...', 80);
         this.searchEngine = new SearchEngine(authorityIndex, corpusIndex);
 
-        // Initialize text renderer
+        // Initialize text renderer (for cache only)
         this.textRenderer = new TextRenderer(corpusIndex, authorityIndex);
+
+        // Initialize unified TEI reader
+        this.teiReader = new TEITextReader(corpusIndex, authorityIndex, this.textRenderer.cache);
 
         // Populate text list with checkboxes
         this.populateTextList();
@@ -158,7 +168,7 @@ class MainSiteApp {
 
         this.corpusData.texts.forEach(text => {
             const label = document.createElement('label');
-            label.className = 'flex items-start gap-2 p-2 hover:bg-slate-50 rounded cursor-pointer transition-colors';
+            label.className = 'flex items-start gap-2 p-2 hover:bg-slate-50 rounded transition-colors';
             label.dataset.textId = text.id;
             label.dataset.title = (text.title || '').toLowerCase();
             label.dataset.author = (text.author || '').toLowerCase();
@@ -168,14 +178,50 @@ class MainSiteApp {
             checkbox.checked = true;
             checkbox.className = 'mt-1 w-4 h-4 text-brand-600 border-slate-300 rounded focus:ring-brand-500';
             checkbox.dataset.textId = text.id;
-            checkbox.addEventListener('change', () => this.handleTextToggle(text.id, checkbox.checked));
+            checkbox.addEventListener('change', (e) => {
+                e.stopPropagation();
+                this.handleTextToggle(text.id, checkbox.checked);
+            });
 
             const info = document.createElement('div');
             info.className = 'flex-1 min-w-0';
 
-            const title = document.createElement('div');
-            title.className = 'text-sm font-medium text-slate-900 truncate';
+            const titleRow = document.createElement('div');
+            titleRow.className = 'flex items-center gap-2';
+
+            const title = document.createElement('span');
+            title.className = 'text-sm font-medium text-slate-900 truncate flex-1';
             title.textContent = text.title;
+
+            // Icon buttons container
+            const icons = document.createElement('div');
+            icons.className = 'text-list-icons flex gap-1 flex-shrink-0';
+
+            // TEI View icon button (Heroicon: document-text)
+            const teiBtn = document.createElement('a');
+            teiBtn.href = `tei/${text.filename}`;
+            teiBtn.target = '_blank';
+            teiBtn.className = 'icon-btn';
+            teiBtn.title = 'TEI-Datei anzeigen';
+            teiBtn.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>';
+            teiBtn.addEventListener('click', (e) => e.stopPropagation());
+
+            // Read View icon button (Heroicon: book-open)
+            const readBtn = document.createElement('button');
+            readBtn.className = 'icon-btn';
+            readBtn.title = 'Text lesen';
+            readBtn.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>';
+            readBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                this.teiReader.openReadingView(text.id, {}, this.elements);
+            });
+
+            icons.appendChild(teiBtn);
+            icons.appendChild(readBtn);
+
+            titleRow.appendChild(title);
+            titleRow.appendChild(icons);
 
             const meta = document.createElement('div');
             meta.className = 'text-xs text-slate-500 truncate';
@@ -183,7 +229,7 @@ class MainSiteApp {
             const wordCount = text.wordCount ? text.wordCount.toLocaleString() : '0';
             meta.textContent = `${text.id} • ${author} • ${wordCount} Wörter`;
 
-            info.appendChild(title);
+            info.appendChild(titleRow);
             info.appendChild(meta);
 
             label.appendChild(checkbox);
@@ -235,15 +281,15 @@ class MainSiteApp {
             // Load more results
             this.elements.loadMoreButton.addEventListener('click', () => this.loadMoreResults());
 
-            // Modal controls
-            this.elements.closeModal.addEventListener('click', () => this.closeModal());
-            this.elements.prevContext.addEventListener('click', () => this.textRenderer.navigateContext(-1));
-            this.elements.nextContext.addEventListener('click', () => this.textRenderer.navigateContext(1));
+            // Reading modal controls
+            this.elements.closeReadingModal.addEventListener('click', () => this.teiReader.closeModal());
+            this.elements.prevHighlight.addEventListener('click', () => this.teiReader.navigateHighlight(-1));
+            this.elements.nextHighlight.addEventListener('click', () => this.teiReader.navigateHighlight(1));
 
             // Close modal on background click
-            this.elements.textModal.addEventListener('click', (e) => {
-                if (e.target === this.elements.textModal) {
-                    this.closeModal();
+            this.elements.readingModal.addEventListener('click', (e) => {
+                if (e.target === this.elements.readingModal) {
+                    this.teiReader.closeModal();
                 }
             });
         }
@@ -441,54 +487,14 @@ class MainSiteApp {
             <p class="text-sm text-slate-700 mt-3 italic leading-relaxed">${this.escapeHtml(result.snippet)}</p>
         `;
 
-        card.addEventListener('click', () => this.openText(result));
+        // Open reading view with highlighting
+        card.addEventListener('click', () => {
+            this.teiReader.openReadingView(result.textId, { lemmaId: result.lemmaId }, this.elements);
+        });
 
         return card;
     }
 
-    async openText(result) {
-        try {
-            console.log(`[MainSiteApp] Opening text: ${result.textId}`);
-
-            // Update modal header
-            this.elements.modalTitle.textContent = result.title;
-            this.elements.modalAuthor.textContent = result.author || 'Unbekannter Autor';
-
-            // Show modal immediately with loading indicator
-            this.elements.textModal.classList.add('active');
-            this.elements.modalLoading.classList.remove('hidden');
-            this.elements.modalTextContent.classList.add('hidden');
-
-            // Update loading status
-            this.updateModalLoadingStatus('Lade TEI-Datei...');
-
-            // Render text content with highlighting (this is slow: 30-60s)
-            await this.textRenderer.renderText(result.textId, result.lemmaId, this.elements);
-
-            // Hide loading, show content
-            this.elements.modalLoading.classList.add('hidden');
-            this.elements.modalTextContent.classList.remove('hidden');
-
-        } catch (error) {
-            console.error('[MainSiteApp] Failed to open text:', error);
-            this.elements.modalLoading.classList.add('hidden');
-            this.showError(`Fehler beim Laden des Textes: ${error.message}`);
-        }
-    }
-
-    updateModalLoadingStatus(message) {
-        if (this.elements.modalLoadingStatus) {
-            this.elements.modalLoadingStatus.textContent = message;
-        }
-    }
-
-    closeModal() {
-        this.elements.textModal.classList.remove('active');
-        this.elements.modalTextContent.innerHTML = '';
-        this.elements.modalLoading.classList.add('hidden');
-        this.elements.modalTextContent.classList.remove('hidden');
-        console.log('[MainSiteApp] Modal closed');
-    }
 
     showError(message) {
         this.elements.errorMessage.textContent = message;
