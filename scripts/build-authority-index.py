@@ -604,34 +604,54 @@ def build_performance_maps(lemmata, works, concepts, genres):
 
     # 3. Build genreHierarchy map
     # Map genre IDs to their parent genre names
-    # Parse genres.xml to extract parent relationships
+    # Parse genres.xml to extract parent relationships via <ptr type="broader">
     try:
         genres_file = AUTHORITY_DIR / 'genres.xml'
         if genres_file.exists():
             tree = etree.parse(str(genres_file))
             ns = get_namespaces(tree)
 
-            # Find all categories with parents
+            # Build lookup: genre_id -> genre name (German)
+            genre_names = {}
             categories = tree.xpath('//tei:category', namespaces=ns)
-
             for category in categories:
-                category_id = category.get('{http://www.w3.org/XML/1998/namespace}id')
-                if not category_id or 'genre_' not in category_id:
+                cat_id = category.get('{http://www.w3.org/XML/1998/namespace}id')
+                if not cat_id:
                     continue
 
-                # Find parent category
-                parent_category = category.getparent()
-                if parent_category is not None and parent_category.tag.endswith('category'):
-                    parent_id = parent_category.get('{http://www.w3.org/XML/1998/namespace}id')
+                # Get German term
+                catdesc = category.find('.//tei:catDesc', namespaces=ns)
+                if catdesc is not None:
+                    # Find all terms and filter for German
+                    terms = catdesc.findall('.//tei:term', namespaces=ns)
+                    for term in terms:
+                        lang = term.get('{http://www.w3.org/XML/1998/namespace}lang')
+                        if lang == 'de' and term.text:
+                            genre_names[cat_id] = term.text.strip()
+                            break
 
-                    # Get parent name
-                    catdesc = parent_category.find('.//tei:catDesc', namespaces=ns)
-                    if catdesc is not None:
-                        term_el = catdesc.find('.//tei:term[@xml:lang="de"]', namespaces=ns)
-                        if term_el is not None and term_el.text:
-                            parent_name = term_el.text.strip()
-                            # Store as list of parent names (could be multiple levels)
-                            maps['genreHierarchy'][category_id] = [parent_name]
+            # Find all categories with broader relationships
+            for category in categories:
+                category_id = category.get('{http://www.w3.org/XML/1998/namespace}id')
+                if not category_id:
+                    continue
+
+                # Find <ptr type="broader"> elements
+                catdesc = category.find('tei:catDesc', namespaces=ns)
+                if catdesc is not None:
+                    broader_ptrs = catdesc.findall('tei:ptr[@type="broader"]', namespaces=ns)
+
+                    if broader_ptrs:
+                        parent_names = []
+                        for ptr in broader_ptrs:
+                            target = ptr.get('target')
+                            if target and target.startswith('#'):
+                                parent_id = target[1:]  # Remove '#' prefix
+                                if parent_id in genre_names:
+                                    parent_names.append(genre_names[parent_id])
+
+                        if parent_names:
+                            maps['genreHierarchy'][category_id] = parent_names
 
             print(f"   Built genreHierarchy: {len(maps['genreHierarchy'])} entries")
     except Exception as e:
