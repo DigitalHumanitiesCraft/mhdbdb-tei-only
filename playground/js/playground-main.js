@@ -80,7 +80,7 @@ class MHDBDBPlayground {
             console.log('📥 Loading pre-built authority index...');
 
             // Dynamically import CorpusLoader (from parent directory)
-            const { CorpusLoader } = await import('/lib/corpus-loader.js');
+            const { CorpusLoader } = await import('../../lib/corpus-loader.js');
 
             // Create loader with correct path (playground is in playground/ subdirectory)
             const loader = new CorpusLoader('../data');
@@ -144,7 +144,7 @@ class MHDBDBPlayground {
             if (fileBrowserSection) fileBrowserSection.style.display = 'none';
 
             // Load corpus from pre-built index
-            const { CorpusLoader } = await import('/lib/corpus-loader.js');
+            const { CorpusLoader } = await import('../../lib/corpus-loader.js');
             const loader = new CorpusLoader('../data');
             await loader.dbReady;
 
