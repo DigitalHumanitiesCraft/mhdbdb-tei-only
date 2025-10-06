@@ -229,4 +229,19 @@ export class LemmaExplorer {
 
     return resultHTML;
   }
+
+  showLemmaDetails(lemmaId, lemmaText) {
+    // Navigate to Lemma Explorer with pre-filled search
+    this.showLemmataWithSearch();
+
+    // Pre-fill search input and trigger search
+    setTimeout(() => {
+      const searchInput = document.getElementById("lemmaSearch");
+      if (searchInput) {
+        searchInput.value = lemmaText;
+        this.searchLemmata(lemmaText);
+        searchInput.focus();
+      }
+    }, 0);
+  }
 }

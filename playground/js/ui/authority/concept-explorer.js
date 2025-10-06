@@ -13,6 +13,7 @@ import {
   renderToContainer,
   escapeForJS,
   formatMultiLanguage,
+  formatMetadata,
   SearchPatterns,
 } from "../search/SearchHelpers.js";
 
@@ -82,7 +83,7 @@ export class ConceptExplorer {
           title: formatMultiLanguage(concept.termDE, concept.termEN),
           buttons: [
             {
-              text: "Lemmata zeigen",
+              text: "Lemmata anzeigen",
               action: `window.playground.ui.authorityExplorers.showLemmasWithConcept('${
                 concept.id
               }', '${escapeForJS(
@@ -106,30 +107,75 @@ export class ConceptExplorer {
         return "Keine Lemmata für dieses Konzept gefunden.";
       }
 
-      const lemmasHTML = lemmasWithConcept
-        .slice(0, 20)
-        .map(
-          (lemma) => `
-            <div style="margin-bottom: 3px; font-size: 0.85rem;">
-                • <strong>${lemma.lemma}</strong>${
-            lemma.pos ? ` (${lemma.pos})` : ""
-          }
-            </div>
-        `
-        )
-        .join("");
+      // Create full search interface for exploring lemmata
+      const searchId = `lemma-concept-search-${conceptId}`;
+      const resultsId = `lemma-concept-results-${conceptId}`;
 
-      return `
-            <div style="font-weight: 500; margin-bottom: 8px; color: #667eea;">
-                ${
-                  lemmasWithConcept.length
-                } Lemmata mit Konzept "${conceptName}"${
-        lemmasWithConcept.length > 20 ? " (erste 20)" : ""
-      }:
-            </div>
-            ${lemmasHTML}
-        `;
+      const searchHTML = createSearchInterface({
+        title: `${lemmasWithConcept.length} Lemmata mit Konzept "${conceptName}"`,
+        placeholder: "Lemma filtern (z.B. vriunt, minne, ere)",
+        searchInputId: searchId,
+        resultsId: resultsId,
+        totalCount: lemmasWithConcept.length,
+      });
+
+      // Set up search after rendering
+      setTimeout(() => {
+        setupSearchInput(searchId, (term) =>
+          this.searchLemmasInConcept(term, lemmasWithConcept, resultsId)
+        );
+        // Show all results initially
+        this.searchLemmasInConcept("", lemmasWithConcept, resultsId);
+      }, 0);
+
+      return searchHTML;
     });
+  }
+
+  searchLemmasInConcept(searchTerm, lemmasWithConcept, resultsId) {
+    // Filter lemmata by search term if provided
+    const matches = searchTerm.trim()
+      ? SearchPatterns.textContainsNormalized(
+          lemmasWithConcept,
+          searchTerm,
+          (lemma) => lemma.lemma
+        )
+      : lemmasWithConcept;
+
+    // Sort alphabetically
+    const sortedMatches = matches.sort((a, b) =>
+      (a.lemma || '').localeCompare(b.lemma || '', 'de')
+    );
+
+    // Limit to first 20
+    const displayMatches = sortedMatches.slice(0, 20);
+
+    if (displayMatches.length === 0) {
+      renderToContainer(resultsId, `<p class="text-gray-500">Keine Lemmata gefunden${searchTerm ? ` für "${searchTerm}"` : ''}.</p>`);
+      return;
+    }
+
+    // Simple list of clickable lemmas
+    const resultHTML = `
+      <div style="margin-bottom: 10px; color: #666;">
+        ${displayMatches.length} Treffer${sortedMatches.length > 20 ? ' (erste 20 angezeigt)' : ''}
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        ${displayMatches.map(lemma => `
+          <div style="padding: 8px; background: white; border-radius: 4px; border: 1px solid #e5e7eb;">
+            <a href="javascript:void(0)"
+               onclick="window.playground.ui.authorityExplorers.lemmaExplorer.showLemmaDetails('${lemma.id}', '${escapeForJS(lemma.lemma)}')"
+               style="color: #1f2937; text-decoration: none; cursor: pointer; font-size: 1rem; display: flex; align-items: center; gap: 6px;"
+               title="Details im Lemma-Explorer anzeigen">
+              <span>${lemma.lemma}</span>
+              <span style="color: #667eea; font-size: 0.85rem;">→</span>
+            </a>
+          </div>
+        `).join('')}
+      </div>
+    `;
+
+    renderToContainer(resultsId, resultHTML);
   }
 
   findLemmasWithConcept(conceptId) {
