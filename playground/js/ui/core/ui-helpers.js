@@ -253,8 +253,8 @@ function createDetailsHTML(details) {
   if (Array.isArray(details)) {
     return details
       .map(
-        (detail) => `
-          <div class="detail-item">
+        (detail, idx) => `
+          <div class="detail-item" data-detail-index="${idx}" style="cursor: pointer; transition: background-color 0.2s;" title="Klicken zum Öffnen im Lese-Modus" onmouseenter="this.style.backgroundColor='#f1f5f9'" onmouseleave="this.style.backgroundColor='transparent'">
             <div class="detail-meta">${detail.meta || ''}</div>
             <div class="detail-snippet">${detail.snippet || detail.text || ''}</div>
           </div>
@@ -311,6 +311,9 @@ function setupSummaryExpansion() {
             if (detailsContainer) {
               detailsContainer.innerHTML = detailsHTML;
               console.log('📋 Updated details container');
+
+              // Add click handlers to detail items to open main site reader
+              setupDetailItemClickHandlers(detailsContainer, fileResults);
             } else {
               console.warn('📋 Details container not found!');
             }
@@ -626,6 +629,53 @@ export function updateAllUI(authorityData, teiData) {
   if (authorityData.files.length > 0 && teiData.files.length === 0) {
     showWelcomeMessage();
   }
+}
+
+// ==================== DETAIL ITEM CLICK HANDLERS ====================
+
+/**
+ * Setup click handlers for detail items to open in main site reader
+ * Opens korpus.html with multi-lemma highlighting and position jump
+ */
+function setupDetailItemClickHandlers(detailsContainer, fileResults) {
+  const detailItems = detailsContainer.querySelectorAll('.detail-item[data-detail-index]');
+
+  detailItems.forEach((item) => {
+    item.addEventListener('click', (e) => {
+      e.stopPropagation(); // Don't trigger summary expansion/collapse
+
+      const detailIndex = parseInt(item.dataset.detailIndex);
+      const result = fileResults[detailIndex];
+
+      if (!result) {
+        console.warn('[DetailClick] No result found for index:', detailIndex);
+        return;
+      }
+
+      // Extract text ID from filename (e.g., "ABG.tei.xml" → "ABG")
+      const textId = result.filename.replace('.tei.xml', '');
+
+      // Get lemma IDs from stored lemmaIds (without "lemma_" prefix)
+      const lemmaIds = storedLemmaIds || [];
+
+      // Build URL to open korpus.html with parameters
+      const params = new URLSearchParams();
+      params.set('textId', textId);
+      params.set('lemmaIds', lemmaIds.join(','));
+
+      // Use contextStart as target position if available (proximity results)
+      if (result.contextStart !== undefined) {
+        const targetPosition = Math.min(...result.matchPositions || [result.contextStart]);
+        params.set('position', targetPosition);
+      }
+
+      const url = `../korpus.html?${params.toString()}`;
+      console.log('[DetailClick] Opening reader:', { textId, lemmaIds, position: params.get('position'), url });
+
+      // Open in new tab
+      window.open(url, '_blank');
+    });
+  });
 }
 
 // ==================== EVENT DELEGATION HELPERS ====================

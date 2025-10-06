@@ -14,23 +14,49 @@ class TEITextReader {
 
         this.currentTextId = null;
         this.currentLemmaId = null;
+        this.currentLemmaIds = []; // Support multiple lemmas
         this.currentHighlights = [];
         this.currentHighlightIndex = 0;
         this.elements = null;
+
+        // Color scheme for multi-lemma highlighting (matches playground proximity colors)
+        this.lemmaColors = [
+            { bg: '#fecaca', text: '#991b1b', border: '#ef4444' }, // Red
+            { bg: '#bfdbfe', text: '#1e3a8a', border: '#3b82f6' }, // Blue
+            { bg: '#bbf7d0', text: '#166534', border: '#22c55e' }, // Green
+            { bg: '#fde68a', text: '#92400e', border: '#f59e0b' }, // Yellow
+            { bg: '#ddd6fe', text: '#5b21b6', border: '#8b5cf6' }, // Purple
+        ];
     }
 
     /**
      * Open reading view modal
      * @param {string} textId - Text ID to display
-     * @param {object} options - { lemmaId: string } for highlighting (optional)
+     * @param {object} options - { lemmaId: string, lemmaIds: string[], targetPosition: number } for highlighting (optional)
      * @param {object} elements - DOM element references
      */
     async openReadingView(textId, options = {}, elements) {
         this.currentTextId = textId;
-        this.currentLemmaId = options.lemmaId || null;
+
+        // Support both single lemmaId and multiple lemmaIds
+        if (options.lemmaIds && Array.isArray(options.lemmaIds)) {
+            this.currentLemmaIds = options.lemmaIds.map(id => id.toString());
+            this.currentLemmaId = null; // Clear single mode
+        } else if (options.lemmaId) {
+            this.currentLemmaId = options.lemmaId;
+            this.currentLemmaIds = []; // Clear multi mode
+        } else {
+            this.currentLemmaId = null;
+            this.currentLemmaIds = [];
+        }
+
+        this.targetPosition = options.targetPosition || null;
         this.elements = elements;
 
-        console.log(`[TEITextReader] Opening reading view: ${textId}${this.currentLemmaId ? ` (highlighting: ${this.currentLemmaId})` : ''}`);
+        const lemmaInfo = this.currentLemmaIds.length > 0
+            ? ` (highlighting ${this.currentLemmaIds.length} lemmas)`
+            : this.currentLemmaId ? ` (highlighting: ${this.currentLemmaId})` : '';
+        console.log(`[TEITextReader] Opening reading view: ${textId}${lemmaInfo}`);
 
         try {
             // Get text metadata from corpus index (for filename)
@@ -50,7 +76,11 @@ class TEITextReader {
             const metadata = this.extractMetadata(teiDoc, textMeta);
 
             // Extract and format body text (with optional highlighting)
-            const bodyResult = this.extractAndFormatBody(teiDoc, this.currentLemmaId);
+            const bodyResult = this.extractAndFormatBody(
+                teiDoc,
+                this.currentLemmaId,
+                this.currentLemmaIds
+            );
 
             // Populate modal
             this.populateModal(metadata, bodyResult);
@@ -58,12 +88,19 @@ class TEITextReader {
             // Setup navigation if highlights exist
             if (bodyResult.highlights.length > 0) {
                 this.currentHighlights = bodyResult.highlights;
-                this.currentHighlightIndex = 0;
+
+                // If targetPosition specified, find closest highlight
+                if (this.targetPosition !== null) {
+                    this.currentHighlightIndex = this.findClosestHighlight(this.targetPosition);
+                } else {
+                    this.currentHighlightIndex = 0;
+                }
+
                 this.showNavigation(true);
                 this.updateNavigationButtons();
 
-                // Scroll to first highlight after brief delay
-                setTimeout(() => this.scrollToHighlight(0), 300);
+                // Scroll to target or first highlight after brief delay (wait for DOM to render)
+                setTimeout(() => this.scrollToHighlight(this.currentHighlightIndex), 600);
             } else {
                 this.showNavigation(false);
             }
@@ -288,14 +325,22 @@ class TEITextReader {
      * Handles: <head>, <p>, <div>, <lg>, <l>, <lb>, <pb>, <hi rend="...">, <seg type="pc">
      * @returns {object} { html: string, highlights: Array<{element, position}> }
      */
-    extractAndFormatBody(teiDoc, lemmaId = null) {
+    extractAndFormatBody(teiDoc, lemmaId = null, lemmaIds = []) {
         const body = teiDoc.querySelector('body');
         if (!body) {
             return { html: '<p class="text-gray-600">Kein Textinhalt gefunden.</p>', highlights: [] };
         }
 
         const highlights = [];
-        let highlightCounter = 0;
+        const state = { wordPosition: 0 }; // Use object to pass by reference
+
+        // Create lemma-to-color mapping for multi-lemma mode
+        const lemmaColorMap = {};
+        if (lemmaIds.length > 0) {
+            lemmaIds.forEach((id, idx) => {
+                lemmaColorMap[id] = this.lemmaColors[idx % this.lemmaColors.length];
+            });
+        }
 
         // Process element recursively
         const processElement = (el) => {
@@ -305,24 +350,24 @@ class TEITextReader {
             switch (tagName) {
                 case 'head':
                     // Section heading
-                    return `<h3 class="section-head">${this.processChildren(el, lemmaId, highlights)}</h3>`;
+                    return `<h3 class="section-head">${this.processChildren(el, lemmaId, lemmaIds, lemmaColorMap, highlights, state)}</h3>`;
 
                 case 'p':
                 case 'ab':
                     // Paragraph
-                    return `<p>${this.processChildren(el, lemmaId, highlights)}</p>`;
+                    return `<p>${this.processChildren(el, lemmaId, lemmaIds, lemmaColorMap, highlights, state)}</p>`;
 
                 case 'div':
                     // Division (generic container)
-                    return `<div class="tei-div">${this.processChildren(el, lemmaId, highlights)}</div>`;
+                    return `<div class="tei-div">${this.processChildren(el, lemmaId, lemmaIds, lemmaColorMap, highlights, state)}</div>`;
 
                 case 'lg':
                     // Line group (verse)
-                    return `<div class="verse-group">${this.processChildren(el, lemmaId, highlights)}</div>`;
+                    return `<div class="verse-group">${this.processChildren(el, lemmaId, lemmaIds, lemmaColorMap, highlights, state)}</div>`;
 
                 case 'l':
                     // Single line (verse)
-                    return `<span class="verse-line">${this.processChildren(el, lemmaId, highlights)}</span>`;
+                    return `<span class="verse-line">${this.processChildren(el, lemmaId, lemmaIds, lemmaColorMap, highlights, state)}</span>`;
 
                 case 'lb':
                     // Line break
@@ -336,7 +381,7 @@ class TEITextReader {
                 case 'hi':
                     // Highlighting (rend="initial", rend="upper_case_first_letter")
                     const rend = el.getAttribute('rend');
-                    return this.processHi(el, rend, lemmaId, highlights);
+                    return this.processHi(el, rend, lemmaId, lemmaIds, lemmaColorMap, highlights, state);
 
                 case 'seg':
                     // Segment (type="pc" = punctuation)
@@ -344,15 +389,21 @@ class TEITextReader {
                     if (type === 'pc') {
                         return `<span class="punctuation">${this.escapeHtml(el.textContent)}</span>`;
                     }
-                    return this.processChildren(el, lemmaId, highlights);
+                    return this.processChildren(el, lemmaId, lemmaIds, lemmaColorMap, highlights, state);
 
                 case 'w':
                     // Word element
-                    return this.processWord(el, lemmaId, highlights);
+                    const hasLemmaRef = el.getAttribute('lemmaRef');
+                    const result = this.processWord(el, lemmaId, lemmaIds, lemmaColorMap, highlights, state);
+                    // Only increment for words with lemmaRef (matches corpus index counting)
+                    if (hasLemmaRef) {
+                        state.wordPosition++;
+                    }
+                    return result;
 
                 default:
                     // For unknown elements, process children
-                    return this.processChildren(el, lemmaId, highlights);
+                    return this.processChildren(el, lemmaId, lemmaIds, lemmaColorMap, highlights, state);
             }
         };
 
@@ -370,8 +421,8 @@ class TEITextReader {
     /**
      * Process <hi> element with rend attribute
      */
-    processHi(el, rend, lemmaId, highlights) {
-        const content = this.processChildren(el, lemmaId, highlights);
+    processHi(el, rend, lemmaId, lemmaIds, lemmaColorMap, highlights, state) {
+        const content = this.processChildren(el, lemmaId, lemmaIds, lemmaColorMap, highlights, state);
 
         switch (rend) {
             case 'initial':
@@ -385,18 +436,37 @@ class TEITextReader {
 
     /**
      * Process word element with potential highlighting
+     * Supports both single-lemma and multi-lemma with color coding
      */
-    processWord(wordEl, lemmaId, highlights) {
+    processWord(wordEl, lemmaId, lemmaIds, lemmaColorMap, highlights, state) {
         const wordText = wordEl.textContent.trim();
+        const lemmaRef = wordEl.getAttribute('lemmaRef');
+        const currentPosition = state.wordPosition;
 
-        // Check if this word should be highlighted
-        if (lemmaId) {
-            const lemmaRef = wordEl.getAttribute('lemmaRef');
+        // Multi-lemma mode: check all lemmaIds with colors
+        if (lemmaIds.length > 0 && lemmaRef) {
+            for (const searchLemmaId of lemmaIds) {
+                const lemmaRefPattern = `lemma_${searchLemmaId}`;
+
+                if (lemmaRef.includes(lemmaRefPattern)) {
+                    const color = lemmaColorMap[searchLemmaId];
+                    const id = `highlight-${highlights.length}`;
+                    highlights.push({ id, element: null, position: currentPosition }); // Track position
+
+                    // Inline style matching playground proximity highlighting
+                    const style = `background-color: ${color.bg}; color: ${color.text}; border-bottom: 2px solid ${color.border}; padding: 2px 4px; border-radius: 3px; font-weight: 500;`;
+                    return `<mark class="highlight multi-lemma" id="${id}" style="${style}">${this.escapeHtml(wordText)}</mark> `;
+                }
+            }
+        }
+
+        // Single lemma mode: standard highlighting
+        if (lemmaId && lemmaRef) {
             const lemmaRefPattern = `#${lemmaId}`;
 
-            if (lemmaRef && lemmaRef.includes(lemmaRefPattern)) {
+            if (lemmaRef.includes(lemmaRefPattern)) {
                 const id = `highlight-${highlights.length}`;
-                highlights.push({ id, element: null }); // Will be populated after DOM insertion
+                highlights.push({ id, element: null, position: currentPosition }); // Track position
                 return `<mark class="highlight" id="${id}">${this.escapeHtml(wordText)}</mark> `;
             }
         }
@@ -407,7 +477,7 @@ class TEITextReader {
     /**
      * Process children of element recursively
      */
-    processChildren(el, lemmaId, highlights) {
+    processChildren(el, lemmaId, lemmaIds, lemmaColorMap, highlights, state) {
         let result = '';
 
         for (const node of el.childNodes) {
@@ -417,7 +487,12 @@ class TEITextReader {
                 const tagName = node.tagName.toLowerCase();
 
                 if (tagName === 'w') {
-                    result += this.processWord(node, lemmaId, highlights);
+                    const hasLemmaRef = node.getAttribute('lemmaRef');
+                    result += this.processWord(node, lemmaId, lemmaIds, lemmaColorMap, highlights, state);
+                    // Only increment for words with lemmaRef (matches corpus index counting)
+                    if (hasLemmaRef) {
+                        state.wordPosition++;
+                    }
                 } else if (tagName === 'lb') {
                     result += '<br class="line-break">';
                 } else if (tagName === 'pb') {
@@ -425,19 +500,19 @@ class TEITextReader {
                     result += pageNum ? `<span class="page-break" title="Seite ${pageNum}">[${pageNum}]</span> ` : '';
                 } else if (tagName === 'hi') {
                     const rend = node.getAttribute('rend');
-                    result += this.processHi(node, rend, lemmaId, highlights);
+                    result += this.processHi(node, rend, lemmaId, lemmaIds, lemmaColorMap, highlights, state);
                 } else if (tagName === 'seg') {
                     const type = node.getAttribute('type');
                     if (type === 'pc') {
                         result += this.escapeHtml(node.textContent);
                     } else {
-                        result += this.processChildren(node, lemmaId, highlights);
+                        result += this.processChildren(node, lemmaId, lemmaIds, lemmaColorMap, highlights, state);
                     }
                 } else if (tagName === 'l') {
-                    result += `<span class="verse-line">${this.processChildren(node, lemmaId, highlights)}</span>`;
+                    result += `<span class="verse-line">${this.processChildren(node, lemmaId, lemmaIds, lemmaColorMap, highlights, state)}</span>`;
                 } else {
                     // Recursively process other elements
-                    result += this.processChildren(node, lemmaId, highlights);
+                    result += this.processChildren(node, lemmaId, lemmaIds, lemmaColorMap, highlights, state);
                 }
             }
         }
@@ -671,6 +746,36 @@ class TEITextReader {
     }
 
     /**
+     * Find closest highlight to target word position
+     */
+    findClosestHighlight(targetPosition) {
+        if (!this.currentHighlights || this.currentHighlights.length === 0) return 0;
+
+        let closestIndex = 0;
+        let minDistance = Math.abs(this.currentHighlights[0].position - targetPosition);
+
+        for (let i = 1; i < this.currentHighlights.length; i++) {
+            const distance = Math.abs(this.currentHighlights[i].position - targetPosition);
+            if (distance < minDistance) {
+                minDistance = distance;
+                closestIndex = i;
+            }
+        }
+
+        console.log(`[TEITextReader] Target position: ${targetPosition}`);
+        console.log(`[TEITextReader] Available highlight positions:`, this.currentHighlights.map(h => h.position));
+        console.log(`[TEITextReader] Found closest highlight at index ${closestIndex} (position ${this.currentHighlights[closestIndex].position}, distance: ${minDistance})`);
+
+        // If distance is too large (>100 words), just use first highlight
+        if (minDistance > 100) {
+            console.log(`[TEITextReader] Distance too large, using first highlight instead`);
+            return 0;
+        }
+
+        return closestIndex;
+    }
+
+    /**
      * Scroll to specific highlight (instant jump, no animation)
      */
     scrollToHighlight(index) {
@@ -678,8 +783,27 @@ class TEITextReader {
 
         const element = this.currentHighlights[index].element;
         if (element) {
-            // Instant scroll (no animation)
-            element.scrollIntoView({ behavior: 'instant', block: 'center' });
+            // Get the scrollable container (readingBody)
+            const scrollContainer = this.elements.readingBody;
+
+            if (scrollContainer) {
+                // Get element position relative to the scroll container
+                const elementRect = element.getBoundingClientRect();
+                const containerRect = scrollContainer.getBoundingClientRect();
+
+                // Calculate how much to scroll (center the element vertically)
+                const elementRelativeTop = elementRect.top - containerRect.top;
+                const containerHeight = scrollContainer.clientHeight;
+                const currentScroll = scrollContainer.scrollTop;
+
+                // Target scroll position (center element in viewport)
+                const targetScroll = currentScroll + elementRelativeTop - (containerHeight / 2);
+
+                // Scroll to position
+                scrollContainer.scrollTop = Math.max(0, targetScroll);
+
+                console.log(`[TEITextReader] Scrolled to highlight ${index} (pos ${this.currentHighlights[index].position}) - scrollTop: ${scrollContainer.scrollTop}`);
+            }
 
             // Add pulse effect
             element.style.transition = 'transform 0.3s ease';
@@ -687,6 +811,8 @@ class TEITextReader {
             setTimeout(() => {
                 element.style.transform = 'scale(1)';
             }, 300);
+        } else {
+            console.warn(`[TEITextReader] Highlight ${index} element not found`);
         }
     }
 

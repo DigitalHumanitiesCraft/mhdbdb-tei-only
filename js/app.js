@@ -101,6 +101,11 @@ class MainSiteApp {
             setTimeout(() => {
                 this.elements.loadingScreen.classList.add('hidden');
                 console.log('[MainSiteApp] Ready');
+
+                // Check for URL parameters (e.g., from playground)
+                if (this.isSearchPage) {
+                    this.handleURLParameters();
+                }
             }, 500);
 
         } catch (error) {
@@ -509,6 +514,44 @@ class MainSiteApp {
         const div = document.createElement('div');
         div.textContent = text;
         return div.innerHTML;
+    }
+
+    /**
+     * Handle URL parameters from playground (multi-lemma reader jump)
+     * Expected params: ?textId=ABG&lemmaIds=879,7532&position=123
+     */
+    handleURLParameters() {
+        const params = new URLSearchParams(window.location.search);
+        const textId = params.get('textId');
+        const lemmaIdsParam = params.get('lemmaIds');
+        const positionParam = params.get('position');
+
+        if (!textId || !lemmaIdsParam) {
+            return; // No relevant parameters
+        }
+
+        console.log('[MainSiteApp] URL parameters detected:', { textId, lemmaIds: lemmaIdsParam, position: positionParam });
+
+        // Parse lemma IDs (comma-separated)
+        const lemmaIds = lemmaIdsParam.split(',').map(id => id.trim()).filter(id => id);
+        const targetPosition = positionParam ? parseInt(positionParam) : null;
+
+        // Build options object
+        const options = {
+            lemmaIds: lemmaIds
+        };
+
+        if (targetPosition !== null && !isNaN(targetPosition)) {
+            options.targetPosition = targetPosition;
+        }
+
+        // Open reader after brief delay (ensure DOM is ready)
+        setTimeout(() => {
+            this.teiReader.openReadingView(textId, options, this.elements);
+
+            // Clear URL parameters (optional - keeps URL clean)
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }, 300);
     }
 
     /**

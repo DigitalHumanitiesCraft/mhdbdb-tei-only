@@ -46,7 +46,8 @@ This is the MHDBDB TEI Repository - a collection of TEI-encoded Middle High Germ
   - `korpus.html` - Search page with text selection interface
   - `js/app.js` - Main site application controller (`MainSiteApp`)
   - `js/search/search-engine.js` - Search functionality across corpus
-  - `js/rendering/text-renderer.js` - Text display and rendering
+  - `js/rendering/text-renderer.js` - Context view with lemma highlighting
+  - `js/rendering/tei-text-reader.js` - Reading view with full text and rich metadata
   - `js/storage/tei-cache-manager.js` - TEI file caching
 - **Data Source**: Uses `data/corpus-index.json.gz` (21 MB) for instant search
 - **Features**:
@@ -55,6 +56,13 @@ This is the MHDBDB TEI Repository - a collection of TEI-encoded Middle High Germ
   - Filter text list by title, sigle, or author
   - Auto-scroll to results with sticky header offset
   - White result cards on gray background for visual distinction
+  - **Reading View** (Oct 6, 2025):
+    - Full TEI text display with lemma highlighting
+    - Rich metadata panel (expandable/collapsible)
+    - Wikidata images with attribution
+    - Separate work vs author identifiers (GND/Wikidata)
+    - Zotero bibliographic links
+    - Context navigation (prev/next occurrence)
 
 #### Playground (playground/)
 - **Purpose**: Advanced research tool for medievalists and researchers
@@ -114,10 +122,10 @@ This is the MHDBDB TEI Repository - a collection of TEI-encoded Middle High Germ
 **Index Structure** (`authority-index.json.gz`):
 ```javascript
 {
-  version: "1.0.0",
-  generatedAt: "2025-10-02T08:10:00Z",
+  version: "1.1.0",  // Bumped for GND/Wikidata work identifiers
+  generatedAt: "2025-10-06T12:00:00Z",
   persons: [{id, preferredName, gnd, wikidata, works, normalized}, ...],
-  works: [{id, title, titles[], sigle, sigles[], author, authorRef, genres[], biblStructs[], handschriftencensus, normalized}, ...],
+  works: [{id, title, titles[], sigle, sigles[], author, authorRef, gnd, wikidata, genres[], biblStructs[], handschriftencensus, normalized}, ...],
   lemmata: [{id, lemma, pos, senseCount, etymology[], senses[], normalized}, ...],
   concepts: [{id, termDE, termEN, normalized}, ...],
   genres: [{id, termDE, termEN, normalized}, ...],
@@ -126,7 +134,7 @@ This is the MHDBDB TEI Repository - a collection of TEI-encoded Middle High Germ
   maps: {
     conceptToLemmas: {conceptId: [lemmaIds]}, // 581 concepts
     genreToWorks: {genreId: [workIds]}, // 113 genres
-    genreHierarchy: {genreId: [parentNames]} // 0 entries currently
+    genreHierarchy: {genreId: [parentNames]} // 613 entries
   }
 }
 ```
@@ -191,6 +199,27 @@ All files use consistent cross-referencing:
 - ✅ **Improved search UX** - auto-scroll to results with 80px offset for sticky header
 - ✅ **Better visual hierarchy** - white result cards on gray background with brand color accents
 - ✅ **Search filtering** - SearchEngine now respects `includedTexts` Set for selective corpus search
+
+**Reading View and Rich Metadata** (Oct 6, 2025):
+- ✅ **TEI Reading View** - New immersive text reader with lemma highlighting and context navigation (js/rendering/tei-text-reader.js)
+- ✅ **Authority Index v1.1.0** - Added GND/Wikidata identifiers for works (separate from author identifiers)
+- ✅ **Wikidata Integration** - Automatic image fetching from Wikidata API with cleaned attribution
+- ✅ **Dual Identifier Display** - Separate sections for work identifiers vs author identifiers
+- ✅ **Scrollable Metadata** - Max-height 400px with overflow scrolling for better UX on small screens
+- ✅ **Heroicons Migration** - Replaced all emoji icons (📄, 📖, 🔗, ▶, ▼) with Heroicons for design consistency
+- ✅ **Cache Invalidation** - Version-based caching for authority index (v1.1.0)
+- ✅ **Improved Labeling** - Updated korpus.html text selection label with inline Heroicons
+- ✅ **Playground Enhancements** - Work explorer now displays GND/Wikidata identifiers
+- ✅ **TEI Entities** - Confirmed angle bracket entities (`&lt;`, `&gt;`) are correct XML encoding for punctuation marks in `<seg type="pc">` elements
+
+**Multi-Lemma Reader Integration** (Oct 6, 2025):
+- ✅ **Clickable Proximity Results** - Playground proximity search results now open main site reading view
+- ✅ **Multi-Lemma Highlighting** - Support for multiple lemmas with color coding (5 colors: red, blue, green, yellow, purple)
+- ✅ **URL Parameter Passing** - Opens korpus.html with `?textId=ABG&lemmaIds=879,7532&position=310`
+- ✅ **Position Synchronization** - Fixed word counting logic to match corpus index (only count words with `@lemmaRef`)
+- ✅ **Precise Context Scrolling** - Automatically scrolls to the exact clicked context in full-text view
+- ✅ **Cross-Platform Workflow** - Seamless navigation from playground advanced search to main site immersive reading
+- ✅ **Position Tracking** - Word position tracked during TEI parsing for accurate highlight targeting
 
 **Recent Bug Fixes and Improvements** (Oct 2-6, 2025):
 - ✅ Fixed test suite timeout issue (skipped main site tests)
