@@ -192,13 +192,17 @@ All files use consistent cross-referencing:
 - ✅ **Better visual hierarchy** - white result cards on gray background with brand color accents
 - ✅ **Search filtering** - SearchEngine now respects `includedTexts` Set for selective corpus search
 
-**Recent Bug Fixes** (Oct 2-5, 2025):
+**Recent Bug Fixes and Improvements** (Oct 2-6, 2025):
 - ✅ Fixed test suite timeout issue (skipped main site tests)
 - ✅ Rebuilt empty authority index (0 bytes → 3.0 MB)
 - ✅ Added *.code-workspace to .gitignore
 - ✅ Test suite now completes in 2.7 minutes (40 passing, 25 skipped)
 - ✅ Fixed missing words in proximity search results (words without `@lemmaRef` now included)
 - ✅ Fixed variant normalization in authority-manager.js (flat dictionary lookup instead of array iteration)
+- ✅ Fixed genreHierarchy parsing (Oct 6, 2025) - now correctly uses `<ptr type="broader">` references instead of nested categories (0 → 613 entries)
+- ✅ Removed redundant listRelation from persons.xml (Oct 6, 2025) - eliminated 590 lines of duplicate person-work relationships (issue #8)
+- ✅ Improved concept explorer UX (Oct 6, 2025) - replaced inline "first 20" list with full searchable interface, clickable lemma navigation to Lemma Explorer (issue #6)
+- ✅ Code cleanup (Oct 6, 2025) - removed 28 lines of dead code and legacy comments from playground JavaScript files
 - See [BUGFIX-2025-10-02.md](docs/BUGFIX-2025-10-02.md) and [PROXIMITY-SEARCH-FIX-PLAN.md](PROXIMITY-SEARCH-FIX-PLAN.md) for details
 
 **What Still Uses XML Parsing**:
