@@ -1,4 +1,50 @@
 # Ignore all TEI input files in the root directory
-
 *.xpr
 /lists/TEXTWORD.xml
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv
+
+# Testing (results and screenshots, not test files)
+testing/test-results/
+testing/playwright-report/
+testing/.cache/
+testing/screenshots/
+testing/test-results.json
+testing/test-summary.txt
+*.screenshot.png
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.code-workspace
+
+# Claude Code
+.claude/
+
+# Logs
+*.log
+
+# OS
+Thumbs.db
+.AppleDouble
+.LSOverride
