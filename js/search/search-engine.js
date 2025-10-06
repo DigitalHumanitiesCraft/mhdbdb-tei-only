@@ -5,7 +5,7 @@
  */
 
 // Import MHG normalizer from shared library
-import { TextNormalizer } from '/lib/text-normalizer.js';
+import { TextNormalizer } from '../../lib/text-normalizer.js';
 
 class SearchEngine {
     constructor(authorityIndex, corpusIndex) {

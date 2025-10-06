@@ -5,7 +5,7 @@
  * - korpus.html: Full search functionality
  */
 
-import { CorpusLoader } from '/lib/corpus-loader.js';
+import { CorpusLoader } from '../lib/corpus-loader.js';
 import { SearchEngine } from './search/search-engine.js';
 import { TextRenderer } from './rendering/text-renderer.js';
 import { TEITextReader } from './rendering/tei-text-reader.js';

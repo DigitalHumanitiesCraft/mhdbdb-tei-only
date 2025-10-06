@@ -18,7 +18,7 @@ import { MultiLemmaSearchUI } from './ui/tei/multi-lemma-search.js';
 setFileDisplayHelpers(setupCollapsibleFileList, setupFileFilter);
 
 // Import utilities for global exposure (needed for testing)
-import { TextNormalizer } from '/lib/text-normalizer.js';
+import { TextNormalizer } from '../../lib/text-normalizer.js';
 import { SearchPatterns } from './ui/search/SearchHelpers.js';
 
 class MHDBDBPlayground {

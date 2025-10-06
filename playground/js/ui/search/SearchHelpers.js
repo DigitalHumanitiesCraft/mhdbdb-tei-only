@@ -3,7 +3,7 @@
  * Tailwind-first search interfaces and utilities with MHG normalization support
  */
 
-import { TextNormalizer } from '/lib/text-normalizer.js';
+import { TextNormalizer } from '../../../../lib/text-normalizer.js';
 
 // ==================== SEARCH INTERFACE CREATION ====================
 

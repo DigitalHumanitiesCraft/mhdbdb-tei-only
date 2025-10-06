@@ -5,7 +5,7 @@
  *       in main.js using CorpusLoader, not via XML files anymore.
  */
 
-import { TextNormalizer } from '/lib/text-normalizer.js';
+import { TextNormalizer } from '../../../lib/text-normalizer.js';
 
 export class AuthorityFilesManager {
   constructor(authorityData) {
