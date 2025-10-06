@@ -288,8 +288,6 @@ def create_persons_tei(csv_file, output_file):
 
         # ------------------------------------------------------------------
         # write TEI
-        relations = []
-
         for pid, data in persons.items():
             person = ET.SubElement(listPerson, f"{{{TEI_NS}}}person")
             person.set(f"{{{XML_NS}}}id", normalize_id(pid, prefix="person_"))
@@ -325,22 +323,10 @@ def create_persons_tei(csv_file, output_file):
             for w in sorted(data["wikidata"]):
                 ET.SubElement(person, f"{{{TEI_NS}}}idno", type="wikidata").text = w
 
-            # note + relation list preparation
+            # note with works (redundant listRelation removed - see GitHub issue #8)
             if data["works"]:
                 note = ET.SubElement(person, f"{{{TEI_NS}}}note", type="works")
                 note.text = ",".join(sorted(data["works"]))
-                for wid in data["works"]:
-                    person_ref = f"#{normalize_id(pid, prefix='person_')}"
-                    work_ref = f"works.xml#{normalize_id(wid, prefix='work_')}"
-                    relations.append(("isAuthorOf", person_ref, work_ref))
-
-        # relations section
-        if relations:
-            listRel = ET.SubElement(body, f"{{{TEI_NS}}}listRelation")
-            for name, act, pas in relations:
-                rel = ET.SubElement(
-                    listRel, f"{{{TEI_NS}}}relation", name=name, active=act, passive=pas
-                )
 
         return write_tei_file(tei, output_file)
 
