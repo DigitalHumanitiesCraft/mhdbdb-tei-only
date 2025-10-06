@@ -99,7 +99,6 @@ export class AuthorityFilesManager {
   searchLemmaByOrthography(orthography) {
     const normalized = orthography.toLowerCase();
     const normalizedCharacters = TextNormalizer.normalizeMHG(normalized);
-    console.log(`🔎 searchLemmaByOrthography("${orthography}") → normalized: "${normalizedCharacters}"`);
 
     // Stage 1: Try exact match in lexicon (fastest, canonical forms)
     // Try both original and normalized
@@ -110,14 +109,12 @@ export class AuthorityFilesManager {
       return lemmaLower === normalized || lemmaNormalized === normalizedCharacters;
     });
     if (exactMatch) {
-      console.log(`  ✅ Stage 1 (lexicon exact): Found ${exactMatch.id}`);
       return [exactMatch];
     }
 
     // Stage 2: Search in variants index (orthographic variants from TEI corpus)
     // Structure: variants = {normalized_variant: lemma_id, ...}
     const variantsCount = Object.keys(this.authorityData.variants || {}).length;
-    console.log(`  📊 Variants index size: ${variantsCount} mappings`);
 
     if (variantsCount > 0) {
       // Try normalized lookup in variants dictionary
@@ -127,7 +124,6 @@ export class AuthorityFilesManager {
         // Find the corresponding lemma in lemmata array
         const lemma = this.authorityData.lemmata.find(l => l.id === lemmaId);
         if (lemma) {
-          console.log(`  ✅ Stage 2 (variants): Found ${lemma.id} via normalized variant "${normalizedCharacters}"`);
           return [lemma];
         }
       }
@@ -138,11 +134,6 @@ export class AuthorityFilesManager {
       if (!lemma.lemma) return false;
       return TextNormalizer.matchesNormalized(lemma.lemma, orthography);
     });
-    if (partialMatches.length > 0) {
-      console.log(`  ⚠️ Stage 3 (partial): Found ${partialMatches.length} matches`);
-    } else {
-      console.log(`  ❌ No matches found for "${orthography}"`);
-    }
     return partialMatches;
   }
 

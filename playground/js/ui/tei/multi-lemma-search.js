@@ -206,9 +206,7 @@ export class MultiLemmaSearchUI {
 
         try {
             // Resolve lemma IDs
-            console.log('🔍 Multi-Lemma Search:', searchTerms);
             const lemmaIds = this.teiExplorer.resolveLemmaIds(searchTerms);
-            console.log('✅ Resolved lemma IDs:', lemmaIds);
 
             if (lemmaIds.length === 0) {
                 if (resultsContainer) {

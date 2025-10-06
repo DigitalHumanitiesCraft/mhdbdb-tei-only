@@ -174,7 +174,6 @@ export function displaySummaryResults(title, summaryData, rawResults = null, lem
   // Store raw results for later enrichment
   storedRawResults = rawResults;
   storedLemmaIds = lemmaIds;
-  console.log('📦 displaySummaryResults storing lemmaIds:', lemmaIds);
 
   if (!summaryData || summaryData.length === 0) {
     container.innerHTML = `
@@ -283,8 +282,6 @@ function setupSummaryExpansion() {
         const filename = summary.querySelector('h4').textContent;
         const fileResults = storedRawResults.filter(r => r.filename === filename);
 
-        console.log(`Enriching ${filename}: found ${fileResults.length} results, lemmaIds:`, storedLemmaIds);
-
         if (fileResults.length > 0 && !fileResults[0].text) {
           // Show loading indicator
           summary.querySelector('.summary-expand-hint').textContent = 'Lade Text...';
@@ -293,29 +290,15 @@ function setupSummaryExpansion() {
             // Fetch TEI and enrich results
             await enrichFileResults(fileResults, storedLemmaIds);
 
-            console.log('Enriched results:', fileResults.map(r => ({
-              para: r.paragraphId,
-              hasText: !!r.text,
-              hasContextText: !!r.contextText,
-              contextTextLength: r.contextText?.length,
-              distance: r.distance,
-              matchingWords: Object.keys(r.matchingWords || {})
-            })));
-
             // Rebuild the details HTML with enriched data
             const details = createDetailsFromEnrichedResults(fileResults);
-            console.log('📋 Generated details:', details);
             const detailsHTML = createDetailsHTML(details);
-            console.log('📋 Generated HTML length:', detailsHTML.length);
             const detailsContainer = summary.querySelector('.result-details');
             if (detailsContainer) {
               detailsContainer.innerHTML = detailsHTML;
-              console.log('📋 Updated details container');
 
               // Add click handlers to detail items to open main site reader
               setupDetailItemClickHandlers(detailsContainer, fileResults);
-            } else {
-              console.warn('📋 Details container not found!');
             }
 
             // Mark as enriched
@@ -498,14 +481,9 @@ function highlightMatchedWords(text, matchingWords) {
       // Use word boundaries to match whole words only
       const regex = new RegExp(`\\b${escapedWord}\\b`, 'gi');
 
-      const beforeCount = (highlightedText.match(regex) || []).length;
       highlightedText = highlightedText.replace(regex,
         `<span class="highlight lemma-${index}" style="background-color: ${color.bg}; color: ${color.text}; border: 1px solid ${color.border}; padding: 2px 4px; border-radius: 3px; font-weight: 600;">$&</span>`
       );
-
-      if (beforeCount > 0) {
-        console.log(`  Highlighted "${word.text}" (${beforeCount} matches) with color ${index}`);
-      }
     });
   });
 
@@ -670,7 +648,6 @@ function setupDetailItemClickHandlers(detailsContainer, fileResults) {
       }
 
       const url = `../korpus.html?${params.toString()}`;
-      console.log('[DetailClick] Opening reader:', { textId, lemmaIds, position: params.get('position'), url });
 
       // Open in new tab
       window.open(url, '_blank');

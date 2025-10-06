@@ -15,8 +15,6 @@ class SearchEngine {
         // Create reverse lookup maps for fast filtering
         this.workToGenre = this.buildWorkToGenreMap();
         this.workToAuthor = this.buildWorkToAuthorMap();
-
-        console.log('[SearchEngine] Initialized');
     }
 
     /**
@@ -58,8 +56,6 @@ class SearchEngine {
      * @returns {array} - Array of search results
      */
     async searchLemma(searchTerm, filters = {}) {
-        console.log(`[SearchEngine] Searching for: "${searchTerm}"`);
-
         // Step 1: Normalize search term
         const normalized = TextNormalizer.normalizeMHG(searchTerm);
 
@@ -67,11 +63,8 @@ class SearchEngine {
         const lemmaIds = this.resolveLemmaIds(normalized);
 
         if (lemmaIds.length === 0) {
-            console.log(`[SearchEngine] No lemma found for "${searchTerm}"`);
             return [];
         }
-
-        console.log(`[SearchEngine] Resolved to lemma IDs:`, lemmaIds);
 
         // Step 3: Find all texts containing these lemmas
         const results = [];
@@ -115,8 +108,6 @@ class SearchEngine {
 
         // Sort by match count (descending)
         results.sort((a, b) => b.matchCount - a.matchCount);
-
-        console.log(`[SearchEngine] Found ${results.length} results`);
 
         return results;
     }

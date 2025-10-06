@@ -122,7 +122,6 @@ export class TEIExplorer {
             try {
                 const results = teiManager.findCooccurringLemmas(lemmaIds, maxDistance);
                 hideSpinner('resultsContainer');
-                console.log('🔍 executeProximitySearch - calling displayCooccurrenceResults with lemmaIds:', lemmaIds);
                 this.displayCooccurrenceResults(results, searchTerms, maxDistance, lemmaIds);
             } catch (error) {
                 hideSpinner('resultsContainer');
@@ -435,7 +434,6 @@ export class TEIExplorer {
         }).filter(summary => summary.count > 0);
 
         // Use the searched lemma IDs (e.g., [879, 7532]) not all positions from results
-        console.log('📍 Proximity search - passing lemmaIds to displaySummaryResults:', searchedLemmaIds);
         displaySummaryResults(
             `Kookkurrenz-Analyse: ${searchTerms.join(' + ')} (max. ${maxDistance} Wörter Abstand)`,
             summaryData,
