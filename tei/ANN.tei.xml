@@ -22,7 +22,7 @@
             <country>Österreich</country>
           </address>
           <email>mhdbdb@plus.ac.at</email>
-          <ptr target="https://mhdbdb.plus.ac.at"/>
+          <ptr target="https://mhdbdb.plus.ac.at" />
         </publisher>
         <authority>
           <persName role="coordinator">
@@ -81,7 +81,7 @@
       </projectDesc>
       <classDecl>
         <taxonomy xml:id="genres">
-          <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
+          <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen" /></bibl>
           <category xml:id="genre_30ab9c71" ana="parent">
             <gloss xml:lang="de">Historiografie</gloss>
             <gloss xml:lang="de">Historiographie</gloss>
@@ -119,8 +119,7 @@
   </teiHeader>
   <text>
     <body>
-      <p>
-        <hi rend="initial">
+      <p><hi rend="initial">
           <w xml:id="ANN_1_0" lemmaRef="lexicon.xml#lemma_26055" meaningRef="lexicon.xml#lemma_26055_sense_41671" pos="NOM" wordRef="lexicon.xml#lemma_26055_sense_41671_type_126082">rhythmus</w>
         </hi>
         <w xml:id="ANN_1_1">de</w>
@@ -131,7 +130,7 @@
         <w xml:id="ANN_1_6" lemmaRef="lexicon.xml#lemma_3387" meaningRef="lexicon.xml#lemma_3387_sense_5338" pos="NAM" wordRef="lexicon.xml#lemma_3387_sense_5338_type_126084">coloniensi</w>
         <w xml:id="ANN_1_7">archiepiscopo</w>
         <seg xml:id="ANN_1_8" type="pc">.</seg>
-        <l n="1">
+        <lg type="stanza" n="1"><l n="1">
           <hi rend="initial">
             <w xml:id="ANN_1010_0" lemmaRef="lexicon.xml#lemma_7643" meaningRef="lexicon.xml#lemma_7643_sense_12530" pos="PRO" wordRef="lexicon.xml#lemma_7643_sense_12530_type_27647">wir</w>
           </hi>
@@ -277,7 +276,7 @@
           <w xml:id="ANN_1180_4">sîn</w>
           <seg xml:id="ANN_1180_5" type="pc">.</seg>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="2"><l n="1">
           <hi rend="initial">
             <w xml:id="ANN_2010_0">in</w>
           </hi>
@@ -430,7 +429,7 @@
           <w xml:id="ANN_2170_3" lemmaRef="lexicon.xml#lemma_453" pos="VRB" wordRef="lexicon.xml#lemma_453_sense_624_type_113338">behaltin</w>
           <seg xml:id="ANN_2170_4" type="pc">.</seg>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="3"><l n="1">
           <hi rend="initial">
             <w xml:id="ANN_3010_0" lemmaRef="lexicon.xml#lemma_1242" meaningRef="lexicon.xml#lemma_1242_sense_1958" pos="PRO" wordRef="lexicon.xml#lemma_1242_sense_1958_type_3967">dû</w>
           </hi>
@@ -623,7 +622,7 @@
           <w xml:id="ANN_3220_4">leit</w>
           <seg xml:id="ANN_3220_5" type="pc">.</seg>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="4"><l n="1">
           <hi rend="initial">
             <w xml:id="ANN_4010_0" lemmaRef="lexicon.xml#lemma_1014" meaningRef="lexicon.xml#lemma_1014_sense_1645" pos="NOM" wordRef="lexicon.xml#lemma_1014_sense_1645_type_3145">cunt</w>
           </hi>
@@ -747,7 +746,7 @@
           <w xml:id="ANN_4140_4" lemmaRef="lexicon.xml#lemma_4133" pos="VRB" wordRef="lexicon.xml#type_113412">minnan</w>
           <seg xml:id="ANN_4140_5" type="pc">.</seg>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="5"><l n="1">
           <hi rend="initial">
             <w xml:id="ANN_5010_0" lemmaRef="lexicon.xml#lemma_6330" meaningRef="lexicon.xml#lemma_6330_sense_9973" pos="ADV PRP" wordRef="lexicon.xml#lemma_6330_sense_9973_type_82296">vp</w>
           </hi>
@@ -929,7 +928,7 @@
           <w xml:id="ANN_5220_5" lemmaRef="lexicon.xml#lemma_1282" meaningRef="lexicon.xml#lemma_1282_sense_2011" pos="NOM" wordRef="lexicon.xml#lemma_1282_sense_2011_type_113336">êrin</w>
           <seg xml:id="ANN_5220_6" type="pc">.</seg>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="6"><l n="1">
           <hi rend="initial">
             <w xml:id="ANN_6010_0" lemmaRef="lexicon.xml#lemma_1139" meaningRef="lexicon.xml#lemma_1139_sense_1797" pos="ART" wordRef="lexicon.xml#lemma_1139_sense_1797_type_3568">die</w>
           </hi>
@@ -1027,7 +1026,7 @@
           <w xml:id="ANN_6120_5">sange</w>
           <seg xml:id="ANN_6120_6" type="pc">.</seg>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="7"><l n="1">
           <hi rend="initial">
             <w xml:id="ANN_7010_0" lemmaRef="lexicon.xml#lemma_7770" meaningRef="lexicon.xml#lemma_7770_sense_12736" pos="PRP CNJ" wordRef="lexicon.xml#lemma_7770_sense_12736_type_89558">ce</w>
           </hi>
@@ -1143,7 +1142,7 @@
           <w xml:id="ANN_7120_6" lemmaRef="lexicon.xml#lemma_2712" meaningRef="lexicon.xml#lemma_2712_sense_4371" pos="NOM ADV" wordRef="lexicon.xml#lemma_2712_sense_4371_type_9147">heim</w>
           <seg xml:id="ANN_7120_7" type="pc">.</seg>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="8"><l n="1">
           <hi rend="initial">
             <w xml:id="ANN_8010_0">ob</w>
           </hi>
@@ -1283,7 +1282,7 @@
           <w xml:id="ANN_8180_3" lemmaRef="lexicon.xml#lemma_1097" meaningRef="lexicon.xml#lemma_1097_sense_1741" pos="ART CNJ" wordRef="lexicon.xml#lemma_1097_sense_1741_type_3398">daz</w>
           <w xml:id="ANN_8180_4" lemmaRef="lexicon.xml#lemma_4379" meaningRef="lexicon.xml#lemma_4379_sense_6840" pos="NAM" wordRef="lexicon.xml#lemma_4379_sense_6840_type_113519">nîno</w>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="9"><l n="1">
           <hi rend="initial">
             <w xml:id="ANN_9010_0" lemmaRef="lexicon.xml#lemma_4379" meaningRef="lexicon.xml#lemma_4379_sense_6840" pos="NAM" wordRef="lexicon.xml#lemma_4379_sense_6840_type_15299">nînus</w>
           </hi>
@@ -1386,7 +1385,7 @@
           <w xml:id="ANN_9140_5" lemmaRef="lexicon.xml#lemma_24343" meaningRef="lexicon.xml#lemma_24343_sense_39193" pos="VRB" wordRef="lexicon.xml#lemma_24343_sense_39193_type_113550">ûzspê</w>
           <seg xml:id="ANN_9140_6" type="pc">.</seg>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="10"><l n="1">
           <hi rend="initial">
             <w xml:id="ANN_10010_0">sîn</w>
           </hi>
@@ -1568,7 +1567,7 @@
           <w xml:id="ANN_10260_3" lemmaRef="lexicon.xml#lemma_24355" meaningRef="lexicon.xml#lemma_24355_sense_39207" pos="VRB" wordRef="lexicon.xml#lemma_24355_sense_39207_type_113624">firbranten</w>
           <seg xml:id="ANN_10260_4" type="pc">.</seg>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="11"><l n="1">
           <hi rend="initial">
             <w xml:id="ANN_11010_0">in</w>
           </hi>
@@ -1658,7 +1657,7 @@
           <w xml:id="ANN_11120_5" lemmaRef="lexicon.xml#lemma_15521" pos="VRB" wordRef="lexicon.xml#type_64408">umbegrîfen</w>
           <seg xml:id="ANN_11120_6" type="pc">.</seg>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="12"><l n="1">
           <hi rend="initial">
             <w xml:id="ANN_12010_0" lemmaRef="lexicon.xml#lemma_1169" meaningRef="lexicon.xml#lemma_1169_sense_1850" pos="DET" wordRef="lexicon.xml#lemma_1169_sense_1850_type_3698">diz</w>
           </hi>
@@ -1707,7 +1706,7 @@
           <w xml:id="ANN_12060_4" lemmaRef="lexicon.xml#lemma_846" pos="ADJ" wordRef="lexicon.xml#lemma_846_sense_1380_type_2649">breit</w>
           <seg xml:id="ANN_12060_5" type="pc">.</seg>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="13"><l n="1">
           <hi rend="initial">
             <w xml:id="ANN_13010_0" lemmaRef="lexicon.xml#lemma_1097" meaningRef="lexicon.xml#lemma_1097_sense_1741" pos="ART CNJ" wordRef="lexicon.xml#lemma_1097_sense_1741_type_3398">daz</w>
           </hi>
@@ -1788,7 +1787,7 @@
           <w xml:id="ANN_13100_2" lemmaRef="lexicon.xml#lemma_344" meaningRef="lexicon.xml#lemma_344_sense_448" pos="NAM" wordRef="lexicon.xml#lemma_344_sense_448_type_66200">babilônie</w>
           <seg xml:id="ANN_13100_3" type="pc">.</seg>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="14"><l n="1">
           <hi rend="initial">
             <w xml:id="ANN_14010_0" lemmaRef="lexicon.xml#lemma_1097" meaningRef="lexicon.xml#lemma_1097_sense_1741" pos="ART CNJ" wordRef="lexicon.xml#lemma_1097_sense_1741_type_3397">das</w>
           </hi>
@@ -1952,7 +1951,7 @@
           <w xml:id="ANN_14200_5" lemmaRef="lexicon.xml#lemma_40142" meaningRef="lexicon.xml#lemma_40142_sense_62415" pos="ADJ ADV" wordRef="lexicon.xml#lemma_40142_sense_62415_type_212012">vreissam</w>
           <seg xml:id="ANN_14200_6" type="pc">.</seg>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="15"><l n="1">
           <hi rend="initial">
             <w xml:id="ANN_15010_0" lemmaRef="lexicon.xml#lemma_1180" meaningRef="lexicon.xml#lemma_1180_sense_1864" pos="ADV" wordRef="lexicon.xml#lemma_1180_sense_1864_type_3742">duo</w>
           </hi>
@@ -2059,7 +2058,7 @@
           <w xml:id="ANN_15120_6" lemmaRef="lexicon.xml#lemma_2348" pos="VRB" wordRef="lexicon.xml#lemma_29908_sense_3773_type_7930">gewan</w>
           <seg xml:id="ANN_15120_7" type="pc">.</seg>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="16"><l n="1">
           <hi rend="initial">
             <w xml:id="ANN_16010_0" lemmaRef="lexicon.xml#lemma_1097" meaningRef="lexicon.xml#lemma_1097_sense_1741" pos="ART CNJ" wordRef="lexicon.xml#lemma_1097_sense_1741_type_3398">daz</w>
           </hi>
@@ -2162,7 +2161,7 @@
           <w xml:id="ANN_16120_6" lemmaRef="lexicon.xml#lemma_2031" pos="NOM ADJ ADV" wordRef="lexicon.xml#lemma_2031_sense_3136_type_6864">gehôrsam</w>
           <seg xml:id="ANN_16120_7" type="pc">.</seg>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="17"><l n="1">
           <hi rend="initial">
             <w xml:id="ANN_17010_0" lemmaRef="lexicon.xml#lemma_7779" meaningRef="lexicon.xml#lemma_7779_sense_12748" pos="NUM" wordRef="lexicon.xml#lemma_7779_sense_12748_type_99286">cîn</w>
           </hi>
@@ -2283,7 +2282,7 @@
           <w xml:id="ANN_17140_5" lemmaRef="lexicon.xml#lemma_2199" meaningRef="lexicon.xml#lemma_2199_sense_3477" pos="VRB" wordRef="lexicon.xml#lemma_2199_sense_3477_type_113716">gischiet</w>
           <seg xml:id="ANN_17140_6" type="pc">.</seg>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="18"><l n="1">
           <hi rend="initial">
             <w xml:id="ANN_18010_0" lemmaRef="lexicon.xml#lemma_9293" meaningRef="lexicon.xml#lemma_9293_sense_15199" pos="NAM" wordRef="lexicon.xml#lemma_9293_sense_15199_type_89015">rômêre</w>
           </hi>
@@ -2429,7 +2428,7 @@
           <w xml:id="ANN_18180_4" lemmaRef="lexicon.xml#lemma_868" pos="VRB" wordRef="lexicon.xml#type_113733">brengin</w>
           <seg xml:id="ANN_18180_5" type="pc">.</seg>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="19"><l n="1">
           <hi rend="initial">
             <w xml:id="ANN_19010_0" lemmaRef="lexicon.xml#lemma_6471" meaningRef="lexicon.xml#lemma_6471_sense_10240" pos="ADJ ADV PRP" wordRef="lexicon.xml#lemma_6471_sense_10240_type_104273">vndir</w>
           </hi>
@@ -2533,7 +2532,7 @@
           <w xml:id="ANN_19140_5" lemmaRef="lexicon.xml#lemma_3437" pos="NOM" wordRef="lexicon.xml#lemma_3437_sense_16661_type_11850">craft</w>
           <seg xml:id="ANN_19140_6" type="pc">.</seg>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="20"><l n="1">
           <hi rend="initial">
             <w xml:id="ANN_20010_0" lemmaRef="lexicon.xml#lemma_1180" meaningRef="lexicon.xml#lemma_1180_sense_1864" pos="ADV" wordRef="lexicon.xml#lemma_1180_sense_1864_type_3742">duo</w>
           </hi>
@@ -2753,7 +2752,7 @@
           <w xml:id="ANN_20260_4" lemmaRef="lexicon.xml#lemma_2080" pos="VRB" wordRef="lexicon.xml#type_126102">geltan</w>
           <seg xml:id="ANN_20260_5" type="pc">.</seg>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="21"><l n="1">
           <hi rend="initial">
             <w xml:id="ANN_21010_0" lemmaRef="lexicon.xml#lemma_1119" meaningRef="lexicon.xml#lemma_1119_sense_1770" pos="ART" wordRef="lexicon.xml#lemma_1119_sense_1770_type_3507">der</w>
           </hi>
@@ -2964,7 +2963,7 @@
           <w xml:id="ANN_21260_4" lemmaRef="lexicon.xml#lemma_1145" pos="VRB" wordRef="lexicon.xml#type_106713">dienin</w>
           <seg xml:id="ANN_21260_5" type="pc">.</seg>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="22"><l n="1">
           <hi rend="initial">
             <w xml:id="ANN_22010_0" lemmaRef="lexicon.xml#lemma_26068" meaningRef="lexicon.xml#lemma_26068_sense_41685" pos="NAM" wordRef="lexicon.xml#lemma_26068_sense_41685_type_172466">cêsar</w>
           </hi>
@@ -3169,7 +3168,7 @@
           <w xml:id="ANN_22260_4" lemmaRef="lexicon.xml#lemma_3032" meaningRef="lexicon.xml#lemma_3032_sense_4838" pos="NAM" wordRef="lexicon.xml#lemma_3032_sense_4838_type_10380">india</w>
           <seg xml:id="ANN_22260_5" type="pc">.</seg>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="23"><l n="1">
           <hi rend="initial">
             <w xml:id="ANN_23010_0" lemmaRef="lexicon.xml#lemma_14046" meaningRef="lexicon.xml#lemma_14046_sense_23250" pos="NAM" wordRef="lexicon.xml#lemma_14046_sense_23250_type_88569">troiêri</w>
           </hi>
@@ -3386,7 +3385,7 @@
           <w xml:id="ANN_23260_4" lemmaRef="lexicon.xml#lemma_5612" meaningRef="lexicon.xml#lemma_5612_sense_8776" pos="ADJ ADV" wordRef="lexicon.xml#lemma_5612_sense_8776_type_118720">sorchsam</w>
           <seg xml:id="ANN_23260_5" type="pc">.</seg>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="24"><l n="1">
           <hi rend="initial">
             <w xml:id="ANN_24010_0" lemmaRef="lexicon.xml#lemma_1180" meaningRef="lexicon.xml#lemma_1180_sense_1864" pos="ADV" wordRef="lexicon.xml#lemma_1180_sense_1864_type_3742">duo</w>
           </hi>
@@ -3523,7 +3522,7 @@
           <w xml:id="ANN_24160_6" lemmaRef="lexicon.xml#lemma_2598" pos="VRB VEX" wordRef="lexicon.xml#type_126277">hetti</w>
           <seg xml:id="ANN_24160_7" type="pc">.</seg>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="25"><l n="1">
           <hi rend="initial">
             <w xml:id="ANN_25010_0" lemmaRef="lexicon.xml#lemma_1180" meaningRef="lexicon.xml#lemma_1180_sense_1864" pos="ADV" wordRef="lexicon.xml#lemma_1180_sense_1864_type_3742">duo</w>
           </hi>
@@ -3680,7 +3679,7 @@
           <w xml:id="ANN_25220_4" lemmaRef="lexicon.xml#lemma_13794" meaningRef="lexicon.xml#lemma_13794_sense_22731" pos="NAM" wordRef="lexicon.xml#lemma_13794_sense_22731_type_54691">herebrant</w>
           <seg xml:id="ANN_25220_5" type="pc">.</seg>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="26"><l n="1">
           <hi rend="initial">
             <w xml:id="ANN_26010_0" lemmaRef="lexicon.xml#lemma_5961" meaningRef="lexicon.xml#lemma_5961_sense_9448" pos="PRO IPA" wordRef="lexicon.xml#lemma_5961_sense_9448_type_126304">vver</w>
           </hi>
@@ -3769,7 +3768,7 @@
           <w xml:id="ANN_26120_2" lemmaRef="lexicon.xml#lemma_7489" pos="VRB VEX" wordRef="lexicon.xml#lemma_9085_sense_12208_type_27067">wurde</w>
           <seg xml:id="ANN_26120_3" type="pc">.</seg>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="27"><l n="1">
           <hi rend="initial">
             <w xml:id="ANN_27010_0" lemmaRef="lexicon.xml#lemma_4445" meaningRef="lexicon.xml#lemma_4445_sense_6930" pos="INJ" wordRef="lexicon.xml#lemma_4445_sense_6930_type_97365">oy</w>
           </hi>
@@ -3870,7 +3869,7 @@
           <w xml:id="ANN_27140_4">nam</w>
           <seg xml:id="ANN_27140_5" type="pc">.</seg>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="28"><l n="1">
           <hi rend="initial">
             <w xml:id="ANN_28010_0" lemmaRef="lexicon.xml#lemma_1180" meaningRef="lexicon.xml#lemma_1180_sense_1864" pos="ADV" wordRef="lexicon.xml#lemma_1180_sense_1864_type_3742">duo</w>
           </hi>
@@ -4018,7 +4017,7 @@
           <w xml:id="ANN_28180_4" lemmaRef="lexicon.xml#lemma_40144" meaningRef="lexicon.xml#lemma_40144_sense_62423" pos="ADJ ADV" wordRef="lexicon.xml#lemma_40144_sense_62423_type_212026">wertsam</w>
           <seg xml:id="ANN_28180_5" type="pc">.</seg>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="29"><l n="1">
           <hi rend="initial">
             <w xml:id="ANN_29010_0" lemmaRef="lexicon.xml#lemma_1180" meaningRef="lexicon.xml#lemma_1180_sense_1864" pos="ADV" wordRef="lexicon.xml#lemma_1180_sense_1864_type_3742">duo</w>
           </hi>
@@ -4137,7 +4136,7 @@
           <w xml:id="ANN_29140_3" lemmaRef="lexicon.xml#lemma_20543" meaningRef="lexicon.xml#lemma_20543_sense_34034" pos="NAM" wordRef="lexicon.xml#lemma_20543_sense_34034_type_90537">agrippîna</w>
           <seg xml:id="ANN_29140_4" type="pc">.</seg>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="30"><l n="1">
           <hi rend="initial">
             <w xml:id="ANN_30010_0" lemmaRef="lexicon.xml#lemma_7770" meaningRef="lexicon.xml#lemma_7770_sense_12736" pos="PRP CNJ" wordRef="lexicon.xml#lemma_7770_sense_12736_type_89541">ci</w>
           </hi>
@@ -4323,7 +4322,7 @@
           <w xml:id="ANN_30240_5" lemmaRef="lexicon.xml#lemma_3437" pos="NOM" wordRef="lexicon.xml#lemma_3437_sense_16661_type_11850">craft</w>
           <seg xml:id="ANN_30240_6" type="pc">.</seg>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="31"><l n="1">
           <hi rend="initial">
             <w xml:id="ANN_31010_0">in</w>
           </hi>
@@ -4454,7 +4453,7 @@
           <w xml:id="ANN_31160_5" lemmaRef="lexicon.xml#lemma_1503" pos="VRB" wordRef="lexicon.xml#type_126400">intwîchin</w>
           <seg xml:id="ANN_31160_6" type="pc">.</seg>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="32"><l n="1">
           <w xml:id="ANN_32010_0" lemmaRef="lexicon.xml#lemma_18884" meaningRef="lexicon.xml#lemma_18884_sense_31722" pos="NAM" wordRef="lexicon.xml#lemma_18884_sense_31722_type_186219">senti</w>
           <w xml:id="ANN_32010_1" lemmaRef="lexicon.xml#lemma_4605" meaningRef="lexicon.xml#lemma_4605_sense_7163" pos="NAM" wordRef="lexicon.xml#lemma_4605_sense_7163_type_126401">pêtir</w>
           <seg xml:id="ANN_32010_2" type="pc">,</seg>
@@ -4677,7 +4676,7 @@
           <w xml:id="ANN_32260_5" lemmaRef="lexicon.xml#lemma_1655" pos="VRB" wordRef="lexicon.xml#type_126451">irstantan</w>
           <seg xml:id="ANN_32260_6" type="pc">.</seg>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="33"><l n="1">
           <hi rend="initial">
             <w xml:id="ANN_33010_0" lemmaRef="lexicon.xml#lemma_1180" meaningRef="lexicon.xml#lemma_1180_sense_1864" pos="ADV" wordRef="lexicon.xml#lemma_1180_sense_1864_type_3742">duo</w>
           </hi>
@@ -4811,7 +4810,7 @@
           <w xml:id="ANN_33160_6" lemmaRef="lexicon.xml#lemma_7084" meaningRef="lexicon.xml#lemma_7084_sense_11475" pos="NOM" wordRef="lexicon.xml#lemma_7084_sense_11475_type_25058">vingerlîn</w>
           <seg xml:id="ANN_33160_7" type="pc">.</seg>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="34"><l n="1">
           <hi rend="initial">
             <w xml:id="ANN_34010_0" lemmaRef="lexicon.xml#lemma_1119" meaningRef="lexicon.xml#lemma_1119_sense_1770" pos="ART" wordRef="lexicon.xml#lemma_1119_sense_1770_type_3506">den</w>
           </hi>
@@ -4982,7 +4981,7 @@
           <w xml:id="ANN_34200_6" lemmaRef="lexicon.xml#lemma_7793" pos="VRB" wordRef="lexicon.xml#lemma_7793_sense_12776_type_28196">gezalt</w>
           <seg xml:id="ANN_34200_7" type="pc">.</seg>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="35"><l n="1">
           <hi rend="initial">
             <w xml:id="ANN_35010_0">sîn</w>
           </hi>
@@ -5131,7 +5130,7 @@
           <w xml:id="ANN_35180_5">wert</w>
           <seg xml:id="ANN_35180_6" type="pc">.</seg>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="36"><l n="1">
           <hi rend="initial">
             <w xml:id="ANN_36010_0" lemmaRef="lexicon.xml#lemma_5601" meaningRef="lexicon.xml#lemma_5601_sense_8764" pos="ADV" wordRef="lexicon.xml#lemma_5601_sense_8764_type_19597">sô</w>
           </hi>
@@ -5264,7 +5263,7 @@
           <w xml:id="ANN_36160_4" lemmaRef="lexicon.xml#lemma_2073" pos="VRB" wordRef="lexicon.xml#type_126508">gelônit</w>
           <seg xml:id="ANN_36160_5" type="pc">.</seg>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="37"><l n="1">
           <hi rend="initial">
             <w xml:id="ANN_37010_0" lemmaRef="lexicon.xml#lemma_7075" meaningRef="lexicon.xml#lemma_7075_sense_11459" pos="ADJ ADV" wordRef="lexicon.xml#lemma_7075_sense_11459_type_113473">vili</w>
           </hi>
@@ -5396,7 +5395,7 @@
           <w xml:id="ANN_37160_5" lemmaRef="lexicon.xml#lemma_2500" meaningRef="lexicon.xml#lemma_2500_sense_4013" pos="NOM" wordRef="lexicon.xml#lemma_2500_sense_4013_type_81893">graf</w>
           <seg xml:id="ANN_37160_6" type="pc">.</seg>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="38"><l n="1">
           <hi rend="initial">
             <w xml:id="ANN_38010_0" lemmaRef="lexicon.xml#lemma_4365" meaningRef="lexicon.xml#lemma_4365_sense_6822" pos="ADV NEG" wordRef="lexicon.xml#lemma_4365_sense_6822_type_83038">ni</w>
           </hi>
@@ -5495,7 +5494,7 @@
           <w xml:id="ANN_38120_2" lemmaRef="lexicon.xml#lemma_3962" meaningRef="lexicon.xml#lemma_3962_sense_6245" pos="ADJ" wordRef="lexicon.xml#lemma_3962_sense_6245_type_113483">manigin</w>
           <seg xml:id="ANN_38120_3" type="pc">.</seg>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="39"><l n="1">
           <hi rend="initial">
             <w xml:id="ANN_39010_0" lemmaRef="lexicon.xml#lemma_1136" pos="ADJ ADV" wordRef="lexicon.xml#type_126364">dikki</w>
           </hi>
@@ -5629,7 +5628,7 @@
           <w xml:id="ANN_39160_5" lemmaRef="lexicon.xml#lemma_2830" meaningRef="lexicon.xml#lemma_2830_sense_90142" pos="NOM" wordRef="lexicon.xml#lemma_2830_sense_90142_type_9576">himele</w>
           <seg xml:id="ANN_39160_6" type="pc">.</seg>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="40"><l n="1">
           <hi rend="initial">
             <w xml:id="ANN_40010_0" lemmaRef="lexicon.xml#lemma_1055" meaningRef="lexicon.xml#lemma_1055_sense_1689" pos="ADV" wordRef="lexicon.xml#lemma_1055_sense_1689_type_3258">dar</w>
           </hi>
@@ -5795,7 +5794,7 @@
           <w xml:id="ANN_40220_4" lemmaRef="lexicon.xml#lemma_3595" pos="ADJ ADV GRA" wordRef="lexicon.xml#type_126667">langere</w>
           <seg xml:id="ANN_40220_5" type="pc">.</seg>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="41"><l n="1">
           <hi rend="initial">
             <w xml:id="ANN_41010_0">her</w>
           </hi>
@@ -5923,7 +5922,7 @@
           <w xml:id="ANN_41160_3" lemmaRef="lexicon.xml#lemma_15486" pos="VRB" wordRef="lexicon.xml#type_126689">sîchen</w>
           <seg xml:id="ANN_41160_4" type="pc">.</seg>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="42"><l n="1">
           <hi rend="initial">
             <w xml:id="ANN_42010_0" lemmaRef="lexicon.xml#lemma_1331" meaningRef="lexicon.xml#lemma_1331_sense_2068" pos="ART NUM" wordRef="lexicon.xml#lemma_1331_sense_2068_type_126672">einis</w>
           </hi>
@@ -6129,7 +6128,7 @@
           <w xml:id="ANN_42220_5" lemmaRef="lexicon.xml#lemma_909" pos="NOM" wordRef="lexicon.xml#type_126708">brustin</w>
           <seg xml:id="ANN_42220_6" type="pc">.</seg>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="43"><l n="1">
           <hi rend="initial">
             <w xml:id="ANN_43010_0" lemmaRef="lexicon.xml#lemma_6330" meaningRef="lexicon.xml#lemma_6330_sense_9973" pos="ADV PRP" wordRef="lexicon.xml#lemma_6330_sense_9973_type_77506">vf</w>
           </hi>
@@ -6381,7 +6380,7 @@
           <w xml:id="ANN_43240_10" lemmaRef="lexicon.xml#lemma_5332" pos="NOM" wordRef="lexicon.xml#type_111034">sculte</w>
           <seg xml:id="ANN_43240_11" type="pc">!</seg>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="44"><l n="1">
           <hi rend="initial">
             <w xml:id="ANN_44010_0" lemmaRef="lexicon.xml#lemma_1180" meaningRef="lexicon.xml#lemma_1180_sense_1864" pos="ADV" wordRef="lexicon.xml#lemma_1180_sense_1864_type_3742">duo</w>
           </hi>
@@ -6491,7 +6490,7 @@
           <w xml:id="ANN_44140_5" lemmaRef="lexicon.xml#lemma_3702" pos="VRB" wordRef="lexicon.xml#type_126829">leintin</w>
           <seg xml:id="ANN_44140_6" type="pc">.</seg>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="45"><l n="1">
           <hi rend="initial">
             <w xml:id="ANN_45010_0" lemmaRef="lexicon.xml#lemma_9604" meaningRef="lexicon.xml#lemma_9604_sense_81741" pos="PRO CNJ" wordRef="lexicon.xml#lemma_9604_sense_81741_type_33468">alser</w>
           </hi>
@@ -6627,7 +6626,7 @@
           <w xml:id="ANN_45160_3" lemmaRef="lexicon.xml#lemma_2264" meaningRef="lexicon.xml#lemma_2264_sense_3614" pos="NOM ADJ" wordRef="lexicon.xml#lemma_2264_sense_3614_type_126846">gesunte</w>
           <seg xml:id="ANN_45160_4" type="pc">.</seg>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="46"><l n="1">
           <hi rend="initial">
             <w xml:id="ANN_46010_0" lemmaRef="lexicon.xml#lemma_297" meaningRef="lexicon.xml#lemma_297_sense_387" pos="NAM" wordRef="lexicon.xml#lemma_297_sense_387_type_100352">arnold</w>
           </hi>
@@ -6809,7 +6808,7 @@
           <w xml:id="ANN_46220_5" lemmaRef="lexicon.xml#lemma_4937" meaningRef="lexicon.xml#lemma_4937_sense_7681" pos="NOM" wordRef="lexicon.xml#lemma_4937_sense_7681_type_126872">rûwin</w>
           <seg xml:id="ANN_46220_6" type="pc">.</seg>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="47"><l n="1">
           <hi rend="initial">
             <w xml:id="ANN_47010_0" lemmaRef="lexicon.xml#lemma_1119" meaningRef="lexicon.xml#lemma_1119_sense_1770" pos="ART" wordRef="lexicon.xml#lemma_1119_sense_1770_type_3510">des</w>
           </hi>
@@ -7041,7 +7040,7 @@
           <w xml:id="ANN_47280_5" lemmaRef="lexicon.xml#lemma_8512" meaningRef="lexicon.xml#lemma_8512_sense_13258" pos="NOM" wordRef="lexicon.xml#lemma_8512_sense_13258_type_109272">crûcestal</w>
           <seg xml:id="ANN_47280_6" type="pc">.</seg>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="48"><l n="1">
           <hi rend="initial">
             <w xml:id="ANN_48010_0" lemmaRef="lexicon.xml#lemma_297" meaningRef="lexicon.xml#lemma_297_sense_387" pos="NAM" wordRef="lexicon.xml#lemma_297_sense_387_type_828">arnolt</w>
           </hi>
@@ -7151,7 +7150,7 @@
           <w xml:id="ANN_48140_5" lemmaRef="lexicon.xml#lemma_3437" pos="NOM" wordRef="lexicon.xml#lemma_3437_sense_16661_type_11850">craft</w>
           <seg xml:id="ANN_48140_6" type="pc">.</seg>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="49"><l n="1">
           <hi rend="initial">
             <w xml:id="ANN_49010_0" lemmaRef="lexicon.xml#lemma_7193" meaningRef="lexicon.xml#lemma_7193_sense_11656" pos="PRP" wordRef="lexicon.xml#lemma_7193_sense_11656_type_25544">von</w>
           </hi>
@@ -7364,7 +7363,6 @@
           <w xml:id="ANN_49260_4" lemmaRef="lexicon.xml#lemma_3604" meaningRef="lexicon.xml#lemma_3604_sense_5708" pos="NOM" wordRef="lexicon.xml#lemma_3604_sense_5708_type_56143">lante</w>
           <seg xml:id="ANN_49260_5" type="pc">.</seg>
         </l>
-      </p>
-    </body>
+      </lg></p></body>
   </text>
 </TEI>
