@@ -35,6 +35,10 @@ This is the MHDBDB TEI Repository - a collection of TEI-encoded Middle High Germ
   - `mhg_normalizer.py` - Middle High German text normalization utilities
   - `validate-indices.py` - Index validation and integrity checks
   - `generate-manifest.py` - Generates corpus manifest
+  - **data-wrangling/**: Scripts for enriching authority files with external data
+    - `enhance_works_with_zotero.py` - Fetches bibliographic data from Zotero API and updates works.xml
+    - `sync_tei_headers.py` - Syncs authority file metadata to TEI file headers
+    - `test_zotero_extraction.py` - Validation tests for Zotero data extraction
 
 ### Web Interfaces
 
@@ -221,6 +225,14 @@ All files use consistent cross-referencing:
 - ✅ **Cross-Platform Workflow** - Seamless navigation from playground advanced search to main site immersive reading
 - ✅ **Position Tracking** - Word position tracked during TEI parsing for accurate highlight targeting
 
+**Data Wrangling Workflow (Oct 30, 2025 - Issue #19)**:
+- ✅ **Zotero API Integration** - Enhanced works.xml with bibliographic metadata from Zotero API
+- ✅ **Comprehensive Field Extraction** - All Zotero fields now extracted (edition, seriesNumber, issue, etc.)
+- ✅ **German Title Case Conversion** - Automatic conversion of titles to proper German bibliographic style
+- ✅ **Complete Data Coverage** - Script updates ALL items with Zotero data, not just those with editors
+- ✅ **680 biblStruct elements** - Complete bibliographic records for 582 works
+- Scripts: `enhance_works_with_zotero.py`, `sync_tei_headers.py`, `test_zotero_extraction.py`
+
 **Recent Bug Fixes and Improvements** (Oct 2-6, 2025):
 - ✅ Fixed test suite timeout issue (skipped main site tests)
 - ✅ Rebuilt empty authority index (0 bytes → 3.0 MB)
@@ -237,6 +249,236 @@ All files use consistent cross-referencing:
 **What Still Uses XML Parsing**:
 - TEI files (user-uploaded) - still parsed in browser as needed
 - This is correct and expected for user content
+
+## Knowledge Documentation Guidelines
+
+This project maintains comprehensive knowledge documentation in the `docs/` directory. These guidelines ensure documentation remains focused, actionable, and maintainable.
+
+### Philosophy
+
+**Knowledge Documentation vs Reference Documentation:**
+- **Knowledge docs** (docs/*.MD) explain WHY and WHAT - architectural decisions, data relationships, system design
+- **Reference docs** (README.md, code comments) explain HOW - installation steps, API usage, implementation details
+- **Target audience:** Future developers (including yourself) trying to understand the system, not operate it
+
+**Core Principle:** Focus on knowledge transfer, not operation manuals. Developers know how to install Node.js - they need to understand why we chose pre-built indexes over runtime XML parsing.
+
+### Documentation Structure
+
+**Hub-and-Spoke Architecture:**
+- **INDEX.MD** - Central gateway providing 3-5 minute overview with navigation to specialized documents
+- **DATA-MODEL.MD** - Data sources, schemas, transformation pipeline
+- **ARCHITECTURE.MD** - Technical components, data flow, storage patterns
+- **FEATURES.MD** - User-facing functionality descriptions
+- **DEVELOPMENT.MD** - Build commands, git workflow, deployment
+- **RESEARCH.MD** - Academic context, standards, methodological background
+- **DECISIONS.MD** - Architecture Decision Records (ADRs) with full rationale
+
+**Progressive Disclosure:**
+- INDEX.MD = 30-second overview → specialized docs = 5-10 minute deep dive → code = implementation details
+- Each document focuses on ONE concern - no duplication
+- Cross-reference sparingly, only when essential for understanding
+
+### Core Writing Rules
+
+**✅ DO:**
+- Focus on **unique architectural decisions** and their rationale (e.g., "Pre-built indexes eliminate 47MB XML parsing → 19× faster loading")
+- Explain **data structures and relationships** (e.g., "3-stage lemma resolution: exact match → variants → partial match")
+- Document **trade-offs and alternatives** (e.g., "Client-only = zero hosting cost but limited processing power")
+- Use **descriptive headers** for scanability (e.g., "Multi-Lemma Proximity Search" not "Search Feature 3")
+- Include **one concrete example** per concept (not three variations)
+- Mention **key version changes** that affect understanding (e.g., "v4.0.0 removed paragraph-based indexing")
+
+**❌ DON'T:**
+- Include **exact metrics/quantifications** unless essential (say "hundreds of texts" not "666 texts" repeated 10 times)
+- Write **installation instructions** (developers know `npm install`, focus on what's unique to this project)
+- Add **redundant code examples** (full class implementations belong in code, not docs)
+- Create **troubleshooting sections** (use GitHub issues for this)
+- Show **expected command outputs** (developers can run commands themselves)
+- Repeat **information across documents** (each fact documented once, cross-reference if needed)
+- Over-use **cross-references** (not every paragraph needs "See ARCHITECTURE.MD#section")
+
+### Anti-Patterns to Avoid
+
+**Excessive Quantification ("blabla about numbers"):**
+```
+BAD:  "666 TEI files, 43,750 lemmata, 210 persons, 583 works, 176,056 variants"
+GOOD: "Hundreds of TEI texts with tens of thousands of dictionary entries"
+
+BAD:  "authority-index.json.gz is 2.90 MB compressed from 15 MB uncompressed"
+GOOD: "Authority index compressed to 3 MB (19× reduction)"
+```
+
+**Accessibility Blabla (everyone knows this):**
+```
+BAD:  Detailed Node.js installation instructions for Windows/Mac/Linux
+GOOD: "Requires Node.js 16+" (one line)
+
+BAD:  "Check version: node --version, should be 16.0.0 or higher"
+GOOD: Omit entirely (developers know this)
+```
+
+**Redundant Examples:**
+```
+BAD:  Three code examples showing slight variations of same pattern
+GOOD: One clear example demonstrating the concept
+
+BAD:  Expected command output for every bash command
+GOOD: Show output only for non-obvious commands
+```
+
+**Over-Documentation:**
+```
+BAD:  "For more details see ARCHITECTURE.MD#section" after every paragraph
+GOOD: One reference at end of major section
+
+BAD:  Full JavaScript class implementation with all methods
+GOOD: Key method signatures and high-level flow description
+```
+
+### Document-Specific Guidelines
+
+**INDEX.MD (150-200 lines):**
+- Gateway document only - no deep dives
+- High-level project overview with key numbers (rounded)
+- Quick Start section for each user type
+- Navigation table to specialized docs
+- NO implementation details
+
+**DATA-MODEL.MD (200-250 lines):**
+- Data source descriptions and schemas
+- Transformation logic (XML → JSON)
+- Index structures with field descriptions
+- NO full pipeline code, NO every validation rule
+
+**ARCHITECTURE.MD (250-300 lines):**
+- Component descriptions and responsibilities
+- Data flow between components
+- Key architectural patterns (caching, normalization)
+- NO full class implementations, NO every method
+
+**FEATURES.MD (200-250 lines):**
+- User-facing feature descriptions
+- What features do, not how they're implemented
+- Visual design and interaction patterns
+- NO code examples, NO API documentation
+
+**DEVELOPMENT.MD (150-200 lines):**
+- Build commands and git workflow
+- Prerequisites (minimal - just versions)
+- Deployment process
+- NO troubleshooting, NO debug commands, NO installation HOWTOs
+
+**RESEARCH.MD (200-250 lines):**
+- Academic context and project background
+- TEI/MHG standards and methodologies
+- Research questions the project addresses
+- CAN be detailed (this is unique knowledge)
+
+**DECISIONS.MD (400-500 lines):**
+- Architecture Decision Records (ADRs)
+- One ADR per major decision
+- Template: Context → Problem → Alternatives → Decision → Consequences
+- SHOULD be detailed (captures reasoning for posterity)
+
+### Examples: Good vs Bad
+
+**Good - Focused on Core Knowledge:**
+```
+"The project migrated from runtime XML parsing to pre-built JSON indexes
+because 47MB of authority files caused 30-second load times in browsers.
+Pre-built indexes reduce download to 3MB and eliminate parsing overhead,
+achieving 19× faster loading. Trade-off: requires Python build step when
+XML sources change."
+```
+
+**Bad - Excessive Detail and Metrics:**
+```
+"The authority-index.json.gz file is 2.90 MB compressed (uncompressed: 15.3 MB),
+generated on 2025-10-06 at 12:00:00 UTC, containing exactly 43,750 lemmata,
+210 persons with GND identifiers, 583 works with bibliographic metadata,
+567 concepts, 615 genres, 90 names, and 176,056 variant mappings extracted
+from the TEI corpus using the extract-variants.py script which takes
+approximately 2 minutes 45 seconds to run on a modern machine..."
+```
+
+**Good - Essential Architecture:**
+```
+"3-stage lemma resolution handles orthographic variants:
+1. Exact match in lexicon (canonical forms like 'brôt')
+2. Variants dictionary lookup (176k attested forms → lemma IDs)
+3. Partial match fallback (fuzzy search)
+This achieves 100% recall for historical spelling variations."
+```
+
+**Bad - Over-Explained with Code:**
+```javascript
+// Full 50-line class implementation with every method,
+// input validation, error handling, and three usage examples
+class AuthorityFilesManager {
+  constructor() { ... }
+  searchLemmaByOrthography(searchTerm) {
+    // Stage 1: exact match
+    const normalized = TextNormalizer.normalizeMHG(searchTerm);
+    let lemma = this.authorityData.lemmata.find(l =>
+      TextNormalizer.matchesNormalized(l.lemma, normalized)
+    );
+    // ... 40 more lines
+  }
+}
+```
+
+**Good - Trade-offs Explained:**
+```
+"Client-only architecture eliminates server costs and maintenance but limits
+processing power to browser capabilities. Large corpus searches can take
+5-10 seconds. Alternative (rejected): Backend API would enable faster search
+but requires hosting costs and server maintenance."
+```
+
+**Bad - Installation Blabla:**
+```
+"To install Node.js, visit https://nodejs.org and download the installer
+for your operating system. On Windows, run the .msi installer. On Mac,
+use the .pkg installer or install via Homebrew with 'brew install node'.
+On Linux, use your package manager: 'sudo apt install nodejs' on Ubuntu,
+'sudo yum install nodejs' on CentOS. After installation, verify with
+'node --version' which should output '16.0.0' or higher..."
+```
+
+### Target Line Counts (Realistic)
+
+Based on analysis of well-documented projects:
+- **INDEX.MD:** 150-200 lines (gateway, no deep dives)
+- **DATA-MODEL.MD:** 200-250 lines (schemas and transformations)
+- **ARCHITECTURE.MD:** 250-300 lines (components, not implementations)
+- **FEATURES.MD:** 200-250 lines (user-facing descriptions)
+- **DEVELOPMENT.MD:** 150-200 lines (build commands, no troubleshooting)
+- **RESEARCH.MD:** 200-250 lines (academic context, can be detailed)
+- **DECISIONS.MD:** 400-500 lines (ADRs need full rationale)
+
+**Total:** ~1,800 lines for complete knowledge base (vs 3,000+ with over-documentation)
+
+### Maintenance
+
+**When to Update Docs:**
+- After architectural changes (new components, removed features)
+- After data model changes (new index fields, schema changes)
+- After major refactorings (e.g., Phase 7 modular UI)
+- When adding ADRs for significant decisions
+
+**When NOT to Update Docs:**
+- Bug fixes (unless they reveal architectural issues)
+- Minor UI tweaks
+- Dependency updates
+- Code cleanup without behavior changes
+
+**Review Checklist Before Committing Docs:**
+- [ ] Is this core knowledge or operational detail? (Only document core knowledge)
+- [ ] Am I repeating information from another document? (Remove duplication)
+- [ ] Are metrics essential to understanding? (Most aren't)
+- [ ] Would a developer be confused without this? (If not, cut it)
+- [ ] Does this belong in code comments instead? (Implementation details do)
 
 ## System Requirements
 
@@ -638,3 +880,54 @@ git push -u origin feature/your-feature-name
 - **IndexedDB required**: Large files cannot be handled via sessionStorage alone
 - **TEI namespace**: Always use `http://www.tei-c.org/ns/1.0` when working with XML
 - **UTF-8 encoding**: All TEI files use UTF-8 encoding
+
+## Comprehensive Documentation
+
+This CLAUDE.md provides quick-reference guidance. For detailed knowledge documentation, see the `docs/` directory:
+
+### Documentation Structure
+
+The project follows a hub-and-spoke knowledge base architecture with 7 specialized documents:
+
+| Document | Purpose | Target Audience |
+|----------|---------|-----------------|
+| **[docs/INDEX.MD](docs/INDEX.MD)** | Project overview and navigation hub | Anyone new to the project |
+| **[docs/DATA-MODEL.MD](docs/DATA-MODEL.MD)** | Data sources, schemas, transformation pipeline | Data engineers, backend developers |
+| **[docs/ARCHITECTURE.MD](docs/ARCHITECTURE.MD)** | Technical components, data flow, storage patterns | Frontend developers, architects |
+| **[docs/FEATURES.MD](docs/FEATURES.MD)** | User-facing functionality descriptions | Product managers, UX designers |
+| **[docs/DEVELOPMENT.MD](docs/DEVELOPMENT.MD)** | Build commands, git workflow, deployment | New contributors, DevOps |
+| **[docs/RESEARCH.MD](docs/RESEARCH.MD)** | Academic context, TEI/MHG standards | Researchers, medievalists |
+| **[docs/DECISIONS.MD](docs/DECISIONS.MD)** | Architecture Decision Records (ADRs) | Architects, technical leads |
+
+### When to Use Each Document
+
+**Starting a new feature?** Read [ARCHITECTURE.MD](docs/ARCHITECTURE.MD) and [DATA-MODEL.MD](docs/DATA-MODEL.MD)
+
+**Fixing a bug?** Check [ARCHITECTURE.MD](docs/ARCHITECTURE.MD) for component details
+
+**Adding documentation?** Follow guidelines in "Knowledge Documentation Guidelines" section above
+
+**Understanding design decisions?** Read [DECISIONS.MD](docs/DECISIONS.MD) for ADRs
+
+**Contributing code?** Read [DEVELOPMENT.MD](docs/DEVELOPMENT.MD) for workflow
+
+**Understanding user features?** Read [FEATURES.MD](docs/FEATURES.MD)
+
+**Academic questions?** Read [RESEARCH.MD](docs/RESEARCH.MD) for context and standards
+
+### Documentation Maintenance
+
+**Update docs/ when:**
+- Adding/removing features
+- Making architectural changes
+- Refactoring major components
+- Adding new data structures
+- Making significant design decisions (add ADR to DECISIONS.MD)
+
+**DON'T update docs/ for:**
+- Bug fixes (unless they reveal architectural issues)
+- Minor UI tweaks
+- Dependency updates
+- Code cleanup without behavior changes
+
+**Remember:** CLAUDE.md provides quick reference for Claude Code, `docs/` provides comprehensive knowledge for humans.

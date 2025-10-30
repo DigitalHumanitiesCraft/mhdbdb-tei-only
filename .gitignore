@@ -68,6 +68,9 @@ out/
 *.backup
 __pycache__/
 
+# Data wrangling cache files
+scripts/data-wrangling/.zotero_cache.json
+
 # Debug and manual test files
 nul
 testing/manual-*.html
