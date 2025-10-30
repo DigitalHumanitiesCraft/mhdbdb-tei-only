@@ -205,7 +205,7 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
 **Location:** `scripts/` directory
 **Language:** Python 3.13+ with lxml
 
-Four build scripts:
+Four core build scripts:
 
 1. **`build-authority-index.py`** - Extract authority data from 7 XML files
    - Parse XML with lxml
@@ -230,6 +230,35 @@ Four build scripts:
    - Validate unique IDs
    - Check cross-references
    - Verify data quality
+
+### Data Wrangling Scripts
+
+**Location:** `scripts/data-wrangling/`
+
+Scripts for enriching authority files with external data:
+
+1. **`enhance_works_with_zotero.py`** - Sync Zotero bibliographic data
+   - Fetch from Zotero API (group 5043625, collection 7JU362QV)
+   - Extract ALL fields: title, edition, volume, issue, series, seriesNumber, authors, editors, place, publisher, date, pages, ISBN, notes
+   - Transform titles to German Title Case (capitalize words except articles/prepositions)
+   - Update works.xml with complete biblStruct elements
+   - Three modes: live API, cache, offline
+
+2. **`sync_tei_headers.py`** - Propagate authority metadata to TEI headers
+   - Read authority file changes (works.xml, persons.xml)
+   - Update corresponding TEI file headers
+   - Maintain intentional redundancy for accessibility
+
+3. **`test_zotero_extraction.py`** - Validation tests
+   - Compare Zotero data with generated biblStruct
+   - Verify complete field extraction
+   - Ensure data integrity
+
+**Title Case Transformation:** Zotero stores titles in sentence case, but German bibliographic style requires Title Case. The script converts automatically:
+- Capitalizes first word and words after colons
+- Keeps German articles/prepositions lowercase (der, die, von, und, etc.)
+- Capitalizes all other words
+- Example: "Das stadtratsgedicht heinrichs von rang" → "Das Stadtratsgedicht Heinrichs von Rang"
 
 ### Browser Loading Pipeline
 

@@ -578,6 +578,61 @@ Implement custom MHG text normalization:
 
 ---
 
+## ADR-006: Zotero API Integration for Bibliographic Metadata
+
+**Status:** Implemented (October 2025)
+**Context:** Bibliographic metadata management for 580+ works
+
+### Problem
+
+Works.xml contained incomplete bibliographic data with missing fields (edition, issue, seriesNumber) and inconsistent title casing. Manually maintaining biblStruct elements was error-prone and time-consuming.
+
+### Alternatives Evaluated
+
+**Option A: Manual XML editing**
+- Pro: Direct control over data
+- Con: Error-prone, time-consuming
+- Con: No single source of truth
+- Rejected: Not scalable
+
+**Option B: Static Zotero XML export**
+- Pro: Complete bibliographic data
+- Con: Manual export process
+- Con: No versioning/updates
+- Rejected: Workflow too manual
+
+**Option C: Zotero API with automated sync**
+- Pro: Single source of truth (Zotero library)
+- Pro: Complete field extraction (all metadata)
+- Pro: Reproducible with caching
+- Con: Requires API script
+- **Accepted:** Best for data integrity
+
+### Decision
+
+Integrate Zotero API to fetch bibliographic metadata and update works.xml:
+- Fetch from MHDBDB Zotero collection (group 5043625)
+- Extract ALL fields: edition, volume, issue, series, seriesNumber, authors, editors
+- Convert titles to German Title Case automatically
+- Update ALL items (not just those with editors)
+- Provide offline mode with caching for reproducibility
+
+### Consequences
+
+**Positive:**
+- Complete metadata coverage: 680 biblStruct elements for 582 works
+- Consistent German Title Case across all titles
+- Single source of truth (Zotero library)
+- Reproducible workflow with cache support
+- All bibliographic fields now preserved (edition, seriesNumber, issue)
+
+**Negative:**
+- Requires Python script execution when Zotero data changes
+- Two-step workflow: Zotero → works.xml → TEI headers
+- API dependency (mitigated by cache)
+
+**Implementation:** `scripts/data-wrangling/enhance_works_with_zotero.py`
+
 For implementation details, see [ARCHITECTURE.MD](ARCHITECTURE.MD).
 For data structures, see [DATA-MODEL.MD](DATA-MODEL.MD).
 For development workflow, see [DEVELOPMENT.MD](DEVELOPMENT.MD).
