@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="MRR">
   <teiHeader>
     <fileDesc>
@@ -59,14 +59,13 @@
             <listBibl>
               <biblStruct type="bookSection" xml:id="MRR_MRR" corresp="http://zotero.org/groups/5043625/items/AXWL356V" key="MRR">
                 <analytic>
-                  <title level="a">Maria rettet einen ritter um seiner frau willen: Der ritter und sein
-                weib</title>
+                  <title level="a">Maria Rettet einen Ritter um Seiner Frau Willen: Der Ritter und Sein Weib</title>
                   <author>
                     <name>Anonym</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Marienlegenden aus dem alten Passional</title>
+                  <title level="m">Marienlegenden aus dem Alten Passional</title>
                   <idno type="callNumber">MRR</idno>
                   <editor>
                     <forename>Hans-Georg</forename>
@@ -80,10 +79,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Altdeutsche textbibliothek</title>
+                  <title level="s">Altdeutsche Textbibliothek</title>
                 </series>
-                <note>Marienlegenden aus dem alten Passional. Hrsg. von Hans-Georg Richert. Tübingen:
-              Niemeyer 1965. (= ATB Nr. 64), S. 1-5</note>
+                <note>Marienlegenden aus dem alten Passional. Hrsg. von Hans-Georg Richert. Tübingen: Niemeyer 1965. (= ATB Nr. 64), S. 1-5</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -98,12 +96,12 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_3e90312e" ana="parent">
+          <category xml:id="genre_3e90312e" ana="parent" corresp="genres.xml#genre_3e90312e">
             <gloss xml:lang="de">Marienmirakel</gloss>
             <gloss xml:lang="en">Miracle of Holy Mary</gloss>
             <gloss xml:lang="en">Marian Miracle</gloss>
           </category>
-          <category xml:id="genre_910c5f51">
+          <category xml:id="genre_910c5f51" corresp="genres.xml#genre_910c5f51">
             <gloss xml:lang="de">Marienleben</gloss>
             <gloss xml:lang="de">Marienlegende</gloss>
             <gloss xml:lang="en">Life of Holy Mary</gloss>
@@ -111,7 +109,7 @@
             <gloss xml:lang="en">Mary's Life</gloss>
             <gloss xml:lang="la">Vita Mariae</gloss>
           </category>
-          <category xml:id="genre_f3daf714" ana="parent">
+          <category xml:id="genre_f3daf714" ana="parent" corresp="genres.xml#genre_f3daf714">
             <gloss xml:lang="de">Bibeldichtung</gloss>
             <gloss xml:lang="de">Religiöse Versdichtung</gloss>
             <gloss xml:lang="en">Bible Poetry</gloss>
@@ -123,7 +121,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_anonym">
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>
             <persName type="alternative" xml:lang="de">Anonymus</persName>
             <persName type="alternative" xml:lang="en">anonymous</persName>

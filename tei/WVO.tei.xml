@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="WVO">
   <teiHeader>
     <fileDesc>
@@ -41,17 +41,23 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_25">
             <idno type="sigle">WVO</idno>
+            <idno type="handschriftencensus">584</idno>
+            <idno type="gnd">4233754-9</idno>
             <msName xml:lang="de">Wilhelm von Österreich</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="book" xml:id="WVO_WVO" corresp="http://zotero.org/groups/5043625/items/YWZKBJUQ" key="WVO">
                 <monogr>
-                  <title level="m">Wilhelm von österreich: Aus der gothaer handschrift</title>
-                  <idno type="callNumber">WVO</idno>
+                  <title>Wilhelm von Österreich: Aus der Gothaer Handschrift</title>
                   <author>
                     <name>Johann von Würzburg</name>
                   </author>
+                  <idno type="callNumber">WVO</idno>
+                  <editor>
+                    <forename>Ernst</forename>
+                    <surname>Regel</surname>
+                  </editor>
                   <imprint>
                     <pubPlace>Berlin</pubPlace>
                     <biblScope unit="volume">3</biblScope>
@@ -60,10 +66,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Deutsche texte des mittelalters</title>
+                  <title level="s">Deutsche Texte des Mittelalters</title>
                 </series>
-                <note>Johanns von Würzburg: Wilhelm von Österreich, aus der Gothaer Handschrift. Hrsg.
-              v. Ernst Regel. Berlin 1906</note>
+                <note>Johanns von Würzburg: Wilhelm von Österreich, aus der Gothaer Handschrift. Hrsg. v. Ernst Regel. Berlin 1906</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -78,14 +83,14 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_72cae96a" ana="parent">
+          <category xml:id="genre_72cae96a" ana="parent" corresp="genres.xml#genre_72cae96a">
             <gloss xml:lang="de">Höfischer Roman</gloss>
             <gloss xml:lang="de">Versroman</gloss>
             <gloss xml:lang="en">Courtly Romance</gloss>
             <gloss xml:lang="en">Courtly Novel</gloss>
             <gloss xml:lang="en">Verse Novel</gloss>
           </category>
-          <category xml:id="genre_88b5cae2">
+          <category xml:id="genre_88b5cae2" corresp="genres.xml#genre_88b5cae2">
             <gloss xml:lang="de">Liebesroman und Abenteuerroman</gloss>
             <gloss xml:lang="de">Liebesroman</gloss>
             <gloss xml:lang="de">Minneroman und Aventiureroman</gloss>
@@ -106,7 +111,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_48">
+          <person xml:id="person_48" corresp="persons.xml#person_48">
             <persName type="preferred">Johann von Würzburg</persName>
             <idno type="GND">118712349</idno>
             <idno type="wikidata">Q1696879</idno>

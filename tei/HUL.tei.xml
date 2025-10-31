@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="HUL">
   <teiHeader>
     <fileDesc>
@@ -41,18 +41,23 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_191">
             <idno type="sigle">HUL</idno>
+            <idno type="handschriftencensus">1009</idno>
             <msName xml:lang="de">Leben des heiligen Ulrich</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="book" xml:id="HUL_HUL" corresp="http://zotero.org/groups/5043625/items/3DFZHSMD" key="HUL">
                 <monogr>
-                  <title level="m">Das leben des heiligen ulrich</title>
-                  <idno type="ISBN">978-3-11-001810-3</idno>
-                  <idno type="callNumber">HUL</idno>
+                  <title>Das Leben des Heiligen Ulrich</title>
                   <author>
                     <name>Albert von Augsburg</name>
                   </author>
+                  <idno type="ISBN">978-3-11-001810-3</idno>
+                  <idno type="callNumber">HUL</idno>
+                  <editor>
+                    <forename>Karl-Ernst</forename>
+                    <surname>Geith</surname>
+                  </editor>
                   <imprint>
                     <pubPlace>Berlin and New York</pubPlace>
                     <biblScope unit="volume">39</biblScope>
@@ -61,12 +66,10 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Quellen und Forschungen zur Sprach- und Kulturgeschichte der
-                germanischen Völker, N.F.</title>
+                  <title level="s">Quellen und Forschungen zur Sprach- und Kulturgeschichte der Germanischen Völker, N.f.</title>
+                  <biblScope unit="series_number">Quellen und Forschungen zur Sprach- und Kulturgeschichte der germanischen Völker</biblScope>
                 </series>
-                <note>Albert von Augsburg, Das Leben des Heiligen Ulrich. Hrsg. von Karl-Ernst Geith; (=
-              Quellen und Forschungen zur Sprach- und Kulturgeschichte der germanischen Völker 163;
-              Neue Folge 39), Berlin/New York 1971</note>
+                <note>Albert von Augsburg, Das Leben des Heiligen Ulrich. Hrsg. von Karl-Ernst Geith; (= Quellen und Forschungen zur Sprach- und Kulturgeschichte der germanischen Völker 163; Neue Folge 39), Berlin/New York 1971</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -81,7 +84,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_0480b285" ana="parent">
+          <category xml:id="genre_0480b285" ana="parent" corresp="genres.xml#genre_0480b285">
             <gloss xml:lang="de">Geistliche Literatur</gloss>
             <gloss xml:lang="de">Geistliche Dichtung</gloss>
             <gloss xml:lang="de">Religiöse Dichtung</gloss>
@@ -91,13 +94,13 @@
             <gloss xml:lang="en">Spiritual Poetry</gloss>
             <gloss xml:lang="en">Religious Poetry</gloss>
           </category>
-          <category xml:id="genre_1510adda">
+          <category xml:id="genre_1510adda" corresp="genres.xml#genre_1510adda">
             <gloss xml:lang="de">Mirakelerzählung</gloss>
             <gloss xml:lang="de">Wunderbericht</gloss>
             <gloss xml:lang="en">Miracle Tale</gloss>
             <gloss xml:lang="en">Miracle Report</gloss>
           </category>
-          <category xml:id="genre_2292de8a">
+          <category xml:id="genre_2292de8a" corresp="genres.xml#genre_2292de8a">
             <gloss xml:lang="de">Heiligenlegende</gloss>
             <gloss xml:lang="de">Heiligenvita</gloss>
             <gloss xml:lang="de">Vita</gloss>
@@ -106,7 +109,7 @@
             <gloss xml:lang="en">Vita</gloss>
             <gloss xml:lang="la">Vita</gloss>
           </category>
-          <category xml:id="genre_ae9e2d0e" ana="parent">
+          <category xml:id="genre_ae9e2d0e" ana="parent" corresp="genres.xml#genre_ae9e2d0e">
             <gloss xml:lang="de">Erzählende Kurzform</gloss>
             <gloss xml:lang="de">Kleinepik</gloss>
             <gloss xml:lang="en">Narrative Short Form</gloss>
@@ -119,7 +122,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_585">
+          <person xml:id="person_585" corresp="persons.xml#person_585">
             <persName type="preferred">Albert von Augsburg</persName>
             <idno type="GND">100935761</idno>
             <idno type="wikidata">Q1228874</idno>

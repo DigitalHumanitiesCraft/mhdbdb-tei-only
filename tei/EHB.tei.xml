@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="EHB">
   <teiHeader>
     <fileDesc>
@@ -41,19 +41,21 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_573">
             <idno type="sigle">EHB</idno>
+            <idno type="handschriftencensus">2149</idno>
+            <idno type="gnd">4556624-0</idno>
             <msName xml:lang="de">Ehebüchlein</msName>
           </msIdentifier>
           <additional>
             <listBibl>
-              <biblStruct type="bookSection" xml:id="AlbrechtvonEyb.1890b_EHB" corresp="http://zotero.org/groups/5043625/items/653DLXF5" key="EHB">
+              <biblStruct type="bookSection" xml:id="EHB_EHB" corresp="http://zotero.org/groups/5043625/items/653DLXF5" key="EHB">
                 <analytic>
-                  <title level="a">Das ehebüchlein</title>
+                  <title level="a">Das Ehebüchlein</title>
                   <author>
                     <name>Albrecht von Eyb</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Deutsche schriften des albrecht von eyb</title>
+                  <title level="m">Deutsche Schriften des Albrecht von Eyb</title>
                   <idno type="callNumber">EHB</idno>
                   <editor>
                     <forename>Max</forename>
@@ -67,7 +69,7 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Schriften zur germanischen Philologie</title>
+                  <title level="s">Schriften zur Germanischen Philologie</title>
                 </series>
               </biblStruct>
             </listBibl>
@@ -83,7 +85,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_2c9f837c">
+          <category xml:id="genre_2c9f837c" corresp="genres.xml#genre_2c9f837c">
             <gloss xml:lang="de">Kleindidaxe</gloss>
             <gloss xml:lang="de">Didaktische Kleindichtung</gloss>
             <gloss xml:lang="de">Gnomik</gloss>
@@ -95,7 +97,7 @@
             <gloss xml:lang="en">Gnomics</gloss>
             <gloss xml:lang="en">Teaching Treatise</gloss>
           </category>
-          <category xml:id="genre_d75ff6ba" ana="parent">
+          <category xml:id="genre_d75ff6ba" ana="parent" corresp="genres.xml#genre_d75ff6ba">
             <gloss xml:lang="de">Lehrdichtung</gloss>
             <gloss xml:lang="de">Didaktische Dichtung</gloss>
             <gloss xml:lang="de">Lehrschrift</gloss>
@@ -108,7 +110,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_1447">
+          <person xml:id="person_1447" corresp="persons.xml#person_1447">
             <persName type="preferred">Albrecht von Eyb</persName>
             <idno type="GND">118644378</idno>
             <idno type="wikidata">Q77715</idno>

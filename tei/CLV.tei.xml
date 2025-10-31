@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="CLV">
   <teiHeader>
     <fileDesc>
@@ -43,31 +43,36 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_645">
             <idno type="sigle">CLV</idno>
+            <idno type="handschriftencensus">1789</idno>
+            <idno type="gnd">7795972-3</idno>
             <msName xml:lang="de">Christi Leiden in einer Vision geschaut</msName>
             <msName xml:lang="gmh">Hie geit an eyne vurede in dat
             boichelgyn van vns heren Jhesu Christi mynnenclichen lyden.</msName>
           </msIdentifier>
           <additional>
             <listBibl>
-              <biblStruct type="book" xml:id="CLV_CLV" corresp="http://zotero.org/groups/5043625/items/X8KASCRL" key="CLV">
+              <biblStruct type="book" xml:id="CLV_CLV" corresp="http://zotero.org/groups/5043625/items/WDU6YYPP" key="CLV">
                 <monogr>
-                  <title level="m">Christi leiden, in einer vision geschaut</title>
-                  <idno type="callNumber">CLV</idno>
+                  <title>Christi Leiden in einer Vision Geschaut</title>
                   <author>
                     <name>Anonym</name>
                   </author>
+                  <idno type="callNumber">CLV</idno>
+                  <editor>
+                    <forename>R.</forename>
+                    <surname>Priebsch</surname>
+                  </editor>
                   <imprint>
                     <pubPlace>Heidelberg</pubPlace>
-                    <biblScope unit="volume">39</biblScope>
                     <publisher>Winter</publisher>
                     <date>1936</date>
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Germanische bibliothek. Reihe 2: Untersuchungen und texte</title>
+                  <title level="s">Germanische Bibliothek</title>
+                  <biblScope unit="series_number">2</biblScope>
                 </series>
-                <note>Christi Leiden in einer Vision geschaut (Germanische Bibliothek, 2. Abt., Bd.
-              39)Hrsg.: R. Priebsch, Heidelberg 1936: Digitale Version Ulrich Harsch 2007</note>
+                <note>Christi Leiden in einer Vision geschaut (Germanische Bibliothek, 2. Abt., Bd. 39)Hrsg.: R. Priebsch, Heidelberg 1936: Digitale Version Ulrich Harsch 2007</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -82,19 +87,19 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_9eee7c13" ana="parent">
+          <category xml:id="genre_9eee7c13" ana="parent" corresp="genres.xml#genre_9eee7c13">
             <gloss xml:lang="de">Mystik</gloss>
             <gloss xml:lang="de">Mystischer Text</gloss>
             <gloss xml:lang="en">Mysticism</gloss>
             <gloss xml:lang="en">Mystical Text</gloss>
           </category>
-          <category xml:id="genre_a63df4be">
+          <category xml:id="genre_a63df4be" corresp="genres.xml#genre_a63df4be">
             <gloss xml:lang="de">Geistlicher Trakatat</gloss>
             <gloss xml:lang="de">Religiöser Traktat</gloss>
             <gloss xml:lang="en">Spiritual Treatise</gloss>
             <gloss xml:lang="en">Religious Treatise</gloss>
           </category>
-          <category xml:id="genre_aac7cd3d">
+          <category xml:id="genre_aac7cd3d" corresp="genres.xml#genre_aac7cd3d">
             <gloss xml:lang="de">Visionsbericht</gloss>
             <gloss xml:lang="de">Vision</gloss>
             <gloss xml:lang="de">Visionsliteratur</gloss>
@@ -108,7 +113,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_anonym">
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>
             <persName type="alternative" xml:lang="de">Anonymus</persName>
             <persName type="alternative" xml:lang="en">anonymous</persName>

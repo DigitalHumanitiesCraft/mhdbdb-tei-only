@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="GOL">
   <teiHeader>
     <fileDesc>
@@ -41,6 +41,9 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_33">
             <idno type="sigle">GOL</idno>
+            <idno type="handschriftencensus">1016</idno>
+            <idno type="gnd">1155734785</idno>
+            <idno type="wikidata">Q1534813</idno>
             <msName xml:lang="de">Goldemar</msName>
           </msIdentifier>
           <additional>
@@ -53,8 +56,7 @@
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Dietrichs abenteuer von albrecht von kemenaten nebst den bruchstücken
-                von dietrich und wenezlan</title>
+                  <title level="m">Dietrichs Abenteuer von Albrecht von Kemenaten Nebst den Bruchstücken von Dietrich und Wenezlan</title>
                   <idno type="callNumber">GOL</idno>
                   <editor>
                     <forename>Julius</forename>
@@ -68,11 +70,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Deutsches heldenbuch</title>
+                  <title level="s">Deutsches Heldenbuch</title>
                 </series>
-                <note>Goldemar. In: Dietrichs Abenteuer von Albrecht von Kemenaten. Nebst den
-              Bruchstücken von Dietrich und Wenezlan. Hrsg. v. Julius Zupitza. Berlin 1870.
-              (=Deutsches Heldenbuch, BD.5 ) S.203/4</note>
+                <note>Goldemar. In: Dietrichs Abenteuer von Albrecht von Kemenaten. Nebst den Bruchstücken von Dietrich und Wenezlan. Hrsg. v. Julius Zupitza. Berlin 1870. (=Deutsches Heldenbuch, BD.5 ) S.203/4</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -87,7 +87,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_f3e5cee1">
+          <category xml:id="genre_f3e5cee1" corresp="genres.xml#genre_f3e5cee1">
             <gloss xml:lang="de">Dietrichsepik</gloss>
             <gloss xml:lang="de">Dietrichepik</gloss>
             <gloss xml:lang="en">Dietrich Epic</gloss>
@@ -95,7 +95,7 @@
             <gloss xml:lang="en">Dietrich Poetry</gloss>
             <gloss xml:lang="en">Epic of Dietrich</gloss>
           </category>
-          <category xml:id="genre_f6672d9f" ana="parent">
+          <category xml:id="genre_f6672d9f" ana="parent" corresp="genres.xml#genre_f6672d9f">
             <gloss xml:lang="de">Heldenepik</gloss>
             <gloss xml:lang="de">Heldenepische Dichtung</gloss>
             <gloss xml:lang="en">Heroic Epic</gloss>
@@ -107,7 +107,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_15">
+          <person xml:id="person_15" corresp="persons.xml#person_15">
             <persName type="preferred">Albrecht von Kemenaten</persName>
             <idno type="GND">102421641</idno>
             <idno type="wikidata">Q2640054</idno>

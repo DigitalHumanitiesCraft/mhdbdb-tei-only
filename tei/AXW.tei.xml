@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="AXW">
   <teiHeader>
     <fileDesc>
@@ -41,17 +41,22 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_187">
             <idno type="sigle">AXW</idno>
+            <idno type="gnd">4802285-8</idno>
             <msName xml:lang="de">Der Wernigeroder Alexander</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="book" xml:id="AXW_AXW" corresp="http://zotero.org/groups/5043625/items/HIFL4YFV" key="AXW">
                 <monogr>
-                  <title level="m">Der grosse alexander: Aus der wernigeroder handschrift</title>
-                  <idno type="callNumber">AXW</idno>
+                  <title>Der Grosse Alexander: Aus der Wernigeroder Handschrift</title>
                   <author>
                     <name>Anonym</name>
                   </author>
+                  <idno type="callNumber">AXW</idno>
+                  <editor>
+                    <forename>Gustav</forename>
+                    <surname>Guth</surname>
+                  </editor>
                   <imprint>
                     <pubPlace>Berlin</pubPlace>
                     <biblScope unit="volume">13</biblScope>
@@ -60,10 +65,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Deutsche texte des mittelalters</title>
+                  <title level="s">Deutsche Texte des Mittelalters</title>
                 </series>
-                <note>Der Grosse Alexander aus der Wernigeroder Handschrift. Hrsg. v. Gustav Guth,
-              Berlin: Weidmannsche Buchhandlung, 1908.(DTM XIII)</note>
+                <note>Der Grosse Alexander aus der Wernigeroder Handschrift. Hrsg. v. Gustav Guth, Berlin: Weidmannsche Buchhandlung, 1908.(DTM XIII)</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -78,14 +82,14 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_271237bd">
+          <category xml:id="genre_271237bd" corresp="genres.xml#genre_271237bd">
             <gloss xml:lang="de">Alexanderroman</gloss>
             <gloss xml:lang="en">Alexander Romance</gloss>
             <gloss xml:lang="en">Alexander Novel</gloss>
             <gloss xml:lang="en">Romance of Alexander</gloss>
             <gloss xml:lang="en">Novel of Alexander</gloss>
           </category>
-          <category xml:id="genre_fa5f2e8a" ana="parent">
+          <category xml:id="genre_fa5f2e8a" ana="parent" corresp="genres.xml#genre_fa5f2e8a">
             <gloss xml:lang="de">Antikenroman</gloss>
             <gloss xml:lang="en">Ancient Romance</gloss>
             <gloss xml:lang="en">Ancient Novel</gloss>
@@ -96,7 +100,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_anonym">
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>
             <persName type="alternative" xml:lang="de">Anonymus</persName>
             <persName type="alternative" xml:lang="en">anonymous</persName>

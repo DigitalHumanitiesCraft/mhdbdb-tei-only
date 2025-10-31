@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="WGI">
   <teiHeader>
     <fileDesc>
@@ -42,20 +42,49 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_668">
             <idno type="sigle">WGI</idno>
+            <idno type="handschriftencensus">377</idno>
+            <idno type="gnd">4223048-2</idno>
             <msName xml:lang="de">Der Welsche Gast</msName>
             <msName xml:lang="de">Der Welhische Gast</msName>
           </msIdentifier>
           <additional>
             <listBibl>
-              <biblStruct type="bookSection" xml:id="DIGIVORLAGE.WGI_WGI" corresp="http://zotero.org/groups/5043625/items/9WET5UHU" key="WGI">
+              <biblStruct type="bookSection" xml:id="WGI_WGI" corresp="http://zotero.org/groups/5043625/items/ZYV4Z7MG" key="WGI">
                 <analytic>
-                  <title level="a">Der welsche gast (prosavorrede)</title>
+                  <title level="a">Der Welsche Gast (prosavorrede)</title>
                   <author>
                     <name>Thomasin von Zerklaere</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Der welsche gast: Digitale textedition</title>
+                  <title level="m">Der Wälsche Gast des Thomasin von Zirclaria: Mit Sprachlichen und Geschichtlichen Anmerkungen</title>
+                  <idno type="callNumber">WGI</idno>
+                  <editor>
+                    <forename>Heinrich</forename>
+                    <surname>Rückert</surname>
+                  </editor>
+                  <imprint>
+                    <pubPlace>Quedlinburg and Leipzig</pubPlace>
+                    <biblScope unit="page">1–4</biblScope>
+                    <biblScope unit="volume">30</biblScope>
+                    <publisher>Basse</publisher>
+                    <date>1852</date>
+                  </imprint>
+                </monogr>
+                <series>
+                  <title level="s">Bibliothek der Gesammten Deutschen Nationalliteratur von der Ältesten bis auf die Neuere Zeit</title>
+                </series>
+                <note>Der Wälsche Gast des Thomasin von Zirclaria. Hrsg. von Heinrich Rückert. Mit einer Einleitung und einem Register von Friedrich Naumann (Deutsche Neudrucke. Reihe: Texte des Mittelalters, Berlin, 1965</note>
+              </biblStruct>
+              <biblStruct type="bookSection" xml:id="WGI_WGI_WGI" corresp="http://zotero.org/groups/5043625/items/9WET5UHU" key="WGI">
+                <analytic>
+                  <title level="a">Der Welsche Gast (prosavorrede)</title>
+                  <author>
+                    <name>Thomasin von Zerklaere</name>
+                  </author>
+                </analytic>
+                <monogr>
+                  <title level="m">Der Welsche Gast: Digitale Textedition</title>
                   <idno type="callNumber">WGI</idno>
                   <editor>
                     <forename>Steven M.</forename>
@@ -75,45 +104,9 @@
                   </editor>
                   <imprint>
                     <date>2000</date>
-                    <note type="accessed">2018-08-03</note>
-                    <note type="url">
-                  https://www.hs-augsburg.de/~harsch/germanica/Chronologie/13Jh/Thomasin/dwgprt.htm</note>
                   </imprint>
                 </monogr>
-                <note>Der Wälsche Gast des Thomasin von Zirclaria. Hrsg. von Heinrich Rückert. Mit
-              einer Einleitung und einem Register von Friedrich Naumann (Deutsche Neudrucke. Reihe:
-              Texte des Mittelalters, Berlin, 1965</note>
-              </biblStruct>
-              <biblStruct type="bookSection" xml:id="WGI_WGI" corresp="http://zotero.org/groups/5043625/items/ZYV4Z7MG" key="WGI">
-                <analytic>
-                  <title level="a">Der welsche gast (prosavorrede)</title>
-                  <author>
-                    <name>Thomasin von Zerklaere</name>
-                  </author>
-                </analytic>
-                <monogr>
-                  <title level="m">Der wälsche Gast des Thomasin von Zirclaria: Mit sprachlichen und
-                geschichtlichen Anmerkungen</title>
-                  <idno type="callNumber">WGI</idno>
-                  <editor>
-                    <forename>Heinrich</forename>
-                    <surname>Rückert</surname>
-                  </editor>
-                  <imprint>
-                    <pubPlace>Quedlinburg and Leipzig</pubPlace>
-                    <biblScope unit="volume">30</biblScope>
-                    <biblScope unit="page">1–4</biblScope>
-                    <publisher>Basse</publisher>
-                    <date>1852</date>
-                  </imprint>
-                </monogr>
-                <series>
-                  <title level="s">Bibliothek der gesammten deutschen Nationalliteratur von der ältesten
-                bis auf die neuere Zeit</title>
-                </series>
-                <note>Der Wälsche Gast des Thomasin von Zirclaria. Hrsg. von Heinrich Rückert. Mit
-              einer Einleitung und einem Register von Friedrich Naumann (Deutsche Neudrucke. Reihe:
-              Texte des Mittelalters, Berlin, 1965</note>
+                <note>Der Wälsche Gast des Thomasin von Zirclaria. Hrsg. von Heinrich Rückert. Mit einer Einleitung und einem Register von Friedrich Naumann (Deutsche Neudrucke. Reihe: Texte des Mittelalters, Berlin, 1965</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -128,17 +121,17 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_60bae378" ana="parent">
+          <category xml:id="genre_60bae378" ana="parent" corresp="genres.xml#genre_60bae378">
             <gloss xml:lang="de">Großdidaxe</gloss>
             <gloss xml:lang="en">Didactic Large Poetry</gloss>
           </category>
-          <category xml:id="genre_c7b5f47e">
+          <category xml:id="genre_c7b5f47e" corresp="genres.xml#genre_c7b5f47e">
             <gloss xml:lang="de">Größere Ständelehre</gloss>
             <gloss xml:lang="de">Umfangreiche Standeslehre</gloss>
             <gloss xml:lang="en">Larger Estates Doctrine</gloss>
             <gloss xml:lang="en">Extensive Doctrine of Status</gloss>
           </category>
-          <category xml:id="genre_d75ff6ba" ana="parent">
+          <category xml:id="genre_d75ff6ba" ana="parent" corresp="genres.xml#genre_d75ff6ba">
             <gloss xml:lang="de">Lehrdichtung</gloss>
             <gloss xml:lang="de">Didaktische Dichtung</gloss>
             <gloss xml:lang="de">Lehrschrift</gloss>
@@ -151,7 +144,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_405">
+          <person xml:id="person_405" corresp="persons.xml#person_405">
             <persName type="preferred">Thomasin von Zirclaere</persName>
             <persName type="alternative" xml:lang="de">Thomasîn von Zerclaere</persName>
             <idno type="GND">118642774</idno>

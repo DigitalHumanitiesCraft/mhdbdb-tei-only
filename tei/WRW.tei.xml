@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="WRW">
   <teiHeader>
     <fileDesc>
@@ -42,6 +42,9 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_302">
             <idno type="sigle">WRW</idno>
+            <idno type="handschriftencensus">1897</idno>
+            <idno type="gnd">4122567-3</idno>
+            <idno type="wikidata">Q1196509</idno>
             <msName xml:lang="de">Der Ring</msName>
             <msName xml:lang="de">Der Ring (Lehrgedicht)</msName>
           </msIdentifier>
@@ -49,12 +52,15 @@
             <listBibl>
               <biblStruct type="book" xml:id="WRW_WRW" corresp="http://zotero.org/groups/5043625/items/NUQ45U8Z" key="WRW">
                 <monogr>
-                  <title level="m">Heinrich wittenwilers ring: Nach der meininger handschrift</title>
-                  <idno type="callNumber">WRW</idno>
+                  <title>Heinrich Wittenwilers Ring: Nach der Meininger Handschrift</title>
                   <author>
-                    <forename>Heinrich</forename>
-                    <surname>Wittenwiler</surname>
+                    <name>Heinrich Wittenwiler</name>
                   </author>
+                  <idno type="callNumber">WRW</idno>
+                  <editor>
+                    <forename>Edmund</forename>
+                    <surname>Wiesner</surname>
+                  </editor>
                   <imprint>
                     <pubPlace>Leipzig</pubPlace>
                     <biblScope unit="volume">3</biblScope>
@@ -63,13 +69,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Deutsche literatur in entwicklungsreihen. Reihe 4, realistik des
-                spätmittelalters</title>
+                  <title level="s">Deutsche Literatur in Entwicklungsreihen. Reihe 4, Realistik des Spätmittelalters</title>
                 </series>
-                <note>Heinrich Wittenwilers Ring, nach der Meininger Handschrift hrsg. von Edmund
-              Wießner. Darmstadt: Wiss. Buchges., 1964 (= Deutsche Literatur. Sammlung literarischer
-              Kunst- und Kulturdenkmäler in Entwicklungsreihen. Reihe Realistik des
-              Spätmittelalters, Bd. 3)</note>
+                <note>Heinrich Wittenwilers Ring, nach der Meininger Handschrift hrsg. von Edmund Wießner. Darmstadt: Wiss. Buchges., 1964 (= Deutsche Literatur. Sammlung literarischer Kunst- und Kulturdenkmäler in Entwicklungsreihen. Reihe Realistik des Spätmittelalters, Bd. 3)</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -84,15 +86,15 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_535c3395">
+          <category xml:id="genre_535c3395" corresp="genres.xml#genre_535c3395">
             <gloss xml:lang="de">Schwankroman</gloss>
             <gloss xml:lang="en">Droll Novel</gloss>
           </category>
-          <category xml:id="genre_60bae378">
+          <category xml:id="genre_60bae378" corresp="genres.xml#genre_60bae378">
             <gloss xml:lang="de">Großdidaxe</gloss>
             <gloss xml:lang="en">Didactic Large Poetry</gloss>
           </category>
-          <category xml:id="genre_d2963bbe" ana="parent">
+          <category xml:id="genre_d2963bbe" ana="parent" corresp="genres.xml#genre_d2963bbe">
             <gloss xml:lang="de">Großepik</gloss>
             <gloss xml:lang="de">Große epische Formen</gloss>
             <gloss xml:lang="de">Großdichtung</gloss>
@@ -100,7 +102,7 @@
             <gloss xml:lang="en">Large Epic Forms</gloss>
             <gloss xml:lang="en">Large Poetry</gloss>
           </category>
-          <category xml:id="genre_d75ff6ba" ana="parent">
+          <category xml:id="genre_d75ff6ba" ana="parent" corresp="genres.xml#genre_d75ff6ba">
             <gloss xml:lang="de">Lehrdichtung</gloss>
             <gloss xml:lang="de">Didaktische Dichtung</gloss>
             <gloss xml:lang="de">Lehrschrift</gloss>
@@ -113,7 +115,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_627">
+          <person xml:id="person_627" corresp="persons.xml#person_627">
             <persName type="preferred">Heinrich Wittenwiler</persName>
             <idno type="GND">118634267</idno>
             <idno type="wikidata">Q572849</idno>

@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="GAR">
   <teiHeader>
     <fileDesc>
@@ -43,6 +43,9 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_50">
             <idno type="sigle">GAR</idno>
+            <idno type="handschriftencensus">552</idno>
+            <idno type="gnd">4327409-2</idno>
+            <idno type="wikidata">Q5522763</idno>
             <msName xml:lang="de">Garel vom blühenden Tal</msName>
             <msName xml:lang="de">Garel von dem blüenden Tal</msName>
             <msName xml:lang="en">Garel</msName>
@@ -51,12 +54,16 @@
             <listBibl>
               <biblStruct type="book" xml:id="GAR_GAR" corresp="http://zotero.org/groups/5043625/items/7I6CF349" key="GAR">
                 <monogr>
-                  <title level="m">Garel von dem bluenden Tal: Von dem Pleier</title>
-                  <idno type="ISBN">978-3-900269-17-3</idno>
-                  <idno type="callNumber">GAR</idno>
+                  <title>Garel von dem Bluenden Tal: Von dem Pleier</title>
                   <author>
                     <name>Der Pleier</name>
                   </author>
+                  <idno type="ISBN">978-3-900269-17-3</idno>
+                  <idno type="callNumber">GAR</idno>
+                  <editor>
+                    <forename>Wolfgang</forename>
+                    <surname>Herles</surname>
+                  </editor>
                   <imprint>
                     <pubPlace>Wien</pubPlace>
                     <biblScope unit="volume">17</biblScope>
@@ -65,10 +72,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Wiener arbeiten zur germanischen altertumskunde und philologie</title>
+                  <title level="s">Wiener Arbeiten zur Germanischen Altertumskunde und Philologie</title>
                 </series>
-                <note>Garel von dem blüenden Tal von dem Pleier, hrsg. v. Wolfgang Herles, Wien 1981.
-              (=Wiener Arbeiten z. germ. Altertumskunde und Philologie 17)</note>
+                <note>Garel von dem blüenden Tal von dem Pleier, hrsg. v. Wolfgang Herles, Wien 1981. (=Wiener Arbeiten z. germ. Altertumskunde und Philologie 17)</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -83,13 +89,13 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_70aa5bd2" ana="parent">
+          <category xml:id="genre_70aa5bd2" ana="parent" corresp="genres.xml#genre_70aa5bd2">
             <gloss xml:lang="de">Bretonischer Roman</gloss>
             <gloss xml:lang="en">Breton Romance</gloss>
             <gloss xml:lang="en">Breton Novel</gloss>
             <gloss xml:lang="fr">Matière de Bretagne</gloss>
           </category>
-          <category xml:id="genre_f2cb8412">
+          <category xml:id="genre_f2cb8412" corresp="genres.xml#genre_f2cb8412">
             <gloss xml:lang="de">Artusroman</gloss>
             <gloss xml:lang="de">Artusdichtung</gloss>
             <gloss xml:lang="en">Arthurian Romance</gloss>
@@ -104,7 +110,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_32">
+          <person xml:id="person_32" corresp="persons.xml#person_32">
             <persName type="preferred">Der Pleier</persName>
             <idno type="GND">118595008</idno>
             <idno type="wikidata">Q5261194</idno>

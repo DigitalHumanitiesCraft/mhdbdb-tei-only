@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="NBU">
   <teiHeader>
     <fileDesc>
@@ -41,19 +41,20 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_567">
             <idno type="sigle">NBU</idno>
+            <idno type="handschriftencensus">2435</idno>
             <msName xml:lang="de">Dat nuwe Boych</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="bookSection" xml:id="NBU_NBU" corresp="http://zotero.org/groups/5043625/items/TMV4ZKPE" key="NBU">
                 <analytic>
-                  <title level="a">Dat nuwe boych: Zünfte und bruderschaften in coeln</title>
+                  <title level="a">Dat Nuwe Boych: Zünfte und Bruderschaften in Coeln</title>
                   <author>
                     <name>Anonym</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Quellen zur geschichte der stadt köln</title>
+                  <title level="m">Quellen zur Geschichte der Stadt Köln</title>
                   <idno type="callNumber">NBU</idno>
                   <editor>
                     <forename>Leonard</forename>
@@ -65,16 +66,13 @@
                   </editor>
                   <imprint>
                     <pubPlace>Köln</pubPlace>
-                    <biblScope unit="volume">1</biblScope>
                     <biblScope unit="page">422–444</biblScope>
+                    <biblScope unit="volume">1</biblScope>
                     <publisher>DuMont</publisher>
-                    <date>1860</date>
+                    <date>1860–1879</date>
                   </imprint>
                 </monogr>
-                <note>Quellen zur Geschichte der Stadt Köln, Bd. I, hrsg. von Leonard Ennen und
-              Gottfried Eckertz.Köln 1860, S. 422-444. Digitale Edition beruht auf: Das Bonner
-              Frühneuhochdeutschkorpus http://www.ikp.uni-bonn.de/dt/forsch/fnhd/151.html [nicht
-              mehr aktiv]</note>
+                <note>Quellen zur Geschichte der Stadt Köln, Bd. I, hrsg. von Leonard Ennen und Gottfried Eckertz.Köln 1860, S. 422-444. Digitale Edition beruht auf: Das Bonner Frühneuhochdeutschkorpus http://www.ikp.uni-bonn.de/dt/forsch/fnhd/151.html [nicht mehr aktiv]</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -89,7 +87,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_30ab9c71">
+          <category xml:id="genre_30ab9c71" corresp="genres.xml#genre_30ab9c71">
             <gloss xml:lang="de">Historiografie</gloss>
             <gloss xml:lang="de">Historiographie</gloss>
             <gloss xml:lang="de">Historiografischer Text</gloss>
@@ -98,7 +96,7 @@
             <gloss xml:lang="en">Historiography</gloss>
             <gloss xml:lang="en">History Writing</gloss>
           </category>
-          <category xml:id="genre_a21ef15a" ana="parent">
+          <category xml:id="genre_a21ef15a" ana="parent" corresp="genres.xml#genre_a21ef15a">
             <gloss xml:lang="de">Wissensliteratur und Gebrauchsliteratur</gloss>
             <gloss xml:lang="de">Wissensvermittelnde Literatur</gloss>
             <gloss xml:lang="de">Sachliteratur</gloss>
@@ -124,7 +122,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_anonym">
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>
             <persName type="alternative" xml:lang="de">Anonymus</persName>
             <persName type="alternative" xml:lang="en">anonymous</persName>

@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="SUS">
   <teiHeader>
     <fileDesc>
@@ -41,19 +41,20 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_619">
             <idno type="sigle">SUS</idno>
+            <idno type="handschriftencensus">2041</idno>
             <msName xml:lang="de">Lyrik von Ulrich von Singenberg</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="bookSection" xml:id="SUS_SUS" corresp="http://zotero.org/groups/5043625/items/SQB9BEZH" key="SUS">
                 <analytic>
-                  <title level="a">[Lieder]</title>
+                  <title level="a">[lieder]</title>
                   <author>
                     <name>Ulrich von Singenberg</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Die schweizerischen minnesaenger</title>
+                  <title level="m">Die Schweizerischen Minnesaenger</title>
                   <idno type="callNumber">SUS</idno>
                   <editor>
                     <forename>Karl</forename>
@@ -80,11 +81,11 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_3374889b">
+          <category xml:id="genre_3374889b" corresp="genres.xml#genre_3374889b">
             <gloss xml:lang="de">Schweizer Minnesang</gloss>
             <gloss xml:lang="en">Swiss Minnesang</gloss>
           </category>
-          <category xml:id="genre_4ecfe25e" ana="parent">
+          <category xml:id="genre_4ecfe25e" ana="parent" corresp="genres.xml#genre_4ecfe25e">
             <gloss xml:lang="de">Minnesang</gloss>
             <gloss xml:lang="de">Minnesänger</gloss>
             <gloss xml:lang="de">Liebeslyrik</gloss>
@@ -93,7 +94,7 @@
             <gloss xml:lang="en">Minstrels</gloss>
             <gloss xml:lang="en">Love Poetry</gloss>
           </category>
-          <category xml:id="genre_a2770533" ana="parent">
+          <category xml:id="genre_a2770533" ana="parent" corresp="genres.xml#genre_a2770533">
             <gloss xml:lang="de">Lyrik</gloss>
             <gloss xml:lang="en">Lyric Poetry</gloss>
           </category>
@@ -103,7 +104,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_1258">
+          <person xml:id="person_1258" corresp="persons.xml#person_1258">
             <persName type="preferred">Ulrich von Singenberg</persName>
             <idno type="GND">118625322</idno>
             <idno type="wikidata">Q2477082</idno>

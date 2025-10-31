@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="SZK">
   <teiHeader>
     <fileDesc>
@@ -41,20 +41,20 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_157">
             <idno type="sigle">SZK</idno>
+            <idno type="handschriftencensus">3200</idno>
             <msName xml:lang="de">Lyrik von Süßkind von Trimberg</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="bookSection" xml:id="SZK_SZK" corresp="http://zotero.org/groups/5043625/items/ERHBMGXT" key="SZK">
                 <analytic>
-                  <title level="a">[Lieder]: (Hs. C)</title>
+                  <title level="a">[lieder]: (hs. C)</title>
                   <author>
                     <name>Süezkint der Jude von Trimperg</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Die grosse heidelberger liederhandschrift: Mit unterstützung des
-                grossh. Badischen ministeriums der justiz, des kultus und unterrichts</title>
+                  <title level="m">Die Grosse Heidelberger Liederhandschrift: Mit Unterstützung des Grossh. Badischen Ministeriums der Justiz, des Kultus und Unterrichts</title>
                   <idno type="callNumber">SZK</idno>
                   <editor>
                     <forename>Fridrich</forename>
@@ -64,11 +64,10 @@
                     <pubPlace>Heidelberg</pubPlace>
                     <biblScope unit="page">fol. 355r–356r</biblScope>
                     <publisher>Winter</publisher>
-                    <date>1899</date>
+                    <date>1899–1909</date>
                   </imprint>
                 </monogr>
-                <note>Hrsg. F. Pfaff, Heidelberg 1899/1909 Deutsche Liederdichter des 13. Jahrhunderts,
-              Hrsg. C. von Kraus, Tübingen 1952</note>
+                <note>Hrsg. F. Pfaff, Heidelberg 1899/1909 Deutsche Liederdichter des 13. Jahrhunderts, Hrsg. C. von Kraus, Tübingen 1952</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -83,7 +82,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_1b99a6ac">
+          <category xml:id="genre_1b99a6ac" corresp="genres.xml#genre_1b99a6ac">
             <gloss xml:lang="de">Spruchsang</gloss>
             <gloss xml:lang="de">Spruchdichtung</gloss>
             <gloss xml:lang="de">Spruchlied</gloss>
@@ -94,7 +93,7 @@
             <gloss xml:lang="en">Sangspruch</gloss>
             <gloss xml:lang="en">Spruch Poem</gloss>
           </category>
-          <category xml:id="genre_a2770533" ana="parent">
+          <category xml:id="genre_a2770533" ana="parent" corresp="genres.xml#genre_a2770533">
             <gloss xml:lang="de">Lyrik</gloss>
             <gloss xml:lang="en">Lyric Poetry</gloss>
           </category>
@@ -104,7 +103,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_425">
+          <person xml:id="person_425" corresp="persons.xml#person_425">
             <persName type="preferred">Süßkind von Trimberg</persName>
             <idno type="GND">1089894716</idno>
             <idno type="GND">118757725</idno>

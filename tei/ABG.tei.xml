@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="ABG">
   <teiHeader>
     <fileDesc>
@@ -41,19 +41,20 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_89">
             <idno type="sigle">ABG</idno>
+            <idno type="handschriftencensus">2355</idno>
             <msName xml:lang="de">Von der Abgeschiedenheit</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="bookSection" xml:id="ABG_ABG" corresp="http://zotero.org/groups/5043625/items/FN3J3BKD" key="ABG">
                 <analytic>
-                  <title level="a">Von der abgeschiedenheit</title>
+                  <title level="a">Von der Abgeschiedenheit</title>
                   <author>
                     <name>Meister Eckhart</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Meister eckharts traktate</title>
+                  <title level="m">Meister Eckharts Traktate</title>
                   <idno type="callNumber">ABG</idno>
                   <editor>
                     <forename>Josef</forename>
@@ -71,12 +72,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Meister eckhart: Die deutschen werke</title>
+                  <title level="s">Meister Eckhart: Die Deutschen Werke</title>
                 </series>
-                <note>Meister Eckhart: Die deutschen und lateinischen Werke. Hrsg. v. d. DFG. Die
-              deutschen Werke. Fünfter Band: Meister Eckarts Traktate. Hg. und übersetzt von Josef
-              Quint. Stuttgart 1963, 377-468 (Text, Anmerkungen, Nachtrag) und 539-547
-              (Übersetzung). – Digitale Fassung: Thomas Gloning, 1/2002</note>
+                <note>Meister Eckhart: Die deutschen und lateinischen Werke. Hrsg. v. d. DFG. Die deutschen Werke. Fünfter Band: Meister Eckarts Traktate. Hg. und übersetzt von Josef Quint. Stuttgart 1963, 377-468 (Text, Anmerkungen, Nachtrag) und 539-547 (Übersetzung). – Digitale Fassung: Thomas Gloning, 1/2002</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -91,7 +89,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_0480b285" ana="parent">
+          <category xml:id="genre_0480b285" ana="parent" corresp="genres.xml#genre_0480b285">
             <gloss xml:lang="de">Geistliche Literatur</gloss>
             <gloss xml:lang="de">Geistliche Dichtung</gloss>
             <gloss xml:lang="de">Religiöse Dichtung</gloss>
@@ -101,7 +99,7 @@
             <gloss xml:lang="en">Spiritual Poetry</gloss>
             <gloss xml:lang="en">Religious Poetry</gloss>
           </category>
-          <category xml:id="genre_9eee7c13">
+          <category xml:id="genre_9eee7c13" corresp="genres.xml#genre_9eee7c13">
             <gloss xml:lang="de">Mystik</gloss>
             <gloss xml:lang="de">Mystischer Text</gloss>
             <gloss xml:lang="en">Mysticism</gloss>
@@ -113,7 +111,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_445">
+          <person xml:id="person_445" corresp="persons.xml#person_445">
             <persName type="preferred">Meister Eckhart</persName>
             <idno type="GND">118528823</idno>
             <idno type="wikidata">Q76548</idno>

@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="VDH">
   <teiHeader>
     <fileDesc>
@@ -52,14 +52,13 @@
             <listBibl>
               <biblStruct type="bookSection" xml:id="VDH_VDH" corresp="http://zotero.org/groups/5043625/items/NYIP3EDQ" key="VDH">
                 <analytic>
-                  <title level="a">Von der Hochfahrt: Ditz ist von der hochvart, / die mit dem teufel
-                ist beswart</title>
+                  <title level="a">Von der Hochfahrt: Ditz Ist von der Hochvart, / die mit dem Teufel Ist Beswart</title>
                   <author>
                     <name>Der Stricker</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Die heidelberger handschrift</title>
+                  <title level="m">Die Heidelberger Handschrift</title>
                   <idno type="callNumber">VDH</idno>
                   <editor>
                     <forename>Gustav</forename>
@@ -73,15 +72,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Kleinere mittelhochdeutsche erzählungen, fabeln und lehrgedichte</title>
+                  <title level="s">Kleinere Mittelhochdeutsche Erzählungen, Fabeln und Lehrgedichte</title>
                 </series>
-                <note>Kleinere mittelhochdeutsche Erzählungen, Fabeln und Lehrgedichte. III. Die
-              Heidelberger Handschrift Cod. Pal. Germ. 341. Hrsg. v. Gustav Rosenhagen,
-              Dublin/Zürich: Weidmann 1970. (= Deutsche Texte des Mittelalters Bd. XVII). Der
-              elektronische Text basiert zum Teil auf dem vom Electronic Text Center der University
-              of Virginia u. dem Kompetenzzentrum für elektronische Erschließungs- und
-              Publikationsverfahren in den Geisteswissenschaften an der Universität Trier
-              erstellten Text, revidiert von Lesley C. Pleasant and Cindy Filer Speer</note>
+                <note>Kleinere mittelhochdeutsche Erzählungen, Fabeln und Lehrgedichte. III. Die Heidelberger Handschrift Cod. Pal. Germ. 341. Hrsg. v. Gustav Rosenhagen, Dublin/Zürich: Weidmann 1970. (= Deutsche Texte des Mittelalters Bd. XVII). Der elektronische Text basiert zum Teil auf dem vom Electronic Text Center der University of Virginia u. dem Kompetenzzentrum für elektronische Erschließungs- und Publikationsverfahren in den Geisteswissenschaften an der Universität Trier erstellten Text, revidiert von Lesley C. Pleasant and Cindy Filer Speer</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -96,32 +89,32 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_8bb910cf">
+          <category xml:id="genre_8bb910cf" corresp="genres.xml#genre_8bb910cf">
             <gloss xml:lang="de">Bîspel</gloss>
             <gloss xml:lang="de">Bîschaft</gloss>
             <gloss xml:lang="de">Bispel</gloss>
             <gloss xml:lang="en">Bispel</gloss>
             <gloss xml:lang="en">Moral Anecdote</gloss>
           </category>
-          <category xml:id="genre_9c7d5679" ana="parent">
+          <category xml:id="genre_9c7d5679" ana="parent" corresp="genres.xml#genre_9c7d5679">
             <gloss xml:lang="de">Diskursive Kurzform</gloss>
             <gloss xml:lang="en">Discursive Short Form</gloss>
             <gloss xml:lang="en">Discursive Form in Small Poetry</gloss>
           </category>
-          <category xml:id="genre_ae9e2d0e" ana="parent">
+          <category xml:id="genre_ae9e2d0e" ana="parent" corresp="genres.xml#genre_ae9e2d0e">
             <gloss xml:lang="de">Erzählende Kurzform</gloss>
             <gloss xml:lang="de">Kleinepik</gloss>
             <gloss xml:lang="en">Narrative Short Form</gloss>
             <gloss xml:lang="en">Short Epic</gloss>
             <gloss xml:lang="en">Small Epics</gloss>
           </category>
-          <category xml:id="genre_ccef6751">
+          <category xml:id="genre_ccef6751" corresp="genres.xml#genre_ccef6751">
             <gloss xml:lang="de">Geistliche Rede</gloss>
             <gloss xml:lang="de">Religiöse Rede</gloss>
             <gloss xml:lang="en">Spiritual Speech</gloss>
             <gloss xml:lang="en">Religious Speech</gloss>
           </category>
-          <category xml:id="genre_d65a163b">
+          <category xml:id="genre_d65a163b" corresp="genres.xml#genre_d65a163b">
             <gloss xml:lang="de">Märe</gloss>
             <gloss xml:lang="de">Mär</gloss>
             <gloss xml:lang="de">Versnovelle</gloss>
@@ -135,13 +128,13 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_4">
+          <person xml:id="person_4" corresp="persons.xml#person_4">
             <persName type="preferred">Der Stricker</persName>
             <idno type="GND">118619284</idno>
             <idno type="wikidata">Q1197199</idno>
             <note type="works">work_101,work_102,work_103,work_105,work_106,work_121,work_123,work_124,work_125,work_129,work_14,work_142,work_152,work_154,work_168,work_174,work_175,work_176,work_183,work_194,work_203,work_210,work_211,work_217,work_218,work_220,work_221,work_222,work_223,work_224,work_226,work_227,work_228,work_230,work_231,work_232,work_233,work_234,work_236,work_237,work_238,work_239,work_240,work_241,work_245,work_246,work_250,work_251,work_252,work_255,work_256,work_257,work_258,work_260,work_261,work_262,work_264,work_265,work_267,work_268,work_270,work_272,work_273,work_274,work_275,work_276,work_277,work_278,work_279,work_280,work_281,work_282,work_283,work_284,work_288,work_292,work_293,work_294,work_295,work_296,work_297,work_298,work_299,work_304,work_308,work_309,work_314,work_315,work_316,work_317,work_318,work_319,work_320,work_322,work_323,work_324,work_329,work_331,work_333,work_334,work_335,work_336,work_337,work_338,work_339,work_341,work_343,work_344,work_346,work_347,work_348,work_362,work_384,work_385,work_387,work_388,work_389,work_390,work_391,work_394,work_395,work_399,work_400,work_401,work_402,work_403,work_405,work_408,work_53,work_610,work_611,work_613,work_655,work_657,work_658,work_659,work_660,work_662,work_663,work_84,work_85,work_92,work_93,work_94,work_97,work_99</note>
           </person>
-          <person xml:id="person_anonym">
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>
             <persName type="alternative" xml:lang="de">Anonymus</persName>
             <persName type="alternative" xml:lang="en">anonymous</persName>

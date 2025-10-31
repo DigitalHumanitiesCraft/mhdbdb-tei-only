@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="WGM">
   <teiHeader>
     <fileDesc>
@@ -41,6 +41,9 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_75">
             <idno type="sigle">WGM</idno>
+            <idno type="handschriftencensus">427</idno>
+            <idno type="gnd">4138285-7</idno>
+            <idno type="wikidata">Q2569727</idno>
             <msName xml:lang="de">Wigamur</msName>
           </msIdentifier>
           <additional>
@@ -53,8 +56,7 @@
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Deutsche gedichte des mittelalters: [Enthält: Wigamur, könig rother,
-                der heilige georg, herzog ernst, salomon und morolf]</title>
+                  <title level="m">Deutsche Gedichte des Mittelalters: [enthält: Wigamur, König Rother, der Heilige Georg, Herzog Ernst, Salomon und Morolf]</title>
                   <idno type="callNumber">WGM</idno>
                   <editor>
                     <forename>Friedrich Heinrich von der</forename>
@@ -72,10 +74,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Deutsche gedichte des mittelalters</title>
+                  <title level="s">Deutsche Gedichte des Mittelalters</title>
                 </series>
-                <note>Wigamur. In: Deutsche Gedichte des Mittelalters. Hrsg. v. Friedrich Heinrich von
-              der Hagen und Johann Gustav Büsching, 1. Bd., Berlin 1808</note>
+                <note>Wigamur. In: Deutsche Gedichte des Mittelalters. Hrsg. v. Friedrich Heinrich von der Hagen und Johann Gustav Büsching, 1. Bd., Berlin 1808</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -90,13 +91,13 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_70aa5bd2" ana="parent">
+          <category xml:id="genre_70aa5bd2" ana="parent" corresp="genres.xml#genre_70aa5bd2">
             <gloss xml:lang="de">Bretonischer Roman</gloss>
             <gloss xml:lang="en">Breton Romance</gloss>
             <gloss xml:lang="en">Breton Novel</gloss>
             <gloss xml:lang="fr">Matière de Bretagne</gloss>
           </category>
-          <category xml:id="genre_f2cb8412">
+          <category xml:id="genre_f2cb8412" corresp="genres.xml#genre_f2cb8412">
             <gloss xml:lang="de">Artusroman</gloss>
             <gloss xml:lang="de">Artusdichtung</gloss>
             <gloss xml:lang="en">Arthurian Romance</gloss>
@@ -111,7 +112,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_anonym">
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>
             <persName type="alternative" xml:lang="de">Anonymus</persName>
             <persName type="alternative" xml:lang="en">anonymous</persName>

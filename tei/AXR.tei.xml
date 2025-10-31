@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="AXR">
   <teiHeader>
     <fileDesc>
@@ -41,17 +41,23 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_78">
             <idno type="sigle">AXR</idno>
+            <idno type="handschriftencensus">320</idno>
+            <idno type="gnd">4558962-8</idno>
             <msName xml:lang="de">Alexander</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="book" xml:id="AXR_AXR" corresp="http://zotero.org/groups/5043625/items/9IBR9NKK" key="AXR">
                 <monogr>
-                  <title level="m">Alexander: Ein höfischer roman des 13. Jahrhunderts</title>
-                  <idno type="callNumber">AXR</idno>
+                  <title>Alexander: Ein Höfischer Roman des 13. Jahrhunderts</title>
                   <author>
                     <name>Rudolf von Ems</name>
                   </author>
+                  <idno type="callNumber">AXR</idno>
+                  <editor>
+                    <forename>Victor</forename>
+                    <surname>Junk</surname>
+                  </editor>
                   <imprint>
                     <pubPlace>Leipzig</pubPlace>
                     <biblScope unit="volume">272</biblScope>
@@ -59,11 +65,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Bibliothek des litterarischen vereins in stuttgart</title>
+                  <title level="s">Bibliothek des Litterarischen Vereins in Stuttgart</title>
                 </series>
-                <note>Rudolf von Ems: Alexander. Ein höfischer Roman des 13. Jahrhunderts. Hrsg.v.
-              Victor Junk. (= Bibliothek des literarischen Vereins in Stuttgart, Bd. 272) In 2
-              Bänden, Leipzig 1928</note>
+                <note>Rudolf von Ems: Alexander. Ein höfischer Roman des 13. Jahrhunderts. Hrsg.v. Victor Junk. (= Bibliothek des literarischen Vereins in Stuttgart, Bd. 272) In 2 Bänden, Leipzig 1928</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -78,14 +82,14 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_271237bd">
+          <category xml:id="genre_271237bd" corresp="genres.xml#genre_271237bd">
             <gloss xml:lang="de">Alexanderroman</gloss>
             <gloss xml:lang="en">Alexander Romance</gloss>
             <gloss xml:lang="en">Alexander Novel</gloss>
             <gloss xml:lang="en">Romance of Alexander</gloss>
             <gloss xml:lang="en">Novel of Alexander</gloss>
           </category>
-          <category xml:id="genre_fa5f2e8a" ana="parent">
+          <category xml:id="genre_fa5f2e8a" ana="parent" corresp="genres.xml#genre_fa5f2e8a">
             <gloss xml:lang="de">Antikenroman</gloss>
             <gloss xml:lang="en">Ancient Romance</gloss>
             <gloss xml:lang="en">Ancient Novel</gloss>
@@ -96,7 +100,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_11">
+          <person xml:id="person_11" corresp="persons.xml#person_11">
             <persName type="preferred">Rudolf von Ems</persName>
             <idno type="GND">118603736</idno>
             <idno type="wikidata">Q697801</idno>

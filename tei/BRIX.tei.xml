@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="BRIX">
   <teiHeader>
     <fileDesc>
@@ -41,30 +41,32 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_574">
             <idno type="sigle">BRIX</idno>
+            <idno type="handschriftencensus">7172</idno>
             <msName xml:lang="de">Kochrezepte; Brixen, Priesterseminarbibliothek, Cod. I 5 (Nr. 125)</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="journalArticle" xml:id="BRIX_BRIX" corresp="http://zotero.org/groups/5043625/items/PMJ5VI7E" key="BRIX">
                 <analytic>
-                  <title level="a">Die kochrezepte in codex J. 5 (no.125) der bibliothek des
-                priesterseminars brixen: Edition und kommentar</title>
+                  <title level="a">Die Kochrezepte in Codex J. 5 (no.125) der Bibliothek des Priesterseminars Brixen: Edition und Kommentar</title>
                   <author>
                     <name>Anonym</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="j">Würzburger medizinhistorische Mitteilungen</title>
+                  <title level="j">Würzburger Medizinhistorische Mitteilungen</title>
                   <idno type="callNumber">BRIX</idno>
+                  <editor>
+                    <forename>Melitta</forename>
+                    <surname>Adamson</surname>
+                  </editor>
                   <imprint>
                     <biblScope unit="volume">14</biblScope>
                     <biblScope unit="issue">291–303</biblScope>
                     <date>1996</date>
                   </imprint>
                 </monogr>
-                <note>Adamson, Melitta: Die Kochrezepte in Codex J. 5 (no.125) der Bibliothek des
-              Priesterseminars Brixen. Edition und Kommentar. In: Würzburger medizinhistorische
-              Mitteilungen 14 (1996), S. 291-303</note>
+                <note>Adamson, Melitta: Die Kochrezepte in Codex J. 5 (no.125) der Bibliothek des Priesterseminars Brixen. Edition und Kommentar. In: Würzburger medizinhistorische Mitteilungen 14 (1996), S. 291-303</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -79,14 +81,14 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_1d40ec18" ana="parent">
+          <category xml:id="genre_1d40ec18" ana="parent" corresp="genres.xml#genre_1d40ec18">
             <gloss xml:lang="de">Kochkunst</gloss>
             <gloss xml:lang="de">Esskultur</gloss>
             <gloss xml:lang="en">Cookery</gloss>
             <gloss xml:lang="en">Food Culture</gloss>
             <gloss xml:lang="la">Coquinaria</gloss>
           </category>
-          <category xml:id="genre_dd3d7dd7">
+          <category xml:id="genre_dd3d7dd7" corresp="genres.xml#genre_dd3d7dd7">
             <gloss xml:lang="de">Kochbuch</gloss>
             <gloss xml:lang="en">Cookbook</gloss>
             <gloss xml:lang="en">Cookery Book</gloss>
@@ -97,7 +99,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_anonym">
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>
             <persName type="alternative" xml:lang="de">Anonymus</persName>
             <persName type="alternative" xml:lang="en">anonymous</persName>

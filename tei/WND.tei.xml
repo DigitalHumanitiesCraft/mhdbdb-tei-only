@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="WND">
   <teiHeader>
     <fileDesc>
@@ -44,6 +44,9 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_24">
             <idno type="sigle">WND</idno>
+            <idno type="handschriftencensus">1499</idno>
+            <idno type="gnd">4149155-5</idno>
+            <idno type="wikidata">Q2595003</idno>
             <msName xml:lang="de">Der Wunderer</msName>
             <msName xml:lang="de">Etzels Hofhaltung</msName>
             <msName xml:lang="de">Wunderer (Epos)</msName>
@@ -53,13 +56,13 @@
             <listBibl>
               <biblStruct type="bookSection" xml:id="WND_WND" corresp="http://zotero.org/groups/5043625/items/HXW9FIQ5" key="WND">
                 <analytic>
-                  <title level="a">Etzels hofhaltung / der wunderer</title>
+                  <title level="a">Etzels Hofhaltung / der Wunderer</title>
                   <author>
                     <name>Anonym</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Der helden buch in der ursprache</title>
+                  <title level="m">Der Helden Buch in der Ursprache</title>
                   <idno type="callNumber">WND</idno>
                   <editor>
                     <forename>Friedrich Heinrich von der</forename>
@@ -71,14 +74,13 @@
                   </editor>
                   <imprint>
                     <pubPlace>Berlin</pubPlace>
-                    <biblScope unit="volume">2</biblScope>
                     <biblScope unit="page">55–73</biblScope>
+                    <biblScope unit="volume">2</biblScope>
                     <publisher>Reimer</publisher>
                     <date>1825</date>
                   </imprint>
                 </monogr>
-                <note>Etzels Hofhaltung/Der Wunderer. In: Der Helden Buch in der Ursprache. Hrsg. v.
-              Friedrich Heinrich von der Hagen u. Alois[sic!] Primisser. Berlin 1825</note>
+                <note>Etzels Hofhaltung/Der Wunderer. In: Der Helden Buch in der Ursprache. Hrsg. v. Friedrich Heinrich von der Hagen u. Alois[sic!] Primisser. Berlin 1825</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -93,7 +95,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_f3e5cee1">
+          <category xml:id="genre_f3e5cee1" corresp="genres.xml#genre_f3e5cee1">
             <gloss xml:lang="de">Dietrichsepik</gloss>
             <gloss xml:lang="de">Dietrichepik</gloss>
             <gloss xml:lang="en">Dietrich Epic</gloss>
@@ -101,7 +103,7 @@
             <gloss xml:lang="en">Dietrich Poetry</gloss>
             <gloss xml:lang="en">Epic of Dietrich</gloss>
           </category>
-          <category xml:id="genre_f6672d9f" ana="parent">
+          <category xml:id="genre_f6672d9f" ana="parent" corresp="genres.xml#genre_f6672d9f">
             <gloss xml:lang="de">Heldenepik</gloss>
             <gloss xml:lang="de">Heldenepische Dichtung</gloss>
             <gloss xml:lang="en">Heroic Epic</gloss>
@@ -113,7 +115,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_anonym">
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>
             <persName type="alternative" xml:lang="de">Anonymus</persName>
             <persName type="alternative" xml:lang="en">anonymous</persName>

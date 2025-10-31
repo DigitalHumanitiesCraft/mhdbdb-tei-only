@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="BAR">
   <teiHeader>
     <fileDesc>
@@ -42,6 +42,9 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_186">
             <idno type="sigle">BAR</idno>
+            <idno type="handschriftencensus">321</idno>
+            <idno type="gnd">4303311-8</idno>
+            <idno type="wikidata">Q790563</idno>
             <msName xml:lang="de">Barlaam und Josaphat</msName>
             <msName xml:lang="en">Barlaam and Josaphat</msName>
           </msIdentifier>
@@ -49,11 +52,15 @@
             <listBibl>
               <biblStruct type="book" xml:id="BAR_BAR" corresp="http://zotero.org/groups/5043625/items/YSZ6SHSH" key="BAR">
                 <monogr>
-                  <title level="m">Barlaam und josaphat</title>
-                  <idno type="callNumber">BAR</idno>
+                  <title>Barlaam und Josaphat</title>
                   <author>
                     <name>Rudolf von Ems</name>
                   </author>
+                  <idno type="callNumber">BAR</idno>
+                  <editor>
+                    <forename>Franz</forename>
+                    <surname>Pfeiffer</surname>
+                  </editor>
                   <imprint>
                     <pubPlace>Leipzig</pubPlace>
                     <biblScope unit="volume">3</biblScope>
@@ -62,10 +69,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Dichtungen des deutschen Mittelalters</title>
+                  <title level="s">Dichtungen des Deutschen Mittelalters</title>
                 </series>
-                <note>Rudolf von Ems: Barlaam und Josaphat. Hrsg. v. Franz Pfeiffer. In der Reihe "Texte
-              des Mittelalters" hrsg. v. Karl Stackmann, Berlin 1965</note>
+                <note>Rudolf von Ems: Barlaam und Josaphat. Hrsg. v. Franz Pfeiffer. In der Reihe "Texte des Mittelalters" hrsg. v. Karl Stackmann, Berlin 1965</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -80,7 +86,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_30ab9c71" ana="parent">
+          <category xml:id="genre_30ab9c71" ana="parent" corresp="genres.xml#genre_30ab9c71">
             <gloss xml:lang="de">Historiografie</gloss>
             <gloss xml:lang="de">Historiographie</gloss>
             <gloss xml:lang="de">Historiografischer Text</gloss>
@@ -89,13 +95,13 @@
             <gloss xml:lang="en">Historiography</gloss>
             <gloss xml:lang="en">History Writing</gloss>
           </category>
-          <category xml:id="genre_3f7b0b62">
+          <category xml:id="genre_3f7b0b62" corresp="genres.xml#genre_3f7b0b62">
             <gloss xml:lang="de">Geschichtsdichtung</gloss>
             <gloss xml:lang="de">Politikbeschreibende Dichtung</gloss>
             <gloss xml:lang="en">Historical Poetry</gloss>
             <gloss xml:lang="en">Policy-descriptive Poetry</gloss>
           </category>
-          <category xml:id="genre_6b4c5f1d">
+          <category xml:id="genre_6b4c5f1d" corresp="genres.xml#genre_6b4c5f1d">
             <gloss xml:lang="de">Spielmannsepik, sogenannte (veraltet)</gloss>
             <gloss xml:lang="de">Höfische Legende (veraltet)</gloss>
             <gloss xml:lang="de">Legendenroman (veraltet)</gloss>
@@ -115,7 +121,7 @@
             <gloss xml:lang="en">Minstrel Poetry (outdated)</gloss>
             <gloss xml:lang="en">Courtship Epic (outdated)</gloss>
           </category>
-          <category xml:id="genre_72cae96a" ana="parent">
+          <category xml:id="genre_72cae96a" ana="parent" corresp="genres.xml#genre_72cae96a">
             <gloss xml:lang="de">Höfischer Roman</gloss>
             <gloss xml:lang="de">Versroman</gloss>
             <gloss xml:lang="en">Courtly Romance</gloss>
@@ -128,7 +134,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_11">
+          <person xml:id="person_11" corresp="persons.xml#person_11">
             <persName type="preferred">Rudolf von Ems</persName>
             <idno type="GND">118603736</idno>
             <idno type="wikidata">Q697801</idno>

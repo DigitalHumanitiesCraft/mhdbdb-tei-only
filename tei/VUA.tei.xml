@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="VUA">
   <teiHeader>
     <fileDesc>
@@ -47,13 +47,13 @@
             <listBibl>
               <biblStruct type="bookSection" xml:id="VUA_VUA" corresp="http://zotero.org/groups/5043625/items/ICM22WME" key="VUA">
                 <analytic>
-                  <title level="a">Die auslegung vber den Pater noster</title>
+                  <title level="a">Die Auslegung Vber den Pater Noster</title>
                   <author>
                     <name>Nikolaus von Kues</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Die vaterunser-erklärung in der volkssprache</title>
+                  <title level="m">Die Vaterunser-erklärung in der Volkssprache</title>
                   <idno type="callNumber">VUA</idno>
                   <editor>
                     <forename>Wolfgang</forename>
@@ -63,18 +63,12 @@
                     <pubPlace>Trier</pubPlace>
                     <publisher>Institut für Cusanus-Forschung</publisher>
                     <date>1982</date>
-                    <note type="url">
-                  http://www.hs-augsburg.de/~harsch/germanica/Chronologie/15Jh/Nikolaus/nik_ausl.html</note>
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Institut für cusanus-forschung</title>
+                  <title level="s">Institut für Cusanus-forschung</title>
                 </series>
-                <note>Die Vater-unser-Erklärung in der Volkssprache. Der moselfränkische Text ins
-              Neuhochdt. übertr. v. W. Jungandreas, Trier 1982.(= Nikolaus von Kues in dt.
-              Übersetzung, hrsg. v. Institut für Cusanus-Forschung Trier: Heft 2). Digitale
-              Version: Ulrich Harsch, 2001. http://www.hs-augsburg.de/
-              ̃harsch/germanica/Chronologie/15Jh/Nikolaus/nik_ausl.html</note>
+                <note>Die Vater-unser-Erklärung in der Volkssprache. Der moselfränkische Text ins Neuhochdt. übertr. v. W. Jungandreas, Trier 1982.(= Nikolaus von Kues in dt. Übersetzung, hrsg. v. Institut für Cusanus-Forschung Trier: Heft 2). Digitale Version: Ulrich Harsch, 2001. http://www.hs-augsburg.de/ ̃harsch/germanica/Chronologie/15Jh/Nikolaus/nik_ausl.html</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -89,7 +83,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_0480b285" ana="parent">
+          <category xml:id="genre_0480b285" ana="parent" corresp="genres.xml#genre_0480b285">
             <gloss xml:lang="de">Geistliche Literatur</gloss>
             <gloss xml:lang="de">Geistliche Dichtung</gloss>
             <gloss xml:lang="de">Religiöse Dichtung</gloss>
@@ -99,13 +93,13 @@
             <gloss xml:lang="en">Spiritual Poetry</gloss>
             <gloss xml:lang="en">Religious Poetry</gloss>
           </category>
-          <category xml:id="genre_2b7da968" ana="parent">
+          <category xml:id="genre_2b7da968" ana="parent" corresp="genres.xml#genre_2b7da968">
             <gloss xml:lang="de">Religiöser Gebrauchstext</gloss>
             <gloss xml:lang="de">Geistlicher Gebrauchstext</gloss>
             <gloss xml:lang="en">Religious Functional Text</gloss>
             <gloss xml:lang="en">Spiritual Practical Text</gloss>
           </category>
-          <category xml:id="genre_57eded6a">
+          <category xml:id="genre_57eded6a" corresp="genres.xml#genre_57eded6a">
             <gloss xml:lang="de">Katechetische Literatur</gloss>
             <gloss xml:lang="de">Beichtliteratur</gloss>
             <gloss xml:lang="de">Erbauungsliteratur</gloss>
@@ -113,7 +107,7 @@
             <gloss xml:lang="en">Confessional Literature</gloss>
             <gloss xml:lang="en">Edification Literature</gloss>
           </category>
-          <category xml:id="genre_707350eb">
+          <category xml:id="genre_707350eb" corresp="genres.xml#genre_707350eb">
             <gloss xml:lang="de">Vaterunser</gloss>
             <gloss xml:lang="de">Gebet des Herrn</gloss>
             <gloss xml:lang="de">Herrengebet</gloss>
@@ -128,7 +122,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_1427">
+          <person xml:id="person_1427" corresp="persons.xml#person_1427">
             <persName type="preferred">Nikolaus von Kues</persName>
             <persName type="alternative" xml:lang="en">Nicholas of Cusa</persName>
             <idno type="GND">118588095</idno>

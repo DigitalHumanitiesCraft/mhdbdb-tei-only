@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="FLG">
   <teiHeader>
     <fileDesc>
@@ -41,23 +41,21 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_571">
             <idno type="sigle">FLG</idno>
+            <idno type="handschriftencensus">1179</idno>
+            <idno type="gnd">4226427-3</idno>
             <msName xml:lang="de">Das fließende Licht der Gottheit (Buch 1 &amp; 2)</msName>
           </msIdentifier>
           <additional>
             <listBibl>
-              <biblStruct type="book" xml:id="DIGIVORLAGE.FLG_FLG" corresp="http://zotero.org/groups/5043625/items/MLJUUSLC" key="FLG">
+              <biblStruct type="book" xml:id="FLG_FLG" corresp="http://zotero.org/groups/5043625/items/MLJUUSLC" key="FLG">
                 <monogr>
-                  <title level="m">Das fließende licht der gottheit: Buch 1 &amp; 2; digitale
-                textedition</title>
-                  <idno type="callNumber">FLG</idno>
+                  <title>Das Fließende Licht Der Gottheit: Buch 1 &amp; 2; Digitale Textedition</title>
                   <author>
                     <name>Mechthild von Magdeburg</name>
                   </author>
+                  <idno type="callNumber">FLG</idno>
                   <imprint>
                     <date>2009</date>
-                    <note type="accessed">2018-08-02</note>
-                    <note type="url">
-                  http://www.hs-augsburg.de/~harsch/germanica/Chronologie/13Jh/Mechthild/mec_0000.html</note>
                   </imprint>
                 </monogr>
               </biblStruct>
@@ -74,7 +72,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_0480b285" ana="parent">
+          <category xml:id="genre_0480b285" ana="parent" corresp="genres.xml#genre_0480b285">
             <gloss xml:lang="de">Geistliche Literatur</gloss>
             <gloss xml:lang="de">Geistliche Dichtung</gloss>
             <gloss xml:lang="de">Religiöse Dichtung</gloss>
@@ -84,7 +82,7 @@
             <gloss xml:lang="en">Spiritual Poetry</gloss>
             <gloss xml:lang="en">Religious Poetry</gloss>
           </category>
-          <category xml:id="genre_9eee7c13">
+          <category xml:id="genre_9eee7c13" corresp="genres.xml#genre_9eee7c13">
             <gloss xml:lang="de">Mystik</gloss>
             <gloss xml:lang="de">Mystischer Text</gloss>
             <gloss xml:lang="en">Mysticism</gloss>
@@ -96,7 +94,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_1547">
+          <person xml:id="person_1547" corresp="persons.xml#person_1547">
             <persName type="preferred">Mechthild von Magdeburg</persName>
             <persName type="alternative" xml:lang="en">Mechthild of Magdeburg</persName>
             <idno type="GND">118579797</idno>

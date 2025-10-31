@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="ROA">
   <teiHeader>
     <fileDesc>
@@ -42,6 +42,8 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_214">
             <idno type="sigle">ROA</idno>
+            <idno type="gnd">4178461-3</idno>
+            <idno type="wikidata">Q329662</idno>
             <msName xml:lang="de">Rosengarten</msName>
             <msName xml:lang="de">Rosengarten zu Worms</msName>
           </msIdentifier>
@@ -49,13 +51,13 @@
             <listBibl>
               <biblStruct type="bookSection" xml:id="ROA_ROA" corresp="http://zotero.org/groups/5043625/items/9NQ3F3W2" key="ROA">
                 <analytic>
-                  <title level="a">Rosengarten a (I): [Handschrift a]</title>
+                  <title level="a">Rosengarten A (i): [handschrift A]</title>
                   <author>
                     <name>Anonym</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Die gedichte vom rosengarten zu worms: Unveränderter nachdruck</title>
+                  <title level="m">Die Gedichte vom Rosengarten zu Worms: Unveränderter Nachdruck</title>
                   <idno type="callNumber">ROA</idno>
                   <editor>
                     <forename>Georg</forename>
@@ -82,7 +84,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_f3e5cee1">
+          <category xml:id="genre_f3e5cee1" corresp="genres.xml#genre_f3e5cee1">
             <gloss xml:lang="de">Dietrichsepik</gloss>
             <gloss xml:lang="de">Dietrichepik</gloss>
             <gloss xml:lang="en">Dietrich Epic</gloss>
@@ -90,7 +92,7 @@
             <gloss xml:lang="en">Dietrich Poetry</gloss>
             <gloss xml:lang="en">Epic of Dietrich</gloss>
           </category>
-          <category xml:id="genre_f6672d9f" ana="parent">
+          <category xml:id="genre_f6672d9f" ana="parent" corresp="genres.xml#genre_f6672d9f">
             <gloss xml:lang="de">Heldenepik</gloss>
             <gloss xml:lang="de">Heldenepische Dichtung</gloss>
             <gloss xml:lang="en">Heroic Epic</gloss>
@@ -102,7 +104,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_anonym">
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>
             <persName type="alternative" xml:lang="de">Anonymus</persName>
             <persName type="alternative" xml:lang="en">anonymous</persName>

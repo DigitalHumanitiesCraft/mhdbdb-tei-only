@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="NAR">
   <teiHeader>
     <fileDesc>
@@ -42,6 +42,9 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_582">
             <idno type="sigle">NAR</idno>
+            <idno type="handschriftencensus">6501</idno>
+            <idno type="gnd">4245841-9</idno>
+            <idno type="wikidata">Q1169954</idno>
             <msName xml:lang="de">Das Narrenschiff</msName>
             <msName xml:lang="en">Ship of Fools</msName>
           </msIdentifier>
@@ -49,13 +52,15 @@
             <listBibl>
               <biblStruct type="book" xml:id="NAR_NAR" corresp="http://zotero.org/groups/5043625/items/HVKF85P6" key="NAR">
                 <monogr>
-                  <title level="m">Das Narrenschiff: Nach der Erstausgabe (Basel 1494) mit den Zusätzen
-                der Ausgaben von 1495 und 1499 sowie den Holzschnitten der deutschen Originalausgabe</title>
-                  <idno type="callNumber">NAR</idno>
+                  <title>Das Narrenschiff: Nach der Erstausgabe (basel 1494) mit den Zusätzen der Ausgaben von 1495 und 1499 Sowie den Holzschnitten der Deutschen Originalausgabe</title>
                   <author>
-                    <forename>Sebastian</forename>
-                    <surname>Brant</surname>
+                    <name>Sebastian Brant</name>
                   </author>
+                  <idno type="callNumber">NAR</idno>
+                  <editor>
+                    <forename>Manfred</forename>
+                    <surname>Lemmer</surname>
+                  </editor>
                   <edition>3</edition>
                   <imprint>
                     <pubPlace>Tübingen</pubPlace>
@@ -65,13 +70,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Neudrucke deutscher literaturwerke, N.F.</title>
+                  <title level="s">Neudrucke Deutscher Literaturwerke, N.f.</title>
                 </series>
-                <note>Sebastian Brant, Das Narrenschiff Hrsg.: M. Lemmer, Tübingen 1962/1986 Digitale
-              Version: Ulrich Harsch 2004 http://www.hs-augsburg.de/
-              ̃harsch/germanica/Chronologie/15Jh/Brant/bra_intr.html Nach der digitalen Ausgabe der
-              Akademie der Wissenschaften in Göttingen (DWB-Thesaurus), die leider im Netz nicht
-              mehr verfügbar ist</note>
+                <note>Sebastian Brant, Das Narrenschiff Hrsg.: M. Lemmer, Tübingen 1962/1986 Digitale Version: Ulrich Harsch 2004 http://www.hs-augsburg.de/ ̃harsch/germanica/Chronologie/15Jh/Brant/bra_intr.html Nach der digitalen Ausgabe der Akademie der Wissenschaften in Göttingen (DWB-Thesaurus), die leider im Netz nicht mehr verfügbar ist</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -86,15 +87,15 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_535c3395">
+          <category xml:id="genre_535c3395" corresp="genres.xml#genre_535c3395">
             <gloss xml:lang="de">Schwankroman</gloss>
             <gloss xml:lang="en">Droll Novel</gloss>
           </category>
-          <category xml:id="genre_60bae378">
+          <category xml:id="genre_60bae378" corresp="genres.xml#genre_60bae378">
             <gloss xml:lang="de">Großdidaxe</gloss>
             <gloss xml:lang="en">Didactic Large Poetry</gloss>
           </category>
-          <category xml:id="genre_d2963bbe" ana="parent">
+          <category xml:id="genre_d2963bbe" ana="parent" corresp="genres.xml#genre_d2963bbe">
             <gloss xml:lang="de">Großepik</gloss>
             <gloss xml:lang="de">Große epische Formen</gloss>
             <gloss xml:lang="de">Großdichtung</gloss>
@@ -102,7 +103,7 @@
             <gloss xml:lang="en">Large Epic Forms</gloss>
             <gloss xml:lang="en">Large Poetry</gloss>
           </category>
-          <category xml:id="genre_d75ff6ba" ana="parent">
+          <category xml:id="genre_d75ff6ba" ana="parent" corresp="genres.xml#genre_d75ff6ba">
             <gloss xml:lang="de">Lehrdichtung</gloss>
             <gloss xml:lang="de">Didaktische Dichtung</gloss>
             <gloss xml:lang="de">Lehrschrift</gloss>
@@ -115,7 +116,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_1507">
+          <person xml:id="person_1507" corresp="persons.xml#person_1507">
             <persName type="preferred">Sebastian Brant</persName>
             <idno type="GND">118514474</idno>
             <idno type="wikidata">Q60351</idno>

@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="BAX">
   <teiHeader>
     <fileDesc>
@@ -43,6 +43,9 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_462">
             <idno type="sigle">BAX</idno>
+            <idno type="handschriftencensus">217</idno>
+            <idno type="gnd">4467771-6</idno>
+            <idno type="wikidata">Q2643537</idno>
             <msName xml:lang="de">Alexanderlied</msName>
             <msName xml:lang="de">Basler Alexander</msName>
           </msIdentifier>
@@ -50,12 +53,15 @@
             <listBibl>
               <biblStruct type="book" xml:id="BAX_BAX" corresp="http://zotero.org/groups/5043625/items/L4N89AJ9" key="BAX">
                 <monogr>
-                  <title level="m">Die basler bearbeitung von lambrechts alexander: (nach basel,
-                universitätsbibl., cod. E VI 26)</title>
-                  <idno type="callNumber">BAX</idno>
+                  <title>Die Basler Bearbeitung von Lambrechts Alexander: (nach Basel, Universitätsbibl., Cod. E Vi 26)</title>
                   <author>
                     <name>Pfaffe Lamprecht</name>
                   </author>
+                  <idno type="callNumber">BAX</idno>
+                  <editor>
+                    <forename>Richard Maria</forename>
+                    <surname>Werner</surname>
+                  </editor>
                   <imprint>
                     <pubPlace>Tübingen</pubPlace>
                     <biblScope unit="volume">154</biblScope>
@@ -64,7 +70,7 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Bibliothek des litterarischen vereins in stuttgart</title>
+                  <title level="s">Bibliothek des Litterarischen Vereins in Stuttgart</title>
                 </series>
               </biblStruct>
             </listBibl>
@@ -80,14 +86,14 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_271237bd">
+          <category xml:id="genre_271237bd" corresp="genres.xml#genre_271237bd">
             <gloss xml:lang="de">Alexanderroman</gloss>
             <gloss xml:lang="en">Alexander Romance</gloss>
             <gloss xml:lang="en">Alexander Novel</gloss>
             <gloss xml:lang="en">Romance of Alexander</gloss>
             <gloss xml:lang="en">Novel of Alexander</gloss>
           </category>
-          <category xml:id="genre_fa5f2e8a" ana="parent">
+          <category xml:id="genre_fa5f2e8a" ana="parent" corresp="genres.xml#genre_fa5f2e8a">
             <gloss xml:lang="de">Antikenroman</gloss>
             <gloss xml:lang="en">Ancient Romance</gloss>
             <gloss xml:lang="en">Ancient Novel</gloss>
@@ -98,7 +104,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_565">
+          <person xml:id="person_565" corresp="persons.xml#person_565">
             <persName type="preferred">Lamprecht der Pfaffe</persName>
             <persName type="alternative" xml:lang="de">Pfaffe Lamprecht</persName>
             <persName type="alternative" xml:lang="en">Lamprecht</persName>
@@ -106,7 +112,7 @@
             <idno type="wikidata">Q7877757</idno>
             <note type="works">work_177,work_462</note>
           </person>
-          <person xml:id="person_anonym">
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>
             <persName type="alternative" xml:lang="de">Anonymus</persName>
             <persName type="alternative" xml:lang="en">anonymous</persName>

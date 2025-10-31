@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="BVSN">
   <teiHeader>
     <fileDesc>
@@ -41,20 +41,21 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_596">
             <idno type="sigle">BVSN</idno>
+            <idno type="handschriftencensus">697</idno>
+            <idno type="gnd">1049486099</idno>
             <msName xml:lang="de">Buch von den sechs Namen des Fronleichnams</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="bookSection" xml:id="BVSN_BVSN" corresp="http://zotero.org/groups/5043625/items/SGUDSS7Z" key="BVSN">
                 <analytic>
-                  <title level="a">Das puch von den VI namen des fronleichnams auch goldene zunge oder
-                liber de corde et sanguine domini</title>
+                  <title level="a">Das Puch von den Vi Namen des Fronleichnams Auch Goldene Zunge oder Liber De Corde Et Sanguine Domini</title>
                   <author>
                     <name>Der Mönch von Heilsbronn</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Der mönch von heilsbronn</title>
+                  <title level="m">Der Mönch von Heilsbronn</title>
                   <idno type="callNumber">BVSN</idno>
                   <editor>
                     <forename>Johann Friedrich Ludwig Theodor</forename>
@@ -67,10 +68,7 @@
                     <date>1870</date>
                   </imprint>
                 </monogr>
-                <note>Das puch von den VI namen des fronleichnams auch goldene Zunge oder liber de corde
-              et sanguine domini. In: Der Mönch von Heilsbronn. Zum ersten Male vollständig
-              herausgegeben von Dr. J.F.L. Theod. Merzdorf. Berlin: H. Ebeling und C. Plahn,
-              1870,S.3-68</note>
+                <note>Das puch von den VI namen des fronleichnams auch goldene Zunge oder liber de corde et sanguine domini. In: Der Mönch von Heilsbronn. Zum ersten Male vollständig herausgegeben von Dr. J.F.L. Theod. Merzdorf. Berlin: H. Ebeling und C. Plahn, 1870,S.3-68</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -85,13 +83,13 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_9eee7c13" ana="parent">
+          <category xml:id="genre_9eee7c13" ana="parent" corresp="genres.xml#genre_9eee7c13">
             <gloss xml:lang="de">Mystik</gloss>
             <gloss xml:lang="de">Mystischer Text</gloss>
             <gloss xml:lang="en">Mysticism</gloss>
             <gloss xml:lang="en">Mystical Text</gloss>
           </category>
-          <category xml:id="genre_a63df4be">
+          <category xml:id="genre_a63df4be" corresp="genres.xml#genre_a63df4be">
             <gloss xml:lang="de">Geistlicher Trakatat</gloss>
             <gloss xml:lang="de">Religiöser Traktat</gloss>
             <gloss xml:lang="en">Spiritual Treatise</gloss>
@@ -103,7 +101,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_1727">
+          <person xml:id="person_1727" corresp="persons.xml#person_1727">
             <persName type="preferred">Mönch von Heilsbronn</persName>
             <idno type="GND">118784420</idno>
             <idno type="wikidata">Q27580989</idno>

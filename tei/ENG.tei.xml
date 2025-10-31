@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="ENG">
   <teiHeader>
     <fileDesc>
@@ -42,6 +42,9 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_133">
             <idno type="sigle">ENG</idno>
+            <idno type="handschriftencensus">5720</idno>
+            <idno type="gnd">4131545-5</idno>
+            <idno type="wikidata">Q1342068</idno>
             <msName xml:lang="de">Engelhard</msName>
             <msName xml:lang="de">Engelhard (Roman)</msName>
           </msIdentifier>
@@ -49,12 +52,16 @@
             <listBibl>
               <biblStruct type="book" xml:id="ENG_ENG" corresp="http://zotero.org/groups/5043625/items/A3QTDF3D" key="ENG">
                 <monogr>
-                  <title level="m">Engelhard</title>
-                  <idno type="ISBN">978-3-484-20117-0</idno>
-                  <idno type="callNumber">ENG</idno>
+                  <title>Engelhard</title>
                   <author>
                     <name>Konrad von Würzburg</name>
                   </author>
+                  <idno type="ISBN">978-3-484-20117-0</idno>
+                  <idno type="callNumber">ENG</idno>
+                  <editor>
+                    <forename>Ingo</forename>
+                    <surname>Reiffenstein</surname>
+                  </editor>
                   <edition>3</edition>
                   <imprint>
                     <pubPlace>Tübingen</pubPlace>
@@ -64,10 +71,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Altdeutsche textbibliothek</title>
+                  <title level="s">Altdeutsche Textbibliothek</title>
                 </series>
-                <note>Konrad von Würzburg: Engelhard. Hrsg. von Ingo Reiffenstein. 3., neubearb. Aufl.
-              der Ausgabe von Paul Gereke. Tübingen 1982.(=ATB Nr. 17)</note>
+                <note>Konrad von Würzburg: Engelhard. Hrsg. von Ingo Reiffenstein. 3., neubearb. Aufl. der Ausgabe von Paul Gereke. Tübingen 1982.(=ATB Nr. 17)</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -82,14 +88,14 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_72cae96a" ana="parent">
+          <category xml:id="genre_72cae96a" ana="parent" corresp="genres.xml#genre_72cae96a">
             <gloss xml:lang="de">Höfischer Roman</gloss>
             <gloss xml:lang="de">Versroman</gloss>
             <gloss xml:lang="en">Courtly Romance</gloss>
             <gloss xml:lang="en">Courtly Novel</gloss>
             <gloss xml:lang="en">Verse Novel</gloss>
           </category>
-          <category xml:id="genre_88b5cae2">
+          <category xml:id="genre_88b5cae2" corresp="genres.xml#genre_88b5cae2">
             <gloss xml:lang="de">Liebesroman und Abenteuerroman</gloss>
             <gloss xml:lang="de">Liebesroman</gloss>
             <gloss xml:lang="de">Minneroman und Aventiureroman</gloss>
@@ -110,7 +116,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_1">
+          <person xml:id="person_1" corresp="persons.xml#person_1">
             <persName type="preferred">Konrad von Würzburg</persName>
             <idno type="GND">118565133</idno>
             <idno type="wikidata">Q77480</idno>

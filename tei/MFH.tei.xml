@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="MFH">
   <teiHeader>
     <fileDesc>
@@ -41,19 +41,20 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_45">
             <idno type="sigle">MFH</idno>
+            <idno type="handschriftencensus">2034</idno>
             <msName xml:lang="de">Lyrik von Friedrich von Hausen</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="bookSection" xml:id="MFH_MFH" corresp="http://zotero.org/groups/5043625/items/8Z4RIP8R" key="MFH">
                 <analytic>
-                  <title level="a">[Lieder]</title>
+                  <title level="a">[lieder]</title>
                   <author>
                     <name>Friedrich von Hausen</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Des minnesangs fruehling</title>
+                  <title level="m">Des Minnesangs Fruehling</title>
                   <idno type="ISBN">978-3-7776-0331-5</idno>
                   <idno type="callNumber">MFH</idno>
                   <editor>
@@ -66,15 +67,13 @@
                   </editor>
                   <imprint>
                     <pubPlace>Stuttgart</pubPlace>
-                    <biblScope unit="volume">1</biblScope>
                     <biblScope unit="page">73–96</biblScope>
+                    <biblScope unit="volume">1</biblScope>
                     <publisher>Hirzel</publisher>
                     <date>1977</date>
                   </imprint>
                 </monogr>
-                <note>Des Minnesangs Frühling. Unter Benutzung der Ausgaben von Karl Lachmann und Moriz
-              Haupt, Friedrich Vogt und Carl von Kraus bearbeitet von Hugo Moser und Helmut
-              Tervooren. 36., neugestaltete und erweiterte Auflage. Stuttgart: S. Hirzel Verlag 1977</note>
+                <note>Des Minnesangs Frühling. Unter Benutzung der Ausgaben von Karl Lachmann und Moriz Haupt, Friedrich Vogt und Carl von Kraus bearbeitet von Hugo Moser und Helmut Tervooren. 36., neugestaltete und erweiterte Auflage. Stuttgart: S. Hirzel Verlag 1977</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -89,7 +88,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_4ecfe25e" ana="parent">
+          <category xml:id="genre_4ecfe25e" ana="parent" corresp="genres.xml#genre_4ecfe25e">
             <gloss xml:lang="de">Minnesang</gloss>
             <gloss xml:lang="de">Minnesänger</gloss>
             <gloss xml:lang="de">Liebeslyrik</gloss>
@@ -98,11 +97,11 @@
             <gloss xml:lang="en">Minstrels</gloss>
             <gloss xml:lang="en">Love Poetry</gloss>
           </category>
-          <category xml:id="genre_a2770533" ana="parent">
+          <category xml:id="genre_a2770533" ana="parent" corresp="genres.xml#genre_a2770533">
             <gloss xml:lang="de">Lyrik</gloss>
             <gloss xml:lang="en">Lyric Poetry</gloss>
           </category>
-          <category xml:id="genre_e64fcd3f">
+          <category xml:id="genre_e64fcd3f" corresp="genres.xml#genre_e64fcd3f">
             <gloss xml:lang="de">Rheinischer Minnesang</gloss>
             <gloss xml:lang="de">Rheinländischer Minnesang</gloss>
             <gloss xml:lang="en">Rhenish Minnesang</gloss>
@@ -113,7 +112,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_165">
+          <person xml:id="person_165" corresp="persons.xml#person_165">
             <persName type="preferred">Friedrich von Hausen</persName>
             <idno type="GND">118693549</idno>
             <idno type="wikidata">Q68499</idno>

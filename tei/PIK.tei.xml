@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="PIK">
   <teiHeader>
     <fileDesc>
@@ -47,13 +47,13 @@
             <listBibl>
               <biblStruct type="bookSection" xml:id="PIK_PIK" corresp="http://zotero.org/groups/5043625/items/PIYIA33C" key="PIK">
                 <analytic>
-                  <title level="a">Der pfaffe im kaesekorb</title>
+                  <title level="a">Der Pfaffe im Kaesekorb</title>
                   <author>
                     <name>Anonym</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Eine schweizer kleinepiksammlung des 15. Jahrhunderts</title>
+                  <title level="m">Eine Schweizer Kleinepiksammlung des 15. Jahrhunderts</title>
                   <idno type="callNumber">PIK</idno>
                   <editor>
                     <forename>Hanns</forename>
@@ -67,10 +67,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Altdeutsche textbibliothek</title>
+                  <title level="s">Altdeutsche Textbibliothek</title>
                 </series>
-                <note>Eine Schweizer Kleinepiksammlung des 15. Jahrhunderts. Hrsg. von Hanns Fischer.
-              Tübingen: Niemeyer 1965. (= ATB Nr. 65), S. 51-56</note>
+                <note>Eine Schweizer Kleinepiksammlung des 15. Jahrhunderts. Hrsg. von Hanns Fischer. Tübingen: Niemeyer 1965. (= ATB Nr. 65), S. 51-56</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -85,22 +84,22 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_09114e08">
+          <category xml:id="genre_09114e08" corresp="genres.xml#genre_09114e08">
             <gloss xml:lang="de">Schwank</gloss>
             <gloss xml:lang="en">Droll Story</gloss>
           </category>
-          <category xml:id="genre_5f84678a" ana="parent">
+          <category xml:id="genre_5f84678a" ana="parent" corresp="genres.xml#genre_5f84678a">
             <gloss xml:lang="de">Scherzdichtung</gloss>
             <gloss xml:lang="en">Joke Poetry</gloss>
           </category>
-          <category xml:id="genre_ae9e2d0e" ana="parent">
+          <category xml:id="genre_ae9e2d0e" ana="parent" corresp="genres.xml#genre_ae9e2d0e">
             <gloss xml:lang="de">Erzählende Kurzform</gloss>
             <gloss xml:lang="de">Kleinepik</gloss>
             <gloss xml:lang="en">Narrative Short Form</gloss>
             <gloss xml:lang="en">Short Epic</gloss>
             <gloss xml:lang="en">Small Epics</gloss>
           </category>
-          <category xml:id="genre_d65a163b">
+          <category xml:id="genre_d65a163b" corresp="genres.xml#genre_d65a163b">
             <gloss xml:lang="de">Märe</gloss>
             <gloss xml:lang="de">Mär</gloss>
             <gloss xml:lang="de">Versnovelle</gloss>
@@ -114,7 +113,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_anonym">
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>
             <persName type="alternative" xml:lang="de">Anonymus</persName>
             <persName type="alternative" xml:lang="en">anonymous</persName>

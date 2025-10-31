@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="CEFB">
   <teiHeader>
     <fileDesc>
@@ -41,18 +41,23 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_667">
             <idno type="sigle">CEFB</idno>
+            <idno type="handschriftencensus">1895</idno>
+            <idno type="gnd">1119808618</idno>
             <msName xml:lang="de">Fechtbuch</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="book" xml:id="CEFB_CEFB" corresp="http://zotero.org/groups/5043625/items/CXK763JS" key="CEFB">
                 <monogr>
-                  <title level="m">Der allten fechter gruendtlichen kunst: Das frankfurter oder
-                egenolffsche fechtbuch: Untersuchung und edition</title>
-                  <idno type="callNumber">CEFB</idno>
+                  <title>Der Allten Fechter Gruendtlichen Kunst: Das Frankfurter oder Egenolffsche Fechtbuch: Untersuchung und Edition</title>
                   <author>
                     <name>Christian Egenolff</name>
                   </author>
+                  <idno type="callNumber">CEFB</idno>
+                  <editor>
+                    <forename>Matthias Johannes</forename>
+                    <surname>Bauer</surname>
+                  </editor>
                   <imprint>
                     <pubPlace>München</pubPlace>
                     <publisher>Herbert Utz Verlag</publisher>
@@ -73,7 +78,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_8899703b">
+          <category xml:id="genre_8899703b" corresp="genres.xml#genre_8899703b">
             <gloss xml:lang="de">Kampflehre</gloss>
             <gloss xml:lang="de">Fechtbuch</gloss>
             <gloss xml:lang="de">Kampfbuch</gloss>
@@ -86,12 +91,12 @@
             <gloss xml:lang="en">Battle Book</gloss>
             <gloss xml:lang="en">Fencing Theory</gloss>
           </category>
-          <category xml:id="genre_c87ae373" ana="parent">
+          <category xml:id="genre_c87ae373" ana="parent" corresp="genres.xml#genre_c87ae373">
             <gloss xml:lang="de">Kampfkunst und Kriegswesen</gloss>
             <gloss xml:lang="en">Martial Arts and Warfare</gloss>
             <gloss xml:lang="la">Militia</gloss>
           </category>
-          <category xml:id="genre_da5587e7" ana="parent">
+          <category xml:id="genre_da5587e7" ana="parent" corresp="genres.xml#genre_da5587e7">
             <gloss xml:lang="de">Bewegungskultur</gloss>
             <gloss xml:lang="de">Körpertechniken</gloss>
             <gloss xml:lang="de">Leibesertüchtigung</gloss>
@@ -107,7 +112,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_anonym">
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>
             <persName type="alternative" xml:lang="de">Anonymus</persName>
             <persName type="alternative" xml:lang="en">anonymous</persName>

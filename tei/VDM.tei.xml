@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="VDM">
   <teiHeader>
     <fileDesc>
@@ -48,6 +48,7 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_233">
             <idno type="sigle">VDM</idno>
+            <idno type="handschriftencensus">2971</idno>
             <msName xml:lang="de">Von der Messe</msName>
             <msName xml:lang="de">Die Messe</msName>
             <msName xml:lang="gmh">Ditz ist von der messe, / der sulle
@@ -61,7 +62,7 @@
             <listBibl>
               <biblStruct type="bookSection" xml:id="VDM_VDM" corresp="http://zotero.org/groups/5043625/items/48NJ3EG6" key="VDM">
                 <analytic>
-                  <title level="a">Von der Messe: Ditz ist von der messe, / der sulle wir niht vergesse</title>
+                  <title level="a">Von der Messe: Ditz Ist von der Messe, / der Sulle Wir Niht Vergesse</title>
                   <author>
                     <name>Der Stricker</name>
                   </author>
@@ -70,7 +71,7 @@
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Die heidelberger handschrift</title>
+                  <title level="m">Die Heidelberger Handschrift</title>
                   <idno type="callNumber">VDM</idno>
                   <editor>
                     <forename>Gustav</forename>
@@ -84,15 +85,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Kleinere mittelhochdeutsche erzählungen, fabeln und lehrgedichte</title>
+                  <title level="s">Kleinere Mittelhochdeutsche Erzählungen, Fabeln und Lehrgedichte</title>
                 </series>
-                <note>Kleinere mittelhochdeutsche Erzählungen, Fabeln und Lehrgedichte. III. Die
-              Heidelberger Handschrift Cod. Pal. Germ. 341. Hrsg. v. Gustav Rosenhagen,
-              Dublin/Zürich: Weidmann 1970. (= Deutsche Texte des Mittelalters Bd. XVII). Der
-              elektronische Text basiert zum Teil auf dem vom Electronic Text Center der University
-              of Virginia u. dem Kompetenzzentrum für elektronische Erschließungs- und
-              Publikationsverfahren in den Geisteswissenschaften an der Universität Trier
-              erstellten Text, revidiert von Lesley C. Pleasant and Cindy Filer Speer</note>
+                <note>Kleinere mittelhochdeutsche Erzählungen, Fabeln und Lehrgedichte. III. Die Heidelberger Handschrift Cod. Pal. Germ. 341. Hrsg. v. Gustav Rosenhagen, Dublin/Zürich: Weidmann 1970. (= Deutsche Texte des Mittelalters Bd. XVII). Der elektronische Text basiert zum Teil auf dem vom Electronic Text Center der University of Virginia u. dem Kompetenzzentrum für elektronische Erschließungs- und Publikationsverfahren in den Geisteswissenschaften an der Universität Trier erstellten Text, revidiert von Lesley C. Pleasant and Cindy Filer Speer</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -107,12 +102,12 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_9c7d5679" ana="parent">
+          <category xml:id="genre_9c7d5679" ana="parent" corresp="genres.xml#genre_9c7d5679">
             <gloss xml:lang="de">Diskursive Kurzform</gloss>
             <gloss xml:lang="en">Discursive Short Form</gloss>
             <gloss xml:lang="en">Discursive Form in Small Poetry</gloss>
           </category>
-          <category xml:id="genre_ccef6751">
+          <category xml:id="genre_ccef6751" corresp="genres.xml#genre_ccef6751">
             <gloss xml:lang="de">Geistliche Rede</gloss>
             <gloss xml:lang="de">Religiöse Rede</gloss>
             <gloss xml:lang="en">Spiritual Speech</gloss>
@@ -124,7 +119,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_4">
+          <person xml:id="person_4" corresp="persons.xml#person_4">
             <persName type="preferred">Der Stricker</persName>
             <idno type="GND">118619284</idno>
             <idno type="wikidata">Q1197199</idno>

@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="DL1">
   <teiHeader>
     <fileDesc>
@@ -41,19 +41,21 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_179">
             <idno type="sigle">DL1</idno>
+            <idno type="gnd">4149290-0</idno>
+            <idno type="wikidata">Q1204572</idno>
             <msName xml:lang="de">Deutschenspiegel</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="bookSection" xml:id="DL1_DL1" corresp="http://zotero.org/groups/5043625/items/QREU4D67" key="DL1">
                 <analytic>
-                  <title level="a">Erster landrechtsteil: Deutschenspiegel: (Vorreden. Artikel 1-109.)</title>
+                  <title level="a">Erster Landrechtsteil: Deutschenspiegel: (vorreden. Artikel 1-109.)</title>
                   <author>
                     <name>Anonym</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Deutschenspiegel und augsburger sachsenspiegel</title>
+                  <title level="m">Deutschenspiegel und Augsburger Sachsenspiegel</title>
                   <idno type="callNumber">DL1</idno>
                   <editor>
                     <forename>Karl August</forename>
@@ -71,16 +73,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Monumenta germaniae historica: Leges</title>
+                  <title level="s">Monumenta Germaniae Historica: Leges</title>
                 </series>
-                <note>Deutschenspiegel und Augsburger Sachsenspiegel; hrsg. von Karl August Elckhardt
-              und Alfred Hübner. 2. neubearb Ausg. Published Hannover, Hahnsche Buchhandlung, 1933.
-              (= Monumenta Germaniae historica inde ab anno Christi quingentesimo usque ad annum
-              millesimum et quingentesimum. Fontes iuris Germanici antiqui. nova. ser. ; t. 3). Die
-              digitale Textfassung beruht teilweise auf dem am Electronic Text Center der University
-              of Virginia / dem Kompetenzzentrum für elektronische Erschließungs- und
-              Publikationsverfahren in den Geisteswissenschaften an der Universität Trier
-              erstellten Text: http://etext.lib.virginia.edu/german/mhg</note>
+                <note>Deutschenspiegel und Augsburger Sachsenspiegel; hrsg. von Karl August Elckhardt und Alfred Hübner. 2. neubearb Ausg. Published Hannover, Hahnsche Buchhandlung, 1933. (= Monumenta Germaniae historica inde ab anno Christi quingentesimo usque ad annum millesimum et quingentesimum. Fontes iuris Germanici antiqui. nova. ser. ; t. 3). Die digitale Textfassung beruht teilweise auf dem am Electronic Text Center der University of Virginia / dem Kompetenzzentrum für elektronische Erschließungs- und Publikationsverfahren in den Geisteswissenschaften an der Universität Trier erstellten Text: http://etext.lib.virginia.edu/german/mhg</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -95,7 +90,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_30ab9c71" ana="parent">
+          <category xml:id="genre_30ab9c71" ana="parent" corresp="genres.xml#genre_30ab9c71">
             <gloss xml:lang="de">Historiografie</gloss>
             <gloss xml:lang="de">Historiographie</gloss>
             <gloss xml:lang="de">Historiografischer Text</gloss>
@@ -104,26 +99,26 @@
             <gloss xml:lang="en">Historiography</gloss>
             <gloss xml:lang="en">History Writing</gloss>
           </category>
-          <category xml:id="genre_36228c48">
+          <category xml:id="genre_36228c48" corresp="genres.xml#genre_36228c48">
             <gloss xml:lang="de">Chronik</gloss>
             <gloss xml:lang="en">Chronicle</gloss>
           </category>
-          <category xml:id="genre_60bae378">
+          <category xml:id="genre_60bae378" corresp="genres.xml#genre_60bae378">
             <gloss xml:lang="de">Großdidaxe</gloss>
             <gloss xml:lang="en">Didactic Large Poetry</gloss>
           </category>
-          <category xml:id="genre_8b2c21ce">
+          <category xml:id="genre_8b2c21ce" corresp="genres.xml#genre_8b2c21ce">
             <gloss xml:lang="de">Landrechtsbuch und Lehnsrechtsbuch</gloss>
             <gloss xml:lang="en">Land and Feudal Law Book</gloss>
           </category>
-          <category xml:id="genre_a0fca1d4">
+          <category xml:id="genre_a0fca1d4" corresp="genres.xml#genre_a0fca1d4">
             <gloss xml:lang="de">Fürstenspiegel</gloss>
             <gloss xml:lang="de">Fürstenunterweisung</gloss>
             <gloss xml:lang="en">Prince's Instruction</gloss>
             <gloss xml:lang="en">Mirror for Princes</gloss>
             <gloss xml:lang="la">Speculum Principum</gloss>
           </category>
-          <category xml:id="genre_b4e27807" ana="parent">
+          <category xml:id="genre_b4e27807" ana="parent" corresp="genres.xml#genre_b4e27807">
             <gloss xml:lang="de">Rechtstext</gloss>
             <gloss xml:lang="de">Juridischer Text</gloss>
             <gloss xml:lang="de">Rechtsliteratur</gloss>
@@ -132,17 +127,17 @@
             <gloss xml:lang="en">Juridical Text</gloss>
             <gloss xml:lang="en">Legislative Literature</gloss>
           </category>
-          <category xml:id="genre_c7b5f47e" ana="parent">
+          <category xml:id="genre_c7b5f47e" ana="parent" corresp="genres.xml#genre_c7b5f47e">
             <gloss xml:lang="de">Größere Ständelehre</gloss>
             <gloss xml:lang="de">Umfangreiche Standeslehre</gloss>
             <gloss xml:lang="en">Larger Estates Doctrine</gloss>
             <gloss xml:lang="en">Extensive Doctrine of Status</gloss>
           </category>
-          <category xml:id="genre_d5e8ab2d" ana="parent">
+          <category xml:id="genre_d5e8ab2d" ana="parent" corresp="genres.xml#genre_d5e8ab2d">
             <gloss xml:lang="de">Hofkünste</gloss>
             <gloss xml:lang="en">Courtly Arts</gloss>
           </category>
-          <category xml:id="genre_d75ff6ba" ana="parent">
+          <category xml:id="genre_d75ff6ba" ana="parent" corresp="genres.xml#genre_d75ff6ba">
             <gloss xml:lang="de">Lehrdichtung</gloss>
             <gloss xml:lang="de">Didaktische Dichtung</gloss>
             <gloss xml:lang="de">Lehrschrift</gloss>
@@ -155,7 +150,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_anonym">
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>
             <persName type="alternative" xml:lang="de">Anonymus</persName>
             <persName type="alternative" xml:lang="en">anonymous</persName>

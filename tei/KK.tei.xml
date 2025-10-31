@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="KK">
   <teiHeader>
     <fileDesc>
@@ -41,19 +41,21 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_9">
             <idno type="sigle">KK</idno>
+            <idno type="handschriftencensus">1595</idno>
+            <idno type="gnd">4568295-1</idno>
             <msName xml:lang="de">Die Klage der Kunst</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="bookSection" xml:id="KK_KK" corresp="http://zotero.org/groups/5043625/items/8HRCCQFS" key="KK">
                 <analytic>
-                  <title level="a">Die klage der kunst</title>
+                  <title level="a">Die Klage der Kunst</title>
                   <author>
                     <name>Konrad von Würzburg</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Die klage der kunst: Mit einem nachwort von ludwig wolff</title>
+                  <title level="m">Die Klage der Kunst: Mit einem Nachwort von Ludwig Wolff</title>
                   <idno type="callNumber">KK</idno>
                   <editor>
                     <forename>Edward</forename>
@@ -62,14 +64,13 @@
                   <imprint>
                     <pubPlace>Berlin</pubPlace>
                     <biblScope unit="page">1–8</biblScope>
-                    <date>1924</date>
+                    <date>1924/59</date>
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Kleinere dichtungen konrads von würzburg</title>
+                  <title level="s">Kleinere Dichtungen Konrads von Würzburg</title>
                 </series>
-                <note>Konrad von Würzburg. Die Klage der Kunst. In: Kleinere Dichtgg. K.v.Würzbgs.
-              III, Hg. Edward Schröder, unverändt. Nachdr. Dublin/Zürich 1970</note>
+                <note>Konrad von Würzburg. Die Klage der Kunst. In: Kleinere Dichtgg. K.v.Würzbgs. III, Hg. Edward Schröder, unverändt. Nachdr. Dublin/Zürich 1970</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -84,25 +85,25 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_9c7d5679" ana="parent">
+          <category xml:id="genre_9c7d5679" ana="parent" corresp="genres.xml#genre_9c7d5679">
             <gloss xml:lang="de">Diskursive Kurzform</gloss>
             <gloss xml:lang="en">Discursive Short Form</gloss>
             <gloss xml:lang="en">Discursive Form in Small Poetry</gloss>
           </category>
-          <category xml:id="genre_ae9e2d0e" ana="parent">
+          <category xml:id="genre_ae9e2d0e" ana="parent" corresp="genres.xml#genre_ae9e2d0e">
             <gloss xml:lang="de">Erzählende Kurzform</gloss>
             <gloss xml:lang="de">Kleinepik</gloss>
             <gloss xml:lang="en">Narrative Short Form</gloss>
             <gloss xml:lang="en">Short Epic</gloss>
             <gloss xml:lang="en">Small Epics</gloss>
           </category>
-          <category xml:id="genre_bfa30c9d">
+          <category xml:id="genre_bfa30c9d" corresp="genres.xml#genre_bfa30c9d">
             <gloss xml:lang="de">Klagerede</gloss>
             <gloss xml:lang="en">Lamentation Speech</gloss>
             <gloss xml:lang="en">Complaint Speech</gloss>
             <gloss xml:lang="la">Oratio Lamentatio</gloss>
           </category>
-          <category xml:id="genre_dd3320dc">
+          <category xml:id="genre_dd3320dc" corresp="genres.xml#genre_dd3320dc">
             <gloss xml:lang="de">Allegorie</gloss>
             <gloss xml:lang="en">Allegory</gloss>
           </category>
@@ -112,7 +113,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_1">
+          <person xml:id="person_1" corresp="persons.xml#person_1">
             <persName type="preferred">Konrad von Würzburg</persName>
             <idno type="GND">118565133</idno>
             <idno type="wikidata">Q77480</idno>

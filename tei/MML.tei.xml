@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="MML">
   <teiHeader>
     <fileDesc>
@@ -41,20 +41,20 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_562">
             <idno type="sigle">MML</idno>
+            <idno type="handschriftencensus">246</idno>
             <msName xml:lang="de">Lyrik von Marner</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="bookSection" xml:id="MML_MML" corresp="http://zotero.org/groups/5043625/items/TWCT2CHZ" key="MML">
                 <analytic>
-                  <title level="a">[Der marner teil III]: [Meisterlieder]</title>
+                  <title level="a">[der Marner Teil Iii]: [meisterlieder]</title>
                   <author>
                     <name>Der Marner</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Lieder und Sangsprüche aus dem 13. Jahrhundert und ihr Weiterleben im
-                Meistersang</title>
+                  <title level="m">Lieder und Sangsprüche aus dem 13. Jahrhundert und Ihr Weiterleben im Meistersang</title>
                   <idno type="ISBN">978-3-11-018457-0</idno>
                   <idno type="callNumber">MML</idno>
                   <editor>
@@ -67,9 +67,7 @@
                     <date>2008</date>
                   </imprint>
                 </monogr>
-                <note>Der Marner. Lieder und Sangsprüche aus dem 13. Jahrhundert und ihr Weiterleben im
-              Meistersang. Hrsg., eingel., erl. u. übers. v. Eva Willms. Berlin, New York: Walter
-              de Gruyter, 2008</note>
+                <note>Der Marner. Lieder und Sangsprüche aus dem 13. Jahrhundert und ihr Weiterleben im Meistersang. Hrsg., eingel., erl. u. übers. v. Eva Willms. Berlin, New York: Walter de Gruyter, 2008</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -84,7 +82,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_1b99a6ac">
+          <category xml:id="genre_1b99a6ac" corresp="genres.xml#genre_1b99a6ac">
             <gloss xml:lang="de">Spruchsang</gloss>
             <gloss xml:lang="de">Spruchdichtung</gloss>
             <gloss xml:lang="de">Spruchlied</gloss>
@@ -95,7 +93,7 @@
             <gloss xml:lang="en">Sangspruch</gloss>
             <gloss xml:lang="en">Spruch Poem</gloss>
           </category>
-          <category xml:id="genre_4ecfe25e">
+          <category xml:id="genre_4ecfe25e" corresp="genres.xml#genre_4ecfe25e">
             <gloss xml:lang="de">Minnesang</gloss>
             <gloss xml:lang="de">Minnesänger</gloss>
             <gloss xml:lang="de">Liebeslyrik</gloss>
@@ -104,12 +102,12 @@
             <gloss xml:lang="en">Minstrels</gloss>
             <gloss xml:lang="en">Love Poetry</gloss>
           </category>
-          <category xml:id="genre_8d3e81fd">
+          <category xml:id="genre_8d3e81fd" corresp="genres.xml#genre_8d3e81fd">
             <gloss xml:lang="de">Meistersang</gloss>
             <gloss xml:lang="de">Meistergesang</gloss>
             <gloss xml:lang="en">Meistersang</gloss>
           </category>
-          <category xml:id="genre_a2770533" ana="parent">
+          <category xml:id="genre_a2770533" ana="parent" corresp="genres.xml#genre_a2770533">
             <gloss xml:lang="de">Lyrik</gloss>
             <gloss xml:lang="en">Lyric Poetry</gloss>
           </category>
@@ -119,7 +117,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_1467">
+          <person xml:id="person_1467" corresp="persons.xml#person_1467">
             <persName type="preferred">Der Marner</persName>
             <idno type="GND">118782010</idno>
             <idno type="wikidata">Q1195721</idno>

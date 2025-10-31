@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="KCR">
   <teiHeader>
     <fileDesc>
@@ -41,13 +41,16 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_307">
             <idno type="sigle">KCR</idno>
+            <idno type="handschriftencensus">189</idno>
+            <idno type="gnd">4203382-2</idno>
+            <idno type="wikidata">Q605049</idno>
             <msName xml:lang="de">Kaiserchronik</msName>
           </msIdentifier>
           <additional>
             <listBibl>
-              <biblStruct type="book" xml:id="Schroder.1892_KCR" corresp="http://zotero.org/groups/5043625/items/ZEIS4DAY" key="KCR">
+              <biblStruct type="book" xml:id="KCR_KCR" corresp="http://zotero.org/groups/5043625/items/ZEIS4DAY" key="KCR">
                 <monogr>
-                  <title level="m">Die kaiserchronik eines regensburger geistlichen</title>
+                  <title>Die Kaiserchronik eines Regensburger Geistlichen</title>
                   <idno type="callNumber">KCR</idno>
                   <editor>
                     <forename>Edward</forename>
@@ -61,8 +64,7 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Monumenta germaniae historica. Deutsche chroniken und andere
-                geschichtsbücher des mittelalters</title>
+                  <title level="s">Monumenta Germaniae Historica. Deutsche Chroniken und Andere Geschichtsbücher des Mittelalters</title>
                 </series>
               </biblStruct>
             </listBibl>
@@ -78,11 +80,11 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_36228c48" ana="parent">
+          <category xml:id="genre_36228c48" ana="parent" corresp="genres.xml#genre_36228c48">
             <gloss xml:lang="de">Chronik</gloss>
             <gloss xml:lang="en">Chronicle</gloss>
           </category>
-          <category xml:id="genre_f60449ac">
+          <category xml:id="genre_f60449ac" corresp="genres.xml#genre_f60449ac">
             <gloss xml:lang="de">Weltchronik</gloss>
             <gloss xml:lang="en">World Chronicle</gloss>
           </category>
@@ -92,7 +94,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_anonym">
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>
             <persName type="alternative" xml:lang="de">Anonymus</persName>
             <persName type="alternative" xml:lang="en">anonymous</persName>

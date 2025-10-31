@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="AC2">
   <teiHeader>
     <fileDesc>
@@ -41,17 +41,24 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_167">
             <idno type="sigle">AC2</idno>
+            <idno type="handschriftencensus">936</idno>
+            <idno type="gnd">4123466-2</idno>
+            <idno type="wikidata">Q1192091</idno>
             <msName xml:lang="de">Der Ackermann aus Böhmen</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="book" xml:id="AC2_AC2" corresp="http://zotero.org/groups/5043625/items/8BGWRJ6B" key="AC2">
                 <monogr>
-                  <title level="m">Der ackermann aus boehmen</title>
-                  <idno type="callNumber">AC2</idno>
+                  <title>Der Ackermann aus Boehmen</title>
                   <author>
                     <name>Johannes von Tepl</name>
                   </author>
+                  <idno type="callNumber">AC2</idno>
+                  <editor>
+                    <forename>Johann</forename>
+                    <surname>Knieschek</surname>
+                  </editor>
                   <imprint>
                     <pubPlace>Prag</pubPlace>
                     <biblScope unit="volume">II</biblScope>
@@ -60,11 +67,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Bibliothek der mittelhochdeutschen litteratur in böhmen</title>
+                  <title level="s">Bibliothek der Mittelhochdeutschen Litteratur in Böhmen</title>
                 </series>
-                <note>Der Ackermann aus Boehmen. Hrsg. v. Johann Knieschek. Prag: Verl. d. Vereins für
-              Geschicht d. Deutschen in Boehmen, in Commission bei F.H. Brockhaus in Leipzig, 1877
-              (= Bibliothek der mittelhd. Litteratur in Boehmen, Bd. II)</note>
+                <note>Der Ackermann aus Boehmen. Hrsg. v. Johann Knieschek. Prag: Verl. d. Vereins für Geschicht d. Deutschen in Boehmen, in Commission bei F.H. Brockhaus in Leipzig, 1877 (= Bibliothek der mittelhd. Litteratur in Boehmen, Bd. II)</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -79,13 +84,13 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_01bf2b8b" ana="parent">
+          <category xml:id="genre_01bf2b8b" ana="parent" corresp="genres.xml#genre_01bf2b8b">
             <gloss xml:lang="de">Dialogische Kurzform</gloss>
             <gloss xml:lang="de">Dialogform in der Kurzdichtung</gloss>
             <gloss xml:lang="en">Dialogical Short Form</gloss>
             <gloss xml:lang="en">Dialogic Form in Small Poetry</gloss>
           </category>
-          <category xml:id="genre_60eb54e6">
+          <category xml:id="genre_60eb54e6" corresp="genres.xml#genre_60eb54e6">
             <gloss xml:lang="de">Streitgedicht</gloss>
             <gloss xml:lang="de">Streitlied</gloss>
             <gloss xml:lang="de">Streitgespräch</gloss>
@@ -102,7 +107,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_726">
+          <person xml:id="person_726" corresp="persons.xml#person_726">
             <persName type="preferred">Johann von Tepl</persName>
             <persName type="alternative" xml:lang="de">Johannes von Tepl</persName>
             <persName type="alternative" xml:lang="en">Johannes von Tepl</persName>

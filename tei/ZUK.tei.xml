@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="ZUK">
   <teiHeader>
     <fileDesc>
@@ -41,21 +41,21 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_77">
             <idno type="sigle">ZUK</idno>
+            <idno type="handschriftencensus">1471</idno>
+            <idno type="gnd">4711559-2</idno>
             <msName xml:lang="de">Gottes Zukunft</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="bookSection" xml:id="ZUK_ZUK" corresp="http://zotero.org/groups/5043625/items/8UWMURLU" key="ZUK">
                 <analytic>
-                  <title level="a">Gottes zukunft</title>
+                  <title level="a">Gottes Zukunft</title>
                   <author>
                     <name>Heinrich von Neustadt</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Heinrich von neustadt 'apollonius von tyrland' nach der gothaer
-                handschrift, 'gottes zukunft' und 'visio philiberti' nach der heidelberger
-                handschrift</title>
+                  <title level="m">Heinrich von Neustadt 'apollonius von Tyrland' nach der Gothaer Handschrift, 'gottes Zukunft' und 'visio Philiberti' nach der Heidelberger Handschrift</title>
                   <idno type="callNumber">ZUK</idno>
                   <editor>
                     <forename>Samuel</forename>
@@ -69,11 +69,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Deutsche texte des mittelalters</title>
+                  <title level="s">Deutsche Texte des Mittelalters</title>
                 </series>
-                <note>In: Heinrichs von Neustadt "Apollonius von Tyrland", n. d. Gothaer Hs., "Gottes
-              Zukunft" und "Visio Philiberti", n. d. Heidelberger Hs., S. 329-452. Hrsg. v. S.
-              Singer</note>
+                <note>In: Heinrichs von Neustadt "Apollonius von Tyrland", n. d. Gothaer Hs., "Gottes Zukunft" und "Visio Philiberti", n. d. Heidelberger Hs., S. 329-452. Hrsg. v. S. Singer</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -88,7 +86,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_910c5f51">
+          <category xml:id="genre_910c5f51" corresp="genres.xml#genre_910c5f51">
             <gloss xml:lang="de">Marienleben</gloss>
             <gloss xml:lang="de">Marienlegende</gloss>
             <gloss xml:lang="en">Life of Holy Mary</gloss>
@@ -96,7 +94,7 @@
             <gloss xml:lang="en">Mary's Life</gloss>
             <gloss xml:lang="la">Vita Mariae</gloss>
           </category>
-          <category xml:id="genre_f3daf714" ana="parent">
+          <category xml:id="genre_f3daf714" ana="parent" corresp="genres.xml#genre_f3daf714">
             <gloss xml:lang="de">Bibeldichtung</gloss>
             <gloss xml:lang="de">Religiöse Versdichtung</gloss>
             <gloss xml:lang="en">Bible Poetry</gloss>
@@ -108,7 +106,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_45">
+          <person xml:id="person_45" corresp="persons.xml#person_45">
             <persName type="preferred">Heinrich von Neustadt</persName>
             <idno type="GND">1089895550</idno>
             <idno type="GND">118548433</idno>

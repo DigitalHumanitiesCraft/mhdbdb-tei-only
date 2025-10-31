@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="KAR">
   <teiHeader>
     <fileDesc>
@@ -41,17 +41,23 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_53">
             <idno type="sigle">KAR</idno>
+            <idno type="handschriftencensus">366</idno>
+            <idno type="gnd">4196161-4</idno>
             <msName xml:lang="de">Karl der Große</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="book" xml:id="KAR_KAR" corresp="http://zotero.org/groups/5043625/items/KMNFH6I3" key="KAR">
                 <monogr>
-                  <title level="m">Karl der grosse</title>
-                  <idno type="callNumber">KAR</idno>
+                  <title>Karl der Grosse</title>
                   <author>
                     <name>Der Stricker</name>
                   </author>
+                  <idno type="callNumber">KAR</idno>
+                  <editor>
+                    <forename>Karl</forename>
+                    <surname>Stackmann</surname>
+                  </editor>
                   <imprint>
                     <pubPlace>Quedlinburg and Leipzig</pubPlace>
                     <biblScope unit="volume">35</biblScope>
@@ -60,12 +66,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Bibliothek der gesammten deutschen Nationalliteratur von der ältesten
-                bis auf die neuere Zeit</title>
+                  <title level="s">Bibliothek der Gesammten Deutschen Nationalliteratur von der Ältesten bis auf die Neuere Zeit</title>
                 </series>
-                <note>Stricker: Karl der Grosse. Hrsg. v. Karl Bartsch. In: Texte des Mittelalters"
-              hrsg. v. Karl Stackmann.Quedlinburg/ Leipzig 1857.(= Bibl. der ges. dt. Nationallit.,
-              Bd. 35)</note>
+                <note>Stricker: Karl der Grosse. Hrsg. v. Karl Bartsch. In: Texte des Mittelalters" hrsg. v. Karl Stackmann.Quedlinburg/ Leipzig 1857.(= Bibl. der ges. dt. Nationallit., Bd. 35)</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -80,7 +83,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_4f63fc04">
+          <category xml:id="genre_4f63fc04" corresp="genres.xml#genre_4f63fc04">
             <gloss xml:lang="de">Karlsepik</gloss>
             <gloss xml:lang="en">Karl Epic</gloss>
             <gloss xml:lang="en">Charles Poetry</gloss>
@@ -92,7 +95,7 @@
             <gloss xml:lang="fr">Geste de Charlemagne</gloss>
             <gloss xml:lang="fr">Geste du roi</gloss>
           </category>
-          <category xml:id="genre_b6bd0291" ana="parent">
+          <category xml:id="genre_b6bd0291" ana="parent" corresp="genres.xml#genre_b6bd0291">
             <gloss xml:lang="de">Chanson de Geste</gloss>
             <gloss xml:lang="en">Chanson de Geste</gloss>
             <gloss xml:lang="fr">Chanson de Geste</gloss>
@@ -103,7 +106,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_4">
+          <person xml:id="person_4" corresp="persons.xml#person_4">
             <persName type="preferred">Der Stricker</persName>
             <idno type="GND">118619284</idno>
             <idno type="wikidata">Q1197199</idno>

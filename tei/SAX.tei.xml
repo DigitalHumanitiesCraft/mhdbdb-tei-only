@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="SAX">
   <teiHeader>
     <fileDesc>
@@ -41,17 +41,22 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_185">
             <idno type="sigle">SAX</idno>
+            <idno type="gnd">1181163862</idno>
             <msName xml:lang="de">Seifrits Alexander</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="book" xml:id="SAX_SAX" corresp="http://zotero.org/groups/5043625/items/2PSXU2NP" key="SAX">
                 <monogr>
-                  <title level="m">Seifrits alexander: Aus der straßburger handschrift</title>
-                  <idno type="callNumber">SAX</idno>
+                  <title>Seifrits Alexander: Aus der Straßburger Handschrift</title>
                   <author>
                     <name>Seifrid</name>
                   </author>
+                  <idno type="callNumber">SAX</idno>
+                  <editor>
+                    <forename>Paul</forename>
+                    <surname>Gereke</surname>
+                  </editor>
                   <imprint>
                     <biblScope unit="volume">36</biblScope>
                     <publisher>Weidmann</publisher>
@@ -59,13 +64,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Deutsche texte des mittelalters</title>
+                  <title level="s">Deutsche Texte des Mittelalters</title>
                 </series>
-                <note>Seifrits Alexander aus der Straßburger Handschrift, hrsg. v. Paul Gereke, Berlin
-              1932. Digitale Version basiert auf der Fassung von Ralf Schlechtweg-Jahn, Bayreuth
-              2000; TITUS Version von Ralf Schlechtweg-Jahn and Jost Gippert, Bayreuth, 14.07.2000 /
-              Frankfurt, 14.4.2002 / 2.3.2003.
-              http://titus.uni-frankfurt.de/texte/etcs/germ/mhd/a_seifr/a_sei.htm</note>
+                <note>Seifrits Alexander aus der Straßburger Handschrift, hrsg. v. Paul Gereke, Berlin 1932. Digitale Version basiert auf der Fassung von Ralf Schlechtweg-Jahn, Bayreuth 2000; TITUS Version von Ralf Schlechtweg-Jahn and Jost Gippert, Bayreuth, 14.07.2000 / Frankfurt, 14.4.2002 / 2.3.2003. http://titus.uni-frankfurt.de/texte/etcs/germ/mhd/a_seifr/a_sei.htm</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -80,14 +81,14 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_271237bd">
+          <category xml:id="genre_271237bd" corresp="genres.xml#genre_271237bd">
             <gloss xml:lang="de">Alexanderroman</gloss>
             <gloss xml:lang="en">Alexander Romance</gloss>
             <gloss xml:lang="en">Alexander Novel</gloss>
             <gloss xml:lang="en">Romance of Alexander</gloss>
             <gloss xml:lang="en">Novel of Alexander</gloss>
           </category>
-          <category xml:id="genre_fa5f2e8a" ana="parent">
+          <category xml:id="genre_fa5f2e8a" ana="parent" corresp="genres.xml#genre_fa5f2e8a">
             <gloss xml:lang="de">Antikenroman</gloss>
             <gloss xml:lang="en">Ancient Romance</gloss>
             <gloss xml:lang="en">Ancient Novel</gloss>
@@ -98,7 +99,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_1687">
+          <person xml:id="person_1687" corresp="persons.xml#person_1687">
             <persName type="preferred">Seifrit</persName>
             <idno type="GND">120085895</idno>
             <idno type="wikidata">Q14566774</idno>

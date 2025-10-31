@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="HK">
   <teiHeader>
     <fileDesc>
@@ -41,19 +41,22 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_8">
             <idno type="sigle">HK</idno>
+            <idno type="handschriftencensus">1780</idno>
+            <idno type="gnd">4221005-7</idno>
+            <idno type="wikidata">Q1563703</idno>
             <msName xml:lang="de">Heinrich von Kempten</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="bookSection" xml:id="HK_HK" corresp="http://zotero.org/groups/5043625/items/3Y7KPTLB" key="HK">
                 <analytic>
-                  <title level="a">Heinrich von kempten</title>
+                  <title level="a">Heinrich von Kempten</title>
                   <author>
                     <name>Konrad von Würzburg</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Der welt lohn. Das herzmaere. Heinrich von kempten</title>
+                  <title level="m">Der Welt Lohn. Das Herzmaere. Heinrich von Kempten</title>
                   <idno type="callNumber">HK</idno>
                   <editor>
                     <forename>Edward</forename>
@@ -67,10 +70,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Kleinere dichtungen konrads von würzburg</title>
+                  <title level="s">Kleinere Dichtungen Konrads von Würzburg</title>
                 </series>
-                <note>Heinrich von Kempten. Konrad von Würzburg. In: Kleinere Dichtungen Konrads von
-              Würzburg. Hrsg.: E. Schröder. 10. Aufl. 1970</note>
+                <note>Heinrich von Kempten. Konrad von Würzburg. In: Kleinere Dichtungen Konrads von Würzburg. Hrsg.: E. Schröder. 10. Aufl. 1970</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -85,14 +87,14 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_ae9e2d0e" ana="parent">
+          <category xml:id="genre_ae9e2d0e" ana="parent" corresp="genres.xml#genre_ae9e2d0e">
             <gloss xml:lang="de">Erzählende Kurzform</gloss>
             <gloss xml:lang="de">Kleinepik</gloss>
             <gloss xml:lang="en">Narrative Short Form</gloss>
             <gloss xml:lang="en">Short Epic</gloss>
             <gloss xml:lang="en">Small Epics</gloss>
           </category>
-          <category xml:id="genre_d65a163b">
+          <category xml:id="genre_d65a163b" corresp="genres.xml#genre_d65a163b">
             <gloss xml:lang="de">Märe</gloss>
             <gloss xml:lang="de">Mär</gloss>
             <gloss xml:lang="de">Versnovelle</gloss>
@@ -106,7 +108,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_1">
+          <person xml:id="person_1" corresp="persons.xml#person_1">
             <persName type="preferred">Konrad von Würzburg</persName>
             <idno type="GND">118565133</idno>
             <idno type="wikidata">Q77480</idno>

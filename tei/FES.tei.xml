@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="FES">
   <teiHeader>
     <fileDesc>
@@ -51,14 +51,13 @@
             <listBibl>
               <biblStruct type="bookSection" xml:id="FES_FES" corresp="http://zotero.org/groups/5043625/items/V86BKCC4" key="FES">
                 <analytic>
-                  <title level="a">Frau Ehre und Frau Schande: Ditz ist von vrowen Eren / und von der
-                Schanden strite zu leren</title>
+                  <title level="a">Frau Ehre und Frau Schande: Ditz Ist von Vrowen Eren / und von der Schanden Strite zu Leren</title>
                   <author>
                     <name>Anonym</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Die heidelberger handschrift</title>
+                  <title level="m">Die Heidelberger Handschrift</title>
                   <idno type="callNumber">FES</idno>
                   <editor>
                     <forename>Gustav</forename>
@@ -72,15 +71,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Kleinere mittelhochdeutsche erzählungen, fabeln und lehrgedichte</title>
+                  <title level="s">Kleinere Mittelhochdeutsche Erzählungen, Fabeln und Lehrgedichte</title>
                 </series>
-                <note>Kleinere mittelhochdeutsche Erzählungen, Fabeln und Lehrgedichte. III. Die
-              Heidelberger Handschrift Cod. Pal. Germ. 341. Hrsg. v. Gustav Rosenhagen,
-              Dublin/Zürich: Weidmann 1970. (= Deutsche Texte des Mittelalters Bd. XVII). Der
-              elektronische Text basiert zum Teil auf dem vom Electronic Text Center der University
-              of Virginia u. dem Kompetenzzentrum für elektronische Erschließungs- und
-              Publikationsverfahren in den Geisteswissenschaften an der Universität Trier
-              erstellten Text, revidiert von Lesley C. Pleasant and Cindy Filer Speer</note>
+                <note>Kleinere mittelhochdeutsche Erzählungen, Fabeln und Lehrgedichte. III. Die Heidelberger Handschrift Cod. Pal. Germ. 341. Hrsg. v. Gustav Rosenhagen, Dublin/Zürich: Weidmann 1970. (= Deutsche Texte des Mittelalters Bd. XVII). Der elektronische Text basiert zum Teil auf dem vom Electronic Text Center der University of Virginia u. dem Kompetenzzentrum für elektronische Erschließungs- und Publikationsverfahren in den Geisteswissenschaften an der Universität Trier erstellten Text, revidiert von Lesley C. Pleasant and Cindy Filer Speer</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -95,13 +88,13 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_01bf2b8b" ana="parent">
+          <category xml:id="genre_01bf2b8b" ana="parent" corresp="genres.xml#genre_01bf2b8b">
             <gloss xml:lang="de">Dialogische Kurzform</gloss>
             <gloss xml:lang="de">Dialogform in der Kurzdichtung</gloss>
             <gloss xml:lang="en">Dialogical Short Form</gloss>
             <gloss xml:lang="en">Dialogic Form in Small Poetry</gloss>
           </category>
-          <category xml:id="genre_60eb54e6">
+          <category xml:id="genre_60eb54e6" corresp="genres.xml#genre_60eb54e6">
             <gloss xml:lang="de">Streitgedicht</gloss>
             <gloss xml:lang="de">Streitlied</gloss>
             <gloss xml:lang="de">Streitgespräch</gloss>
@@ -118,7 +111,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_anonym">
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>
             <persName type="alternative" xml:lang="de">Anonymus</persName>
             <persName type="alternative" xml:lang="en">anonymous</persName>

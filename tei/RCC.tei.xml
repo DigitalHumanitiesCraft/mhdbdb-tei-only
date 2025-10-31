@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="RCC">
   <teiHeader>
     <fileDesc>
@@ -42,52 +42,41 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_576">
             <idno type="sigle">RCC</idno>
+            <idno type="handschriftencensus">564</idno>
+            <idno type="gnd">4562957-2</idno>
+            <idno type="wikidata">Q2140208</idno>
             <msName xml:lang="de">Reimchronik der Stadt Cöln</msName>
             <msName xml:lang="de">Reimchronik der Stadt Köln</msName>
           </msIdentifier>
           <additional>
             <listBibl>
-              <biblStruct type="book" xml:id="DIGIVORLAGE.RCC_RCC" corresp="http://zotero.org/groups/5043625/items/QJMFIH9R" key="RCC">
-                <monogr>
-                  <title level="m">Reimchronik der stadt cöln: Digitale textedition</title>
-                  <idno type="callNumber">RCC</idno>
-                  <author>
-                    <forename>Godefrit</forename>
-                    <surname>Hagen</surname>
-                  </author>
-                  <imprint>
-                    <pubPlace>Oxford and Frankfurt am Main</pubPlace>
-                    <date>2007</date>
-                    <note type="accessed">2018-08-03</note>
-                    <note type="url">
-                  http://titus.uni-frankfurt.de/texte/etcs/germ/mhd/godreimc/godre.htm</note>
-                  </imprint>
-                </monogr>
-                <note>Eberhard von Groote, Des Meisters Godefrit Hagen, der Zeit Stadtschreibers,
-              Reimchronik der Stadt Cöln aus dem dreizehnten Jahrhundert. Cöln am Rhein 1834.
-              Digitale Edition: Daniel Kölligan, Oxford 2007; TITUS Version von Jost Gippert
-              Frankfurt a/M, 26.11.2008
-              http://titus.uni-frankfurt.de/texte/etcs/germ/mhd/godreimc/godre.htm</note>
-              </biblStruct>
               <biblStruct type="book" xml:id="RCC_RCC" corresp="http://zotero.org/groups/5043625/items/X467ASH2" key="RCC">
                 <monogr>
-                  <title level="m">Des meisters godefrit hagen, der zeit stadtschreibers, reimchronik
-                der stadt cöln aus dem dreizehnten jahrhundert</title>
-                  <idno type="callNumber">RCC</idno>
+                  <title>Des Meisters Godefrit Hagen, der Zeit Stadtschreibers, Reimchronik der Stadt Cöln aus dem Dreizehnten Jahrhundert</title>
                   <author>
-                    <forename>Godefrit</forename>
-                    <surname>Hagen</surname>
+                    <name>Godefrit Hagen</name>
                   </author>
+                  <idno type="callNumber">RCC</idno>
                   <imprint>
                     <pubPlace>Köln</pubPlace>
                     <date>1834</date>
                   </imprint>
                 </monogr>
-                <note>Eberhard von Groote, Des Meisters Godefrit Hagen, der Zeit Stadtschreibers,
-              Reimchronik der Stadt Cöln aus dem dreizehnten Jahrhundert. Cöln am Rhein 1834.
-              Digitale Edition: Daniel Kölligan, Oxford 2007; TITUS Version von Jost Gippert
-              Frankfurt a/M, 26.11.2008
-              http://titus.uni-frankfurt.de/texte/etcs/germ/mhd/godreimc/godre.htm</note>
+                <note>Eberhard von Groote, Des Meisters Godefrit Hagen, der Zeit Stadtschreibers, Reimchronik der Stadt Cöln aus dem dreizehnten Jahrhundert. Cöln am Rhein 1834. Digitale Edition: Daniel Kölligan, Oxford 2007; TITUS Version von Jost Gippert Frankfurt a/M, 26.11.2008 http://titus.uni-frankfurt.de/texte/etcs/germ/mhd/godreimc/godre.htm</note>
+              </biblStruct>
+              <biblStruct type="book" xml:id="RCC_RCC_RCC" corresp="http://zotero.org/groups/5043625/items/QJMFIH9R" key="RCC">
+                <monogr>
+                  <title>Reimchronik der Stadt Cöln: Digitale Textedition</title>
+                  <author>
+                    <name>Godefrit Hagen</name>
+                  </author>
+                  <idno type="callNumber">RCC</idno>
+                  <imprint>
+                    <pubPlace>Oxford and Frankfurt am Main</pubPlace>
+                    <date>2007; 2008</date>
+                  </imprint>
+                </monogr>
+                <note>Eberhard von Groote, Des Meisters Godefrit Hagen, der Zeit Stadtschreibers, Reimchronik der Stadt Cöln aus dem dreizehnten Jahrhundert. Cöln am Rhein 1834. Digitale Edition: Daniel Kölligan, Oxford 2007; TITUS Version von Jost Gippert Frankfurt a/M, 26.11.2008 http://titus.uni-frankfurt.de/texte/etcs/germ/mhd/godreimc/godre.htm</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -102,11 +91,11 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_00bb7cc9" ana="parent">
+          <category xml:id="genre_00bb7cc9" ana="parent" corresp="genres.xml#genre_00bb7cc9">
             <gloss xml:lang="de">Lokalchronik, Territorialchronik und Herrschaftschronik</gloss>
             <gloss xml:lang="en">Local Chronicle, Territorial Chronicle and Chronicle of the Dominion</gloss>
           </category>
-          <category xml:id="genre_eb7cb8fa">
+          <category xml:id="genre_eb7cb8fa" corresp="genres.xml#genre_eb7cb8fa">
             <gloss xml:lang="de">Stadtchronik</gloss>
             <gloss xml:lang="en">City Chronicle</gloss>
           </category>
@@ -116,7 +105,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_1387">
+          <person xml:id="person_1387" corresp="persons.xml#person_1387">
             <persName type="preferred">Gottfried Hagen</persName>
             <idno type="GND">118544721</idno>
             <idno type="wikidata">Q101639</idno>

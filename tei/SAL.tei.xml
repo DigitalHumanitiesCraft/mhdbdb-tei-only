@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="SAL">
   <teiHeader>
     <fileDesc>
@@ -42,6 +42,9 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_59">
             <idno type="sigle">SAL</idno>
+            <idno type="handschriftencensus">979</idno>
+            <idno type="gnd">4178964-7</idno>
+            <idno type="wikidata">Q456205</idno>
             <msName xml:lang="de">Salman und Morolf</msName>
             <msName xml:lang="en">Solomon and Marcolf</msName>
           </msIdentifier>
@@ -49,12 +52,16 @@
             <listBibl>
               <biblStruct type="book" xml:id="SAL_SAL" corresp="http://zotero.org/groups/5043625/items/4XAJC7U3" key="SAL">
                 <monogr>
-                  <title level="m">Salman und morolf</title>
-                  <idno type="ISBN">978-3-484-20099-9</idno>
-                  <idno type="callNumber">SAL</idno>
+                  <title>Salman und Morolf</title>
                   <author>
                     <name>Anonym</name>
                   </author>
+                  <idno type="ISBN">978-3-484-20099-9</idno>
+                  <idno type="callNumber">SAL</idno>
+                  <editor>
+                    <forename>Alfred</forename>
+                    <surname>Karnein</surname>
+                  </editor>
                   <imprint>
                     <pubPlace>Tübingen</pubPlace>
                     <biblScope unit="volume">85</biblScope>
@@ -63,10 +70,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Altdeutsche textbibliothek</title>
+                  <title level="s">Altdeutsche Textbibliothek</title>
                 </series>
-                <note>Salman und Morolf, hrsg. v. Alfred Karnein, Tübingen 1979 (=Altdeutsche
-              Textbibliothek; Nr.85)</note>
+                <note>Salman und Morolf, hrsg. v. Alfred Karnein, Tübingen 1979 (=Altdeutsche Textbibliothek; Nr.85)</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -81,7 +87,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_6b4c5f1d">
+          <category xml:id="genre_6b4c5f1d" corresp="genres.xml#genre_6b4c5f1d">
             <gloss xml:lang="de">Spielmannsepik, sogenannte (veraltet)</gloss>
             <gloss xml:lang="de">Höfische Legende (veraltet)</gloss>
             <gloss xml:lang="de">Legendenroman (veraltet)</gloss>
@@ -101,14 +107,14 @@
             <gloss xml:lang="en">Minstrel Poetry (outdated)</gloss>
             <gloss xml:lang="en">Courtship Epic (outdated)</gloss>
           </category>
-          <category xml:id="genre_72cae96a" ana="parent">
+          <category xml:id="genre_72cae96a" ana="parent" corresp="genres.xml#genre_72cae96a">
             <gloss xml:lang="de">Höfischer Roman</gloss>
             <gloss xml:lang="de">Versroman</gloss>
             <gloss xml:lang="en">Courtly Romance</gloss>
             <gloss xml:lang="en">Courtly Novel</gloss>
             <gloss xml:lang="en">Verse Novel</gloss>
           </category>
-          <category xml:id="genre_d2963bbe" ana="parent">
+          <category xml:id="genre_d2963bbe" ana="parent" corresp="genres.xml#genre_d2963bbe">
             <gloss xml:lang="de">Großepik</gloss>
             <gloss xml:lang="de">Große epische Formen</gloss>
             <gloss xml:lang="de">Großdichtung</gloss>
@@ -122,7 +128,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_anonym">
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>
             <persName type="alternative" xml:lang="de">Anonymus</persName>
             <persName type="alternative" xml:lang="en">anonymous</persName>

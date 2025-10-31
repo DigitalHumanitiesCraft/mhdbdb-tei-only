@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="TUN">
   <teiHeader>
     <fileDesc>
@@ -42,6 +42,9 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_559">
             <idno type="sigle">TUN</idno>
+            <idno type="handschriftencensus">2019</idno>
+            <idno type="gnd">4186436-0</idno>
+            <idno type="wikidata">Q1938472</idno>
             <msName xml:lang="de">Tundalus der Ritter</msName>
             <msName xml:lang="de">Visio Tnugdali</msName>
           </msIdentifier>
@@ -49,12 +52,16 @@
             <listBibl>
               <biblStruct type="book" xml:id="TUN_TUN" corresp="http://zotero.org/groups/5043625/items/P2YSZ7UL" key="TUN">
                 <monogr>
-                  <title level="m">Tondolus der ritter: Die von J. und C. Hist gedruckte fassung</title>
-                  <idno type="ISBN">3-7705-1635-4</idno>
-                  <idno type="callNumber">TUN</idno>
+                  <title>Tondolus der Ritter: Die von J. und C. Hist Gedruckte Fassung</title>
                   <author>
                     <name>Anonym</name>
                   </author>
+                  <idno type="ISBN">3-7705-1635-4</idno>
+                  <idno type="callNumber">TUN</idno>
+                  <editor>
+                    <forename>Nigel F.</forename>
+                    <surname>Palmer</surname>
+                  </editor>
                   <imprint>
                     <pubPlace>München</pubPlace>
                     <biblScope unit="volume">13</biblScope>
@@ -63,12 +70,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Kleine deutsche prosadenkmäler des mittelalters</title>
+                  <title level="s">Kleine Deutsche Prosadenkmäler des Mittelalters</title>
                 </series>
-                <note>Tondolus der Ritter: Die von J. und C. Hist gedruckte Fassung hrsg. von Nigel F.
-              Palmer. München: W. Fink, 1980.(Kleine deutsche Prosadenkmäler des Mittelalters;
-              Heft 13) Diese Ausgabe basiert auf der Version aus dem Oxford Text Archive:
-              http://ota.ox.ac.uk/desc/0210</note>
+                <note>Tondolus der Ritter: Die von J. und C. Hist gedruckte Fassung hrsg. von Nigel F. Palmer. München: W. Fink, 1980.(Kleine deutsche Prosadenkmäler des Mittelalters; Heft 13) Diese Ausgabe basiert auf der Version aus dem Oxford Text Archive: http://ota.ox.ac.uk/desc/0210</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -83,13 +87,13 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_9eee7c13" ana="parent">
+          <category xml:id="genre_9eee7c13" ana="parent" corresp="genres.xml#genre_9eee7c13">
             <gloss xml:lang="de">Mystik</gloss>
             <gloss xml:lang="de">Mystischer Text</gloss>
             <gloss xml:lang="en">Mysticism</gloss>
             <gloss xml:lang="en">Mystical Text</gloss>
           </category>
-          <category xml:id="genre_aac7cd3d">
+          <category xml:id="genre_aac7cd3d" corresp="genres.xml#genre_aac7cd3d">
             <gloss xml:lang="de">Visionsbericht</gloss>
             <gloss xml:lang="de">Vision</gloss>
             <gloss xml:lang="de">Visionsliteratur</gloss>
@@ -103,7 +107,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_anonym">
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>
             <persName type="alternative" xml:lang="de">Anonymus</persName>
             <persName type="alternative" xml:lang="en">anonymous</persName>

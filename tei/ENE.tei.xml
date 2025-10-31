@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="ENE">
   <teiHeader>
     <fileDesc>
@@ -42,6 +42,9 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_132">
             <idno type="sigle">ENE</idno>
+            <idno type="handschriftencensus">164</idno>
+            <idno type="gnd">4099227-5</idno>
+            <idno type="wikidata">Q1341065</idno>
             <msName xml:lang="de">Eneasroman</msName>
             <msName xml:lang="en">Romance of Eneas</msName>
           </msIdentifier>
@@ -49,14 +52,16 @@
             <listBibl>
               <biblStruct type="book" xml:id="ENE_ENE" corresp="http://zotero.org/groups/5043625/items/SU7NNNJK" key="ENE">
                 <monogr>
-                  <title level="m">Eneasroman: Mittelhochdeutsch / neuhochdeutsch: Nach dem text von
-                ludwig ettmüller, ins neuhochdeutsche übersetzt, mit einem stellenkommentar und
-                einem nachwort von dieter kartschoke</title>
-                  <idno type="ISBN">978-3-15-008303-1</idno>
-                  <idno type="callNumber">ENE</idno>
+                  <title>Eneasroman: Mittelhochdeutsch / Neuhochdeutsch: Nach dem Text von Ludwig Ettmüller, Ins Neuhochdeutsche Übersetzt, mit einem Stellenkommentar und einem Nachwort von Dieter Kartschoke</title>
                   <author>
                     <name>Heinrich von Veldeke</name>
                   </author>
+                  <idno type="ISBN">978-3-15-008303-1</idno>
+                  <idno type="callNumber">ENE</idno>
+                  <editor>
+                    <forename>Dieter</forename>
+                    <surname>Kartschoke</surname>
+                  </editor>
                   <imprint>
                     <pubPlace>Stuttgart</pubPlace>
                     <biblScope unit="volume">8303</biblScope>
@@ -65,11 +70,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Reclams universal-bibliothek</title>
+                  <title level="s">Reclams Universal-bibliothek</title>
                 </series>
-                <note>Heinrich von Veldeke: Eneasroman, nach dem Text von Ludwig Ettmüller, ins Nhd.
-              Übersetzt, mit einem Stellenkommentar und einem Nachw. v. Dieter Kartschoke. (=
-              Reclams UB 8303) Stuttgart 1986</note>
+                <note>Heinrich von Veldeke: Eneasroman, nach dem Text von Ludwig Ettmüller, ins Nhd. Übersetzt, mit einem Stellenkommentar und einem Nachw. v. Dieter Kartschoke. (= Reclams UB 8303) Stuttgart 1986</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -84,14 +87,14 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_72cae96a" ana="parent">
+          <category xml:id="genre_72cae96a" ana="parent" corresp="genres.xml#genre_72cae96a">
             <gloss xml:lang="de">Höfischer Roman</gloss>
             <gloss xml:lang="de">Versroman</gloss>
             <gloss xml:lang="en">Courtly Romance</gloss>
             <gloss xml:lang="en">Courtly Novel</gloss>
             <gloss xml:lang="en">Verse Novel</gloss>
           </category>
-          <category xml:id="genre_fa5f2e8a">
+          <category xml:id="genre_fa5f2e8a" corresp="genres.xml#genre_fa5f2e8a">
             <gloss xml:lang="de">Antikenroman</gloss>
             <gloss xml:lang="en">Ancient Romance</gloss>
             <gloss xml:lang="en">Ancient Novel</gloss>
@@ -102,7 +105,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_41">
+          <person xml:id="person_41" corresp="persons.xml#person_41">
             <persName type="preferred">Heinrich von Veldeke</persName>
             <idno type="GND">11854845X</idno>
             <idno type="wikidata">Q469608</idno>

@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="ADP">
   <teiHeader>
     <fileDesc>
@@ -41,14 +41,14 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_303">
             <idno type="sigle">ADP</idno>
+            <idno type="wikidata">Q72688002</idno>
             <msName xml:lang="de">Altdeutsche Predigten</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="book" xml:id="ADP_ADP" corresp="http://zotero.org/groups/5043625/items/UBQEPLP3" key="ADP">
                 <monogr>
-                  <title level="m">Altdeutsche predigten und gebete aus handschriften: Gesammelt und zur
-                herausgabe vorbereitet von wilhelm wackernagel: Mit abhandlungen und einem anhang</title>
+                  <title>Altdeutsche Predigten und Gebete aus Handschriften: Gesammelt und zur Herausgabe Vorbereitet von Wilhelm Wackernagel: Mit Abhandlungen und einem Anhang</title>
                   <idno type="callNumber">ADP</idno>
                   <editor>
                     <forename>Wilhelm</forename>
@@ -60,8 +60,7 @@
                     <date>1876</date>
                   </imprint>
                 </monogr>
-                <note>Altdeutsche Predigten und Gebete aus Handschriften. Gesammelt und zur Herausgabe
-              vorbereitet von Wilhelm Wackernagel. Hrsg. mit einem Vorwort von M. Rieger. Basel 1876</note>
+                <note>Altdeutsche Predigten und Gebete aus Handschriften. Gesammelt und zur Herausgabe vorbereitet von Wilhelm Wackernagel. Hrsg. mit einem Vorwort von M. Rieger. Basel 1876</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -76,13 +75,13 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_2b7da968" ana="parent">
+          <category xml:id="genre_2b7da968" ana="parent" corresp="genres.xml#genre_2b7da968">
             <gloss xml:lang="de">Religiöser Gebrauchstext</gloss>
             <gloss xml:lang="de">Geistlicher Gebrauchstext</gloss>
             <gloss xml:lang="en">Religious Functional Text</gloss>
             <gloss xml:lang="en">Spiritual Practical Text</gloss>
           </category>
-          <category xml:id="genre_388b26e2">
+          <category xml:id="genre_388b26e2" corresp="genres.xml#genre_388b26e2">
             <gloss xml:lang="de">Predigt</gloss>
             <gloss xml:lang="de">Sermon</gloss>
             <gloss xml:lang="de">Kanzelrede</gloss>
@@ -98,7 +97,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_anonym">
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>
             <persName type="alternative" xml:lang="de">Anonymus</persName>
             <persName type="alternative" xml:lang="en">anonymous</persName>

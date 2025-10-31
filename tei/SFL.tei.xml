@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="SFL">
   <teiHeader>
     <fileDesc>
@@ -41,36 +41,39 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_411">
             <idno type="sigle">SFL</idno>
+            <idno type="gnd">4476628-2</idno>
             <msName xml:lang="de">Sanct Franzisken Leben</msName>
           </msIdentifier>
           <additional>
             <listBibl>
-              <biblStruct type="book" xml:id="LamprechtvonRegensburg.1880_SFL" corresp="http://zotero.org/groups/5043625/items/ZVST6K8X" key="SFL">
+              <biblStruct type="book" xml:id="SFL_SFL" corresp="http://zotero.org/groups/5043625/items/ZVST6K8X" key="SFL">
                 <monogr>
-                  <title level="m">Sanct francisken leben und tochter syon: Zum ersten mal herausgegeben
-                nebst glossar</title>
-                  <idno type="callNumber">SFL</idno>
+                  <title>Sanct Francisken Leben und Tochter Syon: Zum Ersten Mal Herausgegeben Nebst Glossar</title>
                   <author>
                     <name>Lamprecht von Regensburg</name>
                   </author>
+                  <idno type="callNumber">SFL</idno>
+                  <editor>
+                    <forename>Karl</forename>
+                    <surname>Weinhold</surname>
+                  </editor>
                   <imprint>
                     <pubPlace>Paderborn</pubPlace>
                     <publisher>Schöningh</publisher>
                     <date>1880</date>
                   </imprint>
                 </monogr>
-                <note>Lamprecht von Regensburg, Sanct Francisken Leben und Tochter Syon, zum ersten Mal
-              hg. nebst Glossar von Karl Weinhold, Paderborn 1880</note>
+                <note>Lamprecht von Regensburg, Sanct Francisken Leben und Tochter Syon, zum ersten Mal hg. nebst Glossar von Karl Weinhold, Paderborn 1880</note>
               </biblStruct>
-              <biblStruct type="bookSection" xml:id="SFL_SFL" corresp="http://zotero.org/groups/5043625/items/HZ4R99Z2" key="SFL">
+              <biblStruct type="bookSection" xml:id="SFL_SFL_SFL" corresp="http://zotero.org/groups/5043625/items/HZ4R99Z2" key="SFL">
                 <analytic>
-                  <title level="a">Sanct franzisken leben</title>
+                  <title level="a">Sanct Franzisken Leben</title>
                   <author>
                     <name>Lamprecht von Regensburg</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Sanct francisken leben und tochter syon</title>
+                  <title level="m">Sanct Francisken Leben und Tochter Syon</title>
                   <idno type="callNumber">SFL</idno>
                   <editor>
                     <forename>Karl</forename>
@@ -83,8 +86,7 @@
                     <date>1880</date>
                   </imprint>
                 </monogr>
-                <note>Lamprecht von Regensburg, Sanct Francisken Leben und Tochter Syon, zum ersten Mal
-              hg. nebst Glossar von Karl Weinhold, Paderborn 1880</note>
+                <note>Lamprecht von Regensburg, Sanct Francisken Leben und Tochter Syon, zum ersten Mal hg. nebst Glossar von Karl Weinhold, Paderborn 1880</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -99,7 +101,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_0480b285" ana="parent">
+          <category xml:id="genre_0480b285" ana="parent" corresp="genres.xml#genre_0480b285">
             <gloss xml:lang="de">Geistliche Literatur</gloss>
             <gloss xml:lang="de">Geistliche Dichtung</gloss>
             <gloss xml:lang="de">Religiöse Dichtung</gloss>
@@ -109,7 +111,7 @@
             <gloss xml:lang="en">Spiritual Poetry</gloss>
             <gloss xml:lang="en">Religious Poetry</gloss>
           </category>
-          <category xml:id="genre_2292de8a">
+          <category xml:id="genre_2292de8a" corresp="genres.xml#genre_2292de8a">
             <gloss xml:lang="de">Heiligenlegende</gloss>
             <gloss xml:lang="de">Heiligenvita</gloss>
             <gloss xml:lang="de">Vita</gloss>
@@ -124,7 +126,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_766">
+          <person xml:id="person_766" corresp="persons.xml#person_766">
             <persName type="preferred">Lamprecht von Regensburg</persName>
             <idno type="GND">119512653</idno>
             <idno type="wikidata">Q1768317</idno>

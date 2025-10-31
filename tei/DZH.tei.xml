@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="DZH">
   <teiHeader>
     <fileDesc>
@@ -59,8 +59,7 @@
             <listBibl>
               <biblStruct type="bookSection" xml:id="DZH_DZH" corresp="http://zotero.org/groups/5043625/items/8LSDJ6FN" key="DZH">
                 <analytic>
-                  <title level="a">Die zwei Herren: Ditz ist von zwein herren ein mere, / die waren
-                gantzer triwen gewere</title>
+                  <title level="a">Die Zwei Herren: Ditz Ist von Zwein Herren ein Mere, / die Waren Gantzer Triwen Gewere</title>
                   <author>
                     <name>Der Stricker</name>
                   </author>
@@ -69,7 +68,7 @@
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Die heidelberger handschrift</title>
+                  <title level="m">Die Heidelberger Handschrift</title>
                   <idno type="callNumber">DZH</idno>
                   <editor>
                     <forename>Gustav</forename>
@@ -83,15 +82,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Kleinere mittelhochdeutsche erzählungen, fabeln und lehrgedichte</title>
+                  <title level="s">Kleinere Mittelhochdeutsche Erzählungen, Fabeln und Lehrgedichte</title>
                 </series>
-                <note>Kleinere mittelhochdeutsche Erzählungen, Fabeln und Lehrgedichte. III. Die
-              Heidelberger Handschrift Cod. Pal. Germ. 341. Hrsg. v. Gustav Rosenhagen,
-              Dublin/Zürich: Weidmann 1970. (= Deutsche Texte des Mittelalters Bd. XVII). Der
-              elektronische Text basiert zum Teil auf dem vom Electronic Text Center der University
-              of Virginia / dem Kompetenzzentrum für elektronische Erschließungs- und
-              Publikationsverfahren in den Geisteswissenschaften an der Universität Trier
-              erstellten Text, revidiert von Lesley C. Pleasant and Cindy Filer Speer</note>
+                <note>Kleinere mittelhochdeutsche Erzählungen, Fabeln und Lehrgedichte. III. Die Heidelberger Handschrift Cod. Pal. Germ. 341. Hrsg. v. Gustav Rosenhagen, Dublin/Zürich: Weidmann 1970. (= Deutsche Texte des Mittelalters Bd. XVII). Der elektronische Text basiert zum Teil auf dem vom Electronic Text Center der University of Virginia / dem Kompetenzzentrum für elektronische Erschließungs- und Publikationsverfahren in den Geisteswissenschaften an der Universität Trier erstellten Text, revidiert von Lesley C. Pleasant and Cindy Filer Speer</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -106,14 +99,14 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_ae9e2d0e" ana="parent">
+          <category xml:id="genre_ae9e2d0e" ana="parent" corresp="genres.xml#genre_ae9e2d0e">
             <gloss xml:lang="de">Erzählende Kurzform</gloss>
             <gloss xml:lang="de">Kleinepik</gloss>
             <gloss xml:lang="en">Narrative Short Form</gloss>
             <gloss xml:lang="en">Short Epic</gloss>
             <gloss xml:lang="en">Small Epics</gloss>
           </category>
-          <category xml:id="genre_d65a163b">
+          <category xml:id="genre_d65a163b" corresp="genres.xml#genre_d65a163b">
             <gloss xml:lang="de">Märe</gloss>
             <gloss xml:lang="de">Mär</gloss>
             <gloss xml:lang="de">Versnovelle</gloss>
@@ -127,7 +120,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_4">
+          <person xml:id="person_4" corresp="persons.xml#person_4">
             <persName type="preferred">Der Stricker</persName>
             <idno type="GND">118619284</idno>
             <idno type="wikidata">Q1197199</idno>

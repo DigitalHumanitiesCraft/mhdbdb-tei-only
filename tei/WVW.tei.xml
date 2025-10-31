@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="WVW">
   <teiHeader>
     <fileDesc>
@@ -41,17 +41,23 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_76">
             <idno type="sigle">WVW</idno>
+            <idno type="handschriftencensus">1246</idno>
+            <idno type="gnd">4472285-0</idno>
             <msName xml:lang="de">Wilhelm von Wenden</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="book" xml:id="WVW_WVW" corresp="http://zotero.org/groups/5043625/items/9RTUDLSZ" key="WVW">
                 <monogr>
-                  <title level="m">Wilhelm von wenden</title>
-                  <idno type="callNumber">WVW</idno>
+                  <title>Wilhelm von Wenden</title>
                   <author>
                     <name>Ulrich von Etzenbach</name>
                   </author>
+                  <idno type="callNumber">WVW</idno>
+                  <editor>
+                    <forename>Hans-Friedrich</forename>
+                    <surname>Rosenfeld</surname>
+                  </editor>
                   <imprint>
                     <pubPlace>Berlin</pubPlace>
                     <biblScope unit="volume">49</biblScope>
@@ -60,10 +66,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Deutsche texte des mittelalters</title>
+                  <title level="s">Deutsche Texte des Mittelalters</title>
                 </series>
-                <note>Ulrich von Etzenbach: Wilhelm von Wenden. Hrsg. v. Hans-Friedrich Rosenfeld.
-              Berlin 1957. (= Deutsche Texte des Mittelalters)</note>
+                <note>Ulrich von Etzenbach: Wilhelm von Wenden. Hrsg. v. Hans-Friedrich Rosenfeld. Berlin 1957. (= Deutsche Texte des Mittelalters)</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -78,7 +83,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_6b4c5f1d">
+          <category xml:id="genre_6b4c5f1d" corresp="genres.xml#genre_6b4c5f1d">
             <gloss xml:lang="de">Spielmannsepik, sogenannte (veraltet)</gloss>
             <gloss xml:lang="de">Höfische Legende (veraltet)</gloss>
             <gloss xml:lang="de">Legendenroman (veraltet)</gloss>
@@ -98,14 +103,14 @@
             <gloss xml:lang="en">Minstrel Poetry (outdated)</gloss>
             <gloss xml:lang="en">Courtship Epic (outdated)</gloss>
           </category>
-          <category xml:id="genre_72cae96a" ana="parent">
+          <category xml:id="genre_72cae96a" ana="parent" corresp="genres.xml#genre_72cae96a">
             <gloss xml:lang="de">Höfischer Roman</gloss>
             <gloss xml:lang="de">Versroman</gloss>
             <gloss xml:lang="en">Courtly Romance</gloss>
             <gloss xml:lang="en">Courtly Novel</gloss>
             <gloss xml:lang="en">Verse Novel</gloss>
           </category>
-          <category xml:id="genre_88b5cae2">
+          <category xml:id="genre_88b5cae2" corresp="genres.xml#genre_88b5cae2">
             <gloss xml:lang="de">Liebesroman und Abenteuerroman</gloss>
             <gloss xml:lang="de">Liebesroman</gloss>
             <gloss xml:lang="de">Minneroman und Aventiureroman</gloss>
@@ -126,7 +131,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_12">
+          <person xml:id="person_12" corresp="persons.xml#person_12">
             <persName type="preferred">Ulrich von Etzenbach (Eschenbach)</persName>
             <persName type="alternative" xml:lang="de">Ulrich von Etzenbach</persName>
             <persName type="alternative" xml:lang="en">Ulrich von Etzenbach</persName>

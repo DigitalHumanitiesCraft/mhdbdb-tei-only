@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="SAT">
   <teiHeader>
     <fileDesc>
@@ -43,6 +43,8 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_19">
             <idno type="sigle">SAT</idno>
+            <idno type="gnd">4178964-7</idno>
+            <idno type="wikidata">Q456205</idno>
             <msName xml:lang="de">Salman und Morolf</msName>
             <msName xml:lang="de">Salman und Morolf (Forts.)</msName>
             <msName xml:lang="en">Solomon and Marcolf</msName>
@@ -51,13 +53,13 @@
             <listBibl>
               <biblStruct type="bookSection" xml:id="SAT_SAT" corresp="http://zotero.org/groups/5043625/items/IZI4IGR7" key="SAT">
                 <analytic>
-                  <title level="a">Fortsetzung des morolf im strassburger druck: (folgend 783,3)</title>
+                  <title level="a">Fortsetzung des Morolf im Strassburger Druck: (folgend 783,3)</title>
                   <author>
                     <name>Anonym</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Salman und morolf</title>
+                  <title level="m">Salman und Morolf</title>
                   <idno type="ISBN">978-3-484-20099-9</idno>
                   <idno type="callNumber">SAT</idno>
                   <editor>
@@ -72,7 +74,7 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Altdeutsche textbibliothek</title>
+                  <title level="s">Altdeutsche Textbibliothek</title>
                 </series>
                 <note>Fortsetzung des Morolff im Strassburger Druck (78303ff)</note>
               </biblStruct>
@@ -89,7 +91,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_6b4c5f1d">
+          <category xml:id="genre_6b4c5f1d" corresp="genres.xml#genre_6b4c5f1d">
             <gloss xml:lang="de">Spielmannsepik, sogenannte (veraltet)</gloss>
             <gloss xml:lang="de">Höfische Legende (veraltet)</gloss>
             <gloss xml:lang="de">Legendenroman (veraltet)</gloss>
@@ -109,14 +111,14 @@
             <gloss xml:lang="en">Minstrel Poetry (outdated)</gloss>
             <gloss xml:lang="en">Courtship Epic (outdated)</gloss>
           </category>
-          <category xml:id="genre_72cae96a" ana="parent">
+          <category xml:id="genre_72cae96a" ana="parent" corresp="genres.xml#genre_72cae96a">
             <gloss xml:lang="de">Höfischer Roman</gloss>
             <gloss xml:lang="de">Versroman</gloss>
             <gloss xml:lang="en">Courtly Romance</gloss>
             <gloss xml:lang="en">Courtly Novel</gloss>
             <gloss xml:lang="en">Verse Novel</gloss>
           </category>
-          <category xml:id="genre_d2963bbe" ana="parent">
+          <category xml:id="genre_d2963bbe" ana="parent" corresp="genres.xml#genre_d2963bbe">
             <gloss xml:lang="de">Großepik</gloss>
             <gloss xml:lang="de">Große epische Formen</gloss>
             <gloss xml:lang="de">Großdichtung</gloss>
@@ -130,7 +132,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_anonym">
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>
             <persName type="alternative" xml:lang="de">Anonymus</persName>
             <persName type="alternative" xml:lang="en">anonymous</persName>

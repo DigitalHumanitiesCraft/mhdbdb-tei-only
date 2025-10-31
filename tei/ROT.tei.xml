@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="ROT">
   <teiHeader>
     <fileDesc>
@@ -42,6 +42,9 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_128">
             <idno type="sigle">ROT</idno>
+            <idno type="handschriftencensus">200</idno>
+            <idno type="gnd">4105030-7</idno>
+            <idno type="wikidata">Q1795972</idno>
             <msName xml:lang="de">König Rother</msName>
             <msName xml:lang="en">King Rother</msName>
           </msIdentifier>
@@ -49,11 +52,19 @@
             <listBibl>
               <biblStruct type="book" xml:id="ROT_ROT" corresp="http://zotero.org/groups/5043625/items/DN9L8EBI" key="ROT">
                 <monogr>
-                  <title level="m">Koenig rother: Nach der ausgabe von theodor frings und joachim kuhnt</title>
-                  <idno type="callNumber">ROT</idno>
+                  <title>Koenig Rother: Nach der Ausgabe von Theodor Frings und Joachim Kuhnt</title>
                   <author>
                     <name>Anonym</name>
                   </author>
+                  <idno type="callNumber">ROT</idno>
+                  <editor>
+                    <forename>Theodor</forename>
+                    <surname>Frings</surname>
+                  </editor>
+                  <editor>
+                    <forename>Joachim</forename>
+                    <surname>Kuhnt</surname>
+                  </editor>
                   <imprint>
                     <pubPlace>Halle (Saale)</pubPlace>
                     <biblScope unit="volume">2</biblScope>
@@ -62,10 +73,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Altdeutsche Texte für den akademischen Unterricht</title>
+                  <title level="s">Altdeutsche Texte für den Akademischen Unterricht</title>
                 </series>
-                <note>König Rother. Hrsg. v. Theodor Frings u. Joachim Kuhnt. 3. Aufl., Halle 1968.
-              (=Altdeutsche Texte für den akademischen Unterricht, Bd.2)</note>
+                <note>König Rother. Hrsg. v. Theodor Frings u. Joachim Kuhnt. 3. Aufl., Halle 1968. (=Altdeutsche Texte für den akademischen Unterricht, Bd.2)</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -80,7 +90,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_6b4c5f1d">
+          <category xml:id="genre_6b4c5f1d" corresp="genres.xml#genre_6b4c5f1d">
             <gloss xml:lang="de">Spielmannsepik, sogenannte (veraltet)</gloss>
             <gloss xml:lang="de">Höfische Legende (veraltet)</gloss>
             <gloss xml:lang="de">Legendenroman (veraltet)</gloss>
@@ -100,14 +110,14 @@
             <gloss xml:lang="en">Minstrel Poetry (outdated)</gloss>
             <gloss xml:lang="en">Courtship Epic (outdated)</gloss>
           </category>
-          <category xml:id="genre_72cae96a" ana="parent">
+          <category xml:id="genre_72cae96a" ana="parent" corresp="genres.xml#genre_72cae96a">
             <gloss xml:lang="de">Höfischer Roman</gloss>
             <gloss xml:lang="de">Versroman</gloss>
             <gloss xml:lang="en">Courtly Romance</gloss>
             <gloss xml:lang="en">Courtly Novel</gloss>
             <gloss xml:lang="en">Verse Novel</gloss>
           </category>
-          <category xml:id="genre_d2963bbe" ana="parent">
+          <category xml:id="genre_d2963bbe" ana="parent" corresp="genres.xml#genre_d2963bbe">
             <gloss xml:lang="de">Großepik</gloss>
             <gloss xml:lang="de">Große epische Formen</gloss>
             <gloss xml:lang="de">Großdichtung</gloss>
@@ -121,7 +131,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_anonym">
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>
             <persName type="alternative" xml:lang="de">Anonymus</persName>
             <persName type="alternative" xml:lang="en">anonymous</persName>

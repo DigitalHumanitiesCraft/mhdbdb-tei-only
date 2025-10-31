@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="TIT">
   <teiHeader>
     <fileDesc>
@@ -41,11 +41,38 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_63">
             <idno type="sigle">TIT</idno>
+            <idno type="handschriftencensus">439</idno>
+            <idno type="gnd">4246338-5</idno>
+            <idno type="wikidata">Q1514654</idno>
             <msName xml:lang="de">Titurel</msName>
           </msIdentifier>
           <additional>
             <listBibl>
-              <biblStruct type="bookSection" xml:id="TIT_TIT" corresp="http://zotero.org/groups/5043625/items/R55HSLFW" key="TIT">
+              <biblStruct type="book" xml:id="TIT_TIT" corresp="http://zotero.org/groups/5043625/items/SN9YJ9Q5" key="TIT">
+                <monogr>
+                  <title>Heft 5: Willehalm: Buch 6 bis 9; Titurel</title>
+                  <author>
+                    <name>Wolfram von Eschenbach</name>
+                  </author>
+                  <idno type="callNumber">TIT</idno>
+                  <editor>
+                    <forename>Albert</forename>
+                    <surname>Leitzmann</surname>
+                  </editor>
+                  <edition>4</edition>
+                  <imprint>
+                    <pubPlace>Halle (Saale)</pubPlace>
+                    <biblScope unit="volume">16</biblScope>
+                    <publisher>Niemeyer VEB</publisher>
+                    <date>1956</date>
+                  </imprint>
+                </monogr>
+                <series>
+                  <title level="s">Altdeutsche Textbibliothek</title>
+                </series>
+                <note>Wolfram von Eschenbach: Titurel. In: Wolfram von Eschenbach. Hrsg. v. Albert Leitzmann. Heft 5. 4. Auflage, Tübingen 1956</note>
+              </biblStruct>
+              <biblStruct type="bookSection" xml:id="TIT_TIT_TIT" corresp="http://zotero.org/groups/5043625/items/R55HSLFW" key="TIT">
                 <analytic>
                   <title level="a">Titurel</title>
                   <author>
@@ -67,31 +94,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Altdeutsche textbibliothek</title>
+                  <title level="s">Altdeutsche Textbibliothek</title>
                 </series>
-                <note>Wolfram von Eschenbach: Titurel. In: Wolfram von Eschenbach. Hrsg. v. Albert
-              Leitzmann. Heft 5. 4. Auflage, Tübingen 1956</note>
-              </biblStruct>
-              <biblStruct type="book" xml:id="WolframvonEschenbach._TIT" corresp="http://zotero.org/groups/5043625/items/SN9YJ9Q5" key="TIT">
-                <monogr>
-                  <title level="m">Heft 5: Willehalm: Buch 6 bis 9; titurel</title>
-                  <idno type="callNumber">TIT</idno>
-                  <author>
-                    <name>Wolfram von Eschenbach</name>
-                  </author>
-                  <edition>4</edition>
-                  <imprint>
-                    <pubPlace>Halle (Saale)</pubPlace>
-                    <biblScope unit="volume">16</biblScope>
-                    <publisher>Niemeyer VEB</publisher>
-                    <date>1956</date>
-                  </imprint>
-                </monogr>
-                <series>
-                  <title level="s">Altdeutsche textbibliothek</title>
-                </series>
-                <note>Wolfram von Eschenbach: Titurel. In: Wolfram von Eschenbach. Hrsg. v. Albert
-              Leitzmann. Heft 5. 4. Auflage, Tübingen 1956</note>
+                <note>Wolfram von Eschenbach: Titurel. In: Wolfram von Eschenbach. Hrsg. v. Albert Leitzmann. Heft 5. 4. Auflage, Tübingen 1956</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -106,13 +111,13 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_70aa5bd2" ana="parent">
+          <category xml:id="genre_70aa5bd2" ana="parent" corresp="genres.xml#genre_70aa5bd2">
             <gloss xml:lang="de">Bretonischer Roman</gloss>
             <gloss xml:lang="en">Breton Romance</gloss>
             <gloss xml:lang="en">Breton Novel</gloss>
             <gloss xml:lang="fr">Matière de Bretagne</gloss>
           </category>
-          <category xml:id="genre_f2cb8412">
+          <category xml:id="genre_f2cb8412" corresp="genres.xml#genre_f2cb8412">
             <gloss xml:lang="de">Artusroman</gloss>
             <gloss xml:lang="de">Artusdichtung</gloss>
             <gloss xml:lang="en">Arthurian Romance</gloss>
@@ -127,7 +132,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_7">
+          <person xml:id="person_7" corresp="persons.xml#person_7">
             <persName type="preferred">Wolfram von Eschenbach</persName>
             <idno type="GND">118634933</idno>
             <idno type="wikidata">Q18821</idno>

@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="WVE">
   <teiHeader>
     <fileDesc>
@@ -41,30 +41,34 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_380">
             <idno type="sigle">WVE</idno>
+            <idno type="handschriftencensus">422</idno>
             <msName xml:lang="de">Lyrik von Werner von Elmendorf</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="book" xml:id="WVE_WVE" corresp="http://zotero.org/groups/5043625/items/UP6TDVUQ" key="WVE">
                 <monogr>
-                  <title level="m">Lehrgedicht</title>
-                  <idno type="ISBN">978-3-484-20075-3</idno>
-                  <idno type="callNumber">WVE</idno>
+                  <title>Lehrgedicht</title>
                   <author>
                     <name>Wernher von Elmendorf</name>
                   </author>
+                  <idno type="ISBN">978-3-484-20075-3</idno>
+                  <idno type="callNumber">WVE</idno>
+                  <editor>
+                    <forename>Joachim</forename>
+                    <surname>Bumke</surname>
+                  </editor>
                   <imprint>
-                    <pubPlace>Tubingen</pubPlace>
+                    <pubPlace>Tübingen</pubPlace>
                     <biblScope unit="volume">77</biblScope>
                     <publisher>Niemeyer</publisher>
                     <date>1974</date>
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Altdeutsche textbibliothek</title>
+                  <title level="s">Altdeutsche Textbibliothek</title>
                 </series>
-                <note>Wernher von Elmendorf. Unter Mitarb. von Udo Gerdes et al, hrsg. v. Joachim Bumke.
-              Tübingen: Niemeyer, 1974(= ATB Nr. 77)</note>
+                <note>Wernher von Elmendorf. Unter Mitarb. von Udo Gerdes et al, hrsg. v. Joachim Bumke. Tübingen: Niemeyer, 1974(= ATB Nr. 77)</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -79,7 +83,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_2c9f837c">
+          <category xml:id="genre_2c9f837c" corresp="genres.xml#genre_2c9f837c">
             <gloss xml:lang="de">Kleindidaxe</gloss>
             <gloss xml:lang="de">Didaktische Kleindichtung</gloss>
             <gloss xml:lang="de">Gnomik</gloss>
@@ -91,7 +95,7 @@
             <gloss xml:lang="en">Gnomics</gloss>
             <gloss xml:lang="en">Teaching Treatise</gloss>
           </category>
-          <category xml:id="genre_d75ff6ba" ana="parent">
+          <category xml:id="genre_d75ff6ba" ana="parent" corresp="genres.xml#genre_d75ff6ba">
             <gloss xml:lang="de">Lehrdichtung</gloss>
             <gloss xml:lang="de">Didaktische Dichtung</gloss>
             <gloss xml:lang="de">Lehrschrift</gloss>
@@ -104,7 +108,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_847">
+          <person xml:id="person_847" corresp="persons.xml#person_847">
             <persName type="preferred">Wernher von Elmendorf</persName>
             <idno type="GND">11863156X</idno>
             <idno type="wikidata">Q55123897</idno>

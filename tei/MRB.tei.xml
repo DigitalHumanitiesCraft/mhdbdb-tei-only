@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="MRB">
   <teiHeader>
     <fileDesc>
@@ -41,19 +41,20 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_40">
             <idno type="sigle">MRB</idno>
+            <idno type="handschriftencensus">316</idno>
             <msName xml:lang="de">Lyrik vom Burggraf von Rietenburg</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="bookSection" xml:id="MRB_MRB" corresp="http://zotero.org/groups/5043625/items/HJYI82BX" key="MRB">
                 <analytic>
-                  <title level="a">[Lieder]</title>
+                  <title level="a">[lieder]</title>
                   <author>
                     <name>Der Burggraf von Rietenburg</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Des minnesangs fruehling</title>
+                  <title level="m">Des Minnesangs Fruehling</title>
                   <idno type="ISBN">978-3-7776-0331-5</idno>
                   <idno type="callNumber">MRB</idno>
                   <editor>
@@ -66,15 +67,13 @@
                   </editor>
                   <imprint>
                     <pubPlace>Stuttgart</pubPlace>
-                    <biblScope unit="volume">1</biblScope>
                     <biblScope unit="page">34–37</biblScope>
+                    <biblScope unit="volume">1</biblScope>
                     <publisher>Hirzel</publisher>
                     <date>1977</date>
                   </imprint>
                 </monogr>
-                <note>Des Minnesangs Frühling. Unter Benutzung der Ausgaben von Karl Lachmann und Moriz
-              Haupt, Friedrich Vogt und Carl von Kraus bearbeitet von Hugo Moser und Helmut
-              Tervooren. 36., neugestaltete und erweiterte Auflage. Stuttgart: S. Hirzel Verlag 1977</note>
+                <note>Des Minnesangs Frühling. Unter Benutzung der Ausgaben von Karl Lachmann und Moriz Haupt, Friedrich Vogt und Carl von Kraus bearbeitet von Hugo Moser und Helmut Tervooren. 36., neugestaltete und erweiterte Auflage. Stuttgart: S. Hirzel Verlag 1977</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -89,7 +88,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_4ecfe25e">
+          <category xml:id="genre_4ecfe25e" corresp="genres.xml#genre_4ecfe25e">
             <gloss xml:lang="de">Minnesang</gloss>
             <gloss xml:lang="de">Minnesänger</gloss>
             <gloss xml:lang="de">Liebeslyrik</gloss>
@@ -98,7 +97,7 @@
             <gloss xml:lang="en">Minstrels</gloss>
             <gloss xml:lang="en">Love Poetry</gloss>
           </category>
-          <category xml:id="genre_a2770533" ana="parent">
+          <category xml:id="genre_a2770533" ana="parent" corresp="genres.xml#genre_a2770533">
             <gloss xml:lang="de">Lyrik</gloss>
             <gloss xml:lang="en">Lyric Poetry</gloss>
           </category>
@@ -108,7 +107,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_127">
+          <person xml:id="person_127" corresp="persons.xml#person_127">
             <persName type="preferred">Burggraf von Riedenburg</persName>
             <idno type="GND">101245009</idno>
             <idno type="wikidata">Q55194346</idno>

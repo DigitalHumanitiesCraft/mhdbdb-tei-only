@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="HIN">
   <teiHeader>
     <fileDesc>
@@ -41,19 +41,21 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_351">
             <idno type="sigle">HIN</idno>
+            <idno type="handschriftencensus">206</idno>
+            <idno type="gnd">4214976-9</idno>
             <msName xml:lang="de">Unser vrouwen hinvart</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="bookSection" xml:id="HIN_HIN" corresp="http://zotero.org/groups/5043625/items/9PFWFH5C" key="HIN">
                 <analytic>
-                  <title level="a">Unser vrouwen hinvart</title>
+                  <title level="a">Unser Vrouwen Hinvart</title>
                   <author>
                     <name>Konrad von Heimesfurt</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">"Unser vrouwen hinfart" und "Diu Urstende"</title>
+                  <title level="m">"unser Vrouwen Hinfart" und "diu Urstende"</title>
                   <idno type="ISBN">3-11-093094-3</idno>
                   <idno type="callNumber">HIN</idno>
                   <editor>
@@ -72,11 +74,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Altdeutsche textbibliothek</title>
+                  <title level="s">Altdeutsche Textbibliothek</title>
                 </series>
-                <note>Konrad von Heimesfurt."Unser vrouwen hinvart" und "Diu urstende". Mit Verwendung
-              der Vorarbeiten von Werner Fechter hrsg. v. Kurt Gärtner und Werner J. Hoffmann.
-              Tübingen: Niemeyer, 1989.S.1-52.(= ATB Bd. 99)</note>
+                <note>Konrad von Heimesfurt."Unser vrouwen hinvart" und "Diu urstende". Mit Verwendung der Vorarbeiten von Werner Fechter hrsg. v. Kurt Gärtner und Werner J. Hoffmann. Tübingen: Niemeyer, 1989.S.1-52.(= ATB Bd. 99)</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -91,7 +91,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_910c5f51">
+          <category xml:id="genre_910c5f51" corresp="genres.xml#genre_910c5f51">
             <gloss xml:lang="de">Marienleben</gloss>
             <gloss xml:lang="de">Marienlegende</gloss>
             <gloss xml:lang="en">Life of Holy Mary</gloss>
@@ -99,7 +99,7 @@
             <gloss xml:lang="en">Mary's Life</gloss>
             <gloss xml:lang="la">Vita Mariae</gloss>
           </category>
-          <category xml:id="genre_f3daf714" ana="parent">
+          <category xml:id="genre_f3daf714" ana="parent" corresp="genres.xml#genre_f3daf714">
             <gloss xml:lang="de">Bibeldichtung</gloss>
             <gloss xml:lang="de">Religiöse Versdichtung</gloss>
             <gloss xml:lang="en">Bible Poetry</gloss>
@@ -111,7 +111,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_827">
+          <person xml:id="person_827" corresp="persons.xml#person_827">
             <persName type="preferred">Konrad von Heimesfurt</persName>
             <idno type="GND">118866524</idno>
             <idno type="wikidata">Q102082</idno>

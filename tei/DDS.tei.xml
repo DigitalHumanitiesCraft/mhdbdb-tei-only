@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="DDS">
   <teiHeader>
     <fileDesc>
@@ -41,19 +41,20 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_628">
             <idno type="sigle">DDS</idno>
+            <idno type="handschriftencensus">3627</idno>
             <msName xml:lang="de">Lyrik von Dietmar dem Setzer</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="bookSection" xml:id="DDS_DDS" corresp="http://zotero.org/groups/5043625/items/Y4Q4DLRQ" key="DDS">
                 <analytic>
-                  <title level="a">[Lieder]</title>
+                  <title level="a">[lieder]</title>
                   <author>
                     <name>Dietmar der Setzer</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Deutsche liederdichter des 13. Jahrhunderts</title>
+                  <title level="m">Deutsche Liederdichter des 13. Jahrhunderts</title>
                   <idno type="callNumber">DDS</idno>
                   <editor>
                     <forename>Carl</forename>
@@ -61,10 +62,10 @@
                   </editor>
                   <imprint>
                     <pubPlace>Tübingen</pubPlace>
-                    <biblScope unit="volume">1</biblScope>
                     <biblScope unit="page">52–53</biblScope>
+                    <biblScope unit="volume">1</biblScope>
                     <publisher>Niemeyer</publisher>
-                    <date>1951</date>
+                    <date>1951–58</date>
                   </imprint>
                 </monogr>
               </biblStruct>
@@ -81,7 +82,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_1b99a6ac">
+          <category xml:id="genre_1b99a6ac" corresp="genres.xml#genre_1b99a6ac">
             <gloss xml:lang="de">Spruchsang</gloss>
             <gloss xml:lang="de">Spruchdichtung</gloss>
             <gloss xml:lang="de">Spruchlied</gloss>
@@ -92,7 +93,7 @@
             <gloss xml:lang="en">Sangspruch</gloss>
             <gloss xml:lang="en">Spruch Poem</gloss>
           </category>
-          <category xml:id="genre_a2770533" ana="parent">
+          <category xml:id="genre_a2770533" ana="parent" corresp="genres.xml#genre_a2770533">
             <gloss xml:lang="de">Lyrik</gloss>
             <gloss xml:lang="en">Lyric Poetry</gloss>
           </category>
@@ -102,7 +103,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_1033">
+          <person xml:id="person_1033" corresp="persons.xml#person_1033">
             <persName type="preferred">Dietmar der Setzer</persName>
             <idno type="GND">101244606</idno>
             <idno type="wikidata">Q1223597</idno>

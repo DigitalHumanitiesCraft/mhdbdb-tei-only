@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="RDV">
   <teiHeader>
     <fileDesc>
@@ -41,19 +41,20 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_426">
             <idno type="sigle">RDV</idno>
+            <idno type="handschriftencensus">5012</idno>
             <msName xml:lang="de">Lyrik von Reimar dem Fiedler</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="bookSection" xml:id="RDV_RDV" corresp="http://zotero.org/groups/5043625/items/WAYWDFVP" key="RDV">
                 <analytic>
-                  <title level="a">[Lieder]</title>
+                  <title level="a">[lieder]</title>
                   <author>
                     <name>Reimar der Fiedler</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Deutsche liederdichter des 13. Jahrhunderts</title>
+                  <title level="m">Deutsche Liederdichter des 13. Jahrhunderts</title>
                   <idno type="callNumber">RDV</idno>
                   <editor>
                     <forename>Carl</forename>
@@ -61,10 +62,10 @@
                   </editor>
                   <imprint>
                     <pubPlace>Tübingen</pubPlace>
-                    <biblScope unit="volume">1</biblScope>
                     <biblScope unit="page">334–336</biblScope>
+                    <biblScope unit="volume">1</biblScope>
                     <publisher>Niemeyer</publisher>
-                    <date>1951</date>
+                    <date>1951–58</date>
                   </imprint>
                 </monogr>
                 <note>Deutsche Liederdichter. Hrsg. von Carl von Kraus. Tübingen, M. Niemeyer, 1951-58</note>
@@ -82,7 +83,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_1b99a6ac">
+          <category xml:id="genre_1b99a6ac" corresp="genres.xml#genre_1b99a6ac">
             <gloss xml:lang="de">Spruchsang</gloss>
             <gloss xml:lang="de">Spruchdichtung</gloss>
             <gloss xml:lang="de">Spruchlied</gloss>
@@ -93,7 +94,7 @@
             <gloss xml:lang="en">Sangspruch</gloss>
             <gloss xml:lang="en">Spruch Poem</gloss>
           </category>
-          <category xml:id="genre_a2770533" ana="parent">
+          <category xml:id="genre_a2770533" ana="parent" corresp="genres.xml#genre_a2770533">
             <gloss xml:lang="de">Lyrik</gloss>
             <gloss xml:lang="en">Lyric Poetry</gloss>
           </category>
@@ -103,7 +104,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_1071">
+          <person xml:id="person_1071" corresp="persons.xml#person_1071">
             <persName type="preferred">Reinmar der Fiedler</persName>
             <idno type="GND">10124505X</idno>
             <idno type="wikidata">Q55132805</idno>

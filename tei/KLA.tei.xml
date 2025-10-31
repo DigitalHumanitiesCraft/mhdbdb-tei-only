@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="KLA">
   <teiHeader>
     <fileDesc>
@@ -42,6 +42,9 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_54">
             <idno type="sigle">KLA</idno>
+            <idno type="handschriftencensus">195</idno>
+            <idno type="gnd">4163993-5</idno>
+            <idno type="wikidata">Q1984635</idno>
             <msName xml:lang="de">Die Klage</msName>
             <msName xml:lang="de">Nibelungenklage</msName>
           </msIdentifier>
@@ -49,13 +52,13 @@
             <listBibl>
               <biblStruct type="bookSection" xml:id="KLA_KLA" corresp="http://zotero.org/groups/5043625/items/RUGFWJNJ" key="KLA">
                 <analytic>
-                  <title level="a">Die klage</title>
+                  <title level="a">Die Klage</title>
                   <author>
                     <name>Anonym</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Der nibelunge noth und die klage</title>
+                  <title level="m">Der Nibelunge Noth und die Klage</title>
                   <idno type="callNumber">KLA</idno>
                   <editor>
                     <forename>Karl</forename>
@@ -68,9 +71,7 @@
                     <date>1878</date>
                   </imprint>
                 </monogr>
-                <note>Der Nibelunge Noth und Die Klage. Nach der ältesten Überl. mit Bez. des Unechten
-              und mit den Abweichungen d. gem. Lesart hrsg. v. Karl Lachmann. 6. Ausg. Berlin 1960.
-              S. 303 - 370</note>
+                <note>Der Nibelunge Noth und Die Klage. Nach der ältesten Überl. mit Bez. des Unechten und mit den Abweichungen d. gem. Lesart hrsg. v. Karl Lachmann. 6. Ausg. Berlin 1960. S. 303 - 370</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -85,12 +86,12 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_9c7d5679" ana="parent">
+          <category xml:id="genre_9c7d5679" ana="parent" corresp="genres.xml#genre_9c7d5679">
             <gloss xml:lang="de">Diskursive Kurzform</gloss>
             <gloss xml:lang="en">Discursive Short Form</gloss>
             <gloss xml:lang="en">Discursive Form in Small Poetry</gloss>
           </category>
-          <category xml:id="genre_bfa30c9d">
+          <category xml:id="genre_bfa30c9d" corresp="genres.xml#genre_bfa30c9d">
             <gloss xml:lang="de">Klagerede</gloss>
             <gloss xml:lang="en">Lamentation Speech</gloss>
             <gloss xml:lang="en">Complaint Speech</gloss>
@@ -102,7 +103,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_anonym">
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>
             <persName type="alternative" xml:lang="de">Anonymus</persName>
             <persName type="alternative" xml:lang="en">anonymous</persName>

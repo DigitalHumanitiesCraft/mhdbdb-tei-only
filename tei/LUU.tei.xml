@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="LUU">
   <teiHeader>
     <fileDesc>
@@ -43,45 +43,21 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_563">
             <idno type="sigle">LUU</idno>
+            <idno type="gnd">4287363-0</idno>
             <msName xml:lang="de">Lehre und Unterweisung</msName>
             <msName xml:lang="gmh">Lere und underweysung</msName>
           </msIdentifier>
           <additional>
             <listBibl>
-              <biblStruct type="book" xml:id="DIGIVORLAGE.ASL_LUU" corresp="http://zotero.org/groups/5043625/items/FIPGEY7R" key="LUU">
-                <monogr>
-                  <title level="m">Eine augsburger sittenlehre 1476: Textgrundlage: Der druck des
-                johannes bämler: Digitale textedition</title>
-                  <idno type="callNumber">LUU</idno>
-                  <editor>
-                    <forename>Angus</forename>
-                    <surname>Graham</surname>
-                  </editor>
-                  <editor>
-                    <forename>Ulrich</forename>
-                    <surname>Harsch</surname>
-                  </editor>
-                  <imprint>
-                    <date>2005</date>
-                    <note type="accessed">2018-07-31</note>
-                    <note type="url">
-                  http://www.hs-augsburg.de/~harsch/germanica/Chronologie/15Jh/Lehre/ler_un00.html</note>
-                  </imprint>
-                </monogr>
-                <note>Textgrundlage: Der Druck des Johannes Bämler, Augsburg 1476 (Hain 10006) Digitale
-              Edition: Angus Graham, Ulrich Harsch 2005 http://www.hs-augsburg.de/
-              ̃harsch/germanica/Chronologie/15Jh/Lehre/ler_un00.html</note>
-              </biblStruct>
               <biblStruct type="bookSection" xml:id="LUU_LUU" corresp="http://zotero.org/groups/5043625/items/MMQ38TVA" key="LUU">
                 <analytic>
-                  <title level="a">Lere und underweysung: [De amore Dei et proximi, De doctrina (arte)
-                dicendi et tacendi, Liber consolationis et consilii. Übers. von J. Bämler]</title>
+                  <title level="a">Lere und Underweysung: [de Amore Dei Et Proximi, De Doctrina (arte) Dicendi Et Tacendi, Liber Consolationis Et Consilii. Übers. von J. Bämler]</title>
                   <author>
                     <name>Albertanus von Brescia</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Eine augsburger sittenlehre</title>
+                  <title level="m">Eine Augsburger Sittenlehre</title>
                   <idno type="callNumber">LUU</idno>
                   <editor>
                     <forename>Johannes</forename>
@@ -94,9 +70,25 @@
                     <date>1476</date>
                   </imprint>
                 </monogr>
-                <note>Textgrundlage: Der Druck des Johannes Bämler, Augsburg 1476 (Hain 10006) Digitale
-              Edition: Angus Graham,Sultan Qaboos University Oman https://www.hs-augsburg.de/
-              ̃harsch/germanica/Chronologie/15Jh/Lehre/ler_unag.html</note>
+                <note>Textgrundlage: Der Druck des Johannes Bämler, Augsburg 1476 (Hain 10006) Digitale Edition: Angus Graham,Sultan Qaboos University Oman https://www.hs-augsburg.de/ ̃harsch/germanica/Chronologie/15Jh/Lehre/ler_unag.html</note>
+              </biblStruct>
+              <biblStruct type="book" xml:id="LUU_LUU_LUU" corresp="http://zotero.org/groups/5043625/items/FIPGEY7R" key="LUU">
+                <monogr>
+                  <title>Eine Augsburger Sittenlehre 1476: Textgrundlage: Der Druck des Johannes Bämler: Digitale Textedition</title>
+                  <idno type="callNumber">LUU</idno>
+                  <editor>
+                    <forename>Angus</forename>
+                    <surname>Graham</surname>
+                  </editor>
+                  <editor>
+                    <forename>Ulrich</forename>
+                    <surname>Harsch</surname>
+                  </editor>
+                  <imprint>
+                    <date>2005</date>
+                  </imprint>
+                </monogr>
+                <note>Textgrundlage: Der Druck des Johannes Bämler, Augsburg 1476 (Hain 10006) Digitale Edition: Angus Graham, Ulrich Harsch 2005 http://www.hs-augsburg.de/ ̃harsch/germanica/Chronologie/15Jh/Lehre/ler_un00.html</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -111,7 +103,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_2c9f837c">
+          <category xml:id="genre_2c9f837c" corresp="genres.xml#genre_2c9f837c">
             <gloss xml:lang="de">Kleindidaxe</gloss>
             <gloss xml:lang="de">Didaktische Kleindichtung</gloss>
             <gloss xml:lang="de">Gnomik</gloss>
@@ -123,7 +115,7 @@
             <gloss xml:lang="en">Gnomics</gloss>
             <gloss xml:lang="en">Teaching Treatise</gloss>
           </category>
-          <category xml:id="genre_d75ff6ba" ana="parent">
+          <category xml:id="genre_d75ff6ba" ana="parent" corresp="genres.xml#genre_d75ff6ba">
             <gloss xml:lang="de">Lehrdichtung</gloss>
             <gloss xml:lang="de">Didaktische Dichtung</gloss>
             <gloss xml:lang="de">Lehrschrift</gloss>
@@ -136,7 +128,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_05154796-f128-42a1-bd0d-e8335bf854e6">
+          <person xml:id="person_05154796-f128-42a1-bd0d-e8335bf854e6" corresp="persons.xml#person_05154796-f128-42a1-bd0d-e8335bf854e6">
             <persName type="preferred">Albertanus von Brescia</persName>
             <persName type="alternative" xml:lang="en">Albertanus of Brescia</persName>
             <idno type="GND">11904059X</idno>

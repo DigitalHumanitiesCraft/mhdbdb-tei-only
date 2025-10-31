@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="GRG">
   <teiHeader>
     <fileDesc>
@@ -41,17 +41,22 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_52">
             <idno type="sigle">GRG</idno>
+            <idno type="wikidata">Q69643225</idno>
             <msName xml:lang="de">Der heilige Georg</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="book" xml:id="GRG_GRG" corresp="http://zotero.org/groups/5043625/items/RESKTKV8" key="GRG">
                 <monogr>
-                  <title level="m">Der heilige georg: Nach sämmtlichen handschriften</title>
-                  <idno type="callNumber">GRG</idno>
+                  <title>Der Heilige Georg: Nach Sämmtlichen Handschriften</title>
                   <author>
                     <name>Reinbot von Durne</name>
                   </author>
+                  <idno type="callNumber">GRG</idno>
+                  <editor>
+                    <forename>Carl</forename>
+                    <surname>von Kraus</surname>
+                  </editor>
                   <imprint>
                     <pubPlace>Heidelberg</pubPlace>
                     <biblScope unit="volume">1</biblScope>
@@ -60,12 +65,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Germanische bibliothek. Reihe 3: Kritische ausgaben altdeutscher
-                texte</title>
+                  <title level="s">Germanische Bibliothek. Reihe 3: Kritische Ausgaben Altdeutscher Texte</title>
                 </series>
-                <note>Reinbot von Durne: Der heilige Georg. Nach sämtl. Handschriften hrsg. v. Carl von
-              Kraus. Heidelberg 1907.(= Germanist. Bibl. Dritte Abt. Kritische Ausgaben Altdeutscher
-              Texte, Band 1)</note>
+                <note>Reinbot von Durne: Der heilige Georg. Nach sämtl. Handschriften hrsg. v. Carl von Kraus. Heidelberg 1907.(= Germanist. Bibl. Dritte Abt. Kritische Ausgaben Altdeutscher Texte, Band 1)</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -80,7 +82,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_0480b285">
+          <category xml:id="genre_0480b285" corresp="genres.xml#genre_0480b285">
             <gloss xml:lang="de">Geistliche Literatur</gloss>
             <gloss xml:lang="de">Geistliche Dichtung</gloss>
             <gloss xml:lang="de">Religiöse Dichtung</gloss>
@@ -90,7 +92,7 @@
             <gloss xml:lang="en">Spiritual Poetry</gloss>
             <gloss xml:lang="en">Religious Poetry</gloss>
           </category>
-          <category xml:id="genre_058eb9a7" ana="parent">
+          <category xml:id="genre_058eb9a7" ana="parent" corresp="genres.xml#genre_058eb9a7">
             <gloss xml:lang="de">Epik, Lyrik und Dramatik</gloss>
             <gloss xml:lang="de">Poetische Literatur</gloss>
             <gloss xml:lang="de">Fiktionale Literatur</gloss>
@@ -100,7 +102,7 @@
             <gloss xml:lang="en">Epic, Lyric and Dramatic Literature</gloss>
             <gloss xml:lang="en">Fictional Literature</gloss>
           </category>
-          <category xml:id="genre_2292de8a">
+          <category xml:id="genre_2292de8a" corresp="genres.xml#genre_2292de8a">
             <gloss xml:lang="de">Heiligenlegende</gloss>
             <gloss xml:lang="de">Heiligenvita</gloss>
             <gloss xml:lang="de">Vita</gloss>
@@ -109,7 +111,7 @@
             <gloss xml:lang="en">Vita</gloss>
             <gloss xml:lang="la">Vita</gloss>
           </category>
-          <category xml:id="genre_ae9e2d0e" ana="parent">
+          <category xml:id="genre_ae9e2d0e" ana="parent" corresp="genres.xml#genre_ae9e2d0e">
             <gloss xml:lang="de">Erzählende Kurzform</gloss>
             <gloss xml:lang="de">Kleinepik</gloss>
             <gloss xml:lang="en">Narrative Short Form</gloss>
@@ -122,7 +124,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_14">
+          <person xml:id="person_14" corresp="persons.xml#person_14">
             <persName type="preferred">Reinbot von Durne</persName>
             <idno type="GND">1089616872</idno>
             <idno type="GND">118788213</idno>

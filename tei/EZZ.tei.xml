@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="EZZ">
   <teiHeader>
     <fileDesc>
@@ -42,6 +42,9 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_46">
             <idno type="sigle">EZZ</idno>
+            <idno type="handschriftencensus">108</idno>
+            <idno type="gnd">4153443-8</idno>
+            <idno type="wikidata">Q1386106</idno>
             <msName xml:lang="de">Ezzolied</msName>
             <msName xml:lang="de">Ezzo: Hymnus</msName>
           </msIdentifier>
@@ -49,13 +52,13 @@
             <listBibl>
               <biblStruct type="bookSection" xml:id="EZZ_EZZ" corresp="http://zotero.org/groups/5043625/items/5Z994DGW" key="EZZ">
                 <analytic>
-                  <title level="a">Ezzos 'cantilena de miraculis christi': [Ezzolied handschrift V]</title>
+                  <title level="a">Ezzos 'cantilena De Miraculis Christi': [ezzolied Handschrift V]</title>
                   <author>
                     <name>Anonym</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Althochdeutsches lesebuch</title>
+                  <title level="m">Althochdeutsches Lesebuch</title>
                   <idno type="ISBN">978-3-484-10327-6</idno>
                   <idno type="callNumber">EZZ</idno>
                   <editor>
@@ -77,8 +80,7 @@
                     <date>1979</date>
                   </imprint>
                 </monogr>
-                <note>Ezzo: "CANTILENA DE MIRACULIS CHRISTI" (Handschrift V). Aus: Althochdeutsches
-              Lesebuch, 16. Aufl., hrsg. v.W. Braune/ A. Ebbinghaus. Tübingen 1979</note>
+                <note>Ezzo: "CANTILENA DE MIRACULIS CHRISTI" (Handschrift V). Aus: Althochdeutsches Lesebuch, 16. Aufl., hrsg. v.W. Braune/ A. Ebbinghaus. Tübingen 1979</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -93,11 +95,11 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_c98c33fa">
+          <category xml:id="genre_c98c33fa" corresp="genres.xml#genre_c98c33fa">
             <gloss xml:lang="de">Hymnus und Hymnenübertragung</gloss>
             <gloss xml:lang="en">Hymn and Hymn Transfer</gloss>
           </category>
-          <category xml:id="genre_cce0704b">
+          <category xml:id="genre_cce0704b" corresp="genres.xml#genre_cce0704b">
             <gloss xml:lang="de">Heilsgeschichte</gloss>
             <gloss xml:lang="de">Heilsökonomie</gloss>
             <gloss xml:lang="de">Lied über die Wunder Christi</gloss>
@@ -105,13 +107,13 @@
             <gloss xml:lang="en">Salvation Economy</gloss>
             <gloss xml:lang="la">Cantilena de miraculis Christi</gloss>
           </category>
-          <category xml:id="genre_f3daf714" ana="parent">
+          <category xml:id="genre_f3daf714" ana="parent" corresp="genres.xml#genre_f3daf714">
             <gloss xml:lang="de">Bibeldichtung</gloss>
             <gloss xml:lang="de">Religiöse Versdichtung</gloss>
             <gloss xml:lang="en">Bible Poetry</gloss>
             <gloss xml:lang="en">Religious Verse Poetry</gloss>
           </category>
-          <category xml:id="genre_f5a16820" ana="parent">
+          <category xml:id="genre_f5a16820" ana="parent" corresp="genres.xml#genre_f5a16820">
             <gloss xml:lang="de">Geistliche Lyrik</gloss>
             <gloss xml:lang="de">Religiöse Lyrik</gloss>
             <gloss xml:lang="en">Spiritual Lyrics</gloss>
@@ -123,7 +125,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_anonym">
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>
             <persName type="alternative" xml:lang="de">Anonymus</persName>
             <persName type="alternative" xml:lang="en">anonymous</persName>

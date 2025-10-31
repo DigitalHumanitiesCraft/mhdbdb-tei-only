@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="NST">
   <teiHeader>
     <fileDesc>
@@ -55,13 +55,13 @@
             <listBibl>
               <biblStruct type="bookSection" xml:id="NST_NST" corresp="http://zotero.org/groups/5043625/items/JS84TNT9" key="NST">
                 <analytic>
-                  <title level="a">Neun stuck damit man got ein besunder wolgefallen tuot</title>
+                  <title level="a">Neun Stuck Damit Man Got ein Besunder Wolgefallen Tuot</title>
                   <author>
                     <name>Anonym</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Eine augsburger sittenlehre</title>
+                  <title level="m">Eine Augsburger Sittenlehre</title>
                   <idno type="callNumber">NST</idno>
                   <editor>
                     <forename>Johannes</forename>
@@ -74,9 +74,7 @@
                     <date>1476</date>
                   </imprint>
                 </monogr>
-                <note>Textgrundlage: Der Druck des Johannes Bämler, Augsburg 1476 (Hain 10006) Digitale
-              Edition: Angus Graham,Sultan Qaboos University Oman http://www.hs-augsburg.de/
-              ̃harsch/germanica/Chronologie/15Jh/Lehre/ler_un14.html</note>
+                <note>Textgrundlage: Der Druck des Johannes Bämler, Augsburg 1476 (Hain 10006) Digitale Edition: Angus Graham,Sultan Qaboos University Oman http://www.hs-augsburg.de/ ̃harsch/germanica/Chronologie/15Jh/Lehre/ler_un14.html</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -91,7 +89,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_0480b285" ana="parent">
+          <category xml:id="genre_0480b285" ana="parent" corresp="genres.xml#genre_0480b285">
             <gloss xml:lang="de">Geistliche Literatur</gloss>
             <gloss xml:lang="de">Geistliche Dichtung</gloss>
             <gloss xml:lang="de">Religiöse Dichtung</gloss>
@@ -101,18 +99,18 @@
             <gloss xml:lang="en">Spiritual Poetry</gloss>
             <gloss xml:lang="en">Religious Poetry</gloss>
           </category>
-          <category xml:id="genre_9c7d5679" ana="parent">
+          <category xml:id="genre_9c7d5679" ana="parent" corresp="genres.xml#genre_9c7d5679">
             <gloss xml:lang="de">Diskursive Kurzform</gloss>
             <gloss xml:lang="en">Discursive Short Form</gloss>
             <gloss xml:lang="en">Discursive Form in Small Poetry</gloss>
           </category>
-          <category xml:id="genre_ccef6751">
+          <category xml:id="genre_ccef6751" corresp="genres.xml#genre_ccef6751">
             <gloss xml:lang="de">Geistliche Rede</gloss>
             <gloss xml:lang="de">Religiöse Rede</gloss>
             <gloss xml:lang="en">Spiritual Speech</gloss>
             <gloss xml:lang="en">Religious Speech</gloss>
           </category>
-          <category xml:id="genre_f3daf714">
+          <category xml:id="genre_f3daf714" corresp="genres.xml#genre_f3daf714">
             <gloss xml:lang="de">Bibeldichtung</gloss>
             <gloss xml:lang="de">Religiöse Versdichtung</gloss>
             <gloss xml:lang="en">Bible Poetry</gloss>
@@ -124,7 +122,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_anonym">
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>
             <persName type="alternative" xml:lang="de">Anonymus</persName>
             <persName type="alternative" xml:lang="en">anonymous</persName>

@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="ROL">
   <teiHeader>
     <fileDesc>
@@ -42,6 +42,9 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_67">
             <idno type="sigle">ROL</idno>
+            <idno type="handschriftencensus">202</idno>
+            <idno type="gnd">4281929-5</idno>
+            <idno type="wikidata">Q1170189</idno>
             <msName xml:lang="de">Das Rolandslied</msName>
             <msName xml:lang="de">Rolandslied des Pfaffen Konrad</msName>
           </msIdentifier>
@@ -49,12 +52,16 @@
             <listBibl>
               <biblStruct type="book" xml:id="ROL_ROL" corresp="http://zotero.org/groups/5043625/items/BE9CY33T" key="ROL">
                 <monogr>
-                  <title level="m">Das rolandslied des pfaffen konrad</title>
-                  <idno type="ISBN">978-3-484-20169-9</idno>
-                  <idno type="callNumber">ROL</idno>
+                  <title>Das Rolandslied des Pfaffen Konrad</title>
                   <author>
                     <name>Pfaffe Konrad</name>
                   </author>
+                  <idno type="ISBN">978-3-484-20169-9</idno>
+                  <idno type="callNumber">ROL</idno>
+                  <editor>
+                    <forename>Carl</forename>
+                    <surname>Wesle</surname>
+                  </editor>
                   <edition>3</edition>
                   <imprint>
                     <pubPlace>Tubingen</pubPlace>
@@ -64,10 +71,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Altdeutsche textbibliothek</title>
+                  <title level="s">Altdeutsche Textbibliothek</title>
                 </series>
-                <note>Konrad (der Pfaffe): Das Rolandslied (des Pfaffen Konrad). Hrsg. v. Carl Wesle.
-              3., durchgesehene Auflage besorgt von Peter Wapnewski. Tübingen 1985. (= ATB 69)</note>
+                <note>Konrad (der Pfaffe): Das Rolandslied (des Pfaffen Konrad). Hrsg. v. Carl Wesle. 3., durchgesehene Auflage besorgt von Peter Wapnewski. Tübingen 1985. (= ATB 69)</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -82,7 +88,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_4f63fc04">
+          <category xml:id="genre_4f63fc04" corresp="genres.xml#genre_4f63fc04">
             <gloss xml:lang="de">Karlsepik</gloss>
             <gloss xml:lang="en">Karl Epic</gloss>
             <gloss xml:lang="en">Charles Poetry</gloss>
@@ -94,7 +100,7 @@
             <gloss xml:lang="fr">Geste de Charlemagne</gloss>
             <gloss xml:lang="fr">Geste du roi</gloss>
           </category>
-          <category xml:id="genre_b6bd0291" ana="parent">
+          <category xml:id="genre_b6bd0291" ana="parent" corresp="genres.xml#genre_b6bd0291">
             <gloss xml:lang="de">Chanson de Geste</gloss>
             <gloss xml:lang="en">Chanson de Geste</gloss>
             <gloss xml:lang="fr">Chanson de Geste</gloss>
@@ -105,7 +111,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_44">
+          <person xml:id="person_44" corresp="persons.xml#person_44">
             <persName type="preferred">Konrad (der Pfaffe)</persName>
             <persName type="alternative" xml:lang="de">Pfaffe Konrad</persName>
             <persName type="alternative" xml:lang="en">Konrad der Pfaffe</persName>

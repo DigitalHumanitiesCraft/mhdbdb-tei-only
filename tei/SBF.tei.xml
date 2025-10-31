@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="SBF">
   <teiHeader>
     <fileDesc>
@@ -47,14 +47,13 @@
             <listBibl>
               <biblStruct type="bookSection" xml:id="SBF_SBF" corresp="http://zotero.org/groups/5043625/items/Q7QD52H3" key="SBF">
                 <analytic>
-                  <title level="a">Flugschrift donnerstein: Deutsche fassung</title>
+                  <title level="a">Flugschrift Donnerstein: Deutsche Fassung</title>
                   <author>
-                    <forename>Sebastian</forename>
-                    <surname>Brant</surname>
+                    <name>Sebastian Brant</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Lateinische gedichte deutscher humanisten</title>
+                  <title level="m">Lateinische Gedichte Deutscher Humanisten</title>
                   <idno type="callNumber">SBF</idno>
                   <editor>
                     <forename>Harry C.</forename>
@@ -68,11 +67,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Reclams universal-bibliothek</title>
+                  <title level="s">Reclams Universal-bibliothek</title>
                 </series>
-                <note>Lateinische Gedichte deutscher Humanisten. Hrsg.von H. C. Schnur, Stuttgart 1966,
-              S. 22-25. Digitale Fassung: Ulrich Harsch 2004 http://www.hs-augsburg.de/
-              ̃harsch/germanica/Chronologie/15Jh/Brant/bra_ensi.html</note>
+                <note>Lateinische Gedichte deutscher Humanisten. Hrsg.von H. C. Schnur, Stuttgart 1966, S. 22-25. Digitale Fassung: Ulrich Harsch 2004 http://www.hs-augsburg.de/ ̃harsch/germanica/Chronologie/15Jh/Brant/bra_ensi.html</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -87,11 +84,11 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_782dcfc4" ana="parent">
+          <category xml:id="genre_782dcfc4" ana="parent" corresp="genres.xml#genre_782dcfc4">
             <gloss xml:lang="de">Mediale Sonderform</gloss>
             <gloss xml:lang="en">Special Media Forms</gloss>
           </category>
-          <category xml:id="genre_fcf9d921">
+          <category xml:id="genre_fcf9d921" corresp="genres.xml#genre_fcf9d921">
             <gloss xml:lang="de">Flugblatt</gloss>
             <gloss xml:lang="de">Flyer</gloss>
             <gloss xml:lang="de">Flugzettel</gloss>
@@ -105,7 +102,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_1507">
+          <person xml:id="person_1507" corresp="persons.xml#person_1507">
             <persName type="preferred">Sebastian Brant</persName>
             <idno type="GND">118514474</idno>
             <idno type="wikidata">Q60351</idno>

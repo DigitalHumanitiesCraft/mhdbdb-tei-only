@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="FVS">
   <teiHeader>
     <fileDesc>
@@ -41,18 +41,23 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_361">
             <idno type="sigle">FVS</idno>
+            <idno type="handschriftencensus">117</idno>
             <msName xml:lang="de">Lyrik von Friedrich von Sonnenburg</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="book" xml:id="FVS_FVS" corresp="http://zotero.org/groups/5043625/items/LWYEBG28" key="FVS">
                 <monogr>
-                  <title level="m">Die sprüche friedrichs von sonnenburg</title>
-                  <idno type="ISBN">978-3-484-20101-9</idno>
-                  <idno type="callNumber">FVS</idno>
+                  <title>Die Sprüche Friedrichs von Sonnenburg</title>
                   <author>
                     <name>Friedrich von Sonnenburg</name>
                   </author>
+                  <idno type="ISBN">978-3-484-20101-9</idno>
+                  <idno type="callNumber">FVS</idno>
+                  <editor>
+                    <forename>Achim</forename>
+                    <surname>Masser</surname>
+                  </editor>
                   <imprint>
                     <pubPlace>Tübingen</pubPlace>
                     <biblScope unit="volume">86</biblScope>
@@ -61,10 +66,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Altdeutsche textbibliothek</title>
+                  <title level="s">Altdeutsche Textbibliothek</title>
                 </series>
-                <note>Die Sprüche Friedrichs von Sonnenburg. Hg. v. Achim Masser. Tübingen:Niemeyer,
-              1979. (= ATB Bd. 86)</note>
+                <note>Die Sprüche Friedrichs von Sonnenburg. Hg. v. Achim Masser. Tübingen:Niemeyer, 1979. (= ATB Bd. 86)</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -79,7 +83,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_1b99a6ac">
+          <category xml:id="genre_1b99a6ac" corresp="genres.xml#genre_1b99a6ac">
             <gloss xml:lang="de">Spruchsang</gloss>
             <gloss xml:lang="de">Spruchdichtung</gloss>
             <gloss xml:lang="de">Spruchlied</gloss>
@@ -90,7 +94,7 @@
             <gloss xml:lang="en">Sangspruch</gloss>
             <gloss xml:lang="en">Spruch Poem</gloss>
           </category>
-          <category xml:id="genre_a2770533" ana="parent">
+          <category xml:id="genre_a2770533" ana="parent" corresp="genres.xml#genre_a2770533">
             <gloss xml:lang="de">Lyrik</gloss>
             <gloss xml:lang="en">Lyric Poetry</gloss>
           </category>
@@ -100,7 +104,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_826">
+          <person xml:id="person_826" corresp="persons.xml#person_826">
             <persName type="preferred">Friedrich von Sonnenburg</persName>
             <idno type="GND">118535854</idno>
             <idno type="wikidata">Q707831</idno>

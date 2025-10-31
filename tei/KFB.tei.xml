@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="KFB">
   <teiHeader>
     <fileDesc>
@@ -42,6 +42,8 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_364">
             <idno type="sigle">KFB</idno>
+            <idno type="gnd">7698921-5</idno>
+            <idno type="wikidata">Q1795826</idno>
             <msName xml:lang="de">Kölner Fechtbuch</msName>
             <msName xml:lang="en">Cologne Fechtbuch</msName>
           </msIdentifier>
@@ -49,23 +51,23 @@
             <listBibl>
               <biblStruct type="book" xml:id="KFB_KFB" corresp="http://zotero.org/groups/5043625/items/ZLJZ6I8V" key="KFB">
                 <monogr>
-                  <title level="m">Langes schwert und schweinespiesz: Die anonyme fechthandschrift aus
-                den verschütteten beständen des historischen archivs der stadt köln</title>
-                  <idno type="ISBN">978-3-201-01920-0</idno>
-                  <idno type="callNumber">KFB</idno>
+                  <title>Langes Schwert und Schweinespiesz: Die Anonyme Fechthandschrift aus den Verschütteten Beständen des Historischen Archivs der Stadt Köln</title>
                   <author>
                     <name>Anonym</name>
                   </author>
+                  <idno type="ISBN">978-3-201-01920-0</idno>
+                  <idno type="callNumber">KFB</idno>
+                  <editor>
+                    <forename>Matthias Johannes</forename>
+                    <surname>Bauer</surname>
+                  </editor>
                   <imprint>
                     <pubPlace>Graz</pubPlace>
                     <publisher>Akademische Druck- und Verlagsanstalt</publisher>
                     <date>2009</date>
                   </imprint>
                 </monogr>
-                <note>Matthias Johannes Bauer. Langes Schwert und Schweinespiess. Die anonyme
-              Fechthandschrift aus den verschütteten Beständen des historischen Archivs der Stadt
-              Köln. Graz: ADEVA, 2009. Eine digitale Vorlage wurde von Herrn Bauer zur Verfügung
-              gestellt</note>
+                <note>Matthias Johannes Bauer. Langes Schwert und Schweinespiess. Die anonyme Fechthandschrift aus den verschütteten Beständen des historischen Archivs der Stadt Köln. Graz: ADEVA, 2009. Eine digitale Vorlage wurde von Herrn Bauer zur Verfügung gestellt</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -80,7 +82,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_8899703b">
+          <category xml:id="genre_8899703b" corresp="genres.xml#genre_8899703b">
             <gloss xml:lang="de">Kampflehre</gloss>
             <gloss xml:lang="de">Fechtbuch</gloss>
             <gloss xml:lang="de">Kampfbuch</gloss>
@@ -93,12 +95,12 @@
             <gloss xml:lang="en">Battle Book</gloss>
             <gloss xml:lang="en">Fencing Theory</gloss>
           </category>
-          <category xml:id="genre_c87ae373" ana="parent">
+          <category xml:id="genre_c87ae373" ana="parent" corresp="genres.xml#genre_c87ae373">
             <gloss xml:lang="de">Kampfkunst und Kriegswesen</gloss>
             <gloss xml:lang="en">Martial Arts and Warfare</gloss>
             <gloss xml:lang="la">Militia</gloss>
           </category>
-          <category xml:id="genre_da5587e7" ana="parent">
+          <category xml:id="genre_da5587e7" ana="parent" corresp="genres.xml#genre_da5587e7">
             <gloss xml:lang="de">Bewegungskultur</gloss>
             <gloss xml:lang="de">Körpertechniken</gloss>
             <gloss xml:lang="de">Leibesertüchtigung</gloss>
@@ -114,7 +116,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_anonym">
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>
             <persName type="alternative" xml:lang="de">Anonymus</persName>
             <persName type="alternative" xml:lang="en">anonymous</persName>

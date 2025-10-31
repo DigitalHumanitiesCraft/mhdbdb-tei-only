@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="NT">
   <teiHeader>
     <fileDesc>
@@ -41,19 +41,21 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_36">
             <idno type="sigle">NT</idno>
+            <idno type="handschriftencensus">1592</idno>
+            <idno type="gnd">7622640-2</idno>
             <msName xml:lang="de">Das Turnier von Nantes</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="bookSection" xml:id="NT_NT" corresp="http://zotero.org/groups/5043625/items/WRYB2WAV" key="NT">
                 <analytic>
-                  <title level="a">Das turnier von nantes</title>
+                  <title level="a">Das Turnier von Nantes</title>
                   <author>
                     <name>Konrad von Würzburg</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Kleinere dichtungen konrads von würzburg: Bd. II</title>
+                  <title level="m">Kleinere Dichtungen Konrads von Würzburg: Bd. Ii</title>
                   <idno type="callNumber">NT</idno>
                   <editor>
                     <forename>Edward</forename>
@@ -67,10 +69,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Kleinere dichtungen konrads von würzburg</title>
+                  <title level="s">Kleinere Dichtungen Konrads von Würzburg</title>
                 </series>
-                <note>Konrad von Würzburg: Das Turnier von Nantes. In: Kleinere Dichtungen Konrads von
-              Würzburg II, hrsg. v. Edward Schröder, o.O., 5.Auflage 1974, 42-75</note>
+                <note>Konrad von Würzburg: Das Turnier von Nantes. In: Kleinere Dichtungen Konrads von Würzburg II, hrsg. v. Edward Schröder, o.O., 5.Auflage 1974, 42-75</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -85,12 +86,12 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_1cd51ecd" ana="parent">
+          <category xml:id="genre_1cd51ecd" ana="parent" corresp="genres.xml#genre_1cd51ecd">
             <gloss xml:lang="de">Preisdichtung</gloss>
             <gloss xml:lang="de">Preislyrik</gloss>
             <gloss xml:lang="en">Praising Poetry</gloss>
           </category>
-          <category xml:id="genre_660d661d">
+          <category xml:id="genre_660d661d" corresp="genres.xml#genre_660d661d">
             <gloss xml:lang="de">Wappenrede</gloss>
             <gloss xml:lang="de">Wappendichtung</gloss>
             <gloss xml:lang="de">Heroldsdichtung</gloss>
@@ -100,11 +101,11 @@
             <gloss xml:lang="en">Heraldry Poetry</gloss>
             <gloss xml:lang="en">Heraldic Poetry</gloss>
           </category>
-          <category xml:id="genre_6b78cb45">
+          <category xml:id="genre_6b78cb45" corresp="genres.xml#genre_6b78cb45">
             <gloss xml:lang="de">Preisrede</gloss>
             <gloss xml:lang="en">Praise Speech</gloss>
           </category>
-          <category xml:id="genre_9c7d5679" ana="parent">
+          <category xml:id="genre_9c7d5679" ana="parent" corresp="genres.xml#genre_9c7d5679">
             <gloss xml:lang="de">Diskursive Kurzform</gloss>
             <gloss xml:lang="en">Discursive Short Form</gloss>
             <gloss xml:lang="en">Discursive Form in Small Poetry</gloss>
@@ -115,7 +116,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_1">
+          <person xml:id="person_1" corresp="persons.xml#person_1">
             <persName type="preferred">Konrad von Würzburg</persName>
             <idno type="GND">118565133</idno>
             <idno type="wikidata">Q77480</idno>

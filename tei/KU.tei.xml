@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="KU">
   <teiHeader>
     <fileDesc>
@@ -41,17 +41,24 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_55">
             <idno type="sigle">KU</idno>
+            <idno type="handschriftencensus">756</idno>
+            <idno type="gnd">4136890-3</idno>
+            <idno type="wikidata">Q491164</idno>
             <msName xml:lang="de">Kudrun</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="book" xml:id="KU_KU" corresp="http://zotero.org/groups/5043625/items/S5ZTHFEL" key="KU">
                 <monogr>
-                  <title level="m">Kudrun</title>
-                  <idno type="callNumber">KU</idno>
+                  <title>Kudrun</title>
                   <author>
                     <name>Anonym</name>
                   </author>
+                  <idno type="callNumber">KU</idno>
+                  <editor>
+                    <forename>Karl</forename>
+                    <surname>Bartsch</surname>
+                  </editor>
                   <edition>5</edition>
                   <imprint>
                     <pubPlace>Wiesbaden</pubPlace>
@@ -61,10 +68,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Deutsche klassiker des mittelalters</title>
+                  <title level="s">Deutsche Klassiker des Mittelalters</title>
                 </series>
-                <note>Kudrun. Hrsg. v. Karl Bartsch. 5. Aufl. u.berarb. und neu eingel. v. Karl
-              Stackmann. Wiesbaden 1965.(= Deutsche Klassiker des Mittelalters)</note>
+                <note>Kudrun. Hrsg. v. Karl Bartsch. 5. Aufl. u.berarb. und neu eingel. v. Karl Stackmann. Wiesbaden 1965.(= Deutsche Klassiker des Mittelalters)</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -79,7 +85,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_d2963bbe" ana="parent">
+          <category xml:id="genre_d2963bbe" ana="parent" corresp="genres.xml#genre_d2963bbe">
             <gloss xml:lang="de">Großepik</gloss>
             <gloss xml:lang="de">Große epische Formen</gloss>
             <gloss xml:lang="de">Großdichtung</gloss>
@@ -87,7 +93,7 @@
             <gloss xml:lang="en">Large Epic Forms</gloss>
             <gloss xml:lang="en">Large Poetry</gloss>
           </category>
-          <category xml:id="genre_f6672d9f">
+          <category xml:id="genre_f6672d9f" corresp="genres.xml#genre_f6672d9f">
             <gloss xml:lang="de">Heldenepik</gloss>
             <gloss xml:lang="de">Heldenepische Dichtung</gloss>
             <gloss xml:lang="en">Heroic Epic</gloss>
@@ -99,7 +105,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_anonym">
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>
             <persName type="alternative" xml:lang="de">Anonymus</persName>
             <persName type="alternative" xml:lang="en">anonymous</persName>

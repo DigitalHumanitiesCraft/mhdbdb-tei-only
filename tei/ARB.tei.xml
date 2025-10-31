@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="ARB">
   <teiHeader>
     <fileDesc>
@@ -42,6 +42,8 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_312">
             <idno type="sigle">ARB</idno>
+            <idno type="gnd">1155485475</idno>
+            <idno type="wikidata">Q60983071</idno>
             <msName xml:lang="de">Meister Albrants Roßarzneibuch</msName>
             <msName xml:lang="de">Rossarzneibuch</msName>
           </msIdentifier>
@@ -49,21 +51,22 @@
             <listBibl>
               <biblStruct type="book" xml:id="ARB_ARB" corresp="http://zotero.org/groups/5043625/items/LD2KXIXI" key="ARB">
                 <monogr>
-                  <title level="m">Meister albrants rossarzneibuch: Verzeichnis der handschriften, text
-                der ältesten fassung</title>
-                  <idno type="callNumber">ARB</idno>
+                  <title>Meister Albrants Rossarzneibuch: Verzeichnis der Handschriften, Text der Ältesten Fassung</title>
                   <author>
                     <name>Meister Albrant</name>
                   </author>
+                  <idno type="callNumber">ARB</idno>
+                  <editor>
+                    <forename>Gerhard</forename>
+                    <surname>Eis</surname>
+                  </editor>
                   <imprint>
                     <pubPlace>Konstanz</pubPlace>
                     <publisher>Terra</publisher>
                     <date>1960</date>
                   </imprint>
                 </monogr>
-                <note>Gerhard Eis: Meister Albrants Roßarzneibuch. Verzeichnis der Handschriften. Text
-              der ältesten Fassung. Literaturverzeichnis. Mit einem Vorwort von Dr. med. vet. Ernst
-              Heizmann. Konstanz: Terra Verlag, 1960</note>
+                <note>Gerhard Eis: Meister Albrants Roßarzneibuch. Verzeichnis der Handschriften. Text der ältesten Fassung. Literaturverzeichnis. Mit einem Vorwort von Dr. med. vet. Ernst Heizmann. Konstanz: Terra Verlag, 1960</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -78,12 +81,12 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_8e46e924">
+          <category xml:id="genre_8e46e924" corresp="genres.xml#genre_8e46e924">
             <gloss xml:lang="de">Pferdeheilkunde</gloss>
             <gloss xml:lang="de">Rossheilkunde</gloss>
             <gloss xml:lang="en">Equine Medicine</gloss>
           </category>
-          <category xml:id="genre_c9f75122" ana="parent">
+          <category xml:id="genre_c9f75122" ana="parent" corresp="genres.xml#genre_c9f75122">
             <gloss xml:lang="de">Veterinärmedizinischer Text</gloss>
             <gloss xml:lang="de">Veterinärmedizin</gloss>
             <gloss xml:lang="en">Veterinary Text</gloss>
@@ -95,7 +98,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_686">
+          <person xml:id="person_686" corresp="persons.xml#person_686">
             <persName type="preferred">Meister Albrant</persName>
             <idno type="GND">118501593</idno>
             <note type="works">work_312</note>

@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="TSY">
   <teiHeader>
     <fileDesc>
@@ -41,19 +41,21 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_412">
             <idno type="sigle">TSY</idno>
+            <idno type="handschriftencensus">220</idno>
+            <idno type="gnd">4476630-0</idno>
             <msName xml:lang="de">Tochter Syon</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="bookSection" xml:id="TSY_TSY" corresp="http://zotero.org/groups/5043625/items/GLFDGDSZ" key="TSY">
                 <analytic>
-                  <title level="a">Tochter syon</title>
+                  <title level="a">Tochter Syon</title>
                   <author>
                     <name>Lamprecht von Regensburg</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Sanct francisken leben und tochter syon</title>
+                  <title level="m">Sanct Francisken Leben und Tochter Syon</title>
                   <idno type="callNumber">TSY</idno>
                   <editor>
                     <forename>Karl</forename>
@@ -66,8 +68,7 @@
                     <date>1880</date>
                   </imprint>
                 </monogr>
-                <note>Lamprecht von Regensburg, Sanct Francisken Leben und Tochter Syon, zum ersten Mal
-              hg. nebst Glossar von Karl Weinhold, Paderborn 1880</note>
+                <note>Lamprecht von Regensburg, Sanct Francisken Leben und Tochter Syon, zum ersten Mal hg. nebst Glossar von Karl Weinhold, Paderborn 1880</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -82,7 +83,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_910c5f51">
+          <category xml:id="genre_910c5f51" corresp="genres.xml#genre_910c5f51">
             <gloss xml:lang="de">Marienleben</gloss>
             <gloss xml:lang="de">Marienlegende</gloss>
             <gloss xml:lang="en">Life of Holy Mary</gloss>
@@ -90,24 +91,24 @@
             <gloss xml:lang="en">Mary's Life</gloss>
             <gloss xml:lang="la">Vita Mariae</gloss>
           </category>
-          <category xml:id="genre_9eee7c13">
+          <category xml:id="genre_9eee7c13" corresp="genres.xml#genre_9eee7c13">
             <gloss xml:lang="de">Mystik</gloss>
             <gloss xml:lang="de">Mystischer Text</gloss>
             <gloss xml:lang="en">Mysticism</gloss>
             <gloss xml:lang="en">Mystical Text</gloss>
           </category>
-          <category xml:id="genre_ae9e2d0e" ana="parent">
+          <category xml:id="genre_ae9e2d0e" ana="parent" corresp="genres.xml#genre_ae9e2d0e">
             <gloss xml:lang="de">Erzählende Kurzform</gloss>
             <gloss xml:lang="de">Kleinepik</gloss>
             <gloss xml:lang="en">Narrative Short Form</gloss>
             <gloss xml:lang="en">Short Epic</gloss>
             <gloss xml:lang="en">Small Epics</gloss>
           </category>
-          <category xml:id="genre_dd3320dc">
+          <category xml:id="genre_dd3320dc" corresp="genres.xml#genre_dd3320dc">
             <gloss xml:lang="de">Allegorie</gloss>
             <gloss xml:lang="en">Allegory</gloss>
           </category>
-          <category xml:id="genre_f3daf714" ana="parent">
+          <category xml:id="genre_f3daf714" ana="parent" corresp="genres.xml#genre_f3daf714">
             <gloss xml:lang="de">Bibeldichtung</gloss>
             <gloss xml:lang="de">Religiöse Versdichtung</gloss>
             <gloss xml:lang="en">Bible Poetry</gloss>
@@ -119,7 +120,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_766">
+          <person xml:id="person_766" corresp="persons.xml#person_766">
             <persName type="preferred">Lamprecht von Regensburg</persName>
             <idno type="GND">119512653</idno>
             <idno type="wikidata">Q1768317</idno>

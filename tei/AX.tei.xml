@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="AX">
   <teiHeader>
     <fileDesc>
@@ -41,6 +41,8 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_4">
             <idno type="sigle">AX</idno>
+            <idno type="handschriftencensus">663</idno>
+            <idno type="gnd">4576130-9</idno>
             <msName xml:lang="de">Alexius</msName>
           </msIdentifier>
           <additional>
@@ -53,7 +55,7 @@
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Die legenden</title>
+                  <title level="m">Die Legenden</title>
                   <idno type="callNumber">AX</idno>
                   <editor>
                     <forename>Paul</forename>
@@ -61,17 +63,16 @@
                   </editor>
                   <imprint>
                     <pubPlace>Halle (Saale)</pubPlace>
-                    <biblScope unit="volume">2</biblScope>
                     <biblScope unit="page">1–63</biblScope>
+                    <biblScope unit="volume">2</biblScope>
                     <publisher>Niemeyer</publisher>
-                    <date>1925</date>
+                    <date>1925–1927</date>
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Altdeutsche textbibliothek</title>
+                  <title level="s">Altdeutsche Textbibliothek</title>
                 </series>
-                <note>Konrad von Würzburg, ALEXIUS. In: Die Legenden II, hrsg. von Paul Gereke, Halle
-              1926</note>
+                <note>Konrad von Würzburg, ALEXIUS. In: Die Legenden II, hrsg. von Paul Gereke, Halle 1926</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -86,7 +87,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_0480b285" ana="parent">
+          <category xml:id="genre_0480b285" ana="parent" corresp="genres.xml#genre_0480b285">
             <gloss xml:lang="de">Geistliche Literatur</gloss>
             <gloss xml:lang="de">Geistliche Dichtung</gloss>
             <gloss xml:lang="de">Religiöse Dichtung</gloss>
@@ -96,7 +97,7 @@
             <gloss xml:lang="en">Spiritual Poetry</gloss>
             <gloss xml:lang="en">Religious Poetry</gloss>
           </category>
-          <category xml:id="genre_2292de8a">
+          <category xml:id="genre_2292de8a" corresp="genres.xml#genre_2292de8a">
             <gloss xml:lang="de">Heiligenlegende</gloss>
             <gloss xml:lang="de">Heiligenvita</gloss>
             <gloss xml:lang="de">Vita</gloss>
@@ -111,7 +112,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_1">
+          <person xml:id="person_1" corresp="persons.xml#person_1">
             <persName type="preferred">Konrad von Würzburg</persName>
             <idno type="GND">118565133</idno>
             <idno type="wikidata">Q77480</idno>

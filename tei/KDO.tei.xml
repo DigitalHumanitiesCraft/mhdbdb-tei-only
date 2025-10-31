@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="KDO">
   <teiHeader>
     <fileDesc>
@@ -47,7 +47,7 @@
             <listBibl>
               <biblStruct type="journalArticle" xml:id="KDO_KDO" corresp="http://zotero.org/groups/5043625/items/I4APU5PZ" key="KDO">
                 <analytic>
-                  <title level="a">Aus der Kueche der deutschen Ordensritter</title>
+                  <title level="a">Aus der Kueche der Deutschen Ordensritter</title>
                   <author>
                     <name>Anonym</name>
                   </author>
@@ -56,14 +56,12 @@
                   <title level="j">Prussia</title>
                   <idno type="callNumber">KDO</idno>
                   <imprint>
-                    <biblScope unit="volume">31</biblScope>
                     <biblScope unit="page">118–124</biblScope>
+                    <biblScope unit="volume">31</biblScope>
                     <date>1935</date>
                   </imprint>
                 </monogr>
-                <note>Gollub, Hermann(Hg.): Aus der Küche der deutschen Ordensritter. In: Prussia
-              31(1935), S. 118-124. Die edigitale Version basiert auf einer Version von Thomas
-              Gloning, 7/99</note>
+                <note>Gollub, Hermann(Hg.): Aus der Küche der deutschen Ordensritter. In: Prussia 31(1935), S. 118-124. Die edigitale Version basiert auf einer Version von Thomas Gloning, 7/99</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -78,14 +76,14 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_1d40ec18" ana="parent">
+          <category xml:id="genre_1d40ec18" ana="parent" corresp="genres.xml#genre_1d40ec18">
             <gloss xml:lang="de">Kochkunst</gloss>
             <gloss xml:lang="de">Esskultur</gloss>
             <gloss xml:lang="en">Cookery</gloss>
             <gloss xml:lang="en">Food Culture</gloss>
             <gloss xml:lang="la">Coquinaria</gloss>
           </category>
-          <category xml:id="genre_dd3d7dd7">
+          <category xml:id="genre_dd3d7dd7" corresp="genres.xml#genre_dd3d7dd7">
             <gloss xml:lang="de">Kochbuch</gloss>
             <gloss xml:lang="en">Cookbook</gloss>
             <gloss xml:lang="en">Cookery Book</gloss>
@@ -96,7 +94,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_anonym">
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>
             <persName type="alternative" xml:lang="de">Anonymus</persName>
             <persName type="alternative" xml:lang="en">anonymous</persName>

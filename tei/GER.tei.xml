@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="GER">
   <teiHeader>
     <fileDesc>
@@ -42,6 +42,9 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_16">
             <idno type="sigle">GER</idno>
+            <idno type="handschriftencensus">1599</idno>
+            <idno type="gnd">4115801-5</idno>
+            <idno type="wikidata">Q42190653</idno>
             <msName xml:lang="de">Der guote Gêrhart</msName>
             <msName xml:lang="en">Der guote Gerhart</msName>
           </msIdentifier>
@@ -49,12 +52,16 @@
             <listBibl>
               <biblStruct type="book" xml:id="GER_GER" corresp="http://zotero.org/groups/5043625/items/3TJA6XZU" key="GER">
                 <monogr>
-                  <title level="m">Der guote gêrhart</title>
-                  <idno type="ISBN">978-3-484-20053-1</idno>
-                  <idno type="callNumber">GER</idno>
+                  <title>Der Guote Gêrhart</title>
                   <author>
                     <name>Rudolf von Ems</name>
                   </author>
+                  <idno type="ISBN">978-3-484-20053-1</idno>
+                  <idno type="callNumber">GER</idno>
+                  <editor>
+                    <forename>John A.</forename>
+                    <surname>Asher</surname>
+                  </editor>
                   <edition>2</edition>
                   <imprint>
                     <pubPlace>Tübingen</pubPlace>
@@ -64,10 +71,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Altdeutsche textbibliothek</title>
+                  <title level="s">Altdeutsche Textbibliothek</title>
                 </series>
-                <note>Rudolf von Ems: Der guote Gêrhart.Hrsg. v. John A. Asher. Tübingen 1971. (=
-              Altdeutsche Textbibliothek, Nr. 56)</note>
+                <note>Rudolf von Ems: Der guote Gêrhart.Hrsg. v. John A. Asher. Tübingen 1971. (= Altdeutsche Textbibliothek, Nr. 56)</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -82,14 +88,14 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_079e727d">
+          <category xml:id="genre_079e727d" corresp="genres.xml#genre_079e727d">
             <gloss xml:lang="de">Exempel</gloss>
             <gloss xml:lang="de">Exempelgeschichte</gloss>
             <gloss xml:lang="en">Example</gloss>
             <gloss xml:lang="en">Example Story</gloss>
             <gloss xml:lang="la">Exemplum</gloss>
           </category>
-          <category xml:id="genre_16a3df58">
+          <category xml:id="genre_16a3df58" corresp="genres.xml#genre_16a3df58">
             <gloss xml:lang="de">Patrizierdichtung, sogenannte (veraltet)</gloss>
             <gloss xml:lang="de">Patrizierroman, sogenannter (veraltet)</gloss>
             <gloss xml:lang="de">[Patrizierdichtung]</gloss>
@@ -99,20 +105,20 @@
             <gloss xml:lang="en">[Patrician Novel]</gloss>
             <gloss xml:lang="en">[Patrician Poetry]</gloss>
           </category>
-          <category xml:id="genre_70aa5bd2" ana="parent">
+          <category xml:id="genre_70aa5bd2" ana="parent" corresp="genres.xml#genre_70aa5bd2">
             <gloss xml:lang="de">Bretonischer Roman</gloss>
             <gloss xml:lang="en">Breton Romance</gloss>
             <gloss xml:lang="en">Breton Novel</gloss>
             <gloss xml:lang="fr">Matière de Bretagne</gloss>
           </category>
-          <category xml:id="genre_72cae96a" ana="parent">
+          <category xml:id="genre_72cae96a" ana="parent" corresp="genres.xml#genre_72cae96a">
             <gloss xml:lang="de">Höfischer Roman</gloss>
             <gloss xml:lang="de">Versroman</gloss>
             <gloss xml:lang="en">Courtly Romance</gloss>
             <gloss xml:lang="en">Courtly Novel</gloss>
             <gloss xml:lang="en">Verse Novel</gloss>
           </category>
-          <category xml:id="genre_88b5cae2">
+          <category xml:id="genre_88b5cae2" corresp="genres.xml#genre_88b5cae2">
             <gloss xml:lang="de">Liebesroman und Abenteuerroman</gloss>
             <gloss xml:lang="de">Liebesroman</gloss>
             <gloss xml:lang="de">Minneroman und Aventiureroman</gloss>
@@ -127,14 +133,14 @@
             <gloss xml:lang="en">Minne Novel</gloss>
             <gloss xml:lang="en">Minne Romance</gloss>
           </category>
-          <category xml:id="genre_ae9e2d0e" ana="parent">
+          <category xml:id="genre_ae9e2d0e" ana="parent" corresp="genres.xml#genre_ae9e2d0e">
             <gloss xml:lang="de">Erzählende Kurzform</gloss>
             <gloss xml:lang="de">Kleinepik</gloss>
             <gloss xml:lang="en">Narrative Short Form</gloss>
             <gloss xml:lang="en">Short Epic</gloss>
             <gloss xml:lang="en">Small Epics</gloss>
           </category>
-          <category xml:id="genre_d2963bbe" ana="parent">
+          <category xml:id="genre_d2963bbe" ana="parent" corresp="genres.xml#genre_d2963bbe">
             <gloss xml:lang="de">Großepik</gloss>
             <gloss xml:lang="de">Große epische Formen</gloss>
             <gloss xml:lang="de">Großdichtung</gloss>
@@ -142,7 +148,7 @@
             <gloss xml:lang="en">Large Epic Forms</gloss>
             <gloss xml:lang="en">Large Poetry</gloss>
           </category>
-          <category xml:id="genre_f2cb8412">
+          <category xml:id="genre_f2cb8412" corresp="genres.xml#genre_f2cb8412">
             <gloss xml:lang="de">Artusroman</gloss>
             <gloss xml:lang="de">Artusdichtung</gloss>
             <gloss xml:lang="en">Arthurian Romance</gloss>
@@ -151,7 +157,7 @@
             <gloss xml:lang="en">Arthurian Novel</gloss>
             <gloss xml:lang="en">Arthurian Poetry</gloss>
           </category>
-          <category xml:id="genre_fa5f2e8a" ana="parent">
+          <category xml:id="genre_fa5f2e8a" ana="parent" corresp="genres.xml#genre_fa5f2e8a">
             <gloss xml:lang="de">Antikenroman</gloss>
             <gloss xml:lang="en">Ancient Romance</gloss>
             <gloss xml:lang="en">Ancient Novel</gloss>
@@ -162,7 +168,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_11">
+          <person xml:id="person_11" corresp="persons.xml#person_11">
             <persName type="preferred">Rudolf von Ems</persName>
             <idno type="GND">118603736</idno>
             <idno type="wikidata">Q697801</idno>

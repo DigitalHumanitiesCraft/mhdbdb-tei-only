@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="DAH">
   <teiHeader>
     <fileDesc>
@@ -41,18 +41,25 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_193">
             <idno type="sigle">DAH</idno>
+            <idno type="handschriftencensus">147</idno>
+            <idno type="gnd">4113850-8</idno>
+            <idno type="wikidata">Q1198287</idno>
             <msName xml:lang="de">Der arme Heinrich</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="book" xml:id="DAH_DAH" corresp="http://zotero.org/groups/5043625/items/UBG38QRE" key="DAH">
                 <monogr>
-                  <title level="m">Der arme heinrich</title>
-                  <idno type="ISBN">978-3-484-20061-6</idno>
-                  <idno type="callNumber">DAH</idno>
+                  <title>Der Arme Heinrich</title>
                   <author>
                     <name>Hartmann von Aue</name>
                   </author>
+                  <idno type="ISBN">978-3-484-20061-6</idno>
+                  <idno type="callNumber">DAH</idno>
+                  <editor>
+                    <forename>Hermann</forename>
+                    <surname>Paul</surname>
+                  </editor>
                   <edition>16</edition>
                   <imprint>
                     <pubPlace>Tübingen</pubPlace>
@@ -62,12 +69,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Altdeutsche textbibliothek</title>
+                  <title level="s">Altdeutsche Textbibliothek</title>
                 </series>
-                <note>Hartmann von Aue: Der arme Heinrich. Hrsg. v. Hermann Paul, neu bearbeitet von
-              Kurt Gärtner. 16. durchges. Aufl. Tübingen: Niemeyer, 1996. Elektronischer Text
-              basiert zum Teil auf der Version von Ulrich Harsch 1998. Siehe
-              http://www.fh-augsburg.de/ ̃harsch/germanica/Chronologie/12Jh/Hartmann/har_hein.html</note>
+                <note>Hartmann von Aue: Der arme Heinrich. Hrsg. v. Hermann Paul, neu bearbeitet von Kurt Gärtner. 16. durchges. Aufl. Tübingen: Niemeyer, 1996. Elektronischer Text basiert zum Teil auf der Version von Ulrich Harsch 1998. Siehe http://www.fh-augsburg.de/ ̃harsch/germanica/Chronologie/12Jh/Hartmann/har_hein.html</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -82,20 +86,20 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_079e727d">
+          <category xml:id="genre_079e727d" corresp="genres.xml#genre_079e727d">
             <gloss xml:lang="de">Exempel</gloss>
             <gloss xml:lang="de">Exempelgeschichte</gloss>
             <gloss xml:lang="en">Example</gloss>
             <gloss xml:lang="en">Example Story</gloss>
             <gloss xml:lang="la">Exemplum</gloss>
           </category>
-          <category xml:id="genre_1510adda">
+          <category xml:id="genre_1510adda" corresp="genres.xml#genre_1510adda">
             <gloss xml:lang="de">Mirakelerzählung</gloss>
             <gloss xml:lang="de">Wunderbericht</gloss>
             <gloss xml:lang="en">Miracle Tale</gloss>
             <gloss xml:lang="en">Miracle Report</gloss>
           </category>
-          <category xml:id="genre_2292de8a">
+          <category xml:id="genre_2292de8a" corresp="genres.xml#genre_2292de8a">
             <gloss xml:lang="de">Heiligenlegende</gloss>
             <gloss xml:lang="de">Heiligenvita</gloss>
             <gloss xml:lang="de">Vita</gloss>
@@ -104,7 +108,7 @@
             <gloss xml:lang="en">Vita</gloss>
             <gloss xml:lang="la">Vita</gloss>
           </category>
-          <category xml:id="genre_ae9e2d0e" ana="parent">
+          <category xml:id="genre_ae9e2d0e" ana="parent" corresp="genres.xml#genre_ae9e2d0e">
             <gloss xml:lang="de">Erzählende Kurzform</gloss>
             <gloss xml:lang="de">Kleinepik</gloss>
             <gloss xml:lang="en">Narrative Short Form</gloss>
@@ -117,7 +121,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_2">
+          <person xml:id="person_2" corresp="persons.xml#person_2">
             <persName type="preferred">Hartmann von Aue</persName>
             <idno type="GND">118546228</idno>
             <idno type="wikidata">Q75852</idno>

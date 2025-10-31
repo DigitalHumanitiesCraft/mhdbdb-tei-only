@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="MSB1">
   <teiHeader>
     <fileDesc>
@@ -41,31 +41,32 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_575">
             <idno type="sigle">MSB1</idno>
+            <idno type="handschriftencensus">7170</idno>
             <msName xml:lang="de">Das Kochbuch aus der Stiftsbibliothek Michaelbeuern</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="journalArticle" xml:id="MSB1_MSB1" corresp="http://zotero.org/groups/5043625/items/R8QR3LNF" key="MSB1">
                 <analytic>
-                  <title level="a">Das kochbuch aus der stiftsbibliothek michaelbeuern (man. cart. 81)</title>
+                  <title level="a">Das Kochbuch aus der Stiftsbibliothek Michaelbeuern (man. Cart. 81)</title>
                   <author>
                     <name>Anonym</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="j">Würzburger medizinhistorische Mitteilungen</title>
+                  <title level="j">Würzburger Medizinhistorische Mitteilungen</title>
                   <idno type="callNumber">MSB1</idno>
+                  <editor>
+                    <forename/>
+                    <surname>Florian Bambeck, Heike Bezold, Katharina Boll, Martina Fath, Nora Fischer, Michaela Lindner, Markus Nolda, Maria Schaible, Andrea Schartner, Christian Schwaderer und Katrin Wenig.</surname>
+                  </editor>
                   <imprint>
-                    <biblScope unit="volume">24</biblScope>
                     <biblScope unit="page">121–143</biblScope>
+                    <biblScope unit="volume">24</biblScope>
                     <date>2005</date>
                   </imprint>
                 </monogr>
-                <note>Ehlert, Trude: Das Kochbuch aus der Stiftsbibliothek Michaelbeuern (Man. cart.
-              81). Edition und Kommentar. Hrsg. in Zusammenarbeit mit Florian Bambeck, Heike Bezold,
-              Katharina Boll, Martina Fath, Nora Fischer, Michaela Lindner, Markus Nolda, Maria
-              Schaible, Andrea Schartner, Christian Schwaderer und Katrin Wenig. In: Würzburger
-              medizihistorische Mitteilungen 24 (2005), S. 121-43</note>
+                <note>Ehlert, Trude: Das Kochbuch aus der Stiftsbibliothek Michaelbeuern (Man. cart. 81). Edition und Kommentar. Hrsg. in Zusammenarbeit mit Florian Bambeck, Heike Bezold, Katharina Boll, Martina Fath, Nora Fischer, Michaela Lindner, Markus Nolda, Maria Schaible, Andrea Schartner, Christian Schwaderer und Katrin Wenig. In: Würzburger medizihistorische Mitteilungen 24 (2005), S. 121-43</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -80,14 +81,14 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_1d40ec18" ana="parent">
+          <category xml:id="genre_1d40ec18" ana="parent" corresp="genres.xml#genre_1d40ec18">
             <gloss xml:lang="de">Kochkunst</gloss>
             <gloss xml:lang="de">Esskultur</gloss>
             <gloss xml:lang="en">Cookery</gloss>
             <gloss xml:lang="en">Food Culture</gloss>
             <gloss xml:lang="la">Coquinaria</gloss>
           </category>
-          <category xml:id="genre_dd3d7dd7">
+          <category xml:id="genre_dd3d7dd7" corresp="genres.xml#genre_dd3d7dd7">
             <gloss xml:lang="de">Kochbuch</gloss>
             <gloss xml:lang="en">Cookbook</gloss>
             <gloss xml:lang="en">Cookery Book</gloss>
@@ -98,7 +99,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_anonym">
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>
             <persName type="alternative" xml:lang="de">Anonymus</persName>
             <persName type="alternative" xml:lang="en">anonymous</persName>

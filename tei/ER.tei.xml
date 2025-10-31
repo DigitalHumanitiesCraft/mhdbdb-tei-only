@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="ER">
   <teiHeader>
     <fileDesc>
@@ -41,17 +41,28 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_30">
             <idno type="sigle">ER</idno>
+            <idno type="handschriftencensus">148</idno>
+            <idno type="gnd">4099216-0</idno>
+            <idno type="wikidata">Q1349655</idno>
             <msName xml:lang="de">Erec</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="book" xml:id="ER_ER" corresp="http://zotero.org/groups/5043625/items/PEKX72F5" key="ER">
                 <monogr>
-                  <title level="m">Erec</title>
-                  <idno type="callNumber">ER</idno>
+                  <title>Erec</title>
                   <author>
                     <name>Hartmann von Aue</name>
                   </author>
+                  <idno type="callNumber">ER</idno>
+                  <editor>
+                    <forename>Ludwig</forename>
+                    <surname>Wolff</surname>
+                  </editor>
+                  <editor>
+                    <forename>Albert</forename>
+                    <surname>Leitzmann</surname>
+                  </editor>
                   <edition>3</edition>
                   <imprint>
                     <pubPlace>Tübingen</pubPlace>
@@ -61,10 +72,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Altdeutsche textbibliothek</title>
+                  <title level="s">Altdeutsche Textbibliothek</title>
                 </series>
-                <note>Hartmann von Aue. Erec. Hg. nach Albert Leitzmann, 3.Aufl. v. Ludwig Wolff,
-              Tübingen 1963</note>
+                <note>Hartmann von Aue. Erec. Hg. nach Albert Leitzmann, 3.Aufl. v. Ludwig Wolff, Tübingen 1963</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -79,20 +89,20 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_70aa5bd2" ana="parent">
+          <category xml:id="genre_70aa5bd2" ana="parent" corresp="genres.xml#genre_70aa5bd2">
             <gloss xml:lang="de">Bretonischer Roman</gloss>
             <gloss xml:lang="en">Breton Romance</gloss>
             <gloss xml:lang="en">Breton Novel</gloss>
             <gloss xml:lang="fr">Matière de Bretagne</gloss>
           </category>
-          <category xml:id="genre_72cae96a" ana="parent">
+          <category xml:id="genre_72cae96a" ana="parent" corresp="genres.xml#genre_72cae96a">
             <gloss xml:lang="de">Höfischer Roman</gloss>
             <gloss xml:lang="de">Versroman</gloss>
             <gloss xml:lang="en">Courtly Romance</gloss>
             <gloss xml:lang="en">Courtly Novel</gloss>
             <gloss xml:lang="en">Verse Novel</gloss>
           </category>
-          <category xml:id="genre_88b5cae2">
+          <category xml:id="genre_88b5cae2" corresp="genres.xml#genre_88b5cae2">
             <gloss xml:lang="de">Liebesroman und Abenteuerroman</gloss>
             <gloss xml:lang="de">Liebesroman</gloss>
             <gloss xml:lang="de">Minneroman und Aventiureroman</gloss>
@@ -107,7 +117,7 @@
             <gloss xml:lang="en">Minne Novel</gloss>
             <gloss xml:lang="en">Minne Romance</gloss>
           </category>
-          <category xml:id="genre_f2cb8412">
+          <category xml:id="genre_f2cb8412" corresp="genres.xml#genre_f2cb8412">
             <gloss xml:lang="de">Artusroman</gloss>
             <gloss xml:lang="de">Artusdichtung</gloss>
             <gloss xml:lang="en">Arthurian Romance</gloss>
@@ -122,7 +132,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_2">
+          <person xml:id="person_2" corresp="persons.xml#person_2">
             <persName type="preferred">Hartmann von Aue</persName>
             <idno type="GND">118546228</idno>
             <idno type="wikidata">Q75852</idno>

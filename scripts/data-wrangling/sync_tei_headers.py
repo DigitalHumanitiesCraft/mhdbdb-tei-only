@@ -6,7 +6,7 @@ General-purpose tool for synchronizing authority data to TEI file headers.
 Reads from authority-files/*.xml and updates corresponding TEI file headers.
 
 Supported authority files:
-- works.xml: Syncs <editor> elements to TEI headers
+- works.xml: Syncs work metadata (external IDs, biblStruct elements) to TEI headers
 - persons.xml: (Future) Syncs author/person metadata
 - genres.xml: (Future) Syncs genre classifications
 - concepts.xml: (Future) Syncs concept annotations
@@ -142,70 +142,221 @@ class AuthoritySyncer(ABC):
             return False
 
 
-class WorksEditorSyncer(AuthoritySyncer):
-    """Syncs <editor> elements from works.xml"""
-    
-    def load_authority_data(self) -> Dict[str, List[str]]:
-        """Load editor data from works.xml. Returns sigle → [editor names]."""
-        sigle_to_editors = {}
-        
+def extract_id_from_url(url: str, id_type: str) -> str:
+    """
+    Extract compact ID from full URL.
+
+    Examples:
+        http://www.handschriftencensus.de/werke/217 → '217'
+        https://d-nb.info/gnd/4467770-4 → '4467770-4'
+        http://www.wikidata.org/entity/Q2643537 → 'Q2643537'
+    """
+    if not url:
+        return None
+    return url.rstrip('/').rsplit('/', 1)[-1]
+
+
+class WorksSyncer(AuthoritySyncer):
+    """Syncs all work metadata from works.xml to TEI headers"""
+
+    def load_authority_data(self) -> Dict[str, Dict]:
+        """
+        Load work data from works.xml. Returns sigle → work data mapping.
+
+        Returns:
+            {
+                'ABG': {
+                    'work_id': 'work_89',
+                    'handschriftencensus': '217',
+                    'gnd': '4467770-4',
+                    'wikidata': 'Q2643537',
+                    'biblStructs': [<Element biblStruct...>]
+                },
+                ...
+            }
+        """
+        sigle_to_work = {}
+
         tree = etree.parse(str(self.authority_file))
         root = tree.getroot()
-        
+
         # Find all work entries
         works = root.xpath('//tei:bibl[starts-with(@xml:id, "work_")]', namespaces=TEI_NS)
-        
+
         for work in works:
-            # Get sigle
-            sigle_elem = work.xpath('.//tei:idno[@type="sigle"]', namespaces=TEI_NS)
-            if not sigle_elem:
+            work_id = work.get(f"{{{XML_NS['xml']}}}id")
+
+            # Get all sigles for this work (one work can have multiple sigles)
+            sigle_elems = work.xpath('.//tei:idno[@type="sigle"]', namespaces=TEI_NS)
+            if not sigle_elems:
                 continue
-            
-            sigle = sigle_elem[0].text
-            if not sigle:
-                continue
-            
-            # Get editors from first biblStruct
-            biblstructs = work.xpath('.//tei:biblStruct', namespaces=TEI_NS)
-            if not biblstructs:
-                continue
-            
-            editors = biblstructs[0].xpath('.//tei:editor', namespaces=TEI_NS)
-            editor_names = [e.text for e in editors if e.text]
-            
-            if editor_names:
-                sigle_to_editors[sigle] = editor_names
-                logger.debug(f"Works: {sigle} → {len(editor_names)} editor(s)")
-        
-        return sigle_to_editors
-    
-    def update_tei_header(self, tei_tree: etree._ElementTree, sigle: str, 
-                         data: List[str], dry_run: bool) -> bool:
-        """Update <editor> elements in TEI header."""
+
+            # Extract external IDs (work-level, shared by all sigles)
+            handschriftencensus_elem = work.xpath('.//tei:idno[@type="handschriftencensus"]', namespaces=TEI_NS)
+            gnd_elem = work.xpath('.//tei:idno[@type="gnd"]', namespaces=TEI_NS)
+            wikidata_elem = work.xpath('.//tei:idno[@type="wikidata"]', namespaces=TEI_NS)
+
+            handschriftencensus_id = extract_id_from_url(
+                handschriftencensus_elem[0].text if handschriftencensus_elem else None,
+                'handschriftencensus'
+            )
+            gnd_id = extract_id_from_url(
+                gnd_elem[0].text if gnd_elem else None,
+                'gnd'
+            )
+            wikidata_id = extract_id_from_url(
+                wikidata_elem[0].text if wikidata_elem else None,
+                'wikidata'
+            )
+
+            # Process each sigle
+            for sigle_elem in sigle_elems:
+                sigle = sigle_elem.text
+                if not sigle:
+                    continue
+
+                # Find biblStructs where @key matches this sigle
+                biblstructs = work.xpath(f'.//tei:biblStruct[@key="{sigle}"]', namespaces=TEI_NS)
+
+                # Build work data for this sigle
+                work_data = {
+                    'work_id': work_id,
+                    'handschriftencensus': handschriftencensus_id,
+                    'gnd': gnd_id,
+                    'wikidata': wikidata_id,
+                    'biblStructs': biblstructs  # List of lxml Elements
+                }
+
+                sigle_to_work[sigle] = work_data
+
+                logger.debug(
+                    f"Works: {sigle} → {work_id} "
+                    f"(hc={handschriftencensus_id}, gnd={gnd_id}, wd={wikidata_id}, "
+                    f"biblStructs={len(biblstructs)})"
+                )
+
+        return sigle_to_work
+
+    def update_tei_header(self, tei_tree: etree._ElementTree, sigle: str,
+                         data: Dict, dry_run: bool) -> bool:
+        """
+        Update TEI header with work metadata.
+
+        Updates:
+        1. External IDs in <msIdentifier>
+        2. biblStruct elements in <listBibl>
+        """
         root = tei_tree.getroot()
-        
-        # Find titleStmt in teiHeader
-        title_stmt = root.xpath('//tei:teiHeader//tei:titleStmt', namespaces=TEI_NS)
-        if not title_stmt:
-            logger.warning(f"[works] {sigle}: No titleStmt found")
+        updated = False
+
+        # ================================================================
+        # 1. Update msIdentifier with external IDs
+        # ================================================================
+        ms_identifier = root.xpath('//tei:teiHeader//tei:msIdentifier', namespaces=TEI_NS)
+        if not ms_identifier:
+            logger.warning(f"[works] {sigle}: No msIdentifier found")
             return False
-        
-        title_stmt = title_stmt[0]
-        
-        # Remove existing editor elements
-        for old_editor in title_stmt.xpath('.//tei:editor', namespaces=TEI_NS):
-            if not dry_run:
-                old_editor.getparent().remove(old_editor)
-        
-        # Add new editor elements
+
+        ms_identifier = ms_identifier[0]
+
         if not dry_run:
-            for editor_name in data:
-                editor_elem = etree.Element(f"{{{TEI_NS_URI}}}editor")
-                editor_elem.text = editor_name
-                title_stmt.append(editor_elem)
-        
-        logger.debug(f"[works] {sigle}: {'Would add' if dry_run else 'Added'} {len(data)} editor(s)")
-        return True
+            # Remove existing external ID idno elements (but keep sigle idno)
+            for old_idno in ms_identifier.xpath('.//tei:idno[@type!="sigle"]', namespaces=TEI_NS):
+                old_idno.getparent().remove(old_idno)
+
+            # Add external IDs after the sigle idno
+            sigle_idno = ms_identifier.xpath('.//tei:idno[@type="sigle"]', namespaces=TEI_NS)
+            if sigle_idno:
+                insert_after = sigle_idno[0]
+
+                # Add handschriftencensus
+                if data['handschriftencensus']:
+                    hc_idno = etree.Element(f"{{{TEI_NS_URI}}}idno")
+                    hc_idno.set('type', 'handschriftencensus')
+                    hc_idno.text = data['handschriftencensus']
+                    insert_after.addnext(hc_idno)
+                    insert_after = hc_idno
+                    updated = True
+
+                # Add GND
+                if data['gnd']:
+                    gnd_idno = etree.Element(f"{{{TEI_NS_URI}}}idno")
+                    gnd_idno.set('type', 'gnd')
+                    gnd_idno.text = data['gnd']
+                    insert_after.addnext(gnd_idno)
+                    insert_after = gnd_idno
+                    updated = True
+
+                # Add Wikidata
+                if data['wikidata']:
+                    wd_idno = etree.Element(f"{{{TEI_NS_URI}}}idno")
+                    wd_idno.set('type', 'wikidata')
+                    wd_idno.text = data['wikidata']
+                    insert_after.addnext(wd_idno)
+                    updated = True
+        else:
+            # Dry run: just check if we have data to add
+            if data['handschriftencensus'] or data['gnd'] or data['wikidata']:
+                updated = True
+
+        # ================================================================
+        # 2. Update biblStruct elements in listBibl
+        # ================================================================
+        # Find or create additional/listBibl structure
+        ms_desc = root.xpath('//tei:teiHeader//tei:msDesc', namespaces=TEI_NS)
+        if not ms_desc:
+            logger.warning(f"[works] {sigle}: No msDesc found")
+            return updated
+
+        ms_desc = ms_desc[0]
+
+        if not dry_run:
+            # Find or create additional element
+            additional = ms_desc.xpath('.//tei:additional', namespaces=TEI_NS)
+            if not additional:
+                additional = etree.SubElement(ms_desc, f"{{{TEI_NS_URI}}}additional")
+            else:
+                additional = additional[0]
+
+            # Find or create listBibl element
+            list_bibl = additional.xpath('.//tei:listBibl', namespaces=TEI_NS)
+            if not list_bibl:
+                list_bibl = etree.SubElement(additional, f"{{{TEI_NS_URI}}}listBibl")
+            else:
+                list_bibl = list_bibl[0]
+
+            # Remove existing biblStruct elements
+            for old_biblstruct in list_bibl.xpath('.//tei:biblStruct', namespaces=TEI_NS):
+                old_biblstruct.getparent().remove(old_biblstruct)
+
+            # Add biblStruct elements from works.xml (matched by @key attribute)
+            import copy
+            for biblstruct in data['biblStructs']:
+                list_bibl.append(copy.deepcopy(biblstruct))
+
+            if data['biblStructs']:
+                updated = True
+        else:
+            # Dry run: check if we have biblStructs to add
+            if data['biblStructs']:
+                updated = True
+
+        if updated:
+            id_summary = []
+            if data['handschriftencensus']:
+                id_summary.append(f"hc={data['handschriftencensus']}")
+            if data['gnd']:
+                id_summary.append(f"gnd={data['gnd']}")
+            if data['wikidata']:
+                id_summary.append(f"wd={data['wikidata']}")
+            id_str = ", ".join(id_summary) if id_summary else "no IDs"
+
+            logger.debug(
+                f"[works] {sigle}: {'Would update' if dry_run else 'Updated'} "
+                f"({id_str}, {len(data['biblStructs'])} biblStruct(s))"
+            )
+
+        return updated
 
 
 class PersonsSyncer(AuthoritySyncer):
@@ -258,7 +409,7 @@ class ConceptsSyncer(AuthoritySyncer):
 
 # Registry of available syncers
 SYNCERS = {
-    'works': WorksEditorSyncer,
+    'works': WorksSyncer,
     'persons': PersonsSyncer,
     'genres': GenresSyncer,
     'concepts': ConceptsSyncer,
@@ -290,7 +441,7 @@ Examples:
     parser.add_argument('--all', action='store_true',
                        help='Sync all authority files')
     parser.add_argument('--works', action='store_true',
-                       help='Sync works.xml (editor data)')
+                       help='Sync works.xml (work metadata: external IDs, biblStruct elements)')
     parser.add_argument('--persons', action='store_true',
                        help='Sync persons.xml (author data) [NOT YET IMPLEMENTED]')
     parser.add_argument('--genres', action='store_true',

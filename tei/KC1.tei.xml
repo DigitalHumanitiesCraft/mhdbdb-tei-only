@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="KC1">
   <teiHeader>
     <fileDesc>
@@ -42,6 +42,9 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_215">
             <idno type="sigle">KC1</idno>
+            <idno type="handschriftencensus">189</idno>
+            <idno type="gnd">4203382-2</idno>
+            <idno type="wikidata">Q605049</idno>
             <msName xml:lang="de">Kaiserchronik</msName>
             <msName xml:lang="de">Kaiserchronik (Anhang 1)</msName>
           </msIdentifier>
@@ -49,13 +52,13 @@
             <listBibl>
               <biblStruct type="bookSection" xml:id="KC1_KC1" corresp="http://zotero.org/groups/5043625/items/AAC5IRYD" key="KC1">
                 <analytic>
-                  <title level="a">Anhang I: Erste (bairische) fortsetzung: [Kaiserchronik]</title>
+                  <title level="a">Anhang I: Erste (bairische) Fortsetzung: [kaiserchronik]</title>
                   <author>
                     <name>Anonym</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Die kaiserchronik eines regensburger geistlichen</title>
+                  <title level="m">Die Kaiserchronik eines Regensburger Geistlichen</title>
                   <idno type="callNumber">KC1</idno>
                   <editor>
                     <forename>Edward</forename>
@@ -69,15 +72,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Monumenta germaniae historica. Deutsche chroniken und andere
-                geschichtsbücher des mittelalters</title>
+                  <title level="s">Monumenta Germaniae Historica. Deutsche Chroniken und Andere Geschichtsbücher des Mittelalters</title>
                 </series>
-                <note>Kaiserchronik eines Regensburger Geistlichen, hrsg. von Edward Schröder.
-              Nachdruck der Ausgabe von 1892; Hannover: Hahn, 1984. (= Monumenta Germaniae historica
-              inde ab anno Christi quingentesimo usque ad annum millesimum et quingentesimum.
-              Scriptorum qui vernacula lingua usi sunt ; t. 1,1. Series Statement Monvmenta
-              Germaniae historica ... Scriptorvm qui vernacvla lingva vsi sunt ... Deutsche
-              Chroniken und andere Geschichtsbücher des Mittelalters, 1,1)</note>
+                <note>Kaiserchronik eines Regensburger Geistlichen, hrsg. von Edward Schröder. Nachdruck der Ausgabe von 1892; Hannover: Hahn, 1984. (= Monumenta Germaniae historica inde ab anno Christi quingentesimo usque ad annum millesimum et quingentesimum. Scriptorum qui vernacula lingua usi sunt ; t. 1,1. Series Statement Monvmenta Germaniae historica ... Scriptorvm qui vernacvla lingva vsi sunt ... Deutsche Chroniken und andere Geschichtsbücher des Mittelalters, 1,1)</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -92,11 +89,11 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_36228c48" ana="parent">
+          <category xml:id="genre_36228c48" ana="parent" corresp="genres.xml#genre_36228c48">
             <gloss xml:lang="de">Chronik</gloss>
             <gloss xml:lang="en">Chronicle</gloss>
           </category>
-          <category xml:id="genre_f60449ac">
+          <category xml:id="genre_f60449ac" corresp="genres.xml#genre_f60449ac">
             <gloss xml:lang="de">Weltchronik</gloss>
             <gloss xml:lang="en">World Chronicle</gloss>
           </category>
@@ -106,7 +103,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_anonym">
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>
             <persName type="alternative" xml:lang="de">Anonymus</persName>
             <persName type="alternative" xml:lang="en">anonymous</persName>

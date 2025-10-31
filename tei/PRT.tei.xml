@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="PRT">
   <teiHeader>
     <fileDesc>
@@ -41,17 +41,24 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_57">
             <idno type="sigle">PRT</idno>
+            <idno type="handschriftencensus">209</idno>
+            <idno type="gnd">4220464-1</idno>
+            <idno type="wikidata">Q42194069</idno>
             <msName xml:lang="de">Partonopier und Meliur</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="book" xml:id="PRT_PRT" corresp="http://zotero.org/groups/5043625/items/NPNK3YVG" key="PRT">
                 <monogr>
-                  <title level="m">Partonopier und meliur: Unveränderter nachdruck</title>
-                  <idno type="callNumber">PRT</idno>
+                  <title>Partonopier und Meliur: Unveränderter Nachdruck</title>
                   <author>
                     <name>Konrad von Würzburg</name>
                   </author>
+                  <idno type="callNumber">PRT</idno>
+                  <editor>
+                    <forename>Karl</forename>
+                    <surname>Bartsch</surname>
+                  </editor>
                   <imprint>
                     <pubPlace>Wien</pubPlace>
                     <publisher>Braumüller</publisher>
@@ -73,14 +80,14 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_72cae96a" ana="parent">
+          <category xml:id="genre_72cae96a" ana="parent" corresp="genres.xml#genre_72cae96a">
             <gloss xml:lang="de">Höfischer Roman</gloss>
             <gloss xml:lang="de">Versroman</gloss>
             <gloss xml:lang="en">Courtly Romance</gloss>
             <gloss xml:lang="en">Courtly Novel</gloss>
             <gloss xml:lang="en">Verse Novel</gloss>
           </category>
-          <category xml:id="genre_88b5cae2">
+          <category xml:id="genre_88b5cae2" corresp="genres.xml#genre_88b5cae2">
             <gloss xml:lang="de">Liebesroman und Abenteuerroman</gloss>
             <gloss xml:lang="de">Liebesroman</gloss>
             <gloss xml:lang="de">Minneroman und Aventiureroman</gloss>
@@ -101,7 +108,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_1">
+          <person xml:id="person_1" corresp="persons.xml#person_1">
             <persName type="preferred">Konrad von Würzburg</persName>
             <idno type="GND">118565133</idno>
             <idno type="wikidata">Q77480</idno>

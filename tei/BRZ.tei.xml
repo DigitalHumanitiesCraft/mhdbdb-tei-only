@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="BRZ">
   <teiHeader>
     <fileDesc>
@@ -41,17 +41,22 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_180">
             <idno type="sigle">BRZ</idno>
+            <idno type="handschriftencensus">62</idno>
             <msName xml:lang="de">Predigten von Berthold von Regensburg</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="book" xml:id="BRZ_BRZ" corresp="http://zotero.org/groups/5043625/items/UJB6NKLW" key="BRZ">
                 <monogr>
-                  <title level="m">Deutsche predigten: [Überlieferungsgruppe *Z]</title>
-                  <idno type="callNumber">BRZ</idno>
+                  <title>Deutsche Predigten: [überlieferungsgruppe *z]</title>
                   <author>
                     <name>Berthold von Regensburg</name>
                   </author>
+                  <idno type="callNumber">BRZ</idno>
+                  <editor>
+                    <forename>Dieter</forename>
+                    <surname>Richter</surname>
+                  </editor>
                   <imprint>
                     <pubPlace>München</pubPlace>
                     <biblScope unit="volume">5</biblScope>
@@ -60,14 +65,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Kleine deutsche prosadenkmäler des mittelalters</title>
+                  <title level="s">Kleine Deutsche Prosadenkmäler des Mittelalters</title>
                 </series>
-                <note>Berthold von Regensburg. Deutsche Predigten (Überlieferungsgruppe *Z) Hrsg. von
-              Dieter Richter. München, W. Fink, 1968. (= Kleine deutsche Prosadenkmäler des
-              Mittelalters 5) Die digitale Ausgabe beruht teilweise auf der Version des "Digital
-              Middle High German Text Archive" University of Virginia / Kompetenzzentrum für
-              elektronische Erschließungs- und Publikationsverfahren in den Geisteswissenschaften an
-              der Universität Trier. URL: http://etext.lib.virginia.edu/german/mhg</note>
+                <note>Berthold von Regensburg. Deutsche Predigten (Überlieferungsgruppe *Z) Hrsg. von Dieter Richter. München, W. Fink, 1968. (= Kleine deutsche Prosadenkmäler des Mittelalters 5) Die digitale Ausgabe beruht teilweise auf der Version des "Digital Middle High German Text Archive" University of Virginia / Kompetenzzentrum für elektronische Erschließungs- und Publikationsverfahren in den Geisteswissenschaften an der Universität Trier. URL: http://etext.lib.virginia.edu/german/mhg</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -82,13 +82,13 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_2b7da968" ana="parent">
+          <category xml:id="genre_2b7da968" ana="parent" corresp="genres.xml#genre_2b7da968">
             <gloss xml:lang="de">Religiöser Gebrauchstext</gloss>
             <gloss xml:lang="de">Geistlicher Gebrauchstext</gloss>
             <gloss xml:lang="en">Religious Functional Text</gloss>
             <gloss xml:lang="en">Spiritual Practical Text</gloss>
           </category>
-          <category xml:id="genre_388b26e2">
+          <category xml:id="genre_388b26e2" corresp="genres.xml#genre_388b26e2">
             <gloss xml:lang="de">Predigt</gloss>
             <gloss xml:lang="de">Sermon</gloss>
             <gloss xml:lang="de">Kanzelrede</gloss>
@@ -104,7 +104,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_626">
+          <person xml:id="person_626" corresp="persons.xml#person_626">
             <persName type="preferred">Berthold von Regensburg</persName>
             <persName type="alternative" xml:lang="en">Bertold of Regensburg</persName>
             <idno type="GND">11851007X</idno>

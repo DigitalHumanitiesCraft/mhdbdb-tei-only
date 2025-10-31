@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="REG">
   <teiHeader>
     <fileDesc>
@@ -45,32 +45,28 @@
           </msIdentifier>
           <additional>
             <listBibl>
-              <biblStruct type="bookSection" xml:id="REG_REG" corresp="http://zotero.org/groups/5043625/items/NMXGJECK" key="REG">
+              <biblStruct type="bookSection" xml:id="REG_REG" corresp="http://zotero.org/groups/5043625/items/AD5P6CMH" key="REG">
                 <analytic>
-                  <title level="a">Das Register: Digitale Textedition</title>
+                  <title level="a">Das Register</title>
                   <author>
                     <name>Anonym</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Eine Augsburger Sittenlehre 1476: Digitale Textedition</title>
+                  <title level="m">Eine Augsburger Sittenlehre</title>
                   <idno type="callNumber">REG</idno>
                   <editor>
-                    <forename>Angus</forename>
-                    <surname>Graham</surname>
-                  </editor>
-                  <editor>
-                    <forename>Ulrich</forename>
-                    <surname>Harsch</surname>
+                    <forename>Johannes</forename>
+                    <surname>Bämler</surname>
                   </editor>
                   <imprint>
+                    <pubPlace>Augsburg</pubPlace>
                     <biblScope unit="page">fol. 1r–1v</biblScope>
-                    <date>2005</date>
+                    <publisher>Johannes Bämler</publisher>
+                    <date>1476</date>
                   </imprint>
                 </monogr>
-                <note>Textgrundlage: Der Druck des Johannes Bämler, Augsburg 1476 (Hain 10006) Digitale
-              Edition: Angus Graham,Sultan Qaboos University Oman http://www.hs-augsburg.de/
-              ~harsch/germanica/Chronologie/15Jh/Lehre/ler_un01.html</note>
+                <note>Textgrundlage: Der Druck des Johannes Bämler, Augsburg 1476 (Hain 10006) Digitale Edition: Angus Graham,Sultan Qaboos University Oman http://www.hs-augsburg.de/ ̃harsch/germanica/Chronologie/15Jh/Lehre/ler_un01.html</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -85,7 +81,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_2c9f837c">
+          <category xml:id="genre_2c9f837c" corresp="genres.xml#genre_2c9f837c">
             <gloss xml:lang="de">Kleindidaxe</gloss>
             <gloss xml:lang="de">Didaktische Kleindichtung</gloss>
             <gloss xml:lang="de">Gnomik</gloss>
@@ -97,15 +93,15 @@
             <gloss xml:lang="en">Gnomics</gloss>
             <gloss xml:lang="en">Teaching Treatise</gloss>
           </category>
-          <category xml:id="genre_76c18198" ana="parent">
+          <category xml:id="genre_76c18198" ana="parent" corresp="genres.xml#genre_76c18198">
             <gloss xml:lang="de">Paratext</gloss>
             <gloss xml:lang="en">Paratext</gloss>
           </category>
-          <category xml:id="genre_b3afc101">
+          <category xml:id="genre_b3afc101" corresp="genres.xml#genre_b3afc101">
             <gloss xml:lang="de">Inhaltsverzeichnis</gloss>
             <gloss xml:lang="en">Table of Contents</gloss>
           </category>
-          <category xml:id="genre_d75ff6ba" ana="parent">
+          <category xml:id="genre_d75ff6ba" ana="parent" corresp="genres.xml#genre_d75ff6ba">
             <gloss xml:lang="de">Lehrdichtung</gloss>
             <gloss xml:lang="de">Didaktische Dichtung</gloss>
             <gloss xml:lang="de">Lehrschrift</gloss>
@@ -118,7 +114,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_anonym">
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>
             <persName type="alternative" xml:lang="de">Anonymus</persName>
             <persName type="alternative" xml:lang="en">anonymous</persName>

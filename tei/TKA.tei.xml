@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="TKA">
   <teiHeader>
     <fileDesc>
@@ -47,14 +47,13 @@
             <listBibl>
               <biblStruct type="bookSection" xml:id="TKA_TKA" corresp="http://zotero.org/groups/5043625/items/Q8X4QRA3" key="TKA">
                 <analytic>
-                  <title level="a">Abriss der böhmischen Geschichte</title>
+                  <title level="a">Abriss der Böhmischen Geschichte</title>
                   <author>
                     <name>Anonym</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Di tutsch kronik von Behem lant: (= Rýmovaný německý překlad
-                staročeské Dalimilovy kroniky)</title>
+                  <title level="m">Di Tutsch Kronik von Behem Lant: (= Rýmovaný Německý Překlad Staročeské Dalimilovy Kroniky)</title>
                   <idno type="ISBN">978-80-210-4794-5</idno>
                   <idno type="callNumber">TKA</idno>
                   <editor>
@@ -68,10 +67,7 @@
                     <date>2009</date>
                   </imprint>
                 </monogr>
-                <note>Di tutsch kronik von Behem lant. Die gereimte deutsche Übersetzung der
-              alttschechischen Dalimil-Chronik. Rýmovaný německý překlad staročeské
-              Dalimilovy kroniky (Ed. Vlastimil Brom). Brno: Masarykova univerzita 2009, S. 84-101.
-              Der digitale Text wurde von Vlastimil Brom zur Verfügung gestellt</note>
+                <note>Di tutsch kronik von Behem lant. Die gereimte deutsche Übersetzung der alttschechischen Dalimil-Chronik. Rýmovaný německý překlad staročeské Dalimilovy kroniky (Ed. Vlastimil Brom). Brno: Masarykova univerzita 2009, S. 84-101. Der digitale Text wurde von Vlastimil Brom zur Verfügung gestellt</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -86,11 +82,11 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_00bb7cc9">
+          <category xml:id="genre_00bb7cc9" corresp="genres.xml#genre_00bb7cc9">
             <gloss xml:lang="de">Lokalchronik, Territorialchronik und Herrschaftschronik</gloss>
             <gloss xml:lang="en">Local Chronicle, Territorial Chronicle and Chronicle of the Dominion</gloss>
           </category>
-          <category xml:id="genre_30ab9c71">
+          <category xml:id="genre_30ab9c71" corresp="genres.xml#genre_30ab9c71">
             <gloss xml:lang="de">Historiografie</gloss>
             <gloss xml:lang="de">Historiographie</gloss>
             <gloss xml:lang="de">Historiografischer Text</gloss>
@@ -99,11 +95,11 @@
             <gloss xml:lang="en">Historiography</gloss>
             <gloss xml:lang="en">History Writing</gloss>
           </category>
-          <category xml:id="genre_36228c48" ana="parent">
+          <category xml:id="genre_36228c48" ana="parent" corresp="genres.xml#genre_36228c48">
             <gloss xml:lang="de">Chronik</gloss>
             <gloss xml:lang="en">Chronicle</gloss>
           </category>
-          <category xml:id="genre_a21ef15a" ana="parent">
+          <category xml:id="genre_a21ef15a" ana="parent" corresp="genres.xml#genre_a21ef15a">
             <gloss xml:lang="de">Wissensliteratur und Gebrauchsliteratur</gloss>
             <gloss xml:lang="de">Wissensvermittelnde Literatur</gloss>
             <gloss xml:lang="de">Sachliteratur</gloss>
@@ -129,7 +125,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_anonym">
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>
             <persName type="alternative" xml:lang="de">Anonymus</persName>
             <persName type="alternative" xml:lang="en">anonymous</persName>

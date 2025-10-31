@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="HH">
   <teiHeader>
     <fileDesc>
@@ -41,20 +41,20 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_137">
             <idno type="sigle">HH</idno>
+            <idno type="handschriftencensus">4035</idno>
             <msName xml:lang="de">Himmel und Hölle</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="bookSection" xml:id="HH_HH" corresp="http://zotero.org/groups/5043625/items/HUJEJU9M" key="HH">
                 <analytic>
-                  <title level="a">Himmel und hölle</title>
+                  <title level="a">Himmel und Hölle</title>
                   <author>
                     <name>Anonym</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Denkmäler deutscher poesie und prosa: Band 1: Texte; band 2:
-                Anmerkungen</title>
+                  <title level="m">Denkmäler Deutscher Poesie und Prosa: Band 1: Texte; Band 2: Anmerkungen</title>
                   <idno type="callNumber">HH</idno>
                   <editor>
                     <forename>Wilhelm</forename>
@@ -70,14 +70,13 @@
                   </editor>
                   <imprint>
                     <pubPlace>Berlin</pubPlace>
-                    <biblScope unit="volume">1</biblScope>
                     <biblScope unit="page">51–56</biblScope>
+                    <biblScope unit="volume">1</biblScope>
                     <publisher>Weidmann</publisher>
                     <date>1892</date>
                   </imprint>
                 </monogr>
-                <note>Himmel und Hölle. In: Denkmäler deutscher Poesie und Prosa aus dem VIII. - XII.
-              Jahrhundert. Hrsg. von K. Müllenhoff/W. Scherer, Zürich 1964</note>
+                <note>Himmel und Hölle. In: Denkmäler deutscher Poesie und Prosa aus dem VIII. - XII. Jahrhundert. Hrsg. von K. Müllenhoff/W. Scherer, Zürich 1964</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -92,7 +91,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_910c5f51">
+          <category xml:id="genre_910c5f51" corresp="genres.xml#genre_910c5f51">
             <gloss xml:lang="de">Marienleben</gloss>
             <gloss xml:lang="de">Marienlegende</gloss>
             <gloss xml:lang="en">Life of Holy Mary</gloss>
@@ -100,7 +99,7 @@
             <gloss xml:lang="en">Mary's Life</gloss>
             <gloss xml:lang="la">Vita Mariae</gloss>
           </category>
-          <category xml:id="genre_f3daf714" ana="parent">
+          <category xml:id="genre_f3daf714" ana="parent" corresp="genres.xml#genre_f3daf714">
             <gloss xml:lang="de">Bibeldichtung</gloss>
             <gloss xml:lang="de">Religiöse Versdichtung</gloss>
             <gloss xml:lang="en">Bible Poetry</gloss>
@@ -112,7 +111,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_anonym">
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>
             <persName type="alternative" xml:lang="de">Anonymus</persName>
             <persName type="alternative" xml:lang="en">anonymous</persName>

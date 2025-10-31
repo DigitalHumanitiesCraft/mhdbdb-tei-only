@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="DJEM">
   <teiHeader>
     <fileDesc>
@@ -47,12 +47,16 @@
             <listBibl>
               <biblStruct type="book" xml:id="DJEM_DJEM" corresp="http://zotero.org/groups/5043625/items/CDUQJ3DS" key="DJEM">
                 <monogr>
-                  <title level="m">Der meissner der jenaer liederhandschrift: Unters., ausg., kommentar</title>
-                  <idno type="ISBN">978-3-503-01241-1</idno>
-                  <idno type="callNumber">DJEM</idno>
+                  <title>Der Meissner der Jenaer Liederhandschrift: Unters., Ausg., Kommentar</title>
                   <author>
                     <name>Der Jenaer Meißner</name>
                   </author>
+                  <idno type="ISBN">978-3-503-01241-1</idno>
+                  <idno type="callNumber">DJEM</idno>
+                  <editor>
+                    <forename>Georg</forename>
+                    <surname>Objartel</surname>
+                  </editor>
                   <imprint>
                     <pubPlace>Berlin</pubPlace>
                     <biblScope unit="volume">Heft 85</biblScope>
@@ -61,10 +65,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Philologische studien und quellen</title>
+                  <title level="s">Philologische Studien und Quellen</title>
                 </series>
-                <note>Der Meißner der Jenaer Liederhandschrift. Untersuchungen, Ausgabe, Kommentar. Hg.
-              v. Georg Objartel. Erich Schmidt Verlag, Berlin 1977</note>
+                <note>Der Meißner der Jenaer Liederhandschrift. Untersuchungen, Ausgabe, Kommentar. Hg. v. Georg Objartel. Erich Schmidt Verlag, Berlin 1977</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -79,7 +82,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_1b99a6ac">
+          <category xml:id="genre_1b99a6ac" corresp="genres.xml#genre_1b99a6ac">
             <gloss xml:lang="de">Spruchsang</gloss>
             <gloss xml:lang="de">Spruchdichtung</gloss>
             <gloss xml:lang="de">Spruchlied</gloss>
@@ -90,7 +93,7 @@
             <gloss xml:lang="en">Sangspruch</gloss>
             <gloss xml:lang="en">Spruch Poem</gloss>
           </category>
-          <category xml:id="genre_4ecfe25e">
+          <category xml:id="genre_4ecfe25e" corresp="genres.xml#genre_4ecfe25e">
             <gloss xml:lang="de">Minnesang</gloss>
             <gloss xml:lang="de">Minnesänger</gloss>
             <gloss xml:lang="de">Liebeslyrik</gloss>
@@ -99,7 +102,7 @@
             <gloss xml:lang="en">Minstrels</gloss>
             <gloss xml:lang="en">Love Poetry</gloss>
           </category>
-          <category xml:id="genre_a2770533" ana="parent">
+          <category xml:id="genre_a2770533" ana="parent" corresp="genres.xml#genre_a2770533">
             <gloss xml:lang="de">Lyrik</gloss>
             <gloss xml:lang="en">Lyric Poetry</gloss>
           </category>
@@ -109,7 +112,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_1587">
+          <person xml:id="person_1587" corresp="persons.xml#person_1587">
             <persName type="preferred">Der Meißner (der Jenaer Lhs.)</persName>
             <idno type="GND">137330030</idno>
             <note type="works">work_580</note>

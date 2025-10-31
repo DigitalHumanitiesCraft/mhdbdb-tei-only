@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="LZT">
   <teiHeader>
     <fileDesc>
@@ -41,19 +41,23 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_434">
             <idno type="sigle">LZT</idno>
+            <idno type="gnd">1181150027</idno>
             <msName xml:lang="de">Lannzilet</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="book" xml:id="LZT_LZT" corresp="http://zotero.org/groups/5043625/items/AB8DFTUC" key="LZT">
                 <monogr>
-                  <title level="m">Lannzilet: (Aus dem "buch der abenteuer"): Strophe 1–1122</title>
+                  <title>Lannzilet: (aus dem "buch der Abenteuer"): Strophe 1–1122</title>
+                  <author>
+                    <name>Ulrich Fuetrer</name>
+                  </author>
                   <idno type="ISBN">978-3-484-20202-3</idno>
                   <idno type="callNumber">LZT</idno>
-                  <author>
-                    <forename>Ulrich</forename>
-                    <surname>Fuetrer</surname>
-                  </author>
+                  <editor>
+                    <forename>Karl-Eckhard</forename>
+                    <surname>Lenk</surname>
+                  </editor>
                   <imprint>
                     <pubPlace>Tübingen</pubPlace>
                     <biblScope unit="volume">102</biblScope>
@@ -62,10 +66,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Altdeutsche textbibliothek</title>
+                  <title level="s">Altdeutsche Textbibliothek</title>
                 </series>
-                <note>Lannzilet : (aus dem "Buch der Abenteuer"), Str. 1-1122 / Ulrich Fuetrer ;
-              herausgegeben von Karl-Eckhard Lenk. Tübingen: M.Niemeyer, 1989.(= ATB Nr. 102)</note>
+                <note>Lannzilet : (aus dem "Buch der Abenteuer"), Str. 1-1122 / Ulrich Fuetrer ; herausgegeben von Karl-Eckhard Lenk. Tübingen: M.Niemeyer, 1989.(= ATB Nr. 102)</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -80,13 +83,13 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_70aa5bd2" ana="parent">
+          <category xml:id="genre_70aa5bd2" ana="parent" corresp="genres.xml#genre_70aa5bd2">
             <gloss xml:lang="de">Bretonischer Roman</gloss>
             <gloss xml:lang="en">Breton Romance</gloss>
             <gloss xml:lang="en">Breton Novel</gloss>
             <gloss xml:lang="fr">Matière de Bretagne</gloss>
           </category>
-          <category xml:id="genre_f2cb8412">
+          <category xml:id="genre_f2cb8412" corresp="genres.xml#genre_f2cb8412">
             <gloss xml:lang="de">Artusroman</gloss>
             <gloss xml:lang="de">Artusdichtung</gloss>
             <gloss xml:lang="en">Arthurian Romance</gloss>
@@ -101,7 +104,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_1187">
+          <person xml:id="person_1187" corresp="persons.xml#person_1187">
             <persName type="preferred">Ulrich Füetrer</persName>
             <idno type="GND">118694081</idno>
             <idno type="wikidata">Q882619</idno>

@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="DBW">
   <teiHeader>
     <fileDesc>
@@ -42,6 +42,8 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_354">
             <idno type="sigle">DBW</idno>
+            <idno type="handschriftencensus">1224</idno>
+            <idno type="wikidata">Q60190972</idno>
             <msName xml:lang="de">Der Bildschnitzer von Würzburg</msName>
             <msName xml:lang="de">Der Bildschnitzer von Würzburg</msName>
           </msIdentifier>
@@ -49,13 +51,13 @@
             <listBibl>
               <biblStruct type="bookSection" xml:id="DBW_DBW" corresp="http://zotero.org/groups/5043625/items/XTUWAJ26" key="DBW">
                 <analytic>
-                  <title level="a">Der bildschnitzer von würzburg: Von dem maler zu wirtzpurg</title>
+                  <title level="a">Der Bildschnitzer von Würzburg: Von dem Maler zu Wirtzpurg</title>
                   <author>
                     <name>Hans Rosenplüt?</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Novellistik des mittelalters</title>
+                  <title level="m">Novellistik des Mittelalters</title>
                   <idno type="ISBN">978-3-618-66230-3</idno>
                   <idno type="callNumber">DBW</idno>
                   <editor>
@@ -70,11 +72,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Bibliothek des mittelalters</title>
+                  <title level="s">Bibliothek des Mittelalters</title>
                 </series>
-                <note>Novellistik des Mittelalters. Märendichtung. Hrsg, übers. und kommentiert von
-              Klaus Grubmüller. Frankfurt/Main: Dt. Klassiker Verl., 1996. S. 928-934. (= Bibl. d.
-              Mittelalters, Bd. 23)</note>
+                <note>Novellistik des Mittelalters. Märendichtung. Hrsg, übers. und kommentiert von Klaus Grubmüller. Frankfurt/Main: Dt. Klassiker Verl., 1996. S. 928-934. (= Bibl. d. Mittelalters, Bd. 23)</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -89,22 +89,22 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_09114e08">
+          <category xml:id="genre_09114e08" corresp="genres.xml#genre_09114e08">
             <gloss xml:lang="de">Schwank</gloss>
             <gloss xml:lang="en">Droll Story</gloss>
           </category>
-          <category xml:id="genre_5f84678a" ana="parent">
+          <category xml:id="genre_5f84678a" ana="parent" corresp="genres.xml#genre_5f84678a">
             <gloss xml:lang="de">Scherzdichtung</gloss>
             <gloss xml:lang="en">Joke Poetry</gloss>
           </category>
-          <category xml:id="genre_ae9e2d0e" ana="parent">
+          <category xml:id="genre_ae9e2d0e" ana="parent" corresp="genres.xml#genre_ae9e2d0e">
             <gloss xml:lang="de">Erzählende Kurzform</gloss>
             <gloss xml:lang="de">Kleinepik</gloss>
             <gloss xml:lang="en">Narrative Short Form</gloss>
             <gloss xml:lang="en">Short Epic</gloss>
             <gloss xml:lang="en">Small Epics</gloss>
           </category>
-          <category xml:id="genre_d65a163b">
+          <category xml:id="genre_d65a163b" corresp="genres.xml#genre_d65a163b">
             <gloss xml:lang="de">Märe</gloss>
             <gloss xml:lang="de">Mär</gloss>
             <gloss xml:lang="de">Versnovelle</gloss>
@@ -118,7 +118,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_907">
+          <person xml:id="person_907" corresp="persons.xml#person_907">
             <persName type="preferred">Hans Rosenplüt</persName>
             <idno type="GND">118791176</idno>
             <idno type="wikidata">Q105816</idno>

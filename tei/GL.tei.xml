@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="GL">
   <teiHeader>
     <fileDesc>
@@ -41,26 +41,30 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_150">
             <idno type="sigle">GL</idno>
+            <idno type="handschriftencensus">567</idno>
+            <idno type="gnd">4327423-7</idno>
             <msName xml:lang="de">Gauriel von Muntabel</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="book" xml:id="GL_GL" corresp="http://zotero.org/groups/5043625/items/N58EZAAJ" key="GL">
                 <monogr>
-                  <title level="m">Gauriel von muntabel: Eine höfische erzählung aus dem 13.
-                Jahrhunderte</title>
-                  <idno type="callNumber">GL</idno>
+                  <title>Gauriel von Muntabel: Eine Höfische Erzählung aus dem 13. Jahrhunderte</title>
                   <author>
                     <name>Konrad von Stoffeln</name>
                   </author>
+                  <idno type="callNumber">GL</idno>
+                  <editor>
+                    <forename>Ferdinand</forename>
+                    <surname>Khull</surname>
+                  </editor>
                   <imprint>
                     <pubPlace>Graz</pubPlace>
                     <publisher>Leuschner &amp; Lubensky</publisher>
                     <date>1885</date>
                   </imprint>
                 </monogr>
-                <note>Gauriel von Muntabel, eine höfische Erzählung aus dem 13. Jahrhunderte, Hrsg.
-              Ferdinand Khull, Graz 1885</note>
+                <note>Gauriel von Muntabel, eine höfische Erzählung aus dem 13. Jahrhunderte, Hrsg. Ferdinand Khull, Graz 1885</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -75,13 +79,13 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_70aa5bd2" ana="parent">
+          <category xml:id="genre_70aa5bd2" ana="parent" corresp="genres.xml#genre_70aa5bd2">
             <gloss xml:lang="de">Bretonischer Roman</gloss>
             <gloss xml:lang="en">Breton Romance</gloss>
             <gloss xml:lang="en">Breton Novel</gloss>
             <gloss xml:lang="fr">Matière de Bretagne</gloss>
           </category>
-          <category xml:id="genre_f2cb8412">
+          <category xml:id="genre_f2cb8412" corresp="genres.xml#genre_f2cb8412">
             <gloss xml:lang="de">Artusroman</gloss>
             <gloss xml:lang="de">Artusdichtung</gloss>
             <gloss xml:lang="en">Arthurian Romance</gloss>
@@ -96,7 +100,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_9">
+          <person xml:id="person_9" corresp="persons.xml#person_9">
             <persName type="preferred">Konrad von Stoffeln</persName>
             <persName type="alternative" xml:lang="de">Konrad von Stoffel</persName>
             <persName type="alternative" xml:lang="en">Konrad von Stoffel</persName>

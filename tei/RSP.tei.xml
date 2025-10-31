@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="RSP">
   <teiHeader>
     <fileDesc>
@@ -41,18 +41,23 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_202">
             <idno type="sigle">RSP</idno>
+            <idno type="handschriftencensus">1363</idno>
+            <idno type="gnd">7544857-9</idno>
             <msName xml:lang="de">Der Ritterspiegel</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="book" xml:id="RSP_RSP" corresp="http://zotero.org/groups/5043625/items/SWGKW8HC" key="RSP">
                 <monogr>
-                  <title level="m">Der ritterspiegel</title>
-                  <idno type="callNumber">RSP</idno>
+                  <title>Der Ritterspiegel</title>
                   <author>
-                    <forename>Johannes</forename>
-                    <surname>Rothe</surname>
+                    <name>Johannes Rothe</name>
                   </author>
+                  <idno type="callNumber">RSP</idno>
+                  <editor>
+                    <forename>Hans</forename>
+                    <surname>Neumann</surname>
+                  </editor>
                   <imprint>
                     <pubPlace>Halle (Saale)</pubPlace>
                     <biblScope unit="volume">38</biblScope>
@@ -61,11 +66,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Altdeutsche textbibliothek</title>
+                  <title level="s">Altdeutsche Textbibliothek</title>
                 </series>
-                <note>Johannes Rothe. Der Ritterspiegel. Hrsg. v. Hans Neumann. Halle/Saale: Niemeyer,
-              1936. (= ATB, Nr. 38) Der eingelesene digitale Text entspricht teilweise der Version
-              von Christoph Huber: http://homepages.uni-tuebingen.de/christoph.huber/rothe.htm</note>
+                <note>Johannes Rothe. Der Ritterspiegel. Hrsg. v. Hans Neumann. Halle/Saale: Niemeyer, 1936. (= ATB, Nr. 38) Der eingelesene digitale Text entspricht teilweise der Version von Christoph Huber: http://homepages.uni-tuebingen.de/christoph.huber/rothe.htm</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -80,24 +83,24 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_60bae378">
+          <category xml:id="genre_60bae378" corresp="genres.xml#genre_60bae378">
             <gloss xml:lang="de">Großdidaxe</gloss>
             <gloss xml:lang="en">Didactic Large Poetry</gloss>
           </category>
-          <category xml:id="genre_c7b5f47e" ana="parent">
+          <category xml:id="genre_c7b5f47e" ana="parent" corresp="genres.xml#genre_c7b5f47e">
             <gloss xml:lang="de">Größere Ständelehre</gloss>
             <gloss xml:lang="de">Umfangreiche Standeslehre</gloss>
             <gloss xml:lang="en">Larger Estates Doctrine</gloss>
             <gloss xml:lang="en">Extensive Doctrine of Status</gloss>
           </category>
-          <category xml:id="genre_d75ff6ba" ana="parent">
+          <category xml:id="genre_d75ff6ba" ana="parent" corresp="genres.xml#genre_d75ff6ba">
             <gloss xml:lang="de">Lehrdichtung</gloss>
             <gloss xml:lang="de">Didaktische Dichtung</gloss>
             <gloss xml:lang="de">Lehrschrift</gloss>
             <gloss xml:lang="en">Didactic Poetry</gloss>
             <gloss xml:lang="en">Teaching Poetry</gloss>
           </category>
-          <category xml:id="genre_f846a2ee">
+          <category xml:id="genre_f846a2ee" corresp="genres.xml#genre_f846a2ee">
             <gloss xml:lang="de">Ritterspiegel</gloss>
             <gloss xml:lang="de">Ritterunterweisung</gloss>
             <gloss xml:lang="en">Knight's Instruction</gloss>
@@ -109,7 +112,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_666">
+          <person xml:id="person_666" corresp="persons.xml#person_666">
             <persName type="preferred">Johannes Rothe</persName>
             <idno type="GND">118603191</idno>
             <idno type="wikidata">Q125308</idno>

@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="RUD">
   <teiHeader>
     <fileDesc>
@@ -41,17 +41,24 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_71">
             <idno type="sigle">RUD</idno>
+            <idno type="handschriftencensus">136</idno>
+            <idno type="gnd">4158004-7</idno>
+            <idno type="wikidata">Q1541392</idno>
             <msName xml:lang="de">Graf Rudolf</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="book" xml:id="RUD_RUD" corresp="http://zotero.org/groups/5043625/items/5X2334U4" key="RUD">
                 <monogr>
-                  <title level="m">Graf rudolf</title>
-                  <idno type="callNumber">RUD</idno>
+                  <title>Graf Rudolf</title>
                   <author>
                     <name>Anonym</name>
                   </author>
+                  <idno type="callNumber">RUD</idno>
+                  <editor>
+                    <forename>Peter F.</forename>
+                    <surname>Ganz</surname>
+                  </editor>
                   <imprint>
                     <pubPlace>Berlin</pubPlace>
                     <biblScope unit="volume">19</biblScope>
@@ -60,10 +67,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Philologische studien und quellen</title>
+                  <title level="s">Philologische Studien und Quellen</title>
                 </series>
-                <note>Graf Rudolf. Hrsg. von Peter F. Ganz. Berlin: E.Schmidt Verlag, 1964. (=
-              Philologische Studien und Quellen; Heft 19)</note>
+                <note>Graf Rudolf. Hrsg. von Peter F. Ganz. Berlin: E.Schmidt Verlag, 1964. (= Philologische Studien und Quellen; Heft 19)</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -78,14 +84,14 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_72cae96a" ana="parent">
+          <category xml:id="genre_72cae96a" ana="parent" corresp="genres.xml#genre_72cae96a">
             <gloss xml:lang="de">Höfischer Roman</gloss>
             <gloss xml:lang="de">Versroman</gloss>
             <gloss xml:lang="en">Courtly Romance</gloss>
             <gloss xml:lang="en">Courtly Novel</gloss>
             <gloss xml:lang="en">Verse Novel</gloss>
           </category>
-          <category xml:id="genre_88b5cae2">
+          <category xml:id="genre_88b5cae2" corresp="genres.xml#genre_88b5cae2">
             <gloss xml:lang="de">Liebesroman und Abenteuerroman</gloss>
             <gloss xml:lang="de">Liebesroman</gloss>
             <gloss xml:lang="de">Minneroman und Aventiureroman</gloss>
@@ -106,7 +112,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_anonym">
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>
             <persName type="alternative" xml:lang="de">Anonymus</persName>
             <persName type="alternative" xml:lang="en">anonymous</persName>

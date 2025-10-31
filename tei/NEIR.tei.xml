@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="NEIR">
   <teiHeader>
     <fileDesc>
@@ -41,13 +41,14 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_f1576278-e28b-4d60-b473-ce67feeefc34">
             <idno type="sigle">NEIR</idno>
+            <idno type="gnd">4224761-5</idno>
             <msName xml:lang="de">Lyrik von Neidhart</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="bookSection" xml:id="NEIR_NEIR" corresp="http://zotero.org/groups/5043625/items/2ASW5TN4" key="NEIR">
                 <analytic>
-                  <title level="a">Neidhart-lieder hs. R</title>
+                  <title level="a">Neidhart-lieder Hs. R</title>
                   <author>
                     <name>Neidhart</name>
                   </author>
@@ -75,12 +76,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Salzburger neidhart-edition</title>
+                  <title level="s">Salzburger Neidhart-edition</title>
                 </series>
-                <note>Neidhart-Lieder. Texte und Melodien sämtlicher Handschriften und Drucke. Hrsgg.
-              von Ulrich Müller, Ingrid Bennewitz, Franz Viktor Spechtler, unter Mitarbeit von
-              Annemarie Eder, Ute Evers, Elke Huber, Sirikit Podroschko, Margarete Springeth, Ruth
-              Weichselbaumer, Eva-Maria Weinhäupl. Bd. 1. Berlin, New York 2007</note>
+                <note>Neidhart-Lieder. Texte und Melodien sämtlicher Handschriften und Drucke. Hrsgg. von Ulrich Müller, Ingrid Bennewitz, Franz Viktor Spechtler, unter Mitarbeit von Annemarie Eder, Ute Evers, Elke Huber, Sirikit Podroschko, Margarete Springeth, Ruth Weichselbaumer, Eva-Maria Weinhäupl. Bd. 1. Berlin, New York 2007</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -95,7 +93,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_2840c281">
+          <category xml:id="genre_2840c281" corresp="genres.xml#genre_2840c281">
             <gloss xml:lang="de">Dörperliches Lied</gloss>
             <gloss xml:lang="de">Dörperliche Dichtung</gloss>
             <gloss xml:lang="de">Neidhart-Lied</gloss>
@@ -107,7 +105,7 @@
             <gloss xml:lang="en">Village Poetry</gloss>
             <gloss xml:lang="en">Neidhart's Song</gloss>
           </category>
-          <category xml:id="genre_4ecfe25e" ana="parent">
+          <category xml:id="genre_4ecfe25e" ana="parent" corresp="genres.xml#genre_4ecfe25e">
             <gloss xml:lang="de">Minnesang</gloss>
             <gloss xml:lang="de">Minnesänger</gloss>
             <gloss xml:lang="de">Liebeslyrik</gloss>
@@ -116,7 +114,7 @@
             <gloss xml:lang="en">Minstrels</gloss>
             <gloss xml:lang="en">Love Poetry</gloss>
           </category>
-          <category xml:id="genre_a2770533" ana="parent">
+          <category xml:id="genre_a2770533" ana="parent" corresp="genres.xml#genre_a2770533">
             <gloss xml:lang="de">Lyrik</gloss>
             <gloss xml:lang="en">Lyric Poetry</gloss>
           </category>
@@ -126,7 +124,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_64">
+          <person xml:id="person_64" corresp="persons.xml#person_64">
             <persName type="preferred">Neidhart</persName>
             <persName type="alternative" xml:lang="en">Neidhart von Reuental</persName>
             <idno type="GND">118586874</idno>

@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="AXS">
   <teiHeader>
     <fileDesc>
@@ -41,18 +41,24 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_177">
             <idno type="sigle">AXS</idno>
+            <idno type="handschriftencensus">217</idno>
+            <idno type="gnd">4467770-4</idno>
+            <idno type="wikidata">Q2643537</idno>
             <msName xml:lang="de">Alexanderlied</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="book" xml:id="AXS_AXS" corresp="http://zotero.org/groups/5043625/items/4DL3QUXS" key="AXS">
                 <monogr>
-                  <title level="m">Lamprechts Alexander: Nach den drei Texten mit dem Fragment des
-                Alberic von Besançon und den lateinischen Quellen</title>
-                  <idno type="callNumber">AXS</idno>
+                  <title>Lamprechts Alexander: Nach den Drei Texten mit dem Fragment des Alberic von Besançon und den Lateinischen Quellen</title>
                   <author>
                     <name>Pfaffe Lamprecht</name>
                   </author>
+                  <idno type="callNumber">AXS</idno>
+                  <editor>
+                    <forename>Karl</forename>
+                    <surname>Kinzel</surname>
+                  </editor>
                   <imprint>
                     <pubPlace>Halle (Saale)</pubPlace>
                     <biblScope unit="volume">6</biblScope>
@@ -61,15 +67,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Germanistische handbibliothek</title>
+                  <title level="s">Germanistische Handbibliothek</title>
                 </series>
-                <note>Lamprechts Alexander; nach den drei Texten, mit dem Fragment des Alberic von
-              Besançon und den lateinischen Quellen hrsg. und erklärt von Karl Kinzel. Halle a.
-              S.: Buchhandlung des Waisenhauses, 1884. (= Germanistische Handbibliothek; Bd. 6)
-              Digitale Version basiert auf den Fassungen von Steven M. Wight (siehe:
-              http://dobc.unipv.it/scrineum/wight/alexsv.htm) und von Ralf Schlechtweg-Jahn,
-              Bayreuth 2000 und Jost Gippert, Bayreuth, 31.07.2000 / Frankfurt, 19.4.2002 /
-              2.3.2003. Siehe: http://titus.uni-frankfurt.de/texte/etcs/germ/mhd/a_strass/a_str.htm</note>
+                <note>Lamprechts Alexander; nach den drei Texten, mit dem Fragment des Alberic von Besançon und den lateinischen Quellen hrsg. und erklärt von Karl Kinzel. Halle a. S.: Buchhandlung des Waisenhauses, 1884. (= Germanistische Handbibliothek; Bd. 6) Digitale Version basiert auf den Fassungen von Steven M. Wight (siehe: http://dobc.unipv.it/scrineum/wight/alexsv.htm) und von Ralf Schlechtweg-Jahn, Bayreuth 2000 und Jost Gippert, Bayreuth, 31.07.2000 / Frankfurt, 19.4.2002 / 2.3.2003. Siehe: http://titus.uni-frankfurt.de/texte/etcs/germ/mhd/a_strass/a_str.htm</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -84,14 +84,14 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_271237bd">
+          <category xml:id="genre_271237bd" corresp="genres.xml#genre_271237bd">
             <gloss xml:lang="de">Alexanderroman</gloss>
             <gloss xml:lang="en">Alexander Romance</gloss>
             <gloss xml:lang="en">Alexander Novel</gloss>
             <gloss xml:lang="en">Romance of Alexander</gloss>
             <gloss xml:lang="en">Novel of Alexander</gloss>
           </category>
-          <category xml:id="genre_fa5f2e8a" ana="parent">
+          <category xml:id="genre_fa5f2e8a" ana="parent" corresp="genres.xml#genre_fa5f2e8a">
             <gloss xml:lang="de">Antikenroman</gloss>
             <gloss xml:lang="en">Ancient Romance</gloss>
             <gloss xml:lang="en">Ancient Novel</gloss>
@@ -102,7 +102,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_565">
+          <person xml:id="person_565" corresp="persons.xml#person_565">
             <persName type="preferred">Lamprecht der Pfaffe</persName>
             <persName type="alternative" xml:lang="de">Pfaffe Lamprecht</persName>
             <persName type="alternative" xml:lang="en">Lamprecht</persName>

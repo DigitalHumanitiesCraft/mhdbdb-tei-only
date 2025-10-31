@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="RF">
   <teiHeader>
     <fileDesc>
@@ -41,18 +41,23 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_526">
             <idno type="sigle">RF</idno>
+            <idno type="handschriftencensus">155</idno>
+            <idno type="gnd">4251691-2</idno>
             <msName xml:lang="de">Reinhart Fuchs</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="book" xml:id="RF_RF" corresp="http://zotero.org/groups/5043625/items/MEESBEFJ" key="RF">
                 <monogr>
-                  <title level="m">Der reinhart fuchs des elsässers heinrich</title>
-                  <idno type="ISBN">978-3-484-20196-5</idno>
-                  <idno type="callNumber">RF</idno>
+                  <title>Der Reinhart Fuchs des Elsässers Heinrich</title>
                   <author>
                     <name>Elsässer Heinrich</name>
                   </author>
+                  <author>
+                    <name>Klaus Düwel</name>
+                  </author>
+                  <idno type="ISBN">978-3-484-20196-5</idno>
+                  <idno type="callNumber">RF</idno>
                   <imprint>
                     <pubPlace>Tübingen</pubPlace>
                     <biblScope unit="volume">96</biblScope>
@@ -61,11 +66,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Altdeutsche textbibliothek</title>
+                  <title level="s">Altdeutsche Textbibliothek</title>
                 </series>
-                <note>Der Reinhart Fuchs des Elsässers Heinrich. Unter Mitarbeit von Katharina von
-              Goetz, Frank Henrichvark und Sigrid Krause herausgegeben von Klaus Düwel. Tübingen:
-              Niemeyer, 1984 (= ATB Nr. 96)</note>
+                <note>Der Reinhart Fuchs des Elsässers Heinrich. Unter Mitarbeit von Katharina von Goetz, Frank Henrichvark und Sigrid Krause herausgegeben von Klaus Düwel. Tübingen: Niemeyer, 1984 (= ATB Nr. 96)</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -80,11 +83,11 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_535c3395">
+          <category xml:id="genre_535c3395" corresp="genres.xml#genre_535c3395">
             <gloss xml:lang="de">Schwankroman</gloss>
             <gloss xml:lang="en">Droll Novel</gloss>
           </category>
-          <category xml:id="genre_d2963bbe" ana="parent">
+          <category xml:id="genre_d2963bbe" ana="parent" corresp="genres.xml#genre_d2963bbe">
             <gloss xml:lang="de">Großepik</gloss>
             <gloss xml:lang="de">Große epische Formen</gloss>
             <gloss xml:lang="de">Großdichtung</gloss>
@@ -98,7 +101,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_1127">
+          <person xml:id="person_1127" corresp="persons.xml#person_1127">
             <persName type="preferred">Heinrich</persName>
             <persName type="alternative" xml:lang="de">Heinrich der Glîchezære</persName>
             <persName type="alternative" xml:lang="en">Heinrich der Glïchezäre</persName>

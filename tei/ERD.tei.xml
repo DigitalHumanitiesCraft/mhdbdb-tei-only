@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="ERD">
   <teiHeader>
     <fileDesc>
@@ -42,6 +42,9 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_20">
             <idno type="sigle">ERD</idno>
+            <idno type="handschriftencensus">1420</idno>
+            <idno type="gnd">4159682-1</idno>
+            <idno type="wikidata">Q1615222</idno>
             <msName xml:lang="de">Herzog Ernst</msName>
             <msName xml:lang="de">Herzog Ernst (D, strophig)</msName>
           </msIdentifier>
@@ -49,13 +52,13 @@
             <listBibl>
               <biblStruct type="bookSection" xml:id="ERD_ERD" corresp="http://zotero.org/groups/5043625/items/LIHLRUER" key="ERD">
                 <analytic>
-                  <title level="a">Herzog ernst: Strophische bearbeitung: [Handschrift D]</title>
+                  <title level="a">Herzog Ernst: Strophische Bearbeitung: [handschrift D]</title>
                   <author>
                     <name>Anonym</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Herzog ernst</title>
+                  <title level="m">Herzog Ernst</title>
                   <idno type="callNumber">ERD</idno>
                   <editor>
                     <forename>Karl</forename>
@@ -68,8 +71,7 @@
                     <date>1869</date>
                   </imprint>
                 </monogr>
-                <note>Herzog Ernst. Strophische Bearbeitung. (= D) In: Herzog Ernst.Hrsg. v. Karl
-              Bartsch. Wien 1869. S.187-225</note>
+                <note>Herzog Ernst. Strophische Bearbeitung. (= D) In: Herzog Ernst.Hrsg. v. Karl Bartsch. Wien 1869. S.187-225</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -84,7 +86,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_6b4c5f1d">
+          <category xml:id="genre_6b4c5f1d" corresp="genres.xml#genre_6b4c5f1d">
             <gloss xml:lang="de">Spielmannsepik, sogenannte (veraltet)</gloss>
             <gloss xml:lang="de">Höfische Legende (veraltet)</gloss>
             <gloss xml:lang="de">Legendenroman (veraltet)</gloss>
@@ -104,14 +106,14 @@
             <gloss xml:lang="en">Minstrel Poetry (outdated)</gloss>
             <gloss xml:lang="en">Courtship Epic (outdated)</gloss>
           </category>
-          <category xml:id="genre_72cae96a" ana="parent">
+          <category xml:id="genre_72cae96a" ana="parent" corresp="genres.xml#genre_72cae96a">
             <gloss xml:lang="de">Höfischer Roman</gloss>
             <gloss xml:lang="de">Versroman</gloss>
             <gloss xml:lang="en">Courtly Romance</gloss>
             <gloss xml:lang="en">Courtly Novel</gloss>
             <gloss xml:lang="en">Verse Novel</gloss>
           </category>
-          <category xml:id="genre_d2963bbe" ana="parent">
+          <category xml:id="genre_d2963bbe" ana="parent" corresp="genres.xml#genre_d2963bbe">
             <gloss xml:lang="de">Großepik</gloss>
             <gloss xml:lang="de">Große epische Formen</gloss>
             <gloss xml:lang="de">Großdichtung</gloss>
@@ -125,7 +127,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_anonym">
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>
             <persName type="alternative" xml:lang="de">Anonymus</persName>
             <persName type="alternative" xml:lang="en">anonymous</persName>

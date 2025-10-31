@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="MNB">
   <teiHeader>
     <fileDesc>
@@ -41,31 +41,29 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_476">
             <idno type="sigle">MNB</idno>
+            <idno type="handschriftencensus">6043</idno>
             <msName xml:lang="de">Die Minneburg</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="book" xml:id="MNB_MNB" corresp="http://zotero.org/groups/5043625/items/A88Z76T9" key="MNB">
                 <monogr>
-                  <title level="m">Die minneburg: Nach der heidelberger pergamenthandschrift (CPG. 455)
-                unter heranziehung der kölner handschrift und der donaueschinger und prager
-                fragmente</title>
-                  <idno type="callNumber">MNB</idno>
+                  <title>Die Minneburg: Nach der Heidelberger Pergamenthandschrift (cpg. 455) Unter Heranziehung der Kölner Handschrift und der Donaueschinger und Prager Fragmente</title>
                   <author>
                     <name>Anonym</name>
                   </author>
+                  <idno type="callNumber">MNB</idno>
+                  <editor>
+                    <forename>Hans</forename>
+                    <surname>Pyritz</surname>
+                  </editor>
                   <imprint>
                     <pubPlace>Berlin</pubPlace>
                     <publisher>Akademie-Verlag</publisher>
                     <date>1950</date>
                   </imprint>
                 </monogr>
-                <note>Die Minneburg. Nach der Heidelberger Pergamenthandschrift (Cpg. 455) unter
-              Heranziehung der Kölner Handschrift und der Donaueschinger und Prager Fragmente hrsg.
-              von HANS PYRITZ (DTM 43), Berlin 1950. Elektronischer Text beruht zum Teil auf: Die
-              Minneburg[electronic resource] Elektronischer Text und Konzeptausdruck hergestellt
-              für das Digitale Mittelhochdeutsche Textarchiv (www.mhgta.uni-trier.de) und das
-              Mittelhochdeutsche Wörterbuch (www.mhdwb.uni-trier.de)</note>
+                <note>Die Minneburg. Nach der Heidelberger Pergamenthandschrift (Cpg. 455) unter Heranziehung der Kölner Handschrift und der Donaueschinger und Prager Fragmente hrsg. von HANS PYRITZ (DTM 43), Berlin 1950. Elektronischer Text beruht zum Teil auf: Die Minneburg[electronic resource] Elektronischer Text und Konzeptausdruck hergestellt für das Digitale Mittelhochdeutsche Textarchiv (www.mhgta.uni-trier.de) und das Mittelhochdeutsche Wörterbuch (www.mhdwb.uni-trier.de)</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -80,7 +78,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_0a612f94">
+          <category xml:id="genre_0a612f94" corresp="genres.xml#genre_0a612f94">
             <gloss xml:lang="de">Minnelehre</gloss>
             <gloss xml:lang="de">Minneregel</gloss>
             <gloss xml:lang="de">Minnereflexion</gloss>
@@ -88,17 +86,17 @@
             <gloss xml:lang="en">Reflection of Love</gloss>
             <gloss xml:lang="en">Rule of Minne</gloss>
           </category>
-          <category xml:id="genre_26c0ce4c">
+          <category xml:id="genre_26c0ce4c" corresp="genres.xml#genre_26c0ce4c">
             <gloss xml:lang="de">Minneallegorie</gloss>
             <gloss xml:lang="en">Minne Allegory</gloss>
             <gloss xml:lang="en">Allegory of Love</gloss>
           </category>
-          <category xml:id="genre_a31be6a3" ana="parent">
+          <category xml:id="genre_a31be6a3" ana="parent" corresp="genres.xml#genre_a31be6a3">
             <gloss xml:lang="de">Minnerede</gloss>
             <gloss xml:lang="en">Love Speech</gloss>
             <gloss xml:lang="en">Minne Speech</gloss>
           </category>
-          <category xml:id="genre_dd3320dc" ana="parent">
+          <category xml:id="genre_dd3320dc" ana="parent" corresp="genres.xml#genre_dd3320dc">
             <gloss xml:lang="de">Allegorie</gloss>
             <gloss xml:lang="en">Allegory</gloss>
           </category>
@@ -108,7 +106,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_anonym">
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>
             <persName type="alternative" xml:lang="de">Anonymus</persName>
             <persName type="alternative" xml:lang="en">anonymous</persName>

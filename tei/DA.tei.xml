@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="DA">
   <teiHeader>
     <fileDesc>
@@ -41,18 +41,25 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_129">
             <idno type="sigle">DA</idno>
+            <idno type="handschriftencensus">1207</idno>
+            <idno type="gnd">4137054-5</idno>
+            <idno type="wikidata">Q5219190</idno>
             <msName xml:lang="de">Daniel von dem blühenden Tal</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="book" xml:id="DA_DA" corresp="http://zotero.org/groups/5043625/items/B4V6PE9I" key="DA">
                 <monogr>
-                  <title level="m">Daniel von dem blühenden tal</title>
-                  <idno type="ISBN">978-3-484-20192-7</idno>
-                  <idno type="callNumber">DA</idno>
+                  <title>Daniel von dem Blühenden Tal</title>
                   <author>
                     <name>Der Stricker</name>
                   </author>
+                  <idno type="ISBN">978-3-484-20192-7</idno>
+                  <idno type="callNumber">DA</idno>
+                  <editor>
+                    <forename>Michael</forename>
+                    <surname>Resler</surname>
+                  </editor>
                   <imprint>
                     <pubPlace>Tübingen</pubPlace>
                     <biblScope unit="volume">92</biblScope>
@@ -61,10 +68,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Altdeutsche textbibliothek</title>
+                  <title level="s">Altdeutsche Textbibliothek</title>
                 </series>
-                <note>Der Stricker: Daniel von dem blühenden Tal. Hrsg. von Michael Resler, Tübingen
-              1983. (= ATB Nr. 92)</note>
+                <note>Der Stricker: Daniel von dem blühenden Tal. Hrsg. von Michael Resler, Tübingen 1983. (= ATB Nr. 92)</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -79,13 +85,13 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_70aa5bd2" ana="parent">
+          <category xml:id="genre_70aa5bd2" ana="parent" corresp="genres.xml#genre_70aa5bd2">
             <gloss xml:lang="de">Bretonischer Roman</gloss>
             <gloss xml:lang="en">Breton Romance</gloss>
             <gloss xml:lang="en">Breton Novel</gloss>
             <gloss xml:lang="fr">Matière de Bretagne</gloss>
           </category>
-          <category xml:id="genre_f2cb8412">
+          <category xml:id="genre_f2cb8412" corresp="genres.xml#genre_f2cb8412">
             <gloss xml:lang="de">Artusroman</gloss>
             <gloss xml:lang="de">Artusdichtung</gloss>
             <gloss xml:lang="en">Arthurian Romance</gloss>
@@ -100,7 +106,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_4">
+          <person xml:id="person_4" corresp="persons.xml#person_4">
             <persName type="preferred">Der Stricker</persName>
             <idno type="GND">118619284</idno>
             <idno type="wikidata">Q1197199</idno>

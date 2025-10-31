@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="MAN">
   <teiHeader>
     <fileDesc>
@@ -42,6 +42,9 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_633">
             <idno type="sigle">MAN</idno>
+            <idno type="handschriftencensus">755</idno>
+            <idno type="gnd">4417249-7</idno>
+            <idno type="wikidata">Q1195708</idno>
             <msName xml:lang="de">Der Mantel</msName>
             <msName xml:lang="de">Der Mantel (Ambraser Heldenbuch)</msName>
           </msIdentifier>
@@ -49,13 +52,15 @@
             <listBibl>
               <biblStruct type="book" xml:id="MAN_MAN" corresp="http://zotero.org/groups/5043625/items/YR5EU5S3" key="MAN">
                 <monogr>
-                  <title level="m">Der mantel: Bruchstück eines lanzeletromans des heinrich von dem
-                türlin: Nebst einer abhandlung über die sage vom trinkhorn und mantel und die quelle
-                der krone</title>
-                  <idno type="callNumber">MAN</idno>
+                  <title>Der Mantel: Bruchstück eines Lanzeletromans des Heinrich von dem Türlin: Nebst einer Abhandlung über die Sage vom Trinkhorn und Mantel und die Quelle der Krone</title>
                   <author>
                     <name>Heinrich von dem Türlin</name>
                   </author>
+                  <idno type="callNumber">MAN</idno>
+                  <editor>
+                    <forename>Otto</forename>
+                    <surname>Warnatsch</surname>
+                  </editor>
                   <imprint>
                     <pubPlace>Breslau</pubPlace>
                     <biblScope unit="volume">2</biblScope>
@@ -63,12 +68,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Germanistische abhandlungen</title>
+                  <title level="s">Germanistische Abhandlungen</title>
                 </series>
-                <note>Der Mantel: Bruchstück eines Lanzeletromans des Heinrich von dem Türlin, nebst
-              einer Abh. über die Sage vom Trinkhorn und Mantel und die Quelle der Krone, Hrsg. von
-              Otto Warnatsch, (= Germanistische Abhandlungen; Band 2), Breslau 1883, Nachdruck
-              Hildesheim 1977</note>
+                <note>Der Mantel: Bruchstück eines Lanzeletromans des Heinrich von dem Türlin, nebst einer Abh. über die Sage vom Trinkhorn und Mantel und die Quelle der Krone, Hrsg. von Otto Warnatsch, (= Germanistische Abhandlungen; Band 2), Breslau 1883, Nachdruck Hildesheim 1977</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -83,21 +85,21 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_09114e08">
+          <category xml:id="genre_09114e08" corresp="genres.xml#genre_09114e08">
             <gloss xml:lang="de">Schwank</gloss>
             <gloss xml:lang="en">Droll Story</gloss>
           </category>
-          <category xml:id="genre_5f84678a" ana="parent">
+          <category xml:id="genre_5f84678a" ana="parent" corresp="genres.xml#genre_5f84678a">
             <gloss xml:lang="de">Scherzdichtung</gloss>
             <gloss xml:lang="en">Joke Poetry</gloss>
           </category>
-          <category xml:id="genre_70aa5bd2" ana="parent">
+          <category xml:id="genre_70aa5bd2" ana="parent" corresp="genres.xml#genre_70aa5bd2">
             <gloss xml:lang="de">Bretonischer Roman</gloss>
             <gloss xml:lang="en">Breton Romance</gloss>
             <gloss xml:lang="en">Breton Novel</gloss>
             <gloss xml:lang="fr">Matière de Bretagne</gloss>
           </category>
-          <category xml:id="genre_f2cb8412">
+          <category xml:id="genre_f2cb8412" corresp="genres.xml#genre_f2cb8412">
             <gloss xml:lang="de">Artusroman</gloss>
             <gloss xml:lang="de">Artusdichtung</gloss>
             <gloss xml:lang="en">Arthurian Romance</gloss>
@@ -112,7 +114,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_867">
+          <person xml:id="person_867" corresp="persons.xml#person_867">
             <persName type="preferred">Heinrich von dem Türlin</persName>
             <idno type="GND">118548352</idno>
             <idno type="wikidata">Q77924</idno>

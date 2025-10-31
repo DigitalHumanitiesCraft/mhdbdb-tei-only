@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="IW">
   <teiHeader>
     <fileDesc>
@@ -41,18 +41,28 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_602">
             <idno type="sigle">IW</idno>
+            <idno type="handschriftencensus">150</idno>
+            <idno type="gnd">4113852-1</idno>
+            <idno type="wikidata">Q2048507</idno>
             <msName xml:lang="de">Iwein</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="book" xml:id="IW_IW" corresp="http://zotero.org/groups/5043625/items/U25WGI2A" key="IW">
                 <monogr>
-                  <title level="m">Iwein: Eine erzählung: Band 1: Text; band 2: Handschriftenübersicht,
-                anmerkungen und lesarten</title>
-                  <idno type="callNumber">IW</idno>
+                  <title>Iwein: Eine Erzählung: Band 1: Text; Band 2: Handschriftenübersicht, Anmerkungen und Lesarten</title>
                   <author>
                     <name>Hartmann von Aue</name>
                   </author>
+                  <idno type="callNumber">IW</idno>
+                  <editor>
+                    <forename>Georg Friedrich</forename>
+                    <surname>Benecke</surname>
+                  </editor>
+                  <editor>
+                    <forename>Karl</forename>
+                    <surname>Lachmann</surname>
+                  </editor>
                   <edition>7</edition>
                   <imprint>
                     <pubPlace>Berlin</pubPlace>
@@ -60,8 +70,7 @@
                     <date>1968</date>
                   </imprint>
                 </monogr>
-                <note>Iwein. Eine Erzählung von Hartmann von Aue . Hrsg. von G.F. Benecke und Lachmann
-              . Neu bearb. von Ludwig Wolff. Siebente Ausgabe. Berlin 1968. Band 1, Text</note>
+                <note>Iwein. Eine Erzählung von Hartmann von Aue . Hrsg. von G.F. Benecke und Lachmann . Neu bearb. von Ludwig Wolff. Siebente Ausgabe. Berlin 1968. Band 1, Text</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -76,13 +85,13 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_70aa5bd2" ana="parent">
+          <category xml:id="genre_70aa5bd2" ana="parent" corresp="genres.xml#genre_70aa5bd2">
             <gloss xml:lang="de">Bretonischer Roman</gloss>
             <gloss xml:lang="en">Breton Romance</gloss>
             <gloss xml:lang="en">Breton Novel</gloss>
             <gloss xml:lang="fr">Matière de Bretagne</gloss>
           </category>
-          <category xml:id="genre_f2cb8412">
+          <category xml:id="genre_f2cb8412" corresp="genres.xml#genre_f2cb8412">
             <gloss xml:lang="de">Artusroman</gloss>
             <gloss xml:lang="de">Artusdichtung</gloss>
             <gloss xml:lang="en">Arthurian Romance</gloss>
@@ -97,7 +106,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_2">
+          <person xml:id="person_2" corresp="persons.xml#person_2">
             <persName type="preferred">Hartmann von Aue</persName>
             <idno type="GND">118546228</idno>
             <idno type="wikidata">Q75852</idno>

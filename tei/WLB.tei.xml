@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="WLB">
   <teiHeader>
     <fileDesc>
@@ -41,6 +41,7 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_638">
             <idno type="sigle">WLB</idno>
+            <idno type="handschriftencensus">6678</idno>
             <msName xml:lang="de">Walberan</msName>
           </msIdentifier>
           <additional>
@@ -53,7 +54,7 @@
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Biterolf und dietleib. Laurin und walberan</title>
+                  <title level="m">Biterolf und Dietleib. Laurin und Walberan</title>
                   <idno type="callNumber">WLB</idno>
                   <editor>
                     <forename>Oskar</forename>
@@ -61,17 +62,16 @@
                   </editor>
                   <imprint>
                     <pubPlace>Berlin and Zürich</pubPlace>
-                    <biblScope unit="volume">1</biblScope>
                     <biblScope unit="page">238–257</biblScope>
+                    <biblScope unit="volume">1</biblScope>
                     <publisher>Weidmann</publisher>
                     <date>1866</date>
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Deutsches heldenbuch</title>
+                  <title level="s">Deutsches Heldenbuch</title>
                 </series>
-                <note>Laurin und Walberan. Hrsg. v. Oskar Jänicke, In: Deutsches Heldenbuch, 2. Teil.
-              Berlin 1866</note>
+                <note>Laurin und Walberan. Hrsg. v. Oskar Jänicke, In: Deutsches Heldenbuch, 2. Teil. Berlin 1866</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -86,7 +86,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_f3e5cee1">
+          <category xml:id="genre_f3e5cee1" corresp="genres.xml#genre_f3e5cee1">
             <gloss xml:lang="de">Dietrichsepik</gloss>
             <gloss xml:lang="de">Dietrichepik</gloss>
             <gloss xml:lang="en">Dietrich Epic</gloss>
@@ -94,7 +94,7 @@
             <gloss xml:lang="en">Dietrich Poetry</gloss>
             <gloss xml:lang="en">Epic of Dietrich</gloss>
           </category>
-          <category xml:id="genre_f6672d9f" ana="parent">
+          <category xml:id="genre_f6672d9f" ana="parent" corresp="genres.xml#genre_f6672d9f">
             <gloss xml:lang="de">Heldenepik</gloss>
             <gloss xml:lang="de">Heldenepische Dichtung</gloss>
             <gloss xml:lang="en">Heroic Epic</gloss>
@@ -106,7 +106,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_anonym">
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>
             <persName type="alternative" xml:lang="de">Anonymus</persName>
             <persName type="alternative" xml:lang="en">anonymous</persName>

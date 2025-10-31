@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="BGM">
   <teiHeader>
     <fileDesc>
@@ -43,6 +43,8 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_148">
             <idno type="sigle">BGM</idno>
+            <idno type="handschriftencensus">3677</idno>
+            <idno type="gnd">7642817-5</idno>
             <msName xml:lang="de">Der Bergmann</msName>
             <msName xml:lang="gmh">Ditz ist ein schones mere / von
             einem velt bowere.</msName>
@@ -51,13 +53,13 @@
             <listBibl>
               <biblStruct type="bookSection" xml:id="BGM_BGM" corresp="http://zotero.org/groups/5043625/items/D3D2SLC6" key="BGM">
                 <analytic>
-                  <title level="a">Der Bergmann: Ditz ist ein schones mere / von einem velt bowere</title>
+                  <title level="a">Der Bergmann: Ditz Ist ein Schones Mere / von einem Velt Bowere</title>
                   <author>
                     <name>Anonym</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Die heidelberger handschrift</title>
+                  <title level="m">Die Heidelberger Handschrift</title>
                   <idno type="callNumber">BGM</idno>
                   <editor>
                     <forename>Gustav</forename>
@@ -71,16 +73,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Kleinere mittelhochdeutsche erzählungen, fabeln und lehrgedichte</title>
+                  <title level="s">Kleinere Mittelhochdeutsche Erzählungen, Fabeln und Lehrgedichte</title>
                 </series>
-                <note>Kleinere mittelhochdeutsche Erzählungen, Fabeln und Lehrgedichte. III. Die
-              Heidelberger Handschrift Cod. Pal. Germ. 341. Hrsg. v. Gustav Rosenhagen,
-              Dublin/Zürich: Weidmann 1970. (= Deutsche Texte des Mittelalters Bd. XVII). Der
-              elektronische Text basiert zum Teil auf dem an der Universität Trier
-              (Kompetenzzentrum für elektronische Erschließungs- und Publikationsverfahren in den
-              Geisteswissenschaften) / University of Virginia (Electronic Text Center)erstellten
-              Text, revidiert von Lesley C. Pleasant and Cindy Filer Speer:
-              http://etext.lib.virginia.edu/german/mhg</note>
+                <note>Kleinere mittelhochdeutsche Erzählungen, Fabeln und Lehrgedichte. III. Die Heidelberger Handschrift Cod. Pal. Germ. 341. Hrsg. v. Gustav Rosenhagen, Dublin/Zürich: Weidmann 1970. (= Deutsche Texte des Mittelalters Bd. XVII). Der elektronische Text basiert zum Teil auf dem an der Universität Trier (Kompetenzzentrum für elektronische Erschließungs- und Publikationsverfahren in den Geisteswissenschaften) / University of Virginia (Electronic Text Center)erstellten Text, revidiert von Lesley C. Pleasant and Cindy Filer Speer: http://etext.lib.virginia.edu/german/mhg</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -95,14 +90,14 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_ae9e2d0e" ana="parent">
+          <category xml:id="genre_ae9e2d0e" ana="parent" corresp="genres.xml#genre_ae9e2d0e">
             <gloss xml:lang="de">Erzählende Kurzform</gloss>
             <gloss xml:lang="de">Kleinepik</gloss>
             <gloss xml:lang="en">Narrative Short Form</gloss>
             <gloss xml:lang="en">Short Epic</gloss>
             <gloss xml:lang="en">Small Epics</gloss>
           </category>
-          <category xml:id="genre_d65a163b">
+          <category xml:id="genre_d65a163b" corresp="genres.xml#genre_d65a163b">
             <gloss xml:lang="de">Märe</gloss>
             <gloss xml:lang="de">Mär</gloss>
             <gloss xml:lang="de">Versnovelle</gloss>
@@ -116,7 +111,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_anonym">
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>
             <persName type="alternative" xml:lang="de">Anonymus</persName>
             <persName type="alternative" xml:lang="en">anonymous</persName>

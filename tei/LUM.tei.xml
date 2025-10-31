@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="LUM">
   <teiHeader>
     <fileDesc>
@@ -43,6 +43,7 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_143">
             <idno type="sigle">LUM</idno>
+            <idno type="handschriftencensus">5362</idno>
             <msName xml:lang="de">Löwe und Maus</msName>
             <msName xml:lang="gmh">Ditz ist ein mere / von einem
             wildenere.</msName>
@@ -51,13 +52,13 @@
             <listBibl>
               <biblStruct type="bookSection" xml:id="LUM_LUM" corresp="http://zotero.org/groups/5043625/items/AK3ADD9V" key="LUM">
                 <analytic>
-                  <title level="a">Loewe und Maus: Ditz ist ein mere / von einem wildenere</title>
+                  <title level="a">Loewe und Maus: Ditz Ist ein Mere / von einem Wildenere</title>
                   <author>
                     <name>Anonym</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Die heidelberger handschrift</title>
+                  <title level="m">Die Heidelberger Handschrift</title>
                   <idno type="callNumber">LUM</idno>
                   <editor>
                     <forename>Gustav</forename>
@@ -71,15 +72,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Kleinere mittelhochdeutsche erzählungen, fabeln und lehrgedichte</title>
+                  <title level="s">Kleinere Mittelhochdeutsche Erzählungen, Fabeln und Lehrgedichte</title>
                 </series>
-                <note>Kleinere mittelhochdeutsche Erzählungen, Fabeln und Lehrgedichte. III. Die
-              Heidelberger Handschrift Cod. Pal. Germ. 341. Hrsg. v. Gustav Rosenhagen,
-              Dublin/Zürich: Weidmann 1970. (= Deutsche Texte des Mittelalters Bd. XVII). Der
-              elektronische Text basiert zum Teil auf dem vom Electronic Text Center der University
-              of Virginia u. dem Kompetenzzentrum für elektronische Erschließungs- und
-              Publikationsverfahren in den Geisteswissenschaften an der Universität Trier
-              erstellten Text, revidiert von Lesley C. Pleasant and Cindy Filer Speer</note>
+                <note>Kleinere mittelhochdeutsche Erzählungen, Fabeln und Lehrgedichte. III. Die Heidelberger Handschrift Cod. Pal. Germ. 341. Hrsg. v. Gustav Rosenhagen, Dublin/Zürich: Weidmann 1970. (= Deutsche Texte des Mittelalters Bd. XVII). Der elektronische Text basiert zum Teil auf dem vom Electronic Text Center der University of Virginia u. dem Kompetenzzentrum für elektronische Erschließungs- und Publikationsverfahren in den Geisteswissenschaften an der Universität Trier erstellten Text, revidiert von Lesley C. Pleasant and Cindy Filer Speer</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -94,21 +89,21 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_8bb910cf">
+          <category xml:id="genre_8bb910cf" corresp="genres.xml#genre_8bb910cf">
             <gloss xml:lang="de">Bîspel</gloss>
             <gloss xml:lang="de">Bîschaft</gloss>
             <gloss xml:lang="de">Bispel</gloss>
             <gloss xml:lang="en">Bispel</gloss>
             <gloss xml:lang="en">Moral Anecdote</gloss>
           </category>
-          <category xml:id="genre_a6f30c79">
+          <category xml:id="genre_a6f30c79" corresp="genres.xml#genre_a6f30c79">
             <gloss xml:lang="de">Fabel</gloss>
             <gloss xml:lang="de">Tierfabel</gloss>
             <gloss xml:lang="en">Fable</gloss>
             <gloss xml:lang="en">Animal Fable</gloss>
             <gloss xml:lang="la">Fabula</gloss>
           </category>
-          <category xml:id="genre_ae9e2d0e" ana="parent">
+          <category xml:id="genre_ae9e2d0e" ana="parent" corresp="genres.xml#genre_ae9e2d0e">
             <gloss xml:lang="de">Erzählende Kurzform</gloss>
             <gloss xml:lang="de">Kleinepik</gloss>
             <gloss xml:lang="en">Narrative Short Form</gloss>
@@ -121,7 +116,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_anonym">
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>
             <persName type="alternative" xml:lang="de">Anonymus</persName>
             <persName type="alternative" xml:lang="en">anonymous</persName>

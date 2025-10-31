@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="GS">
   <teiHeader>
     <fileDesc>
@@ -41,25 +41,31 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_648">
             <idno type="sigle">GS</idno>
+            <idno type="handschriftencensus">207</idno>
+            <idno type="gnd">4200962-5</idno>
+            <idno type="wikidata">Q13142540</idno>
             <msName xml:lang="de">Die goldene Schmiede</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="book" xml:id="GS_GS" corresp="http://zotero.org/groups/5043625/items/HWDJGQD6" key="GS">
                 <monogr>
-                  <title level="m">Goldene schmiede</title>
-                  <idno type="callNumber">GS</idno>
+                  <title>Goldene Schmiede</title>
                   <author>
                     <name>Konrad von Würzburg</name>
                   </author>
+                  <idno type="callNumber">GS</idno>
+                  <editor>
+                    <forename>Wilhelm</forename>
+                    <surname>Grimm</surname>
+                  </editor>
                   <imprint>
                     <pubPlace>Berlin</pubPlace>
                     <publisher>Klemann</publisher>
                     <date>1840</date>
                   </imprint>
                 </monogr>
-                <note>Konrad von Würzburg: Die Goldene Schmiede. Herausgegeben von Wilhelm Grimm. Karl
-              J. Klemann, Berlin 1840</note>
+                <note>Konrad von Würzburg: Die Goldene Schmiede. Herausgegeben von Wilhelm Grimm. Karl J. Klemann, Berlin 1840</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -74,7 +80,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_0480b285" ana="parent">
+          <category xml:id="genre_0480b285" ana="parent" corresp="genres.xml#genre_0480b285">
             <gloss xml:lang="de">Geistliche Literatur</gloss>
             <gloss xml:lang="de">Geistliche Dichtung</gloss>
             <gloss xml:lang="de">Religiöse Dichtung</gloss>
@@ -84,7 +90,7 @@
             <gloss xml:lang="en">Spiritual Poetry</gloss>
             <gloss xml:lang="en">Religious Poetry</gloss>
           </category>
-          <category xml:id="genre_64e4807a">
+          <category xml:id="genre_64e4807a" corresp="genres.xml#genre_64e4807a">
             <gloss xml:lang="de">Marienpreis</gloss>
             <gloss xml:lang="de">Religiöse Marienlyrik</gloss>
             <gloss xml:lang="de">Geistliche Marienlyrik</gloss>
@@ -92,13 +98,13 @@
             <gloss xml:lang="en">Religious Marian Poetry</gloss>
             <gloss xml:lang="en">Spiritual Marian Poetry</gloss>
           </category>
-          <category xml:id="genre_ccef6751">
+          <category xml:id="genre_ccef6751" corresp="genres.xml#genre_ccef6751">
             <gloss xml:lang="de">Geistliche Rede</gloss>
             <gloss xml:lang="de">Religiöse Rede</gloss>
             <gloss xml:lang="en">Spiritual Speech</gloss>
             <gloss xml:lang="en">Religious Speech</gloss>
           </category>
-          <category xml:id="genre_f11aeb8c" ana="parent">
+          <category xml:id="genre_f11aeb8c" ana="parent" corresp="genres.xml#genre_f11aeb8c">
             <gloss xml:lang="de">Marienlyrik</gloss>
             <gloss xml:lang="de">Mariendichtung</gloss>
             <gloss xml:lang="en">Marian Poetry</gloss>
@@ -110,7 +116,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_1">
+          <person xml:id="person_1" corresp="persons.xml#person_1">
             <persName type="preferred">Konrad von Würzburg</persName>
             <idno type="GND">118565133</idno>
             <idno type="wikidata">Q77480</idno>

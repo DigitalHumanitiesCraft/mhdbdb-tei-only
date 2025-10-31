@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="CR">
   <teiHeader>
     <fileDesc>
@@ -45,6 +45,9 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_5">
             <idno type="sigle">CR</idno>
+            <idno type="handschriftencensus">751</idno>
+            <idno type="gnd">4170556-7</idno>
+            <idno type="wikidata">Q1771750</idno>
             <msName xml:lang="de">Moriz von Craûn</msName>
             <msName xml:lang="de">Mauricius von Craôn</msName>
             <msName xml:lang="de">Mauritius von Craôn</msName>
@@ -54,12 +57,16 @@
             <listBibl>
               <biblStruct type="book" xml:id="CR_CR" corresp="http://zotero.org/groups/5043625/items/BBVM3BFZ" key="CR">
                 <monogr>
-                  <title level="m">Moriz von craun</title>
-                  <idno type="ISBN">978-3-484-20069-2</idno>
-                  <idno type="callNumber">CR</idno>
+                  <title>Moriz von Craun</title>
                   <author>
                     <name>Anonym</name>
                   </author>
+                  <idno type="ISBN">978-3-484-20069-2</idno>
+                  <idno type="callNumber">CR</idno>
+                  <editor>
+                    <forename>Ulrich</forename>
+                    <surname>Pretzel</surname>
+                  </editor>
                   <edition>4</edition>
                   <imprint>
                     <pubPlace>Tübingen</pubPlace>
@@ -69,7 +76,7 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Altdeutsche textbibliothek</title>
+                  <title level="s">Altdeutsche Textbibliothek</title>
                 </series>
                 <note>Hg. Ulrich Pretzel, 4.Aufl., Tübingen, 1973(=ATB 45)</note>
               </biblStruct>
@@ -86,25 +93,25 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_079e727d">
+          <category xml:id="genre_079e727d" corresp="genres.xml#genre_079e727d">
             <gloss xml:lang="de">Exempel</gloss>
             <gloss xml:lang="de">Exempelgeschichte</gloss>
             <gloss xml:lang="en">Example</gloss>
             <gloss xml:lang="en">Example Story</gloss>
             <gloss xml:lang="la">Exemplum</gloss>
           </category>
-          <category xml:id="genre_14fbb80a">
+          <category xml:id="genre_14fbb80a" corresp="genres.xml#genre_14fbb80a">
             <gloss xml:lang="de">Kurzroman</gloss>
             <gloss xml:lang="en">Short Novel</gloss>
           </category>
-          <category xml:id="genre_ae9e2d0e" ana="parent">
+          <category xml:id="genre_ae9e2d0e" ana="parent" corresp="genres.xml#genre_ae9e2d0e">
             <gloss xml:lang="de">Erzählende Kurzform</gloss>
             <gloss xml:lang="de">Kleinepik</gloss>
             <gloss xml:lang="en">Narrative Short Form</gloss>
             <gloss xml:lang="en">Short Epic</gloss>
             <gloss xml:lang="en">Small Epics</gloss>
           </category>
-          <category xml:id="genre_d65a163b">
+          <category xml:id="genre_d65a163b" corresp="genres.xml#genre_d65a163b">
             <gloss xml:lang="de">Märe</gloss>
             <gloss xml:lang="de">Mär</gloss>
             <gloss xml:lang="de">Versnovelle</gloss>
@@ -118,13 +125,13 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_227">
+          <person xml:id="person_227" corresp="persons.xml#person_227">
             <persName type="preferred">Bligger von Steinach</persName>
             <idno type="GND">118920952</idno>
             <idno type="wikidata">Q884089</idno>
             <note type="works">work_313,work_5</note>
           </person>
-          <person xml:id="person_anonym">
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>
             <persName type="alternative" xml:lang="de">Anonymus</persName>
             <persName type="alternative" xml:lang="en">anonymous</persName>

@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="MBS7">
   <teiHeader>
     <fileDesc>
@@ -49,13 +49,13 @@
             <listBibl>
               <biblStruct type="bookSection" xml:id="MBS7_MBS7" corresp="http://zotero.org/groups/5043625/items/AULBUJ46" key="MBS7">
                 <analytic>
-                  <title level="a">Cgm 467: [Rezepte aus cgm 467]</title>
+                  <title level="a">Cgm 467: [rezepte aus Cgm 467]</title>
                   <author>
                     <name>Anonym</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Münchner kochbuchhandschriften aus dem 15. Jahrhundert</title>
+                  <title level="m">Münchner Kochbuchhandschriften aus dem 15. Jahrhundert</title>
                   <idno type="ISBN">978-3-403-03364-6</idno>
                   <idno type="callNumber">MBS7</idno>
                   <editor>
@@ -83,14 +83,14 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_1d40ec18" ana="parent">
+          <category xml:id="genre_1d40ec18" ana="parent" corresp="genres.xml#genre_1d40ec18">
             <gloss xml:lang="de">Kochkunst</gloss>
             <gloss xml:lang="de">Esskultur</gloss>
             <gloss xml:lang="en">Cookery</gloss>
             <gloss xml:lang="en">Food Culture</gloss>
             <gloss xml:lang="la">Coquinaria</gloss>
           </category>
-          <category xml:id="genre_dd3d7dd7">
+          <category xml:id="genre_dd3d7dd7" corresp="genres.xml#genre_dd3d7dd7">
             <gloss xml:lang="de">Kochbuch</gloss>
             <gloss xml:lang="en">Cookbook</gloss>
             <gloss xml:lang="en">Cookery Book</gloss>
@@ -101,7 +101,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_anonym">
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>
             <persName type="alternative" xml:lang="de">Anonymus</persName>
             <persName type="alternative" xml:lang="en">anonymous</persName>

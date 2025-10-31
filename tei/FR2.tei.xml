@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="FR2">
   <teiHeader>
     <fileDesc>
@@ -41,19 +41,20 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_463">
             <idno type="sigle">FR2</idno>
+            <idno type="handschriftencensus">113</idno>
             <msName xml:lang="de">Lyrik von Frauenlob</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="bookSection" xml:id="FR2_FR2" corresp="http://zotero.org/groups/5043625/items/F596XRX9" key="FR2">
                 <analytic>
-                  <title level="a">Frauenlob teil II</title>
+                  <title level="a">Frauenlob Teil Ii</title>
                   <author>
                     <name>Heinrich von Meißen</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Leichs, sangsprüche, lieder</title>
+                  <title level="m">Leichs, Sangsprüche, Lieder</title>
                   <idno type="ISBN">3-525-82399-1</idno>
                   <idno type="callNumber">FR2</idno>
                   <editor>
@@ -71,13 +72,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Abhandlungen der akademie der wissenschaften zu göttingen,
-                philologisch-historische klasse, folge 3</title>
+                  <title level="s">Abhandlungen der Akademie der Wissenschaften zu Göttingen, Philologisch-historische Klasse, Folge 3</title>
                 </series>
-                <note>Frauenlob (Heinrich von Meissen). Leichs, Sangsprüche, Lieder. 1. Teil:
-              Einleitungen, Texte. Auf Grund der Vorarbeiten von Helmuth Thomas. Hrsg. v. Karl
-              Stackmann und Karl Bertrau. Göttingen: Vandenhoeck &amp; Ruprecht, 1981. Texte XIV.
-              (Göttinger Ausgabe)</note>
+                <note>Frauenlob (Heinrich von Meissen). Leichs, Sangsprüche, Lieder. 1. Teil: Einleitungen, Texte. Auf Grund der Vorarbeiten von Helmuth Thomas. Hrsg. v. Karl Stackmann und Karl Bertrau. Göttingen: Vandenhoeck &amp; Ruprecht, 1981. Texte XIV. (Göttinger Ausgabe)</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -92,7 +89,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_1b99a6ac">
+          <category xml:id="genre_1b99a6ac" corresp="genres.xml#genre_1b99a6ac">
             <gloss xml:lang="de">Spruchsang</gloss>
             <gloss xml:lang="de">Spruchdichtung</gloss>
             <gloss xml:lang="de">Spruchlied</gloss>
@@ -103,7 +100,7 @@
             <gloss xml:lang="en">Sangspruch</gloss>
             <gloss xml:lang="en">Spruch Poem</gloss>
           </category>
-          <category xml:id="genre_4ecfe25e">
+          <category xml:id="genre_4ecfe25e" corresp="genres.xml#genre_4ecfe25e">
             <gloss xml:lang="de">Minnesang</gloss>
             <gloss xml:lang="de">Minnesänger</gloss>
             <gloss xml:lang="de">Liebeslyrik</gloss>
@@ -112,12 +109,12 @@
             <gloss xml:lang="en">Minstrels</gloss>
             <gloss xml:lang="en">Love Poetry</gloss>
           </category>
-          <category xml:id="genre_5b2d8ce3">
+          <category xml:id="genre_5b2d8ce3" corresp="genres.xml#genre_5b2d8ce3">
             <gloss xml:lang="de">Leich</gloss>
             <gloss xml:lang="en">Lay</gloss>
             <gloss xml:lang="en">Leich</gloss>
           </category>
-          <category xml:id="genre_a2770533" ana="parent">
+          <category xml:id="genre_a2770533" ana="parent" corresp="genres.xml#genre_a2770533">
             <gloss xml:lang="de">Lyrik</gloss>
             <gloss xml:lang="en">Lyric Poetry</gloss>
           </category>
@@ -127,7 +124,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_1347">
+          <person xml:id="person_1347" corresp="persons.xml#person_1347">
             <persName type="preferred">Frauenlob</persName>
             <persName type="alternative" xml:lang="en">Heinrich Frauenlob</persName>
             <idno type="GND">118535102</idno>

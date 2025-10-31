@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="ESB">
   <teiHeader>
     <fileDesc>
@@ -41,18 +41,24 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_108">
             <idno type="sigle">ESB</idno>
+            <idno type="handschriftencensus">581</idno>
+            <idno type="gnd">1056948493</idno>
+            <idno type="wikidata">Q1342213</idno>
             <msName xml:lang="de">Engelthaler Schwesternbuch</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="book" xml:id="ESB_ESB" corresp="http://zotero.org/groups/5043625/items/7LLRTU6G" key="ESB">
                 <monogr>
-                  <title level="m">Der nonne von engelthal büchlein von der genaden uberlast</title>
-                  <idno type="callNumber">ESB</idno>
+                  <title>Der Nonne von Engelthal Büchlein von der Genaden Uberlast</title>
                   <author>
-                    <forename>Christine</forename>
-                    <surname>Ebner</surname>
+                    <name>Christine Ebner</name>
                   </author>
+                  <idno type="callNumber">ESB</idno>
+                  <editor>
+                    <forename>Karl</forename>
+                    <surname>Schröder</surname>
+                  </editor>
                   <imprint>
                     <pubPlace>Stuttgart</pubPlace>
                     <biblScope unit="volume">108</biblScope>
@@ -61,12 +67,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Bibliothek des litterarischen vereins in stuttgart</title>
+                  <title level="s">Bibliothek des Litterarischen Vereins in Stuttgart</title>
                 </series>
-                <note>Der Nonne von Engelthal Büchlein von der Genaden Uberlast. Hrsg. v. Karl
-              Schröder (Bibliothek des litterarischen Vereins in Stuttgart, CVIII; 25
-              Jahr/108,109). Tübingen 1971, S. 1-44. Die digitale Version stützt sich teilweise
-              auf jene von Thomas Gloning, 1997</note>
+                <note>Der Nonne von Engelthal Büchlein von der Genaden Uberlast. Hrsg. v. Karl Schröder (Bibliothek des litterarischen Vereins in Stuttgart, CVIII; 25 Jahr/108,109). Tübingen 1971, S. 1-44. Die digitale Version stützt sich teilweise auf jene von Thomas Gloning, 1997</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -81,13 +84,13 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_2b7da968" ana="parent">
+          <category xml:id="genre_2b7da968" ana="parent" corresp="genres.xml#genre_2b7da968">
             <gloss xml:lang="de">Religiöser Gebrauchstext</gloss>
             <gloss xml:lang="de">Geistlicher Gebrauchstext</gloss>
             <gloss xml:lang="en">Religious Functional Text</gloss>
             <gloss xml:lang="en">Spiritual Practical Text</gloss>
           </category>
-          <category xml:id="genre_978c5229">
+          <category xml:id="genre_978c5229" corresp="genres.xml#genre_978c5229">
             <gloss xml:lang="de">Schwesternbuch</gloss>
             <gloss xml:lang="de">Nonnenvita</gloss>
             <gloss xml:lang="en">Sister Book</gloss>
@@ -100,7 +103,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_385">
+          <person xml:id="person_385" corresp="persons.xml#person_385">
             <persName type="preferred">Christine Ebner</persName>
             <persName type="alternative" xml:lang="en">Christina Ebner</persName>
             <idno type="GND">10094034X</idno>

@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="ERM">
   <teiHeader>
     <fileDesc>
@@ -41,26 +41,30 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_31">
             <idno type="sigle">ERM</idno>
+            <idno type="handschriftencensus">3671</idno>
+            <idno type="gnd">4378860-9</idno>
             <msName xml:lang="de">Koninc Ermenrîkes Dôt</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="book" xml:id="ERM_ERM" corresp="http://zotero.org/groups/5043625/items/UVTE7JZL" key="ERM">
                 <monogr>
-                  <title level="m">Koninc ermenrîkes dôt: Ein niederdeutsches lied zur dietrichssage:
-                Aufgefunden und mit einem briefe von jacob grimm herausgegeben</title>
-                  <idno type="callNumber">ERM</idno>
+                  <title>Koninc Ermenrîkes Dôt: Ein Niederdeutsches Lied zur Dietrichssage: Aufgefunden und mit einem Briefe von Jacob Grimm Herausgegeben</title>
                   <author>
                     <name>Anonym</name>
                   </author>
+                  <idno type="callNumber">ERM</idno>
+                  <editor>
+                    <forename>Jacob</forename>
+                    <surname>Grimm</surname>
+                  </editor>
                   <imprint>
                     <pubPlace>Hannover</pubPlace>
                     <publisher>Ehlermann</publisher>
                     <date>1851</date>
                   </imprint>
                 </monogr>
-                <note>Koninc Ermenrîkes Dôt.Ein niederdeutsches Lied zur Dietrichsage. Hrsg. v. Jacob
-              Grimm. Hannover 1851</note>
+                <note>Koninc Ermenrîkes Dôt.Ein niederdeutsches Lied zur Dietrichsage. Hrsg. v. Jacob Grimm. Hannover 1851</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -75,7 +79,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_f3e5cee1">
+          <category xml:id="genre_f3e5cee1" corresp="genres.xml#genre_f3e5cee1">
             <gloss xml:lang="de">Dietrichsepik</gloss>
             <gloss xml:lang="de">Dietrichepik</gloss>
             <gloss xml:lang="en">Dietrich Epic</gloss>
@@ -83,7 +87,7 @@
             <gloss xml:lang="en">Dietrich Poetry</gloss>
             <gloss xml:lang="en">Epic of Dietrich</gloss>
           </category>
-          <category xml:id="genre_f6672d9f" ana="parent">
+          <category xml:id="genre_f6672d9f" ana="parent" corresp="genres.xml#genre_f6672d9f">
             <gloss xml:lang="de">Heldenepik</gloss>
             <gloss xml:lang="de">Heldenepische Dichtung</gloss>
             <gloss xml:lang="en">Heroic Epic</gloss>
@@ -95,7 +99,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_anonym">
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>
             <persName type="alternative" xml:lang="de">Anonymus</persName>
             <persName type="alternative" xml:lang="en">anonymous</persName>

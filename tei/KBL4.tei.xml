@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="KBL4">
   <teiHeader>
     <fileDesc>
@@ -41,30 +41,28 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_590">
             <idno type="sigle">KBL4</idno>
+            <idno type="handschriftencensus">7171</idno>
             <msName xml:lang="de">Das Reichenauer Kochbuch aus der Badischen Landesbibliothek (Ka1)</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="journalArticle" xml:id="KBL4_KBL4" corresp="http://zotero.org/groups/5043625/items/9J7A276U" key="KBL4">
                 <analytic>
-                  <title level="a">Das reichenauer kochbuch aus der badischen landesbibliothek: Edition
-                und kommentar</title>
+                  <title level="a">Das Reichenauer Kochbuch aus der Badischen Landesbibliothek: Edition und Kommentar</title>
                   <author>
                     <name>Anonym</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="j">Mediaevistik. Internationale Zeitschrift für interdisziplinäre
-                Mittelalterforschung</title>
+                  <title level="j">Mediaevistik. Internationale Zeitschrift für Interdisziplinäre Mittelalterforschung</title>
                   <idno type="callNumber">KBL4</idno>
                   <imprint>
-                    <biblScope unit="volume">9</biblScope>
                     <biblScope unit="page">135–188</biblScope>
+                    <biblScope unit="volume">9</biblScope>
                     <date>1996</date>
                   </imprint>
                 </monogr>
-                <note>Ehlert, Trude; [u.a.]: Das Reichenauer Kochbuch aus der Badischen
-              Landesbibliothek. Edition und Kommentar. In: Mediaevistik 9 (1996b), S. 135-188</note>
+                <note>Ehlert, Trude; [u.a.]: Das Reichenauer Kochbuch aus der Badischen Landesbibliothek. Edition und Kommentar. In: Mediaevistik 9 (1996b), S. 135-188</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -79,14 +77,14 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_1d40ec18" ana="parent">
+          <category xml:id="genre_1d40ec18" ana="parent" corresp="genres.xml#genre_1d40ec18">
             <gloss xml:lang="de">Kochkunst</gloss>
             <gloss xml:lang="de">Esskultur</gloss>
             <gloss xml:lang="en">Cookery</gloss>
             <gloss xml:lang="en">Food Culture</gloss>
             <gloss xml:lang="la">Coquinaria</gloss>
           </category>
-          <category xml:id="genre_dd3d7dd7">
+          <category xml:id="genre_dd3d7dd7" corresp="genres.xml#genre_dd3d7dd7">
             <gloss xml:lang="de">Kochbuch</gloss>
             <gloss xml:lang="en">Cookbook</gloss>
             <gloss xml:lang="en">Cookery Book</gloss>
@@ -97,7 +95,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_anonym">
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>
             <persName type="alternative" xml:lang="de">Anonymus</persName>
             <persName type="alternative" xml:lang="en">anonymous</persName>

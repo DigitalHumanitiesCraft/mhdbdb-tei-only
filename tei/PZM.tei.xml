@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="PZM">
   <teiHeader>
     <fileDesc>
@@ -47,13 +47,13 @@
             <listBibl>
               <biblStruct type="bookSection" xml:id="PZM_PZM" corresp="http://zotero.org/groups/5043625/items/CJRY8BYX" key="PZM">
                 <analytic>
-                  <title level="a">Paraenese zum mariengrusz</title>
+                  <title level="a">Paraenese zum Mariengrusz</title>
                   <author>
                     <name>Anonym</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Marienlegenden aus dem alten Passional</title>
+                  <title level="m">Marienlegenden aus dem Alten Passional</title>
                   <idno type="callNumber">PZM</idno>
                   <editor>
                     <forename>Hans-Georg</forename>
@@ -67,10 +67,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Altdeutsche textbibliothek</title>
+                  <title level="s">Altdeutsche Textbibliothek</title>
                 </series>
-                <note>Marienlegenden aus dem alten Passional. Hrsg. von Hans-Georg Richert. Tübingen:
-              Niemeyer 1965. (= ATB Nr. 64), S. 1-5</note>
+                <note>Marienlegenden aus dem alten Passional. Hrsg. von Hans-Georg Richert. Tübingen: Niemeyer 1965. (= ATB Nr. 64), S. 1-5</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -85,7 +84,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_0480b285" ana="parent">
+          <category xml:id="genre_0480b285" ana="parent" corresp="genres.xml#genre_0480b285">
             <gloss xml:lang="de">Geistliche Literatur</gloss>
             <gloss xml:lang="de">Geistliche Dichtung</gloss>
             <gloss xml:lang="de">Religiöse Dichtung</gloss>
@@ -95,7 +94,7 @@
             <gloss xml:lang="en">Spiritual Poetry</gloss>
             <gloss xml:lang="en">Religious Poetry</gloss>
           </category>
-          <category xml:id="genre_388b26e2">
+          <category xml:id="genre_388b26e2" corresp="genres.xml#genre_388b26e2">
             <gloss xml:lang="de">Predigt</gloss>
             <gloss xml:lang="de">Sermon</gloss>
             <gloss xml:lang="de">Kanzelrede</gloss>
@@ -105,31 +104,31 @@
             <gloss xml:lang="en">Homily</gloss>
             <gloss xml:lang="en">Preach</gloss>
           </category>
-          <category xml:id="genre_9acba400">
+          <category xml:id="genre_9acba400" corresp="genres.xml#genre_9acba400">
             <gloss xml:lang="de">Mahnrede</gloss>
             <gloss xml:lang="de">Paränese</gloss>
             <gloss xml:lang="en">Exhortation Speech</gloss>
             <gloss xml:lang="en">Parenesis</gloss>
           </category>
-          <category xml:id="genre_9eee7c13" ana="parent">
+          <category xml:id="genre_9eee7c13" ana="parent" corresp="genres.xml#genre_9eee7c13">
             <gloss xml:lang="de">Mystik</gloss>
             <gloss xml:lang="de">Mystischer Text</gloss>
             <gloss xml:lang="en">Mysticism</gloss>
             <gloss xml:lang="en">Mystical Text</gloss>
           </category>
-          <category xml:id="genre_ccef6751" ana="parent">
+          <category xml:id="genre_ccef6751" ana="parent" corresp="genres.xml#genre_ccef6751">
             <gloss xml:lang="de">Geistliche Rede</gloss>
             <gloss xml:lang="de">Religiöse Rede</gloss>
             <gloss xml:lang="en">Spiritual Speech</gloss>
             <gloss xml:lang="en">Religious Speech</gloss>
           </category>
-          <category xml:id="genre_f11aeb8c">
+          <category xml:id="genre_f11aeb8c" corresp="genres.xml#genre_f11aeb8c">
             <gloss xml:lang="de">Marienlyrik</gloss>
             <gloss xml:lang="de">Mariendichtung</gloss>
             <gloss xml:lang="en">Marian Poetry</gloss>
             <gloss xml:lang="en">Poetry About Holy Mary</gloss>
           </category>
-          <category xml:id="genre_f5a16820" ana="parent">
+          <category xml:id="genre_f5a16820" ana="parent" corresp="genres.xml#genre_f5a16820">
             <gloss xml:lang="de">Geistliche Lyrik</gloss>
             <gloss xml:lang="de">Religiöse Lyrik</gloss>
             <gloss xml:lang="en">Spiritual Lyrics</gloss>
@@ -141,7 +140,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_anonym">
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>
             <persName type="alternative" xml:lang="de">Anonymus</persName>
             <persName type="alternative" xml:lang="en">anonymous</persName>

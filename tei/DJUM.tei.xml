@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="DJUM">
   <teiHeader>
     <fileDesc>
@@ -41,18 +41,23 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_583">
             <idno type="sigle">DJUM</idno>
+            <idno type="handschriftencensus">2049</idno>
             <msName xml:lang="de">Lyrik von Junger Meißner</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="book" xml:id="DJUM_DJUM" corresp="http://zotero.org/groups/5043625/items/GCLFKK2C" key="DJUM">
                 <monogr>
-                  <title level="m">Sangsprüche, minnelieder, meisterlieder</title>
-                  <idno type="ISBN">978-3-7608-3379-8</idno>
-                  <idno type="callNumber">DJUM</idno>
+                  <title>Sangsprüche, Minnelieder, Meisterlieder</title>
                   <author>
                     <name>Der Junge Meißner</name>
                   </author>
+                  <idno type="ISBN">978-3-7608-3379-8</idno>
+                  <idno type="callNumber">DJUM</idno>
+                  <editor>
+                    <forename>Günther</forename>
+                    <surname>Peperkorn</surname>
+                  </editor>
                   <imprint>
                     <pubPlace>München</pubPlace>
                     <biblScope unit="volume">79</biblScope>
@@ -61,11 +66,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Münchener texte und untersuchungen zur deutschen literatur des
-                mittelalters</title>
+                  <title level="s">Münchener Texte und Untersuchungen zur Deutschen Literatur des Mittelalters</title>
                 </series>
-                <note>Der Junge Meißner. Sangsprüche, Minnelieder, Meisterlieder. Hg. v. Günter
-              Peperkorn. Artemis Verlag, 1982</note>
+                <note>Der Junge Meißner. Sangsprüche, Minnelieder, Meisterlieder. Hg. v. Günter Peperkorn. Artemis Verlag, 1982</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -80,7 +83,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_1b99a6ac">
+          <category xml:id="genre_1b99a6ac" corresp="genres.xml#genre_1b99a6ac">
             <gloss xml:lang="de">Spruchsang</gloss>
             <gloss xml:lang="de">Spruchdichtung</gloss>
             <gloss xml:lang="de">Spruchlied</gloss>
@@ -91,7 +94,7 @@
             <gloss xml:lang="en">Sangspruch</gloss>
             <gloss xml:lang="en">Spruch Poem</gloss>
           </category>
-          <category xml:id="genre_4ecfe25e">
+          <category xml:id="genre_4ecfe25e" corresp="genres.xml#genre_4ecfe25e">
             <gloss xml:lang="de">Minnesang</gloss>
             <gloss xml:lang="de">Minnesänger</gloss>
             <gloss xml:lang="de">Liebeslyrik</gloss>
@@ -100,7 +103,7 @@
             <gloss xml:lang="en">Minstrels</gloss>
             <gloss xml:lang="en">Love Poetry</gloss>
           </category>
-          <category xml:id="genre_a2770533" ana="parent">
+          <category xml:id="genre_a2770533" ana="parent" corresp="genres.xml#genre_a2770533">
             <gloss xml:lang="de">Lyrik</gloss>
             <gloss xml:lang="en">Lyric Poetry</gloss>
           </category>
@@ -110,7 +113,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_1567">
+          <person xml:id="person_1567" corresp="persons.xml#person_1567">
             <persName type="preferred">Der Junge Meißner</persName>
             <persName type="alternative" xml:lang="de">Meißner</persName>
             <persName type="alternative" xml:lang="en">Meißner</persName>

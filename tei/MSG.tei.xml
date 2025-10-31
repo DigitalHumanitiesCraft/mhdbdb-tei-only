@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="MSG">
   <teiHeader>
     <fileDesc>
@@ -41,17 +41,22 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_117">
             <idno type="sigle">MSG</idno>
+            <idno type="handschriftencensus">2056</idno>
             <msName xml:lang="de">Lyrik vom Mönch von Salzburg (Geistliche Lieder)</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="book" xml:id="MSG_MSG" corresp="http://zotero.org/groups/5043625/items/7JUDY8KZ" key="MSG">
                 <monogr>
-                  <title level="m">Die geistlichen lieder</title>
-                  <idno type="callNumber">MSG</idno>
+                  <title>Die Geistlichen Lieder</title>
                   <author>
                     <name>Mönch von Salzburg</name>
                   </author>
+                  <idno type="callNumber">MSG</idno>
+                  <editor>
+                    <forename>Franz Viktor</forename>
+                    <surname>Spechtler</surname>
+                  </editor>
                   <imprint>
                     <pubPlace>Berlin and New York</pubPlace>
                     <biblScope unit="volume">51</biblScope>
@@ -60,13 +65,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Quellen und Forschungen zur Sprach- und Kulturgeschichte der
-                germanischen Völker, N.F.</title>
+                  <title level="s">Quellen und Forschungen zur Sprach- und Kulturgeschichte der Germanischen Völker, N.f.</title>
                 </series>
-                <note>Die geistlichen Lieder des Mönchs von Salzburg. Hrsg. von Franz Viktor Spechtler.
-              Berlin, New York: de Gruyter 1972 (= Quellen und Forschungen zur Sprach- und
-              Kulturgeschichte der germanischen Völker, N.F. 51 [175])Elektronischer Text
-              vorbereitet von Bettina Hatheyer</note>
+                <note>Die geistlichen Lieder des Mönchs von Salzburg. Hrsg. von Franz Viktor Spechtler. Berlin, New York: de Gruyter 1972 (= Quellen und Forschungen zur Sprach- und Kulturgeschichte der germanischen Völker, N.F. 51 [175])Elektronischer Text vorbereitet von Bettina Hatheyer</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -81,17 +82,17 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_a2770533" ana="parent">
+          <category xml:id="genre_a2770533" ana="parent" corresp="genres.xml#genre_a2770533">
             <gloss xml:lang="de">Lyrik</gloss>
             <gloss xml:lang="en">Lyric Poetry</gloss>
           </category>
-          <category xml:id="genre_f3daf714" ana="parent">
+          <category xml:id="genre_f3daf714" ana="parent" corresp="genres.xml#genre_f3daf714">
             <gloss xml:lang="de">Bibeldichtung</gloss>
             <gloss xml:lang="de">Religiöse Versdichtung</gloss>
             <gloss xml:lang="en">Bible Poetry</gloss>
             <gloss xml:lang="en">Religious Verse Poetry</gloss>
           </category>
-          <category xml:id="genre_f5a16820">
+          <category xml:id="genre_f5a16820" corresp="genres.xml#genre_f5a16820">
             <gloss xml:lang="de">Geistliche Lyrik</gloss>
             <gloss xml:lang="de">Religiöse Lyrik</gloss>
             <gloss xml:lang="en">Spiritual Lyrics</gloss>
@@ -103,7 +104,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_344">
+          <person xml:id="person_344" corresp="persons.xml#person_344">
             <persName type="preferred">Der Mönch von Salzburg</persName>
             <persName type="alternative" xml:lang="de">Mönch von Salzburg</persName>
             <persName type="alternative" xml:lang="en">Monk of Salzburg</persName>

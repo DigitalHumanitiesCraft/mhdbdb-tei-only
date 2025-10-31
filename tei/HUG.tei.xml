@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="HUG">
   <teiHeader>
     <fileDesc>
@@ -41,18 +41,23 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_360">
             <idno type="sigle">HUG</idno>
+            <idno type="handschriftencensus">948</idno>
             <msName xml:lang="de">Lyrik von Hugo von Montfort</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="book" xml:id="HUG_HUG" corresp="http://zotero.org/groups/5043625/items/4E8P6T87" key="HUG">
                 <monogr>
-                  <title level="m">Das poetische werk: Text – melodie – einführung</title>
-                  <idno type="ISBN">978-3-11-089058-7</idno>
-                  <idno type="callNumber">HUG</idno>
+                  <title>Das Poetische Werk: Text – Melodie – Einführung</title>
                   <author>
                     <name>Hugo von Montfort</name>
                   </author>
+                  <idno type="ISBN">978-3-11-089058-7</idno>
+                  <idno type="callNumber">HUG</idno>
+                  <editor>
+                    <forename>Wernfried</forename>
+                    <surname>Hofmeister</surname>
+                  </editor>
                   <imprint>
                     <pubPlace>Berlin and New York</pubPlace>
                     <publisher>de Gruyter</publisher>
@@ -60,11 +65,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">De gruyter texte</title>
+                  <title level="s">De Gruyter Texte</title>
                 </series>
-                <note>Hugo von Montfort. Das poetische Werk. Hrsg. v. Wernfried Hofmeister. Mit einem
-              Melodie-Anhang von Agnes Grond. Berlin/New York: DeGruyter, 2005. Ein digitaler Text
-              wurde von Wernfried Hofmeister zur Verfügung gestellt</note>
+                <note>Hugo von Montfort. Das poetische Werk. Hrsg. v. Wernfried Hofmeister. Mit einem Melodie-Anhang von Agnes Grond. Berlin/New York: DeGruyter, 2005. Ein digitaler Text wurde von Wernfried Hofmeister zur Verfügung gestellt</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -79,7 +82,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_4ecfe25e">
+          <category xml:id="genre_4ecfe25e" corresp="genres.xml#genre_4ecfe25e">
             <gloss xml:lang="de">Minnesang</gloss>
             <gloss xml:lang="de">Minnesänger</gloss>
             <gloss xml:lang="de">Liebeslyrik</gloss>
@@ -88,22 +91,22 @@
             <gloss xml:lang="en">Minstrels</gloss>
             <gloss xml:lang="en">Love Poetry</gloss>
           </category>
-          <category xml:id="genre_9c7d5679">
+          <category xml:id="genre_9c7d5679" corresp="genres.xml#genre_9c7d5679">
             <gloss xml:lang="de">Diskursive Kurzform</gloss>
             <gloss xml:lang="en">Discursive Short Form</gloss>
             <gloss xml:lang="en">Discursive Form in Small Poetry</gloss>
           </category>
-          <category xml:id="genre_a2770533" ana="parent">
+          <category xml:id="genre_a2770533" ana="parent" corresp="genres.xml#genre_a2770533">
             <gloss xml:lang="de">Lyrik</gloss>
             <gloss xml:lang="en">Lyric Poetry</gloss>
           </category>
-          <category xml:id="genre_c86f72ab" ana="parent">
+          <category xml:id="genre_c86f72ab" ana="parent" corresp="genres.xml#genre_c86f72ab">
             <gloss xml:lang="de">Kurzdichtung</gloss>
             <gloss xml:lang="de">Kleindichtung</gloss>
             <gloss xml:lang="en">Short Poetry</gloss>
             <gloss xml:lang="en">Small Poetry</gloss>
           </category>
-          <category xml:id="genre_e513a99c" ana="parent">
+          <category xml:id="genre_e513a99c" ana="parent" corresp="genres.xml#genre_e513a99c">
             <gloss xml:lang="de">Brief</gloss>
             <gloss xml:lang="en">Letter</gloss>
           </category>
@@ -113,7 +116,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_887">
+          <person xml:id="person_887" corresp="persons.xml#person_887">
             <persName type="preferred">Hugo von Montfort</persName>
             <idno type="GND">118554603</idno>
             <idno type="wikidata">Q682038</idno>

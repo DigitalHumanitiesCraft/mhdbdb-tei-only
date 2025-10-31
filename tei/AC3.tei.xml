@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="AC3">
   <teiHeader>
     <fileDesc>
@@ -41,18 +41,25 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_167">
             <idno type="sigle">AC3</idno>
+            <idno type="handschriftencensus">936</idno>
+            <idno type="gnd">4123466-2</idno>
+            <idno type="wikidata">Q1192091</idno>
             <msName xml:lang="de">Der Ackermann aus Böhmen</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="book" xml:id="AC3_AC3" corresp="http://zotero.org/groups/5043625/items/T2ACUTLG" key="AC3">
                 <monogr>
-                  <title level="m">Der ackermann und der tod: Text und übertragung</title>
-                  <idno type="ISBN">978-3-15-007666-8</idno>
-                  <idno type="callNumber">AC3</idno>
+                  <title>Der Ackermann und der Tod: Text und Übertragung</title>
                   <author>
                     <name>Johann von Tepl</name>
                   </author>
+                  <idno type="ISBN">978-3-15-007666-8</idno>
+                  <idno type="callNumber">AC3</idno>
+                  <editor>
+                    <forename>F.</forename>
+                    <surname>Genzmer</surname>
+                  </editor>
                   <edition>[Nachdr.], durchges. u. bibliogr. erneuerte Ausg</edition>
                   <imprint>
                     <pubPlace>Stuttgart</pubPlace>
@@ -62,12 +69,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Reclams universal-bibliothek</title>
+                  <title level="s">Reclams Universal-bibliothek</title>
                 </series>
-                <note>Johann von Tepl, Der Ackermann und der Tod. Hrsg.v. F. Genzmer, Stuttgart:Reclam
-              1984. Digitale Version: Ulrich Harsch 1998 http://www.fh-augsburg.de/
-              ̃harsch/germanica/Chronologie/15Jh/Tepl/tep_tod.html [weist viele Abweichungen von der
-              gedruckten Edition auf]</note>
+                <note>Johann von Tepl, Der Ackermann und der Tod. Hrsg.v. F. Genzmer, Stuttgart:Reclam 1984. Digitale Version: Ulrich Harsch 1998 http://www.fh-augsburg.de/ ̃harsch/germanica/Chronologie/15Jh/Tepl/tep_tod.html [weist viele Abweichungen von der gedruckten Edition auf]</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -82,13 +86,13 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_01bf2b8b" ana="parent">
+          <category xml:id="genre_01bf2b8b" ana="parent" corresp="genres.xml#genre_01bf2b8b">
             <gloss xml:lang="de">Dialogische Kurzform</gloss>
             <gloss xml:lang="de">Dialogform in der Kurzdichtung</gloss>
             <gloss xml:lang="en">Dialogical Short Form</gloss>
             <gloss xml:lang="en">Dialogic Form in Small Poetry</gloss>
           </category>
-          <category xml:id="genre_60eb54e6">
+          <category xml:id="genre_60eb54e6" corresp="genres.xml#genre_60eb54e6">
             <gloss xml:lang="de">Streitgedicht</gloss>
             <gloss xml:lang="de">Streitlied</gloss>
             <gloss xml:lang="de">Streitgespräch</gloss>
@@ -105,7 +109,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_726">
+          <person xml:id="person_726" corresp="persons.xml#person_726">
             <persName type="preferred">Johann von Tepl</persName>
             <persName type="alternative" xml:lang="de">Johannes von Tepl</persName>
             <persName type="alternative" xml:lang="en">Johannes von Tepl</persName>

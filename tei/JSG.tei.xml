@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="JSG">
   <teiHeader>
     <fileDesc>
@@ -47,11 +47,15 @@
             <listBibl>
               <biblStruct type="book" xml:id="JSG_JSG" corresp="http://zotero.org/groups/5043625/items/MPSRKGFV" key="JSG">
                 <monogr>
-                  <title level="m">Der jüngere sigenot: Nach sämtl. Hs. u. Drucken</title>
-                  <idno type="callNumber">JSG</idno>
+                  <title>Der Jüngere Sigenot: Nach Sämtl. Hs. U. Drucken</title>
                   <author>
                     <name>Anonym</name>
                   </author>
+                  <idno type="callNumber">JSG</idno>
+                  <editor>
+                    <forename>Clemens</forename>
+                    <surname>Schoner</surname>
+                  </editor>
                   <imprint>
                     <pubPlace>Heidelberg</pubPlace>
                     <biblScope unit="volume">6</biblScope>
@@ -60,13 +64,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Germanische bibliothek. Reihe 3: Kritische ausgaben altdeutscher
-                texte</title>
+                  <title level="s">Germanische Bibliothek. Reihe 3: Kritische Ausgaben Altdeutscher Texte</title>
                 </series>
-                <note>Der jüngere Sigenot, nach sämtlichen Handschriften und Drucken hrsg. von A.
-              Clemens Schoener. Heidelberg, C. Winter, 1928. (Germanische Bibliothek. 3.Abt.;
-              Kritische Ausgaben altdeutscher Texte; Bd. 6) Elektronische Fassung von Henrike
-              Lähnemann redigiert</note>
+                <note>Der jüngere Sigenot, nach sämtlichen Handschriften und Drucken hrsg. von A. Clemens Schoener. Heidelberg, C. Winter, 1928. (Germanische Bibliothek. 3.Abt.; Kritische Ausgaben altdeutscher Texte; Bd. 6) Elektronische Fassung von Henrike Lähnemann redigiert</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -81,7 +81,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_f3e5cee1">
+          <category xml:id="genre_f3e5cee1" corresp="genres.xml#genre_f3e5cee1">
             <gloss xml:lang="de">Dietrichsepik</gloss>
             <gloss xml:lang="de">Dietrichepik</gloss>
             <gloss xml:lang="en">Dietrich Epic</gloss>
@@ -89,7 +89,7 @@
             <gloss xml:lang="en">Dietrich Poetry</gloss>
             <gloss xml:lang="en">Epic of Dietrich</gloss>
           </category>
-          <category xml:id="genre_f6672d9f" ana="parent">
+          <category xml:id="genre_f6672d9f" ana="parent" corresp="genres.xml#genre_f6672d9f">
             <gloss xml:lang="de">Heldenepik</gloss>
             <gloss xml:lang="de">Heldenepische Dichtung</gloss>
             <gloss xml:lang="en">Heroic Epic</gloss>
@@ -101,7 +101,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_anonym">
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>
             <persName type="alternative" xml:lang="de">Anonymus</persName>
             <persName type="alternative" xml:lang="en">anonymous</persName>

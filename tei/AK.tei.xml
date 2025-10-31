@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="AK">
   <teiHeader>
     <fileDesc>
@@ -41,19 +41,22 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_188">
             <idno type="sigle">AK</idno>
+            <idno type="handschriftencensus">602</idno>
+            <idno type="gnd">4482775-1</idno>
+            <idno type="wikidata">Q2341922</idno>
             <msName xml:lang="de">Steirische Reimchronik</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="bookSection" xml:id="AK_AK" corresp="http://zotero.org/groups/5043625/items/2DYZ3DUR" key="AK">
                 <analytic>
-                  <title level="a">Buch von akkon</title>
+                  <title level="a">Buch von Akkon</title>
                   <author>
                     <name>Ottokar aus der Gaal</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Ottokars österreichische reimchronik</title>
+                  <title level="m">Ottokars Österreichische Reimchronik</title>
                   <idno type="callNumber">AK</idno>
                   <editor>
                     <forename>Joseph</forename>
@@ -64,21 +67,16 @@
                     <surname>Lichtenstein</surname>
                   </editor>
                   <imprint>
-                    <biblScope unit="volume">5.1</biblScope>
                     <biblScope unit="page">578–720</biblScope>
+                    <biblScope unit="volume">5.1</biblScope>
                     <publisher>Hahn</publisher>
-                    <date>1890</date>
+                    <date>1890–1893</date>
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Monumenta germaniae historica. Deutsche chroniken und andere
-                geschichtsbücher des mittelalters</title>
+                  <title level="s">Monumenta Germaniae Historica. Deutsche Chroniken und Andere Geschichtsbücher des Mittelalters</title>
                 </series>
-                <note>Seemüller, Josef: Monumenta Germaniae Historica. Deutsche Chroniken. 5,1 u. 5,2
-              Ottokars Österreichische Reimchronik. Nach den Abschriften Franz Lichtensteins.
-              Unveränderter Nachdruck der 1890-1893 bei der Hahnschen Buchhandlung, Hannover,
-              erschienenen Ausgabe. München: Monumenta Germaniae Historica, 1980, S. 578-720.
-              Elektronischer Text vorbereitet von Bettina Hatheyer</note>
+                <note>Seemüller, Josef: Monumenta Germaniae Historica. Deutsche Chroniken. 5,1 u. 5,2 Ottokars Österreichische Reimchronik. Nach den Abschriften Franz Lichtensteins. Unveränderter Nachdruck der 1890-1893 bei der Hahnschen Buchhandlung, Hannover, erschienenen Ausgabe. München: Monumenta Germaniae Historica, 1980, S. 578-720. Elektronischer Text vorbereitet von Bettina Hatheyer</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -93,11 +91,11 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_00bb7cc9">
+          <category xml:id="genre_00bb7cc9" corresp="genres.xml#genre_00bb7cc9">
             <gloss xml:lang="de">Lokalchronik, Territorialchronik und Herrschaftschronik</gloss>
             <gloss xml:lang="en">Local Chronicle, Territorial Chronicle and Chronicle of the Dominion</gloss>
           </category>
-          <category xml:id="genre_36228c48" ana="parent">
+          <category xml:id="genre_36228c48" ana="parent" corresp="genres.xml#genre_36228c48">
             <gloss xml:lang="de">Chronik</gloss>
             <gloss xml:lang="en">Chronicle</gloss>
           </category>
@@ -107,7 +105,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_104">
+          <person xml:id="person_104" corresp="persons.xml#person_104">
             <persName type="preferred">Ottokar aus der Gaal</persName>
             <idno type="GND">118738836</idno>
             <idno type="wikidata">Q876153</idno>

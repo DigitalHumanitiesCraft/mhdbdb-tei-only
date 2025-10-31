@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="ORT">
   <teiHeader>
     <fileDesc>
@@ -41,38 +41,16 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_56">
             <idno type="sigle">ORT</idno>
+            <idno type="handschriftencensus">483</idno>
+            <idno type="gnd">4134012-7</idno>
+            <idno type="wikidata">Q1789855</idno>
             <msName xml:lang="de">Ortnit</msName>
           </msIdentifier>
           <additional>
             <listBibl>
-              <biblStruct type="book" xml:id="Amelung.1873_ORT" corresp="http://zotero.org/groups/5043625/items/TRBTF7EP" key="ORT">
-                <monogr>
-                  <title level="m">Ortnit und die wolfdietriche: Zweiter band</title>
-                  <idno type="callNumber">ORT</idno>
-                  <editor>
-                    <forename>Arthur</forename>
-                    <surname>Amelung</surname>
-                  </editor>
-                  <editor>
-                    <forename>Oskar</forename>
-                    <surname>Jänicke</surname>
-                  </editor>
-                  <imprint>
-                    <pubPlace>Berlin</pubPlace>
-                    <biblScope unit="volume">4</biblScope>
-                    <publisher>Weidmann</publisher>
-                    <date>1873</date>
-                  </imprint>
-                </monogr>
-                <series>
-                  <title level="s">Deutsches heldenbuch</title>
-                </series>
-                <note>Ortnit. Aus: Ortnit und die Wolfdietrich. Hrsg. v. Arthur Amelung u. Oskar
-              Jaenicke, Berlin 1871. (=Deutsches Heldenbuch, 3 = Ortnit Und Die Wolfdietriche)</note>
-              </biblStruct>
               <biblStruct type="book" xml:id="ORT_ORT" corresp="http://zotero.org/groups/5043625/items/6CI4G7NN" key="ORT">
                 <monogr>
-                  <title level="m">Ortnit und die wolfdietriche: Erster band</title>
+                  <title>Ortnit und die Wolfdietriche: Erster Band</title>
                   <idno type="callNumber">ORT</idno>
                   <editor>
                     <forename>Arthur</forename>
@@ -90,10 +68,33 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Deutsches heldenbuch</title>
+                  <title level="s">Deutsches Heldenbuch</title>
                 </series>
-                <note>Ortnit. Aus: Ortnit und die Wolfdietrich. Hrsg. v. Arthur Amelung u. Oskar
-              Jaenicke, Berlin 1871. (=Deutsches Heldenbuch, 3 = Ortnit Und Die Wolfdietriche)</note>
+                <note>Ortnit. Aus: Ortnit und die Wolfdietrich. Hrsg. v. Arthur Amelung u. Oskar Jaenicke, Berlin 1871. (=Deutsches Heldenbuch, 3 = Ortnit Und Die Wolfdietriche)</note>
+              </biblStruct>
+              <biblStruct type="book" xml:id="ORT_ORT_ORT" corresp="http://zotero.org/groups/5043625/items/TRBTF7EP" key="ORT">
+                <monogr>
+                  <title>Ortnit und die Wolfdietriche: Zweiter Band</title>
+                  <idno type="callNumber">ORT</idno>
+                  <editor>
+                    <forename>Arthur</forename>
+                    <surname>Amelung</surname>
+                  </editor>
+                  <editor>
+                    <forename>Oskar</forename>
+                    <surname>Jänicke</surname>
+                  </editor>
+                  <imprint>
+                    <pubPlace>Berlin</pubPlace>
+                    <biblScope unit="volume">4</biblScope>
+                    <publisher>Weidmann</publisher>
+                    <date>1873</date>
+                  </imprint>
+                </monogr>
+                <series>
+                  <title level="s">Deutsches Heldenbuch</title>
+                </series>
+                <note>Ortnit. Aus: Ortnit und die Wolfdietrich. Hrsg. v. Arthur Amelung u. Oskar Jaenicke, Berlin 1871. (=Deutsches Heldenbuch, 3 = Ortnit Und Die Wolfdietriche)</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -108,7 +109,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_f3e5cee1">
+          <category xml:id="genre_f3e5cee1" corresp="genres.xml#genre_f3e5cee1">
             <gloss xml:lang="de">Dietrichsepik</gloss>
             <gloss xml:lang="de">Dietrichepik</gloss>
             <gloss xml:lang="en">Dietrich Epic</gloss>
@@ -116,7 +117,7 @@
             <gloss xml:lang="en">Dietrich Poetry</gloss>
             <gloss xml:lang="en">Epic of Dietrich</gloss>
           </category>
-          <category xml:id="genre_f6672d9f" ana="parent">
+          <category xml:id="genre_f6672d9f" ana="parent" corresp="genres.xml#genre_f6672d9f">
             <gloss xml:lang="de">Heldenepik</gloss>
             <gloss xml:lang="de">Heldenepische Dichtung</gloss>
             <gloss xml:lang="en">Heroic Epic</gloss>
@@ -128,7 +129,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_anonym">
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>
             <persName type="alternative" xml:lang="de">Anonymus</persName>
             <persName type="alternative" xml:lang="en">anonymous</persName>

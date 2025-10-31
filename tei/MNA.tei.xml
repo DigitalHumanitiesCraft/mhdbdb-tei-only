@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="MNA">
   <teiHeader>
     <fileDesc>
@@ -41,29 +41,38 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_192">
             <idno type="sigle">MNA</idno>
+            <idno type="handschriftencensus">946</idno>
+            <idno type="gnd">4331346-2</idno>
             <msName xml:lang="de">Mainauer Naturlehre</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="book" xml:id="MNA_MNA" corresp="http://zotero.org/groups/5043625/items/96U8BILB" key="MNA">
                 <monogr>
-                  <title level="m">Die sogenannte "mainauer naturlehre" der basler hs. B VIII 27:
-                Abbildung, transkription, kommentar</title>
-                  <idno type="callNumber">MNA</idno>
+                  <title>Die Sogenannte "mainauer Naturlehre" der Basler Hs. B Viii 27: Abbildung, Transkription, Kommentar</title>
                   <author>
                     <name>Anonym</name>
                   </author>
+                  <idno type="callNumber">MNA</idno>
+                  <editor>
+                    <forename>Helmut R.</forename>
+                    <surname>Plant</surname>
+                  </editor>
+                  <editor>
+                    <forename>Marie</forename>
+                    <surname>Rowlands</surname>
+                  </editor>
+                  <editor>
+                    <forename>Rolf</forename>
+                    <surname>Burkhart</surname>
+                  </editor>
                   <imprint>
                     <pubPlace>Göppingen</pubPlace>
                     <publisher>Kümmerle</publisher>
                     <date>1972</date>
                   </imprint>
                 </monogr>
-                <note>Die sogenannte Mainauer Naturlehre. Hrsg.v. Helmut R. Plant, Marie Rowlands und
-              Rolf Burkhart, Göppingen: Kümmerle 1972. (= Litterae. Göppinger Beiträge zur
-              Textgeschichte Nr. 18). Der Text ist eine abgeänderte Version des digitalen Textes
-              von Ulrich Harsch 1999. http://www.fh-augsburg.de/
-              ̃harsch/germanica/Chronologie/14Jh/Naturlehre/mai_n000.html</note>
+                <note>Die sogenannte Mainauer Naturlehre. Hrsg.v. Helmut R. Plant, Marie Rowlands und Rolf Burkhart, Göppingen: Kümmerle 1972. (= Litterae. Göppinger Beiträge zur Textgeschichte Nr. 18). Der Text ist eine abgeänderte Version des digitalen Textes von Ulrich Harsch 1999. http://www.fh-augsburg.de/ ̃harsch/germanica/Chronologie/14Jh/Naturlehre/mai_n000.html</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -78,13 +87,13 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_2575e7d9" ana="parent">
+          <category xml:id="genre_2575e7d9" ana="parent" corresp="genres.xml#genre_2575e7d9">
             <gloss xml:lang="de">Fachliteratur</gloss>
             <gloss xml:lang="de">Fachprosa</gloss>
             <gloss xml:lang="de">Fachtext</gloss>
             <gloss xml:lang="en">Professional Literature</gloss>
           </category>
-          <category xml:id="genre_7affa7fc">
+          <category xml:id="genre_7affa7fc" corresp="genres.xml#genre_7affa7fc">
             <gloss xml:lang="de">Naturkunde</gloss>
             <gloss xml:lang="de">Naturdeutung</gloss>
             <gloss xml:lang="de">Naturwissenschaft</gloss>
@@ -98,7 +107,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_anonym">
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>
             <persName type="alternative" xml:lang="de">Anonymus</persName>
             <persName type="alternative" xml:lang="en">anonymous</persName>

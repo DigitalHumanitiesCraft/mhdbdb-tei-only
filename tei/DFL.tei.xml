@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="DFL">
   <teiHeader>
     <fileDesc>
@@ -41,19 +41,22 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_130">
             <idno type="sigle">DFL</idno>
+            <idno type="handschriftencensus">87</idno>
+            <idno type="gnd">4149762-4</idno>
+            <idno type="wikidata">Q1224218</idno>
             <msName xml:lang="de">Dietrichs Flucht</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="bookSection" xml:id="DFL_DFL" corresp="http://zotero.org/groups/5043625/items/SF4QNTII" key="DFL">
                 <analytic>
-                  <title level="a">Dietrichs flucht</title>
+                  <title level="a">Dietrichs Flucht</title>
                   <author>
                     <name>Anonym</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Alpharts tod. Dietrichs flucht. Rabenschlacht</title>
+                  <title level="m">Alpharts Tod. Dietrichs Flucht. Rabenschlacht</title>
                   <idno type="callNumber">DFL</idno>
                   <editor>
                     <forename>Ernst</forename>
@@ -61,17 +64,16 @@
                   </editor>
                   <imprint>
                     <pubPlace>[Berlin and Zürich]</pubPlace>
-                    <biblScope unit="volume">2</biblScope>
                     <biblScope unit="page">55–215</biblScope>
+                    <biblScope unit="volume">2</biblScope>
                     <publisher>Weidmann</publisher>
                     <date>1975</date>
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Deutsches heldenbuch</title>
+                  <title level="s">Deutsches Heldenbuch</title>
                 </series>
-                <note>Dietrichs Flucht. In: Deutsches Heldenbuch, zweiter Teil. Hrsg. v. Ernst Martin.
-              Berlin 1866. S. 55-215</note>
+                <note>Dietrichs Flucht. In: Deutsches Heldenbuch, zweiter Teil. Hrsg. v. Ernst Martin. Berlin 1866. S. 55-215</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -86,7 +88,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_f3e5cee1">
+          <category xml:id="genre_f3e5cee1" corresp="genres.xml#genre_f3e5cee1">
             <gloss xml:lang="de">Dietrichsepik</gloss>
             <gloss xml:lang="de">Dietrichepik</gloss>
             <gloss xml:lang="en">Dietrich Epic</gloss>
@@ -94,7 +96,7 @@
             <gloss xml:lang="en">Dietrich Poetry</gloss>
             <gloss xml:lang="en">Epic of Dietrich</gloss>
           </category>
-          <category xml:id="genre_f6672d9f" ana="parent">
+          <category xml:id="genre_f6672d9f" ana="parent" corresp="genres.xml#genre_f6672d9f">
             <gloss xml:lang="de">Heldenepik</gloss>
             <gloss xml:lang="de">Heldenepische Dichtung</gloss>
             <gloss xml:lang="en">Heroic Epic</gloss>
@@ -106,7 +108,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_anonym">
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>
             <persName type="alternative" xml:lang="de">Anonymus</persName>
             <persName type="alternative" xml:lang="en">anonymous</persName>

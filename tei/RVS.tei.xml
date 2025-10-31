@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="RVS">
   <teiHeader>
     <fileDesc>
@@ -43,6 +43,9 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_375">
             <idno type="sigle">RVS</idno>
+            <idno type="handschriftencensus">1980</idno>
+            <idno type="gnd">4626823-6</idno>
+            <idno type="wikidata">Q85792966</idno>
             <msName xml:lang="de">Der Ritter von Staufenberg</msName>
             <msName xml:lang="de">Peter von Staufenberg</msName>
             <msName xml:lang="en">Peter von Staufenberg</msName>
@@ -51,12 +54,16 @@
             <listBibl>
               <biblStruct type="book" xml:id="RVS_RVS" corresp="http://zotero.org/groups/5043625/items/B6BBD93N" key="RVS">
                 <monogr>
-                  <title level="m">Der ritter von staufenberg</title>
-                  <idno type="ISBN">978-3-484-20104-0</idno>
-                  <idno type="callNumber">RVS</idno>
+                  <title>Der Ritter von Staufenberg</title>
                   <author>
                     <name>Egenolf von Staufenberg</name>
                   </author>
+                  <idno type="ISBN">978-3-484-20104-0</idno>
+                  <idno type="callNumber">RVS</idno>
+                  <editor>
+                    <forename>Eckhard</forename>
+                    <surname>Grunewald</surname>
+                  </editor>
                   <imprint>
                     <pubPlace>Tübingen</pubPlace>
                     <biblScope unit="volume">88</biblScope>
@@ -65,10 +72,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Altdeutsche textbibliothek</title>
+                  <title level="s">Altdeutsche Textbibliothek</title>
                 </series>
-                <note>Der Ritter von Staufenberg. Hrsg. v. Eckhard Grunewald. Tübingen: Max Niemeyer,
-              1979. (= ATB 88)</note>
+                <note>Der Ritter von Staufenberg. Hrsg. v. Eckhard Grunewald. Tübingen: Max Niemeyer, 1979. (= ATB 88)</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -83,14 +89,14 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_ae9e2d0e" ana="parent">
+          <category xml:id="genre_ae9e2d0e" ana="parent" corresp="genres.xml#genre_ae9e2d0e">
             <gloss xml:lang="de">Erzählende Kurzform</gloss>
             <gloss xml:lang="de">Kleinepik</gloss>
             <gloss xml:lang="en">Narrative Short Form</gloss>
             <gloss xml:lang="en">Short Epic</gloss>
             <gloss xml:lang="en">Small Epics</gloss>
           </category>
-          <category xml:id="genre_d65a163b">
+          <category xml:id="genre_d65a163b" corresp="genres.xml#genre_d65a163b">
             <gloss xml:lang="de">Märe</gloss>
             <gloss xml:lang="de">Mär</gloss>
             <gloss xml:lang="de">Versnovelle</gloss>
@@ -104,7 +110,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_848">
+          <person xml:id="person_848" corresp="persons.xml#person_848">
             <persName type="preferred">Egenolf von Staufenberg</persName>
             <idno type="GND">118529021</idno>
             <idno type="wikidata">Q55194093</idno>

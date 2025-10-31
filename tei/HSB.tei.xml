@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="HSB">
   <teiHeader>
     <fileDesc>
@@ -41,19 +41,20 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_419">
             <idno type="sigle">HSB</idno>
+            <idno type="handschriftencensus">3423</idno>
             <msName xml:lang="de">Lyrik von Hartmann von Starkenberg</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="bookSection" xml:id="HSB_HSB" corresp="http://zotero.org/groups/5043625/items/H4SC9EUG" key="HSB">
                 <analytic>
-                  <title level="a">[Lieder]</title>
+                  <title level="a">[lieder]</title>
                   <author>
                     <name>Hartmann von Starkenberg</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Deutsche liederdichter des 13. Jahrhunderts</title>
+                  <title level="m">Deutsche Liederdichter des 13. Jahrhunderts</title>
                   <idno type="callNumber">HSB</idno>
                   <editor>
                     <forename>Carl</forename>
@@ -61,10 +62,10 @@
                   </editor>
                   <imprint>
                     <pubPlace>Tübingen</pubPlace>
-                    <biblScope unit="volume">1</biblScope>
                     <biblScope unit="page">141–142</biblScope>
+                    <biblScope unit="volume">1</biblScope>
                     <publisher>Niemeyer</publisher>
-                    <date>1951</date>
+                    <date>1951–58</date>
                   </imprint>
                 </monogr>
                 <note>Deutsche Liederdichter. Hrsg. von Carl von Kraus. Tübingen, M. Niemeyer, 1951-58</note>
@@ -82,7 +83,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_4ecfe25e">
+          <category xml:id="genre_4ecfe25e" corresp="genres.xml#genre_4ecfe25e">
             <gloss xml:lang="de">Minnesang</gloss>
             <gloss xml:lang="de">Minnesänger</gloss>
             <gloss xml:lang="de">Liebeslyrik</gloss>
@@ -91,7 +92,7 @@
             <gloss xml:lang="en">Minstrels</gloss>
             <gloss xml:lang="en">Love Poetry</gloss>
           </category>
-          <category xml:id="genre_a2770533" ana="parent">
+          <category xml:id="genre_a2770533" ana="parent" corresp="genres.xml#genre_a2770533">
             <gloss xml:lang="de">Lyrik</gloss>
             <gloss xml:lang="en">Lyric Poetry</gloss>
           </category>
@@ -101,7 +102,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_1053">
+          <person xml:id="person_1053" corresp="persons.xml#person_1053">
             <persName type="preferred">Hartman von Starkenberg</persName>
             <persName type="alternative" xml:lang="de">Hartmann von Starkenberg</persName>
             <idno type="GND">118701800</idno>

@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="PKP">
   <teiHeader>
     <fileDesc>
@@ -47,13 +47,13 @@
             <listBibl>
               <biblStruct type="bookSection" xml:id="PKP_PKP" corresp="http://zotero.org/groups/5043625/items/TACSL3SC" key="PKP">
                 <analytic>
-                  <title level="a">[Predigten]</title>
+                  <title level="a">[predigten]</title>
                   <author>
                     <name>Priester Konrad</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Altdeutsche predigten</title>
+                  <title level="m">Altdeutsche Predigten</title>
                   <idno type="callNumber">PKP</idno>
                   <editor>
                     <forename>Anton E.</forename>
@@ -61,14 +61,12 @@
                   </editor>
                   <imprint>
                     <pubPlace>Graz</pubPlace>
-                    <biblScope unit="volume">3</biblScope>
                     <biblScope unit="page">1–267</biblScope>
-                    <date>1886</date>
+                    <biblScope unit="volume">3</biblScope>
+                    <date>1886–1891</date>
                   </imprint>
                 </monogr>
-                <note>Altdeutsche Predigten. Hrsg. v. Anton E. Schönbach. 3. Bd.: Texte. Graz: Styria,
-              1891. Die elektronische Texteingabe beruht teilweise auf der digitalen Version des
-              Oxford Text Archive: http://ota.ahds.ac.uk</note>
+                <note>Altdeutsche Predigten. Hrsg. v. Anton E. Schönbach. 3. Bd.: Texte. Graz: Styria, 1891. Die elektronische Texteingabe beruht teilweise auf der digitalen Version des Oxford Text Archive: http://ota.ahds.ac.uk</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -83,13 +81,13 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_2b7da968" ana="parent">
+          <category xml:id="genre_2b7da968" ana="parent" corresp="genres.xml#genre_2b7da968">
             <gloss xml:lang="de">Religiöser Gebrauchstext</gloss>
             <gloss xml:lang="de">Geistlicher Gebrauchstext</gloss>
             <gloss xml:lang="en">Religious Functional Text</gloss>
             <gloss xml:lang="en">Spiritual Practical Text</gloss>
           </category>
-          <category xml:id="genre_388b26e2">
+          <category xml:id="genre_388b26e2" corresp="genres.xml#genre_388b26e2">
             <gloss xml:lang="de">Predigt</gloss>
             <gloss xml:lang="de">Sermon</gloss>
             <gloss xml:lang="de">Kanzelrede</gloss>
@@ -105,7 +103,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_646">
+          <person xml:id="person_646" corresp="persons.xml#person_646">
             <persName type="preferred">Priester Konrad</persName>
             <idno type="GND">118713884</idno>
             <note type="works">work_200</note>

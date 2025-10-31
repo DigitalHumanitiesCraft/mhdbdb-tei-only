@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="PT">
   <teiHeader>
     <fileDesc>
@@ -41,18 +41,25 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_11">
             <idno type="sigle">PT</idno>
+            <idno type="handschriftencensus">1602</idno>
+            <idno type="gnd">7618650-7</idno>
+            <idno type="wikidata">Q58476602</idno>
             <msName xml:lang="de">Pantaleon</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="book" xml:id="PT_PT" corresp="http://zotero.org/groups/5043625/items/JUHEBYUG" key="PT">
                 <monogr>
-                  <title level="m">Pantaleon</title>
-                  <idno type="ISBN">978-3-484-20082-1</idno>
-                  <idno type="callNumber">PT</idno>
+                  <title>Pantaleon</title>
                   <author>
                     <name>Konrad von Würzburg</name>
                   </author>
+                  <idno type="ISBN">978-3-484-20082-1</idno>
+                  <idno type="callNumber">PT</idno>
+                  <editor>
+                    <forename>W.</forename>
+                    <surname>Wösler</surname>
+                  </editor>
                   <edition>2</edition>
                   <imprint>
                     <pubPlace>Tübingen</pubPlace>
@@ -62,7 +69,7 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Altdeutsche textbibliothek</title>
+                  <title level="s">Altdeutsche Textbibliothek</title>
                 </series>
                 <note>Pantaleon. Konrad von Würzburg. Hrsg. v. W. Wösler, 2.Aufl. Tübingen 1974</note>
               </biblStruct>
@@ -79,7 +86,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_2292de8a">
+          <category xml:id="genre_2292de8a" corresp="genres.xml#genre_2292de8a">
             <gloss xml:lang="de">Heiligenlegende</gloss>
             <gloss xml:lang="de">Heiligenvita</gloss>
             <gloss xml:lang="de">Vita</gloss>
@@ -88,7 +95,7 @@
             <gloss xml:lang="en">Vita</gloss>
             <gloss xml:lang="la">Vita</gloss>
           </category>
-          <category xml:id="genre_ae9e2d0e" ana="parent">
+          <category xml:id="genre_ae9e2d0e" ana="parent" corresp="genres.xml#genre_ae9e2d0e">
             <gloss xml:lang="de">Erzählende Kurzform</gloss>
             <gloss xml:lang="de">Kleinepik</gloss>
             <gloss xml:lang="en">Narrative Short Form</gloss>
@@ -101,7 +108,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_1">
+          <person xml:id="person_1" corresp="persons.xml#person_1">
             <persName type="preferred">Konrad von Würzburg</persName>
             <idno type="GND">118565133</idno>
             <idno type="wikidata">Q77480</idno>

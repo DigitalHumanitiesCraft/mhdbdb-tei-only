@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="WUT">
   <teiHeader>
     <fileDesc>
@@ -41,18 +41,23 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_477">
             <idno type="sigle">WUT</idno>
+            <idno type="handschriftencensus">440</idno>
+            <idno type="gnd">4099390-5</idno>
             <msName xml:lang="de">Willehalm</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="book" xml:id="WUT_WUT" corresp="http://zotero.org/groups/5043625/items/PXGGVPT8" key="WUT">
                 <monogr>
-                  <title level="m">Willehalm: Ein Rittergedicht aus der zweiten Hälfte des dreizehnten
-                Jarhunderts</title>
-                  <idno type="callNumber">WUT</idno>
+                  <title>Willehalm: Ein Rittergedicht aus der Zweiten Hälfte des Dreizehnten Jarhunderts</title>
                   <author>
                     <name>Ulrich von dem Türlin</name>
                   </author>
+                  <idno type="callNumber">WUT</idno>
+                  <editor>
+                    <forename>Samuel</forename>
+                    <surname>Singer</surname>
+                  </editor>
                   <imprint>
                     <pubPlace>Prag</pubPlace>
                     <biblScope unit="volume">4</biblScope>
@@ -61,10 +66,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Bibliothek der mittelhochdeutschen litteratur in böhmen</title>
+                  <title level="s">Bibliothek der Mittelhochdeutschen Litteratur in Böhmen</title>
                 </series>
-                <note>Meister Ulrich von dem Türlîn: Willehalm. Hrsg. v. S. Singer. Prag 1893.
-              (=Bibliothek der mhd. Litteratur in Böhmen, Bd. 4)</note>
+                <note>Meister Ulrich von dem Türlîn: Willehalm. Hrsg. v. S. Singer. Prag 1893. (=Bibliothek der mhd. Litteratur in Böhmen, Bd. 4)</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -79,12 +83,12 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_b6bd0291" ana="parent">
+          <category xml:id="genre_b6bd0291" ana="parent" corresp="genres.xml#genre_b6bd0291">
             <gloss xml:lang="de">Chanson de Geste</gloss>
             <gloss xml:lang="en">Chanson de Geste</gloss>
             <gloss xml:lang="fr">Chanson de Geste</gloss>
           </category>
-          <category xml:id="genre_c6eb5877">
+          <category xml:id="genre_c6eb5877" corresp="genres.xml#genre_c6eb5877">
             <gloss xml:lang="de">Wilhelmsepik</gloss>
             <gloss xml:lang="en">Wilhelm Epic</gloss>
             <gloss xml:lang="en">Epic of Wilhelm</gloss>
@@ -99,7 +103,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_46">
+          <person xml:id="person_46" corresp="persons.xml#person_46">
             <persName type="preferred">Ulrich von dem Türlîn</persName>
             <persName type="alternative" xml:lang="de">Ulrich von dem Türlin</persName>
             <persName type="alternative" xml:lang="en">Ulrich von dem Türlin</persName>

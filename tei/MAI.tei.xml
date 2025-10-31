@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="MAI">
   <teiHeader>
     <fileDesc>
@@ -41,32 +41,36 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_198">
             <idno type="sigle">MAI</idno>
+            <idno type="handschriftencensus">643</idno>
+            <idno type="gnd">4391475-5</idno>
+            <idno type="wikidata">Q1885102</idno>
             <msName xml:lang="de">Mai und Beaflor</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="book" xml:id="MAI_MAI" corresp="http://zotero.org/groups/5043625/items/6KXZ4TNS" key="MAI">
                 <monogr>
-                  <title level="m">Mai und beaflor</title>
-                  <idno type="ISBN">978-3-631-54303-0</idno>
-                  <idno type="callNumber">MAI</idno>
+                  <title>Mai und Beaflor</title>
                   <author>
                     <name>Anonym</name>
                   </author>
+                  <idno type="ISBN">978-3-631-54303-0</idno>
+                  <idno type="callNumber">MAI</idno>
+                  <editor>
+                    <forename>Albrecht</forename>
+                    <surname>Classen</surname>
+                  </editor>
                   <imprint>
-                    <pubPlace>Frankfurt am Main and Berlin and Bern and Brüssel and New York and Oxford
-                  and Wien</pubPlace>
+                    <pubPlace>Frankfurt am Main and Berlin and Bern and Brüssel and New York and Oxford and Wien</pubPlace>
                     <biblScope unit="volume">6</biblScope>
                     <publisher>Lang</publisher>
                     <date>2006</date>
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Beihefte zur mediävistik</title>
+                  <title level="s">Beihefte zur Mediävistik</title>
                 </series>
-                <note>Mai und Beaflor. Hrsg., übersetzt, kommentiert und mit einer Einleitung von
-              Albrecht Classen Frankfurt am Main, Berlin, Bern, Bruxelles, New York, Oxford, Wien:
-              Peter Lang 2006.(= Beihefte zur Mediävistik. Hrsg. Peter Dinzelbacher. Bd. 6)</note>
+                <note>Mai und Beaflor. Hrsg., übersetzt, kommentiert und mit einer Einleitung von Albrecht Classen Frankfurt am Main, Berlin, Bern, Bruxelles, New York, Oxford, Wien: Peter Lang 2006.(= Beihefte zur Mediävistik. Hrsg. Peter Dinzelbacher. Bd. 6)</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -81,14 +85,14 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_72cae96a" ana="parent">
+          <category xml:id="genre_72cae96a" ana="parent" corresp="genres.xml#genre_72cae96a">
             <gloss xml:lang="de">Höfischer Roman</gloss>
             <gloss xml:lang="de">Versroman</gloss>
             <gloss xml:lang="en">Courtly Romance</gloss>
             <gloss xml:lang="en">Courtly Novel</gloss>
             <gloss xml:lang="en">Verse Novel</gloss>
           </category>
-          <category xml:id="genre_88b5cae2">
+          <category xml:id="genre_88b5cae2" corresp="genres.xml#genre_88b5cae2">
             <gloss xml:lang="de">Liebesroman und Abenteuerroman</gloss>
             <gloss xml:lang="de">Liebesroman</gloss>
             <gloss xml:lang="de">Minneroman und Aventiureroman</gloss>
@@ -109,7 +113,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_anonym">
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>
             <persName type="alternative" xml:lang="de">Anonymus</persName>
             <persName type="alternative" xml:lang="en">anonymous</persName>

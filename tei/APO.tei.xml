@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="APO">
   <teiHeader>
     <fileDesc>
@@ -41,20 +41,21 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_568">
             <idno type="sigle">APO</idno>
+            <idno type="handschriftencensus">3181</idno>
+            <idno type="gnd">1110212917</idno>
             <msName xml:lang="de">Apollonius von Tyrus</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="bookSection" xml:id="APO_APO" corresp="http://zotero.org/groups/5043625/items/RDKFK8BE" key="APO">
                 <analytic>
-                  <title level="a">Apollonius: [Apollonius von tyrus]</title>
+                  <title level="a">Apollonius: [apollonius von Tyrus]</title>
                   <author>
-                    <forename>Heinrich</forename>
-                    <surname>Steinhöwel</surname>
+                    <name>Heinrich Steinhöwel</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Eine augsburger sittenlehre</title>
+                  <title level="m">Eine Augsburger Sittenlehre</title>
                   <idno type="callNumber">APO</idno>
                   <editor>
                     <forename>Johannes</forename>
@@ -67,9 +68,7 @@
                     <date>1476</date>
                   </imprint>
                 </monogr>
-                <note>Textgrundlage: Der Druck des Johannes Bämler, Augsburg 1476 (Hain 10006) Digitale
-              Edition: Angus Graham,Sultan Qaboos University Oman http://www.hs-augsburg.de/
-              ̃harsch/germanica/Chronologie/15Jh/Steinhoewel/ste_apol.html</note>
+                <note>Textgrundlage: Der Druck des Johannes Bämler, Augsburg 1476 (Hain 10006) Digitale Edition: Angus Graham,Sultan Qaboos University Oman http://www.hs-augsburg.de/ ̃harsch/germanica/Chronologie/15Jh/Steinhoewel/ste_apol.html</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -84,7 +83,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_30ab9c71" ana="parent">
+          <category xml:id="genre_30ab9c71" ana="parent" corresp="genres.xml#genre_30ab9c71">
             <gloss xml:lang="de">Historiografie</gloss>
             <gloss xml:lang="de">Historiographie</gloss>
             <gloss xml:lang="de">Historiografischer Text</gloss>
@@ -93,20 +92,20 @@
             <gloss xml:lang="en">Historiography</gloss>
             <gloss xml:lang="en">History Writing</gloss>
           </category>
-          <category xml:id="genre_3f7b0b62">
+          <category xml:id="genre_3f7b0b62" corresp="genres.xml#genre_3f7b0b62">
             <gloss xml:lang="de">Geschichtsdichtung</gloss>
             <gloss xml:lang="de">Politikbeschreibende Dichtung</gloss>
             <gloss xml:lang="en">Historical Poetry</gloss>
             <gloss xml:lang="en">Policy-descriptive Poetry</gloss>
           </category>
-          <category xml:id="genre_72cae96a" ana="parent">
+          <category xml:id="genre_72cae96a" ana="parent" corresp="genres.xml#genre_72cae96a">
             <gloss xml:lang="de">Höfischer Roman</gloss>
             <gloss xml:lang="de">Versroman</gloss>
             <gloss xml:lang="en">Courtly Romance</gloss>
             <gloss xml:lang="en">Courtly Novel</gloss>
             <gloss xml:lang="en">Verse Novel</gloss>
           </category>
-          <category xml:id="genre_fa5f2e8a">
+          <category xml:id="genre_fa5f2e8a" corresp="genres.xml#genre_fa5f2e8a">
             <gloss xml:lang="de">Antikenroman</gloss>
             <gloss xml:lang="en">Ancient Romance</gloss>
             <gloss xml:lang="en">Ancient Novel</gloss>
@@ -117,7 +116,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_1407">
+          <person xml:id="person_1407" corresp="persons.xml#person_1407">
             <persName type="preferred">Heinrich Steinhöwel</persName>
             <idno type="GND">118617486</idno>
             <idno type="wikidata">Q108124</idno>

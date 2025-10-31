@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="WH">
   <teiHeader>
     <fileDesc>
@@ -41,27 +41,32 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_13">
             <idno type="sigle">WH</idno>
+            <idno type="handschriftencensus">440</idno>
+            <idno type="gnd">4117689-3</idno>
+            <idno type="wikidata">Q2576669</idno>
             <msName xml:lang="de">Willehalm</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="book" xml:id="WH_WH" corresp="http://zotero.org/groups/5043625/items/GRN22VSL" key="WH">
                 <monogr>
-                  <title level="m">Willehalm: Nach der gesamten Überlieferung kritisch herausgegeben von
-                Werner Schröder</title>
-                  <idno type="ISBN">978-3-11-007323-2</idno>
-                  <idno type="callNumber">WH</idno>
+                  <title>Willehalm: Nach der Gesamten Überlieferung Kritisch Herausgegeben von Werner Schröder</title>
                   <author>
                     <name>Wolfram von Eschenbach</name>
                   </author>
+                  <idno type="ISBN">978-3-11-007323-2</idno>
+                  <idno type="callNumber">WH</idno>
+                  <editor>
+                    <forename>Werner</forename>
+                    <surname>Schröder</surname>
+                  </editor>
                   <imprint>
                     <pubPlace>Berlin and New York</pubPlace>
                     <publisher>de Gruyter</publisher>
                     <date>1978</date>
                   </imprint>
                 </monogr>
-                <note>Wolfram von Eschenbach: Willehalm. Nach der gesamten Überlieferung kritisch hrsg.
-              v. Werner Schröder. Berlin, New York 1978</note>
+                <note>Wolfram von Eschenbach: Willehalm. Nach der gesamten Überlieferung kritisch hrsg. v. Werner Schröder. Berlin, New York 1978</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -76,12 +81,12 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_b6bd0291" ana="parent">
+          <category xml:id="genre_b6bd0291" ana="parent" corresp="genres.xml#genre_b6bd0291">
             <gloss xml:lang="de">Chanson de Geste</gloss>
             <gloss xml:lang="en">Chanson de Geste</gloss>
             <gloss xml:lang="fr">Chanson de Geste</gloss>
           </category>
-          <category xml:id="genre_c6eb5877">
+          <category xml:id="genre_c6eb5877" corresp="genres.xml#genre_c6eb5877">
             <gloss xml:lang="de">Wilhelmsepik</gloss>
             <gloss xml:lang="en">Wilhelm Epic</gloss>
             <gloss xml:lang="en">Epic of Wilhelm</gloss>
@@ -96,7 +101,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_7">
+          <person xml:id="person_7" corresp="persons.xml#person_7">
             <persName type="preferred">Wolfram von Eschenbach</persName>
             <idno type="GND">118634933</idno>
             <idno type="wikidata">Q18821</idno>

@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="SW">
   <teiHeader>
     <fileDesc>
@@ -41,19 +41,22 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_61">
             <idno type="sigle">SW</idno>
+            <idno type="handschriftencensus">1781</idno>
+            <idno type="gnd">4810249-0</idno>
+            <idno type="wikidata">Q1196775</idno>
             <msName xml:lang="de">Der Schwanritter</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="bookSection" xml:id="SW_SW" corresp="http://zotero.org/groups/5043625/items/JPZN3W6H" key="SW">
                 <analytic>
-                  <title level="a">Der schwanritter</title>
+                  <title level="a">Der Schwanritter</title>
                   <author>
                     <name>Konrad von Würzburg</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Kleinere dichtungen konrads von würzburg: Bd. II</title>
+                  <title level="m">Kleinere Dichtungen Konrads von Würzburg: Bd. Ii</title>
                   <idno type="callNumber">SW</idno>
                   <editor>
                     <forename>Edward</forename>
@@ -67,10 +70,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Kleinere dichtungen konrads von würzburg</title>
+                  <title level="s">Kleinere Dichtungen Konrads von Würzburg</title>
                 </series>
-                <note>In: Kleinere Dichtgg. Konrad von Würzburgs. II. Hrsg. v. Edward Schröder, o.O.
-              5.Aufl. 1974</note>
+                <note>In: Kleinere Dichtgg. Konrad von Würzburgs. II. Hrsg. v. Edward Schröder, o.O. 5.Aufl. 1974</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -85,14 +87,14 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_ae9e2d0e" ana="parent">
+          <category xml:id="genre_ae9e2d0e" ana="parent" corresp="genres.xml#genre_ae9e2d0e">
             <gloss xml:lang="de">Erzählende Kurzform</gloss>
             <gloss xml:lang="de">Kleinepik</gloss>
             <gloss xml:lang="en">Narrative Short Form</gloss>
             <gloss xml:lang="en">Short Epic</gloss>
             <gloss xml:lang="en">Small Epics</gloss>
           </category>
-          <category xml:id="genre_d65a163b">
+          <category xml:id="genre_d65a163b" corresp="genres.xml#genre_d65a163b">
             <gloss xml:lang="de">Märe</gloss>
             <gloss xml:lang="de">Mär</gloss>
             <gloss xml:lang="de">Versnovelle</gloss>
@@ -106,7 +108,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_1">
+          <person xml:id="person_1" corresp="persons.xml#person_1">
             <persName type="preferred">Konrad von Würzburg</persName>
             <idno type="GND">118565133</idno>
             <idno type="wikidata">Q77480</idno>

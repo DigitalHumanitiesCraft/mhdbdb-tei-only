@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="FLG1">
   <teiHeader>
     <fileDesc>
@@ -41,20 +41,21 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_587">
             <idno type="sigle">FLG1</idno>
+            <idno type="handschriftencensus">1179</idno>
+            <idno type="gnd">4226427-3</idno>
             <msName xml:lang="de">Das fließende Licht der Gottheit (Buch 3-7)</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="bookSection" xml:id="FLG1_FLG1" corresp="http://zotero.org/groups/5043625/items/ATWPNQPS" key="FLG1">
                 <analytic>
-                  <title level="a">Das fließende licht der gottheit: Text: Buch 1-7</title>
+                  <title level="a">Das Fließende Licht der Gottheit: Text: Buch 1-7</title>
                   <author>
                     <name>Mechthild von Magdeburg</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Das fließende licht der gottheit: Band 1: Text; band 2:
-                Untersuchungen</title>
+                  <title level="m">Das Fließende Licht der Gottheit: Band 1: Text; Band 2: Untersuchungen</title>
                   <idno type="callNumber">FLG1</idno>
                   <editor>
                     <forename>Hans</forename>
@@ -64,15 +65,13 @@
                     <pubPlace>München and Zürich and Tübingen</pubPlace>
                     <biblScope unit="volume">1</biblScope>
                     <publisher>Artemis and Niemeyer</publisher>
-                    <date>1990</date>
+                    <date>1990–1993</date>
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Münchener texte und untersuchungen zur deutschen literatur des
-                mittelalters</title>
+                  <title level="s">Münchener Texte und Untersuchungen zur Deutschen Literatur des Mittelalters</title>
                 </series>
-                <note>Mechthild von Magdeburg. Das fließende Licht der Gottheit. Hrsg. von Hans Neumann.
-              Bd. I:Text. Besorgt von Gisela Vollmann-Profe. München 1990</note>
+                <note>Mechthild von Magdeburg. Das fließende Licht der Gottheit. Hrsg. von Hans Neumann. Bd. I:Text. Besorgt von Gisela Vollmann-Profe. München 1990</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -87,7 +86,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_0480b285" ana="parent">
+          <category xml:id="genre_0480b285" ana="parent" corresp="genres.xml#genre_0480b285">
             <gloss xml:lang="de">Geistliche Literatur</gloss>
             <gloss xml:lang="de">Geistliche Dichtung</gloss>
             <gloss xml:lang="de">Religiöse Dichtung</gloss>
@@ -97,7 +96,7 @@
             <gloss xml:lang="en">Spiritual Poetry</gloss>
             <gloss xml:lang="en">Religious Poetry</gloss>
           </category>
-          <category xml:id="genre_9eee7c13">
+          <category xml:id="genre_9eee7c13" corresp="genres.xml#genre_9eee7c13">
             <gloss xml:lang="de">Mystik</gloss>
             <gloss xml:lang="de">Mystischer Text</gloss>
             <gloss xml:lang="en">Mysticism</gloss>
@@ -109,7 +108,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_1547">
+          <person xml:id="person_1547" corresp="persons.xml#person_1547">
             <persName type="preferred">Mechthild von Magdeburg</persName>
             <persName type="alternative" xml:lang="en">Mechthild of Magdeburg</persName>
             <idno type="GND">118579797</idno>

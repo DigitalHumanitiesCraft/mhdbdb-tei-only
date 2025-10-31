@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="TAN">
   <teiHeader>
     <fileDesc>
@@ -41,17 +41,23 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_68">
             <idno type="sigle">TAN</idno>
+            <idno type="handschriftencensus">597</idno>
+            <idno type="gnd">4076173-3</idno>
             <msName xml:lang="de">Tandareis und Flordibel</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="book" xml:id="TAN_TAN" corresp="http://zotero.org/groups/5043625/items/GTA6QS8U" key="TAN">
                 <monogr>
-                  <title level="m">Tandareis und flordibel: Ein höfischer roman</title>
-                  <idno type="callNumber">TAN</idno>
+                  <title>Tandareis und Flordibel: Ein Höfischer Roman</title>
                   <author>
                     <name>Der Pleier</name>
                   </author>
+                  <idno type="callNumber">TAN</idno>
+                  <editor>
+                    <forename>Ferdinand</forename>
+                    <surname>Khull</surname>
+                  </editor>
                   <imprint>
                     <pubPlace>Graz</pubPlace>
                     <publisher>Styria</publisher>
@@ -73,13 +79,13 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_70aa5bd2" ana="parent">
+          <category xml:id="genre_70aa5bd2" ana="parent" corresp="genres.xml#genre_70aa5bd2">
             <gloss xml:lang="de">Bretonischer Roman</gloss>
             <gloss xml:lang="en">Breton Romance</gloss>
             <gloss xml:lang="en">Breton Novel</gloss>
             <gloss xml:lang="fr">Matière de Bretagne</gloss>
           </category>
-          <category xml:id="genre_f2cb8412">
+          <category xml:id="genre_f2cb8412" corresp="genres.xml#genre_f2cb8412">
             <gloss xml:lang="de">Artusroman</gloss>
             <gloss xml:lang="de">Artusdichtung</gloss>
             <gloss xml:lang="en">Arthurian Romance</gloss>
@@ -94,7 +100,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_32">
+          <person xml:id="person_32" corresp="persons.xml#person_32">
             <persName type="preferred">Der Pleier</persName>
             <idno type="GND">118595008</idno>
             <idno type="wikidata">Q5261194</idno>

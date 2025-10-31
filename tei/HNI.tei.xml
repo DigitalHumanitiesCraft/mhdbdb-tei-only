@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="HNI">
   <teiHeader>
     <fileDesc>
@@ -47,14 +47,13 @@
             <listBibl>
               <biblStruct type="bookSection" xml:id="HNI_HNI" corresp="http://zotero.org/groups/5043625/items/VRWA668B" key="HNI">
                 <analytic>
-                  <title level="a">Das helmaspergersche notariatsinstrument</title>
+                  <title level="a">Das Helmaspergersche Notariatsinstrument</title>
                   <author>
-                    <forename>Ulrich</forename>
-                    <surname>Helmasperger</surname>
+                    <name>Ulrich Helmasperger</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Gutenberg digital</title>
+                  <title level="m">Gutenberg Digital</title>
                   <idno type="ISBN">978-3-598-40470-2</idno>
                   <idno type="callNumber">HNI</idno>
                   <editor>
@@ -65,14 +64,9 @@
                     <pubPlace>München</pubPlace>
                     <publisher>Saur</publisher>
                     <date>2000</date>
-                    <note type="url">
-                  http://www.gutenbergdigital.de/gudi/dframes/texte/frameset/indexnot.htm</note>
                   </imprint>
                 </monogr>
-                <note>Das Helmaspergersche Notariatsinstrument. In: Gutenberg digital Hrsg.:
-              Niedersächsische Staats- und Universitätsbibliothek, Göttingen 2000. Digitale
-              Version: Ulrich Harsch 2004. http://www.fh-augsburg.de/
-              ̃harsch/germanica/Chronologie/15Jh/Helmasperger/hel_text.html</note>
+                <note>Das Helmaspergersche Notariatsinstrument. In: Gutenberg digital Hrsg.: Niedersächsische Staats- und Universitätsbibliothek, Göttingen 2000. Digitale Version: Ulrich Harsch 2004. http://www.fh-augsburg.de/ ̃harsch/germanica/Chronologie/15Jh/Helmasperger/hel_text.html</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -87,7 +81,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_782dcfc4" ana="parent">
+          <category xml:id="genre_782dcfc4" ana="parent" corresp="genres.xml#genre_782dcfc4">
             <gloss xml:lang="de">Mediale Sonderform</gloss>
             <gloss xml:lang="en">Special Media Forms</gloss>
           </category>
@@ -97,7 +91,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_1527">
+          <person xml:id="person_1527" corresp="persons.xml#person_1527">
             <persName type="preferred">Ulrich Helmasperger</persName>
             <idno type="GND">1055144765</idno>
             <idno type="wikidata">Q19984777</idno>

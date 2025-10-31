@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="TRM">
   <teiHeader>
     <fileDesc>
@@ -41,18 +41,25 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_604">
             <idno type="sigle">TRM</idno>
+            <idno type="handschriftencensus">1463</idno>
+            <idno type="gnd">4186229-6</idno>
+            <idno type="wikidata">Q65185219</idno>
             <msName xml:lang="de">Tristan als Mönch</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="book" xml:id="TRM_TRM" corresp="http://zotero.org/groups/5043625/items/5MISC6WI" key="TRM">
                 <monogr>
-                  <title level="m">Tristan als mönch: Untersuchungen und kritische edition</title>
-                  <idno type="ISBN">978-3-87452-234-2</idno>
-                  <idno type="callNumber">TRM</idno>
+                  <title>Tristan als Mönch: Untersuchungen und Kritische Edition</title>
                   <author>
                     <name>Anonym</name>
                   </author>
+                  <idno type="ISBN">978-3-87452-234-2</idno>
+                  <idno type="callNumber">TRM</idno>
+                  <editor>
+                    <forename>Betty C.</forename>
+                    <surname>Bushey</surname>
+                  </editor>
                   <imprint>
                     <pubPlace>Göppingen</pubPlace>
                     <biblScope unit="volume">119</biblScope>
@@ -61,10 +68,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Göppinger arbeiten zur germanistik</title>
+                  <title level="s">Göppinger Arbeiten zur Germanistik</title>
                 </series>
-                <note>Tristan als Mönch. Hrsg. v. Betty C. Bushey. Göppingen: Kümmerle 1974.
-              (=Göppinger Arbeiten zur Germanistik 119)</note>
+                <note>Tristan als Mönch. Hrsg. v. Betty C. Bushey. Göppingen: Kümmerle 1974. (=Göppinger Arbeiten zur Germanistik 119)</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -79,20 +85,20 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_70aa5bd2" ana="parent">
+          <category xml:id="genre_70aa5bd2" ana="parent" corresp="genres.xml#genre_70aa5bd2">
             <gloss xml:lang="de">Bretonischer Roman</gloss>
             <gloss xml:lang="en">Breton Romance</gloss>
             <gloss xml:lang="en">Breton Novel</gloss>
             <gloss xml:lang="fr">Matière de Bretagne</gloss>
           </category>
-          <category xml:id="genre_72cae96a" ana="parent">
+          <category xml:id="genre_72cae96a" ana="parent" corresp="genres.xml#genre_72cae96a">
             <gloss xml:lang="de">Höfischer Roman</gloss>
             <gloss xml:lang="de">Versroman</gloss>
             <gloss xml:lang="en">Courtly Romance</gloss>
             <gloss xml:lang="en">Courtly Novel</gloss>
             <gloss xml:lang="en">Verse Novel</gloss>
           </category>
-          <category xml:id="genre_88b5cae2">
+          <category xml:id="genre_88b5cae2" corresp="genres.xml#genre_88b5cae2">
             <gloss xml:lang="de">Liebesroman und Abenteuerroman</gloss>
             <gloss xml:lang="de">Liebesroman</gloss>
             <gloss xml:lang="de">Minneroman und Aventiureroman</gloss>
@@ -107,7 +113,7 @@
             <gloss xml:lang="en">Minne Novel</gloss>
             <gloss xml:lang="en">Minne Romance</gloss>
           </category>
-          <category xml:id="genre_f2cb8412">
+          <category xml:id="genre_f2cb8412" corresp="genres.xml#genre_f2cb8412">
             <gloss xml:lang="de">Artusroman</gloss>
             <gloss xml:lang="de">Artusdichtung</gloss>
             <gloss xml:lang="en">Arthurian Romance</gloss>
@@ -122,7 +128,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_anonym">
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>
             <persName type="alternative" xml:lang="de">Anonymus</persName>
             <persName type="alternative" xml:lang="en">anonymous</persName>

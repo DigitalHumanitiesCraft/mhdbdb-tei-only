@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="DIS">
   <teiHeader>
     <fileDesc>
@@ -49,14 +49,13 @@
             <listBibl>
               <biblStruct type="bookSection" xml:id="DIS_DIS" corresp="http://zotero.org/groups/5043625/items/HDRCHTLD" key="DIS">
                 <analytic>
-                  <title level="a">Die disputation: Ein disputatz eins freiheits mit eim juden</title>
+                  <title level="a">Die Disputation: Ein Disputatz Eins Freiheits mit Eim Juden</title>
                   <author>
-                    <forename>Hans</forename>
-                    <surname>Rosenplüt</surname>
+                    <name>Hans Rosenplüt</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Novellistik des mittelalters</title>
+                  <title level="m">Novellistik des Mittelalters</title>
                   <idno type="ISBN">978-3-618-66230-3</idno>
                   <idno type="callNumber">DIS</idno>
                   <editor>
@@ -71,11 +70,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Bibliothek des mittelalters</title>
+                  <title level="s">Bibliothek des Mittelalters</title>
                 </series>
-                <note>Novellistik des Mittelalters. Märendichtung. Hrsg, übers. und kommentiert von
-              Klaus Grubmüller. Frankfurt/Main: Dt. Klassiker Verl., 1996. S. 978-1000. (= Bibl. d.
-              Mittelalters, Bd. 23)</note>
+                <note>Novellistik des Mittelalters. Märendichtung. Hrsg, übers. und kommentiert von Klaus Grubmüller. Frankfurt/Main: Dt. Klassiker Verl., 1996. S. 978-1000. (= Bibl. d. Mittelalters, Bd. 23)</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -90,13 +87,13 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_01bf2b8b" ana="parent">
+          <category xml:id="genre_01bf2b8b" ana="parent" corresp="genres.xml#genre_01bf2b8b">
             <gloss xml:lang="de">Dialogische Kurzform</gloss>
             <gloss xml:lang="de">Dialogform in der Kurzdichtung</gloss>
             <gloss xml:lang="en">Dialogical Short Form</gloss>
             <gloss xml:lang="en">Dialogic Form in Small Poetry</gloss>
           </category>
-          <category xml:id="genre_60eb54e6">
+          <category xml:id="genre_60eb54e6" corresp="genres.xml#genre_60eb54e6">
             <gloss xml:lang="de">Streitgedicht</gloss>
             <gloss xml:lang="de">Streitlied</gloss>
             <gloss xml:lang="de">Streitgespräch</gloss>
@@ -113,7 +110,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_907">
+          <person xml:id="person_907" corresp="persons.xml#person_907">
             <persName type="preferred">Hans Rosenplüt</persName>
             <idno type="GND">118791176</idno>
             <idno type="wikidata">Q105816</idno>

@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="BOP">
   <teiHeader>
     <fileDesc>
@@ -41,20 +41,20 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_310">
             <idno type="sigle">BOP</idno>
+            <idno type="handschriftencensus">1764</idno>
             <msName xml:lang="de">Lyrik von Boppe</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="bookSection" xml:id="BOP_BOP" corresp="http://zotero.org/groups/5043625/items/MEQPWFAZ" key="BOP">
                 <analytic>
-                  <title level="a">[Lieder]</title>
+                  <title level="a">[lieder]</title>
                   <author>
                     <name>Boppe</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Repertorium der Sangsprueche und Meisterlieder des 12. bis 18.
-                Jahrhunderts</title>
+                  <title level="m">Repertorium der Sangsprueche und Meisterlieder des 12. bis 18. Jahrhunderts</title>
                   <idno type="ISBN">978-3-484-10500-3</idno>
                   <idno type="callNumber">BOP</idno>
                   <editor>
@@ -67,16 +67,13 @@
                   </editor>
                   <imprint>
                     <pubPlace>Tübingen</pubPlace>
-                    <biblScope unit="volume">3</biblScope>
                     <biblScope unit="page">209–245</biblScope>
+                    <biblScope unit="volume">3</biblScope>
                     <publisher>Niemeyer</publisher>
-                    <date>1986</date>
+                    <date>1986–2002</date>
                   </imprint>
                 </monogr>
-                <note>Repertorium der Sangsprüche und Meisterlieder des 12. bis 18. Jahrhunderts. Hg.
-              von Horst Brunner und Burghart Wachinger unter Mitarbeit von Eva Klesatschke, Dieter
-              Merzbacher, Johannes Rettelbach, Frieder Schanze. Leitung der Datenverarbeitung Paul
-              Sappler. Bd. 1ff. Tübingen 1986ff</note>
+                <note>Repertorium der Sangsprüche und Meisterlieder des 12. bis 18. Jahrhunderts. Hg. von Horst Brunner und Burghart Wachinger unter Mitarbeit von Eva Klesatschke, Dieter Merzbacher, Johannes Rettelbach, Frieder Schanze. Leitung der Datenverarbeitung Paul Sappler. Bd. 1ff. Tübingen 1986ff</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -91,12 +88,12 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_8d3e81fd">
+          <category xml:id="genre_8d3e81fd" corresp="genres.xml#genre_8d3e81fd">
             <gloss xml:lang="de">Meistersang</gloss>
             <gloss xml:lang="de">Meistergesang</gloss>
             <gloss xml:lang="en">Meistersang</gloss>
           </category>
-          <category xml:id="genre_a2770533" ana="parent">
+          <category xml:id="genre_a2770533" ana="parent" corresp="genres.xml#genre_a2770533">
             <gloss xml:lang="de">Lyrik</gloss>
             <gloss xml:lang="en">Lyric Poetry</gloss>
           </category>
@@ -106,7 +103,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_586">
+          <person xml:id="person_586" corresp="persons.xml#person_586">
             <persName type="preferred">Boppe</persName>
             <idno type="GND">1089267827</idno>
             <idno type="GND">120635526</idno>

@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="MR1">
   <teiHeader>
     <fileDesc>
@@ -47,7 +47,7 @@
             <listBibl>
               <biblStruct type="book" xml:id="MR1_MR1" corresp="http://zotero.org/groups/5043625/items/RGVBJ6XH" key="MR1">
                 <monogr>
-                  <title level="m">Mittelhochdeutsche minnereden: Teil 1</title>
+                  <title>Mittelhochdeutsche Minnereden: Teil 1</title>
                   <idno type="callNumber">MR1</idno>
                   <editor>
                     <forename>Kurt</forename>
@@ -61,10 +61,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Mittelhochdeutsche minnereden</title>
+                  <title level="s">Mittelhochdeutsche Minnereden</title>
                 </series>
-                <note>Mittelhochdeutsche Minnereden. Band I, Hrsg. Wilhelm Brauns, Gerhard Thiele,
-              Berlin 1938.(= Deutsche Texte des Mittelalters, Bd. 24)</note>
+                <note>Mittelhochdeutsche Minnereden. Band I, Hrsg. Wilhelm Brauns, Gerhard Thiele, Berlin 1938.(= Deutsche Texte des Mittelalters, Bd. 24)</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -79,12 +78,12 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_9c7d5679" ana="parent">
+          <category xml:id="genre_9c7d5679" ana="parent" corresp="genres.xml#genre_9c7d5679">
             <gloss xml:lang="de">Diskursive Kurzform</gloss>
             <gloss xml:lang="en">Discursive Short Form</gloss>
             <gloss xml:lang="en">Discursive Form in Small Poetry</gloss>
           </category>
-          <category xml:id="genre_a31be6a3">
+          <category xml:id="genre_a31be6a3" corresp="genres.xml#genre_a31be6a3">
             <gloss xml:lang="de">Minnerede</gloss>
             <gloss xml:lang="en">Love Speech</gloss>
             <gloss xml:lang="en">Minne Speech</gloss>
@@ -95,7 +94,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_anonym">
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>
             <persName type="alternative" xml:lang="de">Anonymus</persName>
             <persName type="alternative" xml:lang="en">anonymous</persName>

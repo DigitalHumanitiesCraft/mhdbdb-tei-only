@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="PTS">
   <teiHeader>
     <fileDesc>
@@ -47,13 +47,13 @@
             <listBibl>
               <biblStruct type="bookSection" xml:id="PTS_PTS" corresp="http://zotero.org/groups/5043625/items/PF5U74KU" key="PTS">
                 <analytic>
-                  <title level="a">Das puch von der tochter Syon</title>
+                  <title level="a">Das Puch von der Tochter Syon</title>
                   <author>
                     <name>Der Mönch von Heilsbronn</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Der mönch von heilsbronn</title>
+                  <title level="m">Der Mönch von Heilsbronn</title>
                   <idno type="callNumber">PTS</idno>
                   <editor>
                     <forename>Johann Friedrich Ludwig Theodor</forename>
@@ -66,9 +66,7 @@
                     <date>1870</date>
                   </imprint>
                 </monogr>
-                <note>Das puch von der tochter Syon. In: Der Mönch von Heilsbronn. Zum ersten Male
-              vollständig herausgegeben von Dr. J.F.L. Theod. Merzdorf. Berlin: H. Ebeling und C.
-              Plahn, 1870,S.129-144</note>
+                <note>Das puch von der tochter Syon. In: Der Mönch von Heilsbronn. Zum ersten Male vollständig herausgegeben von Dr. J.F.L. Theod. Merzdorf. Berlin: H. Ebeling und C. Plahn, 1870,S.129-144</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -83,7 +81,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_910c5f51">
+          <category xml:id="genre_910c5f51" corresp="genres.xml#genre_910c5f51">
             <gloss xml:lang="de">Marienleben</gloss>
             <gloss xml:lang="de">Marienlegende</gloss>
             <gloss xml:lang="en">Life of Holy Mary</gloss>
@@ -91,24 +89,24 @@
             <gloss xml:lang="en">Mary's Life</gloss>
             <gloss xml:lang="la">Vita Mariae</gloss>
           </category>
-          <category xml:id="genre_9eee7c13">
+          <category xml:id="genre_9eee7c13" corresp="genres.xml#genre_9eee7c13">
             <gloss xml:lang="de">Mystik</gloss>
             <gloss xml:lang="de">Mystischer Text</gloss>
             <gloss xml:lang="en">Mysticism</gloss>
             <gloss xml:lang="en">Mystical Text</gloss>
           </category>
-          <category xml:id="genre_ae9e2d0e" ana="parent">
+          <category xml:id="genre_ae9e2d0e" ana="parent" corresp="genres.xml#genre_ae9e2d0e">
             <gloss xml:lang="de">Erzählende Kurzform</gloss>
             <gloss xml:lang="de">Kleinepik</gloss>
             <gloss xml:lang="en">Narrative Short Form</gloss>
             <gloss xml:lang="en">Short Epic</gloss>
             <gloss xml:lang="en">Small Epics</gloss>
           </category>
-          <category xml:id="genre_dd3320dc">
+          <category xml:id="genre_dd3320dc" corresp="genres.xml#genre_dd3320dc">
             <gloss xml:lang="de">Allegorie</gloss>
             <gloss xml:lang="en">Allegory</gloss>
           </category>
-          <category xml:id="genre_f3daf714" ana="parent">
+          <category xml:id="genre_f3daf714" ana="parent" corresp="genres.xml#genre_f3daf714">
             <gloss xml:lang="de">Bibeldichtung</gloss>
             <gloss xml:lang="de">Religiöse Versdichtung</gloss>
             <gloss xml:lang="en">Bible Poetry</gloss>
@@ -120,7 +118,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_1727">
+          <person xml:id="person_1727" corresp="persons.xml#person_1727">
             <persName type="preferred">Mönch von Heilsbronn</persName>
             <idno type="GND">118784420</idno>
             <idno type="wikidata">Q27580989</idno>

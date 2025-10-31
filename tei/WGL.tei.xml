@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="WGL">
   <teiHeader>
     <fileDesc>
@@ -42,6 +42,9 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_15">
             <idno type="sigle">WGL</idno>
+            <idno type="handschriftencensus">432</idno>
+            <idno type="gnd">4131828-6</idno>
+            <idno type="wikidata">Q2569730</idno>
             <msName xml:lang="de">Wigalois</msName>
             <msName xml:lang="de">Wigalois, der Ritter mit dem Rade</msName>
           </msIdentifier>
@@ -49,11 +52,15 @@
             <listBibl>
               <biblStruct type="book" xml:id="WGL_WGL" corresp="http://zotero.org/groups/5043625/items/CL8ZE4CP" key="WGL">
                 <monogr>
-                  <title level="m">Wigalois der Ritter mit dem Rade</title>
-                  <idno type="callNumber">WGL</idno>
+                  <title>Wigalois der Ritter mit dem Rade</title>
                   <author>
                     <name>Wirnt von Grafenberg</name>
                   </author>
+                  <idno type="callNumber">WGL</idno>
+                  <editor>
+                    <forename>J. M. N.</forename>
+                    <surname>Kapteyn</surname>
+                  </editor>
                   <imprint>
                     <pubPlace>Bonn</pubPlace>
                     <biblScope unit="volume">9</biblScope>
@@ -62,11 +69,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Rheinische beiträge und hülfsbücher zur germanischen philologie und
-                volkskunde</title>
+                  <title level="s">Rheinische Beiträge und Hülfsbücher zur Germanischen Philologie und Volkskunde</title>
                 </series>
-                <note>Wigalois der Ritter mit dem Rade, von Wirnt von Gravenberc, hrsg. v. J.M.N.
-              Kapteyn, Bonn 1926</note>
+                <note>Wigalois der Ritter mit dem Rade, von Wirnt von Gravenberc, hrsg. v. J.M.N. Kapteyn, Bonn 1926</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -81,13 +86,13 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_70aa5bd2" ana="parent">
+          <category xml:id="genre_70aa5bd2" ana="parent" corresp="genres.xml#genre_70aa5bd2">
             <gloss xml:lang="de">Bretonischer Roman</gloss>
             <gloss xml:lang="en">Breton Romance</gloss>
             <gloss xml:lang="en">Breton Novel</gloss>
             <gloss xml:lang="fr">Matière de Bretagne</gloss>
           </category>
-          <category xml:id="genre_f2cb8412">
+          <category xml:id="genre_f2cb8412" corresp="genres.xml#genre_f2cb8412">
             <gloss xml:lang="de">Artusroman</gloss>
             <gloss xml:lang="de">Artusdichtung</gloss>
             <gloss xml:lang="en">Arthurian Romance</gloss>
@@ -102,7 +107,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_36">
+          <person xml:id="person_36" corresp="persons.xml#person_36">
             <persName type="preferred">Wirnt von Grafenberg</persName>
             <idno type="GND">118633945</idno>
             <idno type="wikidata">Q2585673</idno>

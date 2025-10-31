@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="FB">
   <teiHeader>
     <fileDesc>
@@ -41,19 +41,41 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_7">
             <idno type="sigle">FB</idno>
+            <idno type="handschriftencensus">763</idno>
+            <idno type="gnd">7611035-7</idno>
+            <idno type="wikidata">Q1451637</idno>
             <msName xml:lang="de">Frauenbuch</msName>
           </msIdentifier>
           <additional>
             <listBibl>
-              <biblStruct type="bookSection" xml:id="FB_FB" corresp="http://zotero.org/groups/5043625/items/K2L9LPVV" key="FB">
+              <biblStruct type="book" xml:id="FB_FB" corresp="http://zotero.org/groups/5043625/items/SQVIPQJ5" key="FB">
+                <monogr>
+                  <title>Ulrich von Lichtenstein: Mit Anmerkungen von Theodor von Karajan</title>
+                  <author>
+                    <name>Ulrich von Lichtenstein</name>
+                  </author>
+                  <idno type="callNumber">FB</idno>
+                  <editor>
+                    <forename>Karl</forename>
+                    <surname>Lachmann</surname>
+                  </editor>
+                  <imprint>
+                    <pubPlace>Berlin</pubPlace>
+                    <publisher>Verlag der Sanderschen Buchhandlung</publisher>
+                    <date>1841</date>
+                  </imprint>
+                </monogr>
+                <note>Hg. Karl Lachmann, Berlin 1841, Nachdr. Hildeshm./N.Y. 1974</note>
+              </biblStruct>
+              <biblStruct type="bookSection" xml:id="FB_FB_FB" corresp="http://zotero.org/groups/5043625/items/K2L9LPVV" key="FB">
                 <analytic>
-                  <title level="a">Der vrouwen buoch</title>
+                  <title level="a">Der Vrouwen Buoch</title>
                   <author>
                     <name>Ulrich von Lichtenstein</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Ulrich von lichtenstein</title>
+                  <title level="m">Ulrich von Lichtenstein</title>
                   <idno type="callNumber">FB</idno>
                   <editor>
                     <forename>Karl</forename>
@@ -62,21 +84,6 @@
                   <imprint>
                     <pubPlace>Berlin</pubPlace>
                     <biblScope unit="page">594–660</biblScope>
-                    <publisher>Verlag der Sanderschen Buchhandlung</publisher>
-                    <date>1841</date>
-                  </imprint>
-                </monogr>
-                <note>Hg. Karl Lachmann, Berlin 1841, Nachdr. Hildeshm./N.Y. 1974</note>
-              </biblStruct>
-              <biblStruct type="book" xml:id="UlrichvonLichtenstein.1841_FB" corresp="http://zotero.org/groups/5043625/items/SQVIPQJ5" key="FB">
-                <monogr>
-                  <title level="m">Ulrich von lichtenstein: Mit anmerkungen von theodor von karajan</title>
-                  <idno type="callNumber">FB</idno>
-                  <author>
-                    <name>Ulrich von Lichtenstein</name>
-                  </author>
-                  <imprint>
-                    <pubPlace>Berlin</pubPlace>
                     <publisher>Verlag der Sanderschen Buchhandlung</publisher>
                     <date>1841</date>
                   </imprint>
@@ -96,13 +103,13 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_01bf2b8b" ana="parent">
+          <category xml:id="genre_01bf2b8b" ana="parent" corresp="genres.xml#genre_01bf2b8b">
             <gloss xml:lang="de">Dialogische Kurzform</gloss>
             <gloss xml:lang="de">Dialogform in der Kurzdichtung</gloss>
             <gloss xml:lang="en">Dialogical Short Form</gloss>
             <gloss xml:lang="en">Dialogic Form in Small Poetry</gloss>
           </category>
-          <category xml:id="genre_4ecfe25e">
+          <category xml:id="genre_4ecfe25e" corresp="genres.xml#genre_4ecfe25e">
             <gloss xml:lang="de">Minnesang</gloss>
             <gloss xml:lang="de">Minnesänger</gloss>
             <gloss xml:lang="de">Liebeslyrik</gloss>
@@ -111,18 +118,18 @@
             <gloss xml:lang="en">Minstrels</gloss>
             <gloss xml:lang="en">Love Poetry</gloss>
           </category>
-          <category xml:id="genre_72cae96a" ana="parent">
+          <category xml:id="genre_72cae96a" ana="parent" corresp="genres.xml#genre_72cae96a">
             <gloss xml:lang="de">Höfischer Roman</gloss>
             <gloss xml:lang="de">Versroman</gloss>
             <gloss xml:lang="en">Courtly Romance</gloss>
             <gloss xml:lang="en">Courtly Novel</gloss>
             <gloss xml:lang="en">Verse Novel</gloss>
           </category>
-          <category xml:id="genre_782dcfc4" ana="parent">
+          <category xml:id="genre_782dcfc4" ana="parent" corresp="genres.xml#genre_782dcfc4">
             <gloss xml:lang="de">Mediale Sonderform</gloss>
             <gloss xml:lang="en">Special Media Forms</gloss>
           </category>
-          <category xml:id="genre_88b5cae2">
+          <category xml:id="genre_88b5cae2" corresp="genres.xml#genre_88b5cae2">
             <gloss xml:lang="de">Liebesroman und Abenteuerroman</gloss>
             <gloss xml:lang="de">Liebesroman</gloss>
             <gloss xml:lang="de">Minneroman und Aventiureroman</gloss>
@@ -137,11 +144,11 @@
             <gloss xml:lang="en">Minne Novel</gloss>
             <gloss xml:lang="en">Minne Romance</gloss>
           </category>
-          <category xml:id="genre_a2770533" ana="parent">
+          <category xml:id="genre_a2770533" ana="parent" corresp="genres.xml#genre_a2770533">
             <gloss xml:lang="de">Lyrik</gloss>
             <gloss xml:lang="en">Lyric Poetry</gloss>
           </category>
-          <category xml:id="genre_e513a99c">
+          <category xml:id="genre_e513a99c" corresp="genres.xml#genre_e513a99c">
             <gloss xml:lang="de">Brief</gloss>
             <gloss xml:lang="en">Letter</gloss>
           </category>
@@ -151,7 +158,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_5">
+          <person xml:id="person_5" corresp="persons.xml#person_5">
             <persName type="preferred">Ulrich von Liechtenstein</persName>
             <idno type="GND">118625306</idno>
             <idno type="wikidata">Q695576</idno>

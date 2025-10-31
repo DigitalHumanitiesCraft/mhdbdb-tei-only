@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="BVL">
   <teiHeader>
     <fileDesc>
@@ -41,19 +41,20 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_488">
             <idno type="sigle">BVL</idno>
+            <idno type="handschriftencensus">4280</idno>
             <msName xml:lang="de">Lyrik vom Burggraf von Lienz</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="bookSection" xml:id="BVL_BVL" corresp="http://zotero.org/groups/5043625/items/6UTGCCAS" key="BVL">
                 <analytic>
-                  <title level="a">[Lieder]</title>
+                  <title level="a">[lieder]</title>
                   <author>
                     <name>Der Burggraf von Lienz</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Deutsche liederdichter des 13. Jahrhunderts</title>
+                  <title level="m">Deutsche Liederdichter des 13. Jahrhunderts</title>
                   <idno type="callNumber">BVL</idno>
                   <editor>
                     <forename>Carl</forename>
@@ -61,10 +62,10 @@
                   </editor>
                   <imprint>
                     <pubPlace>Tübingen</pubPlace>
-                    <biblScope unit="volume">1</biblScope>
                     <biblScope unit="page">250–252</biblScope>
+                    <biblScope unit="volume">1</biblScope>
                     <publisher>Niemeyer</publisher>
-                    <date>1951</date>
+                    <date>1951–58</date>
                   </imprint>
                 </monogr>
                 <note>Deutsche Liederdichter. Hrsg. von Carl von Kraus. Tübingen, M. Niemeyer, 1951-58</note>
@@ -82,12 +83,12 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_2e829572">
+          <category xml:id="genre_2e829572" corresp="genres.xml#genre_2e829572">
             <gloss xml:lang="de">Tagelied</gloss>
             <gloss xml:lang="en">Aubade</gloss>
             <gloss xml:lang="en">Dawn Serenade</gloss>
           </category>
-          <category xml:id="genre_4ecfe25e" ana="parent">
+          <category xml:id="genre_4ecfe25e" ana="parent" corresp="genres.xml#genre_4ecfe25e">
             <gloss xml:lang="de">Minnesang</gloss>
             <gloss xml:lang="de">Minnesänger</gloss>
             <gloss xml:lang="de">Liebeslyrik</gloss>
@@ -102,7 +103,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_1027">
+          <person xml:id="person_1027" corresp="persons.xml#person_1027">
             <persName type="preferred">Burggraf von Lienz</persName>
             <idno type="GND">101244894</idno>
             <idno type="wikidata">Q1014955</idno>

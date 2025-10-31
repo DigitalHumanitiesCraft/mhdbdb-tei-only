@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="SDW">
   <teiHeader>
     <fileDesc>
@@ -50,6 +50,8 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_331">
             <idno type="sigle">SDW</idno>
+            <idno type="gnd">1056014865</idno>
+            <idno type="wikidata">Q60190969</idno>
             <msName xml:lang="de">Die drei Wünsche</msName>
             <msName xml:lang="gmh">Ain mer von dræen wunschn (BI)</msName>
             <msName xml:lang="gmh">Ein Mære von dræen Wünschen</msName>
@@ -65,13 +67,13 @@
             <listBibl>
               <biblStruct type="bookSection" xml:id="SDW_SDW" corresp="http://zotero.org/groups/5043625/items/AE9T7473" key="SDW">
                 <analytic>
-                  <title level="a">Die drei wuensche: Ein mære von drîen wünschen</title>
+                  <title level="a">Die Drei Wuensche: Ein Mære von Drîen Wünschen</title>
                   <author>
                     <name>Der Stricker</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Novellistik des mittelalters</title>
+                  <title level="m">Novellistik des Mittelalters</title>
                   <idno type="ISBN">978-3-618-66230-3</idno>
                   <idno type="callNumber">SDW</idno>
                   <editor>
@@ -86,11 +88,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Bibliothek des mittelalters</title>
+                  <title level="s">Bibliothek des Mittelalters</title>
                 </series>
-                <note>Novellistik des Mittelalters. Märendichtung. Hrsg, übers. und kommentiert von
-              Klaus Grubmüller. Frankfurt/Main: Dt. Klassiker Verl., 1996. S. 56-69. (= Bibl. d.
-              Mittelalters, Bd. 23)</note>
+                <note>Novellistik des Mittelalters. Märendichtung. Hrsg, übers. und kommentiert von Klaus Grubmüller. Frankfurt/Main: Dt. Klassiker Verl., 1996. S. 56-69. (= Bibl. d. Mittelalters, Bd. 23)</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -105,29 +105,29 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_079e727d">
+          <category xml:id="genre_079e727d" corresp="genres.xml#genre_079e727d">
             <gloss xml:lang="de">Exempel</gloss>
             <gloss xml:lang="de">Exempelgeschichte</gloss>
             <gloss xml:lang="en">Example</gloss>
             <gloss xml:lang="en">Example Story</gloss>
             <gloss xml:lang="la">Exemplum</gloss>
           </category>
-          <category xml:id="genre_09114e08">
+          <category xml:id="genre_09114e08" corresp="genres.xml#genre_09114e08">
             <gloss xml:lang="de">Schwank</gloss>
             <gloss xml:lang="en">Droll Story</gloss>
           </category>
-          <category xml:id="genre_5f84678a" ana="parent">
+          <category xml:id="genre_5f84678a" ana="parent" corresp="genres.xml#genre_5f84678a">
             <gloss xml:lang="de">Scherzdichtung</gloss>
             <gloss xml:lang="en">Joke Poetry</gloss>
           </category>
-          <category xml:id="genre_ae9e2d0e" ana="parent">
+          <category xml:id="genre_ae9e2d0e" ana="parent" corresp="genres.xml#genre_ae9e2d0e">
             <gloss xml:lang="de">Erzählende Kurzform</gloss>
             <gloss xml:lang="de">Kleinepik</gloss>
             <gloss xml:lang="en">Narrative Short Form</gloss>
             <gloss xml:lang="en">Short Epic</gloss>
             <gloss xml:lang="en">Small Epics</gloss>
           </category>
-          <category xml:id="genre_d65a163b">
+          <category xml:id="genre_d65a163b" corresp="genres.xml#genre_d65a163b">
             <gloss xml:lang="de">Märe</gloss>
             <gloss xml:lang="de">Mär</gloss>
             <gloss xml:lang="de">Versnovelle</gloss>
@@ -141,7 +141,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_4">
+          <person xml:id="person_4" corresp="persons.xml#person_4">
             <persName type="preferred">Der Stricker</persName>
             <idno type="GND">118619284</idno>
             <idno type="wikidata">Q1197199</idno>

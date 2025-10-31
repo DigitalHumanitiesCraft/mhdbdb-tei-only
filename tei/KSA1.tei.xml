@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="KSA1">
   <teiHeader>
     <fileDesc>
@@ -41,20 +41,20 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_591">
             <idno type="sigle">KSA1</idno>
+            <idno type="handschriftencensus">1385</idno>
             <msName xml:lang="de">Die Kochrezepte der Konstanzer Handschrift A I 1</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="bookSection" xml:id="KSA1_KSA1" corresp="http://zotero.org/groups/5043625/items/ZR6XF6PD" key="KSA1">
                 <analytic>
-                  <title level="a">Die (koch-)rezepte der konstanzer handschrift a I 1: Edition und
-                kommentar</title>
+                  <title level="a">Die (koch-)rezepte der Konstanzer Handschrift A I 1: Edition und Kommentar</title>
                   <author>
                     <name>Anonym</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Von Wyssheit würt der Mensch geert</title>
+                  <title level="m">Von Wyssheit Würt der Mensch Geert</title>
                   <idno type="ISBN">978-3-631-45732-0</idno>
                   <idno type="callNumber">KSA1</idno>
                   <editor>
@@ -72,9 +72,7 @@
                     <date>1993</date>
                   </imprint>
                 </monogr>
-                <note>Ehlert, Trude: Die (Koch-)Rezepte der Konstanzer Handschrift A I 1. Edition und
-              Kommentar. In: Von wyßheit würt der mensch geert. Festschrift f. Manfred Lemmer.
-              Hrsg. v. Ingrid Kühn, Gotthard Lerchner. Bern [u.a.]: Lang 1993, S. 39-64</note>
+                <note>Ehlert, Trude: Die (Koch-)Rezepte der Konstanzer Handschrift A I 1. Edition und Kommentar. In: Von wyßheit würt der mensch geert. Festschrift f. Manfred Lemmer. Hrsg. v. Ingrid Kühn, Gotthard Lerchner. Bern [u.a.]: Lang 1993, S. 39-64</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -89,14 +87,14 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_1d40ec18" ana="parent">
+          <category xml:id="genre_1d40ec18" ana="parent" corresp="genres.xml#genre_1d40ec18">
             <gloss xml:lang="de">Kochkunst</gloss>
             <gloss xml:lang="de">Esskultur</gloss>
             <gloss xml:lang="en">Cookery</gloss>
             <gloss xml:lang="en">Food Culture</gloss>
             <gloss xml:lang="la">Coquinaria</gloss>
           </category>
-          <category xml:id="genre_dd3d7dd7">
+          <category xml:id="genre_dd3d7dd7" corresp="genres.xml#genre_dd3d7dd7">
             <gloss xml:lang="de">Kochbuch</gloss>
             <gloss xml:lang="en">Cookbook</gloss>
             <gloss xml:lang="en">Cookery Book</gloss>
@@ -107,7 +105,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_anonym">
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>
             <persName type="alternative" xml:lang="de">Anonymus</persName>
             <persName type="alternative" xml:lang="en">anonymous</persName>

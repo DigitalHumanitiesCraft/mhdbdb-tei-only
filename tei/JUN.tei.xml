@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="JUN">
   <teiHeader>
     <fileDesc>
@@ -41,21 +41,24 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_353">
             <idno type="sigle">JUN</idno>
+            <idno type="handschriftencensus">1291</idno>
+            <idno type="gnd">4630024-7</idno>
             <msName xml:lang="de">Der Jüngling</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="book" xml:id="JUN_JUN" corresp="http://zotero.org/groups/5043625/items/2SEQCZ5A" key="JUN">
                 <monogr>
-                  <title level="m">Der jüngling: Nach der heidelberger handschrift cpg. 341 mit den
-                lesarten der leipziger handschrift 946 und der kalocsaer handschrift (cod. Bodmer
-                72) // nach der heidelberger hs. Cpg. 341 mit den lesarten der leipziger hs. 946 und
-                der kalocsaer hs. (Cod. Bodmer 72)</title>
-                  <idno type="ISBN">978-3-484-20197-2</idno>
-                  <idno type="callNumber">JUN</idno>
+                  <title>Der Jüngling: Nach der Heidelberger Handschrift Cpg. 341 mit den Lesarten der Leipziger Handschrift 946 und der Kalocsaer Handschrift (cod. Bodmer 72) // nach der Heidelberger Hs. Cpg. 341 mit den Lesarten der Leipziger Hs. 946 und der Kalocsaer Hs. (cod. Bodmer 72)</title>
                   <author>
                     <name>Konrad von Haslau</name>
                   </author>
+                  <idno type="ISBN">978-3-484-20197-2</idno>
+                  <idno type="callNumber">JUN</idno>
+                  <editor>
+                    <forename>Walter</forename>
+                    <surname>Tauber</surname>
+                  </editor>
                   <imprint>
                     <pubPlace>Tübingen</pubPlace>
                     <biblScope unit="volume">97</biblScope>
@@ -64,11 +67,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Altdeutsche textbibliothek</title>
+                  <title level="s">Altdeutsche Textbibliothek</title>
                 </series>
-                <note>Konrad von Haslau: Der Jüngling. Nach der Heidelberger Hs. Cpg. 341 mit den
-              Lesarten der Leipziger Hs. 946 und der Kolocsaer Hs. (Cod. Bodmer 72). Hrsg. v. Walter
-              Tauber. Tübingen: Max Niemeyer 1984. (=ATB, Bd. 97)</note>
+                <note>Konrad von Haslau: Der Jüngling. Nach der Heidelberger Hs. Cpg. 341 mit den Lesarten der Leipziger Hs. 946 und der Kolocsaer Hs. (Cod. Bodmer 72). Hrsg. v. Walter Tauber. Tübingen: Max Niemeyer 1984. (=ATB, Bd. 97)</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -83,7 +84,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_2c9f837c">
+          <category xml:id="genre_2c9f837c" corresp="genres.xml#genre_2c9f837c">
             <gloss xml:lang="de">Kleindidaxe</gloss>
             <gloss xml:lang="de">Didaktische Kleindichtung</gloss>
             <gloss xml:lang="de">Gnomik</gloss>
@@ -95,12 +96,12 @@
             <gloss xml:lang="en">Gnomics</gloss>
             <gloss xml:lang="en">Teaching Treatise</gloss>
           </category>
-          <category xml:id="genre_9c7d5679" ana="parent">
+          <category xml:id="genre_9c7d5679" ana="parent" corresp="genres.xml#genre_9c7d5679">
             <gloss xml:lang="de">Diskursive Kurzform</gloss>
             <gloss xml:lang="en">Discursive Short Form</gloss>
             <gloss xml:lang="en">Discursive Form in Small Poetry</gloss>
           </category>
-          <category xml:id="genre_d75ff6ba" ana="parent">
+          <category xml:id="genre_d75ff6ba" ana="parent" corresp="genres.xml#genre_d75ff6ba">
             <gloss xml:lang="de">Lehrdichtung</gloss>
             <gloss xml:lang="de">Didaktische Dichtung</gloss>
             <gloss xml:lang="de">Lehrschrift</gloss>
@@ -113,7 +114,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_806">
+          <person xml:id="person_806" corresp="persons.xml#person_806">
             <persName type="preferred">Konrad von Haslau</persName>
             <idno type="GND">103138773</idno>
             <idno type="wikidata">Q55122592</idno>

@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="AXK">
   <teiHeader>
     <fileDesc>
@@ -41,19 +41,21 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_4">
             <idno type="sigle">AXK</idno>
+            <idno type="handschriftencensus">663</idno>
+            <idno type="gnd">4576130-9</idno>
             <msName xml:lang="de">Alexius</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="bookSection" xml:id="AXK_AXK" corresp="http://zotero.org/groups/5043625/items/382WK8QN" key="AXK">
                 <analytic>
-                  <title level="a">Eine mittelhochdeutsche alexiuslegende: [Fassung K]</title>
+                  <title level="a">Eine Mittelhochdeutsche Alexiuslegende: [fassung K]</title>
                   <author>
                     <name>Konrad von Würzburg</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Festschrift walter baetke</title>
+                  <title level="m">Festschrift Walter Baetke</title>
                   <idno type="callNumber">AXK</idno>
                   <editor>
                     <forename>Kurt</forename>
@@ -70,11 +72,7 @@
                     <date>1966</date>
                   </imprint>
                 </monogr>
-                <note>Eine mittelhochdeutsche Alexiuslegende (Fassung K) Textgrundlage: Hans-Friedrich
-              Rosenfeld: Eine mittelhochdeutsche Alexiuslegende (K). In: Festschrift Walter Baetke
-              dargebracht zu seinem 80. Geburtstag am 28. März 1964. Hg. von Kurt Rudolph, Rolf
-              Heller und Ernst Walter. Weimar 1966, 284-297. Digitale Fassung: Thomas Gloning,
-              VIII/2001</note>
+                <note>Eine mittelhochdeutsche Alexiuslegende (Fassung K) Textgrundlage: Hans-Friedrich Rosenfeld: Eine mittelhochdeutsche Alexiuslegende (K). In: Festschrift Walter Baetke dargebracht zu seinem 80. Geburtstag am 28. März 1964. Hg. von Kurt Rudolph, Rolf Heller und Ernst Walter. Weimar 1966, 284-297. Digitale Fassung: Thomas Gloning, VIII/2001</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -89,7 +87,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_0480b285" ana="parent">
+          <category xml:id="genre_0480b285" ana="parent" corresp="genres.xml#genre_0480b285">
             <gloss xml:lang="de">Geistliche Literatur</gloss>
             <gloss xml:lang="de">Geistliche Dichtung</gloss>
             <gloss xml:lang="de">Religiöse Dichtung</gloss>
@@ -99,7 +97,7 @@
             <gloss xml:lang="en">Spiritual Poetry</gloss>
             <gloss xml:lang="en">Religious Poetry</gloss>
           </category>
-          <category xml:id="genre_2292de8a">
+          <category xml:id="genre_2292de8a" corresp="genres.xml#genre_2292de8a">
             <gloss xml:lang="de">Heiligenlegende</gloss>
             <gloss xml:lang="de">Heiligenvita</gloss>
             <gloss xml:lang="de">Vita</gloss>
@@ -114,7 +112,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_1">
+          <person xml:id="person_1" corresp="persons.xml#person_1">
             <persName type="preferred">Konrad von Würzburg</persName>
             <idno type="GND">118565133</idno>
             <idno type="wikidata">Q77480</idno>

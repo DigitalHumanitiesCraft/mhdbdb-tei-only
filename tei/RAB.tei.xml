@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="RAB">
   <teiHeader>
     <fileDesc>
@@ -42,6 +42,9 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_37">
             <idno type="sigle">RAB</idno>
+            <idno type="handschriftencensus">305</idno>
+            <idno type="gnd">4176753-6</idno>
+            <idno type="wikidata">Q2124989</idno>
             <msName xml:lang="de">Die Rabenschlacht</msName>
             <msName xml:lang="de">Rabenschlacht (Dietrichepik)</msName>
           </msIdentifier>
@@ -49,13 +52,13 @@
             <listBibl>
               <biblStruct type="bookSection" xml:id="RAB_RAB" corresp="http://zotero.org/groups/5043625/items/CXMSMFYS" key="RAB">
                 <analytic>
-                  <title level="a">Die rabenschlacht</title>
+                  <title level="a">Die Rabenschlacht</title>
                   <author>
                     <name>Anonym</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Alpharts tod. Dietrichs flucht. Rabenschlacht</title>
+                  <title level="m">Alpharts Tod. Dietrichs Flucht. Rabenschlacht</title>
                   <idno type="callNumber">RAB</idno>
                   <editor>
                     <forename>Ernst</forename>
@@ -63,17 +66,16 @@
                   </editor>
                   <imprint>
                     <pubPlace>[Berlin and Zürich]</pubPlace>
-                    <biblScope unit="volume">2</biblScope>
                     <biblScope unit="page">217–326</biblScope>
+                    <biblScope unit="volume">2</biblScope>
                     <publisher>Weidmann</publisher>
                     <date>1975</date>
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Deutsches heldenbuch</title>
+                  <title level="s">Deutsches Heldenbuch</title>
                 </series>
-                <note>Die Rabenschlacht. In: Deutsches Heldenbuch, Bd. 2. Hrsg. v.Ernst Martin.
-              3.Auflage (unveränderter Nachdruck der 1. Auflage, Berlin 1866). O.O. 1975</note>
+                <note>Die Rabenschlacht. In: Deutsches Heldenbuch, Bd. 2. Hrsg. v.Ernst Martin. 3.Auflage (unveränderter Nachdruck der 1. Auflage, Berlin 1866). O.O. 1975</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -88,7 +90,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_f3e5cee1">
+          <category xml:id="genre_f3e5cee1" corresp="genres.xml#genre_f3e5cee1">
             <gloss xml:lang="de">Dietrichsepik</gloss>
             <gloss xml:lang="de">Dietrichepik</gloss>
             <gloss xml:lang="en">Dietrich Epic</gloss>
@@ -96,7 +98,7 @@
             <gloss xml:lang="en">Dietrich Poetry</gloss>
             <gloss xml:lang="en">Epic of Dietrich</gloss>
           </category>
-          <category xml:id="genre_f6672d9f" ana="parent">
+          <category xml:id="genre_f6672d9f" ana="parent" corresp="genres.xml#genre_f6672d9f">
             <gloss xml:lang="de">Heldenepik</gloss>
             <gloss xml:lang="de">Heldenepische Dichtung</gloss>
             <gloss xml:lang="en">Heroic Epic</gloss>
@@ -108,7 +110,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_anonym">
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>
             <persName type="alternative" xml:lang="de">Anonymus</persName>
             <persName type="alternative" xml:lang="en">anonymous</persName>

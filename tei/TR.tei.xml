@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="TR">
   <teiHeader>
     <fileDesc>
@@ -42,6 +42,9 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_72">
             <idno type="sigle">TR</idno>
+            <idno type="handschriftencensus">476</idno>
+            <idno type="gnd">4186232-6</idno>
+            <idno type="wikidata">Q2454177</idno>
             <msName xml:lang="de">Tristan</msName>
             <msName xml:lang="de">Tristan und Isolde</msName>
           </msIdentifier>
@@ -49,19 +52,22 @@
             <listBibl>
               <biblStruct type="book" xml:id="TR_TR" corresp="http://zotero.org/groups/5043625/items/7FM9JY8B" key="TR">
                 <monogr>
-                  <title level="m">Tristan und isold</title>
-                  <idno type="callNumber">TR</idno>
+                  <title>Tristan und Isold</title>
                   <author>
                     <name>Gottfried von Straßburg</name>
                   </author>
+                  <idno type="callNumber">TR</idno>
+                  <editor>
+                    <forename>Friedrich</forename>
+                    <surname>Ranke</surname>
+                  </editor>
                   <imprint>
                     <pubPlace>Berlin</pubPlace>
                     <publisher>Weidmann</publisher>
                     <date>1958</date>
                   </imprint>
                 </monogr>
-                <note>Gottfried von Strassburg. Tristan und Isold. Hrsg. von Friedrich Ranke, Berlin
-              1958</note>
+                <note>Gottfried von Strassburg. Tristan und Isold. Hrsg. von Friedrich Ranke, Berlin 1958</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -76,20 +82,20 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_70aa5bd2" ana="parent">
+          <category xml:id="genre_70aa5bd2" ana="parent" corresp="genres.xml#genre_70aa5bd2">
             <gloss xml:lang="de">Bretonischer Roman</gloss>
             <gloss xml:lang="en">Breton Romance</gloss>
             <gloss xml:lang="en">Breton Novel</gloss>
             <gloss xml:lang="fr">Matière de Bretagne</gloss>
           </category>
-          <category xml:id="genre_72cae96a" ana="parent">
+          <category xml:id="genre_72cae96a" ana="parent" corresp="genres.xml#genre_72cae96a">
             <gloss xml:lang="de">Höfischer Roman</gloss>
             <gloss xml:lang="de">Versroman</gloss>
             <gloss xml:lang="en">Courtly Romance</gloss>
             <gloss xml:lang="en">Courtly Novel</gloss>
             <gloss xml:lang="en">Verse Novel</gloss>
           </category>
-          <category xml:id="genre_88b5cae2">
+          <category xml:id="genre_88b5cae2" corresp="genres.xml#genre_88b5cae2">
             <gloss xml:lang="de">Liebesroman und Abenteuerroman</gloss>
             <gloss xml:lang="de">Liebesroman</gloss>
             <gloss xml:lang="de">Minneroman und Aventiureroman</gloss>
@@ -104,7 +110,7 @@
             <gloss xml:lang="en">Minne Novel</gloss>
             <gloss xml:lang="en">Minne Romance</gloss>
           </category>
-          <category xml:id="genre_f2cb8412">
+          <category xml:id="genre_f2cb8412" corresp="genres.xml#genre_f2cb8412">
             <gloss xml:lang="de">Artusroman</gloss>
             <gloss xml:lang="de">Artusdichtung</gloss>
             <gloss xml:lang="en">Arthurian Romance</gloss>
@@ -119,7 +125,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_8">
+          <person xml:id="person_8" corresp="persons.xml#person_8">
             <persName type="preferred">Gottfried von Straßburg</persName>
             <persName type="alternative" xml:lang="en">Gottfried von Strassburg</persName>
             <idno type="GND">118540947</idno>

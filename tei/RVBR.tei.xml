@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="RVBR">
   <teiHeader>
     <fileDesc>
@@ -41,17 +41,24 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_634">
             <idno type="sigle">RVBR</idno>
+            <idno type="handschriftencensus">873</idno>
+            <idno type="gnd">4177581-8</idno>
+            <idno type="wikidata">Q2140540</idno>
             <msName xml:lang="de">Reinfried von Braunschweig</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="book" xml:id="RVBR_RVBR" corresp="http://zotero.org/groups/5043625/items/ZXSSWV7G" key="RVBR">
                 <monogr>
-                  <title level="m">Reinfried von braunschweig</title>
-                  <idno type="callNumber">RVBR</idno>
+                  <title>Reinfried von Braunschweig</title>
                   <author>
                     <name>Anonym</name>
                   </author>
+                  <idno type="callNumber">RVBR</idno>
+                  <editor>
+                    <forename>Karl</forename>
+                    <surname>Bartsch</surname>
+                  </editor>
                   <imprint>
                     <pubPlace>Stuttgart</pubPlace>
                     <biblScope unit="volume">109</biblScope>
@@ -60,10 +67,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Bibliothek des litterarischen vereins in stuttgart</title>
+                  <title level="s">Bibliothek des Litterarischen Vereins in Stuttgart</title>
                 </series>
-                <note>REINFRID VON BRAUNSCHWEIG. Hrsg. von Karl Bartsch. Tübingen: L.F. Fues, 1871 (=
-              Bibliothek des Litterarischen Vereins Stuttgart, CIX)</note>
+                <note>REINFRID VON BRAUNSCHWEIG. Hrsg. von Karl Bartsch. Tübingen: L.F. Fues, 1871 (= Bibliothek des Litterarischen Vereins Stuttgart, CIX)</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -78,7 +84,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_4ecfe25e">
+          <category xml:id="genre_4ecfe25e" corresp="genres.xml#genre_4ecfe25e">
             <gloss xml:lang="de">Minnesang</gloss>
             <gloss xml:lang="de">Minnesänger</gloss>
             <gloss xml:lang="de">Liebeslyrik</gloss>
@@ -87,7 +93,7 @@
             <gloss xml:lang="en">Minstrels</gloss>
             <gloss xml:lang="en">Love Poetry</gloss>
           </category>
-          <category xml:id="genre_a2770533" ana="parent">
+          <category xml:id="genre_a2770533" ana="parent" corresp="genres.xml#genre_a2770533">
             <gloss xml:lang="de">Lyrik</gloss>
             <gloss xml:lang="en">Lyric Poetry</gloss>
           </category>
@@ -97,7 +103,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_anonym">
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>
             <persName type="alternative" xml:lang="de">Anonymus</persName>
             <persName type="alternative" xml:lang="en">anonymous</persName>

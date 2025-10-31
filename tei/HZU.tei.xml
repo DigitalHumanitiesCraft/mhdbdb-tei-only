@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="HZU">
   <teiHeader>
     <fileDesc>
@@ -45,10 +45,9 @@
           </msIdentifier>
           <additional>
             <listBibl>
-              <biblStruct type="book" xml:id="HZU2_HZU" corresp="http://zotero.org/groups/5043625/items/PFDG8PVM" key="HZU">
+              <biblStruct type="book" xml:id="HZU_HZU" corresp="http://zotero.org/groups/5043625/items/PFDG8PVM" key="HZU">
                 <monogr>
-                  <title level="m">Die urkunden des regulirten chorherrenstiftes herzogenburg: Vom jahre
-                seiner übertragung von st. Georgen: 1244 bis 1450</title>
+                  <title>Die Urkunden des Regulirten Chorherrenstiftes Herzogenburg: Vom Jahre Seiner Übertragung von St. Georgen: 1244 bis 1450</title>
                   <idno type="callNumber">HZU</idno>
                   <editor>
                     <forename>Michael</forename>
@@ -74,7 +73,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_782dcfc4" ana="parent">
+          <category xml:id="genre_782dcfc4" ana="parent" corresp="genres.xml#genre_782dcfc4">
             <gloss xml:lang="de">Mediale Sonderform</gloss>
             <gloss xml:lang="en">Special Media Forms</gloss>
           </category>
@@ -84,7 +83,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_anonym">
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>
             <persName type="alternative" xml:lang="de">Anonymus</persName>
             <persName type="alternative" xml:lang="en">anonymous</persName>

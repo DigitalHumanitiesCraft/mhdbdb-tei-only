@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="VSN">
   <teiHeader>
     <fileDesc>
@@ -41,6 +41,7 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_438">
             <idno type="sigle">VSN</idno>
+            <idno type="handschriftencensus">1849</idno>
             <msName xml:lang="de">Vespasianus</msName>
           </msIdentifier>
           <additional>
@@ -53,7 +54,7 @@
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Die gedichte des wilden mannes</title>
+                  <title level="m">Die Gedichte des Wilden Mannes</title>
                   <idno type="callNumber">VSN</idno>
                   <editor>
                     <forename>Bernard</forename>
@@ -67,10 +68,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Altdeutsche textbibliothek</title>
+                  <title level="s">Altdeutsche Textbibliothek</title>
                 </series>
-                <note>Die Gedichte des Wilden Mannes. Herausgegeben von Bernard Standring. Tübingen:
-              Max Niemeyer Verlag, 1963. S.22-30</note>
+                <note>Die Gedichte des Wilden Mannes. Herausgegeben von Bernard Standring. Tübingen: Max Niemeyer Verlag, 1963. S.22-30</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -85,7 +85,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_0480b285" ana="parent">
+          <category xml:id="genre_0480b285" ana="parent" corresp="genres.xml#genre_0480b285">
             <gloss xml:lang="de">Geistliche Literatur</gloss>
             <gloss xml:lang="de">Geistliche Dichtung</gloss>
             <gloss xml:lang="de">Religiöse Dichtung</gloss>
@@ -95,7 +95,7 @@
             <gloss xml:lang="en">Spiritual Poetry</gloss>
             <gloss xml:lang="en">Religious Poetry</gloss>
           </category>
-          <category xml:id="genre_2292de8a">
+          <category xml:id="genre_2292de8a" corresp="genres.xml#genre_2292de8a">
             <gloss xml:lang="de">Heiligenlegende</gloss>
             <gloss xml:lang="de">Heiligenvita</gloss>
             <gloss xml:lang="de">Vita</gloss>
@@ -104,7 +104,7 @@
             <gloss xml:lang="en">Vita</gloss>
             <gloss xml:lang="la">Vita</gloss>
           </category>
-          <category xml:id="genre_910c5f51">
+          <category xml:id="genre_910c5f51" corresp="genres.xml#genre_910c5f51">
             <gloss xml:lang="de">Marienleben</gloss>
             <gloss xml:lang="de">Marienlegende</gloss>
             <gloss xml:lang="en">Life of Holy Mary</gloss>
@@ -112,7 +112,7 @@
             <gloss xml:lang="en">Mary's Life</gloss>
             <gloss xml:lang="la">Vita Mariae</gloss>
           </category>
-          <category xml:id="genre_f3daf714" ana="parent">
+          <category xml:id="genre_f3daf714" ana="parent" corresp="genres.xml#genre_f3daf714">
             <gloss xml:lang="de">Bibeldichtung</gloss>
             <gloss xml:lang="de">Religiöse Versdichtung</gloss>
             <gloss xml:lang="en">Bible Poetry</gloss>
@@ -124,7 +124,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_1207">
+          <person xml:id="person_1207" corresp="persons.xml#person_1207">
             <persName type="preferred">Der Wilde Mann</persName>
             <persName type="alternative" xml:lang="de">Der wilde Mann</persName>
             <idno type="GND">121006557</idno>

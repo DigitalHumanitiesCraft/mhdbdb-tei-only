@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="SPW">
   <teiHeader>
     <fileDesc>
@@ -42,6 +42,8 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_370">
             <idno type="sigle">SPW</idno>
+            <idno type="handschriftencensus">878</idno>
+            <idno type="gnd">4149144-0</idno>
             <msName xml:lang="de">Der Sperber</msName>
             <msName xml:lang="de">Der Sperber</msName>
           </msIdentifier>
@@ -49,13 +51,13 @@
             <listBibl>
               <biblStruct type="bookSection" xml:id="SPW_SPW" corresp="http://zotero.org/groups/5043625/items/H3WAG7DK" key="SPW">
                 <analytic>
-                  <title level="a">Der Sperber: Diz ist ein schœnez Mære von einem Sperwære</title>
+                  <title level="a">Der Sperber: Diz Ist ein Schœnez Mære von einem Sperwære</title>
                   <author>
                     <name>Anonym</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Novellistik des mittelalters</title>
+                  <title level="m">Novellistik des Mittelalters</title>
                   <idno type="ISBN">978-3-618-66230-3</idno>
                   <idno type="callNumber">SPW</idno>
                   <editor>
@@ -70,11 +72,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Bibliothek des mittelalters</title>
+                  <title level="s">Bibliothek des Mittelalters</title>
                 </series>
-                <note>Novellistik des Mittelalters. Märendichtung. Hrsg, übers. und kommentiert von
-              Klaus Grubmüller. Frankfurt/Main: Dt. Klassiker Verl., 1996. S. 568-588. (= Bibl. d.
-              Mittelalters, Bd. 23)</note>
+                <note>Novellistik des Mittelalters. Märendichtung. Hrsg, übers. und kommentiert von Klaus Grubmüller. Frankfurt/Main: Dt. Klassiker Verl., 1996. S. 568-588. (= Bibl. d. Mittelalters, Bd. 23)</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -89,22 +89,22 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_09114e08">
+          <category xml:id="genre_09114e08" corresp="genres.xml#genre_09114e08">
             <gloss xml:lang="de">Schwank</gloss>
             <gloss xml:lang="en">Droll Story</gloss>
           </category>
-          <category xml:id="genre_5f84678a" ana="parent">
+          <category xml:id="genre_5f84678a" ana="parent" corresp="genres.xml#genre_5f84678a">
             <gloss xml:lang="de">Scherzdichtung</gloss>
             <gloss xml:lang="en">Joke Poetry</gloss>
           </category>
-          <category xml:id="genre_ae9e2d0e" ana="parent">
+          <category xml:id="genre_ae9e2d0e" ana="parent" corresp="genres.xml#genre_ae9e2d0e">
             <gloss xml:lang="de">Erzählende Kurzform</gloss>
             <gloss xml:lang="de">Kleinepik</gloss>
             <gloss xml:lang="en">Narrative Short Form</gloss>
             <gloss xml:lang="en">Short Epic</gloss>
             <gloss xml:lang="en">Small Epics</gloss>
           </category>
-          <category xml:id="genre_d65a163b">
+          <category xml:id="genre_d65a163b" corresp="genres.xml#genre_d65a163b">
             <gloss xml:lang="de">Märe</gloss>
             <gloss xml:lang="de">Mär</gloss>
             <gloss xml:lang="de">Versnovelle</gloss>
@@ -118,7 +118,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_anonym">
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>
             <persName type="alternative" xml:lang="de">Anonymus</persName>
             <persName type="alternative" xml:lang="en">anonymous</persName>

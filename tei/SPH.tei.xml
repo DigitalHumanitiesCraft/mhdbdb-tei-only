@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="SPH">
   <teiHeader>
     <fileDesc>
@@ -47,14 +47,13 @@
             <listBibl>
               <biblStruct type="bookSection" xml:id="SPH_SPH" corresp="http://zotero.org/groups/5043625/items/32L77PBQ" key="SPH">
                 <analytic>
-                  <title level="a">Der stein philosophorum</title>
+                  <title level="a">Der Stein Philosophorum</title>
                   <author>
                     <name>Anonym</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Deutsche alchemistische traktate des 15. und 16. Jahrhunderts:
-                Dissertation</title>
+                  <title level="m">Deutsche Alchemistische Traktate des 15. und 16. Jahrhunderts: Dissertation</title>
                   <idno type="callNumber">SPH</idno>
                   <editor>
                     <forename>Herwig</forename>
@@ -66,8 +65,7 @@
                     <date>1969</date>
                   </imprint>
                 </monogr>
-                <note>H. Buntz, Deutsche alchemistische Traktate des 15. und 16. Jahrhunderts. Diss.
-              München 1969, S. 68ff.; Edition Seite 73-83. Digitale Edition: Thomas Glonig 2003</note>
+                <note>H. Buntz, Deutsche alchemistische Traktate des 15. und 16. Jahrhunderts. Diss. München 1969, S. 68ff.; Edition Seite 73-83. Digitale Edition: Thomas Glonig 2003</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -82,7 +80,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_6f77ffdb" ana="parent">
+          <category xml:id="genre_6f77ffdb" ana="parent" corresp="genres.xml#genre_6f77ffdb">
             <gloss xml:lang="de">Praktische Künste</gloss>
             <gloss xml:lang="de">Eigenkünste</gloss>
             <gloss xml:lang="de">Praktische Tätigkeiten</gloss>
@@ -90,7 +88,7 @@
             <gloss xml:lang="en">Practical Work</gloss>
             <gloss xml:lang="la">Artes Mechanicae</gloss>
           </category>
-          <category xml:id="genre_993ba2c5">
+          <category xml:id="genre_993ba2c5" corresp="genres.xml#genre_993ba2c5">
             <gloss xml:lang="de">Alchemie</gloss>
             <gloss xml:lang="de">Alchemistischer Text</gloss>
             <gloss xml:lang="en">Alchemy</gloss>
@@ -102,7 +100,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_1147">
+          <person xml:id="person_1147" corresp="persons.xml#person_1147">
             <persName type="preferred">Arnaldus de Villa Nova</persName>
             <persName type="alternative" xml:lang="de">Arnaldus de Villanova</persName>
             <idno type="GND">118645854</idno>

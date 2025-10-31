@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="HMRG">
   <teiHeader>
     <fileDesc>
@@ -41,29 +41,31 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_653">
             <idno type="sigle">HMRG</idno>
+            <idno type="handschriftencensus">5192</idno>
             <msName xml:lang="de">Regimen sanitatis</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="journalArticle" xml:id="HMRG_HMRG" corresp="http://zotero.org/groups/5043625/items/QBEC6ESD" key="HMRG">
                 <analytic>
-                  <title level="a">Heinrich Münsingers Regimen sanitatis in fluxu catarrhali ad pectus</title>
+                  <title level="a">Heinrich Münsingers Regimen Sanitatis in Fluxu Catarrhali Ad Pectus</title>
                   <author>
-                    <forename>Heinrich</forename>
-                    <surname>Münsinger</surname>
+                    <name>Heinrich Münsinger</name>
                   </author>
                 </analytic>
                 <monogr>
                   <title level="j">Forschungen zur Fachprosa</title>
                   <idno type="callNumber">HMRG</idno>
+                  <editor>
+                    <forename>Gerhard</forename>
+                    <surname>Eis</surname>
+                  </editor>
                   <imprint>
                     <biblScope unit="page">81–90</biblScope>
                     <date>1971</date>
                   </imprint>
                 </monogr>
-                <note>G. Eis: Heinrich Münsingers Regimen sanitatis in fluxu catarrhali ad pectus. In:
-              Forschungen zur Fachprosa. Bern/ München 1971, 81-90. [Hs. 15. Jahrhundert, zweite
-              Hälfte] – Digitale Version: erfaßt und 1 Korrektur gelesen: Thomas Gloning, 6/1996</note>
+                <note>G. Eis: Heinrich Münsingers Regimen sanitatis in fluxu catarrhali ad pectus. In: Forschungen zur Fachprosa. Bern/ München 1971, 81-90. [Hs. 15. Jahrhundert, zweite Hälfte] – Digitale Version: erfaßt und 1 Korrektur gelesen: Thomas Gloning, 6/1996</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -78,14 +80,14 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_e5f97b8a">
+          <category xml:id="genre_e5f97b8a" corresp="genres.xml#genre_e5f97b8a">
             <gloss xml:lang="de">Gesundheitsregel</gloss>
             <gloss xml:lang="de">Gesundheitslehre</gloss>
             <gloss xml:lang="en">Rule of Health</gloss>
             <gloss xml:lang="en">Health Regime</gloss>
             <gloss xml:lang="la">Regimen Sanitatis</gloss>
           </category>
-          <category xml:id="genre_fb1e7d11" ana="parent">
+          <category xml:id="genre_fb1e7d11" ana="parent" corresp="genres.xml#genre_fb1e7d11">
             <gloss xml:lang="de">Text zur Diätetik</gloss>
             <gloss xml:lang="de">Schrift zur Diätetik</gloss>
             <gloss xml:lang="de">Diätetische Literatur</gloss>
@@ -98,7 +100,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_1627">
+          <person xml:id="person_1627" corresp="persons.xml#person_1627">
             <persName type="preferred">Heinrich Münsinger</persName>
             <persName type="alternative" xml:lang="de">Heinrich Mynsinger</persName>
             <persName type="alternative" xml:lang="en">Heinrich Mynsinger</persName>

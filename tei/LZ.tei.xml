@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="LZ">
   <teiHeader>
     <fileDesc>
@@ -41,17 +41,24 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_10">
             <idno type="sigle">LZ</idno>
+            <idno type="handschriftencensus">392</idno>
+            <idno type="gnd">4131829-8</idno>
+            <idno type="wikidata">Q842457</idno>
             <msName xml:lang="de">Lanzelet</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="book" xml:id="LZ_LZ" corresp="http://zotero.org/groups/5043625/items/EQIQG5CT" key="LZ">
                 <monogr>
-                  <title level="m">Lanzelet</title>
-                  <idno type="callNumber">LZ</idno>
+                  <title>Lanzelet</title>
                   <author>
                     <name>Ulrich von Zatzikhoven</name>
                   </author>
+                  <idno type="callNumber">LZ</idno>
+                  <editor>
+                    <forename>K.A.</forename>
+                    <surname>Hahn</surname>
+                  </editor>
                   <imprint>
                     <pubPlace>Frankfurt am Main</pubPlace>
                     <date>1845</date>
@@ -72,13 +79,13 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_70aa5bd2" ana="parent">
+          <category xml:id="genre_70aa5bd2" ana="parent" corresp="genres.xml#genre_70aa5bd2">
             <gloss xml:lang="de">Bretonischer Roman</gloss>
             <gloss xml:lang="en">Breton Romance</gloss>
             <gloss xml:lang="en">Breton Novel</gloss>
             <gloss xml:lang="fr">Matière de Bretagne</gloss>
           </category>
-          <category xml:id="genre_f2cb8412">
+          <category xml:id="genre_f2cb8412" corresp="genres.xml#genre_f2cb8412">
             <gloss xml:lang="de">Artusroman</gloss>
             <gloss xml:lang="de">Artusdichtung</gloss>
             <gloss xml:lang="en">Arthurian Romance</gloss>
@@ -93,7 +100,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_6">
+          <person xml:id="person_6" corresp="persons.xml#person_6">
             <persName type="preferred">Ulrich von Zatzikhoven</persName>
             <idno type="GND">118625349</idno>
             <idno type="wikidata">Q70392</idno>

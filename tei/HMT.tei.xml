@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="HMT">
   <teiHeader>
     <fileDesc>
@@ -41,30 +41,30 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_639">
             <idno type="sigle">HMT</idno>
+            <idno type="handschriftencensus">1113</idno>
+            <idno type="gnd">4338348-8</idno>
             <msName xml:lang="de">Buch von Troja</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="book" xml:id="HMT_HMT" corresp="http://zotero.org/groups/5043625/items/ZZTLGCZR" key="HMT">
                 <monogr>
-                  <title level="m">Das buch von troja von hans mair: Kritische textausgabe und
-                untersuchung</title>
-                  <idno type="callNumber">HMT</idno>
+                  <title>Das Buch von Troja von Hans Mair: Kritische Textausgabe und Untersuchung</title>
                   <author>
                     <name>Hans Mair</name>
                   </author>
+                  <idno type="callNumber">HMT</idno>
+                  <editor>
+                    <forename>Hans-Josef</forename>
+                    <surname>Dreckmann</surname>
+                  </editor>
                   <imprint>
                     <pubPlace>München</pubPlace>
                     <publisher>W. Fink</publisher>
                     <date>1970</date>
                   </imprint>
                 </monogr>
-                <note>Hans-Josef Dreckmann(Hrsg.) Das "Buch von Troja" von Hans Mair. Kritische
-              Textausgabe und Untersuchung. München 1970. Basiert z.T. auf: Das Bonner
-              Frühneuhochdeutschkorpus http://www.ikp.uni-bonn.de/dt/forsch/fnhd/221.html (nicht
-              mehr abrufbar; aktuell findet man die Version über diesen Link:
-              https://korpora.zim.uni-duisburg-essen.de/Fnhd/ - möglicherweise wurden aber
-              geringfügige Änderungen durchgeführt)</note>
+                <note>Hans-Josef Dreckmann(Hrsg.) Das "Buch von Troja" von Hans Mair. Kritische Textausgabe und Untersuchung. München 1970. Basiert z.T. auf: Das Bonner Frühneuhochdeutschkorpus http://www.ikp.uni-bonn.de/dt/forsch/fnhd/221.html (nicht mehr abrufbar; aktuell findet man die Version über diesen Link: https://korpora.zim.uni-duisburg-essen.de/Fnhd/ - möglicherweise wurden aber geringfügige Änderungen durchgeführt)</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -79,7 +79,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_eb6abc0b">
+          <category xml:id="genre_eb6abc0b" corresp="genres.xml#genre_eb6abc0b">
             <gloss xml:lang="de">Trojaroman</gloss>
             <gloss xml:lang="en">Romance of Troy</gloss>
             <gloss xml:lang="en">Troy Novel</gloss>
@@ -88,7 +88,7 @@
             <gloss xml:lang="en">Trojan Romance</gloss>
             <gloss xml:lang="en">Novel of Troy</gloss>
           </category>
-          <category xml:id="genre_fa5f2e8a" ana="parent">
+          <category xml:id="genre_fa5f2e8a" ana="parent" corresp="genres.xml#genre_fa5f2e8a">
             <gloss xml:lang="de">Antikenroman</gloss>
             <gloss xml:lang="en">Ancient Romance</gloss>
             <gloss xml:lang="en">Ancient Novel</gloss>
@@ -99,7 +99,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_746">
+          <person xml:id="person_746" corresp="persons.xml#person_746">
             <persName type="preferred">Hans Mair</persName>
             <idno type="GND">118781324</idno>
             <idno type="wikidata">Q55713586</idno>

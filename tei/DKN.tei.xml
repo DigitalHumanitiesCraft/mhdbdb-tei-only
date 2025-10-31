@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="DKN">
   <teiHeader>
     <fileDesc>
@@ -41,13 +41,14 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_504">
             <idno type="sigle">DKN</idno>
+            <idno type="handschriftencensus">4012</idno>
             <msName xml:lang="de">Die Katze als Nonne</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="bookSection" xml:id="DKN_DKN" corresp="http://zotero.org/groups/5043625/items/UBVB3MXY" key="DKN">
                 <analytic>
-                  <title level="a">Die katze als nonne</title>
+                  <title level="a">Die Katze als Nonne</title>
                   <author>
                     <name>Anonym</name>
                   </author>
@@ -56,7 +57,7 @@
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Eine schweizer kleinepiksammlung des 15. Jahrhunderts</title>
+                  <title level="m">Eine Schweizer Kleinepiksammlung des 15. Jahrhunderts</title>
                   <idno type="callNumber">DKN</idno>
                   <editor>
                     <forename>Hanns</forename>
@@ -70,10 +71,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Altdeutsche textbibliothek</title>
+                  <title level="s">Altdeutsche Textbibliothek</title>
                 </series>
-                <note>Eine Schweizer Kleinepiksammlung des 15. Jahrhunderts. Hrsg. von Hanns Fischer.
-              Tübingen: Niemeyer 1965. (= ATB Nr. 65), S. 44-46</note>
+                <note>Eine Schweizer Kleinepiksammlung des 15. Jahrhunderts. Hrsg. von Hanns Fischer. Tübingen: Niemeyer 1965. (= ATB Nr. 65), S. 44-46</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -88,14 +88,14 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_a6f30c79">
+          <category xml:id="genre_a6f30c79" corresp="genres.xml#genre_a6f30c79">
             <gloss xml:lang="de">Fabel</gloss>
             <gloss xml:lang="de">Tierfabel</gloss>
             <gloss xml:lang="en">Fable</gloss>
             <gloss xml:lang="en">Animal Fable</gloss>
             <gloss xml:lang="la">Fabula</gloss>
           </category>
-          <category xml:id="genre_ae9e2d0e" ana="parent">
+          <category xml:id="genre_ae9e2d0e" ana="parent" corresp="genres.xml#genre_ae9e2d0e">
             <gloss xml:lang="de">Erzählende Kurzform</gloss>
             <gloss xml:lang="de">Kleinepik</gloss>
             <gloss xml:lang="en">Narrative Short Form</gloss>
@@ -108,7 +108,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_anonym">
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>
             <persName type="alternative" xml:lang="de">Anonymus</persName>
             <persName type="alternative" xml:lang="en">anonymous</persName>

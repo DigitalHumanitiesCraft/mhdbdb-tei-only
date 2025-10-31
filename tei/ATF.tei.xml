@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="ATF">
   <teiHeader>
     <fileDesc>
@@ -47,11 +47,15 @@
             <listBibl>
               <biblStruct type="book" xml:id="ATF_ATF" corresp="http://zotero.org/groups/5043625/items/UDXEY5Y7" key="ATF">
                 <monogr>
-                  <title level="m">Facetiae</title>
-                  <idno type="callNumber">ATF</idno>
+                  <title>Facetiae</title>
                   <author>
                     <name>Augustin Tünger</name>
                   </author>
+                  <idno type="callNumber">ATF</idno>
+                  <editor>
+                    <forename>Adelbert</forename>
+                    <surname>von Keller</surname>
+                  </editor>
                   <imprint>
                     <pubPlace>Tübingen</pubPlace>
                     <biblScope unit="volume">118</biblScope>
@@ -60,11 +64,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Bibliothek des litterarischen vereins in stuttgart</title>
+                  <title level="s">Bibliothek des Litterarischen Vereins in Stuttgart</title>
                 </series>
-                <note>Adelbert von Keller (Hrsg.): Facetiae (Bibliothek des Litterarischen Vereins in
-              Stuttgart; Bd. 118). Tubingen: Laupp Verlag, 1874. Digitale Version: Angus Graham
-              Sultan Qaboos University Oman Ulrich Harsch 2005</note>
+                <note>Adelbert von Keller (Hrsg.): Facetiae (Bibliothek des Litterarischen Vereins in Stuttgart; Bd. 118). Tubingen: Laupp Verlag, 1874. Digitale Version: Angus Graham Sultan Qaboos University Oman Ulrich Harsch 2005</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -79,21 +81,21 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_09114e08">
+          <category xml:id="genre_09114e08" corresp="genres.xml#genre_09114e08">
             <gloss xml:lang="de">Schwank</gloss>
             <gloss xml:lang="en">Droll Story</gloss>
           </category>
-          <category xml:id="genre_5f84678a" ana="parent">
+          <category xml:id="genre_5f84678a" ana="parent" corresp="genres.xml#genre_5f84678a">
             <gloss xml:lang="de">Scherzdichtung</gloss>
             <gloss xml:lang="en">Joke Poetry</gloss>
           </category>
-          <category xml:id="genre_612e8091">
+          <category xml:id="genre_612e8091" corresp="genres.xml#genre_612e8091">
             <gloss xml:lang="de">Fazetie</gloss>
             <gloss xml:lang="en">Facetie</gloss>
             <gloss xml:lang="en">Fazete</gloss>
             <gloss xml:lang="la">Facetia</gloss>
           </category>
-          <category xml:id="genre_ae9e2d0e" ana="parent">
+          <category xml:id="genre_ae9e2d0e" ana="parent" corresp="genres.xml#genre_ae9e2d0e">
             <gloss xml:lang="de">Erzählende Kurzform</gloss>
             <gloss xml:lang="de">Kleinepik</gloss>
             <gloss xml:lang="en">Narrative Short Form</gloss>
@@ -106,7 +108,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_1647">
+          <person xml:id="person_1647" corresp="persons.xml#person_1647">
             <persName type="preferred">Augustin Tünger</persName>
             <idno type="GND">100963447</idno>
             <idno type="wikidata">Q768137</idno>

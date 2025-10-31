@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="SFE">
   <teiHeader>
     <fileDesc>
@@ -44,6 +44,9 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_304">
             <idno type="sigle">SFE</idno>
+            <idno type="handschriftencensus">767</idno>
+            <idno type="gnd">4283726-1</idno>
+            <idno type="wikidata">Q1451660</idno>
             <msName xml:lang="de">Die Frauenehre</msName>
             <msName xml:lang="gmh">ditz ist von der vrowen ere, die die
             werlt zieret sere (H, A)</msName>
@@ -59,7 +62,7 @@
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Strickers frauenehre</title>
+                  <title level="m">Strickers Frauenehre</title>
                   <idno type="callNumber">SFE</idno>
                   <editor>
                     <forename>Klaus</forename>
@@ -72,8 +75,7 @@
                     <date>1976</date>
                   </imprint>
                 </monogr>
-                <note>Klaus Hofmann. Strickers Frauenehre. Überlieferung - Textkritik - Edition
-              literaturgeschichtliche Einordnung. Marburg: N. G. Elwert, 1976</note>
+                <note>Klaus Hofmann. Strickers Frauenehre. Überlieferung - Textkritik - Edition literaturgeschichtliche Einordnung. Marburg: N. G. Elwert, 1976</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -88,7 +90,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_2c9f837c">
+          <category xml:id="genre_2c9f837c" corresp="genres.xml#genre_2c9f837c">
             <gloss xml:lang="de">Kleindidaxe</gloss>
             <gloss xml:lang="de">Didaktische Kleindichtung</gloss>
             <gloss xml:lang="de">Gnomik</gloss>
@@ -100,17 +102,17 @@
             <gloss xml:lang="en">Gnomics</gloss>
             <gloss xml:lang="en">Teaching Treatise</gloss>
           </category>
-          <category xml:id="genre_9c7d5679" ana="parent">
+          <category xml:id="genre_9c7d5679" ana="parent" corresp="genres.xml#genre_9c7d5679">
             <gloss xml:lang="de">Diskursive Kurzform</gloss>
             <gloss xml:lang="en">Discursive Short Form</gloss>
             <gloss xml:lang="en">Discursive Form in Small Poetry</gloss>
           </category>
-          <category xml:id="genre_a31be6a3">
+          <category xml:id="genre_a31be6a3" corresp="genres.xml#genre_a31be6a3">
             <gloss xml:lang="de">Minnerede</gloss>
             <gloss xml:lang="en">Love Speech</gloss>
             <gloss xml:lang="en">Minne Speech</gloss>
           </category>
-          <category xml:id="genre_d75ff6ba" ana="parent">
+          <category xml:id="genre_d75ff6ba" ana="parent" corresp="genres.xml#genre_d75ff6ba">
             <gloss xml:lang="de">Lehrdichtung</gloss>
             <gloss xml:lang="de">Didaktische Dichtung</gloss>
             <gloss xml:lang="de">Lehrschrift</gloss>
@@ -123,7 +125,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_4">
+          <person xml:id="person_4" corresp="persons.xml#person_4">
             <persName type="preferred">Der Stricker</persName>
             <idno type="GND">118619284</idno>
             <idno type="wikidata">Q1197199</idno>

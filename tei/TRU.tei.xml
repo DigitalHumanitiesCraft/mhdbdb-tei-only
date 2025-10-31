@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="TRU">
   <teiHeader>
     <fileDesc>
@@ -41,18 +41,24 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_74">
             <idno type="sigle">TRU</idno>
+            <idno type="handschriftencensus">476</idno>
+            <idno type="gnd">4283968-3</idno>
             <msName xml:lang="de">Tristan</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="book" xml:id="TRU_TRU" corresp="http://zotero.org/groups/5043625/items/E7MYMUEY" key="TRU">
                 <monogr>
-                  <title level="m">Tristan</title>
-                  <idno type="ISBN">978-3-484-20107-1</idno>
-                  <idno type="callNumber">TRU</idno>
+                  <title>Tristan</title>
                   <author>
                     <name>Ulrich von Türheim</name>
                   </author>
+                  <idno type="ISBN">978-3-484-20107-1</idno>
+                  <idno type="callNumber">TRU</idno>
+                  <editor>
+                    <forename>Thomas</forename>
+                    <surname>Kerth</surname>
+                  </editor>
                   <imprint>
                     <pubPlace>Tubingen</pubPlace>
                     <biblScope unit="volume">89</biblScope>
@@ -61,10 +67,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Altdeutsche textbibliothek</title>
+                  <title level="s">Altdeutsche Textbibliothek</title>
                 </series>
-                <note>Ulrich von Türheim: Tristan. Hrsg. von Thomas Kerth. Tübingen 1979. (= ATB Nr.
-              89)</note>
+                <note>Ulrich von Türheim: Tristan. Hrsg. von Thomas Kerth. Tübingen 1979. (= ATB Nr. 89)</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -79,20 +84,20 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_70aa5bd2" ana="parent">
+          <category xml:id="genre_70aa5bd2" ana="parent" corresp="genres.xml#genre_70aa5bd2">
             <gloss xml:lang="de">Bretonischer Roman</gloss>
             <gloss xml:lang="en">Breton Romance</gloss>
             <gloss xml:lang="en">Breton Novel</gloss>
             <gloss xml:lang="fr">Matière de Bretagne</gloss>
           </category>
-          <category xml:id="genre_72cae96a" ana="parent">
+          <category xml:id="genre_72cae96a" ana="parent" corresp="genres.xml#genre_72cae96a">
             <gloss xml:lang="de">Höfischer Roman</gloss>
             <gloss xml:lang="de">Versroman</gloss>
             <gloss xml:lang="en">Courtly Romance</gloss>
             <gloss xml:lang="en">Courtly Novel</gloss>
             <gloss xml:lang="en">Verse Novel</gloss>
           </category>
-          <category xml:id="genre_88b5cae2">
+          <category xml:id="genre_88b5cae2" corresp="genres.xml#genre_88b5cae2">
             <gloss xml:lang="de">Liebesroman und Abenteuerroman</gloss>
             <gloss xml:lang="de">Liebesroman</gloss>
             <gloss xml:lang="de">Minneroman und Aventiureroman</gloss>
@@ -107,7 +112,7 @@
             <gloss xml:lang="en">Minne Novel</gloss>
             <gloss xml:lang="en">Minne Romance</gloss>
           </category>
-          <category xml:id="genre_f2cb8412">
+          <category xml:id="genre_f2cb8412" corresp="genres.xml#genre_f2cb8412">
             <gloss xml:lang="de">Artusroman</gloss>
             <gloss xml:lang="de">Artusdichtung</gloss>
             <gloss xml:lang="en">Arthurian Romance</gloss>
@@ -122,7 +127,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_34">
+          <person xml:id="person_34" corresp="persons.xml#person_34">
             <persName type="preferred">Ulrich von Türheim</persName>
             <idno type="GND">118625330</idno>
             <idno type="wikidata">Q69875</idno>

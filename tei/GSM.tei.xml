@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="GSM">
   <teiHeader>
     <fileDesc>
@@ -61,13 +61,13 @@
             <listBibl>
               <biblStruct type="bookSection" xml:id="GSM_GSM" corresp="http://zotero.org/groups/5043625/items/UWEE4XC3" key="GSM">
                 <analytic>
-                  <title level="a">Die geschwaetzigen moenche: Die mönche und der teufel</title>
+                  <title level="a">Die Geschwaetzigen Moenche: Die Mönche und der Teufel</title>
                   <author>
                     <name>Anonym</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Marienlegenden aus dem alten Passional</title>
+                  <title level="m">Marienlegenden aus dem Alten Passional</title>
                   <idno type="callNumber">GSM</idno>
                   <editor>
                     <forename>Hans-Georg</forename>
@@ -81,10 +81,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Altdeutsche textbibliothek</title>
+                  <title level="s">Altdeutsche Textbibliothek</title>
                 </series>
-                <note>Marienlegenden aus dem alten Passional. Hrsg. von Hans-Georg Richert. Tübingen:
-              Niemeyer 1965. (= ATB Nr. 64), S. 1-5</note>
+                <note>Marienlegenden aus dem alten Passional. Hrsg. von Hans-Georg Richert. Tübingen: Niemeyer 1965. (= ATB Nr. 64), S. 1-5</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -99,7 +98,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_910c5f51">
+          <category xml:id="genre_910c5f51" corresp="genres.xml#genre_910c5f51">
             <gloss xml:lang="de">Marienleben</gloss>
             <gloss xml:lang="de">Marienlegende</gloss>
             <gloss xml:lang="en">Life of Holy Mary</gloss>
@@ -107,7 +106,7 @@
             <gloss xml:lang="en">Mary's Life</gloss>
             <gloss xml:lang="la">Vita Mariae</gloss>
           </category>
-          <category xml:id="genre_f3daf714" ana="parent">
+          <category xml:id="genre_f3daf714" ana="parent" corresp="genres.xml#genre_f3daf714">
             <gloss xml:lang="de">Bibeldichtung</gloss>
             <gloss xml:lang="de">Religiöse Versdichtung</gloss>
             <gloss xml:lang="en">Bible Poetry</gloss>
@@ -119,7 +118,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_anonym">
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>
             <persName type="alternative" xml:lang="de">Anonymus</persName>
             <persName type="alternative" xml:lang="en">anonymous</persName>

@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="FLO">
   <teiHeader>
     <fileDesc>
@@ -41,18 +41,23 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_49">
             <idno type="sigle">FLO</idno>
+            <idno type="handschriftencensus">204</idno>
+            <idno type="gnd">4568357-8</idno>
             <msName xml:lang="de">Flore und Blanscheflur</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="book" xml:id="FLO_FLO" corresp="http://zotero.org/groups/5043625/items/BXTV4XYH" key="FLO">
                 <monogr>
-                  <title level="m">Flore und blanscheflur</title>
-                  <idno type="callNumber">FLO</idno>
+                  <title>Flore und Blanscheflur</title>
                   <author>
-                    <forename>Konrad</forename>
-                    <surname>Fleck</surname>
+                    <name>Konrad Fleck</name>
                   </author>
+                  <idno type="callNumber">FLO</idno>
+                  <editor>
+                    <forename>Emil</forename>
+                    <surname>Sommer</surname>
+                  </editor>
                   <imprint>
                     <pubPlace>Quedlinburg and Leipzig</pubPlace>
                     <biblScope unit="volume">12</biblScope>
@@ -61,11 +66,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Bibliothek der gesammten deutschen Nationalliteratur von der ältesten
-                bis auf die neuere Zeit</title>
+                  <title level="s">Bibliothek der Gesammten Deutschen Nationalliteratur von der Ältesten bis auf die Neuere Zeit</title>
                 </series>
-                <note>Konrad Fleck: Flore und Blanscheflur. Hrsg. v. Emil Sommer. Quedlinburg und
-              Leipzig 1846</note>
+                <note>Konrad Fleck: Flore und Blanscheflur. Hrsg. v. Emil Sommer. Quedlinburg und Leipzig 1846</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -80,14 +83,14 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_72cae96a" ana="parent">
+          <category xml:id="genre_72cae96a" ana="parent" corresp="genres.xml#genre_72cae96a">
             <gloss xml:lang="de">Höfischer Roman</gloss>
             <gloss xml:lang="de">Versroman</gloss>
             <gloss xml:lang="en">Courtly Romance</gloss>
             <gloss xml:lang="en">Courtly Novel</gloss>
             <gloss xml:lang="en">Verse Novel</gloss>
           </category>
-          <category xml:id="genre_88b5cae2">
+          <category xml:id="genre_88b5cae2" corresp="genres.xml#genre_88b5cae2">
             <gloss xml:lang="de">Liebesroman und Abenteuerroman</gloss>
             <gloss xml:lang="de">Liebesroman</gloss>
             <gloss xml:lang="de">Minneroman und Aventiureroman</gloss>
@@ -108,7 +111,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_40">
+          <person xml:id="person_40" corresp="persons.xml#person_40">
             <persName type="preferred">Konrad Fleck</persName>
             <idno type="GND">118533797</idno>
             <idno type="wikidata">Q1278053</idno>

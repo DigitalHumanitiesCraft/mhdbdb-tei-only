@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="ASG">
   <teiHeader>
     <fileDesc>
@@ -47,7 +47,7 @@
             <listBibl>
               <biblStruct type="journalArticle" xml:id="ASG_ASG" corresp="http://zotero.org/groups/5043625/items/Y4FF45V6" key="ASG">
                 <analytic>
-                  <title level="a">Das stadtratsgedicht heinrichs von rang</title>
+                  <title level="a">Das Stadtratsgedicht Heinrichs von Rang</title>
                   <author>
                     <name>Heinrich von Rang</name>
                   </author>
@@ -60,10 +60,7 @@
                     <date>1978</date>
                   </imprint>
                 </monogr>
-                <note>Kurt Gärtner, Das Stadtratsgedicht Heinrichs von Rang, in: Aalener Jahrbuch 1978,
-              hrsg. vom Geschichts- und Altertumsverein Aalen, S. 45-74 (Edition und Kommentar)
-              Digitale Version: Ulrich Harsch 2005 http://www.fh-augsburg.de/
-              ̃harsch/germanica/Chronologie/15Jh/HeinrichAalen/hei_stat.html</note>
+                <note>Kurt Gärtner, Das Stadtratsgedicht Heinrichs von Rang, in: Aalener Jahrbuch 1978, hrsg. vom Geschichts- und Altertumsverein Aalen, S. 45-74 (Edition und Kommentar) Digitale Version: Ulrich Harsch 2005 http://www.fh-augsburg.de/ ̃harsch/germanica/Chronologie/15Jh/HeinrichAalen/hei_stat.html</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -78,7 +75,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_2c9f837c">
+          <category xml:id="genre_2c9f837c" corresp="genres.xml#genre_2c9f837c">
             <gloss xml:lang="de">Kleindidaxe</gloss>
             <gloss xml:lang="de">Didaktische Kleindichtung</gloss>
             <gloss xml:lang="de">Gnomik</gloss>
@@ -90,7 +87,7 @@
             <gloss xml:lang="en">Gnomics</gloss>
             <gloss xml:lang="en">Teaching Treatise</gloss>
           </category>
-          <category xml:id="genre_d75ff6ba" ana="parent">
+          <category xml:id="genre_d75ff6ba" ana="parent" corresp="genres.xml#genre_d75ff6ba">
             <gloss xml:lang="de">Lehrdichtung</gloss>
             <gloss xml:lang="de">Didaktische Dichtung</gloss>
             <gloss xml:lang="de">Lehrschrift</gloss>
@@ -103,7 +100,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_786">
+          <person xml:id="person_786" corresp="persons.xml#person_786">
             <persName type="preferred">Heinrich von Rang</persName>
             <persName type="alternative" xml:lang="de">von Rang Heinrich</persName>
             <persName type="alternative" xml:lang="en">von Rang Heinrich</persName>

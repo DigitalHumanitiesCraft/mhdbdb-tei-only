@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="CHH">
   <teiHeader>
     <fileDesc>
@@ -41,17 +41,24 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_172">
             <idno type="sigle">CHH</idno>
+            <idno type="handschriftencensus">141</idno>
+            <idno type="gnd">1165518732</idno>
+            <idno type="wikidata">Q1078608</idno>
             <msName xml:lang="de">Christi Hort</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="book" xml:id="CHH_CHH" corresp="http://zotero.org/groups/5043625/items/UYMPQL8R" key="CHH">
                 <monogr>
-                  <title level="m">Gundackers von judenburg christi hort: Aus der wiener handschrift</title>
-                  <idno type="callNumber">CHH</idno>
+                  <title>Gundackers von Judenburg Christi Hort: Aus der Wiener Handschrift</title>
                   <author>
                     <name>Gundacker von Judenburg</name>
                   </author>
+                  <idno type="callNumber">CHH</idno>
+                  <editor>
+                    <forename>J.</forename>
+                    <surname>Jaschke</surname>
+                  </editor>
                   <imprint>
                     <pubPlace>Berlin</pubPlace>
                     <biblScope unit="volume">18</biblScope>
@@ -60,12 +67,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Deutsche texte des mittelalters</title>
+                  <title level="s">Deutsche Texte des Mittelalters</title>
                 </series>
-                <note>Gundackers von Judenburg Christi Hort; aus der Wiener Handschrift hrsg. von J.
-              Jaksche. Berlin, Weidmann, 1910 (= Deutsche Texte des Mittelalters ; Bd. 18) Digitale
-              Edition beruht zum Teil auf der maschinenlesbaren Version der Universität Trier:
-              http://www.mhgta.uni-trier.de</note>
+                <note>Gundackers von Judenburg Christi Hort; aus der Wiener Handschrift hrsg. von J. Jaksche. Berlin, Weidmann, 1910 (= Deutsche Texte des Mittelalters ; Bd. 18) Digitale Edition beruht zum Teil auf der maschinenlesbaren Version der Universität Trier: http://www.mhgta.uni-trier.de</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -80,7 +84,7 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_0480b285" ana="parent">
+          <category xml:id="genre_0480b285" ana="parent" corresp="genres.xml#genre_0480b285">
             <gloss xml:lang="de">Geistliche Literatur</gloss>
             <gloss xml:lang="de">Geistliche Dichtung</gloss>
             <gloss xml:lang="de">Religiöse Dichtung</gloss>
@@ -90,7 +94,7 @@
             <gloss xml:lang="en">Spiritual Poetry</gloss>
             <gloss xml:lang="en">Religious Poetry</gloss>
           </category>
-          <category xml:id="genre_f3daf714">
+          <category xml:id="genre_f3daf714" corresp="genres.xml#genre_f3daf714">
             <gloss xml:lang="de">Bibeldichtung</gloss>
             <gloss xml:lang="de">Religiöse Versdichtung</gloss>
             <gloss xml:lang="en">Bible Poetry</gloss>
@@ -102,7 +106,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_606">
+          <person xml:id="person_606" corresp="persons.xml#person_606">
             <persName type="preferred">Gundacker von Judenburg</persName>
             <idno type="GND">118699253</idno>
             <idno type="wikidata">Q1554554</idno>

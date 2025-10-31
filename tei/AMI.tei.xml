@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="AMI">
   <teiHeader>
     <fileDesc>
@@ -42,6 +42,9 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_14">
             <idno type="sigle">AMI</idno>
+            <idno type="handschriftencensus">368</idno>
+            <idno type="gnd">4226431-5</idno>
+            <idno type="wikidata">Q1196189</idno>
             <msName xml:lang="de">Der Pfaffe Amis</msName>
             <msName xml:lang="de">Pfaffe Amis</msName>
           </msIdentifier>
@@ -49,11 +52,15 @@
             <listBibl>
               <biblStruct type="book" xml:id="AMI_AMI" corresp="http://zotero.org/groups/5043625/items/NJ3DW43C" key="AMI">
                 <monogr>
-                  <title level="m">Des strickers pfaffe amis</title>
-                  <idno type="callNumber">AMI</idno>
+                  <title>Des Strickers Pfaffe Amis</title>
                   <author>
                     <name>Der Stricker</name>
                   </author>
+                  <idno type="callNumber">AMI</idno>
+                  <editor>
+                    <forename>Kin'ichi</forename>
+                    <surname>Kamihara</surname>
+                  </editor>
                   <imprint>
                     <pubPlace>Göppingen</pubPlace>
                     <biblScope unit="volume">233</biblScope>
@@ -62,10 +69,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Göppinger arbeiten zur germanistik</title>
+                  <title level="s">Göppinger Arbeiten zur Germanistik</title>
                 </series>
-                <note>Des Strickers Pfaffe Amis. Hrsg. von Kin'ichi Kamihara. Göppingen
-              1978.(=Göppinger Arbeiten zur Germanistik, Nr. 233)</note>
+                <note>Des Strickers Pfaffe Amis. Hrsg. von Kin'ichi Kamihara. Göppingen 1978.(=Göppinger Arbeiten zur Germanistik, Nr. 233)</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -80,11 +86,11 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_535c3395">
+          <category xml:id="genre_535c3395" corresp="genres.xml#genre_535c3395">
             <gloss xml:lang="de">Schwankroman</gloss>
             <gloss xml:lang="en">Droll Novel</gloss>
           </category>
-          <category xml:id="genre_d2963bbe" ana="parent">
+          <category xml:id="genre_d2963bbe" ana="parent" corresp="genres.xml#genre_d2963bbe">
             <gloss xml:lang="de">Großepik</gloss>
             <gloss xml:lang="de">Große epische Formen</gloss>
             <gloss xml:lang="de">Großdichtung</gloss>
@@ -98,7 +104,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_4">
+          <person xml:id="person_4" corresp="persons.xml#person_4">
             <persName type="preferred">Der Stricker</persName>
             <idno type="GND">118619284</idno>
             <idno type="wikidata">Q1197199</idno>

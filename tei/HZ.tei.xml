@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="HZ">
   <teiHeader>
     <fileDesc>
@@ -42,20 +42,49 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_64">
             <idno type="sigle">HZ</idno>
+            <idno type="handschriftencensus">208</idno>
+            <idno type="gnd">4810246-5</idno>
+            <idno type="wikidata">Q1615198</idno>
             <msName xml:lang="de">Herzmäre</msName>
             <msName xml:lang="de">Herzmäre</msName>
           </msIdentifier>
           <additional>
             <listBibl>
-              <biblStruct type="bookSection" xml:id="KonradvonWurzburg.1996_HZ" corresp="http://zotero.org/groups/5043625/items/YSNN6SWS" key="HZ">
+              <biblStruct type="bookSection" xml:id="HZ_HZ" corresp="http://zotero.org/groups/5043625/items/CGXT3NQ6" key="HZ">
                 <analytic>
-                  <title level="a">Herzmäre: Daz ist daz herzmære</title>
+                  <title level="a">Herzmaere</title>
                   <author>
                     <name>Konrad von Würzburg</name>
                   </author>
                 </analytic>
                 <monogr>
-                  <title level="m">Novellistik des mittelalters</title>
+                  <title level="m">Der Welt Lohn. Das Herzmaere. Heinrich von Kempten</title>
+                  <idno type="callNumber">HZ</idno>
+                  <editor>
+                    <forename>Edward</forename>
+                    <surname>Schröder</surname>
+                  </editor>
+                  <imprint>
+                    <pubPlace>Berlin</pubPlace>
+                    <biblScope unit="page">12–40</biblScope>
+                    <publisher>Weidmann</publisher>
+                    <date>1970</date>
+                  </imprint>
+                </monogr>
+                <series>
+                  <title level="s">Kleinere Dichtungen Konrads von Würzburg</title>
+                </series>
+                <note>Heinrich von Kempten. Konrad von Würzburg. In: Kleinere Dichtungen Konrads von Würzburg. Hrsg.: E. Schröder. 10. Aufl. 1970</note>
+              </biblStruct>
+              <biblStruct type="bookSection" xml:id="HZ_HZ_HZ" corresp="http://zotero.org/groups/5043625/items/YSNN6SWS" key="HZ">
+                <analytic>
+                  <title level="a">Herzmäre: Daz Ist Daz Herzmære</title>
+                  <author>
+                    <name>Konrad von Würzburg</name>
+                  </author>
+                </analytic>
+                <monogr>
+                  <title level="m">Novellistik des Mittelalters</title>
                   <idno type="ISBN">978-3-618-66230-3</idno>
                   <idno type="callNumber">HZ</idno>
                   <editor>
@@ -70,38 +99,9 @@
                   </imprint>
                 </monogr>
                 <series>
-                  <title level="s">Bibliothek des mittelalters</title>
+                  <title level="s">Bibliothek des Mittelalters</title>
                 </series>
-                <note>Novellistik des Mittelalters. Märendichtung. Hrsg, übers. und kommentiert von
-              Klaus Grubmüller. Frankfurt/Main: Dt. Klassiker Verl., 1996. S. 262-295. (= Bibl. d.
-              Mittelalters, Bd. 23)</note>
-              </biblStruct>
-              <biblStruct type="bookSection" xml:id="HZ_HZ" corresp="http://zotero.org/groups/5043625/items/CGXT3NQ6" key="HZ">
-                <analytic>
-                  <title level="a">Herzmaere</title>
-                  <author>
-                    <name>Konrad von Würzburg</name>
-                  </author>
-                </analytic>
-                <monogr>
-                  <title level="m">Der welt lohn. Das herzmaere. Heinrich von kempten</title>
-                  <idno type="callNumber">HZ</idno>
-                  <editor>
-                    <forename>Edward</forename>
-                    <surname>Schröder</surname>
-                  </editor>
-                  <imprint>
-                    <pubPlace>Berlin</pubPlace>
-                    <biblScope unit="page">12–40</biblScope>
-                    <publisher>Weidmann</publisher>
-                    <date>1970</date>
-                  </imprint>
-                </monogr>
-                <series>
-                  <title level="s">Kleinere dichtungen konrads von würzburg</title>
-                </series>
-                <note>Heinrich von Kempten. Konrad von Würzburg. In: Kleinere Dichtungen Konrads von
-              Würzburg. Hrsg.: E. Schröder. 10. Aufl. 1970</note>
+                <note>Novellistik des Mittelalters. Märendichtung. Hrsg, übers. und kommentiert von Klaus Grubmüller. Frankfurt/Main: Dt. Klassiker Verl., 1996. S. 262-295. (= Bibl. d. Mittelalters, Bd. 23)</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -116,14 +116,14 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_ae9e2d0e" ana="parent">
+          <category xml:id="genre_ae9e2d0e" ana="parent" corresp="genres.xml#genre_ae9e2d0e">
             <gloss xml:lang="de">Erzählende Kurzform</gloss>
             <gloss xml:lang="de">Kleinepik</gloss>
             <gloss xml:lang="en">Narrative Short Form</gloss>
             <gloss xml:lang="en">Short Epic</gloss>
             <gloss xml:lang="en">Small Epics</gloss>
           </category>
-          <category xml:id="genre_d65a163b">
+          <category xml:id="genre_d65a163b" corresp="genres.xml#genre_d65a163b">
             <gloss xml:lang="de">Märe</gloss>
             <gloss xml:lang="de">Mär</gloss>
             <gloss xml:lang="de">Versnovelle</gloss>
@@ -137,7 +137,7 @@
     <profileDesc>
       <particDesc>
         <listPerson>
-          <person xml:id="person_1">
+          <person xml:id="person_1" corresp="persons.xml#person_1">
             <persName type="preferred">Konrad von Würzburg</persName>
             <idno type="GND">118565133</idno>
             <idno type="wikidata">Q77480</idno>
