@@ -94,6 +94,10 @@
         <p xml:lang="de">Die Annotationen der MHDBDB basieren auf kontrollierten Vokabularen und domänenspezifischen Ontologien. Hierzu zählen das auf SKOS strukturierte Begriffssystem mit semantischen Polyhierarchien, ein eigenständiges Onomastikon zur systematischen Erfassung von Eigennamen sowie eine umfassende Textreihentypologie mit über 600 Gattungsbezeichnungen. Diese Komponenten gewährleisten eine konsistente semantische Auszeichnung und fördern die Interoperabilität im Sinne der FAIR-Prinzipien.</p>
         <p xml:lang="en">The annotations of the MHDBDB are based on controlled vocabularies and domain-specific ontologies. These include a SKOS-structured conceptual system with semantic polyhierarchies, a dedicated onomasticon for the systematic encoding of proper names, and a comprehensive typology of text series encompassing more than 600 genre designations. These components ensure consistent semantic markup and promote interoperability in line with FAIR principles.</p>
       </projectDesc>
+      <editorialDecl>
+        <p xml:lang="de">Lokale Dateireferenzen (z.B. persons.xml#person_445, lexicon.xml#lemma_879, genres.xml#genre_XXX) verweisen auf kontrollierte Vokabulare im authority-files Verzeichnis dieses Repositorys. Diese internen Querverweise ermöglichen die Verknüpfung mit Personen-, Werk-, Lemma-, Konzept-, Genre- und Namensautoritätsdateien.</p>
+        <p xml:lang="en">Local file references (e.g. persons.xml#person_445, lexicon.xml#lemma_879, genres.xml#genre_XXX) point to controlled vocabularies in the authority-files directory of this repository. These internal cross-references enable linking to person, work, lemma, concept, genre, and name authority files.</p>
+      </editorialDecl>
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
