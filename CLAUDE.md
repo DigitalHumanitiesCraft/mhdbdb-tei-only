@@ -157,6 +157,7 @@ Zotero API integration (Issue #19) converts titles from sentence case to Title C
 ## Recent Major Changes
 
 **October 2025:**
+- ✅ **Korpus Layout Refactor** - Side-by-side 3-column grid with browser-level scrolling (no container scrollbars)
 - ✅ **Zotero API Integration (Issue #19)** - Complete bibliographic metadata sync with Title Case conversion
 - ✅ **Phase 7 Modular UI** - Decomposed into 18 specialized components (5,536 lines removed)
 - ✅ **Corpus Index v4.0.0** - Fixed proximity search position alignment (document-level indexing)

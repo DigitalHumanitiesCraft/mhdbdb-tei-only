@@ -68,16 +68,23 @@ Allows users to include/exclude specific texts from search:
 ### Reading View
 
 **TEITextReader** (`js/rendering/tei-text-reader.js`)
+- Side-by-side 3-column grid layout (search + results + reading)
 - Full-text display with multi-lemma highlighting
 - Rich metadata panel (work/author info, Wikidata images)
 - Context navigation (prev/next occurrence)
 - URL parameter support (`?textId=ABG&lemmaIds=879,7532&position=310`)
 
+**Layout Architecture:**
+- Browser-level scrolling (no container scrollbars)
+- Equal-height columns using CSS Grid with `align-items: start`
+- Responsive: 3 columns on desktop (≥1280px), stacked on mobile
+- Dynamic column management (2-column initial state, 3-column after search)
+
 **Key features:**
 - Multi-lemma highlighting (5 colors: red, blue, green, yellow, purple)
 - Wikidata integration (automatic image fetching with attribution)
 - Dual identifier sections (work GND/Wikidata vs author GND/Wikidata)
-- Scrollable metadata panel (max-height 400px)
+- Browser window scrolling to highlighted terms (120px header offset)
 
 ### TEI Cache Management
 

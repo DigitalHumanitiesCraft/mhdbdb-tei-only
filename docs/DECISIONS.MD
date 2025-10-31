@@ -633,6 +633,64 @@ Integrate Zotero API to fetch bibliographic metadata and update works.xml:
 
 **Implementation:** `scripts/data-wrangling/enhance_works_with_zotero.py`
 
+## ADR-011: Browser-Level Scrolling for Korpus Reading View
+
+**Status:** Implemented (October 2025)
+**Context:** Main site korpus.html 3-column grid layout with reading panel
+
+### Problem
+
+The korpus.html reading view initially used container-level scrolling with `overflow-y: auto` and `max-height` constraints on individual sections (results list, reading body, metadata accordion). This caused UX issues:
+- Multiple scrollbars (confusing for users)
+- Metadata accordion content trapped in fixed-height container (not fully readable)
+- Unequal column heights (unprofessional appearance)
+- Scroll-to-highlight broke when highlighting search results (scrolled container instead of browser)
+
+### Alternatives Evaluated
+
+**Option A: Keep container scrolling**
+- Pro: Each section independently scrollable
+- Pro: Header remains visible while scrolling
+- Con: Multiple scrollbars (poor UX)
+- Con: Metadata accordion constrained
+- Con: Unequal column heights
+- Rejected: Users prefer single browser scrollbar
+
+**Option B: Browser-level scrolling**
+- Pro: Single scrollbar (better UX)
+- Pro: Natural content flow
+- Pro: Metadata accordion fully readable
+- Pro: Equal-height columns via CSS Grid
+- Con: Sticky header needed to keep navigation visible
+- **Accepted:** Standard web UX pattern, preferred by users
+
+### Decision
+
+Remove all container-level scrolling constraints and use browser-level scrolling:
+- Remove `max-height` and `overflow-y: auto` from all containers
+- Remove `flex-shrink-0` constraints that limited layout
+- Use CSS Grid with `align-items: start` for equal-height columns
+- Update `scrollToHighlight()` to use `window.scrollTo()` with 120px header offset
+- Keep sticky header for navigation
+
+### Consequences
+
+**Positive:**
+- Single browser scrollbar (standard UX)
+- Metadata accordion fully readable when expanded
+- Equal-height columns (professional appearance)
+- Scroll-to-highlight works correctly
+- Natural content flow
+
+**Negative:**
+- Header scrolls out of view (mitigated by sticky positioning)
+- Longer pages require more scrolling (acceptable trade-off)
+
+**Files Modified:**
+- `korpus.html` - Removed max-height inline styles
+- `css/korpus.css` - Removed overflow-y and max-height from `.reading-body` and `.metadata-sections`
+- `js/rendering/tei-text-reader.js` - Changed scrollToHighlight() from container to window scrolling
+
 For implementation details, see [ARCHITECTURE.MD](ARCHITECTURE.MD).
 For data structures, see [DATA-MODEL.MD](DATA-MODEL.MD).
 For development workflow, see [DEVELOPMENT.MD](DEVELOPMENT.MD).

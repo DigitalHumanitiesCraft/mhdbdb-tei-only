@@ -66,7 +66,7 @@ class TEITextReader {
             }
 
             // Show modal with loading state
-            this.showModal();
+            this.showPanel();
             this.showLoading(true);
 
             // Load TEI file (cached)
@@ -783,27 +783,18 @@ class TEITextReader {
 
         const element = this.currentHighlights[index].element;
         if (element) {
-            // Get the scrollable container (readingBody)
-            const scrollContainer = this.elements.readingBody;
+            // Use browser-level scrolling (not container scrolling)
+            // Account for sticky header height
+            const headerOffset = 120;
+            const elementPosition = element.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
-            if (scrollContainer) {
-                // Get element position relative to the scroll container
-                const elementRect = element.getBoundingClientRect();
-                const containerRect = scrollContainer.getBoundingClientRect();
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
 
-                // Calculate how much to scroll (center the element vertically)
-                const elementRelativeTop = elementRect.top - containerRect.top;
-                const containerHeight = scrollContainer.clientHeight;
-                const currentScroll = scrollContainer.scrollTop;
-
-                // Target scroll position (center element in viewport)
-                const targetScroll = currentScroll + elementRelativeTop - (containerHeight / 2);
-
-                // Scroll to position
-                scrollContainer.scrollTop = Math.max(0, targetScroll);
-
-                console.log(`[TEITextReader] Scrolled to highlight ${index} (pos ${this.currentHighlights[index].position}) - scrollTop: ${scrollContainer.scrollTop}`);
-            }
+            console.log(`[TEITextReader] Scrolled to highlight ${index} (pos ${this.currentHighlights[index].position})`);
 
             // Add pulse effect
             element.style.transition = 'transform 0.3s ease';
@@ -888,18 +879,40 @@ class TEITextReader {
     }
 
     /**
-     * Show/hide modal
+     * Show/hide reading panel (replaces modal behavior)
      */
-    showModal() {
-        if (this.elements.readingModal) {
-            this.elements.readingModal.classList.add('active');
+    showPanel() {
+        // Show reading panel
+        const readingPanel = document.getElementById('readingPanel');
+        if (readingPanel) {
+            readingPanel.classList.remove('hidden');
         }
+
+        // Update grid layout based on whether search results are visible
+        const mainGrid = document.getElementById('mainGrid');
+        const resultsSection = document.getElementById('resultsSection');
+
+        if (mainGrid) {
+            const hasResults = resultsSection && !resultsSection.classList.contains('hidden');
+
+            if (hasResults) {
+                // 3-column layout: search + results + reading
+                mainGrid.classList.add('three-column');
+                mainGrid.classList.remove('two-column');
+            } else {
+                // 2-column layout: search + reading
+                mainGrid.classList.add('two-column');
+                mainGrid.classList.remove('three-column');
+            }
+        }
+
+        // Highlight active text in text list
+        this.highlightTextInList(this.currentTextId);
     }
 
-    closeModal() {
-        if (this.elements.readingModal) {
-            this.elements.readingModal.classList.remove('active');
-        }
+    closePanel() {
+        // Note: We might not actually want to hide the panel in the new UX
+        // For now, just reset state but keep panel visible
 
         // Reset state
         this.currentHighlights = [];
@@ -913,6 +926,31 @@ class TEITextReader {
         }
         if (this.elements.readingMetadata) {
             this.elements.readingMetadata.classList.add('hidden');
+        }
+
+        // Remove text list highlighting
+        this.highlightTextInList(null);
+    }
+
+    /**
+     * Highlight the currently viewed text in the text list
+     */
+    highlightTextInList(textId) {
+        // Remove all existing highlights
+        const textList = document.getElementById('textList');
+        if (!textList) return;
+
+        const allLabels = textList.querySelectorAll('label');
+        allLabels.forEach(label => {
+            label.classList.remove('text-list-item-active');
+        });
+
+        // Add highlight to current text
+        if (textId) {
+            const currentLabel = Array.from(allLabels).find(label => label.dataset.textId === textId);
+            if (currentLabel) {
+                currentLabel.classList.add('text-list-item-active');
+            }
         }
     }
 

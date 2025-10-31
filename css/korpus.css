@@ -67,121 +67,46 @@
 }
 
 /* ========================================
-   TEXT MODAL
+   GRID LAYOUT (Side-by-Side View)
    ======================================== */
 
-.text-modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(15, 23, 42, 0.75);
-  backdrop-filter: blur(4px);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  padding: var(--space-4);
+/* Main grid dynamically changes based on state */
+#mainGrid {
+  transition: grid-template-columns 0.3s ease;
 }
 
-.text-modal.active {
-  display: flex;
-  animation: fadeIn 200ms ease-out;
+/* Responsive breakpoints for side-by-side view */
+@media (min-width: 1280px) {
+  /* 2-column layout (initial state: search + reading) */
+  #mainGrid.two-column {
+    grid-template-columns: 1fr 2fr !important;
+    align-items: start;
+  }
+
+  /* 3-column layout (after search: search + results + reading) */
+  #mainGrid.three-column {
+    grid-template-columns: 1fr 1fr 2fr !important;
+    align-items: start;
+  }
 }
 
-.modal-dialog {
-  background: var(--bg-primary);
-  border-radius: var(--radius-2xl);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-  max-width: 900px;
-  width: 100%;
-  max-height: 90vh;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  animation: slideUp 300ms ease-out;
+/* Mobile: stack all columns */
+@media (max-width: 1279px) {
+  #mainGrid {
+    grid-template-columns: 1fr !important;
+  }
 }
 
-/* Wider modal for reading view */
-.modal-reading {
-  max-width: 1000px;
+/* Reading Panel Styles */
+#readingPanel .reading-header {
+  flex-shrink: 0;
 }
 
-/* Modal Header */
-.modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: var(--space-6) var(--space-6) var(--space-4);
-  border-bottom: 1px solid var(--border-primary);
-}
-
-.modal-title {
-  font-size: var(--text-2xl);
-  font-weight: 600;
-  color: var(--text-primary);
-  letter-spacing: -0.02em;
-}
-
-.modal-author {
-  font-size: var(--text-sm);
-  color: var(--text-secondary);
-  margin-top: var(--space-1);
-}
-
-.modal-close {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: var(--radius-md);
-  background: transparent;
-  border: none;
-  color: var(--text-secondary);
-  cursor: pointer;
-  transition: var(--transition-fast);
-  font-size: 28px;
-  line-height: 1;
-}
-
-.modal-close:hover {
-  background: var(--bg-tertiary);
-  color: var(--text-primary);
-}
-
-/* Modal Body */
-.modal-body {
-  padding: var(--space-6);
-  overflow-y: auto;
-  flex: 1;
-}
-
-.modal-loading {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: var(--space-12);
-  gap: var(--space-4);
-}
-
-.modal-loading-hint {
-  font-size: var(--text-sm);
-  color: var(--text-tertiary);
-}
-
-/* Modal Footer */
-.modal-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: var(--space-4) var(--space-6);
-  border-top: 1px solid var(--border-primary);
-  background: var(--bg-secondary);
-}
-
-.context-indicator {
-  font-size: var(--text-sm);
-  color: var(--text-secondary);
+/* Highlighted text item in text list */
+.text-list-item-active {
+  background-color: #fef3c7 !important;
+  border-left: 3px solid var(--accent-primary);
+  padding-left: calc(var(--space-2) - 3px);
 }
 
 /* ========================================
@@ -235,8 +160,6 @@
   background: white;
   border: 1px solid var(--border-primary);
   border-radius: var(--radius-sm);
-  max-height: 400px;
-  overflow-y: auto;
 }
 
 /* Wikidata Image */
@@ -385,7 +308,6 @@
   font-size: 1.125rem;
   line-height: 1.8;
   color: var(--text-primary);
-  overflow-y: auto;
 }
 
 .reading-body p {

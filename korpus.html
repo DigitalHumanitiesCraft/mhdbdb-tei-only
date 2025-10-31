@@ -87,10 +87,10 @@
     </header>
 
     <!-- Main Content -->
-    <main class="container mx-auto px-6 py-12 max-w-6xl">
-        <!-- Search Interface -->
-        <section class="search-card mb-8">
-            <div class="mb-6">
+    <main id="mainGrid" class="mt-10 grid grid-cols-1 xl:grid-cols-[1fr_2fr] gap-6 px-6 lg:items-start transition-all">
+        <!-- Search Card (Left Column) -->
+        <section class="search-card space-y-6 rounded-3xl border border-slate-200 bg-white/95 p-6 shadow-sm ring-1 ring-slate-100/40 min-w-0">
+            <div>
                 <h2 class="text-2xl font-bold text-slate-900 mb-2">Texte durchsuchen</h2>
                 <p class="text-slate-600">
                     Durchsuchen Sie 666 mittelhochdeutsche Texte mit automatischer Normalisierung
@@ -99,23 +99,33 @@
             </div>
 
             <!-- Search Input -->
-            <div class="mb-6">
+            <div>
                 <label for="searchInput" class="block text-sm font-semibold text-slate-700 mb-2">
                     Suche nach Wort oder Lemma:
                 </label>
-                <div class="flex gap-3">
+                <div class="flex flex-col sm:flex-row gap-3">
                     <input
                         type="text"
                         id="searchInput"
                         placeholder="z.B. brot, vriunt, liebe..."
                         class="flex-1 px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition"
                     >
-                    <button
-                        id="searchButton"
-                        class="btn-primary px-8"
-                    >
-                        Suchen
-                    </button>
+                    <div class="flex gap-3">
+                        <button
+                            id="searchButton"
+                            class="btn-primary px-8 flex-1 sm:flex-initial"
+                        >
+                            Suchen
+                        </button>
+                        <button
+                            id="clearSearchButton"
+                            class="px-6 py-3 bg-slate-100 text-slate-700 font-semibold rounded-xl hover:bg-slate-200 transition flex-1 sm:flex-initial"
+                            style="display: none;"
+                            title="Suchergebnisse zurücksetzen"
+                        >
+                            ✕
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -163,9 +173,9 @@
             </div>
         </section>
 
-        <!-- Search Results -->
-        <section id="resultsSection" class="hidden">
-            <div class="mb-6">
+        <!-- Middle Column: Search Results (Hidden initially, shown after search) -->
+        <section id="resultsSection" class="hidden space-y-6 rounded-3xl border border-slate-200 bg-white/95 p-6 shadow-sm ring-1 ring-slate-100/40 min-w-0">
+            <div class="flex items-center justify-between">
                 <h2 class="text-2xl font-bold text-slate-900">
                     Suchergebnisse
                     <span id="resultsCount" class="text-brand-600"></span>
@@ -177,7 +187,7 @@
             </div>
 
             <!-- Load More Button -->
-            <div id="loadMoreContainer" class="hidden mt-8 text-center">
+            <div id="loadMoreContainer" class="hidden text-center">
                 <button
                     id="loadMoreButton"
                     class="btn-secondary px-8"
@@ -185,18 +195,76 @@
                     Mehr Ergebnisse laden
                 </button>
             </div>
+
+            <!-- No Results Message -->
+            <div id="noResults" class="hidden bg-yellow-50 border border-yellow-200 rounded-2xl p-8 text-center">
+                <p class="text-slate-700 font-medium mb-2">Keine Ergebnisse gefunden.</p>
+                <p class="text-sm text-slate-600">
+                    Versuchen Sie eine alternative Schreibweise oder durchsuchen Sie die
+                    <a href="playground/index.html" class="text-brand-600 hover:text-brand-700 font-medium underline">
+                        erweiterten Suchfunktionen im Playground
+                    </a>.
+                </p>
+            </div>
         </section>
 
-        <!-- No Results Message -->
-        <div id="noResults" class="hidden bg-yellow-50 border border-yellow-200 rounded-2xl p-8 text-center">
-            <p class="text-slate-700 font-medium mb-2">Keine Ergebnisse gefunden.</p>
-            <p class="text-sm text-slate-600">
-                Versuchen Sie eine alternative Schreibweise oder durchsuchen Sie die
-                <a href="playground/index.html" class="text-brand-600 hover:text-brand-700 font-medium underline">
-                    erweiterten Suchfunktionen im Playground
-                </a>.
-            </p>
-        </div>
+        <!-- Right Column: Reading View (Replaces Modal) -->
+        <section id="readingPanel" class="space-y-0 rounded-3xl border border-slate-200 bg-white/95 shadow-sm ring-1 ring-slate-100/40 overflow-hidden min-w-0">
+            <!-- Reading Header -->
+            <div class="reading-header p-6 border-b border-slate-200">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 id="readingTitle" class="text-2xl font-semibold text-slate-900"></h3>
+                        <p id="readingAuthor" class="text-sm text-slate-600 mt-1"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loading Indicator -->
+            <div id="readingLoading" class="hidden p-12 flex flex-col items-center justify-center gap-4">
+                <div class="spinner"></div>
+                <p class="loading-message">Lade Text...</p>
+                <p class="text-sm text-slate-500">Dies kann 30-60 Sekunden dauern</p>
+            </div>
+
+            <!-- Metadata Section -->
+            <div id="readingMetadata" class="reading-metadata hidden">
+                <div class="metadata-grid p-6">
+                    <div class="metadata-item">
+                        <span class="metadata-label">Autor:</span>
+                        <span id="metaAuthor"></span>
+                    </div>
+                    <div class="metadata-item">
+                        <span class="metadata-label">Sigle:</span>
+                        <span id="metaSigle"></span>
+                    </div>
+                    <div class="metadata-item">
+                        <span class="metadata-label">Gattung:</span>
+                        <span id="metaGenre"></span>
+                    </div>
+                    <div class="metadata-item">
+                        <span class="metadata-label">Quelle:</span>
+                        <span id="metaSource"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Text Body -->
+            <div id="readingBody" class="reading-body p-6">
+                <!-- Formatted text with optional highlights -->
+            </div>
+
+            <!-- Navigation Footer (only shown when highlighting) -->
+            <div id="readingNavigation" class="hidden p-4 border-t border-slate-200 bg-slate-50 flex items-center justify-between">
+                <button id="prevHighlight" class="btn-secondary">
+                    ↑ Vorheriger Treffer
+                </button>
+                <span id="highlightIndicator" class="text-sm text-slate-600"></span>
+                <button id="nextHighlight" class="btn-secondary">
+                    Nächster Treffer ↓
+                </button>
+            </div>
+        </section>
     </main>
 
     <!-- Footer -->
@@ -240,67 +308,6 @@
             </div>
         </div>
     </footer>
-
-    <!-- Unified Reading Modal -->
-    <div id="readingModal" class="text-modal">
-        <div class="modal-dialog modal-reading">
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <div>
-                    <h3 id="readingTitle" class="modal-title"></h3>
-                    <p id="readingAuthor" class="modal-author"></p>
-                </div>
-                <button id="closeReadingModal" class="modal-close">
-                    ×
-                </button>
-            </div>
-
-            <!-- Loading Indicator -->
-            <div id="readingLoading" class="modal-loading hidden">
-                <div class="spinner"></div>
-                <p class="loading-message">Lade Text...</p>
-                <p class="modal-loading-hint">Dies kann 30-60 Sekunden dauern</p>
-            </div>
-
-            <!-- Metadata Section -->
-            <div id="readingMetadata" class="reading-metadata hidden">
-                <div class="metadata-grid">
-                    <div class="metadata-item">
-                        <span class="metadata-label">Autor:</span>
-                        <span id="metaAuthor"></span>
-                    </div>
-                    <div class="metadata-item">
-                        <span class="metadata-label">Sigle:</span>
-                        <span id="metaSigle"></span>
-                    </div>
-                    <div class="metadata-item">
-                        <span class="metadata-label">Gattung:</span>
-                        <span id="metaGenre"></span>
-                    </div>
-                    <div class="metadata-item">
-                        <span class="metadata-label">Quelle:</span>
-                        <span id="metaSource"></span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Text Body -->
-            <div id="readingBody" class="reading-body modal-body">
-                <!-- Formatted text with optional highlights -->
-            </div>
-
-            <!-- Navigation Footer (only shown when highlighting) -->
-            <div id="readingNavigation" class="modal-footer hidden">
-                <button id="prevHighlight" class="btn-secondary">
-                    ↑ Vorheriger Treffer
-                </button>
-                <span id="highlightIndicator" class="context-indicator"></span>
-                <button id="nextHighlight" class="btn-secondary">
-                    Nächster Treffer ↓
-                </button>
-            </div>
-        </div>
-    </div>
 
     <!-- Error Display -->
     <div id="errorDisplay" class="error-display hidden">

@@ -46,6 +46,7 @@ class MainSiteApp {
                 ...this.elements,
                 searchInput: document.getElementById('searchInput'),
                 searchButton: document.getElementById('searchButton'),
+                clearSearchButton: document.getElementById('clearSearchButton'),
                 textList: document.getElementById('textList'),
                 textFilter: document.getElementById('textFilter'),
                 selectAllTexts: document.getElementById('selectAllTexts'),
@@ -60,8 +61,7 @@ class MainSiteApp {
                 noResults: document.getElementById('noResults'),
                 loadMoreContainer: document.getElementById('loadMoreContainer'),
                 loadMoreButton: document.getElementById('loadMoreButton'),
-                // New unified reading modal elements
-                readingModal: document.getElementById('readingModal'),
+                // Reading panel elements (no longer modal)
                 readingTitle: document.getElementById('readingTitle'),
                 readingAuthor: document.getElementById('readingAuthor'),
                 readingLoading: document.getElementById('readingLoading'),
@@ -71,7 +71,6 @@ class MainSiteApp {
                 metaSigle: document.getElementById('metaSigle'),
                 metaGenre: document.getElementById('metaGenre'),
                 metaSource: document.getElementById('metaSource'),
-                closeReadingModal: document.getElementById('closeReadingModal'),
                 readingNavigation: document.getElementById('readingNavigation'),
                 prevHighlight: document.getElementById('prevHighlight'),
                 nextHighlight: document.getElementById('nextHighlight'),
@@ -104,7 +103,14 @@ class MainSiteApp {
 
                 // Check for URL parameters (e.g., from playground)
                 if (this.isSearchPage) {
-                    this.handleURLParameters();
+                    const hasURLParams = this.handleURLParameters();
+
+                    // If no URL params, load ABG text automatically
+                    if (!hasURLParams) {
+                        setTimeout(() => {
+                            this.teiReader.openReadingView('ABG', {}, this.elements);
+                        }, 200);
+                    }
                 }
             }, 500);
 
@@ -280,23 +286,18 @@ class MainSiteApp {
                 }
             });
 
+            // Clear search
+            this.elements.clearSearchButton.addEventListener('click', () => this.clearSearch());
+
             // Text filtering
             this.setupTextFiltering();
 
             // Load more results
             this.elements.loadMoreButton.addEventListener('click', () => this.loadMoreResults());
 
-            // Reading modal controls
-            this.elements.closeReadingModal.addEventListener('click', () => this.teiReader.closeModal());
+            // Reading panel navigation controls
             this.elements.prevHighlight.addEventListener('click', () => this.teiReader.navigateHighlight(-1));
             this.elements.nextHighlight.addEventListener('click', () => this.teiReader.navigateHighlight(1));
-
-            // Close modal on background click
-            this.elements.readingModal.addEventListener('click', (e) => {
-                if (e.target === this.elements.readingModal) {
-                    this.teiReader.closeModal();
-                }
-            });
         }
 
         console.log(`[MainSiteApp] Event listeners attached (${this.isSearchPage ? 'Search' : 'Landing'} page)`);
@@ -406,10 +407,39 @@ class MainSiteApp {
             // Display results
             this.displayResults();
 
+            // Show clear button
+            this.elements.clearSearchButton.style.display = 'block';
+
         } catch (error) {
             console.error('[MainSiteApp] Search failed:', error);
             this.showError(`Suchfehler: ${error.message}`);
         }
+    }
+
+    clearSearch() {
+        // Clear search input
+        this.elements.searchInput.value = '';
+
+        // Clear results
+        this.currentResults = [];
+        this.currentPage = 0;
+        this.elements.resultsList.innerHTML = '';
+
+        // Hide results section
+        this.elements.resultsSection.classList.add('hidden');
+        this.elements.noResults.classList.add('hidden');
+
+        // Hide clear button
+        this.elements.clearSearchButton.style.display = 'none';
+
+        // Update grid to 2-column layout (search + reading)
+        const mainGrid = document.getElementById('mainGrid');
+        if (mainGrid) {
+            mainGrid.classList.remove('three-column');
+            mainGrid.classList.add('two-column');
+        }
+
+        console.log('[MainSiteApp] Search cleared');
     }
 
     displayResults() {
@@ -424,6 +454,13 @@ class MainSiteApp {
         // Show results section
         this.elements.noResults.classList.add('hidden');
         this.elements.resultsSection.classList.remove('hidden');
+
+        // Update grid to 3-column layout (search + results + reading)
+        const mainGrid = document.getElementById('mainGrid');
+        if (mainGrid) {
+            mainGrid.classList.add('three-column');
+            mainGrid.classList.remove('two-column');
+        }
 
         // Update results count
         this.elements.resultsCount.textContent = `(${this.currentResults.length} Texte gefunden)`;
@@ -527,7 +564,7 @@ class MainSiteApp {
         const positionParam = params.get('position');
 
         if (!textId || !lemmaIdsParam) {
-            return; // No relevant parameters
+            return false; // No relevant parameters
         }
 
         console.log('[MainSiteApp] URL parameters detected:', { textId, lemmaIds: lemmaIdsParam, position: positionParam });
@@ -552,6 +589,8 @@ class MainSiteApp {
             // Clear URL parameters (optional - keeps URL clean)
             window.history.replaceState({}, document.title, window.location.pathname);
         }, 300);
+
+        return true; // URL params were processed
     }
 
     /**
