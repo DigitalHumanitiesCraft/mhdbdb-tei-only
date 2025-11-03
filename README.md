@@ -8,28 +8,25 @@ TEI-encoded Middle High German literature texts with semantic annotations and **
 Alle Inhalte basieren auf den Daten der [Mittelhochdeutschen Begriffsdatenbank (MHDBDB)](https://www.mhdbdb.sbg.ac.at) der Universität Salzburg – einem Forschungsprojekt mit über 50 Jahren mediävistischer Text- und Begriffsforschung.
 
 ### Corpus Content
-- **666 TEI-encoded texts** (Middle High German literature, 7.4M words)
-- **7 authority files** (47.3 MB): persons, works, lexicon, concepts, genres, names, variants
-- **Pre-built indices** (24 MB compressed): Fast search via offline-generated corpus index
-- **Comprehensive test suite** (40 passing, 25 skipped) with Playwright integration
+- TEI-encoded texts of Middle High German literature
+- Authority files: persons, works, lexicon, concepts, genres, names, variants
+- Pre-built indices for fast search
+- Comprehensive test suite with Playwright integration
 
 ### Two Web Interfaces
 
 | Feature | **Main Site** ([index.html](index.html:1)) | **Playground** ([playground/](playground/index.html:1)) |
 |---------|------------------------|------------------|
 | **Purpose** | Public search & reading | Advanced research & analysis |
-| **Load Time** | 3-5 seconds | Instant (pre-built index) |
-| **Data** | Pre-built indices (24 MB) | Pre-built authority index + lazy-loaded TEI |
-| **Search** | Single lemma with filters | 11 search types (incl. multi-lemma) |
+| **Data** | Pre-built indices | Pre-built authority index + lazy-loaded TEI |
+| **Search** | Single lemma with filters | Multiple search types (incl. multi-lemma) |
 | **Target Users** | General public, students | Researchers, medievalists |
 
 ## 📚 Documentation
 
 ### For Developers
-- **[CLAUDE.md](CLAUDE.md)** - Complete developer guide and architecture overview (primary reference)
-- **[REFACTORING-SUMMARY.md](docs/REFACTORING-SUMMARY.md)** - Recent refactoring work (Phase 7 modular UI)
-- **[BUGFIX-2025-10-02.md](docs/BUGFIX-2025-10-02.md)** - Recent bug fixes and improvements
-- **[REFACTORING-PLAN.md](docs/REFACTORING-PLAN.md)** - Multi-phase refactoring plan
+- **[CLAUDE.md](CLAUDE.md)** - Primary developer guide and project overview
+- **[docs/INDEX.MD](docs/INDEX.MD)** - Comprehensive knowledge base gateway with links to specialized documentation
 
 ### For Users
 - Playground includes built-in help and search examples
@@ -46,9 +43,9 @@ npm run serve
 ### Build Indices (Optional)
 Pre-built indices are included. To rebuild:
 ```bash
-npm run build              # Build all indices (~30 min)
-npm run build:authority    # Build authority index only (~30 sec)
-npm run build:corpus       # Build corpus index only (~30 min)
+npm run build              # Build all indices
+npm run build:authority    # Build authority index only
+npm run build:corpus       # Build corpus index only
 npm run validate:indices   # Validate generated indices
 ```
 
@@ -74,40 +71,39 @@ TEI files reference authority data via `xml:id`:
 
 ## Authority Files
 
-| File | Size | Content |
-|------|------|---------|
-| **persons.xml** | 0.12 MB | 210 authors and historical persons |
-| **works.xml** | 1.41 MB | 583 works and manuscript metadata |
-| **lexicon.xml** | 32.59 MB | 43,750 lemmata with grammatical annotations |
-| **concepts.xml** | 0.21 MB | 567 semantic concepts (taxonomy) |
-| **genres.xml** | 0.4 MB | 615 literary genres (taxonomy) |
-| **names.xml** | 0.03 MB | 90 proper names with semantic relations |
-| **variants.xml** | 12.46 MB | 192,674 orthographic variants → 39,436 lemmas |
+| File | Content |
+|------|---------|
+| **persons.xml** | Authors and historical persons |
+| **works.xml** | Works and manuscript metadata |
+| **lexicon.xml** | Lemmata with grammatical annotations |
+| **concepts.xml** | Semantic concepts (taxonomy) |
+| **genres.xml** | Literary genres (taxonomy) |
+| **names.xml** | Proper names with semantic relations |
+| **variants.xml** | Orthographic variants mapped to lemmas |
 
 ## Architecture
 
-### Pre-Built Indices (New!)
+### Pre-Built Indices
 
 The repository includes pre-built compressed indices for fast loading:
 
-| Index | Size | Contains | Cache |
-|-------|------|----------|-------|
-| **authority-index.json.gz** | 2.90 MB | All authority files merged | 30 days |
-| **corpus-index.json.gz** | 21 MB | 666 texts with lemma positions | 30 days |
+| Index | Contains |
+|-------|----------|
+| **authority-index.json.gz** | All authority files merged |
+| **corpus-index.json.gz** | Texts with lemma positions |
 
-**Performance Gains:**
-- **Main site:** Loads in 3-5s (was: N/A)
-- **Playground:** Loads corpus in 3.8s (was: 3-4 minutes)
-- **Memory:** 82% reduction (80 MB vs 450 MB)
-- **Caching:** IndexedDB with automatic expiration
+**Features:**
+- Compressed JSON format for reduced download size
+- IndexedDB caching with automatic expiration
+- No XML parsing overhead in browser
 
 ### Technology Stack
 
 - **Frontend:** Vanilla JavaScript (ES Modules), Tailwind CSS
-- **Compression:** Pako 2.1.0 (gzip, Safari 14+ compatible)
-- **Storage:** Dexie.js 3.2.4 (IndexedDB wrapper)
-- **Testing:** Playwright (40 passing, 25 skipped, 2.7 min runtime)
-- **Build:** Python 3.13 + lxml for index generation
+- **Compression:** Pako (gzip compression)
+- **Storage:** Dexie.js (IndexedDB wrapper)
+- **Testing:** Playwright
+- **Build:** Python + lxml for index generation
 - **Server:** http-server (npm) or Python http.server
 
 ### Middle High German Normalization
@@ -115,18 +111,8 @@ The repository includes pre-built compressed indices for fast loading:
 All search functions use centralized MHG character normalization:
 - Long vowels: `â→a, ê→e, î→i, ô→o, û→u`
 - Umlauts: `ä→ae, ö→oe, ü→ue`
-- 100% parity between Python (build) and JavaScript (runtime)
-- 18/18 automated tests passing
-
-## Recent Updates
-
-**October 2, 2025:**
-- ✅ Merged Phase 7 refactoring: Modular UI architecture (18 specialized modules)
-- ✅ Fixed test suite timeout (40 tests passing, 2.7 min runtime)
-- ✅ Rebuilt authority index (2.90 MB compressed)
-- ✅ Net reduction: 5,536 lines removed from codebase
-
-See [REFACTORING-SUMMARY.md](docs/REFACTORING-SUMMARY.md) and [BUGFIX-2025-10-02.md](docs/BUGFIX-2025-10-02.md) for details.
+- Parity between Python (build) and JavaScript (runtime)
+- Comprehensive automated test coverage
 
 ## License & Contact
 
