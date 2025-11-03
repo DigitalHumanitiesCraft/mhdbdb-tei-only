@@ -127,6 +127,21 @@
                         </button>
                     </div>
                 </div>
+
+                <!-- Lemma Info (shown after search) -->
+                <div id="lemmaInfo" class="hidden mt-3 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                    <div class="flex items-start gap-2">
+                        <svg class="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <div class="flex-1">
+                            <p class="text-sm font-semibold text-blue-900 mb-1">Gefundene Lemmata:</p>
+                            <div id="lemmaList" class="flex flex-wrap gap-2">
+                                <!-- Lemma badges will be inserted here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Text Selection and Browsing -->

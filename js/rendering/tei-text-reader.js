@@ -553,10 +553,12 @@ class TEITextReader {
         }
 
         // Section 2: Sigles
-        if (metadata.allSigles && metadata.allSigles.length > 0) {
+        // Show only current sigle for korpus.html, all sigles for playground
+        const siglesToShow = metadata.sigle || (metadata.allSigles && metadata.allSigles.length > 0 ? metadata.allSigles.join(', ') : null);
+        if (siglesToShow) {
             metadataHTML += '<div class="metadata-section">';
-            metadataHTML += '<h4 class="metadata-section-title">Siglen</h4>';
-            metadataHTML += `<div class="metadata-row">${metadata.allSigles.join(', ')}</div>`;
+            metadataHTML += '<h4 class="metadata-section-title">Sigle</h4>';
+            metadataHTML += `<div class="metadata-row">${this.escapeHtml(siglesToShow)}</div>`;
             metadataHTML += '</div>';
         }
 

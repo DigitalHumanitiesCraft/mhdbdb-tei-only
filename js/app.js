@@ -47,6 +47,8 @@ class MainSiteApp {
                 searchInput: document.getElementById('searchInput'),
                 searchButton: document.getElementById('searchButton'),
                 clearSearchButton: document.getElementById('clearSearchButton'),
+                lemmaInfo: document.getElementById('lemmaInfo'),
+                lemmaList: document.getElementById('lemmaList'),
                 textList: document.getElementById('textList'),
                 textFilter: document.getElementById('textFilter'),
                 selectAllTexts: document.getElementById('selectAllTexts'),
@@ -397,12 +399,35 @@ class MainSiteApp {
 
         try {
             // Execute search with text selection filter
-            const results = await this.searchEngine.searchLemma(searchTerm, {
+            const rawResults = await this.searchEngine.searchLemma(searchTerm, {
                 includedTexts: this.corpusData.includedTexts
             });
 
-            this.currentResults = results;
+            // Extract unique lemmata and deduplicate results by textId
+            const lemmaSet = new Set();
+            const textMap = new Map();
+
+            rawResults.forEach(result => {
+                lemmaSet.add(result.lemmaId);
+
+                // Deduplicate by textId and aggregate match counts
+                if (textMap.has(result.textId)) {
+                    const existing = textMap.get(result.textId);
+                    existing.matchCount += result.matchCount;
+                    existing.lemmaIds.push(result.lemmaId);
+                } else {
+                    textMap.set(result.textId, {
+                        ...result,
+                        lemmaIds: [result.lemmaId]
+                    });
+                }
+            });
+
+            this.currentResults = Array.from(textMap.values());
             this.currentPage = 0;
+
+            // Display lemma info
+            this.displayLemmaInfo(Array.from(lemmaSet));
 
             // Display results
             this.displayResults();
@@ -414,6 +439,31 @@ class MainSiteApp {
             console.error('[MainSiteApp] Search failed:', error);
             this.showError(`Suchfehler: ${error.message}`);
         }
+    }
+
+    displayLemmaInfo(lemmaIds) {
+        if (!lemmaIds || lemmaIds.length === 0) {
+            this.elements.lemmaInfo.classList.add('hidden');
+            return;
+        }
+
+        // Get lemma details from authority index
+        const lemmaDetails = lemmaIds.map(lemmaId => {
+            const lemma = this.authorityIndex.lemmata.find(l => l.id === lemmaId);
+            return lemma ? lemma.lemma : lemmaId;
+        });
+
+        // Create lemma badges
+        this.elements.lemmaList.innerHTML = lemmaDetails.map(lemma => `
+            <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 text-sm font-medium rounded-full">
+                ${this.escapeHtml(lemma)}
+            </span>
+        `).join('');
+
+        // Show lemma info
+        this.elements.lemmaInfo.classList.remove('hidden');
+
+        console.log(`[MainSiteApp] Found ${lemmaIds.length} lemmata:`, lemmaDetails);
     }
 
     clearSearch() {
@@ -429,8 +479,9 @@ class MainSiteApp {
         this.elements.resultsSection.classList.add('hidden');
         this.elements.noResults.classList.add('hidden');
 
-        // Hide clear button
+        // Hide clear button and lemma info
         this.elements.clearSearchButton.style.display = 'none';
+        this.elements.lemmaInfo.classList.add('hidden');
 
         // Update grid to 2-column layout (search + reading)
         const mainGrid = document.getElementById('mainGrid');
@@ -519,19 +570,26 @@ class MainSiteApp {
         const card = document.createElement('div');
         card.className = 'bg-white border border-slate-200 rounded-2xl p-6 hover:border-brand-300 hover:shadow-md transition-all cursor-pointer';
 
+        // Show multi-lemma indicator if multiple lemmata found
+        const lemmaCount = result.lemmaIds ? result.lemmaIds.length : 1;
+        const lemmaInfo = lemmaCount > 1 ? ` <span class="text-slate-500">(${lemmaCount} Lemmata)</span>` : '';
+
         card.innerHTML = `
             <div class="flex justify-between items-start mb-3">
-                <h3 class="font-bold text-lg text-slate-900">${this.escapeHtml(result.title)}</h3>
-                <span class="bg-brand-100 text-brand-700 text-xs font-semibold px-3 py-1 rounded-full">${result.matchCount} Treffer</span>
+                <div>
+                    <h3 class="font-bold text-lg text-slate-900">${this.escapeHtml(result.title)}</h3>
+                    <p class="text-xs text-brand-600 font-semibold mt-1">Sigle: ${this.escapeHtml(result.textId)}</p>
+                </div>
+                <span class="bg-brand-100 text-brand-700 text-xs font-semibold px-3 py-1 rounded-full flex-shrink-0">${result.matchCount} Treffer${lemmaInfo}</span>
             </div>
-            <p class="text-sm text-slate-600 mb-3">${this.escapeHtml(result.author || 'Unbekannter Autor')}</p>
-            ${result.genre ? `<span class="inline-block bg-slate-100 text-slate-700 text-xs px-3 py-1 rounded-full mr-2">${this.escapeHtml(result.genre)}</span>` : ''}
-            <p class="text-sm text-slate-700 mt-3 italic leading-relaxed">${this.escapeHtml(result.snippet)}</p>
+            <p class="text-sm text-slate-600 mb-2">${this.escapeHtml(result.author || 'Unbekannter Autor')}</p>
+            ${result.genre ? `<span class="inline-block bg-slate-100 text-slate-700 text-xs px-3 py-1 rounded-full">${this.escapeHtml(result.genre)}</span>` : ''}
         `;
 
-        // Open reading view with highlighting
+        // Open reading view with highlighting (pass all lemmaIds for multi-lemma highlighting)
         card.addEventListener('click', () => {
-            this.teiReader.openReadingView(result.textId, { lemmaId: result.lemmaId }, this.elements);
+            const lemmaIds = result.lemmaIds || [result.lemmaId];
+            this.teiReader.openReadingView(result.textId, { lemmaIds: lemmaIds }, this.elements);
         });
 
         return card;
