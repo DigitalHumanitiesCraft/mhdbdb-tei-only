@@ -65,7 +65,9 @@
                     <img src="assets/images/mhdbdb-logo.png" alt="MHDBDB Logo" class="w-40">
                     <span class="text-lg font-bold text-brand-600">MHDBDB</span>
                 </a>
-                <div class="flex items-center gap-6">
+
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center gap-6">
                     <a href="index.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
                         Startseite
                     </a>
@@ -82,7 +84,35 @@
                         Kontakt
                     </a>
                 </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobileMenuButton" class="md:hidden p-2 text-slate-600 hover:text-slate-900 transition" aria-label="Toggle menu">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
             </nav>
+
+            <!-- Mobile Navigation (Hidden by default, only visible on mobile) -->
+            <div id="mobileMenu" class="hidden md:hidden mt-4 pb-4 border-t border-slate-200">
+                <div class="flex flex-col gap-3 pt-4">
+                    <a href="index.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                        Startseite
+                    </a>
+                    <a href="korpus.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                        Korpus
+                    </a>
+                    <a href="playground/index.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                        Playground
+                    </a>
+                    <a href="index.html#documentation" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                        Dokumentation
+                    </a>
+                    <a href="index.html#contact" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                        Kontakt
+                    </a>
+                </div>
+            </div>
         </div>
     </header>
 
@@ -335,6 +365,34 @@
             <span id="errorMessage"></span>
         </div>
     </div>
+
+    <!-- Mobile Menu Toggle -->
+    <script>
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobileMenuButton');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        if (mobileMenuButton && mobileMenu) {
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!mobileMenuButton.contains(e.target) && !mobileMenu.contains(e.target)) {
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+
+            // Close mobile menu when clicking a link
+            const mobileLinks = mobileMenu.querySelectorAll('a');
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+        }
+    </script>
 
     <!-- Application Scripts (ES Modules) -->
     <script type="module" src="js/app.js"></script>
