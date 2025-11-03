@@ -251,6 +251,54 @@
   box-shadow: 0 2px 8px rgba(59, 117, 216, 0.3);
 }
 
+/* Sigle Navigation */
+.sigle-navigation {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+}
+
+/* Override .metadata-row strong for current sigle */
+.sigle-navigation strong {
+  color: var(--text-primary);
+  font-weight: 700;
+  min-width: auto;
+  flex-shrink: 1;
+}
+
+.sigle-navigation strong em {
+  font-style: italic;
+}
+
+.sigle-link {
+  color: var(--accent-primary);
+  text-decoration: none;
+  transition: var(--transition-fast);
+}
+
+.sigle-link:hover {
+  text-decoration: underline;
+}
+
+.sigle-separator {
+  color: var(--text-muted);
+  font-weight: 300;
+  padding: 0 0.25rem;
+}
+
+/* Edition link styling override */
+.external-links strong {
+  color: inherit;
+  font-weight: 700;
+  min-width: auto;
+  flex-shrink: 1;
+}
+
+.external-links strong em {
+  font-style: italic;
+}
+
 /* Edition Entries */
 .edition-entry {
   padding: var(--space-3);

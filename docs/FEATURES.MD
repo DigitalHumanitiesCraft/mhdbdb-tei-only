@@ -15,12 +15,13 @@ Search for Middle High German words across the corpus with automatic normalizati
 - System normalizes MHG characters (â→a, ô→o, ü→ue)
 - Resolves orthographic variants (e.g., "brot", "brott" → "brôt")
 - Searches across selected texts
-- Returns results with context snippets
+- **Multi-lemma disambiguation:** When search resolves to multiple lemmata, results are deduplicated by text with all matched lemmata displayed
+- Returns results with match counts aggregated across lemmata
 
 **Visual design:**
-- White result cards on gray background
-- Each card shows title, author, context snippet with highlighted term
-- "Text öffnen" button to open reading view
+- Blue info box showing all matched lemmata as badges
+- White result cards showing title, sigle, author, genre
+- Match count with lemma indicator (e.g., "2399 Treffer (2 Lemmata)")
 - Auto-scroll to results with offset for sticky header
 
 ### Text Selection Interface

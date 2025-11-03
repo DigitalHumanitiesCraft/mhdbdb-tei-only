@@ -156,6 +156,10 @@ Zotero API integration (Issue #19) converts titles from sentence case to Title C
 
 ## Recent Major Changes
 
+**November 2025:**
+- ✅ **Lemma Disambiguation** - Multi-lemma search results deduplicated by textId with transparent lemma display
+- ✅ **Floating Navigation** - Fixed-position highlight navigation (responsive: centered mobile, bottom-right desktop)
+
 **October 2025:**
 - ✅ **Korpus Layout Refactor** - Side-by-side 3-column grid with browser-level scrolling (no container scrollbars)
 - ✅ **Zotero API Integration (Issue #19)** - Complete bibliographic metadata sync with Title Case conversion

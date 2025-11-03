@@ -49,13 +49,21 @@ The MHDBDB project follows a **client-only architecture** with no backend server
 3. Resolve variants via dictionary (e.g., "brot" → lemma_879)
 4. Filter corpus by selected texts
 5. Search for lemma in filtered texts
-6. Extract context windows (±10 words)
-7. Return results with positions
+6. **Multi-lemma deduplication:** When search resolves to multiple lemmata, aggregate results by textId
+7. Extract context windows (±10 words)
+8. Return results with positions and all matched lemmaIds
+
+**Multi-Lemma Deduplication:**
+- Problem: Variant resolution may map one term to multiple lemmata (e.g., "brot" → both "brôt" and "brot")
+- Solution: Use Map keyed by textId to deduplicate results
+- Result: Each text appears once with aggregated match counts and all lemmaIds for multi-lemma highlighting
+- Benefits: Cleaner UI, accurate counts, transparent disambiguation with lemma badges
 
 **Key features:**
 - Variant resolution via flat dictionary lookup (O(1))
 - Context extraction with surrounding words
 - Text filtering respects user selection
+- Deduplication by textId for multi-lemma results
 
 ### Text Selection Interface
 

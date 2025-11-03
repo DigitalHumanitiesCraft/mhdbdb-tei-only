@@ -83,7 +83,7 @@ class TEITextReader {
             );
 
             // Populate modal
-            this.populateModal(metadata, bodyResult);
+            this.populateModal(textId, metadata, bodyResult);
 
             // Setup navigation if highlights exist
             if (bodyResult.highlights.length > 0) {
@@ -523,7 +523,7 @@ class TEITextReader {
     /**
      * Populate modal with comprehensive metadata and text
      */
-    populateModal(metadata, bodyResult) {
+    populateModal(textId, metadata, bodyResult) {
         // Set title and author in header
         this.elements.readingTitle.textContent = metadata.title;
         this.elements.readingAuthor.textContent = metadata.author;
@@ -552,13 +552,34 @@ class TEITextReader {
             metadataHTML += '</div>';
         }
 
-        // Section 2: Sigles
-        // Show only current sigle for korpus.html, all sigles for playground
-        const siglesToShow = metadata.sigle || (metadata.allSigles && metadata.allSigles.length > 0 ? metadata.allSigles.join(', ') : null);
-        if (siglesToShow) {
+        // Section 2: Sigles (with navigation for multi-edition works)
+        if (metadata.allSigles && metadata.allSigles.length > 0) {
+            metadataHTML += '<div class="metadata-section">';
+            metadataHTML += '<h4 class="metadata-section-title">Siglen</h4>';
+            metadataHTML += '<div class="metadata-row sigle-navigation">';
+
+            metadata.allSigles.forEach((sigle, index) => {
+                if (sigle === textId) {
+                    // Current sigle - bold + italic with tooltip
+                    metadataHTML += `<strong><em title="Aktuelle Edition">${this.escapeHtml(sigle)}</em></strong>`;
+                } else {
+                    // Other sigles - clickable links
+                    metadataHTML += `<a href="#" class="sigle-link" data-text-id="${this.escapeHtml(sigle)}" title="Text öffnen: ${this.escapeHtml(sigle)}">${this.escapeHtml(sigle)}</a>`;
+                }
+
+                // Add separator between sigles
+                if (index < metadata.allSigles.length - 1) {
+                    metadataHTML += ' <span class="sigle-separator">|</span> ';
+                }
+            });
+
+            metadataHTML += '</div>';
+            metadataHTML += '</div>';
+        } else if (metadata.sigle) {
+            // Fallback for works with only one sigle
             metadataHTML += '<div class="metadata-section">';
             metadataHTML += '<h4 class="metadata-section-title">Sigle</h4>';
-            metadataHTML += `<div class="metadata-row">${this.escapeHtml(siglesToShow)}</div>`;
+            metadataHTML += `<div class="metadata-row"><strong>${this.escapeHtml(metadata.sigle)}</strong></div>`;
             metadataHTML += '</div>';
         }
 
@@ -604,7 +625,7 @@ class TEITextReader {
         }
         metadataHTML += '</div>';
 
-        // Section 6: Editions (Zotero links only)
+        // Section 6: Editions (Zotero links with current edition highlighted)
         if (metadata.editions && metadata.editions.length > 0) {
             const editionsWithZotero = metadata.editions.filter(e => e.zoteroLink);
             if (editionsWithZotero.length > 0) {
@@ -613,7 +634,15 @@ class TEITextReader {
                 metadataHTML += '<div class="external-links">';
                 editionsWithZotero.forEach(edition => {
                     const label = edition.key ? `${edition.key}` : 'Edition';
-                    metadataHTML += `<a href="${edition.zoteroLink}" target="_blank" rel="noopener" class="external-link" title="${this.escapeHtml(label)}"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"></path></svg> ${this.escapeHtml(label)}</a>`;
+                    const isCurrent = edition.key === textId;
+                    const tooltip = isCurrent ? 'Aktuelle Edition' : this.escapeHtml(label);
+
+                    // Current edition: bold + italic, Others: normal
+                    const labelHTML = isCurrent
+                        ? `<strong><em>${this.escapeHtml(label)}</em></strong>`
+                        : this.escapeHtml(label);
+
+                    metadataHTML += `<a href="${edition.zoteroLink}" target="_blank" rel="noopener" class="external-link" title="${tooltip}"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"></path></svg> ${labelHTML}</a>`;
                 });
                 metadataHTML += '</div>';
                 metadataHTML += '</div>';
@@ -658,6 +687,22 @@ class TEITextReader {
                 }
             });
         }
+
+        // Add sigle navigation event listeners
+        const sigleLinks = this.elements.readingMetadata.querySelectorAll('.sigle-link');
+        sigleLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetTextId = link.getAttribute('data-text-id');
+                if (targetTextId) {
+                    // Navigate to the related text (preserve current lemma highlighting)
+                    const options = this.currentLemmaIds.length > 0
+                        ? { lemmaIds: this.currentLemmaIds }
+                        : {};
+                    this.openReadingView(targetTextId, options, this.elements);
+                }
+            });
+        });
 
         // Populate body text
         this.elements.readingBody.innerHTML = bodyResult.html;
