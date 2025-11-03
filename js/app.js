@@ -447,9 +447,9 @@ class MainSiteApp {
             return;
         }
 
-        // Get lemma details from authority index
+        // Get lemma details from authority index (via searchEngine)
         const lemmaDetails = lemmaIds.map(lemmaId => {
-            const lemma = this.authorityIndex.lemmata.find(l => l.id === lemmaId);
+            const lemma = this.searchEngine.authorityIndex.lemmata.find(l => l.id === lemmaId);
             return lemma ? lemma.lemma : lemmaId;
         });
 

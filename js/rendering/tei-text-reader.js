@@ -446,7 +446,7 @@ class TEITextReader {
         // Multi-lemma mode: check all lemmaIds with colors
         if (lemmaIds.length > 0 && lemmaRef) {
             for (const searchLemmaId of lemmaIds) {
-                const lemmaRefPattern = `lemma_${searchLemmaId}`;
+                const lemmaRefPattern = `#${searchLemmaId}`;
 
                 if (lemmaRef.includes(lemmaRefPattern)) {
                     const color = lemmaColorMap[searchLemmaId];

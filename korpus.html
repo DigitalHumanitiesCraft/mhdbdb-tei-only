@@ -127,21 +127,6 @@
                         </button>
                     </div>
                 </div>
-
-                <!-- Lemma Info (shown after search) -->
-                <div id="lemmaInfo" class="hidden mt-3 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-                    <div class="flex items-start gap-2">
-                        <svg class="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                        <div class="flex-1">
-                            <p class="text-sm font-semibold text-blue-900 mb-1">Gefundene Lemmata:</p>
-                            <div id="lemmaList" class="flex flex-wrap gap-2">
-                                <!-- Lemma badges will be inserted here -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
 
             <!-- Text Selection and Browsing -->
@@ -197,6 +182,21 @@
                 </h2>
             </div>
 
+            <!-- Lemma Info (shown after search) -->
+            <div id="lemmaInfo" class="hidden p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                <div class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <div class="flex-1">
+                        <p class="text-sm font-semibold text-blue-900 mb-1">Gefundene Lemmata:</p>
+                        <div id="lemmaList" class="flex flex-wrap gap-2">
+                            <!-- Lemma badges will be inserted here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div id="resultsList" class="space-y-4">
                 <!-- Dynamically populated with search results -->
             </div>
@@ -224,16 +224,30 @@
         </section>
 
         <!-- Right Column: Reading View (Replaces Modal) -->
-        <section id="readingPanel" class="space-y-0 rounded-3xl border border-slate-200 bg-white/95 shadow-sm ring-1 ring-slate-100/40 overflow-hidden min-w-0">
-            <!-- Reading Header -->
-            <div class="reading-header p-6 border-b border-slate-200">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <h3 id="readingTitle" class="text-2xl font-semibold text-slate-900"></h3>
-                        <p id="readingAuthor" class="text-sm text-slate-600 mt-1"></p>
-                    </div>
+        <div class="space-y-0 min-w-0">
+            <!-- Navigation Controls (Fixed at bottom, shown when highlighting) -->
+            <div id="readingNavigation" class="hidden fixed bottom-4 left-4 right-4 xl:left-auto xl:right-8 z-20 bg-white/90 backdrop-blur-sm border border-slate-300 rounded-xl px-3 py-2 shadow-md mx-auto xl:mx-0 max-w-2xl">
+                <div class="flex items-center justify-between gap-3">
+                    <button id="prevHighlight" class="text-xs px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg transition flex-1 font-medium whitespace-nowrap">
+                        ↑ Zurück
+                    </button>
+                    <span id="highlightIndicator" class="text-xs text-slate-600 whitespace-nowrap font-medium"></span>
+                    <button id="nextHighlight" class="text-xs px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg transition flex-1 font-medium whitespace-nowrap">
+                        Weiter ↓
+                    </button>
                 </div>
             </div>
+
+            <section id="readingPanel" class="rounded-3xl border border-slate-200 bg-white/95 shadow-sm ring-1 ring-slate-100/40 overflow-hidden">
+                <!-- Reading Header with Title -->
+                <div class="reading-header p-6 border-b border-slate-200">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 id="readingTitle" class="text-2xl font-semibold text-slate-900"></h3>
+                            <p id="readingAuthor" class="text-sm text-slate-600 mt-1"></p>
+                        </div>
+                    </div>
+                </div>
 
             <!-- Loading Indicator -->
             <div id="readingLoading" class="hidden p-12 flex flex-col items-center justify-center gap-4">
@@ -268,18 +282,8 @@
             <div id="readingBody" class="reading-body p-6">
                 <!-- Formatted text with optional highlights -->
             </div>
-
-            <!-- Navigation Footer (only shown when highlighting) -->
-            <div id="readingNavigation" class="hidden p-4 border-t border-slate-200 bg-slate-50 flex items-center justify-between">
-                <button id="prevHighlight" class="btn-secondary">
-                    ↑ Vorheriger Treffer
-                </button>
-                <span id="highlightIndicator" class="text-sm text-slate-600"></span>
-                <button id="nextHighlight" class="btn-secondary">
-                    Nächster Treffer ↓
-                </button>
-            </div>
-        </section>
+            </section>
+        </div>
     </main>
 
     <!-- Footer -->
