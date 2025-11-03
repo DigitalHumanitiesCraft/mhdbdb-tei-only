@@ -159,6 +159,8 @@ Zotero API integration (Issue #19) converts titles from sentence case to Title C
 **November 2025:**
 - ✅ **Lemma Disambiguation** - Multi-lemma search results deduplicated by textId with transparent lemma display
 - ✅ **Floating Navigation** - Fixed-position highlight navigation (responsive: centered mobile, bottom-right desktop)
+- ✅ **Enhanced Edition Navigation** - Clickable navigation between related editions/sigles with current edition highlighting
+- ✅ **TEI Structural Rendering (Issue #17)** - Complete support for column breaks, caesuras, editor insertions, and numbers
 
 **October 2025:**
 - ✅ **Korpus Layout Refactor** - Side-by-side 3-column grid with browser-level scrolling (no container scrollbars)

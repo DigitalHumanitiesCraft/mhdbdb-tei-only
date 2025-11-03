@@ -401,6 +401,26 @@ class TEITextReader {
                     }
                     return result;
 
+                case 'cb':
+                    // Column break
+                    const colNum = el.getAttribute('n');
+                    const colType = el.getAttribute('type');
+                    return colNum
+                        ? `<span class="column-break" title="Spalte ${colNum}">[Sp. ${this.escapeHtml(colNum)}]</span>`
+                        : '<span class="column-break">[Sp.]</span>';
+
+                case 'caesura':
+                    // Metrical pause in verse
+                    return '<span class="caesura" title="Zäsur">||</span>';
+
+                case 'supplied':
+                    // Editor-supplied text
+                    return `<span class="supplied" title="Editorische Ergänzung">[${this.processChildren(el, lemmaId, lemmaIds, lemmaColorMap, highlights, state)}]</span>`;
+
+                case 'num':
+                    // Numeric value
+                    return `<span class="number">${this.processChildren(el, lemmaId, lemmaIds, lemmaColorMap, highlights, state)}</span>`;
+
                 default:
                     // For unknown elements, process children
                     return this.processChildren(el, lemmaId, lemmaIds, lemmaColorMap, highlights, state);
@@ -510,6 +530,17 @@ class TEITextReader {
                     }
                 } else if (tagName === 'l') {
                     result += `<span class="verse-line">${this.processChildren(node, lemmaId, lemmaIds, lemmaColorMap, highlights, state)}</span>`;
+                } else if (tagName === 'cb') {
+                    const colNum = node.getAttribute('n');
+                    result += colNum
+                        ? `<span class="column-break" title="Spalte ${colNum}">[Sp. ${this.escapeHtml(colNum)}]</span>`
+                        : '<span class="column-break">[Sp.]</span>';
+                } else if (tagName === 'caesura') {
+                    result += '<span class="caesura" title="Zäsur">||</span>';
+                } else if (tagName === 'supplied') {
+                    result += `<span class="supplied" title="Editorische Ergänzung">[${this.processChildren(node, lemmaId, lemmaIds, lemmaColorMap, highlights, state)}]</span>`;
+                } else if (tagName === 'num') {
+                    result += `<span class="number">${this.processChildren(node, lemmaId, lemmaIds, lemmaColorMap, highlights, state)}</span>`;
                 } else {
                     // Recursively process other elements
                     result += this.processChildren(node, lemmaId, lemmaIds, lemmaColorMap, highlights, state);

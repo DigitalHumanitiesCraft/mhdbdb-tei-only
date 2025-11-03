@@ -47,16 +47,26 @@ Full-text immersive reader with multi-lemma highlighting and rich metadata.
 **Key features:**
 - **Multi-lemma highlighting:** Up to 5 lemmas with distinct colors (red, blue, green, yellow, purple)
 - **Rich metadata panel:** Work details, author info, bibliographic references
+- **Edition navigation:** Navigate between related editions (sigles) of same work while preserving highlights
+- **TEI structural rendering:** Full support for structural elements (headings, divisions, stanzas, page/column breaks, caesuras, editor insertions)
 - **Wikidata integration:** Automatic image fetching with attribution
 - **Dual identifiers:** Separate GND/Wikidata for work vs author
 - **Context navigation:** Prev/next buttons to jump between occurrences
 - **URL parameters:** `?textId=ABG&lemmaIds=879,7532&position=310`
 
+**TEI elements rendered:**
+- Text structure: `<head>`, `<p>`, `<div>`, `<lg>` (stanzas), `<l>` (verse lines)
+- Layout markers: `<pb>` (page breaks), `<lb>` (line breaks), `<cb>` (column breaks)
+- Verse elements: `<caesura>` (metrical pauses)
+- Editorial markup: `<hi>` (highlighting with @rend), `<supplied>` (editor insertions)
+- Special elements: `<num>` (numbers), `<seg type="pc">` (punctuation)
+
 **Visual design:**
-- Two-column layout (text 70%, metadata 30%)
+- Side-by-side 3-column grid (search + results + reading)
 - Readable serif font with comfortable line height
 - Expandable/collapsible metadata sections
-- Scrollable metadata (max-height 400px)
+- Fixed navigation controls (responsive positioning)
+- Distinct visual treatment for verse vs prose (indentation, line breaks)
 
 ### TEI File Caching
 
