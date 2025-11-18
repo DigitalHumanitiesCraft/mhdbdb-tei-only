@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
 Merge LLM validation results from markdown files back into TEI file.
 
@@ -12,9 +13,15 @@ Usage:
 import argparse
 import re
 import sys
+import io
 from pathlib import Path
 from datetime import datetime
 from lxml import etree
+
+# Force UTF-8 output on Windows
+if sys.platform == 'win32':
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
 
 # TEI namespace
 NS = {'tei': 'http://www.tei-c.org/ns/1.0'}
@@ -28,7 +35,8 @@ def parse_result_line(line):
     """
     # Match pattern: xml_id | old_pos → new_pos | confidence | reason
     # Also handle: xml_id | pos → pos | ✓ correct | reason (no change)
-    pattern = r'^([A-Z_0-9]+)\s*\|\s*(.+?)\s*→\s*(.+?)\s*\|\s*(.+?)\s*\|\s*(.+)$'
+    # Note: Use .*? for old_pos to allow empty values (formerly empty pos attributes)
+    pattern = r'^([A-Z_0-9]+)\s*\|\s*(.*?)\s*→\s*(.+?)\s*\|\s*(.+?)\s*\|\s*(.+)$'
     match = re.match(pattern, line.strip())
 
     if not match:
@@ -55,7 +63,126 @@ def parse_result_line(line):
         'is_change': is_change
     }
 
-def load_validation_results(results_dir, sigle):
+def check_result_file_integrity(result_file):
+    """
+    Check integrity of a single result markdown file.
+
+    Returns tuple: (is_valid, error_messages, stats)
+    """
+    errors = []
+    stats = {
+        'total_lines': 0,
+        'parsed_lines': 0,
+        'unparsed_lines': 0,
+        'empty_new_pos': 0,
+        'invalid_confidence': 0,
+        'missing_reason': 0,
+        'duplicate_ids': []
+    }
+
+    seen_ids = set()
+
+    with open(result_file, 'r', encoding='utf-8') as f:
+        lines = f.readlines()
+
+    stats['total_lines'] = len(lines)
+
+    for line_num, line in enumerate(lines, 1):
+        line = line.strip()
+
+        # Skip empty lines and markdown formatting
+        if not line or line.startswith('#') or line.startswith('---'):
+            continue
+
+        # Try to parse as result line
+        result = parse_result_line(line)
+
+        if result:
+            stats['parsed_lines'] += 1
+
+            # Check for empty new_pos (should never happen)
+            if not result['new_pos']:
+                stats['empty_new_pos'] += 1
+                errors.append(f"Line {line_num}: Empty new_pos for {result['xml_id']}")
+
+            # Check for valid confidence levels
+            valid_confidence = ['high', 'medium', 'low']
+            if result['confidence'].lower() not in valid_confidence:
+                stats['invalid_confidence'] += 1
+                errors.append(f"Line {line_num}: Invalid confidence '{result['confidence']}' for {result['xml_id']}")
+
+            # Check for missing reason
+            if not result['reason']:
+                stats['missing_reason'] += 1
+                errors.append(f"Line {line_num}: Missing reason for {result['xml_id']}")
+
+            # Check for duplicate IDs
+            if result['xml_id'] in seen_ids:
+                stats['duplicate_ids'].append(result['xml_id'])
+                errors.append(f"Line {line_num}: Duplicate xml:id {result['xml_id']}")
+            else:
+                seen_ids.add(result['xml_id'])
+        else:
+            # Line looks like it might be data but didn't parse
+            if '|' in line and '→' in line:
+                stats['unparsed_lines'] += 1
+                errors.append(f"Line {line_num}: Failed to parse result line: {line[:80]}...")
+
+    is_valid = len(errors) == 0
+    return is_valid, errors, stats
+
+def check_all_results_integrity(results_dir, result_files):
+    """
+    Check integrity of all result markdown files before merging.
+
+    Returns tuple: (all_valid, report)
+    """
+    print("\n" + "="*60)
+    print("INTEGRITY CHECK: Validating result files")
+    print("="*60 + "\n")
+
+    all_valid = True
+    all_errors = []
+    total_stats = {
+        'files_checked': 0,
+        'files_valid': 0,
+        'files_invalid': 0,
+        'total_decisions': 0,
+        'total_errors': 0
+    }
+
+    for result_file in result_files:
+        is_valid, errors, stats = check_result_file_integrity(result_file)
+        total_stats['files_checked'] += 1
+
+        if is_valid:
+            total_stats['files_valid'] += 1
+            print(f"✓ {result_file.name}: {stats['parsed_lines']} decisions")
+        else:
+            total_stats['files_invalid'] += 1
+            all_valid = False
+            print(f"✗ {result_file.name}: {len(errors)} errors found")
+            for error in errors:
+                print(f"    - {error}")
+                all_errors.append(f"{result_file.name}: {error}")
+
+        total_stats['total_decisions'] += stats['parsed_lines']
+        total_stats['total_errors'] += len(errors)
+
+    print("\n" + "="*60)
+    if all_valid:
+        print(f"✓ ALL FILES VALID ({total_stats['files_checked']} files, {total_stats['total_decisions']} decisions)")
+    else:
+        print(f"✗ INTEGRITY CHECK FAILED")
+        print(f"  Files checked: {total_stats['files_checked']}")
+        print(f"  Valid files: {total_stats['files_valid']}")
+        print(f"  Invalid files: {total_stats['files_invalid']}")
+        print(f"  Total errors: {total_stats['total_errors']}")
+    print("="*60 + "\n")
+
+    return all_valid, all_errors
+
+def load_validation_results(results_dir, sigle, skip_integrity_check=False):
     """Load all result markdown files and parse decisions."""
     results_dir = Path(results_dir)
     # Files are named like "ABG.tei-chunk-001-result.md"
@@ -69,6 +196,14 @@ def load_validation_results(results_dir, sigle):
         return None
 
     print(f"Found {len(result_files)} result files")
+
+    # Run integrity check first
+    if not skip_integrity_check:
+        all_valid, errors = check_all_results_integrity(results_dir, result_files)
+        if not all_valid:
+            print("\n⚠️  INTEGRITY CHECK FAILED - Cannot proceed with merge")
+            print("Please fix the errors above before merging.\n")
+            return None
 
     decisions = {}
 
@@ -195,6 +330,8 @@ def main():
     parser.add_argument('original_tei', help='Path to original TEI file (e.g., tei/ABG.tei.xml)')
     parser.add_argument('--output', help='Output TEI file (default: tei/{SIGLE}.disamb.tei.xml)')
     parser.add_argument('--report', help='Output report file (default: tei/{SIGLE}.disambiguation-report.md)')
+    parser.add_argument('--skip-integrity-check', action='store_true',
+                        help='Skip integrity validation of result files (not recommended)')
 
     args = parser.parse_args()
 
@@ -203,7 +340,7 @@ def main():
 
     # Load validation results
     print(f"Loading validation results for {sigle}...")
-    decisions = load_validation_results(args.results_dir, sigle)
+    decisions = load_validation_results(args.results_dir, sigle, skip_integrity_check=args.skip_integrity_check)
 
     if decisions is None:
         return 1
