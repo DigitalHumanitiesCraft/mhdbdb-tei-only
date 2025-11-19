@@ -36,7 +36,8 @@ def parse_result_line(line):
     # Match pattern: xml_id | old_pos → new_pos | confidence | reason
     # Also handle: xml_id | pos → pos | ✓ correct | reason (no change)
     # Note: Use .*? for old_pos to allow empty values (formerly empty pos attributes)
-    pattern = r'^([A-Z_0-9]+)\s*\|\s*(.*?)\s*→\s*(.+?)\s*\|\s*(.+?)\s*\|\s*(.+)$'
+    # FIXED: Allow hyphens, dots, and lowercase in IDs for diverse TEI naming conventions
+    pattern = r'^([a-zA-Z0-9_\-\.]+)\s*\|\s*(.*?)\s*→\s*(.+?)\s*\|\s*(.+?)\s*\|\s*(.+)$'
     match = re.match(pattern, line.strip())
 
     if not match:

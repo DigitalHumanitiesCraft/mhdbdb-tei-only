@@ -18,17 +18,47 @@ from lxml import etree
 # TEI namespace
 NS = {'tei': 'http://www.tei-c.org/ns/1.0'}
 
+# Punctuation that should NOT be followed by a space
+NO_SPACE_AFTER = {'<', '(', '[', '{', '„'}
+
+def extract_text_with_punctuation(root):
+    """
+    Extract text content including punctuation from <seg type="pc"> elements.
+    Returns list of tuples: (text, is_word, xml_id) for sequential rendering.
+    """
+    text_elements = []
+
+    # Get all <w> and <seg type="pc"> elements in document order
+    for elem in root.xpath('.//tei:w | .//tei:seg[@type="pc"]', namespaces=NS):
+        if elem.tag == f"{{{NS['tei']}}}w":
+            text_elements.append({
+                'text': "".join(elem.itertext()),
+                'is_word': True,
+                'xml_id': elem.get('{http://www.w3.org/XML/1998/namespace}id'),
+            })
+        elif elem.tag == f"{{{NS['tei']}}}seg" and elem.get('type') == 'pc':
+            # Punctuation segment
+            text_elements.append({
+                'text': elem.text or '',
+                'is_word': False,
+                'xml_id': elem.get('{http://www.w3.org/XML/1998/namespace}id'),
+            })
+
+    return text_elements
+
 def extract_words(tei_file):
     """Extract all <w> elements with their metadata and surrounding text."""
     tree = etree.parse(tei_file)
     root = tree.getroot()
 
+    # Extract words with metadata
     words = []
     for w in root.xpath('.//tei:w', namespaces=NS):
         pos_value = w.get('pos', '')
         word_data = {
             'xml_id': w.get('{http://www.w3.org/XML/1998/namespace}id'),
-            'text': w.text or '',
+            # FIXED: Use itertext() to handle nested tags like <hi>, <lb/>, etc.
+            'text': "".join(w.itertext()),
             'pos': pos_value,
             'lemmaRef': w.get('lemmaRef', ''),
             'line_number': w.sourceline,
@@ -36,9 +66,12 @@ def extract_words(tei_file):
         }
         words.append(word_data)
 
-    return words
+    # Extract full text sequence with punctuation for context display
+    text_elements = extract_text_with_punctuation(root)
 
-def create_chunks(words, chunk_size=50, context_size=10):
+    return words, text_elements
+
+def create_chunks(words, text_elements, chunk_size=50, context_size=10):
     """Create overlapping chunks focused on compound PoS tags."""
     compound_indices = [i for i, w in enumerate(words) if w['has_compound_pos']]
 
@@ -77,7 +110,8 @@ def create_chunks(words, chunk_size=50, context_size=10):
             'chunk_number': chunk_num,
             'compound_count': target_end_idx - target_start_idx,
             'total_words': len(chunk_words),
-            'words': chunk_words
+            'words': chunk_words,
+            'text_elements': text_elements  # Pass all text elements for context rendering
         }
 
         chunks.append(chunk)
@@ -94,9 +128,54 @@ def format_chunk_as_markdown(chunk, total_chunks, sigle):
     md.append(f"Compound tags to disambiguate: {chunk['compound_count']} | Total words to validate: {chunk['total_words']}")
     md.append("")
 
-    # Context text (continuous reading)
+    # Context text (continuous reading with punctuation)
     md.append("## CONTEXT TEXT")
-    text_preview = " ".join(w['text'] for w in chunk['words'])
+    # Build text from text_elements, filtering to words in this chunk
+    chunk_word_ids = {w['xml_id'] for w in chunk['words']}
+
+    # Find the range of text elements that correspond to this chunk
+    first_word_id = chunk['words'][0]['xml_id']
+    last_word_id = chunk['words'][-1]['xml_id']
+
+    # Find indices in text_elements
+    start_idx = None
+    end_idx = None
+    for i, te in enumerate(chunk['text_elements']):
+        if te['is_word'] and te['xml_id'] == first_word_id:
+            start_idx = i
+        if te['is_word'] and te['xml_id'] == last_word_id:
+            end_idx = i + 1
+            break
+
+    # Build context text with punctuation and proper spacing
+    if start_idx is not None and end_idx is not None:
+        context_parts = []
+        for i, te in enumerate(chunk['text_elements'][start_idx:end_idx]):
+            # Add space before words (but not before the first element or after punctuation)
+            if te['is_word'] and i > 0:
+                # Check if previous element was punctuation
+                prev_te = chunk['text_elements'][start_idx + i - 1]
+                if prev_te['is_word']:  # Previous was a word, add space
+                    context_parts.append(' ')
+                else:  # Previous was punctuation
+                    # Add space unless it's an opening punctuation mark
+                    if prev_te['text'] not in NO_SPACE_AFTER:
+                        context_parts.append(' ')
+            
+            # Add space before opening punctuation (if previous element wasn't also opening punctuation)
+            elif not te['is_word'] and i > 0:
+                if te['text'] in NO_SPACE_AFTER:
+                    prev_te = chunk['text_elements'][start_idx + i - 1]
+                    # Don't add space if previous was also opening punctuation (e.g. "([")
+                    if prev_te['is_word'] or prev_te['text'] not in NO_SPACE_AFTER:
+                        context_parts.append(' ')
+
+            context_parts.append(te['text'])
+        text_preview = "".join(context_parts)
+    else:
+        # Fallback to simple word joining if indices not found
+        text_preview = " ".join(w['text'] for w in chunk['words'])
+
     md.append(text_preview)
     md.append("")
 
@@ -185,8 +264,8 @@ def main():
     print(f"Context size: {args.context_size} words before/after")
     print()
 
-    # Extract words
-    words = extract_words(tei_path)
+    # Extract words and text elements (with punctuation)
+    words, text_elements = extract_words(tei_path)
     total_words = len(words)
     compound_tags = sum(1 for w in words if w['has_compound_pos'])
 
@@ -199,7 +278,7 @@ def main():
         return 0
 
     # Create chunks
-    chunks = create_chunks(words, chunk_size=args.chunk_size, context_size=args.context_size)
+    chunks = create_chunks(words, text_elements, chunk_size=args.chunk_size, context_size=args.context_size)
 
     if not chunks:
         return 0

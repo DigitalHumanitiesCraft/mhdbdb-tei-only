@@ -80,9 +80,10 @@ def compare_elements(orig_el, disamb_el, path="", ignore_change_entry=False):
     if orig_tail != disamb_tail:
         differences.append(f"{path}: Tail content changed")
 
-    # Check children count
-    orig_children = list(orig_el)
-    disamb_children = list(disamb_el)
+    # Check children count (excluding comment nodes)
+    # Comments are added by merge script for low-confidence decisions - these are allowed
+    orig_children = [c for c in orig_el if not isinstance(c, etree._Comment)]
+    disamb_children = [c for c in disamb_el if not isinstance(c, etree._Comment)]
 
     # If we're in revisionDesc, allow extra <change> entries
     if orig_el.tag.endswith('revisionDesc'):
@@ -91,9 +92,10 @@ def compare_elements(orig_el, disamb_el, path="", ignore_change_entry=False):
         orig_changes = [c for c in orig_children if c.tag == f"{{{ns['tei']}}}change"]
         disamb_changes = [c for c in disamb_children if c.tag == f"{{{ns['tei']}}}change"]
 
-        # Should have exactly one more change entry
-        if len(disamb_changes) != len(orig_changes) + 1:
-            differences.append(f"{path}: Expected exactly one additional <change> entry")
+        # FIXED: Allow 1 OR MORE additional changes (handles re-runs of merge script)
+        # This prevents false errors when the Agent refines results in Phase 5
+        if len(disamb_changes) <= len(orig_changes):
+            differences.append(f"{path}: Missing revisionDesc <change> entry")
 
         # Compare children excluding the extra change entry
         for i, orig_child in enumerate(orig_children):

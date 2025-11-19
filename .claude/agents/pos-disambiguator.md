@@ -34,9 +34,8 @@ Your goal is **linguistic analysis**, NOT task completion or efficiency.
 If you encounter a large file or many chunks:
 
 1. **Process chunks one at a time** using Read and Write tools
-2. **Report progress** after every 5-10 chunks
-3. **Continue until ALL chunks are processed and validated** - never stop partway through
-4. **NEVER** create scripts to "optimize" or "help automate"
+2. **Continue until ALL chunks are processed and validated** - never stop partway through
+3. **NEVER** create scripts to "optimize" or "help automate"
 
 Your value is in **semantic understanding**, not in creating automation.
 
@@ -124,7 +123,29 @@ python scripts/data-wrangling/validate-disambiguation.py
 
 ## Workflow: Autonomous Batch Processing
 
-You operate autonomously across 5 phases to complete entire TEI files from discovery to validation.
+You operate autonomously across 6 phases to complete entire TEI files from discovery to validation.
+
+### Phase 0: Environment Setup
+
+**Goal**: Ensure the environment is ready before processing.
+
+1. **Check Python version**: Verify Python 3.13+ is available
+   ```bash
+   python --version
+   ```
+
+2. **Install dependencies**: The TEI processing scripts require `lxml`
+   ```bash
+   pip install lxml
+   ```
+
+3. **Verify scripts exist**: Check critical workflow scripts are present
+   ```bash
+   ls scripts/data-wrangling/merge-pos-validation-results.py
+   ls scripts/data-wrangling/validate-disambiguation.py
+   ```
+
+4. **ONLY run Phase 0 once** at the start of your session, then proceed to Phase 1
 
 ### Phase 1: Discovery & Resume
 
@@ -161,11 +182,16 @@ For each missing chunk:
 xml_id | old_pos → new_pos | confidence | reason
 ```
 
-Example:
+**CRITICAL RULE for Missing Tags (❓)**:
+- If the chunk marks a word with `❓` (missing PoS tag), the `old_pos` in your output **MUST be empty** (not "❓")
+- **Correct**: `EUS_42100020_0 |  → CNJ | high | conjunction introducing subordinate clause`
+- **Wrong**: `EUS_42100020_0 | ❓ → CNJ | high | conjunction introducing subordinate clause`
+
+Example output:
 ```
 ABG_400002_1 | VRB VEX → VEX | high | perfect auxiliary ("hân...gelesen")
 ABG_400003_7 | NOM ADJ → ADJ | high | attributive adjective after article
-ABG_400002_4 |  → ADV | high | adverb modifying verb (context: "vil gelesen")
+ABG_400002_4 |  → ADV | high | adverb modifying verb (originally had no PoS tag)
 ```
 
 5. **Report progress**: After every 5 chunks, report: "Processed chunks 1-5 of 21 for ABG.tei"
@@ -225,20 +251,37 @@ grep -l "ABG_402050_12" temp/disambiguation/ABG.tei-chunk-*-result.md
    - Re-evaluate the grammatical decision
    - Determine correct single PoS tag
 
-5. **Edit result file**: Update that specific line with corrected analysis
-```
-ABG_402050_12 | ADV CNJ → CNJ | high | conjunction introducing subordinate clause
-```
+5. **Edit result file safely**:
+   - **Use targeted string replacement** for the specific line only
+   - **DO NOT rewrite the entire file** (risks introducing new errors)
+   - Find the exact line with the problematic xml_id
+   - Replace only that line with corrected analysis
+   ```
+   ABG_402050_12 | ADV CNJ → CNJ | high | conjunction introducing subordinate clause
+   ```
 
-6. **Iterate**: Repeat steps 1-5 for all problematic xml_ids
+6. **Iterate through all problematic xml_ids**: Repeat steps 1-5 for each error
 
-7. **Re-merge and re-validate**: After fixing all errors:
-   - Run Phase 3 again (merge)
-   - Run Phase 4 again (validate)
-   - If still has errors → repeat Phase 5
-   - If clean → move to next TEI file
+7. **Re-merge and re-validate**: After fixing all errors in current iteration:
+   - Run Phase 3 again (merge script)
+   - Run Phase 4 again (validation script)
+   - Parse validation output for remaining errors
 
-8. **Continue until complete**: Keep processing until ALL TEI files in temp/disambiguation are fully validated and clean
+8. **Safety limits for refinement** (CRITICAL):
+   - **Maximum 3 refinement iterations** per TEI file
+   - Track iterations: "Refinement iteration 1/3 for {SIGLE}.tei"
+   - **If validation still fails after 3 iterations**:
+     - STOP processing that file
+     - Create `temp/disambiguation/{SIGLE}-FAILURE-REPORT.md` listing:
+       - Remaining errors (xml_ids, PoS tags, error types)
+       - Number of iterations attempted
+       - Recommendation for manual review
+     - **Move immediately to next TEI file**
+   - This prevents infinite loops and budget exhaustion
+
+9. **Continue until complete**: Keep processing until ALL TEI files in temp/disambiguation are either:
+   - Fully validated and clean, OR
+   - Have failure reports (after 3 refinement attempts)
 
 ## Disambiguation Guidelines
 
@@ -391,8 +434,17 @@ After completing each TEI file:
   - Chunks processed: X/X
   - Words validated: N
   - Changes made: M
-  - Validation: {CLEAN / X errors remaining}
+  - Refinement iterations: N/3
+  - Validation: {CLEAN / X errors remaining / FAILED after 3 iterations}
   - Status: {Moving to next file / Refining errors / Complete}
+```
+
+For files that fail after 3 refinement iterations:
+```
+⚠️ {SIGLE}.tei INCOMPLETE (failed after 3 refinement attempts)
+  - Remaining errors: X compound tags, Y empty tags
+  - Failure report: temp/disambiguation/{SIGLE}-FAILURE-REPORT.md
+  - Status: Moving to next file (manual review required)
 ```
 
 ---
