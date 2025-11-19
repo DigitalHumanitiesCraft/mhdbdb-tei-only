@@ -55,6 +55,9 @@ def extract_words(tei_file):
     words = []
     for w in root.xpath('.//tei:w', namespaces=NS):
         pos_value = w.get('pos', '')
+        has_compound = ' ' in pos_value
+        is_missing = not pos_value or pos_value.strip() == ''
+        
         word_data = {
             'xml_id': w.get('{http://www.w3.org/XML/1998/namespace}id'),
             # FIXED: Use itertext() to handle nested tags like <hi>, <lb/>, etc.
@@ -62,7 +65,9 @@ def extract_words(tei_file):
             'pos': pos_value,
             'lemmaRef': w.get('lemmaRef', ''),
             'line_number': w.sourceline,
-            'has_compound_pos': ' ' in pos_value,
+            'has_compound_pos': has_compound,
+            'is_missing_pos': is_missing,
+            'needs_validation': has_compound or is_missing
         }
         words.append(word_data)
 
@@ -72,27 +77,27 @@ def extract_words(tei_file):
     return words, text_elements
 
 def create_chunks(words, text_elements, chunk_size=50, context_size=10):
-    """Create overlapping chunks focused on compound PoS tags."""
-    compound_indices = [i for i, w in enumerate(words) if w['has_compound_pos']]
+    """Create overlapping chunks focused on compound AND missing PoS tags."""
+    target_indices = [i for i, w in enumerate(words) if w['needs_validation']]
 
-    if not compound_indices:
-        print("No compound PoS tags found - nothing to validate.")
+    if not target_indices:
+        print("No compound or missing PoS tags found - nothing to validate.")
         return []
 
     chunks = []
     chunk_num = 0
 
     i = 0
-    while i < len(compound_indices):
+    while i < len(target_indices):
         chunk_num += 1
 
-        # Get compound tag indices for this chunk
+        # Get target indices for this chunk
         target_start_idx = i
-        target_end_idx = min(i + chunk_size, len(compound_indices))
+        target_end_idx = min(i + chunk_size, len(target_indices))
 
         # Get actual positions in full word list
-        first_target_pos = compound_indices[target_start_idx]
-        last_target_pos = compound_indices[target_end_idx - 1]
+        first_target_pos = target_indices[target_start_idx]
+        last_target_pos = target_indices[target_end_idx - 1]
 
         # Add context words before and after
         context_start = max(0, first_target_pos - context_size)
@@ -104,11 +109,11 @@ def create_chunks(words, text_elements, chunk_size=50, context_size=10):
         # Mark which words need disambiguation vs just validation
         for w in chunk_words:
             w_pos = words.index(w)
-            w['is_compound_target'] = w_pos >= first_target_pos and w_pos <= last_target_pos and w['has_compound_pos']
+            w['is_target'] = w_pos >= first_target_pos and w_pos <= last_target_pos and w['needs_validation']
 
         chunk = {
             'chunk_number': chunk_num,
-            'compound_count': target_end_idx - target_start_idx,
+            'target_count': target_end_idx - target_start_idx,
             'total_words': len(chunk_words),
             'words': chunk_words,
             'text_elements': text_elements  # Pass all text elements for context rendering
@@ -125,7 +130,7 @@ def format_chunk_as_markdown(chunk, total_chunks, sigle):
 
     # Header
     md.append(f"# {sigle} - Chunk {chunk['chunk_number']:03d}/{total_chunks:03d}")
-    md.append(f"Compound tags to disambiguate: {chunk['compound_count']} | Total words to validate: {chunk['total_words']}")
+    md.append(f"Compound/missing tags to disambiguate: {chunk['target_count']} | Total words to validate: {chunk['total_words']}")
     md.append("")
 
     # Context text (continuous reading with punctuation)
@@ -185,7 +190,7 @@ def format_chunk_as_markdown(chunk, total_chunks, sigle):
     md.append("")
 
     for i, word in enumerate(chunk['words'], 1):
-        if word['is_compound_target']:
+        if word['is_target']:
             marker = "⚠️"
         elif not word['pos'] or word['pos'].strip() == '':
             marker = "❓"
@@ -230,7 +235,7 @@ def save_chunks(chunks, output_dir, sigle):
         with open(chunk_file, 'w', encoding='utf-8') as f:
             f.write(md_content)
 
-        print(f"[OK] Created {chunk_file} ({chunk['compound_count']} compound tags, {chunk['total_words']} total words)")
+        print(f"[OK] Created {chunk_file} ({chunk['target_count']} targets, {chunk['total_words']} total words)")
 
     # Save manifest
     manifest_file = output_dir / f"{sigle}-manifest.txt"
@@ -267,14 +272,14 @@ def main():
     # Extract words and text elements (with punctuation)
     words, text_elements = extract_words(tei_path)
     total_words = len(words)
-    compound_tags = sum(1 for w in words if w['has_compound_pos'])
+    target_tags = sum(1 for w in words if w['needs_validation'])
 
     print(f"Total words: {total_words}")
-    print(f"Words with compound PoS tags: {compound_tags}")
+    print(f"Words with compound/missing PoS tags: {target_tags}")
     print()
 
-    if compound_tags == 0:
-        print("No compound tags found. Exiting.")
+    if target_tags == 0:
+        print("No compound or missing tags found. Exiting.")
         return 0
 
     # Create chunks
