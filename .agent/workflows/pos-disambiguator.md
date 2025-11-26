@@ -66,7 +66,7 @@ Every word should have ONE of these tags, except for documented compound excepti
 
 ### DET vs PRO (Functional Distinction)
 
-**ART tag is removed.** The distinction is functional:
+The distinction is functional:
 
 | Function | Tag | Examples |
 |----------|-----|----------|
