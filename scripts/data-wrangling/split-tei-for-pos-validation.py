@@ -253,8 +253,8 @@ def save_chunks(chunks, output_dir, sigle):
 def main():
     parser = argparse.ArgumentParser(description='Split TEI file into markdown chunks for PoS validation')
     parser.add_argument('tei_file', help='Path to TEI file (e.g., tei/ABG.tei.xml)')
-    parser.add_argument('--chunk-size', type=int, default=50, help='Number of compound tags per chunk (default: 50)')
-    parser.add_argument('--context-size', type=int, default=10, help='Number of context words before/after (default: 10)')
+    parser.add_argument('--chunk-size', type=int, default=500, help='Number of compound tags per chunk (default: 500)')
+    parser.add_argument('--context-size', type=int, default=50, help='Number of context words before/after (default: 50)')
     parser.add_argument('--output-dir', default='temp/disambiguation', help='Output directory for chunks (default: temp/disambiguation)')
 
     args = parser.parse_args()
