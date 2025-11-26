@@ -50,7 +50,7 @@ Every word should have ONE of these tags, except for documented compound excepti
 | **PRP** | Präposition (Preposition) | ûf, zuo, under, durch |
 | **NEG** | Negation | nie, niht, âne |
 | **NUM** | Numeral | zwô, drî, zweinzegest |
-| **CNJ** | Konjunktion (general) | wan (ambig) |
+| **CNJ** | Konjunktion (general) | danne (additiv: er sanc, danne si spilten) |
 | **SCNJ** | Subordinierende Konj. | daz (clause), ob, swenne, sît, als (temporal), wie (subordinierend) |
 | **CCNJ** | Koordinierende Konj. | und, oder, aber, ouch, noch |
 | **IPA** | Interrogativpartikel | wie (interrogativ), war (wohin?), swer (interrogativ) |
