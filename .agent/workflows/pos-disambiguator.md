@@ -133,7 +133,9 @@ These verbs have two completely different functions that are syntactically disti
 - *er ist ein rîter* (he is a knight) - Copula with NP
 - *er wirt rîch* (he becomes rich) - Copula with ADJ
 
-**Decision rule:** Look for Partizip II. If present → VEX. If absent → VRB.
+**Heuristic:**
+- With Partizip II → **VEX**
+- Without Partizip II → check semantic function (possession, copula, lexical meaning) → **VRB**
 
 **If truly ambiguous** (cryptic/fragmentary MHG sentence): **Skip the word** rather than guess.
 
