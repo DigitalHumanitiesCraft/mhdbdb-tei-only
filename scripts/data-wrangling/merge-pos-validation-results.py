@@ -81,6 +81,9 @@ def check_result_file_integrity(result_file):
         'duplicate_ids': []
     }
 
+    # NOTE: We use "last-write-wins" logic, so duplicates within a file
+    # are technically okay (the last one will be used). We log them but
+    # do NOT fail validation - this handles LLM resumption with context overlap.
     seen_ids = set()
 
     with open(result_file, 'r', encoding='utf-8') as f:
@@ -117,10 +120,10 @@ def check_result_file_integrity(result_file):
                 stats['missing_reason'] += 1
                 errors.append(f"Line {line_num}: Missing reason for {result['xml_id']}")
 
-            # Check for duplicate IDs
+            # Track duplicate IDs (logged but NOT treated as errors)
             if result['xml_id'] in seen_ids:
                 stats['duplicate_ids'].append(result['xml_id'])
-                errors.append(f"Line {line_num}: Duplicate xml:id {result['xml_id']}")
+                # Last-write-wins: no error, just log for awareness
             else:
                 seen_ids.add(result['xml_id'])
         else:
@@ -159,6 +162,8 @@ def check_all_results_integrity(results_dir, result_files):
         if is_valid:
             total_stats['files_valid'] += 1
             print(f"✓ {result_file.name}: {stats['parsed_lines']} decisions")
+            if stats['duplicate_ids']:
+                print(f"  ℹ️  {len(stats['duplicate_ids'])} duplicate IDs (last-write-wins)")
         else:
             total_stats['files_invalid'] += 1
             all_valid = False
@@ -184,7 +189,12 @@ def check_all_results_integrity(results_dir, result_files):
     return all_valid, all_errors
 
 def load_validation_results(results_dir, sigle, skip_integrity_check=False):
-    """Load all result markdown files and parse decisions."""
+    """
+    Load all result markdown files and parse decisions.
+
+    Uses Last-Write-Wins strategy: if the same xml_id appears multiple times
+    (common when LLMs resume after truncation), the last occurrence is used.
+    """
     results_dir = Path(results_dir)
     # Files are named like "ABG.tei-chunk-001-result.md"
     # Try with .tei extension first, then without
@@ -207,7 +217,10 @@ def load_validation_results(results_dir, sigle, skip_integrity_check=False):
             return None
 
     decisions = {}
+    total_parsed = 0
+    duplicates_overwritten = 0
 
+    # Process files in sorted order - later files can overwrite earlier ones
     for result_file in result_files:
         print(f"  Reading {result_file.name}...")
 
@@ -218,9 +231,15 @@ def load_validation_results(results_dir, sigle, skip_integrity_check=False):
         for line in lines:
             result = parse_result_line(line)
             if result:
+                total_parsed += 1
+                if result['xml_id'] in decisions:
+                    duplicates_overwritten += 1
+                # Last-Write-Wins: simply overwrite any existing entry
                 decisions[result['xml_id']] = result
 
-    print(f"\nParsed {len(decisions)} validation decisions")
+    print(f"\nParsed {total_parsed} lines → {len(decisions)} unique decisions")
+    if duplicates_overwritten > 0:
+        print(f"  ℹ️  {duplicates_overwritten} duplicates resolved via last-write-wins")
     return decisions
 
 def update_tei_file(original_file, decisions):
