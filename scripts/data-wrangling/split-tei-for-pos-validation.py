@@ -190,12 +190,12 @@ def format_chunk_as_markdown(chunk, total_chunks, sigle):
     md.append("")
 
     for i, word in enumerate(chunk['words'], 1):
-        if word['is_target']:
-            marker = "⚠️"
-        elif not word['pos'] or word['pos'].strip() == '':
-            marker = "❓"
+        if word['is_missing_pos']:
+            marker = "❓"  # Missing tag - needs assignment
+        elif word['has_compound_pos']:
+            marker = "⚠️"  # Compound tag - needs disambiguation
         else:
-            marker = "✓"
+            marker = "✓"  # Single tag - verify or correct
         md.append(f"{i}. {marker} {word['text']} ({word['pos']}) - {word['xml_id']}")
 
     md.append("")
