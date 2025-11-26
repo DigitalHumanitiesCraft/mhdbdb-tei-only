@@ -507,7 +507,7 @@ python scripts/data-wrangling/split-tei-for-pos-validation.py tei/{SIGLE}.xml
 ```
 
 **Defaults** (optimized for Gemini 3 Pro):
-- `--chunk-size 500` (500 target words per chunk)
+- `--chunk-size 5000` (5000 target words per chunk - most files won't need splitting)
 - `--context-size 50` (50 words context before/after)
 
 ### merge-pos-validation-results.py

@@ -201,22 +201,9 @@ def format_chunk_as_markdown(chunk, total_chunks, sigle):
     md.append("")
     md.append("---")
     md.append("")
-    md.append("## INSTRUCTIONS FOR LLM")
+    md.append("**Follow the workflow rules in `.agent/workflows/pos-disambiguator.md`**")
     md.append("")
-    md.append("Validate ALL words above using Middle High German grammar and context:")
-    md.append("")
-    md.append("1. For ⚠️ compound tags: Disambiguate to single PoS tag")
-    md.append("2. For ✓ single tags: Verify correctness or suggest correction")
-    md.append("3. For ❓ missing tags: Assign appropriate PoS tag based on context")
-    md.append("4. Assess confidence: high/low")
-    md.append("5. Provide brief reason")
-    md.append("")
-    md.append("Output format (one line per word):")
-    md.append("```")
-    md.append("xml_id | old_pos → new_pos | confidence | reason")
-    md.append("```")
-    md.append("")
-    md.append("Save your results as: " + sigle + f"-chunk-{chunk['chunk_number']:03d}-result.md")
+    md.append("Save your results as: `" + sigle + f"-chunk-{chunk['chunk_number']:03d}-result.md`")
 
     return "\n".join(md)
 
@@ -253,7 +240,7 @@ def save_chunks(chunks, output_dir, sigle):
 def main():
     parser = argparse.ArgumentParser(description='Split TEI file into markdown chunks for PoS validation')
     parser.add_argument('tei_file', help='Path to TEI file (e.g., tei/ABG.tei.xml)')
-    parser.add_argument('--chunk-size', type=int, default=500, help='Number of compound tags per chunk (default: 500)')
+    parser.add_argument('--chunk-size', type=int, default=5000, help='Number of compound tags per chunk (default: 5000)')
     parser.add_argument('--context-size', type=int, default=50, help='Number of context words before/after (default: 50)')
     parser.add_argument('--output-dir', default='temp/disambiguation', help='Output directory for chunks (default: temp/disambiguation)')
 

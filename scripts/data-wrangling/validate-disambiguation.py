@@ -117,9 +117,10 @@ def compare_elements(orig_el, disamb_el, path="", ignore_change_entry=False):
 def validate_file_pair(orig_path, disamb_path):
     """
     Validate a disambiguation file against its original.
-    Returns tuple (has_problems, problems_list).
+    Returns tuple (has_problems, problems_list, info_list).
     """
     problems = []
+    info = []
 
     try:
         # Parse both files
@@ -130,29 +131,43 @@ def validate_file_pair(orig_path, disamb_path):
 
         # Check for compound tags in disamb file (check ALL <w> elements)
         disamb_words = disamb_tree.xpath('//tei:w', namespaces=ns)
-        compound_tags = []
+        compound_tags_error = []  # Compound without reason attribute (problem)
+        compound_tags_ok = []     # Compound with reason attribute (documented exception)
         empty_tags = []
 
         for word in disamb_words:
             pos = word.get('pos')
+            reason = word.get('reason')  # Check for reason attribute
             word_id = word.get("{http://www.w3.org/XML/1998/namespace}id", "unknown")
 
             if has_empty_tag(pos):
                 empty_tags.append(word_id)
             elif has_compound_tag(pos):
-                compound_tags.append(f"{word_id}: pos='{pos}'")
+                if reason:
+                    # Documented exception (morphological fusion with reason)
+                    compound_tags_ok.append(f"{word_id}: pos='{pos}' reason='{reason}'")
+                else:
+                    # Problem: compound tag without reason
+                    compound_tags_error.append(f"{word_id}: pos='{pos}'")
 
-        if compound_tags:
-            problems.append(f"Still has {len(compound_tags)} compound PoS tag(s):")
-            problems.extend(f"  - {tag}" for tag in compound_tags[:5])  # Show first 5
-            if len(compound_tags) > 5:
-                problems.append(f"  ... and {len(compound_tags) - 5} more")
+        if compound_tags_error:
+            problems.append(f"⚠️  Still has {len(compound_tags_error)} compound PoS tag(s) WITHOUT reason attribute:")
+            problems.extend(f"  - {tag}" for tag in compound_tags_error[:5])  # Show first 5
+            if len(compound_tags_error) > 5:
+                problems.append(f"  ... and {len(compound_tags_error) - 5} more")
 
         if empty_tags:
-            problems.append(f"Has {len(empty_tags)} empty PoS tag(s):")
+            problems.append(f"❌ Has {len(empty_tags)} empty PoS tag(s):")
             problems.extend(f"  - {tag}" for tag in empty_tags[:5])
             if len(empty_tags) > 5:
                 problems.append(f"  ... and {len(empty_tags) - 5} more")
+
+        # Report documented exceptions (not errors, just info)
+        if compound_tags_ok:
+            info.append(f"ℹ️  Has {len(compound_tags_ok)} documented compound tag(s) with reason attribute (OK):")
+            info.extend(f"  - {tag}" for tag in compound_tags_ok[:5])
+            if len(compound_tags_ok) > 5:
+                info.append(f"  ... and {len(compound_tags_ok) - 5} more")
 
         # Compare structure and content (excluding pos attributes and change entries)
         orig_root = orig_tree.getroot()
@@ -169,7 +184,7 @@ def validate_file_pair(orig_path, disamb_path):
     except Exception as e:
         problems.append(f"Error validating: {e}")
 
-    return len(problems) > 0, problems
+    return len(problems) > 0, problems, info
 
 def main():
     """Find and validate all disambiguation file pairs in tei/ folder."""
@@ -196,17 +211,23 @@ def main():
             continue
 
         # Validate the pair
-        has_problems, problems = validate_file_pair(orig_path, disamb_path)
+        has_problems, problems, info = validate_file_pair(orig_path, disamb_path)
 
         if has_problems:
-            print(f"\nProblems found in {disamb_path.name}:")
+            print(f"\n❌ Problems found in {disamb_path.name}:")
             print()
             for problem in problems:
                 print(problem)
                 print()
             all_ok = False
+        elif info:
+            # No problems, but show info about documented exceptions
+            print(f"\n✓ {disamb_path.name} - OK")
+            for i in info:
+                print(f"  {i}")
 
     if all_ok:
+        print("\n" + "=" * 50)
         print("ALL OK")
         print(f"✓ Validated {len(disamb_files)} disambiguation file(s)")
 
