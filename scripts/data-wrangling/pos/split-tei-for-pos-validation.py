@@ -6,8 +6,8 @@ This script extracts <w> elements from a TEI file and creates human-readable
 markdown files with full context for linguistic analysis.
 
 Usage:
-    python scripts/split-tei-for-validation.py tei/ABG.tei.xml
-    python scripts/split-tei-for-validation.py tei/ABG.tei.xml --chunk-size 50 --context-size 10
+    python scripts/data-wrangling/pos/split-tei-for-pos-validation.py tei/ABG.tei.xml
+    python scripts/data-wrangling/pos/split-tei-for-pos-validation.py tei/ABG.tei.xml --chunk-size 500
 """
 
 import argparse

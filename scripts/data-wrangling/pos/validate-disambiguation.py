@@ -61,12 +61,12 @@ def compare_elements(orig_el, disamb_el, path="", ignore_change_entry=False):
     if orig_el.tag == f"{{{ns['tei']}}}change" and ignore_change_entry:
         return differences
 
-    # Check attributes (excluding pos)
-    orig_attrs = {k: v for k, v in (orig_el.attrib or {}).items() if k != 'pos'}
-    disamb_attrs = {k: v for k, v in (disamb_el.attrib or {}).items() if k != 'pos'}
+    # Check attributes (excluding pos and reason)
+    orig_attrs = {k: v for k, v in (orig_el.attrib or {}).items() if k not in ['pos', 'reason']}
+    disamb_attrs = {k: v for k, v in (disamb_el.attrib or {}).items() if k not in ['pos', 'reason']}
 
     if orig_attrs != disamb_attrs:
-        differences.append(f"{path}: Non-pos attributes changed")
+        differences.append(f"{path}: Non-pos/reason attributes changed")
 
     # Check text content
     orig_text = normalize_text(orig_el.text)

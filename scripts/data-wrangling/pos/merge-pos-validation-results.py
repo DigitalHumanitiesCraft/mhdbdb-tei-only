@@ -7,7 +7,7 @@ This script reads markdown result files produced by the LLM and applies
 the PoS tag changes to create a disambiguated TEI file.
 
 Usage:
-    python scripts/merge-validation-results.py temp/disambiguation ABG.tei tei/ABG.tei.xml
+    python scripts/data-wrangling/pos/merge-pos-validation-results.py temp/disambiguation ABG.tei tei/ABG.tei.xml
 """
 
 import argparse
