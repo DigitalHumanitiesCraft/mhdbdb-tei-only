@@ -12,8 +12,14 @@ Usage:
 
 import argparse
 import sys
+import io
 from pathlib import Path
 from lxml import etree
+
+# Force UTF-8 output on Windows
+if sys.platform == 'win32':
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
 
 # TEI namespace
 NS = {'tei': 'http://www.tei-c.org/ns/1.0'}
@@ -76,51 +82,46 @@ def extract_words(tei_file):
 
     return words, text_elements
 
-def create_chunks(words, text_elements, chunk_size=50, context_size=10):
-    """Create overlapping chunks focused on compound AND missing PoS tags."""
-    target_indices = [i for i, w in enumerate(words) if w['needs_validation']]
-
-    if not target_indices:
-        print("No compound or missing PoS tags found - nothing to validate.")
+def create_chunks(words, text_elements, chunk_size=500):
+    """Create chunks of words for validation. ALL words are targets."""
+    if not words:
+        print("No words found - nothing to validate.")
         return []
 
     chunks = []
     chunk_num = 0
+    total_words = len(words)
 
     i = 0
-    while i < len(target_indices):
+    while i < total_words:
         chunk_num += 1
 
-        # Get target indices for this chunk
-        target_start_idx = i
-        target_end_idx = min(i + chunk_size, len(target_indices))
-
-        # Get actual positions in full word list
-        first_target_pos = target_indices[target_start_idx]
-        last_target_pos = target_indices[target_end_idx - 1]
-
-        # Add context words before and after
-        context_start = max(0, first_target_pos - context_size)
-        context_end = min(len(words), last_target_pos + context_size + 1)
+        # Get word range for this chunk
+        start_idx = i
+        end_idx = min(i + chunk_size, total_words)
 
         # Extract words for this chunk
-        chunk_words = words[context_start:context_end]
+        chunk_words = words[start_idx:end_idx]
 
-        # Mark which words need disambiguation vs just validation
+        # Count special cases for statistics
+        compound_count = sum(1 for w in chunk_words if w['has_compound_pos'])
+        missing_count = sum(1 for w in chunk_words if w['is_missing_pos'])
+
+        # Mark all words as targets (they all need validation)
         for w in chunk_words:
-            w_pos = words.index(w)
-            w['is_target'] = w_pos >= first_target_pos and w_pos <= last_target_pos and w['needs_validation']
+            w['is_target'] = True
 
         chunk = {
             'chunk_number': chunk_num,
-            'target_count': target_end_idx - target_start_idx,
-            'total_words': len(chunk_words),
+            'word_count': len(chunk_words),
+            'compound_count': compound_count,
+            'missing_count': missing_count,
             'words': chunk_words,
             'text_elements': text_elements  # Pass all text elements for context rendering
         }
 
         chunks.append(chunk)
-        i = target_end_idx
+        i = end_idx
 
     return chunks
 
@@ -130,7 +131,7 @@ def format_chunk_as_markdown(chunk, total_chunks, sigle):
 
     # Header
     md.append(f"# {sigle} - Chunk {chunk['chunk_number']:03d}/{total_chunks:03d}")
-    md.append(f"Compound/missing tags to disambiguate: {chunk['target_count']} | Total words to validate: {chunk['total_words']}")
+    md.append(f"Words to validate: {chunk['word_count']} (⚠️ {chunk['compound_count']} compound | ❓ {chunk['missing_count']} missing)")
     md.append("")
 
     # Context text (continuous reading with punctuation)
@@ -222,7 +223,7 @@ def save_chunks(chunks, output_dir, sigle):
         with open(chunk_file, 'w', encoding='utf-8') as f:
             f.write(md_content)
 
-        print(f"[OK] Created {chunk_file} ({chunk['target_count']} targets, {chunk['total_words']} total words)")
+        print(f"[OK] Created {chunk_file} ({chunk['word_count']} words, ⚠️ {chunk['compound_count']} compound, ❓ {chunk['missing_count']} missing)")
 
     # Save manifest
     manifest_file = output_dir / f"{sigle}-manifest.txt"
@@ -240,8 +241,7 @@ def save_chunks(chunks, output_dir, sigle):
 def main():
     parser = argparse.ArgumentParser(description='Split TEI file into markdown chunks for PoS validation')
     parser.add_argument('tei_file', help='Path to TEI file (e.g., tei/ABG.tei.xml)')
-    parser.add_argument('--chunk-size', type=int, default=500, help='Number of compound tags per chunk (default: 500)')
-    parser.add_argument('--context-size', type=int, default=50, help='Number of context words before/after (default: 50)')
+    parser.add_argument('--chunk-size', type=int, default=500, help='Number of words per chunk (default: 500)')
     parser.add_argument('--output-dir', default='temp/disambiguation', help='Output directory for chunks (default: temp/disambiguation)')
 
     args = parser.parse_args()
@@ -252,25 +252,26 @@ def main():
 
     print(f"Processing {tei_path}...")
     print(f"SIGLE: {sigle}")
-    print(f"Chunk size: {args.chunk_size} compound tags per chunk")
-    print(f"Context size: {args.context_size} words before/after")
+    print(f"Chunk size: {args.chunk_size} words per chunk")
     print()
 
     # Extract words and text elements (with punctuation)
     words, text_elements = extract_words(tei_path)
     total_words = len(words)
-    target_tags = sum(1 for w in words if w['needs_validation'])
+    compound_count = sum(1 for w in words if w['has_compound_pos'])
+    missing_count = sum(1 for w in words if w['is_missing_pos'])
 
     print(f"Total words: {total_words}")
-    print(f"Words with compound/missing PoS tags: {target_tags}")
+    print(f"  ⚠️ Compound tags: {compound_count}")
+    print(f"  ❓ Missing tags: {missing_count}")
     print()
 
-    if target_tags == 0:
-        print("No compound or missing tags found. Exiting.")
+    if total_words == 0:
+        print("No words found. Exiting.")
         return 0
 
     # Create chunks
-    chunks = create_chunks(words, text_elements, chunk_size=args.chunk_size, context_size=args.context_size)
+    chunks = create_chunks(words, text_elements, chunk_size=args.chunk_size)
 
     if not chunks:
         return 0
