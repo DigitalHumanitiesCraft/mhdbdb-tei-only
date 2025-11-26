@@ -91,6 +91,24 @@ Possessives (*mîn, dîn, unser*) remain a **separate class (POS)** despite bein
 
 Intensifiers (*vil*, *sêre*, *gar*) are tagged as **ADV**. They function as degree modifiers but don't require a separate word class.
 
+### MHG Negation Patterns (Important for NHD-trained models!)
+
+Middle High German uses **multiple/reinforced negation** - unlike Modern German. This is NOT a tagging error!
+
+**Typical MHG pattern:** NEG + intensifier + verb + NEG
+- *ne vil ensanc er niht* = "er sang überhaupt nicht / gar nicht" (he didn't sing at all)
+- NOT "nicht viel sang er nicht" (double negative canceling out)
+
+**How to tag:**
+| Word | Tag | Reasoning |
+|------|-----|-----------|
+| *ne* / *en* / *n* | NEG | Negation particle (often proclitic on verb) |
+| *niht* | NEG | Negation particle (sentence negation) |
+| *vil* | ADV | Intensifier, remains adverbial even in negation context |
+| *ensanc* | VRB | Full verb (the *en-* is fused NEG, but verb stays VRB) |
+
+**Key insight:** Multiple NEG particles in one clause **reinforce** (not cancel) the negation. Each NEG particle is tagged NEG. Intensifiers (*vil*, *gar*) between negation elements stay ADV.
+
 ### als, wie: Context-Dependent
 
 | Context | Tag | Example |
