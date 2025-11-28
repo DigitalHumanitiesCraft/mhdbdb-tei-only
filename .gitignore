@@ -44,9 +44,8 @@ logs/
 .tmp/
 *.pid
 
-# POS disambiguation temp files (folder tracked, contents ignored)
-temp/disambiguation/*
-!temp/disambiguation/.gitkeep
+# POS disambiguation temp files (entire folder ignored)
+temp/
 *.seed
 *.pid.lock
 
