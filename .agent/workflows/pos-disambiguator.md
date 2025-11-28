@@ -433,9 +433,9 @@ pip install lxml          # Install if needed
 ```
 
 Verify scripts exist:
-- `scripts/data-wrangling/split-tei-for-pos-validation.py`
-- `scripts/data-wrangling/merge-pos-validation-results.py`
-- `scripts/data-wrangling/validate-disambiguation.py`
+- `scripts/data-wrangling/pos/split-tei-for-pos-validation.py`
+- `scripts/data-wrangling/pos/merge-pos-validation-results.py`
+- `scripts/data-wrangling/pos/validate-disambiguation.py`
 
 ### Phase 1: Discovery
 
@@ -467,7 +467,7 @@ For each chunk file `{SIGLE}-chunk-{NUM}.md`:
 When all chunks complete:
 
 ```bash
-python scripts/data-wrangling/merge-pos-validation-results.py temp/disambiguation {SIGLE} tei/{SIGLE}.xml
+python scripts/data-wrangling/pos/merge-pos-validation-results.py temp/disambiguation {SIGLE} tei/{SIGLE}.xml
 ```
 
 Output:
@@ -477,7 +477,7 @@ Output:
 ### Phase 4: Validation
 
 ```bash
-python scripts/data-wrangling/validate-disambiguation.py
+python scripts/data-wrangling/pos/validate-disambiguation.py
 ```
 
 Check for:
@@ -503,7 +503,7 @@ Check for:
 Splits TEI files into chunks for processing.
 
 ```bash
-python scripts/data-wrangling/split-tei-for-pos-validation.py tei/{SIGLE}.xml
+python scripts/data-wrangling/pos/split-tei-for-pos-validation.py tei/{SIGLE}.xml
 ```
 
 **Defaults** (optimized for Gemini 3 Pro):
@@ -515,7 +515,7 @@ python scripts/data-wrangling/split-tei-for-pos-validation.py tei/{SIGLE}.xml
 Merges result files back into TEI.
 
 ```bash
-python scripts/data-wrangling/merge-pos-validation-results.py temp/disambiguation {SIGLE} tei/{SIGLE}.xml
+python scripts/data-wrangling/pos/merge-pos-validation-results.py temp/disambiguation {SIGLE} tei/{SIGLE}.xml
 ```
 
 **Parses format**: `xml_id | old_pos → new_pos | confidence | reason [| reason="value"]`
@@ -525,7 +525,7 @@ python scripts/data-wrangling/merge-pos-validation-results.py temp/disambiguatio
 Checks for remaining issues.
 
 ```bash
-python scripts/data-wrangling/validate-disambiguation.py
+python scripts/data-wrangling/pos/validate-disambiguation.py
 ```
 
 ---
