@@ -42,8 +42,11 @@ logs/
 
 # Runtime and temporary files
 .tmp/
-temp
 *.pid
+
+# POS disambiguation temp files (folder tracked, contents ignored)
+temp/disambiguation/*
+!temp/disambiguation/.gitkeep
 *.seed
 *.pid.lock
 
