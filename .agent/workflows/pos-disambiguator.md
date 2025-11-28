@@ -487,10 +487,12 @@ Check for:
 
 ### Phase 5: Refinement (if validation fails)
 
-1. Find problematic xml_id in result files
-2. Re-read original chunk for context
-3. Fix the specific line in result file
-4. Re-run merge and validation
+1. Identify the failing xml_id and the reason for failure.
+2. Re-read the original chunk for context.
+3. Create a FIX file named {SIGLE}-chunk-{NUM}-result_FIX.md (or _FIX-01.md).
+4. Write ONLY the corrected lines into this new file using write_file.
+5. Format: xml_id | old_pos → new_pos | confidence | reason
+6. Re-run the merge script (it automatically applies fixes on top of original results).
 
 **Safety limit**: Maximum 3 refinement iterations per file. After 3 failures, create `{SIGLE}-FAILURE-REPORT.md` and move to next file.
 
