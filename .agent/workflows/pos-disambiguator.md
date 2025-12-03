@@ -485,16 +485,30 @@ Check for:
 - Empty tags
 - Structure issues
 
-### Phase 5: Refinement (if validation fails)
+### Phase 5: Refinement (Batch Strategy)
 
-1. Identify the failing xml_id and the reason for failure.
-2. Re-read the original chunk for context.
-3. Create a FIX file named {SIGLE}-chunk-{NUM}-result_FIX.md (or _FIX-01.md).
-4. Write ONLY the corrected lines into this new file using write_file.
-5. Format: xml_id | old_pos → new_pos | confidence | reason
-6. Re-run the merge script (it automatically applies fixes on top of original results).
+If validation fails, use this strategy to clear errors efficiently:
 
-**Safety limit**: Maximum 3 refinement iterations per file. After 3 failures, create `{SIGLE}-FAILURE-REPORT.md` and move to next file.
+1. **Detect Missing Decisions**:
+   Run the detection script to identify which chunks have unresolved items (skipped decisions):
+   ```bash
+   python scripts/data-wrangling/pos/find-missing-decisions.py temp/disambiguation {SIGLE}
+   ```
+   This will list chunks sorted by the number of missing decisions.
+
+2. **Batch Fix (Top Offenders)**:
+   Prioritize the chunks with the highest missing counts. For each target chunk:
+   - **Read** the original chunk file (e.g., `{SIGLE}-chunk-{NUM}.md`) to get the full context and the list of missing IDs (`⚠️` or `❓`).
+   - **Generate** a single FIX file `{SIGLE}-chunk-{NUM}-result_FIX-01.md` containing **ALL** missing decisions for that chunk.
+   - **Format**: Same as standard results (`xml_id | old_pos → new_pos | confidence | reason`).
+
+3. **Re-Merge**:
+   ```bash
+   python scripts/data-wrangling/pos/merge-pos-validation-results.py temp/disambiguation {SIGLE} tei/{SIGLE}.xml
+   ```
+   The script uses "Last-Write-Wins", so your new FIX files will automatically overwrite missing or incorrect entries.
+
+**Safety limit**: Maximum 3 refinement iterations per chunk. After 3 failures, mark as "complete with errors".
 
 ---
 
@@ -529,6 +543,15 @@ Checks for remaining issues.
 ```bash
 python scripts/data-wrangling/pos/validate-disambiguation.py
 ```
+
+### find-missing-decisions.py
+
+Identifies chunks where the Agent skipped items (errors of omission).
+
+```bash
+python scripts/data-wrangling/pos/find-missing-decisions.py temp/disambiguation {SIGLE}
+```
+**Output**: List of chunks sorted by missing decision count.
 
 ---
 
