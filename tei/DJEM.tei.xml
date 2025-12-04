@@ -20543,8 +20543,9 @@
       <div type="parallel" n="1">
         <div type="song" n="1">
           <p>
-            <lg type="stanza" n="1">
-              <l n="1">
+            <div type="parallel">
+              <lg type="stanza" n="1">
+                <l n="1">
                 <hi rend="initial">
                   <w xml:id="DJEM_1010101_0" lemmaRef="lexicon.xml#lemma_1139" meaningRef="lexicon.xml#lemma_1139_sense_1797" pos="ART" wordRef="lexicon.xml#lemma_1139_sense_1797_type_45021">diu</w>
                 </hi>
@@ -20704,7 +20705,9 @@
                 <seg xml:id="DJEM_1010111_7" type="pc">.</seg>
               </l>
             </lg>
-            <lg type="stanza" n="2">
+            </div>
+            <div type="parallel">
+             <lg type="stanza" n="2">
               <l n="1">
                 <hi rend="initial">
                   <w xml:id="DJEM_1010201_0" lemmaRef="lexicon.xml#lemma_2885" pos="VRB" wordRef="lexicon.xml#lemma_9738_sense_4625_type_9848">hoert</w>
@@ -20887,6 +20890,7 @@
                 <seg xml:id="DJEM_1010211_5" type="pc">?</seg>
               </l>
             </lg>
+            </div>
           </p>
         </div>
       </div>
