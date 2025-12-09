@@ -610,6 +610,10 @@ When *daz* points deictically to previously mentioned content WITHOUT introducin
 
 ### Phase 0: Environment Setup (once per session)
 
+**System Context**: Windows (PowerShell).
+- Use provided Python scripts for analysis.
+- Do NOT use Unix-specific commands like `grep`, `head`, `tail`. Use PowerShell equivalents or Python tools.
+
 ```bash
 python --version          # Verify Python 3.13+
 pip install lxml          # Install if needed
@@ -638,7 +642,7 @@ For each chunk file `{SIGLE}-chunk-{NUM}.md`:
    - ⚠️ compound tags → disambiguate (usually to single)
    - ✓ single tags → verify, output ONLY if correction needed
    - ❓ missing tags → assign based on context
-   - If truly ambiguous → SKIP (do not output)
+   - If truly ambiguous → **Assign Best Guess** (do NOT skip), set `confidence='low'`, `reason='ambiguous'`
 5. **Write** result file `{SIGLE}-chunk-{NUM}-result.md`
 
 **Text Difficulty Assessment:**
@@ -650,7 +654,7 @@ For each chunk file `{SIGLE}-chunk-{NUM}.md`:
 | Literary prose | MEDIUM | Check more context |
 | Religious/philosophical | HIGH | Slow, careful analysis |
 | Complex poetry (Minnesang) | HIGH | Full clause analysis |
-| Non-normalized, archaic MHG | VERY HIGH | Maximum scrutiny, consider skipping ambiguous cases |
+| Non-normalized, archaic MHG | VERY HIGH | Maximum scrutiny, but **ALWAYS** assign a tag (use 'low' confidence if unsure) |
 
 **Rule:** Complex, non-normalized MHG texts require systematically slower and more controlled work. Check more context before making PoS decisions.
 
@@ -723,7 +727,7 @@ python scripts/data-wrangling/pos/split-tei-for-pos-validation.py tei/{SIGLE}.xm
 ```
 
 **Defaults** (optimized for Gemini 3 Pro):
-- `--chunk-size 5000` (5000 target words per chunk - most files won't need splitting)
+- `--chunk-size 500` (500 target words per chunk - standard for focused analysis)
 - `--context-size 50` (50 words context before/after)
 
 ### merge-pos-validation-results.py
