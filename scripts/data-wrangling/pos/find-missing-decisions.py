@@ -109,6 +109,14 @@ def main():
         required = get_required_decisions(source_file)
         provided = get_provided_decisions(all_result_files)
         
+        if "016" in source_file.name:
+            print(f"DEBUG: {source_file.name} - Required: {len(required)}, Provided: {len(provided)}", file=sys.stderr)
+            # Check specifically for the missing ID
+            if "ADP_806900_1" in required:
+                print("DEBUG: ADP_806900_1 is in REQUIRED", file=sys.stderr)
+            else:
+                print("DEBUG: ADP_806900_1 is NOT in REQUIRED", file=sys.stderr)
+
         missing = required - provided
         
         if missing:

@@ -303,9 +303,13 @@ def update_tei_file(original_file, decisions):
             old_pos = decision["old_pos"]
             new_pos = decision["new_pos"]
 
-            if decision["is_change"]:
+            # Update if POS changed OR if it's a compound tag (to ensure reason attribute is set)
+            if decision["is_change"] or " " in new_pos:
                 w.set("pos", new_pos)
-                changes_made += 1
+                
+                # Only increment changes counter if POS actually changed
+                if decision["is_change"]:
+                    changes_made += 1
 
                 # NEW: For compound tags (e.g., "VEX PRO"), add the reason attribute
                 if " " in new_pos:
