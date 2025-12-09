@@ -126,7 +126,7 @@
   </teiHeader>
   <text>
     <body>
-      <div>
+      <div type="part" n="1">
         <head>
           <l n="h_1">
             <hi rend="initial">
@@ -302,6 +302,8 @@
             <seg xml:id="MNB_1000100_11" type="pc">:</seg>
           </l>
         </p>
+      </div>
+      <div type="part" n="2">
         <div type="song" n="1">
           <p>
             <l n="1">
@@ -936,6 +938,8 @@
           </p>
         </div>
         <p>
+         </div>
+      <div type="part" n="3">
           <l n="1">
             <hi rend="initial">
               <w xml:id="MNB_3000010_0">es</w>
@@ -58087,6 +58091,7 @@
             <caesura xml:id="MNB_3054900_0"/>
           </l>
         </p>
+      </div>
       </div>
     </body>
   </text>

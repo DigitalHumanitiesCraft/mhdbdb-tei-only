@@ -131,7 +131,8 @@
   </teiHeader>
   <text>
     <body>
-      <p>
+      <div type="chapter" n="1">
+      <div type="song" n="1">
         <lg type="stanza" n="1">
           <l n="1">
             <hi rend="initial">
@@ -225,6 +226,7 @@
             <seg xml:id="MBH_1010109_6" type="pc">!</seg>
           </l>
         </lg>
+     
         <lg type="stanza" n="2">
           <l n="1">
             <hi rend="initial">
@@ -318,6 +320,7 @@
             <seg xml:id="MBH_1010209_8" type="pc">.</seg>
           </l>
         </lg>
+        
         <lg type="stanza" n="3">
           <l n="1">
             <hi rend="initial">
@@ -410,6 +413,8 @@
             <seg xml:id="MBH_1010309_7" type="pc">!</seg>
           </l>
         </lg>
+      </div>
+     <div type="song" n="2">
         <lg type="stanza" n="1">
           <l n="1">
             <hi rend="initial">
@@ -517,6 +522,7 @@
             <seg xml:id="MBH_1020108_11" type="pc">.</seg>
           </l>
         </lg>
+     
         <lg type="stanza" n="2">
           <l n="1">
             <hi rend="initial">
@@ -615,6 +621,7 @@
             <seg xml:id="MBH_1020208_10" type="pc">.</seg>
           </l>
         </lg>
+       
         <lg type="stanza" n="3">
           <l n="1">
             <hi rend="initial">
@@ -802,6 +809,8 @@
             <seg xml:id="MBH_1020408_11" type="pc">.</seg>
           </l>
         </lg>
+     </div>
+        <div type="song" n="3">
         <lg type="stanza" n="1">
           <l n="1">
             <hi rend="initial">
@@ -1110,6 +1119,8 @@
             <seg xml:id="MBH_1030309_10" type="pc">.</seg>
           </l>
         </lg>
+        </div>
+        <div type="song" n="4">
         <lg type="stanza" n="1">
           <l n="1">
             <hi rend="initial">
@@ -1355,6 +1366,8 @@
             <seg xml:id="MBH_1040307_7" type="pc">.</seg>
           </l>
         </lg>
+        </div>
+        <div type="song" n="5">
         <lg type="stanza" n="1">
           <l n="1">
             <hi rend="initial">
@@ -1604,6 +1617,8 @@
             <seg xml:id="MBH_1050308_6" type="pc">!</seg>
           </l>
         </lg>
+        </div>
+        <div type="song" n="6">
         <lg type="stanza" n="1">
           <l n="1">
             <hi rend="initial">
@@ -1704,7 +1719,7 @@
             <seg xml:id="MBH_1060107_10" type="pc">.</seg>
           </l>
         </lg>
-      </p>
+      </div>
     </body>
   </text>
 </TEI>

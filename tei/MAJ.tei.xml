@@ -138,7 +138,8 @@
   </teiHeader>
   <text>
     <body>
-      <p>
+   <div type="chapter" n="1">
+      <div type="song" n="1">
         <lg type="stanza" n="1">
           <l n="1">
             <hi rend="initial">
@@ -221,6 +222,7 @@
             <seg xml:id="MAJ_1010108_7" type="pc">!</seg>
           </l>
         </lg>
+    
         <lg type="stanza" n="2">
           <l n="1">
             <hi rend="initial">
@@ -303,6 +305,7 @@
             <seg xml:id="MAJ_1010208_6" type="pc">.</seg>
           </l>
         </lg>
+      
         <lg type="stanza" n="3">
           <l n="1">
             <hi rend="initial">
@@ -389,6 +392,7 @@
             <seg xml:id="MAJ_1010308_5" type="pc">?</seg>
           </l>
         </lg>
+      
         <lg type="stanza" n="4">
           <l n="1">
             <hi rend="initial">
@@ -479,6 +483,8 @@
             <seg xml:id="MAJ_1010408_7" type="pc">.</seg>
           </l>
         </lg>
+      </div>
+        <div type="song" n="2">
         <lg type="stanza" n="1">
           <l n="1">
             <hi rend="initial">
@@ -576,6 +582,7 @@
             <seg xml:id="MAJ_1020108_7" type="pc">!</seg>
           </l>
         </lg>
+  
         <lg type="stanza" n="2">
           <l n="1">
             <hi rend="initial">
@@ -751,6 +758,8 @@
             <seg xml:id="MAJ_1020308_7" type="pc">.</seg>
           </l>
         </lg>
+        </div>
+        <div type="song" n="3">
         <lg type="stanza" n="1">
           <l n="1">
             <hi rend="initial">
@@ -1184,6 +1193,8 @@
             <seg xml:id="MAJ_1030314_11" type="pc">.</seg>
           </l>
         </lg>
+        </div>
+      <div type="song" n="4">
         <lg type="stanza" n="1">
           <l n="1">
             <hi rend="initial">
@@ -1255,6 +1266,7 @@
             <seg xml:id="MAJ_1040106_10" type="pc">.</seg>
           </l>
         </lg>
+      
         <lg type="stanza" n="2">
           <l n="1">
             <hi rend="initial">
@@ -1326,6 +1338,8 @@
             <seg xml:id="MAJ_1040206_11" type="pc">&gt;</seg>
           </l>
         </lg>
+      </div>
+      <div type="song" n="5">
         <lg type="stanza" n="1">
           <l n="1">
             <hi rend="initial">
@@ -1452,7 +1466,7 @@
             <w xml:id="MAJ_1050111_6">armen</w>
             <seg xml:id="MAJ_1050111_7" type="pc">.</seg>
           </l>
-        </lg>
+        </lg>   
         <lg type="stanza" n="2">
           <l n="1">
             <hi rend="initial">
@@ -1710,6 +1724,8 @@
             <seg xml:id="MAJ_1050311_7" type="pc">!</seg>
           </l>
         </lg>
+      </div>
+      <div type="song" n="6">
         <lg type="stanza" n="1">
           <l n="1">
             <hi rend="initial">
@@ -1873,6 +1889,8 @@
             <seg xml:id="MAJ_1060208_7" type="pc">.</seg>
           </l>
         </lg>
+      </div>
+      <div type="song" n="7">
         <lg type="stanza" n="1">
           <l n="1">
             <hi rend="initial">
@@ -1965,6 +1983,7 @@
             <seg xml:id="MAJ_1070106_14" type="pc">,</seg>
           </l>
         </lg>
+      
         <lg type="stanza" n="2">
           <l n="1">
             <hi rend="initial">
@@ -2061,6 +2080,8 @@
             <seg xml:id="MAJ_1070206_15" type="pc">.</seg>
           </l>
         </lg>
+      </div>
+      <div type="song" n="8">
         <lg type="stanza" n="1">
           <l n="1">
             <seg xml:id="MAJ_1080101_0" type="pc">&lt;</seg>
@@ -2137,6 +2158,7 @@
             <seg xml:id="MAJ_1080107_6" type="pc">.</seg>
           </l>
         </lg>
+      
         <lg type="stanza" n="2">
           <l n="1">
             <hi rend="initial">
@@ -2211,6 +2233,7 @@
             <seg xml:id="MAJ_1080207_8" type="pc">.</seg>
           </l>
         </lg>
+      
         <lg type="stanza" n="3">
           <l n="1">
             <hi rend="initial">
@@ -2281,6 +2304,7 @@
             <seg xml:id="MAJ_1080307_8" type="pc">&gt;</seg>
           </l>
         </lg>
+      
         <lg type="stanza" n="4">
           <l n="1">
             <hi rend="initial">
@@ -2359,6 +2383,8 @@
             <seg xml:id="MAJ_1080407_10" type="pc">.</seg>
           </l>
         </lg>
+      </div>
+      <div type="song" n="9">
         <lg type="stanza" n="1">
           <l n="1">
             <hi rend="initial">
@@ -2448,6 +2474,8 @@
             <w xml:id="MAJ_1090108_4" lemmaRef="lexicon.xml#lemma_6824" pos="VRB" wordRef="lexicon.xml#lemma_6824_sense_10880_type_23914">verbrennet</w>
             <seg xml:id="MAJ_1090108_5" type="pc">.</seg>
           </l>
+        </div>
+      <div type="song" n="10">
           <l n="1">
             <hi rend="initial">
               <w xml:id="MAJ_1100101_0" lemmaRef="lexicon.xml#lemma_2465" meaningRef="lexicon.xml#lemma_2465_sense_3951" pos="NOM" wordRef="lexicon.xml#lemma_2465_sense_3951_type_8253">got</w>
@@ -2526,7 +2554,8 @@
             <w xml:id="MAJ_1100107_3" lemmaRef="lexicon.xml#lemma_3001" meaningRef="lexicon.xml#lemma_3001_sense_4805" pos="PRO" wordRef="lexicon.xml#lemma_3001_sense_4805_type_10237">mir</w>
             <w xml:id="MAJ_1100107_4" lemmaRef="lexicon.xml#lemma_4823" meaningRef="lexicon.xml#lemma_4823_sense_7461" pos="VRB" wordRef="lexicon.xml#lemma_4823_sense_7461_type_98318">reche</w>
             <seg xml:id="MAJ_1100107_5" type="pc">.</seg>
-          </l>
+          </l></div>
+      <div type="song" n="11">
           <l n="1">
             <hi rend="initial">
               <w xml:id="MAJ_1110101_0" lemmaRef="lexicon.xml#lemma_1119" meaningRef="lexicon.xml#lemma_1119_sense_1770" pos="ART" wordRef="lexicon.xml#lemma_1119_sense_1770_type_3507">der</w>
@@ -2590,6 +2619,7 @@
             <seg xml:id="MAJ_1110107_4" type="pc">.</seg>
           </l>
         </lg>
+      
         <lg type="stanza" n="2">
           <l n="1">
             <hi rend="initial">
@@ -2656,6 +2686,7 @@
             <seg xml:id="MAJ_1110207_4" type="pc">.</seg>
           </l>
         </lg>
+       
         <lg type="stanza" n="3">
           <l n="1">
             <hi rend="initial">
@@ -2720,6 +2751,8 @@
             <seg xml:id="MAJ_1110307_5" type="pc">!</seg>
           </l>
         </lg>
+ 
+      
         <lg type="stanza" n="4">
           <l n="1">
             <hi rend="initial">
@@ -2782,6 +2815,8 @@
             <seg xml:id="MAJ_1110407_6" type="pc">.</seg>
           </l>
         </lg>
+
+      
         <lg type="stanza" n="5">
           <l n="1">
             <hi rend="initial">
@@ -2844,6 +2879,8 @@
             <seg xml:id="MAJ_1110507_5" type="pc">.</seg>
           </l>
         </lg>
+      </div>
+      <div type="song" n="12">
         <lg type="stanza" n="1">
           <l n="1">
             <hi rend="initial">
@@ -2915,6 +2952,8 @@
             <seg xml:id="MAJ_1120106_15" type="pc">&gt;</seg>
           </l>
         </lg>
+     
+      
         <lg type="stanza" n="2">
           <l n="1">
             <seg xml:id="MAJ_1120201_0" type="pc">&lt;</seg>
@@ -2983,6 +3022,8 @@
             <seg xml:id="MAJ_1120206_11" type="pc">&gt;</seg>
           </l>
         </lg>
+      
+      
         <lg type="stanza" n="3">
           <l n="1">
             <seg xml:id="MAJ_1120301_0" type="pc">&lt;</seg>
@@ -3056,6 +3097,8 @@
             <seg xml:id="MAJ_1120306_14" type="pc">&gt;</seg>
           </l>
         </lg>
+      
+      
         <lg type="stanza" n="4">
           <l n="1">
             <seg xml:id="MAJ_1120401_0" type="pc">&lt;</seg>
@@ -3194,6 +3237,8 @@
             <seg xml:id="MAJ_1120506_10" type="pc">&gt;</seg>
           </l>
         </lg>
+      
+        
         <lg type="stanza" n="6">
           <l n="1">
             <seg xml:id="MAJ_1120601_0" type="pc">&lt;</seg>
@@ -3266,6 +3311,7 @@
             <seg xml:id="MAJ_1120606_14" type="pc">&gt;</seg>
           </l>
         </lg>
+            
         <lg type="stanza" n="7">
           <l n="1">
             <seg xml:id="MAJ_1120701_0" type="pc">&lt;</seg>
@@ -3336,6 +3382,8 @@
             <seg xml:id="MAJ_1120706_11" type="pc">&gt;</seg>
           </l>
         </lg>
+      </div>
+      <div type="song" n="13">
         <lg type="stanza" n="1">
           <l n="1">
             <hi rend="initial">
@@ -3541,6 +3589,7 @@
             <seg xml:id="MAJ_1130210_10" type="pc">.</seg>
           </l>
         </lg>
+      
         <lg type="stanza" n="3">
           <l n="1">
             <seg xml:id="MAJ_1130301_0" type="pc">&lt;</seg>
@@ -3654,6 +3703,7 @@
             <seg xml:id="MAJ_1130310_15" type="pc">&gt;</seg>
           </l>
         </lg>
+      
         <lg type="stanza" n="4">
           <l n="1">
             <hi rend="initial">
@@ -3759,6 +3809,10 @@
             <seg xml:id="MAJ_1130410_11" type="pc">&gt;</seg>
           </l>
         </lg>
+        </div>
+      </div>
+      <div type="chapter" n="2">
+      <div type="song" n="3">
         <lg type="stanza" n="1">
           <l n="1">
             <hi rend="initial">
@@ -3898,7 +3952,7 @@
             <w xml:id="MAJ_2030114_8" lemmaRef="lexicon.xml#lemma_3001" meaningRef="lexicon.xml#lemma_3001_sense_4805" pos="POS" wordRef="lexicon.xml#lemma_3001_sense_4805_type_10218">mîn</w>
             <seg xml:id="MAJ_2030114_9" type="pc">.</seg>
           </l>
-        </lg>
+        </lg>      
         <lg type="stanza" n="2">
           <l n="1">
             <hi rend="initial">
@@ -4026,7 +4080,7 @@
             <w xml:id="MAJ_2030214_8" lemmaRef="lexicon.xml#lemma_3001" meaningRef="lexicon.xml#lemma_3001_sense_4805" pos="POS" wordRef="lexicon.xml#lemma_3001_sense_4805_type_10218">mîn</w>
             <seg xml:id="MAJ_2030214_9" type="pc">.</seg>
           </l>
-        </lg>
+        </lg>      
         <lg type="stanza" n="3">
           <l n="1">
             <hi rend="initial">
@@ -4175,6 +4229,8 @@
             <seg xml:id="MAJ_2030314_13" type="pc">.</seg>
           </l>
         </lg>
+      </div>
+      </div>
       </p>
     </body>
   </text>
