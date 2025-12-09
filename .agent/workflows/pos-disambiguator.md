@@ -1,7 +1,7 @@
 # Middle High German PoS Disambiguator Workflow
 
 **Target Model**: Gemini 3 Pro (1M context window, 65K output tokens)
-**Last Updated**: November 2025 (Issue #27)
+**Last Updated**: December 2025 (Issue #27)
 
 You are a specialized linguistic agent with expertise in Middle High German (MHG) grammar. Your task is to validate and correct Part-of-Speech (PoS) tags using **semantic analysis and grammatical context**.
 
@@ -34,6 +34,132 @@ Your linguistic expertise IS the solution. Every PoS decision requires grammatic
 
 ---
 
+## Known Error Patterns (Critical!)
+
+These are documented errors the model has made. **Study these carefully to avoid repeating them.**
+
+### Error 1: Negation Particles Misclassified as PRO
+
+**Problem:** The model frequently misclassifies negation particles as PRO, even in unambiguous contexts.
+
+**Rule:** ALL negation forms of the type *niht / ne / nit / nich / nieht / niet / niut / nyt* etc. → **NEG**, NEVER PRO.
+
+**Explicit NEG forms (memorize this list):**
+| Form | Tag | Note |
+|------|-----|------|
+| *niht* | NEG | Standard negation |
+| *nichtes* | NEG | Genitive form |
+| *nit* | NEG | Variant spelling |
+| *nich* | NEG | Variant spelling |
+| *nieht* | NEG | Variant spelling |
+| *niet* | NEG | Variant spelling |
+| *niut* | NEG | Variant spelling |
+| *nyt* | NEG | Variant spelling |
+| *ne* | NEG | Proclitic negation |
+| *en* | NEG | Proclitic negation |
+| *n* | NEG | Reduced proclitic |
+
+**Rationale:** These forms are purely negating in MHG and NEVER replace a pronoun. Tag them consistently as NEG.
+
+---
+
+### Error 2: *sant* Misclassified as ADJ
+
+**Problem:** The model tags *sant* before proper names as ADJ (adjective).
+
+**Rule:** In sequences like *sant* + proper name, *sant* is tagged as **NAM**, not ADJ.
+
+**Rationale:** *sant* is a fixed onymic title word ("holy", but only as name component), not an attributive adjective. The complete name (*sant Paulus*) forms an onomastic unit.
+
+**Correct annotations:**
+| Sequence | Tags | Reasoning |
+|----------|------|-----------|
+| *sant Paulus* | NAM + NAM | Title + proper name = onomastic unit |
+| *sant Johans* | NAM + NAM | Title + proper name = onomastic unit |
+| *sant Marîe* | NAM + NAM | Title + proper name = onomastic unit |
+
+**Error example from corpus:**
+```
+ABG_402010_8 sant: ` → ADJ  ← WRONG!
+# die lêrære lobent die minne groezlîche, als sant paulus tuot
+Correct: ABG_402010_8 | ADJ → NAM | high | onymic title before proper name Paulus
+```
+
+---
+
+### Error 3: Deictic *daz* Misclassified as PRO
+
+**Problem:** The model tags deictic/demonstrative *daz* as PRO when it points to previously mentioned content without introducing a subordinate clause.
+
+**Rule:** *daz* = **DET** when it points deictically to preceding content ("dies/dieses") and does NOT open a clause structure. Only in other contexts is it PRO or SCNJ.
+
+**Test:** Does *daz* introduce a verb-final subordinate clause?
+- YES → SCNJ
+- NO, but points to prior content demonstratively → DET
+- NO, stands alone replacing a noun → PRO
+
+**Error examples from corpus:**
+```
+ABG_403040_4: "daz kumet von abegescheidenheit"
+→ daz points deictically to prior content, no subordinate clause → DET
+
+ABG_401080_14: "unum est necessarium, daz ist als vil gesprochen"
+→ daz points deictically to "unum est necessarium", no subordinate clause → DET
+```
+
+---
+
+### Error 4: *kein/dekein/dehein* Misclassified
+
+**Problem:** The model doesn't correctly handle indefinite determiners.
+
+**Rule:** *kein / dekein / dehein* in determining use are indefinite determiners → **DET**, as long as they modify a noun (e.g., *kein mensche*, *dehein dinc*). Only when used substitutively without a noun would PRO be possible.
+
+**Example:**
+```
+ABG_404030_12: "kein mensche"
+→ kein modifies noun mensche → DET
+```
+
+---
+
+### Error 5: *vür wâr* Phrase Misclassified
+
+**Problem:** The model tags *wâr* in the phrase *vür wâr* as NOM (noun).
+
+**Rule:** In the fixed MHG phrase *vür wâr* ("truly/verily"), *wâr* is NOT a noun but an adjective in adverbial use meaning "für wahr / wahrhaftig / wirklich".
+
+**Correct PoS:** ADV (adverbially used adjective), NOT NOM.
+
+**Example:**
+```
+ABG_411010_7: "und solt daz wizzen vür wâr"
+→ vür wâr = fixed phrase meaning "wahrlich" → wâr = ADV
+```
+
+---
+
+### Error 6: Insufficient Care with Complex Texts
+
+**Problem:** The model performs significantly better on linguistically simpler texts (Early New High German tendency, normalized texts like cookbooks) than on complex, less normalized MHG texts.
+
+**Rule for difficult text types:**
+- Work **systematically slower and more controlled**
+- Check **more context** before making a PoS decision
+- When in doubt, **read the full sentence** and surrounding sentences
+- Complex MHG texts require **higher scrutiny** than normalized texts
+
+**Text difficulty indicators:**
+| Indicator | Action |
+|-----------|--------|
+| Non-normalized spelling | Slow down, verify context |
+| Complex syntax (hypotaxis) | Analyze full clause structure |
+| Literary/poetic texts | Consider stylistic variations |
+| Religious/philosophical texts | Check specialized vocabulary |
+| Fragmentary context | Consider skipping if truly ambiguous |
+
+---
+
 ## Valid PoS Tags (19 Tags)
 
 Every word should have ONE of these tags, except for documented compound exceptions:
@@ -41,14 +167,14 @@ Every word should have ONE of these tags, except for documented compound excepti
 | Tag | Name | Examples |
 |-----|------|----------|
 | **NOM** | Nomen (Noun) | acker, zît, minne |
-| **NAM** | Name (Proper noun) | Uolrîch, Wiene, Rhîn |
+| **NAM** | Name (Proper noun) | Uolrîch, Wiene, Rhîn, sant (before names) |
 | **ADJ** | Adjektiv (Adjective) | grôz, schoene, guot, wâr |
 | **ADV** | Adverb | schone, vil, sêre, gar, als (komparativ), wie (komparativ) |
-| **DET** | Determinante (Determiner) | der, diu, daz, ein, eine, diser, jener |
+| **DET** | Determinante (Determiner) | der, diu, daz, ein, eine, diser, jener, kein, dekein, dehein |
 | **POS** | Possessivpronomen | mîn, dîn, unser |
 | **PRO** | Pronomen (Pronoun) | ich, ez, wir, Relativpronomen, swer (indefinit) |
 | **PRP** | Präposition (Preposition) | ûf, zuo, under, durch |
-| **NEG** | Negation | nie, niht, âne |
+| **NEG** | Negation | nie, niht, nit, nich, nieht, niet, niut, nyt, ne, en, âne |
 | **NUM** | Numeral | zwô, drî, zweinzegest |
 | **CNJ** | Konjunktion (general) | danne (additiv: er sanc, danne si spilten) |
 | **SCNJ** | Subordinierende Konj. | daz (clause), ob, swenne, sît, als (temporal), wie (subordinierend) |
@@ -82,6 +208,26 @@ The distinction is functional:
 
 Possessives (*mîn, dîn, unser*) remain a **separate class (POS)** despite being syntactically attribuierend like DET. Reason: **morphological distinctiveness** - possessives encode person and number of the possessor, unlike determiners.
 
+### sant: Always NAM (before proper names)
+
+The word *sant* before proper names is NOT an adjective. It is a title/sanctity predicate in the sense of "Sankt" (Saint), formally part of the proper name.
+
+| Sequence | Tags | Note |
+|----------|------|------|
+| *sant Paulus* | NAM + NAM | Onomastic unit |
+| *sant Johans* | NAM + NAM | Onomastic unit |
+| *sant Marîe* | NAM + NAM | Onomastic unit |
+
+**Rationale:** *sant* is a fixed onymic title word in MHG, not an attributive adjective.
+
+### kein, dekein, dehein: DET (when modifying noun)
+
+These indefinite determiners → **DET** when they modify a noun:
+- *kein mensche* → kein = DET
+- *dehein dinc* → dehein = DET
+
+Only when used **substitutively** (without following noun) would PRO be possible.
+
 ### swer: PRO vs IPA
 
 - *swer* as **indefinite pronoun** ("wer auch immer", in relative clauses) → **PRO**
@@ -91,9 +237,26 @@ Possessives (*mîn, dîn, unser*) remain a **separate class (POS)** despite bein
 
 Intensifiers (*vil*, *sêre*, *gar*) are tagged as **ADV**. They function as degree modifiers but don't require a separate word class.
 
-### MHG Negation Patterns (Important for NHD-trained models!)
+### Fixed Phrases: vür wâr, ze wâre, etc.
+
+In fixed adverbial phrases, adjectives function adverbially:
+
+| Phrase | Meaning | Tag for adjective |
+|--------|---------|-------------------|
+| *vür wâr* | "truly, verily" | wâr = **ADV** |
+| *ze wâre* | "truly" | wâre = **ADV** |
+
+**NOT** NOM! These are adverbially used adjectives in fixed constructions.
+
+### MHG Negation Patterns (CRITICAL - Common Error Source!)
 
 Middle High German uses **multiple/reinforced negation** - unlike Modern German. This is NOT a tagging error!
+
+**CRITICAL WARNING:** The model frequently misclassifies negation particles as PRO. This is ALWAYS wrong!
+
+**All these forms are ALWAYS NEG, NEVER PRO:**
+- *niht, nichtes, nit, nich, nieht, niet, niut, nyt* → **NEG**
+- *ne, en, n* (proclitic) → **NEG**
 
 **Typical MHG pattern:** NEG + intensifier + verb + NEG
 - *ne vil ensanc er niht* = "er sang überhaupt nicht / gar nicht" (he didn't sing at all)
@@ -103,11 +266,14 @@ Middle High German uses **multiple/reinforced negation** - unlike Modern German.
 | Word | Tag | Reasoning |
 |------|-----|-----------|
 | *ne* / *en* / *n* | NEG | Negation particle (often proclitic on verb) |
-| *niht* | NEG | Negation particle (sentence negation) |
+| *niht* | NEG | Negation particle (sentence negation) - NEVER PRO! |
+| *nit, nich, nieht* | NEG | Variant spellings - NEVER PRO! |
 | *vil* | ADV | Intensifier, remains adverbial even in negation context |
 | *ensanc* | VRB | Full verb (the *en-* is fused NEG, but verb stays VRB) |
 
 **Key insight:** Multiple NEG particles in one clause **reinforce** (not cancel) the negation. Each NEG particle is tagged NEG. Intensifiers (*vil*, *gar*) between negation elements stay ADV.
+
+**Rationale:** These negation forms are purely negating in MHG and NEVER function as pronouns replacing a noun. The confusion may arise from NHD *nichts* (which can be pronominal), but MHG *niht* is ALWAYS a negation particle.
 
 ### als, wie: Context-Dependent
 
@@ -273,11 +439,28 @@ Keep compound POS **only** when a single token genuinely contains BOTH grammatic
 
 ### DET vs PRO vs SCNJ (*daz*, *der*, etc.)
 
+**Basic patterns:**
 - *daz* + noun phrase → **DET** (determiner modifying noun)
 - *daz* + verb (clause) → **SCNJ** (subordinating conjunction)
 - *daz* standing alone (= that one) → **PRO** (pronoun replacing noun)
 - *der* + noun → **DET** (article)
 - *der* as relative pronoun → **PRO** (substituierend)
+
+**IMPORTANT: Deictic *daz* (Common Error!)**
+
+When *daz* points deictically to previously mentioned content WITHOUT introducing a subordinate clause, it is **DET**, not PRO!
+
+**Test:** Does *daz* introduce a verb-final subordinate clause?
+- YES → SCNJ (*ich weiz **daz** er kumt*)
+- NO, points to prior content → DET (*unum est necessarium, **daz** ist als vil gesprochen*)
+- NO, stands alone replacing noun → PRO (*er nam **daz** und gie hin*)
+
+**Examples of deictic DET:**
+| Context | Analysis | Tag |
+|---------|----------|-----|
+| *daz kumet von abegescheidenheit* | Points to prior content, main clause verb | DET |
+| *unum est necessarium, daz ist...* | Points to Latin quote, main clause | DET |
+| *daz ist wâr* | Points to prior statement | DET |
 
 ### NOM vs ADJ
 
@@ -450,12 +633,26 @@ For each chunk file `{SIGLE}-chunk-{NUM}.md`:
 
 1. **Read** the chunk file completely
 2. **Analyze** the CONTEXT TEXT section to understand the surrounding text
-3. **Process** each word in the word list:
+3. **Assess text difficulty** (see below) and adjust processing speed accordingly
+4. **Process** each word in the word list:
    - ⚠️ compound tags → disambiguate (usually to single)
    - ✓ single tags → verify, output ONLY if correction needed
    - ❓ missing tags → assign based on context
    - If truly ambiguous → SKIP (do not output)
-4. **Write** result file `{SIGLE}-chunk-{NUM}-result.md`
+5. **Write** result file `{SIGLE}-chunk-{NUM}-result.md`
+
+**Text Difficulty Assessment:**
+
+| Text Type | Difficulty | Processing Strategy |
+|-----------|------------|---------------------|
+| Cookbooks, practical texts | LOW | Standard processing |
+| Early NHG tendency, normalized | LOW | Standard processing |
+| Literary prose | MEDIUM | Check more context |
+| Religious/philosophical | HIGH | Slow, careful analysis |
+| Complex poetry (Minnesang) | HIGH | Full clause analysis |
+| Non-normalized, archaic MHG | VERY HIGH | Maximum scrutiny, consider skipping ambiguous cases |
+
+**Rule:** Complex, non-normalized MHG texts require systematically slower and more controlled work. Check more context before making PoS decisions.
 
 **CRITICAL for missing tags (❓):**
 - Old_pos must be EMPTY, not "❓"
@@ -498,8 +695,11 @@ If validation fails, use this strategy to clear errors efficiently:
 
 2. **Batch Fix (Top Offenders)**:
    Prioritize the chunks with the highest missing counts. For each target chunk:
-   - **Read** the original chunk file (e.g., `{SIGLE}-chunk-{NUM}.md`) to get the full context and the list of missing IDs (`⚠️` or `❓`).
-   - **Generate** a single FIX file `{SIGLE}-chunk-{NUM}-result_FIX-01.md` containing **ALL** missing decisions for that chunk.
+   - **Prepare Fix Task**: Run the preparation script to extract the context and the specific missing items:
+     ```bash
+     python scripts/data-wrangling/pos/prepare-fix-task.py temp/disambiguation/{SIGLE}-chunk-{NUM}.md
+     ```
+   - **Generate Fix**: Use the output to create a FIX file `{SIGLE}-chunk-{NUM}-result_FIX-01.md` containing **ALL** missing decisions.
    - **Format**: Same as standard results (`xml_id | old_pos → new_pos | confidence | reason`).
 
 3. **Re-Merge**:
@@ -552,6 +752,15 @@ Identifies chunks where the Agent skipped items (errors of omission).
 python scripts/data-wrangling/pos/find-missing-decisions.py temp/disambiguation {SIGLE}
 ```
 **Output**: List of chunks sorted by missing decision count.
+
+### prepare-fix-task.py
+
+Generates a targeted task description for fixing missing decisions in a specific chunk.
+
+```bash
+python scripts/data-wrangling/pos/prepare-fix-task.py temp/disambiguation/{SIGLE}-chunk-{NUM}.md
+```
+**Output**: Markdown text containing Context Text and the list of missing items to validate.
 
 ---
 

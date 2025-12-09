@@ -222,11 +222,13 @@ def main():
                 print(problem)
                 print()
             all_ok = False
-        elif info:
-            # No problems, but show info about documented exceptions
+        else:
+            # No problems - show OK status
             print(f"\n✓ {disamb_path.name} - OK")
-            for i in info:
-                print(f"  {i}")
+            if info:
+                # Show info about documented exceptions
+                for i in info:
+                    print(f"  {i}")
 
     if all_ok:
         print("\n" + "=" * 50)
