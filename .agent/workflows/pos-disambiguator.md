@@ -162,6 +162,8 @@ ABG_411010_7: "und solt daz wizzen vür wâr"
 
 ## Valid PoS Tags (19 Tags)
 
+**CRITICAL: "ART" is NOT a valid tag!** There is no "ART" (Article) tag in this tagset. Articles (*der, diu, daz, ein*) are tagged as **DET** (Determinante). Using "ART" is ALWAYS wrong.
+
 Every word should have ONE of these tags, except for documented compound exceptions:
 
 | Tag | Name | Examples |
