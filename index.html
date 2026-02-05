@@ -205,6 +205,13 @@
       </div>
     </header>
 
+    <!-- Beta Banner -->
+    <div class="bg-amber-50 border-b border-amber-200">
+      <div class="container mx-auto px-6 py-2 text-center text-sm text-amber-800">
+        <strong>Beta</strong> - Dieses Projekt befindet sich in aktiver Entwicklung. Inhalte und Funktionen können sich jederzeit ändern.
+      </div>
+    </div>
+
     <!-- Hero Section -->
     <section
       class="bg-gradient-to-br from-brand-50 via-white to-slate-50 py-20"
@@ -320,7 +327,7 @@
             <li class="flex items-start gap-3">
               <span class="text-brand-600 font-bold">•</span>
               <div>
-                <strong class="text-slate-900">persons.xml</strong>
+                <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/authority-files/persons.xml" target="_blank" rel="noopener" class="text-brand-600 hover:text-brand-700 font-bold">persons.xml</a>
                 <span class="text-slate-500"> (0.12 MB)</span>
                 <span class="text-slate-600">
                   - Autoren und historische Personen</span
@@ -330,7 +337,7 @@
             <li class="flex items-start gap-3">
               <span class="text-brand-600 font-bold">•</span>
               <div>
-                <strong class="text-slate-900">works.xml</strong>
+                <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/authority-files/works.xml" target="_blank" rel="noopener" class="text-brand-600 hover:text-brand-700 font-bold">works.xml</a>
                 <span class="text-slate-500"> (1.41 MB)</span>
                 <span class="text-slate-600">
                   - Werk- und Handschriftenmetadaten</span
@@ -340,7 +347,7 @@
             <li class="flex items-start gap-3">
               <span class="text-brand-600 font-bold">•</span>
               <div>
-                <strong class="text-slate-900">lexicon.xml</strong>
+                <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/authority-files/lexicon.xml" target="_blank" rel="noopener" class="text-brand-600 hover:text-brand-700 font-bold">lexicon.xml</a>
                 <span class="text-slate-500"> (32.59 MB)</span>
                 <span class="text-slate-600">
                   - Wörterbuch mit grammatischen Annotationen</span
@@ -350,7 +357,7 @@
             <li class="flex items-start gap-3">
               <span class="text-brand-600 font-bold">•</span>
               <div>
-                <strong class="text-slate-900">concepts.xml</strong>
+                <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/authority-files/concepts.xml" target="_blank" rel="noopener" class="text-brand-600 hover:text-brand-700 font-bold">concepts.xml</a>
                 <span class="text-slate-500"> (0.21 MB)</span>
                 <span class="text-slate-600">
                   - Semantische Konzepttaxonomie</span
@@ -360,7 +367,7 @@
             <li class="flex items-start gap-3">
               <span class="text-brand-600 font-bold">•</span>
               <div>
-                <strong class="text-slate-900">genres.xml</strong>
+                <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/authority-files/genres.xml" target="_blank" rel="noopener" class="text-brand-600 hover:text-brand-700 font-bold">genres.xml</a>
                 <span class="text-slate-500"> (0.4 MB)</span>
                 <span class="text-slate-600">
                   - Literarische Gattungsklassifikation</span
@@ -370,7 +377,7 @@
             <li class="flex items-start gap-3">
               <span class="text-brand-600 font-bold">•</span>
               <div>
-                <strong class="text-slate-900">names.xml</strong>
+                <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/authority-files/names.xml" target="_blank" rel="noopener" class="text-brand-600 hover:text-brand-700 font-bold">names.xml</a>
                 <span class="text-slate-500"> (0.03 MB)</span>
                 <span class="text-slate-600">
                   - Eigennamen mit semantischen Relationen</span
@@ -380,7 +387,7 @@
             <li class="flex items-start gap-3">
               <span class="text-brand-600 font-bold">•</span>
               <div>
-                <strong class="text-slate-900">variants.xml</strong>
+                <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/authority-files/variants.xml" target="_blank" rel="noopener" class="text-brand-600 hover:text-brand-700 font-bold">variants.xml</a>
                 <span class="text-slate-500"> (12.46 MB)</span>
                 <span class="text-slate-600">
                   - Orthographische Varianten aus TEI-Korpus</span
@@ -427,11 +434,11 @@
               TEI Text Analysis
             </h3>
             <ul class="space-y-2 text-slate-600">
-              <li>• Einzelne Lemma-Suche</li>
-              <li>• Multi-Lemma-Suche (Absatz)</li>
-              <li>• Multi-Lemma-Suche (Dokument)</li>
-              <li>• Kookkurrenz-Analyse (Nähe)</li>
-              <li>• XPath-Queries</li>
+              <li>• Lemma-Suche (einzeln)</li>
+              <li>• Multi-Lemma-Suche (Dokument & Nähe)</li>
+              <li>• Alle Wörter anzeigen</li>
+              <li>• Alle Zeilen anzeigen</li>
+              <li>• Alle Annotationen anzeigen</li>
             </ul>
           </div>
           <div class="bg-slate-50 rounded-2xl p-8 border border-slate-200">
@@ -470,102 +477,70 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div class="bg-white rounded-2xl p-8 border border-slate-200">
             <h3 class="text-xl font-bold text-slate-900 mb-4">
-              Technische Dokumentation
-            </h3>
-            <ul class="space-y-2">
-              <li>
-                <a
-                  href="README.md"
-                  class="text-brand-600 hover:text-brand-700 font-medium"
-                  >README.md</a
-                >
-                <span class="text-slate-600"> - Projekt-Übersicht</span>
-              </li>
-              <li>
-                <a
-                  href="CLAUDE.md"
-                  class="text-brand-600 hover:text-brand-700 font-medium"
-                  >CLAUDE.md</a
-                >
-                <span class="text-slate-600"> - Entwicklerdokumentation</span>
-              </li>
-              <li>
-                <a
-                  href="docs/REFACTORING-SUMMARY.md"
-                  class="text-brand-600 hover:text-brand-700 font-medium"
-                  >Refactoring Summary</a
-                >
-                <span class="text-slate-600"> - Phase 7 Architektur</span>
-              </li>
-              <li>
-                <a
-                  href="docs/BUGFIX-2025-10-02.md"
-                  class="text-brand-600 hover:text-brand-700 font-medium"
-                  >Recent Bugfixes</a
-                >
-                <span class="text-slate-600"> - Oktober 2025 Updates</span>
-              </li>
-            </ul>
-          </div>
-          <div class="bg-white rounded-2xl p-8 border border-slate-200">
-            <h3 class="text-xl font-bold text-slate-900 mb-4">
-              TEI Guidelines
+              Promptotyping
             </h3>
             <p class="text-slate-600 mb-4">
-              Alle TEI-Dateien folgen den TEI P5-Richtlinien mit
-              MHDBDB-spezifischen Annotationen:
+              Dieses Projekt wird mit
+              <a href="https://dhcraft.org/excellence/blog/Promptotyping" target="_blank" rel="noopener" class="text-brand-600 hover:text-brand-700 font-medium">Promptotyping</a>
+              entwickelt, einer iterativen Context-Engineering-Methode
+              für die datengetriebene Entwicklung von Forschungsartefakten
+              mit Frontier-LLMs.
             </p>
             <ul class="space-y-2 text-slate-600">
+              <li>• Dokumente als Source of Truth</li>
+              <li>• Code als Disposable Artifact</li>
+              <li>• Critical Expert in the Loop</li>
+            </ul>
+          </div>
+          <div class="bg-white rounded-2xl p-8 border border-slate-200">
+            <h3 class="text-xl font-bold text-slate-900 mb-4">
+              Knowledge Vault
+            </h3>
+            <p class="text-slate-600 mb-4">
+              Alle Promptotyping-Documents und technischen Dokumente auf GitHub:
+            </p>
+            <ul class="space-y-2">
               <li>
-                • TEI-Namespace:
-                <code class="bg-slate-100 px-2 py-1 rounded text-sm"
-                  >http://www.tei-c.org/ns/1.0</code
-                >
+                <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/docs/INDEX.MD" target="_blank" rel="noopener" class="text-brand-600 hover:text-brand-700 font-medium">INDEX.MD</a>
+                <span class="text-slate-600"> - Hub & Übersicht</span>
               </li>
-              <li>• Encoding: UTF-8</li>
               <li>
-                • Cross-References via
-                <code class="bg-slate-100 px-2 py-1 rounded text-sm"
-                  >xml:id</code
-                >
+                <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/docs/ARCHITECTURE.MD" target="_blank" rel="noopener" class="text-brand-600 hover:text-brand-700 font-medium">ARCHITECTURE.MD</a>
+                <span class="text-slate-600"> - Technische Architektur</span>
               </li>
               <li>
-                • Semantic Annotations via
-                <code class="bg-slate-100 px-2 py-1 rounded text-sm">@ana</code>
+                <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/docs/DATA-MODEL.MD" target="_blank" rel="noopener" class="text-brand-600 hover:text-brand-700 font-medium">DATA-MODEL.MD</a>
+                <span class="text-slate-600"> - Datenmodell</span>
               </li>
               <li>
-                • Lemma Attributes via
-                <code class="bg-slate-100 px-2 py-1 rounded text-sm"
-                  >@lemma</code
-                >
+                <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/docs/RESEARCH.MD" target="_blank" rel="noopener" class="text-brand-600 hover:text-brand-700 font-medium">RESEARCH.MD</a>
+                <span class="text-slate-600"> - Forschungskontext</span>
+              </li>
+              <li>
+                <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/CLAUDE.md" target="_blank" rel="noopener" class="text-brand-600 hover:text-brand-700 font-medium">CLAUDE.md</a>
+                <span class="text-slate-600"> - Entwicklerdokumentation</span>
               </li>
             </ul>
           </div>
           <div class="bg-white rounded-2xl p-8 border border-slate-200">
             <h3 class="text-xl font-bold text-slate-900 mb-4">
-              Testing & Development
+              Benutzerhandbuch
             </h3>
+            <p class="text-slate-600 mb-4">
+              Anleitung zur Nutzung von Korpus-Suche und Playground:
+            </p>
             <ul class="space-y-2 text-slate-600">
-              <li><strong>Testing Framework:</strong> Playwright</li>
-              <li>
-                <strong>Dev Server:</strong>
-                <code class="bg-slate-100 px-2 py-1 rounded text-sm"
-                  >npm run serve</code
-                >
-              </li>
-              <li>
-                <strong>Test Suite:</strong>
-                <code class="bg-slate-100 px-2 py-1 rounded text-sm"
-                  >npm test</code
-                >
-              </li>
-              <li>
-                <strong>Test Report:</strong>
-                <code class="bg-slate-100 px-2 py-1 rounded text-sm"
-                  >npm run report</code
-                >
-              </li>
+              <li>• Lemma-Suche und Textauswahl</li>
+              <li>• Leseansicht mit Highlighting</li>
+              <li>• Authority Files durchsuchen</li>
+              <li>• Multi-Lemma-Suche (Nähe & Dokument)</li>
             </ul>
+            <div class="mt-4">
+              <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/docs/USER-GUIDE.MD" target="_blank" rel="noopener" class="text-brand-600 hover:text-brand-700 font-medium">
+                Benutzerhandbuch auf GitHub
+              </a>
+              <p class="text-xs text-slate-400 mt-2">Webansicht in Vorbereitung</p>
+            </div>
           </div>
         </div>
       </div>
