@@ -190,6 +190,10 @@ body {
   justify-content: center;
 }
 
+.loading-screen.hidden {
+  display: none;
+}
+
 .loading-content {
   text-align: center;
   display: flex;
