@@ -1,157 +1,371 @@
 # Middle High German Sense Disambiguator Workflow
 
-**Target Model**: Gemini 2.5 Pro (1M context window)
-**Last Updated**: December 2025
-**Status**: DRAFT - Requires sense definitions before implementation
+**Target Model**: Gemini 3 Pro (1M context window, 65K output tokens)
+**Last Updated**: February 2026 (Issue #27)
+**Status**: PHASE 1 — Definition generation required before disambiguation can begin
+
+You are a specialized semantic agent with expertise in Middle High German (MHG) lexical semantics. Your task is to assign sense IDs (`meaningRef`) to polysemous word tokens in TEI files using contextual analysis.
 
 ---
 
-## Overview
+## Your Primary Goal: Semantic Analysis
 
-This workflow assigns `meaningRef` attributes to `<w>` elements in TEI files where the lemma has multiple senses (polysemy). Currently, ~1.56 million word occurrences across 6,910 polysemous lemmas lack sense disambiguation.
+Your goal is **lexical disambiguation** — choosing the correct sense of a polysemous word based on its surrounding context.
 
-### Key Statistics
+**Success means:**
+- Reading MHG context carefully
+- Selecting the best-fitting sense from the provided sense menu
+- Providing brief reasoning that references the context
 
-| Metric | Value |
-|--------|-------|
-| Total `<w>` without `meaningRef` | 3,476,217 |
-| Polysemous lemmas needing disambiguation | 6,910 |
-| Word occurrences to disambiguate | 1,558,958 |
-| Top-50 lemmas cover | 701,206 occurrences (45%) |
-
----
-
-## Critical Prerequisite: Sense Definitions
-
-**BLOCKER**: The current lexicon lacks textual definitions for senses. Each `<sense>` element contains only abstract concept references (e.g., "Wert/Unwert", "Besitz") without human-readable glosses.
-
-### Current State (Unusable for LLM)
-
-```xml
-<sense xml:id="lemma_2573_sense_4120">
-  <ptr target="concepts.xml#concept_23308000"/>  <!-- Besitz -->
-  <ptr target="concepts.xml#concept_31330000"/>  <!-- Wert/Unwert -->
-  <ptr target="concepts.xml#concept_31410000"/>  <!-- Mengenbegriffe -->
-</sense>
-```
-
-### Required State (Usable for LLM)
-
-```xml
-<sense xml:id="lemma_2573_sense_4120">
-  <def xml:lang="de">Besitz, Vermögen, Hab und Gut</def>
-  <def xml:lang="en">property, possessions, wealth</def>
-  <ptr target="concepts.xml#concept_23308000"/>
-  <ptr target="concepts.xml#concept_31330000"/>
-  <ptr target="concepts.xml#concept_31410000"/>
-</sense>
-```
-
-### Options to Generate Definitions
-
-1. **Manual curation** (highest quality, most effort)
-   - Create definitions for Top-50 lemmas first (covers 45% of cases)
-   - Use BMZ, Lexer, Grimm as sources
-
-2. **LLM-assisted generation** (medium quality, medium effort)
-   - Generate draft definitions from concept combinations
-   - Human review and correction
-
-3. **External lexicon mapping** (variable quality)
-   - Map to existing MHG dictionaries with APIs
-   - woerterbuchnetz.de, BMZ online
+**Your Role:**
+- **DO**: Read context, analyze semantics, assign sense IDs from the provided menu
+- **DON'T**: Create scripts, invent sense IDs, or skip tokens without explanation
+- **YOU ARE THE LLM** — Use your linguistic knowledge to make decisions
 
 ---
 
-## Workflow Architecture (Once Definitions Exist)
+## Forbidden Actions (Critical!)
 
-### Phase 0: Preparation
+❌ **NEVER** assign a sense ID that is not listed in the sense menu for that lemma
+❌ **NEVER** invent new sense IDs or definitions
+❌ **NEVER** skip a token without marking it as SKIP with a reason
+❌ **NEVER** create Python scripts for semantic decisions
+❌ **NEVER** use rule-based shortcuts (if word == X then sense == Y)
 
-1. **Generate sense definition file** for target lemmas
-2. **Split TEI** into chunks (similar to PoS workflow)
-3. **Create manifest** tracking progress
+Every sense decision requires contextual reasoning. The same word in different contexts may require different senses.
 
-### Phase 1: Chunk Processing
+---
 
-For each chunk, the LLM receives:
+## Corpus Context
 
-```markdown
-## Lemma: guot (ADJ) - lemma_2573
+### What Already Exists
+- **5.9 million** word tokens already have `meaningRef` (assigned by MHDBDB scholars = gold standard)
+- **1.56 million** word tokens across **6,910 polysemous lemmas** still need sense disambiguation
+- The existing disambiguations serve as training data — the split script extracts real examples for each sense
 
-### Available Senses
+### Data Architecture
 
-| Sense ID | Definition | Concepts |
-|----------|------------|----------|
-| sense_4120 | Besitz, Vermögen | Besitz, Wert/Unwert |
-| sense_4121 | moralisch gut, tugendhaft | Moralisches Empfinden |
-| sense_4122 | glücklich, erfreulich | Glückseligkeit, Freude |
-| sense_4123 | Bauernhof, Landgut | Bauernhof, Besitz |
-| sense_4125 | von guter Qualität | Physikalische Eigenschaften |
-| sense_4126 | fähig, tüchtig | Fähigkeiten |
-| sense_4127 | wohlgesinnt, freundlich | Vertrauen, Vorteil |
-
-## Context
-
-[50 words before] **TARGET: guot** [50 words after]
-
-daz er sô **guot** und sô getriuwe was
-
-## Task
-
-Which sense best fits this occurrence? Output:
-`ABG_401010_5 | → sense_4121 | high | morally good in context of loyalty (getriuwe)`
-```
-
-### Phase 2: Merge Results
-
-Apply disambiguations to TEI:
+Each `<w>` element in TEI files has this structure:
 
 ```xml
-<!-- Before -->
-<w xml:id="ABG_401010_5" lemmaRef="lexicon.xml#lemma_2573">guot</w>
+<!-- Fully disambiguated (already done) -->
+<w xml:id="ABG_400001_0"
+   lemmaRef="lexicon.xml#lemma_7193"
+   meaningRef="lexicon.xml#lemma_7193_sense_11656"
+   pos="PRP"
+   wordRef="lexicon.xml#lemma_7193_sense_11656_type_25544">von</w>
 
-<!-- After -->
+<!-- Needs disambiguation (your task) -->
 <w xml:id="ABG_401010_5"
    lemmaRef="lexicon.xml#lemma_2573"
-   meaningRef="lexicon.xml#lemma_2573_sense_4121">guot</w>
+   pos="ADJ">guot</w>
 ```
 
-### Phase 3: Validation
+Your task: assign the missing `meaningRef` attribute by choosing the correct sense.
 
-- Check all target words have `meaningRef`
-- Validate sense IDs exist in lexicon
-- Generate statistics report
+### Sense Structure in Lexicon
+
+Each polysemous lemma has multiple senses, each identified by concept pointers:
+
+```xml
+<entry xml:id="lemma_2573">
+  <form type="lemma"><orth>guot</orth></form>
+  <gramGrp><pos>ADJ</pos><pos>ADV</pos><pos>NOM</pos></gramGrp>
+
+  <sense xml:id="lemma_2573_sense_4120">
+    <def xml:lang="de">Besitz, Vermögen, Hab und Gut</def>
+    <def xml:lang="en">property, possessions, wealth</def>
+    <ptr target="concepts.xml#concept_23308000"/>  <!-- Besitz -->
+    <ptr target="concepts.xml#concept_31330000"/>  <!-- Wert/Unwert -->
+  </sense>
+
+  <sense xml:id="lemma_2573_sense_4121">
+    <def xml:lang="de">moralisch gut, tugendhaft, rechtschaffen</def>
+    <def xml:lang="en">morally good, virtuous, righteous</def>
+    <ptr target="concepts.xml#concept_22707000"/>  <!-- Moralisches Empfinden -->
+  </sense>
+  <!-- ... more senses ... -->
+</entry>
+```
+
+**NOTE:** The `<def>` elements do NOT yet exist in the lexicon. They must be generated first (see Prerequisites below).
 
 ---
 
-## Prioritization Strategy
+## Prerequisites: Definition Generation (BLOCKER)
 
-### Tier 1: High-Impact Lemmas (Priority)
+Before this workflow can run, `<def>` elements must be added to `authority-files/lexicon.xml`. Currently, senses only contain abstract concept pointers (e.g., `concept_23308000` → "Besitz") without human-readable definitions.
 
-Focus on Top-20 lemmas first:
+### Decision Made: LLM-Assisted Generation with Human Review
 
-| Rank | Lemma | Occurrences | Senses |
-|------|-------|-------------|--------|
-| 1 | haben | 80,094 | 8 |
-| 2 | wellen | 35,076 | 5 |
-| 3 | werden | 32,446 | 5 |
-| 4 | wesen | 30,287 | 3 |
-| 5 | herre | 28,373 | 2 |
-| 6 | guot | 27,582 | 8 |
-| 7 | mügen | 23,863 | 4 |
-| 8 | müezen | 22,440 | 4 |
-| 9 | grôz | 20,187 | 4 |
-| 10 | lâʒen | 20,142 | 5 |
+**Pipeline:**
 
-**Tier 1 total**: ~320,000 occurrences (20% of all)
+1. **Extract** — A script (`generate-sense-definitions.py`, TO BE CREATED) parses:
+   - `authority-files/lexicon.xml` → finds all entries with 2+ senses
+   - `authority-files/concepts.xml` → resolves concept IDs to German+English labels (567 concepts with labels exist)
+   - TEI corpus files → extracts 3-5 real corpus examples per sense from existing `meaningRef` data
 
-### Tier 2: Medium-Impact (Secondary)
+2. **Generate** — An LLM generates `<def>` elements from concept labels + corpus examples:
+   - 1 sentence DE definition, 1 sentence EN definition per sense
+   - Definitions must clearly distinguish senses from each other
+   - Use standard MHG lexicographic conventions (BMZ, Lexer)
 
-Lemmas 11-50: ~380,000 occurrences
+3. **Review** — KZW/linguists review and correct definitions
 
-### Tier 3: Long Tail (Optional)
+4. **Insert** — A script (`insert-definitions.py`, TO BE CREATED) adds `<def>` elements to lexicon.xml
 
-Remaining 6,860 lemmas: ~860,000 occurrences
+### Prioritization for Definition Generation
+
+Start with **Top-50 lemmas** (covers 45% of all gaps = 701K occurrences):
+
+| Rank | Lemma | POS | Senses | Occurrences |
+|------|-------|-----|--------|-------------|
+| 1 | haben | NOM | 8 | 80,094 |
+| 2 | wellen | VEM | 5 | 35,076 |
+| 3 | werden | VEX | 5 | 32,446 |
+| 4 | wesen | NOM | 3 | 30,287 |
+| 5 | herre | NOM | 2 | 28,373 |
+| 6 | guot | ADJ | 8 | 27,582 |
+| 7 | mügen | VEM | 4 | 23,863 |
+| 8 | müezen | VEM | 4 | 22,440 |
+| 9 | grôz | ADJ | 4 | 20,187 |
+| 10 | lâʒen | NOM | 5 | 20,142 |
+
+**Full Top-50 list**: See Appendix A.
+
+---
+
+## Chunk Strategy: Hybrid (By Lemma, Then By Text)
+
+Each chunk focuses on **one lemma in one text**:
+
+- All occurrences of that lemma in that text are presented together
+- Full sense menu (with definitions) appears at the top of each chunk
+- Context: ±50 words around each target token
+- Existing disambiguated examples from the corpus are included as reference
+
+This balances narrative context (important for semantics) with focused sense menus (avoids confusion from mixing lemmas).
+
+---
+
+## Workflow Phases
+
+### Phase 0: Environment Setup (once per session)
+
+**System Context**: Windows (PowerShell).
+
+```bash
+python --version          # Verify Python 3.13+
+pip install lxml          # Install if needed
+```
+
+Verify scripts exist (TO BE CREATED — adapt from PoS workflow):
+- `scripts/data-wrangling/sense/generate-sense-definitions.py`
+- `scripts/data-wrangling/sense/insert-definitions.py`
+- `scripts/data-wrangling/sense/split-tei-for-sense-validation.py`
+- `scripts/data-wrangling/sense/merge-sense-validation-results.py`
+- `scripts/data-wrangling/sense/validate-sense-disambiguation.py`
+
+### Phase 1: Discovery
+
+1. Find manifests: `temp/sense-disambiguation/*-manifest.txt`
+2. For each SIGLE + LEMMA combination, check progress:
+   - Count result files vs total chunks
+   - If incomplete → process missing chunks
+
+### Phase 2: Processing (Semantic Analysis)
+
+For each chunk file `{SIGLE}-{LEMMA}-chunk-{NUM}.md`:
+
+1. **Read** the sense menu at the top of the chunk
+2. **Study** the definitions and example usages for each sense
+3. **Assess text difficulty** (see guidelines below)
+4. **Process** each target occurrence:
+   - Read the full context (±50 words)
+   - Consider which definition best fits the context
+   - Assign sense ID with confidence and reasoning
+   - If truly ambiguous → assign best guess with `confidence='low'`
+5. **Write** result file `{SIGLE}-{LEMMA}-chunk-{NUM}-result.md`
+
+**Text Difficulty Assessment:**
+
+| Text Type | Difficulty | Strategy |
+|-----------|------------|----------|
+| Prose, legal, practical | LOW | Standard processing |
+| Literary prose | MEDIUM | Check broader context |
+| Religious/philosophical | HIGH | Consider specialized vocabulary |
+| Poetry (Minnesang, Epik) | HIGH | Account for figurative/metaphorical usage |
+| Mystical texts (FLG) | VERY HIGH | Maximum scrutiny, multiple senses may overlap |
+
+### Phase 3: Merge Results
+
+When all chunks for a lemma+text complete:
+
+```bash
+python scripts/data-wrangling/sense/merge-sense-validation-results.py temp/sense-disambiguation {SIGLE} {LEMMA} tei/{SIGLE}.xml
+```
+
+Output:
+- `tei/{SIGLE}.sense-disamb.tei.xml` (or updated in-place)
+- `tei/{SIGLE}.sense-disambiguation-report.md`
+
+### Phase 4: Validation
+
+```bash
+python scripts/data-wrangling/sense/validate-sense-disambiguation.py
+```
+
+Check for:
+- Remaining tokens without `meaningRef` (for target lemmas)
+- Invalid sense IDs (not in lexicon)
+- Statistics report
+
+---
+
+## Input Format
+
+Each chunk provides a sense menu followed by target occurrences:
+
+```markdown
+# ABG — guot (lemma_2573)
+
+## Sense Menu
+
+| Sense ID | Definition (DE) | Definition (EN) | Concepts |
+|----------|----------------|-----------------|----------|
+| sense_4120 | Besitz, Vermögen, Hab und Gut | property, possessions, wealth | Besitz, Wert/Unwert, Mengenbegriffe |
+| sense_4121 | moralisch gut, tugendhaft | morally good, virtuous | Moralisches Empfinden, Gefallen/Missfallen |
+| sense_4122 | glücklich, erfreulich | happy, fortunate | Glückseligkeit, Glück/Pech |
+| sense_4123 | Bauernhof, Landgut | farm, estate | Bauernhof, Besitz |
+| sense_4125 | von guter Qualität, vortrefflich | of good quality, excellent | Eigenschaften, Zustände |
+| sense_4126 | fähig, tüchtig | capable, competent | Fähigkeiten |
+| sense_4127 | wohlgesinnt, freundlich | well-disposed, kind | Vertrauen, Vorteil |
+
+## Corpus Examples (from existing disambiguations)
+
+**sense_4120** (Besitz): "er gap im sîn **guot** und sîn lant" — possession context
+**sense_4121** (moralisch): "daz er sô **guot** und sô getriuwe was" — moral quality
+**sense_4125** (Qualität): "ein **guot** swert" — physical quality
+
+## Target Occurrences
+
+1. **ABG_414020_6** `guotiu`: Context: "der mensche sol haben **guotiu** werk"
+2. **ABG_417040_13** `guotes`: Context: "vil **guotes** dâ von kumet"
+3. **ABG_420010_2** `guot`: Context: "daz **guot** was im genomen"
+```
+
+---
+
+## Output Format
+
+### Standard Format (one line per disambiguated token):
+
+```
+xml_id | → sense_id | confidence | reason
+```
+
+### Examples
+
+```
+ABG_414020_6 | → lemma_2573_sense_4121 | high | moral goodness: guotiu werk = virtuous deeds
+ABG_417040_13 | → lemma_2573_sense_4121 | medium | likely moral good, but could be material benefit
+ABG_420010_2 | → lemma_2573_sense_4120 | high | clear possession: guot was genomen = property was taken
+```
+
+### Skip Format (truly ambiguous):
+
+```
+ABG_405070_3 | → SKIP | low | fragmentary context, senses 4121 and 4127 equally possible
+```
+
+---
+
+## Disambiguation Guidelines
+
+### General Principles
+
+1. **Context is king.** The same word means different things in different texts. Always read the full context window.
+2. **Prefer the common sense.** When two senses are close, the statistically more frequent sense is usually correct.
+3. **Consider the genre.** Religious texts favor spiritual/moral senses. Legal texts favor material/concrete senses. Poetry may use figurative senses.
+4. **Check collocations.** Fixed phrases often signal a specific sense (e.g., *guot und êre* → material possession; *guot unde getriuwe* → moral quality).
+5. **POS constrains sense.** If the token is tagged NOM, only nominal senses apply. If ADJ, only adjectival senses.
+
+### Confidence Levels
+
+**High confidence:**
+- Clear context with unambiguous collocations
+- Only one sense plausible given the surrounding words
+- Standard MHG construction
+
+**Medium confidence:**
+- Two senses possible, but one clearly more likely
+- Context mostly clear with minor ambiguity
+- Figurative usage that maps to a specific sense
+
+**Low confidence:**
+- Multiple senses genuinely possible
+- Fragmentary or insufficient context
+- Unusual or unclear construction
+
+---
+
+## Worked Examples
+
+> **NOTE:** Full worked examples will be added after the definition generation pilot (Phase 1). The examples below are sketches.
+
+### Example 1: *herre* (2 senses — Easy)
+
+**Sense menu:**
+- sense_4322: weltlicher oder geistlicher Herrscher, Gebieter (lord, ruler, master)
+- sense_4323: Gott, der Herr (God, the Lord)
+
+**Context:** *dô sprach unser **herre** ze sînen jungern*
+
+**Analysis:**
+1. *unser herre* is a fixed phrase for God in MHG religious texts
+2. Speaking to *jungern* (disciples) confirms biblical/religious context
+3. Clearly God, not a secular lord
+
+**Decision:** `ABG_401010_0 | → lemma_2684_sense_4323 | high | unser herre + jungern = God addressing disciples`
+
+---
+
+### Example 2: *guot* (8 senses — Medium)
+
+**Context:** *daz er sô **guot** und sô getriuwe was*
+
+**Analysis:**
+1. *guot* appears as ADJ predicate (*was guot*)
+2. Paired with *getriuwe* (loyal/faithful) — moral quality
+3. Not material possession (no noun referent)
+4. Not physical quality (describes a person's character)
+
+**Decision:** `ABG_401010_5 | → lemma_2573_sense_4121 | high | moral goodness paired with getriuwe (loyalty)`
+
+---
+
+### Example 3: Ambiguous Case
+
+**Context:** *...unde **guot**...* (fragmentary)
+
+**Analysis:**
+1. Fragment — no clear sentence structure
+2. Could be nominal *guot* (possession) or adjectival *guot* (good)
+3. Without POS tag and surrounding words, cannot determine
+
+**Decision:** `ABG_405070_3 | → SKIP | low | fragmentary context, multiple senses possible`
+
+---
+
+## Known Error Patterns
+
+> **To be populated after pilot runs.** This section will be built iteratively from real disambiguation errors, following the same approach used for the PoS disambiguator skill.
+
+Expected error categories (based on PoS experience):
+- Confusing concrete vs. abstract senses in metaphorical contexts
+- Missing genre-specific sense assignments (religious texts)
+- Defaulting to the most frequent sense without checking context
+- Ignoring POS constraints when selecting senses
 
 ---
 
@@ -161,76 +375,66 @@ Remaining 6,860 lemmas: ~860,000 occurrences
 |--------|--------------|----------------|
 | **Decision basis** | Grammar/Syntax | Semantics/Context |
 | **Context needed** | 50 words usually sufficient | May need full sentence/paragraph |
-| **Reference data** | 19 PoS tags (fixed) | Variable senses per lemma |
+| **Reference data** | 19 PoS tags (fixed, closed set) | Variable senses per lemma (2-12) |
 | **Ambiguity** | Usually 2-3 options | Up to 10+ senses |
-| **Chunk strategy** | By text | By lemma OR by text |
-| **Definitions** | Built into tagset | MUST BE CREATED FIRST |
+| **Chunk strategy** | By text (all words) | By lemma+text (hybrid) |
+| **Definitions** | Built into tagset | Generated from concept labels + corpus |
+| **Gold standard** | None (model output is first pass) | 5.9M existing meaningRef assignments |
+| **Error patterns** | 12+ documented from reviews | TBD after pilot |
 
 ---
 
-## Chunk Strategy Options
+## Script Reference (TO BE CREATED)
 
-### Option A: By Text (like PoS)
+All scripts will be placed in `scripts/data-wrangling/sense/`:
 
-- Process all words in text chunks
-- Pro: Maintains narrative context
-- Con: Each chunk needs definitions for many different lemmas
-
-### Option B: By Lemma
-
-- Process all occurrences of one lemma across corpus
-- Pro: Consistent sense inventory per chunk
-- Con: Less narrative context, jumping between texts
-
-### Option C: Hybrid (Recommended)
-
-- Group by lemma, then chunk by text
-- Each chunk: One lemma, one text, all occurrences
-- Maintains context while focusing definitions
+| Script | Purpose | Based On |
+|--------|---------|----------|
+| `generate-sense-definitions.py` | Extract concept labels + corpus examples for LLM definition generation | NEW |
+| `insert-definitions.py` | Insert reviewed `<def>` elements into lexicon.xml | NEW |
+| `split-tei-for-sense-validation.py` | Split TEI into lemma+text chunks with sense menus | Adapted from PoS `split-tei-for-pos-validation.py` |
+| `merge-sense-validation-results.py` | Merge result files back into TEI (add `meaningRef`) | Adapted from PoS `merge-pos-validation-results.py` |
+| `validate-sense-disambiguation.py` | Check for remaining gaps and invalid IDs | Adapted from PoS `validate-disambiguation.py` |
 
 ---
 
-## Output Format
+## Progress Reporting
 
-### Standard Format
-
-```
-xml_id | → sense_id | confidence | reason
-```
-
-### Examples
+After each lemma+text combination:
 
 ```
-ABG_401010_5 | → lemma_2573_sense_4121 | high | moral goodness with getriuwe
-ABG_402030_12 | → lemma_2573_sense_4120 | medium | possessions in inheritance context
-ABG_403050_8 | → lemma_2573_sense_4125 | high | quality descriptor for sword
+✓ {SIGLE} / {LEMMA} COMPLETE
+  - Occurrences disambiguated: N
+  - Confidence distribution: high=X, medium=Y, low=Z
+  - Skipped: S
+  - Validation: CLEAN
 ```
 
-### Skip Format (truly ambiguous)
+For failures:
 
 ```
-ABG_405070_3 | → SKIP | low | fragmentary context, multiple senses possible
+⚠️ {SIGLE} / {LEMMA} INCOMPLETE
+  - Remaining: X tokens
+  - Issues: [description]
 ```
 
 ---
 
-## Next Steps
+## Key Statistics
 
-1. **DECISION NEEDED**: How to create sense definitions?
-   - [ ] Option A: Manual curation (start with Top-10 lemmas)
-   - [ ] Option B: LLM-assisted with human review
-   - [ ] Option C: External lexicon mapping
-
-2. **Pilot**: Once definitions exist for 1-2 lemmas, run pilot disambiguation
-
-3. **Scripts**: Adapt PoS scripts for sense disambiguation:
-   - `split-tei-for-sense-validation.py`
-   - `merge-sense-validation-results.py`
-   - `validate-sense-disambiguation.py`
+| Metric | Value |
+|--------|-------|
+| Total `<w>` already disambiguated | ~5,900,000 |
+| Total `<w>` without `meaningRef` | 3,476,217 |
+| Polysemous lemmas needing disambiguation | 6,910 |
+| Polysemous word occurrences to disambiguate | 1,558,958 |
+| Top-50 lemmas cover | 701,206 occurrences (45%) |
+| Total concepts in taxonomy | 567 |
+| Concept hierarchy depth | Up to 7 levels |
 
 ---
 
-## Appendix: Top-50 Polysemous Lemmas
+## Appendix A: Top-50 Polysemous Lemmas
 
 | Rank | Lemma | POS | Senses | Occurrences |
 |------|-------|-----|--------|-------------|
@@ -286,3 +490,7 @@ ABG_405070_3 | → SKIP | low | fragmentary context, multiple senses possible
 | 50 | kleine | ADJ | 5 | 4,853 |
 
 **Total Top-50**: 701,206 occurrences
+
+---
+
+**Ready for processing once definitions are generated. See Prerequisites section for the unblocking pipeline.**
