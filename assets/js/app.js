@@ -30,6 +30,9 @@ class MainSiteApp {
         // Detect which page we're on
         this.isSearchPage = window.location.pathname.includes('korpus.html');
 
+        // Expose for Playwright tests
+        window._mhdbdbApp = this;
+
         // Common elements (both pages)
         this.elements = {
             loadingScreen: document.getElementById('loadingScreen'),
