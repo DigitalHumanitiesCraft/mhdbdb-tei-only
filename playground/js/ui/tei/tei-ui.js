@@ -578,12 +578,12 @@ export class TEIExplorer {
             .slice(0, 50);
 
         const results = resultsWithConcepts.map(a => ({
-            meta: `${a.filename} • ${a.tagName} • Konzepte: ${a.resolvedConcepts.map(c => c.termDE || c.termEN).join(', ')}`,
+            meta: `${a.filename} • ${a.tagName} • Begriffe: ${a.resolvedConcepts.map(c => c.termDE || c.termEN).join(', ')}`,
             snippet: a.text
         }));
 
         displayResults(
-            `Annotationen mit aufgelösten Konzept-Referenzen (erste 50 von ${resultsWithConcepts.length})`,
+            `Annotationen mit aufgelösten Begriffsreferenzen (erste 50 von ${resultsWithConcepts.length})`,
             results
         );
     }

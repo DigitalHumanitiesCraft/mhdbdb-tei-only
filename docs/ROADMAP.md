@@ -11,7 +11,7 @@ Work that can be done immediately, no decisions needed.
 | # | What | Domain |
 |---|------|--------|
 | #35, #37, #38, #39, #40 | Add provenance metadata to TEI headers (5 provider groups) | data:provenance |
-| #21 | Rename "Konzepte" → "Begriffe" in UI | frontend |
+| ~~#21~~ | ~~Rename "Konzepte" → "Begriffe" in UI~~ ✅ | frontend |
 | #20 | Readability fixes (font sizes, contrast) | frontend |
 | #31 | Format Linecode2TEI documentation as markdown | documentation |
 

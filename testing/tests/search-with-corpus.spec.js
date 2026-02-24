@@ -72,8 +72,8 @@ test.describe('Search Functions with Pre-Built Corpus', () => {
         console.log('✅ Lemmata search works with MHG normalization');
     });
 
-    test('Search 4: Konzepte anzeigen (Concepts search)', async ({ page }) => {
-        await page.click('button:has-text("Konzepte anzeigen")');
+    test('Search 4: Begriffe anzeigen (Concepts search)', async ({ page }) => {
+        await page.click('button:has-text("Begriffe anzeigen")');
 
         await page.waitForSelector('#conceptSearch', { timeout: 5000 });
 

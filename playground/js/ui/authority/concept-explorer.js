@@ -38,13 +38,13 @@ export class ConceptExplorer {
       snippet: formatMultiLanguage(c.termDE, c.termEN),
     }));
 
-    displayResults("Alle Konzepte aus Authority Files", results);
+    displayResults("Alle Begriffe aus Authority Files", results);
   }
 
   showConceptsWithSearch() {
     const searchHTML = createSearchInterface({
-      title: "Konzepte-Explorer",
-      placeholder: "Konzept suchen (z.B. Freundschaft, Liebe, Ehre)",
+      title: "Begriffe-Explorer",
+      placeholder: "Begriff suchen (z.B. Freundschaft, Liebe, Ehre)",
       searchInputId: "conceptSearch",
       resultsId: "conceptResults",
       totalCount: this.authorityData.concepts.length,
@@ -68,7 +68,7 @@ export class ConceptExplorer {
 
     const result = handleSearchResults(searchTerm, matches, {
       maxResults: 50,
-      emptyMessage: 'Keine Konzepte gefunden für "{term}"',
+      emptyMessage: 'Keine Begriffe gefunden für "{term}"',
     });
 
     if (typeof result === "string") {
@@ -104,7 +104,7 @@ export class ConceptExplorer {
       const lemmasWithConcept = this.findLemmasWithConcept(conceptId);
 
       if (lemmasWithConcept.length === 0) {
-        return "Keine Lemmata für dieses Konzept gefunden.";
+        return "Keine Lemmata für diesen Begriff gefunden.";
       }
 
       // Create full search interface for exploring lemmata
@@ -112,7 +112,7 @@ export class ConceptExplorer {
       const resultsId = `lemma-concept-results-${conceptId}`;
 
       const searchHTML = createSearchInterface({
-        title: `${lemmasWithConcept.length} Lemmata mit Konzept "${conceptName}"`,
+        title: `${lemmasWithConcept.length} Lemmata mit Begriff "${conceptName}"`,
         placeholder: "Lemma filtern (z.B. vriunt, minne, ere)",
         searchInputId: searchId,
         resultsId: resultsId,

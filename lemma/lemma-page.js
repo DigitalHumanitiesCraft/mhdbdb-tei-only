@@ -166,7 +166,7 @@ class LemmaPage {
                         <div class="text-sm text-slate-700">
                             ${conceptLabels.length > 0
                                 ? conceptLabels.map(c => `<span class="inline-block bg-slate-100 px-2 py-0.5 rounded text-xs mr-1 mb-1">${c}</span>`).join('')
-                                : '<span class="text-slate-400">Keine Konzeptzuordnung</span>'
+                                : '<span class="text-slate-400">Keine Begriffszuordnung</span>'
                             }
                         </div>
                     </div>
