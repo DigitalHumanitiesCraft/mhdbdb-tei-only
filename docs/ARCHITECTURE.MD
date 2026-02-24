@@ -24,7 +24,7 @@ The MHDBDB project follows a **client-only architecture** with no backend server
 - ✅ No server maintenance
 - ✅ Fast global CDN distribution
 - ⚠️ Limited to browser memory
-- ⚠️ Large initial download (~24 MB indexes)
+- ⚠️ Large initial download (~37 MB indexes)
 - ⚠️ No real-time updates (requires rebuild + redeploy)
 
 ## Main Site Architecture
@@ -37,9 +37,29 @@ The MHDBDB project follows a **client-only architecture** with no backend server
 
 **MainSiteApp** (`assets/js/app.js`)
 - Initialize corpus loader
-- Load pre-built corpus index (~21 MB)
+- Load pre-built corpus index (~34 MB compressed)
 - Set up search interface and text selection
 - Coordinate SearchEngine and TextRenderer
+
+### Page Detection and Dual Initialization
+
+`MainSiteApp` detects the current page and branches initialization:
+
+| Path | Detection | Initialization | Data Loaded |
+|------|-----------|---------------|-------------|
+| `index.html` | `!pathname.includes('korpus.html')` | Landing page mode | None (stats hardcoded in HTML) |
+| `korpus.html` | `pathname.includes('korpus.html')` | Search page mode | Authority + Corpus indexes |
+
+**Search page initialization sequence** (source: `assets/js/app.js`):
+1. Load authority index (via `CorpusLoader`)
+2. Load corpus index (via `CorpusLoader`)
+3. Initialize all texts as included (`Set` of text IDs)
+4. Create `SearchEngine(authority, corpus)`
+5. Create `TextRenderer(corpus, authority)` (for cache)
+6. Create `TEITextReader(corpus, authority, cache)`
+7. Populate text list checkboxes from corpus index
+8. Check URL parameters (`?textId=...&lemmaIds=...&position=...`)
+9. If no URL params, auto-open ABG text in reading view
 
 ### Search Flow
 
@@ -94,12 +114,43 @@ Allows users to include/exclude specific texts from search:
 - Dual identifier sections (work GND/Wikidata vs author GND/Wikidata)
 - Browser window scrolling to highlighted terms (120px header offset)
 
+### TEI Element Rendering Map
+
+The reading view converts TEI XML elements to HTML. Source: `assets/js/rendering/tei-text-reader.js:346-428`
+
+| TEI Element | Attributes | HTML Output | CSS Class |
+|------------|-----------|-------------|-----------|
+| `<head>` | | `<h3>` | `.section-head` |
+| `<p>`, `<ab>` | | `<p>` | — |
+| `<div>` | | `<div>` | `.tei-div` |
+| `<lg>` | | `<div>` | `.verse-group` |
+| `<l>` | | `<span>` | `.verse-line` |
+| `<lb>` | | `<br>` | `.line-break` |
+| `<pb>` | `@n` | `<span>[{n}]</span>` | `.page-break` |
+| `<cb>` | `@n` | `<span>[Sp. {n}]</span>` | `.column-break` |
+| `<caesura>` | | `<span>\|\|</span>` | `.caesura` |
+| `<hi>` | `@rend="initial"` | `<span>` | `.initial` |
+| `<hi>` | `@rend="upper_case_first_letter"` | `<span>` | `.upper-case-first` |
+| `<hi>` | (other) | `<span>` | `.hi` |
+| `<supplied>` | | `<span>[...]</span>` | `.supplied` |
+| `<num>` | | `<span>` | `.number` |
+| `<seg>` | `@type="pc"` | `<span>` (escaped text) | `.punctuation` |
+| `<w>` | `@lemmaRef` (match) | `<mark>` | `.highlight` / `.highlight.multi-lemma` |
+| `<w>` | `@lemmaRef` (no match) | escaped text + space | — |
+| `<w>` | no `@lemmaRef` | escaped text + space | — |
+| (unknown) | | recurse into children | — |
+
+**Multi-lemma color assignment:** `lemmaColorMap[lemmaId] = colors[idx % 5]` — sequential assignment, wraps at 5.
+
+**Position counting contract:** see [CONTRACTS.MD](CONTRACTS.MD#b-position-counting-contract)
+
 ### TEI Cache Management
 
 **TEICacheManager** (`assets/js/storage/tei-cache-manager.js`)
-- Cache TEI files >5MB in IndexedDB
-- No expiration (user content persists)
+- Cache serialized DOM as XML string in IndexedDB (database: `MHDBDB_TEI_Cache`)
+- 30-day expiration (checked on read, corrupted entries auto-deleted)
 - Subsequent loads from cache (~100-200 ms vs 3-5 seconds)
+- **Cache invalidation and version check flow:** see [CONTRACTS.MD](CONTRACTS.MD#e-cache-invalidation)
 
 ## Playground Architecture
 
@@ -251,8 +302,9 @@ Each explorer follows consistent pattern:
 
 ### Wikidata
 
-- Automatic image fetching for authors via Wikidata SPARQL
+- Automatic image fetching via Wikidata P18 property (3-step chain: claims → FilePath → attribution)
 - Dual identifier display (work GND/Wikidata vs author GND/Wikidata)
+- **Full API request/response specs:** see [CONTRACTS.MD](CONTRACTS.MD#d-external-api-contracts)
 
 ## Testing Architecture
 

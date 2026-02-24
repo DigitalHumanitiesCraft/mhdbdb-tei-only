@@ -37,18 +37,28 @@ Visual and interaction patterns for the MHDBDB TEI Repository. Complements [ARCH
 
 ### Multi-Lemma Highlight Palette
 
-6 slots defined in `korpus.css`, `playground/css/style.css`, and `ui-helpers.js LEMMA_COLORS`:
+**Authoritative source: `tei-text-reader.js` constructor (lines 23-29)**
 
-| Slot | Background | Border | Text |
-|------|-----------|--------|------|
-| 1 | `#fecaca` (red) | `#ef4444` | `#991b1b` |
-| 2 | `#bbf7d0` (green) | `#22c55e` | `#14532d` |
-| 3 | `#bfdbfe` (blue) | `#3b82f6` | `#1e3a8a` |
-| 4 | `#f9a8d4` (pink) | `#ec4899` | `#831843` |
-| 5 | `#fed7aa` (orange) | `#f97316` | `#9a3412` |
-| fallback | `#c4b5fd` (purple) | `#8b5cf6` | `#581c87` |
+These colors are used by the reading view for multi-lemma highlighting:
 
-Single `<mark>` highlight: `#fbbf24` bg / `#78350f` text.
+| Slot | Background | Border | Text | Name |
+|------|-----------|--------|------|------|
+| 1 | `#fecaca` | `#ef4444` | `#991b1b` | Red |
+| 2 | `#bfdbfe` | `#3b82f6` | `#1e3a8a` | Blue |
+| 3 | `#bbf7d0` | `#22c55e` | `#166534` | Green |
+| 4 | `#fde68a` | `#f59e0b` | `#92400e` | Yellow |
+| 5 | `#ddd6fe` | `#8b5cf6` | `#5b21b6` | Purple |
+
+**Color assignment:** `colors[idx % 5]` — sequential, wraps after 5 lemmas.
+
+**Also defined in (may differ in slot order):**
+- `korpus.css` — `mark.highlight-{n}` classes (6 slots: red, green, blue, pink, orange, purple)
+- `playground/css/style.css` — duplicate of korpus.css pattern
+- `ui-helpers.js` `LEMMA_COLORS` — playground proximity search
+
+**Known inconsistency:** CSS classes use a different slot order (green=2, blue=3) and different colors for slots 4-5 (pink/orange vs yellow/purple). The JS inline styles in `tei-text-reader.js` override CSS classes in the reading view; CSS classes are used by playground proximity result cards.
+
+Single `<mark>` highlight (single-lemma mode): `#fbbf24` bg / `#78350f` text.
 
 Page background: `bg-slate-100` (`#f1f5f9`) on all pages.
 
@@ -224,6 +234,29 @@ Three-layer stack (load order):
 | `slideDown` | translate + opacity | Proximity controls |
 | `spin` | 360deg rotation | Spinner |
 | `chipIn` | scale + opacity | Lemma chip entry (in playground style.css) |
+
+## TEI Reading View CSS Classes
+
+Source: `assets/css/korpus.css` (lines 353-470)
+
+| Class | Key Styling | TEI Element |
+|-------|------------|-------------|
+| `.reading-body` | `Georgia, serif; 1.125rem; line-height: 1.8` | Container |
+| `.section-head` | `sans-serif; 1.25rem; font-weight: 600; color: accent` | `<head>` |
+| `.verse-group` | `margin: space-4 0` | `<lg>` |
+| `.verse-line` | `display: block; margin-left: space-4; line-height: 1.6` | `<l>` |
+| `.tei-div` | `margin: space-4 0` | `<div>` |
+| `.line-break` | `display: inline` | `<lb>` |
+| `.page-break` | `inline-block; 0.875rem; font-weight: 600; bg-tertiary; cursor: help` | `<pb>` |
+| `.column-break` | `inline-block; 0.875rem; font-weight: 600; bg-tertiary; cursor: help` | `<cb>` |
+| `.initial` | `font-weight: 700; font-size: 1.5em; color: accent` | `<hi rend="initial">` |
+| `.upper-case-first` | `text-transform: capitalize` | `<hi rend="upper_case_first_letter">` |
+| `.punctuation` | `font-weight: normal` | `<seg type="pc">` |
+| `.caesura` | `color: muted; font-weight: 300; margin: 0 space-1` | `<caesura>` |
+| `.supplied` | `color: #6b7280; italic; border-bottom: 1px dotted` | `<supplied>` |
+| `.number` | `font-variant-numeric: oldstyle-nums` | `<num>` |
+| `mark.highlight` | `bg: #fbbf24; color: #78350f; font-weight: 600; scroll-margin-top: 120px` | `<w>` match (single) |
+| `mark.highlight.multi-lemma` | Inline styles from JS (see palette above) | `<w>` match (multi) |
 
 ## Known Inconsistencies
 

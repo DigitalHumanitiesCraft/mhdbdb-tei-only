@@ -83,7 +83,7 @@ python scripts/build-authority-index.py
 
 # Build corpus index
 python scripts/build-corpus-index.py
-# Output: data/corpus-index.json.gz (~21 MB)
+# Output: data/corpus-index.json.gz (~34 MB)
 
 # Validate indices
 python scripts/validate-indices.py
@@ -115,12 +115,31 @@ npm run report        # View HTML report
 - Headless Chrome with `--disable-web-security`
 - 60-second timeout per test
 
-**Test coverage:**
-- Authority index loading and caching
-- MHG text normalization
-- Lemma variant resolution
-- Cross-reference integrity
-- Search functionality
+### Test File Inventory
+
+| File | Category | What it tests |
+|------|----------|--------------|
+| `main-site.spec.js` | Main site | Landing page, search page loading, search results, reading view |
+| `search-engine.spec.js` | Main site | SearchEngine class: resolution, filtering, deduplication |
+| `search-normalization.spec.js` | Main site | MHG normalization functions in browser context |
+| `search-with-corpus.spec.js` | Main site | Search against real corpus data |
+| `reading-view.spec.js` | Main site | TEI reading view rendering, highlighting, navigation |
+| `tei-caching.spec.js` | Main site | IndexedDB TEI cache behavior |
+| `error-handling.spec.js` | Main site | Graceful error handling |
+| `lemma-page.spec.js` | Lemma pages | URL parsing, data rendering, external links |
+| `playground.spec.js` | Playground | Authority explorers, TEI analysis, UI navigation |
+| `playground-authority-index.spec.js` | Playground | Authority index loading, data structure integrity |
+| `playground-corpus.spec.js` | Playground | Corpus index loading, search functions |
+| `normalization-parity.spec.js` | Cross-cutting | Python/JS normalizer agreement (see [CONTRACTS.MD](CONTRACTS.MD#a-mhg-normalization-parity)) |
+| `cross-reference-test.spec.js` | Data integrity | Authority/corpus cross-reference validity |
+| `corpus.spec.js` | Data integrity | Corpus index structure validation |
+| `visual-mobile-test.spec.js` | Visual | Responsive layout (skipped — desktop-only) |
+
+**Playwright config** (`testing/playwright.config.js`): Headless Chromium, 1 worker (sequential), 60s timeout per test, auto-starts `http-server` on port 8080. HTML + JSON reports.
+
+### Skipped Tests (Issue #43)
+
+25 tests are intentionally skipped in `main-site.spec.js`. They cover interactions rewritten during Phase 7 (modular UI refactoring) and Phase 0 (folder restructure) — reading view panel interactions, text selection state management, search result card navigation, multi-lemma URL parameter handling. Tracked in Issue #43.
 
 ### Manual Testing Checklist
 

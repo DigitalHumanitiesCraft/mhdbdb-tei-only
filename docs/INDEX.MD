@@ -17,7 +17,7 @@ The MHDBDB TEI Repository provides a comprehensive digital corpus of Middle High
 ### Curated Corpus
 - **Hundreds of TEI files** - Complete Middle High German texts with word-level annotations
 - **7 authority files** - Controlled vocabularies for persons, works, lexicon, concepts, genres, names, variants
-- **Pre-built indexes** - Compressed JSON (3 MB authority + 21 MB corpus) replacing runtime XML parsing
+- **Pre-built indexes** - Compressed JSON (3 MB authority + 34 MB corpus) replacing runtime XML parsing
 
 ### Key Architecture Decision
 The project migrated from runtime XML parsing to pre-built JSON indexes because large XML files caused 30-second browser load times. Pre-built indexes reduce download size by 19× and eliminate parsing overhead. Trade-off: requires Python build step when XML sources change.
@@ -82,6 +82,7 @@ This knowledge base follows a hub-and-spoke architecture with INDEX.MD as the ce
 | **[DEVELOPMENT.MD](DEVELOPMENT.MD)** | Build commands, git workflow, deployment | New contributors |
 | **[RESEARCH.MD](RESEARCH.MD)** | Academic context, TEI/MHG standards | Researchers |
 | **[DECISIONS.MD](DECISIONS.MD)** | Architecture Decision Records (ADRs) | Architects |
+| **[CONTRACTS.MD](CONTRACTS.MD)** | Cross-language parity constraints, algorithm pseudocode, API contracts | Developers |
 | **[USER-GUIDE.MD](USER-GUIDE.MD)** | End-user documentation | Users |
 
 ### Process (what's happening and why)
