@@ -405,8 +405,7 @@ class MHDBDBPlayground {
         const teiButtons = [
             { id: 'showWordsBtn', handler: () => this.ui.teiExplorer.showWords() },
             { id: 'showLinesBtn', handler: () => this.ui.teiExplorer.showLines() },
-            { id: 'findLemmaBtn', handler: () => this.ui.teiExplorer.findLemmaInText() },
-            { id: 'findMultiLemmaBtn', handler: () => this.ui.multiLemmaSearch.open() }, // Use new modal UI
+            { id: 'findMultiLemmaBtn', handler: () => this.ui.multiLemmaSearch.open() },
             { id: 'showAnnotationsBtn', handler: () => this.ui.teiExplorer.showAnnotations() }
         ];
 
