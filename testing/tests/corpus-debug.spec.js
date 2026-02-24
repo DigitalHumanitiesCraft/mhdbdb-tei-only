@@ -68,7 +68,7 @@ test.describe('Corpus Loading Debug', () => {
         // Try to import CorpusLoader directly in browser
         const result = await page.evaluate(async () => {
             try {
-                const module = await import('../../lib/corpus-loader.js');
+                const module = await import('../../assets/js/lib/corpus-loader.js');
                 return {
                     success: true,
                     hasCorpusLoader: typeof module.CorpusLoader === 'function',

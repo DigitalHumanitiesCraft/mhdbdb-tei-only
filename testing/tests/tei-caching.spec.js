@@ -77,7 +77,7 @@ test.describe.skip('TEI DOM Caching', () => {
         // Check if cache manager exists
         const cacheStats = await page.evaluate(async () => {
             // Access cache manager through window (for testing)
-            const { TEICacheManager } = await import('/js/tei-cache-manager.js');
+            const { TEICacheManager } = await import('/assets/js/storage/tei-cache-manager.js');
             const cache = new TEICacheManager();
             await cache.init();
             return await cache.getStats();
@@ -98,7 +98,7 @@ test.describe.skip('TEI DOM Caching', () => {
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
 
         const result = await page.evaluate(async () => {
-            const { TEICacheManager } = await import('/js/tei-cache-manager.js');
+            const { TEICacheManager } = await import('/assets/js/storage/tei-cache-manager.js');
             const cache = new TEICacheManager();
             await cache.init();
 
