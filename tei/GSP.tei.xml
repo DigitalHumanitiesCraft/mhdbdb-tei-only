@@ -87,7 +87,17 @@
                 </series>
                 <note>Das buoch von guoter spise. Aus der Würzburg-Münchener Handschrift.Hrsg. v. Hans Hajek, Berlin 1958. Digitale Version basiert auf den digitalen Editionen von Thomas Gloning, 1994; 1996; 5.11.2001 (http://www.staff.uni-marburg.de/ ̃gloning/bvgs.htm) und Alia Atlas(http://cs-people.bu.edu/akatlas/Buch/recipes.html) [hier auch eine englische Übersetzung]</note>
               </biblStruct>
-              <bibl type="digitalIntermediary" xml:id="GSP_etext_klug" corresp="#GSP_GSP">
+              <bibl type="digitalIntermediary" xml:id="GSP_etext_gloning" corresp="#GSP_GSP">
+                <title>Elektronische Zwischenstufe (E-Text Gloning)</title>
+                <respStmt>
+                  <resp>Elektronische Bereitstellung</resp>
+                  <name>Thomas Gloning</name>
+                </respStmt>
+                <ref target="https://www.uni-giessen.de/de/fbz/fb05/germanistik/absprache/sprachverwendung/gloning/etexte.htm"/>
+                <note type="provenance">E-Text aus der E-Texte-Sammlung von Prof. Thomas Gloning (Universität Gießen). Von der MHDBDB als elektronische Vorlage übernommen.</note>
+                <note type="fidelity">Keine diplomatische Transkription der Druckedition. Abweichungen hinsichtlich Strukturierung, Zeilenumbrüchen und Layoutmerkmalen sind möglich.</note>
+              </bibl>
+              <bibl type="digitalIntermediary" xml:id="GSP_etext_klug" corresp="#GSP_etext_gloning">
                 <title>Elektronische Zwischenstufe (E-Text Klug)</title>
                 <respStmt>
                   <resp>Erstellung des elektronischen Ausgangstextes</resp>
