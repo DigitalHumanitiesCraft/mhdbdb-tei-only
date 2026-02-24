@@ -5,7 +5,7 @@ module.exports = {
     './korpus.html',
     './playground/index.html',
     './testing/test.html',
-    './js/**/*.js',
+    './assets/js/**/*.js',
     './playground/js/**/*.js',
   ],
   theme: {
