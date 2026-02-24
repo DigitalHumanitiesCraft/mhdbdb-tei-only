@@ -578,7 +578,7 @@ Implement custom MHG text normalization:
 
 ---
 
-## ADR-006: Zotero API Integration for Bibliographic Metadata
+## ADR-010: Zotero API Integration for Bibliographic Metadata
 
 **Status:** Implemented (October 2025)
 **Context:** Bibliographic metadata management for 580+ works

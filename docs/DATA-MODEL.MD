@@ -99,12 +99,10 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
     lemma: "brôt",
     pos: "N",
     senseCount: 3,
-    etymology: [{language, form}],
+    etymology: [{text: "brot", lemmaRef: "lemma_7779"}],
     senses: [{
-      id: "sense_001",
-      definition: "...",
-      conceptIds: ["concept_1234"],
-      examples: [...]
+      id: "lemma_879_sense_1",
+      conceptIds: ["concept_1234"]
     }],
     normalized: "brot"
   }],
