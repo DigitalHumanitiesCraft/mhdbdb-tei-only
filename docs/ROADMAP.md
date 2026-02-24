@@ -10,7 +10,7 @@ Work that can be done immediately, no decisions needed.
 
 | # | What | Domain |
 |---|------|--------|
-| #35, #37, #38, #39, #40 | Add provenance metadata to TEI headers (5 provider groups) | data:provenance |
+| ~~#35, #37, #38, #39, #40~~ | ~~Add provenance metadata to TEI headers (5 provider groups)~~ ✅ | data:provenance |
 | ~~#21~~ | ~~Rename "Konzepte" → "Begriffe" in UI~~ ✅ | frontend |
 | ~~#46~~ | ~~Merge Lemma-Suche into Multi-Lemma-Suche~~ ✅ | frontend |
 | #20 | Readability fixes (font sizes, contrast) | frontend |
@@ -33,7 +33,7 @@ Cannot proceed without decisions, external feedback, or manual review.
 
 | # | What | Who's needed |
 |---|------|-------------|
-| #36 | Provenance model design (TEI `<sourceDesc>` pattern) | KZW + team |
+| ~~#36~~ | ~~Provenance model design (TEI `<sourceDesc>` pattern)~~ ✅ decided + implemented | — |
 | #14 | License restrictions for 10 texts (display rules) | KZW |
 | #22 | TEI Encoding Guidelines README section | @juliahin |
 | #26 | Missing `<pb>` elements (17 texts) | JH manual check |

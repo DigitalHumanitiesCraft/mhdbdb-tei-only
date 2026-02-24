@@ -118,6 +118,48 @@ Chronological log of development decisions, dead ends, and savepoints. Not a cha
 - Renumbered remaining TEI analysis tests
 - Savepoint: `dd0a3c3`
 
+---
+
+## 2026-02-24 — Provenance Batch: #36 model + #35, #37, #38, #39, #40
+
+**Trigger:** ~55 TEI files lack structured documentation of their digital intermediary sources.
+
+### #36: Provenance model design (Promptotyping Phase 1-3)
+- Researched TEI P5 Ch. 2.2.7/2.2.8, DTA Basisformat, other DH projects
+- Evaluated 4 approaches (flat listBibl, nested relatedItem, biblFull, flat + @corresp)
+- Decided: **Approach D** — flat `<listBibl>` with `@corresp` cross-references
+- New element: `<bibl type="digitalIntermediary">` (not `<biblStruct>` — keeps all existing code safe)
+- Created planning doc: [features/036-provenance-model.md](features/036-provenance-model.md)
+- Verified no impact on build scripts or JS (all existing code queries `tei:biblStruct` only)
+- Savepoint: `164f7a9`
+
+### Implementation: 5 provider groups, 50 files total
+- **#35 Klug** (18 files): ABS, BRIX, DES2, FWWB, GSP, HUB1-3, KBL3-4, KDO, KME, KSA1, MBS1-2, MBS5, MBS7, MSB1 → `25f730a`
+- **#37 Harsch/Augustana** (24 of 25 files, ASL not in repo): AC3, APO, ASG, ATF, CLV, DAH, DIO, EB1-2, EHB, FAN, FLG, HNI, JEW, LUU, MNA, MSP, NAR, NST, PRJ, REG, SBF, WGA, WGI → `b92c18f`
+- **#38 TITUS** (4 files): AXS, KVM, RCC, SAX → `58e3811`
+- **#39 Gloning** (8 files): ABG, AXK, ESB, HMRG + dual provenance FWWB, GSP, KDO, KME → `c688ec1`
+- **#40 Virginia/Trier** (4 of 5 files, KMH not in repo): DL2, BVH, BRZ, MKN → `a7d2e3c`
+
+### Dual provenance (FWWB, GSP, KDO, KME)
+- These have chain: Print → Gloning → Klug → MHDBDB TEI
+- Two `<bibl>` elements: Gloning `@corresp` → print edition, Klug `@corresp` → Gloning etext
+- Order in `<listBibl>`: `<biblStruct>` → `<bibl>` Gloning → `<bibl>` Klug
+
+### Missing files
+- ASL.tei.xml (#37) and KMH.tei.xml (#40) not found in repository — noted in issues
+
+### Code impact analysis
+- `build-authority-index.py`: queries `tei:biblStruct` only → **no impact**
+- `build-corpus-index.py`: processes `<body>` only → **no impact**
+- `sync_tei_headers.py`: removes/re-adds `tei:biblStruct` only → **no impact** (our `<bibl>` survives)
+- JS rendering: reads `biblStructs` from JSON index → **no impact**
+
+---
+
+## 2026-02-24 — Quick Wins: #21, #46, #45 doc update
+
+**Trigger:** Tackling the easiest issues from the triage matrix (#44) to build momentum.
+
 ### #45 planning doc: resolved open design question
 - Ran sizing analysis against actual indexes: lemma files average 311 B, total ~23 MB gzipped regardless of approach
 - Decided **hybrid file strategy**: individual files for persons/works/concepts/genres/names/texts (~2,700 files), lemmata stay bundled
