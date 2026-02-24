@@ -225,6 +225,35 @@ Each explorer follows consistent pattern:
 - Subsequent loads: ~100-200 ms (IndexedDB read)
 - Cache hit rate: ~95%
 
+## External Services
+
+### Wörterbuchnetz API
+
+- **Endpoint**: `https://api.woerterbuchnetz.de/open-api/dictionaries/{sigle}/lemmata/{searchpattern}`
+- **Response**: `{ result_set: [{ sigle, lemma (HTML-encoded), gram, wbnetzid, wbnetzlink }] }`
+- **Queried dictionaries**: BMZ, Lexer, LexerN, FindeB (all MHG-relevant dictionaries in the network)
+- **Search term**: Normalized lemma form (e.g., "brot" not "brôt")
+- MHDBDB is NOT a directly linkable dictionary in Wörterbuchnetz
+- **Integration**: Dynamic fetch on lemma page, results rendered in dedicated section
+
+### MWB Online (Mittelhochdeutsches Wörterbuch, Trier)
+
+- **Portal**: `https://www.mhdwb-online.de/`
+- **Deep link**: `https://www.mhdwb-online.de/wb/{lid}` (requires numeric MWB lid)
+- **Metadata API** (HTTP only): `http://tares-neu.uni-trier.de:8080/exist/rest/db/MWB/Services/retrieve_MWB_lemma_metadata.xql?lemma={term}`
+- **API response**: XML with `<entry><MWB><id>, <lemma>, <gram>, <url></MWB><MWV><lexer>, <bmz>, <fb></MWV></entry>`
+- **Current integration**: Static link only — API is HTTP-only, blocked by mixed content policy on HTTPS pages
+- **Upgrade path**: Switch to dynamic lookup (like Wörterbuchnetz) when MWB migrates API to HTTPS
+
+### Old MHDBDB
+
+`https://mhdbdb-old.sbg.ac.at/mhdbdb/App?action=Dic&lid={numericId}`
+
+### Wikidata
+
+- Automatic image fetching for authors via Wikidata SPARQL
+- Dual identifier display (work GND/Wikidata vs author GND/Wikidata)
+
 ## Testing Architecture
 
 **Framework:** Playwright end-to-end tests

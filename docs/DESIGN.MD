@@ -203,20 +203,6 @@ Institutional logos row + divider + copyright/clear-data row. `bg-slate-100 py-8
 | Lemma occurrence | Korpus reading view | `<a href="../korpus.html?textId=…&lemmaIds=…">` |
 | Lemma etymology | Other lemma page | `<a href="{numericId}" class="etymology-link">` |
 
-## External Services
-
-### Wörterbuchnetz API
-
-- **Endpoint**: `https://api.woerterbuchnetz.de/open-api/dictionaries/{sigle}/lemmata/{searchpattern}`
-- **Response**: `{ result_set: [{ sigle, lemma (HTML-encoded), gram, wbnetzid, wbnetzlink }] }`
-- **Queried dictionaries**: BMZ, Lexer (MHG-relevant)
-- **Search term**: Normalized lemma form (e.g., "brot" not "brôt")
-- MHDBDB is NOT a directly linkable dictionary in Wörterbuchnetz
-
-### Old MHDBDB
-
-`https://mhdbdb-old.sbg.ac.at/mhdbdb/App?action=Dic&lid={numericId}`
-
 ## CSS Architecture
 
 Three-layer stack (load order):

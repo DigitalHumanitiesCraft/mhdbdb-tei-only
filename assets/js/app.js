@@ -453,12 +453,15 @@ class MainSiteApp {
             return lemma ? lemma.lemma : lemmaId;
         });
 
-        // Create lemma badges
-        this.elements.lemmaList.innerHTML = lemmaDetails.map(lemma => `
-            <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 text-sm font-medium rounded-full">
-                ${this.escapeHtml(lemma)}
-            </span>
-        `).join('');
+        // Create lemma badges with links to lemma pages
+        this.elements.lemmaList.innerHTML = lemmaIds.map((lemmaId, i) => {
+            const numericId = lemmaId.replace('lemma_', '');
+            const lemmaText = this.escapeHtml(lemmaDetails[i]);
+            return `<a href="lemma/?id=${numericId}" target="_blank" rel="noopener"
+                class="inline-block px-3 py-1 bg-blue-100 text-blue-800 text-sm font-medium rounded-full hover:bg-blue-200 transition">
+                ${lemmaText}
+            </a>`;
+        }).join('');
 
         // Show lemma info
         this.elements.lemmaInfo.classList.remove('hidden');

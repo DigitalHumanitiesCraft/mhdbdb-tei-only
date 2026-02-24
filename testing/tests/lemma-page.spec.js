@@ -73,6 +73,12 @@ test.describe('Persistent Lemma Pages', () => {
         // Should have corpus search link
         const corpusLink = page.locator('#externalLinks a:has-text("Korpus")');
         await expect(corpusLink).toBeVisible();
+
+        // Should have MWB Online link
+        const mwbLink = page.locator('#externalLinks a:has-text("MWB Online")');
+        await expect(mwbLink).toBeVisible();
+        const mwbHref = await mwbLink.getAttribute('href');
+        expect(mwbHref).toContain('mhdwb-online.de');
     });
 
     test('lemma page loads Wörterbuchnetz entries via API', async ({ page }) => {
@@ -141,7 +147,7 @@ test.describe('Persistent Lemma Pages', () => {
 
             // Links should point to other lemma pages
             const firstHref = await page.locator('#etymologyContent a.etymology-link').first().getAttribute('href');
-            expect(firstHref).toMatch(/^\d+$/); // Relative numeric ID
+            expect(firstHref).toMatch(/^\?id=\d+$/); // Query param link
         }
     });
 
@@ -156,6 +162,48 @@ test.describe('Persistent Lemma Pages', () => {
 
         // Click — clipboard API may not work in test context, just verify no error
         await btn.click();
+    });
+
+    test('orthographic variants shown for brôt (879)', async ({ page }) => {
+        await page.goto('http://localhost:8080/lemma/?id=879');
+        await page.waitForSelector('#lemmaContent:not(.hidden)', { timeout: 30000 });
+
+        // brôt should have multiple attested spelling variants
+        await page.waitForSelector('#variantsSection:not(.hidden)', { timeout: 5000 });
+
+        const countText = await page.textContent('#variantsCount');
+        expect(countText).toMatch(/\(\d+\)/); // e.g. "(23)"
+
+        // Variant links should point to corpus search
+        const firstVariant = page.locator('#variantsContent a').first();
+        const href = await firstVariant.getAttribute('href');
+        expect(href).toContain('korpus.html?search=');
+    });
+
+    test('compounds section shown for brôt (879)', async ({ page }) => {
+        await page.goto('http://localhost:8080/lemma/?id=879');
+        await page.waitForSelector('#lemmaContent:not(.hidden)', { timeout: 30000 });
+
+        // brôt should have compounds (halpbrôt, himelbrôt, etc.)
+        await page.waitForSelector('#compoundsSection:not(.hidden)', { timeout: 5000 });
+
+        const countText = await page.textContent('#compoundsCount');
+        expect(countText).toMatch(/\(\d+\)/);
+
+        // Compound links should point to other lemma pages (numeric IDs)
+        const firstCompound = page.locator('#compoundsContent a').first();
+        const href = await firstCompound.getAttribute('href');
+        expect(href).toMatch(/^\?id=\d+$/);
+    });
+
+    test('IMAREAL link present in external links', async ({ page }) => {
+        await page.goto('http://localhost:8080/lemma/?id=879');
+        await page.waitForSelector('#lemmaContent:not(.hidden)', { timeout: 30000 });
+
+        const imrealLink = page.locator('#externalLinks a:has-text("REALonline")');
+        await expect(imrealLink).toBeVisible();
+        const href = await imrealLink.getAttribute('href');
+        expect(href).toContain('realonline.imareal.sbg.ac.at/suche');
     });
 
     test('occurrence links navigate to korpus reading view', async ({ page }) => {
