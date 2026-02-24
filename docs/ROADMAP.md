@@ -12,6 +12,7 @@ Work that can be done immediately, no decisions needed.
 |---|------|--------|
 | #35, #37, #38, #39, #40 | Add provenance metadata to TEI headers (5 provider groups) | data:provenance |
 | ~~#21~~ | ~~Rename "Konzepte" → "Begriffe" in UI~~ ✅ | frontend |
+| ~~#46~~ | ~~Merge Lemma-Suche into Multi-Lemma-Suche~~ ✅ | frontend |
 | #20 | Readability fixes (font sizes, contrast) | frontend |
 | #31 | Format Linecode2TEI documentation as markdown | documentation |
 
@@ -21,12 +22,10 @@ Well-specified, ready to build, but require more effort.
 
 | # | What | Domain |
 |---|------|--------|
-| #42 | Persistent lemma pages for MWB linking | frontend |
-| #45 | Static JSON API (FAIR data) | pipeline + frontend |
+| ~~#42~~ | ~~Persistent lemma pages for MWB linking~~ ✅ | frontend |
+| #45 | Static JSON API (FAIR data) — [planning doc](features/045-static-api.md) ready | pipeline + frontend |
 | #17 | TEI structural rendering in reader view | frontend |
 | #43 | Playwright test coverage (un-skip main site, add reading view tests) | testing |
-
-**#42 and #45 are related:** #45 provides the data API, #42 provides the HTML pages. Can be built together or sequentially (API first, pages second).
 
 ## Blocked: Needs Human Input
 
@@ -53,7 +52,6 @@ Interesting features that need scoping and architectural decisions before implem
 | #18 | Multi-lemma + PoS tag search | Corpus index needs PoS data; how to extend? |
 | #28 | Foreign language search in playground | Index needs `xml:lang`; new UI section design |
 | #27 | POS workflow expansion | Gemini vs Claude, kontrahierte Verben rules |
-| #42 | MWB API integration (beyond lemma pages) | MWB ID mapping, API format |
 
 ## Strategic Direction
 
@@ -61,6 +59,6 @@ Interesting features that need scoping and architectural decisions before implem
 
 2. **TEI data quality** — The provenance issues (#35-40), structural fixes (#23, #26, #29, #30), and schema work (#32) strengthen the corpus as a reliable research resource. Most of this is blocked on human review.
 
-3. **Frontend refinements** — UI polish (#20, #21), TEI rendering (#17), and test coverage (#43) improve the user experience but are lower priority than data quality and API.
+3. **Frontend refinements** — UI polish (#20), TEI rendering (#17), and test coverage (#43) improve the user experience but are lower priority than data quality and API.
 
 4. **Advanced search** — PoS-based search (#18), foreign language search (#28), and POS workflow (#27) are future enhancements that depend on corpus index extensions.

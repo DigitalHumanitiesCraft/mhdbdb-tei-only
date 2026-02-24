@@ -97,3 +97,30 @@ Chronological log of development decisions, dead ends, and savepoints. Not a cha
 - Found stale file paths in ARCHITECTURE.MD and DEVELOPMENT.MD (referenced pre-Phase-0 structure: `js/`, `lib/`, `css/` instead of `assets/`)
 - Fixed path references to match current `assets/{css,js,images}` structure
 - Updated DEVELOPMENT.MD directory tree and historical branches list
+
+---
+
+## 2026-02-24 — Quick Wins: #21, #46, #45 doc update
+
+**Trigger:** Tackling the easiest issues from the triage matrix (#44) to build momentum.
+
+### #21: "Konzepte" → "Begriffe" rename
+- Renamed all user-facing German strings from "Konzepte" to "Begriffe" across 11 source files
+- English code identifiers (`concepts`, `conceptIds`, filenames) untouched — issue only about UI terminology
+- Updated Playwright test selectors/names to match new button text
+- Updated USER-GUIDE, playground readme, ROADMAP
+- Savepoint: `8012a42`
+
+### #46: Merge Lemma-Suche into Multi-Lemma-Suche
+- Removed redundant "Lemma-Suche" button from playground (used `prompt()` dialog, didn't work properly)
+- Multi-Lemma-Suche already handles single-lemma queries — no feature loss
+- Removed dead handler registration, dead test, updated docs
+- Renumbered remaining TEI analysis tests
+- Savepoint: `dd0a3c3`
+
+### #45 planning doc: resolved open design question
+- Ran sizing analysis against actual indexes: lemma files average 311 B, total ~23 MB gzipped regardless of approach
+- Decided **hybrid file strategy**: individual files for persons/works/concepts/genres/names/texts (~2,700 files), lemmata stay bundled
+- Added full API schemas (text metadata, index files, root index), corpus enrichment decision (no), build integration (manual + npm alias)
+- Updated issue #45 body on GitHub with planning doc link and revised design
+- Updated matrix (#44) to include #45 and #46, moved closed #42 to "Recently Closed"
