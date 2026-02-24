@@ -88,6 +88,7 @@ This knowledge base follows a hub-and-spoke architecture with INDEX.MD as the ce
 
 | Document | Content | Target Reader |
 |----------|---------|---------------|
+| **[ROADMAP.md](ROADMAP.md)** | Current priorities, strategic direction, what's blocked | Everyone |
 | **[JOURNAL.md](JOURNAL.md)** | Chronological development log, decisions, dead ends | Developers |
 | **[features/](features/)** | Feature-scoped planning docs (living, archived when shipped) | Developers |
 
