@@ -157,7 +157,7 @@ export class ConceptExplorer {
 
     // Simple list of clickable lemmas
     const resultHTML = `
-      <div style="margin-bottom: 10px; color: #666;">
+      <div style="margin-bottom: 10px; color: #475569;">
         ${displayMatches.length} Treffer${sortedMatches.length > 20 ? ' (erste 20 angezeigt)' : ''}
       </div>
       <div style="display: flex; flex-direction: column; gap: 8px;">

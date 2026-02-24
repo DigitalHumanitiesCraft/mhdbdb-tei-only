@@ -237,7 +237,7 @@ class MainSiteApp {
             titleRow.appendChild(icons);
 
             const meta = document.createElement('div');
-            meta.className = 'text-xs text-slate-500 truncate';
+            meta.className = 'text-sm text-slate-600 truncate';
             const author = text.author || 'Unbekannt';
             const wordCount = text.wordCount ? text.wordCount.toLocaleString() : '0';
             meta.textContent = `${text.id} • ${author} • ${wordCount} Wörter`;

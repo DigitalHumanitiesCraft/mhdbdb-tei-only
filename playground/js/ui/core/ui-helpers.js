@@ -52,7 +52,7 @@ export function updateAuthorityOverview(authorityData) {
                 <span class="text-lg">${icon}</span>
                 <span>${label}</span>
               </dt>
-              <dd class="text-sm font-semibold text-brand-700">${value}</dd>
+              <dd class="text-base font-bold text-brand-700">${value}</dd>
             </div>
           `
         )
@@ -85,7 +85,7 @@ export function updateTEIOverview(teiData) {
                   <span class="text-lg">${icon}</span>
                   <span>${label}</span>
                 </dt>
-                <dd class="text-sm font-semibold text-brand-700">${value}</dd>
+                <dd class="text-base font-bold text-brand-700">${value}</dd>
               </div>
             `
           )
@@ -153,7 +153,7 @@ export function displayResults(title, results) {
   container.innerHTML = `
     <div class="mb-4 flex items-center justify-between rounded-xl bg-slate-50/80 px-4 py-2 text-sm font-medium text-slate-600">
       <span>${title}</span>
-      <span class="text-xs uppercase tracking-wide text-slate-400">${results.length} Treffer</span>
+      <span class="text-sm uppercase tracking-wide text-slate-600">${results.length} Treffer</span>
     </div>
     <div class="space-y-3">
       ${resultsHTML}
@@ -191,7 +191,7 @@ export function displaySummaryResults(title, summaryData, rawResults = null, lem
   container.innerHTML = `
     <div class="mb-4 flex items-center justify-between rounded-xl bg-slate-50/80 px-4 py-2 text-sm font-medium text-slate-600">
       <span>${title}</span>
-      <span class="text-xs uppercase tracking-wide text-slate-400">${totalResults} Treffer · ${summaryData.length} Kontexte</span>
+      <span class="text-sm uppercase tracking-wide text-slate-600">${totalResults} Treffer · ${summaryData.length} Kontexte</span>
     </div>
     <div class="space-y-3">
       ${summariesHTML}
@@ -240,7 +240,7 @@ function createSummaryCard(summary, index) {
           <span class="expand-icon text-lg">⌄</span>
         </div>
       </div>
-      <p class="summary-expand-hint mt-3 text-xs font-medium uppercase tracking-wide text-slate-400">Klicken zum Erweitern</p>
+      <p class="summary-expand-hint mt-3 text-sm font-medium uppercase tracking-wide text-slate-500">Klicken zum Erweitern</p>
       <div class="result-details">
         ${detailsHTML}
       </div>
@@ -531,7 +531,7 @@ export function displayGroupedResults(title, groupedData) {
   container.innerHTML = `
     <div class="mb-4 flex items-center justify-between rounded-xl bg-slate-50/80 px-4 py-2 text-sm font-medium text-slate-600">
       <span>${title}</span>
-      <span class="text-xs uppercase tracking-wide text-slate-400">${totalResults} Treffer · ${groups.length} Dateien</span>
+      <span class="text-sm uppercase tracking-wide text-slate-600">${totalResults} Treffer · ${groups.length} Dateien</span>
     </div>
     <div class="space-y-3">
       ${groupsHTML}

@@ -204,7 +204,7 @@ export class LemmaExplorer {
 
           if (concepts.length > 0) {
             conceptsHTML = `
-                    <div style="margin-top: 5px; font-size: 0.85rem; color: #666;">
+                    <div style="margin-top: 5px; font-size: 0.85rem; color: #475569;">
                         <strong>Begriffe:</strong> ${concepts.join(" • ")}
                     </div>
                 `;

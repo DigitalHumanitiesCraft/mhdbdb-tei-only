@@ -120,7 +120,7 @@ export class NameExplorer {
           (concept) => `
             <div style="margin-bottom: 3px; font-size: 0.85rem;">
                 • <strong>${concept.termDE || concept.termEN}</strong>
-                <span style="color: #666;">(${concept.id})</span>
+                <span style="color: #475569;">(${concept.id})</span>
             </div>
         `
         )

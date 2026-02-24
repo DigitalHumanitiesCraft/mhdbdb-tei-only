@@ -312,7 +312,7 @@ export class TEIExplorer {
         // Show first 100 lemma IDs as placeholder
         const preview = paragraphLemmas.slice(0, 100).join(' ');
         const more = paragraphLemmas.length > 100 ? ` ... (+${paragraphLemmas.length - 100} weitere)` : '';
-        return `<code style="font-size: 0.85em; color: #64748b;">${preview}${more}</code>`;
+        return `<code style="font-size: 0.85em; color: #475569;">${preview}${more}</code>`;
     }
 
     formatMatchingWordsOrCounts(matchingWords) {
@@ -420,7 +420,7 @@ export class TEIExplorer {
                     const preview = match.contextLemmas ? match.contextLemmas.slice(0, 20).join(' ') : '';
                     return {
                         meta: `Abstand: ${match.distance} Wörter`,
-                        snippet: `<em style="color: #64748b;">Klicken Sie auf "KLICKEN ZUM ERWEITERN" um den vollständigen Text anzuzeigen</em>`
+                        snippet: `<em style="color: #475569;">Klicken Sie auf "KLICKEN ZUM ERWEITERN" um den vollständigen Text anzuzeigen</em>`
                     };
                 }
             });

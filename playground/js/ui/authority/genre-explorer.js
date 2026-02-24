@@ -128,7 +128,7 @@ export class GenreExplorer {
                 • <strong>${work.title}</strong>${
             work.sigle ? ` (${work.sigle})` : ""
           }
-                <span style="color: #666;">von ${work.author}</span>
+                <span style="color: #475569;">von ${work.author}</span>
             </div>
         `
         )
