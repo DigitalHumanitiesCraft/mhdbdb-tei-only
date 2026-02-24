@@ -556,7 +556,7 @@ Implement custom MHG text normalization:
 - ä→ae, ö→oe, ü→ue (umlauts)
 - æ→ae, œ→oe (ligatures)
 - Apply to all search inputs and indexed data
-- Shared utility: `lib/text-normalizer.js`
+- Shared utility: `assets/js/lib/text-normalizer.js`
 
 ### Consequences
 
@@ -688,8 +688,8 @@ Remove all container-level scrolling constraints and use browser-level scrolling
 
 **Files Modified:**
 - `korpus.html` - Removed max-height inline styles
-- `css/korpus.css` - Removed overflow-y and max-height from `.reading-body` and `.metadata-sections`
-- `js/rendering/tei-text-reader.js` - Changed scrollToHighlight() from container to window scrolling
+- `assets/css/korpus.css` - Removed overflow-y and max-height from `.reading-body` and `.metadata-sections`
+- `assets/js/rendering/tei-text-reader.js` - Changed scrollToHighlight() from container to window scrolling
 
 For implementation details, see [ARCHITECTURE.MD](ARCHITECTURE.MD).
 For data structures, see [DATA-MODEL.MD](DATA-MODEL.MD).

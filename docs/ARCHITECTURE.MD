@@ -31,11 +31,11 @@ The MHDBDB project follows a **client-only architecture** with no backend server
 
 **Purpose:** Public-facing corpus browser for students and general users
 **URL:** https://dhcraft.org/mhdbdb-tei-only/
-**Key Files:** `index.html`, `korpus.html`, `js/app.js`, `js/search/`, `js/rendering/`
+**Key Files:** `index.html`, `korpus.html`, `assets/js/app.js`, `assets/js/search/`, `assets/js/rendering/`
 
 ### Application Structure
 
-**MainSiteApp** (`js/app.js`)
+**MainSiteApp** (`assets/js/app.js`)
 - Initialize corpus loader
 - Load pre-built corpus index (~21 MB)
 - Set up search interface and text selection
@@ -43,7 +43,7 @@ The MHDBDB project follows a **client-only architecture** with no backend server
 
 ### Search Flow
 
-**SearchEngine** (`js/search/search-engine.js`)
+**SearchEngine** (`assets/js/search/search-engine.js`)
 1. User enters search term
 2. Normalize MHG characters (â→a, ô→o, ü→ue)
 3. Resolve variants via dictionary (e.g., "brot" → lemma_879)
@@ -75,7 +75,7 @@ Allows users to include/exclude specific texts from search:
 
 ### Reading View
 
-**TEITextReader** (`js/rendering/tei-text-reader.js`)
+**TEITextReader** (`assets/js/rendering/tei-text-reader.js`)
 - Side-by-side 3-column grid layout (search + results + reading)
 - Full-text display with multi-lemma highlighting
 - Rich metadata panel (work/author info, Wikidata images)
@@ -96,7 +96,7 @@ Allows users to include/exclude specific texts from search:
 
 ### TEI Cache Management
 
-**TEICacheManager** (`js/storage/tei-cache-manager.js`)
+**TEICacheManager** (`assets/js/storage/tei-cache-manager.js`)
 - Cache TEI files >5MB in IndexedDB
 - No expiration (user content persists)
 - Subsequent loads from cache (~100-200 ms vs 3-5 seconds)
@@ -211,7 +211,7 @@ Each explorer follows consistent pattern:
 
 ### Corpus Loader
 
-**Component:** `lib/corpus-loader.js`
+**Component:** `assets/js/lib/corpus-loader.js`
 
 **Shared utility for loading pre-built indexes:**
 1. Check IndexedDB cache

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>MHDBDB</title>
+    <script>
+        // GitHub Pages SPA redirect
+        // Converts path-based URLs to query parameters so index.html can handle routing
+        // e.g., /mhdbdb-tei-only/lemma/879 → /mhdbdb-tei-only/lemma/?p=/879
+        var pathSegments = window.location.pathname.split('/');
+        var repo = '';
+
+        // Detect if we're in a subdirectory deployment (e.g., /mhdbdb-tei-only/)
+        // Find the 'lemma' segment and reconstruct
+        var lemmaIdx = pathSegments.indexOf('lemma');
+        if (lemmaIdx !== -1 && lemmaIdx < pathSegments.length - 1) {
+            // Everything before 'lemma' is the base path
+            var basePath = pathSegments.slice(0, lemmaIdx).join('/');
+            // Everything after 'lemma' is the lemma ID
+            var lemmaPath = pathSegments.slice(lemmaIdx + 1).join('/');
+            // Redirect to lemma/index.html with the ID as a query param
+            var newUrl = basePath + '/lemma/?id=' + encodeURIComponent(lemmaPath);
+            window.location.replace(newUrl + window.location.search.slice(1) + window.location.hash);
+        } else {
+            // Not a lemma URL — show 404
+            document.write('<h1>Page not found</h1><p><a href="/">Back to MHDBDB</a></p>');
+        }
+    </script>
+</head>
+<body>
+</body>
+</html>

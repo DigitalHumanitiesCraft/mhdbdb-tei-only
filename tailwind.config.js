@@ -4,9 +4,11 @@ module.exports = {
     './index.html',
     './korpus.html',
     './playground/index.html',
+    './lemma/index.html',
     './testing/test.html',
     './assets/js/**/*.js',
     './playground/js/**/*.js',
+    './lemma/**/*.js',
   ],
   theme: {
     extend: {

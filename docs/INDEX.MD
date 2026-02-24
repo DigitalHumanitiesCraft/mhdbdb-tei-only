@@ -70,15 +70,32 @@ Advanced exploration tools for medievalists and digital humanities researchers:
 
 This knowledge base follows a hub-and-spoke architecture with INDEX.MD as the central gateway:
 
+### Stable Knowledge (what the project IS)
+
 | Document | Content | Target Reader |
 |----------|---------|---------------|
 | **[INDEX.MD](INDEX.MD)** | Project overview, navigation hub | Anyone |
 | **[DATA-MODEL.MD](DATA-MODEL.MD)** | Data sources, schemas, transformation pipeline | Data engineers |
 | **[ARCHITECTURE.MD](ARCHITECTURE.MD)** | Technical components, data flow, storage patterns | Developers |
+| **[DESIGN.MD](DESIGN.MD)** | Visual patterns, color system, components, CSS architecture | Developers/Designers |
 | **[FEATURES.MD](FEATURES.MD)** | User-facing functionality descriptions | Users/Stakeholders |
 | **[DEVELOPMENT.MD](DEVELOPMENT.MD)** | Build commands, git workflow, deployment | New contributors |
 | **[RESEARCH.MD](RESEARCH.MD)** | Academic context, TEI/MHG standards | Researchers |
 | **[DECISIONS.MD](DECISIONS.MD)** | Architecture Decision Records (ADRs) | Architects |
+| **[USER-GUIDE.MD](USER-GUIDE.MD)** | End-user documentation | Users |
+
+### Process (what's happening and why)
+
+| Document | Content | Target Reader |
+|----------|---------|---------------|
+| **[JOURNAL.md](JOURNAL.md)** | Chronological development log, decisions, dead ends | Developers |
+| **[features/](features/)** | Feature-scoped planning docs (living, archived when shipped) | Developers |
+
+### Publications (project outputs, not development docs)
+
+Located in `/publications/` (outside `docs/`):
+- `BLOG-POST-POS-WORKFLOW.md` — DHCraft blog draft on PoS disambiguation
+- `JAHRESBERICHT-2025.md` — CLARIAH-AT annual report
 
 ## Project Status
 

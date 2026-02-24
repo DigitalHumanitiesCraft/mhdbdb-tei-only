@@ -260,7 +260,7 @@ Scripts for enriching authority files with external data:
 
 ### Browser Loading Pipeline
 
-**Component:** `lib/corpus-loader.js`
+**Component:** `assets/js/lib/corpus-loader.js`
 
 **Process:**
 1. Check IndexedDB cache (30-day expiration for indices)

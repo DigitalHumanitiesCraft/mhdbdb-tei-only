@@ -30,17 +30,26 @@ npm run serve
 
 ```
 mhdbdb-tei-only/
-├── authority-files/    # 7 XML authority files
-├── tei/                # TEI corpus files
-├── data/               # Pre-built indexes (generated)
-├── scripts/            # Python build scripts
-├── js/                 # Main site JavaScript
-├── playground/         # Playground interface
-├── lib/                # Shared utilities
-├── testing/            # Playwright tests
-├── docs/               # Documentation
-├── index.html          # Main landing page
-└── korpus.html         # Main site search page
+├── assets/                # Main site static assets
+│   ├── css/               # Stylesheets (korpus.css, tailwind)
+│   ├── js/                # Main site JavaScript
+│   │   ├── app.js         # Application entry point
+│   │   ├── search/        # Search engine
+│   │   ├── rendering/     # TEI text reader, text renderer
+│   │   ├── storage/       # TEI cache manager
+│   │   └── lib/           # Shared utilities (corpus-loader, text-normalizer)
+│   └── images/            # Static images
+├── authority-files/       # 7 XML authority files
+├── tei/                   # TEI corpus files
+├── data/                  # Pre-built indexes (generated)
+├── scripts/               # Python build scripts
+├── playground/            # Playground interface (self-contained sub-app)
+├── lemma/                 # Persistent lemma pages (Issue #42)
+├── publications/          # Project outputs (blog posts, reports)
+├── testing/               # Playwright tests
+├── docs/                  # Documentation hub
+├── index.html             # Main landing page
+└── korpus.html            # Main site search page
 ```
 
 ## Building Pre-Built Indexes
@@ -133,6 +142,7 @@ Before deploying:
 - **Historical branches:**
   - `pre-main-site` - Old XML parsing architecture (archived)
   - `initial-data-wrangling` - RDF/Relational DB → TEI transformation (archived)
+  - `feature/wenzelsbibel-ingest` - Wenzelsbibel text ingest (Issue #34, active)
 
 ### Development Workflow
 

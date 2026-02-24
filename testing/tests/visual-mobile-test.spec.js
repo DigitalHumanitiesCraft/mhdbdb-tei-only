@@ -28,7 +28,7 @@ for (const [device, viewport] of Object.entries(viewports)) {
 
         // Take full page screenshot
         await page.screenshot({
-            path: `testing/screenshots/main-site-${device.toLowerCase()}.png`,
+            path: `screenshots/main-site-${device.toLowerCase()}.png`,
             fullPage: true
         });
 
@@ -44,7 +44,7 @@ for (const [device, viewport] of Object.entries(viewports)) {
 
         // Screenshot with results
         await page.screenshot({
-            path: `testing/screenshots/main-site-${device.toLowerCase()}-search.png`,
+            path: `screenshots/main-site-${device.toLowerCase()}-search.png`,
             fullPage: true
         });
 
@@ -58,7 +58,7 @@ for (const [device, viewport] of Object.entries(viewports)) {
 
             // Screenshot modal
             await page.screenshot({
-                path: `testing/screenshots/main-site-${device.toLowerCase()}-modal.png`,
+                path: `screenshots/main-site-${device.toLowerCase()}-modal.png`,
                 fullPage: true
             });
 
@@ -81,7 +81,7 @@ for (const [device, viewport] of Object.entries(viewports)) {
 
         // Take full page screenshot
         await page.screenshot({
-            path: `testing/screenshots/playground-${device.toLowerCase()}.png`,
+            path: `screenshots/playground-${device.toLowerCase()}.png`,
             fullPage: true
         });
 
@@ -94,7 +94,7 @@ for (const [device, viewport] of Object.entries(viewports)) {
             await page.waitForTimeout(500);
 
             await page.screenshot({
-                path: `testing/screenshots/playground-${device.toLowerCase()}-lemmata.png`,
+                path: `screenshots/playground-${device.toLowerCase()}-lemmata.png`,
                 fullPage: true
             });
 
@@ -107,7 +107,7 @@ for (const [device, viewport] of Object.entries(viewports)) {
                 await page.waitForTimeout(1000);
 
                 await page.screenshot({
-                    path: `testing/screenshots/playground-${device.toLowerCase()}-lemmata-results.png`,
+                    path: `screenshots/playground-${device.toLowerCase()}-lemmata-results.png`,
                     fullPage: true
                 });
 
@@ -124,7 +124,7 @@ test('Main Site - Landscape iPad (1024x768)', async ({ page }) => {
     await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
 
     await page.screenshot({
-        path: 'testing/screenshots/main-site-ipad-landscape.png',
+        path: 'screenshots/main-site-ipad-landscape.png',
         fullPage: true
     });
 
@@ -137,7 +137,7 @@ test('Playground - Landscape iPad (1024x768)', async ({ page }) => {
     await page.waitForSelector('#statusText:has-text("Authority Files geladen")', { timeout: 15000 });
 
     await page.screenshot({
-        path: 'testing/screenshots/playground-ipad-landscape.png',
+        path: 'screenshots/playground-ipad-landscape.png',
         fullPage: true
     });
 
@@ -193,7 +193,7 @@ test('Playground - Touch Interaction Test (iPhone)', async ({ page }) => {
 // Generate summary report
 test.afterAll(async () => {
     console.log('\n📸 Visual Testing Complete!');
-    console.log('Screenshots saved to: testing/screenshots/');
+    console.log('Screenshots saved to: screenshots/');
     console.log('\nGenerated screenshots:');
     console.log('- Main Site: iPhone-SE, iPhone-12, iPad-Mini, iPad-Pro, Desktop');
     console.log('- Playground: iPhone-SE, iPhone-12, iPad-Mini, iPad-Pro, Desktop');
