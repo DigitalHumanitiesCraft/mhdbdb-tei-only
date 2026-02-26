@@ -41,13 +41,13 @@ export class PersonExplorer {
       snippet: p.preferredName,
     }));
 
-    displayResults("Alle Autoren aus Authority Files", results);
+    displayResults("Alle Autor*innen aus Authority Files", results);
   }
 
   showAuthorsWithSearch() {
     const searchHTML = createSearchInterface({
-      title: "Autoren-Explorer",
-      placeholder: "Autor eingeben (z.B. Hartmann, Wolfram, Walther)",
+      title: "Autor*innen-Explorer",
+      placeholder: "Autor*in eingeben (z.B. Hartmann, Wolfram, Walther)",
       searchInputId: "authorSearch",
       resultsId: "authorResults",
       totalCount: this.authorityData.persons.length,
@@ -82,7 +82,7 @@ export class PersonExplorer {
 
     const result = handleSearchResults(searchTerm, matches, {
       maxResults: 30,
-      emptyMessage: 'Keine Autoren gefunden für "{term}"',
+      emptyMessage: 'Keine Autor*innen gefunden für "{term}"',
     });
 
     if (typeof result === "string") {

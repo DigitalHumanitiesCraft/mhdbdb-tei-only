@@ -97,7 +97,7 @@ export class GenreExplorer {
                     }', '${escapeForJS(genre.termDE || genre.termEN)}')`,
                   },
                   {
-                    text: "Autoren anzeigen",
+                    text: "Autor*innen anzeigen",
                     action: `window.playground.ui.authorityExplorers.showAuthorsInGenre('${
                       genre.id
                     }', '${escapeForJS(genre.termDE || genre.termEN)}')`,
@@ -151,7 +151,7 @@ export class GenreExplorer {
 
     toggleDetails(`genre-details-${genreId}`, () => {
       if (authorsInGenre.length === 0) {
-        return "Keine Autoren in dieser Gattung gefunden.";
+        return "Keine Autor*innen in dieser Gattung gefunden.";
       }
 
       const authorsHTML = authorsInGenre
@@ -172,7 +172,7 @@ export class GenreExplorer {
 
       return `
             <div style="font-weight: 500; margin-bottom: 8px; color: #667eea;">
-                ${authorsInGenre.length} Autoren in "${genreName}"${
+                ${authorsInGenre.length} Autor*innen in "${genreName}"${
         authorsInGenre.length > 15 ? " (erste 15)" : ""
       }:
             </div>

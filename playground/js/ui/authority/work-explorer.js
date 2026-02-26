@@ -29,7 +29,7 @@ export class WorkExplorer {
     const searchHTML = createSearchInterface({
       title: "Werke-Explorer",
       placeholder:
-        "Werk suchen (Titel, Autor, Sigle) - z.B. Iwein, Hartmann, PT",
+        "Werk suchen (Titel, Autor*in, Sigle) - z.B. Iwein, Hartmann, PT",
       searchInputId: "workSearch",
       resultsId: "workResults",
       totalCount: this.authorityData.works.length,
@@ -79,7 +79,7 @@ export class WorkExplorer {
           title: work.title,
           subtitle: formatMetadata([
             genre ? genre : null,
-            authorName ? `Autor: ${authorName}` : null,
+            authorName ? `Autor*in: ${authorName}` : null,
           ]),
           buttons: [
             {
@@ -173,7 +173,7 @@ export class WorkExplorer {
       if (workDetails.author) {
         detailsHTML += `
         <div style="margin-bottom: 8px;">
-          <strong>Autor:</strong> ${workDetails.author}
+          <strong>Autor*in:</strong> ${workDetails.author}
           <button onclick="window.playground.ui.authorityExplorers.searchAuthorFromWork('${escapeForJS(
             workDetails.author
           )}')"

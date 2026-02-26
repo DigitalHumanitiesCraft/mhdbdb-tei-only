@@ -588,7 +588,7 @@ class MainSiteApp {
                 </div>
                 <span class="bg-brand-100 text-brand-700 text-xs font-semibold px-3 py-1 rounded-full flex-shrink-0">${result.matchCount} Treffer${lemmaInfo}</span>
             </div>
-            <p class="text-sm text-slate-600 mb-2">${this.escapeHtml(result.author || 'Unbekannter Autor')}</p>
+            <p class="text-sm text-slate-600 mb-2">${this.escapeHtml(result.author || 'Unbekannte*r Autor*in')}</p>
             ${result.genre ? `<span class="inline-block bg-slate-100 text-slate-700 text-xs px-3 py-1 rounded-full">${this.escapeHtml(result.genre)}</span>` : ''}
         `;
 
