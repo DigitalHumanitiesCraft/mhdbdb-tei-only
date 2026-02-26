@@ -49,9 +49,131 @@ Seven controlled vocabularies:
 
 **Cross-reference patterns:**
 - Person ↔ Work via `xml:id` and `@ref`
-- Lemma → Concept via `@ana`
-- Work → Genre via genre IDs
-- Orthographic variant → Lemma via normalized form lookup
+- Lemma → Concept via `<ptr target="concepts.xml#...">`
+- Work → Genre via `<ref target="genres.xml#...">`
+- Orthographic variant → Lemma via `@corresp="lexicon.xml#..."`
+
+### Authority File XML Schemas
+
+All files use namespace `xmlns="http://www.tei-c.org/ns/1.0"`.
+
+#### lexicon.xml (~33 MB, ~43,750 entries)
+
+```xml
+<TEI><text><body><div type="lexicon">
+  <entry xml:id="lemma_{n}">
+    <form type="lemma"><orth>{lemma text}</orth></form>
+    <gramGrp>
+      <pos>{POS tag}</pos>+              <!-- NUM, NOM, VRB, ADJ, ADV, PRP, NAM, ... -->
+    </gramGrp>
+    <etym type="morphological">?          <!-- optional: morphological decomposition -->
+      <seg type="component" corresp="lexicon.xml#lemma_{n}">{text}</seg>+
+    </etym>
+    <sense xml:id="lemma_{n}_sense_{m}" ana="#type_{id} ...">+
+      <ptr target="concepts.xml#concept_{id}"/>*
+    </sense>
+  </entry>+
+</div></body></text></TEI>
+```
+
+Notes: Multiple `<pos>` per entry possible. Multiple `<sense>` per entry (verb entries often have 2+). `@ana` contains space-separated semantic type references.
+
+#### persons.xml (~74 KB)
+
+```xml
+<TEI><text><body><listPerson>
+  <person xml:id="person_{hash|n}">
+    <persName type="preferred">{canonical name}</persName>
+    <persName type="alternative" xml:lang="{de|en}">?{alt name}</persName>*
+    <idno type="GND">?{gnd-id}</idno>
+    <idno type="wikidata">?{Q-id}</idno>
+    <note type="works" corresp="works.xml">?{comma-separated work IDs}</note>
+  </person>+
+</listPerson></body></text></TEI>
+```
+
+Notes: IDs use both UUIDs and numeric formats. GND and Wikidata are optional (not all persons have entries).
+
+#### works.xml (~1.4 MB)
+
+```xml
+<TEI><text><body><listBibl>
+  <bibl xml:id="work_{n}">
+    <title xml:lang="de">{title}</title>
+    <title xml:lang="de" type="alternate">?{alt title}</title>*
+    <idno type="sigle">{sigle}</idno>+      <!-- one or more sigles per work -->
+    <idno type="gnd">?{gnd-url-or-id}</idno>
+    <idno type="wikidata">?{wikidata-url-or-id}</idno>
+    <idno type="handschriftencensus">?{url}</idno>
+    <ref target="genres.xml#genre_{hash}" xml:lang="de" n="prefLabel">{genre}</ref>*
+    <ref target="genres.xml#genre_{hash}" xml:lang="en" n="prefLabel">{genre}</ref>*
+    <ref target="genres.xml#genre_{hash}" type="parent" xml:lang="de" n="prefLabel">?{parent genre}</ref>*
+    <author ref="persons.xml#person_{id}">{name}</author>
+    <biblStruct type="{journalArticle|bookSection|book}" xml:id="{sigle}_{sigle}"
+                corresp="{zotero-url}" key="{sigle}">*
+      <analytic>?                           <!-- present for articles/chapters -->
+        <title level="a">{article title}</title>
+        <author><name>{name}</name></author>
+      </analytic>
+      <monogr>                              <!-- always present -->
+        <title level="m">{book/journal title}</title>
+        <idno type="callNumber">?{sigle}</idno>
+        <editor>?<forename>{first}</forename><surname>{last}</surname></editor>
+        <imprint>
+          <pubPlace>?{place}</pubPlace>
+          <publisher>?{publisher}</publisher>
+          <date>?{year}</date>
+          <biblScope unit="page">?{pages}</biblScope>
+        </imprint>
+      </monogr>
+      <series>?<title level="s">{series title}</title></series>
+    </biblStruct>
+    <bibl type="digitalIntermediary" corresp="{url}">?  <!-- provenance (Issue #36-40) -->
+      <title>{provider name}</title>
+      <respStmt><name>{person}</name><resp>{role}</resp></respStmt>
+      <ref target="{source url}"/>
+      <note type="provenance">{description}</note>
+    </bibl>
+  </bibl>+
+</listBibl></body></text></TEI>
+```
+
+Notes: Multiple sigles per work (editions). GND/Wikidata may be full URLs or bare IDs — build script extracts ID portion. Genre `<ref>` elements come in de/en pairs, plus optional parent hierarchy refs.
+
+#### concepts.xml, genres.xml, names.xml (shared pattern)
+
+```xml
+<TEI><teiHeader>...<encodingDesc><classDecl>
+  <taxonomy xml:id="mhdbdb-{concepts|genres|names}">
+    <category xml:id="{type}_{id}">
+      <catDesc>
+        <term xml:lang="de">{German term}</term>
+        <term xml:lang="en">{English term}</term>
+        <term type="alternative" xml:lang="{de|en}">?{synonym}</term>*
+        <ptr type="broader" target="#{type}_{parent_id}"/>*
+      </catDesc>
+    </category>+
+  </taxonomy>
+</classDecl></encodingDesc></teiHeader></TEI>
+```
+
+| File | ID format | Extra `<ptr>` types |
+|------|-----------|-------------------|
+| concepts.xml | `concept_{numeric}` | — |
+| genres.xml | `genre_{hex}` | — (but many broader pointers, polyhierarchical) |
+| names.xml | `name_{numeric}` | `exactMatch`, `closeMatch` → `concepts.xml#...` |
+
+#### variants.xml (~13 MB, ~176k variant forms)
+
+```xml
+<TEI><text><body><div type="orthographicVariants">
+  <entry corresp="lexicon.xml#lemma_{n}">
+    <form xml:id="type_{m}">{variant text}</form>+
+  </entry>+
+</div></body></text></TEI>
+```
+
+Notes: Flat list of variants grouped by lemma cross-reference. Forms preserve MHG diacritics. One entry per lexicon lemma; multiple forms per entry.
 
 ## Pre-Built Index Architecture
 
@@ -99,12 +221,10 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
     lemma: "brôt",
     pos: "N",
     senseCount: 3,
-    etymology: [{language, form}],
+    etymology: [{text: "brot", lemmaRef: "lemma_7779"}],
     senses: [{
-      id: "sense_001",
-      definition: "...",
-      conceptIds: ["concept_1234"],
-      examples: [...]
+      id: "lemma_879_sense_1",
+      conceptIds: ["concept_1234"]
     }],
     normalized: "brot"
   }],
@@ -163,7 +283,7 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
 ### Corpus Index
 
 **File:** `data/corpus-index.json.gz`
-**Size:** ~21 MB compressed
+**Size:** ~34 MB compressed
 **Version:** 4.0.0
 
 **Schema:**
@@ -231,6 +351,58 @@ Four core build scripts:
    - Check cross-references
    - Verify data quality
 
+### Build Script XPath Reference
+
+| Script | Source File | XPath | Extracts |
+|--------|-----------|-------|----------|
+| `build-authority-index.py` | lexicon.xml | `//tei:entry` | All lemma entries |
+| | | `.//tei:form[@type="lemma"]/tei:orth` | Lemma text |
+| | | `.//tei:pos` | Part(s) of speech |
+| | | `.//tei:etym[@type="morphological"]//tei:seg[@type="component"]` | Etymology components + `@corresp` |
+| | | `.//tei:sense` | Senses (with `@xml:id`, `@ana`) |
+| | | `.//tei:sense//tei:ptr[contains(@target,"concepts.xml#")]` | Concept pointers per sense |
+| | persons.xml | `//tei:person` | Person records |
+| | | `.//tei:persName[@type="preferred"]` | Canonical name |
+| | | `.//tei:idno[@type="GND"]` | GND identifier |
+| | | `.//tei:idno[@type="wikidata"]` | Wikidata ID |
+| | | `.//tei:note[@type="works"]` | Comma-separated work IDs |
+| | works.xml | `//tei:bibl` (children of `listBibl`) | Work records |
+| | | `./tei:title` | All titles (with `@xml:lang`, `@type`) |
+| | | `.//tei:idno[@type="sigle"]` | Sigles (may be multiple) |
+| | | `.//tei:idno[@type="gnd"]` | Work GND (extract ID from URL: strip `https://d-nb.info/gnd/`) |
+| | | `.//tei:idno[@type="wikidata"]` | Work Wikidata (extract Q-ID from URL: strip `https://www.wikidata.org/entity/`) |
+| | | `.//tei:idno[@type="handschriftencensus"]` | Handschriftencensus URL |
+| | | `.//tei:ref[contains(@target,"genres.xml#")]` | Genre refs (filter `@xml:lang="de"`) |
+| | | `./tei:author` | Author name + `@ref` → person ID |
+| | | `.//tei:biblStruct` | Bibliography entries (with `@type`, `@key`, `@corresp`) |
+| | concepts.xml | `//tei:category` (filter ID starts with `concept_`) | Concept entries |
+| | genres.xml | `//tei:category` (filter ID starts with `genre_`) | Genre entries |
+| | names.xml | `//tei:category` (filter ID starts with `name_`) | Name entries |
+| | (all three) | `.//tei:catDesc//tei:term` (filter `@xml:lang`) | DE/EN labels |
+| | genres.xml | `.//tei:catDesc/tei:ptr[@type="broader"]` | Genre hierarchy |
+| | names.xml | `.//tei:ptr[contains(@target,"concepts.xml#")]` | Concept cross-references |
+| | variants.xml | `//tei:entry` or `//entry` (handles both namespaced/non-namespaced) | Variant groups |
+| | | `.//tei:form` or `.//form` | Orthographic forms per lemma |
+| `build-corpus-index.py` | tei/*.tei.xml | `//tei:idno[@type="sigle"]/text()` | Sigle (fallback: filename without `.tei.xml`) |
+| | | `//tei:titleStmt/tei:title/text()` | Title |
+| | | `//tei:titleStmt/tei:author` | Author name + `@ref` |
+| | | `//tei:msIdentifier` | `@corresp` → work reference |
+| | | `//tei:body//tei:w[@lemmaRef]` | All words with positions (see [CONTRACTS.MD](CONTRACTS.MD#b-position-counting-contract)) |
+
+#### Namespace Handling
+
+Build scripts use `get_namespaces()` which handles TEI documents with or without explicit namespace prefix:
+
+1. Read document's `nsmap`
+2. If `None` key exists (default namespace), remap to `'tei'` prefix
+3. Fallback: set `'tei'` = `'http://www.tei-c.org/ns/1.0'`
+
+Source: `scripts/build-authority-index.py:50-67`
+
+#### Variant Dictionary Deduplication
+
+When building the variants map, **first occurrence wins** — if two lemmata claim the same normalized variant form, only the first is stored. No collision detection or warning. Source: `build-authority-index.py:526-571`.
+
 ### Data Wrangling Scripts
 
 **Location:** `scripts/data-wrangling/`
@@ -262,7 +434,7 @@ Scripts for enriching authority files with external data:
 
 ### Browser Loading Pipeline
 
-**Component:** `lib/corpus-loader.js`
+**Component:** `assets/js/lib/corpus-loader.js`
 
 **Process:**
 1. Check IndexedDB cache (30-day expiration for indices)
@@ -281,20 +453,15 @@ Scripts for enriching authority files with external data:
 
 ### 3-Stage Lemma Resolution
 
-The project uses a sophisticated 3-stage resolution process for handling orthographic variants:
+Search resolves user input to lemma IDs through 3 stages with early return:
 
-**Stage 1: Exact Match in Lexicon**
-- Search canonical forms (e.g., "brôt")
-- Uses normalized comparison
+| Stage | Method | Return | Performance |
+|-------|--------|--------|-------------|
+| 1 | Exact match on normalized canonical form | 0..N (homographs) | O(n) scan |
+| 2 | Variants dictionary lookup (~176k mappings) | Exactly 1 | O(1) hash |
+| 3 | Bidirectional substring fallback | 0..N (fuzzy) | O(n) scan |
 
-**Stage 2: Variants Dictionary Lookup**
-- Search variants index with ~176k attested orthographic forms
-- Maps variants to canonical lemmas (e.g., "brott" → lemma_879)
-- O(1) lookup via flat dictionary
-
-**Stage 3: Partial Match Fallback**
-- Uses `includes()` search on lexicon
-- Catches fuzzy matches
+Stages are mutually exclusive — first match wins. **Full pseudocode with worked example:** see [CONTRACTS.MD](CONTRACTS.MD#c-3-stage-lemma-resolution-algorithm)
 
 **Why 3 stages?** Historical spelling variations in Middle High German are extensive. Variants dictionary captures actual corpus attestations, while fallback handles edge cases.
 

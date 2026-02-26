@@ -17,7 +17,7 @@ The MHDBDB TEI Repository provides a comprehensive digital corpus of Middle High
 ### Curated Corpus
 - **Hundreds of TEI files** - Complete Middle High German texts with word-level annotations
 - **7 authority files** - Controlled vocabularies for persons, works, lexicon, concepts, genres, names, variants
-- **Pre-built indexes** - Compressed JSON (3 MB authority + 21 MB corpus) replacing runtime XML parsing
+- **Pre-built indexes** - Compressed JSON (3 MB authority + 34 MB corpus) replacing runtime XML parsing
 
 ### Key Architecture Decision
 The project migrated from runtime XML parsing to pre-built JSON indexes because large XML files caused 30-second browser load times. Pre-built indexes reduce download size by 19× and eliminate parsing overhead. Trade-off: requires Python build step when XML sources change.
@@ -70,15 +70,34 @@ Advanced exploration tools for medievalists and digital humanities researchers:
 
 This knowledge base follows a hub-and-spoke architecture with INDEX.MD as the central gateway:
 
+### Stable Knowledge (what the project IS)
+
 | Document | Content | Target Reader |
 |----------|---------|---------------|
 | **[INDEX.MD](INDEX.MD)** | Project overview, navigation hub | Anyone |
 | **[DATA-MODEL.MD](DATA-MODEL.MD)** | Data sources, schemas, transformation pipeline | Data engineers |
 | **[ARCHITECTURE.MD](ARCHITECTURE.MD)** | Technical components, data flow, storage patterns | Developers |
+| **[DESIGN.MD](DESIGN.MD)** | Visual patterns, color system, components, CSS architecture | Developers/Designers |
 | **[FEATURES.MD](FEATURES.MD)** | User-facing functionality descriptions | Users/Stakeholders |
 | **[DEVELOPMENT.MD](DEVELOPMENT.MD)** | Build commands, git workflow, deployment | New contributors |
 | **[RESEARCH.MD](RESEARCH.MD)** | Academic context, TEI/MHG standards | Researchers |
 | **[DECISIONS.MD](DECISIONS.MD)** | Architecture Decision Records (ADRs) | Architects |
+| **[CONTRACTS.MD](CONTRACTS.MD)** | Cross-language parity constraints, algorithm pseudocode, API contracts | Developers |
+| **[USER-GUIDE.MD](USER-GUIDE.MD)** | End-user documentation | Users |
+
+### Process (what's happening and why)
+
+| Document | Content | Target Reader |
+|----------|---------|---------------|
+| **[ROADMAP.md](ROADMAP.md)** | Current priorities, strategic direction, what's blocked | Everyone |
+| **[JOURNAL.md](JOURNAL.md)** | Chronological development log, decisions, dead ends | Developers |
+| **[features/](features/)** | Feature-scoped planning docs (living, archived when shipped) | Developers |
+
+### Publications (project outputs, not development docs)
+
+Located in `/publications/` (outside `docs/`):
+- `BLOG-POST-POS-WORKFLOW.md` — DHCraft blog draft on PoS disambiguation
+- `JAHRESBERICHT-2025.md` — CLARIAH-AT annual report
 
 ## Project Status
 

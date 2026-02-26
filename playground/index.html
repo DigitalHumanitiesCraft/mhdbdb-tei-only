@@ -10,8 +10,8 @@
     <script src="https://cdn.jsdelivr.net/npm/dexie@3.2.4/dist/dexie.min.js"></script>
     <link rel="icon" type="image/png" href="../assets/images/mhdbdb-logo.png">
     <!-- Tailwind CSS (pre-compiled) -->
-    <link rel="stylesheet" href="../css/tailwind-output.css">
-    <link rel="stylesheet" href="../css/shared.css">
+    <link rel="stylesheet" href="../assets/css/tailwind-output.css">
+    <link rel="stylesheet" href="../assets/css/shared.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="bg-slate-100 text-slate-900">
@@ -80,7 +80,7 @@
             <div class="container mx-auto px-6 py-6">
                 <p class="text-sm font-semibold uppercase tracking-[0.2em] text-brand-600">MHDBDB Playground</p>
                 <h1 class="text-3xl font-semibold tracking-tight text-slate-900 mt-1">TEI Data Explorer</h1>
-                <p class="max-w-3xl text-base text-slate-600 mt-2">Forschungsplattform für mittelhochdeutsche Korpusanalyse. Multi-Lemma-Suche, 43.750 Lexikoneinträge, semantische Konzeptnetzwerke, 666 annotierte Texte.</p>
+                <p class="max-w-3xl text-base text-slate-600 mt-2">Forschungsplattform für mittelhochdeutsche Korpusanalyse. Multi-Lemma-Suche, 43.750 Lexikoneinträge, semantische Begriffsnetzwerke, 666 annotierte Texte.</p>
             </div>
         </div>
 
@@ -136,7 +136,7 @@
                         <div class="relative">
                             <input type="text"
                                    id="fileFilter"
-                                   placeholder="Texte filtern (Titel, Sigle, Autor)..."
+                                   placeholder="Texte filtern (Titel, Sigle, Autor*in)..."
                                    class="w-full pl-9 pr-3 py-2 text-sm border border-slate-200 rounded-lg focus:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-200">
                             <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
@@ -176,19 +176,22 @@
                     <div id="teiStats" class="space-y-2 text-sm text-slate-600"></div>
                 </div>
 
-                <div id="authorityOverview" class="rounded-2xl border border-slate-200 bg-slate-50/70 p-5">
-                    <div class="mb-3 flex items-center justify-between">
-                        <h3 class="text-base font-semibold text-slate-800">Authority Files</h3>
-                        <div id="authorityStatus" class="flex items-center gap-2 text-xs font-medium uppercase tracking-wide text-slate-500">
-                            <div id="statusIndicator" class="w-4 h-4 text-slate-600">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
-                                </svg>
+                <div id="authorityOverview" class="rounded-2xl border border-slate-200 bg-slate-50/70 p-4">
+                    <button id="authorityToggle" type="button" class="w-full flex items-center justify-between cursor-pointer" onclick="document.getElementById('authorityStats').classList.toggle('hidden'); document.getElementById('authorityChevron').classList.toggle('rotate-180')">
+                        <h3 class="text-sm font-semibold text-slate-800">Authority Files</h3>
+                        <div class="flex items-center gap-2">
+                            <div id="authorityStatus" class="flex items-center gap-1.5 text-xs font-medium uppercase tracking-wide text-slate-500">
+                                <div id="statusIndicator" class="w-3.5 h-3.5 text-slate-600">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                                    </svg>
+                                </div>
+                                <span id="statusText" class="text-slate-600">Lade...</span>
                             </div>
-                            <span id="statusText" class="text-slate-600">Lade...</span>
+                            <svg id="authorityChevron" class="w-4 h-4 text-slate-400 transition-transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </div>
-                    </div>
-                    <div id="authorityStats" class="space-y-2 text-sm text-slate-600"></div>
+                    </button>
+                    <div id="authorityStats" class="mt-2 space-y-1 text-xs text-slate-600"></div>
                 </div>
             </section>
 
@@ -202,13 +205,13 @@
                 <div class="space-y-4">
                     <div>
                         <h3 class="text-sm font-semibold uppercase tracking-wide text-slate-500">Authority Files durchsuchen</h3>
-                        <p class="mt-1 text-sm text-slate-500">Vordefinierte Recherchepfade für Personen, Werke, Konzepte und mehr.</p>
+                        <p class="mt-1 text-sm text-slate-500">Vordefinierte Recherchepfade für Personen, Werke, Begriffe und mehr.</p>
                     </div>
                     <div class="grid gap-2">
-                        <button id="showAuthorsBtn" disabled class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 disabled:cursor-not-allowed disabled:border-slate-100 disabled:bg-slate-50 disabled:text-slate-400">Autoren anzeigen</button>
+                        <button id="showAuthorsBtn" disabled class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 disabled:cursor-not-allowed disabled:border-slate-100 disabled:bg-slate-50 disabled:text-slate-400">Autor*innen anzeigen</button>
                         <button id="showWorksBtn" disabled class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 disabled:cursor-not-allowed disabled:border-slate-100 disabled:bg-slate-50 disabled:text-slate-400">Werke anzeigen</button>
                         <button id="showLemmataBtn" disabled class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 disabled:cursor-not-allowed disabled:border-slate-100 disabled:bg-slate-50 disabled:text-slate-400">Lemmata anzeigen</button>
-                        <button id="showConceptsBtn" disabled class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 disabled:cursor-not-allowed disabled:border-slate-100 disabled:bg-slate-50 disabled:text-slate-400">Konzepte anzeigen</button>
+                        <button id="showConceptsBtn" disabled class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 disabled:cursor-not-allowed disabled:border-slate-100 disabled:bg-slate-50 disabled:text-slate-400">Begriffe anzeigen</button>
                         <button id="showGenresBtn" disabled class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 disabled:cursor-not-allowed disabled:border-slate-100 disabled:bg-slate-50 disabled:text-slate-400">Gattungen anzeigen</button>
                         <button id="showNamesBtn" disabled class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 disabled:cursor-not-allowed disabled:border-slate-100 disabled:bg-slate-50 disabled:text-slate-400">Namen anzeigen</button>
                     </div>
@@ -226,7 +229,6 @@
                             </svg>
                             <span>Multi-Lemma-Suche</span>
                         </button>
-                        <button id="findLemmaBtn" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700">Lemma-Suche</button>
                         <button id="showWordsBtn" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700">Alle Wörter</button>
                         <button id="showLinesBtn" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700">Alle Zeilen</button>
                         <button id="showAnnotationsBtn" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700">Alle Annotationen</button>

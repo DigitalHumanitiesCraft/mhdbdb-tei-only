@@ -16,11 +16,11 @@
     <script src="https://unpkg.com/dexie@3.2.4/dist/dexie.min.js"></script>
 
     <!-- Tailwind CSS (pre-compiled) -->
-    <link rel="stylesheet" href="css/tailwind-output.css">
+    <link rel="stylesheet" href="assets/css/tailwind-output.css">
 
     <link rel="icon" type="image/png" href="assets/images/mhdbdb-logo.png">
-    <link rel="stylesheet" href="css/shared.css">
-    <link rel="stylesheet" href="css/korpus.css">
+    <link rel="stylesheet" href="assets/css/shared.css">
+    <link rel="stylesheet" href="assets/css/korpus.css">
 </head>
 <body class="bg-slate-100 text-slate-900">
     <!-- Loading Screen -->
@@ -158,7 +158,7 @@
                 <div class="relative">
                     <input type="text"
                            id="textFilter"
-                           placeholder="Texte filtern (Titel, Sigle, Autor)..."
+                           placeholder="Texte filtern (Titel, Sigle, Autor*in)..."
                            class="w-full pl-10 pr-3 py-2 text-sm border border-slate-300 rounded-lg focus:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-200">
                     <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
@@ -268,7 +268,7 @@
             <div id="readingMetadata" class="reading-metadata hidden">
                 <div class="metadata-grid p-6">
                     <div class="metadata-item">
-                        <span class="metadata-label">Autor:</span>
+                        <span class="metadata-label">Autor*in:</span>
                         <span id="metaAuthor"></span>
                     </div>
                     <div class="metadata-item">
@@ -373,7 +373,7 @@
     </script>
 
     <!-- Application Scripts (ES Modules) -->
-    <script type="module" src="js/app.js"></script>
+    <script type="module" src="assets/js/app.js"></script>
 
 </body>
 </html>

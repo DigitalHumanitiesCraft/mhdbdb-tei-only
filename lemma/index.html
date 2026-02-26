@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MHDBDB Lemma - Mittelhochdeutsche Begriffsdatenbank">
+    <meta name="author" content="Universität Salzburg">
+
+    <title>Lemma - MHDBDB</title>
+
+    <!-- Pako for gzip decompression -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.1.0/pako.min.js"></script>
+
+    <!-- Dexie.js for IndexedDB -->
+    <script src="https://unpkg.com/dexie@3.2.4/dist/dexie.min.js"></script>
+
+    <!-- Tailwind CSS (pre-compiled) -->
+    <link rel="stylesheet" href="../assets/css/tailwind-output.css">
+
+    <link rel="icon" type="image/png" href="../assets/images/mhdbdb-logo.png">
+    <link rel="stylesheet" href="../assets/css/shared.css">
+
+    <style>
+        .pos-badge {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .etymology-link {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            color: #334155;
+            text-decoration: none;
+            transition: all 0.15s;
+        }
+        .etymology-link:hover {
+            background: #e2ebfa;
+            border-color: #3b6fd4;
+            color: #1f4aa2;
+        }
+        .occurrence-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 12px;
+            border-bottom: 1px solid #f1f5f9;
+            transition: background 0.15s;
+        }
+        .occurrence-row:hover {
+            background: #f8fafc;
+        }
+        .occurrence-row:last-child {
+            border-bottom: none;
+        }
+        .external-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+            color: #475569;
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: all 0.15s;
+        }
+        .external-link:hover {
+            border-color: #3b6fd4;
+            color: #1f4aa2;
+            background: #f1f5fd;
+        }
+        .copy-button {
+            cursor: pointer;
+            padding: 2px 6px;
+            border-radius: 4px;
+            border: 1px solid #e2e8f0;
+            background: #f8fafc;
+            color: #64748b;
+            font-size: 0.75rem;
+            transition: all 0.15s;
+        }
+        .copy-button:hover {
+            background: #e2e8f0;
+            color: #334155;
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-900">
+
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="loading-screen">
+        <div class="loading-content">
+            <div class="spinner-large spinner"></div>
+            <h2 class="text-xl font-semibold text-slate-800">Lemma wird geladen...</h2>
+            <p id="loadingStatus" class="loading-message">Initialisiere Datenbank...</p>
+            <div class="progress-bar-container">
+                <div id="loadingProgress" class="progress-bar" style="width: 0%"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="border-b border-slate-200 bg-white/90 backdrop-blur sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4">
+            <nav class="flex items-center justify-between">
+                <a href="../index.html" class="flex items-center gap-3">
+                    <img src="../assets/images/mhdbdb-logo.png" alt="MHDBDB Logo" class="w-40">
+                    <span class="text-lg font-bold text-brand-600">MHDBDB</span>
+                </a>
+
+                <div class="hidden md:flex items-center gap-6">
+                    <a href="../index.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                        Startseite
+                    </a>
+                    <a href="../korpus.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                        Korpus
+                    </a>
+                    <a href="../playground/index.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                        Playground
+                    </a>
+                    <a href="../index.html#documentation" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                        Dokumentation
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-8 max-w-4xl">
+
+        <!-- Error state -->
+        <div id="errorDisplay" class="hidden bg-red-50 border border-red-200 rounded-lg p-6 text-center">
+            <h2 class="text-xl font-semibold text-red-800 mb-2">Lemma nicht gefunden</h2>
+            <p id="errorMessage" class="text-red-600"></p>
+            <a href="../korpus.html" class="inline-block mt-4 px-4 py-2 bg-brand-600 text-white rounded-lg hover:bg-brand-700 transition">
+                Zur Korpus-Suche
+            </a>
+        </div>
+
+        <!-- Lemma content (hidden until loaded) -->
+        <div id="lemmaContent" class="hidden space-y-6">
+
+            <!-- Title Block -->
+            <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
+                <div class="flex items-start justify-between gap-4">
+                    <div>
+                        <h1 id="lemmaTitle" class="text-3xl font-bold text-slate-900"></h1>
+                        <p id="lemmaNormalized" class="text-sm text-slate-500 mt-1"></p>
+                    </div>
+                    <div class="flex items-center gap-3 flex-shrink-0">
+                        <span id="lemmaPos" class="pos-badge bg-brand-100 text-brand-700"></span>
+                    </div>
+                </div>
+                <div class="mt-3 flex items-center gap-2 text-xs text-slate-400">
+                    <code id="lemmaId" class="font-mono"></code>
+                    <button id="copyIdBtn" class="copy-button" title="ID kopieren">kopieren</button>
+                </div>
+            </div>
+
+            <!-- Etymology (conditional) -->
+            <div id="etymologySection" class="hidden bg-white rounded-lg shadow-sm border border-slate-200 p-6">
+                <h2 class="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-3">Morphologie</h2>
+                <div id="etymologyContent" class="flex flex-wrap gap-2"></div>
+            </div>
+
+            <!-- Senses -->
+            <div id="sensesSection" class="hidden bg-white rounded-lg shadow-sm border border-slate-200 p-6">
+                <h2 class="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-3">Bedeutungen</h2>
+                <div id="sensesContent" class="space-y-3"></div>
+            </div>
+
+            <!-- Orthographic Variants (conditional) -->
+            <div id="variantsSection" class="hidden bg-white rounded-lg shadow-sm border border-slate-200 p-6">
+                <h2 class="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-3">
+                    Schreibformen
+                    <span id="variantsCount" class="text-slate-400 font-normal"></span>
+                </h2>
+                <div id="variantsContent" class="flex flex-wrap gap-1.5"></div>
+            </div>
+
+            <!-- Compounds (conditional) -->
+            <div id="compoundsSection" class="hidden bg-white rounded-lg shadow-sm border border-slate-200 p-6">
+                <h2 class="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-3">
+                    Komposita
+                    <span id="compoundsCount" class="text-slate-400 font-normal"></span>
+                </h2>
+                <div id="compoundsContent" class="flex flex-wrap gap-1.5"></div>
+            </div>
+
+            <!-- Corpus Occurrences -->
+            <div id="occurrencesSection" class="hidden bg-white rounded-lg shadow-sm border border-slate-200 p-6">
+                <h2 class="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-3">
+                    Belegstellen
+                    <span id="occurrenceCount" class="text-slate-400 font-normal"></span>
+                </h2>
+                <div id="occurrencesContent" class="max-h-96 overflow-y-auto"></div>
+            </div>
+
+            <!-- Wörterbuchnetz (dynamic, loaded via API) -->
+            <div id="wbnetzSection" class="hidden bg-white rounded-lg shadow-sm border border-slate-200 p-6">
+                <h2 class="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-3">Wörterbuchnetz</h2>
+                <div id="wbnetzLinks" class="flex flex-wrap gap-3"></div>
+            </div>
+
+            <!-- External Links -->
+            <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
+                <h2 class="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-3">Weitere Verweise</h2>
+                <div id="externalLinks" class="flex flex-wrap gap-3"></div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-200 bg-white mt-12">
+        <div class="container mx-auto px-6 py-6 text-center text-sm text-slate-500">
+            <p>
+                <a href="https://mhdbdb.plus.ac.at" class="hover:text-slate-700 transition">Mittelhochdeutsche Begriffsdatenbank (MHDBDB)</a>
+                &middot; Universität Salzburg
+                &middot; <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/at/" class="hover:text-slate-700 transition">CC BY-NC-SA 3.0 AT</a>
+            </p>
+        </div>
+    </footer>
+
+    <script type="module" src="lemma-page.js"></script>
+</body>
+</html>

@@ -5,7 +5,7 @@
  * - korpus.html: Full search functionality
  */
 
-import { CorpusLoader } from '../lib/corpus-loader.js';
+import { CorpusLoader } from './lib/corpus-loader.js';
 import { SearchEngine } from './search/search-engine.js';
 import { TextRenderer } from './rendering/text-renderer.js';
 import { TEITextReader } from './rendering/tei-text-reader.js';
@@ -29,6 +29,9 @@ class MainSiteApp {
 
         // Detect which page we're on
         this.isSearchPage = window.location.pathname.includes('korpus.html');
+
+        // Expose for Playwright tests
+        window._mhdbdbApp = this;
 
         // Common elements (both pages)
         this.elements = {
@@ -237,7 +240,7 @@ class MainSiteApp {
             titleRow.appendChild(icons);
 
             const meta = document.createElement('div');
-            meta.className = 'text-xs text-slate-500 truncate';
+            meta.className = 'text-sm text-slate-600 truncate';
             const author = text.author || 'Unbekannt';
             const wordCount = text.wordCount ? text.wordCount.toLocaleString() : '0';
             meta.textContent = `${text.id} • ${author} • ${wordCount} Wörter`;
@@ -453,12 +456,15 @@ class MainSiteApp {
             return lemma ? lemma.lemma : lemmaId;
         });
 
-        // Create lemma badges
-        this.elements.lemmaList.innerHTML = lemmaDetails.map(lemma => `
-            <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 text-sm font-medium rounded-full">
-                ${this.escapeHtml(lemma)}
-            </span>
-        `).join('');
+        // Create lemma badges with links to lemma pages
+        this.elements.lemmaList.innerHTML = lemmaIds.map((lemmaId, i) => {
+            const numericId = lemmaId.replace('lemma_', '');
+            const lemmaText = this.escapeHtml(lemmaDetails[i]);
+            return `<a href="lemma/?id=${numericId}" target="_blank" rel="noopener"
+                class="inline-block px-3 py-1 bg-blue-100 text-blue-800 text-sm font-medium rounded-full hover:bg-blue-200 transition">
+                ${lemmaText}
+            </a>`;
+        }).join('');
 
         // Show lemma info
         this.elements.lemmaInfo.classList.remove('hidden');
@@ -582,7 +588,7 @@ class MainSiteApp {
                 </div>
                 <span class="bg-brand-100 text-brand-700 text-xs font-semibold px-3 py-1 rounded-full flex-shrink-0">${result.matchCount} Treffer${lemmaInfo}</span>
             </div>
-            <p class="text-sm text-slate-600 mb-2">${this.escapeHtml(result.author || 'Unbekannter Autor')}</p>
+            <p class="text-sm text-slate-600 mb-2">${this.escapeHtml(result.author || 'Unbekannte*r Autor*in')}</p>
             ${result.genre ? `<span class="inline-block bg-slate-100 text-slate-700 text-xs px-3 py-1 rounded-full">${this.escapeHtml(result.genre)}</span>` : ''}
         `;
 

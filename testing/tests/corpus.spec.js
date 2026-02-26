@@ -253,7 +253,7 @@ test.describe('Corpus Loading and Management', () => {
 
     const result = await page.evaluate(async () => {
       const { IndexedDBManager } = await import('../playground/js/indexed-db-manager.js');
-      const { CorpusLoader } = await import('../lib/corpus-loader.js');
+      const { CorpusLoader } = await import('../assets/js/lib/corpus-loader.js');
 
       const dbManager = new IndexedDBManager();
       await dbManager.initialize();
@@ -320,7 +320,7 @@ test.describe('Corpus Loading and Management', () => {
 
     const result = await page.evaluate(async () => {
       const { IndexedDBManager } = await import('../playground/js/indexed-db-manager.js');
-      const { CorpusLoader } = await import('../lib/corpus-loader.js');
+      const { CorpusLoader } = await import('../assets/js/lib/corpus-loader.js');
 
       const dbManager = new IndexedDBManager();
       await dbManager.initialize();

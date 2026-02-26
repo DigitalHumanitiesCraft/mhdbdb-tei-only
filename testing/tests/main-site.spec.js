@@ -1,19 +1,21 @@
 /**
  * Main Site Tests
- * Tests for the public-facing MHDBDB main site
+ * Tests for the public-facing MHDBDB search page (korpus.html)
+ *
+ * Covers: loading, search, result cards, text list, reading view
+ * Rewritten Feb 2026 to match current panel-based architecture (Issue #43)
  */
 
 import { test, expect } from '@playwright/test';
 
-test.describe.skip('Main Site', () => {
+test.describe('Main Site', () => {
 
     test.beforeEach(async ({ page }) => {
-        // Navigate to main site
-        await page.goto('http://localhost:8080/');
+        // Navigate to search page (not landing page)
+        await page.goto('http://localhost:8080/korpus.html');
     });
 
-    test('should load main site without errors', async ({ page }) => {
-        // Check for console errors
+    test('should load without console errors', async ({ page }) => {
         const errors = [];
         page.on('console', msg => {
             if (msg.type() === 'error') {
@@ -21,74 +23,65 @@ test.describe.skip('Main Site', () => {
             }
         });
 
-        // Wait for loading screen to disappear (max 30 seconds)
+        // Wait for loading screen to disappear
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
 
-        // Check for errors
         if (errors.length > 0) {
             console.error('Console errors:', errors);
         }
         expect(errors.length).toBe(0);
     });
 
-    test('should display main site elements', async ({ page }) => {
-        // Wait for page to load
+    test('should display search page elements', async ({ page }) => {
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
 
-        // Check key elements
-        await expect(page.locator('h1')).toContainText('Mittelhochdeutsche Begriffsdatenbank');
+        // Search controls
         await expect(page.locator('#searchInput')).toBeVisible();
         await expect(page.locator('#searchButton')).toBeVisible();
-        await expect(page.locator('#genreFilter')).toBeVisible();
-        await expect(page.locator('#authorFilter')).toBeVisible();
+
+        // Text list with checkboxes
+        await expect(page.locator('#textList')).toBeVisible();
+        await expect(page.locator('#textFilter')).toBeVisible();
+
+        // Reading panel (always present, right column)
+        await expect(page.locator('#readingPanel')).toBeVisible();
     });
 
     test('should load indices successfully', async ({ page }) => {
-        // Monitor console logs
         const logs = [];
         page.on('console', msg => {
             logs.push(msg.text());
         });
 
-        // Wait for loading to complete
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
 
-        // Check for success logs
-        const successLogs = logs.filter(log =>
-            log.includes('Authority index loaded') ||
-            log.includes('Corpus index loaded')
-        );
-
-        expect(successLogs.length).toBeGreaterThan(0);
+        // App logs "[MainSiteApp] Ready" when fully initialized
+        const readyLog = logs.some(log => log.includes('[MainSiteApp] Ready'));
+        expect(readyLog).toBeTruthy();
     });
 
-    test('should populate filter dropdowns', async ({ page }) => {
-        // Wait for loading
+    test('should populate text list with corpus texts', async ({ page }) => {
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
 
-        // Check genre filter has options
-        const genreOptions = await page.locator('#genreFilter option').count();
-        expect(genreOptions).toBeGreaterThan(1); // At least "Alle Gattungen" + others
+        // Text list should have checkboxes (one per corpus text)
+        const textCount = await page.locator('#textList label').count();
+        expect(textCount).toBeGreaterThan(100); // 666 texts expected
 
-        // Check author filter has options
-        const authorOptions = await page.locator('#authorFilter option').count();
-        expect(authorOptions).toBeGreaterThan(1); // At least "Alle Autoren" + others
+        // Selected text count should be displayed
+        const selectedCount = await page.locator('#selectedTextCount').textContent();
+        expect(parseInt(selectedCount)).toBeGreaterThan(0);
     });
 
     test('should perform a search', async ({ page }) => {
-        // Wait for loading
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
 
-        // Enter search term
         await page.fill('#searchInput', 'brot');
-
-        // Click search
         await page.click('#searchButton');
 
-        // Wait for results (give it 5 seconds)
+        // Wait for results to appear
         await page.waitForTimeout(2000);
 
-        // Check if results section is visible or no results message
+        // Either results section or no-results message should be visible
         const resultsVisible = await page.locator('#resultsSection').isVisible();
         const noResultsVisible = await page.locator('#noResults').isVisible();
 
@@ -96,120 +89,82 @@ test.describe.skip('Main Site', () => {
     });
 
     test('should display search results with proper structure', async ({ page }) => {
-        // Wait for loading
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
 
-        // Search for common word
         await page.fill('#searchInput', 'got');
         await page.click('#searchButton');
 
         // Wait for results
-        await page.waitForTimeout(3000);
+        await page.waitForSelector('#resultsList > div', { timeout: 10000 });
 
-        // Check if results are displayed
-        const resultsVisible = await page.locator('#resultsSection').isVisible();
+        const firstResult = page.locator('#resultsList > div').first();
+        await expect(firstResult).toBeVisible();
 
-        if (resultsVisible) {
-            // Verify result card structure
-            const firstResult = page.locator('#resultsList > div').first();
-            await expect(firstResult).toBeVisible();
-
-            // Check for title, author, match count (more specific selectors)
-            await expect(firstResult.locator('h3')).toBeVisible();
-            await expect(firstResult.locator('.text-sm').first()).toBeVisible(); // First .text-sm (author)
-            await expect(firstResult.locator('.bg-blue-100')).toBeVisible(); // Match count badge
-        }
+        // Result card structure: title (h3), author (.text-sm), match count badge (.bg-brand-100)
+        await expect(firstResult.locator('h3')).toBeVisible();
+        await expect(firstResult.locator('.text-sm').first()).toBeVisible();
+        await expect(firstResult.locator('.bg-brand-100')).toBeVisible();
     });
 
-    test('should filter results by genre', async ({ page }) => {
-        // Wait for loading
+    test('should filter text list', async ({ page }) => {
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
 
-        // Select a genre (if available)
-        const genreOptions = await page.locator('#genreFilter option').count();
+        const totalTexts = await page.locator('#textList label').count();
 
-        if (genreOptions > 1) {
-            // Select second option (first non-empty genre)
-            await page.selectOption('#genreFilter', { index: 1 });
+        // Type a filter term
+        await page.fill('#textFilter', 'Nibelungen');
+        await page.waitForTimeout(300);
 
-            // Search
-            await page.fill('#searchInput', 'got');
-            await page.click('#searchButton');
+        // Fewer texts should be visible
+        const visibleTexts = await page.locator('#textList label:not([style*="display: none"])').count();
+        expect(visibleTexts).toBeLessThan(totalTexts);
+        expect(visibleTexts).toBeGreaterThan(0);
 
-            await page.waitForTimeout(2000);
-
-            // Results should respect genre filter
-            const resultsCount = await page.locator('#resultsList > div').count();
-            console.log(`Results with genre filter: ${resultsCount}`);
-        }
+        // Filter info should be shown
+        await expect(page.locator('#filterInfoText')).toBeVisible();
     });
 
-    test('should open text modal on result click', async ({ page }) => {
-        // Increase timeout for this test (TEI file loading is slow)
-        test.setTimeout(120000); // 2 minutes
+    test('should open reading view on result click', async ({ page }) => {
+        test.setTimeout(120000); // TEI file loading can be slow
 
-        // Wait for loading
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
 
-        // Search
+        // Search for a common term
         await page.fill('#searchInput', 'got');
         await page.click('#searchButton');
-        await page.waitForTimeout(2000);
 
-        // Check if results exist
-        const resultsVisible = await page.locator('#resultsSection').isVisible();
+        // Wait for results
+        await page.waitForSelector('#resultsList > div', { timeout: 10000 });
 
-        if (resultsVisible) {
-            const resultCount = await page.locator('#resultsList > div').count();
+        // Click first result
+        await page.locator('#resultsList > div').first().click();
 
-            if (resultCount > 0) {
-                // Click first result
-                await page.locator('#resultsList > div').first().click();
+        // Reading view should populate (title appears)
+        await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
 
-                // Wait for modal to load (TEI files are large, may take 30-60s)
-                await page.waitForSelector('#textModal.active', { timeout: 90000 });
-
-                // Check modal is visible
-                const modalVisible = await page.locator('#textModal.active').isVisible();
-                expect(modalVisible).toBeTruthy();
-
-                // Check modal content
-                await expect(page.locator('#modalTitle')).not.toBeEmpty();
-                await expect(page.locator('#modalContent')).toBeVisible();
-            }
-        }
+        // Reading body should have content
+        await expect(page.locator('#readingBody')).not.toBeEmpty();
     });
 
-    test('should close modal on close button click', async ({ page }) => {
-        // Increase timeout for this test
-        test.setTimeout(120000); // 2 minutes
+    test('should show highlight navigation after search + result click', async ({ page }) => {
+        test.setTimeout(120000);
 
-        // Wait for loading
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
 
-        // Search and open modal
         await page.fill('#searchInput', 'got');
         await page.click('#searchButton');
-        await page.waitForTimeout(2000);
 
-        const resultsVisible = await page.locator('#resultsSection').isVisible();
+        await page.waitForSelector('#resultsList > div', { timeout: 10000 });
+        await page.locator('#resultsList > div').first().click();
 
-        if (resultsVisible) {
-            const resultCount = await page.locator('#resultsList > div').count();
+        // Wait for reading view to load
+        await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
 
-            if (resultCount > 0) {
-                await page.locator('#resultsList > div').first().click();
-                await page.waitForSelector('#textModal.active', { timeout: 90000 });
-
-                // Close modal
-                await page.click('#closeModal');
-                await page.waitForTimeout(500);
-
-                // Modal should be hidden
-                const modalVisible = await page.locator('#textModal.active').isVisible();
-                expect(modalVisible).toBeFalsy();
-            }
-        }
+        // Highlight navigation should appear
+        await expect(page.locator('#readingNavigation')).toBeVisible({ timeout: 5000 });
+        await expect(page.locator('#prevHighlight')).toBeVisible();
+        await expect(page.locator('#nextHighlight')).toBeVisible();
+        await expect(page.locator('#highlightIndicator')).toBeVisible();
     });
 
 });

@@ -138,7 +138,7 @@ test.describe('Search Normalization Test Suite', () => {
             });
         });
 
-        test('4. Konzepte anzeigen - Should normalize concept terms', async () => {
+        test('4. Begriffe anzeigen - Should normalize concept terms', async () => {
             const result = await page.evaluate(() => {
                 const concepts = window.playground.authorityManager.authorityData.concepts;
                 const searchTerm = 'liebe'; // German for "love"
@@ -494,7 +494,7 @@ test.describe('Search Normalization - Visual Summary', () => {
         console.log('   1. ✓ Autoren anzeigen - Author search with normalization');
         console.log('   2. ✓ Werke anzeigen - Works search with normalization');
         console.log('   3. ✓ Lemmata anzeigen - Lexicon search (brôt → brot)');
-        console.log('   4. ✓ Konzepte anzeigen - Concepts multi-field search');
+        console.log('   4. ✓ Begriffe anzeigen - Concepts multi-field search');
         console.log('   5. ✓ Gattungen anzeigen - Genres multi-field search');
         console.log('   6. ✓ Namen anzeigen - Names multi-field search');
 

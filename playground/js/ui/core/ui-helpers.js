@@ -36,23 +36,23 @@ export function updateAuthorityOverview(authorityData) {
     { icon: '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path></svg>', label: 'Personen', value: authorityData.persons.length },
     { icon: '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>', label: 'Werke', value: authorityData.works.length },
     { icon: '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4V2a1 1 0 011-1h8a1 1 0 011 1v2m0 0V1h4a1 1 0 011 1v20a1 1 0 01-1 1H3a1 1 0 01-1-1V2a1 1 0 011-1h4v3z"></path></svg>', label: 'Lemmata', value: authorityData.lemmata.length },
-    { icon: '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>', label: 'Konzepte', value: authorityData.concepts.length },
+    { icon: '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>', label: 'Begriffe', value: authorityData.concepts.length },
     { icon: '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4V2a1 1 0 011-1h8a1 1 0 011 1v2m0 0V1h4a1 1 0 011 1v20a1 1 0 01-1 1H3a1 1 0 01-1-1V2a1 1 0 011-1h4v3zm5 8a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>', label: 'Gattungen', value: authorityData.genres.length },
     { icon: '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path></svg>', label: 'Namen', value: authorityData.names.length },
     { icon: '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12M8 12h12m-12 5h12M3 7h.01M3 12h.01M3 17h.01"></path></svg>', label: 'Varianten', value: Object.keys(authorityData.variants || {}).length }
   ];
 
   stats.innerHTML = `
-    <dl class="space-y-2">
+    <dl class="space-y-1">
       ${items
         .map(
           ({ icon, label, value }) => `
-            <div class="flex items-center justify-between rounded-xl bg-white/80 px-4 py-2 shadow-sm ring-1 ring-slate-200/70">
-              <dt class="flex items-center gap-3 text-sm font-medium text-slate-600">
-                <span class="text-lg">${icon}</span>
+            <div class="flex items-center justify-between rounded-lg bg-white/80 px-3 py-1 ring-1 ring-slate-200/70">
+              <dt class="flex items-center gap-2 text-xs text-slate-600">
+                <span class="w-3.5 h-3.5 [&>svg]:w-3.5 [&>svg]:h-3.5">${icon}</span>
                 <span>${label}</span>
               </dt>
-              <dd class="text-sm font-semibold text-brand-700">${value}</dd>
+              <dd class="text-xs font-semibold text-brand-700">${value}</dd>
             </div>
           `
         )
@@ -85,7 +85,7 @@ export function updateTEIOverview(teiData) {
                   <span class="text-lg">${icon}</span>
                   <span>${label}</span>
                 </dt>
-                <dd class="text-sm font-semibold text-brand-700">${value}</dd>
+                <dd class="text-base font-bold text-brand-700">${value}</dd>
               </div>
             `
           )
@@ -153,7 +153,7 @@ export function displayResults(title, results) {
   container.innerHTML = `
     <div class="mb-4 flex items-center justify-between rounded-xl bg-slate-50/80 px-4 py-2 text-sm font-medium text-slate-600">
       <span>${title}</span>
-      <span class="text-xs uppercase tracking-wide text-slate-400">${results.length} Treffer</span>
+      <span class="text-sm uppercase tracking-wide text-slate-600">${results.length} Treffer</span>
     </div>
     <div class="space-y-3">
       ${resultsHTML}
@@ -191,7 +191,7 @@ export function displaySummaryResults(title, summaryData, rawResults = null, lem
   container.innerHTML = `
     <div class="mb-4 flex items-center justify-between rounded-xl bg-slate-50/80 px-4 py-2 text-sm font-medium text-slate-600">
       <span>${title}</span>
-      <span class="text-xs uppercase tracking-wide text-slate-400">${totalResults} Treffer · ${summaryData.length} Kontexte</span>
+      <span class="text-sm uppercase tracking-wide text-slate-600">${totalResults} Treffer · ${summaryData.length} Kontexte</span>
     </div>
     <div class="space-y-3">
       ${summariesHTML}
@@ -240,7 +240,7 @@ function createSummaryCard(summary, index) {
           <span class="expand-icon text-lg">⌄</span>
         </div>
       </div>
-      <p class="summary-expand-hint mt-3 text-xs font-medium uppercase tracking-wide text-slate-400">Klicken zum Erweitern</p>
+      <p class="summary-expand-hint mt-3 text-sm font-medium uppercase tracking-wide text-slate-500">Klicken zum Erweitern</p>
       <div class="result-details">
         ${detailsHTML}
       </div>
@@ -531,7 +531,7 @@ export function displayGroupedResults(title, groupedData) {
   container.innerHTML = `
     <div class="mb-4 flex items-center justify-between rounded-xl bg-slate-50/80 px-4 py-2 text-sm font-medium text-slate-600">
       <span>${title}</span>
-      <span class="text-xs uppercase tracking-wide text-slate-400">${totalResults} Treffer · ${groups.length} Dateien</span>
+      <span class="text-sm uppercase tracking-wide text-slate-600">${totalResults} Treffer · ${groups.length} Dateien</span>
     </div>
     <div class="space-y-3">
       ${groupsHTML}

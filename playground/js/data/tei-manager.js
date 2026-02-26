@@ -724,7 +724,7 @@ export class TEIFilesManager {
 
         try {
             // Dynamically import CorpusLoader from main site
-            const { CorpusLoader } = await import('../../../lib/corpus-loader.js');
+            const { CorpusLoader } = await import('../../../assets/js/lib/corpus-loader.js');
 
             // Create corpus loader with correct base path (playground is in playground/ subdirectory)
             const corpusLoader = new CorpusLoader('../data');

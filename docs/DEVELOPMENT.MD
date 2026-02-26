@@ -30,17 +30,26 @@ npm run serve
 
 ```
 mhdbdb-tei-only/
-├── authority-files/    # 7 XML authority files
-├── tei/                # TEI corpus files
-├── data/               # Pre-built indexes (generated)
-├── scripts/            # Python build scripts
-├── js/                 # Main site JavaScript
-├── playground/         # Playground interface
-├── lib/                # Shared utilities
-├── testing/            # Playwright tests
-├── docs/               # Documentation
-├── index.html          # Main landing page
-└── korpus.html         # Main site search page
+├── assets/                # Main site static assets
+│   ├── css/               # Stylesheets (korpus.css, tailwind)
+│   ├── js/                # Main site JavaScript
+│   │   ├── app.js         # Application entry point
+│   │   ├── search/        # Search engine
+│   │   ├── rendering/     # TEI text reader, text renderer
+│   │   ├── storage/       # TEI cache manager
+│   │   └── lib/           # Shared utilities (corpus-loader, text-normalizer)
+│   └── images/            # Static images
+├── authority-files/       # 7 XML authority files
+├── tei/                   # TEI corpus files
+├── data/                  # Pre-built indexes (generated)
+├── scripts/               # Python build scripts
+├── playground/            # Playground interface (self-contained sub-app)
+├── lemma/                 # Persistent lemma pages (Issue #42)
+├── publications/          # Project outputs (blog posts, reports)
+├── testing/               # Playwright tests
+├── docs/                  # Documentation hub
+├── index.html             # Main landing page
+└── korpus.html            # Main site search page
 ```
 
 ## Building Pre-Built Indexes
@@ -74,7 +83,7 @@ python scripts/build-authority-index.py
 
 # Build corpus index
 python scripts/build-corpus-index.py
-# Output: data/corpus-index.json.gz (~21 MB)
+# Output: data/corpus-index.json.gz (~34 MB)
 
 # Validate indices
 python scripts/validate-indices.py
@@ -106,12 +115,31 @@ npm run report        # View HTML report
 - Headless Chrome with `--disable-web-security`
 - 60-second timeout per test
 
-**Test coverage:**
-- Authority index loading and caching
-- MHG text normalization
-- Lemma variant resolution
-- Cross-reference integrity
-- Search functionality
+### Test File Inventory
+
+| File | Category | What it tests |
+|------|----------|--------------|
+| `main-site.spec.js` | Main site | Landing page, search page loading, search results, reading view |
+| `search-engine.spec.js` | Main site | SearchEngine class: resolution, filtering, deduplication |
+| `search-normalization.spec.js` | Main site | MHG normalization functions in browser context |
+| `search-with-corpus.spec.js` | Main site | Search against real corpus data |
+| `reading-view.spec.js` | Main site | TEI reading view rendering, highlighting, navigation |
+| `tei-caching.spec.js` | Main site | IndexedDB TEI cache behavior |
+| `error-handling.spec.js` | Main site | Graceful error handling |
+| `lemma-page.spec.js` | Lemma pages | URL parsing, data rendering, external links |
+| `playground.spec.js` | Playground | Authority explorers, TEI analysis, UI navigation |
+| `playground-authority-index.spec.js` | Playground | Authority index loading, data structure integrity |
+| `playground-corpus.spec.js` | Playground | Corpus index loading, search functions |
+| `normalization-parity.spec.js` | Cross-cutting | Python/JS normalizer agreement (see [CONTRACTS.MD](CONTRACTS.MD#a-mhg-normalization-parity)) |
+| `cross-reference-test.spec.js` | Data integrity | Authority/corpus cross-reference validity |
+| `corpus.spec.js` | Data integrity | Corpus index structure validation |
+| `visual-mobile-test.spec.js` | Visual | Responsive layout (skipped — desktop-only) |
+
+**Playwright config** (`testing/playwright.config.js`): Headless Chromium, 1 worker (sequential), 60s timeout per test, auto-starts `http-server` on port 8080. HTML + JSON reports.
+
+### Skipped Tests (Issue #43)
+
+25 tests are intentionally skipped in `main-site.spec.js`. They cover interactions rewritten during Phase 7 (modular UI refactoring) and Phase 0 (folder restructure) — reading view panel interactions, text selection state management, search result card navigation, multi-lemma URL parameter handling. Tracked in Issue #43.
 
 ### Manual Testing Checklist
 
@@ -133,6 +161,7 @@ Before deploying:
 - **Historical branches:**
   - `pre-main-site` - Old XML parsing architecture (archived)
   - `initial-data-wrangling` - RDF/Relational DB → TEI transformation (archived)
+  - `feature/wenzelsbibel-ingest` - Wenzelsbibel text ingest (Issue #34, active)
 
 ### Development Workflow
 

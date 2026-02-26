@@ -72,8 +72,8 @@ test.describe('Search Functions with Pre-Built Corpus', () => {
         console.log('✅ Lemmata search works with MHG normalization');
     });
 
-    test('Search 4: Konzepte anzeigen (Concepts search)', async ({ page }) => {
-        await page.click('button:has-text("Konzepte anzeigen")');
+    test('Search 4: Begriffe anzeigen (Concepts search)', async ({ page }) => {
+        await page.click('button:has-text("Begriffe anzeigen")');
 
         await page.waitForSelector('#conceptSearch', { timeout: 5000 });
 
@@ -114,41 +114,9 @@ test.describe('Search Functions with Pre-Built Corpus', () => {
         console.log('✅ Names search works');
     });
 
-    // ==================== TEI TEXT SEARCHES (5) ====================
+    // ==================== TEI TEXT SEARCHES (4) ====================
 
-    test('Search 7: Lemma-Suche (Single lemma search in TEI)', async ({ page }) => {
-        // Check if TEI explorer is available
-        const hasFiles = await page.evaluate(() => {
-            return window.playground &&
-                   window.playground.teiData &&
-                   window.playground.teiData.parsedXML &&
-                   window.playground.teiData.parsedXML.length > 0;
-        });
-
-        if (!hasFiles) {
-            console.log('⚠️  TEI files not loaded in parsedXML, skipping test');
-            test.skip();
-            return;
-        }
-
-        // Try to search for a lemma (exact method depends on UI implementation)
-        // This test is speculative - adjust based on actual TEI explorer interface
-        const teiSearchInput = page.locator('#tei-lemma-search-input');
-
-        if (await teiSearchInput.isVisible()) {
-            await teiSearchInput.fill('got');
-            await page.click('#tei-lemma-search-btn');
-            await page.waitForTimeout(1000);
-
-            const results = await page.locator('#resultsContainer').textContent();
-            expect(results.length).toBeGreaterThan(0);
-            console.log('✅ Single lemma search in TEI works');
-        } else {
-            console.log('⚠️  TEI lemma search UI not found, skipping');
-        }
-    });
-
-    test('Search 8-10: Multi-Lemma searches (Paragraph/Document/Proximity)', async ({ page }) => {
+    test('Search 7-9: Multi-Lemma searches (Paragraph/Document/Proximity)', async ({ page }) => {
         // Check if multi-lemma search button exists
         const multiLemmaBtn = page.locator('button:has-text("Multi-Lemma")');
 
@@ -166,7 +134,7 @@ test.describe('Search Functions with Pre-Built Corpus', () => {
         }
     });
 
-    test('Search 11: XPath Query on TEI', async ({ page }) => {
+    test('Search 10: XPath Query on TEI', async ({ page }) => {
         // Select "TEI Texte" as target
         await page.selectOption('#xpathTarget', 'tei');
 

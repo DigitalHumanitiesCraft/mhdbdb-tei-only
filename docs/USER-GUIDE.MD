@@ -57,20 +57,20 @@ Sechs Einstiegspunkte zum Durchsuchen der kontrollierten Vokabulare:
 |--------|--------|----------|
 | Autoren anzeigen | Autoren und historische Personen | Name, GND/Wikidata, Werkanzahl |
 | Werke anzeigen | Werk- und Handschriftenmetadaten | Titel, Sigle, Autor, Gattungen |
-| Lemmata anzeigen | Wörterbuch (ca. 39.000 Einträge) | Lemma, Wortart, Bedeutungen, Konzepte |
-| Konzepte anzeigen | Semantische Konzepttaxonomie | Begriff, Hierarchie, zugehörige Lemmata |
+| Lemmata anzeigen | Wörterbuch (ca. 39.000 Einträge) | Lemma, Wortart, Bedeutungen, Begriffe |
+| Begriffe anzeigen | Semantische Begriffstaxonomie | Begriff, Hierarchie, zugehörige Lemmata |
 | Gattungen anzeigen | Literarische Gattungsklassifikation | Gattung, Hierarchie, zugehörige Werke |
-| Namen anzeigen | Eigennamen mit Relationen | Name, zugehörige Konzepte |
+| Namen anzeigen | Eigennamen mit Relationen | Name, zugehörige Begriffe |
 
 Jede Ansicht bietet ein Suchfeld zum Filtern. Maximal 30 Ergebnisse werden pro Suche angezeigt.
 
 ### TEI Textanalyse
 
-Fünf Analysemodi für die TEI-Texte im Korpus:
+Vier Analysemodi für die TEI-Texte im Korpus:
 
 **Multi-Lemma-Suche** (Hauptfunktion):
 1. Button "Multi-Lemma-Suche" klicken - ein Dialog öffnet sich
-2. Lemmata eingeben: Wörter (z.B. "brôt") oder IDs (z.B. "879"), getrennt durch Komma oder Plus
+2. Lemmata eingeben: Wörter (z.B. "brôt") oder IDs (z.B. "879"), getrennt durch Komma oder Plus — auch ein einzelnes Lemma ist möglich
 3. Eingegebene Lemmata erscheinen als Chips und können einzeln entfernt werden
 4. Suchmodus wählen:
    - **Nähe-Analyse** (empfohlen): Findet Lemmata, die innerhalb eines einstellbaren Wortabstands (1-50 Wörter, Standard: 10) zusammen vorkommen
@@ -78,8 +78,6 @@ Fünf Analysemodi für die TEI-Texte im Korpus:
 5. "Suche starten" klicken
 6. Ergebnisse zeigen Fundstellen mit farbkodiertem Highlighting
 7. Ein Klick auf ein Ergebnis öffnet die Leseansicht auf der Hauptseite mit allen Lemmata hervorgehoben
-
-**Lemma-Suche**: Einzelnes Lemma im Korpus suchen (nach ID oder Wort)
 
 **Alle Wörter**: Listet die ersten 200 Wörter der ausgewählten Texte auf
 

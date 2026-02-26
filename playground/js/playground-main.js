@@ -18,7 +18,7 @@ import { MultiLemmaSearchUI } from './ui/tei/multi-lemma-search.js';
 setFileDisplayHelpers(setupCollapsibleFileList, setupFileFilter);
 
 // Import utilities for global exposure (needed for testing)
-import { TextNormalizer } from '../../lib/text-normalizer.js';
+import { TextNormalizer } from '../../assets/js/lib/text-normalizer.js';
 import { SearchPatterns } from './ui/search/SearchHelpers.js';
 
 class MHDBDBPlayground {
@@ -80,7 +80,7 @@ class MHDBDBPlayground {
             console.log('📥 Loading pre-built authority index...');
 
             // Dynamically import CorpusLoader (from parent directory)
-            const { CorpusLoader } = await import('../../lib/corpus-loader.js');
+            const { CorpusLoader } = await import('../../assets/js/lib/corpus-loader.js');
 
             // Create loader with correct path (playground is in playground/ subdirectory)
             const loader = new CorpusLoader('../data');
@@ -144,7 +144,7 @@ class MHDBDBPlayground {
             if (fileBrowserSection) fileBrowserSection.style.display = 'none';
 
             // Load corpus from pre-built index
-            const { CorpusLoader } = await import('../../lib/corpus-loader.js');
+            const { CorpusLoader } = await import('../../assets/js/lib/corpus-loader.js');
             const loader = new CorpusLoader('../data');
             await loader.dbReady;
 
@@ -405,8 +405,7 @@ class MHDBDBPlayground {
         const teiButtons = [
             { id: 'showWordsBtn', handler: () => this.ui.teiExplorer.showWords() },
             { id: 'showLinesBtn', handler: () => this.ui.teiExplorer.showLines() },
-            { id: 'findLemmaBtn', handler: () => this.ui.teiExplorer.findLemmaInText() },
-            { id: 'findMultiLemmaBtn', handler: () => this.ui.multiLemmaSearch.open() }, // Use new modal UI
+            { id: 'findMultiLemmaBtn', handler: () => this.ui.multiLemmaSearch.open() },
             { id: 'showAnnotationsBtn', handler: () => this.ui.teiExplorer.showAnnotations() }
         ];
 

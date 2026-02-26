@@ -3,7 +3,7 @@
  * Tailwind-first search interfaces and utilities with MHG normalization support
  */
 
-import { TextNormalizer } from '../../../../lib/text-normalizer.js';
+import { TextNormalizer } from '../../../../assets/js/lib/text-normalizer.js';
 
 // ==================== SEARCH INTERFACE CREATION ====================
 
@@ -21,7 +21,7 @@ export function createSearchInterface(config) {
     <section class="space-y-4">
       <header class="rounded-xl bg-slate-50/80 px-4 py-2 text-sm font-medium text-slate-600">
         <span>${title}</span>
-        <span class="ml-2 text-xs uppercase tracking-wide text-slate-400">${totalCount} Einträge</span>
+        <span class="ml-2 text-sm uppercase tracking-wide text-slate-600">${totalCount} Einträge</span>
       </header>
       <div>
         <input

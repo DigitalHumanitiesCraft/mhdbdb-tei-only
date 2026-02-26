@@ -157,7 +157,7 @@ Consistent search behavior across all 10 entry points via Middle High German cha
 - Ligatures: æ→ae, œ→oe
 
 **Implementation:**
-- Shared utility: `lib/text-normalizer.js`
+- Shared utility: `assets/js/lib/text-normalizer.js`
 - Applied to all search inputs and indexed data
 - Enables consistent matching across orthographic variations
 

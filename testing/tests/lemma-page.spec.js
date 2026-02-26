@@ -1,0 +1,222 @@
+/**
+ * Lemma Page Tests (Issue #42)
+ * Verifies persistent lemma pages load and display correctly
+ */
+
+import { test, expect } from '@playwright/test';
+
+test.describe('Persistent Lemma Pages', () => {
+
+    test('lemma page loads with query param (?id=879)', async ({ page }) => {
+        await page.goto('http://localhost:8080/lemma/?id=879');
+
+        // Wait for loading to complete
+        await page.waitForSelector('#lemmaContent:not(.hidden)', { timeout: 30000 });
+
+        // Check title block
+        const title = await page.textContent('#lemmaTitle');
+        expect(title.length).toBeGreaterThan(0);
+
+        // Check POS badge is present
+        const pos = await page.textContent('#lemmaPos');
+        expect(pos.length).toBeGreaterThan(0);
+
+        // Check lemma ID displayed
+        const displayedId = await page.textContent('#lemmaId');
+        expect(displayedId).toBe('lemma_879');
+    });
+
+    test('lemma page shows correct data for brôt (879)', async ({ page }) => {
+        await page.goto('http://localhost:8080/lemma/?id=879');
+        await page.waitForSelector('#lemmaContent:not(.hidden)', { timeout: 30000 });
+
+        // brôt should be a noun
+        const title = await page.textContent('#lemmaTitle');
+        expect(title).toContain('br');  // brôt or similar MHG form
+
+        // Should have normalized form
+        const normalized = await page.textContent('#lemmaNormalized');
+        expect(normalized).toContain('brot');
+
+        // Page title should include lemma
+        const pageTitle = await page.title();
+        expect(pageTitle).toContain('MHDBDB');
+    });
+
+    test('lemma page shows corpus occurrences', async ({ page }) => {
+        await page.goto('http://localhost:8080/lemma/?id=879');
+        await page.waitForSelector('#lemmaContent:not(.hidden)', { timeout: 30000 });
+
+        // Wait a bit for corpus index to load
+        await page.waitForSelector('#occurrencesSection:not(.hidden)', { timeout: 30000 });
+
+        // Check occurrence count text is present
+        const countText = await page.textContent('#occurrenceCount');
+        expect(countText).toContain('Texten');
+
+        // Should have clickable text links
+        const links = await page.locator('#occurrencesContent a').count();
+        expect(links).toBeGreaterThan(0);
+    });
+
+    test('lemma page shows external links', async ({ page }) => {
+        await page.goto('http://localhost:8080/lemma/?id=879');
+        await page.waitForSelector('#lemmaContent:not(.hidden)', { timeout: 30000 });
+
+        // Should have old MHDBDB link with correct URL
+        const mhdbdbLink = page.locator('#externalLinks a:has-text("MHDBDB")');
+        await expect(mhdbdbLink).toBeVisible();
+        const mhdbdbHref = await mhdbdbLink.getAttribute('href');
+        expect(mhdbdbHref).toContain('mhdbdb-old.sbg.ac.at');
+        expect(mhdbdbHref).toContain('lid=879');
+
+        // Should have corpus search link
+        const corpusLink = page.locator('#externalLinks a:has-text("Korpus")');
+        await expect(corpusLink).toBeVisible();
+
+        // Should have MWB Online link
+        const mwbLink = page.locator('#externalLinks a:has-text("MWB Online")');
+        await expect(mwbLink).toBeVisible();
+        const mwbHref = await mwbLink.getAttribute('href');
+        expect(mwbHref).toContain('mhdwb-online.de');
+    });
+
+    test('lemma page loads Wörterbuchnetz entries via API', async ({ page }) => {
+        await page.goto('http://localhost:8080/lemma/?id=879');
+        await page.waitForSelector('#lemmaContent:not(.hidden)', { timeout: 30000 });
+
+        // Wörterbuchnetz section appears after async API call (brôt → brot)
+        await page.waitForSelector('#wbnetzSection:not(.hidden)', { timeout: 15000 });
+
+        // Should have at least one dictionary link (BMZ or Lexer)
+        const wbnLinks = page.locator('#wbnetzLinks a');
+        const count = await wbnLinks.count();
+        expect(count).toBeGreaterThan(0);
+
+        // Links should point to woerterbuchnetz.de
+        const firstHref = await wbnLinks.first().getAttribute('href');
+        expect(firstHref).toContain('woerterbuchnetz.de');
+    });
+
+    test('invalid lemma ID shows error', async ({ page }) => {
+        await page.goto('http://localhost:8080/lemma/?id=99999999');
+
+        // Should show error, not content
+        await page.waitForSelector('#errorDisplay:not(.hidden)', { timeout: 30000 });
+
+        const errorText = await page.textContent('#errorMessage');
+        expect(errorText).toContain('nicht gefunden');
+
+        // Content should remain hidden
+        const contentHidden = await page.locator('#lemmaContent').evaluate(el => el.classList.contains('hidden'));
+        expect(contentHidden).toBe(true);
+    });
+
+    test('no ID shows error message', async ({ page }) => {
+        await page.goto('http://localhost:8080/lemma/');
+
+        await page.waitForSelector('#errorDisplay:not(.hidden)', { timeout: 30000 });
+
+        const errorText = await page.textContent('#errorMessage');
+        expect(errorText).toContain('Keine Lemma-ID');
+    });
+
+    test('minne (4130) - high-frequency lemma loads', async ({ page }) => {
+        await page.goto('http://localhost:8080/lemma/?id=4130');
+        await page.waitForSelector('#lemmaContent:not(.hidden)', { timeout: 30000 });
+
+        const title = await page.textContent('#lemmaTitle');
+        expect(title.length).toBeGreaterThan(0);
+
+        // minne should appear in many texts
+        await page.waitForSelector('#occurrencesSection:not(.hidden)', { timeout: 30000 });
+        const countText = await page.textContent('#occurrenceCount');
+        expect(countText).toContain('Texten');
+    });
+
+    test('etymology links point to other lemma pages', async ({ page }) => {
+        // lemma_100 (ahzehen) has etymology components
+        await page.goto('http://localhost:8080/lemma/?id=100');
+        await page.waitForSelector('#lemmaContent:not(.hidden)', { timeout: 30000 });
+
+        // Check if etymology section is visible (not all lemmata have etymology)
+        const etymVisible = await page.locator('#etymologySection').evaluate(el => !el.classList.contains('hidden'));
+        if (etymVisible) {
+            const etymLinks = await page.locator('#etymologyContent a.etymology-link').count();
+            expect(etymLinks).toBeGreaterThan(0);
+
+            // Links should point to other lemma pages
+            const firstHref = await page.locator('#etymologyContent a.etymology-link').first().getAttribute('href');
+            expect(firstHref).toMatch(/^\?id=\d+$/); // Query param link
+        }
+    });
+
+    test('copy ID button exists and is clickable', async ({ page }) => {
+        await page.goto('http://localhost:8080/lemma/?id=879');
+        await page.waitForSelector('#lemmaContent:not(.hidden)', { timeout: 30000 });
+
+        // Verify button exists and shows initial text
+        const btn = page.locator('#copyIdBtn');
+        await expect(btn).toBeVisible();
+        await expect(btn).toHaveText('kopieren');
+
+        // Click — clipboard API may not work in test context, just verify no error
+        await btn.click();
+    });
+
+    test('orthographic variants shown for brôt (879)', async ({ page }) => {
+        await page.goto('http://localhost:8080/lemma/?id=879');
+        await page.waitForSelector('#lemmaContent:not(.hidden)', { timeout: 30000 });
+
+        // brôt should have multiple attested spelling variants
+        await page.waitForSelector('#variantsSection:not(.hidden)', { timeout: 5000 });
+
+        const countText = await page.textContent('#variantsCount');
+        expect(countText).toMatch(/\(\d+\)/); // e.g. "(23)"
+
+        // Variant links should point to corpus search
+        const firstVariant = page.locator('#variantsContent a').first();
+        const href = await firstVariant.getAttribute('href');
+        expect(href).toContain('korpus.html?search=');
+    });
+
+    test('compounds section shown for brôt (879)', async ({ page }) => {
+        await page.goto('http://localhost:8080/lemma/?id=879');
+        await page.waitForSelector('#lemmaContent:not(.hidden)', { timeout: 30000 });
+
+        // brôt should have compounds (halpbrôt, himelbrôt, etc.)
+        await page.waitForSelector('#compoundsSection:not(.hidden)', { timeout: 5000 });
+
+        const countText = await page.textContent('#compoundsCount');
+        expect(countText).toMatch(/\(\d+\)/);
+
+        // Compound links should point to other lemma pages (numeric IDs)
+        const firstCompound = page.locator('#compoundsContent a').first();
+        const href = await firstCompound.getAttribute('href');
+        expect(href).toMatch(/^\?id=\d+$/);
+    });
+
+    test('IMAREAL link present in external links', async ({ page }) => {
+        await page.goto('http://localhost:8080/lemma/?id=879');
+        await page.waitForSelector('#lemmaContent:not(.hidden)', { timeout: 30000 });
+
+        const imrealLink = page.locator('#externalLinks a:has-text("REALonline")');
+        await expect(imrealLink).toBeVisible();
+        const href = await imrealLink.getAttribute('href');
+        expect(href).toContain('realonline.imareal.sbg.ac.at/suche');
+    });
+
+    test('occurrence links navigate to korpus reading view', async ({ page }) => {
+        await page.goto('http://localhost:8080/lemma/?id=879');
+        await page.waitForSelector('#occurrencesSection:not(.hidden)', { timeout: 30000 });
+
+        // Get first occurrence link
+        const firstLink = page.locator('#occurrencesContent a').first();
+        const href = await firstLink.getAttribute('href');
+
+        // Should link to korpus.html with correct params
+        expect(href).toContain('korpus.html');
+        expect(href).toContain('textId=');
+        expect(href).toContain('lemmaIds=879');
+    });
+});

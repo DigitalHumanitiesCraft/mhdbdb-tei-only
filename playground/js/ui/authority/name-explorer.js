@@ -83,7 +83,7 @@ export class NameExplorer {
           meta: formatMetadata([
             `ID: ${name.id}`,
             conceptConnections.length > 0
-              ? `${conceptConnections.length} Konzepte`
+              ? `${conceptConnections.length} Begriffe`
               : null,
           ]),
           title: name.termDE || name.termEN,
@@ -91,7 +91,7 @@ export class NameExplorer {
             conceptConnections.length > 0
               ? [
                   {
-                    text: "Konzepte anzeigen",
+                    text: "Begriffe anzeigen",
                     action: `window.playground.ui.authorityExplorers.showConceptsForName('${
                       name.id
                     }', '${escapeForJS(name.termDE || name.termEN)}')`,
@@ -111,7 +111,7 @@ export class NameExplorer {
       const concepts = this.findConceptsForName(nameId);
 
       if (concepts.length === 0) {
-        return "Keine Konzept-Verbindungen für diesen Namen gefunden.";
+        return "Keine Begriffsverbindungen für diesen Namen gefunden.";
       }
 
       const conceptsHTML = concepts
@@ -120,7 +120,7 @@ export class NameExplorer {
           (concept) => `
             <div style="margin-bottom: 3px; font-size: 0.85rem;">
                 • <strong>${concept.termDE || concept.termEN}</strong>
-                <span style="color: #666;">(${concept.id})</span>
+                <span style="color: #475569;">(${concept.id})</span>
             </div>
         `
         )
@@ -128,7 +128,7 @@ export class NameExplorer {
 
       return `
             <div style="font-weight: 500; margin-bottom: 8px; color: #667eea;">
-                ${concepts.length} verwandte Konzepte zu "${nameText}"${
+                ${concepts.length} verwandte Begriffe zu "${nameText}"${
         concepts.length > 10 ? " (erste 10)" : ""
       }:
             </div>

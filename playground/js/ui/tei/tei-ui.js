@@ -5,7 +5,7 @@
 
 import { displayResults, displaySummaryResults } from '../core/ui-helpers.js';
 import { showOverlaySpinner, hideSpinner } from '../core/progress.js';
-import { TextNormalizer } from '../../../../lib/text-normalizer.js';
+import { TextNormalizer } from '../../../../assets/js/lib/text-normalizer.js';
 
 export class TEIExplorer {
     constructor(teiData, authorityData) {
@@ -312,7 +312,7 @@ export class TEIExplorer {
         // Show first 100 lemma IDs as placeholder
         const preview = paragraphLemmas.slice(0, 100).join(' ');
         const more = paragraphLemmas.length > 100 ? ` ... (+${paragraphLemmas.length - 100} weitere)` : '';
-        return `<code style="font-size: 0.85em; color: #64748b;">${preview}${more}</code>`;
+        return `<code style="font-size: 0.85em; color: #475569;">${preview}${more}</code>`;
     }
 
     formatMatchingWordsOrCounts(matchingWords) {
@@ -420,7 +420,7 @@ export class TEIExplorer {
                     const preview = match.contextLemmas ? match.contextLemmas.slice(0, 20).join(' ') : '';
                     return {
                         meta: `Abstand: ${match.distance} Wörter`,
-                        snippet: `<em style="color: #64748b;">Klicken Sie auf "KLICKEN ZUM ERWEITERN" um den vollständigen Text anzuzeigen</em>`
+                        snippet: `<em style="color: #475569;">Klicken Sie auf "KLICKEN ZUM ERWEITERN" um den vollständigen Text anzuzeigen</em>`
                     };
                 }
             });
@@ -578,12 +578,12 @@ export class TEIExplorer {
             .slice(0, 50);
 
         const results = resultsWithConcepts.map(a => ({
-            meta: `${a.filename} • ${a.tagName} • Konzepte: ${a.resolvedConcepts.map(c => c.termDE || c.termEN).join(', ')}`,
+            meta: `${a.filename} • ${a.tagName} • Begriffe: ${a.resolvedConcepts.map(c => c.termDE || c.termEN).join(', ')}`,
             snippet: a.text
         }));
 
         displayResults(
-            `Annotationen mit aufgelösten Konzept-Referenzen (erste 50 von ${resultsWithConcepts.length})`,
+            `Annotationen mit aufgelösten Begriffsreferenzen (erste 50 von ${resultsWithConcepts.length})`,
             results
         );
     }
