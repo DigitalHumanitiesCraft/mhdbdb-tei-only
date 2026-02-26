@@ -176,19 +176,22 @@
                     <div id="teiStats" class="space-y-2 text-sm text-slate-600"></div>
                 </div>
 
-                <div id="authorityOverview" class="rounded-2xl border border-slate-200 bg-slate-50/70 p-5">
-                    <div class="mb-3 flex items-center justify-between">
-                        <h3 class="text-base font-semibold text-slate-800">Authority Files</h3>
-                        <div id="authorityStatus" class="flex items-center gap-2 text-xs font-medium uppercase tracking-wide text-slate-500">
-                            <div id="statusIndicator" class="w-4 h-4 text-slate-600">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
-                                </svg>
+                <div id="authorityOverview" class="rounded-2xl border border-slate-200 bg-slate-50/70 p-4">
+                    <button id="authorityToggle" type="button" class="w-full flex items-center justify-between cursor-pointer" onclick="document.getElementById('authorityStats').classList.toggle('hidden'); document.getElementById('authorityChevron').classList.toggle('rotate-180')">
+                        <h3 class="text-sm font-semibold text-slate-800">Authority Files</h3>
+                        <div class="flex items-center gap-2">
+                            <div id="authorityStatus" class="flex items-center gap-1.5 text-xs font-medium uppercase tracking-wide text-slate-500">
+                                <div id="statusIndicator" class="w-3.5 h-3.5 text-slate-600">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                                    </svg>
+                                </div>
+                                <span id="statusText" class="text-slate-600">Lade...</span>
                             </div>
-                            <span id="statusText" class="text-slate-600">Lade...</span>
+                            <svg id="authorityChevron" class="w-4 h-4 text-slate-400 transition-transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </div>
-                    </div>
-                    <div id="authorityStats" class="space-y-2 text-sm text-slate-600"></div>
+                    </button>
+                    <div id="authorityStats" class="mt-2 space-y-1 text-xs text-slate-600"></div>
                 </div>
             </section>
 
