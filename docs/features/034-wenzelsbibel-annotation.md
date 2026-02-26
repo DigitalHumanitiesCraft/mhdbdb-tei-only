@@ -48,7 +48,7 @@ Every `<w>` needs: `@lemmaRef`, `@pos`. Later also: `@meaningRef`, `@wordRef`.
 |--------|-------|
 | Total `<w>` elements | ~150,000 |
 | Source files (WB-DEA) | 5 |
-| Unique normalized word forms (@norm) | ~4,900 (Genesis alone) |
+| Unique word forms (text content of `<w>`) | ~4,900 (Genesis alone) |
 | MHDBDB lexicon entries | 43,750 |
 | MHDBDB variant forms | 192,674 |
 | POS tag set | PRO, VRB, NOM, ADJ, ADV, ART, CNJ, PRP, VEX, POS, NAM, NUM (can be space-separated for multi-tag) |
@@ -60,7 +60,7 @@ Every `<w>` needs: `@lemmaRef`, `@pos`. Later also: `@meaningRef`, `@wordRef`.
 **Goal:** Assign `@lemmaRef` to as many words as possible using the existing MHDBDB lexicon and variant mappings.
 
 **Approach:**
-1. Extract all unique `@norm` forms from `WZB.tei.xml` (the text content is already the @norm value from the WB-DEA transformation)
+1. Extract all unique word forms from `WZB.tei.xml` (the **text content** of each `<w>` element is the matching form — during transformation, the WB-DEA `@norm` value was written as text content; there is no `@norm` attribute in WZB.tei.xml itself)
 2. Match each form against `variants.xml` entries (192k forms linking to lemma IDs)
 3. For unambiguous matches (one form maps to exactly one lemma), auto-assign `@lemmaRef`
 4. For ambiguous matches (one form maps to multiple lemmata), flag for human/LLM disambiguation
@@ -74,7 +74,12 @@ Every `<w>` needs: `@lemmaRef`, `@pos`. Later also: `@meaningRef`, `@wordRef`.
 - Writes `@lemmaRef` for unambiguous matches
 - Outputs a report: matched (unambiguous), matched (ambiguous), unmatched
 
-**Important caveat — MHG normalization:** The MHDBDB uses a specific normalization scheme (`â→a, ê→e, î→i, ô→o, û→u, ä→ae, ö→oe, ü→ue`; see `assets/js/lib/text-normalizer.js`). The WB-DEA `@norm` values may NOT follow this scheme (they preserve the manuscript normalization like "herczen" instead of MHDBDB-normalized "herze"). The matching script must apply MHDBDB normalization to both the variant forms and the WZB word forms before comparing.
+**Important caveat — MHG normalization:** The MHDBDB uses a specific normalization scheme (`â→a, ê→e, î→i, ô→o, û→u, ä→ae, ö→oe, ü→ue`; see `assets/js/lib/text-normalizer.js`). Verified status:
+
+- **`variants.xml`**: Contains 34,149 forms with special characters (â, ê, î, ô, û, ä, ö, ü) — **NOT pre-normalized**
+- **`WZB.tei.xml`**: Contains **zero** special characters — word forms use manuscript-level normalization (e.g. "herczen" not "hêrzen")
+
+The matching script **must** apply MHDBDB normalization (via `scripts/mhg_normalizer.py`) to **both** the variant forms and the WZB word forms before comparing. The Python normalizer has parity tests against the JS version (`testing/tests/normalization-parity.spec.js`).
 
 ### Phase 1b: LLM-Assisted Lemma Resolution (ambiguous + unmatched)
 
@@ -102,15 +107,30 @@ Words to resolve:
 [batch of ~20-50 words with surrounding context]
 ```
 
-**Coverage target:** Best-effort with existing lexicon. Unmatched words are flagged in a report but NOT added to `lexicon.xml` in this phase (that requires a separate editorial decision).
+**Output format:** Phase 1b produces a TSV file (`wzb-disambiguation.tsv`) with columns:
+
+| Column | Description |
+|--------|-------------|
+| `xml_id` | `<w>` element ID (e.g. `WZB_1ra_6_5`) |
+| `form` | Word form as it appears in WZB |
+| `context` | Surrounding 5-word window |
+| `match_type` | `ambiguous` or `unmatched` |
+| `candidate_lemmas` | Pipe-separated lemma IDs from Phase 1 (empty for unmatched) |
+| `resolved_lemma` | Final lemma ID after LLM/human review (or `NEW`) |
+| `confidence` | `high` / `medium` / `low` |
+| `reviewer` | `claude` or `julia` |
+
+**Escalation:** Words marked `confidence=low` by Claude are reviewed by Julia. Words marked `NEW` are collected in a separate list for the editorial team (not added to `lexicon.xml` in this phase).
+
+**Coverage target:** Best-effort with existing lexicon. Unmatched words are flagged in the report but NOT added to `lexicon.xml` in this phase (that requires a separate editorial decision).
 
 ### Phase 2: POS Tagging (LLM-assisted)
 
 **Goal:** Assign `@pos` to every `<w>` element.
 
 **Approach:**
-1. For words with unambiguous `@lemmaRef` from Phase 1: inherit POS from `lexicon.xml` entry (the `<pos>` child of `<gramGrp>`)
-2. For remaining words: LLM-assisted tagging in batches via Claude Code
+1. For words with `@lemmaRef` from Phase 1: inherit POS from `lexicon.xml` entry **only if the entry has exactly one `<pos>` element** in its `<gramGrp>`. If a lemma has multiple `<pos>` elements (e.g. `lemma_722` has both `NOM` and `VRB`), the word is flagged for LLM-assisted disambiguation — the correct POS depends on sentence context.
+2. For remaining words (no `@lemmaRef`, or multi-POS lemma): LLM-assisted tagging in batches via Claude Code
 
 **Prompt template:**
 
@@ -154,13 +174,13 @@ Add a new entry to `authority-files/works.xml`:
   <title xml:lang="de">Wenzelsbibel</title>
   <title xml:lang="en">Wenceslas Bible</title>
   <idno type="sigle">WZB</idno>
-  <ref target="genres.xml#[TBD_GENRE_ID]" xml:lang="de">[Bibelübersetzung/Bibeldichtung]</ref>
+  <ref target="genres.xml#genre_93f5fac5" xml:lang="de">Bibelübersetzung</ref>
   <author ref="persons.xml#person_anonym">Anonym</author>
   <note type="manuscript">Wien, ÖNB, Cod. 2759-2764</note>
 </bibl>
 ```
 
-**Decision needed:** Genre classification — is WZB "Bibeldichtung" (Bible poetry), "Bibelübersetzung" (Bible translation), or a prose genre? Check `genres.xml` for best fit.
+**Resolved:** Genre is **Bibelübersetzung** (`genre_93f5fac5`) — the Wenzelsbibel is a prose translation of the Vulgate, not verse poetry.
 
 ### 2. Build the auto-match script
 
@@ -169,11 +189,29 @@ Python script: `scripts/wzb-auto-match.py`
 Input: `Wenzelsbibel/WZB.tei.xml` + `authority-files/variants.xml` + `authority-files/lexicon.xml`
 Output: Annotated WZB with `@lemmaRef` where unambiguous + CSV report of ambiguous/unmatched words
 
-### 3. Verify @norm coverage in WZB.tei.xml
+### 3. Verify word form coverage in WZB.tei.xml
 
-Some WB-DEA words have `norm=""` (empty). These need to be identified and handled:
-- If `@orig` is available: use it as fallback
-- If both are empty: flag for manual review
+Some WB-DEA source words had `norm=""` (empty). During transformation, these may have produced `<w>` elements with empty text content. These need to be identified and handled:
+- If the WB-DEA source has `@orig` for the corresponding word: use it as fallback
+- If both were empty: flag for manual review
+- The auto-match script should skip empty `<w>` elements and report them separately
+
+## Git Workflow
+
+All annotation work happens on the `feature/wenzelsbibel-ingest` branch. Each phase produces a separate commit to enable rollback and review:
+
+| Phase | Commit message pattern | What changes |
+|-------|----------------------|--------------|
+| Pre-req | `Add WZB to works.xml` | `authority-files/works.xml` |
+| Phase 1 | `WZB: auto-match lemmaRef (N% coverage)` | `Wenzelsbibel/WZB.tei.xml` + match report |
+| Phase 1b | `WZB: resolve ambiguous/unmatched lemmaRef` | `Wenzelsbibel/WZB.tei.xml` + disambiguation TSV |
+| Phase 2 | `WZB: assign POS tags` | `Wenzelsbibel/WZB.tei.xml` |
+
+**Rules:**
+- Phase 1b corrections are **additive** — they never overwrite Phase 1 unambiguous matches
+- The auto-match script (`wzb-auto-match.py`) is committed separately from its output
+- The disambiguation TSV (`wzb-disambiguation.tsv`) is committed alongside the annotated XML for audit trail
+- After all phases: PR into `main`, then Chris moves WZB to `tei/` and rebuilds indexes
 
 ## QA Strategy
 
@@ -203,6 +241,7 @@ Some WB-DEA words have `norm=""` (empty). These need to be identified and handle
 | `authority-files/variants.xml` | Normalized form → lemma mapping | 1 |
 | `authority-files/concepts.xml` | Semantic concepts for meaningRef | 3 |
 | `authority-files/works.xml` | Needs WZB entry added | Pre-req |
+| `scripts/mhg_normalizer.py` | MHG text normalization (Python, parity with JS) | 1 |
 | `scripts/wzb-auto-match.py` | Auto-matching script (to be built) | 1 |
 
 ## Estimated Effort
@@ -211,13 +250,13 @@ Some WB-DEA words have `norm=""` (empty). These need to be identified and handle
 |-------|-----------------|------------|
 | Pre-requisites | 1-2 hours | Script development |
 | Phase 1 (auto-match) | 2-4 hours | Script + reviewing report |
-| Phase 1b (LLM disambiguation) | 1-2 weeks | Human review of LLM suggestions |
-| Phase 2 (POS tagging) | 1-2 weeks | LLM batches + spot-checking |
+| Phase 1b (LLM disambiguation) | TBD after Phase 1 report | Depends on ambiguous/unmatched count — refine after auto-match |
+| Phase 2 (POS tagging) | TBD after Phase 1b | Depends on multi-POS lemma ratio — refine after Phase 1b |
 | Phase 3 (meaningRef + wordRef) | TBD | Deferred |
 
 ## Open Questions
 
-1. **Genre for WZB in works.xml** — Which `genres.xml` ID to use?
+1. ~~**Genre for WZB in works.xml**~~ — **Resolved:** `genre_93f5fac5` (Bibelübersetzung)
 2. **Lexicon gaps** — When words aren't in the lexicon, do we create a separate "pending additions" list for Alan/the team to review?
 3. **CoReMA is separate** — Issue #34 also mentions CoReMA texts, but they are a distinct corpus with different characteristics. This plan is WZB-specific. Lessons learned here may inform a future CoReMA pipeline, but that's not guaranteed.
 4. **Index rebuild** — After annotation, WZB needs to be moved to `tei/` and indexes rebuilt. This is Christian's task, not Julia's.
@@ -226,6 +265,7 @@ Some WB-DEA words have `norm=""` (empty). These need to be identified and handle
 
 - [MHDBDB POS Tag Set](../DATA-MODEL.MD) — Full tag definitions
 - [Variant Resolution](../ARCHITECTURE.MD) — 3-stage matching algorithm
-- [MHG Normalization](../../assets/js/lib/text-normalizer.js) — Canonical normalization rules
+- [MHG Normalization (JS)](../../assets/js/lib/text-normalizer.js) — Canonical normalization rules
+- [MHG Normalization (Python)](../../scripts/mhg_normalizer.py) — Python parity implementation for build scripts
 - [Wörterbuchnetz API](https://api.woerterbuchnetz.de) — BMZ/Lexer for cross-referencing
 - [WB-DEA Project](https://gams.uni-graz.at/context:wbdea) — Source edition
