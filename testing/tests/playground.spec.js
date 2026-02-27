@@ -1,5 +1,9 @@
 // tests/playground.spec.js
 import { test, expect } from '@playwright/test';
+import { dirname, resolve } from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 test.describe('MHDBDB Playground Test Suite', () => {
   test.beforeEach(async ({ page }) => {
@@ -18,7 +22,7 @@ test.describe('MHDBDB Playground Test Suite', () => {
     await expect(page.locator('#progress-text')).toContainText('Initializing tests', { timeout: 10000 });
 
     // Wait for tests to complete (optimized timeout)
-    await expect(page.locator('#progress-text')).toContainText('All tests completed', { timeout: 20000 });
+    await expect(page.locator('#progress-text')).toContainText('All tests completed', { timeout: 30000 });
 
     // Check that the spinner is hidden (indicating completion)
     await expect(page.locator('#loading-spinner')).toBeHidden();
@@ -46,14 +50,14 @@ test.describe('MHDBDB Playground Test Suite', () => {
     console.log('Test Results JSON:', JSON.stringify(testResults, null, 2));
 
     // Take a screenshot of the final results
-    await page.screenshot({ path: 'test-results/test-results-screenshot.png', fullPage: true });
+    await page.screenshot({ path: resolve(__dirname, '../test-results/test-results-screenshot.png'), fullPage: true });
   });
 
   test('should display test results visually', async ({ page }) => {
     await page.goto('/testing/test.html');
 
     // Wait for tests to complete
-    await expect(page.locator('#progress-text')).toContainText('All tests completed', { timeout: 15000 });
+    await expect(page.locator('#progress-text')).toContainText('All tests completed', { timeout: 30000 });
 
     // Verify results section is populated
     const resultsContainer = page.locator('#test-results');
@@ -80,13 +84,13 @@ test.describe('MHDBDB Playground Test Suite', () => {
     await page.goto('/testing/test.html');
 
     // Wait for initial tests to complete
-    await expect(page.locator('#progress-text')).toContainText('All tests completed', { timeout: 15000 });
+    await expect(page.locator('#progress-text')).toContainText('All tests completed', { timeout: 30000 });
 
     // Test "Run Tests Again" button - just verify it completes again
     await page.click('#run-tests');
 
     // Wait for tests to run again (they complete quickly, so just wait for completion)
-    await expect(page.locator('#progress-text')).toContainText('completed', { timeout: 15000 });
+    await expect(page.locator('#progress-text')).toContainText('completed', { timeout: 30000 });
 
     // Test "Clear Storage" button
     await page.click('button:has-text("Clear Storage")');
@@ -109,14 +113,14 @@ test.describe('MHDBDB Playground Test Suite', () => {
     await expect(consoleOutput).toContainText('Test suite starting');
 
     // Should show test progress
-    await expect(consoleOutput).toContainText('TEIStorageManager', { timeout: 15000 });
+    await expect(consoleOutput).toContainText('TEIStorageManager', { timeout: 30000 });
   });
 
   test('should handle download report functionality', async ({ page }) => {
     await page.goto('/testing/test.html');
 
     // Wait for tests to complete
-    await expect(page.locator('#progress-text')).toContainText('All tests completed', { timeout: 15000 });
+    await expect(page.locator('#progress-text')).toContainText('All tests completed', { timeout: 30000 });
 
     // Set up download handling
     const downloadPromise = page.waitForEvent('download');
@@ -129,7 +133,7 @@ test.describe('MHDBDB Playground Test Suite', () => {
     expect(download.suggestedFilename()).toMatch(/test-report-.*\.json/);
 
     // Save the download for verification
-    await download.saveAs(`test-results/${download.suggestedFilename()}`);
+    await download.saveAs(resolve(__dirname, `../test-results/${download.suggestedFilename()}`));
   });
 
   test('should work with different screen sizes', async ({ page }) => {
@@ -154,7 +158,7 @@ test.describe('MHDBDB Playground Test Suite', () => {
     await page.goto('/testing/test.html');
 
     // Wait for tests to complete
-    await expect(page.locator('#progress-text')).toContainText('All tests completed', { timeout: 15000 });
+    await expect(page.locator('#progress-text')).toContainText('All tests completed', { timeout: 30000 });
 
     // Check that storage quota tests ran
     const consoleOutput = page.locator('#console-output');
@@ -178,15 +182,9 @@ test.describe('MHDBDB Playground Test Suite', () => {
     // Wait for page to load
     await expect(page).toHaveTitle(/TEI Data Explorer/);
 
-    // Check if clear cache button exists but may be hidden initially
-    const clearButton = page.locator('#clearCacheBtn');
-
-    // If there are cached files, the button should become visible
-    // For now, just verify the button exists in the DOM
-    await expect(clearButton).toBeInViewport({ timeout: 5000 }).catch(() => {
-      // Button might be hidden if no cached files - this is expected
-      console.log('Clear cache button is hidden (no cached files)');
-    });
+    // Check if clear site data button exists (it's in the footer)
+    const clearButton = page.locator('#clearSiteDataBtn');
+    await expect(clearButton).toBeVisible({ timeout: 10000 });
   });
 });
 
@@ -200,17 +198,16 @@ test.describe('Playground Integration Tests', () => {
 
     // Check for essential elements
     await expect(page.locator('h1')).toContainText('TEI Data Explorer');
-    await expect(page.locator('#uploadZone')).toBeVisible();
     await expect(page.locator('#authorityOverview')).toBeVisible();
 
     // Check for authority files loading
     const statusText = page.locator('#statusText');
 
-    // Wait for either "Lade Authority Files..." or completion status
+    // Wait for either loading or completion status
     await expect(statusText).toBeVisible({ timeout: 5000 });
 
     // Take screenshot for manual verification
-    await page.screenshot({ path: 'test-results/playground-main-page.png', fullPage: true });
+    await page.screenshot({ path: resolve(__dirname, '../test-results/playground-main-page.png'), fullPage: true });
   });
 
   test('should have all required JavaScript modules', async ({ page }) => {

@@ -203,11 +203,6 @@ test.describe('Corpus Loading and Management', () => {
     await page.goto('/testing/test.html');
 
     const result = await page.evaluate(async () => {
-      const { IndexedDBManager } = await import('../playground/js/indexed-db-manager.js');
-
-      const dbManager = new IndexedDBManager();
-      await dbManager.initialize();
-
       // Directly fetch manifest instead of using CorpusLoader (avoids path issues in test)
       const manifestUrl = '/tei/manifest.json';
       const response = await fetch(manifestUrl);
@@ -248,222 +243,96 @@ test.describe('Corpus Loading and Management', () => {
     expect(result.firstFile.filename).toContain('.tei.xml');
   });
 
-  test('Corpus Loader - metadata extraction', async ({ page }) => {
-    await page.goto('/testing/test.html');
+  test('Corpus index structure after auto-load', async ({ page }) => {
+    // Test that the corpus index has the expected structure
+    await page.goto('/playground/index.html');
 
-    const result = await page.evaluate(async () => {
-      const { IndexedDBManager } = await import('../playground/js/indexed-db-manager.js');
-      const { CorpusLoader } = await import('../assets/js/lib/corpus-loader.js');
+    // Wait for corpus to auto-load
+    await page.waitForSelector('#fileBrowserSection', { state: 'visible', timeout: 60000 });
 
-      const dbManager = new IndexedDBManager();
-      await dbManager.initialize();
+    const result = await page.evaluate(() => {
+      // Auto-load stores corpus in corpusData.texts, not teiData.parsedXML
+      const texts = window.playground?.corpusData?.texts;
+      if (!texts || texts.length === 0) throw new Error('No corpus texts');
 
-      const loader = new CorpusLoader(dbManager);
-
-      // Test XML content
-      const xmlContent = `<?xml version="1.0" encoding="UTF-8"?>
-<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="TESTMETA">
-  <teiHeader>
-    <titleStmt>
-      <title xml:lang="de">Metadata Test Document</title>
-      <author ref="#person_123">Johann Wolfgang von Goethe</author>
-    </titleStmt>
-    <sourceDesc>
-      <msDesc>
-        <msIdentifier corresp="works.xml#work_456">
-          <idno type="sigle">TESTMETA</idno>
-        </msIdentifier>
-      </msDesc>
-    </sourceDesc>
-  </teiHeader>
-</TEI>`;
-
-      const manifestEntry = {
-        filename: 'TESTMETA.tei.xml',
-        sigle: 'FALLBACK',
-        title: 'Fallback Title',
-        author: 'Fallback Author'
-      };
-
-      const metadata = loader.extractMetadata(xmlContent, manifestEntry);
-
-      if (metadata.sigle !== 'TESTMETA') {
-        throw new Error(`Expected sigle 'TESTMETA', got '${metadata.sigle}'`);
-      }
-
-      if (metadata.title !== 'Metadata Test Document') {
-        throw new Error(`Expected title 'Metadata Test Document', got '${metadata.title}'`);
-      }
-
-      if (metadata.author !== 'Johann Wolfgang von Goethe') {
-        throw new Error(`Expected author 'Johann Wolfgang von Goethe', got '${metadata.author}'`);
-      }
-
-      if (metadata.authorRef !== '#person_123') {
-        throw new Error(`Expected authorRef '#person_123', got '${metadata.authorRef}'`);
-      }
-
-      if (metadata.workRef !== 'works.xml#work_456') {
-        throw new Error(`Expected workRef 'works.xml#work_456', got '${metadata.workRef}'`);
-      }
-
-      return { success: true, metadata };
-    });
-
-    expect(result.success).toBe(true);
-    expect(result.metadata.sigle).toBe('TESTMETA');
-    expect(result.metadata.author).toBe('Johann Wolfgang von Goethe');
-  });
-
-  test('Corpus Loader - progress tracking', async ({ page }) => {
-    await page.goto('/testing/test.html');
-
-    const result = await page.evaluate(async () => {
-      const { IndexedDBManager } = await import('../playground/js/indexed-db-manager.js');
-      const { CorpusLoader } = await import('../assets/js/lib/corpus-loader.js');
-
-      const dbManager = new IndexedDBManager();
-      await dbManager.initialize();
-
-      const loader = new CorpusLoader(dbManager);
-
-      // Add some test files
-      for (let i = 1; i <= 10; i++) {
-        await dbManager.saveCorpusFile(
-          `PROGRESS${i}.tei.xml`,
-          `<TEI>Progress test ${i}</TEI>`,
-          { sigle: `PROG${i}`, title: `Progress ${i}`, author: 'Test' }
-        );
-      }
-
-      const progress = await loader.getLoadingProgress();
-
-      if (progress.current !== 10) {
-        throw new Error(`Expected 10 files, got ${progress.current}`);
-      }
-
-      if (progress.total !== 666) {
-        throw new Error(`Expected total 666, got ${progress.total}`);
-      }
-
-      const expectedPercent = Math.round((10 / 666) * 100);
-      if (progress.percent !== expectedPercent) {
-        throw new Error(`Expected ${expectedPercent}%, got ${progress.percent}%`);
-      }
-
-      if (progress.isComplete) {
-        throw new Error('Should not be complete with only 10/666 files');
-      }
-
-      return { success: true, progress };
-    });
-
-    expect(result.success).toBe(true);
-    expect(result.progress.current).toBe(10);
-    expect(result.progress.total).toBe(666);
-    expect(result.progress.isComplete).toBe(false);
-  });
-
-  test('TEIFilesManager - loadCorpusIntoPlayground with no corpus', async ({ page }) => {
-    await page.goto('/testing/test.html');
-
-    const result = await page.evaluate(async () => {
-      const { TEIFilesManager } = await import('../playground/js/tei-files.js');
-
-      const teiData = {
-        files: [],
-        parsedXML: [],
-        words: [],
-        lines: [],
-        annotations: []
-      };
-
-      const teiManager = new TEIFilesManager(teiData);
-
-      try {
-        await teiManager.loadCorpusIntoPlayground();
-        return { success: false, error: 'Should have thrown error' };
-      } catch (error) {
-        // Expected to fail because corpus not loaded
-        if (error.message.includes('Corpus not fully loaded')) {
-          return { success: true, expectedError: true, message: error.message };
-        }
-        throw error;
-      }
-    });
-
-    expect(result.success).toBe(true);
-    expect(result.expectedError).toBe(true);
-    expect(result.message).toContain('Corpus not fully loaded');
-  });
-
-  test('TEIFilesManager - loadCorpusIntoPlayground with corpus', async ({ page }) => {
-    await page.goto('/testing/test.html');
-
-    const result = await page.evaluate(async () => {
-      const { IndexedDBManager } = await import('../playground/js/indexed-db-manager.js');
-      const { TEIFilesManager } = await import('../playground/js/tei-files.js');
-
-      // Initialize DB and add test corpus files
-      const dbManager = new IndexedDBManager();
-      await dbManager.initialize();
-
-      // Add exactly 666 files to simulate full corpus
-      for (let i = 1; i <= 666; i++) {
-        await dbManager.saveCorpusFile(
-          `TESTCORP${i}.tei.xml`,
-          `<TEI xmlns="http://www.tei-c.org/ns/1.0"><text><body><p><w>test</w></p></body></text></TEI>`,
-          { sigle: `TC${i}`, title: `Test Corpus ${i}`, author: 'Test' }
-        );
-      }
-
-      // Verify corpus is loaded
-      const isLoaded = await dbManager.isCorpusLoaded();
-      if (!isLoaded) throw new Error('Corpus should be marked as loaded');
-
-      // Now test loading into playground
-      const teiData = {
-        files: [],
-        parsedXML: [],
-        words: [],
-        lines: [],
-        annotations: []
-      };
-
-      const teiManager = new TEIFilesManager(teiData);
-
-      let progressUpdates = 0;
-      const loadResult = await teiManager.loadCorpusIntoPlayground((loaded, total) => {
-        progressUpdates++;
-      });
-
-      if (loadResult.loaded !== 666) {
-        throw new Error(`Expected 666 loaded files, got ${loadResult.loaded}`);
-      }
-
-      if (progressUpdates === 0) {
-        throw new Error('Progress callback was never called');
-      }
-
-      // Verify files are in tei_files store
-      const playgroundFiles = await dbManager.listTEIFiles();
-      if (playgroundFiles.length !== 666) {
-        throw new Error(`Expected 666 playground files, got ${playgroundFiles.length}`);
-      }
+      // Check first text has expected fields
+      const firstText = texts[0];
 
       return {
         success: true,
-        loaded: loadResult.loaded,
-        progressUpdates: progressUpdates,
-        playgroundFileCount: playgroundFiles.length
+        textCount: texts.length,
+        firstText: {
+          id: firstText.id,
+          title: firstText.title,
+          author: firstText.author,
+          wordCount: firstText.wordCount,
+        },
+        hasAllFields: !!firstText.id && !!firstText.title && !!firstText.author && typeof firstText.wordCount === 'number'
       };
+    });
+
+    expect(result.success).toBe(true);
+    expect(result.textCount).toBe(666);
+    expect(result.hasAllFields).toBe(true);
+  });
+
+  test('Corpus progress tracking via UI', async ({ page }) => {
+    await page.goto('/playground/index.html');
+
+    // Wait for corpus to auto-load
+    await page.waitForSelector('#fileBrowserSection', { state: 'visible', timeout: 60000 });
+
+    const includedCount = await page.locator('#includedCount').textContent();
+    expect(parseInt(includedCount)).toBe(666);
+  });
+
+  test('TEIFilesManager - available in playground', async ({ page }) => {
+    await page.goto('/playground/index.html');
+
+    // Wait for corpus to auto-load
+    await page.waitForSelector('#fileBrowserSection', { state: 'visible', timeout: 60000 });
+
+    const result = await page.evaluate(() => {
+      const teiManager = window.playground?.teiManager;
+      if (!teiManager) throw new Error('TEI manager not available');
+
+      return {
+        success: true,
+        hasMethods: typeof teiManager.isTEIFile === 'function' &&
+                    typeof teiManager.loadCorpusIntoPlayground === 'function'
+      };
+    });
+
+    expect(result.success).toBe(true);
+    expect(result.hasMethods).toBe(true);
+  });
+
+  test('TEIFilesManager - corpus loaded into corpusData', async ({ page }) => {
+    await page.goto('/playground/index.html');
+
+    // Wait for corpus to auto-load
+    await page.waitForSelector('#fileBrowserSection', { state: 'visible', timeout: 60000 });
+
+    const result = await page.evaluate(() => {
+      // Auto-load stores corpus in corpusData.texts, not teiData.parsedXML
+      const texts = window.playground?.corpusData?.texts;
+      if (!texts) throw new Error('No corpusData.texts');
+
+      if (texts.length !== 666) {
+        throw new Error(`Expected 666 loaded texts, got ${texts.length}`);
+      }
+
+      // Verify lemmaIndex is also populated
+      const lemmaIndex = window.playground?.corpusData?.lemmaIndex;
+      const lemmaCount = lemmaIndex ? Object.keys(lemmaIndex).length : 0;
+
+      return { success: true, loaded: texts.length, lemmaCount };
     });
 
     expect(result.success).toBe(true);
     expect(result.loaded).toBe(666);
-    expect(result.progressUpdates).toBeGreaterThan(0);
-    expect(result.playgroundFileCount).toBe(666);
-  }, 60000); // Extended timeout for loading 666 files
+    expect(result.lemmaCount).toBeGreaterThan(0);
+  });
 
   test('Clear corpus files operation', async ({ page }) => {
     await page.goto('/testing/test.html');

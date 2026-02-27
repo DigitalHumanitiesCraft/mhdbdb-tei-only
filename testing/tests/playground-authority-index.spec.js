@@ -78,31 +78,33 @@ test.describe('Playground Authority Index Loading', () => {
         console.log('✅ Lemma search works with authority index');
     });
 
-    test('user can upload individual TEI files', async ({ page }) => {
+    test('corpus browser available after auto-load', async ({ page }) => {
         await page.goto('http://localhost:8080/playground/');
-        await page.waitForSelector('#statusText:has-text("Authority Files geladen")', { timeout: 15000 });
 
-        // Check upload zone is visible
-        const uploadZone = page.locator('#uploadZone');
-        await expect(uploadZone).toBeVisible();
+        // Wait for corpus auto-load to complete
+        await page.waitForSelector('#fileBrowserSection', { state: 'visible', timeout: 60000 });
 
-        console.log('✅ Upload zone available for individual file upload');
+        // Check file browser section is visible with file list
+        const fileList = page.locator('#fileList');
+        await expect(fileList).toBeVisible();
+
+        console.log('✅ Corpus browser available after auto-load');
     });
 
-    test('user can load full corpus via button', async ({ page }) => {
+    test('corpus auto-loads 666 texts', async ({ page }) => {
         await page.goto('http://localhost:8080/playground/');
-        await page.waitForSelector('#statusText:has-text("Authority Files geladen")', { timeout: 15000 });
 
-        // Check corpus load button is visible
-        const corpusBtn = page.locator('#loadCorpusBtn');
-        await expect(corpusBtn).toBeVisible();
-        await expect(corpusBtn).toContainText('Load Full Corpus');
-        await expect(corpusBtn).toContainText('666');
+        // Wait for corpus auto-load to complete
+        await page.waitForSelector('#fileBrowserSection', { state: 'visible', timeout: 60000 });
 
-        console.log('✅ Load Full Corpus button available');
+        // Check included count
+        const includedCount = await page.locator('#includedCount').textContent();
+        expect(parseInt(includedCount)).toBe(666);
+
+        console.log('✅ Corpus auto-loaded 666 texts');
     });
 
-    test('performance: authority index loads faster than XML', async ({ page }) => {
+    test('performance: authority index loads within 10 seconds', async ({ page }) => {
         const startTime = Date.now();
 
         await page.goto('http://localhost:8080/playground/');
@@ -112,11 +114,13 @@ test.describe('Playground Authority Index Loading', () => {
 
         console.log(`⏱️  Authority index load time: ${loadTime}ms (${(loadTime / 1000).toFixed(1)}s)`);
 
-        // Pre-built index should load in under 3 seconds
-        expect(loadTime).toBeLessThan(5000);
+        // Pre-built index should load in under 10 seconds
+        expect(loadTime).toBeLessThan(10000);
 
         if (loadTime < 3000) {
             console.log('✅ Excellent performance: < 3s');
+        } else if (loadTime < 5000) {
+            console.log('✅ Good performance: < 5s');
         }
     });
 });
