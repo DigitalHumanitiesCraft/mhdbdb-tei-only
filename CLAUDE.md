@@ -19,9 +19,11 @@ MHDBDB TEI Repository: ~670 TEI-encoded Middle High German texts with semantic a
 | DEVELOPMENT.MD | Build commands, git workflow, deployment |
 | RESEARCH.MD | Academic context, TEI/MHG standards |
 | DECISIONS.MD | Architecture Decision Records |
+| CONTRACTS.MD | Cross-language parity, algorithm pseudocode, API contracts |
+| USER-GUIDE.MD | End-user documentation (German) |
 | ROADMAP.md | Current priorities and strategic direction |
 | JOURNAL.md | Chronological development log |
-| `features/` | Feature-scoped planning docs (e.g., 042-lemma-pages, 045-static-api) |
+| `features/` | Feature-scoped planning docs (active issues only) |
 
 ## Directory Layout
 
@@ -79,6 +81,11 @@ Co-Authored-By: Claude <noreply@anthropic.com>
 - `feature/*` — active work
 - `feature/wenzelsbibel-ingest` — Wenzelsbibel text ingest (#34)
 - `pre-main-site`, `initial-data-wrangling` — archived
+
+## Temporal Artifacts (Promptotyping convention)
+
+- **Feature docs** (`docs/features/`): Live while issue is open. On completion: extract critical knowledge into stable docs (CONTRACTS.MD, ARCHITECTURE.MD, etc.), then delete. Git history = archive.
+- **Health check reports** (Issue #49): Full report → Issue #49 comment. Scorecard → JOURNAL.md. Action items → separate Issues. **No .md files in `docs/`**. Load `/promptotyping` skill before running checks.
 
 ## Gotchas
 
