@@ -103,4 +103,4 @@ Co-Authored-By: Claude <noreply@anthropic.com>
 
 ## License
 
-CC BY-NC-SA 3.0 AT | mhdbdb@plus.ac.at
+CC BY-NC-SA 4.0 | mhdbdb@plus.ac.at

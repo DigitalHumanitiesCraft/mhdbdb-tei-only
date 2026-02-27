@@ -116,6 +116,6 @@ All search functions use centralized MHG character normalization:
 
 ## License & Contact
 
-**License:** [CC BY-NC-SA 3.0 AT](https://creativecommons.org/licenses/by-nc-sa/3.0/at/)
+**License:** [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 **Contact:** mhdbdb@plus.ac.at | https://mhdbdb.plus.ac.at
 **Project:** University of Salzburg, 50+ years of medievalist research

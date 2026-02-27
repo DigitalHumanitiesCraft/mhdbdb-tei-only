@@ -142,7 +142,7 @@ Post-MVP with stable v4.0.0 corpus index and v1.1.0 authority index
 - **Email:** mhdbdb@plus.ac.at
 - **Maintainer:** Digital Humanities Craft OG
 - **Project Lead:** University of Salzburg, Department of German Studies
-- **License:** CC BY-NC-SA 3.0 AT
+- **License:** CC BY-NC-SA 4.0
 
 ## Quick Start
 
@@ -164,4 +164,4 @@ Post-MVP with stable v4.0.0 corpus index and v1.1.0 authority index
 
 ---
 
-**License:** [CC BY-NC-SA 3.0 AT](https://creativecommons.org/licenses/by-nc-sa/3.0/at/) | **Contact:** mhdbdb@plus.ac.at
+**License:** [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) | **Contact:** mhdbdb@plus.ac.at

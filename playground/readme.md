@@ -208,7 +208,7 @@ Research project with over 50 years of medieval text and concept research at the
 
 ## License & Contact
 
-**License:** [CC BY-NC-SA 3.0 AT](https://creativecommons.org/licenses/by-nc-sa/3.0/at/)
+**License:** [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 **Contact:** mhdbdb@plus.ac.at
 **Website:** https://mhdbdb.plus.ac.at
 **Repository:** https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only
