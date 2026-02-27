@@ -61,7 +61,7 @@ Chronological log of development decisions, dead ends, and savepoints. Not a cha
 - Fallback: also accept `?id=` and `#` patterns
 
 ### Requirements distilled
-- See [features/042-lemma-pages.md](features/042-lemma-pages.md) for full spec
+- Full spec was in `features/042-lemma-pages.md` (removed after completion; see Issue #55 for re-documentation)
 - Scope: single `lemma/index.html` page that loads authority + corpus index, renders lemma data
 - Out of scope for v1: MWB backlinks (needs their ID mapping), inline attestations, JSON-LD
 
@@ -153,6 +153,16 @@ Chronological log of development decisions, dead ends, and savepoints. Not a cha
 - `build-corpus-index.py`: processes `<body>` only → **no impact**
 - `sync_tei_headers.py`: removes/re-adds `tei:biblStruct` only → **no impact** (our `<bibl>` survives)
 - JS rendering: reads `biblStructs` from JSON index → **no impact**
+
+---
+
+## 2026-02-27 — Documentation Health Check (Issue #49)
+
+**Trigger:** Quarterly health check + changes since 2026-02-24 (asset restructuring, test improvements, new feature docs).
+
+Flow/Algorithms/XPaths: PASS. Rebuild feasibility: Search YELLOW, Build YELLOW, Renderer GREEN (upgraded), **Lemma Pages RED** (new — no feature doc), Cache YELLOW-GREEN. Actions: #54 (deduplication docs), #55 (lemma pages docs). Full report: [Issue #49 comment](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/49#issuecomment-3971322787).
+
+**Process decision:** Health check reports are temporal artifacts — full report goes as Issue #49 comment, scorecard summary goes here in JOURNAL.md, action items become separate Issues. No .md files in `docs/`. See Issue #49 "Output Convention" section.
 
 ---
 
