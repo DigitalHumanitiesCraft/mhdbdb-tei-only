@@ -129,7 +129,7 @@ Chronological log of development decisions, dead ends, and savepoints. Not a cha
 - Evaluated 4 approaches (flat listBibl, nested relatedItem, biblFull, flat + @corresp)
 - Decided: **Approach D** — flat `<listBibl>` with `@corresp` cross-references
 - New element: `<bibl type="digitalIntermediary">` (not `<biblStruct>` — keeps all existing code safe)
-- Created planning doc: [features/036-provenance-model.md](features/036-provenance-model.md)
+- Design rationale and full template: ADR-012 in DECISIONS.MD
 - Verified no impact on build scripts or JS (all existing code queries `tei:biblStruct` only)
 - Savepoint: `164f7a9`
 

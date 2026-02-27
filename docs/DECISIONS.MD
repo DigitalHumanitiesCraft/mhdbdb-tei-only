@@ -694,3 +694,52 @@ Remove all container-level scrolling constraints and use browser-level scrolling
 For implementation details, see [ARCHITECTURE.MD](ARCHITECTURE.MD).
 For data structures, see [DATA-MODEL.MD](DATA-MODEL.MD).
 For development workflow, see [DEVELOPMENT.MD](DEVELOPMENT.MD).
+
+---
+
+## ADR-012: Provenance Model for Digital Intermediaries
+
+**Date:** 2026-02-24
+**Status:** Accepted (implemented in #35, #37, #38, #39, #40)
+
+### Problem
+
+~55 TEI files derive from third-party digital intermediaries (e-texts), not directly from print editions. The actual chain is: Print Edition → Digital Intermediate → MHDBDB TEI. Previously documented only as unstructured prose in `<note>` elements — not machine-readable, not consistent.
+
+### Alternatives Considered
+
+| Approach | Mechanism | Rejected because |
+|----------|-----------|-----------------|
+| A. Flat `<listBibl>` | Multiple `<bibl>` siblings | No explicit derivation direction |
+| B. Nested `<relatedItem>` | `<bibl>` inside `<biblStruct>` | Inverts derivation direction; harder to query |
+| C. `<biblFull>` | Full file description | Overkill for HTML/OCR sources (TEI P5 2.2.8 recommends only for TEI→TEI) |
+| **D. Flat + `@corresp`** | **Siblings with cross-reference** | **Chosen** |
+
+### Decision
+
+**Approach D**: Add `<bibl type="digitalIntermediary">` as sibling to existing `<biblStruct>` inside `<listBibl>`, with `@corresp` linking to the print edition it derives from.
+
+```xml
+<bibl type="digitalIntermediary" xml:id="{SIGLE}_etext"
+      corresp="#{SIGLE}_{SIGLE}">
+  <title>Elektronische Zwischenstufe</title>
+  <respStmt>
+    <resp>{responsibility}</resp>
+    <name>{person or orgName}</name>
+  </respStmt>
+  <date when="{date}">{display date}</date>
+  <ref target="{URL}"/>
+  <note type="provenance">{relationship description}</note>
+  <note type="fidelity">{transcription accuracy note}</note>
+</bibl>
+```
+
+**Dual provenance** (e.g., FWWB, GSP, KDO, KME — Gloning → Klug chain): Two `<bibl>` elements where the second `@corresp` points to the first intermediary, not the print edition.
+
+### Consequences
+
+**Positive:** Existing `<biblStruct>` untouched — zero impact on build scripts, JS rendering, or index generation. `@type="digitalIntermediary"` enables programmatic filtering. 5 provider groups documented (Klug, Harsch, TITUS, Gloning, Virginia/Trier).
+
+**Negative:** `@corresp` implies bidirectional relationship — derivation direction inferred from context, not from TEI semantics.
+
+**TEI P5 basis:** Chapters [2.2.7](https://www.tei-c.org/release/doc/tei-p5-doc/en/html/HD.html) (`<sourceDesc>`), [2.2.8](https://www.tei-c.org/release/doc/tei-p5-doc/en/html/HD.html) (electronic-to-electronic), `att.typed` (free `@type`).
