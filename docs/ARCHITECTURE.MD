@@ -242,6 +242,72 @@ Each explorer follows consistent pattern:
 - Clicks result → generates URL with parameters
 - Opens main site reading view with highlighting and position
 
+## Lemma Pages Architecture
+
+**Purpose:** Persistent, linkable pages for individual lemmata — target URLs for Worterbuchnetz, MWB, and other external systems
+**URL:** `https://dhcraft.org/mhdbdb-tei-only/lemma/{numericId}`
+**Key Files:** `lemma/index.html`, `lemma/lemma-page.js`, `404.html`
+
+### URL Routing (GitHub Pages workaround)
+
+GitHub Pages has no server-side routing. Clean URLs (`/lemma/879`) return 404. Solution: `404.html` intercepts and redirects:
+
+```
+User requests /lemma/879
+  → GitHub Pages: no file at /lemma/879 → serves 404.html
+  → 404.html JS: detects "lemma" in path, extracts "879"
+  → window.location.replace("/lemma/?id=879")
+  → lemma/index.html loads → lemma-page.js parses ?id=879
+```
+
+Three URL formats accepted (parsed in order, first match wins):
+1. `?id=879` — query parameter (canonical after redirect)
+2. `#879` — hash (for systems that strip query params)
+3. `/lemma/879` — path segment (pre-redirect, also works post-redirect)
+
+### Initialization Sequence
+
+```
+1. parseLemmaId()            → extract numeric ID from URL
+2. loadAuthorityIndex()      → via CorpusLoader (same as main site)
+3. Find lemma by "lemma_{id}" in authorityIndex.lemmata
+4. renderLemma()             → title, POS, etymology, senses
+5. renderVariants()          → invert variants map to find all forms → this lemma
+6. renderCompounds()         → find lemmata whose etymology references this lemma
+7. loadCorpusIndex()         → non-blocking (page renders without it)
+8. renderOccurrences()       → texts containing this lemma, sorted by frequency
+9. renderExternalLinks()     → static links + async Wörterbuchnetz API
+```
+
+### Data Rendering Pipeline
+
+| Section | Data Source | Algorithm |
+|---------|-----------|-----------|
+| Etymology | `lemma.etymology[]` | Each component linked via `?id={numId}` if it has `lemmaRef` |
+| Senses | `lemma.senses[].conceptIds` | Resolve concept IDs → German labels via `authorityIndex.concepts` |
+| Variants | `authorityIndex.variants` (flat map) | **Invert**: scan all entries, collect those where `value === lemmaKey` |
+| Compounds | `authorityIndex.lemmata` | Filter lemmata whose `etymology[].lemmaRef === lemmaKey` |
+| Occurrences | `corpusIndex.lemmaIndex[lemmaKey]` → textIds | Look up text metadata, count positions, sort by frequency desc |
+| Wörterbuchnetz | External API (async) | See CONTRACTS.MD D.2 |
+
+### Concept Label Resolution
+
+```
+resolveConceptLabels(conceptIds):
+    for each cid in conceptIds:
+        concept = authorityIndex.concepts.find(c => c.id === cid)
+        label = concept.termDE || concept.termEN || cid    // German preferred
+    return labels
+```
+
+### Integration with Main Site
+
+- **Occurrence links** → `../korpus.html?textId={id}&lemmaIds={numericId}` (opens reading view with highlighting)
+- **Corpus search link** → `../korpus.html?search={lemma.lemma}` (triggers main site search)
+- **Shared dependencies**: CorpusLoader, Pako, Dexie.js, shared.css, tailwind-output.css (all via `../assets/`)
+
+---
+
 ## Storage Architecture
 
 ### IndexedDB Manager
