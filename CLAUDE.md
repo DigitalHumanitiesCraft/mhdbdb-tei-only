@@ -62,6 +62,7 @@ python scripts/build-corpus-index.py      # Rebuild corpus index
 
 - **NEVER commit or push without user testing and approval**
 - Never force push to `main`
+- **Evergreen issues (#44, #49): NEVER close** — no `Closes #44` or `Fixes #49` in commits. These are permanent tracking issues (labeled `evergreen`, pinned).
 - Rebuild indexes after modifying XML in `authority-files/` or `tei/`
 - Run tests before pushing
 - Update `docs/` when architecture changes
