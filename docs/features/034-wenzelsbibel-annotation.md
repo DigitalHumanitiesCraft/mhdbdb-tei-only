@@ -120,7 +120,41 @@ Words to resolve:
 | `confidence` | `high` / `medium` / `low` |
 | `reviewer` | `claude` or `julia` |
 
-**Escalation:** Words marked `confidence=low` by Claude are reviewed by Julia. Words marked `NEW` are collected in a separate list for the editorial team (not added to `lexicon.xml` in this phase).
+The TSV is generated automatically from the Phase 1 CSV report using `scripts/wzb-generate-tsv.py`.  This ensures the columns stay in sync with whatever `wzb-auto-match.py` emits; rerun the script whenever the report is refreshed.  The Python script writes the file to `Wenzelsbibel/wzb-disambiguation.tsv` and populates only the first six fields (including a new `count` column), leaving the last three blank for human/LLM review.
+
+A companion helper (`scripts/wzb-split-tsv.py`) can split the
+versioned TSV into smaller chunks (default 50 rows) to make Claude
+prompting easier.  Run:
+
+```bash
+python scripts/wzb-split-tsv.py --input Wenzelsbibel/wzb-disambiguation.tsv
+# or specify a different size:
+python scripts/wzb-split-tsv.py -s 30
+```
+
+This creates `<basename>-partNN.tsv` files alongside the input.**Escalation:** Words marked `confidence=low` by Claude are reviewed by Julia. Words marked `NEW` are collected in a separate list for the editorial team (not added to `lexicon.xml` in this phase).
+
+### Editorial workflow for new forms
+
+Unmatched forms from Phase 1 are not simply discarded; they form the
+basis of a pending additions list for the lexicon editorial team.  After
+running the auto-match script you can generate a frequency-sorted file
+with `scripts/wzb-extract-unmatched.py`:
+
+```bash
+python scripts/wzb-extract-unmatched.py
+# => Wenzelsbibel/wzb-unmatched-forms.tsv
+```
+
+The TSV contains each unique unmatched form, its count of occurrences,
+and a few sample contexts.  Editors can use this to prioritise which
+lemmas to create and then feed the new lemma IDs back into the Phase 1b
+TSV (in the `resolved_lemma` column) once they have been added to
+`lexicon.xml`.
+
+This keeps the pipeline closed-loop: auto-match → disambiguate →
+publish new forms for editorial intake → reuse updated lexicon in next
+run.
 
 **Coverage target:** Best-effort with existing lexicon. Unmatched words are flagged in the report but NOT added to `lexicon.xml` in this phase (that requires a separate editorial decision).
 
