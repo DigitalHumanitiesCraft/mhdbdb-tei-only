@@ -42,7 +42,7 @@ if __name__ == '__main__':
         header = next(reader)
 
         part = 1
-        out_file = directory / f"{base}-part{part:02d}.tsv"
+        out_file = directory / f"{base}-part{part:04d}.tsv"
         outf = out_file.open('w', encoding='utf-8', newline='')
         writer = csv.writer(outf, delimiter='\t')
         writer.writerow(header)
@@ -53,7 +53,7 @@ if __name__ == '__main__':
                 outf.close()
                 part += 1
                 row_count = 0
-                out_file = directory / f"{base}-part{part:02d}.tsv"
+                out_file = directory / f"{base}-part{part:04d}.tsv"
                 outf = out_file.open('w', encoding='utf-8', newline='')
                 writer = csv.writer(outf, delimiter='\t')
                 writer.writerow(header)
