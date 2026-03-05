@@ -340,10 +340,10 @@ class MHDBDBPlayground {
 
         if (selectNoneBtn) {
             selectNoneBtn.addEventListener('click', () => {
+                this.corpusData.includedTexts.clear();
                 const allCheckboxes = Array.from(fileList.querySelectorAll('input[type="checkbox"]'));
                 allCheckboxes.forEach(cb => {
                     cb.checked = false;
-                    this.corpusData.includedTexts.delete(cb.dataset.textId);
                 });
                 const fileFilter = document.getElementById('fileFilter');
                 if (fileFilter) {
@@ -358,6 +358,7 @@ class MHDBDBPlayground {
         const selectOnlyVisibleBtn = document.getElementById('selectOnlyVisibleBtn');
         if (selectOnlyVisibleBtn) {
             selectOnlyVisibleBtn.addEventListener('click', () => {
+                this.corpusData.includedTexts.clear();
                 const allCheckboxes = Array.from(fileList.querySelectorAll('input[type="checkbox"]'));
                 allCheckboxes.forEach(cb => {
                     const item = cb.closest('.file-item');
@@ -365,8 +366,6 @@ class MHDBDBPlayground {
                     cb.checked = isVisible;
                     if (isVisible) {
                         this.corpusData.includedTexts.add(cb.dataset.textId);
-                    } else {
-                        this.corpusData.includedTexts.delete(cb.dataset.textId);
                     }
                 });
                 this.updateFileBrowserStats();

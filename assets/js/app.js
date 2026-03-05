@@ -384,10 +384,10 @@ class MainSiteApp {
 
         if (selectNoneTexts && textList) {
             selectNoneTexts.addEventListener('click', () => {
+                this.corpusData.includedTexts.clear();
                 const allCheckboxes = Array.from(textList.querySelectorAll('input[type="checkbox"]'));
                 allCheckboxes.forEach(cb => {
                     cb.checked = false;
-                    this.corpusData.includedTexts.delete(cb.dataset.textId);
                 });
                 if (this.elements.textFilter) {
                     this.elements.textFilter.value = '';
@@ -401,6 +401,8 @@ class MainSiteApp {
         const selectOnlyVisible = this.elements.selectOnlyVisible;
         if (selectOnlyVisible && textList) {
             selectOnlyVisible.addEventListener('click', () => {
+                // Clear includedTexts completely first, then rebuild from visible items
+                this.corpusData.includedTexts.clear();
                 const allCheckboxes = Array.from(textList.querySelectorAll('input[type="checkbox"]'));
                 allCheckboxes.forEach(cb => {
                     const label = cb.closest('label');
@@ -408,8 +410,6 @@ class MainSiteApp {
                     cb.checked = isVisible;
                     if (isVisible) {
                         this.corpusData.includedTexts.add(cb.dataset.textId);
-                    } else {
-                        this.corpusData.includedTexts.delete(cb.dataset.textId);
                     }
                 });
                 this.updateTextListStats();
