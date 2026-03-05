@@ -295,12 +295,18 @@ class MHDBDBPlayground {
                 }
             });
 
-            // Show/hide filter info
+            // Show/hide filter info + "Nur diese" button
+            const onlyVisibleBtn = document.getElementById('selectOnlyVisibleBtn');
+            const onlyVisibleSep = document.getElementById('selectOnlyVisibleSep');
             if (query) {
                 if (filterInfo) filterInfo.style.display = 'flex';
                 if (visibleCountEl) visibleCountEl.textContent = visibleCount;
+                if (onlyVisibleBtn) onlyVisibleBtn.style.display = '';
+                if (onlyVisibleSep) onlyVisibleSep.style.display = '';
             } else {
                 if (filterInfo) filterInfo.style.display = 'none';
+                if (onlyVisibleBtn) onlyVisibleBtn.style.display = 'none';
+                if (onlyVisibleSep) onlyVisibleSep.style.display = 'none';
             }
         });
 
@@ -318,21 +324,50 @@ class MHDBDBPlayground {
 
         if (selectAllBtn) {
             selectAllBtn.addEventListener('click', () => {
-                const visibleCheckboxes = Array.from(fileList.querySelectorAll('.file-item:not([style*="display: none"]) input[type="checkbox"]'));
-                visibleCheckboxes.forEach(cb => {
+                const allCheckboxes = Array.from(fileList.querySelectorAll('input[type="checkbox"]'));
+                allCheckboxes.forEach(cb => {
                     cb.checked = true;
                     this.corpusData.includedTexts.add(cb.dataset.textId);
                 });
+                const fileFilter = document.getElementById('fileFilter');
+                if (fileFilter) {
+                    fileFilter.value = '';
+                    fileFilter.dispatchEvent(new Event('input'));
+                }
                 this.updateFileBrowserStats();
             });
         }
 
         if (selectNoneBtn) {
             selectNoneBtn.addEventListener('click', () => {
-                const visibleCheckboxes = Array.from(fileList.querySelectorAll('.file-item:not([style*="display: none"]) input[type="checkbox"]'));
-                visibleCheckboxes.forEach(cb => {
+                const allCheckboxes = Array.from(fileList.querySelectorAll('input[type="checkbox"]'));
+                allCheckboxes.forEach(cb => {
                     cb.checked = false;
                     this.corpusData.includedTexts.delete(cb.dataset.textId);
+                });
+                const fileFilter = document.getElementById('fileFilter');
+                if (fileFilter) {
+                    fileFilter.value = '';
+                    fileFilter.dispatchEvent(new Event('input'));
+                }
+                this.updateFileBrowserStats();
+            });
+        }
+
+        // "Nur diese" — select only visible (filtered) texts, deselect all others
+        const selectOnlyVisibleBtn = document.getElementById('selectOnlyVisibleBtn');
+        if (selectOnlyVisibleBtn) {
+            selectOnlyVisibleBtn.addEventListener('click', () => {
+                const allCheckboxes = Array.from(fileList.querySelectorAll('input[type="checkbox"]'));
+                allCheckboxes.forEach(cb => {
+                    const item = cb.closest('.file-item');
+                    const isVisible = !item.style.display || item.style.display !== 'none';
+                    cb.checked = isVisible;
+                    if (isVisible) {
+                        this.corpusData.includedTexts.add(cb.dataset.textId);
+                    } else {
+                        this.corpusData.includedTexts.delete(cb.dataset.textId);
+                    }
                 });
                 this.updateFileBrowserStats();
             });

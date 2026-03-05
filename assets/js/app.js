@@ -56,6 +56,8 @@ class MainSiteApp {
                 textFilter: document.getElementById('textFilter'),
                 selectAllTexts: document.getElementById('selectAllTexts'),
                 selectNoneTexts: document.getElementById('selectNoneTexts'),
+                selectOnlyVisible: document.getElementById('selectOnlyVisible'),
+                selectOnlyVisibleSep: document.getElementById('selectOnlyVisibleSep'),
                 selectedTextCount: document.getElementById('selectedTextCount'),
                 filterInfoText: document.getElementById('filterInfoText'),
                 visibleTextCount: document.getElementById('visibleTextCount'),
@@ -339,12 +341,16 @@ class MainSiteApp {
                     }
                 });
 
-                // Show/hide filter info
+                // Show/hide filter info + "Nur diese" button
                 if (query) {
                     if (filterInfoText) filterInfoText.style.display = '';
                     if (visibleTextCount) visibleTextCount.textContent = visibleCount;
+                    if (this.elements.selectOnlyVisible) this.elements.selectOnlyVisible.style.display = '';
+                    if (this.elements.selectOnlyVisibleSep) this.elements.selectOnlyVisibleSep.style.display = '';
                 } else {
                     if (filterInfoText) filterInfoText.style.display = 'none';
+                    if (this.elements.selectOnlyVisible) this.elements.selectOnlyVisible.style.display = 'none';
+                    if (this.elements.selectOnlyVisibleSep) this.elements.selectOnlyVisibleSep.style.display = 'none';
                 }
             });
         }
@@ -363,21 +369,48 @@ class MainSiteApp {
 
         if (selectAllTexts && textList) {
             selectAllTexts.addEventListener('click', () => {
-                const visibleCheckboxes = Array.from(textList.querySelectorAll('label:not([style*="display: none"]) input[type="checkbox"]'));
-                visibleCheckboxes.forEach(cb => {
+                const allCheckboxes = Array.from(textList.querySelectorAll('input[type="checkbox"]'));
+                allCheckboxes.forEach(cb => {
                     cb.checked = true;
                     this.corpusData.includedTexts.add(cb.dataset.textId);
                 });
+                if (this.elements.textFilter) {
+                    this.elements.textFilter.value = '';
+                    this.elements.textFilter.dispatchEvent(new Event('input'));
+                }
                 this.updateTextListStats();
             });
         }
 
         if (selectNoneTexts && textList) {
             selectNoneTexts.addEventListener('click', () => {
-                const visibleCheckboxes = Array.from(textList.querySelectorAll('label:not([style*="display: none"]) input[type="checkbox"]'));
-                visibleCheckboxes.forEach(cb => {
+                const allCheckboxes = Array.from(textList.querySelectorAll('input[type="checkbox"]'));
+                allCheckboxes.forEach(cb => {
                     cb.checked = false;
                     this.corpusData.includedTexts.delete(cb.dataset.textId);
+                });
+                if (this.elements.textFilter) {
+                    this.elements.textFilter.value = '';
+                    this.elements.textFilter.dispatchEvent(new Event('input'));
+                }
+                this.updateTextListStats();
+            });
+        }
+
+        // "Nur diese" — select only visible (filtered) texts, deselect all others
+        const selectOnlyVisible = this.elements.selectOnlyVisible;
+        if (selectOnlyVisible && textList) {
+            selectOnlyVisible.addEventListener('click', () => {
+                const allCheckboxes = Array.from(textList.querySelectorAll('input[type="checkbox"]'));
+                allCheckboxes.forEach(cb => {
+                    const label = cb.closest('label');
+                    const isVisible = !label.style.display || label.style.display !== 'none';
+                    cb.checked = isVisible;
+                    if (isVisible) {
+                        this.corpusData.includedTexts.add(cb.dataset.textId);
+                    } else {
+                        this.corpusData.includedTexts.delete(cb.dataset.textId);
+                    }
                 });
                 this.updateTextListStats();
             });
