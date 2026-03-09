@@ -5,7 +5,7 @@ description: Validates and corrects Part-of-Speech tags in Middle High German TE
 
 # Middle High German PoS Disambiguator Workflow
 
-**Target Model**: Gemini 3 Pro (1M context window, 65K output tokens)
+**Target Model**: Gemini 3.1 Pro (1M context window, 65K output tokens)
 **Last Updated**: December 2025 (Issue #27)
 
 You are a specialized linguistic agent with expertise in Middle High German (MHG) grammar. Your task is to validate and correct Part-of-Speech (PoS) tags using **semantic analysis and grammatical context**.
@@ -498,128 +498,15 @@ When *daz* points deictically to previously mentioned content WITHOUT introducin
 
 ## Worked Examples
 
-### Example 1: *daz* (3-way ambiguity)
-
-**Context:** *daz kint ist guot*
-
-**Word:** *daz*
-
-**Analysis:**
-1. *daz* appears before noun *kint*
-2. Function: modifies/determines the noun (attribuierend)
-3. Not introducing a clause (no verb follows immediately as clause opener)
-
-**Decision:** `ABC_10001_0 | DET PRO → DET | high | determiner modifying noun kint`
-
----
-
-**Context:** *ich weiz daz er kumt*
-
-**Word:** *daz*
-
-**Analysis:**
-1. *daz* appears after verb *weiz* and before subject *er* + verb *kumt*
-2. Introduces a subordinate clause ("that he comes")
-3. Function: subordinating conjunction
-
-**Decision:** `ABC_10002_0 | DET SCNJ → SCNJ | high | introduces subordinate clause after weiz`
-
----
-
-**Context:** *er nam daz und gie hin*
-
-**Word:** *daz*
-
-**Analysis:**
-1. *daz* is object of *nam*, stands alone
-2. No noun follows - *daz* replaces a noun ("he took that")
-3. Function: pronoun (substituierend)
-
-**Decision:** `ABC_10003_0 | DET PRO → PRO | high | standalone pronoun, object of nam`
-
----
-
-### Example 2: *als* (ADV vs SCNJ)
-
-**Context:** *er ist grœzer als sîn bruoder*
-
-**Word:** *als*
-
-**Analysis:**
-1. *als* follows comparative adjective *grœzer*
-2. Marks comparison value (*sîn bruoder*)
-3. NOT coordination (no two equal elements)
-4. Function: adverbial comparison particle
-
-**Decision:** `ABC_20001_0 | CNJ → ADV | high | comparative particle after grœzer`
-
----
-
-**Context:** *als er daz sach, dô gie er hin*
-
-**Word:** *als*
-
-**Analysis:**
-1. *als* introduces temporal clause "when he saw that"
-2. Followed by subject + verb structure
-3. Function: subordinating conjunction (temporal)
-
-**Decision:** `ABC_20002_0 | CNJ → SCNJ | high | temporal subordination, introduces clause`
-
----
-
-### Example 3: *haben* (VRB vs VEX)
-
-**Context:** *ich hân ein schoenez hûs*
-
-**Word:** *hân*
-
-**Analysis:**
-1. *hân* followed by noun phrase *ein schoenez hûs*
-2. No Partizip II present
-3. Lexical meaning: possession
-4. Function: full verb
-
-**Decision:** `ABC_30001_0 | VRB VEX → VRB | high | lexical haben expressing possession`
-
----
-
-**Context:** *ich hân den man gesehen*
-
-**Word:** *hân*
-
-**Analysis:**
-1. *hân* appears with Partizip II *gesehen*
-2. Together they form Perfect tense
-3. Function: auxiliary verb
-
-**Decision:** `ABC_30002_0 | VRB VEX → VEX | high | auxiliary with participle gesehen forming Perfect`
-
----
-
-### Example 4: Low Confidence Case
-
-**Context:** *...unde war...*  (fragmentary)
-
-**Word:** *war*
-
-**Analysis:**
-1. Fragment - no clear sentence structure
-2. *war* could be: wohin (IPA), wahr (ADJ), wo (ADV), or sîn-form (VRB/VEX)
-3. No syntactic context to determine function
-4. Cannot reliably disambiguate
-
-**Decision:** SKIP - insufficient context for reliable disambiguation
-
----
+For detailed pedagogical examples of disambiguation (including 3-way ambiguity of *daz*, *als* as ADV vs SCNJ, and *haben* as VRB vs VEX), see [references/examples.md](references/examples.md).
 
 ## Workflow Phases
 
 ### Phase 0: Environment Setup (once per session)
 
-**System Context**: Windows (PowerShell).
+**System Context**: Windows (Git Bash).
 - Use provided Python scripts for analysis.
-- Do NOT use Unix-specific commands like `grep`, `head`, `tail`. Use PowerShell equivalents or Python tools.
+- You can use Unix-specific shell commands if needed, alongside native tools.
 
 ```bash
 python --version          # Verify Python 3.13+
@@ -627,9 +514,9 @@ pip install lxml          # Install if needed
 ```
 
 Verify scripts exist:
-- `scripts/data-wrangling/pos/split-tei-for-pos-validation.py`
-- `scripts/data-wrangling/pos/merge-pos-validation-results.py`
-- `scripts/data-wrangling/pos/validate-disambiguation.py`
+- `.gemini/skills/pos-disambiguator/scripts/split-tei-for-pos-validation.py`
+- `.gemini/skills/pos-disambiguator/scripts/merge-pos-validation-results.py`
+- `.gemini/skills/pos-disambiguator/scripts/validate-disambiguation.py`
 
 ### Phase 1: Discovery
 
@@ -675,7 +562,7 @@ For each chunk file `{SIGLE}-chunk-{NUM}.md`:
 When all chunks complete:
 
 ```bash
-python scripts/data-wrangling/pos/merge-pos-validation-results.py temp/disambiguation {SIGLE} tei/{SIGLE}.xml
+python .gemini/skills/pos-disambiguator/scripts/merge-pos-validation-results.py temp/disambiguation {SIGLE} tei/{SIGLE}.xml
 ```
 
 Output:
@@ -685,7 +572,7 @@ Output:
 ### Phase 4: Validation
 
 ```bash
-python scripts/data-wrangling/pos/validate-disambiguation.py
+python .gemini/skills/pos-disambiguator/scripts/validate-disambiguation.py
 ```
 
 Check for:
@@ -700,7 +587,7 @@ If validation fails, use this strategy to clear errors efficiently:
 1. **Detect Missing Decisions**:
    Run the detection script to identify which chunks have unresolved items (skipped decisions):
    ```bash
-   python scripts/data-wrangling/pos/find-missing-decisions.py temp/disambiguation {SIGLE}
+   python .gemini/skills/pos-disambiguator/scripts/find-missing-decisions.py temp/disambiguation {SIGLE}
    ```
    This will list chunks sorted by the number of missing decisions.
 
@@ -708,18 +595,24 @@ If validation fails, use this strategy to clear errors efficiently:
    Prioritize the chunks with the highest missing counts. For each target chunk:
    - **Prepare Fix Task**: Run the preparation script to extract the context and the specific missing items:
      ```bash
-     python scripts/data-wrangling/pos/prepare-fix-task.py temp/disambiguation/{SIGLE}-chunk-{NUM}.md
+     python .gemini/skills/pos-disambiguator/scripts/prepare-fix-task.py temp/disambiguation/{SIGLE}-chunk-{NUM}.md
      ```
    - **Generate Fix**: Use the output to create a FIX file `{SIGLE}-chunk-{NUM}-result_FIX-01.md` containing **ALL** missing decisions.
    - **Format**: Same as standard results (`xml_id | old_pos → new_pos | confidence | reason`).
 
 3. **Re-Merge**:
    ```bash
-   python scripts/data-wrangling/pos/merge-pos-validation-results.py temp/disambiguation {SIGLE} tei/{SIGLE}.xml
+   python .gemini/skills/pos-disambiguator/scripts/merge-pos-validation-results.py temp/disambiguation {SIGLE} tei/{SIGLE}.xml
    ```
    The script uses "Last-Write-Wins", so your new FIX files will automatically overwrite missing or incorrect entries.
 
-**Safety limit**: Maximum 3 refinement iterations per chunk. After 3 failures, mark as "complete with errors".
+**Safety limit**: Maximum 3 refinement iterations per chunk. After 3 failures, mark as "complete with errors" and generate a Failure Report.
+
+**Creating a Failure Report**:
+If you hit the 3-iteration limit, create 	emp/disambiguation/{SIGLE}-FAILURE-REPORT.md including:
+1. The specific chunks that failed.
+2. The xml_ids that remain unresolved.
+3. A brief linguistic explanation of *why* the context was too ambiguous to resolve (e.g., "Missing verb makes it impossible to determine if 'daz' is SCNJ or DET"), so a human expert can review it.
 
 ---
 
@@ -730,7 +623,7 @@ If validation fails, use this strategy to clear errors efficiently:
 Splits TEI files into chunks for processing.
 
 ```bash
-python scripts/data-wrangling/pos/split-tei-for-pos-validation.py tei/{SIGLE}.xml
+python .gemini/skills/pos-disambiguator/scripts/split-tei-for-pos-validation.py tei/{SIGLE}.xml
 ```
 
 **Defaults** (optimized for Gemini 3 Pro):
@@ -742,7 +635,7 @@ python scripts/data-wrangling/pos/split-tei-for-pos-validation.py tei/{SIGLE}.xm
 Merges result files back into TEI.
 
 ```bash
-python scripts/data-wrangling/pos/merge-pos-validation-results.py temp/disambiguation {SIGLE} tei/{SIGLE}.xml
+python .gemini/skills/pos-disambiguator/scripts/merge-pos-validation-results.py temp/disambiguation {SIGLE} tei/{SIGLE}.xml
 ```
 
 **Parses format**: `xml_id | old_pos → new_pos | confidence | reason [| reason="value"]`
@@ -752,7 +645,7 @@ python scripts/data-wrangling/pos/merge-pos-validation-results.py temp/disambigu
 Checks for remaining issues.
 
 ```bash
-python scripts/data-wrangling/pos/validate-disambiguation.py
+python .gemini/skills/pos-disambiguator/scripts/validate-disambiguation.py
 ```
 
 ### find-missing-decisions.py
@@ -760,7 +653,7 @@ python scripts/data-wrangling/pos/validate-disambiguation.py
 Identifies chunks where the Agent skipped items (errors of omission).
 
 ```bash
-python scripts/data-wrangling/pos/find-missing-decisions.py temp/disambiguation {SIGLE}
+python .gemini/skills/pos-disambiguator/scripts/find-missing-decisions.py temp/disambiguation {SIGLE}
 ```
 **Output**: List of chunks sorted by missing decision count.
 
@@ -769,7 +662,7 @@ python scripts/data-wrangling/pos/find-missing-decisions.py temp/disambiguation 
 Generates a targeted task description for fixing missing decisions in a specific chunk.
 
 ```bash
-python scripts/data-wrangling/pos/prepare-fix-task.py temp/disambiguation/{SIGLE}-chunk-{NUM}.md
+python .gemini/skills/pos-disambiguator/scripts/prepare-fix-task.py temp/disambiguation/{SIGLE}-chunk-{NUM}.md
 ```
 **Output**: Markdown text containing Context Text and the list of missing items to validate.
 
