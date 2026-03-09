@@ -6,8 +6,8 @@ This script extracts <w> elements from a TEI file and creates human-readable
 markdown files with full context for linguistic analysis.
 
 Usage:
-    python scripts/data-wrangling/pos/split-tei-for-pos-validation.py tei/ABG.tei.xml
-    python scripts/data-wrangling/pos/split-tei-for-pos-validation.py tei/ABG.tei.xml --chunk-size 500
+    python .gemini/skills/pos-disambiguator/scripts/split-tei-for-pos-validation.py tei/ABG.tei.xml
+    python .gemini/skills/pos-disambiguator/scripts/split-tei-for-pos-validation.py tei/ABG.tei.xml --chunk-size 500
 """
 
 import argparse
@@ -202,7 +202,7 @@ def format_chunk_as_markdown(chunk, total_chunks, sigle):
     md.append("")
     md.append("---")
     md.append("")
-    md.append("**Follow the workflow rules in `.agent/workflows/pos-disambiguator.md`**")
+    md.append("**Follow the workflow rules in `.gemini/skills/pos-disambiguator/SKILL.md`**")
     md.append("")
     md.append("Save your results as: `" + sigle + f"-chunk-{chunk['chunk_number']:03d}-result.md`")
 

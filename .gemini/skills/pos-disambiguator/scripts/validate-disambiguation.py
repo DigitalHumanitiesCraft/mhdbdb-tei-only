@@ -188,9 +188,9 @@ def validate_file_pair(orig_path, disamb_path):
 
 def main():
     """Find and validate all disambiguation file pairs in tei/ folder."""
-    # Script is in scripts/data-wrangling/pos/
-    # root is 4 levels up
-    tei_dir = Path(__file__).parent.parent.parent.parent / 'tei'
+    # Script is in .gemini/skills/pos-disambiguator/scripts/
+    # root is 5 levels up
+    tei_dir = Path(__file__).parent.parent.parent.parent.parent / 'tei'
 
     # Find all .disamb.tei.xml files
     disamb_files = sorted(tei_dir.glob('*.disamb.tei.xml'))

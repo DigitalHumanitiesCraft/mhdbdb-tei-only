@@ -6,7 +6,7 @@ description: Validates and corrects Part-of-Speech tags in Middle High German TE
 # Middle High German PoS Disambiguator Workflow
 
 **Target Model**: Gemini 3.1 Pro (1M context window, 65K output tokens)
-**Last Updated**: December 2025 (Issue #27)
+**Last Updated**: March 2026 (Issue #27)
 
 You are a specialized linguistic agent with expertise in Middle High German (MHG) grammar. Your task is to validate and correct Part-of-Speech (PoS) tags using **semantic analysis and grammatical context**.
 
@@ -39,129 +39,32 @@ Your linguistic expertise IS the solution. Every PoS decision requires grammatic
 
 ---
 
-## Known Error Patterns (Critical!)
+## Known Error Patterns (Critical Watch List!)
 
-These are documented errors the model has made. **Study these carefully to avoid repeating them.**
+These are **recurring model errors**. Before finalizing any decision, check this list. Full rules are in the "Important Distinctions" section below.
 
-### Error 1: Negation Particles Misclassified as PRO
+| # | Error | Wrong Tag | Correct Tag | Rule Reference |
+|---|-------|-----------|-------------|----------------|
+| 1 | *niht, nit, nich, ne, en* etc. tagged as pronoun | PRO | **NEG** (always!) | See "MHG Negation Patterns" below |
+| 2 | *sant* before proper names tagged as adjective | ADJ | **NAM** | See "sant: Always NAM" below |
+| 3 | Deictic *daz* (pointing to prior content) tagged as pronoun | PRO | **DET** | See "DET vs PRO vs SCNJ" below |
+| 4 | *kein/dekein/dehein* before noun tagged as pronoun | PRO | **DET** | See "kein, dekein, dehein" below |
+| 5 | *wâr* in *vür wâr* tagged as noun | NOM | **ADV** | See "Fixed Phrases" below |
 
-**Problem:** The model frequently misclassifies negation particles as PRO, even in unambiguous contexts.
+**Error 6: Insufficient Care with Complex Texts**
 
-**Rule:** ALL negation forms of the type *niht / ne / nit / nich / nieht / niet / niut / nyt* etc. → **NEG**, NEVER PRO.
-
-**Explicit NEG forms (memorize this list):**
-| Form | Tag | Note |
-|------|-----|------|
-| *niht* | NEG | Standard negation |
-| *nichtes* | NEG | Genitive form |
-| *nit* | NEG | Variant spelling |
-| *nich* | NEG | Variant spelling |
-| *nieht* | NEG | Variant spelling |
-| *niet* | NEG | Variant spelling |
-| *niut* | NEG | Variant spelling |
-| *nyt* | NEG | Variant spelling |
-| *ne* | NEG | Proclitic negation |
-| *en* | NEG | Proclitic negation |
-| *n* | NEG | Reduced proclitic |
-
-**Rationale:** These forms are purely negating in MHG and NEVER replace a pronoun. Tag them consistently as NEG.
-
----
-
-### Error 2: *sant* Misclassified as ADJ
-
-**Problem:** The model tags *sant* before proper names as ADJ (adjective).
-
-**Rule:** In sequences like *sant* + proper name, *sant* is tagged as **NAM**, not ADJ.
-
-**Rationale:** *sant* is a fixed onymic title word ("holy", but only as name component), not an attributive adjective. The complete name (*sant Paulus*) forms an onomastic unit.
-
-**Correct annotations:**
-| Sequence | Tags | Reasoning |
-|----------|------|-----------|
-| *sant Paulus* | NAM + NAM | Title + proper name = onomastic unit |
-| *sant Johans* | NAM + NAM | Title + proper name = onomastic unit |
-| *sant Marîe* | NAM + NAM | Title + proper name = onomastic unit |
-
-**Error example from corpus:**
-```
-ABG_402010_8 sant: ` → ADJ  ← WRONG!
-# die lêrære lobent die minne groezlîche, als sant paulus tuot
-Correct: ABG_402010_8 | ADJ → NAM | high | onymic title before proper name Paulus
-```
-
----
-
-### Error 3: Deictic *daz* Misclassified as PRO
-
-**Problem:** The model tags deictic/demonstrative *daz* as PRO when it points to previously mentioned content without introducing a subordinate clause.
-
-**Rule:** *daz* = **DET** when it points deictically to preceding content ("dies/dieses") and does NOT open a clause structure. Only in other contexts is it PRO or SCNJ.
-
-**Test:** Does *daz* introduce a verb-final subordinate clause?
-- YES → SCNJ
-- NO, but points to prior content demonstratively → DET
-- NO, stands alone replacing a noun → PRO
-
-**Error examples from corpus:**
-```
-ABG_403040_4: "daz kumet von abegescheidenheit"
-→ daz points deictically to prior content, no subordinate clause → DET
-
-ABG_401080_14: "unum est necessarium, daz ist als vil gesprochen"
-→ daz points deictically to "unum est necessarium", no subordinate clause → DET
-```
-
----
-
-### Error 4: *kein/dekein/dehein* Misclassified
-
-**Problem:** The model doesn't correctly handle indefinite determiners.
-
-**Rule:** *kein / dekein / dehein* in determining use are indefinite determiners → **DET**, as long as they modify a noun (e.g., *kein mensche*, *dehein dinc*). Only when used substitutively without a noun would PRO be possible.
-
-**Example:**
-```
-ABG_404030_12: "kein mensche"
-→ kein modifies noun mensche → DET
-```
-
----
-
-### Error 5: *vür wâr* Phrase Misclassified
-
-**Problem:** The model tags *wâr* in the phrase *vür wâr* as NOM (noun).
-
-**Rule:** In the fixed MHG phrase *vür wâr* ("truly/verily"), *wâr* is NOT a noun but an adjective in adverbial use meaning "für wahr / wahrhaftig / wirklich".
-
-**Correct PoS:** ADV (adverbially used adjective), NOT NOM.
-
-**Example:**
-```
-ABG_411010_7: "und solt daz wizzen vür wâr"
-→ vür wâr = fixed phrase meaning "wahrlich" → wâr = ADV
-```
-
----
-
-### Error 6: Insufficient Care with Complex Texts
-
-**Problem:** The model performs significantly better on linguistically simpler texts (Early New High German tendency, normalized texts like cookbooks) than on complex, less normalized MHG texts.
-
-**Rule for difficult text types:**
+The model performs significantly better on simple texts than on complex MHG. For difficult text types:
 - Work **systematically slower and more controlled**
 - Check **more context** before making a PoS decision
 - When in doubt, **read the full sentence** and surrounding sentences
-- Complex MHG texts require **higher scrutiny** than normalized texts
 
-**Text difficulty indicators:**
 | Indicator | Action |
 |-----------|--------|
 | Non-normalized spelling | Slow down, verify context |
 | Complex syntax (hypotaxis) | Analyze full clause structure |
 | Literary/poetic texts | Consider stylistic variations |
 | Religious/philosophical texts | Check specialized vocabulary |
-| Fragmentary context | Consider skipping if truly ambiguous |
+| Fragmentary context | Assign best guess with `confidence='low'` |
 
 ---
 
@@ -328,7 +231,7 @@ These verbs have two completely different functions that are syntactically disti
 - With Partizip II → **VEX**
 - Without Partizip II → check semantic function (possession, copula, lexical meaning) → **VRB**
 
-**If truly ambiguous** (cryptic/fragmentary MHG sentence): **Skip the word** rather than guess.
+**If truly ambiguous** (cryptic/fragmentary MHG sentence): **Assign best guess** with `confidence='low'`, `reason='ambiguous'`. Never skip.
 
 ---
 
@@ -557,6 +460,20 @@ For each chunk file `{SIGLE}-chunk-{NUM}.md`:
 - Correct: `ABS_11010_7 |  → DET | high | indefinite article`
 - Wrong: `ABS_11010_7 | ❓ → DET | high | indefinite article`
 
+### Phase 2.5: Fix Malformed Output
+
+Before merging, fix any malformed result lines from LLM output:
+
+```bash
+# Dry run first to see what would be fixed
+python .gemini/skills/pos-disambiguator/scripts/find-and-fix-malformed-results.py temp/disambiguation --dry-run
+
+# Apply fixes
+python .gemini/skills/pos-disambiguator/scripts/find-and-fix-malformed-results.py temp/disambiguation
+```
+
+This corrects common formatting issues (wrong arrow characters, leftover markers, etc.) that would cause the merge script to skip valid decisions.
+
 ### Phase 3: Merge Results
 
 When all chunks complete:
@@ -609,7 +526,7 @@ If validation fails, use this strategy to clear errors efficiently:
 **Safety limit**: Maximum 3 refinement iterations per chunk. After 3 failures, mark as "complete with errors" and generate a Failure Report.
 
 **Creating a Failure Report**:
-If you hit the 3-iteration limit, create 	emp/disambiguation/{SIGLE}-FAILURE-REPORT.md including:
+If you hit the 3-iteration limit, create temp/disambiguation/{SIGLE}-FAILURE-REPORT.md including:
 1. The specific chunks that failed.
 2. The xml_ids that remain unresolved.
 3. A brief linguistic explanation of *why* the context was too ambiguous to resolve (e.g., "Missing verb makes it impossible to determine if 'daz' is SCNJ or DET"), so a human expert can review it.
@@ -626,9 +543,20 @@ Splits TEI files into chunks for processing.
 python .gemini/skills/pos-disambiguator/scripts/split-tei-for-pos-validation.py tei/{SIGLE}.xml
 ```
 
-**Defaults** (optimized for Gemini 3 Pro):
+**Defaults** (optimized for Gemini 3.1 Pro):
 - `--chunk-size 500` (500 target words per chunk - standard for focused analysis)
 - `--context-size 50` (50 words context before/after)
+
+### find-and-fix-malformed-results.py
+
+Detects and fixes malformed result lines in LLM output before merging.
+
+```bash
+python .gemini/skills/pos-disambiguator/scripts/find-and-fix-malformed-results.py temp/disambiguation --dry-run
+python .gemini/skills/pos-disambiguator/scripts/find-and-fix-malformed-results.py temp/disambiguation
+```
+
+**Fixes**: wrong arrow characters, leftover markers, missing fields. Use `--dry-run` to preview.
 
 ### merge-pos-validation-results.py
 

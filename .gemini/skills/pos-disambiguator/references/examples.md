@@ -109,9 +109,9 @@
 1. Fragment - no clear sentence structure
 2. *war* could be: wohin (IPA), wahr (ADJ), wo (ADV), or sîn-form (VRB/VEX)
 3. No syntactic context to determine function
-4. Cannot reliably disambiguate
+4. Best guess: *war* following *unde* (and) most likely continues a narrative → form of *sîn/wesen* (was)
 
-**Decision:** SKIP - insufficient context for reliable disambiguation
+**Decision:** `ABC_40001_0 | VRB VEX → VRB | low | ambiguous - fragmentary context, best guess: copula/full verb form of sîn`
 
 ---
 

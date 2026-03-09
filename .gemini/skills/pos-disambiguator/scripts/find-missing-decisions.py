@@ -9,7 +9,7 @@ with the generated result files to identify items that were skipped by the Agent
 It outputs a JSON report mapping chunk files to missing xml_ids.
 
 Usage:
-    python scripts/data-wrangling/pos/find-missing-decisions.py temp/disambiguation [SIGLE]
+    python .gemini/skills/pos-disambiguator/scripts/find-missing-decisions.py temp/disambiguation [SIGLE]
 """
 
 import argparse

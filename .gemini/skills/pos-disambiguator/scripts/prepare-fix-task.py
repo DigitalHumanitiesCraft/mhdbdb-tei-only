@@ -5,7 +5,7 @@ Prepare a fix task for a specific chunk by identifying missing decisions
 and extracting their context from the source chunk.
 
 Usage:
-    python scripts/data-wrangling/pos/prepare-fix-task.py temp/disambiguation/ADP.tei-chunk-026.md
+    python .gemini/skills/pos-disambiguator/scripts/prepare-fix-task.py temp/disambiguation/ADP.tei-chunk-026.md
 """
 
 import argparse

@@ -8,7 +8,7 @@ Scripts for Middle High German (MHG) Part-of-Speech disambiguation workflow. The
 TEI file → Split into chunks → LLM processes → Fix malformed → Merge → Validate → (Refine if needed)
 ```
 
-**Related documentation:** See `.agent/workflows/pos-disambiguator.md` for the complete LLM workflow specification including the 19-tag tagset, disambiguation rules, and error patterns.
+**Related documentation:** See `.gemini/skills/pos-disambiguator/SKILL.md` for the complete LLM workflow specification including the 19-tag tagset, disambiguation rules, and error patterns.
 
 ---
 
@@ -22,9 +22,9 @@ TEI file → Split into chunks → LLM processes → Fix malformed → Merge →
 
 **Usage:**
 ```bash
-python scripts/data-wrangling/pos/split-tei-for-pos-validation.py tei/ABG.tei.xml
-python scripts/data-wrangling/pos/split-tei-for-pos-validation.py tei/ABG.tei.xml --chunk-size 500
-python scripts/data-wrangling/pos/split-tei-for-pos-validation.py tei/ABG.tei.xml --output-dir temp/disambiguation
+python .gemini/skills/pos-disambiguator/scripts/split-tei-for-pos-validation.py tei/ABG.tei.xml
+python .gemini/skills/pos-disambiguator/scripts/split-tei-for-pos-validation.py tei/ABG.tei.xml --chunk-size 500
+python .gemini/skills/pos-disambiguator/scripts/split-tei-for-pos-validation.py tei/ABG.tei.xml --output-dir temp/disambiguation
 ```
 
 **Input:** `tei/{SIGLE}.tei.xml`
@@ -51,10 +51,10 @@ python scripts/data-wrangling/pos/split-tei-for-pos-validation.py tei/ABG.tei.xm
 **Usage:**
 ```bash
 # Dry run - see what would be fixed
-python scripts/data-wrangling/pos/find-and-fix-malformed-results.py temp/disambiguation --dry-run
+python .gemini/skills/pos-disambiguator/scripts/find-and-fix-malformed-results.py temp/disambiguation --dry-run
 
 # Apply fixes
-python scripts/data-wrangling/pos/find-and-fix-malformed-results.py temp/disambiguation
+python .gemini/skills/pos-disambiguator/scripts/find-and-fix-malformed-results.py temp/disambiguation
 ```
 
 **Input:** `temp/disambiguation/*-result*.md`
@@ -81,7 +81,7 @@ python scripts/data-wrangling/pos/find-and-fix-malformed-results.py temp/disambi
 
 **Usage:**
 ```bash
-python scripts/data-wrangling/pos/merge-pos-validation-results.py temp/disambiguation ABG.tei tei/ABG.tei.xml
+python .gemini/skills/pos-disambiguator/scripts/merge-pos-validation-results.py temp/disambiguation ABG.tei tei/ABG.tei.xml
 ```
 
 **Input:**
@@ -113,7 +113,7 @@ xml_id | old_pos → new_pos | confidence | reason
 
 **Usage:**
 ```bash
-python scripts/data-wrangling/pos/validate-disambiguation.py
+python .gemini/skills/pos-disambiguator/scripts/validate-disambiguation.py
 ```
 
 **Input:** All `tei/*.disamb.tei.xml` files and their corresponding `tei/*.tei.xml` originals
@@ -141,13 +141,13 @@ python scripts/data-wrangling/pos/validate-disambiguation.py
 **Usage:**
 ```bash
 # All files in directory
-python scripts/data-wrangling/pos/find-missing-decisions.py temp/disambiguation
+python .gemini/skills/pos-disambiguator/scripts/find-missing-decisions.py temp/disambiguation
 
 # Filter by SIGLE
-python scripts/data-wrangling/pos/find-missing-decisions.py temp/disambiguation ADP
+python .gemini/skills/pos-disambiguator/scripts/find-missing-decisions.py temp/disambiguation ADP
 
 # JSON output for scripting
-python scripts/data-wrangling/pos/find-missing-decisions.py temp/disambiguation --json
+python .gemini/skills/pos-disambiguator/scripts/find-missing-decisions.py temp/disambiguation --json
 ```
 
 **Input:**
@@ -171,7 +171,7 @@ python scripts/data-wrangling/pos/find-missing-decisions.py temp/disambiguation 
 
 **Usage:**
 ```bash
-python scripts/data-wrangling/pos/prepare-fix-task.py temp/disambiguation/ADP.tei-chunk-026.md
+python .gemini/skills/pos-disambiguator/scripts/prepare-fix-task.py temp/disambiguation/ADP.tei-chunk-026.md
 ```
 
 **Input:** Path to a source chunk file
@@ -203,34 +203,34 @@ python scripts/data-wrangling/pos/prepare-fix-task.py temp/disambiguation/ADP.te
 
 ```bash
 # 1. Split TEI into chunks
-python scripts/data-wrangling/pos/split-tei-for-pos-validation.py tei/ABG.tei.xml
+python .gemini/skills/pos-disambiguator/scripts/split-tei-for-pos-validation.py tei/ABG.tei.xml
 
 # 2. (LLM processes chunks - external to these scripts)
 #    Reads: temp/disambiguation/ABG.tei-chunk-001.md, ABG.tei-chunk-002.md, ...
 #    Writes: temp/disambiguation/ABG.tei-chunk-001-result.md, ...
 
 # 3. Fix any malformed LLM output
-python scripts/data-wrangling/pos/find-and-fix-malformed-results.py temp/disambiguation
+python .gemini/skills/pos-disambiguator/scripts/find-and-fix-malformed-results.py temp/disambiguation
 
 # 4. Merge results into TEI
-python scripts/data-wrangling/pos/merge-pos-validation-results.py temp/disambiguation ABG.tei tei/ABG.tei.xml
+python .gemini/skills/pos-disambiguator/scripts/merge-pos-validation-results.py temp/disambiguation ABG.tei tei/ABG.tei.xml
 
 # 5. Validate the result
-python scripts/data-wrangling/pos/validate-disambiguation.py
+python .gemini/skills/pos-disambiguator/scripts/validate-disambiguation.py
 
 # 6. If issues remain, find what's missing
-python scripts/data-wrangling/pos/find-missing-decisions.py temp/disambiguation ABG
+python .gemini/skills/pos-disambiguator/scripts/find-missing-decisions.py temp/disambiguation ABG
 
 # 7. Prepare targeted fix tasks for missing items
-python scripts/data-wrangling/pos/prepare-fix-task.py temp/disambiguation/ABG.tei-chunk-005.md > temp/disambiguation/ABG.tei-chunk-005-FIX-TASK.md
+python .gemini/skills/pos-disambiguator/scripts/prepare-fix-task.py temp/disambiguation/ABG.tei-chunk-005.md > temp/disambiguation/ABG.tei-chunk-005-FIX-TASK.md
 
 # 8. (LLM processes fix task, writes ABG.tei-chunk-005-result_FIX-01.md)
 
 # 9. Re-merge (FIX files automatically override base results)
-python scripts/data-wrangling/pos/merge-pos-validation-results.py temp/disambiguation ABG.tei tei/ABG.tei.xml
+python .gemini/skills/pos-disambiguator/scripts/merge-pos-validation-results.py temp/disambiguation ABG.tei tei/ABG.tei.xml
 
 # 10. Validate again
-python scripts/data-wrangling/pos/validate-disambiguation.py
+python .gemini/skills/pos-disambiguator/scripts/validate-disambiguation.py
 ```
 
 ---

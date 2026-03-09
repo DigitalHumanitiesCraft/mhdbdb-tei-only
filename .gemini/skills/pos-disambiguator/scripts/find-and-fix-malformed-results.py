@@ -23,8 +23,8 @@ Integrity checks performed on fixed lines:
 - Sensible old_pos → new_pos transition
 
 Usage:
-    python scripts/data-wrangling/pos/find-and-fix-malformed-results.py temp/disambiguation
-    python scripts/data-wrangling/pos/find-and-fix-malformed-results.py temp/disambiguation --dry-run
+    python .gemini/skills/pos-disambiguator/scripts/find-and-fix-malformed-results.py temp/disambiguation
+    python .gemini/skills/pos-disambiguator/scripts/find-and-fix-malformed-results.py temp/disambiguation --dry-run
 """
 
 import argparse
