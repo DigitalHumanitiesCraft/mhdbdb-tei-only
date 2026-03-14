@@ -1,12 +1,12 @@
 xml_id	form	context	match_type	candidate_lemmas	resolved_lemma	confidence	reviewer
 WZB_75vb_24_2	werden	zu kriege werden vnd ymant	ambiguous	lemma_62628|lemma_7489|lemma_7500			
 WZB_75vb_25_0	slecht	vnd ymant slecht ein swanger	ambiguous	lemma_5525|lemma_5532			
-WZB_75vb_25_1	ein	ymant slecht ein swanger vrowen	ambiguous	lemma_119|lemma_13|lemma_1331|lemma_2975			
-WZB_75vb_26_1	sie	vrowen vnd sie ein vorworfens	ambiguous	lemma_5432|lemma_5454|lemma_56116			
-WZB_75vb_26_2	ein	vnd sie ein vorworfens kint	ambiguous	lemma_119|lemma_13|lemma_1331|lemma_2975			
+WZB_75vb_25_1	ein	ymant slecht ein swanger vrowen	ambiguous	lemma_119|lemma_13|lemma_1331|lemma_2975	lemma_1331	high	claude
+WZB_75vb_26_1	sie	vrowen vnd sie ein vorworfens	ambiguous	lemma_5432|lemma_5454|lemma_56116	lemma_5454	high	claude
+WZB_75vb_26_2	ein	vnd sie ein vorworfens kint	ambiguous	lemma_119|lemma_13|lemma_1331|lemma_2975	lemma_1331	high	claude
 WZB_75vb_26_3	vorworfens	sie ein vorworfens kint gepere	unmatched				
 WZB_75vb_27_0	gepere	vorworfens kint gepere svnder sie	ambiguous	lemma_1953|lemma_1964			
-WZB_75vb_27_4	sie	gepere svnder sie bleibit leben	ambiguous	lemma_5432|lemma_5454|lemma_56116			
+WZB_75vb_27_4	sie	gepere svnder sie bleibit leben	ambiguous	lemma_5432|lemma_5454|lemma_56116	lemma_5454	high	claude
 WZB_75vb_27_5	bleibit	svnder sie bleibit leben der	unmatched				
 WZB_75vb_27_6	leben	sie bleibit leben der sol	ambiguous	lemma_3659|lemma_3726			
 WZB_75vb_28_2	der	bleibit leben der sol dem	ambiguous	lemma_1055|lemma_1119|lemma_8031	lemma_1119	high	claude
@@ -29,7 +29,7 @@ WZB_75vb_32_6	ir	das ir ir tot noch	ambiguous	lemma_1517|lemma_5454|lemma_56116|
 WZB_75vb_32_8	noch	ir tot noch volgit so	ambiguous	lemma_14402|lemma_4281|lemma_4415	lemma_4415	high	claude
 WZB_75vb_32_9	volgit	tot noch volgit so gebe	unmatched				
 WZB_75vb_33_1	gebe	volgit so gebe her sele	ambiguous	lemma_13306|lemma_1961			
-WZB_75vb_33_2	her	so gebe her sele vmb	ambiguous	lemma_1517|lemma_2682|lemma_2684|lemma_2761|lemma_2762|lemma_2825			
+WZB_75vb_33_2	her	so gebe her sele vmb	ambiguous	lemma_1517|lemma_2682|lemma_2684|lemma_2761|lemma_2762|lemma_2825	lemma_1517	high	claude
 WZB_75vb_33_7	ouge	vmb sele ouge vmb ouge	ambiguous	lemma_4524|lemma_50081			
 WZB_75vb_34_1	ouge	ouge vmb ouge czan vmbe	ambiguous	lemma_4524|lemma_50081			
 WZB_75vb_34_4	czan	vmb ouge czan vmbe czan	unmatched				
