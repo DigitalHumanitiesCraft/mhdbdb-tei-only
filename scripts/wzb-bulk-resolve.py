@@ -22,6 +22,11 @@ import sys
 import argparse
 from pathlib import Path
 
+def uprint(*args, **kwargs):
+    """Print safely to stdout, handling non-cp1252 characters on Windows."""
+    text = " ".join(str(a) for a in args) + kwargs.get("end", "\n")
+    sys.stdout.buffer.write(text.encode("utf-8", errors="replace"))
+
 DEFAULT_TSV = "Wenzelsbibel/wzb-disambiguation.tsv"
 REVIEWER = "claude"
 
@@ -48,7 +53,7 @@ if __name__ == "__main__":
         reader = csv.DictReader(f, delimiter="\t")
         for row in reader:
             resolutions[row["form"]] = (row["resolved_lemma"], row["confidence"], row.get("note", ""))
-    print(f"Loaded {len(resolutions)} resolutions: {', '.join(resolutions.keys())}")
+    uprint(f"Loaded {len(resolutions)} resolutions: {', '.join(resolutions.keys())}")
 
     # Read and update TSV
     rows = []
@@ -75,11 +80,11 @@ if __name__ == "__main__":
     total_updated = 0
     for form, s in stats.items():
         lemma, conf, note = resolutions[form]
-        print(f"  {form!r:12s} -> {lemma} ({conf}): {s['updated']} updated, {s['skipped_already_resolved']} already resolved")
+        uprint(f"  {form!r:12s} -> {lemma} ({conf}): {s['updated']} updated, {s['skipped_already_resolved']} already resolved")
         total_updated += s["updated"]
 
     if args.dry_run:
-        print(f"\nDRY RUN: would update {total_updated} rows (no changes written)")
+        uprint(f"\nDRY RUN: would update {total_updated} rows (no changes written)")
         sys.exit(0)
 
     # Write back
@@ -88,7 +93,7 @@ if __name__ == "__main__":
         writer.writeheader()
         writer.writerows(rows)
 
-    print(f"\nUpdated {total_updated} rows in {tsv_path}")
+    uprint(f"\nUpdated {total_updated} rows in {tsv_path}")
 
     # Always regenerate pending-review after a real update
     pending_script = Path(__file__).parent / "wzb-pending-review.py"
@@ -100,6 +105,6 @@ if __name__ == "__main__":
             capture_output=True, text=True
         )
         if result.returncode == 0:
-            print(result.stdout.strip())
+            uprint(result.stdout.strip())
         else:
-            print(f"Warning: pending-review regeneration failed: {result.stderr.strip()}")
+            uprint(f"Warning: pending-review regeneration failed: {result.stderr.strip()}")
