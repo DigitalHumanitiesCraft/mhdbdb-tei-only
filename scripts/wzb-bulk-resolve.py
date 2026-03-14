@@ -89,3 +89,17 @@ if __name__ == "__main__":
         writer.writerows(rows)
 
     print(f"\nUpdated {total_updated} rows in {tsv_path}")
+
+    # Always regenerate pending-review after a real update
+    pending_script = Path(__file__).parent / "wzb-pending-review.py"
+    if pending_script.exists():
+        import subprocess
+        result = subprocess.run(
+            [sys.executable, str(pending_script), "--match-type", "all",
+             "--tsv", str(tsv_path)],
+            capture_output=True, text=True
+        )
+        if result.returncode == 0:
+            print(result.stdout.strip())
+        else:
+            print(f"Warning: pending-review regeneration failed: {result.stderr.strip()}")
