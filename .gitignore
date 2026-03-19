@@ -14,6 +14,9 @@ testing/tests/*.json
 testing/tests/*.png
 testing/screenshots/
 
+# Claude Code local settings (machine-specific permissions)
+.claude/settings.local.json
+
 # IDE and editor files
 # .vscode/
 .vscode/*
