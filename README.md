@@ -119,3 +119,9 @@ All search functions use centralized MHG character normalization:
 **License:** [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 **Contact:** mhdbdb@plus.ac.at | https://mhdbdb.plus.ac.at
 **Project:** University of Salzburg, 50+ years of medievalist research
+
+## Acknowledgement
+
+This project was supported by [CLARIAH-AT](https://clariah.at/de/).
+
+CLARIAH-AT provides essential infrastructure and support for digital humanities research in Austria. We gratefully acknowledge this contribution.
