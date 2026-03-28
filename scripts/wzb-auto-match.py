@@ -85,10 +85,7 @@ def build_variant_lookup(variants_path):
 
 
 def annotate_wzb(variant_lookup, wzb_path, out_path, report_path):
-    # parse with recovery mode because the source file may contain invalid
-    # xml:id values (e.g. characters not allowed in NCNames).
-    parser = etree.XMLParser(recover=True)
-    tree = etree.parse(str(wzb_path), parser)
+    tree = etree.parse(str(wzb_path))
     ns = get_namespaces(tree)
 
     rows = []
