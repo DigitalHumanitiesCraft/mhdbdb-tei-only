@@ -158,6 +158,64 @@ run.
 
 **Coverage target:** Best-effort with existing lexicon. Unmatched words are flagged in the report but NOT added to `lexicon.xml` in this phase (that requires a separate editorial decision).
 
+### Phase 1b Disambiguation Workflow (actual)
+
+After running Phase 1 auto-match, `wzb-disambiguation.tsv` contained **72,358** ambiguous/unmatched token rows. The following tiered workflow was agreed upon for resolving them, ordered by impact and tractability.
+
+Current coverage (as of batch 40): 89.5% resolved (64,732 / 72,358)
+
+#### Token population breakdown
+
+| Population | Forms | Tokens | Strategy |
+| --- | --- | --- | --- |
+| Ambiguous — high freq (21+ tokens) | 6 forms | ~260 | Tier 1: bulk resolve now |
+| Ambiguous — mid/low freq (2–20) | 66 forms | ~500 | Tier 2: Claude proposes, Julia spot-checks |
+| Ambiguous — hapax (count = 1) | 263 forms | 263 | Tier 3: deferred |
+| Unmatched — mid freq (6–20) | 12 forms | ~150 | Tier 4: flag NEW or resolve via Wörterbuchnetz |
+| Unmatched — long tail (1–5) | 3,803 forms | ~5,400 | Tier 5: deferred |
+
+#### Tier 1 — Bulk resolve (Claude, now)
+
+High-frequency ambiguous forms where the dominant reading is clear from context patterns across all five books. Claude produces a `wzb-resolutions-batchNN.tsv` (form-level) plus a `wzb-patch-batchNN.tsv` for minority exceptions, applied via `wzb-bulk-resolve.py` + `wzb-patch-rows.py`.
+
+Current Tier 1 targets: `mer`, `fur`, `fure`, `wegen`, `wert`, `weise`.
+
+#### Tier 2 — Context-by-context review (Claude proposes, Julia spot-checks)
+
+Mid- and low-frequency ambiguous forms (2–20 token occurrences) that genuinely split between readings depending on sentence context — e.g. `herte` can be ADJ "hard", NOM "heart", VRB "to harden", or NAM "shepherd". Claude reads every instance, proposes a per-instance resolution with a confidence rating, and writes a patch file. Julia reviews all `confidence=low` rows and a random 20% sample of `confidence=medium` rows before applying.
+
+#### Tier 3 — Hapax ambiguous (deferred)
+
+263 ambiguous forms each occurring exactly once. Per-instance resolution is the only option but the ROI is low (263 patches for 263 tokens, each requiring lexicon lookup). Deferred until after Phase 2 unless a form is philologically significant.
+
+#### Tier 4 — Unmatched mid-frequency (flag NEW or resolve)
+
+~12 forms with 6–20 occurrences that are genuine MHG words not in the MHDBDB lexicon (e.g. `scot`, `erstlinge`, `humeral`, `hebreer`, `keuchel`). Two sub-strategies:
+
+- Claude cross-references BMZ/Lexer via the [Wörterbuchnetz API](https://api.woerterbuchnetz.de) and proposes a headword + lemma ID if the word can be found
+- If not resolvable: mark `resolved_lemma = NEW` → collected in the editorial additions list for the lexicon team
+
+#### Tier 5 — Unmatched long tail (deferred)
+
+~3,800 forms with 1–5 occurrences. These are mostly: orthographic variants with normalization gaps, rare biblical proper nouns, Latin inflections within Vulgate quotations, or compound forms. Deferred — accepted as residual coverage gap. May be revisited after a future lexicon enrichment pass.
+
+#### Special token categories (resolved inline)
+
+Two additional categories were identified during Phase 1b and resolved as complete batches before the tier workflow above:
+
+- **Scribal/structural marks** (batches 39–40, resolved): `ł`, `-`, `̃`, `჻`, `=`, `؞` → `lemma_2`; Roman numeral chapter apparatus (`U`, `XU`, `UII`, `I`–`VI` etc.) → `lemma_13826`; Latin running headers split mid-word across folios (`GENE`+`SIS`, `EXO`+`DUS`, `LEUITICUS`, `ERI`, `DEUTRO`+`NOMIUS`, `GEN`+`ESIS`, `CAPITULUM`, `LIBER`, `S`) → `lemma_2`
+- **Old Czech/Bohemian glosses** (flagged, pending): `toho`, `thoho`, `pzde`, `bzde`, `؞` — marginal glosses in Old Czech interspersed in the Exodus/Numbers sections, reflecting the manuscript's production context for Wenceslas IV. Separate GitHub issue to be created. Will be resolved to `lemma_2` as non-MHG paratextual content.
+
+#### Tooling
+
+| Script | Purpose |
+| --- | --- |
+| `scripts/wzb-bulk-resolve.py` | Apply form-level resolutions to disambiguation TSV |
+| `scripts/wzb-patch-rows.py` | Apply per-xml_id corrections (minority exceptions) |
+| `scripts/wzb-pending-review.py` | Regenerate `wzb-pending-review.tsv` from current TSV state |
+| `Wenzelsbibel/wzb-resolutions-batchNN.tsv` | Form-level resolution files (one per batch) |
+| `Wenzelsbibel/wzb-patch-batchNN.tsv` | Per-row correction files (one per batch, where needed) |
+
 ### Phase 2: POS Tagging (LLM-assisted)
 
 **Goal:** Assign `@pos` to every `<w>` element.
