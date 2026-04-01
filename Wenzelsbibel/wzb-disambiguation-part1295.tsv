@@ -1,8 +1,8 @@
 xml_id	form	context	match_type	candidate_lemmas	resolved_lemma	confidence	reviewer
 WZB_212rb_31_1	wirt	yn vnd wirt sein helfer	ambiguous	lemma_7489|lemma_7652	lemma_7489	high	claude
-WZB_212rb_31_2	sein	vnd wirt sein helfer in	ambiguous	lemma_1517|lemma_1762|lemma_5377|lemma_5427|lemma_5432			
-WZB_212rb_31_4	in	sein helfer in sein wider	ambiguous	lemma_1331|lemma_1517|lemma_2975|lemma_3028|lemma_3038|lemma_5454|lemma_6467|lemma_8472			
-WZB_212rb_31_5	sein	helfer in sein wider sachen	ambiguous	lemma_1517|lemma_1762|lemma_5377|lemma_5427|lemma_5432			
+WZB_212rb_31_2	sein	vnd wirt sein helfer in	ambiguous	lemma_1517|lemma_1762|lemma_5377|lemma_5427|lemma_5432	lemma_1517	medium	claude
+WZB_212rb_31_4	in	sein helfer in sein wider	ambiguous	lemma_1331|lemma_1517|lemma_2975|lemma_3028|lemma_3038|lemma_5454|lemma_6467|lemma_8472	lemma_3028	medium	claude
+WZB_212rb_31_5	sein	helfer in sein wider sachen	ambiguous	lemma_1517|lemma_1762|lemma_5377|lemma_5427|lemma_5432	lemma_1517	medium	claude
 WZB_212rb_32_0	wider	in sein wider sachen Und	ambiguous	lemma_12326|lemma_7557	lemma_7557	high	claude
 WZB_212rb_32_1	sachen	sein wider sachen Und zu	ambiguous	lemma_5046|lemma_5047	lemma_5046	high	claude
 WZB_212rb_33_0	sprach	Und zu sprach her Dein	ambiguous	lemma_5692|lemma_5693	lemma_5693	high	claude
@@ -11,13 +11,13 @@ WZB_212rb_33_5	volkvmenheit	her Dein volkvmenheit vnd dein	unmatched
 WZB_212rb_34_2	lere	vnd dein lere dem heili	ambiguous	lemma_3655|lemma_3656|lemma_63548	lemma_63548	high	claude
 WZB_212rb_34_3	dem	dein lere dem heili DEUTRO	ambiguous	lemma_1097|lemma_1119	lemma_1119	high	claude
 WZB_212rb_34_4	heili	lere dem heili DEUTRO gen	unmatched				
-WZB_212va_1_0	DEUTRO	dem heili DEUTRO gen manne	unmatched				
+WZB_212va_1_0	DEUTRO	dem heili DEUTRO gen manne	unmatched		lemma_2	high	claude
 WZB_212va_2_0	gen	heili DEUTRO gen manne den	ambiguous	lemma_1844|lemma_1961|lemma_2007	lemma_2007	high	claude
 WZB_212va_2_4	du	manne den du vorsuchet hast	ambiguous	lemma_1139|lemma_1180|lemma_1241|lemma_1242	lemma_1242	high	claude
 WZB_212va_2_5	vorsuchet	den du vorsuchet hast vngevrteilt	unmatched				
 WZB_212va_3_0	hast	du vorsuchet hast vngevrteilt czu	ambiguous	lemma_2598|lemma_2681	lemma_2598	high	claude
 WZB_212va_3_1	vngevrteilt	vorsuchet hast vngevrteilt czu den	unmatched				
-WZB_212va_4_1	des	den wassern des widersagens Der	ambiguous	lemma_1097|lemma_1119|lemma_1186			
+WZB_212va_4_1	des	den wassern des widersagens Der	ambiguous	lemma_1097|lemma_1119|lemma_1186	lemma_1119	high	claude
 WZB_212va_4_2	widersagens	wassern des widersagens Der do	unmatched				
 WZB_212va_5_0	Der	des widersagens Der do sprach	ambiguous	lemma_1055|lemma_1119|lemma_8031	lemma_1119	high	claude
 WZB_212va_5_1	do	widersagens Der do sprach zu	ambiguous	lemma_1055|lemma_1180|lemma_1242|lemma_4445	lemma_1180	high	claude
@@ -31,10 +31,10 @@ WZB_212va_11_1	haben	deinen fride haben sie behalden	ambiguous	lemma_2593|lemma_
 WZB_212va_11_2	sie	fride haben sie behalden D	ambiguous	lemma_5432|lemma_5454|lemma_56116	lemma_5454	high	claude
 WZB_212va_12_1	gerichte	D Dein gerichte o vnd	ambiguous	lemma_2164|lemma_4913	lemma_2164	high	claude
 WZB_212va_12_3	o	Dein gerichte o vnd dein	ambiguous	lemma_18476|lemma_2|lemma_4445			
-WZB_212va_13_2	e	vnd dein e o Legen	ambiguous	lemma_10937|lemma_1281|lemma_3004			
+WZB_212va_13_2	e	vnd dein e o Legen	ambiguous	lemma_10937|lemma_1281|lemma_3004	lemma_1281	high	claude
 WZB_212va_13_5	o	dein e o Legen werden	ambiguous	lemma_18476|lemma_2|lemma_4445			
 WZB_212va_13_8	Legen	e o Legen werden sie	ambiguous	lemma_16149|lemma_3674|lemma_3770			
-WZB_212va_13_9	werden	o Legen werden sie thimiamischen	ambiguous	lemma_62628|lemma_7489|lemma_7500			
+WZB_212va_13_9	werden	o Legen werden sie thimiamischen	ambiguous	lemma_62628|lemma_7489|lemma_7500	lemma_7489	high	claude
 WZB_212va_14_0	sie	Legen werden sie thimiamischen weirouch	ambiguous	lemma_5432|lemma_5454|lemma_56116	lemma_5454	high	claude
 WZB_212va_14_1	thimiamischen	werden sie thimiamischen weirouch vnd	unmatched		lemma_11856	high	claude
 WZB_212va_14_2	weirouch	sie thimiamischen weirouch vnd ganczenczuntis	unmatched		lemma_7528	high	claude
@@ -47,5 +47,5 @@ WZB_212va_19_3	Slach	hende enpfach Slach die hinderteil	ambiguous	lemma_5521|lem
 WZB_212va_19_4	die	enpfach Slach die hinderteil seiner	ambiguous	lemma_1139|lemma_1161	lemma_1139	high	claude
 WZB_212va_19_5	hinderteil	Slach die hinderteil seiner veinde	unmatched		lemma_24741	high	claude
 WZB_212va_20_4	die	veinde vnd die in gehasset	ambiguous	lemma_1139|lemma_1161	lemma_1139	high	claude
-WZB_212va_21_0	in	vnd die in gehasset haben	ambiguous	lemma_1331|lemma_1517|lemma_2975|lemma_3028|lemma_3038|lemma_5454|lemma_6467|lemma_8472			
+WZB_212va_21_0	in	vnd die in gehasset haben	ambiguous	lemma_1331|lemma_1517|lemma_2975|lemma_3028|lemma_3038|lemma_5454|lemma_6467|lemma_8472	lemma_3028	medium	claude
 WZB_212va_21_2	haben	in gehasset haben nicht NOMIUS	ambiguous	lemma_2593|lemma_2598|lemma_2688	lemma_2598	high	claude
