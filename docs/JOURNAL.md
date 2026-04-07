@@ -176,3 +176,44 @@ Flow/Algorithms/XPaths: PASS. Rebuild feasibility: Search YELLOW, Build YELLOW, 
 - Added full API schemas (text metadata, index files, root index), corpus enrichment decision (no), build integration (manual + npm alias)
 - Updated issue #45 body on GitHub with planning doc link and revised design
 - Updated matrix (#44) to include #45 and #46, moved closed #42 to "Recently Closed"
+
+---
+
+## 2026-04-07 — TEI Model Consolidation (Issue #32)
+
+**Trigger:** Katharina will externe Daten (ReM, CoReMA, weitere) aufnehmen. Voraussetzung: konsolidiertes TEI-Modell mit formalem Schema als Validierungsgate.
+
+### Strategieentscheidung: Hybrid-Ansatz
+- Weder "Fixes zuerst" noch "Schema zuerst" — stattdessen 3+1 Phasen:
+  - **Phase 0:** Soll-Modell (docs/TEI-MODEL.md) — Entwurf fertig
+  - **Phase 1:** Strukturelle Fixes (#30) am Soll-Modell ausgerichtet
+  - **Phase 3:** RELAX NG Schema (schema/mhdbdb.rnc)
+  - **Phase 2:** Attribut-Migration — aufgeschoben bis WZB-Merge
+- Branch: `feature/tei-model-32`
+
+### TEI P5 Validierung: Ueberraschende Ergebnisse
+- `schema/tei_all.rng` (TEI P5 4.11.0) heruntergeladen und gegen Korpus validiert
+- **0/100 Dateien valide** — aber nur 2 Fehlertypen:
+  1. `@meaningRef` (100% der Dateien) — nicht-Standard-Attribut, blockiert Validierung
+  2. `@wordRef` (15% der Dateien) — nicht-Standard, bereits deprecated
+- **Ueberraschung:** `@lemmaRef` IST Standard-TEI (att.linguistic seit v3.3.0/2018) — keine Migration noetig!
+- `@meaningRef` → `@ana` ist die einzige Migration fuer TEI-Konformanz (einfaches Batch-Rename)
+- Zusaetzlich entdeckt: `<monogr>` Element-Reihenfolge falsch in einigen Dateien (author nach title)
+
+### Entschiedene Policy-Fragen (keine offenen Punkte mehr)
+- **POS-Tagset:** 19-Tag-System aus SKILL.md ist kanonisch (DET nicht ART, CCNJ/SCNJ nicht CNJ)
+- **`<hi rend="initial">`:** Beibehalten (Korpus-Konvention, 655/675 Dateien)
+- **`<l>` vs `<lb/>`:** 18 Prosa-Texte migrieren, 3 korrigiert als Vers (HMT, APO, HH)
+- **`<seg type="pc">`:** Langfristig zu `<pc>` migrieren (TEI P5 Standard-Element)
+- **`@wordRef`:** Deprecated, wird entfernt (kein Code liest es)
+- **Attribut-Migration `@lemmaRef`→`@lemma`:** Aufgeschoben (Kosten >> Nutzen, WZB-Konflikt)
+
+### Neue Artefakte
+- `docs/TEI-MODEL.md` — Soll-Modell mit IST/SOLL-Vergleichen, Validierungsbaseline
+- `docs/TEI-MODEL-EXAMPLE.xml` — Maximalbeispiel, validiert gegen tei_all.rng
+- `schema/tei_all.rng` — TEI P5 4.11.0 Referenzschema
+
+### Vergleichsprojekte recherchiert
+- DTABf (Gold-Standard historische Texte): Strikte TEI-Untermenge, ~80 Elemente, Standoff-Annotation
+- MENOTA (Mittelalterliche Texte): Custom-Namespace `me:` fuer Erweiterungen, 3 Transkriptionsebenen
+- ReM (Referenzkorpus MHG): HiTS-Tagset, Multi-Layer-Annotation

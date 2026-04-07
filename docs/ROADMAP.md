@@ -35,9 +35,8 @@ Well-specified, ready to build, but require more effort.
 | #26 | Missing `<pb>` elements (17 texts) | KZW manual check |
 | #23 | Missing stanza markup (104 texts) — partially actionable | Linecode docs (#31) |
 | #31 | Doku: Linecode2TEI — do #23 + #29 first | KZW |
-| #30 | Manual review of TEI structural elements (~20 texts) — KZW reviewing from KW 8 | KZW |
+| #30 | Manual review of TEI structural elements (~20 texts) — Alan review done, triage ready | KZW (draft-fix reviews) |
 | #34 | Ingest Wenzelsbibel + CoReMA | Julia + Helmut coordination |
-| #32 | TEI schema / ODD — decision: no ODD, eliminate custom attrs first | Future phase |
 | #42 | Persistent lemma pages — feature done, scope expanded (Lemmata-Explorer rename, semantic explorer) | Decision: close + new issues? |
 
 ## In Progress
@@ -45,7 +44,8 @@ Well-specified, ready to build, but require more effort.
 | # | What | Status |
 |---|------|--------|
 | #27 | POS Workflow expansion | Active — linguistic decisions answered, batch list provided |
-| #30 | TEI structural review | KZW reviewing manually from KW 8 |
+| #30 | TEI structural fixes | Auto-fixes ready (71 edits, 4 files), draft-fixes prepared, aligned to TEI-MODEL.md |
+| #32 | TEI model consolidation | Soll-Modell ([TEI-MODEL.md](TEI-MODEL.md)) drafted, all policy decisions made, RELAX NG schema next |
 
 ## Future: Needs Design
 
@@ -69,10 +69,12 @@ Well-specified, ready to build, but require more effort.
 
 ## Strategic Direction
 
-1. **FAIR data first** — Make all MHDBDB data citable and programmatically accessible (#45, #42). This enables external collaborations (MWB, Worterbuchnetz) and increases project visibility.
+1. **TEI model consolidation first** — Soll-Modell (#32) + structural fixes (#30) + RELAX NG schema are prerequisites before any external data ingest (ReM, CoReMA, etc.). Key migration: `@meaningRef` → `@ana` (TEI-konform). Target model: [TEI-MODEL.md](TEI-MODEL.md).
 
-2. **TEI data quality** — Structural fixes (#23, #26, #29, #30) and schema consolidation (#32) strengthen the corpus as a reliable research resource. Most blocked on human review.
+2. **FAIR data** — Make all MHDBDB data citable and programmatically accessible (#45, #42). Enables external collaborations (MWB, Worterbuchnetz).
 
-3. **Frontend refinements** — UI polish (#20), TEI rendering (#17), URL routing (#48), and advanced playground features (#47) improve the user experience.
+3. **TEI data quality** — Remaining structural fixes (#23, #26, #29) and 18 Prosa-Texte `<l>` → `<lb/>` Migration. Most blocked on human review.
 
-4. **Advanced search** — PoS-based search (#18) and foreign language search (#28) depend on corpus index extensions.
+4. **Frontend refinements** — UI polish (#20), TEI rendering (#17), URL routing (#48), and advanced playground features (#47).
+
+5. **Advanced search** — PoS-based search (#18) and foreign language search (#28) depend on corpus index extensions.

@@ -5,6 +5,8 @@ Defines the normative TEI encoding for all texts in the MHDBDB corpus. New texts
 **Status:** DRAFT — pending review by Katharina Zeppezauer-Wachauer
 **Issue:** #32 (TEI schema)
 **Schema:** `schema/mhdbdb.rnc` (RELAX NG Compact, planned)
+**Validiert gegen:** TEI P5 Version 4.11.0 (`tei_all.rng`, 18. Feb 2026)
+**Maximalbeispiel:** `docs/TEI-MODEL-EXAMPLE.xml` (validiert gegen tei_all.rng)
 
 ---
 
@@ -89,10 +91,14 @@ The header is already largely standardized across all 675 files. This section do
 ```
 
 **Rules:**
-- `<author ref>` verweist auf `persons.xml` via Fragment-ID (`#person_{id}`)
+- `<author ref>` verweist auf den `<person>`-Eintrag im selben Dokument (`profileDesc`), der via `@corresp` auf `persons.xml` verweist
 - `<msIdentifier corresp>` verweist auf `works.xml` via Fragment-ID (`works.xml#work_{id}`)
 - Primaeredition immer als `<biblStruct>` mit Zotero-`corresp`
 - Digitale Zwischenstufen als `<bibl type="digitalIntermediary">` (ADR-012)
+
+### 2.1a `<monogr>` Element-Reihenfolge
+
+TEI P5 verlangt in `<monogr>`: `(author|editor)*, title+, editor*, (idno|imprint)*`. Das heisst `<author>` **vor** `<title>`, `<idno>` **nach** `<editor>`. Einige Bestandsdateien (z.B. WUT) haben die falsche Reihenfolge und scheitern an der tei_all Validierung.
 
 ### 2.2 `<encodingDesc>`
 
@@ -103,7 +109,16 @@ The header is already largely standardized across all 675 files. This section do
   </projectDesc>
   <editorialDecl>
     <!-- Standardblock: Erklaerung der lokalen Dateireferenzen DE + EN -->
+    <interpretation>
+      <p>Part-of-Speech-Tags folgen dem MHDBDB-Tagset (19 Tags).
+         Dokumentation: .gemini/skills/pos-disambiguator/SKILL.md</p>
+    </interpretation>
   </editorialDecl>
+  <schemaRef key="mhdbdb" url="schema/mhdbdb.rnc"/>
+  <tagsDecl>
+    <rendition xml:id="in" scheme="css">font-size: 150%; font-weight: bold;</rendition>
+    <rendition xml:id="uc" scheme="css">text-transform: uppercase;</rendition>
+  </tagsDecl>
   <classDecl>
     <taxonomy xml:id="genres">
       <bibl>Genreklassifikation gemaess der Textreihentypologie
@@ -124,6 +139,10 @@ The header is already largely standardized across all 675 files. This section do
 
 ```xml
 <profileDesc>
+  <langUsage>
+    <language ident="gmh" usage="95">Mittelhochdeutsch (ca. 1050-1350)</language>
+    <language ident="la" usage="5">Latein</language>  <!-- falls vorhanden -->
+  </langUsage>
   <particDesc>
     <listPerson>
       <person xml:id="person_{id}" corresp="persons.xml#person_{id}">
@@ -170,9 +189,10 @@ The header is already largely standardized across all 675 files. This section do
 
 **Regeln:**
 - Verszeilen als `<l>` (line of verse) mit `@n`
-- Strophen als `<lg type="stanza">` mit `@n`
+- Strophen als `<lg>` mit `@n`. Erlaubte `@type`-Werte: `stanza`
 - Optionale uebergeordnete `<div>` fuer Buecher/Abschnitte
 - Bei Liedern: `<div type="song">` > `<lg type="stanza">` > `<l>`
+- Zaesuren als `<caesura/>` innerhalb von `<l>` (optional, selten)
 
 **Ist-Zustand (Bestand):** Die meisten Vers-Texte haben `<l>` ohne `<lg>`-Wrapper. Die Migration erfolgt schrittweise (Issue #30, Stufe 2).
 
@@ -201,9 +221,8 @@ The header is already largely standardized across all 675 files. This section do
 - Absaetze als `<p>`
 - Zeilenumbrueche als `<lb/>` (line beginning) mit `@n`
 - Kapitel/Abschnitte als `<div type="chapter">` mit `<head>`
-- `<l>` ist fuer Vers-Texte reserviert, NICHT fuer Prosa-Zeilenumbrueche
-
-> **ENTSCHEIDUNG NOETIG (Katharina):** Der Bestand nutzt `<l>` in 468/675 Dateien auch fuer Prosa. Empfehlung: Bestand beibehalten, neue Ingests differenzieren. Siehe [Section 8.2](#82-l-vs-lb-in-prosa).
+- `<l>` ist fuer Vers-Texte reserviert, `<lb/>` fuer Prosa-Zeilenumbrueche (ENTSCHIEDEN)
+- 18 Prosa-Texte im Bestand werden migriert (`<l>` → `<lb/>`), siehe [Section 8.1](#81-l-vs-lb-in-prosa--entschieden-migration)
 
 ### 3.3 Rezept-Texte (Kochbuecher, medizinische Texte)
 
@@ -253,29 +272,40 @@ Texte mit Vers- und Prosa-Abschnitten verwenden verschachtelte `<div>`-Elemente:
 
 ## 4. Wort-Element (`<w>`)
 
-Das `<w>`-Element ist die zentrale Annotationseinheit. Jedes annotierte Wort traegt folgende Attribute:
+Das `<w>`-Element ist die zentrale Annotationseinheit. Im Soll-Modell stammen alle Attribute aus TEI P5 `att.linguistic` und `att.global.analytic` (seit TEI 3.3.0, Jan 2018).
 
+**IST** (Bestand):
 ```xml
 <w xml:id="{SIGLE}_{page}{line}_{pos}"
    lemmaRef="lexicon.xml#lemma_{id}"
    pos="{POS-Tags}"
    meaningRef="lexicon.xml#lemma_{id}_sense_{id}"
-   wordRef="lexicon.xml#lemma_{id}_sense_{id}_type_{id}">
-  sichtbarer Text
-</w>
+   wordRef="lexicon.xml#lemma_{id}_sense_{id}_type_{id}">sichtbarer Text</w>
+```
+
+**SOLL** (TEI-konform):
+```xml
+<w xml:id="{SIGLE}_{page}{line}_{pos}"
+   lemmaRef="lexicon.xml#lemma_{id}"
+   lemma="{Grundform}"
+   pos="{POS-Tag}"
+   ana="lexicon.xml#lemma_{id}_sense_{id}">sichtbarer Text</w>
 ```
 
 ### 4.1 Attribute
 
-| Attribut | Status | Pflicht | Beschreibung |
-|----------|--------|---------|--------------|
-| `@xml:id` | aktiv | ja | Eindeutige ID: `{SIGLE}_{Seite}{Zeile}_{Position}` |
-| `@lemmaRef` | aktiv | ja* | Verweis auf `lexicon.xml` Lemma-Eintrag |
-| `@pos` | aktiv | ja* | Part-of-Speech Tag(s), Leerzeichen-getrennt |
-| `@meaningRef` | aktiv | nein | Verweis auf spezifische Bedeutung in `lexicon.xml` |
-| `@wordRef` | **deprecated** | nein | Verweis auf Wortform-Typ. Wird von keinem Code gelesen. |
+| Attribut | TEI-Status | Pflicht | IST | SOLL |
+|----------|------------|---------|-----|------|
+| `@xml:id` | Standard (att.global) | ja | ✓ | behalten |
+| `@lemmaRef` | **Standard** (att.linguistic) | ja* | ✓ | behalten |
+| `@lemma` | **Standard** (att.linguistic) | nein | **fehlt** | ergaenzen (menschenlesbare Grundform) |
+| `@pos` | **Standard** (att.linguistic) | ja* | ✓ | behalten |
+| `@meaningRef` | **NICHT Standard** | nein | ✓ (100% der Dateien) | → `@ana` migrieren |
+| `@wordRef` | **NICHT Standard** | nein | ✓ (15% der Dateien) | entfernen (deprecated, kein Code liest es) |
 
 *`@lemmaRef` und `@pos` sind fuer die Suchfunktion erforderlich. `<w>`-Elemente ohne `@lemmaRef` werden vom Corpus-Index uebersprungen (siehe Position-Counting-Contract, CONTRACTS.MD Sec. B).
+
+> **Wichtig:** `@lemmaRef` ist seit TEI P5 3.3.0 ein Standard-Attribut der Klasse `att.linguistic`. Es muss **nicht** migriert werden. `@meaningRef` ist der einzige Validierungsblocker — 100% der Dateien scheitern an tei_all.rng wegen dieses Attributs.
 
 ### 4.2 `@xml:id` Format
 
@@ -290,18 +320,21 @@ Beispiele:
 
 Format variiert historisch bedingt. Neue Texte sollen ein konsistentes Schema verwenden. IDs muessen innerhalb eines Dokuments eindeutig sein.
 
-### 4.3 Attribut-Migration (AUFGESCHOBEN)
+### 4.3 Migrations-Plan
 
-Die aktuellen Attribute `@lemmaRef`, `@meaningRef`, `@wordRef` sind projektspezifische Erweiterungen, keine TEI P5 Standard-Attribute. Eine Migration zu Standard-Attributen ist geplant, aber aufgeschoben:
+| Attribut | TEI-Status | Aktion | Aufwand | Abhaengigkeit |
+|----------|------------|--------|---------|---------------|
+| `@lemmaRef` | Standard | **behalten** | keiner | — |
+| `@pos` | Standard | **behalten** | keiner | — |
+| `@lemma` | Standard | **ergaenzen** | mittel (Lookup je `<w>`) | lexicon.xml Zugriff |
+| `@meaningRef` | nicht Standard | **→ `@ana`** | gering (Rename) | Playground JS (1 Stelle) |
+| `@wordRef` | nicht Standard | **entfernen** | gering (Strip) | keiner (kein Code liest es) |
 
-| Aktuell | TEI P5 Standard | Status |
-|---------|-----------------|--------|
-| `@lemmaRef` | `@lemma` oder `@corresp` | aufgeschoben |
-| `@meaningRef` | `@ana` | aufgeschoben |
-| `@wordRef` | entfernen | aufgeschoben |
-| `@pos` | `@pos` (bereits Standard) | kein Handlungsbedarf |
+**Prioritaet:** `@meaningRef` → `@ana` ist die einzige Migration, die fuer TEI-Konformanz noetig ist. Sie ist ein einfaches Batch-Rename (Attributname aendern, Werte bleiben identisch). Einzige Code-Anpassung: `tei-manager.js` (1 Stelle) liest `@meaningRef` im Playground.
 
-**Grund fuer Aufschub:** 675 Dateien mit Millionen `<w>`-Elementen, aktive WZB-Annotation auf separatem Branch, alle Build-Scripts und JS-Code muessen gleichzeitig migriert werden. Kosten ueberwiegen aktuell den Nutzen. Migration nach WZB-Merge als koordinierte Batch-Operation.
+**`@lemma` ergaenzen** ist optional aber wertvoll: Die menschenlesbare Grundform direkt am Wort (z.B. `lemma="brôt"`) macht die XML ohne Authority-File-Lookup lesbar. Erfordert einen Lookup-Schritt beim Indexbau.
+
+**Aufschub fuer WZB:** Die `@meaningRef` → `@ana` Migration betrifft den WZB-Branch nicht (WZB hat noch kein `@meaningRef`). Sie kann unabhaengig erfolgen.
 
 ---
 
@@ -348,7 +381,7 @@ Der Altbestand nutzt ein aelteres Tagset (`ART` statt `DET`, `CNJ` statt `CCNJ`/
 
 ### 5.2 Compound-Tags
 
-Die meisten `<w>`-Elemente im Altbestand tragen Compound-Tags (z.B. `pos="VRB VEX"`, `pos="ART NUM"`), die Ambiguitaet ausdruecken. Der POS-Disambiguator-Workflow loest diese auf einen einzelnen Tag auf.
+Viele `<w>`-Elemente im Altbestand tragen Compound-Tags (~35-40%) (z.B. `pos="VRB VEX"`, `pos="ART NUM"`), die Ambiguitaet ausdruecken. Der POS-Disambiguator-Workflow loest diese auf einen einzelnen Tag auf.
 
 **Ausnahme:** Morphologische Fusionen behalten zwei Tags:
 - Verb + enklitisches Pronomen: `wiltu` = wilt + du -> `VEM PRO`
@@ -360,11 +393,21 @@ Die meisten `<w>`-Elemente im Altbestand tragen Compound-Tags (z.B. `pos="VRB VE
 
 ### 6.1 Interpunktion
 
+**IST** (Bestand):
 ```xml
 <seg xml:id="{SIGLE}_{page}{line}_{pos}" type="pc">,</seg>
 ```
 
-Interpunktion wird als `<seg type="pc">` kodiert, nicht als `<w>`. Achtung: `&lt;` und `&gt;` in `<seg type="pc">` sind korrekte XML-Entities (Winkelklammern im Quelltext), keine Bugs.
+**SOLL** (TEI P5 hat ein dediziertes Element):
+```xml
+<pc join="left">.</pc>
+```
+
+TEI P5 stellt `<pc>` (punctuation character) als Gegenstueck zu `<w>` bereit. Es ist Member von `att.linguistic` und unterstuetzt daher `@pos`, `@lemma` etc. — anders als `<seg type="pc">`. Das `@join`-Attribut (`left`, `right`, `both`, `no`) regelt Whitespace-Adjacenz.
+
+**Migration:** Einfaches Batch-Rename (`<seg type="pc">` → `<pc join="left">`). JS-Rendering muss `<pc>` als Inline-Element behandeln (analog zu `<seg type="pc">`).
+
+**Achtung:** `&lt;` und `&gt;` in `<seg type="pc">` (bzw. kuenftig `<pc>`) sind korrekte XML-Entities (Winkelklammern im Quelltext), keine Bugs.
 
 ### 6.2 Hervorhebungen
 
@@ -378,7 +421,16 @@ Interpunktion wird als `<seg type="pc">` kodiert, nicht als `<w>`. Achtung: `&lt
 </hi>
 ```
 
-> **ENTSCHEIDUNG NOETIG (Katharina):** `<hi rend="initial">` ist in 496/675 Dateien mit 310.000+ Vorkommen vorhanden. Empfehlung: als Korpus-Konvention beibehalten. Siehe [Section 8.1](#81-hi-rendinitial).
+`<hi rend="initial">` ist Korpus-Konvention (655/675 Dateien gesamt, davon 496 innerhalb `<p>`; 310.000+ Vorkommen) und kodiert dekorierte Initialen aus Handschriften/Drucken.
+
+**Optionale Verbesserung (DTABf-Modell):** `@rendition` statt `@rend` mit zentralisierten Definitionen in `<tagsDecl>`:
+```xml
+<!-- Im Header: -->
+<rendition xml:id="in" scheme="css">font-size: 150%;</rendition>
+<!-- Im Text: -->
+<hi rendition="#in"><w ...>Wort</w></hi>
+```
+Vorteil: Konsistente, zentral verwaltete Rendition-Definitionen statt Freitext-Werte.
 
 ### 6.3 Seitenumbrueche
 
@@ -397,48 +449,86 @@ Interpunktion wird als `<seg type="pc">` kodiert, nicht als `<w>`. Achtung: `&lt
 
 Nur fuer editorisch ergaenzte Textteile. Nicht fuer Rezepttitel oder Strukturmarkierung missbrauchen.
 
+### 6.5 Zaesur
+
+```xml
+<caesura/>
+```
+
+Markiert eine Verszeilen-Zaesur innerhalb von `<l>`. Selten (5 Dateien im Bestand).
+
+### 6.6 Zahlen
+
+```xml
+<num>
+  <w xml:id="..." pos="DIG">ccccvi</w>
+</num>
+```
+
+Wrapt `<w>`-Elemente mit numerischem Inhalt (roemische Zahlen etc.). Im Rendering als `<span class="number">` dargestellt.
+
 ---
 
 ## 7. Authority-File-Referenzen
 
 Alle Referenzen auf kontrollierte Vokabulare verwenden relative Pfade:
 
-| Referenz | Ziel | Beispiel |
-|----------|------|----------|
-| `@lemmaRef` | lexicon.xml | `lexicon.xml#lemma_879` |
-| `@meaningRef` | lexicon.xml (Sense) | `lexicon.xml#lemma_879_sense_1234` |
-| `@wordRef` | lexicon.xml (Type) | `lexicon.xml#lemma_879_sense_1234_type_5678` |
-| `@ref` (author) | persons.xml | `#person_445` |
-| `@corresp` (msIdentifier) | works.xml | `works.xml#work_89` |
-| `@corresp` (genre) | genres.xml | `genres.xml#genre_0480b285` |
+| Referenz | TEI-Status | Ziel | Beispiel |
+|----------|------------|------|----------|
+| `@lemmaRef` | Standard | lexicon.xml | `lexicon.xml#lemma_879` |
+| `@ana` (SOLL) | Standard | lexicon.xml (Sense) | `lexicon.xml#lemma_879_sense_1234` |
+| ~~`@meaningRef`~~ (IST) | nicht Standard | lexicon.xml (Sense) | → wird zu `@ana` |
+| ~~`@wordRef`~~ | nicht Standard | lexicon.xml (Type) | → wird entfernt |
+| `@ref` (author) | Standard | dokumentinterner `<person>` in profileDesc (-> persons.xml via `@corresp`) | `#person_445` |
+| `@corresp` (msIdentifier) | Standard | works.xml | `works.xml#work_89` |
+| `@corresp` (genre) | Standard | genres.xml | `genres.xml#genre_0480b285` |
 
 **Integritaets-Constraint:** Alle referenzierten IDs muessen in den Authority-Dateien existieren. Wird zur Build-Zeit validiert.
 
 ---
 
-## 8. Offene Entscheidungen
+## 8. Entschiedene Migrationspunkte
 
-### 8.1 `<hi rend="initial">`
+### 8.1 `<l>` vs `<lb/>` in Prosa — ENTSCHIEDEN: Migration
 
-**Frage an Katharina:** Soll `<hi rend="initial">` als Korpus-Konvention beibehalten werden?
+TEI P5 definiert `<l>` als "a single line of **verse**" und nutzt in Kapitel 24 (Conformance) die Umdefinition von `<l>` als "typographic line" als **explizites Negativbeispiel** fuer Non-Konformanz.
 
-**Befund:** 496 von 675 Dateien nutzen `<hi rend="initial">` (310.000+ Vorkommen). Es markiert dekorierte Initialen aus Handschriften/Drucken und ist valides TEI.
+**Entscheidung:** 18 Prosa-Texte werden von `<l>` auf `<lb/>` migriert. 3 urspruenglich als Prosa eingestufte Texte behalten `<l>`, weil sie Versdichtung sind.
 
-**Optionen:**
-1. **Beibehalten** (Empfehlung) -- es ist eine legitime Kodierung von Manuskript-Merkmalen
-2. **Entfernen** -- wenn es ein Migrations-Artefakt ohne philologischen Wert ist
-3. **Differenzieren** -- in `<head>` behalten, in `<p>` entfernen
+**Korrektur Genre-Zuordnung (`<l>` bleibt korrekt):**
 
-### 8.2 `<l>` vs `<lb/>` in Prosa
+| Sigle | Titel | Begruendung |
+|-------|-------|-------------|
+| HMT | Buch von Troja | Klassisches Versepos |
+| APO | Apollonius von Tyrus | Klassisches Versepos |
+| HH | Himmel und Hoelle | Religioese Versdichtung |
 
-**Frage an Katharina:** Wie soll mit `<l>` in Prosa-Texten umgegangen werden?
+**Zu migrieren (`<l>` → `<lb/>`):** 18 Dateien
 
-**Befund:** 468 von 675 Dateien nutzen `<l>` (Verszeile) auch in Prosa-Texten. TEI P5 empfiehlt `<lb/>` fuer Prosa-Zeilenumbrueche.
+| Sigle | Titel | Gruppe |
+|-------|-------|--------|
+| PL1 | Prosa-Lancelot | Prosa-Roman |
+| PL2 | Prosa-Lancelot | Prosa-Roman |
+| PL3 | Prosa-Lancelot | Prosa-Roman |
+| FLG1 | Das fliessende Licht der Gottheit (Buch 3-7) | Mystik |
+| VTC | Vita Caroli Quarti Imperatoris | Chronik |
+| NBU | Dat nuwe Boych | Chronik |
+| PUC | Pulkava Chronik | Chronik |
+| ESB | Engelthaler Schwesternbuch | Chronik |
+| LUU | Lehre und Unterweisung | Baemler-Druck 1476 |
+| EHB | Ehbuechlein | Baemler-Druck 1476 |
+| EB1 | Erstes Ehbuechlein | Baemler-Druck 1476 |
+| EB2 | Zweites Ehbuechlein | Baemler-Druck 1476 |
+| MSP | Der menschen spiegel | Baemler-Druck 1476 |
+| PRJ | Processus juris | Baemler-Druck 1476 |
+| REG | Register der Augsburger Sittenlehre | Baemler-Druck 1476 |
+| ATF | Facetiae Latinae et Germanicae | Sonstige |
+| SPH | Der Stein philosophorum | Sonstige |
+| WGI | Der Welsche Gast (Prosavorrede) | Sonstige |
 
-**Optionen:**
-1. **Status quo + Differenzierung** (Empfehlung) -- Bestand beibehalten, neue Ingests verwenden `<l>` nur fuer Vers und `<lb/>` fuer Prosa
-2. **Korpusweite Migration** -- Alle Prosa-Texte auf `<lb/>` umstellen (massiver Aufwand)
-3. **Akzeptieren** -- `<l>` als generisches "Zeilen-Element" fuer alle Texttypen
+**Hinweis:** Die Baemler-1476-Gruppe (7 Texte) faellt auf — zwei weitere Texte desselben Drucks (FAN, NST) nutzen bereits korrekt `<lb/>`.
+
+**Migration:** `<l n="X">content</l>` → `<lb n="X"/>content`. JS-Anpassung: 2 Stellen (`tei-text-reader.js`, `tei-manager.js`).
 
 ---
 
@@ -462,7 +552,7 @@ Neue Texte muessen folgende Mindestanforderungen erfuellen:
 
 ### 9.2 Empfohlen (Non-Blocking)
 
-- [ ] `@meaningRef` fuer semantische Suche
+- [ ] `@ana` fuer semantische Suche (Verweis auf Sense in lexicon.xml)
 - [ ] `<pb>` fuer Seiten-/Folio-Referenzen
 - [ ] `<bibl type="digitalIntermediary">` fuer Provenienz-Kette
 - [ ] Handschriftencensus-Nr. in `<msIdentifier>`
@@ -471,11 +561,11 @@ Neue Texte muessen folgende Mindestanforderungen erfuellen:
 ### 9.3 Validierungs-Pipeline
 
 ```bash
-# 1. Schema-Validierung (sobald Schema verfuegbar)
-jing schema/mhdbdb.rnc tei/{SIGLE}.tei.xml
+# 1. Schema-Validierung — TODO: schema/mhdbdb.rnc existiert noch nicht
+# jing schema/mhdbdb.rnc tei/{SIGLE}.tei.xml
 
-# 2. Referenz-Integritaet (Authority-Files)
-python scripts/validate-references.py tei/{SIGLE}.tei.xml
+# 2. Referenz-Integritaet (Authority-Files) — Script geplant, noch nicht verfuegbar
+# python scripts/validate-references.py tei/{SIGLE}.tei.xml
 
 # 3. Index-Rebuild
 python scripts/build-corpus-index.py
@@ -487,7 +577,32 @@ npm test
 
 ---
 
-## 10. Versionierung
+## 10. Validierungsbaseline (tei_all.rng)
+
+Ergebnis der Validierung von 100 Dateien gegen TEI P5 4.11.0 (`schema/tei_all.rng`):
+
+**0/100 Dateien valide.** Fehlertypen:
+
+| Fehler | Dateien | Ursache |
+|--------|---------|---------|
+| `Invalid attribute meaningRef for element w` | 100/100 | Nicht-Standard-Attribut |
+| `Invalid attribute wordRef for element w` | 15/100 | Nicht-Standard-Attribut (nur Dateien ohne POS-Disambiguierung) |
+| `<author>` nach `<title>` in `<monogr>` | vereinzelt | Falsche Element-Reihenfolge |
+| `Element listPerson failed to validate content` | 1 (VOR) | Einzelfall |
+
+**Konsequenz:** Eine einzige Batch-Operation (`@meaningRef` → `@ana`) wuerde den Grossteil des Korpus TEI-konform machen. Die `.disamb.tei.xml`-Dateien (POS-disambiguiert) haben `@wordRef` bereits nicht mehr.
+
+### TEI-Konformanz: 5 Kriterien (TEI P5, Kapitel 24)
+
+1. Well-formed XML ✓
+2. Valid gegen TEI-abgeleitetes Schema ✗ (`@meaningRef` blockiert)
+3. Konform mit TEI Abstract Model ✗ (`<l>` in Prosa verletzt Semantik)
+4. Korrekter TEI-Namespace ✓
+5. Dokumentiert via ODD oder Aequivalent ✗ (kein ODD, dieses Dokument ist der Ersatz)
+
+---
+
+## 11. Versionierung
 
 | Artefakt | Version | Datum |
 |----------|---------|-------|
@@ -501,8 +616,25 @@ npm test
 
 ## Referenzen
 
+### Projekt-intern
 - [CONTRACTS.MD](CONTRACTS.MD) -- Cross-System Contracts (Position Counting, Normalization)
 - [DATA-MODEL.MD](DATA-MODEL.MD) -- Authority-File-Schemas, Index-Struktur
 - [ARCHITECTURE.MD](ARCHITECTURE.MD) -- Technische Komponenten, Datenfluss
 - [features/030-tei-structural-fixes.md](features/030-tei-structural-fixes.md) -- Triage-Plan fuer strukturelle Fixes
 - `.gemini/skills/pos-disambiguator/SKILL.md` -- POS-Tagset-Definition und Disambiguierungs-Regeln
+- `docs/TEI-MODEL-EXAMPLE.xml` -- Maximalbeispiel (validiert gegen tei_all.rng)
+- `schema/tei_all.rng` -- TEI P5 4.11.0 RELAX NG Schema (Validierungs-Referenz)
+
+### TEI P5 Spezifikation
+- [att.linguistic](https://www.tei-c.org/release/doc/tei-p5-doc/en/html/ref-att.linguistic.html) -- `@lemma`, `@lemmaRef`, `@pos`, `@msd`, `@join`
+- [att.global.analytic](https://tei-c.org/release/doc/tei-p5-doc/en/html/ref-att.global.analytic.html) -- `@ana` (Ersatz fuer `@meaningRef`)
+- [Element `<w>`](https://www.tei-c.org/release/doc/tei-p5-doc/en/html/ref-w.html) -- Wort-Element
+- [Element `<pc>`](https://www.tei-c.org/release/doc/tei-p5-doc/en/html/ref-pc.html) -- Interpunktions-Element (Ersatz fuer `<seg type="pc">`)
+- [Element `<l>`](https://tei-c.org/release/doc/tei-p5-doc/en/html/ref-l.html) -- "a single line of verse" (nicht fuer Prosa)
+- [Element `<lb/>`](https://tei-c.org/release/doc/tei-p5-doc/en/html/ref-lb.html) -- "line beginning" (fuer Zeilenumbrueche)
+- [Kapitel 24: Conformance](https://tei-c.org/release/doc/tei-p5-doc/en/html/USE.html) -- 5 Konformanzkriterien
+
+### Vergleichsprojekte
+- [DTABf (Deutsches Textarchiv)](https://www.deutschestextarchiv.de/doku/basisformat/) -- Gold-Standard fuer historische deutsche Texte
+- [MENOTA (Medieval Nordic Text Archive)](https://www.menota.org/HB3_ch11.xml) -- Mittelalterliche Texte mit Custom-Namespace-Erweiterungen
+- [ReM (Referenzkorpus Mittelhochdeutsch)](https://www.linguistics.rub.de/rem/) -- MHG-Korpus mit HiTS-Tagset
