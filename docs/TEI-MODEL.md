@@ -421,7 +421,7 @@ TEI P5 stellt `<pc>` (punctuation character) als Gegenstueck zu `<w>` bereit. Es
 </hi>
 ```
 
-`<hi rend="initial">` ist Korpus-Konvention (655/675 Dateien gesamt, davon 496 innerhalb `<p>`; 310.000+ Vorkommen) und kodiert dekorierte Initialen aus Handschriften/Drucken.
+`<hi rend="initial">` ist Korpus-Konvention (655/675 Dateien, 310.000+ Vorkommen) und kodiert dekorierte Initialen aus Handschriften/Drucken.
 
 **Optionale Verbesserung (DTABf-Modell):** `@rendition` statt `@rend` mit zentralisierten Definitionen in `<tagsDecl>`:
 ```xml
@@ -590,13 +590,13 @@ Ergebnis der Validierung von 100 Dateien gegen TEI P5 4.11.0 (`schema/tei_all.rn
 | `<author>` nach `<title>` in `<monogr>` | vereinzelt | Falsche Element-Reihenfolge |
 | `Element listPerson failed to validate content` | 1 (VOR) | Einzelfall |
 
-**Konsequenz:** Eine einzige Batch-Operation (`@meaningRef` → `@ana`) wuerde den Grossteil des Korpus TEI-konform machen. Die `.disamb.tei.xml`-Dateien (POS-disambiguiert) haben `@wordRef` bereits nicht mehr.
+**Konsequenz:** Eine einzige Batch-Operation (`@meaningRef` → `@ana`) wuerde den Grossteil des Korpus TEI-konform machen. Die `.disamb.tei.xml`-Dateien enthalten `@wordRef` weiterhin — der POS-Disambiguator aendert dieses Attribut nicht.
 
 ### TEI-Konformanz: 5 Kriterien (TEI P5, Kapitel 24)
 
 1. Well-formed XML ✓
 2. Valid gegen TEI-abgeleitetes Schema ✗ (`@meaningRef` blockiert)
-3. Konform mit TEI Abstract Model ✗ (`<l>` in Prosa verletzt Semantik)
+3. Konform mit TEI Abstract Model ✗ (`<l>` in Prosa — Migration der 18 Dateien beschlossen, Sec. 8.1)
 4. Korrekter TEI-Namespace ✓
 5. Dokumentiert via ODD oder Aequivalent ✗ (kein ODD, dieses Dokument ist der Ersatz)
 
