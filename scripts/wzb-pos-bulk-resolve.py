@@ -37,8 +37,9 @@ DEFAULT_TSV = "Wenzelsbibel/wzb-pos-pending.tsv"
 REVIEWER    = "claude"
 
 VALID_POS = {
-    "PRO", "VRB", "NOM", "ADJ", "ADV", "ART", "CNJ", "PRP", "VEX", "POS", "NAM", "NUM",
+    "PRO", "VRB", "NOM", "ADJ", "ADV", "CNJ", "PRP", "VEX", "POS", "NAM", "NUM",
     "NEG", "GRA", "INJ", "VEM", "IPA", "DET", "DIG",
+    "SCNJ", "CCNJ",
 }
 
 

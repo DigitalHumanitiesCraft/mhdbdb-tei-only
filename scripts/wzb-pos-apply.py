@@ -43,9 +43,11 @@ NS_XML = "http://www.w3.org/XML/1998/namespace"
 XML_ID = f"{{{NS_XML}}}id"
 
 VALID_POS = {
-    "PRO", "VRB", "NOM", "ADJ", "ADV", "ART", "CNJ", "PRP", "VEX", "POS", "NAM", "NUM",
-    # Additional tags found in lexicon.xml (not in feature doc but used in authority data):
+    "PRO", "VRB", "NOM", "ADJ", "ADV", "CNJ", "PRP", "VEX", "POS", "NAM", "NUM",
     "NEG", "GRA", "INJ", "VEM", "IPA", "DET", "DIG",
+    # Conjunction subtypes (SKILL.md tagset):
+    "SCNJ", "CCNJ",
+    # ART removed: articles are DET per SKILL.md tagset
 }
 
 
