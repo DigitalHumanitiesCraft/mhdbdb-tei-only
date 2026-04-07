@@ -194,17 +194,22 @@
              lemmaRef="lexicon.xml#lemma_879"
              lemma="brôt"
              pos="NOM"
-             ana="lexicon.xml#lemma_879_sense_1234">Brôt</w>
+             ana="lexicon.xml#lemma_879_sense_1234"
+             corresp="variants.xml#type_5678">Brôt</w>
              <!--
                [IST]  lemmaRef + meaningRef + wordRef + pos
-               [SOLL] lemmaRef + lemma + pos + ana
+               [SOLL] lemmaRef + lemma + pos + ana + corresp
 
                lemmaRef  = Pointer auf Lexikon-Eintrag (Standard TEI, att.linguistic)
                lemma     = menschenlesbare Grundform (Standard TEI, att.linguistic)  [NEU]
                pos       = POS-Tag (Standard TEI, att.linguistic)
                ana       = Verweis auf Bedeutung/Sense (Standard TEI, att.global.analytic)
                            Ersetzt das nicht-konforme @meaningRef
-               wordRef   = ENTFAELLT (deprecated, von keinem Code gelesen)
+               corresp   = Verweis auf Wortform/Type in variants.xml (Standard TEI, att.global)
+                           Ersetzt das nicht-konforme @wordRef. Traegt nicht-rekonstruierbare
+                           Information (~22% der Woerter haben kein @meaningRef, Sense→Type
+                           Lookup daher unmoeglich). URI korrigiert: Ziel ist variants.xml,
+                           nicht die synthetische lexicon.xml-URI.
              -->
           <w xml:id="BEISPIEL_1_h_1"
              lemmaRef="lexicon.xml#lemma_6467"
@@ -474,7 +479,7 @@
   │ -            │ @lemma (NEU, optional)  │ Standard (att.linguistic)│
   │ @pos         │ @pos (behalten)         │ Standard (att.linguistic)│
   │ @meaningRef  │ @ana (ersetzen)         │ Standard (att.global)    │
-  │ @wordRef     │ ENTFAELLT (deprecated)  │ nicht Standard           │
+  │ @wordRef     │ @corresp (migrieren)    │ Standard (att.global)    │
   │ @xml:id      │ @xml:id (behalten)      │ Standard (att.global)    │
   └──────────────┴─────────────────────────┴──────────────────────────┘
 
@@ -507,8 +512,10 @@
   KONFORMANZ-PROBLEME IM BESTAND:
   - <l> in Prosa-Texten: explizit TEI-nonkonform (Sec. 24 nutzt dies
     als Negativbeispiel). Muss langfristig zu <lb/> migriert werden.
-  - @meaningRef/@wordRef: nicht-Standard-Attribute im TEI-Namespace.
-    Entweder via ODD dokumentieren oder zu @ana migrieren.
+  - @meaningRef: nicht-Standard-Attribut → zu @ana migrieren.
+  - @wordRef: nicht-Standard-Attribut, traegt aber nicht-rekonstruierbare
+    Information (Wortform-Zuordnung). → zu @corresp migrieren,
+    URI korrigieren (variants.xml statt synthetische lexicon.xml-URI).
   - <seg type="pc">: funktioniert, aber <pc> ist das dafuer
     vorgesehene TEI P5 Element (Member von att.linguistic).
 -->

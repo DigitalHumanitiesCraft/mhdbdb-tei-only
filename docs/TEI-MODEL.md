@@ -289,7 +289,8 @@ Das `<w>`-Element ist die zentrale Annotationseinheit. Im Soll-Modell stammen al
    lemmaRef="lexicon.xml#lemma_{id}"
    lemma="{Grundform}"
    pos="{POS-Tag}"
-   ana="lexicon.xml#lemma_{id}_sense_{id}">sichtbarer Text</w>
+   ana="lexicon.xml#lemma_{id}_sense_{id}"
+   corresp="variants.xml#type_{id}">sichtbarer Text</w>
 ```
 
 ### 4.1 Attribute
@@ -301,11 +302,11 @@ Das `<w>`-Element ist die zentrale Annotationseinheit. Im Soll-Modell stammen al
 | `@lemma` | **Standard** (att.linguistic) | nein | **fehlt** | ergaenzen (menschenlesbare Grundform) |
 | `@pos` | **Standard** (att.linguistic) | ja* | ✓ | behalten |
 | `@meaningRef` | **NICHT Standard** | nein | ✓ (100% der Dateien) | → `@ana` migrieren |
-| `@wordRef` | **NICHT Standard** | nein | ✓ (15% der Dateien) | entfernen (deprecated, kein Code liest es) |
+| `@wordRef` | **NICHT Standard** | nein | ✓ (15% der Dateien) | → `@corresp` migrieren (siehe 4.4) |
 
 *`@lemmaRef` und `@pos` sind fuer die Suchfunktion erforderlich. `<w>`-Elemente ohne `@lemmaRef` werden vom Corpus-Index uebersprungen (siehe Position-Counting-Contract, CONTRACTS.MD Sec. B).
 
-> **Wichtig:** `@lemmaRef` ist seit TEI P5 3.3.0 ein Standard-Attribut der Klasse `att.linguistic`. Es muss **nicht** migriert werden. `@meaningRef` ist der einzige Validierungsblocker — 100% der Dateien scheitern an tei_all.rng wegen dieses Attributs.
+> **Wichtig:** `@lemmaRef` ist seit TEI P5 3.3.0 ein Standard-Attribut der Klasse `att.linguistic`. Es muss **nicht** migriert werden. `@meaningRef` und `@wordRef` sind die Validierungsblocker — sie sind keine TEI-Standard-Attribute.
 
 ### 4.2 `@xml:id` Format
 
@@ -328,13 +329,39 @@ Format variiert historisch bedingt. Neue Texte sollen ein konsistentes Schema ve
 | `@pos` | Standard | **behalten** | keiner | — |
 | `@lemma` | Standard | **ergaenzen** | mittel (Lookup je `<w>`) | lexicon.xml Zugriff |
 | `@meaningRef` | nicht Standard | **→ `@ana`** | gering (Rename) | Playground JS (1 Stelle) |
-| `@wordRef` | nicht Standard | **entfernen** | gering (Strip) | keiner (kein Code liest es) |
+| `@wordRef` | nicht Standard | **→ `@corresp`** | gering (Rename + URI-Korrektur) | siehe Sec. 4.4 |
 
-**Prioritaet:** `@meaningRef` → `@ana` ist die einzige Migration, die fuer TEI-Konformanz noetig ist. Sie ist ein einfaches Batch-Rename (Attributname aendern, Werte bleiben identisch). Einzige Code-Anpassung: `tei-manager.js` (1 Stelle) liest `@meaningRef` im Playground.
+**Prioritaet:** `@meaningRef` → `@ana` und `@wordRef` → `@corresp` sind beide fuer TEI-Konformanz noetig. Beide sind Batch-Renames (Attributname aendern). Bei `@wordRef` muss zusaetzlich die URI korrigiert werden (siehe Sec. 4.4). Code-Anpassung: `tei-manager.js` (1 Stelle) liest `@meaningRef` im Playground.
 
 **`@lemma` ergaenzen** ist optional aber wertvoll: Die menschenlesbare Grundform direkt am Wort (z.B. `lemma="brôt"`) macht die XML ohne Authority-File-Lookup lesbar. Erfordert einen Lookup-Schritt beim Indexbau.
 
 **Aufschub fuer WZB:** Die `@meaningRef` → `@ana` Migration betrifft den WZB-Branch nicht (WZB hat noch kein `@meaningRef`). Sie kann unabhaengig erfolgen.
+
+### 4.4 `@wordRef` → `@corresp`: Wortform-Referenz beibehalten
+
+`@wordRef` ist kein TEI-Standard-Attribut, traegt aber **nicht-rekonstruierbare Information**:
+
+- ~22% der `<w>`-Elemente mit `@wordRef` haben kein `@meaningRef` — ohne Sense ist der Lookup-Pfad Sense→Type unmoeglich
+- 42 von 43.404 Senses haben Types mit identischem Formtext — selbst mit Sense ist Text-Matching nicht eindeutig
+- `@wordRef` ist die einzige direkte Verknuepfung einer Belegstelle mit ihrer Wortform (Type) in `variants.xml`
+
+**Referenzkette:**
+```
+@wordRef="lexicon.xml#lemma_2598_sense_77615_type_8717"  (IST: synthetische URI)
+    │
+    ├─ lexicon.xml: <sense xml:id="lemma_2598_sense_77615" ana="#type_8717 ...">
+    │
+    └─ variants.xml: <form xml:id="type_8717">hân</form>
+```
+
+**Migration:** `@wordRef` → `@corresp` (Standard-Attribut aus `att.global`). Die URI muss korrigiert werden — das Ziel liegt in `variants.xml`, nicht in `lexicon.xml`:
+
+```
+IST:   wordRef="lexicon.xml#lemma_2598_sense_77615_type_8717"  (synthetisch, falsche Datei)
+SOLL:  corresp="variants.xml#type_8717"                        (direkt, korrekte Datei)
+```
+
+**Aufwand:** Batch-Transformation — aus der synthetischen URI den `type_{id}`-Teil extrahieren und als `variants.xml#type_{id}` setzen. Kein Code liest `@wordRef` aktuell, daher keine JS-Anpassung noetig.
 
 ---
 
@@ -478,7 +505,8 @@ Alle Referenzen auf kontrollierte Vokabulare verwenden relative Pfade:
 | `@lemmaRef` | Standard | lexicon.xml | `lexicon.xml#lemma_879` |
 | `@ana` (SOLL) | Standard | lexicon.xml (Sense) | `lexicon.xml#lemma_879_sense_1234` |
 | ~~`@meaningRef`~~ (IST) | nicht Standard | lexicon.xml (Sense) | → wird zu `@ana` |
-| ~~`@wordRef`~~ | nicht Standard | lexicon.xml (Type) | → wird entfernt |
+| `@corresp` (SOLL) | Standard | variants.xml (Type) | `variants.xml#type_8717` |
+| ~~`@wordRef`~~ (IST) | nicht Standard | lexicon.xml (synthetisch) | → wird zu `@corresp` |
 | `@ref` (author) | Standard | dokumentinterner `<person>` in profileDesc (-> persons.xml via `@corresp`) | `#person_445` |
 | `@corresp` (msIdentifier) | Standard | works.xml | `works.xml#work_89` |
 | `@corresp` (genre) | Standard | genres.xml | `genres.xml#genre_0480b285` |
@@ -590,12 +618,12 @@ Ergebnis der Validierung von 100 Dateien gegen TEI P5 4.11.0 (`schema/tei_all.rn
 | `<author>` nach `<title>` in `<monogr>` | vereinzelt | Falsche Element-Reihenfolge |
 | `Element listPerson failed to validate content` | 1 (VOR) | Einzelfall |
 
-**Konsequenz:** Eine einzige Batch-Operation (`@meaningRef` → `@ana`) wuerde den Grossteil des Korpus TEI-konform machen. Die `.disamb.tei.xml`-Dateien enthalten `@wordRef` weiterhin — der POS-Disambiguator aendert dieses Attribut nicht.
+**Konsequenz:** Zwei Batch-Operationen (`@meaningRef` → `@ana`, `@wordRef` → `@corresp`) wuerden den Grossteil des Korpus TEI-konform machen. `@wordRef` traegt nicht-rekonstruierbare Information (Wortform-Zuordnung) und darf nicht geloescht werden (siehe Sec. 4.4).
 
 ### TEI-Konformanz: 5 Kriterien (TEI P5, Kapitel 24)
 
 1. Well-formed XML ✓
-2. Valid gegen TEI-abgeleitetes Schema ✗ (`@meaningRef` blockiert)
+2. Valid gegen TEI-abgeleitetes Schema ✗ (`@meaningRef` + `@wordRef` blockieren)
 3. Konform mit TEI Abstract Model ✗ (`<l>` in Prosa — Migration der 18 Dateien beschlossen, Sec. 8.1)
 4. Korrekter TEI-Namespace ✓
 5. Dokumentiert via ODD oder Aequivalent ✗ (kein ODD, dieses Dokument ist der Ersatz)
