@@ -280,7 +280,8 @@ Texte mit Vers- und Prosa-Abschnitten verwenden verschachtelte `<div>`-Elemente:
 | **`chapter`** | 604 | AC1, BDK | ✓ Akzeptiert |
 | **`recipe`** | 452 | ABS, BRIX | ✓ Akzeptiert |
 | **`section`** | 247+176+3+7 = 433 | DL1, DL2, EHB, KVM | ✓ Akzeptiert (vereinheitlicht aus `section` + `part` + `subsection` + `§`) |
-| **`number`** | 300+113 = 413 | HZU, HZU2, ADP, ECK | ✓ Akzeptiert (vereinheitlicht aus `deed` + `sermon` — nummerierte Einheiten, Genre via Header) |
+| **`number`** | 300+113+9 = 422 | HZU, HZU2, ADP, ECK, BOP | ✓ Akzeptiert (vereinheitlicht aus `deed` + `sermon` + `sigil` — nummerierte Einheiten, Genre via Header) |
+| **`parallel`** | 24 | BRW, DES2 | ✓ Akzeptiert (Nummerierung der Parallelueberlieferung, Rendering: "Parallelueberlieferung {n}") |
 
 **Migration (entschieden):**
 
@@ -292,6 +293,7 @@ Texte mit Vers- und Prosa-Abschnitten verwenden verschachtelte `<div>`-Elemente:
 | `sermon` | 113 | ADP, ECK | → `number` (Genre steht im Header; analog zu `deed`) |
 | `subsection` | 3 | KVM | → `section` (Verschachtelung statt eigenem Typ) |
 | `§` | 7 | KVM | Encoding-Artefakt (Linecode-Konvertierung) → `section` |
+| `sigil` | 9 | BOP | Lied-Siglen aus Edition → `number` (analog deed/sermon) |
 
 **Logik `deed`/`sermon` → `number`:** Diese `div`-Typen markieren keine Genre-Information (die kommt aus der `<classDecl>`-Taxonomie im Header), sondern nummerierte Einheiten (Urkunde Nr. 1, Predigt Nr. 2). Der Typ `number` drueckt die Funktion korrekt aus. Bestehendes `@n` bleibt erhalten.
 
@@ -317,9 +319,9 @@ Dekodierungslogik: Letzte 2 Stellen = Tag, Rest = Monat. Keine fuehrende Null be
 | Typ | Count | Beispiele | Frage |
 |-----|-------|-----------|-------|
 | *`paragraph`* | 76 | BDK | Redundant zu `<p>`? Migrationsartefakt? |
-| *`parallel`* | 24 | BRW, DES2 | Parallelueberlieferung (Issue #29?) |
+| **`parallel`** | 24 | BRW, DES2 | ✓ Akzeptiert (Nummerierung der Parallelueberlieferung) |
 | *`colophon`* | 15 | ALX, APO | Behalten oder TEI-Element `<colophon>`? |
-| *`sigil`* | 9 | BOP | Funktion unklar |
+| **`sigil`** | 9 | BOP | → `number` (Lied-Siglen aus Edition, keine eigene Strukturkategorie) |
 | *`volume`* | 7 | FLG, FLG1 | Band-Unterteilung |
 
 ---
