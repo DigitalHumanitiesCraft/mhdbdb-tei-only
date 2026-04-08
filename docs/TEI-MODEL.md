@@ -270,25 +270,57 @@ Texte mit Vers- und Prosa-Abschnitten verwenden verschachtelte `<div>`-Elemente:
 
 ### 3.5 `div/@type` Werte (Audit)
 
-15 distinkte Werte im Bestand. Akzeptierte Werte fett, pendente Werte kursiv (warten auf Katharina).
+15 distinkte Werte im Bestand. Die Werte stammen als 1:1-Uebersetzungen aus dem alten Datenbank-Export (Julias TEI-Doku, Juni 2024).
+
+**Akzeptierte Werte:**
 
 | Typ | Count | Beispiele | Status |
 |-----|-------|-----------|--------|
 | **`song`** | 1,373 | BOP, BRH | ✓ Akzeptiert |
-| *`stanza`* | 1,122 | LZT | Pendend: zu `<lg type="stanza">` migrieren? |
 | **`chapter`** | 604 | AC1, BDK | ✓ Akzeptiert |
 | **`recipe`** | 452 | ABS, BRIX | ✓ Akzeptiert |
-| *`deed`* | 300 | HZU, HZU2 | Pendend: Urkunden — eigener Typ? |
-| **`section`** | 247 | DL1, DL2 | ✓ Akzeptiert |
-| *`part`* | 176 | DL2, EHB | Pendend: Unterschied zu `section`? |
-| *`sermon`* | 113 | ADP, ECK | Pendend: Predigten — eigener Typ? |
-| *`paragraph`* | 76 | BDK | Pendend: redundant zu `<p>`? |
-| *`parallel`* | 24 | BRW, DES2 | Pendend: Parallelueberlieferung (Issue #29?) |
-| *`colophon`* | 15 | ALX, APO | Pendend: TEI hat eigenes `<colophon>` Element |
-| *`sigil`* | 9 | BOP | Pendend: Funktion unklar |
-| *`volume`* | 7 | FLG, FLG1 | Pendend: Band-Unterteilung |
-| *`§`* | 7 | KVM | Pendend: Sonderzeichen — umbenennen? |
-| *`subsection`* | 3 | KVM | Pendend: Unterschied zu `section`? |
+| **`section`** | 247+176+3+7 = 433 | DL1, DL2, EHB, KVM | ✓ Akzeptiert (vereinheitlicht aus `section` + `part` + `subsection` + `§`) |
+| **`number`** | 300+113 = 413 | HZU, HZU2, ADP, ECK | ✓ Akzeptiert (vereinheitlicht aus `deed` + `sermon` — nummerierte Einheiten, Genre via Header) |
+
+**Migration (entschieden):**
+
+| Typ | Count | Beispiele | Aktion |
+|-----|-------|-----------|--------|
+| `stanza` | 1,122 | LZT | Bug → zu `<lg type="stanza">` migrieren (nicht `<div>`) |
+| `deed` | 300 | HZU, HZU2 | → `number` (Genre steht im Header; `deed` war Genre-Marker, nicht Strukturtyp) |
+| `part` | 176 | DL2, EHB | → `section` (identische Verwendung, Migrationsrest) |
+| `sermon` | 113 | ADP, ECK | → `number` (Genre steht im Header; analog zu `deed`) |
+| `subsection` | 3 | KVM | → `section` (Verschachtelung statt eigenem Typ) |
+| `§` | 7 | KVM | Encoding-Artefakt (Linecode-Konvertierung) → `section` |
+
+**Logik `deed`/`sermon` → `number`:** Diese `div`-Typen markieren keine Genre-Information (die kommt aus der `<classDecl>`-Taxonomie im Header), sondern nummerierte Einheiten (Urkunde Nr. 1, Predigt Nr. 2). Der Typ `number` drueckt die Funktion korrekt aus. Bestehendes `@n` bleibt erhalten.
+
+**Zusaetzlich: `note type="date"` und `note type="year"` in HZU/HZU2**
+
+HZU (55 notes) und HZU2 (341 notes) verwenden ein Sonder-Encoding fuer Datumsangaben in Urkunden:
+
+```xml
+<note type="year" n="1293"/>       <!-- Jahreszahl, klar -->
+<note type="date" n="224"/>        <!-- = 24. Februar (MMTT ohne fuehrende Null) -->
+<note type="date" n="1211"/>       <!-- = 11. Dezember -->
+```
+
+**Migration (Issue #17):** Script-Transformation des kodierten Formats in Klartext:
+```xml
+<note type="date" n="24. Februar"/>
+```
+
+Dekodierungslogik: Letzte 2 Stellen = Tag, Rest = Monat. Keine fuehrende Null beim Monat.
+
+**Pendend (warten auf Katharina):**
+
+| Typ | Count | Beispiele | Frage |
+|-----|-------|-----------|-------|
+| *`paragraph`* | 76 | BDK | Redundant zu `<p>`? Migrationsartefakt? |
+| *`parallel`* | 24 | BRW, DES2 | Parallelueberlieferung (Issue #29?) |
+| *`colophon`* | 15 | ALX, APO | Behalten oder TEI-Element `<colophon>`? |
+| *`sigil`* | 9 | BOP | Funktion unklar |
+| *`volume`* | 7 | FLG, FLG1 | Band-Unterteilung |
 
 ---
 
@@ -350,10 +382,17 @@ Format variiert historisch bedingt. Neue Texte sollen ein konsistentes Schema ve
 | `@lemmaRef` | Standard | **behalten** | keiner | — |
 | `@pos` | Standard | **behalten** | keiner | — |
 | `@lemma` | Standard | **ergaenzen** | mittel (Lookup je `<w>`) | lexicon.xml Zugriff |
-| `@meaningRef` | nicht Standard | **→ `@ana`** | gering (Rename) | Playground JS (1 Stelle) |
+| `@meaningRef` | nicht Standard | **→ `@ana`** | gering (Rename) | Playground JS (8 Stellen, davon 2 kritisch) |
 | `@wordRef` | nicht Standard | **→ `@corresp`** | gering (Rename + URI-Korrektur) | siehe Sec. 4.4 |
 
-**Prioritaet:** `@meaningRef` → `@ana` und `@wordRef` → `@corresp` sind beide fuer TEI-Konformanz noetig. Beide sind Batch-Renames (Attributname aendern). Bei `@wordRef` muss zusaetzlich die URI korrigiert werden (siehe Sec. 4.4). Code-Anpassung: `tei-manager.js` (1 Stelle) liest `@meaningRef` im Playground.
+**Prioritaet:** `@meaningRef` → `@ana` und `@wordRef` → `@corresp` sind beide fuer TEI-Konformanz noetig. Beide sind Batch-Renames (Attributname aendern). Bei `@wordRef` muss zusaetzlich die URI korrigiert werden (siehe Sec. 4.4).
+
+**Code-Anpassung `@meaningRef` → `@ana`** (verifiziert per grep):
+- `tei-manager.js:208` — `querySelectorAll('[meaningRef]')` → `'[ana]'` (kritisch)
+- `tei-manager.js:210` — `getAttribute('meaningRef')` → `'ana'` (kritisch)
+- `tei-manager.js:215,372,377` + `tei-ui.js:684,689,707` — Property-Name `meaningRef` im internen Datenmodell/CSV-Export (6 Stellen, optional mitumbenennen)
+- `@wordRef`: 0 Stellen im JS-Code (bestaetigt)
+- Python: nur in `_ARCHIVED_tei-transformation.py` (archiviert, nicht aktiv)
 
 **`@lemma` ergaenzen** ist optional aber wertvoll: Die menschenlesbare Grundform direkt am Wort (z.B. `lemma="brôt"`) macht die XML ohne Authority-File-Lookup lesbar. Erfordert einen Lookup-Schritt beim Indexbau.
 
@@ -363,7 +402,7 @@ Format variiert historisch bedingt. Neue Texte sollen ein konsistentes Schema ve
 
 `@wordRef` ist kein TEI-Standard-Attribut, traegt aber **nicht-rekonstruierbare Information**:
 
-- ~22% der `<w>`-Elemente mit `@wordRef` haben kein `@meaningRef` — ohne Sense ist der Lookup-Pfad Sense→Type unmoeglich
+- ~21% der `<w>`-Elemente **mit** `@wordRef` haben kein `@meaningRef` (1,553,943 von 7,406,166) — ohne Sense ist der Lookup-Pfad Sense→Type unmoeglich
 - 42 von 43.404 Senses haben Types mit identischem Formtext — selbst mit Sense ist Text-Matching nicht eindeutig
 - `@wordRef` ist die einzige direkte Verknuepfung einer Belegstelle mit ihrer Wortform (Type) in `variants.xml`
 
@@ -710,7 +749,7 @@ Vollstaendiger Report: `scripts/data-wrangling/tei-model/TEI-AUDIT-REPORT.md`
 - [features/030-tei-structural-fixes.md](features/030-tei-structural-fixes.md) -- Triage-Plan fuer strukturelle Fixes
 - `.gemini/skills/pos-disambiguator/SKILL.md` -- POS-Tagset-Definition und Disambiguierungs-Regeln
 - `scripts/data-wrangling/tei-model/TEI-MODEL-EXAMPLE.xml` -- Maximalbeispiel (validiert gegen tei_all.rng)
-- `schema/tei_all.rng` -- TEI P5 4.11.0 RELAX NG Schema (Validierungs-Referenz)
+- `schema/tei_all.rng` -- TEI P5 4.11.0 RELAX NG Schema (lokal, gitignored — Download: `curl -sL "https://tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" -o schema/tei_all.rng`)
 
 ### TEI P5 Spezifikation
 - [att.linguistic](https://www.tei-c.org/release/doc/tei-p5-doc/en/html/ref-att.linguistic.html) -- `@lemma`, `@lemmaRef`, `@pos`, `@msd`, `@join`
