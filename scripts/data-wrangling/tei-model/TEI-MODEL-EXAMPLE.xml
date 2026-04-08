@@ -13,6 +13,8 @@
     [NEU]    = Elemente die im Bestand fehlen
     [IDEELL] = optionale Verbesserung, nicht zwingend
 -->
+
+<?xml-model href="https://tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="BEISPIEL">
   <teiHeader>
 
@@ -78,6 +80,7 @@
                     <surname>Mustermann</surname>
                   </editor>
                   <idno type="callNumber">BEISPIEL</idno>
+                  <edition>2. Auflage</edition>
                   <imprint>
                     <pubPlace>Salzburg</pubPlace>
                     <publisher>Musterverlag</publisher>
@@ -207,19 +210,21 @@
                            Ersetzt das nicht-konforme @meaningRef
                corresp   = Verweis auf Wortform/Type in variants.xml (Standard TEI, att.global)
                            Ersetzt das nicht-konforme @wordRef. Traegt nicht-rekonstruierbare
-                           Information (~22% der Woerter haben kein @meaningRef, Sense→Type
-                           Lookup daher unmoeglich). URI korrigiert: Ziel ist variants.xml,
-                           nicht die synthetische lexicon.xml-URI.
+                           Information (Audit: 37% der Woerter haben kein @meaningRef/@ana,
+                           Sense→Type Lookup daher unmoeglich). URI korrigiert: Ziel ist
+                           variants.xml, nicht die synthetische lexicon.xml-URI.
              -->
           <w xml:id="BEISPIEL_1_h_1"
              lemmaRef="lexicon.xml#lemma_6467"
              lemma="und"
-             pos="CCNJ">und</w>
+             pos="CCNJ"
+             corresp="variants.xml#type_22825">und</w>
           <w xml:id="BEISPIEL_1_h_2"
              lemmaRef="lexicon.xml#lemma_7545"
              lemma="wîn"
              pos="NOM"
-             ana="lexicon.xml#lemma_7545_sense_100">Wîn</w>
+             ana="lexicon.xml#lemma_7545_sense_100"
+             corresp="variants.xml#type_27321">Wîn</w>
         </head>
 
         <pb n="1"/>
@@ -233,26 +238,31 @@
                  lemmaRef="lexicon.xml#lemma_1119"
                  lemma="der"
                  pos="DET"
-                 ana="lexicon.xml#lemma_1119_sense_1770">Der</w>
+                 ana="lexicon.xml#lemma_1119_sense_1770"
+                 corresp="variants.xml#type_3507">Der</w>
             </hi>
             <w xml:id="BEISPIEL_101_1"
                lemmaRef="lexicon.xml#lemma_2703"
                lemma="hêr"
-               pos="ADJ">hêre</w>
+               pos="ADJ"
+               corresp="variants.xml#type_9454">hêre</w>
             <w xml:id="BEISPIEL_101_2"
                lemmaRef="lexicon.xml#lemma_3001"
                lemma="ich"
-               pos="PRO">ich</w>
+               pos="PRO"
+               corresp="variants.xml#type_10212">ich</w>
             <caesura/>
             <w xml:id="BEISPIEL_101_3"
                lemmaRef="lexicon.xml#lemma_5434"
                lemma="sît"
-               pos="SCNJ">sît</w>
+               pos="SCNJ"
+               corresp="variants.xml#type_18992">sît</w>
             <w xml:id="BEISPIEL_101_4"
                lemmaRef="lexicon.xml#lemma_1627"
                lemma="êre"
                pos="NOM"
-               ana="lexicon.xml#lemma_1627_sense_2536">êre</w>
+               ana="lexicon.xml#lemma_1627_sense_2536"
+               corresp="variants.xml#type_5508">êre</w>
             <!-- [SOLL] Interpunktion als <pc> statt <seg type="pc"> -->
             <pc join="left">.</pc>
             <!-- [IST]  <seg xml:id="..." type="pc">.</seg> -->
@@ -263,21 +273,25 @@
             <w xml:id="BEISPIEL_102_0"
                lemmaRef="lexicon.xml#lemma_9050"
                lemma="wellen"
-               pos="VEM PRO">wiltu</w>
+               pos="VEM PRO"
+               corresp="variants.xml#type_30687">wiltu</w>
                <!-- Compound-Tag bleibt: wiltu = wilt + du (echte Fusion) -->
             <w xml:id="BEISPIEL_102_1"
                lemmaRef="lexicon.xml#lemma_4172"
                lemma="mit"
-               pos="PRP">mit</w>
+               pos="PRP"
+               corresp="variants.xml#type_14531">mit</w>
             <w xml:id="BEISPIEL_102_2"
                lemmaRef="lexicon.xml#lemma_4172"
                lemma="minne"
                pos="NOM"
-               ana="lexicon.xml#lemma_4172_sense_6544">minne</w>
+               ana="lexicon.xml#lemma_4172_sense_6544"
+               corresp="variants.xml#type_14533">minne</w>
             <w xml:id="BEISPIEL_102_3"
                lemmaRef="lexicon.xml#lemma_7193"
                lemma="varn"
-               pos="VRB">varn</w>
+               pos="VRB"
+               corresp="variants.xml#type_25544">varn</w>
             <pc join="left">,</pc>
           </l>
 
@@ -290,12 +304,14 @@
             <w xml:id="BEISPIEL_103_1"
                lemmaRef="lexicon.xml#lemma_2598"
                lemma="haben"
-               pos="VEX">hân</w>
+               pos="VEX"
+               corresp="variants.xml#type_8717">hân</w>
                <!-- VEX weil Perfekt-Hilfsverb (mit Partizip II) -->
             <w xml:id="BEISPIEL_103_2"
                lemmaRef="lexicon.xml#lemma_3720"
                lemma="sehen"
-               pos="VRB">gesehen</w>
+               pos="VRB"
+               corresp="variants.xml#type_20814">gesehen</w>
             <pc join="left">.</pc>
           </l>
         </lg>
@@ -306,17 +322,20 @@
             <w xml:id="BEISPIEL_104_0"
                lemmaRef="lexicon.xml#lemma_6467"
                lemma="und"
-               pos="CCNJ">und</w>
+               pos="CCNJ"
+               corresp="variants.xml#type_22825">und</w>
             <supplied>
               <w xml:id="BEISPIEL_104_1"
                  lemmaRef="lexicon.xml#lemma_1119"
                  lemma="der"
-                 pos="DET">der</w>
+                 pos="DET"
+                 corresp="variants.xml#type_3506">der</w>
             </supplied>
             <w xml:id="BEISPIEL_104_2"
                lemmaRef="lexicon.xml#lemma_5903"
                lemma="suochen"
-               pos="VRB">suochte</w>
+               pos="VRB"
+               corresp="variants.xml#type_59642">suochte</w>
             <pc join="left">.</pc>
           </l>
         </lg>
@@ -331,15 +350,18 @@
           <w xml:id="BEISPIEL_2_h_0"
              lemmaRef="lexicon.xml#lemma_7193"
              lemma="von"
-             pos="PRP">Von</w>
+             pos="PRP"
+             corresp="variants.xml#type_25544">Von</w>
           <w xml:id="BEISPIEL_2_h_1"
              lemmaRef="lexicon.xml#lemma_1119"
              lemma="der"
-             pos="DET">der</w>
+             pos="DET"
+             corresp="variants.xml#type_3507">der</w>
           <w xml:id="BEISPIEL_2_h_2"
              lemmaRef="lexicon.xml#lemma_37696"
              lemma="abegescheidenheit"
-             pos="NOM">abegescheidenheit</w>
+             pos="NOM"
+             corresp="variants.xml#type_235248">abegescheidenheit</w>
         </head>
 
         <pb n="2"/>
@@ -350,30 +372,36 @@
             <w xml:id="BEISPIEL_201_0"
                lemmaRef="lexicon.xml#lemma_3001"
                lemma="ich"
-               pos="PRO">Ich</w>
+               pos="PRO"
+               corresp="variants.xml#type_10212">Ich</w>
           </hi>
           <w xml:id="BEISPIEL_201_1"
              lemmaRef="lexicon.xml#lemma_2598"
              lemma="haben"
-             pos="VRB">hân</w>
+             pos="VRB"
+             corresp="variants.xml#type_8717">hân</w>
              <!-- VRB weil lexikalisch ("ich besitze"), nicht Hilfsverb -->
           <w xml:id="BEISPIEL_201_2"
              lemmaRef="lexicon.xml#lemma_1119"
              lemma="der"
-             pos="DET">der</w>
+             pos="DET"
+             corresp="variants.xml#type_3507">der</w>
           <w xml:id="BEISPIEL_201_3"
              lemmaRef="lexicon.xml#lemma_5315"
              lemma="geschrift"
-             pos="NOM">geschrift</w>
+             pos="NOM"
+             corresp="variants.xml#type_59642">geschrift</w>
           <w xml:id="BEISPIEL_201_4"
              lemma="vil"
              pos="ADV">vil</w>
           <w xml:id="BEISPIEL_201_5"
              lemmaRef="lexicon.xml#lemma_3720"
              lemma="lesen"
-             pos="VRB">gelesen</w>
+             pos="VRB"
+             corresp="variants.xml#type_12919">gelesen</w>
           <pc join="left">.</pc>
 
+          <cb n="2"/>
           <lb n="2"/>
           <!-- Fremdsprachlicher Einschub -->
           <w xml:id="BEISPIEL_202_0"
@@ -399,16 +427,19 @@
             <w xml:id="BEISPIEL_3_h_0"
                lemmaRef="lexicon.xml#lemma_3405"
                lemma="kopf"
-               pos="NOM">Choepf</w>
+               pos="NOM"
+               corresp="variants.xml#type_284708">Choepf</w>
           </hi>
           <w xml:id="BEISPIEL_3_h_1"
              lemmaRef="lexicon.xml#lemma_7193"
              lemma="von"
-             pos="PRP">von</w>
+             pos="PRP"
+             corresp="variants.xml#type_25544">von</w>
           <w xml:id="BEISPIEL_3_h_2"
              lemmaRef="lexicon.xml#lemma_5678"
              lemma="swîn"
-             pos="NOM">swein</w>
+             pos="NOM"
+             corresp="variants.xml#type_40123">swein</w>
           <pc join="left">.</pc>
         </head>
 
@@ -420,16 +451,19 @@
           <w xml:id="BEISPIEL_301_0"
              lemmaRef="lexicon.xml#lemma_8888"
              lemma="ze"
-             pos="PRP DET">zem</w>
+             pos="PRP DET"
+             corresp="variants.xml#type_50001">zem</w>
              <!-- Compound bleibt: zem = ze + dem (echte Fusion) -->
           <w xml:id="BEISPIEL_301_1"
              lemmaRef="lexicon.xml#lemma_1627"
              lemma="êrste"
-             pos="ADV">êrsten</w>
+             pos="ADV"
+             corresp="variants.xml#type_5509">êrsten</w>
           <w xml:id="BEISPIEL_301_2"
              lemmaRef="lexicon.xml#lemma_4567"
              lemma="nemen"
-             pos="VRB">nim</w>
+             pos="VRB"
+             corresp="variants.xml#type_15001">nim</w>
           <!-- Roemische Zahl -->
           <num>
             <w xml:id="BEISPIEL_301_3"
@@ -438,27 +472,32 @@
           <w xml:id="BEISPIEL_301_4"
              lemmaRef="lexicon.xml#lemma_3405"
              lemma="kopf"
-             pos="NOM">choepf</w>
+             pos="NOM"
+             corresp="variants.xml#type_284708">choepf</w>
           <pc join="left">.</pc>
 
           <lb n="2"/>
           <w xml:id="BEISPIEL_302_0"
              lemmaRef="lexicon.xml#lemma_9999"
              lemma="sieden"
-             pos="VRB">siut</w>
+             pos="VRB"
+             corresp="variants.xml#type_60001">siut</w>
           <w xml:id="BEISPIEL_302_1"
              lemmaRef="lexicon.xml#lemma_5678"
              lemma="swîn"
              pos="NOM"
-             ana="lexicon.xml#lemma_5678_sense_200">swein</w>
+             ana="lexicon.xml#lemma_5678_sense_200"
+             corresp="variants.xml#type_40123">swein</w>
           <w xml:id="BEISPIEL_302_2"
              lemmaRef="lexicon.xml#lemma_4172"
              lemma="mit"
-             pos="PRP">mit</w>
+             pos="PRP"
+             corresp="variants.xml#type_14531">mit</w>
           <w xml:id="BEISPIEL_302_3"
              lemmaRef="lexicon.xml#lemma_1234"
              lemma="salz"
-             pos="NOM">salz</w>
+             pos="NOM"
+             corresp="variants.xml#type_70001">salz</w>
           <pc join="left">.</pc>
         </p>
       </div>

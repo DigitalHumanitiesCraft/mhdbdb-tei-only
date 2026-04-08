@@ -210,7 +210,8 @@ Flow/Algorithms/XPaths: PASS. Rebuild feasibility: Search YELLOW, Build YELLOW, 
 
 ### Neue Artefakte
 - `docs/TEI-MODEL.md` — Soll-Modell mit IST/SOLL-Vergleichen, Validierungsbaseline
-- `docs/TEI-MODEL-EXAMPLE.xml` — Maximalbeispiel, validiert gegen tei_all.rng
+- `scripts/data-wrangling/tei-model/TEI-MODEL-EXAMPLE.xml` — Maximalbeispiel, validiert gegen tei_all.rng
+- `scripts/data-wrangling/tei-model/tei-audit.json` + `TEI-AUDIT-REPORT.md` — Korpus-Audit (76 Elementtypen, 9.3M `<w>`)
 - `schema/tei_all.rng` — TEI P5 4.11.0 Referenzschema
 
 ### Vergleichsprojekte recherchiert

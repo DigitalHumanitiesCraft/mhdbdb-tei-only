@@ -6,7 +6,7 @@ Defines the normative TEI encoding for all texts in the MHDBDB corpus. New texts
 **Issue:** #32 (TEI schema)
 **Schema:** `schema/mhdbdb.rnc` (RELAX NG Compact, planned)
 **Validiert gegen:** TEI P5 Version 4.11.0 (`tei_all.rng`, 18. Feb 2026)
-**Maximalbeispiel:** `docs/TEI-MODEL-EXAMPLE.xml` (validiert gegen tei_all.rng)
+**Maximalbeispiel:** `scripts/data-wrangling/tei-model/TEI-MODEL-EXAMPLE.xml` (validiert gegen tei_all.rng)
 
 ---
 
@@ -268,6 +268,28 @@ Texte mit Vers- und Prosa-Abschnitten verwenden verschachtelte `<div>`-Elemente:
 </body>
 ```
 
+### 3.5 `div/@type` Werte (Audit)
+
+15 distinkte Werte im Bestand. Akzeptierte Werte fett, pendente Werte kursiv (warten auf Katharina).
+
+| Typ | Count | Beispiele | Status |
+|-----|-------|-----------|--------|
+| **`song`** | 1,373 | BOP, BRH | ✓ Akzeptiert |
+| *`stanza`* | 1,122 | LZT | Pendend: zu `<lg type="stanza">` migrieren? |
+| **`chapter`** | 604 | AC1, BDK | ✓ Akzeptiert |
+| **`recipe`** | 452 | ABS, BRIX | ✓ Akzeptiert |
+| *`deed`* | 300 | HZU, HZU2 | Pendend: Urkunden — eigener Typ? |
+| **`section`** | 247 | DL1, DL2 | ✓ Akzeptiert |
+| *`part`* | 176 | DL2, EHB | Pendend: Unterschied zu `section`? |
+| *`sermon`* | 113 | ADP, ECK | Pendend: Predigten — eigener Typ? |
+| *`paragraph`* | 76 | BDK | Pendend: redundant zu `<p>`? |
+| *`parallel`* | 24 | BRW, DES2 | Pendend: Parallelueberlieferung (Issue #29?) |
+| *`colophon`* | 15 | ALX, APO | Pendend: TEI hat eigenes `<colophon>` Element |
+| *`sigil`* | 9 | BOP | Pendend: Funktion unklar |
+| *`volume`* | 7 | FLG, FLG1 | Pendend: Band-Unterteilung |
+| *`§`* | 7 | KVM | Pendend: Sonderzeichen — umbenennen? |
+| *`subsection`* | 3 | KVM | Pendend: Unterschied zu `section`? |
+
 ---
 
 ## 4. Wort-Element (`<w>`)
@@ -295,18 +317,18 @@ Das `<w>`-Element ist die zentrale Annotationseinheit. Im Soll-Modell stammen al
 
 ### 4.1 Attribute
 
-| Attribut | TEI-Status | Pflicht | IST | SOLL |
-|----------|------------|---------|-----|------|
-| `@xml:id` | Standard (att.global) | ja | ✓ | behalten |
-| `@lemmaRef` | **Standard** (att.linguistic) | ja* | ✓ | behalten |
+| Attribut | TEI-Status | Pflicht | IST (Audit) | SOLL |
+|----------|------------|---------|-------------|------|
+| `@xml:id` | Standard (att.global) | ja | 9,282,982 (100%) | behalten |
+| `@lemmaRef` | **Standard** (att.linguistic) | ja* | 7,391,273 (79.6%) | behalten |
 | `@lemma` | **Standard** (att.linguistic) | nein | **fehlt** | ergaenzen (menschenlesbare Grundform) |
-| `@pos` | **Standard** (att.linguistic) | ja* | ✓ | behalten |
-| `@meaningRef` | **NICHT Standard** | nein | ✓ (100% der Dateien) | → `@ana` migrieren |
-| `@wordRef` | **NICHT Standard** | nein | ✓ (15% der Dateien) | → `@corresp` migrieren (siehe 4.4) |
+| `@pos` | **Standard** (att.linguistic) | ja* | 7,406,168 (79.8%) | behalten |
+| `@meaningRef` | **NICHT Standard** | nein | 5,852,223 (63.0%) in 666/666 Dateien | → `@ana` migrieren |
+| `@wordRef` | **NICHT Standard** | nein | 7,406,166 (79.8%) in **666/666 Dateien** | → `@corresp` migrieren (siehe 4.4) |
 
-*`@lemmaRef` und `@pos` sind fuer die Suchfunktion erforderlich. `<w>`-Elemente ohne `@lemmaRef` werden vom Corpus-Index uebersprungen (siehe Position-Counting-Contract, CONTRACTS.MD Sec. B).
+Korpus: 9,282,982 `<w>`-Elemente in 666 Dateien. 20.4% haben kein `@lemmaRef` (unannotierte Woerter — werden vom Corpus-Index uebersprungen, siehe CONTRACTS.MD Sec. B).
 
-> **Wichtig:** `@lemmaRef` ist seit TEI P5 3.3.0 ein Standard-Attribut der Klasse `att.linguistic`. Es muss **nicht** migriert werden. `@meaningRef` und `@wordRef` sind die Validierungsblocker — sie sind keine TEI-Standard-Attribute.
+> **Wichtig:** `@lemmaRef` ist seit TEI P5 3.3.0 ein Standard-Attribut der Klasse `att.linguistic`. Es muss **nicht** migriert werden. `@meaningRef` und `@wordRef` sind die Validierungsblocker — sie sind keine TEI-Standard-Attribute. Beide sind in **100% der Dateien** vorhanden.
 
 ### 4.2 `@xml:id` Format
 
@@ -432,7 +454,7 @@ Viele `<w>`-Elemente im Altbestand tragen Compound-Tags (~35-40%) (z.B. `pos="VR
 
 TEI P5 stellt `<pc>` (punctuation character) als Gegenstueck zu `<w>` bereit. Es ist Member von `att.linguistic` und unterstuetzt daher `@pos`, `@lemma` etc. — anders als `<seg type="pc">`. Das `@join`-Attribut (`left`, `right`, `both`, `no`) regelt Whitespace-Adjacenz.
 
-**Migration:** Einfaches Batch-Rename (`<seg type="pc">` → `<pc join="left">`). JS-Rendering muss `<pc>` als Inline-Element behandeln (analog zu `<seg type="pc">`).
+**Migration:** 1,370,191 Vorkommen. Einfaches Batch-Rename (`<seg type="pc">` → `<pc join="left">`). JS-Rendering muss `<pc>` als Inline-Element behandeln (analog zu `<seg type="pc">`).
 
 **Achtung:** `&lt;` und `&gt;` in `<seg type="pc">` (bzw. kuenftig `<pc>`) sind korrekte XML-Entities (Winkelklammern im Quelltext), keine Bugs.
 
@@ -448,7 +470,17 @@ TEI P5 stellt `<pc>` (punctuation character) als Gegenstueck zu `<w>` bereit. Es
 </hi>
 ```
 
-`<hi rend="initial">` ist Korpus-Konvention (655/675 Dateien, 310.000+ Vorkommen) und kodiert dekorierte Initialen aus Handschriften/Drucken.
+`<hi rend="initial">` ist Korpus-Konvention und kodiert dekorierte Initialen aus Handschriften/Drucken.
+
+**Audit: `hi/@rend` Werte (666 Dateien):**
+
+| Wert | Count |
+|------|-------|
+| `initial` | 314,529 |
+| `upper_case_first_letter` | 92,488 |
+| `upper_case` | 7,953 |
+| `bold` | 201 |
+| `italic` | 124 |
 
 **Optionale Verbesserung (DTABf-Modell):** `@rendition` statt `@rend` mit zentralisierten Definitionen in `<tagsDecl>`:
 ```xml
@@ -493,6 +525,18 @@ Markiert eine Verszeilen-Zaesur innerhalb von `<l>`. Selten (5 Dateien im Bestan
 ```
 
 Wrapt `<w>`-Elemente mit numerischem Inhalt (roemische Zahlen etc.). Im Rendering als `<span class="number">` dargestellt.
+
+### 6.7 Spaltenumbrueche
+
+```xml
+<cb n="{Spaltennr}"/>
+```
+
+Markiert einen Spaltenumbruch (column break). Selten (996 Vorkommen in 3 Dateien). Im Rendering als `[Sp. {n}]` dargestellt.
+
+### 6.8 Bekannte Fehler im Bestand
+
+- **`<suppplied>`** (Tippfehler, 1 Vorkommen in 1 Datei) — muss zu `<supplied>` korrigiert werden.
 
 ---
 
@@ -605,18 +649,33 @@ npm test
 
 ---
 
-## 10. Validierungsbaseline (tei_all.rng)
+## 10. Validierungsbaseline
 
-Ergebnis der Validierung von 100 Dateien gegen TEI P5 4.11.0 (`schema/tei_all.rng`):
+### Korpus-Audit (666 Dateien, `scripts/data-wrangling/tei-model/audit-tei-corpus.py`)
+
+| Metrik | Wert |
+|--------|------|
+| Dateien | 666 (exkl. 9 `.disamb.tei.xml`) |
+| Elemente gesamt | 12,763,244 |
+| Distinkte Elementtypen | 76 |
+| `<w>`-Elemente | 9,282,982 |
+| `<seg type="pc">` (→ `<pc>`) | 1,370,191 |
+| Unannotierte `<w>` (kein `@lemmaRef`) | 1,891,709 (20.4%) |
+
+Vollstaendiger Report: `scripts/data-wrangling/tei-model/TEI-AUDIT-REPORT.md`
+
+### tei_all.rng Validierung (Stichprobe: 100 kleinste Dateien)
 
 **0/100 Dateien valide.** Fehlertypen:
 
 | Fehler | Dateien | Ursache |
 |--------|---------|---------|
-| `Invalid attribute meaningRef for element w` | 100/100 | Nicht-Standard-Attribut |
-| `Invalid attribute wordRef for element w` | 15/100 | Nicht-Standard-Attribut (nur Dateien ohne POS-Disambiguierung) |
+| `Invalid attribute meaningRef for element w` | 100/100 | Nicht-Standard-Attribut (Audit: 5,852,223 Vorkommen) |
+| `Invalid attribute wordRef for element w` | 100/100 | Nicht-Standard-Attribut (Audit: 7,406,166 Vorkommen) |
 | `<author>` nach `<title>` in `<monogr>` | vereinzelt | Falsche Element-Reihenfolge |
 | `Element listPerson failed to validate content` | 1 (VOR) | Einzelfall |
+
+**Hinweis:** Die fruehere Angabe "15% der Dateien haben @wordRef" war ein Stichproben-Artefakt. Das Audit zeigt: **100% der Dateien** haben `@wordRef` (7.4M Vorkommen). Die Stichprobe der kleinsten Dateien hatte zufaellig viele Dateien mit geringer Annotation erwischt.
 
 **Konsequenz:** Zwei Batch-Operationen (`@meaningRef` → `@ana`, `@wordRef` → `@corresp`) wuerden den Grossteil des Korpus TEI-konform machen. `@wordRef` traegt nicht-rekonstruierbare Information (Wortform-Zuordnung) und darf nicht geloescht werden (siehe Sec. 4.4).
 
@@ -650,7 +709,7 @@ Ergebnis der Validierung von 100 Dateien gegen TEI P5 4.11.0 (`schema/tei_all.rn
 - [ARCHITECTURE.MD](ARCHITECTURE.MD) -- Technische Komponenten, Datenfluss
 - [features/030-tei-structural-fixes.md](features/030-tei-structural-fixes.md) -- Triage-Plan fuer strukturelle Fixes
 - `.gemini/skills/pos-disambiguator/SKILL.md` -- POS-Tagset-Definition und Disambiguierungs-Regeln
-- `docs/TEI-MODEL-EXAMPLE.xml` -- Maximalbeispiel (validiert gegen tei_all.rng)
+- `scripts/data-wrangling/tei-model/TEI-MODEL-EXAMPLE.xml` -- Maximalbeispiel (validiert gegen tei_all.rng)
 - `schema/tei_all.rng` -- TEI P5 4.11.0 RELAX NG Schema (Validierungs-Referenz)
 
 ### TEI P5 Spezifikation
