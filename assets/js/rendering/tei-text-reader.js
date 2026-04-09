@@ -383,12 +383,11 @@ class TEITextReader {
                     const rend = el.getAttribute('rend');
                     return this.processHi(el, rend, lemmaId, lemmaIds, lemmaColorMap, highlights, state);
 
+                case 'pc':
+                    // Punctuation character
+                    return `<span class="punctuation">${this.escapeHtml(el.textContent)}</span>`;
+
                 case 'seg':
-                    // Segment (type="pc" = punctuation)
-                    const type = el.getAttribute('type');
-                    if (type === 'pc') {
-                        return `<span class="punctuation">${this.escapeHtml(el.textContent)}</span>`;
-                    }
                     return this.processChildren(el, lemmaId, lemmaIds, lemmaColorMap, highlights, state);
 
                 case 'w':
