@@ -1,6 +1,6 @@
 # TEI Corpus Audit Report
 
-**Date:** 2026-04-08
+**Date:** 2026-04-09
 **Files analyzed:** 666
 **Excluded:** `*.disamb.tei.xml`
 **Script:** `scripts/data-wrangling/tei-model/audit-tei-corpus.py`
@@ -12,30 +12,30 @@
 | Metrik | Wert |
 |--------|------|
 | Dateien | 666 |
-| Elemente gesamt | 12,763,244 |
-| Groesste Datei | OVG.tei.xml (629,089 Elemente) |
-| Kleinste Datei | EUS.tei.xml (154 Elemente) |
-| Distinkte Elemente | 76 |
+| Elemente gesamt | 12,767,448 |
+| Groesste Datei | OVG.tei.xml (629,095 Elemente) |
+| Kleinste Datei | EUS.tei.xml (161 Elemente) |
+| Distinkte Elemente | 78 |
 
 ## Element-Inventar (Top 30)
 
 | # | Element | Count | Dateien | Eltern | Attribute |
 |---|---------|-------|---------|--------|-----------|
-| 1 | `<w>` | 9,282,982 | 666 | l, p, hi, supplied, head | @xml:id, @pos, @wordRef, @lemmaRef, @meaningRef |
-| 2 | `<l>` | 1,441,605 | 620 | p, lg, body, div, head | @n |
-| 3 | `<seg>` | 1,370,191 | 659 | l, p, head, supplied, div | @xml:id, @type |
-| 4 | `<hi>` | 415,295 | 649 | l, hi, p, supplied, head | @rend |
-| 5 | `<lb>` | 55,853 | 46 | p, head, hi, div, supplied | @n |
+| 1 | `<w>` | 9,282,982 | 666 | l, p, hi, supplied, head | @xml:id, @pos, @corresp, @lemmaRef, @ana |
+| 2 | `<pc>` | 1,370,191 | 659 | l, p, head, supplied, div | @xml:id, @join |
+| 3 | `<l>` | 1,355,514 | 602 | p, lg, body, div, head | @n |
+| 4 | `<hi>` | 415,295 | 649 | l, p, hi, supplied, head | @rend |
+| 5 | `<lb>` | 141,944 | 64 | p, head, div, hi, supplied | @n |
 | 6 | `<caesura>` | 53,081 | 253 | l, p, hi, supplied | @xml:id |
-| 7 | `<lg>` | 28,595 | 75 | p, div | @type, @n |
-| 8 | `<supplied>` | 23,401 | 315 | l, p, hi, note, head | @n |
-| 9 | `<p>` | 10,190 | 666 | div, projectDesc, editorialDecl, availability, body | @xml:lang, @n |
+| 7 | `<lg>` | 29,717 | 76 | p, body, div | @type, @n |
+| 8 | `<supplied>` | 23,402 | 315 | l, p, hi, head, note | @n |
+| 9 | `<p>` | 12,399 | 666 | div, normalization, projectDesc, editorialDecl, lg | @xml:lang, @n |
 | 10 | `<gloss>` | 8,698 | 666 | category | @xml:lang |
-| 11 | `<div>` | 6,707 | 240 | body, div, p | @type, @n |
-| 12 | `<pb>` | 6,197 | 46 | p, l, head, div, note | @n, @type |
+| 11 | `<pb>` | 6,197 | 46 | p, head, l, div, note | @n, @type |
+| 12 | `<div>` | 5,585 | 239 | body, div, p | @type, @n |
 | 13 | `<idno>` | 3,332 | 666 | msIdentifier, person, monogr | @type |
 | 14 | `<title>` | 3,162 | 666 | titleStmt, monogr, analytic, series, bibl | @level, @xml:lang, @type, @ana |
-| 15 | `<head>` | 3,127 | 177 | div |  |
+| 15 | `<head>` | 3,127 | 177 | div, lg |  |
 | 16 | `<note>` | 2,777 | 666 | p, person, biblStruct, bibl, l | @type, @n |
 | 17 | `<persName>` | 1,880 | 666 | person, authority | @type, @role, @xml:lang |
 | 18 | `<category>` | 1,800 | 666 | taxonomy | @xml:id, @corresp, @ana |
@@ -56,34 +56,23 @@
 
 ### `<w>` — 9,282,982 Vorkommen in 666 Dateien
 
-**Eltern:** `<l>` (8,224,841), `<p>` (619,298), `<hi>` (379,939), `<supplied>` (53,746), `<head>` (3,783), `<div>` (1,044), `<suppplied>` (148), `<body>` (103), `<note>` (60), `<lg>` (18)
+**Eltern:** `<l>` (7,172,055), `<p>` (1,664,834), `<hi>` (379,939), `<supplied>` (53,894), `<head>` (7,722), `<div>` (4,355), `<body>` (103), `<note>` (60), `<lg>` (18), `<num>` (2)
 
 | Attribut | Count | Dateien | Kardinalitaet | Werte/Pattern |
 |----------|-------|---------|---------------|---------------|
 | `@xml:id` | 9,282,982 | 666 | high | Pattern: `{SIGLE}_{position}` |
 | `@pos` | 7,406,168 | 666 | high | >100 distinkte |
-| `@wordRef` | 7,406,166 | 666 | high | Pattern: `lexicon.xml#{ref}` |
+| `@corresp` | 7,406,166 | 666 | high | Pattern: `variants.xml#{ref}` |
 | `@lemmaRef` | 7,391,273 | 666 | high | Pattern: `lexicon.xml#lemma_{id}[_sense_{id}[_type_{id}]]` |
-| `@meaningRef` | 5,852,223 | 666 | high | Pattern: `lexicon.xml#lemma_{id}[_sense_{id}[_type_{id}]]` |
-
----
-
-### `<seg>` — 1,370,191 Vorkommen in 659 Dateien
-
-**Eltern:** `<l>` (1,304,030), `<p>` (64,150), `<head>` (1,054), `<supplied>` (738), `<div>` (88), `<note>` (82), `<suppplied>` (26), `<body>` (15), `<hi>` (5), `<lg>` (3)
-
-| Attribut | Count | Dateien | Kardinalitaet | Werte/Pattern |
-|----------|-------|---------|---------------|---------------|
-| `@xml:id` | 1,370,191 | 659 | high | Pattern: `{SIGLE}_{position}` |
-| `@type` | 1,370,191 | 659 | low | `pc` (1,370,191) |
+| `@ana` | 5,852,223 | 666 | high | Pattern: `lexicon.xml#lemma_{id}[_sense_{id}[_type_{id}]]` |
 
 ---
 
 ### `<hi>` — 415,295 Vorkommen in 649 Dateien
 
-**Eltern:** `<l>` (358,376), `<hi>` (36,932), `<p>` (12,472), `<supplied>` (5,916), `<head>` (1,345), `<note>` (226), `<body>` (10), `<suppplied>` (10), `<div>` (8)
+**Eltern:** `<l>` (310,410), `<p>` (59,802), `<hi>` (36,932), `<supplied>` (5,926), `<head>` (1,805), `<note>` (226), `<div>` (184), `<body>` (10)
 
-**Kinder:** `<w>` (379,939), `<hi>` (36,932), `<supplied>` (295), `<lb>` (258), `<seg>` (5), `<caesura>` (3), `<num>` (1)
+**Kinder:** `<w>` (379,939), `<hi>` (36,932), `<supplied>` (295), `<lb>` (258), `<pc>` (5), `<caesura>` (3), `<num>` (1)
 
 **Haeufigste Kind-Sequenzen:**
 - `w` (378,074x)
@@ -98,85 +87,87 @@
 
 ---
 
-### `<div>` — 6,707 Vorkommen in 240 Dateien
+### `<div>` — 5,585 Vorkommen in 239 Dateien
 
-**Eltern:** `<body>` (4,716), `<div>` (1,964), `<p>` (27)
+**Eltern:** `<body>` (3,594), `<div>` (1,964), `<p>` (27)
 
-**Kinder:** `<l>` (6,709), `<p>` (6,535), `<head>` (3,127), `<div>` (1,964), `<w>` (1,044), `<lb>` (92), `<seg>` (88), `<lg>` (68), `<pb>` (28), `<hi>` (8)
+**Kinder:** `<l>` (6,305), `<p>` (5,413), `<w>` (4,355), `<head>` (3,090), `<div>` (1,964), `<pc>` (512), `<lb>` (496), `<hi>` (184), `<lg>` (68), `<pb>` (28)
 
 **Haeufigste Kind-Sequenzen:**
-- `p` (3,163x)
-- `head > p` (3,057x)
+- `head > p` (3,020x)
+- `p` (2,078x)
 - `div` (331x)
 - `p > div` (28x)
 - `lg` (27x)
 
 | Attribut | Count | Dateien | Kardinalitaet | Werte/Pattern |
 |----------|-------|---------|---------------|---------------|
-| `@type` | 4,528 | 119 | low | `song` (1,373), `stanza` (1,122), `chapter` (604), `recipe` (452), `deed` (300) ... +10 more |
-| `@n` | 4,501 | 100 | high | >100 distinkte |
+| `@type` | 3,406 | 118 | low | `song` (1,373), `chapter` (604), `number` (498), `recipe` (452), `section` (440), `parallel` (24), `colophon` (15) |
+| `@n` | 3,379 | 99 | high | >100 distinkte |
 
 ---
 
-### `<l>` — 1,441,605 Vorkommen in 620 Dateien
+### `<l>` — 1,355,514 Vorkommen in 602 Dateien
 
-**Eltern:** `<p>` (1,223,226), `<lg>` (187,216), `<body>` (20,315), `<div>` (6,709), `<head>` (3,036), `<supplied>` (679), `<note>` (424)
+**Eltern:** `<p>` (1,138,219), `<lg>` (187,216), `<body>` (20,315), `<div>` (6,305), `<head>` (2,356), `<supplied>` (679), `<note>` (424)
 
-**Kinder:** `<w>` (8,224,841), `<seg>` (1,304,030), `<hi>` (358,376), `<caesura>` (52,950), `<supplied>` (21,446), `<pb>` (292), `<note>` (245), `<num>` (1), `<suppplied>` (1)
+**Kinder:** `<w>` (7,172,055), `<pc>` (1,135,310), `<hi>` (310,410), `<caesura>` (52,910), `<supplied>` (20,087), `<note>` (245), `<pb>` (50), `<num>` (1)
 
 **Haeufigste Kind-Sequenzen:**
-- `w > seg` (565,873x)
-- `w` (328,003x)
-- `hi > w > seg` (127,003x)
-- `hi > w` (109,798x)
-- `w > seg > w > seg` (59,804x)
+- `w > pc` (562,155x)
+- `w` (321,609x)
+- `hi > w > pc` (126,455x)
+- `hi > w` (107,965x)
+- `w > pc > w > pc` (55,928x)
 
 | Attribut | Count | Dateien | Kardinalitaet | Werte/Pattern |
 |----------|-------|---------|---------------|---------------|
-| `@n` | 1,441,605 | 620 | high | >100 distinkte |
+| `@n` | 1,355,514 | 602 | high | >100 distinkte |
 
 ---
 
-### `<lb>` — 55,853 Vorkommen in 46 Dateien
+### `<lb>` — 141,944 Vorkommen in 64 Dateien
 
-**Eltern:** `<p>` (54,066), `<head>` (1,430), `<hi>` (258), `<div>` (92), `<supplied>` (6), `<note>` (1)
+**Eltern:** `<p>` (139,073), `<head>` (2,110), `<div>` (496), `<hi>` (258), `<supplied>` (6), `<note>` (1)
 
 | Attribut | Count | Dateien | Kardinalitaet | Werte/Pattern |
 |----------|-------|---------|---------------|---------------|
-| `@n` | 55,853 | 46 | high | >100 distinkte |
+| `@n` | 141,944 | 64 | high | >100 distinkte |
 
 ---
 
-### `<lg>` — 28,595 Vorkommen in 75 Dateien
+### `<lg>` — 29,717 Vorkommen in 76 Dateien
 
-**Eltern:** `<p>` (28,527), `<div>` (68)
+**Eltern:** `<p>` (28,527), `<body>` (1,122), `<div>` (68)
 
-**Kinder:** `<l>` (187,216), `<note>` (132), `<w>` (18), `<seg>` (3)
+**Kinder:** `<l>` (187,216), `<p>` (1,122), `<note>` (132), `<head>` (37), `<w>` (18), `<pc>` (3)
 
 **Haeufigste Kind-Sequenzen:**
 - `l` (28,460x)
+- `p` (1,085x)
 - `note > l` (132x)
-- `l > w > seg` (3x)
+- `head > p` (37x)
+- `l > w > pc` (3x)
 
 | Attribut | Count | Dateien | Kardinalitaet | Werte/Pattern |
 |----------|-------|---------|---------------|---------------|
-| `@type` | 28,595 | 75 | low | `stanza` (28,595) |
-| `@n` | 28,595 | 75 | high | >100 distinkte |
+| `@type` | 29,717 | 76 | low | `stanza` (29,717) |
+| `@n` | 29,717 | 76 | high | >100 distinkte |
 
 ---
 
-### `<p>` — 10,190 Vorkommen in 666 Dateien
+### `<p>` — 12,399 Vorkommen in 666 Dateien
 
-**Eltern:** `<div>` (6,535), `<projectDesc>` (1,332), `<editorialDecl>` (1,332), `<availability>` (666), `<body>` (325)
+**Eltern:** `<div>` (5,413), `<normalization>` (2,209), `<projectDesc>` (1,332), `<editorialDecl>` (1,332), `<lg>` (1,122), `<availability>` (666), `<body>` (325)
 
-**Kinder:** `<l>` (1,223,226), `<w>` (619,298), `<seg>` (64,150), `<lb>` (54,066), `<lg>` (28,527), `<hi>` (12,472), `<pb>` (5,719), `<supplied>` (1,379), `<cb>` (990), `<note>` (851)
+**Kinder:** `<w>` (1,664,834), `<l>` (1,138,219), `<pc>` (231,903), `<lb>` (139,073), `<hi>` (59,802), `<lg>` (28,527), `<pb>` (5,894), `<supplied>` (2,675), `<cb>` (990), `<note>` (851)
 
 **Haeufigste Kind-Sequenzen:**
-- `l` (2,358x)
+- `l` (2,138x)
 - `lg` (1,486x)
-- `l > pb > l` (259x)
-- `l > pb > l > pb > l` (93x)
+- `l > pb > l` (86x)
 - `hi > w > l` (43x)
+- `l > pb > l > pb > l` (33x)
 
 | Attribut | Count | Dateien | Kardinalitaet | Werte/Pattern |
 |----------|-------|---------|---------------|---------------|
@@ -187,7 +178,7 @@
 
 ### `<pb>` — 6,197 Vorkommen in 46 Dateien
 
-**Eltern:** `<p>` (5,719), `<l>` (292), `<head>` (156), `<div>` (28), `<note>` (2)
+**Eltern:** `<p>` (5,894), `<head>` (223), `<l>` (50), `<div>` (28), `<note>` (2)
 
 | Attribut | Count | Dateien | Kardinalitaet | Werte/Pattern |
 |----------|-------|---------|---------------|---------------|
@@ -198,31 +189,31 @@
 
 ### `<head>` — 3,127 Vorkommen in 177 Dateien
 
-**Eltern:** `<div>` (3,127)
+**Eltern:** `<div>` (3,090), `<lg>` (37)
 
-**Kinder:** `<w>` (3,783), `<l>` (3,036), `<lb>` (1,430), `<hi>` (1,345), `<seg>` (1,054), `<pb>` (156), `<supplied>` (123), `<note>` (1)
+**Kinder:** `<w>` (7,722), `<l>` (2,356), `<lb>` (2,110), `<hi>` (1,805), `<pc>` (1,597), `<pb>` (223), `<supplied>` (187), `<note>` (1)
 
 **Haeufigste Kind-Sequenzen:**
-- `l` (1,869x)
-- `lb > hi > w` (310x)
-- `lb > hi > w > seg` (256x)
-- `lb > hi > seg` (185x)
-- `lb > w` (91x)
+- `l` (1,418x)
+- `lb > hi > w` (362x)
+- `lb > hi > w > pc` (301x)
+- `lb > hi > pc` (193x)
+- `lb > w` (122x)
 
 ---
 
-### `<supplied>` — 23,401 Vorkommen in 315 Dateien
+### `<supplied>` — 23,402 Vorkommen in 315 Dateien
 
-**Eltern:** `<l>` (21,446), `<p>` (1,379), `<hi>` (295), `<note>` (137), `<head>` (123), `<supplied>` (20), `<div>` (1)
+**Eltern:** `<l>` (20,087), `<p>` (2,675), `<hi>` (295), `<head>` (187), `<note>` (137), `<supplied>` (20), `<div>` (1)
 
-**Kinder:** `<w>` (53,746), `<hi>` (5,916), `<seg>` (738), `<l>` (679), `<supplied>` (20), `<lb>` (6), `<note>` (1), `<caesura>` (1)
+**Kinder:** `<w>` (53,894), `<hi>` (5,926), `<pc>` (764), `<l>` (679), `<supplied>` (20), `<lb>` (6), `<note>` (1), `<caesura>` (1)
 
 **Haeufigste Kind-Sequenzen:**
 - `w` (18,184x)
 - `hi > w` (3,526x)
 - `hi` (956x)
 - `l` (147x)
-- `hi > w > hi > seg` (127x)
+- `hi > w > hi > pc` (127x)
 
 | Attribut | Count | Dateien | Kardinalitaet | Werte/Pattern |
 |----------|-------|---------|---------------|---------------|
@@ -243,11 +234,22 @@
 
 ### `<caesura>` — 53,081 Vorkommen in 253 Dateien
 
-**Eltern:** `<l>` (52,950), `<p>` (127), `<hi>` (3), `<supplied>` (1)
+**Eltern:** `<l>` (52,910), `<p>` (167), `<hi>` (3), `<supplied>` (1)
 
 | Attribut | Count | Dateien | Kardinalitaet | Werte/Pattern |
 |----------|-------|---------|---------------|---------------|
 | `@xml:id` | 2,724 | 180 | high | Pattern: `{SIGLE}_{position}` |
+
+---
+
+### `<pc>` — 1,370,191 Vorkommen in 659 Dateien
+
+**Eltern:** `<l>` (1,135,310), `<p>` (231,903), `<head>` (1,597), `<supplied>` (764), `<div>` (512), `<note>` (82), `<body>` (15), `<hi>` (5), `<lg>` (3)
+
+| Attribut | Count | Dateien | Kardinalitaet | Werte/Pattern |
+|----------|-------|---------|---------------|---------------|
+| `@xml:id` | 1,370,191 | 659 | high | Pattern: `{SIGLE}_{position}` |
+| `@join` | 1,370,191 | 659 | low | `left` (1,300,822), `right` (69,369) |
 
 ---
 
@@ -384,35 +386,28 @@
 
 ### Nicht-Standard-Attribute
 
-| Attribut | Count | Dateien | Migration |
-|----------|-------|---------|-----------|
-| `@meaningRef` | 5,852,223 | 666 | → `@ana` |
-| `@wordRef` | 7,406,166 | 666 | → `@corresp` |
-
-### `<seg type="pc">` → `<pc>`
-
-1,370,191 Vorkommen von `<seg type="pc">`. TEI P5 empfiehlt `<pc>` als Ersatz.
+Keine nicht-Standard-Attribute auf `<w>` gefunden.
 
 ### `<l>` in `<p>` (TEI-nonkonform fuer Prosa)
 
-1,223,226 Vorkommen von `<l>` als Kind von `<p>`. TEI P5 definiert `<l>` als Verszeile.
+1,138,219 Vorkommen von `<l>` als Kind von `<p>`. TEI P5 definiert `<l>` als Verszeile.
 
 ## Anhang: Vollstaendige Element-Liste
 
 | Element | Count | Dateien |
 |---------|-------|---------|
 | `<w>` | 9,282,982 | 666 |
-| `<l>` | 1,441,605 | 620 |
-| `<seg>` | 1,370,191 | 659 |
+| `<pc>` | 1,370,191 | 659 |
+| `<l>` | 1,355,514 | 602 |
 | `<hi>` | 415,295 | 649 |
-| `<lb>` | 55,853 | 46 |
+| `<lb>` | 141,944 | 64 |
 | `<caesura>` | 53,081 | 253 |
-| `<lg>` | 28,595 | 75 |
-| `<supplied>` | 23,401 | 315 |
-| `<p>` | 10,190 | 666 |
+| `<lg>` | 29,717 | 76 |
+| `<supplied>` | 23,402 | 315 |
+| `<p>` | 12,399 | 666 |
 | `<gloss>` | 8,698 | 666 |
-| `<div>` | 6,707 | 240 |
 | `<pb>` | 6,197 | 46 |
+| `<div>` | 5,585 | 239 |
 | `<idno>` | 3,332 | 666 |
 | `<title>` | 3,162 | 666 |
 | `<head>` | 3,127 | 177 |
@@ -464,16 +459,18 @@
 | `<classDecl>` | 666 | 666 |
 | `<taxonomy>` | 666 | 666 |
 | `<profileDesc>` | 666 | 666 |
+| `<langUsage>` | 666 | 666 |
+| `<language>` | 666 | 666 |
 | `<particDesc>` | 666 | 666 |
 | `<listPerson>` | 666 | 666 |
 | `<revisionDesc>` | 666 | 666 |
 | `<change>` | 666 | 666 |
 | `<text>` | 666 | 666 |
 | `<body>` | 666 | 666 |
+| `<normalization>` | 663 | 663 |
 | `<pubPlace>` | 660 | 652 |
 | `<analytic>` | 536 | 533 |
 | `<series>` | 461 | 457 |
 | `<edition>` | 19 | 19 |
 | `<ab>` | 10 | 10 |
 | `<num>` | 2 | 2 |
-| `<suppplied>` | 1 | 1 |

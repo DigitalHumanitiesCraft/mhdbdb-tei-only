@@ -6,15 +6,15 @@
     "script": "scripts/data-wrangling/tei-model/audit-tei-corpus.py"
   },
   "corpus_stats": {
-    "total_elements": 12764576,
+    "total_elements": 12767448,
     "total_files": 666,
     "largest_file": {
       "name": "OVG.tei.xml",
-      "elements": 629091
+      "elements": 629095
     },
     "smallest_file": {
       "name": "EUS.tei.xml",
-      "elements": 156
+      "elements": 161
     }
   },
   "elements": {
@@ -22,12 +22,12 @@
       "count": 9282982,
       "file_count": 666,
       "parents": {
-        "l": 8224841,
-        "p": 619298,
+        "l": 7172055,
+        "p": 1664834,
         "hi": 379939,
         "supplied": 53894,
-        "head": 3783,
-        "div": 1044,
+        "head": 7722,
+        "div": 4355,
         "body": 103,
         "note": 60,
         "lg": 18,
@@ -43,16 +43,16 @@
           "cardinality": "high",
           "pattern": "{SIGLE}_{position}",
           "samples": [
-            "ABG_401040_6",
-            "ABG_401020_3",
-            "ABG_401030_8",
-            "ABG_401020_14",
+            "ABG_400003_14",
+            "ABG_400002_4",
             "ABG_401030_15",
-            "ABG_400003_3",
-            "ABG_400005_3",
-            "ABG_400003_1",
-            "ABG_400005_11",
-            "ABG_401020_9"
+            "ABG_401020_14",
+            "ABG_400005_7",
+            "ABG_401020_15",
+            "ABG_400002_10",
+            "ABG_400001_0",
+            "ABG_401010_1",
+            "ABG_400003_5"
           ]
         },
         "pos": {
@@ -63,34 +63,34 @@
           "pattern": null,
           "samples": [
             "",
-            "ADV NEG CNJ",
-            "ART PRP NUM",
+            "NUM",
             "NOM VRB INJ",
-            "POS PRO",
-            "NOM PRP VRB",
-            "ADV CNJ IPA",
-            "NEG INJ",
-            "ADV IPA",
-            "NOM ADJ PRP"
+            "ART CNJ",
+            "ADV PRP NUM",
+            "POS",
+            "NOM NEG",
+            "ADV NEG CNJ",
+            "ADV NEG VRB",
+            "NOM ADJ ADV GRA"
           ]
         },
-        "wordRef": {
+        "corresp": {
           "count": 7406166,
           "file_count": 666,
           "distinct_values": ">100",
           "cardinality": "high",
-          "pattern": "lexicon.xml#{ref}",
+          "pattern": "variants.xml#{ref}",
           "samples": [
-            "lexicon.xml#lemma_1627_sense_2536_type_5508",
-            "lexicon.xml#lemma_2465_sense_3951_type_8256",
-            "lexicon.xml#type_114187",
-            "lexicon.xml#lemma_4082_sense_6411_type_14224",
-            "lexicon.xml#lemma_5693_sense_8912_type_19950",
-            "lexicon.xml#lemma_6327_sense_9965_type_22466",
-            "lexicon.xml#lemma_2866_sense_4596_type_9690",
-            "lexicon.xml#lemma_6482_sense_10261_type_22862",
-            "lexicon.xml#lemma_704_sense_1136_type_2162",
-            "lexicon.xml#lemma_8887_sense_5788_type_12753"
+            "variants.xml#type_114198",
+            "variants.xml#type_24376",
+            "variants.xml#type_13380",
+            "variants.xml#type_29189",
+            "variants.xml#type_114205",
+            "variants.xml#type_88321",
+            "variants.xml#type_187269",
+            "variants.xml#type_114190",
+            "variants.xml#type_15814",
+            "variants.xml#type_62165"
           ]
         },
         "lemmaRef": {
@@ -100,104 +100,48 @@
           "cardinality": "high",
           "pattern": "lexicon.xml#lemma_{id}[_sense_{id}[_type_{id}]]",
           "samples": [
-            "lexicon.xml#lemma_4238",
-            "lexicon.xml#lemma_155",
-            "lexicon.xml#lemma_1327",
-            "lexicon.xml#lemma_6913",
-            "lexicon.xml#lemma_4318",
-            "lexicon.xml#lemma_8281",
-            "lexicon.xml#lemma_7193",
-            "lexicon.xml#lemma_8139",
-            "lexicon.xml#lemma_6327",
-            "lexicon.xml#lemma_37696"
+            "lexicon.xml#lemma_24463",
+            "lexicon.xml#lemma_4281",
+            "lexicon.xml#lemma_24457",
+            "lexicon.xml#lemma_468",
+            "lexicon.xml#lemma_1961",
+            "lexicon.xml#lemma_1261",
+            "lexicon.xml#lemma_7282",
+            "lexicon.xml#lemma_2245",
+            "lexicon.xml#lemma_2975",
+            "lexicon.xml#lemma_3668"
           ]
         },
-        "meaningRef": {
+        "ana": {
           "count": 5852223,
           "file_count": 666,
           "distinct_values": ">100",
           "cardinality": "high",
           "pattern": "lexicon.xml#lemma_{id}[_sense_{id}[_type_{id}]]",
           "samples": [
-            "lexicon.xml#lemma_7929_sense_13005",
-            "lexicon.xml#lemma_37696_sense_58819",
-            "lexicon.xml#lemma_468_sense_655",
-            "lexicon.xml#lemma_7544_sense_12321",
-            "lexicon.xml#lemma_5693_sense_8912",
-            "lexicon.xml#lemma_1033_sense_1664",
-            "lexicon.xml#lemma_7545_sense_12323",
-            "lexicon.xml#lemma_204_sense_256",
-            "lexicon.xml#lemma_1180_sense_1864",
-            "lexicon.xml#lemma_4584_sense_7139"
+            "lexicon.xml#lemma_1961_sense_3008",
+            "lexicon.xml#lemma_119_sense_153",
+            "lexicon.xml#lemma_1742_sense_2732",
+            "lexicon.xml#lemma_24470_sense_39419",
+            "lexicon.xml#lemma_675_sense_1090",
+            "lexicon.xml#lemma_6330_sense_9973",
+            "lexicon.xml#lemma_1055_sense_1689",
+            "lexicon.xml#lemma_36224_sense_56488",
+            "lexicon.xml#lemma_7260_sense_11763",
+            "lexicon.xml#lemma_2465_sense_3951"
           ]
         }
       }
     },
-    "l": {
-      "count": 1441605,
-      "file_count": 620,
-      "parents": {
-        "p": 1223226,
-        "lg": 187216,
-        "body": 20315,
-        "div": 6709,
-        "head": 3036,
-        "supplied": 679,
-        "note": 424
-      },
-      "children": {
-        "w": 8224841,
-        "seg": 1304030,
-        "hi": 358376,
-        "caesura": 52950,
-        "supplied": 21447,
-        "pb": 292,
-        "note": 245,
-        "num": 1
-      },
-      "child_sequences_top10": {
-        "w > seg": 565873,
-        "w": 328003,
-        "hi > w > seg": 127003,
-        "hi > w": 109798,
-        "w > seg > w > seg": 59804,
-        "w > seg > w": 42244,
-        "hi > w > seg > w > seg": 15074,
-        "w > seg > w > seg > w": 13587,
-        "w > caesura > w > seg": 12350,
-        "seg > w > seg": 9949
-      },
-      "attributes": {
-        "n": {
-          "count": 1441605,
-          "file_count": 620,
-          "distinct_values": ">100",
-          "cardinality": "high",
-          "pattern": null,
-          "samples": [
-            "34",
-            "64",
-            "41",
-            "76",
-            "8",
-            "49",
-            "63",
-            "44592",
-            "65",
-            "24"
-          ]
-        }
-      }
-    },
-    "seg": {
+    "pc": {
       "count": 1370191,
       "file_count": 659,
       "parents": {
-        "l": 1304030,
-        "p": 64150,
-        "head": 1054,
+        "l": 1135310,
+        "p": 231903,
+        "head": 1597,
         "supplied": 764,
-        "div": 88,
+        "div": 512,
         "note": 82,
         "body": 15,
         "hi": 5,
@@ -213,26 +157,83 @@
           "cardinality": "high",
           "pattern": "{SIGLE}_{position}",
           "samples": [
-            "ABG_400005_2",
-            "ABG_401040_11",
-            "ABG_404020_4",
-            "ABG_402060_8",
-            "ABG_401020_13",
-            "ABG_401030_13",
-            "ABG_401030_3",
-            "ABG_402030_1",
-            "ABG_405050_5",
-            "ABG_402040_9"
+            "ABG_404020_10",
+            "ABG_401090_2",
+            "ABG_401080_8",
+            "ABG_403100_10",
+            "ABG_406010_12",
+            "ABG_405060_4",
+            "ABG_402070_3",
+            "ABG_400002_6",
+            "ABG_406010_16",
+            "ABG_403020_10"
           ]
         },
-        "type": {
+        "join": {
           "count": 1370191,
           "file_count": 659,
-          "distinct_values": 1,
+          "distinct_values": 2,
           "cardinality": "low",
           "values": {
-            "pc": 1370191
+            "left": 1300822,
+            "right": 69369
           }
+        }
+      }
+    },
+    "l": {
+      "count": 1355514,
+      "file_count": 602,
+      "parents": {
+        "p": 1138219,
+        "lg": 187216,
+        "body": 20315,
+        "div": 6305,
+        "head": 2356,
+        "supplied": 679,
+        "note": 424
+      },
+      "children": {
+        "w": 7172055,
+        "pc": 1135310,
+        "hi": 310410,
+        "caesura": 52910,
+        "supplied": 20087,
+        "note": 245,
+        "pb": 50,
+        "num": 1
+      },
+      "child_sequences_top10": {
+        "w > pc": 562155,
+        "w": 321609,
+        "hi > w > pc": 126455,
+        "hi > w": 107965,
+        "w > pc > w > pc": 55928,
+        "w > pc > w": 24828,
+        "hi > w > pc > w > pc": 14602,
+        "w > caesura > w > pc": 12350,
+        "pc > w > pc": 9932,
+        "w > caesura > w": 8373
+      },
+      "attributes": {
+        "n": {
+          "count": 1355514,
+          "file_count": 602,
+          "distinct_values": ">100",
+          "cardinality": "high",
+          "pattern": null,
+          "samples": [
+            "44580",
+            "21",
+            "7",
+            "50",
+            "44592",
+            "33",
+            "52",
+            "25",
+            "44584",
+            "27"
+          ]
         }
       }
     },
@@ -240,21 +241,21 @@
       "count": 415295,
       "file_count": 649,
       "parents": {
-        "l": 358376,
+        "l": 310410,
+        "p": 59802,
         "hi": 36932,
-        "p": 12472,
         "supplied": 5926,
-        "head": 1345,
+        "head": 1805,
         "note": 226,
-        "body": 10,
-        "div": 8
+        "div": 184,
+        "body": 10
       },
       "children": {
         "w": 379939,
         "hi": 36932,
         "supplied": 295,
         "lb": 258,
-        "seg": 5,
+        "pc": 5,
         "caesura": 3,
         "num": 1
       },
@@ -265,7 +266,7 @@
         "lb > hi": 258,
         "hi > w": 160,
         "caesura": 3,
-        "hi > w > seg": 2,
+        "hi > w > pc": 2,
         "num": 1,
         "w > hi": 1,
         "w > hi > w": 1
@@ -287,13 +288,13 @@
       }
     },
     "lb": {
-      "count": 55853,
-      "file_count": 46,
+      "count": 141944,
+      "file_count": 64,
       "parents": {
-        "p": 54066,
-        "head": 1430,
+        "p": 139073,
+        "head": 2110,
+        "div": 496,
         "hi": 258,
-        "div": 92,
         "supplied": 6,
         "note": 1
       },
@@ -301,22 +302,22 @@
       "child_sequences_top10": {},
       "attributes": {
         "n": {
-          "count": 55853,
-          "file_count": 46,
+          "count": 141944,
+          "file_count": 64,
           "distinct_values": ">100",
           "cardinality": "high",
           "pattern": null,
           "samples": [
-            "34",
-            "64",
-            "41",
+            "21",
+            "7",
+            "50",
+            "h_4",
+            "h_2",
             "94",
-            "76",
-            "8",
-            "49",
-            "63",
-            "65",
-            "24"
+            "h_1",
+            "33",
+            "85",
+            "52"
           ]
         }
       }
@@ -325,8 +326,8 @@
       "count": 53081,
       "file_count": 253,
       "parents": {
-        "l": 52950,
-        "p": 127,
+        "l": 52910,
+        "p": 167,
         "hi": 3,
         "supplied": 1
       },
@@ -340,16 +341,16 @@
           "cardinality": "high",
           "pattern": "{SIGLE}_{position}",
           "samples": [
-            "AXR_1530200_5",
-            "AXS_508123_0",
-            "AXS_508021_0",
-            "AML_52_0",
-            "ADP_1400500_5",
-            "BRW_119100_3",
-            "AXS_508014_0",
-            "BRW_127060_8",
-            "BRF_93460_0",
-            "AT_2471_0"
+            "AXK_184_0",
+            "AT_2463_0",
+            "BRF_73840_3",
+            "BRW_118030_8",
+            "AT_2774_0",
+            "AXS_508209_5",
+            "BRW_121050_10",
+            "AXS_2631000_5",
+            "BRF_19020_2",
+            "AXS_508113_0"
           ]
         }
       }
@@ -368,14 +369,14 @@
         "note": 132,
         "head": 37,
         "w": 18,
-        "seg": 3
+        "pc": 3
       },
       "child_sequences_top10": {
         "l": 28460,
         "p": 1085,
         "note > l": 132,
         "head > p": 37,
-        "l > w > seg": 3
+        "l > w > pc": 3
       },
       "attributes": {
         "type": {
@@ -394,16 +395,16 @@
           "cardinality": "high",
           "pattern": null,
           "samples": [
-            "34",
-            "95",
-            "64",
-            "41",
+            "21",
+            "7",
+            "50",
             "94",
-            "76",
-            "8",
-            "49",
-            "63",
-            "97"
+            "33",
+            "101",
+            "85",
+            "99",
+            "52",
+            "25"
           ]
         }
       }
@@ -412,18 +413,18 @@
       "count": 23402,
       "file_count": 315,
       "parents": {
-        "l": 21447,
-        "p": 1379,
+        "l": 20087,
+        "p": 2675,
         "hi": 295,
+        "head": 187,
         "note": 137,
-        "head": 123,
         "supplied": 20,
         "div": 1
       },
       "children": {
         "w": 53894,
         "hi": 5926,
-        "seg": 764,
+        "pc": 764,
         "l": 679,
         "supplied": 20,
         "lb": 6,
@@ -435,12 +436,12 @@
         "hi > w": 3526,
         "hi": 956,
         "l": 147,
-        "hi > w > hi > seg": 127,
-        "hi > w > hi > w > hi > seg": 86,
-        "hi > w > hi > w > seg": 45,
+        "hi > w > hi > pc": 127,
+        "hi > w > hi > w > hi > pc": 86,
+        "hi > w > hi > w > pc": 45,
         "hi > w > hi": 42,
-        "hi > w > seg": 32,
-        "hi > w > hi > w > hi > w > hi > seg": 25
+        "hi > w > pc": 32,
+        "hi > w > hi > w > hi > w > hi > pc": 25
       },
       "attributes": {
         "n": {
@@ -497,10 +498,11 @@
       }
     },
     "p": {
-      "count": 10190,
+      "count": 12399,
       "file_count": 666,
       "parents": {
         "div": 5413,
+        "normalization": 2209,
         "projectDesc": 1332,
         "editorialDecl": 1332,
         "lg": 1122,
@@ -508,30 +510,30 @@
         "body": 325
       },
       "children": {
-        "l": 1223226,
-        "w": 619298,
-        "seg": 64150,
-        "lb": 54066,
+        "w": 1664834,
+        "l": 1138219,
+        "pc": 231903,
+        "lb": 139073,
+        "hi": 59802,
         "lg": 28527,
-        "hi": 12472,
-        "pb": 5719,
-        "supplied": 1379,
+        "pb": 5894,
+        "supplied": 2675,
         "cb": 990,
         "note": 851,
-        "caesura": 127,
+        "caesura": 167,
         "div": 27
       },
       "child_sequences_top10": {
-        "l": 2358,
+        "l": 2138,
         "lg": 1486,
-        "l > pb > l": 259,
-        "l > pb > l > pb > l": 93,
+        "l > pb > l": 86,
         "hi > w > l": 43,
-        "l > pb > l > pb > l > pb > l": 35,
+        "l > pb > l > pb > l": 33,
         "hi > l": 24,
         "lb > hi > w > lb > w > lb > w > lb > w > lb > w > lb > w > lb > w > lb > w": 21,
-        "hi > w > lb > w > lb > w > seg": 19,
-        "lb > hi > w > lb > w > lb > w > lb > w > lb > w > lb > w > lb > w": 19
+        "hi > w > lb > w > lb > w > pc": 19,
+        "lb > hi > w > lb > w > lb > w > lb > w > lb > w > lb > w > lb > w": 19,
+        "lb > hi > w > lb > w > lb > w > pc": 18
       },
       "attributes": {
         "xml:lang": {
@@ -657,9 +659,9 @@
       "count": 6197,
       "file_count": 46,
       "parents": {
-        "p": 5719,
-        "l": 292,
-        "head": 156,
+        "p": 5894,
+        "head": 223,
+        "l": 50,
         "div": 28,
         "note": 2
       },
@@ -673,16 +675,16 @@
           "cardinality": "high",
           "pattern": null,
           "samples": [
-            "34",
+            "21",
+            "402",
+            "7",
+            "50",
+            "406",
+            "427",
+            "230v",
             "419",
-            "425",
-            "41",
-            "428",
-            "415",
-            "8",
-            "49",
-            "24",
-            "421"
+            "33",
+            "412"
           ]
         },
         "type": {
@@ -706,16 +708,16 @@
         "p": 27
       },
       "children": {
-        "l": 6709,
+        "l": 6305,
         "p": 5413,
+        "w": 4355,
         "head": 3090,
         "div": 1964,
-        "w": 1044,
-        "lb": 92,
-        "seg": 88,
+        "pc": 512,
+        "lb": 496,
+        "hi": 184,
         "lg": 68,
         "pb": 28,
-        "hi": 8,
         "cb": 6,
         "note": 1,
         "supplied": 1
@@ -728,9 +730,9 @@
         "lg": 27,
         "l": 24,
         "head > div": 13,
-        "l > head > p": 13,
-        "l > pb > l > head > p": 10,
-        "head > p > div": 9
+        "head > p > div": 9,
+        "head > l": 9,
+        "l > head > p": 8
       },
       "attributes": {
         "type": {
@@ -755,16 +757,16 @@
           "cardinality": "high",
           "pattern": null,
           "samples": [
-            "34",
-            "95",
-            "64",
-            "41",
+            "21",
+            "7",
+            "50",
             "94",
-            "76",
-            "8",
-            "49",
-            "63",
-            "97"
+            "33",
+            "101",
+            "85",
+            "99",
+            "52",
+            "25"
           ]
         }
       }
@@ -864,26 +866,26 @@
         "lg": 37
       },
       "children": {
-        "w": 3783,
-        "l": 3036,
-        "lb": 1430,
-        "hi": 1345,
-        "seg": 1054,
-        "pb": 156,
-        "supplied": 123,
+        "w": 7722,
+        "l": 2356,
+        "lb": 2110,
+        "hi": 1805,
+        "pc": 1597,
+        "pb": 223,
+        "supplied": 187,
         "note": 1
       },
       "child_sequences_top10": {
-        "l": 1869,
-        "lb > hi > w": 310,
-        "lb > hi > w > seg": 256,
-        "lb > hi > seg": 185,
-        "lb > w": 91,
-        "lb > hi > seg > w > seg": 34,
-        "lb > pb > hi > w > seg": 31,
-        "lb > supplied > seg > supplied > seg": 30,
-        "lb > hi > seg > hi > w > lb > w": 30,
-        "lb > hi > seg > w > seg > w > seg": 29
+        "l": 1418,
+        "lb > hi > w": 362,
+        "lb > hi > w > pc": 301,
+        "lb > hi > pc": 193,
+        "lb > w": 122,
+        "lb > hi > pc > w": 65,
+        "lb > pb > hi > w > pc": 38,
+        "lb > hi > pc > w > pc": 36,
+        "lb > supplied > pc > supplied > pc": 30,
+        "lb > hi > pc > hi > w > lb > w": 30
       },
       "attributes": {}
     },
@@ -905,7 +907,7 @@
         "l": 424,
         "hi": 226,
         "supplied": 137,
-        "seg": 82,
+        "pc": 82,
         "w": 60,
         "pb": 2,
         "lb": 1
@@ -913,11 +915,11 @@
       "child_sequences_top10": {
         "l": 422,
         "hi": 56,
-        "hi > seg > hi": 39,
-        "hi > supplied > seg > supplied > w > supplied": 34,
+        "hi > pc > hi": 39,
+        "hi > supplied > pc > supplied > w > supplied": 34,
         "supplied": 13,
         "hi > w": 6,
-        "hi > supplied > seg > supplied": 3,
+        "hi > supplied > pc > supplied": 3,
         "supplied > w": 3,
         "w": 2,
         "supplied > hi": 2
@@ -943,16 +945,16 @@
           "cardinality": "high",
           "pattern": null,
           "samples": [
-            "7. April",
-            "31. Mai",
-            "1316",
-            "6. Juni",
-            "5. Mai",
-            "3. Mai",
-            "1294",
-            "31. März",
-            "1326",
-            "19. November"
+            "11. November",
+            "19. November",
+            "1329",
+            "10. August",
+            "1318",
+            "21. Dezember",
+            "28. Mai",
+            "1315",
+            "25. Juli",
+            "20. März"
           ]
         }
       }
@@ -1023,16 +1025,16 @@
           "cardinality": "high",
           "pattern": null,
           "samples": [
-            "genre_4f63fc04",
-            "genre_5b2d8ce3",
-            "genre_fa5f2e8a",
-            "genre_eb6abc0b",
-            "genre_dd3d7dd7",
-            "genre_a21ef15a",
-            "genre_d65a163b",
-            "genre_bfa30c9d",
-            "genre_9acba400",
-            "genre_271237bd"
+            "genre_e5f97b8a",
+            "genre_00bb7cc9",
+            "genre_160e3e49",
+            "genre_ccef6751",
+            "genre_f5a16820",
+            "genre_9eee7c13",
+            "genre_c98c33fa",
+            "genre_d75ff6ba",
+            "genre_1b99a6ac",
+            "genre_2840c281"
           ]
         },
         "corresp": {
@@ -1042,16 +1044,16 @@
           "cardinality": "high",
           "pattern": "genres.xml#genre_{hash}",
           "samples": [
-            "genres.xml#genre_4478f09f",
-            "genres.xml#genre_e64fcd3f",
-            "genres.xml#genre_b6bd0291",
-            "genres.xml#genre_d8f74398",
-            "genres.xml#genre_3e90312e",
-            "genres.xml#genre_26c0ce4c",
-            "genres.xml#genre_a2770533",
-            "genres.xml#genre_30ab9c71",
+            "genres.xml#genre_01bf2b8b",
+            "genres.xml#genre_f60449ac",
+            "genres.xml#genre_9eee7c13",
             "genres.xml#genre_058eb9a7",
-            "genres.xml#genre_d75ff6ba"
+            "genres.xml#genre_a31be6a3",
+            "genres.xml#genre_4478f09f",
+            "genres.xml#genre_00bb7cc9",
+            "genres.xml#genre_60eb54e6",
+            "genres.xml#genre_612e8091",
+            "genres.xml#genre_72cae96a"
           ]
         },
         "ana": {
@@ -1237,16 +1239,16 @@
           "cardinality": "high",
           "pattern": "#{fragment_id}",
           "samples": [
-            "#person_1058",
-            "#person_686",
-            "#person_1707",
-            "#person_1053",
-            "#person_384",
+            "#person_5",
+            "#person_1647",
             "#person_1056",
-            "#person_1036",
+            "#person_585",
+            "#person_43",
+            "#person_746",
+            "#person_1727",
+            "#person_11",
             "#person_465",
-            "#person_1607",
-            "#person_827"
+            "#person_686"
           ]
         }
       }
@@ -1435,16 +1437,16 @@
           "cardinality": "high",
           "pattern": "{SIGLE}_{position}",
           "samples": [
-            "KRM_etext_mhgta",
-            "DKA_etext_mhgta",
             "DWS_etext_mhgta",
-            "EB2_etext_harsch",
-            "HAF_etext_mhgta",
-            "BRIX_etext_klug",
-            "DHW_etext_mhgta",
-            "DKF_etext_mhgta",
-            "HZO_etext_mhgta",
-            "GSP_etext_gloning"
+            "DHS_etext_mhgta",
+            "DVF_etext_mhgta",
+            "EBS_etext_mhgta",
+            "HNI_etext_harsch",
+            "DWF_etext_mhgta",
+            "ATF_etext_harsch",
+            "DTS_etext_mhgta",
+            "DL2_etext_mhgta",
+            "DSE_etext_mhgta"
           ]
         },
         "corresp": {
@@ -1454,16 +1456,16 @@
           "cardinality": "high",
           "pattern": "#{fragment_id}",
           "samples": [
+            "#GSP_GSP",
+            "#KDO_KDO",
+            "#DSE_DSE",
+            "#DGR_DGR",
+            "#KME_etext_gloning",
+            "#KMR_KMR",
             "#DHO_DHO",
-            "#DHS_DHS",
-            "#FES_FES",
-            "#DHW_DHW",
-            "#DGT_DGT",
-            "#KDO_etext_gloning",
-            "#HNI_HNI",
-            "#DIO_DIO",
-            "#KVM_KVM",
-            "#DMA_DMA"
+            "#EB1_EB1",
+            "#APO_APO",
+            "#BIB_BIB"
           ]
         }
       }
@@ -1525,16 +1527,16 @@
           "cardinality": "high",
           "pattern": "{SIGLE}_{position}",
           "samples": [
-            "DFT_DFT",
-            "BAX_BAX",
-            "CR_CR",
-            "CL_CL",
-            "AK_AK",
-            "AC2_AC2",
-            "AXW_AXW",
-            "DEK_DEK",
-            "CLV_CLV",
-            "ADP_ADP"
+            "BEK_BEK",
+            "BAD_BAD",
+            "BRZ_BRZ",
+            "DBE_DBE",
+            "AT_AT",
+            "DBK_DBK",
+            "DDS_DDS",
+            "BUH_BUH",
+            "DGK_DGK",
+            "DGM_DGM"
           ]
         },
         "corresp": {
@@ -1544,16 +1546,16 @@
           "cardinality": "high",
           "pattern": "{URI}",
           "samples": [
-            "http://zotero.org/groups/5043625/items/ETFGT8QZ",
+            "http://zotero.org/groups/5043625/items/Y4YZWDFX",
             "http://zotero.org/groups/5043625/items/2DYZ3DUR",
-            "http://zotero.org/groups/5043625/items/82BSJDXJ",
-            "http://zotero.org/groups/5043625/items/A2HY6JZ7",
-            "http://zotero.org/groups/5043625/items/VTXPLE6E",
-            "http://zotero.org/groups/5043625/items/M2KH5M39",
-            "http://zotero.org/groups/5043625/items/L4N89AJ9",
-            "http://zotero.org/groups/5043625/items/VAFKLACM",
-            "http://zotero.org/groups/5043625/items/RAKGD7JT",
-            "http://zotero.org/groups/5043625/items/29SMMAA8"
+            "http://zotero.org/groups/5043625/items/CXK763JS",
+            "http://zotero.org/groups/5043625/items/MEQPWFAZ",
+            "http://zotero.org/groups/5043625/items/8YXXFDA5",
+            "http://zotero.org/groups/5043625/items/PMJ5VI7E",
+            "http://zotero.org/groups/5043625/items/USU4QAZU",
+            "http://zotero.org/groups/5043625/items/9FZFES5G",
+            "http://zotero.org/groups/5043625/items/RDKFK8BE",
+            "http://zotero.org/groups/5043625/items/AU7J46JS"
           ]
         },
         "key": {
@@ -1563,16 +1565,16 @@
           "cardinality": "high",
           "pattern": null,
           "samples": [
-            "DGM",
-            "DGK",
-            "APO",
-            "AT",
-            "BDK",
-            "DDE",
-            "BIM",
-            "DFR",
-            "AC1",
-            "DFB"
+            "AXK",
+            "DBS",
+            "CL",
+            "CHH",
+            "DAH",
+            "BVSN",
+            "BVL",
+            "BAR",
+            "DEH",
+            "CLV"
           ]
         }
       }
@@ -1647,16 +1649,16 @@
           "cardinality": "high",
           "pattern": null,
           "samples": [
-            "person_1049",
-            "person_927",
-            "person_525",
-            "person_1033",
-            "person_1051",
-            "person_144",
             "person_1056",
-            "person_806",
-            "person_1707",
-            "person_6"
+            "person_987",
+            "person_42",
+            "person_204",
+            "person_525",
+            "person_1059",
+            "person_1037",
+            "person_1051",
+            "person_1039",
+            "person_1347"
           ]
         },
         "corresp": {
@@ -1666,16 +1668,16 @@
           "cardinality": "high",
           "pattern": "persons.xml#person_{id}",
           "samples": [
-            "persons.xml#person_626",
-            "persons.xml#person_anonym",
-            "persons.xml#person_227",
-            "persons.xml#person_726",
-            "persons.xml#person_606",
-            "persons.xml#person_4",
-            "persons.xml#person_1047",
-            "persons.xml#person_1208",
+            "persons.xml#person_1036",
+            "persons.xml#person_1007",
+            "persons.xml#person_927",
+            "persons.xml#person_1060",
+            "persons.xml#person_1727",
             "persons.xml#person_1",
-            "persons.xml#person_586"
+            "persons.xml#person_806",
+            "persons.xml#person_11",
+            "persons.xml#person_626",
+            "persons.xml#person_746"
           ]
         }
       }
@@ -1699,16 +1701,16 @@
           "cardinality": "high",
           "pattern": null,
           "samples": [
-            "DGM",
-            "DGK",
-            "APO",
-            "AT",
-            "BDK",
-            "DDE",
-            "BIM",
-            "DFR",
-            "AC1",
-            "DFB"
+            "AXK",
+            "DBS",
+            "CL",
+            "CHH",
+            "DAH",
+            "BVSN",
+            "BVL",
+            "BAR",
+            "DEH",
+            "CLV"
           ]
         }
       }
@@ -1958,16 +1960,16 @@
           "cardinality": "high",
           "pattern": "works.xml#work_{id}",
           "samples": [
-            "works.xml#work_203",
-            "works.xml#work_283",
-            "works.xml#work_187",
-            "works.xml#work_186",
-            "works.xml#work_193",
-            "works.xml#work_519",
-            "works.xml#work_103",
-            "works.xml#work_399",
-            "works.xml#work_21",
-            "works.xml#work_334"
+            "works.xml#work_343",
+            "works.xml#work_236",
+            "works.xml#work_314",
+            "works.xml#work_211",
+            "works.xml#work_258",
+            "works.xml#work_99",
+            "works.xml#work_649",
+            "works.xml#work_462",
+            "works.xml#work_627",
+            "works.xml#work_308"
           ]
         }
       }
@@ -2039,10 +2041,12 @@
         "encodingDesc": 666
       },
       "children": {
-        "p": 1332
+        "p": 1332,
+        "normalization": 663
       },
       "child_sequences_top10": {
-        "p": 666
+        "p > normalization": 663,
+        "p": 3
       },
       "attributes": {}
     },
@@ -2231,7 +2235,7 @@
         "lg": 1122,
         "p": 325,
         "w": 103,
-        "seg": 15,
+        "pc": 15,
         "hi": 10
       },
       "child_sequences_top10": {
@@ -2239,12 +2243,26 @@
         "div": 203,
         "l": 127,
         "p > div": 31,
-        "hi > w > seg > l": 4,
-        "hi > w > seg > w > seg > l": 2,
-        "hi > w > seg > w > seg > w > seg > l": 1,
-        "w > hi > w > seg > l": 1,
-        "hi > w > seg > hi > w > seg > l": 1,
-        "w > seg > l": 1
+        "hi > w > pc > l": 4,
+        "hi > w > pc > w > pc > l": 2,
+        "hi > w > pc > w > pc > w > pc > l": 1,
+        "w > hi > w > pc > l": 1,
+        "hi > w > pc > hi > w > pc > l": 1,
+        "w > pc > l": 1
+      },
+      "attributes": {}
+    },
+    "normalization": {
+      "count": 663,
+      "file_count": 663,
+      "parents": {
+        "editorialDecl": 663
+      },
+      "children": {
+        "p": 2209
+      },
+      "child_sequences_top10": {
+        "p": 663
       },
       "attributes": {}
     },
