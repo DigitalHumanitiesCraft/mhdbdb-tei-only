@@ -272,16 +272,17 @@ Texte mit Vers- und Prosa-Abschnitten verwenden verschachtelte `<div>`-Elemente:
 
 15 distinkte Werte im Bestand. Die Werte stammen als 1:1-Uebersetzungen aus dem alten Datenbank-Export (Julias TEI-Doku, Juni 2024).
 
-**Akzeptierte Werte:**
+Vollstaendige Uebersicht aller akzeptierten Werte: siehe Tabelle "Alle div/@type Entscheidungen komplett" weiter unten.
 
-| Typ | Count | Beispiele | Status |
-|-----|-------|-----------|--------|
-| **`song`** | 1,373 | BOP, BRH | ✓ Akzeptiert |
-| **`chapter`** | 604 | AC1, BDK | ✓ Akzeptiert |
-| **`recipe`** | 452 | ABS, BRIX | ✓ Akzeptiert |
-| **`section`** | 247+176+3+7 = 433 | DL1, DL2, EHB, KVM | ✓ Akzeptiert (vereinheitlicht aus `section` + `part` + `subsection` + `§`) |
-| **`number`** | 300+113+9 = 422 | HZU, HZU2, ADP, ECK, BOP | ✓ Akzeptiert (vereinheitlicht aus `deed` + `sermon` + `sigil` — nummerierte Einheiten, Genre via Header) |
-| **`parallel`** | 24 | BRW, DES2 | ✓ Akzeptiert (Nummerierung der Parallelueberlieferung, Rendering: "Parallelueberlieferung {n}") |
+**Designentscheidung: `song` bleibt breit, keine Differenzierung in `spruch`/`leich`**
+
+In der mhd. Lyrik unterscheidet man fachlich zwischen Lied, Spruch und Leich. Die Frage war, ob kuenftige Ingests feiner differenzieren sollen. Entscheidung: **Nein.**
+
+1. **Fachlich instabil:** Die Trias Lied/Spruch/Leich ist eine moderne Forschungskategorisierung, keine mittelalterliche Selbstbezeichnung. Die Abgrenzung ist in der Germanistik umstritten — Texte wechseln zwischen Formen, Zuordnungen haengen vom Forschungsstand ab (z.B. Hugo von Montfort: "Lied" oder "Rede" je nach Edition).
+2. **Information existiert an besserer Stelle:** Die Gattungstypologie im `<classDecl>` hat 600+ Genre-Bezeichnungen. Dort koennen Minnelied, Spruchdichtung, Leich als Genre-Kategorien fein unterschieden werden. `div/@type` markiert die **Struktureinheit** (= nummerierte lyrische Einheit), nicht das Genre.
+3. **Konsistenz ueberwiegt Praezision:** 1,373 bestehende `song`-Einheiten muessten reklassifiziert werden (nicht scriptbar, erfordert philologische Einzelentscheidungen). Bei zukuenftigen Ingests muesste jeder Text einzeln beurteilt werden.
+
+`song` bedeutet im MHDBDB-Modell: **"nummerierte lyrische Einheit"** — bewusst breiter als die Fachterminologie. Feinere Unterscheidungen erfolgen ueber die Genre-Taxonomie im Header.
 
 **Migration (entschieden):**
 
@@ -314,15 +315,33 @@ HZU (55 notes) und HZU2 (341 notes) verwenden ein Sonder-Encoding fuer Datumsang
 
 Dekodierungslogik: Letzte 2 Stellen = Tag, Rest = Monat. Keine fuehrende Null beim Monat.
 
-**Pendend (warten auf Katharina):**
+**Weitere Migrationen (entschieden am 2026-04-09):**
 
-| Typ | Count | Beispiele | Frage |
-|-----|-------|-----------|-------|
-| *`paragraph`* | 76 | BDK | Redundant zu `<p>`? Migrationsartefakt? |
-| **`parallel`** | 24 | BRW, DES2 | ✓ Akzeptiert (Nummerierung der Parallelueberlieferung) |
-| *`colophon`* | 15 | ALX, APO | Behalten oder TEI-Element `<colophon>`? |
-| **`sigil`** | 9 | BOP | → `number` (Lied-Siglen aus Edition, keine eigene Strukturkategorie) |
-| *`volume`* | 7 | FLG, FLG1 | Band-Unterteilung |
+| Typ | Count | Beispiele | Aktion |
+|-----|-------|-----------|--------|
+| `paragraph` | 76 | BDK | → `number` (Katharina: "weg damit, mehr Troubles als Nutzen") |
+| `volume` | 7 | FLG, FLG1 | → entfernen (veraltet, nur technische Gruende; Metadaten reichen) |
+
+**`volume` Sonderfaelle (FLG, FLG1, PL1-3):**
+
+Katharina: "Band und Teil hatten nur veraltete technische Gruende. Kann in die Metadaten ausgelagert werden."
+
+- **FLG** (Buch 1-2, Edition 2009) + **FLG1** (Buch 3-7, Edition 1990-93): Zusammenziehen **nicht empfohlen** — unterschiedliche Editionsgrundlagen. `div type="volume"` entfernen, Buchnummern als `div type="section"` behalten.
+- **PL1/PL2/PL3** (Prosa-Lancelot): Zusammenziehen **moeglich** — identischer Aufbau (gleicher Autor, flach `<body><p>`), nur unterschiedlicher Text. Aber: 822k `<w>` gesamt = Riesendatei. Separate Dateien mit `section`-Divs statt `volume` ist pragmatischer.
+
+**Alle `div/@type` Entscheidungen komplett:**
+
+| Typ | Count | Beispiele | Status |
+|-----|-------|-----------|--------|
+| **`song`** | 1,373 | BOP, BRH | ✓ Akzeptiert |
+| **`chapter`** | 604 | AC1, BDK | ✓ Akzeptiert |
+| **`recipe`** | 452 | ABS, BRIX | ✓ Akzeptiert |
+| **`section`** | 433 | DL1, DL2, EHB, KVM | ✓ Akzeptiert (inkl. ex-part/subsection/§) |
+| **`number`** | 498 | HZU, ADP, BDK, BOP | ✓ Akzeptiert (inkl. ex-deed/sermon/sigil/paragraph) |
+| **`parallel`** | 24 | BRW, DES2 | ✓ Akzeptiert (Parallelueberlieferung) |
+| **`colophon`** | 15 | ALX, APO | ✓ Akzeptiert (TEI hat `<colophon>`, aber `div type` ist kompatibel) |
+
+**Stanza-Check (verifiziert):** `div type="stanza"` existiert **nur in LZT** (1,122 Stueck). Alle 75 anderen Dateien nutzen korrekt `lg type="stanza"` (28,595). LZT wird migriert.
 
 ---
 
