@@ -371,8 +371,8 @@ def main():
     script_dir = Path(__file__).resolve().parent
     repo_root = script_dir.parent.parent.parent  # scripts/data-wrangling/tei-model -> repo root
     tei_dir = repo_root / 'tei'
-    json_out = repo_root / 'data' / 'tei-audit.json'
-    md_out = repo_root / 'docs' / 'TEI-AUDIT-REPORT.md'
+    json_out = script_dir / 'tei-audit.json'
+    md_out = script_dir / 'TEI-AUDIT-REPORT.md'
 
     if not tei_dir.exists():
         print(f'Error: TEI directory not found: {tei_dir}')
