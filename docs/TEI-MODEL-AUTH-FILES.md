@@ -267,6 +267,8 @@ SOLL (normalisiert, 1 Element):
 
 Label und Parent-Hierarchie werden zur Laufzeit aus genres.xml aufgeloest. Der Build-Script macht das bereits.
 
+**Autorenname in `<author>`:** Der Textinhalt (`Heinrich von Rang`) bleibt — TEI erwartet lesbaren Text in `<author>`. Die Quelle der Wahrheit fuer den Autorennamen ist `persons.xml`; der Text in `<author>` ist Convenience fuer menschliche Leser. Das ist keine Denormalisierung im selben Sinne wie Genre-Labels, weil `<author>` ohne Text semantisch unvollstaendig waere.
+
 ### 3.5 concepts.xml — Begriffsontologie
 
 TEI Ch. 2.3.7 (The Classification Declaration / Taxonomy). Daten in `<encodingDesc>/<classDecl>` (TEI erlaubt `<taxonomy>` nur dort).
@@ -376,23 +378,39 @@ works.xml ──author @ref──> persons.xml
 
 ## 6. Migration IST → SOLL
 
+### Reihenfolge und Abhaengigkeiten
+
+```
+6.1 works.xml: Genre-Refs + IDs + GND  (Genre-Entlabelung VOR ID-Unwrapping!)
+     ↓
+6.2 persons.xml: Works-Links entfernen
+     ↓
+6.3 persons.xml: UUID-IDs migrieren  (Cascade in works.xml + tei/*.tei.xml)
+```
+
 ### 6.1 works.xml: Genre-Refs entlabeln + externe IDs unwrappen
 
 **Script:** `normalize-works.py` (zu erstellen)
 
-Zwei Aenderungen in einem Durchlauf:
+Drei Aenderungen in einem Durchlauf (Reihenfolge wichtig!):
 
-1. **Genre-Refs entlabeln:**
+1. **Genre-Refs entlabeln** (ZUERST — aendert Content Model):
    IST: 3,422 `<ref target="genres.xml#..." xml:lang="...">Label Text</ref>` (inkl. Parent-Refs)
    SOLL: 1 `<ptr target="genres.xml#..."/>` pro Genre (ohne Label, ohne Parents, dedupliziert)
 
-2. **Externe IDs aus `<note type="identifiers">` unwrappen:**
+2. **Externe IDs aus `<note type="identifiers">` unwrappen** (DANACH — erst valid wenn `<ref>` → `<ptr>`):
    IST: `<note type="identifiers"><idno type="GND">...</idno>...</note>`
-   SOLL: `<idno type="GND">...</idno>` direkt in `<bibl>` (valid wenn Genres `<ptr>` statt `<ref>` sind)
+   SOLL: `<idno type="GND">...</idno>` direkt in `<bibl>`
 
 3. **GND Casing:** `<idno type="gnd">` → `<idno type="GND">`
 
-**Script-Impact:** `build-authority-index.py` liest Genre-Refs via `.//tei:ref[contains(@target, "genres.xml#")]` — muss auf `.//tei:ptr[contains(@target, "genres.xml#")]` umgestellt werden.
+**Script-Impact:**
+
+| Script | Aenderung |
+|--------|-----------|
+| `build-authority-index.py` | Genre-Refs: `.//tei:ref[contains(@target, "genres.xml#")]` → `.//tei:ptr[contains(@target, "genres.xml#")]` |
+| `enhance_works_with_zotero.py` | Neue `<biblStruct>` in `<relatedItem>` wrappen statt direkt in `<bibl>` einfuegen |
+| `sync_tei_headers.py` | Liest `<biblStruct>` aus works.xml via `.//tei:biblStruct` (funktioniert durch `<relatedItem>` hindurch), schreibt in TEI-Header `<additional>/<listBibl>` (anderer Kontext, dort valid) |
 
 ### 6.2 persons.xml: Works-Links entfernen
 
@@ -409,9 +427,9 @@ Die `<listBibl>` (in dieser Session von `<note>` migriert) wird entfernt. `build
 |-----|------|
 | `person_778d109...` | `person_N` (naechste freie ID) |
 
-**Cascade:** works.xml `<author ref="persons.xml#person_UUID">` muss aktualisiert werden.
-
-### ~~6.4 GND Casing~~ — integriert in 6.1
+**Cascade:**
+- `works.xml`: `<author ref="persons.xml#person_UUID">` aktualisieren
+- `tei/*.tei.xml`: `<author ref="#person_UUID">` in TEI-Headern aktualisieren (666 Dateien, aber nur die ~4 betroffenen Autoren)
 
 ---
 
