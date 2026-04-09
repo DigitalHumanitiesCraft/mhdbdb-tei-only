@@ -218,3 +218,30 @@ Flow/Algorithms/XPaths: PASS. Rebuild feasibility: Search YELLOW, Build YELLOW, 
 - DTABf (Gold-Standard historische Texte): Strikte TEI-Untermenge, ~80 Elemente, Standoff-Annotation
 - MENOTA (Mittelalterliche Texte): Custom-Namespace `me:` fuer Erweiterungen, 3 Transkriptionsebenen
 - ReM (Referenzkorpus MHG): HiTS-Tagset, Multi-Layer-Annotation
+
+---
+
+## 2026-04-09 16:00 — handoff
+
+**Summary:** Alle TEI-Modell-Entscheidungen abgeschlossen, Korpus-Audit (666 Dateien, 12.7M Elemente) durchgefuehrt, Maximalbeispiel mit allen 7 div/@type-Werten erstellt und gegen tei_all.rng validiert. 5-Phasen-Implementierungsplan geschrieben (A-E). Issue #44 mit TEI-Relevanz-Analyse aktualisiert, Issue #49 Health-Check gepostet, Issue #67 (Abbreviaturen) erstellt. Schema-Strategie entschieden: RNC Source + RNG generiert, Zwei-Stufen-Validierung, kein ODD.
+
+**Phase:** Distillation abgeschlossen → Implementation bereit. Alle Promptotyping-Docs aktuell:
+- `docs/TEI-MODEL.md` — Soll-Modell (0 offene Entscheidungen)
+- `scripts/data-wrangling/tei-model/IMPLEMENTATION-PLAN.md` — 5-Phasen-Plan
+- `scripts/data-wrangling/tei-model/TEI-MODEL-EXAMPLE.xml` — validiert gegen tei_all.rng
+- `scripts/data-wrangling/tei-model/tei-audit.json` + `TEI-AUDIT-REPORT.md` — Korpus-Audit
+- `scripts/data-wrangling/tei-model/audit-tei-corpus.py` — Audit-Script
+- `scripts/data-wrangling/tei-model/TEXT_DATA_TABLE.xlsx` — Metadaten-Quelle (Issue #67)
+
+**Open issues:**
+- Katharinas Entscheidungen zu FLG/FLG1 Zusammenziehen und PL1-3 Zusammenziehen stehen als Empfehlungen (nicht zusammenziehen), aber keine explizite Bestaetigung
+- `@meaningRef` → `@ana` JS-Anpassung: 8 Stellen verifiziert, aber Playground-Funktionalitaet nach Migration nicht live getestet
+- `<pc join="right">` fuer oeffnende Klammern: Audit der tatsaechlichen Interpunktionszeichen im Korpus fehlt noch (vor Phase C1 noetig)
+- TEXT_DATA_TABLE.xlsx DESCRIPTION-Parsing (Issue #67): 124 Texte identifiziert, Pattern-Erkennung noch nicht implementiert
+
+**Next steps:**
+1. Naechste Session: `/promptotyping orient` → liest IMPLEMENTATION-PLAN.md
+2. Phase A starten (sichere XML-Migrationen, kein Code-Impact)
+3. Phase A1 zuerst: `migrate-div-types.py` (div/@type Renames + LZT div→lg)
+4. Nach Phase A: Audit erneut laufen → Diff pruefen
+5. Phase B: @meaningRef→@ana + JS-Fix, dann @wordRef→@corresp
