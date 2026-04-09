@@ -613,19 +613,20 @@ def replace_editions_with_biblstructs(works_tree, zotero_data, dry_run=False):
         # Check if we have Zotero matches for this work
         has_zotero_match = any(sigle in zotero_data for sigle in sigles)
 
-        # Remove existing biblStruct elements FIRST (before creating new ones)
-        # This frees up their xml:ids for reuse
+        # Remove existing relatedItem elements containing biblStruct FIRST
+        # (before creating new ones). This frees up their xml:ids for reuse.
+        # Note: biblStruct lives inside <relatedItem> per TEI model (2026-04-09).
         if has_zotero_match:
-            existing_biblstructs = work.xpath('.//tei:biblStruct', namespaces=ns)
-            if existing_biblstructs and not dry_run:
-                logger.debug(f"Removing {len(existing_biblstructs)} existing biblStruct elements from {work_id}")
-                for existing_bs in existing_biblstructs:
-                    # Remove xml:id from used_ids set so it can be reused
-                    old_id = existing_bs.get('{http://www.w3.org/XML/1998/namespace}id')
-                    if old_id and old_id in used_xml_ids:
-                        used_xml_ids.remove(old_id)
-                    existing_bs.getparent().remove(existing_bs)
-                total_removed += len(existing_biblstructs)
+            existing_related = work.xpath('.//tei:relatedItem[tei:biblStruct]', namespaces=ns)
+            if existing_related and not dry_run:
+                logger.debug(f"Removing {len(existing_related)} existing relatedItem/biblStruct from {work_id}")
+                for ri in existing_related:
+                    for bs in ri.xpath('tei:biblStruct', namespaces=ns):
+                        old_id = bs.get('{http://www.w3.org/XML/1998/namespace}id')
+                        if old_id and old_id in used_xml_ids:
+                            used_xml_ids.remove(old_id)
+                        total_removed += 1
+                    ri.getparent().remove(ri)
 
         # NOW create new biblStruct elements from Zotero
         matching_biblstructs = []
@@ -670,15 +671,19 @@ def replace_editions_with_biblstructs(works_tree, zotero_data, dry_run=False):
                 for edition_elem in edition_elements:
                     edition_elem.getparent().remove(edition_elem)
 
-                # Insert biblStruct elements
+                # Insert biblStruct elements wrapped in <relatedItem>
                 for i, biblstruct in enumerate(matching_biblstructs):
-                    parent.insert(insert_index + i, biblstruct)
+                    related_item = etree.Element(f"{{{TEI_NS_URI}}}relatedItem")
+                    related_item.append(biblstruct)
+                    parent.insert(insert_index + i, related_item)
                     total_replacements += 1
             else:
-                # No existing edition elements, add at end
+                # No existing edition elements, append <relatedItem> at end
                 logger.debug(f"No existing edition elements, adding {len(matching_biblstructs)} biblStruct elements at end")
                 for biblstruct in matching_biblstructs:
-                    work.append(biblstruct)
+                    related_item = etree.Element(f"{{{TEI_NS_URI}}}relatedItem")
+                    related_item.append(biblstruct)
+                    work.append(related_item)
                     total_replacements += 1
 
         elif matching_biblstructs and dry_run:
