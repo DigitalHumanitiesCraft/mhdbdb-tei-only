@@ -51,15 +51,15 @@
             <listBibl>
               <biblStruct type="book" xml:id="TRH_TRH" corresp="http://zotero.org/groups/5043625/items/3R7RNLAQ" key="TRH">
                 <monogr>
-                  <title>Tristan: Mit Einleitungen über Stil, Sprache, Metrik, Quellen und die Persönlichkeit des Dichters</title>
                   <author>
                     <name>Heinrich von Freiberg</name>
                   </author>
-                  <idno type="callNumber">TRH</idno>
+                  <title>Tristan: Mit Einleitungen über Stil, Sprache, Metrik, Quellen und die Persönlichkeit des Dichters</title>
                   <editor>
                     <forename>Alois</forename>
                     <surname>Bernt</surname>
                   </editor>
+                  <idno type="callNumber">TRH</idno>
                   <imprint>
                     <pubPlace>Halle (Saale)</pubPlace>
                     <publisher>Niemeyer</publisher>
@@ -126,7 +126,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_33" corresp="persons.xml#person_33">
             <persName type="preferred">Heinrich von Freiberg</persName>

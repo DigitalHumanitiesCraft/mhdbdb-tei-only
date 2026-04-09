@@ -48,16 +48,16 @@
             <listBibl>
               <biblStruct type="book" xml:id="MSW_MSW" corresp="http://zotero.org/groups/5043625/items/MJGJA83A" key="MSW">
                 <monogr>
-                  <title>Die Weltliche Dichtung</title>
                   <author>
                     <name>Mönch von Salzburg</name>
                   </author>
-                  <idno type="ISBN">978-3-7013-0900-9</idno>
-                  <idno type="callNumber">MSW</idno>
+                  <title>Die Weltliche Dichtung</title>
                   <editor>
                     <forename>Franz Viktor</forename>
                     <surname>Spechtler</surname>
                   </editor>
+                  <idno type="ISBN">978-3-7013-0900-9</idno>
+                  <idno type="callNumber">MSW</idno>
                   <imprint>
                     <pubPlace>Salzburg</pubPlace>
                     <publisher>Müller</publisher>
@@ -100,7 +100,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_344" corresp="persons.xml#person_344">
             <persName type="preferred">Der Mönch von Salzburg</persName>

@@ -53,15 +53,15 @@
             <listBibl>
               <biblStruct type="book" xml:id="CLV_CLV" corresp="http://zotero.org/groups/5043625/items/WDU6YYPP" key="CLV">
                 <monogr>
-                  <title>Christi Leiden in einer Vision Geschaut</title>
                   <author>
                     <name>Anonym</name>
                   </author>
-                  <idno type="callNumber">CLV</idno>
+                  <title>Christi Leiden in einer Vision Geschaut</title>
                   <editor>
                     <forename>R.</forename>
                     <surname>Priebsch</surname>
                   </editor>
+                  <idno type="callNumber">CLV</idno>
                   <imprint>
                     <pubPlace>Heidelberg</pubPlace>
                     <publisher>Winter</publisher>
@@ -126,7 +126,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>

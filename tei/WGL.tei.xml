@@ -52,15 +52,15 @@
             <listBibl>
               <biblStruct type="book" xml:id="WGL_WGL" corresp="http://zotero.org/groups/5043625/items/CL8ZE4CP" key="WGL">
                 <monogr>
-                  <title>Wigalois der Ritter mit dem Rade</title>
                   <author>
                     <name>Wirnt von Grafenberg</name>
                   </author>
-                  <idno type="callNumber">WGL</idno>
+                  <title>Wigalois der Ritter mit dem Rade</title>
                   <editor>
                     <forename>J. M. N.</forename>
                     <surname>Kapteyn</surname>
                   </editor>
+                  <idno type="callNumber">WGL</idno>
                   <imprint>
                     <pubPlace>Bonn</pubPlace>
                     <biblScope unit="volume">9</biblScope>
@@ -109,7 +109,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_36" corresp="persons.xml#person_36">
             <persName type="preferred">Wirnt von Grafenberg</persName>

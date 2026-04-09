@@ -52,16 +52,16 @@
             <listBibl>
               <biblStruct type="book" xml:id="EKL_EKL" corresp="http://zotero.org/groups/5043625/items/4UKHJ2E9" key="EKL">
                 <monogr>
-                  <title>Eckenlied: Fassung L</title>
                   <author>
                     <name>Anonym</name>
                   </author>
-                  <idno type="ISBN">978-3-484-20077-7</idno>
-                  <idno type="callNumber">EKL</idno>
+                  <title>Eckenlied: Fassung L</title>
                   <editor>
                     <forename>Martin</forename>
                     <surname>Wierschin</surname>
                   </editor>
+                  <idno type="ISBN">978-3-484-20077-7</idno>
+                  <idno type="callNumber">EKL</idno>
                   <imprint>
                     <pubPlace>Tübingen</pubPlace>
                     <biblScope unit="volume">78</biblScope>
@@ -109,7 +109,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>

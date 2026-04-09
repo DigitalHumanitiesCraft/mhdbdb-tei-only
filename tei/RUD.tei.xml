@@ -50,15 +50,15 @@
             <listBibl>
               <biblStruct type="book" xml:id="RUD_RUD" corresp="http://zotero.org/groups/5043625/items/5X2334U4" key="RUD">
                 <monogr>
-                  <title>Graf Rudolf</title>
                   <author>
                     <name>Anonym</name>
                   </author>
-                  <idno type="callNumber">RUD</idno>
+                  <title>Graf Rudolf</title>
                   <editor>
                     <forename>Peter F.</forename>
                     <surname>Ganz</surname>
                   </editor>
+                  <idno type="callNumber">RUD</idno>
                   <imprint>
                     <pubPlace>Berlin</pubPlace>
                     <biblScope unit="volume">19</biblScope>
@@ -114,7 +114,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>

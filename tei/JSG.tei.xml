@@ -47,15 +47,15 @@
             <listBibl>
               <biblStruct type="book" xml:id="JSG_JSG" corresp="http://zotero.org/groups/5043625/items/MPSRKGFV" key="JSG">
                 <monogr>
-                  <title>Der Jüngere Sigenot: Nach Sämtl. Hs. U. Drucken</title>
                   <author>
                     <name>Anonym</name>
                   </author>
-                  <idno type="callNumber">JSG</idno>
+                  <title>Der Jüngere Sigenot: Nach Sämtl. Hs. U. Drucken</title>
                   <editor>
                     <forename>Clemens</forename>
                     <surname>Schoner</surname>
                   </editor>
+                  <idno type="callNumber">JSG</idno>
                   <imprint>
                     <pubPlace>Heidelberg</pubPlace>
                     <biblScope unit="volume">6</biblScope>
@@ -103,7 +103,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>

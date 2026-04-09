@@ -50,16 +50,16 @@
             <listBibl>
               <biblStruct type="book" xml:id="DA_DA" corresp="http://zotero.org/groups/5043625/items/B4V6PE9I" key="DA">
                 <monogr>
-                  <title>Daniel von dem Blühenden Tal</title>
                   <author>
                     <name>Der Stricker</name>
                   </author>
-                  <idno type="ISBN">978-3-484-20192-7</idno>
-                  <idno type="callNumber">DA</idno>
+                  <title>Daniel von dem Blühenden Tal</title>
                   <editor>
                     <forename>Michael</forename>
                     <surname>Resler</surname>
                   </editor>
+                  <idno type="ISBN">978-3-484-20192-7</idno>
+                  <idno type="callNumber">DA</idno>
                   <imprint>
                     <pubPlace>Tübingen</pubPlace>
                     <biblScope unit="volume">92</biblScope>
@@ -108,7 +108,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_4" corresp="persons.xml#person_4">
             <persName type="preferred">Der Stricker</persName>

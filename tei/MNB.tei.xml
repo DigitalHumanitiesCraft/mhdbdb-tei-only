@@ -48,15 +48,15 @@
             <listBibl>
               <biblStruct type="book" xml:id="MNB_MNB" corresp="http://zotero.org/groups/5043625/items/A88Z76T9" key="MNB">
                 <monogr>
-                  <title>Die Minneburg: Nach der Heidelberger Pergamenthandschrift (cpg. 455) Unter Heranziehung der Kölner Handschrift und der Donaueschinger und Prager Fragmente</title>
                   <author>
                     <name>Anonym</name>
                   </author>
-                  <idno type="callNumber">MNB</idno>
+                  <title>Die Minneburg: Nach der Heidelberger Pergamenthandschrift (cpg. 455) Unter Heranziehung der Kölner Handschrift und der Donaueschinger und Prager Fragmente</title>
                   <editor>
                     <forename>Hans</forename>
                     <surname>Pyritz</surname>
                   </editor>
+                  <idno type="callNumber">MNB</idno>
                   <imprint>
                     <pubPlace>Berlin</pubPlace>
                     <publisher>Akademie-Verlag</publisher>
@@ -108,7 +108,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>
@@ -126,7 +126,7 @@
   </teiHeader>
   <text>
     <body>
-      <div type="part" n="1">
+      <div type="section" n="1">
         <head>
           <l n="h_1">
             <hi rend="initial">
@@ -303,7 +303,7 @@
           </l>
         </p>
       </div>
-      <div type="part" n="2">
+      <div type="section" n="2">
         <div type="song" n="1">
           <p>
             <l n="1">
@@ -938,7 +938,7 @@
           </p>
         </div>
       </div>
-      <div type="part" n="3">
+      <div type="section" n="3">
         <p>
           <l n="1">
             <hi rend="initial">

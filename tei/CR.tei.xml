@@ -57,16 +57,16 @@
             <listBibl>
               <biblStruct type="book" xml:id="CR_CR" corresp="http://zotero.org/groups/5043625/items/BBVM3BFZ" key="CR">
                 <monogr>
-                  <title>Moriz von Craun</title>
                   <author>
                     <name>Anonym</name>
                   </author>
-                  <idno type="ISBN">978-3-484-20069-2</idno>
-                  <idno type="callNumber">CR</idno>
+                  <title>Moriz von Craun</title>
                   <editor>
                     <forename>Ulrich</forename>
                     <surname>Pretzel</surname>
                   </editor>
+                  <idno type="ISBN">978-3-484-20069-2</idno>
+                  <idno type="callNumber">CR</idno>
                   <edition>4</edition>
                   <imprint>
                     <pubPlace>Tübingen</pubPlace>
@@ -127,7 +127,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_227" corresp="persons.xml#person_227">
             <persName type="preferred">Bligger von Steinach</persName>

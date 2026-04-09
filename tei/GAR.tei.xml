@@ -54,16 +54,16 @@
             <listBibl>
               <biblStruct type="book" xml:id="GAR_GAR" corresp="http://zotero.org/groups/5043625/items/7I6CF349" key="GAR">
                 <monogr>
-                  <title>Garel von dem Bluenden Tal: Von dem Pleier</title>
                   <author>
                     <name>Der Pleier</name>
                   </author>
-                  <idno type="ISBN">978-3-900269-17-3</idno>
-                  <idno type="callNumber">GAR</idno>
+                  <title>Garel von dem Bluenden Tal: Von dem Pleier</title>
                   <editor>
                     <forename>Wolfgang</forename>
                     <surname>Herles</surname>
                   </editor>
+                  <idno type="ISBN">978-3-900269-17-3</idno>
+                  <idno type="callNumber">GAR</idno>
                   <imprint>
                     <pubPlace>Wien</pubPlace>
                     <biblScope unit="volume">17</biblScope>
@@ -112,7 +112,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_32" corresp="persons.xml#person_32">
             <persName type="preferred">Der Pleier</persName>

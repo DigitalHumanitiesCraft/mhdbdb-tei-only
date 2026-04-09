@@ -52,11 +52,10 @@
             <listBibl>
               <biblStruct type="book" xml:id="ROT_ROT" corresp="http://zotero.org/groups/5043625/items/DN9L8EBI" key="ROT">
                 <monogr>
-                  <title>Koenig Rother: Nach der Ausgabe von Theodor Frings und Joachim Kuhnt</title>
                   <author>
                     <name>Anonym</name>
                   </author>
-                  <idno type="callNumber">ROT</idno>
+                  <title>Koenig Rother: Nach der Ausgabe von Theodor Frings und Joachim Kuhnt</title>
                   <editor>
                     <forename>Theodor</forename>
                     <surname>Frings</surname>
@@ -65,6 +64,7 @@
                     <forename>Joachim</forename>
                     <surname>Kuhnt</surname>
                   </editor>
+                  <idno type="callNumber">ROT</idno>
                   <imprint>
                     <pubPlace>Halle (Saale)</pubPlace>
                     <biblScope unit="volume">2</biblScope>
@@ -133,7 +133,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>

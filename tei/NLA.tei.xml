@@ -50,16 +50,16 @@
             <listBibl>
               <biblStruct type="book" xml:id="NLA_NLA" corresp="http://zotero.org/groups/5043625/items/CEQRMQ9W" key="NLA">
                 <monogr>
-                  <title>Das Nibelungenlied: Paralleldruck der Handschriften A, B und C Nebst Lesarten der Übrigen Handschriften</title>
                   <author>
                     <name>Anonym</name>
                   </author>
-                  <idno type="ISBN">978-3-484-10149-4</idno>
-                  <idno type="callNumber">NLA</idno>
+                  <title>Das Nibelungenlied: Paralleldruck der Handschriften A, B und C Nebst Lesarten der Übrigen Handschriften</title>
                   <editor>
                     <forename>Michael S.</forename>
                     <surname>Batts</surname>
                   </editor>
+                  <idno type="ISBN">978-3-484-10149-4</idno>
+                  <idno type="callNumber">NLA</idno>
                   <imprint>
                     <pubPlace>Tübingen</pubPlace>
                     <publisher>Niemeyer</publisher>
@@ -102,7 +102,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>

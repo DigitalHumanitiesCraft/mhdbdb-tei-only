@@ -52,15 +52,15 @@
             <listBibl>
               <biblStruct type="book" xml:id="DIO_DIO" corresp="http://zotero.org/groups/5043625/items/YXCFEKBV" key="DIO">
                 <monogr>
-                  <title>Dyocletianus Leben</title>
                   <author>
                     <name>Hans von Bühel</name>
                   </author>
-                  <idno type="callNumber">DIO</idno>
+                  <title>Dyocletianus Leben</title>
                   <editor>
                     <forename>Adelbert</forename>
                     <surname>von Keller</surname>
                   </editor>
+                  <idno type="callNumber">DIO</idno>
                   <imprint>
                     <pubPlace>Quedlinburg and Leipzig</pubPlace>
                     <biblScope unit="volume">22</biblScope>
@@ -117,7 +117,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_1167" corresp="persons.xml#person_1167">
             <persName type="preferred">Hans von Bühel</persName>

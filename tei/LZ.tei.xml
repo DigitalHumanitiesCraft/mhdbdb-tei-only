@@ -50,15 +50,15 @@
             <listBibl>
               <biblStruct type="book" xml:id="LZ_LZ" corresp="http://zotero.org/groups/5043625/items/EQIQG5CT" key="LZ">
                 <monogr>
-                  <title>Lanzelet</title>
                   <author>
                     <name>Ulrich von Zatzikhoven</name>
                   </author>
-                  <idno type="callNumber">LZ</idno>
+                  <title>Lanzelet</title>
                   <editor>
                     <forename>K.A.</forename>
                     <surname>Hahn</surname>
                   </editor>
+                  <idno type="callNumber">LZ</idno>
                   <imprint>
                     <pubPlace>Frankfurt am Main</pubPlace>
                     <date>1845</date>
@@ -102,7 +102,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_6" corresp="persons.xml#person_6">
             <persName type="preferred">Ulrich von Zatzikhoven</persName>

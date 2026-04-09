@@ -50,15 +50,15 @@
             <listBibl>
               <biblStruct type="book" xml:id="AC1_AC1" corresp="http://zotero.org/groups/5043625/items/N59RNXXF" key="AC1">
                 <monogr>
-                  <title>Der Ackermann aus Boehmen</title>
                   <author>
                     <name>Johannes von Tepl</name>
                   </author>
-                  <idno type="callNumber">AC1</idno>
+                  <title>Der Ackermann aus Boehmen</title>
                   <editor>
                     <forename>Günther</forename>
                     <surname>jungbluth</surname>
                   </editor>
+                  <idno type="callNumber">AC1</idno>
                   <imprint>
                     <pubPlace>Heidelberg</pubPlace>
                     <publisher>Winter</publisher>
@@ -108,7 +108,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_726" corresp="persons.xml#person_726">
             <persName type="preferred">Johann von Tepl</persName>

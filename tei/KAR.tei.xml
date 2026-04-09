@@ -49,15 +49,15 @@
             <listBibl>
               <biblStruct type="book" xml:id="KAR_KAR" corresp="http://zotero.org/groups/5043625/items/KMNFH6I3" key="KAR">
                 <monogr>
-                  <title>Karl der Grosse</title>
                   <author>
                     <name>Der Stricker</name>
                   </author>
-                  <idno type="callNumber">KAR</idno>
+                  <title>Karl der Grosse</title>
                   <editor>
                     <forename>Karl</forename>
                     <surname>Stackmann</surname>
                   </editor>
+                  <idno type="callNumber">KAR</idno>
                   <imprint>
                     <pubPlace>Quedlinburg and Leipzig</pubPlace>
                     <biblScope unit="volume">35</biblScope>
@@ -108,7 +108,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_4" corresp="persons.xml#person_4">
             <persName type="preferred">Der Stricker</persName>

@@ -50,15 +50,15 @@
             <listBibl>
               <biblStruct type="book" xml:id="ESB_ESB" corresp="http://zotero.org/groups/5043625/items/7LLRTU6G" key="ESB">
                 <monogr>
-                  <title>Der Nonne von Engelthal Büchlein von der Genaden Uberlast</title>
                   <author>
                     <name>Christine Ebner</name>
                   </author>
-                  <idno type="callNumber">ESB</idno>
+                  <title>Der Nonne von Engelthal Büchlein von der Genaden Uberlast</title>
                   <editor>
                     <forename>Karl</forename>
                     <surname>Schröder</surname>
                   </editor>
+                  <idno type="callNumber">ESB</idno>
                   <imprint>
                     <pubPlace>Stuttgart</pubPlace>
                     <biblScope unit="volume">108</biblScope>
@@ -115,7 +115,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_385" corresp="persons.xml#person_385">
             <persName type="preferred">Christine Ebner</persName>

@@ -50,11 +50,10 @@
             <listBibl>
               <biblStruct type="book" xml:id="NLB_NLB" corresp="http://zotero.org/groups/5043625/items/H6BURF9K" key="NLB">
                 <monogr>
-                  <title>Das Nibelungenlied: Nach der Ausgabe von Karl Bartsch Neu Herausgegeben von Helmut De Boor: [nach der Handschrift B / C]</title>
                   <author>
                     <name>Anonym</name>
                   </author>
-                  <idno type="callNumber">NLB</idno>
+                  <title>Das Nibelungenlied: Nach der Ausgabe von Karl Bartsch Neu Herausgegeben von Helmut De Boor: [nach der Handschrift B / C]</title>
                   <editor>
                     <forename>Karl</forename>
                     <surname>Bartsch</surname>
@@ -63,6 +62,7 @@
                     <forename>Helmut</forename>
                     <surname>de Boor</surname>
                   </editor>
+                  <idno type="callNumber">NLB</idno>
                   <imprint>
                     <pubPlace>Wiesbaden</pubPlace>
                     <biblScope unit="volume">3</biblScope>
@@ -109,7 +109,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>

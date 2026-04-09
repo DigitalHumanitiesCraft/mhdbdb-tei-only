@@ -51,16 +51,16 @@
             <listBibl>
               <biblStruct type="book" xml:id="KFB_KFB" corresp="http://zotero.org/groups/5043625/items/ZLJZ6I8V" key="KFB">
                 <monogr>
-                  <title>Langes Schwert und Schweinespiesz: Die Anonyme Fechthandschrift aus den Verschütteten Beständen des Historischen Archivs der Stadt Köln</title>
                   <author>
                     <name>Anonym</name>
                   </author>
-                  <idno type="ISBN">978-3-201-01920-0</idno>
-                  <idno type="callNumber">KFB</idno>
+                  <title>Langes Schwert und Schweinespiesz: Die Anonyme Fechthandschrift aus den Verschütteten Beständen des Historischen Archivs der Stadt Köln</title>
                   <editor>
                     <forename>Matthias Johannes</forename>
                     <surname>Bauer</surname>
                   </editor>
+                  <idno type="ISBN">978-3-201-01920-0</idno>
+                  <idno type="callNumber">KFB</idno>
                   <imprint>
                     <pubPlace>Graz</pubPlace>
                     <publisher>Akademische Druck- und Verlagsanstalt</publisher>
@@ -118,7 +118,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>

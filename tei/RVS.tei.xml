@@ -54,16 +54,16 @@
             <listBibl>
               <biblStruct type="book" xml:id="RVS_RVS" corresp="http://zotero.org/groups/5043625/items/B6BBD93N" key="RVS">
                 <monogr>
-                  <title>Der Ritter von Staufenberg</title>
                   <author>
                     <name>Egenolf von Staufenberg</name>
                   </author>
-                  <idno type="ISBN">978-3-484-20104-0</idno>
-                  <idno type="callNumber">RVS</idno>
+                  <title>Der Ritter von Staufenberg</title>
                   <editor>
                     <forename>Eckhard</forename>
                     <surname>Grunewald</surname>
                   </editor>
+                  <idno type="ISBN">978-3-484-20104-0</idno>
+                  <idno type="callNumber">RVS</idno>
                   <imprint>
                     <pubPlace>Tübingen</pubPlace>
                     <biblScope unit="volume">88</biblScope>
@@ -112,7 +112,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_848" corresp="persons.xml#person_848">
             <persName type="preferred">Egenolf von Staufenberg</persName>

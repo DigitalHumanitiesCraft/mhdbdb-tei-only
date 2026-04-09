@@ -48,15 +48,15 @@
             <listBibl>
               <biblStruct type="book" xml:id="MSG_MSG" corresp="http://zotero.org/groups/5043625/items/7JUDY8KZ" key="MSG">
                 <monogr>
-                  <title>Die Geistlichen Lieder</title>
                   <author>
                     <name>Mönch von Salzburg</name>
                   </author>
-                  <idno type="callNumber">MSG</idno>
+                  <title>Die Geistlichen Lieder</title>
                   <editor>
                     <forename>Franz Viktor</forename>
                     <surname>Spechtler</surname>
                   </editor>
+                  <idno type="callNumber">MSG</idno>
                   <imprint>
                     <pubPlace>Berlin and New York</pubPlace>
                     <biblScope unit="volume">51</biblScope>
@@ -106,7 +106,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_344" corresp="persons.xml#person_344">
             <persName type="preferred">Der Mönch von Salzburg</persName>

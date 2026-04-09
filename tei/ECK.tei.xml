@@ -48,16 +48,16 @@
             <listBibl>
               <biblStruct type="book" xml:id="ECK_ECK" corresp="http://zotero.org/groups/5043625/items/CHW75S37" key="ECK">
                 <monogr>
-                  <title>Deutsche Predigten: Eine Auswahl: Mittelhochdeutsch-neuhochdeutsch. Auf der Grundlage der Kritischen Werkausgabe und der Reihe Lectura Eckhardi</title>
                   <author>
                     <name>Meister Eckhart</name>
                   </author>
-                  <idno type="ISBN">978-3-15-018117-1</idno>
-                  <idno type="callNumber">ECK</idno>
+                  <title>Deutsche Predigten: Eine Auswahl: Mittelhochdeutsch-neuhochdeutsch. Auf der Grundlage der Kritischen Werkausgabe und der Reihe Lectura Eckhardi</title>
                   <editor>
                     <forename>Uta</forename>
                     <surname>Störmer-Caysa</surname>
                   </editor>
+                  <idno type="ISBN">978-3-15-018117-1</idno>
+                  <idno type="callNumber">ECK</idno>
                   <imprint>
                     <pubPlace>Stuttgart</pubPlace>
                     <biblScope unit="volume">18117</biblScope>
@@ -107,7 +107,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_445" corresp="persons.xml#person_445">
             <persName type="preferred">Meister Eckhart</persName>
@@ -124,7 +124,7 @@
   </teiHeader>
   <text>
     <body>
-      <div type="sermon" n="2">
+      <div type="number" n="2">
         <head>
           <lb n="h_1"/>
           <pb n="24"/>
@@ -2887,7 +2887,7 @@
           <seg xml:id="ECK_2045030_3" type="pc">.</seg>
         </p>
       </div>
-      <div type="sermon" n="5">
+      <div type="number" n="5">
         <head>
           <lb n="h_1"/>
           <pb n="85"/>
@@ -4691,7 +4691,7 @@
           <seg xml:id="ECK_5096030_3" type="pc">.</seg>
         </p>
       </div>
-      <div type="sermon" n="6">
+      <div type="number" n="6">
         <head>
           <lb n="h_1"/>
           <pb n="99"/>
@@ -7251,7 +7251,7 @@
           <seg xml:id="ECK_6115060_6" type="pc">.</seg>
         </p>
       </div>
-      <div type="sermon" n="9">
+      <div type="number" n="9">
         <head>
           <lb n="h_1"/>
           <pb n="141"/>
@@ -10121,7 +10121,7 @@
           <seg xml:id="ECK_9158090_11" type="pc">.</seg>
         </p>
       </div>
-      <div type="sermon" n="12">
+      <div type="number" n="12">
         <head>
           <lb n="h_1"/>
           <pb n="192"/>
@@ -12296,7 +12296,7 @@
           <seg xml:id="ECK_12203070_9" type="pc">.</seg>
         </p>
       </div>
-      <div type="sermon" n="20">
+      <div type="number" n="20">
         <head>
           <lb n="h_1"/>
           <pb n="326"/>
@@ -14606,7 +14606,7 @@
           <seg xml:id="ECK_20339030_15" type="pc">.</seg>
         </p>
       </div>
-      <div type="sermon" n="38">
+      <div type="number" n="38">
         <head>
           <lb n="h_1"/>
           <pb n="227"/>
@@ -17444,7 +17444,7 @@
           <seg xml:id="ECK_38245100_1" type="pc">.</seg>
         </p>
       </div>
-      <div type="sermon" n="44">
+      <div type="number" n="44">
         <head>
           <lb n="h_1"/>
           <hi rend="initial">
@@ -19779,7 +19779,7 @@
           <seg xml:id="ECK_44351060_13" type="pc">.</seg>
         </p>
       </div>
-      <div type="sermon" n="52">
+      <div type="number" n="52">
         <head>
           <lb n="h_1"/>
           <pb n="486"/>
@@ -22820,7 +22820,7 @@
           <seg xml:id="ECK_52506040_18" type="pc">.</seg>
         </p>
       </div>
-      <div type="sermon" n="60">
+      <div type="number" n="60">
         <head>
           <lb n="h_1"/>
           <pb n="10"/>
@@ -24469,7 +24469,7 @@
           <seg xml:id="ECK_60029020_6" type="pc">.</seg>
         </p>
       </div>
-      <div type="sermon" n="70">
+      <div type="number" n="70">
         <head>
           <lb n="h_1"/>
           <pb n="187"/>
@@ -26084,7 +26084,7 @@
           <seg xml:id="ECK_70198060_13" type="pc">.</seg>
         </p>
       </div>
-      <div type="sermon" n="78">
+      <div type="number" n="78">
         <head>
           <lb n="h_1"/>
           <hi rend="initial">

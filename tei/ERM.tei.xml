@@ -49,15 +49,15 @@
             <listBibl>
               <biblStruct type="book" xml:id="ERM_ERM" corresp="http://zotero.org/groups/5043625/items/UVTE7JZL" key="ERM">
                 <monogr>
-                  <title>Koninc Ermenrîkes Dôt: Ein Niederdeutsches Lied zur Dietrichssage: Aufgefunden und mit einem Briefe von Jacob Grimm Herausgegeben</title>
                   <author>
                     <name>Anonym</name>
                   </author>
-                  <idno type="callNumber">ERM</idno>
+                  <title>Koninc Ermenrîkes Dôt: Ein Niederdeutsches Lied zur Dietrichssage: Aufgefunden und mit einem Briefe von Jacob Grimm Herausgegeben</title>
                   <editor>
                     <forename>Jacob</forename>
                     <surname>Grimm</surname>
                   </editor>
+                  <idno type="callNumber">ERM</idno>
                   <imprint>
                     <pubPlace>Hannover</pubPlace>
                     <publisher>Ehlermann</publisher>
@@ -101,7 +101,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>

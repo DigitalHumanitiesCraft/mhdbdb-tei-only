@@ -52,16 +52,16 @@
             <listBibl>
               <biblStruct type="book" xml:id="ANN_ANN" corresp="http://zotero.org/groups/5043625/items/MZK8B3LI" key="ANN">
                 <monogr>
-                  <title>Das Annolied: Mittelhochdt. U. Neuhochdt.</title>
                   <author>
                     <name>Anonym</name>
                   </author>
-                  <idno type="ISBN">978-3-15-001416-5</idno>
-                  <idno type="callNumber">ANN</idno>
+                  <title>Das Annolied: Mittelhochdt. U. Neuhochdt.</title>
                   <editor>
                     <forename>Eberhard</forename>
                     <surname>Nellmann</surname>
                   </editor>
+                  <idno type="ISBN">978-3-15-001416-5</idno>
+                  <idno type="callNumber">ANN</idno>
                   <edition>3., bibliogr. erg. Ausg.</edition>
                   <imprint>
                     <pubPlace>Stuttgart</pubPlace>
@@ -111,7 +111,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>

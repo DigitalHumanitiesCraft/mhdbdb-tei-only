@@ -49,16 +49,16 @@
             <listBibl>
               <biblStruct type="book" xml:id="TRU_TRU" corresp="http://zotero.org/groups/5043625/items/E7MYMUEY" key="TRU">
                 <monogr>
-                  <title>Tristan</title>
                   <author>
                     <name>Ulrich von Türheim</name>
                   </author>
-                  <idno type="ISBN">978-3-484-20107-1</idno>
-                  <idno type="callNumber">TRU</idno>
+                  <title>Tristan</title>
                   <editor>
                     <forename>Thomas</forename>
                     <surname>Kerth</surname>
                   </editor>
+                  <idno type="ISBN">978-3-484-20107-1</idno>
+                  <idno type="callNumber">TRU</idno>
                   <imprint>
                     <pubPlace>Tubingen</pubPlace>
                     <biblScope unit="volume">89</biblScope>
@@ -129,7 +129,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_34" corresp="persons.xml#person_34">
             <persName type="preferred">Ulrich von Türheim</persName>

@@ -48,15 +48,15 @@
             <listBibl>
               <biblStruct type="book" xml:id="BRZ_BRZ" corresp="http://zotero.org/groups/5043625/items/UJB6NKLW" key="BRZ">
                 <monogr>
-                  <title>Deutsche Predigten: [überlieferungsgruppe *z]</title>
                   <author>
                     <name>Berthold von Regensburg</name>
                   </author>
-                  <idno type="callNumber">BRZ</idno>
+                  <title>Deutsche Predigten: [überlieferungsgruppe *z]</title>
                   <editor>
                     <forename>Dieter</forename>
                     <surname>Richter</surname>
                   </editor>
+                  <idno type="callNumber">BRZ</idno>
                   <imprint>
                     <pubPlace>München</pubPlace>
                     <biblScope unit="volume">5</biblScope>
@@ -125,7 +125,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_626" corresp="persons.xml#person_626">
             <persName type="preferred">Berthold von Regensburg</persName>

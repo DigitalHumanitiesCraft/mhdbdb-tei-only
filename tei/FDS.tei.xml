@@ -50,16 +50,16 @@
             <listBibl>
               <biblStruct type="book" xml:id="FDS_FDS" corresp="http://zotero.org/groups/5043625/items/SYR5WXK8" key="FDS">
                 <monogr>
-                  <title>Frauendienst</title>
                   <author>
                     <name>Ulrich von Lichtenstein</name>
                   </author>
-                  <idno type="ISBN">978-3-87452-721-7</idno>
-                  <idno type="callNumber">FDS</idno>
+                  <title>Frauendienst</title>
                   <editor>
                     <forename>Franz Viktor</forename>
                     <surname>Spechtler</surname>
                   </editor>
+                  <idno type="ISBN">978-3-87452-721-7</idno>
+                  <idno type="callNumber">FDS</idno>
                   <imprint>
                     <pubPlace>Göppingen</pubPlace>
                     <biblScope unit="volume">485</biblScope>
@@ -142,7 +142,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_5" corresp="persons.xml#person_5">
             <persName type="preferred">Ulrich von Liechtenstein</persName>

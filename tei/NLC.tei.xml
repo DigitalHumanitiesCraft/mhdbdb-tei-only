@@ -50,16 +50,16 @@
             <listBibl>
               <biblStruct type="book" xml:id="NLC_NLC" corresp="http://zotero.org/groups/5043625/items/M3XNVR57" key="NLC">
                 <monogr>
-                  <title>Das Nibelungenlied: Nach der Handschrift C</title>
                   <author>
                     <name>Nibelungenlied</name>
                   </author>
-                  <idno type="ISBN">978-3-484-20095-1</idno>
-                  <idno type="callNumber">NLC</idno>
+                  <title>Das Nibelungenlied: Nach der Handschrift C</title>
                   <editor>
                     <forename>Ursula</forename>
                     <surname>Hennig</surname>
                   </editor>
+                  <idno type="ISBN">978-3-484-20095-1</idno>
+                  <idno type="callNumber">NLC</idno>
                   <imprint>
                     <pubPlace>Tübingen</pubPlace>
                     <biblScope unit="volume">83</biblScope>
@@ -107,7 +107,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>

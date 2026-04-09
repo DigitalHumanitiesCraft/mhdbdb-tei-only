@@ -52,15 +52,15 @@
             <listBibl>
               <biblStruct type="book" xml:id="EIH_EIH" corresp="http://zotero.org/groups/5043625/items/3YWVF83P" key="EIH">
                 <monogr>
-                  <title>Tristrant: Synoptischer Druck der Ergänzten Fragmente mit der Gesamten Parallelüberlieferung</title>
                   <author>
                     <name>Eilhart von Oberg</name>
                   </author>
-                  <idno type="callNumber">EIH</idno>
+                  <title>Tristrant: Synoptischer Druck der Ergänzten Fragmente mit der Gesamten Parallelüberlieferung</title>
                   <editor>
                     <forename>Hadumod</forename>
                     <surname>Bussmann</surname>
                   </editor>
+                  <idno type="callNumber">EIH</idno>
                   <imprint>
                     <pubPlace>Tübingen</pubPlace>
                     <biblScope unit="volume">70</biblScope>
@@ -130,7 +130,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_42" corresp="persons.xml#person_42">
             <persName type="preferred">Eilhart von Oberg</persName>

@@ -48,16 +48,16 @@
             <listBibl>
               <biblStruct type="book" xml:id="WVE_WVE" corresp="http://zotero.org/groups/5043625/items/UP6TDVUQ" key="WVE">
                 <monogr>
-                  <title>Lehrgedicht</title>
                   <author>
                     <name>Wernher von Elmendorf</name>
                   </author>
-                  <idno type="ISBN">978-3-484-20075-3</idno>
-                  <idno type="callNumber">WVE</idno>
+                  <title>Lehrgedicht</title>
                   <editor>
                     <forename>Joachim</forename>
                     <surname>Bumke</surname>
                   </editor>
+                  <idno type="ISBN">978-3-484-20075-3</idno>
+                  <idno type="callNumber">WVE</idno>
                   <imprint>
                     <pubPlace>Tübingen</pubPlace>
                     <biblScope unit="volume">77</biblScope>
@@ -110,7 +110,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_847" corresp="persons.xml#person_847">
             <persName type="preferred">Wernher von Elmendorf</persName>

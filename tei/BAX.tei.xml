@@ -53,15 +53,15 @@
             <listBibl>
               <biblStruct type="book" xml:id="BAX_BAX" corresp="http://zotero.org/groups/5043625/items/L4N89AJ9" key="BAX">
                 <monogr>
-                  <title>Die Basler Bearbeitung von Lambrechts Alexander: (nach Basel, Universitätsbibl., Cod. E Vi 26)</title>
                   <author>
                     <name>Pfaffe Lamprecht</name>
                   </author>
-                  <idno type="callNumber">BAX</idno>
+                  <title>Die Basler Bearbeitung von Lambrechts Alexander: (nach Basel, Universitätsbibl., Cod. E Vi 26)</title>
                   <editor>
                     <forename>Richard Maria</forename>
                     <surname>Werner</surname>
                   </editor>
+                  <idno type="callNumber">BAX</idno>
                   <imprint>
                     <pubPlace>Tübingen</pubPlace>
                     <biblScope unit="volume">154</biblScope>
@@ -106,7 +106,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_565" corresp="persons.xml#person_565">
             <persName type="preferred">Lamprecht der Pfaffe</persName>

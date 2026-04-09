@@ -52,15 +52,15 @@
             <listBibl>
               <biblStruct type="book" xml:id="WRB_WRB" corresp="http://zotero.org/groups/5043625/items/68EGSAPZ" key="WRB">
                 <monogr>
-                  <title>Der Ring: Unveränderter Nachdruck</title>
                   <author>
                     <name>Heinrich Wittenwiler</name>
                   </author>
-                  <idno type="callNumber">WRB</idno>
+                  <title>Der Ring: Unveränderter Nachdruck</title>
                   <editor>
                     <forename>Ludwig</forename>
                     <surname>Bechstein</surname>
                   </editor>
+                  <idno type="callNumber">WRB</idno>
                   <imprint>
                     <pubPlace>Stuttgart</pubPlace>
                     <biblScope unit="volume">23</biblScope>
@@ -117,7 +117,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_627" corresp="persons.xml#person_627">
             <persName type="preferred">Heinrich Wittenwiler</persName>

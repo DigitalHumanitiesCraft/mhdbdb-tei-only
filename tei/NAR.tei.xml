@@ -52,15 +52,15 @@
             <listBibl>
               <biblStruct type="book" xml:id="NAR_NAR" corresp="http://zotero.org/groups/5043625/items/HVKF85P6" key="NAR">
                 <monogr>
-                  <title>Das Narrenschiff: Nach der Erstausgabe (basel 1494) mit den Zusätzen der Ausgaben von 1495 und 1499 Sowie den Holzschnitten der Deutschen Originalausgabe</title>
                   <author>
                     <name>Sebastian Brant</name>
                   </author>
-                  <idno type="callNumber">NAR</idno>
+                  <title>Das Narrenschiff: Nach der Erstausgabe (basel 1494) mit den Zusätzen der Ausgaben von 1495 und 1499 Sowie den Holzschnitten der Deutschen Originalausgabe</title>
                   <editor>
                     <forename>Manfred</forename>
                     <surname>Lemmer</surname>
                   </editor>
+                  <idno type="callNumber">NAR</idno>
                   <edition>3</edition>
                   <imprint>
                     <pubPlace>Tübingen</pubPlace>
@@ -129,7 +129,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_1507" corresp="persons.xml#person_1507">
             <persName type="preferred">Sebastian Brant</persName>

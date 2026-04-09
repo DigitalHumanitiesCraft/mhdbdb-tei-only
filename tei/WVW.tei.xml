@@ -49,15 +49,15 @@
             <listBibl>
               <biblStruct type="book" xml:id="WVW_WVW" corresp="http://zotero.org/groups/5043625/items/9RTUDLSZ" key="WVW">
                 <monogr>
-                  <title>Wilhelm von Wenden</title>
                   <author>
                     <name>Ulrich von Etzenbach</name>
                   </author>
-                  <idno type="callNumber">WVW</idno>
+                  <title>Wilhelm von Wenden</title>
                   <editor>
                     <forename>Hans-Friedrich</forename>
                     <surname>Rosenfeld</surname>
                   </editor>
+                  <idno type="callNumber">WVW</idno>
                   <imprint>
                     <pubPlace>Berlin</pubPlace>
                     <biblScope unit="volume">49</biblScope>
@@ -133,7 +133,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_12" corresp="persons.xml#person_12">
             <persName type="preferred">Ulrich von Etzenbach (Eschenbach)</persName>

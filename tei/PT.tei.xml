@@ -50,16 +50,16 @@
             <listBibl>
               <biblStruct type="book" xml:id="PT_PT" corresp="http://zotero.org/groups/5043625/items/JUHEBYUG" key="PT">
                 <monogr>
-                  <title>Pantaleon</title>
                   <author>
                     <name>Konrad von Würzburg</name>
                   </author>
-                  <idno type="ISBN">978-3-484-20082-1</idno>
-                  <idno type="callNumber">PT</idno>
+                  <title>Pantaleon</title>
                   <editor>
                     <forename>W.</forename>
                     <surname>Wösler</surname>
                   </editor>
+                  <idno type="ISBN">978-3-484-20082-1</idno>
+                  <idno type="callNumber">PT</idno>
                   <edition>2</edition>
                   <imprint>
                     <pubPlace>Tübingen</pubPlace>
@@ -110,7 +110,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_1" corresp="persons.xml#person_1">
             <persName type="preferred">Konrad von Würzburg</persName>

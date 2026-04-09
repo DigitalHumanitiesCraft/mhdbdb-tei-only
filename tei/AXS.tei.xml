@@ -50,15 +50,15 @@
             <listBibl>
               <biblStruct type="book" xml:id="AXS_AXS" corresp="http://zotero.org/groups/5043625/items/4DL3QUXS" key="AXS">
                 <monogr>
-                  <title>Lamprechts Alexander: Nach den Drei Texten mit dem Fragment des Alberic von Besançon und den Lateinischen Quellen</title>
                   <author>
                     <name>Pfaffe Lamprecht</name>
                   </author>
-                  <idno type="callNumber">AXS</idno>
+                  <title>Lamprechts Alexander: Nach den Drei Texten mit dem Fragment des Alberic von Besançon und den Lateinischen Quellen</title>
                   <editor>
                     <forename>Karl</forename>
                     <surname>Kinzel</surname>
                   </editor>
+                  <idno type="callNumber">AXS</idno>
                   <imprint>
                     <pubPlace>Halle (Saale)</pubPlace>
                     <biblScope unit="volume">6</biblScope>
@@ -114,7 +114,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_565" corresp="persons.xml#person_565">
             <persName type="preferred">Lamprecht der Pfaffe</persName>

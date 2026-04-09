@@ -52,15 +52,15 @@
             <listBibl>
               <biblStruct type="book" xml:id="TR_TR" corresp="http://zotero.org/groups/5043625/items/7FM9JY8B" key="TR">
                 <monogr>
-                  <title>Tristan und Isold</title>
                   <author>
                     <name>Gottfried von Straßburg</name>
                   </author>
-                  <idno type="callNumber">TR</idno>
+                  <title>Tristan und Isold</title>
                   <editor>
                     <forename>Friedrich</forename>
                     <surname>Ranke</surname>
                   </editor>
+                  <idno type="callNumber">TR</idno>
                   <imprint>
                     <pubPlace>Berlin</pubPlace>
                     <publisher>Weidmann</publisher>
@@ -127,7 +127,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_8" corresp="persons.xml#person_8">
             <persName type="preferred">Gottfried von Straßburg</persName>

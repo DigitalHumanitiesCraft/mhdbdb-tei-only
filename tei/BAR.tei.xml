@@ -52,15 +52,15 @@
             <listBibl>
               <biblStruct type="book" xml:id="BAR_BAR" corresp="http://zotero.org/groups/5043625/items/YSZ6SHSH" key="BAR">
                 <monogr>
-                  <title>Barlaam und Josaphat</title>
                   <author>
                     <name>Rudolf von Ems</name>
                   </author>
-                  <idno type="callNumber">BAR</idno>
+                  <title>Barlaam und Josaphat</title>
                   <editor>
                     <forename>Franz</forename>
                     <surname>Pfeiffer</surname>
                   </editor>
+                  <idno type="callNumber">BAR</idno>
                   <imprint>
                     <pubPlace>Leipzig</pubPlace>
                     <biblScope unit="volume">3</biblScope>
@@ -136,7 +136,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_11" corresp="persons.xml#person_11">
             <persName type="preferred">Rudolf von Ems</persName>

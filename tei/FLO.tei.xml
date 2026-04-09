@@ -49,15 +49,15 @@
             <listBibl>
               <biblStruct type="book" xml:id="FLO_FLO" corresp="http://zotero.org/groups/5043625/items/BXTV4XYH" key="FLO">
                 <monogr>
-                  <title>Flore und Blanscheflur</title>
                   <author>
                     <name>Konrad Fleck</name>
                   </author>
-                  <idno type="callNumber">FLO</idno>
+                  <title>Flore und Blanscheflur</title>
                   <editor>
                     <forename>Emil</forename>
                     <surname>Sommer</surname>
                   </editor>
+                  <idno type="callNumber">FLO</idno>
                   <imprint>
                     <pubPlace>Quedlinburg and Leipzig</pubPlace>
                     <biblScope unit="volume">12</biblScope>
@@ -113,7 +113,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_40" corresp="persons.xml#person_40">
             <persName type="preferred">Konrad Fleck</persName>

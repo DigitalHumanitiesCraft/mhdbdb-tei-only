@@ -47,16 +47,16 @@
             <listBibl>
               <biblStruct type="book" xml:id="DJEM_DJEM" corresp="http://zotero.org/groups/5043625/items/CDUQJ3DS" key="DJEM">
                 <monogr>
-                  <title>Der Meissner der Jenaer Liederhandschrift: Unters., Ausg., Kommentar</title>
                   <author>
                     <name>Der Jenaer Meißner</name>
                   </author>
-                  <idno type="ISBN">978-3-503-01241-1</idno>
-                  <idno type="callNumber">DJEM</idno>
+                  <title>Der Meissner der Jenaer Liederhandschrift: Unters., Ausg., Kommentar</title>
                   <editor>
                     <forename>Georg</forename>
                     <surname>Objartel</surname>
                   </editor>
+                  <idno type="ISBN">978-3-503-01241-1</idno>
+                  <idno type="callNumber">DJEM</idno>
                   <imprint>
                     <pubPlace>Berlin</pubPlace>
                     <biblScope unit="volume">Heft 85</biblScope>
@@ -114,7 +114,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_1587" corresp="persons.xml#person_1587">
             <persName type="preferred">Der Meißner (der Jenaer Lhs.)</persName>

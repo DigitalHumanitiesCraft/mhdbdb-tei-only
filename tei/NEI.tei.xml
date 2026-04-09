@@ -49,16 +49,16 @@
             <listBibl>
               <biblStruct type="book" xml:id="NEI_NEI" corresp="http://zotero.org/groups/5043625/items/ADJTT3LH" key="NEI">
                 <monogr>
-                  <title>Die Berliner Neidhart-handschrift C (mgf 779): Transkription der Texte und Melodien</title>
                   <author>
                     <name>Neidhart</name>
                   </author>
-                  <idno type="ISBN">978-3-87452-569-5</idno>
-                  <idno type="callNumber">NEI</idno>
+                  <title>Die Berliner Neidhart-handschrift C (mgf 779): Transkription der Texte und Melodien</title>
                   <editor>
                     <forename/>
                     <surname>Ulrich Müller, Ingrid Bennewitz, Franz Viktor Spechtler, unter Mitarbeit von Annemarie Eder, Ute Evers, Elke Huber, Sirikit Podroschko, Margarete Springeth, Ruth Weichselbaumer, Eva-Maria Weinhäupl</surname>
                   </editor>
+                  <idno type="ISBN">978-3-87452-569-5</idno>
+                  <idno type="callNumber">NEI</idno>
                   <imprint>
                     <pubPlace>Göppingen</pubPlace>
                     <biblScope unit="volume">356 // 1</biblScope>
@@ -117,7 +117,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_64" corresp="persons.xml#person_64">
             <persName type="preferred">Neidhart</persName>

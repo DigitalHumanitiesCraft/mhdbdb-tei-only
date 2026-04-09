@@ -50,11 +50,10 @@
             <listBibl>
               <biblStruct type="book" xml:id="IW_IW" corresp="http://zotero.org/groups/5043625/items/U25WGI2A" key="IW">
                 <monogr>
-                  <title>Iwein: Eine Erzählung: Band 1: Text; Band 2: Handschriftenübersicht, Anmerkungen und Lesarten</title>
                   <author>
                     <name>Hartmann von Aue</name>
                   </author>
-                  <idno type="callNumber">IW</idno>
+                  <title>Iwein: Eine Erzählung: Band 1: Text; Band 2: Handschriftenübersicht, Anmerkungen und Lesarten</title>
                   <editor>
                     <forename>Georg Friedrich</forename>
                     <surname>Benecke</surname>
@@ -63,6 +62,7 @@
                     <forename>Karl</forename>
                     <surname>Lachmann</surname>
                   </editor>
+                  <idno type="callNumber">IW</idno>
                   <edition>7</edition>
                   <imprint>
                     <pubPlace>Berlin</pubPlace>
@@ -108,7 +108,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_2" corresp="persons.xml#person_2">
             <persName type="preferred">Hartmann von Aue</persName>

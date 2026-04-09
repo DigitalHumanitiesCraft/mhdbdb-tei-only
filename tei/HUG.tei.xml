@@ -48,16 +48,16 @@
             <listBibl>
               <biblStruct type="book" xml:id="HUG_HUG" corresp="http://zotero.org/groups/5043625/items/4E8P6T87" key="HUG">
                 <monogr>
-                  <title>Das Poetische Werk: Text – Melodie – Einführung</title>
                   <author>
                     <name>Hugo von Montfort</name>
                   </author>
-                  <idno type="ISBN">978-3-11-089058-7</idno>
-                  <idno type="callNumber">HUG</idno>
+                  <title>Das Poetische Werk: Text – Melodie – Einführung</title>
                   <editor>
                     <forename>Wernfried</forename>
                     <surname>Hofmeister</surname>
                   </editor>
+                  <idno type="ISBN">978-3-11-089058-7</idno>
+                  <idno type="callNumber">HUG</idno>
                   <imprint>
                     <pubPlace>Berlin and New York</pubPlace>
                     <publisher>de Gruyter</publisher>
@@ -118,7 +118,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_887" corresp="persons.xml#person_887">
             <persName type="preferred">Hugo von Montfort</persName>

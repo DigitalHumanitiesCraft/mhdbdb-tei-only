@@ -52,16 +52,16 @@
             <listBibl>
               <biblStruct type="book" xml:id="TUN_TUN" corresp="http://zotero.org/groups/5043625/items/P2YSZ7UL" key="TUN">
                 <monogr>
-                  <title>Tondolus der Ritter: Die von J. und C. Hist Gedruckte Fassung</title>
                   <author>
                     <name>Anonym</name>
                   </author>
-                  <idno type="ISBN">3-7705-1635-4</idno>
-                  <idno type="callNumber">TUN</idno>
+                  <title>Tondolus der Ritter: Die von J. und C. Hist Gedruckte Fassung</title>
                   <editor>
                     <forename>Nigel F.</forename>
                     <surname>Palmer</surname>
                   </editor>
+                  <idno type="ISBN">3-7705-1635-4</idno>
+                  <idno type="callNumber">TUN</idno>
                   <imprint>
                     <pubPlace>München</pubPlace>
                     <biblScope unit="volume">13</biblScope>
@@ -109,7 +109,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>

@@ -52,16 +52,16 @@
             <listBibl>
               <biblStruct type="book" xml:id="GER_GER" corresp="http://zotero.org/groups/5043625/items/3TJA6XZU" key="GER">
                 <monogr>
-                  <title>Der Guote Gêrhart</title>
                   <author>
                     <name>Rudolf von Ems</name>
                   </author>
-                  <idno type="ISBN">978-3-484-20053-1</idno>
-                  <idno type="callNumber">GER</idno>
+                  <title>Der Guote Gêrhart</title>
                   <editor>
                     <forename>John A.</forename>
                     <surname>Asher</surname>
                   </editor>
+                  <idno type="ISBN">978-3-484-20053-1</idno>
+                  <idno type="callNumber">GER</idno>
                   <edition>2</edition>
                   <imprint>
                     <pubPlace>Tübingen</pubPlace>
@@ -170,7 +170,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_11" corresp="persons.xml#person_11">
             <persName type="preferred">Rudolf von Ems</persName>

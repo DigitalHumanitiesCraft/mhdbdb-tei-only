@@ -52,15 +52,15 @@
             <listBibl>
               <biblStruct type="book" xml:id="WRW_WRW" corresp="http://zotero.org/groups/5043625/items/NUQ45U8Z" key="WRW">
                 <monogr>
-                  <title>Heinrich Wittenwilers Ring: Nach der Meininger Handschrift</title>
                   <author>
                     <name>Heinrich Wittenwiler</name>
                   </author>
-                  <idno type="callNumber">WRW</idno>
+                  <title>Heinrich Wittenwilers Ring: Nach der Meininger Handschrift</title>
                   <editor>
                     <forename>Edmund</forename>
                     <surname>Wiesner</surname>
                   </editor>
+                  <idno type="callNumber">WRW</idno>
                   <imprint>
                     <pubPlace>Leipzig</pubPlace>
                     <biblScope unit="volume">3</biblScope>
@@ -117,7 +117,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_627" corresp="persons.xml#person_627">
             <persName type="preferred">Heinrich Wittenwiler</persName>

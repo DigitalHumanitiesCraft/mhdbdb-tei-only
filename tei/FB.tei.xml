@@ -50,15 +50,15 @@
             <listBibl>
               <biblStruct type="book" xml:id="FB_FB" corresp="http://zotero.org/groups/5043625/items/SQVIPQJ5" key="FB">
                 <monogr>
-                  <title>Ulrich von Lichtenstein: Mit Anmerkungen von Theodor von Karajan</title>
                   <author>
                     <name>Ulrich von Lichtenstein</name>
                   </author>
-                  <idno type="callNumber">FB</idno>
+                  <title>Ulrich von Lichtenstein: Mit Anmerkungen von Theodor von Karajan</title>
                   <editor>
                     <forename>Karl</forename>
                     <surname>Lachmann</surname>
                   </editor>
+                  <idno type="callNumber">FB</idno>
                   <imprint>
                     <pubPlace>Berlin</pubPlace>
                     <publisher>Verlag der Sanderschen Buchhandlung</publisher>
@@ -160,7 +160,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_5" corresp="persons.xml#person_5">
             <persName type="preferred">Ulrich von Liechtenstein</persName>

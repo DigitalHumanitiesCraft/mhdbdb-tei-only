@@ -50,16 +50,16 @@
             <listBibl>
               <biblStruct type="book" xml:id="AC3_AC3" corresp="http://zotero.org/groups/5043625/items/T2ACUTLG" key="AC3">
                 <monogr>
-                  <title>Der Ackermann und der Tod: Text und Übertragung</title>
                   <author>
                     <name>Johann von Tepl</name>
                   </author>
-                  <idno type="ISBN">978-3-15-007666-8</idno>
-                  <idno type="callNumber">AC3</idno>
+                  <title>Der Ackermann und der Tod: Text und Übertragung</title>
                   <editor>
                     <forename>F.</forename>
                     <surname>Genzmer</surname>
                   </editor>
+                  <idno type="ISBN">978-3-15-007666-8</idno>
+                  <idno type="callNumber">AC3</idno>
                   <edition>[Nachdr.], durchges. u. bibliogr. erneuerte Ausg</edition>
                   <imprint>
                     <pubPlace>Stuttgart</pubPlace>
@@ -111,7 +111,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_726" corresp="persons.xml#person_726">
             <persName type="preferred">Johann von Tepl</persName>

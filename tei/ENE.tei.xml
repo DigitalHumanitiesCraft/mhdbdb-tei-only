@@ -52,16 +52,16 @@
             <listBibl>
               <biblStruct type="book" xml:id="ENE_ENE" corresp="http://zotero.org/groups/5043625/items/SU7NNNJK" key="ENE">
                 <monogr>
-                  <title>Eneasroman: Mittelhochdeutsch / Neuhochdeutsch: Nach dem Text von Ludwig Ettmüller, Ins Neuhochdeutsche Übersetzt, mit einem Stellenkommentar und einem Nachwort von Dieter Kartschoke</title>
                   <author>
                     <name>Heinrich von Veldeke</name>
                   </author>
-                  <idno type="ISBN">978-3-15-008303-1</idno>
-                  <idno type="callNumber">ENE</idno>
+                  <title>Eneasroman: Mittelhochdeutsch / Neuhochdeutsch: Nach dem Text von Ludwig Ettmüller, Ins Neuhochdeutsche Übersetzt, mit einem Stellenkommentar und einem Nachwort von Dieter Kartschoke</title>
                   <editor>
                     <forename>Dieter</forename>
                     <surname>Kartschoke</surname>
                   </editor>
+                  <idno type="ISBN">978-3-15-008303-1</idno>
+                  <idno type="callNumber">ENE</idno>
                   <imprint>
                     <pubPlace>Stuttgart</pubPlace>
                     <biblScope unit="volume">8303</biblScope>
@@ -107,7 +107,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_41" corresp="persons.xml#person_41">
             <persName type="preferred">Heinrich von Veldeke</persName>

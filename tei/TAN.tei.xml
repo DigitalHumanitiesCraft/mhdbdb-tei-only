@@ -49,15 +49,15 @@
             <listBibl>
               <biblStruct type="book" xml:id="TAN_TAN" corresp="http://zotero.org/groups/5043625/items/GTA6QS8U" key="TAN">
                 <monogr>
-                  <title>Tandareis und Flordibel: Ein Höfischer Roman</title>
                   <author>
                     <name>Der Pleier</name>
                   </author>
-                  <idno type="callNumber">TAN</idno>
+                  <title>Tandareis und Flordibel: Ein Höfischer Roman</title>
                   <editor>
                     <forename>Ferdinand</forename>
                     <surname>Khull</surname>
                   </editor>
+                  <idno type="callNumber">TAN</idno>
                   <imprint>
                     <pubPlace>Graz</pubPlace>
                     <publisher>Styria</publisher>
@@ -102,7 +102,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_32" corresp="persons.xml#person_32">
             <persName type="preferred">Der Pleier</persName>

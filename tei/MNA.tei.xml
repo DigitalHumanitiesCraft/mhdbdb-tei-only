@@ -49,11 +49,10 @@
             <listBibl>
               <biblStruct type="book" xml:id="MNA_MNA" corresp="http://zotero.org/groups/5043625/items/96U8BILB" key="MNA">
                 <monogr>
-                  <title>Die Sogenannte "mainauer Naturlehre" der Basler Hs. B Viii 27: Abbildung, Transkription, Kommentar</title>
                   <author>
                     <name>Anonym</name>
                   </author>
-                  <idno type="callNumber">MNA</idno>
+                  <title>Die Sogenannte "mainauer Naturlehre" der Basler Hs. B Viii 27: Abbildung, Transkription, Kommentar</title>
                   <editor>
                     <forename>Helmut R.</forename>
                     <surname>Plant</surname>
@@ -66,6 +65,7 @@
                     <forename>Rolf</forename>
                     <surname>Burkhart</surname>
                   </editor>
+                  <idno type="callNumber">MNA</idno>
                   <imprint>
                     <pubPlace>Göppingen</pubPlace>
                     <publisher>Kümmerle</publisher>
@@ -120,7 +120,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>

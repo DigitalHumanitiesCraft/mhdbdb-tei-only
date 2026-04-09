@@ -50,15 +50,15 @@
             <listBibl>
               <biblStruct type="book" xml:id="LGR_LGR" corresp="http://zotero.org/groups/5043625/items/I9VEA9T3" key="LGR">
                 <monogr>
-                  <title>Lohengrin: Edition und Untersuchungen</title>
                   <author>
                     <name>Anonym</name>
                   </author>
-                  <idno type="callNumber">LGR</idno>
+                  <title>Lohengrin: Edition und Untersuchungen</title>
                   <editor>
                     <forename>Thomas</forename>
                     <surname>Cramer</surname>
                   </editor>
+                  <idno type="callNumber">LGR</idno>
                   <imprint>
                     <pubPlace>München</pubPlace>
                     <publisher>Fink</publisher>
@@ -103,7 +103,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>

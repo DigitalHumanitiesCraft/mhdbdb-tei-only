@@ -52,16 +52,16 @@
             <listBibl>
               <biblStruct type="book" xml:id="ROL_ROL" corresp="http://zotero.org/groups/5043625/items/BE9CY33T" key="ROL">
                 <monogr>
-                  <title>Das Rolandslied des Pfaffen Konrad</title>
                   <author>
                     <name>Pfaffe Konrad</name>
                   </author>
-                  <idno type="ISBN">978-3-484-20169-9</idno>
-                  <idno type="callNumber">ROL</idno>
+                  <title>Das Rolandslied des Pfaffen Konrad</title>
                   <editor>
                     <forename>Carl</forename>
                     <surname>Wesle</surname>
                   </editor>
+                  <idno type="ISBN">978-3-484-20169-9</idno>
+                  <idno type="callNumber">ROL</idno>
                   <edition>3</edition>
                   <imprint>
                     <pubPlace>Tubingen</pubPlace>
@@ -113,7 +113,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_44" corresp="persons.xml#person_44">
             <persName type="preferred">Konrad (der Pfaffe)</persName>

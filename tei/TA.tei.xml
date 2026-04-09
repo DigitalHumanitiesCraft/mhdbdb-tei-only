@@ -48,16 +48,16 @@
             <listBibl>
               <biblStruct type="book" xml:id="TA_TA" corresp="http://zotero.org/groups/5043625/items/VED96Y8W" key="TA">
                 <monogr>
-                  <title>Die Gedichte der Manessischen Handschrift: Mittelhochdeutsch / Neuhochdeutsch: Einleitung, Edition, Textkommentar von Maria Grazia Cammarota. Übersetzung von Jürgen Kühnel</title>
                   <author>
                     <name>Tannhäuser</name>
                   </author>
-                  <idno type="ISBN">978-3-86758-004-5</idno>
-                  <idno type="callNumber">TA</idno>
+                  <title>Die Gedichte der Manessischen Handschrift: Mittelhochdeutsch / Neuhochdeutsch: Einleitung, Edition, Textkommentar von Maria Grazia Cammarota. Übersetzung von Jürgen Kühnel</title>
                   <editor>
                     <forename>Maria Grazia</forename>
                     <surname>Cammarota</surname>
                   </editor>
+                  <idno type="ISBN">978-3-86758-004-5</idno>
+                  <idno type="callNumber">TA</idno>
                   <imprint>
                     <pubPlace>Göppingen</pubPlace>
                     <biblScope unit="volume">749</biblScope>
@@ -115,7 +115,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_1148" corresp="persons.xml#person_1148">
             <persName type="preferred">Tannhäuser</persName>

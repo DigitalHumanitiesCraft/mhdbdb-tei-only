@@ -50,16 +50,16 @@
             <listBibl>
               <biblStruct type="book" xml:id="DAH_DAH" corresp="http://zotero.org/groups/5043625/items/UBG38QRE" key="DAH">
                 <monogr>
-                  <title>Der Arme Heinrich</title>
                   <author>
                     <name>Hartmann von Aue</name>
                   </author>
-                  <idno type="ISBN">978-3-484-20061-6</idno>
-                  <idno type="callNumber">DAH</idno>
+                  <title>Der Arme Heinrich</title>
                   <editor>
                     <forename>Hermann</forename>
                     <surname>Paul</surname>
                   </editor>
+                  <idno type="ISBN">978-3-484-20061-6</idno>
+                  <idno type="callNumber">DAH</idno>
                   <edition>16</edition>
                   <imprint>
                     <pubPlace>Tübingen</pubPlace>
@@ -134,7 +134,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_2" corresp="persons.xml#person_2">
             <persName type="preferred">Hartmann von Aue</persName>

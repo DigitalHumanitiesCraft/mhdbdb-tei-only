@@ -48,15 +48,15 @@
             <listBibl>
               <biblStruct type="book" xml:id="KVO_KVO" corresp="http://zotero.org/groups/5043625/items/V68XUGP8" key="KVO">
                 <monogr>
-                  <title>Gedichte: Mittelhochdeutsch - Neuhochdeutsch: Mit einer Einleitung zur Klärung der Verfasserfrage</title>
                   <author>
                     <name>König vom Odenwald</name>
                   </author>
-                  <idno type="callNumber">KVO</idno>
+                  <title>Gedichte: Mittelhochdeutsch - Neuhochdeutsch: Mit einer Einleitung zur Klärung der Verfasserfrage</title>
                   <editor>
                     <forename>Reinhard</forename>
                     <surname>Olt</surname>
                   </editor>
+                  <idno type="callNumber">KVO</idno>
                   <imprint>
                     <pubPlace>Heidelberg</pubPlace>
                     <publisher>Winter</publisher>
@@ -122,7 +122,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_1707" corresp="persons.xml#person_1707">
             <persName type="preferred">König vom Odenwald</persName>

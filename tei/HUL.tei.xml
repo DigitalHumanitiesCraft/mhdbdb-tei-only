@@ -48,16 +48,16 @@
             <listBibl>
               <biblStruct type="book" xml:id="HUL_HUL" corresp="http://zotero.org/groups/5043625/items/3DFZHSMD" key="HUL">
                 <monogr>
-                  <title>Das Leben des Heiligen Ulrich</title>
                   <author>
                     <name>Albert von Augsburg</name>
                   </author>
-                  <idno type="ISBN">978-3-11-001810-3</idno>
-                  <idno type="callNumber">HUL</idno>
+                  <title>Das Leben des Heiligen Ulrich</title>
                   <editor>
                     <forename>Karl-Ernst</forename>
                     <surname>Geith</surname>
                   </editor>
+                  <idno type="ISBN">978-3-11-001810-3</idno>
+                  <idno type="callNumber">HUL</idno>
                   <imprint>
                     <pubPlace>Berlin and New York</pubPlace>
                     <biblScope unit="volume">39</biblScope>
@@ -124,7 +124,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_585" corresp="persons.xml#person_585">
             <persName type="preferred">Albert von Augsburg</persName>

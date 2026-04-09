@@ -49,16 +49,16 @@
             <listBibl>
               <biblStruct type="book" xml:id="RLS_RLS" corresp="http://zotero.org/groups/5043625/items/WSRSTNLG" key="RLS">
                 <monogr>
-                  <title>Edition - Übersetzung - Kommentar</title>
                   <author>
                     <name>Rumelant von Sachsen</name>
                   </author>
-                  <idno type="ISBN">978-3-11-023283-7</idno>
-                  <idno type="callNumber">RLS</idno>
+                  <title>Edition - Übersetzung - Kommentar</title>
                   <editor>
                     <forename>Holger</forename>
                     <surname>Runow</surname>
                   </editor>
+                  <idno type="ISBN">978-3-11-023283-7</idno>
+                  <idno type="callNumber">RLS</idno>
                   <imprint>
                     <pubPlace>Berlin and New York</pubPlace>
                     <biblScope unit="volume">N.F. 121</biblScope>
@@ -116,7 +116,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_1487" corresp="persons.xml#person_1487">
             <persName type="preferred">Rumelant von Sachsen</persName>

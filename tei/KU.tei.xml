@@ -50,15 +50,15 @@
             <listBibl>
               <biblStruct type="book" xml:id="KU_KU" corresp="http://zotero.org/groups/5043625/items/S5ZTHFEL" key="KU">
                 <monogr>
-                  <title>Kudrun</title>
                   <author>
                     <name>Anonym</name>
                   </author>
-                  <idno type="callNumber">KU</idno>
+                  <title>Kudrun</title>
                   <editor>
                     <forename>Karl</forename>
                     <surname>Bartsch</surname>
                   </editor>
+                  <idno type="callNumber">KU</idno>
                   <edition>5</edition>
                   <imprint>
                     <pubPlace>Wiesbaden</pubPlace>
@@ -107,7 +107,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>

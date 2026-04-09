@@ -52,15 +52,15 @@
             <listBibl>
               <biblStruct type="book" xml:id="AMI_AMI" corresp="http://zotero.org/groups/5043625/items/NJ3DW43C" key="AMI">
                 <monogr>
-                  <title>Des Strickers Pfaffe Amis</title>
                   <author>
                     <name>Der Stricker</name>
                   </author>
-                  <idno type="callNumber">AMI</idno>
+                  <title>Des Strickers Pfaffe Amis</title>
                   <editor>
                     <forename>Kin'ichi</forename>
                     <surname>Kamihara</surname>
                   </editor>
+                  <idno type="callNumber">AMI</idno>
                   <imprint>
                     <pubPlace>Göppingen</pubPlace>
                     <biblScope unit="volume">233</biblScope>
@@ -106,7 +106,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_4" corresp="persons.xml#person_4">
             <persName type="preferred">Der Stricker</persName>

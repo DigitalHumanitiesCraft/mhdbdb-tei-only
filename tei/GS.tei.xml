@@ -50,15 +50,15 @@
             <listBibl>
               <biblStruct type="book" xml:id="GS_GS" corresp="http://zotero.org/groups/5043625/items/HWDJGQD6" key="GS">
                 <monogr>
-                  <title>Goldene Schmiede</title>
                   <author>
                     <name>Konrad von Würzburg</name>
                   </author>
-                  <idno type="callNumber">GS</idno>
+                  <title>Goldene Schmiede</title>
                   <editor>
                     <forename>Wilhelm</forename>
                     <surname>Grimm</surname>
                   </editor>
+                  <idno type="callNumber">GS</idno>
                   <imprint>
                     <pubPlace>Berlin</pubPlace>
                     <publisher>Klemann</publisher>
@@ -118,7 +118,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_1" corresp="persons.xml#person_1">
             <persName type="preferred">Konrad von Würzburg</persName>

@@ -51,15 +51,15 @@
             <listBibl>
               <biblStruct type="book" xml:id="ARB_ARB" corresp="http://zotero.org/groups/5043625/items/LD2KXIXI" key="ARB">
                 <monogr>
-                  <title>Meister Albrants Rossarzneibuch: Verzeichnis der Handschriften, Text der Ältesten Fassung</title>
                   <author>
                     <name>Meister Albrant</name>
                   </author>
-                  <idno type="callNumber">ARB</idno>
+                  <title>Meister Albrants Rossarzneibuch: Verzeichnis der Handschriften, Text der Ältesten Fassung</title>
                   <editor>
                     <forename>Gerhard</forename>
                     <surname>Eis</surname>
                   </editor>
+                  <idno type="callNumber">ARB</idno>
                   <imprint>
                     <pubPlace>Konstanz</pubPlace>
                     <publisher>Terra</publisher>
@@ -100,7 +100,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_686" corresp="persons.xml#person_686">
             <persName type="preferred">Meister Albrant</persName>

@@ -50,16 +50,16 @@
             <listBibl>
               <biblStruct type="book" xml:id="HBR_HBR" corresp="http://zotero.org/groups/5043625/items/9B9UB56A" key="HBR">
                 <monogr>
-                  <title>Helmbrecht</title>
                   <author>
                     <name>Wernher der Gartenaere</name>
                   </author>
-                  <idno type="ISBN">3-11-172730-0</idno>
-                  <idno type="callNumber">HBR</idno>
+                  <title>Helmbrecht</title>
                   <editor>
                     <forename>Friedrich</forename>
                     <surname>Panzer</surname>
                   </editor>
+                  <idno type="ISBN">3-11-172730-0</idno>
+                  <idno type="callNumber">HBR</idno>
                   <edition>8</edition>
                   <imprint>
                     <pubPlace>Tübingen</pubPlace>
@@ -109,7 +109,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_43" corresp="persons.xml#person_43">
             <persName type="preferred">Wernher der Gartenaere</persName>

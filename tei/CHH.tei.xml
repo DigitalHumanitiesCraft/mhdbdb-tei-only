@@ -50,15 +50,15 @@
             <listBibl>
               <biblStruct type="book" xml:id="CHH_CHH" corresp="http://zotero.org/groups/5043625/items/UYMPQL8R" key="CHH">
                 <monogr>
-                  <title>Gundackers von Judenburg Christi Hort: Aus der Wiener Handschrift</title>
                   <author>
                     <name>Gundacker von Judenburg</name>
                   </author>
-                  <idno type="callNumber">CHH</idno>
+                  <title>Gundackers von Judenburg Christi Hort: Aus der Wiener Handschrift</title>
                   <editor>
                     <forename>J.</forename>
                     <surname>Jaschke</surname>
                   </editor>
+                  <idno type="callNumber">CHH</idno>
                   <imprint>
                     <pubPlace>Berlin</pubPlace>
                     <biblScope unit="volume">18</biblScope>
@@ -108,7 +108,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_606" corresp="persons.xml#person_606">
             <persName type="preferred">Gundacker von Judenburg</persName>

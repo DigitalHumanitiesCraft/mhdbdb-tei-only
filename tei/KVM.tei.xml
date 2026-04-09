@@ -50,15 +50,15 @@
             <listBibl>
               <biblStruct type="book" xml:id="KVM_KVM" corresp="http://zotero.org/groups/5043625/items/AYALRGFJ" key="KVM">
                 <monogr>
-                  <title>Das Buch der Natur: Die Erste Naturgeschichte in Deutscher Sprache</title>
                   <author>
                     <name>Konrad von Megenberg</name>
                   </author>
-                  <idno type="callNumber">KVM</idno>
+                  <title>Das Buch der Natur: Die Erste Naturgeschichte in Deutscher Sprache</title>
                   <editor>
                     <forename>Franz</forename>
                     <surname>Pfeiffer</surname>
                   </editor>
+                  <idno type="callNumber">KVM</idno>
                   <imprint>
                     <pubPlace>Stuttgart</pubPlace>
                     <publisher>Karl Aue</publisher>
@@ -69,10 +69,10 @@
               </biblStruct>
               <biblStruct type="book" xml:id="KVM_KVM_KVM" corresp="http://zotero.org/groups/5043625/items/7JMSB5PM" key="KVM">
                 <monogr>
-                  <title>Das Buch Der Natur: Digitale Textedition</title>
                   <author>
                     <name>Konrad Von Megenberg</name>
                   </author>
+                  <title>Das Buch Der Natur: Digitale Textedition</title>
                   <idno type="callNumber">KVM</idno>
                   <imprint>
                     <pubPlace>Berlin and Frankfurt am Main</pubPlace>
@@ -126,7 +126,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_607" corresp="persons.xml#person_607">
             <persName type="preferred">Konrad von Megenberg</persName>
@@ -144,8 +144,8 @@
   </teiHeader>
   <text>
     <body>
-      <div type="subsection" n="1">
-        <div type="§" n="1">
+      <div type="section" n="1">
+        <div type="section" n="1">
           <p>
             <pb n="1"/>
             <lb n="1"/>
@@ -205,7 +205,7 @@
             <seg xml:id="KVM_100001106_12" type="pc">.</seg>
           </p>
         </div>
-        <div type="§" n="2">
+        <div type="section" n="2">
           <p>
             <lb n="1"/>
             <hi rend="initial">
@@ -266,7 +266,7 @@
             <seg xml:id="KVM_100001206_10" type="pc">.</seg>
           </p>
         </div>
-        <div type="§" n="3">
+        <div type="section" n="3">
           <p>
             <lb n="1"/>
             <hi rend="initial">
@@ -311,8 +311,8 @@
           </p>
         </div>
       </div>
-      <div type="subsection" n="3">
-        <div type="§" n="3">
+      <div type="section" n="3">
+        <div type="section" n="3">
           <p>
             <lb n="6"/>
             <w xml:id="KVM_100003306_0" lemmaRef="lexicon.xml#lemma_5541" pos="VRB" wordRef="lexicon.xml#type_185701">sleuzt</w>
@@ -331,8 +331,8 @@
           </p>
         </div>
       </div>
-      <div type="subsection" n="1">
-        <div type="§" n="4">
+      <div type="section" n="1">
+        <div type="section" n="4">
           <p>
             <pb n="2"/>
             <lb n="1"/>
@@ -395,7 +395,7 @@
             <seg xml:id="KVM_200001406_12" type="pc">.</seg>
           </p>
         </div>
-        <div type="§" n="5">
+        <div type="section" n="5">
           <p>
             <lb n="1"/>
             <hi rend="initial">
@@ -445,7 +445,7 @@
             <seg xml:id="KVM_200001506_9" type="pc">.</seg>
           </p>
         </div>
-        <div type="§" n="6">
+        <div type="section" n="6">
           <p>
             <lb n="1"/>
             <hi rend="initial">

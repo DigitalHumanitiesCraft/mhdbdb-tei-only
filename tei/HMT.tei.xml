@@ -49,15 +49,15 @@
             <listBibl>
               <biblStruct type="book" xml:id="HMT_HMT" corresp="http://zotero.org/groups/5043625/items/ZZTLGCZR" key="HMT">
                 <monogr>
-                  <title>Das Buch von Troja von Hans Mair: Kritische Textausgabe und Untersuchung</title>
                   <author>
                     <name>Hans Mair</name>
                   </author>
-                  <idno type="callNumber">HMT</idno>
+                  <title>Das Buch von Troja von Hans Mair: Kritische Textausgabe und Untersuchung</title>
                   <editor>
                     <forename>Hans-Josef</forename>
                     <surname>Dreckmann</surname>
                   </editor>
+                  <idno type="callNumber">HMT</idno>
                   <imprint>
                     <pubPlace>München</pubPlace>
                     <publisher>W. Fink</publisher>
@@ -101,7 +101,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_746" corresp="persons.xml#person_746">
             <persName type="preferred">Hans Mair</persName>

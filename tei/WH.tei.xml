@@ -50,16 +50,16 @@
             <listBibl>
               <biblStruct type="book" xml:id="WH_WH" corresp="http://zotero.org/groups/5043625/items/GRN22VSL" key="WH">
                 <monogr>
-                  <title>Willehalm: Nach der Gesamten Überlieferung Kritisch Herausgegeben von Werner Schröder</title>
                   <author>
                     <name>Wolfram von Eschenbach</name>
                   </author>
-                  <idno type="ISBN">978-3-11-007323-2</idno>
-                  <idno type="callNumber">WH</idno>
+                  <title>Willehalm: Nach der Gesamten Überlieferung Kritisch Herausgegeben von Werner Schröder</title>
                   <editor>
                     <forename>Werner</forename>
                     <surname>Schröder</surname>
                   </editor>
+                  <idno type="ISBN">978-3-11-007323-2</idno>
+                  <idno type="callNumber">WH</idno>
                   <imprint>
                     <pubPlace>Berlin and New York</pubPlace>
                     <publisher>de Gruyter</publisher>
@@ -103,7 +103,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_7" corresp="persons.xml#person_7">
             <persName type="preferred">Wolfram von Eschenbach</persName>

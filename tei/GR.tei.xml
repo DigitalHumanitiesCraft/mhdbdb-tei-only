@@ -50,16 +50,16 @@
             <listBibl>
               <biblStruct type="book" xml:id="GR_GR" corresp="http://zotero.org/groups/5043625/items/P3Y88AA4" key="GR">
                 <monogr>
-                  <title>Gregorius</title>
                   <author>
                     <name>Hartmann von Aue</name>
                   </author>
-                  <idno type="ISBN">978-3-484-20001-2</idno>
-                  <idno type="callNumber">GR</idno>
+                  <title>Gregorius</title>
                   <editor>
                     <forename>Hermann</forename>
                     <surname>Paul</surname>
                   </editor>
+                  <idno type="ISBN">978-3-484-20001-2</idno>
+                  <idno type="callNumber">GR</idno>
                   <edition>13</edition>
                   <imprint>
                     <pubPlace>Tübingen</pubPlace>
@@ -116,7 +116,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_2" corresp="persons.xml#person_2">
             <persName type="preferred">Hartmann von Aue</persName>

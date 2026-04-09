@@ -48,15 +48,15 @@
             <listBibl>
               <biblStruct type="book" xml:id="SFL_SFL" corresp="http://zotero.org/groups/5043625/items/ZVST6K8X" key="SFL">
                 <monogr>
-                  <title>Sanct Francisken Leben und Tochter Syon: Zum Ersten Mal Herausgegeben Nebst Glossar</title>
                   <author>
                     <name>Lamprecht von Regensburg</name>
                   </author>
-                  <idno type="callNumber">SFL</idno>
+                  <title>Sanct Francisken Leben und Tochter Syon: Zum Ersten Mal Herausgegeben Nebst Glossar</title>
                   <editor>
                     <forename>Karl</forename>
                     <surname>Weinhold</surname>
                   </editor>
+                  <idno type="callNumber">SFL</idno>
                   <imprint>
                     <pubPlace>Paderborn</pubPlace>
                     <publisher>Schöningh</publisher>
@@ -128,7 +128,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_766" corresp="persons.xml#person_766">
             <persName type="preferred">Lamprecht von Regensburg</persName>

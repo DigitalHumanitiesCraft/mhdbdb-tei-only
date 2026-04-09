@@ -52,15 +52,15 @@
             <listBibl>
               <biblStruct type="book" xml:id="MAN_MAN" corresp="http://zotero.org/groups/5043625/items/YR5EU5S3" key="MAN">
                 <monogr>
-                  <title>Der Mantel: Bruchstück eines Lanzeletromans des Heinrich von dem Türlin: Nebst einer Abhandlung über die Sage vom Trinkhorn und Mantel und die Quelle der Krone</title>
                   <author>
                     <name>Heinrich von dem Türlin</name>
                   </author>
-                  <idno type="callNumber">MAN</idno>
+                  <title>Der Mantel: Bruchstück eines Lanzeletromans des Heinrich von dem Türlin: Nebst einer Abhandlung über die Sage vom Trinkhorn und Mantel und die Quelle der Krone</title>
                   <editor>
                     <forename>Otto</forename>
                     <surname>Warnatsch</surname>
                   </editor>
+                  <idno type="callNumber">MAN</idno>
                   <imprint>
                     <pubPlace>Breslau</pubPlace>
                     <biblScope unit="volume">2</biblScope>
@@ -116,7 +116,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_867" corresp="persons.xml#person_867">
             <persName type="preferred">Heinrich von dem Türlin</persName>

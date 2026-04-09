@@ -48,16 +48,16 @@
             <listBibl>
               <biblStruct type="book" xml:id="DJUM_DJUM" corresp="http://zotero.org/groups/5043625/items/GCLFKK2C" key="DJUM">
                 <monogr>
-                  <title>Sangsprüche, Minnelieder, Meisterlieder</title>
                   <author>
                     <name>Der Junge Meißner</name>
                   </author>
-                  <idno type="ISBN">978-3-7608-3379-8</idno>
-                  <idno type="callNumber">DJUM</idno>
+                  <title>Sangsprüche, Minnelieder, Meisterlieder</title>
                   <editor>
                     <forename>Günther</forename>
                     <surname>Peperkorn</surname>
                   </editor>
+                  <idno type="ISBN">978-3-7608-3379-8</idno>
+                  <idno type="callNumber">DJUM</idno>
                   <imprint>
                     <pubPlace>München</pubPlace>
                     <biblScope unit="volume">79</biblScope>
@@ -115,7 +115,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_1567" corresp="persons.xml#person_1567">
             <persName type="preferred">Der Junge Meißner</persName>

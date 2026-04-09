@@ -52,16 +52,16 @@
             <listBibl>
               <biblStruct type="book" xml:id="DES2_DES2" corresp="http://zotero.org/groups/5043625/items/YNLE4MF6" key="DES2">
                 <monogr>
-                  <title>Daz Buoch von Guoter Spise (the Book Of Good Food): A Study, Edition, And English Translation Of The Oldest German Cookbook</title>
                   <author>
                     <name>Anonym</name>
                   </author>
-                  <idno type="ISBN">3-901094-12-1</idno>
-                  <idno type="callNumber">DES2</idno>
+                  <title>Daz Buoch von Guoter Spise (the Book Of Good Food): A Study, Edition, And English Translation Of The Oldest German Cookbook</title>
                   <editor>
                     <forename>Melitta</forename>
                     <surname>Adamson</surname>
                   </editor>
+                  <idno type="ISBN">3-901094-12-1</idno>
+                  <idno type="callNumber">DES2</idno>
                   <imprint>
                     <pubPlace>Krems</pubPlace>
                     <biblScope unit="volume">9</biblScope>
@@ -116,7 +116,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>

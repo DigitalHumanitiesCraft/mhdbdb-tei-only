@@ -50,15 +50,15 @@
             <listBibl>
               <biblStruct type="book" xml:id="FD_FD" corresp="http://zotero.org/groups/5043625/items/99FHASY2" key="FD">
                 <monogr>
-                  <title>Frauendienst</title>
                   <author>
                     <name>Ulrich von Lichtenstein</name>
                   </author>
-                  <idno type="callNumber">FD</idno>
+                  <title>Frauendienst</title>
                   <editor>
                     <forename>Reinhold</forename>
                     <surname>Bechstein</surname>
                   </editor>
+                  <idno type="callNumber">FD</idno>
                   <imprint>
                     <pubPlace>Leipzig</pubPlace>
                     <biblScope unit="volume">6–7</biblScope>
@@ -141,7 +141,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_5" corresp="persons.xml#person_5">
             <persName type="preferred">Ulrich von Liechtenstein</persName>

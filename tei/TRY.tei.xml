@@ -50,15 +50,15 @@
             <listBibl>
               <biblStruct type="book" xml:id="TRY_TRY" corresp="http://zotero.org/groups/5043625/items/GKS34F3S" key="TRY">
                 <monogr>
-                  <title>Liet von Troye</title>
                   <author>
                     <name>Herbort von Fritslâr</name>
                   </author>
-                  <idno type="callNumber">TRY</idno>
+                  <title>Liet von Troye</title>
                   <editor>
                     <forename>Karl</forename>
                     <surname>Frommann</surname>
                   </editor>
+                  <idno type="callNumber">TRY</idno>
                   <imprint>
                     <pubPlace>Quedlinburg and Leipzig</pubPlace>
                     <biblScope unit="volume">5</biblScope>
@@ -106,7 +106,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_35" corresp="persons.xml#person_35">
             <persName type="preferred">Herbort von Fritslâr</persName>

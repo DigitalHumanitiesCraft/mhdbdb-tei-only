@@ -48,15 +48,15 @@
             <listBibl>
               <biblStruct type="book" xml:id="BRW_BRW" corresp="http://zotero.org/groups/5043625/items/9ZU24USF" key="BRW">
                 <monogr>
-                  <title>Bruder Wernher. Abbildung und Transkription der Gesamten Überlieferung. Bd. I Abbildungen. Bd. Ii Transkription.</title>
                   <author>
                     <name>Bruder Wernher</name>
                   </author>
-                  <idno type="callNumber">BRW</idno>
+                  <title>Bruder Wernher. Abbildung und Transkription der Gesamten Überlieferung. Bd. I Abbildungen. Bd. Ii Transkription.</title>
                   <editor>
                     <forename>Franz</forename>
                     <surname>Viktor</surname>
                   </editor>
+                  <idno type="callNumber">BRW</idno>
                   <imprint>
                     <pubPlace>Göppingen</pubPlace>
                     <biblScope unit="volume">27</biblScope>
@@ -126,7 +126,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_1607" corresp="persons.xml#person_1607">
             <persName type="preferred">Bruder Wernher</persName>

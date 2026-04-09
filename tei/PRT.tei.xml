@@ -50,15 +50,15 @@
             <listBibl>
               <biblStruct type="book" xml:id="PRT_PRT" corresp="http://zotero.org/groups/5043625/items/NPNK3YVG" key="PRT">
                 <monogr>
-                  <title>Partonopier und Meliur: Unveränderter Nachdruck</title>
                   <author>
                     <name>Konrad von Würzburg</name>
                   </author>
-                  <idno type="callNumber">PRT</idno>
+                  <title>Partonopier und Meliur: Unveränderter Nachdruck</title>
                   <editor>
                     <forename>Karl</forename>
                     <surname>Bartsch</surname>
                   </editor>
+                  <idno type="callNumber">PRT</idno>
                   <imprint>
                     <pubPlace>Wien</pubPlace>
                     <publisher>Braumüller</publisher>
@@ -110,7 +110,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_1" corresp="persons.xml#person_1">
             <persName type="preferred">Konrad von Würzburg</persName>

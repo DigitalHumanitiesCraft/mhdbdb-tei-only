@@ -49,10 +49,10 @@
             <listBibl>
               <biblStruct type="book" xml:id="FLG_FLG" corresp="http://zotero.org/groups/5043625/items/MLJUUSLC" key="FLG">
                 <monogr>
-                  <title>Das Fließende Licht Der Gottheit: Buch 1 &amp; 2; Digitale Textedition</title>
                   <author>
                     <name>Mechthild von Magdeburg</name>
                   </author>
+                  <title>Das Fließende Licht Der Gottheit: Buch 1 &amp; 2; Digitale Textedition</title>
                   <idno type="callNumber">FLG</idno>
                   <imprint>
                     <date>2009</date>
@@ -107,7 +107,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_1547" corresp="persons.xml#person_1547">
             <persName type="preferred">Mechthild von Magdeburg</persName>
@@ -125,7 +125,7 @@
   </teiHeader>
   <text>
     <body>
-      <div type="volume" n="1">
+      <div type="section" n="1">
         <p>
           <pb type="folio" n="2r"/>
           <lb n="1"/>
@@ -11358,7 +11358,7 @@
           </p>
         </div>
       </div>
-      <div type="volume" n="2">
+      <div type="section" n="2">
         <div>
           <head>
             <lb n="h_1"/>

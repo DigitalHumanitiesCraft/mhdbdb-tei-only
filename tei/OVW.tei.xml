@@ -48,12 +48,10 @@
             <listBibl>
               <biblStruct type="book" xml:id="OVW_OVW" corresp="http://zotero.org/groups/5043625/items/CKP8DTYD" key="OVW">
                 <monogr>
-                  <title>Die Lieder Oswalds von Wolkenstein</title>
                   <author>
                     <name>Oswald von Wolkenstein</name>
                   </author>
-                  <idno type="ISBN">978-3-484-20155-2</idno>
-                  <idno type="callNumber">OVW</idno>
+                  <title>Die Lieder Oswalds von Wolkenstein</title>
                   <editor>
                     <forename>Notburga</forename>
                     <surname>Wolf</surname>
@@ -66,6 +64,8 @@
                     <forename>Norbert Richard</forename>
                     <surname>Wolf</surname>
                   </editor>
+                  <idno type="ISBN">978-3-484-20155-2</idno>
+                  <idno type="callNumber">OVW</idno>
                   <edition>3</edition>
                   <imprint>
                     <pubPlace>Tübingen</pubPlace>
@@ -113,7 +113,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_364" corresp="persons.xml#person_364">
             <persName type="preferred">Oswald von Wolkenstein</persName>

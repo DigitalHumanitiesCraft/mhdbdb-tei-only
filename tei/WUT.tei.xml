@@ -49,15 +49,15 @@
             <listBibl>
               <biblStruct type="book" xml:id="WUT_WUT" corresp="http://zotero.org/groups/5043625/items/PXGGVPT8" key="WUT">
                 <monogr>
-                  <title>Willehalm: Ein Rittergedicht aus der Zweiten Hälfte des Dreizehnten Jarhunderts</title>
                   <author>
                     <name>Ulrich von dem Türlin</name>
                   </author>
-                  <idno type="callNumber">WUT</idno>
+                  <title>Willehalm: Ein Rittergedicht aus der Zweiten Hälfte des Dreizehnten Jarhunderts</title>
                   <editor>
                     <forename>Samuel</forename>
                     <surname>Singer</surname>
                   </editor>
+                  <idno type="callNumber">WUT</idno>
                   <imprint>
                     <pubPlace>Prag</pubPlace>
                     <biblScope unit="volume">4</biblScope>
@@ -105,7 +105,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_46" corresp="persons.xml#person_46">
             <persName type="preferred">Ulrich von dem Türlîn</persName>

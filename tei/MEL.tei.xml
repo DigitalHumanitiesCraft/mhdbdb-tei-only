@@ -49,15 +49,15 @@
             <listBibl>
               <biblStruct type="book" xml:id="MEL_MEL" corresp="http://zotero.org/groups/5043625/items/F48JAV9E" key="MEL">
                 <monogr>
-                  <title>Meleranz</title>
                   <author>
                     <name>Der Pleier</name>
                   </author>
-                  <idno type="callNumber">MEL</idno>
+                  <title>Meleranz</title>
                   <editor>
                     <forename>Karl</forename>
                     <surname>Bartsch</surname>
                   </editor>
+                  <idno type="callNumber">MEL</idno>
                   <imprint>
                     <pubPlace>Stuttgart</pubPlace>
                     <biblScope unit="volume">60</biblScope>
@@ -106,7 +106,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_32" corresp="persons.xml#person_32">
             <persName type="preferred">Der Pleier</persName>

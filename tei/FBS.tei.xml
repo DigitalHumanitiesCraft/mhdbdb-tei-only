@@ -50,16 +50,16 @@
             <listBibl>
               <biblStruct type="book" xml:id="FBS_FBS" corresp="http://zotero.org/groups/5043625/items/T5ENSFLQ" key="FBS">
                 <monogr>
-                  <title>Frauenbuch</title>
                   <author>
                     <name>Ulrich von Lichtenstein</name>
                   </author>
-                  <idno type="ISBN">978-3-87452-760-6</idno>
-                  <idno type="callNumber">FBS</idno>
+                  <title>Frauenbuch</title>
                   <editor>
                     <forename>Franz Viktor</forename>
                     <surname>Spechtler</surname>
                   </editor>
+                  <idno type="ISBN">978-3-87452-760-6</idno>
+                  <idno type="callNumber">FBS</idno>
                   <imprint>
                     <pubPlace>Göppingen</pubPlace>
                     <biblScope unit="volume">520</biblScope>
@@ -142,7 +142,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_5" corresp="persons.xml#person_5">
             <persName type="preferred">Ulrich von Liechtenstein</persName>

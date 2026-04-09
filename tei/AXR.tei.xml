@@ -49,15 +49,15 @@
             <listBibl>
               <biblStruct type="book" xml:id="AXR_AXR" corresp="http://zotero.org/groups/5043625/items/9IBR9NKK" key="AXR">
                 <monogr>
-                  <title>Alexander: Ein Höfischer Roman des 13. Jahrhunderts</title>
                   <author>
                     <name>Rudolf von Ems</name>
                   </author>
-                  <idno type="callNumber">AXR</idno>
+                  <title>Alexander: Ein Höfischer Roman des 13. Jahrhunderts</title>
                   <editor>
                     <forename>Victor</forename>
                     <surname>Junk</surname>
                   </editor>
+                  <idno type="callNumber">AXR</idno>
                   <imprint>
                     <pubPlace>Leipzig</pubPlace>
                     <biblScope unit="volume">272</biblScope>
@@ -102,7 +102,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_11" corresp="persons.xml#person_11">
             <persName type="preferred">Rudolf von Ems</persName>
