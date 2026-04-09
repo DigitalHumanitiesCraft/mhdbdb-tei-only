@@ -245,3 +245,50 @@ Flow/Algorithms/XPaths: PASS. Rebuild feasibility: Search YELLOW, Build YELLOW, 
 3. Phase A1 zuerst: `migrate-div-types.py` (div/@type Renames + LZT div→lg)
 4. Nach Phase A: Audit erneut laufen → Diff pruefen
 5. Phase B: @meaningRef→@ana + JS-Fix, dann @wordRef→@corresp
+
+---
+
+## 2026-04-09 18:30 — handoff
+
+**Summary:** Komplette TEI-Migration implementiert: Korpus (Phases A-E) + Authority Files tei_all-konform + Soll-Modell fuer Authority Files. 15M+ Attribut-/Element-Transformationen ueber 675 Korpusdateien. 9 disamb-Dateien in Base gemergt (+35k POS). Corpus-Index rebuilt (XPath-Performance-Bug gefixt). Authority Files Audit + Implementation Plan geschrieben (Phases F-K). Build-Scripts prophylaktisch optimiert (XPath→iter). enhance_works_with_zotero.py fuer relatedItem-Wrapper aktualisiert.
+
+**Phase:** Implementation (Iteration). Korpus-Migration abgeschlossen, Authority-Migration geplant.
+
+Aktuelle Docs:
+- `docs/TEI-MODEL.md` — Korpus Soll-Modell (implementiert)
+- `docs/TEI-MODEL-AUTH-FILES.md` — Authority Soll-Modell (noch zu implementieren)
+- `scripts/data-wrangling/tei-model/IMPLEMENTATION-PLAN.md` — Korpus-Plan (Phases A-E done)
+- `scripts/data-wrangling/tei-model/authority-files/IMPLEMENTATION-PLAN.md` — Authority-Plan (Phases F-K pending)
+- `schema/mhdbdb.rnc` + `mhdbdb-authority.rnc` + `mhdbdb-example.xml` — Schemas
+
+Commits auf `feature/tei-model-32` (seit letztem handoff):
+- `415e7014` Phase A: div/@type, monogr, typos, dates, langUsage
+- `3ec3a5f1` Phase B: @meaningRef→@ana (5.9M), @wordRef→@corresp (7.5M)
+- `3720536c` Phase C: seg→pc (1.4M), l→lb 18 files (86k)
+- `ad739547` Phase D: normalization from XLSX (663 files)
+- `d8bfef08` Phase E: RELAX NG schema + validation
+- Diverse Fixes: stale refs, schema move, docs, disamb merge, authority tei_all fixes
+- `d7238162` Corpus index XPath→iter performance fix
+- `fff00136` Corpus index rebuild
+- `6639e723` Build-Scripts: XPath→iter + Zotero relatedItem
+
+**Open issues:**
+- Katharinas FLG/FLG1 + PL1-3 Entscheidungen: bestaetigt per Signal ("sieht das gleich")
+- `person_schweizer_anonymus`: 1 verwaiste Referenz in works.xml — Person anlegen oder Ref aendern? (Katharina fragen)
+- `work_6` (Frauendienst): keine biblStruct — manuell nachpflegen (Katharina/Chris)
+- `docs/TEI-MODEL.md` Section 10 (Validierungsbaseline): beschreibt noch Pre-Migration-Zustand
+- Browser-Test nach Merge: `<pc>` Rendering + `<lb/>` in Prosa-Texten visuell pruefen
+- Wenzelsbibel-Branch hat Merge-Konflikte (alte Attributnamen in Docs)
+
+**Next steps:**
+1. **PR #1: Korpus-Migration** — `feature/tei-model-32` → `main` (Phases A-E + Index + Build-Fixes)
+2. **Authority-Migration** (Phases G-K) — entweder auf demselben Branch oder neuem Branch
+   - G1: Genre-Refs entlabeln (3422 refs → ptr)
+   - G2: Externe IDs unwrappen + GND casing
+   - H1: persons.xml Works-Links entfernen
+   - H2: UUID-IDs migrieren (4 Personen, Cascade minimal)
+   - I1: Verwaiste Referenzen bereinigen (226 total)
+   - J1: build-authority-index.py Genre-Reader umbauen (Genre-Text aus genres.xml loesen)
+   - K: Schema + Validierung
+3. **PR #2: Authority-Migration** — nach Abschluss von Phases G-K
+4. Authority-Index rebuild (erst nach PR #2)
