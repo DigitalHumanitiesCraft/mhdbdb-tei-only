@@ -157,15 +157,15 @@
           <w xml:id="HIS_2_1" lemmaRef="lexicon.xml#lemma_2787" pos="ADJ ADV" corresp="variants.xml#type_9417">harte</w>
           <w xml:id="HIS_2_2" lemmaRef="lexicon.xml#lemma_5280" pos="NOM ADJ ADV" ana="lexicon.xml#lemma_5280_sense_8229" corresp="variants.xml#type_31440">schone</w>
           <w xml:id="HIS_2_3">wunder</w>
-          <seg xml:id="HIS_2_4" type="pc">,</seg>
+          <pc xml:id="HIS_2_4" join="left">,</pc>
         </l>
         <l n="3">
           <w xml:id="HIS_3_0" lemmaRef="lexicon.xml#lemma_7608" pos="ADV IPA" ana="lexicon.xml#lemma_7608_sense_12462" corresp="variants.xml#type_27505">wi</w>
           <w xml:id="HIS_3_1" lemmaRef="lexicon.xml#lemma_3988" pos="NAM" ana="lexicon.xml#lemma_3988_sense_6280" corresp="variants.xml#type_13959">maria</w>
-          <seg xml:id="HIS_3_2" type="pc">,</seg>
+          <pc xml:id="HIS_3_2" join="left">,</pc>
           <w xml:id="HIS_3_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3567">di</w>
           <w xml:id="HIS_3_4">gute</w>
-          <seg xml:id="HIS_3_5" type="pc">,</seg>
+          <pc xml:id="HIS_3_5" join="left">,</pc>
         </l>
         <l n="4">
           <w xml:id="HIS_4_0">in</w>
@@ -179,7 +179,7 @@
           <w xml:id="HIS_5_3">noten</w>
           <w xml:id="HIS_5_4">halden</w>
           <w xml:id="HIS_5_5">kan</w>
-          <seg xml:id="HIS_5_6" type="pc">.</seg>
+          <pc xml:id="HIS_5_6" join="left">.</pc>
         </l>
         <l n="6">
           <hi rend="initial">
@@ -188,11 +188,11 @@
           <w xml:id="HIS_6_1">was</w>
           <w xml:id="HIS_6_2">ein</w>
           <w xml:id="HIS_6_3" lemmaRef="lexicon.xml#lemma_28" pos="NOM" ana="lexicon.xml#lemma_28_sense_38" corresp="variants.xml#type_39187">abt</w>
-          <seg xml:id="HIS_6_4" type="pc">,</seg>
+          <pc xml:id="HIS_6_4" join="left">,</pc>
           <w xml:id="HIS_6_5">ein</w>
           <w xml:id="HIS_6_6" lemmaRef="lexicon.xml#lemma_2573" pos="ADJ" corresp="variants.xml#type_42826">guter</w>
           <w xml:id="HIS_6_7">man</w>
-          <seg xml:id="HIS_6_8" type="pc">,</seg>
+          <pc xml:id="HIS_6_8" join="left">,</pc>
         </l>
         <l n="7">
           <w xml:id="HIS_7_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
@@ -213,7 +213,7 @@
           <w xml:id="HIS_9_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
           <w xml:id="HIS_9_2" lemmaRef="lexicon.xml#lemma_2279" pos="ADJ ADV" ana="lexicon.xml#lemma_2279_sense_3638" corresp="variants.xml#type_204175">getrulichen</w>
           <w xml:id="HIS_9_3" lemmaRef="lexicon.xml#lemma_4649" pos="VRB" corresp="variants.xml#type_16006">pflac</w>
-          <seg xml:id="HIS_9_4" type="pc">.</seg>
+          <pc xml:id="HIS_9_4" join="left">.</pc>
         </l>
         <l n="10">
           <w xml:id="HIS_10_0" lemmaRef="lexicon.xml#lemma_7075" pos="ADJ ADV" ana="lexicon.xml#lemma_7075_sense_11459" corresp="variants.xml#type_25008">vil</w>
@@ -227,15 +227,15 @@
           <hi rend="initial">
             <w xml:id="HIS_11_0" lemmaRef="lexicon.xml#lemma_3988" pos="NAM" ana="lexicon.xml#lemma_3988_sense_6280" corresp="variants.xml#type_13959">maria</w>
           </hi>
-          <seg xml:id="HIS_11_1" type="pc">,</seg>
+          <pc xml:id="HIS_11_1" join="left">,</pc>
           <w xml:id="HIS_11_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3567">di</w>
           <w xml:id="HIS_11_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25991">vrouwe</w>
           <w xml:id="HIS_11_4">gut</w>
-          <seg xml:id="HIS_11_5" type="pc">.</seg>
+          <pc xml:id="HIS_11_5" join="left">.</pc>
         </l>
         <l n="12">
           <w xml:id="HIS_12_0" lemmaRef="lexicon.xml#lemma_7699" pos="NOM" ana="lexicon.xml#lemma_7699_sense_12619" corresp="variants.xml#type_27860">wort</w>
-          <seg xml:id="HIS_12_1" type="pc">,</seg>
+          <pc xml:id="HIS_12_1" join="left">,</pc>
           <w xml:id="HIS_12_2">werc</w>
           <w xml:id="HIS_12_3">unde</w>
           <w xml:id="HIS_12_4">mut</w>
@@ -246,7 +246,7 @@
           <w xml:id="HIS_13_2">liebe</w>
           <w xml:id="HIS_13_3">er</w>
           <w xml:id="HIS_13_4">wante</w>
-          <seg xml:id="HIS_13_5" type="pc">,</seg>
+          <pc xml:id="HIS_13_5" join="left">,</pc>
         </l>
         <l n="14">
           <w xml:id="HIS_14_0" lemmaRef="lexicon.xml#lemma_1055" pos="ADV" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3258">dar</w>
@@ -254,14 +254,14 @@
           <w xml:id="HIS_14_2">er</w>
           <w xml:id="HIS_14_3">stete</w>
           <w xml:id="HIS_14_4" lemmaRef="lexicon.xml#lemma_853" pos="VRB" corresp="variants.xml#type_2674">brante</w>
-          <seg xml:id="HIS_14_5" type="pc">,</seg>
+          <pc xml:id="HIS_14_5" join="left">,</pc>
         </l>
         <l n="15">
           <w xml:id="HIS_15_0">wand</w>
           <w xml:id="HIS_15_1">er</w>
           <w xml:id="HIS_15_2" lemmaRef="lexicon.xml#lemma_1762" pos="PRO" ana="lexicon.xml#lemma_1762_sense_2752" corresp="variants.xml#type_6021">ez</w>
           <w xml:id="HIS_15_3" lemmaRef="lexicon.xml#lemma_24186" pos="VRB" ana="lexicon.xml#lemma_24186_sense_38968" corresp="variants.xml#type_204453">willekurte</w>
-          <seg xml:id="HIS_15_4" type="pc">.</seg>
+          <pc xml:id="HIS_15_4" join="left">.</pc>
         </l>
         <l n="16">
           <hi rend="initial">
@@ -270,7 +270,7 @@
           <w xml:id="HIS_16_1" lemmaRef="lexicon.xml#lemma_1762" pos="PRO" ana="lexicon.xml#lemma_1762_sense_2752" corresp="variants.xml#type_6021">ez</w>
           <w xml:id="HIS_16_2">sich</w>
           <w xml:id="HIS_16_3" lemmaRef="lexicon.xml#lemma_1988" pos="NOM" corresp="variants.xml#type_6731">geburte</w>
-          <seg xml:id="HIS_16_4" type="pc">,</seg>
+          <pc xml:id="HIS_16_4" join="left">,</pc>
         </l>
         <l n="17">
           <w xml:id="HIS_17_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
@@ -285,7 +285,7 @@
           <w xml:id="HIS_18_2">uber</w>
           <w xml:id="HIS_18_3">mer</w>
           <w xml:id="HIS_18_4" lemmaRef="lexicon.xml#lemma_6171" pos="VRB" corresp="variants.xml#type_114690">truc</w>
-          <seg xml:id="HIS_18_5" type="pc">,</seg>
+          <pc xml:id="HIS_18_5" join="left">,</pc>
         </l>
         <l n="19">
           <w xml:id="HIS_19_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
@@ -294,7 +294,7 @@
           <w xml:id="HIS_19_3">wege</w>
           <w xml:id="HIS_19_4">liden</w>
           <w xml:id="HIS_19_5">not</w>
-          <seg xml:id="HIS_19_6" type="pc">.</seg>
+          <pc xml:id="HIS_19_6" join="left">.</pc>
         </l>
         <l n="20">
           <w xml:id="HIS_20_0">ein</w>
@@ -308,14 +308,14 @@
           <w xml:id="HIS_21_1" lemmaRef="lexicon.xml#lemma_5607" pos="ADJ" ana="lexicon.xml#lemma_5607_sense_8770" corresp="variants.xml#type_65623">sulches</w>
           <w xml:id="HIS_21_2" lemmaRef="lexicon.xml#lemma_7638" pos="NOM" corresp="variants.xml#type_27622">windes</w>
           <w xml:id="HIS_21_3" lemmaRef="lexicon.xml#lemma_26917" pos="NOM VRB" corresp="variants.xml#type_204454">vlagen</w>
-          <seg xml:id="HIS_21_4" type="pc">,</seg>
+          <pc xml:id="HIS_21_4" join="left">,</pc>
         </l>
         <l n="22">
           <w xml:id="HIS_22_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
           <w xml:id="HIS_22_1">ir</w>
           <w xml:id="HIS_22_2" lemmaRef="lexicon.xml#lemma_2141" pos="ADJ ADV" ana="lexicon.xml#lemma_2141_sense_3333" corresp="variants.xml#type_42545">genuge</w>
           <w xml:id="HIS_22_3" lemmaRef="lexicon.xml#lemma_3770" pos="VRB" corresp="variants.xml#type_13154">lagen</w>
-          <seg xml:id="HIS_22_4" type="pc">,</seg>
+          <pc xml:id="HIS_22_4" join="left">,</pc>
         </l>
         <l n="23">
           <w xml:id="HIS_23_0" lemmaRef="lexicon.xml#lemma_148" pos="CNJ" ana="lexicon.xml#lemma_148_sense_183" corresp="variants.xml#type_369">als</w>
@@ -324,7 +324,7 @@
           <w xml:id="HIS_23_3">weren</w>
           <w xml:id="HIS_23_4" lemmaRef="lexicon.xml#lemma_6118" pos="NOM ADJ" ana="lexicon.xml#lemma_6118_sense_9650" corresp="variants.xml#type_68170">tot</w>
           <w xml:id="HIS_23_5" lemmaRef="lexicon.xml#lemma_5525" pos="VRB" corresp="variants.xml#type_19329">geslagen</w>
-          <seg xml:id="HIS_23_6" type="pc">.</seg>
+          <pc xml:id="HIS_23_6" join="left">.</pc>
         </l>
         <l n="24">
           <w xml:id="HIS_24_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
@@ -338,7 +338,7 @@
           <w xml:id="HIS_25_1">wider</w>
           <w xml:id="HIS_25_2">unde</w>
           <w xml:id="HIS_25_3">vort</w>
-          <seg xml:id="HIS_25_4" type="pc">.</seg>
+          <pc xml:id="HIS_25_4" join="left">.</pc>
         </l>
         <l n="26">
           <w xml:id="HIS_26_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
@@ -354,7 +354,7 @@
           <w xml:id="HIS_27_2">unden</w>
           <w xml:id="HIS_27_3" lemmaRef="lexicon.xml#lemma_6330" pos="ADV PRP" ana="lexicon.xml#lemma_6330_sense_9973" corresp="variants.xml#type_22478">uf</w>
           <w xml:id="HIS_27_4" lemmaRef="lexicon.xml#lemma_1571" pos="VRB" corresp="variants.xml#type_5260">erhaben</w>
-          <seg xml:id="HIS_27_5" type="pc">.</seg>
+          <pc xml:id="HIS_27_5" join="left">.</pc>
         </l>
         <l n="28">
           <w xml:id="HIS_28_0">sie</w>
@@ -365,12 +365,12 @@
         <l n="29">
           <w xml:id="HIS_29_0" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
           <w xml:id="HIS_29_1" lemmaRef="lexicon.xml#lemma_7939" pos="NOM" ana="lexicon.xml#lemma_7939_sense_13020" corresp="variants.xml#type_28844">zwivel</w>
-          <seg xml:id="HIS_29_2" type="pc">,</seg>
+          <pc xml:id="HIS_29_2" join="left">,</pc>
           <w xml:id="HIS_29_3" lemmaRef="lexicon.xml#lemma_148" pos="CNJ" ana="lexicon.xml#lemma_148_sense_183" corresp="variants.xml#type_369">als</w>
           <w xml:id="HIS_29_4" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
           <w xml:id="HIS_29_5">veigen</w>
           <w xml:id="HIS_29_6" lemmaRef="lexicon.xml#lemma_6301" pos="VRB" ana="lexicon.xml#lemma_6301_sense_9929" corresp="variants.xml#type_95856">tunt</w>
-          <seg xml:id="HIS_29_7" type="pc">.</seg>
+          <pc xml:id="HIS_29_7" join="left">.</pc>
         </l>
         <l n="30">
           <w xml:id="HIS_30_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
@@ -387,7 +387,7 @@
           <w xml:id="HIS_31_3" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
           <w xml:id="HIS_31_4" lemmaRef="lexicon.xml#lemma_2534" pos="ADJ" corresp="variants.xml#type_8500">grozer</w>
           <w xml:id="HIS_31_5">macht</w>
-          <seg xml:id="HIS_31_6" type="pc">.</seg>
+          <pc xml:id="HIS_31_6" join="left">.</pc>
         </l>
         <l n="32">
           <w xml:id="HIS_32_0">binnen</w>
@@ -410,7 +410,7 @@
           <w xml:id="HIS_34_3" lemmaRef="lexicon.xml#lemma_3301" pos="NOM" ana="lexicon.xml#lemma_3301_sense_5182" corresp="variants.xml#type_218320">kile</w>
           <w xml:id="HIS_34_4" lemmaRef="lexicon.xml#lemma_5607" pos="ADJ" ana="lexicon.xml#lemma_5607_sense_8770" corresp="variants.xml#type_62614">sulchen</w>
           <w xml:id="HIS_34_5" lemmaRef="lexicon.xml#lemma_5782" pos="NOM" ana="lexicon.xml#lemma_5782_sense_9106" corresp="variants.xml#type_20342">stoz</w>
-          <seg xml:id="HIS_34_6" type="pc">,</seg>
+          <pc xml:id="HIS_34_6" join="left">,</pc>
         </l>
         <l n="35">
           <w xml:id="HIS_35_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
@@ -426,7 +426,7 @@
           <w xml:id="HIS_36_3" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
           <w xml:id="HIS_36_4" lemmaRef="lexicon.xml#lemma_8690" pos="PRO" ana="lexicon.xml#lemma_8690_sense_60939" corresp="variants.xml#type_30217">sichs</w>
           <w xml:id="HIS_36_5" lemmaRef="lexicon.xml#lemma_7036" pos="VRB" ana="lexicon.xml#lemma_7036_sense_11407" corresp="variants.xml#type_24868">verzigen</w>
-          <seg xml:id="HIS_36_6" type="pc">.</seg>
+          <pc xml:id="HIS_36_6" join="left">.</pc>
         </l>
         <l n="37">
           <w xml:id="HIS_37_0" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
@@ -445,7 +445,7 @@
           <w xml:id="HIS_39_2" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
           <w xml:id="HIS_39_3" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
           <w xml:id="HIS_39_4">neigen</w>
-          <seg xml:id="HIS_39_5" type="pc">.</seg>
+          <pc xml:id="HIS_39_5" join="left">.</pc>
         </l>
         <l n="40">
           <w xml:id="HIS_40_0">sie</w>
@@ -453,7 +453,7 @@
           <w xml:id="HIS_40_2" lemmaRef="lexicon.xml#lemma_148" pos="CNJ" ana="lexicon.xml#lemma_148_sense_183" corresp="variants.xml#type_369">als</w>
           <w xml:id="HIS_40_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
           <w xml:id="HIS_40_4">veigen</w>
-          <seg xml:id="HIS_40_5" type="pc">,</seg>
+          <pc xml:id="HIS_40_5" join="left">,</pc>
         </l>
         <l n="41">
           <w xml:id="HIS_41_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
@@ -461,7 +461,7 @@
           <w xml:id="HIS_41_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
           <w xml:id="HIS_41_3" lemmaRef="lexicon.xml#lemma_6118" pos="NOM ADJ" ana="lexicon.xml#lemma_6118_sense_9650" corresp="variants.xml#type_68170">tot</w>
           <w xml:id="HIS_41_4">haben</w>
-          <seg xml:id="HIS_41_5" type="pc">.</seg>
+          <pc xml:id="HIS_41_5" join="left">.</pc>
         </l>
         <l n="42">
           <w xml:id="HIS_42_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
@@ -469,7 +469,7 @@
           <w xml:id="HIS_42_2" lemmaRef="lexicon.xml#lemma_3006" pos="ADJ" ana="lexicon.xml#lemma_3006_sense_15705" corresp="variants.xml#type_34967">ieglicher</w>
           <w xml:id="HIS_42_3" lemmaRef="lexicon.xml#lemma_2598" pos="VRB VEX" corresp="variants.xml#type_8768">hete</w>
           <w xml:id="HIS_42_4" lemmaRef="lexicon.xml#lemma_1571" pos="VRB" corresp="variants.xml#type_5260">erhaben</w>
-          <seg xml:id="HIS_42_5" type="pc">,</seg>
+          <pc xml:id="HIS_42_5" join="left">,</pc>
         </l>
         <l n="43">
           <w xml:id="HIS_43_0" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3255">da</w>
@@ -479,7 +479,7 @@
           <w xml:id="HIS_43_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
           <w xml:id="HIS_43_5" lemmaRef="lexicon.xml#lemma_2830" pos="NOM" ana="lexicon.xml#lemma_2830_sense_90142" corresp="variants.xml#type_9575">himel</w>
           <w xml:id="HIS_43_6">schrei</w>
-          <seg xml:id="HIS_43_7" type="pc">.</seg>
+          <pc xml:id="HIS_43_7" join="left">.</pc>
         </l>
         <l n="44">
           <w xml:id="HIS_44_0" lemmaRef="lexicon.xml#lemma_3005" pos="ADV" ana="lexicon.xml#lemma_3005_sense_4809" corresp="variants.xml#type_10248">idoch</w>
@@ -487,20 +487,20 @@
           <w xml:id="HIS_44_2">ir</w>
           <w xml:id="HIS_44_3">geschrei</w>
           <w xml:id="HIS_44_4" lemmaRef="lexicon.xml#lemma_1505" pos="ADV PRP NUM" ana="lexicon.xml#lemma_1505_sense_2338" corresp="variants.xml#type_4976">entzwei</w>
-          <seg xml:id="HIS_44_5" type="pc">:</seg>
+          <pc xml:id="HIS_44_5" join="left">:</pc>
         </l>
         <l n="45">
           <w xml:id="HIS_45_0" lemmaRef="lexicon.xml#lemma_1169" pos="DET" ana="lexicon.xml#lemma_1169_sense_1850" corresp="variants.xml#type_3686">dirre</w>
           <w xml:id="HIS_45_1">an</w>
           <w xml:id="HIS_45_2" lemmaRef="lexicon.xml#lemma_9406" pos="NAM" ana="lexicon.xml#lemma_9406_sense_15362" corresp="variants.xml#type_191203">nicolaum</w>
-          <seg xml:id="HIS_45_3" type="pc">,</seg>
+          <pc xml:id="HIS_45_3" join="left">,</pc>
         </l>
         <l n="46">
           <w xml:id="HIS_46_0" lemmaRef="lexicon.xml#lemma_3011" pos="ADV" ana="lexicon.xml#lemma_3011_sense_4815" corresp="variants.xml#type_10289">iener</w>
           <w xml:id="HIS_46_1">schrei</w>
           <w xml:id="HIS_46_2">an</w>
           <w xml:id="HIS_46_3" lemmaRef="lexicon.xml#lemma_4605" pos="NAM" ana="lexicon.xml#lemma_4605_sense_7163" corresp="variants.xml#type_106347">petrum</w>
-          <seg xml:id="HIS_46_4" type="pc">,</seg>
+          <pc xml:id="HIS_46_4" join="left">,</pc>
         </l>
         <l n="47">
           <w xml:id="HIS_47_0" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
@@ -514,7 +514,7 @@
           <w xml:id="HIS_48_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
           <w xml:id="HIS_48_2">an</w>
           <w xml:id="HIS_48_3" lemmaRef="lexicon.xml#lemma_21256" pos="NAM" ana="lexicon.xml#lemma_21256_sense_34929" corresp="variants.xml#type_204455">katherinam</w>
-          <seg xml:id="HIS_48_4" type="pc">.</seg>
+          <pc xml:id="HIS_48_4" join="left">.</pc>
         </l>
         <l n="49">
           <w xml:id="HIS_49_0" lemmaRef="lexicon.xml#lemma_3006" pos="ADJ" ana="lexicon.xml#lemma_3006_sense_15705" corresp="variants.xml#type_34967">ieglicher</w>
@@ -524,13 +524,13 @@
         </l>
         <l n="50">
           <w xml:id="HIS_50_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
-          <seg xml:id="HIS_50_1" type="pc">,</seg>
+          <pc xml:id="HIS_50_1" join="left">,</pc>
           <w xml:id="HIS_50_2">an</w>
           <w xml:id="HIS_50_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3504">dem</w>
           <w xml:id="HIS_50_4">er</w>
           <w xml:id="HIS_50_5">sich</w>
           <w xml:id="HIS_50_6" lemmaRef="lexicon.xml#lemma_6942" pos="VRB" corresp="variants.xml#type_24468">versach</w>
-          <seg xml:id="HIS_50_7" type="pc">,</seg>
+          <pc xml:id="HIS_50_7" join="left">,</pc>
         </l>
         <l n="51">
           <w xml:id="HIS_51_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
@@ -539,7 +539,7 @@
           <w xml:id="HIS_51_3" lemmaRef="lexicon.xml#lemma_2739" pos="NOM VRB" ana="lexicon.xml#lemma_2739_sense_4421" corresp="variants.xml#type_9253">helfe</w>
           <w xml:id="HIS_51_4">solde</w>
           <w xml:id="HIS_51_5" lemmaRef="lexicon.xml#lemma_1961" pos="VRB" ana="lexicon.xml#lemma_1961_sense_3008" corresp="variants.xml#type_6623">geben</w>
-          <seg xml:id="HIS_51_6" type="pc">,</seg>
+          <pc xml:id="HIS_51_6" join="left">,</pc>
         </l>
         <l n="52">
           <w xml:id="HIS_52_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
@@ -556,14 +556,14 @@
           <w xml:id="HIS_53_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
           <w xml:id="HIS_53_3" lemmaRef="lexicon.xml#lemma_9196" pos="ART PRP" corresp="variants.xml#type_70775">andem</w>
           <w xml:id="HIS_53_4">las</w>
-          <seg xml:id="HIS_53_5" type="pc">.</seg>
+          <pc xml:id="HIS_53_5" join="left">.</pc>
         </l>
         <l n="54">
           <w xml:id="HIS_54_0" lemmaRef="lexicon.xml#lemma_5941" pos="PRO IPA" ana="lexicon.xml#lemma_5941_sense_9416" corresp="variants.xml#type_20940">swaz</w>
           <w xml:id="HIS_54_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
           <w xml:id="HIS_54_2" lemmaRef="lexicon.xml#lemma_38890" pos="NOM" ana="lexicon.xml#lemma_38890_sense_60703" corresp="variants.xml#type_204457">wazzerheiligen</w>
           <w xml:id="HIS_54_3">was</w>
-          <seg xml:id="HIS_54_4" type="pc">,</seg>
+          <pc xml:id="HIS_54_4" join="left">,</pc>
         </l>
         <l n="55">
           <w xml:id="HIS_55_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
@@ -573,7 +573,7 @@
           <w xml:id="HIS_55_4" lemmaRef="lexicon.xml#lemma_6330" pos="ADV PRP" ana="lexicon.xml#lemma_6330_sense_9973" corresp="variants.xml#type_22478">uf</w>
           <w xml:id="HIS_55_5" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3504">dem</w>
           <w xml:id="HIS_55_6">mer</w>
-          <seg xml:id="HIS_55_7" type="pc">,</seg>
+          <pc xml:id="HIS_55_7" join="left">,</pc>
         </l>
         <l n="56">
           <w xml:id="HIS_56_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
@@ -586,7 +586,7 @@
           <w xml:id="HIS_57_0" lemmaRef="lexicon.xml#lemma_7075" pos="ADJ ADV" ana="lexicon.xml#lemma_7075_sense_11459" corresp="variants.xml#type_25008">vil</w>
           <w xml:id="HIS_57_1" lemmaRef="lexicon.xml#lemma_2081" pos="NOM" ana="lexicon.xml#lemma_2081_sense_3224" corresp="variants.xml#type_174043">gelubdes</w>
           <w xml:id="HIS_57_2" lemmaRef="lexicon.xml#lemma_6301" pos="VRB" ana="lexicon.xml#lemma_6301_sense_9929" corresp="variants.xml#type_22297">getan</w>
-          <seg xml:id="HIS_57_3" type="pc">.</seg>
+          <pc xml:id="HIS_57_3" join="left">.</pc>
         </l>
         <l n="58">
           <hi rend="initial">
@@ -594,17 +594,17 @@
           </hi>
           <w xml:id="HIS_58_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
           <w xml:id="HIS_58_2" lemmaRef="lexicon.xml#lemma_28" pos="NOM" ana="lexicon.xml#lemma_28_sense_38" corresp="variants.xml#type_39187">abt</w>
-          <seg xml:id="HIS_58_3" type="pc">,</seg>
+          <pc xml:id="HIS_58_3" join="left">,</pc>
           <w xml:id="HIS_58_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
           <w xml:id="HIS_58_5">gute</w>
           <w xml:id="HIS_58_6">man</w>
-          <seg xml:id="HIS_58_7" type="pc">,</seg>
+          <pc xml:id="HIS_58_7" join="left">,</pc>
         </l>
         <l n="59">
           <w xml:id="HIS_59_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3567">di</w>
           <w xml:id="HIS_59_1" lemmaRef="lexicon.xml#lemma_23855" pos="NOM" ana="lexicon.xml#lemma_23855_sense_38466" corresp="variants.xml#type_204458">zwitracht</w>
           <w xml:id="HIS_59_2">gehorte</w>
-          <seg xml:id="HIS_59_3" type="pc">,</seg>
+          <pc xml:id="HIS_59_3" join="left">,</pc>
         </l>
         <l n="60">
           <w xml:id="HIS_60_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3567">di</w>
@@ -618,7 +618,7 @@
           <w xml:id="HIS_61_1" lemmaRef="lexicon.xml#lemma_3962" pos="ADJ" ana="lexicon.xml#lemma_3962_sense_6245" corresp="variants.xml#type_13833">manigen</w>
           <w xml:id="HIS_61_2" lemmaRef="lexicon.xml#lemma_2708" pos="NOM ADJ" ana="lexicon.xml#lemma_2708_sense_4365" corresp="variants.xml#type_9131">heiligen</w>
           <w xml:id="HIS_61_3">bat</w>
-          <seg xml:id="HIS_61_4" type="pc">,</seg>
+          <pc xml:id="HIS_61_4" join="left">,</pc>
         </l>
         <l n="62">
           <w xml:id="HIS_62_0" lemmaRef="lexicon.xml#lemma_4176" pos="NOM ADJ ADV" corresp="variants.xml#type_14545">mitten</w>
@@ -627,39 +627,39 @@
           <w xml:id="HIS_62_3" lemmaRef="lexicon.xml#lemma_5236" pos="NOM" corresp="variants.xml#type_18221">schif</w>
           <w xml:id="HIS_62_4">er</w>
           <w xml:id="HIS_62_5">trat</w>
-          <seg xml:id="HIS_62_6" type="pc">:</seg>
+          <pc xml:id="HIS_62_6" join="left">:</pc>
         </l>
         <l n="63">
-          <seg xml:id="HIS_63_0" type="pc">&lt;</seg>
+          <pc xml:id="HIS_63_0" join="right">&lt;</pc>
           <w xml:id="HIS_63_1">o</w>
-          <seg xml:id="HIS_63_2" type="pc">&gt;</seg>
-          <seg xml:id="HIS_63_3" type="pc">,</seg>
+          <pc xml:id="HIS_63_2" join="left">&gt;</pc>
+          <pc xml:id="HIS_63_3" join="left">,</pc>
           <w xml:id="HIS_63_4" lemmaRef="lexicon.xml#lemma_5693" pos="VRB" ana="lexicon.xml#lemma_5693_sense_8912" corresp="variants.xml#type_19957">sprach</w>
           <w xml:id="HIS_63_5">er</w>
-          <seg xml:id="HIS_63_6" type="pc">,</seg>
-          <seg xml:id="HIS_63_7" type="pc">&lt;</seg>
+          <pc xml:id="HIS_63_6" join="left">,</pc>
+          <pc xml:id="HIS_63_7" join="right">&lt;</pc>
           <w xml:id="HIS_63_8">lieben</w>
           <w xml:id="HIS_63_9" lemmaRef="lexicon.xml#lemma_3867" pos="ADJ ADV" corresp="variants.xml#type_78590">lute</w>
-          <seg xml:id="HIS_63_10" type="pc">,</seg>
+          <pc xml:id="HIS_63_10" join="left">,</pc>
         </l>
         <l n="64">
           <w xml:id="HIS_64_0" lemmaRef="lexicon.xml#lemma_6905" pos="VRB" corresp="variants.xml#type_24345">vernemt</w>
-          <seg xml:id="HIS_64_1" type="pc">,</seg>
+          <pc xml:id="HIS_64_1" join="left">,</pc>
           <w xml:id="HIS_64_2">waz</w>
           <w xml:id="HIS_64_3" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
           <w xml:id="HIS_64_4" lemmaRef="lexicon.xml#lemma_56117" pos="PRO" ana="lexicon.xml#lemma_56117_sense_90961" corresp="variants.xml#type_305363">uch</w>
           <w xml:id="HIS_64_5" lemmaRef="lexicon.xml#lemma_1176" pos="VRB" corresp="variants.xml#type_101684">dute</w>
-          <seg xml:id="HIS_64_6" type="pc">:</seg>
+          <pc xml:id="HIS_64_6" join="left">:</pc>
         </l>
         <l n="65">
           <w xml:id="HIS_65_0" lemmaRef="lexicon.xml#lemma_1762" pos="PRO" ana="lexicon.xml#lemma_1762_sense_2752" corresp="variants.xml#type_6021">ez</w>
           <w xml:id="HIS_65_1" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18956">ist</w>
           <w xml:id="HIS_65_2">gut</w>
-          <seg xml:id="HIS_65_3" type="pc">,</seg>
+          <pc xml:id="HIS_65_3" join="left">,</pc>
           <w xml:id="HIS_65_4" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
           <w xml:id="HIS_65_5">ir</w>
           <w xml:id="HIS_65_6" lemmaRef="lexicon.xml#lemma_6301" pos="VRB" ana="lexicon.xml#lemma_6301_sense_9929" corresp="variants.xml#type_42452">tut</w>
-          <seg xml:id="HIS_65_7" type="pc">,</seg>
+          <pc xml:id="HIS_65_7" join="left">,</pc>
         </l>
         <l n="66">
           <w xml:id="HIS_66_0" lemmaRef="lexicon.xml#lemma_3005" pos="ADV" ana="lexicon.xml#lemma_3005_sense_4809" corresp="variants.xml#type_10248">idoch</w>
@@ -667,7 +667,7 @@
           <w xml:id="HIS_66_2">ein</w>
           <w xml:id="HIS_66_3" lemmaRef="lexicon.xml#lemma_675" pos="ADJ ADV GRA" ana="lexicon.xml#lemma_675_sense_1090" corresp="variants.xml#type_2041">bezzer</w>
           <w xml:id="HIS_66_4">gut</w>
-          <seg xml:id="HIS_66_5" type="pc">;</seg>
+          <pc xml:id="HIS_66_5" join="left">;</pc>
         </l>
         <l n="67">
           <w xml:id="HIS_67_0">sit</w>
@@ -684,14 +684,14 @@
           <w xml:id="HIS_68_2" lemmaRef="lexicon.xml#lemma_7473" pos="VRB VEM" corresp="variants.xml#type_40698">wollen</w>
           <w xml:id="HIS_68_3">senden</w>
           <w xml:id="HIS_68_4" lemmaRef="lexicon.xml#lemma_814" pos="NOM" ana="lexicon.xml#lemma_814_sense_1328" corresp="variants.xml#type_2555">boten</w>
-          <seg xml:id="HIS_68_5" type="pc">,</seg>
+          <pc xml:id="HIS_68_5" join="left">,</pc>
         </l>
         <l n="69">
           <w xml:id="HIS_69_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
           <w xml:id="HIS_69_1" lemmaRef="lexicon.xml#lemma_7643" pos="POS" ana="lexicon.xml#lemma_7643_sense_12530" corresp="variants.xml#type_27634">unser</w>
           <w xml:id="HIS_69_2">leben</w>
           <w xml:id="HIS_69_3" lemmaRef="lexicon.xml#lemma_6768" pos="NOM ADJ" corresp="variants.xml#type_23697">vesten</w>
-          <seg xml:id="HIS_69_4" type="pc">,</seg>
+          <pc xml:id="HIS_69_4" join="left">,</pc>
         </l>
         <l n="70">
           <w xml:id="HIS_70_0" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
@@ -700,14 +700,14 @@
           <w xml:id="HIS_70_3" lemmaRef="lexicon.xml#lemma_4330" pos="VRB" corresp="variants.xml#type_15082">nemen</w>
           <w xml:id="HIS_70_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
           <w xml:id="HIS_70_5">besten</w>
-          <seg xml:id="HIS_70_6" type="pc">,</seg>
+          <pc xml:id="HIS_70_6" join="left">,</pc>
         </l>
         <l n="71">
           <w xml:id="HIS_71_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
           <w xml:id="HIS_71_1" lemmaRef="lexicon.xml#lemma_2465" pos="NOM" ana="lexicon.xml#lemma_2465_sense_3951" corresp="variants.xml#type_8256">gotes</w>
           <w xml:id="HIS_71_2">willen</w>
           <w xml:id="HIS_71_3">neiget</w>
-          <seg xml:id="HIS_71_4" type="pc">,</seg>
+          <pc xml:id="HIS_71_4" join="left">,</pc>
         </l>
         <l n="72">
           <w xml:id="HIS_72_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
@@ -727,7 +727,7 @@
           <w xml:id="HIS_74_2" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
           <w xml:id="HIS_74_3" lemmaRef="lexicon.xml#lemma_7419" pos="NOM" ana="lexicon.xml#lemma_7419_sense_12070" corresp="variants.xml#type_26750">wazzer</w>
           <w xml:id="HIS_74_4" lemmaRef="lexicon.xml#lemma_5774" pos="VRB" corresp="variants.xml#type_20319">stillen</w>
-          <seg xml:id="HIS_74_5" type="pc">,</seg>
+          <pc xml:id="HIS_74_5" join="left">,</pc>
         </l>
         <l n="75">
           <w xml:id="HIS_75_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
@@ -749,7 +749,7 @@
           <w xml:id="HIS_77_2" lemmaRef="lexicon.xml#lemma_5847" pos="NOM" corresp="variants.xml#type_20604">sturme</w>
           <w xml:id="HIS_77_3" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18956">ist</w>
           <w xml:id="HIS_77_4" lemmaRef="lexicon.xml#lemma_5396" pos="VRB" corresp="variants.xml#type_31237">gesant</w>
-          <seg xml:id="HIS_77_5" type="pc">.</seg>
+          <pc xml:id="HIS_77_5" join="left">.</pc>
         </l>
         <l n="78">
           <w xml:id="HIS_78_0" lemmaRef="lexicon.xml#lemma_7677" pos="NOM ADV" ana="lexicon.xml#lemma_7677_sense_12586" corresp="variants.xml#type_27811">wol</w>
@@ -758,7 +758,7 @@
           <w xml:id="HIS_78_3">not</w>
           <w xml:id="HIS_78_4">han</w>
           <w xml:id="HIS_78_5" lemmaRef="lexicon.xml#lemma_7171" pos="VRB" corresp="variants.xml#type_202174">volant</w>
-          <seg xml:id="HIS_78_6" type="pc">,</seg>
+          <pc xml:id="HIS_78_6" join="left">,</pc>
         </l>
         <l n="79">
           <w xml:id="HIS_79_0" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
@@ -772,7 +772,7 @@
           <w xml:id="HIS_80_1" lemmaRef="lexicon.xml#lemma_2465" pos="NOM" ana="lexicon.xml#lemma_2465_sense_3951" corresp="variants.xml#type_8256">gotes</w>
           <w xml:id="HIS_80_2" lemmaRef="lexicon.xml#lemma_4266" pos="NOM" corresp="variants.xml#type_42031">muter</w>
           <w xml:id="HIS_80_3" lemmaRef="lexicon.xml#lemma_3988" pos="NAM" ana="lexicon.xml#lemma_3988_sense_6280" corresp="variants.xml#type_46702">marien</w>
-          <seg xml:id="HIS_80_4" type="pc">,</seg>
+          <pc xml:id="HIS_80_4" join="left">,</pc>
         </l>
         <l n="81">
           <w xml:id="HIS_81_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3567">di</w>
@@ -786,7 +786,7 @@
           <w xml:id="HIS_82_0" lemmaRef="lexicon.xml#lemma_4266" pos="NOM" corresp="variants.xml#type_42031">muter</w>
           <w xml:id="HIS_82_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
           <w xml:id="HIS_82_2" lemmaRef="lexicon.xml#lemma_36009" pos="NOM" ana="lexicon.xml#lemma_36009_sense_56048" corresp="variants.xml#type_187176">barmherzekeit</w>
-          <seg xml:id="HIS_82_3" type="pc">:</seg>
+          <pc xml:id="HIS_82_3" join="left">:</pc>
         </l>
         <l n="83">
           <w xml:id="HIS_83_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3567">di</w>
@@ -811,8 +811,8 @@
           <w xml:id="HIS_85_3" lemmaRef="lexicon.xml#lemma_5404" pos="ADJ" corresp="variants.xml#type_18853">semften</w>
           <w xml:id="HIS_85_4" lemmaRef="lexicon.xml#lemma_7643" pos="POS" ana="lexicon.xml#lemma_7643_sense_12530" corresp="variants.xml#type_27634">unser</w>
           <w xml:id="HIS_85_5">not</w>
-          <seg xml:id="HIS_85_6" type="pc">.</seg>
-          <seg xml:id="HIS_85_7" type="pc">&gt;</seg>
+          <pc xml:id="HIS_85_6" join="left">.</pc>
+          <pc xml:id="HIS_85_7" join="left">&gt;</pc>
         </l>
         <l n="86">
           <w xml:id="HIS_86_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
@@ -828,7 +828,7 @@
           <w xml:id="HIS_87_2" lemmaRef="lexicon.xml#lemma_1308" pos="ADJ" ana="lexicon.xml#lemma_1308_sense_2042" corresp="variants.xml#type_4258">edeln</w>
           <w xml:id="HIS_87_3" lemmaRef="lexicon.xml#lemma_2465" pos="NOM" ana="lexicon.xml#lemma_2465_sense_3951" corresp="variants.xml#type_8256">gotes</w>
           <w xml:id="HIS_87_4" lemmaRef="lexicon.xml#lemma_887" pos="NOM" ana="lexicon.xml#lemma_887_sense_1460" corresp="variants.xml#type_71077">brut</w>
-          <seg xml:id="HIS_87_5" type="pc">.</seg>
+          <pc xml:id="HIS_87_5" join="left">.</pc>
         </l>
         <l n="88">
           <w xml:id="HIS_88_0">sie</w>
@@ -842,7 +842,7 @@
           <w xml:id="HIS_89_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3567">di</w>
           <w xml:id="HIS_89_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25992">vrouwen</w>
           <w xml:id="HIS_89_4">an</w>
-          <seg xml:id="HIS_89_5" type="pc">.</seg>
+          <pc xml:id="HIS_89_5" join="left">.</pc>
         </l>
         <l n="90">
           <w xml:id="HIS_90_0" lemmaRef="lexicon.xml#lemma_148" pos="CNJ" ana="lexicon.xml#lemma_148_sense_183" corresp="variants.xml#type_369">als</w>
@@ -851,11 +851,11 @@
           <w xml:id="HIS_90_3" lemmaRef="lexicon.xml#lemma_3595" pos="ADJ ADV" corresp="variants.xml#type_12536">lange</w>
           <w xml:id="HIS_90_4">was</w>
           <w xml:id="HIS_90_5" lemmaRef="lexicon.xml#lemma_1556" pos="VRB" corresp="variants.xml#type_35525">ergan</w>
-          <seg xml:id="HIS_90_6" type="pc">,</seg>
+          <pc xml:id="HIS_90_6" join="left">,</pc>
         </l>
         <l n="91">
           <w xml:id="HIS_91_0" lemmaRef="lexicon.xml#lemma_5366" pos="VRB" ana="lexicon.xml#lemma_5366_sense_8382" corresp="variants.xml#type_45744">secht</w>
-          <seg xml:id="HIS_91_1" type="pc">,</seg>
+          <pc xml:id="HIS_91_1" join="left">,</pc>
           <w xml:id="HIS_91_2">do</w>
           <w xml:id="HIS_91_3" lemmaRef="lexicon.xml#lemma_3567" pos="VRB" corresp="variants.xml#type_12445">liez</w>
           <w xml:id="HIS_91_4" lemmaRef="lexicon.xml#lemma_35" pos="ADV CNJ" ana="lexicon.xml#lemma_35_sense_48" corresp="variants.xml#type_98">aber</w>
@@ -867,7 +867,7 @@
           <w xml:id="HIS_92_2">ob</w>
           <w xml:id="HIS_92_3" lemmaRef="lexicon.xml#lemma_106" pos="ADJ" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_260">allen</w>
           <w xml:id="HIS_92_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25992">vrouwen</w>
-          <seg xml:id="HIS_92_5" type="pc">,</seg>
+          <pc xml:id="HIS_92_5" join="left">,</pc>
         </l>
         <l n="93">
           <w xml:id="HIS_93_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
@@ -878,7 +878,7 @@
         </l>
         <l n="94">
           <w xml:id="HIS_94_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
-          <seg xml:id="HIS_94_1" type="pc">,</seg>
+          <pc xml:id="HIS_94_1" join="left">,</pc>
           <w xml:id="HIS_94_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
           <w xml:id="HIS_94_3" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
           <w xml:id="HIS_94_4" lemmaRef="lexicon.xml#lemma_36090" pos="NOM" ana="lexicon.xml#lemma_36090_sense_56171" corresp="variants.xml#type_204171">innekeit</w>
@@ -887,7 +887,7 @@
           <w xml:id="HIS_95_0">si</w>
           <w xml:id="HIS_95_1" lemmaRef="lexicon.xml#lemma_2279" pos="ADJ ADV" ana="lexicon.xml#lemma_2279_sense_3638" corresp="variants.xml#type_204175">getrulichen</w>
           <w xml:id="HIS_95_2">loben</w>
-          <seg xml:id="HIS_95_3" type="pc">.</seg>
+          <pc xml:id="HIS_95_3" join="left">.</pc>
         </l>
         <l n="96">
           <w xml:id="HIS_96_0" lemmaRef="lexicon.xml#lemma_6330" pos="ADV PRP" ana="lexicon.xml#lemma_6330_sense_9973" corresp="variants.xml#type_22478">uf</w>
@@ -903,7 +903,7 @@
           <w xml:id="HIS_97_3" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
           <w xml:id="HIS_97_4" lemmaRef="lexicon.xml#lemma_5280" pos="NOM ADJ ADV" ana="lexicon.xml#lemma_5280_sense_8229" corresp="variants.xml#type_31440">schone</w>
           <w xml:id="HIS_97_5" lemmaRef="lexicon.xml#lemma_3400" pos="VRB" ana="lexicon.xml#lemma_3400_sense_5361" corresp="variants.xml#type_11734">quam</w>
-          <seg xml:id="HIS_97_6" type="pc">,</seg>
+          <pc xml:id="HIS_97_6" join="left">,</pc>
         </l>
         <l n="98">
           <w xml:id="HIS_98_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
@@ -911,7 +911,7 @@
           <w xml:id="HIS_98_2" lemmaRef="lexicon.xml#lemma_15282" pos="NOM" ana="lexicon.xml#lemma_15282_sense_25272" corresp="variants.xml#type_67873">trube</w>
           <w xml:id="HIS_98_3" lemmaRef="lexicon.xml#lemma_1913" pos="ADJ ADV" ana="lexicon.xml#lemma_1913_sense_2938" corresp="variants.xml#type_6476">gar</w>
           <w xml:id="HIS_98_4" lemmaRef="lexicon.xml#lemma_515" pos="VRB" ana="lexicon.xml#lemma_515_sense_740" corresp="variants.xml#type_1501">benam</w>
-          <seg xml:id="HIS_98_5" type="pc">,</seg>
+          <pc xml:id="HIS_98_5" join="left">,</pc>
         </l>
         <l n="99">
           <w xml:id="HIS_99_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3567">di</w>
@@ -921,7 +921,7 @@
           <w xml:id="HIS_99_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3504">dem</w>
           <w xml:id="HIS_99_5" lemmaRef="lexicon.xml#lemma_5236" pos="NOM" corresp="variants.xml#type_18222">schiffe</w>
           <w xml:id="HIS_99_6" lemmaRef="lexicon.xml#lemma_6171" pos="VRB" corresp="variants.xml#type_114690">truc</w>
-          <seg xml:id="HIS_99_7" type="pc">.</seg>
+          <pc xml:id="HIS_99_7" join="left">.</pc>
         </l>
         <l n="100">
           <w xml:id="HIS_100_0" lemmaRef="lexicon.xml#lemma_7075" pos="ADJ ADV" ana="lexicon.xml#lemma_7075_sense_11459" corresp="variants.xml#type_25008">vil</w>
@@ -937,7 +937,7 @@
           <w xml:id="HIS_101_2" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
           <w xml:id="HIS_101_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3504">dem</w>
           <w xml:id="HIS_101_4" lemmaRef="lexicon.xml#lemma_4011" pos="NOM" ana="lexicon.xml#lemma_4011_sense_6310" corresp="variants.xml#type_14025">maste</w>
-          <seg xml:id="HIS_101_5" type="pc">.</seg>
+          <pc xml:id="HIS_101_5" join="left">.</pc>
         </l>
         <l n="102">
           <w xml:id="HIS_102_0" lemmaRef="lexicon.xml#lemma_678" pos="PRP" ana="lexicon.xml#lemma_678_sense_1096" corresp="variants.xml#type_2055">bi</w>
@@ -951,7 +951,7 @@
           <w xml:id="HIS_103_2" lemmaRef="lexicon.xml#lemma_4432" pos="ADV CNJ" ana="lexicon.xml#lemma_4432_sense_6912" corresp="variants.xml#type_15441">nu</w>
           <w xml:id="HIS_103_3" lemmaRef="lexicon.xml#lemma_106" pos="ADJ" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_258">alle</w>
           <w xml:id="HIS_103_4" lemmaRef="lexicon.xml#lemma_7677" pos="NOM ADV" ana="lexicon.xml#lemma_7677_sense_12586" corresp="variants.xml#type_27811">wol</w>
-          <seg xml:id="HIS_103_5" type="pc">.</seg>
+          <pc xml:id="HIS_103_5" join="left">.</pc>
         </l>
         <l n="104">
           <w xml:id="HIS_104_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
@@ -960,13 +960,13 @@
           <w xml:id="HIS_104_3" lemmaRef="lexicon.xml#lemma_2795" pos="NOM" corresp="variants.xml#type_9454">herze</w>
           <w xml:id="HIS_104_4" lemmaRef="lexicon.xml#lemma_7252" pos="NOM" ana="lexicon.xml#lemma_7252_sense_11755" corresp="variants.xml#type_25896">vreuden</w>
           <w xml:id="HIS_104_5" lemmaRef="lexicon.xml#lemma_7163" pos="ADJ ADV" corresp="variants.xml#type_25418">vol</w>
-          <seg xml:id="HIS_104_6" type="pc">!</seg>
+          <pc xml:id="HIS_104_6" join="left">!</pc>
         </l>
         <l n="105">
           <w xml:id="HIS_105_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
           <w xml:id="HIS_105_1" lemmaRef="lexicon.xml#lemma_2534" pos="ADJ" corresp="variants.xml#type_8499">grozen</w>
           <w xml:id="HIS_105_2" lemmaRef="lexicon.xml#lemma_10446" pos="NOM" ana="lexicon.xml#lemma_10446_sense_16709" corresp="variants.xml#type_63905">sturmwinde</w>
-          <seg xml:id="HIS_105_3" type="pc">,</seg>
+          <pc xml:id="HIS_105_3" join="left">,</pc>
         </l>
         <l n="106">
           <w xml:id="HIS_106_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
@@ -980,7 +980,7 @@
           <w xml:id="HIS_107_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3504">dem</w>
           <w xml:id="HIS_107_2" lemmaRef="lexicon.xml#lemma_5236" pos="NOM" corresp="variants.xml#type_18222">schiffe</w>
           <w xml:id="HIS_107_3" lemmaRef="lexicon.xml#lemma_3770" pos="VRB" corresp="variants.xml#type_13154">lagen</w>
-          <seg xml:id="HIS_107_4" type="pc">,</seg>
+          <pc xml:id="HIS_107_4" join="left">,</pc>
         </l>
         <l n="108">
           <w xml:id="HIS_108_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
@@ -993,12 +993,12 @@
           <w xml:id="HIS_109_1">sich</w>
           <w xml:id="HIS_109_2" lemmaRef="lexicon.xml#lemma_7677" pos="NOM ADV" ana="lexicon.xml#lemma_7677_sense_12586" corresp="variants.xml#type_27811">wol</w>
           <w xml:id="HIS_109_3">neigen</w>
-          <seg xml:id="HIS_109_4" type="pc">.</seg>
+          <pc xml:id="HIS_109_4" join="left">.</pc>
         </l>
         <l n="110">
           <w xml:id="HIS_110_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
           <w xml:id="HIS_110_1" lemmaRef="lexicon.xml#lemma_7202" pos="ADJ" corresp="variants.xml#type_204460">vorchtigen</w>
-          <seg xml:id="HIS_110_2" type="pc">,</seg>
+          <pc xml:id="HIS_110_2" join="left">,</pc>
           <w xml:id="HIS_110_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
           <w xml:id="HIS_110_4">veigen</w>
         </l>
@@ -1007,7 +1007,7 @@
           <w xml:id="HIS_111_1" lemmaRef="lexicon.xml#lemma_1630" pos="VRB" corresp="variants.xml#type_5520">erquicket</w>
           <w xml:id="HIS_111_2" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
           <w xml:id="HIS_111_3" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ ADV" ana="lexicon.xml#lemma_7250_sense_11752" corresp="variants.xml#type_25868">vro</w>
-          <seg xml:id="HIS_111_4" type="pc">.</seg>
+          <pc xml:id="HIS_111_4" join="left">.</pc>
         </l>
         <l n="112">
           <w xml:id="HIS_112_0" lemmaRef="lexicon.xml#lemma_7075" pos="ADJ ADV" ana="lexicon.xml#lemma_7075_sense_11459" corresp="variants.xml#type_25008">vil</w>
@@ -1016,7 +1016,7 @@
           <w xml:id="HIS_112_3">ir</w>
           <w xml:id="HIS_112_4" lemmaRef="lexicon.xml#lemma_7514" pos="NOM" ana="lexicon.xml#lemma_7514_sense_12268" corresp="variants.xml#type_27198">weter</w>
           <w xml:id="HIS_112_5">do</w>
-          <seg xml:id="HIS_112_6" type="pc">,</seg>
+          <pc xml:id="HIS_112_6" join="left">,</pc>
         </l>
         <l n="113">
           <w xml:id="HIS_113_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
@@ -1025,7 +1025,7 @@
           <w xml:id="HIS_113_3">morgen</w>
           <w xml:id="HIS_113_4" lemmaRef="lexicon.xml#lemma_6330" pos="ADV PRP" ana="lexicon.xml#lemma_6330_sense_9973" corresp="variants.xml#type_22478">uf</w>
           <w xml:id="HIS_113_5">trat</w>
-          <seg xml:id="HIS_113_6" type="pc">,</seg>
+          <pc xml:id="HIS_113_6" join="left">,</pc>
         </l>
         <l n="114">
           <w xml:id="HIS_114_0">do</w>
@@ -1035,7 +1035,7 @@
           <w xml:id="HIS_114_4">an</w>
           <w xml:id="HIS_114_5" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
           <w xml:id="HIS_114_6">stat</w>
-          <seg xml:id="HIS_114_7" type="pc">,</seg>
+          <pc xml:id="HIS_114_7" join="left">,</pc>
         </l>
         <l n="115">
           <w xml:id="HIS_115_0" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3255">da</w>
@@ -1044,7 +1044,7 @@
           <w xml:id="HIS_115_3">wille</w>
           <w xml:id="HIS_115_4">was</w>
           <w xml:id="HIS_115_5">gewant</w>
-          <seg xml:id="HIS_115_6" type="pc">.</seg>
+          <pc xml:id="HIS_115_6" join="left">.</pc>
         </l>
         <l n="116">
           <w xml:id="HIS_116_0" lemmaRef="lexicon.xml#lemma_8989" pos="ADV" ana="lexicon.xml#lemma_8989_sense_13551" corresp="variants.xml#type_69797">vurwar</w>
@@ -1052,7 +1052,7 @@
           <w xml:id="HIS_116_2">in</w>
           <w xml:id="HIS_116_3">do</w>
           <w xml:id="HIS_116_4">bekant</w>
-          <seg xml:id="HIS_116_5" type="pc">,</seg>
+          <pc xml:id="HIS_116_5" join="left">,</pc>
         </l>
         <l n="117">
           <w xml:id="HIS_117_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
@@ -1071,7 +1071,7 @@
           <w xml:id="HIS_119_1">waren</w>
           <w xml:id="HIS_119_2" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_31260">zu</w>
           <w xml:id="HIS_119_3" lemmaRef="lexicon.xml#lemma_486" pos="VRB" corresp="variants.xml#type_48731">bekumen</w>
-          <seg xml:id="HIS_119_4" type="pc">.</seg>
+          <pc xml:id="HIS_119_4" join="left">.</pc>
         </l>
         <l n="120">
           <w xml:id="HIS_120_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
@@ -1087,7 +1087,7 @@
           <w xml:id="HIS_121_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
           <w xml:id="HIS_121_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25992">vrouwen</w>
           <w xml:id="HIS_121_4">gut</w>
-          <seg xml:id="HIS_121_5" type="pc">,</seg>
+          <pc xml:id="HIS_121_5" join="left">,</pc>
         </l>
         <l n="122">
           <w xml:id="HIS_122_0">wand</w>
@@ -1099,12 +1099,12 @@
         <l n="123">
           <w xml:id="HIS_123_0" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
           <w xml:id="HIS_123_1">ir</w>
-          <seg xml:id="HIS_123_2" type="pc">,</seg>
+          <pc xml:id="HIS_123_2" join="left">,</pc>
           <w xml:id="HIS_123_3" lemmaRef="lexicon.xml#lemma_148" pos="CNJ" ana="lexicon.xml#lemma_148_sense_183" corresp="variants.xml#type_369">als</w>
           <w xml:id="HIS_123_4" lemmaRef="lexicon.xml#lemma_4478" pos="ADJ ADV" ana="lexicon.xml#lemma_4478_sense_6993" corresp="variants.xml#type_15567">offenlich</w>
           <w xml:id="HIS_123_5">wart</w>
           <w xml:id="HIS_123_6">schin</w>
-          <seg xml:id="HIS_123_7" type="pc">.</seg>
+          <pc xml:id="HIS_123_7" join="left">.</pc>
         </l>
         <l n="124">
           <w xml:id="HIS_124_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
@@ -1112,7 +1112,7 @@
           <w xml:id="HIS_124_2" lemmaRef="lexicon.xml#lemma_3830" pos="VRB" corresp="variants.xml#type_13354">gelobet</w>
           <w xml:id="HIS_124_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3567">di</w>
           <w xml:id="HIS_124_4" lemmaRef="lexicon.xml#lemma_3511" pos="NOM" ana="lexicon.xml#lemma_3511_sense_14129" corresp="variants.xml#type_46660">kunigin</w>
-          <seg xml:id="HIS_124_5" type="pc">!</seg>
+          <pc xml:id="HIS_124_5" join="left">!</pc>
         </l>
       </p>
     </body>

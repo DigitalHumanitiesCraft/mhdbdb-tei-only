@@ -322,7 +322,7 @@ class TEITextReader {
 
     /**
      * Extract and format body text with TEI structure preservation
-     * Handles: <head>, <p>, <div>, <lg>, <l>, <lb>, <pb>, <hi rend="...">, <seg type="pc">
+     * Handles: <head>, <p>, <div>, <lg>, <l>, <lb>, <pb>, <hi rend="...">, <pc>, <seg type="pc">
      * @returns {object} { html: string, highlights: Array<{element, position}> }
      */
     extractAndFormatBody(teiDoc, lemmaId = null, lemmaIds = []) {
@@ -521,13 +521,10 @@ class TEITextReader {
                 } else if (tagName === 'hi') {
                     const rend = node.getAttribute('rend');
                     result += this.processHi(node, rend, lemmaId, lemmaIds, lemmaColorMap, highlights, state);
+                } else if (tagName === 'pc') {
+                    result += this.escapeHtml(node.textContent);
                 } else if (tagName === 'seg') {
-                    const type = node.getAttribute('type');
-                    if (type === 'pc') {
-                        result += this.escapeHtml(node.textContent);
-                    } else {
-                        result += this.processChildren(node, lemmaId, lemmaIds, lemmaColorMap, highlights, state);
-                    }
+                    result += this.processChildren(node, lemmaId, lemmaIds, lemmaColorMap, highlights, state);
                 } else if (tagName === 'l') {
                     result += `<span class="verse-line">${this.processChildren(node, lemmaId, lemmaIds, lemmaColorMap, highlights, state)}</span>`;
                 } else if (tagName === 'cb') {

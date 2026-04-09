@@ -2464,7 +2464,7 @@
           <w xml:id="HUB2_23060_5" lemmaRef="lexicon.xml#lemma_15034" pos="VRB" ana="lexicon.xml#lemma_15034_sense_24758" corresp="variants.xml#type_131802">bespreng</w>
           <w xml:id="HUB2_23060_6">sy</w>
           <w xml:id="HUB2_23060_7" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
-          <seg xml:id="HUB2_23060_8" type="pc">:</seg>
+          <pc xml:id="HUB2_23060_8" join="left">:</pc>
           <supplied>
             <w xml:id="HUB2_23060_9" lemmaRef="lexicon.xml#lemma_9808" pos="NOM" ana="lexicon.xml#lemma_9808_sense_15809" corresp="variants.xml#type_131680">schmalcz</w>
           </supplied>
@@ -3886,9 +3886,9 @@
           <w xml:id="HUB2_37020_3">ey</w>
           <w xml:id="HUB2_37020_4" lemmaRef="lexicon.xml#lemma_4330" pos="VRB" corresp="variants.xml#type_44507">nym</w>
           <w xml:id="HUB2_37020_5" lemmaRef="lexicon.xml#lemma_7929" pos="ADJ NUM" ana="lexicon.xml#lemma_7929_sense_13005" corresp="variants.xml#type_95176">czwo</w>
-          <seg xml:id="HUB2_37020_6" type="pc">(</seg>
+          <pc xml:id="HUB2_37020_6" join="right">(</pc>
           <caesura xml:id="HUB2_37020_7"/>
-          <seg xml:id="HUB2_37020_8" type="pc">)</seg>
+          <pc xml:id="HUB2_37020_8" join="left">)</pc>
         </p>
       </div>
     </body>

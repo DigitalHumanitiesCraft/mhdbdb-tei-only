@@ -554,7 +554,7 @@
           <w xml:id="TUN_3600_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3504">dem</w>
           <w xml:id="TUN_3600_3" lemmaRef="lexicon.xml#lemma_2465" pos="NOM" ana="lexicon.xml#lemma_2465_sense_3951" corresp="variants.xml#type_60541">gots</w>
           <w xml:id="TUN_3600_4" lemmaRef="lexicon.xml#lemma_2325" pos="NOM" corresp="variants.xml#type_7856">gewalt</w>
-          <seg xml:id="TUN_3600_5" type="pc">(</seg>
+          <pc xml:id="TUN_3600_5" join="right">(</pc>
           <w xml:id="TUN_3600_6" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
           <w xml:id="TUN_3600_7">im</w>
           <w xml:id="TUN_3600_8">sein</w>
@@ -568,7 +568,7 @@
           <w xml:id="TUN_3700_5" lemmaRef="lexicon.xml#lemma_3595" pos="ADJ ADV GRA" corresp="variants.xml#type_12543">lenger</w>
           <w xml:id="TUN_3700_6" lemmaRef="lexicon.xml#lemma_7473" pos="VRB VEM" corresp="variants.xml#type_26936">wolt</w>
           <w xml:id="TUN_3700_7" lemmaRef="lexicon.xml#lemma_6994" pos="VRB" corresp="variants.xml#type_24687">vertragen</w>
-          <seg xml:id="TUN_3700_8" type="pc">)</seg>
+          <pc xml:id="TUN_3700_8" join="left">)</pc>
           <w xml:id="TUN_3700_9" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_42810">dz</w>
           <w xml:id="TUN_3700_10">er</w>
           <lb n="38"/>
@@ -1768,7 +1768,7 @@
           <w xml:id="TUN_13500_6">es</w>
           <w xml:id="TUN_13500_7">dir</w>
           <w xml:id="TUN_13500_8" lemmaRef="lexicon.xml#lemma_4435" pos="NOM ADJ" ana="lexicon.xml#lemma_4435_sense_6915" corresp="variants.xml#type_15454">nutz</w>
-          <seg xml:id="TUN_13500_9" type="pc">.</seg>
+          <pc xml:id="TUN_13500_9" join="left">.</pc>
           <w xml:id="TUN_13500_10">do</w>
           <w xml:id="TUN_13500_11">schit</w>
           <lb n="136"/>
@@ -2442,14 +2442,14 @@
           <w xml:id="TUN_19000_0" lemmaRef="lexicon.xml#lemma_30703" pos="ADV" ana="lexicon.xml#lemma_30703_sense_48076" corresp="variants.xml#type_157721">darumb</w>
           <w xml:id="TUN_19000_1" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_42810">dz</w>
           <w xml:id="TUN_19000_2">du</w>
-          <seg xml:id="TUN_19000_3" type="pc">(</seg>
+          <pc xml:id="TUN_19000_3" join="right">(</pc>
           <w xml:id="TUN_19000_4">wan</w>
           <w xml:id="TUN_19000_5">du</w>
           <w xml:id="TUN_19000_6" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_31260">zu</w>
           <w xml:id="TUN_19000_7" lemmaRef="lexicon.xml#lemma_1242" pos="POS" ana="lexicon.xml#lemma_1242_sense_1958" corresp="variants.xml#type_101145">deinem</w>
           <w xml:id="TUN_19000_8" lemmaRef="lexicon.xml#lemma_24297" pos="NOM" corresp="variants.xml#type_113324">corpel</w>
           <w xml:id="TUN_19000_9" lemmaRef="lexicon.xml#lemma_3400" pos="VRB" ana="lexicon.xml#lemma_3400_sense_5361" corresp="variants.xml#type_222729">kommest</w>
-          <seg xml:id="TUN_19000_10" type="pc">)</seg>
+          <pc xml:id="TUN_19000_10" join="left">)</pc>
           <w xml:id="TUN_19000_11" lemmaRef="lexicon.xml#lemma_5035" pos="VRB" ana="lexicon.xml#lemma_5035_sense_7831" corresp="variants.xml#type_101212">ruen</w>
           <lb n="191"/>
           <w xml:id="TUN_19100_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
@@ -3210,9 +3210,9 @@
           <lb n="253"/>
           <w xml:id="TUN_25300_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_42810">dz</w>
           <w xml:id="TUN_25300_1" lemmaRef="lexicon.xml#lemma_7677" pos="NOM ADV" ana="lexicon.xml#lemma_7677_sense_12586" corresp="variants.xml#type_27811">wol</w>
-          <seg xml:id="TUN_25300_2" type="pc">.</seg>
+          <pc xml:id="TUN_25300_2" join="left">.</pc>
           <w xml:id="TUN_25300_3" lemmaRef="lexicon.xml#lemma_13826" pos="DIG" ana="lexicon.xml#lemma_13826_sense_22789" corresp="variants.xml#type_54863">ix</w>
-          <seg xml:id="TUN_25300_4" type="pc">.</seg>
+          <pc xml:id="TUN_25300_4" join="left">.</pc>
           <w xml:id="TUN_25300_5" lemmaRef="lexicon.xml#lemma_6267" pos="NUM" ana="lexicon.xml#lemma_6267_sense_9881" corresp="variants.xml#type_22166">tusent</w>
           <w xml:id="TUN_25300_6" lemmaRef="lexicon.xml#lemma_9689" pos="ADJ" ana="lexicon.xml#lemma_9689_sense_15672" corresp="variants.xml#type_350251">gewappenter</w>
           <w xml:id="TUN_25300_7">man</w>
@@ -3628,11 +3628,11 @@
           <w xml:id="TUN_28700_3">ob</w>
           <w xml:id="TUN_28700_4" lemmaRef="lexicon.xml#lemma_6267" pos="NUM" ana="lexicon.xml#lemma_6267_sense_9881" corresp="variants.xml#type_22166">tusent</w>
           <w xml:id="TUN_28700_5" lemmaRef="lexicon.xml#lemma_5278" pos="NOM" corresp="variants.xml#type_258246">geschock</w>
-          <seg xml:id="TUN_28700_6" type="pc">(</seg>
+          <pc xml:id="TUN_28700_6" join="right">(</pc>
           <w xml:id="TUN_28700_7" lemmaRef="lexicon.xml#lemma_7194" pos="ADV PRP" ana="lexicon.xml#lemma_7194_sense_11657" corresp="variants.xml#type_25545">vor</w>
           <w xml:id="TUN_28700_8" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3504">dem</w>
           <w xml:id="TUN_28700_9" lemmaRef="lexicon.xml#lemma_6080" pos="NOM" ana="lexicon.xml#lemma_6080_sense_9605" corresp="variants.xml#type_93751">thier</w>
-          <seg xml:id="TUN_28700_10" type="pc">)</seg>
+          <pc xml:id="TUN_28700_10" join="left">)</pc>
           <lb n="288"/>
           <w xml:id="TUN_28800_0">do</w>
           <w xml:id="TUN_28800_1">sie</w>
@@ -5930,7 +5930,7 @@
           <lb n="476"/>
           <w xml:id="TUN_47600_0" lemmaRef="lexicon.xml#lemma_2714" pos="ADJ ADV" corresp="variants.xml#type_33625">heimlichen</w>
           <w xml:id="TUN_47600_1" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_156626">stetten</w>
-          <seg xml:id="TUN_47600_2" type="pc">(</seg>
+          <pc xml:id="TUN_47600_2" join="right">(</pc>
           <w xml:id="TUN_47600_3">do</w>
           <w xml:id="TUN_47600_4" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
           <w xml:id="TUN_47600_5">sie</w>
@@ -5940,7 +5940,7 @@
           <lb n="477"/>
           <w xml:id="TUN_47700_0" lemmaRef="lexicon.xml#lemma_439" pos="VRB" corresp="variants.xml#type_1188">begangen</w>
           <w xml:id="TUN_47700_1">han</w>
-          <seg xml:id="TUN_47700_2" type="pc">)</seg>
+          <pc xml:id="TUN_47700_2" join="left">)</pc>
           <w xml:id="TUN_47700_3" lemmaRef="lexicon.xml#lemma_52108" pos="VRB" ana="lexicon.xml#lemma_52108_sense_84902" corresp="variants.xml#type_303482">gepiniget</w>
           <w xml:id="TUN_47700_4" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
           <w xml:id="TUN_47700_5" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_42810">dz</w>
@@ -5958,7 +5958,7 @@
           <w xml:id="TUN_47800_3" lemmaRef="lexicon.xml#lemma_3957" pos="NOM" corresp="variants.xml#type_13803">mannen</w>
           <w xml:id="TUN_47800_4" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
           <w xml:id="TUN_47800_5" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_43133">frawen</w>
-          <seg xml:id="TUN_47800_6" type="pc">(</seg>
+          <pc xml:id="TUN_47800_6" join="right">(</pc>
           <w xml:id="TUN_47800_7" lemmaRef="lexicon.xml#lemma_4377" pos="ADJ ADV NEG" ana="lexicon.xml#lemma_4377_sense_6838" corresp="variants.xml#type_158951">nit</w>
           <lb n="479"/>
           <w xml:id="TUN_47900_0" lemmaRef="lexicon.xml#lemma_119" pos="ADJ ADV" ana="lexicon.xml#lemma_119_sense_153" corresp="variants.xml#type_40303">allein</w>
@@ -5972,7 +5972,7 @@
           <w xml:id="TUN_48000_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
           <w xml:id="TUN_48000_1" lemmaRef="lexicon.xml#lemma_3364" pos="NOM" ana="lexicon.xml#lemma_3364_sense_5286" corresp="variants.xml#type_65249">closter</w>
           <w xml:id="TUN_48000_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25987">frowen</w>
-          <seg xml:id="TUN_48000_3" type="pc">)</seg>
+          <pc xml:id="TUN_48000_3" join="left">)</pc>
           <w xml:id="TUN_48000_4" lemmaRef="lexicon.xml#lemma_1912" pos="ADJ" ana="lexicon.xml#lemma_1912_sense_2937" corresp="variants.xml#type_46430">gantz</w>
           <w xml:id="TUN_48000_5" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
           <w xml:id="TUN_48000_6" lemmaRef="lexicon.xml#lemma_1913" pos="ADJ ADV" ana="lexicon.xml#lemma_1913_sense_2938" corresp="variants.xml#type_6476">gar</w>
@@ -8097,7 +8097,7 @@
           <w xml:id="TUN_65500_6" lemmaRef="lexicon.xml#lemma_27281" pos="VRB" ana="lexicon.xml#lemma_27281_sense_43296" corresp="variants.xml#type_258492">vberessen</w>
           <w xml:id="TUN_65500_7">an</w>
           <w xml:id="TUN_65500_8" lemmaRef="lexicon.xml#lemma_22572" pos="PRP VRB" ana="lexicon.xml#lemma_22572_sense_36726" corresp="variants.xml#type_258493">vbertrincken</w>
-          <seg xml:id="TUN_65500_9" type="pc">.</seg>
+          <pc xml:id="TUN_65500_9" join="left">.</pc>
           <lb n="656"/>
           <w xml:id="TUN_65600_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
           <w xml:id="TUN_65600_1" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18956">ist</w>
@@ -9662,7 +9662,7 @@
           <w xml:id="TUN_78200_2">ir</w>
           <w xml:id="TUN_78200_3">kein</w>
           <w xml:id="TUN_78200_4">liden</w>
-          <seg xml:id="TUN_78200_5" type="pc">.</seg>
+          <pc xml:id="TUN_78200_5" join="left">.</pc>
         </p>
       </div>
       <div>
@@ -11450,7 +11450,7 @@
           <w xml:id="TUN_92300_0">ding</w>
           <w xml:id="TUN_92300_1" lemmaRef="lexicon.xml#lemma_5587" pos="ADJ ADV" corresp="variants.xml#type_46586">schnel</w>
           <w xml:id="TUN_92300_2" lemmaRef="lexicon.xml#lemma_7391" pos="VRB" corresp="variants.xml#type_26657">gewandelt</w>
-          <seg xml:id="TUN_92300_3" type="pc">.</seg>
+          <pc xml:id="TUN_92300_3" join="left">.</pc>
           <lb n="924"/>
           <w xml:id="TUN_92400_0" lemmaRef="lexicon.xml#lemma_4432" pos="ADV CNJ" ana="lexicon.xml#lemma_4432_sense_6912" corresp="variants.xml#type_15443">nun</w>
           <w xml:id="TUN_92400_1" lemmaRef="lexicon.xml#lemma_5608" pos="VRB VEM" corresp="variants.xml#type_82644">sollent</w>
@@ -11587,7 +11587,7 @@
           <w xml:id="TUN_93400_5" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
           <w xml:id="TUN_93400_6" lemmaRef="lexicon.xml#lemma_1292" pos="ADJ" ana="lexicon.xml#lemma_1292_sense_2021" corresp="variants.xml#type_39012">ewige</w>
           <w xml:id="TUN_93400_7" lemmaRef="lexicon.xml#lemma_5034" pos="NOM" corresp="variants.xml#type_55746">rue</w>
-          <seg xml:id="TUN_93400_8" type="pc">.</seg>
+          <pc xml:id="TUN_93400_8" join="left">.</pc>
           <lb n="935"/>
           <w xml:id="TUN_93500_0">do</w>
           <w xml:id="TUN_93500_1" lemmaRef="lexicon.xml#lemma_1844" pos="VRB" corresp="variants.xml#type_65202">gingent</w>
@@ -11978,7 +11978,7 @@
           <lb n="964"/>
           <w xml:id="TUN_96400_0" lemmaRef="lexicon.xml#lemma_6330" pos="ADV PRP" ana="lexicon.xml#lemma_6330_sense_9973" corresp="variants.xml#type_43290">vff</w>
           <w xml:id="TUN_96400_1" lemmaRef="lexicon.xml#lemma_1332" pos="ADV" ana="lexicon.xml#lemma_1332_sense_2069" corresp="variants.xml#type_4338">einander</w>
-          <seg xml:id="TUN_96400_2" type="pc">.</seg>
+          <pc xml:id="TUN_96400_2" join="left">.</pc>
           <w xml:id="TUN_96400_3" lemmaRef="lexicon.xml#lemma_7608" pos="ADV IPA" ana="lexicon.xml#lemma_7608_sense_12462" corresp="variants.xml#type_27506">wie</w>
           <w xml:id="TUN_96400_4">seint</w>
           <w xml:id="TUN_96400_5">sie</w>
@@ -12050,7 +12050,7 @@
           <w xml:id="TUN_97000_9" lemmaRef="lexicon.xml#lemma_7428" pos="ADJ ADV" corresp="variants.xml#type_44425">wenig</w>
           <lb n="971"/>
           <w xml:id="TUN_97100_0" lemmaRef="lexicon.xml#lemma_7293" pos="ADV" ana="lexicon.xml#lemma_7293_sense_11826" corresp="variants.xml#type_93268">furbas</w>
-          <seg xml:id="TUN_97100_1" type="pc">.</seg>
+          <pc xml:id="TUN_97100_1" join="left">.</pc>
           <w xml:id="TUN_97100_2">do</w>
           <w xml:id="TUN_97100_3" lemmaRef="lexicon.xml#lemma_5366" pos="VRB" ana="lexicon.xml#lemma_5366_sense_8382" corresp="variants.xml#type_67320">sahe</w>
           <w xml:id="TUN_97100_4" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
@@ -12208,7 +12208,7 @@
           <w xml:id="TUN_98400_7" lemmaRef="lexicon.xml#lemma_6062" pos="NAM" ana="lexicon.xml#lemma_6062_sense_9587" corresp="variants.xml#type_258625">tormaco</w>
           <w xml:id="TUN_98400_8" lemmaRef="lexicon.xml#lemma_5842" pos="NOM" ana="lexicon.xml#lemma_5842_sense_9252" corresp="variants.xml#type_20588">stunde</w>
           <lb n="985"/>
-          <seg xml:id="TUN_98500_0" type="pc">(</seg>
+          <pc xml:id="TUN_98500_0" join="right">(</pc>
           <w xml:id="TUN_98500_1">wan</w>
           <w xml:id="TUN_98500_2">er</w>
           <w xml:id="TUN_98500_3">was</w>
@@ -12217,7 +12217,7 @@
           <w xml:id="TUN_98500_6" lemmaRef="lexicon.xml#lemma_6330" pos="ADV PRP" ana="lexicon.xml#lemma_6330_sense_9973" corresp="variants.xml#type_43290">vff</w>
           <w xml:id="TUN_98500_7" lemmaRef="lexicon.xml#lemma_1545" pos="NOM ADJ" ana="lexicon.xml#lemma_1545_sense_2397" corresp="variants.xml#type_5166">erden</w>
           <w xml:id="TUN_98500_8" lemmaRef="lexicon.xml#lemma_7505" pos="VRB" corresp="variants.xml#type_273209">gewesen</w>
-          <seg xml:id="TUN_98500_9" type="pc">)</seg>
+          <pc xml:id="TUN_98500_9" join="left">)</pc>
           <w xml:id="TUN_98500_10">do</w>
           <w xml:id="TUN_98500_11" lemmaRef="lexicon.xml#lemma_3400" pos="VRB" ana="lexicon.xml#lemma_3400_sense_5361" corresp="variants.xml#type_11709">koment</w>
           <lb n="986"/>
@@ -12259,7 +12259,7 @@
           <w xml:id="TUN_98900_5" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
           <w xml:id="TUN_98900_6">schein</w>
           <w xml:id="TUN_98900_7">gaben</w>
-          <seg xml:id="TUN_98900_8" type="pc">(</seg>
+          <pc xml:id="TUN_98900_8" join="right">(</pc>
           <w xml:id="TUN_98900_9">do</w>
           <lb n="990"/>
           <w xml:id="TUN_99000_0">sie</w>
@@ -12288,7 +12288,7 @@
           <w xml:id="TUN_99200_2" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
           <w xml:id="TUN_99200_3" lemmaRef="lexicon.xml#lemma_7252" pos="NOM" ana="lexicon.xml#lemma_7252_sense_11755" corresp="variants.xml#type_25882">freude</w>
           <w xml:id="TUN_99200_4">wer</w>
-          <seg xml:id="TUN_99200_5" type="pc">)</seg>
+          <pc xml:id="TUN_99200_5" join="left">)</pc>
           <w xml:id="TUN_99200_6" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_42810">dz</w>
           <w xml:id="TUN_99200_7" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
           <w xml:id="TUN_99200_8" lemmaRef="lexicon.xml#lemma_119" pos="ADJ ADV" ana="lexicon.xml#lemma_119_sense_153" corresp="variants.xml#type_40303">allein</w>
@@ -12319,7 +12319,7 @@
           <w xml:id="TUN_99500_0">dir</w>
           <w xml:id="TUN_99500_1" lemmaRef="lexicon.xml#lemma_7677" pos="NOM ADV" ana="lexicon.xml#lemma_7677_sense_12586" corresp="variants.xml#type_27811">wol</w>
           <w xml:id="TUN_99500_2">gan</w>
-          <seg xml:id="TUN_99500_3" type="pc">.</seg>
+          <pc xml:id="TUN_99500_3" join="left">.</pc>
           <w xml:id="TUN_99500_4">du</w>
           <w xml:id="TUN_99500_5">solt</w>
           <w xml:id="TUN_99500_6" lemmaRef="lexicon.xml#lemma_5670" pos="VRB" ana="lexicon.xml#lemma_5670_sense_8871" corresp="variants.xml#type_258633">gespeist</w>
@@ -12346,7 +12346,7 @@
           <w xml:id="TUN_99700_2" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
           <w xml:id="TUN_99700_3" lemmaRef="lexicon.xml#lemma_1169" pos="DET" ana="lexicon.xml#lemma_1169_sense_1850" corresp="variants.xml#type_56439">dieser</w>
           <w xml:id="TUN_99700_4" lemmaRef="lexicon.xml#lemma_3507" pos="NOM" ana="lexicon.xml#lemma_3507_sense_5555" corresp="variants.xml#type_52185">konig</w>
-          <seg xml:id="TUN_99700_5" type="pc">(</seg>
+          <pc xml:id="TUN_99700_5" join="right">(</pc>
           <w xml:id="TUN_99700_6" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
           <w xml:id="TUN_99700_7">mein</w>
           <w xml:id="TUN_99700_8" lemmaRef="lexicon.xml#lemma_2684" pos="NOM" corresp="variants.xml#type_9038">herr</w>
@@ -12354,7 +12354,7 @@
           <w xml:id="TUN_99700_10" lemmaRef="lexicon.xml#lemma_1545" pos="NOM ADJ" ana="lexicon.xml#lemma_1545_sense_2397" corresp="variants.xml#type_5166">erden</w>
           <lb n="998"/>
           <w xml:id="TUN_99800_0" lemmaRef="lexicon.xml#lemma_5941" pos="PRO IPA" ana="lexicon.xml#lemma_5941_sense_9416" corresp="variants.xml#type_221883">wz</w>
-          <seg xml:id="TUN_99800_1" type="pc">)</seg>
+          <pc xml:id="TUN_99800_1" join="left">)</pc>
           <w xml:id="TUN_99800_2" lemmaRef="lexicon.xml#lemma_152" pos="ADV" ana="lexicon.xml#lemma_152_sense_187" corresp="variants.xml#type_378">also</w>
           <w xml:id="TUN_99800_3" lemmaRef="lexicon.xml#lemma_7075" pos="ADJ ADV" ana="lexicon.xml#lemma_7075_sense_11459" corresp="variants.xml#type_25008">vil</w>
           <w xml:id="TUN_99800_4" lemmaRef="lexicon.xml#lemma_1144" pos="NOM" ana="lexicon.xml#lemma_1144_sense_1802" corresp="variants.xml#type_32645">diener</w>
@@ -13566,7 +13566,7 @@
           <w xml:id="TUN_109800_3" lemmaRef="lexicon.xml#lemma_4377" pos="ADJ ADV NEG" ana="lexicon.xml#lemma_4377_sense_6838" corresp="variants.xml#type_158951">nit</w>
           <w xml:id="TUN_109800_4" lemmaRef="lexicon.xml#lemma_2598" pos="VRB VEX" corresp="variants.xml#type_8758">hat</w>
           <w xml:id="TUN_109800_5" lemmaRef="lexicon.xml#lemma_5366" pos="VRB" ana="lexicon.xml#lemma_5366_sense_8382" corresp="variants.xml#type_18680">gesehen</w>
-          <seg xml:id="TUN_109800_6" type="pc">.</seg>
+          <pc xml:id="TUN_109800_6" join="left">.</pc>
           <w xml:id="TUN_109800_7">wan</w>
           <w xml:id="TUN_109800_8" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_131586">einß</w>
           <w xml:id="TUN_109800_9" lemmaRef="lexicon.xml#lemma_3006" pos="ADJ" ana="lexicon.xml#lemma_3006_sense_15705" corresp="variants.xml#type_156239">yeglichen</w>
@@ -13632,7 +13632,7 @@
           <w xml:id="TUN_110500_1" lemmaRef="lexicon.xml#lemma_152" pos="ADV" ana="lexicon.xml#lemma_152_sense_187" corresp="variants.xml#type_378">also</w>
           <w xml:id="TUN_110500_2" lemmaRef="lexicon.xml#lemma_5864" pos="ADJ" corresp="variants.xml#type_150292">sussem</w>
           <w xml:id="TUN_110500_3" lemmaRef="lexicon.xml#lemma_1181" pos="NOM" corresp="variants.xml#type_96495">thon</w>
-          <seg xml:id="TUN_110500_4" type="pc">.</seg>
+          <pc xml:id="TUN_110500_4" join="left">.</pc>
           <w xml:id="TUN_110500_5" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_42810">dz</w>
           <w xml:id="TUN_110500_6" lemmaRef="lexicon.xml#lemma_7469" pos="ADJ IPA" ana="lexicon.xml#lemma_7469_sense_12152" corresp="variants.xml#type_26895">welch</w>
           <w xml:id="TUN_110500_7" lemmaRef="lexicon.xml#lemma_5349" pos="NOM" ana="lexicon.xml#lemma_5349_sense_8359" corresp="variants.xml#type_18609">sele</w>
@@ -13653,7 +13653,7 @@
           <lb n="1107"/>
           <w xml:id="TUN_110700_0" lemmaRef="lexicon.xml#lemma_2885" pos="VRB" corresp="variants.xml#type_9828">gehort</w>
           <w xml:id="TUN_110700_1" lemmaRef="lexicon.xml#lemma_2598" pos="VRB VEX" corresp="variants.xml#type_8758">hat</w>
-          <seg xml:id="TUN_110700_2" type="pc">.</seg>
+          <pc xml:id="TUN_110700_2" join="left">.</pc>
           <w xml:id="TUN_110700_3" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
           <w xml:id="TUN_110700_4" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
           <w xml:id="TUN_110700_5">stund</w>
@@ -13669,7 +13669,7 @@
           <w xml:id="TUN_110800_2">het</w>
           <w xml:id="TUN_110800_3">grossen</w>
           <w xml:id="TUN_110800_4" lemmaRef="lexicon.xml#lemma_10330" pos="NOM" corresp="variants.xml#type_36488">lust</w>
-          <seg xml:id="TUN_110800_5" type="pc">.</seg>
+          <pc xml:id="TUN_110800_5" join="left">.</pc>
           <w xml:id="TUN_110800_6" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
           <w xml:id="TUN_110800_7" lemmaRef="lexicon.xml#lemma_5693" pos="VRB" ana="lexicon.xml#lemma_5693_sense_8912" corresp="variants.xml#type_19957">sprach</w>
           <w xml:id="TUN_110800_8" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_31260">zu</w>
@@ -13715,7 +13715,7 @@
           <w xml:id="TUN_111200_4">irem</w>
           <w xml:id="TUN_111200_5" lemmaRef="lexicon.xml#lemma_3738" pos="NOM" ana="lexicon.xml#lemma_3738_sense_5924" corresp="variants.xml#type_67139">leib</w>
           <w xml:id="TUN_111200_6" lemmaRef="lexicon.xml#lemma_13280" pos="PRP VRB" corresp="variants.xml#type_136941">abgezogen</w>
-          <seg xml:id="TUN_111200_7" type="pc">.</seg>
+          <pc xml:id="TUN_111200_7" join="left">.</pc>
           <w xml:id="TUN_111200_8" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
           <w xml:id="TUN_111200_9" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
           <w xml:id="TUN_111200_10" lemmaRef="lexicon.xml#lemma_1146" pos="NOM" corresp="variants.xml#type_3608">dienst</w>
@@ -13757,7 +13757,7 @@
           <w xml:id="TUN_111600_5">leben</w>
           <w xml:id="TUN_111600_6">gefurt</w>
           <w xml:id="TUN_111600_7">hant</w>
-          <seg xml:id="TUN_111600_8" type="pc">.</seg>
+          <pc xml:id="TUN_111600_8" join="left">.</pc>
           <lb n="1117"/>
           <w xml:id="TUN_111700_0" lemmaRef="lexicon.xml#lemma_1055" pos="ADV" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3258">dar</w>
           <w xml:id="TUN_111700_1" lemmaRef="lexicon.xml#lemma_6422" pos="ADV PRP" corresp="variants.xml#type_22719">umb</w>
@@ -15220,7 +15220,7 @@
           <w xml:id="TUN_123900_9" lemmaRef="lexicon.xml#lemma_7194" pos="ADV PRP" ana="lexicon.xml#lemma_7194_sense_11657" corresp="variants.xml#type_25545">vor</w>
           <w xml:id="TUN_123900_10" lemmaRef="lexicon.xml#lemma_5366" pos="VRB" ana="lexicon.xml#lemma_5366_sense_8382" corresp="variants.xml#type_18680">gesehen</w>
           <w xml:id="TUN_123900_11" lemmaRef="lexicon.xml#lemma_2598" pos="VRB VEX" corresp="variants.xml#type_45130">hetten</w>
-          <seg xml:id="TUN_123900_12" type="pc">.</seg>
+          <pc xml:id="TUN_123900_12" join="left">.</pc>
           <lb n="1240"/>
           <w xml:id="TUN_124000_0">sunder</w>
           <w xml:id="TUN_124000_1" lemmaRef="lexicon.xml#lemma_4523" pos="CNJ" ana="lexicon.xml#lemma_4523_sense_7060" corresp="variants.xml#type_61484">auch</w>
@@ -15363,7 +15363,7 @@
           <w xml:id="TUN_125100_0">was</w>
           <w xml:id="TUN_125100_1">sie</w>
           <w xml:id="TUN_125100_2" lemmaRef="lexicon.xml#lemma_7473" pos="VRB VEM" corresp="variants.xml#type_26938">wolten</w>
-          <seg xml:id="TUN_125100_3" type="pc">.</seg>
+          <pc xml:id="TUN_125100_3" join="left">.</pc>
         </p>
       </div>
       <div>
@@ -15381,7 +15381,7 @@
           <w xml:id="TUN_125103_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3504">dem</w>
           <w xml:id="TUN_125103_3">lant</w>
           <w xml:id="TUN_125103_4" lemmaRef="lexicon.xml#lemma_2999" pos="NAM" ana="lexicon.xml#lemma_2999_sense_4803" corresp="variants.xml#type_258008">hibernia</w>
-          <seg xml:id="TUN_125103_5" type="pc">.</seg>
+          <pc xml:id="TUN_125103_5" join="left">.</pc>
         </head>
         <p>
           <lb n="1254"/>
@@ -15476,7 +15476,7 @@
           <w xml:id="TUN_126100_4" lemmaRef="lexicon.xml#lemma_5693" pos="VRB" ana="lexicon.xml#lemma_5693_sense_8912" corresp="variants.xml#type_19957">sprach</w>
           <w xml:id="TUN_126100_5" lemmaRef="lexicon.xml#lemma_4377" pos="ADJ ADV NEG" ana="lexicon.xml#lemma_4377_sense_6838" corresp="variants.xml#type_158951">nit</w>
           <w xml:id="TUN_126100_6">me</w>
-          <seg xml:id="TUN_126100_7" type="pc">.</seg>
+          <pc xml:id="TUN_126100_7" join="left">.</pc>
         </p>
       </div>
       <div>
