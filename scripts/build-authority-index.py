@@ -189,9 +189,13 @@ def parse_persons():
         wikidata_el = person_el.xpath('.//tei:idno[@type="wikidata"]', namespaces=ns)
         wikidata = wikidata_el[0].text.strip() if wikidata_el and wikidata_el[0].text else None
 
-        # Extract works list (comma-separated work IDs)
-        works_el = person_el.xpath('.//tei:note[@type="works"]', namespaces=ns)
-        works = works_el[0].text.strip() if works_el and works_el[0].text else None
+        # Extract works list from <listBibl><bibl corresp="works.xml#work_N"/>
+        works_bibls = person_el.xpath('.//tei:listBibl/tei:bibl/@corresp', namespaces=ns)
+        if works_bibls:
+            work_ids = [ref.split('#')[1] if '#' in ref else ref for ref in works_bibls]
+            works = ','.join(work_ids)
+        else:
+            works = None
 
         persons.append({
             'id': person_id,
