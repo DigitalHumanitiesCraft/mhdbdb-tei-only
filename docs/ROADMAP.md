@@ -45,7 +45,7 @@ Well-specified, ready to build, but require more effort.
 |---|------|--------|
 | #27 | POS Workflow expansion | Active — linguistic decisions answered, batch list provided |
 | #30 | TEI structural fixes | Auto-fixes ready (71 edits, 4 files), draft-fixes prepared, aligned to TEI-MODEL.md |
-| #32 | TEI model consolidation | Soll-Modell ([TEI-MODEL.md](TEI-MODEL.md)) drafted, all policy decisions made, RELAX NG schema next |
+| #32 | TEI model consolidation | **Migration complete** — all 5 phases (A-E) executed, 675 files transformed, RELAX NG schema + validation done, PR pending |
 
 ## Future: Needs Design
 
@@ -69,11 +69,11 @@ Well-specified, ready to build, but require more effort.
 
 ## Strategic Direction
 
-1. **TEI model consolidation first** — Soll-Modell (#32) + structural fixes (#30) + RELAX NG schema are prerequisites before any external data ingest (ReM, CoReMA, etc.). Key migration: `@meaningRef` → `@ana` (TEI-konform). Target model: [TEI-MODEL.md](TEI-MODEL.md).
+1. **TEI model consolidation done** — Soll-Modell (#32) implemented: `@meaningRef` → `@ana`, `@wordRef` → `@corresp`, `<seg type="pc">` → `<pc>`, div/@type normalized, 18 prose files `<l>` → `<lb/>`, langUsage + normalization headers added, RELAX NG schema written. All 675 files validated. Target model: [TEI-MODEL.md](TEI-MODEL.md).
 
 2. **FAIR data** — Make all MHDBDB data citable and programmatically accessible (#45, #42). Enables external collaborations (MWB, Worterbuchnetz).
 
-3. **TEI data quality** — Remaining structural fixes (#23, #26, #29) and 18 Prosa-Texte `<l>` → `<lb/>` Migration. Most blocked on human review.
+3. **TEI data quality** — Remaining structural fixes (#23, #26, #29). Most blocked on human review.
 
 4. **Frontend refinements** — UI polish (#20), TEI rendering (#17), URL routing (#48), and advanced playground features (#47).
 
