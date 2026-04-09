@@ -4,7 +4,7 @@ Defines the normative TEI encoding for all texts in the MHDBDB corpus. New texts
 
 **Status:** DRAFT — pending review by Katharina Zeppezauer-Wachauer
 **Issue:** #32 (TEI schema)
-**Schema:** `schema/mhdbdb.rnc` (RELAX NG Compact, planned)
+**Schema:** `schema/mhdbdb.rnc` (RELAX NG Compact, Source of Truth) + `schema/mhdbdb.rng` (generiert via `trang`)
 **Validiert gegen:** TEI P5 Version 4.11.0 (`tei_all.rng`, 18. Feb 2026)
 **Maximalbeispiel:** `scripts/data-wrangling/tei-model/TEI-MODEL-EXAMPLE.xml` (validiert gegen tei_all.rng)
 
@@ -690,22 +690,33 @@ Neue Texte muessen folgende Mindestanforderungen erfuellen:
 - [ ] Handschriftencensus-Nr. in `<msIdentifier>`
 - [ ] GND/Wikidata-IDs fuer Autor und Werk
 
-### 9.3 Validierungs-Pipeline
+### 9.3 Validierungs-Pipeline (Zwei-Stufen)
 
 ```bash
-# 1. Schema-Validierung — TODO: schema/mhdbdb.rnc existiert noch nicht
-# jing schema/mhdbdb.rnc tei/{SIGLE}.tei.xml
+# Stufe 1: TEI-Konformitaet (keine illegalen Attribute/Elemente)
+# Download: curl -sL "https://tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" -o schema/tei_all.rng
+jing schema/tei_all.rng tei/{SIGLE}.tei.xml
 
-# 2. Referenz-Integritaet (Authority-Files) — Script geplant, noch nicht verfuegbar
+# Stufe 2: MHDBDB-Konformitaet (strenger, Subset von tei_all)
+jing schema/mhdbdb.rnc tei/{SIGLE}.tei.xml
+
+# 3. Referenz-Integritaet (Authority-Files) — Script geplant, noch nicht verfuegbar
 # python scripts/validate-references.py tei/{SIGLE}.tei.xml
 
-# 3. Index-Rebuild
+# 4. Index-Rebuild
 python scripts/build-corpus-index.py
 python scripts/build-authority-index.py
 
-# 4. Tests
+# 5. Tests
 npm test
 ```
+
+**Schema-Dateien:**
+- `schema/mhdbdb.rnc` — Source of Truth (RELAX NG Compact, hand-editiert)
+- `schema/mhdbdb.rng` — generiert via `trang schema/mhdbdb.rnc schema/mhdbdb.rng` (fuer lxml/Python)
+- `schema/tei_all.rng` — TEI P5 4.11.0 Referenz (gitignored, Download-Befehl oben)
+
+**Kein ODD:** Die TEI ODD-Toolchain (Stylesheets + Roma) hat 60-80 offene Issues, ist XSLT 2.0-abhaengig (Saxon), Roma-Webinterface instabil. TEI-Konformanzkriterium 5 ("documented via ODD or **analogous documentation**") wird durch dieses Dokument (TEI-MODEL.md) + das RELAX NG Schema gemeinsam erfuellt.
 
 ---
 
@@ -741,11 +752,17 @@ Vollstaendiger Report: `scripts/data-wrangling/tei-model/TEI-AUDIT-REPORT.md`
 
 ### TEI-Konformanz: 5 Kriterien (TEI P5, Kapitel 24)
 
-1. Well-formed XML ✓
-2. Valid gegen TEI-abgeleitetes Schema ✗ (`@meaningRef` + `@wordRef` blockieren)
-3. Konform mit TEI Abstract Model ✗ (`<l>` in Prosa — Migration der 18 Dateien beschlossen, Sec. 8.1)
-4. Korrekter TEI-Namespace ✓
-5. Dokumentiert via ODD oder Aequivalent ✗ (kein ODD, dieses Dokument ist der Ersatz)
+| # | Kriterium | IST | Nach Migration |
+|---|-----------|-----|----------------|
+| 1 | Well-formed XML | ✓ | ✓ |
+| 2 | Valid gegen TEI-Schema | ✗ (`@meaningRef` + `@wordRef`) | ✓ (nach Phase B) |
+| 3 | Konform mit TEI Abstract Model | ✗ (`<l>` in Prosa) | ✓ (nach Phase C2) |
+| 4 | Korrekter TEI-Namespace | ✓ | ✓ |
+| 5 | Dokumentiert via ODD oder Aequivalent | ✗ | ✓ (TEI-MODEL.md + mhdbdb.rnc) |
+
+**Zwei-Stufen-Validierung nach Migration:**
+- **Stufe 1:** `tei_all.rng` = TEI-Stempel (Kriterien 1-4)
+- **Stufe 2:** `mhdbdb.rnc` = MHDBDB-Stempel (strenger, Subset von tei_all)
 
 ---
 

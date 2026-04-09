@@ -51,7 +51,7 @@ In `<monogr>`: `<author>` muss vor `<title>` stehen, `<idno>` nach `<editor>`. B
 
 **Script:** `decode-hzu-dates.py`
 
-396 notes in HZU (55) + HZU2 (341): `<note type="date" n="224"/>` → `<note type="date" n="24. Februar"/>`. Dekodierungslogik: letzte 2 Stellen = Tag, Rest = Monat.
+277 `type="date"` notes (HZU 36 + HZU2 241): `<note type="date" n="224"/>` → `<note type="date" n="24. Februar"/>`. Dekodierungslogik: letzte 2 Stellen = Tag, Rest = Monat. Die 119 `type="year"` notes (HZU 19 + HZU2 100) bleiben unveraendert — enthalten bereits Klartext-Jahreszahlen (`n="1293"`).
 
 ### A5. Header-Anreicherung: langUsage
 
@@ -103,8 +103,12 @@ Allen 666 Dateien `<langUsage>` hinzufuegen (fehlt aktuell komplett). Standard: 
 **Script:** `migrate-seg-to-pc.py`
 
 - 1,370,191 Vorkommen
-- `<seg xml:id="..." type="pc">X</seg>` → `<pc xml:id="..." join="left">X</pc>`
+- `<seg xml:id="..." type="pc">X</seg>` → `<pc xml:id="..." join="...">X</pc>`
 - xml:id beibehalten wenn vorhanden
+- `@join` abhaengig vom Inhalt:
+  - `join="left"` fuer: `)`, `.`, `,`, `;`, `:`, `!`, `?`, `&gt;`, `»`
+  - `join="right"` fuer: `(`, `&lt;`, `«`
+  - Default `join="left"` (Grossteil der Interpunktion)
 - **JS-Anpassung:** `tei-text-reader.js` muss `<pc>` als Inline-Element rendern
 
 ### C2. <l> → <lb/> in 18 Prosa-Texten
@@ -136,20 +140,35 @@ Allen 666 Dateien `<langUsage>` hinzufuegen (fehlt aktuell komplett). Standard: 
 
 ### E1. Schema schreiben
 
-**Datei:** `schema/mhdbdb.rnc` (RELAX NG Compact Syntax)
+**Dateien:**
+- `schema/mhdbdb.rnc` — RELAX NG Compact Syntax (Source of Truth, hand-editiert)
+- `schema/mhdbdb.rng` — RELAX NG XML Syntax (generiert via `trang`, fuer lxml)
+
+**Build:** `trang schema/mhdbdb.rnc schema/mhdbdb.rng` (beide committen, RNC ist Source)
+
+**Abhaengigkeit:** Java fuer `trang`/`jing`. Alternativ: `pip install jingtrang` (Python-Wrapper).
 
 Basiert auf:
 - Audit-Daten (tei-audit.json): welche Elemente/Attribute tatsaechlich vorkommen
 - TEI-MODEL.md: welche Werte erlaubt sind (SOLL, nicht IST)
 - TEI-MODEL-EXAMPLE.xml: Referenz-Dokument
 
-Ansatz: Minimales Custom-Schema von Grund auf (nicht tei_all subsetten). Modelliert nur was der Korpus nach Migration nutzt.
+**Ansatz:** Minimales Custom-Schema from scratch (nicht tei_all inkludieren — 1.1 MB, zu komplex). Modelliert nur was der MHDBDB-Korpus nach Migration nutzt. tei_all-Konformitaet wird separat geprueft (Stufe 1).
 
-### E2. Validierung gegen Schema
+**Kein ODD:** Die ODD-Toolchain (TEI Stylesheets + Roma) ist XSLT 2.0-abhaengig, hat 60-80 offene Issues, Roma-Webinterface instabil. TEI-Konformanzkriterium 5 ("documented via ODD or analogous documentation") wird durch `docs/TEI-MODEL.md` + `schema/mhdbdb.rnc` gemeinsam erfuellt.
+
+### E2. Zwei-Stufen-Validierung
 
 **Script:** `validate-corpus.py`
 
-Alle 666 Dateien gegen mhdbdb.rnc validieren. Fehler = entweder Schema-Bug oder uebersehene Daten-Eigenheit.
+| Stufe | Schema | Prueft | Tool |
+|-------|--------|--------|------|
+| 1 | `tei_all.rng` (TEI P5 4.11.0) | TEI-Konformitaet (keine illegalen Attribute/Elemente) | lxml / jing |
+| 2 | `mhdbdb.rnc` | MHDBDB-Konformitaet (erlaubte div/@type, Pflicht-Attribute, Struktur) | jing |
+
+Stufe 2 ist strenger als Stufe 1 (Subset). Ein Dokument das Stufe 2 besteht, besteht automatisch Stufe 1.
+
+Alle 675 Dateien (666 base + 9 disamb) gegen beide Schemas validieren.
 
 ---
 
@@ -180,6 +199,8 @@ Phase E (Schema)
 ```
 
 Phase A-D koennen theoretisch als ein grosses Transformationsscript laufen. Empfehlung: Getrennte Scripts pro Phase fuer Nachvollziehbarkeit und separate Commits.
+
+**Scope:** Alle Scripts laufen auf Base-Dateien (`*.tei.xml`) UND `.disamb.tei.xml` (9 Dateien). Die Disamb-Dateien haben dieselben Attribute und Strukturprobleme.
 
 ---
 
