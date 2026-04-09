@@ -83,7 +83,7 @@
       <editorialDecl>
         <p xml:lang="de">Lokale Dateireferenzen (z.B. persons.xml#person_445, lexicon.xml#lemma_879, genres.xml#genre_XXX) verweisen auf kontrollierte Vokabulare im authority-files Verzeichnis dieses Repositorys. Diese internen Querverweise ermöglichen die Verknüpfung mit Personen-, Werk-, Lemma-, Konzept-, Genre- und Namensautoritätsdateien.</p>
         <p xml:lang="en">Local file references (e.g. persons.xml#person_445, lexicon.xml#lemma_879, genres.xml#genre_XXX) point to controlled vocabularies in the authority-files directory of this repository. These internal cross-references enable linking to person, work, lemma, concept, genre, and name authority files.</p>
-      </editorialDecl>
+      <normalization><p>Die Ligatur von oe wurde aufgelöst.</p><p>Diakritische Zeichen und übergeschriebene Buchstaben (z.B. e bei a, u bei o etc.) wurden buchstabengetreu wiedergegeben (z.B. als ae, oe etc.).</p><p>Noch nicht disambiguiert; fertig lemmatisiert.</p><p>Der Ordnung wegen wurden die beiden unbenannten Töne der Handschrift E (S. 284ff.) als Lied 8 (Strophe 1 und 2) wiedergegeben.</p><p>Die div. Folgen ab S. 288ff. wurden nicht mit der römischen Ziffer (z.B. Folge Ia, Ib, Ic im Kurzen Ton), sondern als jeweilige Parallelversionen der rechts danebengestellten Laufnummer der Edition gekennzeichnet (z.B.: IIb = Parallelhs. 2; Lied 7,23).</p><p>Für Teil I (Lieder) s. MRL.</p><p>Für Teil III (Meisterlieder) s. MML.</p><p>Die Groß-/Kleinschreibung entspricht aus technischen Gründen nur teilweise der Edition.</p></normalization></editorialDecl>
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>

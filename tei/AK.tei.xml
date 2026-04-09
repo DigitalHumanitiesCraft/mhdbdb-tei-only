@@ -91,7 +91,7 @@
       <editorialDecl>
         <p xml:lang="de">Lokale Dateireferenzen (z.B. persons.xml#person_445, lexicon.xml#lemma_879, genres.xml#genre_XXX) verweisen auf kontrollierte Vokabulare im authority-files Verzeichnis dieses Repositorys. Diese internen Querverweise ermöglichen die Verknüpfung mit Personen-, Werk-, Lemma-, Konzept-, Genre- und Namensautoritätsdateien.</p>
         <p xml:lang="en">Local file references (e.g. persons.xml#person_445, lexicon.xml#lemma_879, genres.xml#genre_XXX) point to controlled vocabularies in the authority-files directory of this repository. These internal cross-references enable linking to person, work, lemma, concept, genre, and name authority files.</p>
-      </editorialDecl>
+      <normalization><p>Lemmatisiert, aber noch nicht disambiguiert.</p><p>Ausschnitt aus der etwa zwischen 1301 und 1319 entstandenen Österreichischen (od. Steirischen) Reimchronik: Vers 44579 bis 53866 beinhalten einen in sich geschlossenen Erzählkomplex über die Zerstörung Akkons im Jahre 1291 durch die Sarazenen. Von den acht aus dem späten 14. und 15. Jh. stammenden Handschriften überliefern sechs das Buch von Akkon; davon sind drei Fragmente, drei vollständige Ausgaben: Cod. Vindob. 15359 (Fragment), Cod Ser. nov. 4002 (Fragment), Cod. Vindob. 3047, Cod. Admont. 19 (Fragment), Cod. Geulf. 291 (Fragment), Cod. Sangall. 658, Cod. rec. adj. f. 3. Die beiden Erstgenannten gehörten ursprünglich zur gleichen Gesamtausgabe.</p><p>Die Groß-/Kleinschreibung entspricht aus technischen Gründen nur teilweise der Edition.</p></normalization></editorialDecl>
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>

@@ -73,7 +73,7 @@
       <editorialDecl>
         <p xml:lang="de">Lokale Dateireferenzen (z.B. persons.xml#person_445, lexicon.xml#lemma_879, genres.xml#genre_XXX) verweisen auf kontrollierte Vokabulare im authority-files Verzeichnis dieses Repositorys. Diese internen Querverweise ermöglichen die Verknüpfung mit Personen-, Werk-, Lemma-, Konzept-, Genre- und Namensautoritätsdateien.</p>
         <p xml:lang="en">Local file references (e.g. persons.xml#person_445, lexicon.xml#lemma_879, genres.xml#genre_XXX) point to controlled vocabularies in the authority-files directory of this repository. These internal cross-references enable linking to person, work, lemma, concept, genre, and name authority files.</p>
-      </editorialDecl>
+      <normalization><p>Insgesamt 42 nur deutschsprachige Urkunden numeriert von #1 - 41 und geordnet nach Jahr und Tag der Erstellung, beginnend mit 24.2.1292 und endend mit 5.12.1318. Im Erscheinungsbild erfolgt das Datum in der Folge Jahr - Monat - Tag.</p><p>Mit dem Digitalisat der Originalurkunden verlinkt. Der Zeilenumbruch entspricht nicht immer dem Zeilenumbruch der Originalurkunden.</p><p>Lemmatisiert, aber noch nicht disambiguiert.</p><p>Die Groß-/Kleinschreibung entspricht aus technischen Gründen nur teilweise der Edition.</p></normalization></editorialDecl>
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>

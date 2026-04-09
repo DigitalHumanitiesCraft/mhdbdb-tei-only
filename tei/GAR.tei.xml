@@ -89,7 +89,7 @@
       <editorialDecl>
         <p xml:lang="de">Lokale Dateireferenzen (z.B. persons.xml#person_445, lexicon.xml#lemma_879, genres.xml#genre_XXX) verweisen auf kontrollierte Vokabulare im authority-files Verzeichnis dieses Repositorys. Diese internen Querverweise ermöglichen die Verknüpfung mit Personen-, Werk-, Lemma-, Konzept-, Genre- und Namensautoritätsdateien.</p>
         <p xml:lang="en">Local file references (e.g. persons.xml#person_445, lexicon.xml#lemma_879, genres.xml#genre_XXX) point to controlled vocabularies in the authority-files directory of this repository. These internal cross-references enable linking to person, work, lemma, concept, genre, and name authority files.</p>
-      </editorialDecl>
+      <normalization><p>Noch nicht lemmatisiert und disambiguiert.</p><p>Der Text weist Einschübe nach den Versen (71;178;293;564;579;1124;1243;1362;</p><p>2146;2233;3109;3604;4990;5423;6227;</p><p>6985;7230;7674;7717;7824;9185;10486;13685;13742;14609;14618;18381;18758;19087;19296) auf.</p><p>Enstanden ca. 1260-1270.</p><p>Die Groß-/Kleinschreibung entspricht aus technischen Gründen nur teilweise der Edition.</p></normalization></editorialDecl>
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>

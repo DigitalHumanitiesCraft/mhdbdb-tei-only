@@ -87,7 +87,7 @@
       <editorialDecl>
         <p xml:lang="de">Lokale Dateireferenzen (z.B. persons.xml#person_445, lexicon.xml#lemma_879, genres.xml#genre_XXX) verweisen auf kontrollierte Vokabulare im authority-files Verzeichnis dieses Repositorys. Diese internen Querverweise ermöglichen die Verknüpfung mit Personen-, Werk-, Lemma-, Konzept-, Genre- und Namensautoritätsdateien.</p>
         <p xml:lang="en">Local file references (e.g. persons.xml#person_445, lexicon.xml#lemma_879, genres.xml#genre_XXX) point to controlled vocabularies in the authority-files directory of this repository. These internal cross-references enable linking to person, work, lemma, concept, genre, and name authority files.</p>
-      </editorialDecl>
+      <normalization><p>Lemmatisiert; noch nicht disambiguiert.</p><p>Der Text weist Lücken (373-374;1083-1084;1191-92;1679-80;2357-58;3443-44;</p><p>3549-50;4079-80;4301-02;6367-68;6457-58;6705-06;6367-68;6457-58;6705-06;7763-66;8129-30;8369-70;8495-96; 8781-72;9035-36;9779-82;10703-04;12795-96; und Einschübe (nach 322;324;372;638;1082;1190;1678;1911; 2300;2356;3442;4079;4300;4490;4929; 4938;4955;5610;6366;6456;6704;6366; 6456;6704;7537;7762;8128;8368;8494; 9034;9129;9130;9639;9778;10178;10702; 12012;12718;12794;133241;133601;13461)auf.</p><p>Die Groß-/Kleinschreibung entspricht aus technischen Gründen nur teilweise der Edition.</p></normalization></editorialDecl>
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>

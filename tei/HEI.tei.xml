@@ -89,7 +89,7 @@
       <editorialDecl>
         <p xml:lang="de">Lokale Dateireferenzen (z.B. persons.xml#person_445, lexicon.xml#lemma_879, genres.xml#genre_XXX) verweisen auf kontrollierte Vokabulare im authority-files Verzeichnis dieses Repositorys. Diese internen Querverweise ermöglichen die Verknüpfung mit Personen-, Werk-, Lemma-, Konzept-, Genre- und Namensautoritätsdateien.</p>
         <p xml:lang="en">Local file references (e.g. persons.xml#person_445, lexicon.xml#lemma_879, genres.xml#genre_XXX) point to controlled vocabularies in the authority-files directory of this repository. These internal cross-references enable linking to person, work, lemma, concept, genre, and name authority files.</p>
-      </editorialDecl>
+      <normalization><p>Das Märe ist in zwei eng verwandten Märenhandschriften überliefert:</p><p>H    (1. Viertel 14. Jh. Nordwestböhmen/Oberfranken), Bl.111 rb - 123 ra.</p><p>K    (1. Viertel 14. Jh. Nordwestböhmen/Oberfranken, Abschrift aus H), Bl. 112rb-124m (Abdruck: Mailáth/Köffinger, S. 191-240).</p><p>Neuerdings tritt auch noch ein Fragment aus der Stiftskirche Ossiach (v. 1818-1862) hinzu: Univ.-Bibl. Klagenfurt, Perg. 64 (vgl. Hans Gröchenig, Ein Fragment einer mittelalterlichen Mærenhandschrift aus der UB Klagenfurt, Ein neu aufgefundenes Fragment zur Heidin B und zu Dietrich ron Glesse: Der Gürtel, in: Buchkunde. Zeitschrift für Buchkunde, Philologie und historische Hilfswissenschaften 1 [1984], S. 3-10). Sigle: o.</p><p>Die Groß-/Kleinschreibung entspricht aus technischen Gründen nur teilweise der Edition.</p></normalization></editorialDecl>
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>

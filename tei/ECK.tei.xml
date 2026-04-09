@@ -83,7 +83,7 @@
       <editorialDecl>
         <p xml:lang="de">Lokale Dateireferenzen (z.B. persons.xml#person_445, lexicon.xml#lemma_879, genres.xml#genre_XXX) verweisen auf kontrollierte Vokabulare im authority-files Verzeichnis dieses Repositorys. Diese internen Querverweise ermöglichen die Verknüpfung mit Personen-, Werk-, Lemma-, Konzept-, Genre- und Namensautoritätsdateien.</p>
         <p xml:lang="en">Local file references (e.g. persons.xml#person_445, lexicon.xml#lemma_879, genres.xml#genre_XXX) point to controlled vocabularies in the authority-files directory of this repository. These internal cross-references enable linking to person, work, lemma, concept, genre, and name authority files.</p>
-      </editorialDecl>
+      <normalization><p>Die Seiten wurden nach der kritischen Edition von Josef Quint ausgerichtet; Worttrennungen wurden aufgehoben (der 2. Wortteil wurde in die voraufgehende Zeile übernommen).</p><p>Nummernkodierung: Predigtnummer (3-st), Seitenzahl (3-st), Zeilenzahl (2-st); die Predigtüberschriften wurden markiert.</p><p>Frau Prof. Störmer-Caysa hat die folgenden Predigten aufgenommen:</p><p>Q2, Q5b, Q6, Q9, Q12, Q20a, Q38, Q44, Q52, Q60, Q70 und Q78.</p><p>Wir danken Frau Prof. Störmer-Caysa für die Bereitstellung der elektronischen Speicherung des Textes!</p><p>Die Groß-/Kleinschreibung entspricht aus technischen Gründen nur teilweise der Edition.</p></normalization></editorialDecl>
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>

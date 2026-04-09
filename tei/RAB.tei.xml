@@ -90,7 +90,7 @@
       <editorialDecl>
         <p xml:lang="de">Lokale Dateireferenzen (z.B. persons.xml#person_445, lexicon.xml#lemma_879, genres.xml#genre_XXX) verweisen auf kontrollierte Vokabulare im authority-files Verzeichnis dieses Repositorys. Diese internen Querverweise ermöglichen die Verknüpfung mit Personen-, Werk-, Lemma-, Konzept-, Genre- und Namensautoritätsdateien.</p>
         <p xml:lang="en">Local file references (e.g. persons.xml#person_445, lexicon.xml#lemma_879, genres.xml#genre_XXX) point to controlled vocabularies in the authority-files directory of this repository. These internal cross-references enable linking to person, work, lemma, concept, genre, and name authority files.</p>
-      </editorialDecl>
+      <normalization><p>Lemmatisiert, aber nicht disambiguiert.</p><p>Der Text besteht aus 1140 Strophen mit je 6 Versen beginnend mit Vers 1/1.</p><p>Der Text weist nach den Versen (80/6;100/6;142/6;165/6;213/6;276/6;333/6;375/6;464/6;554/6;868/6;974/6;</p><p>1026/6) Einschübe auf.</p><p>Entstanden um 1270. Vermutlich existierte ein älteres Rabenschlachtepos. Die historische Grundlage sieht man in der Schlacht am Nedao (454 n.C.).</p><p>Die Groß-/Kleinschreibung entspricht aus technischen Gründen nur teilweise der Edition.</p></normalization></editorialDecl>
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>

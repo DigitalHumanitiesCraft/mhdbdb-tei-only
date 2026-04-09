@@ -86,7 +86,7 @@
       <editorialDecl>
         <p xml:lang="de">Lokale Dateireferenzen (z.B. persons.xml#person_445, lexicon.xml#lemma_879, genres.xml#genre_XXX) verweisen auf kontrollierte Vokabulare im authority-files Verzeichnis dieses Repositorys. Diese internen Querverweise ermöglichen die Verknüpfung mit Personen-, Werk-, Lemma-, Konzept-, Genre- und Namensautoritätsdateien.</p>
         <p xml:lang="en">Local file references (e.g. persons.xml#person_445, lexicon.xml#lemma_879, genres.xml#genre_XXX) point to controlled vocabularies in the authority-files directory of this repository. These internal cross-references enable linking to person, work, lemma, concept, genre, and name authority files.</p>
-      </editorialDecl>
+      <normalization><p>Die Ausgabe folgt den 57 Blättern der Hs. die auf jedem Blatt vier Spalten  von Verszeilen aufweist. Die Nummerierung erfolgt nach Blatt und Spalte, die hier als Seite nn und Abschnitt n geführt werden. D.h.: S. 10/Abschnitt 3 = Blatt 10/Spalte c. Innerhalb jeder Spalte sind die Zeilen durchnummeriert. Bei der Ausgabe von Textstellen erscheint die Angabe von Seite/Blatt jeweils am Ende des letzten Abschnittes. Der Text beginnt auf 1/3, Zeile 1 und endet mit 57/4 Z. 23. Nach den Verszeilen 22/2/35; 24/1/11; 25/4/14 folgen jeweils in sich durchnummerierte Prosaeinschübe.</p><p>Nur teilweise lemmatisiert, nicht disambiguiert.</p><p>Die Groß-/Kleinschreibung entspricht aus technischen Gründen nur teilweise der Edition.</p></normalization></editorialDecl>
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
