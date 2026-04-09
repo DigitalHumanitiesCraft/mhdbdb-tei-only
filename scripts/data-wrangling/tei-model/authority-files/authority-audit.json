@@ -1,0 +1,1647 @@
+{
+  "date": "2026-04-09",
+  "files": [
+    {
+      "filename": "concepts.xml",
+      "size_kb": 211,
+      "element_counts": {
+        "TEI": 1,
+        "teiHeader": 1,
+        "fileDesc": 1,
+        "titleStmt": 1,
+        "title": 1,
+        "publicationStmt": 1,
+        "publisher": 1,
+        "date": 1,
+        "sourceDesc": 1,
+        "p": 2,
+        "encodingDesc": 1,
+        "classDecl": 1,
+        "taxonomy": 1,
+        "desc": 1,
+        "category": 567,
+        "catDesc": 567,
+        "term": 1663,
+        "ptr": 630,
+        "text": 1,
+        "body": 1
+      },
+      "total_elements": 3444,
+      "id_count": 568,
+      "id_formats": {
+        "numeric": 567,
+        "taxonomy_root": 1
+      },
+      "ref_count": 630,
+      "data_placement": {
+        "encodingDesc_elements": 3431,
+        "body_elements": 2
+      }
+    },
+    {
+      "filename": "genres.xml",
+      "size_kb": 413,
+      "element_counts": {
+        "TEI": 1,
+        "teiHeader": 1,
+        "fileDesc": 1,
+        "titleStmt": 1,
+        "title": 1,
+        "publicationStmt": 1,
+        "publisher": 1,
+        "date": 1,
+        "sourceDesc": 1,
+        "p": 2,
+        "encodingDesc": 1,
+        "classDecl": 1,
+        "taxonomy": 1,
+        "desc": 1,
+        "category": 615,
+        "catDesc": 615,
+        "term": 2282,
+        "ptr": 3175,
+        "text": 1,
+        "body": 1
+      },
+      "total_elements": 6704,
+      "id_count": 616,
+      "id_formats": {
+        "uuid/hash": 602,
+        "numeric": 13,
+        "taxonomy_root": 1
+      },
+      "ref_count": 3175,
+      "data_placement": {
+        "encodingDesc_elements": 6691,
+        "body_elements": 2
+      }
+    },
+    {
+      "filename": "lexicon.xml",
+      "size_kb": 33373,
+      "element_counts": {
+        "TEI": 1,
+        "teiHeader": 1,
+        "fileDesc": 1,
+        "titleStmt": 1,
+        "title": 1,
+        "publicationStmt": 1,
+        "publisher": 1,
+        "date": 1,
+        "sourceDesc": 1,
+        "p": 1,
+        "text": 1,
+        "body": 1,
+        "div": 1,
+        "entry": 43750,
+        "form": 43750,
+        "orth": 43750,
+        "gramGrp": 43750,
+        "pos": 56165,
+        "sense": 62240,
+        "ptr": 191990,
+        "etym": 27168,
+        "seg": 46999
+      },
+      "total_elements": 559575,
+      "id_count": 105990,
+      "id_formats": {
+        "compound": 62240,
+        "numeric": 43750
+      },
+      "ref_count": 238989,
+      "data_placement": {
+        "encodingDesc_elements": 0,
+        "body_elements": 559564
+      }
+    },
+    {
+      "filename": "names.xml",
+      "size_kb": 34,
+      "element_counts": {
+        "TEI": 1,
+        "teiHeader": 1,
+        "fileDesc": 1,
+        "titleStmt": 1,
+        "title": 1,
+        "publicationStmt": 1,
+        "publisher": 1,
+        "date": 1,
+        "sourceDesc": 1,
+        "p": 2,
+        "encodingDesc": 1,
+        "classDecl": 1,
+        "taxonomy": 1,
+        "desc": 1,
+        "category": 90,
+        "catDesc": 90,
+        "term": 180,
+        "ptr": 160,
+        "text": 1,
+        "body": 1
+      },
+      "total_elements": 537,
+      "id_count": 91,
+      "id_formats": {
+        "numeric": 90,
+        "taxonomy_root": 1
+      },
+      "ref_count": 160,
+      "data_placement": {
+        "encodingDesc_elements": 524,
+        "body_elements": 2
+      }
+    },
+    {
+      "filename": "persons.xml",
+      "size_kb": 80,
+      "element_counts": {
+        "TEI": 1,
+        "teiHeader": 1,
+        "fileDesc": 1,
+        "titleStmt": 1,
+        "title": 1,
+        "publicationStmt": 1,
+        "publisher": 1,
+        "date": 1,
+        "sourceDesc": 1,
+        "p": 1,
+        "text": 1,
+        "body": 1,
+        "listPerson": 1,
+        "person": 210,
+        "persName": 343,
+        "idno": 421,
+        "listBibl": 209,
+        "bibl": 588
+      },
+      "total_elements": 1784,
+      "id_count": 210,
+      "id_formats": {
+        "numeric": 205,
+        "uuid/hash": 4,
+        "other": 1
+      },
+      "ref_count": 588,
+      "data_placement": {
+        "encodingDesc_elements": 0,
+        "body_elements": 1773
+      }
+    },
+    {
+      "filename": "variants.xml",
+      "size_kb": 12758,
+      "element_counts": {
+        "TEI": 1,
+        "teiHeader": 1,
+        "fileDesc": 1,
+        "titleStmt": 1,
+        "title": 1,
+        "respStmt": 1,
+        "resp": 1,
+        "name": 1,
+        "publicationStmt": 1,
+        "publisher": 1,
+        "date": 1,
+        "sourceDesc": 1,
+        "p": 1,
+        "text": 1,
+        "body": 1,
+        "div": 1,
+        "entry": 39436,
+        "form": 192674
+      },
+      "total_elements": 232126,
+      "id_count": 192674,
+      "id_formats": {
+        "numeric": 192674
+      },
+      "ref_count": 39436,
+      "data_placement": {
+        "encodingDesc_elements": 0,
+        "body_elements": 232112
+      }
+    },
+    {
+      "filename": "works.xml",
+      "size_kb": 1437,
+      "element_counts": {
+        "TEI": 1,
+        "teiHeader": 1,
+        "fileDesc": 1,
+        "titleStmt": 1,
+        "title": 2824,
+        "publicationStmt": 1,
+        "publisher": 649,
+        "date": 681,
+        "sourceDesc": 1,
+        "p": 1,
+        "text": 1,
+        "body": 1,
+        "listBibl": 1,
+        "bibl": 583,
+        "idno": 2089,
+        "ref": 3422,
+        "author": 1293,
+        "relatedItem": 680,
+        "biblStruct": 680,
+        "analytic": 536,
+        "name": 706,
+        "monogr": 680,
+        "imprint": 680,
+        "biblScope": 884,
+        "note": 995,
+        "editor": 740,
+        "forename": 740,
+        "surname": 740,
+        "pubPlace": 661,
+        "series": 462,
+        "edition": 19
+      },
+      "total_elements": 20754,
+      "id_count": 1263,
+      "id_formats": {
+        "sigle_key": 635,
+        "numeric": 580,
+        "other": 45,
+        "uuid/hash": 3
+      },
+      "ref_count": 4009,
+      "data_placement": {
+        "encodingDesc_elements": 0,
+        "body_elements": 20743
+      }
+    }
+  ],
+  "orphaned_references": [
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_23123919",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_41430000",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_41120000",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_44100000",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "lexicon.xml#lemma_56929",
+      "element": "seg",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_41120000",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "lexicon.xml#lemma_56929",
+      "element": "seg",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "lexicon.xml#lemma_56929",
+      "element": "seg",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "lexicon.xml#lemma_56929",
+      "element": "seg",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "lexicon.xml#lemma_46395",
+      "element": "seg",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_41120000",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_41120000",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_41120000",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_44100000",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_41120000",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_44100000",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "lexicon.xml#lemma_46395",
+      "element": "seg",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_41120000",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_42210000",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_41120000",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_40000000",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "lexicon.xml#lemma_46395",
+      "element": "seg",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_41120000",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_40000000",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "lexicon.xml#lemma_47925",
+      "element": "seg",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_41120000",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_41120000",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_41120000",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_41120000",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_44100000",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "lexicon.xml#lemma_55428",
+      "element": "seg",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_41120000",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_42210000",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_41120000",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_44100000",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_40000000",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_41322100",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_40000000",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_41322200",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_41321300",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_46110000",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_46110000",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_41322100",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_41321300",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_41230000",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_45200000",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_45200000",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_41322100",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_41322100",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_41322100",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_41230000",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_41322100",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_41300000",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_41321300",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_41322100",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_41322100",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_41320000",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_41300000",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_41321000",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_41322100",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_41321000",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_41321000",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_41300000",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_41300000",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_41320000",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_41321100",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_44000000",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_42380000",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_44200000",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "concepts.xml#concept_41322100",
+      "element": "ptr",
+      "attribute": "target"
+    },
+    {
+      "source_file": "lexicon.xml",
+      "target": "lexicon.xml#lemma_55428",
+      "element": "seg",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_7456",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_9547",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_9779",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_10862",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_10863",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_13130",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_13544",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_13619",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_14358",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_14569",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_15387",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_16254",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_16781",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_16877",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_18449",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_18534",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_22531",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_27862",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_28572",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_28873",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_29011",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_29174",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_30351",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_30697",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_31501",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_31525",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_31768",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_32079",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_32133",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_32343",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_35007",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_40616",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_40633",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_41654",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_43052",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_47925",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_51307",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_51308",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_51310",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_51313",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_51314",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_51588",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_56530",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_56868",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_56869",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_57929",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_59328",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_60992",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_66170",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_66895",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_69731",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_69732",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_69908",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_70488",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_71768",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_78628",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_78648",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_78649",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_78668",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_78688",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_78708",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_78709",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_78728",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_78748",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_78768",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_78808",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_78850",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_78869",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_78908",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_78928",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_78948",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_78990",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_78991",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79029",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79048",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79068",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79070",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79088",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79089",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79108",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79109",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79110",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79111",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79112",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79148",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79168",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79188",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79189",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79190",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79210",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79211",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79229",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79230",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79248",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79268",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79289",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79290",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79291",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79308",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79309",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79310",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79312",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79313",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79314",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79315",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79316",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79328",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79329",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79348",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79349",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79350",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79351",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79368",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79388",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79389",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79390",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79391",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79392",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79393",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79394",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79408",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79428",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79448",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79449",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79488",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79489",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79490",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79508",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79528",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79529",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79568",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79569",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79588",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79608",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79628",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79648",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79649",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79668",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79670",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79688",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79689",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79690",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79691",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79708",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79728",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79729",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79730",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79748",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79749",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79768",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79788",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79808",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79810",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "variants.xml",
+      "target": "lexicon.xml#lemma_79828",
+      "element": "entry",
+      "attribute": "corresp"
+    },
+    {
+      "source_file": "works.xml",
+      "target": "persons.xml#person_schweizer_anonymus",
+      "element": "author",
+      "attribute": "ref"
+    }
+  ],
+  "denormalized_references": 3422,
+  "ref_summary": {
+    "concepts.xml→concepts.xml (internal) (<ptr @target>)": 630,
+    "genres.xml→genres.xml (internal) (<ptr @target>)": 3175,
+    "lexicon.xml→concepts.xml (<ptr @target>)": 191990,
+    "lexicon.xml→lexicon.xml (internal) (<seg @corresp>)": 46999,
+    "names.xml→names.xml (internal) (<ptr @target>)": 89,
+    "names.xml→concepts.xml (<ptr @target>)": 71,
+    "persons.xml→works.xml (<bibl @corresp>)": 588,
+    "variants.xml→lexicon.xml (<entry @corresp>)": 39436,
+    "works.xml→genres.xml (<ref @target>)": 3422,
+    "works.xml→persons.xml (<author @ref>)": 587
+  }
+}
