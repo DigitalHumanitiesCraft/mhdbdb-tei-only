@@ -681,12 +681,12 @@ export class TEIExplorer {
     }
 
     exportAnnotationsAsCSV() {
-        const headers = ['filename', 'text', 'tagName', 'meaningRef', 'conceptRef'];
+        const headers = ['filename', 'text', 'tagName', 'ana', 'conceptRef'];
         const rows = this.teiData.annotations.map(annotation => [
             annotation.filename,
             annotation.text,
             annotation.tagName,
-            annotation.meaningRef || '',
+            annotation.ana || '',
             annotation.conceptRef || ''
         ]);
         
@@ -704,7 +704,7 @@ export class TEIExplorer {
 
     formatAnnotationMeta(annotation) {
         const parts = [annotation.filename, annotation.tagName];
-        if (annotation.meaningRef) parts.push(`Meaning: ${annotation.meaningRef.split('#').pop()}`);
+        if (annotation.ana) parts.push(`Meaning: ${annotation.ana.split('#').pop()}`);
         return parts.join(' • ');
     }
 

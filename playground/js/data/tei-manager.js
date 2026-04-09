@@ -205,14 +205,14 @@ export class TEIFilesManager {
         });
 
         // Extract annotations/semantic references
-        const annotatedElements = xmlDoc.querySelectorAll('[meaningRef], [conceptRef]');
+        const annotatedElements = xmlDoc.querySelectorAll('[ana], [conceptRef]');
         annotatedElements.forEach((element, index) => {
-            const meaningRef = element.getAttribute('meaningRef');
+            const ana = element.getAttribute('ana');
             const conceptRef = element.getAttribute('conceptRef');
             const text = element.textContent?.trim();
             
             this.teiData.annotations.push({
-                text, meaningRef, conceptRef, filename, index,
+                text, ana, conceptRef, filename, index,
                 tagName: element.tagName
             });
         });
@@ -369,12 +369,12 @@ export class TEIFilesManager {
     }
 
     exportAnnotationsAsCSV() {
-        const headers = ['filename', 'text', 'tagName', 'meaningRef', 'conceptRef'];
+        const headers = ['filename', 'text', 'tagName', 'ana', 'conceptRef'];
         const rows = this.teiData.annotations.map(annotation => [
             annotation.filename,
             annotation.text,
             annotation.tagName,
-            annotation.meaningRef || '',
+            annotation.ana || '',
             annotation.conceptRef || ''
         ]);
         
