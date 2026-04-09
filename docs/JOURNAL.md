@@ -210,7 +210,7 @@ Flow/Algorithms/XPaths: PASS. Rebuild feasibility: Search YELLOW, Build YELLOW, 
 
 ### Neue Artefakte
 - `docs/TEI-MODEL.md` — Soll-Modell mit IST/SOLL-Vergleichen, Validierungsbaseline
-- `scripts/data-wrangling/tei-model/TEI-MODEL-EXAMPLE.xml` — Maximalbeispiel, validiert gegen tei_all.rng
+- `schema/mhdbdb-example.xml` — Maximalbeispiel, validiert gegen tei_all.rng
 - `scripts/data-wrangling/tei-model/tei-audit.json` + `TEI-AUDIT-REPORT.md` — Korpus-Audit (76 Elementtypen, 9.3M `<w>`)
 - `schema/tei_all.rng` — TEI P5 4.11.0 Referenzschema
 
@@ -228,7 +228,7 @@ Flow/Algorithms/XPaths: PASS. Rebuild feasibility: Search YELLOW, Build YELLOW, 
 **Phase:** Distillation abgeschlossen → Implementation bereit. Alle Promptotyping-Docs aktuell:
 - `docs/TEI-MODEL.md` — Soll-Modell (0 offene Entscheidungen)
 - `scripts/data-wrangling/tei-model/IMPLEMENTATION-PLAN.md` — 5-Phasen-Plan
-- `scripts/data-wrangling/tei-model/TEI-MODEL-EXAMPLE.xml` — validiert gegen tei_all.rng
+- `schema/mhdbdb-example.xml` — validiert gegen tei_all.rng
 - `scripts/data-wrangling/tei-model/tei-audit.json` + `TEI-AUDIT-REPORT.md` — Korpus-Audit
 - `scripts/data-wrangling/tei-model/audit-tei-corpus.py` — Audit-Script
 - `scripts/data-wrangling/tei-model/TEXT_DATA_TABLE.xlsx` — Metadaten-Quelle (Issue #67)

@@ -151,7 +151,7 @@ Allen 666 Dateien `<langUsage>` hinzufuegen (fehlt aktuell komplett). Standard: 
 Basiert auf:
 - Audit-Daten (tei-audit.json): welche Elemente/Attribute tatsaechlich vorkommen
 - TEI-MODEL.md: welche Werte erlaubt sind (SOLL, nicht IST)
-- TEI-MODEL-EXAMPLE.xml: Referenz-Dokument
+- schema/mhdbdb-example.xml: Referenz-Dokument
 
 **Ansatz:** Minimales Custom-Schema from scratch (nicht tei_all inkludieren — 1.1 MB, zu komplex). Modelliert nur was der MHDBDB-Korpus nach Migration nutzt. tei_all-Konformitaet wird separat geprueft (Stufe 1).
 
@@ -226,7 +226,7 @@ Phase A-D koennen theoretisch als ein grosses Transformationsscript laufen. Empf
 
 ### Referenz-Dateien (read-only)
 - `docs/TEI-MODEL.md` — Soll-Modell (Quelle der Wahrheit)
-- `scripts/data-wrangling/tei-model/TEI-MODEL-EXAMPLE.xml` — Referenz-Beispiel
+- `scripts/data-wrangling/tei-model/schema/mhdbdb-example.xml` — Referenz-Beispiel
 - `scripts/data-wrangling/tei-model/tei-audit.json` — Audit-Daten
 - `scripts/data-wrangling/tei-model/TEXT_DATA_TABLE.xlsx` — Metadaten-Quelle
 - `authority-files/lexicon.xml` — fuer @lemma Lookup (Phase B3)
@@ -249,7 +249,7 @@ Phase A-D koennen theoretisch als ein grosses Transformationsscript laufen. Empf
 ### Nach Phase E (Schema):
 - `jing schema/mhdbdb.rnc tei/ABG.tei.xml` → valid
 - Stichprobe: 10 diverse Dateien validieren
-- TEI-MODEL-EXAMPLE.xml gegen mhdbdb.rnc validieren
+- schema/mhdbdb-example.xml gegen mhdbdb.rnc validieren
 
 ### Gesamt:
 - tei_all.rng Validierung: 0 Fehler (nach Phase B)

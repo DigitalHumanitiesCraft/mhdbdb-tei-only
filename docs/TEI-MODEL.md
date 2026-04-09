@@ -6,7 +6,7 @@ Defines the normative TEI encoding for all texts in the MHDBDB corpus. New texts
 **Issue:** #32 (TEI schema)
 **Schema:** `schema/mhdbdb.rnc` (RELAX NG Compact, Source of Truth) + `schema/mhdbdb.rng` (generiert via `trang`)
 **Validiert gegen:** TEI P5 Version 4.11.0 (`tei_all.rng`, 18. Feb 2026)
-**Maximalbeispiel:** `scripts/data-wrangling/tei-model/TEI-MODEL-EXAMPLE.xml` (validiert gegen tei_all.rng)
+**Maximalbeispiel:** `schema/mhdbdb-example.xml` (validiert gegen tei_all.rng)
 
 ---
 
@@ -786,7 +786,7 @@ Vollstaendiger Report: `scripts/data-wrangling/tei-model/TEI-AUDIT-REPORT.md`
 - [ARCHITECTURE.MD](ARCHITECTURE.MD) -- Technische Komponenten, Datenfluss
 - [features/030-tei-structural-fixes.md](features/030-tei-structural-fixes.md) -- Triage-Plan fuer strukturelle Fixes
 - `.gemini/skills/pos-disambiguator/SKILL.md` -- POS-Tagset-Definition und Disambiguierungs-Regeln
-- `scripts/data-wrangling/tei-model/TEI-MODEL-EXAMPLE.xml` -- Maximalbeispiel (validiert gegen tei_all.rng)
+- `schema/mhdbdb-example.xml` -- Maximalbeispiel (validiert gegen tei_all.rng)
 - `schema/tei_all.rng` -- TEI P5 4.11.0 RELAX NG Schema (lokal, gitignored — Download: `curl -sL "https://tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" -o schema/tei_all.rng`)
 
 ### TEI P5 Spezifikation
