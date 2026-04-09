@@ -126,6 +126,12 @@
           <p>Part-of-Speech-Tags folgen dem MHDBDB-Tagset (19 Tags).
              Dokumentation: .gemini/skills/pos-disambiguator/SKILL.md</p>
         </interpretation>
+        <!-- [NEU] Abbreviatur-Aufloesungen (Issue #67, pro Datei spezifisch) -->
+        <normalization>
+          <p>Hochgestellte Vokale wurden aufgeloest (o > uo, e > ue).
+             Die Gross-/Kleinschreibung entspricht aus technischen Gruenden
+             nur teilweise der Edition.</p>
+        </normalization>
       </editorialDecl>
 
       <!-- [NEU] Schema-Referenz (TEI-Konformanz erfordert Dokumentation) -->
@@ -498,6 +504,159 @@
              lemma="salz"
              pos="NOM"
              corresp="variants.xml#type_70001">salz</w>
+          <pc join="left">.</pc>
+        </p>
+      </div>
+
+      <!-- ==========================================================
+           ABSCHNITT 4: LYRIK (Lied mit Strophen)
+           Ziel-Struktur: body > div type="song" > lg > l
+           ========================================================== -->
+      <div type="song" n="1">
+        <lg type="stanza" n="1">
+          <l n="1">
+            <hi rendition="#in">
+              <w xml:id="BEISPIEL_401_0"
+                 lemmaRef="lexicon.xml#lemma_6467"
+                 lemma="und"
+                 pos="CCNJ"
+                 corresp="variants.xml#type_22825">Und</w>
+            </hi>
+            <w xml:id="BEISPIEL_401_1"
+               lemmaRef="lexicon.xml#lemma_1119"
+               lemma="der"
+               pos="DET"
+               ana="lexicon.xml#lemma_1119_sense_1770"
+               corresp="variants.xml#type_3507">der</w>
+            <w xml:id="BEISPIEL_401_2"
+               lemmaRef="lexicon.xml#lemma_7545"
+               lemma="wîn"
+               pos="NOM"
+               corresp="variants.xml#type_27321">wîn</w>
+            <pc join="left">.</pc>
+          </l>
+          <l n="2">
+            <w xml:id="BEISPIEL_402_0"
+               lemmaRef="lexicon.xml#lemma_2703"
+               lemma="hêr"
+               pos="ADJ"
+               corresp="variants.xml#type_9454">hêre</w>
+            <w xml:id="BEISPIEL_402_1"
+               lemmaRef="lexicon.xml#lemma_1627"
+               lemma="êre"
+               pos="NOM"
+               ana="lexicon.xml#lemma_1627_sense_2536"
+               corresp="variants.xml#type_5508">êre</w>
+            <pc join="left">.</pc>
+          </l>
+        </lg>
+      </div>
+
+      <!-- ==========================================================
+           ABSCHNITT 5: NUMMERIERTE EINHEIT (Predigt/Urkunde)
+           div type="number" = Genre-neutrale Zaehlung
+           ========================================================== -->
+      <div type="number" n="1">
+        <head>
+          <w xml:id="BEISPIEL_5_h_0"
+             lemmaRef="lexicon.xml#lemma_7193"
+             lemma="von"
+             pos="PRP"
+             corresp="variants.xml#type_25544">Von</w>
+          <w xml:id="BEISPIEL_5_h_1"
+             lemmaRef="lexicon.xml#lemma_1119"
+             lemma="der"
+             pos="DET"
+             corresp="variants.xml#type_3507">der</w>
+          <w xml:id="BEISPIEL_5_h_2"
+             lemmaRef="lexicon.xml#lemma_4172"
+             lemma="minne"
+             pos="NOM"
+             corresp="variants.xml#type_14533">minne</w>
+        </head>
+        <p>
+          <lb n="1"/>
+          <w xml:id="BEISPIEL_501_0"
+             lemmaRef="lexicon.xml#lemma_3001"
+             lemma="ich"
+             pos="PRO"
+             corresp="variants.xml#type_10212">ich</w>
+          <w xml:id="BEISPIEL_501_1"
+             lemmaRef="lexicon.xml#lemma_5434"
+             lemma="sagen"
+             pos="VRB"
+             corresp="variants.xml#type_18993">sage</w>
+          <w xml:id="BEISPIEL_501_2"
+             lemmaRef="lexicon.xml#lemma_3001"
+             lemma="ir"
+             pos="PRO"
+             corresp="variants.xml#type_10215">iu</w>
+          <pc join="left">.</pc>
+          <!-- Datumsangaben in Urkunden (HZU/HZU2-Pattern) -->
+          <note type="year" n="1293"/>
+          <!-- IST: <note type="date" n="224"/>  (kodiert: MMTT)
+               SOLL: <note type="date" n="24. Februar"/> (Klartext) -->
+          <note type="date" n="24. Februar"/>
+        </p>
+      </div>
+
+      <!-- ==========================================================
+           ABSCHNITT 6: PARALLELUEBERLIEFERUNG
+           ========================================================== -->
+      <div type="parallel" n="2">
+        <p>
+          <lb n="1"/>
+          <w xml:id="BEISPIEL_601_0"
+             lemmaRef="lexicon.xml#lemma_1119"
+             lemma="der"
+             pos="DET"
+             corresp="variants.xml#type_3506">den</w>
+          <w xml:id="BEISPIEL_601_1"
+             lemmaRef="lexicon.xml#lemma_5903"
+             lemma="suochen"
+             pos="VRB"
+             corresp="variants.xml#type_59642">suochte</w>
+          <w xml:id="BEISPIEL_601_2"
+             lemmaRef="lexicon.xml#lemma_3001"
+             lemma="er"
+             pos="PRO"
+             corresp="variants.xml#type_10213">er</w>
+          <pc join="left">.</pc>
+        </p>
+      </div>
+
+      <!-- ==========================================================
+           ABSCHNITT 7: KOLOPHON (Schlussschrift)
+           ========================================================== -->
+      <div type="colophon">
+        <p>
+          <lb n="1"/>
+          <w xml:id="BEISPIEL_701_0"
+             lemmaRef="lexicon.xml#lemma_1331"
+             lemma="ein"
+             pos="DET"
+             corresp="variants.xml#type_4319">ein</w>
+          <w xml:id="BEISPIEL_701_1"
+             lemmaRef="lexicon.xml#lemma_879"
+             lemma="brôt"
+             pos="NOM"
+             ana="lexicon.xml#lemma_879_sense_1234"
+             corresp="variants.xml#type_5678">buoch</w>
+          <w xml:id="BEISPIEL_701_2"
+             lemmaRef="lexicon.xml#lemma_2598"
+             lemma="haben"
+             pos="VRB"
+             corresp="variants.xml#type_8717">hât</w>
+          <w xml:id="BEISPIEL_701_3"
+             lemmaRef="lexicon.xml#lemma_1331"
+             lemma="ein"
+             pos="DET"
+             corresp="variants.xml#type_4319">ein</w>
+          <w xml:id="BEISPIEL_701_4"
+             lemmaRef="lexicon.xml#lemma_1627"
+             lemma="ende"
+             pos="NOM"
+             corresp="variants.xml#type_5509">ende</w>
           <pc join="left">.</pc>
         </p>
       </div>
