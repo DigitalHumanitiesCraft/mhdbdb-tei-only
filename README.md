@@ -1,11 +1,12 @@
-
 # MHDBDB TEI Repository
 
-TEI-encoded Middle High German literature texts with semantic annotations and **dual web interfaces** from the [Mittelhochdeutsche Begriffsdatenbank (MHDBDB)](https://www.mhdbdb.sbg.ac.at), University of Salzburg.
+TEI-encoded Middle High German literature texts with semantic annotations and **dual web interfaces** from the [Mittelhochdeutsche Begriffsdatenbank (MHDBDB)](https://mhdbdb.plus.ac.at), University of Salzburg.
+
+**Live:** [Main Site](https://dhcraft.org/mhdbdb-tei-only/) | [Playground](https://dhcraft.org/mhdbdb-tei-only/playground/)
 
 ## Overview
 
-All data originates from the [Mittelhochdeutsche Begriffsdatenbank (MHDBDB)](https://www.mhdbdb.sbg.ac.at) at the University of Salzburg — a research project with over 50 years of medievalist text and concept scholarship.
+All data originates from the [Mittelhochdeutsche Begriffsdatenbank (MHDBDB)](https://mhdbdb.plus.ac.at) at the University of Salzburg — a research project with over 50 years of medievalist text and concept scholarship.
 
 ### Corpus Content
 - TEI-encoded texts of Middle High German literature
@@ -15,7 +16,7 @@ All data originates from the [Mittelhochdeutsche Begriffsdatenbank (MHDBDB)](htt
 
 ### Two Web Interfaces
 
-| Feature | **Main Site** ([index.html](index.html:1)) | **Playground** ([playground/](playground/index.html:1)) |
+| Feature | **Main Site** ([index.html](index.html)) | **Playground** ([playground/](playground/index.html)) |
 |---------|------------------------|------------------|
 | **Purpose** | Public search & reading | Advanced research & analysis |
 | **Data** | Pre-built indices | Pre-built authority index + lazy-loaded TEI |
@@ -43,7 +44,7 @@ npm run serve
 ### Build Indices (Optional)
 Pre-built indices are included. To rebuild:
 ```bash
-npm run build              # Build all indices
+npm run build              # Build CSS + all indices + manifest
 npm run build:authority    # Build authority index only
 npm run build:corpus       # Build corpus index only
 npm run validate:indices   # Validate generated indices
@@ -65,8 +66,8 @@ TEI files reference authority data via `xml:id`:
 
 ### XPath Examples
 ```xpath
-//tei:persName[@type='preferred']  # All preferred person names
-//tei:w[@lemma='vriunt']           # All instances of 'vriunt'
+//tei:persName[@type='preferred']                    # All preferred person names
+//tei:w[contains(@lemmaRef, 'lemma_38952')]          # All tokens linked to lemma 'vriunt'
 ```
 
 ## Authority Files
