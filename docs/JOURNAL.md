@@ -314,3 +314,64 @@ Keine Regressionen durch Migration. 20 pre-existierende Fehler (relative URL Con
 
 ### Authority-Migration laeuft parallel (Phases G-K)
 Zweite Claude-Instanz arbeitet an G1 (Genre-Refs) + G2 (Externe IDs). Aenderungen auf `feature/tei-model-32` Branch.
+
+---
+
+## 2026-04-10 12:30 — handoff
+
+**Summary:** Komplette Authority-Files-Migration (Phases F-K) implementiert. 7/7 Dateien valide gegen tei_all.rng + mhdbdb-authority.rnc. Authority-Index v1.2.0 rebuilt. Zotero-Script 4 Bugs gefixt. Frauendienst/Frauenbuch-Split (work_6/work_7) auf Basis von Katharinas Klassifizierung + eigener Recherche. Schweizer Anonymus als Person angelegt (GND 103130276). Schema-Examples fuer alle 7 Authority-File-Typen erstellt. 120/121 Playwright-Tests bestanden (1 flaky: Corpus-Lade-Timing).
+
+**Phase:** Implementation abgeschlossen. Wartet auf PR-Erstellung (Kollege arbeitet noch am Korpus-Testing auf demselben Branch).
+
+Aktuelle Docs:
+- `docs/TEI-MODEL.md` — Section 10 erweitert: Authority-Files Validierungsbaseline
+- `docs/TEI-MODEL-AUTH-FILES.md` — Status: Implementiert
+- `scripts/data-wrangling/tei-model/authority-files/IMPLEMENTATION-PLAN.md` — Phases F-K alle done
+- `schema/mhdbdb-authority.rnc` + `.rng` — SOLL-Modell Schema
+- `schema/examples/authority-*.example.xml` — 7 validierte Beispieldateien
+- `schema/examples/corpus.example.tei.xml` — Korpus-Beispiel (verschoben aus schema/)
+
+Geaenderte Dateien (15 modified + 15 untracked, nicht committed):
+- authority-files: works.xml, persons.xml, lexicon.xml, variants.xml
+- data/authority-index.json.gz (v1.2.0)
+- scripts: build-authority-index.py, enhance_works_with_zotero.py
+- schema: mhdbdb-authority.rnc/.rng, examples/*
+- docs: TEI-MODEL.md, TEI-MODEL-AUTH-FILES.md
+- tei/LUU.tei.xml (UUID cascade)
+- 6 neue Migrations-Scripts in scripts/data-wrangling/tei-model/authority-files/
+
+**Open issues:**
+- PR #69 Code-Review laeuft noch auf GitHub — Kollege testet Korpus-Seite
+- work_7 (Frauenbuch): Katharina hat Genres bestaetigt (Minnelehre + Streitgedicht), aber "Frauenbuch und Frauendienst haengen zusammen" braucht evtl. noch Recherche fuer die Doku
+- `docs/TEI-MODEL.md` Section 10 Authority-Index-Version: im Versionierungsblock steht 1.2.0, aber der Build-Script-Kommentar sagt "1.2.0" — konsistent, aber bei naechstem Authority-Rebuild pruefen
+- Post-Migration Audit: 0 orphans, 0 denormalized — sauber, Audit-Report aktualisiert
+- Persons with works: 209→207 nach Migration (2 Personen hatten stale listBibl ohne tatsaechliche Author-Referenz)
+
+**Next steps:**
+1. Warten bis Kollege mit Korpus-Testing fertig ist
+2. PR erstellen: `feature/tei-model-32` → `main` (Authority-Migration)
+3. Optional: Migrations-Scripts aufraeumen (gemeinsam mit User)
+
+---
+
+## 2026-04-10 15:00 — handoff
+
+**Summary:** Zusaetzlich zur Authority-Migration: 5 Issues geschlossen (#60 Parzival Chapters, #61 Textfilter multi-word, #67 bereits erledigt, #53 Korpussuche UX, #29 Stricker-Texte). #70 (pc join Rendering) gefixt aber nicht closeable vor Merge. Korpus-Schema (`mhdbdb.rnc`) vom Kollegen fertiggestellt und reviewed. Schema README geschrieben (Kollege). `div type="parallel"` in 7 Stricker-Texten → `section` korrigiert (4 echte Parallelueberlieferungen bleiben). Docs-Konsistenz (DATA-MODEL.MD, ROADMAP.md, JOURNAL.md) aktualisiert. Nav "Korpus" → "Korpussuche" in allen 4 HTML-Dateien (index, korpus, lemma, playground).
+
+**Phase:** PR-ready. Wartet auf Corpus-Index Rebuild nach TEI-Aenderungen (PZ, DKK, PRL, Stricker).
+
+Geaenderte Dateien seit letztem Handoff:
+- `assets/js/app.js` — #53 Empty State + #61 Textfilter
+- `assets/js/rendering/tei-text-reader.js` — #70 pc join rendering
+- `index.html`, `korpus.html`, `lemma/index.html`, `playground/index.html` — #53 Nav-Umbenennung
+- `tei/PZ.tei.xml` — #60 827 Chapter-Divs
+- `tei/DKK.tei.xml`, `tei/PRL.tei.xml` — #29 parallel→section
+- `tei/DES2.tei.xml`, `tei/DGE.tei.xml`, `tei/DJEM.tei.xml`, `tei/DJUM.tei.xml`, `tei/DUB.tei.xml` — parallel→section
+- `schema/mhdbdb.rnc`, `schema/mhdbdb.rng` — Korpus-Schema (Kollege)
+- `schema/README.md` — Schema-Dokumentation (Kollege + Review)
+- `docs/DATA-MODEL.MD`, `docs/ROADMAP.md` — Konsistenz-Fixes
+
+**Open:**
+- Corpus-Index Rebuild noetig (PZ + DKK/Stricker Strukturaenderungen)
+- #70 (pc join) Issue noch offen — erst nach Merge closebar
+- #20 (Lesbarkeit/CSS) und #52 (Authority Files Karte) noch offen

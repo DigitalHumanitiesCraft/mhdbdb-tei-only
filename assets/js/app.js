@@ -112,11 +112,9 @@ class MainSiteApp {
                 if (this.isSearchPage) {
                     const hasURLParams = this.handleURLParameters();
 
-                    // If no URL params, load ABG text automatically
+                    // If no URL params, show empty state (no auto-load)
                     if (!hasURLParams) {
-                        setTimeout(() => {
-                            this.teiReader.openReadingView('ABG', {}, this.elements);
-                        }, 200);
+                        this.showEmptyState();
                     }
                 }
             }, 500);
@@ -321,6 +319,7 @@ class MainSiteApp {
         if (textFilter && textList) {
             textFilter.addEventListener('input', (e) => {
                 const query = e.target.value.toLowerCase().trim();
+                const queryWords = query.split(/\s+/).filter(w => w.length > 0);
                 const items = textList.querySelectorAll('label');
                 let visibleCount = 0;
 
@@ -328,10 +327,10 @@ class MainSiteApp {
                     const title = item.dataset.title || '';
                     const author = item.dataset.author || '';
                     const textId = item.dataset.textId || '';
+                    const searchText = `${title} ${author} ${textId.toLowerCase()}`;
 
-                    const matches = title.includes(query) ||
-                                   author.includes(query) ||
-                                   textId.toLowerCase().includes(query);
+                    const matches = queryWords.length === 0 ||
+                                   queryWords.every(word => searchText.includes(word));
 
                     if (matches) {
                         item.style.display = '';
@@ -634,6 +633,22 @@ class MainSiteApp {
         return card;
     }
 
+
+    showEmptyState() {
+        if (this.elements.readingTitle) {
+            this.elements.readingTitle.textContent = '';
+        }
+        if (this.elements.readingBody) {
+            this.elements.readingBody.innerHTML =
+                '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:16rem;color:#94a3b8;padding:2rem">' +
+                '<svg style="width:48px;height:48px;margin-bottom:1rem" fill="none" stroke="currentColor" viewBox="0 0 24 24">' +
+                '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>' +
+                '</svg>' +
+                '<p style="font-size:1.125rem">Bitte geben Sie ein Wort oder Lemma ein und starten Sie die Suche.</p>' +
+                '<p style="font-size:0.875rem;margin-top:0.5rem">Oder klicken Sie auf einen Text in der Liste links.</p>' +
+                '</div>';
+        }
+    }
 
     showError(message) {
         this.elements.errorMessage.textContent = message;

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Names example: demonstrates taxonomy structure in names.xml
+     Validates against: tei_all.rng + mhdbdb-authority.rnc
+     IDs use 8-digit hierarchical format: name_NNNNNNNN
+     Unique: has cross-file pointers to concepts.xml (closeMatch, exactMatch) -->
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt><title>Names Example</title></titleStmt>
+      <publicationStmt><publisher>MHDBDB</publisher><date>2026</date></publicationStmt>
+      <sourceDesc><p>Schema example</p></sourceDesc>
+    </fileDesc>
+    <encodingDesc>
+      <classDecl>
+        <taxonomy xml:id="mhdbdb-names">
+          <desc>MHDBDB onomastic system (proper names)</desc>
+
+          <!-- Top-level category -->
+          <category xml:id="name_40000000">
+            <catDesc>
+              <term xml:lang="de">Eigennamen</term>
+              <term xml:lang="en">Proper Names</term>
+            </catDesc>
+          </category>
+
+          <!-- Subcategory with broader pointer (internal) -->
+          <category xml:id="name_41000000">
+            <catDesc>
+              <term xml:lang="de">Personennamen</term>
+              <term xml:lang="en">Personal Names</term>
+              <ptr type="broader" target="#name_40000000"/>
+            </catDesc>
+          </category>
+
+          <!-- Category with cross-file pointers to concepts.xml -->
+          <category xml:id="name_41100000">
+            <catDesc>
+              <term xml:lang="de">Vornamen</term>
+              <term xml:lang="en">First Names</term>
+              <ptr type="broader" target="#name_41000000"/>
+              <!-- exactMatch: this name category corresponds to a concept -->
+              <ptr type="exactMatch" target="concepts.xml#concept_11100000"/>
+            </catDesc>
+          </category>
+
+          <!-- Category with closeMatch (approximate correspondence) -->
+          <category xml:id="name_41200000">
+            <catDesc>
+              <term xml:lang="de">Familiennamen</term>
+              <term xml:lang="en">Family Names</term>
+              <ptr type="broader" target="#name_41000000"/>
+              <ptr type="closeMatch" target="concepts.xml#concept_11200000"/>
+            </catDesc>
+          </category>
+
+        </taxonomy>
+      </classDecl>
+    </encodingDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <p>See encodingDesc for name taxonomy.</p>
+    </body>
+  </text>
+</TEI>

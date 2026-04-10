@@ -70,7 +70,7 @@ TEI [@xml:id = sigle]
 |---------|-----------|---------|
 | `<w>` | `@xml:id` (required), `@lemmaRef`, `@pos`, `@ana`, `@corresp`, `@reason`, `@xml:lang` | Word token |
 | `<pc>` | `@join` (required: `left`\|`right`), `@xml:id` | Punctuation |
-| `<div>` | `@type` (optional: chapter, section, number, song, parallel, colophon, recipe), `@n` | Text division |
+| `<div>` | `@type` (optional; values: chapter, section, number, song, colophon, recipe, parallel†), `@n` | Text division |
 | `<lg>` | `@type` (stanza), `@n` | Line group (verse) |
 | `<l>` | `@n` | Verse line |
 | `<lb/>` | `@n` | Line break (prose) |
@@ -105,6 +105,8 @@ persons.xml#person_445      -- person
 works.xml#work_89           -- work
 genres.xml#genre_aaa        -- genre category
 ```
+
+†`parallel` marks parallel transmission (same text in different manuscripts). Used in 4 files: BRW, DL1, DL2, PKP.
 
 ## Authority schema (`mhdbdb-authority.rnc`)
 

@@ -6,7 +6,7 @@ Defines the normative TEI encoding for all texts in the MHDBDB corpus. New texts
 **Issue:** #32 (TEI schema)
 **Schema:** `schema/mhdbdb.rnc` (RELAX NG Compact, Source of Truth) + `schema/mhdbdb.rng` (generiert via `trang`)
 **Validiert gegen:** TEI P5 Version 4.11.0 (`tei_all.rng`, 18. Feb 2026)
-**Maximalbeispiel:** `schema/mhdbdb-example.xml` (validiert gegen tei_all.rng)
+**Maximalbeispiel:** `schema/examples/corpus.example.tei.xml` (validiert gegen tei_all.rng)
 
 ---
 
@@ -766,6 +766,29 @@ Fruehere Fehler (alle behoben durch Migration):
 - **Stufe 1:** `tei_all.rng` = TEI-Stempel (Kriterien 1-4)
 - **Stufe 2:** `mhdbdb.rnc` = MHDBDB-Stempel (strenger, Subset von tei_all)
 
+### Authority Files Status (7 Dateien, nach Migration 2026-04-10)
+
+| Datei | Einträge | Validierung |
+|-------|----------|-------------|
+| lexicon.xml | 43,750 Lemmata | tei_all ✓ · mhdbdb-authority ✓ |
+| variants.xml | 39,282 Einträge (192,472 Formen) | tei_all ✓ · mhdbdb-authority ✓ |
+| persons.xml | 211 Personen | tei_all ✓ · mhdbdb-authority ✓ |
+| works.xml | 583 Werke | tei_all ✓ · mhdbdb-authority ✓ |
+| concepts.xml | 567 Kategorien | tei_all ✓ · mhdbdb-authority ✓ |
+| genres.xml | 615 Kategorien | tei_all ✓ · mhdbdb-authority ✓ |
+| names.xml | 90 Kategorien | tei_all ✓ · mhdbdb-authority ✓ |
+
+Migrationsscripts: `scripts/data-wrangling/tei-model/authority-files/` (Phases F-K)
+Schema: `schema/mhdbdb-authority.rnc` (Source) → `schema/mhdbdb-authority.rng` (generiert)
+
+Durchgeführte Bereinigungen:
+- 3,422 Genre-`<ref>` → 870 `<ptr/>` (dedupliziert, Parent-Refs entfernt)
+- 368 `<note type="identifiers">` unwrapped, 176× `gnd`→`GND`
+- 209 denormalisierte `<listBibl>` aus persons.xml entfernt
+- 4 UUID-Personen-IDs → numerisch, 1 Person neu angelegt (Schweizer Anonymus)
+- 225 verwaiste Referenzen entfernt (154 variants, 61+10 lexicon)
+- Frauendienst/Frauenbuch Split (work_6/work_7)
+
 ---
 
 ## 11. Versionierung
@@ -776,7 +799,8 @@ Fruehere Fehler (alle behoben durch Migration):
 | RELAX NG Schema (`schema/mhdbdb.rnc`) | 1.0.0 | 2026-04-09 |
 | POS-Tagset | 1.0 (19 Tags) | 2026-03 |
 | Corpus Index | 4.0.0 | 2026-04-09 |
-| Authority Index | 1.1.0 | 2026-02 |
+| Authority Index | 1.2.0 | 2026-04-10 |
+| Authority Schema (`schema/mhdbdb-authority.rnc`) | 1.0.0 | 2026-04-10 |
 
 ---
 
@@ -788,7 +812,8 @@ Fruehere Fehler (alle behoben durch Migration):
 - [ARCHITECTURE.MD](ARCHITECTURE.MD) -- Technische Komponenten, Datenfluss
 - [features/030-tei-structural-fixes.md](features/030-tei-structural-fixes.md) -- Triage-Plan fuer strukturelle Fixes
 - `.gemini/skills/pos-disambiguator/SKILL.md` -- POS-Tagset-Definition und Disambiguierungs-Regeln
-- `schema/mhdbdb-example.xml` -- Maximalbeispiel (validiert gegen tei_all.rng)
+- `schema/examples/corpus.example.tei.xml` -- Korpus-Maximalbeispiel (validiert gegen tei_all.rng)
+- `schema/examples/authority-*.example.xml` -- Authority-File-Beispiele (validiert gegen tei_all.rng + mhdbdb-authority.rnc)
 - `schema/tei_all.rng` -- TEI P5 4.11.0 RELAX NG Schema (lokal, gitignored — Download: `curl -sL "https://tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" -o schema/tei_all.rng`)
 
 ### TEI P5 Spezifikation

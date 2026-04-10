@@ -369,8 +369,10 @@ class TEITextReader {
                     const rend = el.getAttribute('rend');
                     return this.processHi(el, rend, lemmaId, lemmaIds, lemmaColorMap, highlights, state);
                 }
-                case 'pc':
-                    return `<span class="punctuation">${this.escapeHtml(el.textContent)}</span>`;
+                case 'pc': {
+                    const join = el.getAttribute('join') || 'left';
+                    return `<span class="punctuation" data-join="${join}">${this.escapeHtml(el.textContent)}</span>`;
+                }
                 case 'seg':
                     return children();
                 case 'w': {
@@ -408,7 +410,13 @@ class TEITextReader {
 
         // Join punctuation to adjacent words based on @join attribute:
         // join="left" → remove whitespace before (attach to preceding word)
+        //   Pass 1: whitespace directly before the punctuation span
+        //   Pass 2: trailing space inside a preceding element (e.g. <span>word </span><pc>)
         // join="right" → remove whitespace after (attach to following word)
+        html = html.replace(/\s+(<span class="punctuation" data-join="left">)/g, '$1');
+        html = html.replace(/(\S)\s+(<\/\w+>\s*<span class="punctuation" data-join="left">)/g, '$1$2');
+        html = html.replace(/(<span class="punctuation" data-join="right">[^<]*<\/span>)\s+/g, '$1');
+
         return { html, highlights };
     }
 

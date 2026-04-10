@@ -1,0 +1,579 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+  MHDBDB TEI Maximalbeispiel (fiktiv)
+  ====================================
+  Zeigt alle Elemente und Attribute des MHDBDB-Kodierungsmodells
+  an einem fiktiven, aber realistischen Beispiel. Deckt alle
+  Genre-Muster ab: Vers, Prosa, Rezept, Lyrik, Predigt, Kolophon.
+
+  Normatives Dokument: docs/TEI-MODEL.md
+  Schema: schema/mhdbdb.rnc (RELAX NG Compact)
+  Validierung: tei_all.rng (TEI P5) + mhdbdb.rnc (MHDBDB-spezifisch)
+-->
+
+<?xml-model href="https://tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="BEISPIEL">
+  <teiHeader>
+
+    <fileDesc>
+      <titleStmt>
+        <title xml:lang="de">Fiktives Beispielwerk</title>
+        <author ref="#person_999">Beispielautor von Salzburg</author>
+        <respStmt>
+          <resp>digitale Zusammenfuehrung, Annotation und semantische Klassifikation</resp>
+          <name ref="https://mhdbdb.plus.ac.at" xml:lang="de">Mittelhochdeutsche Begriffsdatenbank (MHDBDB)</name>
+        </respStmt>
+      </titleStmt>
+
+      <publicationStmt>
+        <publisher>
+          <orgName>Mittelhochdeutsche Begriffsdatenbank (MHDBDB)</orgName>
+          <orgName>Paris Lodron Universitaet Salzburg</orgName>
+          <address>
+            <street>Erzabt-Klotz-Strasse 1</street>
+            <postCode>5020</postCode>
+            <settlement>Salzburg</settlement>
+            <country>Oesterreich</country>
+          </address>
+          <email>mhdbdb@plus.ac.at</email>
+          <ptr target="https://mhdbdb.plus.ac.at"/>
+        </publisher>
+        <authority>
+          <persName role="coordinator">
+            <forename>Katharina</forename>
+            <surname>Zeppezauer-Wachauer</surname>
+          </persName>
+        </authority>
+        <availability>
+          <licence target="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</licence>
+          <p>Die semantischen Annotationen stehen unter der Lizenz CC BY-NC-SA 4.0.
+             Die zugrunde liegenden E-Texte stammen aus unterschiedlichen Editionen
+             und unterliegen je nach Quelle eigenen rechtlichen Bedingungen.</p>
+        </availability>
+        <date when="2026">2026</date>
+      </publicationStmt>
+
+      <sourceDesc>
+        <msDesc>
+          <msIdentifier corresp="works.xml#work_999">
+            <idno type="sigle">BEISPIEL</idno>
+            <idno type="handschriftencensus">9999</idno>
+            <idno type="gnd">9999999-9</idno>
+            <msName xml:lang="de">Fiktives Beispielwerk</msName>
+          </msIdentifier>
+          <additional>
+            <listBibl>
+              <!-- Primaeredition -->
+              <biblStruct type="book" xml:id="BEISPIEL_BEISPIEL"
+                          corresp="http://zotero.org/groups/5043625/items/EXAMPLE" key="BEISPIEL">
+                <monogr>
+                  <author><name>Beispielautor von Salzburg</name></author>
+                  <title>Fiktives Beispielwerk: Eine Musterausgabe</title>
+                  <editor>
+                    <forename>Max</forename>
+                    <surname>Mustermann</surname>
+                  </editor>
+                  <idno type="callNumber">BEISPIEL</idno>
+                  <edition>2. Auflage</edition>
+                  <imprint>
+                    <pubPlace>Salzburg</pubPlace>
+                    <publisher>Musterverlag</publisher>
+                    <date>1990</date>
+                  </imprint>
+                </monogr>
+              </biblStruct>
+
+              <!-- Digitale Zwischenstufe (Provenienz-Kette) -->
+              <bibl type="digitalIntermediary" xml:id="BEISPIEL_etext_muster"
+                    corresp="#BEISPIEL_BEISPIEL">
+                <title>Elektronische Zwischenstufe (E-Text Mustermann)</title>
+                <respStmt>
+                  <resp>Elektronische Bereitstellung</resp>
+                  <name>Max Mustermann</name>
+                </respStmt>
+                <note type="provenance">E-Text aus der Bibliotheca Augustana.</note>
+                <note type="fidelity">Keine diplomatische Transkription.</note>
+              </bibl>
+            </listBibl>
+          </additional>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+
+    <encodingDesc>
+      <projectDesc>
+        <p xml:lang="de">Die Annotationen der MHDBDB basieren auf kontrollierten
+           Vokabularen und domaenenspezifischen Ontologien.</p>
+        <p xml:lang="en">The annotations of the MHDBDB are based on controlled
+           vocabularies and domain-specific ontologies.</p>
+      </projectDesc>
+
+      <editorialDecl>
+        <p xml:lang="de">Lokale Dateireferenzen (z.B. persons.xml#person_445,
+           lexicon.xml#lemma_879) verweisen auf kontrollierte Vokabulare
+           im authority-files Verzeichnis dieses Repositorys.</p>
+        <!-- POS-Tagset-Dokumentation -->
+        <interpretation>
+          <p>Part-of-Speech-Tags folgen dem MHDBDB-Tagset (19 Tags).
+             Dokumentation: .gemini/skills/pos-disambiguator/SKILL.md</p>
+        </interpretation>
+        <!-- Abbreviatur-Aufloesungen (pro Datei spezifisch) -->
+        <normalization>
+          <p>Hochgestellte Vokale wurden aufgeloest (o > uo, e > ue).
+             Die Gross-/Kleinschreibung entspricht aus technischen Gruenden
+             nur teilweise der Edition.</p>
+        </normalization>
+      </editorialDecl>
+
+      <classDecl>
+        <taxonomy xml:id="genres">
+          <bibl>Genreklassifikation gemaess der Textreihentypologie
+            <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/>
+          </bibl>
+          <category xml:id="genre_aaa" ana="parent" corresp="genres.xml#genre_aaa">
+            <gloss xml:lang="de">Weltliche Literatur</gloss>
+            <gloss xml:lang="en">Secular Literature</gloss>
+          </category>
+          <category xml:id="genre_bbb" corresp="genres.xml#genre_bbb">
+            <gloss xml:lang="de">Heldenepik</gloss>
+            <gloss xml:lang="en">Heroic Epic</gloss>
+          </category>
+        </taxonomy>
+      </classDecl>
+    </encodingDesc>
+
+    <profileDesc>
+      <langUsage>
+        <language ident="gmh">Mittelhochdeutsch</language>
+        <language ident="la">Latein</language>
+      </langUsage>
+
+      <particDesc>
+        <listPerson>
+          <person xml:id="person_999" corresp="persons.xml#person_999">
+            <persName type="preferred">Beispielautor von Salzburg</persName>
+            <idno type="GND">999999999</idno>
+            <idno type="wikidata">Q99999999</idno>
+            <note type="works">work_999</note>
+          </person>
+        </listPerson>
+      </particDesc>
+    </profileDesc>
+
+    <revisionDesc>
+      <change when="2026-04-07" who="#chsteiner">Maximalbeispiel erstellt.</change>
+    </revisionDesc>
+  </teiHeader>
+
+  <text>
+    <body>
+
+      <!-- VERS (Heldenepik): body > div > lg > l > w -->
+      <div type="section" n="1">
+        <head>
+          <w xml:id="BEISPIEL_1_h_0"
+             lemmaRef="lexicon.xml#lemma_879"
+             pos="NOM"
+             ana="lexicon.xml#lemma_879_sense_1234"
+             corresp="variants.xml#type_5678">Brôt</w>
+          <w xml:id="BEISPIEL_1_h_1"
+             lemmaRef="lexicon.xml#lemma_6467"
+             pos="CCNJ"
+             corresp="variants.xml#type_22825">und</w>
+          <w xml:id="BEISPIEL_1_h_2"
+             lemmaRef="lexicon.xml#lemma_7545"
+             pos="NOM"
+             ana="lexicon.xml#lemma_7545_sense_100"
+             corresp="variants.xml#type_27321">Wîn</w>
+        </head>
+
+        <pb n="1"/>
+
+        <lg type="stanza" n="1">
+          <l n="1">
+            <!-- Initiale: erstes Wort hervorgehoben -->
+            <hi rend="initial">
+              <w xml:id="BEISPIEL_101_0"
+                 lemmaRef="lexicon.xml#lemma_1119"
+                 pos="DET"
+                 ana="lexicon.xml#lemma_1119_sense_1770"
+                 corresp="variants.xml#type_3507">Der</w>
+            </hi>
+            <w xml:id="BEISPIEL_101_1"
+               lemmaRef="lexicon.xml#lemma_2703"
+               pos="ADJ"
+               corresp="variants.xml#type_9454">hêre</w>
+            <w xml:id="BEISPIEL_101_2"
+               lemmaRef="lexicon.xml#lemma_3001"
+               pos="PRO"
+               corresp="variants.xml#type_10212">ich</w>
+            <caesura/>
+            <w xml:id="BEISPIEL_101_3"
+               lemmaRef="lexicon.xml#lemma_5434"
+               pos="SCNJ"
+               corresp="variants.xml#type_18992">sît</w>
+            <w xml:id="BEISPIEL_101_4"
+               lemmaRef="lexicon.xml#lemma_1627"
+               pos="NOM"
+               ana="lexicon.xml#lemma_1627_sense_2536"
+               corresp="variants.xml#type_5508">êre</w>
+            <pc join="left">.</pc>
+          </l>
+
+          <l n="2">
+            <!-- Compound POS: wiltu = wilt + du (echte morphologische Fusion) -->
+            <w xml:id="BEISPIEL_102_0"
+               lemmaRef="lexicon.xml#lemma_9050"
+               pos="VEM PRO"
+               corresp="variants.xml#type_30687">wiltu</w>
+            <w xml:id="BEISPIEL_102_1"
+               lemmaRef="lexicon.xml#lemma_4172"
+               pos="PRP"
+               corresp="variants.xml#type_14531">mit</w>
+            <w xml:id="BEISPIEL_102_2"
+               lemmaRef="lexicon.xml#lemma_4172"
+               pos="NOM"
+               ana="lexicon.xml#lemma_4172_sense_6544"
+               corresp="variants.xml#type_14533">minne</w>
+            <w xml:id="BEISPIEL_102_3"
+               lemmaRef="lexicon.xml#lemma_7193"
+               pos="VRB"
+               corresp="variants.xml#type_25544">varn</w>
+            <pc join="left">,</pc>
+          </l>
+
+          <l n="3">
+            <!-- Wort ohne @lemmaRef: wird vom Corpus-Index uebersprungen -->
+            <w xml:id="BEISPIEL_103_0"
+               pos="NEG">niht</w>
+            <w xml:id="BEISPIEL_103_1"
+               lemmaRef="lexicon.xml#lemma_2598"
+               pos="VEX"
+               corresp="variants.xml#type_8717">hân</w>
+            <w xml:id="BEISPIEL_103_2"
+               lemmaRef="lexicon.xml#lemma_3720"
+               pos="VRB"
+               corresp="variants.xml#type_20814">gesehen</w>
+            <pc join="left">.</pc>
+          </l>
+        </lg>
+
+        <!-- Strophe mit editorischer Ergaenzung -->
+        <lg type="stanza" n="2">
+          <l n="4">
+            <w xml:id="BEISPIEL_104_0"
+               lemmaRef="lexicon.xml#lemma_6467"
+               pos="CCNJ"
+               corresp="variants.xml#type_22825">und</w>
+            <supplied>
+              <w xml:id="BEISPIEL_104_1"
+                 lemmaRef="lexicon.xml#lemma_1119"
+                 pos="DET"
+                 corresp="variants.xml#type_3506">der</w>
+            </supplied>
+            <w xml:id="BEISPIEL_104_2"
+               lemmaRef="lexicon.xml#lemma_5903"
+               pos="VRB"
+               corresp="variants.xml#type_59642">suochte</w>
+            <pc join="left">.</pc>
+          </l>
+        </lg>
+      </div>
+
+      <!-- PROSA (Traktat): body > div > p mit <lb/> -->
+      <div type="chapter" n="2">
+        <head>
+          <w xml:id="BEISPIEL_2_h_0"
+             lemmaRef="lexicon.xml#lemma_7193"
+             pos="PRP"
+             corresp="variants.xml#type_25544">Von</w>
+          <w xml:id="BEISPIEL_2_h_1"
+             lemmaRef="lexicon.xml#lemma_1119"
+             pos="DET"
+             corresp="variants.xml#type_3507">der</w>
+          <w xml:id="BEISPIEL_2_h_2"
+             lemmaRef="lexicon.xml#lemma_37696"
+             pos="NOM"
+             corresp="variants.xml#type_235248">abegescheidenheit</w>
+        </head>
+
+        <pb n="2"/>
+
+        <p>
+          <lb n="1"/>
+          <!-- rend="upper_case_first_letter": vergroesserter Anfangsbuchstabe (nicht Initiale) -->
+          <hi rend="upper_case_first_letter">
+            <w xml:id="BEISPIEL_201_0"
+               lemmaRef="lexicon.xml#lemma_3001"
+               pos="PRO"
+               corresp="variants.xml#type_10212">Ich</w>
+          </hi>
+          <w xml:id="BEISPIEL_201_1"
+             lemmaRef="lexicon.xml#lemma_2598"
+             pos="VRB"
+             corresp="variants.xml#type_8717">hân</w>
+          <w xml:id="BEISPIEL_201_2"
+             lemmaRef="lexicon.xml#lemma_1119"
+             pos="DET"
+             corresp="variants.xml#type_3507">der</w>
+          <w xml:id="BEISPIEL_201_3"
+             lemmaRef="lexicon.xml#lemma_5315"
+             pos="NOM"
+             corresp="variants.xml#type_59642">geschrift</w>
+          <w xml:id="BEISPIEL_201_4"
+             pos="ADV">vil</w>
+          <w xml:id="BEISPIEL_201_5"
+             lemmaRef="lexicon.xml#lemma_3720"
+             pos="VRB"
+             corresp="variants.xml#type_12919">gelesen</w>
+          <pc join="left">.</pc>
+
+          <cb n="2"/>
+          <lb n="2"/>
+          <!-- Fremdsprachlicher Einschub (Latein) -->
+          <w xml:id="BEISPIEL_202_0"
+             xml:lang="la"
+             pos="NOM">unum</w>
+          <w xml:id="BEISPIEL_202_1"
+             xml:lang="la"
+             pos="VRB">est</w>
+          <w xml:id="BEISPIEL_202_2"
+             xml:lang="la"
+             pos="ADJ">necessarium</w>
+          <pc join="left">.</pc>
+        </p>
+      </div>
+
+      <!-- REZEPT (Kochbuch): body > div type="recipe" > head + p -->
+      <div type="recipe" n="1">
+        <head>
+          <hi rend="initial">
+            <w xml:id="BEISPIEL_3_h_0"
+               lemmaRef="lexicon.xml#lemma_3405"
+               pos="NOM"
+               corresp="variants.xml#type_284708">Choepf</w>
+          </hi>
+          <w xml:id="BEISPIEL_3_h_1"
+             lemmaRef="lexicon.xml#lemma_7193"
+             pos="PRP"
+             corresp="variants.xml#type_25544">von</w>
+          <w xml:id="BEISPIEL_3_h_2"
+             lemmaRef="lexicon.xml#lemma_5678"
+             pos="NOM"
+             corresp="variants.xml#type_40123">swein</w>
+          <pc join="left">.</pc>
+        </head>
+
+        <pb type="folio" n="318r"/>
+
+        <p>
+          <lb n="1"/>
+          <!-- Compound POS: zem = ze + dem (Praeposition + Determinator) -->
+          <w xml:id="BEISPIEL_301_0"
+             lemmaRef="lexicon.xml#lemma_8888"
+             pos="PRP DET"
+             corresp="variants.xml#type_50001">zem</w>
+          <w xml:id="BEISPIEL_301_1"
+             lemmaRef="lexicon.xml#lemma_1627"
+             pos="ADV"
+             corresp="variants.xml#type_5509">êrsten</w>
+          <w xml:id="BEISPIEL_301_2"
+             lemmaRef="lexicon.xml#lemma_4567"
+             pos="VRB"
+             corresp="variants.xml#type_15001">nim</w>
+          <num>
+            <w xml:id="BEISPIEL_301_3"
+               pos="DIG">iii</w>
+          </num>
+          <w xml:id="BEISPIEL_301_4"
+             lemmaRef="lexicon.xml#lemma_3405"
+             pos="NOM"
+             corresp="variants.xml#type_284708">choepf</w>
+          <pc join="left">.</pc>
+
+          <lb n="2"/>
+          <w xml:id="BEISPIEL_302_0"
+             lemmaRef="lexicon.xml#lemma_9999"
+             pos="VRB"
+             corresp="variants.xml#type_60001">siut</w>
+          <w xml:id="BEISPIEL_302_1"
+             lemmaRef="lexicon.xml#lemma_5678"
+             pos="NOM"
+             ana="lexicon.xml#lemma_5678_sense_200"
+             corresp="variants.xml#type_40123">swein</w>
+          <w xml:id="BEISPIEL_302_2"
+             lemmaRef="lexicon.xml#lemma_4172"
+             pos="PRP"
+             corresp="variants.xml#type_14531">mit</w>
+          <w xml:id="BEISPIEL_302_3"
+             lemmaRef="lexicon.xml#lemma_1234"
+             pos="NOM"
+             corresp="variants.xml#type_70001">salz</w>
+          <pc join="left">.</pc>
+        </p>
+      </div>
+
+      <!-- LYRIK (Lied): body > div type="song" > lg > l -->
+      <div type="song" n="1">
+        <lg type="stanza" n="1">
+          <l n="1">
+            <hi rend="initial">
+              <w xml:id="BEISPIEL_401_0"
+                 lemmaRef="lexicon.xml#lemma_6467"
+                 pos="CCNJ"
+                 corresp="variants.xml#type_22825">Und</w>
+            </hi>
+            <w xml:id="BEISPIEL_401_1"
+               lemmaRef="lexicon.xml#lemma_1119"
+               pos="DET"
+               ana="lexicon.xml#lemma_1119_sense_1770"
+               corresp="variants.xml#type_3507">der</w>
+            <w xml:id="BEISPIEL_401_2"
+               lemmaRef="lexicon.xml#lemma_7545"
+               pos="NOM"
+               corresp="variants.xml#type_27321">wîn</w>
+            <pc join="left">.</pc>
+          </l>
+          <l n="2">
+            <w xml:id="BEISPIEL_402_0"
+               lemmaRef="lexicon.xml#lemma_2703"
+               pos="ADJ"
+               corresp="variants.xml#type_9454">hêre</w>
+            <w xml:id="BEISPIEL_402_1"
+               lemmaRef="lexicon.xml#lemma_1627"
+               pos="NOM"
+               ana="lexicon.xml#lemma_1627_sense_2536"
+               corresp="variants.xml#type_5508">êre</w>
+            <pc join="left">.</pc>
+          </l>
+        </lg>
+      </div>
+
+      <!-- NUMMERIERTE EINHEIT (Predigt/Urkunde): div type="number" -->
+      <div type="number" n="1">
+        <head>
+          <w xml:id="BEISPIEL_5_h_0"
+             lemmaRef="lexicon.xml#lemma_7193"
+             pos="PRP"
+             corresp="variants.xml#type_25544">Von</w>
+          <w xml:id="BEISPIEL_5_h_1"
+             lemmaRef="lexicon.xml#lemma_1119"
+             pos="DET"
+             corresp="variants.xml#type_3507">der</w>
+          <w xml:id="BEISPIEL_5_h_2"
+             lemmaRef="lexicon.xml#lemma_4172"
+             pos="NOM"
+             corresp="variants.xml#type_14533">minne</w>
+        </head>
+        <p>
+          <lb n="1"/>
+          <w xml:id="BEISPIEL_501_0"
+             lemmaRef="lexicon.xml#lemma_3001"
+             pos="PRO"
+             corresp="variants.xml#type_10212">ich</w>
+          <w xml:id="BEISPIEL_501_1"
+             lemmaRef="lexicon.xml#lemma_5434"
+             pos="VRB"
+             corresp="variants.xml#type_18993">sage</w>
+          <w xml:id="BEISPIEL_501_2"
+             lemmaRef="lexicon.xml#lemma_3001"
+             pos="PRO"
+             corresp="variants.xml#type_10215">iu</w>
+          <pc join="left">:</pc>
+          <!-- join="right": Klammer klebt am folgenden Wort -->
+          <pc join="right">(</pc>
+          <!-- NAM: Eigenname -->
+          <w xml:id="BEISPIEL_501_3"
+             lemmaRef="lexicon.xml#lemma_21167"
+             pos="NAM"
+             corresp="variants.xml#type_94184">Marthâ</w>
+          <pc join="left">)</pc>
+          <pc join="left">,</pc>
+          <!-- Compound POS: inme = in + dem (Praeposition + Determinator Fusion) -->
+          <w xml:id="BEISPIEL_501_4"
+             lemmaRef="lexicon.xml#lemma_8888"
+             pos="PRP DET"
+             corresp="variants.xml#type_50001">inme</w>
+          <!-- XPR: fremdsprachlicher Ausdruck ohne Lemma -->
+          <w xml:id="BEISPIEL_501_5"
+             pos="XPR">amen</w>
+          <pc join="left">.</pc>
+
+          <lb n="2"/>
+          <!-- INJ: Interjektion -->
+          <w xml:id="BEISPIEL_502_0"
+             lemmaRef="lexicon.xml#lemma_6200"
+             pos="INJ"
+             corresp="variants.xml#type_21500">ôwê</w>
+          <pc join="left">,</pc>
+          <!-- ZUS: Verbzusatz (abtrennbares Praefix) -->
+          <w xml:id="BEISPIEL_502_1"
+             lemmaRef="lexicon.xml#lemma_7700"
+             pos="ZUS"
+             corresp="variants.xml#type_26800">ûf</w>
+          <w xml:id="BEISPIEL_502_2"
+             lemmaRef="lexicon.xml#lemma_5434"
+             pos="VRB"
+             corresp="variants.xml#type_18993">sage</w>
+          <!-- UNK: unklare Wortart -->
+          <w xml:id="BEISPIEL_502_3"
+             pos="UNK">qzt</w>
+          <pc join="left">.</pc>
+          <!-- Datumsangaben in Urkunden (HZU/HZU2-Pattern) -->
+          <note type="year" n="1293"/>
+          <note type="date" n="24. Februar"/>
+        </p>
+      </div>
+
+      <!-- PARALLELUEBERLIEFERUNG -->
+      <div type="parallel" n="2">
+        <p>
+          <lb n="1"/>
+          <w xml:id="BEISPIEL_601_0"
+             lemmaRef="lexicon.xml#lemma_1119"
+             pos="DET"
+             corresp="variants.xml#type_3506">den</w>
+          <w xml:id="BEISPIEL_601_1"
+             lemmaRef="lexicon.xml#lemma_5903"
+             pos="VRB"
+             corresp="variants.xml#type_59642">suochte</w>
+          <w xml:id="BEISPIEL_601_2"
+             lemmaRef="lexicon.xml#lemma_3001"
+             pos="PRO"
+             corresp="variants.xml#type_10213">er</w>
+          <pc join="left">.</pc>
+        </p>
+      </div>
+
+      <!-- KOLOPHON (Schlussschrift) -->
+      <div type="colophon">
+        <p>
+          <lb n="1"/>
+          <w xml:id="BEISPIEL_701_0"
+             lemmaRef="lexicon.xml#lemma_1331"
+             pos="DET"
+             corresp="variants.xml#type_4319">ein</w>
+          <w xml:id="BEISPIEL_701_1"
+             lemmaRef="lexicon.xml#lemma_879"
+             pos="NOM"
+             ana="lexicon.xml#lemma_879_sense_1234"
+             corresp="variants.xml#type_5678">buoch</w>
+          <w xml:id="BEISPIEL_701_2"
+             lemmaRef="lexicon.xml#lemma_2598"
+             pos="VRB"
+             corresp="variants.xml#type_8717">hât</w>
+          <w xml:id="BEISPIEL_701_3"
+             lemmaRef="lexicon.xml#lemma_1331"
+             pos="DET"
+             corresp="variants.xml#type_4319">ein</w>
+          <w xml:id="BEISPIEL_701_4"
+             lemmaRef="lexicon.xml#lemma_1627"
+             pos="NOM"
+             corresp="variants.xml#type_5509">ende</w>
+          <pc join="left">.</pc>
+        </p>
+      </div>
+
+    </body>
+  </text>
+</TEI>
