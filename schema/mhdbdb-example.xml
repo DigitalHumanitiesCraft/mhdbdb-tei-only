@@ -2,25 +2,19 @@
 <!--
   MHDBDB TEI Maximalbeispiel (fiktiv)
   ====================================
-  Zeigt alle Elemente des Soll-Modells an einem lebenden Beispiel.
-  Dient als Referenz fuer das RELAX NG Schema und als Lerndokument.
+  Zeigt alle Elemente und Attribute des MHDBDB-Kodierungsmodells
+  an einem fiktiven, aber realistischen Beispiel. Deckt alle
+  Genre-Muster ab: Vers, Prosa, Rezept, Lyrik, Predigt, Kolophon.
 
-  Konformitaetsziel: TEI P5 konform (att.linguistic, att.global.analytic)
-
-  LEGENDE:
-    [IST]    = so kodiert der Bestand aktuell
-    [SOLL]   = TEI-konformes Zielmodell
-    [NEU]    = Elemente die im Bestand fehlen
-    [IDEELL] = optionale Verbesserung, nicht zwingend
+  Normatives Dokument: docs/TEI-MODEL.md
+  Schema: schema/mhdbdb.rnc (RELAX NG Compact)
+  Validierung: tei_all.rng (TEI P5) + mhdbdb.rnc (MHDBDB-spezifisch)
 -->
 
 <?xml-model href="https://tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="BEISPIEL">
   <teiHeader>
 
-    <!-- ============================================================
-         fileDesc: Bibliographische Beschreibung
-         ============================================================ -->
     <fileDesc>
       <titleStmt>
         <title xml:lang="de">Fiktives Beispielwerk</title>
@@ -89,7 +83,7 @@
                 </monogr>
               </biblStruct>
 
-              <!-- Digitale Zwischenstufe (Provenienz-Kette, ADR-012) -->
+              <!-- Digitale Zwischenstufe (Provenienz-Kette) -->
               <bibl type="digitalIntermediary" xml:id="BEISPIEL_etext_muster"
                     corresp="#BEISPIEL_BEISPIEL">
                 <title>Elektronische Zwischenstufe (E-Text Mustermann)</title>
@@ -97,8 +91,6 @@
                   <resp>Elektronische Bereitstellung</resp>
                   <name>Max Mustermann</name>
                 </respStmt>
-                <note type="provenance">E-Text aus der Bibliotheca Augustana.</note>
-                <note type="fidelity">Keine diplomatische Transkription.</note>
               </bibl>
             </listBibl>
           </additional>
@@ -106,9 +98,6 @@
       </sourceDesc>
     </fileDesc>
 
-    <!-- ============================================================
-         encodingDesc: Kodierungsprinzipien
-         ============================================================ -->
     <encodingDesc>
       <projectDesc>
         <p xml:lang="de">Die Annotationen der MHDBDB basieren auf kontrollierten
@@ -121,27 +110,18 @@
         <p xml:lang="de">Lokale Dateireferenzen (z.B. persons.xml#person_445,
            lexicon.xml#lemma_879) verweisen auf kontrollierte Vokabulare
            im authority-files Verzeichnis dieses Repositorys.</p>
-        <!-- [NEU] POS-Tagset-Dokumentation -->
+        <!-- POS-Tagset-Dokumentation -->
         <interpretation>
           <p>Part-of-Speech-Tags folgen dem MHDBDB-Tagset (19 Tags).
              Dokumentation: .gemini/skills/pos-disambiguator/SKILL.md</p>
         </interpretation>
-        <!-- [NEU] Abbreviatur-Aufloesungen (Issue #67, pro Datei spezifisch) -->
+        <!-- Abbreviatur-Aufloesungen (pro Datei spezifisch) -->
         <normalization>
           <p>Hochgestellte Vokale wurden aufgeloest (o > uo, e > ue).
              Die Gross-/Kleinschreibung entspricht aus technischen Gruenden
              nur teilweise der Edition.</p>
         </normalization>
       </editorialDecl>
-
-      <!-- [NEU] Schema-Referenz (TEI-Konformanz erfordert Dokumentation) -->
-      <schemaRef key="mhdbdb" url="schema/mhdbdb.rnc"/>
-
-      <!-- [NEU] Rendition-Definitionen (DTABf-Modell) -->
-      <tagsDecl>
-        <rendition xml:id="in" scheme="css">font-size: 150%; font-weight: bold;</rendition>
-        <rendition xml:id="uc" scheme="css">text-transform: uppercase;</rendition>
-      </tagsDecl>
 
       <classDecl>
         <taxonomy xml:id="genres">
@@ -160,14 +140,10 @@
       </classDecl>
     </encodingDesc>
 
-    <!-- ============================================================
-         profileDesc: Nicht-bibliographische Metadaten
-         ============================================================ -->
     <profileDesc>
-      <!-- [NEU] Sprachdeklaration (TEI empfiehlt dies dringend) -->
       <langUsage>
-        <language ident="gmh" usage="95">Mittelhochdeutsch (ca. 1050-1350)</language>
-        <language ident="la" usage="5">Latein</language>
+        <language ident="gmh">Mittelhochdeutsch</language>
+        <language ident="la">Latein</language>
       </langUsage>
 
       <particDesc>
@@ -187,47 +163,23 @@
     </revisionDesc>
   </teiHeader>
 
-  <!-- ==============================================================
-       TEXT: Drei Abschnitte zeigen die drei Genre-Muster
-       ============================================================== -->
   <text>
     <body>
 
-      <!-- ==========================================================
-           ABSCHNITT 1: VERS (Heldenepik)
-           Ziel-Struktur: body > div > lg > l > w
-           ========================================================== -->
+      <!-- VERS (Heldenepik): body > div > lg > l > w -->
       <div type="section" n="1">
         <head>
           <w xml:id="BEISPIEL_1_h_0"
              lemmaRef="lexicon.xml#lemma_879"
-             lemma="brôt"
              pos="NOM"
              ana="lexicon.xml#lemma_879_sense_1234"
              corresp="variants.xml#type_5678">Brôt</w>
-             <!--
-               [IST]  lemmaRef + meaningRef + wordRef + pos
-               [SOLL] lemmaRef + lemma + pos + ana + corresp
-
-               lemmaRef  = Pointer auf Lexikon-Eintrag (Standard TEI, att.linguistic)
-               lemma     = menschenlesbare Grundform (Standard TEI, att.linguistic)  [NEU]
-               pos       = POS-Tag (Standard TEI, att.linguistic)
-               ana       = Verweis auf Bedeutung/Sense (Standard TEI, att.global.analytic)
-                           Ersetzt das nicht-konforme @meaningRef
-               corresp   = Verweis auf Wortform/Type in variants.xml (Standard TEI, att.global)
-                           Ersetzt das nicht-konforme @wordRef. Traegt nicht-rekonstruierbare
-                           Information (Audit: 37% der Woerter haben kein @meaningRef/@ana,
-                           Sense→Type Lookup daher unmoeglich). URI korrigiert: Ziel ist
-                           variants.xml, nicht die synthetische lexicon.xml-URI.
-             -->
           <w xml:id="BEISPIEL_1_h_1"
              lemmaRef="lexicon.xml#lemma_6467"
-             lemma="und"
              pos="CCNJ"
              corresp="variants.xml#type_22825">und</w>
           <w xml:id="BEISPIEL_1_h_2"
              lemmaRef="lexicon.xml#lemma_7545"
-             lemma="wîn"
              pos="NOM"
              ana="lexicon.xml#lemma_7545_sense_100"
              corresp="variants.xml#type_27321">Wîn</w>
@@ -235,111 +187,90 @@
 
         <pb n="1"/>
 
-        <!-- Strophe 1: regulaere Strophe mit Zaesur -->
         <lg type="stanza" n="1">
           <l n="1">
-            <!-- [IDEELL] rendition statt rend (zentralisierte Definition) -->
-            <hi rendition="#in">
+            <!-- Initiale: erstes Wort hervorgehoben -->
+            <hi rend="initial">
               <w xml:id="BEISPIEL_101_0"
                  lemmaRef="lexicon.xml#lemma_1119"
-                 lemma="der"
                  pos="DET"
                  ana="lexicon.xml#lemma_1119_sense_1770"
                  corresp="variants.xml#type_3507">Der</w>
             </hi>
             <w xml:id="BEISPIEL_101_1"
                lemmaRef="lexicon.xml#lemma_2703"
-               lemma="hêr"
                pos="ADJ"
                corresp="variants.xml#type_9454">hêre</w>
             <w xml:id="BEISPIEL_101_2"
                lemmaRef="lexicon.xml#lemma_3001"
-               lemma="ich"
                pos="PRO"
                corresp="variants.xml#type_10212">ich</w>
             <caesura/>
             <w xml:id="BEISPIEL_101_3"
                lemmaRef="lexicon.xml#lemma_5434"
-               lemma="sît"
                pos="SCNJ"
                corresp="variants.xml#type_18992">sît</w>
             <w xml:id="BEISPIEL_101_4"
                lemmaRef="lexicon.xml#lemma_1627"
-               lemma="êre"
                pos="NOM"
                ana="lexicon.xml#lemma_1627_sense_2536"
                corresp="variants.xml#type_5508">êre</w>
-            <!-- [SOLL] Interpunktion als <pc> statt <seg type="pc"> -->
             <pc join="left">.</pc>
-            <!-- [IST]  <seg xml:id="..." type="pc">.</seg> -->
           </l>
 
           <l n="2">
-            <!-- Morphologische Fusion: Verb + enklitisches Pronomen -->
+            <!-- Compound POS: wiltu = wilt + du (echte morphologische Fusion) -->
             <w xml:id="BEISPIEL_102_0"
                lemmaRef="lexicon.xml#lemma_9050"
-               lemma="wellen"
                pos="VEM PRO"
                corresp="variants.xml#type_30687">wiltu</w>
-               <!-- Compound-Tag bleibt: wiltu = wilt + du (echte Fusion) -->
             <w xml:id="BEISPIEL_102_1"
                lemmaRef="lexicon.xml#lemma_4172"
-               lemma="mit"
                pos="PRP"
                corresp="variants.xml#type_14531">mit</w>
             <w xml:id="BEISPIEL_102_2"
                lemmaRef="lexicon.xml#lemma_4172"
-               lemma="minne"
                pos="NOM"
                ana="lexicon.xml#lemma_4172_sense_6544"
                corresp="variants.xml#type_14533">minne</w>
             <w xml:id="BEISPIEL_102_3"
                lemmaRef="lexicon.xml#lemma_7193"
-               lemma="varn"
                pos="VRB"
                corresp="variants.xml#type_25544">varn</w>
             <pc join="left">,</pc>
           </l>
 
           <l n="3">
-            <!-- Negation: IMMER NEG, nie PRO -->
+            <!-- Wort ohne @lemmaRef: wird vom Corpus-Index uebersprungen -->
             <w xml:id="BEISPIEL_103_0"
                pos="NEG">niht</w>
-               <!-- Wort ohne lemmaRef: wird vom Corpus-Index uebersprungen
-                    (Position-Counting-Contract, CONTRACTS.MD Sec. B) -->
             <w xml:id="BEISPIEL_103_1"
                lemmaRef="lexicon.xml#lemma_2598"
-               lemma="haben"
                pos="VEX"
                corresp="variants.xml#type_8717">hân</w>
-               <!-- VEX weil Perfekt-Hilfsverb (mit Partizip II) -->
             <w xml:id="BEISPIEL_103_2"
                lemmaRef="lexicon.xml#lemma_3720"
-               lemma="sehen"
                pos="VRB"
                corresp="variants.xml#type_20814">gesehen</w>
             <pc join="left">.</pc>
           </l>
         </lg>
 
-        <!-- Strophe 2: mit editorischer Ergaenzung -->
+        <!-- Strophe mit editorischer Ergaenzung -->
         <lg type="stanza" n="2">
           <l n="4">
             <w xml:id="BEISPIEL_104_0"
                lemmaRef="lexicon.xml#lemma_6467"
-               lemma="und"
                pos="CCNJ"
                corresp="variants.xml#type_22825">und</w>
             <supplied>
               <w xml:id="BEISPIEL_104_1"
                  lemmaRef="lexicon.xml#lemma_1119"
-                 lemma="der"
                  pos="DET"
                  corresp="variants.xml#type_3506">der</w>
             </supplied>
             <w xml:id="BEISPIEL_104_2"
                lemmaRef="lexicon.xml#lemma_5903"
-               lemma="suochen"
                pos="VRB"
                corresp="variants.xml#type_59642">suochte</w>
             <pc join="left">.</pc>
@@ -347,25 +278,19 @@
         </lg>
       </div>
 
-      <!-- ==========================================================
-           ABSCHNITT 2: PROSA (Traktat)
-           Ziel-Struktur: body > div > p (mit lb)
-           ========================================================== -->
+      <!-- PROSA (Traktat): body > div > p mit <lb/> -->
       <div type="chapter" n="2">
         <head>
           <w xml:id="BEISPIEL_2_h_0"
              lemmaRef="lexicon.xml#lemma_7193"
-             lemma="von"
              pos="PRP"
              corresp="variants.xml#type_25544">Von</w>
           <w xml:id="BEISPIEL_2_h_1"
              lemmaRef="lexicon.xml#lemma_1119"
-             lemma="der"
              pos="DET"
              corresp="variants.xml#type_3507">der</w>
           <w xml:id="BEISPIEL_2_h_2"
              lemmaRef="lexicon.xml#lemma_37696"
-             lemma="abegescheidenheit"
              pos="NOM"
              corresp="variants.xml#type_235248">abegescheidenheit</w>
         </head>
@@ -374,42 +299,35 @@
 
         <p>
           <lb n="1"/>
-          <hi rendition="#in">
+          <hi rend="initial">
             <w xml:id="BEISPIEL_201_0"
                lemmaRef="lexicon.xml#lemma_3001"
-               lemma="ich"
                pos="PRO"
                corresp="variants.xml#type_10212">Ich</w>
           </hi>
           <w xml:id="BEISPIEL_201_1"
              lemmaRef="lexicon.xml#lemma_2598"
-             lemma="haben"
              pos="VRB"
              corresp="variants.xml#type_8717">hân</w>
-             <!-- VRB weil lexikalisch ("ich besitze"), nicht Hilfsverb -->
           <w xml:id="BEISPIEL_201_2"
              lemmaRef="lexicon.xml#lemma_1119"
-             lemma="der"
              pos="DET"
              corresp="variants.xml#type_3507">der</w>
           <w xml:id="BEISPIEL_201_3"
              lemmaRef="lexicon.xml#lemma_5315"
-             lemma="geschrift"
              pos="NOM"
              corresp="variants.xml#type_59642">geschrift</w>
           <w xml:id="BEISPIEL_201_4"
-             lemma="vil"
              pos="ADV">vil</w>
           <w xml:id="BEISPIEL_201_5"
              lemmaRef="lexicon.xml#lemma_3720"
-             lemma="lesen"
              pos="VRB"
              corresp="variants.xml#type_12919">gelesen</w>
           <pc join="left">.</pc>
 
           <cb n="2"/>
           <lb n="2"/>
-          <!-- Fremdsprachlicher Einschub -->
+          <!-- Fremdsprachlicher Einschub (Latein) -->
           <w xml:id="BEISPIEL_202_0"
              xml:lang="la"
              pos="NOM">unum</w>
@@ -423,27 +341,21 @@
         </p>
       </div>
 
-      <!-- ==========================================================
-           ABSCHNITT 3: REZEPT (Kochbuch)
-           Ziel-Struktur: body > div type="recipe" > head + p
-           ========================================================== -->
+      <!-- REZEPT (Kochbuch): body > div type="recipe" > head + p -->
       <div type="recipe" n="1">
         <head>
-          <hi rendition="#in">
+          <hi rend="initial">
             <w xml:id="BEISPIEL_3_h_0"
                lemmaRef="lexicon.xml#lemma_3405"
-               lemma="kopf"
                pos="NOM"
                corresp="variants.xml#type_284708">Choepf</w>
           </hi>
           <w xml:id="BEISPIEL_3_h_1"
              lemmaRef="lexicon.xml#lemma_7193"
-             lemma="von"
              pos="PRP"
              corresp="variants.xml#type_25544">von</w>
           <w xml:id="BEISPIEL_3_h_2"
              lemmaRef="lexicon.xml#lemma_5678"
-             lemma="swîn"
              pos="NOM"
              corresp="variants.xml#type_40123">swein</w>
           <pc join="left">.</pc>
@@ -453,31 +365,25 @@
 
         <p>
           <lb n="1"/>
-          <!-- Praeposition+Determinator Fusion -->
+          <!-- Compound POS: zem = ze + dem (Praeposition + Determinator) -->
           <w xml:id="BEISPIEL_301_0"
              lemmaRef="lexicon.xml#lemma_8888"
-             lemma="ze"
              pos="PRP DET"
              corresp="variants.xml#type_50001">zem</w>
-             <!-- Compound bleibt: zem = ze + dem (echte Fusion) -->
           <w xml:id="BEISPIEL_301_1"
              lemmaRef="lexicon.xml#lemma_1627"
-             lemma="êrste"
              pos="ADV"
              corresp="variants.xml#type_5509">êrsten</w>
           <w xml:id="BEISPIEL_301_2"
              lemmaRef="lexicon.xml#lemma_4567"
-             lemma="nemen"
              pos="VRB"
              corresp="variants.xml#type_15001">nim</w>
-          <!-- Roemische Zahl -->
           <num>
             <w xml:id="BEISPIEL_301_3"
                pos="DIG">iii</w>
           </num>
           <w xml:id="BEISPIEL_301_4"
              lemmaRef="lexicon.xml#lemma_3405"
-             lemma="kopf"
              pos="NOM"
              corresp="variants.xml#type_284708">choepf</w>
           <pc join="left">.</pc>
@@ -485,52 +391,42 @@
           <lb n="2"/>
           <w xml:id="BEISPIEL_302_0"
              lemmaRef="lexicon.xml#lemma_9999"
-             lemma="sieden"
              pos="VRB"
              corresp="variants.xml#type_60001">siut</w>
           <w xml:id="BEISPIEL_302_1"
              lemmaRef="lexicon.xml#lemma_5678"
-             lemma="swîn"
              pos="NOM"
              ana="lexicon.xml#lemma_5678_sense_200"
              corresp="variants.xml#type_40123">swein</w>
           <w xml:id="BEISPIEL_302_2"
              lemmaRef="lexicon.xml#lemma_4172"
-             lemma="mit"
              pos="PRP"
              corresp="variants.xml#type_14531">mit</w>
           <w xml:id="BEISPIEL_302_3"
              lemmaRef="lexicon.xml#lemma_1234"
-             lemma="salz"
              pos="NOM"
              corresp="variants.xml#type_70001">salz</w>
           <pc join="left">.</pc>
         </p>
       </div>
 
-      <!-- ==========================================================
-           ABSCHNITT 4: LYRIK (Lied mit Strophen)
-           Ziel-Struktur: body > div type="song" > lg > l
-           ========================================================== -->
+      <!-- LYRIK (Lied): body > div type="song" > lg > l -->
       <div type="song" n="1">
         <lg type="stanza" n="1">
           <l n="1">
-            <hi rendition="#in">
+            <hi rend="initial">
               <w xml:id="BEISPIEL_401_0"
                  lemmaRef="lexicon.xml#lemma_6467"
-                 lemma="und"
                  pos="CCNJ"
                  corresp="variants.xml#type_22825">Und</w>
             </hi>
             <w xml:id="BEISPIEL_401_1"
                lemmaRef="lexicon.xml#lemma_1119"
-               lemma="der"
                pos="DET"
                ana="lexicon.xml#lemma_1119_sense_1770"
                corresp="variants.xml#type_3507">der</w>
             <w xml:id="BEISPIEL_401_2"
                lemmaRef="lexicon.xml#lemma_7545"
-               lemma="wîn"
                pos="NOM"
                corresp="variants.xml#type_27321">wîn</w>
             <pc join="left">.</pc>
@@ -538,12 +434,10 @@
           <l n="2">
             <w xml:id="BEISPIEL_402_0"
                lemmaRef="lexicon.xml#lemma_2703"
-               lemma="hêr"
                pos="ADJ"
                corresp="variants.xml#type_9454">hêre</w>
             <w xml:id="BEISPIEL_402_1"
                lemmaRef="lexicon.xml#lemma_1627"
-               lemma="êre"
                pos="NOM"
                ana="lexicon.xml#lemma_1627_sense_2536"
                corresp="variants.xml#type_5508">êre</w>
@@ -552,25 +446,19 @@
         </lg>
       </div>
 
-      <!-- ==========================================================
-           ABSCHNITT 5: NUMMERIERTE EINHEIT (Predigt/Urkunde)
-           div type="number" = Genre-neutrale Zaehlung
-           ========================================================== -->
+      <!-- NUMMERIERTE EINHEIT (Predigt/Urkunde): div type="number" -->
       <div type="number" n="1">
         <head>
           <w xml:id="BEISPIEL_5_h_0"
              lemmaRef="lexicon.xml#lemma_7193"
-             lemma="von"
              pos="PRP"
              corresp="variants.xml#type_25544">Von</w>
           <w xml:id="BEISPIEL_5_h_1"
              lemmaRef="lexicon.xml#lemma_1119"
-             lemma="der"
              pos="DET"
              corresp="variants.xml#type_3507">der</w>
           <w xml:id="BEISPIEL_5_h_2"
              lemmaRef="lexicon.xml#lemma_4172"
-             lemma="minne"
              pos="NOM"
              corresp="variants.xml#type_14533">minne</w>
         </head>
@@ -578,83 +466,66 @@
           <lb n="1"/>
           <w xml:id="BEISPIEL_501_0"
              lemmaRef="lexicon.xml#lemma_3001"
-             lemma="ich"
              pos="PRO"
              corresp="variants.xml#type_10212">ich</w>
           <w xml:id="BEISPIEL_501_1"
              lemmaRef="lexicon.xml#lemma_5434"
-             lemma="sagen"
              pos="VRB"
              corresp="variants.xml#type_18993">sage</w>
           <w xml:id="BEISPIEL_501_2"
              lemmaRef="lexicon.xml#lemma_3001"
-             lemma="ir"
              pos="PRO"
              corresp="variants.xml#type_10215">iu</w>
           <pc join="left">.</pc>
           <!-- Datumsangaben in Urkunden (HZU/HZU2-Pattern) -->
           <note type="year" n="1293"/>
-          <!-- IST: <note type="date" n="224"/>  (kodiert: MMTT)
-               SOLL: <note type="date" n="24. Februar"/> (Klartext) -->
           <note type="date" n="24. Februar"/>
         </p>
       </div>
 
-      <!-- ==========================================================
-           ABSCHNITT 6: PARALLELUEBERLIEFERUNG
-           ========================================================== -->
+      <!-- PARALLELUEBERLIEFERUNG -->
       <div type="parallel" n="2">
         <p>
           <lb n="1"/>
           <w xml:id="BEISPIEL_601_0"
              lemmaRef="lexicon.xml#lemma_1119"
-             lemma="der"
              pos="DET"
              corresp="variants.xml#type_3506">den</w>
           <w xml:id="BEISPIEL_601_1"
              lemmaRef="lexicon.xml#lemma_5903"
-             lemma="suochen"
              pos="VRB"
              corresp="variants.xml#type_59642">suochte</w>
           <w xml:id="BEISPIEL_601_2"
              lemmaRef="lexicon.xml#lemma_3001"
-             lemma="er"
              pos="PRO"
              corresp="variants.xml#type_10213">er</w>
           <pc join="left">.</pc>
         </p>
       </div>
 
-      <!-- ==========================================================
-           ABSCHNITT 7: KOLOPHON (Schlussschrift)
-           ========================================================== -->
+      <!-- KOLOPHON (Schlussschrift) -->
       <div type="colophon">
         <p>
           <lb n="1"/>
           <w xml:id="BEISPIEL_701_0"
              lemmaRef="lexicon.xml#lemma_1331"
-             lemma="ein"
              pos="DET"
              corresp="variants.xml#type_4319">ein</w>
           <w xml:id="BEISPIEL_701_1"
              lemmaRef="lexicon.xml#lemma_879"
-             lemma="brôt"
              pos="NOM"
              ana="lexicon.xml#lemma_879_sense_1234"
              corresp="variants.xml#type_5678">buoch</w>
           <w xml:id="BEISPIEL_701_2"
              lemmaRef="lexicon.xml#lemma_2598"
-             lemma="haben"
              pos="VRB"
              corresp="variants.xml#type_8717">hât</w>
           <w xml:id="BEISPIEL_701_3"
              lemmaRef="lexicon.xml#lemma_1331"
-             lemma="ein"
              pos="DET"
              corresp="variants.xml#type_4319">ein</w>
           <w xml:id="BEISPIEL_701_4"
              lemmaRef="lexicon.xml#lemma_1627"
-             lemma="ende"
              pos="NOM"
              corresp="variants.xml#type_5509">ende</w>
           <pc join="left">.</pc>
@@ -664,56 +535,3 @@
     </body>
   </text>
 </TEI>
-<!--
-  ================================================================
-  ZUSAMMENFASSUNG: IST vs. SOLL
-  ================================================================
-
-  ATTRIBUT-MIGRATION auf <w>:
-  ┌──────────────┬─────────────────────────┬──────────────────────────┐
-  │ IST          │ SOLL                    │ TEI-Status               │
-  ├──────────────┼─────────────────────────┼──────────────────────────┤
-  │ @lemmaRef    │ @lemmaRef (behalten)    │ Standard (att.linguistic)│
-  │ -            │ @lemma (NEU, optional)  │ Standard (att.linguistic)│
-  │ @pos         │ @pos (behalten)         │ Standard (att.linguistic)│
-  │ @meaningRef  │ @ana (ersetzen)         │ Standard (att.global)    │
-  │ @wordRef     │ @corresp (migrieren)    │ Standard (att.global)    │
-  │ @xml:id      │ @xml:id (behalten)      │ Standard (att.global)    │
-  └──────────────┴─────────────────────────┴──────────────────────────┘
-
-  INTERPUNKTION:
-  ┌──────────────────────────┬──────────────────────────┐
-  │ IST                      │ SOLL                     │
-  ├──────────────────────────┼──────────────────────────┤
-  │ <seg type="pc">.</seg>   │ <pc join="left">.</pc>   │
-  │ (kein @pos moeglich)     │ (@pos, @lemma moeglich)  │
-  └──────────────────────────┴──────────────────────────┘
-
-  HERVORHEBUNGEN:
-  ┌──────────────────────────┬──────────────────────────┐
-  │ IST                      │ IDEELL (optional)        │
-  ├──────────────────────────┼──────────────────────────┤
-  │ <hi rend="initial">      │ <hi rendition="#in">     │
-  │ (Freitext, dezentral)    │ (Pointer, zentral def.)  │
-  └──────────────────────────┴──────────────────────────┘
-
-  HEADER-ERGAENZUNGEN:
-  ┌──────────────────────────┬──────────────────────────┐
-  │ FEHLT                    │ SOLL                     │
-  ├──────────────────────────┼──────────────────────────┤
-  │ <langUsage>              │ gmh + la deklarieren     │
-  │ <schemaRef>              │ Pointer auf RELAX NG     │
-  │ <tagsDecl>/<rendition>   │ Rendition-Definitionen   │
-  │ <interpretation>         │ POS-Tagset dokumentieren │
-  └──────────────────────────┴──────────────────────────┘
-
-  KONFORMANZ-PROBLEME IM BESTAND:
-  - <l> in Prosa-Texten: explizit TEI-nonkonform (Sec. 24 nutzt dies
-    als Negativbeispiel). Muss langfristig zu <lb/> migriert werden.
-  - @meaningRef: nicht-Standard-Attribut → zu @ana migrieren.
-  - @wordRef: nicht-Standard-Attribut, traegt aber nicht-rekonstruierbare
-    Information (Wortform-Zuordnung). → zu @corresp migrieren,
-    URI korrigieren (variants.xml statt synthetische lexicon.xml-URI).
-  - <seg type="pc">: funktioniert, aber <pc> ist das dafuer
-    vorgesehene TEI P5 Element (Member von att.linguistic).
--->

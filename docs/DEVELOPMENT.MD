@@ -111,6 +111,7 @@ npm run report        # View HTML report
 ```
 
 **Test configuration:** `testing/playwright.config.js`
+- Always use `npm test` — never `npx playwright test` from the project root (config and `baseURL` live in `testing/`)
 - Automated web server startup (port 8080)
 - Headless Chrome with `--disable-web-security`
 - 60-second timeout per test
