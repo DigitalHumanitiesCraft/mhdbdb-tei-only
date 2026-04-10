@@ -59,6 +59,7 @@ class MainSiteApp {
                 selectOnlyVisible: document.getElementById('selectOnlyVisible'),
                 selectOnlyVisibleSep: document.getElementById('selectOnlyVisibleSep'),
                 selectedTextCount: document.getElementById('selectedTextCount'),
+                totalTextCount: document.getElementById('totalTextCount'),
                 filterInfoText: document.getElementById('filterInfoText'),
                 visibleTextCount: document.getElementById('visibleTextCount'),
                 clearTextFilter: document.getElementById('clearTextFilter'),
@@ -272,6 +273,10 @@ class MainSiteApp {
         const selectedTextCountEl = this.elements.selectedTextCount;
         if (selectedTextCountEl) {
             selectedTextCountEl.textContent = selectedCount;
+        }
+        const totalTextCountEl = this.elements.totalTextCount;
+        if (totalTextCountEl) {
+            totalTextCountEl.textContent = this.corpusData.texts.length;
         }
     }
 
