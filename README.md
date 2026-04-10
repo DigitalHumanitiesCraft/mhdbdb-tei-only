@@ -5,7 +5,7 @@ TEI-encoded Middle High German literature texts with semantic annotations and **
 
 ## Overview
 
-Alle Inhalte basieren auf den Daten der [Mittelhochdeutschen Begriffsdatenbank (MHDBDB)](https://www.mhdbdb.sbg.ac.at) der Universität Salzburg – einem Forschungsprojekt mit über 50 Jahren mediävistischer Text- und Begriffsforschung.
+All data originates from the [Mittelhochdeutsche Begriffsdatenbank (MHDBDB)](https://www.mhdbdb.sbg.ac.at) at the University of Salzburg — a research project with over 50 years of medievalist text and concept scholarship.
 
 ### Corpus Content
 - TEI-encoded texts of Middle High German literature
