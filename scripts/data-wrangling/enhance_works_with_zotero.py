@@ -59,6 +59,9 @@ from typing import Dict, List, Optional
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
 logger = logging.getLogger(__name__)
 
+# TEI namespace
+TEI_NS_URI = "http://www.tei-c.org/ns/1.0"
+
 # Zotero API configuration
 ZOTERO_API_BASE = "https://api.zotero.org"
 ZOTERO_GROUP_ID = "5043625"
@@ -280,7 +283,6 @@ def api_item_to_biblstruct(item_data: dict, sigle: str, notes: List[str] = None)
     """
     if notes is None:
         notes = []
-    TEI_NS_URI = "http://www.tei-c.org/ns/1.0"
 
     # Extract creators
     creators = item_data.get('creators', [])
@@ -331,28 +333,10 @@ def api_item_to_biblstruct(item_data: dict, sigle: str, notes: List[str] = None)
                 name.text = author_data['name']
 
     # Create <monogr> section
+    # TEI <monogr> content model: author* → title+ → idno* → editor* → edition* → imprint+
     monogr = etree.SubElement(biblstruct, f"{{{TEI_NS_URI}}}monogr")
 
-    # Title (book/journal title)
-    if item_type in ['journalArticle']:
-        # For journal articles, use publicationTitle
-        if 'publicationTitle' in item_data and item_data['publicationTitle']:
-            title = etree.SubElement(monogr, f"{{{TEI_NS_URI}}}title")
-            title.set('level', 'j')
-            title.text = convert_to_title_case(item_data['publicationTitle'])
-    elif item_type in ['bookSection']:
-        # For book sections, use bookTitle
-        if 'bookTitle' in item_data and item_data['bookTitle']:
-            title = etree.SubElement(monogr, f"{{{TEI_NS_URI}}}title")
-            title.set('level', 'm')
-            title.text = convert_to_title_case(item_data['bookTitle'])
-    else:
-        # For books and other types, use title
-        if 'title' in item_data and item_data['title']:
-            title = etree.SubElement(monogr, f"{{{TEI_NS_URI}}}title")
-            title.text = convert_to_title_case(item_data['title'])
-
-    # For books (not bookSections/articles), add authors to monogr
+    # 1. Authors (for books only — before title per TEI content model)
     if item_type in ['book']:
         for author_data in authors:
             author = etree.SubElement(monogr, f"{{{TEI_NS_URI}}}author")
@@ -364,37 +348,50 @@ def api_item_to_biblstruct(item_data: dict, sigle: str, notes: List[str] = None)
                 name = etree.SubElement(author, f"{{{TEI_NS_URI}}}name")
                 name.text = author_data['name']
 
-    # ISBN
+    # 2. Title
+    if item_type in ['journalArticle']:
+        if 'publicationTitle' in item_data and item_data['publicationTitle']:
+            title = etree.SubElement(monogr, f"{{{TEI_NS_URI}}}title")
+            title.set('level', 'j')
+            title.text = convert_to_title_case(item_data['publicationTitle'])
+    elif item_type in ['bookSection']:
+        if 'bookTitle' in item_data and item_data['bookTitle']:
+            title = etree.SubElement(monogr, f"{{{TEI_NS_URI}}}title")
+            title.set('level', 'm')
+            title.text = convert_to_title_case(item_data['bookTitle'])
+    else:
+        if 'title' in item_data and item_data['title']:
+            title = etree.SubElement(monogr, f"{{{TEI_NS_URI}}}title")
+            title.text = convert_to_title_case(item_data['title'])
+
+    # 3. Identifiers (idno — after title, before editor)
     if 'ISBN' in item_data and item_data['ISBN']:
         idno = etree.SubElement(monogr, f"{{{TEI_NS_URI}}}idno")
         idno.set('type', 'ISBN')
         idno.text = item_data['ISBN']
 
-    # callNumber as idno
     if 'callNumber' in item_data and item_data['callNumber']:
         idno = etree.SubElement(monogr, f"{{{TEI_NS_URI}}}idno")
         idno.set('type', 'callNumber')
         idno.text = item_data['callNumber']
 
-    # Editors
+    # 4. Editors (after idno, before edition)
     for editor_data in editors:
         editor = etree.SubElement(monogr, f"{{{TEI_NS_URI}}}editor")
-
         if 'firstName' in editor_data and 'lastName' in editor_data:
             forename = etree.SubElement(editor, f"{{{TEI_NS_URI}}}forename")
             forename.text = editor_data['firstName']
-
             surname = etree.SubElement(editor, f"{{{TEI_NS_URI}}}surname")
             surname.text = editor_data['lastName']
         elif 'name' in editor_data:
             editor.text = editor_data['name']
 
-    # Edition
+    # 5. Edition
     if 'edition' in item_data and item_data['edition']:
         edition = etree.SubElement(monogr, f"{{{TEI_NS_URI}}}edition")
         edition.text = str(item_data['edition'])
 
-    # Imprint section
+    # 6. Imprint
     imprint = etree.SubElement(monogr, f"{{{TEI_NS_URI}}}imprint")
 
     if 'place' in item_data and item_data['place']:
@@ -521,7 +518,7 @@ def parse_xml_file(filename):
     """Parse XML file with namespace handling."""
     try:
         # Use remove_blank_text=True to enable pretty-printing on write
-        parser = etree.XMLParser(recover=True, remove_blank_text=True)
+        parser = etree.XMLParser(remove_blank_text=True)
         tree = etree.parse(filename, parser)
         return tree
     except Exception as e:
@@ -619,7 +616,7 @@ def replace_editions_with_biblstructs(works_tree, zotero_data, dry_run=False):
         # Note: biblStruct lives inside <relatedItem> per TEI model (2026-04-09).
         if has_zotero_match:
             existing_related = work.xpath('.//tei:relatedItem[tei:biblStruct]', namespaces=ns)
-            if existing_related and not dry_run:
+            if existing_related:
                 logger.debug(f"Removing {len(existing_related)} existing relatedItem/biblStruct from {work_id}")
                 for ri in existing_related:
                     for bs in ri.xpath('tei:biblStruct', namespaces=ns):
@@ -627,7 +624,8 @@ def replace_editions_with_biblstructs(works_tree, zotero_data, dry_run=False):
                         if old_id and old_id in used_xml_ids:
                             used_xml_ids.remove(old_id)
                         total_removed += 1
-                    ri.getparent().remove(ri)
+                    if not dry_run:
+                        ri.getparent().remove(ri)
 
         # NOW create new biblStruct elements from Zotero
         matching_biblstructs = []
@@ -788,7 +786,7 @@ After running:
         # Write modified XML
         if not args.dry_run:
             logger.info(f"Writing modified XML back to {works_file}...")
-            works_tree.write(works_file, encoding='utf-8', xml_declaration=True, pretty_print=True)
+            works_tree.write(works_file, encoding='UTF-8', xml_declaration=True, pretty_print=True)
 
         # Final summary
         logger.info("=" * 60)

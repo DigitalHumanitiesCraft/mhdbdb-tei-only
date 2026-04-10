@@ -1,6 +1,6 @@
 # Roadmap
 
-Strategic priorities for the MHDBDB TEI Repository. Updated Feb 2026.
+Strategic priorities for the MHDBDB TEI Repository. Updated Apr 2026.
 
 See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/44) for the full triage matrix with per-issue status.
 
@@ -45,7 +45,7 @@ Well-specified, ready to build, but require more effort.
 |---|------|--------|
 | #27 | POS Workflow expansion | Active — linguistic decisions answered, batch list provided |
 | #30 | TEI structural fixes | Auto-fixes ready (71 edits, 4 files), draft-fixes prepared, aligned to TEI-MODEL.md |
-| #32 | TEI model consolidation | **Migration complete** — all 5 phases (A-E) executed, 675 files transformed, RELAX NG schema + validation done, PR pending |
+| #32 | TEI model consolidation | **Corpus + Authority migration complete** — Corpus: Phases A-E (675 files, PR #69 merged). Authority: Phases F-K (7 files, 14/14 validations, authority PR pending) |
 
 ## Future: Needs Design
 
@@ -69,7 +69,7 @@ Well-specified, ready to build, but require more effort.
 
 ## Strategic Direction
 
-1. **TEI model consolidation done** — Soll-Modell (#32) implemented: `@meaningRef` → `@ana`, `@wordRef` → `@corresp`, `<seg type="pc">` → `<pc>`, div/@type normalized, 18 prose files `<l>` → `<lb/>`, langUsage + normalization headers added, RELAX NG schema written. All 675 files validated. Target model: [TEI-MODEL.md](TEI-MODEL.md).
+1. **TEI model consolidation done** — Soll-Modell (#32) fully implemented. Corpus: Phases A-E (675 files, 15M+ transformations). Authority: Phases F-K (7 files, genre normalization, ID cleanup, Zotero refresh, Frauendienst/Frauenbuch split). Both schemas written (`mhdbdb.rnc`, `mhdbdb-authority.rnc`), all 682 files validated. Target models: [TEI-MODEL.md](TEI-MODEL.md) + [TEI-MODEL-AUTH-FILES.md](TEI-MODEL-AUTH-FILES.md).
 
 2. **FAIR data** — Make all MHDBDB data citable and programmatically accessible (#45, #42). Enables external collaborations (MWB, Worterbuchnetz).
 

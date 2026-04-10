@@ -162,28 +162,30 @@ Zwei-Stufen-Validierung:
 ## Reihenfolge und Abhaengigkeiten
 
 ```
-Phase F: Audit (IST-Zustand erfassen)
+Phase F: Audit (IST-Zustand erfassen)                    ✅ 2026-04-09
   F1 audit-authority-files.py
      ↓
-Phase G: works.xml (groesster Impact)
-  G1 Genre-Refs entlabeln       ← ZUERST
-  G2 Externe IDs unwrappen       ← NACH G1 (Content Model)
+Phase G: works.xml (groesster Impact)                     ✅ 2026-04-10
+  G1 Genre-Refs entlabeln (3422 ref → 870 ptr)
+  G2 Externe IDs unwrappen (368 notes, 176× gnd→GND)
+  G3 Bibl-Kinder-Reihenfolge (integriert in G2)
+  +  Zotero-Refresh (680 biblStructs, 4 Script-Bugs gefixt)
      ↓
-Phase H: persons.xml
-  H1 Works-Links entfernen
-  H2 UUID-IDs migrieren          ← Cascade: works.xml + tei/*.tei.xml
+Phase H: persons.xml                                      ✅ 2026-04-10
+  H1 Works-Links entfernen (209 listBibl)
+  H2 UUID-IDs migrieren (4 → numerisch) + Schweizer Anonymus (person_1772, GND 103130276)
      ↓
-Phase I: Datenqualitaet
-  I1 Verwaiste Referenzen
-  I2 work_6 Bibliographie        ← braucht menschliche Entscheidung
+Phase I: Datenqualitaet                                   ✅ 2026-04-10
+  I1 Verwaiste Referenzen (225 entfernt: 154 variants, 61+10 lexicon)
+  I2 Frauendienst/Frauenbuch Split (work_6/work_7) + Genre-Korrektur work_7
      ↓
-Phase J: Build-Scripts
-  J1 build-authority-index.py
-  J2 enhance_works_with_zotero.py
+Phase J: Build-Scripts                                    ✅ 2026-04-10
+  J1 build-authority-index.py (Genre-Reader, Persons-Reader, GND casing)
+  J2 enhance_works_with_zotero.py (TEI_NS_URI, recover, monogr order, encoding)
      ↓
-Phase K: Schema + Validierung
-  K1 mhdbdb-authority.rnc
-  K2 Validierung
+Phase K: Schema + Validierung                             ✅ 2026-04-10
+  K1 mhdbdb-authority.rnc aktualisiert + .rng generiert
+  K2 7/7 tei_all ✓ + 7/7 mhdbdb-authority ✓
 ```
 
 ---

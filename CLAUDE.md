@@ -45,7 +45,7 @@ publications/        # Blog posts, reports
 
 ```bash
 npm run serve                    # Dev server on :8080
-npm test                         # Playwright (auto-starts server)
+npm test                         # Playwright (auto-starts server) — NEVER use `npx playwright test` from root
 python scripts/build-authority-index.py   # Rebuild authority index
 python scripts/build-corpus-index.py      # Rebuild corpus index
 ```
@@ -90,7 +90,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>
 
 ## Gotchas
 
-- **Angle bracket entities** (`&lt;`, `&gt;`) in `<seg type="pc">` are correct XML — not bugs
+- **Angle bracket entities** (`&lt;`, `&gt;`) in `<pc>` are correct XML — not bugs
 - **25 skipped tests** (main site) — intentional, tracked in #43
 - **Zotero cache** (`.zotero_cache.json`) is gitignored — use `--offline` for reproducible builds
 - **German Title Case**: Zotero sync capitalizes words except articles/prepositions (der, die, von, und...)
@@ -99,7 +99,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>
 
 - **3-stage lemma resolution**: exact match → variants dictionary (176k entries) → partial match fallback. See ARCHITECTURE.MD.
 - **MHG normalization**: `â→a, ê→e, î→i, ô→o, û→u, ä→ae, ö→oe, ü→ue`. Centralized in `assets/js/lib/text-normalizer.js`.
-- **Pre-built indexes**: authority (3 MB gz, v1.1.0) + corpus (34 MB gz, v4.0.0). See DATA-MODEL.MD for schemas.
+- **Pre-built indexes**: authority (3 MB gz, v1.2.0) + corpus (34 MB gz, v4.0.0). See DATA-MODEL.MD for schemas.
 
 ## License
 

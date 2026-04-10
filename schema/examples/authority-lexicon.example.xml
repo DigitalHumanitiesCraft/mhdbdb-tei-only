@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Lexicon example: demonstrates all element/attribute paths in lexicon.xml
+     Validates against: tei_all.rng + mhdbdb-authority.rnc -->
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt><title>Lexicon Example</title></titleStmt>
+      <publicationStmt><publisher>MHDBDB</publisher><date>2026</date></publicationStmt>
+      <sourceDesc><p>Schema example</p></sourceDesc>
+    </fileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <div type="lexicon">
+
+        <!-- Maximal entry: all optional elements present -->
+        <entry xml:id="lemma_1">
+          <form type="lemma"><orth>minne</orth></form>
+          <!-- gramGrp with multiple POS tags (some lemmata have 2-3) -->
+          <gramGrp>
+            <pos>NOM</pos>
+            <pos>VRB</pos>
+          </gramGrp>
+          <!-- Etymology: compound word with cross-refs to component lemmata -->
+          <etym type="morphological">
+            <seg type="component" corresp="lexicon.xml#lemma_2">minne</seg>
+            <seg type="component" corresp="lexicon.xml#lemma_3">liet</seg>
+          </etym>
+          <!-- Sense with variant refs (@ana) and concept pointers -->
+          <sense xml:id="lemma_1_sense_1" ana="#type_100 #type_200">
+            <ptr target="concepts.xml#concept_21012000"/>
+            <ptr target="concepts.xml#concept_31500000"/>
+          </sense>
+          <!-- Multiple senses per entry -->
+          <sense xml:id="lemma_1_sense_2" ana="#type_300">
+            <ptr target="concepts.xml#concept_23112500"/>
+          </sense>
+        </entry>
+
+        <!-- Minimal entry: only required elements -->
+        <entry xml:id="lemma_2">
+          <form type="lemma"><orth>a</orth></form>
+          <gramGrp><pos>PRP</pos></gramGrp>
+          <sense xml:id="lemma_2_sense_1">
+            <ptr target="concepts.xml#concept_23123100"/>
+          </sense>
+        </entry>
+
+        <!-- Edge case: empty etym (data quality issue, ~1 occurrence) -->
+        <entry xml:id="lemma_3">
+          <form type="lemma"><orth>kotzoldei</orth></form>
+          <gramGrp><pos>NAM</pos></gramGrp>
+          <etym type="morphological"/>
+          <sense xml:id="lemma_3_sense_1" ana="#type_400">
+            <ptr target="concepts.xml#concept_21012000"/>
+          </sense>
+        </entry>
+
+        <!-- Entry without etym (majority of entries) -->
+        <entry xml:id="lemma_4">
+          <form type="lemma"><orth>vriunt</orth></form>
+          <gramGrp><pos>NOM</pos></gramGrp>
+          <sense xml:id="lemma_4_sense_1" ana="#type_500 #type_600">
+            <ptr target="concepts.xml#concept_31500000"/>
+            <ptr target="concepts.xml#concept_31600000"/>
+          </sense>
+        </entry>
+
+      </div>
+    </body>
+  </text>
+</TEI>

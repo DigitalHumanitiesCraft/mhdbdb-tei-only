@@ -174,7 +174,7 @@ Add a new entry to `authority-files/works.xml`:
   <title xml:lang="de">Wenzelsbibel</title>
   <title xml:lang="en">Wenceslas Bible</title>
   <idno type="sigle">WZB</idno>
-  <ref target="genres.xml#genre_93f5fac5" xml:lang="de">Bibelübersetzung</ref>
+  <ptr target="genres.xml#genre_93f5fac5"/>
   <author ref="persons.xml#person_anonym">Anonym</author>
   <note type="manuscript">Wien, ÖNB, Cod. 2759-2764</note>
 </bibl>

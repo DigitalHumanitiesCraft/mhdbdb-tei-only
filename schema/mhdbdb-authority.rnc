@@ -9,6 +9,7 @@
 
 default namespace = "http://www.tei-c.org/ns/1.0"
 namespace xml = "http://www.w3.org/XML/1998/namespace"
+datatypes xsd = "http://www.w3.org/2001/XMLSchema-datatypes"
 
 # ============================================================
 # Root — all authority files share this envelope
@@ -27,7 +28,13 @@ start = element TEI {
 
 authority.header = element teiHeader {
     element fileDesc {
-        element titleStmt { element title { text } },
+        element titleStmt {
+            element title { text },
+            element respStmt {
+                element resp { text },
+                element name { text }
+            }?
+        },
         element publicationStmt {
             element publisher { text },
             element date { text }
@@ -49,7 +56,7 @@ authority.body =
     | variants.div     # variants.xml
     | listPerson       # persons.xml
     | listBibl         # works.xml
-    | taxonomy         # concepts.xml, genres.xml, names.xml (body-level)
+    | element p { text }   # taxonomy files: placeholder <p> (data in encodingDesc)
 
 # ============================================================
 # Type 1: Lexicon (lexicon.xml)
@@ -67,7 +74,7 @@ lexicon.entry = element entry {
         element orth { text }
     },
     element gramGrp {
-        element pos { text }           # POS tag
+        element pos { text }+          # POS tags (can be multiple)
     }?,
     element etym {
         attribute type { "morphological" },
@@ -75,7 +82,7 @@ lexicon.entry = element entry {
             attribute type { "component" },
             attribute corresp { text }?,  # lexicon.xml#lemma_N
             text
-        }+
+        }*                                 # can be empty (data quality issue)
     }?,
     element sense {
         attribute xml:id { xsd:NCName },   # lemma_N_sense_M
@@ -109,7 +116,7 @@ variants.entry = element entry {
 
 listPerson = element listPerson {
     element person {
-        attribute xml:id { xsd:NCName },   # person_N or person_UUID
+        attribute xml:id { xsd:NCName },   # person_N (numeric) or person_anonym
         element persName {
             attribute type { "preferred" | "alternative" },
             attribute xml:lang { text }?,
@@ -118,12 +125,8 @@ listPerson = element listPerson {
         element idno {
             attribute type { "GND" | "wikidata" },
             text
-        }*,
-        element note {
-            attribute type { "works" },
-            attribute corresp { text }?,    # works.xml
-            text                            # comma-separated work_N ids
-        }?
+        }*
+        # No <listBibl> — person→work derived from works.xml <author @ref>
     }*
 }
 
@@ -145,21 +148,19 @@ works.bibl = element bibl {
         text
     }
     | element idno {
-        attribute type { text },       # sigle, handschriftencensus, gnd, wikidata, ISBN, callNumber
+        attribute type { text },       # sigle, handschriftencensus, GND, wikidata
         text
     }
-    | element ref {
-        attribute target { text }?,    # genres.xml#genre_UUID
-        attribute xml:lang { text }?,
-        attribute type { text }?,      # parent
-        attribute n { text }?,         # prefLabel
-        text
+    | element ptr {
+        attribute target { text }      # genres.xml#genre_UUID
     }
     | element author {
         attribute ref { text }?,       # persons.xml#person_N
         text
     }
-    | works.biblStruct)*
+    | element relatedItem {
+        works.biblStruct
+    })*
 }
 
 works.biblStruct = element biblStruct {
@@ -183,10 +184,10 @@ works.biblStruct = element biblStruct {
          | element idno { attribute type { text }, text }
          | element edition { text })*,
         element imprint {
-            element pubPlace { text }?,
-            element publisher { text }?,
-            element date { attribute when { text }?, text }?,
-            element biblScope { attribute unit { text }?, text }*
+            (element pubPlace { text }
+             | element publisher { text }
+             | element date { attribute when { text }?, text }
+             | element biblScope { attribute unit { text }?, text })*
         }?
     }?,
     element series {
@@ -218,5 +219,6 @@ category = element category {
             attribute type { "broader" | "exactMatch" | "closeMatch" },
             attribute target { text }  # internal #ID or external file#ID
         })*
-    }
+    },
+    category*   # nested subcategories
 }

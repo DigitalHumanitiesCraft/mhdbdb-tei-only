@@ -59,7 +59,7 @@ Full-text immersive reader with multi-lemma highlighting and rich metadata.
 - Layout markers: `<pb>` (page breaks), `<lb>` (line breaks), `<cb>` (column breaks)
 - Verse elements: `<caesura>` (metrical pauses)
 - Editorial markup: `<hi>` (highlighting with @rend), `<supplied>` (editor insertions)
-- Special elements: `<num>` (numbers), `<seg type="pc">` (punctuation)
+- Special elements: `<num>` (numbers), `<pc>` (punctuation with `@join`)
 
 **Visual design:**
 - Side-by-side 3-column grid (search + results + reading)
