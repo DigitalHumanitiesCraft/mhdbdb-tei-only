@@ -83,6 +83,7 @@ This knowledge base follows a hub-and-spoke architecture with INDEX.MD as the ce
 | **[RESEARCH.MD](RESEARCH.MD)** | Academic context, TEI/MHG standards | Researchers |
 | **[DECISIONS.MD](DECISIONS.MD)** | Architecture Decision Records (ADRs) | Architects |
 | **[CONTRACTS.MD](CONTRACTS.MD)** | Cross-language parity constraints, algorithm pseudocode, API contracts | Developers |
+| **[TEI-MODEL.md](TEI-MODEL.md)** | Normative TEI encoding (Soll-Modell), IST/SOLL-Vergleiche, Validierungsbaseline | Data engineers, Developers |
 | **[USER-GUIDE.MD](USER-GUIDE.MD)** | End-user documentation | Users |
 
 ### Process (what's happening and why)

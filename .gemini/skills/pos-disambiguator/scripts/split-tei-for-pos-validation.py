@@ -29,21 +29,21 @@ NO_SPACE_AFTER = {'<', '(', '[', '{', '„'}
 
 def extract_text_with_punctuation(root):
     """
-    Extract text content including punctuation from <seg type="pc"> elements.
+    Extract text content including punctuation from <pc> elements.
     Returns list of tuples: (text, is_word, xml_id) for sequential rendering.
     """
     text_elements = []
 
-    # Get all <w> and <seg type="pc"> elements in document order
-    for elem in root.xpath('.//tei:w | .//tei:seg[@type="pc"]', namespaces=NS):
+    # Get all <w> and <pc> elements in document order
+    for elem in root.xpath('.//tei:w | .//tei:pc', namespaces=NS):
         if elem.tag == f"{{{NS['tei']}}}w":
             text_elements.append({
                 'text': "".join(elem.itertext()),
                 'is_word': True,
                 'xml_id': elem.get('{http://www.w3.org/XML/1998/namespace}id'),
             })
-        elif elem.tag == f"{{{NS['tei']}}}seg" and elem.get('type') == 'pc':
-            # Punctuation segment
+        elif elem.tag == f"{{{NS['tei']}}}pc":
+            # Punctuation character
             text_elements.append({
                 'text': elem.text or '',
                 'is_word': False,

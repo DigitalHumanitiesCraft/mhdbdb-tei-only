@@ -1,0 +1,295 @@
+# MHDBDB RELAX NG Schema (Compact Syntax)
+# =========================================
+# Custom schema for the MHDBDB TEI corpus after migration.
+# Models only what the corpus actually uses (SOLL-Zustand).
+# Source of truth: docs/TEI-MODEL.md
+#
+# Validation:
+#   Stage 1: tei_all.rng (TEI P5 conformance)
+#   Stage 2: this schema (MHDBDB-specific constraints)
+#
+# Generated RNG (for lxml): trang mhdbdb.rnc mhdbdb.rng
+
+default namespace = "http://www.tei-c.org/ns/1.0"
+namespace xml = "http://www.w3.org/XML/1998/namespace"
+
+# ============================================================
+# Root
+# ============================================================
+
+start = element TEI {
+    attribute xml:id { xsd:NCName },
+    teiHeader,
+    element text {
+        element body { body.content }
+    }
+}
+
+# ============================================================
+# teiHeader
+# ============================================================
+
+teiHeader = element teiHeader {
+    fileDesc,
+    encodingDesc,
+    profileDesc,
+    revisionDesc
+}
+
+# --- fileDesc ---
+
+fileDesc = element fileDesc {
+    titleStmt,
+    publicationStmt,
+    sourceDesc
+}
+
+titleStmt = element titleStmt {
+    element title { attribute xml:lang { "de" | "gmh" | "en" | "lat" }?, text },
+    element author { attribute ref { text }?, mixed { (element name { text })* } }?,
+    element respStmt {
+        element resp { text },
+        element name { attribute ref { xsd:anyURI }?, attribute xml:lang { text }?, text }
+    }
+}
+
+publicationStmt = element publicationStmt {
+    element publisher {
+        element orgName { text }+,
+        element address {
+            element street { text },
+            element postCode { text },
+            element settlement { text },
+            element country { text }
+        },
+        element email { text },
+        element ptr { attribute target { xsd:anyURI } }
+    },
+    element authority {
+        element persName {
+            attribute role { text }?,
+            (element forename { text },
+             element surname { text })
+        }
+    },
+    element availability {
+        attribute status { text }?,
+        element licence { attribute target { xsd:anyURI }, text },
+        element p { text }*
+    },
+    element date { attribute when { text }?, text }?
+}
+
+sourceDesc = element sourceDesc {
+    element msDesc {
+        element msIdentifier {
+            attribute corresp { text }?,
+            element msName { attribute xml:lang { text }?, text }*,
+            element idno { attribute type { text }, text }*
+        },
+        element additional {
+            element listBibl {
+                (biblStruct | bibl)*
+            }
+        }?
+    }
+}
+
+biblStruct = element biblStruct {
+    attribute type { text }?,
+    attribute xml:id { xsd:NCName }?,
+    attribute corresp { text }?,
+    attribute key { text }?,
+    (element analytic {
+        (element author { mixed { (element name { text })* } }
+         | element title { attribute level { text }?, attribute type { text }?, text }
+         | element ref { attribute target { xsd:anyURI }?, attribute type { text }?, text }
+         | element idno { attribute type { text }, text })*
+    }?,
+     element monogr {
+        (element author { mixed { (element name { text })* } }*,
+         element title { attribute level { text }?, attribute type { text }?, text }+,
+         (element editor {
+            (element forename { text }?,
+             element surname { text }?)
+         }
+         | element idno { attribute type { text }, text }
+         | element edition { text })*,
+         element imprint {
+            element pubPlace { text }?,
+            element publisher { text }?,
+            element date { attribute when { text }?, text }?,
+            element biblScope { attribute unit { text }?, text }*
+         }?)
+     }?,
+     element series {
+        element title { attribute level { text }?, text },
+        element biblScope { attribute unit { text }?, text }*
+     }?)
+}
+
+bibl = element bibl {
+    attribute type { text }?,
+    attribute xml:id { xsd:NCName }?,
+    attribute corresp { text }?,
+    mixed {
+        (element title { attribute level { text }?, text }
+         | element respStmt {
+            element resp { text },
+            element name { text }
+         }
+         | element date { attribute when { text }?, text }
+         | element ref { attribute target { xsd:anyURI }?, text }
+         | element idno { attribute type { text }, text })*
+    }
+}
+
+# --- encodingDesc ---
+
+encodingDesc = element encodingDesc {
+    element projectDesc { element p { text }+ },
+    element editorialDecl {
+        element p { text }*,
+        element normalization { element p { text }+ }?
+    },
+    element classDecl {
+        element taxonomy {
+            attribute xml:id { xsd:NCName },
+            element category {
+                attribute xml:id { xsd:NCName },
+                attribute corresp { text }?,
+                attribute ana { text }?,
+                element gloss { attribute xml:lang { text }?, text }*
+            }*
+        }
+    }
+}
+
+# --- profileDesc ---
+
+profileDesc = element profileDesc {
+    element langUsage {
+        element language { attribute ident { text }, text }+
+    },
+    element particDesc {
+        element listPerson {
+            element person {
+                attribute xml:id { xsd:NCName },
+                attribute corresp { text }?,
+                element persName {
+                    attribute type { text }?,
+                    attribute role { text }?,
+                    attribute xml:lang { text }?,
+                    mixed {
+                        (element forename { text }?,
+                         element surname { text }?)?
+                    }
+                }*,
+                element note { attribute type { text }?, text }*
+            }*
+        }
+    }
+}
+
+# --- revisionDesc ---
+
+revisionDesc = element revisionDesc {
+    element change {
+        attribute when { text },
+        attribute who { text },
+        text
+    }+
+}
+
+# ============================================================
+# Body content model
+# ============================================================
+
+body.content = (div | p | lg | head | pb | lb | cb | note | ab)*
+
+div = element div {
+    attribute type { "chapter" | "section" | "number" | "song"
+                   | "parallel" | "colophon" | "recipe" },
+    attribute n { text }?,
+    (div | p | lg | head | pb | lb | cb | note | ab)*
+}
+
+p = element p {
+    attribute n { text }?,
+    attribute xml:lang { text }?,
+    inline.model*
+}
+
+head = element head {
+    inline.model*
+}
+
+lg = element lg {
+    attribute type { "stanza" },
+    attribute n { text }?,
+    (l | lb | pb | cb | caesura | inline.model)*
+}
+
+l = element l {
+    attribute n { text }?,
+    inline.model*
+}
+
+ab = element ab {
+    attribute type { text }?,
+    attribute n { text }?,
+    inline.model*
+}
+
+# ============================================================
+# Inline content model
+# ============================================================
+
+inline.model =
+    w | pc | hi | lb | pb | cb | caesura | supplied | num
+    | note | lg | l | head | text
+
+w = element w {
+    attribute xml:id { xsd:NCName },
+    attribute lemmaRef { text }?,
+    attribute pos { text }?,
+    attribute ana { text }?,
+    attribute corresp { text }?,
+    attribute xml:lang { text }?,
+    text
+}
+
+pc = element pc {
+    attribute xml:id { xsd:NCName }?,
+    attribute join { "left" | "right" },
+    text
+}
+
+hi = element hi {
+    attribute rend { text },
+    inline.model*
+}
+
+supplied = element supplied {
+    attribute n { text }?,
+    inline.model*
+}
+
+num = element num {
+    inline.model*
+}
+
+note = element note {
+    attribute type { text }?,
+    attribute n { text }?,
+    mixed { inline.model* }
+}
+
+# ============================================================
+# Milestone elements
+# ============================================================
+
+lb = element lb { attribute n { text }?, empty }
+pb = element pb { attribute n { text }?, attribute type { text }?, empty }
+cb = element cb { attribute n { text }?, attribute type { text }?, empty }
+caesura = element caesura { attribute xml:id { xsd:NCName }?, empty }

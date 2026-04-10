@@ -154,12 +154,15 @@ def extract_word_data(filepath, text_id):
         ns = get_namespaces(tree)
 
         # Get body element
-        body = tree.xpath('//tei:body', namespaces=ns)
-        if not body:
+        TEI = '{http://www.tei-c.org/ns/1.0}'
+        body = tree.find(f'.//{TEI}body')
+        if body is None:
             return [], {}, 0
 
-        # Get ALL words in <body> in document order (single XPath)
-        word_els = tree.xpath('//tei:body//tei:w[@lemmaRef]', namespaces=ns)
+        # Get ALL words in <body> in document order
+        # Uses iter() with Clark notation — orders of magnitude faster than
+        # xpath() with namespace mapping on large files (PL1: 0.2s vs timeout)
+        word_els = [w for w in body.iter(f'{TEI}w') if w.get('lemmaRef')]
 
         words = []  # All lemma IDs in document order
         lemmata = defaultdict(list)

@@ -176,3 +176,119 @@ Flow/Algorithms/XPaths: PASS. Rebuild feasibility: Search YELLOW, Build YELLOW, 
 - Added full API schemas (text metadata, index files, root index), corpus enrichment decision (no), build integration (manual + npm alias)
 - Updated issue #45 body on GitHub with planning doc link and revised design
 - Updated matrix (#44) to include #45 and #46, moved closed #42 to "Recently Closed"
+
+---
+
+## 2026-04-07 — TEI Model Consolidation (Issue #32)
+
+**Trigger:** Katharina will externe Daten (ReM, CoReMA, weitere) aufnehmen. Voraussetzung: konsolidiertes TEI-Modell mit formalem Schema als Validierungsgate.
+
+### Strategieentscheidung: Hybrid-Ansatz
+- Weder "Fixes zuerst" noch "Schema zuerst" — stattdessen 3+1 Phasen:
+  - **Phase 0:** Soll-Modell (docs/TEI-MODEL.md) — Entwurf fertig
+  - **Phase 1:** Strukturelle Fixes (#30) am Soll-Modell ausgerichtet
+  - **Phase 3:** RELAX NG Schema (schema/mhdbdb.rnc)
+  - **Phase 2:** Attribut-Migration — aufgeschoben bis WZB-Merge
+- Branch: `feature/tei-model-32`
+
+### TEI P5 Validierung: Ueberraschende Ergebnisse
+- `schema/tei_all.rng` (TEI P5 4.11.0) heruntergeladen und gegen Korpus validiert
+- **0/100 Dateien valide** — aber nur 2 Fehlertypen:
+  1. `@meaningRef` (100% der Dateien) — nicht-Standard-Attribut, blockiert Validierung
+  2. `@wordRef` (15% der Dateien) — nicht-Standard, bereits deprecated
+- **Ueberraschung:** `@lemmaRef` IST Standard-TEI (att.linguistic seit v3.3.0/2018) — keine Migration noetig!
+- `@meaningRef` → `@ana` ist die einzige Migration fuer TEI-Konformanz (einfaches Batch-Rename)
+- Zusaetzlich entdeckt: `<monogr>` Element-Reihenfolge falsch in einigen Dateien (author nach title)
+
+### Entschiedene Policy-Fragen (keine offenen Punkte mehr)
+- **POS-Tagset:** 19-Tag-System aus SKILL.md ist kanonisch (DET nicht ART, CCNJ/SCNJ nicht CNJ)
+- **`<hi rend="initial">`:** Beibehalten (Korpus-Konvention, 655/675 Dateien)
+- **`<l>` vs `<lb/>`:** 18 Prosa-Texte migrieren, 3 korrigiert als Vers (HMT, APO, HH)
+- **`<seg type="pc">`:** Langfristig zu `<pc>` migrieren (TEI P5 Standard-Element)
+- **`@wordRef`:** Deprecated, wird entfernt (kein Code liest es)
+- **Attribut-Migration `@lemmaRef`→`@lemma`:** Aufgeschoben (Kosten >> Nutzen, WZB-Konflikt)
+
+### Neue Artefakte
+- `docs/TEI-MODEL.md` — Soll-Modell mit IST/SOLL-Vergleichen, Validierungsbaseline
+- `schema/mhdbdb-example.xml` — Maximalbeispiel, validiert gegen tei_all.rng
+- `scripts/data-wrangling/tei-model/tei-audit.json` + `TEI-AUDIT-REPORT.md` — Korpus-Audit (76 Elementtypen, 9.3M `<w>`)
+- `schema/tei_all.rng` — TEI P5 4.11.0 Referenzschema
+
+### Vergleichsprojekte recherchiert
+- DTABf (Gold-Standard historische Texte): Strikte TEI-Untermenge, ~80 Elemente, Standoff-Annotation
+- MENOTA (Mittelalterliche Texte): Custom-Namespace `me:` fuer Erweiterungen, 3 Transkriptionsebenen
+- ReM (Referenzkorpus MHG): HiTS-Tagset, Multi-Layer-Annotation
+
+---
+
+## 2026-04-09 16:00 — handoff
+
+**Summary:** Alle TEI-Modell-Entscheidungen abgeschlossen, Korpus-Audit (666 Dateien, 12.7M Elemente) durchgefuehrt, Maximalbeispiel mit allen 7 div/@type-Werten erstellt und gegen tei_all.rng validiert. 5-Phasen-Implementierungsplan geschrieben (A-E). Issue #44 mit TEI-Relevanz-Analyse aktualisiert, Issue #49 Health-Check gepostet, Issue #67 (Abbreviaturen) erstellt. Schema-Strategie entschieden: RNC Source + RNG generiert, Zwei-Stufen-Validierung, kein ODD.
+
+**Phase:** Distillation abgeschlossen → Implementation bereit. Alle Promptotyping-Docs aktuell:
+- `docs/TEI-MODEL.md` — Soll-Modell (0 offene Entscheidungen)
+- `scripts/data-wrangling/tei-model/IMPLEMENTATION-PLAN.md` — 5-Phasen-Plan
+- `schema/mhdbdb-example.xml` — validiert gegen tei_all.rng
+- `scripts/data-wrangling/tei-model/tei-audit.json` + `TEI-AUDIT-REPORT.md` — Korpus-Audit
+- `scripts/data-wrangling/tei-model/audit-tei-corpus.py` — Audit-Script
+- `scripts/data-wrangling/tei-model/TEXT_DATA_TABLE.xlsx` — Metadaten-Quelle (Issue #67)
+
+**Open issues:**
+- Katharinas Entscheidungen zu FLG/FLG1 Zusammenziehen und PL1-3 Zusammenziehen stehen als Empfehlungen (nicht zusammenziehen), aber keine explizite Bestaetigung
+- `@meaningRef` → `@ana` JS-Anpassung: 8 Stellen verifiziert, aber Playground-Funktionalitaet nach Migration nicht live getestet
+- `<pc join="right">` fuer oeffnende Klammern: Audit der tatsaechlichen Interpunktionszeichen im Korpus fehlt noch (vor Phase C1 noetig)
+- TEXT_DATA_TABLE.xlsx DESCRIPTION-Parsing (Issue #67): 124 Texte identifiziert, Pattern-Erkennung noch nicht implementiert
+
+**Next steps:**
+1. Naechste Session: `/promptotyping orient` → liest IMPLEMENTATION-PLAN.md
+2. Phase A starten (sichere XML-Migrationen, kein Code-Impact)
+3. Phase A1 zuerst: `migrate-div-types.py` (div/@type Renames + LZT div→lg)
+4. Nach Phase A: Audit erneut laufen → Diff pruefen
+5. Phase B: @meaningRef→@ana + JS-Fix, dann @wordRef→@corresp
+
+---
+
+## 2026-04-09 18:30 — handoff
+
+**Summary:** Komplette TEI-Migration implementiert: Korpus (Phases A-E) + Authority Files tei_all-konform + Soll-Modell fuer Authority Files. 15M+ Attribut-/Element-Transformationen ueber 675 Korpusdateien. 9 disamb-Dateien in Base gemergt (+35k POS). Corpus-Index rebuilt (XPath-Performance-Bug gefixt). Authority Files Audit + Implementation Plan geschrieben (Phases F-K). Build-Scripts prophylaktisch optimiert (XPath→iter). enhance_works_with_zotero.py fuer relatedItem-Wrapper aktualisiert.
+
+**Phase:** Implementation (Iteration). Korpus-Migration abgeschlossen, Authority-Migration geplant.
+
+Aktuelle Docs:
+- `docs/TEI-MODEL.md` — Korpus Soll-Modell (implementiert)
+- `docs/TEI-MODEL-AUTH-FILES.md` — Authority Soll-Modell (noch zu implementieren)
+- `scripts/data-wrangling/tei-model/IMPLEMENTATION-PLAN.md` — Korpus-Plan (Phases A-E done)
+- `scripts/data-wrangling/tei-model/authority-files/IMPLEMENTATION-PLAN.md` — Authority-Plan (Phases F-K pending)
+- `schema/mhdbdb.rnc` + `mhdbdb-authority.rnc` + `mhdbdb-example.xml` — Schemas
+
+Commits auf `feature/tei-model-32` (seit letztem handoff):
+- `415e7014` Phase A: div/@type, monogr, typos, dates, langUsage
+- `3ec3a5f1` Phase B: @meaningRef→@ana (5.9M), @wordRef→@corresp (7.5M)
+- `3720536c` Phase C: seg→pc (1.4M), l→lb 18 files (86k)
+- `ad739547` Phase D: normalization from XLSX (663 files)
+- `d8bfef08` Phase E: RELAX NG schema + validation
+- Diverse Fixes: stale refs, schema move, docs, disamb merge, authority tei_all fixes
+- `d7238162` Corpus index XPath→iter performance fix
+- `fff00136` Corpus index rebuild
+- `6639e723` Build-Scripts: XPath→iter + Zotero relatedItem
+
+**Open issues:**
+- Katharinas FLG/FLG1 + PL1-3 Entscheidungen: bestaetigt per Signal ("sieht das gleich")
+- `person_schweizer_anonymus`: 1 verwaiste Referenz in works.xml — Person anlegen oder Ref aendern? (Katharina fragen)
+- `work_6` (Frauendienst): keine biblStruct — manuell nachpflegen (Katharina/Chris)
+- `docs/TEI-MODEL.md` Section 10 (Validierungsbaseline): beschreibt noch Pre-Migration-Zustand
+- Browser-Test nach Merge: `<pc>` Rendering + `<lb/>` in Prosa-Texten visuell pruefen
+- Wenzelsbibel-Branch hat Merge-Konflikte (alte Attributnamen in Docs)
+
+**Next steps:**
+1. **PR #1: Korpus-Migration** — `feature/tei-model-32` → `main` (Phases A-E + Index + Build-Fixes)
+2. **Authority-Migration** (Phases G-K) — entweder auf demselben Branch oder neuem Branch
+   - G1: Genre-Refs entlabeln (3422 refs → ptr)
+   - G2: Externe IDs unwrappen + GND casing
+   - H1: persons.xml Works-Links entfernen
+   - H2: UUID-IDs migrieren (4 Personen, Cascade minimal)
+   - I1: Verwaiste Referenzen bereinigen (226 total)
+   - J1: build-authority-index.py Genre-Reader umbauen (Genre-Text aus genres.xml loesen)
+   - K: Schema + Validierung
+3. **PR #2: Authority-Migration** — nach Abschluss von Phases G-K
+4. Authority-Index rebuild (erst nach PR #2)

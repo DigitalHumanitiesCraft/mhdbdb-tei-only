@@ -1,0 +1,2366 @@
+{
+  "meta": {
+    "files_analyzed": 666,
+    "files_excluded_pattern": "*.disamb.tei.xml",
+    "date": "2026-04-09",
+    "script": "scripts/data-wrangling/tei-model/audit-tei-corpus.py"
+  },
+  "corpus_stats": {
+    "total_elements": 12767448,
+    "total_files": 666,
+    "largest_file": {
+      "name": "OVG.tei.xml",
+      "elements": 629095
+    },
+    "smallest_file": {
+      "name": "EUS.tei.xml",
+      "elements": 161
+    }
+  },
+  "elements": {
+    "w": {
+      "count": 9282982,
+      "file_count": 666,
+      "parents": {
+        "l": 7172055,
+        "p": 1664834,
+        "hi": 379939,
+        "supplied": 53894,
+        "head": 7722,
+        "div": 4355,
+        "body": 103,
+        "note": 60,
+        "lg": 18,
+        "num": 2
+      },
+      "children": {},
+      "child_sequences_top10": {},
+      "attributes": {
+        "xml:id": {
+          "count": 9282982,
+          "file_count": 666,
+          "distinct_values": ">100",
+          "cardinality": "high",
+          "pattern": "{SIGLE}_{position}",
+          "samples": [
+            "ABG_400003_14",
+            "ABG_400002_4",
+            "ABG_401030_15",
+            "ABG_401020_14",
+            "ABG_400005_7",
+            "ABG_401020_15",
+            "ABG_400002_10",
+            "ABG_400001_0",
+            "ABG_401010_1",
+            "ABG_400003_5"
+          ]
+        },
+        "pos": {
+          "count": 7406168,
+          "file_count": 666,
+          "distinct_values": ">100",
+          "cardinality": "high",
+          "pattern": null,
+          "samples": [
+            "",
+            "NUM",
+            "NOM VRB INJ",
+            "ART CNJ",
+            "ADV PRP NUM",
+            "POS",
+            "NOM NEG",
+            "ADV NEG CNJ",
+            "ADV NEG VRB",
+            "NOM ADJ ADV GRA"
+          ]
+        },
+        "corresp": {
+          "count": 7406166,
+          "file_count": 666,
+          "distinct_values": ">100",
+          "cardinality": "high",
+          "pattern": "variants.xml#{ref}",
+          "samples": [
+            "variants.xml#type_114198",
+            "variants.xml#type_24376",
+            "variants.xml#type_13380",
+            "variants.xml#type_29189",
+            "variants.xml#type_114205",
+            "variants.xml#type_88321",
+            "variants.xml#type_187269",
+            "variants.xml#type_114190",
+            "variants.xml#type_15814",
+            "variants.xml#type_62165"
+          ]
+        },
+        "lemmaRef": {
+          "count": 7391273,
+          "file_count": 666,
+          "distinct_values": ">100",
+          "cardinality": "high",
+          "pattern": "lexicon.xml#lemma_{id}[_sense_{id}[_type_{id}]]",
+          "samples": [
+            "lexicon.xml#lemma_24463",
+            "lexicon.xml#lemma_4281",
+            "lexicon.xml#lemma_24457",
+            "lexicon.xml#lemma_468",
+            "lexicon.xml#lemma_1961",
+            "lexicon.xml#lemma_1261",
+            "lexicon.xml#lemma_7282",
+            "lexicon.xml#lemma_2245",
+            "lexicon.xml#lemma_2975",
+            "lexicon.xml#lemma_3668"
+          ]
+        },
+        "ana": {
+          "count": 5852223,
+          "file_count": 666,
+          "distinct_values": ">100",
+          "cardinality": "high",
+          "pattern": "lexicon.xml#lemma_{id}[_sense_{id}[_type_{id}]]",
+          "samples": [
+            "lexicon.xml#lemma_1961_sense_3008",
+            "lexicon.xml#lemma_119_sense_153",
+            "lexicon.xml#lemma_1742_sense_2732",
+            "lexicon.xml#lemma_24470_sense_39419",
+            "lexicon.xml#lemma_675_sense_1090",
+            "lexicon.xml#lemma_6330_sense_9973",
+            "lexicon.xml#lemma_1055_sense_1689",
+            "lexicon.xml#lemma_36224_sense_56488",
+            "lexicon.xml#lemma_7260_sense_11763",
+            "lexicon.xml#lemma_2465_sense_3951"
+          ]
+        }
+      }
+    },
+    "pc": {
+      "count": 1370191,
+      "file_count": 659,
+      "parents": {
+        "l": 1135310,
+        "p": 231903,
+        "head": 1597,
+        "supplied": 764,
+        "div": 512,
+        "note": 82,
+        "body": 15,
+        "hi": 5,
+        "lg": 3
+      },
+      "children": {},
+      "child_sequences_top10": {},
+      "attributes": {
+        "xml:id": {
+          "count": 1370191,
+          "file_count": 659,
+          "distinct_values": ">100",
+          "cardinality": "high",
+          "pattern": "{SIGLE}_{position}",
+          "samples": [
+            "ABG_404020_10",
+            "ABG_401090_2",
+            "ABG_401080_8",
+            "ABG_403100_10",
+            "ABG_406010_12",
+            "ABG_405060_4",
+            "ABG_402070_3",
+            "ABG_400002_6",
+            "ABG_406010_16",
+            "ABG_403020_10"
+          ]
+        },
+        "join": {
+          "count": 1370191,
+          "file_count": 659,
+          "distinct_values": 2,
+          "cardinality": "low",
+          "values": {
+            "left": 1300822,
+            "right": 69369
+          }
+        }
+      }
+    },
+    "l": {
+      "count": 1355514,
+      "file_count": 602,
+      "parents": {
+        "p": 1138219,
+        "lg": 187216,
+        "body": 20315,
+        "div": 6305,
+        "head": 2356,
+        "supplied": 679,
+        "note": 424
+      },
+      "children": {
+        "w": 7172055,
+        "pc": 1135310,
+        "hi": 310410,
+        "caesura": 52910,
+        "supplied": 20087,
+        "note": 245,
+        "pb": 50,
+        "num": 1
+      },
+      "child_sequences_top10": {
+        "w > pc": 562155,
+        "w": 321609,
+        "hi > w > pc": 126455,
+        "hi > w": 107965,
+        "w > pc > w > pc": 55928,
+        "w > pc > w": 24828,
+        "hi > w > pc > w > pc": 14602,
+        "w > caesura > w > pc": 12350,
+        "pc > w > pc": 9932,
+        "w > caesura > w": 8373
+      },
+      "attributes": {
+        "n": {
+          "count": 1355514,
+          "file_count": 602,
+          "distinct_values": ">100",
+          "cardinality": "high",
+          "pattern": null,
+          "samples": [
+            "44580",
+            "21",
+            "7",
+            "50",
+            "44592",
+            "33",
+            "52",
+            "25",
+            "44584",
+            "27"
+          ]
+        }
+      }
+    },
+    "hi": {
+      "count": 415295,
+      "file_count": 649,
+      "parents": {
+        "l": 310410,
+        "p": 59802,
+        "hi": 36932,
+        "supplied": 5926,
+        "head": 1805,
+        "note": 226,
+        "div": 184,
+        "body": 10
+      },
+      "children": {
+        "w": 379939,
+        "hi": 36932,
+        "supplied": 295,
+        "lb": 258,
+        "pc": 5,
+        "caesura": 3,
+        "num": 1
+      },
+      "child_sequences_top10": {
+        "w": 378074,
+        "hi": 36500,
+        "supplied": 289,
+        "lb > hi": 258,
+        "hi > w": 160,
+        "caesura": 3,
+        "hi > w > pc": 2,
+        "num": 1,
+        "w > hi": 1,
+        "w > hi > w": 1
+      },
+      "attributes": {
+        "rend": {
+          "count": 415295,
+          "file_count": 649,
+          "distinct_values": 5,
+          "cardinality": "low",
+          "values": {
+            "initial": 314529,
+            "upper_case_first_letter": 92488,
+            "upper_case": 7953,
+            "bold": 201,
+            "italic": 124
+          }
+        }
+      }
+    },
+    "lb": {
+      "count": 141944,
+      "file_count": 64,
+      "parents": {
+        "p": 139073,
+        "head": 2110,
+        "div": 496,
+        "hi": 258,
+        "supplied": 6,
+        "note": 1
+      },
+      "children": {},
+      "child_sequences_top10": {},
+      "attributes": {
+        "n": {
+          "count": 141944,
+          "file_count": 64,
+          "distinct_values": ">100",
+          "cardinality": "high",
+          "pattern": null,
+          "samples": [
+            "21",
+            "7",
+            "50",
+            "h_4",
+            "h_2",
+            "94",
+            "h_1",
+            "33",
+            "85",
+            "52"
+          ]
+        }
+      }
+    },
+    "caesura": {
+      "count": 53081,
+      "file_count": 253,
+      "parents": {
+        "l": 52910,
+        "p": 167,
+        "hi": 3,
+        "supplied": 1
+      },
+      "children": {},
+      "child_sequences_top10": {},
+      "attributes": {
+        "xml:id": {
+          "count": 2724,
+          "file_count": 180,
+          "distinct_values": ">100",
+          "cardinality": "high",
+          "pattern": "{SIGLE}_{position}",
+          "samples": [
+            "AXK_184_0",
+            "AT_2463_0",
+            "BRF_73840_3",
+            "BRW_118030_8",
+            "AT_2774_0",
+            "AXS_508209_5",
+            "BRW_121050_10",
+            "AXS_2631000_5",
+            "BRF_19020_2",
+            "AXS_508113_0"
+          ]
+        }
+      }
+    },
+    "lg": {
+      "count": 29717,
+      "file_count": 76,
+      "parents": {
+        "p": 28527,
+        "body": 1122,
+        "div": 68
+      },
+      "children": {
+        "l": 187216,
+        "p": 1122,
+        "note": 132,
+        "head": 37,
+        "w": 18,
+        "pc": 3
+      },
+      "child_sequences_top10": {
+        "l": 28460,
+        "p": 1085,
+        "note > l": 132,
+        "head > p": 37,
+        "l > w > pc": 3
+      },
+      "attributes": {
+        "type": {
+          "count": 29717,
+          "file_count": 76,
+          "distinct_values": 1,
+          "cardinality": "low",
+          "values": {
+            "stanza": 29717
+          }
+        },
+        "n": {
+          "count": 29717,
+          "file_count": 76,
+          "distinct_values": ">100",
+          "cardinality": "high",
+          "pattern": null,
+          "samples": [
+            "21",
+            "7",
+            "50",
+            "94",
+            "33",
+            "101",
+            "85",
+            "99",
+            "52",
+            "25"
+          ]
+        }
+      }
+    },
+    "supplied": {
+      "count": 23402,
+      "file_count": 315,
+      "parents": {
+        "l": 20087,
+        "p": 2675,
+        "hi": 295,
+        "head": 187,
+        "note": 137,
+        "supplied": 20,
+        "div": 1
+      },
+      "children": {
+        "w": 53894,
+        "hi": 5926,
+        "pc": 764,
+        "l": 679,
+        "supplied": 20,
+        "lb": 6,
+        "note": 1,
+        "caesura": 1
+      },
+      "child_sequences_top10": {
+        "w": 18184,
+        "hi > w": 3526,
+        "hi": 956,
+        "l": 147,
+        "hi > w > hi > pc": 127,
+        "hi > w > hi > w > hi > pc": 86,
+        "hi > w > hi > w > pc": 45,
+        "hi > w > hi": 42,
+        "hi > w > pc": 32,
+        "hi > w > hi > w > hi > w > hi > pc": 25
+      },
+      "attributes": {
+        "n": {
+          "count": 150,
+          "file_count": 6,
+          "distinct_values": 43,
+          "cardinality": "low",
+          "values": {
+            "1": 49,
+            "2": 25,
+            "3": 9,
+            "4": 7,
+            "5": 6,
+            "6": 6,
+            "7": 6,
+            "8": 2,
+            "9": 2,
+            "10": 2,
+            "11": 2,
+            "12": 2,
+            "13": 2,
+            "14": 1,
+            "15": 1,
+            "16": 1,
+            "17": 1,
+            "18": 1,
+            "19": 1,
+            "20": 1,
+            "21": 1,
+            "22": 1,
+            "23": 1,
+            "24": 1,
+            "25": 1,
+            "26": 1,
+            "27": 1,
+            "28": 1,
+            "29": 1,
+            "30": 1,
+            "31": 1,
+            "32": 1,
+            "33": 1,
+            "34": 1,
+            "35": 1,
+            "36": 1,
+            "37": 1,
+            "38": 1,
+            "39": 1,
+            "40": 1,
+            "41": 1,
+            "42": 1,
+            "43": 1
+          }
+        }
+      }
+    },
+    "p": {
+      "count": 12399,
+      "file_count": 666,
+      "parents": {
+        "div": 5413,
+        "normalization": 2209,
+        "projectDesc": 1332,
+        "editorialDecl": 1332,
+        "lg": 1122,
+        "availability": 666,
+        "body": 325
+      },
+      "children": {
+        "w": 1664834,
+        "l": 1138219,
+        "pc": 231903,
+        "lb": 139073,
+        "hi": 59802,
+        "lg": 28527,
+        "pb": 5894,
+        "supplied": 2675,
+        "cb": 990,
+        "note": 851,
+        "caesura": 167,
+        "div": 27
+      },
+      "child_sequences_top10": {
+        "l": 2138,
+        "lg": 1486,
+        "l > pb > l": 86,
+        "hi > w > l": 43,
+        "l > pb > l > pb > l": 33,
+        "hi > l": 24,
+        "lb > hi > w > lb > w > lb > w > lb > w > lb > w > lb > w > lb > w > lb > w": 21,
+        "hi > w > lb > w > lb > w > pc": 19,
+        "lb > hi > w > lb > w > lb > w > lb > w > lb > w > lb > w > lb > w": 19,
+        "lb > hi > w > lb > w > lb > w > pc": 18
+      },
+      "attributes": {
+        "xml:lang": {
+          "count": 2664,
+          "file_count": 666,
+          "distinct_values": 2,
+          "cardinality": "low",
+          "values": {
+            "de": 1332,
+            "en": 1332
+          }
+        },
+        "n": {
+          "count": 591,
+          "file_count": 4,
+          "distinct_values": 76,
+          "cardinality": "low",
+          "values": {
+            "11": 73,
+            "21": 73,
+            "1": 70,
+            "31": 39,
+            "41": 25,
+            "2": 22,
+            "3": 16,
+            "10": 14,
+            "20": 14,
+            "51": 12,
+            "4": 11,
+            "12": 10,
+            "22": 10,
+            "61": 9,
+            "5": 8,
+            "6": 7,
+            "7": 7,
+            "71": 7,
+            "32": 6,
+            "30": 6,
+            "42": 5,
+            "40": 5,
+            "8": 5,
+            "9": 5,
+            "13": 5,
+            "14": 5,
+            "15": 5,
+            "16": 5,
+            "17": 5,
+            "18": 5,
+            "19": 5,
+            "23": 5,
+            "24": 5,
+            "81": 4,
+            "62": 4,
+            "25": 4,
+            "26": 4,
+            "27": 4,
+            "28": 4,
+            "82": 3,
+            "72": 3,
+            "50": 3,
+            "29": 3,
+            "33": 3,
+            "34": 3,
+            "35": 3,
+            "91": 2,
+            "101": 2,
+            "111": 2,
+            "102": 2,
+            "52": 2,
+            "60": 2,
+            "36": 2,
+            "37": 2,
+            "38": 2,
+            "39": 2,
+            "43": 2,
+            "56": 2,
+            "103": 1,
+            "92": 1,
+            "70": 1,
+            "44": 1,
+            "45": 1,
+            "46": 1,
+            "47": 1,
+            "48": 1,
+            "49": 1,
+            "53": 1,
+            "54": 1,
+            "55": 1,
+            "57": 1,
+            "58": 1,
+            "59": 1,
+            "63": 1,
+            "64": 1,
+            "65": 1
+          }
+        }
+      }
+    },
+    "gloss": {
+      "count": 8698,
+      "file_count": 666,
+      "parents": {
+        "category": 8698
+      },
+      "children": {},
+      "child_sequences_top10": {},
+      "attributes": {
+        "xml:lang": {
+          "count": 8698,
+          "file_count": 666,
+          "distinct_values": 4,
+          "cardinality": "low",
+          "values": {
+            "en": 4529,
+            "de": 3991,
+            "la": 135,
+            "fr": 43
+          }
+        }
+      }
+    },
+    "pb": {
+      "count": 6197,
+      "file_count": 46,
+      "parents": {
+        "p": 5894,
+        "head": 223,
+        "l": 50,
+        "div": 28,
+        "note": 2
+      },
+      "children": {},
+      "child_sequences_top10": {},
+      "attributes": {
+        "n": {
+          "count": 6197,
+          "file_count": 46,
+          "distinct_values": ">100",
+          "cardinality": "high",
+          "pattern": null,
+          "samples": [
+            "21",
+            "402",
+            "7",
+            "50",
+            "406",
+            "427",
+            "230v",
+            "419",
+            "33",
+            "412"
+          ]
+        },
+        "type": {
+          "count": 1631,
+          "file_count": 16,
+          "distinct_values": 2,
+          "cardinality": "low",
+          "values": {
+            "folio": 1532,
+            "edition": 99
+          }
+        }
+      }
+    },
+    "div": {
+      "count": 5585,
+      "file_count": 239,
+      "parents": {
+        "body": 3594,
+        "div": 1964,
+        "p": 27
+      },
+      "children": {
+        "l": 6305,
+        "p": 5413,
+        "w": 4355,
+        "head": 3090,
+        "div": 1964,
+        "pc": 512,
+        "lb": 496,
+        "hi": 184,
+        "lg": 68,
+        "pb": 28,
+        "cb": 6,
+        "note": 1,
+        "supplied": 1
+      },
+      "child_sequences_top10": {
+        "head > p": 3020,
+        "p": 2078,
+        "div": 331,
+        "p > div": 28,
+        "lg": 27,
+        "l": 24,
+        "head > div": 13,
+        "head > p > div": 9,
+        "head > l": 9,
+        "l > head > p": 8
+      },
+      "attributes": {
+        "type": {
+          "count": 3406,
+          "file_count": 118,
+          "distinct_values": 7,
+          "cardinality": "low",
+          "values": {
+            "song": 1373,
+            "chapter": 604,
+            "number": 498,
+            "recipe": 452,
+            "section": 440,
+            "parallel": 24,
+            "colophon": 15
+          }
+        },
+        "n": {
+          "count": 3379,
+          "file_count": 99,
+          "distinct_values": ">100",
+          "cardinality": "high",
+          "pattern": null,
+          "samples": [
+            "21",
+            "7",
+            "50",
+            "94",
+            "33",
+            "101",
+            "85",
+            "99",
+            "52",
+            "25"
+          ]
+        }
+      }
+    },
+    "idno": {
+      "count": 3332,
+      "file_count": 666,
+      "parents": {
+        "msIdentifier": 1365,
+        "person": 1154,
+        "monogr": 813
+      },
+      "children": {},
+      "child_sequences_top10": {},
+      "attributes": {
+        "type": {
+          "count": 3332,
+          "file_count": 666,
+          "distinct_values": 7,
+          "cardinality": "low",
+          "values": {
+            "wikidata": 787,
+            "callNumber": 678,
+            "sigle": 666,
+            "GND": 496,
+            "handschriftencensus": 354,
+            "gnd": 216,
+            "ISBN": 135
+          }
+        }
+      }
+    },
+    "title": {
+      "count": 3162,
+      "file_count": 666,
+      "parents": {
+        "titleStmt": 1362,
+        "monogr": 678,
+        "analytic": 536,
+        "series": 461,
+        "bibl": 125
+      },
+      "children": {},
+      "child_sequences_top10": {},
+      "attributes": {
+        "level": {
+          "count": 1538,
+          "file_count": 635,
+          "distinct_values": 4,
+          "cardinality": "low",
+          "values": {
+            "a": 541,
+            "m": 527,
+            "s": 461,
+            "j": 9
+          }
+        },
+        "xml:lang": {
+          "count": 1357,
+          "file_count": 666,
+          "distinct_values": 4,
+          "cardinality": "low",
+          "values": {
+            "de": 766,
+            "gmh": 563,
+            "en": 16,
+            "lat": 12
+          }
+        },
+        "type": {
+          "count": 638,
+          "file_count": 253,
+          "distinct_values": 1,
+          "cardinality": "low",
+          "values": {
+            "alternate": 638
+          }
+        },
+        "ana": {
+          "count": 638,
+          "file_count": 253,
+          "distinct_values": 3,
+          "cardinality": "low",
+          "values": {
+            "historic": 573,
+            "science": 60,
+            "unspecific": 5
+          }
+        }
+      }
+    },
+    "head": {
+      "count": 3127,
+      "file_count": 177,
+      "parents": {
+        "div": 3090,
+        "lg": 37
+      },
+      "children": {
+        "w": 7722,
+        "l": 2356,
+        "lb": 2110,
+        "hi": 1805,
+        "pc": 1597,
+        "pb": 223,
+        "supplied": 187,
+        "note": 1
+      },
+      "child_sequences_top10": {
+        "l": 1418,
+        "lb > hi > w": 362,
+        "lb > hi > w > pc": 301,
+        "lb > hi > pc": 193,
+        "lb > w": 122,
+        "lb > hi > pc > w": 65,
+        "lb > pb > hi > w > pc": 38,
+        "lb > hi > pc > w > pc": 36,
+        "lb > supplied > pc > supplied > pc": 30,
+        "lb > hi > pc > hi > w > lb > w": 30
+      },
+      "attributes": {}
+    },
+    "note": {
+      "count": 2777,
+      "file_count": 666,
+      "parents": {
+        "p": 851,
+        "person": 670,
+        "biblStruct": 626,
+        "bibl": 250,
+        "l": 245,
+        "lg": 132,
+        "head": 1,
+        "supplied": 1,
+        "div": 1
+      },
+      "children": {
+        "l": 424,
+        "hi": 226,
+        "supplied": 137,
+        "pc": 82,
+        "w": 60,
+        "pb": 2,
+        "lb": 1
+      },
+      "child_sequences_top10": {
+        "l": 422,
+        "hi": 56,
+        "hi > pc > hi": 39,
+        "hi > supplied > pc > supplied > w > supplied": 34,
+        "supplied": 13,
+        "hi > w": 6,
+        "hi > supplied > pc > supplied": 3,
+        "supplied > w": 3,
+        "w": 2,
+        "supplied > hi": 2
+      },
+      "attributes": {
+        "type": {
+          "count": 1316,
+          "file_count": 665,
+          "distinct_values": 5,
+          "cardinality": "low",
+          "values": {
+            "works": 670,
+            "date": 277,
+            "provenance": 125,
+            "fidelity": 125,
+            "year": 119
+          }
+        },
+        "n": {
+          "count": 983,
+          "file_count": 19,
+          "distinct_values": ">100",
+          "cardinality": "high",
+          "pattern": null,
+          "samples": [
+            "11. November",
+            "19. November",
+            "1329",
+            "10. August",
+            "1318",
+            "21. Dezember",
+            "28. Mai",
+            "1315",
+            "25. Juli",
+            "20. März"
+          ]
+        }
+      }
+    },
+    "persName": {
+      "count": 1880,
+      "file_count": 666,
+      "parents": {
+        "person": 1214,
+        "authority": 666
+      },
+      "children": {
+        "forename": 666,
+        "surname": 666
+      },
+      "child_sequences_top10": {
+        "forename > surname": 666
+      },
+      "attributes": {
+        "type": {
+          "count": 1214,
+          "file_count": 665,
+          "distinct_values": 2,
+          "cardinality": "low",
+          "values": {
+            "preferred": 670,
+            "alternative": 544
+          }
+        },
+        "role": {
+          "count": 666,
+          "file_count": 666,
+          "distinct_values": 1,
+          "cardinality": "low",
+          "values": {
+            "coordinator": 666
+          }
+        },
+        "xml:lang": {
+          "count": 544,
+          "file_count": 290,
+          "distinct_values": 2,
+          "cardinality": "low",
+          "values": {
+            "en": 279,
+            "de": 265
+          }
+        }
+      }
+    },
+    "category": {
+      "count": 1800,
+      "file_count": 666,
+      "parents": {
+        "taxonomy": 1800
+      },
+      "children": {
+        "gloss": 8698
+      },
+      "child_sequences_top10": {
+        "gloss": 1800
+      },
+      "attributes": {
+        "xml:id": {
+          "count": 1800,
+          "file_count": 666,
+          "distinct_values": ">100",
+          "cardinality": "high",
+          "pattern": null,
+          "samples": [
+            "genre_e5f97b8a",
+            "genre_00bb7cc9",
+            "genre_160e3e49",
+            "genre_ccef6751",
+            "genre_f5a16820",
+            "genre_9eee7c13",
+            "genre_c98c33fa",
+            "genre_d75ff6ba",
+            "genre_1b99a6ac",
+            "genre_2840c281"
+          ]
+        },
+        "corresp": {
+          "count": 1800,
+          "file_count": 666,
+          "distinct_values": ">100",
+          "cardinality": "high",
+          "pattern": "genres.xml#genre_{hash}",
+          "samples": [
+            "genres.xml#genre_01bf2b8b",
+            "genres.xml#genre_f60449ac",
+            "genres.xml#genre_9eee7c13",
+            "genres.xml#genre_058eb9a7",
+            "genres.xml#genre_a31be6a3",
+            "genres.xml#genre_4478f09f",
+            "genres.xml#genre_00bb7cc9",
+            "genres.xml#genre_60eb54e6",
+            "genres.xml#genre_612e8091",
+            "genres.xml#genre_72cae96a"
+          ]
+        },
+        "ana": {
+          "count": 894,
+          "file_count": 666,
+          "distinct_values": 1,
+          "cardinality": "low",
+          "values": {
+            "parent": 894
+          }
+        }
+      }
+    },
+    "orgName": {
+      "count": 1549,
+      "file_count": 666,
+      "parents": {
+        "publisher": 1332,
+        "respStmt": 217
+      },
+      "children": {},
+      "child_sequences_top10": {},
+      "attributes": {}
+    },
+    "date": {
+      "count": 1457,
+      "file_count": 666,
+      "parents": {
+        "imprint": 678,
+        "publicationStmt": 666,
+        "bibl": 113
+      },
+      "children": {},
+      "child_sequences_top10": {},
+      "attributes": {
+        "when": {
+          "count": 666,
+          "file_count": 666,
+          "distinct_values": 1,
+          "cardinality": "low",
+          "values": {
+            "2025": 666
+          }
+        },
+        "notBefore": {
+          "count": 89,
+          "file_count": 89,
+          "distinct_values": 2,
+          "cardinality": "low",
+          "values": {
+            "2001": 71,
+            "2008": 18
+          }
+        },
+        "notAfter": {
+          "count": 89,
+          "file_count": 89,
+          "distinct_values": 2,
+          "cardinality": "low",
+          "values": {
+            "2003": 71,
+            "2013": 18
+          }
+        },
+        "from": {
+          "count": 24,
+          "file_count": 24,
+          "distinct_values": 1,
+          "cardinality": "low",
+          "values": {
+            "1996": 24
+          }
+        }
+      }
+    },
+    "ref": {
+      "count": 1439,
+      "file_count": 666,
+      "parents": {
+        "publicationStmt": 1332,
+        "bibl": 107
+      },
+      "children": {},
+      "child_sequences_top10": {},
+      "attributes": {
+        "target": {
+          "count": 1439,
+          "file_count": 666,
+          "distinct_values": 6,
+          "cardinality": "low",
+          "values": {
+            "https://doi.org/10.25619/BmE20223203": 666,
+            "https://doi.org/10.14220/mdge.2022.69.2.135": 666,
+            "http://etext.lib.virginia.edu/german/mhg": 71,
+            "https://www.hs-augsburg.de/~harsch/augustana.html": 24,
+            "https://www.uni-giessen.de/de/fbz/fb05/germanistik/absprache/sprachverwendung/gloning/etexte.htm": 8,
+            "http://titus.uni-frankfurt.de/texte/etcs/germ/mhd/": 4
+          }
+        },
+        "type": {
+          "count": 1332,
+          "file_count": 666,
+          "distinct_values": 2,
+          "cardinality": "low",
+          "values": {
+            "history": 666,
+            "documentation": 666
+          }
+        }
+      }
+    },
+    "name": {
+      "count": 1420,
+      "file_count": 666,
+      "parents": {
+        "respStmt": 716,
+        "author": 704
+      },
+      "children": {},
+      "child_sequences_top10": {},
+      "attributes": {
+        "ref": {
+          "count": 666,
+          "file_count": 666,
+          "distinct_values": 1,
+          "cardinality": "low",
+          "values": {
+            "https://mhdbdb.plus.ac.at": 666
+          }
+        },
+        "xml:lang": {
+          "count": 666,
+          "file_count": 666,
+          "distinct_values": 1,
+          "cardinality": "low",
+          "values": {
+            "de": 666
+          }
+        }
+      }
+    },
+    "forename": {
+      "count": 1405,
+      "file_count": 666,
+      "parents": {
+        "editor": 739,
+        "persName": 666
+      },
+      "children": {},
+      "child_sequences_top10": {},
+      "attributes": {}
+    },
+    "surname": {
+      "count": 1405,
+      "file_count": 666,
+      "parents": {
+        "editor": 739,
+        "persName": 666
+      },
+      "children": {},
+      "child_sequences_top10": {},
+      "attributes": {}
+    },
+    "author": {
+      "count": 1375,
+      "file_count": 666,
+      "parents": {
+        "titleStmt": 671,
+        "analytic": 576,
+        "monogr": 128
+      },
+      "children": {
+        "name": 704
+      },
+      "child_sequences_top10": {
+        "name": 704
+      },
+      "attributes": {
+        "ref": {
+          "count": 671,
+          "file_count": 666,
+          "distinct_values": ">100",
+          "cardinality": "high",
+          "pattern": "#{fragment_id}",
+          "samples": [
+            "#person_5",
+            "#person_1647",
+            "#person_1056",
+            "#person_585",
+            "#person_43",
+            "#person_746",
+            "#person_1727",
+            "#person_11",
+            "#person_465",
+            "#person_686"
+          ]
+        }
+      }
+    },
+    "msName": {
+      "count": 1362,
+      "file_count": 666,
+      "parents": {
+        "msIdentifier": 1362
+      },
+      "children": {},
+      "child_sequences_top10": {},
+      "attributes": {
+        "xml:lang": {
+          "count": 1357,
+          "file_count": 666,
+          "distinct_values": 4,
+          "cardinality": "low",
+          "values": {
+            "de": 766,
+            "gmh": 563,
+            "en": 16,
+            "lat": 12
+          }
+        }
+      }
+    },
+    "ptr": {
+      "count": 1332,
+      "file_count": 666,
+      "parents": {
+        "publisher": 666,
+        "bibl": 666
+      },
+      "children": {},
+      "child_sequences_top10": {},
+      "attributes": {
+        "target": {
+          "count": 1332,
+          "file_count": 666,
+          "distinct_values": 2,
+          "cardinality": "low",
+          "values": {
+            "https://mhdbdb.plus.ac.at": 666,
+            "https://www.mhdbdb.sbg.ac.at/textreihen": 666
+          }
+        }
+      }
+    },
+    "publisher": {
+      "count": 1313,
+      "file_count": 666,
+      "parents": {
+        "publicationStmt": 666,
+        "imprint": 647
+      },
+      "children": {
+        "orgName": 1332,
+        "address": 666,
+        "email": 666,
+        "ptr": 666
+      },
+      "child_sequences_top10": {
+        "orgName > address > email > ptr": 666
+      },
+      "attributes": {}
+    },
+    "cb": {
+      "count": 996,
+      "file_count": 3,
+      "parents": {
+        "p": 990,
+        "div": 6
+      },
+      "children": {},
+      "child_sequences_top10": {},
+      "attributes": {
+        "n": {
+          "count": 996,
+          "file_count": 3,
+          "distinct_values": 2,
+          "cardinality": "low",
+          "values": {
+            "2": 498,
+            "1": 498
+          }
+        },
+        "type": {
+          "count": 996,
+          "file_count": 3,
+          "distinct_values": 1,
+          "cardinality": "low",
+          "values": {
+            "manuscript": 996
+          }
+        }
+      }
+    },
+    "respStmt": {
+      "count": 933,
+      "file_count": 666,
+      "parents": {
+        "titleStmt": 666,
+        "bibl": 267
+      },
+      "children": {
+        "resp": 933,
+        "name": 716,
+        "orgName": 217
+      },
+      "child_sequences_top10": {
+        "resp > name": 716,
+        "resp > orgName": 217
+      },
+      "attributes": {}
+    },
+    "resp": {
+      "count": 933,
+      "file_count": 666,
+      "parents": {
+        "respStmt": 933
+      },
+      "children": {},
+      "child_sequences_top10": {},
+      "attributes": {}
+    },
+    "biblScope": {
+      "count": 883,
+      "file_count": 618,
+      "parents": {
+        "imprint": 881,
+        "series": 2
+      },
+      "children": {},
+      "child_sequences_top10": {},
+      "attributes": {
+        "unit": {
+          "count": 883,
+          "file_count": 618,
+          "distinct_values": 4,
+          "cardinality": "low",
+          "values": {
+            "page": 517,
+            "volume": 362,
+            "issue": 2,
+            "series_number": 2
+          }
+        }
+      }
+    },
+    "bibl": {
+      "count": 791,
+      "file_count": 666,
+      "parents": {
+        "taxonomy": 666,
+        "listBibl": 125
+      },
+      "children": {
+        "ptr": 666,
+        "respStmt": 267,
+        "note": 250,
+        "title": 125,
+        "date": 113,
+        "ref": 107
+      },
+      "child_sequences_top10": {
+        "ptr": 666,
+        "title > respStmt > date > ref > note": 95,
+        "title > respStmt > date > note": 18,
+        "title > respStmt > ref > note": 12
+      },
+      "attributes": {
+        "type": {
+          "count": 125,
+          "file_count": 121,
+          "distinct_values": 1,
+          "cardinality": "low",
+          "values": {
+            "digitalIntermediary": 125
+          }
+        },
+        "xml:id": {
+          "count": 125,
+          "file_count": 121,
+          "distinct_values": ">100",
+          "cardinality": "high",
+          "pattern": "{SIGLE}_{position}",
+          "samples": [
+            "DWS_etext_mhgta",
+            "DHS_etext_mhgta",
+            "DVF_etext_mhgta",
+            "EBS_etext_mhgta",
+            "HNI_etext_harsch",
+            "DWF_etext_mhgta",
+            "ATF_etext_harsch",
+            "DTS_etext_mhgta",
+            "DL2_etext_mhgta",
+            "DSE_etext_mhgta"
+          ]
+        },
+        "corresp": {
+          "count": 125,
+          "file_count": 121,
+          "distinct_values": ">100",
+          "cardinality": "high",
+          "pattern": "#{fragment_id}",
+          "samples": [
+            "#GSP_GSP",
+            "#KDO_KDO",
+            "#DSE_DSE",
+            "#DGR_DGR",
+            "#KME_etext_gloning",
+            "#KMR_KMR",
+            "#DHO_DHO",
+            "#EB1_EB1",
+            "#APO_APO",
+            "#BIB_BIB"
+          ]
+        }
+      }
+    },
+    "editor": {
+      "count": 739,
+      "file_count": 657,
+      "parents": {
+        "monogr": 739
+      },
+      "children": {
+        "forename": 739,
+        "surname": 739
+      },
+      "child_sequences_top10": {
+        "forename > surname": 739
+      },
+      "attributes": {}
+    },
+    "biblStruct": {
+      "count": 678,
+      "file_count": 666,
+      "parents": {
+        "listBibl": 678
+      },
+      "children": {
+        "monogr": 678,
+        "note": 626,
+        "analytic": 536,
+        "series": 461
+      },
+      "child_sequences_top10": {
+        "analytic > monogr > series > note": 353,
+        "analytic > monogr > note": 143,
+        "monogr > series > note": 96,
+        "analytic > monogr": 36,
+        "monogr > note": 34,
+        "monogr > series": 8,
+        "analytic > monogr > series": 4,
+        "monogr": 4
+      },
+      "attributes": {
+        "type": {
+          "count": 678,
+          "file_count": 666,
+          "distinct_values": 4,
+          "cardinality": "low",
+          "values": {
+            "bookSection": 527,
+            "book": 141,
+            "journalArticle": 9,
+            "document": 1
+          }
+        },
+        "xml:id": {
+          "count": 678,
+          "file_count": 666,
+          "distinct_values": ">100",
+          "cardinality": "high",
+          "pattern": "{SIGLE}_{position}",
+          "samples": [
+            "BEK_BEK",
+            "BAD_BAD",
+            "BRZ_BRZ",
+            "DBE_DBE",
+            "AT_AT",
+            "DBK_DBK",
+            "DDS_DDS",
+            "BUH_BUH",
+            "DGK_DGK",
+            "DGM_DGM"
+          ]
+        },
+        "corresp": {
+          "count": 678,
+          "file_count": 666,
+          "distinct_values": ">100",
+          "cardinality": "high",
+          "pattern": "{URI}",
+          "samples": [
+            "http://zotero.org/groups/5043625/items/Y4YZWDFX",
+            "http://zotero.org/groups/5043625/items/2DYZ3DUR",
+            "http://zotero.org/groups/5043625/items/CXK763JS",
+            "http://zotero.org/groups/5043625/items/MEQPWFAZ",
+            "http://zotero.org/groups/5043625/items/8YXXFDA5",
+            "http://zotero.org/groups/5043625/items/PMJ5VI7E",
+            "http://zotero.org/groups/5043625/items/USU4QAZU",
+            "http://zotero.org/groups/5043625/items/9FZFES5G",
+            "http://zotero.org/groups/5043625/items/RDKFK8BE",
+            "http://zotero.org/groups/5043625/items/AU7J46JS"
+          ]
+        },
+        "key": {
+          "count": 678,
+          "file_count": 666,
+          "distinct_values": ">100",
+          "cardinality": "high",
+          "pattern": null,
+          "samples": [
+            "AXK",
+            "DBS",
+            "CL",
+            "CHH",
+            "DAH",
+            "BVSN",
+            "BVL",
+            "BAR",
+            "DEH",
+            "CLV"
+          ]
+        }
+      }
+    },
+    "monogr": {
+      "count": 678,
+      "file_count": 666,
+      "parents": {
+        "biblStruct": 678
+      },
+      "children": {
+        "idno": 813,
+        "editor": 739,
+        "title": 678,
+        "imprint": 678,
+        "author": 128,
+        "edition": 19
+      },
+      "child_sequences_top10": {
+        "title > idno > editor > imprint": 546,
+        "author > title > editor > idno > imprint": 102,
+        "author > title > editor > idno > edition > imprint": 17,
+        "author > title > idno > imprint": 7,
+        "title > idno > imprint": 4,
+        "title > idno > editor > edition > imprint": 1,
+        "author > title > idno > edition > imprint": 1
+      },
+      "attributes": {}
+    },
+    "imprint": {
+      "count": 678,
+      "file_count": 666,
+      "parents": {
+        "monogr": 678
+      },
+      "children": {
+        "biblScope": 881,
+        "date": 678,
+        "pubPlace": 660,
+        "publisher": 647
+      },
+      "child_sequences_top10": {
+        "pubPlace > biblScope > publisher > date": 600,
+        "pubPlace > publisher > date": 44,
+        "biblScope > date": 9,
+        "pubPlace > biblScope > date": 9,
+        "pubPlace > date": 7,
+        "date": 6,
+        "biblScope > publisher > date": 3
+      },
+      "attributes": {}
+    },
+    "person": {
+      "count": 670,
+      "file_count": 665,
+      "parents": {
+        "listPerson": 670
+      },
+      "children": {
+        "persName": 1214,
+        "idno": 1154,
+        "note": 670
+      },
+      "child_sequences_top10": {
+        "persName > idno > note": 670
+      },
+      "attributes": {
+        "xml:id": {
+          "count": 670,
+          "file_count": 665,
+          "distinct_values": ">100",
+          "cardinality": "high",
+          "pattern": null,
+          "samples": [
+            "person_1056",
+            "person_987",
+            "person_42",
+            "person_204",
+            "person_525",
+            "person_1059",
+            "person_1037",
+            "person_1051",
+            "person_1039",
+            "person_1347"
+          ]
+        },
+        "corresp": {
+          "count": 670,
+          "file_count": 665,
+          "distinct_values": ">100",
+          "cardinality": "high",
+          "pattern": "persons.xml#person_{id}",
+          "samples": [
+            "persons.xml#person_1036",
+            "persons.xml#person_1007",
+            "persons.xml#person_927",
+            "persons.xml#person_1060",
+            "persons.xml#person_1727",
+            "persons.xml#person_1",
+            "persons.xml#person_806",
+            "persons.xml#person_11",
+            "persons.xml#person_626",
+            "persons.xml#person_746"
+          ]
+        }
+      }
+    },
+    "TEI": {
+      "count": 666,
+      "file_count": 666,
+      "parents": {},
+      "children": {
+        "teiHeader": 666,
+        "text": 666
+      },
+      "child_sequences_top10": {
+        "teiHeader > text": 666
+      },
+      "attributes": {
+        "xml:id": {
+          "count": 666,
+          "file_count": 666,
+          "distinct_values": ">100",
+          "cardinality": "high",
+          "pattern": null,
+          "samples": [
+            "AXK",
+            "DBS",
+            "CL",
+            "CHH",
+            "DAH",
+            "BVSN",
+            "BVL",
+            "BAR",
+            "DEH",
+            "CLV"
+          ]
+        }
+      }
+    },
+    "teiHeader": {
+      "count": 666,
+      "file_count": 666,
+      "parents": {
+        "TEI": 666
+      },
+      "children": {
+        "fileDesc": 666,
+        "encodingDesc": 666,
+        "profileDesc": 666,
+        "revisionDesc": 666
+      },
+      "child_sequences_top10": {
+        "fileDesc > encodingDesc > profileDesc > revisionDesc": 666
+      },
+      "attributes": {}
+    },
+    "fileDesc": {
+      "count": 666,
+      "file_count": 666,
+      "parents": {
+        "teiHeader": 666
+      },
+      "children": {
+        "titleStmt": 666,
+        "publicationStmt": 666,
+        "sourceDesc": 666
+      },
+      "child_sequences_top10": {
+        "titleStmt > publicationStmt > sourceDesc": 666
+      },
+      "attributes": {}
+    },
+    "titleStmt": {
+      "count": 666,
+      "file_count": 666,
+      "parents": {
+        "fileDesc": 666
+      },
+      "children": {
+        "title": 1362,
+        "author": 671,
+        "respStmt": 666
+      },
+      "child_sequences_top10": {
+        "title > author > respStmt": 666
+      },
+      "attributes": {}
+    },
+    "publicationStmt": {
+      "count": 666,
+      "file_count": 666,
+      "parents": {
+        "fileDesc": 666
+      },
+      "children": {
+        "ref": 1332,
+        "publisher": 666,
+        "authority": 666,
+        "availability": 666,
+        "date": 666
+      },
+      "child_sequences_top10": {
+        "publisher > authority > availability > date > ref": 666
+      },
+      "attributes": {}
+    },
+    "address": {
+      "count": 666,
+      "file_count": 666,
+      "parents": {
+        "publisher": 666
+      },
+      "children": {
+        "street": 666,
+        "postCode": 666,
+        "settlement": 666,
+        "country": 666
+      },
+      "child_sequences_top10": {
+        "street > postCode > settlement > country": 666
+      },
+      "attributes": {}
+    },
+    "street": {
+      "count": 666,
+      "file_count": 666,
+      "parents": {
+        "address": 666
+      },
+      "children": {},
+      "child_sequences_top10": {},
+      "attributes": {}
+    },
+    "postCode": {
+      "count": 666,
+      "file_count": 666,
+      "parents": {
+        "address": 666
+      },
+      "children": {},
+      "child_sequences_top10": {},
+      "attributes": {}
+    },
+    "settlement": {
+      "count": 666,
+      "file_count": 666,
+      "parents": {
+        "address": 666
+      },
+      "children": {},
+      "child_sequences_top10": {},
+      "attributes": {}
+    },
+    "country": {
+      "count": 666,
+      "file_count": 666,
+      "parents": {
+        "address": 666
+      },
+      "children": {},
+      "child_sequences_top10": {},
+      "attributes": {}
+    },
+    "email": {
+      "count": 666,
+      "file_count": 666,
+      "parents": {
+        "publisher": 666
+      },
+      "children": {},
+      "child_sequences_top10": {},
+      "attributes": {}
+    },
+    "authority": {
+      "count": 666,
+      "file_count": 666,
+      "parents": {
+        "publicationStmt": 666
+      },
+      "children": {
+        "persName": 666
+      },
+      "child_sequences_top10": {
+        "persName": 666
+      },
+      "attributes": {}
+    },
+    "availability": {
+      "count": 666,
+      "file_count": 666,
+      "parents": {
+        "publicationStmt": 666
+      },
+      "children": {
+        "licence": 666,
+        "p": 666,
+        "ab": 10
+      },
+      "child_sequences_top10": {
+        "licence > p": 656,
+        "licence > p > ab": 10
+      },
+      "attributes": {
+        "status": {
+          "count": 10,
+          "file_count": 10,
+          "distinct_values": 1,
+          "cardinality": "low",
+          "values": {
+            "restricted": 10
+          }
+        }
+      }
+    },
+    "licence": {
+      "count": 666,
+      "file_count": 666,
+      "parents": {
+        "availability": 666
+      },
+      "children": {},
+      "child_sequences_top10": {},
+      "attributes": {
+        "target": {
+          "count": 666,
+          "file_count": 666,
+          "distinct_values": 1,
+          "cardinality": "low",
+          "values": {
+            "https://creativecommons.org/licenses/by-nc-sa/4.0/": 666
+          }
+        }
+      }
+    },
+    "sourceDesc": {
+      "count": 666,
+      "file_count": 666,
+      "parents": {
+        "fileDesc": 666
+      },
+      "children": {
+        "msDesc": 666
+      },
+      "child_sequences_top10": {
+        "msDesc": 666
+      },
+      "attributes": {}
+    },
+    "msDesc": {
+      "count": 666,
+      "file_count": 666,
+      "parents": {
+        "sourceDesc": 666
+      },
+      "children": {
+        "msIdentifier": 666,
+        "additional": 666
+      },
+      "child_sequences_top10": {
+        "msIdentifier > additional": 666
+      },
+      "attributes": {}
+    },
+    "msIdentifier": {
+      "count": 666,
+      "file_count": 666,
+      "parents": {
+        "msDesc": 666
+      },
+      "children": {
+        "idno": 1365,
+        "msName": 1362
+      },
+      "child_sequences_top10": {
+        "idno > msName": 666
+      },
+      "attributes": {
+        "corresp": {
+          "count": 666,
+          "file_count": 666,
+          "distinct_values": ">100",
+          "cardinality": "high",
+          "pattern": "works.xml#work_{id}",
+          "samples": [
+            "works.xml#work_343",
+            "works.xml#work_236",
+            "works.xml#work_314",
+            "works.xml#work_211",
+            "works.xml#work_258",
+            "works.xml#work_99",
+            "works.xml#work_649",
+            "works.xml#work_462",
+            "works.xml#work_627",
+            "works.xml#work_308"
+          ]
+        }
+      }
+    },
+    "additional": {
+      "count": 666,
+      "file_count": 666,
+      "parents": {
+        "msDesc": 666
+      },
+      "children": {
+        "listBibl": 666
+      },
+      "child_sequences_top10": {
+        "listBibl": 666
+      },
+      "attributes": {}
+    },
+    "listBibl": {
+      "count": 666,
+      "file_count": 666,
+      "parents": {
+        "additional": 666
+      },
+      "children": {
+        "biblStruct": 678,
+        "bibl": 125
+      },
+      "child_sequences_top10": {
+        "biblStruct": 545,
+        "biblStruct > bibl": 121
+      },
+      "attributes": {}
+    },
+    "encodingDesc": {
+      "count": 666,
+      "file_count": 666,
+      "parents": {
+        "teiHeader": 666
+      },
+      "children": {
+        "projectDesc": 666,
+        "editorialDecl": 666,
+        "classDecl": 666
+      },
+      "child_sequences_top10": {
+        "projectDesc > editorialDecl > classDecl": 666
+      },
+      "attributes": {}
+    },
+    "projectDesc": {
+      "count": 666,
+      "file_count": 666,
+      "parents": {
+        "encodingDesc": 666
+      },
+      "children": {
+        "p": 1332
+      },
+      "child_sequences_top10": {
+        "p": 666
+      },
+      "attributes": {}
+    },
+    "editorialDecl": {
+      "count": 666,
+      "file_count": 666,
+      "parents": {
+        "encodingDesc": 666
+      },
+      "children": {
+        "p": 1332,
+        "normalization": 663
+      },
+      "child_sequences_top10": {
+        "p > normalization": 663,
+        "p": 3
+      },
+      "attributes": {}
+    },
+    "classDecl": {
+      "count": 666,
+      "file_count": 666,
+      "parents": {
+        "encodingDesc": 666
+      },
+      "children": {
+        "taxonomy": 666
+      },
+      "child_sequences_top10": {
+        "taxonomy": 666
+      },
+      "attributes": {}
+    },
+    "taxonomy": {
+      "count": 666,
+      "file_count": 666,
+      "parents": {
+        "classDecl": 666
+      },
+      "children": {
+        "category": 1800,
+        "bibl": 666
+      },
+      "child_sequences_top10": {
+        "bibl > category": 666
+      },
+      "attributes": {
+        "xml:id": {
+          "count": 666,
+          "file_count": 666,
+          "distinct_values": 1,
+          "cardinality": "low",
+          "values": {
+            "genres": 666
+          }
+        }
+      }
+    },
+    "profileDesc": {
+      "count": 666,
+      "file_count": 666,
+      "parents": {
+        "teiHeader": 666
+      },
+      "children": {
+        "langUsage": 666,
+        "particDesc": 666
+      },
+      "child_sequences_top10": {
+        "langUsage > particDesc": 666
+      },
+      "attributes": {}
+    },
+    "langUsage": {
+      "count": 666,
+      "file_count": 666,
+      "parents": {
+        "profileDesc": 666
+      },
+      "children": {
+        "language": 666
+      },
+      "child_sequences_top10": {
+        "language": 666
+      },
+      "attributes": {}
+    },
+    "language": {
+      "count": 666,
+      "file_count": 666,
+      "parents": {
+        "langUsage": 666
+      },
+      "children": {},
+      "child_sequences_top10": {},
+      "attributes": {
+        "ident": {
+          "count": 666,
+          "file_count": 666,
+          "distinct_values": 1,
+          "cardinality": "low",
+          "values": {
+            "gmh": 666
+          }
+        }
+      }
+    },
+    "particDesc": {
+      "count": 666,
+      "file_count": 666,
+      "parents": {
+        "profileDesc": 666
+      },
+      "children": {
+        "listPerson": 666
+      },
+      "child_sequences_top10": {
+        "listPerson": 666
+      },
+      "attributes": {}
+    },
+    "listPerson": {
+      "count": 666,
+      "file_count": 666,
+      "parents": {
+        "particDesc": 666
+      },
+      "children": {
+        "person": 670
+      },
+      "child_sequences_top10": {
+        "person": 665
+      },
+      "attributes": {}
+    },
+    "revisionDesc": {
+      "count": 666,
+      "file_count": 666,
+      "parents": {
+        "teiHeader": 666
+      },
+      "children": {
+        "change": 666
+      },
+      "child_sequences_top10": {
+        "change": 666
+      },
+      "attributes": {}
+    },
+    "change": {
+      "count": 666,
+      "file_count": 666,
+      "parents": {
+        "revisionDesc": 666
+      },
+      "children": {},
+      "child_sequences_top10": {},
+      "attributes": {
+        "when": {
+          "count": 666,
+          "file_count": 666,
+          "distinct_values": 1,
+          "cardinality": "low",
+          "values": {
+            "2025-07-11": 666
+          }
+        },
+        "who": {
+          "count": 666,
+          "file_count": 666,
+          "distinct_values": 1,
+          "cardinality": "low",
+          "values": {
+            "#editor": 666
+          }
+        }
+      }
+    },
+    "text": {
+      "count": 666,
+      "file_count": 666,
+      "parents": {
+        "TEI": 666
+      },
+      "children": {
+        "body": 666
+      },
+      "child_sequences_top10": {
+        "body": 666
+      },
+      "attributes": {}
+    },
+    "body": {
+      "count": 666,
+      "file_count": 666,
+      "parents": {
+        "text": 666
+      },
+      "children": {
+        "l": 20315,
+        "div": 3594,
+        "lg": 1122,
+        "p": 325,
+        "w": 103,
+        "pc": 15,
+        "hi": 10
+      },
+      "child_sequences_top10": {
+        "p": 294,
+        "div": 203,
+        "l": 127,
+        "p > div": 31,
+        "hi > w > pc > l": 4,
+        "hi > w > pc > w > pc > l": 2,
+        "hi > w > pc > w > pc > w > pc > l": 1,
+        "w > hi > w > pc > l": 1,
+        "hi > w > pc > hi > w > pc > l": 1,
+        "w > pc > l": 1
+      },
+      "attributes": {}
+    },
+    "normalization": {
+      "count": 663,
+      "file_count": 663,
+      "parents": {
+        "editorialDecl": 663
+      },
+      "children": {
+        "p": 2209
+      },
+      "child_sequences_top10": {
+        "p": 663
+      },
+      "attributes": {}
+    },
+    "pubPlace": {
+      "count": 660,
+      "file_count": 652,
+      "parents": {
+        "imprint": 660
+      },
+      "children": {},
+      "child_sequences_top10": {},
+      "attributes": {}
+    },
+    "analytic": {
+      "count": 536,
+      "file_count": 533,
+      "parents": {
+        "biblStruct": 536
+      },
+      "children": {
+        "author": 576,
+        "title": 536
+      },
+      "child_sequences_top10": {
+        "title > author": 527,
+        "title": 9
+      },
+      "attributes": {}
+    },
+    "series": {
+      "count": 461,
+      "file_count": 457,
+      "parents": {
+        "biblStruct": 461
+      },
+      "children": {
+        "title": 461,
+        "biblScope": 2
+      },
+      "child_sequences_top10": {
+        "title": 459,
+        "title > biblScope": 2
+      },
+      "attributes": {}
+    },
+    "edition": {
+      "count": 19,
+      "file_count": 19,
+      "parents": {
+        "monogr": 19
+      },
+      "children": {},
+      "child_sequences_top10": {},
+      "attributes": {}
+    },
+    "ab": {
+      "count": 10,
+      "file_count": 10,
+      "parents": {
+        "availability": 10
+      },
+      "children": {},
+      "child_sequences_top10": {},
+      "attributes": {
+        "type": {
+          "count": 10,
+          "file_count": 10,
+          "distinct_values": 1,
+          "cardinality": "low",
+          "values": {
+            "display": 10
+          }
+        },
+        "n": {
+          "count": 10,
+          "file_count": 10,
+          "distinct_values": 1,
+          "cardinality": "low",
+          "values": {
+            "excerpt-only": 10
+          }
+        }
+      }
+    },
+    "num": {
+      "count": 2,
+      "file_count": 2,
+      "parents": {
+        "hi": 1,
+        "l": 1
+      },
+      "children": {
+        "w": 2
+      },
+      "child_sequences_top10": {
+        "w": 2
+      },
+      "attributes": {}
+    }
+  }
+}

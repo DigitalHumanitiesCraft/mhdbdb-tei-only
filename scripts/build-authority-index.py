@@ -78,9 +78,10 @@ def parse_lexicon():
 
     tree = etree.parse(str(lexicon_file))
     ns = get_namespaces(tree)
+    TEI = '{http://www.tei-c.org/ns/1.0}'
 
     lemmata = []
-    entries = tree.xpath('//tei:entry', namespaces=ns)
+    entries = tree.findall(f'.//{TEI}entry')
 
     for entry in entries:
         lemma_id = entry.get('{http://www.w3.org/XML/1998/namespace}id')
@@ -165,7 +166,8 @@ def parse_persons():
     ns = get_namespaces(tree)
 
     persons = []
-    person_els = tree.xpath('//tei:person', namespaces=ns)
+    TEI = '{http://www.tei-c.org/ns/1.0}'
+    person_els = tree.findall(f'.//{TEI}person')
 
     for person_el in person_els:
         person_id = person_el.get('{http://www.w3.org/XML/1998/namespace}id')
@@ -189,9 +191,13 @@ def parse_persons():
         wikidata_el = person_el.xpath('.//tei:idno[@type="wikidata"]', namespaces=ns)
         wikidata = wikidata_el[0].text.strip() if wikidata_el and wikidata_el[0].text else None
 
-        # Extract works list (comma-separated work IDs)
-        works_el = person_el.xpath('.//tei:note[@type="works"]', namespaces=ns)
-        works = works_el[0].text.strip() if works_el and works_el[0].text else None
+        # Extract works list from <listBibl><bibl corresp="works.xml#work_N"/>
+        works_bibls = person_el.xpath('.//tei:listBibl/tei:bibl/@corresp', namespaces=ns)
+        if works_bibls:
+            work_ids = [ref.split('#')[1] if '#' in ref else ref for ref in works_bibls]
+            works = ','.join(work_ids)
+        else:
+            works = None
 
         persons.append({
             'id': person_id,
@@ -220,9 +226,10 @@ def parse_works():
 
     works = []
     # Try different possible root elements
-    work_els = tree.xpath('//tei:bibl', namespaces=ns)
+    TEI = '{http://www.tei-c.org/ns/1.0}'
+    work_els = tree.findall(f'.//{TEI}bibl')
     if not work_els:
-        work_els = tree.xpath('//work', namespaces=ns)
+        work_els = tree.findall('.//work')  # fallback for non-TEI
 
     for work_el in work_els:
         work_id = work_el.get('{http://www.w3.org/XML/1998/namespace}id')
@@ -357,10 +364,11 @@ def parse_concepts():
 
     tree = etree.parse(str(concepts_file))
     ns = get_namespaces(tree)
+    TEI = '{http://www.tei-c.org/ns/1.0}'
 
     concepts = []
     # Find all category elements with concept_ prefix
-    category_els = tree.xpath('//tei:category', namespaces=ns)
+    category_els = tree.findall(f'.//{TEI}category')
 
     for category_el in category_els:
         category_id = category_el.get('{http://www.w3.org/XML/1998/namespace}id')
@@ -413,10 +421,11 @@ def parse_genres():
 
     tree = etree.parse(str(genres_file))
     ns = get_namespaces(tree)
+    TEI = '{http://www.tei-c.org/ns/1.0}'
 
     genres = []
     # Find all category elements with genre_ prefix
-    category_els = tree.xpath('//tei:category', namespaces=ns)
+    category_els = tree.findall(f'.//{TEI}category')
 
     for category_el in category_els:
         category_id = category_el.get('{http://www.w3.org/XML/1998/namespace}id')
@@ -469,10 +478,11 @@ def parse_names():
 
     tree = etree.parse(str(names_file))
     ns = get_namespaces(tree)
+    TEI = '{http://www.tei-c.org/ns/1.0}'
 
     names = []
     # Find all category elements with name_ prefix
-    category_els = tree.xpath('//tei:category', namespaces=ns)
+    category_els = tree.findall(f'.//{TEI}category')
 
     for category_el in category_els:
         category_id = category_el.get('{http://www.w3.org/XML/1998/namespace}id')
@@ -534,9 +544,10 @@ def parse_variants():
 
     tree = etree.parse(str(variants_file))
     ns = get_namespaces(tree)
+    TEI = '{http://www.tei-c.org/ns/1.0}'
 
     variants = {}  # normalized_variant -> lemma_id
-    entry_els = tree.xpath('//tei:entry | //entry', namespaces=ns)
+    entry_els = tree.findall(f'.//{TEI}entry')
 
     for entry in entry_els:
         # Get lemma reference from corresp attribute
@@ -634,10 +645,11 @@ def build_performance_maps(lemmata, works, concepts, genres):
         if genres_file.exists():
             tree = etree.parse(str(genres_file))
             ns = get_namespaces(tree)
+            TEI = '{http://www.tei-c.org/ns/1.0}'
 
             # Build lookup: genre_id -> genre name (German)
             genre_names = {}
-            categories = tree.xpath('//tei:category', namespaces=ns)
+            categories = tree.findall(f'.//{TEI}category')
             for category in categories:
                 cat_id = category.get('{http://www.w3.org/XML/1998/namespace}id')
                 if not cat_id:

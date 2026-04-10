@@ -322,7 +322,7 @@ class TEITextReader {
 
     /**
      * Extract and format body text with TEI structure preservation
-     * Handles: <head>, <p>, <div>, <lg>, <l>, <lb>, <pb>, <hi rend="...">, <seg type="pc">
+     * Handles: <head>, <p>, <div>, <lg>, <l>, <lb>, <pb>, <hi rend="...">, <pc>, <seg>
      * @returns {object} { html: string, highlights: Array<{element, position}> }
      */
     extractAndFormatBody(teiDoc, lemmaId = null, lemmaIds = []) {
@@ -383,12 +383,11 @@ class TEITextReader {
                     const rend = el.getAttribute('rend');
                     return this.processHi(el, rend, lemmaId, lemmaIds, lemmaColorMap, highlights, state);
 
+                case 'pc':
+                    // Punctuation character
+                    return `<span class="punctuation">${this.escapeHtml(el.textContent)}</span>`;
+
                 case 'seg':
-                    // Segment (type="pc" = punctuation)
-                    const type = el.getAttribute('type');
-                    if (type === 'pc') {
-                        return `<span class="punctuation">${this.escapeHtml(el.textContent)}</span>`;
-                    }
                     return this.processChildren(el, lemmaId, lemmaIds, lemmaColorMap, highlights, state);
 
                 case 'w':
@@ -521,13 +520,10 @@ class TEITextReader {
                 } else if (tagName === 'hi') {
                     const rend = node.getAttribute('rend');
                     result += this.processHi(node, rend, lemmaId, lemmaIds, lemmaColorMap, highlights, state);
+                } else if (tagName === 'pc') {
+                    result += `<span class="punctuation">${this.escapeHtml(node.textContent)}</span>`;
                 } else if (tagName === 'seg') {
-                    const type = node.getAttribute('type');
-                    if (type === 'pc') {
-                        result += this.escapeHtml(node.textContent);
-                    } else {
-                        result += this.processChildren(node, lemmaId, lemmaIds, lemmaColorMap, highlights, state);
-                    }
+                    result += this.processChildren(node, lemmaId, lemmaIds, lemmaColorMap, highlights, state);
                 } else if (tagName === 'l') {
                     result += `<span class="verse-line">${this.processChildren(node, lemmaId, lemmaIds, lemmaColorMap, highlights, state)}</span>`;
                 } else if (tagName === 'cb') {
