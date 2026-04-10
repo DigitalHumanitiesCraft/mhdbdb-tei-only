@@ -60,7 +60,7 @@ npm run test:headed        # Run with visible browser
 TEI files reference authority data via `xml:id`:
 ```xml
 <author ref="#person_445">Meister Eckhart</author>
-<w lemma="vriunt" ana="#concept_12345">vriunt</w>
+<w lemmaRef="lexicon.xml#lemma_38952" pos="N" ana="lexicon.xml#lemma_38952_sense_1">vriunt</w>
 ```
 
 ### XPath Examples
@@ -80,6 +80,17 @@ TEI files reference authority data via `xml:id`:
 | **genres.xml** | Literary genres (taxonomy) |
 | **names.xml** | Proper names with semantic relations |
 | **variants.xml** | Orthographic variants mapped to lemmas |
+
+## Schema
+
+Custom RELAX NG schemas validate all TEI files in the repository:
+
+| Schema | Validates | Files |
+|--------|-----------|-------|
+| [`mhdbdb.rnc`](schema/mhdbdb.rnc) | Corpus texts (`tei/*.tei.xml`) | 666 |
+| [`mhdbdb-authority.rnc`](schema/mhdbdb-authority.rnc) | Authority files (`authority-files/*.xml`) | 7 |
+
+The schemas cover MHDBDB-specific extensions (`@lemmaRef`, `@meaningRef`, `@wordRef` on `<w>`) that are not part of TEI_all. See [`schema/README.md`](schema/README.md) for rationale and design decisions.
 
 ## Architecture
 
