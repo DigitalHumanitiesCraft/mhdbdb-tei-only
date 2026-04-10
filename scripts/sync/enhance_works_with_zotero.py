@@ -66,7 +66,7 @@ TEI_NS_URI = "http://www.tei-c.org/ns/1.0"
 ZOTERO_API_BASE = "https://api.zotero.org"
 ZOTERO_GROUP_ID = "5043625"
 ZOTERO_COLLECTION_ID = "7JU362QV"
-ZOTERO_CACHE_FILE = Path("scripts/data-wrangling/.zotero_cache.json")
+ZOTERO_CACHE_FILE = Path("scripts/sync/.zotero_cache.json")
 
 # Rate limiting
 REQUEST_DELAY = 0.3  # seconds between requests (~3 requests/second)
