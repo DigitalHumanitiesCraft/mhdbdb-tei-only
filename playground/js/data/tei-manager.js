@@ -290,8 +290,9 @@ export class TEIFilesManager {
         return this.teiData.annotations.map(annotation => {
             const resolvedConcepts = [];
             
-            if (annotation.conceptRef) {
-                const conceptId = annotation.conceptRef.split('#')[1];
+            const ref = annotation.ana || annotation.conceptRef;
+            if (ref) {
+                const conceptId = ref.split('#')[1];
                 const concept = authorityData.concepts.find(c => c.id === conceptId);
                 if (concept) resolvedConcepts.push(concept);
             }

@@ -521,7 +521,7 @@ class TEITextReader {
                     const rend = node.getAttribute('rend');
                     result += this.processHi(node, rend, lemmaId, lemmaIds, lemmaColorMap, highlights, state);
                 } else if (tagName === 'pc') {
-                    result += this.escapeHtml(node.textContent);
+                    result += `<span class="punctuation">${this.escapeHtml(node.textContent)}</span>`;
                 } else if (tagName === 'seg') {
                     result += this.processChildren(node, lemmaId, lemmaIds, lemmaColorMap, highlights, state);
                 } else if (tagName === 'l') {

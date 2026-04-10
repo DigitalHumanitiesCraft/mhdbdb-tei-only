@@ -45,6 +45,7 @@ API Details:
 
 from lxml import etree
 from collections import defaultdict
+from copy import deepcopy
 import logging
 import argparse
 import requests
@@ -635,7 +636,7 @@ def replace_editions_with_biblstructs(works_tree, zotero_data, dry_run=False):
         for sigle in sigles:
             if sigle in zotero_data:
                 for biblstruct in zotero_data[sigle]:
-                    biblstruct_copy = etree.fromstring(etree.tostring(biblstruct))
+                    biblstruct_copy = deepcopy(biblstruct)
 
                     # Fix xml:id conflicts (should not happen now since we freed IDs above)
                     original_id = biblstruct_copy.get('{http://www.w3.org/XML/1998/namespace}id')
