@@ -406,6 +406,9 @@ class TEITextReader {
             html += this._renderElement(child);
         }
 
+        // Join punctuation to adjacent words based on @join attribute:
+        // join="left" → remove whitespace before (attach to preceding word)
+        // join="right" → remove whitespace after (attach to following word)
         return { html, highlights };
     }
 
