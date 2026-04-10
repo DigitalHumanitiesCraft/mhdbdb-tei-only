@@ -168,6 +168,15 @@ python -m rnc2rng schema/mhdbdb.rnc schema/mhdbdb.rng
 
 Hinweis: `div` ist ein reserviertes Schlüsselwort in RELAX NG Compact. Das Korpus-Schema verwendet `tei.div` als Pattern-Name für `<div>`-Elemente.
 
+## Warum RELAX NG + Markdown, kein ODD?
+
+Die TEI-Community verwendet traditionell ODD (One Document Does it all) zur Schema-Definition. Wir haben uns bewusst dagegen entschieden:
+
+- **ODD-Toolchain ist de facto unmaintained.** Roma deprecated, RomaJS 50+ offene Issues, `odd2relax` XSLT 1.0 von 2004.
+- **RELAX NG ist die eigentliche Validierungssprache.** ODD *generiert* RELAX NG — der direkte Weg eliminiert eine verlustbehaftete Transformation.
+- **Markdown-Dokumentation ist LLM-nativ.** In einem Promptotyping-Workflow dienen die Soll-Modell-Docs (`TEI-MODEL.md`) als Kontext fuer Mensch und LLM. ODD-Prosa ist fuer keines der beiden Publikum ideal.
+- **Standardwerkzeuge genuegen.** `pip install lxml rnc2rng` — kein Java/Saxon/TEI-Stylesheets noetig.
+
 ## Normative Dokumente
 
 - [TEI-MODEL.md](../docs/TEI-MODEL.md) — Kodierungsmodell für Korpusdateien (Soll-Modell)
