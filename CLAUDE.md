@@ -80,7 +80,6 @@ Co-Authored-By: Claude <noreply@anthropic.com>
 ### Branches
 - `main` — production
 - `feature/*` — active work
-- `feature/wenzelsbibel-ingest` — Wenzelsbibel text ingest (#34)
 - `pre-main-site`, `initial-data-wrangling` — archived
 
 ## Temporal Artifacts (Promptotyping convention)
