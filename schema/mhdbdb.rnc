@@ -255,6 +255,7 @@ w = element w {
     attribute pos { text }?,
     attribute ana { text }?,
     attribute corresp { text }?,
+    attribute reason { text }?,
     attribute xml:lang { text }?,
     text
 }

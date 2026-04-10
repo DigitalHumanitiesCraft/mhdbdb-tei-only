@@ -91,6 +91,8 @@
                   <resp>Elektronische Bereitstellung</resp>
                   <name>Max Mustermann</name>
                 </respStmt>
+                <note type="provenance">E-Text aus der Bibliotheca Augustana.</note>
+                <note type="fidelity">Keine diplomatische Transkription.</note>
               </bibl>
             </listBibl>
           </additional>
@@ -299,7 +301,8 @@
 
         <p>
           <lb n="1"/>
-          <hi rend="initial">
+          <!-- rend="upper_case_first_letter": vergroesserter Anfangsbuchstabe (nicht Initiale) -->
+          <hi rend="upper_case_first_letter">
             <w xml:id="BEISPIEL_201_0"
                lemmaRef="lexicon.xml#lemma_3001"
                pos="PRO"
@@ -476,6 +479,45 @@
              lemmaRef="lexicon.xml#lemma_3001"
              pos="PRO"
              corresp="variants.xml#type_10215">iu</w>
+          <pc join="left">:</pc>
+          <!-- join="right": Klammer klebt am folgenden Wort -->
+          <pc join="right">(</pc>
+          <!-- NAM: Eigenname -->
+          <w xml:id="BEISPIEL_501_3"
+             lemmaRef="lexicon.xml#lemma_21167"
+             pos="NAM"
+             corresp="variants.xml#type_94184">Marthâ</w>
+          <pc join="left">)</pc>
+          <pc join="left">,</pc>
+          <!-- Compound POS: inme = in + dem (Praeposition + Determinator Fusion) -->
+          <w xml:id="BEISPIEL_501_4"
+             lemmaRef="lexicon.xml#lemma_8888"
+             pos="PRP DET"
+             corresp="variants.xml#type_50001">inme</w>
+          <!-- XPR: fremdsprachlicher Ausdruck ohne Lemma -->
+          <w xml:id="BEISPIEL_501_5"
+             pos="XPR">amen</w>
+          <pc join="left">.</pc>
+
+          <lb n="2"/>
+          <!-- INJ: Interjektion -->
+          <w xml:id="BEISPIEL_502_0"
+             lemmaRef="lexicon.xml#lemma_6200"
+             pos="INJ"
+             corresp="variants.xml#type_21500">ôwê</w>
+          <pc join="left">,</pc>
+          <!-- ZUS: Verbzusatz (abtrennbares Praefix) -->
+          <w xml:id="BEISPIEL_502_1"
+             lemmaRef="lexicon.xml#lemma_7700"
+             pos="ZUS"
+             corresp="variants.xml#type_26800">ûf</w>
+          <w xml:id="BEISPIEL_502_2"
+             lemmaRef="lexicon.xml#lemma_5434"
+             pos="VRB"
+             corresp="variants.xml#type_18993">sage</w>
+          <!-- UNK: unklare Wortart -->
+          <w xml:id="BEISPIEL_502_3"
+             pos="UNK">qzt</w>
           <pc join="left">.</pc>
           <!-- Datumsangaben in Urkunden (HZU/HZU2-Pattern) -->
           <note type="year" n="1293"/>
