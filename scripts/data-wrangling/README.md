@@ -9,6 +9,24 @@ The data-wrangling directory contains tools for maintaining the MHDBDB TEI corpu
 1. **PoS Validation & Disambiguation**: LLM-based linguistic analysis to disambiguate compound Part-of-Speech tags and assign missing PoS tags in TEI files
 2. **Metadata Synchronization**: Fetch metadata from external sources (Zotero) and sync to authority files and TEI headers
 
+## TEI Model Tools (`tei-model/`)
+
+Scripts for TEI schema audit, corpus analysis, and validation (Issue #32).
+
+### `tei-model/audit-tei-corpus.py`
+Element and attribute inventory of the entire TEI corpus. Analyses all base TEI files (excluding `.disamb.tei.xml`) and produces a complete inventory of elements, attributes, and values. Used to inform the TEI Soll-Modell.
+
+### `tei-model/audit-authority-files.py`
+Structure, cross-reference, and data quality audit for all 7 authority files. Checks ID patterns, orphaned references, and structural consistency.
+
+### `tei-model/validate-corpus.py`
+Two-stage corpus validation: TEI P5 conformity (`tei_all.rng`) + MHDBDB constraints (`mhdbdb.rng`). Validates all 666 corpus files and reports errors.
+
+### `tei-model/TEXT_DATA_TABLE.xlsx`
+Linecode mapping table from the legacy MHDBDB system. Contains per-text metadata including the original Linecode definitions (column E). Reference for structural reconstruction (Issues #23, #30, #31).
+
+---
+
 ## Scripts
 
 ### `split-tei-for-pos-validation.py`
@@ -730,13 +748,15 @@ python scripts/validate-indices.py
 ```
 scripts/data-wrangling/
 ├── README.md                              # This file
-├── split-tei-for-pos-validation.py       # Split TEI → markdown chunks for LLM analysis
-├── merge-pos-validation-results.py       # Merge LLM results → disambiguated TEI
-├── validate-disambiguation.py            # Validate disambiguated TEI files
 ├── enhance_works_with_zotero.py          # Zotero API → works.xml (Issue #19)
 ├── sync_tei_headers.py                   # Authority files → TEI headers (Issue #19)
 ├── _ARCHIVED_tei-transformation.py       # Reference library (do not run)
-└── .zotero_cache.json                    # API response cache (git-ignored)
+├── .zotero_cache.json                    # API response cache (git-ignored)
+└── tei-model/                            # TEI schema tools (Issue #32)
+    ├── audit-tei-corpus.py               # Element/attribute inventory
+    ├── audit-authority-files.py           # Authority files audit
+    ├── validate-corpus.py                # Two-stage schema validation
+    └── TEXT_DATA_TABLE.xlsx              # Legacy Linecode mapping
 
 temp/disambiguation/                       # LLM workflow temp files (git-ignored)
 ├── {SIGLE}-manifest.txt                  # Chunk inventory

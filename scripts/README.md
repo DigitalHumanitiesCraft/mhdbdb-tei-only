@@ -23,16 +23,14 @@ Validates structure, content, and integrity of generated index files. Checks JSO
 
 ## Data Wrangling
 
-Scripts for transforming and updating TEI source data from external sources (Zotero, database exports, etc.).
+Scripts for transforming and updating TEI source data. See [`data-wrangling/README.md`](data-wrangling/README.md) for full documentation.
 
-### `data-wrangling/enhance_works_with_zotero.py` ⭐ UPDATED
-Fetches editor data from Zotero API and updates `authority-files/works.xml` with `<editor>` elements in biblStruct entries. **Step 1 of 2** for Issue #19. Uses live Zotero API with pagination (1,602 items). Supports `--dry-run` (preview), `--cache` (save API response), and `--offline` (use cached data) modes. Rate-limited to 3 requests/second. Run `sync_tei_headers.py` afterwards to propagate changes to TEI files.
+### Subdirectories
 
-### `data-wrangling/sync_tei_headers.py` ⭐ NEW
-General-purpose tool for syncing authority files to TEI headers. Parameterizable with `--all`, `--works`, `--persons`, `--genres`, `--concepts`. Currently implements `--works` (syncs `<editor>` elements from works.xml). **Step 2 of 2** for Issue #19. Keeps TEI headers in sync with authority files (intentionally redundant). Supports `--dry-run` mode. Extensible architecture for future authority file types.
-
-### `data-wrangling/_ARCHIVED_tei-transformation.py`
-⚠️ **ARCHIVED REFERENCE ONLY - DO NOT RUN**. Original monolithic transformation script (1605 lines) from initial-data-wrangling branch. Preserved as reference library of useful functions (CSV parsing, TEI manipulation, namespace handling, etc.). Best practice: Extract specific functions into new focused scripts rather than running this file.
+| Verzeichnis | Inhalt |
+|-------------|--------|
+| `data-wrangling/` | Zotero-Sync, TEI-Header-Sync, PoS-Disambiguation |
+| `data-wrangling/tei-model/` | TEI-Schema-Audit und -Validierung (#32) |
 
 ## Usage
 
@@ -44,6 +42,9 @@ python scripts/generate-manifest.py
 
 # Validate generated indices
 python scripts/validate-indices.py
+
+# Validate TEI corpus against RELAX NG schema
+python scripts/data-wrangling/tei-model/validate-corpus.py
 
 # Update editor metadata from Zotero API (Issue #19) - 2-step workflow
 python scripts/data-wrangling/enhance_works_with_zotero.py --dry-run  # Step 1: Preview works.xml changes
