@@ -1,82 +1,82 @@
-# MHDBDB TEI Schemas
+# MHDBDB TEI-Schemas
 
-RELAX NG schemas for the MHDBDB corpus and authority files. Designed for projects that want to produce TEI data compatible with the [Mittelhochdeutsche Begriffsdatenbank](https://mhdbdb.plus.ac.at).
+RELAX NG-Schemas für das MHDBDB-Korpus und die Authority Files. Gedacht für Projekte, die TEI-Daten erzeugen möchten, die mit der [Mittelhochdeutschen Begriffsdatenbank](https://mhdbdb.plus.ac.at) kompatibel sind.
 
-## Files
+## Dateien
 
-| File | Purpose |
-|------|---------|
-| `mhdbdb.rnc` | Corpus schema (source of truth, RELAX NG Compact) |
-| `mhdbdb.rng` | Corpus schema (generated, for lxml/jing) |
-| `mhdbdb-authority.rnc` | Authority files schema (source of truth) |
-| `mhdbdb-authority.rng` | Authority files schema (generated) |
-| `tei_all.rng` | TEI P5 4.11.0 (gitignored, download below) |
-| `examples/` | Validated example files for all document types |
+| Datei | Zweck |
+|-------|-------|
+| `mhdbdb.rnc` | Korpus-Schema (Quelldatei, RELAX NG Compact) |
+| `mhdbdb.rng` | Korpus-Schema (generiert, für lxml/jing) |
+| `mhdbdb-authority.rnc` | Authority-Files-Schema (Quelldatei) |
+| `mhdbdb-authority.rng` | Authority-Files-Schema (generiert) |
+| `tei_all.rng` | TEI P5 4.11.0 (gitignored, Download siehe unten) |
+| `examples/` | Validierte Beispieldateien für alle Dokumenttypen |
 
-## Two-stage validation
+## Zwei-Stufen-Validierung
 
-Every MHDBDB file must pass both stages:
+Jede MHDBDB-Datei muss beide Stufen bestehen:
 
-1. **TEI P5 conformance** (`tei_all.rng`) -- the file is valid TEI
-2. **MHDBDB constraints** (`mhdbdb.rnc` or `mhdbdb-authority.rnc`) -- the file follows MHDBDB conventions
+1. **TEI-P5-Konformität** (`tei_all.rng`) — die Datei ist valides TEI
+2. **MHDBDB-Constraints** (`mhdbdb.rnc` oder `mhdbdb-authority.rnc`) — die Datei folgt den MHDBDB-Konventionen
 
-Stage 1 ensures interoperability with the TEI ecosystem. Stage 2 ensures the file works with MHDBDB tools (indexes, search, rendering).
+Stufe 1 stellt die Interoperabilität mit dem TEI-Ökosystem sicher. Stufe 2 stellt sicher, dass die Datei mit den MHDBDB-Werkzeugen funktioniert (Indexes, Suche, Darstellung).
 
-## Quick start: validate a file
+## Schnellstart: Datei validieren
 
 ```bash
-# Download tei_all.rng (once)
+# tei_all.rng herunterladen (einmalig)
 curl -sL "https://tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" -o schema/tei_all.rng
 
-# Regenerate RNG from RNC (after editing .rnc)
+# RNG aus RNC neu generieren (nach Bearbeitung der .rnc)
 python -m rnc2rng schema/mhdbdb.rnc schema/mhdbdb.rng
 python -m rnc2rng schema/mhdbdb-authority.rnc schema/mhdbdb-authority.rng
 
-# Validate a corpus file (Python)
+# Korpus-Datei validieren (Python)
 python -c "
 from lxml import etree
 tree = etree.parse('tei/ABG.tei.xml')
-# Stage 1
+# Stufe 1
 tei_all = etree.RelaxNG(etree.parse('schema/tei_all.rng'))
 print('TEI P5:', 'VALID' if tei_all.validate(tree) else tei_all.error_log)
-# Stage 2
+# Stufe 2
 mhdbdb = etree.RelaxNG(etree.parse('schema/mhdbdb.rng'))
 print('MHDBDB:', 'VALID' if mhdbdb.validate(tree) else mhdbdb.error_log)
 "
 ```
 
-## Corpus schema (`mhdbdb.rnc`)
+## Korpus-Schema (`mhdbdb.rnc`)
 
-For the 666 TEI-encoded Middle High German texts in `tei/`.
+Für die 666 TEI-kodierten mittelhochdeutschen Texte in `tei/`.
 
-### Document structure
+### Dokumentstruktur
 
 ```
-TEI [@xml:id = sigle]
+TEI [@xml:id = Sigle]
   teiHeader
     fileDesc (titleStmt, publicationStmt, sourceDesc)
     encodingDesc (projectDesc, editorialDecl, classDecl)
     profileDesc (langUsage, particDesc)
     revisionDesc
   text > body
-    div [@type, @n] (recursive)
-      p, lg, head, l, ab    -- block elements
-      w, pc, hi, ...        -- inline elements (also allowed directly)
+    div [@type, @n] (rekursiv)
+      p, lg, head, l, ab    — Blockelemente
+      w, pc, hi, ...        — Inline-Elemente (auch direkt erlaubt)
 ```
 
-### Key elements
+### Kernelemente
 
-| Element | Attributes | Purpose |
-|---------|-----------|---------|
-| `<w>` | `@xml:id` (required), `@lemmaRef`, `@pos`, `@ana`, `@corresp`, `@reason`, `@xml:lang` | Word token |
-| `<pc>` | `@join` (required: `left`\|`right`), `@xml:id` | Punctuation |
-| `<div>` | `@type` (optional; values: chapter, section, number, song, colophon, recipe, parallel†), `@n` | Text division |
-| `<lg>` | `@type` (stanza), `@n` | Line group (verse) |
-| `<l>` | `@n` | Verse line |
-| `<lb/>` | `@n` | Line break (prose) |
-| `<hi>` | `@rend` (initial, upper_case_first_letter, ...) | Highlighting |
+| Element | Attribute | Funktion |
+|---------|-----------|----------|
+| `<w>` | `@xml:id` (obligatorisch), `@lemmaRef`, `@pos`, `@ana`, `@corresp`, `@reason`, `@xml:lang` | Wort-Token |
+| `<pc>` | `@join` (obligatorisch: `left`\|`right`), `@xml:id` | Interpunktion |
+| `<div>` | `@type` (optional; Werte: chapter, section, number, song, colophon, recipe, parallel†), `@n` | Textgliederung |
+| `<lg>` | `@type` (stanza), `@n` | Strophe (Vers) |
+| `<l>` | `@n` | Verszeile |
+| `<lb/>` | `@n` | Zeilenumbruch (Prosa) |
+| `<hi>` | `@rend` (initial, upper_case_first_letter, ...) | Hervorhebung |
 
-### Word annotation pattern
+### Wort-Annotationsmuster
 
 ```xml
 <w xml:id="ABG_101_0"
@@ -86,90 +86,90 @@ TEI [@xml:id = sigle]
    corresp="variants.xml#type_5678">brôt</w>
 ```
 
-- `@lemmaRef` -- pointer to lexicon entry (authority file)
-- `@pos` -- POS tag from the MHDBDB tagset (see `docs/TEI-MODEL.md` Section 5); compound tags space-separated (`VEM PRO`)
-- `@ana` -- pointer to sense/concept (semantic annotation)
-- `@corresp` -- pointer to orthographic variant type
-- `@reason` -- decomposition for compound POS tags (`wilt+du`)
-- Words without `@lemmaRef` are skipped by the corpus index
+- `@lemmaRef` — Verweis auf den Lexikoneintrag (Authority File)
+- `@pos` — POS-Tag aus dem MHDBDB-Tagset (siehe `docs/TEI-MODEL.md` Abschnitt 5); zusammengesetzte Tags mit Leerzeichen getrennt (`VEM PRO`)
+- `@ana` — Verweis auf Bedeutung/Konzept (semantische Annotation)
+- `@corresp` — Verweis auf orthographischen Variantentyp
+- `@reason` — Zerlegung bei zusammengesetzten POS-Tags (`wilt+du`)
+- Wörter ohne `@lemmaRef` werden vom Korpus-Index übersprungen
 
-### Cross-references to authority files
+### Querverweise zu Authority Files
 
-Cross-references between corpus and authority files use relative URIs:
+Querverweise zwischen Korpus- und Authority-Dateien verwenden relative URIs:
 
 ```
-lexicon.xml#lemma_879       -- lemma entry
-lexicon.xml#lemma_879_sense_1234  -- sense within lemma
-variants.xml#type_5678      -- orthographic variant type
-persons.xml#person_445      -- person
-works.xml#work_89           -- work
-genres.xml#genre_aaa        -- genre category
+lexicon.xml#lemma_879              — Lemma-Eintrag
+lexicon.xml#lemma_879_sense_1234   — Bedeutung innerhalb eines Lemmas
+variants.xml#type_5678             — orthographischer Variantentyp
+persons.xml#person_445             — Person
+works.xml#work_89                  — Werk
+genres.xml#genre_aaa               — Gattungskategorie
 ```
 
-†`parallel` marks parallel transmission (same text in different manuscripts). Used in 4 files: BRW, DL1, DL2, PKP.
+†`parallel` kennzeichnet Parallelüberlieferung (derselbe Text in verschiedenen Handschriften). Verwendet in 4 Dateien: BRW, DL1, DL2, PKP.
 
-## Authority schema (`mhdbdb-authority.rnc`)
+## Authority-Files-Schema (`mhdbdb-authority.rnc`)
 
-For the 7 XML files in `authority-files/` that serve as controlled vocabularies.
+Für die 7 XML-Dateien in `authority-files/`, die als kontrollierte Vokabulare dienen.
 
-| File | Content | Body structure |
-|------|---------|---------------|
-| `lexicon.xml` | 43,750 lemmata with senses | `<div>/<entry>` |
-| `variants.xml` | 192,472 variant forms (39,282 lemma groups) | `<div>/<entry>/<form>` |
-| `persons.xml` | 211 persons (authors, editors) | `<listPerson>/<person>` |
-| `works.xml` | 583 works with bibliographic data | `<listBibl>/<bibl>` |
-| `concepts.xml` | 567 semantic concepts | `<taxonomy>` in `<encodingDesc>` |
-| `genres.xml` | 615 genre categories (hierarchical) | `<taxonomy>` in `<encodingDesc>` |
-| `names.xml` | 90 medieval name forms | `<taxonomy>` in `<encodingDesc>` |
+| Datei | Inhalt | Body-Struktur |
+|-------|--------|---------------|
+| `lexicon.xml` | 43.750 Lemmata mit Bedeutungen | `<div>/<entry>` |
+| `variants.xml` | 192.472 Wortformen (39.282 Lemma-Gruppen) | `<div>/<entry>/<form>` |
+| `persons.xml` | 211 Personen (Autoren, Herausgeber) | `<listPerson>/<person>` |
+| `works.xml` | 583 Werke mit bibliographischen Daten | `<listBibl>/<bibl>` |
+| `concepts.xml` | 567 semantische Konzepte | `<taxonomy>` in `<encodingDesc>` |
+| `genres.xml` | 615 Gattungskategorien (hierarchisch) | `<taxonomy>` in `<encodingDesc>` |
+| `names.xml` | 90 mittelalterliche Namensformen | `<taxonomy>` in `<encodingDesc>` |
 
-### Identifier conventions
+### Identifier-Konventionen
 
-- Person IDs: `person_` + integer (`person_445`)
-- Work IDs: `work_` + integer (`work_89`)
-- Lemma IDs: `lemma_` + integer (`lemma_879`)
-- Genre IDs: `genre_` + UUID hex (`genre_0480b285`)
-- External IDs: `<idno type="GND">`, `<idno type="wikidata">`, `<idno type="handschriftencensus">`
+- Personen-IDs: `person_` + Ganzzahl (`person_445`)
+- Werk-IDs: `work_` + Ganzzahl (`work_89`)
+- Lemma-IDs: `lemma_` + Ganzzahl (`lemma_879`)
+- Gattungs-IDs: `genre_` + UUID-Hex (`genre_0480b285`)
+- Externe IDs: `<idno type="GND">`, `<idno type="wikidata">`, `<idno type="handschriftencensus">`
 
-## Examples
+## Beispieldateien
 
-The `examples/` directory contains validated example files for every document type:
+Das Verzeichnis `examples/` enthält validierte Beispieldateien für jeden Dokumenttyp:
 
-| Example | Schema | Shows |
-|---------|--------|-------|
-| `corpus.example.tei.xml` | mhdbdb.rnc | All genre patterns (verse, prose, recipe, lyric, sermon, colophon) |
-| `authority-lexicon.example.xml` | mhdbdb-authority.rnc | Lemma entries with senses |
-| `authority-persons.example.xml` | mhdbdb-authority.rnc | Person records with external IDs |
-| `authority-works.example.xml` | mhdbdb-authority.rnc | Work records with bibliographic data |
-| `authority-genres.example.xml` | mhdbdb-authority.rnc | Hierarchical genre taxonomy |
-| `authority-concepts.example.xml` | mhdbdb-authority.rnc | Semantic concept taxonomy |
-| `authority-variants.example.xml` | mhdbdb-authority.rnc | Orthographic variant mappings |
-| `authority-names.example.xml` | mhdbdb-authority.rnc | Medieval name forms |
+| Beispiel | Schema | Zeigt |
+|----------|--------|-------|
+| `corpus.example.tei.xml` | mhdbdb.rnc | Alle Gattungsmuster (Vers, Prosa, Rezept, Lyrik, Predigt, Kolophon) |
+| `authority-lexicon.example.xml` | mhdbdb-authority.rnc | Lemma-Einträge mit Bedeutungen |
+| `authority-persons.example.xml` | mhdbdb-authority.rnc | Personeneinträge mit Normdaten |
+| `authority-works.example.xml` | mhdbdb-authority.rnc | Werkeinträge mit Bibliographie |
+| `authority-genres.example.xml` | mhdbdb-authority.rnc | Hierarchische Gattungstaxonomie |
+| `authority-concepts.example.xml` | mhdbdb-authority.rnc | Semantische Begriffsontologie |
+| `authority-variants.example.xml` | mhdbdb-authority.rnc | Orthographische Variantenzuordnungen |
+| `authority-names.example.xml` | mhdbdb-authority.rnc | Mittelalterliche Namensformen |
 
-## Mapping your data to MHDBDB
+## Eigene Daten MHDBDB-kompatibel machen
 
-If you want to produce TEI files that work with MHDBDB tools:
+Wenn Sie TEI-Dateien erstellen möchten, die mit den MHDBDB-Werkzeugen funktionieren:
 
-1. **Start from an example** in `examples/` -- copy and adapt
-2. **Use the corpus schema** for text files, authority schema for vocabularies
-3. **Required minimum** per `<w>`: `@xml:id` (unique within file) and text content
-4. **Recommended**: `@lemmaRef` (enables search), `@pos` (enables filtering)
-5. **Optional**: `@ana` (semantic annotation), `@corresp` (variant linking)
-6. **Punctuation**: always use `<pc join="left|right">`, never `<seg type="pc">`
-7. **Prose line breaks**: use `<lb/>`, never `<l>` (reserved for verse)
-8. **Validate** against both `tei_all.rng` and `mhdbdb.rnc` before submitting
+1. **Von einem Beispiel ausgehen** — eine Datei aus `examples/` kopieren und anpassen
+2. **Das richtige Schema wählen** — Korpus-Schema für Textdateien, Authority-Schema für Vokabulare
+3. **Mindestanforderung** pro `<w>`: `@xml:id` (dateiweit eindeutig) und Textinhalt
+4. **Empfohlen**: `@lemmaRef` (ermöglicht Suche), `@pos` (ermöglicht Filterung)
+5. **Optional**: `@ana` (semantische Annotation), `@corresp` (Variantenverknüpfung)
+6. **Interpunktion**: immer `<pc join="left|right">` verwenden, nie `<seg type="pc">`
+7. **Prosa-Zeilenumbrüche**: `<lb/>` verwenden, nie `<l>` (nur für Verse)
+8. **Validieren** — gegen `tei_all.rng` und `mhdbdb.rnc` prüfen, bevor die Daten eingereicht werden
 
-### RNC editing note
+### Hinweis zur RNC-Bearbeitung
 
-The `.rnc` files are the source of truth. After editing, regenerate `.rng`:
+Die `.rnc`-Dateien sind die Quelldateien. Nach der Bearbeitung muss die `.rng` neu generiert werden:
 
 ```bash
 python -m rnc2rng schema/mhdbdb.rnc schema/mhdbdb.rng
 ```
 
-Note: `div` is a reserved keyword in RELAX NG Compact syntax. The corpus schema uses `tei.div` as the pattern name for `<div>` elements.
+Hinweis: `div` ist ein reserviertes Schlüsselwort in RELAX NG Compact. Das Korpus-Schema verwendet `tei.div` als Pattern-Name für `<div>`-Elemente.
 
-## Normative documents
+## Normative Dokumente
 
-- [TEI-MODEL.md](../docs/TEI-MODEL.md) -- corpus encoding model (Soll-Modell)
-- [TEI-MODEL-AUTH-FILES.md](../docs/TEI-MODEL-AUTH-FILES.md) -- authority file encoding model
-- [CONTRACTS.MD](../docs/CONTRACTS.MD) -- position counting contract (Python/JS parity)
+- [TEI-MODEL.md](../docs/TEI-MODEL.md) — Kodierungsmodell für Korpusdateien (Soll-Modell)
+- [TEI-MODEL-AUTH-FILES.md](../docs/TEI-MODEL-AUTH-FILES.md) — Kodierungsmodell für Authority Files
+- [CONTRACTS.MD](../docs/CONTRACTS.MD) — Positionszählungsvertrag (Python/JS-Parität)
