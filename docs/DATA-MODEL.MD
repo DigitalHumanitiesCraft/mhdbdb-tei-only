@@ -26,7 +26,7 @@ The MHDBDB data architecture follows a three-stage flow:
 Each TEI file contains:
 - TEI Header with bibliographic metadata
 - Text body with word-level annotations
-- Word elements (`<w>`) with `@lemmaRef` and `@wordRef` attributes
+- Word elements (`<w>`) with `@lemmaRef`, `@ana`, and `@corresp` attributes
 
 **Cross-reference pattern:**
 ```xml
@@ -50,7 +50,7 @@ Seven controlled vocabularies:
 **Cross-reference patterns:**
 - Person ↔ Work via `xml:id` and `@ref`
 - Lemma → Concept via `<ptr target="concepts.xml#...">`
-- Work → Genre via `<ref target="genres.xml#...">`
+- Work → Genre via `<ptr target="genres.xml#..."/>`
 - Orthographic variant → Lemma via `@corresp="lexicon.xml#..."`
 
 ### Authority File XML Schemas
@@ -82,17 +82,17 @@ Notes: Multiple `<pos>` per entry possible. Multiple `<sense>` per entry (verb e
 
 ```xml
 <TEI><text><body><listPerson>
-  <person xml:id="person_{hash|n}">
+  <person xml:id="person_{n}">
     <persName type="preferred">{canonical name}</persName>
     <persName type="alternative" xml:lang="{de|en}">?{alt name}</persName>*
     <idno type="GND">?{gnd-id}</idno>
     <idno type="wikidata">?{Q-id}</idno>
-    <note type="works" corresp="works.xml">?{comma-separated work IDs}</note>
+    <!-- No works list: person→work derived from works.xml <author @ref> at build time -->
   </person>+
 </listPerson></body></text></TEI>
 ```
 
-Notes: IDs use both UUIDs and numeric formats. GND and Wikidata are optional (not all persons have entries).
+Notes: IDs are numeric (`person_N`) except `person_anonym`. GND and Wikidata are optional.
 
 #### works.xml (~1.4 MB)
 
@@ -102,21 +102,20 @@ Notes: IDs use both UUIDs and numeric formats. GND and Wikidata are optional (no
     <title xml:lang="de">{title}</title>
     <title xml:lang="de" type="alternate">?{alt title}</title>*
     <idno type="sigle">{sigle}</idno>+      <!-- one or more sigles per work -->
-    <idno type="gnd">?{gnd-url-or-id}</idno>
+    <idno type="GND">?{gnd-url-or-id}</idno>
     <idno type="wikidata">?{wikidata-url-or-id}</idno>
     <idno type="handschriftencensus">?{url}</idno>
-    <ref target="genres.xml#genre_{hash}" xml:lang="de" n="prefLabel">{genre}</ref>*
-    <ref target="genres.xml#genre_{hash}" xml:lang="en" n="prefLabel">{genre}</ref>*
-    <ref target="genres.xml#genre_{hash}" type="parent" xml:lang="de" n="prefLabel">?{parent genre}</ref>*
+    <ptr target="genres.xml#genre_{hash}"/>*  <!-- genre label resolved from genres.xml -->
     <author ref="persons.xml#person_{id}">{name}</author>
-    <biblStruct type="{journalArticle|bookSection|book}" xml:id="{sigle}_{sigle}"
-                corresp="{zotero-url}" key="{sigle}">*
-      <analytic>?                           <!-- present for articles/chapters -->
-        <title level="a">{article title}</title>
-        <author><name>{name}</name></author>
-      </analytic>
-      <monogr>                              <!-- always present -->
-        <title level="m">{book/journal title}</title>
+    <relatedItem>
+      <biblStruct type="{journalArticle|bookSection|book}" xml:id="{sigle}_{sigle}"
+                  corresp="{zotero-url}" key="{sigle}">*
+        <analytic>?                           <!-- present for articles/chapters -->
+          <title level="a">{article title}</title>
+          <author><name>{name}</name></author>
+        </analytic>
+        <monogr>                              <!-- always present -->
+          <title level="m">{book/journal title}</title>
         <idno type="callNumber">?{sigle}</idno>
         <editor>?<forename>{first}</forename><surname>{last}</surname></editor>
         <imprint>
@@ -126,8 +125,9 @@ Notes: IDs use both UUIDs and numeric formats. GND and Wikidata are optional (no
           <biblScope unit="page">?{pages}</biblScope>
         </imprint>
       </monogr>
-      <series>?<title level="s">{series title}</title></series>
-    </biblStruct>
+        <series>?<title level="s">{series title}</title></series>
+      </biblStruct>
+    </relatedItem>
     <bibl type="digitalIntermediary" corresp="{url}">?  <!-- provenance (Issue #36-40) -->
       <title>{provider name}</title>
       <respStmt><name>{person}</name><resp>{role}</resp></respStmt>
@@ -342,7 +342,7 @@ Four core build scripts:
 
 3. **`extract-variants.py`** - Generate variants.xml from corpus
    - Scan all TEI files
-   - Extract `<w lemmaRef="..." wordRef="...">` elements
+   - Extract `<w lemmaRef="..." corresp="...">` elements
    - Group by lemma ID and collect unique orthographic forms
    - Output: `authority-files/variants.xml`
 
@@ -365,14 +365,14 @@ Four core build scripts:
 | | | `.//tei:persName[@type="preferred"]` | Canonical name |
 | | | `.//tei:idno[@type="GND"]` | GND identifier |
 | | | `.//tei:idno[@type="wikidata"]` | Wikidata ID |
-| | | `.//tei:note[@type="works"]` | Comma-separated work IDs |
+| | | (derived from works.xml `<author @ref>`) | Work IDs (built at index time) |
 | | works.xml | `//tei:bibl` (children of `listBibl`) | Work records |
 | | | `./tei:title` | All titles (with `@xml:lang`, `@type`) |
 | | | `.//tei:idno[@type="sigle"]` | Sigles (may be multiple) |
-| | | `.//tei:idno[@type="gnd"]` | Work GND (extract ID from URL: strip `https://d-nb.info/gnd/`) |
+| | | `.//tei:idno[@type="GND"]` | Work GND (extract ID from URL: strip `https://d-nb.info/gnd/`) |
 | | | `.//tei:idno[@type="wikidata"]` | Work Wikidata (extract Q-ID from URL: strip `https://www.wikidata.org/entity/`) |
 | | | `.//tei:idno[@type="handschriftencensus"]` | Handschriftencensus URL |
-| | | `.//tei:ref[contains(@target,"genres.xml#")]` | Genre refs (filter `@xml:lang="de"`) |
+| | | `./tei:ptr[contains(@target,"genres.xml#")]` | Genre pointers (label from genres.xml lookup) |
 | | | `./tei:author` | Author name + `@ref` → person ID |
 | | | `.//tei:biblStruct` | Bibliography entries (with `@type`, `@key`, `@corresp`) |
 | | concepts.xml | `//tei:category` (filter ID starts with `concept_`) | Concept entries |
@@ -498,7 +498,7 @@ Three pre-computed maps accelerate common queries:
 - Some persons lack Wikidata IDs (newer addition, ongoing enhancement)
 
 **TEI Encoding:**
-- Punctuation sometimes encoded as entities (`&lt;`, `&gt;` in `<seg type="pc">`)
+- Punctuation sometimes encoded as entities (`&lt;`, `&gt;` in `<pc>`)
 - This is correct XML encoding, not a bug
 
 **Genre Hierarchy:**

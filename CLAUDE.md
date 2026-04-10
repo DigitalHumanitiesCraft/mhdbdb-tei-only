@@ -90,7 +90,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>
 
 ## Gotchas
 
-- **Angle bracket entities** (`&lt;`, `&gt;`) in `<seg type="pc">` are correct XML — not bugs
+- **Angle bracket entities** (`&lt;`, `&gt;`) in `<pc>` are correct XML — not bugs
 - **25 skipped tests** (main site) — intentional, tracked in #43
 - **Zotero cache** (`.zotero_cache.json`) is gitignored — use `--offline` for reproducible builds
 - **German Title Case**: Zotero sync capitalizes words except articles/prepositions (der, die, von, und...)

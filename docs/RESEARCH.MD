@@ -31,7 +31,7 @@ TEI P5 provides the foundational markup structure for all texts and authority fi
 **Key TEI elements used:**
 - `<teiHeader>` - Bibliographic metadata
 - `<text><body>` - Main content
-- `<w>` - Word tokens with `@lemmaRef` and `@wordRef` attributes
+- `<w>` - Word tokens with `@lemmaRef`, `@ana`, and `@corresp` attributes
 - `<person>`, `<work>`, `<entry>` - Authority file entities
 - `<listRelation>` - Semantic relationships
 

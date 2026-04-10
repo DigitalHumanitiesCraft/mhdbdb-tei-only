@@ -124,7 +124,7 @@ Recursive DOM traversal of <body> children:
     <w lemmaRef="lexicon.xml#lemma_100">Der</w>        <!-- position 0 -->
     <w>unbekannt</w>                                     <!-- SKIPPED (no lemmaRef) -->
     <w lemmaRef="lexicon.xml#lemma_879">brôt</w>        <!-- position 1 -->
-    <seg type="pc">,</seg>                               <!-- not a <w>, ignored -->
+    <pc join="left">,</pc>                                <!-- not a <w>, ignored -->
     <w lemmaRef="lexicon.xml#lemma_200">ist</w>         <!-- position 2 -->
   </p>
 </body>
