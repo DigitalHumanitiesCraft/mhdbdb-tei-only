@@ -3,9 +3,10 @@
 Normatives Datenmodell fuer die 7 Authority Files in `authority-files/`.
 Pendant zu `docs/TEI-MODEL.md` (Korpusdateien).
 
-**Status:** Entwurf
-**Schema:** `schema/mhdbdb-authority.rnc`
-**Validierung:** Alle 7 Dateien muessen gegen `tei_all.rng` UND `mhdbdb-authority.rnc` valide sein.
+**Status:** Implementiert (2026-04-10, Phases F-K)
+**Schema:** `schema/mhdbdb-authority.rnc` (Source) → `schema/mhdbdb-authority.rng` (generiert)
+**Beispiele:** `schema/examples/authority-*.example.xml`
+**Validierung:** Alle 7 Dateien valide gegen `tei_all.rng` UND `mhdbdb-authority.rnc`.
 
 ---
 
@@ -14,8 +15,8 @@ Pendant zu `docs/TEI-MODEL.md` (Korpusdateien).
 | Datei | Inhalt | Eintraege | Groesse |
 |-------|--------|-----------|---------|
 | `lexicon.xml` | Lemmata mit Senses, POS, Etymologie | 43,750 | 33 MB |
-| `variants.xml` | Orthographische Varianten pro Lemma | 39,436 Eintraege, 192,674 Formen | 13 MB |
-| `persons.xml` | Autoren/Personen mit Normdaten | 210 | 74 KB |
+| `variants.xml` | Orthographische Varianten pro Lemma | 39,282 Eintraege, 192,472 Formen | 13 MB |
+| `persons.xml` | Autoren/Personen mit Normdaten | 211 | 74 KB |
 | `works.xml` | Werke mit Bibliographie und Genre | 583 | 1.4 MB |
 | `concepts.xml` | Semantische Begriffsontologie | 567 Kategorien | 207 KB |
 | `genres.xml` | Gattungstaxonomie | 615 Kategorien | 405 KB |
@@ -79,7 +80,7 @@ Pendant zu `docs/TEI-MODEL.md` (Korpusdateien).
 
 **Anmerkung:** Genre-UUIDs bleiben (615 IDs + 3422 Referenzen umzubenennen waere unverhältnismaessig). Concepts und Names nutzen hierarchische 8-Steller — das ist ein sinnvolles Schema fuer Taxonomien.
 
-**Migration:** 4 Personen mit UUID-Format (`person_778d109...`) werden zu `person_N` migriert.
+**Migration:** 4 Personen mit UUID-Format wurden zu `person_N` migriert (2026-04-10). 1 Person neu angelegt: `person_anonym` (Schweizer Anonymus, GND 103130276).
 
 ### 2.4 Externe Identifier (Normdaten)
 
@@ -91,7 +92,7 @@ Pendant zu `docs/TEI-MODEL.md` (Korpusdateien).
 | Wikidata | `wikidata` | `<idno type="wikidata">Q77480</idno>` |
 | Handschriftencensus | `handschriftencensus` | `<idno type="handschriftencensus">217</idno>` |
 
-**IST-Problem:** persons.xml nutzt `GND`, works.xml nutzt `gnd`. SOLL: `GND` ueberall (offizielles Akronym der Deutschen Nationalbibliothek).
+Alle Dateien nutzen `GND` (Uppercase, offizielles Akronym der Deutschen Nationalbibliothek). Migriert 2026-04-10.
 
 ### 2.5 Gemeinsamer teiHeader
 
@@ -153,7 +154,7 @@ TEI Ch. 9 (Dictionaries). Containert alle Lemmata des MHDBDB-Lexikons.
 
 **`@ana` auf `<sense>`:** Raum-separierte `#type_N` Werte (Verweise auf variants.xml). 30% der Senses haben kein `@ana` — das ist akzeptabel (nicht alle Senses haben Belegstellen mit Wortformen).
 
-**Referentielle Integritaet:** 19 `<ptr target="concepts.xml#...">` Referenzen zeigen auf nicht-existente Konzepte. Bereinigen.
+**Referentielle Integritaet:** Alle Konzept-Referenzen valide (19 verwaiste Referenzen bereinigt 2026-04-10).
 
 ### 3.2 variants.xml — Orthographische Varianten
 
@@ -173,7 +174,7 @@ TEI Ch. 9 (Dictionaries). Jeder Eintrag entspricht einem Lemma und listet alle b
 
 **Design-Entscheidung:** Varianten in separater Datei statt in lexicon.xml (192k Formen wuerden das 33MB-Lexikon auf >60MB aufblaehen). Verknuepfung via `@corresp`.
 
-**Referentielle Integritaet:** 154 Eintraege verweisen auf nicht-existente Lemmata. Bereinigen.
+**Referentielle Integritaet:** Alle Lemma-Referenzen valide (154 verwaiste Eintraege bereinigt 2026-04-10).
 
 ### 3.3 persons.xml — Personenregister
 
@@ -366,70 +367,38 @@ works.xml ──author @ref──> persons.xml
 
 ## 5. Datenqualitaet — Bekannte Probleme
 
-| Problem | Datei | Anzahl | Aktion |
-|---------|-------|--------|--------|
-| Verwaiste Lemma-Referenzen | variants.xml → lexicon.xml | 154 | Bereinigen |
-| Verwaiste Konzept-Referenzen | lexicon.xml → concepts.xml | 19 | Bereinigen |
-| Verwaiste Personen-Referenz | works.xml → persons.xml | 1 (`person_schweizer_anonymus`) | Person anlegen oder Ref entfernen |
-| Werk ohne Bibliographie | works.xml (work_6) | 1 | biblStruct nachpflegen |
-| 30% Senses ohne @ana | lexicon.xml | 18,836 | Akzeptabel (keine Belegstellen) |
+| Problem | Datei | Status |
+|---------|-------|--------|
+| Verwaiste Lemma-Referenzen | variants.xml → lexicon.xml | Bereinigt (154 entfernt, 2026-04-10) |
+| Verwaiste Konzept-Referenzen | lexicon.xml → concepts.xml | Bereinigt (19 entfernt, 2026-04-10) |
+| Verwaiste Personen-Referenz | works.xml → persons.xml | Geloest: `person_anonym` angelegt (GND 103130276) |
+| Werk ohne Bibliographie | works.xml (work_6) | Geloest: Frauendienst/Frauenbuch-Split (work_6/work_7) |
+| 30% Senses ohne @ana | lexicon.xml | Akzeptabel (keine Belegstellen mit Wortformen) |
 
 ---
 
-## 6. Migration IST → SOLL
+## 6. Migration (abgeschlossen 2026-04-10)
 
-### Reihenfolge und Abhaengigkeiten
+Alle Migrationsschritte wurden in Phases F-K implementiert. Scripts: `scripts/data-wrangling/tei-model/authority-files/`.
 
-```
-6.1 works.xml: Genre-Refs + IDs + GND  (Genre-Entlabelung VOR ID-Unwrapping!)
-     ↓
-6.2 persons.xml: Works-Links entfernen
-     ↓
-6.3 persons.xml: UUID-IDs migrieren  (Cascade in works.xml + tei/*.tei.xml)
-```
+### Durchgefuehrte Aenderungen
 
-### 6.1 works.xml: Genre-Refs entlabeln + externe IDs unwrappen
+| Schritt | Script | Ergebnis |
+|---------|--------|----------|
+| Genre-Refs entlabeln | `normalize-work-genres.py` | 3,422 `<ref>` → 870 `<ptr/>` (dedupliziert, Parent-Refs entfernt) |
+| Externe IDs unwrappen | `unwrap-work-identifiers.py` | 368 `<note type="identifiers">` aufgeloest, 176x `gnd`→`GND` |
+| Works-Links entfernen | `remove-person-works-links.py` | 209 `<listBibl>` aus persons.xml entfernt |
+| UUID-IDs migrieren | `migrate-person-uuids.py` | 4 UUID→numerisch, Cascade in works.xml + tei/LUU.tei.xml |
+| Schweizer Anonymus | `migrate-person-uuids.py` | `person_anonym` angelegt (GND 103130276) |
+| Frauendienst-Split | `split-frauendienst.py` | work_6 (Frauendienst) / work_7 (Frauenbuch) getrennt |
+| Verwaiste Referenzen | `fix-orphan-refs.py` | 154 variants + 61+10 lexicon Orphans entfernt |
 
-**Script:** `normalize-works.py` (zu erstellen)
-
-Drei Aenderungen in einem Durchlauf (Reihenfolge wichtig!):
-
-1. **Genre-Refs entlabeln** (ZUERST — aendert Content Model):
-   IST: 3,422 `<ref target="genres.xml#..." xml:lang="...">Label Text</ref>` (inkl. Parent-Refs)
-   SOLL: 1 `<ptr target="genres.xml#..."/>` pro Genre (ohne Label, ohne Parents, dedupliziert)
-
-2. **Externe IDs aus `<note type="identifiers">` unwrappen** (DANACH — erst valid wenn `<ref>` → `<ptr>`):
-   IST: `<note type="identifiers"><idno type="GND">...</idno>...</note>`
-   SOLL: `<idno type="GND">...</idno>` direkt in `<bibl>`
-
-3. **GND Casing:** `<idno type="gnd">` → `<idno type="GND">`
-
-**Script-Impact:**
+### Script-Anpassungen
 
 | Script | Aenderung |
 |--------|-----------|
-| `build-authority-index.py` | Genre-Refs: `.//tei:ref[contains(@target, "genres.xml#")]` → `.//tei:ptr[contains(@target, "genres.xml#")]` |
-| `enhance_works_with_zotero.py` | Neue `<biblStruct>` in `<relatedItem>` wrappen statt direkt in `<bibl>` einfuegen |
-| `sync_tei_headers.py` | Liest `<biblStruct>` aus works.xml via `.//tei:biblStruct` (funktioniert durch `<relatedItem>` hindurch), schreibt in TEI-Header `<additional>/<listBibl>` (anderer Kontext, dort valid) |
-
-### 6.2 persons.xml: Works-Links entfernen
-
-Die `<listBibl>` (in dieser Session von `<note>` migriert) wird entfernt. `build-authority-index.py` leitet die Beziehung aus works.xml ab.
-
-**Script:** Inline (trivial — `<listBibl>` Elemente entfernen)
-**Script-Impact:** `build-authority-index.py` persons-Reader muss umgebaut werden — liest works.xml statt persons.xml fuer person→works Mapping.
-
-### 6.3 persons.xml: UUID-IDs migrieren
-
-4 Personen: UUID → naechste freie numerische ID.
-
-| IST | SOLL |
-|-----|------|
-| `person_778d109...` | `person_N` (naechste freie ID) |
-
-**Cascade:**
-- `works.xml`: `<author ref="persons.xml#person_UUID">` aktualisieren
-- `tei/*.tei.xml`: `<author ref="#person_UUID">` in TEI-Headern aktualisieren (666 Dateien, aber nur die ~4 betroffenen Autoren)
+| `build-authority-index.py` | Genre-Text aus genres.xml aufgeloest; person→works aus works.xml abgeleitet; GND Casing; Version 1.2.0 |
+| `enhance_works_with_zotero.py` | `<biblStruct>` in `<relatedItem>` wrappen; 4 Bugs gefixt |
 
 ---
 
