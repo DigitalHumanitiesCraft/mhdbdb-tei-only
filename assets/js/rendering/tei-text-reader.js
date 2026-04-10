@@ -478,9 +478,13 @@ class TEITextReader {
 
     /**
      * Process children of element recursively, delegating element rendering
-     * to the renderElement closure set up by renderBody()
+     * to the _renderElement closure set up by extractAndFormatBody().
+     * Must only be called within an extractAndFormatBody() call chain.
      */
     processChildren(el, lemmaId, lemmaIds, lemmaColorMap, highlights, state) {
+        if (!this._renderElement) {
+            throw new Error('processChildren called outside extractAndFormatBody context');
+        }
         let result = '';
 
         for (const node of el.childNodes) {
