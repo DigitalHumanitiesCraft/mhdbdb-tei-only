@@ -744,6 +744,11 @@ def build_index():
     print("\n🔨 Building authority index...")
     print(f"Authority files directory: {AUTHORITY_DIR}")
 
+    # Reset module-level caches (safe for repeated calls in test harnesses)
+    global _person_works, _genre_names
+    _person_works = {}
+    _genre_names = {}
+
     # Parse all authority files
     # works before persons: person→works map is derived from works.xml <author @ref>
     lemmata = parse_lexicon()

@@ -149,15 +149,16 @@ Single entry point for external projects: validation guide, data mapping instruc
 - `schema/examples/` — 8 validated examples (1 corpus + 7 authority)
 
 **Open issues:**
-- PR #2 (colleague)
-- #70 pc join spacing (colleague implemented, needs post-merge visual test)
-- work_7 Frauenbuch documentation (Katharina)
-- WZB branch rebase (after merge)
-- Corpus index rebuild (PZ + Stricker changes)
+- PR #71 erstellt, wartet auf Review
+- #70 pc join spacing — gefixt, Issue offen bis nach Merge
+- #20 Lesbarkeit/CSS — offen
+- #52 Authority Files Karte im Playground — offen
+- WZB branch rebase (nach Merge)
+- Frauendienst TEI-Header refs: FD/FDS/FH/FLD/FP korrigiert (work_7 → work_6)
 
 **Next session:**
 1. `/promptotyping orient`
-2. Verify PR #2 merged
-3. Corpus index rebuild if TEI files changed
-4. Browser smoke test: pc spacing with colleague's data-join approach
-5. Consider closing #32 after both PRs merged
+2. PR #71 Review + Merge
+3. #70 Issue schließen nach Merge
+4. Browser smoke test: pc spacing, empty state, nav
+5. #32 schließen nach beiden PRs
