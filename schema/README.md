@@ -47,7 +47,7 @@ print('MHDBDB:', 'VALID' if mhdbdb.validate(tree) else mhdbdb.error_log)
 
 ## Corpus schema (`mhdbdb.rnc`)
 
-For the ~675 TEI-encoded Middle High German texts in `tei/`.
+For the 666 TEI-encoded Middle High German texts in `tei/`.
 
 ### Document structure
 
@@ -87,7 +87,7 @@ TEI [@xml:id = sigle]
 ```
 
 - `@lemmaRef` -- pointer to lexicon entry (authority file)
-- `@pos` -- POS tag from [MHDBDB 19-tag set](../.gemini/skills/pos-disambiguator/SKILL.md); compound tags space-separated (`VEM PRO`)
+- `@pos` -- POS tag from the MHDBDB tagset (see `docs/TEI-MODEL.md` Section 5); compound tags space-separated (`VEM PRO`)
 - `@ana` -- pointer to sense/concept (semantic annotation)
 - `@corresp` -- pointer to orthographic variant type
 - `@reason` -- decomposition for compound POS tags (`wilt+du`)
@@ -95,7 +95,7 @@ TEI [@xml:id = sigle]
 
 ### Cross-references to authority files
 
-All `@lemmaRef`, `@ana`, and `@corresp` values are relative URIs pointing to authority files:
+Cross-references between corpus and authority files use relative URIs:
 
 ```
 lexicon.xml#lemma_879       -- lemma entry
@@ -112,13 +112,13 @@ For the 7 XML files in `authority-files/` that serve as controlled vocabularies.
 
 | File | Content | Body structure |
 |------|---------|---------------|
-| `lexicon.xml` | 43,750 lemmata with senses | `<list>/<item>` with `<entry>` |
-| `variants.xml` | 176,056 orthographic variant mappings | `<list>/<item>` |
-| `persons.xml` | 210 persons (authors, editors) | `<listPerson>/<person>` |
+| `lexicon.xml` | 43,750 lemmata with senses | `<div>/<entry>` |
+| `variants.xml` | 192,472 variant forms (39,282 lemma groups) | `<div>/<entry>/<form>` |
+| `persons.xml` | 211 persons (authors, editors) | `<listPerson>/<person>` |
 | `works.xml` | 583 works with bibliographic data | `<listBibl>/<bibl>` |
 | `concepts.xml` | 567 semantic concepts | `<taxonomy>` in `<encodingDesc>` |
 | `genres.xml` | 615 genre categories (hierarchical) | `<taxonomy>` in `<encodingDesc>` |
-| `names.xml` | 90 medieval name forms | `<list>/<item>` |
+| `names.xml` | 90 medieval name forms | `<taxonomy>` in `<encodingDesc>` |
 
 ### Identifier conventions
 
@@ -170,4 +170,4 @@ Note: `div` is a reserved keyword in RELAX NG Compact syntax. The corpus schema 
 
 - [TEI-MODEL.md](../docs/TEI-MODEL.md) -- corpus encoding model (Soll-Modell)
 - [TEI-MODEL-AUTH-FILES.md](../docs/TEI-MODEL-AUTH-FILES.md) -- authority file encoding model
-- [CONTRACTS.md](../docs/CONTRACTS.MD) -- position counting contract (Python/JS parity)
+- [CONTRACTS.MD](../docs/CONTRACTS.MD) -- position counting contract (Python/JS parity)
