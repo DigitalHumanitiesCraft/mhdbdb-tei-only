@@ -174,8 +174,8 @@ Die TEI-Community verwendet traditionell ODD (One Document Does it all) zur Sche
 
 - **ODD-Toolchain ist de facto unmaintained.** Roma deprecated, RomaJS 50+ offene Issues, `odd2relax` XSLT 1.0 von 2004.
 - **RELAX NG ist die eigentliche Validierungssprache.** ODD *generiert* RELAX NG — der direkte Weg eliminiert eine verlustbehaftete Transformation.
-- **Markdown-Dokumentation ist LLM-nativ.** In einem Promptotyping-Workflow dienen die Soll-Modell-Docs (`TEI-MODEL.md`) als Kontext fuer Mensch und LLM. ODD-Prosa ist fuer keines der beiden Publikum ideal.
-- **Standardwerkzeuge genuegen.** `pip install lxml rnc2rng` — kein Java/Saxon/TEI-Stylesheets noetig.
+- **Markdown-Dokumentation ist LLM-nativ.** In einem Promptotyping-Workflow dienen die Soll-Modell-Docs (`TEI-MODEL.md`) als Kontext für Mensch und LLM. ODD-Prosa ist für keines der beiden Publikum ideal.
+- **Standardwerkzeuge genügen.** `pip install lxml rnc2rng` — kein Java/Saxon/TEI-Stylesheets nötig.
 
 ## Normative Dokumente
 
