@@ -44,48 +44,64 @@ fileDesc = element fileDesc {
     sourceDesc
 }
 
+# GAP 5+6+7: multiple titles (291 files), @ana on title (638), multiple authors (5 files)
 titleStmt = element titleStmt {
-    element title { attribute xml:lang { "de" | "gmh" | "en" | "lat" }?, text },
-    element author { attribute ref { text }?, mixed { (element name { text })* } }?,
+    element title {
+        attribute xml:lang { text }?,
+        attribute type { text }?,
+        attribute level { text }?,
+        attribute ana { text }?,
+        text
+    }+,
+    element author { attribute ref { text }?, mixed { (element name { text })* } }*,
     element respStmt {
         element resp { text },
-        element name { attribute ref { xsd:anyURI }?, attribute xml:lang { text }?, text }
+        (element name { attribute ref { xsd:anyURI }?, attribute xml:lang { text }?, text }
+         | element orgName { attribute ref { xsd:anyURI }?, text })+
     }
 }
 
+# publicationStmt: flexible ordering — all children optional, any order
 publicationStmt = element publicationStmt {
-    element publisher {
-        element orgName { text }+,
-        element address {
-            element street { text },
-            element postCode { text },
-            element settlement { text },
-            element country { text }
-        },
-        element email { text },
-        element ptr { attribute target { xsd:anyURI } }
-    },
-    element authority {
+    (element publisher {
+        mixed {
+            (element orgName { text }
+             | element address {
+                element street { text },
+                element postCode { text },
+                element settlement { text },
+                element country { text }
+             }
+             | element email { text }
+             | element ptr { attribute target { xsd:anyURI } })*
+        }
+    }
+    | element authority {
         element persName {
             attribute role { text }?,
-            (element forename { text },
-             element surname { text })
+            mixed {
+                (element forename { text }?,
+                 element surname { text }?)?
+            }
         }
-    },
-    element availability {
+    }
+    | element availability {
         attribute status { text }?,
         element licence { attribute target { xsd:anyURI }, text },
-        element p { text }*
-    },
-    element date { attribute when { text }?, text }?
+        p.header*,
+        element ab { attribute type { text }?, attribute n { text }?, text }*
+    }
+    | date.element
+    | element ref { attribute type { text }?, attribute target { xsd:anyURI }?, text }
+    | p.header)*
 }
 
 sourceDesc = element sourceDesc {
     element msDesc {
         element msIdentifier {
             attribute corresp { text }?,
-            element msName { attribute xml:lang { text }?, text }*,
-            element idno { attribute type { text }, text }*
+            (element idno { attribute type { text }, text }
+             | element msName { attribute xml:lang { text }?, text })*
         },
         element additional {
             element listBibl {
@@ -95,6 +111,7 @@ sourceDesc = element sourceDesc {
     }
 }
 
+# GAP 8: <note> in biblStruct (626 elements)
 biblStruct = element biblStruct {
     attribute type { text }?,
     attribute xml:id { xsd:NCName }?,
@@ -116,16 +133,17 @@ biblStruct = element biblStruct {
          | element idno { attribute type { text }, text }
          | element edition { text })*,
          element imprint {
-            element pubPlace { text }?,
-            element publisher { text }?,
-            element date { attribute when { text }?, text }?,
-            element biblScope { attribute unit { text }?, text }*
+            (element pubPlace { text }
+             | element publisher { text }
+             | date.element
+             | element biblScope { attribute unit { text }?, text })*
          }?)
      }?,
      element series {
         element title { attribute level { text }?, text },
         element biblScope { attribute unit { text }?, text }*
-     }?)
+     }?,
+     element note { text }*)
 }
 
 bibl = element bibl {
@@ -136,25 +154,29 @@ bibl = element bibl {
         (element title { attribute level { text }?, text }
          | element respStmt {
             element resp { text },
-            element name { text }
+            (element name { text } | element orgName { text })+
          }
-         | element date { attribute when { text }?, text }
-         | element ref { attribute target { xsd:anyURI }?, text }
-         | element idno { attribute type { text }, text })*
+         | date.element
+         | element ref { attribute target { xsd:anyURI }?, attribute type { text }?, text }
+         | element idno { attribute type { text }, text }
+         | element note { attribute type { text }?, text })*
     }
 }
 
 # --- encodingDesc ---
 
 encodingDesc = element encodingDesc {
-    element projectDesc { element p { text }+ },
+    element projectDesc { p.header+ },
     element editorialDecl {
-        element p { text }*,
-        element normalization { element p { text }+ }?
+        p.header*,
+        # <interpretation> present in some files
+        element interpretation { p.header+ }?,
+        element normalization { p.header+ }?
     },
     element classDecl {
         element taxonomy {
             attribute xml:id { xsd:NCName },
+            element bibl { mixed { element ptr { attribute target { xsd:anyURI } }* } }?,
             element category {
                 attribute xml:id { xsd:NCName },
                 attribute corresp { text }?,
@@ -185,6 +207,7 @@ profileDesc = element profileDesc {
                          element surname { text }?)?
                     }
                 }*,
+                element idno { attribute type { text }, text }*,
                 element note { attribute type { text }?, text }*
             }*
         }
@@ -202,52 +225,74 @@ revisionDesc = element revisionDesc {
 }
 
 # ============================================================
+# Shared patterns
+# ============================================================
+
+# GAP 11: header <p> with optional @xml:lang (2,664 occurrences)
+p.header = element p { attribute xml:lang { text }?, text }
+
+# GAP 9: date with @from, @notBefore, @notAfter (~90 files)
+date.element = element date {
+    attribute when { text }?,
+    attribute from { text }?,
+    attribute notBefore { text }?,
+    attribute notAfter { text }?,
+    text
+}
+
+# ============================================================
+# Inline content model (defined first — referenced everywhere)
+# ============================================================
+
+inline.model =
+    w | pc | hi | lb | pb | cb | caesura | supplied | num
+    | note | lg | l | head
+
+# ============================================================
 # Body content model
 # ============================================================
 
-body.content = (div | p | lg | head | pb | lb | cb | note | ab)*
+# GAP 2: body and div have inline children directly in 137+ files
+# Note: body.content includes both block and inline elements because
+# some texts have <w>, <pc>, <l> etc. directly under <body> or <div>.
+body.content = mixed { (tei.div | p | lg | l | head | ab | w | pc | hi | lb | pb | cb | caesura | supplied | num | note)* }
 
-div = element div {
-    attribute type { "chapter" | "section" | "number" | "song"
-                   | "parallel" | "colophon" | "recipe" },
+# GAP 1: div/@type is optional (154 files, 2179 elements without @type)
+# 'tei.div' not 'div' — 'div' is a reserved keyword in RELAX NG Compact
+tei.div = element div {
+    attribute type { "chapter" | "section" | "number" | "song" | "parallel" | "colophon" | "recipe" }?,
     attribute n { text }?,
-    (div | p | lg | head | pb | lb | cb | note | ab)*
+    mixed { (tei.div | p | lg | l | head | ab | w | pc | hi | lb | pb | cb | caesura | supplied | num | note)* }
 }
 
+# GAP 4: <p> can contain <div> (7 files, 27 elements)
 p = element p {
     attribute n { text }?,
     attribute xml:lang { text }?,
-    inline.model*
+    mixed { (tei.div | inline.model)* }
 }
 
 head = element head {
-    inline.model*
+    mixed { inline.model* }
 }
 
+# GAP 3: <lg> can contain <p> (LZT: 1,122 elements)
 lg = element lg {
     attribute type { "stanza" },
     attribute n { text }?,
-    (l | lb | pb | cb | caesura | inline.model)*
+    mixed { (l | p | inline.model)* }
 }
 
 l = element l {
     attribute n { text }?,
-    inline.model*
+    mixed { inline.model* }
 }
 
 ab = element ab {
     attribute type { text }?,
     attribute n { text }?,
-    inline.model*
+    mixed { inline.model* }
 }
-
-# ============================================================
-# Inline content model
-# ============================================================
-
-inline.model =
-    w | pc | hi | lb | pb | cb | caesura | supplied | num
-    | note | lg | l | head | text
 
 w = element w {
     attribute xml:id { xsd:NCName },
@@ -268,16 +313,16 @@ pc = element pc {
 
 hi = element hi {
     attribute rend { text },
-    inline.model*
+    mixed { inline.model* }
 }
 
 supplied = element supplied {
     attribute n { text }?,
-    inline.model*
+    mixed { inline.model* }
 }
 
 num = element num {
-    inline.model*
+    mixed { inline.model* }
 }
 
 note = element note {
