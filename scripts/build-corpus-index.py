@@ -40,6 +40,7 @@ import json
 import gzip
 import sys
 import os
+import time
 from pathlib import Path
 from datetime import datetime
 from collections import defaultdict
@@ -172,7 +173,7 @@ def extract_word_data(filepath, text_id):
             lemma_ref = word_el.get('lemmaRef')
             text_content = ''.join(word_el.itertext()).strip()
 
-            if not lemma_ref or not text_content:
+            if not text_content:
                 continue
 
             # Extract lemma ID
@@ -239,7 +240,6 @@ def build_corpus_index():
     texts = []
     lemma_index = defaultdict(list)  # lemma_id -> list of text IDs
 
-    import time
     start_time = time.time()
 
     for idx, filepath in enumerate(tei_files, 1):
