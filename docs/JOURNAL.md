@@ -148,17 +148,21 @@ Single entry point for external projects: validation guide, data mapping instruc
 - `schema/README.md` — External mapping guide
 - `schema/examples/` — 8 validated examples (1 corpus + 7 authority)
 
+**Erledigt (diese Session):**
+- PR #69 (Korpus) + PR #71 (Authority) gemergt
+- #32 geschlossen (mit ODD-Begründung)
+- #70 geschlossen (pc-spacing implementiert)
+- Branch Protection auf main (force-push + deletion blocked)
+- Feature-Branch + 2 obsolete Branches gelöscht
+
 **Open issues:**
-- PR #71 erstellt, wartet auf Review
-- #70 pc join spacing — gefixt, Issue offen bis nach Merge
 - #20 Lesbarkeit/CSS — offen
 - #52 Authority Files Karte im Playground — offen
-- WZB branch rebase (nach Merge)
-- Frauendienst TEI-Header refs: FD/FDS/FH/FLD/FP korrigiert (work_7 → work_6)
+
+**WZB-Branch (`feature/wenzelsbibel-ingest`):**
+WZB braucht KEINE Attribut-Migration (hat bereits `@ana`/`@corresp`, nie `@meaningRef`/`@wordRef`). Der Branch hat 5 eigene Commits (Issue #66), 1451 Dateien (WZB TEI + Disambiguation-TSVs). Rebase auf `main` nötig, aber nur für Merge-Konflikte in Docs/Config — nicht für TEI-Attribute.
 
 **Next session:**
 1. `/promptotyping orient`
-2. PR #71 Review + Merge
-3. #70 Issue schließen nach Merge
-4. Browser smoke test: pc spacing, empty state, nav
-5. #32 schließen nach beiden PRs
+2. Browser smoke test: pc spacing, empty state, nav
+3. Nächstes Issue aus ROADMAP.md wählen
