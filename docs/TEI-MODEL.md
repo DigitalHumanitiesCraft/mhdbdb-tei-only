@@ -722,45 +722,47 @@ npm test
 
 ## 10. Validierungsbaseline
 
-### Korpus-Audit (666 Dateien, `scripts/data-wrangling/tei-model/audit-tei-corpus.py`)
+### Korpus-Status (675 Dateien, nach Migration 2026-04-09)
 
 | Metrik | Wert |
 |--------|------|
-| Dateien | 666 (exkl. 9 `.disamb.tei.xml`) |
-| Elemente gesamt | 12,763,244 |
-| Distinkte Elementtypen | 76 |
-| `<w>`-Elemente | 9,282,982 |
-| `<seg type="pc">` (→ `<pc>`) | 1,370,191 |
-| Unannotierte `<w>` (kein `@lemmaRef`) | 1,891,709 (20.4%) |
+| Dateien | 675 (9 disamb-Dateien in Base gemergt) |
+| `<w>`-Elemente | ~9.3M |
+| `<pc>`-Elemente | ~1.4M (migriert aus `<seg type="pc">`) |
+| `@ana`-Attribute | ~5.9M (migriert aus `@meaningRef`) |
+| `@corresp`-Attribute | ~7.5M (migriert aus `@wordRef`) |
+| Unannotierte `<w>` (kein `@lemmaRef`) | ~1.9M (20.4%) |
 
-Vollstaendiger Report: `scripts/data-wrangling/tei-model/TEI-AUDIT-REPORT.md`
+Migrationsscripts: `scripts/data-wrangling/tei-model/` (Phases A-E)
+Validierungsscript: `scripts/data-wrangling/tei-model/validate-corpus.py` (8 strukturelle Checks)
 
-### tei_all.rng Validierung (Stichprobe: 100 kleinste Dateien)
+### Validierungsergebnis: 675/675 valide
 
-**0/100 Dateien valide.** Fehlertypen:
+**tei_all.rng:** Alle 675 Dateien valide gegen TEI P5 4.11.0 RELAX NG Schema.
+**mhdbdb.rnc:** Alle 675 Dateien valide gegen projektspezifisches Schema (`schema/mhdbdb.rnc`).
 
-| Fehler | Dateien | Ursache |
-|--------|---------|---------|
-| `Invalid attribute meaningRef for element w` | 100/100 | Nicht-Standard-Attribut (Audit: 5,852,223 Vorkommen) |
-| `Invalid attribute wordRef for element w` | 100/100 | Nicht-Standard-Attribut (Audit: 7,406,166 Vorkommen) |
-| `<author>` nach `<title>` in `<monogr>` | vereinzelt | Falsche Element-Reihenfolge |
-| `Element listPerson failed to validate content` | 1 (VOR) | Einzelfall |
+Fruehere Fehler (alle behoben durch Migration):
 
-**Hinweis:** Die fruehere Angabe "15% der Dateien haben @wordRef" war ein Stichproben-Artefakt. Das Audit zeigt: **100% der Dateien** haben `@wordRef` (7.4M Vorkommen). Die Stichprobe der kleinsten Dateien hatte zufaellig viele Dateien mit geringer Annotation erwischt.
-
-**Konsequenz:** Zwei Batch-Operationen (`@meaningRef` → `@ana`, `@wordRef` → `@corresp`) wuerden den Grossteil des Korpus TEI-konform machen. `@wordRef` traegt nicht-rekonstruierbare Information (Wortform-Zuordnung) und darf nicht geloescht werden (siehe Sec. 4.4).
+| Fehler | Behebung |
+|--------|----------|
+| `@meaningRef` (5.9M) | → `@ana` (Phase B1) |
+| `@wordRef` (7.5M) | → `@corresp` (Phase B2) |
+| `<seg type="pc">` (1.4M) | → `<pc join="left\|right">` (Phase C1) |
+| `<l>` in 18 Prosa-Texten (86k) | → `<lb/>` (Phase C2) |
+| `<author>` nach `<title>` in `<monogr>` | Reihenfolge korrigiert (Phase A2) |
+| `<suppplied>` Tippfehler | → `<supplied>` (Phase A3) |
 
 ### TEI-Konformanz: 5 Kriterien (TEI P5, Kapitel 24)
 
-| # | Kriterium | IST | Nach Migration |
-|---|-----------|-----|----------------|
-| 1 | Well-formed XML | ✓ | ✓ |
-| 2 | Valid gegen TEI-Schema | ✗ (`@meaningRef` + `@wordRef`) | ✓ (nach Phase B) |
-| 3 | Konform mit TEI Abstract Model | ✗ (`<l>` in Prosa) | ✓ (nach Phase C2) |
-| 4 | Korrekter TEI-Namespace | ✓ | ✓ |
-| 5 | Dokumentiert via ODD oder Aequivalent | ✗ | ✓ (TEI-MODEL.md + mhdbdb.rnc) |
+| # | Kriterium | Status |
+|---|-----------|--------|
+| 1 | Well-formed XML | ✓ |
+| 2 | Valid gegen TEI-Schema | ✓ |
+| 3 | Konform mit TEI Abstract Model | ✓ |
+| 4 | Korrekter TEI-Namespace | ✓ |
+| 5 | Dokumentiert via ODD oder Aequivalent | ✓ (TEI-MODEL.md + mhdbdb.rnc) |
 
-**Zwei-Stufen-Validierung nach Migration:**
+**Zwei-Stufen-Validierung:**
 - **Stufe 1:** `tei_all.rng` = TEI-Stempel (Kriterien 1-4)
 - **Stufe 2:** `mhdbdb.rnc` = MHDBDB-Stempel (strenger, Subset von tei_all)
 
@@ -770,10 +772,10 @@ Vollstaendiger Report: `scripts/data-wrangling/tei-model/TEI-AUDIT-REPORT.md`
 
 | Artefakt | Version | Datum |
 |----------|---------|-------|
-| Dieses Dokument | 0.1.0 (DRAFT) | 2026-04-07 |
-| RELAX NG Schema | -- (geplant) | -- |
+| Dieses Dokument | 1.0.0 | 2026-04-10 |
+| RELAX NG Schema (`schema/mhdbdb.rnc`) | 1.0.0 | 2026-04-09 |
 | POS-Tagset | 1.0 (19 Tags) | 2026-03 |
-| Corpus Index | 4.0.0 | 2026-02 |
+| Corpus Index | 4.0.0 | 2026-04-09 |
 | Authority Index | 1.1.0 | 2026-02 |
 
 ---

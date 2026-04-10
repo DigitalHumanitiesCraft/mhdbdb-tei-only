@@ -292,3 +292,25 @@ Commits auf `feature/tei-model-32` (seit letztem handoff):
    - K: Schema + Validierung
 3. **PR #2: Authority-Migration** — nach Abschluss von Phases G-K
 4. Authority-Index rebuild (erst nach PR #2)
+
+---
+
+## 2026-04-10 — PR #1 merged + post-merge cleanup
+
+**PR #69** (`feature/tei-model-32` → `main`): Korpus-Migration gemergt. 34 Commits, 731 Dateien, ~33M Zeilen.
+
+### Code-Review Fixes (vor Merge)
+- `tei-manager.js`: `resolveConceptReferences()` checkte nur `@conceptRef`, nicht `@ana` — gefixt
+- `tei-text-reader.js`: `<pc>` in `processChildren` fehlte `<span class="punctuation">` Wrapper — gefixt
+- `enhance_works_with_zotero.py`: `etree.fromstring(etree.tostring())` → `deepcopy()` — gefixt
+
+### Post-Merge Cleanup
+- `build-corpus-index.py`: `import time` nach oben, toter `not lemma_ref` Guard entfernt
+- `TEI-MODEL.md` Section 10: Validierungsbaseline auf Post-Migration-Zustand aktualisiert (675/675 valide, Version 1.0.0)
+- `tei-text-reader.js`: Dual-Rendering-Path Refactor — duplizierte Element-Logik (switch + if-chain) zu einer einzigen `_renderElement` Closure zusammengefuehrt. 27/27 Playwright-Tests bestehen.
+
+### Playwright-Tests: 49/49 funktionale Tests bestanden
+Keine Regressionen durch Migration. 20 pre-existierende Fehler (relative URL Config, #43) weiterhin offen.
+
+### Authority-Migration laeuft parallel (Phases G-K)
+Zweite Claude-Instanz arbeitet an G1 (Genre-Refs) + G2 (Externe IDs). Aenderungen auf `feature/tei-model-32` Branch.
