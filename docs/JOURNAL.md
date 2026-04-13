@@ -156,6 +156,78 @@ Chronological log of development decisions, dead ends, and savepoints. Not a cha
 
 ---
 
+## 2026-04-13 — WZB Annotation Pipeline: Phases 1b, 2 + Structural Encoding (#34, #66)
+
+**Trigger:** Resume Wenzelsbibel ingest work on `feature/wenzelsbibel-ingest`. The TEI file had 150k `<w>` tokens with no annotation. Goal: reach a state suitable for corpus integration.
+
+### Phase 1b — Lemma disambiguation (91.6% coverage)
+
+Pipeline: `wzb-bulk-resolve.py` applies TSV resolution batches to `wzb-disambiguation.tsv`, then `wzb-apply-lemmarefs.py` writes `@lemmaRef` to the TEI.
+
+- Batches 01–49 applied: 66,298 / 72,362 rows resolved
+- New lemmata created: `lemma_78608` (Latin *et*), `lemma_78628` (Czech glosses *cs*), `lemma_78648` (*herte* herd), `lemma_78668` (*scot* shekel), `lemma_78688` (*weise* orphan)
+- Residual ~6,064 rows: pronoun/case ambiguity (`in`, `des`, `ir`), genuinely deferred multi-sense verbs, Bohemian hapax — left without `@lemmaRef` intentionally
+- Key insight: Bohemian scribal conventions (cz=z, v=u, ou=û, vor-=ver-) required manual pattern recognition; Czech interlinear glosses form a distinct lemma class
+
+### Phase 2 — POS tagging (95.5% coverage)
+
+Pipeline: `wzb-pos-assign.py` → pending TSV → LLM batches via `wzb-pos-bulk-resolve.py` → `wzb-pos-apply.py` writes `@pos` to TEI.
+
+- Batches 01–10 + context-based resolver: 0% → 95.5% (143,340 / 150,017 tokens)
+- **Tagset migration** (`cf71ae48`): ART→DET, CNJ bulk re-routed to CCNJ/SCNJ/ADV by lemma identity. SKILL.md 19-tag set enforced throughout.
+- **Context-based resolver** (`ff83d087`): 14,660 rows resolved using ±4-word neighbour `@pos` context. Key rules: `daz` (DET vs SCNJ), `haben` (VEX vs VRB), `ûf`/`vor` (PRP vs ADV), `ir` (POS vs PRO), `noch` (CCNJ vs NEG).
+- Residual ~506 low-confidence + ~6,064 no-lemmaRef — effectively at the ceiling for bulk methods
+
+### Phase 3 — Paratext encoding (Issue #66)
+
+Decision: structural elements encoded in TEI but excluded from lemma pipeline. Implemented via `wzb-structural-cleanup.py` + `wzb-resolutions-batch-paratext.tsv`.
+
+| Element | Decision |
+| ------- | -------- |
+| `<fw type="header">` book names | Strip `@lemmaRef`/`@pos` — running headers, not lexical |
+| CAPITULUM + Roman numeral `<w>` | `<head type="chapter" n="N">` + `<milestone unit="chapter">` inline |
+| Scribal marks (ł, -, ̃, =, etc.) | `<w>` → `<seg type="pc">` |
+| Single-letter initials (a, s, O) | `<w>` → `<seg type="pc">` |
+| Roman numerals inline (UIII, XU) | Keep as `<w>`, `lemma_13826` (DIG) |
+| Latin *et*, *est* | Keep as `<w>`, `lemma_1732`/`lemma_9387` |
+| Czech glosses | Keep as `<w>`, `lemma_78628` |
+
+### Structural fix pass (`1d8fa549`)
+
+`wzb-structural-fix.py` corrected two TEI P5 conformance issues found by structural survey:
+
+- 212 unnamed chapter divs (xml:id="Genesis.1" etc.) missing `@type` → `type="chapter"`
+- 106 `<head type="chapter">` inside `<l>` (TEI-invalid) → moved to first child of target `<div type="chapter">`; `<milestone unit="chapter" n="N"/>` placed at original text-flow position
+- Space-tolerant `roman_to_arabic()`: "I X" → IX = 9 (was incorrectly 11)
+
+### Encoding cleanup (`2a6cbdd7`)
+
+`wzb-encoding-cleanup.py` fixed four residual issues:
+
+- 6 `<w>` in `<hi rend="initial_historisiert">` (decorative split-word first letters) → `<seg type="pc">`
+- `Josua.0` mis-classified as `type="chapter"` → `type="paratext"`, `xml:id="JosuaPrologus"`
+- `<div type="Transition2.1">` → `type="paratext"`
+- Unnamed prologus body div → `type="section"`, `xml:id="Prologus.1"`
+
+### Final WZB TEI state (2026-04-13)
+
+| Metric | Value |
+| ------ | ----- |
+| `<w>` total | 149,148 |
+| `@lemmaRef` coverage | ~91.6% |
+| `@pos` coverage | ~95.5% |
+| `<div type="chapter">` | 211 |
+| `<div type="book">` | 6 |
+| `<div type="paratext">` | 12 |
+| `<head type="chapter">` | 106 (direct div children) |
+| `<milestone unit="chapter">` | 106 |
+| `<seg type="pc">` | 35,479 |
+| `<fw type="header">` | 905 |
+
+Remaining before corpus integration: `@meaningRef` + `@wordRef` (Phase 3 — not started), then merge into main.
+
+---
+
 ## 2026-02-24 — Quick Wins: #21, #46, #45 doc update
 
 **Trigger:** Tackling the easiest issues from the triage matrix (#44) to build momentum.

@@ -1,6 +1,6 @@
 # Roadmap
 
-Strategic priorities for the MHDBDB TEI Repository. Updated Feb 2026.
+Strategic priorities for the MHDBDB TEI Repository. Updated Apr 2026.
 
 See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/44) for the full triage matrix with per-issue status.
 
@@ -40,7 +40,7 @@ Cannot proceed without decisions, external feedback, or manual review.
 | #29 | Stricker-Texte structural errors | KZW on "Abschnitte" |
 | #23 | Missing stanza markup (104 texts) | Linecode explanation needed |
 | #30 | Manual review of TEI structural elements (~20 texts) | Human review |
-| #34 | Ingest Wenzelsbibel + CoReMA | Julia + Helmut coordination |
+| #34 | Ingest Wenzelsbibel + CoReMA — **WZB in progress** (Phase 1b 91.6%, Phase 2 95.5%, structural encoding done; pending: `@meaningRef`/`@wordRef`, merge to main) | Julia + Helmut coordination |
 | #32 | TEI schema / ODD — is a formal schema wanted? | Team decision |
 
 ## Future: Needs Design
@@ -57,7 +57,7 @@ Interesting features that need scoping and architectural decisions before implem
 
 1. **FAIR data first** — Make all MHDBDB data citable and programmatically accessible (#45, #42). This enables external collaborations (MWB, Worterbuchnetz) and increases project visibility.
 
-2. **TEI data quality** — The provenance issues (#35-40), structural fixes (#23, #26, #29, #30), and schema work (#32) strengthen the corpus as a reliable research resource. Most of this is blocked on human review.
+2. **TEI data quality** — The provenance issues (#35-40), structural fixes (#23, #26, #29, #30), and schema work (#32) strengthen the corpus as a reliable research resource. Most of this is blocked on human review. The Wenzelsbibel (#34) is the active data-quality workstream — Phase 1b/2 annotation + TEI structural encoding complete on `feature/wenzelsbibel-ingest`.
 
 3. **Frontend refinements** — UI polish (#20), TEI rendering (#17), and test coverage (#43) improve the user experience but are lower priority than data quality and API.
 
