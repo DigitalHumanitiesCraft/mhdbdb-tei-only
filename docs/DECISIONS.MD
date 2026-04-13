@@ -631,7 +631,7 @@ Integrate Zotero API to fetch bibliographic metadata and update works.xml:
 - Two-step workflow: Zotero → works.xml → TEI headers
 - API dependency (mitigated by cache)
 
-**Implementation:** `scripts/data-wrangling/enhance_works_with_zotero.py`
+**Implementation:** `scripts/sync/enhance_works_with_zotero.py`
 
 ## ADR-011: Browser-Level Scrolling for Korpus Reading View
 

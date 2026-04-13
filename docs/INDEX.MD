@@ -15,7 +15,7 @@ The MHDBDB TEI Repository provides a comprehensive digital corpus of Middle High
 ## Data Basis
 
 ### Curated Corpus
-- **Hundreds of TEI files** - Complete Middle High German texts with word-level annotations
+- **666 TEI files** - Complete Middle High German texts with word-level annotations
 - **7 authority files** - Controlled vocabularies for persons, works, lexicon, concepts, genres, names, variants
 - **Pre-built indexes** - Compressed JSON (3 MB authority + 34 MB corpus) replacing runtime XML parsing
 
@@ -84,6 +84,7 @@ This knowledge base follows a hub-and-spoke architecture with INDEX.MD as the ce
 | **[DECISIONS.MD](DECISIONS.MD)** | Architecture Decision Records (ADRs) | Architects |
 | **[CONTRACTS.MD](CONTRACTS.MD)** | Cross-language parity constraints, algorithm pseudocode, API contracts | Developers |
 | **[TEI-MODEL.md](TEI-MODEL.md)** | Normative TEI encoding (Soll-Modell), IST/SOLL-Vergleiche, Validierungsbaseline | Data engineers, Developers |
+| **[TEI-MODEL-AUTH-FILES.md](TEI-MODEL-AUTH-FILES.md)** | Authority-File-Schemas und Migrationshistorie (lexicon, persons, works, concepts, genres, names, variants) | Data engineers |
 | **[USER-GUIDE.MD](USER-GUIDE.MD)** | End-user documentation | Users |
 
 ### Process (what's happening and why)
@@ -92,7 +93,8 @@ This knowledge base follows a hub-and-spoke architecture with INDEX.MD as the ce
 |----------|---------|---------------|
 | **[ROADMAP.md](ROADMAP.md)** | Current priorities, strategic direction, what's blocked | Everyone |
 | **[JOURNAL.md](JOURNAL.md)** | Chronological development log, decisions, dead ends | Developers |
-| **[features/](features/)** | Feature-scoped planning docs (living, archived when shipped) | Developers |
+
+Die 14 Dateien oben (12 Stable + 2 Process) sind die vollständige Menge der Promptotyping-Dokumente. `docs/features/` und `docs/research/` enthalten temporäre, ticket-gebundene Planungs- und Recherche-Artefakte und sind **nicht Teil** der Promptotyping-Dokumente — siehe `CLAUDE.md` → „Temporal Artifacts".
 
 ### Publications (project outputs, not development docs)
 

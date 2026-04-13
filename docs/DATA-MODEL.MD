@@ -405,7 +405,7 @@ When building the variants map, **first occurrence wins** — if two lemmata cla
 
 ### Data Wrangling Scripts
 
-**Location:** `scripts/data-wrangling/`
+**Location:** `scripts/sync/` (ongoing sync) and `scripts/audit/` (validation)
 
 Scripts for enriching authority files with external data:
 

@@ -38,7 +38,7 @@ Every TEI file follows this structure:
 
 ## 2. Header Template (`<teiHeader>`)
 
-The header is already largely standardized across all 675 files. This section documents the canonical structure.
+The header is already largely standardized across all 666 files. This section documents the canonical structure.
 
 ### 2.1 `<fileDesc>`
 
@@ -64,8 +64,10 @@ The header is already largely standardized across all 675 files. This section do
     <msDesc>
       <msIdentifier corresp="works.xml#work_{id}">
         <idno type="sigle">{SIGLE}</idno>
-        <idno type="handschriftencensus">{HC-Nr}</idno>   <!-- optional -->
-        <idno type="gnd">{GND-Nr}</idno>                  <!-- optional -->
+        <idno type="handschriftencensus">{HC-Nr}</idno>   <!-- optional, 354 Texte -->
+        <idno type="gnd">{GND-Nr}</idno>                  <!-- optional, 216 Texte -->
+        <idno type="wikidata">{Q-Nr}</idno>               <!-- optional, 129 Texte, Werk-Ebene -->
+        <idno type="mwb-sigle">{MWB-Kurzsigle}</idno>     <!-- optional, 19 Texte -->
         <msName xml:lang="de">{Werktitel}</msName>
       </msIdentifier>
       <additional>
@@ -722,24 +724,24 @@ npm test
 
 ## 10. Validierungsbaseline
 
-### Korpus-Status (675 Dateien, nach Migration 2026-04-09)
+### Korpus-Status (666 Dateien, nach Migration 2026-04-09)
 
 | Metrik | Wert |
 |--------|------|
-| Dateien | 675 (9 disamb-Dateien in Base gemergt) |
+| Dateien | 666 (aus 675 Ausgangsdateien — 9 disamb-Dateien in Base gemergt) |
 | `<w>`-Elemente | ~9.3M |
 | `<pc>`-Elemente | ~1.4M (migriert aus `<seg type="pc">`) |
 | `@ana`-Attribute | ~5.9M (migriert aus `@meaningRef`) |
 | `@corresp`-Attribute | ~7.5M (migriert aus `@wordRef`) |
 | Unannotierte `<w>` (kein `@lemmaRef`) | ~1.9M (20.4%) |
 
-Migrationsscripts: `scripts/data-wrangling/tei-model/` (Phases A-E)
-Validierungsscript: `scripts/data-wrangling/tei-model/validate-corpus.py` (8 strukturelle Checks)
+Migrationsscripts: einmalig in den Phasen A–E ausgeführt, inzwischen in `scripts/_archived/` bzw. Git-Historie nach Abschluss von #32.
+Validierungsscript: `scripts/audit/validate-corpus.py` (8 strukturelle Checks)
 
-### Validierungsergebnis: 675/675 valide
+### Validierungsergebnis: 666/666 valide
 
-**tei_all.rng:** Alle 675 Dateien valide gegen TEI P5 4.11.0 RELAX NG Schema.
-**mhdbdb.rnc:** Alle 675 Dateien valide gegen projektspezifisches Schema (`schema/mhdbdb.rnc`).
+**tei_all.rng:** Alle 666 Dateien valide gegen TEI P5 4.11.0 RELAX NG Schema.
+**mhdbdb.rnc:** Alle 666 Dateien valide gegen projektspezifisches Schema (`schema/mhdbdb.rnc`).
 
 Fruehere Fehler (alle behoben durch Migration):
 
@@ -778,7 +780,7 @@ Fruehere Fehler (alle behoben durch Migration):
 | genres.xml | 615 Kategorien | tei_all ✓ · mhdbdb-authority ✓ |
 | names.xml | 90 Kategorien | tei_all ✓ · mhdbdb-authority ✓ |
 
-Migrationsscripts: `scripts/data-wrangling/tei-model/authority-files/` (Phases F-K)
+Migrationsscripts: einmalig in den Phasen F–K ausgeführt, inzwischen in `scripts/_archived/` bzw. Git-Historie nach Abschluss von #32.
 Schema: `schema/mhdbdb-authority.rnc` (Source) → `schema/mhdbdb-authority.rng` (generiert)
 
 Durchgeführte Bereinigungen:

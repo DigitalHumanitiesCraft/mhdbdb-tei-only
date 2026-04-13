@@ -379,7 +379,7 @@ works.xml ──author @ref──> persons.xml
 
 ## 6. Migration (abgeschlossen 2026-04-10)
 
-Alle Migrationsschritte wurden in Phases F-K implementiert. Scripts: `scripts/data-wrangling/tei-model/authority-files/`.
+Alle Migrationsschritte wurden in Phases F-K implementiert. Scripts sind nach Abschluss von #32 nach `scripts/_archived/` bzw. in die Git-Historie verschoben.
 
 ### Durchgefuehrte Aenderungen
 
