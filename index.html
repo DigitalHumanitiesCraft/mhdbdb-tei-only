@@ -451,50 +451,81 @@
         <h2 class="text-3xl font-bold text-slate-900 mb-12 text-center">
           Dokumentation
         </h2>
-
-        <!-- Haupt-Kachel: Hilfe -->
-        <a href="hilfe.html" class="block bg-white rounded-2xl p-8 border border-slate-200 hover:border-brand-400 hover:shadow-md transition group">
-          <div class="flex items-start gap-4 mb-6">
-            <svg class="w-8 h-8 text-brand-600 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-            </svg>
-            <div>
-              <h3 class="text-2xl font-bold text-slate-900 group-hover:text-brand-700 transition">
-                Hilfe
-              </h3>
-              <p class="text-slate-600 mt-1">
-                Anleitungen zur Korpussuche, zum Playground und zur Datenbasis.
-                Quick-Start für die erste Suche, ausführliche Walkthroughs und
-                ein Überblick über das Korpus.
-              </p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="bg-white rounded-2xl p-8 border border-slate-200">
+            <h3 class="text-xl font-bold text-slate-900 mb-4">
+              Promptotyping
+            </h3>
+            <p class="text-slate-600 mb-4">
+              Dieses Projekt wird mit
+              <a href="https://dhcraft.org/excellence/promptotyping/" target="_blank" rel="noopener" class="text-brand-600 hover:text-brand-700 font-medium">Promptotyping</a>
+              entwickelt, einer iterativen Context-Engineering-Methode
+              für die datengetriebene Entwicklung von Forschungsartefakten
+              mit Frontier-LLMs.
+            </p>
+            <ul class="space-y-2 text-slate-600">
+              <li>• Dokumente als Source of Truth</li>
+              <li>• Code als Disposable Artifact</li>
+              <li>• Critical Expert in the Loop</li>
+            </ul>
+          </div>
+          <div class="bg-white rounded-2xl p-8 border border-slate-200">
+            <h3 class="text-xl font-bold text-slate-900 mb-4">
+              Knowledge Vault
+            </h3>
+            <p class="text-slate-600 mb-4">
+              Technische Dokumentation auf GitHub:
+            </p>
+            <ul class="space-y-2">
+              <li>
+                <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/docs/INDEX.MD" target="_blank" rel="noopener" class="text-brand-600 hover:text-brand-700 font-medium">INDEX.MD</a>
+                <span class="text-slate-600"> – Hub & Übersicht</span>
+              </li>
+              <li>
+                <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/docs/ARCHITECTURE.MD" target="_blank" rel="noopener" class="text-brand-600 hover:text-brand-700 font-medium">ARCHITECTURE.MD</a>
+                <span class="text-slate-600"> – technische Architektur</span>
+              </li>
+              <li>
+                <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/docs/DATA-MODEL.MD" target="_blank" rel="noopener" class="text-brand-600 hover:text-brand-700 font-medium">DATA-MODEL.MD</a>
+                <span class="text-slate-600"> – Datenmodell & Indizes</span>
+              </li>
+              <li>
+                <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/docs/CONTRACTS.MD" target="_blank" rel="noopener" class="text-brand-600 hover:text-brand-700 font-medium">CONTRACTS.MD</a>
+                <span class="text-slate-600"> – Cross-Language-Verträge</span>
+              </li>
+            </ul>
+            <div class="mt-4 pt-4 border-t border-slate-200">
+              <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/tree/main/docs" target="_blank" rel="noopener" class="text-sm text-brand-600 hover:text-brand-700 font-medium">
+                → Alle Dokumente auf GitHub
+              </a>
             </div>
           </div>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div class="bg-slate-50 rounded-xl p-4 border border-slate-200">
-              <h4 class="font-semibold text-slate-900 mb-1">Korpussuche-Hilfe</h4>
-              <p class="text-sm text-slate-600">Lemma-Suche, Textfilter, Reading View, Lemma-Seiten.</p>
-            </div>
-            <div class="bg-slate-50 rounded-xl p-4 border border-slate-200">
-              <h4 class="font-semibold text-slate-900 mb-1">Playground-Hilfe</h4>
-              <p class="text-sm text-slate-600">Multi-Lemma-Suche, Kookkurrenz, Authority Files, typische Forschungsfragen.</p>
-            </div>
-            <div class="bg-slate-50 rounded-xl p-4 border border-slate-200">
-              <h4 class="font-semibold text-slate-900 mb-1">Daten</h4>
-              <p class="text-sm text-slate-600">Korpus in Zahlen, sieben Authority Files, Provenienz, bekannte Grenzen.</p>
-            </div>
+          <div class="bg-white rounded-2xl p-8 border border-slate-200">
+            <h3 class="text-xl font-bold text-slate-900 mb-4">
+              Hilfe
+            </h3>
+            <p class="text-slate-600 mb-4">
+              Anleitungen zur Nutzung von Korpussuche und Playground:
+            </p>
+            <ul class="space-y-2">
+              <li>
+                <a href="hilfe.html" class="text-brand-600 hover:text-brand-700 font-medium">Quick-Start</a>
+                <span class="text-slate-600"> – in drei Schritten zur ersten Suche</span>
+              </li>
+              <li>
+                <a href="hilfe-korpussuche.html" class="text-brand-600 hover:text-brand-700 font-medium">Korpussuche-Hilfe</a>
+                <span class="text-slate-600"> – Lemma-Suche, Reading View, Lemma-Seiten</span>
+              </li>
+              <li>
+                <a href="hilfe-playground.html" class="text-brand-600 hover:text-brand-700 font-medium">Playground-Hilfe</a>
+                <span class="text-slate-600"> – Multi-Lemma, Kookkurrenz, Authority Files</span>
+              </li>
+              <li>
+                <a href="hilfe-daten.html" class="text-brand-600 hover:text-brand-700 font-medium">Daten</a>
+                <span class="text-slate-600"> – Korpus, Authority Files, Grenzen</span>
+              </li>
+            </ul>
           </div>
-        </a>
-
-        <!-- Sekundäre Kachel: Entwickler:innen-Doku -->
-        <div class="mt-8 bg-white rounded-2xl p-6 border border-slate-200">
-          <h3 class="text-base font-semibold text-slate-700 mb-2">Für Entwickler:innen</h3>
-          <p class="text-sm text-slate-600">
-            Technische Dokumentation (Architektur, Datenmodell, TEI-Modell, Build-Pipeline) liegt im Repository:
-            <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/docs/INDEX.MD" target="_blank" rel="noopener" class="text-brand-600 hover:text-brand-700 font-medium">docs/INDEX.MD</a>.
-            Entwickelt mit
-            <a href="https://dhcraft.org/excellence/promptotyping/" target="_blank" rel="noopener" class="text-brand-600 hover:text-brand-700 font-medium">Promptotyping</a>
-            – Dokumente als Source of Truth, Code als Disposable Artifact.
-          </p>
         </div>
       </div>
     </section>
