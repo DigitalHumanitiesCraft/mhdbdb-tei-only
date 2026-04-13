@@ -437,6 +437,44 @@ python scripts/wzb-structural-fix.py
 
 ---
 
+## Encoding Cleanup (2026-04-13)
+
+Four targeted fixes applied via `scripts/wzb-encoding-cleanup.py`.
+
+### Fix 1 — Historiated initials
+
+6 `<w>` elements inside `<hi rend="initial_historisiert">` were decorative first letters of words split across the TEI (e.g. `I` + `n` = "In", `U` + `nd` = "Und"). They were incorrectly annotated: one as DIG/lemma_13826 (Roman numeral), five as NOM/lemma_2. All converted to `<seg type="pc">`, consistent with other section initials.
+
+### Fix 2 — Josua.0 misclassified as chapter
+
+`<div xml:id="Josua.0">` sits at body level between `<div type="paratext" id="Transition6">` and `<div type="book" id="Josua">`. It contains introductory Joshua text (21 words). `wzb-structural-fix.py` had incorrectly assigned it `type="chapter"` (the `Josua.0` xml:id matched the `BookName.N` pattern). Fixed: `type="paratext"`, `xml:id="JosuaPrologus"`. The `wzb-structural-fix.py` regex was also corrected to require N ≥ 1.
+
+### Fix 3 — Transition2.1 type normalised
+
+`<div type="Transition2.1" xml:id="Transition2.1">` used an ad-hoc type string. Fixed: `type="paratext"`.
+
+### Fix 4 — Unnamed prologus body div
+
+`<div type="" xml:id="">` inside `<div type="prologus">` (914 `<w>` elements, the main prologue text body) had no type or xml:id. Fixed: `type="section"`, `xml:id="Prologus.1"`.
+
+**Result (2026-04-13):**
+
+| div type | before | after |
+| -------- | ------ | ----- |
+| `chapter` | 212 | 211 |
+| `paratext` | 10 | 12 |
+| `prologus` | 1 | 1 |
+| `section` | 0 | 1 |
+| `book` | 6 | 6 |
+| unnamed | 1 | 0 |
+
+```bash
+python scripts/wzb-encoding-cleanup.py --dry-run
+python scripts/wzb-encoding-cleanup.py
+```
+
+---
+
 ## References
 
 - [MHDBDB POS Tag Set](../DATA-MODEL.MD) — Full tag definitions

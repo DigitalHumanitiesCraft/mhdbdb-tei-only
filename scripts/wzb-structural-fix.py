@@ -39,8 +39,9 @@ NS_TEI = "http://www.tei-c.org/ns/1.0"
 NS_XML  = "http://www.w3.org/XML/1998/namespace"
 XML_ID  = f"{{{NS_XML}}}id"
 
-# e.g. "Genesis.1", "Exodus.12", "Josua.24" — BookName.ChapterNumber
-CHAPTER_ID_RE = re.compile(r"^[A-Z][a-z]+\.\d+$")
+# e.g. "Genesis.1", "Exodus.12", "Josua.24" — BookName.ChapterNumber (N >= 1)
+# Excludes "Josua.0" which is paratext, not a chapter
+CHAPTER_ID_RE = re.compile(r"^[A-Z][a-z]+\.[1-9]\d*$")
 
 
 # ---------------------------------------------------------------------------
