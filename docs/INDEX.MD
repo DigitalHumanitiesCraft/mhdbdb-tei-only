@@ -46,7 +46,7 @@ Advanced exploration tools for medievalists and digital humanities researchers:
   - 3-stage lemma resolution (exact match → variants → partial match)
   - Color-coded results with clickable navigation to reading view
 - **Authority Exploration** - Browse and search persons, works, lemmata, concepts, genres, names
-- **TEI Analysis** - Upload and analyze custom TEI files
+- **TEI Analysis** - Browse and analyze the pre-loaded MHDBDB corpus (words, lines, annotations, multi-lemma co-occurrence)
 
 ## Technical Stack
 

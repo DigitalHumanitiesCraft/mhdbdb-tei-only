@@ -57,7 +57,7 @@ Sechs Einstiegspunkte zum Durchsuchen der kontrollierten Vokabulare:
 |--------|--------|----------|
 | Autoren anzeigen | Autoren und historische Personen | Name, GND/Wikidata, Werkanzahl |
 | Werke anzeigen | Werk- und Handschriftenmetadaten | Titel, Sigle, Autor, Gattungen |
-| Lemmata anzeigen | Wörterbuch (ca. 39.000 Einträge) | Lemma, Wortart, Bedeutungen, Begriffe |
+| Lemmata anzeigen | Wörterbuch (43.750 Einträge) | Lemma, Wortart, Bedeutungen, Begriffe |
 | Begriffe anzeigen | Semantische Begriffstaxonomie | Begriff, Hierarchie, zugehörige Lemmata |
 | Gattungen anzeigen | Literarische Gattungsklassifikation | Gattung, Hierarchie, zugehörige Werke |
 | Namen anzeigen | Eigennamen mit Relationen | Name, zugehörige Begriffe |

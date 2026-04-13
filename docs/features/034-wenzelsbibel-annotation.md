@@ -50,7 +50,7 @@ Every `<w>` needs: `@lemmaRef`, `@pos`. Later also: `@ana`, `@corresp`.
 | Source files (WB-DEA) | 5 |
 | Unique word forms (text content of `<w>`) | ~4,900 (Genesis alone) |
 | MHDBDB lexicon entries | 43,750 |
-| MHDBDB variant forms | 192,674 |
+| MHDBDB variant forms | 175,910 |
 | POS tag set | PRO, VRB, NOM, ADJ, ADV, DET, CCNJ, SCNJ, PRP, VEX, POS, NAM, NUM, NEG, IPA, VEM, INJ, DIG, PTK (19-tag MHDBDB set) |
 
 ## Phased Plan
