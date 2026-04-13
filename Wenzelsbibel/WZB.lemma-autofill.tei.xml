@@ -1650,7 +1650,7 @@
         </p>
       </div>
       <div type="book" xml:id="Genesis">
-        <div xml:id="Genesis.1">
+        <div xml:id="Genesis.1" type="chapter">
           <p ana="paragraph">
             <l>
               <seg xml:id="WZB_2rb_36_10" type="pc">
@@ -2747,11 +2747,12 @@
               <w xml:id="WZB_3va_22_0" lemmaRef="lexicon.xml#lemma_5994" pos="NOM">tag</w>
               <seg xml:id="WZB_3va_22_1" type="pc">.</seg>
               <seg xml:id="WZB_3va_22_2" type="pc">•</seg>
-              <head type="chapter" n="2">II CAPITULUM</head><seg xml:id="WZB_3va_22_4" type="pc">•</seg>
+              <milestone unit="chapter" n="2"/><seg xml:id="WZB_3va_22_4" type="pc">•</seg>
               </l>
           </p>
         </div>
-        <div xml:id="Genesis.2">
+        <div xml:id="Genesis.2" type="chapter">
+          <head type="chapter" n="2">II CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="23" facs="#region_1641644512873_413l3"/>
@@ -3586,11 +3587,12 @@
               <w xml:id="WZB_4rb_16_1" lemmaRef="lexicon.xml#lemma_4377" pos="NEG">nicht</w>
               <seg xml:id="WZB_4rb_16_2" type="pc">.</seg>
               <seg xml:id="WZB_4rb_16_3" type="pc">•</seg>
-              <head type="chapter" n="3">III CAPITULUM</head><seg xml:id="WZB_4rb_16_5" type="pc">•</seg>
+              <milestone unit="chapter" n="3"/><seg xml:id="WZB_4rb_16_5" type="pc">•</seg>
               </l>
           </p>
         </div>
-        <div xml:id="Genesis.3">
+        <div xml:id="Genesis.3" type="chapter">
+          <head type="chapter" n="3">III CAPITULUM</head>
           <p ana="paragraph">
             <lb n="17" facs="#region_1641647607725_774l1"/>
             <l>
@@ -4594,12 +4596,13 @@
               <w xml:id="WZB_5rb_8_0" lemmaRef="lexicon.xml#lemma_3659" pos="NOM">lebens</w>
               <seg xml:id="WZB_5rb_8_1" type="pc">.</seg>
               <seg xml:id="WZB_5rb_8_2" type="pc">•</seg>
-              <head type="chapter" n="4">IIII CAPITULUM</head><seg xml:id="WZB_5rb_8_4" type="pc">•</seg>
+              <milestone unit="chapter" n="4"/><seg xml:id="WZB_5rb_8_4" type="pc">•</seg>
               <seg xml:id="WZB_5rb_8_5" type="pc">•</seg>
               </l>
           </p>
         </div>
-        <div xml:id="Genesis.4">
+        <div xml:id="Genesis.4" type="chapter">
+          <head type="chapter" n="4">IIII CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="9" facs="#region_1641732700012_285l1"/>
@@ -5520,12 +5523,13 @@
               <seg xml:id="WZB_6rb_11_2" type="pc">.</seg>
               <seg xml:id="WZB_6rb_11_3" type="pc">•</seg>
               <seg xml:id="WZB_6rb_11_4" type="pc">•</seg>
-              <head type="chapter" n="5">U CAPITULUM</head><seg xml:id="WZB_6rb_11_6" type="pc">•</seg>
+              <milestone unit="chapter" n="5"/><seg xml:id="WZB_6rb_11_6" type="pc">•</seg>
               <seg xml:id="WZB_6rb_11_8" type="pc">•</seg>
             </l>
           </p>
         </div>
-        <div xml:id="Genesis.5">
+        <div xml:id="Genesis.5" type="chapter">
+          <head type="chapter" n="5">U CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="12" facs="#region_1641813903714_42l1"/>
@@ -6261,11 +6265,12 @@
               <w xml:id="WZB_7ra_4_1">iaphet</w>
               <seg xml:id="WZB_7ra_4_2" type="pc">.</seg>
               <seg xml:id="WZB_7ra_4_3" type="pc">•</seg>
-              <head type="chapter" n="6">UI CAPITULUM</head><seg xml:id="WZB_7ra_4_5" type="pc">•</seg>
+              <milestone unit="chapter" n="6"/><seg xml:id="WZB_7ra_4_5" type="pc">•</seg>
               </l>
           </p>
         </div>
-        <div xml:id="Genesis.6">
+        <div xml:id="Genesis.6" type="chapter">
+          <head type="chapter" n="6">UI CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="5" facs="#region_1641830728505_711l1"/>
@@ -7051,11 +7056,12 @@
               <w xml:id="WZB_7va_25_4" lemmaRef="lexicon.xml#lemma_5669" pos="NOM">speise</w>
               <seg xml:id="WZB_7va_25_5" type="pc">.</seg>
               <seg xml:id="WZB_7va_25_6" type="pc">•</seg>
-              <head type="chapter" n="7">UII CAPITULUM</head><seg xml:id="WZB_7va_25_8" type="pc">•</seg>
+              <milestone unit="chapter" n="7"/><seg xml:id="WZB_7va_25_8" type="pc">•</seg>
               </l>
           </p>
         </div>
-        <div xml:id="Genesis.7">
+        <div xml:id="Genesis.7" type="chapter">
+          <head type="chapter" n="7">UII CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="26" facs="#region_1642498038589_13l1"/>
@@ -7894,11 +7900,12 @@
               <w xml:id="WZB_8rb_16_0" lemmaRef="lexicon.xml#lemma_5994" pos="NOM">tage</w>
               <seg xml:id="WZB_8rb_16_1" type="pc">.</seg>
               <seg xml:id="WZB_8rb_16_2" type="pc">•</seg>
-              <head type="chapter" n="8">UIII CAPITULUM</head><seg xml:id="WZB_8rb_16_4" type="pc">•</seg>
+              <milestone unit="chapter" n="8"/><seg xml:id="WZB_8rb_16_4" type="pc">•</seg>
               </l>
           </p>
         </div>
-        <div xml:id="Genesis.8">
+        <div xml:id="Genesis.8" type="chapter">
+          <head type="chapter" n="8">UIII CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="17" facs="#region_1642591434586_179l1"/>
@@ -8710,14 +8717,15 @@
             </l>
           </p>
         </div>
-        <div xml:id="Genesis.9">
+        <div xml:id="Genesis.9" type="chapter">
+          <head type="chapter" n="9">CAPITULUM I X</head>
           <p ana="paragraph">
             <l>
               <lb n="21" facs="#line_1663860173507_196"/>
               <w xml:id="WZB_9ra_21_0" lemmaRef="lexicon.xml#lemma_6467" pos="CCNJ">Und</w>
               <w xml:id="WZB_9ra_21_1" lemmaRef="lexicon.xml#lemma_2465" pos="NOM">got</w>
               <w xml:id="WZB_9ra_21_2" lemmaRef="lexicon.xml#lemma_2212" pos="VRB">gesegente</w>
-              <head type="chapter" n="11">CAPITULUM I X</head><seg xml:id="WZB_9ra_21_4" type="pc">•</seg>
+              <milestone unit="chapter" n="9"/><seg xml:id="WZB_9ra_21_4" type="pc">•</seg>
               <seg xml:id="WZB_9ra_21_6" type="pc">•</seg>
               <seg xml:id="WZB_9ra_21_8" type="pc">•</seg>
               <lb n="22" facs="#region_1642673893034_661l2"/>
@@ -9617,12 +9625,13 @@
               <w xml:id="WZB_9vb_20_1" lemmaRef="lexicon.xml#lemma_5752" pos="VRB">starp</w>
               <seg xml:id="WZB_9vb_20_2" type="pc">.</seg>
               <seg xml:id="WZB_9vb_20_3" type="pc">•</seg>
-              <head type="chapter" n="10">CAPITULUM X</head><seg xml:id="WZB_9vb_20_5" type="pc">•</seg>
+              <milestone unit="chapter" n="10"/><seg xml:id="WZB_9vb_20_5" type="pc">•</seg>
               <seg xml:id="WZB_9vb_20_7" type="pc">•</seg>
             </l>
           </p>
         </div>
-        <div xml:id="Genesis.10">
+        <div xml:id="Genesis.10" type="chapter">
+          <head type="chapter" n="10">CAPITULUM X</head>
           <p ana="paragraph">
             <l>
               <lb n="21" facs="#region_1642677025061_218l1"/>
@@ -10243,12 +10252,13 @@
               <seg xml:id="WZB_10rb_36_2" type="pc">.</seg>
               <seg xml:id="WZB_10rb_36_3" type="pc">•</seg>
               <seg xml:id="WZB_10rb_36_4" type="pc">•</seg>
-              <head type="chapter" n="11">CAPITULUM XI</head><seg xml:id="WZB_10rb_36_6" type="pc">•</seg>
+              <milestone unit="chapter" n="11"/><seg xml:id="WZB_10rb_36_6" type="pc">•</seg>
               <seg xml:id="WZB_10rb_36_8" type="pc">•</seg>
             </l>
           </p>
         </div>
-        <div xml:id="Genesis.11">
+        <div xml:id="Genesis.11" type="chapter">
+          <head type="chapter" n="11">CAPITULUM XI</head>
           <p ana="paragraph">
             <l>
               <pb n="10v" facs="#page_34201901"/>
@@ -11109,12 +11119,13 @@
               <w xml:id="WZB_11rb_13_2" lemmaRef="lexicon.xml#lemma_7770" pos="PRP">zu</w>
               <seg xml:id="WZB_11rb_13_3" type="pc">.</seg>
               <seg xml:id="WZB_11rb_13_4" type="pc">•</seg>
-              <head type="chapter" n="12">CAPITULUM XII</head><seg xml:id="WZB_11rb_13_6" type="pc">•</seg>
+              <milestone unit="chapter" n="12"/><seg xml:id="WZB_11rb_13_6" type="pc">•</seg>
               <seg xml:id="WZB_11rb_13_8" type="pc">•</seg>
             </l>
           </p>
         </div>
-        <div xml:id="Genesis.12">
+        <div xml:id="Genesis.12" type="chapter">
+          <head type="chapter" n="12">CAPITULUM XII</head>
           <p ana="paragraph">
             <l>
               <lb n="14" facs="#region_1642754385964_119l1"/>
@@ -11864,14 +11875,16 @@
             </l>
           </p>
         </div>
-        <div xml:id="Genesis.13">
+        <div xml:id="Genesis.13" type="chapter">
+          <head type="chapter" n="13">X III CAPITULUM</head>
+          <head type="chapter" n="13">CAPITULUM XIII</head>
           <p ana="paragraph">
             <l>
               <lb n="12" facs="#line_1663860543643_275"/>
               <w xml:id="WZB_12ra_12_0" lemmaRef="lexicon.xml#lemma_6330" pos="ADV">Ouf</w>
               <w xml:id="WZB_12ra_12_1" lemmaRef="lexicon.xml#lemma_7861" pos="VRB">czoch</w>
               <seg xml:id="WZB_12ra_12_2" type="pc">•</seg>
-              <head type="chapter" n="13">CAPITULUM XIII</head><seg xml:id="WZB_12ra_12_4" type="pc">•</seg>
+              <milestone unit="chapter" n="13"/><seg xml:id="WZB_12ra_12_4" type="pc">•</seg>
               <seg xml:id="WZB_12ra_12_6" type="pc">•</seg>
               <lb n="13" facs="#region_1642754729306_215l2"/>
               <w xml:id="WZB_12ra_13_0" lemmaRef="lexicon.xml#lemma_30703" pos="ADV">dorumbe</w>
@@ -12511,12 +12524,13 @@
               <lb n="18" facs="#line_1663863026403_15"/>
               <seg xml:id="WZB_12va_18_0" type="pc">.</seg>
               <seg xml:id="WZB_12va_18_1" type="pc">•</seg>
-              <head type="chapter" n="14">CAPITULUM X I II I</head><seg xml:id="WZB_12va_18_3" type="pc">•</seg>
+              <milestone unit="chapter" n="14"/><seg xml:id="WZB_12va_18_3" type="pc">•</seg>
               <seg xml:id="WZB_12va_18_8" type="pc">•</seg>
             </l>
           </p>
         </div>
-        <div xml:id="Genesis.14">
+        <div xml:id="Genesis.14" type="chapter">
+          <head type="chapter" n="14">CAPITULUM X I II I</head>
           <p ana="paragraph">
             <l>
               <lb n="19" facs="#region_1643358614101_19l1"/>
@@ -13394,12 +13408,13 @@
               <seg xml:id="WZB_13rb_24_1" type="pc">.</seg>
               <seg xml:id="WZB_13rb_24_2" type="pc">•</seg>
               <seg xml:id="WZB_13rb_24_3" type="pc">•</seg>
-              <head type="chapter" n="15">CAPITULUM XU</head><seg xml:id="WZB_13rb_24_5" type="pc">•</seg>
+              <milestone unit="chapter" n="15"/><seg xml:id="WZB_13rb_24_5" type="pc">•</seg>
               <seg xml:id="WZB_13rb_24_7" type="pc">•</seg>
             </l>
           </p>
         </div>
-        <div xml:id="Genesis.15">
+        <div xml:id="Genesis.15" type="chapter">
+          <head type="chapter" n="15">CAPITULUM XU</head>
           <p ana="paragraph">
             <l>
               <lb n="25" facs="#region_1643368732887_328l1"/>
@@ -14092,12 +14107,13 @@
               <seg xml:id="WZB_13vb_29_21" type="pc">.</seg>
               <seg xml:id="WZB_13vb_29_22" type="pc">•</seg>
               <seg xml:id="WZB_13vb_29_23" type="pc">•</seg>
-              <head type="chapter" n="16">X U I CAPITULUM</head><seg xml:id="WZB_13vb_29_27" type="pc">•</seg>
+              <milestone unit="chapter" n="16"/><seg xml:id="WZB_13vb_29_27" type="pc">•</seg>
               <seg xml:id="WZB_13vb_29_29" type="pc">•</seg>
             </l>
           </p>
         </div>
-        <div xml:id="Genesis.16">
+        <div xml:id="Genesis.16" type="chapter">
+          <head type="chapter" n="16">X U I CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="30" facs="#region_1643627140830_502l1"/>
@@ -14691,12 +14707,13 @@
               <w xml:id="WZB_14rb_29_7" lemmaRef="lexicon.xml#lemma_1964" pos="VRB">geperte</w>
               <lb n="30" facs="#line_1663863439042_88"/>
               <seg xml:id="WZB_14rb_30_0" type="pc">.</seg>
-              <head type="chapter" n="17">CAPITULUM XUII</head><seg xml:id="WZB_14rb_30_2" type="pc">•</seg>
+              <milestone unit="chapter" n="17"/><seg xml:id="WZB_14rb_30_2" type="pc">•</seg>
               <seg xml:id="WZB_14rb_30_4" type="pc">•</seg>
             </l>
           </p>
         </div>
-        <div xml:id="Genesis.17">
+        <div xml:id="Genesis.17" type="chapter">
+          <head type="chapter" n="17">CAPITULUM XUII</head>
           <p ana="paragraph">
             <l>
               <lb n="31" facs="#region_1643630072469_273l2"/>
@@ -15638,12 +15655,13 @@
               <lb n="10" facs="#line_1663863575100_110"/>
               <w xml:id="WZB_15rb_10_0" lemmaRef="lexicon.xml#lemma_7489" pos="VEX">wurden</w>
               <seg xml:id="WZB_15rb_10_1" type="pc">•</seg>
-              <head type="chapter" n="18">CAPITULUM X U II I</head><seg xml:id="WZB_15rb_10_3" type="pc">•</seg>
+              <milestone unit="chapter" n="18"/><seg xml:id="WZB_15rb_10_3" type="pc">•</seg>
               <seg xml:id="WZB_15rb_10_8" type="pc">•</seg>
             </l>
           </p>
         </div>
-        <div xml:id="Genesis.18">
+        <div xml:id="Genesis.18" type="chapter">
+          <head type="chapter" n="18">CAPITULUM X U II I</head>
           <p ana="paragraph">
             <l>
               <lb n="11" facs="#region_1643636704189_293l1"/>
@@ -16977,12 +16995,13 @@
               <seg xml:id="WZB_16rb_14_1" type="pc">.</seg>
               <seg xml:id="WZB_16rb_14_2" type="pc">•</seg>
               <seg xml:id="WZB_16rb_14_3" type="pc">•</seg>
-              <head type="chapter" n="19">CAPITULUM XIX</head><seg xml:id="WZB_16rb_14_5" type="pc">•</seg>
+              <milestone unit="chapter" n="19"/><seg xml:id="WZB_16rb_14_5" type="pc">•</seg>
               <seg xml:id="WZB_16rb_14_7" type="pc">•</seg>
             </l>
           </p>
         </div>
-        <div xml:id="Genesis.19">
+        <div xml:id="Genesis.19" type="chapter">
+          <head type="chapter" n="19">CAPITULUM XIX</head>
           <p ana="paragraph">
             <l>
               <lb n="15" facs="#region_1643717835518_1199l1"/>
@@ -18612,13 +18631,14 @@
             </l>
           </p>
         </div>
-        <div xml:id="Genesis.20">
+        <div xml:id="Genesis.20" type="chapter">
+          <head type="chapter" n="20">X X CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="9" facs="#line_1663863914556_156"/>
               <w xml:id="WZB_17vb_9_0" lemmaRef="lexicon.xml#lemma_1762" pos="PRO">es</w>
               <seg xml:id="WZB_17vb_9_1" type="pc">•</seg>
-              <head type="chapter" n="20">X X CAPITULUM</head><seg xml:id="WZB_17vb_9_4" type="pc">•</seg>
+              <milestone unit="chapter" n="20"/><seg xml:id="WZB_17vb_9_4" type="pc">•</seg>
               <lb n="10" facs="#region_1643885974248_152l2"/>
               <w xml:id="WZB_17vb_10_0" lemmaRef="lexicon.xml#lemma_7861" pos="VRB">czoch</w>
               <w xml:id="WZB_17vb_10_1" lemmaRef="lexicon.xml#lemma_7193" pos="PRP">von</w>
@@ -19356,11 +19376,12 @@
               <w xml:id="WZB_18rb_19_2" lemmaRef="lexicon.xml#lemma_2938" pos="NOM">housvrowe</w>
               <seg xml:id="WZB_18rb_19_3" type="pc">.</seg>
               <seg xml:id="WZB_18rb_19_4" type="pc">•</seg>
-              <head type="chapter" n="21">X X I CAPITULUM</head><seg xml:id="WZB_18rb_19_8" type="pc">•</seg>
+              <milestone unit="chapter" n="21"/><seg xml:id="WZB_18rb_19_8" type="pc">•</seg>
               </l>
           </p>
         </div>
-        <div xml:id="Genesis.21">
+        <div xml:id="Genesis.21" type="chapter">
+          <head type="chapter" n="21">X X I CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="20" facs="#region_1643888323756_579l1"/>
@@ -20443,12 +20464,12 @@
             </l>
           </p>
         </div>
-        <div xml:id="Genesis.22">
+        <div xml:id="Genesis.22" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="4" facs="#line_1663864242260_210"/>
               <w xml:id="WZB_19rb_4_0" lemmaRef="lexicon.xml#lemma_1180" pos="ADV">dO</w>
-              <head type="chapter">CAPITULUM</head><lb n="5" facs="#region_1643891717708_1197l2"/>
+              <milestone unit="chapter"/><lb n="5" facs="#region_1643891717708_1197l2"/>
               <w xml:id="WZB_19rb_5_0" lemmaRef="lexicon.xml#lemma_1097" pos="SCNJ">das</w>
               <w xml:id="WZB_19rb_5_1" lemmaRef="lexicon.xml#lemma_2199" pos="VRB">geschach</w>
               <seg xml:id="WZB_19rb_5_2" type="pc">,</seg>
@@ -21305,13 +21326,15 @@
             </l>
           </p>
         </div>
-        <div xml:id="Genesis.23">
+        <div xml:id="Genesis.23" type="chapter">
+          <head type="chapter" n="23">XX III CAPITULUM</head>
+          <head type="chapter">CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="15" facs="#line_1664283206738_30"/>
               <w xml:id="WZB_20ra_15_0" lemmaRef="lexicon.xml#lemma_35" pos="CCNJ">aber</w>
               <seg xml:id="WZB_20ra_15_1" type="pc">•</seg>
-              <head type="chapter" n="23">XX III CAPITULUM</head><seg xml:id="WZB_20ra_15_3" type="pc">•</seg>
+              <milestone unit="chapter" n="23"/><seg xml:id="WZB_20ra_15_3" type="pc">•</seg>
               <seg xml:id="WZB_20ra_15_5" type="pc">•</seg>
               <lb n="16" facs="#region_1643974935940_474l1"/>
               <w xml:id="WZB_20ra_16_0" lemmaRef="lexicon.xml#lemma_3659" pos="VRB">lebte</w>
@@ -21995,12 +22018,13 @@
             </l>
           </p>
         </div>
-        <div xml:id="Genesis.24">
+        <div xml:id="Genesis.24" type="chapter">
+          <head type="chapter" n="24">XX IV CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="30" facs="#line_1664283979542_52"/>
               <w xml:id="WZB_20va_30_0" lemmaRef="lexicon.xml#lemma_35" pos="CCNJ">aber</w>
-              <head type="chapter" n="24">XX IV CAPITULUM</head><seg xml:id="WZB_20va_30_2" type="pc">•</seg>
+              <milestone unit="chapter" n="24"/><seg xml:id="WZB_20va_30_2" type="pc">•</seg>
               <seg xml:id="WZB_20va_30_4" type="pc">•</seg>
               <lb n="31" facs="#region_1644255112746_18l1"/>
               <w xml:id="WZB_20va_31_0" lemmaRef="lexicon.xml#lemma_7505" pos="VRB">was</w>
@@ -24663,12 +24687,13 @@
             </l>
           </p>
         </div>
-        <div xml:id="Genesis.25">
+        <div xml:id="Genesis.25" type="chapter">
+          <head type="chapter" n="25">XXV CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="15" facs="#line_1664284329732_90"/>
               <seg xml:id="WZB_23ra_15_0" type="pc">•</seg>
-              <head type="chapter" n="25">XXV CAPITULUM</head><seg xml:id="WZB_23ra_15_2" type="pc">•</seg>
+              <milestone unit="chapter" n="25"/><seg xml:id="WZB_23ra_15_2" type="pc">•</seg>
               <lb n="16" facs="#region_1645017705747_20l2"/>
               <w xml:id="WZB_23ra_16_0" lemmaRef="lexicon.xml#lemma_8989" pos="ADV">vorwar</w>
               <w xml:id="WZB_23ra_16_1" lemmaRef="lexicon.xml#lemma_4330" pos="VRB">nam</w>
@@ -25620,12 +25645,13 @@
               <lb n="14" facs="#line_1664284638184_160"/>
               <seg xml:id="WZB_24ra_14_0" type="pc">.</seg>
               <seg xml:id="WZB_24ra_14_1" type="pc">•</seg>
-              <head type="chapter" n="26">XX VI CAPITULUM</head><seg xml:id="WZB_24ra_14_3" type="pc">•</seg>
+              <milestone unit="chapter" n="26"/><seg xml:id="WZB_24ra_14_3" type="pc">•</seg>
               <seg xml:id="WZB_24ra_14_5" type="pc">•</seg>
               </l>
           </p>
         </div>
-        <div xml:id="Genesis.26">
+        <div xml:id="Genesis.26" type="chapter">
+          <head type="chapter" n="26">XX VI CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="15" facs="#region_1645021465717_502l1"/>
@@ -26921,7 +26947,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Genesis.27">
+        <div xml:id="Genesis.27" type="chapter">
           <p ana="paragraph">
             <l>
               <seg xml:id="WZB_25rb_26_6" type="pc">•</seg>
@@ -28744,7 +28770,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Genesis.28">
+        <div xml:id="Genesis.28" type="chapter">
           <p ana="paragraph">
             <lb n="26" facs="#region_1646045011003_478l3"/>
             <l>
@@ -29607,11 +29633,12 @@
               <w xml:id="WZB_27vb_2_0" lemmaRef="lexicon.xml#lemma_2640" pos="NOM">henden</w>
               <seg xml:id="WZB_27vb_2_1" type="pc">.</seg>
               <seg xml:id="WZB_27vb_2_2" type="pc">•</seg>
-              <head type="chapter" n="29">XXIX CAPITULUM</head><seg xml:id="WZB_27vb_2_4" type="pc">•</seg>
+              <milestone unit="chapter" n="29"/><seg xml:id="WZB_27vb_2_4" type="pc">•</seg>
               </l>
           </p>
         </div>
-        <div xml:id="Genesis.29">
+        <div xml:id="Genesis.29" type="chapter">
+          <head type="chapter" n="29">XXIX CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <w xml:id="WZB_27vb_2_6" lemmaRef="lexicon.xml#lemma_30703" pos="ADV">dorumbe</w>
@@ -30802,7 +30829,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Genesis.30">
+        <div xml:id="Genesis.30" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="16" facs="#region_1646831624025_661l1"/>
@@ -32328,7 +32355,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Genesis.31">
+        <div xml:id="Genesis.31" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="12" facs="#line_1664285397677_290"/>
@@ -34318,7 +34345,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Genesis.32">
+        <div xml:id="Genesis.32" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="32" facs="#line_1664285841819_479"/>
@@ -35492,13 +35519,13 @@
             </l>
           </p>
         </div>
-        <div xml:id="Genesis.33">
+        <div xml:id="Genesis.33" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="3" facs="#line_1664286058780_514"/>
               <w xml:id="WZB_33va_3_0" lemmaRef="lexicon.xml#lemma_35" pos="CCNJ">aber</w>
               <seg xml:id="WZB_33va_3_1" type="pc">•</seg>
-              <head type="chapter" n="13">X III CAPITULUM</head><seg xml:id="WZB_33va_3_3" type="pc">•</seg>
+              <milestone unit="chapter" n="13"/><seg xml:id="WZB_33va_3_3" type="pc">•</seg>
               <seg xml:id="WZB_33va_3_5" type="pc">•</seg>
               <lb n="4" facs="#region_1648117029893_191l2"/>
               <w xml:id="WZB_33va_4_0" lemmaRef="lexicon.xml#lemma_2688" pos="VRB">hub</w>
@@ -36259,12 +36286,13 @@
               <w xml:id="WZB_34rb_2_0" lemmaRef="lexicon.xml#lemma_2465" pos="NOM">got</w>
               <seg xml:id="WZB_34rb_2_1" type="pc">.</seg>
               <seg xml:id="WZB_34rb_2_2" type="pc">•</seg>
-              <head type="chapter" n="34">XXX IIII CAPITULUM</head><seg xml:id="WZB_34rb_2_4" type="pc">•</seg>
+              <milestone unit="chapter" n="34"/><seg xml:id="WZB_34rb_2_4" type="pc">•</seg>
               <seg xml:id="WZB_34rb_2_6" type="pc">•</seg>
               </l>
           </p>
         </div>
-        <div xml:id="Genesis.34">
+        <div xml:id="Genesis.34" type="chapter">
+          <head type="chapter" n="34">XXX IIII CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="3" facs="#region_1649063903376_285l1"/>
@@ -37365,7 +37393,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Genesis.35">
+        <div xml:id="Genesis.35" type="chapter">
           <p ana="paragraph">
             <lb n="11" facs="#region_1649241468632_629l1"/>
             <l>
@@ -38293,14 +38321,14 @@
             </l>
           </p>
         </div>
-        <div xml:id="Genesis.36">
+        <div xml:id="Genesis.36" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="17" facs="#line_1664290000927_581"/>
               <w xml:id="WZB_36ra_17_0" lemmaRef="lexicon.xml#lemma_1169" pos="DET">dIcz</w>
               <w xml:id="WZB_36ra_17_1" lemmaRef="lexicon.xml#lemma_5432" pos="VEX">sint</w>
               <seg xml:id="WZB_36ra_17_2" type="pc">•</seg>
-              <head type="chapter">CAPITULUM</head><cb n="b"/>
+              <milestone unit="chapter"/><cb n="b"/>
               <fw type="header">
                 <lb n="1" facs="#line_1649258152206_965"/>
                 <w xml:id="WZB_36rb_1_0">SIS</w>
@@ -39421,7 +39449,8 @@
             </l>
           </p>
         </div>
-        <div xml:id="Genesis.37">
+        <div xml:id="Genesis.37" type="chapter">
+          <head type="chapter">CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <w xml:id="WZB_37rb_7_8" lemmaRef="lexicon.xml#lemma_35" pos="CCNJ">aber</w>
@@ -40760,7 +40789,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Genesis.38">
+        <div xml:id="Genesis.38" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="20" facs="#line_1664290492046_655"/>
@@ -42072,11 +42101,12 @@
               <w xml:id="WZB_39vb_24_0" lemmaRef="lexicon.xml#lemma_5454" pos="PRO">sie</w>
               <seg xml:id="WZB_39vb_24_1" type="pc">.</seg>
               <seg xml:id="WZB_39vb_24_2" type="pc">•</seg>
-              <head type="chapter" n="39">XXXIX CAPITULUM</head><seg xml:id="WZB_39vb_24_4" type="pc">•</seg>
+              <milestone unit="chapter" n="39"/><seg xml:id="WZB_39vb_24_4" type="pc">•</seg>
               </l>
           </p>
         </div>
-        <div xml:id="Genesis.39">
+        <div xml:id="Genesis.39" type="chapter">
+          <head type="chapter" n="39">XXXIX CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="25" facs="#region_1650464553590_1902l1"/>
@@ -42960,11 +42990,12 @@
               <w xml:id="WZB_40va_35_0" lemmaRef="lexicon.xml#lemma_1517" pos="PRO">her</w>
               <seg xml:id="WZB_40va_35_1" type="pc">.</seg>
               <seg xml:id="WZB_40va_35_2" type="pc">•</seg>
-              <head type="chapter" n="40">XL CAPITULUM</head><seg xml:id="WZB_40va_35_4" type="pc">•</seg>
+              <milestone unit="chapter" n="40"/><seg xml:id="WZB_40va_35_4" type="pc">•</seg>
               </l>
           </p>
         </div>
-        <div xml:id="Genesis.40">
+        <div xml:id="Genesis.40" type="chapter">
+          <head type="chapter" n="40">XL CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="36" facs="#region_1650545633056_200l1"/>
@@ -43749,7 +43780,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Genesis.41">
+        <div xml:id="Genesis.41" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="19" facs="#region_1651682009367_653l1"/>
@@ -45607,12 +45638,12 @@
             </l>
           </p>
         </div>
-        <div xml:id="Genesis.42">
+        <div xml:id="Genesis.42" type="chapter">
           <p ana="paragraph">
             <lb n="32" facs="#line_1664291180155_771"/>
             <l>
               <seg xml:id="WZB_43rb_32_0" type="pc">•</seg>
-              <head type="chapter">CAPITULUM</head><lb n="33" facs="#region_1652351433833_159l2"/>
+              <milestone unit="chapter"/><lb n="33" facs="#region_1652351433833_159l2"/>
               <w xml:id="WZB_43rb_33_0" lemmaRef="lexicon.xml#lemma_35" pos="CCNJ">aber</w>
               <w xml:id="WZB_43rb_33_1" lemmaRef="lexicon.xml#lemma_2885" pos="VRB">horte</w>
               <seg xml:id="WZB_43rb_33_2" type="pc">,</seg>
@@ -47055,7 +47086,8 @@
             </l>
           </p>
         </div>
-        <div xml:id="Genesis.43">
+        <div xml:id="Genesis.43" type="chapter">
+          <head type="chapter">CAPITULUM</head>
           <p ana="paragraph">
             <lb n="32" facs="#line_1664291347411_796"/>
             <l>
@@ -47063,7 +47095,7 @@
               <w xml:id="WZB_44va_32_1" lemmaRef="lexicon.xml#lemma_1119" pos="DET">der</w>
               <w xml:id="WZB_44va_32_2" lemmaRef="lexicon.xml#lemma_7529" pos="NOM">weile</w>
               <seg xml:id="WZB_44va_32_3" type="pc">•</seg>
-              <head type="chapter">CAPITULUM</head><lb n="33" facs="#region_1652362914789_1250l2"/>
+              <milestone unit="chapter"/><lb n="33" facs="#region_1652362914789_1250l2"/>
               <w xml:id="WZB_44va_33_0" lemmaRef="lexicon.xml#lemma_106" pos="ADJ">alle</w>
               <w xml:id="WZB_44va_33_1" lemmaRef="lexicon.xml#lemma_1139" pos="DET">die</w>
               <w xml:id="WZB_44va_33_2" lemmaRef="lexicon.xml#lemma_1545" pos="NOM">erden</w>
@@ -48548,7 +48580,8 @@
             </l>
           </p>
         </div>
-        <div xml:id="Genesis.44">
+        <div xml:id="Genesis.44" type="chapter">
+          <head type="chapter">CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="9" facs="#line_1664291483466_818"/>
@@ -49925,7 +49958,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Genesis.45">
+        <div xml:id="Genesis.45" type="chapter">
           <p ana="paragraph">
             <l>
               <cb n="b"/>
@@ -51022,10 +51055,11 @@
               <w xml:id="WZB_48rb_21_0" lemmaRef="lexicon.xml#lemma_5752" pos="VRB">sterbe</w>
               <seg xml:id="WZB_48rb_21_1" type="pc">.</seg>
               <seg xml:id="WZB_48rb_21_2" type="pc">•</seg>
-              <head type="chapter">CAPITULUM</head></l>
+              <milestone unit="chapter"/></l>
           </p>
         </div>
-        <div xml:id="Genesis.46">
+        <div xml:id="Genesis.46" type="chapter">
+          <head type="chapter">CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <pb n="48v" facs="#page_41363399"/>
@@ -52078,7 +52112,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Genesis.47">
+        <div xml:id="Genesis.47" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="9" facs="#region_1653666265353_1335l1"/>
@@ -53303,7 +53337,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Genesis.48">
+        <div xml:id="Genesis.48" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="16" facs="#line_1664291938767_904"/>
@@ -54263,14 +54297,15 @@
             </l>
           </p>
         </div>
-        <div xml:id="Genesis.49">
+        <div xml:id="Genesis.49" type="chapter">
+          <head type="chapter" n="49">XLIX CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="5" facs="#line_1664292043513_929"/>
               <w xml:id="WZB_51va_5_0" lemmaRef="lexicon.xml#lemma_35" pos="CCNJ">Aber</w>
               <seg xml:id="WZB_51va_5_1" type="pc">•</seg>
               <seg xml:id="WZB_51va_5_2" type="pc">•</seg>
-              <head type="chapter" n="49">XLIX CAPITULUM</head><seg xml:id="WZB_51va_5_4" type="pc">•</seg>
+              <milestone unit="chapter" n="49"/><seg xml:id="WZB_51va_5_4" type="pc">•</seg>
               <seg xml:id="WZB_51va_5_6" type="pc">•</seg>
               <lb n="6" facs="#region_1654011267982_1956l1"/>
               <w xml:id="WZB_51va_6_0" lemmaRef="lexicon.xml#lemma_5028" pos="VRB">rufte</w>
@@ -55332,12 +55367,13 @@
               <seg xml:id="WZB_52va_6_1" type="pc">.</seg>
               <seg xml:id="WZB_52va_6_2" type="pc">•</seg>
               <seg xml:id="WZB_52va_6_3" type="pc">•</seg>
-              <head type="chapter" n="50">CAPITULUM L</head><seg xml:id="WZB_52va_6_5" type="pc">•</seg>
+              <milestone unit="chapter" n="50"/><seg xml:id="WZB_52va_6_5" type="pc">•</seg>
               <seg xml:id="WZB_52va_6_7" type="pc">•</seg>
             </l>
           </p>
         </div>
-        <div xml:id="Genesis.50">
+        <div xml:id="Genesis.50" type="chapter">
+          <head type="chapter" n="50">CAPITULUM L</head>
           <p ana="paragraph">
             <l>
               <lb n="7" facs="#region_1654014296015_2734l1"/>
@@ -56388,7 +56424,7 @@
         </p>
       </div>
       <div type="book" xml:id="Exodus">
-        <div xml:id="Exodus.1">
+        <div xml:id="Exodus.1" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="6" facs="#line_1658480914731_239"/>
@@ -57071,14 +57107,15 @@
             </l>
           </p>
         </div>
-        <div xml:id="Exodus.2">
+        <div xml:id="Exodus.2" type="chapter">
+          <head type="chapter" n="2">II CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="3" facs="#line_1664292240720_971"/>
               <w xml:id="WZB_54rb_3_0" lemmaRef="lexicon.xml#lemma_1203" pos="NOM">DOrnach</w>
               <seg xml:id="WZB_54rb_3_1" type="pc">•</seg>
               <seg xml:id="WZB_54rb_3_2" type="pc">•</seg>
-              <head type="chapter" n="2">II CAPITULUM</head><seg xml:id="WZB_54rb_3_4" type="pc">•</seg>
+              <milestone unit="chapter" n="2"/><seg xml:id="WZB_54rb_3_4" type="pc">•</seg>
               <seg xml:id="WZB_54rb_3_6" type="pc">•</seg>
               <lb n="4" facs="#line_1658482536355_477"/>
               <w xml:id="WZB_54rb_4_0" lemmaRef="lexicon.xml#lemma_1844" pos="VRB">gienk</w>
@@ -58134,13 +58171,14 @@
             </l>
           </p>
         </div>
-        <div xml:id="Exodus.3">
+        <div xml:id="Exodus.3" type="chapter">
+          <head type="chapter" n="3">III CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="24" facs="#line_1664292470171_1010"/>
               <seg xml:id="WZB_55rb_24_0" type="pc">•</seg>
               <seg xml:id="WZB_55rb_24_1" type="pc">•</seg>
-              <head type="chapter" n="3">III CAPITULUM</head><seg xml:id="WZB_55rb_24_3" type="pc">•</seg>
+              <milestone unit="chapter" n="3"/><seg xml:id="WZB_55rb_24_3" type="pc">•</seg>
               <seg xml:id="WZB_55rb_24_5" type="pc">•</seg>
               <lb n="25" facs="#region_1658750702542_683l2"/>
               <w xml:id="WZB_55rb_25_0" lemmaRef="lexicon.xml#lemma_35" pos="CCNJ">aber</w>
@@ -59186,7 +59224,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Exodus.4">
+        <div xml:id="Exodus.4" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="21" facs="#line_1677678266362_368"/>
@@ -60501,12 +60539,13 @@
               <seg xml:id="WZB_57va_14_1" type="pc">.</seg>
               <seg xml:id="WZB_57va_14_2" type="pc">•</seg>
               <seg xml:id="WZB_57va_14_3" type="pc">•</seg>
-              <head type="chapter" n="5">CAPITULUM U</head><seg xml:id="WZB_57va_14_5" type="pc">•</seg>
+              <milestone unit="chapter" n="5"/><seg xml:id="WZB_57va_14_5" type="pc">•</seg>
               <seg xml:id="WZB_57va_14_7" type="pc">•</seg>
             </l>
           </p>
         </div>
-        <div xml:id="Exodus.5">
+        <div xml:id="Exodus.5" type="chapter">
+          <head type="chapter" n="5">CAPITULUM U</head>
           <p ana="paragraph">
             <l>
               <lb n="15" facs="#region_1660035873231_10l1"/>
@@ -61426,14 +61465,15 @@
             </l>
           </p>
         </div>
-        <div xml:id="Exodus.6">
+        <div xml:id="Exodus.6" type="chapter">
+          <head type="chapter" n="6">CAPITULUM UI</head>
           <p ana="paragraph">
             <l>
               <lb n="30" facs="#line_1664294777347_1074"/>
               <w xml:id="WZB_58rb_30_0" lemmaRef="lexicon.xml#lemma_6467" pos="CCNJ">Und</w>
               <seg xml:id="WZB_58rb_30_1" type="pc">•</seg>
               <seg xml:id="WZB_58rb_30_2" type="pc">•</seg>
-              <head type="chapter" n="6">CAPITULUM UI</head><seg xml:id="WZB_58rb_30_4" type="pc">•</seg>
+              <milestone unit="chapter" n="6"/><seg xml:id="WZB_58rb_30_4" type="pc">•</seg>
               <seg xml:id="WZB_58rb_30_6" type="pc">•</seg>
               <lb n="31" facs="#region_1660038329709_462l2"/>
               <w xml:id="WZB_58rb_31_0" lemmaRef="lexicon.xml#lemma_7643" pos="POS">vnser</w>
@@ -62270,14 +62310,15 @@
             </l>
           </p>
         </div>
-        <div xml:id="Exodus.7">
+        <div xml:id="Exodus.7" type="chapter">
+          <head type="chapter" n="7">CAPITULUM UII</head>
           <p ana="paragraph">
             <l>
               <lb n="3" facs="#line_1664294899045_1094"/>
               <w xml:id="WZB_59rb_3_0" lemmaRef="lexicon.xml#lemma_6467" pos="CCNJ">Und</w>
               <seg xml:id="WZB_59rb_3_1" type="pc">•</seg>
               <seg xml:id="WZB_59rb_3_2" type="pc">•</seg>
-              <head type="chapter" n="7">CAPITULUM UII</head><seg xml:id="WZB_59rb_3_4" type="pc">•</seg>
+              <milestone unit="chapter" n="7"/><seg xml:id="WZB_59rb_3_4" type="pc">•</seg>
               <seg xml:id="WZB_59rb_3_6" type="pc">•</seg>
               <lb n="4" facs="#region_1660646422894_12l2"/>
               <w xml:id="WZB_59rb_4_0" lemmaRef="lexicon.xml#lemma_7643" pos="POS">vnser</w>
@@ -63312,12 +63353,13 @@
               <w xml:id="WZB_60rb_3_0">geslug</w>
               <seg xml:id="WZB_60rb_3_1" type="pc">.</seg>
               <seg xml:id="WZB_60rb_3_2" type="pc">•</seg>
-              <head type="chapter" n="8">CAPITULUM UIII</head><seg xml:id="WZB_60rb_3_4" type="pc">•</seg>
+              <milestone unit="chapter" n="8"/><seg xml:id="WZB_60rb_3_4" type="pc">•</seg>
               <seg xml:id="WZB_60rb_3_6" type="pc">•</seg>
             </l>
           </p>
         </div>
-        <div xml:id="Exodus.8">
+        <div xml:id="Exodus.8" type="chapter">
+          <head type="chapter" n="8">CAPITULUM UIII</head>
           <p ana="paragraph">
             <l>
               <lb n="4" facs="#region_1660658456499_112l1"/>
@@ -64626,14 +64668,15 @@
             </l>
           </p>
         </div>
-        <div xml:id="Exodus.9">
+        <div xml:id="Exodus.9" type="chapter">
+          <head type="chapter" n="9">CAPITULUM IX</head>
           <p ana="paragraph">
             <l>
               <lb n="18" facs="#line_1664295084460_1137"/>
               <w xml:id="WZB_61va_18_0" lemmaRef="lexicon.xml#lemma_35" pos="CCNJ">Aber</w>
               <seg xml:id="WZB_61va_18_1" type="pc">•</seg>
               <seg xml:id="WZB_61va_18_2" type="pc">•</seg>
-              <head type="chapter" n="9">CAPITULUM IX</head><seg xml:id="WZB_61va_18_4" type="pc">•</seg>
+              <milestone unit="chapter" n="9"/><seg xml:id="WZB_61va_18_4" type="pc">•</seg>
               <seg xml:id="WZB_61va_18_6" type="pc">•</seg>
               <lb n="19" facs="#region_1660814495842_578l1"/>
               <w xml:id="WZB_61va_19_0" lemmaRef="lexicon.xml#lemma_7643" pos="POS">vnser</w>
@@ -65917,12 +65960,13 @@
               <seg xml:id="WZB_62vb_19_1" type="pc">.</seg>
               <seg xml:id="WZB_62vb_19_2" type="pc">•</seg>
               <seg xml:id="WZB_62vb_19_3" type="pc">•</seg>
-              <head type="chapter" n="10">CAPITULUM X</head><seg xml:id="WZB_62vb_19_5" type="pc">•</seg>
+              <milestone unit="chapter" n="10"/><seg xml:id="WZB_62vb_19_5" type="pc">•</seg>
               <seg xml:id="WZB_62vb_19_7" type="pc">•</seg>
             </l>
           </p>
         </div>
-        <div xml:id="Exodus.10">
+        <div xml:id="Exodus.10" type="chapter">
+          <head type="chapter" n="10">CAPITULUM X</head>
           <p ana="paragraph">
             <l>
               <lb n="20" facs="#line_1660816618725_1478"/>
@@ -67163,13 +67207,14 @@
             </l>
           </p>
         </div>
-        <div xml:id="Exodus.11">
+        <div xml:id="Exodus.11" type="chapter">
+          <head type="chapter" n="11">CAPITULUM XI</head>
           <p ana="paragraph">
             <l>
               <lb n="17" facs="#line_1664295317318_1184"/>
               <w xml:id="WZB_64ra_17_0" lemmaRef="lexicon.xml#lemma_6467" pos="CCNJ">Und</w>
               <seg xml:id="WZB_64ra_17_1" type="pc">•</seg>
-              <head type="chapter" n="11">CAPITULUM XI</head><seg xml:id="WZB_64ra_17_3" type="pc">•</seg>
+              <milestone unit="chapter" n="11"/><seg xml:id="WZB_64ra_17_3" type="pc">•</seg>
               <seg xml:id="WZB_64ra_17_5" type="pc">•</seg>
               <lb n="18" facs="#region_1662126262453_249l2"/>
               <w xml:id="WZB_64ra_18_0" lemmaRef="lexicon.xml#lemma_7643">unser</w>
@@ -67557,7 +67602,8 @@
             </l>
           </p>
         </div>
-        <div xml:id="Exodus.12">
+        <div xml:id="Exodus.12" type="chapter">
+          <head type="chapter" n="12">XII CAPITULUM</head>
           <p ana="paragraph">
             <lb n="35" facs="#line_1664808596624_541"/>
             <w xml:id="WZB_64rb_35_0" lemmaRef="lexicon.xml#lemma_13826" pos="DIG">xi</w>
@@ -67571,7 +67617,7 @@
             <l>
               <w xml:id="WZB_64va_2_0" lemmaRef="lexicon.xml#lemma_6467" pos="CCNJ">Und</w>
               <seg xml:id="WZB_64va_2_1" type="pc">•</seg>
-              <head type="chapter" n="12">XII CAPITULUM</head><seg xml:id="WZB_64va_2_3" type="pc">•</seg>
+              <milestone unit="chapter" n="12"/><seg xml:id="WZB_64va_2_3" type="pc">•</seg>
               <seg xml:id="WZB_64va_2_5" type="pc">•</seg>
               <lb n="3" facs="#region_1662129333424_737l1"/>
               <w xml:id="WZB_64va_3_0" lemmaRef="lexicon.xml#lemma_7643" pos="POS">vnser</w>
@@ -69494,12 +69540,13 @@
               <seg xml:id="WZB_66va_7_0" type="pc">.</seg>
               <seg xml:id="WZB_66va_7_1" type="pc">•</seg>
               <seg xml:id="WZB_66va_7_2" type="pc">•</seg>
-              <head type="chapter" n="13">XIII CAPITULUM</head><seg xml:id="WZB_66va_7_4" type="pc">•</seg>
+              <milestone unit="chapter" n="13"/><seg xml:id="WZB_66va_7_4" type="pc">•</seg>
               <seg xml:id="WZB_66va_7_6" type="pc">•</seg>
             </l>
           </p>
         </div>
-        <div xml:id="Exodus.13">
+        <div xml:id="Exodus.13" type="chapter">
+          <head type="chapter" n="13">XIII CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="8" facs="#line_1662454099457_224"/>
@@ -70399,7 +70446,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Exodus.14">
+        <div xml:id="Exodus.14" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="21" facs="#line_1662454538961_569"/>
@@ -71706,13 +71753,14 @@
             </l>
           </p>
         </div>
-        <div xml:id="Exodus.15">
+        <div xml:id="Exodus.15" type="chapter">
+          <head type="chapter" n="15">CAPITULUM XU</head>
           <p ana="paragraph">
             <l>
               <lb n="26" facs="#line_1663837329728_12"/>
               <w xml:id="WZB_68vb_26_0" lemmaRef="lexicon.xml#lemma_1180" pos="ADV">DO</w>
               <seg xml:id="WZB_68vb_26_1" type="pc">•</seg>
-              <head type="chapter" n="15">CAPITULUM XU</head><seg xml:id="WZB_68vb_26_3" type="pc">•</seg>
+              <milestone unit="chapter" n="15"/><seg xml:id="WZB_68vb_26_3" type="pc">•</seg>
               <seg xml:id="WZB_68vb_26_5" type="pc">•</seg>
               <lb n="27" facs="#region_1663674479203_407l1"/>
               <w xml:id="WZB_68vb_27_0">sanck</w>
@@ -72691,12 +72739,13 @@
               <w xml:id="WZB_69vb_27_0" lemmaRef="lexicon.xml#lemma_7419" pos="NOM">wasser</w>
               <seg xml:id="WZB_69vb_27_1" type="pc">.</seg>
               <seg xml:id="WZB_69vb_27_2" type="pc">•</seg>
-              <head type="chapter" n="16">XUI CAPITULUM</head><seg xml:id="WZB_69vb_27_4" type="pc">•</seg>
+              <milestone unit="chapter" n="16"/><seg xml:id="WZB_69vb_27_4" type="pc">•</seg>
               <seg xml:id="WZB_69vb_27_6" type="pc">•</seg>
             </l>
           </p>
         </div>
-        <div xml:id="Exodus.16">
+        <div xml:id="Exodus.16" type="chapter">
+          <head type="chapter" n="16">XUI CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="28" facs="#line_1663681003077_1291"/>
@@ -74241,13 +74290,14 @@
             </l>
           </p>
         </div>
-        <div xml:id="Exodus.17">
+        <div xml:id="Exodus.17" type="chapter">
+          <head type="chapter" n="17">XUII CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="5" facs="#line_1663849017314_1212"/>
               <w xml:id="WZB_71va_5_0" lemmaRef="lexicon.xml#lemma_4432" pos="ADV">Nu</w>
               <seg xml:id="WZB_71va_5_1" type="pc">•</seg>
-              <head type="chapter" n="17">XUII CAPITULUM</head><seg xml:id="WZB_71va_5_3" type="pc">•</seg>
+              <milestone unit="chapter" n="17"/><seg xml:id="WZB_71va_5_3" type="pc">•</seg>
               <seg xml:id="WZB_71va_5_5" type="pc">•</seg>
               <lb n="6" facs="#line_1663690357813_62"/>
               <w xml:id="WZB_71va_6_0" lemmaRef="lexicon.xml#lemma_7861" pos="VRB">czogen</w>
@@ -74903,11 +74953,12 @@
               <lb n="12" facs="#line_1664276943611_76"/>
               <seg xml:id="WZB_72rb_12_0" type="pc">.</seg>
               <seg xml:id="WZB_72rb_12_1" type="pc">•</seg>
-              <head type="chapter" n="18">CAPITULUM XVIII</head><seg xml:id="WZB_72rb_12_3" type="pc">•</seg>
+              <milestone unit="chapter" n="18"/><seg xml:id="WZB_72rb_12_3" type="pc">•</seg>
               </l>
           </p>
         </div>
-        <div xml:id="Exodus.18">
+        <div xml:id="Exodus.18" type="chapter">
+          <head type="chapter" n="18">CAPITULUM XVIII</head>
           <p ana="paragraph">
             <l>
               <lb n="13" facs="#line_1663691673720_550"/>
@@ -75941,12 +75992,13 @@
               <seg xml:id="WZB_73rb_17_0" type="pc">.</seg>
               <seg xml:id="WZB_73rb_17_1" type="pc">•</seg>
               <seg xml:id="WZB_73rb_17_2" type="pc">•</seg>
-              <head type="chapter" n="19">XIX CAPITULUM</head><seg xml:id="WZB_73rb_17_5" type="pc">•</seg>
+              <milestone unit="chapter" n="19"/><seg xml:id="WZB_73rb_17_5" type="pc">•</seg>
               <seg xml:id="WZB_73rb_17_6" type="pc">•</seg>
             </l>
           </p>
         </div>
-        <div xml:id="Exodus.19">
+        <div xml:id="Exodus.19" type="chapter">
+          <head type="chapter" n="19">XIX CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="18" facs="#region_1663670314909_10l1"/>
@@ -76981,13 +77033,14 @@
             </l>
           </p>
         </div>
-        <div xml:id="Exodus.20">
+        <div xml:id="Exodus.20" type="chapter">
+          <head type="chapter" n="20">XX CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="22" facs="#line_1664381127137_629"/>
               <w xml:id="WZB_74rb_22_0" lemmaRef="lexicon.xml#lemma_7643">Unser</w>
               <seg xml:id="WZB_74rb_22_1" type="pc">•</seg>
-              <head type="chapter" n="20">XX CAPITULUM</head><seg xml:id="WZB_74rb_22_3" type="pc">•</seg>
+              <milestone unit="chapter" n="20"/><seg xml:id="WZB_74rb_22_3" type="pc">•</seg>
               <seg xml:id="WZB_74rb_22_5" type="pc">•</seg>
               <lb n="23" facs="#region_1664381032609_546l4"/>
               <w xml:id="WZB_74rb_23_0" lemmaRef="lexicon.xml#lemma_2684" pos="NOM">herre</w>
@@ -77844,7 +77897,8 @@
             </l>
           </p>
         </div>
-        <div xml:id="Exodus.21">
+        <div xml:id="Exodus.21" type="chapter">
+          <head type="chapter" n="21">XXI CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="15" facs="#line_1664381840236_1094"/>
@@ -77853,7 +77907,7 @@
               <w xml:id="WZB_75rb_15_2" lemmaRef="lexicon.xml#lemma_1097" pos="SCNJ">das</w>
               <w xml:id="WZB_75rb_15_3" lemmaRef="lexicon.xml#lemma_1242" pos="PRO">du</w>
               <seg xml:id="WZB_75rb_15_4" type="pc">•</seg>
-              <head type="chapter" n="21">XXI CAPITULUM</head><seg xml:id="WZB_75rb_15_6" type="pc">•</seg>
+              <milestone unit="chapter" n="21"/><seg xml:id="WZB_75rb_15_6" type="pc">•</seg>
               <seg xml:id="WZB_75rb_15_8" type="pc">•</seg>
               <lb n="16" facs="#region_1664381676199_1024l3"/>
               <w xml:id="WZB_75rb_16_0">koufest</w>
@@ -79145,13 +79199,14 @@
             </l>
           </p>
         </div>
-        <div xml:id="Exodus.22">
+        <div xml:id="Exodus.22" type="chapter">
+          <head type="chapter" n="22">XXII CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="21" facs="#line_1664382441213_1564"/>
               <w xml:id="WZB_76rb_21_0" lemmaRef="lexicon.xml#lemma_7482" pos="NOM">Wer</w>
               <seg xml:id="WZB_76rb_21_1" type="pc">•</seg>
-              <head type="chapter" n="22">XXII CAPITULUM</head><lb n="22" facs="#region_1664382330513_1465l2"/>
+              <milestone unit="chapter" n="22"/><lb n="22" facs="#region_1664382330513_1465l2"/>
               <w xml:id="WZB_76rb_22_0" lemmaRef="lexicon.xml#lemma_1180" pos="ADV">do</w>
               <w xml:id="WZB_76rb_22_1" lemmaRef="lexicon.xml#lemma_5749" pos="VRB">stilt</w>
               <w xml:id="WZB_76rb_22_2" lemmaRef="lexicon.xml#lemma_1331" pos="DET">einen</w>
@@ -80335,7 +80390,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Exodus.23">
+        <div xml:id="Exodus.23" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="21" facs="#line_1664975306704_148"/>
@@ -81497,7 +81552,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Exodus.24">
+        <div xml:id="Exodus.24" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="16" facs="#line_1666091558124_171"/>
@@ -82183,14 +82238,15 @@
             </l>
           </p>
         </div>
-        <div xml:id="Exodus.25">
+        <div xml:id="Exodus.25" type="chapter">
+          <head type="chapter" n="25">XXV CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="24" facs="#line_1666091938702_475"/>
               <w xml:id="WZB_79rb_24_0" lemmaRef="lexicon.xml#lemma_6467" pos="CCNJ">Und</w>
               <seg xml:id="WZB_79rb_24_1" type="pc">•</seg>
               <seg xml:id="WZB_79rb_24_2" type="pc">•</seg>
-              <head type="chapter" n="25">XXV CAPITULUM</head><seg xml:id="WZB_79rb_24_4" type="pc">•</seg>
+              <milestone unit="chapter" n="25"/><seg xml:id="WZB_79rb_24_4" type="pc">•</seg>
               <seg xml:id="WZB_79rb_24_6" type="pc">•</seg>
               <lb n="25" facs="#region_1666091790572_363l3"/>
               <w xml:id="WZB_79rb_25_0" lemmaRef="lexicon.xml#lemma_7643" pos="POS">vnser</w>
@@ -83435,7 +83491,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Exodus.26">
+        <div xml:id="Exodus.26" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="33" facs="#line_1666267569021_275"/>
@@ -84823,7 +84879,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Exodus.27">
+        <div xml:id="Exodus.27" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="28" facs="#line_1668595802822_265"/>
@@ -85590,7 +85646,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Exodus.28">
+        <div xml:id="Exodus.28" type="chapter">
           <p ana="paragraph">
             <pb n="83r" facs="#page_48486839"/>
             <lb n="1" facs="#line_1702300317168_195"/>
@@ -87141,7 +87197,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Exodus.29">
+        <div xml:id="Exodus.29" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="33" facs="#line_1670924122058_496"/>
@@ -88911,7 +88967,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Exodus.30">
+        <div xml:id="Exodus.30" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="7" facs="#line_1672148890934_909"/>
@@ -90138,7 +90194,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Exodus.31">
+        <div xml:id="Exodus.31" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="23" facs="#line_1672394964410_575"/>
@@ -90728,7 +90784,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Exodus.32">
+        <div xml:id="Exodus.32" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="26" facs="#line_1672395993455_841"/>
@@ -92197,7 +92253,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Exodus.33">
+        <div xml:id="Exodus.33" type="chapter">
           <p ana="paragraph">
             <l>
               <pb n="90r" facs="#page_51369910"/>
@@ -93223,14 +93279,15 @@
             </l>
           </p>
         </div>
-        <div xml:id="Exodus.34">
+        <div xml:id="Exodus.34" type="chapter">
+          <head type="chapter" n="34">CAPITULUM XXXIIII</head>
           <p ana="paragraph">
             <l>
               <lb n="33" facs="#line_1672672506918_1432"/>
               <w xml:id="WZB_90vb_33_0" lemmaRef="lexicon.xml#lemma_6467" pos="CCNJ">Und</w>
               <seg xml:id="WZB_90vb_33_1" type="pc">•</seg>
               <seg xml:id="WZB_90vb_33_2" type="pc">•</seg>
-              <head type="chapter" n="34">CAPITULUM XXXIIII</head><seg xml:id="WZB_90vb_33_4" type="pc">•</seg>
+              <milestone unit="chapter" n="34"/><seg xml:id="WZB_90vb_33_4" type="pc">•</seg>
               <lb n="34" facs="#line_1672672513235_1437"/>
               <w xml:id="WZB_90vb_34_0" lemmaRef="lexicon.xml#lemma_7293" pos="ADV">furbas</w>
               <w xml:id="WZB_90vb_34_1" lemmaRef="lexicon.xml#lemma_571" pos="VRB">beschowe</w>
@@ -94621,13 +94678,13 @@
             </l>
           </p>
         </div>
-        <div xml:id="Exodus.35">
+        <div xml:id="Exodus.35" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="18" facs="#line_1673441380663_615"/>
               <w xml:id="WZB_92rb_18_0" lemmaRef="lexicon.xml#lemma_1844" pos="VRB">Ge</w>
               <seg xml:id="WZB_92rb_18_1" type="pc">•</seg>
-              <head type="chapter">CAPITULUM</head><seg xml:id="WZB_92rb_18_3" type="pc">•</seg>
+              <milestone unit="chapter"/><seg xml:id="WZB_92rb_18_3" type="pc">•</seg>
               <lb n="19" facs="#region_1672925775393_147_tl_1"/>
               <w xml:id="WZB_92rb_19_0" lemmaRef="lexicon.xml#lemma_5093" pos="NOM">samment</w>
               <w xml:id="WZB_92rb_19_1" lemmaRef="lexicon.xml#lemma_7489" pos="VEX">wurden</w>
@@ -95645,7 +95702,8 @@
             </l>
           </p>
         </div>
-        <div xml:id="Exodus.36">
+        <div xml:id="Exodus.36" type="chapter">
+          <head type="chapter">CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="11" facs="#line_1674047989523_188"/>
@@ -96862,7 +96920,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Exodus.37">
+        <div xml:id="Exodus.37" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="31" facs="#line_1674485573889_150"/>
@@ -97811,7 +97869,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Exodus.38">
+        <div xml:id="Exodus.38" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="27" facs="#line_1674486805625_706"/>
@@ -98892,7 +98950,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Exodus.39">
+        <div xml:id="Exodus.39" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="13" facs="#line_1674488155843_1503"/>
@@ -100091,14 +100149,15 @@
             </l>
           </p>
         </div>
-        <div xml:id="Exodus.40">
+        <div xml:id="Exodus.40" type="chapter">
+          <head type="chapter" n="40">XL CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="31" facs="#line_1674488714854_2096"/>
               <w xml:id="WZB_97vb_31_0" lemmaRef="lexicon.xml#lemma_6467" pos="CCNJ">Und</w>
               <seg xml:id="WZB_97vb_31_1" type="pc">•</seg>
               <seg xml:id="WZB_97vb_31_2" type="pc">•</seg>
-              <head type="chapter" n="40">XL CAPITULUM</head><seg xml:id="WZB_97vb_31_4" type="pc">•</seg>
+              <milestone unit="chapter" n="40"/><seg xml:id="WZB_97vb_31_4" type="pc">•</seg>
               <seg xml:id="WZB_97vb_31_6" type="pc">•</seg>
               <lb n="32" facs="#region_1674488466206_1904_tl_3_1"/>
               <w xml:id="WZB_97vb_32_0" lemmaRef="lexicon.xml#lemma_7643" pos="POS">vnser</w>
@@ -101149,7 +101208,7 @@
         </p>
       </div>
       <div type="book" xml:id="Leviticus">
-        <div xml:id="Leviticus.1">
+        <div xml:id="Leviticus.1" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="3" facs="#line_1677490716802_490"/>
@@ -101827,7 +101886,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Leviticus.2">
+        <div xml:id="Leviticus.2" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="13" facs="#line_1677490976276_653"/>
@@ -102396,7 +102455,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Leviticus.3">
+        <div xml:id="Leviticus.3" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="16" facs="#line_1677491883338_888"/>
@@ -103035,7 +103094,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Leviticus.4">
+        <div xml:id="Leviticus.4" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="27" facs="#line_1677494782117_1323"/>
@@ -104363,7 +104422,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Leviticus.5">
+        <div xml:id="Leviticus.5" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="31" facs="#line_1677495314341_1955"/>
@@ -105410,7 +105469,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Leviticus.6">
+        <div xml:id="Leviticus.6" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="36" facs="#line_1677495589498_2342"/>
@@ -106697,7 +106756,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Leviticus.7">
+        <div xml:id="Leviticus.7" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="32" facs="#line_1677859909534_382"/>
@@ -107667,7 +107726,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Leviticus.8">
+        <div xml:id="Leviticus.8" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="29" facs="#line_1677860212039_769"/>
@@ -108978,12 +109037,13 @@
               <seg xml:id="WZB_106vb_18_0" type="pc">.</seg>
               <seg xml:id="WZB_106vb_18_1" type="pc">•</seg>
               <seg xml:id="WZB_106vb_18_2" type="pc">•</seg>
-              <head type="chapter" n="9">IX CAPITULUM</head><seg xml:id="WZB_106vb_18_4" type="pc">•</seg>
+              <milestone unit="chapter" n="9"/><seg xml:id="WZB_106vb_18_4" type="pc">•</seg>
               <seg xml:id="WZB_106vb_18_6" type="pc">•</seg>
             </l>
           </p>
         </div>
-        <div xml:id="Leviticus.9">
+        <div xml:id="Leviticus.9" type="chapter">
+          <head type="chapter" n="9">IX CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="19" facs="#line_1677860574323_1193"/>
@@ -109863,7 +109923,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Leviticus.10">
+        <div xml:id="Leviticus.10" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="17" facs="#line_1677860940531_1685"/>
@@ -110798,7 +110858,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Leviticus.11">
+        <div xml:id="Leviticus.11" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="13" facs="#line_1677862008438_2490"/>
@@ -112251,7 +112311,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Leviticus.12">
+        <div xml:id="Leviticus.12" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="26" facs="#line_1678302597302_886"/>
@@ -112632,7 +112692,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Leviticus.13">
+        <div xml:id="Leviticus.13" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="17" facs="#line_1678302890390_1154"/>
@@ -114709,7 +114769,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Leviticus.14">
+        <div xml:id="Leviticus.14" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="17" facs="#line_1679334189322_601"/>
@@ -116687,7 +116747,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Leviticus.15">
+        <div xml:id="Leviticus.15" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="6" facs="#line_1679481721506_420"/>
@@ -117830,7 +117890,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Leviticus.16">
+        <div xml:id="Leviticus.16" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="33" facs="#line_1679482092131_789"/>
@@ -119226,7 +119286,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Leviticus.17">
+        <div xml:id="Leviticus.17" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="28" facs="#line_1679482619764_1228"/>
@@ -119922,7 +119982,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Leviticus.18">
+        <div xml:id="Leviticus.18" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="24" facs="#line_1679482894239_1536"/>
@@ -120891,7 +120951,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Leviticus.19">
+        <div xml:id="Leviticus.19" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="17" facs="#line_1679483081218_1687"/>
@@ -122105,7 +122165,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Leviticus.20">
+        <div xml:id="Leviticus.20" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="33" facs="#line_1680426735295_472"/>
@@ -123249,7 +123309,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Leviticus.21">
+        <div xml:id="Leviticus.21" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="14" facs="#line_1680427026146_821"/>
@@ -124073,7 +124133,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Leviticus.22">
+        <div xml:id="Leviticus.22" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="24" facs="#line_1680427386080_1195"/>
@@ -125294,7 +125354,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Leviticus.23">
+        <div xml:id="Leviticus.23" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="7" facs="#line_1680427588142_1489"/>
@@ -126877,7 +126937,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Leviticus.24">
+        <div xml:id="Leviticus.24" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="28" facs="#line_1681202941702_360"/>
@@ -127560,7 +127620,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Leviticus.25">
+        <div xml:id="Leviticus.25" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="14" facs="#line_1681203146633_613"/>
@@ -129453,7 +129513,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Leviticus.26">
+        <div xml:id="Leviticus.26" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="25" facs="#region_1681202672670_179_tl_1"/>
@@ -131182,7 +131242,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Leviticus.27">
+        <div xml:id="Leviticus.27" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="30" facs="#line_1681204405769_1714"/>
@@ -132552,7 +132612,7 @@
         </p>
       </div>
       <div type="book" xml:id="Numeri">
-        <div xml:id="Numeri.1">
+        <div xml:id="Numeri.1" type="chapter">
           <p ana="paragraph">
             <cb n="b"/>
             <foreign xml:lang="cze">
@@ -133910,7 +133970,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Numeri.2">
+        <div xml:id="Numeri.2" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="14" facs="#line_1682510041254_910"/>
@@ -134759,7 +134819,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Numeri.3">
+        <div xml:id="Numeri.3" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="9" facs="#line_1682510427356_1208"/>
@@ -136110,7 +136170,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Numeri.4">
+        <div xml:id="Numeri.4" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="15" facs="#line_1682511205729_1641"/>
@@ -137742,7 +137802,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Numeri.5">
+        <div xml:id="Numeri.5" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="9" facs="#line_1683709635186_644"/>
@@ -138882,7 +138942,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Numeri.6">
+        <div xml:id="Numeri.6" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="33" facs="#line_1683709960095_1073"/>
@@ -139927,7 +139987,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Numeri.7">
+        <div xml:id="Numeri.7" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="7" facs="#line_1683710510417_1548"/>
@@ -142371,7 +142431,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Numeri.8">
+        <div xml:id="Numeri.8" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="36" facs="#line_1683795955530_957"/>
@@ -143245,7 +143305,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Numeri.9">
+        <div xml:id="Numeri.9" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="29" facs="#line_1691052357772_102"/>
@@ -144120,7 +144180,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Numeri.10">
+        <div xml:id="Numeri.10" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="25" facs="#region_1683793304178_193_tl_1"/>
@@ -145227,7 +145287,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Numeri.11">
+        <div xml:id="Numeri.11" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="27" facs="#line_1683811831980_1211"/>
@@ -146712,7 +146772,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Numeri.12">
+        <div xml:id="Numeri.12" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="13" facs="#line_1683812372990_1680"/>
@@ -147269,7 +147329,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Numeri.13">
+        <div xml:id="Numeri.13" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="27" facs="#line_1683816197684_75"/>
@@ -148199,7 +148259,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Numeri.14">
+        <div xml:id="Numeri.14" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="23" facs="#line_1683816638846_485"/>
@@ -149792,7 +149852,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Numeri.15">
+        <div xml:id="Numeri.15" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="5" facs="#line_1683817207269_1236"/>
@@ -150944,7 +151004,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Numeri.16">
+        <div xml:id="Numeri.16" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="13" facs="#line_1686050028619_298"/>
@@ -152741,7 +152801,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Numeri.17">
+        <div xml:id="Numeri.17" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="10" facs="#line_1686050809043_972"/>
@@ -153149,7 +153209,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Numeri.18">
+        <div xml:id="Numeri.18" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="11" facs="#line_1686050964626_1138"/>
@@ -154536,7 +154596,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Numeri.19">
+        <div xml:id="Numeri.19" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="23" facs="#line_1686051294801_1545"/>
@@ -155457,7 +155517,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Numeri.20">
+        <div xml:id="Numeri.20" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="18" facs="#line_1686051538302_1820"/>
@@ -156598,7 +156658,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Numeri.21">
+        <div xml:id="Numeri.21" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="30" facs="#line_1686051889753_2188"/>
@@ -157844,7 +157904,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Numeri.22">
+        <div xml:id="Numeri.22" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="9" facs="#line_1686052302854_2590"/>
@@ -159432,7 +159492,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Numeri.23">
+        <div xml:id="Numeri.23" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="18" facs="#line_1686052580038_2951"/>
@@ -160456,7 +160516,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Numeri.24">
+        <div xml:id="Numeri.24" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="29" facs="#line_1686053276029_3404"/>
@@ -161394,10 +161454,11 @@
               <w xml:id="WZB_160va_35_0" lemmaRef="lexicon.xml#lemma_7557" pos="PRP">wider</w>
               <seg xml:id="WZB_160va_35_1" type="pc">.</seg>
               <seg xml:id="WZB_160va_35_2" type="pc">•</seg>
-              <head type="chapter">CAPITULUM</head></l>
+              <milestone unit="chapter"/></l>
           </p>
         </div>
-        <div xml:id="Numeri.25">
+        <div xml:id="Numeri.25" type="chapter">
+          <head type="chapter">CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <cb n="b"/>
@@ -161953,7 +162014,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Numeri.26">
+        <div xml:id="Numeri.26" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="23" facs="#line_1693739348479_540"/>
@@ -163657,13 +163718,13 @@
             </l>
           </p>
         </div>
-        <div xml:id="Numeri.27">
+        <div xml:id="Numeri.27" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="12" facs="#line_1686054130783_4310"/>
               <w xml:id="WZB_163rb_12_0" lemmaRef="lexicon.xml#lemma_3028" pos="PRP">in</w>
               <seg xml:id="WZB_163rb_12_1" type="pc">•</seg>
-              <head type="chapter">CAPITULUM</head><lb n="13" facs="#region_1685975406524_529_tl_2"/>
+              <milestone unit="chapter"/><lb n="13" facs="#region_1685975406524_529_tl_2"/>
               <w xml:id="WZB_163rb_13_0" lemmaRef="lexicon.xml#lemma_7770" pos="PRP">czu</w>
               <w xml:id="WZB_163rb_13_1" lemmaRef="lexicon.xml#lemma_1844" pos="VRB">giengen</w>
               <w xml:id="WZB_163rb_13_2" lemmaRef="lexicon.xml#lemma_35" pos="CCNJ">aber</w>
@@ -164419,7 +164480,8 @@
             </l>
           </p>
         </div>
-        <div xml:id="Numeri.28">
+        <div xml:id="Numeri.28" type="chapter">
+          <head type="chapter">CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="21" facs="#line_1686054314529_4525"/>
@@ -165410,13 +165472,14 @@
             </l>
           </p>
         </div>
-        <div xml:id="Numeri.29">
+        <div xml:id="Numeri.29" type="chapter">
+          <head type="chapter" n="29">XXIX CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="31" facs="#line_1686054668808_4837"/>
               <w xml:id="WZB_165ra_31_0" lemmaRef="lexicon.xml#lemma_56117" pos="PRO">uch</w>
               <seg xml:id="WZB_165ra_31_1" type="pc">•</seg>
-              <head type="chapter" n="29">XXIX CAPITULUM</head><seg xml:id="WZB_165ra_31_3" type="pc">•</seg>
+              <milestone unit="chapter" n="29"/><seg xml:id="WZB_165ra_31_3" type="pc">•</seg>
               <lb n="32" facs="#region_1685976119033_599_tl_3"/>
               <w xml:id="WZB_165ra_32_0" lemmaRef="lexicon.xml#lemma_1119" pos="DET">des</w>
               <w xml:id="WZB_165ra_32_1" lemmaRef="lexicon.xml#lemma_5438" pos="NUM">sibenden</w>
@@ -166634,7 +166697,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Numeri.30">
+        <div xml:id="Numeri.30" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="31" facs="#region_1685976274125_654_tl_1"/>
@@ -167369,7 +167432,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Numeri.31">
+        <div xml:id="Numeri.31" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="13" facs="#region_1685976328517_672_tl_1"/>
@@ -168903,7 +168966,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Numeri.32">
+        <div xml:id="Numeri.32" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="3" facs="#line_1686055810433_5964"/>
@@ -170227,7 +170290,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Numeri.33">
+        <div xml:id="Numeri.33" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="13" facs="#region_1686043600899_57_tl_1"/>
@@ -171385,7 +171448,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Numeri.34">
+        <div xml:id="Numeri.34" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="4" facs="#region_1686049455229_109_tl_1"/>
@@ -172076,10 +172139,11 @@
               <w xml:id="WZB_172vb_8_6" lemmaRef="lexicon.xml#lemma_6042" pos="VRB">teilen</w>
               <seg xml:id="WZB_172vb_8_7" type="pc">.</seg>
               <seg xml:id="WZB_172vb_8_8" type="pc">•</seg>
-              <head type="chapter">CAPITULUM</head></l>
+              <milestone unit="chapter"/></l>
           </p>
         </div>
-        <div xml:id="Numeri.35">
+        <div xml:id="Numeri.35" type="chapter">
+          <head type="chapter">CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="9" facs="#region_1686049549936_130_tl_1"/>
@@ -173149,7 +173213,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Numeri.36">
+        <div xml:id="Numeri.36" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="31" facs="#line_1686057123031_7214"/>
@@ -173667,7 +173731,7 @@
         </p>
       </div>
       <div type="book" xml:id="Deuteronomium">
-        <div xml:id="Deuteronomium.1">
+        <div xml:id="Deuteronomium.1" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="12" facs="#line_1697703181719_203"/>
@@ -175409,7 +175473,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Deuteronomium.2">
+        <div xml:id="Deuteronomium.2" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="11" facs="#region_1697708977982_86_tl_1"/>
@@ -176791,13 +176855,14 @@
             </l>
           </p>
         </div>
-        <div xml:id="Deuteronomium.3">
+        <div xml:id="Deuteronomium.3" type="chapter">
+          <head type="chapter" n="3">III CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="17" facs="#region_1697709291639_134_tl_1"/>
               <w xml:id="WZB_178ra_17_0" lemmaRef="lexicon.xml#lemma_6467" pos="CCNJ">nd</w>
               <seg xml:id="WZB_178ra_17_1" type="pc">•</seg>
-              <head type="chapter" n="3">III CAPITULUM</head><seg xml:id="WZB_178ra_17_3" type="pc">•</seg>
+              <milestone unit="chapter" n="3"/><seg xml:id="WZB_178ra_17_3" type="pc">•</seg>
               <lb n="18" facs="#region_1697709291639_134_tl_2"/>
               <w xml:id="WZB_178ra_18_0" lemmaRef="lexicon.xml#lemma_152" pos="ADV">also</w>
               <w xml:id="WZB_178ra_18_1" lemmaRef="lexicon.xml#lemma_3266" pos="VRB">karte</w>
@@ -177863,12 +177928,12 @@
             </l>
           </p>
         </div>
-        <div xml:id="Deuteronomium.4">
+        <div xml:id="Deuteronomium.4" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="5" facs="#region_1697709448333_168_tl_1"/>
               <w xml:id="WZB_179rb_5_0" lemmaRef="lexicon.xml#lemma_6467" pos="CCNJ">nd</w>
-              <head type="chapter">CAPITULUM</head><lb n="6" facs="#region_1697709448333_168_tl_2"/>
+              <milestone unit="chapter"/><lb n="6" facs="#region_1697709448333_168_tl_2"/>
               <w xml:id="WZB_179rb_6_0" lemmaRef="lexicon.xml#lemma_4432" pos="ADV">nv</w>
               <w xml:id="WZB_179rb_6_1" lemmaRef="lexicon.xml#lemma_2885" pos="VRB">hore</w>
               <w xml:id="WZB_179rb_6_2" lemmaRef="lexicon.xml#lemma_1139" pos="DET">die</w>
@@ -179853,7 +179918,9 @@
             </l>
           </p>
         </div>
-        <div xml:id="Deuteronomium.5">
+        <div xml:id="Deuteronomium.5" type="chapter">
+          <head type="chapter" n="5">U CAPITULUM</head>
+          <head type="chapter">CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <cb n="b"/>
@@ -179864,7 +179931,7 @@
               <lb n="2" facs="#region_1697800083032_359_tl_2"/>
               <w xml:id="WZB_181rb_2_0" lemmaRef="lexicon.xml#lemma_6467" pos="CCNJ">nd</w>
               <seg xml:id="WZB_181rb_2_1" type="pc">•</seg>
-              <head type="chapter" n="5">U CAPITULUM</head><seg xml:id="WZB_181rb_2_3" type="pc">•</seg>
+              <milestone unit="chapter" n="5"/><seg xml:id="WZB_181rb_2_3" type="pc">•</seg>
               <lb n="3" facs="#region_1697800083032_359_tl_3"/>
               <w xml:id="WZB_181rb_3_0" lemmaRef="lexicon.xml#lemma_27505" pos="VRB">berufte</w>
               <w xml:id="WZB_181rb_3_1" lemmaRef="lexicon.xml#lemma_106" pos="ADJ">alle</w>
@@ -181102,7 +181169,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Deuteronomium.6">
+        <div xml:id="Deuteronomium.6" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="11" facs="#region_1697800257759_401_tl_1"/>
@@ -181972,13 +182039,14 @@
             </l>
           </p>
         </div>
-        <div xml:id="Deuteronomium.7">
+        <div xml:id="Deuteronomium.7" type="chapter">
+          <head type="chapter" n="7">UII CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="18" facs="#region_1697800345072_421_tl_1"/>
               <w xml:id="WZB_183rb_18_0" lemmaRef="lexicon.xml#lemma_33885" pos="ADV">enne</w>
               <seg xml:id="WZB_183rb_18_1" type="pc">•</seg>
-              <head type="chapter" n="7">UII CAPITULUM</head><lb n="19" facs="#region_1697800345072_421_tl_3"/>
+              <milestone unit="chapter" n="7"/><lb n="19" facs="#region_1697800345072_421_tl_3"/>
               <w xml:id="WZB_183rb_19_0" lemmaRef="lexicon.xml#lemma_1242" pos="PRO">dich</w>
               <w xml:id="WZB_183rb_19_1" lemmaRef="lexicon.xml#lemma_1331" pos="DET">ein</w>
               <w xml:id="WZB_183rb_19_2">gefŭret</w>
@@ -183119,13 +183187,14 @@
             </l>
           </p>
         </div>
-        <div xml:id="Deuteronomium.8">
+        <div xml:id="Deuteronomium.8" type="chapter">
+          <head type="chapter" n="8">UIII CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="3" facs="#region_1699361114477_101_tl_1"/>
               <w xml:id="WZB_184va_3_0" lemmaRef="lexicon.xml#lemma_3028" pos="PRP">in</w>
               <seg xml:id="WZB_184va_3_1" type="pc">•</seg>
-              <head type="chapter" n="8">UIII CAPITULUM</head><seg xml:id="WZB_184va_3_3" type="pc">•</seg>
+              <milestone unit="chapter" n="8"/><seg xml:id="WZB_184va_3_3" type="pc">•</seg>
               <lb n="4" facs="#region_1699361114477_101_tl_2"/>
               <w xml:id="WZB_184va_4_0" lemmaRef="lexicon.xml#lemma_3006" pos="ADJ">yclich</w>
               <w xml:id="WZB_184va_4_1" lemmaRef="lexicon.xml#lemma_1978" pos="NOM">gepot</w>
@@ -183940,7 +184009,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Deuteronomium.9">
+        <div xml:id="Deuteronomium.9" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="20" facs="#region_1699361426188_122_tl_1"/>
@@ -183948,7 +184017,7 @@
               <seg xml:id="WZB_185rb_20_1" type="pc">,</seg>
               <seg xml:id="WZB_185rb_20_2" type="pc">•</seg>
               <seg xml:id="WZB_185rb_20_3" type="pc">•</seg>
-              <head type="chapter">CAPITULUM</head><lb n="21" facs="#region_1699361426188_122_tl_2"/>
+              <milestone unit="chapter"/><lb n="21" facs="#region_1699361426188_122_tl_2"/>
               <seg xml:id="WZB_185rb_21_0" type="pc">!</seg>
               <seg xml:id="WZB_185rb_21_1" type="pc">•</seg>
               <w xml:id="WZB_185rb_21_2" lemmaRef="lexicon.xml#lemma_1242" pos="PRO">Du</w>
@@ -185200,13 +185269,14 @@
             </l>
           </p>
         </div>
-        <div xml:id="Deuteronomium.10">
+        <div xml:id="Deuteronomium.10" type="chapter">
+          <head type="chapter">CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="23" facs="#line_1699363302867_716"/>
               <w xml:id="WZB_186va_23_0" lemmaRef="lexicon.xml#lemma_2" pos="NOM">N</w>
               <seg xml:id="WZB_186va_23_1" type="pc">•</seg>
-              <head type="chapter">CAPITULUM</head><lb n="24" facs="#region_1699361602687_164_tl_2"/>
+              <milestone unit="chapter"/><lb n="24" facs="#region_1699361602687_164_tl_2"/>
               <w xml:id="WZB_186va_24_0" lemmaRef="lexicon.xml#lemma_1119" pos="DET">den</w>
               <w xml:id="WZB_186va_24_1" lemmaRef="lexicon.xml#lemma_5385" pos="ADJ">selben</w>
               <w xml:id="WZB_186va_24_2" lemmaRef="lexicon.xml#lemma_7857" pos="NOM">czeiten</w>
@@ -186073,13 +186143,14 @@
             </l>
           </p>
         </div>
-        <div xml:id="Deuteronomium.11">
+        <div xml:id="Deuteronomium.11" type="chapter">
+          <head type="chapter">CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="25" facs="#region_1699361749597_206_tl_1"/>
               <w xml:id="WZB_187va_25_0" lemmaRef="lexicon.xml#lemma_6467" pos="CCNJ">nd</w>
               <seg xml:id="WZB_187va_25_1" type="pc">•</seg>
-              <head type="chapter">CAPITULUM</head><lb n="26" facs="#region_1699361749597_206_tl_2"/>
+              <milestone unit="chapter"/><lb n="26" facs="#region_1699361749597_206_tl_2"/>
               <w xml:id="WZB_187va_26_0" lemmaRef="lexicon.xml#lemma_152" pos="ADV">also</w>
               <w xml:id="WZB_187va_26_1" lemmaRef="lexicon.xml#lemma_2598" pos="VRB">hab</w>
               <w xml:id="WZB_187va_26_2" lemmaRef="lexicon.xml#lemma_3765" pos="ADJ">liep</w>
@@ -187295,13 +187366,14 @@
             </l>
           </p>
         </div>
-        <div xml:id="Deuteronomium.12">
+        <div xml:id="Deuteronomium.12" type="chapter">
+          <head type="chapter">CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="17" facs="#region_1699362209735_239_tl_1"/>
               <w xml:id="WZB_188vb_17_0" lemmaRef="lexicon.xml#lemma_1764" pos="VRB">as</w>
               <seg xml:id="WZB_188vb_17_1" type="pc">•</seg>
-              <head type="chapter">CAPITULUM</head><lb n="18" facs="#region_1699362209735_239_tl_3"/>
+              <milestone unit="chapter"/><lb n="18" facs="#region_1699362209735_239_tl_3"/>
               <w xml:id="WZB_188vb_18_0" lemmaRef="lexicon.xml#lemma_5432" pos="VEX">sint</w>
               <w xml:id="WZB_188vb_18_1" lemmaRef="lexicon.xml#lemma_1139" pos="DET">die</w>
               <w xml:id="WZB_188vb_18_2" lemmaRef="lexicon.xml#lemma_1978" pos="NOM">gepot</w>
@@ -188661,13 +188733,14 @@
             </l>
           </p>
         </div>
-        <div xml:id="Deuteronomium.13">
+        <div xml:id="Deuteronomium.13" type="chapter">
+          <head type="chapter">CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="28" facs="#region_1699966295469_31_tl_1"/>
               <w xml:id="WZB_190ra_28_0" lemmaRef="lexicon.xml#lemma_1764" pos="VRB">as</w>
               <seg xml:id="WZB_190ra_28_1" type="pc">•</seg>
-              <head type="chapter">CAPITULUM</head><seg xml:id="WZB_190ra_28_3" type="pc">•</seg>
+              <milestone unit="chapter"/><seg xml:id="WZB_190ra_28_3" type="pc">•</seg>
               <lb n="29" facs="#region_1699966295469_31_tl_2"/>
               <w xml:id="WZB_190ra_29_0" lemmaRef="lexicon.xml#lemma_3001" pos="PRO">ich</w>
               <w xml:id="WZB_190ra_29_1" lemmaRef="lexicon.xml#lemma_1242" pos="PRO">dir</w>
@@ -189530,13 +189603,15 @@
             </l>
           </p>
         </div>
-        <div xml:id="Deuteronomium.14">
+        <div xml:id="Deuteronomium.14" type="chapter">
+          <head type="chapter" n="14">XIIII CAPITULUM</head>
+          <head type="chapter">CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="14" facs="#region_1699966424440_62_tl_1"/>
               <w xml:id="WZB_191ra_14_0" lemmaRef="lexicon.xml#lemma_3011" pos="ADV">inder</w>
               <seg xml:id="WZB_191ra_14_1" type="pc">•</seg>
-              <head type="chapter" n="14">XIIII CAPITULUM</head><seg xml:id="WZB_191ra_14_3" type="pc">•</seg>
+              <milestone unit="chapter" n="14"/><seg xml:id="WZB_191ra_14_3" type="pc">•</seg>
               <lb n="15" facs="#region_1699966424440_62_tl_2"/>
               <w xml:id="WZB_191ra_15_0" lemmaRef="lexicon.xml#lemma_5061" pos="VRB">seit</w>
               <w xml:id="WZB_191ra_15_1" lemmaRef="lexicon.xml#lemma_56117" pos="POS">ewers</w>
@@ -190455,13 +190530,14 @@
             </l>
           </p>
         </div>
-        <div xml:id="Deuteronomium.15">
+        <div xml:id="Deuteronomium.15" type="chapter">
+          <head type="chapter" n="15">XU CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="36" facs="#line_1699969741999_1010"/>
               <w xml:id="WZB_191vb_36_0" lemmaRef="lexicon.xml#lemma_1762" pos="PRO">es</w>
               <seg xml:id="WZB_191vb_36_1" type="pc">•</seg>
-              <head type="chapter" n="15">XU CAPITULUM</head><seg xml:id="WZB_191vb_36_3" type="pc">•</seg>
+              <milestone unit="chapter" n="15"/><seg xml:id="WZB_191vb_36_3" type="pc">•</seg>
               <lb n="37" facs="#region_1699966568487_89_tl_1"/>
               <w xml:id="WZB_191vb_37_0" lemmaRef="lexicon.xml#lemma_5438" pos="NUM">sibenden</w>
               <w xml:id="WZB_191vb_37_1" lemmaRef="lexicon.xml#lemma_3096" pos="NOM">iares</w>
@@ -191406,14 +191482,14 @@
             </l>
           </p>
         </div>
-        <div xml:id="Deuteronomium.16">
+        <div xml:id="Deuteronomium.16" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="26" facs="#line_1699970511170_1413"/>
               <w xml:id="WZB_192vb_26_0" lemmaRef="lexicon.xml#lemma_1281" pos="ADV">e</w>
               <seg xml:id="WZB_192vb_26_1" type="pc">-</seg>
               <seg xml:id="WZB_192vb_26_2" type="pc">•</seg>
-              <head type="chapter">CAPITULUM</head><lb n="27" facs="#region_1699966667737_118_tl_1"/>
+              <milestone unit="chapter"/><lb n="27" facs="#region_1699966667737_118_tl_1"/>
               <w xml:id="WZB_192vb_27_0" lemmaRef="lexicon.xml#lemma_2620" pos="NOM">halde</w>
               <w xml:id="WZB_192vb_27_1" lemmaRef="lexicon.xml#lemma_1097" pos="DET">das</w>
               <w xml:id="WZB_192vb_27_2" lemmaRef="lexicon.xml#lemma_3910" pos="NOM">mened</w>
@@ -192301,7 +192377,8 @@
             </l>
           </p>
         </div>
-        <div xml:id="Deuteronomium.17">
+        <div xml:id="Deuteronomium.17" type="chapter">
+          <head type="chapter">CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="15" facs="#region_1699966806011_152_tl_1"/>
@@ -193189,7 +193266,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Deuteronomium.18">
+        <div xml:id="Deuteronomium.18" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="18" facs="#region_1700574485879_12_tl_1"/>
@@ -194050,13 +194127,13 @@
             </l>
           </p>
         </div>
-        <div xml:id="Deuteronomium.19">
+        <div xml:id="Deuteronomium.19" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="25" facs="#region_1700574629673_40_tl_1"/>
               <w xml:id="WZB_195va_25_0" lemmaRef="lexicon.xml#lemma_33885" pos="ADV">enne</w>
               <seg xml:id="WZB_195va_25_1" type="pc">•</seg>
-              <head type="chapter">CAPITULUM</head><lb n="26" facs="#region_1700574629673_40_tl_2"/>
+              <milestone unit="chapter"/><lb n="26" facs="#region_1700574629673_40_tl_2"/>
               <w xml:id="WZB_195va_26_0" lemmaRef="lexicon.xml#lemma_1242" pos="POS">dein</w>
               <w xml:id="WZB_195va_26_1" lemmaRef="lexicon.xml#lemma_2684" pos="NOM">herre</w>
               <w xml:id="WZB_195va_26_2" lemmaRef="lexicon.xml#lemma_2465" pos="NOM">got</w>
@@ -194890,14 +194967,16 @@
             </l>
           </p>
         </div>
-        <div xml:id="Deuteronomium.20">
+        <div xml:id="Deuteronomium.20" type="chapter">
+          <head type="chapter" n="20">XX CAPITULUM</head>
+          <head type="chapter">CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="8" facs="#region_1700574763663_72_tl_1"/>
               <w xml:id="WZB_196va_8_0" lemmaRef="lexicon.xml#lemma_69731">st</w>
               <seg xml:id="WZB_196va_8_1" type="pc">,</seg>
               <seg xml:id="WZB_196va_8_2" type="pc">•</seg>
-              <head type="chapter" n="20">XX CAPITULUM</head><seg xml:id="WZB_196va_8_4" type="pc">•</seg>
+              <milestone unit="chapter" n="20"/><seg xml:id="WZB_196va_8_4" type="pc">•</seg>
               <lb n="9" facs="#region_1700574763663_72_tl_2"/>
               <w xml:id="WZB_196va_9_0" lemmaRef="lexicon.xml#lemma_1097" pos="SCNJ">das</w>
               <w xml:id="WZB_196va_9_1" lemmaRef="lexicon.xml#lemma_1242" pos="PRO">du</w>
@@ -195854,13 +195933,14 @@
             </l>
           </p>
         </div>
-        <div xml:id="Deuteronomium.21">
+        <div xml:id="Deuteronomium.21" type="chapter">
+          <head type="chapter" n="21">XXI CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="25" facs="#region_1700574891048_109_tl_1"/>
               <w xml:id="WZB_197va_25_0" lemmaRef="lexicon.xml#lemma_33885" pos="ADV">enne</w>
               <seg xml:id="WZB_197va_25_1" type="pc">•</seg>
-              <head type="chapter" n="21">XXI CAPITULUM</head><seg xml:id="WZB_197va_25_3" type="pc">•</seg>
+              <milestone unit="chapter" n="21"/><seg xml:id="WZB_197va_25_3" type="pc">•</seg>
               <lb n="26" facs="#region_1700574891048_109_tl_3"/>
               <w xml:id="WZB_197va_26_0" lemmaRef="lexicon.xml#lemma_7081" pos="VRB">funden</w>
               <w xml:id="WZB_197va_26_1" lemmaRef="lexicon.xml#lemma_7489" pos="VEX">wirt</w>
@@ -196765,7 +196845,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Deuteronomium.22">
+        <div xml:id="Deuteronomium.22" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="33" facs="#region_1700575016550_146_tl_1"/>
@@ -197965,7 +198045,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Deuteronomium.23">
+        <div xml:id="Deuteronomium.23" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="21" facs="#region_1701159711109_9_tl_1"/>
@@ -198856,7 +198936,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Deuteronomium.24">
+        <div xml:id="Deuteronomium.24" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="26" facs="#region_1701159836715_40_tl_1"/>
@@ -199764,7 +199844,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Deuteronomium.25">
+        <div xml:id="Deuteronomium.25" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="17" facs="#region_1701159937034_72_tl_1"/>
@@ -199772,7 +199852,7 @@
               <seg xml:id="WZB_201va_17_1" type="pc">,</seg>
               <w xml:id="WZB_201va_17_2" lemmaRef="lexicon.xml#lemma_1097" pos="DET">das</w>
               <seg xml:id="WZB_201va_17_3" type="pc">•</seg>
-              <head type="chapter">CAPITULUM</head><lb n="18" facs="#region_1701159937034_72_tl_2"/>
+              <milestone unit="chapter"/><lb n="18" facs="#region_1701159937034_72_tl_2"/>
               <w xml:id="WZB_201va_18_0" lemmaRef="lexicon.xml#lemma_3273" pos="DET">kein</w>
               <w xml:id="WZB_201va_18_1" lemmaRef="lexicon.xml#lemma_5046" pos="NOM">sache</w>
               <w xml:id="WZB_201va_18_2" lemmaRef="lexicon.xml#lemma_7489" pos="VEX">wirt</w>
@@ -200543,13 +200623,14 @@
             </l>
           </p>
         </div>
-        <div xml:id="Deuteronomium.26">
+        <div xml:id="Deuteronomium.26" type="chapter">
+          <head type="chapter">CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="3" facs="#region_1701160061173_110_tl_1"/>
               <w xml:id="WZB_202va_3_0" lemmaRef="lexicon.xml#lemma_6467" pos="CCNJ">nd</w>
               <seg xml:id="WZB_202va_3_1" type="pc">•</seg>
-              <head type="chapter">CAPITULUM</head><lb n="4" facs="#region_1701160061173_110_tl_3"/>
+              <milestone unit="chapter"/><lb n="4" facs="#region_1701160061173_110_tl_3"/>
               <w xml:id="WZB_202va_4_0" lemmaRef="lexicon.xml#lemma_7385" pos="SCNJ">wenne</w>
               <w xml:id="WZB_202va_4_1" lemmaRef="lexicon.xml#lemma_1242" pos="PRO">du</w>
               <w xml:id="WZB_202va_4_2" lemmaRef="lexicon.xml#lemma_1331" pos="DET">ein</w>
@@ -201417,7 +201498,8 @@
             </l>
           </p>
         </div>
-        <div xml:id="Deuteronomium.27">
+        <div xml:id="Deuteronomium.27" type="chapter">
+          <head type="chapter">CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="29" facs="#region_1701160131459_133_tl_1"/>
@@ -202241,7 +202323,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Deuteronomium.28">
+        <div xml:id="Deuteronomium.28" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="7" facs="#region_1701160236328_165_tl_1"/>
@@ -205007,7 +205089,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Deuteronomium.29">
+        <div xml:id="Deuteronomium.29" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="29" facs="#region_1701776116074_69_tl_2"/>
@@ -206121,7 +206203,8 @@
             </l>
           </p>
         </div>
-        <div xml:id="Deuteronomium.30">
+        <div xml:id="Deuteronomium.30" type="chapter">
+          <head type="chapter" n="30">XXX CAPITULUM</head>
           <p ana="paragraph">
             <lb n="17" facs="#region_1701776262007_111_tl_2"/>
             <w xml:id="WZB_208ra_17_0" lemmaRef="lexicon.xml#lemma_1169" pos="DET">diser</w>
@@ -206129,7 +206212,7 @@
             <w xml:id="WZB_208ra_17_2" lemmaRef="lexicon.xml#lemma_1281" pos="NOM">e</w>
             <seg xml:id="WZB_208ra_17_3" type="pc">.</seg>
             <seg xml:id="WZB_208ra_17_4" type="pc">•</seg>
-            <head type="chapter" n="30">XXX CAPITULUM</head><seg xml:id="WZB_208ra_17_6" type="pc">•</seg>
+            <milestone unit="chapter" n="30"/><seg xml:id="WZB_208ra_17_6" type="pc">•</seg>
             <seg xml:id="WZB_208ra_17_8" type="pc">•</seg>
             <l>
               <lb n="18" facs="#region_1701776262007_111_tl_4"/>
@@ -207047,14 +207130,15 @@
             </l>
           </p>
         </div>
-        <div xml:id="Deuteronomium.31">
+        <div xml:id="Deuteronomium.31" type="chapter">
+          <head type="chapter" n="31">XXXI CAPITULUM</head>
           <p ana="paragraph">
             <lb n="35" facs="#region_1701776309385_130_tl_1"/>
             <w xml:id="WZB_208vb_35_0" lemmaRef="lexicon.xml#lemma_5454" pos="PRO">sie</w>
             <w xml:id="WZB_208vb_35_1" lemmaRef="lexicon.xml#lemma_1961" pos="VRB">gebe</w>
             <seg xml:id="WZB_208vb_35_2" type="pc">.</seg>
             <seg xml:id="WZB_208vb_35_3" type="pc">•</seg>
-            <head type="chapter" n="31">XXXI CAPITULUM</head><seg xml:id="WZB_208vb_35_5" type="pc">•</seg>
+            <milestone unit="chapter" n="31"/><seg xml:id="WZB_208vb_35_5" type="pc">•</seg>
             <l>
               <lb n="36" facs="#region_1701776309385_130_tl_2"/>
               <w xml:id="WZB_208vb_36_0" lemmaRef="lexicon.xml#lemma_6467" pos="CCNJ">nd</w>
@@ -208519,7 +208603,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Deuteronomium.32">
+        <div xml:id="Deuteronomium.32" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="6" facs="#region_1702370506293_335_tl_1"/>
@@ -210339,7 +210423,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Deuteronomium.33">
+        <div xml:id="Deuteronomium.33" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="5" facs="#region_1702370683129_385_tl_1"/>
@@ -211379,7 +211463,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Deuteronomium.34">
+        <div xml:id="Deuteronomium.34" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="16" facs="#region_1702370802490_419_tl_1"/>
@@ -211862,7 +211946,7 @@
           </hi>
         </p>
       </div>
-      <div xml:id="Josua.0">
+      <div xml:id="Josua.0" type="chapter">
         <p ana="paragraph">
           <l>
             <lb n="30" facs="#region_1702371571513_512_tl_38"/>
@@ -211904,7 +211988,7 @@
         </p>
       </div>
       <div type="book" xml:id="Josua">
-        <div xml:id="Josua.1">
+        <div xml:id="Josua.1" type="chapter">
           <p ana="paragraph">
             <l>
               <pb n="214r" facs="#page_68284491"/>
@@ -212728,13 +212812,14 @@
             </l>
           </p>
         </div>
-        <div xml:id="Josua.2">
+        <div xml:id="Josua.2" type="chapter">
+          <head type="chapter" n="2">II CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="12" facs="#line_1713430650351_429"/>
               <w xml:id="WZB_214vb_12_0" lemmaRef="lexicon.xml#lemma_4432" pos="ADV">Nu</w>
               <seg xml:id="WZB_214vb_12_1" type="pc">•</seg>
-              <head type="chapter" n="2">II CAPITULUM</head><lb n="13" facs="#line_1713430757058_443"/>
+              <milestone unit="chapter" n="2"/><lb n="13" facs="#line_1713430757058_443"/>
               <w xml:id="WZB_214vb_13_0" lemmaRef="lexicon.xml#lemma_5396" pos="VRB">sante</w>
               <w xml:id="WZB_214vb_13_1" lemmaRef="lexicon.xml#lemma_30703" pos="ADV">dorvmme</w>
               <seg xml:id="WZB_214vb_13_2" type="pc">,</seg>
@@ -213820,12 +213905,13 @@
             </l>
           </p>
         </div>
-        <div xml:id="Josua.3">
+        <div xml:id="Josua.3" type="chapter">
+          <head type="chapter" n="3">III CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="9" facs="#region_1713354305156_410_tl_1"/>
               <seg xml:id="WZB_215vb_9_0" type="pc">•</seg>
-              <head type="chapter" n="3">III CAPITULUM</head><seg xml:id="WZB_215vb_9_2" type="pc">•</seg>
+              <milestone unit="chapter" n="3"/><seg xml:id="WZB_215vb_9_2" type="pc">•</seg>
               <seg xml:id="WZB_215vb_9_4" type="pc">•</seg>
               <lb n="10" facs="#region_1713354305156_410_tl_2"/>
               <w xml:id="WZB_215vb_10_0" lemmaRef="lexicon.xml#lemma_30703" pos="ADV">dorvmme</w>
@@ -214569,13 +214655,14 @@
             </l>
           </p>
         </div>
-        <div xml:id="Josua.4">
+        <div xml:id="Josua.4" type="chapter">
+          <head type="chapter" n="4">IIII CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="17" facs="#region_1713354432655_454_tl_2"/>
               <w xml:id="WZB_216va_17_0" lemmaRef="lexicon.xml#lemma_6467" pos="CCNJ">nd</w>
               <seg xml:id="WZB_216va_17_1" type="pc">•</seg>
-              <head type="chapter" n="4">IIII CAPITULUM</head><seg xml:id="WZB_216va_17_3" type="pc">•</seg>
+              <milestone unit="chapter" n="4"/><seg xml:id="WZB_216va_17_3" type="pc">•</seg>
               <lb n="18" facs="#region_1713354432655_454_tl_3"/>
               <w xml:id="WZB_216va_18_0" lemmaRef="lexicon.xml#lemma_1180" pos="ADV">do</w>
               <w xml:id="WZB_216va_18_1" lemmaRef="lexicon.xml#lemma_5454" pos="PRO">sie</w>
@@ -215431,13 +215518,14 @@
             </l>
           </p>
         </div>
-        <div xml:id="Josua.5">
+        <div xml:id="Josua.5" type="chapter">
+          <head type="chapter" n="5">U CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="10" facs="#region_1713354691955_504_tl_1"/>
               <w xml:id="WZB_217va_10_0">OꝚ</w>
               <seg xml:id="WZB_217va_10_1" type="pc">•</seg>
-              <head type="chapter" n="5">U CAPITULUM</head><seg xml:id="WZB_217va_10_3" type="pc">•</seg>
+              <milestone unit="chapter" n="5"/><seg xml:id="WZB_217va_10_3" type="pc">•</seg>
               <lb n="11" facs="#region_1713354691955_504_tl_2"/>
               <w xml:id="WZB_217va_11_0" lemmaRef="lexicon.xml#lemma_6422" pos="PRP">vmme</w>
               <w xml:id="WZB_217va_11_1" lemmaRef="lexicon.xml#lemma_1203" pos="NOM">dornach</w>
@@ -216091,13 +216179,13 @@
             </l>
           </p>
         </div>
-        <div xml:id="Josua.6">
+        <div xml:id="Josua.6" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="8" facs="#region_1713354773708_535_tl_1"/>
               <w xml:id="WZB_218rb_8_0" lemmaRef="lexicon.xml#lemma_2" pos="NOM">ber</w>
               <seg xml:id="WZB_218rb_8_1" type="pc">•</seg>
-              <head type="chapter">CAPITULUM</head><seg xml:id="WZB_218rb_8_3" type="pc">•</seg>
+              <milestone unit="chapter"/><seg xml:id="WZB_218rb_8_3" type="pc">•</seg>
               <lb n="9" facs="#region_1713354773708_535_tl_2"/>
               <w xml:id="WZB_218rb_9_0" lemmaRef="lexicon.xml#lemma_7505" pos="VRB">was</w>
               <w xml:id="WZB_218rb_9_1" lemmaRef="lexicon.xml#lemma_6956" pos="VRB">vorslossen</w>
@@ -217285,13 +217373,14 @@
             </l>
           </p>
         </div>
-        <div xml:id="Josua.7">
+        <div xml:id="Josua.7" type="chapter">
+          <head type="chapter">CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="20" facs="#region_1714381831509_179_tl_2"/>
               <w xml:id="WZB_219va_20_0" lemmaRef="lexicon.xml#lemma_2" pos="NOM">ber</w>
               <seg xml:id="WZB_219va_20_1" type="pc">•</seg>
-              <head type="chapter">CAPITULUM</head><lb n="21" facs="#region_1714381831509_179_tl_3"/>
+              <milestone unit="chapter"/><lb n="21" facs="#region_1714381831509_179_tl_3"/>
               <w xml:id="WZB_219va_21_0">vberkarten</w>
               <lb n="22" facs="#region_1714381831509_179_tl_4"/>
               <w xml:id="WZB_219va_22_0">brechende</w>
@@ -218500,13 +218589,15 @@
             </l>
           </p>
         </div>
-        <div xml:id="Josua.8">
+        <div xml:id="Josua.8" type="chapter">
+          <head type="chapter" n="8">UIII CAPITULUM</head>
+          <head type="chapter">CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="6" facs="#region_1714382081458_238_tl_1"/>
               <w xml:id="WZB_221ra_6_0" lemmaRef="lexicon.xml#lemma_6467" pos="CCNJ">nd</w>
               <seg xml:id="WZB_221ra_6_1" type="pc">•</seg>
-              <head type="chapter" n="8">UIII CAPITULUM</head><lb n="7" facs="#region_1714382081458_238_tl_2"/>
+              <milestone unit="chapter" n="8"/><lb n="7" facs="#region_1714382081458_238_tl_2"/>
               <w xml:id="WZB_221ra_7_0" lemmaRef="lexicon.xml#lemma_7643" pos="POS">vnser</w>
               <w xml:id="WZB_221ra_7_1" lemmaRef="lexicon.xml#lemma_2684" pos="NOM">herre</w>
               <w xml:id="WZB_221ra_7_2" lemmaRef="lexicon.xml#lemma_5693" pos="VRB">sprach</w>
@@ -220014,13 +220105,13 @@
             </l>
           </p>
         </div>
-        <div xml:id="Josua.9">
+        <div xml:id="Josua.9" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="26" facs="#region_1714382341908_297_tl_1"/>
               <w xml:id="WZB_222va_26_0" lemmaRef="lexicon.xml#lemma_1180" pos="ADV">DO</w>
               <seg xml:id="WZB_222va_26_1" type="pc">•</seg>
-              <head type="chapter">CAPITULUM</head><lb n="27" facs="#region_1714382341908_297_tl_3"/>
+              <milestone unit="chapter"/><lb n="27" facs="#region_1714382341908_297_tl_3"/>
               <w xml:id="WZB_222va_27_0" lemmaRef="lexicon.xml#lemma_1169" pos="DET">dise</w>
               <w xml:id="WZB_222va_27_1" lemmaRef="lexicon.xml#lemma_1576" pos="VRB">erhorten</w>
               <w xml:id="WZB_222va_27_2" lemmaRef="lexicon.xml#lemma_106" pos="ADJ">alle</w>
@@ -221160,14 +221251,16 @@
             </l>
           </p>
         </div>
-        <div xml:id="Josua.10">
+        <div xml:id="Josua.10" type="chapter">
+          <head type="chapter" n="10">X CAPITULUM</head>
+          <head type="chapter">CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="34" facs="#region_1714382474197_327_tl_2"/>
               <w xml:id="WZB_223va_34_0" lemmaRef="lexicon.xml#lemma_4445" pos="INJ">O</w>
               <seg xml:id="WZB_223va_34_1" type="pc">•</seg>
               <seg xml:id="WZB_223va_34_2" type="pc">•</seg>
-              <head type="chapter" n="10">X CAPITULUM</head><lb n="35" facs="#region_1714382474197_327_tl_3"/>
+              <milestone unit="chapter" n="10"/><lb n="35" facs="#region_1714382474197_327_tl_3"/>
               <w xml:id="WZB_223va_35_0" lemmaRef="lexicon.xml#lemma_1097" pos="SCNJ">das</w>
               <w xml:id="WZB_223va_35_1" lemmaRef="lexicon.xml#lemma_1576" pos="VRB">erhorte</w>
               <w xml:id="WZB_223va_35_2" lemmaRef="lexicon.xml#lemma_1119" pos="DET">der</w>
@@ -222969,13 +223062,14 @@
             </l>
           </p>
         </div>
-        <div xml:id="Josua.11">
+        <div xml:id="Josua.11" type="chapter">
+          <head type="chapter" n="11">XI CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="8" facs="#region_1715066773531_44_tl_2"/>
               <w xml:id="WZB_225vb_8_0" lemmaRef="lexicon.xml#lemma_4445" pos="INJ">O</w>
               <seg xml:id="WZB_225vb_8_1" type="pc">•</seg>
-              <head type="chapter" n="11">XI CAPITULUM</head><seg xml:id="WZB_225vb_8_3" type="pc">•</seg>
+              <milestone unit="chapter" n="11"/><seg xml:id="WZB_225vb_8_3" type="pc">•</seg>
               <lb n="9" facs="#region_1715066773531_44_tl_4"/>
               <w xml:id="WZB_225vb_9_0" lemmaRef="lexicon.xml#lemma_1169" pos="DET">dise</w>
               <w xml:id="WZB_225vb_9_1" lemmaRef="lexicon.xml#lemma_1164" pos="NOM">dink</w>
@@ -223886,13 +223980,14 @@
             </l>
           </p>
         </div>
-        <div xml:id="Josua.12">
+        <div xml:id="Josua.12" type="chapter">
+          <head type="chapter" n="12">XII CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="7" facs="#region_1715066888327_81_tl_2"/>
               <w xml:id="WZB_226vb_7_0" lemmaRef="lexicon.xml#lemma_1764" pos="VRB">as</w>
               <seg xml:id="WZB_226vb_7_1" type="pc">•</seg>
-              <head type="chapter" n="12">XII CAPITULUM</head><lb n="8" facs="#region_1715066888327_81_tl_3"/>
+              <milestone unit="chapter" n="12"/><lb n="8" facs="#region_1715066888327_81_tl_3"/>
               <w xml:id="WZB_226vb_8_0" lemmaRef="lexicon.xml#lemma_5432" pos="VEX">sint</w>
               <w xml:id="WZB_226vb_8_1" lemmaRef="lexicon.xml#lemma_1139" pos="DET">die</w>
               <w xml:id="WZB_226vb_8_2" lemmaRef="lexicon.xml#lemma_3507" pos="NOM">kvnige</w>
@@ -224585,12 +224680,13 @@
             </l>
           </p>
         </div>
-        <div xml:id="Josua.13">
+        <div xml:id="Josua.13" type="chapter">
+          <head type="chapter" n="13">XIII CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="13" facs="#region_1715067388282_112_tl_2"/>
               <seg xml:id="WZB_227va_13_0" type="pc">•</seg>
-              <head type="chapter" n="13">XIII CAPITULUM</head><seg xml:id="WZB_227va_13_2" type="pc">•</seg>
+              <milestone unit="chapter" n="13"/><seg xml:id="WZB_227va_13_2" type="pc">•</seg>
               <lb n="14" facs="#region_1715067388282_112_tl_3"/>
               <w xml:id="WZB_227va_14_0" lemmaRef="lexicon.xml#lemma_7505" pos="VRB">was</w>
               <w xml:id="WZB_227va_14_1" lemmaRef="lexicon.xml#lemma_155" pos="ADJ">alt</w>
@@ -225593,13 +225689,14 @@
             </l>
           </p>
         </div>
-        <div xml:id="Josua.14">
+        <div xml:id="Josua.14" type="chapter">
+          <head type="chapter" n="14">XIIII CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="4" facs="#region_1715067513726_149_tl_2"/>
               <w xml:id="WZB_228vb_4_0" lemmaRef="lexicon.xml#lemma_1764" pos="VRB">as</w>
               <seg xml:id="WZB_228vb_4_1" type="pc">•</seg>
-              <head type="chapter" n="14">XIIII CAPITULUM</head><lb n="5" facs="#region_1715067513726_149_tl_3"/>
+              <milestone unit="chapter" n="14"/><lb n="5" facs="#region_1715067513726_149_tl_3"/>
               <w xml:id="WZB_228vb_5_0" lemmaRef="lexicon.xml#lemma_5432" pos="VEX">ist</w>
               <seg xml:id="WZB_228vb_5_1" type="pc">,</seg>
               <w xml:id="WZB_228vb_5_2" lemmaRef="lexicon.xml#lemma_1097" pos="SCNJ">das</w>
@@ -226223,10 +226320,11 @@
               <w xml:id="WZB_229rb_18_0" lemmaRef="lexicon.xml#lemma_5818" pos="VRB">streiten</w>
               <seg xml:id="WZB_229rb_18_1" type="pc">.</seg>
               <seg xml:id="WZB_229rb_18_2" type="pc">•</seg>
-              <head type="chapter" n="15">XV CAPITULUM</head></l>
+              <milestone unit="chapter" n="15"/></l>
           </p>
         </div>
-        <div xml:id="Josua.15">
+        <div xml:id="Josua.15" type="chapter">
+          <head type="chapter" n="15">XV CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="19" facs="#region_1715616706897_9_tl_1"/>
@@ -227516,13 +227614,14 @@
             </l>
           </p>
         </div>
-        <div xml:id="Josua.16">
+        <div xml:id="Josua.16" type="chapter">
+          <head type="chapter" n="16">XUI CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="10" facs="#region_1715616993779_80_tl_1"/>
               <w xml:id="WZB_230vb_10_0" lemmaRef="lexicon.xml#lemma_6467" pos="CCNJ">nd</w>
               <seg xml:id="WZB_230vb_10_1" type="pc">•</seg>
-              <head type="chapter" n="16">XUI CAPITULUM</head><lb n="11" facs="#region_1715616993779_80_tl_2"/>
+              <milestone unit="chapter" n="16"/><lb n="11" facs="#region_1715616993779_80_tl_2"/>
               <w xml:id="WZB_230vb_11_0" lemmaRef="lexicon.xml#lemma_1097" pos="DET">das</w>
               <w xml:id="WZB_230vb_11_1" lemmaRef="lexicon.xml#lemma_3818" pos="NOM">los</w>
               <w xml:id="WZB_230vb_11_2" lemmaRef="lexicon.xml#lemma_1119" pos="DET">der</w>
@@ -227834,13 +227933,14 @@
             </l>
           </p>
         </div>
-        <div xml:id="Josua.17">
+        <div xml:id="Josua.17" type="chapter">
+          <head type="chapter" n="17">XUII CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="20" facs="#region_1715617077706_97_tl_1"/>
               <w xml:id="WZB_231ra_20_0" lemmaRef="lexicon.xml#lemma_6467" pos="CCNJ">nd</w>
               <seg xml:id="WZB_231ra_20_1" type="pc">•</seg>
-              <head type="chapter" n="17">XUII CAPITULUM</head><seg xml:id="WZB_231ra_20_3" type="pc">•</seg>
+              <milestone unit="chapter" n="17"/><seg xml:id="WZB_231ra_20_3" type="pc">•</seg>
               <seg xml:id="WZB_231ra_20_5" type="pc">•</seg>
               <lb n="21" facs="#region_1715617077706_97_tl_2"/>
               <w xml:id="WZB_231ra_21_0" lemmaRef="lexicon.xml#lemma_1097" pos="DET">das</w>
@@ -228636,13 +228736,13 @@
             </l>
           </p>
         </div>
-        <div xml:id="Josua.18">
+        <div xml:id="Josua.18" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="14" facs="#region_1715617194158_130_tl_1"/>
               <w xml:id="WZB_232ra_14_0" lemmaRef="lexicon.xml#lemma_6467" pos="CCNJ">nd</w>
               <seg xml:id="WZB_232ra_14_1" type="pc">•</seg>
-              <head type="chapter">CAPITULUM</head><lb n="15" facs="#region_1715617194158_130_tl_2"/>
+              <milestone unit="chapter"/><lb n="15" facs="#region_1715617194158_130_tl_2"/>
               <w xml:id="WZB_232ra_15_0" lemmaRef="lexicon.xml#lemma_5089" pos="VRB">gesamment</w>
               <w xml:id="WZB_232ra_15_1" lemmaRef="lexicon.xml#lemma_7489" pos="VEX">wurden</w>
               <w xml:id="WZB_232ra_15_2" lemmaRef="lexicon.xml#lemma_106" pos="ADJ">alle</w>
@@ -229567,10 +229667,12 @@
               <lb n="12" facs="#region_1715617298186_162_tl_14"/>
               <seg xml:id="WZB_233ra_12_0" type="pc">.</seg>
               <seg xml:id="WZB_233ra_12_1" type="pc">•</seg>
-              <head type="chapter" n="19">XIX CAPITULUM</head></l>
+              <milestone unit="chapter" n="19"/></l>
           </p>
         </div>
-        <div xml:id="Josua.19">
+        <div xml:id="Josua.19" type="chapter">
+          <head type="chapter" n="19">XIX CAPITULUM</head>
+          <head type="chapter">CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="13" facs="#region_1715617305185_165_tl_1"/>
@@ -230646,13 +230748,13 @@
             </l>
           </p>
         </div>
-        <div xml:id="Josua.20">
+        <div xml:id="Josua.20" type="chapter">
           <p ana="paragraph">
             <l>
               <lb n="13" facs="#region_1716381066206_16_tl_1"/>
               <w xml:id="WZB_234rb_13_0" lemmaRef="lexicon.xml#lemma_6467" pos="CCNJ">nd</w>
               <seg xml:id="WZB_234rb_13_1" type="pc">•</seg>
-              <head type="chapter">CAPITULUM</head><lb n="14" facs="#region_1716381066206_16_tl_2"/>
+              <milestone unit="chapter"/><lb n="14" facs="#region_1716381066206_16_tl_2"/>
               <w xml:id="WZB_234rb_14_0" lemmaRef="lexicon.xml#lemma_7643" pos="POS">vnser</w>
               <w xml:id="WZB_234rb_14_1" lemmaRef="lexicon.xml#lemma_2684" pos="NOM">herre</w>
               <w xml:id="WZB_234rb_14_2" lemmaRef="lexicon.xml#lemma_4830" pos="VRB">redte</w>
@@ -231091,13 +231193,14 @@
             </l>
           </p>
         </div>
-        <div xml:id="Josua.21">
+        <div xml:id="Josua.21" type="chapter">
+          <head type="chapter">CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="18" facs="#region_1716381156388_37_tl_2"/>
               <w xml:id="WZB_234vb_18_0" lemmaRef="lexicon.xml#lemma_6467" pos="CCNJ">nd</w>
               <seg xml:id="WZB_234vb_18_1" type="pc">•</seg>
-              <head type="chapter">CAPITULUM</head><lb n="19" facs="#region_1716381156388_37_tl_3"/>
+              <milestone unit="chapter"/><lb n="19" facs="#region_1716381156388_37_tl_3"/>
               <w xml:id="WZB_234vb_19_0" lemmaRef="lexicon.xml#lemma_7770" pos="PRP">zu</w>
               <w xml:id="WZB_234vb_19_1" lemmaRef="lexicon.xml#lemma_2837" pos="ADV">hin</w>
               <w xml:id="WZB_234vb_19_2" lemmaRef="lexicon.xml#lemma_1844" pos="VRB">giengen</w>
@@ -232083,13 +232186,15 @@
             </l>
           </p>
         </div>
-        <div xml:id="Josua.22">
+        <div xml:id="Josua.22" type="chapter">
+          <head type="chapter" n="22">XXII CAPITULUM</head>
+          <head type="chapter">CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <lb n="22" facs="#region_1716381309887_80_tl_2"/>
               <w xml:id="WZB_236ra_22_0" lemmaRef="lexicon.xml#lemma_7770" pos="PRP">zu</w>
               <seg xml:id="WZB_236ra_22_1" type="pc">•</seg>
-              <head type="chapter" n="22">XXII CAPITULUM</head><seg xml:id="WZB_236ra_22_4" type="pc">•</seg>
+              <milestone unit="chapter" n="22"/><seg xml:id="WZB_236ra_22_4" type="pc">•</seg>
               <lb n="23" facs="#region_1716381309887_80_tl_3"/>
               <w xml:id="WZB_236ra_23_0" lemmaRef="lexicon.xml#lemma_1119" pos="DET">den</w>
               <w xml:id="WZB_236ra_23_1" lemmaRef="lexicon.xml#lemma_5385" pos="ADJ">selben</w>
@@ -233610,7 +233715,7 @@
             </l>
           </p>
         </div>
-        <div xml:id="Josua.23">
+        <div xml:id="Josua.23" type="chapter">
           <p ana="paragraph">
             <l>
               <cb n="b"/>
@@ -234327,7 +234432,8 @@
             </l>
           </p>
         </div>
-        <div xml:id="Josua.24">
+        <div xml:id="Josua.24" type="chapter">
+          <head type="chapter">CAPITULUM</head>
           <p ana="paragraph">
             <l>
               <pb n="238v" facs="#page_68285068"/>
@@ -234339,7 +234445,7 @@
               <lb n="2" facs="#region_1716381554753_153_tl_1"/>
               <w xml:id="WZB_238va_2_0" lemmaRef="lexicon.xml#lemma_6467" pos="CCNJ">nd</w>
               <seg xml:id="WZB_238va_2_1" type="pc">•</seg>
-              <head type="chapter">CAPITULUM</head><lb n="3" facs="#region_1716381554753_153_tl_2"/>
+              <milestone unit="chapter"/><lb n="3" facs="#region_1716381554753_153_tl_2"/>
               <w xml:id="WZB_238va_3_0">besammete</w>
               <w xml:id="WZB_238va_3_1" lemmaRef="lexicon.xml#lemma_106" pos="ADJ">alle</w>
               <lb n="4" facs="#region_1716381554753_153_tl_3"/>

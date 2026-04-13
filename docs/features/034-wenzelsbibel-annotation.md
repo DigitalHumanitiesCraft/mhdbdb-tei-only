@@ -369,7 +369,7 @@ During Phase 1b disambiguation, ~1,500 `<w>` elements were identified as non-lex
 | -------- | -------- | ----- | ----------- | --------------- |
 | **Book headers** (running headers in `<fw>`) | GENESIS, EXODUS, LEUI+TICUS, GENE+SIS | 909 `<w>` in 905 `<fw>` | Already `<fw type="header">` — strip `@lemmaRef`/`@pos` | None — not lexical |
 | **PROLOGUS** | PROLOGUS | 6 `<w>` in `<fw>` | Already `<fw type="header">` — strip annotation attrs | None — treated as book header |
-| **Chapter apparatus** | CAPITULUM + Roman numeral | 106 CAPITULUM `<w>` + adjacent numerals | Replace with `<head type="chapter" n="N">` inline in `<l>` | None — not lexical |
+| **Chapter apparatus** | CAPITULUM + Roman numeral | 106 CAPITULUM `<w>` + adjacent numerals | `<head type="chapter" n="N">` as first child of `<div type="chapter">`; `<milestone unit="chapter" n="N"/>` inline in `<l>` | None — not lexical |
 | **Scribal section initials** | S, O, a, A (single-letter paragraph marks) | ~6 | Convert `<w>` → `<seg type="pc">` | None |
 | **Pure scribal marks** | ł, -, ̃, ჻, =, ؞, ׀, ⫶ | ~654 | Convert `<w>` → `<seg type="pc">` | None |
 | **Roman numerals** (inline) | UIII, XU, XLU, XXUII (U=V in WZB script) | 16 | Keep as `<w>` | `lemma_13826` (DIG, concept_31422100 Römische Ziffern + concept_23123100 Lateinisch) |
@@ -380,7 +380,7 @@ During Phase 1b disambiguation, ~1,500 `<w>` elements were identified as non-lex
 ### Implementation Notes
 
 - **CAPITULUM position**: The chapter number appears either before or after CAPITULUM in the manuscript (e.g. "III CAPITULUM" and "CAPITULUM XIII" both occur). The script collects all adjacent Roman numeral `<w>` siblings (within 4 positions in the same `<l>`) and combines them. The `@n` attribute receives the Arabic equivalent (`U=V`).
-- **`<head type="chapter">` placement**: Inserted inline within the existing `<l>` element at the position of the earliest collected element. This preserves the surrounding text rather than restructuring the `<p>`/`<l>` hierarchy.
+- **`<head type="chapter">` placement**: Initially inserted inline within the existing `<l>` element (by `wzb-structural-cleanup.py`). Subsequently corrected by `wzb-structural-fix.py` (2026-04-13): `<head>` is now a direct first child of its `<div type="chapter">` (TEI P5 conformant), and a `<milestone unit="chapter" n="N"/>` is inserted at the original text-flow position inside the `<l>`. The `@n` attribute is recomputed with a space-tolerant roman_to_arabic converter (fixes "I X" → IX = 9 etc.).
 - **`<fw>` words**: Book header tokens are *already* inside `<fw type="header">` in the source TEI. The cleanup only removes incorrectly assigned `@lemmaRef`/`@pos` attributes — no structural change to the `<fw>` elements.
 - **Roman numeral notation**: WZB uses `U` for `V` throughout (Bohemian scribal convention). `UIII`=VIII, `XU`=XV, `XLU`=XLV etc. The `@n` attribute on `<head type="chapter">` stores the correct Arabic numeral.
 - **Latin `et`/`Et`**: Mapped to `lemma_1732` (existing CNJ lemma with concept_23123100 Lateinisch). Occurs in direct Vulgate quotations embedded in the German translation (e.g. "Fiat lux Et facta est").
@@ -398,6 +398,42 @@ python scripts/wzb-bulk-resolve.py --resolutions Wenzelsbibel/wzb-resolutions-ba
 ```
 
 **Result (2026-04-07):** 149,154 `<w>` elements (down from 150,017); 106 `<head type="chapter">`; 35,473 `<seg type="pc">`.
+
+---
+
+## Structural Fix — Div Types and Head Placement (2026-04-13)
+
+A second structural pass corrected two issues in the WB-DEA chapter division encoding.
+
+### Issue 1: Unnamed chapter divs
+
+The WB-DEA transformation produced 213 `<div>` elements with `type=""` and `xml:id` values like `Genesis.1`, `Exodus.12`, `Josua.24`. These represent biblical chapters and require `@type="chapter"` for schema conformance and query disambiguation.
+
+**Fix:** 212 divs updated to `<div type="chapter">`. (The remaining unnamed div is a pre-Genesis transition wrapper.)
+
+### Issue 2: `<head type="chapter">` inside `<l>` — TEI-invalid
+
+`wzb-structural-cleanup.py` placed `<head type="chapter">` elements inside `<l>` elements (where the scribal CAPITULUM tokens were in the text flow). TEI P5 does not allow `<head>` as a child of `<l>`; it must be a direct child of a block container such as `<div>`.
+
+**Fix:** `wzb-structural-fix.py` moves each `<head type="chapter">` to be the first child of its target `<div type="chapter">`, and replaces the former inline position with `<milestone unit="chapter" n="N"/>`.
+
+**Target div selection:**
+
+- By `@n` value: `<head type="chapter" n="5">` → `<div xml:id="Deuteronomium.5">` (preferred)
+- By "next sibling" fallback: bare CAPITULUM (no numeral) → first `<div type="chapter">` sibling after the containing div
+- Final fallback: bare CAPITULUM in last chapter of book → containing div itself (Josua.24)
+
+**Result (2026-04-13):**
+
+- 212 `<div type="chapter">` elements (was 0)
+- 106 `<head type="chapter">` now TEI-conformant (direct `<div>` children)
+- 106 `<milestone unit="chapter">` at original text-flow positions
+- 0 `<head>` remaining inside `<l>`
+
+```bash
+python scripts/wzb-structural-fix.py --dry-run
+python scripts/wzb-structural-fix.py
+```
 
 ---
 
