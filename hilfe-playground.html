@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Hilfe zum Playground der Mittelhochdeutschen Begriffsdatenbank: Multi-Lemma-Suche, Kookkurrenz-Analyse, Authority Files, typische Forschungsfragen.">
+    <meta name="keywords" content="MHDBDB, Playground, Hilfe, Multi-Lemma-Suche, Kookkurrenz, Authority Files, Forschung">
+    <meta name="author" content="Universität Salzburg">
+
+    <title>Playground-Hilfe – MHDBDB</title>
+
+    <link rel="stylesheet" href="assets/css/tailwind-output.css">
+    <link rel="icon" type="image/png" href="assets/images/mhdbdb-logo.png">
+    <link rel="stylesheet" href="assets/css/shared.css">
+    <link rel="stylesheet" href="assets/css/hilfe.css">
+</head>
+<body class="bg-slate-100 text-slate-900">
+
+    <!-- Header (global Top-Nav) -->
+    <header class="border-b border-slate-200 bg-white/90 backdrop-blur sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4">
+            <nav class="flex items-center justify-between">
+                <a href="index.html" class="flex items-center gap-3">
+                    <img src="assets/images/mhdbdb-logo.png" alt="MHDBDB Logo" class="w-40">
+                    <span class="text-lg font-bold text-brand-600">MHDBDB</span>
+                </a>
+
+                <div class="hidden md:flex items-center gap-6">
+                    <a href="index.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">Startseite</a>
+                    <a href="korpus.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">Korpussuche</a>
+                    <a href="playground/index.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">Playground</a>
+                    <a href="hilfe.html" class="text-sm font-semibold text-brand-600 transition" aria-current="page">Hilfe</a>
+                    <a href="index.html#contact" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">Kontakt</a>
+                </div>
+
+                <button id="mobileMenuButton" class="md:hidden p-2 text-slate-600 hover:text-slate-900 transition" aria-label="Toggle menu">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </nav>
+
+            <div id="mobileMenu" class="hidden md:hidden mt-4 pb-4 border-t border-slate-200">
+                <div class="flex flex-col gap-3 pt-4">
+                    <a href="index.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">Startseite</a>
+                    <a href="korpus.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">Korpussuche</a>
+                    <a href="playground/index.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">Playground</a>
+                    <a href="hilfe.html" class="text-sm font-semibold text-brand-600 py-2" aria-current="page">Hilfe</a>
+                    <a href="index.html#contact" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">Kontakt</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hilfe-interne Nav-Leiste -->
+    <nav class="bg-white border-b border-slate-200" aria-label="Hilfe-Bereiche">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-wrap gap-x-8 gap-y-2 -mb-px">
+                <a href="hilfe.html" class="py-3 border-b-2 border-transparent text-slate-600 hover:text-slate-900 hover:border-slate-300 transition text-sm font-medium">
+                    Quick-Start
+                </a>
+                <a href="hilfe-korpussuche.html" class="py-3 border-b-2 border-transparent text-slate-600 hover:text-slate-900 hover:border-slate-300 transition text-sm font-medium">
+                    Korpussuche-Hilfe
+                </a>
+                <a href="hilfe-playground.html" class="py-3 border-b-2 border-brand-600 text-brand-700 font-semibold text-sm" aria-current="page">
+                    Playground-Hilfe
+                </a>
+                <a href="hilfe-daten.html" class="py-3 border-b-2 border-transparent text-slate-600 hover:text-slate-900 hover:border-slate-300 transition text-sm font-medium">
+                    Daten
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-12">
+      <div class="hilfe-main-grid">
+        <div class="hilfe-content">
+
+        <!-- Hero -->
+        <section class="mb-10">
+            <h1 class="text-4xl font-bold text-slate-900 mb-4">Playground-Hilfe</h1>
+            <p class="text-lg text-slate-600 leading-relaxed">
+                Walkthrough für den <a href="playground/index.html" class="text-brand-600 hover:text-brand-700 font-medium">Playground</a>,
+                das Forschungswerkzeug der MHDBDB. Gedacht für medievistische und
+                digital-humanistische Fragestellungen, die mit einer einfachen Einzelwort-Suche
+                nicht beantwortbar sind: Kookkurrenzen, mehrere Lemmata gleichzeitig, Zugriff auf
+                die sechs Authority Files.
+            </p>
+        </section>
+
+        <!-- Inhaltsverzeichnis (inline, unter xl sichtbar) -->
+        <nav aria-label="Auf dieser Seite" class="hilfe-toc-inline mb-12 bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+            <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500 mb-3">Auf dieser Seite</h2>
+            <ol class="space-y-2 text-sm">
+                <li><a href="#worum-es-geht" class="text-brand-600 hover:text-brand-700 font-medium">1. Worum es geht</a></li>
+                <li><a href="#drei-spalten" class="text-brand-600 hover:text-brand-700 font-medium">2. Der Drei-Spalten-Aufbau</a></li>
+                <li><a href="#multi-lemma" class="text-brand-600 hover:text-brand-700 font-medium">3. Multi-Lemma-Suche</a></li>
+                <li><a href="#forschungsfragen" class="text-brand-600 hover:text-brand-700 font-medium">4. Typische Forschungsfragen</a></li>
+                <li><a href="#authority-files" class="text-brand-600 hover:text-brand-700 font-medium">5. Authority Files im Einsatz</a></li>
+                <li><a href="#workflow" class="text-brand-600 hover:text-brand-700 font-medium">6. Vom Playground in die Leseansicht</a></li>
+                <li><a href="#weiter" class="text-brand-600 hover:text-brand-700 font-medium">7. Was Sie als Nächstes tun können</a></li>
+            </ol>
+        </nav>
+
+        <!-- 1. Worum es geht -->
+        <section id="worum-es-geht" class="mb-12 scroll-mt-24">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">1. Worum es geht</h2>
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Der <a href="playground/index.html" class="text-brand-600 hover:text-brand-700 font-medium">Playground</a>
+                erweitert die Korpussuche um zwei Dinge: Sie können <strong>mehrere Lemmata
+                gleichzeitig</strong> suchen und prüfen, wie nahe sie im Text zusammen stehen
+                (Kookkurrenz-Analyse), und Sie können die sechs <strong>Authority Files</strong>
+                direkt durchsuchen – Autor:innen, Werke, das Wörterbuch, die Begriffstaxonomie,
+                Gattungen und Eigennamen.
+            </p>
+            <p class="text-slate-700 leading-relaxed">
+                Die Oberfläche ist forschungsorientiert: etwas dichter, mit mehr Bedienelementen
+                als die Korpussuche. Wenn Sie nur nach einem einzigen Wort suchen wollen, ist die
+                <a href="korpus.html" class="text-brand-600 hover:text-brand-700 font-medium">Korpussuche</a>
+                der schnellere Weg.
+            </p>
+        </section>
+
+        <!-- 2. Drei-Spalten-Aufbau -->
+        <section id="drei-spalten" class="mb-12 scroll-mt-24">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">2. Der Drei-Spalten-Aufbau</h2>
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Der Playground arbeitet in drei Schritten, die auch räumlich abgebildet sind:
+            </p>
+            <ol class="space-y-2 text-sm text-slate-700 mb-4 ml-4 list-decimal list-inside">
+                <li><strong>Korpus-Browser</strong> (links) – alle 666 Texte sind standardmäßig aktiv. Hier schränken Sie die Analyse auf bestimmte Werke, Autor:innen oder Gattungen ein.</li>
+                <li><strong>Abfragen</strong> (Mitte) – sechs Authority-File-Einstiegspunkte plus die TEI-Analyse mit Multi-Lemma-Suche.</li>
+                <li><strong>Ergebnisse</strong> (rechts) – die Trefferliste zur aktuellen Abfrage, mit farbkodiertem Highlighting und Klick-Navigation in die Leseansicht.</li>
+            </ol>
+            <p class="text-slate-700 leading-relaxed">
+                Beim ersten Besuch lädt der Playground das vollständige Korpus einmalig in den
+                Browser-Cache (ca. 21 MB, einige Sekunden). Danach ist er auch offline verfügbar.
+            </p>
+        </section>
+
+        <!-- 3. Multi-Lemma-Suche -->
+        <section id="multi-lemma" class="mb-12 scroll-mt-24">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">3. Multi-Lemma-Suche</h2>
+
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Die Multi-Lemma-Suche ist das Kernstück des Playgrounds. Sie öffnet einen Dialog,
+                in den Sie mehrere Lemmata eingeben – als Wort oder als Lemma-ID.
+            </p>
+
+            <h3 class="text-lg font-semibold text-slate-900 mt-6 mb-2">Lemmata eingeben</h3>
+            <p class="text-slate-700 leading-relaxed mb-3">
+                Getrennt durch Komma oder Plus-Zeichen, zum Beispiel:
+                <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">brôt, wîn</code> oder
+                <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">879 + 7532</code>.
+                Auch ein einzelnes Lemma ist erlaubt. Jedes eingegebene Lemma erscheint als
+                entfernbarer Chip – so sehen Sie sofort, was die Suche berücksichtigt.
+            </p>
+            <p class="text-slate-700 leading-relaxed">
+                Die dreistufige Variantenauflösung aus der Korpussuche gilt auch hier: exakter
+                Treffer im Wörterbuch, dann Prüfung gegen 175.910 orthographische Varianten, dann
+                Teiltreffer als Fallback. Sonderzeichen (â, ê, î, ô, û, ä, ö, ü) werden automatisch
+                normalisiert.
+            </p>
+
+            <h3 class="text-lg font-semibold text-slate-900 mt-6 mb-2">Suchmodus wählen</h3>
+
+            <div class="bg-white rounded-xl border border-slate-200 p-5 my-4">
+                <h4 class="text-base font-semibold text-slate-900 mb-2">Nähe-Analyse <span class="text-xs font-normal text-brand-600 ml-1">Empfohlen</span></h4>
+                <p class="text-sm text-slate-700 leading-relaxed">
+                    Findet Belegstellen, an denen die gesuchten Lemmata innerhalb eines einstellbaren
+                    Wortabstands zusammen vorkommen – eine
+                    <strong>Kookkurrenz</strong> (zwei oder mehr Lemmata, die im Text in geringem
+                    Abstand zusammenstehen). Der Standardwert von 10 Wörtern hat sich bewährt;
+                    einstellbar von 1 bis 50. Ideal für Fragen wie: „In welchen Passagen stehen
+                    <em>minne</em> und <em>herze</em> eng zusammen?"
+                </p>
+            </div>
+
+            <div class="bg-white rounded-xl border border-slate-200 p-5 my-4">
+                <h4 class="text-base font-semibold text-slate-900 mb-2">Dokument-Suche</h4>
+                <p class="text-sm text-slate-700 leading-relaxed">
+                    Listet alle Texte auf, die sämtliche angegebenen Lemmata irgendwo enthalten –
+                    unabhängig vom Abstand. Ideal für Fragen wie: „Welche Texte behandeln sowohl
+                    <em>triuwe</em> als auch <em>zwîvel</em>?" Das Ergebnis ist dokumentbasiert,
+                    nicht stellenbasiert.
+                </p>
+            </div>
+
+            <h3 class="text-lg font-semibold text-slate-900 mt-6 mb-2">Ergebnisse und Farbcodierung</h3>
+            <p class="text-slate-700 leading-relaxed">
+                Jedes Lemma bekommt eine eigene Farbe. In der Trefferliste sehen Sie die
+                Belegstelle mit Kontext und farblich hervorgehobenen Lemmata. Ein Klick auf einen
+                Treffer öffnet die Leseansicht der Hauptseite mit allen Lemmata in denselben Farben
+                und springt direkt zur Fundstelle.
+            </p>
+        </section>
+
+        <!-- 4. Typische Forschungsfragen -->
+        <section id="forschungsfragen" class="mb-12 scroll-mt-24">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">4. Typische Forschungsfragen</h2>
+
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Damit die abstrakten Modi greifbarer werden: vier Fragen, die häufig an die
+                MHDBDB gestellt werden, und wie Sie sie im Playground bearbeiten.
+            </p>
+
+            <div class="space-y-4">
+
+                <div class="bg-white rounded-xl border border-slate-200 p-5">
+                    <p class="text-sm text-slate-600 uppercase tracking-wide font-semibold mb-1">Kookkurrenz-Analyse</p>
+                    <p class="text-slate-800 font-medium mb-2">„In welchen Passagen stehen <em>minne</em> und <em>herze</em> eng zusammen?"</p>
+                    <p class="text-sm text-slate-600">
+                        Multi-Lemma-Suche · <strong>Nähe-Analyse</strong> · Abstand 10 Wörter ·
+                        <code class="px-2 py-0.5 bg-slate-100 rounded text-xs">minne, herze</code>.
+                        Die Trefferliste zeigt jede Belegstelle mit Kontext, Farbcodierung pro Lemma.
+                    </p>
+                </div>
+
+                <div class="bg-white rounded-xl border border-slate-200 p-5">
+                    <p class="text-sm text-slate-600 uppercase tracking-wide font-semibold mb-1">Thematische Kopräsenz auf Dokumentebene</p>
+                    <p class="text-slate-800 font-medium mb-2">„Welche Texte behandeln sowohl <em>triuwe</em> als auch <em>zwîvel</em>?"</p>
+                    <p class="text-sm text-slate-600">
+                        Multi-Lemma-Suche · <strong>Dokument-Suche</strong> ·
+                        <code class="px-2 py-0.5 bg-slate-100 rounded text-xs">triuwe, zwîvel</code>.
+                        Das Ergebnis listet die Werke auf, in denen beide Lemmata vorkommen – egal wo.
+                    </p>
+                </div>
+
+                <div class="bg-white rounded-xl border border-slate-200 p-5">
+                    <p class="text-sm text-slate-600 uppercase tracking-wide font-semibold mb-1">Begriffsnetzwerk erkunden</p>
+                    <p class="text-slate-800 font-medium mb-2">„Welche Lemmata fallen unter den Begriff <em>Tugend</em>?"</p>
+                    <p class="text-sm text-slate-600">
+                        Authority-Ansicht <strong>Begriffe</strong> · nach <em>Tugend</em> suchen ·
+                        im Detaileintrag stehen alle Lemmata, die der Begriffstaxonomie nach
+                        darunter fallen. Von dort können Sie direkt in die Korpussuche springen.
+                    </p>
+                </div>
+
+                <div class="bg-white rounded-xl border border-slate-200 p-5">
+                    <p class="text-sm text-slate-600 uppercase tracking-wide font-semibold mb-1">Gattungsbasierte Korpusselektion</p>
+                    <p class="text-slate-800 font-medium mb-2">„Welche Werke sind der Gattung Sangspruch zugeordnet?"</p>
+                    <p class="text-sm text-slate-600">
+                        Authority-Ansicht <strong>Gattungen</strong> · nach <em>Sangspruch</em>
+                        suchen · die Werkliste im Detaileintrag zeigt alle zugeordneten Texte.
+                        Diese Auswahl können Sie als Ausgangspunkt für eine gefilterte Multi-Lemma-Suche
+                        übernehmen.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 5. Authority Files im Einsatz -->
+        <section id="authority-files" class="mb-12 scroll-mt-24">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">5. Authority Files im Einsatz</h2>
+
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Sechs Authority-Ansichten öffnen je einen Einstiegspunkt in die kontrollierten
+                Vokabulare. Hier steht, wann welche Ansicht nützlich ist. Die technische
+                Beschreibung der Dateien (Größe, Struktur, Provenienz) steht unter
+                <a href="hilfe-daten.html#authority-files" class="text-brand-600 hover:text-brand-700 font-medium">Daten → Sieben Authority Files</a>.
+            </p>
+
+            <ul class="space-y-3 text-sm text-slate-700 mb-4">
+                <li><strong>Autor:innen</strong> – Einstieg, wenn Sie bei einer Person beginnen: „Welche Werke sind Walther von der Vogelweide zugeschrieben?" Von dort öffnen Sie jedes Werk direkt im Reading View.</li>
+                <li><strong>Werke</strong> – Einstieg, wenn Sie bei einem Text beginnen: Sigle, Autor:in, Editionen und Handschriftenzeugen im Überblick. Nützlich, um mehrere Editionen eines Werks zu vergleichen.</li>
+                <li><strong>Lemmata</strong> – Einstieg, wenn Sie ein Wort nachschlagen wollen, bevor Sie suchen: Wortart, Bedeutungen und Belegzahl auf einen Blick.</li>
+                <li><strong>Begriffe</strong> – Einstieg für semantische Recherche: von einem Konzept (z.B. <em>Tugend</em>) zu allen zugeordneten Lemmata absteigen.</li>
+                <li><strong>Gattungen</strong> – Einstieg für gattungsbasierte Korpusselektion.</li>
+                <li><strong>Namen</strong> – Einstieg für onomastische Fragen: Eigennamen mit semantischen Relationen.</li>
+            </ul>
+
+            <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded-r-lg my-6">
+                <p class="text-sm text-slate-700">
+                    <strong>Tipp:</strong> Die Authority-Ansichten arbeiten unabhängig von der
+                    Texteauswahl links. Sie können also den gesamten Namensraum durchsuchen, selbst
+                    wenn Sie die spätere TEI-Analyse auf wenige Texte einschränken wollen.
+                </p>
+            </div>
+        </section>
+
+        <!-- 6. Workflow -->
+        <section id="workflow" class="mb-12 scroll-mt-24">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">6. Vom Playground in die Leseansicht</h2>
+
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Der typische Forschungsworkflow verbindet Playground und Korpussuche:
+            </p>
+            <ol class="space-y-2 text-sm text-slate-700 mb-4 ml-4 list-decimal list-inside">
+                <li>Im Playground eine Multi-Lemma-Suche starten.</li>
+                <li>Eine interessante Kookkurrenz in der Trefferliste auswählen.</li>
+                <li>Klick auf das Ergebnis – die Korpussuche öffnet sich in einem neuen Tab.</li>
+                <li>Der Text ist geladen, alle Lemmata sind farblich hervorgehoben, die Ansicht scrollt automatisch zur Fundstelle.</li>
+                <li>Im Reading View weiterlesen, zwischen Belegen springen, Metadaten aufklappen.</li>
+            </ol>
+            <p class="text-slate-700 leading-relaxed">
+                So bleiben Analyse und Lektüre getrennt: der Playground liefert die
+                Korpusstatistik, die Korpussuche den Volltext im Kontext.
+            </p>
+        </section>
+
+        <!-- 7. Weiter -->
+        <section id="weiter" class="mb-12 scroll-mt-24">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">7. Was Sie als Nächstes tun können</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+                <a href="playground/index.html" class="block bg-white rounded-2xl border border-slate-200 p-5 shadow-sm hover:border-brand-400 hover:shadow-md transition group">
+                    <h3 class="text-base font-bold text-slate-900 group-hover:text-brand-700 transition mb-2">→ Direkt zum Playground</h3>
+                    <p class="text-sm text-slate-600">
+                        Multi-Lemma-Suche und Authority-Files selbst ausprobieren.
+                    </p>
+                </a>
+
+                <a href="hilfe-korpussuche.html" class="block bg-white rounded-2xl border border-slate-200 p-5 shadow-sm hover:border-brand-400 hover:shadow-md transition group">
+                    <h3 class="text-base font-bold text-slate-900 group-hover:text-brand-700 transition mb-2">→ Korpussuche-Hilfe</h3>
+                    <p class="text-sm text-slate-600">
+                        Reading View, Highlighting und Lemma-Seiten im Detail.
+                    </p>
+                </a>
+
+                <a href="hilfe-daten.html" class="block bg-white rounded-2xl border border-slate-200 p-5 shadow-sm hover:border-brand-400 hover:shadow-md transition group">
+                    <h3 class="text-base font-bold text-slate-900 group-hover:text-brand-700 transition mb-2">→ Was steckt im Korpus?</h3>
+                    <p class="text-sm text-slate-600">
+                        Datenbasis, Authority Files, Provenienz und bekannte Grenzen.
+                    </p>
+                </a>
+
+            </div>
+        </section>
+
+        <!-- Stand-Zeile -->
+        <p class="hilfe-stand">
+            Stand: April 2026 ·
+            <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/commits/main/hilfe-playground.html" target="_blank" rel="noopener">Änderungen auf GitHub</a>
+        </p>
+
+        </div><!-- /.hilfe-content -->
+
+        <!-- Sticky TOC (sichtbar ab xl) -->
+        <aside class="hilfe-toc-aside">
+            <nav aria-label="Auf dieser Seite" class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
+                <h2 class="text-xs font-semibold uppercase tracking-wide text-slate-500 mb-3">Auf dieser Seite</h2>
+                <ol class="space-y-2 text-sm">
+                    <li><a href="#worum-es-geht" class="text-brand-600 hover:text-brand-700 font-medium">1. Worum es geht</a></li>
+                    <li><a href="#drei-spalten" class="text-brand-600 hover:text-brand-700 font-medium">2. Drei-Spalten-Aufbau</a></li>
+                    <li><a href="#multi-lemma" class="text-brand-600 hover:text-brand-700 font-medium">3. Multi-Lemma-Suche</a></li>
+                    <li><a href="#forschungsfragen" class="text-brand-600 hover:text-brand-700 font-medium">4. Forschungsfragen</a></li>
+                    <li><a href="#authority-files" class="text-brand-600 hover:text-brand-700 font-medium">5. Authority Files</a></li>
+                    <li><a href="#workflow" class="text-brand-600 hover:text-brand-700 font-medium">6. Zur Leseansicht</a></li>
+                    <li><a href="#weiter" class="text-brand-600 hover:text-brand-700 font-medium">7. Was als Nächstes</a></li>
+                </ol>
+            </nav>
+        </aside>
+
+      </div><!-- /.hilfe-main-grid -->
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-100 text-slate-900 py-12 mt-20">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-wrap items-center justify-center gap-8 mb-6 pb-6 border-b border-slate-300">
+                <img src="assets/images/mhdbdb-logo.png" alt="MHDBDB Logo" class="h-16 w-auto">
+                <img src="assets/images/university-logo.png" alt="Universität Salzburg" class="h-24 w-auto">
+                <img src="assets/images/clariah-logo.png" alt="CLARIAH-AT" class="h-24 w-auto">
+            </div>
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="text-center md:text-left">
+                    <p class="text-sm mb-2">
+                        © 2025 Universität Salzburg |
+                        <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="hover:text-brand-600 transition" target="_blank" rel="noopener">
+                            CC BY-NC-SA 4.0
+                        </a>
+                    </p>
+                    <div class="flex flex-wrap justify-center md:justify-start gap-4 text-sm text-slate-600">
+                        <a href="mailto:mhdbdb@plus.ac.at" class="hover:text-brand-600 transition">mhdbdb@plus.ac.at</a>
+                        <span>|</span>
+                        <a href="https://mhdbdb.plus.ac.at" class="hover:text-brand-600 transition" target="_blank" rel="noopener">mhdbdb.plus.ac.at</a>
+                        <span>|</span>
+                        <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only" class="hover:text-brand-600 transition" target="_blank" rel="noopener">GitHub</a>
+                    </div>
+                </div>
+                <button id="clearSiteDataBtn" class="btn-secondary text-sm flex items-center gap-2" title="Alle gespeicherten Daten löschen (Cache, IndexedDB, etc.)">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                    </svg>
+                    <span>Website-Daten löschen</span>
+                </button>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Inline Scripts: Mobile Menu + Clear Site Data -->
+    <script>
+        const mobileMenuButton = document.getElementById('mobileMenuButton');
+        const mobileMenu = document.getElementById('mobileMenu');
+        if (mobileMenuButton && mobileMenu) {
+            mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+            document.addEventListener('click', (e) => {
+                if (!mobileMenuButton.contains(e.target) && !mobileMenu.contains(e.target)) {
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+            });
+        }
+
+        const clearBtn = document.getElementById('clearSiteDataBtn');
+        if (clearBtn) {
+            clearBtn.addEventListener('click', async () => {
+                const message = 'Alle gespeicherten Daten löschen?\n\nDies umfasst:\n' +
+                    '• TEI-Dateien Cache\n' +
+                    '• Authority- und Corpus-Indizes\n' +
+                    '• Alle lokalen Einstellungen\n\n' +
+                    'Die Seite wird neu geladen.';
+                if (!confirm(message)) return;
+                try {
+                    if (indexedDB.databases) {
+                        const dbs = await indexedDB.databases();
+                        await Promise.all(dbs.map(db => new Promise(resolve => {
+                            const req = indexedDB.deleteDatabase(db.name);
+                            req.onsuccess = req.onerror = req.onblocked = () => resolve();
+                        })));
+                    }
+                    localStorage.clear();
+                    sessionStorage.clear();
+                } catch (err) {
+                    console.error('[hilfe-playground.html] Clear site data failed:', err);
+                }
+                location.reload();
+            });
+        }
+    </script>
+
+</body>
+</html>

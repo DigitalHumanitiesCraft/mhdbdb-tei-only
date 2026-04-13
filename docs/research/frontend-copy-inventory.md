@@ -1,8 +1,8 @@
 ---
-title: Frontend Copy Inventory — Bestandsaufnahme user-facing Text
+title: Frontend Copy Inventory – Bestandsaufnahme user-facing Text
 status: Recherche-Artefakt, nicht Teil der stabilen Doku
 date: 2026-04-13
-scope: Parallelarbeit zu help-pages-best-practice.md — was an Copy bereits existiert, was fehlt, was widersprüchlich ist
+scope: Parallelarbeit zu help-pages-best-practice.md – was an Copy bereits existiert, was fehlt, was widersprüchlich ist
 ---
 
 > **Hinweis:** Temporäres Recherche-Artefakt. Entscheidungsgrundlage für `/hilfe/`-Implementation. Nach Umsetzung archiviert (Git-History). Nicht in INDEX.MD verlinken.
@@ -11,9 +11,9 @@ scope: Parallelarbeit zu help-pages-best-practice.md — was an Copy bereits exi
 
 Systematische Bestandsaufnahme aller user-facing Copy im Frontend. Antwortet drei Fragen:
 
-1. **Was existiert schon?** — wiederverwendbar für `/hilfe/` (ggf. nach Edit)
-2. **Was fehlt?** — muss neu geschrieben werden
-3. **Was ist widersprüchlich?** — muss vor Doku-Arbeit konsolidiert werden
+1. **Was existiert schon?** – wiederverwendbar für `/hilfe/` (ggf. nach Edit)
+2. **Was fehlt?** – muss neu geschrieben werden
+3. **Was ist widersprüchlich?** – muss vor Doku-Arbeit konsolidiert werden
 
 Komplementär zu `help-pages-best-practice.md` (Struktur-Empfehlung) und `docs/USER-GUIDE.MD` (bestehender Guide-Text).
 
@@ -26,9 +26,9 @@ Komplementär zu `help-pages-best-practice.md` (Struktur-Empfehlung) und `docs/U
 | Landing | [index.html](../../index.html) | 717 | Übersicht, Stats, „Doku"-Hub (dev-facing) | ✓ + Clear Site Data | ✓ |
 | Korpussuche | [korpus.html](../../korpus.html) | 382 | Haupt-Suche, Reading View | ✓ + Clear Site Data | ✓ |
 | Playground | [playground/index.html](../../playground/index.html) | 421 | 3-Spalten-Explorer (Browser / Queries / Ergebnisse) | ✓ + Clear Site Data | ✓ |
-| Lemma-Seite | [lemma/index.html](../../lemma/index.html) | 235 | Einzel-Lemma-Ansicht (persistente URL) | Abweichend (simpler Footer, kein Kontakt-Link in Nav) | — |
-| 404-Fallback | [404.html](../../404.html) | 33 | GitHub-Pages-SPA-Redirect + Fallback-Text | — | — |
-| User Guide (MD) | [docs/USER-GUIDE.MD](../USER-GUIDE.MD) | 122 | Benutzerhandbuch, nur auf GitHub erreichbar | — | — |
+| Lemma-Seite | [lemma/index.html](../../lemma/index.html) | 235 | Einzel-Lemma-Ansicht (persistente URL) | Abweichend (simpler Footer, kein Kontakt-Link in Nav) | – |
+| 404-Fallback | [404.html](../../404.html) | 33 | GitHub-Pages-SPA-Redirect + Fallback-Text | – | – |
+| User Guide (MD) | [docs/USER-GUIDE.MD](../USER-GUIDE.MD) | 122 | Benutzerhandbuch, nur auf GitHub erreichbar | – | – |
 
 **Beobachtung:** Vier Frontend-Seiten, eine Markdown-Datei. Keine zentrale Hilfe-Seite. Die Nav-Positionen „Dokumentation" und „Kontakt" zeigen auf Anchor-Sektionen in `index.html` (`#documentation`, `#contact`).
 
@@ -36,7 +36,7 @@ Komplementär zu `help-pages-best-practice.md` (Struktur-Empfehlung) und `docs/U
 
 ## 2. Wiederverwendbare Copy
 
-Material, das für `/hilfe/` nach dem Sitemap-Entwurf aus `help-pages-best-practice.md` taugt — eventuell mit kleineren Edits:
+Material, das für `/hilfe/` nach dem Sitemap-Entwurf aus `help-pages-best-practice.md` taugt – eventuell mit kleineren Edits:
 
 | Quelle | Text / Konzept | Mögliche Ziel-Sektion |
 |---|---|---|
@@ -54,7 +54,7 @@ Material, das für `/hilfe/` nach dem Sitemap-Entwurf aus `help-pages-best-pract
 | `playground/index.html` Modi-Beschreibungen (Zeilen 309, 329) | „Nähe-Analyse: Kookkurrenz" / „Dokument-Suche: alle Lemmata irgendwo" | `/hilfe/nachschlagen/playground.html` |
 | `lemma/index.html` Sektionslabels | Morphologie, Bedeutungen, Schreibformen, Komposita, Belegstellen, Wörterbuchnetz, Weitere Verweise | `/hilfe/nachschlagen/reading-view.html` oder eigene `lemma-seite.html` |
 
-**Fazit:** Die meiste Referenz-Prosa (`/hilfe/nachschlagen/`) existiert in Bruchstücken. Task-Walkthroughs (`/hilfe/schnellstart/`) existieren **nicht** — USER-GUIDE.MD ist Feature-geordnet, nicht Task-geordnet.
+**Fazit:** Die meiste Referenz-Prosa (`/hilfe/nachschlagen/`) existiert in Bruchstücken. Task-Walkthroughs (`/hilfe/schnellstart/`) existieren **nicht** – USER-GUIDE.MD ist Feature-geordnet, nicht Task-geordnet.
 
 ---
 
@@ -64,24 +64,24 @@ Für den Sitemap-Entwurf aus der Best-Practice-Recherche gibt es zu folgenden Se
 
 ### `/hilfe/` (Hub-Landingpage)
 - 3-Kachel-Einstieg (Schnellstart / Nachschlagen / Hintergrund)
-- Suchschlitz über die Hilfeseiten selbst (Best-Practice-Empfehlung, aber techn. Zusatzaufwand — siehe §6)
+- Suchschlitz über die Hilfeseiten selbst (Best-Practice-Empfehlung, aber techn. Zusatzaufwand – siehe §6)
 
 ### `/hilfe/schnellstart/` (alle Seiten)
-- `erste-suche.html` — Task-Narrativ „Wie finde ich Belege für *minne*?" (3 Klicks)
-- `text-lesen.html` — Task-Narrativ für Reading View mit Hervorhebungen (existierende Feature-Liste ist nicht task-geordnet)
-- `mehrere-lemmata.html` — Task-Narrativ Multi-Lemma im Playground mit konkretem Forschungs-Use-Case
-- `texte-filtern.html` — Task-Narrativ Korpusauswahl (Tipp-Text in `korpus.html:183` ist ein guter Hook, aber kein Walkthrough)
+- `erste-suche.html` – Task-Narrativ „Wie finde ich Belege für *minne*?" (3 Klicks)
+- `text-lesen.html` – Task-Narrativ für Reading View mit Hervorhebungen (existierende Feature-Liste ist nicht task-geordnet)
+- `mehrere-lemmata.html` – Task-Narrativ Multi-Lemma im Playground mit konkretem Forschungs-Use-Case
+- `texte-filtern.html` – Task-Narrativ Korpusauswahl (Tipp-Text in `korpus.html:183` ist ein guter Hook, aber kein Walkthrough)
 
 ### `/hilfe/hintergrund/`
-- `zitieren.html` — **komplett fehlend**. Keine Zitationsempfehlung irgendwo. Nur correspSearch in der Best-Practice-Recherche hat das vorbildlich gelöst.
-- `tei-modell.html` — Kurzfassung von `docs/TEI-MODEL.md` für Nicht-Entwickler:innen. TEI-MODEL.md selbst ist fürs Dev-Publikum.
-- `aenderungen.html` — Changelog-Seite (GitHub-Releases verlinken). Existiert bisher nicht.
+- `zitieren.html` – **komplett fehlend**. Keine Zitationsempfehlung irgendwo. Nur correspSearch in der Best-Practice-Recherche hat das vorbildlich gelöst.
+- `tei-modell.html` – Kurzfassung von `docs/TEI-MODEL.md` für Nicht-Entwickler:innen. TEI-MODEL.md selbst ist fürs Dev-Publikum.
+- `aenderungen.html` – Changelog-Seite (GitHub-Releases verlinken). Existiert bisher nicht.
 
 ### `/hilfe/fuer-entwickler/` (optional, englisch)
-- Im Inventar nicht weiter verfolgt — die Inhalte existieren bereits in `docs/ARCHITECTURE.MD`, `docs/DATA-MODEL.MD`, `docs/CONTRACTS.MD`. Hier reicht eine dünne Landingpage mit drei Links.
+- Im Inventar nicht weiter verfolgt – die Inhalte existieren bereits in `docs/ARCHITECTURE.MD`, `docs/DATA-MODEL.MD`, `docs/CONTRACTS.MD`. Hier reicht eine dünne Landingpage mit drei Links.
 
 ### Lemma-Seite (falls eigene Doku)
-- `lemma/index.html` ist nirgends in der bestehenden Doku erwähnt — weder in `USER-GUIDE.MD` noch in `FEATURES.MD`. Das ist eine Lücke, die im Inventar am stärksten auffällt.
+- `lemma/index.html` ist nirgends in der bestehenden Doku erwähnt – weder in `USER-GUIDE.MD` noch in `FEATURES.MD`. Das ist eine Lücke, die im Inventar am stärksten auffällt.
 
 ---
 
@@ -118,7 +118,7 @@ Bei `lang="de"` gesetzt, aber Headings in Englisch:
 | `index.html` | 423 | „MHG Character Normalization" | „Normalisierung mhd. Zeichen" |
 | `playground/index.html` | 82 | `<h1>TEI Data Explorer</h1>` | „TEI-Daten-Explorer" oder als Untertitel belassen, Haupt-H1 deutsch |
 | `playground/index.html` | 203 | „Query Interface" | „Abfragen" oder „Suchwerkzeuge" |
-| Alle Footer | — | Button-Label „Clear Site Data" | „Website-Daten löschen" |
+| Alle Footer | – | Button-Label „Clear Site Data" | „Website-Daten löschen" |
 | `404.html` | 26 | Fallback „Page not found" / „Back to MHDBDB" | „Seite nicht gefunden" / „Zurück zur MHDBDB" |
 
 Deine Regel laut Memory: *immer Deutsch für user-facing*. Diese Stellen verletzen das.
@@ -163,12 +163,12 @@ Tatsächlich im `playground/index.html`: 6 Authority-Buttons + 1 Multi-Lemma + 3
 
 Folgende user-sichtbaren UI-Elemente sind keine „Copy" im engen Sinne, müssen aber in der Doku erklärt werden:
 
-- Farb-System Multi-Lemma-Highlighting: 5 Farben (rot, blau, grün, gelb, violett) — dokumentiert in `USER-GUIDE.MD:35`
-- „Schritt 1/2/3"-Pattern im Playground (visuelle Progression) — nicht dokumentiert
-- Metadaten-Panel-Felder (Autor*in, Sigle, Gattung, Quelle) in `korpus.html:273–288` — Labels sind Copy, aber die Wikidata/GND-Verknüpfung dahinter ist nirgends erklärt
-- „Clear Site Data" — erklärt in `USER-GUIDE.MD:103–105` (Abschnitt „Cache leeren"), Button selbst ist aber englisch beschriftet
-- „Beta"-Banner (`index.html:189`) — erklärt nicht, was das heißt oder wie lange Beta-Phase dauert
-- Error-States: `errorDisplay` in allen Seiten, aber der tatsächliche Fehlertext kommt aus JS (`app.js:434` „Bitte wählen Sie mindestens einen Text aus.") — Inventur nicht erschöpfend, da Fehlertexte in JS verstreut sind
+- Farb-System Multi-Lemma-Highlighting: 5 Farben (rot, blau, grün, gelb, violett) – dokumentiert in `USER-GUIDE.MD:35`
+- „Schritt 1/2/3"-Pattern im Playground (visuelle Progression) – nicht dokumentiert
+- Metadaten-Panel-Felder (Autor*in, Sigle, Gattung, Quelle) in `korpus.html:273–288` – Labels sind Copy, aber die Wikidata/GND-Verknüpfung dahinter ist nirgends erklärt
+- „Clear Site Data" – erklärt in `USER-GUIDE.MD:103–105` (Abschnitt „Cache leeren"), Button selbst ist aber englisch beschriftet
+- „Beta"-Banner (`index.html:189`) – erklärt nicht, was das heißt oder wie lange Beta-Phase dauert
+- Error-States: `errorDisplay` in allen Seiten, aber der tatsächliche Fehlertext kommt aus JS (`app.js:434` „Bitte wählen Sie mindestens einen Text aus.") – Inventur nicht erschöpfend, da Fehlertexte in JS verstreut sind
 
 ---
 
@@ -176,21 +176,21 @@ Folgende user-sichtbaren UI-Elemente sind keine „Copy" im engen Sinne, müssen
 
 Aus dem Abgleich Inventar ↔ Best-Practice-Recherche entstanden:
 
-1. **Markdown-Quelle oder direkt HTML?** — Research-Empfehlung (`help-pages-best-practice.md` §3(d)): „Hilfe liegt als Markdown in `docs/hilfe/` und wird beim Build zu statischen HTML-Seiten". **Session-Entscheidung ist davon abweichend: direktes Handschreiben von HTML im Stil von `korpus.html`, kein neuer Render-Pfad.** Der URL-Pfad-Entwurf aus dem Research (`schnellstart/erste-suche.html` usw.) bleibt identisch — die Leaf-Namen sind dort schon `.html`. Unterschied liegt im **Authoring-Workflow**. Konsequenzen, die im weiteren Plan berücksichtigt werden müssen:
+1. **Markdown-Quelle oder direkt HTML?** – Research-Empfehlung (`help-pages-best-practice.md` §3(d)): „Hilfe liegt als Markdown in `docs/hilfe/` und wird beim Build zu statischen HTML-Seiten". **Session-Entscheidung ist davon abweichend: direktes Handschreiben von HTML im Stil von `korpus.html`, kein neuer Render-Pfad.** Der URL-Pfad-Entwurf aus dem Research (`schnellstart/erste-suche.html` usw.) bleibt identisch – die Leaf-Namen sind dort schon `.html`. Unterschied liegt im **Authoring-Workflow**. Konsequenzen, die im weiteren Plan berücksichtigt werden müssen:
    - **Keine automatische „Stand"-Zeile per Git-mtime** (Research §3(d) hätte die aus dem Build generiert). Wenn wir das Frische-Signal wollen, muss es entweder manuell gepflegt oder per Pre-Commit-Hook/CI-Check injiziert werden (z.B. Script, das bei HTML-Änderung ein `data-last-modified`-Attribut aus `git log --format=%cs -1 <file>` setzt).
-   - **Kein Markdown-Komfort beim Schreiben** (Tabellen, Codeblöcke, Listen sind in HTML aufwendiger). Copy-Drafts können in MD entstehen und dann einmalig nach HTML konvertiert werden — aber das ist ein menschlicher Schritt, kein Build-Step.
-   - **Wartungskonvention laut Research §3(d) („Releasekopplung, PR-Template-Check") bleibt trotzdem relevant** — sie hängt nicht am Markdown, sondern an der Disziplin, `docs/hilfe/` mit UI-Änderungen zu synchronisieren. In `CLAUDE.md` als Hard Constraint ergänzen, sobald `/hilfe/` V1 steht.
-2. **Volltext-Suche in der Hilfe?** — Best-Practice-Empfehlung: „prominenter Suchschlitz über die Hilfeseiten selbst". Das braucht entweder einen Index (zusätzlicher Build-Step) oder JS-String-Scan über geladene Seiten. Kann in V1 weggelassen und später nachgerüstet werden.
-3. **Kontextuelle Inline-Hilfe (Fragezeichen-Icons)** — gute Idee, aber +N Touchpoints in bestehenden Seiten. V1 oder V2?
-4. **Lemma-Seite in der Sitemap** — nicht im Research-Entwurf enthalten, aber ohne Doku-Eintrag ist die Seite für Nicht-Devs unauffindbar. Empfehlung: eigene `/hilfe/nachschlagen/lemma-seite.html`.
-5. **Landing-Page „Dokumentation"-Section** — nach `/hilfe/`-Launch umbauen oder entfernen (siehe §4.6). Vor dem Launch nichts anfassen, damit keine toten Links entstehen.
+   - **Kein Markdown-Komfort beim Schreiben** (Tabellen, Codeblöcke, Listen sind in HTML aufwendiger). Copy-Drafts können in MD entstehen und dann einmalig nach HTML konvertiert werden – aber das ist ein menschlicher Schritt, kein Build-Step.
+   - **Wartungskonvention laut Research §3(d) („Releasekopplung, PR-Template-Check") bleibt trotzdem relevant** – sie hängt nicht am Markdown, sondern an der Disziplin, `docs/hilfe/` mit UI-Änderungen zu synchronisieren. In `CLAUDE.md` als Hard Constraint ergänzen, sobald `/hilfe/` V1 steht.
+2. **Volltext-Suche in der Hilfe?** – Best-Practice-Empfehlung: „prominenter Suchschlitz über die Hilfeseiten selbst". Das braucht entweder einen Index (zusätzlicher Build-Step) oder JS-String-Scan über geladene Seiten. Kann in V1 weggelassen und später nachgerüstet werden.
+3. **Kontextuelle Inline-Hilfe (Fragezeichen-Icons)** – gute Idee, aber +N Touchpoints in bestehenden Seiten. V1 oder V2?
+4. **Lemma-Seite in der Sitemap** – nicht im Research-Entwurf enthalten, aber ohne Doku-Eintrag ist die Seite für Nicht-Devs unauffindbar. Empfehlung: eigene `/hilfe/nachschlagen/lemma-seite.html`.
+5. **Landing-Page „Dokumentation"-Section** – nach `/hilfe/`-Launch umbauen oder entfernen (siehe §4.6). Vor dem Launch nichts anfassen, damit keine toten Links entstehen.
 
 ---
 
 ## 7. Nächste Schritte (Vorschlag, wenn wir uns koordinieren)
 
 1. **Zahlen-Audit** (eine Person, ~30 Min): Die Lemmata-Zahl (39.436 / 43.750 / 39.000) gegen `data/authority-index.json.gz` verifizieren. Ergebnis als einziges Zahlenformat (DE) in allen Seiten konsolidieren.
-2. **Sprachen-Konsolidierung** (eine Person, ~45 Min): Die englischen Headings und Button-Labels aus §4.3 auf Deutsch umstellen. Kann Kollege in Angriff nehmen — kleine, klar abgegrenzte Edits pro Datei.
+2. **Sprachen-Konsolidierung** (eine Person, ~45 Min): Die englischen Headings und Button-Labels aus §4.3 auf Deutsch umstellen. Kann Kollege in Angriff nehmen – kleine, klar abgegrenzte Edits pro Datei.
 3. **`/hilfe/` V1 skizzieren** (gemeinsam): Entscheidung über (a) 3-Kachel-Hub, (b) welche Schnellstart-Szenarien zuerst, (c) Nav-Integration. Sitemap aus Best-Practice-Recherche als Ausgangspunkt.
 4. **Content-Migration USER-GUIDE.MD → `/hilfe/nachschlagen/`** (gemeinsam oder aufgeteilt): Feature-Beschreibungen umziehen, task-Walkthroughs neu schreiben.
 5. **`index.html` Dokumentations-Section umbauen** (nach Launch): Dev-Material in eigene Sekundär-Kachel, `/hilfe/` prominent.
@@ -200,4 +200,4 @@ Was NICHT zum Scope gehört und parkiert bleibt:
 - README auf Deutsch umstellen (eigenständiger Task, nach User-Facing-Welle)
 - Vollständiger Guide „How to add your data" (#68, `depends-on-human`)
 - `/schema/`-Frontend für TEI-Modell (#78, eigener Task nach `/hilfe/`)
-- Mobile-Support-Entscheidung (aus §4.5 — eigene Diskussion)
+- Mobile-Support-Entscheidung (aus §4.5 – eigene Diskussion)

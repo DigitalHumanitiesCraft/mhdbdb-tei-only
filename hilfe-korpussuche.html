@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Hilfe zur Korpussuche der Mittelhochdeutschen Begriffsdatenbank: Suchen, Filtern, Lesen, Highlighting, Lemma-Seite">
+    <meta name="keywords" content="MHDBDB, Korpussuche, Hilfe, Anleitung, Mittelhochdeutsch, Lemma-Suche, Reading View">
+    <meta name="author" content="Universität Salzburg">
+
+    <title>Korpussuche-Hilfe – MHDBDB</title>
+
+    <link rel="stylesheet" href="assets/css/tailwind-output.css">
+    <link rel="icon" type="image/png" href="assets/images/mhdbdb-logo.png">
+    <link rel="stylesheet" href="assets/css/shared.css">
+    <link rel="stylesheet" href="assets/css/hilfe.css">
+</head>
+<body class="bg-slate-100 text-slate-900">
+
+    <!-- Header (global Top-Nav) -->
+    <header class="border-b border-slate-200 bg-white/90 backdrop-blur sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4">
+            <nav class="flex items-center justify-between">
+                <a href="index.html" class="flex items-center gap-3">
+                    <img src="assets/images/mhdbdb-logo.png" alt="MHDBDB Logo" class="w-40">
+                    <span class="text-lg font-bold text-brand-600">MHDBDB</span>
+                </a>
+
+                <div class="hidden md:flex items-center gap-6">
+                    <a href="index.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">Startseite</a>
+                    <a href="korpus.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">Korpussuche</a>
+                    <a href="playground/index.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">Playground</a>
+                    <a href="hilfe.html" class="text-sm font-semibold text-brand-600 transition" aria-current="page">Hilfe</a>
+                    <a href="index.html#contact" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">Kontakt</a>
+                </div>
+
+                <button id="mobileMenuButton" class="md:hidden p-2 text-slate-600 hover:text-slate-900 transition" aria-label="Toggle menu">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </nav>
+
+            <div id="mobileMenu" class="hidden md:hidden mt-4 pb-4 border-t border-slate-200">
+                <div class="flex flex-col gap-3 pt-4">
+                    <a href="index.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">Startseite</a>
+                    <a href="korpus.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">Korpussuche</a>
+                    <a href="playground/index.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">Playground</a>
+                    <a href="hilfe.html" class="text-sm font-semibold text-brand-600 py-2" aria-current="page">Hilfe</a>
+                    <a href="index.html#contact" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">Kontakt</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hilfe-interne Nav-Leiste -->
+    <nav class="bg-white border-b border-slate-200" aria-label="Hilfe-Bereiche">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-wrap gap-x-8 gap-y-2 -mb-px">
+                <a href="hilfe.html" class="py-3 border-b-2 border-transparent text-slate-600 hover:text-slate-900 hover:border-slate-300 transition text-sm font-medium">
+                    Quick-Start
+                </a>
+                <a href="hilfe-korpussuche.html" class="py-3 border-b-2 border-brand-600 text-brand-700 font-semibold text-sm" aria-current="page">
+                    Korpussuche-Hilfe
+                </a>
+                <a href="hilfe-playground.html" class="py-3 border-b-2 border-transparent text-slate-600 hover:text-slate-900 hover:border-slate-300 transition text-sm font-medium">
+                    Playground-Hilfe
+                </a>
+                <a href="hilfe-daten.html" class="py-3 border-b-2 border-transparent text-slate-600 hover:text-slate-900 hover:border-slate-300 transition text-sm font-medium">
+                    Daten
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-12">
+      <div class="hilfe-main-grid">
+        <div class="hilfe-content">
+
+        <!-- Hero -->
+        <section class="mb-10">
+            <h1 class="text-4xl font-bold text-slate-900 mb-4">Korpussuche-Hilfe</h1>
+            <p class="text-lg text-slate-600 leading-relaxed">
+                Walkthrough für die <a href="korpus.html" class="text-brand-600 hover:text-brand-700 font-medium">Korpussuche</a>,
+                die Hauptanwendung der MHDBDB. Suchen, Filtern, Lesen, Hervorheben – alle Funktionen
+                der Hauptseite in einer Anleitung.
+            </p>
+        </section>
+
+        <!-- Inhaltsverzeichnis (inline, unter xl sichtbar) -->
+        <nav aria-label="Auf dieser Seite" class="hilfe-toc-inline mb-12 bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+            <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500 mb-3">Auf dieser Seite</h2>
+            <ol class="space-y-2 text-sm">
+                <li><a href="#worum-es-geht" class="text-brand-600 hover:text-brand-700 font-medium">1. Worum es geht</a></li>
+                <li><a href="#lemma-suche" class="text-brand-600 hover:text-brand-700 font-medium">2. Lemma-Suche</a></li>
+                <li><a href="#texte-filtern" class="text-brand-600 hover:text-brand-700 font-medium">3. Texte filtern und auswählen</a></li>
+                <li><a href="#reading-view" class="text-brand-600 hover:text-brand-700 font-medium">4. Reading View und Highlighting</a></li>
+                <li><a href="#lemma-seite" class="text-brand-600 hover:text-brand-700 font-medium">5. Lemma-Seite</a></li>
+                <li><a href="#weiter" class="text-brand-600 hover:text-brand-700 font-medium">6. Was Sie als Nächstes tun können</a></li>
+            </ol>
+        </nav>
+
+        <!-- 1. Worum es geht -->
+        <section id="worum-es-geht" class="mb-12 scroll-mt-24">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">1. Worum es geht</h2>
+            <p class="text-slate-700 leading-relaxed">
+                Die <a href="korpus.html" class="text-brand-600 hover:text-brand-700 font-medium">Korpussuche</a>
+                ist die Hauptanwendung der MHDBDB. Sie durchsucht 666 mittelhochdeutsche Texte nach einem
+                <strong>Lemma</strong> (Wörterbuch-Grundform), zeigt alle Belegstellen mit Kontext und
+                öffnet den Volltext mit farblich hervorgehobenen Treffern. Sie können das Korpus auf
+                bestimmte Werke einschränken, zwischen Belegen springen und auf jedem Lemma die
+                zugehörige Wörterbuch-Seite öffnen – verlinkt mit BMZ, Lexer und dem Mittelhochdeutschen
+                Wörterbuch (MWB).
+            </p>
+        </section>
+
+        <!-- 2. Lemma-Suche -->
+        <section id="lemma-suche" class="mb-12 scroll-mt-24">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">2. Lemma-Suche</h2>
+
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Geben Sie ein Wort in das Suchfeld ein und drücken Sie
+                <kbd class="px-2 py-0.5 bg-slate-100 border border-slate-300 rounded text-sm">Enter</kbd>
+                oder klicken Sie auf <strong>Suchen</strong>. Die Datenbank durchsucht alle ausgewählten
+                Texte und zeigt eine Trefferliste rechts.
+            </p>
+
+            <h3 class="text-lg font-semibold text-slate-900 mt-6 mb-2">Mittelhochdeutsche Schreibung – automatisch normalisiert</h3>
+            <p class="text-slate-700 leading-relaxed mb-3">
+                Sie müssen die mittelhochdeutschen Sonderzeichen nicht selbst tippen. Die Suche normalisiert
+                automatisch:
+            </p>
+            <ul class="space-y-1 text-sm text-slate-700 mb-4 ml-4 list-disc list-inside">
+                <li><strong>Langvokale:</strong> â → a, ê → e, î → i, ô → o, û → u</li>
+                <li><strong>Umlaute:</strong> ä → ae, ö → oe, ü → ue</li>
+                <li><strong>Ligaturen:</strong> æ → ae, œ → oe</li>
+            </ul>
+            <p class="text-slate-700 leading-relaxed">
+                Die Eingabe <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">brot</code> findet
+                also <em>brôt</em>, <em>brot</em>, <em>brott</em> und alle weiteren attestierten
+                Schreibformen – insgesamt mehr als 50 Varianten allein für „Brot".
+            </p>
+
+            <h3 class="text-lg font-semibold text-slate-900 mt-6 mb-2">Dreistufige Variantenauflösung</h3>
+            <p class="text-slate-700 leading-relaxed mb-3">
+                Eine <strong>Variante</strong> ist eine der im Korpus attestierten Schreibformen
+                desselben Lemmas – mittelhochdeutsche Texte kennen keine normierte Orthographie.
+                Hinter der Normalisierung arbeitet eine dreistufige Auflösung:
+            </p>
+            <ol class="space-y-2 text-sm text-slate-700 mb-4 ml-4 list-decimal list-inside">
+                <li><strong>Exakter Treffer im Wörterbuch</strong> – Ihr Suchwort entspricht einem Lemma direkt.</li>
+                <li><strong>Variantenwörterbuch</strong> – 175.910 normalisierte Schreibvarianten werden gegen Ihre Eingabe geprüft.</li>
+                <li><strong>Teiltreffer</strong> als Fallback, wenn weder exakter noch Varianten-Treffer existiert.</li>
+            </ol>
+            <p class="text-slate-700 leading-relaxed">
+                Bei mehreren passenden Lemmata werden alle Treffer in der blauen Info-Box oberhalb der
+                Ergebnisliste angezeigt, damit Sie sehen, was die Suche gefunden hat.
+            </p>
+        </section>
+
+        <!-- 3. Texte filtern und auswählen -->
+        <section id="texte-filtern" class="mb-12 scroll-mt-24">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">3. Texte filtern und auswählen</h2>
+
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Links neben der Suche steht die Textliste mit allen 666 Texten. Standardmäßig sind alle
+                ausgewählt, die Suche durchsucht also das ganze Korpus. Sie können die Auswahl jederzeit
+                eingrenzen – die nächste Suche berücksichtigt nur noch die markierten Texte.
+            </p>
+
+            <h3 class="text-lg font-semibold text-slate-900 mt-6 mb-2">Suchen in der Textliste</h3>
+            <p class="text-slate-700 leading-relaxed mb-3">
+                Im Filterfeld können Sie nach Titel, Sigle oder Autor:in suchen. Das filtert die sichtbare
+                Liste, ändert aber zunächst nicht die Auswahl.
+            </p>
+
+            <h3 class="text-lg font-semibold text-slate-900 mt-6 mb-2">Schnellauswahl</h3>
+            <p class="text-slate-700 leading-relaxed mb-3">
+                Über der Liste finden Sie drei Buttons:
+            </p>
+            <ul class="space-y-1 text-sm text-slate-700 mb-4 ml-4 list-disc list-inside">
+                <li><strong>Alle</strong> – wählt alle 666 Texte aus.</li>
+                <li><strong>Keine</strong> – hebt die Auswahl auf, kein Text ist mehr ausgewählt.</li>
+                <li><strong>Nur diese</strong> – erscheint nur, wenn ein Filter aktiv ist, und wählt genau die sichtbaren Texte aus.</li>
+            </ul>
+
+            <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded-r-lg my-6">
+                <p class="text-sm text-slate-700">
+                    <strong>Tipp:</strong> Um nur in bestimmten Texten zu suchen, klicken Sie zuerst auf
+                    <strong>Keine</strong>, filtern Sie dann nach Werk oder Autor:in und aktivieren Sie
+                    nur die Texte, die Sie wirklich brauchen. Unter der Liste sehen Sie immer, wie viele
+                    von 666 Texten gerade ausgewählt sind.
+                </p>
+            </div>
+        </section>
+
+        <!-- 4. Reading View und Highlighting -->
+        <section id="reading-view" class="mb-12 scroll-mt-24">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">4. Reading View und Highlighting</h2>
+
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Klicken Sie auf einen Treffer in der Ergebnisliste – der Volltext öffnet sich rechts im
+                Reading View. Die Fundstellen sind farblich hervorgehoben, die Metadaten zum Werk stehen
+                aufklappbar oberhalb des Textes.
+            </p>
+
+            <h3 class="text-lg font-semibold text-slate-900 mt-6 mb-2">Bis zu fünf Farben</h3>
+            <p class="text-slate-700 leading-relaxed">
+                Wenn Sie nacheinander mehrere Lemmata gesucht haben, werden sie im Reading View mit bis zu
+                fünf Farben markiert: rot, blau, grün, gelb, violett. So können Sie mehrere Begriffe
+                gleichzeitig im selben Text verfolgen.
+            </p>
+
+            <h3 class="text-lg font-semibold text-slate-900 mt-6 mb-2">Zwischen Belegen springen</h3>
+            <p class="text-slate-700 leading-relaxed">
+                Bei längeren Texten erscheinen unten im Reading View zwei Buttons:
+                <strong>↑ Zurück</strong> und <strong>Weiter ↓</strong>. Damit springen Sie direkt von
+                einer Belegstelle zur nächsten, ohne scrollen zu müssen. Die Anzeige in der Mitte zeigt
+                die Position („Treffer 3 von 12").
+            </p>
+
+            <h3 class="text-lg font-semibold text-slate-900 mt-6 mb-2">Metadaten und externe Verknüpfungen</h3>
+            <p class="text-slate-700 leading-relaxed mb-3">
+                Das Metadaten-Panel oberhalb des Textes zeigt:
+            </p>
+            <ul class="space-y-1 text-sm text-slate-700 mb-4 ml-4 list-disc list-inside">
+                <li><strong>Autor:in</strong> – verlinkt mit Wikidata und der Gemeinsamen Normdatei (GND), wenn vorhanden</li>
+                <li><strong>Sigle</strong> – die kanonische Werkabkürzung in der MHDBDB</li>
+                <li><strong>Gattung</strong> – literarische Klassifikation</li>
+                <li><strong>Quelle</strong> – die Edition, auf der der digitale Text basiert</li>
+            </ul>
+            <p class="text-slate-700 leading-relaxed">
+                Bei Werken, die in der MHDBDB in mehreren Editionen vorliegen, können Sie über das
+                Metadaten-Panel zwischen den Editionen wechseln.
+            </p>
+        </section>
+
+        <!-- 5. Lemma-Seite -->
+        <section id="lemma-seite" class="mb-12 scroll-mt-24">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">5. Lemma-Seite</h2>
+
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Jedes Lemma in der MHDBDB hat eine eigene, persistent verlinkte Seite mit einer
+                ausführlichen Wörterbuch-Ansicht. Sie erreichen sie über die Lemma-Info-Box oberhalb der
+                Trefferliste – ein Klick auf das Lemma öffnet die Lemma-Seite in einem neuen Tab.
+            </p>
+
+            <p class="text-slate-700 leading-relaxed mb-3">
+                Die Lemma-Seite zeigt:
+            </p>
+            <ul class="space-y-1 text-sm text-slate-700 mb-4 ml-4 list-disc list-inside">
+                <li><strong>Bedeutungen</strong> – die Senses des Lemmas mit Glossen</li>
+                <li><strong>Schreibformen</strong> – alle attestierten orthographischen Varianten</li>
+                <li><strong>Komposita</strong> – Zusammensetzungen, die das Lemma enthalten</li>
+                <li><strong>Belegstellen</strong> – wie oft und in welchen Texten das Lemma vorkommt</li>
+                <li><strong>Wörterbuchnetz-Anbindung</strong> – Direktlinks zu BMZ, Lexer, LexerN und FindeB</li>
+                <li><strong>MWB-Verweis</strong> – Link zum Mittelhochdeutschen Wörterbuch (Trier/Mainz)</li>
+            </ul>
+
+            <p class="text-slate-700 leading-relaxed">
+                Die URL der Lemma-Seite folgt dem Muster
+                <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">lemma/?id=&lt;Nummer&gt;</code> –
+                Beispiel: <a href="lemma/?id=879" class="text-brand-600 hover:text-brand-700 font-medium">lemma/?id=879</a>
+                für <em>brôt</em>. Diese URLs sind stabil und können in eigenen Publikationen verlinkt
+                und zitiert werden.
+            </p>
+        </section>
+
+        <!-- 6. Was Sie als Nächstes tun können -->
+        <section id="weiter" class="mb-12 scroll-mt-24">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">6. Was Sie als Nächstes tun können</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+                <a href="korpus.html" class="block bg-white rounded-2xl border border-slate-200 p-5 shadow-sm hover:border-brand-400 hover:shadow-md transition group">
+                    <h3 class="text-base font-bold text-slate-900 group-hover:text-brand-700 transition mb-2">→ Direkt zur Korpussuche</h3>
+                    <p class="text-sm text-slate-600">
+                        Probieren Sie die Suche selbst aus.
+                    </p>
+                </a>
+
+                <a href="hilfe-playground.html" class="block bg-white rounded-2xl border border-slate-200 p-5 shadow-sm hover:border-brand-400 hover:shadow-md transition group">
+                    <h3 class="text-base font-bold text-slate-900 group-hover:text-brand-700 transition mb-2">→ Mehrere Lemmata kombinieren</h3>
+                    <p class="text-sm text-slate-600">
+                        Für komplexere Recherchen mit mehreren Begriffen gleichzeitig
+                        nutzen Sie den Playground.
+                    </p>
+                </a>
+
+                <a href="hilfe-daten.html" class="block bg-white rounded-2xl border border-slate-200 p-5 shadow-sm hover:border-brand-400 hover:shadow-md transition group">
+                    <h3 class="text-base font-bold text-slate-900 group-hover:text-brand-700 transition mb-2">→ Was steckt im Korpus?</h3>
+                    <p class="text-sm text-slate-600">
+                        Datenbasis, Authority Files, Provenienz und bekannte Grenzen.
+                    </p>
+                </a>
+
+            </div>
+        </section>
+
+        <!-- Stand-Zeile -->
+        <p class="hilfe-stand">
+            Stand: April 2026 ·
+            <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/commits/main/hilfe-korpussuche.html" target="_blank" rel="noopener">Änderungen auf GitHub</a>
+        </p>
+
+        </div><!-- /.hilfe-content -->
+
+        <!-- Sticky TOC (sichtbar ab xl) -->
+        <aside class="hilfe-toc-aside">
+            <nav aria-label="Auf dieser Seite" class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
+                <h2 class="text-xs font-semibold uppercase tracking-wide text-slate-500 mb-3">Auf dieser Seite</h2>
+                <ol class="space-y-2 text-sm">
+                    <li><a href="#worum-es-geht" class="text-brand-600 hover:text-brand-700 font-medium">1. Worum es geht</a></li>
+                    <li><a href="#lemma-suche" class="text-brand-600 hover:text-brand-700 font-medium">2. Lemma-Suche</a></li>
+                    <li><a href="#texte-filtern" class="text-brand-600 hover:text-brand-700 font-medium">3. Texte filtern</a></li>
+                    <li><a href="#reading-view" class="text-brand-600 hover:text-brand-700 font-medium">4. Reading View</a></li>
+                    <li><a href="#lemma-seite" class="text-brand-600 hover:text-brand-700 font-medium">5. Lemma-Seite</a></li>
+                    <li><a href="#weiter" class="text-brand-600 hover:text-brand-700 font-medium">6. Was als Nächstes</a></li>
+                </ol>
+            </nav>
+        </aside>
+
+      </div><!-- /.hilfe-main-grid -->
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-100 text-slate-900 py-12 mt-20">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-wrap items-center justify-center gap-8 mb-6 pb-6 border-b border-slate-300">
+                <img src="assets/images/mhdbdb-logo.png" alt="MHDBDB Logo" class="h-16 w-auto">
+                <img src="assets/images/university-logo.png" alt="Universität Salzburg" class="h-24 w-auto">
+                <img src="assets/images/clariah-logo.png" alt="CLARIAH-AT" class="h-24 w-auto">
+            </div>
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="text-center md:text-left">
+                    <p class="text-sm mb-2">
+                        © 2025 Universität Salzburg |
+                        <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="hover:text-brand-600 transition" target="_blank" rel="noopener">
+                            CC BY-NC-SA 4.0
+                        </a>
+                    </p>
+                    <div class="flex flex-wrap justify-center md:justify-start gap-4 text-sm text-slate-600">
+                        <a href="mailto:mhdbdb@plus.ac.at" class="hover:text-brand-600 transition">mhdbdb@plus.ac.at</a>
+                        <span>|</span>
+                        <a href="https://mhdbdb.plus.ac.at" class="hover:text-brand-600 transition" target="_blank" rel="noopener">mhdbdb.plus.ac.at</a>
+                        <span>|</span>
+                        <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only" class="hover:text-brand-600 transition" target="_blank" rel="noopener">GitHub</a>
+                    </div>
+                </div>
+                <button id="clearSiteDataBtn" class="btn-secondary text-sm flex items-center gap-2" title="Alle gespeicherten Daten löschen (Cache, IndexedDB, etc.)">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                    </svg>
+                    <span>Website-Daten löschen</span>
+                </button>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Inline Scripts: Mobile Menu + Clear Site Data -->
+    <script>
+        const mobileMenuButton = document.getElementById('mobileMenuButton');
+        const mobileMenu = document.getElementById('mobileMenu');
+        if (mobileMenuButton && mobileMenu) {
+            mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+            document.addEventListener('click', (e) => {
+                if (!mobileMenuButton.contains(e.target) && !mobileMenu.contains(e.target)) {
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+            });
+        }
+
+        const clearBtn = document.getElementById('clearSiteDataBtn');
+        if (clearBtn) {
+            clearBtn.addEventListener('click', async () => {
+                const message = 'Alle gespeicherten Daten löschen?\n\nDies umfasst:\n' +
+                    '• TEI-Dateien Cache\n' +
+                    '• Authority- und Corpus-Indizes\n' +
+                    '• Alle lokalen Einstellungen\n\n' +
+                    'Die Seite wird neu geladen.';
+                if (!confirm(message)) return;
+                try {
+                    if (indexedDB.databases) {
+                        const dbs = await indexedDB.databases();
+                        await Promise.all(dbs.map(db => new Promise(resolve => {
+                            const req = indexedDB.deleteDatabase(db.name);
+                            req.onsuccess = req.onerror = req.onblocked = () => resolve();
+                        })));
+                    }
+                    localStorage.clear();
+                    sessionStorage.clear();
+                } catch (err) {
+                    console.error('[hilfe-korpussuche.html] Clear site data failed:', err);
+                }
+                location.reload();
+            });
+        }
+    </script>
+
+</body>
+</html>
