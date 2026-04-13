@@ -16,8 +16,14 @@ Supported lemmata:
   lemma_6330  ûf         ADV|PRP
   lemma_6342  ûʒ         ADV|PRP
   lemma_7557  wider      ADV|PRP
-  lemma_56117 ir         POS|PRO
   lemma_7194  vor        ADV|GRA|PRP
+  lemma_1410  enkegen    ADV|PRP
+  lemma_1089  dorouf     ADV|PRP
+  lemma_4325  neben      ADV|PRP
+  lemma_1090  dorous     ADV|PRP
+  lemma_20032 hinvber    ADV|PRP
+  lemma_37960 con        ADV|PRP
+  lemma_56117 ir         POS|PRO
   lemma_4415  noch       ADV|CNJ|NEG
   lemma_4840  reht       ADJ|ADV|GRA|NOM
   lemma_4872  rîche      ADJ|ADV|GRA|NOM
@@ -29,6 +35,9 @@ Supported lemmata:
   lemma_7489  wart       VEX|VRB
   lemma_4281  næhst      ADJ|ADV|GRA|NOM|PRP
   lemma_1242  dû/dein    ART|POS|PRO
+  lemma_7643  wir/unser  POS|PRO
+  lemma_1517  ým         POS|PRO
+  lemma_9387  Latin esse VEX|VRB
 """
 
 import argparse
@@ -121,10 +130,10 @@ def resolve_daz(prev_items, next_items, form):
     lemma_1097 daz → DET or SCNJ.
     DET:  modifies following noun phrase (next @pos in NP_POS)
     SCNJ: introduces subordinate clause (next @pos in CLAUSE_POS)
+    Fallback: DET (Bohemian "das" is overwhelmingly the definite article in
+    WZB biblical prose; SCNJ is a minority usage).
     """
     np_pos, nf = next_real_pos(next_items)
-    if not np_pos:
-        return None, "low", "no tagged neighbor"
 
     # Deictic "daz ist" → DET (points to prior content)
     if nf.lower() in ("ist", "ist", "were", "war", "wart"):
@@ -139,7 +148,9 @@ def resolve_daz(prev_items, next_items, form):
     if np_pos in CLAUSE_POS:
         return "SCNJ", "high", f"introduces clause, next is {np_pos} '{nf}'"
 
-    return None, "low", f"ambiguous: next pos={np_pos}"
+    # Fallback when no tagged neighbor is available: DET is the overwhelming
+    # default in WZB biblical prose (Bohemian "das" = definite article).
+    return "DET", "medium", "fallback DET (das overwhelmingly article in WZB)"
 
 
 def resolve_ein(prev_items, next_items, form):
@@ -227,6 +238,7 @@ def resolve_ir(prev_items, next_items, form):
     lemma_56117 ir → POS (possessive) or PRO (personal pronoun).
     POS: modifies following NOM/ADJ
     PRO: subject before verb, or standalone object
+    Fallback: POS when capitalised (sentence-initial possessive), PRO otherwise.
     """
     np_pos, nf = next_real_pos(next_items)
 
@@ -244,7 +256,11 @@ def resolve_ir(prev_items, next_items, form):
     if pv_pos in VERBAL_POS:
         return "PRO", "medium", f"after {pv_pos}, likely object pronoun"
 
-    return None, "low", f"ambiguous ir, next={np_pos}"
+    # Fallback: capitalised "Ir" at clause boundary is typically possessive
+    # (e.g. "Ir man", "Ir volck"); lowercase "ir" after content words → PRO
+    if form[:1].isupper():
+        return "POS", "medium", "capitalised Ir at clause boundary → possessive POS"
+    return "PRO", "medium", "fallback PRO (ir as 3pl/2pl pronoun)"
 
 
 def resolve_noch(prev_items, next_items, form):
@@ -253,6 +269,7 @@ def resolve_noch(prev_items, next_items, form):
     - CCNJ (nor): in negative context, coordinates two elements (nicht ... noch)
     - PRP: temporal/conformative "after/according to" + NP
     - ADV: temporal "yet/still" (nicht noch = not yet)
+    Fallback: ADV (most common reading in WZB narrative prose).
     """
     np_pos, nf = next_real_pos(next_items)
     pv_pos, pf = prev_real_pos(prev_items)
@@ -278,7 +295,8 @@ def resolve_noch(prev_items, next_items, form):
     if prev_has_ccnj:
         return "ADV", "medium", "after CCNJ → noch as temporal ADV"
 
-    return None, "low", f"ambiguous noch: prev_neg={prev_has_neg}, next={np_pos}"
+    # Fallback: ADV is the most frequent reading in WZB narrative prose
+    return "ADV", "medium", "fallback ADV (noch = still/yet, most common in WZB)"
 
 
 def resolve_reht(prev_items, next_items, form):
@@ -539,6 +557,44 @@ def resolve_du_dein(prev_items, next_items, form):
     return "PRO", "medium", "default PRO reading"
 
 
+def resolve_wir_unser(prev_items, next_items, form):
+    """
+    lemma_7643 wir/unser → POS (possessive) or PRO (personal pronoun).
+    Possessive forms (unser-, vnser-, vns- paradigm) → POS
+    Personal pronoun forms (wir, uns as standalone) → PRO
+    In WZB all unresolved instances are possessive (Unser, unserm, vnses, etc.)
+    """
+    f_lower = form.lower()
+    # Any declined possessive form: unser/vnser prefix covers all cases
+    if f_lower.startswith("uns") or f_lower.startswith("vns"):
+        return "POS", "high", "possessive form unser- → POS"
+    if f_lower in ("wir", "uns"):
+        return "PRO", "high", "personal pronoun wir/uns → PRO"
+    return "POS", "medium", "default POS reading (wir paradigm)"
+
+
+def resolve_ym(prev_items, next_items, form):
+    """
+    lemma_1517 ým → PRO.
+    Bohemian dative of 'er' (MHG 'im' = ihm). Always personal pronoun.
+    """
+    return "PRO", "high", "dative pronoun ým (Bohemian ihm) → PRO"
+
+
+def resolve_latin_esse(prev_items, next_items, form):
+    """
+    lemma_9387 Latin esse forms → VEX (copula) or VRB.
+    Copula/auxiliary forms (est, erat, erant, sunt, sit) → VEX
+    Jussive/modal forms (Fiat, fiat) → VRB
+    """
+    f_lower = form.lower()
+    if f_lower in ("est", "erat", "erant", "sunt", "sit", "esset", "esse", "fuit", "erit"):
+        return "VEX", "high", "Latin copula form → VEX"
+    if f_lower in ("fiat", "fiant"):
+        return "VRB", "medium", "Latin jussive fiat → VRB"
+    return "VEX", "medium", "default Latin esse copula → VEX"
+
+
 # Dispatch table: lemma_id -> resolver function
 RESOLVERS = {
     "lemma_1097":  resolve_daz,
@@ -548,6 +604,13 @@ RESOLVERS = {
     "lemma_6342":  lambda p, n, f: resolve_adv_prp("ûʒ", p, n, f),
     "lemma_7557":  lambda p, n, f: resolve_adv_prp("wider", p, n, f),
     "lemma_7194":  lambda p, n, f: resolve_adv_prp("vor", p, n, f),
+    # ADV|PRP lemmata using the same next-NP heuristic
+    "lemma_1410":  lambda p, n, f: resolve_adv_prp("enkegen", p, n, f),
+    "lemma_1089":  lambda p, n, f: resolve_adv_prp("dorouf", p, n, f),
+    "lemma_4325":  lambda p, n, f: resolve_adv_prp("neben", p, n, f),
+    "lemma_1090":  lambda p, n, f: resolve_adv_prp("dorous", p, n, f),
+    "lemma_20032": lambda p, n, f: resolve_adv_prp("hinvber", p, n, f),
+    "lemma_37960": lambda p, n, f: resolve_adv_prp("con", p, n, f),
     "lemma_56117": resolve_ir,
     "lemma_4415":  resolve_noch,
     "lemma_4840":  resolve_reht,
@@ -560,6 +623,10 @@ RESOLVERS = {
     "lemma_7489":  resolve_wart,
     "lemma_4281":  resolve_nehst,
     "lemma_1242":  resolve_du_dein,
+    # New: wir/unser possessive, dative pronoun, Latin esse
+    "lemma_7643":  resolve_wir_unser,
+    "lemma_1517":  resolve_ym,
+    "lemma_9387":  resolve_latin_esse,
 }
 
 

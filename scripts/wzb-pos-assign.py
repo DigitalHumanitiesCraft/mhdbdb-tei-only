@@ -58,8 +58,25 @@ CONTEXT_WINDOW = 5  # words each side
 # Lexicon index
 # ---------------------------------------------------------------------------
 
+# Tagset normalisation: old lexicon tags → SKILL.md canonical tags.
+# Applied at index-build time so stale lexicon entries never leak into TEI output.
+_LEGACY_TAG_MAP = {
+    "GRA": "ADV",   # grammatical particle → treated as ADV throughout
+    "ART": "DET",   # article → DET (SKILL.md tagset)
+    # CNJ stays CNJ in the index; context resolver outputs CCNJ/SCNJ
+}
+
+
+def _normalise_pos(tag: str) -> str:
+    return _LEGACY_TAG_MAP.get(tag, tag)
+
+
 def build_lexicon_index(lex_path):
-    """Return {lemma_id: [pos_value, ...]} for every entry in lexicon.xml."""
+    """Return {lemma_id: [pos_value, ...]} for every entry in lexicon.xml.
+
+    Legacy tags (GRA, ART) are normalised to the SKILL.md canonical tagset
+    at read time so they never appear in TEI @pos output.
+    """
     tree = etree.parse(str(lex_path))
     ns = {"tei": NS_TEI}
     index = {}
@@ -68,7 +85,14 @@ def build_lexicon_index(lex_path):
         if not lemma_id:
             continue
         pos_els = entry.findall(".//tei:gramGrp/tei:pos", ns)
-        pos_values = [p.text.strip() for p in pos_els if p.text and p.text.strip()]
+        raw = [p.text.strip() for p in pos_els if p.text and p.text.strip()]
+        # Normalise and deduplicate while preserving order
+        seen, pos_values = set(), []
+        for tag in raw:
+            normalised = _normalise_pos(tag)
+            if normalised not in seen:
+                seen.add(normalised)
+                pos_values.append(normalised)
         index[lemma_id] = pos_values
     return index
 
