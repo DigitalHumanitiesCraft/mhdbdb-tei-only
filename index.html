@@ -590,36 +590,22 @@
 
         <!-- Zitation -->
         <div id="zitieren" class="mt-12 bg-slate-50 rounded-2xl p-8 border border-slate-200 scroll-mt-24">
-          <h3 class="text-xl font-bold text-slate-900 mb-4">Zitation</h3>
-          <p class="text-slate-600 mb-4">
-            Wenn Sie die MHDBDB in einer Publikation verwenden, zitieren Sie bitte
-            die TEI-Edition und verweisen Sie zusätzlich auf die zugrundeliegende
-            Begriffsdatenbank der Universität Salzburg:
-          </p>
-          <pre class="bg-white border border-slate-200 rounded-xl p-4 text-sm text-slate-800 whitespace-pre-wrap font-mono leading-relaxed overflow-x-auto">Mittelhochdeutsche Begriffsdatenbank (MHDBDB) – TEI-Edition.
-Hrsg. von der Universität Salzburg, Fachbereich Germanistik,
-in Zusammenarbeit mit Digital Humanities Craft.
-https://dhcraft.org/mhdbdb-tei-only/ (Zugriff am [Datum]).
-
-Zugrundeliegende Datenbasis: Mittelhochdeutsche Begriffsdatenbank,
-Universität Salzburg. https://mhdbdb.plus.ac.at</pre>
+          <div class="flex items-center justify-between gap-4 mb-4">
+            <h3 class="text-xl font-bold text-slate-900">Zitation (APA)</h3>
+            <button id="citationCopyBtn" type="button" class="btn-secondary text-sm flex items-center gap-2" aria-label="Zitation in die Zwischenablage kopieren">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+              <span id="citationCopyLabel">Kopieren</span>
+            </button>
+          </div>
+          <pre id="citationText" class="bg-white border border-slate-200 rounded-xl p-4 text-sm text-slate-800 whitespace-pre-wrap font-mono leading-relaxed overflow-x-auto">Universität Salzburg. (2026). Mittelhochdeutsche Begriffsdatenbank (MHDBDB) – TEI-Edition. https://dhcraft.org/mhdbdb-tei-only/</pre>
           <p class="text-sm text-slate-600 mt-4">
-            Versionsstände und Änderungen sind über die
+            Lizenz: CC BY-NC-SA 4.0. Versionsstände über die
             <a
               href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/releases"
               class="text-brand-600 hover:text-brand-700 font-medium"
               target="_blank"
               rel="noopener"
-              >GitHub Releases</a>
-            nachvollziehbar. Das Korpus und die Authority Files stehen unter
-            CC BY-NC-SA 4.0 offen auf
-            <a
-              href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only"
-              class="text-brand-600 hover:text-brand-700 font-medium"
-              target="_blank"
-              rel="noopener"
-              >GitHub</a>
-            zur Verfügung.
+              >GitHub Releases</a>.
           </p>
         </div>
       </div>
@@ -742,6 +728,23 @@ Universität Salzburg. https://mhdbdb.plus.ac.at</pre>
           link.addEventListener("click", () => {
             mobileMenu.classList.add("hidden");
           });
+        });
+      }
+
+      // Copy citation to clipboard
+      const citationCopyBtn = document.getElementById("citationCopyBtn");
+      const citationText = document.getElementById("citationText");
+      const citationCopyLabel = document.getElementById("citationCopyLabel");
+      if (citationCopyBtn && citationText && citationCopyLabel) {
+        citationCopyBtn.addEventListener("click", async () => {
+          try {
+            await navigator.clipboard.writeText(citationText.textContent.trim());
+            citationCopyLabel.textContent = "Kopiert!";
+            setTimeout(() => { citationCopyLabel.textContent = "Kopieren"; }, 2000);
+          } catch (err) {
+            citationCopyLabel.textContent = "Fehler";
+            setTimeout(() => { citationCopyLabel.textContent = "Kopieren"; }, 2000);
+          }
         });
       }
     </script>
