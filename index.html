@@ -591,13 +591,13 @@
         <!-- Zitation -->
         <div id="zitieren" class="mt-12 bg-slate-50 rounded-2xl p-8 border border-slate-200 scroll-mt-24">
           <div class="flex items-center justify-between gap-4 mb-4">
-            <h3 class="text-xl font-bold text-slate-900">Zitation (APA)</h3>
+            <h3 class="text-xl font-bold text-slate-900">Zitation</h3>
             <button id="citationCopyBtn" type="button" class="btn-secondary text-sm flex items-center gap-2" aria-label="Zitation in die Zwischenablage kopieren">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
               <span id="citationCopyLabel">Kopieren</span>
             </button>
           </div>
-          <pre id="citationText" class="bg-white border border-slate-200 rounded-xl p-4 text-sm text-slate-800 whitespace-pre-wrap font-mono leading-relaxed overflow-x-auto">Universität Salzburg. (2026). Mittelhochdeutsche Begriffsdatenbank (MHDBDB) – TEI-Edition. https://dhcraft.org/mhdbdb-tei-only/</pre>
+          <pre id="citationText" class="bg-white border border-slate-200 rounded-xl p-4 text-sm text-slate-800 whitespace-pre-wrap font-mono leading-relaxed overflow-x-auto">Mittelhochdeutsche Begriffsdatenbank (MHDBDB). Universität Salzburg. Koordination: Katharina Zeppezauer-Wachauer. Seit 1992. URL: https://dhcraft.org/mhdbdb-tei-only/ (abgerufen am <span id="citationDate">…</span>)</pre>
           <p class="text-sm text-slate-600 mt-4">
             Lizenz: CC BY-NC-SA 4.0. Versionsstände über die
             <a
@@ -731,7 +731,16 @@
         });
       }
 
-      // Copy citation to clipboard
+      // Citation: dynamic access date + copy to clipboard
+      const citationDate = document.getElementById("citationDate");
+      if (citationDate) {
+        citationDate.textContent = new Intl.DateTimeFormat("de-DE", {
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        }).format(new Date());
+      }
+
       const citationCopyBtn = document.getElementById("citationCopyBtn");
       const citationText = document.getElementById("citationText");
       const citationCopyLabel = document.getElementById("citationCopyLabel");
