@@ -20,7 +20,6 @@ MHDBDB TEI Repository: ~670 TEI-encoded Middle High German texts with semantic a
 | RESEARCH.MD | Academic context, TEI/MHG standards |
 | DECISIONS.MD | Architecture Decision Records |
 | CONTRACTS.MD | Cross-language parity, algorithm pseudocode, API contracts |
-| USER-GUIDE.MD | End-user documentation (German) |
 | ROADMAP.md | Current priorities and strategic direction |
 | JOURNAL.md | Chronological development log |
 | `features/` | Feature-scoped planning docs (active issues only) |
