@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- AUTO-GENERATED from mhdbdb.rnc — DO NOT EDIT
-     Regenerate: python -m rnc2rng schema/mhdbdb.rnc schema/mhdbdb.rng -->
 <grammar xmlns="http://relaxng.org/ns/structure/1.0"
          ns="http://www.tei-c.org/ns/1.0"
          xmlns:xml="http://www.w3.org/XML/1998/namespace"
@@ -91,43 +89,51 @@
           </mixed>
         </element>
       </zeroOrMore>
-      <element>
-        <name ns="http://www.tei-c.org/ns/1.0">respStmt</name>
+      <oneOrMore>
         <element>
-          <name ns="http://www.tei-c.org/ns/1.0">resp</name>
-          <text/>
+          <name ns="http://www.tei-c.org/ns/1.0">respStmt</name>
+          <element>
+            <name ns="http://www.tei-c.org/ns/1.0">resp</name>
+            <text/>
+          </element>
+          <oneOrMore>
+            <choice>
+              <element>
+                <name ns="http://www.tei-c.org/ns/1.0">name</name>
+                <optional>
+                  <attribute>
+                    <name ns="">ref</name>
+                    <data type="anyURI"/>
+                  </attribute>
+                </optional>
+                <optional>
+                  <attribute>
+                    <name ns="">role</name>
+                    <text/>
+                  </attribute>
+                </optional>
+                <optional>
+                  <attribute>
+                    <name ns="http://www.w3.org/XML/1998/namespace">lang</name>
+                    <text/>
+                  </attribute>
+                </optional>
+                <text/>
+              </element>
+              <element>
+                <name ns="http://www.tei-c.org/ns/1.0">orgName</name>
+                <optional>
+                  <attribute>
+                    <name ns="">ref</name>
+                    <data type="anyURI"/>
+                  </attribute>
+                </optional>
+                <text/>
+              </element>
+            </choice>
+          </oneOrMore>
         </element>
-        <oneOrMore>
-          <choice>
-            <element>
-              <name ns="http://www.tei-c.org/ns/1.0">name</name>
-              <optional>
-                <attribute>
-                  <name ns="">ref</name>
-                  <data type="anyURI"/>
-                </attribute>
-              </optional>
-              <optional>
-                <attribute>
-                  <name ns="http://www.w3.org/XML/1998/namespace">lang</name>
-                  <text/>
-                </attribute>
-              </optional>
-              <text/>
-            </element>
-            <element>
-              <name ns="http://www.tei-c.org/ns/1.0">orgName</name>
-              <optional>
-                <attribute>
-                  <name ns="">ref</name>
-                  <data type="anyURI"/>
-                </attribute>
-              </optional>
-              <text/>
-            </element>
-          </choice>
-        </oneOrMore>
-      </element>
+      </oneOrMore>
     </element>
   </define>
   <define name="publicationStmt">
@@ -180,33 +186,41 @@
           </element>
           <element>
             <name ns="http://www.tei-c.org/ns/1.0">authority</name>
-            <element>
-              <name ns="http://www.tei-c.org/ns/1.0">persName</name>
-              <optional>
-                <attribute>
-                  <name ns="">role</name>
-                  <text/>
-                </attribute>
-              </optional>
-              <mixed>
+            <oneOrMore>
+              <element>
+                <name ns="http://www.tei-c.org/ns/1.0">persName</name>
                 <optional>
-                  <group>
-                    <optional>
-                      <element>
-                        <name ns="http://www.tei-c.org/ns/1.0">forename</name>
-                        <text/>
-                      </element>
-                    </optional>
-                    <optional>
-                      <element>
-                        <name ns="http://www.tei-c.org/ns/1.0">surname</name>
-                        <text/>
-                      </element>
-                    </optional>
-                  </group>
+                  <attribute>
+                    <name ns="">role</name>
+                    <text/>
+                  </attribute>
                 </optional>
-              </mixed>
-            </element>
+                <optional>
+                  <attribute>
+                    <name ns="">ref</name>
+                    <data type="anyURI"/>
+                  </attribute>
+                </optional>
+                <mixed>
+                  <optional>
+                    <group>
+                      <optional>
+                        <element>
+                          <name ns="http://www.tei-c.org/ns/1.0">forename</name>
+                          <text/>
+                        </element>
+                      </optional>
+                      <optional>
+                        <element>
+                          <name ns="http://www.tei-c.org/ns/1.0">surname</name>
+                          <text/>
+                        </element>
+                      </optional>
+                    </group>
+                  </optional>
+                </mixed>
+              </element>
+            </oneOrMore>
           </element>
           <element>
             <name ns="http://www.tei-c.org/ns/1.0">availability</name>

@@ -56,9 +56,9 @@ titleStmt = element titleStmt {
     element author { attribute ref { text }?, mixed { (element name { text })* } }*,
     element respStmt {
         element resp { text },
-        (element name { attribute ref { xsd:anyURI }?, attribute xml:lang { text }?, text }
+        (element name { attribute ref { xsd:anyURI }?, attribute role { text }?, attribute xml:lang { text }?, text }
          | element orgName { attribute ref { xsd:anyURI }?, text })+
-    }
+    }+
 }
 
 # publicationStmt: flexible ordering — all children optional, any order
@@ -79,11 +79,12 @@ publicationStmt = element publicationStmt {
     | element authority {
         element persName {
             attribute role { text }?,
+            attribute ref { xsd:anyURI }?,
             mixed {
                 (element forename { text }?,
                  element surname { text }?)?
             }
-        }
+        }+
     }
     | element availability {
         attribute status { text }?,
