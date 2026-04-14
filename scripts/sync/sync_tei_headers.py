@@ -193,7 +193,7 @@ class WorksSyncer(AuthoritySyncer):
 
             # Extract external IDs (work-level, shared by all sigles)
             handschriftencensus_elem = work.xpath('.//tei:idno[@type="handschriftencensus"]', namespaces=TEI_NS)
-            gnd_elem = work.xpath('.//tei:idno[@type="gnd"]', namespaces=TEI_NS)
+            gnd_elem = work.xpath('.//tei:idno[@type="GND"]', namespaces=TEI_NS)
             wikidata_elem = work.xpath('.//tei:idno[@type="wikidata"]', namespaces=TEI_NS)
 
             handschriftencensus_id = extract_id_from_url(
@@ -202,7 +202,7 @@ class WorksSyncer(AuthoritySyncer):
             )
             gnd_id = extract_id_from_url(
                 gnd_elem[0].text if gnd_elem else None,
-                'gnd'
+                'GND'
             )
             wikidata_id = extract_id_from_url(
                 wikidata_elem[0].text if wikidata_elem else None,
@@ -281,7 +281,7 @@ class WorksSyncer(AuthoritySyncer):
                 # Add GND
                 if data['gnd']:
                     gnd_idno = etree.Element(f"{{{TEI_NS_URI}}}idno")
-                    gnd_idno.set('type', 'gnd')
+                    gnd_idno.set('type', 'GND')
                     gnd_idno.text = data['gnd']
                     insert_after.addnext(gnd_idno)
                     insert_after = gnd_idno
