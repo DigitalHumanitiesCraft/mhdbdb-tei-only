@@ -737,10 +737,22 @@ npm test
 Migrationsscripts: einmalig in den Phasen A–E ausgeführt, inzwischen in `scripts/_archived/` bzw. Git-Historie nach Abschluss von #32.
 Validierungsscript: `scripts/audit/validate-corpus.py` (8 strukturelle Checks)
 
-### Validierungsergebnis: 666/666 valide
+### Validierungsergebnis (Stand 2026-04-14)
 
-**tei_all.rng:** Alle 666 Dateien valide gegen TEI P5 4.11.0 RELAX NG Schema.
-**mhdbdb.rnc:** Alle 666 Dateien valide gegen projektspezifisches Schema (`schema/mhdbdb.rnc`).
+**mhdbdb.rnc:** 666/666 Dateien valide gegen projektspezifisches Schema (`schema/mhdbdb.rnc`).
+
+**tei_all.rng:** 636/666 Dateien valide gegen TEI P5 4.11.0. 30 Dateien haben bewusst dokumentierte Abweichungen, die unser Custom-Schema ueber GAP-Kommentare 1–11 explizit abdeckt. Kategorien:
+
+| Kategorie | Dateien | Anzahl |
+|-----------|---------|-------:|
+| `@reason` auf `<w>` (Compound-POS-Split wie `wiltu = wilt + du`) | ABS, AC1, AC2, AC3, ADP, AGS, FLG | 7 |
+| `<hi>` direkt in Block-Kontext ohne Wrapper | DAL, DBK, DBS, DKA, DKF, DKI, DKM, DKR | 8 |
+| `<div>` an von tei_all nicht erwarteter Position | DES2, DJEM, LVS, PUL, RDS, RDV, RVB | 7 |
+| `<w>` direkt in Block-Kontext ohne Wrapper | DDE, FDS, KAA, PKP, PUC | 5 |
+| `<p>` an unerwarteter Position | LZT | 1 |
+| `<head>` fehlend/unerwartet | TKR, VOR | 2 |
+
+Diese 30 Dateien sind **keine Bugs**, sondern dokumentierte Bestandsabweichungen. Das MHDBDB-Modell ist in diesen Punkten absichtlich permissiver als strict-tei_all — die GAP-Kommentare im Schema begruenden jede Abweichung. Siehe auch das entsprechende Follow-up-Item in `docs/features/032-schema-followup.md`.
 
 Fruehere Fehler (alle behoben durch Migration):
 
@@ -764,8 +776,10 @@ Fruehere Fehler (alle behoben durch Migration):
 | 5 | Dokumentiert via ODD oder Aequivalent | ✓ (TEI-MODEL.md + mhdbdb.rnc) |
 
 **Zwei-Stufen-Validierung:**
-- **Stufe 1:** `tei_all.rng` = TEI-Stempel (Kriterien 1-4)
-- **Stufe 2:** `mhdbdb.rnc` = MHDBDB-Stempel (strenger, Subset von tei_all)
+- **Stufe 1:** `tei_all.rng` = TEI-P5-Konformitaetstest (Kriterien 1-4). Baseline: 636/666 grün.
+- **Stufe 2:** `mhdbdb.rnc` = MHDBDB-Stempel. Deckt alle Bestandsmuster ab, inkl. der 30 tei_all-Abweichungen (GAPs 1–11). Baseline: 666/666 grün.
+
+`mhdbdb.rnc` ist **kein strenges Subset** von `tei_all.rng` — es ist in einigen Punkten strikter (enumerierte `@type`-Werte, restriktivere Kindelemente) und in anderen permissiver (GAPs). Die beiden Stufen pruefen unterschiedliche Eigenschaften und sind komplementaer, nicht redundant.
 
 ### Authority Files Status (7 Dateien, nach Migration 2026-04-10)
 
