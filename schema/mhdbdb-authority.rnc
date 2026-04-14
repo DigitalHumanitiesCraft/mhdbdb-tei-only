@@ -75,7 +75,7 @@ lexicon.entry = element entry {
     },
     element gramGrp {
         element pos { text }+          # POS tags (can be multiple)
-    }?,
+    },                                  # required — 43,750/43,750 entries have gramGrp
     element etym {
         attribute type { "morphological" },
         element seg {
@@ -90,7 +90,7 @@ lexicon.entry = element entry {
         element ptr {
             attribute target { text }       # concepts.xml#concept_N
         }*
-    }*
+    }+                                      # required (1+) — 43,750/43,750 entries have sense
 }
 
 # ============================================================
@@ -140,27 +140,27 @@ listBibl = element listBibl {
 
 works.bibl = element bibl {
     attribute xml:id { xsd:NCName },   # work_N
-    (element title {
+    element title {
         attribute xml:lang { text }?,
         attribute level { text }?,
         attribute type { text }?,
         attribute ana { text }?,
         text
-    }
-    | element idno {
-        attribute type { text },       # sigle, handschriftencensus, GND, wikidata
+    }+,                                 # required — 583/583 works have title
+    element idno {
+        attribute type { "sigle" | "handschriftencensus" | "GND" | "wikidata" },
         text
-    }
-    | element ptr {
+    }*,
+    element ptr {
         attribute target { text }      # genres.xml#genre_UUID
-    }
-    | element author {
+    }*,
+    element author {
         attribute ref { text }?,       # persons.xml#person_N
         text
-    }
-    | element relatedItem {
+    }*,
+    element relatedItem {
         works.biblStruct
-    })*
+    }*
 }
 
 works.biblStruct = element biblStruct {
@@ -169,20 +169,20 @@ works.biblStruct = element biblStruct {
     attribute corresp { text }?,       # Zotero URL
     attribute key { text }?,           # sigle
     element analytic {
-        (element title { attribute level { text }?, text }
-         | element author { element name { text } }
-         | element ref { attribute target { text }?, attribute type { text }?, text }
-         | element idno { attribute type { text }, text })*
+        element title { attribute level { text }?, text }+,  # required
+        element author { element name { text } }*,
+        element ref { attribute target { text }?, attribute type { text }?, text }*,
+        element idno { attribute type { text }, text }*
     }?,
     element monogr {
-        (element title { attribute level { text }?, text }
-         | element author { element name { text } }
-         | element editor {
+        element author { element name { text } }*,
+        element title { attribute level { text }?, text }+,  # required
+        element idno { attribute type { text }, text }*,
+        element editor {
             (element forename { text }?,
              element surname { text }?)
-         }
-         | element idno { attribute type { text }, text }
-         | element edition { text })*,
+        }*,
+        element edition { text }*,
         element imprint {
             (element pubPlace { text }
              | element publisher { text }
