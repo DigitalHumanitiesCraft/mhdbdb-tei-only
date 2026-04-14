@@ -166,3 +166,75 @@ WZB braucht KEINE Attribut-Migration (hat bereits `@ana`/`@corresp`, nie `@meani
 1. `/promptotyping orient`
 2. Browser smoke test: pc spacing, empty state, nav
 3. Nächstes Issue aus ROADMAP.md wählen
+
+---
+
+## 2026-04-14 18:30 — handoff
+
+**Summary:** Frontend Quick-Wins #62 (Impressum) und #52 (Authority-Files-Card) umgesetzt und an @wachauer zum Review eskaliert. Editor-Attribution-Plan bis Commit 3/7 durchgezogen (contributors.xml mit 51 Personen + 2 Orgs, Authority-Schema um contributors.body-Pattern erweitert, Corpus-Schema additiv für Mehrfach-respStmt und persName+@ref, Standalone-Migration-Script inkl. Whitespace-Bug-Fix verifiziert). WorksSyncer-gnd-Drift als P0-5 Pre-Fix vorab gefixt, damit der nächste `--works`-Sync-Lauf den P0-4-Fix (Commit `61a0b4a1a`) nicht revertiert.
+
+**Phase:** Implementation — editor-attribution 3/7 Commits abgeschlossen. Commits 4-7 (666-Datei Header-Migration, Lead-Editor respStmts, Doku-Updates, Script-Archivierung) warten auf User-Review des Migration-Scripts und Go/No-Go für den Massenlauf.
+
+**Docs-Status:**
+- `docs/features/editor-attribution.md` — unverändert, 680-Zeilen-Plan vom Kollegen mit 3× /check-md Iterationen (32 Findings gefixt)
+- `docs/features/032-schema-followup.md` — unverändert, neues P0-5 Item (WorksSyncer) erledigt, Rest offen (P1-5/6/10, P2-11/12/13/14, P3)
+- `docs/features/062-impressum.md` + `docs/features/052-authority-files-card.md` — unverändert, Issues offen bis Katharina OK gibt
+- `authority-files/contributors.xml` — NEU, 51 Personen + 2 Orgs, validiert gegen beide Stages
+- `schema/mhdbdb-authority.rnc` + `.rng` — `contributors.body = (listOrg?, contributors.listPerson)` Pattern ergänzt, Rollen-Enum direkt auf `<person>/@role`
+- `schema/mhdbdb.rnc` + `.rng` — `respStmt+`, `name/@role`, `persName+` mit `@ref` in `<authority>` (alle additiv)
+- `schema/examples/authority-contributors.example.xml` — NEU, 8 Personen (2×founder, 1×coordinator, 2×lead-editor, 3×editor) + 2 Orgs
+- `scripts/migrate-header-credits.py` — NEU, Standalone-Skelett mit `_child_indent`/`_capture_closing_indent` Whitespace-Mimicry (kein `pretty_print=True`), idempotent über `@ref`-Match, verifiziert via Sample + Full-Dry-Run
+- `scripts/sync/sync_tei_headers.py` — 3× `gnd` → `GND` (XPath + set('type', ...))
+
+**Erledigt (diese Session, 5 Commits auf main):**
+- `83d8546ed` Frontend #62 + #52 (impressum.html + footer-links + authority-card collapse)
+- `05e9c2d91` #32-followup P0-5: WorksSyncer gnd→GND (Pre-Fix für editor-attribution)
+- `6f80e5d47` editor-attribution Commit 1: contributors.xml + authority schema + example
+- `1849a09fa` editor-attribution Commit 2: Corpus-Schema additiv
+- `f2034fe94` editor-attribution Commit 3: migrate-header-credits.py (nur Script, keine TEI-Änderung)
+
+**Validierungsstand:**
+- 8/8 Authority-Files grün gegen tei_all.rng + mhdbdb-authority.rng (inkl. neue contributors.xml)
+- 9/9 Schema-Examples grün
+- Volle Korpus-Validierung (666 Dateien, 831s): 30/30 tei_all baseline, 0/0 mhdbdb baseline → keine Regression durch die Schema-Erweiterung
+- Migration-Script Sample-Test (ABG/AK/BRW/LZT/WUT/TKR): Diff visuell sauber, 0 Whitespace-Noise
+- Full-Dry-Run über alle 666 Dateien: 0 Fehler, `auth=True resp=True` überall, `lead=True` exakt bei TKR/TKA/VTC/JT
+
+**Whitespace-Bug gefunden und gefixt:**
+`add_lead_editor()` las im ersten Wurf `child_indent` aus einer Struktur, in der die vorherige letzte `<respStmt>` (die von `migrate_collective_respstmt()` angelegt wurde) noch `closing_indent` als `.tail` hatte. Dadurch wurde die neue lead-editor-respStmt 2 Spaces zu weit links eingerückt. Fix: vor dem Append `title_stmt[-1].tail = child_indent` setzen, damit der Übergang von „last child" zu „zweitletztem child" sauber ist. Verifiziert auf TKR — jetzt bündig zur kollektiven respStmt.
+
+**Kommentare an @wachauer (Issues bleiben offen):**
+- [#62 Impressum](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/62#issuecomment-4244878530)
+- [#52 Authority-Files-Card](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/52#issuecomment-4244879862)
+
+**Open Issues (offen für nächste Session):**
+
+*Editor-Attribution (nach User-Review des Scripts):*
+- **Commit 4** (666-Datei Header-Migration): Script bereit, User soll Diff auf Sample prüfen (z.B. ABG), dann Massenlauf (~3 Min Migration + ~14 Min Validation)
+- **Commit 5** (Lead-Editor-respStmts für TKR/TKA/VTC/JT): trivial nach Commit 4, idempotentes Script-Rerun
+- **Commit 6** (Doku-Updates): `TEI-MODEL.md` §2.1bis + §12, `TEI-MODEL-AUTH-FILES.md` §1/§2.3/§3.8, `schema/README.md` Tabellen
+- **Commit 7** (Script archivieren): `git mv scripts/migrate-header-credits.py scripts/_archived/`
+
+*Schema-Followup (parallel oder danach):*
+- **P1-5** (`mhdbdb.rnc` idno/@type Enum) — **komplexer als Plan vorgibt**: Korpus hat 7 @type-Werte (`callNumber, GND, handschriftencensus, ISBN, mwb-sigle, sigle, wikidata`), davon müssen `ISBN` und `callNumber` unter `<biblStruct>//<idno>` frei bleiben. Braucht kontextspezifische Enum-Verteilung, nicht einen globalen Enum wie im Plan vorgeschlagen (~1 h saubere Schema-Lektüre)
+- **P1-6** persName/@type Enum — Audit sauber: nur `"preferred"` + `"alternative"` im Korpus. Quick-Win, 30 Min
+- **P1-10** msIdentifier/@corresp auf Pflicht — braucht Daten-Audit zur Existenz des Attributs in allen 666 Files
+- **P2-11** Taxonomie-Kopplung Option 3 (Doku-Kommentar) — 5 Min
+- **P2-12** `validate-corpus.py` rewrite — self-contained, 30 Min
+- **P2-13/14** CI-Schema-Validation-Workflow — ~1 h
+
+*Andere:*
+- **WZB Lead-Editor-Mini-Commit** (nach #66-Merge): `contrib_006 role editor → lead-editor` + respStmt in WZB.tei.xml
+- **#62** + **#52** + **#79** bleiben offen bis Katharina/Julia Feedback geben
+
+**Nicht-Befunde (damit niemand nochmal sucht):**
+- `persName/@type` im Korpus: nur 2 Werte (`"preferred"`, `"alternative"`), P1-6 ist sauber ohne Daten-Migration machbar
+- `idno/@type` im Korpus: 7 verschiedene Werte, 2 davon (`ISBN`, `callNumber`) leben unter `<biblStruct>`, daher nicht global enumerierbar
+- Migration-Script-Logik: verifiziert idempotent (zweiter Lauf macht nichts, weil Alt-Muster erkannt wird und neue Muster via `@ref`-Check skippen)
+
+**Next session:**
+1. `/promptotyping orient`
+2. User reviewt `scripts/migrate-header-credits.py` — optional Sample-Check: `python scripts/migrate-header-credits.py --sample ABG --dry-run`, dann ohne `--dry-run`, dann `git diff tei/ABG.tei.xml`, dann `git restore tei/ABG.tei.xml`
+3. Go/No-Go für editor-attribution Commit 4 (Full-Korpus-Migration, ~3 Min Lauf + ~14 Min Validation)
+4. Bei grün: Commit 5 → Commit 6 (Doku) → Commit 7 (Archiv)
+5. Danach: Schema-Followup Quick-Wins in Reihenfolge P2-11 (5 Min) → P1-6 (30 Min) → P1-5 kontextspezifisch (~1 h) → P1-10 mit Audit → P2-12 → P2-13/14
