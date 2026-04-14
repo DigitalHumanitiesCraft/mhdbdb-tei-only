@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Works example: demonstrates all element/attribute paths in works.xml
-     Validates against: tei_all.rng + mhdbdb-authority.rnc
-     SOLL child order in <bibl>: title* -> idno* -> ptr* -> author* -> relatedItem*
-     SOLL child order in <monogr>: author* -> title+ -> idno* -> editor* -> edition* -> imprint+ -->
+<!-- Werke-Beispiel: zeigt alle Element-/Attribut-Pfade in works.xml
+     Validiert gegen: tei_all.rng + mhdbdb-authority.rnc
+     SOLL-Kindreihenfolge in <bibl>: title* -> idno* -> ptr* -> author* -> relatedItem*
+     SOLL-Kindreihenfolge in <monogr>: author* -> title+ -> idno* -> editor* -> edition* -> imprint+ -->
 <TEI xmlns="http://www.tei-c.org/ns/1.0">
   <teiHeader>
     <fileDesc>
@@ -15,7 +15,7 @@
     <body>
       <listBibl>
 
-        <!-- Maximal work: multiple titles, sigles, genres, full biblStruct -->
+        <!-- Maximales Werk: mehrere Titel, Siglen, Genres, vollständiger biblStruct -->
         <bibl xml:id="work_1">
           <title xml:lang="de">Parzival</title>
           <title xml:lang="en">Parzival</title>
@@ -25,7 +25,7 @@
           <idno type="GND">https://d-nb.info/gnd/4130109-2</idno>
           <idno type="wikidata">http://www.wikidata.org/entity/Q209875</idno>
           <idno type="handschriftencensus">http://www.handschriftencensus.de/werke/412</idno>
-          <!-- Genre pointers: label resolved from genres.xml at build time -->
+          <!-- Genre-Zeiger: Label wird zur Build-Zeit aus genres.xml aufgelöst -->
           <ptr target="genres.xml#genre_88b5cae2"/>
           <ptr target="genres.xml#genre_72cae96a"/>
           <author ref="persons.xml#person_1">Wolfram von Eschenbach</author>
@@ -58,7 +58,7 @@
               <note>Lachmann ed., 6th edition</note>
             </biblStruct>
           </relatedItem>
-          <!-- biblStruct type="bookSection": has analytic + monogr -->
+          <!-- biblStruct type="bookSection": hat analytic + monogr -->
           <relatedItem>
             <biblStruct type="bookSection" xml:id="PAR_PAR_2"
                         corresp="http://zotero.org/groups/5043625/items/DEF456"
@@ -84,7 +84,7 @@
           </relatedItem>
         </bibl>
 
-        <!-- Minimal work: single title, single sigle, no identifiers -->
+        <!-- Minimales Werk: ein Titel, eine Sigle, keine Identifier -->
         <bibl xml:id="work_2">
           <title xml:lang="de">Frauenbuch</title>
           <idno type="sigle">FB</idno>
@@ -92,7 +92,7 @@
           <author ref="persons.xml#person_2">Ulrich von Liechtenstein</author>
         </bibl>
 
-        <!-- Work with journalArticle biblStruct -->
+        <!-- Werk mit journalArticle-biblStruct -->
         <bibl xml:id="work_3">
           <title xml:lang="de">Stadtratsgedicht</title>
           <idno type="sigle">ASG</idno>
@@ -117,7 +117,7 @@
           </relatedItem>
         </bibl>
 
-        <!-- Work with anonymous author -->
+        <!-- Werk mit anonymem Autor -->
         <bibl xml:id="work_4">
           <title xml:lang="de">Nibelungenlied</title>
           <idno type="sigle">NIB</idno>

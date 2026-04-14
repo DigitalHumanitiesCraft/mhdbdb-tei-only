@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Genres example: demonstrates taxonomy structure in genres.xml
-     Validates against: tei_all.rng + mhdbdb-authority.rnc
-     Genre IDs use UUID-hash format: genre_XXXXXXXX
-     Terms can appear in de, en, fr, la -->
+<!-- Gattungs-Beispiel: zeigt Taxonomie-Struktur in genres.xml
+     Validiert gegen: tei_all.rng + mhdbdb-authority.rnc
+     Genre-IDs nutzen UUID-Hash-Format: genre_XXXXXXXX
+     Terme können in de, en, fr, la auftreten -->
 <TEI xmlns="http://www.tei-c.org/ns/1.0">
   <teiHeader>
     <fileDesc>
@@ -13,9 +13,9 @@
     <encodingDesc>
       <classDecl>
         <taxonomy xml:id="mhdbdb-genres">
-          <desc>MHDBDB genre taxonomy</desc>
+          <desc>Gattungstaxonomie der MHDBDB</desc>
 
-          <!-- Genre with terms in 4 languages (de, en, fr, la) -->
+          <!-- Genre mit Termen in 4 Sprachen (de, en, fr, la) -->
           <category xml:id="genre_88b5cae2">
             <catDesc>
               <term xml:lang="de">Liebesroman und Abenteuerroman</term>
@@ -27,7 +27,7 @@
             </catDesc>
           </category>
 
-          <!-- Parent genre -->
+          <!-- Eltern-Genre -->
           <category xml:id="genre_72cae96a">
             <catDesc>
               <term xml:lang="de">Versroman</term>
@@ -35,7 +35,7 @@
             </catDesc>
           </category>
 
-          <!-- Genre without broader pointer (top-level) -->
+          <!-- Genre ohne broader-Zeiger (Top-Level) -->
           <category xml:id="genre_0a612f94">
             <catDesc>
               <term xml:lang="de">Minnelehre</term>
