@@ -24,7 +24,7 @@ if sys.stdout.encoding != 'utf-8':
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Split TSV into chunks')
     parser.add_argument('--input', '-i', help='input TSV file',
-                        default='Wenzelsbibel/wzb-disambiguation.tsv')
+                        default='Wenzelsbibel/phase1b/wzb-disambiguation.tsv')
     parser.add_argument('--size', '-s', type=int, help='rows per chunk',
                         default=50)
     args = parser.parse_args()

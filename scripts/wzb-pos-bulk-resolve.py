@@ -33,7 +33,7 @@ def uprint(*args, **kwargs):
     text = " ".join(str(a) for a in args) + kwargs.get("end", "\n")
     sys.stdout.buffer.write(text.encode("utf-8", errors="replace"))
 
-DEFAULT_TSV = "Wenzelsbibel/wzb-pos-pending.tsv"
+DEFAULT_TSV = "Wenzelsbibel/phase2/wzb-pos-pending.tsv"
 REVIEWER    = "claude"
 
 VALID_POS = {

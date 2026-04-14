@@ -633,7 +633,7 @@ RESOLVERS = {
 def main():
     parser = argparse.ArgumentParser(description="Context-based POS resolution for WZB Phase 2")
     parser.add_argument("--tei", default="Wenzelsbibel/WZB.lemma-autofill.tei.xml")
-    parser.add_argument("--pending", default="Wenzelsbibel/wzb-pos-pending.tsv")
+    parser.add_argument("--pending", default="Wenzelsbibel/phase2/wzb-pos-pending.tsv")
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
 

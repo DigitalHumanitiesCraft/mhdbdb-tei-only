@@ -19,8 +19,8 @@ import argparse
 from pathlib import Path
 from collections import defaultdict
 
-DEFAULT_TSV = "Wenzelsbibel/wzb-disambiguation.tsv"
-DEFAULT_OUT = "Wenzelsbibel/wzb-pending-review.tsv"
+DEFAULT_TSV = "Wenzelsbibel/phase1b/wzb-disambiguation.tsv"
+DEFAULT_OUT = "Wenzelsbibel/phase1b/wzb-pending-review.tsv"
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

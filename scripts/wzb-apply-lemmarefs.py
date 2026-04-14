@@ -41,7 +41,7 @@ def uprint(*args, **kwargs):
 
 PROJECT_ROOT = Path(__file__).parent.parent
 DEFAULT_TEI  = PROJECT_ROOT / "Wenzelsbibel" / "WZB.lemma-autofill.tei.xml"
-DEFAULT_TSV  = PROJECT_ROOT / "Wenzelsbibel" / "wzb-disambiguation.tsv"
+DEFAULT_TSV  = PROJECT_ROOT / "Wenzelsbibel" / "phase1b" / "wzb-disambiguation.tsv"
 
 XML_ID_ATTR  = "{http://www.w3.org/XML/1998/namespace}id"
 
