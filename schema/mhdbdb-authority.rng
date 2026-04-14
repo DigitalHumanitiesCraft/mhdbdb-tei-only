@@ -77,6 +77,7 @@
       <ref name="variants.div"/>
       <ref name="listPerson"/>
       <ref name="listBibl"/>
+      <ref name="contributors.body"/>
       <element>
         <name ns="http://www.tei-c.org/ns/1.0">p</name>
         <text/>
@@ -617,6 +618,130 @@
       <zeroOrMore>
         <ref name="category"/>
       </zeroOrMore>
+    </element>
+  </define>
+  <define name="contributors.body">
+    <optional>
+      <element>
+        <name ns="http://www.tei-c.org/ns/1.0">listOrg</name>
+        <oneOrMore>
+          <ref name="contributors.org"/>
+        </oneOrMore>
+      </element>
+    </optional>
+    <ref name="contributors.listPerson"/>
+  </define>
+  <define name="contributors.listPerson">
+    <element>
+      <name ns="http://www.tei-c.org/ns/1.0">listPerson</name>
+      <oneOrMore>
+        <ref name="contributors.person"/>
+      </oneOrMore>
+    </element>
+  </define>
+  <define name="contributors.org">
+    <element>
+      <name ns="http://www.tei-c.org/ns/1.0">org</name>
+      <attribute>
+        <name ns="http://www.w3.org/XML/1998/namespace">id</name>
+        <data type="NCName"/>
+      </attribute>
+      <oneOrMore>
+        <element>
+          <name ns="http://www.tei-c.org/ns/1.0">orgName</name>
+          <optional>
+            <attribute>
+              <name ns="http://www.w3.org/XML/1998/namespace">lang</name>
+              <text/>
+            </attribute>
+          </optional>
+          <text/>
+        </element>
+      </oneOrMore>
+      <optional>
+        <element>
+          <name ns="http://www.tei-c.org/ns/1.0">desc</name>
+          <optional>
+            <attribute>
+              <name ns="http://www.w3.org/XML/1998/namespace">lang</name>
+              <text/>
+            </attribute>
+          </optional>
+          <text/>
+        </element>
+      </optional>
+      <zeroOrMore>
+        <element>
+          <name ns="http://www.tei-c.org/ns/1.0">idno</name>
+          <attribute>
+            <name ns="">type</name>
+            <choice>
+              <value>GND</value>
+              <value>wikidata</value>
+              <value>ROR</value>
+            </choice>
+          </attribute>
+          <text/>
+        </element>
+      </zeroOrMore>
+    </element>
+  </define>
+  <define name="contributors.person">
+    <element>
+      <name ns="http://www.tei-c.org/ns/1.0">person</name>
+      <attribute>
+        <name ns="http://www.w3.org/XML/1998/namespace">id</name>
+        <data type="NCName"/>
+      </attribute>
+      <optional>
+        <attribute>
+          <name ns="">role</name>
+          <choice>
+            <value>founder</value>
+            <value>coordinator</value>
+            <value>lead-editor</value>
+            <value>editor</value>
+          </choice>
+        </attribute>
+      </optional>
+      <oneOrMore>
+        <element>
+          <name ns="http://www.tei-c.org/ns/1.0">persName</name>
+          <optional>
+            <attribute>
+              <name ns="http://www.w3.org/XML/1998/namespace">lang</name>
+              <text/>
+            </attribute>
+          </optional>
+          <text/>
+        </element>
+      </oneOrMore>
+      <zeroOrMore>
+        <element>
+          <name ns="http://www.tei-c.org/ns/1.0">idno</name>
+          <attribute>
+            <name ns="">type</name>
+            <choice>
+              <value>GND</value>
+              <value>ORCID</value>
+              <value>wikidata</value>
+            </choice>
+          </attribute>
+          <text/>
+        </element>
+      </zeroOrMore>
+      <optional>
+        <element>
+          <name ns="http://www.tei-c.org/ns/1.0">note</name>
+          <optional>
+            <attribute>
+              <name ns="http://www.w3.org/XML/1998/namespace">lang</name>
+              <text/>
+            </attribute>
+          </optional>
+          <text/>
+        </element>
+      </optional>
     </element>
   </define>
 </grammar>

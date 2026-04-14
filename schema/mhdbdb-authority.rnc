@@ -56,6 +56,7 @@ authority.body =
     | variants.div     # variants.xml
     | listPerson       # persons.xml
     | listBibl         # works.xml
+    | contributors.body    # contributors.xml: (listOrg?, listPerson)
     | element p { text }   # taxonomy files: placeholder <p> (data in encodingDesc)
 
 # ============================================================
@@ -221,4 +222,55 @@ category = element category {
         })*
     },
     category*   # nested subcategories
+}
+
+# ============================================================
+# Type 6: Contributors (contributors.xml)
+# ============================================================
+# Editor-Attribution-Register — Gründer, Koordination, Lead-
+# Editor:innen und alle Editor:innen, die an MHDBDB-Texten
+# gearbeitet haben. Bewusst getrennt von persons.xml (dort nur
+# mhd. Textautoren). Eigenes Pattern, damit persons.xml-Constraints
+# (persName/@type="preferred"|"alternative") nicht gelten und
+# Rollen-Enum direkt auf <person>/@role möglich ist.
+
+contributors.body =
+    element listOrg { contributors.org+ }?,
+    contributors.listPerson
+
+contributors.listPerson = element listPerson {
+    contributors.person+
+}
+
+contributors.org = element org {
+    attribute xml:id { xsd:NCName },   # mhdbdb-team, dhcraft
+    element orgName {
+        attribute xml:lang { text }?,
+        text
+    }+,
+    element desc {
+        attribute xml:lang { text }?,
+        text
+    }?,
+    element idno {
+        attribute type { "GND" | "wikidata" | "ROR" },
+        text
+    }*
+}
+
+contributors.person = element person {
+    attribute xml:id { xsd:NCName },   # contrib_NNN
+    attribute role { "founder" | "coordinator" | "lead-editor" | "editor" }?,
+    element persName {
+        attribute xml:lang { text }?,
+        text
+    }+,
+    element idno {
+        attribute type { "GND" | "ORCID" | "wikidata" },
+        text
+    }*,
+    element note {
+        attribute xml:lang { text }?,
+        text
+    }?
 }

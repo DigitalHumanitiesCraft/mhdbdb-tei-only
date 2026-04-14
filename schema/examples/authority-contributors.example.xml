@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?xml-model href="https://tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>MHDBDB Contributors Example</title>
+      </titleStmt>
+      <publicationStmt>
+        <publisher>Middle High German Conceptual Database (MHDBDB)</publisher>
+        <date>2026-04-14</date>
+      </publicationStmt>
+      <sourceDesc>
+        <p>Beispiel-Datei für das contributors.xml-Schema. Deckt alle vier Rollen ab (founder, coordinator, lead-editor, editor), beide Org-Strukturen und die optionalen Elemente idno + note. Validiert gegen tei_all.rng und mhdbdb-authority.rng.</p>
+      </sourceDesc>
+    </fileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <listOrg>
+        <org xml:id="mhdbdb-team">
+          <orgName xml:lang="de">MHDBDB-Team</orgName>
+          <desc xml:lang="de">Verweis-Anker für die kollektive Team-Attribution in Korpus-Headern.</desc>
+        </org>
+        <org xml:id="dhcraft">
+          <orgName>Digital Humanities Craft</orgName>
+          <desc xml:lang="de">Digital-Humanities-Dienstleister, technische Umsetzung.</desc>
+        </org>
+      </listOrg>
+      <listPerson>
+        <!-- 2× founder -->
+        <person xml:id="contrib_ex_001" role="founder">
+          <persName xml:lang="de">Klaus M. Schmidt</persName>
+        </person>
+        <person xml:id="contrib_ex_002" role="founder">
+          <persName xml:lang="de">Horst Pütz</persName>
+        </person>
+        <!-- 1× coordinator -->
+        <person xml:id="contrib_ex_003" role="coordinator">
+          <persName xml:lang="de">Katharina Zeppezauer-Wachauer</persName>
+        </person>
+        <!-- 2× lead-editor -->
+        <person xml:id="contrib_ex_004" role="lead-editor">
+          <persName xml:lang="de">Vlastimil Brom</persName>
+        </person>
+        <person xml:id="contrib_ex_005" role="lead-editor">
+          <persName xml:lang="de">Katrin Woesner</persName>
+        </person>
+        <!-- 3× editor (einer mit idno, einer mit note, einer minimal) -->
+        <person xml:id="contrib_ex_006" role="editor">
+          <persName xml:lang="de">Beispielperson mit GND</persName>
+          <idno type="GND">1000000000</idno>
+        </person>
+        <person xml:id="contrib_ex_007" role="editor">
+          <persName xml:lang="de">Beispielperson mit Note</persName>
+          <note xml:lang="de">Illustriert den Einsatz von note für freitextliche Aufgabenbeschreibung.</note>
+        </person>
+        <person xml:id="contrib_ex_008" role="editor">
+          <persName xml:lang="de">Minimaler Eintrag</persName>
+        </person>
+      </listPerson>
+    </body>
+  </text>
+</TEI>
