@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Persons example: demonstrates all element/attribute paths in persons.xml
+     Validates against: tei_all.rng + mhdbdb-authority.rnc
+     Note: person->work links are NOT stored here; they are derived from
+     works.xml <author @ref> by the build script. -->
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt><title>Persons Example</title></titleStmt>
+      <publicationStmt><publisher>MHDBDB</publisher><date>2026</date></publicationStmt>
+      <sourceDesc><p>Schema example</p></sourceDesc>
+    </fileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <listPerson>
+
+        <!-- Maximal: preferred + alternative names, GND + Wikidata -->
+        <person xml:id="person_1">
+          <persName type="preferred">Wolfram von Eschenbach</persName>
+          <persName type="alternative" xml:lang="en">Wolfram of Eschenbach</persName>
+          <idno type="GND">118634933</idno>
+          <idno type="wikidata">Q57271</idno>
+        </person>
+
+        <!-- Minimal: only preferred name, no identifiers -->
+        <person xml:id="person_2">
+          <persName type="preferred">Der Stricker</persName>
+        </person>
+
+        <!-- Special ID: person_anonym (non-numeric, the only exception) -->
+        <person xml:id="person_anonym">
+          <persName type="preferred">Anonym</persName>
+          <persName type="alternative" xml:lang="en">Anonymous</persName>
+        </person>
+
+        <!-- Person with GND only (no Wikidata) -->
+        <person xml:id="person_3">
+          <persName type="preferred">Schweizer Anonymus</persName>
+          <idno type="GND">103130276</idno>
+        </person>
+
+      </listPerson>
+    </body>
+  </text>
+</TEI>

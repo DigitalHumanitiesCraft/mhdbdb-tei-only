@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Concepts example: demonstrates taxonomy structure in concepts.xml
+     Validates against: tei_all.rng + mhdbdb-authority.rnc
+     Data lives in <encodingDesc>, <body> has only a placeholder <p>.
+     IDs use 8-digit hierarchical format: concept_NNNNNNNN -->
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt><title>Concepts Example</title></titleStmt>
+      <publicationStmt><publisher>MHDBDB</publisher><date>2026</date></publicationStmt>
+      <sourceDesc><p>Schema example</p></sourceDesc>
+    </fileDesc>
+    <encodingDesc>
+      <classDecl>
+        <taxonomy xml:id="mhdbdb-concepts">
+          <desc>MHDBDB semantic concept ontology</desc>
+
+          <!-- Top-level category (no broader pointer) -->
+          <category xml:id="concept_10000000">
+            <catDesc>
+              <term xml:lang="de">Natur und Umwelt</term>
+              <term xml:lang="en">Nature and Environment</term>
+            </catDesc>
+          </category>
+
+          <!-- Category with broader pointer to parent -->
+          <category xml:id="concept_11000000">
+            <catDesc>
+              <term xml:lang="de">Pflanzenwelt</term>
+              <term xml:lang="en">Plant World</term>
+              <ptr type="broader" target="#concept_10000000"/>
+            </catDesc>
+          </category>
+
+          <!-- Category with alternative term names -->
+          <category xml:id="concept_11100000">
+            <catDesc>
+              <term xml:lang="de">Baum</term>
+              <term xml:lang="de" type="alternative">Baumarten</term>
+              <term xml:lang="en">Tree</term>
+              <term xml:lang="en" type="alternative">Tree Species</term>
+              <ptr type="broader" target="#concept_11000000"/>
+            </catDesc>
+          </category>
+
+        </taxonomy>
+      </classDecl>
+    </encodingDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <!-- Placeholder: taxonomy data is in encodingDesc/classDecl above -->
+      <p>See encodingDesc for concept taxonomy.</p>
+    </body>
+  </text>
+</TEI>

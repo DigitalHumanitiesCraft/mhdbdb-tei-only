@@ -1,0 +1,224 @@
+# MHDBDB Authority Files — RELAX NG Schema (Compact Syntax)
+# ==========================================================
+# Schema for the 7 authority files in authority-files/:
+#   lexicon.xml, variants.xml, persons.xml, works.xml,
+#   concepts.xml, genres.xml, names.xml
+#
+# Each file is a standalone TEI document with a shared minimal
+# teiHeader and file-specific body content.
+
+default namespace = "http://www.tei-c.org/ns/1.0"
+namespace xml = "http://www.w3.org/XML/1998/namespace"
+datatypes xsd = "http://www.w3.org/2001/XMLSchema-datatypes"
+
+# ============================================================
+# Root — all authority files share this envelope
+# ============================================================
+
+start = element TEI {
+    authority.header,
+    element text {
+        element body { authority.body }
+    }
+}
+
+# ============================================================
+# Shared minimal teiHeader
+# ============================================================
+
+authority.header = element teiHeader {
+    element fileDesc {
+        element titleStmt {
+            element title { text },
+            element respStmt {
+                element resp { text },
+                element name { text }
+            }?
+        },
+        element publicationStmt {
+            element publisher { text },
+            element date { text }
+        },
+        element sourceDesc { element p { text } }
+    },
+    # Taxonomy files (concepts, genres, names) have encodingDesc
+    element encodingDesc {
+        element classDecl { taxonomy }
+    }?
+}
+
+# ============================================================
+# Body: one of the 4 structural types
+# ============================================================
+
+authority.body =
+    lexicon.div        # lexicon.xml
+    | variants.div     # variants.xml
+    | listPerson       # persons.xml
+    | listBibl         # works.xml
+    | element p { text }   # taxonomy files: placeholder <p> (data in encodingDesc)
+
+# ============================================================
+# Type 1: Lexicon (lexicon.xml)
+# ============================================================
+
+lexicon.div = element div {
+    attribute type { "lexicon" },
+    lexicon.entry*
+}
+
+lexicon.entry = element entry {
+    attribute xml:id { xsd:NCName },   # lemma_N
+    element form {
+        attribute type { "lemma" },
+        element orth { text }
+    },
+    element gramGrp {
+        element pos { text }+          # POS tags (can be multiple)
+    }?,
+    element etym {
+        attribute type { "morphological" },
+        element seg {
+            attribute type { "component" },
+            attribute corresp { text }?,  # lexicon.xml#lemma_N
+            text
+        }*                                 # can be empty (data quality issue)
+    }?,
+    element sense {
+        attribute xml:id { xsd:NCName },   # lemma_N_sense_M
+        attribute ana { text }?,            # space-separated #type_N refs
+        element ptr {
+            attribute target { text }       # concepts.xml#concept_N
+        }*
+    }*
+}
+
+# ============================================================
+# Type 2: Variants (variants.xml)
+# ============================================================
+
+variants.div = element div {
+    attribute type { "orthographicVariants" },
+    variants.entry*
+}
+
+variants.entry = element entry {
+    attribute corresp { text },            # lexicon.xml#lemma_N
+    element form {
+        attribute xml:id { xsd:NCName },   # type_N
+        text                               # orthographic variant
+    }+
+}
+
+# ============================================================
+# Type 3: Persons (persons.xml)
+# ============================================================
+
+listPerson = element listPerson {
+    element person {
+        attribute xml:id { xsd:NCName },   # person_N (numeric) or person_anonym
+        element persName {
+            attribute type { "preferred" | "alternative" },
+            attribute xml:lang { text }?,
+            text
+        }+,
+        element idno {
+            attribute type { "GND" | "wikidata" },
+            text
+        }*
+        # No <listBibl> — person→work derived from works.xml <author @ref>
+    }*
+}
+
+# ============================================================
+# Type 4: Works (works.xml)
+# ============================================================
+
+listBibl = element listBibl {
+    works.bibl*
+}
+
+works.bibl = element bibl {
+    attribute xml:id { xsd:NCName },   # work_N
+    (element title {
+        attribute xml:lang { text }?,
+        attribute level { text }?,
+        attribute type { text }?,
+        attribute ana { text }?,
+        text
+    }
+    | element idno {
+        attribute type { text },       # sigle, handschriftencensus, GND, wikidata
+        text
+    }
+    | element ptr {
+        attribute target { text }      # genres.xml#genre_UUID
+    }
+    | element author {
+        attribute ref { text }?,       # persons.xml#person_N
+        text
+    }
+    | element relatedItem {
+        works.biblStruct
+    })*
+}
+
+works.biblStruct = element biblStruct {
+    attribute type { text }?,          # journalArticle, bookSection, book
+    attribute xml:id { xsd:NCName }?,
+    attribute corresp { text }?,       # Zotero URL
+    attribute key { text }?,           # sigle
+    element analytic {
+        (element title { attribute level { text }?, text }
+         | element author { element name { text } }
+         | element ref { attribute target { text }?, attribute type { text }?, text }
+         | element idno { attribute type { text }, text })*
+    }?,
+    element monogr {
+        (element title { attribute level { text }?, text }
+         | element author { element name { text } }
+         | element editor {
+            (element forename { text }?,
+             element surname { text }?)
+         }
+         | element idno { attribute type { text }, text }
+         | element edition { text })*,
+        element imprint {
+            (element pubPlace { text }
+             | element publisher { text }
+             | element date { attribute when { text }?, text }
+             | element biblScope { attribute unit { text }?, text })*
+        }?
+    }?,
+    element series {
+        element title { attribute level { text }?, text },
+        element biblScope { attribute unit { text }?, text }*
+    }?,
+    element note { text }?
+}
+
+# ============================================================
+# Type 5: Taxonomy (concepts.xml, genres.xml, names.xml)
+# ============================================================
+
+taxonomy = element taxonomy {
+    attribute xml:id { xsd:NCName },   # mhdbdb-concepts, mhdbdb-genres, mhdbdb-names
+    element desc { text }?,
+    category*
+}
+
+category = element category {
+    attribute xml:id { xsd:NCName },   # concept_N, genre_UUID, name_N
+    element catDesc {
+        (element term {
+            attribute xml:lang { text },
+            attribute type { text }?,  # alternative
+            text
+        }
+        | element ptr {
+            attribute type { "broader" | "exactMatch" | "closeMatch" },
+            attribute target { text }  # internal #ID or external file#ID
+        })*
+    },
+    category*   # nested subcategories
+}
