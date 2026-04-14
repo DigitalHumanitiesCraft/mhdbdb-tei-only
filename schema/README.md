@@ -68,13 +68,15 @@ TEI [@xml:id = Sigle]
 
 | Element | Attribute | Funktion |
 |---------|-----------|----------|
-| `<w>` | `@xml:id` (obligatorisch), `@lemmaRef`, `@pos`, `@ana`, `@corresp`, `@reason`, `@xml:lang` | Wort-Token |
+| `<w>` | `@xml:id` (obligatorisch), `@lemmaRef`, `@pos`, `@meaningRef`, `@wordRef`, `@ana`†, `@corresp`, `@reason`, `@xml:lang` | Wort-Token |
 | `<pc>` | `@join` (obligatorisch: `left`\|`right`), `@xml:id` | Interpunktion |
-| `<div>` | `@type` (optional; Werte: chapter, section, number, song, colophon, recipe, parallel†), `@n` | Textgliederung |
+| `<div>` | `@type` (optional; Werte: chapter, section, number, song, colophon, recipe, parallel‡, book, paratext, prologus), `@xml:id`, `@n` | Textgliederung |
 | `<lg>` | `@type` (stanza), `@n` | Strophe (Vers) |
 | `<l>` | `@n` | Verszeile |
 | `<lb/>` | `@n` | Zeilenumbruch (Prosa) |
 | `<hi>` | `@rend` (initial, upper_case_first_letter, ...) | Hervorhebung |
+| `<milestone/>` | `@unit` (obligatorisch), `@n`, `@xml:id` | Inline-Positionsmarker (z. B. CAPITULUM-Apparat) |
+| `<fw>` | `@type`, `@n` | Kustode / Reklamante (Bogensignaturen) |
 
 ### Wort-Annotationsmuster
 
@@ -87,9 +89,10 @@ TEI [@xml:id = Sigle]
 ```
 
 - `@lemmaRef` — Verweis auf den Lexikoneintrag (Authority File)
-- `@pos` — POS-Tag aus dem MHDBDB-Tagset (siehe `docs/TEI-MODEL.md` Abschnitt 5); zusammengesetzte Tags mit Leerzeichen getrennt (`VEM PRO`)
-- `@ana` — Verweis auf Bedeutung/Konzept (semantische Annotation)
-- `@corresp` — Verweis auf orthographischen Variantentyp
+- `@pos` — POS-Tag aus dem MHDBDB-Tagset; zusammengesetzte Tags mit Leerzeichen getrennt (`VEM PRO`)
+- `@ana` — Verweis auf Bedeutung/Sense (Standard-TEI, aktuell in Verwendung im gesamten Korpus)
+- `@meaningRef` / `@wordRef` — geplante MHDBDB-Erweiterungsattribute für feinere Sense-Annotation; im Schema erlaubt, aber **nicht TEI-P5-konform** (Stage 1 schlägt fehl) — derzeit noch nicht im Produktionskorpus verwendet
+- `@corresp` — Verweis auf orthographischen Variantentyp (variants.xml)
 - `@reason` — Zerlegung bei zusammengesetzten POS-Tags (`wilt+du`)
 - Wörter ohne `@lemmaRef` werden vom Korpus-Index übersprungen
 
@@ -106,7 +109,9 @@ works.xml#work_89                  — Werk
 genres.xml#genre_aaa               — Gattungskategorie
 ```
 
-†`parallel` kennzeichnet Parallelüberlieferung (derselbe Text in verschiedenen Handschriften). Verwendet in 4 Dateien: BRW, DL1, DL2, PKP.
+†`@ana` ist veraltet; neue Dateien verwenden `@meaningRef`/`@wordRef`.
+
+‡`parallel` kennzeichnet Parallelüberlieferung (derselbe Text in verschiedenen Handschriften). Verwendet in 4 Dateien: BRW, DL1, DL2, PKP. `book`, `paratext`, `prologus` wurden für die Wenzelsbibel (WZB) ergänzt.
 
 ## Authority-Files-Schema (`mhdbdb-authority.rnc`)
 
@@ -153,7 +158,7 @@ Wenn Sie TEI-Dateien erstellen möchten, die mit den MHDBDB-Werkzeugen funktioni
 2. **Das richtige Schema wählen** — Korpus-Schema für Textdateien, Authority-Schema für Vokabulare
 3. **Mindestanforderung** pro `<w>`: `@xml:id` (dateiweit eindeutig) und Textinhalt
 4. **Empfohlen**: `@lemmaRef` (ermöglicht Suche), `@pos` (ermöglicht Filterung)
-5. **Optional**: `@ana` (semantische Annotation), `@corresp` (Variantenverknüpfung)
+5. **Optional**: `@meaningRef`/`@wordRef` (semantische Annotation), `@corresp` (Variantenverknüpfung); `@ana` nur für Rückwärtskompatibilität
 6. **Interpunktion**: immer `<pc join="left|right">` verwenden, nie `<seg type="pc">`
 7. **Prosa-Zeilenumbrüche**: `<lb/>` verwenden, nie `<l>` (nur für Verse)
 8. **Validieren** — gegen `tei_all.rng` und `mhdbdb.rnc` prüfen, bevor die Daten eingereicht werden
