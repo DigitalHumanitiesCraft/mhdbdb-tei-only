@@ -65,7 +65,7 @@ The header is already largely standardized across all 666 files. This section do
       <msIdentifier corresp="works.xml#work_{id}">
         <idno type="sigle">{SIGLE}</idno>
         <idno type="handschriftencensus">{HC-Nr}</idno>   <!-- optional, 354 Texte -->
-        <idno type="gnd">{GND-Nr}</idno>                  <!-- optional, 216 Texte -->
+        <idno type="GND">{GND-Nr}</idno>                  <!-- optional, 216 Texte -->
         <idno type="wikidata">{Q-Nr}</idno>               <!-- optional, 129 Texte, Werk-Ebene -->
         <idno type="mwb-sigle">{MWB-Kurzsigle}</idno>     <!-- optional, 19 Texte -->
         <msName xml:lang="de">{Werktitel}</msName>
@@ -116,11 +116,6 @@ TEI P5 verlangt in `<monogr>`: `(author|editor)*, title+, editor*, (idno|imprint
          Dokumentation: .gemini/skills/pos-disambiguator/SKILL.md</p>
     </interpretation>
   </editorialDecl>
-  <schemaRef key="mhdbdb" url="schema/mhdbdb.rnc"/>
-  <tagsDecl>
-    <rendition xml:id="in" scheme="css">font-size: 150%; font-weight: bold;</rendition>
-    <rendition xml:id="uc" scheme="css">text-transform: uppercase;</rendition>
-  </tagsDecl>
   <classDecl>
     <taxonomy xml:id="genres">
       <bibl>Genreklassifikation gemaess der Textreihentypologie
@@ -142,8 +137,8 @@ TEI P5 verlangt in `<monogr>`: `(author|editor)*, title+, editor*, (idno|imprint
 ```xml
 <profileDesc>
   <langUsage>
-    <language ident="gmh" usage="95">Mittelhochdeutsch (ca. 1050-1350)</language>
-    <language ident="la" usage="5">Latein</language>  <!-- falls vorhanden -->
+    <language ident="gmh">Mittelhochdeutsch (ca. 1050-1350)</language>
+    <language ident="la">Latein</language>  <!-- falls vorhanden -->
   </langUsage>
   <particDesc>
     <listPerson>
@@ -364,7 +359,6 @@ Das `<w>`-Element ist die zentrale Annotationseinheit. Im Soll-Modell stammen al
 ```xml
 <w xml:id="{SIGLE}_{page}{line}_{pos}"
    lemmaRef="lexicon.xml#lemma_{id}"
-   lemma="{Grundform}"
    pos="{POS-Tag}"
    ana="lexicon.xml#lemma_{id}_sense_{id}"
    corresp="variants.xml#type_{id}">sichtbarer Text</w>
@@ -376,7 +370,6 @@ Das `<w>`-Element ist die zentrale Annotationseinheit. Im Soll-Modell stammen al
 |----------|------------|---------|-------------|------|
 | `@xml:id` | Standard (att.global) | ja | 9,282,982 (100%) | behalten |
 | `@lemmaRef` | **Standard** (att.linguistic) | ja* | 7,391,273 (79.6%) | behalten |
-| `@lemma` | **Standard** (att.linguistic) | nein | **fehlt** | ergaenzen (menschenlesbare Grundform) |
 | `@pos` | **Standard** (att.linguistic) | ja* | 7,406,168 (79.8%) | behalten |
 | `@meaningRef` | **NICHT Standard** | nein | 5,852,223 (63.0%) in 666/666 Dateien | → `@ana` migrieren |
 | `@wordRef` | **NICHT Standard** | nein | 7,406,166 (79.8%) in **666/666 Dateien** | → `@corresp` migrieren (siehe 4.4) |
@@ -404,7 +397,6 @@ Format variiert historisch bedingt. Neue Texte sollen ein konsistentes Schema ve
 |----------|------------|--------|---------|---------------|
 | `@lemmaRef` | Standard | **behalten** | keiner | — |
 | `@pos` | Standard | **behalten** | keiner | — |
-| `@lemma` | Standard | **ergaenzen** | mittel (Lookup je `<w>`) | lexicon.xml Zugriff |
 | `@meaningRef` | nicht Standard | **→ `@ana`** | gering (Rename) | Playground JS (8 Stellen, davon 2 kritisch) |
 | `@wordRef` | nicht Standard | **→ `@corresp`** | gering (Rename + URI-Korrektur) | siehe Sec. 4.4 |
 
@@ -417,7 +409,14 @@ Format variiert historisch bedingt. Neue Texte sollen ein konsistentes Schema ve
 - `@wordRef`: 0 Stellen im JS-Code (bestaetigt)
 - Python: nur in `_ARCHIVED_tei-transformation.py` (archiviert, nicht aktiv)
 
-**`@lemma` ergaenzen** ist optional aber wertvoll: Die menschenlesbare Grundform direkt am Wort (z.B. `lemma="brôt"`) macht die XML ohne Authority-File-Lookup lesbar. Erfordert einen Lookup-Schritt beim Indexbau.
+**`@lemma` bewusst nicht umgesetzt:** TEI P5 erlaubt `@lemma` (att.linguistic) als menschenlesbare Grundform direkt am Wort. Wir setzen es nicht. Begruendung:
+
+- **Denormalisierung.** Source of Truth fuer die Grundform ist `lexicon.xml` → `<form type="lemma"><orth>`. `@lemma` waere eine redundante Kopie neben `@lemmaRef`. Das widerspricht dem Grundsatz aus [TEI-MODEL-AUTH-FILES.md](TEI-MODEL-AUTH-FILES.md) Sec. 2.2 ("Bidirektionale Links — eine Richtung ist Master, die andere wird abgeleitet"), der fuer Authority-Files gilt und hier konsequent fortgefuehrt wird.
+- **Datenvolumen.** ~9,3M `<w>`-Elemente × ~10 Byte → rund 90 MB zusaetzliche Roh-XML ueber 666 Dateien ohne funktionalen Nutzen.
+- **Kein Konsument.** Weder `build-corpus-index.py` (liest nur `@lemmaRef` und extrahiert die ID) noch die JS-Renderer (`text-renderer.js`, `tei-text-reader.js`) lesen `@lemma`. Die Anzeige der Grundform laeuft im Browser ueber den Authority-Index.
+- **Sync-Risiko.** Jede orthografische Korrektur im Lexikon muesste in alle 666 Korpusdateien propagiert werden, sonst driften sie auseinander.
+
+Die menschenlesbare Grundform bleibt per Lookup `@lemmaRef` → `lexicon.xml` zugaenglich — fuer Debug-Inspektion per `xmllint`/`grep`, fuer Tooling per Authority-Index.
 
 **Aufschub fuer WZB:** Die `@meaningRef` → `@ana` Migration betrifft den WZB-Branch nicht (WZB hat noch kein `@meaningRef`). Sie kann unabhaengig erfolgen.
 
