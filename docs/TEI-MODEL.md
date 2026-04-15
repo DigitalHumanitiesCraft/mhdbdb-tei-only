@@ -360,20 +360,14 @@ In der mhd. Lyrik unterscheidet man fachlich zwischen Lied, Spruch und Leich. Di
 
 **Zusaetzlich: `note type="date"` und `note type="year"` in HZU/HZU2**
 
-HZU (55 notes) und HZU2 (341 notes) verwenden ein Sonder-Encoding fuer Datumsangaben in Urkunden:
+HZU (36 date-notes + 19 year-notes) und HZU2 (241 date-notes + 100 year-notes) tragen Datumsangaben in Urkunden:
 
 ```xml
-<note type="year" n="1293"/>       <!-- Jahreszahl, klar -->
-<note type="date" n="224"/>        <!-- = 24. Februar (MMTT ohne fuehrende Null) -->
-<note type="date" n="1211"/>       <!-- = 11. Dezember -->
+<note type="year" n="1293"/>        <!-- Jahreszahl, klar -->
+<note type="date" n="24. Februar"/> <!-- Klartext-Format, Oesterreich-Deutsch (Jaenner statt Januar) -->
 ```
 
-**Migration (Issue #17):** Script-Transformation des kodierten Formats in Klartext:
-```xml
-<note type="date" n="24. Februar"/>
-```
-
-Dekodierungslogik: Letzte 2 Stellen = Tag, Rest = Monat. Keine fuehrende Null beim Monat.
+**Historisch:** Das `n`-Attribut auf `<note type="date">` trug ein kompaktes MMTT-Encoding (Letzte zwei Stellen = Tag, Rest = Monat: `"224"` = 24. Februar, `"1211"` = 11. Dezember). Die Migration zu Klartext ist bereits erledigt (im Zuge der Phase-D-Normalisierung 2026-04, dokumentiert als #84). Stand 2026-04-15 sind alle 277 date-notes in beiden Dateien in der Klartext-Form; neue Ingests sollen diese Form direkt verwenden, nicht die alte kompakte.
 
 **Weitere Migrationen (entschieden am 2026-04-09):**
 

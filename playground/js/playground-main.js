@@ -10,6 +10,7 @@ import { TEIFilesManager } from './data/tei-manager.js';
 import { updateAllUI } from './ui/core/ui-helpers.js';
 import { displayFileItem, setupCollapsibleFileList, setupFileFilter, updateFileCount } from './ui/core/file-display.js';
 import { showProgress, updateProgress, hideSpinner, setFileDisplayHelpers } from './ui/core/progress.js';
+import { initRouter, navigate, dispatchFromHash } from './ui/core/router.js';
 import { AuthorityUI } from './ui/authority/authority-ui.js';
 import { TEIExplorer } from './ui/tei/tei-ui.js';
 import { MultiLemmaSearchUI } from './ui/tei/multi-lemma-search.js';
@@ -73,6 +74,11 @@ class MHDBDBPlayground {
         await this.autoLoadCorpus();
 
         this.updateUI();
+
+        // NEW: Wire up hash router and dispatch any initial hash from the URL.
+        // Done after data loading so that handlers can rely on populated state.
+        initRouter();
+        dispatchFromHash();
     }
 
     async loadAuthorityIndex() {
@@ -414,14 +420,14 @@ class MHDBDBPlayground {
     }
 
     setupAuthorityQueries() {
-        // UPDATED: Use new modular UI methods
+        // UPDATED: Go through the hash router so the URL reflects the current view.
         const authorityButtons = [
-            { id: 'showAuthorsBtn', handler: () => this.ui.authorityExplorers.showAuthors() },
-            { id: 'showWorksBtn', handler: () => this.ui.authorityExplorers.showWorks() },
-            { id: 'showLemmataBtn', handler: () => this.ui.authorityExplorers.showLemmata() },
-            { id: 'showConceptsBtn', handler: () => this.ui.authorityExplorers.showConcepts() },
-            { id: 'showGenresBtn', handler: () => this.ui.authorityExplorers.showGenres() },
-            { id: 'showNamesBtn', handler: () => this.ui.authorityExplorers.showNames() }
+            { id: 'showAuthorsBtn',  handler: () => navigate('authors') },
+            { id: 'showWorksBtn',    handler: () => navigate('works') },
+            { id: 'showLemmataBtn',  handler: () => navigate('lemmata') },
+            { id: 'showConceptsBtn', handler: () => navigate('concepts') },
+            { id: 'showGenresBtn',   handler: () => navigate('genres') },
+            { id: 'showNamesBtn',    handler: () => navigate('names') }
         ];
 
         authorityButtons.forEach(({ id, handler }) => {
@@ -435,12 +441,12 @@ class MHDBDBPlayground {
     }
 
     setupTEIQueries() {
-        // UPDATED: Use new TEI explorer methods
+        // UPDATED: Go through the hash router so the URL reflects the current view.
         const teiButtons = [
-            { id: 'showWordsBtn', handler: () => this.ui.teiExplorer.showWords() },
-            { id: 'showLinesBtn', handler: () => this.ui.teiExplorer.showLines() },
-            { id: 'findMultiLemmaBtn', handler: () => this.ui.multiLemmaSearch.open() },
-            { id: 'showAnnotationsBtn', handler: () => this.ui.teiExplorer.showAnnotations() }
+            { id: 'showWordsBtn',       handler: () => navigate('words') },
+            { id: 'showLinesBtn',       handler: () => navigate('lines') },
+            { id: 'findMultiLemmaBtn',  handler: () => navigate('multi-lemma') },
+            { id: 'showAnnotationsBtn', handler: () => navigate('annotations') }
         ];
 
         teiButtons.forEach(({ id, handler }) => {
