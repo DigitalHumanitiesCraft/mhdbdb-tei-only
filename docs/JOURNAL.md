@@ -238,3 +238,78 @@ WZB braucht KEINE Attribut-Migration (hat bereits `@ana`/`@corresp`, nie `@meani
 3. Go/No-Go für editor-attribution Commit 4 (Full-Korpus-Migration, ~3 Min Lauf + ~14 Min Validation)
 4. Bei grün: Commit 5 → Commit 6 (Doku) → Commit 7 (Archiv)
 5. Danach: Schema-Followup Quick-Wins in Reihenfolge P2-11 (5 Min) → P1-6 (30 Min) → P1-5 kontextspezifisch (~1 h) → P1-10 mit Audit → P2-12 → P2-13/14
+
+---
+
+## 2026-04-15 12:10 — handoff
+
+**Summary:** Massiver Schema-/Daten-Cleanup-Tag. editor-attribution vollständig abgeschlossen (Commits 1–6, #83 closed nach Katharinas Review), 16/17 Items aus `032-schema-followup.md` erledigt, zwei große „Daten vor Schema"-Migrationen durchgezogen (PL1/PL2/PL3 Mega-`<p>` Split + nested `<hi>` Flatten über 143 Dateien), Schema verschärft (`<hi>`-Rekursion entfernt, persName/@type Enum, msIdentifier/@corresp Pflicht, Taxonomie-Body Doku-Kommentar), neue CI-Workflow `schema-validation.yml` mit RNG-Drift-Check und zwei-stufiger Validation, `validate-corpus.py` als echter RelaxNG-Validator reimplementiert, `claude.yml`-Workflow entfernt (versehentliche `@claude`-Pings auf Issues), CLAUDE.md um Hard Constraint „Daten vor Schema" erweitert.
+
+**Phase:** Implementation — #32-followup praktisch komplett (1 Item offen: P1-5), editor-attribution komplett (WZB-Mini-Commit wartet auf #66-Merge), Korpus-Validation ~40 % schneller als am Vormittag (830s → 493s nach Data+Schema-Cleanup).
+
+**Docs-Status:**
+- `docs/features/032-schema-followup.md` — Status-Tabelle oben, 16/17 done, P1-5 als einziges offenes Item mit aktualisiertem Komplexitäts-Callout
+- `docs/features/editor-attribution.md` — unverändert, Sequenz ist durch
+- `docs/TEI-MODEL.md` — §2.1bis „Editor-Attribution & Credits" neu, §12 „Konventionen für neue Ingests" neu, §3.5 `<note type="date">` auf Ist-Zustand (Klartext) umgestellt
+- `docs/TEI-MODEL-AUTH-FILES.md` — §1 Übersicht (7 → 8 Authority-Files), §2.3 Identifier-Tabelle um `contrib_NNN` ergänzt, §3.8 NEU: contributors.xml
+- `schema/README.md` — 8 Authority-Files, examples-Tabelle erweitert
+- `CLAUDE.md` — Hard Constraint „Daten vor Schema" (`9ab92cdb2`)
+- Memory (per-user, `~/.claude/projects/.../memory/`): `feedback_data_first.md`, `feedback_targeted_validation.md` — beide in `MEMORY.md` indexiert
+
+**Commit-Serie heute (Vormittag, alle auf `main`):**
+- `7e526c8f2` P2-11 Taxonomie-Body Doku-Kommentar
+- `f72887eaa` P1-6 persName/@type Enum
+- `7a79693d7` editor-attribution Doku
+- `9ab92cdb2` CLAUDE.md „Daten vor Schema"
+- `49d7b58aa` + `67526399e` PL1/2/3 Mega-`<p>` Split + Archive
+- `b3e76ce7b` + `38b0bdd10` + `0f503ada8` Nested `<hi>` Flatten + Schema-Simplification + Archive
+- `54b450f32` claude.yml Workflow entfernt
+- `3ceb6b738` + `6bcd61d07` + `62ad64d2a` editor-attribution Commits 4-6 (full migration + doc-fix + archive, Closes #83)
+- `674fd3258` + `1590f9405` P2-15 xml-model PIs + Archive
+- `8b5d0e6ac` + `20a9d1a22` #84 Doku-Fix + Klarstellungs-Commit (Closes #84)
+- `83b511eec` P1-10 msIdentifier/@corresp Pflicht
+- `e9d43ead4` P2-12 validate-corpus.py als RelaxNG-Validator reimplementiert
+- `becceda03` + `2d752769f` 032-Plan Status-Updates
+- `7d3801520` P2-13 + P2-14 schema-validation.yml CI-Workflow
+
+Parallel committete der Kollege (dieselbe Person in anderer Session) mehrere Playground-Commits (`2c204cd4c` #56 Lemmata-Explorer, `aad5a55bd`, `0189a2eed`, `897431795`, `ba6b1ebcc` #31 Linecode-Doku) — keine Kollisionen mit meinen Änderungen. Ein Commit (`8b5d0e6ac`) hat versehentlich bereits-gestagte Kollegen-Dateien aus `playground/` mit-committet, das ist in `20a9d1a22` klarstellungs-dokumentiert.
+
+**Katharinas Antworten (Issue #83, durch):**
+- Reihenfolge im `<authority>`: Zeppezauer-Wachauer → Schmidt → Pütz (korrigiert im Script + 666 Headern)
+- PUC auch Brom-Lead-Editor: JA (+1 Eintrag in `LEAD_EDITORS`)
+- Klug/Gloning/Harsch: bewusst NICHT in `contributors.xml` (externe Primärtext-Provider sind im provenance-Block gemodelt)
+- 4 Institutionen (Mainz/Virginia/Trier/TITUS): NICHT in `contributors.xml` (nur Datengeber, keine editorische Arbeit)
+- DHC ist drin, weil editorische Arbeit
+
+**Open Issues (für nächste Session):**
+
+*Schema-Followup (letztes Item):*
+- **P1-5** `mhdbdb.rnc` `<idno @type>` Enum kontextspezifisch (~1 h). Audit heute: 7 Werte im Korpus (`callNumber`, `GND`, `handschriftencensus`, `ISBN`, `mwb-sigle`, `sigle`, `wikidata`), davon `ISBN` + `callNumber` nur unter `<biblStruct>`/`<monogr>`. Braucht positionsspezifische Enum-Verteilung, nicht einen globalen Enum wie im Plan vorgeschlagen. Details im aktualisierten §P1-5-Block von `docs/features/032-schema-followup.md`.
+
+*Warten auf externes Feedback (alles an Katharina/Julia):*
+- **#52** Authority-Files-Card — letzter Ping 2026-04-14, keine Antwort
+- **#62** Impressum — letzter Ping 2026-04-14, keine Antwort
+- **#79** /hilfe/ Hilfe-Seite — keine Kommentare, braucht Starter-Aufmerksamkeit (kein Katharina-Gate)
+
+*Editor-Attribution-Nachzug:*
+- **WZB Lead-Editor Mini-Commit** für Julia Hintersteiner (contrib_006, role → `lead-editor`) — wartet auf Merge von `feature/wenzelsbibel-ingest` (#66). Analog zu den 4 heute gesetzten Lead-Editor-respStmts (TKR/TKA/VTC/PUC/JT), aber in einem eigenen Commit.
+
+*Roadmap (unabhängig, nicht heute angefasst):*
+- **#17** Reader View TEI-Strukturelemente (prio-1, L effort) — nach Abschluss von #32-followup der nächste logische Großbrocken
+- **#48** Playground URL-Routing — Kollege arbeitet parallel dran (`router.js` ist bereits in main, versehentlich in `8b5d0e6ac` gelandet)
+- **#45** Static JSON API (L effort) — noch nicht angefangen
+- **#47** TEI-Textanalyse-Playground — needs-clarification, Feature-Scoping offen
+
+**Nicht-Befunde (damit niemand nochmal sucht):**
+- Issue **#84** HZU/HZU2-Datum-Migration (heute früh vom User angelegt) war bereits seit 2026-04-09 erledigt — Phase A des ursprünglichen #32-Konsolidierung hatte das MMTT-Encoding auf Klartext migriert (`415e70147`, Co-Autor war Claude). Die TEI-MODEL.md §3.5 war veraltet und hat den User zur Falsch-Annahme „noch offen" verleitet. §3.5 ist jetzt auf Ist-Zustand aktualisiert.
+- P1-7, P1-8, P1-9 waren bereits gestern (`f436963e0`) durch den Kollegen erledigt. Der `032-schema-followup.md`-Plan war nicht nachgezogen — heute repariert (Status-Tabelle am Dateianfang).
+- Nicht-triviale CRLF-Falle in `Path.write_text()` auf Windows: erzeugt 14,6M-Zeilen-Diff statt der erwarteten 2-Zeilen-pro-Datei. Fix: `path.write_bytes()` mit dynamischer Newline-Erkennung. Dokumentiert im Commit-Body von `674fd3258` (P2-15).
+- PL1-Validation-Pathologie war nicht die Größe (63 MB OVG validiert in 7.5 s), sondern **eine einzige `<p>` mit 404k direkten Kindern** (Prosa-Lancelot-Body komplett in einem Element). Der rekursive `<hi>`→`inline.model`-Matcher war der Verstärker. Fix: Daten-Split an `<pb/>`-Milestones + Schema-Rekursion entfernt.
+- Der GitHub-Actions-`@claude`-Bot wurde heute versehentlich via Katharinas "Bestätige: @claude" auf #84 getriggert, hat einen Branch `claude/issue-84-20260415-0902` angelegt und die (bereits durchgeführte) HZU-Migration nochmal vorbereitet. Branch ist gelöscht, `claude.yml` ist weg. Der automatische PR-Review-Workflow `claude-code-review.yml` bleibt aktiv — reiner PR-Trigger, keine Mentions mehr.
+
+**Next session:**
+1. `/promptotyping orient`
+2. **P1-5** angehen — das letzte offene #32-followup-Item, kontextspezifisches `idno/@type`-Enum im Korpus-Schema. Vorgehen: (a) Audit pro Position (`msIdentifier/idno`, `biblStruct/monogr/idno`) als ergänzendes Dry-Run-Ergebnis zu den schon vorliegenden 7 Werten, (b) neues `idno.type.msIdentifier` bzw. `idno.type.biblStruct` Pattern einführen, (c) `python -m rnc2rng` regenerieren, (d) smoke-test mit `scripts/audit/validate-corpus.py --sample ABG PUC GWTK TKR` — keine Full-Validation, weil die Semantik-Abdeckung heute schon gesichert ist.
+3. Dann **Plan endgültig als 17/17 done** markieren und das Issue-Ticket (falls es eines gibt) schließen.
+4. **Eigentlicher Nachmittag:** entweder Roadmap #17 (Reader-View, prio-1, L) oder auf externes Feedback zu #52/#62/#79 warten.
+5. Im Hinterkopf: `tei/OVG.tei.xml` ist 62.89 MB (GitHub-Warning bei jedem Push wegen 50-MB-Empfehlung). Kein Blocker, aber LFS-Migration wäre ein sinnvolles separates Ticket, falls noch weitere Dateien diese Größenordnung erreichen.
