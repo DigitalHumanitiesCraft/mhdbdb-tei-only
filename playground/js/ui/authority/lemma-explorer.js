@@ -40,7 +40,7 @@ export class LemmaExplorer {
             l.pos ? `POS: ${l.pos}` : null,
             l.senseCount ? `${l.senseCount} Bedeutungen` : null,
           ]),
-          title: l.lemma,
+          title: `<a href="../lemma/?id=${l.id.replace(/^lemma_/, '')}" target="_blank" rel="noopener" class="text-brand-700 hover:text-brand-900 hover:underline">${l.lemma}</a>`,
           buttons: [
             ...(l.senseCount > 0
               ? [
@@ -52,7 +52,7 @@ export class LemmaExplorer {
               : []),
             {
               text: "MEHR \u2192",
-              action: `window.open('../lemma/${l.id}', '_blank')`,
+              action: `window.open('../lemma/?id=${l.id.replace(/^lemma_/, '')}', '_blank')`,
             },
           ],
           detailsId: `senses-${l.id}`,
@@ -111,7 +111,7 @@ export class LemmaExplorer {
             lemma.pos ? `POS: ${lemma.pos}` : null,
             lemma.senseCount ? `${lemma.senseCount} Bedeutungen` : null,
           ]),
-          title: lemma.lemma,
+          title: `<a href="../lemma/?id=${lemma.id.replace(/^lemma_/, '')}" target="_blank" rel="noopener" class="text-brand-700 hover:text-brand-900 hover:underline">${lemma.lemma}</a>`,
           buttons: [
             ...(lemma.senseCount > 0
               ? [
@@ -123,7 +123,7 @@ export class LemmaExplorer {
               : []),
             {
               text: "MEHR \u2192",
-              action: `window.open('../lemma/${lemma.id}', '_blank')`,
+              action: `window.open('../lemma/?id=${lemma.id.replace(/^lemma_/, '')}', '_blank')`,
             },
           ],
           detailsId: `senses-${lemma.id}`,
