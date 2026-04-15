@@ -1,0 +1,72 @@
+name: Schema Validation
+
+# Runs on PRs that touch schema/, tei/, authority-files/, or the
+# validate-corpus.py script itself. Performs:
+#
+#   1. RNC→RNG sync check (P2-14): regenerates the .rng files from
+#      their .rnc sources and fails if the committed .rng differs
+#      from the regenerated output — catches "edited RNC, forgot to
+#      regenerate RNG" drift.
+#
+#   2. Full two-stage RelaxNG validation (P2-13): validates all 666
+#      corpus files and all 8 authority files against tei_all.rng
+#      (Stage 1) and mhdbdb.rng / mhdbdb-authority.rng (Stage 2).
+#      Fails when any Stage-2 check fails.
+#
+# The script (scripts/audit/validate-corpus.py) exits 0 if Stage-2
+# is clean, even if Stage-1 has the known #30-baseline fails. Pushes
+# that would add new Stage-1 failures are NOT auto-blocked — they
+# get a warning in the CI log instead. Stage-2 is the hard gate.
+
+on:
+  pull_request:
+    paths:
+      - 'schema/**'
+      - 'tei/**'
+      - 'authority-files/**'
+      - 'scripts/audit/validate-corpus.py'
+      - '.github/workflows/schema-validation.yml'
+
+# Cancel in-progress runs when a PR gets a new push
+concurrency:
+  group: schema-validation-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install dependencies
+        run: pip install --quiet lxml rnc2rng
+
+      - name: Download tei_all.rng
+        # tei_all.rng is gitignored in this repo (see schema/README.md).
+        # Every run fetches it fresh from the TEI Consortium.
+        run: |
+          curl -sSL \
+            "https://tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" \
+            -o schema/tei_all.rng
+
+      - name: Regenerate RNG from RNC (P2-14 drift check)
+        run: |
+          python -m rnc2rng schema/mhdbdb.rnc schema/mhdbdb.rng
+          python -m rnc2rng schema/mhdbdb-authority.rnc schema/mhdbdb-authority.rng
+
+      - name: Fail if committed .rng differs from regenerated .rng
+        run: |
+          if ! git diff --exit-code schema/mhdbdb.rng schema/mhdbdb-authority.rng; then
+            echo "::error title=RNG drift::Committed .rng files are out of sync with their .rnc sources. Run 'python -m rnc2rng schema/mhdbdb.rnc schema/mhdbdb.rng && python -m rnc2rng schema/mhdbdb-authority.rnc schema/mhdbdb-authority.rng' locally and commit the result."
+            exit 1
+          fi
+
+      - name: Validate corpus and authority files (P2-13)
+        run: python scripts/audit/validate-corpus.py --fail-fast
