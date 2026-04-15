@@ -253,9 +253,9 @@ contributors.org = element org {
         text
     }?,
     element idno {
-        attribute type { "GND" | "wikidata" | "ROR" },
+        attribute type { "GND" | "wikidata" | "ROR" | "URL" },
         text
-    }*
+    }*                                  # URL = Homepage (TEI Guidelines Kap. 13 Pattern)
 }
 
 contributors.person = element person {

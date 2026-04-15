@@ -1,4 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
+<?xml-model href="../schema/mhdbdb-authority.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <?xml-model href="https://tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0">
   <teiHeader>
@@ -23,12 +24,12 @@
           <desc xml:lang="de">Alle Mitwirkenden der Mittelhochdeutschen Begriffsdatenbank — Gründer, Koordination und Editor:innen. Dient als Verweis-Anker für die kollektive Team-Attribution in den Korpus-Headern via orgName/@ref auf contributors.xml#mhdbdb-team.</desc>
         </org>
         <org xml:id="dhcraft">
-          <orgName>Digital Humanities Craft</orgName>
+          <orgName xml:lang="de">Digital Humanities Craft</orgName>
           <desc xml:lang="de">Digital-Humanities-Dienstleister mit Sitz in Graz, verantwortlich für technische Umsetzung, Grafikdesign und Webentwicklung der MHDBDB.</desc>
+          <idno type="URL">https://dhcraft.org</idno>
         </org>
       </listOrg>
       <listPerson>
-        <!-- Fest-Slots: Gründer, Koordination, Lead-Editor:innen -->
         <person xml:id="contrib_001" role="founder">
           <persName xml:lang="de">Klaus M. Schmidt</persName>
         </person>
@@ -53,7 +54,6 @@
         <person xml:id="contrib_007" role="editor">
           <persName xml:lang="de">Alan van Beek</persName>
         </person>
-        <!-- Weitere Editor:innen in Reihenfolge von Katharinas Liste -->
         <person xml:id="contrib_008" role="editor">
           <persName xml:lang="de">Barbara Aitenbichler</persName>
         </person>
