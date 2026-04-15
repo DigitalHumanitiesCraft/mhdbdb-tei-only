@@ -26,6 +26,10 @@ on:
       - 'authority-files/**'
       - 'scripts/audit/validate-corpus.py'
       - '.github/workflows/schema-validation.yml'
+  # Manual trigger for ad-hoc validation runs (e.g. verifying CI setup,
+  # or running a full validation after a direct-to-main schema change
+  # that wouldn't otherwise fire the pull_request trigger).
+  workflow_dispatch:
 
 # Cancel in-progress runs when a PR gets a new push
 concurrency:
