@@ -18,16 +18,31 @@
  */
 
 const ROUTES = {
-  'authors':     () => window.playground.ui.authorityExplorers.showAuthors(),
-  'works':       () => window.playground.ui.authorityExplorers.showWorks(),
-  'lemmata':     () => window.playground.ui.authorityExplorers.showLemmata(),
-  'concepts':    () => window.playground.ui.authorityExplorers.showConcepts(),
-  'genres':      () => window.playground.ui.authorityExplorers.showGenres(),
-  'names':       () => window.playground.ui.authorityExplorers.showNames(),
-  'multi-lemma': () => window.playground.ui.multiLemmaSearch.open(),
-  'words':       () => window.playground.ui.teiExplorer.showWords(),
-  'lines':       () => window.playground.ui.teiExplorer.showLines(),
-  'annotations': () => window.playground.ui.teiExplorer.showAnnotations(),
+  'authors':     (params) => window.playground.ui.authorityExplorers[params.q ? 'showAuthorsWithSearch'  : 'showAuthors'](),
+  'works':       (params) => window.playground.ui.authorityExplorers[params.q ? 'showWorksWithSearch'    : 'showWorks'](),
+  'lemmata':     (params) => window.playground.ui.authorityExplorers[params.q ? 'showLemmataWithSearch'  : 'showLemmata'](),
+  'concepts':    (params) => window.playground.ui.authorityExplorers[params.q ? 'showConceptsWithSearch' : 'showConcepts'](),
+  'genres':      (params) => window.playground.ui.authorityExplorers[params.q ? 'showGenresWithSearch'   : 'showGenres'](),
+  'names':       (params) => window.playground.ui.authorityExplorers[params.q ? 'showNamesWithSearch'    : 'showNames'](),
+  'multi-lemma': ()       => window.playground.ui.multiLemmaSearch.open(),
+  'words':       ()       => window.playground.ui.teiExplorer.showWords(),
+  'lines':       ()       => window.playground.ui.teiExplorer.showLines(),
+  'annotations': ()       => window.playground.ui.teiExplorer.showAnnotations(),
+};
+
+/**
+ * Mapping from view key to the DOM id of its search input (if any).
+ * Used by dispatch() to auto-fill the input when a `q` param is present in
+ * the URL hash. Views without a search input (multi-lemma, words, lines,
+ * annotations) are intentionally absent.
+ */
+const SEARCH_INPUT_IDS = {
+  'authors':  'authorSearch',
+  'works':    'workSearch',
+  'lemmata':  'lemmaSearch',
+  'concepts': 'conceptSearch',
+  'genres':   'genreSearch',
+  'names':    'nameSearch',
 };
 
 /**
@@ -73,16 +88,41 @@ export function buildHash(view, params = {}) {
 }
 
 /**
- * Navigate to a view: update the URL hash AND dispatch the route handler.
- * Call this from button click handlers so the URL reflects what's on screen.
+ * Dispatch a view + params: run the route handler and, if a `q` param is
+ * present, auto-fill the explorer's search input and trigger its search
+ * listener via an `input` event. Shared by navigate() and dispatchFromHash().
  */
-export function navigate(view, params = {}) {
+function dispatch(view, params) {
   const handler = ROUTES[view];
   if (!handler) {
     console.warn(`[Router] Unknown view: ${view}`);
     return;
   }
 
+  handler(params);
+
+  if (params.q) {
+    const inputId = SEARCH_INPUT_IDS[view];
+    if (inputId) {
+      // Defer to the next tick so the search UI has been inserted into the
+      // DOM and setupSearchInput() has wired up the input event listener.
+      setTimeout(() => {
+        const input = document.getElementById(inputId);
+        if (input) {
+          input.value = params.q;
+          input.dispatchEvent(new Event('input', { bubbles: true }));
+          input.focus();
+        }
+      }, 0);
+    }
+  }
+}
+
+/**
+ * Navigate to a view: update the URL hash AND dispatch the route handler.
+ * Call this from button click handlers so the URL reflects what's on screen.
+ */
+export function navigate(view, params = {}) {
   // Suppress our own hashchange listener so we don't double-dispatch
   _suppressHashUpdate = true;
   window.location.hash = buildHash(view, params);
@@ -90,7 +130,7 @@ export function navigate(view, params = {}) {
   // setting location.hash in most browsers, so one tick is enough
   setTimeout(() => { _suppressHashUpdate = false; }, 0);
 
-  handler(params);
+  dispatch(view, params);
 }
 
 /**
@@ -101,14 +141,7 @@ export function navigate(view, params = {}) {
 export function dispatchFromHash() {
   const parsed = parseHash();
   if (!parsed) return;
-
-  const handler = ROUTES[parsed.view];
-  if (!handler) {
-    console.warn(`[Router] Unknown view in URL hash: ${parsed.view}`);
-    return;
-  }
-
-  handler(parsed.params);
+  dispatch(parsed.view, parsed.params);
 }
 
 /**
