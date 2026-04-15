@@ -68,9 +68,19 @@ jobs:
         # bump the pin explicitly in schema/README.md + here. That is
         # the right default — new TEI versions may change grammar and
         # should not silently change validation semantics.
+        #
+        # NOTE: the version header in tei_all.rng contains a literal
+        # NBSP (U+00A0, UTF-8 bytes C2 A0) between "Version" and the
+        # number, so a naive `grep -oE 'Version [0-9.]+'` with a
+        # regular space does NOT match. Python's re.search with \s
+        # handles that correctly since Python 3.
         run: |
-          TEI_VERSION=$(grep -oE 'TEI Edition: P5 Version [0-9.]+' schema/tei_all.rng | head -1 | grep -oE '[0-9.]+')
+          TEI_VERSION=$(python3 -c "import re; m = re.search(r'TEI Edition: P5 Version\s+([0-9]+\.[0-9]+\.[0-9]+)', open('schema/tei_all.rng', encoding='utf-8').read()); print(m.group(1) if m else '')")
           EXPECTED="4.11.0"
+          if [ -z "$TEI_VERSION" ]; then
+            echo "::error title=TEI P5 version pin::Could not extract TEI P5 version from schema/tei_all.rng. Header format may have changed upstream."
+            exit 1
+          fi
           if [ "$TEI_VERSION" != "$EXPECTED" ]; then
             echo "::error title=TEI P5 version drift::CI downloaded TEI P5 Version $TEI_VERSION, but the repo is pinned to $EXPECTED (see schema/README.md). Either bump the pin in schema/README.md + this workflow step, or investigate the tei-c.org URL if a version regression happened."
             exit 1
