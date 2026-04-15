@@ -85,6 +85,7 @@ This knowledge base follows a hub-and-spoke architecture with INDEX.MD as the ce
 | **[CONTRACTS.MD](CONTRACTS.MD)** | Cross-language parity constraints, algorithm pseudocode, API contracts | Developers |
 | **[TEI-MODEL.md](TEI-MODEL.md)** | Normative TEI encoding (Soll-Modell), IST/SOLL-Vergleiche, Validierungsbaseline | Data engineers, Developers |
 | **[TEI-MODEL-AUTH-FILES.md](TEI-MODEL-AUTH-FILES.md)** | Authority-File-Schemas und Migrationshistorie (lexicon, persons, works, concepts, genres, names, variants) | Data engineers |
+| **[LINECODE.md](LINECODE.md)** | Legacy Linecode → TEI mapping (Letter-zu-Element-Tabelle, xml:id-Pattern-Erklärung, Diagnose-Workflows für #23) | Data engineers |
 
 ### Process (what's happening and why)
 
@@ -93,7 +94,7 @@ This knowledge base follows a hub-and-spoke architecture with INDEX.MD as the ce
 | **[ROADMAP.md](ROADMAP.md)** | Current priorities, strategic direction, what's blocked | Everyone |
 | **[JOURNAL.md](JOURNAL.md)** | Chronological development log, decisions, dead ends | Developers |
 
-Die 13 Dateien oben (11 Stable + 2 Process) sind die vollständige Menge der Promptotyping-Dokumente. `docs/features/` und `docs/research/` enthalten temporäre, ticket-gebundene Planungs- und Recherche-Artefakte und sind **nicht Teil** der Promptotyping-Dokumente — siehe `CLAUDE.md` → „Temporal Artifacts". Die Nutzer-facing Hilfe lebt als `hilfe-*.html` im Frontend, nicht in `docs/`.
+Die 14 Dateien oben (12 Stable + 2 Process) sind die vollständige Menge der Promptotyping-Dokumente. `docs/features/` und `docs/research/` enthalten temporäre, ticket-gebundene Planungs- und Recherche-Artefakte und sind **nicht Teil** der Promptotyping-Dokumente — siehe `CLAUDE.md` → „Temporal Artifacts". Die Nutzer-facing Hilfe lebt als `hilfe-*.html` im Frontend, nicht in `docs/`.
 
 ### Publications (project outputs, not development docs)
 
