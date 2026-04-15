@@ -1,6 +1,6 @@
 # 032 — Schema Follow-up Cleanup
 
-**Status:** 14/17 erledigt (Stand 2026-04-15), 3 Items noch offen.
+**Status:** 16/17 erledigt (Stand 2026-04-15), **1 Item noch offen** (P1-5).
 **Audience:** Nächste/r CC-Kollege/in
 **Baseline (verifiziert 2026-04-14):**
 
@@ -33,8 +33,8 @@
 | P1-10 Korpus `msIdentifier/@corresp` Pflicht | ✅ done | `83b511eec` | 2026-04-15 |
 | P2-11 Taxonomie-Body ↔ encodingDesc Doku | ✅ done | `7e526c8f2` | 2026-04-15, Option 3 (Kommentar) |
 | P2-12 `validate-corpus.py` rewrite | ✅ done | `e9d43ead4` | 2026-04-15 |
-| **P2-13 CI-Regression schema-validation.yml** | 🔴 **OPEN** | — | ~1 h |
-| **P2-14 RNC→RNG Pre-commit Hook / CI Check** | 🔴 **OPEN** | — | Empfehlung: als Teil von P2-13 implementieren (CI-Check `git diff --exit-code schema/*.rng`) |
+| P2-13 CI-Regression schema-validation.yml | ✅ done | `7d3801520` | 2026-04-15, zusammen mit P2-14 |
+| P2-14 RNC→RNG Drift Check in CI | ✅ done | `7d3801520` | 2026-04-15, als Teil von P2-13 (git diff --exit-code auf schema/*.rng) |
 | P2-15 Korpus xml-model PIs | ✅ done | `674fd3258` | 2026-04-15 |
 | P3-x Schematron-Territorium | ⏳ deferred | — | bewusst vertagt, kein Ticket |
 
