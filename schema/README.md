@@ -110,7 +110,7 @@ genres.xml#genre_aaa               — Gattungskategorie
 
 ## Authority-Files-Schema (`mhdbdb-authority.rnc`)
 
-Für die 7 XML-Dateien in `authority-files/`, die als kontrollierte Vokabulare dienen.
+Für die 8 XML-Dateien in `authority-files/`, die als kontrollierte Vokabulare dienen.
 
 | Datei | Inhalt | Body-Struktur |
 |-------|--------|---------------|
@@ -118,6 +118,7 @@ Für die 7 XML-Dateien in `authority-files/`, die als kontrollierte Vokabulare d
 | `variants.xml` | 192.472 Wortformen (39.282 Lemma-Gruppen) | `<div>/<entry>/<form>` |
 | `persons.xml` | 211 Personen (Autoren, Herausgeber) | `<listPerson>/<person>` |
 | `works.xml` | 583 Werke mit bibliographischen Daten | `<listBibl>/<bibl>` |
+| `contributors.xml` | 51 MHDBDB-Mitwirkende + 2 Organisationen | `<listOrg>` + `<listPerson>` |
 | `concepts.xml` | 567 semantische Konzepte | `<taxonomy>` in `<encodingDesc>` |
 | `genres.xml` | 615 Gattungskategorien (hierarchisch) | `<taxonomy>` in `<encodingDesc>` |
 | `names.xml` | 90 mittelalterliche Namensformen | `<taxonomy>` in `<encodingDesc>` |
@@ -144,6 +145,7 @@ Das Verzeichnis `examples/` enthält validierte Beispieldateien für jeden Dokum
 | `authority-concepts.example.xml` | mhdbdb-authority.rnc | Semantische Begriffsontologie |
 | `authority-variants.example.xml` | mhdbdb-authority.rnc | Orthographische Variantenzuordnungen |
 | `authority-names.example.xml` | mhdbdb-authority.rnc | Mittelalterliche Namensformen |
+| `authority-contributors.example.xml` | mhdbdb-authority.rnc | Mitwirkenden-Register (Gründer, Koordination, Editor:innen) |
 
 ## Eigene Daten MHDBDB-kompatibel machen
 

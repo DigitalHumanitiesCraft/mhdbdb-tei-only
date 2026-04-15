@@ -98,6 +98,69 @@ The header is already largely standardized across all 666 files. This section do
 - Primaeredition immer als `<biblStruct>` mit Zotero-`corresp`
 - Digitale Zwischenstufen als `<bibl type="digitalIntermediary">` (ADR-012)
 
+### 2.1bis Editor-Attribution & Credits
+
+Attribution der an der MHDBDB mitwirkenden Personen laeuft zentral ueber `authority-files/contributors.xml` (siehe [`TEI-MODEL-AUTH-FILES.md`](TEI-MODEL-AUTH-FILES.md) §3.8). Die Korpus-Header referenzieren dieses Register via `@ref`; namentlich ausgeschrieben wird im Header nur, was pro Datei variiert oder fuer Leser:innen direkt sichtbar sein soll.
+
+**Was wohin gehoert:**
+
+| Information | Stelle im Header | Muster |
+|-------------|-----------------|--------|
+| Kollektive Team-Attribution | `<titleStmt>/<respStmt>` | `<orgName ref="contributors.xml#mhdbdb-team">` |
+| Gruender + Koordinatorin (immer gleich, alle 666 Dateien) | `<publicationStmt>/<authority>` | `<persName role="founder\|coordinator" ref="contributors.xml#contrib_00X">` |
+| Prominente Lead-Editor:in (nur bei TKR/TKA/VTC/JT) | zweites `<titleStmt>/<respStmt>` | `<name role="lead-editor" ref="contributors.xml#contrib_00X">` |
+
+**Beispiel (ABG nach Migration 2026-04-14):**
+
+```xml
+<titleStmt>
+  <title xml:lang="de">Von abgescheidenheit (Traktat)</title>
+  <author ref="#person_445">Meister Eckhart</author>
+  <respStmt>
+    <resp>digitale Zusammenfuehrung, Annotation und semantische Klassifikation</resp>
+    <orgName ref="contributors.xml#mhdbdb-team">MHDBDB-Team (vollständige Liste in contributors.xml)</orgName>
+  </respStmt>
+</titleStmt>
+<publicationStmt>
+  <!-- ... -->
+  <authority>
+    <persName role="founder" ref="contributors.xml#contrib_001">
+      <forename>Klaus M.</forename><surname>Schmidt</surname>
+    </persName>
+    <persName role="founder" ref="contributors.xml#contrib_002">
+      <forename>Horst</forename><surname>Pütz</surname>
+    </persName>
+    <persName role="coordinator" ref="contributors.xml#contrib_003">
+      <forename>Katharina</forename><surname>Zeppezauer-Wachauer</surname>
+    </persName>
+  </authority>
+  <!-- ... -->
+</publicationStmt>
+```
+
+**Zusaetzliches Muster bei Lead-Editor:innen** (aktuell TKR/TKA/VTC mit Brom, JT mit Woesner):
+
+```xml
+<titleStmt>
+  <title>...</title>
+  <author>...</author>
+  <respStmt>
+    <resp>digitale Zusammenfuehrung, Annotation und semantische Klassifikation</resp>
+    <orgName ref="contributors.xml#mhdbdb-team">...</orgName>
+  </respStmt>
+  <respStmt>
+    <resp>Haupt-Editor dieser Ausgabe</resp>
+    <name role="lead-editor" ref="contributors.xml#contrib_004">Vlastimil Brom</name>
+  </respStmt>
+</titleStmt>
+```
+
+**Rules:**
+- `<orgName>`/`<persName>`/`<name>` tragen die Attribution-Information IMMER ueber `@ref`, nicht ueber inline-Text allein. Der sichtbare Text ist eingefroren, die kanonische Quelle ist `contributors.xml`.
+- `@ref` auf `<orgName>` ist fuer Organization-Records in `contributors.xml` gedacht (MHDBDB-Team, Digital Humanities Craft). Fuer Homepages einer Organisation benutzt `contributors.xml` das TEI-P5-idiomatische Pattern `<org><idno type="URL">https://...</idno></org>` statt `@ref`.
+- `<persName role>` im `<authority>`-Block darf nur die fixen Rollen aus dem Authority-Schema tragen: `"founder" | "coordinator" | "lead-editor" | "editor"`.
+- 50+ weitere Editor:innen, die an den Bestandstexten mitgearbeitet haben, sind nur in `contributors.xml` gelistet — NICHT inline im jeweiligen Korpus-Header, um den Header schlank zu halten.
+
 ### 2.1a `<monogr>` Element-Reihenfolge
 
 TEI P5 verlangt in `<monogr>`: `(author|editor)*, title+, editor*, (idno|imprint)*`. Das heisst `<author>` **vor** `<title>`, `<idno>` **nach** `<editor>`. Einige Bestandsdateien (z.B. WUT) haben die falsche Reihenfolge und scheitern an der tei_all Validierung.
@@ -816,6 +879,44 @@ Durchgeführte Bereinigungen:
 | Corpus Index | 4.0.0 | 2026-04-09 |
 | Authority Index | 1.2.0 | 2026-04-10 |
 | Authority Schema (`schema/mhdbdb-authority.rnc`) | 1.0.0 | 2026-04-10 |
+
+---
+
+## 12. Konventionen fuer neue Ingests
+
+Beim Ingest neuer Texte gelten fuer Editor-Attribution und Credits die folgenden Defaults. Sie ergaenzen die Mindestanforderungen aus §9.
+
+**Immer gleich (in jeder neuen Datei):**
+
+1. **Gruender** in `<publicationStmt>/<authority>`:
+   - `<persName role="founder" ref="contributors.xml#contrib_001">Klaus M. Schmidt</persName>`
+   - `<persName role="founder" ref="contributors.xml#contrib_002">Horst Pütz</persName>`
+2. **Koordination** in `<publicationStmt>/<authority>`:
+   - `<persName role="coordinator" ref="contributors.xml#contrib_003">Katharina Zeppezauer-Wachauer</persName>`
+3. **Kollektive Team-Attribution** in `<titleStmt>/<respStmt>`:
+   - `<orgName ref="contributors.xml#mhdbdb-team">MHDBDB-Team (vollständige Liste in contributors.xml)</orgName>`
+
+Diese drei Bausteine sind in allen 666 Bestandsdateien identisch und werden vom Migrationsscript `scripts/_archived/migrate-header-credits.py` gesetzt. Bei neuen Ingests einfach aus einer Bestandsdatei oder aus `schema/examples/corpus.example.tei.xml` kopieren.
+
+**Nicht die volle Mitwirkenden-Liste in den Header schreiben.** Die 50+ Editor:innen, die historisch an den Bestandstexten mitgearbeitet haben, leben in `contributors.xml` und sind ueber den kollektiven `mhdbdb-team`-Verweis abgedeckt. Der Header bleibt schlank.
+
+**Spezifische Haupteditor:innen bei neuem Ingest:** Wenn ein neuer Text einen oder mehrere Haupt-Editor:innen im Heute-Sinne hat (wie Brom bei TKR/TKA/VTC oder Woesner bei JT), dann:
+
+1. In `contributors.xml` einen neuen `<person xml:id="contrib_NNN">` mit `@role="lead-editor"` anlegen (IDs fortlaufend ab der letzten vergebenen Nummer).
+2. Im neuen Korpus-Header ein zweites `<respStmt>` neben den kollektiven einfuegen:
+
+   ```xml
+   <respStmt>
+     <resp>Haupt-Editor dieser Ausgabe</resp>
+     <name role="lead-editor" ref="contributors.xml#contrib_NNN">Vorname Nachname</name>
+   </respStmt>
+   ```
+
+3. Beide Validierungsstufen durchlaufen — `contributors.xml` gegen `mhdbdb-authority.rng`, der neue Korpus-Header gegen `mhdbdb.rng`.
+
+**Nicht-Haupteditor:innen (einzelne Beitraege):** Wer als Editor:in an einem einzelnen Text mitgearbeitet hat, aber nicht als "Haupt-Editor:in dieser Ausgabe" sichtbar sein soll, wird nur in `contributors.xml` als `<person role="editor">` gefuehrt, ohne dass im Korpus-Header ein separater `<respStmt>` noetig ist. Die Sichtbarkeit ueber den kollektiven `mhdbdb-team`-Verweis reicht aus.
+
+**Externe Primaertext-Provider** (z.B. Harsch/Bibliotheca Augustana, Gloning/Kochbuchkorpus, Klug/Pflanzendissertation, oder Institutionen wie Akademie Mainz / ETC Virginia / Kompetenzzentrum Trier / TITUS Frankfurt) werden **nicht** in `contributors.xml` gefuehrt — sie sind bereits im `<sourceDesc>/<listBibl>/<bibl type="digitalIntermediary">/<respStmt>` des jeweiligen Korpus-Headers dokumentiert (siehe ADR-012, Issues #35–#40). `contributors.xml` ist bewusst auf MHDBDB-interne Beteiligung beschraenkt.
 
 ---
 

@@ -1,12 +1,12 @@
 # TEI Authority Files — Soll-Modell
 
-Normatives Datenmodell fuer die 7 Authority Files in `authority-files/`.
+Normatives Datenmodell fuer die 8 Authority Files in `authority-files/`.
 Pendant zu `docs/TEI-MODEL.md` (Korpusdateien).
 
-**Status:** Implementiert (2026-04-10, Phases F-K)
+**Status:** Implementiert (2026-04-10, Phases F-K; 2026-04-14 `contributors.xml` ergänzt)
 **Schema:** `schema/mhdbdb-authority.rnc` (Source) → `schema/mhdbdb-authority.rng` (generiert)
 **Beispiele:** `schema/examples/authority-*.example.xml`
-**Validierung:** Alle 7 Dateien valide gegen `tei_all.rng` UND `mhdbdb-authority.rnc`.
+**Validierung:** Alle 8 Dateien valide gegen `tei_all.rng` UND `mhdbdb-authority.rnc`.
 
 ---
 
@@ -18,6 +18,7 @@ Pendant zu `docs/TEI-MODEL.md` (Korpusdateien).
 | `variants.xml` | Orthographische Varianten pro Lemma | 39,282 Eintraege, 192,472 Formen | 13 MB |
 | `persons.xml` | Autoren/Personen mit Normdaten | 211 | 74 KB |
 | `works.xml` | Werke mit Bibliographie und Genre | 583 | 1.4 MB |
+| `contributors.xml` | MHDBDB-Mitwirkende (Gruender, Koordination, Editor:innen) | 51 Personen + 2 Orgs | 15 KB |
 | `concepts.xml` | Semantische Begriffsontologie | 567 Kategorien | 207 KB |
 | `genres.xml` | Gattungstaxonomie | 615 Kategorien | 405 KB |
 | `names.xml` | Onomastisches System (Eigennamen) | 90 Kategorien | 33 KB |
@@ -29,6 +30,7 @@ Pendant zu `docs/TEI-MODEL.md` (Korpusdateien).
 | Woerterbuch | lexicon.xml, variants.xml | TEI Ch. 9 (Dictionaries) | `<body>` |
 | Personen | persons.xml | TEI Ch. 13 (Names/People) | `<body>` |
 | Bibliographie | works.xml | TEI Ch. 3 (Bibliography) | `<body>` |
+| Mitwirkende | contributors.xml | TEI Ch. 13 (Names/People) + Ch. 3 (Orgs) | `<body>` |
 | Taxonomien | concepts.xml, genres.xml, names.xml | TEI Ch. 2.3.7 (Taxonomy) | `<encodingDesc>/<classDecl>` |
 
 ---
@@ -74,6 +76,7 @@ Pendant zu `docs/TEI-MODEL.md` (Korpusdateien).
 | variants.xml | `type` | numerisch | `type_2239` |
 | persons.xml | `person` | numerisch | `person_1` |
 | works.xml | `work` | numerisch | `work_89` |
+| contributors.xml | `contrib` | 3-stellig zero-padded | `contrib_001` |
 | concepts.xml | `concept` | 8-stellig hierarchisch | `concept_11200000` |
 | genres.xml | `genre` | UUID-Hash | `genre_2c9f837c` |
 | names.xml | `name` | 8-stellig hierarchisch | `name_41232000` |
@@ -329,6 +332,53 @@ Identisches Modell wie concepts.xml, mit zusaetzlichen Concept-Verweisen.
   </category>
 </taxonomy>
 ```
+
+### 3.8 contributors.xml — Mitwirkenden-Register
+
+TEI Ch. 13 (Names/People) + Ch. 3 (Organizations). Zentrales Register aller Personen und Organisationen, die am MHDBDB-Projekt mitgewirkt haben. Dient als Authority-Quelle fuer die Editor-Attribution in den Korpus-Headern (via `@ref` aus `<titleStmt>/<respStmt>` und `<publicationStmt>/<authority>`).
+
+**Rollen auf `<person>/@role`:** `founder` | `coordinator` | `lead-editor` | `editor`. Vom Authority-Schema enforced (`schema/mhdbdb-authority.rnc`). `<org>`-Eintraege tragen keine `@role`.
+
+**ID-Konvention:** `contrib_NNN` (zero-padded 3-stellig). Slots 001–007 sind fest (Gruender, Koordinatorin, Lead-Editor:innen), 008+ folgen der chronologischen Mitwirkenden-Liste.
+
+```xml
+<text>
+  <body>
+    <listOrg>
+      <org xml:id="mhdbdb-team">
+        <orgName xml:lang="de">MHDBDB-Team</orgName>
+        <desc xml:lang="de">Alle Mitwirkenden der MHDBDB — Verweis-Anker fuer kollektive Team-Attribution.</desc>
+      </org>
+      <org xml:id="dhcraft">
+        <orgName xml:lang="de">Digital Humanities Craft</orgName>
+        <desc xml:lang="de">Digital-Humanities-Dienstleister, technische Umsetzung.</desc>
+        <idno type="URL">https://dhcraft.org</idno>
+      </org>
+    </listOrg>
+    <listPerson>
+      <person xml:id="contrib_001" role="founder">
+        <persName xml:lang="de">Klaus M. Schmidt</persName>
+      </person>
+      <person xml:id="contrib_003" role="coordinator">
+        <persName xml:lang="de">Katharina Zeppezauer-Wachauer</persName>
+      </person>
+      <person xml:id="contrib_004" role="lead-editor">
+        <persName xml:lang="de">Vlastimil Brom</persName>
+        <note xml:lang="de">Haupteditor fuer TKR, TKA, VTC.</note>
+      </person>
+      <!-- weitere contrib_NNN ... -->
+    </listPerson>
+  </body>
+</text>
+```
+
+**Wie das Korpus dieses Register benutzt:**
+
+- `<titleStmt>/<respStmt>` in jedem Korpus-Header verweist via `<orgName ref="contributors.xml#mhdbdb-team">` auf die kollektive Team-Attribution — kein Aufblaehen des Headers durch 50+ Namen.
+- `<publicationStmt>/<authority>` traegt drei `<persName ref="contributors.xml#contrib_00X">` fuer die Gruender + Koordinatorin (immer gleich, in jeder Datei).
+- Fuer prominente Haupteditor:innen (aktuell TKR/TKA/VTC/JT) kommt ein zweites `<respStmt>` mit `<name role="lead-editor" ref="contributors.xml#contrib_00X">` dazu.
+
+Details siehe [`TEI-MODEL.md`](TEI-MODEL.md) §2.1bis.
 
 ---
 
