@@ -56,6 +56,7 @@ python scripts/build-corpus-index.py      # Rebuild corpus index
 - **Desktop-only**: min 1200px width
 - **IndexedDB required**: Large indexes cached in browser
 - **Position counting**: Only `<w>` elements with `@lemmaRef` — Python and JS must match exactly
+- **Daten vor Schema**: Bei Konflikten zwischen Bestandsdaten (Korpus, Authority-Files) und dem Schema immer zuerst die Daten migrieren, nicht das Schema aufweichen. Eine Schema-Lockerung ist nur zulässig, wenn die Daten-Migration unverhältnismäßig teuer oder semantisch gefährlich wäre — und dann explizit als `GAP`-Kommentar im Schema dokumentiert (siehe `schema/mhdbdb.rnc` GAPs 1–11).
 
 ## Git Rules
 
