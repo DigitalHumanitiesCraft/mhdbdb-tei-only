@@ -313,3 +313,46 @@ Parallel committete der Kollege (dieselbe Person in anderer Session) mehrere Pla
 3. Dann **Plan endgültig als 17/17 done** markieren und das Issue-Ticket (falls es eines gibt) schließen.
 4. **Eigentlicher Nachmittag:** entweder Roadmap #17 (Reader-View, prio-1, L) oder auf externes Feedback zu #52/#62/#79 warten.
 5. Im Hinterkopf: `tei/OVG.tei.xml` ist 62.89 MB (GitHub-Warning bei jedem Push wegen 50-MB-Empfehlung). Kein Blocker, aber LFS-Migration wäre ein sinnvolles separates Ticket, falls noch weitere Dateien diese Größenordnung erreichen.
+
+---
+
+## 2026-04-15 14:45 — handoff (Frontend-Session, post-audit)
+
+Komplementär zum 12:10-Handoff des Schema-Kollegen. Diese Session lief parallel im gleichen Working-Directory und hat den Frontend-Stack bearbeitet: Playground-Router (#48), Lemmata-Explorer-Fixes + Similar-Lemmata-Section (#56), Linecode-Doku-Extraktion (#31), dazu einen Post-Session-Audit.
+
+**Summary:** 7 eigene Commits auf `main` (plus `8b5d0e6ac` als versehentlicher Mit-Commit durch den Kollegen): #31 Linecode-Referenz-Docs, #56 Sub-Task 1+2 (URL-Bug-Fix) + Sub-Task 3 concept-based Similar Lemmata, #48 alle 5 Phasen des Hash-Routers, plus Audit: `#44` Triage-Matrix neu gefasst, `docs/features/031-*` gelöscht, `CLAUDE.md` Git-Rule für concurrent sessions ergänzt, Memory um `feedback_concurrent_sessions.md` + `feedback_scratch_files.md` erweitert.
+
+**Commits (post-12:10 und für die Frontend-Track):**
+- `ba6b1ebcc` #31 — `docs/LINECODE.md` + `docs/data/linecode-mapping.csv` aus Julias Handover-Ordner (OneDrive-SharePoint, lokal unter `C:/Users/chstn/Downloads/Linecode2TEI/`). Content aus `docs/features/031-linecode2tei-doku.md` in stable docs gehoben. 3 offene Template-Decoding-Fragen gehen als #31-Kommentar an Julia.
+- `2c204cd4c` #56 S1+S2 — `playground/js/ui/authority/lemma-explorer.js`: Lemma-Titel werden klickbare `<a>`-Links zur persistenten Lemma-Seite (`../lemma/?id={numericId}`), plus URL-Bug-Fix im „MEHR →"-Button (alte Form `../lemma/${l.id}` produzierte `../lemma/lemma_879`, was `parseLemmaId()` zu `lemmaKey='lemma_lemma_879'` → nicht gefunden führte — MEHR→ war live broken).
+- `dad8bb8a7` #56 S3 (concept-based) — `lemma/lemma-page.js` + `lemma/index.html`: neue „Ähnliche Lemmata"-Section, rankt alle 43 750 Lemmata nach Concept-Overlap mit dem aktuellen Lemma, Top 50 als Chip-Links. Performance: 75 ms für den Full-Scan. S3 distributional similarity (Co-Occurrence-Vektoren) remains out-of-scope — braucht Build-Time-Matrix, eigenes Follow-up-Ticket wenn gewünscht.
+- `aad5a55bd` #48 Phase 3 — `?q=`-Auto-Fill. Shared `dispatch()`-Helper, 6 Authority-Views mit per-View Search-Input-ID-Map, `dispatchEvent('input')` triggert den bestehenden `setupSearchInput`-Listener.
+- `0189a2eed` #48 Phase 4 — `?show=`-Drill-Down. View-agnostische `triggerExpand(itemId)`-Helper: findet den ersten Button, dessen onclick-Attribut die Item-ID als einfach-gequotete Substring enthält, und klickt ihn. Bekannte Limitierung: nur für Items im aktuell sichtbaren Result-Set (Top 50 nach Suche).
+- `897431795` #48 Phase 5 — Multi-Lemma Modal State. Neuer `handleMultiLemmaRoute(params)`-Helper füllt `ui.lemmas` + Chips direkt, setzt Mode-Radio + Distance, ruft `executeSearch()` auf — Modal wird nie sichtbar, Ergebnisse landen direkt im `resultsContainer`. Chrome-Test: `#multi-lemma&lemmata=minne,êre&mode=proximity&dist=10` → 67 Treffer · 25 Kontexte.
+- `db1a3b51e` audit — `docs/features/031-linecode2tei-doku.md` archiviert (Content in `docs/LINECODE.md`), per Temporal-Artifacts-Regel in `CLAUDE.md`.
+- `44cf51adc` audit — `CLAUDE.md` Git-Rule „never `git add -A` with concurrent sessions" als direkte Konsequenz des `8b5d0e6ac`-Mishaps.
+
+**Audit-Aktionen ohne eigenen Commit:**
+- `#44` Triage-Matrix via `gh issue edit 44 --body-file` komplett neu gefasst (Quick Stats, Changes Since 2026-04-10, Full Matrix, Recommended Work Order). 26 open issues (excl. evergreen) — war vor dem Audit unvollständig, weil #73/#78/#79/#80/#81 nicht gelistet waren.
+- Memory-Updates (lokal in `~/.claude/projects/.../memory/`, nicht im Repo): neu `feedback_concurrent_sessions.md` + `feedback_scratch_files.md`, Update `project_tei_consolidation.md` (Post-Milestone-Section 2026-04-15), `MEMORY.md`-Index um beide neuen Einträge erweitert.
+
+**Katharina-Status (Stand 14:45):**
+- **#17 ist freigegeben** (wachauer 2026-04-15 09:03): alle 5 Design-Fragen beantwortet — Scope-Refinement passt, deutsche `div/@type`-Labels passen, jede 5. Zeile Marginalia passt, „Strophe N"-Label oberhalb des Blocks passt, `hi rend="bold|italic|upper_case"` visuell abbilden. **Keine technischen Blocker mehr**, Top-of-Queue.
+- **#56** „Bedeutungen anzeigen"-Entfernungsfrage an Katharina, noch keine Antwort.
+- **#52, #62, #20** weiter auf Katharina-Approval.
+- **#85** (neu heute) wartet auf Julia + Katharina für Hierarchie-Fragen und DL1/DWA-Sonderfälle.
+- **#31** wartet auf Julia für 3 Template-Decoding-Fragen.
+
+**Schnittstelle zum Schema-Kollegen-Track:**
+Die #32-followup-Arbeit (P1-10, P2-12, P2-13, P2-14, P2-15, `<hi>`-Flatten, PL1-Split) ist weitgehend durch und hat alle technischen Blocker für #17 entfernt. Commit `8b5d0e6ac` (Kollegen-`#84`-Doku-Fix) hat versehentlich meine damals gestageten Phase-1+2-Router-Dateien mit-committet. Retroaktive Klarstellung in `20a9d1a22`. Die neue `CLAUDE.md`-Git-Rule + `feedback_concurrent_sessions.md`-Memory sollen das künftig verhindern.
+
+**Nicht-Befunde (damit niemand nochmal sucht):**
+- Der `@claude`-Action-Kommentar auf #17 um 09:05 mit einer Todo-Liste ist stale — der `.github/workflows/claude.yml`-Workflow wurde direkt danach (`54b450f32`) entfernt, die Action hat nie committet. #17 ist nicht in Arbeit, nur geplant.
+- Julias OneDrive-Handover zur Linecode-Doku hat die `Mhdbdb_to_TEI(Linecode).csv` als Single-Source-of-Truth (kanonisches Letter-→-TEI-Mapping, 21 Zeilen, ~1.4 KB). Die ist jetzt als `docs/data/linecode-mapping.csv` committed. Julias PDF-Template `0000000000aaau----h` ist illustrativ — stimmt NICHT mit ALLs tatsächlichem 13-stelligen Linecode überein. Pro-Text-Varianz ist der Regelfall, siehe die hardkodierten per-text Regex in `Stanza Problem/fix_tei_stanzas.py` (ANN 5 Digits, AT 3 Digits, ALL 8 Digits).
+- `docs/features/editor-attribution.md` bewusst nicht angefasst — Kollegen-Territorium, auch wenn #83 closed ist. Löschung per Temporal-Artifacts-Regel ist Kollegen-Entscheidung.
+
+**Next session:**
+1. `/promptotyping orient`
+2. **#17 Reader View** — prio-1, direkt startbar. Implementation-Plan im 2026-04-15-Kommentar zum Issue. Erwartete Touches: `assets/js/rendering/tei-text-reader.js` (`extractAndFormatBody()`-Switch: neue Fälle für `note` (critical gap), `div`+`type`+`n` data-attrs, `lg`+`n`, `l`+`n`, `lb`+`n`, `hi rend` bold/italic/upper_case; `pb`/`cb`+`type`) + `assets/css/korpus.css` (CSS-Counter für jede-5.-Zeile-Marginalie, `attr(data-n)`-`::before`-Labels für div-Header, Strophe-Labels, hi-Varianten). Browser-Verifikation mit NIB (Strophen), ABG (Prosa), BRIX/ABS (Rezepte), HZU (`note type="date"`-Badges), PZ (Mixed), ALX/APO (colophon).
+3. **Follow-up-Pings** (falls keine Antwort in 24 h): #52, #62, #56 (Bedeutungen anzeigen), #31 (Julia 3 Fragen), #85 (Julia + Katharina).
+4. **Optional falls Leerlauf:** #45 Static JSON API (Planning-Doc vorhanden) oder #79 /hilfe/-Seite (braucht Wording-Entscheidungen, content-heavy).
