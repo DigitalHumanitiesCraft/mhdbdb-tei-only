@@ -16,7 +16,7 @@ The MHDBDB TEI Repository provides a comprehensive digital corpus of Middle High
 
 ### Curated Corpus
 - **666 TEI files** - Complete Middle High German texts with word-level annotations
-- **7 authority files** - Controlled vocabularies for persons, works, lexicon, concepts, genres, names, variants
+- **8 authority files** - 7 searchable controlled vocabularies (persons, works, lexicon, concepts, genres, names, variants) plus `contributors.xml` as project-internal MHDBDB team register (since 2026-04)
 - **Pre-built indexes** - Compressed JSON (3 MB authority + 34 MB corpus) replacing runtime XML parsing
 
 ### Key Architecture Decision
@@ -105,13 +105,17 @@ Located in `/publications/` (outside `docs/`):
 ## Project Status
 
 ### Current Phase
-Post-MVP with stable v4.0.0 corpus index and v1.1.0 authority index
+Post-MVP with stable v4.0.0 corpus index and v1.2.0 authority index
 
 ### Recent Milestones
 - ✅ **Phase 7 Refactoring** - Modular UI architecture
 - ✅ **Corpus Index v4.0.0** - Document-level word indexing for accurate proximity search
 - ✅ **Reading View** - Full-text reader with multi-lemma highlighting and Wikidata integration
 - ✅ **Pre-Built Index Migration** - Eliminated runtime XML parsing
+- ✅ **#32 TEI Model Consolidation** (2026-04-09/10) - Custom RELAX NG schemas (`mhdbdb.rnc`, `mhdbdb-authority.rnc`), 15M+ data transformations across 675→666 corpus files
+- ✅ **#32-Followup Schema Hardening** (2026-04-14/15) - Tightened enums (`persName/@type`, `idno/@type` in authority, `msIdentifier/@corresp` mandatory), removed `<hi>` recursion from schema by flattening 36,924 nested instances across 143 corpus files, split the PL1/PL2/PL3 mega-`<p>` elements at `<pb/>` milestones (245× faster validation on PL1), CI schema-validation workflow (`schema-validation.yml`)
+- ✅ **#83 Editor Attribution** (2026-04-15) - `contributors.xml` (51 persons + 2 orgs), uniform editor attribution in all 666 TEI headers via `@ref`, five texts (TKR/TKA/VTC/PUC/JT) with prominent lead-editor respStmts
+- ✅ **#31 Linecode Documentation** (2026-04-15) - `docs/LINECODE.md` extracted from legacy MHDBDB linecode-to-TEI mapping
 
 ### Known Limitations
 - Desktop-only interface (not mobile-responsive)

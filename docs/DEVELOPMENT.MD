@@ -39,7 +39,7 @@ mhdbdb-tei-only/
 │   │   ├── storage/       # TEI cache manager
 │   │   └── lib/           # Shared utilities (corpus-loader, text-normalizer)
 │   └── images/            # Static images
-├── authority-files/       # 7 XML authority files
+├── authority-files/       # 8 XML authority files (inkl. contributors.xml)
 ├── tei/                   # TEI corpus files
 ├── data/                  # Pre-built indexes (generated)
 ├── scripts/               # Python build scripts
@@ -259,7 +259,7 @@ The MHDBDB project originally maintained data in multiple formats (RDF, relation
 3. Transform to TEI with consistent cross-reference patterns
 4. Validate against TEI P5 schema
 
-**Output:** 7 TEI authority files in `authority-files/` directory
+**Output:** 7 inhaltstragende TEI authority files in `authority-files/` directory (the 8th, `contributors.xml`, was added later in 2026-04-14 as part of the editor-attribution feature and is not part of this legacy export)
 
 **Status:** Archived (completed, preserved for reference)
 

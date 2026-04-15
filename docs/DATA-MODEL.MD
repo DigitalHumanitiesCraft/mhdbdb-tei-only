@@ -38,7 +38,8 @@ Each TEI file contains:
 **Location:** `authority-files/` directory
 **Format:** TEI P5 XML with custom MHDBDB schema
 
-Seven controlled vocabularies:
+Eight authority files — seven inhaltstragende controlled vocabularies (in the corpus index) plus one projekt-interner Mitwirkenden-Register:
+
 - `persons.xml` - Authors and historical persons
 - `works.xml` - Work and manuscript metadata
 - `lexicon.xml` - Dictionary with tens of thousands of lemmata
@@ -46,12 +47,14 @@ Seven controlled vocabularies:
 - `genres.xml` - Literary genre classification
 - `names.xml` - Proper names with semantic relations
 - `variants.xml` - Orthographic variants extracted from corpus
+- `contributors.xml` - MHDBDB-Team register (Gründer, Koordination, Editor:innen); **nicht** im Corpus-Index, sondern projekt-interne Authority-Quelle für die Editor-Attribution in den TEI-Headern (see `docs/TEI-MODEL-AUTH-FILES.md §3.8` and `docs/TEI-MODEL.md §2.1bis`)
 
 **Cross-reference patterns:**
 - Person ↔ Work via `xml:id` and `@ref`
 - Lemma → Concept via `<ptr target="concepts.xml#...">`
 - Work → Genre via `<ptr target="genres.xml#..."/>`
 - Orthographic variant → Lemma via `@corresp="lexicon.xml#..."`
+- Corpus header → Mitwirkende via `<persName ref="contributors.xml#contrib_NNN">` and `<orgName ref="contributors.xml#mhdbdb-team">`
 
 ### Authority File XML Schemas
 
@@ -327,7 +330,7 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
 
 Four core build scripts:
 
-1. **`build-authority-index.py`** - Extract authority data from 7 XML files
+1. **`build-authority-index.py`** - Extract authority data from 7 inhaltstragende XML files (the 8th, `contributors.xml`, is deliberately not indexed — see below)
    - Parse XML with lxml
    - Extract structured data for each entity type
    - Build performance maps (conceptToLemmas, genreToWorks, genreHierarchy)

@@ -1,6 +1,6 @@
 # Roadmap
 
-Strategic priorities for the MHDBDB TEI Repository. Updated 2026-04-10.
+Strategic priorities for the MHDBDB TEI Repository. Updated 2026-04-15.
 
 See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/44) for the full triage matrix with per-issue status.
 
@@ -10,9 +10,9 @@ See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues
 |---|------|--------|--------|
 | #17 | Reader View: TEI structural elements — **prio-1**, unblocked by #32 audit | frontend | L |
 | #20 | Readability fixes (font sizes, contrast) — done, awaiting approval | frontend | S |
-| #52 | Playground "Authority Files" card clickable | minor-UX/UI | S |
-| #62 | Impressum | documentation | S |
-| #31 | Doku: Linecode2TEI | documentation | S |
+| #52 | Playground "Authority Files" card clickable — implemented, awaiting Katharina review | minor-UX/UI | S |
+| #62 | Impressum — implemented, awaiting Katharina review | documentation | S |
+| #79 | /hilfe/ — user-facing help page | documentation | L |
 
 ## Next: FAIR Data + Playground
 
@@ -54,7 +54,11 @@ See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues
 
 | # | What |
 |---|------|
-| ~~#32~~ | TEI Model Consolidation (682 files, 15M+ transformations, 2 schemas) ✅ |
+| ~~#83~~ | Editor-Attribution & Credits-Modell (2026-04-15): contributors.xml (51 persons + 2 orgs), uniform authority-block in all 666 TEI headers, 5 lead-editor respStmts (TKR/TKA/VTC/PUC/JT) ✅ |
+| ~~#84~~ | HZU/HZU2 Datum-Notes MMTT→Klartext — was already migrated in #32 Phase A (`415e70147`, 2026-04-09); §3.5 docs updated, issue closed as already-done ✅ |
+| ~~#32-followup~~ | Schema hardening (P0–P2 except P1-5): tightened enums (`persName/@type`, `idno/@type`, `msIdentifier/@corresp` mandatory), removed `<hi>` recursion from schema, split PL1/PL2/PL3 mega-`<p>` elements, xml-model PIs in all 666 corpus files, new CI schema-validation workflow ✅ |
+| ~~#31~~ | Linecode2TEI documentation (`docs/LINECODE.md`) ✅ |
+| ~~#32~~ | TEI Model Consolidation (675 source → 666 target files after disamb merge, 15M+ transformations, 2 schemas) ✅ |
 | ~~#29~~ | Stricker-Texte ✅ |
 | ~~#60~~ | Parzival Struktur-Bug ✅ |
 | ~~#61~~ | Textauswahl Whitespace-Bug ✅ |
@@ -71,7 +75,7 @@ See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues
 
 ## Strategic Direction
 
-1. **TEI model consolidation done** — Soll-Modell (#32) fully implemented. Both schemas written (`mhdbdb.rnc`, `mhdbdb-authority.rnc`), all 682 files validated. Target models: [TEI-MODEL.md](TEI-MODEL.md) + [TEI-MODEL-AUTH-FILES.md](TEI-MODEL-AUTH-FILES.md).
+1. **TEI model consolidation done** — Soll-Modell (#32) fully implemented, #32-followup 16/17 items done (only P1-5 `idno/@type` context-specific enum remains). Both schemas written (`mhdbdb.rnc`, `mhdbdb-authority.rnc`), all 666 corpus + 8 authority files validated. Target models: [TEI-MODEL.md](TEI-MODEL.md) + [TEI-MODEL-AUTH-FILES.md](TEI-MODEL-AUTH-FILES.md). Architecture Decision Record: [ADR-013 "Data Consolidation Before Schema Relaxation"](DECISIONS.MD#adr-013).
 
 2. **FAIR data** — Make all MHDBDB data citable and programmatically accessible (#45). Enables external collaborations (MWB, Wörterbuchnetz).
 

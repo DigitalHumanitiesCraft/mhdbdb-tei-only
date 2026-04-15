@@ -29,7 +29,7 @@ MHDBDB TEI Repository: ~670 TEI-encoded Middle High German texts with semantic a
 ```
 assets/js/           # Main site JS (app.js, search/, rendering/, storage/, lib/)
 assets/css/          # Stylesheets
-authority-files/     # 7 XML authority files (source of truth)
+authority-files/     # 8 XML authority files (source of truth, inkl. contributors.xml seit 2026-04-14)
 tei/                 # ~670 TEI corpus files
 data/                # Pre-built indexes (.json.gz, generated)
 scripts/             # Python build scripts + data-wrangling

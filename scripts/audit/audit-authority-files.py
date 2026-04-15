@@ -2,7 +2,7 @@
 """
 Authority Files Audit — Structure, Cross-References, Data Quality
 
-Analyses all 7 authority files in authority-files/ to produce:
+Analyses all 8 authority files in authority-files/ (inkl. contributors.xml) to produce:
   - Element/attribute inventory per file
   - Cross-reference inventory (which file references which)
   - Referential integrity check (orphaned references)

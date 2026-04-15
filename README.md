@@ -89,7 +89,7 @@ Custom RELAX NG schemas validate all TEI files in the repository:
 | Schema | Validates | Files |
 |--------|-----------|-------|
 | [`mhdbdb.rnc`](schema/mhdbdb.rnc) | Corpus texts (`tei/*.tei.xml`) | 666 |
-| [`mhdbdb-authority.rnc`](schema/mhdbdb-authority.rnc) | Authority files (`authority-files/*.xml`) | 7 |
+| [`mhdbdb-authority.rnc`](schema/mhdbdb-authority.rnc) | Authority files (`authority-files/*.xml`) | 8 |
 
 The schemas constrain standard TEI attributes to MHDBDB conventions (required `@xml:id` on `<w>`, `@join` on `<pc>`, allowed `div/@type` values, etc.). See [`schema/README.md`](schema/README.md) for rationale and design decisions.
 

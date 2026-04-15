@@ -1,11 +1,14 @@
 # MHDBDB Authority Files — RELAX NG Schema (Compact Syntax)
 # ==========================================================
-# Schema for the 7 authority files in authority-files/:
+# Schema for the 8 authority files in authority-files/:
 #   lexicon.xml, variants.xml, persons.xml, works.xml,
-#   concepts.xml, genres.xml, names.xml
+#   concepts.xml, genres.xml, names.xml, contributors.xml
 #
 # Each file is a standalone TEI document with a shared minimal
-# teiHeader and file-specific body content.
+# teiHeader and file-specific body content. contributors.xml was
+# added 2026-04-14 as part of the editor-attribution feature
+# (#83) and carries the MHDBDB team register via a dedicated
+# contributors.body production.
 
 default namespace = "http://www.tei-c.org/ns/1.0"
 namespace xml = "http://www.w3.org/XML/1998/namespace"

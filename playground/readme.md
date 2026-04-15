@@ -196,7 +196,7 @@ Research project with over 50 years of medieval text and concept research at the
 
 **Data types:**
 - **TEI-XML Texte:** Mittelhochdeutsche Literatur mit mehreren Annotationsniveaus
-- **7 Authority Files:** persons, works, lexicon, concepts, genres, names, variants
+- **7 searchable Authority Files:** persons, works, lexicon, concepts, genres, names, variants (plus `contributors.xml` as project-internal team register since 2026-04, not part of the Playground UI)
 - **Semantische Verknüpfungen:** Cross-References zwischen allen Dateien
 
 ### Ziel des Playground

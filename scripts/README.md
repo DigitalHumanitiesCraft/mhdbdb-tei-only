@@ -31,7 +31,7 @@ scripts/
 Die Build-Scripts werden über `npm run` aufgerufen und dürfen nicht verschoben werden.
 
 ### `build-authority-index.py`
-Verarbeitet alle 7 Authority Files und generiert `data/authority-index.json.gz` (~3 MB). Enthält Lemmata, Personen, Werke, Konzepte, Gattungen, Namen und Varianten.
+Verarbeitet die 7 inhaltstragenden Authority Files und generiert `data/authority-index.json.gz` (~3 MB). Enthält Lemmata, Personen, Werke, Konzepte, Gattungen, Namen und Varianten. `contributors.xml` (8. Authority-File seit 2026-04-14) wird bewusst **nicht** indiziert — es ist Projekt-interne Editor-Attribution, kein Suchinhalt.
 
 ### `build-corpus-index.py`
 Parst alle TEI-Dateien in `tei/` und generiert `data/corpus-index.json.gz` (~34 MB). Extrahiert Lemma-Positionen, Wortzählung und Metadaten.
@@ -53,7 +53,7 @@ Scripts für die Analyse und Validierung der TEI-Quelldaten. Entstanden im Rahme
 Element- und Attribut-Inventar des gesamten Korpus. Analysiert alle TEI-Dateien (exkl. `.disamb.tei.xml`) und erzeugt eine vollständige Aufstellung aller Elemente, Attribute und Werte.
 
 ### `audit-authority-files.py`
-Struktur-, Querverweis- und Datenqualitäts-Audit für alle 7 Authority Files. Prüft ID-Muster, verwaiste Referenzen und strukturelle Konsistenz.
+Struktur-, Querverweis- und Datenqualitäts-Audit für alle 8 Authority Files. Prüft ID-Muster, verwaiste Referenzen und strukturelle Konsistenz.
 
 ### `validate-corpus.py`
 Zwei-Stufen-Validierung: TEI P5 (`tei_all.rng`) + MHDBDB-Constraints (`mhdbdb.rng`). Validiert alle Korpus-Dateien und meldet Fehler.
