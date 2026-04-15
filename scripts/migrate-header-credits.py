@@ -38,15 +38,24 @@ TEI = f'{{{TEI_NS_URI}}}'
 NS = {'t': TEI_NS_URI}
 
 CANONICAL_AUTHORITY = [  # in jeder Datei, in dieser Reihenfolge
+    # Reihenfolge von Katharina bestätigt auf Issue #83 (2026-04-15):
+    # Zeppezauer-Wachauer zuerst (sie ist aktuelle Koordinatorin und
+    # meldet sich in den Headern als "Absender"), dann die beiden Gründer
+    # chronologisch (Schmidt vor Pütz).
+    ('coordinator', 'contrib_003', 'Katharina', 'Zeppezauer-Wachauer'),
     ('founder',     'contrib_001', 'Klaus M.',  'Schmidt'),
     ('founder',     'contrib_002', 'Horst',     'Pütz'),
-    ('coordinator', 'contrib_003', 'Katharina', 'Zeppezauer-Wachauer'),
 ]
 
 LEAD_EDITORS = {  # Sigle → (contrib_id, full_name)
     'TKR': ('contrib_004', 'Vlastimil Brom'),
     'TKA': ('contrib_004', 'Vlastimil Brom'),
     'VTC': ('contrib_004', 'Vlastimil Brom'),
+    'PUC': ('contrib_004', 'Vlastimil Brom'),  # ergänzt 2026-04-15 nach
+                                               # Finding 1 auf Issue #83:
+                                               # PUC hat strukturell das
+                                               # gleiche Brom-Muster wie
+                                               # TKR/TKA/VTC.
     'JT':  ('contrib_005', 'Katrin Woesner'),
     # WZB (Wenzelsbibel) → contrib_006 Julia Hintersteiner kommt nach Merge
     # von feature/wenzelsbibel-ingest (#66) in einem separaten Mini-Commit.
