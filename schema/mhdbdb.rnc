@@ -200,7 +200,7 @@ profileDesc = element profileDesc {
                 attribute xml:id { xsd:NCName },
                 attribute corresp { text }?,
                 element persName {
-                    attribute type { text }?,
+                    attribute type { "preferred" | "alternative" }?,
                     attribute role { text }?,
                     attribute xml:lang { text }?,
                     mixed {

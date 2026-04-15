@@ -782,7 +782,10 @@
                   <optional>
                     <attribute>
                       <name ns="">type</name>
-                      <text/>
+                      <choice>
+                        <value>preferred</value>
+                        <value>alternative</value>
+                      </choice>
                     </attribute>
                   </optional>
                   <optional>
