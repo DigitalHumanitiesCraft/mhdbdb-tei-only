@@ -285,7 +285,7 @@ Alter Inhalt kann per `git mv` nach `scripts/_archived/` oder direkt gelöscht w
 
 ### P2-13 · CI-Regression für Schemas fehlt
 
-Aktuell nur `.github/workflows/claude-code-review.yml` und `claude.yml`. Kein Schema-Check.
+Aktuell nur `.github/workflows/claude-code-review.yml` (automatische PR-Reviews). Kein Schema-Check.
 
 **Fix:** Neuer Workflow `schema-validation.yml`, der bei PRs die `schema/**`, `tei/**`, `authority-files/**` berühren, folgendes tut:
 
