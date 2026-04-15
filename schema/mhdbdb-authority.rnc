@@ -50,6 +50,20 @@ authority.header = element teiHeader {
 # ============================================================
 # Body: one of the 4 structural types
 # ============================================================
+#
+# Known Stage-2 gap (P2-11 in docs/features/032-schema-followup.md):
+# Taxonomy files (concepts.xml, genres.xml, names.xml) carry their
+# real payload in <encodingDesc>/<classDecl>/<taxonomy>, and their
+# <body> is just a <p>-placeholder. RELAX NG cannot conditionally
+# require <encodingDesc>/<classDecl>/<taxonomy> when <body>/<p> is
+# present — that coupling crosses sibling boundaries and is only
+# expressible in Schematron. Stage 2 is therefore deliberately
+# weak here: the `element p { text }` branch below is valid even
+# if the taxonomy payload in <encodingDesc> is missing. Stage 1
+# (tei_all.rng) catches gross TEI errors; the taxonomy-body link
+# is enforced by convention + review, not by the schema. If we
+# ever add a Schematron layer, this is the first check to move
+# there (see P3 in 032-schema-followup.md).
 
 authority.body =
     lexicon.div        # lexicon.xml
@@ -57,7 +71,7 @@ authority.body =
     | listPerson       # persons.xml
     | listBibl         # works.xml
     | contributors.body    # contributors.xml: (listOrg?, listPerson)
-    | element p { text }   # taxonomy files: placeholder <p> (data in encodingDesc)
+    | element p { text }   # taxonomy files: placeholder <p> (data in encodingDesc — see comment above)
 
 # ============================================================
 # Type 1: Lexicon (lexicon.xml)
