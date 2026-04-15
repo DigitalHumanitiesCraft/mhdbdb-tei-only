@@ -324,6 +324,81 @@ Die `.rng`-Dateien sind generiert, können aber versehentlich aus dem Sync laufe
 
 **Empfehlung:** CI-Check (Option 2), da enforced. Pre-commit Hook ist optional nice-to-have.
 
+### P2-15 · `<?xml-model?>`-PIs: Editor-Live-Validation für alle TEI-Files
+
+**Zweck:** Die `<?xml-model?>`-Processing-Instruction teilt XML-Editoren (oXygen, VS Code Scholarly XML, Emacs nxml-mode etc.) mit, welches Schema beim Editieren für Live-Validation und Code-Completion angewendet werden soll. Zwei PIs pro File (unser Custom-Schema zuerst, `tei_all.rng` zweitens) geben Editoren beide Validierungs-Stages on-the-fly — tippt jemand `<orgName ref="...">` in `persons.xml`, sieht er sofort einen roten Unterstrich statt erst beim nächsten `jing`-Lauf.
+
+**Ist-Zustand (verifiziert 2026-04-15):**
+
+| Bereich | Files | xml-model-PIs? |
+|---------|------:|----------------|
+| `authority-files/*.xml` | 8 | ✅ beide PIs (unser Schema + tei_all) |
+| `schema/examples/*.xml` | 2 (authority-contributors, corpus.example) | ✅ beide PIs |
+| `tei/*.tei.xml` | **666** | ❌ **keine einzige xml-model PI** |
+
+Die Authority-Seite wurde im selben Commit erledigt, der `contributors.org/idno/@type` um `"URL"` erweitert und den `<orgName ref="...">` → `<idno type="URL">`-Fix gemacht hat. Die Korpus-Seite fehlt noch.
+
+**Scope:** Alle 666 Korpus-Dateien bekommen zwei neue Zeilen zwischen der `<?xml?>`-Declaration und dem `<TEI>`-Root:
+
+```xml
+<?xml version='1.0' encoding='UTF-8'?>
+<?xml-model href="../schema/mhdbdb.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="https://tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="ABG">
+```
+
+**Wichtig:** Für Korpus-Files ist der relative Pfad `../schema/mhdbdb.rng` (Korpus-Schema), **nicht** `mhdbdb-authority.rng`.
+
+**Migrationsscript** (einmalig, nach Lauf löschen — analog zu `scripts/temp/normalize-idno-gnd-casing.py` aus P0-4):
+
+```python
+# scripts/temp/add-xml-model-pi.py
+from pathlib import Path
+
+PI1 = '<?xml-model href="../schema/mhdbdb.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>'
+PI2 = '<?xml-model href="https://tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng"?>'
+
+files = sorted(Path('tei').glob('*.tei.xml'))
+skipped = changed = 0
+for f in files:
+    text = f.read_text(encoding='utf-8')
+    if 'xml-model' in text:
+        skipped += 1
+        continue
+    # Insert the two PIs directly after the <?xml?> declaration line
+    lines = text.splitlines(keepends=True)
+    new_text = lines[0] + PI1 + '\n' + PI2 + '\n' + ''.join(lines[1:])
+    f.write_text(new_text, encoding='utf-8')
+    changed += 1
+print(f'{changed} files changed, {skipped} skipped')
+```
+
+**Idempotenz:** Script skippt Files, die bereits eine `xml-model` PI haben. Zweiter Lauf ist no-op.
+
+**Verifikation nach dem Lauf:**
+
+```bash
+# 1) Exakt 2 PIs pro Datei, 666 × 2 = 1332 Treffer gesamt
+grep -c 'xml-model' tei/*.tei.xml | awk -F: '{sum+=$2} END {print sum}'   # erwartet: 1332
+
+# 2) Git-Diff-Scope: 666 files × 2 insertions, 0 deletions
+git diff --stat tei/ | tail -1   # erwartet: 666 files changed, 1332 insertions(+)
+
+# 3) Spot-Check auf 3 zufällige Files: wellformed + parsebar
+for f in tei/ABG.tei.xml tei/LZT.tei.xml tei/WUT.tei.xml; do
+    python -c "from lxml import etree; etree.parse('$f'); print('OK $f')"
+done
+
+# 4) Volle Zwei-Stufen-Validierung (siehe editor-attribution Commit 2 / #32-followup):
+#    tei_all fails: 30 (Baseline #30), mhdbdb fails: 0
+```
+
+**Risiko:** niedrig. Rein mechanische Zeileneinfügung zwischen zwei festen Punkten (nach `<?xml?>`-Declaration, vor `<TEI>`-Root), keine Schema- oder Daten-Änderung. Voll reversibel via `git restore tei/`. Keine Wechselwirkung mit laufenden editor-attribution-Migrationen, weil die Header-Mutation dort erst unterhalb von `<TEI>/<teiHeader>` passiert.
+
+**Aufwand:** ~20 min (Script schreiben + Sample-Test auf 5 Files + echter Lauf + 4-stufige Verifikation).
+
+**Abhängigkeit:** Keine. Kann parallel zu oder nach den P1-Schema-Enforcement-Items laufen. Sollte aber NACH Commit 4 der editor-attribution-Migration laufen (damit der editor-attribution-Diff sauber bleibt und nicht mit xml-model-PI-Inserts vermischt wird).
+
 ---
 
 ## P3 — Schematron-Territorium (nicht jetzt)
@@ -359,6 +434,11 @@ Commit 6  #32-followup: replace validate-corpus.py with real RelaxNG validation 
           → scripts/audit/validate-corpus.py neu
 Commit 7  #32-followup: add schema validation CI  (P2-13, P2-14)
           → .github/workflows/schema-validation.yml neu
+Commit 8  #32-followup P2-15: xml-model PIs in alle 666 Korpus-Dateien
+          → tei/*.tei.xml, je 2 neue Zeilen nach <?xml?>-Declaration
+          → scripts/temp/add-xml-model-pi.py einmalig, dann löschen
+          → Voraussetzung: NACH editor-attribution Commit 4 (Header-Migration),
+            damit die Diffs nicht vermischt werden
 ```
 
 P2-11 (Taxonomie-Kopplung) und P3 separat als Einzel-Tickets, falls Zeit.
@@ -426,10 +506,11 @@ for f in files:
 | P1-5..10 (Schema-Enforcement) | 2–3 h gesamt | ja |
 | P2-12 (validate-corpus Rewrite) | 30 min | ja |
 | P2-13, P2-14 (CI) | 1 h | ja |
+| P2-15 (xml-model PIs für Korpus) | 20 min (Script + Lauf + Verifikation) | ja (Git Revert) |
 | P2-11 (Taxonomie-Kopplung) | wenn Option 3: 5 min; Option 2: 2 h | ja |
 | P3 (Schematron) | 2–4 h pro Item | n/a — separate Tickets |
 
-**Gesamtaufwand P0+P1+P2 (ohne Schematron):** ~5–6 h Arbeit, verteilt auf einen Tag.
+**Gesamtaufwand P0+P1+P2 (ohne Schematron):** ~6 h Arbeit, verteilt auf einen Tag.
 
 ---
 
