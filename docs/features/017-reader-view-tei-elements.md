@@ -161,7 +161,11 @@ Current values (post-#32 cleanup, April 2026):
 
 ## Depends On
 
-- Nothing (unblocked since #32 completion)
+- Nothing. Unblocked since #32 completion (2026-04-09/10). Further hardened through #32-followup (2026-04-14/15): the corpus is now strictly validated against a tightened `schema/mhdbdb.rnc`, so the switch-case in `extractAndFormatBody()` can rely on element shapes without defensive guards. Specifically:
+  - `<p>` is no longer pathologically large (PL1/PL2/PL3 split at `<pb/>` milestones — per-page `<p>` elements now).
+  - `<hi>` no longer nests recursively (flattened across 143 files).
+  - `msIdentifier/@corresp` is mandatory → every text has a resolvable `works.xml#work_N` reference for metadata-panel resolution.
+  - Editor-attribution (#83) is uniform: every header now carries `<titleStmt>/<respStmt>/<orgName ref="contributors.xml#mhdbdb-team">` and a canonical three-entry `<publicationStmt>/<authority>` block. Five texts (TKR/TKA/VTC/PUC/JT) additionally have a lead-editor `<respStmt>` that the reader view could surface if needed.
 
 ## Blocks
 

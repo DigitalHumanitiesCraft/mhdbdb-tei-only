@@ -376,7 +376,30 @@ TEI Ch. 13 (Names/People) + Ch. 3 (Organizations). Zentrales Register aller Pers
 
 - `<titleStmt>/<respStmt>` in jedem Korpus-Header verweist via `<orgName ref="contributors.xml#mhdbdb-team">` auf die kollektive Team-Attribution — kein Aufblaehen des Headers durch 50+ Namen.
 - `<publicationStmt>/<authority>` traegt drei `<persName ref="contributors.xml#contrib_00X">` fuer die Gruender + Koordinatorin (immer gleich, in jeder Datei).
-- Fuer prominente Haupteditor:innen (aktuell TKR/TKA/VTC/JT) kommt ein zweites `<respStmt>` mit `<name role="lead-editor" ref="contributors.xml#contrib_00X">` dazu.
+- Fuer prominente Haupteditor:innen (aktuell TKR/TKA/VTC/PUC/JT) kommt ein zweites `<respStmt>` mit `<name role="lead-editor" ref="contributors.xml#contrib_00X">` dazu.
+
+**Namens-Struktur — bewusste Asymmetrie:**
+
+In `contributors.xml` selbst sind die Namen als Plaintext in `<persName>` gespeichert:
+
+```xml
+<person xml:id="contrib_001" role="founder">
+  <persName xml:lang="de">Klaus M. Schmidt</persName>
+</person>
+```
+
+In den Korpus-Headern werden dieselben drei Fest-Slot-Personen (Schmidt, Puetz, Zeppezauer-Wachauer) dagegen **strukturiert** als `<forename>` + `<surname>` ausgegeben:
+
+```xml
+<persName role="founder" ref="contributors.xml#contrib_001">
+  <forename>Klaus M.</forename>
+  <surname>Schmidt</surname>
+</persName>
+```
+
+Das ist bewusst so: `contributors.xml` ist die kanonische semantische Quelle (mit `@xml:id` als Identitaet), der Header-Eintrag ist eine serialisierte Darstellung, die der `scripts/_archived/migrate-header-credits.py`-Migration 2026-04-15 aus einer hardcodierten `CANONICAL_AUTHORITY`-Konstante erzeugt hat. Die Konstante steht in der Script-Datei und war das einfachste Ausdrucksmittel, da die Spaltung "Vorname | Nachname" fuer drei Personen bekannt und stabil war. Die restlichen 48+ Editor:innen haben keinen Header-Eintrag — nur den kollektiven `mhdbdb-team`-Verweis.
+
+**Fuer zukuenftige Tools**, die contributors.xml lesen und strukturierte Namen brauchen (z.B. eine Reader-View-Integration fuer Lead-Editor-Anzeige): die Plaintext-Form muss am Whitespace gesplittet werden (letztes Token = Nachname), mit Sonder-Behandlung fuer Praefixe wie "van", "von", etc. Die Fest-Slot-Eintraege in der Script-Konstante sind keine verlaessliche Quelle fuer nicht-feste contrib_NNN-IDs.
 
 Details siehe [`TEI-MODEL.md`](TEI-MODEL.md) §2.1bis.
 

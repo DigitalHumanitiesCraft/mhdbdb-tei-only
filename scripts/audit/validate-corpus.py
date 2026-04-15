@@ -14,6 +14,38 @@ natively, and before we had the .rng files generated via rnc2rng.
 Those assertions are now redundant with mhdbdb.rng itself, so they
 are retired.
 
+## Removed structural Python checks (history)
+
+The pre-2026-04-15 version of this script performed these custom
+Python-level assertions in addition to a well-formedness check:
+
+  * Non-standard attributes: `@meaningRef` / `@wordRef` on `<w>`
+  * `div/@type` whitelist (chapter, section, number, song, parallel,
+    colophon, recipe)
+  * `<suppplied>` typo detection (should be `<supplied>`)
+  * `<seg type="pc">` forbidden (should be `<pc>`)
+  * `<l>` forbidden in the 18 prose files listed in PROSE_SIGLES
+
+All five checks are now enforced by schema/mhdbdb.rnc itself:
+
+  * Non-standard attributes — excluded from the `w` pattern
+  * `div/@type` — Enum in the `div` pattern
+  * `<supplied>` — element is explicitly named (a typo-variant would
+    fail the Stage-1 tei_all check as an unknown element)
+  * `<pc>` — explicit element, no `seg type="pc"` accepted
+  * Prose files — structurally enforced via the mixed-content model
+    plus the GAP comments in mhdbdb.rnc
+
+If a future migration reintroduces any of these patterns and fails to
+update the schema, the existing Stage-2 validation will catch it.
+Adding a parallel Python-only "strict mode" would duplicate logic and
+drift over time. If a new invariant is discovered that RelaxNG cannot
+express (e.g., a cross-file constraint like `@lemmaRef` pointing at a
+real lemma in lexicon.xml), that should become a Stage-3 check — not
+something bolted onto this validator. See docs/DECISIONS.MD ADR-013
+for the "Daten vor Schema" policy and docs/features/032-schema-followup.md
+P3 section for Schematron candidates.
+
 Usage:
     python scripts/audit/validate-corpus.py                      # all 666 + 8
     python scripts/audit/validate-corpus.py --sample ABG PUC     # specific sigles

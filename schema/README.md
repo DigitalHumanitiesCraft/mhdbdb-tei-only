@@ -24,6 +24,8 @@ Stufe 1 stellt die Interoperabilität mit dem TEI-Ökosystem sicher. Stufe 2 ste
 
 ## Schnellstart: Datei validieren
 
+**Gepinnt auf TEI P5 Version 4.11.0** (Last updated 2026-02-18, revision `358d2e48e`). Der CI-Workflow `.github/workflows/schema-validation.yml` prüft beim Download, ob die von `tei-c.org` gelieferte Version mit diesem Pin übereinstimmt — bei einem Upstream-Versions-Bump schlägt der CI-Job mit einer klaren Fehlermeldung fehl und zwingt zur bewussten Aktualisierung (hier in diesem README und in der Workflow-Zeile `EXPECTED="4.11.0"`).
+
 ```bash
 # tei_all.rng herunterladen (einmalig)
 curl -sL "https://tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" -o schema/tei_all.rng

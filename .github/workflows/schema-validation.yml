@@ -56,6 +56,23 @@ jobs:
             "https://tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" \
             -o schema/tei_all.rng
 
+      - name: Verify TEI P5 version pin
+        # Catches silent drift between local dev (where tei_all.rng is
+        # cached at whatever version was downloaded last) and CI (which
+        # always fetches the current "latest" from tei-c.org). If TEI
+        # publishes a new P5 version, this step fails and forces us to
+        # bump the pin explicitly in schema/README.md + here. That is
+        # the right default — new TEI versions may change grammar and
+        # should not silently change validation semantics.
+        run: |
+          TEI_VERSION=$(grep -oE 'TEI Edition: P5 Version [0-9.]+' schema/tei_all.rng | head -1 | grep -oE '[0-9.]+')
+          EXPECTED="4.11.0"
+          if [ "$TEI_VERSION" != "$EXPECTED" ]; then
+            echo "::error title=TEI P5 version drift::CI downloaded TEI P5 Version $TEI_VERSION, but the repo is pinned to $EXPECTED (see schema/README.md). Either bump the pin in schema/README.md + this workflow step, or investigate the tei-c.org URL if a version regression happened."
+            exit 1
+          fi
+          echo "TEI P5 version: $TEI_VERSION (matches pin)"
+
       - name: Regenerate RNG from RNC (P2-14 drift check)
         run: |
           python -m rnc2rng schema/mhdbdb.rnc schema/mhdbdb.rng
