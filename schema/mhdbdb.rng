@@ -289,12 +289,10 @@
         <name ns="http://www.tei-c.org/ns/1.0">msDesc</name>
         <element>
           <name ns="http://www.tei-c.org/ns/1.0">msIdentifier</name>
-          <optional>
-            <attribute>
-              <name ns="">corresp</name>
-              <text/>
-            </attribute>
-          </optional>
+          <attribute>
+            <name ns="">corresp</name>
+            <data type="anyURI"/>
+          </attribute>
           <zeroOrMore>
             <choice>
               <element>

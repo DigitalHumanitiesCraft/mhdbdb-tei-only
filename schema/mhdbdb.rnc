@@ -100,7 +100,9 @@ publicationStmt = element publicationStmt {
 sourceDesc = element sourceDesc {
     element msDesc {
         element msIdentifier {
-            attribute corresp { text }?,
+            # @corresp verweist verpflichtend auf works.xml#work_N (TEI-MODEL.md §2.1).
+            # Audit 2026-04-15: 666/666 Korpus-Dateien haben @corresp gesetzt.
+            attribute corresp { xsd:anyURI },
             (element idno { attribute type { text }, text }
              | element msName { attribute xml:lang { text }?, text })*
         },
