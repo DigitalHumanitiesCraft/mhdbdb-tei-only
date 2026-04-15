@@ -88,9 +88,35 @@ export function buildHash(view, params = {}) {
 }
 
 /**
- * Dispatch a view + params: run the route handler and, if a `q` param is
- * present, auto-fill the explorer's search input and trigger its search
- * listener via an `input` event. Shared by navigate() and dispatchFromHash().
+ * Trigger a drill-down expansion for a specific item in the currently-rendered
+ * result set. Finds the first button whose onclick attribute references the
+ * given itemId as a single-quoted substring and clicks it.
+ *
+ * Works for any explorer whose result items embed their item ID in the
+ * expand button's onclick handler — which is the current convention across
+ * all authority explorers (see generateResultItem() callers). Silently fails
+ * if the target item isn't in the visible result set or the itemId doesn't
+ * match any button.
+ */
+function triggerExpand(itemId) {
+  const container = document.getElementById('resultsContainer');
+  if (!container) return false;
+  const needle = `'${itemId}'`;
+  const buttons = container.querySelectorAll('button[onclick]');
+  for (const btn of buttons) {
+    if (btn.getAttribute('onclick')?.includes(needle)) {
+      btn.click();
+      return true;
+    }
+  }
+  return false;
+}
+
+/**
+ * Dispatch a view + params: run the route handler and, if `q` or `show`
+ * params are present, auto-fill the search input (triggering the search
+ * listener) and then trigger the drill-down expansion for the specified
+ * item. Shared by navigate() and dispatchFromHash().
  */
 function dispatch(view, params) {
   const handler = ROUTES[view];
@@ -112,9 +138,17 @@ function dispatch(view, params) {
           input.value = params.q;
           input.dispatchEvent(new Event('input', { bubbles: true }));
           input.focus();
+          // Search render ran synchronously inside the input listener, so
+          // the result buttons are in the DOM now. Try the drill-down here.
+          if (params.show) triggerExpand(params.show);
         }
       }, 0);
     }
+  } else if (params.show) {
+    // No q: the default view (showXxx()) has rendered either all items
+    // (<500 entries) or a search-empty-state. Try the drill-down once the
+    // DOM has committed the default render.
+    setTimeout(() => triggerExpand(params.show), 0);
   }
 }
 
