@@ -124,14 +124,14 @@ Attribution der an der MHDBDB mitwirkenden Personen laeuft zentral ueber `author
 <publicationStmt>
   <!-- ... -->
   <authority>
+    <persName role="coordinator" ref="contributors.xml#contrib_003">
+      <forename>Katharina</forename><surname>Zeppezauer-Wachauer</surname>
+    </persName>
     <persName role="founder" ref="contributors.xml#contrib_001">
       <forename>Klaus M.</forename><surname>Schmidt</surname>
     </persName>
     <persName role="founder" ref="contributors.xml#contrib_002">
       <forename>Horst</forename><surname>Pütz</surname>
-    </persName>
-    <persName role="coordinator" ref="contributors.xml#contrib_003">
-      <forename>Katharina</forename><surname>Zeppezauer-Wachauer</surname>
     </persName>
   </authority>
   <!-- ... -->
@@ -888,12 +888,11 @@ Beim Ingest neuer Texte gelten fuer Editor-Attribution und Credits die folgenden
 
 **Immer gleich (in jeder neuen Datei):**
 
-1. **Gruender** in `<publicationStmt>/<authority>`:
+1. **Authority-Block** in `<publicationStmt>/<authority>` — drei Eintraege in dieser Reihenfolge (Koordinatorin zuerst, dann Gruender chronologisch):
+   - `<persName role="coordinator" ref="contributors.xml#contrib_003">Katharina Zeppezauer-Wachauer</persName>`
    - `<persName role="founder" ref="contributors.xml#contrib_001">Klaus M. Schmidt</persName>`
    - `<persName role="founder" ref="contributors.xml#contrib_002">Horst Pütz</persName>`
-2. **Koordination** in `<publicationStmt>/<authority>`:
-   - `<persName role="coordinator" ref="contributors.xml#contrib_003">Katharina Zeppezauer-Wachauer</persName>`
-3. **Kollektive Team-Attribution** in `<titleStmt>/<respStmt>`:
+2. **Kollektive Team-Attribution** in `<titleStmt>/<respStmt>`:
    - `<orgName ref="contributors.xml#mhdbdb-team">MHDBDB-Team (vollständige Liste in contributors.xml)</orgName>`
 
 Diese drei Bausteine sind in allen 666 Bestandsdateien identisch und werden vom Migrationsscript `scripts/_archived/migrate-header-credits.py` gesetzt. Bei neuen Ingests einfach aus einer Bestandsdatei oder aus `schema/examples/corpus.example.tei.xml` kopieren.
