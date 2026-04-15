@@ -1,18 +1,53 @@
 # 032 — Schema Follow-up Cleanup
 
-**Status:** Open (Follow-up zu geschlossenem #32)
+**Status:** 14/17 erledigt (Stand 2026-04-15), 3 Items noch offen.
 **Audience:** Nächste/r CC-Kollege/in
 **Baseline (verifiziert 2026-04-14):**
 
 | Check | Ergebnis |
 |-------|---------|
-| `schema/examples/*` gegen beide Stages | 8 / 8 grün |
-| `authority-files/*.xml` gegen beide Stages | 7 / 7 grün |
-| `schema/mhdbdb.rnc` ↔ `.rng` Sync | in sync (beide 2026-04-10) |
+| `schema/examples/*` gegen beide Stages | 9 / 9 grün (inkl. authority-contributors) |
+| `authority-files/*.xml` gegen beide Stages | 8 / 8 grün (inkl. contributors.xml) |
+| `schema/mhdbdb.rnc` ↔ `.rng` Sync | in sync |
 | `schema/mhdbdb-authority.rnc` ↔ `.rng` Sync | in sync |
-| Korpus (666 Dateien) gegen beide Stages | nicht in dieser Session gemessen (sollte im Zuge der Arbeit passieren, `#32`-Roadmap markiert 682 Dateien als valid) |
+| Korpus (666 Dateien) gegen beide Stages | Stage 1: 30/666 fails (#30-Baseline), Stage 2: 0/666 — zuletzt voll gemessen 2026-04-15 |
 
 **Scope:** Rein additive Schärfungen nach Abschluss der großen Migration. Keine Architekturänderungen. Alle Punkte sind einzeln reversibel.
+
+---
+
+## Status-Übersicht (Stand 2026-04-15)
+
+| Item | Status | Commit | Bemerkung |
+|------|--------|--------|-----------|
+| P0-1 docs `idno type="gnd"` → `GND` | ✅ done | `5b421319c` | |
+| P0-2 docs `<schemaRef>`/`<tagsDecl>` raus | ✅ done | `5b421319c` | |
+| P0-3 docs `usage="95"` raus | ✅ done | `5b421319c` | |
+| P0-4 Korpus `gnd`→`GND` | ✅ done | `61a0b4a1a` | 2026-04-11 |
+| P0-5 WorksSyncer gnd→GND Drift-Prevention | ✅ done | `05e9c2d91` | war nicht im Plan, nach P0-4 eingezogen |
+| **P1-5 Korpus `idno/@type` Enum** | 🔴 **OPEN** | — | komplexer als Plan: Enum kontextspezifisch (`ISBN`/`callNumber` nur unter `<biblStruct>`, ~1 h |
+| P1-6 Korpus `persName/@type` Enum | ✅ done | `f72887eaa` | 2026-04-15 |
+| P1-7 Authority `lexicon.entry` gramGrp/sense | ✅ done | `f436963e0` | 2026-04-14 |
+| P1-8 Authority `monogr/title` Pflicht | ✅ done | `f436963e0` | 2026-04-14 |
+| P1-9 Authority `works.bibl/idno` Enum | ✅ done | `f436963e0` | 2026-04-14 |
+| P1-10 Korpus `msIdentifier/@corresp` Pflicht | ✅ done | `83b511eec` | 2026-04-15 |
+| P2-11 Taxonomie-Body ↔ encodingDesc Doku | ✅ done | `7e526c8f2` | 2026-04-15, Option 3 (Kommentar) |
+| P2-12 `validate-corpus.py` rewrite | ✅ done | `e9d43ead4` | 2026-04-15 |
+| **P2-13 CI-Regression schema-validation.yml** | 🔴 **OPEN** | — | ~1 h |
+| **P2-14 RNC→RNG Pre-commit Hook / CI Check** | 🔴 **OPEN** | — | Empfehlung: als Teil von P2-13 implementieren (CI-Check `git diff --exit-code schema/*.rng`) |
+| P2-15 Korpus xml-model PIs | ✅ done | `674fd3258` | 2026-04-15 |
+| P3-x Schematron-Territorium | ⏳ deferred | — | bewusst vertagt, kein Ticket |
+
+**Zusätzliche Arbeit** (nicht ursprünglich im Plan, aber zum selben Zeitraum):
+
+| Thema | Commits |
+|-------|---------|
+| `<hi>`-Rekursion entfernen (Data-First Schema-Simplification) | `b3e76ce7b` Daten-Flatten + `38b0bdd10` Schema |
+| Mega-`<p>` Split in PL1/PL2/PL3 (Validation-Performance) | `49d7b58aa` + `67526399e` archive |
+| `contributors.xml` + Authority-Schema contributors.body | `6f80e5d47` + `b95d0ae42` (orgName/@ref → idno type="URL") |
+| xml-model PIs für authority-files + examples | `9cda50c44` |
+| CLAUDE.md Hard Constraint "Daten vor Schema" | `9ab92cdb2` |
+| Wegfall `.github/workflows/claude.yml` | `54b450f32` |
 
 ---
 
@@ -84,6 +119,18 @@ Die Schemas sind strukturell solide, aber einige Werte sind als freier Text mode
 
 ### P1-5 · `mhdbdb.rnc` — `<idno @type>` ohne Enum
 
+> **Status:** 🔴 OPEN — komplexer als der Plan vorgibt. Ein Audit 2026-04-15 zeigt, dass im Korpus **7 verschiedene `@type`-Werte** genutzt werden (`callNumber`, `GND`, `handschriftencensus`, `ISBN`, `mwb-sigle`, `sigle`, `wikidata`) und dass `ISBN` + `callNumber` nur unter `<biblStruct>` / `<monogr>` vorkommen (also nicht auf der mhdbdb-idiomatischen `<msIdentifier>`-Seite). Ein globaler Enum wie im ursprünglichen Plan-Vorschlag würde diese zwei Werte entweder ausschließen oder auf der msIdentifier-Seite fälschlich erlauben.
+>
+> **Kontextspezifischer Fix nötig:**
+> - msIdentifier/idno: `"sigle" | "handschriftencensus" | "GND" | "wikidata" | "mwb-sigle"` (mhdbdb-idiomatisch)
+> - biblStruct/monogr/idno: `"callNumber" | "ISBN"` oder offen lassen (bibliografische Standard-IDs können sich erweitern)
+>
+> Aufwand: ~1 h saubere Schema-Lektüre + Audit pro Position + Anpassung + Validation.
+>
+> Abhängigkeit auf P0-4 (Korpus gnd→GND) ist erfüllt seit `61a0b4a1a`.
+
+**Ursprünglicher Plan (veraltet, zur Referenz):**
+
 **Vorkommen im Schema:** `mhdbdb.rnc` Z.103, 124, 146, 162, 210 — überall `attribute type { text }`.
 
 **Fix:** Neues benanntes Pattern einführen und überall referenzieren.
@@ -98,8 +145,6 @@ Dann in jedem `<idno>`-Element `attribute type { text }` → `idno.type` ersetze
 ```bash
 python -m rnc2rng schema/mhdbdb.rnc schema/mhdbdb.rng
 ```
-
-Abhängigkeit: **P0-4 muss vorher laufen**, sonst failen 30+ Korpusdateien an Stage 2.
 
 ### P1-6 · `mhdbdb.rnc:203` — `persName/@type` ohne Enum
 
@@ -415,7 +460,11 @@ Diese Constraints kann RELAX NG nicht ausdrücken. Entweder Schematron oder sepa
 
 ---
 
-## Reihenfolge & Commit-Struktur (Vorschlag)
+## Reihenfolge & Commit-Struktur
+
+> **Hinweis:** der ursprünglich geplante 8-Commit-Flow wurde nicht 1:1 umgesetzt — die tatsächlichen Commits sind in der Status-Tabelle am Dateianfang dokumentiert. Wer die echte Historie sehen will, nutzt `git log --grep '#32-followup'`. Der Plan hier bleibt als Referenz dafür, wie der Flow ursprünglich gedacht war.
+
+**Ursprünglicher Plan (Stand 2026-04-14, historisch):**
 
 ```
 Commit 1  #32-followup: fix TEI-MODEL.md inconsistencies (P0-1..3)
