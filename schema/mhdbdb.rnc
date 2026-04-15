@@ -249,6 +249,17 @@ inline.model =
     w | pc | hi | lb | pb | cb | caesura | supplied | num
     | note | lg | l | head
 
+# Content model for <hi>: identical to inline.model, but WITHOUT hi
+# itself. Rationale: <hi> used to allow arbitrary inline.model content
+# (including further <hi>), which made RelaxNG matching non-linear on
+# files with nested <hi>. All nested <hi>/<hi> cases in the corpus
+# were flattened via scripts/_archived/flatten-nested-hi.py (2026-04-15),
+# so the recursion is no longer needed. Keeping lg/l/head/note permissive
+# here so future data can still carry them inside a highlight if needed.
+hi.content.model =
+    w | pc | lb | pb | cb | caesura | supplied | num
+    | note | lg | l | head
+
 # ============================================================
 # Body content model
 # ============================================================
@@ -314,7 +325,7 @@ pc = element pc {
 
 hi = element hi {
     attribute rend { text },
-    mixed { inline.model* }
+    mixed { hi.content.model* }
 }
 
 supplied = element supplied {

@@ -926,6 +926,22 @@
       <ref name="head"/>
     </choice>
   </define>
+  <define name="hi.content.model">
+    <choice>
+      <ref name="w"/>
+      <ref name="pc"/>
+      <ref name="lb"/>
+      <ref name="pb"/>
+      <ref name="cb"/>
+      <ref name="caesura"/>
+      <ref name="supplied"/>
+      <ref name="num"/>
+      <ref name="note"/>
+      <ref name="lg"/>
+      <ref name="l"/>
+      <ref name="head"/>
+    </choice>
+  </define>
   <define name="body.content">
     <mixed>
       <zeroOrMore>
@@ -1168,7 +1184,7 @@
       </attribute>
       <mixed>
         <zeroOrMore>
-          <ref name="inline.model"/>
+          <ref name="hi.content.model"/>
         </zeroOrMore>
       </mixed>
     </element>
