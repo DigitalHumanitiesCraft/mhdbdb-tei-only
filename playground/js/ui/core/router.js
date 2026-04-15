@@ -24,7 +24,7 @@ const ROUTES = {
   'concepts':    (params) => window.playground.ui.authorityExplorers[params.q ? 'showConceptsWithSearch' : 'showConcepts'](),
   'genres':      (params) => window.playground.ui.authorityExplorers[params.q ? 'showGenresWithSearch'   : 'showGenres'](),
   'names':       (params) => window.playground.ui.authorityExplorers[params.q ? 'showNamesWithSearch'    : 'showNames'](),
-  'multi-lemma': ()       => window.playground.ui.multiLemmaSearch.open(),
+  'multi-lemma': (params) => handleMultiLemmaRoute(params),
   'words':       ()       => window.playground.ui.teiExplorer.showWords(),
   'lines':       ()       => window.playground.ui.teiExplorer.showLines(),
   'annotations': ()       => window.playground.ui.teiExplorer.showAnnotations(),
@@ -85,6 +85,70 @@ export function buildHash(view, params = {}) {
     }
   }
   return '#' + parts.join('&');
+}
+
+/**
+ * Handle the `multi-lemma` route. Without params, just opens the (empty)
+ * Multi-Lemma-Suche modal. With `lemmata` (comma-separated list), populates
+ * the modal state directly and runs the search in the background — the
+ * modal is never shown to the user, results appear in resultsContainer.
+ *
+ * Supported params:
+ *   lemmata — comma-separated list of lemma terms, e.g. "minne,êre"
+ *   mode    — "proximity" (default) or "document"
+ *   dist    — proximity distance (integer, default 10, only used in proximity mode)
+ */
+function handleMultiLemmaRoute(params) {
+  const ui = window.playground?.ui?.multiLemmaSearch;
+  if (!ui) {
+    console.warn('[Router] multi-lemma UI not available');
+    return;
+  }
+
+  // No lemmata param → just open the empty modal (Phase 1+2 behavior)
+  if (!params.lemmata) {
+    ui.open();
+    return;
+  }
+
+  const terms = params.lemmata.split(',').map(t => t.trim()).filter(t => t);
+  if (terms.length === 0) {
+    ui.open();
+    return;
+  }
+
+  // Ensure a clean state (in case a previous route left residual chips)
+  ui.lemmas = [];
+  if (ui.lemmaChips) ui.lemmaChips.innerHTML = '';
+
+  // Populate the modal's internal state + chip DOM without opening the modal.
+  // executeSearch() will copy `this.lemmas` to a local `searchTerms` before
+  // calling close() → reset(), so this clean-up after the search is harmless.
+  for (const term of terms) {
+    ui.lemmas.push(term);
+    ui.addLemmaChip(term);
+  }
+
+  // Set search mode (defaults to proximity per v4.0.0 convention)
+  const mode = params.mode === 'document' ? 'document' : 'proximity';
+  const modeRadio = document.querySelector(`input[name="searchMode"][value="${mode}"]`);
+  if (modeRadio) {
+    modeRadio.checked = true;
+    // Trigger change so the proximity-controls block shows/hides correctly
+    modeRadio.dispatchEvent(new Event('change', { bubbles: true }));
+  }
+
+  // Set proximity distance
+  if (params.dist && ui.proximityDistance) {
+    const distNum = parseInt(params.dist, 10);
+    if (distNum > 0) ui.proximityDistance.value = String(distNum);
+  }
+
+  // Enable the Execute button (normally disabled until lemmas.length > 0)
+  // and run the search. executeSearch() is async and will update the
+  // resultsContainer itself when the corpus query completes.
+  ui.updateExecuteButton();
+  ui.executeSearch();
 }
 
 /**
