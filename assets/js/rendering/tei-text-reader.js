@@ -353,14 +353,47 @@ class TEITextReader {
                 case 'p':
                 case 'ab':
                     return `<p>${children()}</p>`;
-                case 'div':
-                    return `<div class="tei-div">${children()}</div>`;
-                case 'lg':
-                    return `<div class="verse-group">${children()}</div>`;
-                case 'l':
-                    return `<span class="verse-line">${children()}</span>`;
-                case 'lb':
+                case 'div': {
+                    const divType = el.getAttribute('type') || '';
+                    const divN = el.getAttribute('n') || '';
+                    const divLabels = {
+                        'song': 'Lied', 'chapter': 'Kapitel', 'recipe': 'Rezept',
+                        'number': 'Nr.', 'section': 'Abschnitt',
+                        'colophon': 'Kolophon', 'parallel': 'Parallelüberlieferung'
+                    };
+                    const label = divLabels[divType];
+                    let header = '';
+                    if (label && divN) {
+                        header = `<div class="tei-div-header tei-div-${this.escapeHtml(divType)}">${this.escapeHtml(label)} ${this.escapeHtml(divN)}</div>`;
+                    } else if (label) {
+                        header = `<div class="tei-div-header tei-div-${this.escapeHtml(divType)}">${this.escapeHtml(label)}</div>`;
+                    }
+                    return `<div class="tei-div tei-div-${this.escapeHtml(divType)}" data-type="${this.escapeHtml(divType)}" data-n="${this.escapeHtml(divN)}">${header}${children()}</div>`;
+                }
+                case 'lg': {
+                    const lgN = el.getAttribute('n') || '';
+                    const lgLabel = lgN ? `<span class="stanza-label">Strophe ${this.escapeHtml(lgN)}</span>` : '';
+                    return `<div class="verse-group" data-n="${this.escapeHtml(lgN)}">${lgLabel}${children()}</div>`;
+                }
+                case 'l': {
+                    const lineN = el.getAttribute('n') || '';
+                    return `<span class="verse-line" data-n="${this.escapeHtml(lineN)}">${children()}</span>`;
+                }
+                case 'lb': {
+                    const lbN = el.getAttribute('n') || '';
+                    if (lbN) {
+                        return `<br class="line-break"><span class="lb-number">${this.escapeHtml(lbN)}</span>`;
+                    }
                     return '<br class="line-break">';
+                }
+                case 'note': {
+                    const noteType = el.getAttribute('type');
+                    const noteN = el.getAttribute('n') || '';
+                    if ((noteType === 'date' || noteType === 'year') && noteN) {
+                        return `<span class="note-badge note-${this.escapeHtml(noteType)}" title="${noteType === 'date' ? 'Datum' : 'Jahr'}">${this.escapeHtml(noteN)}</span>`;
+                    }
+                    return children();
+                }
                 case 'pb': {
                     const pageNum = el.getAttribute('n');
                     return pageNum ? `<span class="page-break" title="Seite ${pageNum}">[${pageNum}]</span>` : '';
@@ -417,23 +450,22 @@ class TEITextReader {
         html = html.replace(/(\S)\s+(<\/\w+>\s*<span class="punctuation" data-join="left">)/g, '$1$2');
         html = html.replace(/(<span class="punctuation" data-join="right">[^<]*<\/span>)\s+/g, '$1');
 
-        return { html, highlights };
+        // Detect verse vs prose context
+        const hasVerse = !!body.querySelector('lg');
+
+        return { html, highlights, hasVerse };
     }
 
     /**
-     * Process <hi> element with rend attribute
+     * Process <hi> element with rend attribute — token-based for compound values
      */
     processHi(el, rend, lemmaId, lemmaIds, lemmaColorMap, highlights, state) {
         const content = this.processChildren(el, lemmaId, lemmaIds, lemmaColorMap, highlights, state);
+        if (!rend) return `<span class="hi">${content}</span>`;
 
-        switch (rend) {
-            case 'initial':
-                return `<span class="initial">${content}</span>`;
-            case 'upper_case_first_letter':
-                return `<span class="upper-case-first">${content}</span>`;
-            default:
-                return `<span class="hi">${content}</span>`;
-        }
+        const tokens = rend.split(/\s+/);
+        const classes = tokens.map(t => `hi-${t}`).join(' ');
+        return `<span class="hi ${classes}">${content}</span>`;
     }
 
     /**
@@ -682,7 +714,9 @@ class TEITextReader {
             });
         });
 
-        // Populate body text
+        // Populate body text with verse/prose context
+        this.elements.readingBody.classList.remove('verse-context', 'prose-context');
+        this.elements.readingBody.classList.add(bodyResult.hasVerse ? 'verse-context' : 'prose-context');
         this.elements.readingBody.innerHTML = bodyResult.html;
 
         // Populate highlight element references after DOM insertion
