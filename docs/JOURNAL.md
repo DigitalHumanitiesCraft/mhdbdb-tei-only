@@ -435,6 +435,65 @@ Die #32-followup-Arbeit (P1-10, P2-12, P2-13, P2-14, P2-15, `<hi>`-Flatten, PL1-
 
 ---
 
+## 2026-04-16 — handoff (Docs + Triage-Konsolidierung)
+
+**Summary:** Promptotyping-Docs-Session nach gemeinsamer Issue-Triage mit Katharina, Julia und Chris. Zwei Health-Checks (Round 1 + ULTRATHINK Round 2) mit 10 Findings, alle gefixt. Systematische Neubewertung aller `depends-on-human` TEI-Daten-Issues → 4 von 5 umgelabelt auf `claude-ready`. Issue #44 Body komplett neu geschrieben mit Lösungskategorien-Framework. Playground-Router via Chrome-Extension browser-verifiziert.
+
+**Decisions:**
+- Lösungskategorien A–G eingeführt (Code/KI/KI+Web/Vorbereitung/Chris/Katharina/Julia/Extern) als Framework für Issue-Triage. In #44 Body dokumentiert.
+- `depends-on-human` entfernt von #85, #81, #26, #73 — diese Issues sind durch Julias Antworten (15.04.), lokale Linecode-Files und KI-Web-Recherche-Fähigkeit tatsächlich lösbar.
+- `external-research` Label reaktiviert und beschrieben: "KI kann via Web-Recherche lösen (HSC, Wikidata, VL, GND, Online-Editionen)".
+- Audit-Output-Files (`scripts/audit/*.json`, `*-REPORT.md`) werden per `.gitignore` ignoriert, nicht committed.
+- Feature-Doc `062-impressum.md` archiviert (#62 closed). `052-authority-files-card.md` wiederhergestellt (#52 noch offen — war versehentlich gelöscht).
+
+**Phase:** Implementation (stable). Alle 14 Promptotyping-Docs aktuell. 6 Feature-Docs in `docs/features/` (017, 020, 032, 034, 045, 079 + restored 052).
+
+**Commits:**
+- `1c3c71136` — docs: post-triage update (ROADMAP, ARCHITECTURE, FEATURES, INDEX, DEVELOPMENT, CONTRACTS, .gitignore, 062 archiviert)
+- `092839c4f` — docs/features/017: Reader View Plan mit Corpus-Inventar + hi/@rend compound fix
+
+**Docs-Status (geänderte Dateien):**
+- `docs/ROADMAP.md` — komplett neu: 6 geschlossene raus, #86-90 rein, #47 Sub-Issues, #34 Branch korrigiert
+- `docs/ARCHITECTURE.MD` — Rendering Map `<seg>→<pc>` fix, Playground Router Section (Hash-Routing, dispatch, Views, Params), fragile Zeilennummern → Funktionsnamen
+- `docs/FEATURES.MD` — Shareable URLs, Similar Lemmata, Lemma-Explorer-Links, TEI Text Analysis aktualisiert
+- `docs/INDEX.MD` — Milestones #48, #56, #62
+- `docs/DEVELOPMENT.MD` — CI Schema-Validation-Workflow (`schema-validation.yml`) dokumentiert
+- `docs/CONTRACTS.MD` — fragile Zeilennummer → Funktionsname
+- `docs/features/017-reader-view-tei-elements.md` — Corpus-Element-Inventar, hi/@rend compound fix, 7-Text Testmatrix
+
+**GitHub-Aktionen (keine Commits):**
+- Issue #49: Health-Check-Ergebnis als Kommentar gepostet
+- Issue #44: Body komplett neu geschrieben (Lösungskategorien, Full Matrix, TEI-Daten Detail-Aufschlüsselung, Empfohlene Reihenfolge)
+- Issue #44: 4 historische Kommentare gelöscht (Body ist jetzt Single Source of Truth)
+- 8 Label-Änderungen: #85 (+claude-ready, -depends-on-human), #81 (+claude-ready, +external-research, +effort:small, -depends-on-human), #26 (+claude-ready, +pipeline, -depends-on-human), #23 (+claude-ready), #73 (-depends-on-human), #86 (+needs-clarification, +effort:medium), #78 (+effort:medium), #58/59 (+future plans)
+
+**Browser-Verifizierung (Chrome-Extension):**
+- `#lemmata&q=minne` → 168 Treffer, Suchfeld befüllt ✅
+- `#multi-lemma&lemmata=minne,êre&mode=proximity&dist=10` → 67 Treffer, 25 Kontexte ✅
+- `#authors` → 210 Einträge ✅
+- `#concepts&q=liebe` → 1 Treffer "Liebe/Zuneigung..." ✅
+
+**Nicht-Befunde:**
+- `<seg type="pc">` Referenzen in TEI-MODEL.md, DECISIONS.MD, JOURNAL.md sind historisch korrekt (Migrations-Dokumentation), kein Fix nötig.
+- `<seg type="component">` in DATA-MODEL.MD / TEI-MODEL-AUTH-FILES.md ist ein anderer `<seg>`-Typ (Etymologie), nicht von der pc-Migration betroffen.
+- Fragile Zeilennummern in CONTRACTS.MD (search-engine.js, app.js, lemma-page.js, corpus-loader.js) und DESIGN.MD (app.js) — vorbestehend, separates Cleanup-Ticket wert.
+- `docs/features/017-reader-view-tei-elements.md` modifiziert vom Kollegen (#17 Implementierung) — sein Commit, nicht meiner.
+
+**Open Issues:**
+- P1-5 `idno/@type` Enum — letztes offenes #32-followup-Item, ~1h, danach 032-schema-followup.md archivierbar.
+- Julias Linecode-Quelldateien liegen lokal unter `C:\Users\chstn\Downloads\Linecode2TEI\` (291 Dateien). Noch nicht im Repo — Entscheidung ob/wie committen steht aus.
+- #85 DWA: Julia sagt "passt vollkommen", aber DL1-Anzeige-Bug noch ungeklärt (Julia hat nicht reagiert).
+- #23: Verifizierung welche Texte Julia bis RVR schon gefixt hat, steht noch aus (schneller grep).
+
+**Next session:**
+1. `/promptotyping orient`
+2. **#81 Sprachstufen** (Quick Win, ~1h) — KI-Web-Recherche für 7 Kandidaten, Chris bestätigt, Header-Fix
+3. **#85 Kat. 2** (7 song-Texte) — deterministisch, Script aus Linecode-Files
+4. **#23 Verifizierung** — grep nach Julias bisherigen Stanza-Fixes
+5. **#17 Reader View** — Kollege arbeitet aktiv dran, nicht anfassen
+6. **#87-90** Playground TEI Textanalyse — 4 kleine Frontend-Issues, claude-ready
+
+
 ## 2026-04-16 — handoff (Audit + #17 Reader View)
 
 **Summary:** Großer Issue-Audit (27 offene Issues, alle Kommentare von Katharina/Julia/Linda ausgewertet), 7 Issues geschlossen (#48, #31, #56, #62, #17 + 2 Temporal-Artifacts-Docs gelöscht), 4 Sub-Issues für #47 Release 1 angelegt (#87–#90), #17 Reader View vollständig implementiert und Chrome-verifiziert, 2 vorbekannte Playground-Test-Failures gefixt (128/128 grün).
