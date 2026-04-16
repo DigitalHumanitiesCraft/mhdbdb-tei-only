@@ -356,3 +356,47 @@ Die #32-followup-Arbeit (P1-10, P2-12, P2-13, P2-14, P2-15, `<hi>`-Flatten, PL1-
 2. **#17 Reader View** — prio-1, direkt startbar. Implementation-Plan im 2026-04-15-Kommentar zum Issue. Erwartete Touches: `assets/js/rendering/tei-text-reader.js` (`extractAndFormatBody()`-Switch: neue Fälle für `note` (critical gap), `div`+`type`+`n` data-attrs, `lg`+`n`, `l`+`n`, `lb`+`n`, `hi rend` bold/italic/upper_case; `pb`/`cb`+`type`) + `assets/css/korpus.css` (CSS-Counter für jede-5.-Zeile-Marginalie, `attr(data-n)`-`::before`-Labels für div-Header, Strophe-Labels, hi-Varianten). Browser-Verifikation mit NIB (Strophen), ABG (Prosa), BRIX/ABS (Rezepte), HZU (`note type="date"`-Badges), PZ (Mixed), ALX/APO (colophon).
 3. **Follow-up-Pings** (falls keine Antwort in 24 h): #52, #62, #56 (Bedeutungen anzeigen), #31 (Julia 3 Fragen), #85 (Julia + Katharina).
 4. **Optional falls Leerlauf:** #45 Static JSON API (Planning-Doc vorhanden) oder #79 /hilfe/-Seite (braucht Wording-Entscheidungen, content-heavy).
+
+---
+
+## 2026-04-16 — handoff (Audit + #17 Reader View)
+
+**Summary:** Großer Issue-Audit (27 offene Issues, alle Kommentare von Katharina/Julia/Linda ausgewertet), 7 Issues geschlossen (#48, #31, #56, #62, #17 + 2 Temporal-Artifacts-Docs gelöscht), 4 Sub-Issues für #47 Release 1 angelegt (#87–#90), #17 Reader View vollständig implementiert und Chrome-verifiziert, 2 vorbekannte Playground-Test-Failures gefixt (128/128 grün).
+
+**Decisions:**
+- #17 braucht keinen Index-Rebuild — Reader View parst Raw-TEI-XML via DOMParser, nicht den Corpus-Index.
+- `processHi()` von Switch auf Token-basierte Klassen umgestellt (`rend.split(/\s+/)` → CSS-Klassen `hi-initial`, `hi-bold` etc.) — löst ~43k bisher unstyled Compound-`@rend`-Elemente.
+- `<lb>` Rendering: `<br>` + inline `<span class="lb-number">` statt Block-Span, weil `<lb>` ein Milestone-Element ist (Inhalt folgt nach, nicht innerhalb).
+- Playground-Test-Failures waren veraltete englische Strings ("TEI Data Explorer" → "TEI-Daten-Explorer").
+
+**Dead ends:** Keine.
+
+**Phase:** Implementation (iteration). Alle 14 Promptotyping-Docs aktuell. `docs/features/017-reader-view-tei-elements.md` dreifach per `/check-md` verifiziert und korrigiert (FR1 war "Frauenlob" nicht "Frauendienst", h\_-Präfix in 43/64 Texten nicht nur ABG/HZU, ASCII-Art hatte continuous statt per-stanza Zeilenzählung).
+
+**Open issues:**
+- **#52** wartet auf Katharina OK (Card shipped, via Signal gepingt)
+- **#79/#80** wartet auf Katharina Review (4 Hilfe-Seiten + Zitationsformat, 5+5 Fragen)
+- **#73** MWB-Linking: 3 Fragen an Katharina, zero Antworten
+- **#85** DL1-Frage auf GitHub beantwortet (Quelle: Julias Draft-Issue 06 aus OneDrive), Rückfrage an Julia was "weird" in der Anzeige war
+- **#47** Sub-Issues #87–#90 angelegt, Katharina bestätigte 3-Release-Plan
+- **#68** Katharina lieferte strategische Roadmap: WB → ARITHMETIC → CoReMA → Linda → Minnereden (10k EUR DFG)
+- P1-5 (`idno/@type` kontextspezifisches Enum) noch offen — letztes #32-followup-Item
+
+**Nicht-Befunde:**
+- Die 2 Playground-Test-Failures (`should handle cache clearing`, `should load main playground page`) waren keine Regressionen sondern veraltete Strings seit der Lokalisierung. Fix: `d364cc38b`.
+- `docs/features/052-authority-files-card.md` und `docs/features/062-impressum.md` gelöscht per Temporal-Artifacts-Regel (Issues geschlossen).
+
+**Commits:**
+- `1616f582e` Impressum: rechtliche Korrekturen + Datenschutz
+- `1c3c71136` docs: post-triage update (6 closed, 5 new, stale refs)
+- `092839c4f` docs/features/017: vollständiges Reader View Plan
+- `ecebbb94e` **#17 Reader View: TEI-Strukturelemente** (JS + CSS + 7 Tests)
+- `d364cc38b` fix(tests): Playground-Tests an deutschen Title
+
+**Next session:**
+1. `/promptotyping orient`
+2. **#87 Playground UX-Cleanup** (broken buttons entfernen, TEI-Textanalyse nach oben) — S, schnell
+3. **#20 Lesbarkeit follow-ups** — Katharinas 2 Punkte: Counter-Sichtbarkeit + Text-Deselection-Hint — S
+4. **#88/#89/#90** Wortfrequenz / Text-Statistiken / Lemma-Verteilung — erste #47-Release-1-Features
+5. **Follow-up-Pings** (falls keine Antwort): #52, #73, #79/#80
+6. **Optional:** P1-5 `idno/@type` Enum (letztes #32-followup) oder #85 Implementation (Julia+Katharina haben geantwortet)
