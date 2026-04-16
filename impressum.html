@@ -78,23 +78,22 @@
             <p class="text-base text-slate-700 leading-relaxed mb-4">
                 <span class="font-medium">Webbetreuung:</span><br>
                 Dr. Katharina Zeppezauer-Wachauer<br>
-                DHcraft.org
+                <a href="https://dhcraft.org" class="text-brand-600 hover:text-brand-700 hover:underline" target="_blank" rel="noopener">Digital Humanities Craft OG</a>
             </p>
 
             <p class="text-base text-slate-700 leading-relaxed mb-4">
                 <span class="font-medium">Grafische Konzeption und Design:</span><br>
-                DHcraft.org
+                <a href="https://dhcraft.org" class="text-brand-600 hover:text-brand-700 hover:underline" target="_blank" rel="noopener">Digital Humanities Craft OG</a>
             </p>
 
             <p class="text-base text-slate-700 leading-relaxed mb-4">
                 <span class="font-medium">Technische Umsetzung und Entwicklung:</span><br>
-                DHcraft.org<br>
-                Entwicklung: Christian Steiner
+                <a href="https://dhcraft.org" class="text-brand-600 hover:text-brand-700 hover:underline" target="_blank" rel="noopener">Digital Humanities Craft OG</a> (Christian Steiner)
             </p>
 
             <p class="text-base text-slate-700 leading-relaxed mb-4">
                 <span class="font-medium">Technische Bereitstellung:</span><br>
-                Diese Website wird über GitHub Pages bereitgestellt.
+                Diese Website wird über GitHub Pages (GitHub Inc., San Francisco, USA) bereitgestellt.
             </p>
 
             <p class="text-base text-slate-700 leading-relaxed mb-4">
@@ -131,6 +130,22 @@
         </section>
 
         <section>
+            <h2 class="text-2xl font-bold text-slate-900 mt-10 mb-4">Datenschutz</h2>
+
+            <p class="text-base text-slate-700 leading-relaxed mb-4">
+                Es gelten die <a href="https://www.plus.ac.at/datenschutz-und-informationsfreiheit/datenschutzinformationen/website/" class="text-brand-600 hover:text-brand-700 hover:underline" target="_blank" rel="noopener">Datenschutzinformationen der Universität Salzburg</a>.
+            </p>
+
+            <p class="text-base text-slate-700 leading-relaxed mb-4">
+                Diese Website wird über GitHub Pages (GitHub Inc., San Francisco, USA) bereitgestellt. Beim Zugriff auf die Website werden durch GitHub serverseitig Zugriffsdaten (u.&nbsp;a. IP-Adresse, Zeitpunkt, aufgerufene Seite) verarbeitet. Nähere Informationen finden sich in der <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" class="text-brand-600 hover:text-brand-700 hover:underline" target="_blank" rel="noopener">Datenschutzerklärung von GitHub</a>.
+            </p>
+
+            <p class="text-base text-slate-700 leading-relaxed mb-4">
+                Die Website speichert Daten lokal in Ihrem Browser (IndexedDB, localStorage) ausschließlich zur Zwischenspeicherung der Korpus- und Autoritätsdaten-Indizes. Es werden keine personenbezogenen Daten erhoben, keine Cookies gesetzt und keine Daten an Dritte übermittelt.
+            </p>
+        </section>
+
+        <section>
             <h2 class="text-2xl font-bold text-slate-900 mt-10 mb-4">Lizenz</h2>
 
             <p class="text-base text-slate-700 leading-relaxed mb-4">
@@ -155,7 +170,7 @@
             <div class="flex flex-col md:flex-row justify-between items-center gap-6">
                 <div class="text-center md:text-left">
                     <p class="text-sm mb-2">
-                        © 2025 Universität Salzburg |
+                        Universität Salzburg, 2025–<span class="current-year">2026</span> |
                         <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="hover:text-brand-600 transition" target="_blank" rel="noopener">
                             CC BY-NC-SA 4.0
                         </a>
@@ -223,5 +238,6 @@
         }
     </script>
 
+    <script>document.querySelectorAll('.current-year').forEach(el => { const y = new Date().getFullYear(); if (y > 2025) el.textContent = y; });</script>
 </body>
 </html>

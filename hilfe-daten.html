@@ -315,7 +315,7 @@
             <div class="flex flex-col md:flex-row justify-between items-center gap-6">
                 <div class="text-center md:text-left">
                     <p class="text-sm mb-2">
-                        © 2025 Universität Salzburg |
+                        Universität Salzburg, 2025–<span class="current-year">2026</span> |
                         <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="hover:text-brand-600 transition" target="_blank" rel="noopener">
                             CC BY-NC-SA 4.0
                         </a>
@@ -381,5 +381,6 @@
         }
     </script>
 
+    <script>document.querySelectorAll('.current-year').forEach(el => { const y = new Date().getFullYear(); if (y > 2025) el.textContent = y; });</script>
 </body>
 </html>
