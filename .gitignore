@@ -73,6 +73,10 @@ __pycache__/
 # Zotero API cache
 scripts/sync/.zotero_cache.json
 
+# Audit script outputs (regenerated on each run)
+scripts/audit/*.json
+scripts/audit/*-REPORT.md
+
 # Debug and manual test files
 nul
 testing/manual-*.html

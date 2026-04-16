@@ -98,6 +98,7 @@ Browse and search six controlled vocabularies with consistent interface patterns
 **Lemma Explorer:**
 - Search by lemma (normalized MHG)
 - Display: Lemma, POS, sense count, etymology, full sense definitions with concepts
+- Lemma titles link to persistent lemma pages (`/lemma/{id}`)
 - Action: Search lemma in corpus
 
 **Concept Explorer:**
@@ -119,12 +120,9 @@ Browse and search six controlled vocabularies with consistent interface patterns
 
 ### TEI Text Analysis
 
-Upload and analyze custom TEI files.
+Corpus-wide text analysis and co-occurrence search using pre-built indexes.
 
-**Single Lemma Search:**
-- Upload TEI files (drag-and-drop or file picker)
-- Search by lemma ID or MHG term
-- Display all occurrences with context
+**Note:** Three legacy buttons ("Alle Wörter", "Alle Zeilen", "Alle Annotationen") are currently non-functional — they require uploaded TEI-XML files from the old architecture. UX cleanup tracked in #87; new corpus-index-based replacements in #88-90.
 
 **Multi-Lemma Document Search:**
 - Input multiple lemmata (space-separated or one per line)
@@ -147,6 +145,17 @@ Upload and analyze custom TEI files.
 4. Opens main site reading view with all lemmata highlighted
 5. Auto-scroll to exact position
 
+### Shareable URLs
+
+All playground views are bookmarkable and shareable via hash-based URLs.
+
+**How it works:**
+- Each view has a URL fragment (e.g., `#authors`, `#lemmata`, `#multi-lemma`)
+- Search state preserved via `q` parameter (e.g., `#lemmata&q=minne`)
+- Detail drill-down via `show` parameter
+- Multi-lemma search fully serialized: `#multi-lemma&lemmata=minne,êre&mode=proximity&dist=10`
+- Sharing a URL reproduces the exact view state
+
 ### Search Normalization
 
 Consistent search behavior across all 10 entry points via Middle High German character normalization.
@@ -162,6 +171,24 @@ Consistent search behavior across all 10 entry points via Middle High German cha
 - Enables consistent matching across orthographic variations
 
 **Note:** Normalization handles **character variations**, variants.xml handles **spelling variations**. Both used together for comprehensive search coverage.
+
+## Lemma Page Features
+
+Persistent pages for individual lemmata, accessible at `/lemma/{numericId}`. These URLs are stable external identifiers used by Wörterbuchnetz, MWB, and Wikidata (P9351).
+
+### Similar Lemmata
+
+Concept-based similarity section on each lemma page.
+
+**How it works:**
+- Scans all ~43,750 lemmata for shared concept references (`<sense>` → `<ptr target="concepts.xml#...">`)
+- Ranks by concept overlap with the current lemma
+- Displays top 50 as clickable chip links
+- Performance: ~75 ms for full scan
+
+**Use cases:**
+- Explore semantic neighborhoods (e.g., from "minne" discover related terms for love, devotion, affection)
+- Navigate between conceptually related lemmata without knowing the exact term
 
 ---
 

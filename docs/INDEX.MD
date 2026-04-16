@@ -116,6 +116,9 @@ Post-MVP with stable v4.0.0 corpus index and v1.2.0 authority index
 - ✅ **#32-Followup Schema Hardening** (2026-04-14/15) - Tightened enums (`persName/@type`, `idno/@type` in authority, `msIdentifier/@corresp` mandatory), removed `<hi>` recursion from schema by flattening 36,924 nested instances across 143 corpus files, split the PL1/PL2/PL3 mega-`<p>` elements at `<pb/>` milestones (245× faster validation on PL1), CI schema-validation workflow (`schema-validation.yml`)
 - ✅ **#83 Editor Attribution** (2026-04-15) - `contributors.xml` (51 persons + 2 orgs), uniform editor attribution in all 666 TEI headers via `@ref`, five texts (TKR/TKA/VTC/PUC/JT) with prominent lead-editor respStmts
 - ✅ **#31 Linecode Documentation** (2026-04-15) - `docs/LINECODE.md` extracted from legacy MHDBDB linecode-to-TEI mapping
+- ✅ **#48 Playground URL Routing** (2026-04-15) - Hash-based shareable/bookmarkable URLs for all playground views, including multi-lemma search state serialization
+- ✅ **#56 Lemmata Explorer** (2026-04-15) - Title links to persistent lemma pages, URL bug fix, concept-based "Similar Lemmata" section
+- ✅ **#62 Impressum** (2026-04-16) - Legal notice page (`impressum.html`) with Datenschutz section, footer links on all pages
 
 ### Known Limitations
 - Desktop-only interface (not mobile-responsive)

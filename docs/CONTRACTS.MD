@@ -102,7 +102,7 @@ For each <w lemmaRef="lexicon.xml#lemma_X">:
 
 ### JavaScript (runtime)
 
-Source: `assets/js/rendering/tei-text-reader.js:394-401, 509-515`
+Source: `extractAndFormatBody()` / `processWord()` in `assets/js/rendering/tei-text-reader.js`
 
 ```
 Recursive DOM traversal of <body> children:
