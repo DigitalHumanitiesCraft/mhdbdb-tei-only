@@ -10,7 +10,7 @@ How to prepare and submit a Middle High German text for inclusion in the MHDBDB 
 
 ### What is MHDBDB?
 
-The Mittelhochdeutsche Begriffsdatenbank (MHDBDB) is a corpus of Middle High German texts with word-level semantic annotations, maintained at the University of Salzburg. The repository holds ~670 TEI files with lemmatisation, part-of-speech tagging, and links to controlled authority vocabularies (persons, works, lemmata, concepts, genres, names).
+The Mittelhochdeutsche Begriffsdatenbank (MHDBDB ) is a corpus of Middle High German texts with word-level semantic annotations, maintained at the University of Salzburg. The repository holds ~670 TEI files with lemmatisation, part-of-speech tagging, and links to controlled authority vocabularies (persons, works, lemmata, concepts, genres, names).
 
 ### Benefits of Inclusion
 
