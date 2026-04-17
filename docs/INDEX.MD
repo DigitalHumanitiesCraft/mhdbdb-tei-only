@@ -84,6 +84,7 @@ This knowledge base follows a hub-and-spoke architecture with INDEX.MD as the ce
 | **[DECISIONS.MD](DECISIONS.MD)** | Architecture Decision Records (ADRs) | Architects |
 | **[CONTRACTS.MD](CONTRACTS.MD)** | Cross-language parity constraints, algorithm pseudocode, API contracts | Developers |
 | **[USER-GUIDE.MD](USER-GUIDE.MD)** | End-user documentation | Users |
+| **[CONTRIBUTING-DATA.md](CONTRIBUTING-DATA.md)** | How to prepare and submit a new text (TEI header, annotation pipeline, POS tagset, validation) | Contributors |
 
 ### Process (what's happening and why)
 
