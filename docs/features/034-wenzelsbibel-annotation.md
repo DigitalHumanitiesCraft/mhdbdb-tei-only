@@ -5,6 +5,21 @@
 **Owner:** Julia (@juliahin)
 **Support:** Chris (@chsteiner)
 
+## Schema History
+
+This document was written incrementally during the Wenzelsbibel ingest. The MHDBDB schema evolved in parallel, which means some encodings agreed upon early in the project were later superseded. The table below records those changes so that the decisions in this doc can be read in their correct context.
+
+| Changed element | Old encoding (used during work) | Correct encoding (per final schema) | Phase affected |
+| --- | --- | --- | --- |
+| Non-lexical punctuation / scribal marks | `<seg type="pc">` | `<pc join="left\|right">` | Phase 1b paratext cleanup |
+| Genre link in works.xml | `<ref target="genres.xml#...">` | `<ptr target="genres.xml#..."/>` | Pre-requisite |
+| Manuscript shelfmark in works.xml | `<note type="manuscript">` | `<idno type="shelfmark">` | Pre-requisite |
+| Article POS tag | `ART` | `DET` | Phase 2 (tagset migration applied via patch, commit cf71ae48) |
+
+Where the old encoding was written into `WZB.tei.xml` or `authority-files/`, it has since been corrected. This doc now reflects the final schema (`schema/mhdbdb.rng`, `schema/mhdbdb-authority.rng`).
+
+---
+
 ## Problem
 
 The Wenzelsbibel (WZB) has been structurally transformed from WB-DEA source into MHDBDB-conformant TEI (`Wenzelsbibel/WZB.tei.xml`, Phase 1). The ~150,000 `<w>` elements currently have only text content — no `@lemmaRef`, `@pos`, `@meaningRef`, or `@wordRef` attributes. Without these, the text cannot participate in MHDBDB search, lemma highlighting, or concept navigation.
@@ -51,7 +66,7 @@ Every `<w>` needs: `@lemmaRef`, `@pos`. Later also: `@meaningRef`, `@wordRef`.
 | Unique word forms (text content of `<w>`) | ~4,900 (Genesis alone) |
 | MHDBDB lexicon entries | 43,750 |
 | MHDBDB variant forms | 192,674 |
-| POS tag set | PRO, VRB, NOM, ADJ, ADV, ART, CNJ, PRP, VEX, POS, NAM, NUM (can be space-separated for multi-tag) |
+| POS tag set | PRO, VRB, NOM, ADJ, ADV, DET, CNJ, PRP, VEX, POS, NAM, NUM (can be space-separated for multi-tag) |
 
 ## Phased Plan
 
@@ -228,7 +243,7 @@ Two additional categories were identified during Phase 1b and resolved as comple
 
 ```
 Assign POS tags to these Middle High German words from the Wenzelsbibel.
-Use MHDBDB tag set: PRO VRB NOM ADJ ADV ART CNJ PRP VEX POS NAM NUM
+Use MHDBDB tag set: PRO VRB NOM ADJ ADV DET CNJ PRP VEX POS NAM NUM
 Multiple tags allowed (space-separated) when word is ambiguous.
 
 Context: [2-3 lines of surrounding text]
@@ -266,9 +281,9 @@ Add a new entry to `authority-files/works.xml`:
   <title xml:lang="de">Wenzelsbibel</title>
   <title xml:lang="en">Wenceslas Bible</title>
   <idno type="sigle">WZB</idno>
-  <ref target="genres.xml#genre_93f5fac5" xml:lang="de">Bibelübersetzung</ref>
+  <idno type="shelfmark">Wien, ÖNB, Cod. 2759-2764</idno>
+  <ptr target="genres.xml#genre_93f5fac5"/>
   <author ref="persons.xml#person_anonym">Anonym</author>
-  <note type="manuscript">Wien, ÖNB, Cod. 2759-2764</note>
 </bibl>
 ```
 
@@ -370,8 +385,8 @@ During Phase 1b disambiguation, ~1,500 `<w>` elements were identified as non-lex
 | **Book headers** (running headers in `<fw>`) | GENESIS, EXODUS, LEUI+TICUS, GENE+SIS | 909 `<w>` in 905 `<fw>` | Already `<fw type="header">` — strip `@lemmaRef`/`@pos` | None — not lexical |
 | **PROLOGUS** | PROLOGUS | 6 `<w>` in `<fw>` | Already `<fw type="header">` — strip annotation attrs | None — treated as book header |
 | **Chapter apparatus** | CAPITULUM + Roman numeral | 106 CAPITULUM `<w>` + adjacent numerals | `<head type="chapter" n="N">` as first child of `<div type="chapter">`; `<milestone unit="chapter" n="N"/>` inline in `<l>` | None — not lexical |
-| **Scribal section initials** | S, O, a, A (single-letter paragraph marks) | ~6 | Convert `<w>` → `<seg type="pc">` | None |
-| **Pure scribal marks** | ł, -, ̃, ჻, =, ؞, ׀, ⫶ | ~654 | Convert `<w>` → `<seg type="pc">` | None |
+| **Scribal section initials** | S, O, a, A (single-letter paragraph marks) | ~6 | Convert `<w>` → `<pc join="left">` | None |
+| **Pure scribal marks** | ł, -, ̃, ჻, =, ؞, ׀, ⫶ | ~654 | Convert `<w>` → `<pc join="left">` | None |
 | **Roman numerals** (inline) | UIII, XU, XLU, XXUII (U=V in WZB script) | 16 | Keep as `<w>` | `lemma_13826` (DIG, concept_31422100 Römische Ziffern + concept_23123100 Lateinisch) |
 | **Latin words** | Et, et (conjunction); est (verbal form of esse) | 6 | Keep as `<w>` | `Et`/`et` → `lemma_1732` (CNJ); `est` → `lemma_9387` (VEX, esse) |
 | **Czech glosses** | toho, thoho, pzde, bzde, kde | ~115 | Keep as `<w>` | `lemma_78628` (cs, NOM; concept_23123610 Tschechisch + concept_90000000 Funktionswörter) |
@@ -443,7 +458,7 @@ Four targeted fixes applied via `scripts/wzb-encoding-cleanup.py`.
 
 ### Fix 1 — Historiated initials
 
-6 `<w>` elements inside `<hi rend="initial_historisiert">` were decorative first letters of words split across the TEI (e.g. `I` + `n` = "In", `U` + `nd` = "Und"). They were incorrectly annotated: one as DIG/lemma_13826 (Roman numeral), five as NOM/lemma_2. All converted to `<seg type="pc">`, consistent with other section initials.
+6 `<w>` elements inside `<hi rend="initial_historisiert">` were decorative first letters of words split across the TEI (e.g. `I` + `n` = "In", `U` + `nd` = "Und"). They were incorrectly annotated: one as DIG/lemma_13826 (Roman numeral), five as NOM/lemma_2. All converted to `<pc join="left">`, consistent with other section initials.
 
 ### Fix 2 — Josua.0 misclassified as chapter
 
