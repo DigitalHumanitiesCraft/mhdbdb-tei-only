@@ -256,19 +256,218 @@ Words: [batch with positions]
 
 **QA:** Script validates that assigned POS is in the MHDBDB tag set. Julia spot-checks ~5% per chapter.
 
-### Phase 3: meaningRef + wordRef (future)
+### Phase 3: Word Sense Disambiguation — meaningRef + wordRef
 
-**Goal:** Full MHDBDB conformance with semantic concept links and variant form references.
+**Goal:** Assign `@meaningRef` and `@wordRef` to every annotated `<w>` element, achieving full MHDBDB conformance with semantic concept links and variant form references. The Wenzelsbibel serves as the first controlled testcase for LLM-assisted word sense disambiguation (WSD) in the MHDBDB pipeline — approximately one third of the entire MHDBDB corpus currently lacks these attributes.
 
-**Approach (to be refined when Phase 2 is complete):**
-- `@meaningRef`: Requires word sense disambiguation — which sense of a polysemous lemma is meant. This is the hardest annotation task. LLM-assisted with `concepts.xml` as reference.
-  - Format: `lexicon.xml#lemma_{ID}_sense_{SENSE_ID}`
-- `@wordRef`: Links to the specific orthographic variant in `variants.xml`.
-  - Format: `lexicon.xml#lemma_{ID}_sense_{SENSE_ID}_type_{TYPE_ID}`
-  - For existing variant forms: auto-assignable once lemmaRef + meaningRef are known
-  - For new forms not in variants.xml: may need new `<form>` entries
+**Research context:** Phase 3 is the subject of a doctoral research project (Hintersteiner, ongoing). The pipeline described below constitutes both the engineering contribution and the empirical testbed for evaluating LLM-assisted WSD on Middle High German historical texts.
 
-**This phase is deferred** until Phase 1+2 are validated and the team decides how to handle lexicon gaps.
+#### Attribute formats
+
+| Attribute | Format | Example |
+| --- | --- | --- |
+| `@meaningRef` | `lexicon.xml#lemma_{ID}_sense_{SENSE_ID}` | `lexicon.xml#lemma_722_sense_1177` |
+| `@wordRef` | `lexicon.xml#lemma_{ID}_sense_{SENSE_ID}_type_{TYPE_ID}` | `lexicon.xml#lemma_722_sense_1177_type_2239` |
+
+#### Lexicon sense statistics (as of 2026-04)
+
+| Sense count | Entries | Proportion | Treatment |
+| --- | --- | --- | --- |
+| 0 senses | 4 | < 0.1% | Skip — flag for editorial review |
+| 1 sense | 35,985 | 82.3% | Auto-assign |
+| 2+ senses | 7,765 | 17.7% | LLM disambiguation |
+| Total | 43,754 | | |
+
+Note: token frequency skews toward high-frequency polysemous words (pronouns, verbs, common nouns), so the proportion of *tokens* requiring disambiguation is substantially higher than the 17.7% of entry types.
+
+#### Step 1 — Auto-assign single-sense lemmata (`wzb-sense-assign.py`)
+
+For every `<w>` with `@lemmaRef` pointing to a lemma with exactly one `<sense>`:
+
+- Set `@meaningRef` to that sense ID
+- Attempt `@wordRef` auto-resolution: look up the word form in `variants.xml`; if the matching variant type appears in the sense's `@ana` attribute list, set `@wordRef`
+- Emit remaining multi-sense tokens to `Wenzelsbibel/phase3/wzb-sense-pending.tsv`
+
+#### Step 2 — LLM sense disambiguation
+
+**Pending TSV schema:**
+
+| Column | Description |
+| --- | --- |
+| `xml_id` | `<w>` element ID |
+| `form` | Word form as it appears in WZB |
+| `lemmaRef` | Existing `@lemmaRef` value |
+| `pos` | Existing `@pos` value |
+| `context` | Surrounding 10-word window (5 left, 5 right) |
+| `candidate_senses` | Pipe-separated: `sense_id :: concept_label_DE (concept_label_EN)` |
+| `resolved_sense` | Sense ID chosen by LLM/human — filled during review |
+| `confidence` | `high` / `medium` / `low` |
+| `reviewer` | `claude` / `julia` |
+
+**Sense label construction:** Each `<sense>` in `lexicon.xml` links to one or more concepts via `<ptr target="concepts.xml#concept_..."/>`. The `concepts.xml` `<catDesc>` provides `<term xml:lang="de">` and `<term xml:lang="en">` labels. These are concatenated as the human-readable sense description presented to the LLM.
+
+**Prompt template:**
+
+```
+You are disambiguating word senses in a Middle High German biblical text (Wenzelsbibel, ca. 1390).
+The word has already been lemmatised. Your task is to choose which sense of the lemma applies
+given the sentence context.
+
+Lemma: {orth} | POS: {pos}
+Word form in text: {form}
+Context: ... {left_context} **{form}** {right_context} ...
+
+Available senses:
+{sense_id_1}: {concept_labels_1}
+{sense_id_2}: {concept_labels_2}
+...
+
+Reply with exactly one sense ID and a confidence level (high/medium/low).
+Format: SENSE_ID | CONFIDENCE
+```
+
+**Batching:** Use `wzb-split-tsv.py` (adapted for phase3 input) to produce 50-row batches. Julia reviews all `confidence=low` decisions and a 20% random sample of `confidence=medium`.
+
+#### Step 3 — Apply resolutions (`wzb-sense-bulk-resolve.py`, `wzb-sense-apply.py`)
+
+- `wzb-sense-bulk-resolve.py`: writes resolved sense IDs back to `wzb-sense-pending.tsv`
+- `wzb-sense-apply.py`: reads the resolved TSV, writes `@meaningRef` to TEI; also attempts `@wordRef` auto-resolution for each resolved token
+
+#### Step 4 — `@wordRef` resolution
+
+Once `@meaningRef` is known, `@wordRef` can often be auto-assigned:
+
+1. Look up the word form in `variants.xml` → get candidate type IDs
+2. Intersect with the sense's `@ana` type list
+3. If exactly one match: assign `@wordRef = "lexicon.xml#{sense_id}_type_{type_id}"`
+4. If zero matches: word form not in variants.xml → flag for editorial additions list
+5. If multiple matches: flag for manual review (rare)
+
+#### Evaluation design (research component)
+
+The Wenzelsbibel pipeline also serves as an empirical evaluation of LLM-assisted WSD quality. A subset of already-annotated MHDBDB texts (which have ground-truth `@meaningRef`/`@wordRef`) provides a gold standard.
+
+**Protocol:**
+
+1. Sample N tokens from fully-annotated MHDBDB texts, stratified by: sense count (2, 3, 4+), POS category, lemma frequency quartile
+2. Strip `@meaningRef` and `@wordRef` from the sample
+3. Run through Phase 3 LLM pipeline (same prompts, same batching)
+4. Compare LLM output against gold standard
+
+**Metrics:**
+- **Sense accuracy** (primary): proportion of tokens where LLM sense matches gold
+- **Accuracy by ambiguity level**: broken down by 2-sense, 3–5-sense, 6+-sense lemmata
+- **Accuracy by POS**: NOM / VRB / ADJ separately (expected to differ significantly)
+- **Confidence calibration**: do `high`-confidence decisions actually have higher accuracy?
+- **wordRef hit rate**: proportion of resolved senses where `@wordRef` could be auto-assigned
+
+**Tooling:**
+
+| Script | Purpose |
+| --- | --- |
+| `scripts/wzb-sense-assign.py` | Auto-assign single-sense; generate pending TSV |
+| `scripts/wzb-sense-bulk-resolve.py` | Apply batch resolutions to pending TSV |
+| `scripts/wzb-sense-apply.py` | Write @meaningRef / @wordRef to TEI |
+| `scripts/wzb-sense-evaluate.py` | Compare LLM output against gold standard corpus sample |
+
+---
+
+### Phase 3 Progress (as of 2026-04-21)
+
+#### Pipeline commands
+
+```bash
+# Step 1 — auto-assign single-sense + generate pending TSV (run once)
+python scripts/wzb-sense-assign.py [--dry-run]
+
+# Step 2 — bulk-resolve a lemma (all tokens of one lemma → one sense)
+python scripts/wzb-sense-bulk-resolve.py -r Wenzelsbibel/phase3/resolutions/wzb-sense-batchNN.tsv [--dry-run]
+
+# Step 2b — per-instance patch (individual xml_id overrides)
+python scripts/wzb-sense-bulk-resolve.py -r <patch.tsv> --by xml_id [--dry-run]
+
+# Step 3 — write @meaningRef / @wordRef to TEI (run after each batch round)
+python scripts/wzb-sense-apply.py [--dry-run]
+```
+
+#### Resolution file formats
+
+**Bulk (lemma-level)** — `Wenzelsbibel/phase3/resolutions/wzb-sense-batchNN.tsv`:
+
+```
+lemmaRef    resolved_sense          confidence  note
+lexicon.xml#lemma_905   lemma_905_sense_1489    high    OT has no monks; all blood-brother
+```
+
+**Patch (xml_id-level)** — same columns but with `xml_id` instead of `lemmaRef`:
+
+```
+xml_id          resolved_sense          confidence  note
+WZB_12ra_5_3    lemma_2684_sense_4322   medium      refers to Pharaoh, not God
+```
+
+#### Step 1 results (auto-assign, 2026-04-21)
+
+| Result | Count | % of 149,148 |
+| --- | --- | --- |
+| Auto-assigned `@meaningRef` (single-sense) | 102,559 | 68.8% |
+| Auto-assigned `@wordRef` (form match) | 67,839 | 45.5% |
+| Pending — multi-sense (→ TSV) | 39,418 | 26.4% |
+| Skipped — no `@lemmaRef` (Phase 1b residual) | 6,974 | 4.7% |
+| Skipped — 0 senses (new Phase 1b lemmata) | 197 | 0.1% |
+
+The 197 zero-sense tokens belong to the 4 lemmata added during Phase 1b (`lemma_78628` cs, `lemma_78648` herte, `lemma_78668` scot, `lemma_78688` weise) which have no `<sense>` entries yet.
+
+#### Pending TSV distribution (39,418 rows, 854 unique lemmata)
+
+| Sense count | Rows | % |
+| --- | --- | --- |
+| 2 senses | 7,220 | 18.3% |
+| 3 senses | 10,136 | 25.7% |
+| 4 senses | 6,048 | 15.3% |
+| 5 senses | 6,055 | 15.4% |
+| 6–9 senses | 8,456 | 21.4% |
+| 10+ senses | 1,503 | 3.8% |
+
+**POS distribution of pending tokens:** NOM 36% · VRB 24% · PRP 16% · VEX 10% · ADJ 5% · VEM 5%
+
+**Coverage concentration:** Top 10 lemmata = 36.8% of pending tokens; top 100 = 77.6% — strongly Zipfian.
+
+#### Bulk resolutions applied (batches 01–05, 2026-04-21)
+
+| Batch | Lemmata | Tokens | Key decisions |
+| --- | --- | --- | --- |
+| 01 | `bruder` | 264 | `_sense_1489` blood-brother; OT has no monks |
+| 02 | `herre`, `svn`, `opfer` | 3,055 | Lord=God (`_sense_4323`); blood-son (`_sense_9315`); OT sacrifice (`_sense_31702`) |
+| 03 | 11 lemmata | 1,269 | `seine` possessive, `hous` domestic, `hin` spatial, `erste` ordinal, `golde` material, `vortilgen` destroy, `menedis` month-as-time, `stimme` voice, `brvnne` well, `hercze` theological-heart, `wasche` laundry |
+| 04 | 19 lemmata | 613 | `ruche` fragrance, `gepurt` birth, `treten` step, `gelt` money, `gestalt` shape, `segen` OT blessing, `silber` material, `lenge` spatial-length, `legerten` military-encamp, `engel` angel, `breite` width, `koufen` buy, `milch` dairy, `pflage` plague, `eingange` entrance, `gehorsam` obedience, `hie` here, `vorbrante` burning, `gesalbet` ritual-anoint |
+| 05 | 8 lemmata | 2,169 | `machen` make/craft, `gebieten` command, `mensch` human, `mitte` spatial-middle, `ochsen` ox, `gewant` clothing, `fride` peace/covenant, `was/waren` existential-be |
+| **Total** | **~40 lemmata** | **7,370** | — |
+
+#### Current TEI coverage (after applying batches 01–05)
+
+| Attribute | Count | Coverage |
+| --- | --- | --- |
+| `@meaningRef` | 109,929 | **73.7%** |
+| `@wordRef` | 71,228 | **47.8%** |
+
+#### Remaining work — 32,048 rows
+
+The bulk-resolvable pool is largely exhausted. Remaining rows require per-instance disambiguation:
+
+| Lemma | Tokens | Senses | Note |
+| --- | --- | --- | --- |
+| `in` (lemma_3028) | 3,585 | 3 | temporal / spatial / relational |
+| `haben` (lemma_2598) | 2,132 | 8 | auxiliary / possessive / modal |
+| `werden` (lemma_7489) | 1,987 | 5 | future / passive-aux / become |
+| `an` (lemma_199) | 967 | 3 | directional / temporal / relational |
+| `sollen` (lemma_5608) | 954 | 4 | obligation / future / modal |
+| `noch` (lemma_4415) | 742 | 2 | adversative / temporal |
+| `ziehen` (lemma_7861) | 553 | 16 | complex polysemy |
+| `gehen` (lemma_1844) | 546 | 8 | motion senses |
+| ... | ... | ... | ~840 more lemmata |
+
+**Next step:** Split `wzb-sense-pending.tsv` into 50-row batches (by highest-frequency lemma first) and run per-instance LLM disambiguation via `--by xml_id` patches.
 
 ## Pre-Requisites (before Julia starts)
 
