@@ -42,6 +42,12 @@ if __name__ == "__main__":
     parser.add_argument("--pending", "-t", default=str(DEFAULT_PENDING), help="Pending TSV to update")
     parser.add_argument("--by", choices=["lemma", "xml_id"], default="lemma",
                         help="Match key: 'lemma' (bulk) or 'xml_id' (per-instance patch)")
+    parser.add_argument("--decision-type",
+                        choices=["bulk-llm", "bulk-human", "instance-llm", "instance-human"],
+                        default="bulk-llm",
+                        help="Decision provenance for scientific record (default: bulk-llm)")
+    parser.add_argument("--model-id", default="claude-sonnet-4-6",
+                        help="Model ID that produced the resolutions (default: claude-sonnet-4-6)")
     parser.add_argument("--dry-run", action="store_true", help="Report changes without writing")
     args = parser.parse_args()
 
@@ -56,7 +62,7 @@ if __name__ == "__main__":
         uprint(f"ERROR: pending TSV not found: {pending_path}")
         sys.exit(1)
 
-    # Load resolutions
+    # Load resolutions — ABSTAIN is a valid value (principled abstention)
     resolutions = {}
     with res_path.open(encoding="utf-8") as f:
         reader = csv.DictReader(f, delimiter="\t")
@@ -93,6 +99,10 @@ if __name__ == "__main__":
                 row["resolved_sense"] = resolved_sense
                 row["confidence"]     = confidence
                 row["reviewer"]       = REVIEWER
+                if "decision_type" in (fieldnames or []):
+                    row["decision_type"] = args.decision_type
+                if "model_id" in (fieldnames or []):
+                    row["model_id"] = args.model_id
             stats[key]["updated"] += 1
 
     # Report

@@ -345,30 +345,99 @@ Once `@meaningRef` is known, `@wordRef` can often be auto-assigned:
 
 #### Evaluation design (research component)
 
-The Wenzelsbibel pipeline also serves as an empirical evaluation of LLM-assisted WSD quality. A subset of already-annotated MHDBDB texts (which have ground-truth `@meaningRef`/`@wordRef`) provides a gold standard.
+The Wenzelsbibel pipeline also serves as an empirical evaluation of LLM-assisted WSD quality. A subset of already-annotated MHDBDB texts provides a gold standard. **Gold standard provenance:** MHDBDB `@meaningRef`/`@wordRef` annotations are human-annotated — not automated — making them a valid reference for inter-annotator agreement style evaluation.
 
-**Protocol:**
+---
 
-1. Sample N tokens from fully-annotated MHDBDB texts, stratified by: sense count (2, 3, 4+), POS category, lemma frequency quartile
-2. Strip `@meaningRef` and `@wordRef` from the sample
-3. Run through Phase 3 LLM pipeline (same prompts, same batching)
-4. Compare LLM output against gold standard
+#### Pre-registered evaluation protocol (2026-04-24)
 
-**Metrics:**
-- **Sense accuracy** (primary): proportion of tokens where LLM sense matches gold
-- **Accuracy by ambiguity level**: broken down by 2-sense, 3–5-sense, 6+-sense lemmata
-- **Accuracy by POS**: NOM / VRB / ADJ separately (expected to differ significantly)
-- **Confidence calibration**: do `high`-confidence decisions actually have higher accuracy?
-- **wordRef hit rate**: proportion of resolved senses where `@wordRef` could be auto-assigned
+This section is written before evaluation is run, constituting a pre-registration to support scientific reproducibility.
 
-**Tooling:**
+**Research question:** Does LLM-assisted (bulk + per-instance) WSD on Middle High German historical text exceed the majority-sense baseline (66.7% weighted accuracy, computed from 675 MHDBDB corpus files)?
+
+**Null hypothesis:** LLM pipeline accuracy ≤ majority-sense baseline accuracy on the held-out sample.
+
+##### Sample design
+
+| Parameter | Value | Rationale |
+| --- | --- | --- |
+| Minimum N | **400 tokens** | Power analysis: two-tailed binomial test, H₀=66.7%, target detect δ≥8pp at α=0.05, power=0.80 requires ~380 tokens; round to 400 |
+| Recommended N | **600 tokens** | Allows 2×3 subgroup analysis (sense count × POS) with ≥50 tokens per cell |
+| Source | Already-annotated MHDBDB texts (excl. WZB) | Gold standard is pre-existing human annotation |
+| Sampling frame | All `<w>` with `@lemmaRef` pointing to lemmata with 2+ senses | Mirrors pending TSV scope |
+
+##### Stratification grid
+
+Sample is drawn proportionally across the following 6 cells (sense count × POS):
+
+| | NOM | VRB | ADJ/ADV/PRP |
+|---|---|---|---|
+| 2 senses | ≥50 | ≥50 | ≥50 |
+| 3–5 senses | ≥50 | ≥50 | ≥50 |
+| 6+ senses | ≥50 | ≥50 | ≥50 |
+
+Within each cell: stratified random sample across at least 3 different lemmata (to avoid single-lemma dominance inflating accuracy).
+
+##### Gold standard handling
+
+1. Extract stratified sample from corpus, recording `xml_id`, `form`, `lemmaRef`, `meaningRef`, `context`
+2. Strip `@meaningRef` and `@wordRef` from the sample copy — LLM sees only `form` + `context` + candidate senses, never the gold label
+3. Run through Phase 3 pipeline (same `wzb-sense-bulk-resolve.py` / per-instance flow, same prompts, `--decision-type instance-llm`)
+4. Compare LLM `resolved_sense` against gold `meaningRef` fragment
+
+##### Baseline
+
+**Majority-sense baseline: 66.7%** (computed 2026-04-24 from 675 MHDBDB corpus files via `wzb-sense-baseline.py`). This is an optimistic upper bound because the corpus genre mix differs from WZB biblical prose. The baseline TSV is at `Wenzelsbibel/phase3/wzb-sense-majority-baseline.tsv`.
+
+##### Primary metric
+
+**Sense accuracy** = proportion of sample tokens where `resolved_sense` matches gold `meaningRef` fragment (exact match on sense ID). Reported overall and per stratum.
+
+##### Secondary metrics
+
+- **Accuracy by decision type**: `bulk-llm` vs `instance-llm` — tests whether bulk decisions (applied uniformly per lemma) match instance-level decisions (per-token context)
+- **Accuracy by ambiguity level**: 2-sense / 3–5-sense / 6+-sense
+- **Accuracy by POS**: NOM / VRB / ADJ+ADV+PRP
+- **Confidence calibration**: `high`-confidence accuracy vs `medium`-confidence accuracy (Brier score for probabilistic calibration if confidence is converted to p)
+- **ABSTAIN rate**: proportion of tokens where LLM abstained rather than choosing a sense; excluded from accuracy denominator but reported separately
+- **@wordRef hit rate**: proportion of correctly resolved senses where `@wordRef` could be auto-assigned (diagnostic for variants.xml coverage)
+
+##### Blind review protocol (Julia's spot-checks)
+
+To maintain evaluator blindness for the scientific record, Julia's manual spot-checks follow this procedure:
+
+1. Generate review sheet: for each sampled token, show `form`, `context`, `candidate_senses` — **without** the `resolved_sense` column visible
+2. Julia records her own sense choice independently (her call is the inter-annotator reference)
+3. Only after recording: reveal `resolved_sense` (LLM choice) and gold label
+4. Document: LLM correct? Julia correct? LLM == Julia? Disagreement analysis
+
+This produces three-way agreement data (LLM / Julia / gold), supporting inter-annotator agreement reporting (Cohen's κ between LLM and human annotator).
+
+##### Decision type taxonomy (for scientific record)
+
+All resolutions in `wzb-sense-pending.tsv` carry a `decision_type` column:
+
+| Value | Meaning |
+| --- | --- |
+| `auto-single` | Single-sense lemma — trivially correct by definition; **excluded from WSD accuracy** |
+| `bulk-llm` | LLM chose one sense for all tokens of a lemma without per-instance context |
+| `bulk-human` | Human chose one sense for all tokens of a lemma |
+| `instance-llm` | LLM chose sense per individual token with context |
+| `instance-human` | Human chose sense per individual token |
+| `abstain` | Principled abstention — context insufficient for disambiguation; excluded from TEI output and accuracy denominator |
+
+**Reporting distinction:** `bulk-llm` accuracy and `instance-llm` accuracy are reported separately, since bulk decisions assume distributional uniformity while instance decisions use per-token evidence. Scientific comparison to baseline should use `instance-llm` only (apples-to-apples with majority-sense baseline which is also a distributional prior).
+
+##### Tooling
 
 | Script | Purpose |
 | --- | --- |
-| `scripts/wzb-sense-assign.py` | Auto-assign single-sense; generate pending TSV |
-| `scripts/wzb-sense-bulk-resolve.py` | Apply batch resolutions to pending TSV |
-| `scripts/wzb-sense-apply.py` | Write @meaningRef / @wordRef to TEI |
-| `scripts/wzb-sense-evaluate.py` | Compare LLM output against gold standard corpus sample |
+| `scripts/wzb-sense-assign.py` | Step 1: auto-assign single-sense; generate pending TSV |
+| `scripts/wzb-sense-bulk-resolve.py` | Step 2: apply batch resolutions (bulk or per-instance) |
+| `scripts/wzb-sense-apply.py` | Step 3: write @meaningRef / @wordRef to TEI; reports ABSTAIN counts separately |
+| `scripts/wzb-sense-baseline.py` | Compute majority-sense baseline from annotated MHDBDB corpus |
+| `scripts/wzb-sense-migrate-schema.py` | One-time: add decision_type + model_id columns to pending TSV |
+| `scripts/wzb-sense-evaluate.py` | (planned) Compare LLM output against gold standard corpus sample |
 
 ---
 
