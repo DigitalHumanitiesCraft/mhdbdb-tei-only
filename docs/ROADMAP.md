@@ -1,78 +1,100 @@
 # Roadmap
 
-Strategic priorities for the MHDBDB TEI Repository. Updated Feb 2026.
+Strategic priorities for the MHDBDB TEI Repository. Updated 2026-04-16.
 
 See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/44) for the full triage matrix with per-issue status.
 
-## Now: Claude-Ready
-
-Work that can be picked up immediately.
+## Now: Quick Wins + prio-1
 
 | # | What | Domain | Effort |
 |---|------|--------|--------|
-| #14 | License update → CC BY-NC-SA 4.0 (TEI headers + UI footer) | data+frontend | M |
+| #17 | Reader View: TEI structural elements — **prio-1**, in progress | frontend | L |
+| #87 | Playground TEI Textanalyse: UX-Cleanup (broken buttons + reorder) | frontend | S |
 | #20 | Readability fixes (font sizes, contrast) — done, awaiting approval | frontend | S |
-| #22 | TEI Encoding Guidelines (convert SharePoint docs) | documentation | M |
-| #52 | Playground "Authority Files" card clickable | minor-UX/UI | S |
-| #53 | "Korpus durchsuchen" UX improvement | minor-UX/UI | S |
+| #52 | Playground "Authority Files" card clickable — implemented, awaiting Katharina review | minor-UX/UI | S |
 
-## Next: Clear but Larger
-
-Well-specified, ready to build, but require more effort.
+## Next: Playground TEI Textanalyse + FAIR Data
 
 | # | What | Domain | Effort |
 |---|------|--------|--------|
+| #88 | Playground TEI Textanalyse: Wortfrequenz-Analyse | frontend | S |
+| #89 | Playground TEI Textanalyse: Text-Statistiken | frontend | S |
+| #90 | Playground TEI Textanalyse: Lemma-Verteilung | frontend | S |
 | #45 | Static JSON API (FAIR data) — [planning doc](features/045-static-api.md) ready | pipeline + frontend | L |
-| #17 | TEI structural rendering in reader view | frontend | L |
-| #48 | Playground URL routing (shareable views) | frontend | M |
-| #47 | TEI Textanalyse im Playground (6 features) — needs scoping | frontend | L |
+| #79 | /hilfe/ — user-facing help page (part of #80 umbrella) | documentation | L |
+| #78 | Frontend-Dokumentation: MHDBDB-Schema & Daten-Tutorial | documentation | M |
+| #86 | Barrierefreiheitserklärung (WZG) — needs Uni Salzburg input | documentation | M |
 
 ## Blocked: Needs Human Input
 
 | # | What | Who's needed |
 |---|------|-------------|
-| #29 | Stricker/Kaufringer `<supplied>` → `<div type="parallel">` — structural mismatch, [awaiting clarification](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/29#issuecomment-3973088014) | KZW |
+| #30 | TEI structural fixes — auto-fixes ready, draft-fixes prepared | KZW (review) |
 | #26 | Missing `<pb>` elements (17 texts) | KZW manual check |
-| #23 | Missing stanza markup (104 texts) — partially actionable | Linecode docs (#31) |
-| #31 | Doku: Linecode2TEI — do #23 + #29 first | KZW |
-| #30 | Manual review of TEI structural elements (~20 texts) — KZW reviewing from KW 8 | KZW |
-| #34 | Ingest Wenzelsbibel + CoReMA | Julia + Helmut coordination |
-| #32 | TEI schema / ODD — decision: no ODD, eliminate custom attrs first | Future phase |
-| #42 | Persistent lemma pages — feature done, scope expanded (Lemmata-Explorer rename, semantic explorer) | Decision: close + new issues? |
+| #85 | Fehlende `<div>`-Wrapper (26 Texte, 4 Kategorien) | KZW + Julia |
+| #81 | Sprachstufen-Differenzierung: pauschales `gmh` stimmt nicht | KZW |
+| #34 | Ingest Wenzelsbibel — Phase 3 at 92.5% @meaningRef, 4,013 rows pending; branch rebased 2026-05-06; evaluation script (`wzb-sense-evaluate.py`) ready | Julia + Helmut |
+| #68 | Guide: How to add data to MHDBDB | KZW (depends on #34 lessons learned) |
 
-## In Progress
+## Needs Clarification
 
-| # | What | Status |
-|---|------|--------|
-| #27 | POS Workflow expansion | Active — linguistic decisions answered, batch list provided |
-| #30 | TEI structural review | KZW reviewing manually from KW 8 |
+| # | What | Key question |
+|---|------|-------------|
+| #47 | TEI Textanalyse im Playground (umbrella) | Release 1 sub-issues created (#87-90). Further features (#47 Release 2+3) need scoping |
+| #27 | POS Workflow expansion | Linguistic decisions answered — implementation scope? |
+| #28 | Foreign language search | Index needs `xml:lang`; UI design needed |
+| #18 | Multi-lemma + PoS tag search | Depends on POS corpus migration (#27) |
+| #73 | Lemma-Linking zu MWB/Wörterbuchnetz | MWB API HTTP-only (blocked by mixed content); linking strategy needed |
+| #23 | Missing stanza markup (104 texts) | Complex cases need Linecode docs (#31, done) + Julia input |
 
 ## Future: Needs Design
 
 | # | What | Key question |
 |---|------|-------------|
-| #18 | Multi-lemma + PoS tag search | Corpus index needs PoS data; depends on #27 |
-| #28 | Foreign language search in playground | Index needs `xml:lang`; new UI section design |
+| #58 | Begriff→Lemma→Beleg Workflow | Playground UX redesign |
+| #59 | Antonomasien/Epitheta Modul | Standalone analysis module design |
+| #63 | Begriffssystem Update | Julia's future plans |
+| #80 | Umbrella: User-facing Dokumentation & Hilfe | Sub-issues #79, #78, #68 |
 
 ## Recently Completed
 
 | # | What |
 |---|------|
-| ~~#50~~ | Fix 43 test failures → 121/121 passing ✅ |
-| ~~#54~~ | Document multi-lemma dedup in CONTRACTS.MD ✅ |
-| ~~#55~~ | Document lemma pages for rebuild feasibility ✅ |
-| ~~#42~~ | Persistent lemma pages (base feature) ✅ |
-| ~~#43~~ | Playwright test coverage ✅ |
-| ~~#46~~ | Merge Lemma-Suche into Multi-Lemma-Suche ✅ |
-| ~~#21~~ | Rename "Konzepte" → "Begriffe" ✅ |
-| ~~#35–40~~ | Provenance metadata (5 batches + model) ✅ |
+| ~~#62~~ | Impressum (2026-04-16): `impressum.html` mit Datenschutz, Footer-Links auf allen Seiten |
+| ~~#48~~ | Playground URL-Routing (2026-04-15): Hash-basierte shareable URLs für alle Playground-Views |
+| ~~#56~~ | Lemmata-Explorer (2026-04-15): Titel-Links zu Lemma-Seiten, URL-Bug-Fix, concept-based Similar Lemmata |
+| ~~#31~~ | Linecode2TEI-Dokumentation (2026-04-15): `docs/LINECODE.md` |
+| ~~#22~~ | TEI Encoding Guidelines (2026-04-16): superseded by TEI-MODEL.md + schema README |
+| ~~#43~~ | Playwright test coverage (2026-04-16): 121/121 passing, 25 skipped intentional |
+| ~~#83~~ | Editor-Attribution & Credits-Modell (2026-04-15) |
+| ~~#84~~ | HZU/HZU2 Datum-Notes — already migrated in #32 Phase A |
+| ~~#32-followup~~ | Schema hardening: 16/17 items done (P1-5 `idno/@type` enum remains) |
+| ~~#32~~ | TEI Model Consolidation (675→666 files, 15M+ transformations, 2 schemas) |
+| ~~#29~~ | Stricker-Texte |
+| ~~#60~~ | Parzival Struktur-Bug |
+| ~~#61~~ | Textauswahl Whitespace-Bug |
+| ~~#53~~ | Korpus durchsuchen UX |
+| ~~#67~~ | Abbreviaturen Header (124 Texte) |
+| ~~#70~~ | pc join spacing |
+| ~~#14~~ | Sonderfall Lizenzen |
+| ~~#50~~ | Fix 43 test failures → 121/121 passing |
+| ~~#42~~ | Persistent lemma pages |
+| ~~#46~~ | Merge Lemma-Suche |
+| ~~#21~~ | Rename Konzepte→Begriffe |
+| ~~#35–40~~ | Provenance metadata (5 batches) |
 
 ## Strategic Direction
 
-1. **FAIR data first** — Make all MHDBDB data citable and programmatically accessible (#45, #42). This enables external collaborations (MWB, Worterbuchnetz) and increases project visibility.
+1. **TEI model consolidation done** — Soll-Modell (#32) fully implemented, #32-followup 16/17 items done (only P1-5 `idno/@type` context-specific enum remains). Both schemas written (`mhdbdb.rnc`, `mhdbdb-authority.rnc`), all 666 corpus + 8 authority files validated. Target models: [TEI-MODEL.md](TEI-MODEL.md) + [TEI-MODEL-AUTH-FILES.md](TEI-MODEL-AUTH-FILES.md). Architecture Decision Record: [ADR-013 "Data Consolidation Before Schema Relaxation"](DECISIONS.MD#adr-013).
 
-2. **TEI data quality** — Structural fixes (#23, #26, #29, #30) and schema consolidation (#32) strengthen the corpus as a reliable research resource. Most blocked on human review.
+2. **TEI data quality** — Structural fixes (#26, #30, #85), schema hardening (#32 ✅), and Wenzelsbibel (#34, Phase 3 at 92.5%) are the active workstreams. Most structural fixes are blocked on KZW review.
 
-3. **Frontend refinements** — UI polish (#20), TEI rendering (#17), URL routing (#48), and advanced playground features (#47) improve the user experience.
+2. **Playground TEI Textanalyse** — #47 umbrella broken into concrete sub-issues: UX-Cleanup (#87), Wortfrequenz (#88), Text-Statistiken (#89), Lemma-Verteilung (#90). All claude-ready, all use existing corpus index data.
 
-4. **Advanced search** — PoS-based search (#18) and foreign language search (#28) depend on corpus index extensions.
+3. **FAIR data** — Make all MHDBDB data citable and programmatically accessible (#45). Enables external collaborations (MWB, Wörterbuchnetz).
+
+4. **TEI data quality** — Remaining structural fixes (#23, #26, #85). Mostly blocked on human review.
+
+5. **Frontend refinements** — TEI rendering (#17, prio-1), UI polish (#20), and advanced playground features.
+
+6. **Advanced search** — PoS-based search (#18) and foreign language search (#28) depend on corpus index extensions.

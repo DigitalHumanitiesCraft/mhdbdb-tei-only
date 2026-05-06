@@ -251,7 +251,7 @@ Source: `assets/css/korpus.css` (lines 353-470)
 | `.column-break` | `inline-block; 0.875rem; font-weight: 600; bg-tertiary; cursor: help` | `<cb>` |
 | `.initial` | `font-weight: 700; font-size: 1.5em; color: accent` | `<hi rend="initial">` |
 | `.upper-case-first` | `text-transform: capitalize` | `<hi rend="upper_case_first_letter">` |
-| `.punctuation` | `font-weight: normal` | `<seg type="pc">` |
+| `.punctuation` | `font-weight: normal` | `<pc>` |
 | `.caesura` | `color: muted; font-weight: 300; margin: 0 space-1` | `<caesura>` |
 | `.supplied` | `color: #6b7280; italic; border-bottom: 1px dotted` | `<supplied>` |
 | `.number` | `font-variant-numeric: oldstyle-nums` | `<num>` |

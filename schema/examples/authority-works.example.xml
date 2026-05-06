@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Werke-Beispiel: zeigt alle Element-/Attribut-Pfade in works.xml
+     Validiert gegen: tei_all.rng + mhdbdb-authority.rnc
+     SOLL-Kindreihenfolge in <bibl>: title* -> idno* -> ptr* -> author* -> relatedItem*
+     SOLL-Kindreihenfolge in <monogr>: author* -> title+ -> idno* -> editor* -> edition* -> imprint+ -->
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt><title>Works Example</title></titleStmt>
+      <publicationStmt><publisher>MHDBDB</publisher><date>2026</date></publicationStmt>
+      <sourceDesc><p>Schema example</p></sourceDesc>
+    </fileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <listBibl>
+
+        <!-- Maximales Werk: mehrere Titel, Siglen, Genres, vollständiger biblStruct -->
+        <bibl xml:id="work_1">
+          <title xml:lang="de">Parzival</title>
+          <title xml:lang="en">Parzival</title>
+          <title xml:lang="gmh" type="alternate" ana="historic" level="a">Parzivâl</title>
+          <idno type="sigle">PAR</idno>
+          <idno type="sigle">PAR2</idno>
+          <idno type="GND">https://d-nb.info/gnd/4130109-2</idno>
+          <idno type="wikidata">http://www.wikidata.org/entity/Q209875</idno>
+          <idno type="handschriftencensus">http://www.handschriftencensus.de/werke/412</idno>
+          <!-- Genre-Zeiger: Label wird zur Build-Zeit aus genres.xml aufgelöst -->
+          <ptr target="genres.xml#genre_88b5cae2"/>
+          <ptr target="genres.xml#genre_72cae96a"/>
+          <author ref="persons.xml#person_1">Wolfram von Eschenbach</author>
+          <!-- biblStruct type="book": author in monogr -->
+          <relatedItem>
+            <biblStruct type="book" xml:id="PAR_PAR"
+                        corresp="http://zotero.org/groups/5043625/items/ABC123"
+                        key="PAR">
+              <monogr>
+                <author><name>Wolfram von Eschenbach</name></author>
+                <title>Parzival</title>
+                <idno type="ISBN">978-3-11-018388-8</idno>
+                <idno type="callNumber">PAR</idno>
+                <editor>
+                  <forename>Karl</forename>
+                  <surname>Lachmann</surname>
+                </editor>
+                <edition>6</edition>
+                <imprint>
+                  <pubPlace>Berlin</pubPlace>
+                  <publisher>de Gruyter</publisher>
+                  <date>1926</date>
+                  <biblScope unit="volume">1</biblScope>
+                </imprint>
+              </monogr>
+              <series>
+                <title level="s">Altdeutsche Textbibliothek</title>
+                <biblScope unit="series_number">12</biblScope>
+              </series>
+              <note>Lachmann ed., 6th edition</note>
+            </biblStruct>
+          </relatedItem>
+          <!-- biblStruct type="bookSection": hat analytic + monogr -->
+          <relatedItem>
+            <biblStruct type="bookSection" xml:id="PAR_PAR_2"
+                        corresp="http://zotero.org/groups/5043625/items/DEF456"
+                        key="PAR">
+              <analytic>
+                <title level="a">Parzival: Buch I-VI</title>
+                <author><name>Wolfram von Eschenbach</name></author>
+              </analytic>
+              <monogr>
+                <title level="m">Deutsche Dichtungen des Mittelalters</title>
+                <idno type="callNumber">PAR</idno>
+                <editor>
+                  <forename>Karl</forename>
+                  <surname>Bartsch</surname>
+                </editor>
+                <imprint>
+                  <pubPlace>Leipzig</pubPlace>
+                  <biblScope unit="page">1-250</biblScope>
+                  <date>1875</date>
+                </imprint>
+              </monogr>
+            </biblStruct>
+          </relatedItem>
+        </bibl>
+
+        <!-- Minimales Werk: ein Titel, eine Sigle, keine Identifier -->
+        <bibl xml:id="work_2">
+          <title xml:lang="de">Frauenbuch</title>
+          <idno type="sigle">FB</idno>
+          <ptr target="genres.xml#genre_0a612f94"/>
+          <author ref="persons.xml#person_2">Ulrich von Liechtenstein</author>
+        </bibl>
+
+        <!-- Werk mit journalArticle-biblStruct -->
+        <bibl xml:id="work_3">
+          <title xml:lang="de">Stadtratsgedicht</title>
+          <idno type="sigle">ASG</idno>
+          <ptr target="genres.xml#genre_2c9f837c"/>
+          <author ref="persons.xml#person_3">Heinrich von Rang</author>
+          <relatedItem>
+            <biblStruct type="journalArticle" xml:id="ASG_ASG" key="ASG">
+              <analytic>
+                <title level="a">Das Stadtratsgedicht</title>
+                <author><name>Heinrich von Rang</name></author>
+              </analytic>
+              <monogr>
+                <title level="j">Aalener Jahrbuch</title>
+                <idno type="callNumber">ASG</idno>
+                <imprint>
+                  <biblScope unit="page">45-74</biblScope>
+                  <biblScope unit="issue">3</biblScope>
+                  <date>1978</date>
+                </imprint>
+              </monogr>
+            </biblStruct>
+          </relatedItem>
+        </bibl>
+
+        <!-- Werk mit anonymem Autor -->
+        <bibl xml:id="work_4">
+          <title xml:lang="de">Nibelungenlied</title>
+          <idno type="sigle">NIB</idno>
+          <author ref="persons.xml#person_anonym">Anonym</author>
+        </bibl>
+
+      </listBibl>
+    </body>
+  </text>
+</TEI>

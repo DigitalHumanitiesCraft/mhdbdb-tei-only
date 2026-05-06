@@ -20,7 +20,7 @@ Mediävist:innen haben kein flexibles, exploratives Tool, um ihre TEI-Textkorpor
 ## Features
 
 ### Data Management
-- **Bulk upload** of TEI and authority files (drag & drop)
+- **Auto-loading** of TEI corpus and authority files from the repository (no upload step — UI removed in the current redesign)
 - **IndexedDB caching** for large file persistence across sessions
 - **Client-side processing** - all data stays in your browser
 - **Authority file integration** with 30-day cache expiration
@@ -30,7 +30,7 @@ Mediävist:innen haben kein flexibles, exploratives Tool, um ihre TEI-Textkorpor
 **Authority Files Exploration (6 search types):**
 1. **Autoren** - Search by name with MHG character normalization
 2. **Werke** - Multi-field search across title, author, sigle
-3. **Lemmata** - Lexicon search with orthographic variant support (192,674 variants)
+3. **Lemmata** - Lexicon search with orthographic variant support (175,910 variants)
 4. **Begriffe** - Semantic concept taxonomy (DE/EN)
 5. **Gattungen** - Literary genre classification
 6. **Namen** - Proper names with semantic relations
@@ -53,7 +53,7 @@ All searches (except XPath) support automatic normalization of Middle High Germa
 
 ### Orthographic Variants
 
-**192,674 variant forms** extracted from the corpus and indexed in `variants.xml`:
+**175,910 variant forms** extracted from the corpus and indexed in `variants.xml`:
 - Enables fuzzy orthographic matching
 - 3-stage resolution: lexicon exact → variants exact → partial fallback
 - Supports medieval spelling variation (e.g., "vriunt" = "vrîunt" = "vrivnt")
@@ -80,10 +80,10 @@ All searches (except XPath) support automatic normalization of Middle High Germa
    # Opens on http://localhost:8080/playground/
    ```
 
-2. **Upload files:**
+2. **Data loads automatically:**
    - Authority files load automatically from `../authority-files/`
-   - Drag & drop TEI files from `../tei/` directory
-   - Large files (>5MB) are automatically cached in IndexedDB
+   - TEI corpus loads from the pre-built index (no drag & drop; upload UI removed in the current redesign)
+   - Large files are automatically cached in IndexedDB for subsequent visits
 
 3. **Explore data:**
    - Use "Authority Files durchsuchen" for metadata queries
@@ -138,7 +138,7 @@ npm run report
 ### Data Flow
 
 1. Authority files loaded with 30-day IndexedDB caching
-2. TEI files uploaded and parsed (large files cached automatically)
+2. TEI corpus loaded from pre-built index and parsed (large files cached automatically)
 3. Cross-references resolved between TEI texts and authority data
 4. Search queries utilize normalized patterns and variant resolution
 5. Results displayed with color-coded highlighting and context
@@ -155,7 +155,7 @@ npm run report
 ### Constraints
 
 **Must-Have Features (All Implemented):**
-- ✅ F1: TEI upload & parsing (bulk + drag & drop)
+- ✅ F1: TEI corpus loading from pre-built index (drag & drop upload UI was removed in the current redesign)
 - ✅ F2: Data structure overview (statistics, browsers)
 - ✅ F3: Explorative query engine (11 search types)
 - ✅ F4: Contextual results (snippets, metadata, cross-refs)
@@ -196,7 +196,7 @@ Research project with over 50 years of medieval text and concept research at the
 
 **Data types:**
 - **TEI-XML Texte:** Mittelhochdeutsche Literatur mit mehreren Annotationsniveaus
-- **7 Authority Files:** persons, works, lexicon, concepts, genres, names, variants
+- **7 searchable Authority Files:** persons, works, lexicon, concepts, genres, names, variants (plus `contributors.xml` as project-internal team register since 2026-04, not part of the Playground UI)
 - **Semantische Verknüpfungen:** Cross-References zwischen allen Dateien
 
 ### Ziel des Playground

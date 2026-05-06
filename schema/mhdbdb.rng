@@ -1,0 +1,1298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar xmlns="http://relaxng.org/ns/structure/1.0"
+         ns="http://www.tei-c.org/ns/1.0"
+         xmlns:xml="http://www.w3.org/XML/1998/namespace"
+         datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+  <start>
+    <element>
+      <name ns="http://www.tei-c.org/ns/1.0">TEI</name>
+      <attribute>
+        <name ns="http://www.w3.org/XML/1998/namespace">id</name>
+        <data type="NCName"/>
+      </attribute>
+      <ref name="teiHeader"/>
+      <element>
+        <name ns="http://www.tei-c.org/ns/1.0">text</name>
+        <element>
+          <name ns="http://www.tei-c.org/ns/1.0">body</name>
+          <ref name="body.content"/>
+        </element>
+      </element>
+    </element>
+  </start>
+  <define name="teiHeader">
+    <element>
+      <name ns="http://www.tei-c.org/ns/1.0">teiHeader</name>
+      <ref name="fileDesc"/>
+      <ref name="encodingDesc"/>
+      <ref name="profileDesc"/>
+      <ref name="revisionDesc"/>
+    </element>
+  </define>
+  <define name="fileDesc">
+    <element>
+      <name ns="http://www.tei-c.org/ns/1.0">fileDesc</name>
+      <ref name="titleStmt"/>
+      <ref name="publicationStmt"/>
+      <ref name="sourceDesc"/>
+    </element>
+  </define>
+  <define name="titleStmt">
+    <element>
+      <name ns="http://www.tei-c.org/ns/1.0">titleStmt</name>
+      <oneOrMore>
+        <element>
+          <name ns="http://www.tei-c.org/ns/1.0">title</name>
+          <optional>
+            <attribute>
+              <name ns="http://www.w3.org/XML/1998/namespace">lang</name>
+              <text/>
+            </attribute>
+          </optional>
+          <optional>
+            <attribute>
+              <name ns="">type</name>
+              <text/>
+            </attribute>
+          </optional>
+          <optional>
+            <attribute>
+              <name ns="">level</name>
+              <text/>
+            </attribute>
+          </optional>
+          <optional>
+            <attribute>
+              <name ns="">ana</name>
+              <text/>
+            </attribute>
+          </optional>
+          <text/>
+        </element>
+      </oneOrMore>
+      <zeroOrMore>
+        <element>
+          <name ns="http://www.tei-c.org/ns/1.0">author</name>
+          <optional>
+            <attribute>
+              <name ns="">ref</name>
+              <text/>
+            </attribute>
+          </optional>
+          <mixed>
+            <zeroOrMore>
+              <element>
+                <name ns="http://www.tei-c.org/ns/1.0">name</name>
+                <text/>
+              </element>
+            </zeroOrMore>
+          </mixed>
+        </element>
+      </zeroOrMore>
+      <oneOrMore>
+        <element>
+          <name ns="http://www.tei-c.org/ns/1.0">respStmt</name>
+          <element>
+            <name ns="http://www.tei-c.org/ns/1.0">resp</name>
+            <text/>
+          </element>
+          <oneOrMore>
+            <choice>
+              <element>
+                <name ns="http://www.tei-c.org/ns/1.0">name</name>
+                <optional>
+                  <attribute>
+                    <name ns="">ref</name>
+                    <data type="anyURI"/>
+                  </attribute>
+                </optional>
+                <optional>
+                  <attribute>
+                    <name ns="">role</name>
+                    <text/>
+                  </attribute>
+                </optional>
+                <optional>
+                  <attribute>
+                    <name ns="http://www.w3.org/XML/1998/namespace">lang</name>
+                    <text/>
+                  </attribute>
+                </optional>
+                <text/>
+              </element>
+              <element>
+                <name ns="http://www.tei-c.org/ns/1.0">orgName</name>
+                <optional>
+                  <attribute>
+                    <name ns="">ref</name>
+                    <data type="anyURI"/>
+                  </attribute>
+                </optional>
+                <text/>
+              </element>
+            </choice>
+          </oneOrMore>
+        </element>
+      </oneOrMore>
+    </element>
+  </define>
+  <define name="publicationStmt">
+    <element>
+      <name ns="http://www.tei-c.org/ns/1.0">publicationStmt</name>
+      <zeroOrMore>
+        <choice>
+          <element>
+            <name ns="http://www.tei-c.org/ns/1.0">publisher</name>
+            <mixed>
+              <zeroOrMore>
+                <choice>
+                  <element>
+                    <name ns="http://www.tei-c.org/ns/1.0">orgName</name>
+                    <text/>
+                  </element>
+                  <element>
+                    <name ns="http://www.tei-c.org/ns/1.0">address</name>
+                    <element>
+                      <name ns="http://www.tei-c.org/ns/1.0">street</name>
+                      <text/>
+                    </element>
+                    <element>
+                      <name ns="http://www.tei-c.org/ns/1.0">postCode</name>
+                      <text/>
+                    </element>
+                    <element>
+                      <name ns="http://www.tei-c.org/ns/1.0">settlement</name>
+                      <text/>
+                    </element>
+                    <element>
+                      <name ns="http://www.tei-c.org/ns/1.0">country</name>
+                      <text/>
+                    </element>
+                  </element>
+                  <element>
+                    <name ns="http://www.tei-c.org/ns/1.0">email</name>
+                    <text/>
+                  </element>
+                  <element>
+                    <name ns="http://www.tei-c.org/ns/1.0">ptr</name>
+                    <attribute>
+                      <name ns="">target</name>
+                      <data type="anyURI"/>
+                    </attribute>
+                  </element>
+                </choice>
+              </zeroOrMore>
+            </mixed>
+          </element>
+          <element>
+            <name ns="http://www.tei-c.org/ns/1.0">authority</name>
+            <oneOrMore>
+              <element>
+                <name ns="http://www.tei-c.org/ns/1.0">persName</name>
+                <optional>
+                  <attribute>
+                    <name ns="">role</name>
+                    <text/>
+                  </attribute>
+                </optional>
+                <optional>
+                  <attribute>
+                    <name ns="">ref</name>
+                    <data type="anyURI"/>
+                  </attribute>
+                </optional>
+                <mixed>
+                  <optional>
+                    <group>
+                      <optional>
+                        <element>
+                          <name ns="http://www.tei-c.org/ns/1.0">forename</name>
+                          <text/>
+                        </element>
+                      </optional>
+                      <optional>
+                        <element>
+                          <name ns="http://www.tei-c.org/ns/1.0">surname</name>
+                          <text/>
+                        </element>
+                      </optional>
+                    </group>
+                  </optional>
+                </mixed>
+              </element>
+            </oneOrMore>
+          </element>
+          <element>
+            <name ns="http://www.tei-c.org/ns/1.0">availability</name>
+            <optional>
+              <attribute>
+                <name ns="">status</name>
+                <text/>
+              </attribute>
+            </optional>
+            <element>
+              <name ns="http://www.tei-c.org/ns/1.0">licence</name>
+              <attribute>
+                <name ns="">target</name>
+                <data type="anyURI"/>
+              </attribute>
+              <text/>
+            </element>
+            <zeroOrMore>
+              <ref name="p.header"/>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element>
+                <name ns="http://www.tei-c.org/ns/1.0">ab</name>
+                <optional>
+                  <attribute>
+                    <name ns="">type</name>
+                    <text/>
+                  </attribute>
+                </optional>
+                <optional>
+                  <attribute>
+                    <name ns="">n</name>
+                    <text/>
+                  </attribute>
+                </optional>
+                <text/>
+              </element>
+            </zeroOrMore>
+          </element>
+          <ref name="date.element"/>
+          <element>
+            <name ns="http://www.tei-c.org/ns/1.0">ref</name>
+            <optional>
+              <attribute>
+                <name ns="">type</name>
+                <text/>
+              </attribute>
+            </optional>
+            <optional>
+              <attribute>
+                <name ns="">target</name>
+                <data type="anyURI"/>
+              </attribute>
+            </optional>
+            <text/>
+          </element>
+          <ref name="p.header"/>
+        </choice>
+      </zeroOrMore>
+    </element>
+  </define>
+  <define name="sourceDesc">
+    <element>
+      <name ns="http://www.tei-c.org/ns/1.0">sourceDesc</name>
+      <element>
+        <name ns="http://www.tei-c.org/ns/1.0">msDesc</name>
+        <element>
+          <name ns="http://www.tei-c.org/ns/1.0">msIdentifier</name>
+          <attribute>
+            <name ns="">corresp</name>
+            <data type="anyURI"/>
+          </attribute>
+          <zeroOrMore>
+            <choice>
+              <element>
+                <name ns="http://www.tei-c.org/ns/1.0">idno</name>
+                <attribute>
+                  <name ns="">type</name>
+                  <text/>
+                </attribute>
+                <text/>
+              </element>
+              <element>
+                <name ns="http://www.tei-c.org/ns/1.0">msName</name>
+                <optional>
+                  <attribute>
+                    <name ns="http://www.w3.org/XML/1998/namespace">lang</name>
+                    <text/>
+                  </attribute>
+                </optional>
+                <text/>
+              </element>
+            </choice>
+          </zeroOrMore>
+        </element>
+        <optional>
+          <element>
+            <name ns="http://www.tei-c.org/ns/1.0">additional</name>
+            <element>
+              <name ns="http://www.tei-c.org/ns/1.0">listBibl</name>
+              <zeroOrMore>
+                <choice>
+                  <ref name="biblStruct"/>
+                  <ref name="bibl"/>
+                </choice>
+              </zeroOrMore>
+            </element>
+          </element>
+        </optional>
+      </element>
+    </element>
+  </define>
+  <define name="biblStruct">
+    <element>
+      <name ns="http://www.tei-c.org/ns/1.0">biblStruct</name>
+      <optional>
+        <attribute>
+          <name ns="">type</name>
+          <text/>
+        </attribute>
+      </optional>
+      <optional>
+        <attribute>
+          <name ns="http://www.w3.org/XML/1998/namespace">id</name>
+          <data type="NCName"/>
+        </attribute>
+      </optional>
+      <optional>
+        <attribute>
+          <name ns="">corresp</name>
+          <text/>
+        </attribute>
+      </optional>
+      <optional>
+        <attribute>
+          <name ns="">key</name>
+          <text/>
+        </attribute>
+      </optional>
+      <group>
+        <optional>
+          <element>
+            <name ns="http://www.tei-c.org/ns/1.0">analytic</name>
+            <zeroOrMore>
+              <choice>
+                <element>
+                  <name ns="http://www.tei-c.org/ns/1.0">author</name>
+                  <mixed>
+                    <zeroOrMore>
+                      <element>
+                        <name ns="http://www.tei-c.org/ns/1.0">name</name>
+                        <text/>
+                      </element>
+                    </zeroOrMore>
+                  </mixed>
+                </element>
+                <element>
+                  <name ns="http://www.tei-c.org/ns/1.0">title</name>
+                  <optional>
+                    <attribute>
+                      <name ns="">level</name>
+                      <text/>
+                    </attribute>
+                  </optional>
+                  <optional>
+                    <attribute>
+                      <name ns="">type</name>
+                      <text/>
+                    </attribute>
+                  </optional>
+                  <text/>
+                </element>
+                <element>
+                  <name ns="http://www.tei-c.org/ns/1.0">ref</name>
+                  <optional>
+                    <attribute>
+                      <name ns="">target</name>
+                      <data type="anyURI"/>
+                    </attribute>
+                  </optional>
+                  <optional>
+                    <attribute>
+                      <name ns="">type</name>
+                      <text/>
+                    </attribute>
+                  </optional>
+                  <text/>
+                </element>
+                <element>
+                  <name ns="http://www.tei-c.org/ns/1.0">idno</name>
+                  <attribute>
+                    <name ns="">type</name>
+                    <text/>
+                  </attribute>
+                  <text/>
+                </element>
+              </choice>
+            </zeroOrMore>
+          </element>
+        </optional>
+        <optional>
+          <element>
+            <name ns="http://www.tei-c.org/ns/1.0">monogr</name>
+            <group>
+              <zeroOrMore>
+                <element>
+                  <name ns="http://www.tei-c.org/ns/1.0">author</name>
+                  <mixed>
+                    <zeroOrMore>
+                      <element>
+                        <name ns="http://www.tei-c.org/ns/1.0">name</name>
+                        <text/>
+                      </element>
+                    </zeroOrMore>
+                  </mixed>
+                </element>
+              </zeroOrMore>
+              <oneOrMore>
+                <element>
+                  <name ns="http://www.tei-c.org/ns/1.0">title</name>
+                  <optional>
+                    <attribute>
+                      <name ns="">level</name>
+                      <text/>
+                    </attribute>
+                  </optional>
+                  <optional>
+                    <attribute>
+                      <name ns="">type</name>
+                      <text/>
+                    </attribute>
+                  </optional>
+                  <text/>
+                </element>
+              </oneOrMore>
+              <zeroOrMore>
+                <choice>
+                  <element>
+                    <name ns="http://www.tei-c.org/ns/1.0">editor</name>
+                    <group>
+                      <optional>
+                        <element>
+                          <name ns="http://www.tei-c.org/ns/1.0">forename</name>
+                          <text/>
+                        </element>
+                      </optional>
+                      <optional>
+                        <element>
+                          <name ns="http://www.tei-c.org/ns/1.0">surname</name>
+                          <text/>
+                        </element>
+                      </optional>
+                    </group>
+                  </element>
+                  <element>
+                    <name ns="http://www.tei-c.org/ns/1.0">idno</name>
+                    <attribute>
+                      <name ns="">type</name>
+                      <text/>
+                    </attribute>
+                    <text/>
+                  </element>
+                  <element>
+                    <name ns="http://www.tei-c.org/ns/1.0">edition</name>
+                    <text/>
+                  </element>
+                </choice>
+              </zeroOrMore>
+              <optional>
+                <element>
+                  <name ns="http://www.tei-c.org/ns/1.0">imprint</name>
+                  <zeroOrMore>
+                    <choice>
+                      <element>
+                        <name ns="http://www.tei-c.org/ns/1.0">pubPlace</name>
+                        <text/>
+                      </element>
+                      <element>
+                        <name ns="http://www.tei-c.org/ns/1.0">publisher</name>
+                        <text/>
+                      </element>
+                      <ref name="date.element"/>
+                      <element>
+                        <name ns="http://www.tei-c.org/ns/1.0">biblScope</name>
+                        <optional>
+                          <attribute>
+                            <name ns="">unit</name>
+                            <text/>
+                          </attribute>
+                        </optional>
+                        <text/>
+                      </element>
+                    </choice>
+                  </zeroOrMore>
+                </element>
+              </optional>
+            </group>
+          </element>
+        </optional>
+        <optional>
+          <element>
+            <name ns="http://www.tei-c.org/ns/1.0">series</name>
+            <element>
+              <name ns="http://www.tei-c.org/ns/1.0">title</name>
+              <optional>
+                <attribute>
+                  <name ns="">level</name>
+                  <text/>
+                </attribute>
+              </optional>
+              <text/>
+            </element>
+            <zeroOrMore>
+              <element>
+                <name ns="http://www.tei-c.org/ns/1.0">biblScope</name>
+                <optional>
+                  <attribute>
+                    <name ns="">unit</name>
+                    <text/>
+                  </attribute>
+                </optional>
+                <text/>
+              </element>
+            </zeroOrMore>
+          </element>
+        </optional>
+        <zeroOrMore>
+          <element>
+            <name ns="http://www.tei-c.org/ns/1.0">note</name>
+            <text/>
+          </element>
+        </zeroOrMore>
+      </group>
+    </element>
+  </define>
+  <define name="bibl">
+    <element>
+      <name ns="http://www.tei-c.org/ns/1.0">bibl</name>
+      <optional>
+        <attribute>
+          <name ns="">type</name>
+          <text/>
+        </attribute>
+      </optional>
+      <optional>
+        <attribute>
+          <name ns="http://www.w3.org/XML/1998/namespace">id</name>
+          <data type="NCName"/>
+        </attribute>
+      </optional>
+      <optional>
+        <attribute>
+          <name ns="">corresp</name>
+          <text/>
+        </attribute>
+      </optional>
+      <mixed>
+        <zeroOrMore>
+          <choice>
+            <element>
+              <name ns="http://www.tei-c.org/ns/1.0">title</name>
+              <optional>
+                <attribute>
+                  <name ns="">level</name>
+                  <text/>
+                </attribute>
+              </optional>
+              <text/>
+            </element>
+            <element>
+              <name ns="http://www.tei-c.org/ns/1.0">respStmt</name>
+              <element>
+                <name ns="http://www.tei-c.org/ns/1.0">resp</name>
+                <text/>
+              </element>
+              <oneOrMore>
+                <choice>
+                  <element>
+                    <name ns="http://www.tei-c.org/ns/1.0">name</name>
+                    <text/>
+                  </element>
+                  <element>
+                    <name ns="http://www.tei-c.org/ns/1.0">orgName</name>
+                    <text/>
+                  </element>
+                </choice>
+              </oneOrMore>
+            </element>
+            <ref name="date.element"/>
+            <element>
+              <name ns="http://www.tei-c.org/ns/1.0">ref</name>
+              <optional>
+                <attribute>
+                  <name ns="">target</name>
+                  <data type="anyURI"/>
+                </attribute>
+              </optional>
+              <optional>
+                <attribute>
+                  <name ns="">type</name>
+                  <text/>
+                </attribute>
+              </optional>
+              <text/>
+            </element>
+            <element>
+              <name ns="http://www.tei-c.org/ns/1.0">idno</name>
+              <attribute>
+                <name ns="">type</name>
+                <text/>
+              </attribute>
+              <text/>
+            </element>
+            <element>
+              <name ns="http://www.tei-c.org/ns/1.0">note</name>
+              <optional>
+                <attribute>
+                  <name ns="">type</name>
+                  <text/>
+                </attribute>
+              </optional>
+              <text/>
+            </element>
+          </choice>
+        </zeroOrMore>
+      </mixed>
+    </element>
+  </define>
+  <define name="encodingDesc">
+    <element>
+      <name ns="http://www.tei-c.org/ns/1.0">encodingDesc</name>
+      <element>
+        <name ns="http://www.tei-c.org/ns/1.0">projectDesc</name>
+        <oneOrMore>
+          <ref name="p.header"/>
+        </oneOrMore>
+      </element>
+      <element>
+        <name ns="http://www.tei-c.org/ns/1.0">editorialDecl</name>
+        <zeroOrMore>
+          <ref name="p.header"/>
+        </zeroOrMore>
+        <optional>
+          <element>
+            <name ns="http://www.tei-c.org/ns/1.0">interpretation</name>
+            <oneOrMore>
+              <ref name="p.header"/>
+            </oneOrMore>
+          </element>
+        </optional>
+        <optional>
+          <element>
+            <name ns="http://www.tei-c.org/ns/1.0">normalization</name>
+            <oneOrMore>
+              <ref name="p.header"/>
+            </oneOrMore>
+          </element>
+        </optional>
+      </element>
+      <element>
+        <name ns="http://www.tei-c.org/ns/1.0">classDecl</name>
+        <element>
+          <name ns="http://www.tei-c.org/ns/1.0">taxonomy</name>
+          <attribute>
+            <name ns="http://www.w3.org/XML/1998/namespace">id</name>
+            <data type="NCName"/>
+          </attribute>
+          <optional>
+            <element>
+              <name ns="http://www.tei-c.org/ns/1.0">bibl</name>
+              <mixed>
+                <zeroOrMore>
+                  <element>
+                    <name ns="http://www.tei-c.org/ns/1.0">ptr</name>
+                    <attribute>
+                      <name ns="">target</name>
+                      <data type="anyURI"/>
+                    </attribute>
+                  </element>
+                </zeroOrMore>
+              </mixed>
+            </element>
+          </optional>
+          <zeroOrMore>
+            <element>
+              <name ns="http://www.tei-c.org/ns/1.0">category</name>
+              <attribute>
+                <name ns="http://www.w3.org/XML/1998/namespace">id</name>
+                <data type="NCName"/>
+              </attribute>
+              <optional>
+                <attribute>
+                  <name ns="">corresp</name>
+                  <text/>
+                </attribute>
+              </optional>
+              <optional>
+                <attribute>
+                  <name ns="">ana</name>
+                  <text/>
+                </attribute>
+              </optional>
+              <zeroOrMore>
+                <element>
+                  <name ns="http://www.tei-c.org/ns/1.0">gloss</name>
+                  <optional>
+                    <attribute>
+                      <name ns="http://www.w3.org/XML/1998/namespace">lang</name>
+                      <text/>
+                    </attribute>
+                  </optional>
+                  <text/>
+                </element>
+              </zeroOrMore>
+            </element>
+          </zeroOrMore>
+        </element>
+      </element>
+    </element>
+  </define>
+  <define name="profileDesc">
+    <element>
+      <name ns="http://www.tei-c.org/ns/1.0">profileDesc</name>
+      <element>
+        <name ns="http://www.tei-c.org/ns/1.0">langUsage</name>
+        <oneOrMore>
+          <element>
+            <name ns="http://www.tei-c.org/ns/1.0">language</name>
+            <attribute>
+              <name ns="">ident</name>
+              <text/>
+            </attribute>
+            <text/>
+          </element>
+        </oneOrMore>
+      </element>
+      <element>
+        <name ns="http://www.tei-c.org/ns/1.0">particDesc</name>
+        <element>
+          <name ns="http://www.tei-c.org/ns/1.0">listPerson</name>
+          <zeroOrMore>
+            <element>
+              <name ns="http://www.tei-c.org/ns/1.0">person</name>
+              <attribute>
+                <name ns="http://www.w3.org/XML/1998/namespace">id</name>
+                <data type="NCName"/>
+              </attribute>
+              <optional>
+                <attribute>
+                  <name ns="">corresp</name>
+                  <text/>
+                </attribute>
+              </optional>
+              <zeroOrMore>
+                <element>
+                  <name ns="http://www.tei-c.org/ns/1.0">persName</name>
+                  <optional>
+                    <attribute>
+                      <name ns="">type</name>
+                      <choice>
+                        <value>preferred</value>
+                        <value>alternative</value>
+                      </choice>
+                    </attribute>
+                  </optional>
+                  <optional>
+                    <attribute>
+                      <name ns="">role</name>
+                      <text/>
+                    </attribute>
+                  </optional>
+                  <optional>
+                    <attribute>
+                      <name ns="http://www.w3.org/XML/1998/namespace">lang</name>
+                      <text/>
+                    </attribute>
+                  </optional>
+                  <mixed>
+                    <optional>
+                      <group>
+                        <optional>
+                          <element>
+                            <name ns="http://www.tei-c.org/ns/1.0">forename</name>
+                            <text/>
+                          </element>
+                        </optional>
+                        <optional>
+                          <element>
+                            <name ns="http://www.tei-c.org/ns/1.0">surname</name>
+                            <text/>
+                          </element>
+                        </optional>
+                      </group>
+                    </optional>
+                  </mixed>
+                </element>
+              </zeroOrMore>
+              <zeroOrMore>
+                <element>
+                  <name ns="http://www.tei-c.org/ns/1.0">idno</name>
+                  <attribute>
+                    <name ns="">type</name>
+                    <text/>
+                  </attribute>
+                  <text/>
+                </element>
+              </zeroOrMore>
+              <zeroOrMore>
+                <element>
+                  <name ns="http://www.tei-c.org/ns/1.0">note</name>
+                  <optional>
+                    <attribute>
+                      <name ns="">type</name>
+                      <text/>
+                    </attribute>
+                  </optional>
+                  <text/>
+                </element>
+              </zeroOrMore>
+            </element>
+          </zeroOrMore>
+        </element>
+      </element>
+    </element>
+  </define>
+  <define name="revisionDesc">
+    <element>
+      <name ns="http://www.tei-c.org/ns/1.0">revisionDesc</name>
+      <oneOrMore>
+        <element>
+          <name ns="http://www.tei-c.org/ns/1.0">change</name>
+          <attribute>
+            <name ns="">when</name>
+            <text/>
+          </attribute>
+          <attribute>
+            <name ns="">who</name>
+            <text/>
+          </attribute>
+          <text/>
+        </element>
+      </oneOrMore>
+    </element>
+  </define>
+  <define name="p.header">
+    <element>
+      <name ns="http://www.tei-c.org/ns/1.0">p</name>
+      <optional>
+        <attribute>
+          <name ns="http://www.w3.org/XML/1998/namespace">lang</name>
+          <text/>
+        </attribute>
+      </optional>
+      <text/>
+    </element>
+  </define>
+  <define name="date.element">
+    <element>
+      <name ns="http://www.tei-c.org/ns/1.0">date</name>
+      <optional>
+        <attribute>
+          <name ns="">when</name>
+          <text/>
+        </attribute>
+      </optional>
+      <optional>
+        <attribute>
+          <name ns="">from</name>
+          <text/>
+        </attribute>
+      </optional>
+      <optional>
+        <attribute>
+          <name ns="">notBefore</name>
+          <text/>
+        </attribute>
+      </optional>
+      <optional>
+        <attribute>
+          <name ns="">notAfter</name>
+          <text/>
+        </attribute>
+      </optional>
+      <text/>
+    </element>
+  </define>
+  <define name="inline.model">
+    <choice>
+      <ref name="w"/>
+      <ref name="pc"/>
+      <ref name="hi"/>
+      <ref name="lb"/>
+      <ref name="pb"/>
+      <ref name="cb"/>
+      <ref name="caesura"/>
+      <ref name="supplied"/>
+      <ref name="num"/>
+      <ref name="note"/>
+      <ref name="lg"/>
+      <ref name="l"/>
+      <ref name="head"/>
+    </choice>
+  </define>
+  <define name="hi.content.model">
+    <choice>
+      <ref name="w"/>
+      <ref name="pc"/>
+      <ref name="lb"/>
+      <ref name="pb"/>
+      <ref name="cb"/>
+      <ref name="caesura"/>
+      <ref name="supplied"/>
+      <ref name="num"/>
+      <ref name="note"/>
+      <ref name="lg"/>
+      <ref name="l"/>
+      <ref name="head"/>
+    </choice>
+  </define>
+  <define name="body.content">
+    <mixed>
+      <zeroOrMore>
+        <choice>
+          <ref name="tei.div"/>
+          <ref name="p"/>
+          <ref name="lg"/>
+          <ref name="l"/>
+          <ref name="head"/>
+          <ref name="ab"/>
+          <ref name="w"/>
+          <ref name="pc"/>
+          <ref name="hi"/>
+          <ref name="lb"/>
+          <ref name="pb"/>
+          <ref name="cb"/>
+          <ref name="caesura"/>
+          <ref name="supplied"/>
+          <ref name="num"/>
+          <ref name="note"/>
+        </choice>
+      </zeroOrMore>
+    </mixed>
+  </define>
+  <define name="tei.div">
+    <element>
+      <name ns="http://www.tei-c.org/ns/1.0">div</name>
+      <optional>
+        <attribute>
+          <name ns="">type</name>
+          <choice>
+            <value>chapter</value>
+            <value>section</value>
+            <value>number</value>
+            <value>song</value>
+            <value>parallel</value>
+            <value>colophon</value>
+            <value>recipe</value>
+          </choice>
+        </attribute>
+      </optional>
+      <optional>
+        <attribute>
+          <name ns="">n</name>
+          <text/>
+        </attribute>
+      </optional>
+      <mixed>
+        <zeroOrMore>
+          <choice>
+            <ref name="tei.div"/>
+            <ref name="p"/>
+            <ref name="lg"/>
+            <ref name="l"/>
+            <ref name="head"/>
+            <ref name="ab"/>
+            <ref name="w"/>
+            <ref name="pc"/>
+            <ref name="hi"/>
+            <ref name="lb"/>
+            <ref name="pb"/>
+            <ref name="cb"/>
+            <ref name="caesura"/>
+            <ref name="supplied"/>
+            <ref name="num"/>
+            <ref name="note"/>
+          </choice>
+        </zeroOrMore>
+      </mixed>
+    </element>
+  </define>
+  <define name="p">
+    <element>
+      <name ns="http://www.tei-c.org/ns/1.0">p</name>
+      <optional>
+        <attribute>
+          <name ns="">n</name>
+          <text/>
+        </attribute>
+      </optional>
+      <optional>
+        <attribute>
+          <name ns="http://www.w3.org/XML/1998/namespace">lang</name>
+          <text/>
+        </attribute>
+      </optional>
+      <mixed>
+        <zeroOrMore>
+          <choice>
+            <ref name="tei.div"/>
+            <ref name="inline.model"/>
+          </choice>
+        </zeroOrMore>
+      </mixed>
+    </element>
+  </define>
+  <define name="head">
+    <element>
+      <name ns="http://www.tei-c.org/ns/1.0">head</name>
+      <mixed>
+        <zeroOrMore>
+          <ref name="inline.model"/>
+        </zeroOrMore>
+      </mixed>
+    </element>
+  </define>
+  <define name="lg">
+    <element>
+      <name ns="http://www.tei-c.org/ns/1.0">lg</name>
+      <attribute>
+        <name ns="">type</name>
+        <value>stanza</value>
+      </attribute>
+      <optional>
+        <attribute>
+          <name ns="">n</name>
+          <text/>
+        </attribute>
+      </optional>
+      <mixed>
+        <zeroOrMore>
+          <choice>
+            <ref name="l"/>
+            <ref name="p"/>
+            <ref name="inline.model"/>
+          </choice>
+        </zeroOrMore>
+      </mixed>
+    </element>
+  </define>
+  <define name="l">
+    <element>
+      <name ns="http://www.tei-c.org/ns/1.0">l</name>
+      <optional>
+        <attribute>
+          <name ns="">n</name>
+          <text/>
+        </attribute>
+      </optional>
+      <mixed>
+        <zeroOrMore>
+          <ref name="inline.model"/>
+        </zeroOrMore>
+      </mixed>
+    </element>
+  </define>
+  <define name="ab">
+    <element>
+      <name ns="http://www.tei-c.org/ns/1.0">ab</name>
+      <optional>
+        <attribute>
+          <name ns="">type</name>
+          <text/>
+        </attribute>
+      </optional>
+      <optional>
+        <attribute>
+          <name ns="">n</name>
+          <text/>
+        </attribute>
+      </optional>
+      <mixed>
+        <zeroOrMore>
+          <ref name="inline.model"/>
+        </zeroOrMore>
+      </mixed>
+    </element>
+  </define>
+  <define name="w">
+    <element>
+      <name ns="http://www.tei-c.org/ns/1.0">w</name>
+      <attribute>
+        <name ns="http://www.w3.org/XML/1998/namespace">id</name>
+        <data type="NCName"/>
+      </attribute>
+      <optional>
+        <attribute>
+          <name ns="">lemmaRef</name>
+          <text/>
+        </attribute>
+      </optional>
+      <optional>
+        <attribute>
+          <name ns="">pos</name>
+          <text/>
+        </attribute>
+      </optional>
+      <optional>
+        <attribute>
+          <name ns="">ana</name>
+          <text/>
+        </attribute>
+      </optional>
+      <optional>
+        <attribute>
+          <name ns="">corresp</name>
+          <text/>
+        </attribute>
+      </optional>
+      <optional>
+        <attribute>
+          <name ns="">reason</name>
+          <text/>
+        </attribute>
+      </optional>
+      <optional>
+        <attribute>
+          <name ns="http://www.w3.org/XML/1998/namespace">lang</name>
+          <text/>
+        </attribute>
+      </optional>
+      <text/>
+    </element>
+  </define>
+  <define name="pc">
+    <element>
+      <name ns="http://www.tei-c.org/ns/1.0">pc</name>
+      <optional>
+        <attribute>
+          <name ns="http://www.w3.org/XML/1998/namespace">id</name>
+          <data type="NCName"/>
+        </attribute>
+      </optional>
+      <attribute>
+        <name ns="">join</name>
+        <choice>
+          <value>left</value>
+          <value>right</value>
+        </choice>
+      </attribute>
+      <text/>
+    </element>
+  </define>
+  <define name="hi">
+    <element>
+      <name ns="http://www.tei-c.org/ns/1.0">hi</name>
+      <attribute>
+        <name ns="">rend</name>
+        <text/>
+      </attribute>
+      <mixed>
+        <zeroOrMore>
+          <ref name="hi.content.model"/>
+        </zeroOrMore>
+      </mixed>
+    </element>
+  </define>
+  <define name="supplied">
+    <element>
+      <name ns="http://www.tei-c.org/ns/1.0">supplied</name>
+      <optional>
+        <attribute>
+          <name ns="">n</name>
+          <text/>
+        </attribute>
+      </optional>
+      <mixed>
+        <zeroOrMore>
+          <ref name="inline.model"/>
+        </zeroOrMore>
+      </mixed>
+    </element>
+  </define>
+  <define name="num">
+    <element>
+      <name ns="http://www.tei-c.org/ns/1.0">num</name>
+      <mixed>
+        <zeroOrMore>
+          <ref name="inline.model"/>
+        </zeroOrMore>
+      </mixed>
+    </element>
+  </define>
+  <define name="note">
+    <element>
+      <name ns="http://www.tei-c.org/ns/1.0">note</name>
+      <optional>
+        <attribute>
+          <name ns="">type</name>
+          <text/>
+        </attribute>
+      </optional>
+      <optional>
+        <attribute>
+          <name ns="">n</name>
+          <text/>
+        </attribute>
+      </optional>
+      <mixed>
+        <zeroOrMore>
+          <ref name="inline.model"/>
+        </zeroOrMore>
+      </mixed>
+    </element>
+  </define>
+  <define name="lb">
+    <element>
+      <name ns="http://www.tei-c.org/ns/1.0">lb</name>
+      <optional>
+        <attribute>
+          <name ns="">n</name>
+          <text/>
+        </attribute>
+      </optional>
+      <empty/>
+    </element>
+  </define>
+  <define name="pb">
+    <element>
+      <name ns="http://www.tei-c.org/ns/1.0">pb</name>
+      <optional>
+        <attribute>
+          <name ns="">n</name>
+          <text/>
+        </attribute>
+      </optional>
+      <optional>
+        <attribute>
+          <name ns="">type</name>
+          <text/>
+        </attribute>
+      </optional>
+      <empty/>
+    </element>
+  </define>
+  <define name="cb">
+    <element>
+      <name ns="http://www.tei-c.org/ns/1.0">cb</name>
+      <optional>
+        <attribute>
+          <name ns="">n</name>
+          <text/>
+        </attribute>
+      </optional>
+      <optional>
+        <attribute>
+          <name ns="">type</name>
+          <text/>
+        </attribute>
+      </optional>
+      <empty/>
+    </element>
+  </define>
+  <define name="caesura">
+    <element>
+      <name ns="http://www.tei-c.org/ns/1.0">caesura</name>
+      <optional>
+        <attribute>
+          <name ns="http://www.w3.org/XML/1998/namespace">id</name>
+          <data type="NCName"/>
+        </attribute>
+      </optional>
+      <empty/>
+    </element>
+  </define>
+</grammar>

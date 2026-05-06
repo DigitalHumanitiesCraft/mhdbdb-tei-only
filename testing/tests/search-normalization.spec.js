@@ -481,7 +481,7 @@ test.describe('Search Normalization - Visual Summary', () => {
         console.log('   6. ✓ Namen anzeigen - Names multi-field search');
 
         console.log('\nB. TEI Text Analysis (5 searches):');
-        console.log('   7. ✓ Variants.xml Integration - 192,674 orthographic forms');
+        console.log('   7. ✓ Variants.xml Integration - 175,910 orthographic forms');
         console.log('   8. ✓ 3-Stage Resolution - Lexicon → Variants → Partial');
         console.log('   9. ✓ Multi-Lemma Search - Variant spelling resolution');
         console.log('   10. ✓ TextNormalizer - All MHG character rules');

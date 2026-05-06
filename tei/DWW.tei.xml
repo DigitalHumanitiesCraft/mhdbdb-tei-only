@@ -1,4 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
+<?xml-model href="../schema/mhdbdb.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="https://tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="DWW">
   <teiHeader>
     <fileDesc>
@@ -12,7 +14,7 @@
         <author ref="#person_4">Der Stricker</author>
         <respStmt>
           <resp>digitale Zusammenführung, Annotation und semantische Klassifikation</resp>
-          <name ref="https://mhdbdb.plus.ac.at" xml:lang="de">Mittelhochdeutsche Begriffsdatenbank (MHDBDB)</name>
+          <orgName ref="contributors.xml#mhdbdb-team">MHDBDB-Team (vollständige Liste in contributors.xml)</orgName>
         </respStmt>
       </titleStmt>
       <publicationStmt>
@@ -29,9 +31,17 @@
           <ptr target="https://mhdbdb.plus.ac.at"/>
         </publisher>
         <authority>
-          <persName role="coordinator">
+          <persName role="coordinator" ref="contributors.xml#contrib_003">
             <forename>Katharina</forename>
             <surname>Zeppezauer-Wachauer</surname>
+          </persName>
+          <persName role="founder" ref="contributors.xml#contrib_001">
+            <forename>Klaus M.</forename>
+            <surname>Schmidt</surname>
+          </persName>
+          <persName role="founder" ref="contributors.xml#contrib_002">
+            <forename>Horst</forename>
+            <surname>Pütz</surname>
           </persName>
         </authority>
         <availability>
@@ -95,7 +105,7 @@
       <editorialDecl>
         <p xml:lang="de">Lokale Dateireferenzen (z.B. persons.xml#person_445, lexicon.xml#lemma_879, genres.xml#genre_XXX) verweisen auf kontrollierte Vokabulare im authority-files Verzeichnis dieses Repositorys. Diese internen Querverweise ermöglichen die Verknüpfung mit Personen-, Werk-, Lemma-, Konzept-, Genre- und Namensautoritätsdateien.</p>
         <p xml:lang="en">Local file references (e.g. persons.xml#person_445, lexicon.xml#lemma_879, genres.xml#genre_XXX) point to controlled vocabularies in the authority-files directory of this repository. These internal cross-references enable linking to person, work, lemma, concept, genre, and name authority files.</p>
-      </editorialDecl>
+      <normalization><p>Noch nicht disambiguiert.</p><p>Keine Parallelüberlieferung.</p><p>Links zur Hs. Cologny, Fondation Martin Bodmer, Cod. Bodmer 72.</p><p>Die Groß-/Kleinschreibung entspricht aus technischen Gründen nur teilweise der Edition.</p></normalization></editorialDecl>
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
@@ -124,7 +134,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_4" corresp="persons.xml#person_4">
             <persName type="preferred">Der Stricker</persName>
@@ -143,569 +153,569 @@
     <body>
       <l n="1">
         <hi rend="initial">
-          <w xml:id="DWW_47100010_0" lemmaRef="lexicon.xml#lemma_1336" meaningRef="lexicon.xml#lemma_1336_sense_2076" pos="ADV" wordRef="lexicon.xml#lemma_1336_sense_2076_type_4351">eines</w>
+          <w xml:id="DWW_47100010_0" lemmaRef="lexicon.xml#lemma_1336" pos="ADV" ana="lexicon.xml#lemma_1336_sense_2076" corresp="variants.xml#type_4351">eines</w>
         </hi>
-        <w xml:id="DWW_47100010_1" lemmaRef="lexicon.xml#lemma_4303" meaningRef="lexicon.xml#lemma_4303_sense_6730" pos="ADV" wordRef="lexicon.xml#lemma_4303_sense_6730_type_14984">nahtes</w>
-        <w xml:id="DWW_47100010_2" lemmaRef="lexicon.xml#lemma_1180" meaningRef="lexicon.xml#lemma_1180_sense_1864" pos="ADV" wordRef="lexicon.xml#lemma_1180_sense_1864_type_3738">do</w>
-        <w xml:id="DWW_47100010_3" lemmaRef="lexicon.xml#lemma_1097" meaningRef="lexicon.xml#lemma_1097_sense_1741" pos="ART CNJ" wordRef="lexicon.xml#lemma_1097_sense_1741_type_3398">daz</w>
-        <w xml:id="DWW_47100010_4" lemmaRef="lexicon.xml#lemma_3806" meaningRef="lexicon.xml#lemma_3806_sense_6008" pos="NOM" wordRef="lexicon.xml#lemma_3806_sense_6008_type_13264">liut</w>
-        <w xml:id="DWW_47100010_5" lemmaRef="lexicon.xml#lemma_5517" meaningRef="lexicon.xml#lemma_5517_sense_8594" pos="VRB" wordRef="lexicon.xml#lemma_5517_sense_8594_type_19300">slief</w>
-        <seg xml:id="DWW_47100010_6" type="pc">,</seg>
+        <w xml:id="DWW_47100010_1" lemmaRef="lexicon.xml#lemma_4303" pos="ADV" ana="lexicon.xml#lemma_4303_sense_6730" corresp="variants.xml#type_14984">nahtes</w>
+        <w xml:id="DWW_47100010_2" lemmaRef="lexicon.xml#lemma_1180" pos="ADV" ana="lexicon.xml#lemma_1180_sense_1864" corresp="variants.xml#type_3738">do</w>
+        <w xml:id="DWW_47100010_3" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
+        <w xml:id="DWW_47100010_4" lemmaRef="lexicon.xml#lemma_3806" pos="NOM" ana="lexicon.xml#lemma_3806_sense_6008" corresp="variants.xml#type_13264">liut</w>
+        <w xml:id="DWW_47100010_5" lemmaRef="lexicon.xml#lemma_5517" pos="VRB" ana="lexicon.xml#lemma_5517_sense_8594" corresp="variants.xml#type_19300">slief</w>
+        <pc xml:id="DWW_47100010_6" join="left">,</pc>
       </l>
       <l n="2">
-        <w xml:id="DWW_47100020_0" lemmaRef="lexicon.xml#lemma_1331" meaningRef="lexicon.xml#lemma_1331_sense_2068" pos="ART NUM" wordRef="lexicon.xml#lemma_1331_sense_2068_type_4319">ein</w>
-        <w xml:id="DWW_47100020_1" lemmaRef="lexicon.xml#lemma_7679" meaningRef="lexicon.xml#lemma_7679_sense_12588" pos="NOM" wordRef="lexicon.xml#lemma_7679_sense_12588_type_27813">wolf</w>
-        <w xml:id="DWW_47100020_2" lemmaRef="lexicon.xml#lemma_3028" meaningRef="lexicon.xml#lemma_3028_sense_4834" pos="PRP" wordRef="lexicon.xml#lemma_3028_sense_4834_type_10369">in</w>
-        <w xml:id="DWW_47100020_3" lemmaRef="lexicon.xml#lemma_1331" meaningRef="lexicon.xml#lemma_1331_sense_2068" pos="ART NUM" wordRef="lexicon.xml#lemma_1331_sense_2068_type_4319">ein</w>
-        <w xml:id="DWW_47100020_4" lemmaRef="lexicon.xml#lemma_1201" meaningRef="lexicon.xml#lemma_1201_sense_1895" pos="NOM" wordRef="lexicon.xml#lemma_1201_sense_1895_type_3800">dorf</w>
-        <w xml:id="DWW_47100020_5" lemmaRef="lexicon.xml#lemma_3860" meaningRef="lexicon.xml#lemma_3860_sense_6096" pos="VRB" wordRef="lexicon.xml#lemma_3860_sense_6096_type_13482">lief</w>
+        <w xml:id="DWW_47100020_0" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4319">ein</w>
+        <w xml:id="DWW_47100020_1" lemmaRef="lexicon.xml#lemma_7679" pos="NOM" ana="lexicon.xml#lemma_7679_sense_12588" corresp="variants.xml#type_27813">wolf</w>
+        <w xml:id="DWW_47100020_2" lemmaRef="lexicon.xml#lemma_3028" pos="PRP" ana="lexicon.xml#lemma_3028_sense_4834" corresp="variants.xml#type_10369">in</w>
+        <w xml:id="DWW_47100020_3" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4319">ein</w>
+        <w xml:id="DWW_47100020_4" lemmaRef="lexicon.xml#lemma_1201" pos="NOM" ana="lexicon.xml#lemma_1201_sense_1895" corresp="variants.xml#type_3800">dorf</w>
+        <w xml:id="DWW_47100020_5" lemmaRef="lexicon.xml#lemma_3860" pos="VRB" ana="lexicon.xml#lemma_3860_sense_6096" corresp="variants.xml#type_13482">lief</w>
       </l>
       <l n="3">
-        <w xml:id="DWW_47100030_0" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="lexicon.xml#lemma_6467_sense_10233_type_22825">und</w>
-        <w xml:id="DWW_47100030_1" lemmaRef="lexicon.xml#lemma_5903" meaningRef="lexicon.xml#lemma_5903_sense_9348" pos="VRB" wordRef="lexicon.xml#lemma_5903_sense_9348_type_41032">suchte</w>
-        <w xml:id="DWW_47100030_2" lemmaRef="lexicon.xml#lemma_1517" meaningRef="lexicon.xml#lemma_1517_sense_2355" pos="POS" wordRef="lexicon.xml#lemma_1517_sense_2355_type_80358">sine</w>
-        <w xml:id="DWW_47100030_3" lemmaRef="lexicon.xml#lemma_5669" meaningRef="lexicon.xml#lemma_5669_sense_8870" pos="NOM" wordRef="lexicon.xml#lemma_5669_sense_8870_type_19868">spise</w>
+        <w xml:id="DWW_47100030_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
+        <w xml:id="DWW_47100030_1" lemmaRef="lexicon.xml#lemma_5903" pos="VRB" ana="lexicon.xml#lemma_5903_sense_9348" corresp="variants.xml#type_41032">suchte</w>
+        <w xml:id="DWW_47100030_2" lemmaRef="lexicon.xml#lemma_1517" pos="POS" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_80358">sine</w>
+        <w xml:id="DWW_47100030_3" lemmaRef="lexicon.xml#lemma_5669" pos="NOM" ana="lexicon.xml#lemma_5669_sense_8870" corresp="variants.xml#type_19868">spise</w>
       </l>
       <l n="4">
-        <w xml:id="DWW_47100040_0" lemmaRef="lexicon.xml#lemma_3028" meaningRef="lexicon.xml#lemma_3028_sense_63605" pos="PRP" wordRef="lexicon.xml#lemma_3028_sense_63605_type_10369">in</w>
-        <w xml:id="DWW_47100040_1" lemmaRef="lexicon.xml#lemma_1331" meaningRef="lexicon.xml#lemma_1331_sense_2068" pos="ART NUM" wordRef="lexicon.xml#lemma_1331_sense_2068_type_4324">eines</w>
-        <w xml:id="DWW_47100040_2" lemmaRef="lexicon.xml#lemma_1152" meaningRef="lexicon.xml#lemma_1152_sense_73804" pos="NOM" wordRef="lexicon.xml#lemma_1152_sense_73804_type_3640">diebes</w>
-        <w xml:id="DWW_47100040_3" lemmaRef="lexicon.xml#lemma_7538" meaningRef="lexicon.xml#lemma_7538_sense_12306" pos="NOM" wordRef="lexicon.xml#lemma_7538_sense_12306_type_38709">wise</w>
-        <seg xml:id="DWW_47100040_4" type="pc">,</seg>
+        <w xml:id="DWW_47100040_0" lemmaRef="lexicon.xml#lemma_3028" pos="PRP" ana="lexicon.xml#lemma_3028_sense_63605" corresp="variants.xml#type_10369">in</w>
+        <w xml:id="DWW_47100040_1" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4324">eines</w>
+        <w xml:id="DWW_47100040_2" lemmaRef="lexicon.xml#lemma_1152" pos="NOM" ana="lexicon.xml#lemma_1152_sense_73804" corresp="variants.xml#type_3640">diebes</w>
+        <w xml:id="DWW_47100040_3" lemmaRef="lexicon.xml#lemma_7538" pos="NOM" ana="lexicon.xml#lemma_7538_sense_12306" corresp="variants.xml#type_38709">wise</w>
+        <pc xml:id="DWW_47100040_4" join="left">,</pc>
       </l>
       <l n="5">
-        <w xml:id="DWW_47100050_0" lemmaRef="lexicon.xml#lemma_148" meaningRef="lexicon.xml#lemma_148_sense_183" pos="CNJ" wordRef="lexicon.xml#lemma_148_sense_183_type_369">als</w>
-        <w xml:id="DWW_47100050_1" lemmaRef="lexicon.xml#lemma_4415" meaningRef="lexicon.xml#lemma_4415_sense_6892" pos="ADV NEG CNJ" wordRef="lexicon.xml#lemma_4415_sense_6892_type_15400">noch</w>
-        <w xml:id="DWW_47100050_2" lemmaRef="lexicon.xml#lemma_1517" meaningRef="lexicon.xml#lemma_1517_sense_2355" pos="POS" wordRef="lexicon.xml#lemma_1517_sense_2355_type_80358">sine</w>
-        <w xml:id="DWW_47100050_3" lemmaRef="lexicon.xml#lemma_2065" meaningRef="lexicon.xml#lemma_2065_sense_3197" pos="ADJ" wordRef="lexicon.xml#lemma_2065_sense_3197_type_81523">gelichen</w>
-        <w xml:id="DWW_47100050_4" lemmaRef="lexicon.xml#lemma_6301" meaningRef="lexicon.xml#lemma_6301_sense_9929" pos="VRB" wordRef="lexicon.xml#lemma_6301_sense_9929_type_95856">tunt</w>
-        <seg xml:id="DWW_47100050_5" type="pc">.</seg>
+        <w xml:id="DWW_47100050_0" lemmaRef="lexicon.xml#lemma_148" pos="CNJ" ana="lexicon.xml#lemma_148_sense_183" corresp="variants.xml#type_369">als</w>
+        <w xml:id="DWW_47100050_1" lemmaRef="lexicon.xml#lemma_4415" pos="ADV NEG CNJ" ana="lexicon.xml#lemma_4415_sense_6892" corresp="variants.xml#type_15400">noch</w>
+        <w xml:id="DWW_47100050_2" lemmaRef="lexicon.xml#lemma_1517" pos="POS" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_80358">sine</w>
+        <w xml:id="DWW_47100050_3" lemmaRef="lexicon.xml#lemma_2065" pos="ADJ" ana="lexicon.xml#lemma_2065_sense_3197" corresp="variants.xml#type_81523">gelichen</w>
+        <w xml:id="DWW_47100050_4" lemmaRef="lexicon.xml#lemma_6301" pos="VRB" ana="lexicon.xml#lemma_6301_sense_9929" corresp="variants.xml#type_95856">tunt</w>
+        <pc xml:id="DWW_47100050_5" join="left">.</pc>
       </l>
       <l n="6">
-        <w xml:id="DWW_47100060_0" lemmaRef="lexicon.xml#lemma_7292" meaningRef="lexicon.xml#lemma_7292_sense_11824" pos="PRP" wordRef="lexicon.xml#lemma_7292_sense_11824_type_68004">vur</w>
-        <w xml:id="DWW_47100060_1" lemmaRef="lexicon.xml#lemma_1331" meaningRef="lexicon.xml#lemma_1331_sense_2068" pos="ART NUM" wordRef="lexicon.xml#lemma_1331_sense_2068_type_4319">ein</w>
-        <w xml:id="DWW_47100060_2" lemmaRef="lexicon.xml#lemma_2933" meaningRef="lexicon.xml#lemma_2933_sense_28403" pos="NOM ADV" wordRef="lexicon.xml#lemma_2933_sense_28403_type_9994">huse</w>
-        <w xml:id="DWW_47100060_3" lemmaRef="lexicon.xml#lemma_1517" meaningRef="lexicon.xml#lemma_1517_sense_2355" pos="PRO" wordRef="lexicon.xml#lemma_1517_sense_2355_type_4999">er</w>
-        <w xml:id="DWW_47100060_4" lemmaRef="lexicon.xml#lemma_2245" meaningRef="lexicon.xml#lemma_2245_sense_93282" pos="VRB" wordRef="lexicon.xml#lemma_2245_sense_93282_type_140126">gestunt</w>
+        <w xml:id="DWW_47100060_0" lemmaRef="lexicon.xml#lemma_7292" pos="PRP" ana="lexicon.xml#lemma_7292_sense_11824" corresp="variants.xml#type_68004">vur</w>
+        <w xml:id="DWW_47100060_1" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4319">ein</w>
+        <w xml:id="DWW_47100060_2" lemmaRef="lexicon.xml#lemma_2933" pos="NOM ADV" ana="lexicon.xml#lemma_2933_sense_28403" corresp="variants.xml#type_9994">huse</w>
+        <w xml:id="DWW_47100060_3" lemmaRef="lexicon.xml#lemma_1517" pos="PRO" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_4999">er</w>
+        <w xml:id="DWW_47100060_4" lemmaRef="lexicon.xml#lemma_2245" pos="VRB" ana="lexicon.xml#lemma_2245_sense_93282" corresp="variants.xml#type_140126">gestunt</w>
       </l>
       <l n="7">
-        <w xml:id="DWW_47100070_0" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="lexicon.xml#lemma_6467_sense_10233_type_22825">und</w>
-        <w xml:id="DWW_47100070_1" lemmaRef="lexicon.xml#lemma_1992" meaningRef="lexicon.xml#lemma_1992_sense_3062" pos="VRB" wordRef="lexicon.xml#lemma_1992_sense_3062_type_34276">gedahte</w>
-        <w xml:id="DWW_47100070_2" lemmaRef="lexicon.xml#lemma_4281" meaningRef="lexicon.xml#lemma_4281_sense_24806" pos="ADJ ADV" wordRef="lexicon.xml#lemma_4281_sense_24806_type_14891">nach</w>
-        <w xml:id="DWW_47100070_3" lemmaRef="lexicon.xml#lemma_2347" meaningRef="lexicon.xml#lemma_2347_sense_3771" pos="NOM" wordRef="lexicon.xml#lemma_2347_sense_3771_type_38654">gewinne</w>
-        <seg xml:id="DWW_47100070_4" type="pc">.</seg>
+        <w xml:id="DWW_47100070_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
+        <w xml:id="DWW_47100070_1" lemmaRef="lexicon.xml#lemma_1992" pos="VRB" ana="lexicon.xml#lemma_1992_sense_3062" corresp="variants.xml#type_34276">gedahte</w>
+        <w xml:id="DWW_47100070_2" lemmaRef="lexicon.xml#lemma_4281" pos="ADJ ADV" ana="lexicon.xml#lemma_4281_sense_24806" corresp="variants.xml#type_14891">nach</w>
+        <w xml:id="DWW_47100070_3" lemmaRef="lexicon.xml#lemma_2347" pos="NOM" ana="lexicon.xml#lemma_2347_sense_3771" corresp="variants.xml#type_38654">gewinne</w>
+        <pc xml:id="DWW_47100070_4" join="left">.</pc>
       </l>
       <l n="8">
-        <w xml:id="DWW_47100080_0" lemmaRef="lexicon.xml#lemma_1180" meaningRef="lexicon.xml#lemma_1180_sense_1864" pos="ADV" wordRef="lexicon.xml#lemma_1180_sense_1864_type_3738">do</w>
-        <w xml:id="DWW_47100080_1" lemmaRef="lexicon.xml#lemma_2885" meaningRef="lexicon.xml#lemma_2885_sense_4625" pos="VRB" wordRef="lexicon.xml#lemma_2885_sense_4625_type_80457">hort</w>
-        <w xml:id="DWW_47100080_2" lemmaRef="lexicon.xml#lemma_1517" meaningRef="lexicon.xml#lemma_1517_sense_2355" pos="PRO" wordRef="lexicon.xml#lemma_1517_sense_2355_type_4999">er</w>
-        <w xml:id="DWW_47100080_3" lemmaRef="lexicon.xml#lemma_1331" meaningRef="lexicon.xml#lemma_1331_sense_2068" pos="ART NUM" wordRef="lexicon.xml#lemma_1331_sense_2068_type_4319">ein</w>
-        <w xml:id="DWW_47100080_4" lemmaRef="lexicon.xml#lemma_7534" meaningRef="lexicon.xml#lemma_7534_sense_12299" pos="NOM" wordRef="lexicon.xml#lemma_7534_sense_12299_type_27269">wip</w>
-        <w xml:id="DWW_47100080_5" lemmaRef="lexicon.xml#lemma_3039" meaningRef="lexicon.xml#lemma_3039_sense_4846" pos="ADV" wordRef="lexicon.xml#lemma_3039_sense_4846_type_10397">inne</w>
-        <seg xml:id="DWW_47100080_6" type="pc">;</seg>
+        <w xml:id="DWW_47100080_0" lemmaRef="lexicon.xml#lemma_1180" pos="ADV" ana="lexicon.xml#lemma_1180_sense_1864" corresp="variants.xml#type_3738">do</w>
+        <w xml:id="DWW_47100080_1" lemmaRef="lexicon.xml#lemma_2885" pos="VRB" ana="lexicon.xml#lemma_2885_sense_4625" corresp="variants.xml#type_80457">hort</w>
+        <w xml:id="DWW_47100080_2" lemmaRef="lexicon.xml#lemma_1517" pos="PRO" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_4999">er</w>
+        <w xml:id="DWW_47100080_3" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4319">ein</w>
+        <w xml:id="DWW_47100080_4" lemmaRef="lexicon.xml#lemma_7534" pos="NOM" ana="lexicon.xml#lemma_7534_sense_12299" corresp="variants.xml#type_27269">wip</w>
+        <w xml:id="DWW_47100080_5" lemmaRef="lexicon.xml#lemma_3039" pos="ADV" ana="lexicon.xml#lemma_3039_sense_4846" corresp="variants.xml#type_10397">inne</w>
+        <pc xml:id="DWW_47100080_6" join="left">;</pc>
       </l>
       <l n="9">
-        <w xml:id="DWW_47100090_0" lemmaRef="lexicon.xml#lemma_1139" meaningRef="lexicon.xml#lemma_1139_sense_1797" pos="ART" wordRef="lexicon.xml#lemma_1139_sense_1797_type_45021">diu</w>
-        <w xml:id="DWW_47100090_1" lemmaRef="lexicon.xml#lemma_2598" meaningRef="lexicon.xml#lemma_2598_sense_4170" pos="VRB VEX" wordRef="lexicon.xml#lemma_2598_sense_4170_type_8767">het</w>
-        <w xml:id="DWW_47100090_2" lemmaRef="lexicon.xml#lemma_1331" meaningRef="lexicon.xml#lemma_1331_sense_2068" pos="ART NUM" wordRef="lexicon.xml#lemma_1331_sense_2068_type_4319">ein</w>
-        <w xml:id="DWW_47100090_3" lemmaRef="lexicon.xml#lemma_36098" meaningRef="lexicon.xml#lemma_36098_sense_56183" pos="ADJ" wordRef="lexicon.xml#lemma_36098_sense_56183_type_187472">weinnendes</w>
-        <w xml:id="DWW_47100090_4" lemmaRef="lexicon.xml#lemma_3313" meaningRef="lexicon.xml#lemma_3313_sense_5196" pos="NOM" wordRef="lexicon.xml#lemma_3313_sense_5196_type_11310">kint</w>
-        <seg xml:id="DWW_47100090_5" type="pc">.</seg>
+        <w xml:id="DWW_47100090_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
+        <w xml:id="DWW_47100090_1" lemmaRef="lexicon.xml#lemma_2598" pos="VRB VEX" ana="lexicon.xml#lemma_2598_sense_4170" corresp="variants.xml#type_8767">het</w>
+        <w xml:id="DWW_47100090_2" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4319">ein</w>
+        <w xml:id="DWW_47100090_3" lemmaRef="lexicon.xml#lemma_36098" pos="ADJ" ana="lexicon.xml#lemma_36098_sense_56183" corresp="variants.xml#type_187472">weinnendes</w>
+        <w xml:id="DWW_47100090_4" lemmaRef="lexicon.xml#lemma_3313" pos="NOM" ana="lexicon.xml#lemma_3313_sense_5196" corresp="variants.xml#type_11310">kint</w>
+        <pc xml:id="DWW_47100090_5" join="left">.</pc>
       </l>
       <l n="10">
-        <w xml:id="DWW_47100100_0" lemmaRef="lexicon.xml#lemma_1762" meaningRef="lexicon.xml#lemma_1762_sense_2752" pos="POS PRO" wordRef="lexicon.xml#lemma_1762_sense_2752_type_257472">sin</w>
-        <w xml:id="DWW_47100100_1" lemmaRef="lexicon.xml#lemma_4266" meaningRef="lexicon.xml#lemma_4266_sense_6678" pos="NOM" wordRef="lexicon.xml#lemma_4266_sense_6678_type_42031">muter</w>
-        <w xml:id="DWW_47100100_2" lemmaRef="lexicon.xml#lemma_5693" meaningRef="lexicon.xml#lemma_5693_sense_8912" pos="VRB" wordRef="lexicon.xml#lemma_5693_sense_8912_type_19957">sprach</w>
-        <seg xml:id="DWW_47100100_3" type="pc">:</seg>
-        <seg xml:id="DWW_47100100_4" type="pc">&lt;</seg>
-        <w xml:id="DWW_47100100_5" lemmaRef="lexicon.xml#lemma_1119" meaningRef="lexicon.xml#lemma_1119_sense_1770" pos="ART" wordRef="lexicon.xml#lemma_1119_sense_1770_type_3510">des</w>
-        <w xml:id="DWW_47100100_6" lemmaRef="lexicon.xml#lemma_1705" meaningRef="lexicon.xml#lemma_1705_sense_2684" pos="VRB" wordRef="lexicon.xml#lemma_1705_sense_2684_type_5823">erwint</w>
-        <seg xml:id="DWW_47100100_7" type="pc">,</seg>
+        <w xml:id="DWW_47100100_0" lemmaRef="lexicon.xml#lemma_1762" pos="POS PRO" ana="lexicon.xml#lemma_1762_sense_2752" corresp="variants.xml#type_257472">sin</w>
+        <w xml:id="DWW_47100100_1" lemmaRef="lexicon.xml#lemma_4266" pos="NOM" ana="lexicon.xml#lemma_4266_sense_6678" corresp="variants.xml#type_42031">muter</w>
+        <w xml:id="DWW_47100100_2" lemmaRef="lexicon.xml#lemma_5693" pos="VRB" ana="lexicon.xml#lemma_5693_sense_8912" corresp="variants.xml#type_19957">sprach</w>
+        <pc xml:id="DWW_47100100_3" join="left">:</pc>
+        <pc xml:id="DWW_47100100_4" join="right">&lt;</pc>
+        <w xml:id="DWW_47100100_5" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
+        <w xml:id="DWW_47100100_6" lemmaRef="lexicon.xml#lemma_1705" pos="VRB" ana="lexicon.xml#lemma_1705_sense_2684" corresp="variants.xml#type_5823">erwint</w>
+        <pc xml:id="DWW_47100100_7" join="left">,</pc>
       </l>
       <l n="11">
-        <w xml:id="DWW_47100110_0" lemmaRef="lexicon.xml#lemma_4470" meaningRef="lexicon.xml#lemma_4470_sense_6973" pos="CNJ" wordRef="lexicon.xml#lemma_4470_sense_6973_type_15543">ode</w>
-        <w xml:id="DWW_47100110_1" lemmaRef="lexicon.xml#lemma_3001" meaningRef="lexicon.xml#lemma_3001_sense_4805" pos="PRO" wordRef="lexicon.xml#lemma_3001_sense_4805_type_10212">ich</w>
-        <w xml:id="DWW_47100110_2" lemmaRef="lexicon.xml#lemma_6171" meaningRef="lexicon.xml#lemma_6171_sense_9726" pos="VRB" wordRef="lexicon.xml#lemma_6171_sense_9726_type_21755">trag</w>
-        <w xml:id="DWW_47100110_3" lemmaRef="lexicon.xml#lemma_1242" meaningRef="lexicon.xml#lemma_1242_sense_1958" pos="PRO" wordRef="lexicon.xml#lemma_1242_sense_1958_type_3956">dich</w>
-        <w xml:id="DWW_47100110_4" lemmaRef="lexicon.xml#lemma_2837" meaningRef="lexicon.xml#lemma_2837_sense_4558" pos="ADV" wordRef="lexicon.xml#lemma_2837_sense_4558_type_9597">hin</w>
-        <w xml:id="DWW_47100110_5" lemmaRef="lexicon.xml#lemma_7292" meaningRef="lexicon.xml#lemma_7292_sense_11824" pos="PRP" wordRef="lexicon.xml#lemma_7292_sense_11824_type_67784">fur</w>
-        <seg xml:id="DWW_47100110_6" type="pc">!</seg>
+        <w xml:id="DWW_47100110_0" lemmaRef="lexicon.xml#lemma_4470" pos="CNJ" ana="lexicon.xml#lemma_4470_sense_6973" corresp="variants.xml#type_15543">ode</w>
+        <w xml:id="DWW_47100110_1" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
+        <w xml:id="DWW_47100110_2" lemmaRef="lexicon.xml#lemma_6171" pos="VRB" ana="lexicon.xml#lemma_6171_sense_9726" corresp="variants.xml#type_21755">trag</w>
+        <w xml:id="DWW_47100110_3" lemmaRef="lexicon.xml#lemma_1242" pos="PRO" ana="lexicon.xml#lemma_1242_sense_1958" corresp="variants.xml#type_3956">dich</w>
+        <w xml:id="DWW_47100110_4" lemmaRef="lexicon.xml#lemma_2837" pos="ADV" ana="lexicon.xml#lemma_2837_sense_4558" corresp="variants.xml#type_9597">hin</w>
+        <w xml:id="DWW_47100110_5" lemmaRef="lexicon.xml#lemma_7292" pos="PRP" ana="lexicon.xml#lemma_7292_sense_11824" corresp="variants.xml#type_67784">fur</w>
+        <pc xml:id="DWW_47100110_6" join="left">!</pc>
       </l>
       <l n="12">
-        <w xml:id="DWW_47100120_0" lemmaRef="lexicon.xml#lemma_1055" meaningRef="lexicon.xml#lemma_1055_sense_1689" pos="ADV CNJ" wordRef="lexicon.xml#lemma_1055_sense_1689_type_3255">da</w>
-        <w xml:id="DWW_47100120_1" lemmaRef="lexicon.xml#lemma_5710" meaningRef="lexicon.xml#lemma_5710_sense_8947" pos="VRB" wordRef="lexicon.xml#lemma_5710_sense_8947_type_77649">stet</w>
-        <w xml:id="DWW_47100120_2" lemmaRef="lexicon.xml#lemma_1331" meaningRef="lexicon.xml#lemma_1331_sense_2068" pos="ART NUM" wordRef="lexicon.xml#lemma_1331_sense_2068_type_4319">ein</w>
-        <w xml:id="DWW_47100120_3" lemmaRef="lexicon.xml#lemma_7679" meaningRef="lexicon.xml#lemma_7679_sense_12588" pos="NOM" wordRef="lexicon.xml#lemma_7679_sense_12588_type_27813">wolf</w>
-        <w xml:id="DWW_47100120_4" lemmaRef="lexicon.xml#lemma_199" meaningRef="lexicon.xml#lemma_199_sense_248" pos="PRP" wordRef="lexicon.xml#lemma_199_sense_248_type_522">an</w>
+        <w xml:id="DWW_47100120_0" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3255">da</w>
+        <w xml:id="DWW_47100120_1" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" ana="lexicon.xml#lemma_5710_sense_8947" corresp="variants.xml#type_77649">stet</w>
+        <w xml:id="DWW_47100120_2" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4319">ein</w>
+        <w xml:id="DWW_47100120_3" lemmaRef="lexicon.xml#lemma_7679" pos="NOM" ana="lexicon.xml#lemma_7679_sense_12588" corresp="variants.xml#type_27813">wolf</w>
+        <w xml:id="DWW_47100120_4" lemmaRef="lexicon.xml#lemma_199" pos="PRP" ana="lexicon.xml#lemma_199_sense_248" corresp="variants.xml#type_522">an</w>
         <supplied>
-          <w xml:id="DWW_47100120_5" lemmaRef="lexicon.xml#lemma_1119" meaningRef="lexicon.xml#lemma_1119_sense_1770" pos="ART" wordRef="lexicon.xml#lemma_1119_sense_1770_type_3507">der</w>
+          <w xml:id="DWW_47100120_5" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
         </supplied>
-        <w xml:id="DWW_47100120_6" lemmaRef="lexicon.xml#lemma_6272" meaningRef="lexicon.xml#lemma_6272_sense_9891" pos="NOM" wordRef="lexicon.xml#lemma_6272_sense_9891_type_80495">tur</w>
-        <seg xml:id="DWW_47100120_7" type="pc">;</seg>
+        <w xml:id="DWW_47100120_6" lemmaRef="lexicon.xml#lemma_6272" pos="NOM" ana="lexicon.xml#lemma_6272_sense_9891" corresp="variants.xml#type_80495">tur</w>
+        <pc xml:id="DWW_47100120_7" join="left">;</pc>
       </l>
       <l n="13">
-        <w xml:id="DWW_47100130_0" lemmaRef="lexicon.xml#lemma_1119" meaningRef="lexicon.xml#lemma_1119_sense_1770" pos="ART" wordRef="lexicon.xml#lemma_1119_sense_1770_type_3504">dem</w>
-        <w xml:id="DWW_47100130_1" lemmaRef="lexicon.xml#lemma_7490" meaningRef="lexicon.xml#lemma_7490_sense_23736" pos="VRB" wordRef="lexicon.xml#lemma_7490_sense_23736_type_27084">wirfe</w>
-        <w xml:id="DWW_47100130_2" lemmaRef="lexicon.xml#lemma_3001" meaningRef="lexicon.xml#lemma_3001_sense_4805" pos="PRO" wordRef="lexicon.xml#lemma_3001_sense_4805_type_10212">ich</w>
-        <w xml:id="DWW_47100130_3" lemmaRef="lexicon.xml#lemma_1242" meaningRef="lexicon.xml#lemma_1242_sense_1958" pos="PRO" wordRef="lexicon.xml#lemma_1242_sense_1958_type_3956">dich</w>
-        <w xml:id="DWW_47100130_4" lemmaRef="lexicon.xml#lemma_3019" meaningRef="lexicon.xml#lemma_3019_sense_4823" pos="ADV" wordRef="lexicon.xml#lemma_3019_sense_4823_type_39182">iezu</w>
-        <w xml:id="DWW_47100130_5" lemmaRef="lexicon.xml#lemma_1055" meaningRef="lexicon.xml#lemma_1055_sense_1689" pos="ADV" wordRef="lexicon.xml#lemma_1055_sense_1689_type_3258">dar</w>
-        <seg xml:id="DWW_47100130_6" type="pc">.</seg>
-        <seg xml:id="DWW_47100130_7" type="pc">&gt;</seg>
+        <w xml:id="DWW_47100130_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3504">dem</w>
+        <w xml:id="DWW_47100130_1" lemmaRef="lexicon.xml#lemma_7490" pos="VRB" ana="lexicon.xml#lemma_7490_sense_23736" corresp="variants.xml#type_27084">wirfe</w>
+        <w xml:id="DWW_47100130_2" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
+        <w xml:id="DWW_47100130_3" lemmaRef="lexicon.xml#lemma_1242" pos="PRO" ana="lexicon.xml#lemma_1242_sense_1958" corresp="variants.xml#type_3956">dich</w>
+        <w xml:id="DWW_47100130_4" lemmaRef="lexicon.xml#lemma_3019" pos="ADV" ana="lexicon.xml#lemma_3019_sense_4823" corresp="variants.xml#type_39182">iezu</w>
+        <w xml:id="DWW_47100130_5" lemmaRef="lexicon.xml#lemma_1055" pos="ADV" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3258">dar</w>
+        <pc xml:id="DWW_47100130_6" join="left">.</pc>
+        <pc xml:id="DWW_47100130_7" join="left">&gt;</pc>
       </l>
       <l n="14">
-        <w xml:id="DWW_47100140_0" lemmaRef="lexicon.xml#lemma_1119" meaningRef="lexicon.xml#lemma_1119_sense_1770" pos="ART" wordRef="lexicon.xml#lemma_1119_sense_1770_type_3510">des</w>
-        <w xml:id="DWW_47100140_1" lemmaRef="lexicon.xml#lemma_4330" meaningRef="lexicon.xml#lemma_4330_sense_6771" pos="VRB" wordRef="lexicon.xml#lemma_4330_sense_6771_type_15078">nam</w>
-        <w xml:id="DWW_47100140_2" lemmaRef="lexicon.xml#lemma_1119" meaningRef="lexicon.xml#lemma_1119_sense_1770" pos="ART" wordRef="lexicon.xml#lemma_1119_sense_1770_type_3507">der</w>
-        <w xml:id="DWW_47100140_3" lemmaRef="lexicon.xml#lemma_7679" meaningRef="lexicon.xml#lemma_7679_sense_12588" pos="NOM" wordRef="lexicon.xml#lemma_7679_sense_12588_type_27813">wolf</w>
-        <w xml:id="DWW_47100140_4" lemmaRef="lexicon.xml#lemma_2573" meaningRef="lexicon.xml#lemma_2573_sense_117402" pos="ADJ" wordRef="lexicon.xml#lemma_2573_sense_117402_type_42002">guten</w>
-        <w xml:id="DWW_47100140_5" lemmaRef="lexicon.xml#lemma_7338" meaningRef="lexicon.xml#lemma_7338_sense_83302" pos="ADJ ADV" wordRef="lexicon.xml#lemma_7338_sense_83302_type_26441">war</w>
-        <seg xml:id="DWW_47100140_6" type="pc">.</seg>
+        <w xml:id="DWW_47100140_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
+        <w xml:id="DWW_47100140_1" lemmaRef="lexicon.xml#lemma_4330" pos="VRB" ana="lexicon.xml#lemma_4330_sense_6771" corresp="variants.xml#type_15078">nam</w>
+        <w xml:id="DWW_47100140_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
+        <w xml:id="DWW_47100140_3" lemmaRef="lexicon.xml#lemma_7679" pos="NOM" ana="lexicon.xml#lemma_7679_sense_12588" corresp="variants.xml#type_27813">wolf</w>
+        <w xml:id="DWW_47100140_4" lemmaRef="lexicon.xml#lemma_2573" pos="ADJ" ana="lexicon.xml#lemma_2573_sense_117402" corresp="variants.xml#type_42002">guten</w>
+        <w xml:id="DWW_47100140_5" lemmaRef="lexicon.xml#lemma_7338" pos="ADJ ADV" ana="lexicon.xml#lemma_7338_sense_83302" corresp="variants.xml#type_26441">war</w>
+        <pc xml:id="DWW_47100140_6" join="left">.</pc>
       </l>
       <l n="15">
-        <w xml:id="DWW_47100150_0" lemmaRef="lexicon.xml#lemma_7257" meaningRef="lexicon.xml#lemma_7257_sense_11760" pos="ADJ ADV" wordRef="lexicon.xml#lemma_7257_sense_11760_type_171458">froulich</w>
-        <w xml:id="DWW_47100150_1" lemmaRef="lexicon.xml#lemma_1517" meaningRef="lexicon.xml#lemma_1517_sense_2355" pos="PRO" wordRef="lexicon.xml#lemma_1517_sense_2355_type_4999">er</w>
-        <w xml:id="DWW_47100150_2" lemmaRef="lexicon.xml#lemma_6422" meaningRef="lexicon.xml#lemma_6422_sense_10158" pos="ADV PRP" wordRef="lexicon.xml#lemma_6422_sense_10158_type_22720">umbe</w>
-        <w xml:id="DWW_47100150_3" lemmaRef="lexicon.xml#lemma_5445" meaningRef="lexicon.xml#lemma_5445_sense_8495" pos="PRO" wordRef="lexicon.xml#lemma_5445_sense_8495_type_19017">sich</w>
-        <w xml:id="DWW_47100150_4" lemmaRef="lexicon.xml#lemma_5366" meaningRef="lexicon.xml#lemma_5366_sense_8382" pos="VRB" wordRef="lexicon.xml#lemma_5366_sense_8382_type_18695">sach</w>
+        <w xml:id="DWW_47100150_0" lemmaRef="lexicon.xml#lemma_7257" pos="ADJ ADV" ana="lexicon.xml#lemma_7257_sense_11760" corresp="variants.xml#type_171458">froulich</w>
+        <w xml:id="DWW_47100150_1" lemmaRef="lexicon.xml#lemma_1517" pos="PRO" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_4999">er</w>
+        <w xml:id="DWW_47100150_2" lemmaRef="lexicon.xml#lemma_6422" pos="ADV PRP" ana="lexicon.xml#lemma_6422_sense_10158" corresp="variants.xml#type_22720">umbe</w>
+        <w xml:id="DWW_47100150_3" lemmaRef="lexicon.xml#lemma_5445" pos="PRO" ana="lexicon.xml#lemma_5445_sense_8495" corresp="variants.xml#type_19017">sich</w>
+        <w xml:id="DWW_47100150_4" lemmaRef="lexicon.xml#lemma_5366" pos="VRB" ana="lexicon.xml#lemma_5366_sense_8382" corresp="variants.xml#type_18695">sach</w>
       </l>
       <l n="16">
-        <w xml:id="DWW_47100160_0" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="lexicon.xml#lemma_6467_sense_10233_type_22825">und</w>
-        <w xml:id="DWW_47100160_1" lemmaRef="lexicon.xml#lemma_7355" meaningRef="lexicon.xml#lemma_7355_sense_11933" pos="VRB" wordRef="lexicon.xml#lemma_7355_sense_11933_type_80588">wande</w>
-        <w xml:id="DWW_47100160_2" lemmaRef="lexicon.xml#lemma_166" meaningRef="lexicon.xml#lemma_166_sense_207" pos="ADJ ADV GRA" wordRef="lexicon.xml#lemma_166_sense_207_type_184365">alwar</w>
-        <seg xml:id="DWW_47100160_3" type="pc">,</seg>
-        <w xml:id="DWW_47100160_4" lemmaRef="lexicon.xml#lemma_1180" meaningRef="lexicon.xml#lemma_1180_sense_1864" pos="ADV" wordRef="lexicon.xml#lemma_1180_sense_1864_type_3738">do</w>
-        <w xml:id="DWW_47100160_5" lemmaRef="lexicon.xml#lemma_56116" meaningRef="lexicon.xml#lemma_56116_sense_90960" pos="PRO" wordRef="lexicon.xml#lemma_56116_sense_90960_type_304743">si</w>
-        <w xml:id="DWW_47100160_6" lemmaRef="lexicon.xml#lemma_5693" meaningRef="lexicon.xml#lemma_5693_sense_8912" pos="VRB" wordRef="lexicon.xml#lemma_5693_sense_8912_type_19957">sprach</w>
-        <seg xml:id="DWW_47100160_7" type="pc">:</seg>
+        <w xml:id="DWW_47100160_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
+        <w xml:id="DWW_47100160_1" lemmaRef="lexicon.xml#lemma_7355" pos="VRB" ana="lexicon.xml#lemma_7355_sense_11933" corresp="variants.xml#type_80588">wande</w>
+        <w xml:id="DWW_47100160_2" lemmaRef="lexicon.xml#lemma_166" pos="ADJ ADV GRA" ana="lexicon.xml#lemma_166_sense_207" corresp="variants.xml#type_184365">alwar</w>
+        <pc xml:id="DWW_47100160_3" join="left">,</pc>
+        <w xml:id="DWW_47100160_4" lemmaRef="lexicon.xml#lemma_1180" pos="ADV" ana="lexicon.xml#lemma_1180_sense_1864" corresp="variants.xml#type_3738">do</w>
+        <w xml:id="DWW_47100160_5" lemmaRef="lexicon.xml#lemma_56116" pos="PRO" ana="lexicon.xml#lemma_56116_sense_90960" corresp="variants.xml#type_304743">si</w>
+        <w xml:id="DWW_47100160_6" lemmaRef="lexicon.xml#lemma_5693" pos="VRB" ana="lexicon.xml#lemma_5693_sense_8912" corresp="variants.xml#type_19957">sprach</w>
+        <pc xml:id="DWW_47100160_7" join="left">:</pc>
       </l>
       <l n="17">
-        <seg xml:id="DWW_47100170_0" type="pc">&lt;</seg>
-        <w xml:id="DWW_47100170_1" lemmaRef="lexicon.xml#lemma_4330" meaningRef="lexicon.xml#lemma_4330_sense_6767" pos="VRB" wordRef="lexicon.xml#lemma_4330_sense_6767_type_15091">nim</w>
-        <seg xml:id="DWW_47100170_2" type="pc">,</seg>
-        <w xml:id="DWW_47100170_3" lemmaRef="lexicon.xml#lemma_7679" meaningRef="lexicon.xml#lemma_7679_sense_12588" pos="NOM" wordRef="lexicon.xml#lemma_7679_sense_12588_type_27813">wolf</w>
-        <seg xml:id="DWW_47100170_4" type="pc">,</seg>
-        <w xml:id="DWW_47100170_5" lemmaRef="lexicon.xml#lemma_1169" meaningRef="lexicon.xml#lemma_1169_sense_1850" pos="DET" wordRef="lexicon.xml#lemma_1169_sense_1850_type_3696">ditz</w>
-        <w xml:id="DWW_47100170_6" lemmaRef="lexicon.xml#lemma_3313" meaningRef="lexicon.xml#lemma_3313_sense_5196" pos="NOM" wordRef="lexicon.xml#lemma_3313_sense_5196_type_11310">kint</w>
-        <w xml:id="DWW_47100170_7" lemmaRef="lexicon.xml#lemma_2837" meaningRef="lexicon.xml#lemma_2837_sense_4558" pos="ADV" wordRef="lexicon.xml#lemma_2837_sense_4558_type_9597">hin</w>
-        <seg xml:id="DWW_47100170_8" type="pc">!</seg>
-        <seg xml:id="DWW_47100170_9" type="pc">&gt;</seg>
+        <pc xml:id="DWW_47100170_0" join="right">&lt;</pc>
+        <w xml:id="DWW_47100170_1" lemmaRef="lexicon.xml#lemma_4330" pos="VRB" ana="lexicon.xml#lemma_4330_sense_6767" corresp="variants.xml#type_15091">nim</w>
+        <pc xml:id="DWW_47100170_2" join="left">,</pc>
+        <w xml:id="DWW_47100170_3" lemmaRef="lexicon.xml#lemma_7679" pos="NOM" ana="lexicon.xml#lemma_7679_sense_12588" corresp="variants.xml#type_27813">wolf</w>
+        <pc xml:id="DWW_47100170_4" join="left">,</pc>
+        <w xml:id="DWW_47100170_5" lemmaRef="lexicon.xml#lemma_1169" pos="DET" ana="lexicon.xml#lemma_1169_sense_1850" corresp="variants.xml#type_3696">ditz</w>
+        <w xml:id="DWW_47100170_6" lemmaRef="lexicon.xml#lemma_3313" pos="NOM" ana="lexicon.xml#lemma_3313_sense_5196" corresp="variants.xml#type_11310">kint</w>
+        <w xml:id="DWW_47100170_7" lemmaRef="lexicon.xml#lemma_2837" pos="ADV" ana="lexicon.xml#lemma_2837_sense_4558" corresp="variants.xml#type_9597">hin</w>
+        <pc xml:id="DWW_47100170_8" join="left">!</pc>
+        <pc xml:id="DWW_47100170_9" join="left">&gt;</pc>
       </l>
       <l n="18">
-        <w xml:id="DWW_47100180_0" lemmaRef="lexicon.xml#lemma_1097" meaningRef="lexicon.xml#lemma_1097_sense_1741" pos="ART CNJ" wordRef="lexicon.xml#lemma_1097_sense_1741_type_3398">daz</w>
-        <w xml:id="DWW_47100180_1" lemmaRef="lexicon.xml#lemma_6301" meaningRef="lexicon.xml#lemma_6301_sense_9929" pos="NOM VRB" wordRef="lexicon.xml#lemma_6301_sense_9929_type_22319">tet</w>
-        <w xml:id="DWW_47100180_2" lemmaRef="lexicon.xml#lemma_56116" meaningRef="lexicon.xml#lemma_56116_sense_90960" pos="PRO" wordRef="lexicon.xml#lemma_56116_sense_90960_type_304743">si</w>
-        <w xml:id="DWW_47100180_3" lemmaRef="lexicon.xml#lemma_4377" meaningRef="lexicon.xml#lemma_4377_sense_6838" pos="ADJ ADV NEG" wordRef="lexicon.xml#lemma_4377_sense_6838_type_15286">niht</w>
-        <w xml:id="DWW_47100180_4" lemmaRef="lexicon.xml#lemma_7385" meaningRef="lexicon.xml#lemma_7385_sense_11998" pos="ADV CNJ" wordRef="lexicon.xml#lemma_7385_sense_11998_type_26640">wan</w>
-        <w xml:id="DWW_47100180_5" lemmaRef="lexicon.xml#lemma_1258" meaningRef="lexicon.xml#lemma_1258_sense_1977" pos="PRP" wordRef="lexicon.xml#lemma_1258_sense_1977_type_4044">durch</w>
-        <w xml:id="DWW_47100180_6" lemmaRef="lexicon.xml#lemma_1119" meaningRef="lexicon.xml#lemma_1119_sense_1770" pos="ART" wordRef="lexicon.xml#lemma_1119_sense_1770_type_3506">den</w>
-        <w xml:id="DWW_47100180_7" lemmaRef="lexicon.xml#lemma_5484" meaningRef="lexicon.xml#lemma_5484_sense_8546" pos="NOM" wordRef="lexicon.xml#lemma_5484_sense_8546_type_19150">sin</w>
-        <seg xml:id="DWW_47100180_8" type="pc">,</seg>
+        <w xml:id="DWW_47100180_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
+        <w xml:id="DWW_47100180_1" lemmaRef="lexicon.xml#lemma_6301" pos="NOM VRB" ana="lexicon.xml#lemma_6301_sense_9929" corresp="variants.xml#type_22319">tet</w>
+        <w xml:id="DWW_47100180_2" lemmaRef="lexicon.xml#lemma_56116" pos="PRO" ana="lexicon.xml#lemma_56116_sense_90960" corresp="variants.xml#type_304743">si</w>
+        <w xml:id="DWW_47100180_3" lemmaRef="lexicon.xml#lemma_4377" pos="ADJ ADV NEG" ana="lexicon.xml#lemma_4377_sense_6838" corresp="variants.xml#type_15286">niht</w>
+        <w xml:id="DWW_47100180_4" lemmaRef="lexicon.xml#lemma_7385" pos="ADV CNJ" ana="lexicon.xml#lemma_7385_sense_11998" corresp="variants.xml#type_26640">wan</w>
+        <w xml:id="DWW_47100180_5" lemmaRef="lexicon.xml#lemma_1258" pos="PRP" ana="lexicon.xml#lemma_1258_sense_1977" corresp="variants.xml#type_4044">durch</w>
+        <w xml:id="DWW_47100180_6" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
+        <w xml:id="DWW_47100180_7" lemmaRef="lexicon.xml#lemma_5484" pos="NOM" ana="lexicon.xml#lemma_5484_sense_8546" corresp="variants.xml#type_19150">sin</w>
+        <pc xml:id="DWW_47100180_8" join="left">,</pc>
       </l>
       <l n="19">
-        <w xml:id="DWW_47100190_0" lemmaRef="lexicon.xml#lemma_1097" meaningRef="lexicon.xml#lemma_1097_sense_1741" pos="ART CNJ" wordRef="lexicon.xml#lemma_1097_sense_1741_type_3398">daz</w>
-        <w xml:id="DWW_47100190_1" lemmaRef="lexicon.xml#lemma_1762" meaningRef="lexicon.xml#lemma_1762_sense_2752" pos="PRO" wordRef="lexicon.xml#lemma_1762_sense_2752_type_6021">ez</w>
-        <w xml:id="DWW_47100190_2" lemmaRef="lexicon.xml#lemma_1258" meaningRef="lexicon.xml#lemma_1258_sense_1977" pos="PRP" wordRef="lexicon.xml#lemma_1258_sense_1977_type_4044">durch</w>
-        <w xml:id="DWW_47100190_3" lemmaRef="lexicon.xml#lemma_7201" meaningRef="lexicon.xml#lemma_7201_sense_11671" pos="NOM" wordRef="lexicon.xml#lemma_7201_sense_11671_type_72669">forhten</w>
-        <w xml:id="DWW_47100190_4" lemmaRef="lexicon.xml#lemma_5974" meaningRef="lexicon.xml#lemma_5974_sense_9465" pos="VRB" wordRef="lexicon.xml#lemma_5974_sense_9465_type_79187">geswige</w>
-        <seg xml:id="DWW_47100190_5" type="pc">.</seg>
+        <w xml:id="DWW_47100190_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
+        <w xml:id="DWW_47100190_1" lemmaRef="lexicon.xml#lemma_1762" pos="PRO" ana="lexicon.xml#lemma_1762_sense_2752" corresp="variants.xml#type_6021">ez</w>
+        <w xml:id="DWW_47100190_2" lemmaRef="lexicon.xml#lemma_1258" pos="PRP" ana="lexicon.xml#lemma_1258_sense_1977" corresp="variants.xml#type_4044">durch</w>
+        <w xml:id="DWW_47100190_3" lemmaRef="lexicon.xml#lemma_7201" pos="NOM" ana="lexicon.xml#lemma_7201_sense_11671" corresp="variants.xml#type_72669">forhten</w>
+        <w xml:id="DWW_47100190_4" lemmaRef="lexicon.xml#lemma_5974" pos="VRB" ana="lexicon.xml#lemma_5974_sense_9465" corresp="variants.xml#type_79187">geswige</w>
+        <pc xml:id="DWW_47100190_5" join="left">.</pc>
       </l>
       <l n="20">
-        <w xml:id="DWW_47100200_0" lemmaRef="lexicon.xml#lemma_4432" meaningRef="lexicon.xml#lemma_4432_sense_6912" pos="ADV CNJ" wordRef="lexicon.xml#lemma_4432_sense_6912_type_15441">nu</w>
-        <w xml:id="DWW_47100200_1" lemmaRef="lexicon.xml#lemma_5366" meaningRef="lexicon.xml#lemma_5366_sense_8382" pos="VRB" wordRef="lexicon.xml#lemma_5366_sense_8382_type_18716">seht</w>
-        <seg xml:id="DWW_47100200_2" type="pc">,</seg>
-        <w xml:id="DWW_47100200_3" lemmaRef="lexicon.xml#lemma_5941" meaningRef="lexicon.xml#lemma_5941_sense_9416" pos="PRO IPA" wordRef="lexicon.xml#lemma_5941_sense_9416_type_20942">wes</w>
-        <w xml:id="DWW_47100200_4" lemmaRef="lexicon.xml#lemma_5445" meaningRef="lexicon.xml#lemma_5445_sense_8495" pos="PRO" wordRef="lexicon.xml#lemma_5445_sense_8495_type_19017">sich</w>
-        <w xml:id="DWW_47100200_5" lemmaRef="lexicon.xml#lemma_1119" meaningRef="lexicon.xml#lemma_1119_sense_1770" pos="ART" wordRef="lexicon.xml#lemma_1119_sense_1770_type_3507">der</w>
-        <w xml:id="DWW_47100200_6" lemmaRef="lexicon.xml#lemma_7679" meaningRef="lexicon.xml#lemma_7679_sense_12588" pos="NOM" wordRef="lexicon.xml#lemma_7679_sense_12588_type_27813">wolf</w>
-        <w xml:id="DWW_47100200_7" lemmaRef="lexicon.xml#lemma_7853" meaningRef="lexicon.xml#lemma_7853_sense_12872" pos="VRB" wordRef="lexicon.xml#lemma_7853_sense_12872_type_28456">zige</w>
-        <seg xml:id="DWW_47100200_8" type="pc">,</seg>
+        <w xml:id="DWW_47100200_0" lemmaRef="lexicon.xml#lemma_4432" pos="ADV CNJ" ana="lexicon.xml#lemma_4432_sense_6912" corresp="variants.xml#type_15441">nu</w>
+        <w xml:id="DWW_47100200_1" lemmaRef="lexicon.xml#lemma_5366" pos="VRB" ana="lexicon.xml#lemma_5366_sense_8382" corresp="variants.xml#type_18716">seht</w>
+        <pc xml:id="DWW_47100200_2" join="left">,</pc>
+        <w xml:id="DWW_47100200_3" lemmaRef="lexicon.xml#lemma_5941" pos="PRO IPA" ana="lexicon.xml#lemma_5941_sense_9416" corresp="variants.xml#type_20942">wes</w>
+        <w xml:id="DWW_47100200_4" lemmaRef="lexicon.xml#lemma_5445" pos="PRO" ana="lexicon.xml#lemma_5445_sense_8495" corresp="variants.xml#type_19017">sich</w>
+        <w xml:id="DWW_47100200_5" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
+        <w xml:id="DWW_47100200_6" lemmaRef="lexicon.xml#lemma_7679" pos="NOM" ana="lexicon.xml#lemma_7679_sense_12588" corresp="variants.xml#type_27813">wolf</w>
+        <w xml:id="DWW_47100200_7" lemmaRef="lexicon.xml#lemma_7853" pos="VRB" ana="lexicon.xml#lemma_7853_sense_12872" corresp="variants.xml#type_28456">zige</w>
+        <pc xml:id="DWW_47100200_8" join="left">,</pc>
       </l>
       <l n="21">
-        <w xml:id="DWW_47100210_0" lemmaRef="lexicon.xml#lemma_1119" meaningRef="lexicon.xml#lemma_1119_sense_1770" pos="ART" wordRef="lexicon.xml#lemma_1119_sense_1770_type_3507">der</w>
-        <w xml:id="DWW_47100210_1" lemmaRef="lexicon.xml#lemma_5445" meaningRef="lexicon.xml#lemma_5445_sense_8495" pos="PRO" wordRef="lexicon.xml#lemma_5445_sense_8495_type_19017">sich</w>
-        <w xml:id="DWW_47100210_2" lemmaRef="lexicon.xml#lemma_5385" meaningRef="lexicon.xml#lemma_5385_sense_8406" pos="ADJ" wordRef="lexicon.xml#lemma_5385_sense_8406_type_18769">selben</w>
-        <w xml:id="DWW_47100210_3" lemmaRef="lexicon.xml#lemma_71" meaningRef="lexicon.xml#lemma_71_sense_90" pos="VRB" wordRef="lexicon.xml#lemma_71_sense_90_type_171461">æfte</w>
+        <w xml:id="DWW_47100210_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
+        <w xml:id="DWW_47100210_1" lemmaRef="lexicon.xml#lemma_5445" pos="PRO" ana="lexicon.xml#lemma_5445_sense_8495" corresp="variants.xml#type_19017">sich</w>
+        <w xml:id="DWW_47100210_2" lemmaRef="lexicon.xml#lemma_5385" pos="ADJ" ana="lexicon.xml#lemma_5385_sense_8406" corresp="variants.xml#type_18769">selben</w>
+        <w xml:id="DWW_47100210_3" lemmaRef="lexicon.xml#lemma_71" pos="VRB" ana="lexicon.xml#lemma_71_sense_90" corresp="variants.xml#type_171461">æfte</w>
       </l>
       <l n="22">
-        <w xml:id="DWW_47100220_0" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="lexicon.xml#lemma_6467_sense_10233_type_22825">und</w>
-        <w xml:id="DWW_47100220_1" lemmaRef="lexicon.xml#lemma_2007" meaningRef="lexicon.xml#lemma_2007_sense_3099" pos="ADV PRP" wordRef="lexicon.xml#lemma_2007_sense_3099_type_6804">gein</w>
-        <w xml:id="DWW_47100220_2" lemmaRef="lexicon.xml#lemma_1119" meaningRef="lexicon.xml#lemma_1119_sense_1770" pos="ART" wordRef="lexicon.xml#lemma_1119_sense_1770_type_3504">dem</w>
-        <w xml:id="DWW_47100220_3" lemmaRef="lexicon.xml#lemma_3313" meaningRef="lexicon.xml#lemma_3313_sense_5196" pos="NOM" wordRef="lexicon.xml#lemma_3313_sense_5196_type_11300">kinde</w>
-        <w xml:id="DWW_47100220_4" lemmaRef="lexicon.xml#lemma_3212" meaningRef="lexicon.xml#lemma_3212_sense_5068" pos="VRB" wordRef="lexicon.xml#lemma_3212_sense_5068_type_171462">chafte</w>
-        <seg xml:id="DWW_47100220_5" type="pc">!</seg>
+        <w xml:id="DWW_47100220_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
+        <w xml:id="DWW_47100220_1" lemmaRef="lexicon.xml#lemma_2007" pos="ADV PRP" ana="lexicon.xml#lemma_2007_sense_3099" corresp="variants.xml#type_6804">gein</w>
+        <w xml:id="DWW_47100220_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3504">dem</w>
+        <w xml:id="DWW_47100220_3" lemmaRef="lexicon.xml#lemma_3313" pos="NOM" ana="lexicon.xml#lemma_3313_sense_5196" corresp="variants.xml#type_11300">kinde</w>
+        <w xml:id="DWW_47100220_4" lemmaRef="lexicon.xml#lemma_3212" pos="VRB" ana="lexicon.xml#lemma_3212_sense_5068" corresp="variants.xml#type_171462">chafte</w>
+        <pc xml:id="DWW_47100220_5" join="left">!</pc>
       </l>
       <l n="23">
         <supplied>
-          <w xml:id="DWW_47100230_0" lemmaRef="lexicon.xml#lemma_1119" meaningRef="lexicon.xml#lemma_1119_sense_1770" pos="ART" wordRef="lexicon.xml#lemma_1119_sense_1770_type_3507">der</w>
+          <w xml:id="DWW_47100230_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
         </supplied>
-        <w xml:id="DWW_47100230_1" lemmaRef="lexicon.xml#lemma_1288" meaningRef="lexicon.xml#lemma_1288_sense_16179" pos="ADJ NUM" wordRef="lexicon.xml#lemma_1288_sense_16179_type_4192">erste</w>
-        <seg xml:id="DWW_47100230_2" type="pc">,</seg>
-        <w xml:id="DWW_47100230_3" lemmaRef="lexicon.xml#lemma_1119" meaningRef="lexicon.xml#lemma_1119_sense_1770" pos="ART" wordRef="lexicon.xml#lemma_1119_sense_1770_type_3507">der</w>
-        <w xml:id="DWW_47100230_4" lemmaRef="lexicon.xml#lemma_1517" meaningRef="lexicon.xml#lemma_1517_sense_2355" pos="PRO" wordRef="lexicon.xml#lemma_1517_sense_2355_type_5008">in</w>
-        <w xml:id="DWW_47100230_5" lemmaRef="lexicon.xml#lemma_1180" meaningRef="lexicon.xml#lemma_1180_sense_1864" pos="ADV" wordRef="lexicon.xml#lemma_1180_sense_1864_type_3738">do</w>
-        <w xml:id="DWW_47100230_6" lemmaRef="lexicon.xml#lemma_5366" meaningRef="lexicon.xml#lemma_5366_sense_8382" pos="VRB" wordRef="lexicon.xml#lemma_5366_sense_8382_type_18670">gesach</w>
-        <seg xml:id="DWW_47100230_7" type="pc">,</seg>
+        <w xml:id="DWW_47100230_1" lemmaRef="lexicon.xml#lemma_1288" pos="ADJ NUM" ana="lexicon.xml#lemma_1288_sense_16179" corresp="variants.xml#type_4192">erste</w>
+        <pc xml:id="DWW_47100230_2" join="left">,</pc>
+        <w xml:id="DWW_47100230_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
+        <w xml:id="DWW_47100230_4" lemmaRef="lexicon.xml#lemma_1517" pos="PRO" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_5008">in</w>
+        <w xml:id="DWW_47100230_5" lemmaRef="lexicon.xml#lemma_1180" pos="ADV" ana="lexicon.xml#lemma_1180_sense_1864" corresp="variants.xml#type_3738">do</w>
+        <w xml:id="DWW_47100230_6" lemmaRef="lexicon.xml#lemma_5366" pos="VRB" ana="lexicon.xml#lemma_5366_sense_8382" corresp="variants.xml#type_18670">gesach</w>
+        <pc xml:id="DWW_47100230_7" join="left">,</pc>
       </l>
       <l n="24">
-        <w xml:id="DWW_47100240_0" lemmaRef="lexicon.xml#lemma_1180" meaningRef="lexicon.xml#lemma_1180_sense_1864" pos="ADV" wordRef="lexicon.xml#lemma_1180_sense_1864_type_3738">do</w>
-        <w xml:id="DWW_47100240_1" lemmaRef="lexicon.xml#lemma_1119" meaningRef="lexicon.xml#lemma_1119_sense_1770" pos="ART" wordRef="lexicon.xml#lemma_1119_sense_1770_type_3507">der</w>
-        <w xml:id="DWW_47100240_2" lemmaRef="lexicon.xml#lemma_5994" meaningRef="lexicon.xml#lemma_5994_sense_9496" pos="NOM" wordRef="lexicon.xml#lemma_5994_sense_9496_type_42887">tach</w>
-        <w xml:id="DWW_47100240_3" lemmaRef="lexicon.xml#lemma_6330" meaningRef="lexicon.xml#lemma_6330_sense_9973" pos="ADV PRP" wordRef="lexicon.xml#lemma_6330_sense_9973_type_22478">uf</w>
-        <w xml:id="DWW_47100240_4" lemmaRef="lexicon.xml#lemma_843" meaningRef="lexicon.xml#lemma_843_sense_1375" pos="VRB" wordRef="lexicon.xml#lemma_843_sense_1375_type_108906">gebrach</w>
-        <seg xml:id="DWW_47100240_5" type="pc">,</seg>
+        <w xml:id="DWW_47100240_0" lemmaRef="lexicon.xml#lemma_1180" pos="ADV" ana="lexicon.xml#lemma_1180_sense_1864" corresp="variants.xml#type_3738">do</w>
+        <w xml:id="DWW_47100240_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
+        <w xml:id="DWW_47100240_2" lemmaRef="lexicon.xml#lemma_5994" pos="NOM" ana="lexicon.xml#lemma_5994_sense_9496" corresp="variants.xml#type_42887">tach</w>
+        <w xml:id="DWW_47100240_3" lemmaRef="lexicon.xml#lemma_6330" pos="ADV PRP" ana="lexicon.xml#lemma_6330_sense_9973" corresp="variants.xml#type_22478">uf</w>
+        <w xml:id="DWW_47100240_4" lemmaRef="lexicon.xml#lemma_843" pos="VRB" ana="lexicon.xml#lemma_843_sense_1375" corresp="variants.xml#type_108906">gebrach</w>
+        <pc xml:id="DWW_47100240_5" join="left">,</pc>
       </l>
       <l n="25">
         <supplied>
-          <w xml:id="DWW_47100250_0" lemmaRef="lexicon.xml#lemma_1119" meaningRef="lexicon.xml#lemma_1119_sense_1770" pos="ART" wordRef="lexicon.xml#lemma_1119_sense_1770_type_3507">der</w>
+          <w xml:id="DWW_47100250_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
         </supplied>
-        <w xml:id="DWW_47100250_1" lemmaRef="lexicon.xml#lemma_6301" meaningRef="lexicon.xml#lemma_6301_sense_9929" pos="NOM VRB" wordRef="lexicon.xml#lemma_6301_sense_9929_type_22319">tet</w>
-        <w xml:id="DWW_47100250_2" lemmaRef="lexicon.xml#lemma_1762" meaningRef="lexicon.xml#lemma_1762_sense_2752" pos="PRO" wordRef="lexicon.xml#lemma_1762_sense_2752_type_65544">iz</w>
-        <w xml:id="DWW_47100250_3" lemmaRef="lexicon.xml#lemma_1119" meaningRef="lexicon.xml#lemma_1119_sense_1770" pos="ART" wordRef="lexicon.xml#lemma_1119_sense_1770_type_3506">den</w>
-        <w xml:id="DWW_47100250_4" lemmaRef="lexicon.xml#lemma_1987" meaningRef="lexicon.xml#lemma_1987_sense_3054" pos="NOM" wordRef="lexicon.xml#lemma_1987_sense_3054_type_114720">gebouren</w>
-        <w xml:id="DWW_47100250_5" lemmaRef="lexicon.xml#lemma_106" meaningRef="lexicon.xml#lemma_106_sense_139" pos="ADJ" wordRef="lexicon.xml#lemma_106_sense_139_type_260">allen</w>
-        <w xml:id="DWW_47100250_6" lemmaRef="lexicon.xml#lemma_3542" meaningRef="lexicon.xml#lemma_3542_sense_5614" pos="ADJ ADV" wordRef="lexicon.xml#lemma_3542_sense_5614_type_41793">chunt</w>
-        <seg xml:id="DWW_47100250_7" type="pc">.</seg>
+        <w xml:id="DWW_47100250_1" lemmaRef="lexicon.xml#lemma_6301" pos="NOM VRB" ana="lexicon.xml#lemma_6301_sense_9929" corresp="variants.xml#type_22319">tet</w>
+        <w xml:id="DWW_47100250_2" lemmaRef="lexicon.xml#lemma_1762" pos="PRO" ana="lexicon.xml#lemma_1762_sense_2752" corresp="variants.xml#type_65544">iz</w>
+        <w xml:id="DWW_47100250_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
+        <w xml:id="DWW_47100250_4" lemmaRef="lexicon.xml#lemma_1987" pos="NOM" ana="lexicon.xml#lemma_1987_sense_3054" corresp="variants.xml#type_114720">gebouren</w>
+        <w xml:id="DWW_47100250_5" lemmaRef="lexicon.xml#lemma_106" pos="ADJ" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_260">allen</w>
+        <w xml:id="DWW_47100250_6" lemmaRef="lexicon.xml#lemma_3542" pos="ADJ ADV" ana="lexicon.xml#lemma_3542_sense_5614" corresp="variants.xml#type_41793">chunt</w>
+        <pc xml:id="DWW_47100250_7" join="left">.</pc>
       </l>
       <l n="26">
-        <w xml:id="DWW_47100260_0" lemmaRef="lexicon.xml#lemma_1180" meaningRef="lexicon.xml#lemma_1180_sense_1864" pos="ADV" wordRef="lexicon.xml#lemma_1180_sense_1864_type_3738">do</w>
-        <w xml:id="DWW_47100260_1" lemmaRef="lexicon.xml#lemma_3400" meaningRef="lexicon.xml#lemma_3400_sense_5361" pos="VRB" wordRef="lexicon.xml#lemma_3400_sense_5361_type_45971">chom</w>
-        <w xml:id="DWW_47100260_2" lemmaRef="lexicon.xml#lemma_3962" meaningRef="lexicon.xml#lemma_3962_sense_6245" pos="ADJ" wordRef="lexicon.xml#lemma_3962_sense_6245_type_13829">manich</w>
-        <w xml:id="DWW_47100260_3" lemmaRef="lexicon.xml#lemma_1987" meaningRef="lexicon.xml#lemma_1987_sense_3054" pos="NOM" wordRef="lexicon.xml#lemma_1987_sense_3054_type_171463">gebour</w>
-        <w xml:id="DWW_47100260_4" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="lexicon.xml#lemma_6467_sense_10233_type_22825">und</w>
-        <w xml:id="DWW_47100260_5" lemmaRef="lexicon.xml#lemma_3962" meaningRef="lexicon.xml#lemma_3962_sense_6245" pos="ADJ" wordRef="lexicon.xml#lemma_3962_sense_6245_type_150798">manih</w>
-        <w xml:id="DWW_47100260_6" lemmaRef="lexicon.xml#lemma_2957" meaningRef="lexicon.xml#lemma_2957_sense_4749" pos="NOM" wordRef="lexicon.xml#lemma_2957_sense_4749_type_10068">hunt</w>
+        <w xml:id="DWW_47100260_0" lemmaRef="lexicon.xml#lemma_1180" pos="ADV" ana="lexicon.xml#lemma_1180_sense_1864" corresp="variants.xml#type_3738">do</w>
+        <w xml:id="DWW_47100260_1" lemmaRef="lexicon.xml#lemma_3400" pos="VRB" ana="lexicon.xml#lemma_3400_sense_5361" corresp="variants.xml#type_45971">chom</w>
+        <w xml:id="DWW_47100260_2" lemmaRef="lexicon.xml#lemma_3962" pos="ADJ" ana="lexicon.xml#lemma_3962_sense_6245" corresp="variants.xml#type_13829">manich</w>
+        <w xml:id="DWW_47100260_3" lemmaRef="lexicon.xml#lemma_1987" pos="NOM" ana="lexicon.xml#lemma_1987_sense_3054" corresp="variants.xml#type_171463">gebour</w>
+        <w xml:id="DWW_47100260_4" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
+        <w xml:id="DWW_47100260_5" lemmaRef="lexicon.xml#lemma_3962" pos="ADJ" ana="lexicon.xml#lemma_3962_sense_6245" corresp="variants.xml#type_150798">manih</w>
+        <w xml:id="DWW_47100260_6" lemmaRef="lexicon.xml#lemma_2957" pos="NOM" ana="lexicon.xml#lemma_2957_sense_4749" corresp="variants.xml#type_10068">hunt</w>
       </l>
       <l n="27">
-        <w xml:id="DWW_47100270_0" lemmaRef="lexicon.xml#lemma_6422" meaningRef="lexicon.xml#lemma_6422_sense_10158" pos="ADV PRP" wordRef="lexicon.xml#lemma_6422_sense_10158_type_22720">umbe</w>
-        <w xml:id="DWW_47100270_1" lemmaRef="lexicon.xml#lemma_1119" meaningRef="lexicon.xml#lemma_1119_sense_1770" pos="ART" wordRef="lexicon.xml#lemma_1119_sense_1770_type_3506">den</w>
-        <w xml:id="DWW_47100270_2" lemmaRef="lexicon.xml#lemma_2886" meaningRef="lexicon.xml#lemma_2886_sense_4630" pos="NOM" wordRef="lexicon.xml#lemma_2886_sense_4630_type_9855">hof</w>
-        <w xml:id="DWW_47100270_3" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="lexicon.xml#lemma_6467_sense_10233_type_22825">und</w>
-        <w xml:id="DWW_47100270_4" lemmaRef="lexicon.xml#lemma_1055" meaningRef="lexicon.xml#lemma_1055_sense_1689" pos="ADV" wordRef="lexicon.xml#lemma_1055_sense_1689_type_3258">dar</w>
-        <w xml:id="DWW_47100270_5" lemmaRef="lexicon.xml#lemma_3028" meaningRef="lexicon.xml#lemma_3028_sense_4834" pos="PRP" wordRef="lexicon.xml#lemma_3028_sense_4834_type_10369">in</w>
-        <seg xml:id="DWW_47100270_6" type="pc">;</seg>
+        <w xml:id="DWW_47100270_0" lemmaRef="lexicon.xml#lemma_6422" pos="ADV PRP" ana="lexicon.xml#lemma_6422_sense_10158" corresp="variants.xml#type_22720">umbe</w>
+        <w xml:id="DWW_47100270_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
+        <w xml:id="DWW_47100270_2" lemmaRef="lexicon.xml#lemma_2886" pos="NOM" ana="lexicon.xml#lemma_2886_sense_4630" corresp="variants.xml#type_9855">hof</w>
+        <w xml:id="DWW_47100270_3" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
+        <w xml:id="DWW_47100270_4" lemmaRef="lexicon.xml#lemma_1055" pos="ADV" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3258">dar</w>
+        <w xml:id="DWW_47100270_5" lemmaRef="lexicon.xml#lemma_3028" pos="PRP" ana="lexicon.xml#lemma_3028_sense_4834" corresp="variants.xml#type_10369">in</w>
+        <pc xml:id="DWW_47100270_6" join="left">;</pc>
       </l>
       <l n="28">
-        <w xml:id="DWW_47100280_0" lemmaRef="lexicon.xml#lemma_1180" meaningRef="lexicon.xml#lemma_1180_sense_1864" pos="ADV" wordRef="lexicon.xml#lemma_1180_sense_1864_type_3738">do</w>
-        <w xml:id="DWW_47100280_1" lemmaRef="lexicon.xml#lemma_7505" meaningRef="lexicon.xml#lemma_7505_sense_12246" pos="VRB" wordRef="lexicon.xml#lemma_7505_sense_12246_type_273619">wære</w>
+        <w xml:id="DWW_47100280_0" lemmaRef="lexicon.xml#lemma_1180" pos="ADV" ana="lexicon.xml#lemma_1180_sense_1864" corresp="variants.xml#type_3738">do</w>
+        <w xml:id="DWW_47100280_1" lemmaRef="lexicon.xml#lemma_7505" pos="VRB" ana="lexicon.xml#lemma_7505_sense_12246" corresp="variants.xml#type_273619">wære</w>
         <supplied>
-          <w xml:id="DWW_47100280_2" lemmaRef="lexicon.xml#lemma_1119" meaningRef="lexicon.xml#lemma_1119_sense_1770" pos="ART" wordRef="lexicon.xml#lemma_1119_sense_1770_type_3507">der</w>
+          <w xml:id="DWW_47100280_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
         </supplied>
-        <w xml:id="DWW_47100280_3" lemmaRef="lexicon.xml#lemma_7679" meaningRef="lexicon.xml#lemma_7679_sense_12588" pos="NOM" wordRef="lexicon.xml#lemma_7679_sense_12588_type_27813">wolf</w>
-        <w xml:id="DWW_47100280_4" lemmaRef="lexicon.xml#lemma_2175" meaningRef="lexicon.xml#lemma_2175_sense_3409" pos="ADV" wordRef="lexicon.xml#lemma_2175_sense_3409_type_7387">gern</w>
-        <w xml:id="DWW_47100280_5" lemmaRef="lexicon.xml#lemma_2837" meaningRef="lexicon.xml#lemma_2837_sense_4558" pos="ADV" wordRef="lexicon.xml#lemma_2837_sense_4558_type_9597">hin</w>
-        <seg xml:id="DWW_47100280_6" type="pc">.</seg>
+        <w xml:id="DWW_47100280_3" lemmaRef="lexicon.xml#lemma_7679" pos="NOM" ana="lexicon.xml#lemma_7679_sense_12588" corresp="variants.xml#type_27813">wolf</w>
+        <w xml:id="DWW_47100280_4" lemmaRef="lexicon.xml#lemma_2175" pos="ADV" ana="lexicon.xml#lemma_2175_sense_3409" corresp="variants.xml#type_7387">gern</w>
+        <w xml:id="DWW_47100280_5" lemmaRef="lexicon.xml#lemma_2837" pos="ADV" ana="lexicon.xml#lemma_2837_sense_4558" corresp="variants.xml#type_9597">hin</w>
+        <pc xml:id="DWW_47100280_6" join="left">.</pc>
       </l>
       <l n="29">
-        <w xml:id="DWW_47100290_0" lemmaRef="lexicon.xml#lemma_1762" meaningRef="lexicon.xml#lemma_1762_sense_2752" pos="PRO" wordRef="lexicon.xml#lemma_1762_sense_2752_type_6021">ez</w>
-        <w xml:id="DWW_47100290_1" lemmaRef="lexicon.xml#lemma_446" meaningRef="lexicon.xml#lemma_446_sense_612" pos="VRB" wordRef="lexicon.xml#lemma_446_sense_612_type_1231">begunde</w>
-        <w xml:id="DWW_47100290_2" lemmaRef="lexicon.xml#lemma_1517" meaningRef="lexicon.xml#lemma_1517_sense_2355" pos="PRO" wordRef="lexicon.xml#lemma_1517_sense_2355_type_32780">im</w>
-        <w xml:id="DWW_47100290_3" lemmaRef="lexicon.xml#lemma_6356" meaningRef="lexicon.xml#lemma_6356_sense_10016" pos="NOM ADJ ADV" wordRef="lexicon.xml#lemma_6356_sense_10016_type_42508">ubel</w>
-        <w xml:id="DWW_47100290_4" lemmaRef="lexicon.xml#lemma_1055" meaningRef="lexicon.xml#lemma_1055_sense_1689" pos="ADV CNJ" wordRef="lexicon.xml#lemma_1055_sense_1689_type_3255">da</w>
-        <w xml:id="DWW_47100290_5" lemmaRef="lexicon.xml#lemma_452" meaningRef="lexicon.xml#lemma_452_sense_622" pos="VRB" wordRef="lexicon.xml#lemma_452_sense_622_type_1264">behagen</w>
-        <seg xml:id="DWW_47100290_6" type="pc">:</seg>
+        <w xml:id="DWW_47100290_0" lemmaRef="lexicon.xml#lemma_1762" pos="PRO" ana="lexicon.xml#lemma_1762_sense_2752" corresp="variants.xml#type_6021">ez</w>
+        <w xml:id="DWW_47100290_1" lemmaRef="lexicon.xml#lemma_446" pos="VRB" ana="lexicon.xml#lemma_446_sense_612" corresp="variants.xml#type_1231">begunde</w>
+        <w xml:id="DWW_47100290_2" lemmaRef="lexicon.xml#lemma_1517" pos="PRO" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_32780">im</w>
+        <w xml:id="DWW_47100290_3" lemmaRef="lexicon.xml#lemma_6356" pos="NOM ADJ ADV" ana="lexicon.xml#lemma_6356_sense_10016" corresp="variants.xml#type_42508">ubel</w>
+        <w xml:id="DWW_47100290_4" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3255">da</w>
+        <w xml:id="DWW_47100290_5" lemmaRef="lexicon.xml#lemma_452" pos="VRB" ana="lexicon.xml#lemma_452_sense_622" corresp="variants.xml#type_1264">behagen</w>
+        <pc xml:id="DWW_47100290_6" join="left">:</pc>
       </l>
       <l n="30">
-        <w xml:id="DWW_47100300_0" lemmaRef="lexicon.xml#lemma_1517" meaningRef="lexicon.xml#lemma_1517_sense_2355" pos="PRO" wordRef="lexicon.xml#lemma_1517_sense_2355_type_4999">er</w>
-        <w xml:id="DWW_47100300_1" lemmaRef="lexicon.xml#lemma_7489" meaningRef="lexicon.xml#lemma_7489_sense_12208" pos="VRB VEX" wordRef="lexicon.xml#lemma_7489_sense_12208_type_49215">wart</w>
-        <w xml:id="DWW_47100300_2" lemmaRef="lexicon.xml#lemma_690" meaningRef="lexicon.xml#lemma_690_sense_1109" pos="VRB" wordRef="lexicon.xml#lemma_690_sense_1109_type_74834">gebizzen</w>
-        <w xml:id="DWW_47100300_3" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="lexicon.xml#lemma_6467_sense_10233_type_22825">und</w>
-        <w xml:id="DWW_47100300_4" lemmaRef="lexicon.xml#lemma_5525" meaningRef="lexicon.xml#lemma_5525_sense_14950" pos="VRB" wordRef="lexicon.xml#lemma_5525_sense_14950_type_171464">geslegen</w>
-        <seg xml:id="DWW_47100300_5" type="pc">,</seg>
+        <w xml:id="DWW_47100300_0" lemmaRef="lexicon.xml#lemma_1517" pos="PRO" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_4999">er</w>
+        <w xml:id="DWW_47100300_1" lemmaRef="lexicon.xml#lemma_7489" pos="VRB VEX" ana="lexicon.xml#lemma_7489_sense_12208" corresp="variants.xml#type_49215">wart</w>
+        <w xml:id="DWW_47100300_2" lemmaRef="lexicon.xml#lemma_690" pos="VRB" ana="lexicon.xml#lemma_690_sense_1109" corresp="variants.xml#type_74834">gebizzen</w>
+        <w xml:id="DWW_47100300_3" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
+        <w xml:id="DWW_47100300_4" lemmaRef="lexicon.xml#lemma_5525" pos="VRB" ana="lexicon.xml#lemma_5525_sense_14950" corresp="variants.xml#type_171464">geslegen</w>
+        <pc xml:id="DWW_47100300_5" join="left">,</pc>
       </l>
       <l n="31">
-        <w xml:id="DWW_47100310_0" lemmaRef="lexicon.xml#lemma_1097" meaningRef="lexicon.xml#lemma_1097_sense_1741" pos="ART CNJ" wordRef="lexicon.xml#lemma_1097_sense_1741_type_3398">daz</w>
-        <w xml:id="DWW_47100310_1" lemmaRef="lexicon.xml#lemma_1517" meaningRef="lexicon.xml#lemma_1517_sense_2355" pos="PRO" wordRef="lexicon.xml#lemma_1517_sense_2355_type_4999">er</w>
-        <w xml:id="DWW_47100310_2" lemmaRef="lexicon.xml#lemma_7075" meaningRef="lexicon.xml#lemma_7075_sense_11459" pos="ADJ ADV" wordRef="lexicon.xml#lemma_7075_sense_11459_type_25008">vil</w>
-        <w xml:id="DWW_47100310_3" lemmaRef="lexicon.xml#lemma_3494" meaningRef="lexicon.xml#lemma_3494_sense_5537" pos="ADV" wordRef="lexicon.xml#lemma_3494_sense_5537_type_166850">chome</w>
-        <w xml:id="DWW_47100310_4" lemmaRef="lexicon.xml#lemma_1073" meaningRef="lexicon.xml#lemma_1073_sense_1716" pos="ADV" wordRef="lexicon.xml#lemma_1073_sense_1716_type_3323">danne</w>
-        <w xml:id="DWW_47100310_5" lemmaRef="lexicon.xml#lemma_3400" meaningRef="lexicon.xml#lemma_3400_sense_5361" pos="VRB" wordRef="lexicon.xml#lemma_3400_sense_5361_type_11734">quam</w>
+        <w xml:id="DWW_47100310_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
+        <w xml:id="DWW_47100310_1" lemmaRef="lexicon.xml#lemma_1517" pos="PRO" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_4999">er</w>
+        <w xml:id="DWW_47100310_2" lemmaRef="lexicon.xml#lemma_7075" pos="ADJ ADV" ana="lexicon.xml#lemma_7075_sense_11459" corresp="variants.xml#type_25008">vil</w>
+        <w xml:id="DWW_47100310_3" lemmaRef="lexicon.xml#lemma_3494" pos="ADV" ana="lexicon.xml#lemma_3494_sense_5537" corresp="variants.xml#type_166850">chome</w>
+        <w xml:id="DWW_47100310_4" lemmaRef="lexicon.xml#lemma_1073" pos="ADV" ana="lexicon.xml#lemma_1073_sense_1716" corresp="variants.xml#type_3323">danne</w>
+        <w xml:id="DWW_47100310_5" lemmaRef="lexicon.xml#lemma_3400" pos="VRB" ana="lexicon.xml#lemma_3400_sense_5361" corresp="variants.xml#type_11734">quam</w>
       </l>
       <l n="32">
-        <w xml:id="DWW_47100320_0" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="lexicon.xml#lemma_6467_sense_10233_type_22825">und</w>
-        <w xml:id="DWW_47100320_1" lemmaRef="lexicon.xml#lemma_1055" meaningRef="lexicon.xml#lemma_1055_sense_1689" pos="ADV CNJ" wordRef="lexicon.xml#lemma_1055_sense_1689_type_3255">da</w>
-        <w xml:id="DWW_47100320_2" lemmaRef="lexicon.xml#lemma_1517" meaningRef="lexicon.xml#lemma_1517_sense_2355" pos="POS PRO" wordRef="lexicon.xml#lemma_1517_sense_2355_type_67997">sin</w>
-        <w xml:id="DWW_47100320_3" lemmaRef="lexicon.xml#lemma_1396" meaningRef="lexicon.xml#lemma_1396_sense_2154" pos="NOM" wordRef="lexicon.xml#lemma_1396_sense_2154_type_4546">ende</w>
-        <w xml:id="DWW_47100320_4" lemmaRef="lexicon.xml#lemma_4377" meaningRef="lexicon.xml#lemma_4377_sense_6838" pos="ADJ ADV NEG" wordRef="lexicon.xml#lemma_4377_sense_6838_type_15286">niht</w>
-        <w xml:id="DWW_47100320_5" lemmaRef="lexicon.xml#lemma_8190" meaningRef="lexicon.xml#lemma_8190_sense_17202" pos="NEG VRB" wordRef="lexicon.xml#lemma_8190_sense_17202_type_29358">ennam</w>
-        <seg xml:id="DWW_47100320_6" type="pc">.</seg>
+        <w xml:id="DWW_47100320_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
+        <w xml:id="DWW_47100320_1" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3255">da</w>
+        <w xml:id="DWW_47100320_2" lemmaRef="lexicon.xml#lemma_1517" pos="POS PRO" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_67997">sin</w>
+        <w xml:id="DWW_47100320_3" lemmaRef="lexicon.xml#lemma_1396" pos="NOM" ana="lexicon.xml#lemma_1396_sense_2154" corresp="variants.xml#type_4546">ende</w>
+        <w xml:id="DWW_47100320_4" lemmaRef="lexicon.xml#lemma_4377" pos="ADJ ADV NEG" ana="lexicon.xml#lemma_4377_sense_6838" corresp="variants.xml#type_15286">niht</w>
+        <w xml:id="DWW_47100320_5" lemmaRef="lexicon.xml#lemma_8190" pos="NEG VRB" ana="lexicon.xml#lemma_8190_sense_17202" corresp="variants.xml#type_29358">ennam</w>
+        <pc xml:id="DWW_47100320_6" join="left">.</pc>
       </l>
       <l n="33">
-        <w xml:id="DWW_47100330_0" lemmaRef="lexicon.xml#lemma_1517" meaningRef="lexicon.xml#lemma_1517_sense_2355" pos="PRO" wordRef="lexicon.xml#lemma_1517_sense_2355_type_4999">er</w>
-        <w xml:id="DWW_47100330_1" lemmaRef="lexicon.xml#lemma_3860" meaningRef="lexicon.xml#lemma_3860_sense_6096" pos="VRB" wordRef="lexicon.xml#lemma_3860_sense_6096_type_13482">lief</w>
-        <seg xml:id="DWW_47100330_2" type="pc">,</seg>
-        <w xml:id="DWW_47100330_3" lemmaRef="lexicon.xml#lemma_1055" meaningRef="lexicon.xml#lemma_1055_sense_1689" pos="ADV CNJ" wordRef="lexicon.xml#lemma_1055_sense_1689_type_3255">da</w>
-        <w xml:id="DWW_47100330_4" lemmaRef="lexicon.xml#lemma_1517" meaningRef="lexicon.xml#lemma_1517_sense_2355" pos="PRO" wordRef="lexicon.xml#lemma_1517_sense_2355_type_4999">er</w>
-        <w xml:id="DWW_47100330_5" lemmaRef="lexicon.xml#lemma_1517" meaningRef="lexicon.xml#lemma_1517_sense_2355" pos="POS" wordRef="lexicon.xml#lemma_1517_sense_2355_type_80358">sine</w>
-        <w xml:id="DWW_47100330_6" lemmaRef="lexicon.xml#lemma_32952" meaningRef="lexicon.xml#lemma_32952_sense_51451" pos="NOM" wordRef="lexicon.xml#lemma_32952_sense_51451_type_171465">wlpen</w>
-        <w xml:id="DWW_47100330_7" lemmaRef="lexicon.xml#lemma_7081" meaningRef="lexicon.xml#lemma_7081_sense_11468" pos="VRB" wordRef="lexicon.xml#lemma_7081_sense_11468_type_25036">vant</w>
-        <seg xml:id="DWW_47100330_8" type="pc">.</seg>
+        <w xml:id="DWW_47100330_0" lemmaRef="lexicon.xml#lemma_1517" pos="PRO" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_4999">er</w>
+        <w xml:id="DWW_47100330_1" lemmaRef="lexicon.xml#lemma_3860" pos="VRB" ana="lexicon.xml#lemma_3860_sense_6096" corresp="variants.xml#type_13482">lief</w>
+        <pc xml:id="DWW_47100330_2" join="left">,</pc>
+        <w xml:id="DWW_47100330_3" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3255">da</w>
+        <w xml:id="DWW_47100330_4" lemmaRef="lexicon.xml#lemma_1517" pos="PRO" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_4999">er</w>
+        <w xml:id="DWW_47100330_5" lemmaRef="lexicon.xml#lemma_1517" pos="POS" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_80358">sine</w>
+        <w xml:id="DWW_47100330_6" lemmaRef="lexicon.xml#lemma_32952" pos="NOM" ana="lexicon.xml#lemma_32952_sense_51451" corresp="variants.xml#type_171465">wlpen</w>
+        <w xml:id="DWW_47100330_7" lemmaRef="lexicon.xml#lemma_7081" pos="VRB" ana="lexicon.xml#lemma_7081_sense_11468" corresp="variants.xml#type_25036">vant</w>
+        <pc xml:id="DWW_47100330_8" join="left">.</pc>
       </l>
       <l n="34">
-        <w xml:id="DWW_47100340_0" lemmaRef="lexicon.xml#lemma_1139" meaningRef="lexicon.xml#lemma_1139_sense_1797" pos="ART" wordRef="lexicon.xml#lemma_1139_sense_1797_type_45021">diu</w>
-        <w xml:id="DWW_47100340_1" lemmaRef="lexicon.xml#lemma_446" meaningRef="lexicon.xml#lemma_446_sense_612" pos="VRB" wordRef="lexicon.xml#lemma_446_sense_612_type_1231">begunde</w>
-        <w xml:id="DWW_47100340_2" lemmaRef="lexicon.xml#lemma_1517" meaningRef="lexicon.xml#lemma_1517_sense_2355" pos="PRO" wordRef="lexicon.xml#lemma_1517_sense_2355_type_5008">in</w>
-        <w xml:id="DWW_47100340_3" lemmaRef="lexicon.xml#lemma_7211" meaningRef="lexicon.xml#lemma_7211_sense_11684" pos="VRB" wordRef="lexicon.xml#lemma_7211_sense_11684_type_45821">fragen</w>
-        <w xml:id="DWW_47100340_4" lemmaRef="lexicon.xml#lemma_7778" meaningRef="lexicon.xml#lemma_7778_sense_12747" pos="ADV PRP" wordRef="lexicon.xml#lemma_7778_sense_12747_type_28146">zehant</w>
-        <seg xml:id="DWW_47100340_5" type="pc">,</seg>
+        <w xml:id="DWW_47100340_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
+        <w xml:id="DWW_47100340_1" lemmaRef="lexicon.xml#lemma_446" pos="VRB" ana="lexicon.xml#lemma_446_sense_612" corresp="variants.xml#type_1231">begunde</w>
+        <w xml:id="DWW_47100340_2" lemmaRef="lexicon.xml#lemma_1517" pos="PRO" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_5008">in</w>
+        <w xml:id="DWW_47100340_3" lemmaRef="lexicon.xml#lemma_7211" pos="VRB" ana="lexicon.xml#lemma_7211_sense_11684" corresp="variants.xml#type_45821">fragen</w>
+        <w xml:id="DWW_47100340_4" lemmaRef="lexicon.xml#lemma_7778" pos="ADV PRP" ana="lexicon.xml#lemma_7778_sense_12747" corresp="variants.xml#type_28146">zehant</w>
+        <pc xml:id="DWW_47100340_5" join="left">,</pc>
       </l>
       <l n="35">
-        <w xml:id="DWW_47100350_0" lemmaRef="lexicon.xml#lemma_5941" meaningRef="lexicon.xml#lemma_5941_sense_9416" pos="PRO IPA" wordRef="lexicon.xml#lemma_5941_sense_9416_type_20941">waz</w>
-        <w xml:id="DWW_47100350_1" lemmaRef="lexicon.xml#lemma_1517" meaningRef="lexicon.xml#lemma_1517_sense_2355" pos="PRO" wordRef="lexicon.xml#lemma_1517_sense_2355_type_32780">im</w>
-        <w xml:id="DWW_47100350_2" lemmaRef="lexicon.xml#lemma_3691" meaningRef="lexicon.xml#lemma_3691_sense_5847" pos="NOM ADJ" wordRef="lexicon.xml#lemma_3691_sense_5847_type_12843">leides</w>
-        <w xml:id="DWW_47100350_3" lemmaRef="lexicon.xml#lemma_7505" meaningRef="lexicon.xml#lemma_7505_sense_12246" pos="VRB" wordRef="lexicon.xml#lemma_7505_sense_12246_type_273614">wær</w>
-        <w xml:id="DWW_47100350_4" lemmaRef="lexicon.xml#lemma_2199" meaningRef="lexicon.xml#lemma_2199_sense_3477" pos="VRB" wordRef="lexicon.xml#lemma_2199_sense_3477_type_7454">geschehen</w>
-        <seg xml:id="DWW_47100350_5" type="pc">.</seg>
+        <w xml:id="DWW_47100350_0" lemmaRef="lexicon.xml#lemma_5941" pos="PRO IPA" ana="lexicon.xml#lemma_5941_sense_9416" corresp="variants.xml#type_20941">waz</w>
+        <w xml:id="DWW_47100350_1" lemmaRef="lexicon.xml#lemma_1517" pos="PRO" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_32780">im</w>
+        <w xml:id="DWW_47100350_2" lemmaRef="lexicon.xml#lemma_3691" pos="NOM ADJ" ana="lexicon.xml#lemma_3691_sense_5847" corresp="variants.xml#type_12843">leides</w>
+        <w xml:id="DWW_47100350_3" lemmaRef="lexicon.xml#lemma_7505" pos="VRB" ana="lexicon.xml#lemma_7505_sense_12246" corresp="variants.xml#type_273614">wær</w>
+        <w xml:id="DWW_47100350_4" lemmaRef="lexicon.xml#lemma_2199" pos="VRB" ana="lexicon.xml#lemma_2199_sense_3477" corresp="variants.xml#type_7454">geschehen</w>
+        <pc xml:id="DWW_47100350_5" join="left">.</pc>
       </l>
       <l n="36">
-        <w xml:id="DWW_47100360_0" lemmaRef="lexicon.xml#lemma_1517" meaningRef="lexicon.xml#lemma_1517_sense_2355" pos="PRO" wordRef="lexicon.xml#lemma_1517_sense_2355_type_4999">er</w>
-        <w xml:id="DWW_47100360_1" lemmaRef="lexicon.xml#lemma_5693" meaningRef="lexicon.xml#lemma_5693_sense_8912" pos="VRB" wordRef="lexicon.xml#lemma_5693_sense_8912_type_19957">sprach</w>
-        <seg xml:id="DWW_47100360_2" type="pc">:</seg>
-        <seg xml:id="DWW_47100360_3" type="pc">&lt;</seg>
-        <w xml:id="DWW_47100360_4" lemmaRef="lexicon.xml#lemma_1119" meaningRef="lexicon.xml#lemma_1119_sense_1770" pos="ART" wordRef="lexicon.xml#lemma_1119_sense_1770_type_3510">des</w>
-        <w xml:id="DWW_47100360_5" lemmaRef="lexicon.xml#lemma_7473" meaningRef="lexicon.xml#lemma_7473_sense_12160" pos="VRB VEM" wordRef="lexicon.xml#lemma_7473_sense_12160_type_26922">wil</w>
-        <w xml:id="DWW_47100360_6" lemmaRef="lexicon.xml#lemma_3001" meaningRef="lexicon.xml#lemma_3001_sense_4805" pos="PRO" wordRef="lexicon.xml#lemma_3001_sense_4805_type_10212">ich</w>
-        <w xml:id="DWW_47100360_7" lemmaRef="lexicon.xml#lemma_1242" meaningRef="lexicon.xml#lemma_1242_sense_1958" pos="PRO" wordRef="lexicon.xml#lemma_1242_sense_1958_type_3963">dir</w>
-        <w xml:id="DWW_47100360_8" lemmaRef="lexicon.xml#lemma_6869" meaningRef="lexicon.xml#lemma_6869_sense_22057" pos="VRB" wordRef="lexicon.xml#lemma_6869_sense_22057_type_117838">veriehen</w>
+        <w xml:id="DWW_47100360_0" lemmaRef="lexicon.xml#lemma_1517" pos="PRO" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_4999">er</w>
+        <w xml:id="DWW_47100360_1" lemmaRef="lexicon.xml#lemma_5693" pos="VRB" ana="lexicon.xml#lemma_5693_sense_8912" corresp="variants.xml#type_19957">sprach</w>
+        <pc xml:id="DWW_47100360_2" join="left">:</pc>
+        <pc xml:id="DWW_47100360_3" join="right">&lt;</pc>
+        <w xml:id="DWW_47100360_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
+        <w xml:id="DWW_47100360_5" lemmaRef="lexicon.xml#lemma_7473" pos="VRB VEM" ana="lexicon.xml#lemma_7473_sense_12160" corresp="variants.xml#type_26922">wil</w>
+        <w xml:id="DWW_47100360_6" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
+        <w xml:id="DWW_47100360_7" lemmaRef="lexicon.xml#lemma_1242" pos="PRO" ana="lexicon.xml#lemma_1242_sense_1958" corresp="variants.xml#type_3963">dir</w>
+        <w xml:id="DWW_47100360_8" lemmaRef="lexicon.xml#lemma_6869" pos="VRB" ana="lexicon.xml#lemma_6869_sense_22057" corresp="variants.xml#type_117838">veriehen</w>
       </l>
       <l n="37">
-        <w xml:id="DWW_47100370_0" pos="" wordRef="lexicon.xml#type_-7">-</w>
-        <w xml:id="DWW_47100370_1" lemmaRef="lexicon.xml#lemma_1119" meaningRef="lexicon.xml#lemma_1119_sense_1770" pos="ART" wordRef="lexicon.xml#lemma_1119_sense_1770_type_3510">des</w>
-        <w xml:id="DWW_47100370_2" lemmaRef="lexicon.xml#lemma_5432" meaningRef="lexicon.xml#lemma_5432_sense_8479" pos="VRB VEX" wordRef="lexicon.xml#lemma_5432_sense_8479_type_18956">ist</w>
-        <w xml:id="DWW_47100370_3" lemmaRef="lexicon.xml#lemma_4523" meaningRef="lexicon.xml#lemma_4523_sense_7060" pos="CNJ" wordRef="lexicon.xml#lemma_4523_sense_7060_type_15677">ouch</w>
-        <w xml:id="DWW_47100370_4" lemmaRef="lexicon.xml#lemma_7571" meaningRef="lexicon.xml#lemma_7571_sense_12380" pos="NOM" wordRef="lexicon.xml#lemma_7571_sense_12380_type_27420">widerrede</w>
-        <w xml:id="DWW_47100370_5" lemmaRef="lexicon.xml#lemma_4377" meaningRef="lexicon.xml#lemma_4377_sense_6838" pos="ADJ ADV NEG" wordRef="lexicon.xml#lemma_4377_sense_6838_type_15286">niht</w>
-        <seg xml:id="DWW_47100370_6" type="pc">.</seg>
+        <w xml:id="DWW_47100370_0" pos="" corresp="variants.xml#type_-7">-</w>
+        <w xml:id="DWW_47100370_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
+        <w xml:id="DWW_47100370_2" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18956">ist</w>
+        <w xml:id="DWW_47100370_3" lemmaRef="lexicon.xml#lemma_4523" pos="CNJ" ana="lexicon.xml#lemma_4523_sense_7060" corresp="variants.xml#type_15677">ouch</w>
+        <w xml:id="DWW_47100370_4" lemmaRef="lexicon.xml#lemma_7571" pos="NOM" ana="lexicon.xml#lemma_7571_sense_12380" corresp="variants.xml#type_27420">widerrede</w>
+        <w xml:id="DWW_47100370_5" lemmaRef="lexicon.xml#lemma_4377" pos="ADJ ADV NEG" ana="lexicon.xml#lemma_4377_sense_6838" corresp="variants.xml#type_15286">niht</w>
+        <pc xml:id="DWW_47100370_6" join="left">.</pc>
       </l>
       <l n="38">
-        <w xml:id="DWW_47100380_0" lemmaRef="lexicon.xml#lemma_3001" meaningRef="lexicon.xml#lemma_3001_sense_4805" pos="PRO" wordRef="lexicon.xml#lemma_3001_sense_4805_type_10237">mir</w>
-        <w xml:id="DWW_47100380_1" lemmaRef="lexicon.xml#lemma_5432" meaningRef="lexicon.xml#lemma_5432_sense_8479" pos="VRB VEX" wordRef="lexicon.xml#lemma_5432_sense_8479_type_18956">ist</w>
-        <w xml:id="DWW_47100380_2" lemmaRef="lexicon.xml#lemma_2199" meaningRef="lexicon.xml#lemma_2199_sense_3477" pos="VRB" wordRef="lexicon.xml#lemma_2199_sense_3477_type_7454">geschehen</w>
-        <seg xml:id="DWW_47100380_3" type="pc">,</seg>
-        <w xml:id="DWW_47100380_4" lemmaRef="lexicon.xml#lemma_148" meaningRef="lexicon.xml#lemma_148_sense_183" pos="CNJ" wordRef="lexicon.xml#lemma_148_sense_183_type_369">als</w>
-        <w xml:id="DWW_47100380_5" lemmaRef="lexicon.xml#lemma_1119" meaningRef="lexicon.xml#lemma_1119_sense_1770" pos="ART" wordRef="lexicon.xml#lemma_1119_sense_1770_type_3506">den</w>
-        <w xml:id="DWW_47100380_6" lemmaRef="lexicon.xml#lemma_2199" meaningRef="lexicon.xml#lemma_2199_sense_3477" pos="VRB" wordRef="lexicon.xml#lemma_2199_sense_3477_type_7457">geschiht</w>
-        <seg xml:id="DWW_47100380_7" type="pc">:</seg>
+        <w xml:id="DWW_47100380_0" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10237">mir</w>
+        <w xml:id="DWW_47100380_1" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18956">ist</w>
+        <w xml:id="DWW_47100380_2" lemmaRef="lexicon.xml#lemma_2199" pos="VRB" ana="lexicon.xml#lemma_2199_sense_3477" corresp="variants.xml#type_7454">geschehen</w>
+        <pc xml:id="DWW_47100380_3" join="left">,</pc>
+        <w xml:id="DWW_47100380_4" lemmaRef="lexicon.xml#lemma_148" pos="CNJ" ana="lexicon.xml#lemma_148_sense_183" corresp="variants.xml#type_369">als</w>
+        <w xml:id="DWW_47100380_5" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
+        <w xml:id="DWW_47100380_6" lemmaRef="lexicon.xml#lemma_2199" pos="VRB" ana="lexicon.xml#lemma_2199_sense_3477" corresp="variants.xml#type_7457">geschiht</w>
+        <pc xml:id="DWW_47100380_7" join="left">:</pc>
       </l>
       <l n="39">
         <supplied>
-          <w xml:id="DWW_47100390_0" lemmaRef="lexicon.xml#lemma_5961" meaningRef="lexicon.xml#lemma_5961_sense_9448" pos="PRO IPA" wordRef="lexicon.xml#lemma_5961_sense_9448_type_21017">swer</w>
+          <w xml:id="DWW_47100390_0" lemmaRef="lexicon.xml#lemma_5961" pos="PRO IPA" ana="lexicon.xml#lemma_5961_sense_9448" corresp="variants.xml#type_21017">swer</w>
         </supplied>
-        <w xml:id="DWW_47100390_1" lemmaRef="lexicon.xml#lemma_1119" meaningRef="lexicon.xml#lemma_1119_sense_1770" pos="ART" wordRef="lexicon.xml#lemma_1119_sense_1770_type_3506">den</w>
-        <w xml:id="DWW_47100390_2" lemmaRef="lexicon.xml#lemma_7534" meaningRef="lexicon.xml#lemma_7534_sense_12299" pos="NOM" wordRef="lexicon.xml#lemma_7534_sense_12299_type_27267">wiben</w>
-        <w xml:id="DWW_47100390_3" lemmaRef="lexicon.xml#lemma_16819" meaningRef="lexicon.xml#lemma_16819_sense_32387" pos="ADJ ADV PRP" wordRef="lexicon.xml#lemma_16819_sense_32387_type_72492">zeverre</w>
-        <w xml:id="DWW_47100390_4" lemmaRef="lexicon.xml#lemma_2075" meaningRef="lexicon.xml#lemma_2075_sense_3212" pos="VRB" wordRef="lexicon.xml#lemma_2075_sense_3212_type_7003">geloubet</w>
-        <seg xml:id="DWW_47100390_5" type="pc">,</seg>
+        <w xml:id="DWW_47100390_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
+        <w xml:id="DWW_47100390_2" lemmaRef="lexicon.xml#lemma_7534" pos="NOM" ana="lexicon.xml#lemma_7534_sense_12299" corresp="variants.xml#type_27267">wiben</w>
+        <w xml:id="DWW_47100390_3" lemmaRef="lexicon.xml#lemma_16819" pos="ADJ ADV PRP" ana="lexicon.xml#lemma_16819_sense_32387" corresp="variants.xml#type_72492">zeverre</w>
+        <w xml:id="DWW_47100390_4" lemmaRef="lexicon.xml#lemma_2075" pos="VRB" ana="lexicon.xml#lemma_2075_sense_3212" corresp="variants.xml#type_7003">geloubet</w>
+        <pc xml:id="DWW_47100390_5" join="left">,</pc>
       </l>
       <l n="40">
         <supplied>
-          <w xml:id="DWW_47100400_0" lemmaRef="lexicon.xml#lemma_1119" meaningRef="lexicon.xml#lemma_1119_sense_1770" pos="ART" wordRef="lexicon.xml#lemma_1119_sense_1770_type_3507">der</w>
+          <w xml:id="DWW_47100400_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
         </supplied>
-        <w xml:id="DWW_47100400_1" lemmaRef="lexicon.xml#lemma_7489" meaningRef="lexicon.xml#lemma_7489_sense_12208" pos="VRB VEX" wordRef="lexicon.xml#lemma_7489_sense_12208_type_27059">wirt</w>
-        <w xml:id="DWW_47100400_2" lemmaRef="lexicon.xml#lemma_1517" meaningRef="lexicon.xml#lemma_1517_sense_2355" pos="POS" wordRef="lexicon.xml#lemma_1517_sense_2355_type_5024">siner</w>
-        <w xml:id="DWW_47100400_3" lemmaRef="lexicon.xml#lemma_5484" meaningRef="lexicon.xml#lemma_5484_sense_8545" pos="NOM" wordRef="lexicon.xml#lemma_5484_sense_8545_type_19151">sinne</w>
-        <w xml:id="DWW_47100400_4" lemmaRef="lexicon.xml#lemma_549" meaningRef="lexicon.xml#lemma_549_sense_807" pos="VRB" wordRef="lexicon.xml#lemma_549_sense_807_type_1621">beroubet</w>
-        <seg xml:id="DWW_47100400_5" type="pc">.</seg>
-        <seg xml:id="DWW_47100400_6" type="pc">&gt;</seg>
+        <w xml:id="DWW_47100400_1" lemmaRef="lexicon.xml#lemma_7489" pos="VRB VEX" ana="lexicon.xml#lemma_7489_sense_12208" corresp="variants.xml#type_27059">wirt</w>
+        <w xml:id="DWW_47100400_2" lemmaRef="lexicon.xml#lemma_1517" pos="POS" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_5024">siner</w>
+        <w xml:id="DWW_47100400_3" lemmaRef="lexicon.xml#lemma_5484" pos="NOM" ana="lexicon.xml#lemma_5484_sense_8545" corresp="variants.xml#type_19151">sinne</w>
+        <w xml:id="DWW_47100400_4" lemmaRef="lexicon.xml#lemma_549" pos="VRB" ana="lexicon.xml#lemma_549_sense_807" corresp="variants.xml#type_1621">beroubet</w>
+        <pc xml:id="DWW_47100400_5" join="left">.</pc>
+        <pc xml:id="DWW_47100400_6" join="left">&gt;</pc>
       </l>
       <l n="41">
-        <w xml:id="DWW_47100410_0" lemmaRef="lexicon.xml#lemma_1097" meaningRef="lexicon.xml#lemma_1097_sense_1741" pos="ART CNJ" wordRef="lexicon.xml#lemma_1097_sense_1741_type_3398">daz</w>
-        <w xml:id="DWW_47100410_1" lemmaRef="lexicon.xml#lemma_5693" meaningRef="lexicon.xml#lemma_5693_sense_8912" pos="VRB" wordRef="lexicon.xml#lemma_5693_sense_8912_type_19957">sprach</w>
-        <w xml:id="DWW_47100410_2" lemmaRef="lexicon.xml#lemma_1119" meaningRef="lexicon.xml#lemma_1119_sense_1770" pos="ART" wordRef="lexicon.xml#lemma_1119_sense_1770_type_3507">der</w>
-        <w xml:id="DWW_47100410_3" lemmaRef="lexicon.xml#lemma_1258" meaningRef="lexicon.xml#lemma_1258_sense_1977" pos="PRP" wordRef="lexicon.xml#lemma_1258_sense_1977_type_4044">durch</w>
-        <w xml:id="DWW_47100410_4" lemmaRef="lexicon.xml#lemma_1119" meaningRef="lexicon.xml#lemma_1119_sense_1770" pos="ART" wordRef="lexicon.xml#lemma_1119_sense_1770_type_3506">den</w>
-        <w xml:id="DWW_47100410_5" lemmaRef="lexicon.xml#lemma_7897" meaningRef="lexicon.xml#lemma_7897_sense_12952" pos="NOM" wordRef="lexicon.xml#lemma_7897_sense_12952_type_28659">zorn</w>
-        <seg xml:id="DWW_47100410_6" type="pc">:</seg>
+        <w xml:id="DWW_47100410_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
+        <w xml:id="DWW_47100410_1" lemmaRef="lexicon.xml#lemma_5693" pos="VRB" ana="lexicon.xml#lemma_5693_sense_8912" corresp="variants.xml#type_19957">sprach</w>
+        <w xml:id="DWW_47100410_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
+        <w xml:id="DWW_47100410_3" lemmaRef="lexicon.xml#lemma_1258" pos="PRP" ana="lexicon.xml#lemma_1258_sense_1977" corresp="variants.xml#type_4044">durch</w>
+        <w xml:id="DWW_47100410_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
+        <w xml:id="DWW_47100410_5" lemmaRef="lexicon.xml#lemma_7897" pos="NOM" ana="lexicon.xml#lemma_7897_sense_12952" corresp="variants.xml#type_28659">zorn</w>
+        <pc xml:id="DWW_47100410_6" join="left">:</pc>
       </l>
       <l n="42">
-        <w xml:id="DWW_47100420_0" lemmaRef="lexicon.xml#lemma_1517" meaningRef="lexicon.xml#lemma_1517_sense_2355" pos="PRO" wordRef="lexicon.xml#lemma_1517_sense_2355_type_4999">er</w>
-        <w xml:id="DWW_47100420_1" lemmaRef="lexicon.xml#lemma_2598" meaningRef="lexicon.xml#lemma_2598_sense_77622" pos="VRB VEX" wordRef="lexicon.xml#lemma_2598_sense_77622_type_8767">het</w>
-        <w xml:id="DWW_47100420_2" lemmaRef="lexicon.xml#lemma_4281" meaningRef="lexicon.xml#lemma_4281_sense_6695" pos="ADJ ADV" wordRef="lexicon.xml#lemma_4281_sense_6695_type_14891">nach</w>
-        <w xml:id="DWW_47100420_3" lemmaRef="lexicon.xml#lemma_1119" meaningRef="lexicon.xml#lemma_1119_sense_1770" pos="ART" wordRef="lexicon.xml#lemma_1119_sense_1770_type_3506">den</w>
-        <w xml:id="DWW_47100420_4" lemmaRef="lexicon.xml#lemma_3738" meaningRef="lexicon.xml#lemma_3738_sense_5924" pos="NOM" wordRef="lexicon.xml#lemma_3738_sense_5924_type_13018">lip</w>
-        <w xml:id="DWW_47100420_5" lemmaRef="lexicon.xml#lemma_6888" meaningRef="lexicon.xml#lemma_6888_sense_11019" pos="VRB" wordRef="lexicon.xml#lemma_6888_sense_11019_type_24242">verlorn</w>
-        <seg xml:id="DWW_47100420_6" type="pc">.</seg>
+        <w xml:id="DWW_47100420_0" lemmaRef="lexicon.xml#lemma_1517" pos="PRO" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_4999">er</w>
+        <w xml:id="DWW_47100420_1" lemmaRef="lexicon.xml#lemma_2598" pos="VRB VEX" ana="lexicon.xml#lemma_2598_sense_77622" corresp="variants.xml#type_8767">het</w>
+        <w xml:id="DWW_47100420_2" lemmaRef="lexicon.xml#lemma_4281" pos="ADJ ADV" ana="lexicon.xml#lemma_4281_sense_6695" corresp="variants.xml#type_14891">nach</w>
+        <w xml:id="DWW_47100420_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
+        <w xml:id="DWW_47100420_4" lemmaRef="lexicon.xml#lemma_3738" pos="NOM" ana="lexicon.xml#lemma_3738_sense_5924" corresp="variants.xml#type_13018">lip</w>
+        <w xml:id="DWW_47100420_5" lemmaRef="lexicon.xml#lemma_6888" pos="VRB" ana="lexicon.xml#lemma_6888_sense_11019" corresp="variants.xml#type_24242">verlorn</w>
+        <pc xml:id="DWW_47100420_6" join="left">.</pc>
       </l>
       <l n="43">
-        <w xml:id="DWW_47100430_0" lemmaRef="lexicon.xml#lemma_1762" meaningRef="lexicon.xml#lemma_1762_sense_2752" pos="PRO" wordRef="lexicon.xml#lemma_1762_sense_2752_type_6021">ez</w>
-        <w xml:id="DWW_47100430_1" lemmaRef="lexicon.xml#lemma_4240" meaningRef="lexicon.xml#lemma_4240_sense_6635" pos="VRB VEM" wordRef="lexicon.xml#lemma_4240_sense_6635_type_288741">mage</w>
-        <w xml:id="DWW_47100430_2" lemmaRef="lexicon.xml#lemma_4523" meaningRef="lexicon.xml#lemma_4523_sense_7060" pos="CNJ" wordRef="lexicon.xml#lemma_4523_sense_7060_type_15677">ouch</w>
-        <w xml:id="DWW_47100430_3" lemmaRef="lexicon.xml#lemma_1119" meaningRef="lexicon.xml#lemma_1119_sense_1770" pos="ART" wordRef="lexicon.xml#lemma_1119_sense_1770_type_3504">dem</w>
-        <w xml:id="DWW_47100430_4" lemmaRef="lexicon.xml#lemma_7677" meaningRef="lexicon.xml#lemma_7677_sense_12586" pos="NOM ADV" wordRef="lexicon.xml#lemma_7677_sense_12586_type_27811">wol</w>
-        <w xml:id="DWW_47100430_5" lemmaRef="lexicon.xml#lemma_5432" meaningRef="lexicon.xml#lemma_5432_sense_8479" pos="VRB VEX" wordRef="lexicon.xml#lemma_5432_sense_8479_type_76844">sin</w>
-        <w xml:id="DWW_47100430_6" lemmaRef="lexicon.xml#lemma_2065" meaningRef="lexicon.xml#lemma_2065_sense_13888" pos="ADJ ADV" wordRef="lexicon.xml#lemma_2065_sense_13888_type_6950">gelich</w>
-        <seg xml:id="DWW_47100430_7" type="pc">:</seg>
+        <w xml:id="DWW_47100430_0" lemmaRef="lexicon.xml#lemma_1762" pos="PRO" ana="lexicon.xml#lemma_1762_sense_2752" corresp="variants.xml#type_6021">ez</w>
+        <w xml:id="DWW_47100430_1" lemmaRef="lexicon.xml#lemma_4240" pos="VRB VEM" ana="lexicon.xml#lemma_4240_sense_6635" corresp="variants.xml#type_288741">mage</w>
+        <w xml:id="DWW_47100430_2" lemmaRef="lexicon.xml#lemma_4523" pos="CNJ" ana="lexicon.xml#lemma_4523_sense_7060" corresp="variants.xml#type_15677">ouch</w>
+        <w xml:id="DWW_47100430_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3504">dem</w>
+        <w xml:id="DWW_47100430_4" lemmaRef="lexicon.xml#lemma_7677" pos="NOM ADV" ana="lexicon.xml#lemma_7677_sense_12586" corresp="variants.xml#type_27811">wol</w>
+        <w xml:id="DWW_47100430_5" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_76844">sin</w>
+        <w xml:id="DWW_47100430_6" lemmaRef="lexicon.xml#lemma_2065" pos="ADJ ADV" ana="lexicon.xml#lemma_2065_sense_13888" corresp="variants.xml#type_6950">gelich</w>
+        <pc xml:id="DWW_47100430_7" join="left">:</pc>
       </l>
       <l n="44">
-        <w xml:id="DWW_47100440_0" lemmaRef="lexicon.xml#lemma_3001" meaningRef="lexicon.xml#lemma_3001_sense_4805" pos="PRO" wordRef="lexicon.xml#lemma_3001_sense_4805_type_10212">ich</w>
-        <w xml:id="DWW_47100440_1" lemmaRef="lexicon.xml#lemma_7355" meaningRef="lexicon.xml#lemma_7355_sense_11933" pos="VRB" wordRef="lexicon.xml#lemma_7355_sense_11933_type_102443">wæne</w>
-        <w xml:id="DWW_47100440_2" lemmaRef="lexicon.xml#lemma_7677" meaningRef="lexicon.xml#lemma_7677_sense_12586" pos="NOM ADV" wordRef="lexicon.xml#lemma_7677_sense_12586_type_27811">wol</w>
-        <seg xml:id="DWW_47100440_3" type="pc">,</seg>
-        <w xml:id="DWW_47100440_4" lemmaRef="lexicon.xml#lemma_3001" meaningRef="lexicon.xml#lemma_3001_sense_4805" pos="PRO" wordRef="lexicon.xml#lemma_3001_sense_4805_type_10212">ich</w>
-        <w xml:id="DWW_47100440_5" lemmaRef="lexicon.xml#lemma_71" meaningRef="lexicon.xml#lemma_71_sense_90" pos="VRB" wordRef="lexicon.xml#lemma_71_sense_90_type_171467">æffe</w>
-        <w xml:id="DWW_47100440_6" lemmaRef="lexicon.xml#lemma_3001" meaningRef="lexicon.xml#lemma_3001_sense_4805" pos="PRO" wordRef="lexicon.xml#lemma_3001_sense_4805_type_10226">mich</w>
-        <seg xml:id="DWW_47100440_7" type="pc">.</seg>
+        <w xml:id="DWW_47100440_0" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
+        <w xml:id="DWW_47100440_1" lemmaRef="lexicon.xml#lemma_7355" pos="VRB" ana="lexicon.xml#lemma_7355_sense_11933" corresp="variants.xml#type_102443">wæne</w>
+        <w xml:id="DWW_47100440_2" lemmaRef="lexicon.xml#lemma_7677" pos="NOM ADV" ana="lexicon.xml#lemma_7677_sense_12586" corresp="variants.xml#type_27811">wol</w>
+        <pc xml:id="DWW_47100440_3" join="left">,</pc>
+        <w xml:id="DWW_47100440_4" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
+        <w xml:id="DWW_47100440_5" lemmaRef="lexicon.xml#lemma_71" pos="VRB" ana="lexicon.xml#lemma_71_sense_90" corresp="variants.xml#type_171467">æffe</w>
+        <w xml:id="DWW_47100440_6" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10226">mich</w>
+        <pc xml:id="DWW_47100440_7" join="left">.</pc>
       </l>
       <l n="45">
-        <w xml:id="DWW_47100450_0" lemmaRef="lexicon.xml#lemma_4265" meaningRef="lexicon.xml#lemma_4265_sense_6675" pos="VRB" wordRef="lexicon.xml#lemma_4265_sense_6675_type_69443">muete</w>
-        <w xml:id="DWW_47100450_1" lemmaRef="lexicon.xml#lemma_3001" meaningRef="lexicon.xml#lemma_3001_sense_4805" pos="PRO" wordRef="lexicon.xml#lemma_3001_sense_4805_type_10212">ich</w>
-        <w xml:id="DWW_47100450_2" lemmaRef="lexicon.xml#lemma_1119" meaningRef="lexicon.xml#lemma_1119_sense_1770" pos="ART" wordRef="lexicon.xml#lemma_1119_sense_1770_type_3510">des</w>
-        <w xml:id="DWW_47100450_3" lemmaRef="lexicon.xml#lemma_199" meaningRef="lexicon.xml#lemma_199_sense_38122" pos="PRP" wordRef="lexicon.xml#lemma_199_sense_38122_type_522">an</w>
-        <w xml:id="DWW_47100450_4" lemmaRef="lexicon.xml#lemma_1331" meaningRef="lexicon.xml#lemma_1331_sense_2068" pos="ART NUM" wordRef="lexicon.xml#lemma_1331_sense_2068_type_4322">einen</w>
-        <w xml:id="DWW_47100450_5" lemmaRef="lexicon.xml#lemma_7221" meaningRef="lexicon.xml#lemma_7221_sense_11696" pos="NOM ADJ" wordRef="lexicon.xml#lemma_7221_sense_11696_type_59298">froemden</w>
-        <w xml:id="DWW_47100450_6" lemmaRef="lexicon.xml#lemma_3957" meaningRef="lexicon.xml#lemma_3957_sense_6236" pos="NOM" wordRef="lexicon.xml#lemma_3957_sense_6236_type_13798">man</w>
-        <seg xml:id="DWW_47100450_7" type="pc">,</seg>
+        <w xml:id="DWW_47100450_0" lemmaRef="lexicon.xml#lemma_4265" pos="VRB" ana="lexicon.xml#lemma_4265_sense_6675" corresp="variants.xml#type_69443">muete</w>
+        <w xml:id="DWW_47100450_1" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
+        <w xml:id="DWW_47100450_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
+        <w xml:id="DWW_47100450_3" lemmaRef="lexicon.xml#lemma_199" pos="PRP" ana="lexicon.xml#lemma_199_sense_38122" corresp="variants.xml#type_522">an</w>
+        <w xml:id="DWW_47100450_4" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4322">einen</w>
+        <w xml:id="DWW_47100450_5" lemmaRef="lexicon.xml#lemma_7221" pos="NOM ADJ" ana="lexicon.xml#lemma_7221_sense_11696" corresp="variants.xml#type_59298">froemden</w>
+        <w xml:id="DWW_47100450_6" lemmaRef="lexicon.xml#lemma_3957" pos="NOM" ana="lexicon.xml#lemma_3957_sense_6236" corresp="variants.xml#type_13798">man</w>
+        <pc xml:id="DWW_47100450_7" join="left">,</pc>
       </l>
       <l n="46">
         <supplied>
-          <w xml:id="DWW_47100460_0" lemmaRef="lexicon.xml#lemma_1119" meaningRef="lexicon.xml#lemma_1119_sense_1770" pos="ART" wordRef="lexicon.xml#lemma_1119_sense_1770_type_3507">der</w>
+          <w xml:id="DWW_47100460_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
         </supplied>
-        <w xml:id="DWW_47100460_1" lemmaRef="lexicon.xml#lemma_3001" meaningRef="lexicon.xml#lemma_3001_sense_4805" pos="POS" wordRef="lexicon.xml#lemma_3001_sense_4805_type_10229">min</w>
-        <w xml:id="DWW_47100460_2" lemmaRef="lexicon.xml#lemma_4377" meaningRef="lexicon.xml#lemma_4377_sense_6838" pos="ADJ ADV NEG" wordRef="lexicon.xml#lemma_4377_sense_6838_type_15286">niht</w>
-        <w xml:id="DWW_47100460_3" lemmaRef="lexicon.xml#lemma_7075" meaningRef="lexicon.xml#lemma_7075_sense_11459" pos="ADJ ADV" wordRef="lexicon.xml#lemma_7075_sense_11459_type_25008">vil</w>
+        <w xml:id="DWW_47100460_1" lemmaRef="lexicon.xml#lemma_3001" pos="POS" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10229">min</w>
+        <w xml:id="DWW_47100460_2" lemmaRef="lexicon.xml#lemma_4377" pos="ADJ ADV NEG" ana="lexicon.xml#lemma_4377_sense_6838" corresp="variants.xml#type_15286">niht</w>
+        <w xml:id="DWW_47100460_3" lemmaRef="lexicon.xml#lemma_7075" pos="ADJ ADV" ana="lexicon.xml#lemma_7075_sense_11459" corresp="variants.xml#type_25008">vil</w>
         <supplied>
-          <w xml:id="DWW_47100460_4" lemmaRef="lexicon.xml#lemma_2129" meaningRef="lexicon.xml#lemma_2129_sense_3307" pos="VRB" wordRef="lexicon.xml#lemma_2129_sense_3307_type_114715">geniezzen</w>
+          <w xml:id="DWW_47100460_4" lemmaRef="lexicon.xml#lemma_2129" pos="VRB" ana="lexicon.xml#lemma_2129_sense_3307" corresp="variants.xml#type_114715">geniezzen</w>
         </supplied>
-        <w xml:id="DWW_47100460_5" lemmaRef="lexicon.xml#lemma_3538" meaningRef="lexicon.xml#lemma_3538_sense_5606" pos="VRB VEM" wordRef="lexicon.xml#lemma_3538_sense_5606_type_46333">chan</w>
-        <seg xml:id="DWW_47100460_6" type="pc">,</seg>
+        <w xml:id="DWW_47100460_5" lemmaRef="lexicon.xml#lemma_3538" pos="VRB VEM" ana="lexicon.xml#lemma_3538_sense_5606" corresp="variants.xml#type_46333">chan</w>
+        <pc xml:id="DWW_47100460_6" join="left">,</pc>
       </l>
       <l n="47">
-        <w xml:id="DWW_47100470_0" lemmaRef="lexicon.xml#lemma_1097" meaningRef="lexicon.xml#lemma_1097_sense_1741" pos="ART CNJ" wordRef="lexicon.xml#lemma_1097_sense_1741_type_3398">daz</w>
-        <w xml:id="DWW_47100470_1" lemmaRef="lexicon.xml#lemma_1517" meaningRef="lexicon.xml#lemma_1517_sense_2355" pos="PRO" wordRef="lexicon.xml#lemma_1517_sense_2355_type_4999">er</w>
-        <w xml:id="DWW_47100470_2" lemmaRef="lexicon.xml#lemma_2175" meaningRef="lexicon.xml#lemma_2175_sense_3409" pos="ADV" wordRef="lexicon.xml#lemma_2175_sense_3409_type_7388">gerne</w>
-        <w xml:id="DWW_47100470_3" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="lexicon.xml#lemma_6467_sense_10233_type_22825">und</w>
-        <w xml:id="DWW_47100470_4" lemmaRef="lexicon.xml#lemma_1213" meaningRef="lexicon.xml#lemma_1213_sense_1910" pos="ADJ ADV" wordRef="lexicon.xml#lemma_1213_sense_1910_type_3842">drate</w>
+        <w xml:id="DWW_47100470_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
+        <w xml:id="DWW_47100470_1" lemmaRef="lexicon.xml#lemma_1517" pos="PRO" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_4999">er</w>
+        <w xml:id="DWW_47100470_2" lemmaRef="lexicon.xml#lemma_2175" pos="ADV" ana="lexicon.xml#lemma_2175_sense_3409" corresp="variants.xml#type_7388">gerne</w>
+        <w xml:id="DWW_47100470_3" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
+        <w xml:id="DWW_47100470_4" lemmaRef="lexicon.xml#lemma_1213" pos="ADJ ADV" ana="lexicon.xml#lemma_1213_sense_1910" corresp="variants.xml#type_3842">drate</w>
       </l>
       <l n="48">
-        <w xml:id="DWW_47100480_0" lemmaRef="lexicon.xml#lemma_1517" meaningRef="lexicon.xml#lemma_1517_sense_2355" pos="POS" wordRef="lexicon.xml#lemma_1517_sense_2355_type_5023">sinen</w>
-        <w xml:id="DWW_47100480_1" lemmaRef="lexicon.xml#lemma_7246" meaningRef="lexicon.xml#lemma_7246_sense_15237" pos="NOM" wordRef="lexicon.xml#lemma_7246_sense_15237_type_25825">friunt</w>
-        <w xml:id="DWW_47100480_2" lemmaRef="lexicon.xml#lemma_2007" meaningRef="lexicon.xml#lemma_2007_sense_60263" pos="ADV PRP" wordRef="lexicon.xml#lemma_2007_sense_60263_type_6804">gein</w>
-        <w xml:id="DWW_47100480_3" lemmaRef="lexicon.xml#lemma_3001" meaningRef="lexicon.xml#lemma_3001_sense_4805" pos="PRO" wordRef="lexicon.xml#lemma_3001_sense_4805_type_10237">mir</w>
-        <w xml:id="DWW_47100480_4" lemmaRef="lexicon.xml#lemma_6912" meaningRef="lexicon.xml#lemma_6912_sense_11077" pos="VRB" wordRef="lexicon.xml#lemma_6912_sense_11077_type_115260">verrate</w>
-        <seg xml:id="DWW_47100480_5" type="pc">.</seg>
+        <w xml:id="DWW_47100480_0" lemmaRef="lexicon.xml#lemma_1517" pos="POS" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_5023">sinen</w>
+        <w xml:id="DWW_47100480_1" lemmaRef="lexicon.xml#lemma_7246" pos="NOM" ana="lexicon.xml#lemma_7246_sense_15237" corresp="variants.xml#type_25825">friunt</w>
+        <w xml:id="DWW_47100480_2" lemmaRef="lexicon.xml#lemma_2007" pos="ADV PRP" ana="lexicon.xml#lemma_2007_sense_60263" corresp="variants.xml#type_6804">gein</w>
+        <w xml:id="DWW_47100480_3" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10237">mir</w>
+        <w xml:id="DWW_47100480_4" lemmaRef="lexicon.xml#lemma_6912" pos="VRB" ana="lexicon.xml#lemma_6912_sense_11077" corresp="variants.xml#type_115260">verrate</w>
+        <pc xml:id="DWW_47100480_5" join="left">.</pc>
       </l>
       <l n="49">
-        <w xml:id="DWW_47100490_0" lemmaRef="lexicon.xml#lemma_1097" meaningRef="lexicon.xml#lemma_1097_sense_1741" pos="ART CNJ" wordRef="lexicon.xml#lemma_1097_sense_1741_type_3398">daz</w>
-        <w xml:id="DWW_47100490_1" lemmaRef="lexicon.xml#lemma_5432" meaningRef="lexicon.xml#lemma_5432_sense_8479" pos="VRB VEX" wordRef="lexicon.xml#lemma_5432_sense_8479_type_18956">ist</w>
-        <w xml:id="DWW_47100490_2" lemmaRef="lexicon.xml#lemma_1331" meaningRef="lexicon.xml#lemma_1331_sense_2068" pos="ART NUM" wordRef="lexicon.xml#lemma_1331_sense_2068_type_4319">ein</w>
-        <w xml:id="DWW_47100490_3" lemmaRef="lexicon.xml#lemma_3349" meaningRef="lexicon.xml#lemma_3349_sense_5259" pos="ADJ ADV" wordRef="lexicon.xml#lemma_3349_sense_5259_type_46522">chlein</w>
-        <w xml:id="DWW_47100490_4" lemmaRef="lexicon.xml#lemma_7722" meaningRef="lexicon.xml#lemma_7722_sense_12651" pos="NOM ADV" wordRef="lexicon.xml#lemma_7722_sense_12651_type_99499">wnder</w>
-        <seg xml:id="DWW_47100490_5" type="pc">.</seg>
+        <w xml:id="DWW_47100490_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
+        <w xml:id="DWW_47100490_1" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18956">ist</w>
+        <w xml:id="DWW_47100490_2" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4319">ein</w>
+        <w xml:id="DWW_47100490_3" lemmaRef="lexicon.xml#lemma_3349" pos="ADJ ADV" ana="lexicon.xml#lemma_3349_sense_5259" corresp="variants.xml#type_46522">chlein</w>
+        <w xml:id="DWW_47100490_4" lemmaRef="lexicon.xml#lemma_7722" pos="NOM ADV" ana="lexicon.xml#lemma_7722_sense_12651" corresp="variants.xml#type_99499">wnder</w>
+        <pc xml:id="DWW_47100490_5" join="left">.</pc>
       </l>
       <l n="50">
-        <w xml:id="DWW_47100500_0" lemmaRef="lexicon.xml#lemma_1556" meaningRef="lexicon.xml#lemma_1556_sense_2411" pos="VRB" wordRef="lexicon.xml#lemma_1556_sense_2411_type_5204">erget</w>
-        <w xml:id="DWW_47100500_1" lemmaRef="lexicon.xml#lemma_1762" meaningRef="lexicon.xml#lemma_1762_sense_2752" pos="PRO" wordRef="lexicon.xml#lemma_1762_sense_2752_type_6021">ez</w>
-        <w xml:id="DWW_47100500_2" lemmaRef="lexicon.xml#lemma_3001" meaningRef="lexicon.xml#lemma_3001_sense_4805" pos="PRO" wordRef="lexicon.xml#lemma_3001_sense_4805_type_10237">mir</w>
-        <w xml:id="DWW_47100500_3" lemmaRef="lexicon.xml#lemma_1055" meaningRef="lexicon.xml#lemma_1055_sense_1689" pos="ADV" wordRef="lexicon.xml#lemma_1055_sense_1689_type_3258">dar</w>
-        <w xml:id="DWW_47100500_4" lemmaRef="lexicon.xml#lemma_6471" meaningRef="lexicon.xml#lemma_6471_sense_10240" pos="ADJ ADV PRP" wordRef="lexicon.xml#lemma_6471_sense_10240_type_22836">under</w>
-        <seg xml:id="DWW_47100500_5" type="pc">.</seg>
+        <w xml:id="DWW_47100500_0" lemmaRef="lexicon.xml#lemma_1556" pos="VRB" ana="lexicon.xml#lemma_1556_sense_2411" corresp="variants.xml#type_5204">erget</w>
+        <w xml:id="DWW_47100500_1" lemmaRef="lexicon.xml#lemma_1762" pos="PRO" ana="lexicon.xml#lemma_1762_sense_2752" corresp="variants.xml#type_6021">ez</w>
+        <w xml:id="DWW_47100500_2" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10237">mir</w>
+        <w xml:id="DWW_47100500_3" lemmaRef="lexicon.xml#lemma_1055" pos="ADV" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3258">dar</w>
+        <w xml:id="DWW_47100500_4" lemmaRef="lexicon.xml#lemma_6471" pos="ADJ ADV PRP" ana="lexicon.xml#lemma_6471_sense_10240" corresp="variants.xml#type_22836">under</w>
+        <pc xml:id="DWW_47100500_5" join="left">.</pc>
       </l>
       <l n="51">
-        <w xml:id="DWW_47100510_0" lemmaRef="lexicon.xml#lemma_148" meaningRef="lexicon.xml#lemma_148_sense_183" pos="CNJ" wordRef="lexicon.xml#lemma_148_sense_183_type_369">als</w>
-        <w xml:id="DWW_47100510_1" lemmaRef="lexicon.xml#lemma_1762" meaningRef="lexicon.xml#lemma_1762_sense_2752" pos="PRO" wordRef="lexicon.xml#lemma_1762_sense_2752_type_6021">ez</w>
-        <w xml:id="DWW_47100510_2" lemmaRef="lexicon.xml#lemma_6080" meaningRef="lexicon.xml#lemma_6080_sense_9605" pos="NOM" wordRef="lexicon.xml#lemma_6080_sense_9605_type_87527">tiern</w>
-        <w xml:id="DWW_47100510_3" lemmaRef="lexicon.xml#lemma_6293" meaningRef="lexicon.xml#lemma_6293_sense_9916" pos="ADJ" wordRef="lexicon.xml#lemma_6293_sense_9916_type_22247">tumben</w>
-        <w xml:id="DWW_47100510_4" lemmaRef="lexicon.xml#lemma_7679" meaningRef="lexicon.xml#lemma_7679_sense_12588" pos="NOM" wordRef="lexicon.xml#lemma_7679_sense_12588_type_27813">wolf</w>
-        <w xml:id="DWW_47100510_5" lemmaRef="lexicon.xml#lemma_1556" meaningRef="lexicon.xml#lemma_1556_sense_2409" pos="VRB" wordRef="lexicon.xml#lemma_1556_sense_2409_type_5205">ergie</w>
-        <seg xml:id="DWW_47100510_6" type="pc">.</seg>
+        <w xml:id="DWW_47100510_0" lemmaRef="lexicon.xml#lemma_148" pos="CNJ" ana="lexicon.xml#lemma_148_sense_183" corresp="variants.xml#type_369">als</w>
+        <w xml:id="DWW_47100510_1" lemmaRef="lexicon.xml#lemma_1762" pos="PRO" ana="lexicon.xml#lemma_1762_sense_2752" corresp="variants.xml#type_6021">ez</w>
+        <w xml:id="DWW_47100510_2" lemmaRef="lexicon.xml#lemma_6080" pos="NOM" ana="lexicon.xml#lemma_6080_sense_9605" corresp="variants.xml#type_87527">tiern</w>
+        <w xml:id="DWW_47100510_3" lemmaRef="lexicon.xml#lemma_6293" pos="ADJ" ana="lexicon.xml#lemma_6293_sense_9916" corresp="variants.xml#type_22247">tumben</w>
+        <w xml:id="DWW_47100510_4" lemmaRef="lexicon.xml#lemma_7679" pos="NOM" ana="lexicon.xml#lemma_7679_sense_12588" corresp="variants.xml#type_27813">wolf</w>
+        <w xml:id="DWW_47100510_5" lemmaRef="lexicon.xml#lemma_1556" pos="VRB" ana="lexicon.xml#lemma_1556_sense_2409" corresp="variants.xml#type_5205">ergie</w>
+        <pc xml:id="DWW_47100510_6" join="left">.</pc>
       </l>
       <l n="52">
-        <w xml:id="DWW_47100520_0" lemmaRef="lexicon.xml#lemma_1180" meaningRef="lexicon.xml#lemma_1180_sense_1864" pos="ADV" wordRef="lexicon.xml#lemma_1180_sense_1864_type_3738">do</w>
-        <w xml:id="DWW_47100520_1" lemmaRef="lexicon.xml#lemma_3958" meaningRef="lexicon.xml#lemma_3958_sense_6240" pos="PRO" wordRef="lexicon.xml#lemma_3958_sense_6240_type_13805">man</w>
-        <w xml:id="DWW_47100520_2" lemmaRef="lexicon.xml#lemma_1517" meaningRef="lexicon.xml#lemma_1517_sense_2355" pos="PRO" wordRef="lexicon.xml#lemma_1517_sense_2355_type_5008">in</w>
-        <w xml:id="DWW_47100520_3" lemmaRef="lexicon.xml#lemma_6768" meaningRef="lexicon.xml#lemma_6768_sense_17373" pos="NOM ADJ ADV" wordRef="lexicon.xml#lemma_6768_sense_17373_type_23692">vaste</w>
-        <w xml:id="DWW_47100520_4" lemmaRef="lexicon.xml#lemma_6422" meaningRef="lexicon.xml#lemma_6422_sense_10158" pos="ADV PRP" wordRef="lexicon.xml#lemma_6422_sense_10158_type_22720">umbe</w>
-        <w xml:id="DWW_47100520_5" lemmaRef="lexicon.xml#lemma_6722" meaningRef="lexicon.xml#lemma_6722_sense_24316" pos="VRB" wordRef="lexicon.xml#lemma_6722_sense_24316_type_23498">vie</w>
-        <seg xml:id="DWW_47100520_6" type="pc">.</seg>
+        <w xml:id="DWW_47100520_0" lemmaRef="lexicon.xml#lemma_1180" pos="ADV" ana="lexicon.xml#lemma_1180_sense_1864" corresp="variants.xml#type_3738">do</w>
+        <w xml:id="DWW_47100520_1" lemmaRef="lexicon.xml#lemma_3958" pos="PRO" ana="lexicon.xml#lemma_3958_sense_6240" corresp="variants.xml#type_13805">man</w>
+        <w xml:id="DWW_47100520_2" lemmaRef="lexicon.xml#lemma_1517" pos="PRO" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_5008">in</w>
+        <w xml:id="DWW_47100520_3" lemmaRef="lexicon.xml#lemma_6768" pos="NOM ADJ ADV" ana="lexicon.xml#lemma_6768_sense_17373" corresp="variants.xml#type_23692">vaste</w>
+        <w xml:id="DWW_47100520_4" lemmaRef="lexicon.xml#lemma_6422" pos="ADV PRP" ana="lexicon.xml#lemma_6422_sense_10158" corresp="variants.xml#type_22720">umbe</w>
+        <w xml:id="DWW_47100520_5" lemmaRef="lexicon.xml#lemma_6722" pos="VRB" ana="lexicon.xml#lemma_6722_sense_24316" corresp="variants.xml#type_23498">vie</w>
+        <pc xml:id="DWW_47100520_6" join="left">.</pc>
       </l>
       <l n="53">
-        <w xml:id="DWW_47100530_0" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="lexicon.xml#lemma_6467_sense_10233_type_22825">und</w>
-        <w xml:id="DWW_47100530_1" lemmaRef="lexicon.xml#lemma_1517" meaningRef="lexicon.xml#lemma_1517_sense_2355" pos="PRO" wordRef="lexicon.xml#lemma_1517_sense_2355_type_4999">er</w>
-        <w xml:id="DWW_47100530_2" lemmaRef="lexicon.xml#lemma_7075" meaningRef="lexicon.xml#lemma_7075_sense_11459" pos="ADJ ADV" wordRef="lexicon.xml#lemma_7075_sense_11459_type_25008">vil</w>
-        <w xml:id="DWW_47100530_3" lemmaRef="lexicon.xml#lemma_3494" meaningRef="lexicon.xml#lemma_3494_sense_5537" pos="ADV" wordRef="lexicon.xml#lemma_3494_sense_5537_type_115668">choume</w>
-        <w xml:id="DWW_47100530_4" lemmaRef="lexicon.xml#lemma_1073" meaningRef="lexicon.xml#lemma_1073_sense_1716" pos="ADV" wordRef="lexicon.xml#lemma_1073_sense_1716_type_3323">danne</w>
-        <w xml:id="DWW_47100530_5" lemmaRef="lexicon.xml#lemma_3400" meaningRef="lexicon.xml#lemma_3400_sense_5361" pos="VRB" wordRef="lexicon.xml#lemma_3400_sense_5361_type_11734">quam</w>
+        <w xml:id="DWW_47100530_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
+        <w xml:id="DWW_47100530_1" lemmaRef="lexicon.xml#lemma_1517" pos="PRO" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_4999">er</w>
+        <w xml:id="DWW_47100530_2" lemmaRef="lexicon.xml#lemma_7075" pos="ADJ ADV" ana="lexicon.xml#lemma_7075_sense_11459" corresp="variants.xml#type_25008">vil</w>
+        <w xml:id="DWW_47100530_3" lemmaRef="lexicon.xml#lemma_3494" pos="ADV" ana="lexicon.xml#lemma_3494_sense_5537" corresp="variants.xml#type_115668">choume</w>
+        <w xml:id="DWW_47100530_4" lemmaRef="lexicon.xml#lemma_1073" pos="ADV" ana="lexicon.xml#lemma_1073_sense_1716" corresp="variants.xml#type_3323">danne</w>
+        <w xml:id="DWW_47100530_5" lemmaRef="lexicon.xml#lemma_3400" pos="VRB" ana="lexicon.xml#lemma_3400_sense_5361" corresp="variants.xml#type_11734">quam</w>
       </l>
       <l n="54">
-        <w xml:id="DWW_47100540_0" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="lexicon.xml#lemma_6467_sense_10233_type_22825">und</w>
-        <w xml:id="DWW_47100540_1" lemmaRef="lexicon.xml#lemma_1055" meaningRef="lexicon.xml#lemma_1055_sense_1689" pos="ADV CNJ" wordRef="lexicon.xml#lemma_1055_sense_1689_type_3255">da</w>
-        <w xml:id="DWW_47100540_2" lemmaRef="lexicon.xml#lemma_1517" meaningRef="lexicon.xml#lemma_1517_sense_2355" pos="POS PRO" wordRef="lexicon.xml#lemma_1517_sense_2355_type_67997">sin</w>
-        <w xml:id="DWW_47100540_3" lemmaRef="lexicon.xml#lemma_1396" meaningRef="lexicon.xml#lemma_1396_sense_2154" pos="NOM" wordRef="lexicon.xml#lemma_1396_sense_2154_type_4546">ende</w>
-        <w xml:id="DWW_47100540_4" lemmaRef="lexicon.xml#lemma_4377" meaningRef="lexicon.xml#lemma_4377_sense_6838" pos="ADJ ADV NEG" wordRef="lexicon.xml#lemma_4377_sense_6838_type_15286">niht</w>
-        <w xml:id="DWW_47100540_5" lemmaRef="lexicon.xml#lemma_4377" meaningRef="lexicon.xml#lemma_4377_sense_6838" pos="ADJ ADV NEG" wordRef="lexicon.xml#lemma_4377_sense_6838_type_161638">en</w>
-        <w xml:id="DWW_47100540_6" lemmaRef="lexicon.xml#lemma_4330" meaningRef="lexicon.xml#lemma_4330_sense_6768" pos="VRB" wordRef="lexicon.xml#lemma_4330_sense_6768_type_15078">nam</w>
+        <w xml:id="DWW_47100540_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
+        <w xml:id="DWW_47100540_1" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3255">da</w>
+        <w xml:id="DWW_47100540_2" lemmaRef="lexicon.xml#lemma_1517" pos="POS PRO" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_67997">sin</w>
+        <w xml:id="DWW_47100540_3" lemmaRef="lexicon.xml#lemma_1396" pos="NOM" ana="lexicon.xml#lemma_1396_sense_2154" corresp="variants.xml#type_4546">ende</w>
+        <w xml:id="DWW_47100540_4" lemmaRef="lexicon.xml#lemma_4377" pos="ADJ ADV NEG" ana="lexicon.xml#lemma_4377_sense_6838" corresp="variants.xml#type_15286">niht</w>
+        <w xml:id="DWW_47100540_5" lemmaRef="lexicon.xml#lemma_4377" pos="ADJ ADV NEG" ana="lexicon.xml#lemma_4377_sense_6838" corresp="variants.xml#type_161638">en</w>
+        <w xml:id="DWW_47100540_6" lemmaRef="lexicon.xml#lemma_4330" pos="VRB" ana="lexicon.xml#lemma_4330_sense_6768" corresp="variants.xml#type_15078">nam</w>
       </l>
       <l n="55">
-        <w xml:id="DWW_47100550_0" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="lexicon.xml#lemma_6467_sense_10233_type_22825">und</w>
-        <w xml:id="DWW_47100550_1" lemmaRef="lexicon.xml#lemma_3494" meaningRef="lexicon.xml#lemma_3494_sense_5537" pos="ADV" wordRef="lexicon.xml#lemma_3494_sense_5537_type_115668">choume</w>
-        <w xml:id="DWW_47100550_2" lemmaRef="lexicon.xml#lemma_453" meaningRef="lexicon.xml#lemma_453_sense_624" pos="VRB" wordRef="lexicon.xml#lemma_453_sense_624_type_1285">behielt</w>
-        <w xml:id="DWW_47100550_3" lemmaRef="lexicon.xml#lemma_1517" meaningRef="lexicon.xml#lemma_1517_sense_2355" pos="POS" wordRef="lexicon.xml#lemma_1517_sense_2355_type_5023">sinen</w>
-        <w xml:id="DWW_47100550_4" lemmaRef="lexicon.xml#lemma_3738" meaningRef="lexicon.xml#lemma_3738_sense_5924" pos="NOM" wordRef="lexicon.xml#lemma_3738_sense_5924_type_13018">lip</w>
-        <seg xml:id="DWW_47100550_5" type="pc">.</seg>
+        <w xml:id="DWW_47100550_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
+        <w xml:id="DWW_47100550_1" lemmaRef="lexicon.xml#lemma_3494" pos="ADV" ana="lexicon.xml#lemma_3494_sense_5537" corresp="variants.xml#type_115668">choume</w>
+        <w xml:id="DWW_47100550_2" lemmaRef="lexicon.xml#lemma_453" pos="VRB" ana="lexicon.xml#lemma_453_sense_624" corresp="variants.xml#type_1285">behielt</w>
+        <w xml:id="DWW_47100550_3" lemmaRef="lexicon.xml#lemma_1517" pos="POS" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_5023">sinen</w>
+        <w xml:id="DWW_47100550_4" lemmaRef="lexicon.xml#lemma_3738" pos="NOM" ana="lexicon.xml#lemma_3738_sense_5924" corresp="variants.xml#type_13018">lip</w>
+        <pc xml:id="DWW_47100550_5" join="left">.</pc>
       </l>
       <l n="56">
-        <w xml:id="DWW_47100560_0" lemmaRef="lexicon.xml#lemma_1258" meaningRef="lexicon.xml#lemma_1258_sense_1977" pos="PRP" wordRef="lexicon.xml#lemma_1258_sense_1977_type_4044">durch</w>
-        <w xml:id="DWW_47100560_1" lemmaRef="lexicon.xml#lemma_1097" meaningRef="lexicon.xml#lemma_1097_sense_1741" pos="ART CNJ" wordRef="lexicon.xml#lemma_1097_sense_1741_type_3398">daz</w>
-        <w xml:id="DWW_47100560_2" lemmaRef="lexicon.xml#lemma_1517" meaningRef="lexicon.xml#lemma_1517_sense_2355" pos="PRO" wordRef="lexicon.xml#lemma_1517_sense_2355_type_4999">er</w>
-        <w xml:id="DWW_47100560_3" lemmaRef="lexicon.xml#lemma_7473" meaningRef="lexicon.xml#lemma_7473_sense_12160" pos="VRB VEM" wordRef="lexicon.xml#lemma_7473_sense_12160_type_26927">wolde</w>
-        <seg xml:id="DWW_47100560_4" type="pc">,</seg>
-        <w xml:id="DWW_47100560_5" lemmaRef="lexicon.xml#lemma_1097" meaningRef="lexicon.xml#lemma_1097_sense_1741" pos="ART CNJ" wordRef="lexicon.xml#lemma_1097_sense_1741_type_3398">daz</w>
-        <w xml:id="DWW_47100560_6" lemmaRef="lexicon.xml#lemma_1517" meaningRef="lexicon.xml#lemma_1517_sense_2355" pos="PRO" wordRef="lexicon.xml#lemma_1517_sense_2355_type_32780">im</w>
-        <w xml:id="DWW_47100560_7" lemmaRef="lexicon.xml#lemma_1331" meaningRef="lexicon.xml#lemma_1331_sense_2068" pos="ART NUM" wordRef="lexicon.xml#lemma_1331_sense_2068_type_4319">ein</w>
-        <w xml:id="DWW_47100560_8" lemmaRef="lexicon.xml#lemma_7534" meaningRef="lexicon.xml#lemma_7534_sense_12299" pos="NOM" wordRef="lexicon.xml#lemma_7534_sense_12299_type_27269">wip</w>
+        <w xml:id="DWW_47100560_0" lemmaRef="lexicon.xml#lemma_1258" pos="PRP" ana="lexicon.xml#lemma_1258_sense_1977" corresp="variants.xml#type_4044">durch</w>
+        <w xml:id="DWW_47100560_1" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
+        <w xml:id="DWW_47100560_2" lemmaRef="lexicon.xml#lemma_1517" pos="PRO" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_4999">er</w>
+        <w xml:id="DWW_47100560_3" lemmaRef="lexicon.xml#lemma_7473" pos="VRB VEM" ana="lexicon.xml#lemma_7473_sense_12160" corresp="variants.xml#type_26927">wolde</w>
+        <pc xml:id="DWW_47100560_4" join="left">,</pc>
+        <w xml:id="DWW_47100560_5" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
+        <w xml:id="DWW_47100560_6" lemmaRef="lexicon.xml#lemma_1517" pos="PRO" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_32780">im</w>
+        <w xml:id="DWW_47100560_7" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4319">ein</w>
+        <w xml:id="DWW_47100560_8" lemmaRef="lexicon.xml#lemma_7534" pos="NOM" ana="lexicon.xml#lemma_7534_sense_12299" corresp="variants.xml#type_27269">wip</w>
       </l>
       <l n="57">
-        <w xml:id="DWW_47100570_0" lemmaRef="lexicon.xml#lemma_56116" meaningRef="lexicon.xml#lemma_56116_sense_90960" pos="POS PRO" wordRef="lexicon.xml#lemma_56116_sense_90960_type_304869">ir</w>
-        <w xml:id="DWW_47100570_1" lemmaRef="lexicon.xml#lemma_1327" meaningRef="lexicon.xml#lemma_1327_sense_2061" pos="NOM ADJ" wordRef="lexicon.xml#lemma_1327_sense_2061_type_4306">eigen</w>
-        <w xml:id="DWW_47100570_2" lemmaRef="lexicon.xml#lemma_3313" meaningRef="lexicon.xml#lemma_3313_sense_5196" pos="NOM" wordRef="lexicon.xml#lemma_3313_sense_5196_type_11310">kint</w>
-        <w xml:id="DWW_47100570_3" lemmaRef="lexicon.xml#lemma_2598" meaningRef="lexicon.xml#lemma_2598_sense_77622" pos="VRB VEX" wordRef="lexicon.xml#lemma_2598_sense_77622_type_8776">hiet</w>
-        <w xml:id="DWW_47100570_4" lemmaRef="lexicon.xml#lemma_1961" meaningRef="lexicon.xml#lemma_1961_sense_3008" pos="VRB" wordRef="lexicon.xml#lemma_1961_sense_3008_type_6635">gegeben</w>
-        <seg xml:id="DWW_47100570_5" type="pc">.</seg>
+        <w xml:id="DWW_47100570_0" lemmaRef="lexicon.xml#lemma_56116" pos="POS PRO" ana="lexicon.xml#lemma_56116_sense_90960" corresp="variants.xml#type_304869">ir</w>
+        <w xml:id="DWW_47100570_1" lemmaRef="lexicon.xml#lemma_1327" pos="NOM ADJ" ana="lexicon.xml#lemma_1327_sense_2061" corresp="variants.xml#type_4306">eigen</w>
+        <w xml:id="DWW_47100570_2" lemmaRef="lexicon.xml#lemma_3313" pos="NOM" ana="lexicon.xml#lemma_3313_sense_5196" corresp="variants.xml#type_11310">kint</w>
+        <w xml:id="DWW_47100570_3" lemmaRef="lexicon.xml#lemma_2598" pos="VRB VEX" ana="lexicon.xml#lemma_2598_sense_77622" corresp="variants.xml#type_8776">hiet</w>
+        <w xml:id="DWW_47100570_4" lemmaRef="lexicon.xml#lemma_1961" pos="VRB" ana="lexicon.xml#lemma_1961_sense_3008" corresp="variants.xml#type_6635">gegeben</w>
+        <pc xml:id="DWW_47100570_5" join="left">.</pc>
       </l>
       <l n="58">
-        <w xml:id="DWW_47100580_0" lemmaRef="lexicon.xml#lemma_1097" meaningRef="lexicon.xml#lemma_1097_sense_1741" pos="ART CNJ" wordRef="lexicon.xml#lemma_1097_sense_1741_type_3398">daz</w>
-        <w xml:id="DWW_47100580_1" lemmaRef="lexicon.xml#lemma_1844" meaningRef="lexicon.xml#lemma_1844_sense_2847" pos="VRB" wordRef="lexicon.xml#lemma_1844_sense_2847_type_6313">gie</w>
-        <w xml:id="DWW_47100580_2" lemmaRef="lexicon.xml#lemma_1517" meaningRef="lexicon.xml#lemma_1517_sense_2355" pos="PRO" wordRef="lexicon.xml#lemma_1517_sense_2355_type_32780">im</w>
-        <w xml:id="DWW_47100580_3" lemmaRef="lexicon.xml#lemma_4281" meaningRef="lexicon.xml#lemma_4281_sense_6695" pos="ADJ ADV" wordRef="lexicon.xml#lemma_4281_sense_6695_type_79970">nahen</w>
-        <w xml:id="DWW_47100580_4" lemmaRef="lexicon.xml#lemma_199" meaningRef="lexicon.xml#lemma_199_sense_38122" pos="PRP" wordRef="lexicon.xml#lemma_199_sense_38122_type_522">an</w>
-        <w xml:id="DWW_47100580_5" lemmaRef="lexicon.xml#lemma_1097" meaningRef="lexicon.xml#lemma_1097_sense_1741" pos="ART CNJ" wordRef="lexicon.xml#lemma_1097_sense_1741_type_3398">daz</w>
-        <w xml:id="DWW_47100580_6" lemmaRef="lexicon.xml#lemma_3659" meaningRef="lexicon.xml#lemma_3659_sense_5776" pos="NOM VRB" wordRef="lexicon.xml#lemma_3659_sense_5776_type_12708">leben</w>
-        <seg xml:id="DWW_47100580_7" type="pc">.</seg>
+        <w xml:id="DWW_47100580_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
+        <w xml:id="DWW_47100580_1" lemmaRef="lexicon.xml#lemma_1844" pos="VRB" ana="lexicon.xml#lemma_1844_sense_2847" corresp="variants.xml#type_6313">gie</w>
+        <w xml:id="DWW_47100580_2" lemmaRef="lexicon.xml#lemma_1517" pos="PRO" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_32780">im</w>
+        <w xml:id="DWW_47100580_3" lemmaRef="lexicon.xml#lemma_4281" pos="ADJ ADV" ana="lexicon.xml#lemma_4281_sense_6695" corresp="variants.xml#type_79970">nahen</w>
+        <w xml:id="DWW_47100580_4" lemmaRef="lexicon.xml#lemma_199" pos="PRP" ana="lexicon.xml#lemma_199_sense_38122" corresp="variants.xml#type_522">an</w>
+        <w xml:id="DWW_47100580_5" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
+        <w xml:id="DWW_47100580_6" lemmaRef="lexicon.xml#lemma_3659" pos="NOM VRB" ana="lexicon.xml#lemma_3659_sense_5776" corresp="variants.xml#type_12708">leben</w>
+        <pc xml:id="DWW_47100580_7" join="left">.</pc>
       </l>
       <l n="59">
-        <w xml:id="DWW_47100590_0" lemmaRef="lexicon.xml#lemma_1331" meaningRef="lexicon.xml#lemma_1331_sense_2068" pos="ART NUM" wordRef="lexicon.xml#lemma_1331_sense_2068_type_4319">ein</w>
-        <w xml:id="DWW_47100590_1" lemmaRef="lexicon.xml#lemma_3957" meaningRef="lexicon.xml#lemma_3957_sense_6236" pos="NOM" wordRef="lexicon.xml#lemma_3957_sense_6236_type_13798">man</w>
-        <w xml:id="DWW_47100590_2" lemmaRef="lexicon.xml#lemma_5608" meaningRef="lexicon.xml#lemma_5608_sense_8771" pos="VRB VEM" wordRef="lexicon.xml#lemma_5608_sense_8771_type_19651">sol</w>
-        <w xml:id="DWW_47100590_3" lemmaRef="lexicon.xml#lemma_619" meaningRef="lexicon.xml#lemma_619_sense_983" pos="ADJ ADV" wordRef="lexicon.xml#lemma_619_sense_983_type_82212">betlichen</w>
-        <w xml:id="DWW_47100590_4" lemmaRef="lexicon.xml#lemma_2174" meaningRef="lexicon.xml#lemma_2174_sense_3404" pos="ADV VRB" wordRef="lexicon.xml#lemma_2174_sense_3404_type_7373">gern</w>
-        <seg xml:id="DWW_47100590_5" type="pc">;</seg>
+        <w xml:id="DWW_47100590_0" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4319">ein</w>
+        <w xml:id="DWW_47100590_1" lemmaRef="lexicon.xml#lemma_3957" pos="NOM" ana="lexicon.xml#lemma_3957_sense_6236" corresp="variants.xml#type_13798">man</w>
+        <w xml:id="DWW_47100590_2" lemmaRef="lexicon.xml#lemma_5608" pos="VRB VEM" ana="lexicon.xml#lemma_5608_sense_8771" corresp="variants.xml#type_19651">sol</w>
+        <w xml:id="DWW_47100590_3" lemmaRef="lexicon.xml#lemma_619" pos="ADJ ADV" ana="lexicon.xml#lemma_619_sense_983" corresp="variants.xml#type_82212">betlichen</w>
+        <w xml:id="DWW_47100590_4" lemmaRef="lexicon.xml#lemma_2174" pos="ADV VRB" ana="lexicon.xml#lemma_2174_sense_3404" corresp="variants.xml#type_7373">gern</w>
+        <pc xml:id="DWW_47100590_5" join="left">;</pc>
       </l>
       <l n="60">
-        <w xml:id="DWW_47100600_0" lemmaRef="lexicon.xml#lemma_1119" meaningRef="lexicon.xml#lemma_1119_sense_1770" pos="ART" wordRef="lexicon.xml#lemma_1119_sense_1770_type_3506">den</w>
-        <w xml:id="DWW_47100600_1" lemmaRef="lexicon.xml#lemma_4240" meaningRef="lexicon.xml#lemma_4240_sense_6635" pos="VRB VEM" wordRef="lexicon.xml#lemma_4240_sense_6635_type_14748">mac</w>
-        <w xml:id="DWW_47100600_2" lemmaRef="lexicon.xml#lemma_3958" meaningRef="lexicon.xml#lemma_3958_sense_6240" pos="PRO" wordRef="lexicon.xml#lemma_3958_sense_6240_type_13805">man</w>
-        <w xml:id="DWW_47100600_3" lemmaRef="lexicon.xml#lemma_1125" meaningRef="lexicon.xml#lemma_1125_sense_1776" pos="ADV GRA" wordRef="lexicon.xml#lemma_1125_sense_1776_type_3524">deste</w>
-        <w xml:id="DWW_47100600_4" lemmaRef="lexicon.xml#lemma_414" meaningRef="lexicon.xml#lemma_414_sense_562" pos="ADJ ADV GRA" wordRef="lexicon.xml#lemma_414_sense_562_type_1102">baz</w>
-        <w xml:id="DWW_47100600_5" lemmaRef="lexicon.xml#lemma_2343" meaningRef="lexicon.xml#lemma_2343_sense_17380" pos="VRB" wordRef="lexicon.xml#lemma_2343_sense_17380_type_7914">gewern</w>
-        <seg xml:id="DWW_47100600_6" type="pc">.</seg>
+        <w xml:id="DWW_47100600_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
+        <w xml:id="DWW_47100600_1" lemmaRef="lexicon.xml#lemma_4240" pos="VRB VEM" ana="lexicon.xml#lemma_4240_sense_6635" corresp="variants.xml#type_14748">mac</w>
+        <w xml:id="DWW_47100600_2" lemmaRef="lexicon.xml#lemma_3958" pos="PRO" ana="lexicon.xml#lemma_3958_sense_6240" corresp="variants.xml#type_13805">man</w>
+        <w xml:id="DWW_47100600_3" lemmaRef="lexicon.xml#lemma_1125" pos="ADV GRA" ana="lexicon.xml#lemma_1125_sense_1776" corresp="variants.xml#type_3524">deste</w>
+        <w xml:id="DWW_47100600_4" lemmaRef="lexicon.xml#lemma_414" pos="ADJ ADV GRA" ana="lexicon.xml#lemma_414_sense_562" corresp="variants.xml#type_1102">baz</w>
+        <w xml:id="DWW_47100600_5" lemmaRef="lexicon.xml#lemma_2343" pos="VRB" ana="lexicon.xml#lemma_2343_sense_17380" corresp="variants.xml#type_7914">gewern</w>
+        <pc xml:id="DWW_47100600_6" join="left">.</pc>
       </l>
       <l n="61">
         <supplied>
-          <w xml:id="DWW_47100610_0" lemmaRef="lexicon.xml#lemma_5961" meaningRef="lexicon.xml#lemma_5961_sense_9448" pos="PRO IPA" wordRef="lexicon.xml#lemma_5961_sense_9448_type_21017">swer</w>
+          <w xml:id="DWW_47100610_0" lemmaRef="lexicon.xml#lemma_5961" pos="PRO IPA" ana="lexicon.xml#lemma_5961_sense_9448" corresp="variants.xml#type_21017">swer</w>
         </supplied>
-        <w xml:id="DWW_47100610_1" lemmaRef="lexicon.xml#lemma_11031" meaningRef="lexicon.xml#lemma_11031_sense_22689" pos="ADJ ADV NEG" wordRef="lexicon.xml#lemma_11031_sense_22689_type_171468">unbetlichen</w>
-        <w xml:id="DWW_47100610_2" lemmaRef="lexicon.xml#lemma_2174" meaningRef="lexicon.xml#lemma_2174_sense_3404" pos="VRB" wordRef="lexicon.xml#lemma_2174_sense_3404_type_7383">gert</w>
-        <seg xml:id="DWW_47100610_3" type="pc">,</seg>
+        <w xml:id="DWW_47100610_1" lemmaRef="lexicon.xml#lemma_11031" pos="ADJ ADV NEG" ana="lexicon.xml#lemma_11031_sense_22689" corresp="variants.xml#type_171468">unbetlichen</w>
+        <w xml:id="DWW_47100610_2" lemmaRef="lexicon.xml#lemma_2174" pos="VRB" ana="lexicon.xml#lemma_2174_sense_3404" corresp="variants.xml#type_7383">gert</w>
+        <pc xml:id="DWW_47100610_3" join="left">,</pc>
       </l>
       <l n="62">
         <supplied>
-          <w xml:id="DWW_47100620_0" lemmaRef="lexicon.xml#lemma_1119" meaningRef="lexicon.xml#lemma_1119_sense_1770" pos="ART" wordRef="lexicon.xml#lemma_1119_sense_1770_type_3507">der</w>
+          <w xml:id="DWW_47100620_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
         </supplied>
-        <w xml:id="DWW_47100620_1" lemmaRef="lexicon.xml#lemma_5445" meaningRef="lexicon.xml#lemma_5445_sense_8495" pos="PRO" wordRef="lexicon.xml#lemma_5445_sense_8495_type_19017">sich</w>
-        <w xml:id="DWW_47100620_2" lemmaRef="lexicon.xml#lemma_5385" meaningRef="lexicon.xml#lemma_5385_sense_8406" pos="ADJ" wordRef="lexicon.xml#lemma_5385_sense_8406_type_18769">selben</w>
-        <w xml:id="DWW_47100620_3" lemmaRef="lexicon.xml#lemma_1913" meaningRef="lexicon.xml#lemma_1913_sense_2938" pos="ADJ ADV" wordRef="lexicon.xml#lemma_1913_sense_2938_type_6476">gar</w>
-        <w xml:id="DWW_47100620_4" lemmaRef="lexicon.xml#lemma_1500" meaningRef="lexicon.xml#lemma_1500_sense_2330" pos="VRB" wordRef="lexicon.xml#lemma_1500_sense_2330_type_4960">entwert</w>
-        <seg xml:id="DWW_47100620_5" type="pc">.</seg>
+        <w xml:id="DWW_47100620_1" lemmaRef="lexicon.xml#lemma_5445" pos="PRO" ana="lexicon.xml#lemma_5445_sense_8495" corresp="variants.xml#type_19017">sich</w>
+        <w xml:id="DWW_47100620_2" lemmaRef="lexicon.xml#lemma_5385" pos="ADJ" ana="lexicon.xml#lemma_5385_sense_8406" corresp="variants.xml#type_18769">selben</w>
+        <w xml:id="DWW_47100620_3" lemmaRef="lexicon.xml#lemma_1913" pos="ADJ ADV" ana="lexicon.xml#lemma_1913_sense_2938" corresp="variants.xml#type_6476">gar</w>
+        <w xml:id="DWW_47100620_4" lemmaRef="lexicon.xml#lemma_1500" pos="VRB" ana="lexicon.xml#lemma_1500_sense_2330" corresp="variants.xml#type_4960">entwert</w>
+        <pc xml:id="DWW_47100620_5" join="left">.</pc>
       </l>
     </body>
   </text>

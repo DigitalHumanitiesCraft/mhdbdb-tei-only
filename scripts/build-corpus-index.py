@@ -40,6 +40,7 @@ import json
 import gzip
 import sys
 import os
+import time
 from pathlib import Path
 from datetime import datetime
 from collections import defaultdict
@@ -154,12 +155,15 @@ def extract_word_data(filepath, text_id):
         ns = get_namespaces(tree)
 
         # Get body element
-        body = tree.xpath('//tei:body', namespaces=ns)
-        if not body:
+        TEI = '{http://www.tei-c.org/ns/1.0}'
+        body = tree.find(f'.//{TEI}body')
+        if body is None:
             return [], {}, 0
 
-        # Get ALL words in <body> in document order (single XPath)
-        word_els = tree.xpath('//tei:body//tei:w[@lemmaRef]', namespaces=ns)
+        # Get ALL words in <body> in document order
+        # Uses iter() with Clark notation — orders of magnitude faster than
+        # xpath() with namespace mapping on large files (PL1: 0.2s vs timeout)
+        word_els = [w for w in body.iter(f'{TEI}w') if w.get('lemmaRef')]
 
         words = []  # All lemma IDs in document order
         lemmata = defaultdict(list)
@@ -169,7 +173,7 @@ def extract_word_data(filepath, text_id):
             lemma_ref = word_el.get('lemmaRef')
             text_content = ''.join(word_el.itertext()).strip()
 
-            if not lemma_ref or not text_content:
+            if not text_content:
                 continue
 
             # Extract lemma ID
@@ -236,7 +240,6 @@ def build_corpus_index():
     texts = []
     lemma_index = defaultdict(list)  # lemma_id -> list of text IDs
 
-    import time
     start_time = time.time()
 
     for idx, filepath in enumerate(tei_files, 1):

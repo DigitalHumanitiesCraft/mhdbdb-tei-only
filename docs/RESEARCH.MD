@@ -31,7 +31,7 @@ TEI P5 provides the foundational markup structure for all texts and authority fi
 **Key TEI elements used:**
 - `<teiHeader>` - Bibliographic metadata
 - `<text><body>` - Main content
-- `<w>` - Word tokens with `@lemmaRef` and `@wordRef` attributes
+- `<w>` - Word tokens with `@lemmaRef`, `@ana`, and `@corresp` attributes
 - `<person>`, `<work>`, `<entry>` - Authority file entities
 - `<listRelation>` - Semantic relationships
 
@@ -131,7 +131,7 @@ Seven authority files provide controlled vocabularies:
 - **Names:** Proper names with semantic relations
 - **Variants:** Orthographic variants extracted from corpus
 
-These vocabularies ensure consistency and enable sophisticated cross-referencing.
+These vocabularies ensure consistency and enable sophisticated cross-referencing. An 8th authority file, **`contributors.xml`**, was added in 2026-04 to register the MHDBDB team (founders, coordinator, lead-editors, editors) for structured editor-attribution in the TEI headers — it is project-internal and deliberately not part of the searchable corpus index.
 
 ### Distant Reading
 

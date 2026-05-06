@@ -1,0 +1,17 @@
+form	resolved_lemma	confidence	note
+CAPITULUM	lemma_2	high	CAPITULUM = Latin chapter heading; paratextual running header, not a MHG lexical word; all 106 occurrences at chapter boundaries (e.g. "II CAPITULUM Uolkvmen sint"); lemma_2 is the designated non-lexical catch-all
+EXO	lemma_2	high	EXO = first syllable of "EXODUS" split across folio running header; all 88 occurrences at position _1_0 (page-top header slot); pairs with DUS on same/adjacent pages
+DUS	lemma_2	high	DUS = second syllable of "EXODUS" running header; all 88 occurrences at position _1_0; lemma_21148/lemma_8073 (MHG pronoun candidates) are false matches on the letter string
+ERI	lemma_2	high	ERI = final syllable of "NUMERI" running header (Latin name of Numbers); all 86 occurrences at position _1_0; pairs with NUM (already unmatched/absent from disambiguation)
+DEUTRO	lemma_2	high	DEUTRO = first part of "DEUTRONOMIUS" (Deuteronomy) running header; all 79 occurrences at position _1_0; pairs with NOMIUS
+NOMIUS	lemma_2	high	NOMIUS = second part of "DEUTRONOMIUS" running header; all 79 occurrences at position _1_0; pairs with DEUTRO
+GENE	lemma_2	high	GENE = first syllable of "GENESIS" running header; all 76 occurrences at position _1_0; pairs with SIS
+SIS	lemma_2	high	SIS = second syllable of "GENESIS" running header; all 76 occurrences at position _1_0; lemma_56951/lemma_8004/lemma_8694 candidates are false matches; pairs with GENE
+LEUITICUS	lemma_2	high	LEUITICUS = full Latin book name (Leviticus) as running header; all 47 occurrences at position _1_0; not a MHG word
+ICUS	lemma_2	high	ICUS = final syllable of "LEUITICUS" running header; all 6 occurrences at position _1_0; pairs with LEUI (already unmatched)
+GEN	lemma_2	high	GEN = first syllable of "GENESIS" running header (alternate split point); all 11 occurrences at position _1_0; pairs with ESIS
+ESIS	lemma_2	high	ESIS = second part of "GENESIS" running header (alternate split: GEN+ESIS); all 11 occurrences at position _1_0
+Numeri	lemma_2	high	Numeri = full Latin book name (Numbers) as running header or incipit gloss; all 11 occurrences paratextual ("gnant ist Numeri vnd ist", "burden v Numeri NUM zu")
+S	lemma_2	high	S = scribal section initial or abbreviation mark before a capitalized word; all 13 occurrences appear directly before a capitalized word beginning with S ("Secht", "Sunder", "Seine", "Sein", "Stercket", "Svnder", "Sichstu"); lemma_1119 (der ART) is a false match
+UII	lemma_2	high	UII = Roman numeral VII (V written as U, a common medieval scribal convention) used as chapter/verse number; all 6 occurrences in chapter apparatus context ("UII CAPITULUM", "XX UII", "CAPITULUM UII"); grouped with non-lexical tokens as chapter numbering
+LIBER	lemma_2	high	LIBER = Latin word for "book" appearing in incipit ("Primus LIBER I GENESIS"); paratextual label, not a MHG word

@@ -1,0 +1,293 @@
+# MHDBDB Authority Files — RELAX NG Schema (Compact Syntax)
+# ==========================================================
+# Schema for the 8 authority files in authority-files/:
+#   lexicon.xml, variants.xml, persons.xml, works.xml,
+#   concepts.xml, genres.xml, names.xml, contributors.xml
+#
+# Each file is a standalone TEI document with a shared minimal
+# teiHeader and file-specific body content. contributors.xml was
+# added 2026-04-14 as part of the editor-attribution feature
+# (#83) and carries the MHDBDB team register via a dedicated
+# contributors.body production.
+
+default namespace = "http://www.tei-c.org/ns/1.0"
+namespace xml = "http://www.w3.org/XML/1998/namespace"
+datatypes xsd = "http://www.w3.org/2001/XMLSchema-datatypes"
+
+# ============================================================
+# Root — all authority files share this envelope
+# ============================================================
+
+start = element TEI {
+    authority.header,
+    element text {
+        element body { authority.body }
+    }
+}
+
+# ============================================================
+# Shared minimal teiHeader
+# ============================================================
+
+authority.header = element teiHeader {
+    element fileDesc {
+        element titleStmt {
+            element title { text },
+            element respStmt {
+                element resp { text },
+                element name { text }
+            }?
+        },
+        element publicationStmt {
+            element publisher { text },
+            element date { text }
+        },
+        element sourceDesc { element p { text } }
+    },
+    # Taxonomy files (concepts, genres, names) have encodingDesc
+    element encodingDesc {
+        element classDecl { taxonomy }
+    }?
+}
+
+# ============================================================
+# Body: one of the 4 structural types
+# ============================================================
+#
+# Known Stage-2 gap (P2-11 in docs/features/032-schema-followup.md):
+# Taxonomy files (concepts.xml, genres.xml, names.xml) carry their
+# real payload in <encodingDesc>/<classDecl>/<taxonomy>, and their
+# <body> is just a <p>-placeholder. RELAX NG cannot conditionally
+# require <encodingDesc>/<classDecl>/<taxonomy> when <body>/<p> is
+# present — that coupling crosses sibling boundaries and is only
+# expressible in Schematron. Stage 2 is therefore deliberately
+# weak here: the `element p { text }` branch below is valid even
+# if the taxonomy payload in <encodingDesc> is missing. Stage 1
+# (tei_all.rng) catches gross TEI errors; the taxonomy-body link
+# is enforced by convention + review, not by the schema. If we
+# ever add a Schematron layer, this is the first check to move
+# there (see P3 in 032-schema-followup.md).
+
+authority.body =
+    lexicon.div        # lexicon.xml
+    | variants.div     # variants.xml
+    | listPerson       # persons.xml
+    | listBibl         # works.xml
+    | contributors.body    # contributors.xml: (listOrg?, listPerson)
+    | element p { text }   # taxonomy files: placeholder <p> (data in encodingDesc — see comment above)
+
+# ============================================================
+# Type 1: Lexicon (lexicon.xml)
+# ============================================================
+
+lexicon.div = element div {
+    attribute type { "lexicon" },
+    lexicon.entry*
+}
+
+lexicon.entry = element entry {
+    attribute xml:id { xsd:NCName },   # lemma_N
+    element form {
+        attribute type { "lemma" },
+        element orth { text }
+    },
+    element gramGrp {
+        element pos { text }+          # POS tags (can be multiple)
+    },                                  # required — 43,750/43,750 entries have gramGrp
+    element etym {
+        attribute type { "morphological" },
+        element seg {
+            attribute type { "component" },
+            attribute corresp { text }?,  # lexicon.xml#lemma_N
+            text
+        }*                                 # can be empty (data quality issue)
+    }?,
+    element sense {
+        attribute xml:id { xsd:NCName },   # lemma_N_sense_M
+        attribute ana { text }?,            # space-separated #type_N refs
+        element ptr {
+            attribute target { text }       # concepts.xml#concept_N
+        }*
+    }+                                      # required (1+) — 43,750/43,750 entries have sense
+}
+
+# ============================================================
+# Type 2: Variants (variants.xml)
+# ============================================================
+
+variants.div = element div {
+    attribute type { "orthographicVariants" },
+    variants.entry*
+}
+
+variants.entry = element entry {
+    attribute corresp { text },            # lexicon.xml#lemma_N
+    element form {
+        attribute xml:id { xsd:NCName },   # type_N
+        text                               # orthographic variant
+    }+
+}
+
+# ============================================================
+# Type 3: Persons (persons.xml)
+# ============================================================
+
+listPerson = element listPerson {
+    element person {
+        attribute xml:id { xsd:NCName },   # person_N (numeric) or person_anonym
+        element persName {
+            attribute type { "preferred" | "alternative" },
+            attribute xml:lang { text }?,
+            text
+        }+,
+        element idno {
+            attribute type { "GND" | "wikidata" },
+            text
+        }*
+        # No <listBibl> — person→work derived from works.xml <author @ref>
+    }*
+}
+
+# ============================================================
+# Type 4: Works (works.xml)
+# ============================================================
+
+listBibl = element listBibl {
+    works.bibl*
+}
+
+works.bibl = element bibl {
+    attribute xml:id { xsd:NCName },   # work_N
+    element title {
+        attribute xml:lang { text }?,
+        attribute level { text }?,
+        attribute type { text }?,
+        attribute ana { text }?,
+        text
+    }+,                                 # required — 583/583 works have title
+    element idno {
+        attribute type { "sigle" | "handschriftencensus" | "GND" | "wikidata" },
+        text
+    }*,
+    element ptr {
+        attribute target { text }      # genres.xml#genre_UUID
+    }*,
+    element author {
+        attribute ref { text }?,       # persons.xml#person_N
+        text
+    }*,
+    element relatedItem {
+        works.biblStruct
+    }*
+}
+
+works.biblStruct = element biblStruct {
+    attribute type { text }?,          # journalArticle, bookSection, book
+    attribute xml:id { xsd:NCName }?,
+    attribute corresp { text }?,       # Zotero URL
+    attribute key { text }?,           # sigle
+    element analytic {
+        element title { attribute level { text }?, text }+,  # required
+        element author { element name { text } }*,
+        element ref { attribute target { text }?, attribute type { text }?, text }*,
+        element idno { attribute type { text }, text }*
+    }?,
+    element monogr {
+        element author { element name { text } }*,
+        element title { attribute level { text }?, text }+,  # required
+        element idno { attribute type { text }, text }*,
+        element editor {
+            (element forename { text }?,
+             element surname { text }?)
+        }*,
+        element edition { text }*,
+        element imprint {
+            (element pubPlace { text }
+             | element publisher { text }
+             | element date { attribute when { text }?, text }
+             | element biblScope { attribute unit { text }?, text })*
+        }?
+    }?,
+    element series {
+        element title { attribute level { text }?, text },
+        element biblScope { attribute unit { text }?, text }*
+    }?,
+    element note { text }?
+}
+
+# ============================================================
+# Type 5: Taxonomy (concepts.xml, genres.xml, names.xml)
+# ============================================================
+
+taxonomy = element taxonomy {
+    attribute xml:id { xsd:NCName },   # mhdbdb-concepts, mhdbdb-genres, mhdbdb-names
+    element desc { text }?,
+    category*
+}
+
+category = element category {
+    attribute xml:id { xsd:NCName },   # concept_N, genre_UUID, name_N
+    element catDesc {
+        (element term {
+            attribute xml:lang { text },
+            attribute type { text }?,  # alternative
+            text
+        }
+        | element ptr {
+            attribute type { "broader" | "exactMatch" | "closeMatch" },
+            attribute target { text }  # internal #ID or external file#ID
+        })*
+    },
+    category*   # nested subcategories
+}
+
+# ============================================================
+# Type 6: Contributors (contributors.xml)
+# ============================================================
+# Editor-Attribution-Register — Gründer, Koordination, Lead-
+# Editor:innen und alle Editor:innen, die an MHDBDB-Texten
+# gearbeitet haben. Bewusst getrennt von persons.xml (dort nur
+# mhd. Textautoren). Eigenes Pattern, damit persons.xml-Constraints
+# (persName/@type="preferred"|"alternative") nicht gelten und
+# Rollen-Enum direkt auf <person>/@role möglich ist.
+
+contributors.body =
+    element listOrg { contributors.org+ }?,
+    contributors.listPerson
+
+contributors.listPerson = element listPerson {
+    contributors.person+
+}
+
+contributors.org = element org {
+    attribute xml:id { xsd:NCName },   # mhdbdb-team, dhcraft
+    element orgName {
+        attribute xml:lang { text }?,
+        text
+    }+,
+    element desc {
+        attribute xml:lang { text }?,
+        text
+    }?,
+    element idno {
+        attribute type { "GND" | "wikidata" | "ROR" | "URL" },
+        text
+    }*                                  # URL = Homepage (TEI Guidelines Kap. 13 Pattern)
+}
+
+contributors.person = element person {
+    attribute xml:id { xsd:NCName },   # contrib_NNN
+    attribute role { "founder" | "coordinator" | "lead-editor" | "editor" }?,
+    element persName {
+        attribute xml:lang { text }?,
+        text
+    }+,
+    element idno {
+        attribute type { "GND" | "ORCID" | "wikidata" },
+        text
+    }*,
+    element note {
+        attribute xml:lang { text }?,
+        text
+    }?
+}

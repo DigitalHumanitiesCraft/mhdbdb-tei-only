@@ -116,7 +116,7 @@ Allows users to include/exclude specific texts from search:
 
 ### TEI Element Rendering Map
 
-The reading view converts TEI XML elements to HTML. Source: `assets/js/rendering/tei-text-reader.js:346-428`
+The reading view converts TEI XML elements to HTML. Source: `extractAndFormatBody()` / `_renderElement` closure in `assets/js/rendering/tei-text-reader.js`
 
 | TEI Element | Attributes | HTML Output | CSS Class |
 |------------|-----------|-------------|-----------|
@@ -134,7 +134,8 @@ The reading view converts TEI XML elements to HTML. Source: `assets/js/rendering
 | `<hi>` | (other) | `<span>` | `.hi` |
 | `<supplied>` | | `<span>[...]</span>` | `.supplied` |
 | `<num>` | | `<span>` | `.number` |
-| `<seg>` | `@type="pc"` | `<span>` (escaped text) | `.punctuation` |
+| `<pc>` | `@join` | `<span>` with `data-join` | `.punctuation` |
+| `<seg>` | | (transparent — children only) | — |
 | `<w>` | `@lemmaRef` (match) | `<mark>` | `.highlight` / `.highlight.multi-lemma` |
 | `<w>` | `@lemmaRef` (no match) | escaped text + space | — |
 | `<w>` | no `@lemmaRef` | escaped text + space | — |
@@ -192,7 +193,8 @@ playground/js/ui/
 ├── core/              # Core UI utilities
 │   ├── ui-helpers.js
 │   ├── progress.js
-│   └── file-display.js
+│   ├── file-display.js
+│   └── router.js      # Hash-based URL routing (#48)
 ├── authority/         # Authority file exploration (6 modules)
 │   ├── authority-ui.js
 │   ├── person-explorer.js
@@ -241,6 +243,43 @@ Each explorer follows consistent pattern:
 - Researcher finds co-occurrence in playground
 - Clicks result → generates URL with parameters
 - Opens main site reading view with highlighting and position
+
+### URL Routing (Hash-Based)
+
+**Component:** `playground/js/ui/core/router.js`
+**Purpose:** Shareable, bookmarkable playground URLs via hash fragments.
+
+**URL schema:** `#<view>[&key=value&...]`
+
+| View | Hash Fragment | What it opens |
+|------|-------------|---------------|
+| Authority explorers | `#authors`, `#works`, `#lemmata`, `#concepts`, `#genres`, `#names` | Corresponding explorer tab |
+| Multi-Lemma Search | `#multi-lemma` | Co-occurrence search |
+| TEI Analysis | `#words`, `#lines`, `#annotations` | TEI analysis views (currently non-functional, see #87) |
+
+**Parameters:**
+
+| Param | Applies to | Effect |
+|-------|-----------|--------|
+| `q` | All authority views | Auto-fills search input and triggers search |
+| `show` | All authority views | Expands detail panel for the given item ID |
+| `lemmata` | `multi-lemma` only | Comma-separated lemma terms |
+| `mode` | `multi-lemma` only | `proximity` or `document` |
+| `dist` | `multi-lemma` only | Max word distance (integer) |
+
+**Example:** `#multi-lemma&lemmata=minne,êre&mode=proximity&dist=10`
+
+**Core functions:**
+
+| Function | What it does |
+|----------|-------------|
+| `parseHash()` | Extracts `{view, params}` from `location.hash` |
+| `buildHash(view, params)` | Constructs hash string with URL-encoded values |
+| `dispatch(view, params)` | Looks up view handler, calls it, then defers `q`/`show` to next tick |
+| `navigate(view, params)` | Updates hash and dispatches (suppresses listener to prevent double-fire) |
+| `initRouter()` | Wires `hashchange` listener, called once after data loads |
+
+**Known limitation:** `triggerExpand(itemId)` only works for items in the currently visible result set (typically top 50).
 
 ## Lemma Pages Architecture
 

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Gattungs-Beispiel: zeigt Taxonomie-Struktur in genres.xml
+     Validiert gegen: tei_all.rng + mhdbdb-authority.rnc
+     Genre-IDs nutzen UUID-Hash-Format: genre_XXXXXXXX
+     Terme können in de, en, fr, la auftreten -->
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt><title>Genres Example</title></titleStmt>
+      <publicationStmt><publisher>MHDBDB</publisher><date>2026</date></publicationStmt>
+      <sourceDesc><p>Schema example</p></sourceDesc>
+    </fileDesc>
+    <encodingDesc>
+      <classDecl>
+        <taxonomy xml:id="mhdbdb-genres">
+          <desc>Gattungstaxonomie der MHDBDB</desc>
+
+          <!-- Genre mit Termen in 4 Sprachen (de, en, fr, la) -->
+          <category xml:id="genre_88b5cae2">
+            <catDesc>
+              <term xml:lang="de">Liebesroman und Abenteuerroman</term>
+              <term xml:lang="de" type="alternative">Minneroman</term>
+              <term xml:lang="en">Love Romance and Adventure Romance</term>
+              <term xml:lang="fr">Roman d'amour</term>
+              <term xml:lang="la">Narratio amoris</term>
+              <ptr type="broader" target="#genre_72cae96a"/>
+            </catDesc>
+          </category>
+
+          <!-- Eltern-Genre -->
+          <category xml:id="genre_72cae96a">
+            <catDesc>
+              <term xml:lang="de">Versroman</term>
+              <term xml:lang="en">Verse Romance</term>
+            </catDesc>
+          </category>
+
+          <!-- Genre ohne broader-Zeiger (Top-Level) -->
+          <category xml:id="genre_0a612f94">
+            <catDesc>
+              <term xml:lang="de">Minnelehre</term>
+              <term xml:lang="de" type="alternative">Minneregel</term>
+              <term xml:lang="de" type="alternative">Minnereflexion</term>
+              <term xml:lang="en">Minne Doctrine</term>
+            </catDesc>
+          </category>
+
+        </taxonomy>
+      </classDecl>
+    </encodingDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <p>See encodingDesc for genre taxonomy.</p>
+    </body>
+  </text>
+</TEI>
