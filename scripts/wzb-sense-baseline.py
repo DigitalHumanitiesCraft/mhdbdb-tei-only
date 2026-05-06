@@ -4,7 +4,7 @@
 Compute majority-sense baseline from the annotated MHDBDB corpus.
 
 For every lemma that appears in wzb-sense-pending.tsv, this script:
-  1. Scans all tei/*.xml files for <w @lemmaRef @meaningRef> pairs
+  1. Scans all tei/*.xml files for <w @lemmaRef @ana> pairs
   2. Counts sense frequency per lemma in the corpus
   3. Determines the majority sense (most frequent in corpus)
   4. Computes the theoretical accuracy if we applied majority-sense to all
@@ -57,7 +57,7 @@ def scan_corpus(tei_dir: Path) -> dict[str, Counter]:
             continue
         for w in tree.findall(f".//{{{NS_TEI}}}w"):
             lemma_ref   = w.get("lemmaRef", "")
-            meaning_ref = w.get("meaningRef", "")
+            meaning_ref = w.get("ana", "")
             if not lemma_ref or not meaning_ref:
                 continue
             lemma_id = lemma_ref.split("#")[-1]  if "#" in lemma_ref   else lemma_ref

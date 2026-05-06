@@ -158,7 +158,7 @@ def scan_corpus_for_annotated_tokens(
     min_sense_count: int = 2,
 ) -> list[dict]:
     """
-    Scan all corpus TEI files for <w @lemmaRef @meaningRef @pos> where the
+    Scan all corpus TEI files for <w @lemmaRef @ana @pos> where the
     lemma has >= min_sense_count senses. Returns token dicts suitable for
     stratified sampling.
     """
@@ -182,7 +182,7 @@ def scan_corpus_for_annotated_tokens(
 
         for idx, w in enumerate(w_elements):
             lemma_ref   = w.get("lemmaRef", "")
-            meaning_ref = w.get("meaningRef", "")
+            meaning_ref = w.get("ana", "")
             pos         = w.get("pos", "")
             if not lemma_ref or not meaning_ref or not pos:
                 continue
@@ -323,7 +323,7 @@ def run_sample(args) -> None:
     print(f"\nGold TSV written:     {gold_path}  ({len(sample)} rows)")
     print("  *** Keep this file hidden from the LLM — it contains the gold labels ***")
 
-    # Stripped TSV — @meaningRef removed; fed into the disambiguation pipeline
+    # Stripped TSV — @ana removed; fed into the disambiguation pipeline
     stripped_path = Path(args.stripped_out)
     stripped_path.parent.mkdir(parents=True, exist_ok=True)
     with stripped_path.open("w", encoding="utf-8", newline="") as f:
@@ -471,10 +471,10 @@ def run_evaluate(args) -> None:
             rater2_pos=sum(julia_correct),
         )
 
-    # @wordRef hit rate (correctly resolved tokens where @wordRef was also set)
-    has_wordref  = evaluated and "wordRef" in evaluated[0][1]
+    # @corresp hit rate (correctly resolved tokens where @wordRef was also set)
+    has_wordref  = evaluated and "corresp" in evaluated[0][1]
     wordref_possible = sum(1 for g, r in evaluated if sense_match(g, r))
-    wordref_assigned = sum(1 for g, r in evaluated if sense_match(g, r) and r.get("wordRef","").strip()) if has_wordref else 0
+    wordref_assigned = sum(1 for g, r in evaluated if sense_match(g, r) and r.get("corresp","").strip()) if has_wordref else 0
     wordref_rate = wordref_assigned / wordref_possible if wordref_possible else 0.0
 
     # --- Build report ---
@@ -536,8 +536,8 @@ def run_evaluate(args) -> None:
         lines.append(f"Inter-annotator κ (LLM vs Julia, correct/incorrect): {julia_kappa:.3f}")
         lines.append("")
     if has_wordref:
-        lines.append(f"@wordRef hit rate: {wordref_assigned}/{wordref_possible} = {100*wordref_rate:.1f}%")
-        lines.append("(Of correctly disambiguated tokens, proportion where @wordRef was also auto-assigned.)")
+        lines.append(f"@corresp hit rate: {wordref_assigned}/{wordref_possible} = {100*wordref_rate:.1f}%")
+        lines.append("(Of correctly disambiguated tokens, proportion where @corresp was also auto-assigned.)")
     lines.append("")
     lines.append("=" * 64)
 

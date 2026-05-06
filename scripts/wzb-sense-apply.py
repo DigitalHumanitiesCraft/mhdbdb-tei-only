@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Phase 3 — Step 3: Write @meaningRef (and @wordRef where resolvable) to TEI.
+Phase 3 — Step 3: Write @ana (and @corresp where resolvable) to TEI.
 
 Reads wzb-sense-pending.tsv — rows with a resolved_sense value are applied.
-Already-set @meaningRef attributes are never overwritten.
+Already-set @ana attributes are never overwritten.
 
-@wordRef auto-resolution: normalise word form → look up in variants.xml →
+@corresp auto-resolution: normalise word form → look up in variants.xml →
 intersect candidate type IDs with sense's @ana list → assign if exactly one
 match.
 
@@ -91,8 +91,8 @@ def build_variant_index(var_path):
     return index
 
 
-def resolve_word_ref(form, lemma_id, sense_id, sense_ana_index, variant_index):
-    """Return wordRef fragment string or None."""
+def resolve_corresp(form, lemma_id, sense_id, sense_ana_index, variant_index):
+    """Return corresp type ID (e.g. type_42) or None."""
     ana_types = sense_ana_index.get(sense_id, set())
     if not ana_types:
         return None
@@ -103,7 +103,7 @@ def resolve_word_ref(form, lemma_id, sense_id, sense_ana_index, variant_index):
         if var_lemma_id == lemma_id and type_id in ana_types
     ]
     if len(matches) == 1:
-        return f"{sense_id}_{matches[0]}"
+        return matches[0]   # just 'type_42', caller prepends 'variants.xml#'
     return None
 
 
@@ -180,7 +180,7 @@ def apply_senses(tei_path, pending_path, lex_path, var_path, dry_run=False):
             not_found.append(xml_id)
             continue
 
-        if w.get("meaningRef"):
+        if w.get("ana"):
             stats["already_set"] += 1
             continue
 
@@ -190,23 +190,23 @@ def apply_senses(tei_path, pending_path, lex_path, var_path, dry_run=False):
 
         meaning_val = f"lexicon.xml#{sense_id}"
         if not dry_run:
-            w.set("meaningRef", meaning_val)
+            w.set("ana", meaning_val)
         stats["meaning_applied"] += 1
 
         word_frag = resolve_word_ref(form, lemma_id, sense_id, sense_ana, var_index)
         if word_frag:
             if not dry_run:
-                w.set("wordRef", f"lexicon.xml#{word_frag}")
+                w.set("corresp", f"variants.xml#{word_frag}")
             stats["word_ref_applied"] += 1
 
     # Final coverage
     total = len(w_elements)
-    has_meaning = sum(1 for w in w_elements if w.get("meaningRef"))
+    has_meaning = sum(1 for w in w_elements if w.get("ana"))
     projected   = has_meaning + (stats["meaning_applied"] if dry_run else 0)
 
     print(f"\nApplied @meaningRef:  {stats['meaning_applied']}")
-    print(f"Applied @wordRef:     {stats['word_ref_applied']}")
-    print(f"Already had @meaningRef (skipped): {stats['already_set']}")
+    print(f"Applied @corresp:     {stats['word_ref_applied']}")
+    print(f"Already had @ana (skipped): {stats['already_set']}")
     print(f"xml_id not found:    {stats['not_found']}")
     if not_found:
         for nf in not_found[:10]:
@@ -217,22 +217,22 @@ def apply_senses(tei_path, pending_path, lex_path, var_path, dry_run=False):
         pass  # handled below via pending TSV re-read
 
     if dry_run:
-        print(f"\nDRY RUN: @meaningRef coverage would be "
+        print(f"\nDRY RUN: @ana coverage would be "
               f"{projected}/{total} ({100*projected/total:.1f}%)")
         print("No changes written.")
         return
 
-    final_meaning = sum(1 for w in w_elements if w.get("meaningRef"))
-    final_word    = sum(1 for w in w_elements if w.get("wordRef"))
-    print(f"\nFinal @meaningRef: {final_meaning}/{total} ({100*final_meaning/total:.1f}%)")
-    print(f"Final @wordRef:    {final_word}/{total} ({100*final_word/total:.1f}%)")
+    final_meaning = sum(1 for w in w_elements if w.get("ana"))
+    final_word    = sum(1 for w in w_elements if w.get("corresp"))
+    print(f"\nFinal @ana: {final_meaning}/{total} ({100*final_meaning/total:.1f}%)")
+    print(f"Final @corresp:  {final_word}/{total} ({100*final_word/total:.1f}%)")
 
     tree.write(str(tei_path), encoding="utf-8", xml_declaration=True, pretty_print=True)
     print(f"TEI written to {tei_path}")
 
 
 def report_decision_breakdown(pending_path: Path):
-    """Print @meaningRef coverage broken down by decision_type."""
+    """Print @ana coverage broken down by decision_type."""
     from collections import Counter
     import csv as _csv
     counts: Counter = Counter()
@@ -254,7 +254,7 @@ def report_decision_breakdown(pending_path: Path):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="Phase 3 Step 3: apply resolved @meaningRef/@wordRef to WZB TEI"
+        description="Phase 3 Step 3: apply resolved @ana/@corresp to WZB TEI"
     )
     parser.add_argument("--tei",      default=str(DEFAULT_TEI))
     parser.add_argument("--pending",  default=str(DEFAULT_PEND))

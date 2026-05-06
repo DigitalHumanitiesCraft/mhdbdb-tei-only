@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Phase 3 — Step 1: Auto-assign @meaningRef (and @wordRef where possible).
+Phase 3 — Step 1: Auto-assign @ana (and @corresp where possible).
 
 For every <w> with @lemmaRef pointing to a single-sense lexicon entry:
-  - Write @meaningRef = "lexicon.xml#{sense_xml_id}"
-  - Attempt @wordRef: normalise word form, look up in variants.xml,
+  - Write @ana = "lexicon.xml#{sense_xml_id}"
+  - Attempt @corresp: normalise word form, look up in variants.xml,
     intersect candidate type IDs with sense's @ana type list;
-    if exactly one match write @wordRef.
+    if exactly one match write @corresp = "variants.xml#{type_id}".
 
 Multi-sense lemmata are written to a pending TSV for LLM disambiguation.
 
@@ -168,8 +168,8 @@ def sense_label(sense_dict, concept_index):
 # wordRef resolver
 # ---------------------------------------------------------------------------
 
-def resolve_word_ref(form, lemma_id, sense_dict, variant_index):
-    """Return wordRef fragment (e.g. 'lemma_7_sense_3_type_42') or None."""
+def resolve_corresp(form, lemma_id, sense_dict, variant_index):
+    """Return corresp type ID (e.g. 'type_42') for variants.xml reference, or None."""
     norm = normalize_mhg(form.lower())
     candidates = variant_index.get(norm, [])
     matches = [
@@ -177,7 +177,7 @@ def resolve_word_ref(form, lemma_id, sense_dict, variant_index):
         if var_lemma_id == lemma_id and type_id in sense_dict["ana_types"]
     ]
     if len(matches) == 1:
-        return f"{sense_dict['sense_id']}_{matches[0]}"
+        return matches[0]
     return None
 
 
@@ -209,7 +209,7 @@ def assign_senses(tei_path, lex_path, var_path, con_path, pending_path, dry_run=
 
     stats = {
         "auto_meaning":   0,
-        "auto_word_ref":  0,
+        "auto_corresp":  0,
         "already_done":   0,
         "multi_sense":    0,
         "zero_sense":     0,
@@ -224,7 +224,7 @@ def assign_senses(tei_path, lex_path, var_path, con_path, pending_path, dry_run=
         lemma_ref = w.get("lemmaRef", "")
         pos_val   = w.get("pos", "")
 
-        if w.get("meaningRef"):
+        if w.get("ana"):
             stats["already_done"] += 1
             continue
 
@@ -247,14 +247,14 @@ def assign_senses(tei_path, lex_path, var_path, con_path, pending_path, dry_run=
             sense = senses[0]
             meaning_val = f"lexicon.xml#{sense['sense_id']}"
             if not dry_run:
-                w.set("meaningRef", meaning_val)
+                w.set("ana", meaning_val)
             stats["auto_meaning"] += 1
 
-            word_ref_frag = resolve_word_ref(form, lemma_id, sense, var_index)
-            if word_ref_frag:
+            corresp_type = resolve_corresp(form, lemma_id, sense, var_index)
+            if corresp_type:
                 if not dry_run:
-                    w.set("wordRef", f"lexicon.xml#{word_ref_frag}")
-                stats["auto_word_ref"] += 1
+                    w.set("corresp", f"variants.xml#{corresp_type}")
+                stats["auto_corresp"] += 1
             continue
 
         # Multi-sense: add to pending TSV
@@ -286,7 +286,7 @@ def assign_senses(tei_path, lex_path, var_path, con_path, pending_path, dry_run=
     print(f"  Skipped (0 senses):        {stats['zero_sense']}")
     print(f"  Skipped (lemma not found): {stats['lemma_missing']}")
     done = stats['already_done'] + stats['auto_meaning']
-    print(f"\n  @meaningRef coverage: {done}/{total} ({100*done/total:.1f}%)")
+    print(f"\n  @ana coverage: {done}/{total} ({100*done/total:.1f}%)")
 
     # Write pending TSV
     pending_path.parent.mkdir(parents=True, exist_ok=True)
@@ -308,7 +308,7 @@ def assign_senses(tei_path, lex_path, var_path, con_path, pending_path, dry_run=
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="Phase 3 Step 1: auto-assign @meaningRef/@wordRef to WZB <w> elements"
+        description="Phase 3 Step 1: auto-assign @ana/@corresp to WZB <w> elements"
     )
     parser.add_argument("--tei",      default=str(DEFAULT_TEI))
     parser.add_argument("--lexicon",  default=str(DEFAULT_LEX))
