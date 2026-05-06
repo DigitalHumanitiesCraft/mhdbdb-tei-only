@@ -78,9 +78,10 @@ def parse_lexicon():
 
     tree = etree.parse(str(lexicon_file))
     ns = get_namespaces(tree)
+    TEI = '{http://www.tei-c.org/ns/1.0}'
 
     lemmata = []
-    entries = tree.xpath('//tei:entry', namespaces=ns)
+    entries = tree.findall(f'.//{TEI}entry')
 
     for entry in entries:
         lemma_id = entry.get('{http://www.w3.org/XML/1998/namespace}id')
@@ -152,6 +153,28 @@ def parse_lexicon():
     return lemmata
 
 
+# Module-level person→works lookup, populated by _build_person_works_map()
+_person_works = {}
+
+
+def _build_person_works_map(works):
+    """Build person_id → comma-separated work_ids from parsed works data."""
+    global _person_works
+    for work in works:
+        author_ref = work.get('authorRef')
+        if not author_ref:
+            continue
+        # "persons.xml#person_5" → "person_5"
+        person_id = author_ref.split('#')[-1] if '#' in author_ref else author_ref
+        if person_id not in _person_works:
+            _person_works[person_id] = []
+        _person_works[person_id].append(work['id'])
+    # Convert lists to comma-separated strings
+    for pid in _person_works:
+        _person_works[pid] = ','.join(_person_works[pid])
+    print(f"   Built person→works map: {len(_person_works)} persons with works")
+
+
 def parse_persons():
     """Parse persons.xml to extract persons."""
     print("👤 Parsing persons.xml...")
@@ -165,7 +188,8 @@ def parse_persons():
     ns = get_namespaces(tree)
 
     persons = []
-    person_els = tree.xpath('//tei:person', namespaces=ns)
+    TEI = '{http://www.tei-c.org/ns/1.0}'
+    person_els = tree.findall(f'.//{TEI}person')
 
     for person_el in person_els:
         person_id = person_el.get('{http://www.w3.org/XML/1998/namespace}id')
@@ -189,9 +213,9 @@ def parse_persons():
         wikidata_el = person_el.xpath('.//tei:idno[@type="wikidata"]', namespaces=ns)
         wikidata = wikidata_el[0].text.strip() if wikidata_el and wikidata_el[0].text else None
 
-        # Extract works list (comma-separated work IDs)
-        works_el = person_el.xpath('.//tei:note[@type="works"]', namespaces=ns)
-        works = works_el[0].text.strip() if works_el and works_el[0].text else None
+        # Person→Work mapping is derived from works.xml <author @ref>
+        # (populated after parse_works via _build_person_works_map)
+        works = _person_works.get(person_id)
 
         persons.append({
             'id': person_id,
@@ -206,9 +230,35 @@ def parse_persons():
     return persons
 
 
+# Module-level genre name lookup, populated by _build_genre_names()
+_genre_names = {}
+
+
+def _build_genre_names():
+    """Build genre_id → German term lookup from genres.xml."""
+    global _genre_names
+    genres_file = AUTHORITY_DIR / 'genres.xml'
+    if not genres_file.exists():
+        return
+    tree = etree.parse(str(genres_file))
+    TEI = '{http://www.tei-c.org/ns/1.0}'
+    XML_ID = '{http://www.w3.org/XML/1998/namespace}id'
+    for cat in tree.iter(f'{TEI}category'):
+        cid = cat.get(XML_ID, '')
+        if not cid.startswith('genre_'):
+            continue
+        for term in cat.findall(f'{TEI}catDesc/{TEI}term'):
+            lang = term.get('{http://www.w3.org/XML/1998/namespace}lang', '')
+            if lang == 'de' and term.text:
+                _genre_names[cid] = term.text.strip()
+                break
+    print(f"   Built genre name lookup: {len(_genre_names)} entries")
+
+
 def parse_works():
     """Parse works.xml to extract works with full details."""
     print("📚 Parsing works.xml...")
+    _build_genre_names()
     works_file = AUTHORITY_DIR / 'works.xml'
 
     if not works_file.exists():
@@ -220,9 +270,10 @@ def parse_works():
 
     works = []
     # Try different possible root elements
-    work_els = tree.xpath('//tei:bibl', namespaces=ns)
+    TEI = '{http://www.tei-c.org/ns/1.0}'
+    work_els = tree.findall(f'.//{TEI}bibl')
     if not work_els:
-        work_els = tree.xpath('//work', namespaces=ns)
+        work_els = tree.findall('.//work')  # fallback for non-TEI
 
     for work_el in work_els:
         work_id = work_el.get('{http://www.w3.org/XML/1998/namespace}id')
@@ -268,20 +319,19 @@ def parse_works():
         author_text = author_el[0].text.strip() if author_el and author_el[0].text else None
         author = author_text or author_ref or "Unbekannt"
 
-        # Extract genre references
-        genre_refs = work_el.xpath('.//tei:ref[contains(@target, "genres.xml#")]', namespaces=ns)
+        # Extract genre references (<ptr target="genres.xml#genre_ID"/>)
+        # Genre label text is resolved from genres.xml via _genre_names lookup
+        genre_ptrs = work_el.xpath('./tei:ptr[contains(@target, "genres.xml#")]', namespaces=ns)
         genres = []
-        for ref in genre_refs:
-            lang = ref.get('{http://www.w3.org/XML/1998/namespace}lang')
-            if lang == 'de':  # Only German genre labels
-                target = ref.get('target')
-                if target:
-                    genre_id = target.split('#')[1] if '#' in target else target
-                    genre_text = ref.text.strip() if ref.text else ''
-                    genres.append({
-                        'id': genre_id,
-                        'text': genre_text
-                    })
+        for ptr in genre_ptrs:
+            target = ptr.get('target')
+            if target:
+                genre_id = target.split('#')[1] if '#' in target else target
+                genre_text = _genre_names.get(genre_id, '')
+                genres.append({
+                    'id': genre_id,
+                    'text': genre_text
+                })
 
         # Extract biblStruct elements (bibliographic sources)
         bibl_struct_els = work_el.xpath('.//tei:biblStruct', namespaces=ns)
@@ -305,7 +355,7 @@ def parse_works():
         handschriftencensus = hc_el[0].text.strip() if hc_el and hc_el[0].text else None
 
         # Extract GND identifier (for works)
-        gnd_el = work_el.xpath('.//tei:idno[@type="gnd"]', namespaces=ns)
+        gnd_el = work_el.xpath('.//tei:idno[@type="GND"]', namespaces=ns)
         gnd = None
         if gnd_el and gnd_el[0].text:
             gnd_text = gnd_el[0].text.strip()
@@ -357,10 +407,11 @@ def parse_concepts():
 
     tree = etree.parse(str(concepts_file))
     ns = get_namespaces(tree)
+    TEI = '{http://www.tei-c.org/ns/1.0}'
 
     concepts = []
     # Find all category elements with concept_ prefix
-    category_els = tree.xpath('//tei:category', namespaces=ns)
+    category_els = tree.findall(f'.//{TEI}category')
 
     for category_el in category_els:
         category_id = category_el.get('{http://www.w3.org/XML/1998/namespace}id')
@@ -413,10 +464,11 @@ def parse_genres():
 
     tree = etree.parse(str(genres_file))
     ns = get_namespaces(tree)
+    TEI = '{http://www.tei-c.org/ns/1.0}'
 
     genres = []
     # Find all category elements with genre_ prefix
-    category_els = tree.xpath('//tei:category', namespaces=ns)
+    category_els = tree.findall(f'.//{TEI}category')
 
     for category_el in category_els:
         category_id = category_el.get('{http://www.w3.org/XML/1998/namespace}id')
@@ -469,10 +521,11 @@ def parse_names():
 
     tree = etree.parse(str(names_file))
     ns = get_namespaces(tree)
+    TEI = '{http://www.tei-c.org/ns/1.0}'
 
     names = []
     # Find all category elements with name_ prefix
-    category_els = tree.xpath('//tei:category', namespaces=ns)
+    category_els = tree.findall(f'.//{TEI}category')
 
     for category_el in category_els:
         category_id = category_el.get('{http://www.w3.org/XML/1998/namespace}id')
@@ -534,9 +587,10 @@ def parse_variants():
 
     tree = etree.parse(str(variants_file))
     ns = get_namespaces(tree)
+    TEI = '{http://www.tei-c.org/ns/1.0}'
 
     variants = {}  # normalized_variant -> lemma_id
-    entry_els = tree.xpath('//tei:entry | //entry', namespaces=ns)
+    entry_els = tree.findall(f'.//{TEI}entry')
 
     for entry in entry_els:
         # Get lemma reference from corresp attribute
@@ -634,10 +688,11 @@ def build_performance_maps(lemmata, works, concepts, genres):
         if genres_file.exists():
             tree = etree.parse(str(genres_file))
             ns = get_namespaces(tree)
+            TEI = '{http://www.tei-c.org/ns/1.0}'
 
             # Build lookup: genre_id -> genre name (German)
             genre_names = {}
-            categories = tree.xpath('//tei:category', namespaces=ns)
+            categories = tree.findall(f'.//{TEI}category')
             for category in categories:
                 cat_id = category.get('{http://www.w3.org/XML/1998/namespace}id')
                 if not cat_id:
@@ -689,10 +744,17 @@ def build_index():
     print("\n🔨 Building authority index...")
     print(f"Authority files directory: {AUTHORITY_DIR}")
 
+    # Reset module-level caches (safe for repeated calls in test harnesses)
+    global _person_works, _genre_names
+    _person_works = {}
+    _genre_names = {}
+
     # Parse all authority files
+    # works before persons: person→works map is derived from works.xml <author @ref>
     lemmata = parse_lexicon()
-    persons = parse_persons()
     works = parse_works()
+    _build_person_works_map(works)
+    persons = parse_persons()
     concepts = parse_concepts()
     genres = parse_genres()
     names = parse_names()
@@ -703,7 +765,7 @@ def build_index():
 
     # Build index structure
     index = {
-        'version': '1.1.0',  # Bumped for GND/Wikidata in works
+        'version': '1.2.0',  # Authority migration: genre ptrs, person-works derivation, Frauendienst split
         'generatedAt': datetime.utcnow().isoformat() + 'Z',
         'lemmata': lemmata,
         'persons': persons,

@@ -56,7 +56,10 @@ class MainSiteApp {
                 textFilter: document.getElementById('textFilter'),
                 selectAllTexts: document.getElementById('selectAllTexts'),
                 selectNoneTexts: document.getElementById('selectNoneTexts'),
+                selectOnlyVisible: document.getElementById('selectOnlyVisible'),
+                selectOnlyVisibleSep: document.getElementById('selectOnlyVisibleSep'),
                 selectedTextCount: document.getElementById('selectedTextCount'),
+                totalTextCount: document.getElementById('totalTextCount'),
                 filterInfoText: document.getElementById('filterInfoText'),
                 visibleTextCount: document.getElementById('visibleTextCount'),
                 clearTextFilter: document.getElementById('clearTextFilter'),
@@ -110,11 +113,9 @@ class MainSiteApp {
                 if (this.isSearchPage) {
                     const hasURLParams = this.handleURLParameters();
 
-                    // If no URL params, load ABG text automatically
+                    // If no URL params, show empty state (no auto-load)
                     if (!hasURLParams) {
-                        setTimeout(() => {
-                            this.teiReader.openReadingView('ABG', {}, this.elements);
-                        }, 200);
+                        this.showEmptyState();
                     }
                 }
             }, 500);
@@ -273,6 +274,10 @@ class MainSiteApp {
         if (selectedTextCountEl) {
             selectedTextCountEl.textContent = selectedCount;
         }
+        const totalTextCountEl = this.elements.totalTextCount;
+        if (totalTextCountEl) {
+            totalTextCountEl.textContent = this.corpusData.texts.length;
+        }
     }
 
     setupEventListeners() {
@@ -319,6 +324,7 @@ class MainSiteApp {
         if (textFilter && textList) {
             textFilter.addEventListener('input', (e) => {
                 const query = e.target.value.toLowerCase().trim();
+                const queryWords = query.split(/\s+/).filter(w => w.length > 0);
                 const items = textList.querySelectorAll('label');
                 let visibleCount = 0;
 
@@ -326,10 +332,10 @@ class MainSiteApp {
                     const title = item.dataset.title || '';
                     const author = item.dataset.author || '';
                     const textId = item.dataset.textId || '';
+                    const searchText = `${title} ${author} ${textId.toLowerCase()}`;
 
-                    const matches = title.includes(query) ||
-                                   author.includes(query) ||
-                                   textId.toLowerCase().includes(query);
+                    const matches = queryWords.length === 0 ||
+                                   queryWords.every(word => searchText.includes(word));
 
                     if (matches) {
                         item.style.display = '';
@@ -339,12 +345,16 @@ class MainSiteApp {
                     }
                 });
 
-                // Show/hide filter info
+                // Show/hide filter info + "Nur diese" button
                 if (query) {
                     if (filterInfoText) filterInfoText.style.display = '';
                     if (visibleTextCount) visibleTextCount.textContent = visibleCount;
+                    if (this.elements.selectOnlyVisible) this.elements.selectOnlyVisible.style.display = '';
+                    if (this.elements.selectOnlyVisibleSep) this.elements.selectOnlyVisibleSep.style.display = '';
                 } else {
                     if (filterInfoText) filterInfoText.style.display = 'none';
+                    if (this.elements.selectOnlyVisible) this.elements.selectOnlyVisible.style.display = 'none';
+                    if (this.elements.selectOnlyVisibleSep) this.elements.selectOnlyVisibleSep.style.display = 'none';
                 }
             });
         }
@@ -363,21 +373,48 @@ class MainSiteApp {
 
         if (selectAllTexts && textList) {
             selectAllTexts.addEventListener('click', () => {
-                const visibleCheckboxes = Array.from(textList.querySelectorAll('label:not([style*="display: none"]) input[type="checkbox"]'));
-                visibleCheckboxes.forEach(cb => {
+                const allCheckboxes = Array.from(textList.querySelectorAll('input[type="checkbox"]'));
+                allCheckboxes.forEach(cb => {
                     cb.checked = true;
                     this.corpusData.includedTexts.add(cb.dataset.textId);
                 });
+                if (this.elements.textFilter) {
+                    this.elements.textFilter.value = '';
+                    this.elements.textFilter.dispatchEvent(new Event('input'));
+                }
                 this.updateTextListStats();
             });
         }
 
         if (selectNoneTexts && textList) {
             selectNoneTexts.addEventListener('click', () => {
-                const visibleCheckboxes = Array.from(textList.querySelectorAll('label:not([style*="display: none"]) input[type="checkbox"]'));
-                visibleCheckboxes.forEach(cb => {
+                this.corpusData.includedTexts.clear();
+                const allCheckboxes = Array.from(textList.querySelectorAll('input[type="checkbox"]'));
+                allCheckboxes.forEach(cb => {
                     cb.checked = false;
-                    this.corpusData.includedTexts.delete(cb.dataset.textId);
+                });
+                if (this.elements.textFilter) {
+                    this.elements.textFilter.value = '';
+                    this.elements.textFilter.dispatchEvent(new Event('input'));
+                }
+                this.updateTextListStats();
+            });
+        }
+
+        // "Nur diese" — select only visible (filtered) texts, deselect all others
+        const selectOnlyVisible = this.elements.selectOnlyVisible;
+        if (selectOnlyVisible && textList) {
+            selectOnlyVisible.addEventListener('click', () => {
+                // Clear includedTexts completely first, then rebuild from visible items
+                this.corpusData.includedTexts.clear();
+                const allCheckboxes = Array.from(textList.querySelectorAll('input[type="checkbox"]'));
+                allCheckboxes.forEach(cb => {
+                    const label = cb.closest('label');
+                    const isVisible = !label.style.display || label.style.display !== 'none';
+                    cb.checked = isVisible;
+                    if (isVisible) {
+                        this.corpusData.includedTexts.add(cb.dataset.textId);
+                    }
                 });
                 this.updateTextListStats();
             });
@@ -601,6 +638,22 @@ class MainSiteApp {
         return card;
     }
 
+
+    showEmptyState() {
+        if (this.elements.readingTitle) {
+            this.elements.readingTitle.textContent = '';
+        }
+        if (this.elements.readingBody) {
+            this.elements.readingBody.innerHTML =
+                '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:16rem;color:#94a3b8;padding:2rem">' +
+                '<svg style="width:48px;height:48px;margin-bottom:1rem" fill="none" stroke="currentColor" viewBox="0 0 24 24">' +
+                '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>' +
+                '</svg>' +
+                '<p style="font-size:1.125rem">Bitte geben Sie ein Wort oder Lemma ein und starten Sie die Suche.</p>' +
+                '<p style="font-size:0.875rem;margin-top:0.5rem">Oder klicken Sie auf einen Text in der Liste links.</p>' +
+                '</div>';
+        }
+    }
 
     showError(message) {
         this.elements.errorMessage.textContent = message;

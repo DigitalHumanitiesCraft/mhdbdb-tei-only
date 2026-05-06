@@ -15,8 +15,8 @@ The MHDBDB TEI Repository provides a comprehensive digital corpus of Middle High
 ## Data Basis
 
 ### Curated Corpus
-- **Hundreds of TEI files** - Complete Middle High German texts with word-level annotations
-- **7 authority files** - Controlled vocabularies for persons, works, lexicon, concepts, genres, names, variants
+- **666 TEI files** - Complete Middle High German texts with word-level annotations
+- **8 authority files** - 7 searchable controlled vocabularies (persons, works, lexicon, concepts, genres, names, variants) plus `contributors.xml` as project-internal MHDBDB team register (since 2026-04)
 - **Pre-built indexes** - Compressed JSON (3 MB authority + 34 MB corpus) replacing runtime XML parsing
 
 ### Key Architecture Decision
@@ -46,7 +46,7 @@ Advanced exploration tools for medievalists and digital humanities researchers:
   - 3-stage lemma resolution (exact match → variants → partial match)
   - Color-coded results with clickable navigation to reading view
 - **Authority Exploration** - Browse and search persons, works, lemmata, concepts, genres, names
-- **TEI Analysis** - Upload and analyze custom TEI files
+- **TEI Analysis** - Browse and analyze the pre-loaded MHDBDB corpus (words, lines, annotations, multi-lemma co-occurrence)
 
 ## Technical Stack
 
@@ -83,8 +83,9 @@ This knowledge base follows a hub-and-spoke architecture with INDEX.MD as the ce
 | **[RESEARCH.MD](RESEARCH.MD)** | Academic context, TEI/MHG standards | Researchers |
 | **[DECISIONS.MD](DECISIONS.MD)** | Architecture Decision Records (ADRs) | Architects |
 | **[CONTRACTS.MD](CONTRACTS.MD)** | Cross-language parity constraints, algorithm pseudocode, API contracts | Developers |
-| **[USER-GUIDE.MD](USER-GUIDE.MD)** | End-user documentation | Users |
-| **[CONTRIBUTING-DATA.md](CONTRIBUTING-DATA.md)** | How to prepare and submit a new text (TEI header, annotation pipeline, POS tagset, validation) | Contributors |
+| **[TEI-MODEL.md](TEI-MODEL.md)** | Normative TEI encoding (Soll-Modell), IST/SOLL-Vergleiche, Validierungsbaseline | Data engineers, Developers |
+| **[TEI-MODEL-AUTH-FILES.md](TEI-MODEL-AUTH-FILES.md)** | Authority-File-Schemas und Migrationshistorie (lexicon, persons, works, concepts, genres, names, variants) | Data engineers |
+| **[LINECODE.md](LINECODE.md)** | Legacy Linecode → TEI mapping (Letter-zu-Element-Tabelle, xml:id-Pattern-Erklärung, Diagnose-Workflows für #23) | Data engineers |
 
 ### Process (what's happening and why)
 
@@ -92,7 +93,8 @@ This knowledge base follows a hub-and-spoke architecture with INDEX.MD as the ce
 |----------|---------|---------------|
 | **[ROADMAP.md](ROADMAP.md)** | Current priorities, strategic direction, what's blocked | Everyone |
 | **[JOURNAL.md](JOURNAL.md)** | Chronological development log, decisions, dead ends | Developers |
-| **[features/](features/)** | Feature-scoped planning docs (living, archived when shipped) | Developers |
+
+Die 14 Dateien oben (12 Stable + 2 Process) sind die vollständige Menge der Promptotyping-Dokumente. `docs/features/` und `docs/research/` enthalten temporäre, ticket-gebundene Planungs- und Recherche-Artefakte und sind **nicht Teil** der Promptotyping-Dokumente — siehe `CLAUDE.md` → „Temporal Artifacts". Die Nutzer-facing Hilfe lebt als `hilfe-*.html` im Frontend, nicht in `docs/`.
 
 ### Publications (project outputs, not development docs)
 
@@ -103,13 +105,20 @@ Located in `/publications/` (outside `docs/`):
 ## Project Status
 
 ### Current Phase
-Post-MVP with stable v4.0.0 corpus index and v1.1.0 authority index
+Post-MVP with stable v4.0.0 corpus index and v1.2.0 authority index
 
 ### Recent Milestones
 - ✅ **Phase 7 Refactoring** - Modular UI architecture
 - ✅ **Corpus Index v4.0.0** - Document-level word indexing for accurate proximity search
 - ✅ **Reading View** - Full-text reader with multi-lemma highlighting and Wikidata integration
 - ✅ **Pre-Built Index Migration** - Eliminated runtime XML parsing
+- ✅ **#32 TEI Model Consolidation** (2026-04-09/10) - Custom RELAX NG schemas (`mhdbdb.rnc`, `mhdbdb-authority.rnc`), 15M+ data transformations across 675→666 corpus files
+- ✅ **#32-Followup Schema Hardening** (2026-04-14/15) - Tightened enums (`persName/@type`, `idno/@type` in authority, `msIdentifier/@corresp` mandatory), removed `<hi>` recursion from schema by flattening 36,924 nested instances across 143 corpus files, split the PL1/PL2/PL3 mega-`<p>` elements at `<pb/>` milestones (245× faster validation on PL1), CI schema-validation workflow (`schema-validation.yml`)
+- ✅ **#83 Editor Attribution** (2026-04-15) - `contributors.xml` (51 persons + 2 orgs), uniform editor attribution in all 666 TEI headers via `@ref`, five texts (TKR/TKA/VTC/PUC/JT) with prominent lead-editor respStmts
+- ✅ **#31 Linecode Documentation** (2026-04-15) - `docs/LINECODE.md` extracted from legacy MHDBDB linecode-to-TEI mapping
+- ✅ **#48 Playground URL Routing** (2026-04-15) - Hash-based shareable/bookmarkable URLs for all playground views, including multi-lemma search state serialization
+- ✅ **#56 Lemmata Explorer** (2026-04-15) - Title links to persistent lemma pages, URL bug fix, concept-based "Similar Lemmata" section
+- ✅ **#62 Impressum** (2026-04-16) - Legal notice page (`impressum.html`) with Datenschutz section, footer links on all pages
 
 ### Known Limitations
 - Desktop-only interface (not mobile-responsive)
@@ -143,7 +152,7 @@ Post-MVP with stable v4.0.0 corpus index and v1.1.0 authority index
 - **Email:** mhdbdb@plus.ac.at
 - **Maintainer:** Digital Humanities Craft OG
 - **Project Lead:** University of Salzburg, Department of German Studies
-- **License:** CC BY-NC-SA 3.0 AT
+- **License:** CC BY-NC-SA 4.0
 
 ## Quick Start
 
@@ -165,4 +174,4 @@ Post-MVP with stable v4.0.0 corpus index and v1.1.0 authority index
 
 ---
 
-**License:** [CC BY-NC-SA 3.0 AT](https://creativecommons.org/licenses/by-nc-sa/3.0/at/) | **Contact:** mhdbdb@plus.ac.at
+**License:** [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) | **Contact:** mhdbdb@plus.ac.at

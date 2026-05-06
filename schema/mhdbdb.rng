@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- AUTO-GENERATED from mhdbdb.rnc — DO NOT EDIT
-     Regenerate: python -m rnc2rng schema/mhdbdb.rnc schema/mhdbdb.rng -->
 <grammar xmlns="http://relaxng.org/ns/structure/1.0"
          ns="http://www.tei-c.org/ns/1.0"
          xmlns:xml="http://www.w3.org/XML/1998/namespace"
@@ -91,7 +89,7 @@
           </mixed>
         </element>
       </zeroOrMore>
-      <zeroOrMore>
+      <oneOrMore>
         <element>
           <name ns="http://www.tei-c.org/ns/1.0">respStmt</name>
           <element>
@@ -106,6 +104,12 @@
                   <attribute>
                     <name ns="">ref</name>
                     <data type="anyURI"/>
+                  </attribute>
+                </optional>
+                <optional>
+                  <attribute>
+                    <name ns="">role</name>
+                    <text/>
                   </attribute>
                 </optional>
                 <optional>
@@ -129,7 +133,7 @@
             </choice>
           </oneOrMore>
         </element>
-      </zeroOrMore>
+      </oneOrMore>
     </element>
   </define>
   <define name="publicationStmt">
@@ -182,33 +186,41 @@
           </element>
           <element>
             <name ns="http://www.tei-c.org/ns/1.0">authority</name>
-            <element>
-              <name ns="http://www.tei-c.org/ns/1.0">persName</name>
-              <optional>
-                <attribute>
-                  <name ns="">role</name>
-                  <text/>
-                </attribute>
-              </optional>
-              <mixed>
+            <oneOrMore>
+              <element>
+                <name ns="http://www.tei-c.org/ns/1.0">persName</name>
                 <optional>
-                  <group>
-                    <optional>
-                      <element>
-                        <name ns="http://www.tei-c.org/ns/1.0">forename</name>
-                        <text/>
-                      </element>
-                    </optional>
-                    <optional>
-                      <element>
-                        <name ns="http://www.tei-c.org/ns/1.0">surname</name>
-                        <text/>
-                      </element>
-                    </optional>
-                  </group>
+                  <attribute>
+                    <name ns="">role</name>
+                    <text/>
+                  </attribute>
                 </optional>
-              </mixed>
-            </element>
+                <optional>
+                  <attribute>
+                    <name ns="">ref</name>
+                    <data type="anyURI"/>
+                  </attribute>
+                </optional>
+                <mixed>
+                  <optional>
+                    <group>
+                      <optional>
+                        <element>
+                          <name ns="http://www.tei-c.org/ns/1.0">forename</name>
+                          <text/>
+                        </element>
+                      </optional>
+                      <optional>
+                        <element>
+                          <name ns="http://www.tei-c.org/ns/1.0">surname</name>
+                          <text/>
+                        </element>
+                      </optional>
+                    </group>
+                  </optional>
+                </mixed>
+              </element>
+            </oneOrMore>
           </element>
           <element>
             <name ns="http://www.tei-c.org/ns/1.0">availability</name>
@@ -277,12 +289,10 @@
         <name ns="http://www.tei-c.org/ns/1.0">msDesc</name>
         <element>
           <name ns="http://www.tei-c.org/ns/1.0">msIdentifier</name>
-          <optional>
-            <attribute>
-              <name ns="">corresp</name>
-              <text/>
-            </attribute>
-          </optional>
+          <attribute>
+            <name ns="">corresp</name>
+            <data type="anyURI"/>
+          </attribute>
           <zeroOrMore>
             <choice>
               <element>
@@ -301,14 +311,6 @@
                     <text/>
                   </attribute>
                 </optional>
-                <text/>
-              </element>
-              <element>
-                <name ns="http://www.tei-c.org/ns/1.0">settlement</name>
-                <text/>
-              </element>
-              <element>
-                <name ns="http://www.tei-c.org/ns/1.0">repository</name>
                 <text/>
               </element>
             </choice>
@@ -548,12 +550,6 @@
         <zeroOrMore>
           <element>
             <name ns="http://www.tei-c.org/ns/1.0">note</name>
-            <optional>
-              <attribute>
-                <name ns="">type</name>
-                <text/>
-              </attribute>
-            </optional>
             <text/>
           </element>
         </zeroOrMore>
@@ -784,7 +780,10 @@
                   <optional>
                     <attribute>
                       <name ns="">type</name>
-                      <text/>
+                      <choice>
+                        <value>preferred</value>
+                        <value>alternative</value>
+                      </choice>
                     </attribute>
                   </optional>
                   <optional>
@@ -861,12 +860,6 @@
             <name ns="">who</name>
             <text/>
           </attribute>
-          <optional>
-            <attribute>
-              <name ns="">n</name>
-              <text/>
-            </attribute>
-          </optional>
           <text/>
         </element>
       </oneOrMore>
@@ -923,18 +916,28 @@
       <ref name="pb"/>
       <ref name="cb"/>
       <ref name="caesura"/>
-      <ref name="milestone"/>
       <ref name="supplied"/>
       <ref name="num"/>
       <ref name="note"/>
       <ref name="lg"/>
       <ref name="l"/>
       <ref name="head"/>
-      <ref name="fw"/>
-      <ref name="unclear"/>
-      <ref name="surplus"/>
-      <ref name="foreign"/>
-      <ref name="del"/>
+    </choice>
+  </define>
+  <define name="hi.content.model">
+    <choice>
+      <ref name="w"/>
+      <ref name="pc"/>
+      <ref name="lb"/>
+      <ref name="pb"/>
+      <ref name="cb"/>
+      <ref name="caesura"/>
+      <ref name="supplied"/>
+      <ref name="num"/>
+      <ref name="note"/>
+      <ref name="lg"/>
+      <ref name="l"/>
+      <ref name="head"/>
     </choice>
   </define>
   <define name="body.content">
@@ -947,7 +950,6 @@
           <ref name="l"/>
           <ref name="head"/>
           <ref name="ab"/>
-          <ref name="fw"/>
           <ref name="w"/>
           <ref name="pc"/>
           <ref name="hi"/>
@@ -955,7 +957,6 @@
           <ref name="pb"/>
           <ref name="cb"/>
           <ref name="caesura"/>
-          <ref name="milestone"/>
           <ref name="supplied"/>
           <ref name="num"/>
           <ref name="note"/>
@@ -977,16 +978,7 @@
             <value>parallel</value>
             <value>colophon</value>
             <value>recipe</value>
-            <value>book</value>
-            <value>paratext</value>
-            <value>prologus</value>
           </choice>
-        </attribute>
-      </optional>
-      <optional>
-        <attribute>
-          <name ns="http://www.w3.org/XML/1998/namespace">id</name>
-          <data type="NCName"/>
         </attribute>
       </optional>
       <optional>
@@ -1004,7 +996,6 @@
             <ref name="l"/>
             <ref name="head"/>
             <ref name="ab"/>
-            <ref name="fw"/>
             <ref name="w"/>
             <ref name="pc"/>
             <ref name="hi"/>
@@ -1012,7 +1003,6 @@
             <ref name="pb"/>
             <ref name="cb"/>
             <ref name="caesura"/>
-            <ref name="milestone"/>
             <ref name="supplied"/>
             <ref name="num"/>
             <ref name="note"/>
@@ -1036,12 +1026,6 @@
           <text/>
         </attribute>
       </optional>
-      <optional>
-        <attribute>
-          <name ns="">ana</name>
-          <text/>
-        </attribute>
-      </optional>
       <mixed>
         <zeroOrMore>
           <choice>
@@ -1055,18 +1039,6 @@
   <define name="head">
     <element>
       <name ns="http://www.tei-c.org/ns/1.0">head</name>
-      <optional>
-        <attribute>
-          <name ns="">type</name>
-          <text/>
-        </attribute>
-      </optional>
-      <optional>
-        <attribute>
-          <name ns="">n</name>
-          <text/>
-        </attribute>
-      </optional>
       <mixed>
         <zeroOrMore>
           <ref name="inline.model"/>
@@ -1157,18 +1129,6 @@
       </optional>
       <optional>
         <attribute>
-          <name ns="">meaningRef</name>
-          <text/>
-        </attribute>
-      </optional>
-      <optional>
-        <attribute>
-          <name ns="">wordRef</name>
-          <text/>
-        </attribute>
-      </optional>
-      <optional>
-        <attribute>
           <name ns="">ana</name>
           <text/>
         </attribute>
@@ -1222,7 +1182,7 @@
       </attribute>
       <mixed>
         <zeroOrMore>
-          <ref name="inline.model"/>
+          <ref name="hi.content.model"/>
         </zeroOrMore>
       </mixed>
     </element>
@@ -1284,12 +1244,6 @@
           <text/>
         </attribute>
       </optional>
-      <optional>
-        <attribute>
-          <name ns="">facs</name>
-          <text/>
-        </attribute>
-      </optional>
       <empty/>
     </element>
   </define>
@@ -1305,12 +1259,6 @@
       <optional>
         <attribute>
           <name ns="">type</name>
-          <text/>
-        </attribute>
-      </optional>
-      <optional>
-        <attribute>
-          <name ns="">facs</name>
           <text/>
         </attribute>
       </optional>
@@ -1345,114 +1293,6 @@
         </attribute>
       </optional>
       <empty/>
-    </element>
-  </define>
-  <define name="milestone">
-    <element>
-      <name ns="http://www.tei-c.org/ns/1.0">milestone</name>
-      <attribute>
-        <name ns="">unit</name>
-        <text/>
-      </attribute>
-      <optional>
-        <attribute>
-          <name ns="">n</name>
-          <text/>
-        </attribute>
-      </optional>
-      <optional>
-        <attribute>
-          <name ns="http://www.w3.org/XML/1998/namespace">id</name>
-          <data type="NCName"/>
-        </attribute>
-      </optional>
-      <empty/>
-    </element>
-  </define>
-  <define name="fw">
-    <element>
-      <name ns="http://www.tei-c.org/ns/1.0">fw</name>
-      <optional>
-        <attribute>
-          <name ns="">type</name>
-          <text/>
-        </attribute>
-      </optional>
-      <optional>
-        <attribute>
-          <name ns="">n</name>
-          <text/>
-        </attribute>
-      </optional>
-      <mixed>
-        <zeroOrMore>
-          <ref name="inline.model"/>
-        </zeroOrMore>
-      </mixed>
-    </element>
-  </define>
-  <define name="unclear">
-    <element>
-      <name ns="http://www.tei-c.org/ns/1.0">unclear</name>
-      <optional>
-        <attribute>
-          <name ns="">reason</name>
-          <text/>
-        </attribute>
-      </optional>
-      <mixed>
-        <zeroOrMore>
-          <ref name="inline.model"/>
-        </zeroOrMore>
-      </mixed>
-    </element>
-  </define>
-  <define name="surplus">
-    <element>
-      <name ns="http://www.tei-c.org/ns/1.0">surplus</name>
-      <optional>
-        <attribute>
-          <name ns="">reason</name>
-          <text/>
-        </attribute>
-      </optional>
-      <mixed>
-        <zeroOrMore>
-          <ref name="inline.model"/>
-        </zeroOrMore>
-      </mixed>
-    </element>
-  </define>
-  <define name="foreign">
-    <element>
-      <name ns="http://www.tei-c.org/ns/1.0">foreign</name>
-      <optional>
-        <attribute>
-          <name ns="http://www.w3.org/XML/1998/namespace">lang</name>
-          <text/>
-        </attribute>
-      </optional>
-      <mixed>
-        <zeroOrMore>
-          <ref name="inline.model"/>
-        </zeroOrMore>
-      </mixed>
-    </element>
-  </define>
-  <define name="del">
-    <element>
-      <name ns="http://www.tei-c.org/ns/1.0">del</name>
-      <optional>
-        <attribute>
-          <name ns="">rend</name>
-          <text/>
-        </attribute>
-      </optional>
-      <mixed>
-        <zeroOrMore>
-          <ref name="inline.model"/>
-        </zeroOrMore>
-      </mixed>
     </element>
   </define>
 </grammar>

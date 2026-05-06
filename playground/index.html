@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MHDBDB Playground - TEI Data Explorer</title>
+    <title>MHDBDB Playground – TEI-Daten-Explorer</title>
     <!-- Pako: Cross-browser gzip decompression (Safari 14+ compatible) -->
     <script src="https://cdn.jsdelivr.net/npm/pako@2.1.0/dist/pako.min.js"></script>
     <!-- Dexie.js: IndexedDB wrapper with better API -->
@@ -31,13 +31,13 @@
                             Startseite
                         </a>
                         <a href="../korpus.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
-                            Korpus
+                            Korpussuche
                         </a>
                         <a href="index.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
                             Playground
                         </a>
-                        <a href="../index.html#documentation" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
-                            Dokumentation
+                        <a href="../hilfe.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                            Hilfe
                         </a>
                         <a href="../index.html#contact" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
                             Kontakt
@@ -64,8 +64,8 @@
                         <a href="index.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
                             Playground
                         </a>
-                        <a href="../index.html#documentation" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
-                            Dokumentation
+                        <a href="../hilfe.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                            Hilfe
                         </a>
                         <a href="../index.html#contact" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
                             Kontakt
@@ -79,7 +79,7 @@
         <div class="bg-white border-b border-slate-200">
             <div class="container mx-auto px-6 py-6">
                 <p class="text-sm font-semibold uppercase tracking-[0.2em] text-brand-600">MHDBDB Playground</p>
-                <h1 class="text-3xl font-semibold tracking-tight text-slate-900 mt-1">TEI Data Explorer</h1>
+                <h1 class="text-3xl font-semibold tracking-tight text-slate-900 mt-1">TEI-Daten-Explorer</h1>
                 <p class="max-w-3xl text-base text-slate-600 mt-2">Forschungsplattform für mittelhochdeutsche Korpusanalyse. Multi-Lemma-Suche, 43.750 Lexikoneinträge, semantische Begriffsnetzwerke, 666 annotierte Texte.</p>
             </div>
         </div>
@@ -129,6 +129,8 @@
                                 <button id="selectAllBtn" class="text-xs font-medium text-brand-600 hover:text-brand-700 transition">Alle</button>
                                 <span class="text-slate-300">|</span>
                                 <button id="selectNoneBtn" class="text-xs font-medium text-brand-600 hover:text-brand-700 transition">Keine</button>
+                                <span id="selectOnlyVisibleSep" class="text-slate-300" style="display: none;">|</span>
+                                <button id="selectOnlyVisibleBtn" class="text-xs font-medium text-brand-600 hover:text-brand-700 transition" style="display: none;">Nur diese</button>
                             </div>
                         </div>
 
@@ -188,29 +190,34 @@
                                 </div>
                                 <span id="statusText" class="text-slate-600">Lade...</span>
                             </div>
-                            <svg id="authorityChevron" class="w-4 h-4 text-slate-400 transition-transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            <svg id="authorityChevron" class="w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </div>
                     </button>
-                    <div id="authorityStats" class="mt-2 space-y-1 text-xs text-slate-600"></div>
+                    <div id="authorityStats" class="mt-2 space-y-1 text-xs text-slate-600 hidden"></div>
                 </div>
             </section>
 
             <!-- Query Interface -->
             <section class="space-y-6 rounded-3xl border border-slate-200 bg-white/95 p-6 shadow-sm ring-1 ring-slate-100/40 min-w-0">
                 <div class="flex items-center justify-between">
-                    <h2 class="text-xl font-semibold text-slate-900">Query Interface</h2>
+                    <h2 class="text-xl font-semibold text-slate-900">Abfragen</h2>
                     <span class="rounded-full bg-brand-50 px-3 py-1 text-xs font-medium text-brand-700">Schritt 2</span>
                 </div>
 
                 <div class="space-y-4">
                     <div>
-                        <h3 class="text-sm font-semibold uppercase tracking-wide text-slate-500">Authority Files durchsuchen</h3>
+                        <h3 class="flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-slate-500">
+                            Authority Files durchsuchen
+                            <a href="../hilfe-playground.html#authority-files" target="_blank" rel="noopener" class="help-icon" aria-label="Hilfe zu Authority Files" title="Hilfe zu Authority Files">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                            </a>
+                        </h3>
                         <p class="mt-1 text-sm text-slate-500">Vordefinierte Recherchepfade für Personen, Werke, Begriffe und mehr.</p>
                     </div>
                     <div class="grid gap-2">
                         <button id="showAuthorsBtn" disabled class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 disabled:cursor-not-allowed disabled:border-slate-100 disabled:bg-slate-50 disabled:text-slate-400">Autor*innen anzeigen</button>
                         <button id="showWorksBtn" disabled class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 disabled:cursor-not-allowed disabled:border-slate-100 disabled:bg-slate-50 disabled:text-slate-400">Werke anzeigen</button>
-                        <button id="showLemmataBtn" disabled class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 disabled:cursor-not-allowed disabled:border-slate-100 disabled:bg-slate-50 disabled:text-slate-400">Lemmata anzeigen</button>
+                        <button id="showLemmataBtn" disabled class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 disabled:cursor-not-allowed disabled:border-slate-100 disabled:bg-slate-50 disabled:text-slate-400">Lemmata-Explorer</button>
                         <button id="showConceptsBtn" disabled class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 disabled:cursor-not-allowed disabled:border-slate-100 disabled:bg-slate-50 disabled:text-slate-400">Begriffe anzeigen</button>
                         <button id="showGenresBtn" disabled class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 disabled:cursor-not-allowed disabled:border-slate-100 disabled:bg-slate-50 disabled:text-slate-400">Gattungen anzeigen</button>
                         <button id="showNamesBtn" disabled class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 disabled:cursor-not-allowed disabled:border-slate-100 disabled:bg-slate-50 disabled:text-slate-400">Namen anzeigen</button>
@@ -219,7 +226,12 @@
 
                 <div id="teiQueries" style="display: none;" class="space-y-4">
                     <div>
-                        <h3 class="text-sm font-semibold uppercase tracking-wide text-slate-500">TEI Textanalyse</h3>
+                        <h3 class="flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-slate-500">
+                            TEI Textanalyse
+                            <a href="../hilfe-playground.html#multi-lemma" target="_blank" rel="noopener" class="help-icon" aria-label="Hilfe zur Multi-Lemma-Suche" title="Hilfe zur Multi-Lemma-Suche">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                            </a>
+                        </h3>
                         <p class="mt-1 text-sm text-slate-500">Analysieren Sie Wörter, Zeilen, Lemmata und Annotationen im Korpus.</p>
                     </div>
                     <div class="grid gap-2">
@@ -281,7 +293,7 @@
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
-                            <span>Sie können Lemma-IDs (z.B. "879") oder Lemma-Formen verwenden (z.B. "brôt" oder einfach "brot"). Sonderzeichen (â, ê, î, ô, û, ä, ö, ü) werden automatisch normalisiert. Alle 192.674 Varianten aus dem Korpus werden erkannt.</span>
+                            <span>Sie können Lemma-IDs (z.B. "879") oder Lemma-Formen verwenden (z.B. "brôt" oder einfach "brot"). Sonderzeichen (â, ê, î, ô, û, ä, ö, ü) werden automatisch normalisiert. Alle 175.910 Varianten aus dem Korpus werden erkannt.</span>
                         </div>
                     </div>
 
@@ -291,7 +303,12 @@
 
                 <!-- Search Mode Selection -->
                 <div class="input-section">
-                    <label class="input-label">Suchmodus wählen</label>
+                    <label class="input-label" style="display: inline-flex; align-items: center; gap: 0.375rem;">
+                        Suchmodus wählen
+                        <a href="../hilfe-playground.html#multi-lemma" target="_blank" rel="noopener" class="help-icon" aria-label="Hilfe zu Nähe- und Dokument-Modus" title="Hilfe zu Nähe- und Dokument-Modus">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        </a>
+                    </label>
                     <div class="search-modes">
                         <!-- Proximity Mode -->
                         <label class="mode-card">
@@ -355,9 +372,9 @@
             <div class="flex flex-col md:flex-row justify-between items-center gap-6">
                 <div class="text-center md:text-left">
                     <p class="text-sm mb-2">
-                        © 2025 Universität Salzburg |
-                        <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/at/" class="hover:text-brand-600 transition" target="_blank" rel="noopener">
-                            CC BY-NC-SA 3.0 AT
+                        Universität Salzburg, 2025–<span class="current-year">2026</span> |
+                        <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="hover:text-brand-600 transition" target="_blank" rel="noopener">
+                            CC BY-NC-SA 4.0
                         </a>
                     </p>
                     <div class="flex flex-wrap justify-center md:justify-start gap-4 text-sm text-slate-600">
@@ -370,6 +387,8 @@
                         <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only" class="hover:text-brand-600 transition" target="_blank" rel="noopener">
                             GitHub
                         </a>
+                        <span>|</span>
+                        <a href="../impressum.html" class="hover:text-brand-600 transition">Impressum</a>
                     </div>
                 </div>
                 <button
@@ -380,7 +399,7 @@
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
                     </svg>
-                    <span>Clear Site Data</span>
+                    <span>Website-Daten löschen</span>
                 </button>
             </div>
         </div>
@@ -415,5 +434,6 @@
     </script>
 
     <script type="module" src="js/playground-main.js"></script>
+    <script>document.querySelectorAll('.current-year').forEach(el => { const y = new Date().getFullYear(); if (y > 2025) el.textContent = y; });</script>
 </body>
 </html>

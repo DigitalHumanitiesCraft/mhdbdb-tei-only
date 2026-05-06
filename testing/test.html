@@ -176,11 +176,10 @@
     <!-- Scripts -->
     <script type="module">
         import { TestUtils } from './test-utils.js';
-        import { TEIStorageManager } from '../playground/js/storage-manager.js';
-        import { TEIFilesManager } from '../playground/js/tei-files.js';
+        import { TEIStorageManager } from '../playground/js/data/storage/tei-storage.js';
+        import { TEIFilesManager } from '../playground/js/data/tei-manager.js';
         import { IndexedDBManager } from '../playground/js/indexed-db-manager.js';
-        import { AuthorityStorageManager } from '../playground/js/authority-storage-manager.js';
-        import { AuthorityFilesManager } from '../playground/js/authority-files.js';
+        import { AuthorityFilesManager } from '../playground/js/data/authority-manager.js';
 
         // Global test utilities
         window.testUtils = new TestUtils();

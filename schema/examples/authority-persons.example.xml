@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Persons example: demonstrates all element/attribute paths in persons.xml
-     Validates against: tei_all.rng + mhdbdb-authority.rnc
-     Note: person->work links are NOT stored here; they are derived from
-     works.xml <author @ref> by the build script. -->
+<!-- Personen-Beispiel: zeigt alle Element-/Attribut-Pfade in persons.xml
+     Validiert gegen: tei_all.rng + mhdbdb-authority.rnc
+     Hinweis: Person→Werk-Verknüpfungen werden hier NICHT gespeichert; sie
+     werden vom Build-Script aus works.xml <author @ref> abgeleitet. -->
 <TEI xmlns="http://www.tei-c.org/ns/1.0">
   <teiHeader>
     <fileDesc>
@@ -15,7 +15,7 @@
     <body>
       <listPerson>
 
-        <!-- Maximal: preferred + alternative names, GND + Wikidata -->
+        <!-- Maximal: preferred + alternative Namen, GND + Wikidata -->
         <person xml:id="person_1">
           <persName type="preferred">Wolfram von Eschenbach</persName>
           <persName type="alternative" xml:lang="en">Wolfram of Eschenbach</persName>
@@ -23,18 +23,18 @@
           <idno type="wikidata">Q57271</idno>
         </person>
 
-        <!-- Minimal: only preferred name, no identifiers -->
+        <!-- Minimal: nur preferred Name, keine Identifier -->
         <person xml:id="person_2">
           <persName type="preferred">Der Stricker</persName>
         </person>
 
-        <!-- Special ID: person_anonym (non-numeric, the only exception) -->
+        <!-- Sonder-ID: person_anonym (nicht-numerisch, einzige Ausnahme) -->
         <person xml:id="person_anonym">
           <persName type="preferred">Anonym</persName>
           <persName type="alternative" xml:lang="en">Anonymous</persName>
         </person>
 
-        <!-- Person with GND only (no Wikidata) -->
+        <!-- Person mit nur GND (ohne Wikidata) -->
         <person xml:id="person_3">
           <persName type="preferred">Schweizer Anonymus</persName>
           <idno type="GND">103130276</idno>

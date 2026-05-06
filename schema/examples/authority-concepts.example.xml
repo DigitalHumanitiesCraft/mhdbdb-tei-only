@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Concepts example: demonstrates taxonomy structure in concepts.xml
-     Validates against: tei_all.rng + mhdbdb-authority.rnc
-     Data lives in <encodingDesc>, <body> has only a placeholder <p>.
-     IDs use 8-digit hierarchical format: concept_NNNNNNNN -->
+<!-- Konzepte-Beispiel: zeigt Taxonomie-Struktur in concepts.xml
+     Validiert gegen: tei_all.rng + mhdbdb-authority.rnc
+     Daten leben in <encodingDesc>, <body> enthält nur einen Platzhalter-<p>.
+     IDs nutzen 8-stelliges hierarchisches Format: concept_NNNNNNNN -->
 <TEI xmlns="http://www.tei-c.org/ns/1.0">
   <teiHeader>
     <fileDesc>
@@ -13,9 +13,9 @@
     <encodingDesc>
       <classDecl>
         <taxonomy xml:id="mhdbdb-concepts">
-          <desc>MHDBDB semantic concept ontology</desc>
+          <desc>Semantische Begriffsontologie der MHDBDB</desc>
 
-          <!-- Top-level category (no broader pointer) -->
+          <!-- Top-Level-Kategorie (kein broader-Zeiger) -->
           <category xml:id="concept_10000000">
             <catDesc>
               <term xml:lang="de">Natur und Umwelt</term>
@@ -23,7 +23,7 @@
             </catDesc>
           </category>
 
-          <!-- Category with broader pointer to parent -->
+          <!-- Kategorie mit broader-Zeiger zum Parent -->
           <category xml:id="concept_11000000">
             <catDesc>
               <term xml:lang="de">Pflanzenwelt</term>
@@ -32,7 +32,7 @@
             </catDesc>
           </category>
 
-          <!-- Category with alternative term names -->
+          <!-- Kategorie mit alternativen Term-Bezeichnungen -->
           <category xml:id="concept_11100000">
             <catDesc>
               <term xml:lang="de">Baum</term>
@@ -49,7 +49,7 @@
   </teiHeader>
   <text>
     <body>
-      <!-- Placeholder: taxonomy data is in encodingDesc/classDecl above -->
+      <!-- Platzhalter: Taxonomie-Daten liegen oben in encodingDesc/classDecl -->
       <p>See encodingDesc for concept taxonomy.</p>
     </body>
   </text>

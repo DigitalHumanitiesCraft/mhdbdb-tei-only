@@ -1,4 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
+<?xml-model href="../schema/mhdbdb.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="https://tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="EGA">
   <teiHeader>
     <fileDesc>
@@ -8,7 +10,7 @@
         <author ref="#person_4">Der Stricker</author>
         <respStmt>
           <resp>digitale Zusammenführung, Annotation und semantische Klassifikation</resp>
-          <name ref="https://mhdbdb.plus.ac.at" xml:lang="de">Mittelhochdeutsche Begriffsdatenbank (MHDBDB)</name>
+          <orgName ref="contributors.xml#mhdbdb-team">MHDBDB-Team (vollständige Liste in contributors.xml)</orgName>
         </respStmt>
       </titleStmt>
       <publicationStmt>
@@ -25,14 +27,22 @@
           <ptr target="https://mhdbdb.plus.ac.at"/>
         </publisher>
         <authority>
-          <persName role="coordinator">
+          <persName role="coordinator" ref="contributors.xml#contrib_003">
             <forename>Katharina</forename>
             <surname>Zeppezauer-Wachauer</surname>
           </persName>
+          <persName role="founder" ref="contributors.xml#contrib_001">
+            <forename>Klaus M.</forename>
+            <surname>Schmidt</surname>
+          </persName>
+          <persName role="founder" ref="contributors.xml#contrib_002">
+            <forename>Horst</forename>
+            <surname>Pütz</surname>
+          </persName>
         </authority>
         <availability>
-          <licence target="https://creativecommons.org/licenses/by-nc-sa/3.0/at/">CC BY-NC-SA 3.0 AT</licence>
-          <p>Die semantischen Annotationen stehen unter der Lizenz CC BY-NC-SA 3.0 AT. Die zugrunde liegenden E-Texte stammen aus unterschiedlichen Editionen und unterliegen je nach Quelle eigenen rechtlichen Bedingungen. Bitte beachten Sie die jeweiligen Angaben im Quellenverzeichnis.</p>
+          <licence target="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</licence>
+          <p>Die semantischen Annotationen stehen unter der Lizenz CC BY-NC-SA 4.0. Die zugrunde liegenden E-Texte stammen aus unterschiedlichen Editionen und unterliegen je nach Quelle eigenen rechtlichen Bedingungen. Bitte beachten Sie die jeweiligen Angaben im Quellenverzeichnis.</p>
         </availability>
         <date when="2025">2025</date>
         <ref type="history" target="https://doi.org/10.25619/BmE20223203">Zeppezauer-Wachauer, Katharina (2022): 50 Jahre Mittelhochdeutsche Begriffsdatenbank (MHDBDB)</ref>
@@ -90,7 +100,7 @@
       <editorialDecl>
         <p xml:lang="de">Lokale Dateireferenzen (z.B. persons.xml#person_445, lexicon.xml#lemma_879, genres.xml#genre_XXX) verweisen auf kontrollierte Vokabulare im authority-files Verzeichnis dieses Repositorys. Diese internen Querverweise ermöglichen die Verknüpfung mit Personen-, Werk-, Lemma-, Konzept-, Genre- und Namensautoritätsdateien.</p>
         <p xml:lang="en">Local file references (e.g. persons.xml#person_445, lexicon.xml#lemma_879, genres.xml#genre_XXX) point to controlled vocabularies in the authority-files directory of this repository. These internal cross-references enable linking to person, work, lemma, concept, genre, and name authority files.</p>
-      </editorialDecl>
+      <normalization><p>Noch nicht disambiguiert.</p><p>Keine Parallelüberlieferung.</p><p>Links zur Hs. Cologny, Fondation Martin Bodmer, Cod. Bodmer 72.</p><p>Die Groß-/Kleinschreibung entspricht aus technischen Gründen nur teilweise der Edition.</p></normalization></editorialDecl>
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
@@ -112,7 +122,7 @@
       </classDecl>
     </encodingDesc>
     <profileDesc>
-      <particDesc>
+      <langUsage><language ident="gmh">Mittelhochdeutsch</language></langUsage><particDesc>
         <listPerson>
           <person xml:id="person_4" corresp="persons.xml#person_4">
             <persName type="preferred">Der Stricker</persName>
@@ -130,148 +140,148 @@
   <text>
     <body>
       <l n="1">
-        <w xml:id="EGA_46100010_0" lemmaRef="lexicon.xml#lemma_1723" meaningRef="lexicon.xml#lemma_1723_sense_2708" pos="NOM" wordRef="lexicon.xml#lemma_1723_sense_2708_type_156924">eseln</w>
-        <seg xml:id="EGA_46100010_1" type="pc">,</seg>
-        <w xml:id="EGA_46100010_2" lemmaRef="lexicon.xml#lemma_2472" meaningRef="lexicon.xml#lemma_2472_sense_3958" pos="NOM" wordRef="lexicon.xml#lemma_2472_sense_3958_type_58148">gouchen</w>
-        <w xml:id="EGA_46100010_3" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="lexicon.xml#lemma_6467_sense_10233_type_22825">und</w>
-        <w xml:id="EGA_46100010_4" lemmaRef="lexicon.xml#lemma_70" meaningRef="lexicon.xml#lemma_70_sense_87" pos="NOM" wordRef="lexicon.xml#lemma_70_sense_87_type_66724">affen</w>
-        <seg xml:id="EGA_46100010_5" type="pc">,</seg>
+        <w xml:id="EGA_46100010_0" lemmaRef="lexicon.xml#lemma_1723" pos="NOM" ana="lexicon.xml#lemma_1723_sense_2708" corresp="variants.xml#type_156924">eseln</w>
+        <pc xml:id="EGA_46100010_1" join="left">,</pc>
+        <w xml:id="EGA_46100010_2" lemmaRef="lexicon.xml#lemma_2472" pos="NOM" ana="lexicon.xml#lemma_2472_sense_3958" corresp="variants.xml#type_58148">gouchen</w>
+        <w xml:id="EGA_46100010_3" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
+        <w xml:id="EGA_46100010_4" lemmaRef="lexicon.xml#lemma_70" pos="NOM" ana="lexicon.xml#lemma_70_sense_87" corresp="variants.xml#type_66724">affen</w>
+        <pc xml:id="EGA_46100010_5" join="left">,</pc>
       </l>
       <l n="2">
-        <w xml:id="EGA_46100020_0" lemmaRef="lexicon.xml#lemma_1119" meaningRef="lexicon.xml#lemma_1119_sense_1770" pos="ART" wordRef="lexicon.xml#lemma_1119_sense_1770_type_3506">den</w>
-        <w xml:id="EGA_46100020_1" lemmaRef="lexicon.xml#lemma_5432" meaningRef="lexicon.xml#lemma_5432_sense_8479" pos="VRB VEX" wordRef="lexicon.xml#lemma_5432_sense_8479_type_18956">ist</w>
-        <w xml:id="EGA_46100020_2" lemmaRef="lexicon.xml#lemma_7725" meaningRef="lexicon.xml#lemma_7725_sense_12656" pos="ADJ ADV" wordRef="lexicon.xml#lemma_7725_sense_12656_type_171469">wnderlich</w>
-        <w xml:id="EGA_46100020_3" lemmaRef="lexicon.xml#lemma_1282" meaningRef="lexicon.xml#lemma_1282_sense_2011" pos="NOM" wordRef="lexicon.xml#lemma_1282_sense_2011_type_75179">ere</w>
-        <w xml:id="EGA_46100020_4" lemmaRef="lexicon.xml#lemma_5153" meaningRef="lexicon.xml#lemma_5153_sense_8007" pos="VRB" wordRef="lexicon.xml#lemma_5153_sense_8007_type_17839">geschaffen</w>
-        <seg xml:id="EGA_46100020_5" type="pc">.</seg>
+        <w xml:id="EGA_46100020_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
+        <w xml:id="EGA_46100020_1" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18956">ist</w>
+        <w xml:id="EGA_46100020_2" lemmaRef="lexicon.xml#lemma_7725" pos="ADJ ADV" ana="lexicon.xml#lemma_7725_sense_12656" corresp="variants.xml#type_171469">wnderlich</w>
+        <w xml:id="EGA_46100020_3" lemmaRef="lexicon.xml#lemma_1282" pos="NOM" ana="lexicon.xml#lemma_1282_sense_2011" corresp="variants.xml#type_75179">ere</w>
+        <w xml:id="EGA_46100020_4" lemmaRef="lexicon.xml#lemma_5153" pos="VRB" ana="lexicon.xml#lemma_5153_sense_8007" corresp="variants.xml#type_17839">geschaffen</w>
+        <pc xml:id="EGA_46100020_5" join="left">.</pc>
       </l>
       <l n="3">
-        <w xml:id="EGA_46100030_0" lemmaRef="lexicon.xml#lemma_70" meaningRef="lexicon.xml#lemma_70_sense_87" pos="NOM" wordRef="lexicon.xml#lemma_70_sense_87_type_66724">affen</w>
-        <seg xml:id="EGA_46100030_1" type="pc">,</seg>
-        <w xml:id="EGA_46100030_2" lemmaRef="lexicon.xml#lemma_1723" meaningRef="lexicon.xml#lemma_1723_sense_2708" pos="NOM" wordRef="lexicon.xml#lemma_1723_sense_2708_type_5875">esel</w>
-        <w xml:id="EGA_46100030_3" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="lexicon.xml#lemma_6467_sense_10233_type_22825">und</w>
-        <w xml:id="EGA_46100030_4" lemmaRef="lexicon.xml#lemma_2472" meaningRef="lexicon.xml#lemma_2472_sense_3958" pos="NOM" wordRef="lexicon.xml#lemma_2472_sense_3958_type_8274">gouch</w>
-        <seg xml:id="EGA_46100030_5" type="pc">,</seg>
+        <w xml:id="EGA_46100030_0" lemmaRef="lexicon.xml#lemma_70" pos="NOM" ana="lexicon.xml#lemma_70_sense_87" corresp="variants.xml#type_66724">affen</w>
+        <pc xml:id="EGA_46100030_1" join="left">,</pc>
+        <w xml:id="EGA_46100030_2" lemmaRef="lexicon.xml#lemma_1723" pos="NOM" ana="lexicon.xml#lemma_1723_sense_2708" corresp="variants.xml#type_5875">esel</w>
+        <w xml:id="EGA_46100030_3" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
+        <w xml:id="EGA_46100030_4" lemmaRef="lexicon.xml#lemma_2472" pos="NOM" ana="lexicon.xml#lemma_2472_sense_3958" corresp="variants.xml#type_8274">gouch</w>
+        <pc xml:id="EGA_46100030_5" join="left">,</pc>
       </l>
       <l n="4">
-        <w xml:id="EGA_46100040_0" lemmaRef="lexicon.xml#lemma_152" meaningRef="lexicon.xml#lemma_152_sense_187" pos="ADV" wordRef="lexicon.xml#lemma_152_sense_187_type_378">also</w>
-        <w xml:id="EGA_46100040_1" lemmaRef="lexicon.xml#lemma_2731" meaningRef="lexicon.xml#lemma_2731_sense_4408" pos="VRB" wordRef="lexicon.xml#lemma_2731_sense_4408_type_9212">heizzet</w>
-        <w xml:id="EGA_46100040_2" lemmaRef="lexicon.xml#lemma_3958" meaningRef="lexicon.xml#lemma_3958_sense_6240" pos="PRO" wordRef="lexicon.xml#lemma_3958_sense_6240_type_13805">man</w>
-        <w xml:id="EGA_46100040_3" lemmaRef="lexicon.xml#lemma_1139" meaningRef="lexicon.xml#lemma_1139_sense_1797" pos="ART" wordRef="lexicon.xml#lemma_1139_sense_1797_type_3568">die</w>
-        <w xml:id="EGA_46100040_4" lemmaRef="lexicon.xml#lemma_3806" meaningRef="lexicon.xml#lemma_3806_sense_6008" pos="NOM" wordRef="lexicon.xml#lemma_3806_sense_6008_type_13264">liut</w>
-        <w xml:id="EGA_46100040_5" lemmaRef="lexicon.xml#lemma_4523" meaningRef="lexicon.xml#lemma_4523_sense_7060" pos="CNJ" wordRef="lexicon.xml#lemma_4523_sense_7060_type_15677">ouch</w>
-        <seg xml:id="EGA_46100040_6" type="pc">.</seg>
+        <w xml:id="EGA_46100040_0" lemmaRef="lexicon.xml#lemma_152" pos="ADV" ana="lexicon.xml#lemma_152_sense_187" corresp="variants.xml#type_378">also</w>
+        <w xml:id="EGA_46100040_1" lemmaRef="lexicon.xml#lemma_2731" pos="VRB" ana="lexicon.xml#lemma_2731_sense_4408" corresp="variants.xml#type_9212">heizzet</w>
+        <w xml:id="EGA_46100040_2" lemmaRef="lexicon.xml#lemma_3958" pos="PRO" ana="lexicon.xml#lemma_3958_sense_6240" corresp="variants.xml#type_13805">man</w>
+        <w xml:id="EGA_46100040_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
+        <w xml:id="EGA_46100040_4" lemmaRef="lexicon.xml#lemma_3806" pos="NOM" ana="lexicon.xml#lemma_3806_sense_6008" corresp="variants.xml#type_13264">liut</w>
+        <w xml:id="EGA_46100040_5" lemmaRef="lexicon.xml#lemma_4523" pos="CNJ" ana="lexicon.xml#lemma_4523_sense_7060" corresp="variants.xml#type_15677">ouch</w>
+        <pc xml:id="EGA_46100040_6" join="left">.</pc>
       </l>
       <l n="5">
-        <w xml:id="EGA_46100050_0" lemmaRef="lexicon.xml#lemma_1139" meaningRef="lexicon.xml#lemma_1139_sense_1797" pos="ART" wordRef="lexicon.xml#lemma_1139_sense_1797_type_3568">die</w>
-        <w xml:id="EGA_46100050_1" lemmaRef="lexicon.xml#lemma_1216" meaningRef="lexicon.xml#lemma_1216_sense_1915" pos="NUM" wordRef="lexicon.xml#lemma_1216_sense_1915_type_3847">dri</w>
-        <w xml:id="EGA_46100050_2" lemmaRef="lexicon.xml#lemma_2598" meaningRef="lexicon.xml#lemma_2598_sense_4170" pos="VRB VEX" wordRef="lexicon.xml#lemma_2598_sense_4170_type_8736">habent</w>
-        <w xml:id="EGA_46100050_3" lemmaRef="lexicon.xml#lemma_4377" meaningRef="lexicon.xml#lemma_4377_sense_6838" pos="ADJ ADV NEG" wordRef="lexicon.xml#lemma_4377_sense_6838_type_15286">niht</w>
-        <w xml:id="EGA_46100050_4" lemmaRef="lexicon.xml#lemma_7385" meaningRef="lexicon.xml#lemma_7385_sense_11998" pos="ADV CNJ" wordRef="lexicon.xml#lemma_7385_sense_11998_type_26640">wan</w>
-        <w xml:id="EGA_46100050_5" lemmaRef="lexicon.xml#lemma_1331" meaningRef="lexicon.xml#lemma_1331_sense_2068" pos="ART NUM" wordRef="lexicon.xml#lemma_1331_sense_2068_type_4322">einen</w>
-        <w xml:id="EGA_46100050_6" lemmaRef="lexicon.xml#lemma_4306" meaningRef="lexicon.xml#lemma_4306_sense_6733" pos="NOM" wordRef="lexicon.xml#lemma_4306_sense_6733_type_14994">namen</w>
-        <seg xml:id="EGA_46100050_7" type="pc">;</seg>
+        <w xml:id="EGA_46100050_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
+        <w xml:id="EGA_46100050_1" lemmaRef="lexicon.xml#lemma_1216" pos="NUM" ana="lexicon.xml#lemma_1216_sense_1915" corresp="variants.xml#type_3847">dri</w>
+        <w xml:id="EGA_46100050_2" lemmaRef="lexicon.xml#lemma_2598" pos="VRB VEX" ana="lexicon.xml#lemma_2598_sense_4170" corresp="variants.xml#type_8736">habent</w>
+        <w xml:id="EGA_46100050_3" lemmaRef="lexicon.xml#lemma_4377" pos="ADJ ADV NEG" ana="lexicon.xml#lemma_4377_sense_6838" corresp="variants.xml#type_15286">niht</w>
+        <w xml:id="EGA_46100050_4" lemmaRef="lexicon.xml#lemma_7385" pos="ADV CNJ" ana="lexicon.xml#lemma_7385_sense_11998" corresp="variants.xml#type_26640">wan</w>
+        <w xml:id="EGA_46100050_5" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4322">einen</w>
+        <w xml:id="EGA_46100050_6" lemmaRef="lexicon.xml#lemma_4306" pos="NOM" ana="lexicon.xml#lemma_4306_sense_6733" corresp="variants.xml#type_14994">namen</w>
+        <pc xml:id="EGA_46100050_7" join="left">;</pc>
       </l>
       <l n="6">
-        <w xml:id="EGA_46100060_0" lemmaRef="lexicon.xml#lemma_1119" meaningRef="lexicon.xml#lemma_1119_sense_1770" pos="ART" wordRef="lexicon.xml#lemma_1119_sense_1770_type_3510">des</w>
-        <w xml:id="EGA_46100060_1" lemmaRef="lexicon.xml#lemma_4240" meaningRef="lexicon.xml#lemma_4240_sense_6635" pos="VRB VEM" wordRef="lexicon.xml#lemma_4240_sense_6635_type_14785">mugen</w>
-        <w xml:id="EGA_46100060_2" lemmaRef="lexicon.xml#lemma_5445" meaningRef="lexicon.xml#lemma_5445_sense_8495" pos="PRO" wordRef="lexicon.xml#lemma_5445_sense_8495_type_19017">sich</w>
-        <w xml:id="EGA_46100060_3" lemmaRef="lexicon.xml#lemma_7677" meaningRef="lexicon.xml#lemma_7677_sense_12586" pos="NOM ADV" wordRef="lexicon.xml#lemma_7677_sense_12586_type_27811">wol</w>
-        <w xml:id="EGA_46100060_4" lemmaRef="lexicon.xml#lemma_1216" meaningRef="lexicon.xml#lemma_1216_sense_1915" pos="NUM" wordRef="lexicon.xml#lemma_1216_sense_1915_type_3847">dri</w>
-        <w xml:id="EGA_46100060_5" lemmaRef="lexicon.xml#lemma_6113" meaningRef="lexicon.xml#lemma_6113_sense_9644" pos="NOM" wordRef="lexicon.xml#lemma_6113_sense_9644_type_106579">torn</w>
-        <w xml:id="EGA_46100060_6" lemmaRef="lexicon.xml#lemma_5170" meaningRef="lexicon.xml#lemma_5170_sense_8041" pos="VRB" wordRef="lexicon.xml#lemma_5170_sense_8041_type_17936">schamen</w>
-        <seg xml:id="EGA_46100060_7" type="pc">.</seg>
+        <w xml:id="EGA_46100060_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
+        <w xml:id="EGA_46100060_1" lemmaRef="lexicon.xml#lemma_4240" pos="VRB VEM" ana="lexicon.xml#lemma_4240_sense_6635" corresp="variants.xml#type_14785">mugen</w>
+        <w xml:id="EGA_46100060_2" lemmaRef="lexicon.xml#lemma_5445" pos="PRO" ana="lexicon.xml#lemma_5445_sense_8495" corresp="variants.xml#type_19017">sich</w>
+        <w xml:id="EGA_46100060_3" lemmaRef="lexicon.xml#lemma_7677" pos="NOM ADV" ana="lexicon.xml#lemma_7677_sense_12586" corresp="variants.xml#type_27811">wol</w>
+        <w xml:id="EGA_46100060_4" lemmaRef="lexicon.xml#lemma_1216" pos="NUM" ana="lexicon.xml#lemma_1216_sense_1915" corresp="variants.xml#type_3847">dri</w>
+        <w xml:id="EGA_46100060_5" lemmaRef="lexicon.xml#lemma_6113" pos="NOM" ana="lexicon.xml#lemma_6113_sense_9644" corresp="variants.xml#type_106579">torn</w>
+        <w xml:id="EGA_46100060_6" lemmaRef="lexicon.xml#lemma_5170" pos="VRB" ana="lexicon.xml#lemma_5170_sense_8041" corresp="variants.xml#type_17936">schamen</w>
+        <pc xml:id="EGA_46100060_7" join="left">.</pc>
       </l>
       <l n="7">
-        <w xml:id="EGA_46100070_0" lemmaRef="lexicon.xml#lemma_3001" meaningRef="lexicon.xml#lemma_3001_sense_4805" pos="PRO" wordRef="lexicon.xml#lemma_3001_sense_4805_type_10212">ich</w>
-        <w xml:id="EGA_46100070_1" lemmaRef="lexicon.xml#lemma_7355" meaningRef="lexicon.xml#lemma_7355_sense_11933" pos="VRB" wordRef="lexicon.xml#lemma_7355_sense_11933_type_102443">wæne</w>
-        <w xml:id="EGA_46100070_2" lemmaRef="lexicon.xml#lemma_1109" meaningRef="lexicon.xml#lemma_1109_sense_1759" pos="ADJ NEG" wordRef="lexicon.xml#lemma_1109_sense_1759_type_3442">dehein</w>
-        <w xml:id="EGA_46100070_3" lemmaRef="lexicon.xml#lemma_6113" meaningRef="lexicon.xml#lemma_6113_sense_9644" pos="NOM" wordRef="lexicon.xml#lemma_6113_sense_9644_type_81514">tore</w>
-        <w xml:id="EGA_46100070_4" lemmaRef="lexicon.xml#lemma_5432" meaningRef="lexicon.xml#lemma_5432_sense_8479" pos="VRB VEX" wordRef="lexicon.xml#lemma_5432_sense_8479_type_42770">si</w>
-        <seg xml:id="EGA_46100070_5" type="pc">,</seg>
+        <w xml:id="EGA_46100070_0" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
+        <w xml:id="EGA_46100070_1" lemmaRef="lexicon.xml#lemma_7355" pos="VRB" ana="lexicon.xml#lemma_7355_sense_11933" corresp="variants.xml#type_102443">wæne</w>
+        <w xml:id="EGA_46100070_2" lemmaRef="lexicon.xml#lemma_1109" pos="ADJ NEG" ana="lexicon.xml#lemma_1109_sense_1759" corresp="variants.xml#type_3442">dehein</w>
+        <w xml:id="EGA_46100070_3" lemmaRef="lexicon.xml#lemma_6113" pos="NOM" ana="lexicon.xml#lemma_6113_sense_9644" corresp="variants.xml#type_81514">tore</w>
+        <w xml:id="EGA_46100070_4" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_42770">si</w>
+        <pc xml:id="EGA_46100070_5" join="left">,</pc>
       </l>
       <l n="8">
-        <w xml:id="EGA_46100080_0" lemmaRef="lexicon.xml#lemma_8335" meaningRef="lexicon.xml#lemma_8335_sense_2355" pos="PRO NEG" wordRef="lexicon.xml#lemma_8335_sense_2355_type_86911">ern</w>
+        <w xml:id="EGA_46100080_0" lemmaRef="lexicon.xml#lemma_8335" pos="PRO NEG" ana="lexicon.xml#lemma_8335_sense_2355" corresp="variants.xml#type_86911">ern</w>
         <supplied>
-          <w xml:id="EGA_46100080_1" lemmaRef="lexicon.xml#lemma_2598" meaningRef="lexicon.xml#lemma_2598_sense_4170" pos="NOM VRB VEX" wordRef="lexicon.xml#lemma_2598_sense_4170_type_8730">habe</w>
+          <w xml:id="EGA_46100080_1" lemmaRef="lexicon.xml#lemma_2598" pos="NOM VRB VEX" ana="lexicon.xml#lemma_2598_sense_4170" corresp="variants.xml#type_8730">habe</w>
         </supplied>
-        <w xml:id="EGA_46100080_2" lemmaRef="lexicon.xml#lemma_1139" meaningRef="lexicon.xml#lemma_1139_sense_1797" pos="ART" wordRef="lexicon.xml#lemma_1139_sense_1797_type_3568">die</w>
-        <w xml:id="EGA_46100080_3" lemmaRef="lexicon.xml#lemma_4306" meaningRef="lexicon.xml#lemma_4306_sense_6733" pos="NOM" wordRef="lexicon.xml#lemma_4306_sense_6733_type_14994">namen</w>
-        <w xml:id="EGA_46100080_4" lemmaRef="lexicon.xml#lemma_106" meaningRef="lexicon.xml#lemma_106_sense_139" pos="ADJ" wordRef="lexicon.xml#lemma_106_sense_139_type_258">alle</w>
-        <w xml:id="EGA_46100080_5" lemmaRef="lexicon.xml#lemma_1216" meaningRef="lexicon.xml#lemma_1216_sense_1915" pos="NUM" wordRef="lexicon.xml#lemma_1216_sense_1915_type_3847">dri</w>
-        <seg xml:id="EGA_46100080_6" type="pc">.</seg>
+        <w xml:id="EGA_46100080_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
+        <w xml:id="EGA_46100080_3" lemmaRef="lexicon.xml#lemma_4306" pos="NOM" ana="lexicon.xml#lemma_4306_sense_6733" corresp="variants.xml#type_14994">namen</w>
+        <w xml:id="EGA_46100080_4" lemmaRef="lexicon.xml#lemma_106" pos="ADJ" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_258">alle</w>
+        <w xml:id="EGA_46100080_5" lemmaRef="lexicon.xml#lemma_1216" pos="NUM" ana="lexicon.xml#lemma_1216_sense_1915" corresp="variants.xml#type_3847">dri</w>
+        <pc xml:id="EGA_46100080_6" join="left">.</pc>
       </l>
       <l n="1">
         <hi rend="initial">
-          <w xml:id="EGA_46200010_0" lemmaRef="lexicon.xml#lemma_1723" meaningRef="lexicon.xml#lemma_1723_sense_2708" pos="NOM" wordRef="lexicon.xml#lemma_1723_sense_2708_type_5875">esel</w>
+          <w xml:id="EGA_46200010_0" lemmaRef="lexicon.xml#lemma_1723" pos="NOM" ana="lexicon.xml#lemma_1723_sense_2708" corresp="variants.xml#type_5875">esel</w>
         </hi>
-        <seg xml:id="EGA_46200010_1" type="pc">,</seg>
-        <w xml:id="EGA_46200010_2" lemmaRef="lexicon.xml#lemma_2472" meaningRef="lexicon.xml#lemma_2472_sense_3958" pos="NOM" wordRef="lexicon.xml#lemma_2472_sense_3958_type_8274">gouch</w>
-        <w xml:id="EGA_46200010_3" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="lexicon.xml#lemma_6467_sense_10233_type_22825">und</w>
-        <w xml:id="EGA_46200010_4" lemmaRef="lexicon.xml#lemma_70" meaningRef="lexicon.xml#lemma_70_sense_87" pos="NOM" wordRef="lexicon.xml#lemma_70_sense_87_type_66724">affen</w>
-        <seg xml:id="EGA_46200010_5" type="pc">.</seg>
+        <pc xml:id="EGA_46200010_1" join="left">,</pc>
+        <w xml:id="EGA_46200010_2" lemmaRef="lexicon.xml#lemma_2472" pos="NOM" ana="lexicon.xml#lemma_2472_sense_3958" corresp="variants.xml#type_8274">gouch</w>
+        <w xml:id="EGA_46200010_3" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
+        <w xml:id="EGA_46200010_4" lemmaRef="lexicon.xml#lemma_70" pos="NOM" ana="lexicon.xml#lemma_70_sense_87" corresp="variants.xml#type_66724">affen</w>
+        <pc xml:id="EGA_46200010_5" join="left">.</pc>
       </l>
       <l n="2">
-        <w xml:id="EGA_46200020_0" lemmaRef="lexicon.xml#lemma_1119" meaningRef="lexicon.xml#lemma_1119_sense_1770" pos="ART" wordRef="lexicon.xml#lemma_1119_sense_1770_type_3506">den</w>
-        <w xml:id="EGA_46200020_1" lemmaRef="lexicon.xml#lemma_5432" meaningRef="lexicon.xml#lemma_5432_sense_8479" pos="VRB VEX" wordRef="lexicon.xml#lemma_5432_sense_8479_type_18956">ist</w>
-        <w xml:id="EGA_46200020_2" lemmaRef="lexicon.xml#lemma_7725" meaningRef="lexicon.xml#lemma_7725_sense_12656" pos="ADJ ADV" wordRef="lexicon.xml#lemma_7725_sense_12656_type_171469">wnderlich</w>
-        <w xml:id="EGA_46200020_3" lemmaRef="lexicon.xml#lemma_1282" meaningRef="lexicon.xml#lemma_1282_sense_2011" pos="NOM" wordRef="lexicon.xml#lemma_1282_sense_2011_type_75179">ere</w>
-        <w xml:id="EGA_46200020_4" lemmaRef="lexicon.xml#lemma_560" meaningRef="lexicon.xml#lemma_560_sense_822" pos="VRB" wordRef="lexicon.xml#lemma_560_sense_822_type_1645">beschaffen</w>
-        <seg xml:id="EGA_46200020_5" type="pc">.</seg>
+        <w xml:id="EGA_46200020_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
+        <w xml:id="EGA_46200020_1" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18956">ist</w>
+        <w xml:id="EGA_46200020_2" lemmaRef="lexicon.xml#lemma_7725" pos="ADJ ADV" ana="lexicon.xml#lemma_7725_sense_12656" corresp="variants.xml#type_171469">wnderlich</w>
+        <w xml:id="EGA_46200020_3" lemmaRef="lexicon.xml#lemma_1282" pos="NOM" ana="lexicon.xml#lemma_1282_sense_2011" corresp="variants.xml#type_75179">ere</w>
+        <w xml:id="EGA_46200020_4" lemmaRef="lexicon.xml#lemma_560" pos="VRB" ana="lexicon.xml#lemma_560_sense_822" corresp="variants.xml#type_1645">beschaffen</w>
+        <pc xml:id="EGA_46200020_5" join="left">.</pc>
       </l>
       <l n="3">
-        <w xml:id="EGA_46200030_0" lemmaRef="lexicon.xml#lemma_70" meaningRef="lexicon.xml#lemma_70_sense_87" pos="NOM" wordRef="lexicon.xml#lemma_70_sense_87_type_66724">affen</w>
-        <seg xml:id="EGA_46200030_1" type="pc">,</seg>
-        <w xml:id="EGA_46200030_2" lemmaRef="lexicon.xml#lemma_1723" meaningRef="lexicon.xml#lemma_1723_sense_2708" pos="NOM" wordRef="lexicon.xml#lemma_1723_sense_2708_type_5875">esel</w>
-        <w xml:id="EGA_46200030_3" lemmaRef="lexicon.xml#lemma_6467" meaningRef="lexicon.xml#lemma_6467_sense_10233" pos="CNJ" wordRef="lexicon.xml#lemma_6467_sense_10233_type_22825">und</w>
-        <w xml:id="EGA_46200030_4" lemmaRef="lexicon.xml#lemma_2472" meaningRef="lexicon.xml#lemma_2472_sense_3958" pos="NOM" wordRef="lexicon.xml#lemma_2472_sense_3958_type_8274">gouch</w>
-        <seg xml:id="EGA_46200030_5" type="pc">.</seg>
+        <w xml:id="EGA_46200030_0" lemmaRef="lexicon.xml#lemma_70" pos="NOM" ana="lexicon.xml#lemma_70_sense_87" corresp="variants.xml#type_66724">affen</w>
+        <pc xml:id="EGA_46200030_1" join="left">,</pc>
+        <w xml:id="EGA_46200030_2" lemmaRef="lexicon.xml#lemma_1723" pos="NOM" ana="lexicon.xml#lemma_1723_sense_2708" corresp="variants.xml#type_5875">esel</w>
+        <w xml:id="EGA_46200030_3" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
+        <w xml:id="EGA_46200030_4" lemmaRef="lexicon.xml#lemma_2472" pos="NOM" ana="lexicon.xml#lemma_2472_sense_3958" corresp="variants.xml#type_8274">gouch</w>
+        <pc xml:id="EGA_46200030_5" join="left">.</pc>
       </l>
       <l n="4">
-        <w xml:id="EGA_46200040_0" lemmaRef="lexicon.xml#lemma_152" meaningRef="lexicon.xml#lemma_152_sense_187" pos="ADV" wordRef="lexicon.xml#lemma_152_sense_187_type_378">also</w>
-        <w xml:id="EGA_46200040_1" lemmaRef="lexicon.xml#lemma_4331" meaningRef="lexicon.xml#lemma_4331_sense_6775" pos="VRB" wordRef="lexicon.xml#lemma_4331_sense_6775_type_15118">nennet</w>
-        <w xml:id="EGA_46200040_2" lemmaRef="lexicon.xml#lemma_3958" meaningRef="lexicon.xml#lemma_3958_sense_6240" pos="PRO" wordRef="lexicon.xml#lemma_3958_sense_6240_type_13805">man</w>
-        <w xml:id="EGA_46200040_3" lemmaRef="lexicon.xml#lemma_1139" meaningRef="lexicon.xml#lemma_1139_sense_1797" pos="ART" wordRef="lexicon.xml#lemma_1139_sense_1797_type_3568">die</w>
-        <w xml:id="EGA_46200040_4" lemmaRef="lexicon.xml#lemma_3806" meaningRef="lexicon.xml#lemma_3806_sense_6008" pos="NOM" wordRef="lexicon.xml#lemma_3806_sense_6008_type_13265">liute</w>
-        <w xml:id="EGA_46200040_5" lemmaRef="lexicon.xml#lemma_4523" meaningRef="lexicon.xml#lemma_4523_sense_7060" pos="CNJ" wordRef="lexicon.xml#lemma_4523_sense_7060_type_15677">ouch</w>
-        <seg xml:id="EGA_46200040_6" type="pc">.</seg>
+        <w xml:id="EGA_46200040_0" lemmaRef="lexicon.xml#lemma_152" pos="ADV" ana="lexicon.xml#lemma_152_sense_187" corresp="variants.xml#type_378">also</w>
+        <w xml:id="EGA_46200040_1" lemmaRef="lexicon.xml#lemma_4331" pos="VRB" ana="lexicon.xml#lemma_4331_sense_6775" corresp="variants.xml#type_15118">nennet</w>
+        <w xml:id="EGA_46200040_2" lemmaRef="lexicon.xml#lemma_3958" pos="PRO" ana="lexicon.xml#lemma_3958_sense_6240" corresp="variants.xml#type_13805">man</w>
+        <w xml:id="EGA_46200040_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
+        <w xml:id="EGA_46200040_4" lemmaRef="lexicon.xml#lemma_3806" pos="NOM" ana="lexicon.xml#lemma_3806_sense_6008" corresp="variants.xml#type_13265">liute</w>
+        <w xml:id="EGA_46200040_5" lemmaRef="lexicon.xml#lemma_4523" pos="CNJ" ana="lexicon.xml#lemma_4523_sense_7060" corresp="variants.xml#type_15677">ouch</w>
+        <pc xml:id="EGA_46200040_6" join="left">.</pc>
       </l>
       <l n="5">
-        <w xml:id="EGA_46200050_0" lemmaRef="lexicon.xml#lemma_1139" meaningRef="lexicon.xml#lemma_1139_sense_1797" pos="ART" wordRef="lexicon.xml#lemma_1139_sense_1797_type_3568">die</w>
-        <w xml:id="EGA_46200050_1" lemmaRef="lexicon.xml#lemma_1216" meaningRef="lexicon.xml#lemma_1216_sense_1915" pos="NUM" wordRef="lexicon.xml#lemma_1216_sense_1915_type_3853">drie</w>
-        <w xml:id="EGA_46200050_2" lemmaRef="lexicon.xml#lemma_2598" meaningRef="lexicon.xml#lemma_2598_sense_4170" pos="VRB VEX" wordRef="lexicon.xml#lemma_2598_sense_4170_type_8736">habent</w>
-        <w xml:id="EGA_46200050_3" lemmaRef="lexicon.xml#lemma_4377" meaningRef="lexicon.xml#lemma_4377_sense_6838" pos="ADJ ADV NEG" wordRef="lexicon.xml#lemma_4377_sense_6838_type_15286">niht</w>
-        <w xml:id="EGA_46200050_4" lemmaRef="lexicon.xml#lemma_7385" meaningRef="lexicon.xml#lemma_7385_sense_11998" pos="ADV CNJ" wordRef="lexicon.xml#lemma_7385_sense_11998_type_26640">wan</w>
-        <w xml:id="EGA_46200050_5" lemmaRef="lexicon.xml#lemma_1331" meaningRef="lexicon.xml#lemma_1331_sense_2068" pos="ART NUM" wordRef="lexicon.xml#lemma_1331_sense_2068_type_4322">einen</w>
-        <w xml:id="EGA_46200050_6" lemmaRef="lexicon.xml#lemma_4306" meaningRef="lexicon.xml#lemma_4306_sense_6733" pos="NOM" wordRef="lexicon.xml#lemma_4306_sense_6733_type_14994">namen</w>
-        <seg xml:id="EGA_46200050_7" type="pc">:</seg>
+        <w xml:id="EGA_46200050_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
+        <w xml:id="EGA_46200050_1" lemmaRef="lexicon.xml#lemma_1216" pos="NUM" ana="lexicon.xml#lemma_1216_sense_1915" corresp="variants.xml#type_3853">drie</w>
+        <w xml:id="EGA_46200050_2" lemmaRef="lexicon.xml#lemma_2598" pos="VRB VEX" ana="lexicon.xml#lemma_2598_sense_4170" corresp="variants.xml#type_8736">habent</w>
+        <w xml:id="EGA_46200050_3" lemmaRef="lexicon.xml#lemma_4377" pos="ADJ ADV NEG" ana="lexicon.xml#lemma_4377_sense_6838" corresp="variants.xml#type_15286">niht</w>
+        <w xml:id="EGA_46200050_4" lemmaRef="lexicon.xml#lemma_7385" pos="ADV CNJ" ana="lexicon.xml#lemma_7385_sense_11998" corresp="variants.xml#type_26640">wan</w>
+        <w xml:id="EGA_46200050_5" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4322">einen</w>
+        <w xml:id="EGA_46200050_6" lemmaRef="lexicon.xml#lemma_4306" pos="NOM" ana="lexicon.xml#lemma_4306_sense_6733" corresp="variants.xml#type_14994">namen</w>
+        <pc xml:id="EGA_46200050_7" join="left">:</pc>
       </l>
       <l n="6">
-        <w xml:id="EGA_46200060_0" lemmaRef="lexicon.xml#lemma_1119" meaningRef="lexicon.xml#lemma_1119_sense_1770" pos="ART" wordRef="lexicon.xml#lemma_1119_sense_1770_type_3510">des</w>
-        <w xml:id="EGA_46200060_1" lemmaRef="lexicon.xml#lemma_4240" meaningRef="lexicon.xml#lemma_4240_sense_6635" pos="VRB VEM" wordRef="lexicon.xml#lemma_4240_sense_6635_type_14785">mugen</w>
-        <w xml:id="EGA_46200060_2" lemmaRef="lexicon.xml#lemma_5445" meaningRef="lexicon.xml#lemma_5445_sense_8495" pos="PRO" wordRef="lexicon.xml#lemma_5445_sense_8495_type_19017">sich</w>
-        <w xml:id="EGA_46200060_3" lemmaRef="lexicon.xml#lemma_7677" meaningRef="lexicon.xml#lemma_7677_sense_12586" pos="NOM ADV" wordRef="lexicon.xml#lemma_7677_sense_12586_type_27811">wol</w>
-        <w xml:id="EGA_46200060_4" lemmaRef="lexicon.xml#lemma_1139" meaningRef="lexicon.xml#lemma_1139_sense_1797" pos="ART" wordRef="lexicon.xml#lemma_1139_sense_1797_type_3568">die</w>
-        <w xml:id="EGA_46200060_5" lemmaRef="lexicon.xml#lemma_6113" meaningRef="lexicon.xml#lemma_6113_sense_9644" pos="NOM" wordRef="lexicon.xml#lemma_6113_sense_9644_type_80982">toren</w>
-        <w xml:id="EGA_46200060_6" lemmaRef="lexicon.xml#lemma_5170" meaningRef="lexicon.xml#lemma_5170_sense_8041" pos="VRB" wordRef="lexicon.xml#lemma_5170_sense_8041_type_17936">schamen</w>
+        <w xml:id="EGA_46200060_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
+        <w xml:id="EGA_46200060_1" lemmaRef="lexicon.xml#lemma_4240" pos="VRB VEM" ana="lexicon.xml#lemma_4240_sense_6635" corresp="variants.xml#type_14785">mugen</w>
+        <w xml:id="EGA_46200060_2" lemmaRef="lexicon.xml#lemma_5445" pos="PRO" ana="lexicon.xml#lemma_5445_sense_8495" corresp="variants.xml#type_19017">sich</w>
+        <w xml:id="EGA_46200060_3" lemmaRef="lexicon.xml#lemma_7677" pos="NOM ADV" ana="lexicon.xml#lemma_7677_sense_12586" corresp="variants.xml#type_27811">wol</w>
+        <w xml:id="EGA_46200060_4" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
+        <w xml:id="EGA_46200060_5" lemmaRef="lexicon.xml#lemma_6113" pos="NOM" ana="lexicon.xml#lemma_6113_sense_9644" corresp="variants.xml#type_80982">toren</w>
+        <w xml:id="EGA_46200060_6" lemmaRef="lexicon.xml#lemma_5170" pos="VRB" ana="lexicon.xml#lemma_5170_sense_8041" corresp="variants.xml#type_17936">schamen</w>
       </l>
       <l n="7">
-        <w xml:id="EGA_46200070_0" lemmaRef="lexicon.xml#lemma_3001" meaningRef="lexicon.xml#lemma_3001_sense_4805" pos="PRO" wordRef="lexicon.xml#lemma_3001_sense_4805_type_10212">ich</w>
-        <w xml:id="EGA_46200070_1" lemmaRef="lexicon.xml#lemma_7355" meaningRef="lexicon.xml#lemma_7355_sense_11933" pos="VRB" wordRef="lexicon.xml#lemma_7355_sense_11933_type_102443">wæne</w>
-        <w xml:id="EGA_46200070_2" lemmaRef="lexicon.xml#lemma_1097" meaningRef="lexicon.xml#lemma_1097_sense_1741" pos="ART CNJ" wordRef="lexicon.xml#lemma_1097_sense_1741_type_3398">daz</w>
-        <w xml:id="EGA_46200070_3" lemmaRef="lexicon.xml#lemma_1109" meaningRef="lexicon.xml#lemma_1109_sense_1759" pos="ADJ NEG" wordRef="lexicon.xml#lemma_1109_sense_1759_type_3442">dehein</w>
-        <w xml:id="EGA_46200070_4" lemmaRef="lexicon.xml#lemma_6113" meaningRef="lexicon.xml#lemma_6113_sense_9644" pos="NOM" wordRef="lexicon.xml#lemma_6113_sense_9644_type_81514">tore</w>
-        <w xml:id="EGA_46200070_5" lemmaRef="lexicon.xml#lemma_5432" meaningRef="lexicon.xml#lemma_5432_sense_8479" pos="VRB VEX" wordRef="lexicon.xml#lemma_5432_sense_8479_type_42770">si</w>
-        <seg xml:id="EGA_46200070_6" type="pc">.</seg>
+        <w xml:id="EGA_46200070_0" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
+        <w xml:id="EGA_46200070_1" lemmaRef="lexicon.xml#lemma_7355" pos="VRB" ana="lexicon.xml#lemma_7355_sense_11933" corresp="variants.xml#type_102443">wæne</w>
+        <w xml:id="EGA_46200070_2" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
+        <w xml:id="EGA_46200070_3" lemmaRef="lexicon.xml#lemma_1109" pos="ADJ NEG" ana="lexicon.xml#lemma_1109_sense_1759" corresp="variants.xml#type_3442">dehein</w>
+        <w xml:id="EGA_46200070_4" lemmaRef="lexicon.xml#lemma_6113" pos="NOM" ana="lexicon.xml#lemma_6113_sense_9644" corresp="variants.xml#type_81514">tore</w>
+        <w xml:id="EGA_46200070_5" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_42770">si</w>
+        <pc xml:id="EGA_46200070_6" join="left">.</pc>
       </l>
       <l n="8">
-        <w xml:id="EGA_46200080_0" lemmaRef="lexicon.xml#lemma_8335" meaningRef="lexicon.xml#lemma_8335_sense_2355" pos="PRO NEG" wordRef="lexicon.xml#lemma_8335_sense_2355_type_86911">ern</w>
-        <w xml:id="EGA_46200080_1" lemmaRef="lexicon.xml#lemma_2598" meaningRef="lexicon.xml#lemma_2598_sense_4170" pos="NOM VRB VEX" wordRef="lexicon.xml#lemma_2598_sense_4170_type_8730">habe</w>
-        <w xml:id="EGA_46200080_2" lemmaRef="lexicon.xml#lemma_1139" meaningRef="lexicon.xml#lemma_1139_sense_1797" pos="ART" wordRef="lexicon.xml#lemma_1139_sense_1797_type_3568">die</w>
-        <w xml:id="EGA_46200080_3" lemmaRef="lexicon.xml#lemma_4306" meaningRef="lexicon.xml#lemma_4306_sense_6733" pos="NOM" wordRef="lexicon.xml#lemma_4306_sense_6733_type_14994">namen</w>
-        <w xml:id="EGA_46200080_4" lemmaRef="lexicon.xml#lemma_106" meaningRef="lexicon.xml#lemma_106_sense_139" pos="ADJ" wordRef="lexicon.xml#lemma_106_sense_139_type_258">alle</w>
-        <w xml:id="EGA_46200080_5" lemmaRef="lexicon.xml#lemma_1216" meaningRef="lexicon.xml#lemma_1216_sense_1915" pos="NUM" wordRef="lexicon.xml#lemma_1216_sense_1915_type_3847">dri</w>
-        <seg xml:id="EGA_46200080_6" type="pc">.</seg>
+        <w xml:id="EGA_46200080_0" lemmaRef="lexicon.xml#lemma_8335" pos="PRO NEG" ana="lexicon.xml#lemma_8335_sense_2355" corresp="variants.xml#type_86911">ern</w>
+        <w xml:id="EGA_46200080_1" lemmaRef="lexicon.xml#lemma_2598" pos="NOM VRB VEX" ana="lexicon.xml#lemma_2598_sense_4170" corresp="variants.xml#type_8730">habe</w>
+        <w xml:id="EGA_46200080_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
+        <w xml:id="EGA_46200080_3" lemmaRef="lexicon.xml#lemma_4306" pos="NOM" ana="lexicon.xml#lemma_4306_sense_6733" corresp="variants.xml#type_14994">namen</w>
+        <w xml:id="EGA_46200080_4" lemmaRef="lexicon.xml#lemma_106" pos="ADJ" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_258">alle</w>
+        <w xml:id="EGA_46200080_5" lemmaRef="lexicon.xml#lemma_1216" pos="NUM" ana="lexicon.xml#lemma_1216_sense_1915" corresp="variants.xml#type_3847">dri</w>
+        <pc xml:id="EGA_46200080_6" join="left">.</pc>
       </l>
     </body>
   </text>

@@ -322,7 +322,7 @@ class TEITextReader {
 
     /**
      * Extract and format body text with TEI structure preservation
-     * Handles: <head>, <p>, <div>, <lg>, <l>, <lb>, <pb>, <hi rend="...">, <seg type="pc">
+     * Handles: <head>, <p>, <div>, <lg>, <l>, <lb>, <pb>, <hi rend="...">, <pc>, <seg>
      * @returns {object} { html: string, highlights: Array<{element, position}> }
      */
     extractAndFormatBody(teiDoc, lemmaId = null, lemmaIds = []) {
@@ -342,88 +342,94 @@ class TEITextReader {
             });
         }
 
-        // Process element recursively
-        const processElement = (el) => {
+        // Render a single TEI element to HTML (single path for both top-level and recursive)
+        this._renderElement = (el) => {
             const tagName = el.tagName.toLowerCase();
+            const children = () => this.processChildren(el, lemmaId, lemmaIds, lemmaColorMap, highlights, state);
 
-            // Handle different TEI elements
             switch (tagName) {
                 case 'head':
-                    // Section heading
-                    return `<h3 class="section-head">${this.processChildren(el, lemmaId, lemmaIds, lemmaColorMap, highlights, state)}</h3>`;
-
+                    return `<h3 class="section-head">${children()}</h3>`;
                 case 'p':
                 case 'ab':
-                    // Paragraph
-                    return `<p>${this.processChildren(el, lemmaId, lemmaIds, lemmaColorMap, highlights, state)}</p>`;
-
-                case 'div':
-                    // Division (generic container)
-                    return `<div class="tei-div">${this.processChildren(el, lemmaId, lemmaIds, lemmaColorMap, highlights, state)}</div>`;
-
-                case 'lg':
-                    // Line group (verse)
-                    return `<div class="verse-group">${this.processChildren(el, lemmaId, lemmaIds, lemmaColorMap, highlights, state)}</div>`;
-
-                case 'l':
-                    // Single line (verse)
-                    return `<span class="verse-line">${this.processChildren(el, lemmaId, lemmaIds, lemmaColorMap, highlights, state)}</span>`;
-
-                case 'lb':
-                    // Line break
+                    return `<p>${children()}</p>`;
+                case 'div': {
+                    const divType = el.getAttribute('type') || '';
+                    const divN = el.getAttribute('n') || '';
+                    const divLabels = {
+                        'song': 'Lied', 'chapter': 'Kapitel', 'recipe': 'Rezept',
+                        'number': 'Nr.', 'section': 'Abschnitt',
+                        'colophon': 'Kolophon', 'parallel': 'Parallelüberlieferung'
+                    };
+                    const label = divLabels[divType];
+                    let header = '';
+                    if (label && divN) {
+                        header = `<div class="tei-div-header tei-div-${this.escapeHtml(divType)}">${this.escapeHtml(label)} ${this.escapeHtml(divN)}</div>`;
+                    } else if (label) {
+                        header = `<div class="tei-div-header tei-div-${this.escapeHtml(divType)}">${this.escapeHtml(label)}</div>`;
+                    }
+                    return `<div class="tei-div tei-div-${this.escapeHtml(divType)}" data-type="${this.escapeHtml(divType)}" data-n="${this.escapeHtml(divN)}">${header}${children()}</div>`;
+                }
+                case 'lg': {
+                    const lgN = el.getAttribute('n') || '';
+                    const lgLabel = lgN ? `<span class="stanza-label">Strophe ${this.escapeHtml(lgN)}</span>` : '';
+                    return `<div class="verse-group" data-n="${this.escapeHtml(lgN)}">${lgLabel}${children()}</div>`;
+                }
+                case 'l': {
+                    const lineN = el.getAttribute('n') || '';
+                    return `<span class="verse-line" data-n="${this.escapeHtml(lineN)}">${children()}</span>`;
+                }
+                case 'lb': {
+                    const lbN = el.getAttribute('n') || '';
+                    if (lbN) {
+                        return `<br class="line-break"><span class="lb-number">${this.escapeHtml(lbN)}</span>`;
+                    }
                     return '<br class="line-break">';
-
-                case 'pb':
-                    // Page break - show page number
+                }
+                case 'note': {
+                    const noteType = el.getAttribute('type');
+                    const noteN = el.getAttribute('n') || '';
+                    if ((noteType === 'date' || noteType === 'year') && noteN) {
+                        return `<span class="note-badge note-${this.escapeHtml(noteType)}" title="${noteType === 'date' ? 'Datum' : 'Jahr'}">${this.escapeHtml(noteN)}</span>`;
+                    }
+                    return children();
+                }
+                case 'pb': {
                     const pageNum = el.getAttribute('n');
                     return pageNum ? `<span class="page-break" title="Seite ${pageNum}">[${pageNum}]</span>` : '';
-
-                case 'hi':
-                    // Highlighting (rend="initial", rend="upper_case_first_letter")
+                }
+                case 'hi': {
                     const rend = el.getAttribute('rend');
                     return this.processHi(el, rend, lemmaId, lemmaIds, lemmaColorMap, highlights, state);
-
+                }
+                case 'pc': {
+                    const join = el.getAttribute('join') || 'left';
+                    return `<span class="punctuation" data-join="${join}">${this.escapeHtml(el.textContent)}</span>`;
+                }
                 case 'seg':
-                    // Segment (type="pc" = punctuation)
-                    const type = el.getAttribute('type');
-                    if (type === 'pc') {
-                        return `<span class="punctuation">${this.escapeHtml(el.textContent)}</span>`;
-                    }
-                    return this.processChildren(el, lemmaId, lemmaIds, lemmaColorMap, highlights, state);
-
-                case 'w':
-                    // Word element
+                    return children();
+                case 'w': {
                     const hasLemmaRef = el.getAttribute('lemmaRef');
                     const result = this.processWord(el, lemmaId, lemmaIds, lemmaColorMap, highlights, state);
-                    // Only increment for words with lemmaRef (matches corpus index counting)
                     if (hasLemmaRef) {
                         state.wordPosition++;
                     }
                     return result;
-
-                case 'cb':
-                    // Column break
+                }
+                case 'cb': {
                     const colNum = el.getAttribute('n');
-                    const colType = el.getAttribute('type');
                     return colNum
                         ? `<span class="column-break" title="Spalte ${colNum}">[Sp. ${this.escapeHtml(colNum)}]</span>`
                         : '<span class="column-break">[Sp.]</span>';
-
+                }
                 case 'caesura':
-                    // Metrical pause in verse
                     return '<span class="caesura" title="Zäsur">||</span>';
-
                 case 'supplied':
-                    // Editor-supplied text
-                    return `<span class="supplied" title="Editorische Ergänzung">[${this.processChildren(el, lemmaId, lemmaIds, lemmaColorMap, highlights, state)}]</span>`;
-
+                    return `<span class="supplied" title="Editorische Ergänzung">[${children()}]</span>`;
                 case 'num':
-                    // Numeric value
-                    return `<span class="number">${this.processChildren(el, lemmaId, lemmaIds, lemmaColorMap, highlights, state)}</span>`;
-
+                    return `<span class="number">${children()}</span>`;
                 default:
-                    // For unknown elements, process children
-                    return this.processChildren(el, lemmaId, lemmaIds, lemmaColorMap, highlights, state);
+                    return children();
             }
         };
 
@@ -432,26 +438,34 @@ class TEITextReader {
         const children = Array.from(body.children);
 
         for (const child of children) {
-            html += processElement(child);
+            html += this._renderElement(child);
         }
 
-        return { html, highlights };
+        // Join punctuation to adjacent words based on @join attribute:
+        // join="left" → remove whitespace before (attach to preceding word)
+        //   Pass 1: whitespace directly before the punctuation span
+        //   Pass 2: trailing space inside a preceding element (e.g. <span>word </span><pc>)
+        // join="right" → remove whitespace after (attach to following word)
+        html = html.replace(/\s+(<span class="punctuation" data-join="left">)/g, '$1');
+        html = html.replace(/(\S)\s+(<\/\w+>\s*<span class="punctuation" data-join="left">)/g, '$1$2');
+        html = html.replace(/(<span class="punctuation" data-join="right">[^<]*<\/span>)\s+/g, '$1');
+
+        // Detect verse vs prose context
+        const hasVerse = !!body.querySelector('lg');
+
+        return { html, highlights, hasVerse };
     }
 
     /**
-     * Process <hi> element with rend attribute
+     * Process <hi> element with rend attribute — token-based for compound values
      */
     processHi(el, rend, lemmaId, lemmaIds, lemmaColorMap, highlights, state) {
         const content = this.processChildren(el, lemmaId, lemmaIds, lemmaColorMap, highlights, state);
+        if (!rend) return `<span class="hi">${content}</span>`;
 
-        switch (rend) {
-            case 'initial':
-                return `<span class="initial">${content}</span>`;
-            case 'upper_case_first_letter':
-                return `<span class="upper-case-first">${content}</span>`;
-            default:
-                return `<span class="hi">${content}</span>`;
-        }
+        const tokens = rend.split(/\s+/);
+        const classes = tokens.map(t => `hi-${t}`).join(' ');
+        return `<span class="hi ${classes}">${content}</span>`;
     }
 
     /**
@@ -495,56 +509,21 @@ class TEITextReader {
     }
 
     /**
-     * Process children of element recursively
+     * Process children of element recursively, delegating element rendering
+     * to the _renderElement closure set up by extractAndFormatBody().
+     * Must only be called within an extractAndFormatBody() call chain.
      */
     processChildren(el, lemmaId, lemmaIds, lemmaColorMap, highlights, state) {
+        if (!this._renderElement) {
+            throw new Error('processChildren called outside extractAndFormatBody context');
+        }
         let result = '';
 
         for (const node of el.childNodes) {
             if (node.nodeType === Node.TEXT_NODE) {
                 result += this.escapeHtml(node.textContent);
             } else if (node.nodeType === Node.ELEMENT_NODE) {
-                const tagName = node.tagName.toLowerCase();
-
-                if (tagName === 'w') {
-                    const hasLemmaRef = node.getAttribute('lemmaRef');
-                    result += this.processWord(node, lemmaId, lemmaIds, lemmaColorMap, highlights, state);
-                    // Only increment for words with lemmaRef (matches corpus index counting)
-                    if (hasLemmaRef) {
-                        state.wordPosition++;
-                    }
-                } else if (tagName === 'lb') {
-                    result += '<br class="line-break">';
-                } else if (tagName === 'pb') {
-                    const pageNum = node.getAttribute('n');
-                    result += pageNum ? `<span class="page-break" title="Seite ${pageNum}">[${pageNum}]</span> ` : '';
-                } else if (tagName === 'hi') {
-                    const rend = node.getAttribute('rend');
-                    result += this.processHi(node, rend, lemmaId, lemmaIds, lemmaColorMap, highlights, state);
-                } else if (tagName === 'seg') {
-                    const type = node.getAttribute('type');
-                    if (type === 'pc') {
-                        result += this.escapeHtml(node.textContent);
-                    } else {
-                        result += this.processChildren(node, lemmaId, lemmaIds, lemmaColorMap, highlights, state);
-                    }
-                } else if (tagName === 'l') {
-                    result += `<span class="verse-line">${this.processChildren(node, lemmaId, lemmaIds, lemmaColorMap, highlights, state)}</span>`;
-                } else if (tagName === 'cb') {
-                    const colNum = node.getAttribute('n');
-                    result += colNum
-                        ? `<span class="column-break" title="Spalte ${colNum}">[Sp. ${this.escapeHtml(colNum)}]</span>`
-                        : '<span class="column-break">[Sp.]</span>';
-                } else if (tagName === 'caesura') {
-                    result += '<span class="caesura" title="Zäsur">||</span>';
-                } else if (tagName === 'supplied') {
-                    result += `<span class="supplied" title="Editorische Ergänzung">[${this.processChildren(node, lemmaId, lemmaIds, lemmaColorMap, highlights, state)}]</span>`;
-                } else if (tagName === 'num') {
-                    result += `<span class="number">${this.processChildren(node, lemmaId, lemmaIds, lemmaColorMap, highlights, state)}</span>`;
-                } else {
-                    // Recursively process other elements
-                    result += this.processChildren(node, lemmaId, lemmaIds, lemmaColorMap, highlights, state);
-                }
+                result += this._renderElement(node);
             }
         }
 
@@ -735,7 +714,9 @@ class TEITextReader {
             });
         });
 
-        // Populate body text
+        // Populate body text with verse/prose context
+        this.elements.readingBody.classList.remove('verse-context', 'prose-context');
+        this.elements.readingBody.classList.add(bodyResult.hasVerse ? 'verse-context' : 'prose-context');
         this.elements.readingBody.innerHTML = bodyResult.html;
 
         // Populate highlight element references after DOM insertion

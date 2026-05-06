@@ -120,13 +120,16 @@
                         Startseite
                     </a>
                     <a href="../korpus.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
-                        Korpus
+                        Korpussuche
                     </a>
                     <a href="../playground/index.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
                         Playground
                     </a>
-                    <a href="../index.html#documentation" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
-                        Dokumentation
+                    <a href="../hilfe.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                        Hilfe
+                    </a>
+                    <a href="../index.html#contact" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                        Kontakt
                     </a>
                 </div>
             </nav>
@@ -195,6 +198,16 @@
                 <div id="compoundsContent" class="flex flex-wrap gap-1.5"></div>
             </div>
 
+            <!-- Similar Lemmata (concept-based, conditional) -->
+            <div id="similarLemmataSection" class="hidden bg-white rounded-lg shadow-sm border border-slate-200 p-6">
+                <h2 class="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-3">
+                    Ähnliche Lemmata
+                    <span id="similarLemmataCount" class="text-slate-400 font-normal"></span>
+                </h2>
+                <p class="text-xs text-slate-500 mb-3">Lemmata mit gemeinsamen Begriffszuordnungen, sortiert nach Überlappung.</p>
+                <div id="similarLemmataContent" class="flex flex-wrap gap-1.5"></div>
+            </div>
+
             <!-- Corpus Occurrences -->
             <div id="occurrencesSection" class="hidden bg-white rounded-lg shadow-sm border border-slate-200 p-6">
                 <h2 class="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-3">
@@ -225,7 +238,7 @@
             <p>
                 <a href="https://mhdbdb.plus.ac.at" class="hover:text-slate-700 transition">Mittelhochdeutsche Begriffsdatenbank (MHDBDB)</a>
                 &middot; Universität Salzburg
-                &middot; <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/at/" class="hover:text-slate-700 transition">CC BY-NC-SA 3.0 AT</a>
+                &middot; <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="hover:text-slate-700 transition">CC BY-NC-SA 4.0</a>
             </p>
         </div>
     </footer>

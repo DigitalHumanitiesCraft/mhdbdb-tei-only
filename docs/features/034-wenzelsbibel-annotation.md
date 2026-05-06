@@ -22,7 +22,7 @@ Where the old encoding was written into `WZB.tei.xml` or `authority-files/`, it 
 
 ## Problem
 
-The Wenzelsbibel (WZB) has been structurally transformed from WB-DEA source into MHDBDB-conformant TEI (`Wenzelsbibel/WZB.tei.xml`, Phase 1). The ~150,000 `<w>` elements currently have only text content — no `@lemmaRef`, `@pos`, `@meaningRef`, or `@wordRef` attributes. Without these, the text cannot participate in MHDBDB search, lemma highlighting, or concept navigation.
+The Wenzelsbibel (WZB) has been structurally transformed from WB-DEA source into MHDBDB-conformant TEI (`Wenzelsbibel/WZB.tei.xml`, Phase 1). The ~150,000 `<w>` elements currently have only text content — no `@lemmaRef`, `@pos`, `@ana`, or `@corresp` attributes. Without these, the text cannot participate in MHDBDB search, lemma highlighting, or concept navigation.
 
 ## Current State
 
@@ -42,9 +42,9 @@ The Wenzelsbibel (WZB) has been structurally transformed from WB-DEA source into
 ```xml
 <w xml:id="ALL_20100010_1"
    lemmaRef="lexicon.xml#lemma_722"
-   meaningRef="lexicon.xml#lemma_722_sense_1177"
+   ana="lexicon.xml#lemma_722_sense_1177"
    pos="VRB"
-   wordRef="lexicon.xml#lemma_722_sense_1177_type_2239">bitte</w>
+   corresp="variants.xml#type_2239">bitte</w>
 ```
 
 ### What WZB currently has
@@ -55,7 +55,7 @@ The Wenzelsbibel (WZB) has been structurally transformed from WB-DEA source into
 
 ### Gap
 
-Every `<w>` needs: `@lemmaRef`, `@pos`. Later also: `@meaningRef`, `@wordRef`.
+Every `<w>` needs: `@lemmaRef`, `@pos`. Later also: `@ana`, `@corresp`.
 
 ## Data Profile
 
@@ -65,8 +65,8 @@ Every `<w>` needs: `@lemmaRef`, `@pos`. Later also: `@meaningRef`, `@wordRef`.
 | Source files (WB-DEA) | 5 |
 | Unique word forms (text content of `<w>`) | ~4,900 (Genesis alone) |
 | MHDBDB lexicon entries | 43,750 |
-| MHDBDB variant forms | 192,674 |
-| POS tag set | PRO, VRB, NOM, ADJ, ADV, DET, CNJ, PRP, VEX, POS, NAM, NUM (can be space-separated for multi-tag) |
+| MHDBDB variant forms | 175,910 |
+| POS tag set | PRO, VRB, NOM, ADJ, ADV, DET, CCNJ, SCNJ, PRP, VEX, POS, NAM, NUM, NEG, IPA, VEM, INJ, DIG (19-tag MHDBDB set) |
 
 ## Phased Plan
 
@@ -259,9 +259,11 @@ Words: [batch with positions]
 
 **QA:** Script validates that assigned POS is in the MHDBDB tag set. Julia spot-checks ~5% per chapter.
 
-### Phase 3: Word Sense Disambiguation — meaningRef + wordRef
+### Phase 3: Word Sense Disambiguation — @meaningRef + @wordRef (MHDBDB extensions)
 
 **Goal:** Assign `@meaningRef` and `@wordRef` to every annotated `<w>` element, achieving full MHDBDB conformance with semantic concept links and variant form references. The Wenzelsbibel serves as the first controlled testcase for LLM-assisted word sense disambiguation (WSD) in the MHDBDB pipeline — approximately one third of the entire MHDBDB corpus currently lacks these attributes.
+
+**Note on attribute naming:** The production MHDBDB corpus uses `@ana` (TEI-conformant, format `lexicon.xml#lemma_{ID}_sense_{SENSE_ID}`) and `@corresp` (format `variants.xml#type_{TYPE_ID}`) for sense and variant references. WZB uses the planned MHDBDB extension attributes `@meaningRef` and `@wordRef` (same data, different names) which are allowed by `schema/mhdbdb.rnc` (Stage 2) but fail TEI P5 `tei_all.rng` (Stage 1) — a documented trade-off (see `schema/README.md` GAP 15). Both conventions refer to the same underlying lexicon/variants data.
 
 **Research context:** Phase 3 is the subject of a doctoral research project (Hintersteiner, ongoing). The pipeline described below constitutes both the engineering contribution and the empirical testbed for evaluating LLM-assisted WSD on Middle High German historical texts.
 
@@ -554,7 +556,6 @@ Add a new entry to `authority-files/works.xml`:
   <title xml:lang="de">Wenzelsbibel</title>
   <title xml:lang="en">Wenceslas Bible</title>
   <idno type="sigle">WZB</idno>
-  <idno type="shelfmark">Wien, ÖNB, Cod. 2759-2764</idno>
   <ptr target="genres.xml#genre_93f5fac5"/>
   <author ref="persons.xml#person_anonym">Anonym</author>
 </bibl>
@@ -598,7 +599,7 @@ All annotation work happens on the `feature/wenzelsbibel-ingest` branch. Each ph
 ### Automated checks (script)
 - Every `@lemmaRef` value points to a real entry in `lexicon.xml`
 - Every `@pos` value is in the MHDBDB tag set
-- No `<w>` elements have `@meaningRef` without `@lemmaRef` (dependency order)
+- No `<w>` elements have `@ana` without `@lemmaRef` (dependency order)
 - Position counting: `<w>` elements with `@lemmaRef` must be countable by the corpus index builder (test with `scripts/build-corpus-index.py`)
 
 ### Manual checks (Julia)
@@ -619,7 +620,7 @@ All annotation work happens on the `feature/wenzelsbibel-ingest` branch. Each ph
 | `Wenzelsbibel/WB-DEA/*.xml` | Source reference (orig/norm forms, standOff) | Reference |
 | `authority-files/lexicon.xml` | Lemma ID lookup | 1, 2 |
 | `authority-files/variants.xml` | Normalized form → lemma mapping | 1 |
-| `authority-files/concepts.xml` | Semantic concepts for meaningRef | 3 |
+| `authority-files/concepts.xml` | Semantic concepts for @ana | 3 |
 | `authority-files/works.xml` | Needs WZB entry added | Pre-req |
 | `scripts/mhg_normalizer.py` | MHG text normalization (Python, parity with JS) | 1 |
 | `scripts/wzb-auto-match.py` | Auto-matching script (to be built) | 1 |
@@ -632,7 +633,7 @@ All annotation work happens on the `feature/wenzelsbibel-ingest` branch. Each ph
 | Phase 1 (auto-match) | 2-4 hours | Script + reviewing report |
 | Phase 1b (LLM disambiguation) | TBD after Phase 1 report | Depends on ambiguous/unmatched count — refine after auto-match |
 | Phase 2 (POS tagging) | TBD after Phase 1b | Depends on multi-POS lemma ratio — refine after Phase 1b |
-| Phase 3 (meaningRef + wordRef) | TBD | Deferred |
+| Phase 3 (ana + corresp) | TBD | Deferred |
 
 ## Open Questions
 

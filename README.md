@@ -1,11 +1,12 @@
-
 # MHDBDB TEI Repository
 
-TEI-encoded Middle High German literature texts with semantic annotations and **dual web interfaces** from the [Mittelhochdeutsche Begriffsdatenbank (MHDBDB)](https://www.mhdbdb.sbg.ac.at), University of Salzburg.
+TEI-encoded Middle High German literature texts with semantic annotations and **dual web interfaces** from the [Mittelhochdeutsche Begriffsdatenbank (MHDBDB)](https://mhdbdb.plus.ac.at), University of Salzburg.
+
+**Live:** [Main Site](https://dhcraft.org/mhdbdb-tei-only/) | [Playground](https://dhcraft.org/mhdbdb-tei-only/playground/)
 
 ## Overview
 
-Alle Inhalte basieren auf den Daten der [Mittelhochdeutschen Begriffsdatenbank (MHDBDB)](https://www.mhdbdb.sbg.ac.at) der Universität Salzburg – einem Forschungsprojekt mit über 50 Jahren mediävistischer Text- und Begriffsforschung.
+All data originates from the [Mittelhochdeutsche Begriffsdatenbank (MHDBDB)](https://mhdbdb.plus.ac.at) at the University of Salzburg — a research project with over 50 years of medievalist text and concept scholarship.
 
 ### Corpus Content
 - TEI-encoded texts of Middle High German literature
@@ -15,7 +16,7 @@ Alle Inhalte basieren auf den Daten der [Mittelhochdeutschen Begriffsdatenbank (
 
 ### Two Web Interfaces
 
-| Feature | **Main Site** ([index.html](index.html:1)) | **Playground** ([playground/](playground/index.html:1)) |
+| Feature | **Main Site** ([index.html](index.html)) | **Playground** ([playground/](playground/index.html)) |
 |---------|------------------------|------------------|
 | **Purpose** | Public search & reading | Advanced research & analysis |
 | **Data** | Pre-built indices | Pre-built authority index + lazy-loaded TEI |
@@ -43,7 +44,7 @@ npm run serve
 ### Build Indices (Optional)
 Pre-built indices are included. To rebuild:
 ```bash
-npm run build              # Build all indices
+npm run build              # Build CSS + all indices + manifest
 npm run build:authority    # Build authority index only
 npm run build:corpus       # Build corpus index only
 npm run validate:indices   # Validate generated indices
@@ -60,13 +61,13 @@ npm run test:headed        # Run with visible browser
 TEI files reference authority data via `xml:id`:
 ```xml
 <author ref="#person_445">Meister Eckhart</author>
-<w lemma="vriunt" ana="#concept_12345">vriunt</w>
+<w lemmaRef="lexicon.xml#lemma_38952" pos="N" ana="lexicon.xml#lemma_38952_sense_1">vriunt</w>
 ```
 
 ### XPath Examples
 ```xpath
-//tei:persName[@type='preferred']  # All preferred person names
-//tei:w[@lemma='vriunt']           # All instances of 'vriunt'
+//tei:persName[@type='preferred']                    # All preferred person names
+//tei:w[contains(@lemmaRef, 'lemma_38952')]          # All tokens linked to lemma 'vriunt'
 ```
 
 ## Authority Files
@@ -80,6 +81,17 @@ TEI files reference authority data via `xml:id`:
 | **genres.xml** | Literary genres (taxonomy) |
 | **names.xml** | Proper names with semantic relations |
 | **variants.xml** | Orthographic variants mapped to lemmas |
+
+## Schema
+
+Custom RELAX NG schemas validate all TEI files in the repository:
+
+| Schema | Validates | Files |
+|--------|-----------|-------|
+| [`mhdbdb.rnc`](schema/mhdbdb.rnc) | Corpus texts (`tei/*.tei.xml`) | 666 |
+| [`mhdbdb-authority.rnc`](schema/mhdbdb-authority.rnc) | Authority files (`authority-files/*.xml`) | 8 |
+
+The schemas constrain standard TEI attributes to MHDBDB conventions (required `@xml:id` on `<w>`, `@join` on `<pc>`, allowed `div/@type` values, etc.). See [`schema/README.md`](schema/README.md) for rationale and design decisions.
 
 ## Architecture
 
@@ -116,6 +128,12 @@ All search functions use centralized MHG character normalization:
 
 ## License & Contact
 
-**License:** [CC BY-NC-SA 3.0 AT](https://creativecommons.org/licenses/by-nc-sa/3.0/at/)
+**License:** [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 **Contact:** mhdbdb@plus.ac.at | https://mhdbdb.plus.ac.at
 **Project:** University of Salzburg, 50+ years of medievalist research
+
+## Acknowledgement
+
+This project was supported by [CLARIAH-AT](https://clariah.at/de/).
+
+CLARIAH-AT provides essential infrastructure and support for digital humanities research in Austria. We gratefully acknowledge this contribution.

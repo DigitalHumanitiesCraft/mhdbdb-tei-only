@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "test": "cd testing && playwright test",
+    "test:quick": "cd testing && playwright test main-site.spec.js playground.spec.js corpus.spec.js",
     "test:ui": "cd testing && playwright test --ui",
     "test:debug": "cd testing && playwright test --debug",
     "test:headed": "cd testing && playwright test --headed",

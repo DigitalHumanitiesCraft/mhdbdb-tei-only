@@ -39,7 +39,7 @@ mhdbdb-tei-only/
 │   │   ├── storage/       # TEI cache manager
 │   │   └── lib/           # Shared utilities (corpus-loader, text-normalizer)
 │   └── images/            # Static images
-├── authority-files/       # 7 XML authority files
+├── authority-files/       # 8 XML authority files (inkl. contributors.xml)
 ├── tei/                   # TEI corpus files
 ├── data/                  # Pre-built indexes (generated)
 ├── scripts/               # Python build scripts
@@ -111,6 +111,7 @@ npm run report        # View HTML report
 ```
 
 **Test configuration:** `testing/playwright.config.js`
+- Always use `npm test` — never `npx playwright test` from the project root (config and `baseURL` live in `testing/`)
 - Automated web server startup (port 8080)
 - Headless Chrome with `--disable-web-security`
 - 60-second timeout per test
@@ -136,6 +137,26 @@ npm run report        # View HTML report
 | `visual-mobile-test.spec.js` | Visual | Responsive layout (skipped — desktop-only) |
 
 **Playwright config** (`testing/playwright.config.js`): Headless Chromium, 1 worker (sequential), 60s timeout per test, auto-starts `http-server` on port 8080. HTML + JSON reports.
+
+### CI: Schema Validation
+
+**Workflow:** `.github/workflows/schema-validation.yml`
+**Triggers:** PRs touching `schema/`, `tei/`, `authority-files/`, or `scripts/audit/validate-corpus.py`. Also manual via `workflow_dispatch`.
+
+**Two checks:**
+
+1. **RNC→RNG sync check** — Regenerates `.rng` from `.rnc` sources and fails if committed `.rng` differs. Catches "edited RNC, forgot to regenerate RNG" drift.
+
+2. **Two-stage RelaxNG validation** — Validates all 666 corpus + 8 authority files:
+   - Stage 1: `tei_all.rng` (TEI P5 baseline) — 30 known fails (#30 baseline), warnings only
+   - Stage 2: `mhdbdb.rng` / `mhdbdb-authority.rng` (project schemas) — **hard gate, must be 0 fails**
+
+**TEI version pin:** CI downloads `tei_all.rng` fresh from TEI Consortium on each run and verifies it matches the pinned version (currently 4.11.0). A new TEI P5 release triggers a CI failure until the pin is explicitly bumped.
+
+**Debugging failures:**
+- RNG drift → run `python -m rnc2rng schema/mhdbdb.rnc > schema/mhdbdb.rng` locally, commit the result
+- Stage 2 fail → run `python scripts/audit/validate-corpus.py --sample <SIGLE>` locally to reproduce
+- TEI version mismatch → update the `EXPECTED` variable in the workflow + `schema/README.md`
 
 ### Skipped Tests (Issue #43)
 
@@ -258,7 +279,7 @@ The MHDBDB project originally maintained data in multiple formats (RDF, relation
 3. Transform to TEI with consistent cross-reference patterns
 4. Validate against TEI P5 schema
 
-**Output:** 7 TEI authority files in `authority-files/` directory
+**Output:** 7 inhaltstragende TEI authority files in `authority-files/` directory (the 8th, `contributors.xml`, was added later in 2026-04-14 as part of the editor-attribution feature and is not part of this legacy export)
 
 **Status:** Archived (completed, preserved for reference)
 

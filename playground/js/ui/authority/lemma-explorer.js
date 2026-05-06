@@ -15,7 +15,6 @@ import {
   SearchPatterns,
 } from "../search/SearchHelpers.js";
 
-import { displayResults } from "../core/ui-helpers.js";
 
 export class LemmaExplorer {
   constructor(authorityData) {
@@ -32,21 +31,41 @@ export class LemmaExplorer {
 
   showAllLemmata() {
     const displayCount = Math.min(100, this.authorityData.lemmata.length);
-    const results = this.authorityData.lemmata
+    const resultHTML = this.authorityData.lemmata
       .slice(0, displayCount)
-      .map((l) => ({
-        meta: formatMetadata([
-          `ID: ${l.id}`,
-          l.pos ? `POS: ${l.pos}` : null,
-          l.senseCount ? `${l.senseCount} Bedeutungen` : null,
-        ]),
-        snippet: l.lemma,
-      }));
+      .map((l) =>
+        generateResultItem({
+          meta: formatMetadata([
+            `ID: ${l.id}`,
+            l.pos ? `POS: ${l.pos}` : null,
+            l.senseCount ? `${l.senseCount} Bedeutungen` : null,
+          ]),
+          title: `<a href="../lemma/?id=${l.id.replace(/^lemma_/, '')}" target="_blank" rel="noopener" class="text-brand-700 hover:text-brand-900 hover:underline">${l.lemma}</a>`,
+          buttons: [
+            ...(l.senseCount > 0
+              ? [
+                  {
+                    text: "Bedeutungen anzeigen",
+                    action: `window.playground.ui.authorityExplorers.showLemmaSenses('${l.id}')`,
+                  },
+                ]
+              : []),
+            {
+              text: "MEHR \u2192",
+              action: `window.open('../lemma/?id=${l.id.replace(/^lemma_/, '')}', '_blank')`,
+            },
+          ],
+          detailsId: `senses-${l.id}`,
+        })
+      )
+      .join("");
 
-    displayResults(
-      `Lemmata aus Authority Files (erste ${displayCount} von ${this.authorityData.lemmata.length})`,
-      results
-    );
+    const header = `<div class="rounded-xl bg-slate-50/80 px-4 py-2 text-sm font-medium text-slate-600">
+      <span>Lemmata-Explorer</span>
+      <span class="ml-2 text-sm uppercase tracking-wide text-slate-600">erste ${displayCount} von ${this.authorityData.lemmata.length}</span>
+    </div>`;
+
+    renderToContainer("resultsContainer", header + `<div class="space-y-3">${resultHTML}</div>`);
   }
 
   showLemmataWithSearch() {
@@ -92,16 +111,21 @@ export class LemmaExplorer {
             lemma.pos ? `POS: ${lemma.pos}` : null,
             lemma.senseCount ? `${lemma.senseCount} Bedeutungen` : null,
           ]),
-          title: lemma.lemma,
-          buttons:
-            lemma.senseCount > 0
+          title: `<a href="../lemma/?id=${lemma.id.replace(/^lemma_/, '')}" target="_blank" rel="noopener" class="text-brand-700 hover:text-brand-900 hover:underline">${lemma.lemma}</a>`,
+          buttons: [
+            ...(lemma.senseCount > 0
               ? [
                   {
                     text: "Bedeutungen anzeigen",
                     action: `window.playground.ui.authorityExplorers.showLemmaSenses('${lemma.id}')`,
                   },
                 ]
-              : [],
+              : []),
+            {
+              text: "MEHR \u2192",
+              action: `window.open('../lemma/?id=${lemma.id.replace(/^lemma_/, '')}', '_blank')`,
+            },
+          ],
           detailsId: `senses-${lemma.id}`,
         })
       )

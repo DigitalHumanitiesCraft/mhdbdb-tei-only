@@ -40,7 +40,7 @@ test.describe('Cross-Reference Functionality', () => {
     test('Lemma to Concept cross-reference', async ({ page }) => {
         // Check if lemmata have concept annotations
         const hasConceptLinks = await page.evaluate(() => {
-            const lemmata = window.playground.authorityData.lemmata;
+            const lemmata = window.playground.authorityManager.authorityData.lemmata;
             return lemmata && lemmata.some(l => l.concepts && l.concepts.length > 0);
         });
         
@@ -54,42 +54,40 @@ test.describe('Cross-Reference Functionality', () => {
     });
 
     test('TEI text to Authority data linking', async ({ page }) => {
-        // Load corpus
-        await page.click('#loadCorpusBtn');
-        await page.waitForFunction(() => {
-            const btn = document.getElementById('loadCorpusBtn');
-            return btn && btn.textContent.includes('✅');
-        }, { timeout: 15000 });
-        
-        // Check if TEI texts have lemma references
-        const hasLemmaRefs = await page.evaluate(() => {
-            const teiData = window.playground.teiData;
-            if (!teiData.parsedXML || teiData.parsedXML.length === 0) return false;
-            
-            const firstText = teiData.parsedXML[0];
-            return firstText && firstText.metadata && firstText.metadata.lemmaCount > 0;
+        // Wait for corpus to auto-load
+        await page.waitForSelector('#fileBrowserSection', { state: 'visible', timeout: 60000 });
+
+        // Check if corpus texts have lemma data via lemmaIndex
+        const hasLemmaData = await page.evaluate(() => {
+            // Auto-load stores corpus in corpusData, not teiData.parsedXML
+            const corpusData = window.playground.corpusData;
+            if (!corpusData || !corpusData.texts || corpusData.texts.length === 0) return false;
+
+            // Check lemmaIndex — maps lemma IDs to document occurrences
+            const lemmaIndex = corpusData.lemmaIndex;
+            return lemmaIndex && Object.keys(lemmaIndex).length > 0;
         });
-        
-        expect(hasLemmaRefs).toBe(true);
-        console.log('✅ TEI texts have lemma references to authority data');
+
+        expect(hasLemmaData).toBe(true);
+        console.log('✅ Corpus texts have lemma references to authority data');
     });
 
     test('Orthographic variants to canonical lemma', async ({ page }) => {
         // Test the 3-stage resolution: exact/variants/fuzzy
         const variantResolution = await page.evaluate(async () => {
             const authorityManager = window.playground.authorityManager;
-            
+
             // Test Stage 2: Variant resolution
             // "brott" is a variant spelling of "brôt" (lemma_879)
-            const result = await authorityManager.searchLemmaByOrthography('brott');
-            
+            const results = authorityManager.searchLemmaByOrthography('brott');
+
             return {
-                found: result !== null,
-                lemmaId: result ? result.id : null,
-                lemma: result ? result.lemma : null
+                found: results && results.length > 0,
+                lemmaId: results && results[0] ? results[0].id : null,
+                lemma: results && results[0] ? results[0].lemma : null
             };
         });
-        
+
         expect(variantResolution.found).toBe(true);
         console.log(`✅ Variant resolution works: "brott" → lemma "${variantResolution.lemma}"`);
     });

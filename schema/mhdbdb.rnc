@@ -54,12 +54,11 @@ titleStmt = element titleStmt {
         text
     }+,
     element author { attribute ref { text }?, mixed { (element name { text })* } }*,
-    # GAP 18: multiple <respStmt> elements (e.g. separate statements for transformation and annotation)
     element respStmt {
         element resp { text },
-        (element name { attribute ref { xsd:anyURI }?, attribute xml:lang { text }?, text }
+        (element name { attribute ref { xsd:anyURI }?, attribute role { text }?, attribute xml:lang { text }?, text }
          | element orgName { attribute ref { xsd:anyURI }?, text })+
-    }*
+    }+
 }
 
 # publicationStmt: flexible ordering — all children optional, any order
@@ -80,11 +79,12 @@ publicationStmt = element publicationStmt {
     | element authority {
         element persName {
             attribute role { text }?,
+            attribute ref { xsd:anyURI }?,
             mixed {
                 (element forename { text }?,
                  element surname { text }?)?
             }
-        }
+        }+
     }
     | element availability {
         attribute status { text }?,
@@ -97,16 +97,14 @@ publicationStmt = element publicationStmt {
     | p.header)*
 }
 
-# GAP 16a (WZB): <msIdentifier> may contain <settlement> and <repository>
-# (standard TEI <msDesc> fields, not present in the pre-WZB corpus)
 sourceDesc = element sourceDesc {
     element msDesc {
         element msIdentifier {
-            attribute corresp { text }?,
+            # @corresp verweist verpflichtend auf works.xml#work_N (TEI-MODEL.md §2.1).
+            # Audit 2026-04-15: 666/666 Korpus-Dateien haben @corresp gesetzt.
+            attribute corresp { xsd:anyURI },
             (element idno { attribute type { text }, text }
-             | element msName { attribute xml:lang { text }?, text }
-             | element settlement { text }
-             | element repository { text })*
+             | element msName { attribute xml:lang { text }?, text })*
         },
         element additional {
             element listBibl {
@@ -148,7 +146,7 @@ biblStruct = element biblStruct {
         element title { attribute level { text }?, text },
         element biblScope { attribute unit { text }?, text }*
      }?,
-     element note { attribute type { text }?, text }*)
+     element note { text }*)
 }
 
 bibl = element bibl {
@@ -204,7 +202,7 @@ profileDesc = element profileDesc {
                 attribute xml:id { xsd:NCName },
                 attribute corresp { text }?,
                 element persName {
-                    attribute type { text }?,
+                    attribute type { "preferred" | "alternative" }?,
                     attribute role { text }?,
                     attribute xml:lang { text }?,
                     mixed {
@@ -221,12 +219,10 @@ profileDesc = element profileDesc {
 
 # --- revisionDesc ---
 
-# GAP 16b (WZB): <change> may carry @n for version numbering
 revisionDesc = element revisionDesc {
     element change {
         attribute when { text },
         attribute who { text },
-        attribute n { text }?,
         text
     }+
 }
@@ -252,8 +248,19 @@ date.element = element date {
 # ============================================================
 
 inline.model =
-    w | pc | hi | lb | pb | cb | caesura | milestone | supplied | num
-    | note | lg | l | head | fw | unclear | surplus | foreign | del
+    w | pc | hi | lb | pb | cb | caesura | supplied | num
+    | note | lg | l | head
+
+# Content model for <hi>: identical to inline.model, but WITHOUT hi
+# itself. Rationale: <hi> used to allow arbitrary inline.model content
+# (including further <hi>), which made RelaxNG matching non-linear on
+# files with nested <hi>. All nested <hi>/<hi> cases in the corpus
+# were flattened via scripts/_archived/flatten-nested-hi.py (2026-04-15),
+# so the recursion is no longer needed. Keeping lg/l/head/note permissive
+# here so future data can still carry them inside a highlight if needed.
+hi.content.model =
+    w | pc | lb | pb | cb | caesura | supplied | num
+    | note | lg | l | head
 
 # ============================================================
 # Body content model
@@ -262,31 +269,24 @@ inline.model =
 # GAP 2: body and div have inline children directly in 137+ files
 # Note: body.content includes both block and inline elements because
 # some texts have <w>, <pc>, <l> etc. directly under <body> or <div>.
-body.content = mixed { (tei.div | p | lg | l | head | ab | fw | w | pc | hi | lb | pb | cb | caesura | milestone | supplied | num | note)* }
+body.content = mixed { (tei.div | p | lg | l | head | ab | w | pc | hi | lb | pb | cb | caesura | supplied | num | note)* }
 
 # GAP 1: div/@type is optional (154 files, 2179 elements without @type)
 # 'tei.div' not 'div' — 'div' is a reserved keyword in RELAX NG Compact
-# GAP 12 (WZB): additional div types for biblical / paratext structure
 tei.div = element div {
-    attribute type { "chapter" | "section" | "number" | "song" | "parallel" | "colophon" | "recipe"
-                   | "book" | "paratext" | "prologus" }?,
-    attribute xml:id { xsd:NCName }?,
+    attribute type { "chapter" | "section" | "number" | "song" | "parallel" | "colophon" | "recipe" }?,
     attribute n { text }?,
-    mixed { (tei.div | p | lg | l | head | ab | fw | w | pc | hi | lb | pb | cb | caesura | milestone | supplied | num | note)* }
+    mixed { (tei.div | p | lg | l | head | ab | w | pc | hi | lb | pb | cb | caesura | supplied | num | note)* }
 }
 
 # GAP 4: <p> can contain <div> (7 files, 27 elements)
-# GAP 16c (WZB): <p> may carry @ana for paragraph-type annotation
 p = element p {
     attribute n { text }?,
     attribute xml:lang { text }?,
-    attribute ana { text }?,
     mixed { (tei.div | inline.model)* }
 }
 
 head = element head {
-    attribute type { text }?,
-    attribute n { text }?,
     mixed { inline.model* }
 }
 
@@ -312,11 +312,6 @@ w = element w {
     attribute xml:id { xsd:NCName },
     attribute lemmaRef { text }?,
     attribute pos { text }?,
-    # GAP 15: meaningRef / wordRef are planned MHDBDB extensions — NOT TEI P5 attributes.
-    # Stage 1 (tei_all.rng) will reject them. @ana is the current production attribute
-    # and is standard TEI (att.global.analytic). Keep @ana for all existing corpus files.
-    attribute meaningRef { text }?,
-    attribute wordRef { text }?,
     attribute ana { text }?,
     attribute corresp { text }?,
     attribute reason { text }?,
@@ -332,7 +327,7 @@ pc = element pc {
 
 hi = element hi {
     attribute rend { text },
-    mixed { inline.model* }
+    mixed { hi.content.model* }
 }
 
 supplied = element supplied {
@@ -354,44 +349,7 @@ note = element note {
 # Milestone elements
 # ============================================================
 
-# GAP 16d (WZB): <lb> and <pb> may carry @facs linking to facsimile zones
-lb = element lb { attribute n { text }?, attribute facs { text }?, empty }
-pb = element pb { attribute n { text }?, attribute type { text }?, attribute facs { text }?, empty }
+lb = element lb { attribute n { text }?, empty }
+pb = element pb { attribute n { text }?, attribute type { text }?, empty }
 cb = element cb { attribute n { text }?, attribute type { text }?, empty }
 caesura = element caesura { attribute xml:id { xsd:NCName }?, empty }
-
-# GAP 13 (WZB): inline chapter-position markers (CAPITULUM apparatus)
-milestone = element milestone {
-    attribute unit { text },
-    attribute n { text }?,
-    attribute xml:id { xsd:NCName }?,
-    empty
-}
-
-# GAP 14 (WZB + any manuscript with running heads): forme work
-fw = element fw {
-    attribute type { text }?,
-    attribute n { text }?,
-    mixed { inline.model* }
-}
-
-# GAP 17 (WZB): editorial markup for uncertain, surplus, foreign, and deleted text
-unclear = element unclear {
-    attribute reason { text }?,
-    mixed { inline.model* }
-}
-
-surplus = element surplus {
-    attribute reason { text }?,
-    mixed { inline.model* }
-}
-
-foreign = element foreign {
-    attribute xml:lang { text }?,
-    mixed { inline.model* }
-}
-
-del = element del {
-    attribute rend { text }?,
-    mixed { inline.model* }
-}

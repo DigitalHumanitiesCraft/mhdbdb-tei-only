@@ -38,6 +38,9 @@ class LemmaPage {
             compoundsSection: document.getElementById('compoundsSection'),
             compoundsCount: document.getElementById('compoundsCount'),
             compoundsContent: document.getElementById('compoundsContent'),
+            similarLemmataSection: document.getElementById('similarLemmataSection'),
+            similarLemmataCount: document.getElementById('similarLemmataCount'),
+            similarLemmataContent: document.getElementById('similarLemmataContent'),
         };
     }
 
@@ -104,6 +107,7 @@ class LemmaPage {
             // Render variants, compounds, and navigation (from authority index)
             this.renderVariants(lemmaKey);
             this.renderCompounds(lemmaKey);
+            this.renderSimilarLemmata(lemma);
 
             // Load corpus index for occurrences (non-blocking)
             this.updateLoading('Lade Belegstellen...', 80);
@@ -348,6 +352,62 @@ class LemmaPage {
             const numId = c.id.replace('lemma_', '');
             return `<a href="?id=${numId}"
                 class="inline-block bg-slate-100 px-2 py-0.5 rounded text-xs mr-1 mb-1 hover:bg-brand-50 hover:text-brand-700 transition">${c.lemma}</a>`;
+        }).join('');
+    }
+
+    renderSimilarLemmata(lemma) {
+        if (!lemma.senses || lemma.senses.length === 0) return;
+
+        // Collect all unique concept IDs from this lemma's senses
+        const myConceptIds = new Set();
+        for (const sense of lemma.senses) {
+            if (sense.conceptIds) {
+                for (const cid of sense.conceptIds) myConceptIds.add(cid);
+            }
+        }
+        if (myConceptIds.size === 0) return;
+
+        // Find other lemmata with overlapping concepts
+        const similar = [];
+        for (const other of this.authorityIndex.lemmata) {
+            if (other.id === lemma.id || !other.senses) continue;
+
+            const shared = new Set();
+            for (const sense of other.senses) {
+                if (!sense.conceptIds) continue;
+                for (const cid of sense.conceptIds) {
+                    if (myConceptIds.has(cid)) shared.add(cid);
+                }
+            }
+
+            if (shared.size > 0) {
+                similar.push({ lemma: other, overlap: shared.size });
+            }
+        }
+        if (similar.length === 0) return;
+
+        // Sort by overlap (desc), then alphabetically for ties
+        similar.sort((a, b) =>
+            b.overlap - a.overlap || a.lemma.lemma.localeCompare(b.lemma.lemma)
+        );
+
+        // Cap at top N
+        const maxDisplay = 50;
+        const totalCount = similar.length;
+        const displayed = similar.slice(0, maxDisplay);
+
+        this.elements.similarLemmataSection.classList.remove('hidden');
+        this.elements.similarLemmataCount.textContent =
+            totalCount > maxDisplay
+                ? `(${maxDisplay} von ${totalCount})`
+                : `(${totalCount})`;
+
+        this.elements.similarLemmataContent.innerHTML = displayed.map(({ lemma: l, overlap }) => {
+            const numId = l.id.replace('lemma_', '');
+            const tooltip = `${overlap} gemeinsame Begriffszuordnung${overlap === 1 ? '' : 'en'}`;
+            return `<a href="?id=${numId}"
+                class="inline-block bg-slate-100 px-2 py-0.5 rounded text-xs mr-1 mb-1 hover:bg-brand-50 hover:text-brand-700 transition"
+                title="${tooltip}">${l.lemma}</a>`;
         }).join('');
     }
 

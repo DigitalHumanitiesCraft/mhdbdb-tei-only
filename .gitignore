@@ -7,11 +7,15 @@ yarn-error.log*
 
 # Testing and development (keep testing code, ignore results)
 test-results/
+screenshots/
 testing/test-results/
 testing/test-summary.txt
 testing/tests/*.json
 testing/tests/*.png
 testing/screenshots/
+
+# Claude Code local settings (machine-specific permissions)
+.claude/settings.local.json
 
 # IDE and editor files
 # .vscode/
@@ -66,10 +70,15 @@ out/
 *.backup
 __pycache__/
 
-# Data wrangling cache files
-scripts/data-wrangling/.zotero_cache.json
+# Zotero API cache
+scripts/sync/.zotero_cache.json
+
+# Audit script outputs (regenerated on each run)
+scripts/audit/*.json
+scripts/audit/*-REPORT.md
 
 # Debug and manual test files
 nul
 testing/manual-*.html
 testing/test-debug.html
+schema/tei_all.rng

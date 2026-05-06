@@ -27,7 +27,7 @@
     <div id="loadingScreen" class="loading-screen">
         <div class="loading-content">
             <div class="spinner-large spinner"></div>
-            <h2 class="text-xl font-semibold text-slate-800">Corpus wird geladen...</h2>
+            <h2 class="text-xl font-semibold text-slate-800">Korpus wird geladen...</h2>
             <p id="loadingStatus" class="loading-message">Initialisiere Datenbank...</p>
             <div class="progress-bar-container">
                 <div id="loadingProgress" class="progress-bar" style="width: 0%"></div>
@@ -50,13 +50,13 @@
                         Startseite
                     </a>
                     <a href="korpus.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
-                        Korpus
+                        Korpussuche
                     </a>
                     <a href="playground/index.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
                         Playground
                     </a>
-                    <a href="index.html#documentation" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
-                        Dokumentation
+                    <a href="hilfe.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                        Hilfe
                     </a>
                     <a href="index.html#contact" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
                         Kontakt
@@ -78,13 +78,13 @@
                         Startseite
                     </a>
                     <a href="korpus.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
-                        Korpus
+                        Korpussuche
                     </a>
                     <a href="playground/index.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
                         Playground
                     </a>
-                    <a href="index.html#documentation" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
-                        Dokumentation
+                    <a href="hilfe.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                        Hilfe
                     </a>
                     <a href="index.html#contact" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
                         Kontakt
@@ -108,8 +108,11 @@
 
             <!-- Search Input -->
             <div>
-                <label for="searchInput" class="block text-sm font-semibold text-slate-700 mb-2">
+                <label for="searchInput" class="flex items-center gap-1.5 text-sm font-semibold text-slate-700 mb-2">
                     Suche nach Wort oder Lemma:
+                    <a href="hilfe-korpussuche.html#lemma-suche" target="_blank" rel="noopener" class="help-icon" aria-label="Hilfe zur Lemma-Suche" title="Hilfe zur Lemma-Suche">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    </a>
                 </label>
                 <div class="flex flex-col sm:flex-row gap-3">
                     <input
@@ -151,6 +154,8 @@
                         <button id="selectAllTexts" class="text-xs font-medium text-brand-600 hover:text-brand-700 transition">Alle</button>
                         <span class="text-slate-300">|</span>
                         <button id="selectNoneTexts" class="text-xs font-medium text-brand-600 hover:text-brand-700 transition">Keine</button>
+                        <span id="selectOnlyVisibleSep" class="text-slate-300" style="display: none;">|</span>
+                        <button id="selectOnlyVisible" class="text-xs font-medium text-brand-600 hover:text-brand-700 transition" style="display: none;">Nur diese</button>
                     </div>
                 </div>
 
@@ -171,13 +176,14 @@
                 </div>
 
                 <!-- Selection Summary -->
-                <div class="flex items-center justify-between text-xs text-slate-600 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2">
-                    <span><span id="selectedTextCount" class="font-semibold text-brand-600">666</span> / 666 Texte ausgewählt</span>
+                <div class="flex items-center justify-between text-sm text-slate-700 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2">
+                    <span><span id="selectedTextCount" class="font-bold text-lg text-brand-600">666</span> / <span id="totalTextCount">666</span> Texte ausgewählt</span>
                     <span id="filterInfoText" style="display: none;" class="text-slate-500">
                         <span id="visibleTextCount">0</span> Texte sichtbar
                         <button id="clearTextFilter" class="text-brand-600 hover:text-brand-700 font-medium ml-2">Filter löschen</button>
                     </span>
                 </div>
+                <p class="text-xs text-slate-500 mt-1">Tipp: Um nur in bestimmten Texten zu suchen, klicken Sie oben auf „Keine" und wählen Sie dann die gewünschten Texte aus.</p>
             </div>
         </section>
 
@@ -249,11 +255,14 @@
             <section id="readingPanel" class="rounded-3xl border border-slate-200 bg-white/95 shadow-sm ring-1 ring-slate-100/40 overflow-hidden">
                 <!-- Reading Header with Title -->
                 <div class="reading-header p-6 border-b border-slate-200">
-                    <div class="flex items-center justify-between">
+                    <div class="flex items-center justify-between gap-3">
                         <div>
                             <h3 id="readingTitle" class="text-2xl font-semibold text-slate-900"></h3>
                             <p id="readingAuthor" class="text-sm text-slate-600 mt-1"></p>
                         </div>
+                        <a href="hilfe-korpussuche.html#reading-view" target="_blank" rel="noopener" class="help-icon" aria-label="Hilfe zum Reading View" title="Hilfe zum Reading View">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        </a>
                     </div>
                 </div>
 
@@ -261,7 +270,7 @@
             <div id="readingLoading" class="hidden p-12 flex flex-col items-center justify-center gap-4">
                 <div class="spinner"></div>
                 <p class="loading-message">Lade Text...</p>
-                <p class="text-sm text-slate-500">Dies kann 30-60 Sekunden dauern</p>
+                <p class="text-sm text-slate-500">Beim ersten Aufruf einige Sekunden, danach aus dem Cache</p>
             </div>
 
             <!-- Metadata Section -->
@@ -305,9 +314,9 @@
             <div class="flex flex-col md:flex-row justify-between items-center gap-6">
                 <div class="text-center md:text-left">
                     <p class="text-sm mb-2">
-                        © 2025 Universität Salzburg |
-                        <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/at/" class="hover:text-brand-600 transition" target="_blank" rel="noopener">
-                            CC BY-NC-SA 3.0 AT
+                        Universität Salzburg, 2025–<span class="current-year">2026</span> |
+                        <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="hover:text-brand-600 transition" target="_blank" rel="noopener">
+                            CC BY-NC-SA 4.0
                         </a>
                     </p>
                     <div class="flex flex-wrap justify-center md:justify-start gap-4 text-sm text-slate-600">
@@ -320,6 +329,8 @@
                         <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only" class="hover:text-brand-600 transition" target="_blank" rel="noopener">
                             GitHub
                         </a>
+                        <span>|</span>
+                        <a href="impressum.html" class="hover:text-brand-600 transition">Impressum</a>
                     </div>
                 </div>
                 <button
@@ -330,7 +341,7 @@
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
                     </svg>
-                    <span>Clear Site Data</span>
+                    <span>Website-Daten löschen</span>
                 </button>
             </div>
         </div>
@@ -375,5 +386,6 @@
     <!-- Application Scripts (ES Modules) -->
     <script type="module" src="assets/js/app.js"></script>
 
+    <script>document.querySelectorAll('.current-year').forEach(el => { const y = new Date().getFullYear(); if (y > 2025) el.textContent = y; });</script>
 </body>
 </html>

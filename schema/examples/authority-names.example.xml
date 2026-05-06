@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Names example: demonstrates taxonomy structure in names.xml
-     Validates against: tei_all.rng + mhdbdb-authority.rnc
-     IDs use 8-digit hierarchical format: name_NNNNNNNN
-     Unique: has cross-file pointers to concepts.xml (closeMatch, exactMatch) -->
+<!-- Namen-Beispiel: zeigt Taxonomie-Struktur in names.xml
+     Validiert gegen: tei_all.rng + mhdbdb-authority.rnc
+     IDs nutzen 8-stelliges hierarchisches Format: name_NNNNNNNN
+     Besonderheit: enthält Cross-File-Zeiger auf concepts.xml (closeMatch, exactMatch) -->
 <TEI xmlns="http://www.tei-c.org/ns/1.0">
   <teiHeader>
     <fileDesc>
@@ -13,9 +13,9 @@
     <encodingDesc>
       <classDecl>
         <taxonomy xml:id="mhdbdb-names">
-          <desc>MHDBDB onomastic system (proper names)</desc>
+          <desc>Onomastisches System der MHDBDB</desc>
 
-          <!-- Top-level category -->
+          <!-- Top-Level-Kategorie -->
           <category xml:id="name_40000000">
             <catDesc>
               <term xml:lang="de">Eigennamen</term>
@@ -23,7 +23,7 @@
             </catDesc>
           </category>
 
-          <!-- Subcategory with broader pointer (internal) -->
+          <!-- Unterkategorie mit broader-Zeiger (intern) -->
           <category xml:id="name_41000000">
             <catDesc>
               <term xml:lang="de">Personennamen</term>
@@ -32,18 +32,18 @@
             </catDesc>
           </category>
 
-          <!-- Category with cross-file pointers to concepts.xml -->
+          <!-- Kategorie mit Cross-File-Zeigern auf concepts.xml -->
           <category xml:id="name_41100000">
             <catDesc>
               <term xml:lang="de">Vornamen</term>
               <term xml:lang="en">First Names</term>
               <ptr type="broader" target="#name_41000000"/>
-              <!-- exactMatch: this name category corresponds to a concept -->
+              <!-- exactMatch: diese Namens-Kategorie entspricht einem Konzept -->
               <ptr type="exactMatch" target="concepts.xml#concept_11100000"/>
             </catDesc>
           </category>
 
-          <!-- Category with closeMatch (approximate correspondence) -->
+          <!-- Kategorie mit closeMatch (näherungsweise Entsprechung) -->
           <category xml:id="name_41200000">
             <catDesc>
               <term xml:lang="de">Familiennamen</term>

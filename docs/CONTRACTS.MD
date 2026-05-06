@@ -102,7 +102,7 @@ For each <w lemmaRef="lexicon.xml#lemma_X">:
 
 ### JavaScript (runtime)
 
-Source: `assets/js/rendering/tei-text-reader.js:394-401, 509-515`
+Source: `extractAndFormatBody()` / `processWord()` in `assets/js/rendering/tei-text-reader.js`
 
 ```
 Recursive DOM traversal of <body> children:
@@ -124,7 +124,7 @@ Recursive DOM traversal of <body> children:
     <w lemmaRef="lexicon.xml#lemma_100">Der</w>        <!-- position 0 -->
     <w>unbekannt</w>                                     <!-- SKIPPED (no lemmaRef) -->
     <w lemmaRef="lexicon.xml#lemma_879">brôt</w>        <!-- position 1 -->
-    <seg type="pc">,</seg>                               <!-- not a <w>, ignored -->
+    <pc join="left">,</pc>                                <!-- not a <w>, ignored -->
     <w lemmaRef="lexicon.xml#lemma_200">ist</w>         <!-- position 2 -->
   </p>
 </body>
@@ -199,6 +199,119 @@ User types: **brott**
 - ~176,000 entries, extracted from `authority-files/variants.xml`
 - **First occurrence wins** — if two lemmata claim the same variant form, only the first one stored (source: `build-authority-index.py:526-571`)
 - Keys are **normalized** forms (lowercase + MHG character mapping applied before storage)
+
+---
+
+## C.2 Multi-Lemma Deduplication
+
+**Contract:** When a search resolves to multiple lemma IDs, results MUST be deduplicated by text and match counts aggregated before display. Two separate dedup algorithms exist for two different contexts.
+
+**Why:** A single user search can resolve to multiple lemmata (e.g., homographs, or variant → multiple canonical forms). Without dedup, the same text appears multiple times in results — confusing and inflating counts.
+
+### C.2.1 Main Site: Dedup by textId
+
+Source: `assets/js/app.js:409-427`
+
+**Trigger:** User searches on `korpus.html`. `SearchEngine.searchLemma()` returns one result per (textId, lemmaId) pair. When N lemmata match, the same text can appear N times.
+
+```
+function deduplicateResults(rawResults):
+    // rawResults = [{textId, lemmaId, matchCount, ...}, ...]
+    // Multiple entries per textId when search resolved to >1 lemmaId
+
+    lemmaSet = new Set()       // unique lemmata found
+    textMap = new Map()        // textId → aggregated result
+
+    for each result in rawResults:
+        lemmaSet.add(result.lemmaId)
+
+        if textMap.has(result.textId):
+            existing = textMap.get(result.textId)
+            existing.matchCount += result.matchCount    // SUM counts
+            existing.lemmaIds.push(result.lemmaId)      // COLLECT all matching lemmata
+        else:
+            textMap.set(result.textId, {
+                ...result,
+                lemmaIds: [result.lemmaId]              // start list
+            })
+
+    return Array.from(textMap.values())
+    // Each text appears ONCE with total matchCount and all lemmaIds
+```
+
+**Worked example** — user searches "brot":
+
+1. Resolution: Stage 1 finds `lemma_879` ("brôt") AND `lemma_12345` ("brot", different entry)
+2. `SearchEngine.searchLemma()` returns:
+   - `{textId: "ABG", lemmaId: "lemma_879", matchCount: 3}`
+   - `{textId: "ABG", lemmaId: "lemma_12345", matchCount: 1}`
+   - `{textId: "DES2", lemmaId: "lemma_879", matchCount: 5}`
+3. After dedup:
+   - `{textId: "ABG", matchCount: 4, lemmaIds: ["lemma_879", "lemma_12345"]}`
+   - `{textId: "DES2", matchCount: 5, lemmaIds: ["lemma_879"]}`
+4. Both lemmata get distinct highlight colors in reading view
+
+### C.2.2 Playground: Proximity Context Window Dedup
+
+Source: `playground/js/data/tei-manager.js` (proximity search function)
+
+**Trigger:** Proximity search finds multiple overlapping co-occurrence windows in the same text. Without dedup, the same passage appears multiple times with slightly shifted windows.
+
+```
+function deduplicateProximityResults(rawMatches):
+    // rawMatches = [{filename, matchPositions, distance, contextStart, contextEnd, ...}, ...]
+
+    // Step 1: Group by filename
+    byFile = groupBy(rawMatches, 'filename')
+
+    deduplicated = []
+
+    // Step 2: For each file, remove overlapping windows
+    for each (filename, fileResults) in byFile:
+        sort fileResults by contextStart ascending
+
+        for each result in fileResults:
+            overlaps = deduplicated.any(existing =>
+                existing.filename === result.filename
+                AND max(existing.contextStart, result.contextStart)
+                    < min(existing.contextEnd, result.contextEnd)
+            )
+
+            if NOT overlaps:
+                deduplicated.push(result)
+            // else: discard (keep earlier/shorter-distance match)
+
+    return deduplicated
+```
+
+**Behavior:** When two context windows overlap, the first one (earlier position, already added) wins. This keeps the closer match since results within each file are sorted by position.
+
+### C.2.3 Playground: Document-Level Aggregation
+
+Source: `playground/js/data/tei-manager.js` (document search function)
+
+**Trigger:** Multi-lemma document search (find texts containing ALL searched lemmata).
+
+```
+function searchDocumentLevel(lemmaIds, corpusData):
+    results = []
+
+    for each text in corpusData.texts:
+        // Require ALL lemmata present (intersection, not union)
+        containsAll = lemmaIds.every(id => text.lemmata[id] exists)
+
+        if containsAll:
+            matchingWords = {}
+            for each lemmaId in lemmaIds:
+                matchingWords[lemmaId] = text.lemmata[lemmaId].length  // count per lemma
+
+            results.push({filename, title, author, matchingWords, totalWords})
+
+    return results
+    // No dedup needed — each text can only appear once (checked via containsAll)
+```
+
+**Note:** No dedup needed here because the intersection check (`every`) guarantees each text appears at most once.
 
 ---
 
@@ -281,6 +394,34 @@ Response (XML):
 ```
 
 **Status:** HTTP-only API. Blocked by mixed content when called from HTTPS page. Currently using static link only. Upgrade to dynamic lookup when MWB team migrates to HTTPS.
+
+### D.5 Lemma Page URL Routing Contract
+
+**Contract:** The URL `/lemma/{numericId}` MUST resolve to a rendered lemma page. This URL is stored by external systems (Worterbuchnetz, MWB, Wikidata P9351) and must remain stable indefinitely.
+
+**Why:** External dictionary networks link to MHDBDB lemmata by numeric ID. Breaking these URLs breaks scholarly infrastructure across institutions.
+
+Source: `404.html` (redirect), `lemma/lemma-page.js:48-72` (parsing)
+
+```
+URL routing (GitHub Pages, no server-side routing):
+
+1. /lemma/879          → 404.html intercepts
+   404.html:           → detects 'lemma' in path, extracts '879'
+                       → window.location.replace('/lemma/?id=879')
+   lemma/index.html:   → loads lemma-page.js
+   parseLemmaId():     → reads ?id=879 → returns '879'
+
+2. /lemma/?id=879      → direct (no redirect needed)
+   parseLemmaId():     → URLSearchParams.get('id') → '879'
+
+3. /lemma/#879         → direct (no redirect needed)
+   parseLemmaId():     → window.location.hash.slice(1) → '879'
+
+Parse order: ?id > #hash > path segment (first match wins)
+```
+
+**ID mapping:** `numericId` → `lemma_{numericId}` (internal key) = Wikidata P9351 value = Worterbuchnetz `lid`
 
 ---
 

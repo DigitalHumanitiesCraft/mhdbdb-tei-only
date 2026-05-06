@@ -199,7 +199,7 @@ The API does **not** cross-reference corpus statistics into authority data (e.g.
 {
   "project": "MHDBDB",
   "version": "1.0.0",
-  "license": "CC BY-NC-SA 3.0 AT",
+  "license": "CC BY-NC-SA 4.0",
   "contact": "mhdbdb@plus.ac.at",
   "generated": "2026-02-24T12:00:00Z",
   "collections": {
@@ -230,7 +230,7 @@ New script: `scripts/build-api.py`
 - **Findable:** Stable URLs, index files for discovery, API root with metadata
 - **Accessible:** Open HTTP, JSON, CORS (GitHub Pages default)
 - **Interoperable:** Standard URL patterns, linked identifiers (GND, Wikidata)
-- **Reusable:** CC BY-NC-SA 3.0 AT in every response
+- **Reusable:** CC BY-NC-SA 4.0 in every response
 
 ## Out of Scope
 

@@ -116,7 +116,7 @@ Allows users to include/exclude specific texts from search:
 
 ### TEI Element Rendering Map
 
-The reading view converts TEI XML elements to HTML. Source: `assets/js/rendering/tei-text-reader.js:346-428`
+The reading view converts TEI XML elements to HTML. Source: `extractAndFormatBody()` / `_renderElement` closure in `assets/js/rendering/tei-text-reader.js`
 
 | TEI Element | Attributes | HTML Output | CSS Class |
 |------------|-----------|-------------|-----------|
@@ -134,7 +134,8 @@ The reading view converts TEI XML elements to HTML. Source: `assets/js/rendering
 | `<hi>` | (other) | `<span>` | `.hi` |
 | `<supplied>` | | `<span>[...]</span>` | `.supplied` |
 | `<num>` | | `<span>` | `.number` |
-| `<seg>` | `@type="pc"` | `<span>` (escaped text) | `.punctuation` |
+| `<pc>` | `@join` | `<span>` with `data-join` | `.punctuation` |
+| `<seg>` | | (transparent — children only) | — |
 | `<w>` | `@lemmaRef` (match) | `<mark>` | `.highlight` / `.highlight.multi-lemma` |
 | `<w>` | `@lemmaRef` (no match) | escaped text + space | — |
 | `<w>` | no `@lemmaRef` | escaped text + space | — |
@@ -192,7 +193,8 @@ playground/js/ui/
 ├── core/              # Core UI utilities
 │   ├── ui-helpers.js
 │   ├── progress.js
-│   └── file-display.js
+│   ├── file-display.js
+│   └── router.js      # Hash-based URL routing (#48)
 ├── authority/         # Authority file exploration (6 modules)
 │   ├── authority-ui.js
 │   ├── person-explorer.js
@@ -241,6 +243,109 @@ Each explorer follows consistent pattern:
 - Researcher finds co-occurrence in playground
 - Clicks result → generates URL with parameters
 - Opens main site reading view with highlighting and position
+
+### URL Routing (Hash-Based)
+
+**Component:** `playground/js/ui/core/router.js`
+**Purpose:** Shareable, bookmarkable playground URLs via hash fragments.
+
+**URL schema:** `#<view>[&key=value&...]`
+
+| View | Hash Fragment | What it opens |
+|------|-------------|---------------|
+| Authority explorers | `#authors`, `#works`, `#lemmata`, `#concepts`, `#genres`, `#names` | Corresponding explorer tab |
+| Multi-Lemma Search | `#multi-lemma` | Co-occurrence search |
+| TEI Analysis | `#words`, `#lines`, `#annotations` | TEI analysis views (currently non-functional, see #87) |
+
+**Parameters:**
+
+| Param | Applies to | Effect |
+|-------|-----------|--------|
+| `q` | All authority views | Auto-fills search input and triggers search |
+| `show` | All authority views | Expands detail panel for the given item ID |
+| `lemmata` | `multi-lemma` only | Comma-separated lemma terms |
+| `mode` | `multi-lemma` only | `proximity` or `document` |
+| `dist` | `multi-lemma` only | Max word distance (integer) |
+
+**Example:** `#multi-lemma&lemmata=minne,êre&mode=proximity&dist=10`
+
+**Core functions:**
+
+| Function | What it does |
+|----------|-------------|
+| `parseHash()` | Extracts `{view, params}` from `location.hash` |
+| `buildHash(view, params)` | Constructs hash string with URL-encoded values |
+| `dispatch(view, params)` | Looks up view handler, calls it, then defers `q`/`show` to next tick |
+| `navigate(view, params)` | Updates hash and dispatches (suppresses listener to prevent double-fire) |
+| `initRouter()` | Wires `hashchange` listener, called once after data loads |
+
+**Known limitation:** `triggerExpand(itemId)` only works for items in the currently visible result set (typically top 50).
+
+## Lemma Pages Architecture
+
+**Purpose:** Persistent, linkable pages for individual lemmata — target URLs for Worterbuchnetz, MWB, and other external systems
+**URL:** `https://dhcraft.org/mhdbdb-tei-only/lemma/{numericId}`
+**Key Files:** `lemma/index.html`, `lemma/lemma-page.js`, `404.html`
+
+### URL Routing (GitHub Pages workaround)
+
+GitHub Pages has no server-side routing. Clean URLs (`/lemma/879`) return 404. Solution: `404.html` intercepts and redirects:
+
+```
+User requests /lemma/879
+  → GitHub Pages: no file at /lemma/879 → serves 404.html
+  → 404.html JS: detects "lemma" in path, extracts "879"
+  → window.location.replace("/lemma/?id=879")
+  → lemma/index.html loads → lemma-page.js parses ?id=879
+```
+
+Three URL formats accepted (parsed in order, first match wins):
+1. `?id=879` — query parameter (canonical after redirect)
+2. `#879` — hash (for systems that strip query params)
+3. `/lemma/879` — path segment (pre-redirect, also works post-redirect)
+
+### Initialization Sequence
+
+```
+1. parseLemmaId()            → extract numeric ID from URL
+2. loadAuthorityIndex()      → via CorpusLoader (same as main site)
+3. Find lemma by "lemma_{id}" in authorityIndex.lemmata
+4. renderLemma()             → title, POS, etymology, senses
+5. renderVariants()          → invert variants map to find all forms → this lemma
+6. renderCompounds()         → find lemmata whose etymology references this lemma
+7. loadCorpusIndex()         → non-blocking (page renders without it)
+8. renderOccurrences()       → texts containing this lemma, sorted by frequency
+9. renderExternalLinks()     → static links + async Wörterbuchnetz API
+```
+
+### Data Rendering Pipeline
+
+| Section | Data Source | Algorithm |
+|---------|-----------|-----------|
+| Etymology | `lemma.etymology[]` | Each component linked via `?id={numId}` if it has `lemmaRef` |
+| Senses | `lemma.senses[].conceptIds` | Resolve concept IDs → German labels via `authorityIndex.concepts` |
+| Variants | `authorityIndex.variants` (flat map) | **Invert**: scan all entries, collect those where `value === lemmaKey` |
+| Compounds | `authorityIndex.lemmata` | Filter lemmata whose `etymology[].lemmaRef === lemmaKey` |
+| Occurrences | `corpusIndex.lemmaIndex[lemmaKey]` → textIds | Look up text metadata, count positions, sort by frequency desc |
+| Wörterbuchnetz | External API (async) | See CONTRACTS.MD D.2 |
+
+### Concept Label Resolution
+
+```
+resolveConceptLabels(conceptIds):
+    for each cid in conceptIds:
+        concept = authorityIndex.concepts.find(c => c.id === cid)
+        label = concept.termDE || concept.termEN || cid    // German preferred
+    return labels
+```
+
+### Integration with Main Site
+
+- **Occurrence links** → `../korpus.html?textId={id}&lemmaIds={numericId}` (opens reading view with highlighting)
+- **Corpus search link** → `../korpus.html?search={lemma.lemma}` (triggers main site search)
+- **Shared dependencies**: CorpusLoader, Pako, Dexie.js, shared.css, tailwind-output.css (all via `../assets/`)
+
+---
 
 ## Storage Architecture
 

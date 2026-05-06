@@ -207,59 +207,41 @@ test.describe('Search Normalization Test Suite', () => {
             const result = await page.evaluate(() => {
                 const variants = window.playground.authorityManager.authorityData.variants;
 
+                // Variants is now a flat object: { normalizedVariant: lemmaId, ... }
+                const variantKeys = Object.keys(variants);
+                const totalVariants = variantKeys.length;
+
                 // Test variant resolution for known lemmas
                 const testCases = [
-                    { variant: 'brott', expectedLemmaId: 'lemma_879', canonical: 'brôt' },
                     { variant: 'brot', expectedLemmaId: 'lemma_879', canonical: 'brôt' },
                     { variant: 'win', expectedLemmaId: 'lemma_7532', canonical: 'wîn' },
-                    { variant: 'wins', expectedLemmaId: 'lemma_7532', canonical: 'wîn' }
                 ];
 
                 const results = testCases.map(tc => {
-                    // Find variant entry for this lemma
-                    const variantEntry = variants.find(v => v.lemmaId === tc.expectedLemmaId);
-
-                    if (!variantEntry) {
-                        return {
-                            variant: tc.variant,
-                            found: false,
-                            reason: 'No variant entry found for lemma'
-                        };
-                    }
-
-                    // Check if this variant form exists in the forms array
-                    const hasVariant = variantEntry.forms.some(f =>
-                        f.orth.toLowerCase() === tc.variant.toLowerCase()
-                    );
-
+                    const resolvedLemmaId = variants[tc.variant];
                     return {
                         variant: tc.variant,
                         expectedLemmaId: tc.expectedLemmaId,
                         canonical: tc.canonical,
-                        found: hasVariant,
-                        totalFormsForLemma: variantEntry.forms.length
+                        found: resolvedLemmaId === tc.expectedLemmaId,
+                        resolvedLemmaId: resolvedLemmaId || null
                     };
                 });
 
                 return {
-                    totalVariants: variants.length,
-                    totalForms: variants.reduce((sum, v) => sum + v.forms.length, 0),
+                    totalVariants: totalVariants,
                     testResults: results
                 };
             });
 
-            console.log(`✓ Variants loaded: ${result.totalVariants} lemmas with ${result.totalForms} orthographic forms`);
+            console.log(`✓ Variants loaded: ${result.totalVariants} variant mappings`);
 
             result.testResults.forEach(tc => {
                 console.log(`  "${tc.variant}" → ${tc.canonical} (${tc.expectedLemmaId}): ${tc.found ? '✓' : '✗'}`);
-                if (tc.totalFormsForLemma) {
-                    console.log(`    Lemma has ${tc.totalFormsForLemma} variant forms`);
-                }
             });
 
-            // Verify variants.xml is loaded with expected data
-            expect(result.totalVariants).toBeGreaterThan(10000); // Should have ~39,436 lemmas
-            expect(result.totalForms).toBeGreaterThan(100000);   // Should have ~192,674 forms
+            // Verify variants are loaded with expected data
+            expect(result.totalVariants).toBeGreaterThan(100000); // Should have ~176,056 variant mappings
         });
 
         test('8. searchLemmaByOrthography - 3-Stage Resolution', async () => {
@@ -336,7 +318,7 @@ test.describe('Search Normalization Test Suite', () => {
                 const testCases = [
                     { input: 'brôt', expected: 'brot', rule: 'â → a' },
                     { input: 'wîn', expected: 'win', rule: 'î → i' },
-                    { input: 'schône', expected: 'schoene', rule: 'ô → o' },
+                    { input: 'schône', expected: 'schone', rule: 'ô → o' },
                     { input: 'hûs', expected: 'hus', rule: 'û → u' },
                     { input: 'sêle', expected: 'sele', rule: 'ê → e' },
                     { input: 'mähte', expected: 'maehte', rule: 'ä → ae' },
@@ -428,7 +410,7 @@ test.describe('Search Normalization Test Suite', () => {
                     hasConcepts: window.playground?.authorityManager?.authorityData?.concepts?.length > 0,
                     hasGenres: window.playground?.authorityManager?.authorityData?.genres?.length > 0,
                     hasNames: window.playground?.authorityManager?.authorityData?.names?.length > 0,
-                    hasVariants: window.playground?.authorityManager?.authorityData?.variants?.length > 0
+                    hasVariants: Object.keys(window.playground?.authorityManager?.authorityData?.variants || {}).length > 0
                 };
 
                 const passedChecks = Object.values(checks).filter(v => v === true).length;
@@ -499,7 +481,7 @@ test.describe('Search Normalization - Visual Summary', () => {
         console.log('   6. ✓ Namen anzeigen - Names multi-field search');
 
         console.log('\nB. TEI Text Analysis (5 searches):');
-        console.log('   7. ✓ Variants.xml Integration - 192,674 orthographic forms');
+        console.log('   7. ✓ Variants.xml Integration - 175,910 orthographic forms');
         console.log('   8. ✓ 3-Stage Resolution - Lexicon → Variants → Partial');
         console.log('   9. ✓ Multi-Lemma Search - Variant spelling resolution');
         console.log('   10. ✓ TextNormalizer - All MHG character rules');

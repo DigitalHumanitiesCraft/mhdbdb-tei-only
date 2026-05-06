@@ -5,6 +5,10 @@
  */
 
 import { test, expect } from '@playwright/test';
+import { dirname, resolve } from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const viewports = {
     'iPhone-SE': { width: 375, height: 667 },
@@ -24,7 +28,7 @@ for (const [device, viewport] of Object.entries(viewports)) {
         await page.waitForSelector('#fileBrowserSection', { state: 'visible', timeout: 30000 });
 
         await page.screenshot({
-            path: `screenshots/playground-${device.toLowerCase()}.png`,
+            path: resolve(__dirname, `../screenshots/playground-${device.toLowerCase()}.png`),
             fullPage: true
         });
 
@@ -35,7 +39,7 @@ for (const [device, viewport] of Object.entries(viewports)) {
             await page.waitForTimeout(500);
 
             await page.screenshot({
-                path: `screenshots/playground-${device.toLowerCase()}-lemmata.png`,
+                path: resolve(__dirname, `../screenshots/playground-${device.toLowerCase()}-lemmata.png`),
                 fullPage: true
             });
 
@@ -45,7 +49,7 @@ for (const [device, viewport] of Object.entries(viewports)) {
                 await page.waitForTimeout(1000);
 
                 await page.screenshot({
-                    path: `screenshots/playground-${device.toLowerCase()}-lemmata-results.png`,
+                    path: resolve(__dirname, `../screenshots/playground-${device.toLowerCase()}-lemmata-results.png`),
                     fullPage: true
                 });
             }
@@ -60,7 +64,7 @@ test('Main Site - Landscape iPad (1024x768)', async ({ page }) => {
     await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
 
     await page.screenshot({
-        path: 'screenshots/main-site-ipad-landscape.png',
+        path: resolve(__dirname, '../screenshots/main-site-ipad-landscape.png'),
         fullPage: true
     });
 });
@@ -73,7 +77,7 @@ test('Playground - Landscape iPad (1024x768)', async ({ page }) => {
     await page.waitForSelector('#fileBrowserSection', { state: 'visible', timeout: 30000 });
 
     await page.screenshot({
-        path: 'screenshots/playground-ipad-landscape.png',
+        path: resolve(__dirname, '../screenshots/playground-ipad-landscape.png'),
         fullPage: true
     });
 });
