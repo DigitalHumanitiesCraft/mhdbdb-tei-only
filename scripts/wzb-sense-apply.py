@@ -193,7 +193,7 @@ def apply_senses(tei_path, pending_path, lex_path, var_path, dry_run=False):
             w.set("ana", meaning_val)
         stats["meaning_applied"] += 1
 
-        word_frag = resolve_word_ref(form, lemma_id, sense_id, sense_ana, var_index)
+        word_frag = resolve_corresp(form, lemma_id, sense_id, sense_ana, var_index)
         if word_frag:
             if not dry_run:
                 w.set("corresp", f"variants.xml#{word_frag}")
@@ -204,7 +204,7 @@ def apply_senses(tei_path, pending_path, lex_path, var_path, dry_run=False):
     has_meaning = sum(1 for w in w_elements if w.get("ana"))
     projected   = has_meaning + (stats["meaning_applied"] if dry_run else 0)
 
-    print(f"\nApplied @meaningRef:  {stats['meaning_applied']}")
+    print(f"\nApplied @ana:         {stats['meaning_applied']}")
     print(f"Applied @corresp:     {stats['word_ref_applied']}")
     print(f"Already had @ana (skipped): {stats['already_set']}")
     print(f"xml_id not found:    {stats['not_found']}")
