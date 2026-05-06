@@ -185,8 +185,8 @@ The schema (`schema/mhdbdb.rng`) requires the following header structure:
 | `@xml:id` | Yes | Unique identifier per §2 naming convention |
 | `@lemmaRef` | Phase 1 | Pointer to `lexicon.xml#lemma_ID` |
 | `@pos` | Phase 2 | One of the 19 MHDBDB POS tags |
-| `@meaningRef` | Future | Sense-level pointer (not yet required) |
-| `@wordRef` | Future | Variant form pointer (not yet required) |
+| `@meaningRef` | Phase 3 (optional) | Sense-level pointer (`lexicon.xml#lemma_ID_sense_N`); auto-assigned by `wzb-sense-assign.py` for single-sense lemmata, LLM-assisted for polysemous ones. Not required for initial submission but strongly encouraged. See `docs/features/034-wenzelsbibel-annotation.md` §Phase 3 for the pipeline. |
+| `@wordRef` | Phase 3 (optional) | Variant form pointer (`lexicon.xml#lemma_ID_sense_N_type_M`); auto-resolved from `variants.xml` where possible. Not required. |
 
 ### 3.4 Punctuation Encoding
 

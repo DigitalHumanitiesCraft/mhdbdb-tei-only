@@ -243,8 +243,11 @@ Two additional categories were identified during Phase 1b and resolved as comple
 
 ```
 Assign POS tags to these Middle High German words from the Wenzelsbibel.
-Use MHDBDB tag set: PRO VRB NOM ADJ ADV DET CNJ PRP VEX POS NAM NUM
-Multiple tags allowed (space-separated) when word is ambiguous.
+Use MHDBDB tag set (19 tags): NOM NAM ADJ ADV DET POS PRO PRP NEG NUM
+  CNJ SCNJ CCNJ IPA VRB VEX VEM INJ DIG
+Multiple tags allowed (space-separated) when word is genuinely ambiguous.
+Prefer SCNJ/CCNJ over CNJ; prefer NEG over PRO for niht/nie/ne; use DIG
+for Roman numerals (WZB notation: U=V, e.g. UIII=VIII).
 
 Context: [2-3 lines of surrounding text]
 Words: [batch with positions]
@@ -252,7 +255,7 @@ Words: [batch with positions]
 
 **Auto-assignment rules (no LLM needed):**
 - If lemma's `<gramGrp>/<pos>` has exactly one POS value → assign it
-- Common patterns: `der/die/daz` → ART, `und/vnd` → CNJ, `in/an/mit` → PRP
+- Common patterns: `der/die/daz` → DET, `und/vnd/oder` → CCNJ, `in/an/mit` → PRP
 
 **QA:** Script validates that assigned POS is in the MHDBDB tag set. Julia spot-checks ~5% per chapter.
 
@@ -387,7 +390,9 @@ Within each cell: stratified random sample across at least 3 different lemmata (
 
 ##### Baseline
 
-**Majority-sense baseline: 66.7%** (computed 2026-04-24 from 675 MHDBDB corpus files via `wzb-sense-baseline.py`). This is an optimistic upper bound because the corpus genre mix differs from WZB biblical prose. The baseline TSV is at `Wenzelsbibel/phase3/wzb-sense-majority-baseline.tsv`.
+**Majority-sense baseline: 66.7%** (computed 2026-04-24 from 675 MHDBDB corpus files via `wzb-sense-baseline.py`). The baseline TSV is at `Wenzelsbibel/phase3/wzb-sense-majority-baseline.tsv`.
+
+**Genre mismatch caveat (for publication):** The 66.7% baseline is computed from the full MHDBDB corpus, which covers mixed genres (mystical prose, epic poetry, didactic literature, etc.). The Wenzelsbibel is biblical prose — an OT translation exhibiting higher lexical consistency, more monosemous usage of high-frequency content words, and fewer metaphorical extensions than mixed-genre secular literature. This means the majority-sense heuristic likely performs *better* on WZB than the 66.7% figure suggests. The baseline is therefore a **conservative lower bound** for comparison: if LLM accuracy exceeds 66.7%, the true advantage over a WZB-specific majority-sense baseline may be smaller. Report this comparison as: *"LLM pipeline accuracy of X% vs. mixed-genre majority-sense baseline (66.7%); a genre-matched biblical-prose baseline was not computed."*
 
 ##### Primary metric
 
@@ -437,7 +442,7 @@ All resolutions in `wzb-sense-pending.tsv` carry a `decision_type` column:
 | `scripts/wzb-sense-apply.py` | Step 3: write @meaningRef / @wordRef to TEI; reports ABSTAIN counts separately |
 | `scripts/wzb-sense-baseline.py` | Compute majority-sense baseline from annotated MHDBDB corpus |
 | `scripts/wzb-sense-migrate-schema.py` | One-time: add decision_type + model_id columns to pending TSV |
-| `scripts/wzb-sense-evaluate.py` | (planned) Compare LLM output against gold standard corpus sample |
+| `scripts/wzb-sense-evaluate.py` | Compare LLM output against gold standard corpus sample; two modes: `sample` (extract stratified gold + stripped pending TSV) and `evaluate` (compute accuracy, Brier score, Cohen's κ, stratum breakdown) |
 
 ---
 
