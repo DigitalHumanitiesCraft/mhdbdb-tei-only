@@ -26,9 +26,21 @@ on:
       - 'authority-files/**'
       - 'scripts/audit/validate-corpus.py'
       - '.github/workflows/schema-validation.yml'
+  # Direct-to-main pushes also trigger the workflow. Branch-protection
+  # is supposed to require PRs, but that has been bypassed historically
+  # (e.g. WZB merge 2026-05-06 produced no CI run). A push trigger on
+  # main closes that gap.
+  push:
+    branches:
+      - main
+    paths:
+      - 'schema/**'
+      - 'tei/**'
+      - 'authority-files/**'
+      - 'scripts/audit/validate-corpus.py'
+      - '.github/workflows/schema-validation.yml'
   # Manual trigger for ad-hoc validation runs (e.g. verifying CI setup,
-  # or running a full validation after a direct-to-main schema change
-  # that wouldn't otherwise fire the pull_request trigger).
+  # or re-running after a hotfix).
   workflow_dispatch:
 
 # Cancel in-progress runs when a PR gets a new push

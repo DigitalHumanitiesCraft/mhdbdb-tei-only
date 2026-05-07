@@ -20,7 +20,13 @@ Jede MHDBDB-Datei muss beide Stufen bestehen:
 1. **TEI-P5-Konformität** (`tei_all.rng`) — die Datei ist valides TEI
 2. **MHDBDB-Constraints** (`mhdbdb.rnc` oder `mhdbdb-authority.rnc`) — die Datei folgt den MHDBDB-Konventionen
 
-Stufe 1 stellt die Interoperabilität mit dem TEI-Ökosystem sicher. Stufe 2 stellt sicher, dass die Datei mit den MHDBDB-Werkzeugen funktioniert (Indexes, Suche, Darstellung).
+Stufe 2 ist das maßgebliche Schema (hartes Gate in der CI). Stufe 1 stellt die Interoperabilität mit dem TEI-Ökosystem sicher und wird in der CI als Drift-Wache mitgeprüft: 30 Korpus-Files sind als #30-Baseline (GAPs 1–11 in `mhdbdb.rnc`) absichtlich nicht TEI-Standard-konform — ein 31. Fail würde als WARN im CI-Log erscheinen.
+
+### Editor-Validation: nur Stufe 2 als `<?xml-model?>`-PI
+
+Die TEI-Korpusdateien in `tei/` haben **nur eine** `<?xml-model?>`-Processing-Instruction, die auf `mhdbdb.rng` zeigt. `tei_all.rng` ist dort bewusst **nicht** als PI verlinkt, weil die 30 GAP-Files sonst in oXygen/VS Code Scholarly XML mit konstanten roten Markern gegen Strukturen anlaufen, die das MHDBDB-Schema bewusst toleriert. Vollständige Zwei-Stufen-Validation läuft weiterhin in der CI (`schema-validation.yml`) und im `validate-corpus.py`-Script.
+
+Die 8 Authority-Files in `authority-files/` haben **beide** PIs — dort produziert die Stufe-1-Validierung keine false positives (alle 8 sind grün gegen `tei_all.rng`).
 
 ## Schnellstart: Datei validieren
 

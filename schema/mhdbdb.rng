@@ -282,6 +282,27 @@
       </zeroOrMore>
     </element>
   </define>
+  <define name="idno.type.msIdentifier">
+    <choice>
+      <value>sigle</value>
+      <value>handschriftencensus</value>
+      <value>GND</value>
+      <value>wikidata</value>
+      <value>mwb-sigle</value>
+    </choice>
+  </define>
+  <define name="idno.type.monogr">
+    <choice>
+      <value>callNumber</value>
+      <value>ISBN</value>
+    </choice>
+  </define>
+  <define name="idno.type.person">
+    <choice>
+      <value>GND</value>
+      <value>wikidata</value>
+    </choice>
+  </define>
   <define name="sourceDesc">
     <element>
       <name ns="http://www.tei-c.org/ns/1.0">sourceDesc</name>
@@ -299,7 +320,7 @@
                 <name ns="http://www.tei-c.org/ns/1.0">idno</name>
                 <attribute>
                   <name ns="">type</name>
-                  <text/>
+                  <ref name="idno.type.msIdentifier"/>
                 </attribute>
                 <text/>
               </element>
@@ -479,7 +500,7 @@
                     <name ns="http://www.tei-c.org/ns/1.0">idno</name>
                     <attribute>
                       <name ns="">type</name>
-                      <text/>
+                      <ref name="idno.type.monogr"/>
                     </attribute>
                     <text/>
                   </element>
@@ -823,7 +844,7 @@
                   <name ns="http://www.tei-c.org/ns/1.0">idno</name>
                   <attribute>
                     <name ns="">type</name>
-                    <text/>
+                    <ref name="idno.type.person"/>
                   </attribute>
                   <text/>
                 </element>

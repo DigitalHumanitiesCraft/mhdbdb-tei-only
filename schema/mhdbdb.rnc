@@ -97,13 +97,21 @@ publicationStmt = element publicationStmt {
     | p.header)*
 }
 
+# idno/@type Enum-Pattern (P1-5, kontextspezifisch).
+# Audit 2026-05-07 zeigt drei verschiedene @type-Werte-Mengen je nach Position
+# im Header. Globaler Enum waere falsch — z.B. callNumber/ISBN gehoeren nicht
+# in msIdentifier, GND/wikidata sind nicht bibliografisch.
+idno.type.msIdentifier = "sigle" | "handschriftencensus" | "GND" | "wikidata" | "mwb-sigle"
+idno.type.monogr       = "callNumber" | "ISBN"
+idno.type.person       = "GND" | "wikidata"
+
 sourceDesc = element sourceDesc {
     element msDesc {
         element msIdentifier {
             # @corresp verweist verpflichtend auf works.xml#work_N (TEI-MODEL.md §2.1).
             # Audit 2026-04-15: 666/666 Korpus-Dateien haben @corresp gesetzt.
             attribute corresp { xsd:anyURI },
-            (element idno { attribute type { text }, text }
+            (element idno { attribute type { idno.type.msIdentifier }, text }
              | element msName { attribute xml:lang { text }?, text })*
         },
         element additional {
@@ -133,7 +141,7 @@ biblStruct = element biblStruct {
             (element forename { text }?,
              element surname { text }?)
          }
-         | element idno { attribute type { text }, text }
+         | element idno { attribute type { idno.type.monogr }, text }
          | element edition { text })*,
          element imprint {
             (element pubPlace { text }
@@ -210,7 +218,7 @@ profileDesc = element profileDesc {
                          element surname { text }?)?
                     }
                 }*,
-                element idno { attribute type { text }, text }*,
+                element idno { attribute type { idno.type.person }, text }*,
                 element note { attribute type { text }?, text }*
             }*
         }

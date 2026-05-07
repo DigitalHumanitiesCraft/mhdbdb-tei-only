@@ -1,16 +1,16 @@
 # 032 — Schema Follow-up Cleanup
 
-**Status:** 16/17 erledigt (Stand 2026-04-15), **1 Item noch offen** (P1-5).
-**Audience:** Nächste/r CC-Kollege/in
-**Baseline (verifiziert 2026-04-14):**
+**Status:** ✅ **17/17 erledigt** (Stand 2026-05-07). Plan ist abgeschlossen, Doku archivierbar.
+**Audience:** Nächste/r CC-Kollege/in (für historischen Kontext)
+**Baseline (verifiziert 2026-05-07, nach WZB-Merge + P1-5):**
 
 | Check | Ergebnis |
 |-------|---------|
-| `schema/examples/*` gegen beide Stages | 9 / 9 grün (inkl. authority-contributors) |
-| `authority-files/*.xml` gegen beide Stages | 8 / 8 grün (inkl. contributors.xml) |
+| `schema/examples/*` gegen beide Stages | 9 / 9 grün |
+| `authority-files/*.xml` gegen beide Stages | 8 / 8 grün |
 | `schema/mhdbdb.rnc` ↔ `.rng` Sync | in sync |
 | `schema/mhdbdb-authority.rnc` ↔ `.rng` Sync | in sync |
-| Korpus (666 Dateien) gegen beide Stages | Stage 1: 30/666 fails (#30-Baseline), Stage 2: 0/666 — zuletzt voll gemessen 2026-04-15 |
+| Korpus (667 Dateien inkl. WZB) gegen beide Stages | Stage 1: 30/667 fails (#30-Baseline), Stage 2: 0/667 |
 
 **Scope:** Rein additive Schärfungen nach Abschluss der großen Migration. Keine Architekturänderungen. Alle Punkte sind einzeln reversibel.
 
@@ -25,7 +25,7 @@
 | P0-3 docs `usage="95"` raus | ✅ done | `5b421319c` | |
 | P0-4 Korpus `gnd`→`GND` | ✅ done | `61a0b4a1a` | 2026-04-11 |
 | P0-5 WorksSyncer gnd→GND Drift-Prevention | ✅ done | `05e9c2d91` | war nicht im Plan, nach P0-4 eingezogen |
-| **P1-5 Korpus `idno/@type` Enum** | 🔴 **OPEN** | — | komplexer als Plan: Enum kontextspezifisch (`ISBN`/`callNumber` nur unter `<biblStruct>`, ~1 h |
+| P1-5 Korpus `idno/@type` Enum | ✅ done | (siehe Schema-Commit 2026-05-07) | kontextspezifisch: 3 Patterns für `msIdentifier` / `monogr` / `person` |
 | P1-6 Korpus `persName/@type` Enum | ✅ done | `f72887eaa` | 2026-04-15 |
 | P1-7 Authority `lexicon.entry` gramGrp/sense | ✅ done | `f436963e0` | 2026-04-14 |
 | P1-8 Authority `monogr/title` Pflicht | ✅ done | `f436963e0` | 2026-04-14 |
@@ -48,6 +48,15 @@
 | xml-model PIs für authority-files + examples | `9cda50c44` |
 | CLAUDE.md Hard Constraint "Daten vor Schema" | `9ab92cdb2` |
 | Wegfall `.github/workflows/claude.yml` | `54b450f32` |
+
+**Arbeit nach P1-5 Re-Audit (2026-05-07):**
+
+| Thema | Was |
+|-------|-----|
+| WZB shelfmark-Fix (Daten vor Schema) | `<idno type="shelfmark">` aus WZB.tei.xml entfernt — Info steht via `corresp` schon in `works.xml#work_WZB`. Kein Datenverlust, WZB jetzt Stage-1-konform. |
+| P1-5 Implementation | 3 kontextspezifische Enum-Patterns: `idno.type.msIdentifier`, `idno.type.monogr`, `idno.type.person`. 7 erlaubte Werte gesamt. |
+| Stage-1 PI aus 667 Korpus-Files | `<?xml-model href="...tei_all.rng"?>` entfernt, weil die 30 GAP-Files in Editoren konstante false-positives gegen `tei_all.rng` produzierten. Stage-2-PI bleibt. Volle 2-Stage-Validation läuft weiterhin in CI. |
+| CI-Trigger erweitert | `schema-validation.yml` triggert jetzt auch auf direkte main-Pushes (vorher nur PRs). Schließt die Lücke, die WZB-Merge 2026-05-06 sichtbar machte. |
 
 ---
 
@@ -119,15 +128,16 @@ Die Schemas sind strukturell solide, aber einige Werte sind als freier Text mode
 
 ### P1-5 · `mhdbdb.rnc` — `<idno @type>` ohne Enum
 
-> **Status:** 🔴 OPEN — komplexer als der Plan vorgibt. Ein Audit 2026-04-15 zeigt, dass im Korpus **7 verschiedene `@type`-Werte** genutzt werden (`callNumber`, `GND`, `handschriftencensus`, `ISBN`, `mwb-sigle`, `sigle`, `wikidata`) und dass `ISBN` + `callNumber` nur unter `<biblStruct>` / `<monogr>` vorkommen (also nicht auf der mhdbdb-idiomatischen `<msIdentifier>`-Seite). Ein globaler Enum wie im ursprünglichen Plan-Vorschlag würde diese zwei Werte entweder ausschließen oder auf der msIdentifier-Seite fälschlich erlauben.
+> **Status:** ✅ done (2026-05-07). Re-Audit nach WZB-Merge zeigte, dass der Plan zwei Lücken hatte: (a) `shelfmark` als 8. Wert, eingeschleppt durch WZB.tei.xml — gelöst per „Daten vor Schema" (`<idno type="shelfmark">` aus WZB entfernt, Info steht via `corresp` schon in `works.xml`); (b) `person/idno` als 3. Position für `<idno>` (1.155 Vorkommen für GND/Wikidata-IDs auf Personen, der Plan hatte nur `msIdentifier` und `monogr` erfasst).
 >
-> **Kontextspezifischer Fix nötig:**
-> - msIdentifier/idno: `"sigle" | "handschriftencensus" | "GND" | "wikidata" | "mwb-sigle"` (mhdbdb-idiomatisch)
-> - biblStruct/monogr/idno: `"callNumber" | "ISBN"` oder offen lassen (bibliografische Standard-IDs können sich erweitern)
+> **Implementiert: 3 kontextspezifische Enum-Patterns**
+> - `idno.type.msIdentifier` = `"sigle" | "handschriftencensus" | "GND" | "wikidata" | "mwb-sigle"`
+> - `idno.type.monogr` = `"callNumber" | "ISBN"`
+> - `idno.type.person` = `"GND" | "wikidata"`
 >
-> Aufwand: ~1 h saubere Schema-Lektüre + Audit pro Position + Anpassung + Validation.
+> Die zwei Stellen `analytic/idno` und `bibl/idno` (Provenance-Block) blieben `text`, weil dort keine Bestandsdaten existieren.
 >
-> Abhängigkeit auf P0-4 (Korpus gnd→GND) ist erfüllt seit `61a0b4a1a`.
+> Validation: 667/667 Korpus-Dateien grün gegen Stage 2, Stage-1-Baseline unverändert bei 30/667.
 
 **Ursprünglicher Plan (veraltet, zur Referenz):**
 
