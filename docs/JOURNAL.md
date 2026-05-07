@@ -535,3 +535,44 @@ Die #32-followup-Arbeit (P1-10, P2-12, P2-13, P2-14, P2-15, `<hi>`-Flatten, PL1-
 4. **#88/#89/#90** Wortfrequenz / Text-Statistiken / Lemma-Verteilung — erste #47-Release-1-Features
 5. **Follow-up-Pings** (falls keine Antwort): #52, #73, #79/#80
 6. **Optional:** P1-5 `idno/@type` Enum (letztes #32-followup) oder #85 Implementation (Julia+Katharina haben geantwortet)
+
+
+## 2026-05-07 22:41 — handoff (#32-followup Abschluss + #68 Guide + WZB-Reorg + ARITHMETIC vorbereitet)
+
+**Summary:** #32-followup vollständig (17/17, P1-5 `idno/@type` Enum + WZB-shelfmark + Stage-1-PI cleanup auf 667 Files + CI push trigger). Neuer user-facing Beitragenden-Guide `hilfe-daten-beitragen.html` als technischer Schema-Konversions-Leitfaden (deutsch, nicht als Promptotyping-Doc) — durch /check-md und /anti-slop iteriert. WZB-Skripte aus `scripts/`-Wurzel in `scripts/ingest/wzb/` (20) und `scripts/_archived/wzb/` (4) reorganisiert. ARITHMETIC-Probe (Carina, 6 Handschriften) inspiziert, Issue #92 angelegt, Mail-Entwurf für Katharina an Carina vorbereitet.
+
+**Decisions:**
+- **#68 Architektur**: HTML user-facing in `hilfe-daten-beitragen.html`, kein Promptotyping-Doc-Duplikat. Begründung: Promptotyping-Docs sind LLM-targeted (englisch), user-facing-Hilfe ist deutsch und liegt im `hilfe-*.html`-Pattern.
+- **Guide-Tonality**: 99% der Leser haben TEI-Erfahrung; Erstkontakt läuft sowieso über Kernteam. Guide ist Schema-Konversions-Reference, nicht Onboarding-Funnel. Erste Version war zu "einladend" mit Eligibility/3-Pfade — komplett umgeschrieben zu technischem Re-Frame.
+- **WZB-Skript-Aufräum-Tiefe**: Mittel (ingest-Struktur einführen) statt Maximal (auf generische Skripte konsolidieren). WZB-Pipeline ist fertig, Refaktor ohne unmittelbaren Nutzen.
+- **ARITHMETIC**: Carina muss nicht nochmal ran am TEI. Konversions-Drift (`<seg type="token">` → `<w>`, `tei:`-Namespace, Header-Komplettierung, xml:id-Schema) ist vollständig scriptbar. Sie liefert nur Metadaten + QA-Review.
+- **Domänen-Klassifikation in ARITHMETIC** (`<unit>`, `<person>`, `div/@type=commodity_calculation/reckoning_example`): offene Entscheidung an Katharina/Carina — forschungsrelevant erhalten (Schema-Erweiterung) vs. wegtransformieren.
+
+**Dead ends:**
+- Erstversion `hilfe-daten-beitragen.html` (Eligibility-Funnel + 3-Pfade + 6-Step-Workflow) komplett verworfen. Lesson: Tonality-Annahmen vorab abklären, nicht spekulativ bauen.
+- Versehentlich `Arithmetic_MHDBDB.zip` mit `rm -f` gelöscht (dachte stray) — User hatte das absichtlich für Folgetask drin. Lesson: nie `rm` auf untracked files ohne explizite Bestätigung.
+
+**Phase:** Implementation (iteration). Alle 14 Promptotyping-Docs aktuell. `hilfe-daten-beitragen.html` neu, `scripts/ingest/wzb/README.md` + `scripts/_archived/wzb/README.md` neu. `docs/features/034-wenzelsbibel-annotation.md` an neue Pfade angepasst.
+
+**Open issues:**
+- **#92 ARITHMETIC** wartet auf Carinas Antwort: Sigle-Strategie, Lizenz, Autor, Edition, Genre, **Schlüsselfrage Domänen-Klassifikation erhalten?**. Mail-Entwurf für Katharina liegt bei (chronologisch in dieser Session), noch nicht versendet.
+- **Linda** (im JOURNAL 2026-04-16 erwähnt für Roadmap nach CoReMA) — separate Person, nicht Carina. Identität noch unklar.
+- **#52, #73, #79/#80** weiter ungeantwortet.
+- WZB-Skripte sind nicht maximal konsolidiert — Pattern wird beim nächsten Ingest (ARITHMETIC) auf Wiederverwendbarkeit getestet.
+
+**Commits:**
+- `3d481c633` `#32-followup: P1-5 + WZB shelfmark + Stage-1 PI cleanup + CI push trigger`
+- `56b97728b` `feat(hilfe): #68 hilfe-daten-beitragen.html — technischer Leitfaden für TEI-Beitragende`
+- `5d3d3083b` `refactor(scripts): WZB-Pipeline-Skripte in ingest/wzb/ umziehen, 4 Sackgassen archivieren`
+
+**Externe Side Effects:**
+- GitHub-Issue **#92** ARITHMETIC ingest angelegt (Labels: `ingestpipeline`, `enhancement`)
+- Memory: `project_arithmetic_ingest.md` + Pointer in `MEMORY.md` persistiert
+- Mail-Entwurf für Katharina an Carina kopierbereit (extern, nicht im Repo)
+
+**Next session:**
+1. `/promptotyping orient`
+2. **Wenn Carinas Antwort da**: ARITHMETIC Pipeline-Plan finalisieren — Sigle wählen, Pre-Konversionsskripte unter `scripts/ingest/<sigle>/` aufsetzen analog WZB. Erster Dogfood: kleinste HS (München UB 279, ~12 KB) komplett bis Stage-2-PASS. Erwartete Guide-Updates aus den Lessons Learned.
+3. **Falls keine Antwort**: Follow-up via Katharina pingen.
+4. **Parallel-Optionen** (wenn ARITHMETIC blockiert): #87 Playground UX-Cleanup, #20 Lesbarkeit follow-ups, #88/#89/#90 Wortfrequenz/Statistiken/Lemma-Verteilung.
+5. **Pipeline-Roadmap nach Katharina (#68):** WB ✅ → ARITHMETIC ⏳ → CoReMA → Linda → Minnereden (10k EUR DFG).
