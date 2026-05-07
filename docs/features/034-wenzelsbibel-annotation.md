@@ -135,16 +135,16 @@ Words to resolve:
 | `confidence` | `high` / `medium` / `low` |
 | `reviewer` | `claude` or `julia` |
 
-The TSV is generated automatically from the Phase 1 CSV report using `scripts/wzb-generate-tsv.py`.  This ensures the columns stay in sync with whatever `wzb-auto-match.py` emits; rerun the script whenever the report is refreshed.  The Python script writes the file to `Wenzelsbibel/wzb-disambiguation.tsv` and populates only the first six fields (including a new `count` column), leaving the last three blank for human/LLM review.
+The TSV is generated automatically from the Phase 1 CSV report using `scripts/ingest/wzb/wzb-generate-tsv.py`.  This ensures the columns stay in sync with whatever `wzb-auto-match.py` emits; rerun the script whenever the report is refreshed.  The Python script writes the file to `Wenzelsbibel/wzb-disambiguation.tsv` and populates only the first six fields (including a new `count` column), leaving the last three blank for human/LLM review.
 
-A companion helper (`scripts/wzb-split-tsv.py`) can split the
+A companion helper (`scripts/ingest/wzb/wzb-split-tsv.py`) can split the
 versioned TSV into smaller chunks (default 50 rows) to make Claude
 prompting easier.  Run:
 
 ```bash
-python scripts/wzb-split-tsv.py --input Wenzelsbibel/wzb-disambiguation.tsv
+python scripts/ingest/wzb/wzb-split-tsv.py --input Wenzelsbibel/wzb-disambiguation.tsv
 # or specify a different size:
-python scripts/wzb-split-tsv.py -s 30
+python scripts/ingest/wzb/wzb-split-tsv.py -s 30
 ```
 
 This creates `<basename>-partNN.tsv` files alongside the input.**Escalation:** Words marked `confidence=low` by Claude are reviewed by Julia. Words marked `NEW` are collected in a separate list for the editorial team (not added to `lexicon.xml` in this phase).
@@ -154,10 +154,10 @@ This creates `<basename>-partNN.tsv` files alongside the input.**Escalation:** W
 Unmatched forms from Phase 1 are not simply discarded; they form the
 basis of a pending additions list for the lexicon editorial team.  After
 running the auto-match script you can generate a frequency-sorted file
-with `scripts/wzb-extract-unmatched.py`:
+with `scripts/ingest/wzb/wzb-extract-unmatched.py`:
 
 ```bash
-python scripts/wzb-extract-unmatched.py
+python scripts/ingest/wzb/wzb-extract-unmatched.py
 # => Wenzelsbibel/wzb-unmatched-forms.tsv
 ```
 
@@ -225,9 +225,9 @@ Two additional categories were identified during Phase 1b and resolved as comple
 
 | Script | Purpose |
 | --- | --- |
-| `scripts/wzb-bulk-resolve.py` | Apply form-level resolutions to disambiguation TSV |
-| `scripts/wzb-patch-rows.py` | Apply per-xml_id corrections (minority exceptions) |
-| `scripts/wzb-pending-review.py` | Regenerate `wzb-pending-review.tsv` from current TSV state |
+| `scripts/ingest/wzb/wzb-bulk-resolve.py` | Apply form-level resolutions to disambiguation TSV |
+| `scripts/ingest/wzb/wzb-patch-rows.py` | Apply per-xml_id corrections (minority exceptions) |
+| `scripts/ingest/wzb/wzb-pending-review.py` | Regenerate `wzb-pending-review.tsv` from current TSV state |
 | `Wenzelsbibel/wzb-resolutions-batchNN.tsv` | Form-level resolution files (one per batch) |
 | `Wenzelsbibel/wzb-patch-batchNN.tsv` | Per-row correction files (one per batch, where needed) |
 
@@ -439,12 +439,12 @@ All resolutions in `wzb-sense-pending.tsv` carry a `decision_type` column:
 
 | Script | Purpose |
 | --- | --- |
-| `scripts/wzb-sense-assign.py` | Step 1: auto-assign single-sense; generate pending TSV |
-| `scripts/wzb-sense-bulk-resolve.py` | Step 2: apply batch resolutions (bulk or per-instance) |
-| `scripts/wzb-sense-apply.py` | Step 3: write @meaningRef / @wordRef to TEI; reports ABSTAIN counts separately |
-| `scripts/wzb-sense-baseline.py` | Compute majority-sense baseline from annotated MHDBDB corpus |
-| `scripts/wzb-sense-migrate-schema.py` | One-time: add decision_type + model_id columns to pending TSV |
-| `scripts/wzb-sense-evaluate.py` | Compare LLM output against gold standard corpus sample; two modes: `sample` (extract stratified gold + stripped pending TSV) and `evaluate` (compute accuracy, Brier score, Cohen's κ, stratum breakdown) |
+| `scripts/ingest/wzb/wzb-sense-assign.py` | Step 1: auto-assign single-sense; generate pending TSV |
+| `scripts/ingest/wzb/wzb-sense-bulk-resolve.py` | Step 2: apply batch resolutions (bulk or per-instance) |
+| `scripts/ingest/wzb/wzb-sense-apply.py` | Step 3: write @meaningRef / @wordRef to TEI; reports ABSTAIN counts separately |
+| `scripts/ingest/wzb/wzb-sense-baseline.py` | Compute majority-sense baseline from annotated MHDBDB corpus |
+| `scripts/_archived/wzb/wzb-sense-migrate-schema.py` | One-time: add decision_type + model_id columns to pending TSV |
+| `scripts/ingest/wzb/wzb-sense-evaluate.py` | Compare LLM output against gold standard corpus sample; two modes: `sample` (extract stratified gold + stripped pending TSV) and `evaluate` (compute accuracy, Brier score, Cohen's κ, stratum breakdown) |
 
 ---
 
@@ -454,16 +454,16 @@ All resolutions in `wzb-sense-pending.tsv` carry a `decision_type` column:
 
 ```bash
 # Step 1 — auto-assign single-sense + generate pending TSV (run once)
-python scripts/wzb-sense-assign.py [--dry-run]
+python scripts/ingest/wzb/wzb-sense-assign.py [--dry-run]
 
 # Step 2 — bulk-resolve a lemma (all tokens of one lemma → one sense)
-python scripts/wzb-sense-bulk-resolve.py -r Wenzelsbibel/phase3/resolutions/wzb-sense-batchNN.tsv [--dry-run]
+python scripts/ingest/wzb/wzb-sense-bulk-resolve.py -r Wenzelsbibel/phase3/resolutions/wzb-sense-batchNN.tsv [--dry-run]
 
 # Step 2b — per-instance patch (individual xml_id overrides)
-python scripts/wzb-sense-bulk-resolve.py -r <patch.tsv> --by xml_id [--dry-run]
+python scripts/ingest/wzb/wzb-sense-bulk-resolve.py -r <patch.tsv> --by xml_id [--dry-run]
 
 # Step 3 — write @meaningRef / @wordRef to TEI (run after each batch round)
-python scripts/wzb-sense-apply.py [--dry-run]
+python scripts/ingest/wzb/wzb-sense-apply.py [--dry-run]
 ```
 
 #### Resolution file formats
@@ -565,7 +565,7 @@ Add a new entry to `authority-files/works.xml`:
 
 ### 2. Build the auto-match script
 
-Python script: `scripts/wzb-auto-match.py`
+Python script: `scripts/ingest/wzb/wzb-auto-match.py`
 
 Input: `Wenzelsbibel/WZB.tei.xml` + `authority-files/variants.xml` + `authority-files/lexicon.xml`
 Output: Annotated WZB with `@lemmaRef` where unambiguous + CSV report of ambiguous/unmatched words
@@ -623,7 +623,7 @@ All annotation work happens on the `feature/wenzelsbibel-ingest` branch. Each ph
 | `authority-files/concepts.xml` | Semantic concepts for @ana | 3 |
 | `authority-files/works.xml` | Needs WZB entry added | Pre-req |
 | `scripts/mhg_normalizer.py` | MHG text normalization (Python, parity with JS) | 1 |
-| `scripts/wzb-auto-match.py` | Auto-matching script (to be built) | 1 |
+| `scripts/ingest/wzb/wzb-auto-match.py` | Auto-matching script (to be built) | 1 |
 
 ## Estimated Effort
 
@@ -646,7 +646,7 @@ All annotation work happens on the `feature/wenzelsbibel-ingest` branch. Each ph
 
 ## Paratext Encoding Decisions (Issue #66)
 
-During Phase 1b disambiguation, ~1,500 `<w>` elements were identified as non-lexical manuscript elements. The following decisions were made and implemented via `scripts/wzb-structural-cleanup.py` (2026-04-07).
+During Phase 1b disambiguation, ~1,500 `<w>` elements were identified as non-lexical manuscript elements. The following decisions were made and implemented via `scripts/ingest/wzb/wzb-structural-cleanup.py` (2026-04-07).
 
 ### General Principle
 
@@ -679,11 +679,11 @@ During Phase 1b disambiguation, ~1,500 `<w>` elements were identified as non-lex
 
 ```bash
 # Structural cleanup (TEI modification)
-python scripts/wzb-structural-cleanup.py --dry-run
-python scripts/wzb-structural-cleanup.py
+python scripts/ingest/wzb/wzb-structural-cleanup.py --dry-run
+python scripts/ingest/wzb/wzb-structural-cleanup.py
 
 # Lemma assignments for Roman numerals and Latin words
-python scripts/wzb-bulk-resolve.py --resolutions Wenzelsbibel/wzb-resolutions-batch-paratext.tsv
+python scripts/ingest/wzb/wzb-bulk-resolve.py --resolutions Wenzelsbibel/wzb-resolutions-batch-paratext.tsv
 ```
 
 **Result (2026-04-07):** 149,154 `<w>` elements (down from 150,017); 106 `<head type="chapter">`; 35,473 `<seg type="pc">`.
@@ -720,15 +720,15 @@ The WB-DEA transformation produced 213 `<div>` elements with `type=""` and `xml:
 - 0 `<head>` remaining inside `<l>`
 
 ```bash
-python scripts/wzb-structural-fix.py --dry-run
-python scripts/wzb-structural-fix.py
+python scripts/ingest/wzb/wzb-structural-fix.py --dry-run
+python scripts/ingest/wzb/wzb-structural-fix.py
 ```
 
 ---
 
 ## Encoding Cleanup (2026-04-13)
 
-Four targeted fixes applied via `scripts/wzb-encoding-cleanup.py`.
+Four targeted fixes applied via `scripts/ingest/wzb/wzb-encoding-cleanup.py`.
 
 ### Fix 1 — Historiated initials
 
@@ -758,8 +758,8 @@ Four targeted fixes applied via `scripts/wzb-encoding-cleanup.py`.
 | unnamed | 1 | 0 |
 
 ```bash
-python scripts/wzb-encoding-cleanup.py --dry-run
-python scripts/wzb-encoding-cleanup.py
+python scripts/ingest/wzb/wzb-encoding-cleanup.py --dry-run
+python scripts/ingest/wzb/wzb-encoding-cleanup.py
 ```
 
 ---

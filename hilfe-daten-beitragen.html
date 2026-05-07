@@ -388,7 +388,7 @@
             <p class="text-slate-700 leading-relaxed mb-4">
                 Bevor die TEI-Datei aufgenommen wird, müssen drei Authority-Files-Einträge
                 existieren oder ergänzt werden. Die Sigle ist das MHDBDB-Kürzel für den
-                Text (z.&nbsp;B. <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">WZB</code>, <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">ABG</code>): drei
+                Text (z.&nbsp;B. <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">WZB</code> für Wenzelsbibel): drei
                 bis fünf Großbuchstaben, abgesprochen mit dem Kernteam, eindeutig im
                 gesamten Korpus.
             </p>
@@ -468,7 +468,7 @@
                 Die Annotation läuft in drei Phasen nach dem gleichen Muster: Auto-Match
                 gegen vorhandene Authority-Daten, Disambiguierungs-TSV für mehrdeutige Fälle,
                 Anwendung der aufgelösten TSV auf das TEI. Die Wenzelsbibel-Pipeline
-                (<a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/tree/main/scripts" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>scripts/wzb-*.py</code></a>)
+                (<a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/tree/main/scripts/ingest/wzb" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>scripts/ingest/wzb/</code></a>)
                 implementiert dieses Muster konkret und wird pro neuem Text vom Kernteam an
                 Sigle, Pfade und text-spezifische Eigenheiten angepasst — sie ist <strong>nicht
                 plug-and-play</strong>.
@@ -596,7 +596,7 @@ print('Stage 2:', 'PASS' if mhdbdb.validate(doc) else mhdbdb.error_log)
                 <li>TEI-Quelldatei: <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/tei/WZB.tei.xml" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>tei/WZB.tei.xml</code></a></li>
                 <li>Korpussuche: <a href="korpus.html?text=WZB" class="text-brand-600 hover:text-brand-700 font-medium">live ansehen</a></li>
                 <li>Vollständige Pipeline-Dokumentation: <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/docs/features/034-wenzelsbibel-annotation.md" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>docs/features/034-wenzelsbibel-annotation.md</code></a></li>
-                <li>Annotations-Skripte (zur Adaption): <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/tree/main/scripts" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>scripts/wzb-*.py</code></a></li>
+                <li>Annotations-Skripte (zur Adaption): <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/tree/main/scripts/ingest/wzb" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>scripts/ingest/wzb/</code></a></li>
             </ul>
         </section>
 
@@ -616,7 +616,7 @@ print('Stage 2:', 'PASS' if mhdbdb.validate(doc) else mhdbdb.error_log)
             <h3 class="text-lg font-semibold text-slate-800 mb-2">Werkzeuge</h3>
             <ul class="space-y-2 text-sm text-slate-700 mb-6 ml-4 list-disc list-inside">
                 <li><code class="px-2 py-0.5 bg-slate-100 rounded text-sm">scripts/audit/validate-corpus.py</code> — Voll-Validierung des Korpus + Authority-Files</li>
-                <li><code class="px-2 py-0.5 bg-slate-100 rounded text-sm">scripts/wzb-*.py</code> — Pipeline-Skripte (Auto-Match, Bulk-Resolve, POS-Apply); pro neuem Text adaptieren</li>
+                <li><code class="px-2 py-0.5 bg-slate-100 rounded text-sm">scripts/ingest/wzb/</code> — Pipeline-Skripte (Auto-Match, Bulk-Resolve, POS-Apply); pro neuem Text adaptieren</li>
                 <li><a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/.gemini/skills/pos-disambiguator/SKILL.md" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>SKILL.md</code></a> — POS-Tagset-Reference + Disambiguierungs-Regeln</li>
             </ul>
 
