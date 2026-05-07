@@ -1,139 +1,159 @@
 # MHDBDB TEI Repository
 
-TEI-encoded Middle High German literature texts with semantic annotations and **dual web interfaces** from the [Mittelhochdeutsche Begriffsdatenbank (MHDBDB)](https://mhdbdb.plus.ac.at), University of Salzburg.
+TEI-codierte Texte mittelhochdeutscher Literatur mit semantischen Annotationen und **zwei Web-Oberflächen** aus der [Mittelhochdeutschen Begriffsdatenbank (MHDBDB)](https://mhdbdb.plus.ac.at), Universität Salzburg.
 
-**Live:** [Main Site](https://dhcraft.org/mhdbdb-tei-only/) | [Playground](https://dhcraft.org/mhdbdb-tei-only/playground/)
+**Live:** [Hauptseite](https://dhcraft.org/mhdbdb-tei-only/) | [Playground](https://dhcraft.org/mhdbdb-tei-only/playground/)
 
-## Overview
+## Überblick
 
-All data originates from the [Mittelhochdeutsche Begriffsdatenbank (MHDBDB)](https://mhdbdb.plus.ac.at) at the University of Salzburg — a research project with over 50 years of medievalist text and concept scholarship.
+Alle Daten stammen aus der [Mittelhochdeutschen Begriffsdatenbank (MHDBDB)](https://mhdbdb.plus.ac.at) an der Universität Salzburg — einem Forschungsprojekt mit über 50 Jahren mediävistischer Text- und Begriffsforschung.
 
-### Corpus Content
-- TEI-encoded texts of Middle High German literature
-- Authority files: persons, works, lexicon, concepts, genres, names, variants
-- Pre-built indices for fast search
-- Comprehensive test suite with Playwright integration
+### Korpus-Inhalt
+- TEI-codierte Texte mittelhochdeutscher Literatur
+- Authority Files: Personen, Werke, Lexikon, Konzepte, Gattungen, Namen, Varianten (+ projektinternes Kontributoren-Register)
+- Vorgebaute Indizes für schnelle Suche
+- Umfassende Test-Suite mit Playwright-Integration
 
-### Two Web Interfaces
+### Zwei Web-Oberflächen
 
-| Feature | **Main Site** ([index.html](index.html)) | **Playground** ([playground/](playground/index.html)) |
-|---------|------------------------|------------------|
-| **Purpose** | Public search & reading | Advanced research & analysis |
-| **Data** | Pre-built indices | Pre-built authority index + lazy-loaded TEI |
-| **Search** | Single lemma with filters | Multiple search types (incl. multi-lemma) |
-| **Target Users** | General public, students | Researchers, medievalists |
+| Aspekt | **Hauptseite** ([index.html](index.html)) | **Playground** ([playground/](playground/index.html)) |
+|--------|-------------------------------------------|--------------------------------------------------------|
+| **Zweck** | Öffentliche Suche & Lektüre | Erweiterte Forschung & Analyse |
+| **Suche** | Einzel-Lemma mit Filtern | Mehrere Suchmodi (inkl. Multi-Lemma) |
+| **Zielgruppe** | Allgemeines Publikum, Studierende | Forschende, Mediävist:innen |
 
-## 📚 Documentation
+Beide Interfaces nutzen vorgebaute Indizes für die Suche und laden TEI-Dateien on-demand für die Text-Anzeige.
 
-### For Developers
-- **[CLAUDE.md](CLAUDE.md)** - Primary developer guide and project overview
-- **[docs/INDEX.MD](docs/INDEX.MD)** - Comprehensive knowledge base gateway with links to specialized documentation
+## 📚 Dokumentation
 
-### For Users
-- Playground includes built-in help and search examples
-- Authority data browsing with filtering and sorting
+### Für Entwickler:innen
+- **[CLAUDE.md](CLAUDE.md)** — primäres Entwickler-Briefing und Projekt-Überblick
+- **[docs/INDEX.MD](docs/INDEX.MD)** — Wissensbasis mit Verweisen auf alle Spezial-Dokumente
 
-## Quick Start
+### Für Nutzer:innen
+- Playground: integrierte Hilfe, Such-Beispiele und Authority-Daten-Browsing mit Filterung und Sortierung
 
-### Start Web Server
+## Schnellstart
+
+### Web-Server starten
 ```bash
 npm run serve
-# Opens http://localhost:8080
+# Öffnet http://localhost:8080
 ```
 
-### Build Indices (Optional)
-Pre-built indices are included. To rebuild:
+### Indizes bauen (optional)
+Vorgebaute Indizes sind im Repository enthalten. Zum Neubau:
 ```bash
-npm run build              # Build CSS + all indices + manifest
-npm run build:authority    # Build authority index only
-npm run build:corpus       # Build corpus index only
-npm run validate:indices   # Validate generated indices
+npm run build              # CSS + alle Indizes + Manifest bauen
+npm run build:authority    # Nur Authority-Index
+npm run build:corpus       # Nur Korpus-Index
+npm run validate:indices   # Generierte Indizes validieren
 ```
 
-### Run Tests
+### Tests ausführen
 ```bash
-npm test                   # Run all tests
-npm run test:ui            # Interactive test UI
-npm run test:headed        # Run with visible browser
+npm test                   # Alle Tests
+npm run test:ui            # Interaktives Test-UI
+npm run test:headed        # Mit sichtbarem Browser
 ```
 
-### Programmatic Access
-TEI files reference authority data via `xml:id`:
+### Programmatischer Zugriff
+TEI-Dateien referenzieren Authority-Daten über `xml:id`:
 ```xml
 <author ref="#person_445">Meister Eckhart</author>
-<w lemmaRef="lexicon.xml#lemma_38952" pos="N" ana="lexicon.xml#lemma_38952_sense_1">vriunt</w>
+<w lemmaRef="lexicon.xml#lemma_879" pos="NOM" ana="lexicon.xml#lemma_879_sense_1449">brôt</w>
 ```
 
-### XPath Examples
+### XPath-Beispiele
 ```xpath
-//tei:persName[@type='preferred']                    # All preferred person names
-//tei:w[contains(@lemmaRef, 'lemma_38952')]          # All tokens linked to lemma 'vriunt'
+//tei:persName[@type='preferred']                    # Alle bevorzugten Personennamen
+//tei:w[@lemmaRef='lexicon.xml#lemma_879']           # Alle Tokens, die auf Lemma 'brôt' verweisen
 ```
+
+## Glossar
+
+Zentrale Konzepte und ihre TEI-Repräsentation:
+
+| Konzept | TEI-Marker | Bedeutung |
+|---------|------------|-----------|
+| **Token** (Wortinstanz) | `<w>` | Ein konkretes Vorkommen eines Wortes im Text |
+| **Lemma** (Grundform) | `@lemmaRef` → `lexicon.xml#lemma_X` | „brôt" für die Wortform „brôtes", „vriunt" für „vriunde" |
+| **Sense** (Bedeutung) | `@ana` → `lexicon.xml#lemma_X_sense_Y` | Eine von mehreren Bedeutungen eines Lemmas |
+| **Konzept** (abstrakt) | `<ptr target="concepts.xml#concept_X">` in `<sense>` | Semantischer Taxonomie-Knoten, z.B. „Pflanze" |
+| **Wortart** | `@pos` | NOM, VRB, ADJ, … ([19-Tag-Set](.gemini/skills/pos-disambiguator/SKILL.md)) |
+| **Person / Autor** | `<author ref="#person_X">` | Historische Person (Eintrag in `persons.xml`) |
+| **Werk** | `<msIdentifier corresp="works.xml#work_X">` | Literarisches Werk (Eintrag in `works.xml`) |
+| **Gattung** | Verweise auf `genres.xml#genre_X` | Texttyp (Epos, Lyrik, …) |
+
+**Hierarchie:** Ein **Token** hat ein **Lemma** (Form), optional einen **Sense** (Bedeutung), und ein Sense kann auf ein oder mehrere **Konzepte** (semantische Tags) verweisen.
+
+Tiefergehende Details in [docs/TEI-MODEL.md](docs/TEI-MODEL.md) und [docs/DATA-MODEL.MD](docs/DATA-MODEL.MD).
 
 ## Authority Files
 
-| File | Content |
-|------|---------|
-| **persons.xml** | Authors and historical persons |
-| **works.xml** | Works and manuscript metadata |
-| **lexicon.xml** | Lemmata with grammatical annotations |
-| **concepts.xml** | Semantic concepts (taxonomy) |
-| **genres.xml** | Literary genres (taxonomy) |
-| **names.xml** | Proper names with semantic relations |
-| **variants.xml** | Orthographic variants mapped to lemmas |
+| Datei | Inhalt |
+|-------|--------|
+| **persons.xml** | Autor:innen und historische Personen |
+| **works.xml** | Werke und Manuskript-Metadaten |
+| **lexicon.xml** | Lemmata mit grammatikalischen Annotationen |
+| **concepts.xml** | Semantische Konzepte (Taxonomie) |
+| **genres.xml** | Literarische Gattungen (Taxonomie) |
+| **names.xml** | Eigennamen mit semantischen Beziehungen |
+| **variants.xml** | Orthographische Varianten, gemappt auf Lemmata |
+| **contributors.xml** | Projektinternes MHDBDB-Team-Register, referenziert per `@ref` aus TEI-Headern (seit 2026-04) |
 
 ## Schema
 
-Custom RELAX NG schemas validate all TEI files in the repository:
+Eigene RELAX-NG-Schemas validieren alle TEI-Dateien im Repository:
 
-| Schema | Validates | Files |
-|--------|-----------|-------|
-| [`mhdbdb.rnc`](schema/mhdbdb.rnc) | Corpus texts (`tei/*.tei.xml`) | 666 |
-| [`mhdbdb-authority.rnc`](schema/mhdbdb-authority.rnc) | Authority files (`authority-files/*.xml`) | 8 |
+| Schema | Validiert | Dateien |
+|--------|-----------|---------|
+| [`mhdbdb.rnc`](schema/mhdbdb.rnc) | Korpus-Texte (`tei/*.tei.xml`) | 667 |
+| [`mhdbdb-authority.rnc`](schema/mhdbdb-authority.rnc) | Authority Files (`authority-files/*.xml`) | 8 |
 
-The schemas constrain standard TEI attributes to MHDBDB conventions (required `@xml:id` on `<w>`, `@join` on `<pc>`, allowed `div/@type` values, etc.). See [`schema/README.md`](schema/README.md) for rationale and design decisions.
+Die Schemas verschärfen Standard-TEI-Attribute auf MHDBDB-Konventionen (Pflicht-`@xml:id` auf `<w>`, `@join` auf `<pc>`, erlaubte `div/@type`-Werte etc.). Begründung und Design-Entscheidungen siehe [`schema/README.md`](schema/README.md).
 
-## Architecture
+## Architektur
 
-### Pre-Built Indices
+### Vorgebaute Indizes
 
-The repository includes pre-built compressed indices for fast loading:
+Das Repository enthält vorgebaute, komprimierte Indizes für schnelles Laden:
 
-| Index | Contains |
-|-------|----------|
-| **authority-index.json.gz** | All authority files merged |
-| **corpus-index.json.gz** | Texts with lemma positions |
+| Index | Inhalt |
+|-------|--------|
+| **authority-index.json.gz** | Die 7 durchsuchbaren Authority Files zusammengeführt (ohne `contributors.xml`) |
+| **corpus-index.json.gz** | Texte mit Lemma-Positionen |
 
-**Features:**
-- Compressed JSON format for reduced download size
-- IndexedDB caching with automatic expiration
-- No XML parsing overhead in browser
+**Eigenschaften:**
+- Komprimiertes JSON-Format reduziert die Download-Größe
+- IndexedDB-Cache mit automatischem Ablauf
+- Kein XML-Parsing-Overhead im Browser
 
-### Technology Stack
+### Technologie-Stack
 
 - **Frontend:** Vanilla JavaScript (ES Modules), Tailwind CSS
-- **Compression:** Pako (gzip compression)
-- **Storage:** Dexie.js (IndexedDB wrapper)
-- **Testing:** Playwright
-- **Build:** Python + lxml for index generation
-- **Server:** http-server (npm) or Python http.server
+- **Kompression:** Pako (gzip)
+- **Speicherung:** Dexie.js (IndexedDB-Wrapper)
+- **Tests:** Playwright
+- **Build:** Python + lxml für Index-Generierung
+- **Server:** http-server (npm) oder Python http.server
 
-### Middle High German Normalization
+### Mittelhochdeutsche Normalisierung
 
-All search functions use centralized MHG character normalization:
-- Long vowels: `â→a, ê→e, î→i, ô→o, û→u`
-- Umlauts: `ä→ae, ö→oe, ü→ue`
-- Parity between Python (build) and JavaScript (runtime)
-- Comprehensive automated test coverage
+Alle Such-Funktionen nutzen eine zentrale MHG-Zeichen-Normalisierung:
+- Lange Vokale: `â→a, ê→e, î→i, ô→o, û→u`
+- Umlaute: `ä→ae, ö→oe, ü→ue`
+- Parität zwischen Python (Build) und JavaScript (Runtime)
+- Umfassende automatisierte Test-Abdeckung
 
-## License & Contact
+## Lizenz & Kontakt
 
-**License:** [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
-**Contact:** mhdbdb@plus.ac.at | https://mhdbdb.plus.ac.at
-**Project:** University of Salzburg, 50+ years of medievalist research
+**Lizenz:** [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+**Kontakt:** mhdbdb@plus.ac.at | https://mhdbdb.plus.ac.at
+**Projekt:** Universität Salzburg, über 50 Jahre mediävistische Forschung
 
-## Acknowledgement
+## Danksagung
 
-This project was supported by [CLARIAH-AT](https://clariah.at/de/).
+Dieses Projekt wurde von [CLARIAH-AT](https://clariah.at/de/) unterstützt.
 
-CLARIAH-AT provides essential infrastructure and support for digital humanities research in Austria. We gratefully acknowledge this contribution.
+CLARIAH-AT stellt essentielle Infrastruktur und Unterstützung für die digitale geisteswissenschaftliche Forschung in Österreich bereit. Wir bedanken uns ausdrücklich für diesen Beitrag.
