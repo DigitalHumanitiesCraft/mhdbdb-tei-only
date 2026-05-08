@@ -943,10 +943,26 @@
       <ref name="lg"/>
       <ref name="l"/>
       <ref name="head"/>
+      <ref name="unclear"/>
+      <ref name="add"/>
+      <ref name="gap"/>
+      <ref name="abbr"/>
+      <ref name="expan"/>
+      <ref name="am"/>
+      <ref name="g"/>
+      <ref name="roleName"/>
+      <ref name="occupation"/>
+      <ref name="placeName"/>
+      <ref name="persName.inline"/>
+      <ref name="person.inline"/>
+      <ref name="unit"/>
+      <ref name="rs"/>
+      <ref name="figure"/>
     </choice>
   </define>
   <define name="hi.content.model">
     <choice>
+      <ref name="hi"/>
       <ref name="w"/>
       <ref name="pc"/>
       <ref name="lb"/>
@@ -959,6 +975,60 @@
       <ref name="lg"/>
       <ref name="l"/>
       <ref name="head"/>
+      <ref name="unclear"/>
+      <ref name="add"/>
+      <ref name="gap"/>
+      <ref name="abbr"/>
+      <ref name="expan"/>
+      <ref name="am"/>
+      <ref name="g"/>
+      <ref name="roleName"/>
+      <ref name="occupation"/>
+      <ref name="placeName"/>
+      <ref name="persName.inline"/>
+      <ref name="person.inline"/>
+      <ref name="unit"/>
+      <ref name="rs"/>
+      <ref name="figure"/>
+    </choice>
+  </define>
+  <define name="div.type.standard">
+    <choice>
+      <value>chapter</value>
+      <value>section</value>
+      <value>number</value>
+      <value>song</value>
+      <value>parallel</value>
+      <value>colophon</value>
+      <value>recipe</value>
+    </choice>
+  </define>
+  <define name="div.type.arithmetic">
+    <choice>
+      <value>outline</value>
+      <value>commodity_calculation</value>
+      <value>reckoning_example</value>
+      <value>fraction_calculation</value>
+      <value>cooperation_calculation</value>
+      <value>conversion_calculation</value>
+      <value>allocation_calculation</value>
+      <value>calculation_on_the_line</value>
+      <value>test</value>
+      <value>addition</value>
+      <value>multiplication</value>
+      <value>division</value>
+      <value>subtraction</value>
+      <value>bisection</value>
+      <value>doubling</value>
+      <value>progression</value>
+      <value>regula_de_tri</value>
+      <value>root_extraction</value>
+      <value>numeration</value>
+      <value>interest_calculation</value>
+      <value>conversion_table</value>
+      <value>result</value>
+      <value>distance_calculation</value>
+      <value>salary_calculation</value>
     </choice>
   </define>
   <define name="body.content">
@@ -971,16 +1041,8 @@
           <ref name="l"/>
           <ref name="head"/>
           <ref name="ab"/>
-          <ref name="w"/>
-          <ref name="pc"/>
-          <ref name="hi"/>
-          <ref name="lb"/>
-          <ref name="pb"/>
-          <ref name="cb"/>
-          <ref name="caesura"/>
-          <ref name="supplied"/>
-          <ref name="num"/>
-          <ref name="note"/>
+          <ref name="figure"/>
+          <ref name="inline.model"/>
         </choice>
       </zeroOrMore>
     </mixed>
@@ -992,13 +1054,8 @@
         <attribute>
           <name ns="">type</name>
           <choice>
-            <value>chapter</value>
-            <value>section</value>
-            <value>number</value>
-            <value>song</value>
-            <value>parallel</value>
-            <value>colophon</value>
-            <value>recipe</value>
+            <ref name="div.type.standard"/>
+            <ref name="div.type.arithmetic"/>
           </choice>
         </attribute>
       </optional>
@@ -1017,16 +1074,8 @@
             <ref name="l"/>
             <ref name="head"/>
             <ref name="ab"/>
-            <ref name="w"/>
-            <ref name="pc"/>
-            <ref name="hi"/>
-            <ref name="lb"/>
-            <ref name="pb"/>
-            <ref name="cb"/>
-            <ref name="caesura"/>
-            <ref name="supplied"/>
-            <ref name="num"/>
-            <ref name="note"/>
+            <ref name="figure"/>
+            <ref name="inline.model"/>
           </choice>
         </zeroOrMore>
       </mixed>
@@ -1172,7 +1221,11 @@
           <text/>
         </attribute>
       </optional>
-      <text/>
+      <mixed>
+        <zeroOrMore>
+          <ref name="hi"/>
+        </zeroOrMore>
+      </mixed>
     </element>
   </define>
   <define name="pc">
@@ -1249,9 +1302,18 @@
           <text/>
         </attribute>
       </optional>
+      <optional>
+        <attribute>
+          <name ns="">place</name>
+          <text/>
+        </attribute>
+      </optional>
       <mixed>
         <zeroOrMore>
-          <ref name="inline.model"/>
+          <choice>
+            <ref name="p"/>
+            <ref name="inline.model"/>
+          </choice>
         </zeroOrMore>
       </mixed>
     </element>
@@ -1262,6 +1324,12 @@
       <optional>
         <attribute>
           <name ns="">n</name>
+          <text/>
+        </attribute>
+      </optional>
+      <optional>
+        <attribute>
+          <name ns="">break</name>
           <text/>
         </attribute>
       </optional>
@@ -1314,6 +1382,341 @@
         </attribute>
       </optional>
       <empty/>
+    </element>
+  </define>
+  <define name="unclear">
+    <element>
+      <name ns="http://www.tei-c.org/ns/1.0">unclear</name>
+      <optional>
+        <attribute>
+          <name ns="">reason</name>
+          <text/>
+        </attribute>
+      </optional>
+      <optional>
+        <attribute>
+          <name ns="">cert</name>
+          <text/>
+        </attribute>
+      </optional>
+      <mixed>
+        <zeroOrMore>
+          <ref name="inline.model"/>
+        </zeroOrMore>
+      </mixed>
+    </element>
+  </define>
+  <define name="add">
+    <element>
+      <name ns="http://www.tei-c.org/ns/1.0">add</name>
+      <optional>
+        <attribute>
+          <name ns="">place</name>
+          <text/>
+        </attribute>
+      </optional>
+      <optional>
+        <attribute>
+          <name ns="">hand</name>
+          <text/>
+        </attribute>
+      </optional>
+      <mixed>
+        <zeroOrMore>
+          <ref name="inline.model"/>
+        </zeroOrMore>
+      </mixed>
+    </element>
+  </define>
+  <define name="gap">
+    <element>
+      <name ns="http://www.tei-c.org/ns/1.0">gap</name>
+      <optional>
+        <attribute>
+          <name ns="">reason</name>
+          <text/>
+        </attribute>
+      </optional>
+      <optional>
+        <attribute>
+          <name ns="">extent</name>
+          <text/>
+        </attribute>
+      </optional>
+      <optional>
+        <attribute>
+          <name ns="">unit</name>
+          <text/>
+        </attribute>
+      </optional>
+      <empty/>
+    </element>
+  </define>
+  <define name="abbr">
+    <element>
+      <name ns="http://www.tei-c.org/ns/1.0">abbr</name>
+      <optional>
+        <attribute>
+          <name ns="">type</name>
+          <text/>
+        </attribute>
+      </optional>
+      <mixed>
+        <zeroOrMore>
+          <ref name="inline.model"/>
+        </zeroOrMore>
+      </mixed>
+    </element>
+  </define>
+  <define name="expan">
+    <element>
+      <name ns="http://www.tei-c.org/ns/1.0">expan</name>
+      <optional>
+        <attribute>
+          <name ns="">type</name>
+          <text/>
+        </attribute>
+      </optional>
+      <mixed>
+        <zeroOrMore>
+          <ref name="inline.model"/>
+        </zeroOrMore>
+      </mixed>
+    </element>
+  </define>
+  <define name="am">
+    <element>
+      <name ns="http://www.tei-c.org/ns/1.0">am</name>
+      <mixed>
+        <zeroOrMore>
+          <ref name="inline.model"/>
+        </zeroOrMore>
+      </mixed>
+    </element>
+  </define>
+  <define name="g">
+    <element>
+      <name ns="http://www.tei-c.org/ns/1.0">g</name>
+      <optional>
+        <attribute>
+          <name ns="">ref</name>
+          <text/>
+        </attribute>
+      </optional>
+      <text/>
+    </element>
+  </define>
+  <define name="roleName">
+    <element>
+      <name ns="http://www.tei-c.org/ns/1.0">roleName</name>
+      <optional>
+        <attribute>
+          <name ns="">type</name>
+          <text/>
+        </attribute>
+      </optional>
+      <mixed>
+        <zeroOrMore>
+          <ref name="inline.model"/>
+        </zeroOrMore>
+      </mixed>
+    </element>
+  </define>
+  <define name="occupation">
+    <element>
+      <name ns="http://www.tei-c.org/ns/1.0">occupation</name>
+      <optional>
+        <attribute>
+          <name ns="">type</name>
+          <text/>
+        </attribute>
+      </optional>
+      <mixed>
+        <zeroOrMore>
+          <ref name="inline.model"/>
+        </zeroOrMore>
+      </mixed>
+    </element>
+  </define>
+  <define name="placeName">
+    <element>
+      <name ns="http://www.tei-c.org/ns/1.0">placeName</name>
+      <optional>
+        <attribute>
+          <name ns="">type</name>
+          <text/>
+        </attribute>
+      </optional>
+      <optional>
+        <attribute>
+          <name ns="">ref</name>
+          <text/>
+        </attribute>
+      </optional>
+      <mixed>
+        <zeroOrMore>
+          <ref name="inline.model"/>
+        </zeroOrMore>
+      </mixed>
+    </element>
+  </define>
+  <define name="persName.inline">
+    <element>
+      <name ns="http://www.tei-c.org/ns/1.0">persName</name>
+      <optional>
+        <attribute>
+          <name ns="">type</name>
+          <text/>
+        </attribute>
+      </optional>
+      <optional>
+        <attribute>
+          <name ns="">role</name>
+          <text/>
+        </attribute>
+      </optional>
+      <optional>
+        <attribute>
+          <name ns="">ref</name>
+          <text/>
+        </attribute>
+      </optional>
+      <optional>
+        <attribute>
+          <name ns="http://www.w3.org/XML/1998/namespace">lang</name>
+          <text/>
+        </attribute>
+      </optional>
+      <mixed>
+        <zeroOrMore>
+          <ref name="inline.model"/>
+        </zeroOrMore>
+      </mixed>
+    </element>
+  </define>
+  <define name="person.inline">
+    <element>
+      <name ns="http://www.tei-c.org/ns/1.0">person</name>
+      <optional>
+        <attribute>
+          <name ns="">type</name>
+          <text/>
+        </attribute>
+      </optional>
+      <optional>
+        <attribute>
+          <name ns="">role</name>
+          <text/>
+        </attribute>
+      </optional>
+      <optional>
+        <attribute>
+          <name ns="">ref</name>
+          <text/>
+        </attribute>
+      </optional>
+      <optional>
+        <attribute>
+          <name ns="http://www.w3.org/XML/1998/namespace">lang</name>
+          <text/>
+        </attribute>
+      </optional>
+      <mixed>
+        <zeroOrMore>
+          <ref name="inline.model"/>
+        </zeroOrMore>
+      </mixed>
+    </element>
+  </define>
+  <define name="unit.type">
+    <choice>
+      <value>measurement</value>
+      <value>weight</value>
+      <value>length</value>
+      <value>volume</value>
+      <value>distance</value>
+    </choice>
+  </define>
+  <define name="unit">
+    <element>
+      <name ns="http://www.tei-c.org/ns/1.0">unit</name>
+      <optional>
+        <attribute>
+          <name ns="">type</name>
+          <ref name="unit.type"/>
+        </attribute>
+      </optional>
+      <optional>
+        <attribute>
+          <name ns="">ana</name>
+          <text/>
+        </attribute>
+      </optional>
+      <mixed>
+        <zeroOrMore>
+          <ref name="inline.model"/>
+        </zeroOrMore>
+      </mixed>
+    </element>
+  </define>
+  <define name="rs.type">
+    <choice>
+      <value>currency</value>
+      <value>goods</value>
+    </choice>
+  </define>
+  <define name="rs">
+    <element>
+      <name ns="http://www.tei-c.org/ns/1.0">rs</name>
+      <optional>
+        <attribute>
+          <name ns="">type</name>
+          <ref name="rs.type"/>
+        </attribute>
+      </optional>
+      <optional>
+        <attribute>
+          <name ns="">ref</name>
+          <text/>
+        </attribute>
+      </optional>
+      <optional>
+        <attribute>
+          <name ns="">ana</name>
+          <text/>
+        </attribute>
+      </optional>
+      <mixed>
+        <zeroOrMore>
+          <ref name="inline.model"/>
+        </zeroOrMore>
+      </mixed>
+    </element>
+  </define>
+  <define name="figure">
+    <element>
+      <name ns="http://www.tei-c.org/ns/1.0">figure</name>
+      <optional>
+        <attribute>
+          <name ns="">type</name>
+          <text/>
+        </attribute>
+      </optional>
+      <optional>
+        <attribute>
+          <name ns="">n</name>
+          <text/>
+        </attribute>
+      </optional>
+      <mixed>
+        <zeroOrMore>
+          <choice>
+            <ref name="head"/>
+            <ref name="p"/>
+            <ref name="inline.model"/>
+          </choice>
+        </zeroOrMore>
+      </mixed>
     </element>
   </define>
 </grammar>

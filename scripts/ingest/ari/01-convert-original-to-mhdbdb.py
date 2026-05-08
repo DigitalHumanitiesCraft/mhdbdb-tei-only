@@ -176,7 +176,23 @@ def deep_clone(elem, new_parent, counters):
       <seg type="token">  → <w>
       <seg type="pc">     → <pc join="...">
     Alle anderen Elemente werden tag-erhaltend in den Default-NS überführt.
+    XML-Kommentare und Processing-Instructions werden uebersprungen
+    (deren tail-Text wird ans vorherige Sibling oder den Parent angehangen,
+    damit kein Inhaltsverlust auftritt).
     """
+    if not isinstance(elem.tag, str):
+        # XML-Comment oder Processing-Instruction: ueberspringen,
+        # aber tail-Text bewahren (an Parent.text oder Last-Sibling.tail).
+        if elem.tail and elem.tail.strip():
+            children = list(new_parent)
+            if children:
+                last = children[-1]
+                last.tail = (last.tail or "") + elem.tail
+            else:
+                new_parent.text = (new_parent.text or "") + elem.tail
+        counters["comments_skipped"] = counters.get("comments_skipped", 0) + 1
+        return
+
     local = etree.QName(elem.tag).localname
 
     if local == "seg":
