@@ -170,6 +170,45 @@
                 <li><code class="px-2 py-0.5 bg-slate-100 rounded">&lt;seg type="pc"&gt;</code> &nbsp;→ stattdessen <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;pc join="left|right"&gt;</code></li>
             </ul>
 
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">TEI-P5-Standardelemente, optional erlaubt (seit 2026-05-08)</h3>
+            <p class="text-sm text-slate-700 leading-relaxed mb-3">
+                Diese TEI-P5-Elemente waren bisher nicht im MHDBDB-Schema und wurden mit der ARITHMETIC-Aufnahme als optional zugelassen
+                (Beschluss <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/docs/DECISIONS.MD" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">PD-001</a>, siehe auch §5.4).
+                Sie müssen für kein Korpus genutzt werden:
+            </p>
+            <div class="overflow-x-auto mb-3">
+                <table class="w-full text-sm border border-slate-200 rounded">
+                    <thead class="bg-slate-100">
+                        <tr>
+                            <th class="text-left p-3">Kategorie</th>
+                            <th class="text-left p-3">Elemente</th>
+                            <th class="text-left p-3">Verwendung</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200">
+                        <tr>
+                            <td class="p-3">Editorisch</td>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">&lt;unclear&gt;</code>, <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;add&gt;</code>, <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;gap&gt;</code>, <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;abbr&gt;</code>, <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;expan&gt;</code>, <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;am&gt;</code>, <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;g&gt;</code></td>
+                            <td class="p-3">Unsicherheit, Hinzufügung, Lücke, Abbreviatur und ihre Auflösung</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3">Onomastik</td>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">&lt;roleName&gt;</code>, <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;occupation&gt;</code>, <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;placeName&gt;</code>, <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;persName&gt;</code> (Inline), <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;person&gt;</code> (Inline)</td>
+                            <td class="p-3">Personen-, Rollen-, Berufs- und Ortsannotation im Body</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3">Domain Arithmetik</td>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">&lt;unit&gt;</code> (<code class="px-2 py-0.5 bg-slate-100 rounded">@type</code>: weight/length/volume/distance/measurement), <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;rs&gt;</code> (<code class="px-2 py-0.5 bg-slate-100 rounded">@type</code>: currency/goods), <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;figure&gt;</code></td>
+                            <td class="p-3">Maßeinheiten, Währungen, Diagramme/Rechen-Layouts</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-sm text-slate-600 leading-relaxed mb-6">
+                Plus 24 zusätzliche <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;div&gt;/@type</code>-Werte für Rechenbuch-Strukturklassifikation und 5 zusätzliche <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;hi&gt;/@rend</code>-Tokens (<em>superscript, subscript, line-through, heading, underline</em>). Vollständige Spec:
+                <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/docs/TEI-MODEL.md" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>TEI-MODEL.md §6.0</code></a>.
+            </p>
+
             <h3 class="text-lg font-semibold text-slate-800 mb-2">GAPs (bewusst gelockert)</h3>
             <p class="text-slate-700 leading-relaxed mb-2">
                 Das Schema toleriert elf strukturelle Abweichungen von TEI&nbsp;P5, weil eine
@@ -334,6 +373,12 @@
                 Skribale Marker (ł, ̃, =, einzelne Initial-Buchstaben) gehören als
                 <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;pc&gt;</code>, nicht als
                 <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;w&gt;</code>.
+                Wenn der Initial-Buchstabe Teil eines Wortes ist (Pattern aus älteren GAMS-Daten:
+                <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;seg type="token"&gt;&lt;hi rend="initial"&gt;A&lt;/hi&gt;in&lt;/seg&gt;</code>),
+                wird er nach Konversion zu
+                <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;w&gt;&lt;hi rend="initial"&gt;A&lt;/hi&gt;in&lt;/w&gt;</code>:
+                der <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;w&gt;</code>-Container darf seit 2026-05-08
+                <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;hi&gt;</code>-Children enthalten.
             </p>
 
             <h3 class="text-lg font-semibold text-slate-800 mb-2">3.3 Strukturelle Konventionen</h3>
@@ -599,6 +644,12 @@ L105: Element body has extra content: div    ← Cascade-Spitze</code></pre>
                 Sigle, Pfade und text-spezifische Eigenheiten angepasst; sie ist <strong>nicht
                 plug-and-play</strong>.
             </p>
+            <p class="text-sm text-slate-600 leading-relaxed mb-4">
+                <strong>Ingest-Konvention</strong> (seit 2026-05-08): Source-Daten und Pipeline-Artefakte pro Korpus liegen unter
+                <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">ingest/&lt;sigle&gt;/</code>, die Pipeline-Skripte unter
+                <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">scripts/ingest/&lt;sigle&gt;/</code>.
+                <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">tei/</code> enthält nur produktionsreife Korpus-Files mit finalen Authority-Cross-References.
+            </p>
 
             <h3 class="text-lg font-semibold text-slate-800 mb-2">Phase 1: Lemmatisierung</h3>
             <p class="text-sm text-slate-700 leading-relaxed mb-2">
@@ -660,9 +711,11 @@ L105: Element body has extra content: div    ← Cascade-Spitze</code></pre>
             <pre class="bg-slate-50 border border-slate-200 rounded-lg p-4 text-xs overflow-x-auto mb-4"><code># Voraussetzung: schema/tei_all.rng heruntergeladen, lxml installiert
 python -c "
 from lxml import etree
-mhdbdb = etree.RelaxNG(etree.parse('schema/mhdbdb.rng'))
+tei_all = etree.RelaxNG(etree.parse('schema/tei_all.rng'))
+mhdbdb  = etree.RelaxNG(etree.parse('schema/mhdbdb.rng'))
 doc = etree.parse('tei/SIGLE.tei.xml')
-print('Stage 2:', 'PASS' if mhdbdb.validate(doc) else mhdbdb.error_log)
+print('Stage 1 (TEI P5):  ', 'PASS' if tei_all.validate(doc) else 'FAIL — toleriert (siehe GAP-Baseline)')
+print('Stage 2 (MHDBDB):  ', 'PASS' if mhdbdb.validate(doc) else mhdbdb.error_log)
 "</code></pre>
 
             <h3 class="text-lg font-semibold text-slate-800 mb-2">Volles Skript</h3>
