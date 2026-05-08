@@ -83,7 +83,7 @@ HEADER_TEMPLATE = """<teiHeader xmlns="http://www.tei-c.org/ns/1.0">
         </authority>
         <availability>
           <licence target="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</licence>
-          <p>Originaldaten aus dem Arithmetic-Projekt (Universität Graz, GAMS) unter CC BY-SA 4.0. Die MHDBDB-spezifischen semantischen Annotationen stehen unter CC BY-NC-SA 4.0. Lizenz noch von Beitragender (Carina) zu bestätigen.</p>
+          <p>Daten und Annotationen unter CC BY-SA 4.0. Originaldaten aus dem Arithmetic-Projekt (Universität Graz, GAMS); Share-Alike-Klausel der Quell-Lizenz wird übernommen (CC BY-NC-SA 4.0 wäre mit BY-SA inkompatibel, daher kein Lizenz-Stack wie im MHDBDB-Bestand).</p>
         </availability>
         <date when="2026">2026</date>
       </publicationStmt>

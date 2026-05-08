@@ -815,9 +815,26 @@ This ADR retroactively describes a policy that was already applied in Phase A–
 ### PD-001: ARITHMETIC Domänen-Klassifikation erhalten oder wegtransformieren?
 
 **Date raised:** 2026-05-07
-**Status:** Open — Schema-Entscheidung steht aus (Carina + Katharina + Kernteam). Die fünf weiteren ARI-Kleinigkeits-Fragen (Sigle, Lizenz, Autor, Edition, Genre) sind durch Katharinas Antwort am 2026-05-08 geklärt; siehe [`scripts/ingest/ari/README.md`](../scripts/ingest/ari/README.md).
+**Date resolved:** 2026-05-08
+**Status:** Resolved (Mittelweg). Die fünf weiteren ARI-Kleinigkeits-Fragen (Sigle, Lizenz, Autor, Edition, Genre) sind ebenfalls geklärt; siehe [`scripts/ingest/ari/README.md`](../scripts/ingest/ari/README.md).
 **Issue:** [#92](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/92)
-**Dogfood-Befund (2026-05-08, München UB 279):** RelaxNG-Cascade verifiziert — die fünf nicht im Schema enthaltenen Element-/Attributklassen (`<unit>`, `<rs>`, `<unclear>`, `<hi rend="superscript|subscript">`, `<div type="commodity_calculation|reckoning_example">`) produzieren in einer 200-Zeilen-HS 6 Stage-2-Fehler. Werden sie entfernt oder ins Schema aufgenommen, validiert die konvertierte Datei sauber. Damit ist PD-001 die einzige verbleibende Blockade vor Stage-2-PASS.
+
+**Vollständiger Audit-Befund (2026-05-08, alle 6 HS):** 12 nicht im aktuellen MHDBDB-Schema enthaltene Element-Klassen, 24 zusätzliche `<div>/@type`-Werte, 7 zusätzliche `<hi>/@rend`-Tokens. Alle 12 Elemente sind TEI-P5-Standard. RelaxNG-Cascade verifiziert: Stage-2-Validierung fehlschlägt allein wegen dieser Klassen.
+
+**Entscheidung (Katharina + Christian, Signal 2026-05-08):** Mittelweg. Alle 12 Element-Klassen, alle 24 zusätzlichen `<div>/@type`-Werte und alle 7 `<hi>/@rend`-Tokens kommen als **optionale Elemente** ins Hauptschema `mhdbdb.rnc`. In `docs/TEI-MODEL.md` werden sie klar getrennt nach „Pflicht-Bestand für jedes Korpus" und „Domain-Erweiterung Arithmetik (optional)".
+
+**Begründung:**
+- Schema-Aufnahme heißt erlauben, nicht vorschreiben. Lyrik-Editor:innen müssen `<unit>`, `<rs>` etc. nie nutzen, wenn sie keine Brüche oder Maßeinheiten haben.
+- Alle 12 Elemente sind TEI-P5-Standard, also kein Erfinden neuer Tags.
+- `<unclear>` war im MHDBDB-Bestand früher als kursiv-Markierung präsent, ist verloren gegangen — wird mit dieser Aufnahme wieder eingeführt.
+- Editorisches Standard-Vokabular (`<add>`, `<gap>`, `<abbr>`, `<expan>`, `<am>`, `<g>`) und Onomastik (`<roleName>`, `<occupation>`, `<placeName>`) sind genre-agnostisch nützlich für künftige Aufnahmen.
+- Domain-spezifische Tags (`<unit>`, `<rs>`, `<figure>`, Rechentyp-`@type`-Werte, Bruchzahl-`@rend`-Werte) bewahren Carinas Forschungs-Annotation, die sonst verloren ginge.
+- Modulares Schema (eigene `mhdbdb-arithmetic.rnc`) wäre TEI-Lehrbuch-konformer, ist aber für n=2 (WZB+ARI) verfrühte Architektur.
+
+**Folge-Tasks:**
+1. Schema-Implementation in `mhdbdb.rnc` mit RNG-Regenerierung und Validierung der 667 Bestandsfiles (Track A heute geplant)
+2. **Begriffssystem-Anbindung** für `<unit>` und `<rs>`: Mapping auf `concepts.xml` über `@ana`, gemeinsam mit Carina (post-Schema-Aufnahme)
+3. **Reading-View-Render-Policy**: minimal halten, nur `<expan>` für Abbreviaturen anzeigen; Bruch-/Figur-/Rechnungs-Darstellung als förderbare Folge-Baustelle
 
 #### Problem
 

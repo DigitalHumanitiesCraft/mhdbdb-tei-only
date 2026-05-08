@@ -68,20 +68,32 @@ Folgt dem WZB-Pipeline-Pattern (`auto-match` → `pos-assign` → `sense-assign`
 |---|---|---|
 | 2026-05-07 | Issue #92 angelegt, Mail-Entwurf an Carina | Carina-Antwort steht aus |
 | 2026-05-08 | Stage 0 implementiert + Dogfood München UB 279 | 100 Wort-Tokens konvertiert; 6 Stage-2-Fehler durch 5 PD-001-Element-Klassen, alle anderen Aspekte sauber |
-| 2026-05-08 | Katharina antwortet zu 5 der 6 Kleinigkeits-Fragen | Konversion kann mit konkreten Defaults laufen, PD-001 bleibt offen |
+| 2026-05-08 | Mail-Klärung mit Carina + Schema-Diskussion mit Katharina | PD-001 entschieden: alle Domain-Tags ins Schema |
+| 2026-05-08 | Vollständiger Audit aller 6 HS | 12 nicht-Schema-Element-Klassen + 24 div/@type-Werte + 7 hi/@rend-Werte gefunden |
 
 ## Geklärt durch Katharina (2026-05-08)
 
 | Frage | Antwort |
 |---|---|
 | Sigle-Strategie | `ARI` mit Suffix ist OK; Carina darf auch alternative Sigle wählen. Default fürs Kernteam-Skript: `ARI_<KÜRZEL>` (z.B. `ARI_MUE279`) |
-| Lizenz | CC BY-SA 4.0 für Originaldaten passt; semantische Annotationen wie üblich CC BY-NC-SA 4.0 |
+| Lizenz | **CC BY-SA 4.0** für alles. Carinas Quell-Lizenz ist BY-SA, dessen Share-Alike-Klausel ist mit BY-NC-SA inkompatibel. Daher übernehmen wir BY-SA für Daten **und** MHDBDB-Annotationen (kein Lizenz-Stack wie im MHDBDB-Bestand). |
 | Autor | „alles was sie haben" — Schreiber-Zuschreibungen falls vorhanden, sonst `person_anonym` |
 | Edition | Druckausgabe als `<biblStruct>`; bei eigenen Änderungen an der Druckedition expliziter Hinweis im Header |
 | Genre | „Arithmetik" oder „Arithmetischer Lehrtext" aus der MHDBDB-Textreihentypologie (siehe https://www.marketext.at/Textreihentypologie/?page_id=30); Genre-IDs aus `genres.xml` lookupen |
 
-## Offen
+## PD-001 entschieden (2026-05-08, Katharina + Christian)
 
-| Frage | Status |
-|---|---|
-| **PD-001 Domänen-Klassifikation** | Bleibt offen. Entscheidung Carina + Katharina + Kernteam: `<unit>`, `<rs>`, `<unclear>`, `<hi rend="superscript\|subscript">`, `<div type="commodity_calculation\|reckoning_example">` erhalten oder wegtransformieren? Siehe [`docs/DECISIONS.MD § PD-001`](../../../docs/DECISIONS.MD) und 3 Optionen oben. |
+**Beschluss: Mittelweg.** Alle 12 Element-Klassen aus Carinas Daten kommen als optionale Elemente ins MHDBDB-Hauptschema. In `docs/TEI-MODEL.md` werden sie klar getrennt nach „Pflicht-Bestand für jedes Korpus" und „Domain-Erweiterung Arithmetik (optional)". Begründung: alle 12 Elemente sind TEI-P5-Standard, kein Erfinden neuer Tags. Schema-Aufnahme heißt erlauben, nicht vorschreiben — Lyrik-Editor:innen müssen sie nie nutzen.
+
+**Konkret aufzunehmen:**
+
+| Kategorie | Elemente | Begründung |
+|---|---|---|
+| Editorisches TEI-P5-Standard-Vokabular | `<unclear>`, `<add>`, `<gap>`, `<abbr>`, `<expan>`, `<am>`, `<g>` | Genre-agnostisch nützlich für jede edition-with-apparatus-Aufnahme. Katharina explizit: `<unclear>` war früher kursiv im Bestand, ist verloren gegangen, soll wieder rein. |
+| Onomastik (TEI-P5-Standard) | `<roleName>`, `<occupation>`, `<placeName>` | Generisch nützlich für alle Korpora mit Personen- oder Ortsbezug |
+| Domain-Erweiterung Arithmetik (optional) | `<unit>`, `<rs>`, `<figure>`, plus 24 zusätzliche `<div>/@type`-Werte (`outline`, `commodity_calculation`, `reckoning_example`, `fraction_calculation`, `regula_de_tri`, …), plus `<hi rend>`-Tokens (`superscript`, `subscript`, `line-through`, `heading`, `underline`) | Forschungsspezifisch für Rechenbücher. Klassifikation als „Domain-Erweiterung" in der Doku, im Schema als optional. |
+
+**Folge-Tasks (post-Schema-Aufnahme):**
+
+1. **Begriffssystem-Anbindung** für `<unit>` und `<rs>`: damit Maßeinheiten und Währungen über die MHDBDB-Suche auffindbar sind, müssen sie auf `concepts.xml` verlinken (via `@ana="concepts.xml#concept_NNNN"`). Mapping-Aufgabe gemeinsam mit Carina.
+2. **Reading-View-Render-Policy**: TEI darf reich sein, Frontend rendert sparsam. Konkret: Abbreviaturen auflösen (`<expan>`-Form anzeigen). Bruch-Display, Figur-Rendering, Rechnungs-Darstellung sind separate, **förderbare** Baustellen für die Zukunft.
