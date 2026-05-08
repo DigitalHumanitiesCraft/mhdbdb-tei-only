@@ -722,3 +722,44 @@ Die #32-followup-Arbeit (P1-10, P2-12, P2-13, P2-14, P2-15, `<hi>`-Flatten, PL1-
 3. **Pre-build-Hygiene-Issue** filen: `tei/`-Scan im Build sollte vor untracked files warnen oder optional ignorieren. Klein, claude-ready.
 4. **CoReMA als nächster Ingest-Track** (#34) oder **ARI-Phase-1 Lemmatisierung** (#92, blockiert auf Carina). Parallel-Option ohne Konflikt: #87 Playground UX-Cleanup.
 5. **Carinas Antwort für ARI**: bei Eintreffen ARI-TEI-Files mit finalen Metadaten neu konvertieren, von `ingest/ari/` nach `tei/` umziehen, Indexe rebuilden (jetzt mit funktionierender Cache-Invalidation auf beiden Achsen!).
+
+
+## 2026-05-08 15:04 handoff (Hilfe-Faktencheck + Issue-Updates + #79 closed)
+
+**Summary:** Nach dem parallelen WZB-Rebuild-Track (`19aa5b955`) folgte ein Faktencheck-Sweep über die 4 verbleibenden Hilfe-Seiten: Variantenzahl `175.910 → 192.472` an 5 Stellen, 4 Authority-File-Größen in `hilfe-daten.html` aktualisiert, Stand „Mai 2026" überall, Em-Dash-Hygiene. Issue-Comments auf #92 (ARITHMETIC) und #68 (Guide) gepostet. Issue #79 (User-facing Hilfe-Seite) geschlossen mit 7/8 Akzeptanzkriterien erfüllt; Plan-Doc `079-hilfe-seite.md` gelöscht.
+
+**Decisions:**
+- **Issue #79 schließen** (nicht offen lassen): 7/8 AKs erfüllt — Hub erreichbar, 5 V1-Seiten live (pragmatisch reduziert von 12), Nav-Header „Hilfe" auf allen Hauptseiten, Zitation auf Landing-Page mit Copy-Button, Lemmata-/Variantenzahl konsistent, keine englischen UI-Strings, `docs/research/` archiviert. Playwright-Smoke-Test als Maintenance-Folge-Task notiert (kein Blocker für statische HTML-Seiten).
+- **Plan-Doc `079-hilfe-seite.md` löschen** statt aufbewahren: der ursprüngliche 12-Seiten-Plan wurde pragmatisch in 5 Seiten umgesetzt; das Doc beschrieb eine Struktur, die so nicht existiert. Promptotyping-Konvention sagt zwar „Doc bleibt während Issue offen", aber wenn das Doc inhaltlich obsolet ist, schadet es mehr (Verwirrung) als es nützt. Git-Historie als Archiv.
+- **Em-Dash-Hygiene auch in Code-Snippets**: einen Em-Dash gefixt, den ich heute selbst eingeführt hatte (§7 Validierungs-Code-Beispiel `'FAIL — toleriert'`). Memory-Regel verbietet Em-Dashes in user-facing — auch in Code-Snippets, weil das beim print-Output sichtbar wird. Doppelpunkt statt Em-Dash.
+
+**Dead ends:**
+- **Eigenes Review-Bilanz unvollständig.** Mein erstes „alle Punkte gefixt"-Statement übersah einen SHOULD-FIX (S3 Initial-Buchstaben-Pattern in §3.2). User hat aufgedeckt mit „hast du das alles gefixed?". Lesson: bei eigenem Review-Self-Check noch einmal Punkt-für-Punkt abgleichen, nicht auf Buchhaltung im Kopf verlassen.
+- **Mail-Quellen vermischt** (in der vorigen Session-Phase): erster Mail-Entwurf vermischte Carinas Originalmail, Carinas heutige Antwort und Katharinas Signal-Chat. User hat aufgedeckt. Lesson: bei E-Mail-Tasks immer erst nach existierendem Mail-Stand fragen.
+
+**Phase:** Implementation (iteration). Alle 14 Promptotyping-Docs aktuell; Feature-Doc `079-hilfe-seite.md` gelöscht (jetzt nur noch 020/034/045 in `docs/features/`). ARI Stage-0 produktionsreif. WZB komplett im Korpus + Authority-Index integriert (vom parallelen Track).
+
+**Open issues:**
+- **#92 ARITHMETIC** (open): wartet auf Carinas Antwort zu finalen Metadaten + Begriffssystem-Mapping. Phase 1 (Lemmatisierung) startbar nach Antwort.
+- **#68 Guide** (open): Schema-Konversions-Teil abgedeckt, weitere Onboarding-Artefakte aus künftigen Korpus-Ingests.
+- **#34 CoReMA-Teil** (open, vom parallelen Track-Handoff): WB live, CoReMA bleibt offener Ingest-Track.
+- **Reading-View-Render-Policy**: separate Aufgabe, förderbar.
+- **Pre-build-Hygiene** (vom parallelen Track-Handoff): noch nicht als Issue gefilet.
+- **Generische Ingest-Skripte**: Entscheidung verschoben auf ARI-Phase 1 (empirische Diff-Messung gegen `wzb-auto-match.py`).
+
+**Commits (post-19aa5b955, alle gepusht):**
+- `cb99c1df5` `docs(hilfe): Hilfe-Seiten Faktenkorrektur + Stand-Update Mai 2026` — 5 Files, 12 Edits
+- `ff504cdf8` `docs: features/079-hilfe-seite.md geloescht (Issue #79 erfuellt)` — Plan-Doc-Löschung mit Begründung im Commit-Body
+
+**Externe Side Effects:**
+- **Issue #92** Comment posted (#issuecomment-4406549960): Stand ARITHMETIC (Stage 0 + Audit + PD-001 + Schema + Konversions-Artefakte + Mail-Klärung), offene Punkte
+- **Issue #68** Comment posted (#issuecomment-4406552591): hilfe-daten-beitragen.html Erweiterungs-Übersicht, Faktencheck-Sweep dokumentiert
+- **Issue #79** geschlossen mit Status-Comment (7/8 AKs erfüllt, Playwright-Smoke-Test als Folge-Maintenance)
+
+**Next session:**
+1. `/promptotyping orient`
+2. **Falls Carinas Antwort eingetroffen:** ARI-TEIs neu konvertieren mit finaler Sigle/Edition/Genre, von `ingest/ari/` nach `tei/` umziehen, Korpus-Index rebuilden, ARI-Phase 1 (Lemmatisierung) starten — `wzb-auto-match.py` zu `ari-auto-match.py` kopieren mit `# ARI-only:`-Kommentaren bei jeder Änderung, Diff messen.
+3. **Falls keine Antwort:** Folge-Aktivität ohne ARI-Konflikt — #87 Playground UX-Cleanup (claude-ready, S) oder #20 Lesbarkeit-Follow-ups oder #88-90 Wortfrequenz/Statistiken/Lemma-Verteilung.
+4. **Pre-build-Hygiene-Issue** filen (vom parallelen Track-Handoff vorgeschlagen).
+5. **Wenzelsbibel/ Refactor zu ingest/wzb/** als Folge-Task der heutigen Ingest-Pattern-Konvention (~20 WZB-Skripte mit hardgecodeten Pfaden anpassen, größeres Refactor).
+6. **Reading-View-Render-Policy**: Issue oder Feature-Doc anlegen, sobald klar ist welche Domain-Elemente das Frontend zeigen soll. Förderbarer Folge-Schritt.
