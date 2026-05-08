@@ -558,6 +558,28 @@ Viele `<w>`-Elemente im Altbestand tragen Compound-Tags (~35-40%) (z.B. `pos="VR
 
 ## 6. Inline-Elemente
 
+### 6.0 Optionale Erweiterungen (seit 2026-05-08, PD-001)
+
+Mit der ARITHMETIC-Aufnahme wurden folgende TEI-P5-Standardelemente als **optionale** Inline-Elemente ins Schema aufgenommen. Sie sind für jedes Korpus erlaubt, aber für keines vorgeschrieben. Lyrik-, Predigt- oder Rezept-Korpora müssen sie nicht nutzen. Vollständige Begründung siehe [DECISIONS.MD § PD-001](DECISIONS.MD).
+
+| Kategorie | Elemente | Verwendung |
+|---|---|---|
+| Editorisch | `<unclear>`, `<add>`, `<gap>`, `<abbr>`, `<expan>`, `<am>`, `<g>` | Editionen mit philologischem Apparat; `<unclear>` war im Bestand früher als Kursiv-Markierung präsent |
+| Onomastik | `<roleName>`, `<occupation>`, `<placeName>`, `<persName>` (Inline), `<person>` (Inline) | Personen-/Orts-Annotationen im Body |
+| Domain Arithmetik | `<unit>` (`@type` = `measurement\|weight\|length\|volume\|distance`), `<rs>` (`@type` = `currency\|goods`), `<figure>` | Maßeinheiten, Währungen, Diagramme/Rechnungs-Layout |
+
+**Erweiterungen bestehender Elemente:**
+- `<w>` darf jetzt `<hi>` enthalten (Initial-Buchstaben-Pattern wie `<hi rend="initial">A</hi>in`)
+- `<lb>` darf `@break="no"` haben (TEI-P5-Standard für Wort über Zeilenende)
+- `<note>` darf `@place` haben und `<p>` enthalten
+- `<hi>` darf wieder `<hi>` enthalten (kontrollierte Ausnahme zu ADR-013, für Carinas durchgestrichene Brüche `<hi rend="line-through"><hi rend="superscript">2</hi>/<hi rend="subscript">3</hi></hi>`)
+
+**`<div>/@type` Enum-Erweiterung** (für Rechenbuch-Korpora): zusätzlich zu den 7 Standard-Werten 24 weitere Werte (`outline`, `commodity_calculation`, `reckoning_example`, `fraction_calculation`, `regula_de_tri`, `addition`, `multiplication`, `division`, `subtraction` u.a.). Vollständige Liste in `schema/mhdbdb.rnc` § `div.type.arithmetic`.
+
+**Folge-Tasks** (post-Aufnahme):
+- Begriffssystem-Anbindung von `<unit>` und `<rs>` über `@ana="concepts.xml#concept_NNNN"` (Mapping-Aufgabe gemeinsam mit Beitragenden)
+- Reading-View-Render-Policy minimal halten: `<expan>` statt `<abbr>` anzeigen; Bruch-/Figur-/Rechnungs-Darstellung als förderbare Folge-Baustelle
+
 ### 6.1 Interpunktion
 
 **IST** (Bestand):
