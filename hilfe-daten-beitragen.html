@@ -173,7 +173,7 @@
             <p class="text-slate-700 leading-relaxed mb-2">
                 Das Schema toleriert elf strukturelle Abweichungen von TEI&nbsp;P5, weil eine
                 Migration der Bestandsdaten unverhältnismäßig wäre. Wenn Ihre Daten dieselben
-                Muster zeigen, müssen sie nicht angepasst werden — Beispiele:
+                Muster zeigen, müssen sie nicht angepasst werden. Beispiele:
             </p>
             <ul class="space-y-1 text-sm text-slate-700 mb-2 ml-4 list-disc list-inside">
                 <li><code class="px-2 py-0.5 bg-slate-100 rounded">&lt;div&gt;/@type</code> kann fehlen (154 Bestandsfiles ohne)</li>
@@ -258,7 +258,7 @@
             <p class="text-sm text-slate-600 leading-relaxed mt-3">
                 Die <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;?xml-model?&gt;</code>-Processing-Instruction
                 am Datei-Anfang sollte auf <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">../schema/mhdbdb.rng</code>
-                zeigen — das ermöglicht Live-Validierung in oXygen, VS&nbsp;Code Scholarly XML etc.
+                zeigen. Das ermöglicht Live-Validierung in oXygen, VS&nbsp;Code Scholarly XML etc.
                 gegen das MHDBDB-Schema.
             </p>
         </section>
@@ -278,7 +278,7 @@
                 Beim Schreiben Ihrer TEI-Daten setzen Sie nur <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">@xml:id</code>;
                 <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">@lemmaRef</code>, <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">@pos</code>,
                 <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">@ana</code> und <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">@corresp</code>
-                werden über die halbautomatische Pipeline (§5) gefüllt — die Spalte „Setzt"
+                werden über die halbautomatische Pipeline (§5) gefüllt; die Spalte „Setzt"
                 gibt an, in welcher Phase das passiert.
             </p>
             <div class="overflow-x-auto mb-6">
@@ -309,12 +309,12 @@
                         <tr>
                             <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">@ana</code></td>
                             <td class="p-3">Pipeline Phase 3 (optional)</td>
-                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">lexicon.xml#lemma_N_sense_M</code> — semantische Auflösung</td>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">lexicon.xml#lemma_N_sense_M</code>: semantische Auflösung</td>
                         </tr>
                         <tr>
                             <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">@corresp</code></td>
                             <td class="p-3">Pipeline Phase 3 (optional)</td>
-                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">variants.xml#type_M</code> — Wortform-Type</td>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">variants.xml#type_M</code>: Wortform-Type</td>
                         </tr>
                         <tr>
                             <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">@reason</code></td>
@@ -339,7 +339,7 @@
             <ul class="space-y-2 text-sm text-slate-700 mb-6 ml-4 list-disc list-inside">
                 <li>Kapitel-<code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;head&gt;</code> als <strong>erstes Kind</strong> des <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;div type="chapter"&gt;</code>, nicht inline. <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;milestone unit="chapter"/&gt;</code> markiert die ursprüngliche Position im Textfluss.</li>
                 <li>Dekorative Elemente (<code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;hi rend="initial_historisiert"&gt;</code>, <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;fw type="header"&gt;</code>) tragen <strong>kein</strong> <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">@lemmaRef</code> oder <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">@pos</code>.</li>
-                <li><code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;hi&gt;</code> erlaubt keine Rekursion (Stand 2026-04-15) — verschachtelte <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;hi&gt;</code> sollten flach gemacht werden.</li>
+                <li><code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;hi&gt;</code> erlaubt keine Rekursion (Stand 2026-04-15); verschachtelte <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;hi&gt;</code> sollten flach gemacht werden.</li>
             </ul>
 
             <h3 class="text-lg font-semibold text-slate-800 mb-2">3.4 POS-Tagset (19 Tags)</h3>
@@ -361,7 +361,7 @@
                         <tr><td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">POS</code></td><td class="p-3">Possessiv-Pronomen</td><td class="p-3"><em>mîn, dîn, unser, ir</em> (attributiv)</td></tr>
                         <tr><td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">PRO</code></td><td class="p-3">Pronomen</td><td class="p-3"><em>ich, ez, wir</em>; Relativ- und Indefinitpronomen</td></tr>
                         <tr><td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">PRP</code></td><td class="p-3">Präposition</td><td class="p-3"><em>ûf, zuo, under, durch</em></td></tr>
-                        <tr><td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">NEG</code></td><td class="p-3">Negation</td><td class="p-3"><em>niht, nit, nie, ne, en</em> — nie als <code class="px-2 py-0.5 bg-slate-100 rounded">PRO</code></td></tr>
+                        <tr><td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">NEG</code></td><td class="p-3">Negation</td><td class="p-3"><em>niht, nit, nie, ne, en</em>; nie als <code class="px-2 py-0.5 bg-slate-100 rounded">PRO</code></td></tr>
                         <tr><td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">NUM</code></td><td class="p-3">Numerale</td><td class="p-3"><em>zwô, drî, zweinzegest</em></td></tr>
                         <tr><td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">CCNJ</code></td><td class="p-3">Koordinierende Konjunktion</td><td class="p-3"><em>und, oder, aber, ouch, noch</em></td></tr>
                         <tr><td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">SCNJ</code></td><td class="p-3">Subordinierende Konjunktion</td><td class="p-3"><em>daz</em> (clause-opening), <em>ob, swenne, sît</em></td></tr>
@@ -376,7 +376,7 @@
                 </table>
             </div>
             <p class="text-sm text-slate-600 leading-relaxed mt-3">
-                <strong><code class="px-2 py-0.5 bg-slate-100 rounded text-sm">ART</code> ist nicht gültig</strong> — Artikel werden als <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">DET</code> getaggt.
+                <strong><code class="px-2 py-0.5 bg-slate-100 rounded text-sm">ART</code> ist nicht gültig</strong>: Artikel werden als <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">DET</code> getaggt.
                 Disambiguierungs-Regeln zu <em>daz, ein, ûf, kein</em> etc.: siehe
                 <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/.gemini/skills/pos-disambiguator/SKILL.md" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">SKILL.md des POS-Disambiguators</a>.
             </p>
@@ -470,11 +470,11 @@
                 Anwendung der aufgelösten TSV auf das TEI. Die Wenzelsbibel-Pipeline
                 (<a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/tree/main/scripts/ingest/wzb" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>scripts/ingest/wzb/</code></a>)
                 implementiert dieses Muster konkret und wird pro neuem Text vom Kernteam an
-                Sigle, Pfade und text-spezifische Eigenheiten angepasst — sie ist <strong>nicht
+                Sigle, Pfade und text-spezifische Eigenheiten angepasst; sie ist <strong>nicht
                 plug-and-play</strong>.
             </p>
 
-            <h3 class="text-lg font-semibold text-slate-800 mb-2">Phase 1 — Lemmatisierung</h3>
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">Phase 1: Lemmatisierung</h3>
             <p class="text-sm text-slate-700 leading-relaxed mb-2">
                 <strong>Auto-Match:</strong> Jede <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;w&gt;</code>-Wortform
                 wird gegen <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">variants.xml</code>
@@ -490,7 +490,7 @@
                 Disambiguierungs-Tranchen, je nach Sprachstufe und Edition.
             </p>
 
-            <h3 class="text-lg font-semibold text-slate-800 mb-2">Phase 2 — Wortart-Tagging</h3>
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">Phase 2: Wortart-Tagging</h3>
             <p class="text-sm text-slate-700 leading-relaxed mb-4">
                 Lemmata mit nur einem POS-Wert in <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">lexicon.xml</code>
                 werden direkt zugeordnet. Mehrdeutige Lemmata (z.&nbsp;B. <em>daz</em>: <code class="px-2 py-0.5 bg-slate-100 rounded">DET</code>
@@ -499,7 +499,7 @@
                 ~93–96&nbsp;% Coverage.
             </p>
 
-            <h3 class="text-lg font-semibold text-slate-800 mb-2">Phase 3 — Bedeutungs-Auflösung (optional)</h3>
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">Phase 3: Bedeutungs-Auflösung (optional)</h3>
             <p class="text-sm text-slate-700 leading-relaxed mb-4">
                 Auflösung von <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">@ana</code> auf
                 <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">lexicon.xml#lemma_N_sense_M</code>.
@@ -606,18 +606,18 @@ print('Stage 2:', 'PASS' if mhdbdb.validate(doc) else mhdbdb.error_log)
 
             <h3 class="text-lg font-semibold text-slate-800 mb-2">Schemata und Spezifikationen</h3>
             <ul class="space-y-2 text-sm text-slate-700 mb-6 ml-4 list-disc list-inside">
-                <li><a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/schema/mhdbdb.rnc" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>schema/mhdbdb.rnc</code></a> — Korpus-Schema (RELAX NG, Compact Syntax)</li>
-                <li><a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/schema/mhdbdb-authority.rnc" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>schema/mhdbdb-authority.rnc</code></a> — Authority-Files-Schema</li>
-                <li><a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/docs/TEI-MODEL.md" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>docs/TEI-MODEL.md</code></a> — Normatives Soll-Modell für Korpus-Texte</li>
-                <li><a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/docs/TEI-MODEL-AUTH-FILES.md" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>docs/TEI-MODEL-AUTH-FILES.md</code></a> — Authority-File-Modell</li>
-                <li><a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/schema/README.md" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>schema/README.md</code></a> — Validierungs-Anleitung</li>
+                <li><a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/schema/mhdbdb.rnc" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>schema/mhdbdb.rnc</code></a>: Korpus-Schema (RELAX NG, Compact Syntax)</li>
+                <li><a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/schema/mhdbdb-authority.rnc" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>schema/mhdbdb-authority.rnc</code></a>: Authority-Files-Schema</li>
+                <li><a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/docs/TEI-MODEL.md" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>docs/TEI-MODEL.md</code></a>: Normatives Soll-Modell für Korpus-Texte</li>
+                <li><a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/docs/TEI-MODEL-AUTH-FILES.md" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>docs/TEI-MODEL-AUTH-FILES.md</code></a>: Authority-File-Modell</li>
+                <li><a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/schema/README.md" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>schema/README.md</code></a>: Validierungs-Anleitung</li>
             </ul>
 
             <h3 class="text-lg font-semibold text-slate-800 mb-2">Werkzeuge</h3>
             <ul class="space-y-2 text-sm text-slate-700 mb-6 ml-4 list-disc list-inside">
-                <li><code class="px-2 py-0.5 bg-slate-100 rounded text-sm">scripts/audit/validate-corpus.py</code> — Voll-Validierung des Korpus + Authority-Files</li>
-                <li><code class="px-2 py-0.5 bg-slate-100 rounded text-sm">scripts/ingest/wzb/</code> — Pipeline-Skripte (Auto-Match, Bulk-Resolve, POS-Apply); pro neuem Text adaptieren</li>
-                <li><a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/.gemini/skills/pos-disambiguator/SKILL.md" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>SKILL.md</code></a> — POS-Tagset-Reference + Disambiguierungs-Regeln</li>
+                <li><code class="px-2 py-0.5 bg-slate-100 rounded text-sm">scripts/audit/validate-corpus.py</code>: Voll-Validierung des Korpus + Authority-Files</li>
+                <li><code class="px-2 py-0.5 bg-slate-100 rounded text-sm">scripts/ingest/wzb/</code>: Pipeline-Skripte (Auto-Match, Bulk-Resolve, POS-Apply); pro neuem Text adaptieren</li>
+                <li><a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/.gemini/skills/pos-disambiguator/SKILL.md" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>SKILL.md</code></a>: POS-Tagset-Reference + Disambiguierungs-Regeln</li>
             </ul>
 
             <h3 class="text-lg font-semibold text-slate-800 mb-2">Kontakt</h3>

@@ -6,7 +6,7 @@ TEI-codierte Texte mittelhochdeutscher Literatur mit semantischen Annotationen u
 
 ## Überblick
 
-Alle Daten stammen aus der [Mittelhochdeutschen Begriffsdatenbank (MHDBDB)](https://mhdbdb.plus.ac.at) an der Universität Salzburg — einem Forschungsprojekt mit über 50 Jahren mediävistischer Text- und Begriffsforschung.
+Alle Daten stammen aus der [Mittelhochdeutschen Begriffsdatenbank (MHDBDB)](https://mhdbdb.plus.ac.at) an der Universität Salzburg, einem Forschungsprojekt mit über 50 Jahren mediävistischer Text- und Begriffsforschung.
 
 ### Korpus-Inhalt
 - TEI-codierte Texte mittelhochdeutscher Literatur
@@ -27,8 +27,8 @@ Beide Interfaces nutzen vorgebaute Indizes für die Suche und laden TEI-Dateien 
 ## 📚 Dokumentation
 
 ### Für Entwickler:innen
-- **[CLAUDE.md](CLAUDE.md)** — primäres Entwickler-Briefing und Projekt-Überblick
-- **[docs/INDEX.MD](docs/INDEX.MD)** — Wissensbasis mit Verweisen auf alle Spezial-Dokumente
+- **[CLAUDE.md](CLAUDE.md)**: primäres Entwickler-Briefing und Projekt-Überblick
+- **[docs/INDEX.MD](docs/INDEX.MD)**: Wissensbasis mit Verweisen auf alle Spezial-Dokumente
 
 ### Für Nutzer:innen
 - Playground: integrierte Hilfe, Such-Beispiele und Authority-Daten-Browsing mit Filterung und Sortierung

@@ -22,7 +22,7 @@
             var newUrl = basePath + '/lemma/?id=' + encodeURIComponent(lemmaPath);
             window.location.replace(newUrl + window.location.search.slice(1) + window.location.hash);
         } else {
-            // Not a lemma URL — show 404
+            // Not a lemma URL: show 404
             document.write('<h1>Seite nicht gefunden</h1><p><a href="/">Zurück zur MHDBDB</a></p>');
         }
     </script>
