@@ -678,3 +678,47 @@ Die #32-followup-Arbeit (P1-10, P2-12, P2-13, P2-14, P2-15, `<hi>`-Flatten, PL1-
 3. **Falls Carinas Antwort eingetroffen:** ARI-TEI-Files neu konvertieren mit finaler Sigle/Edition/Genre, von `ingest/ari/` nach `tei/` umziehen (`git mv ingest/ari/ARI_*.tei.xml tei/`), committen + pushen, Korpus-Index rebuilden. Dann ARI-Phase 1 (Lemmatisierung): `wzb-auto-match.py` als Vorlage kopieren zu `scripts/ingest/ari/02-auto-match.py`, anpassen, Diff messen.
 4. **Falls keine Antwort:** Follow-up oder parallel an #87 Playground UX-Cleanup (kein ARI-Konflikt).
 5. **Reading-View-Render-Policy:** als Issue oder Feature-Doc anlegen, sobald wir wissen welche Elemente das Frontend zeigen soll. Förderbarer Folge-Schritt.
+
+
+## 2026-05-08 14:54 handoff (WZB live in beiden Indexen + Authority-Cache-Bugfix #94)
+
+**Summary:** WZB.tei.xml lag annotiert in `tei/`, aber weder Corpus- noch Authority-Index waren rebuilt. Beide Indexe neu gebaut, Versionsfelder gebumpt (corpus 4.0.0 → 4.0.1, authority 1.2.0 → 1.2.1). Beim Verifizieren der Cache-Invalidation entdeckt: Authority-Cache invalidierte de-facto nie, weil der Vergleich `cached.version !== cached.data.version` per Konstruktion immer falsch ist. Fix in derselben Session: zweite JS-Konstante `AUTHORITY_INDEX_VERSION` analog zu `INDEX_VERSION`, beide Pfade vergleichen jetzt gegen die Konstante. End-to-end Browser-getestet, Suche „got" findet WZB. Push und Issue-Admin abgeschlossen.
+
+**Decisions:**
+- **PATCH statt MINOR für Datenzugänge.** Index-Bumps für „neuer Text reingelegt" sind PATCH (4.0.1, 1.2.1). MINOR/MAJOR bleibt reserviert für Schema/Algorithmus-Änderungen (analog zu 4.0.0 für document-level indexing). Schützt Versions-Headroom.
+- **Ein Commit für Rebuild + Bugfix.** Der Bug (Authority-Cache invalidiert nie) wurde *durch* den Versions-Bump entdeckt, und ohne Fix wäre der Bump wirkungslos. Coupling rechtfertigt den gemeinsamen Commit; getrennt wäre künstlich.
+- **AUTHORITY_INDEX_VERSION-Konstante statt self-referential check.** Bestand-Logik verglich `cached.version` gegen `cached.data.version` — beide aus derselben Cache-Quelle, also nie auseinanderlaufend. Neue Logik spiegelt das funktionierende Corpus-Pattern (Konstante als Wahrheitsquelle).
+- **`variants.xml`-Sweep des Kollegen *nicht* in WZB-Commit aufgenommen.** Header-„666 → 667" war parallele Sweep-Session; gehörte in dessen Commit `f14683f07`, nicht in meinen. Memory-Eintrag „Concurrent Sessions / git add" hielt das scharf.
+
+**Dead ends:**
+- **Erster Rebuild zog ARI_MUE279 als Beifang.** Build-Skript scannt blind `tei/`. Während paralleler ARI-Session lag `tei/ARI_MUE279.tei.xml` als untracked file dort. Erster Build → 668 Texte (WZB + ARI). User-Hint „Kollege arbeitet aktiv" → gewartet, nach ARI-Entfernung sauber rebuilt → 667.
+- **„Nur kosmetisch"-Fehlschluss bei `variants.xml`.** Erster Check via `git status` zeigte nur uncommitted Diff (Header-666→667). User korrigierte: Authority-Files könnten zwischen WZB-Ingest und letztem Index-Build *committed* worden sein. Mtime-Check bewies's: `lexicon.xml` und `works.xml` 2026-05-07, Index 2026-04-10. Lesson: bei „Hat sich was geändert?" nicht nur `git status`, sondern auch mtimes + commit-history gegen Index-`generatedAt` checken.
+- **Backup-Race-Condition.** Backup von `data/authority-index.json.gz` parallel zum Build erstellt → cp erwischte die NEUE Datei statt der alten. Workaround: `git show HEAD:data/authority-index.json.gz` für sauberen Diff. Lesson: Backup vor Build, nicht parallel.
+
+**Phase:** Implementation (iteration). Alle 14 Promptotyping-Docs unverändert. Frontend-Cache-Layer entkoppelt von Index-Daten-Versionierung (war zuvor verzahnt und fragil).
+
+**Open issues:**
+- **#34 CoReMA-Teil:** WB live, CoReMA bleibt offener Ingest-Track.
+- **Pre-build-Hygiene fehlt:** Build-Skripte ziehen alle `tei/*.xml` mit, ohne Warnung bei untracked files. Risiko bei parallelen Ingest-Sessions (siehe ARI-Beifang oben). Empfehlung: Pre-flight-Check `git status tei/` ins Build oder Wrapper-Routine. Noch nicht als Issue gefilet.
+- **Reading-View-Render-Policy** (übernommen vom letzten Handoff): keine Entscheidung, ob WZB-spezifische Render-Bedarfe (Bibelvers-Marker, Kapitelköpfe) existieren. Julia-Demo-Feedback abwarten.
+- **Carinas Antwort für ARI** (übernommen): noch ausstehend laut letztem Handoff.
+
+**Commits (diese Session, gepusht auf origin/main):**
+- `d7011105f` `feat(ingest): WZB-Index-Rebuild + Authority-Cache-Bugfix` — 5 Files (corpus-index.json.gz, authority-index.json.gz, corpus-loader.js, build-corpus-index.py, build-authority-index.py). Push umfasste auch die 3 Kollegen-Commits ab `f14683f07`.
+
+**Externe Side Effects:**
+- Push auf `origin/main` (4 Commits): GitHub-Pages-Deploy zieht WZB live unter https://dhcraft.org/mhdbdb-tei-only/korpus.html?text=WZB
+- **Issue #94 erstellt + sofort geschlossen** (Authority-Cache-Bug-Dokumentation, Fix-Referenz d7011105f, Label `frontend`)
+- **Kommentar auf #34** (WB live, CoReMA bleibt open)
+- **Kommentar auf #68** (Dogfood-Lessons aus WZB-Rollout fürs Guide-Schreiben)
+
+**Verifikations-Artefakte:**
+- Browser-Test (Chrome MCP): `totalTextCount` 666 → 667 nach Cache-Invalidation, Console zeigt sauber `Cache version mismatch for authority-index: 1.2.0 != 1.2.1` und `Authority index loaded: 43754 lemmata`. Suche „got" findet WZB unter Treffern (~800ms). 142.174 Tokens / 2.142 Lemmata in WZB, +4 neue Lemmata (`lemma_78628`, `_78648`, `_78668`, `_78688`), +1 neues Werk (`work_WZB`).
+- Sicherheits-Backups in `~/.cache/claude-scratch/`: `corpus-index.backup-1778240634.json.gz`, `authority-index.HEAD.json.gz`. Können gelöscht werden, sobald ein paar Tage Live-Betrieb stabil.
+
+**Next session:**
+1. `/promptotyping orient`
+2. **Julia-Demo-Feedback einsammeln** (Wenzelsbibel-Team, evtl. Fachbereichs-Vorführung). Ggf. WZB-spezifische Findings als neue Issues filen.
+3. **Pre-build-Hygiene-Issue** filen: `tei/`-Scan im Build sollte vor untracked files warnen oder optional ignorieren. Klein, claude-ready.
+4. **CoReMA als nächster Ingest-Track** (#34) oder **ARI-Phase-1 Lemmatisierung** (#92, blockiert auf Carina). Parallel-Option ohne Konflikt: #87 Playground UX-Cleanup.
+5. **Carinas Antwort für ARI**: bei Eintreffen ARI-TEI-Files mit finalen Metadaten neu konvertieren, von `ingest/ari/` nach `tei/` umziehen, Indexe rebuilden (jetzt mit funktionierender Cache-Invalidation auf beiden Achsen!).
