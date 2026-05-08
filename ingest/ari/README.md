@@ -42,4 +42,4 @@ Sobald Carina die letzten Metadaten geliefert hat:
 4. Korpus-Index rebuilden (`python scripts/build-corpus-index.py`)
 5. Commit + Push
 
-Reproduzierbar via `scripts/ingest/ari/01-convert-original-to-mhdbdb.py` aus Carinas Originaldaten-ZIP (`Arithmetic_MHDBDB.zip`, untracked im Repo-Root).
+Reproduzierbar via `scripts/ingest/ari/01-convert-original-to-mhdbdb.py` aus Carinas Originaldaten-ZIP (`ingest/ari/Arithmetic_MHDBDB.zip`, gitignored via `ingest/**/*.zip`).
