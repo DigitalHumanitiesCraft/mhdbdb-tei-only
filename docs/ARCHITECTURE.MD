@@ -116,25 +116,24 @@ Allows users to include/exclude specific texts from search:
 
 ### TEI Element Rendering Map
 
-The reading view converts TEI XML elements to HTML. Source: `extractAndFormatBody()` / `_renderElement` closure in `assets/js/rendering/tei-text-reader.js`
+The reading view converts TEI XML elements to HTML. Source: `extractAndFormatBody()` / `_renderElement` closure in `assets/js/rendering/tei-text-reader.js` (post-#17 token-based rendering).
 
-| TEI Element | Attributes | HTML Output | CSS Class |
-|------------|-----------|-------------|-----------|
+| TEI Element | Attributes | HTML Output | CSS Class(es) |
+|------------|-----------|-------------|---------------|
 | `<head>` | | `<h3>` | `.section-head` |
 | `<p>`, `<ab>` | | `<p>` | — |
-| `<div>` | | `<div>` | `.tei-div` |
-| `<lg>` | | `<div>` | `.verse-group` |
-| `<l>` | | `<span>` | `.verse-line` |
-| `<lb>` | | `<br>` | `.line-break` |
+| `<div>` | `@type`, `@n` | `<div data-type data-n>` with prepended `<div class="tei-div-header tei-div-{type}">{label} {n}</div>` | `.tei-div`, `.tei-div-{type}` (label map: song→Lied, chapter→Kapitel, recipe→Rezept, number→Nr., section→Abschnitt, colophon→Kolophon, parallel→Parallelüberlieferung) |
+| `<lg>` | `@n` | `<div data-n>` with `<span>Strophe {n}</span>` prefix | `.verse-group`, `.stanza-label` |
+| `<l>` | `@n` | `<span data-n>` | `.verse-line` |
+| `<lb>` | `@n` | `<br>` followed by `<span>{n}</span>` | `.line-break`, `.lb-number` |
 | `<pb>` | `@n` | `<span>[{n}]</span>` | `.page-break` |
-| `<cb>` | `@n` | `<span>[Sp. {n}]</span>` | `.column-break` |
+| `<cb>` | `@n` | `<span title="Spalte {n}">[Sp. {n}]</span>` | `.column-break` |
 | `<caesura>` | | `<span>\|\|</span>` | `.caesura` |
-| `<hi>` | `@rend="initial"` | `<span>` | `.initial` |
-| `<hi>` | `@rend="upper_case_first_letter"` | `<span>` | `.upper-case-first` |
-| `<hi>` | (other) | `<span>` | `.hi` |
-| `<supplied>` | | `<span>[...]</span>` | `.supplied` |
+| `<note>` | `@type="year\|date"`, `@n` | `<span title="Datum\|Jahr">{n}</span>` (badge) | `.note-badge`, `.note-{type}` |
+| `<hi>` | `@rend` (token-based) | `<span class="hi hi-{token1} hi-{token2} ...">` — splits `@rend` on whitespace, prefixes each token with `hi-` | `.hi`, `.hi-initial`, `.hi-upper_case_first_letter`, `.hi-upper_case`, `.hi-bold`, `.hi-italic` (compounds stack) |
+| `<supplied>` | | `<span title="Editorische Ergänzung">[...]</span>` | `.supplied` |
 | `<num>` | | `<span>` | `.number` |
-| `<pc>` | `@join` | `<span>` with `data-join` | `.punctuation` |
+| `<pc>` | `@join` | `<span data-join>` | `.punctuation` |
 | `<seg>` | | (transparent — children only) | — |
 | `<w>` | `@lemmaRef` (match) | `<mark>` | `.highlight` / `.highlight.multi-lemma` |
 | `<w>` | `@lemmaRef` (no match) | escaped text + space | — |
@@ -142,6 +141,8 @@ The reading view converts TEI XML elements to HTML. Source: `extractAndFormatBod
 | (unknown) | | recurse into children | — |
 
 **Multi-lemma color assignment:** `lemmaColorMap[lemmaId] = colors[idx % 5]` — sequential assignment, wraps at 5.
+
+**`<hi rend>` token-based rendering:** `@rend` is space-separated (CSS-class style). The renderer splits on whitespace and emits `hi-{token}` per token. Compound values like `rend="initial upper_case_first_letter"` produce `class="hi hi-initial hi-upper_case_first_letter"`, with rules stacking from CSS. ~43k compound values that previously fell through to the single-class default are now correctly styled. Source: [DESIGN.MD §TEI Reading View CSS Classes](DESIGN.MD).
 
 **Position counting contract:** see [CONTRACTS.MD](CONTRACTS.MD#b-position-counting-contract)
 

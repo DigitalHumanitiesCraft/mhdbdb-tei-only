@@ -48,8 +48,16 @@ mhdbdb-tei-only/
 ├── publications/          # Project outputs (blog posts, reports)
 ├── testing/               # Playwright tests
 ├── docs/                  # Documentation hub
-├── index.html             # Main landing page
-└── korpus.html            # Main site search page
+├── schema/                # RELAX NG schemas (mhdbdb.rnc, mhdbdb-authority.rnc, examples)
+├── index.html             # Landing page
+├── korpus.html            # Main site search + reading view
+├── impressum.html         # Legal notice (#62)
+├── hilfe.html             # Hilfe-Hub (entry point)
+├── hilfe-korpussuche.html # Korpus-Suche-Anleitung
+├── hilfe-playground.html  # Playground-Anleitung
+├── hilfe-daten.html       # Daten-Erklärung für Leser:innen
+├── hilfe-daten-beitragen.html  # Schema-Konversions-Guide für TEI-Beitragende (#68 Teil 1)
+└── 404.html               # Lemma-page redirect (GitHub-Pages-Workaround)
 ```
 
 ## Building Pre-Built Indexes
@@ -74,10 +82,7 @@ Pre-built indexes are included in repository. Rebuild only when modifying source
 ### Build Commands
 
 ```bash
-# Extract variants from TEI corpus
-python scripts/extract-variants.py
-
-# Build authority index (includes variants)
+# Build authority index (consumes authority-files/variants.xml, no extraction step)
 python scripts/build-authority-index.py
 # Output: data/authority-index.json.gz (~3 MB)
 
@@ -88,6 +93,8 @@ python scripts/build-corpus-index.py
 # Validate indices
 python scripts/validate-indices.py
 ```
+
+**Note on variants:** `authority-files/variants.xml` is rebuilt manually when the corpus changes — there is currently no `extract-variants.py` script in the repo (the build-authority-index.py reads `variants.xml` as-is). See [DATA-MODEL.MD](DATA-MODEL.MD#data-processing-pipeline) for context.
 
 ### Version Increment
 
@@ -147,7 +154,7 @@ npm run report        # View HTML report
 
 1. **RNC→RNG sync check** — Regenerates `.rng` from `.rnc` sources and fails if committed `.rng` differs. Catches "edited RNC, forgot to regenerate RNG" drift.
 
-2. **Two-stage RelaxNG validation** — Validates all 666 corpus + 8 authority files:
+2. **Two-stage RelaxNG validation** — Validates all 667 corpus + 8 authority files:
    - Stage 1: `tei_all.rng` (TEI P5 baseline) — 30 known fails (#30 baseline), warnings only
    - Stage 2: `mhdbdb.rng` / `mhdbdb-authority.rng` (project schemas) — **hard gate, must be 0 fails**
 

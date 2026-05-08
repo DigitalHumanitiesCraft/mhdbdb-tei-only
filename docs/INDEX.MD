@@ -15,7 +15,7 @@ The MHDBDB TEI Repository provides a comprehensive digital corpus of Middle High
 ## Data Basis
 
 ### Curated Corpus
-- **666 TEI files** - Complete Middle High German texts with word-level annotations
+- **667 TEI files** - Complete Middle High German texts with word-level annotations
 - **8 authority files** - 7 searchable controlled vocabularies (persons, works, lexicon, concepts, genres, names, variants) plus `contributors.xml` as project-internal MHDBDB team register (since 2026-04)
 - **Pre-built indexes** - Compressed JSON (3 MB authority + 34 MB corpus) replacing runtime XML parsing
 
@@ -119,6 +119,11 @@ Post-MVP with stable v4.0.0 corpus index and v1.2.0 authority index
 - ✅ **#48 Playground URL Routing** (2026-04-15) - Hash-based shareable/bookmarkable URLs for all playground views, including multi-lemma search state serialization
 - ✅ **#56 Lemmata Explorer** (2026-04-15) - Title links to persistent lemma pages, URL bug fix, concept-based "Similar Lemmata" section
 - ✅ **#62 Impressum** (2026-04-16) - Legal notice page (`impressum.html`) with Datenschutz section, footer links on all pages
+- ✅ **#17 Reader View TEI-Strukturelemente** (2026-04-16) - Token-basierte `<hi rend>` CSS-Klassen (43k Compound-Werte gefixt), `<div>/<lg>/<l>/<lb>` Rendering mit Margin-Numbers, Note-Badges für `@type="year|date"`, 128/128 Tests grün
+- ✅ **#52 Authority Files Card** (2026-04-16) - Playground-Sidebar-Card collapse-by-default, weniger visuelle Dominanz
+- ✅ **#32-Followup vollständig 17/17** (2026-05-07) - P1-5 `idno/@type` Enum (3 kontextspezifische Patterns: `msIdentifier` / `monogr` / `person`), WZB-shelfmark-Fix (Daten vor Schema), Stage-1 PI-Cleanup auf allen 667 Korpus-Files, CI Schema-Validation triggert auch auf direkte main-Pushes
+- ✅ **#68 Teil 1: `hilfe-daten-beitragen.html`** (2026-05-07) - User-facing Schema-Konversions-Leitfaden für TEI-Beitragende (deutsch); Issue tracked weitere Hilfe-Arbeit
+- ✅ **WZB Skript-Reorg** (2026-05-07) - 20 WZB-Pipeline-Skripte nach `scripts/ingest/wzb/`, 4 Sackgassen nach `scripts/_archived/wzb/`
 
 ### Known Limitations
 - Desktop-only interface (not mobile-responsive)

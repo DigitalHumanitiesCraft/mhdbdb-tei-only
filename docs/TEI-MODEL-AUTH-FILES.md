@@ -422,7 +422,7 @@ works.xml ──author @ref──> persons.xml
 
 **Keine Rueckverweise:** persons.xml verweist NICHT auf works.xml. Der Build-Script leitet die Rueckrichtung ab.
 
-**Korpus → Authority** (nicht dargestellt): Die 666 TEI-Dateien verweisen via `@lemmaRef` auf lexicon.xml, `@ana` auf lexicon.xml (Senses), `@corresp` auf variants.xml, `@ref` auf persons.xml und works.xml. Diese Verweise sind im Korpus-Modell (`docs/TEI-MODEL.md`) dokumentiert.
+**Korpus → Authority** (nicht dargestellt): Die 667 TEI-Dateien verweisen via `@lemmaRef` auf lexicon.xml, `@ana` auf lexicon.xml (Senses), `@corresp` auf variants.xml, `@ref` auf persons.xml und works.xml. Diese Verweise sind im Korpus-Modell (`docs/TEI-MODEL.md`) dokumentiert.
 
 ### 4.2 Verweistypen
 

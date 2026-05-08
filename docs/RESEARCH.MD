@@ -174,7 +174,7 @@ Dual normalization handles MHG orthographic variation:
 
 **Technical constraints:**
 - Client-only architecture (all processing in browser)
-- Large initial download (~24 MB indexes)
+- Large initial download (~37 MB indexes: 3 MB authority + 34 MB corpus, gzipped)
 - Limited to browser memory
 
 **Methodological:**

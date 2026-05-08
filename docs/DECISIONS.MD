@@ -380,7 +380,7 @@ Implement client-only architecture with GitHub Pages hosting:
 
 **Negative:**
 - Limited to browser memory (~2GB typical)
-- Large initial download (~24 MB)
+- Large initial download (~37 MB indexes: 3 MB authority + 34 MB corpus, gzipped)
 - No real-time updates (requires rebuild)
 - Cannot perform server-side joins
 - Search performance depends on client device
@@ -807,3 +807,37 @@ Both motivating cases were resolved in single day:
 This ADR retroactively describes a policy that was already applied in Phase A–E of #32 (the original TEI Model Consolidation, April 2026): `@meaningRef` → `@ana`, `@wordRef` → `@corresp`, `<seg type="pc">` → `<pc>`, `<l>` → `<lb/>` in prose, `<suppplied>` → `<supplied>` — all of these were data migrations to fit a tighter schema, not schema-relaxations to accept legacy data. ADR-013 formalizes that pattern as the project default going forward.
 
 **TEI P5 basis:** Chapters [2.2.7](https://www.tei-c.org/release/doc/tei-p5-doc/en/html/HD.html) (`<sourceDesc>`), [2.2.8](https://www.tei-c.org/release/doc/tei-p5-doc/en/html/HD.html) (electronic-to-electronic), `att.typed` (free `@type`).
+
+---
+
+## Pending Decisions
+
+### PD-001: ARITHMETIC Domänen-Klassifikation erhalten oder wegtransformieren?
+
+**Date raised:** 2026-05-07
+**Status:** Open — wartet auf Carina (via Katharina)
+**Issue:** [#92](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/92)
+
+#### Problem
+
+Carinas 6 fnhd. Rechenbuch-Handschriften kommen mit einer Domänen-Klassifikation, die im aktuellen MHDBDB-Schema nicht existiert:
+
+- `<unit>` — Maß- und Gewichtseinheiten als eigene Inline-Annotation
+- `<person>` — historische Personen (statt `<persName>` aus TEI P5)
+- `div/@type="commodity_calculation"` und `div/@type="reckoning_example"` — Rechentyp-Klassifikation auf Section-Ebene
+
+Der Rest der Konversions-Drift (`<seg type="token">` → `<w>`, `tei:`-Namespace, Header-Komplettierung, xml:id-Schema) ist mechanisch scriptbar — diese Domänen-Marker sind die einzige Stelle, an der ein semantischer Verlust droht.
+
+#### Optionen
+
+1. **Erhalten via Schema-Erweiterung:** `<unit>` und `<person>` als zusätzliche Inline-Elemente in `mhdbdb.rnc` zulassen, neue `div/@type`-Werte ins Enum aufnehmen. Pro: forschungsrelevante Spezial-Annotation bleibt auswertbar. Contra: Schema bekommt Genre-spezifische Sonderkonstrukte, andere Texte werden sie nie nutzen.
+2. **Wegtransformieren:** `<unit>` → `<measure>` (TEI-Standard); `<person>` → `<persName>`; `div/@type` auf bestehende Werte mappen (`section`?). Pro: Schema bleibt sauber. Contra: Die Rechenbuch-spezifische Semantik geht verloren — Carinas eigentlicher Beitrag wird unsichtbar.
+3. **Hybrid:** `<measure>`/`<persName>` mit `@type` oder `@ana` versehen, das die Rechenbuch-Klassifikation in TEI-konformer Form trägt. Pro: kompromiss zwischen 1 und 2. Contra: Erfordert Mapping-Tabelle und Doku.
+
+#### Wer muss entscheiden
+
+Carina (Originalintention) plus Katharina (Forschungs-Roadmap). Bis dahin: Konversions-Skripte für die mechanischen Drifts vorbereiten, Domänen-Klassifikation in den Quelldateien unverändert lassen.
+
+#### Verbindung zu ADR-013
+
+Diese Entscheidung ist die erste, die ADR-013 ("Daten vor Schema") in der Praxis gegen einen Genre-Sonderfall stellt: ist die Domänen-Annotation Bestandsdaten, die das Schema akzeptieren muss, oder Daten, die zu unserem Schema migriert werden? Eine Entscheidung schafft Präzedenz für künftige Spezial-Korpora (Linda, Minnereden, CoReMA).

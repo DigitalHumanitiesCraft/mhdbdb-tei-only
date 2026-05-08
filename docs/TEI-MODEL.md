@@ -38,7 +38,7 @@ Every TEI file follows this structure:
 
 ## 2. Header Template (`<teiHeader>`)
 
-The header is already largely standardized across all 666 files. This section documents the canonical structure.
+The header is already largely standardized across all 667 files. This section documents the canonical structure.
 
 ### 2.1 `<fileDesc>`
 
@@ -107,7 +107,7 @@ Attribution der an der MHDBDB mitwirkenden Personen laeuft zentral ueber `author
 | Information | Stelle im Header | Muster |
 |-------------|-----------------|--------|
 | Kollektive Team-Attribution | `<titleStmt>/<respStmt>` | `<orgName ref="contributors.xml#mhdbdb-team">` |
-| Gruender + Koordinatorin (immer gleich, alle 666 Dateien) | `<publicationStmt>/<authority>` | `<persName role="founder\|coordinator" ref="contributors.xml#contrib_00X">` |
+| Gruender + Koordinatorin (immer gleich, alle 667 Dateien) | `<publicationStmt>/<authority>` | `<persName role="founder\|coordinator" ref="contributors.xml#contrib_00X">` |
 | Prominente Lead-Editor:in (nur bei TKR/TKA/VTC/JT) | zweites `<titleStmt>/<respStmt>` | `<name role="lead-editor" ref="contributors.xml#contrib_00X">` |
 
 **Beispiel (ABG nach Migration 2026-04-14):**
@@ -889,7 +889,7 @@ Beim Ingest neuer Texte gelten fuer Editor-Attribution und Credits die folgenden
 2. **Kollektive Team-Attribution** in `<titleStmt>/<respStmt>`:
    - `<orgName ref="contributors.xml#mhdbdb-team">MHDBDB-Team (vollständige Liste in contributors.xml)</orgName>`
 
-Diese drei Bausteine sind in allen 666 Bestandsdateien identisch und werden vom Migrationsscript `scripts/_archived/migrate-header-credits.py` gesetzt. Bei neuen Ingests einfach aus einer Bestandsdatei oder aus `schema/examples/corpus.example.tei.xml` kopieren.
+Diese drei Bausteine sind in allen 667 Bestandsdateien identisch und wurden vom Migrationsscript `scripts/_archived/migrate-header-credits.py` gesetzt (initial 666 Files am 2026-04-15, WZB beim Branch-Merge 2026-05-06 angeglichen). Bei neuen Ingests einfach aus einer Bestandsdatei oder aus `schema/examples/corpus.example.tei.xml` kopieren.
 
 **Nicht die volle Mitwirkenden-Liste in den Header schreiben.** Die 50+ Editor:innen, die historisch an den Bestandstexten mitgearbeitet haben, leben in `contributors.xml` und sind ueber den kollektiven `mhdbdb-team`-Verweis abgedeckt. Der Header bleibt schlank.
 

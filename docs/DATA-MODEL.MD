@@ -186,12 +186,12 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
 
 **File:** `data/authority-index.json.gz`
 **Size:** ~3 MB compressed
-**Version:** 1.1.0
+**Version:** 1.2.0
 
 **Schema:**
 ```javascript
 {
-  version: "1.1.0",
+  version: "1.2.0",
   generatedAt: "ISO-8601 timestamp",
 
   persons: [{
@@ -328,13 +328,14 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
 **Location:** `scripts/` directory
 **Language:** Python 3.13+ with lxml
 
-Four core build scripts:
+Three core build scripts:
 
 1. **`build-authority-index.py`** - Extract authority data from 7 inhaltstragende XML files (the 8th, `contributors.xml`, is deliberately not indexed — see below)
    - Parse XML with lxml
    - Extract structured data for each entity type
    - Build performance maps (conceptToLemmas, genreToWorks, genreHierarchy)
    - Normalize searchable text
+   - Variants dictionary built from `authority-files/variants.xml` (see *Variants regeneration* below)
    - Output: `data/authority-index.json.gz`
 
 2. **`build-corpus-index.py`** - Extract word positions from TEI files
@@ -343,16 +344,12 @@ Four core build scripts:
    - Build words array with sequential positions
    - Output: `data/corpus-index.json.gz`
 
-3. **`extract-variants.py`** - Generate variants.xml from corpus
-   - Scan all TEI files
-   - Extract `<w lemmaRef="..." corresp="...">` elements
-   - Group by lemma ID and collect unique orthographic forms
-   - Output: `authority-files/variants.xml`
-
-4. **`validate-indices.py`** - Integrity checks
+3. **`validate-indices.py`** - Integrity checks
    - Validate unique IDs
    - Check cross-references
    - Verify data quality
+
+**Variants regeneration:** `authority-files/variants.xml` is consumed by `build-authority-index.py` but is itself generated from the corpus. There is currently no standalone extraction script in `scripts/`; the file is rebuilt manually when the corpus changes (see [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/44) for the open extractor question).
 
 ### Build Script XPath Reference
 
@@ -533,7 +530,7 @@ Build scripts perform integrity checks:
 
 **Rebuild workflow:**
 ```bash
-python scripts/extract-variants.py
+# variants.xml updaten (manuell oder via geplantes Extractor-Skript, siehe oben)
 python scripts/build-authority-index.py
 python scripts/build-corpus-index.py
 python scripts/validate-indices.py

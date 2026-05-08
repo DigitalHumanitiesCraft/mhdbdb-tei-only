@@ -237,26 +237,36 @@ Three-layer stack (load order):
 
 ## TEI Reading View CSS Classes
 
-Source: `assets/css/korpus.css` (lines 353-470)
+Source: `assets/css/korpus.css` (post-#17 reader-view styling). Element-to-class mapping in [ARCHITECTURE.MD §TEI Element Rendering Map](ARCHITECTURE.MD#tei-element-rendering-map).
 
 | Class | Key Styling | TEI Element |
 |-------|------------|-------------|
 | `.reading-body` | `Georgia, serif; 1.125rem; line-height: 1.8` | Container |
 | `.section-head` | `sans-serif; 1.25rem; font-weight: 600; color: accent` | `<head>` |
+| `.tei-div`, `.tei-div-{type}` | `margin: space-4 0`; per-type variants for song / chapter / recipe / number / section / colophon / parallel | `<div>` |
+| `.tei-div-header`, `.tei-div-header.tei-div-{type}` | German label + counter (e.g. „Lied 3", „Kapitel 12") | first child of `<div>` |
 | `.verse-group` | `margin: space-4 0` | `<lg>` |
-| `.verse-line` | `display: block; margin-left: space-4; line-height: 1.6` | `<l>` |
-| `.tei-div` | `margin: space-4 0` | `<div>` |
+| `.stanza-label` | inline „Strophe N" prefix | first child of `<lg>` |
+| `.verse-line` | `display: block; margin-left: space-4; line-height: 1.6`; verse number in margin via `data-n` (1, 5, 10, …) | `<l>` |
 | `.line-break` | `display: inline` | `<lb>` |
+| `.lb-number` | small superscript-style line counter for prose | follows `<lb>` |
 | `.page-break` | `inline-block; 0.875rem; font-weight: 600; bg-tertiary; cursor: help` | `<pb>` |
 | `.column-break` | `inline-block; 0.875rem; font-weight: 600; bg-tertiary; cursor: help` | `<cb>` |
-| `.initial` | `font-weight: 700; font-size: 1.5em; color: accent` | `<hi rend="initial">` |
-| `.upper-case-first` | `text-transform: capitalize` | `<hi rend="upper_case_first_letter">` |
+| `.note-badge`, `.note-year`, `.note-date` | inline year/date marker rendered from `<note>@n` | `<note type="year\|date">` |
+| `.hi` | base class for any `<hi>` (no `@rend` or unmatched token) | `<hi>` |
+| `.hi-initial` | `font-weight: 700; font-size: 1.5em; color: accent` | `<hi rend="initial …">` |
+| `.hi-upper_case_first_letter` | `text-transform: capitalize` | `<hi rend="… upper_case_first_letter …">` |
+| `.hi-upper_case` | `text-transform: uppercase` | `<hi rend="… upper_case …">` |
+| `.hi-bold` | `font-weight: 700` | `<hi rend="… bold …">` |
+| `.hi-italic` | `font-style: italic` | `<hi rend="… italic …">` |
 | `.punctuation` | `font-weight: normal` | `<pc>` |
 | `.caesura` | `color: muted; font-weight: 300; margin: 0 space-1` | `<caesura>` |
 | `.supplied` | `color: #6b7280; italic; border-bottom: 1px dotted` | `<supplied>` |
 | `.number` | `font-variant-numeric: oldstyle-nums` | `<num>` |
 | `mark.highlight` | `bg: #fbbf24; color: #78350f; font-weight: 600; scroll-margin-top: 120px` | `<w>` match (single) |
 | `mark.highlight.multi-lemma` | Inline styles from JS (see palette above) | `<w>` match (multi) |
+
+**`<hi>` token-based stacking:** `@rend` is space-separated. The renderer emits `class="hi hi-{token1} hi-{token2} …"` per `<hi>`, so compound values like `rend="initial upper_case_first_letter"` accumulate both rules from CSS. Five token classes cover all 20 attested `@rend` shapes (5 single + 15 compounds, ~43k elements that were previously unstyled).
 
 ## Known Inconsistencies
 
