@@ -714,7 +714,7 @@ from lxml import etree
 tei_all = etree.RelaxNG(etree.parse('schema/tei_all.rng'))
 mhdbdb  = etree.RelaxNG(etree.parse('schema/mhdbdb.rng'))
 doc = etree.parse('tei/SIGLE.tei.xml')
-print('Stage 1 (TEI P5):  ', 'PASS' if tei_all.validate(doc) else 'FAIL — toleriert (siehe GAP-Baseline)')
+print('Stage 1 (TEI P5):  ', 'PASS' if tei_all.validate(doc) else 'FAIL: toleriert (siehe GAP-Baseline)')
 print('Stage 2 (MHDBDB):  ', 'PASS' if mhdbdb.validate(doc) else mhdbdb.error_log)
 "</code></pre>
 
