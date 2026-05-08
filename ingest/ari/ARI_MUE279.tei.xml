@@ -1,0 +1,299 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?xml-model href="../schema/mhdbdb.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="https://tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="ARI_MUE279">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title xml:lang="de">Muenchen, Universitaetsbibliothek, 8 Cod.ms. 279</title>
+        <author ref="#person_anonym">Anonym</author>
+        <respStmt>
+          <resp>digitale Zusammenführung, Annotation und semantische Klassifikation</resp>
+          <orgName ref="contributors.xml#mhdbdb-team">MHDBDB-Team (vollständige Liste in contributors.xml)</orgName>
+        </respStmt>
+      </titleStmt>
+      <publicationStmt>
+        <publisher>
+          <orgName>Mittelhochdeutsche Begriffsdatenbank (MHDBDB)</orgName>
+          <orgName>Paris Lodron Universität Salzburg</orgName>
+          <address>
+            <street>Erzabt-Klotz-Straße 1</street>
+            <postCode>5020</postCode>
+            <settlement>Salzburg</settlement>
+            <country>Österreich</country>
+          </address>
+          <email>mhdbdb@plus.ac.at</email>
+          <ptr target="https://mhdbdb.plus.ac.at"/>
+        </publisher>
+        <authority>
+          <persName role="coordinator" ref="contributors.xml#contrib_003">
+            <forename>Katharina</forename>
+            <surname>Zeppezauer-Wachauer</surname>
+          </persName>
+          <persName role="founder" ref="contributors.xml#contrib_001">
+            <forename>Klaus M.</forename>
+            <surname>Schmidt</surname>
+          </persName>
+          <persName role="founder" ref="contributors.xml#contrib_002">
+            <forename>Horst</forename>
+            <surname>Pütz</surname>
+          </persName>
+        </authority>
+        <availability>
+          <licence target="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</licence>
+          <p>Daten und Annotationen unter CC BY-SA 4.0. Originaldaten aus dem Arithmetic-Projekt (Universität Graz, GAMS); Share-Alike-Klausel der Quell-Lizenz wird übernommen (CC BY-NC-SA 4.0 wäre mit BY-SA inkompatibel, daher kein Lizenz-Stack wie im MHDBDB-Bestand).</p>
+        </availability>
+        <date when="2026">2026</date>
+      </publicationStmt>
+      <sourceDesc>
+        <msDesc>
+          <msIdentifier corresp="works.xml#work_TBD">
+            <idno type="sigle">ARI_MUE279</idno>
+            <msName xml:lang="de">Muenchen, Universitaetsbibliothek, 8 Cod.ms. 279</msName>
+          </msIdentifier>
+          <additional>
+            <listBibl>
+              <bibl type="digitalIntermediary" xml:id="ARI_MUE279_arithmetic_gams" corresp="#ARI_MUE279_TBD">
+                <title>Arithmetic-Projekt, GAMS (Universität Graz)</title>
+                <respStmt>
+                  <resp>Elektronische Bereitstellung und TEI-Erstkodierung</resp>
+                  <name>Carina (Arithmetic-Projekt)</name>
+                </respStmt>
+                <ref target="https://gams.uni-graz.at/o:arithmetic.mue279"/>
+                <note type="provenance">TEI-Originaldaten aus dem GAMS-Repositorium der Universität Graz, Arithmetic-Projekt zu fnhd. Rechenbüchern. Konvertiert in das MHDBDB-Schema durch automatische Transformation (scripts/ingest/ari/01-convert-original-to-mhdbdb.py, 2026-05).</note>
+                <note type="fidelity">Mechanische Schema-Konversion ohne Eingriff in Wortgrenzen, Auszeichnungs-Semantik oder Strukturhierarchie.</note>
+              </bibl>
+            </listBibl>
+          </additional>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+    <encodingDesc>
+      <projectDesc>
+        <p xml:lang="de">Die Annotationen der MHDBDB basieren auf kontrollierten Vokabularen und domänenspezifischen Ontologien.</p>
+        <p xml:lang="en">The annotations of the MHDBDB are based on controlled vocabularies and domain-specific ontologies.</p>
+      </projectDesc>
+      <editorialDecl>
+        <p xml:lang="de">Lokale Dateireferenzen (z.B. persons.xml#person_anonym, lexicon.xml#lemma_879) verweisen auf kontrollierte Vokabulare im authority-files Verzeichnis dieses Repositorys.</p>
+      </editorialDecl>
+      <classDecl>
+        <taxonomy xml:id="genres">
+          <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
+          <category xml:id="genre_TBD" corresp="genres.xml#genre_TBD">
+            <gloss xml:lang="de">Rechenbuch (TBD: konkrete Genre-ID von Carina)</gloss>
+          </category>
+        </taxonomy>
+      </classDecl>
+    </encodingDesc>
+    <profileDesc>
+      <langUsage>
+        <language ident="gmf">Frühneuhochdeutsch</language>
+      </langUsage>
+      <particDesc>
+        <listPerson>
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
+            <persName type="preferred">Anonym</persName>
+          </person>
+        </listPerson>
+      </particDesc>
+    </profileDesc>
+    <revisionDesc>
+      <change when="2026-05-08" who="#mhdbdb-team">Initiale Konversion aus Arithmetic_MHDBDB.zip via scripts/ingest/ari/01-convert-original-to-mhdbdb.py.</change>
+    </revisionDesc>
+  </teiHeader>
+  <text>
+    <body><div>
+            <pb n="000"/>
+            <div>
+               <p>
+                  <lb n="N001"/>
+                  <w xml:id="wd5t1049_1">Es</w>
+                  <w xml:id="wd5t1049_3">iſt</w>
+                  <w xml:id="wd5t1049_5">offt</w>
+                  <w xml:id="wd5t1049_7">ein</w>
+                  <w xml:id="wd5t1049_9">lange</w>
+                  <w xml:id="wd5t1049_11">Ʒeitt</w>
+                  <lb n="N002"/>
+                  <w xml:id="wd5t1051_1">das</w>
+                  <w xml:id="wd5t1051_3">ir</w>
+                  <w xml:id="wd5t1051_5">nindert</w>
+                  <w xml:id="wd5t1051_7">pey</w>
+                  <w xml:id="wd5t1051_9">mir</w>
+                  <w xml:id="wd5t1051_11">ſeit</w>
+               </p>
+            </div>
+            <div type="commodity_calculation">
+               <div type="reckoning_example">
+                  <p>
+                     <lb n="N001"/>
+                     <w xml:id="wd5t1059_1">Item</w>
+                     <w xml:id="wd5t1070_2">es</w>
+                     <w xml:id="wd5t1070_4">iſt</w>
+                     <w xml:id="wd5t1070_6">ʒw</w>
+                     <w xml:id="wd5t1073_1">wiſſen</w>
+                     <w xml:id="wd5t1086_1">von</w>
+                     <lb n="N002"/>
+                     <w xml:id="wd5t1096_1">Der</w>
+                     <w xml:id="wd5t1096_3">Dob</w>
+                     <w xml:id="wd5t1096_5">man</w>
+                     <w xml:id="wd5t1096_7">nicht</w>
+                     <w xml:id="wd5t1096_9">wayß</w>
+                     <lb n="N003"/>
+                     <w xml:id="wd5t1100_1">Item</w>
+                     <w xml:id="wd5t1111_2">ich</w>
+                     <w xml:id="wd5t1111_4">hab</w>
+                     <w xml:id="wd5t1111_6">chaufft</w>
+                     <hi rend="superscript">
+                        <w xml:id="wd5t1114_1">1</w>
+                     </hi>
+                     <pc xml:id="wd5t1115_1" join="left">/</pc>
+                     <hi rend="subscript">
+                        <w xml:id="wd5t1117_1">4</w>
+                     </hi>
+                     <w xml:id="wd5t1121_1">vnd</w>
+                     <lb n="N004"/>
+                     <hi rend="superscript">
+                        <w xml:id="wd5t1132_1">1</w>
+                     </hi>
+                     <pc xml:id="wd5t1133_1" join="left">/</pc>
+                     <hi rend="subscript">
+                        <w xml:id="wd5t1135_1">3</w>
+                     </hi>
+                     <w xml:id="wd5t1140_1">von</w>
+                     <w xml:id="wd5t1148_2">ainer</w>
+                     <unit type="measurement">
+                        <w xml:id="wd5t1152_1">ellen</w>
+                     </unit>
+                     <w xml:id="wd5t1166_2">vmb</w>
+                     <w xml:id="wd5t1166_4">80</w>
+                     <rs type="currency">
+                        <w xml:id="wd5t1170_1">denare</w>
+                     </rs>
+                     <lb n="N005"/>
+                     <w xml:id="wd5t1176_1">wye</w>
+                     <w xml:id="wd5t1176_3">chumbt</w>
+                     <w xml:id="wd5t1176_5">mir</w>
+                     <hi rend="superscript">
+                        <w xml:id="wd5t1178_1">2</w>
+                     </hi>
+                     <pc xml:id="wd5t1179_1" join="left">/</pc>
+                     <hi rend="subscript">
+                        <w xml:id="wd5t1181_1">8</w>
+                     </hi>
+                     <unit type="measurement">
+                        <w xml:id="wd5t1187_1">erellen</w>
+                     </unit>
+                  </p>
+               </div>
+               <div type="reckoning_example">
+                  <p>
+                     <lb n="N006"/>
+                     <w xml:id="wd5t1206_1">Item</w>
+                     <w xml:id="wd5t1217_2">ich</w>
+                     <w xml:id="wd5t1217_4">hab</w>
+                     <w xml:id="wd5t1217_6">chäfft</w>
+                     <w xml:id="wd5t1217_8">1</w>
+                     <unit type="weight">
+                        <w xml:id="wd5t1219_1">pfunt</w>
+                     </unit>
+                     <lb n="N007"/>
+                     <rs type="goods">
+                        <w xml:id="wd5t1223_1">ſaffron</w>
+                     </rs>
+                     <w xml:id="wd5t1224_2">vmb</w>
+                     <w xml:id="wd5t1224_4">3</w>
+                     <rs type="currency">
+                        <w xml:id="wd5t1228_1">pfund</w>
+                     </rs>
+                     <rs type="currency">
+                        <w xml:id="wd5t1237_1">denare</w>
+                     </rs>
+                     <lb n="N008"/>
+                     <w xml:id="wd5t1243_1">wye</w>
+                     <w xml:id="wd5t1246_1">chumpt</w>
+                     <w xml:id="wd5t1257_2">mir</w>
+                     <w xml:id="wd5t1257_4">1</w>
+                     <unit type="weight">
+                        <w xml:id="wd5t1259_1">ladt</w>
+                     </unit>
+                     <lb n="N009"/>
+                     <w xml:id="wd5t1264_1">vnd</w>
+                     <unit type="weight">
+                        <w xml:id="wd5t1275_1">quintat</w>
+                     </unit>
+                  </p>
+               </div>
+               <div type="reckoning_example">
+                  <p>
+                     <lb n="N010"/>
+                     <w xml:id="wd5t1284_1">Item</w>
+                     <w xml:id="wd5t1295_2">ich</w>
+                     <w xml:id="wd5t1295_4">hab</w>
+                     <w xml:id="wd5t1295_6">chafft</w>
+                     <w xml:id="wd5t1295_8">7</w>
+                     <rs type="goods">
+                        <w xml:id="wd5t1297_1">ayer</w>
+                     </rs>
+                     <lb n="N011"/>
+                     <w xml:id="wd5t1300_1">vmb</w>
+                     <w xml:id="wd5t1300_3">2</w>
+                     <rs type="currency">
+                        <w xml:id="wd5t1304_1">denare</w>
+                     </rs>
+                     <w xml:id="wd5t1308_2">wye</w>
+                     <w xml:id="wd5t1311_1">chumpt</w>
+                     <lb n="N012"/>
+                     <w xml:id="wd5t1325_1">mir</w>
+                     <w xml:id="wd5t1325_3">5</w>
+                     <rs type="goods">
+                        <w xml:id="wd5t1327_1">ayer</w>
+                     </rs>
+                     <w xml:id="wd5t1331_1">oder</w>
+                     <w xml:id="wd5t1336_2">10</w>
+                     <rs type="goods">
+                        <w xml:id="wd5t1338_1">ayer</w>
+                     </rs>
+                  </p>
+               </div>
+               <div type="reckoning_example">
+                  <p>
+                     <lb n="N013"/>
+                     <w xml:id="wd5t1347_1">Item</w>
+                     <w xml:id="wd5t1358_2">ich</w>
+                     <w xml:id="wd5t1358_4">hab</w>
+                     <w xml:id="wd5t1358_6">chäfft</w>
+                     <w xml:id="wd5t1358_8">24</w>
+                     <rs type="goods">
+                        <w xml:id="wd5t1360_1">vleiſch</w>
+                     </rs>
+                     <lb n="N014"/>
+                     <w xml:id="wd5t1363_1">vmb</w>
+                     <unclear>
+                        <w xml:id="wd5t1365_1">2</w>
+                     </unclear>
+                     <rs type="currency">
+                        <w xml:id="wd5t1370_1">denare</w>
+                     </rs>
+                     <w xml:id="wd5t1374_2">wye</w>
+                     <w xml:id="wd5t1378_1">chumpt</w>
+                     <w xml:id="wd5t1389_2">mir</w>
+                     <lb n="N015"/>
+                     <w xml:id="wd5t1391_1">1</w>
+                     <unit type="weight">
+                        <w xml:id="wd5t1395_1">pfund</w>
+                     </unit>
+                     <rs type="goods">
+                        <w xml:id="wd5t1401_1">vleiſch</w>
+                     </rs>
+                     <w xml:id="wd5t1405_1">oder</w>
+                     <w xml:id="wd5t1410_2">4</w>
+                     <unit type="weight">
+                        <w xml:id="wd5t1414_1">pfund</w>
+                     </unit>
+                  </p>
+               </div>
+            </div>
+         </div>
+      </body>
+  </text>
+</TEI>

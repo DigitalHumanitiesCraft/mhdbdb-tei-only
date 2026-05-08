@@ -651,10 +651,14 @@ Die #32-followup-Arbeit (P1-10, P2-12, P2-13, P2-14, P2-15, `<hi>`-Flatten, PL1-
 - **Generische Ingest-Skripte:** Entscheidung verschoben auf ARI-Phase 1 (Diff-Messung).
 - **Linda, Minnereden, CoReMA:** spätere Korpora; Pipeline-Architektur-Entscheidung folgt aus ARI-Erfahrungen.
 
-**Lokale Artefakte (nicht committet):**
-- `tei/ARI_AUG81.tei.xml`, `ARI_BRE1948.tei.xml`, `ARI_EIN624.tei.xml`, `ARI_MUE279.tei.xml`, `ARI_MUE746.tei.xml`, `ARI_WIEN5206.tei.xml` — alle 6 ARI-HS sauber konvertiert + Stage-2-validiert. Header haben `work_TBD`/`genre_TBD`/`msIdentifier corresp TBD`-Platzhalter, daher nicht committet. Reproduzierbar via Skript-Lauf nach Carinas Antwort.
-- `Arithmetic_MHDBDB.zip` (Carinas Originaldaten, untracked absichtlich).
-- `data/corpus-index.json.gz` modifiziert (vermutlich durch parallelen Track), nicht von dieser Session berührt.
+**Ingest-Pattern eingeführt:** `ingest/<sigle>/` als Top-Level-Ordner für Source-Daten und Pipeline-Artefakte pro Korpus (analog zu `scripts/ingest/<sigle>/` für die Pipeline-Skripte). Konvention seit dieser Session. Wenzelsbibel liegt aus historischen Gründen noch unter `Wenzelsbibel/` im Repo-Root (~20 WZB-Skripte mit hardgecodeten Pfaden) — Refactor zu `ingest/wzb/` als Folge-Task.
+
+**Committete ARI-Artefakte (nicht in `tei/`):**
+- `ingest/ari/` mit allen 6 ARI-HS plus README. Stage-0-Konversion sauber + Stage-2-validiert. Header haben `work_TBD`/`genre_TBD`/`msIdentifier corresp TBD`-Platzhalter, deshalb in `ingest/ari/` statt `tei/` (`build-corpus-index.py` würde sonst Platzhalter indexieren). Werden nach `tei/` umziehen, sobald Carina finale Metadaten liefert.
+
+**Untracked (absichtlich):**
+- `Arithmetic_MHDBDB.zip` (Carinas Originaldaten, im Root)
+- `data/corpus-index.json.gz` modifiziert (vermutlich durch parallelen Track, nicht von dieser Session)
 
 **Commits (diese Session, alle auf `main`, NICHT gepusht außer `b5061085e`):**
 - `b5061085e` `docs: Promptotyping doc-sync nach 2026-05-07-Handoff` (10 Stable Docs + 3 Feature-Docs entfernt) — gepusht
@@ -671,6 +675,6 @@ Die #32-followup-Arbeit (P1-10, P2-12, P2-13, P2-14, P2-15, `<hi>`-Flatten, PL1-
 **Next session:**
 1. `/promptotyping orient`
 2. **Pushen** der 5 Commits ab `5d118e5b7` (heutige ARI/Schema-Arbeit) auf `origin/main`. CI-Schema-Validation wird das Bestand-Set + den erweiterten Schema-State unabhängig nochmal prüfen — Erwartung: grün.
-3. **Falls Carinas Antwort eingetroffen:** ARI-TEI-Files neu konvertieren mit finaler Sigle/Edition/Genre, committen + pushen. Dann ARI-Phase 1 (Lemmatisierung): `wzb-auto-match.py` als Vorlage kopieren zu `scripts/ingest/ari/02-auto-match.py`, anpassen, Diff messen.
+3. **Falls Carinas Antwort eingetroffen:** ARI-TEI-Files neu konvertieren mit finaler Sigle/Edition/Genre, von `ingest/ari/` nach `tei/` umziehen (`git mv ingest/ari/ARI_*.tei.xml tei/`), committen + pushen, Korpus-Index rebuilden. Dann ARI-Phase 1 (Lemmatisierung): `wzb-auto-match.py` als Vorlage kopieren zu `scripts/ingest/ari/02-auto-match.py`, anpassen, Diff messen.
 4. **Falls keine Antwort:** Follow-up oder parallel an #87 Playground UX-Cleanup (kein ARI-Konflikt).
 5. **Reading-View-Render-Policy:** als Issue oder Feature-Doc anlegen, sobald wir wissen welche Elemente das Frontend zeigen soll. Förderbarer Folge-Schritt.
