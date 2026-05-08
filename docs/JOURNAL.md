@@ -624,3 +624,53 @@ Die #32-followup-Arbeit (P1-10, P2-12, P2-13, P2-14, P2-15, `<hi>`-Flatten, PL1-
 3. **#92 ARITHMETIC:** Falls Carinas Antwort eingetrudelt ist, Pipeline-Plan finalisieren. Sonst die zwei lokalen Commits (`5d118e5b7`, `81cd5b7c5`) ggf. pushen.
 4. **#23 Stufe 2:** DRY-RUN-Apply-Skript bauen, an 1-2 hoch-konfidenten Sigle (z.B. RAB, GVN) testen, Diff zur User-Sichtung. Bei OK: weiter mit den ~92 HIGH-Sigle. Edge-Cases (KU, JSG) per Hand override.
 5. **Parallel-Option ohne ARI-Konflikt:** #87 Playground UX-Cleanup (S, ~1h, kein TEI/Schema-Touch). Vorher Pre-Check beim parallelen Track, ob Frontend gerade angefasst wird.
+
+
+## 2026-05-08 14:04 handoff (Doc-Sync 3 Iterationen + ARI-Pipeline Stage 0 + Schema-Erweiterung PD-001)
+
+**Summary:** Drei Iterationen `/promptotyping check` mit Faktenverifikation gegen Repo-State (10 Stable Docs aktualisiert, 3 abgeschlossene Feature-Docs entfernt). ARI-Pipeline Stage 0 implementiert mit Dogfood auf München UB 279. Mail-Klärung mit Carina + Schema-Diskussion mit Katharina führte zu PD-001-Beschluss „Mittelweg": alle 12 Element-Klassen + 24 div/@type-Werte als optional ins Hauptschema. Schema-Erweiterung implementiert, RNG regeneriert, alle 667 Bestandsfiles + 6 ARI-HS validieren grün gegen Stage 2.
+
+**Decisions:**
+- **PD-001 Mittelweg (Katharina + Christian, Signal):** Alle TEI-P5-Standardelemente aus Carinas Daten (`<unclear>`, `<add>`, `<gap>`, `<abbr>`, `<expan>`, `<am>`, `<g>`, `<roleName>`, `<occupation>`, `<placeName>`, `<unit>`, `<rs>`, `<figure>`) plus Inline-Patterns für `<persName>`/`<person>` plus 24 zusätzliche `<div>/@type`-Werte als optional ins MHDBDB-Hauptschema. Schema-Aufnahme heißt erlauben, nicht vorschreiben. Modulares Schema (eigenes `mhdbdb-arithmetic.rnc`) wäre TEI-Lehrbuch-konformer, ist aber für n=2 (WZB+ARI) verfrühte Architektur.
+- **ADR-013-Ausnahme: nested `<hi>` wieder erlaubt.** Carinas durchgestrichene Brüche (`<hi rend="line-through"><hi rend="superscript">2</hi>/<hi rend="subscript">3</hi></hi>`) sind semantisch nicht via Compound-Rend transformierbar. Performance unauffällig (Audit zeigt 2 Vorkommen in WIEN5206).
+- **Lizenz BY-SA für ARI** (statt MHDBDB-Bestands-Doppelung BY-SA + BY-NC-SA). Carinas BY-SA Share-Alike-Klausel ist mit BY-NC-SA inkompatibel.
+- **Generische Ingest-Skripte: noch nicht.** Empirischer Befund (zeilenweise Audit von `wzb-auto-match.py` und `wzb-pos-assign.py`): 95–98% des Codes ist mechanisch/korpus-agnostisch. Trotzdem n=2 zu wenig für Architektur-Entscheidung. Strategie: bei ARI-Phase 1 `wzb-auto-match.py` zu `ari-auto-match.py` kopieren mit `# ARI-only:`-Kommentaren bei jeder Änderung, dann diff messen. Bei <10% Diff: generalisieren. Bei >30%: auf CoReMA (n=3) warten.
+
+**Dead ends:**
+- **Erste Mail-Entwurf-Version war faktisch falsch.** Ich hatte nur München UB 279 inspiziert und 5 PD-001-Element-Klassen genannt. Audit aller 6 HS zeigte 12 Element-Klassen + 24 div/@type-Werte. Lesson: bei Spec-Aussagen über „alle Daten" immer voll-auditieren.
+- **Mail-Vermischung mit echtem Mail-Verlauf.** Ich habe einen kompletten Mail-Entwurf geschrieben, ohne zu wissen, dass User schon eine Mail gesendet hat. Lesson: bei E-Mail-Tasks immer erst nach existierendem Mail-Stand fragen.
+- **Lizenz-Doppelung im Header-Template.** Ich hatte mechanisch das MHDBDB-Bestand-Pattern (BY-SA + BY-NC-SA) ins ARI-Skript-Template übernommen. User hat den Drift entdeckt mit „wieso doppelung?".
+- **Skript-Crash bei XML-Comments.** Erste Konversion von Einsiedeln 624 crashte, weil Carinas TEI XML-Kommentare enthält und mein `deep_clone` die nicht handhabte. Defensive Checks ergänzt.
+- **Schema-Validation-Cascade unterschätzt.** Beim ersten Validierungs-Lauf nach Schema-Erweiterung: 5 von 6 ARI-HS failten mit Cascade-Fehlern. Schritt für Schritt aufgelöst (`<lb @break>`, `<roleName>`/`<occupation>` mit `inline.model`-Inhalt, `<persName>`/`<person>` als Inline-Patterns, `<note>` mit `<p>`-Children und `@place`, nested `<hi>`).
+
+**Phase:** Implementation (iteration). Alle 14 Promptotyping-Docs aktuell. Schema erweitert + RNG regeneriert. ARI Stage-0-Pipeline produktionsreif. PD-001 closed.
+
+**Open issues:**
+- **#92 ARITHMETIC Phase 1+ (Carina + MHDBDB-Team):** wartet auf Carinas Antwort zu Sigle/Edition/Genre + Begriffssystem-Mapping für `<unit>`/`<rs>` (welche `concepts.xml`-IDs?). Sobald Antwort da: ARI-TEI-Files mit finalen Metadaten neu konvertieren + committen, dann Phase 1 (Lemmatisierung) starten.
+- **Reading-View-Render-Policy** (förderbar): wie sollen `<expan>`, `<unit>`, `<rs>`, Brüche, Figuren, Rechentyp-Headers im Frontend gerendert werden? Für ARI-Veröffentlichung kein Blocker, aber Reader-View ohne diese Sonderdarstellungen ist suboptimal.
+- **Generische Ingest-Skripte:** Entscheidung verschoben auf ARI-Phase 1 (Diff-Messung).
+- **Linda, Minnereden, CoReMA:** spätere Korpora; Pipeline-Architektur-Entscheidung folgt aus ARI-Erfahrungen.
+
+**Lokale Artefakte (nicht committet):**
+- `tei/ARI_AUG81.tei.xml`, `ARI_BRE1948.tei.xml`, `ARI_EIN624.tei.xml`, `ARI_MUE279.tei.xml`, `ARI_MUE746.tei.xml`, `ARI_WIEN5206.tei.xml` — alle 6 ARI-HS sauber konvertiert + Stage-2-validiert. Header haben `work_TBD`/`genre_TBD`/`msIdentifier corresp TBD`-Platzhalter, daher nicht committet. Reproduzierbar via Skript-Lauf nach Carinas Antwort.
+- `Arithmetic_MHDBDB.zip` (Carinas Originaldaten, untracked absichtlich).
+- `data/corpus-index.json.gz` modifiziert (vermutlich durch parallelen Track), nicht von dieser Session berührt.
+
+**Commits (diese Session, alle auf `main`, NICHT gepusht außer `b5061085e`):**
+- `b5061085e` `docs: Promptotyping doc-sync nach 2026-05-07-Handoff` (10 Stable Docs + 3 Feature-Docs entfernt) — gepusht
+- `5d118e5b7` `feat(ingest): ARI Stage-0-Konversion + Dogfood-Befund (#92)`
+- `81cd5b7c5` `docs(hilfe): Konversions-Sektion + Katharinas ARITHMETIC-Antworten`
+- `4972793ba` `docs(ari): PD-001 entschieden + Lizenz-Doppelung im Konversions-Skript korrigiert`
+- `b59350bb5` `feat(schema): MHDBDB-Schema-Erweiterung fuer ARITHMETIC (PD-001-Beschluss)`
+- `bbb2c3549` `docs(tei-model): Sektion 6.0 "Optionale Erweiterungen" (PD-001 2026-05-08)`
+
+**Externe Side Effects:**
+- Mail an Carina (User direkt aus Christians Account): Glossar/Ortsdaten-Bestätigung + Schema-Aufnahme-Beschluss vorab kommuniziert
+- Signal-Diskussion mit Katharina: PD-001-Beschluss zu „Mittelweg"
+
+**Next session:**
+1. `/promptotyping orient`
+2. **Pushen** der 5 Commits ab `5d118e5b7` (heutige ARI/Schema-Arbeit) auf `origin/main`. CI-Schema-Validation wird das Bestand-Set + den erweiterten Schema-State unabhängig nochmal prüfen — Erwartung: grün.
+3. **Falls Carinas Antwort eingetroffen:** ARI-TEI-Files neu konvertieren mit finaler Sigle/Edition/Genre, committen + pushen. Dann ARI-Phase 1 (Lemmatisierung): `wzb-auto-match.py` als Vorlage kopieren zu `scripts/ingest/ari/02-auto-match.py`, anpassen, Diff messen.
+4. **Falls keine Antwort:** Follow-up oder parallel an #87 Playground UX-Cleanup (kein ARI-Konflikt).
+5. **Reading-View-Render-Policy:** als Issue oder Feature-Doc anlegen, sobald wir wissen welche Elemente das Frontend zeigen soll. Förderbarer Folge-Schritt.
