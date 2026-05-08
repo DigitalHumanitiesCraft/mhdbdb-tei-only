@@ -576,3 +576,51 @@ Die #32-followup-Arbeit (P1-10, P2-12, P2-13, P2-14, P2-15, `<hi>`-Flatten, PL1-
 3. **Falls keine Antwort**: Follow-up via Katharina pingen.
 4. **Parallel-Optionen** (wenn ARITHMETIC blockiert): #87 Playground UX-Cleanup, #20 Lesbarkeit follow-ups, #88/#89/#90 Wortfrequenz/Statistiken/Lemma-Verteilung.
 5. **Pipeline-Roadmap nach Katharina (#68):** WB ✅ → ARITHMETIC ⏳ → CoReMA → Linda → Minnereden (10k EUR DFG).
+
+
+## 2026-05-08 13:26 handoff (Memory-Audit + #44 Re-Push + #81/#23/#91 Comments + GND-Fix)
+
+**Summary:** Memory-System auditiert (3 stale Einträge bereinigt, 2 Files gelöscht, MEMORY.md re-indexed). Schema-Bug `gnd → GND` in `corpus.example.tei.xml` gefixt (Commit gepusht, Datei jetzt valide gegen `mhdbdb.rng`). Issue #44 zweimal nachgezogen: #17 + #52 als closed reflektiert, #91 + #92 ergänzt, sämtliche Em-Dashes entfernt, #81/#23-Status präzisiert. Drei Issue-Comments mit konkreten Findings: #81 (4/7 Sprachstufen abgehakt + AC1-3 Klärungsfrage zu `enm`-Typo), #23 (Verifizierung "Julia bis RVR korrigiert" widerlegt: nur 2/104 gefixt; danach Stufe-1-Recon mit 96/100 HIGH-Konfidenz für deterministisches Stanza-Wrap-Skript), #91 (Zenodo-Scoping mit 3 Team-Decisions + CITATION.cff-Skelett).
+
+**Decisions:**
+- **Memory-System-Hygiene:** `feedback_tei_model_file_locations.md` gelöscht (Pfad `scripts/data-wrangling/tei-model/` existiert nicht mehr). `project_tei_consolidation.md` zu Wissensanker umgeschrieben (kein Status-Tracking mehr, weil #32 closed). `feedback_script_conventions.md` auf neue `scripts/{sync,ingest,audit}/`-Topologie aktualisiert. `feedback_no_playwright_parallel.md` zu `feedback_ask_before_npm_test.md` umgewidmet (User: generelle Frage-Regel statt situativer Workaround).
+- **#23 Stanza-Wrap-Format:** ohne `@n` (Schema sagt optional). User-Vorgabe: "wir nehmen das was simpler ist".
+- **#23 Skript-Location:** `scripts/temp/` (gitignored, lokal-only). Nicht `scripts/migrate/` weil Stufe 1 reine Recherche ist.
+- **#81 AC1-3:** Action verschoben. Issue-Body suggeriert `enm` als Ziel-Code, das ist aber Middle English (ISO 639-3) und semantisch falsch. Klärung an Katharina: `gmh-x-fnhd` (BCP 47) vs. `gmh` lassen vs. `de-x-fnhd`.
+- **ARI-Konfliktzonen-Disziplin:** `scripts/ingest/`, `tei/ARI*`, `schema/mhdbdb.rnc`, `hilfe-daten-beitragen.html`, `docs/TEI-MODEL.md` durchgehend nicht angefasst. JOURNAL.md erst beim handoff (jetzt). Schema-Example-File berührt, weil dort der GND-Bug isoliert lag.
+- **`auto-dream` Status:** Bei mir ist `autoDreamEnabled: true` in `~/.claude/settings.json`, aber `/dream` ist in der CLI-Version noch nicht freigeschaltet (Quiet-Rollout-Phase). Daher Memory-Audit manuell.
+
+**Dead ends:**
+- Erste #81-Annahme: AC1-3 sind direkt scriptbar (per #44-Memo "kanonisch FNHD"). Stimmt nicht: Issue-Body hat Typo (`enm` statt `gmh-x-fnhd` o.ä.). Klärung > Action.
+- Zwei Em-Dashes im ersten #44-Vorschlag durchgerutscht (aus Original-Body übernommen). Eigen-Review im Sinne von `/check-md` aufgedeckt: 13 Em-Dashes total. Lesson: Bei Edits eines bestehenden Bodys nicht auf Original-Konsistenz vertrauen, immer komplett scannen.
+- Slip in eigener Commit-Message für GND-Fix: `Schema-Konformitaet`/`gross` statt `Schema-Konformität`/`groß` (Verstoß gegen `feedback_german_umlauts`). Memory war im Kontext, trotzdem passiert. Nur in Commit-Message, nicht im Code. Lesson: Commit-Messages mit gleicher Strenge wie File-Inhalt prüfen.
+
+**Phase:** Implementation (iteration). Alle 14 Promptotyping-Docs aktuell, keine Änderungen heute. Memory-System (17 Files unter `~/.claude/projects/.../memory/`) frisch auditiert, MEMORY.md sauber. Issue-Tracker (29 open, davon 3 evergreen) konsistent mit #44-Triage.
+
+**Open issues:**
+- **#81 AC1-3 (Katharina):** Sprachcode für FNHD-Texte? `gmh-x-fnhd` (BCP 47), `gmh` lassen, oder `de-x-fnhd`? Sobald geklärt, 5 min Edit für 3 TEI-Files.
+- **#23 (Katharina):** 21 Prosa-Texte `l` vs `lb`-Policy. Mein Recon hat 1 Prosa-Kandidaten in der #23-Liste identifiziert (KVM, 1723 `<lb>`, 0 `<l>`). Andere Prosa-Texte liegen außerhalb der #23-Liste.
+- **#23 Stufe 2:** DRY-RUN-Wrap-Skript für die 96 HIGH-Konfidenz-Texte. Edge-Cases dokumentiert: KU (1705 4er-Strophen, plausibel aber ungewöhnlich), JSG (13-Vers-Strophen, Auto-Detect picked falschen split, manuelle Override nötig), GVS (sehr unregelmäßig).
+- **#91 (Team-DHCraft):** Lizenz-Trennung Code/Daten? Autor*innen-Liste? Versionsnummer für ersten Release?
+- **#92 ARITHMETIC (Carina):** Sigle-Strategie + Domänen-Klassifikation, im Mail-Loop. Parallele Session des Users hat Stage-0-Konversion mit München UB 279 als Dogfood schon committet (`5d118e5b7`), `hilfe-daten-beitragen.html` Konversions-Sektion ergänzt (`81cd5b7c5`). Beide Commits noch lokal, nicht gepusht.
+
+**Lokale Artefakte (nicht committet, nicht gepusht):**
+- `scripts/temp/stanza-23-recon.{py,csv,md}` (gitignored). Stufe-1-Recon für #23. Wiederverwendbar für Stufe 2 oder löschbar via `rm scripts/temp/stanza-23-recon.*`.
+- 2 Commits aus paralleler Session: `5d118e5b7` (ARI Stage-0-Konversion #92), `81cd5b7c5` (docs/hilfe Konversions-Sektion). Gehören zu #92-Track, der User entscheidet wann pushen.
+
+**Commits (diese Session):**
+- `58fecc9b3` `fix(schema): GND-Casing in corpus.example.tei.xml`: gepusht zu `origin/main`. Datei valide gegen `mhdbdb.rng` verifiziert.
+
+**Externe Side Effects:**
+- Issue **#44** Body re-pushed (zweimal: erst Stand-Update, dann #81/#23-Befund-Nachzug)
+- Issue **#81** Body re-pushed (4 Checkboxen abgehakt) + Comment (`#issuecomment-4405563024`) mit Recherche und Klärungs-Frage
+- Issue **#23** zwei Comments: Verifizierung (`#issuecomment-4405583456`) + Stufe-1-Recon (`#issuecomment-4405784301`)
+- Issue **#91** Comment (`#issuecomment-4405625581`) mit Scoping-Inventur
+- **Memory-System:** 2 Files gelöscht (`feedback_tei_model_file_locations.md`, `.consolidate-lock`), 4 Files überschrieben (`project_tei_consolidation.md`, `feedback_script_conventions.md`, `project_issue30_tei_review.md`, `feedback_no_playwright_parallel.md` → `feedback_ask_before_npm_test.md`), MEMORY.md-Index aktualisiert.
+
+**Next session:**
+1. `/promptotyping orient`
+2. **Falls Katharina geantwortet hat zu #81 AC1-3:** 5 min Edit für 3 TEI-Files (`tei/AC1.tei.xml`, `tei/AC2.tei.xml`, `tei/AC3.tei.xml`), `<language ident="X">` mit gewähltem Code setzen.
+3. **#92 ARITHMETIC:** Falls Carinas Antwort eingetrudelt ist, Pipeline-Plan finalisieren. Sonst die zwei lokalen Commits (`5d118e5b7`, `81cd5b7c5`) ggf. pushen.
+4. **#23 Stufe 2:** DRY-RUN-Apply-Skript bauen, an 1-2 hoch-konfidenten Sigle (z.B. RAB, GVN) testen, Diff zur User-Sichtung. Bei OK: weiter mit den ~92 HIGH-Sigle. Edge-Cases (KU, JSG) per Hand override.
+5. **Parallel-Option ohne ARI-Konflikt:** #87 Playground UX-Cleanup (S, ~1h, kein TEI/Schema-Touch). Vorher Pre-Check beim parallelen Track, ob Frontend gerade angefasst wird.
