@@ -141,7 +141,7 @@
                         </tr>
                         <tr>
                             <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">&lt;div&gt;/@type</code></td>
-                            <td class="p-3">Enum: <code class="px-2 py-0.5 bg-slate-100 rounded">chapter | section | number | song | parallel | colophon | recipe</code></td>
+                            <td class="p-3">Enum: <code class="px-2 py-0.5 bg-slate-100 rounded">chapter | section | number | song | parallel | colophon | recipe</code> plus Domain-Erweiterungen (siehe TEI-MODEL.md §6.0)</td>
                         </tr>
                         <tr>
                             <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">&lt;msIdentifier&gt;/@corresp</code></td>
@@ -248,8 +248,8 @@
   &lt;/profileDesc&gt;
 
   &lt;revisionDesc&gt;
-    &lt;change when="YYYY-MM-DD" n="1.0"&gt;Initial transformation&lt;/change&gt;
-    &lt;!-- @who wird beim Aufnehmen vom Kernteam gesetzt --&gt;
+    &lt;change when="YYYY-MM-DD" who="#mhdbdb-team"&gt;Initial transformation&lt;/change&gt;
+    &lt;!-- @when und @who sind Pflicht; @n wäre nicht erlaubt --&gt;
   &lt;/revisionDesc&gt;
 &lt;/teiHeader&gt;</code></pre>
             <p class="text-sm text-slate-600 leading-relaxed">
@@ -340,7 +340,7 @@
             <ul class="space-y-2 text-sm text-slate-700 mb-6 ml-4 list-disc list-inside">
                 <li>Kapitel-<code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;head&gt;</code> als <strong>erstes Kind</strong> des <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;div type="chapter"&gt;</code>, nicht inline. <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;milestone unit="chapter"/&gt;</code> markiert die ursprüngliche Position im Textfluss.</li>
                 <li>Dekorative Elemente (<code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;hi rend="initial_historisiert"&gt;</code>, <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;fw type="header"&gt;</code>) tragen <strong>kein</strong> <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">@lemmaRef</code> oder <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">@pos</code>.</li>
-                <li><code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;hi&gt;</code> erlaubt keine Rekursion (Stand 2026-04-15); verschachtelte <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;hi&gt;</code> sollten flach gemacht werden.</li>
+                <li><code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;hi&gt;</code> erlaubt seit 2026-05-08 wieder Rekursion (kontrollierte Ausnahme für genuine semantische Schachtelung wie durchgestrichene Brüche <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;hi rend="line-through"&gt;&lt;hi rend="superscript"&gt;...&lt;/hi&gt;...&lt;/hi&gt;</code>). Bei rein optischer Schachtelung gilt weiter: flach machen.</li>
             </ul>
 
             <h3 class="text-lg font-semibold text-slate-800 mb-2">3.4 POS-Tagset (19 Tags)</h3>
@@ -555,22 +555,22 @@ L105: Element body has extra content: div    ← Cascade-Spitze</code></pre>
             <h3 class="text-lg font-semibold text-slate-800 mb-2">5.4 Domänen-spezifische Inline-Elemente</h3>
             <p class="text-sm text-slate-700 leading-relaxed mb-3">
                 Genre-Korpora (Predigten, Rezepte, Rechenbücher) bringen oft eigene Inline-Mark-up-Konventionen
-                mit, die nicht im MHDBDB-Schema sind, etwa
-                <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;unit type="weight"&gt;</code>,
-                <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;rs type="currency"&gt;</code>,
-                spezielle <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;div&gt;/@type</code>-Werte
-                oder <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;hi rend="superscript|subscript"&gt;</code>.
-                Es gibt drei Wege:
+                mit. Bei der ARITHMETIC-Aufnahme (2026-05) wurden zwölf TEI-P5-Standardelemente und 24
+                zusätzliche <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;div&gt;/@type</code>-Werte
+                als optional ins Schema aufgenommen (siehe
+                <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/docs/TEI-MODEL.md" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>TEI-MODEL.md §6.0</code></a>).
+                Bei künftigen Genre-Konflikten gibt es drei Wege:
             </p>
             <ol class="space-y-2 text-sm text-slate-700 mb-3 ml-4 list-decimal list-inside">
-                <li><strong>Schema-Erweiterung:</strong> Element/Attribut ins MHDBDB-Schema aufnehmen, falls die Domänen-Annotation forschungsrelevant ist und in mehreren Korpora wiederkehrt.</li>
+                <li><strong>Schema-Erweiterung mit optionaler Markierung</strong> (gewählt für ARITHMETIC): TEI-P5-konforme Elemente werden im Schema erlaubt, aber nirgends als Pflicht. Korpora ohne diese Annotation merken nichts davon.</li>
                 <li><strong>Wegtransformation:</strong> Wrapper entfernen (Inhalt bleibt), wenn die Annotation entbehrlich ist oder semantisch via <code class="px-2 py-0.5 bg-slate-100 rounded">@ana</code> auf das MHDBDB-Begriffssystem verweisen kann.</li>
                 <li><strong>Hybrid:</strong> TEI-konforme Standard-Elemente nutzen (<code class="px-2 py-0.5 bg-slate-100 rounded">&lt;measure&gt;</code> statt <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;unit&gt;</code>) und die Domänen-Klassifikation in <code class="px-2 py-0.5 bg-slate-100 rounded">@ana</code> oder <code class="px-2 py-0.5 bg-slate-100 rounded">@type</code> tragen.</li>
             </ol>
             <p class="text-sm text-slate-600 leading-relaxed italic mb-6">
                 Die Entscheidung gehört dem MHDBDB-Kernteam zusammen mit dem Beitragenden.
-                Beispiel-Diskussion für das ARITHMETIC-Korpus: siehe
+                Begründung der ARITHMETIC-Wahl (Mittelweg): siehe
                 <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/docs/DECISIONS.MD" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>docs/DECISIONS.MD § PD-001</code></a>.
+                Folge-Task: Begriffssystem-Anbindung über <code class="px-2 py-0.5 bg-slate-100 rounded">@ana</code> auf <code class="px-2 py-0.5 bg-slate-100 rounded">concepts.xml</code> (damit Maßeinheiten und Währungen in der Suche auffindbar werden).
             </p>
 
             <h3 class="text-lg font-semibold text-slate-800 mb-2">5.5 Worked Example: ARITHMETIC</h3>
@@ -578,9 +578,12 @@ L105: Element body has extra content: div    ← Cascade-Spitze</code></pre>
                 Sechs frühneuhochdeutsche Rechenbuch-Handschriften (GAMS Graz, Carina, Mai 2026).
                 Konversion implementiert in
                 <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/tree/main/scripts/ingest/ari" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>scripts/ingest/ari/</code></a>.
-                Erst-Dogfood: München UB 279, 100 Wort-Tokens, mechanische Konversion sauber, Stage-2 blockiert von 5 Element-Klassen aus 5.4.
+                Stand 2026-05-08: Schema-Erweiterung umgesetzt, alle 6 HS validieren Stage-2-PASS.
+                Konversions-Artefakte committet als Zwischenstand unter
+                <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/tree/main/ingest/ari" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>ingest/ari/</code></a>;
+                Umzug nach <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">tei/</code> erfolgt mit finalen Carina-Metadaten (Sigle, Edition, Genre).
                 Vollständige Befund-Tabelle:
-                <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/scripts/ingest/ari/README.md" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>scripts/ingest/ari/README.md</code></a>.
+                <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/ingest/ari/README.md" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>ingest/ari/README.md</code></a>.
             </p>
         </section>
 
@@ -733,6 +736,7 @@ print('Stage 2:', 'PASS' if mhdbdb.validate(doc) else mhdbdb.error_log)
                 <li><a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/schema/mhdbdb-authority.rnc" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>schema/mhdbdb-authority.rnc</code></a>: Authority-Files-Schema</li>
                 <li><a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/docs/TEI-MODEL.md" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>docs/TEI-MODEL.md</code></a>: Normatives Soll-Modell für Korpus-Texte</li>
                 <li><a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/docs/TEI-MODEL-AUTH-FILES.md" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>docs/TEI-MODEL-AUTH-FILES.md</code></a>: Authority-File-Modell</li>
+                <li><a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/docs/DECISIONS.MD" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>docs/DECISIONS.MD</code></a>: Architektur-Entscheidungen (ADRs) und Pending Decisions (z.&nbsp;B. PD-001 ARITHMETIC-Schema-Aufnahme)</li>
                 <li><a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/schema/README.md" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>schema/README.md</code></a>: Validierungs-Anleitung</li>
             </ul>
 

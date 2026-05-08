@@ -21,13 +21,13 @@ test.describe('Playground Corpus Loading', () => {
         await expect(fileBrowser).toBeVisible({ timeout: 60000 });
     });
 
-    test('corpus loads successfully with 666 texts', async ({ page }) => {
+    test('corpus loads successfully with 667 texts', async ({ page }) => {
         // Wait for auto-load to complete
         await page.waitForSelector('#fileBrowserSection', { state: 'visible', timeout: 60000 });
 
-        // Check included count shows 666
+        // Check included count shows 667
         const includedCount = await page.locator('#includedCount').textContent();
-        expect(parseInt(includedCount)).toBe(666);
+        expect(parseInt(includedCount)).toBe(667);
     });
 
     test('file list populated after corpus load', async ({ page }) => {

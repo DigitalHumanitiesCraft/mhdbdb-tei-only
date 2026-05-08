@@ -8,7 +8,7 @@ name: Schema Validation
 #      from the regenerated output — catches "edited RNC, forgot to
 #      regenerate RNG" drift.
 #
-#   2. Full two-stage RelaxNG validation (P2-13): validates all 666
+#   2. Full two-stage RelaxNG validation (P2-13): validates all 667
 #      corpus files and all 8 authority files against tei_all.rng
 #      (Stage 1) and mhdbdb.rng / mhdbdb-authority.rng (Stage 2).
 #      Fails when any Stage-2 check fails.

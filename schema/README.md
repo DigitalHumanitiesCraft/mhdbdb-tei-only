@@ -55,7 +55,7 @@ print('MHDBDB:', 'VALID' if mhdbdb.validate(tree) else mhdbdb.error_log)
 
 ## Korpus-Schema (`mhdbdb.rnc`)
 
-Für die 666 TEI-kodierten mittelhochdeutschen Texte in `tei/`.
+Für die 667 TEI-kodierten mittelhochdeutschen Texte in `tei/`.
 
 ### Dokumentstruktur
 

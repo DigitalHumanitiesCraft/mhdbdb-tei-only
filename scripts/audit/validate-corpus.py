@@ -47,7 +47,7 @@ for the "Daten vor Schema" policy and docs/features/032-schema-followup.md
 P3 section for Schematron candidates.
 
 Usage:
-    python scripts/audit/validate-corpus.py                      # all 666 + 8
+    python scripts/audit/validate-corpus.py                      # all 667 + 8
     python scripts/audit/validate-corpus.py --sample ABG PUC     # specific sigles
     python scripts/audit/validate-corpus.py --corpus-only        # skip authority
     python scripts/audit/validate-corpus.py --authority-only     # skip corpus

@@ -40,7 +40,7 @@ hilfe-korpussuche.html   Walkthrough für /korpus.html (Hauptseite):
                          Suchen → Filtern → Lesen → Highlighting → Lemma-Seite
 hilfe-playground.html    Walkthrough für /playground/ (Forschungswerkzeug):
                          Multi-Lemma-Suche (Nähe + Dokument), Authority-Files
-hilfe-daten.html         Datenbasis: 666 TEI-Texte, 7 Authority Files,
+hilfe-daten.html         Datenbasis: 667 TEI-Texte, 7 Authority Files,
                          Provenienz, Editionen, bekannte Grenzen
 ```
 
@@ -53,7 +53,7 @@ Summe: **4 neue HTML-Dateien** am Project-Root, **1 erweiterte Sektion** in `ind
 - **`hilfe.html`** ist Hub und Quick-Start in einem. Drei kurze Schritte („Suchwort eingeben → Texte auswählen → Treffer öffnen") bringen Erstnutzer:innen sofort an einen sichtbaren Erfolg. Darunter drei Kachel-Links auf die Themen-Seiten. Kein extra Pfad nötig; Quick-Start ist die Hauptarbeit der Hub-Seite.
 - **`hilfe-korpussuche.html`** ist der Walkthrough für die Haupt-Anwendung (`korpus.html`), die 90% der Nutzer:innen tatsächlich verwenden. Sektionen: Lemma-Suche, Textauswahl/Filter, Reading View, Highlighting-Farben, Lemma-Seite (so kommen Nicht-Devs überhaupt erstmal an die Lemma-Page heran).
 - **`hilfe-playground.html`** ist der Walkthrough für das Forschungswerkzeug (`playground/`). Sektionen: Multi-Lemma-Suche (Nähe/Dokument), Authority-Files-Erkundung (Personen, Werke, Lemmata, Begriffe, Gattungen, Namen), typische Forschungsfragen.
-- **`hilfe-daten.html`** beantwortet die Forschungs-Frage „Was durchsuche ich da eigentlich?". Sektionen: Korpus-Übersicht (666 Texte, 43.750 Lemmata, 175.910 Varianten), 7 Authority Files mit ihrer Rolle, Provenienz und Editionen (digitale Zwischenstufen), bekannte Grenzen (Desktop-only, statisches Korpus). Bildet Brücke zu #78 (Schema) und #68 (Ingest), die später unter dem Umbrella #80 erscheinen.
+- **`hilfe-daten.html`** beantwortet die Forschungs-Frage „Was durchsuche ich da eigentlich?". Sektionen: Korpus-Übersicht (667 Texte, 43.750 Lemmata, 175.910 Varianten), 7 Authority Files mit ihrer Rolle, Provenienz und Editionen (digitale Zwischenstufen), bekannte Grenzen (Desktop-only, statisches Korpus). Bildet Brücke zu #78 (Schema) und #68 (Ingest), die später unter dem Umbrella #80 erscheinen.
 - **Zitations-Sektion auf `index.html`** schließt die kritischste Lücke aus dem Inventar (Zitationsempfehlung existiert heute nirgendwo) – direkt da, wo Lizenz und Kontaktinfo schon stehen, mit Direktlink über `#zitieren`. Keine eigene URL nötig, weil das Thema thematisch zu „Lizenz & Kontakt" gehört.
 
 ### Was wegfällt vs. dem ursprünglichen 19-Seiten-Entwurf
@@ -87,7 +87,7 @@ Audit über `data/authority-index.json.gz` + `data/corpus-index.json.gz` + `auth
 |---|---|---|
 | Lemmata (Wörterbuch-Einträge) | **43.750** | `authority-index.json.gz` → `lemmata: list with 43750 entries`, matched `DATA-MODEL.MD:60` |
 | Varianten (nach MHG-Normalisierung, indexiert) | **175.910** | `authority-index.json.gz` → `variants: dict with 175910 keys`, matched `DATA-MODEL.MD:166` (~176k) |
-| Texte | **666** | `corpus-index.json.gz` → `totalTexts: 666` |
+| Texte | **667** | `corpus-index.json.gz` → `totalTexts: 667` |
 
 Hintergrundinfo zu Varianten: `variants.xml` enthält 192.472 raw `<form>`-Elemente und 188.684 unique Variant-Strings. Nach MHG-Normalisierung kollabieren die auf 175.910 indexierte Keys – das ist die Zahl, die der Search tatsächlich findet und deshalb user-facing korrekt.
 
@@ -189,7 +189,7 @@ Phase 0 lief **vor** Phase 1 und wurde als eigener Commit abgeschlossen. Phase 1
 Nach Review-Gate. Bei nur 2 verbleibenden Hilfe-Seiten ist Sub-Agent-Parallelisierung Overkill – sequentiell ist sauberer.
 
 - **`hilfe-playground.html`**: Walkthrough für das Forschungswerkzeug (`playground/`). Sektionen: Was ist der Playground, Multi-Lemma-Suche (Nähe/Dokument-Modi), Authority-Files erkunden (Personen/Werke/Lemmata/Begriffe/Gattungen/Namen), typische Forschungsfragen. Quellen aus Inventar §2: USER-GUIDE.MD „Playground", `playground/index.html` Subtitle + Modal-Hint + Modi-Beschreibungen. Tonalität laut Korpussuche-Walkthrough.
-- **`hilfe-daten.html`**: Datenbasis-Beschreibung. Sektionen: Korpus-Übersicht (666 TEI-Texte, 43.750 Lemmata, 175.910 Varianten – Phase-0-validierte Zahlen), 7 Authority Files mit Rolle und Größe (recyclet aus `index.html:300–375`), Provenienz und Editionen, bekannte Grenzen (Desktop-only, statisches Korpus, Rebuild-Zyklus – recyclet aus `USER-GUIDE.MD` „Allgemeine Hinweise"), Brücke zu #78 und #68.
+- **`hilfe-daten.html`**: Datenbasis-Beschreibung. Sektionen: Korpus-Übersicht (667 TEI-Texte, 43.750 Lemmata, 175.910 Varianten – Phase-0-validierte Zahlen), 7 Authority Files mit Rolle und Größe (recyclet aus `index.html:300–375`), Provenienz und Editionen, bekannte Grenzen (Desktop-only, statisches Korpus, Rebuild-Zyklus – recyclet aus `USER-GUIDE.MD` „Allgemeine Hinweise"), Brücke zu #78 und #68.
 - **Zitations-Sektion auf `index.html`** (in der bestehenden „Kontakt & Lizenz"-Section): Lizenz-Karte zu „Lizenz & Zitation" erweitern. Inhalt: Empfohlener Zitations-String, Hinweis auf Version/Release, DOI/URL-Pattern falls vorhanden, Lizenz-Hinweis CC BY-NC-SA 4.0. **Braucht Abstimmung mit Katharina** für die offizielle Zitationsempfehlung – den Inhalt schreibe ich nicht ohne ihr OK. Direkt-Linkbar über `index.html#zitieren`.
 
 ## Phase 3: Landing-Page-Umbau + Launch

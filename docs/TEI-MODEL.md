@@ -469,9 +469,9 @@ Format variiert historisch bedingt. Neue Texte sollen ein konsistentes Schema ve
 **`@lemma` bewusst nicht umgesetzt:** TEI P5 erlaubt `@lemma` (att.linguistic) als menschenlesbare Grundform direkt am Wort. Wir setzen es nicht. Begruendung:
 
 - **Denormalisierung.** Source of Truth fuer die Grundform ist `lexicon.xml` → `<form type="lemma"><orth>`. `@lemma` waere eine redundante Kopie neben `@lemmaRef`. Das widerspricht dem Grundsatz aus [TEI-MODEL-AUTH-FILES.md](TEI-MODEL-AUTH-FILES.md) Sec. 2.2 ("Bidirektionale Links — eine Richtung ist Master, die andere wird abgeleitet"), der fuer Authority-Files gilt und hier konsequent fortgefuehrt wird.
-- **Datenvolumen.** ~9,3M `<w>`-Elemente × ~10 Byte → rund 90 MB zusaetzliche Roh-XML ueber 666 Dateien ohne funktionalen Nutzen.
+- **Datenvolumen.** ~9,3M `<w>`-Elemente × ~10 Byte → rund 90 MB zusaetzliche Roh-XML ueber 667 Dateien ohne funktionalen Nutzen.
 - **Kein Konsument.** Weder `build-corpus-index.py` (liest nur `@lemmaRef` und extrahiert die ID) noch die JS-Renderer (`text-renderer.js`, `tei-text-reader.js`) lesen `@lemma`. Die Anzeige der Grundform laeuft im Browser ueber den Authority-Index.
-- **Sync-Risiko.** Jede orthografische Korrektur im Lexikon muesste in alle 666 Korpusdateien propagiert werden, sonst driften sie auseinander.
+- **Sync-Risiko.** Jede orthografische Korrektur im Lexikon muesste in alle 667 Korpusdateien propagiert werden, sonst driften sie auseinander.
 
 Die menschenlesbare Grundform bleibt per Lookup `@lemmaRef` → `lexicon.xml` zugaenglich — fuer Debug-Inspektion per `xmllint`/`grep`, fuer Tooling per Authority-Index.
 

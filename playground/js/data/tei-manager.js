@@ -734,7 +734,7 @@ export class TEIFilesManager {
             await corpusLoader.dbReady;
 
             // Load corpus index
-            if (progressCallback) progressCallback(0, 666);
+            if (progressCallback) progressCallback(0, 667);
             console.log('📥 Loading corpus index...');
             const corpusIndex = await corpusLoader.loadCorpusIndex();
 
@@ -976,7 +976,7 @@ export class TEIFilesManager {
 
         const results = [];
 
-        // Now fetch XML only for matching texts (not all 666!)
+        // Now fetch XML only for matching texts (not all 667!)
         console.log(`📥 Loading XML for ${Object.keys(proximityMatches).length} matching texts...`);
 
         for (const [textId, matches] of Object.entries(proximityMatches)) {

@@ -58,7 +58,7 @@ export class IndexedDBManager {
                     teiStore.createIndex('source', 'source', { unique: false }); // NEW: Track source
                 }
 
-                // Create object store for Corpus TEI files (pre-loaded 666 files)
+                // Create object store for Corpus TEI files (pre-loaded 667 files)
                 if (!db.objectStoreNames.contains('corpus_tei_files')) {
                     const corpusStore = db.createObjectStore('corpus_tei_files', { keyPath: 'filename' });
                     corpusStore.createIndex('timestamp', 'timestamp', { unique: false });
@@ -66,7 +66,7 @@ export class IndexedDBManager {
                     corpusStore.createIndex('sigle', 'metadata.sigle', { unique: false });
                     corpusStore.createIndex('author', 'metadata.author', { unique: false });
                     corpusStore.createIndex('title', 'metadata.title', { unique: false });
-                    console.log('📦 Created corpus_tei_files store for 666 pre-loaded texts');
+                    console.log('📦 Created corpus_tei_files store for 667 pre-loaded texts');
                 }
 
                 // Create object store for Authority files
@@ -561,8 +561,8 @@ export class IndexedDBManager {
             const store = transaction.objectStore('corpus_tei_files');
             const count = await this.promisifyRequest(store.count());
 
-            console.log(`📊 Corpus status: ${count}/666 files loaded`);
-            return count === 666;
+            console.log(`📊 Corpus status: ${count}/667 files loaded`);
+            return count === 667;
         } catch (error) {
             console.error('❌ Failed to check corpus status:', error);
             return false;

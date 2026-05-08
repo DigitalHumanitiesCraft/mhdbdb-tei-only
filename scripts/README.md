@@ -69,7 +69,7 @@ Scripts für die Integration externer Datenquellen.
 Holt bibliographische Metadaten (v.a. Editor:innen) von der Zotero API und aktualisiert `authority-files/works.xml`. Unterstützt `--dry-run`, `--cache`, `--offline`.
 
 ### `sync_tei_headers.py`
-Synchronisiert Authority-File-Daten in die TEI-Header (666 Dateien). Erweiterbar (aktuell: `--works` für Editor-Sync). Unterstützt `--dry-run`.
+Synchronisiert Authority-File-Daten in die TEI-Header (667 Dateien). Erweiterbar (aktuell: `--works` für Editor-Sync). Unterstützt `--dry-run`.
 
 ## _archived/ — Referenz
 

@@ -491,7 +491,7 @@ class MHDBDBPlayground {
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
                         </svg>
-                        <span>Load Full Corpus (666 Files)</span>
+                        <span>Load Full Corpus (667 Files)</span>
                     `;
                 }
 
@@ -700,7 +700,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     fileCountBadge.textContent = result.loaded;
                 }
 
-                // Show file filter for corpus data (useful for 666 files)
+                // Show file filter for corpus data (useful for 667 files)
                 const fileFilter = document.getElementById('fileFilter');
                 if (fileFilter) {
                     fileFilter.style.display = '';

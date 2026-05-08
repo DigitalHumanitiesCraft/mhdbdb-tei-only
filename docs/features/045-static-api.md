@@ -36,7 +36,7 @@ Actual counts and sizes from the existing indexes:
 
 | Field | Value |
 |-------|-------|
-| Texts | 666 |
+| Texts | 667 |
 | Unique lemmata indexed | 42,628 |
 | Per-text structure | `id`, `filename`, `title`, `author`, `authorRef`, `workRef`, `genre`, `wordCount`, `words` (array of lemma IDs), `lemmata` (position map) |
 
@@ -111,7 +111,7 @@ Resolved Feb 2026 after sizing analysis against the actual indexes.
 | Concepts | 567 | 113 B | 64 KB |
 | Genres | 615 | 113 B | 69 KB |
 | Names | 90 | 176 B | 16 KB |
-| Texts | 666 | 220 KB (full) / ~0.5 KB (metadata only) | 146 MB full / 330 KB metadata |
+| Texts | 667 | 220 KB (full) / ~0.5 KB (metadata only) | 146 MB full / 330 KB metadata |
 
 ### Options Evaluated
 
@@ -209,7 +209,7 @@ The API does **not** cross-reference corpus statistics into authority data (e.g.
     "concepts":{"href": "concepts/index.json", "count": 567},
     "genres":  {"href": "genres/index.json",   "count": 615},
     "names":   {"href": "names/index.json",    "count": 90},
-    "texts":   {"href": "texts/index.json",    "count": 666}
+    "texts":   {"href": "texts/index.json",    "count": 667}
   }
 }
 ```

@@ -158,7 +158,7 @@ def validate_corpus_index():
 
     # Sanity checks
     if num_texts < 600:
-        print(f"[WARN] WARNING: Expected ~666 texts, found {num_texts}")
+        print(f"[WARN] WARNING: Expected ~667 texts, found {num_texts}")
 
     if num_lemmata < 10000:
         print(f"[WARN] WARNING: Expected >10,000 unique lemmata, found {num_lemmata}")

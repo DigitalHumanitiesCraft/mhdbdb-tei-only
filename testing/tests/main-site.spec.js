@@ -65,7 +65,7 @@ test.describe('Main Site', () => {
 
         // Text list should have checkboxes (one per corpus text)
         const textCount = await page.locator('#textList label').count();
-        expect(textCount).toBeGreaterThan(100); // 666 texts expected
+        expect(textCount).toBeGreaterThan(100); // 667 texts expected
 
         // Selected text count should be displayed
         const selectedCount = await page.locator('#selectedTextCount').textContent();

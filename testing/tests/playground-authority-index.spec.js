@@ -91,7 +91,7 @@ test.describe('Playground Authority Index Loading', () => {
         console.log('✅ Corpus browser available after auto-load');
     });
 
-    test('corpus auto-loads 666 texts', async ({ page }) => {
+    test('corpus auto-loads 667 texts', async ({ page }) => {
         await page.goto('http://localhost:8080/playground/');
 
         // Wait for corpus auto-load to complete
@@ -99,9 +99,9 @@ test.describe('Playground Authority Index Loading', () => {
 
         // Check included count
         const includedCount = await page.locator('#includedCount').textContent();
-        expect(parseInt(includedCount)).toBe(666);
+        expect(parseInt(includedCount)).toBe(667);
 
-        console.log('✅ Corpus auto-loaded 666 texts');
+        console.log('✅ Corpus auto-loaded 667 texts');
     });
 
     test('performance: authority index loads within 10 seconds', async ({ page }) => {

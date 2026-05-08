@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Generate manifest.json for MHDBDB TEI corpus
-Extracts metadata from all 666 TEI files in tei/ directory
+Extracts metadata from all 667 TEI files in tei/ directory
 """
 
 import os
