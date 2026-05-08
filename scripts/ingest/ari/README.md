@@ -68,12 +68,20 @@ Folgt dem WZB-Pipeline-Pattern (`auto-match` → `pos-assign` → `sense-assign`
 |---|---|---|
 | 2026-05-07 | Issue #92 angelegt, Mail-Entwurf an Carina | Carina-Antwort steht aus |
 | 2026-05-08 | Stage 0 implementiert + Dogfood München UB 279 | 100 Wort-Tokens konvertiert; 6 Stage-2-Fehler durch 5 PD-001-Element-Klassen, alle anderen Aspekte sauber |
+| 2026-05-08 | Katharina antwortet zu 5 der 6 Kleinigkeits-Fragen | Konversion kann mit konkreten Defaults laufen, PD-001 bleibt offen |
 
-## Offene Fragen an Carina (Kleinigkeiten, blockieren NICHT die Pipeline)
+## Geklärt durch Katharina (2026-05-08)
 
-1. **Sigle-Strategie:** Sammel-Sigle `ARI` mit Suffix pro HS (`ARI_MUE279`, `ARI_AUG81`, `ARI_BRE1948`, …) oder pro HS einzeln (`MUE279`, `AUG81`, …)?
-2. **Lizenz:** GAMS-Default ist CC BY-SA 4.0 — bestätigen?
-3. **Autor:** alle 6 HS anonym, oder gibt es Schreiber-Zuschreibungen?
-4. **Edition:** GAMS-URLs sind als `digitalIntermediary` schon erfasst — zusätzliche Print-Editionen?
-5. **Genre:** Welche `genres.xml`-Kategorie? Eigene Kategorie „Rechenbuch / Arithmetik" anlegen?
-6. **PD-001 (entscheidend):** Domänen-Klassifikation erhalten oder wegtransformieren?
+| Frage | Antwort |
+|---|---|
+| Sigle-Strategie | `ARI` mit Suffix ist OK; Carina darf auch alternative Sigle wählen. Default fürs Kernteam-Skript: `ARI_<KÜRZEL>` (z.B. `ARI_MUE279`) |
+| Lizenz | CC BY-SA 4.0 für Originaldaten passt; semantische Annotationen wie üblich CC BY-NC-SA 4.0 |
+| Autor | „alles was sie haben" — Schreiber-Zuschreibungen falls vorhanden, sonst `person_anonym` |
+| Edition | Druckausgabe als `<biblStruct>`; bei eigenen Änderungen an der Druckedition expliziter Hinweis im Header |
+| Genre | „Arithmetik" oder „Arithmetischer Lehrtext" aus der MHDBDB-Textreihentypologie (siehe https://www.marketext.at/Textreihentypologie/?page_id=30); Genre-IDs aus `genres.xml` lookupen |
+
+## Offen
+
+| Frage | Status |
+|---|---|
+| **PD-001 Domänen-Klassifikation** | Bleibt offen. Entscheidung Carina + Katharina + Kernteam: `<unit>`, `<rs>`, `<unclear>`, `<hi rend="superscript\|subscript">`, `<div type="commodity_calculation\|reckoning_example">` erhalten oder wegtransformieren? Siehe [`docs/DECISIONS.MD § PD-001`](../../../docs/DECISIONS.MD) und 3 Optionen oben. |

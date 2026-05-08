@@ -104,10 +104,11 @@
                 <li><a href="#header" class="text-brand-600 hover:text-brand-700 font-medium">2. Header-Struktur</a></li>
                 <li><a href="#word-annotation" class="text-brand-600 hover:text-brand-700 font-medium">3. Wort- und Punctuation-Annotation</a></li>
                 <li><a href="#authority" class="text-brand-600 hover:text-brand-700 font-medium">4. Authority-Files vorbereiten</a></li>
-                <li><a href="#pipeline" class="text-brand-600 hover:text-brand-700 font-medium">5. Annotations-Pipeline</a></li>
-                <li><a href="#validation" class="text-brand-600 hover:text-brand-700 font-medium">6. Validierung</a></li>
-                <li><a href="#beispiel" class="text-brand-600 hover:text-brand-700 font-medium">7. Worked Example: Wenzelsbibel</a></li>
-                <li><a href="#refs" class="text-brand-600 hover:text-brand-700 font-medium">8. Referenzen</a></li>
+                <li><a href="#conversion" class="text-brand-600 hover:text-brand-700 font-medium">5. Konversion bestehender TEI-Daten</a></li>
+                <li><a href="#pipeline" class="text-brand-600 hover:text-brand-700 font-medium">6. Annotations-Pipeline</a></li>
+                <li><a href="#validation" class="text-brand-600 hover:text-brand-700 font-medium">7. Validierung</a></li>
+                <li><a href="#beispiel" class="text-brand-600 hover:text-brand-700 font-medium">8. Worked Example: Wenzelsbibel</a></li>
+                <li><a href="#refs" class="text-brand-600 hover:text-brand-700 font-medium">9. Referenzen</a></li>
             </ol>
         </nav>
 
@@ -461,9 +462,131 @@
             </p>
         </section>
 
-        <!-- 5. Pipeline -->
+        <!-- 5. Konversion bestehender TEI-Daten -->
+        <section id="conversion" class="mb-12 scroll-mt-24">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">5. Konversion bestehender TEI-Daten</h2>
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Wenn Sie bereits annotiertes TEI haben, etwa aus einem älteren MHDBDB-Schema,
+                einem GAMS- oder TextGrid-Repositorium oder einer eigenen TEI-Konvention,
+                durchläuft die Aufnahme einen mechanischen Konversions-Schritt
+                <strong>vor</strong> der Annotations-Pipeline (§6). Dieser Abschnitt fasst die
+                wiederkehrenden Drift-Punkte zusammen, die das Pattern in
+                <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/tree/main/scripts/ingest/wzb" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>scripts/ingest/wzb/</code></a>
+                und
+                <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/tree/main/scripts/ingest/ari" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>scripts/ingest/ari/</code></a>
+                konkret adressiert.
+            </p>
+
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">5.1 Konversions-Cheatsheet</h3>
+            <p class="text-sm text-slate-700 leading-relaxed mb-3">
+                Wiederkehrende Drifts, die sich rein mechanisch konvertieren lassen:
+            </p>
+            <div class="overflow-x-auto mb-6">
+                <table class="w-full text-sm border border-slate-200 rounded">
+                    <thead class="bg-slate-100">
+                        <tr>
+                            <th class="text-left p-3">Quell-Konvention</th>
+                            <th class="text-left p-3">MHDBDB-Ziel</th>
+                            <th class="text-left p-3">Heuristik</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200">
+                        <tr>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">tei:</code>-Präfix + Default-NS doppelt deklariert</td>
+                            <td class="p-3">nur Default-NS <code class="px-2 py-0.5 bg-slate-100 rounded">http://www.tei-c.org/ns/1.0</code></td>
+                            <td class="p-3">Tags in den Default-NS umsetzen, <code class="px-2 py-0.5 bg-slate-100 rounded">tei:</code> entfernen</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">&lt;seg type="token"&gt;</code></td>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">&lt;w&gt;</code></td>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">@xml:id</code> übernehmen, <code class="px-2 py-0.5 bg-slate-100 rounded">@type</code> fallenlassen</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">&lt;seg type="pc"&gt;</code> ohne <code class="px-2 py-0.5 bg-slate-100 rounded">@join</code></td>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">&lt;pc join="left|right"&gt;</code></td>
+                            <td class="p-3">Vorgänger-Heuristik: existiert ein nicht-Whitespace-Vorgänger im selben Parent (ignorierend <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;lb&gt;</code>/<code class="px-2 py-0.5 bg-slate-100 rounded">&lt;cb&gt;</code>/<code class="px-2 py-0.5 bg-slate-100 rounded">&lt;pb&gt;</code>) → <code class="px-2 py-0.5 bg-slate-100 rounded">"left"</code>; sonst <code class="px-2 py-0.5 bg-slate-100 rounded">"right"</code></td>
+                        </tr>
+                        <tr>
+                            <td class="p-3">Minimaler Header (nur <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;title&gt;</code>)</td>
+                            <td class="p-3">Voller Header gemäß §2</td>
+                            <td class="p-3">Template-Stub mit Defaults; offene Felder als TBD-Marker (Sigle, Autor, Genre, <code class="px-2 py-0.5 bg-slate-100 rounded">work_N</code>)</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3">Kein <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;?xml-model?&gt;</code></td>
+                            <td class="p-3">Zwei PIs: <code class="px-2 py-0.5 bg-slate-100 rounded">../schema/mhdbdb.rng</code> + <code class="px-2 py-0.5 bg-slate-100 rounded">tei_all.rng</code></td>
+                            <td class="p-3">festes Pattern, vor dem <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;TEI&gt;</code>-Root einfügen</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">&lt;TEI&gt;</code> ohne <code class="px-2 py-0.5 bg-slate-100 rounded">@xml:id</code></td>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">&lt;TEI xml:id="{SIGLE}"&gt;</code></td>
+                            <td class="p-3">Sigle als ID-Wert</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">5.2 Pflicht-Attribute, die leicht übersehen werden</h3>
+            <ul class="space-y-2 text-sm text-slate-700 mb-6 ml-4 list-disc list-inside">
+                <li><code class="px-2 py-0.5 bg-slate-100 rounded">&lt;change&gt;/@who</code> ist <strong>Pflicht</strong> neben <code class="px-2 py-0.5 bg-slate-100 rounded">@when</code>, z.&nbsp;B. <code class="px-2 py-0.5 bg-slate-100 rounded">who="#mhdbdb-team"</code> oder <code class="px-2 py-0.5 bg-slate-100 rounded">who="#editor"</code>. Ein Versions-Attribut wie <code class="px-2 py-0.5 bg-slate-100 rounded">@n</code> ist <strong>nicht</strong> erlaubt.</li>
+                <li><code class="px-2 py-0.5 bg-slate-100 rounded">&lt;msIdentifier&gt;/@corresp</code> Pflicht: Verweis auf <code class="px-2 py-0.5 bg-slate-100 rounded">works.xml#work_N</code>.</li>
+                <li><code class="px-2 py-0.5 bg-slate-100 rounded">&lt;pc&gt;/@join</code> Pflicht: bei rein mechanischer Konversion via Heuristik (siehe 5.1).</li>
+            </ul>
+
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">5.3 RelaxNG-Cascade verstehen</h3>
+            <p class="text-sm text-slate-700 leading-relaxed mb-3">
+                Wenn die Stufe-2-Validierung (siehe §7) fehlschlägt, sind die Fehlermeldungen
+                oft <strong>kaskadierend</strong>: ein einziges Schema-fremdes Element
+                produziert eine Folge von „extra content"-Meldungen bis hoch in den
+                umschließenden <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;body&gt;</code>.
+                Beispiel aus dem ARITHMETIC-Dogfood:
+            </p>
+            <pre class="bg-slate-50 border border-slate-200 rounded-lg p-4 text-xs overflow-x-auto mb-3"><code>L164: Did not expect element unit there      ← echte Ursache
+L128: Element p has extra content: lb
+L127: Element div has extra content: p
+L126: Element div has extra content: div
+L106: Element div has extra content: pb
+L105: Element body has extra content: div    ← Cascade-Spitze</code></pre>
+            <p class="text-sm text-slate-700 leading-relaxed mb-6">
+                <strong>Praktische Konsequenz:</strong> beim Stage-2-Debug zuerst die innerste,
+                konkreteste Meldung adressieren („Did not expect element X"). Die anderen
+                lösen sich oft mit auf, sobald die Wurzel beseitigt ist.
+            </p>
+
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">5.4 Domänen-spezifische Inline-Elemente</h3>
+            <p class="text-sm text-slate-700 leading-relaxed mb-3">
+                Genre-Korpora (Predigten, Rezepte, Rechenbücher) bringen oft eigene Inline-Mark-up-Konventionen
+                mit, die nicht im MHDBDB-Schema sind, etwa
+                <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;unit type="weight"&gt;</code>,
+                <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;rs type="currency"&gt;</code>,
+                spezielle <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;div&gt;/@type</code>-Werte
+                oder <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;hi rend="superscript|subscript"&gt;</code>.
+                Es gibt drei Wege:
+            </p>
+            <ol class="space-y-2 text-sm text-slate-700 mb-3 ml-4 list-decimal list-inside">
+                <li><strong>Schema-Erweiterung:</strong> Element/Attribut ins MHDBDB-Schema aufnehmen, falls die Domänen-Annotation forschungsrelevant ist und in mehreren Korpora wiederkehrt.</li>
+                <li><strong>Wegtransformation:</strong> Wrapper entfernen (Inhalt bleibt), wenn die Annotation entbehrlich ist oder semantisch via <code class="px-2 py-0.5 bg-slate-100 rounded">@ana</code> auf das MHDBDB-Begriffssystem verweisen kann.</li>
+                <li><strong>Hybrid:</strong> TEI-konforme Standard-Elemente nutzen (<code class="px-2 py-0.5 bg-slate-100 rounded">&lt;measure&gt;</code> statt <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;unit&gt;</code>) und die Domänen-Klassifikation in <code class="px-2 py-0.5 bg-slate-100 rounded">@ana</code> oder <code class="px-2 py-0.5 bg-slate-100 rounded">@type</code> tragen.</li>
+            </ol>
+            <p class="text-sm text-slate-600 leading-relaxed italic mb-6">
+                Die Entscheidung gehört dem MHDBDB-Kernteam zusammen mit dem Beitragenden.
+                Beispiel-Diskussion für das ARITHMETIC-Korpus: siehe
+                <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/docs/DECISIONS.MD" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>docs/DECISIONS.MD § PD-001</code></a>.
+            </p>
+
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">5.5 Worked Example: ARITHMETIC</h3>
+            <p class="text-sm text-slate-700 leading-relaxed mb-6">
+                Sechs frühneuhochdeutsche Rechenbuch-Handschriften (GAMS Graz, Carina, Mai 2026).
+                Konversion implementiert in
+                <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/tree/main/scripts/ingest/ari" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>scripts/ingest/ari/</code></a>.
+                Erst-Dogfood: München UB 279, 100 Wort-Tokens, mechanische Konversion sauber, Stage-2 blockiert von 5 Element-Klassen aus 5.4.
+                Vollständige Befund-Tabelle:
+                <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/scripts/ingest/ari/README.md" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>scripts/ingest/ari/README.md</code></a>.
+            </p>
+        </section>
+
+        <!-- 6. Pipeline -->
         <section id="pipeline" class="mb-12 scroll-mt-24">
-            <h2 class="text-2xl font-bold text-slate-900 mb-4">5. Annotations-Pipeline</h2>
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">6. Annotations-Pipeline</h2>
             <p class="text-slate-700 leading-relaxed mb-4">
                 Die Annotation läuft in drei Phasen nach dem gleichen Muster: Auto-Match
                 gegen vorhandene Authority-Daten, Disambiguierungs-TSV für mehrdeutige Fälle,
@@ -516,9 +639,9 @@
             </ul>
         </section>
 
-        <!-- 6. Validierung -->
+        <!-- 7. Validierung -->
         <section id="validation" class="mb-12 scroll-mt-24">
-            <h2 class="text-2xl font-bold text-slate-900 mb-4">6. Validierung</h2>
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">7. Validierung</h2>
             <p class="text-slate-700 leading-relaxed mb-4">
                 Zwei-Stufen-Modell:
                 <strong>Stufe&nbsp;1</strong>
@@ -554,9 +677,9 @@ print('Stage 2:', 'PASS' if mhdbdb.validate(doc) else mhdbdb.error_log)
             </p>
         </section>
 
-        <!-- 7. Beispiel: WZB -->
+        <!-- 8. Beispiel: WZB -->
         <section id="beispiel" class="mb-12 scroll-mt-24">
-            <h2 class="text-2xl font-bold text-slate-900 mb-4">7. Worked Example: Wenzelsbibel</h2>
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">8. Worked Example: Wenzelsbibel</h2>
             <p class="text-slate-700 leading-relaxed mb-4">
                 Die <strong>Wenzelsbibel</strong> (Wien, ÖNB Cod. 2759–2764, Sigle <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">WZB</code>)
                 ist die erste vollständige Aufnahme nach diesem Workflow und dient als Referenz
@@ -600,9 +723,9 @@ print('Stage 2:', 'PASS' if mhdbdb.validate(doc) else mhdbdb.error_log)
             </ul>
         </section>
 
-        <!-- 8. Refs -->
+        <!-- 9. Refs -->
         <section id="refs" class="mb-12 scroll-mt-24">
-            <h2 class="text-2xl font-bold text-slate-900 mb-4">8. Referenzen</h2>
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">9. Referenzen</h2>
 
             <h3 class="text-lg font-semibold text-slate-800 mb-2">Schemata und Spezifikationen</h3>
             <ul class="space-y-2 text-sm text-slate-700 mb-6 ml-4 list-disc list-inside">
@@ -640,10 +763,11 @@ print('Stage 2:', 'PASS' if mhdbdb.validate(doc) else mhdbdb.error_log)
                     <li><a href="#header" class="text-brand-600 hover:text-brand-700 font-medium">2. Header</a></li>
                     <li><a href="#word-annotation" class="text-brand-600 hover:text-brand-700 font-medium">3. Wort-Annotation</a></li>
                     <li><a href="#authority" class="text-brand-600 hover:text-brand-700 font-medium">4. Authority-Files</a></li>
-                    <li><a href="#pipeline" class="text-brand-600 hover:text-brand-700 font-medium">5. Pipeline</a></li>
-                    <li><a href="#validation" class="text-brand-600 hover:text-brand-700 font-medium">6. Validierung</a></li>
-                    <li><a href="#beispiel" class="text-brand-600 hover:text-brand-700 font-medium">7. Wenzelsbibel</a></li>
-                    <li><a href="#refs" class="text-brand-600 hover:text-brand-700 font-medium">8. Referenzen</a></li>
+                    <li><a href="#conversion" class="text-brand-600 hover:text-brand-700 font-medium">5. Konversion</a></li>
+                    <li><a href="#pipeline" class="text-brand-600 hover:text-brand-700 font-medium">6. Pipeline</a></li>
+                    <li><a href="#validation" class="text-brand-600 hover:text-brand-700 font-medium">7. Validierung</a></li>
+                    <li><a href="#beispiel" class="text-brand-600 hover:text-brand-700 font-medium">8. Wenzelsbibel</a></li>
+                    <li><a href="#refs" class="text-brand-600 hover:text-brand-700 font-medium">9. Referenzen</a></li>
                 </ol>
             </nav>
         </aside>

@@ -815,8 +815,9 @@ This ADR retroactively describes a policy that was already applied in Phase A–
 ### PD-001: ARITHMETIC Domänen-Klassifikation erhalten oder wegtransformieren?
 
 **Date raised:** 2026-05-07
-**Status:** Open — wartet auf Carina (via Katharina)
+**Status:** Open — Schema-Entscheidung steht aus (Carina + Katharina + Kernteam). Die fünf weiteren ARI-Kleinigkeits-Fragen (Sigle, Lizenz, Autor, Edition, Genre) sind durch Katharinas Antwort am 2026-05-08 geklärt; siehe [`scripts/ingest/ari/README.md`](../scripts/ingest/ari/README.md).
 **Issue:** [#92](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/92)
+**Dogfood-Befund (2026-05-08, München UB 279):** RelaxNG-Cascade verifiziert — die fünf nicht im Schema enthaltenen Element-/Attributklassen (`<unit>`, `<rs>`, `<unclear>`, `<hi rend="superscript|subscript">`, `<div type="commodity_calculation|reckoning_example">`) produzieren in einer 200-Zeilen-HS 6 Stage-2-Fehler. Werden sie entfernt oder ins Schema aufgenommen, validiert die konvertierte Datei sauber. Damit ist PD-001 die einzige verbleibende Blockade vor Stage-2-PASS.
 
 #### Problem
 
