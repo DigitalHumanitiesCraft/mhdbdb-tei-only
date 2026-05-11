@@ -13,6 +13,7 @@
     <link rel="icon" type="image/png" href="assets/images/mhdbdb-logo.png">
     <link rel="stylesheet" href="assets/css/shared.css">
     <link rel="stylesheet" href="assets/css/hilfe.css">
+    <link rel="stylesheet" href="assets/vendor/prism/prism.css">
 </head>
 <body class="bg-slate-100 text-slate-900">
 
@@ -67,6 +68,9 @@
                 </a>
                 <a href="hilfe-daten.html" class="py-3 border-b-2 border-brand-600 text-brand-700 font-semibold text-sm" aria-current="page">
                     Daten
+                </a>
+                <a href="hilfe-schema.html" class="py-3 border-b-2 border-transparent text-slate-600 hover:text-slate-900 hover:border-slate-300 transition text-sm font-medium">
+                    Schema
                 </a>
             </div>
         </div>
@@ -232,7 +236,7 @@
             <p class="text-slate-700 leading-relaxed mb-4">
                 Pflicht-Skelett des <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;teiHeader&gt;</code>:
             </p>
-            <pre class="bg-slate-50 border border-slate-200 rounded-lg p-4 text-xs overflow-x-auto mb-4"><code>&lt;teiHeader&gt;
+            <pre class="bg-slate-50 border border-slate-200 rounded-lg p-4 text-xs overflow-x-auto mb-4"><code class="language-xml">&lt;teiHeader&gt;
   &lt;fileDesc&gt;
     &lt;titleStmt&gt;
       &lt;title xml:lang="de"&gt;...&lt;/title&gt;
@@ -308,7 +312,7 @@
             <h2 class="text-2xl font-bold text-slate-900 mb-4">3. Wort- und Punctuation-Annotation</h2>
 
             <h3 class="text-lg font-semibold text-slate-800 mb-2">3.1 <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;w&gt;</code></h3>
-            <pre class="bg-slate-50 border border-slate-200 rounded-lg p-4 text-xs overflow-x-auto mb-3"><code>&lt;w xml:id="SIGLE_1ra_6_5"
+            <pre class="bg-slate-50 border border-slate-200 rounded-lg p-4 text-xs overflow-x-auto mb-3"><code class="language-xml">&lt;w xml:id="SIGLE_1ra_6_5"
    lemmaRef="lexicon.xml#lemma_879"
    pos="NOM"
    ana="lexicon.xml#lemma_879_sense_1449"&gt;
@@ -366,7 +370,7 @@
             </div>
 
             <h3 class="text-lg font-semibold text-slate-800 mb-2">3.2 <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;pc&gt;</code></h3>
-            <pre class="bg-slate-50 border border-slate-200 rounded-lg p-4 text-xs overflow-x-auto mb-3"><code>&lt;pc join="left"&gt;,&lt;/pc&gt;                  &lt;!-- linkangebunden, nach Wort --&gt;
+            <pre class="bg-slate-50 border border-slate-200 rounded-lg p-4 text-xs overflow-x-auto mb-3"><code class="language-xml">&lt;pc join="left"&gt;,&lt;/pc&gt;                  &lt;!-- linkangebunden, nach Wort --&gt;
 &lt;pc join="right"&gt;•&lt;/pc&gt;                 &lt;!-- rechtsangebunden, z.B. Cäsur --&gt;
 &lt;pc xml:id="SIGLE_1ra_6_6" join="left"&gt;.&lt;/pc&gt;  &lt;!-- xml:id ist optional --&gt;</code></pre>
             <p class="text-sm text-slate-700 leading-relaxed mb-6">
@@ -865,6 +869,10 @@ print('Stage 2 (MHDBDB):  ', 'PASS' if mhdbdb.validate(doc) else mhdbdb.error_lo
             </div>
         </div>
     </footer>
+
+    <!-- Prism (Core + Markup-Sprache) -->
+    <script defer src="assets/vendor/prism/prism-core.min.js"></script>
+    <script defer src="assets/vendor/prism/prism-markup.min.js"></script>
 
     <!-- Inline Scripts -->
     <script>
