@@ -823,3 +823,66 @@ Aus Session B (chronologisch verschachtelt): `0a287cccf` (#96 Reader-Download), 
    - **Reading-View-Render-Policy** Issue anlegen.
 5. **Zenodo-Aktivierung manuell** (User-Aufgabe): Zenodo-Account einrichten, Repo aktivieren, Release-Tag setzen, DOI ins CITATION.cff + README-Badge eintragen. Stub steht (Commit `5ea823f5e`).
 6. **WZB-Skript-Refactor** zu `scripts/ingest/wzb/` (~20 Skripte mit hardgecodeten Pfaden, übernommen vom vorigen Handoff).
+
+
+## 2026-05-11 12:32 handoff (Session B: #20 + #96 + #91-Stub + Doku-Sync + Audit-Toolchain)
+
+**Summary:** Session B parallel zum Playground-Track. Drei Briefing-Issues abgearbeitet: #20 (Counter-Lesbarkeit auf text-2xl + dedizierte blue-50-Hinweisbox), #96 (TEI-XML-Download-Link am Ende des Reader-Metadaten-Panels + Anonym-Wikidata-Link unterdrueckt), #91 (CITATION.cff-Stub + DOI-Badge-Platzhalter; KZW gepingt, hat noch in dieser Session auf type=dataset verfeinert). Plus: WZB-Stage-2-Fail in `works.xml` vorgefunden, gemeinsam mit Julias `af72bd261` aufgeloest. Anschliessend `/promptotyping check` — alle drei Should-Fixes erledigt (TEI-MODEL.md §10 auf 667/667 + Authority-Files 8 + WZB-Note, ROADMAP.md closed-Issues raus, INDEX.MD Recent Milestones extended) und 4 von 6 Blind-Spots umgesetzt.
+
+**Decisions:**
+- **Daten vor Schema bei WZB-Eintrag:** works.xml-Verstoesse (`<ref>` statt `<ptr>`, `<note type="manuscript">` direkt unter `<bibl>`, `<biblStruct>` ohne `<relatedItem>`-Wrapper, `<date>` ausserhalb `<imprint>`) durch Daten-Migration geloest statt Schema-Lockerung. KZW: Manuskript-Signatur "Wien, ÖNB, Cod. 2759-2764" in `note` mergen statt droppen. Julias parallel-entwickelter Fix `af72bd261` hat zusaetzlich Normdaten (Wikidata Q476495, GND 4117632-7, HSC werke/4577) angeflanscht; Merge-Konflikt sauber durch `git checkout` + ff-pull + Folge-Edit aufgeloest.
+- **Reading-View-Render-Policy als Issue #101:** nach drei Handoffs Schwebezustand jetzt explizit als Issue mit Domain-Element-Fragenkatalog (Bibelvers-Marker, Kapitelkoepfe, Initialen, Marginalia, Rubrum) fuer KZW + Julia. Statt weiter im JOURNAL durchzuschleppen.
+- **Pre-Commit-Hook (Blind-Spot F) verworfen:** CI Schema-Validation deckt es ab, kein separater Local-Hook noetig.
+- **Briefing-Tooling (Blind-Spot E) verworfen:** Briefings sind ad-hoc, kein Tooling-Investment.
+- **doc-count-audit.py als Drift-Detektor, kein Auto-Fixer:** meldet stale Zahlen, aendert keine Markdown — Begruendung gehoert in den Commit, nicht in generische Edit. Heuristik mit Window +/-2 absolut bzw. +/-2% relativ plus striktem Keyword-Anchor unmittelbar nach der Zahl, sodass historische Migration-Counts ("@meaningRef in 666/666 Dateien") nicht als Drift gemeldet werden.
+- **CITATION.cff Single-Author belassen:** KZW-Edit `8e4202ffc` hat Stub auf nur sie als Lead-Autorin reduziert + type auf "dataset" gesetzt (passender fuer ZfdG-Data-Paper-Einreichung). Pre-Tag-Checkliste auf #91 dokumentiert, dass Author-Liste vor Zenodo-Tag noch ergaenzt werden kann.
+
+**Dead ends:**
+- **Briefing-Sigle-Drift:** Briefing nannte "NIB" als Test-Sigle fuer #96 — existiert nicht im Korpus, NLA-Treffer (Nibelungenlied) verwendet. Zweite Briefing-Drift-Bestaetigung neben Session A's NIB->NBB-Fall (gleicher Briefing-Erstellungszeitpunkt). Inzwischen als Blind-Spot E erkannt und verworfen.
+- **doc-count-audit.py Heuristik-Iteration:** erste Version mit Window +/-30 + generic-keyword-Match: 39 False Positives auf historischen Migration-Counts. Mit engerem Window + striktem Anchor auf 0 reduziert.
+- **Redundanter `git rm docs/features/020-lesbarkeit.md`:** Session A hatte das File schon in `cd01c811e` (Cluster-Cleanup) mitgeloescht. Mein Folge-`git rm` lief leer durch. Lesson: vor Doc-Cleanups einmal `git log` durchschauen.
+- **Stage-1-Drift-Diagnose im Kreis gelaufen:** `[:20]`-Truncation in `validate-corpus.py` verbarg, dass der "31. Fail" works.xml selbst war (gleichzeitig Stage-1 + Stage-2). Erst nach Vollvalidierung (~7 min) + CI-History-Check klar. Mit `b6881c3ad` + Baseline-Drift-Marker in `3155082e7` fuer kuenftige Drifts adressiert.
+
+**Phase:** Implementation (iteration). Alle 14 Promptotyping-Docs synchron auf 667er-Stand (TEI-MODEL.md §10 + Authority Files, INDEX.MD Recent Milestones, ROADMAP.md Now/Next + Recently-Completed alle 2026-05-11 datiert). Nur noch zwei Feature-Docs in `docs/features/`: 034-wenzelsbibel-annotation.md, 045-static-api.md. Audit-Toolchain unter `scripts/audit/` jetzt mit Drift-Erkennung (`validate-corpus.py` gegen TEI-MODEL.md-Baseline; `doc-count-audit.py` gegen Markdown-Zahlen).
+
+**Open issues (post-Session):**
+- **#91 Zenodo:** CITATION.cff von KZW auf type=dataset gebracht. Pre-Tag-Checkliste auf Issue gepostet (issuecomment-4419735200). Wartet auf manuellen Zenodo-Webhook-Setup + ersten Tag.
+- **#101 Reading-View-Render-Policy (neu):** wartet auf KZW + Julia fuer Domain-Element-Entscheidungen (Bibelvers-Marker, Kapitelkoepfe, Initialen, Marginalia, Rubrum). Erst nach Antwort wird konkretes Implementation-Issue eroeffnet.
+- **#34 CoReMA-Teil:** unveraendert (WB live, CoReMA bleibt offener Ingest-Track).
+- **#92 ARITHMETIC:** unveraendert (wartet auf Carinas Antwort).
+- **#68 Guide:** Teil 2+ haengt an #34/#92-Lessons.
+- **#23, #26, #85:** TEI-Daten-Issues, claude-ready, kein Update in dieser Session.
+- **Upload-UI Dead-Code-Grossreinigung** (aus Session A vermerkt): noch kein Ticket.
+
+**Commits (alle gepusht):**
+- `26a4cd882` `fix(WZB): Manuskript-Signatur in Note aufnehmen`
+- `0a287cccf` `feat(reader): TEI-XML-Download-Hinweis + Anonym-Wikidata weg` (Closes #96)
+- `b5f947001` `style(korpus): Counter prominenter + klarer Deselect-Hinweis` (Closes #20)
+- `5ea823f5e` `chore(release): CITATION.cff + Zenodo-DOI-Badge-Stub`
+- `1c28b8b09` `chore(release): CITATION.cff Author-Stub auf Lead-Autorin reduziert`
+- `b6881c3ad` `chore(audit): validate-corpus.py — volle s1-fail-Liste statt [:20]`
+- `7f4efa7fa` `docs: stable docs auf 667-Korpus + heutige Issue-Closes synchronisieren`
+- `3155082e7` `chore(audit): Baseline-Drift-Marker (validate-corpus) + Doc-Count-Audit`
+
+**Externe Side Effects:**
+- **Issues #20 + #96 geschlossen** via `Closes #X`-Trailer (automatisch durch GitHub).
+- **Issue #44 (Triage Matrix) aktualisiert:** 25 -> 24 open issues, 12 closed seit 2026-05-08, claude-ready-Count reduziert (Playground Release 1 raus).
+- **Issue #91 Comments:** KZW-Ping fuer Final-Author-Liste, Pre-Tag-Checkliste mit 8 Punkten und expliziter Trennung Claude-vs-User-Aufgaben.
+- **Issue #101 (neu):** Reading-View-Render-Policy mit Domain-Element-Fragenkatalog, Label `frontend`.
+
+**Verifikations-Artefakte:**
+- Chrome-Tool: NLB (Anonym) im Reader — Download-Link auf `tei/NLB.tei.xml` aktiv (HEAD: HTTP 200, application/xml, 14.3 MB), Wikidata-Link weg. HTR (Hugo von Trimberg) — Download-Link aktiv, Wikidata bleibt.
+- Chrome-Tool: `korpus.html` mit "667 / 667 Texte ausgewählt" deutlich groesser, Hinweis-Box mit i-Icon sichtbar. Filter ("Nibelung" -> 4 sichtbar) und "Keine" (0/667) regressionsfrei.
+- Vollvalidierung `validate-corpus.py` lokal: 30/30 baseline, 0 Stage-2-Fails. CI seit `26a4cd88` gruen.
+- `doc-count-audit.py`-Output: alle Zahlen auf 667/8/43,754/584 — keine Drift mehr.
+
+**Next session:**
+1. `/promptotyping orient`
+2. **Sofort-Optionen (claude-ready, S-Effort):**
+   - **#81 Sprachstufen AC1-3:** 5-Minuten-Edit sobald KZW BCP-47-Code entschieden hat (`gmh-x-fnhd` vs. `gmh` lassen vs. `de-x-fnhd`)
+   - **#85 Kat. 2 (7 song-Texte):** deterministisch, ~2h
+   - **#47 Release 2:** Begriffs-Verteilung analog #90 Lemma-Verteilung
+3. **Falls KZW auf #101 antwortet:** Implementation-Issue mit konkretem Schema-Mapping (TEI-Element -> CSS-Klasse -> Browser-Anzeige) eroeffnen.
+4. **Falls Carinas Antwort eintrifft:** ARI-Phase 1 (Lemmatisierung) starten — `wzb-auto-match.py` -> `ari-auto-match.py` mit `# ARI-only:`-Diff-Kommentaren.
+5. **Mittelfristig:** #26 pb-Insert (14 klare Linecode-Faelle), #23 Stanza-Insert (~80 Texte), #45 Static JSON API, Upload-UI Dead-Code-Cleanup (Cluster mit #98/#99).
+6. **Manuelle User-Aufgaben** (siehe #91 Pre-Tag-Checkliste): Zenodo-Webhook aktivieren, Author-Liste in CITATION.cff ggf. ergaenzen, ersten Tag pushen, DOI propagieren.
