@@ -443,10 +443,7 @@ class MHDBDBPlayground {
     setupTEIQueries() {
         // UPDATED: Go through the hash router so the URL reflects the current view.
         const teiButtons = [
-            { id: 'showWordsBtn',       handler: () => navigate('words') },
-            { id: 'showLinesBtn',       handler: () => navigate('lines') },
-            { id: 'findMultiLemmaBtn',  handler: () => navigate('multi-lemma') },
-            { id: 'showAnnotationsBtn', handler: () => navigate('annotations') }
+            { id: 'findMultiLemmaBtn',  handler: () => navigate('multi-lemma') }
         ];
 
         teiButtons.forEach(({ id, handler }) => {

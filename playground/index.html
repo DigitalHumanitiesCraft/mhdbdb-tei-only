@@ -204,6 +204,26 @@
                     <span class="rounded-full bg-brand-50 px-3 py-1 text-xs font-medium text-brand-700">Schritt 2</span>
                 </div>
 
+                <div id="teiQueries" style="display: none;" class="space-y-4">
+                    <div>
+                        <h3 class="flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-slate-500">
+                            TEI Textanalyse
+                            <a href="../hilfe-playground.html#multi-lemma" target="_blank" rel="noopener" class="help-icon" aria-label="Hilfe zur Multi-Lemma-Suche" title="Hilfe zur Multi-Lemma-Suche">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                            </a>
+                        </h3>
+                        <p class="mt-1 text-sm text-slate-500">Analysieren Sie Lemmata, ihre Verteilung und Frequenzen im Korpus.</p>
+                    </div>
+                    <div class="grid gap-2">
+                        <button id="findMultiLemmaBtn" class="w-full rounded-xl border border-brand-200 bg-brand-50 px-4 py-2 text-left text-sm font-medium text-brand-700 transition hover:border-brand-400 hover:bg-brand-100 flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                            <span>Multi-Lemma-Suche</span>
+                        </button>
+                    </div>
+                </div>
+
                 <div class="space-y-4">
                     <div>
                         <h3 class="flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-slate-500">
@@ -221,29 +241,6 @@
                         <button id="showConceptsBtn" disabled class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 disabled:cursor-not-allowed disabled:border-slate-100 disabled:bg-slate-50 disabled:text-slate-400">Begriffe anzeigen</button>
                         <button id="showGenresBtn" disabled class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 disabled:cursor-not-allowed disabled:border-slate-100 disabled:bg-slate-50 disabled:text-slate-400">Gattungen anzeigen</button>
                         <button id="showNamesBtn" disabled class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 disabled:cursor-not-allowed disabled:border-slate-100 disabled:bg-slate-50 disabled:text-slate-400">Namen anzeigen</button>
-                    </div>
-                </div>
-
-                <div id="teiQueries" style="display: none;" class="space-y-4">
-                    <div>
-                        <h3 class="flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-slate-500">
-                            TEI Textanalyse
-                            <a href="../hilfe-playground.html#multi-lemma" target="_blank" rel="noopener" class="help-icon" aria-label="Hilfe zur Multi-Lemma-Suche" title="Hilfe zur Multi-Lemma-Suche">
-                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                            </a>
-                        </h3>
-                        <p class="mt-1 text-sm text-slate-500">Analysieren Sie Wörter, Zeilen, Lemmata und Annotationen im Korpus.</p>
-                    </div>
-                    <div class="grid gap-2">
-                        <button id="findMultiLemmaBtn" class="w-full rounded-xl border border-brand-200 bg-brand-50 px-4 py-2 text-left text-sm font-medium text-brand-700 transition hover:border-brand-400 hover:bg-brand-100 flex items-center gap-2">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                            </svg>
-                            <span>Multi-Lemma-Suche</span>
-                        </button>
-                        <button id="showWordsBtn" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700">Alle Wörter</button>
-                        <button id="showLinesBtn" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700">Alle Zeilen</button>
-                        <button id="showAnnotationsBtn" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700">Alle Annotationen</button>
                     </div>
                 </div>
 

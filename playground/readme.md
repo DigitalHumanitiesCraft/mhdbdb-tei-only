@@ -35,11 +35,8 @@ Mediävist:innen haben kein flexibles, exploratives Tool, um ihre TEI-Textkorpor
 5. **Gattungen** - Literary genre classification
 6. **Namen** - Proper names with semantic relations
 
-**TEI Text Analysis (4 search types):**
+**TEI Text Analysis:**
 7. **Multi-Lemma-Suche** - Find one or more lemmata across the corpus (paragraph, document, or proximity mode)
-8. **Alle Wörter** - Browse all words in loaded TEI files
-9. **Alle Zeilen** - Browse all lines in loaded TEI files
-10. **Alle Annotationen** - Annotations with resolved concept references
 
 ### MHG Character Normalization
 

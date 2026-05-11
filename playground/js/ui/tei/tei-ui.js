@@ -13,35 +13,6 @@ export class TEIExplorer {
         this.authorityData = authorityData;
     }
 
-    // ==================== WORDS EXPLORER ====================
-
-    showWords() {
-        const displayCount = Math.min(200, this.teiData.words.length);
-        const results = this.teiData.words.slice(0, displayCount).map(w => ({
-            meta: this.formatWordMeta(w),
-            snippet: w.text
-        }));
-
-        displayResults(
-            `Wörter aus TEI Texten (erste ${displayCount} von ${this.teiData.words.length})`,
-            results
-        );
-    }
-
-    // ==================== LINES EXPLORER ====================
-
-    showLines() {
-        const results = this.teiData.lines.map(l => ({
-            meta: `${l.filename} • Zeile ${l.n}`,
-            snippet: l.text
-        }));
-
-        displayResults(
-            `Textzeilen aus TEI Texten (${this.teiData.lines.length} Zeilen)`,
-            results
-        );
-    }
-
     // ==================== LEMMA SEARCH IN TEXT ====================
 
     findLemmaInText() {
@@ -442,20 +413,6 @@ export class TEIExplorer {
         );
     }
 
-    // ==================== ANNOTATIONS EXPLORER ====================
-
-    showAnnotations() {
-        const results = this.teiData.annotations.map(a => ({
-            meta: this.formatAnnotationMeta(a),
-            snippet: a.text
-        }));
-
-        displayResults(
-            `Alle Annotationen aus TEI Texten (${this.teiData.annotations.length} Annotationen)`,
-            results
-        );
-    }
-
     // ==================== ADVANCED TEI ANALYSIS ====================
 
     showWordFrequency() {
@@ -694,19 +651,6 @@ export class TEIExplorer {
     }
 
     // ==================== FORMATTING HELPERS ====================
-
-    formatWordMeta(word) {
-        const parts = [word.filename];
-        if (word.pos) parts.push(`POS: ${word.pos}`);
-        if (word.lemmaRef) parts.push(`Lemma: ${word.lemmaRef.split('#').pop()}`);
-        return parts.join(' • ');
-    }
-
-    formatAnnotationMeta(annotation) {
-        const parts = [annotation.filename, annotation.tagName];
-        if (annotation.ana) parts.push(`Meaning: ${annotation.ana.split('#').pop()}`);
-        return parts.join(' • ');
-    }
 
     arrayToCSV(array) {
         return array.map(row => 

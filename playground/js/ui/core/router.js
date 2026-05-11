@@ -8,8 +8,7 @@
  *
  * URL scheme: #<view>[&<key>=<value>&...]
  * Supported views:
- *   authors, works, lemmata, concepts, genres, names,
- *   multi-lemma, words, lines, annotations
+ *   authors, works, lemmata, concepts, genres, names, multi-lemma
  *
  * Example URLs:
  *   playground/#authors                          → open Autoren-Explorer
@@ -25,16 +24,13 @@ const ROUTES = {
   'genres':      (params) => window.playground.ui.authorityExplorers[params.q ? 'showGenresWithSearch'   : 'showGenres'](),
   'names':       (params) => window.playground.ui.authorityExplorers[params.q ? 'showNamesWithSearch'    : 'showNames'](),
   'multi-lemma': (params) => handleMultiLemmaRoute(params),
-  'words':       ()       => window.playground.ui.teiExplorer.showWords(),
-  'lines':       ()       => window.playground.ui.teiExplorer.showLines(),
-  'annotations': ()       => window.playground.ui.teiExplorer.showAnnotations(),
 };
 
 /**
  * Mapping from view key to the DOM id of its search input (if any).
  * Used by dispatch() to auto-fill the input when a `q` param is present in
- * the URL hash. Views without a search input (multi-lemma, words, lines,
- * annotations) are intentionally absent.
+ * the URL hash. Views without a search input (multi-lemma) are intentionally
+ * absent.
  */
 const SEARCH_INPUT_IDS = {
   'authors':  'authorSearch',

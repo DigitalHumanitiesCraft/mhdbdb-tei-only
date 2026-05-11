@@ -122,8 +122,6 @@ Browse and search six controlled vocabularies with consistent interface patterns
 
 Corpus-wide text analysis and co-occurrence search using pre-built indexes.
 
-**Note:** Three legacy buttons ("Alle Wörter", "Alle Zeilen", "Alle Annotationen") are currently non-functional — they require uploaded TEI-XML files from the old architecture. UX cleanup tracked in #87; new corpus-index-based replacements in #88-90.
-
 **Multi-Lemma Document Search:**
 - Input multiple lemmata (space-separated or one per line)
 - Find texts containing ALL lemmata (anywhere in document)
