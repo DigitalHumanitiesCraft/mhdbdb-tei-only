@@ -180,7 +180,9 @@ def main():
         marker = 'ABOVE baseline' if delta > 0 else 'below baseline'
         print(f'  WARN: stage-1 count {marker} by {abs(delta)}')
         if s1_fail_files:
-            print(f'  s1-fail files: {s1_fail_files[:20]}')
+            print(f'  s1-fail files ({len(s1_fail_files)}):')
+            for name in sorted(s1_fail_files):
+                print(f'    {name}')
 
     if s2_fails:
         print()
