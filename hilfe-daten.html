@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Datenbasis der Mittelhochdeutschen Begriffsdatenbank: 667 TEI-Texte, 43.750 Lemmata, sieben Authority Files, Provenienz und bekannte Grenzen.">
+    <meta name="description" content="Datenbasis der Mittelhochdeutschen Begriffsdatenbank: 667 TEI-Texte, 43.754 Lemmata, acht Authority Files, Provenienz und bekannte Grenzen.">
     <meta name="keywords" content="MHDBDB, Daten, TEI, Authority Files, Korpus, Mittelhochdeutsch, Provenienz">
     <meta name="author" content="Universität Salzburg">
 
@@ -84,7 +84,7 @@
         <section class="mb-10">
             <h1 class="text-4xl font-bold text-slate-900 mb-4">Daten</h1>
             <p class="text-lg text-slate-600 leading-relaxed">
-                Woraus besteht die MHDBDB? Diese Seite beschreibt das Korpus, die sieben Authority
+                Woraus besteht die MHDBDB? Diese Seite beschreibt das Korpus, die acht Authority
                 Files, ihre Provenienz und die bekannten Grenzen der aktuellen Version.
             </p>
         </section>
@@ -94,7 +94,7 @@
             <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500 mb-3">Auf dieser Seite</h2>
             <ol class="space-y-2 text-sm">
                 <li><a href="#ueberblick" class="text-brand-600 hover:text-brand-700 font-medium">1. Das Korpus in Zahlen</a></li>
-                <li><a href="#authority-files" class="text-brand-600 hover:text-brand-700 font-medium">2. Sieben Authority Files</a></li>
+                <li><a href="#authority-files" class="text-brand-600 hover:text-brand-700 font-medium">2. Acht Authority Files</a></li>
                 <li><a href="#provenienz" class="text-brand-600 hover:text-brand-700 font-medium">3. Provenienz und Editionen</a></li>
                 <li><a href="#grenzen" class="text-brand-600 hover:text-brand-700 font-medium">4. Bekannte Grenzen</a></li>
                 <li><a href="#mitwirken" class="text-brand-600 hover:text-brand-700 font-medium">5. Daten beitragen oder das Schema verstehen</a></li>
@@ -108,7 +108,7 @@
             <p class="text-slate-700 leading-relaxed mb-4">
                 Die MHDBDB umfasst <strong>667 mittelhochdeutsche TEI-Texte</strong> mit
                 wortgenauer semantischer Annotation. Das Wörterbuch hält
-                <strong>43.750 Lemmata</strong> vor, dazu ein Variantenwörterbuch mit
+                <strong>43.754 Lemmata</strong> vor, dazu ein Variantenwörterbuch mit
                 <strong>192.472 orthographischen Varianten</strong>, das die Suche gegen die
                 tatsächlich attestierten Schreibformen im Korpus abgleicht.
             </p>
@@ -119,7 +119,7 @@
                     <p class="text-sm text-slate-600">TEI-Texte</p>
                 </div>
                 <div class="bg-white rounded-xl border border-slate-200 p-5">
-                    <p class="text-3xl font-bold text-brand-600 mb-1">43.750</p>
+                    <p class="text-3xl font-bold text-brand-600 mb-1">43.754</p>
                     <p class="text-sm text-slate-600">Lemmata im Wörterbuch</p>
                 </div>
                 <div class="bg-white rounded-xl border border-slate-200 p-5">
@@ -136,16 +136,19 @@
             </p>
         </section>
 
-        <!-- 2. Sieben Authority Files -->
+        <!-- 2. Acht Authority Files -->
         <section id="authority-files" class="mb-12 scroll-mt-24">
-            <h2 class="text-2xl font-bold text-slate-900 mb-4">2. Sieben Authority Files</h2>
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">2. Acht Authority Files</h2>
 
             <p class="text-slate-700 leading-relaxed mb-4">
-                Die TEI-Texte referenzieren sieben kontrollierte Vokabulare, die gemeinsam die
+                Die TEI-Texte referenzieren acht kontrollierte Vokabulare, die gemeinsam die
                 Grundlage für Suche, Lemmatisierung und semantische Analyse bilden. Sechs davon
-                können Sie im Playground direkt durchsuchen; das siebte
-                (<code class="px-2 py-0.5 bg-slate-100 rounded text-sm">variants.xml</code>)
-                arbeitet unsichtbar im Hintergrund.
+                können Sie im Playground direkt durchsuchen,
+                <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">variants.xml</code>
+                arbeitet unsichtbar im Hintergrund, und
+                <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">contributors.xml</code>
+                ist ein internes Mitwirkenden-Register für die Editor-Attribution in den
+                TEI-Headern.
             </p>
 
             <ul class="space-y-3 text-sm text-slate-700 mb-4">
@@ -161,7 +164,7 @@
                 </li>
                 <li>
                     <strong>lexicon.xml</strong> <span class="text-slate-500">(31,84 MB)</span> –
-                    das Wörterbuch mit 43.750 Lemmata, grammatischen Annotationen, Bedeutungen und
+                    das Wörterbuch mit 43.754 Lemmata, grammatischen Annotationen, Bedeutungen und
                     Anbindung an BMZ, Lexer und MWB.
                 </li>
                 <li>
@@ -180,6 +183,12 @@
                     <strong>variants.xml</strong> <span class="text-slate-500">(12,18 MB)</span> –
                     orthographische Varianten, aus dem Korpus abgeleitet. Grundlage der
                     Variantenauflösung in der Suche.
+                </li>
+                <li>
+                    <strong>contributors.xml</strong> <span class="text-slate-500">(intern)</span> –
+                    Register der MHDBDB-Mitwirkenden (51 Personen + 2 Organisationen). Dient
+                    der Editor-Attribution in den TEI-Headern und wird nicht über die Suche
+                    zugänglich gemacht.
                 </li>
             </ul>
 
