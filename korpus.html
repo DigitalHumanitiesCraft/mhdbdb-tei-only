@@ -176,14 +176,20 @@
                 </div>
 
                 <!-- Selection Summary -->
-                <div class="flex items-center justify-between text-sm text-slate-700 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2">
-                    <span><span id="selectedTextCount" class="font-bold text-lg text-brand-600">667</span> / <span id="totalTextCount">667</span> Texte ausgewählt</span>
-                    <span id="filterInfoText" style="display: none;" class="text-slate-500">
+                <div class="flex items-center justify-between text-base text-slate-800 bg-slate-50 border border-slate-300 rounded-lg px-4 py-3">
+                    <span><span id="selectedTextCount" class="font-bold text-2xl text-brand-600">667</span> <span class="text-slate-500">/ <span id="totalTextCount">667</span></span> <span class="font-semibold">Texte ausgewählt</span></span>
+                    <span id="filterInfoText" style="display: none;" class="text-sm text-slate-600">
                         <span id="visibleTextCount">0</span> Texte sichtbar
                         <button id="clearTextFilter" class="text-brand-600 hover:text-brand-700 font-medium ml-2">Filter löschen</button>
                     </span>
                 </div>
-                <p class="text-xs text-slate-500 mt-1">Tipp: Um nur in bestimmten Texten zu suchen, klicken Sie oben auf „Keine" und wählen Sie dann die gewünschten Texte aus.</p>
+                <!-- Hinweis: Selection-Default + Deselect-Workflow (Issue #20) -->
+                <div class="mt-2 flex items-start gap-2 text-sm text-slate-700 bg-blue-50 border border-blue-200 rounded-lg px-3 py-2">
+                    <svg class="w-5 h-5 mt-0.5 flex-shrink-0 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <p class="m-0">Standardmäßig sind alle Texte ausgewählt. Um nur in einzelnen Texten zu suchen, klicken Sie oben rechts auf <strong>„Keine"</strong> und wählen anschließend die gewünschten Texte gezielt an.</p>
+                </div>
             </div>
         </section>
 
