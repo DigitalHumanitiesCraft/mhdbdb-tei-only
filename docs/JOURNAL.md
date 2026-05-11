@@ -763,3 +763,63 @@ Die #32-followup-Arbeit (P1-10, P2-12, P2-13, P2-14, P2-15, `<hi>`-Flatten, PL1-
 4. **Pre-build-Hygiene-Issue** filen (vom parallelen Track-Handoff vorgeschlagen).
 5. **Wenzelsbibel/ Refactor zu ingest/wzb/** als Folge-Task der heutigen Ingest-Pattern-Konvention (~20 WZB-Skripte mit hardgecodeten Pfaden anpassen, größeres Refactor).
 6. **Reading-View-Render-Policy**: Issue oder Feature-Doc anlegen, sobald klar ist welche Domain-Elemente das Frontend zeigen soll. Förderbarer Folge-Schritt.
+
+---
+
+## 2026-05-11 11:59 handoff (Session A: Playground Release 1 + 3 Follow-up-Cleanups)
+
+**Summary:** Parallele Zwei-Session-Arbeit. Session A (dieser Tab) hat Playground Release 1 vollständig abgeschlossen: #87 UX-Cleanup, #88 Wortfrequenz, #89 Text-Statistiken, #90 Lemma-Verteilung — alle vier mit Chrome-DevTools im Browser verifiziert (plausibel-Stichproben „minne"/„êre" und NBB/PZ/ABG). Anschließend vier Follow-ups: Corpus-Index-Schema in DATA-MODEL.MD dokumentiert, #97 Corpus-Source-Inkonsistenz repariert, #98 Dead Code in tei-ui.js entfernt, #99 toter loadCorpusBtn-Setup-Block weg, #100 Pre-flight-Check für Build-Skripte. Session B (anderer Tab) hat parallel #20 Lesbarkeit + #96 Metadatenanzeige + CITATION.cff-Vorbereitung erledigt.
+
+**Decisions:**
+- **Briefing-Workflow für parallele Sessions etabliert:** zwei detaillierte Briefing-MDs (`briefing-session-a.md` + `briefing-session-b.md` auf Desktop), beide mit Audit-Sektion „ist das schon erledigt?" und Pfad-Ankern. Wert: Audit hat in Session A bereits beim Start #87-Tasks präzisiert (Buttons sind nicht „broken", nur redundant) und das Corpus-Index-Schema-Mismatch früh entdeckt.
+- **Corpus-Quelle-Inkonsistenz minimal-invasiv gelöst (#97):** `autoLoadCorpus()` spiegelt Index zusätzlich nach `teiManager.corpusIndex`, statt einer der beiden Pfade zu eliminieren. Same Reference, kein Refactor-Schock. Größere Aufräumarbeit blieb für später (loadCorpusBtn-Setup-Block → #99 separat).
+- **Dead-Code-Cleanup-Strategie:** in zwei Wellen statt einer großen. Erst die direkt durch #88/89/90 obsoleten Methoden (`calculate*Frequency`/`POSDistribution`), dann der restliche tot-aber-noch-sichtbare Block (Context, Cross-Reference, CSV-Export, Lemma-Prompt). Insgesamt ~700 Zeilen raus, tei-ui.js von 581 auf 404 Zeilen.
+- **Pre-build-Hygiene als Issue + Implementation in einem Schritt (#100):** subprocess-basierter `git status --porcelain`-Check vor jedem Index-Build. `--allow-dirty` Flag für lokale Tests; CI baut von gecommittetem main, daher dort kein Trigger. Windows-cp1252-Encoding-Issue (Unicode-Pfeil `→`) durch ASCII-only Strings vermieden.
+- **Test-Sicherheit vor Refactor:** `corpus.spec.js:302` referenziert `loadCorpusIntoPlayground` per `typeof`-Check. Methode bleibt erhalten (in tei-manager.js), nur der nie-laufende Setup-Handler in playground-main.js raus. Tests grün, Refactor unspektakulär.
+
+**Dead ends:**
+- **Test-Wert „NIB" für Nibelungenlied:** Briefing nahm `NIB` an, tatsächlich ist die Sigle `NBB`. Erst gemerkt als `s.value='NIB'` keinen Match im Dropdown fand und 0 Rows lieferte. Lesson: Sigle-Listen sind nicht aus dem Bauch zu raten; immer einmal `corpusData.texts[].id` greppen.
+- **DevTools-Console-Polling mit zu kurzem Timeout:** initiale `autoLoadCorpus`-Wartezeit auf 4 Sekunden gesetzt, Promise gab `TIMEOUT` zurück, obwohl der Corpus tatsächlich da war (nur unter anderer Property). Lesson: erst Property-Pfad verifizieren, dann polling-Logik bauen — der Bug lag nicht in der Wartezeit, sondern im falschen Lookup (`teiManager.corpusIndex` statt `corpusData`).
+- **`docs/features/020-lesbarkeit.md` durch meinen Commit gelöscht:** Session B hatte das Plan-Doc nach #20-Abschluss gestaged (Konvention: Plan-Doc nach Issue-Close weg, vgl. #79), mein `git add <spezifische-files> && git commit` nahm die staged Deletion mit. Schaden null (Intent war konsistent), aber ein gutes Beispiel für Memory-Regel „concurrent sessions share staging area".
+
+**Phase:** Implementation (iteration). Alle 14 Promptotyping-Docs aktuell (DATA-MODEL.MD heute auf v4.0.1-Schema gebracht). Nur noch zwei Feature-Docs in `docs/features/`: `034-wenzelsbibel-annotation.md` und `045-static-api.md` (`020-lesbarkeit.md` und `079-hilfe-seite.md` mit den jeweiligen Issues geschlossen + gelöscht). Playground TEI-Textanalyse Release 1 (`#47`) komplett: vier UI-Module + Hash-Routing.
+
+**Open issues (post-Session):**
+- **#47 Playground TEI Textanalyse:** Release 1 abgeschlossen (#87-#90 closed). Release 2 (Begriffs-Verteilung analog Lemma-Verteilung) und Release 3 (POS-Anteile in #89, abhängig von #27) noch ungeplant.
+- **#92 ARITHMETIC** (open, blockiert): wartet weiter auf Carinas Antwort zu Metadaten + Begriffssystem.
+- **#68 Guide** (open): Schema-Konversion abgedeckt; weitere Onboarding-Artefakte aus künftigen Korpus-Ingests.
+- **#34 CoReMA-Teil** (open): WB live, CoReMA bleibt offener Ingest-Track.
+- **Reading-View-Render-Policy** (übernommen): noch kein Issue.
+- **Upload-UI Dead-Code-Großreinigung:** drag&drop / `handleTEIFiles` / `uploadZone` / `fileInput` Code in playground-main.js + tei-manager.js besteht weiter, obwohl UI im Redesign entfernt wurde. Eigenes Ticket wert (M-Effort, viele Stellen).
+- **`scripts/audit/validate-corpus.py`** hat während meiner Session uncommitted modifizierte Output-Formatierung bekommen (nicht von mir, vermutlich Session B oder andere Quelle) — bei nächstem `git status` zu klären.
+
+**Commits (alle gepusht, neueste zuerst):**
+- `c8dfe0f0c` `feat(build): Pre-flight Working-Tree-Check fuer Index-Builder (#100)`
+- `cd01c811e` `chore(playground): toter loadCorpusBtn-Setup-Block entfernen (#99)`
+- `d75956e0e` `chore(playground): Dead Code in tei-ui.js entfernen (#98)`
+- `30c512d64` `fix(playground): Corpus-Index unter teiManager.corpusIndex spiegeln (#97)`
+- `a6721de7e` `docs+chore: Corpus-Index-Schema dokumentieren + Frequency-Dead-Code raus`
+- `a5a4a750c` `feat(playground): Lemma-Verteilung mit Bar-Chart (#90)`
+- `42a7b4467` `feat(playground): Text-Statistiken (#89)`
+- `2fc4f02d7` `feat(playground): Wortfrequenz-Analyse (#88)`
+- `3f97bbc7d` `fix(playground): UX-Cleanup — broken Buttons entfernen + Reorder (#87)`
+
+Aus Session B (chronologisch verschachtelt): `0a287cccf` (#96 Reader-Download), `5ea823f5e` (CITATION.cff + DOI-Badge), `b5f947001` (#20 Lesbarkeit), `1c28b8b09` (CITATION-Stub-Reduce).
+
+**Externe Side Effects:**
+- **Issues #87, #88, #89, #90 geschlossen** via `Closes #X` in Commits (alle 2026-05-11 ~09:41).
+- **Issues #97, #98, #99, #100 gefilet und sofort geschlossen** als Follow-up-Cleanups (Cluster-Doku im Issue-Body, Fix im Commit-Body, alle 09:45-09:57).
+- Session B hat parallel #20 und #96 geschlossen.
+
+**Open Github-Issues nach Session:** 28 (drei neue Cleanup-Issues kamen via Close gleich wieder runter; nur #100 hatte überhaupt Pre-build-Empfehlung im JOURNAL als Lead-in).
+
+**Next session:**
+1. `/promptotyping orient`
+2. **Tee-Test:** wenn `scripts/audit/validate-corpus.py` immer noch uncommitted (Session B oder andere Quelle), kurz `git diff` checken und entweder mit-committen oder klären.
+3. **Falls Carinas Antwort eingetroffen:** ARI-Phase 1 (Lemmatisierung) starten — `wzb-auto-match.py` zu `ari-auto-match.py` kopieren mit `# ARI-only:`-Kommentaren bei jeder Änderung, Diff messen (vorgeschlagen im vorigen Handoff).
+4. **Falls keine Antwort + thematisch ohne Konflikt:**
+   - **Upload-UI Dead-Code-Großreinigung** (`handleTEIFiles`, `uploadZone`, `fileInput`, ungenutzte tei-manager.js-Methoden) — Cluster mit #98/#99, M-Effort.
+   - **#47 Playground Release 2:** Begriffs-Verteilung analog Lemma-Verteilung (Konzept-basiert statt Lemma-basiert). Datengrundlage `authorityData.concepts` existiert, Pattern aus `lemma-distribution.js` recycelbar.
+   - **Reading-View-Render-Policy** Issue anlegen.
+5. **Zenodo-Aktivierung manuell** (User-Aufgabe): Zenodo-Account einrichten, Repo aktivieren, Release-Tag setzen, DOI ins CITATION.cff + README-Badge eintragen. Stub steht (Commit `5ea823f5e`).
+6. **WZB-Skript-Refactor** zu `scripts/ingest/wzb/` (~20 Skripte mit hardgecodeten Pfaden, übernommen vom vorigen Handoff).
