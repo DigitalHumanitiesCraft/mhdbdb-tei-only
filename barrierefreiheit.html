@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Erklärung zur Barrierefreiheit der Website der Mittelhochdeutschen Begriffsdatenbank (MHDBDB), Universität Salzburg, nach österreichischem Web-Zugänglichkeits-Gesetz (WZG).">
+    <meta name="keywords" content="MHDBDB, Barrierefreiheit, WZG, WCAG, Web-Zugänglichkeits-Gesetz">
+    <meta name="author" content="Universität Salzburg">
+
+    <title>Erklärung zur Barrierefreiheit – MHDBDB</title>
+
+    <link rel="stylesheet" href="assets/css/tailwind-output.css">
+    <link rel="icon" type="image/png" href="assets/images/mhdbdb-logo.png">
+    <link rel="stylesheet" href="assets/css/shared.css">
+</head>
+<body class="bg-slate-100 text-slate-900">
+
+    <!-- Header (global Top-Nav) -->
+    <header class="border-b border-slate-200 bg-white/90 backdrop-blur sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4">
+            <nav class="flex items-center justify-between">
+                <a href="index.html" class="flex items-center gap-3">
+                    <img src="assets/images/mhdbdb-logo.png" alt="MHDBDB Logo" class="w-40">
+                    <span class="text-lg font-bold text-brand-600">MHDBDB</span>
+                </a>
+
+                <div class="hidden md:flex items-center gap-6">
+                    <a href="index.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">Startseite</a>
+                    <a href="korpus.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">Korpussuche</a>
+                    <a href="playground/index.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">Playground</a>
+                    <a href="hilfe.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">Hilfe</a>
+                    <a href="index.html#contact" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">Kontakt</a>
+                </div>
+
+                <button id="mobileMenuButton" class="md:hidden p-2 text-slate-600 hover:text-slate-900 transition" aria-label="Toggle menu">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </nav>
+
+            <div id="mobileMenu" class="hidden md:hidden mt-4 pb-4 border-t border-slate-200">
+                <div class="flex flex-col gap-3 pt-4">
+                    <a href="index.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">Startseite</a>
+                    <a href="korpus.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">Korpussuche</a>
+                    <a href="playground/index.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">Playground</a>
+                    <a href="hilfe.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">Hilfe</a>
+                    <a href="index.html#contact" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">Kontakt</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto max-w-3xl px-6 py-12">
+
+        <section>
+            <h1 class="text-4xl font-bold text-slate-900 mb-6">Erklärung zur Barrierefreiheit</h1>
+
+            <p class="text-base text-slate-700 leading-relaxed mb-4">
+                Die Universität Salzburg ist bemüht, ihre Websites im Einklang mit dem
+                österreichischen <a href="https://www.ris.bka.gv.at/GeltendeFassung.wxe?Abfrage=Bundesnormen&Gesetzesnummer=20010727" class="text-brand-600 hover:text-brand-700" target="_blank" rel="noopener">Web-Zugänglichkeits-Gesetz (WZG)</a>
+                barrierefrei zugänglich zu machen. Das WZG setzt die
+                <a href="https://eur-lex.europa.eu/legal-content/DE/TXT/?uri=CELEX:32016L2102" class="text-brand-600 hover:text-brand-700" target="_blank" rel="noopener">EU-Richtlinie 2016/2102</a>
+                über den barrierefreien Zugang zu Websites und mobilen Anwendungen
+                öffentlicher Stellen um.
+            </p>
+
+            <p class="text-base text-slate-700 leading-relaxed mb-4">
+                Diese Erklärung zur Barrierefreiheit gilt für die Website der
+                Mittelhochdeutschen Begriffsdatenbank (MHDBDB),
+                erreichbar unter
+                <a href="https://dhcraft.org/mhdbdb-tei-only/" class="text-brand-600 hover:text-brand-700" target="_blank" rel="noopener">dhcraft.org/mhdbdb-tei-only/</a>.
+            </p>
+
+            <h2 class="text-2xl font-bold text-slate-900 mt-10 mb-4">Stand der Vereinbarkeit mit den Anforderungen</h2>
+
+            <p class="text-base text-slate-700 leading-relaxed mb-4">
+                Diese Website ist mit den Anforderungen des Web-Zugänglichkeits-Gesetzes
+                <strong>teilweise vereinbar</strong>. Die nachstehend aufgeführten Inhalte
+                sind aus den jeweils genannten Gründen nicht oder nicht vollständig
+                barrierefrei.
+            </p>
+
+            <h2 class="text-2xl font-bold text-slate-900 mt-10 mb-4">Nicht barrierefreie Inhalte</h2>
+
+            <p class="text-base text-slate-700 leading-relaxed mb-4">
+                Die folgenden Bereiche der Website erfüllen die Anforderungen der
+                Web Content Accessibility Guidelines (WCAG 2.1, Konformitätsstufe AA)
+                nicht oder nur teilweise:
+            </p>
+
+            <ol class="space-y-4 text-base text-slate-700 leading-relaxed mb-6 ml-4 list-decimal">
+                <li>
+                    <strong>Desktop-orientierte Bedienoberfläche.</strong>
+                    Die Korpussuche und der Playground sind für Bildschirmbreiten ab
+                    etwa 1200 Pixeln gestaltet. Auf kleineren Viewports (Smartphones,
+                    schmale Tablet-Ansichten) sind einige Bedienelemente beengt, und
+                    bestimmte Layouts gehen nicht vollständig auf die für WCAG 2.1
+                    Erfolgskriterium 1.4.10 („Reflow") erforderliche Mindestbreite von
+                    320 Pixel zurück. <em>Begründung:</em> die zugrunde liegende
+                    Drei-Spalten-Analyseoberfläche des Playgrounds verarbeitet
+                    parallel Korpus-Auswahl, Abfrageoberfläche und Ergebnisanzeige;
+                    eine vollständige Reflow-Implementierung würde die
+                    Forschungsfunktionalität substantiell einschränken.
+                </li>
+                <li>
+                    <strong>Komplexe interaktive Komponenten.</strong>
+                    Die Multi-Lemma-Suche, der Reading View mit dynamischen
+                    Hervorhebungen und einige Authority-Browser sind nicht in allen
+                    Details auf Tastaturbedienung und Screen-Reader-Ausgabe optimiert
+                    (betrifft WCAG 2.1.1 „Keyboard", 4.1.2 „Name, Role, Value").
+                    <em>Begründung:</em> die Funktionen wurden iterativ aus
+                    Forschungsbedarf heraus entwickelt; eine systematische
+                    Überprüfung auf assistive-Technologie-Konformität steht noch aus.
+                </li>
+                <li>
+                    <strong>Farbkodierte Treffer-Hervorhebung.</strong>
+                    Im Reading View werden bis zu fünf parallel gesuchte Lemmata
+                    farblich unterschiedlich markiert. Die Farbe ist
+                    <em>zusätzliche</em> Information zur Position im Text; eine
+                    redundante nicht-farbliche Kodierung (z.&nbsp;B. Symbole) gibt es
+                    derzeit nicht (betrifft WCAG 1.4.1 „Use of Color" für
+                    Nutzer*innen, die mehrere Lemmata gleichzeitig vergleichen).
+                </li>
+                <li>
+                    <strong>Mittelhochdeutsche Korpustexte und Wörterbuchdaten.</strong>
+                    Die Texte sind in historischer Sprachstufe (überwiegend
+                    Mittelhochdeutsch, <code class="px-1 py-0.5 bg-slate-100 rounded text-sm">lang="gmh"</code>)
+                    und sind nicht in jeder Granularität für deutsche Sprachsynthese-Engines
+                    optimiert. <em>Begründung:</em> die Texte sind das
+                    Forschungsobjekt selbst; eine neuhochdeutsche Übersetzung wäre
+                    eine inhaltliche Bearbeitung, die den dokumentarischen Charakter
+                    verändern würde.
+                </li>
+                <li>
+                    <strong>TEI-XML-Downloads.</strong>
+                    Die TEI-codierten Quelldateien stehen auf
+                    <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/tree/main/tei" class="text-brand-600 hover:text-brand-700" target="_blank" rel="noopener">GitHub</a>
+                    und über den Reading View zum Download bereit. Sie sind
+                    forschungsorientiertes Quellformat und nicht als
+                    barrierefreie Ausgabeformate ausgelegt.
+                </li>
+                <li>
+                    <strong>Externe Verknüpfungen.</strong>
+                    Die Verlinkungen zu externen Ressourcen
+                    (<a href="https://www.dnb.de/gnd" class="text-brand-600 hover:text-brand-700" target="_blank" rel="noopener">GND</a>,
+                    <a href="https://www.wikidata.org" class="text-brand-600 hover:text-brand-700" target="_blank" rel="noopener">Wikidata</a>,
+                    <a href="https://woerterbuchnetz.de" class="text-brand-600 hover:text-brand-700" target="_blank" rel="noopener">Wörterbuchnetz</a>,
+                    <a href="http://www.mhdwb-online.de" class="text-brand-600 hover:text-brand-700" target="_blank" rel="noopener">MWB Online</a>)
+                    führen auf Drittwebsites, deren Barrierefreiheit nicht im
+                    Verantwortungsbereich der Universität Salzburg liegt.
+                </li>
+            </ol>
+
+            <p class="text-base text-slate-700 leading-relaxed mb-4">
+                Wir arbeiten kontinuierlich daran, identifizierte
+                Barrierefreiheits-Hürden zu reduzieren. Eine vollständige
+                Konformitätsprüfung nach WCAG 2.1 AA durch eine externe Stelle ist
+                bisher nicht erfolgt.
+            </p>
+
+            <h2 class="text-2xl font-bold text-slate-900 mt-10 mb-4">Erstellung dieser Erklärung</h2>
+
+            <p class="text-base text-slate-700 leading-relaxed mb-4">
+                Diese Erklärung wurde am <strong>11. Mai 2026</strong> erstellt.
+                Grundlage ist eine Selbstbewertung der für den Betrieb der Website
+                Verantwortlichen.
+            </p>
+
+            <p class="text-base text-slate-700 leading-relaxed mb-4">
+                Letzte Überprüfung der Erklärung: 11. Mai 2026.
+            </p>
+
+            <h2 class="text-2xl font-bold text-slate-900 mt-10 mb-4">Feedback und Kontakt</h2>
+
+            <p class="text-base text-slate-700 leading-relaxed mb-4">
+                Sollten Ihnen Mängel beim barrierefreien Zugang zu Inhalten dieser
+                Website auffallen oder benötigen Sie Informationen, die auf dieser
+                Website nicht barrierefrei dargestellt sind, teilen Sie uns dies
+                bitte mit. Wir werden uns bemühen, die Informationen in einer
+                zugänglichen Form bereitzustellen.
+            </p>
+
+            <p class="text-base text-slate-700 leading-relaxed mb-4">
+                <span class="font-medium">Ansprechpartner*in:</span><br>
+                Dr. Katharina Zeppezauer-Wachauer<br>
+                Koordinatorin der MHDBDB<br>
+                Universität Salzburg<br>
+                E-Mail: <a href="mailto:mhdbdb@plus.ac.at" class="text-brand-600 hover:text-brand-700">mhdbdb@plus.ac.at</a>
+            </p>
+
+            <h2 class="text-2xl font-bold text-slate-900 mt-10 mb-4">Durchsetzungsverfahren</h2>
+
+            <p class="text-base text-slate-700 leading-relaxed mb-4">
+                Sollten auch nach Ihrem Feedback an die genannte Kontaktstelle keine
+                zufriedenstellenden Lösungen gefunden werden, können Sie sich an die
+                <strong>Forschungsförderungsgesellschaft (FFG)</strong> als
+                Beschwerdestelle nach § 6 WZG wenden:
+            </p>
+
+            <p class="text-base text-slate-700 leading-relaxed mb-4">
+                Österreichische Forschungsförderungsgesellschaft mbH (FFG)<br>
+                Sensengasse 1<br>
+                1090 Wien<br>
+                Österreich<br>
+                Web: <a href="https://www.ffg.at/wzg-beschwerde" class="text-brand-600 hover:text-brand-700" target="_blank" rel="noopener">www.ffg.at/wzg-beschwerde</a>
+            </p>
+
+            <p class="text-base text-slate-700 leading-relaxed text-sm text-slate-500 italic mt-12">
+                Hinweis: Diese Erklärung ist ein Entwurf und wird vor der finalen
+                Veröffentlichung mit der zuständigen Stelle der Universität
+                Salzburg abgestimmt.
+            </p>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-100 text-slate-900 py-12 mt-20">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-wrap items-center justify-center gap-8 mb-6 pb-6 border-b border-slate-300">
+                <img src="assets/images/mhdbdb-logo.png" alt="MHDBDB Logo" class="h-16 w-auto">
+                <img src="assets/images/university-logo.png" alt="Universität Salzburg" class="h-24 w-auto">
+                <img src="assets/images/clariah-logo.png" alt="CLARIAH-AT" class="h-24 w-auto">
+            </div>
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="text-center md:text-left">
+                    <p class="text-sm mb-2">
+                        Universität Salzburg, 2025–<span class="current-year">2026</span> |
+                        <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="hover:text-brand-600 transition" target="_blank" rel="noopener">
+                            CC BY-NC-SA 4.0
+                        </a>
+                    </p>
+                    <div class="flex flex-wrap justify-center md:justify-start gap-4 text-sm text-slate-600">
+                        <a href="mailto:mhdbdb@plus.ac.at" class="hover:text-brand-600 transition">mhdbdb@plus.ac.at</a>
+                        <span>|</span>
+                        <a href="https://mhdbdb.plus.ac.at" class="hover:text-brand-600 transition" target="_blank" rel="noopener">mhdbdb.plus.ac.at</a>
+                        <span>|</span>
+                        <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only" class="hover:text-brand-600 transition" target="_blank" rel="noopener">GitHub</a>
+                        <span>|</span>
+                        <a href="impressum.html" class="hover:text-brand-600 transition">Impressum</a>
+                        <span>|</span>
+                        <a href="barrierefreiheit.html" class="hover:text-brand-600 transition">Barrierefreiheit</a>
+                    </div>
+                </div>
+                <button id="clearSiteDataBtn" class="btn-secondary text-sm flex items-center gap-2" title="Alle gespeicherten Daten löschen (Cache, IndexedDB, etc.)">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                    </svg>
+                    <span>Website-Daten löschen</span>
+                </button>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Inline Scripts: Mobile Menu + Clear Site Data -->
+    <script>
+        const mobileMenuButton = document.getElementById('mobileMenuButton');
+        const mobileMenu = document.getElementById('mobileMenu');
+        if (mobileMenuButton && mobileMenu) {
+            mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+            document.addEventListener('click', (e) => {
+                if (!mobileMenuButton.contains(e.target) && !mobileMenu.contains(e.target)) {
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+            });
+        }
+
+        const clearBtn = document.getElementById('clearSiteDataBtn');
+        if (clearBtn) {
+            clearBtn.addEventListener('click', async () => {
+                const message = 'Alle gespeicherten Daten löschen?\n\nDies umfasst:\n' +
+                    '• TEI-Dateien Cache\n' +
+                    '• Authority- und Corpus-Indizes\n' +
+                    '• Alle lokalen Einstellungen\n\n' +
+                    'Die Seite wird neu geladen.';
+                if (!confirm(message)) return;
+                try {
+                    if (indexedDB.databases) {
+                        const dbs = await indexedDB.databases();
+                        await Promise.all(dbs.map(db => new Promise(resolve => {
+                            const req = indexedDB.deleteDatabase(db.name);
+                            req.onsuccess = req.onerror = req.onblocked = () => resolve();
+                        })));
+                    }
+                    localStorage.clear();
+                    sessionStorage.clear();
+                } catch (err) {
+                    console.error('[barrierefreiheit.html] Clear site data failed:', err);
+                }
+                location.reload();
+            });
+        }
+    </script>
+
+    <script>document.querySelectorAll('.current-year').forEach(el => { const y = new Date().getFullYear(); if (y > 2025) el.textContent = y; });</script>
+</body>
+</html>
