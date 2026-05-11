@@ -173,6 +173,13 @@ class MHDBDBPlayground {
                 includedTexts: new Set() // Track which texts are included in search
             };
 
+            // Also expose under teiManager.corpusIndex so downstream callers
+            // (multi-lemma search, word-frequency, text-statistics,
+            // lemma-distribution, future modules) can read from a single
+            // canonical location regardless of which loader populated it.
+            // See #97.
+            this.teiManager.corpusIndex = corpusIndex;
+
             // Initially include all texts
             this.corpusData.texts.forEach(text => {
                 this.corpusData.includedTexts.add(text.id);
