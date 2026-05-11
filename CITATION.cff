@@ -1,29 +1,34 @@
 # Citation File Format (https://citation-file-format.github.io/)
 #
-# Hinweis: Dies ist ein konservativer Stub mit den vier definitiv
-# zustaendigen Maintainer-Entitaeten. Die finale Autor*innen-Liste fuer
-# das erste Zenodo-Release wird vor dem Release-Tag mit KZW abgestimmt
-# (siehe Issue #91). Weitere Mitwirkende sind in authority-files/contributors.xml
-# dokumentiert.
+# Hinweis: Dies ist ein konservativer Stub mit den definitiv zustaendigen
+# Maintainer-Entitaeten. Die finale Autor*innen-Liste fuer das erste Zenodo-Release
+# wird vor dem Release-Tag abgestimmt (siehe Issue #91).
+# Weitere Mitwirkende sind in authority-files/contributors.xml dokumentiert:
+# https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/authority-files/contributors.xml
 
 cff-version: 1.2.0
-message: "Wenn Sie diese Software oder die Daten verwenden, zitieren Sie bitte wie folgt."
-title: "MHDBDB TEI Repository: Mittelhochdeutsche Texte mit semantischen Annotationen"
-type: software
+
+title: "Mittelhochdeutsche Begriffsdatenbank (MHDBDB) – TEI-XML Repository: Mittelhochdeutsche Texte mit semantischen Annotationen"
+message: "Wenn Sie Daten oder Software aus diesem Repository verwenden, zitieren Sie bitte den Zenodo-DOI der jeweils aktuellen Version (Concept DOI) und – falls relevant – die konkrete Release-Version. Weitere Mitwirkende siehe contributors.xml: https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/authority-files/contributors.xml"
+type: dataset
+
 authors:
   - family-names: "Zeppezauer-Wachauer"
     given-names: "Katharina"
-    affiliation: "Paris Lodron Universität Salzburg, Fachbereich Germanistik"
-license: CC-BY-NC-SA-4.0
+    affiliation: "Universität Salzburg, Fachbereich Germanistik"
+
+license: "CC-BY-NC-SA-4.0"
 repository-code: "https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only"
 url: "https://dhcraft.org/mhdbdb-tei-only/"
+
 keywords:
-  - "middle-high-german"
-  - "medieval-german"
+  - "MHDBDB"
+  - "Middle High German"
   - "mittelhochdeutsch"
-  - "tei"
-  - "digital-humanities"
-  - "mhdbdb"
-  - "corpus"
-  - "medieval-studies"
-  - "mediaevistik"
+  - "TEI-XML"
+  - "digital corpus"
+  - "semantic annotation"
+  - "authority files"
+  - "digital humanities"
+  - "medieval studies"
+  - "Mediävistik"
