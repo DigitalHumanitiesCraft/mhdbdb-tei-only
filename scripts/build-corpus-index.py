@@ -36,8 +36,10 @@ Index structure (v4.0.1 - DOCUMENT-LEVEL):
 }
 """
 
+import argparse
 import json
 import gzip
+import subprocess
 import sys
 import os
 import time
@@ -316,11 +318,56 @@ def save_index(index):
     print(f"\n✅ Corpus index saved successfully!")
 
 
+def check_working_tree(directory, allow_dirty):
+    """Pre-flight check: warn (or fail) when directory has uncommitted or
+    untracked TEI files. Prevents accidentally bundling work-in-progress
+    files into the published index. See #100."""
+    try:
+        result = subprocess.run(
+            ['git', 'status', '--porcelain', '--', str(directory)],
+            capture_output=True, text=True, check=True, cwd=PROJECT_ROOT
+        )
+    except (subprocess.CalledProcessError, FileNotFoundError) as e:
+        print(f"⚠️  git status check skipped: {e}")
+        return
+
+    lines = [ln for ln in result.stdout.splitlines() if ln.strip()]
+    untracked = [ln for ln in lines if ln.startswith('??')]
+    modified = [ln for ln in lines if not ln.startswith('??')]
+
+    if not lines:
+        return
+
+    print(f"⚠️  Working tree under {directory}/ is not clean:")
+    print(f"   {len(untracked)} untracked, {len(modified)} modified/staged")
+    for ln in lines[:10]:
+        print(f"     {ln}")
+    if len(lines) > 10:
+        print(f"     ... +{len(lines) - 10} more")
+
+    if allow_dirty:
+        print("   --allow-dirty set, continuing anyway.")
+    else:
+        sys.exit(
+            "Refusing to build a possibly-inconsistent index.\n"
+            "Commit/stash the changes above, or pass --allow-dirty for local tests."
+        )
+
+
 def main():
     """Main entry point."""
+    parser = argparse.ArgumentParser(description="Build MHDBDB corpus index from tei/")
+    parser.add_argument(
+        '--allow-dirty', action='store_true',
+        help="Build even if tei/ has untracked or modified files (use for local tests)."
+    )
+    args = parser.parse_args()
+
     print("=" * 60)
     print("MHDBDB Corpus Index Builder")
     print("=" * 60)
+
+    check_working_tree(TEI_DIR.relative_to(PROJECT_ROOT), args.allow_dirty)
 
     try:
         # Build index
