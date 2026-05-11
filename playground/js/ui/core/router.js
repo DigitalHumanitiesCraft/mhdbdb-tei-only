@@ -9,7 +9,7 @@
  * URL scheme: #<view>[&<key>=<value>&...]
  * Supported views:
  *   authors, works, lemmata, concepts, genres, names,
- *   multi-lemma, word-frequency, text-statistics
+ *   multi-lemma, word-frequency, text-statistics, lemma-distribution
  *
  * Example URLs:
  *   playground/#authors                          → open Autoren-Explorer
@@ -17,18 +17,20 @@
  *   playground/#multi-lemma                      → open Multi-Lemma-Suche modal
  *   playground/#word-frequency                   → open Wortfrequenz-Analyse
  *   playground/#text-statistics                  → open Text-Statistiken
+ *   playground/#lemma-distribution               → open Lemma-Verteilung
  */
 
 const ROUTES = {
-  'authors':         (params) => window.playground.ui.authorityExplorers[params.q ? 'showAuthorsWithSearch'  : 'showAuthors'](),
-  'works':           (params) => window.playground.ui.authorityExplorers[params.q ? 'showWorksWithSearch'    : 'showWorks'](),
-  'lemmata':         (params) => window.playground.ui.authorityExplorers[params.q ? 'showLemmataWithSearch'  : 'showLemmata'](),
-  'concepts':        (params) => window.playground.ui.authorityExplorers[params.q ? 'showConceptsWithSearch' : 'showConcepts'](),
-  'genres':          (params) => window.playground.ui.authorityExplorers[params.q ? 'showGenresWithSearch'   : 'showGenres'](),
-  'names':           (params) => window.playground.ui.authorityExplorers[params.q ? 'showNamesWithSearch'    : 'showNames'](),
-  'multi-lemma':     (params) => handleMultiLemmaRoute(params),
-  'word-frequency':  ()       => window.playground.ui.wordFrequency.show(),
-  'text-statistics': ()       => window.playground.ui.textStatistics.show(),
+  'authors':            (params) => window.playground.ui.authorityExplorers[params.q ? 'showAuthorsWithSearch'  : 'showAuthors'](),
+  'works':              (params) => window.playground.ui.authorityExplorers[params.q ? 'showWorksWithSearch'    : 'showWorks'](),
+  'lemmata':            (params) => window.playground.ui.authorityExplorers[params.q ? 'showLemmataWithSearch'  : 'showLemmata'](),
+  'concepts':           (params) => window.playground.ui.authorityExplorers[params.q ? 'showConceptsWithSearch' : 'showConcepts'](),
+  'genres':             (params) => window.playground.ui.authorityExplorers[params.q ? 'showGenresWithSearch'   : 'showGenres'](),
+  'names':              (params) => window.playground.ui.authorityExplorers[params.q ? 'showNamesWithSearch'    : 'showNames'](),
+  'multi-lemma':        (params) => handleMultiLemmaRoute(params),
+  'word-frequency':     ()       => window.playground.ui.wordFrequency.show(),
+  'text-statistics':    ()       => window.playground.ui.textStatistics.show(),
+  'lemma-distribution': ()       => window.playground.ui.lemmaDistribution.show(),
 };
 
 /**
