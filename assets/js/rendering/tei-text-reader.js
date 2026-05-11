@@ -628,7 +628,8 @@ class TEITextReader {
             if (metadata.authorGnd) {
                 metadataHTML += `<a href="https://d-nb.info/gnd/${metadata.authorGnd}" target="_blank" rel="noopener" class="external-link" title="Autor*in GND: ${metadata.authorGnd}"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"></path></svg> GND</a>`;
             }
-            if (metadata.authorWikidata) {
+            // Wikidata-Link bei Anonym-Autor*innen unterdrücken (Issue #96 KZW-Comment)
+            if (metadata.authorWikidata && metadata.authorId !== 'person_anonym') {
                 metadataHTML += `<a href="https://www.wikidata.org/wiki/${metadata.authorWikidata}" target="_blank" rel="noopener" class="external-link" title="Autor*in Wikidata: ${metadata.authorWikidata}"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"></path></svg> Wikidata</a>`;
             }
             metadataHTML += '</div>';
@@ -666,6 +667,13 @@ class TEITextReader {
             metadataHTML += `<a href="${metadata.handschriftencensus}" target="_blank" rel="noopener" class="external-link"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"></path></svg> Handschriftencensus</a>`;
             metadataHTML += '</div>';
         }
+
+        // Section 8: TEI-XML-Download (Issue #96)
+        metadataHTML += '<div class="metadata-section metadata-tei-download">';
+        metadataHTML += '<p class="metadata-tei-download-text">Detaillierte Metadaten (u. a. Referenzedition, verantwortliche Editor*innen und editorische Hinweise) sind in der zugehörigen TEI-XML dokumentiert; die Datei steht ';
+        metadataHTML += `<a href="tei/${this.escapeHtml(textId)}.tei.xml" download="${this.escapeHtml(textId)}.tei.xml" class="metadata-tei-download-link" title="TEI-XML-Datei herunterladen"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"></path></svg> hier</a>`;
+        metadataHTML += ' auch zum direkten Download bereit.</p>';
+        metadataHTML += '</div>';
 
         metadataHTML += '</div>'; // Close metadata-sections
         metadataHTML += '</div>'; // Close metadata-toggle-container
