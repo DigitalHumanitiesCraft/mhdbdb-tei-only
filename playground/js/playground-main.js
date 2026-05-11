@@ -14,6 +14,7 @@ import { initRouter, navigate, dispatchFromHash } from './ui/core/router.js';
 import { AuthorityUI } from './ui/authority/authority-ui.js';
 import { TEIExplorer } from './ui/tei/tei-ui.js';
 import { MultiLemmaSearchUI } from './ui/tei/multi-lemma-search.js';
+import { WordFrequencyAnalyzer } from './ui/tei/word-frequency.js';
 
 // Wire up file display helpers for progress.js
 setFileDisplayHelpers(setupCollapsibleFileList, setupFileFilter);
@@ -59,6 +60,10 @@ class MHDBDBPlayground {
         this.ui.multiLemmaSearch = new MultiLemmaSearchUI(
             this.ui.teiExplorer,
             this.authorityManager
+        );
+        this.ui.wordFrequency = new WordFrequencyAnalyzer(
+            () => this.corpusData?.texts || this.teiManager.corpusIndex?.texts || [],
+            this.authorityData
         );
 
         this.init();
@@ -443,7 +448,8 @@ class MHDBDBPlayground {
     setupTEIQueries() {
         // UPDATED: Go through the hash router so the URL reflects the current view.
         const teiButtons = [
-            { id: 'findMultiLemmaBtn',  handler: () => navigate('multi-lemma') }
+            { id: 'findMultiLemmaBtn',     handler: () => navigate('multi-lemma') },
+            { id: 'showWordFrequencyBtn',  handler: () => navigate('word-frequency') }
         ];
 
         teiButtons.forEach(({ id, handler }) => {
