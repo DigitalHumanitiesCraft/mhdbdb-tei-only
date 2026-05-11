@@ -213,6 +213,12 @@
                 Playground
               </a>
             </div>
+            <p class="mt-6 text-sm text-slate-500">
+              Neu hier?
+              <a href="hilfe.html" class="text-brand-600 hover:text-brand-700 font-medium underline-offset-2 hover:underline">
+                Quick-Start in 3 Schritten →
+              </a>
+            </p>
           </div>
         </div>
       </div>
@@ -241,6 +247,9 @@
               667 TEI-kodierte mittelhochdeutsche Texte mit
               Word-Level-Annotationen, verknüpft mit kontrollierten Vokabularen
               für Autor*innen, Werke, Lemmata, Begriffe, Gattungen und Namen.
+              Validiert gegen ein eigenes
+              <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/tree/main/schema" target="_blank" rel="noopener" class="text-brand-600 hover:text-brand-700 font-medium">RELAX-NG-Schema</a>
+              (667/667 Korpus- und 8/8 Authority-Dateien, CI-geprüft).
             </p>
           </div>
           <div class="bg-slate-50 rounded-2xl p-8 border border-slate-200">
@@ -260,9 +269,15 @@
     <!-- Corpus Overview Section -->
     <section id="corpus" class="py-20 bg-slate-50">
       <div class="container mx-auto px-6 max-w-6xl">
-        <h2 class="text-3xl font-bold text-slate-900 mb-12 text-center">
+        <h2 class="text-3xl font-bold text-slate-900 mb-6 text-center">
           Korpus-Übersicht
         </h2>
+        <p class="text-xl text-slate-600 text-center max-w-3xl mx-auto mb-12">
+          Volltextsuche mit Multi-Lemma-Highlight, Lese-Ansicht mit
+          Wikidata-Verknüpfung sowie persistente, zitierfähige
+          <a href="lemma/" class="text-brand-600 hover:text-brand-700 font-medium">Lemma-Seiten</a>
+          mit Worterbuchnetz-aligned IDs.
+        </p>
 
         <!-- Statistics Grid -->
         <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
@@ -283,32 +298,41 @@
           <div
             class="bg-white rounded-2xl p-8 text-center border border-slate-200 shadow-sm"
           >
-            <div class="text-4xl font-bold text-brand-600 mb-2">43.750</div>
+            <div class="text-4xl font-bold text-brand-600 mb-2">43.754</div>
             <div class="text-sm font-medium text-slate-600">Lemmata</div>
           </div>
           <div
             class="bg-white rounded-2xl p-8 text-center border border-slate-200 shadow-sm"
           >
-            <div class="text-4xl font-bold text-brand-600 mb-2">175.910</div>
+            <div class="text-4xl font-bold text-brand-600 mb-2">192.472</div>
             <div class="text-sm font-medium text-slate-600">
               Orthographische Varianten
             </div>
           </div>
         </div>
 
-        <!-- Authority Files List -->
+        <!-- Datenbestand: Korpus + Authority Files -->
         <div class="bg-white rounded-2xl p-8 border border-slate-200">
           <h3 class="text-2xl font-bold text-slate-900 mb-6">
-            Authority Files
+            Datenbestand
           </h3>
           <ul class="space-y-3">
             <li class="flex items-start gap-3">
               <span class="text-brand-600 font-bold">•</span>
               <div>
-                <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/authority-files/persons.xml" target="_blank" rel="noopener" class="text-brand-600 hover:text-brand-700 font-bold">persons.xml</a>
-                <span class="text-slate-500"> (0.12 MB)</span>
+                <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/tree/main/tei" target="_blank" rel="noopener" class="text-brand-600 hover:text-brand-700 font-bold">tei/</a>
+                <span class="text-slate-500"> (667 Dateien)</span>
                 <span class="text-slate-600">
-                  - Autor*innen und historische Personen</span
+                  – TEI-kodierte mittelhochdeutsche Volltexte mit Word-Level-Annotationen</span>
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="text-brand-600 font-bold">•</span>
+              <div>
+                <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/authority-files/persons.xml" target="_blank" rel="noopener" class="text-brand-600 hover:text-brand-700 font-bold">persons.xml</a>
+                <span class="text-slate-500"> (0.05 MB)</span>
+                <span class="text-slate-600">
+                  – Autor*innen und historische Personen</span
                 >
               </div>
             </li>
@@ -316,9 +340,9 @@
               <span class="text-brand-600 font-bold">•</span>
               <div>
                 <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/authority-files/works.xml" target="_blank" rel="noopener" class="text-brand-600 hover:text-brand-700 font-bold">works.xml</a>
-                <span class="text-slate-500"> (1.41 MB)</span>
+                <span class="text-slate-500"> (1.14 MB)</span>
                 <span class="text-slate-600">
-                  - Werk- und Handschriftenmetadaten</span
+                  – Werk- und Handschriftenmetadaten</span
                 >
               </div>
             </li>
@@ -326,9 +350,9 @@
               <span class="text-brand-600 font-bold">•</span>
               <div>
                 <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/authority-files/lexicon.xml" target="_blank" rel="noopener" class="text-brand-600 hover:text-brand-700 font-bold">lexicon.xml</a>
-                <span class="text-slate-500"> (32.59 MB)</span>
+                <span class="text-slate-500"> (31.85 MB)</span>
                 <span class="text-slate-600">
-                  - Wörterbuch mit grammatischen Annotationen</span
+                  – Wörterbuch mit grammatischen Annotationen</span
                 >
               </div>
             </li>
@@ -338,7 +362,7 @@
                 <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/authority-files/concepts.xml" target="_blank" rel="noopener" class="text-brand-600 hover:text-brand-700 font-bold">concepts.xml</a>
                 <span class="text-slate-500"> (0.21 MB)</span>
                 <span class="text-slate-600">
-                  - Semantische Begriffstaxonomie</span
+                  – Semantische Begriffstaxonomie</span
                 >
               </div>
             </li>
@@ -346,9 +370,9 @@
               <span class="text-brand-600 font-bold">•</span>
               <div>
                 <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/authority-files/genres.xml" target="_blank" rel="noopener" class="text-brand-600 hover:text-brand-700 font-bold">genres.xml</a>
-                <span class="text-slate-500"> (0.4 MB)</span>
+                <span class="text-slate-500"> (0.40 MB)</span>
                 <span class="text-slate-600">
-                  - Literarische Gattungsklassifikation</span
+                  – Literarische Gattungsklassifikation</span
                 >
               </div>
             </li>
@@ -358,7 +382,7 @@
                 <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/authority-files/names.xml" target="_blank" rel="noopener" class="text-brand-600 hover:text-brand-700 font-bold">names.xml</a>
                 <span class="text-slate-500"> (0.03 MB)</span>
                 <span class="text-slate-600">
-                  - Eigennamen mit semantischen Relationen</span
+                  – Eigennamen mit semantischen Relationen</span
                 >
               </div>
             </li>
@@ -366,9 +390,9 @@
               <span class="text-brand-600 font-bold">•</span>
               <div>
                 <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/authority-files/variants.xml" target="_blank" rel="noopener" class="text-brand-600 hover:text-brand-700 font-bold">variants.xml</a>
-                <span class="text-slate-500"> (12.46 MB)</span>
+                <span class="text-slate-500"> (12.18 MB)</span>
                 <span class="text-slate-600">
-                  - Orthographische Varianten aus TEI-Korpus</span
+                  – Orthographische Varianten aus TEI-Korpus</span
                 >
               </div>
             </li>
@@ -390,7 +414,7 @@
         </h2>
         <p class="text-xl text-slate-600 text-center max-w-3xl mx-auto mb-12">
           Der Playground bietet eine interaktive Web-Oberfläche zur Exploration
-          des TEI-Korpus mit 11 spezialisierten Suchfunktionen.
+          des TEI-Korpus mit 10 spezialisierten Suchfunktionen.
         </p>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
@@ -413,6 +437,9 @@
             </h3>
             <ul class="space-y-2 text-slate-600">
               <li>• Multi-Lemma-Suche (Dokument & Nähe)</li>
+              <li>• Wortfrequenz-Analyse (mit Stopwort-Filter)</li>
+              <li>• Text-Statistiken (Token, Lemma-Diversität, Hapax)</li>
+              <li>• Lemma-Verteilung (Bar-Chart Lemma × Text)</li>
             </ul>
           </div>
           <div class="bg-slate-50 rounded-2xl p-8 border border-slate-200">
@@ -490,6 +517,10 @@
                 <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/docs/CONTRACTS.MD" target="_blank" rel="noopener" class="text-brand-600 hover:text-brand-700 font-medium">CONTRACTS.MD</a>
                 <span class="text-slate-600"> – Cross-Language-Verträge</span>
               </li>
+              <li>
+                <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/schema/README.md" target="_blank" rel="noopener" class="text-brand-600 hover:text-brand-700 font-medium">schema/</a>
+                <span class="text-slate-600"> – RELAX-NG-Schema mit Beispieldateien</span>
+              </li>
             </ul>
             <div class="mt-4 pt-4 border-t border-slate-200">
               <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/tree/main/docs" target="_blank" rel="noopener" class="text-sm text-brand-600 hover:text-brand-700 font-medium">
@@ -502,7 +533,7 @@
               Hilfe
             </h3>
             <p class="text-slate-600 mb-4">
-              Anleitungen zur Nutzung von Korpussuche und Playground:
+              Anleitungen zur Nutzung von Korpussuche, Playground und Datenstandards:
             </p>
             <ul class="space-y-2">
               <li>
@@ -510,16 +541,24 @@
                 <span class="text-slate-600"> – in drei Schritten zur ersten Suche</span>
               </li>
               <li>
-                <a href="hilfe-korpussuche.html" class="text-brand-600 hover:text-brand-700 font-medium">Korpussuche-Hilfe</a>
+                <a href="hilfe-korpussuche.html" class="text-brand-600 hover:text-brand-700 font-medium">Korpussuche</a>
                 <span class="text-slate-600"> – Lemma-Suche, Reading View, Lemma-Seiten</span>
               </li>
               <li>
-                <a href="hilfe-playground.html" class="text-brand-600 hover:text-brand-700 font-medium">Playground-Hilfe</a>
+                <a href="hilfe-playground.html" class="text-brand-600 hover:text-brand-700 font-medium">Playground</a>
                 <span class="text-slate-600"> – Multi-Lemma, Kookkurrenz, Authority Files</span>
               </li>
               <li>
                 <a href="hilfe-daten.html" class="text-brand-600 hover:text-brand-700 font-medium">Daten</a>
                 <span class="text-slate-600"> – Korpus, Authority Files, Grenzen</span>
+              </li>
+              <li>
+                <a href="hilfe-schema.html" class="text-brand-600 hover:text-brand-700 font-medium">Schema</a>
+                <span class="text-slate-600"> – TEI-Encoding-Standards mit Beispielen</span>
+              </li>
+              <li>
+                <a href="hilfe-daten-beitragen.html" class="text-brand-600 hover:text-brand-700 font-medium">Daten beitragen</a>
+                <span class="text-slate-600"> – Leitfaden für externe Beitragende</span>
               </li>
             </ul>
           </div>
