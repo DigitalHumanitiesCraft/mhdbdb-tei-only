@@ -4,7 +4,18 @@ Reference for the legacy MHDBDB Linecode system and its translation to TEI. Line
 
 **Status:** Stable reference. Extracted from Julia Hintersteiner's canonical mapping file and a direct inspection of the corpus.
 
-**Canonical data file:** [`docs/data/linecode-mapping.csv`](data/linecode-mapping.csv) — UTF-8 copy of Julia's `Mhdbdb_to_TEI(Linecode).csv` (from her OneDrive handover folder). The table in this document mirrors that CSV; edit the CSV first when the mapping changes.
+**Canonical data files:**
+
+- [`docs/data/linecode-mapping.csv`](data/linecode-mapping.csv) — UTF-8 copy of Julia's `Mhdbdb_to_TEI(Linecode).csv`. Letter → TEI element mapping (`c` → `<div type="chapter">`, `s` → `<lg type="stanza">`, etc.). The table in this document mirrors that CSV; edit the CSV first when the mapping changes.
+- [`docs/data/linecode-templates.csv`](data/linecode-templates.csv) — UTF-8 export of `scripts/audit/TEXT_DATA_TABLE.xlsx` (Sheet `MHDBDB Texte`, 665 rows × 30 cols). **Per-text Linecode template** (column `LINECODE`, e.g. `MKB` → `000000000000cddss--`) plus full per-text metadata (TITLE, AUTHOR, EDITION, …). Single source of truth for which structural slots a given text encodes. Generated 2026-05-11 from the XLSX in the repo; if KZW updates the XLSX, regenerate the CSV.
+
+**Live exports from MHDBDB-old (Katharina, 2026-05-11):** Beyond Julia's frozen handover, **Katharina can produce fresh Linecode-with-content exports per sigle on demand** from the legacy MHDBDB. First example: BDK.txt for #102 (1056 lines, 70 manuscript folio pages). Use cases:
+
+- Texts not in `OUTDATED-Texte-mit-Linecode/` (e.g. BDK, MSF) can be requested as `<SIG>.txt` exports.
+- Cross-checking discrepancies between Julia's handover state and current MHDBDB-old (e.g. DIS: 408 lines in handover vs. 406 in OD — 2 head lines added).
+- Resolving structural ambiguities surfaced by Julia's 5-column doc (`Abstellplatz/Dokumentation neues TEI vs alte DB 2.0.csv`) where the handover Linecode lacks a marker the DB tracked separately (e.g. DUB `parallel tradition`).
+
+Workflow: comment on the relevant GitHub issue with a request like *"@wachauer kannst du einen MHDBDB-old-Export für `<SIG>` liefern?"*. Katharina notes that some legacy encodings were technically pragmatic (e.g. encoding recipes as `<lied>` so the frontend would display them with counter numbers), so the Linecode is descriptive of the historic DB state, not necessarily the philologically optimal encoding.
 
 ## Context
 
@@ -145,16 +156,17 @@ Julia's handover folder (stored on Katharina's SharePoint/OneDrive):
 
 - `Mhdbdb_to_TEI(Linecode).csv` — canonical letter→TEI mapping. Copied into this repo as [`docs/data/linecode-mapping.csv`](data/linecode-mapping.csv).
 - `Zusammenfassung-Linecode2TEI.pdf` — Julia's handover summary. Attached to Issue #31 on GitHub.
-- `OUTDATED-Texte-mit-Linecode/<SIG>.txt` — raw Linecoded plaintext for 291 texts. Primary source for per-text layout recovery and diagnosis.
-- `TEXT_DATA_TABLE.csv` — has a `LINECODE` column (E), but it was empty in the rows sampled during the 2026-04-15 audit. Unverified for deeper rows; the raw `.txt` files in `OUTDATED-Texte-mit-Linecode/` are the more reliable per-text source regardless.
-- `Dokumentation.xlsx` — older comparison table between the legacy DB and the TEI export.
+- `OUTDATED-Texte-mit-Linecode/<SIG>.txt` — raw Linecoded plaintext for 291 texts. Primary source for per-text layout recovery and diagnosis. **Frozen state** — for fresher data, request a Katharina export (see live-export note above).
+- `TEXT_DATA_TABLE.xlsx` — full per-text metadata table including Linecode templates. **Now in the repo** as `scripts/audit/TEXT_DATA_TABLE.xlsx` and exported to [`docs/data/linecode-templates.csv`](data/linecode-templates.csv). Earlier audit-note ("LINECODE column empty in sampled rows") was wrong: the XLSX has 665/665 templates filled, distinct templates: 131. The misread came from looking at the older CSV export.
+- `Dokumentation.xlsx` — older comparison table between the legacy DB and the TEI export. The 5-column "Anmerkung"-CSV variant (`Abstellplatz/Dokumentation neues TEI vs alte DB 2.0.csv`) is the source of Julia's per-text "fehlt"-notes (e.g. DJEM "parallel tradition fehlt"); used by #85.
 - `Stanza Problem/fix_tei_stanzas.py` — Julia's exploratory fix script for missing stanzas, with hard-coded per-text regex patterns for ANN and AT.
 
 The letter→TEI mapping in this document and in `docs/data/linecode-mapping.csv` is the authoritative post-#32 reference. The PDF remains useful as the original narrative explanation.
 
 ## Cross-References
 
-- [`docs/data/linecode-mapping.csv`](data/linecode-mapping.csv) — the canonical mapping, mirrored in the table above
+- [`docs/data/linecode-mapping.csv`](data/linecode-mapping.csv) — letter → TEI element mapping (canonical, mirrored in the table above)
+- [`docs/data/linecode-templates.csv`](data/linecode-templates.csv) — per-sigle Linecode template + full text metadata (665 rows; the lookup table for "which slots does text X encode")
 - **TEI-MODEL.md §3.5** — post-#32 `<div>/@type` enum and migration history for Linecode letters `b` (BAND/volume), `t` (TEIL/part), and `s` (STANZA)
 - **TEI-MODEL.md §8.1** — the 18 prose texts where Linecode `-` became `<l>` and was then migrated to `<lb/>`
 - **Issue #23** — Fehlende Stanza-Auszeichnung (104 Texte). Unblocked by this document.
