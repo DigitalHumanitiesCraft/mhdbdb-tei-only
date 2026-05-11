@@ -886,3 +886,52 @@ Aus Session B (chronologisch verschachtelt): `0a287cccf` (#96 Reader-Download), 
 4. **Falls Carinas Antwort eintrifft:** ARI-Phase 1 (Lemmatisierung) starten — `wzb-auto-match.py` -> `ari-auto-match.py` mit `# ARI-only:`-Diff-Kommentaren.
 5. **Mittelfristig:** #26 pb-Insert (14 klare Linecode-Faelle), #23 Stanza-Insert (~80 Texte), #45 Static JSON API, Upload-UI Dead-Code-Cleanup (Cluster mit #98/#99).
 6. **Manuelle User-Aufgaben** (siehe #91 Pre-Tag-Checkliste): Zenodo-Webhook aktivieren, Author-Liste in CITATION.cff ggf. ergaenzen, ersten Tag pushen, DOI propagieren.
+
+## 2026-05-11 13:30 handoff (Session C: #78 Schema-Hilfe-Seite + zwei Faktencheck-Iterationen)
+
+**Summary:** #78 vollstaendig abgeschlossen — neue `hilfe-schema.html` mit normativer Schema-Doku, neun lazy-fetched Beispieldateien (Prism-Highlighting), Step-by-Step-Tutorial fuer Carina (#92 ARITHMETIC) und 5-Tab-Hilfe-Nav in allen Hilfe-Seiten. Anschliessend zwei /check-md-Iterationen: Iteration 1 deckte vier Doku-Drift-Punkte auf (cache size, contributors.xml fehlend, Lemma-Zahl, §-Querverweis), Iteration 2 fand einen CRITICAL Sprachstufen-Code-Fehler und drei kleinere Inkonsistenzen.
+
+**Decisions:**
+- **Prism.js als gevendortes npm-Bundle, nicht CDN:** parallel zu Tailwind-Pattern (Source via npm devDep, Output committed via `scripts/build-vendor.js`). Repo-Footprint ~12 KB, kein Drittanbieter im Auslieferungspfad, versionsgebunden via `package-lock.json`. Vorbereitung fuer kuenftige Vendor-Bundles ist damit auch da.
+- **Beispieldateien lazy-fetched statt inline:** `hilfe-schema.html` hat 9 `<details>`-Bloecke, deren XML erst beim Aufklappen via `fetch()` aus `schema/examples/` geladen und mit Prism gehighlightet wird. Initial-Render-Size haette sonst ~50 KB extra HTML (HTML-escapen verdoppelt Char-Count). Trade-off: braucht JS aktiv, aber Hilfe-Seiten brauchen ohnehin JS fuer Mobile-Menu.
+- **5. Tab "Schema" in der Hilfe-Nav** statt Daten-Submenue: einfacher visuell, ein-Klick-Zugriff fuer Carina. Tab-Patches in 5 bestehenden Hilfe-Seiten (`hilfe.html`, `hilfe-korpussuche.html`, `hilfe-playground.html`, `hilfe-daten.html`, `hilfe-daten-beitragen.html`).
+- **#78 schliesst die Luecke zwischen Schema-README (Entwickler) und `hilfe-daten-beitragen.html` (Konversion bestehender TEI):** Schema-Seite addressiert "ich habe Plaintext/CSV → wie kommt das zu MHDBDB-TEI", was bisher nirgends user-facing dokumentiert war. Beide Seiten verlinken sich gegenseitig im Tutorial-Schritt.
+- **/check-md zweistufig:** Iteration 1 hat zwei meiner Befunde ("192.472 ist falsch", "WZB-Coverage falsch") selbst widerlegt — ich hatte gegen abgeleitete Indizes statt Source-Files verifiziert. Iteration 2 hat das systematisch korrigiert: jede Behauptung gegen `tei/*.tei.xml`/`variants.xml`/`lexicon.xml`/Frontend-Code gegruepft, nicht gegen `data/*.json.gz`. Lehre fuer kuenftige Checks: Source vor Index, immer.
+
+**Dead ends:**
+- **Sprachstufen-Codes in der ersten Schema-Seiten-Version waren erfunden:** ich habe `gmh-bavarian`, `gmh-alemannic`, `gmh-rhinefranconian` und `enm` als FNHD-Code empfohlen, ohne gegen das Korpus zu verifizieren. Tatsaechlich verwendet das Korpus ausschliesslich `gmh`; ARI nutzt `gmf` (ad hoc), `enm` ist ISO-639-3 Middle English (Mittelenglisch). Iteration 2 hat das entfernt und auf #81 verwiesen. Carina haette in ihre Rechenbuecher beinahe `enm`-Tags reingeschrieben.
+- **/check-md Iteration 1 Befund #2 + #3 (WZB Coverage, 192.472 Varianten):** beide auf Index-Drift zurueckgefuehrt. Korrektur: 149.148 WZB-Tokens + 95.3/95.3/95.2% sind die echten Werte (`grep "<w" tei/WZB.tei.xml`); 192.472 Wortformen in variants.xml stimmen auch (`<form>`-Count). Index zaehlt 175.910 weil Build-Filter Untermenge erzeugt. Beide Iteration-1-Befunde zurueckgezogen.
+- **`git add -p` mit `printf 'y\\nn\\n'`-Pipe funktioniert auf Windows-Bash:** war als fragil eingeschaetzt, hat dann sauber gestaffelt funktioniert (vier Files mit gemischten Hunks fuer logische Commit-Trennung).
+
+**Phase:** Implementation (iteration). Alle 14 Promptotyping-Docs aktuell. Hilfe-System: jetzt 6 Hilfe-Seiten + Schema-Seite, alle inhaltlich konsistent zueinander UND zum aktuellen Repo-Stand (Stand 2026-05-11). `assets/vendor/prism/` ist neuer committeter Output-Pfad fuer kuenftige Vendor-Bundles.
+
+**Open issues (post-Session):**
+- **#92 ARITHMETIC:** weiter blockiert auf Carinas Antwort zu Sigle/Lizenz/Edition/Genre. Schema-Seite (#78) ist jetzt der user-facing Einstieg fuer sie — sobald sie Daten beitraegt, ist das die Anleitung.
+- **#91 Zenodo-Integration:** Katharina war mit CITATION.cff dran ("sie machts"), aktueller Stand der Datei unbekannt; abgesprochener Plan steht im JOURNAL 12:32-Handoff (#91 Pre-Tag-Checkliste).
+- **#81 Sprachstufen-Differenzierung:** in der neuen Schema-Seite explizit als offener Diskussionspunkt verlinkt. Carina mit `gmf`, Korpus mit `gmh`, ARI-Branch noch nicht offiziell aufgenommen — KZW + Julia sollten irgendwann eine Konvention setzen.
+- **playground/index.html Hero-Tagline + Korpus-Loader-Text:** beide aktualisiert (43.754 statt 43.750, ~39 MB gzipped statt 21 MB). Pattern: jedes Mal wenn Indices neu gebaut werden, mussten diese Strings nachgezogen werden — koennte man auf `manifest.json`-driven UI umstellen, aber das ist ein eigenes Ticket wert.
+- **Autor:in vs. Autor*in Genderzeichen-Konsistenz:** in Hilfe-Seiten jetzt alles `Autor*in` (matched UI). Im Repo gibt es noch wenige Stellen mit `Autor:in` (z.B. evtl. `index.html`, andere statische Seiten) — nicht systematisch geprueft.
+
+**Commits (alle gepusht, neueste zuerst):**
+- `88d52885b` `docs: Faktencheck Iteration 2 (Sprachstufen, Edition-Switch, Genderzeichen)`
+- `5edf4fa24` `docs: Faktencheck-Korrekturen in Hilfe-Seiten` (Iteration 1)
+- `c87357378` `feat(docs): hilfe-schema.html (#78) + 5-Tab-Hilfe-Nav` — Closes #78
+- `cba62d41d` `chore(deps): Prism.js als gevendortes npm-Bundle fuer Syntax-Highlighting`
+
+Aus Parallel-Session (Session #26 chronologisch verschachtelt): `795670240` `feat(tei): #26 pb-Insertion fuer 14 Texte (1293 <pb> aus Linecode-Handover)`.
+
+**Externe Side Effects:**
+- **Issue #78 geschlossen** via `Closes #78` in Commit `c87357378`.
+- Neue Datei `hilfe-schema.html` live auf GitHub Pages (sobald deployment durch ist).
+- Neuer Output-Pfad `assets/vendor/prism/` (drei Files + MANIFEST.txt) committed.
+- `package.json`: prismjs als devDep, neues script `build:vendor` in Build-Kette.
+
+**Next session:**
+1. `/promptotyping orient`
+2. **Carinas Antwort eingetroffen?** Falls ja: ARI-Phase 1 starten (`wzb-auto-match.py` -> `ari-auto-match.py`, ARI-only-Diff-Kommentare).
+3. **Falls nichts blockiert ist, freie Slots in Reihenfolge:**
+   - **#45 Static JSON API** — Planning-Doc `docs/features/045-static-api.md` ist fertig, FAIR-Wert hoch, koppelt sinnvoll mit Zenodo #91. Effort: large, aber Skript-zentriert.
+   - **#47 Release 2** Begriffs-Verteilung (analog `#90` Lemma-Verteilung). Pattern `lemma-distribution.js` recyclebar, Datengrundlage `authorityData.concepts` da.
+   - **Upload-UI Dead-Code-Cleanup** (`handleTEIFiles`, `uploadZone`, `fileInput`, ungenutzte tei-manager.js-Methoden). M-Effort, Cluster mit #98/#99.
+4. **Falls #91 Zenodo voranbringt:** mit Katharina nachhalten, ob CITATION.cff fertig ist; danach Release-Tag setzen + DOI in README/INDEX.MD/hilfe-Seiten propagieren.
+5. **Mittelfristig offen:** #23 Stanza-Insert (~80 Texte), Sprachstufen #81 (Konvention setzen).
