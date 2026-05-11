@@ -522,3 +522,43 @@ Aus paralleler Session: `795670240` `feat(tei): #26 pb-Insertion fuer 14 Texte (
 - **#81 Sprachstufen:** in neuer Schema-Seite als offener Diskussionspunkt verlinkt. Carina `gmf`, Korpus `gmh`, ARI-Branch noch nicht offiziell — KZW + Julia sollten Konvention setzen.
 - **playground/index.html Hero-Tagline + Korpus-Loader-Text:** aktualisiert (43,754 statt 43,750, ~39 MB gzipped). Pattern: jedes Mal bei Index-Rebuild Strings nachziehen — könnte auf `manifest.json`-driven UI umstellen, eigenes Ticket wert.
 - **Autor:in vs. Autor*in Genderzeichen-Konsistenz:** in Hilfe-Seiten jetzt alles `Autor*in` (matched UI). Einige Stellen mit `Autor:in` evtl. noch da, nicht systematisch geprüft.
+
+## 2026-05-11 14:14 — handoff (Session E: KZW-Followups #51 + #96 + #47.1/.2 + #86)
+
+**Summary:** Sechs offene Punkte aus KZWs heutigen GitHub-Kommentaren abgearbeitet. #51 (Doppelpunkt → Stern in `hilfe.html`), #96 verifiziert (Filter greift in Code), #47.1 Stopwort-Filter in Wortfrequenz, #47.2 Untertitel + Icon-Swap für alle 10 Abfragen-Buttons, #86 Barrierefreiheits-Erstdraft + Footer-Links über 10 Seiten. #47.3 (Lemmasuche nach Versposition) bewusst nicht angefangen — braucht Pipeline-Modifikation.
+
+**Decisions:**
+- **#47.1 POS-basierter Filter statt vordefinierter Stopwortliste:** `FUNCTION_WORD_POS = {DET, ART, POS, PRO, PRP, CCNJ, SCNJ, CNJ, NEG, IPA, VEX, VEM}`. Robust für MHG, splittet Multi-POS-Werte (`VEM PRO` für `wilt+du`) korrekt. Daten-Schema-Drift bestätigt: Authority-Index nutzt sowohl `ART` (233 Lemmata) als auch `DET` (17) für Artikel; beide werden gefiltert. Schema sagt `ART` ist ungültig (#27). 4.003 Lemmata bei aktivem Filter ausgeblendet.
+- **#47.2 1-Zeilen-Untertitel statt Tooltips:** KZW wünschte „minimal selbsterklärend, ohne UI-Komplexität". Layout: `flex flex-col items-start leading-tight` mit Titel + xs-Untertitel. Icon-Swap Wortfrequenz: Musical-Note → Heroicon Chart-Bar.
+- **#86 Selbstbewertung „teilweise vereinbar" mit 6 Audit-Punkten:** Desktop-Layout (1.4.10), Komplexe Interaktivität (2.1.1/4.1.2), Farbkodierung (1.4.1), MHG-Texte (Sprachsynthese), TEI-XML-Downloads, externe Drittseiten. Explizit als Entwurf markiert, finale Version mit Uni Salzburg abzustimmen. Footer-Links „Impressum | Barrierefreiheit" in allen 10 öffentlichen HTML-Seiten ergänzt (hilfe-Seiten hatten vorher gar keinen Impressum-Link).
+
+**Dead ends:**
+- **#47.3 Lemmasuche nach Versposition gestoppt vor Implementation:** Corpus-Index hat keine `<l>`-Grenzen, nur lineare `words: ['lemma_xxx', …]`-Liste pro Text. Verifiziert via `zcat data/corpus-index.json.gz`. Implementation braucht (a) `scripts/build-corpus-index.py` um `lineStarts`/`lineEnds`-Arrays erweitern, (b) Index neu bauen (35 → ~38 MB), (c) neuer Dialog + JS-Filter. Eigener Sprint, nicht im aktuellen UI-Polish-Cluster.
+- **Closes #47 in Commit-Message zurückgezogen:** voreilig `Closes #47` getippt, gemerkt dass #47 Umbrella mit noch offenem #47.3 ist. Vor Push amended zu „Addresses parts of #47". Lehre: Umbrellas erst schließen wenn alle Sub-Items durch sind.
+- **Iter-2-Faktencheck-Fix war zu eng:** ersetzte nur `Autor:in` → `Autor*in`, aber „Entwickler:innen" in `hilfe.html` blieb übrig. KZW fand es im Screenshot um 10:44, vor meinem Push. Korrektur in eigenem Commit `129ee0bf6` mit Regex-Check `[A-Za-z]+:in(nen)?\b` (jetzt 0 Treffer in user-facing HTML). Lehre: Such-Regex breit halten, nicht nach erstem Match aufhören.
+
+**Phase:** Implementation (iteration). Alle 14 Promptotyping-Docs aktuell. Hilfe-System: 6 Hilfe-Seiten + Schema-Seite + neue Barrierefreiheitserklärung, alles inhaltlich konsistent. Korpus-Index v4.0.1 unverändert. Frontend-Cluster der UI-Polish (#47.1/.2, #51, #86, #96-Verifikation) abgeschlossen.
+
+**Open issues (post-Session):**
+- **#47.3 Lemmasuche nach Versposition** (KZW-Wunsch 11:37): braucht Pipeline-Mod. Eigener Sprint, ~2-3h. Vorbereitung: `<l>`-Grenzen pro Text als `lineStarts: [int]` + `lineEnds: [int]` im Corpus-Index; im Frontend neuer Dialog + Filter.
+- **#86 Barrierefreiheit:** Erstdraft live, KZW soll inhaltlich freigeben und mit Universität Salzburg abstimmen. Issue bleibt offen.
+- **#91 Zenodo:** Katharina hat CITATION.cff committed (10:15), User-Aufgaben (Zenodo-Webhook, Release-Tag, DOI propagieren) bleiben für späteren Sprint.
+- **#92 ARITHMETIC:** weiter blockiert auf Carinas Antwort.
+- **#27 POS-Workflow:** Daten-Schema-Drift bei POS-Tags (`ART`, `CNJ` in Daten vs. `DET`, `CCNJ`/`SCNJ` im Schema) bei #47.1-Implementation aufgefallen.
+- **`manifest.json`-driven UI für Korpus-Statistiken:** überall im UI hardcodierte Zahlen (43.754, 39 MB, 667). Mein Iter-2-Fix hat diese in Hero-Tagline + Loader-Text gefixt, aber das ist nicht skalierbar. Eigenes Ticket wert.
+
+**Commits (alle gepusht, neueste zuerst):**
+- `118bd7f84` `feat(docs): Barrierefreiheitserklaerung-Erstdraft + Footer-Links (#86)`
+- `6a1c0bd64` `feat(playground): UI-Polish + Stopwort-Filter Wortfrequenz (KZW #47)` — addresses #47.1+.2
+- `129ee0bf6` `fix(docs): "Entwickler:innen" -> "Entwickler*innen" (hilfe.html)` — Closes #51
+
+Aus paralleler Session: `d21e50dc6` JOURNAL-Handoff Session D, `a1a53f663` JOURNAL-Kompression 937→458, `5040bfabc` #49 Health-Check Migration nach CLAUDE.md.
+
+**Externe:** #51 closed via Commit `129ee0bf6`. `barrierefreiheit.html` ist neue user-facing Seite, im Footer aller 10 Seiten verlinkt. Wortfrequenz-Analyse hat jetzt Stopwort-Filter-Checkbox.
+
+**Next session:**
+1. `/promptotyping orient`
+2. **Falls KZW reviewt barrierefreiheit.html:** Iteration auf ihr Feedback, dann mit Uni Salzburg abstimmen.
+3. **#47.3 Lemmasuche nach Versposition:** Pipeline-Sprint (a) `build-corpus-index.py` um `lineStarts`/`lineEnds` erweitern, (b) Index re-build, (c) neuer Dialog im Playground unter Multi-Lemma-Suche, (d) Such-Logik (Position in `lineStarts`/`lineEnds` prüfen), (e) Browser-Test mit Reim-Beispiel.
+4. **Falls Carinas Antwort eintrifft:** ARI-Phase 1 starten.
+5. **`manifest.json`-driven UI für Korpus-Statistiken:** eigenes Ticket erstellen, dann implementieren.
