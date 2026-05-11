@@ -802,11 +802,11 @@ npm test
 
 ## 10. Validierungsbaseline
 
-### Korpus-Status (666 Dateien, nach Migration 2026-04-09)
+### Korpus-Status (667 Dateien, Stand 2026-05-11)
 
 | Metrik | Wert |
 |--------|------|
-| Dateien | 666 (aus 675 Ausgangsdateien — 9 disamb-Dateien in Base gemergt) |
+| Dateien | 667 (aus 675 Ausgangsdateien — 9 disamb-Dateien in Base gemergt; +1 WZB-Aufnahme 2026-05-08) |
 | `<w>`-Elemente | ~9.3M |
 | `<pc>`-Elemente | ~1.4M (migriert aus `<seg type="pc">`) |
 | `@ana`-Attribute | ~5.9M (migriert aus `@meaningRef`) |
@@ -816,11 +816,11 @@ npm test
 Migrationsscripts: einmalig in den Phasen A–E ausgeführt, inzwischen in `scripts/_archived/` bzw. Git-Historie nach Abschluss von #32.
 Validierungsscript: `scripts/audit/validate-corpus.py` (8 strukturelle Checks)
 
-### Validierungsergebnis (Stand 2026-04-14)
+### Validierungsergebnis (Stand 2026-05-11)
 
-**mhdbdb.rnc:** 666/666 Dateien valide gegen projektspezifisches Schema (`schema/mhdbdb.rnc`).
+**mhdbdb.rnc:** 667/667 Dateien valide gegen projektspezifisches Schema (`schema/mhdbdb.rnc`).
 
-**tei_all.rng:** 636/666 Dateien valide gegen TEI P5 4.11.0. 30 Dateien haben bewusst dokumentierte Abweichungen, die unser Custom-Schema ueber GAP-Kommentare 1–11 explizit abdeckt. Kategorien:
+**tei_all.rng:** 637/667 Dateien valide gegen TEI P5 4.11.0. 30 Dateien haben bewusst dokumentierte Abweichungen, die unser Custom-Schema ueber GAP-Kommentare 1–11 explizit abdeckt. Kategorien:
 
 | Kategorie | Dateien | Anzahl |
 |-----------|---------|-------:|
@@ -832,6 +832,8 @@ Validierungsscript: `scripts/audit/validate-corpus.py` (8 strukturelle Checks)
 | `<head>` fehlend/unerwartet | TKR, VOR | 2 |
 
 Diese 30 Dateien sind **keine Bugs**, sondern dokumentierte Bestandsabweichungen. Das MHDBDB-Modell ist in diesen Punkten absichtlich permissiver als strict-tei_all — die GAP-Kommentare im Schema begruenden jede Abweichung. Siehe auch das entsprechende Follow-up-Item in `docs/features/032-schema-followup.md`.
+
+**Hinweis WZB (Aufnahme 2026-05-08):** Die mit der Wenzelsbibel hinzugefügte 667. Datei ist sowohl stage-1- (tei_all) als auch stage-2-konform (mhdbdb) und faellt damit nicht unter die 30er-Baseline. WZB benutzt keine der GAP-Patterns aus der Tabelle oben.
 
 Fruehere Fehler (alle behoben durch Migration):
 
@@ -855,22 +857,23 @@ Fruehere Fehler (alle behoben durch Migration):
 | 5 | Dokumentiert via ODD oder Aequivalent | ✓ (TEI-MODEL.md + mhdbdb.rnc) |
 
 **Zwei-Stufen-Validierung:**
-- **Stufe 1:** `tei_all.rng` = TEI-P5-Konformitaetstest (Kriterien 1-4). Baseline: 636/666 grün.
-- **Stufe 2:** `mhdbdb.rnc` = MHDBDB-Stempel. Deckt alle Bestandsmuster ab, inkl. der 30 tei_all-Abweichungen (GAPs 1–11). Baseline: 666/666 grün.
+- **Stufe 1:** `tei_all.rng` = TEI-P5-Konformitaetstest (Kriterien 1-4). Baseline: 637/667 grün.
+- **Stufe 2:** `mhdbdb.rnc` = MHDBDB-Stempel. Deckt alle Bestandsmuster ab, inkl. der 30 tei_all-Abweichungen (GAPs 1–11). Baseline: 667/667 grün.
 
 `mhdbdb.rnc` ist **kein strenges Subset** von `tei_all.rng` — es ist in einigen Punkten strikter (enumerierte `@type`-Werte, restriktivere Kindelemente) und in anderen permissiver (GAPs). Die beiden Stufen pruefen unterschiedliche Eigenschaften und sind komplementaer, nicht redundant.
 
-### Authority Files Status (7 Dateien, nach Migration 2026-04-10)
+### Authority Files Status (8 Dateien, Stand 2026-05-11)
 
 | Datei | Einträge | Validierung |
 |-------|----------|-------------|
-| lexicon.xml | 43,750 Lemmata | tei_all ✓ · mhdbdb-authority ✓ |
+| lexicon.xml | 43,754 Lemmata (+4 mit WZB-Aufnahme 2026-05-08) | tei_all ✓ · mhdbdb-authority ✓ |
 | variants.xml | 39,282 Einträge (192,472 Formen) | tei_all ✓ · mhdbdb-authority ✓ |
 | persons.xml | 211 Personen | tei_all ✓ · mhdbdb-authority ✓ |
-| works.xml | 583 Werke | tei_all ✓ · mhdbdb-authority ✓ |
+| works.xml | 584 Werke (+1 work_WZB) | tei_all ✓ · mhdbdb-authority ✓ |
 | concepts.xml | 567 Kategorien | tei_all ✓ · mhdbdb-authority ✓ |
 | genres.xml | 615 Kategorien | tei_all ✓ · mhdbdb-authority ✓ |
 | names.xml | 90 Kategorien | tei_all ✓ · mhdbdb-authority ✓ |
+| contributors.xml | 51 Personen + 2 Orgs (project-internal MHDBDB-Team-Register seit #83) | tei_all ✓ · mhdbdb-authority ✓ |
 
 Migrationsscripts: einmalig in den Phasen F–K ausgeführt, inzwischen in `scripts/_archived/` bzw. Git-Historie nach Abschluss von #32.
 Schema: `schema/mhdbdb-authority.rnc` (Source) → `schema/mhdbdb-authority.rng` (generiert)

@@ -124,6 +124,14 @@ Post-MVP with stable v4.0.0 corpus index and v1.2.0 authority index
 - ✅ **#32-Followup vollständig 17/17** (2026-05-07) - P1-5 `idno/@type` Enum (3 kontextspezifische Patterns: `msIdentifier` / `monogr` / `person`), WZB-shelfmark-Fix (Daten vor Schema), Stage-1 PI-Cleanup auf allen 667 Korpus-Files, CI Schema-Validation triggert auch auf direkte main-Pushes
 - ✅ **#68 Teil 1: `hilfe-daten-beitragen.html`** (2026-05-07) - User-facing Schema-Konversions-Leitfaden für TEI-Beitragende (deutsch); Issue tracked weitere Hilfe-Arbeit
 - ✅ **WZB Skript-Reorg** (2026-05-07) - 20 WZB-Pipeline-Skripte nach `scripts/ingest/wzb/`, 4 Sackgassen nach `scripts/_archived/wzb/`
+- ✅ **#79 User-facing Hilfe-Seiten** (2026-05-08) - 5 Seiten live: `hilfe.html` (Hub), `hilfe-korpussuche.html`, `hilfe-playground.html`, `hilfe-daten.html`, `hilfe-daten-beitragen.html`; Header-Nav-Eintrag „Hilfe" auf allen Hauptseiten
+- ✅ **#94 Authority-Cache-Bugfix + WZB-Index-Rebuild** (2026-05-08) - Cache invalidiert jetzt korrekt bei Versions-Bump (selbstreferenzieller Vergleich gefixt); WZB live in beiden Indexen (corpus-index.json.gz v4.0.1, authority-index.json.gz mit +4 Lemmata + work_WZB)
+- ✅ **#87/#88/#89/#90 Playground TEI Textanalyse Release 1** (2026-05-11) - UX-Cleanup mit 3 broken-Button-Entfernung, Wortfrequenz-Analyse (Top-N Lemmata), Text-Statistiken (Token, Lemma-Diversität, Hapax), Lemma-Verteilung (Bar-Chart Lemma × Text). Chrome-DevTools-verifiziert mit „minne"/„êre"-Stichproben.
+- ✅ **#20 Lesbarkeits-Followups** (2026-05-11) - Counter „667/667 Texte ausgewählt" auf `text-2xl font-semibold`, dedizierte blue-50-Info-Box statt unscheinbarem Tipp-Text, expliziter Default-Hinweis („Standardmäßig sind alle Texte ausgewählt")
+- ✅ **#96 Metadatenanzeige + TEI-Download** (2026-05-11) - Hinweisblock am Ende des Reader-Metadaten-Panels mit Download-Link auf `tei/<SIG>.tei.xml`; Wikidata-Link für `authorId === 'person_anonym'` unterdrückt (KZW-Comment)
+- ✅ **#97-#100 Playground-Cleanups + Pre-flight-Check** (2026-05-11) - Corpus-Index-Property-Drift behoben (`teiManager.corpusIndex` gespiegelt), ~700 Zeilen Dead Code aus `tei-ui.js` entfernt (581 → 404 Z.), `git status --porcelain`-Pre-flight im Index-Build verhindert dirty Builds
+- ✅ **WZB Schema-Konformität in `works.xml`** (2026-05-11) - Julias Fix `af72bd261` für den initial fehlerhaften `<ref>`/`<note type=>`-Block im work_WZB-Eintrag plus Normdaten-Ergänzung (Wikidata Q476495, GND 4117632-7, HSC werke/4577); CI-Schema-Validation seit `26a4cd882` wieder grün
+- ✅ **#91 Zenodo-Stub** (2026-05-11) - `CITATION.cff` mit konservativem Lead-Author-Eintrag (KZW), README-Badge mit `ZENODO_RECORD_ID`-Platzhalter; KZW über Issue-Comment zur Final-Author-Liste gepingt
 
 ### Known Limitations
 - Desktop-only interface (not mobile-responsive)

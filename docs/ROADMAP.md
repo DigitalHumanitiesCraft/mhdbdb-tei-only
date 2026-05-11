@@ -1,6 +1,6 @@
 # Roadmap
 
-Strategic priorities for the MHDBDB TEI Repository. Updated 2026-05-08.
+Strategic priorities for the MHDBDB TEI Repository. Updated 2026-05-11.
 
 See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/44) for the full triage matrix with per-issue status.
 
@@ -8,21 +8,17 @@ See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues
 
 | # | What | Domain | Effort |
 |---|------|--------|--------|
-| #87 | Playground TEI Textanalyse: UX-Cleanup (broken buttons + reorder) | frontend | S |
-| #91 | Zenodo-Integration (DOI für ZfdG-Einreichung, CITATION.cff, Release-Tagging) | docs/release | S |
-| #20 | Readability fixes — done, awaiting approval (2 follow-ups offen: Counter-Sichtbarkeit + Text-Deselection-Hint) | frontend | S |
+| #91 | Zenodo-Integration — CITATION.cff-Stub + DOI-Badge-Platzhalter geliefert; KZW gepingt für finale Author-Liste; Zenodo-Webhook + Tag noch User-Steps | docs/release | S |
+| #81 | Sprachstufen-Differenzierung — 4/7 Texte abgehakt (SAL/SAT/BAR/TUN no-op); AC1-3 pending KZW-Code-Wahl | data | S |
 
-## Next: Playground TEI Textanalyse + FAIR Data
+## Next: FAIR Data + Daten-Qualität
 
 | # | What | Domain | Effort |
 |---|------|--------|--------|
-| #88 | Playground TEI Textanalyse: Wortfrequenz-Analyse | frontend | S |
-| #89 | Playground TEI Textanalyse: Text-Statistiken | frontend | S |
-| #90 | Playground TEI Textanalyse: Lemma-Verteilung | frontend | S |
 | #45 | Static JSON API (FAIR data) — [planning doc](features/045-static-api.md) ready | pipeline + frontend | L |
-| #79 | /hilfe/ — user-facing help page (part of #80 umbrella) | documentation | L |
 | #78 | Frontend-Dokumentation: MHDBDB-Schema & Daten-Tutorial | documentation | M |
 | #86 | Barrierefreiheitserklärung (WZG) — needs Uni Salzburg input | documentation | M |
+| #47 R2 | Playground TEI Textanalyse Release 2: Begriffs-Verteilung (analog #90 Lemma-Verteilung, Konzept-basiert) | frontend | S |
 
 ## Blocked: Needs Human Input
 
@@ -60,6 +56,16 @@ See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues
 
 | # | What |
 |---|------|
+| ~~#20~~ | Readability fixes (2026-05-11): Counter „667/667 Texte ausgewählt" auf text-2xl/font-semibold, dedizierte blue-50-Hinweisbox mit Info-Icon zum Deselect-Workflow |
+| ~~#96~~ | Metadatenanzeige (2026-05-11): TEI-XML-Download-Link am Ende des Reader-Metadaten-Panels, Anonym-Wikidata-Link bei `authorId === 'person_anonym'` unterdrückt |
+| ~~#87~~ | Playground TEI Textanalyse UX-Cleanup (2026-05-11): 3 broken Buttons raus, Reorder |
+| ~~#88~~ | Playground Wortfrequenz-Analyse (2026-05-11): Top-N Lemmata mit Frequenz-Bars |
+| ~~#89~~ | Playground Text-Statistiken (2026-05-11): Token-Anzahl, Lemma-Diversität, Hapax-Rate |
+| ~~#90~~ | Playground Lemma-Verteilung (2026-05-11): Bar-Chart Lemma × Text |
+| ~~#100~~ | Pre-flight Working-Tree-Check für Index-Builder (2026-05-11): `git status --porcelain`-Check verhindert dirty Builds |
+| ~~#97-99~~ | Playground Follow-up-Cleanups (2026-05-11): Corpus-Index-Property-Drift gefixt, ~700 Zeilen Dead Code aus tei-ui.js entfernt |
+| ~~#79~~ | /hilfe/ User-facing Help Pages (2026-05-08): 5 Hilfe-Seiten live (Korpussuche, Playground, Daten, Daten beitragen, Index) |
+| ~~#94~~ | Authority-Cache invalidiert nicht bei Versions-Bump (2026-05-08): selbstreferenzieller Vergleich gefixt |
 | ~~#17~~ | Reader View TEI-Strukturelemente (2026-04-16): Token-basierte `<hi rend>` Klassen (43k Compound-Werte gefixt), `<div>/<lg>/<l>/<lb>` Margin-Numbers, Note-Badges für `@type="year\|date"`, 128/128 Tests grün |
 | ~~#52~~ | Authority Files Card (2026-04-16): collapse-by-default, weniger visuelle Dominanz im Playground-Sidebar |
 | ~~#32-followup~~ | vollständig 17/17 (2026-05-07): P1-5 `idno/@type` 3 kontextspezifische Enum-Patterns (`msIdentifier` / `monogr` / `person`), WZB-shelfmark-Fix (Daten vor Schema), Stage-1 PI-Cleanup auf 667 Files, CI Push-Trigger |
@@ -94,12 +100,12 @@ See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues
 
 2. **TEI data quality** — Structural fixes (#26, #30, #85), schema hardening (#32 ✅), and Wenzelsbibel (#34, Phase 3 at 92.5%) are the active workstreams. Most structural fixes are blocked on KZW review.
 
-2. **Playground TEI Textanalyse** — #47 umbrella broken into concrete sub-issues: UX-Cleanup (#87), Wortfrequenz (#88), Text-Statistiken (#89), Lemma-Verteilung (#90). All claude-ready, all use existing corpus index data.
+2. **Playground TEI Textanalyse Release 1 done** — UX-Cleanup (#87), Wortfrequenz (#88), Text-Statistiken (#89), Lemma-Verteilung (#90) alle 2026-05-11 closed. Release 2 (Begriffs-Verteilung) und Release 3 (POS-Anteile, abhängig von #27) noch ungeplant.
 
-3. **FAIR data** — Make all MHDBDB data citable and programmatically accessible (#45). Enables external collaborations (MWB, Wörterbuchnetz).
+3. **FAIR data + Citability** — Static JSON API (#45) und Zenodo-DOI (#91, Stub geliefert) machen MHDBDB-Daten extern zitier- und programmierbar zugänglich. Enables external collaborations (MWB, Wörterbuchnetz, ZfdG-Einreichung).
 
 4. **TEI data quality** — Remaining structural fixes (#23, #26, #85). Mostly blocked on human review.
 
-5. **Frontend refinements** — TEI rendering (#17, prio-1), UI polish (#20), and advanced playground features.
+5. **Frontend refinements** — Reader (#17 ✅) und UI-Polish (#20 ✅) abgeschlossen. Verbleibende Items: Reading-View-Render-Policy (kein Issue), Upload-UI-Dead-Code-Cleanup (kein Issue), advanced playground features.
 
 6. **Advanced search** — PoS-based search (#18) and foreign language search (#28) depend on corpus index extensions.
