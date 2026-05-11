@@ -23932,17 +23932,23 @@
           <title xml:lang="de">Wenzelsbibel</title>
           <title xml:lang="en">Wenceslas Bible</title>
           <idno type="sigle">WZB</idno>
-          <ref target="genres.xml#genre_93f5fac5" xml:lang="de">Bibelübersetzung</ref>
+          <idno type="wikidata">http://www.wikidata.org/entity/Q476495</idno>
+          <idno type="GND">https://d-nb.info/gnd/4117632-7</idno>
+          <idno type="handschriftencensus">https://handschriftencensus.de/werke/4577</idno>
+          <ptr target="genres.xml#genre_93f5fac5"/>
           <author ref="persons.xml#person_anonym">Anonym</author>
-          <note type="manuscript">Wien, ÖNB, Cod. 2759-2764</note>
-          <biblStruct type="web" xml:id="WZB_WZB" key="WZB">
-            <monogr>
-              <title level="m">Die Wenzelsbibel ‒ Digitale Edition und Analyse</title>
-              <idno type="url">https://edition.onb.ac.at/wenzelsbibel</idno>
-              <date>2025-09-19</date>
-            </monogr>
-            <note type="citation">Die Wenzelsbibel ‒ Digitale Edition und Analyse. Ein Kooperationsprojekt des Fachbereichs Germanistik der Universität Salzburg und der Österreichischen Nationalbibliothek, Version 7.0.0, 2025-09-19. URL: https://edition.onb.ac.at/wenzelsbibel</note>
-          </biblStruct>
+          <relatedItem>
+            <biblStruct type="web" xml:id="WZB_WZB" key="WZB">
+              <monogr>
+                <title level="m">Die Wenzelsbibel ‒ Digitale Edition und Analyse</title>
+                <idno type="url">https://edition.onb.ac.at/wenzelsbibel</idno>
+                <imprint>
+                  <date>2025-09-19</date>
+                </imprint>
+              </monogr>
+              <note>Die Wenzelsbibel ‒ Digitale Edition und Analyse. Ein Kooperationsprojekt des Fachbereichs Germanistik der Universität Salzburg und der Österreichischen Nationalbibliothek, Version 7.0.0, 2025-09-19. URL: https://edition.onb.ac.at/wenzelsbibel</note>
+            </biblStruct>
+          </relatedItem>
         </bibl>
       </listBibl>
     </body>
