@@ -215,29 +215,41 @@
                         <p class="mt-1 text-sm text-slate-500">Analysieren Sie Lemmata, ihre Verteilung und Frequenzen im Korpus.</p>
                     </div>
                     <div class="grid gap-2">
-                        <button id="findMultiLemmaBtn" class="w-full rounded-xl border border-brand-200 bg-brand-50 px-4 py-2 text-left text-sm font-medium text-brand-700 transition hover:border-brand-400 hover:bg-brand-100 flex items-center gap-2">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <button id="findMultiLemmaBtn" class="w-full rounded-xl border border-brand-200 bg-brand-50 px-4 py-2 text-left text-sm font-medium text-brand-700 transition hover:border-brand-400 hover:bg-brand-100 flex items-center gap-2.5">
+                            <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                             </svg>
-                            <span>Multi-Lemma-Suche</span>
+                            <span class="flex flex-col items-start leading-tight">
+                                <span>Multi-Lemma-Suche</span>
+                                <span class="text-xs font-normal text-brand-600/80 mt-0.5">Sucht mehrere Lemmata gemeinsam</span>
+                            </span>
                         </button>
-                        <button id="showWordFrequencyBtn" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 flex items-center gap-2">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.657-1.79 3-4 3s-4-1.343-4-3 1.79-3 4-3 4 1.343 4 3zm12-3c0 1.657-1.79 3-4 3s-4-1.343-4-3 1.79-3 4-3 4 1.343 4 3zM9 10l12-3"></path>
+                        <button id="showWordFrequencyBtn" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 flex items-center gap-2.5">
+                            <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                             </svg>
-                            <span>Wortfrequenz-Analyse</span>
+                            <span class="flex flex-col items-start leading-tight">
+                                <span>Wortfrequenz-Analyse</span>
+                                <span class="text-xs font-normal text-slate-500 mt-0.5">Zeigt die Vorkommenshäufigkeit an</span>
+                            </span>
                         </button>
-                        <button id="showTextStatisticsBtn" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 flex items-center gap-2">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <button id="showTextStatisticsBtn" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 flex items-center gap-2.5">
+                            <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2a4 4 0 00-4-4H3m6 6h6m-6 0V9a4 4 0 014-4h6m-10 12v4m6-16v16m0-16h2a4 4 0 014 4v8a4 4 0 01-4 4h-2"></path>
                             </svg>
-                            <span>Text-Statistiken</span>
+                            <span class="flex flex-col items-start leading-tight">
+                                <span>Text-Statistiken</span>
+                                <span class="text-xs font-normal text-slate-500 mt-0.5">Wörter, Lemmata und Coverage pro Text</span>
+                            </span>
                         </button>
-                        <button id="showLemmaDistributionBtn" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 flex items-center gap-2">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <button id="showLemmaDistributionBtn" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 flex items-center gap-2.5">
+                            <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12h2l2 5 4-10 3 7 2-3h5"></path>
                             </svg>
-                            <span>Lemma-Verteilung</span>
+                            <span class="flex flex-col items-start leading-tight">
+                                <span>Lemma-Verteilung</span>
+                                <span class="text-xs font-normal text-slate-500 mt-0.5">Visualisiert ein Lemma über alle Texte</span>
+                            </span>
                         </button>
                     </div>
                 </div>
@@ -253,12 +265,42 @@
                         <p class="mt-1 text-sm text-slate-500">Vordefinierte Recherchepfade für Personen, Werke, Begriffe und mehr.</p>
                     </div>
                     <div class="grid gap-2">
-                        <button id="showAuthorsBtn" disabled class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 disabled:cursor-not-allowed disabled:border-slate-100 disabled:bg-slate-50 disabled:text-slate-400">Autor*innen anzeigen</button>
-                        <button id="showWorksBtn" disabled class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 disabled:cursor-not-allowed disabled:border-slate-100 disabled:bg-slate-50 disabled:text-slate-400">Werke anzeigen</button>
-                        <button id="showLemmataBtn" disabled class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 disabled:cursor-not-allowed disabled:border-slate-100 disabled:bg-slate-50 disabled:text-slate-400">Lemmata-Explorer</button>
-                        <button id="showConceptsBtn" disabled class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 disabled:cursor-not-allowed disabled:border-slate-100 disabled:bg-slate-50 disabled:text-slate-400">Begriffe anzeigen</button>
-                        <button id="showGenresBtn" disabled class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 disabled:cursor-not-allowed disabled:border-slate-100 disabled:bg-slate-50 disabled:text-slate-400">Gattungen anzeigen</button>
-                        <button id="showNamesBtn" disabled class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 disabled:cursor-not-allowed disabled:border-slate-100 disabled:bg-slate-50 disabled:text-slate-400">Namen anzeigen</button>
+                        <button id="showAuthorsBtn" disabled class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 disabled:cursor-not-allowed disabled:border-slate-100 disabled:bg-slate-50 disabled:text-slate-400">
+                            <span class="flex flex-col items-start leading-tight">
+                                <span>Autor*innen anzeigen</span>
+                                <span class="text-xs font-normal text-slate-500 mt-0.5">Personen-Register mit Werken durchsuchen</span>
+                            </span>
+                        </button>
+                        <button id="showWorksBtn" disabled class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 disabled:cursor-not-allowed disabled:border-slate-100 disabled:bg-slate-50 disabled:text-slate-400">
+                            <span class="flex flex-col items-start leading-tight">
+                                <span>Werke anzeigen</span>
+                                <span class="text-xs font-normal text-slate-500 mt-0.5">Werke, Editionen und Handschriften erkunden</span>
+                            </span>
+                        </button>
+                        <button id="showLemmataBtn" disabled class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 disabled:cursor-not-allowed disabled:border-slate-100 disabled:bg-slate-50 disabled:text-slate-400">
+                            <span class="flex flex-col items-start leading-tight">
+                                <span>Lemmata-Explorer</span>
+                                <span class="text-xs font-normal text-slate-500 mt-0.5">Wörterbuch durchblättern und nachschlagen</span>
+                            </span>
+                        </button>
+                        <button id="showConceptsBtn" disabled class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 disabled:cursor-not-allowed disabled:border-slate-100 disabled:bg-slate-50 disabled:text-slate-400">
+                            <span class="flex flex-col items-start leading-tight">
+                                <span>Begriffe anzeigen</span>
+                                <span class="text-xs font-normal text-slate-500 mt-0.5">Semantische Taxonomie navigieren</span>
+                            </span>
+                        </button>
+                        <button id="showGenresBtn" disabled class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 disabled:cursor-not-allowed disabled:border-slate-100 disabled:bg-slate-50 disabled:text-slate-400">
+                            <span class="flex flex-col items-start leading-tight">
+                                <span>Gattungen anzeigen</span>
+                                <span class="text-xs font-normal text-slate-500 mt-0.5">Literarische Klassifikationen erkunden</span>
+                            </span>
+                        </button>
+                        <button id="showNamesBtn" disabled class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 disabled:cursor-not-allowed disabled:border-slate-100 disabled:bg-slate-50 disabled:text-slate-400">
+                            <span class="flex flex-col items-start leading-tight">
+                                <span>Namen anzeigen</span>
+                                <span class="text-xs font-normal text-slate-500 mt-0.5">Eigennamen mit semantischen Relationen</span>
+                            </span>
+                        </button>
                     </div>
                 </div>
 

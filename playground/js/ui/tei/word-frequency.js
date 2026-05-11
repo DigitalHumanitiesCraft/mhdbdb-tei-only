@@ -14,6 +14,16 @@ const SORT_OPTIONS = [
   { value: 'relative', label: 'Relative Frequenz (pro 1000 Tokens)' }
 ];
 
+// Funktionswort-POS-Tags. KZW (#47): hochfrequente "der/die/daz/und/..."
+// optional ausblenden, damit die Top-N-Liste die inhaltstragenden Lemmata
+// in den Vordergrund stellt. Enthaelt sowohl die Schema-konformen Tags
+// (DET, CCNJ, SCNJ) als auch die im Authority-Index tatsaechlich auftretenden
+// Varianten (ART fuer Artikel statt DET, CNJ als Konjunktions-Fallback) --
+// die Daten-Schema-Drift wird in einem separaten POS-Workflow (#27) addressiert.
+const FUNCTION_WORD_POS = new Set([
+  'DET', 'ART', 'POS', 'PRO', 'PRP', 'CCNJ', 'SCNJ', 'CNJ', 'NEG', 'IPA', 'VEX', 'VEM'
+]);
+
 export class WordFrequencyAnalyzer {
   /**
    * @param {() => Array} getCorpusTexts  thunk returning the current corpus
@@ -30,7 +40,8 @@ export class WordFrequencyAnalyzer {
     this.state = {
       scope: 'corpus',
       topN: DEFAULT_TOP_N,
-      sortBy: 'absolute'
+      sortBy: 'absolute',
+      hideFunctionWords: false
     };
   }
 
@@ -140,6 +151,10 @@ export class WordFrequencyAnalyzer {
             <select id="wfSortBy" class="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm focus:border-brand-400 focus:outline-none">${sortOptions}</select>
           </label>
         </div>
+        <label class="mt-3 flex items-center gap-2 text-sm text-slate-700 cursor-pointer">
+          <input type="checkbox" id="wfHideFunc" ${this.state.hideFunctionWords ? 'checked' : ''} class="w-4 h-4 rounded border-slate-300 text-brand-600 focus:ring-brand-500" />
+          <span>Funktionswörter ausblenden <span class="text-xs text-slate-500">(der/die/daz, ich/er/sie, in/zuo, und/oder, niht, hân/wesen, …)</span></span>
+        </label>
       </div>
     `;
   }
@@ -151,15 +166,27 @@ export class WordFrequencyAnalyzer {
     }
     const { counts, totalTokens, scopeLabel, scopeMeta, uniqueCount } = data;
 
-    const entries = Array.from(counts.entries()).map(([id, c]) => ({
+    const allEntries = Array.from(counts.entries()).map(([id, c]) => ({
       id,
       count: c,
       rel: totalTokens > 0 ? (c / totalTokens) * 1000 : 0
     }));
+    const entries = this.state.hideFunctionWords
+      ? allEntries.filter(e => {
+          const pos = this.getLemmaById(e.id)?.pos;
+          // POS-Wert kann zusammengesetzt sein (z.B. "VEM PRO" fuer wilt+du):
+          // splitten und ausblenden, sobald ein Teil zu den Funktionswort-Tags
+          // gehoert. Lemmata ohne pos-Annotation behalten (konservativ).
+          if (!pos) return true;
+          const tags = String(pos).trim().split(/\s+/);
+          return !tags.some(t => FUNCTION_WORD_POS.has(t));
+        })
+      : allEntries;
     entries.sort((a, b) =>
       this.state.sortBy === 'relative' ? b.rel - a.rel : b.count - a.count
     );
     const top = entries.slice(0, this.state.topN);
+    const hiddenCount = allEntries.length - entries.length;
 
     const rows = top.map((e, idx) => {
       const lemma = this.getLemmaById(e.id);
@@ -189,7 +216,7 @@ export class WordFrequencyAnalyzer {
             <div class="text-xs text-slate-500">${escapeHtml(scopeMeta)}</div>
           </div>
           <div class="text-right text-xs text-slate-500">
-            <div>${uniqueCount.toLocaleString('de-DE')} unique Lemmata</div>
+            <div>${uniqueCount.toLocaleString('de-DE')} unique Lemmata${hiddenCount > 0 ? ` <span class="text-slate-400">(–${hiddenCount.toLocaleString('de-DE')} ausgeblendet)</span>` : ''}</div>
             <div>${totalTokens.toLocaleString('de-DE')} Tokens</div>
           </div>
         </header>
@@ -222,6 +249,7 @@ export class WordFrequencyAnalyzer {
     const scopeEl = document.getElementById('wfScope');
     const topNEl = document.getElementById('wfTopN');
     const sortEl = document.getElementById('wfSortBy');
+    const hideFuncEl = document.getElementById('wfHideFunc');
 
     scopeEl?.addEventListener('change', (e) => {
       this.state.scope = e.target.value;
@@ -234,6 +262,10 @@ export class WordFrequencyAnalyzer {
     });
     sortEl?.addEventListener('change', (e) => {
       this.state.sortBy = e.target.value;
+      this.render();
+    });
+    hideFuncEl?.addEventListener('change', (e) => {
+      this.state.hideFunctionWords = e.target.checked;
       this.render();
     });
   }
