@@ -1,5 +1,11 @@
 # MHDBDB TEI Repository
 
+<!-- DOI-Badge: Platzhalter bis Zenodo-Aktivierung (Issue #91).
+     Nach erstem getaggtem Release wird ZENODO_RECORD_ID durch die echte
+     Concept-DOI-Record-ID ersetzt (sichtbar im Zenodo-Dashboard). -->
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.ZENODO_RECORD_ID.svg)](https://doi.org/10.5281/zenodo.ZENODO_RECORD_ID)
+[![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+
 TEI-codierte Texte mittelhochdeutscher Literatur mit semantischen Annotationen und **zwei Web-Oberflächen** aus der [Mittelhochdeutschen Begriffsdatenbank (MHDBDB)](https://mhdbdb.plus.ac.at), Universität Salzburg.
 
 **Live:** [Hauptseite](https://dhcraft.org/mhdbdb-tei-only/) | [Playground](https://dhcraft.org/mhdbdb-tei-only/playground/)

@@ -1,0 +1,36 @@
+# Citation File Format (https://citation-file-format.github.io/)
+#
+# Hinweis: Dies ist ein konservativer Stub mit den vier definitiv
+# zustaendigen Maintainer-Entitaeten. Die finale Autor*innen-Liste fuer
+# das erste Zenodo-Release wird vor dem Release-Tag mit KZW abgestimmt
+# (siehe Issue #91). Weitere Mitwirkende sind in authority-files/contributors.xml
+# dokumentiert.
+
+cff-version: 1.2.0
+message: "Wenn Sie diese Software oder die Daten verwenden, zitieren Sie bitte wie folgt."
+title: "MHDBDB TEI Repository: Mittelhochdeutsche Texte mit semantischen Annotationen"
+type: software
+authors:
+  - family-names: "Zeppezauer-Wachauer"
+    given-names: "Katharina"
+    affiliation: "Paris Lodron Universität Salzburg, Fachbereich Germanistik"
+  - family-names: "Steiner"
+    given-names: "Christian"
+    affiliation: "Digital Humanities Craft OG"
+  - name: "Paris Lodron Universität Salzburg, Fachbereich Germanistik"
+    website: "https://www.plus.ac.at/germanistik/"
+  - name: "Digital Humanities Craft OG"
+    website: "https://dhcraft.org"
+license: CC-BY-NC-SA-4.0
+repository-code: "https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only"
+url: "https://dhcraft.org/mhdbdb-tei-only/"
+keywords:
+  - "middle-high-german"
+  - "medieval-german"
+  - "mittelhochdeutsch"
+  - "tei"
+  - "digital-humanities"
+  - "mhdbdb"
+  - "corpus"
+  - "medieval-studies"
+  - "mediaevistik"
