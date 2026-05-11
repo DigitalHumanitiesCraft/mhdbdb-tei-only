@@ -673,87 +673,8 @@ document.addEventListener('DOMContentLoaded', () => {
     window.TextNormalizer = TextNormalizer;
     window.SearchPatterns = SearchPatterns;
 
-    // Setup Load Corpus button handler
-    const loadCorpusBtn = document.getElementById('loadCorpusBtn');
-    if (loadCorpusBtn) {
-        loadCorpusBtn.addEventListener('click', async () => {
-            if (!window.playground) return;
-
-            // Show loading state
-            const originalText = loadCorpusBtn.innerHTML;
-            loadCorpusBtn.disabled = true;
-            loadCorpusBtn.innerHTML = '<span>Clearing previous data...</span>';
-
-            try {
-                // Clear any previously uploaded TEI files first
-                await window.playground.teiManager.clearAllTEIData();
-
-                loadCorpusBtn.innerHTML = '<span>Loading corpus...</span>';
-                const result = await window.playground.teiManager.loadCorpusIntoPlayground((loaded, total) => {
-                    const percentage = Math.round((loaded / total) * 100);
-                    loadCorpusBtn.innerHTML = `<span>Loading: ${loaded}/${total} (${percentage}%)</span>`;
-                });
-
-                // Success! Keep button showing loaded state
-                loadCorpusBtn.innerHTML = `<span>✅ ${result.loaded} TEI files loaded</span>`;
-                loadCorpusBtn.disabled = true; // Keep disabled to prevent re-loading
-                loadCorpusBtn.classList.remove('hover:bg-brand-100');
-                loadCorpusBtn.classList.add('bg-green-50', 'border-green-200', 'text-green-700');
-
-                // Clear and repopulate the file display with corpus entries
-                const uploadedFilesContainer = document.getElementById('uploadedFiles');
-                if (uploadedFilesContainer) {
-                    uploadedFilesContainer.innerHTML = '';
-
-                    // Display corpus files with metadata
-                    window.playground.teiData.parsedXML.forEach(teiData => {
-                        displayFileItem(teiData, uploadedFilesContainer);
-                    });
-                }
-
-                // Update file count badge (just the number)
-                const fileCountBadge = document.getElementById('fileCount');
-                if (fileCountBadge) {
-                    fileCountBadge.textContent = result.loaded;
-                }
-
-                // Show file filter for corpus data (useful for 667 files)
-                const fileFilter = document.getElementById('fileFilter');
-                if (fileFilter) {
-                    fileFilter.style.display = '';
-                    fileFilter.value = ''; // Reset filter
-                }
-
-                // Show files summary section
-                const filesSummary = document.getElementById('filesSummary');
-                if (filesSummary) {
-                    filesSummary.style.display = 'flex';
-                }
-
-                // Update UI
-                window.playground.updateUI();
-
-                // Auto-open TEI analysis panel
-                const teiQueries = document.getElementById('teiQueries');
-                if (teiQueries) {
-                    teiQueries.style.display = 'block';
-                    teiQueries.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                }
-
-                console.log(`✅ Corpus loaded successfully: ${result.loaded} files available for analysis`);
-
-            } catch (error) {
-                console.error('Corpus loading error:', error);
-                loadCorpusBtn.innerHTML = `<span>❌ Error: ${error.message}</span>`;
-
-                // Reset button after 5 seconds
-                setTimeout(() => {
-                    loadCorpusBtn.disabled = false;
-                    loadCorpusBtn.innerHTML = originalText;
-                }, 5000);
-            }
-        });
-    }
+    // Note: The "Load Full Corpus" button was removed in the redesign;
+    // autoLoadCorpus() in init() handles corpus loading. See #99.
 
     console.log('MHDBDB Playground migrated to modular UI successfully!');
     console.log('Available UI modules:', Object.keys(window.playground.ui));
