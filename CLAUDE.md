@@ -63,7 +63,7 @@ python scripts/build-corpus-index.py      # Rebuild corpus index
 - **NEVER commit or push without user testing and approval**
 - **Concurrent sessions share the working directory** — never use `git add -A` or `git add .`. Always stage specific files by name (`git add path/to/file1 path/to/file2`). Another Claude session may have staged files that do not belong in your commit. Example: commit `8b5d0e6ac` mistakenly swept router files into an unrelated #84 commit because `git add -A` captured the other session's staged playground edits.
 - Never force push to `main`
-- **Evergreen issues (#44, #49): NEVER close** — no `Closes #44` or `Fixes #49` in commits. These are permanent tracking issues (labeled `evergreen`, pinned).
+- **Evergreen issues (#44, #91): NEVER close** — no `Closes #44` or `Fixes #91` in commits. These are permanent tracking issues (labeled `evergreen`, pinned).
 - Rebuild indexes after modifying XML in `authority-files/` or `tei/`
 - Run tests before pushing
 - Update `docs/` when architecture changes
@@ -86,7 +86,20 @@ Co-Authored-By: Claude <noreply@anthropic.com>
 ## Temporal Artifacts (Promptotyping convention)
 
 - **Feature docs** (`docs/features/`): Live while issue is open. On completion: extract critical knowledge into stable docs (CONTRACTS.MD, ARCHITECTURE.MD, etc.), then delete. Git history = archive.
-- **Health check reports** (Issue #49): Full report → Issue #49 comment. Scorecard → JOURNAL.md. Action items → separate Issues. **No .md files in `docs/`**. Load `/promptotyping` skill before running checks.
+- **Health check reports**: Run via `/promptotyping check` (operative Mechanik). Full report → Scorecard in JOURNAL.md (3-4 Zeilen, dated). Action items → separate Issues. **Keine .md-Datei in `docs/`** — der Report ist disposable, sobald Action Items extrahiert sind.
+
+### Health-Check-Checkliste (MHDBDB-spezifisch)
+
+Nach größeren Doku-Änderungen oder quartalsweise (auch ohne Änderungen, gegen schleichenden Drift):
+
+- **Flow check:** Jede modifizierte Doku end-to-end lesen — fließt sie logisch?
+- **Algorithm spot-check:** 3 Algorithmen ziehen, Pseudo-Code in Docs gegen tatsächlichen Code abgleichen
+- **XPath spot-check:** 3 XPaths in Docs gegen Build-Skripte verifizieren
+- **Rebuild test:** Frage: "Könnte ich alle `.js`/`.py` löschen und aus den Docs rekonstruieren?" — wenn ja für kritische Pfade (Suche, Build-Pipeline, Reader), sind wir bei 85%+
+
+**Trigger:** nach PRs an `docs/`, nach neuen Build-Skripten oder Algorithmen-Änderungen, nach neuen Authority-Files oder TEI-Elementen, quartalsweise.
+
+**Meta-Fragen (periodisch prüfen):** Sind die .md-Namen selbsterklärend? Gibt es zu viele oder zu wenige Promptotyping-Docs (Overlap vs. Mixed Concerns)? Strukturelle Doc-Änderungen immer mit Begründung listen.
 
 ## Gotchas
 
