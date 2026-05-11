@@ -76,8 +76,26 @@ SCHEMA_MHDBDB_AUTH = 'schema/mhdbdb-authority.rng'
 
 # Known #30-baseline: 30 corpus files that are intentionally not
 # strict-tei_all-valid because they contain patterns documented as
-# GAPs in mhdbdb.rnc. They are listed in TEI-MODEL.md §10.
-KNOWN_TEI_ALL_BASELINE_COUNT = 30
+# GAPs in mhdbdb.rnc. They are listed in TEI-MODEL.md §10 with the
+# GAP-Kategorie they fall under. Keep this set in sync with that doc.
+KNOWN_TEI_ALL_BASELINE = frozenset({
+    # @reason auf <w> (Compound-POS-Split wie wiltu = wilt + du)
+    'ABS.tei.xml', 'AC1.tei.xml', 'AC2.tei.xml', 'AC3.tei.xml',
+    'ADP.tei.xml', 'AGS.tei.xml', 'FLG.tei.xml',
+    # <hi> direkt in Block-Kontext ohne Wrapper
+    'DAL.tei.xml', 'DBK.tei.xml', 'DBS.tei.xml', 'DKA.tei.xml',
+    'DKF.tei.xml', 'DKI.tei.xml', 'DKM.tei.xml', 'DKR.tei.xml',
+    # <div> an von tei_all nicht erwarteter Position
+    'DES2.tei.xml', 'DJEM.tei.xml', 'LVS.tei.xml', 'PUL.tei.xml',
+    'RDS.tei.xml', 'RDV.tei.xml', 'RVB.tei.xml',
+    # <w> direkt in Block-Kontext ohne Wrapper
+    'DDE.tei.xml', 'FDS.tei.xml', 'KAA.tei.xml', 'PKP.tei.xml', 'PUC.tei.xml',
+    # <p> an unerwarteter Position
+    'LZT.tei.xml',
+    # <head> fehlend/unerwartet
+    'TKR.tei.xml', 'VOR.tei.xml',
+})
+KNOWN_TEI_ALL_BASELINE_COUNT = len(KNOWN_TEI_ALL_BASELINE)  # 30
 
 
 def load_schemas():
@@ -175,14 +193,25 @@ def main():
     # --sample or --corpus-only/--authority-only subset the number
     # naturally differs and a warning would be noise.
     is_full_run = not (args.sample or args.corpus_only or args.authority_only)
-    if is_full_run and n_s1_fail != KNOWN_TEI_ALL_BASELINE_COUNT:
-        delta = n_s1_fail - KNOWN_TEI_ALL_BASELINE_COUNT
-        marker = 'ABOVE baseline' if delta > 0 else 'below baseline'
-        print(f'  WARN: stage-1 count {marker} by {abs(delta)}')
-        if s1_fail_files:
-            print(f'  s1-fail files ({len(s1_fail_files)}):')
-            for name in sorted(s1_fail_files):
-                print(f'    {name}')
+    if is_full_run:
+        actual_s1 = set(s1_fail_files)
+        new_fails = sorted(actual_s1 - KNOWN_TEI_ALL_BASELINE)
+        missing = sorted(KNOWN_TEI_ALL_BASELINE - actual_s1)
+
+        if n_s1_fail != KNOWN_TEI_ALL_BASELINE_COUNT:
+            delta = n_s1_fail - KNOWN_TEI_ALL_BASELINE_COUNT
+            marker = 'ABOVE baseline' if delta > 0 else 'below baseline'
+            print(f'  WARN: stage-1 count {marker} by {abs(delta)}')
+
+        if new_fails or missing:
+            print(f'  Baseline drift vs TEI-MODEL.md §10:')
+            for name in new_fails:
+                print(f'    + NEW    {name}  (not in baseline — investigate or add to baseline)')
+            for name in missing:
+                print(f'    - GONE   {name}  (was in baseline, now valid — baseline can be shrunk)')
+        elif s1_fail_files and n_s1_fail == KNOWN_TEI_ALL_BASELINE_COUNT:
+            # Count matches baseline exactly — no drift, no need to dump the list.
+            pass
 
     if s2_fails:
         print()
