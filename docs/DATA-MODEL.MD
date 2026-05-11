@@ -292,34 +292,48 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
 **Schema:**
 ```javascript
 {
-  version: "4.0.0",
+  version: "4.0.1",                  // 4.0.0: document-level indexing. 4.0.1: WZB integriert
   generatedAt: "ISO-8601 timestamp",
+  totalTexts: 667,
+  totalLemmata: 43754,
 
   texts: [{
-    textId: "ABG",
+    id: "ABG",                       // sigle (primary identifier, used in URLs)
+    filename: "ABG.tei.xml",
     title: "Von der Abgeschiedenheit",
     author: "Meister Eckhart",
     authorRef: "person_445",
     workRef: "work_001",
-    words: [{
-      lemmaId: "lemma_879",
-      lemma: "brôt",
-      form: "brott",          // orthographic form in text
-      position: 0             // document-level word position
-    }],
-    wordCount: 1234
-  }]
+    genre: "Mystik",
+    wordCount: 2955,                 // total tokens (all <w> elements)
+    words: ["lemma_879", ...],       // lemma IDs in document order; index = position
+    lemmata: {                       // reverse map per text: lemma → positions
+      "lemma_879": [0, 12, 47],
+      "lemma_881": [3, 9]
+    }
+  }],
+
+  lemmaIndex: {                      // global reverse index: lemma → text sigles
+    "lemma_879": ["ABG", "NBB", "PZ"],
+    "lemma_881": ["NBB"]
+  }
 }
 ```
 
-**Key features (v4.0.0):**
-- Document-level word indexing (removed paragraph-based indexing)
-- Position = sequential word number (0, 1, 2, ...)
+**Key features (v4.0.1):**
+- Document-level word indexing (removed paragraph-based indexing in 4.0.0)
+- `words[i]` = lemma ID at position `i` (sequential, 0-indexed)
 - Only words with `@lemmaRef` are indexed
+- `lemmata` is the per-text reverse index (lemma → positions), enables O(1) lookup of "where does lemma X appear in text Y"
+- `lemmaIndex` is the global reverse index (lemma → list of text sigles), enables fast "which texts contain lemma X" queries
 - 100% word coverage from TEI `<body>` elements
 - Supports accurate proximity search
 
 **Why v4.0.0?** Removed paragraph-based indexing due to position misalignment between Python extraction and JavaScript parsing. Document-level indexing is simpler and more accurate.
+
+**Why v4.0.1?** WZB (Wenzelsbibel) ingested into the corpus after Phase-2 POS coverage reached 95.5% (Issue #34).
+
+**Field name note:** the primary identifier is `id` (sigle), not `textId`. Older docs and some code paths may use `textId` — the canonical field in the index JSON is `id`.
 
 ## Data Processing Pipeline
 

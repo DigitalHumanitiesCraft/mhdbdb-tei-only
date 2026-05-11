@@ -413,45 +413,6 @@ export class TEIExplorer {
         );
     }
 
-    // ==================== ADVANCED TEI ANALYSIS ====================
-
-    showWordFrequency() {
-        const frequency = this.calculateWordFrequency();
-        const results = frequency.slice(0, 50).map(([word, count]) => ({
-            meta: `${count} Vorkommen`,
-            snippet: word
-        }));
-
-        displayResults('Häufigste Wörter (Top 50)', results);
-    }
-
-    showLemmaFrequency() {
-        const frequency = this.calculateLemmaFrequency();
-        const results = frequency.slice(0, 30).map(([lemmaId, count]) => {
-            const lemma = this.authorityData.lemmata.find(l => l.id === lemmaId);
-            const lemmaText = lemma ? lemma.lemma : lemmaId;
-            
-            return {
-                meta: `${count} Vorkommen • ID: ${lemmaId}`,
-                snippet: lemmaText
-            };
-        });
-
-        displayResults('Häufigste Lemmata (Top 30)', results);
-    }
-
-    showPOSDistribution() {
-        const distribution = this.calculatePOSDistribution();
-        const results = Object.entries(distribution)
-            .sort(([,a], [,b]) => b - a)
-            .map(([pos, count]) => ({
-                meta: `${count} Vorkommen`,
-                snippet: pos
-            }));
-
-        displayResults('Wortarten-Verteilung', results);
-    }
-
     // ==================== CONTEXT ANALYSIS ====================
 
     showWordInContext(wordIndex, filename, contextSize = 3) {
@@ -543,45 +504,6 @@ export class TEIExplorer {
             `Annotationen mit aufgelösten Begriffsreferenzen (erste 50 von ${resultsWithConcepts.length})`,
             results
         );
-    }
-
-    // ==================== STATISTICAL CALCULATIONS ====================
-
-    calculateWordFrequency() {
-        const frequency = {};
-        this.teiData.words.forEach(word => {
-            const text = word.text.toLowerCase();
-            frequency[text] = (frequency[text] || 0) + 1;
-        });
-        
-        return Object.entries(frequency)
-            .sort(([,a], [,b]) => b - a)
-            .slice(0, 100);
-    }
-
-    calculateLemmaFrequency() {
-        const frequency = {};
-        this.teiData.words.forEach(word => {
-            if (word.lemmaRef) {
-                const lemmaId = word.lemmaRef.split('#')[1];
-                frequency[lemmaId] = (frequency[lemmaId] || 0) + 1;
-            }
-        });
-        
-        return Object.entries(frequency)
-            .sort(([,a], [,b]) => b - a)
-            .slice(0, 50);
-    }
-
-    calculatePOSDistribution() {
-        const distribution = {};
-        this.teiData.words.forEach(word => {
-            if (word.pos) {
-                distribution[word.pos] = (distribution[word.pos] || 0) + 1;
-            }
-        });
-        
-        return distribution;
     }
 
     // ==================== CONTEXT HELPERS ====================
