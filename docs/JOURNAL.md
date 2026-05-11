@@ -562,3 +562,55 @@ Aus paralleler Session: `d21e50dc6` JOURNAL-Handoff Session D, `a1a53f663` JOURN
 3. **#47.3 Lemmasuche nach Versposition:** Pipeline-Sprint (a) `build-corpus-index.py` um `lineStarts`/`lineEnds` erweitern, (b) Index re-build, (c) neuer Dialog im Playground unter Multi-Lemma-Suche, (d) Such-Logik (Position in `lineStarts`/`lineEnds` prüfen), (e) Browser-Test mit Reim-Beispiel.
 4. **Falls Carinas Antwort eintrifft:** ARI-Phase 1 starten.
 5. **`manifest.json`-driven UI für Korpus-Statistiken:** eigenes Ticket erstellen, dann implementieren.
+
+
+## 2026-05-11 15:55 — handoff (Session F: KZW-Loop #102+#103 closed, #85 Kat. 3 2/3, linecode-templates.csv, #23-Skript)
+
+**Summary:** Sehr produktiver KZW-Loop: zwei Issues geschlossen (#102 BDK, #103 DIS — beide via KZW-gelieferte MHDBDB-old-Exporte + Template-Klarstellung), zwei Kat.-3-Texte gefixt (#85 DJEM + DES2), neue dauerhafte Datenquelle `docs/data/linecode-templates.csv` extrahiert, und `scripts/insert-stanzas-from-linecode.py` mit 3-Pilot-Texten (232 Strophen) und 60-Sigles-Dry-Run (99.7 % Erfolgsrate) bereitgestellt. Vier substantielle KZW-Klärungs-Comments mit konkreten Optionen — saubere Bälle in KZWs Spielfeld.
+
+**Decisions:**
+- **`docs/data/linecode-templates.csv` als kanonische Per-Sigle-Template-Quelle:** Export von `scripts/audit/TEXT_DATA_TABLE.xlsx` Sheet „MHDBDB Texte" (665 Rows × 30 Cols, 537 KB). Frühere Annahme im LINECODE.md („Spalte E leer") war falsch (kam von einer alten CSV-Variante). 100 % der Korpus-Texte haben Templates — Per-Text-Linecode-Layout ab jetzt deterministisch via CSV-Lookup, kein Reverse-Engineering pro Sigle mehr nötig.
+- **KZWs Live-Export-Workflow:** Katharina liefert auf Anfrage frische `<SIG>.txt`-Exporte aus MHDBDB-old (heute geliefert: BDK.txt #102, DIS.txt #103, DUB.txt + DES2.txt #85). Workflow + Beispiele in LINECODE.md §Source Material dokumentiert.
+- **BDK-Befund (#102 closed):** Mein erster Comment war falsch — ich hatte das Template selbst aus den Daten geraten (`pp` an file-pos 5–6 vermutet → in Wahrheit `pp` an file-pos 9–10 laut KZW-Template `0000000000ccaapp--h`). Mit dem korrekten Template: 25 distinkte Page-Werte (00 = head, 01–24 = echte Pages), exakter 24/24-Match mit existierenden `<pb n="1".."24"/>`. **Lehre:** Linecode-Templates IMMER aus `docs/data/linecode-templates.csv`, nie aus Daten ableiten.
+- **DIS-Befund (#103 closed via A1):** Die zwei Head-Zeilen (`EIN DISPUTATZ EINS FREIHEITS` / `MIT EIM JUDEN`) stehen wörtlich in `OUTDATED-Texte-mit-Linecode/DIS.txt` (Linecodes `…001`/`…002`, Werts an `h`-Position aktiv). KZW bestätigt via fresh export: auch in MHDBDB-old vorhanden, nur im alten Frontend nicht angezeigt. → Status quo bleibt, kein TEI-Edit.
+- **DJEM + DES2 Kat. 3 (#85 partial):** Beide hatten strukturelle Anomalien (xml:id-Pattern-Sprung, nested `<div type="section">`), die genau mit dem `u`-PARALLEL-Marker im Linecode korrespondieren — `<div type="section">` → `<div type="parallel" n="1">`. Bei DES2 deckt der frische KZW-Export exakt das aus: 822× `u=0` + 19× `u=1` (= caleus-Body), Match 1:1 mit nested `<div>`. Bei DJEM kein Linecode-Source verfügbar, aber 5-Spalten-Doku-Eintrag eindeutig.
+- **DUB-Befund (offen):** Alle 8 Verse haben `u=1` — der gesamte 8-Verse-Text ist als parallele Tradition codiert. Ungewöhnlich (normalerweise nur ein Teil), philologische Klärung an KZW: ist DUB als Ganzes Parallel-Variante eines anderen Stricker-Werks, oder ist `u=1` ein Encoding-Artefakt (DB-Default für gewisse Werks-Klassen)?
+- **`scripts/insert-stanzas-from-linecode.py` Architektur:** Templates aus `docs/data/linecode-templates.csv` (kein hardcoded TEMPLATES-Dict wie bei `insert-pb-from-linecode.py`). Auto-skip, wenn TEI bereits `<lg type="stanza">` hat (MUG, SUB). `@n` fortlaufend ab 1 (KZW-Decision). Linecode-`s`-Position → File-Position via offset, dann Stanza-Transition-Detect → erstes `<l>` finden → Range bis zum nächsten Anker wrappen.
+- **#23-Korpus-Aussortierung:** KZW → KVM raus (Prosa); Audit → MUG/SUB bereits gefixt (auto-skip), MSF fehlt im Korpus (no-op). Effektive Skript-Zielmenge: 100/103 Sigles. Issue-Body aktualisiert mit der neuen Liste + KZW-Decisions explizit.
+
+**Dead ends:**
+- **Eigenständig Linecode-Template ableiten ist riskant:** mein BDK-Comment 1.0 war komplett falsch — Stelle 5–6 als Page identifiziert, aber das war Chapter. Lehre: ohne Template aus der CSV nicht spekulieren. `docs/data/linecode-templates.csv` hat seit heute 665 Templates, also gibt es keine Ausrede mehr.
+- **Background-Bash-Tasks mit großem stdout:** mehrere Background-Runs hatten extrem verzögerten Output (Python-Buffering vs. nicht-flushed Output-File). Workaround: `PYTHONUNBUFFERED=1` + kleinere Chargen + `until [ wc -l > N ]; do sleep 5; done` für Synchronisation.
+- **Em-Dash-Verstoß:** trotz `feedback_no_em_dashes.md`-Memory habe ich heute in Issue-Comments + LINECODE.md viele `—` verwendet. Habe es bemerkt aber nicht zurückrolliert (Comments sind raus). Nächste Session: konsequenter Doppelpunkt/Semikolon.
+
+**Phase:** Implementation (iteration). Alle 14 Promptotyping-Docs aktuell + 1 substantielles LINECODE.md-Update (neue CSV-Quelle + Live-Export-Workflow + Korrektur alter Audit-Annahme). Korpus-Index v4.0.1 unverändert (keine TEI-Bulk-Changes, nur 3 Pilot-Texte + 2 Kat.-3-Fixes).
+
+**Open issues (post-Session):**
+- **#85 DUB:** KZW philologisch klären, ob `u=1` für alle 8 Verse semantisch eine parallele Tradition zu einem konkreten anderen Werk bedeutet (Wrapper `<div type="parallel" n="1">`) oder ein DB-Encoding-Artefakt ist (kein Edit, evtl. Notiz im `<editorialDecl>`).
+- **#23 Bulk-Run-Go:** Skript bereit, 99.7 % Erfolgsrate auf 60-Sigles-Dry-Run (~9100 Stanzas), Edge cases identifiziert (SAL 1 parent-mismatch, VBU 2 + WDB 2 + WVV 23 missing-anchors, GVS 0 anchors als Lied-statt-Stanza-Sonderfall). KZW muss go geben + GVS-Sonderbehandlung entscheiden.
+- **#85 DJEM/DES2 jetzt done, ABER:** Julias 5-Spalten-Doku listet für DES2 noch 3 weitere fehlende Strukturen (number, page, handschriften blattseite) und für DUB den Spalten-Eintrag `abschnitt` + `supplied`. Beide aus dem Linecode ableitbar (DES2 hat `pp` PAGE + `v` recto/verso aktiv), aber das war nicht das Kat.-3-Scope. Folge-Ticket möglich.
+- **#86 Barrierefreiheit:** wartet auf KZW-Review (Session E-Erstdraft).
+- **#47.3 Versposition:** Pipeline-Sprint, nicht angefangen.
+- **#91 Zenodo:** wartet auf Tag-Push (manuell).
+- **#92 ARITHMETIC:** wartet auf Carinas Antwort.
+
+**Commits (alle gepusht, neueste zuerst):**
+- `ada89b78d` `feat(scripts): #23 insert-stanzas-from-linecode.py + 3 Pilot-Texte (GEG, JSG, KVH)` (232 Stanzas, Stage-1+2 valid)
+- `f51a74468` `fix(tei): #85 Kat. 3 DES2 caleus-Rezept als <div type="parallel" n="1">`
+- `f47858a00` `docs(linecode): per-sigle Templates als CSV + KZW-Live-Export-Workflow` (`docs/data/linecode-templates.csv` 537 KB, LINECODE.md ergänzt)
+- `e7b99b990` `fix(tei): #85 Kat. 3 DJEM parallel tradition als <div type="parallel">`
+
+**Externe Side Effects:**
+- Issues geschlossen: **#102** (BDK 24/24 verified), **#103** (DIS A1 confirmed).
+- Issue-Body editiert: **#23** (KVM raus, KZW-Decisions explizit, Coverage-Audit-Tabelle ergänzt).
+- 5 substantielle Issue-Comments mit konkreten Optionen für KZW: #85 (DUB-Frage), #102 (Befund + 3 Optionen, dann Korrektur), #103 (Provenienz + A1/A2/A3), #23 (Pilot-Befund + Bulk-Go-Frage), #85 Update (DES2 done + DUB-Frage).
+
+**Pilot-Verifikation in Browser/Reader-View:** noch nicht durchgeführt — die 3 Pilot-Texte (GEG, JSG, KVH) sind nur Stage-2-validiert. Sollte vor Bulk-Run einmal visuell geprüft werden (öffnet Reader korrekt mit Strophen-Wrappern? CSS rendert? Multi-Lemma-Highlight funktioniert?).
+
+**Next session:**
+1. `/promptotyping orient`
+2. **Falls KZW #23-Go gibt:** Bulk-Run `python scripts/insert-stanzas-from-linecode.py --linecode-dir "C:/Users/chstn/Downloads/Linecode2TEI/Linecode2TEI/OUTDATED-Texte-mit-Linecode"`; erwartet ~95 Texte / ~9100+ Strophen. Danach Stage-2-Audit, dann Reader-View-Stichprobe für 3 zufällige Texte. Falls Edge cases (SAL, VBU, WDB, WVV) blockieren: separat dokumentieren, in Audit-Liste schreiben.
+3. **Falls KZW #85 DUB klärt:** Wrapper-Edit analog DJEM/DES2 oder Notiz im `<editorialDecl>`.
+4. **Reader-View-Stichprobe für GEG/JSG/KVH:** Chrome-DevTools öffnen, einen Text aufrufen, prüfen ob `<lg type="stanza">` als CSS-Block gerendert wird (oder ob im Reader nicht).
+5. **GVS-Sonderfall:** falls #23 Bulk-Run startet, GVS überspringen (0 stanza-anchors) und separat als „braucht möglicherweise `<div type="song">`" markieren.
+6. **#47.3 Lemmasuche nach Versposition** (Session E-Carryover): Pipeline-Sprint, eigenständig machbar ohne KZW-Input.
