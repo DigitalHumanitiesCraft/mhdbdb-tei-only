@@ -131,7 +131,7 @@ Post-MVP with stable v4.0.0 corpus index and v1.2.0 authority index
 - ✅ **#96 Metadatenanzeige + TEI-Download** (2026-05-11) - Hinweisblock am Ende des Reader-Metadaten-Panels mit Download-Link auf `tei/<SIG>.tei.xml`; Wikidata-Link für `authorId === 'person_anonym'` unterdrückt (KZW-Comment)
 - ✅ **#97-#100 Playground-Cleanups + Pre-flight-Check** (2026-05-11) - Corpus-Index-Property-Drift behoben (`teiManager.corpusIndex` gespiegelt), ~700 Zeilen Dead Code aus `tei-ui.js` entfernt (581 → 404 Z.), `git status --porcelain`-Pre-flight im Index-Build verhindert dirty Builds
 - ✅ **WZB Schema-Konformität in `works.xml`** (2026-05-11) - Julias Fix `af72bd261` für den initial fehlerhaften `<ref>`/`<note type=>`-Block im work_WZB-Eintrag plus Normdaten-Ergänzung (Wikidata Q476495, GND 4117632-7, HSC werke/4577); CI-Schema-Validation seit `26a4cd882` wieder grün
-- ✅ **#91 Zenodo-Stub** (2026-05-11) - `CITATION.cff` mit konservativem Lead-Author-Eintrag (KZW), README-Badge mit `ZENODO_RECORD_ID`-Platzhalter; KZW über Issue-Comment zur Final-Author-Liste gepingt
+- ✅ **#91 Zenodo-Stub** (2026-05-11) - `CITATION.cff` mit konservativem Lead-Author-Eintrag (KZW); README-DOI-Badge wartet auf Zenodo-Aktivierung + ersten getaggten Release
 
 ### Known Limitations
 - Desktop-only interface (not mobile-responsive)
