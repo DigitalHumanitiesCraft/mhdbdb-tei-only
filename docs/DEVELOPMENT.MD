@@ -165,6 +165,30 @@ npm run report        # View HTML report
 - Stage 2 fail → run `python scripts/audit/validate-corpus.py --sample <SIGLE>` locally to reproduce
 - TEI version mismatch → update the `EXPECTED` variable in the workflow + `schema/README.md`
 
+### CI: Index Version Consistency
+
+**Workflow:** `.github/workflows/index-version-check.yml`
+**Triggers:** PRs touching `scripts/build-corpus-index.py`, `scripts/build-authority-index.py`, `assets/js/lib/corpus-loader.js`, `scripts/audit/check-index-versions.py`. Also `push` to main + `workflow_dispatch`.
+
+**Hintergrund (#47.3, 2026-05-12):** der Corpus-Index wird durch drei Stellen versioniert (Build-Skripte + Loader-Konstanten). Werden sie auseinander gehalten, greift die Cache-Invalidate-Logik nicht und Production-User mit altem IndexedDB-Cache sehen den neuen Index nie. Vor dem Audit-Workflow musste man sich auf manuelles Bumpen verlassen — der Fall ist konkret 2026-05-12 passiert (Loader-Konstante `4.0.1`, Build-Skript `4.1.0`, in `8f375bc4e` repariert).
+
+**Was der Check macht:** Regex-parst die vier Versions-Strings, vergleicht sie. Exit 0 sauber; exit 1 bei Drift mit File:Line + GitHub-Actions `::error`-Annotation; exit 2 bei Pattern-Parse-Failure.
+
+**Lokal:** `python scripts/audit/check-index-versions.py` — vor jedem Bump-Commit empfohlen.
+
+### Audit Scripts Reference
+
+Diagnose- und Validierungs-Skripte in `scripts/audit/`:
+
+| Script | Zweck |
+|--------|-------|
+| `validate-corpus.py` | Two-stage RelaxNG-Validierung aller 667 Korpus- + 8 Authority-Files (gerufen von schema-validation.yml) |
+| `check-index-versions.py` | Versions-Konsistenz Build-Skripte ↔ Loader (siehe oben) |
+| `audit-authority-files.py` | Struktur, Querverweise und Datenqualität für alle 8 Authority-Files (ID-Muster, verwaiste Referenzen, strukturelle Konsistenz) |
+| `audit-tei-corpus.py` | Korpus-weite Stichproben (z.B. fehlende `<l>`/`<lg>`, ungewöhnliche xml:id-Pattern, Encoding-Anomalien) |
+| `check-lexicon-senses.py` | `lexicon.xml`-Sanity: Lemmata ohne `<sense>`, Senses ohne `conceptIds` |
+| `doc-count-audit.py` | Drift-Detektor zwischen tatsächlichen Korpus-/Authority-Zahlen und den in der Doku verankerten Werten. Heuristik: Window ±2 absolut oder ±2 % relativ, strikter Keyword-Anchor unmittelbar nach der Zahl |
+
 ### Skipped Tests (Issue #43)
 
 25 tests are intentionally skipped in `main-site.spec.js`. They cover interactions rewritten during Phase 7 (modular UI refactoring) and Phase 0 (folder restructure) — reading view panel interactions, text selection state management, search result card navigation, multi-lemma URL parameter handling. Tracked in Issue #43.

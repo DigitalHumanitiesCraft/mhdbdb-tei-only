@@ -810,6 +810,68 @@ This ADR retroactively describes a policy that was already applied in Phase A–
 
 ---
 
+## ADR-014: Vers-Boundaries als Pre-Built Index-Felder (lineStarts / lineEnds)
+
+**Status:** Implemented (2026-05-12, commit `ea7b0a507`)
+**Context:** Lemmasuche nach Versposition (#47.3, KZW-Wunsch vom 2026-05-11)
+
+### Problem
+
+Mediävistische Reim-Analyse braucht „Lemma X am Versende"-Lookups (DBs in alter MHDBDB hatten das). Der Corpus-Index v4.0.1 hatte aber keine `<l>`-Grenzen — nur eine lineare `words: ['lemma_xxx', …]`-Liste pro Text. Verifiziert via `zcat data/corpus-index.json.gz`.
+
+Frage: wie integriert man Versanfang/Versende-Information so, dass die Frontend-Suche O(1) Lookup pro Treffer schafft, ohne den Index drastisch zu vergrößern oder Runtime-XML-Parsing zurückzuholen?
+
+### Alternatives Evaluated
+
+**Option A: Runtime-`<l>`-Parsing aus dem Reading-View**
+- Pro: kein Index-Bump
+- Con: Reading-View zieht die XML-Datei nur on demand; eine Suche über 603 Texte würde 603 XML-Fetches verursachen
+- Con: bricht die „Pre-Built-Index"-Architektur aus ADR-001
+- **Rejected:** Performance-Killer und Architektur-Bruch
+
+**Option B: `lineStarts[]` allein speichern, `lineEnds` aus Differenz ableiten**
+- Pro: ~50 % weniger Daten (eine Array-Spalte statt zwei)
+- Pro: `lineEnds[i] = lineStarts[i+1] - 1` rechenbar
+- Con: Wörter zwischen Versen (z.B. `<head>` oder `<note>` zwischen zwei `<l>`) würden fälschlicherweise als Versende des vorigen Verses zählen
+- Con: bei monoton-steigenden Sequenzen ist gzip-Compression eh sehr effektiv, so der Größenvorteil verschwindet
+- **Rejected:** semantisch ungenau
+
+**Option C: Beides — `lineStarts[]` und `lineEnds[]`**
+- Pro: O(1) Lookup für „Position P ist Versanfang" (`P in lineStarts`) UND „Position P ist Versende" (`P in lineEnds`)
+- Pro: Wörter außerhalb von `<l>` matchen weder Anfang noch Ende (semantisch korrekt)
+- Pro: monoton-steigende Int-Arrays gzippen sehr effizient (+3 MB statt nominaler +6 MB)
+- Con: Index-Größe +6 MB (34 → 40 MB gz)
+- **Accepted:** semantische Korrektheit, akzeptable Größe, einfache Frontend-Logik
+
+### Decision
+
+Beide Arrays pro Text speichern: `lineStarts[]` und `lineEnds[]` als Word-Indizes der `<l>`-Boundaries. Gleiche Länge wie die Anzahl `<l>` mit mindestens einem indizierten Wort. Empty arrays bei Prosa-Texten ohne `<l>` (64/667 ≈ 10 %).
+
+Schema-Bump auf v4.1.0 (MINOR, da Schema-Erweiterung). Aufbau im Build-Skript via Single-Pass `iterwalk(events=('start','end'))` mit Stack — *nicht* via zwei separate `body.iter('<w>')` und `l_el.iter('<w>')`-Aufrufe, weil lxml-Element-Proxies zwischen Iterations-Aufrufen unterschiedliche `id()`-Werte bekommen können (Bug verifiziert während der Implementation, separate-Aufrufe lieferten nur das letzte Wort jeder `<l>`).
+
+### Consequences
+
+**Positive:**
+- Lemmasuche nach Versposition läuft O(L) pro Text (L = Anzahl `<l>`) statt O(W) (W = words)
+- Versende-Filter direkt nutzbar ohne Binary Search
+- 1.359.789 Vers-Boundaries indiziert über 603 Versdichtungs-Texte
+- AGS-Stichprobe verifiziert echte Reimpaare (gân/begân, bant/bekant, mûzære/gewære, rote/nota, jâr/hâr)
+- Datenbasis offen für Folgefeatures (#106): Reim-Wörterbuch pro Autor, Reim-Druck-Metrik pro Lemma, n-Gramme am Versende, Alliterations-Index am Versanfang, Vers-Längen-Histogramme
+
+**Negative:**
+- Index-Größe +18 % (34 → 40 MB gz). Bei weiteren Bumps (POS-Erweiterung #27, ggf. Reim-Klassifikation aus #109) wird das schnell unangenehm für slow connections — ggf. modularer Index als spätere Strategie nötig.
+- Loader-Konstante `INDEX_VERSION` muss synchron mit Build-Skript-Version gehalten werden, sonst greift Cache-Invalidate-Logik nicht. Erstmals 2026-05-12 vergessen (Loader auf `4.0.1`, Build-Skript auf `4.1.0`), in `8f375bc4e` repariert.
+
+**Mitigations:**
+- CI-Workflow `index-version-check.yml` mit `scripts/audit/check-index-versions.py` erzwingt jetzt Versions-Konsistenz (commit `07c9f3244`).
+- Memory-Regel `feedback_index_version_bump.md` reminds future sessions an die Drei-Stellen-Regel.
+
+### Verbindung zu ADR-001 und ADR-003
+
+ADR-001 (Pre-Built Indexes statt Runtime-XML-Parsing) und ADR-003 (Document-Level Word Indexing) etablierten die Philosophie „lieber im Build-Schritt aufwändig sein als zur Laufzeit". ADR-014 setzt diese Linie für Vers-Boundaries fort: einmal bei Index-Build extrahieren, beliebig oft im Frontend in O(1) abfragen.
+
+---
+
 ## Pending Decisions
 
 ### PD-001: ARITHMETIC Domänen-Klassifikation erhalten oder wegtransformieren?

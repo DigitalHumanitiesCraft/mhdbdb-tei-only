@@ -184,7 +184,7 @@ The reading view converts TEI XML elements to HTML. Source: `extractAndFormatBod
 - Single lemma search with context extraction
 - Multi-lemma document search (all lemmata anywhere in text)
 - Multi-lemma proximity search (co-occurrence within N words)
-- Uses corpus index (v4.0.0) for document-level word positions
+- Uses corpus index (v4.1.x) for document-level word positions plus `<l>`-boundary arrays
 
 ### UI Layer (Phase 7 Modular Architecture)
 
@@ -204,9 +204,14 @@ playground/js/ui/
 │   ├── concept-explorer.js
 │   ├── genre-explorer.js
 │   └── name-explorer.js
-├── tei/               # TEI text analysis
+├── tei/               # TEI text analysis (Release 1 + 2 + #47.3)
 │   ├── tei-ui.js
-│   └── multi-lemma-search.js
+│   ├── multi-lemma-search.js
+│   ├── word-frequency.js          # Wortfrequenz-Analyse (#88, R1)
+│   ├── text-statistics.js         # Text-Statistiken (#89, R1)
+│   ├── lemma-distribution.js      # Lemma-Verteilung (#90, R1)
+│   ├── verse-position-search.js   # Lemmasuche nach Versposition (#47.3)
+│   └── concept-distribution.js    # Begriffs-Verteilung (#47 R2)
 └── search/
     └── SearchHelpers.js
 ```
@@ -255,8 +260,12 @@ Each explorer follows consistent pattern:
 | View | Hash Fragment | What it opens |
 |------|-------------|---------------|
 | Authority explorers | `#authors`, `#works`, `#lemmata`, `#concepts`, `#genres`, `#names` | Corresponding explorer tab |
-| Multi-Lemma Search | `#multi-lemma` | Co-occurrence search |
-| TEI Analysis | `#words`, `#lines`, `#annotations` | TEI analysis views (currently non-functional, see #87) |
+| Multi-Lemma Search | `#multi-lemma` | Co-occurrence search modal |
+| Versposition | `#verse-position` | Lemmasuche nach Versanfang/Versende (#47.3) |
+| Wortfrequenz | `#word-frequency` | Top-N Lemmata, mit Stopwort-Filter (#88) |
+| Text-Statistiken | `#text-statistics` | Token-Count, Lemma-Diversität, Hapax-Rate (#89) |
+| Lemma-Verteilung | `#lemma-distribution` | Bar-Chart pro Lemma über alle Texte (#90) |
+| Begriffs-Verteilung | `#concept-distribution` | Bar-Chart pro Konzept über alle Texte (#47 R2) |
 
 **Parameters:**
 

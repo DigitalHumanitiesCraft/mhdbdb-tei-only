@@ -120,7 +120,7 @@ Browse and search six controlled vocabularies with consistent interface patterns
 
 ### TEI Text Analysis
 
-Corpus-wide text analysis and co-occurrence search using pre-built indexes.
+Corpus-wide text analysis using pre-built indexes. Sieben Werkzeuge, alle direkt im Results-Panel als in-place Form + Body (außer Multi-Lemma als Modal).
 
 **Multi-Lemma Document Search:**
 - Input multiple lemmata (space-separated or one per line)
@@ -136,11 +136,44 @@ Corpus-wide text analysis and co-occurrence search using pre-built indexes.
 - Results: Context snippets with color-coded highlighting
 - Click result → open main site reading view with URL parameters
 
+**Lemmasuche nach Versposition (#47.3):**
+- Single Lemma + Position-Auswahl (Versanfang / Versende, Default Versende)
+- Findet Lemmata, die genau am ersten oder letzten `<w>` einer `<l>` stehen
+- Use Case: Reim-Analyse, Versende-Stilistik („wie oft reimt Wolfram auf `minne`?")
+- Trefferliste mit Anteil pro Text („54 % aller `minne`-Vorkommen in Tristan stehen am Versende")
+- Nur Versdichtungs-Texte (603 von 667, ca. 90 % des Korpus); Prosa wird automatisch übersprungen
+- Klick auf Treffer → Reading View mit Highlighting
+
+**Wortfrequenz-Analyse (#88):**
+- Top-N Lemmata über das gesamte Korpus oder pro Text
+- POS-basierter Stopwort-Filter (DET, ART, POS, PRO, PRP, CCNJ, SCNJ, NEG, IPA, VEX, VEM) — entfernt häufige Funktionswörter, hebt inhaltstragende Lemmata hervor
+- Absolute oder relative Frequenz
+- Sortierung nach Frequenz oder alphabetisch
+
+**Text-Statistiken (#89):**
+- Pro Text: Token-Count, Lemma-Diversität (unique / total), Hapax-Rate, durchschnittliche Lemma-Frequenz
+- Korpus-Übersicht als Tabelle, sortierbar
+- Stilistik-Indikator: hohe Lemma-Diversität bei knappen Texten = lexikalisch reich
+
+**Lemma-Verteilung (#90):**
+- Single Lemma → Bar-Chart über alle Texte
+- Top-N Bars im Chart, Rest als auklappbare Tabelle
+- Absolute oder relative Frequenz (pro 1000 Tokens)
+- Klick auf Balken oder Sigle → Reading View mit Highlighting
+
+**Begriffs-Verteilung (#47 R2):**
+- Single Concept (deutsch, englisch, oder `concept_xxxxx`-ID) → Bar-Chart über alle Texte
+- Aggregiert alle Lemmata, deren `senses[*].conceptIds` das Concept enthält
+- Datenpfad: concept → senses → lemmata → texts (summiert Vorkommen pro Text)
+- Alternative Begriffs-Candidates werden angezeigt (z.B. bei „love" → Intimität + Liebe/Zuneigung)
+- Auklappbare „zugeordnete Lemmata"-Sektion zur Validierung der Concept-Selektion
+- Klick auf Treffer → Reading View
+
 **Cross-platform workflow:**
-1. Perform proximity search in playground
-2. Find interesting co-occurrence
+1. Perform analysis in playground
+2. Find interesting result (co-occurrence, peak in distribution, top lemma at Versende, etc.)
 3. Click result
-4. Opens main site reading view with all lemmata highlighted
+4. Opens main site reading view with relevant lemmata highlighted
 5. Auto-scroll to exact position
 
 ### Shareable URLs
