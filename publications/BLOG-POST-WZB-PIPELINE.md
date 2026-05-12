@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "149.000 Wörter, null Annotationen: Die Wenzelsbibel trifft die MHDBDB"
+title: "WB-DEA meets MHDBDB: 150.000 unannotierte Wörter und was daraus wurde"
 author: "Julia Hintersteiner, Christopher Pollin"
 date: 2026-05-12
 published: false
@@ -10,159 +10,180 @@ citation:
   container-title: "Digital Humanities Craft"
   URL: "https://dhcraft.org/excellence/blog/WZB-Pipeline"
   language: "de"
-  abstract: "Wie annotiert man 149.000 mittelhochdeutsche Wörter eines der prächtigsten Manuskripte des Mittelalters — von null auf MHDBDB-konform — in einer semiautomatischen Pipeline? Dieser Beitrag beschreibt die dreiphasige Annotationspipeline für die Wenzelsbibel (Pentateuch: Gen–Dtn), die Herausforderungen böhmischer Schreibkonventionen und tschechischer Interlinearglossen, und warum Phase 3 (Bedeutungsdisambiguierung) gleichzeitig Infrastrukturprojekt und Doktorarbeit ist."
+  abstract: "Wie überführt man eine hochwertige digitale Edition in eine semantische Korpusinfrastruktur, ohne die editorische Substanz des einen oder die Suchmächtigkeit des anderen zu opfern? Dieser Beitrag beschreibt das CLARIAH-AT Miniprojekt zur Integration der Wenzelsbibel (Pentateuch: Gen–Dtn) in die Mittelhochdeutsche Begriffsdatenbank: eine dreiphasige, LLM-gestützte Annotationspipeline, böhmische Schreibkonventionen als Stolpersteine, und warum die größten Hindernisse bei solchen Projekten nicht technischer, sondern epistemischer Natur sind."
 
 dublin_core:
   creator: ["Julia Hintersteiner", "Christopher Pollin"]
   publisher: "Digital Humanities Craft"
-  subject: ["Word Sense Disambiguation", "LLM", "Digital Humanities", "Middle High German", "TEI", "MHDBDB", "Wenzelsbibel"]
-  description: "Dreiphasige Annotationspipeline für die Wenzelsbibel im MHDBDB-Korpus: automatisches Lemma-Matching, LLM-gestützte POS-Disambiguierung und Word Sense Disambiguation als empirisches Testbett für Doktoratsforschung."
+  subject: ["Word Sense Disambiguation", "LLM", "Digital Humanities", "Middle High German", "TEI", "MHDBDB", "Wenzelsbibel", "CLARIAH-AT"]
+  description: "CLARIAH-AT Miniprojekt: dreiphasige Annotationspipeline für die Integration der Wenzelsbibel in die MHDBDB — Lemmatisierung, POS-Tagging, Wortsinn-Disambiguierung."
   type: "Blogpost"
   format: "text/html"
   rights: "CC BY 4.0"
   language: "de"
 
 schema_type: "BlogPosting"
-keywords: ["Wenzelsbibel", "MHDBDB", "Word Sense Disambiguation", "LLM", "TEI Annotation", "Mittelhochdeutsch", "Lemmatisierung", "POS-Tagging", "Digital Humanities"]
+keywords: ["Wenzelsbibel", "WB-DEA", "MHDBDB", "CLARIAH-AT", "Annotation Pipeline", "LLM", "Word Sense Disambiguation", "TEI", "Mittelhochdeutsch", "Digital Humanities"]
 
 website_title: "Digital Humanities Craft"
 website_type: "Blog"
-short_title: "149.000 Wörter, null Annotationen"
-abstract: "Wie annotiert man 149.000 mittelhochdeutsche Wörter eines der prächtigsten Manuskripte des Mittelalters in einer semiautomatischen Pipeline? Dieser Beitrag beschreibt die dreiphasige Annotationsstrecke für die Wenzelsbibel im MHDBDB-Korpus."
+short_title: "WB-DEA meets MHDBDB"
+abstract: "Wie überführt man eine hochwertige digitale Edition in eine semantische Korpusinfrastruktur? Ein CLARIAH-AT Miniprojekt, eine böhmische Handschrift, und eine dreiphasige LLM-Pipeline."
+---
+
+## Zwei Infrastrukturen, ein Text, eine Frage
+
+Die **Wenzelsbibel Digital Edition and Annotation** (WB-DEA) und die **Mittelhochdeutsche Begriffsdatenbank** (MHDBDB) haben auf den ersten Blick unterschiedliche Zielsetzungen. WB-DEA ist eine editorische Tiefenbohrung: diplomatische Transkription, normalisierte Formen, Rich Editorial Commentary in `<standOff>`-Strukturen — alles auf einen einzigen, außergewöhnlichen Text konzentriert. Die MHDBDB ist ein semantisches Suchnetz: ~670 mittelhochdeutsche Texte, 43.750 Lexikoneinträge, 192.674 Variantenformen, öffentlich durchsuchbar.
+
+Die Frage des CLARIAH-AT Miniprojekts lautete: *Wie bringt man beide zusammen, ohne entweder die editorische Substanz des einen oder die semantische Infrastruktur des anderen zu beschädigen?*
+
+Die Antwort: mit 20 Python-Skripten, drei Annotationsphasen, einem LLM-gestützten Review-Workflow — und mehr philologischen Überraschungen als erwartet.
+
 ---
 
 ## Das Objekt
 
-Die Wenzelsbibel ist vielleicht das aufwändigste Buchprojekt des deutschsprachigen Mittelalters. Um 1389–1395 im Auftrag König Wenzels IV. von Böhmen entstanden, umfasst sie sechs Prachtbände (Wien, ÖNB, Cod. 2759–2764) mit insgesamt 1.214 Blättern, über 650 ganzseitigen Miniaturen und einer der frühesten volkssprachlichen Vollübersetzungen der Bibel ins Mittelhochdeutsche. Die Übersetzung des Pentateuch — Genesis, Exodus, Levitikus, Numeri, Deuteronomium — die in der MHDBDB jetzt zugänglich ist, entstand in einer höfischen Werkstatt, deren Sprache die Prager Kanzleisprache der Luxemburger-Zeit widerspiegelt: Mittelhochdeutsch mit deutlich böhmischem Kolorit.
+Die Wenzelsbibel ist vielleicht das aufwändigste Buchprojekt des deutschsprachigen Mittelalters. Um 1389–1395 im Auftrag König Wenzels IV. von Böhmen entstanden, umfasst sie sechs Prachtbände (Wien, ÖNB, Cod. 2759–2764) mit insgesamt 1.214 Blättern und über 650 ganzseitigen Miniaturen. Sie enthält eine der frühesten volkssprachlichen Vollübersetzungen der Bibel ins Deutsche — eine Prosaübersetzung der Vulgata, die sprachlich am Übergang von Mittelhochdeutsch zu Frühneuhochdeutsch steht.
 
-Das Objekt war, kurz gesagt, faszinierend und für eine automatische Annotationspipeline ausgesprochen unangenehm.
-
-## Das Problem: null zu 149.000
-
-Die Ausgangssituation nach der strukturellen TEI-Konversion (Phase 0): Eine valide XML-Datei mit ~149.000 `<w>`-Elementen, jedes davon leer von Annotationen.
-
-```xml
-<!-- vorher -->
-<w xml:id="WZB_1ra_6_5">herczen</w>
-
-<!-- nachher (Ziel) -->
-<w xml:id="WZB_1ra_6_5"
-   lemmaRef="lexicon.xml#lemma_3023"
-   pos="NOM"
-   meaningRef="lexicon.xml#lemma_3023_sense_4892"
-   wordRef="lexicon.xml#lemma_3023_sense_4892_type_10422">herczen</w>
-```
-
-Vier Attribute fehlen: `@lemmaRef` (Lemma), `@pos` (Wortart), `@meaningRef` (Bedeutung), `@wordRef` (Wortform-Typ). Die MHDBDB-Suche, Lemma-Highlighting und Konzeptnavigation funktionieren nur, wenn diese Attribute vollständig und korrekt befüllt sind. Eine rein manuelle Annotation schied aus — selbst bei zehn Entscheidungen pro Minute würde das Befüllen von vier Attributen für 149.000 Tokens Monate dauern.
-
-Die Lösung war eine dreiphasige Pipeline, die Automatisierung, LLM-Assistenz und menschliche Kuratierung in einem klaren Eskalationsschema kombiniert.
+Für die MHDBDB relevant sind die fünf Bücher des Pentateuch: Prologus-Genesis, Exodus, Levitikus, Numeri, Deuteronomium. Sprachlich bairisch-österreichisch mit deutlich böhmischem Kolorit — das Ergebnis einer höfischen Werkstatt, die für Wenzels Kanzleisprache schrieb. Und das wird uns noch beschäftigen.
 
 ---
 
-## Phase 1: Automatisches Lemma-Matching
+## Der Ausgangszustand: 150.000 leere `<w>`-Elemente
 
-Der erste Schritt nutzte die MHDBDB-Ressourcen, die bereits existierten: `variants.xml` mit ~192.000 mittelhochdeutschen Wortformen, jede verknüpft mit einem oder mehreren Lemma-IDs aus `lexicon.xml`. Das Auto-Match-Skript (`wzb-auto-match.py`) liest jede Wortform aus der WZB, normalisiert sie nach der MHG-Konvention (`â→a, ê→e, î→i, ô→o, û→u`) und sucht in `variants.xml`:
+Nach der strukturellen TEI-Konversion der WB-DEA-Quelldaten lag ein valides MHDBDB-TEI-Dokument vor: 236.000 Zeilen, ~150.000 `<w>`-Elemente. Aber alle ohne Annotationen.
 
-- **Eindeutiger Treffer**: `@lemmaRef` direkt gesetzt — kein menschlicher Eingriff nötig.
-- **Mehrdeutiger Treffer**: Form existiert in `variants.xml`, verweist aber auf mehrere Lemmata — wandert in die Disambiguierungs-TSV.
-- **Kein Treffer**: Form ist nicht im Variantenwörterbuch — Kandidat für Phase 1b oder Restvokabular.
+```xml
+<!-- Ausgangszustand: WB-DEA-Transformation -->
+<w xml:id="WZB_1ra_6_5">herczen</w>
 
-Ergebnis der Phase 1: Rund 60 % der Tokens direkt zuordenbar. 72.358 Zeilen für Phase 1b.
+<!-- Ziel: MHDBDB-konform -->
+<w xml:id="WZB_1ra_6_5"
+   lemmaRef="lexicon.xml#lemma_8132"
+   pos="NOM"
+   meaningRef="lexicon.xml#lemma_8132_sense_12440"
+   wordRef="lexicon.xml#lemma_8132_sense_12440_type_19876">herczen</w>
+```
 
-### Die böhmische Herausforderung
+Vier fehlende Attribute, und jedes hat seine eigene Funktion im MHDBDB-Suchnetz: `@lemmaRef` macht den Text lemmasuchbar, `@pos` ermöglicht grammatische Filterung, `@meaningRef` öffnet die Konzeptnavigation, `@wordRef` verbindet Wortformvarianten. Ohne sie ist die Wenzelsbibel im Korpus vorhanden, aber blind — wie ein Buch ohne Register.
 
-Was die WZB von anderen MHDBDB-Texten unterscheidet, ist ihre Schreibsprache. Die böhmischen Schreibkonventionen der Wenzelszeit folgen eigenen Regeln: `cz` steht für `z`, `v` für `u`, `ou` für `û`, das Präfix `vor-` für `ver-`. Das Normalisierungsskript musste um diese Bohemismen erweitert werden — ohne diese Erweiterung hätten Formen wie *czeit* (= Zeit), *vnd* (= und) oder *vortilgen* (= vertilgen) keine Lexikon-Treffer erzeugt.
+---
 
-Noch eigenartiger: Zwischen den deutschen Versen tauchen in den Exodus- und Numeri-Abschnitten Interlinearglossen in Altböhmisch auf (*toho*, *pzde*, *bzde*, *thoho*) — Randnotizen aus dem böhmischsprachigen Scriptorium. Sie wurden als nicht-mhd. Paratexte erkannt und zu `lemma_2` (Unaufgelöstes/Sonstiges) aufgelöst, damit sie die Lemma-Statistik nicht verfälschen.
+## Die Pipeline: Drei Phasen, eine Logik
 
-## Phase 1b: LLM-gestützte Lemma-Disambiguierung
+Die Annotationspipeline folgt einem einheitlichen Prinzip: **Automatisierung so weit wie möglich, LLM-Assistenz an den Ambiguitätsgrenzen, menschliches Review an den Unsicherheitsstellen.**
 
-72.358 ambige oder ungematchte Tokenzeilen. Unmöglich manuell, zu komplex für Regelbasiertes. Die Lösung: ein gestaffeltes Triage-Schema mit Claude als erstem Reviewer.
+Alle Entscheidungen gehen durch eine TSV-Zwischenschicht — menschlich lesbar, versionierbar, per `--dry-run` testbar. Kein Schritt schreibt direkt in das TEI; alles läuft durch überprüfte Batch-Dateien.
 
-Die hochfrequenten Mehrdeutigkeiten (>20 Tokens pro Form) wurden zuerst abgearbeitet — 45 Batches, je nach Schwierigkeitsgrad zwischen 50 und 200 Lemmata. Das Muster war immer gleich: Claude liest einen Kontext-Chunk (±5 Tokens), schlägt ein Lemma vor, begründet kurz, markiert mit `confidence=high/medium/low`. Julia prüft alle `low`-Entscheidungen und eine Stichprobe der `medium`-Fälle vor der Anwendung.
+### Phase 1: Lexikonbasiertes Auto-Matching
 
-Am Ende der Phase 1b: **91,6 %** der 72.358 Zeilen aufgelöst, vier neue Lemmata in `lexicon.xml` angelegt (*cs* für tschechische Glossen, *herte* für Weideherde, *scot* für Schekel, *weise* für Waise) und das Restvokabular (Levitische Hapaxe, Lateinlatin-Fragmente, böhmische Eigennamen) als akzeptierte Lücke dokumentiert.
+Das Matching-Skript (`wzb-auto-match.py`) liest jede `<w>`-Wortform, normalisiert sie nach der MHDBDB-Konvention (`â→a, ê→e, î→i, ô→o, û→u`) und sucht in `variants.xml`:
+
+- **Eindeutiger Treffer** (eine Form, ein Lemma): `@lemmaRef` direkt gesetzt — kein menschlicher Eingriff.
+- **Mehrdeutiger Treffer**: mehrere Lemma-Kandidaten — wandert in die Disambiguierungs-TSV.
+- **Kein Treffer**: nicht im Variantenwörterbuch — Phase 1b.
+
+Das Ergebnis: rund 60 % der Tokens direkt zuordenbar. **72.358 Zeilen** für Phase 1b.
+
+Die Normalisierung war die erste Überraschung. WB-DEA-Wortformen liegen in manuskriptnaher Schreibung vor (*herczen* statt *hêrzen*), `variants.xml` enthält nicht-normalisierte MHG-Formen — beide Seiten müssen auf denselben Nenner gebracht werden, bevor ein Abgleich überhaupt möglich ist.
+
+### Phase 1b: LLM-gestützte Lemma-Disambiguierung
+
+72.358 offene Fälle, von denen viele nicht mechanisch lösbar sind: Ein Wort wie *herte* kann je nach Kontext ADJ ("hart"), NOM ("Herz"), VRB ("verhärten") oder NAM ("Schäfer/Herde") sein — und die Wenzelsbibel hat alle vier.
+
+Die Lösung war ein gestaffeltes Triage-Schema:
+
+| Population | Strategie |
+|---|---|
+| Hochfrequente Ambiguitäten (21+ Tokens) | **Bulk-Resolve**: eine LLM-Entscheidung für alle Vorkommen |
+| Mittelfrequenz (2–20 Tokens) | **Kontextbasiert**: LLM liest jeden Kontext einzeln |
+| Hapax ambigua (count = 1) | **Zurückgestellt** (ROI zu gering) |
+| Ungematchte Mittelfrequenz (6–20) | Wörterbuchnetz-Abgleich oder `NEW` |
+| Ungematchter Langschwanz (1–5) | **Akzeptierter Residual** |
+
+Der Workflow war immer gleich: TSV-Batch (50 Zeilen) → Claude liest Kontextfenster (±5 Tokens), schlägt ein Lemma vor, vergibt Konfidenz (`high/medium/low`). Julia überprüft alle `low`-Entscheidungen und eine 20-%-Stichprobe der `medium`-Fälle, bevor `wzb-bulk-resolve.py` die Entscheidungen in das TEI schreibt.
 
 **@lemmaRef-Coverage nach Phase 1 + 1b: 95,3 %** (142.185 / 149.148 Tokens).
 
----
+#### Die böhmischen Überraschungen
 
-## Phase 2: Wortart-Tagging
+Die Wenzelsbibel hatte drei Kategorien von Annotationsproblemen, die kein Standard-MHG-Text hätte:
 
-Mit `@lemmaRef` gesetzt war Phase 2 teilweise schon automatisiert: Lemmata mit nur einem einzigen POS-Wert im Lexikon (`lexicon.xml/<gramGrp>/<pos>`) bekommen `@pos` direkt ohne LLM-Beteiligung. Das deckt rund 75 % der Fälle ab.
+**1. Böhmische Schreibkonventionen.** `cz → z`, `v → u`, `ou → û`, `vor- → ver-`. Wörter wie *czeit*, *vnd*, *vortilgen* finden sich so in keinem Wörterbuch — obwohl sie ganz gewöhnliche mhd. Wörter sind. Die Normalisierung musste um diese Bohemismen erweitert werden.
 
-Die restlichen 25 % — Lemmata mit mehreren möglichen Wortarten (z.B. *daz*: DET oder SCNJ je nach Satzposition; *haben*: NOM, VEX oder VRB je nach Funktion) — gingen in eine Pending-TSV. Claude arbeitete diese in 11 Batches durch, jedes Mal mit einem ±4-Token-Kontextfenster und dem MHDBDB-Tagset (19 Tags) als harter Einschränkung.
+**2. Tschechische Interlinearglossen.** In den Exodus- und Numeri-Abschnitten tauchen Marginalglossen in Altböhmisch auf: *toho*, *pzde*, *bzde*, *thoho*, *zde* — Notizen aus dem Scriptorium für Wenzels zweisprachige Kanzlei. Sie sind keine MHG-Lexeme. Lösung: ein neues Lemma `lemma_78628` (cs NOM) als Platzhalter für altböhmisches Paratextmaterial.
 
-Das 19-Tag-Set des MHDBDB ist dabei absichtlich konservativ: Es unterscheidet `SCNJ` (subordinierend), `CCNJ` (koordinierend) und `CNJ` (Fallback für Echte Ambiguität), aber es kennt kein `ART` (→ immer `DET`) und kein `GRA` (→ meist `ADV`). Diese Restriktionen müssen dem Modell explizit mitgegeben werden — sonst tendiert es zu STTS-Kategorien aus dem Moderndeutsch.
+**3. Schreibermarken und lateinische Rubriken.** `ł`, `჻`, `=`, `CAPITULUM`, `LEUITICUS`, `GENE+SIS` (foliozeilenübergreifend aufgeteilt) — keine lexikalischen Einheiten. Sie gehen zu `lemma_2` (Catch-All für Nicht-Lexikalisches) oder `lemma_13826` (Kapitelapparat).
 
-**@pos-Coverage: 95,3 %** (142.174 / 149.148 Tokens). Die verbleibenden 4,7 % sind dieselben Tokens ohne `@lemmaRef` aus Phase 1b — eine kausal saubere Lücke.
+Diese drei Kategorien waren im Vorfeld nicht sichtbar. Das ist typisch für historische Handschriften: Das Unerwartete ist immer dabei.
 
----
+**Neu in `lexicon.xml` nach Phase 1b:** vier Einträge für böhmisch-spezifisches Vokabular — *cs* (altböhmische Glossen), *herte* (Weideherde), *scot* (böhmische Münzeinheit Schekel), *weise* (Waise, distinct from *weise* adj. = weise).
 
-## Phase 3: Bedeutungsdisambiguierung — das Dissertationsprojekt
+### Phase 2: POS-Tagging
 
-Phase 3 ist anders. Sie ist nicht nur Infrastruktur, sie ist gleichzeitig empirisches Testbett für Julias Doktorat über LLM-gestützte Word Sense Disambiguation (WSD) in historischen Sprachstufen.
+Mit `@lemmaRef` gesetzt war Phase 2 teilweise bereits erledigt: Lemmata mit genau einem POS-Eintrag im Lexikon werden direkt zugewiesen, kein LLM nötig. Das deckt rund 75 % der Fälle ab.
 
-Das Setup: Von den 43.754 Lexikoneinträgen der MHDBDB haben 35.985 (82,3 %) genau eine Bedeutung — die werden direkt auto-assignt. Die 7.765 polysemen Einträge (17,7 %) erfordern Disambiguierung. Da hochfrequente Wörter (Verben, Pronomen, Präpositionen) regelmäßig polysem sind, ist der Anteil der Tokens, die Disambiguierung brauchen, deutlich höher als der Anteil der Eintragstypen.
+Die restlichen 25 % — Lemmata mit mehreren möglichen Wortarten — gingen in eine Pending-TSV. Das MHDBDB-Tagset umfasst 19 Tags (PRO, VRB, NOM, ADJ, ADV, DET, CNJ, SCNJ, CCNJ, PRP, VEX, POS, NAM, NUM, NEG, INJ, VEM, IPA, DIG), und die wichtigste Regel für das Modell lautet: **kein ART, immer DET**. Das ist kein Standard-STTS, und LLMs tendieren ohne explizite Einschränkung zu STTS-Kategorien.
 
-### Die Mehrheitssinn-Baseline
+Mitten in der Arbeit eine Korrektur: Der Tag `ART` war initial verwendet worden und existiert im MHDBDB-Tagset schlicht nicht. Ein Migration-Patch (commit `cf71ae48`) korrigierte alle bereits gesetzten `ART`-Attribute rückwirkend zu `DET`. Solche Korrekturen sind typisch für Projekte, in denen Schema und Daten parallel entstehen.
 
-Bevor LLM-Entscheidungen bewertet werden können, braucht es eine Baseline. Wir haben sie aus dem gesamten MHDBDB-Korpus (675 Texte, menschlich annotiert) berechnet: Für jedes Lemma den häufigsten Sinn genommen, als ob er immer gilt. Das ergibt eine **gewichtete Genauigkeit von 66,7 %** — die Hürde, die die Pipeline überspringen muss, um ihren Nutzen zu belegen.
-
-Die Pipeline muss besser sein als "immer die häufigste Bedeutung".
-
-### Die Entscheidungsarchitektur
-
-Phase 3 unterscheidet zwischen zwei Entscheidungstypen:
-
-- **Bulk-LLM**: Lemma-weite Entscheidungen, wenn der Kontext im WZB einheitlich genug ist (z.B. *hant* → immer menschliche Hand; 99,6 % Korpusmehrheit, alle 8 WZB-Stichproben bestätigen). Skaliert auf hunderte Tokens mit einer einzigen Entscheidung.
-- **Instance-LLM**: Token-genaue Entscheidungen für Lemmata, deren Bedeutung vom lokalen Satzkontext abhängt (z.B. *vater*: biologischer Vater oder theologischer Gottvater in Prologen).
-
-Wichtig für die wissenschaftliche Berichterstattung: Beide Typen werden getrennt ausgewertet. Nur *Instance-LLM*-Entscheidungen sind mit der Mehrheitssinn-Baseline vergleichbar — *Bulk-LLM* ist strukturell etwas anderes.
-
-Ein drittes Instrument: **ABSTAIN**. Wenn ein Kontext keine zuverlässige Entscheidung erlaubt (elliptische Konstruktionen, fehlende Anaphernauflösung), darf die Pipeline explizit abstain. Abstentionen gehen nicht in den TEI-Output und nicht in den Genauigkeitszähler — sie sind wissenschaftlich ehrlicher als eine erzwungene Rateentscheidung.
-
-### Stand der Dinge
-
-Sechs Bulk-Batches appliziert (3.773 Tokens manuell entschieden, dann bulk-geschrieben):
-
-| Lemma | Sinn | Konfidenz | Tokens |
-|---|---|---|---|
-| *hant* | menschliche Hand | hoch | 426 |
-| *tag* | Tag/Zeit | hoch | 598 |
-| *an* | direktional/spatial | hoch | 967 |
-| *wollen* | Modalverb Wille | hoch | 478 |
-| *sollen* | Obligation/Befehl | hoch | 954 |
-| *vater* | biologischer Vater/Patriarch | mittel | 350 |
-
-**@meaningRef-Coverage: 76,2 %** (113.702 / 149.148). Noch ausstehend: die hochambigen Hochfrequenzlemmata (*in*, *haben*, *werden*), die per-Instance-LLM entschieden werden müssen — das ist der methodisch aufwändigste Teil und der Kern der Doktorarbeit.
+**@pos-Coverage: 95,3 %** (142.185 / 149.148). QA-Ergebnis: 0 ungültige Tags, 0 unbekannte `@lemmaRef`-Werte.
 
 ---
 
-## Was dabei entstanden ist
+## Was passiert, wenn Schema und Daten gleichzeitig wachsen?
 
-Neben den Annotationen selbst hat das Projekt eine Infrastruktur hinterlassen, die für zukünftige Ingest-Projekte direkt nachnutzbar ist:
+Das ist die methodische Lektion, die selten explizit dokumentiert wird. Während der WZB-Arbeit änderte sich das MHDBDB-Schema mehrmals:
 
-- **20+ Pipeline-Skripte** unter `scripts/ingest/wzb/` für alle drei Phasen: Auto-Match, Bulk-Resolve, Patch, Apply, Baseline-Berechnung, Schema-Migration
-- **Pre-flight checks**: `check-lexicon-senses.py` verhindert, dass Lexikoneinträge ohne `<sense>` ins Schema rutschen — gefunden während des WZB-Ingests, seitdem im CI
-- **`wzb-add-lemma.py`**: Scripted lemma creation mit automatischer ID-Vergabe, Concept-Validierung und Post-write-Check
-- **Evaluation-Protokoll** (prä-registriert): N=400–600, stratifiziert nach Sensanzahl (2/3–5/6+) × Wortart (NOM/VRB/ADJ+PRP), Blind-Review-Verfahren (Julia entscheidet, bevor sie die LLM-Entscheidung sieht) → drei Datenpunkte pro Token (LLM / Julia / Gold)
-- **Normdaten** für `works.xml`: Wikidata Q476495, GND 4117632-7, Handschriftencensus werke/4577
+| Element | Alte Kodierung | Korrekte Kodierung |
+|---|---|---|
+| Interpunktion | `<seg type="pc">` | `<pc join="left&#124;right">` |
+| Genre-Link in `works.xml` | `<ref target="genres.xml#...">` | `<ptr target="genres.xml#..."/>` |
+| Handschriftenangabe | `<note type="manuscript">` | nicht auf `<bibl>`-Ebene erlaubt |
+| Artikel-POS-Tag | `ART` | `DET` |
 
----
-
-## Fazit: Wenn Text auf Skript trifft
-
-Was haben wir gelernt?
-
-**Erstens:** Historische Texte brauchen textkritisches Scaffolding. Ein LLM, das ohne Kenntnis der böhmischen Schreibkonventionen, ohne das MHDBDB-Tagset und ohne das Lexikon als Constraint-System arbeitet, produziert plausible, aber philologisch falsche Entscheidungen. Das Scaffolding ist wichtiger als das Modell.
-
-**Zweitens:** Die Trennung von Entscheidungstypen ist wissenschaftlich notwendig. Bulk-LLM und Instance-LLM haben unterschiedliche epistemische Qualitäten; sie zusammenzuwerfen würde die Evaluation unlesbar machen. Die Infrastruktur muss diesen Unterschied von Anfang an kodieren — was im WZB-Projekt durch die `decision_type`-Spalte in der Pending-TSV geschieht.
-
-**Drittens:** Abstention ist keine Schwäche. "Ich weiß es nicht" ist eine legitime wissenschaftliche Aussage. Ein Annotationssystem, das zur Entscheidung zwingt, produziert Rauschen, kein Wissen.
-
-Die Wenzelsbibel steht jetzt live im MHDBDB-Korpus, mit 95,3 % Lemma- und POS-Coverage, 76,2 % Bedeutungsauflösung und einer offenen wissenschaftlichen Frage, die eine ganze Dissertation trägt: Schlägt die Pipeline die Mehrheitssinn-Baseline? Die Antwort kommt mit Abschluss der Phase 3.
+Jede Korrektur erforderte rückwirkende Anpassungen in TEI und Authority-Files. Die Lösung: eine explizite Schema-Änderungshistorie in der Projektdokumentation — ein reproduzierbares Muster für ähnliche DH-Projekte.
 
 ---
 
-*Die Wenzelsbibel ist als Sigle **WZB** in der [MHDBDB-Korpussuche](https://dhcraft.org/mhdbdb-tei-only/korpus.html?text=WZB) zugänglich. Pipeline-Skripte und Annotationsdaten: [github.com/DigitalHumanitiesCraft/mhdbdb-tei-only](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only). Feedback und Fragen: [mhdbdb@plus.ac.at](mailto:mhdbdb@plus.ac.at)*
+## Phase 3: Wortsinn-Disambiguierung — der Forschungsausblick
+
+Phase 3 geht über den Miniprojekt-Rahmen hinaus und ist gleichzeitig Gegenstand einer laufenden Dissertation (Hintersteiner). Die Frage: Kann ein LLM-gestützter Workflow die **Mehrheitssinn-Baseline** schlagen?
+
+Die Baseline — berechnet aus 675 menschlich annotierten MHDBDB-Texten — liegt bei **66,7 % gewichteter Genauigkeit**: der Wert, den man erreicht, wenn man für jedes Lemma immer die häufigste Bedeutung wählt. Die Pipeline muss das übertreffen, um ihren Nutzen zu belegen.
+
+Stand nach sechs Bulk-Batches: **@meaningRef-Coverage 76,2 %** (113.702 / 149.148). Noch ausstehend: die hochambigen Hochfrequenzlemmata (*in*, *haben*, *werden*), die per-Token-Entscheidungen erfordern. Das ist der Kern der Dissertation.
+
+Das Evaluationsdesign ist prä-registriert: N=400–600, stratifiziert nach Sensanzahl (2/3–5/6+) × Wortart, Blind-Review-Verfahren. Julia trifft ihre eigene Entscheidung, bevor sie die LLM-Entscheidung sieht — das ergibt drei Datenpunkte pro Token (LLM, Julia, Gold-Standard), aus denen sich Übereinstimmungsmaße und Fehleranalysen ableiten lassen.
+
+---
+
+## Was die Wenzelsbibel jetzt kann
+
+Die Wenzelsbibel ist seit Mai 2026 als Sigle **WZB** vollständig in der MHDBDB zugänglich:
+
+- **Lemma-Suche** über 142.185 annotierte Tokens
+- **Lemma-Highlighting** in der Leseansicht (bis zu 5 gleichzeitige Suchbegriffe mit Farb-Coding)
+- **Gattungsklassifikation**: Bibelübersetzung — taucht in der Gattungssuche auf
+- **Normdaten**: Wikidata Q476495, GND 4117632-7, Handschriftencensus werke/4577
+- **Wörterbuch-Links** auf jeder Lemma-Page: Lexer (live via HTTPS-API) + MWB (Suchlink)
+
+---
+
+## Fazit: Die größten Hindernisse sind nicht technisch
+
+Was hat dieses Miniprojekt gezeigt?
+
+**Infrastruktur-Interoperabilität ist lösbar** — aber sie erfordert explizite Schema-Arbeit, nicht nur Datentransformation. Welches Format hat ein "Wort" in WB-DEA? Was ist ein "Lemma" in der MHDBDB? Diese Fragen haben keine technische Antwort; sie sind philologische Entscheidungen, die man treffen und dokumentieren muss.
+
+**LLM-gestützte Annotation skaliert** — 91,6 % Lemma-Abdeckung und 95,3 % POS-Abdeckung in einem historischen Text mit 150.000 Tokens, mit menschlichem Review an den Schwachstellen. Das LLM skaliert philologische Intuition; es ersetzt sie nicht.
+
+**Residuale Ambiguität ist legitim.** Die 8,4 % unaufgelösten Tokens sind kein Projektversagen. Pronomen wie *in* mit 3.486 Vorkommen in dreifacher Kasusdoppeldeutigkeit sind ohne Satzsyntax-Analyse nicht automatisch auflösbar. Diese Grenze korrekt zu benennen ist eine wissenschaftliche Aussage.
+
+**Parallelentwicklung von Schema und Daten braucht explizite Versionierung.** Der `ART→DET`-Patch, der Genre-`<ref>→<ptr>`-Wechsel, die `<note type="manuscript">`-Abschaffung — all das passiert in einem lebenden Projekt. Dokumentiert, ist es nachvollziehbar. Undokumentiert, ist es technische Schuld.
+
+Die Wenzelsbibel ist jetzt ein vollwertiger Teilnehmer im MHDBDB-Suchnetz. Jede Suchanfrage nach einem mittelhochdeutschen Lemma bezieht jetzt auch diesen Text ein — einen der bedeutendsten deutschen Bibeltexte des 14. Jahrhunderts, der in keiner computationellen Korpusressource nutzbar war. Und die offene Frage, ob das LLM die Mehrheitssinn-Baseline schlägt, trägt eine ganze Dissertation.
+
+---
+
+*Die Wenzelsbibel ist als Sigle **WZB** in der [MHDBDB-Korpussuche](https://dhcraft.org/mhdbdb-tei-only/korpus.html?text=WZB) zugänglich. Pipeline-Skripte und Annotationsdaten: [github.com/DigitalHumanitiesCraft/mhdbdb-tei-only](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only). Das Miniprojekt wurde im Rahmen von CLARIAH-AT gefördert. Kontakt: [mhdbdb@plus.ac.at](mailto:mhdbdb@plus.ac.at)*
