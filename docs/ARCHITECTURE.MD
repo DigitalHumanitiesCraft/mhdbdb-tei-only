@@ -222,6 +222,8 @@ playground/js/ui/
 - Easier testing and maintenance
 - Net reduction: 5,536 lines removed
 
+**Playground TEI-Modul-Konvention:** alle sieben Module unter `playground/js/ui/tei/` (außer `multi-lemma-search.js` als dokumentierter Modal-Outlier) folgen dem gleichen Constructor/`show()`/`render()`-Pattern mit Thunks statt direkter Daten-Referenzen, state-driven `renderBody()`, pro-Modul-Escape-Helpers und MessageChannel-Yield bei großen Aggregationen. Pattern ist als Template in [DESIGN.MD §Playground TEI-Analysis Module Pattern](DESIGN.MD#playground-tei-analysis-module-pattern) dokumentiert.
+
 **Authority Explorers:**
 Each explorer follows consistent pattern:
 - Search/filter functionality

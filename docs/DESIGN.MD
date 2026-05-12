@@ -155,6 +155,162 @@ Filter with icon: `pl-9 pr-3 py-2 text-sm border border-slate-200 rounded-lg` + 
 
 Checkbox accent: `accent-color: #3b75d8`.
 
+## Playground TEI-Analysis Module Pattern
+
+Sieben Module unter `playground/js/ui/tei/` teilen eine konsistente Struktur. Wer ein neues Analyse-Werkzeug ergänzt, sollte das Pattern befolgen — neue Module ohne erkennbaren Grund abweichen lassen den Playground inkonsistent wirken und brechen Konventionen, auf die der Router und die Sidebar-Buttons aufbauen.
+
+**Kanonische Beispiele:** `lemma-distribution.js` (#90), `verse-position-search.js` (#47.3), `concept-distribution.js` (#47 R2).
+
+### Konstruktor — Thunks statt direkter Referenzen
+
+```js
+constructor(getCorpusTexts, authorityManager, getAuthorityData) {
+  this.getCorpusTexts = getCorpusTexts;
+  this.authorityManager = authorityManager;
+  this.getAuthorityData = getAuthorityData;
+  this.state = { ...DEFAULT_STATE };
+}
+```
+
+`getCorpusTexts`/`getAuthorityData` werden als Funktionen übergeben, nicht als fertige Arrays. Grund: nach Index-Reload (Bump v4.1.1 → v4.2.0, Cache-Invalidate) zeigen direkte Array-Referenzen auf stale Daten. Thunks ziehen jedes Mal das aktuelle Array vom `teiManager`. Lehre aus #97-#100 (Corpus-Index-Property-Drift).
+
+### State — Frozen Defaults + Stateful Instance
+
+```js
+const DEFAULT_STATE = Object.freeze({
+  query: '',
+  resolvedConcept: null,
+  matchingLemmata: [],
+  distribution: null,        // null bis async-compute abgeschlossen
+  computing: false,          // true waehrend Long-Running-Aggregation
+  computeProgress: 0,        // 0..1 fuer Spinner
+  sortBy: 'frequency',
+  freqMode: 'absolute',
+  topN: 30
+});
+```
+
+`Object.freeze` verhindert versehentliches Mutieren des Defaults; `this.state = { ...DEFAULT_STATE }` macht ein frisches mutables Objekt pro Instanz. Bei Reset (z.B. nach Korpus-Wechsel): `this.state = { ...DEFAULT_STATE }`.
+
+### Lifecycle — `show()` ➝ `render()` ➝ `renderForm() + renderBody()` ➝ `attachHandlers()`
+
+```js
+show() {
+  const texts = this.getCorpusTexts();
+  if (!texts || texts.length === 0) {
+    this.renderError('Korpus ist noch nicht geladen.');
+    return;
+  }
+  this.render();
+}
+
+render() {
+  document.getElementById('resultsContainer').innerHTML = `
+    <div class="space-y-4">
+      ${this.renderForm()}
+      ${this.renderBody()}
+    </div>
+  `;
+  this.attachHandlers();
+}
+```
+
+- `show()` ist der Router-Entrypoint, mit Guard für „Korpus noch nicht geladen".
+- `render()` macht **einmal** `innerHTML = ...` und ruft danach `attachHandlers()`. Kein DOM-Diffing — jeder Render ist ein Wegwerf. Form behält den Fokus, weil `attachHandlers()` nach `innerHTML` `refocusInput()` aufrufen kann.
+- `renderForm()` / `renderBody()` geben Strings zurück, kein direktes DOM-Mutating. Halt das Template-getrieben.
+
+### State-Driven Body
+
+`renderBody()` ist ein Branch über `this.state`:
+
+```js
+renderBody() {
+  if (!this.state.query) return /* "Bitte Suchen" Empty-State */;
+  if (!this.state.resolvedConcept) return /* "Kein Begriff gefunden" Amber-Box */;
+  if (this.state.matchingLemmata.length === 0) return /* "Keine Lemmata zugeordnet" */;
+  if (this.state.computing) return /* Spinner + Progress-Bar */;
+  if (!this.state.distribution) return /* Fallback "..." */;
+  return /* Chart + Tabelle */;
+}
+```
+
+Order matters: Empty-State → Error-State → No-Match → Computing → Result. Wer das umstellt, liefert dem User „Keine Lemmata zugeordnet" während die Suche eigentlich noch läuft.
+
+### Async + Chunking (für O(L × T) Aggregationen)
+
+Bei Modulen, deren Aggregation den Main-Thread mehr als ~50ms blockieren kann (kritisch ab ~2000 Items), Chunking mit time-based Yield:
+
+```js
+const CHUNK_BUDGET_MS = 30;
+
+function yieldToMain() {
+  // MessageChannel statt setTimeout(0): hat keinen 4ms-Mindest-Delay und wird
+  // im hidden Tab NICHT auf 1000ms gedrosselt (siehe concept-distribution.js).
+  return new Promise(resolve => {
+    const ch = new MessageChannel();
+    ch.port1.onmessage = () => resolve();
+    ch.port2.postMessage(null);
+  });
+}
+
+async computeDistribution(items, onProgress) {
+  const out = [];
+  let chunkStart = performance.now();
+  for (let i = 0; i < items.length; i++) {
+    /* ... arbeite ... */
+    if (performance.now() - chunkStart > CHUNK_BUDGET_MS) {
+      if (onProgress) onProgress((i + 1) / items.length);
+      await yieldToMain();
+      chunkStart = performance.now();
+    }
+  }
+  return out;
+}
+```
+
+Vermeide `setTimeout(0)` als Yield — Chrome drosselt es auf >=1000ms im Hintergrund-Tab und macht Tests unreliabel. Vermeide `requestIdleCallback` — kein Garantie über Anteil der Frame-Zeit. MessageChannel ist die robuste Wahl.
+
+### Escape-Helpers — Pro-Modul, nicht importiert
+
+Jedes Modul hat am Ende:
+
+```js
+function escapeHtml(s) {
+  if (s == null) return '';
+  return String(s).replace(/[&<>"']/g, c => (
+    { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
+  ));
+}
+function escapeAttr(s) { return escapeHtml(s); }
+```
+
+Self-contained statt zentralem `lib/escape.js`-Import: Modul lässt sich kopieren/verschieben ohne Pfad-Anpassung, und die fünf Zeilen sind schneller geschrieben als die Import-Stelle.
+
+### Brand-Akzent — Nur Default-Button
+
+| Use | Klassen |
+|-----|---------|
+| Default-Aktion („Suchen", „Anwenden") | `rounded-lg border border-brand-200 bg-brand-50 px-4 py-1.5 text-sm font-medium text-brand-700 hover:border-brand-400 hover:bg-brand-100` |
+| Sekundär (Cancel, Reset) | `bg-white border-slate-200 hover:border-slate-400` |
+| Result-Heading | `text-lg font-semibold text-brand-700` |
+| Bar-Chart-Bars | `fill-brand-400 hover:fill-brand-600 transition` |
+
+Brand-Farbe ist der Akzent, nicht die Grundfarbe. Wenn ein Modul plötzlich vier brand-farbene Buttons hat, verliert der Default seinen Akzent-Status.
+
+### Cross-Module Linking
+
+Klick auf Treffer → Reading-View. Pattern:
+
+```js
+const href = `../korpus.html?textId=${encodeURIComponent(h.id)}&lemmaIds=${encodeURIComponent(lemmaId)}`;
+```
+
+Nicht hash-routen — `korpus.html` ist eine separate Site. Pure-Anchor-Tags mit `target="_blank" rel="noopener"`, damit der User die Playground-Session nicht verliert.
+
+### Multi-Lemma als dokumentierter Outlier
+
+`playground/js/ui/tei/multi-lemma.js` nutzt **Modal statt in-place Form** (`#multiLemmaModal`), weil seine vier Inputs (Lemmata-Liste, Modus, Distanz, Korpus-Auswahl-Checkbox) im Sidebar nicht reinpassen würden. Das ist die einzige zulässige Abweichung — wer ein neues Modul mit 1-3 Inputs baut, gehört in den in-place-Form-Pfad. Modal nur bei genuin grossen Input-Surfaces.
+
 ## Layout Patterns
 
 ### Container

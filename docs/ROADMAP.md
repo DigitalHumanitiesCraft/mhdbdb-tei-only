@@ -51,6 +51,7 @@ See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues
 | #63 | Begriffssystem Update | Julia's future plans |
 | #80 | Umbrella: User-facing Dokumentation & Hilfe | Sub-issues #79, #78, #68 |
 | #109 | FWF-Einzelprojekt (Korpus-Tiefenanalyse, NER-Pipeline, phonetische Reimanalyse, Visualisierungen) — Antrag durch KZW, kleines Budget, max. 50% externe Mittel | Scope-Notiz für Antragstext |
+| #111 | Index-Größen-Soft-Cap und modulare Splitting-Strategie | Trigger >50 MB gz (heute 42); Optionen A modular / B brotli / C binär; keine Entscheidung bis Schwellwert erreicht |
 
 ## Recently Completed
 
