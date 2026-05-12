@@ -100,6 +100,50 @@
             </p>
         </section>
 
+        <!-- Zwei Wege -->
+        <section class="mb-10">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-white rounded-2xl border-2 border-brand-300 p-6 shadow-sm">
+                    <h2 class="text-lg font-bold text-slate-900 mb-2">Weg A — Selbst-Ingest</h2>
+                    <p class="text-sm text-slate-600 leading-relaxed mb-3">
+                        Sie haben TEI-Kompetenz und richten die Pipeline selbst ein.
+                        Dieser Leitfaden führt Sie Schritt für Schritt durch das MHDBDB-Schema,
+                        die Authority-File-Verknüpfung und die halbautomatische Annotations-Pipeline.
+                    </p>
+                    <p class="text-sm font-medium text-brand-700">→ Lesen Sie die Abschnitte 1–9 unten.</p>
+                </div>
+                <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+                    <h2 class="text-lg font-bold text-slate-900 mb-2">Weg B — DHCraft-Konvertierungsservice</h2>
+                    <p class="text-sm text-slate-600 leading-relaxed mb-3">
+                        DHCraft OG übernimmt Konvertierung, Lemmatisierung und Ingest als externen,
+                        kostenpflichtigen Service. Geeignet für Projekte ohne eigene TEI-Pipeline-Kapazität.
+                        Konditionen und Projektfinanzierungsoptionen auf Anfrage.
+                    </p>
+                    <p class="text-sm font-medium text-brand-700">
+                        → <a href="mailto:mhdbdb@plus.ac.at" class="underline hover:text-brand-800">mhdbdb@plus.ac.at</a> kontaktieren.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Vorab-Checkliste -->
+        <section class="mb-10">
+            <div class="bg-amber-50 border border-amber-200 rounded-2xl p-6">
+                <h2 class="text-base font-bold text-amber-900 mb-3">Vorab-Checkliste (vor dem ersten Schritt)</h2>
+                <ul class="space-y-2 text-sm text-amber-900">
+                    <li class="flex items-start gap-2"><span class="mt-0.5 text-amber-600 font-bold">☐</span> Sigle vereinbart (3–5 Großbuchstaben, eindeutig im Gesamtkorpus → <a href="mailto:mhdbdb@plus.ac.at" class="underline">per Mail abklären</a>)</li>
+                    <li class="flex items-start gap-2"><span class="mt-0.5 text-amber-600 font-bold">☐</span> Eintrag in <code class="px-1 py-0.5 bg-amber-100 rounded">works.xml</code> angelegt (Sigle, Titel, Genre, Autor)</li>
+                    <li class="flex items-start gap-2"><span class="mt-0.5 text-amber-600 font-bold">☐</span> Eintrag in <code class="px-1 py-0.5 bg-amber-100 rounded">persons.xml</code> vorhanden oder <code class="px-1 py-0.5 bg-amber-100 rounded">person_anonym</code> gesetzt</li>
+                    <li class="flex items-start gap-2"><span class="mt-0.5 text-amber-600 font-bold">☐</span> Genre-Klassifikation in <code class="px-1 py-0.5 bg-amber-100 rounded">genres.xml</code> existiert (oder neuen Eintrag anfragen)</li>
+                    <li class="flex items-start gap-2"><span class="mt-0.5 text-amber-600 font-bold">☐</span> TEI-Quelldatei liegt in <code class="px-1 py-0.5 bg-amber-100 rounded">ingest/&lt;sigle&gt;/</code> (nicht direkt in <code class="px-1 py-0.5 bg-amber-100 rounded">tei/</code>)</li>
+                    <li class="flex items-start gap-2"><span class="mt-0.5 text-amber-600 font-bold">☐</span> Stage-1-Validierung (TEI P5) läuft durch oder Abweichungen sind als GAP dokumentiert</li>
+                    <li class="flex items-start gap-2"><span class="mt-0.5 text-amber-600 font-bold">☐</span> Stage-2-Validierung (MHDBDB-Schema) ergibt 0 Fehler</li>
+                    <li class="flex items-start gap-2"><span class="mt-0.5 text-amber-600 font-bold">☐</span> <code class="px-1 py-0.5 bg-amber-100 rounded">@lemmaRef</code>-Coverage ≥ 85 % (oder begründete Abweichung dokumentiert)</li>
+                    <li class="flex items-start gap-2"><span class="mt-0.5 text-amber-600 font-bold">☐</span> Index-Rebuild durchgeführt (<code class="px-1 py-0.5 bg-amber-100 rounded">build-corpus-index.py</code> + <code class="px-1 py-0.5 bg-amber-100 rounded">build-authority-index.py</code>) und Versionsbumps synchronisiert</li>
+                </ul>
+            </div>
+        </section>
+
         <!-- Inhaltsverzeichnis -->
         <nav aria-label="Auf dieser Seite" class="hilfe-toc-inline mb-12 bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
             <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500 mb-3">Auf dieser Seite</h2>
@@ -455,7 +499,7 @@
                     <tbody class="divide-y divide-slate-200">
                         <tr>
                             <td class="p-3"><a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/authority-files/works.xml" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>works.xml</code></a></td>
-                            <td class="p-3">Neuer <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;bibl xml:id="work_X"&gt;</code> mit Sigle, Titel(n), Genre-Ref, Autor-Ref, Edition; bei Manuskript-Editionen <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;note type="manuscript"&gt;</code></td>
+                            <td class="p-3">Neuer <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;bibl xml:id="work_X"&gt;</code> mit Sigle, Titel(n), GND/Wikidata/Handschriftencensus-<code class="px-2 py-0.5 bg-slate-100 rounded">&lt;idno&gt;</code>, Genre-Pointer (<code class="px-2 py-0.5 bg-slate-100 rounded">&lt;ptr target="genres.xml#…"/&gt;</code>), Autor-Ref, Edition in <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;relatedItem&gt;</code>. Erlaubte Kindelemente: <code class="px-2 py-0.5 bg-slate-100 rounded">title+, idno*, ptr*, author*, relatedItem*</code> — kein <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;note&gt;</code> auf bibl-Ebene.</td>
                         </tr>
                         <tr>
                             <td class="p-3"><a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/authority-files/persons.xml" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>persons.xml</code></a></td>
@@ -499,15 +543,21 @@
             </div>
 
             <h3 class="text-lg font-semibold text-slate-800 mb-2">4.3 Lemma-Anlage in <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">lexicon.xml</code></h3>
-            <p class="text-sm text-slate-700 leading-relaxed">
-                Wenn die Pipeline (siehe §5) Wortformen findet, deren Lemma noch nicht in
+            <p class="text-sm text-slate-700 leading-relaxed mb-3">
+                Wenn die Pipeline (§6) Wortformen findet, deren Lemma noch nicht in
                 <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">lexicon.xml</code>
-                existiert (~43.750 Einträge Stand 2026-05), legt das Kernteam in Absprache
-                mit dem Beitragenden neue Lemmata an. Beispiel: für die Wenzelsbibel kamen
-                vier neue Lemmata hinzu (<em>cs</em> für tschechische Glossen, <em>herte,
-                scot, weise</em> als seltene mhd. Substantive). Die <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">lemma_N</code>-IDs
-                sind kontinuierlich vergeben (keine festen Schritte). Die Vergabe übernimmt
-                die MHDBDB-Redaktion.
+                existiert (~43.750 Einträge Stand 2026-05), werden neue Lemmata mit dem Skript
+                <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">scripts/wzb-add-lemma.py</code> angelegt.
+                Es vergibt automatisch die nächste freie ID (Konvention: max. vorhandene ID + 20)
+                und führt danach den Pre-flight-Check durch:
+            </p>
+            <pre class="bg-slate-50 border border-slate-200 rounded-lg p-4 text-xs overflow-x-auto mb-3"><code>python scripts/wzb-add-lemma.py \
+  --orth weise --pos NOM \
+  --concept concept_23112700   # concept_ID aus concepts.xml</code></pre>
+            <p class="text-sm text-slate-600 leading-relaxed">
+                Beispiel Wenzelsbibel: vier neue Lemmata (<em>cs</em> tschechische Glossen,
+                <em>herte</em> Herde/Viehzucht, <em>scot</em> Schekel, <em>weise</em> Waise).
+                Die Vergabe kann durch das Kernteam oder in Absprache durch Beitragende erfolgen.
             </p>
         </section>
 
@@ -800,6 +850,8 @@ print('Stage 2 (MHDBDB):  ', 'PASS' if mhdbdb.validate(doc) else mhdbdb.error_lo
             <h3 class="text-lg font-semibold text-slate-800 mb-2">Werkzeuge</h3>
             <ul class="space-y-2 text-sm text-slate-700 mb-6 ml-4 list-disc list-inside">
                 <li><code class="px-2 py-0.5 bg-slate-100 rounded text-sm">scripts/audit/validate-corpus.py</code>: Voll-Validierung des Korpus + Authority-Files</li>
+                <li><code class="px-2 py-0.5 bg-slate-100 rounded text-sm">scripts/audit/check-lexicon-senses.py</code>: Pre-flight-Check — prüft, dass alle <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">lexicon.xml</code>-Einträge mindestens ein <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;sense&gt;</code> haben</li>
+                <li><code class="px-2 py-0.5 bg-slate-100 rounded text-sm">scripts/wzb-add-lemma.py</code>: Neues Lemma in <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">lexicon.xml</code> anlegen (auto-ID, auto-sense, Pre-flight-Check)</li>
                 <li><code class="px-2 py-0.5 bg-slate-100 rounded text-sm">scripts/ingest/wzb/</code>: Pipeline-Skripte (Auto-Match, Bulk-Resolve, POS-Apply); pro neuem Text adaptieren</li>
                 <li><a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/.gemini/skills/pos-disambiguator/SKILL.md" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>SKILL.md</code></a>: POS-Tagset-Reference + Disambiguierungs-Regeln</li>
             </ul>
