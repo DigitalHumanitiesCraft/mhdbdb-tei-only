@@ -840,3 +840,46 @@ Aus Julias paralleler Session (alphabetisch nach Hash, dieser Handoff Session H)
 
 **Phase:** Implementation (handoff). Alle 14 Promptotyping-Docs aktuell, Drift-Check sauber.
 
+---
+
+## 2026-05-12 14:46 — handoff
+
+**Summary:** #23 Stanza-Bulk-Run (93 Texte, 11.090 `<lg type="stanza" n="N">`-Wraps) + Corpus-Index v4.1.1 + Test-Pflege nach #73 (3 Failures gefixt, 127/127 grün). #104 (Siglen-Gruppierung PL/FLG/FR) als analytischer GitHub-Kommentar mit Empfehlung „Titel statt Merge" verfasst.
+
+**Decisions:**
+- **#23 ohne WVV:** Bulk-Run lief auf 99 Sigles mit 99,69 % Erfolg. WVV (482 Anchors, 95,2 % — Template `cn…kk` ungewöhnlich) als [#110](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/110) ausgeklammert, separat zu untersuchen. 13 sonstige missing-anchors (0,1 %) als Edge-Cases akzeptiert.
+- **Index v4.1.1-Bump trotz semantisch identischem Inhalt:** Cache-Invalidate-Robustheit > Minimal-Diff. Build-Stats vor/nach Bump identisch (667 Texte / 42.630 Lemmata / 7.533.447 Wörter / 40,23 MB gz), aber `<lg>`-Wraps strukturell neu — Bump verhindert „Stanza-Wraps unsichtbar für 30 Tage" bei IndexedDB-gecachten Usern.
+- **#104:** Empfehlung gegen physischen Merge. Begründungen: editorische Konventionen pro Sigle eigenständig (PL1/2/3 sind drei DTM-Bände desselben Kluge-Werks; PL2 nutzt zusätzlich Köln-Papier-HS), FLG/FLG1 sogar zwei verschiedene `work`-IDs (571 vs 587), 119 MB-PL-Merge würde Reader sprengen. Titel-Anpassung in `works.xml` löst das von KZW gezeigte UI-Problem vollständig.
+- **Two-Commit-Strategie für Korpus-Patches:** Erst TEI committen, dann Index-Rebuild + zweiter Commit. Verhindert dirty-build via #100-Pre-flight-Check. Mit dem heutigen Concurrent-Sessions-Vorfall als Beleg, warum Atomic-Stage+Commit-in-einem-Schritt das einzig sichere Pattern bei geteiltem Worktree ist.
+- **manifest.json gelöscht:** Test war einziger Konsument (Frontend nutzt sie seit ADR-013 nicht mehr). Statt manifest zu regenerieren, Test entfernt + Datei (~186 KB) gelöscht.
+
+**Dead ends:**
+- **Begriffs-Verteilung Live-Walkthrough abgebrochen:** Browser-Tab wurde zerschossen — entweder durch `location.reload(true)` (in modernen Chromium deprecated, kann Tab killen) oder durch parallelen Server-Kill des Kollegen. Tab-State im Moment der Inspektion: `step1/2/3` alle hidden, `resultsVisible:true`, aber `#concept-distribution-view`-Inhalt nicht auffindbar — unklar ob das die normale Vor-Auswahl-View war oder ein Render-Bug. Nicht weiter untersucht.
+- **`npm test 2>&1 | tail -40`:** Pipe schluckt npm-Exit-Code (tail liefert immer 0). Erst beim zweiten Lauf mit `set -o pipefail` echter Exit-Code gesehen. Konsequenz: in Bash-Pipes immer `set -o pipefail` setzen, wenn Exit-Code-Aussagekraft nötig ist.
+
+**Concurrent-Sessions-Vorfall (heute erneut getroffen):**
+- Mein `git add tei/<93 Files>` lief zwischen Kollegen `git add hilfe-playground.html` und Kollegen `git commit` → sein Commit `92edea19b` sweepte alle 94 Files ein.
+- Auflösung via Kollegen-Soft-Reset (`HEAD~1`) + selektives Unstage von `tei/` + Re-Commit mit identischer Message. Hat keine Daten gekostet, aber bestätigt: **Geteilter Index = Geteiltes Risiko. Atomic Stage+Commit in einer Bash-Operation ist das einzige zuverlässige Pattern, NICHT vorzeitig stagen.**
+- Memory-Pattern `feedback_concurrent_sessions.md` hat geholfen — kein neues Lernen, nur Bestätigung.
+
+**Phase:** Implementation (handoff). Alle 14 Promptotyping-Docs aktuell (durch Kollegen-Sync in `8d2505d28` + `5a82862bf` heute Vormittag).
+
+**Open issues:**
+- **#110 WVV-Edge-Case** (claude-ready, S-M): 23 missing-anchors aus Bulk-Run. Vermutung: ungewöhnliche Linecode-Template-Geometrie (`000000000cnddss--kk`) bricht `find_first_l_for_anchor`-Heuristik in `scripts/insert-stanzas-from-linecode.py`. WVV-Linecode-Source liegt vor; nächste Session kann direkt loslegen.
+- **#23 Rest-Defizite** (KZW-Input nötig, NICHT claude-ready): MUG (Linecode-Source fehlt im Handover), MSF (Template fehlt in Tabelle). Im Issue-Body von #23 dokumentiert. Effort minimal sobald Daten da.
+- **#104 Sigle-Gruppierung** (KZW + Julia entscheiden): Analyse als Kommentar gepostet, wartet auf editorische Antwort. Falls KZW/Julia „Titel-Anpassung statt Merge" zustimmen: S-Effort in `authority-files/works.xml` (8 Titel-Anpassungen + Authority-Index-Rebuild). Kein TEI-Touch nötig.
+- **Begriffs-Verteilung Live-Check ausstehend:** Kollegen-Feature `a0b8d9aab` (#47 R2) habe ich nicht live durchgespielt — Tab-Tod hat das verhindert. Falls Doppelt-Augen-Prinzip vom User gewünscht, separater Session-Slot.
+- **Test-Suite-Pflege als Wachposten:** Heute 3 Failures (2× #73-Erwartung veraltet, 1× Manifest-Legacy) — nach jedem Frontend-Feature künftig **gleich nach Implementation `npm test` mit pipefail**, nicht erst tagelang später.
+
+**Next steps (orientiert nach Aufwand):**
+1. **WVV-Fix (#110)** — ~30-60 min. Skript-Heuristik prüfen, einen Manuell-Patch oder Skript-Extension, Bulk auf nur WVV, validation, Index-Bump auf v4.1.2.
+2. **#104 abwarten** auf KZW/Julia-Antwort. Falls Titel-Anpassung approved: works.xml-Edit + Authority-Index-Rebuild — ~20 min.
+3. **Begriffs-Verteilung Live-Walkthrough** falls User es wünscht. Tab muss frisch geöffnet werden, kein `location.reload(true)`.
+
+**Commit dieses Handoffs:** wird nach Stage angefügt — siehe nächsten Bash-Block.
+
+**Carryover (vom Kollegen-Handoff `aac7fe23e` ergänzt):**
+- **3 Should-Fix-Tasks des Kollegen** (Concept-Distribution-Survey + DESIGN.MD Modul-Pattern + Index-Größen-Strategie-Issue) sind separate Workstreams seinerseits, ich greife nicht ein
+- **Corpus-Index-Auto-Invalidate-Loader-Fix** (kein Issue, vom Kollegen heute morgen identifiziert): bleibt bestehen als bekannter Doppel-Bumps-Workaround
+- Sonst alles aus dem `aac7fe23e`-Carryover unverändert: #34 (Julia + Helmut), #81 (KZW), #91 (Tag + Webhook), #92 (Carina), #107/#108 (claude-ready M), #109 (FWF-Antrag), #106 (KZW-Backlog-Bestätigung).
+
