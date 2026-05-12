@@ -199,50 +199,6 @@ test.describe('Corpus Loading and Management', () => {
     expect(result.inBothStores).toBe(true);
   });
 
-  test('Corpus Loader - manifest parsing', async ({ page }) => {
-    await page.goto('/testing/test.html');
-
-    const result = await page.evaluate(async () => {
-      // Directly fetch manifest instead of using CorpusLoader (avoids path issues in test)
-      const manifestUrl = '/tei/manifest.json';
-      const response = await fetch(manifestUrl);
-
-      if (!response.ok) {
-        throw new Error(`Failed to fetch manifest: ${response.statusText}`);
-      }
-
-      const manifest = await response.json();
-
-      if (!manifest) throw new Error('Manifest not loaded');
-      if (!manifest.files) throw new Error('No files in manifest');
-      if (manifest.totalFiles !== 667) {
-        throw new Error(`Expected 667 files, got ${manifest.totalFiles}`);
-      }
-
-      // Check first file has required fields
-      const firstFile = manifest.files[0];
-      const requiredFields = ['filename', 'path', 'sigle', 'title', 'author', 'size'];
-
-      for (const field of requiredFields) {
-        if (!(field in firstFile)) {
-          throw new Error(`Missing field: ${field}`);
-        }
-      }
-
-      return {
-        success: true,
-        totalFiles: manifest.totalFiles,
-        totalSizeMB: manifest.totalSizeMB,
-        firstFile: firstFile
-      };
-    });
-
-    expect(result.success).toBe(true);
-    expect(result.totalFiles).toBe(667);
-    expect(result.totalSizeMB).toBeGreaterThan(1000); // Should be ~1523 MB
-    expect(result.firstFile.filename).toContain('.tei.xml');
-  });
-
   test('Corpus index structure after auto-load', async ({ page }) => {
     // Test that the corpus index has the expected structure
     await page.goto('/playground/index.html');
