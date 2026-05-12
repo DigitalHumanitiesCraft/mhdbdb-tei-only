@@ -363,7 +363,11 @@ class TEITextReader {
                     };
                     const label = divLabels[divType];
                     let header = '';
-                    if (label && divN) {
+                    if (divType === 'chapter') {
+                        // Chapter headings render like <head> (h3.section-head)
+                        const heading = label && divN ? `${label} ${divN}` : label || divN;
+                        if (heading) header = `<h3 class="section-head">${this.escapeHtml(heading)}</h3>`;
+                    } else if (label && divN) {
                         header = `<div class="tei-div-header tei-div-${this.escapeHtml(divType)}">${this.escapeHtml(label)} ${this.escapeHtml(divN)}</div>`;
                     } else if (label) {
                         header = `<div class="tei-div-header tei-div-${this.escapeHtml(divType)}">${this.escapeHtml(label)}</div>`;
@@ -421,6 +425,14 @@ class TEITextReader {
                     return colNum
                         ? `<span class="column-break" title="Spalte ${colNum}">[Sp. ${this.escapeHtml(colNum)}]</span>`
                         : '<span class="column-break">[Sp.]</span>';
+                }
+                case 'milestone': {
+                    const unit = el.getAttribute('unit') || '';
+                    const msN = el.getAttribute('n') || '';
+                    if (unit === 'verse' && msN) {
+                        return `<span class="verse-marker" title="Vers ${this.escapeHtml(msN)}">${this.escapeHtml(msN)}</span>`;
+                    }
+                    return '';
                 }
                 case 'caesura':
                     return '<span class="caesura" title="Zäsur">||</span>';

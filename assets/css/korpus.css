@@ -542,11 +542,7 @@
 }
 
 /* --- hi/@rend token-based classes --- */
-.reading-body .hi-initial {
-  font-weight: 700;
-  font-size: 1.5em;
-  color: var(--accent-primary);
-}
+/* hi-initial: no special styling (renders as plain text per render policy) */
 
 .reading-body .hi-upper_case_first_letter {
   text-transform: capitalize;
@@ -607,6 +603,18 @@
 
 .reading-body .number {
   font-variant-numeric: oldstyle-nums;
+}
+
+/* --- milestone[@unit="verse"] inline marker --- */
+.reading-body .verse-marker {
+  display: inline-block;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  vertical-align: super;
+  margin: 0 0.15em 0 0.4em;
+  user-select: none;
 }
 
 /* Highlight styling for reading view */
