@@ -5,7 +5,7 @@
  * Uses Dexie.js for IndexedDB caching
  */
 
-const INDEX_VERSION = '4.1.0';  // 4.0.0: document-level indexing. 4.0.1: WZB. 4.1.0: lineStarts/lineEnds für #47.3.
+const INDEX_VERSION = '4.1.1';  // 4.0.0: document-level indexing. 4.0.1: WZB. 4.1.0: lineStarts/lineEnds für #47.3. 4.1.1: #23 Stanza-Wraps.
 const AUTHORITY_INDEX_VERSION = '1.2.1';  // 1.2.0: Authority migration (genre ptrs, person-works derivation, Frauendienst split). 1.2.1: WZB-Lemmata + Werk-Eintrag
 const CACHE_DURATION = 30 * 24 * 60 * 60 * 1000; // 30 days in milliseconds
 

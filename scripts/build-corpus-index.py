@@ -6,9 +6,9 @@ Build Corpus Index
 Generates pre-built corpus index from tei/ directory (667 TEI files).
 Output: data/corpus-index.json.gz (~3-5 MB compressed)
 
-Index structure (v4.1.0 - DOCUMENT-LEVEL + LINE BOUNDARIES):
+Index structure (v4.1.1 - DOCUMENT-LEVEL + LINE BOUNDARIES):
 {
-  "version": "4.1.0",
+  "version": "4.1.1",
   "generatedAt": "2025-01-01T00:00:00Z",
   "totalTexts": 667,
   "totalLemmata": 45000,
@@ -303,7 +303,7 @@ def build_corpus_index():
 
     # Build final index
     index = {
-        'version': '4.1.0',  # 4.0.0: document-level indexing. 4.0.1: WZB. 4.1.0: lineStarts/lineEnds für #47.3.
+        'version': '4.1.1',  # 4.0.0: document-level indexing. 4.0.1: WZB. 4.1.0: lineStarts/lineEnds für #47.3. 4.1.1: #23 Stanza-Wraps.
         'generatedAt': datetime.now().isoformat() + 'Z',
         'totalTexts': len(texts),
         'totalLemmata': len(lemma_index),
