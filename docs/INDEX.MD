@@ -140,6 +140,8 @@ Post-MVP with stable v4.0.0 corpus index and v1.2.0 authority index
 - ✅ **Blog-Post-Draft WZB-Pipeline** (2026-05-12, Julia + C. Pollin) - `publications/BLOG-POST-WZB-PIPELINE.md` v3: 30J. MHDBDB-Kontext, LOD, dreiphasige LLM-Pipeline, böhmische Schreibkonventionen; unpublished
 - ✅ **#105 Authority-Files-Counter** (2026-05-12) - Stats-Block auf Startseite 7 → 8 angeglichen; Playground-Loader-Status bleibt 7 (technisch korrekt, `contributors.xml` nicht im authority-index)
 - ✅ **#47.3 Lemmasuche nach Versposition** (2026-05-12) - Neuer Playground-Eintrag unter Multi-Lemma-Suche, findet Lemmata am Versanfang/Versende; Corpus-Index v4.1.0 mit `lineStarts[]`/`lineEnds[]` (1,359,789 `<l>` über 603 Versdichtungs-Texte, +6 MB gz); Chrome-verifiziert mit echten Reimpaaren in AGS
+- ✅ **#47 R2 Begriffs-Verteilung** (2026-05-12) - Neuer Playground-Eintrag analog Lemma-Verteilung (#90), aber concept-basiert. Datenpfad: concept → senses → lemmata → texts. Verifiziert mit „Sterben" (682 Lemmata, 659 Texte, 103.657 Vorkommen) und englischer Eingabe „love" (Intimität, mit alternativen Candidates)
+- ✅ **#47 Umbrella TEI Textanalyse geschlossen** (2026-05-12) - R1 + R2-Hauptpunkt shipped; Folgepunkte in #107 Kookkurrenz-Ranking, #108 Textvergleich, #106 Vers-Boundary-Features (Punkt 1 als Rolling-Backlog), #109 FWF-Einzelprojekt für NER und tiefere Analysen ausgelagert
 
 ### Known Limitations
 - Desktop-only interface (not mobile-responsive)

@@ -1,6 +1,6 @@
 # Roadmap
 
-Strategic priorities for the MHDBDB TEI Repository. Updated 2026-05-12.
+Strategic priorities for the MHDBDB TEI Repository. Updated 2026-05-12 (Abend).
 
 See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/44) for the full triage matrix with per-issue status.
 
@@ -18,7 +18,8 @@ See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues
 | #45 | Static JSON API (FAIR data) — [planning doc](features/045-static-api.md) ready | pipeline + frontend | L |
 | #78 | Frontend-Dokumentation: MHDBDB-Schema & Daten-Tutorial | documentation | M |
 | #86 | Barrierefreiheitserklärung (WZG) — needs Uni Salzburg input | documentation | M |
-| #47 R2 | Playground TEI Textanalyse Release 2: Begriffs-Verteilung (analog #90 Lemma-Verteilung, Konzept-basiert) | frontend | S |
+| #107 | Kookkurrenz-Ranking („Welche Lemmata stehen am häufigsten bei X?") — sofort umsetzbar, alle Daten im Index | frontend | M |
+| #108 | Textvergleich (gemeinsame vs. exklusive Lemmata zweier Texte) — sofort umsetzbar | frontend | M |
 
 ## Blocked: Needs Human Input
 
@@ -34,12 +35,12 @@ See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues
 
 | # | What | Key question |
 |---|------|-------------|
-| #47 | TEI Textanalyse im Playground (umbrella) | Release 1 sub-issues created (#87-90). Further features (#47 Release 2+3) need scoping |
 | #27 | POS Workflow expansion | Linguistic decisions answered — implementation scope? |
 | #28 | Foreign language search | Index needs `xml:lang`; UI design needed |
 | #18 | Multi-lemma + PoS tag search | Depends on POS corpus migration (#27) |
 | #23 | Missing stanza markup (104 texts) | Complex cases need Linecode docs (#31, done) + Julia input |
 | #104 | Siglen, die zu einem Werk zusammengehören (FLG/FLG1, PL1-3, FR1-3) — KZW-Issue 2026-05-11 | KZW + Julia |
+| #106 | Vers-Boundary-Folgefeatures — Punkt 1 (Reim-Wörterbuch) bleibt Rolling-Backlog; Punkte 2-7 wandern in #109 FWF-Projekt; Punkt 8 in Multi-Lemma-Backlog | KZW priorisiert weiter |
 
 ## Future: Needs Design
 
@@ -49,11 +50,14 @@ See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues
 | #59 | Antonomasien/Epitheta Modul | Standalone analysis module design |
 | #63 | Begriffssystem Update | Julia's future plans |
 | #80 | Umbrella: User-facing Dokumentation & Hilfe | Sub-issues #79, #78, #68 |
+| #109 | FWF-Einzelprojekt (Korpus-Tiefenanalyse, NER-Pipeline, phonetische Reimanalyse, Visualisierungen) — Antrag durch KZW, kleines Budget, max. 50% externe Mittel | Scope-Notiz für Antragstext |
 
 ## Recently Completed
 
 | # | What |
 |---|------|
+| ~~#47~~ | TEI Textanalyse Umbrella geschlossen (2026-05-12): R1 (#87-90) und R2-Hauptpunkt Begriffs-Verteilung shipped; Folgepunkte ausgelagert in #107 (Kookkurrenz-Ranking), #108 (Textvergleich), #106 (Vers-Boundary-Features, Punkt 1 als Rolling-Backlog), #109 (FWF-Projekt für NER + tiefere Analysen) |
+| ~~#47 R2~~ | Begriffs-Verteilung (2026-05-12): Neuer Playground-Eintrag analog Lemma-Verteilung (#90), aber concept-basiert. Datenpfad concept → senses → lemmata → texts. Verifiziert mit „Sterben" (682 Lemmata, 659 Texte, 103.657 Vorkommen) und „love" (Intimität mit Candidates) |
 | ~~#47.3~~ | Lemmasuche nach Versposition (2026-05-12): Neuer Playground-Eintrag unter Multi-Lemma-Suche, findet Lemmata am Versanfang/Versende. Corpus-Index v4.1.0 mit `lineStarts[]`/`lineEnds[]` (1,359,789 `<l>` über 603 Versdichtungs-Texte, +6 MB gz). KZW-Wording wortgleich; Chrome-verifiziert (Reimpaare gân/begân, bant/bekant am Versende von AGS) |
 | ~~#105~~ | Authority-Files-Counter (2026-05-12): Stats-Block auf Startseite von 7 → 8 angeglichen; Playground-Loader-Status bleibt bei 7 (technisch korrekt, `contributors.xml` nicht im authority-index) |
 | ~~#73~~ | Lemma-Linking MWB + Lexer (2026-05-12): MWB-Block über Wörterbuchnetz-API (`/dictionaries/MWB/lemmata/{form}`) statt POST-only-Suchformular; Dictionary-Loop für beide Wörterbücher, Section nur sichtbar wenn min. 1 Treffer. Julias initialer Suchlink (`05c8676a4`) war defekt |

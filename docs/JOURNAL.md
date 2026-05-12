@@ -710,3 +710,38 @@ Aus Julias paralleler Session (alphabetisch nach Hash, dieser Handoff Session H)
 3. **#104-Befund abwarten** (Kollege).
 4. **Falls KZW reviewt #47.3:** evtl. Untertitel/Wording polishen, Position-Default-Frage klären (jetzt Versende).
 
+---
+
+## 2026-05-12 — Abend: #47.3-Hilfe, Begriffs-Verteilung, FWF-Stub
+
+**Summary:** Vier weitere Artefakte nach dem #47.3-Sprint: (a) Hilfe-Doku-Section für #47.3 in `hilfe-playground.html`; (b) **Begriffs-Verteilung** als #47-R2-Hauptpunkt geliefert (`concept-distribution.js`, ~330 Z., analog Lemma-Verteilung aber concept-basiert); (c) **#47 Umbrella geschlossen** mit Bilanz-Kommentar; (d) Drei neue Folgeissues angelegt: **#107 Kookkurrenz-Ranking** + **#108 Textvergleich** als rolling-claude-ready, **#109 FWF-Einzelprojekt** als Antrags-Scope-Notiz mit @wachauer als Lead. Zwischendurch ein Concurrent-Sessions-Bug abgefangen (commit `92edea19b` enthielt 93 unbeabsichtigte TEI-Files, vor Push reset --soft repariert).
+
+**Decisions:**
+- **#47 Close mit Auslagerung statt Brainstorm-Cleanup:** Kookkurrenz und Textvergleich als eigenständige claude-ready-Issues, weil sie sofort umsetzbar sind ohne KZW-Input. NER + phonetischer Reim + Textprofil-POS gehen in #109 FWF-Projekt, weil sie eigenen Forschungsdesign-Aufwand brauchen. Punkt 1 aus #106 (Reim-Wörterbuch) bleibt im Rolling-Backlog (KZW: „zwischendurch"), Punkt 8 (Lemma-im-Vers-Filter) wandert in den Multi-Lemma-Backlog (trivial, kein FWF).
+- **#109 nur @wachauer als Assignee:** Co-PI-Diskussion auf später verschoben. KZW reicht den Antrag ein und entscheidet über Co-Leads im Antragstext.
+- **Hilfe-Doku-Section in Sub-Section statt eigenem H1-Block:** Section „4. Lemmasuche nach Versposition" zwischen Multi-Lemma und Forschungsfragen, mit Reimpaar-Beispiel aus AGS (gân/begân, bant/bekant, mûzære/gewære, rote/nota, jâr/hâr). Beide TOCs ergänzt; Sections 5-8 entsprechend umnummeriert ohne Anchor-Bruch.
+- **Concept-Lemma-Aggregation in JS:** Performance-Frage war, ob bei großen concepts (z.B. „Sterben" mit 682 zugeordneten Lemmata) der Scan über 667 Texte schnell genug ist. Antwort: ja, ~100ms im Browser. Python-Ground-Truth bestätigt 1:1 (682 Lemmata, 659 Texte, 103.657 Vorkommen).
+
+**Dead ends:**
+- **Concurrent-Sessions-Bug `92edea19b`:** Der Kollege hat seine ~93 Stanza-Insert-TEI-Files in den geteilten Index gestaged, ich habe via `git add hilfe-playground.html` (specific path) gestaged und committed — und alle Stage-Slots wurden mit committed. `git diff --cached --stat hilfe-playground.html` (mit Pfad-Filter) hatte das verborgen. Reset `--soft HEAD~1` + `git restore --staged tei/` repariert sauber vor Push. **Lehre:** vor jedem commit `git diff --cached --stat` OHNE Pfad-Filter. Memory-Regel `feedback_concurrent_sessions.md` explizit erweitert um diese Diagnostik.
+- **#105 Authority-Counter-Frage „pragmatisch oder semantisch":** User-Bauchgefühl war richtig (`contributors.xml` ist semantisch kein User-facing Authority-File), aber pragmatischer Konsens war „pauschal auf 8 vereinheitlichen, niemanden interessiert die Meta-Trennung". Ein-Zeilen-Fix `index.html:293` 7→8 statt großem Sprachsweep.
+- **Index-Version-Drift in Loader:** zwischen Build-Skript (`4.1.0`) und Loader-Konstante (`4.0.1`) drift nach #47.3-Bump. Production-User mit altem Cache hätten den neuen Index nie gesehen. In `8f375bc4e` nachgepatcht. Strukturell verankert via neuem `scripts/audit/check-index-versions.py` + `.github/workflows/index-version-check.yml` (Commit `07c9f3244`), plus Memory `feedback_index_version_bump.md`.
+
+**Phase:** Implementation (iteration). Promptotyping-Docs aktualisiert: ROADMAP.md (#47 closed, #107/#108 in Next, #109 in Future, #106-Scope-Reduktion-Note in Needs-Clarification), INDEX.MD (Recent Milestones um Begriffs-Verteilung + #47-Close-Bilanz), JOURNAL.md (dieser Eintrag).
+
+**Open issues (post-Session):**
+- **#107 Kookkurrenz-Ranking:** claude-ready, ~3-4h Sprint nach Begriffs-Verteilung-Pattern.
+- **#108 Textvergleich:** claude-ready, ~2-3h Set-Ops-Modul.
+- **#109 FWF-Projekt:** wartet auf Antragsformulierung (@wachauer).
+- **#106:** wartet auf KZW-Kommentar zur Scope-Reduktion auf Punkt 1.
+- **Corpus-Index-Auto-Invalidate** (Carryover): kleiner Loader-Fix, würde Production-User vor Cache-Drift-Problemen schützen, ohne dass die `INDEX_VERSION`-Konstante manuell mitgewartet werden muss. Bei nächstem Index-Bump wert.
+- **Carryover:** #23, #34, #81, #91, #92, #104 unverändert.
+
+**Commits (alle gepusht, neueste zuerst):**
+- `a0b8d9aab` `feat(playground): #47 R2 Begriffs-Verteilung` (4 Files, +433, neuer Modul + Button + Route)
+- `636c795c9` `docs(hilfe): Section 4 'Lemmasuche nach Versposition' für #47.3` (1 File, +72)
+- `07c9f3244` `ci: Index-Version-Konsistenz-Check für corpus-loader.js + build-skripte` (Audit-Skript + CI-Workflow)
+- `8f375bc4e` `fix(loader): INDEX_VERSION-Konstante auf 4.1.0 bumpen (Cache-Invalidate für #47.3)`
+
+**Externe:** **#47 closed** mit Bilanz-Kommentar (issuecomment-4430321460), **#105 closed** via `Closes #105`-Trailer in `8bf689d93`, **#107/#108/#109 erstellt** (#109 mit @wachauer als Assignee, FWF-Budget-Constraint dokumentiert), Memory `feedback_concurrent_sessions.md` erweitert um Pre-Commit-Drill ohne Pfad-Filter, Memory `feedback_index_version_bump.md` neu (drei-Stellen-Bump-Regel).
+
