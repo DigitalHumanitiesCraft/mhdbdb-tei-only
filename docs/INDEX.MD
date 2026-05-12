@@ -132,6 +132,12 @@ Post-MVP with stable v4.0.0 corpus index and v1.2.0 authority index
 - ✅ **#97-#100 Playground-Cleanups + Pre-flight-Check** (2026-05-11) - Corpus-Index-Property-Drift behoben (`teiManager.corpusIndex` gespiegelt), ~700 Zeilen Dead Code aus `tei-ui.js` entfernt (581 → 404 Z.), `git status --porcelain`-Pre-flight im Index-Build verhindert dirty Builds
 - ✅ **WZB Schema-Konformität in `works.xml`** (2026-05-11) - Julias Fix `af72bd261` für den initial fehlerhaften `<ref>`/`<note type=>`-Block im work_WZB-Eintrag plus Normdaten-Ergänzung (Wikidata Q476495, GND 4117632-7, HSC werke/4577); CI-Schema-Validation seit `26a4cd882` wieder grün
 - ✅ **#91 Zenodo-Stub** (2026-05-11) - `CITATION.cff` mit konservativem Lead-Author-Eintrag (KZW); README-DOI-Badge wartet auf Zenodo-Aktivierung + ersten getaggten Release
+- ✅ **#26 pb-Insertion** (2026-05-11) - 1293 `<pb>`-Elemente über 14 TEI-Files via Linecode-Handover-Templates; #102 (BDK) + #103 (DIS) als Followups separat closed
+- ✅ **#85 div-Wrapper-Umbrella** (closed 2026-05-12) - Kat. 2 (7 Lieder) bereits in `ef939f530`; Kat. 3 (DJEM, DES2 als `<div type="parallel">`, DUB nach `u=1`-Klärung); 13 MBS-Serie strukturell implizit-OK
+- ✅ **#101 Reading-View-Render-Policy** (2026-05-12, Julia) - `milestone[@unit="verse"]` → superscript verse-marker, `div[@type="chapter"]` → `<h3 class="section-head">`, `.hi-initial` Sonderformatierung entfernt; Marginalia/Glossen/Rubrum unstylisiert
+- ✅ **#73 Lemma-Linking MWB + Lexer** (2026-05-12) - Beide Wörterbücher über Wörterbuchnetz-API (`/dictionaries/{MWB|Lexer}/lemmata/{form}`); ersetzt Julias initialen, defekten MWB-Suchlink (POST-only-Form öffnete leere Suchseite); Section nur sichtbar wenn min. 1 Treffer
+- ✅ **WZB Pentateuch-Scope** (2026-05-12, Julia) - WZB-Titel + works.xml + projectDesc auf „Wenzelsbibel (Pentateuch: Gen–Dtn, Cod. 2759–2764)" präzisiert; Authority-Index-Rebuild
+- ✅ **Blog-Post-Draft WZB-Pipeline** (2026-05-12, Julia + C. Pollin) - `publications/BLOG-POST-WZB-PIPELINE.md` v3: 30J. MHDBDB-Kontext, LOD, dreiphasige LLM-Pipeline, böhmische Schreibkonventionen; unpublished
 
 ### Known Limitations
 - Desktop-only interface (not mobile-responsive)

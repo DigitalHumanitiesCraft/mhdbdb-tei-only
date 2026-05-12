@@ -614,3 +614,52 @@ Aus paralleler Session: `d21e50dc6` JOURNAL-Handoff Session D, `a1a53f663` JOURN
 4. **Reader-View-Stichprobe für GEG/JSG/KVH:** Chrome-DevTools öffnen, einen Text aufrufen, prüfen ob `<lg type="stanza">` als CSS-Block gerendert wird (oder ob im Reader nicht).
 5. **GVS-Sonderfall:** falls #23 Bulk-Run startet, GVS überspringen (0 stanza-anchors) und separat als „braucht möglicherweise `<div type="song">`" markieren.
 6. **#47.3 Lemmasuche nach Versposition** (Session E-Carryover): Pipeline-Sprint, eigenständig machbar ohne KZW-Input.
+
+---
+
+## 2026-05-12 — Julia-Vormittag + #73-Fix-Nachmittag
+
+**Summary:** Parallele Aktivität ohne direkte Abstimmung. Julias Vormittagsblock (8:47–11:54, sechs Commits) hat **#101 Reading-View-Render-Policy** geschlossen und das **Lemma-Linking zu MWB + Lexer** für #73 eingebaut, plus WZB-Pentateuch-Scope, Contributing-Guide-Update (#68) und einen WZB-Pipeline-Blog-Post-Draft v3 mit Christopher Pollin. KZW hat zwischen 06:59 und 12:09 **#85 closed** (nach dem morgendlichen DUB-`<div>`-Wrapper-Fix `d92e398ec`) und das vorgestrige `CITATION.cff` als `type=dataset` finalisiert. Nachmittags Christian-Session: Julias #73-Implementation auf Funktion geprüft, **defekten MWB-Suchlink entdeckt** und behoben.
+
+**Decisions:**
+- **#73 MWB-Suchlink war defekt:** Julias statischer `mhdwb-online.de/suche.php?q=...&modus=Lemma` öffnete nur das leere Suchformular. Verifikation: MWB-Suche ist POST-only, GET-Parameter werden ignoriert (curl-Response identisch 2247 B für jede GET-Query). User wäre auf der leeren Eingabemaske gelandet statt auf der Wörterbuch-Detailseite.
+- **MWB-API liefert sehr wohl Treffer:** entgegen Julias Annahme („konsistent 0 Treffer") liefert `/open-api/dictionaries/MWB/lemmata/{form}` für viele Lemmata direkte Deeplinks. MWB ist alphabetisch in Bearbeitung — `brôt` (B-Bereich) gibt 2 Treffer, `schamen` (S-Bereich) ist noch nicht erfasst. Julia hat vermutlich nur S- oder andere unfertige Bereiche getestet.
+- **HTTP-Deeplinks sind in `<a target="_blank">` kein Mixed-Content-Block:** die MWB-`wbnetzlink`-URLs sind HTTP, aber Navigation in einen neuen Browser-Kontext löst die Mixed-Content-Policy nicht aus. Der ursprüngliche „HTTPS-Blocker" aus dem Issue-Body von #73 betraf nur eingebettete Inhalte (iframe/fetch), nicht Anchor-Klicks.
+- **Section-Sichtbarkeit umgekehrt:** Julias Version zeigte die Section immer (durch den statischen MWB-Eintrag). Neue Version blendet die Section nur ein, wenn min. 1 Treffer existiert. Bei Bohemian-Hapax (`cs`, 0/0) bleibt die UI sauber.
+- **`escapeHtml()` Methode entfernt:** wurde durch den Rewrite zu Dead Code (kein Aufrufer mehr).
+
+**Dead ends:**
+- **Erste Idee „MWB ganz raus":** wäre Option B im Triage gewesen, hätte aber funktionale Treffer in A-D + weiteren MWB-Bereichen weggeworfen. Dictionary-Loop war sauberer und kürzer als gedacht.
+- **API-Probing mit falscher Sigle:** `Mwb` und `MWBNetz` liefern `400 illegal dictionary sigla` (nicht 404). Wörterbuchnetz erwartet exakte Großschreibung `MWB`. Liste der 52 verfügbaren Dictionaries via `GET /open-api/dictionaries`.
+- **Browser-Test mit `window.location.href`-Schleife:** der Inspector verlor seinen Context („Inspected target navigated or closed"). Lösung: einzelne `navigate`-Aufrufe pro Lemma statt Schleife im JS.
+
+**Phase:** Implementation (iteration). Alle 14 Promptotyping-Docs aktuell. Heute aktualisiert: ROADMAP.md (Datum 2026-05-12, #85 raus aus Blocked, #73 raus aus Needs Clarification, #104/#105 als neue offene, Strategic Direction Punkt 5), INDEX.MD Recent Milestones (#26, #85, #101, #73, WZB-Pentateuch, Blog-Post), JOURNAL.md (dieser Eintrag), #44-Body folgt im selben Commit-Cluster.
+
+**Open issues (post-Session):**
+- **#104** Siglen, die zu einem Werk zusammengehören (FLG/FLG1, PL1-3, FR1-3): KZW-Issue 2026-05-11. Deterministisch teilweise (PL1-3 zusammenziehen falls Body identisch), philologisch Klärungsbedarf bei FLG/FLG1 (verschiedene Editionen).
+- **#105** Authority-Files-Counter (7 vs 8): KZW-Befund 2026-05-12. `contributors.xml` seit 2026-04-14 dabei, aber String auf einigen UI-Seiten zeigt noch 7. Einfacher Fix.
+- **#92** ARITHMETIC: weiter blockiert auf Carinas Antwort.
+- **#91** Zenodo: User-Steps (Webhook-Setup, ersten Tag pushen) pendent.
+- **#81** Sprachstufen AC1-3: KZW-Code-Wahl ausstehend.
+- **#23** Stanza-Insert: Skript-ready, 99.7 % Erfolgsrate auf 60-Sigles-Dry-Run, KZW-Go für Bulk pendent.
+- **#34** WZB Phase 3 @meaningRef bei 92.5 %, 4 013 Rows pending (Julia + Helmut).
+
+**Commits (alle gepusht, neueste zuerst):**
+- `dcbee3479` `fix(lemma): #73 MWB-Deeplinks via Wörterbuchnetz-API statt kaputtem Suchlink` (Closes #73)
+
+Aus Julias paralleler Session (alphabetisch nach Hash, dieser Handoff Session H):
+- `8dfb9b80d` `feat(reader): Reading-View-Render-Policy implementiert (closes #101)`
+- `082cb4d2f` `docs(hilfe): Contributing-Guide überarbeitet (#68)` (Two-Wege-Block Self-Ingest vs. DHCraft-Konvertierungsservice, 9-Punkte-Vorab-Checkliste, works.xml-Korrekturen)
+- `05c8676a4` `feat(lemma-pages): Wörterbuch-Links MWB + Lexer (#73)` — initial implementation, MWB-Suchlink war defekt, in `dcbee3479` korrigiert
+- `aa114bf89` + `6c4d7955c` `feat(WZB): Pentateuch-Scope in Metadaten (Gen–Dtn)` + Index-Rebuild
+- `6ac508b8b` + `7c515b152` + `39e74f127` `docs: Blog-Post-Draft WZB-Pipeline` (publications/, drei Iterationen)
+
+**Externe:** #73 closed via `Closes #73`-Trailer + Befund-Kommentar (POST-only-Diagnose, MWB-API-Reality-Check, HTTP-Link-Safety). KZW: #85 closed (UI), #105 neu (Authority-Counter), `CITATION.cff` final (`8e4202ffc`).
+
+**Verifikation:** Chrome auf `localhost:8080` für drei Lemmata-Klassen: `brôt` (id=879, B-Bereich) zeigt 2× MWB-Deeplink (`linkid=25587000`, `linkid=246761100`) + 1× Lexer (`lemid=B04012`); `schamen` (id=5170, S-Bereich) zeigt nur 2× Lexer (MWB-API: 0 Treffer); `cs` (id=78628, Bohemian-Hapax) → Section korrekt versteckt (0/0). Keine Console-Errors nach Dead-Code-Removal.
+
+**Next session:**
+1. `/promptotyping orient`
+2. **#105 Authority-Files-Counter:** String-Drift-Fix (vermutlich auf `index.html` Stats-Block und Hilfe-Seiten). KZW-Screenshots in Issue zeigen genaue Stellen.
+3. **#104 Siglen zusammenziehen:** PL1-3 deterministisch prüfen (gleiche Metadaten? Nur Body unterschiedlich?). FLG/FLG1 + FR1-3 brauchen KZW-Klärung der Editions-Politik.
+4. **Carryover:** #23 Bulk-Run (wartet auf KZW-Go), #47.3 Versposition-Pipeline, #91 Zenodo-Tag.

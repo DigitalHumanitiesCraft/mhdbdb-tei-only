@@ -1,6 +1,6 @@
 # Roadmap
 
-Strategic priorities for the MHDBDB TEI Repository. Updated 2026-05-11.
+Strategic priorities for the MHDBDB TEI Repository. Updated 2026-05-12.
 
 See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/44) for the full triage matrix with per-issue status.
 
@@ -8,8 +8,9 @@ See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues
 
 | # | What | Domain | Effort |
 |---|------|--------|--------|
-| #91 | Zenodo-Integration — CITATION.cff-Stub + DOI-Badge-Platzhalter geliefert; KZW gepingt für finale Author-Liste; Zenodo-Webhook + Tag noch User-Steps | docs/release | S |
+| #91 | Zenodo-Integration — CITATION.cff von KZW finalisiert (`type=dataset`, Lead-Autorin); Zenodo-Webhook + Tag noch User-Steps | docs/release | S |
 | #81 | Sprachstufen-Differenzierung — 4/7 Texte abgehakt (SAL/SAT/BAR/TUN no-op); AC1-3 pending KZW-Code-Wahl | data | S |
+| #105 | Authority-Files-Counter im Frontend uneinheitlich (7 vs 8) — KZW-Befund 2026-05-12, einfacher String-Fix | frontend | S |
 
 ## Next: FAIR Data + Daten-Qualität
 
@@ -26,11 +27,9 @@ See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues
 |---|------|-------------|
 | #92 | ARITHMETIC ingest — 6 fnhd. Rechenbuch-HS von Carina (Graz); wartet auf Carinas Antwort zu Sigle/Lizenz/Edition/Genre + Schlüsselfrage Domänen-Klassifikation erhalten? | Carina (via Katharina) |
 | #30 | TEI structural fixes — auto-fixes ready, draft-fixes prepared | KZW (review) |
-| #26 | Missing `<pb>` elements (17 texts) | KZW manual check |
-| #85 | Fehlende `<div>`-Wrapper (26 Texte, 4 Kategorien) | KZW + Julia |
 | #81 | Sprachstufen-Differenzierung: pauschales `gmh` stimmt nicht | KZW |
 | #34 | Ingest Wenzelsbibel — Phase 3 at 92.5% @meaningRef, 4,013 rows pending; branch rebased 2026-05-06; evaluation script (`wzb-sense-evaluate.py`) ready | Julia + Helmut |
-| #68 | Guide: How to add data to MHDBDB — Teil 1 (`hilfe-daten-beitragen.html`) shipped 2026-05-07; weitere Onboarding-Artefakte hängen an #34-Lessons | KZW |
+| #68 | Guide: How to add data to MHDBDB — Teil 1 (`hilfe-daten-beitragen.html`) shipped 2026-05-07, Contributing-Guide-Update 2026-05-12 (Two-Wege-Block + 9-Punkte-Checkliste); weitere Onboarding-Artefakte hängen an #34-Lessons | KZW |
 
 ## Needs Clarification
 
@@ -40,8 +39,8 @@ See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues
 | #27 | POS Workflow expansion | Linguistic decisions answered — implementation scope? |
 | #28 | Foreign language search | Index needs `xml:lang`; UI design needed |
 | #18 | Multi-lemma + PoS tag search | Depends on POS corpus migration (#27) |
-| #73 | Lemma-Linking zu MWB/Wörterbuchnetz | MWB API HTTP-only (blocked by mixed content); linking strategy needed |
 | #23 | Missing stanza markup (104 texts) | Complex cases need Linecode docs (#31, done) + Julia input |
+| #104 | Siglen, die zu einem Werk zusammengehören (FLG/FLG1, PL1-3, FR1-3) — KZW-Issue 2026-05-11 | KZW + Julia |
 
 ## Future: Needs Design
 
@@ -56,6 +55,11 @@ See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues
 
 | # | What |
 |---|------|
+| ~~#73~~ | Lemma-Linking MWB + Lexer (2026-05-12): MWB-Block über Wörterbuchnetz-API (`/dictionaries/MWB/lemmata/{form}`) statt POST-only-Suchformular; Dictionary-Loop für beide Wörterbücher, Section nur sichtbar wenn min. 1 Treffer. Julias initialer Suchlink (`05c8676a4`) war defekt |
+| ~~#101~~ | Reading-View-Render-Policy (2026-05-12, Julia): `milestone[@unit="verse"]` → `<span class="verse-marker">` (superscript), `div[@type="chapter"]` → `<h3 class="section-head">`, `.hi-initial` Sonderformatierung entfernt; Marginalia/Glossen/Rubrum bleiben unstylisiert |
+| ~~#85~~ | Umbrella div-Wrapper (closed 2026-05-12): Kat. 2 (7 Lieder) bereits in `ef939f530`; Kat. 3 (DJEM `e7b99b990`, DES2 `f51a74468`, DUB `d92e398ec`); 13 MBS-Serie-Texte aus Kat. 1 strukturell als implizit-OK eingestuft |
+| ~~WZB Pentateuch~~ | (2026-05-12, Julia): WZB-Titel + works.xml + projectDesc auf „Wenzelsbibel (Pentateuch: Gen–Dtn, Cod. 2759–2764)" präzisiert; Authority-Index-Rebuild |
+| ~~Blog-Post WZB-Pipeline~~ | (2026-05-12, Julia + C. Pollin): Draft v3 in `publications/BLOG-POST-WZB-PIPELINE.md` (30J. MHDBDB-Kontext, LOD, dreiphasige LLM-Pipeline, böhmische Schreibkonventionen); unpublished |
 | ~~#20~~ | Readability fixes (2026-05-11): Counter „667/667 Texte ausgewählt" auf text-2xl/font-semibold, dedizierte blue-50-Hinweisbox mit Info-Icon zum Deselect-Workflow |
 | ~~#96~~ | Metadatenanzeige (2026-05-11): TEI-XML-Download-Link am Ende des Reader-Metadaten-Panels, Anonym-Wikidata-Link bei `authorId === 'person_anonym'` unterdrückt |
 | ~~#87~~ | Playground TEI Textanalyse UX-Cleanup (2026-05-11): 3 broken Buttons raus, Reorder |
@@ -106,6 +110,6 @@ See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues
 
 4. **TEI data quality** — Remaining structural fixes (#23, #26, #85). Mostly blocked on human review.
 
-5. **Frontend refinements** — Reader (#17 ✅) und UI-Polish (#20 ✅) abgeschlossen. Verbleibende Items: Reading-View-Render-Policy (kein Issue), Upload-UI-Dead-Code-Cleanup (kein Issue), advanced playground features.
+5. **Frontend refinements** — Reader (#17 ✅), UI-Polish (#20 ✅), Reading-View-Render-Policy (#101 ✅ 2026-05-12, Julia) und Lemma-Linking MWB+Lexer (#73 ✅ 2026-05-12) abgeschlossen. Upload-UI-Dead-Code-Cleanup pendent (kein Issue).
 
 6. **Advanced search** — PoS-based search (#18) and foreign language search (#28) depend on corpus index extensions.
