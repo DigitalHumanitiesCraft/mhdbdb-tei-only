@@ -10,6 +10,7 @@ See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues
 |---|------|--------|--------|
 | #91 | Zenodo-Integration — CITATION.cff von KZW finalisiert (`type=dataset`, Lead-Autorin); Zenodo-Webhook + Tag noch User-Steps | docs/release | S |
 | #81 | Sprachstufen-Differenzierung — 4/7 Texte abgehakt (SAL/SAT/BAR/TUN no-op); AC1-3 pending KZW-Code-Wahl | data | S |
+| #112 | Versposition-Klick highlightet Lemma im Reader nicht — Bug aus wachauer-Comment in #47 | frontend | S |
 
 ## Next: FAIR Data + Daten-Qualität
 
@@ -20,6 +21,7 @@ See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues
 | #86 | Barrierefreiheitserklärung (WZG) — needs Uni Salzburg input | documentation | M |
 | #107 | Kookkurrenz-Ranking („Welche Lemmata stehen am häufigsten bei X?") — sofort umsetzbar, alle Daten im Index | frontend | M |
 | #108 | Textvergleich (gemeinsame vs. exklusive Lemmata zweier Texte) — sofort umsetzbar | frontend | M |
+| #113 | Autovervollständigung im Begriffs-Verteilung-Input — Pattern aus concept-explorer übernehmen | frontend | M |
 
 ## Blocked: Needs Human Input
 

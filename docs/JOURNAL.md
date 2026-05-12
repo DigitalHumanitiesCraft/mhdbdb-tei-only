@@ -922,3 +922,10 @@ Aus Julias paralleler Session (alphabetisch nach Hash, dieser Handoff Session H)
 
 **Externe:** Issue **#111 erstellt** (pipeline + future plans, kein Assignee), Browser-Performance-Befund dokumentiert in `docs/research/concept-distribution-survey.md` (untracked JSON-Dump bleibt lokal).
 
+**Post-Handoff-Nachtrag:** User-Frage „hast du alle issues geschlossen, die geschlossen werden sollten?" deckte auf, dass **#47 noch offen war** (heute Mittag wurde nur ein Bilanz-Comment gepostet, aber kein `Closes #47`-Trailer im Commit `0661d115f`). Zudem zwei wachauer-Kommentare unbehandelt: (a) #47.3 Versposition-Klick highlightet Lemma im Reader nicht (Bug), (b) #47 R2 Begriffs-Verteilung braucht Autovervollständigung wie Begriffe-Explorer (Feature). Beide abgespalten:
+- **#112** Versposition-Klick-Highlight-Bug (claude-ready, S) — in ROADMAP §Now eingetragen
+- **#113** Begriffs-Verteilung Autocomplete (claude-ready, M) — in ROADMAP §Next eingetragen
+- **#47 endgültig geschlossen** mit Verweis-Comment auf #112 + #113
+
+**Externer Commit dieses Nachtrags:** wird gemeinsam mit ROADMAP-Updates committed (sieh nächsten Commit).
+
