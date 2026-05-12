@@ -147,7 +147,7 @@
         <w xml:id="KOL_10_1" lemmaRef="lexicon.xml#lemma_27773" pos="NAM" ana="lexicon.xml#lemma_27773_sense_44019" corresp="variants.xml#type_203273">kol</w>
         <w xml:id="KOL_10_2" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
         <w xml:id="KOL_10_3" lemmaRef="lexicon.xml#lemma_38714" pos="NAM" ana="lexicon.xml#lemma_38714_sense_60397" corresp="variants.xml#type_203448">niunzen</w>
-        <l n="1">
+        <lg type="stanza" n="1"><l n="1">
           <hi rend="initial">
             <w xml:id="KOL_10100100_0" lemmaRef="lexicon.xml#lemma_4432" pos="ADV CNJ" ana="lexicon.xml#lemma_4432_sense_6912" corresp="variants.xml#type_15441">nu</w>
           </hi>
@@ -267,7 +267,7 @@
           <pc xml:id="KOL_10100700_12" join="left">.</pc>
           <pc xml:id="KOL_10100700_13" join="left">&gt;</pc>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="2"><l n="1">
           <hi rend="initial">
             <w xml:id="KOL_10200100_0" lemmaRef="lexicon.xml#lemma_1517" pos="PRO" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_4999">er</w>
           </hi>
@@ -499,7 +499,7 @@
           <w xml:id="KOL_30000600_3" lemmaRef="lexicon.xml#lemma_2551" pos="NOM" ana="lexicon.xml#lemma_2551_sense_4091" corresp="variants.xml#type_8560">güete</w>
           <pc xml:id="KOL_30000600_4" join="left">.</pc>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="3"><l n="1">
           <hi rend="initial">
             <w xml:id="KOL_40100100_0" lemmaRef="lexicon.xml#lemma_1065" pos="NOM" ana="lexicon.xml#lemma_1065_sense_1705" corresp="variants.xml#type_3287">danc</w>
           </hi>
@@ -558,7 +558,7 @@
           <w xml:id="KOL_40100600_5" lemmaRef="lexicon.xml#lemma_1588" pos="VRB" ana="lexicon.xml#lemma_1588_sense_2476" corresp="variants.xml#type_5351">erklingen</w>
           <pc xml:id="KOL_40100600_6" join="left">.</pc>
         </l>
-      </p>
+      </lg></p>
     </body>
   </text>
 </TEI>

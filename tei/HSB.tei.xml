@@ -137,7 +137,7 @@
         </hi>
         <w xml:id="HSB_10_1" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
         <w xml:id="HSB_10_2" lemmaRef="lexicon.xml#lemma_5731" pos="NAM" ana="lexicon.xml#lemma_5731_sense_8994" corresp="variants.xml#type_345147">starkenberg</w>
-        <l n="1">
+        <lg type="stanza" n="1"><l n="1">
           <hi rend="initial">
             <w xml:id="HSB_10100100_0" lemmaRef="lexicon.xml#lemma_8472" pos="PRO NEG" ana="lexicon.xml#lemma_8472_sense_22639" corresp="variants.xml#type_29907">in</w>
           </hi>
@@ -201,7 +201,7 @@
           <w xml:id="HSB_10100700_3" lemmaRef="lexicon.xml#lemma_3542" pos="ADJ ADV" ana="lexicon.xml#lemma_3542_sense_5614" corresp="variants.xml#type_12319">kunt</w>
           <pc xml:id="HSB_10100700_4" join="left">.</pc>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="2"><l n="1">
           <hi rend="initial">
             <w xml:id="HSB_10200100_0" lemmaRef="lexicon.xml#lemma_3001" pos="POS" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10218">mîn</w>
           </hi>
@@ -271,7 +271,7 @@
           <w xml:id="HSB_10200700_5" lemmaRef="lexicon.xml#lemma_2343" pos="VRB" ana="lexicon.xml#lemma_2343_sense_17380" corresp="variants.xml#type_7914">gewern</w>
           <pc xml:id="HSB_10200700_6" join="left">.</pc>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="3"><l n="1">
           <hi rend="initial">
             <w xml:id="HSB_10300100_0" lemmaRef="lexicon.xml#lemma_4432" pos="ADV CNJ" ana="lexicon.xml#lemma_4432_sense_6912" corresp="variants.xml#type_15441">nu</w>
           </hi>
@@ -343,7 +343,7 @@
           <w xml:id="HSB_10300700_5" lemmaRef="lexicon.xml#lemma_6969" pos="VRB" ana="lexicon.xml#lemma_6969_sense_11233" corresp="variants.xml#type_24574">verstân</w>
           <pc xml:id="HSB_10300700_6" join="left">.</pc>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="4"><l n="1">
           <hi rend="initial">
             <w xml:id="HSB_20100100_0" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
           </hi>
@@ -403,7 +403,7 @@
           <w xml:id="HSB_20100600_9" lemmaRef="lexicon.xml#lemma_4240" pos="VRB VEM" ana="lexicon.xml#lemma_4240_sense_6636" corresp="variants.xml#type_14748">mac</w>
           <pc xml:id="HSB_20100600_10" join="left">.</pc>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="5"><l n="1">
           <hi rend="initial">
             <w xml:id="HSB_20200100_0" lemmaRef="lexicon.xml#lemma_4533" pos="INJ" ana="lexicon.xml#lemma_4533_sense_7071" corresp="variants.xml#type_15698">owê</w>
           </hi>
@@ -464,7 +464,7 @@
           <w xml:id="HSB_20200600_12" lemmaRef="lexicon.xml#lemma_6171" pos="VRB" ana="lexicon.xml#lemma_6171_sense_9726" corresp="variants.xml#type_21757">tragen</w>
           <pc xml:id="HSB_20200600_13" join="left">.</pc>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="6"><l n="1">
           <hi rend="initial">
             <w xml:id="HSB_30100100_0" lemmaRef="lexicon.xml#lemma_4327" pos="NEG INJ" ana="lexicon.xml#lemma_4327_sense_6764" corresp="variants.xml#type_119955">neinâ</w>
           </hi>
@@ -517,7 +517,7 @@
           <w xml:id="HSB_30100600_9" lemmaRef="lexicon.xml#lemma_3001" pos="POS" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10218">mîn</w>
           <pc xml:id="HSB_30100600_10" join="left">.</pc>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="7"><l n="1">
           <hi rend="initial">
             <w xml:id="HSB_30200100_0" lemmaRef="lexicon.xml#lemma_7385" pos="ADV CNJ" ana="lexicon.xml#lemma_7385_sense_11998" corresp="variants.xml#type_26646">wenn</w>
           </hi>
@@ -578,7 +578,7 @@
           <w xml:id="HSB_30200600_11" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10226">mich</w>
           <pc xml:id="HSB_30200600_12" join="left">.</pc>
         </l>
-      </p>
+      </lg></p>
     </body>
   </text>
 </TEI>

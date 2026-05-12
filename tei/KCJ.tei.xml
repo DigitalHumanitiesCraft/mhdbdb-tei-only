@@ -139,7 +139,7 @@
         <w xml:id="KCJ_10_1" lemmaRef="lexicon.xml#lemma_3549" pos="NAM" ana="lexicon.xml#lemma_3549_sense_5628" corresp="variants.xml#type_125914">chuonrat</w>
         <w xml:id="KCJ_10_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
         <w xml:id="KCJ_10_3" lemmaRef="lexicon.xml#lemma_3157" pos="NOM ADJ" ana="lexicon.xml#lemma_3157_sense_4990" corresp="variants.xml#type_10828">junge</w>
-        <l n="1">
+        <lg type="stanza" n="1"><l n="1">
           <hi rend="initial">
             <w xml:id="KCJ_10100100_0" lemmaRef="lexicon.xml#lemma_5608" pos="VRB VEM" ana="lexicon.xml#lemma_5608_sense_8771" corresp="variants.xml#type_19651">sol</w>
           </hi>
@@ -227,7 +227,7 @@
           <w xml:id="KCJ_10100700_7" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" ana="lexicon.xml#lemma_4130_sense_6485" corresp="variants.xml#type_14390">minnen</w>
           <pc xml:id="KCJ_10100700_8" join="left">.</pc>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="2"><l n="1">
           <hi rend="initial">
             <w xml:id="KCJ_10200100_0" lemmaRef="lexicon.xml#lemma_7473" pos="VRB VEM" ana="lexicon.xml#lemma_7473_sense_12163" corresp="variants.xml#type_26936">wolt</w>
           </hi>
@@ -316,7 +316,7 @@
           <w xml:id="KCJ_10200700_9" lemmaRef="lexicon.xml#lemma_2551" pos="NOM" ana="lexicon.xml#lemma_2551_sense_4091" corresp="variants.xml#type_8560">güete</w>
           <pc xml:id="KCJ_10200700_10" join="left">.</pc>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="3"><l n="1">
           <hi rend="initial">
             <w xml:id="KCJ_20100100_0" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
           </hi>
@@ -378,7 +378,7 @@
           <w xml:id="KCJ_20100700_6" lemmaRef="lexicon.xml#lemma_7163" pos="ADJ ADV" ana="lexicon.xml#lemma_7163_sense_15113" corresp="variants.xml#type_25418">vol</w>
           <pc xml:id="KCJ_20100700_7" join="left">.</pc>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="4"><l n="1">
           <hi rend="initial">
             <w xml:id="KCJ_20200100_0" lemmaRef="lexicon.xml#lemma_5941" pos="PRO IPA" ana="lexicon.xml#lemma_5941_sense_9416" corresp="variants.xml#type_20941">waz</w>
           </hi>
@@ -439,7 +439,7 @@
           <w xml:id="KCJ_20200700_5" lemmaRef="lexicon.xml#lemma_2573" pos="NOM ADJ ADV" ana="lexicon.xml#lemma_2573_sense_4122" corresp="variants.xml#type_8633">guot</w>
           <pc xml:id="KCJ_20200700_6" join="left">.</pc>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="5"><l n="1">
           <hi rend="initial">
             <w xml:id="KCJ_20300100_0" lemmaRef="lexicon.xml#lemma_5933" pos="ADV CNJ IPA" ana="lexicon.xml#lemma_5933_sense_9403" corresp="variants.xml#type_30895">swann</w>
           </hi>
@@ -511,7 +511,7 @@
           <w xml:id="KCJ_20300700_6" lemmaRef="lexicon.xml#lemma_3313" pos="NOM" ana="lexicon.xml#lemma_3313_sense_5196" corresp="variants.xml#type_11310">kint</w>
           <pc xml:id="KCJ_20300700_7" join="left">.</pc>
         </l>
-      </p>
+      </lg></p>
     </body>
   </text>
 </TEI>

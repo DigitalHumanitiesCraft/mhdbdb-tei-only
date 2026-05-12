@@ -133,7 +133,7 @@
   <text>
     <body>
       <p>
-        <l n="1">
+        <lg type="stanza" n="1"><l n="1">
           <hi rend="upper_case initial">
               <w xml:id="VWI_100_0" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
             </hi><hi rend="upper_case"><w xml:id="VWI_100_1" lemmaRef="lexicon.xml#lemma_38814" pos="NAM" ana="lexicon.xml#lemma_38814_sense_60563" corresp="variants.xml#type_204002">wissenlo</w></hi>
@@ -214,7 +214,7 @@
           <pc xml:id="VWI_10100700_5" join="left">.</pc>
           <pc xml:id="VWI_10100700_6" join="left">&gt;</pc>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="2"><l n="1">
           <hi rend="initial">
             <w xml:id="VWI_10200100_0" lemmaRef="lexicon.xml#lemma_6342" pos="ADV PRP" ana="lexicon.xml#lemma_6342_sense_9997" corresp="variants.xml#type_22500">ûz</w>
           </hi>
@@ -283,7 +283,7 @@
           <pc xml:id="VWI_10200700_5" join="left">.</pc>
           <pc xml:id="VWI_10200700_6" join="left">&gt;</pc>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="3"><l n="1">
           <pc xml:id="VWI_10300100_0" join="right">&lt;</pc>
           <hi rend="initial">
             <w xml:id="VWI_10300100_1" lemmaRef="lexicon.xml#lemma_148" pos="CNJ" ana="lexicon.xml#lemma_148_sense_183" corresp="variants.xml#type_369">als</w>
@@ -363,7 +363,7 @@
           <pc xml:id="VWI_10300700_5" join="left">.</pc>
           <pc xml:id="VWI_10300700_6" join="left">&gt;</pc>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="4"><l n="1">
           <hi rend="initial">
             <w xml:id="VWI_20100100_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
           </hi>
@@ -472,7 +472,7 @@
           <w xml:id="VWI_20100900_11" lemmaRef="lexicon.xml#lemma_2101" pos="ADJ ADV" corresp="variants.xml#type_7099">gemeit</w>
           <pc xml:id="VWI_20100900_12" join="left">.</pc>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="5"><l n="1">
           <hi rend="initial">
             <w xml:id="VWI_20200100_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
           </hi>
@@ -572,7 +572,7 @@
           <w xml:id="VWI_20200900_11" lemmaRef="lexicon.xml#lemma_2101" pos="ADJ ADV" corresp="variants.xml#type_7099">gemeit</w>
           <pc xml:id="VWI_20200900_12" join="left">.</pc>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="6"><l n="1">
           <hi rend="initial">
             <w xml:id="VWI_20300100_0" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
           </hi>
@@ -668,7 +668,7 @@
           <w xml:id="VWI_20300900_11" lemmaRef="lexicon.xml#lemma_2101" pos="ADJ ADV" corresp="variants.xml#type_7099">gemeit</w>
           <pc xml:id="VWI_20300900_12" join="left">.</pc>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="7"><l n="1">
           <pc xml:id="VWI_30100100_0" join="right">&lt;</pc>
           <hi rend="initial">
             <w xml:id="VWI_30100100_1">man</w>
@@ -750,7 +750,7 @@
           <pc xml:id="VWI_30100900_7" join="left">.</pc>
           <pc xml:id="VWI_30100900_8" join="left">&gt;</pc>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="8"><l n="1">
           <hi rend="initial">
             <w xml:id="VWI_30200100_0" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
           </hi>
@@ -943,7 +943,7 @@
           <w xml:id="VWI_40001000_13" lemmaRef="lexicon.xml#lemma_5994" pos="NOM" corresp="variants.xml#type_21150">tac</w>
           <pc xml:id="VWI_40001000_14" join="left">.</pc>
         </l>
-      </p>
+      </lg></p>
     </body>
   </text>
 </TEI>

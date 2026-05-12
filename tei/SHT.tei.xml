@@ -137,7 +137,7 @@
         </hi>
         <w xml:id="SHT_1_1" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
         <w xml:id="SHT_1_2" lemmaRef="lexicon.xml#lemma_40631" pos="NAM" ana="lexicon.xml#lemma_40631_sense_63079" corresp="variants.xml#type_215197">tettingen</w>
-        <l n="1">
+        <lg type="stanza" n="1"><l n="1">
           <hi rend="initial">
             <w xml:id="SHT_101010_0" lemmaRef="lexicon.xml#lemma_3765" pos="NOM ADJ" ana="lexicon.xml#lemma_3765_sense_5955" corresp="variants.xml#type_13104">lieb</w>
           </hi>
@@ -207,7 +207,7 @@
           <w xml:id="SHT_101060_8" lemmaRef="lexicon.xml#lemma_6996" pos="VRB" ana="lexicon.xml#lemma_6996_sense_11304" corresp="variants.xml#type_59992">vertrib</w>
           <pc xml:id="SHT_101060_9" join="left">!</pc>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="2"><l n="1">
           <hi rend="initial">
             <w xml:id="SHT_102010_0" lemmaRef="lexicon.xml#lemma_3765" pos="NOM ADJ" ana="lexicon.xml#lemma_3765_sense_5955" corresp="variants.xml#type_13104">lieb</w>
           </hi>
@@ -273,7 +273,7 @@
           <w xml:id="SHT_102060_8" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18962">sîn</w>
           <pc xml:id="SHT_102060_9" join="left">.</pc>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="3"><l n="1">
           <hi rend="initial">
             <w xml:id="SHT_103010_0" lemmaRef="lexicon.xml#lemma_56116" pos="POS PRO" ana="lexicon.xml#lemma_56116_sense_90960" corresp="variants.xml#type_304869">ir</w>
           </hi>
@@ -337,7 +337,7 @@
           <w xml:id="SHT_103060_6" lemmaRef="lexicon.xml#lemma_4281" pos="ADJ ADV" ana="lexicon.xml#lemma_4281_sense_17358" corresp="variants.xml#type_14881">nâ</w>
           <pc xml:id="SHT_103060_7" join="left">.</pc>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="4"><l n="1">
           <hi rend="initial">
             <w xml:id="SHT_201010_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
           </hi>
@@ -426,7 +426,7 @@
           <w xml:id="SHT_201100_5" lemmaRef="lexicon.xml#lemma_365" pos="ADJ ADV" ana="lexicon.xml#lemma_365_sense_481" corresp="variants.xml#type_993">balt</w>
           <pc xml:id="SHT_201100_6" join="left">.</pc>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="5"><l n="1">
           <hi rend="initial">
             <w xml:id="SHT_202010_0" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10237">mir</w>
           </hi>
@@ -514,7 +514,7 @@
           <w xml:id="SHT_202100_5" lemmaRef="lexicon.xml#lemma_7336" pos="NOM" ana="lexicon.xml#lemma_7336_sense_11893" corresp="variants.xml#type_26423">wân</w>
           <pc xml:id="SHT_202100_6" join="left">.</pc>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="6"><l n="1">
           <hi rend="initial">
             <w xml:id="SHT_203010_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
           </hi>
@@ -601,7 +601,7 @@
           <w xml:id="SHT_203100_5" lemmaRef="lexicon.xml#lemma_1436" pos="VRB" ana="lexicon.xml#lemma_1436_sense_2211" corresp="variants.xml#type_4704">enpfât</w>
           <pc xml:id="SHT_203100_6" join="left">.</pc>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="7"><l n="1">
           <hi rend="initial">
             <w xml:id="SHT_204010_0" lemmaRef="lexicon.xml#lemma_4366" pos="ADJ PRO NEG" ana="lexicon.xml#lemma_4366_sense_6823" corresp="variants.xml#type_15233">nieman</w>
           </hi>
@@ -686,7 +686,7 @@
           <w xml:id="SHT_204100_4" lemmaRef="lexicon.xml#lemma_14819" pos="NOM" ana="lexicon.xml#lemma_14819_sense_24437" corresp="variants.xml#type_214397">kîb</w>
           <pc xml:id="SHT_204100_5" join="left">!</pc>
         </l>
-      </p>
+      </lg></p>
     </body>
   </text>
 </TEI>

@@ -135,7 +135,7 @@
         </hi>
         <w xml:id="HMU_10_1" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
         <w xml:id="HMU_10_2" lemmaRef="lexicon.xml#lemma_30335" pos="NAM" ana="lexicon.xml#lemma_30335_sense_47505" corresp="variants.xml#type_224691">mülndorf</w>
-        <l n="1">
+        <lg type="stanza" n="1"><l n="1">
           <hi rend="initial">
             <w xml:id="HMU_100100_0" lemmaRef="lexicon.xml#lemma_7427" pos="NOM ADJ INJ" ana="lexicon.xml#lemma_7427_sense_12078" corresp="variants.xml#type_26764">wê</w>
           </hi>
@@ -200,7 +200,7 @@
           <w xml:id="HMU_100600_15" lemmaRef="lexicon.xml#lemma_7325" pos="IPA" ana="lexicon.xml#lemma_7325_sense_11874" corresp="variants.xml#type_286931">war</w>
           <pc xml:id="HMU_100600_16" join="left">.</pc>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="2"><l n="1">
           <hi rend="initial">
             <w xml:id="HMU_200100_0" lemmaRef="lexicon.xml#lemma_5961" pos="PRO IPA" ana="lexicon.xml#lemma_5961_sense_9448" corresp="variants.xml#type_21017">swer</w>
           </hi>
@@ -264,7 +264,7 @@
           <w xml:id="HMU_200600_12" lemmaRef="lexicon.xml#lemma_7276" pos="VRB" ana="lexicon.xml#lemma_7276_sense_11796" corresp="variants.xml#type_26070">fromen</w>
           <pc xml:id="HMU_200600_13" join="left">.</pc>
         </l>
-      </p>
+      </lg></p>
     </body>
   </text>
 </TEI>

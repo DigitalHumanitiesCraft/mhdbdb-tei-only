@@ -229,7 +229,7 @@
           <w xml:id="HDM_10000800_11" lemmaRef="lexicon.xml#lemma_3560" pos="NOM" ana="lexicon.xml#lemma_3560_sense_5640" corresp="variants.xml#type_12393">küste</w>
           <pc xml:id="HDM_10000800_12" join="left">.</pc>
         </l>
-        <l n="1">
+        <lg type="stanza" n="1"><l n="1">
           <hi rend="initial">
             <w xml:id="HDM_20100100_0" lemmaRef="lexicon.xml#lemma_5713" pos="ADJ" ana="lexicon.xml#lemma_5713_sense_8957" corresp="variants.xml#type_102863">stæten</w>
           </hi>
@@ -315,7 +315,7 @@
           <w xml:id="HDM_20100800_9" lemmaRef="lexicon.xml#lemma_1281" pos="ADJ ADV" ana="lexicon.xml#lemma_1281_sense_2010" corresp="variants.xml#type_4139">ê</w>
           <pc xml:id="HDM_20100800_10" join="left">.</pc>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="2"><l n="1">
           <hi rend="initial">
             <w xml:id="HDM_20200100_0" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
           </hi>
@@ -394,7 +394,7 @@
           <w xml:id="HDM_20200800_11" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10226">mich</w>
           <pc xml:id="HDM_20200800_12" join="left">.</pc>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="3"><l n="1">
           <hi rend="initial">
             <w xml:id="HDM_20300100_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
           </hi>
@@ -478,7 +478,7 @@
           <w xml:id="HDM_20300800_10" lemmaRef="lexicon.xml#lemma_1242" pos="PRO" ana="lexicon.xml#lemma_1242_sense_1958" corresp="variants.xml#type_3967">dû</w>
           <pc xml:id="HDM_20300800_11" join="left">.</pc>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="4"><l n="1">
           <hi rend="initial">
             <w xml:id="HDM_20400100_0" lemmaRef="lexicon.xml#lemma_5052" pos="ADJ ADV" ana="lexicon.xml#lemma_5052_sense_7870" corresp="variants.xml#type_102348">sælic</w>
           </hi>
@@ -560,7 +560,7 @@
           <w xml:id="HDM_20400800_10" lemmaRef="lexicon.xml#lemma_2573" pos="NOM ADJ ADV" ana="lexicon.xml#lemma_2573_sense_13672" corresp="variants.xml#type_8633">guot</w>
           <pc xml:id="HDM_20400800_11" join="left">.</pc>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="5"><l n="1">
           <hi rend="initial">
             <w xml:id="HDM_30100100_0" lemmaRef="lexicon.xml#lemma_90" pos="INJ" ana="lexicon.xml#lemma_90_sense_113" corresp="variants.xml#type_109650">ahy</w>
           </hi>
@@ -614,7 +614,7 @@
           <w xml:id="HDM_30100500_5" lemmaRef="lexicon.xml#lemma_7473" pos="VRB VEM" ana="lexicon.xml#lemma_7473_sense_12162" corresp="variants.xml#type_26922">wil</w>
           <pc xml:id="HDM_30100500_6" join="left">.</pc>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="6"><l n="1">
           <hi rend="initial">
             <w xml:id="HDM_30200100_0" lemmaRef="lexicon.xml#lemma_90" pos="INJ" ana="lexicon.xml#lemma_90_sense_113" corresp="variants.xml#type_109650">ahy</w>
           </hi>
@@ -665,7 +665,7 @@
           <w xml:id="HDM_30200500_5" lemmaRef="lexicon.xml#lemma_3567" pos="VRB" ana="lexicon.xml#lemma_3567_sense_5652" corresp="variants.xml#type_12444">lie</w>
           <pc xml:id="HDM_30200500_6" join="left">.</pc>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="7"><l n="1">
           <hi rend="initial">
             <w xml:id="HDM_40100100_0" lemmaRef="lexicon.xml#lemma_2795" pos="NOM" ana="lexicon.xml#lemma_2795_sense_4506" corresp="variants.xml#type_9454">herze</w>
           </hi>
@@ -772,7 +772,7 @@
           <w xml:id="HDM_40100900_10" lemmaRef="lexicon.xml#lemma_3567" pos="VRB" ana="lexicon.xml#lemma_3567_sense_5652" corresp="variants.xml#type_12420">lât</w>
           <pc xml:id="HDM_40100900_11" join="left">.</pc>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="8"><l n="1">
           <hi rend="initial">
             <w xml:id="HDM_40200100_0" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
           </hi>
@@ -879,7 +879,7 @@
           <w xml:id="HDM_40200900_10" lemmaRef="lexicon.xml#lemma_269" pos="NOM" ana="lexicon.xml#lemma_269_sense_347" corresp="variants.xml#type_744">arebeit</w>
           <pc xml:id="HDM_40200900_11" join="left">.</pc>
         </l>
-      </p>
+      </lg></p>
     </body>
   </text>
 </TEI>

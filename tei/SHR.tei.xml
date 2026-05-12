@@ -138,7 +138,7 @@
         <w xml:id="SHR_1_0" lemmaRef="lexicon.xml#lemma_40471" pos="NAM" ana="lexicon.xml#lemma_40471_sense_62817" corresp="variants.xml#type_214214">hesso</w>
         <w xml:id="SHR_1_1" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
         <w xml:id="SHR_1_2" lemmaRef="lexicon.xml#lemma_40472" pos="NAM" ana="lexicon.xml#lemma_40472_sense_62818" corresp="variants.xml#type_214215">rinach</w>
-        <l n="1">
+        <lg type="stanza" n="1"><l n="1">
           <hi rend="initial">
             <w xml:id="SHR_101010_0" lemmaRef="lexicon.xml#lemma_3340" pos="ADJ ADV" ana="lexicon.xml#lemma_3340_sense_5243" corresp="variants.xml#type_75403">klageliche</w>
           </hi>
@@ -199,7 +199,7 @@
           <w xml:id="SHR_101070_8" lemmaRef="lexicon.xml#lemma_7075" pos="ADJ ADV" ana="lexicon.xml#lemma_7075_sense_11459" corresp="variants.xml#type_25008">vil</w>
           <pc xml:id="SHR_101070_9" join="left">.</pc>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="2"><l n="1">
           <hi rend="initial">
             <w xml:id="SHR_102010_0" lemmaRef="lexicon.xml#lemma_7394" pos="NOM" ana="lexicon.xml#lemma_7394_sense_12024" corresp="variants.xml#type_34080">wengel</w>
           </hi>
@@ -257,7 +257,7 @@
           <w xml:id="SHR_102070_7" lemmaRef="lexicon.xml#lemma_6996" pos="VRB" ana="lexicon.xml#lemma_6996_sense_11304" corresp="variants.xml#type_57645">vertrîp</w>
           <pc xml:id="SHR_102070_8" join="left">.</pc>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="3"><l n="1">
           <hi rend="initial">
             <w xml:id="SHR_103010_0" lemmaRef="lexicon.xml#lemma_5864" pos="NOM ADJ ADV" ana="lexicon.xml#lemma_5864_sense_9283" corresp="variants.xml#type_20684">süezze</w>
           </hi>
@@ -321,7 +321,7 @@
           <w xml:id="SHR_103070_11" lemmaRef="lexicon.xml#lemma_6118" pos="NOM ADJ" ana="lexicon.xml#lemma_6118_sense_9650" corresp="variants.xml#type_21558">tôt</w>
           <pc xml:id="SHR_103070_12" join="left">.</pc>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="4"><l n="1">
           <hi rend="initial">
             <w xml:id="SHR_201010_0" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
           </hi>
@@ -382,7 +382,7 @@
           <w xml:id="SHR_201070_4" lemmaRef="lexicon.xml#lemma_1281" pos="ADJ ADV" ana="lexicon.xml#lemma_1281_sense_2010" corresp="variants.xml#type_4139">ê</w>
           <pc xml:id="SHR_201070_5" join="left">.</pc>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="5"><l n="1">
           <hi rend="initial">
             <w xml:id="SHR_202010_0" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
           </hi>
@@ -447,7 +447,7 @@
           <w xml:id="SHR_202070_5" lemmaRef="lexicon.xml#lemma_7857" pos="NOM" ana="lexicon.xml#lemma_7857_sense_12879" corresp="variants.xml#type_28466">zît</w>
           <pc xml:id="SHR_202070_6" join="left">.</pc>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="6"><l n="1">
           <hi rend="initial">
             <w xml:id="SHR_203010_0" lemmaRef="lexicon.xml#lemma_7500" pos="ADJ GRA" ana="lexicon.xml#lemma_7500_sense_12237" corresp="variants.xml#type_27152">werder</w>
           </hi>
@@ -508,7 +508,7 @@
           <w xml:id="SHR_203070_6" lemmaRef="lexicon.xml#lemma_446" pos="VRB" ana="lexicon.xml#lemma_446_sense_612" corresp="variants.xml#type_1220">began</w>
           <pc xml:id="SHR_203070_7" join="left">.</pc>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="7"><l n="1">
           <hi rend="initial">
             <w xml:id="SHR_204010_0" lemmaRef="lexicon.xml#lemma_3001" pos="POS" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10223">mînes</w>
           </hi>
@@ -577,7 +577,7 @@
           <w xml:id="SHR_204070_6" lemmaRef="lexicon.xml#lemma_2453" pos="NOM" ana="lexicon.xml#lemma_2453_sense_3939" corresp="variants.xml#type_8224">golt</w>
           <pc xml:id="SHR_204070_7" join="left">.</pc>
         </l>
-      </p>
+      </lg></p>
     </body>
   </text>
 </TEI>

@@ -130,7 +130,7 @@
     <body>
       <p>
         <w xml:id="SG_1_0" lemmaRef="lexicon.xml#lemma_62729" pos="NAM" ana="lexicon.xml#lemma_62729_sense_99423" corresp="variants.xml#type_327625">gast</w>
-        <l n="1">
+        <lg type="stanza" n="1"><l n="1">
           <hi rend="initial">
             <w xml:id="SG_1010100_0" lemmaRef="lexicon.xml#lemma_5941" pos="PRO IPA" ana="lexicon.xml#lemma_5941_sense_9416" corresp="variants.xml#type_20941">waz</w>
           </hi>
@@ -251,7 +251,7 @@
           <w xml:id="SG_1010800_11" lemmaRef="lexicon.xml#lemma_7034" pos="VRB" ana="lexicon.xml#lemma_7034_sense_14878" corresp="variants.xml#type_24861">verzert</w>
           <pc xml:id="SG_1010800_12" join="left">?</pc>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="2"><l n="1">
           <hi rend="initial">
             <w xml:id="SG_1020100_0" lemmaRef="lexicon.xml#lemma_5941" pos="PRO IPA" ana="lexicon.xml#lemma_5941_sense_9416" corresp="variants.xml#type_20941">waz</w>
           </hi>
@@ -393,7 +393,7 @@
           <w xml:id="SG_1021000_10" lemmaRef="lexicon.xml#lemma_7473" pos="VRB VEM" ana="lexicon.xml#lemma_7473_sense_12160" corresp="variants.xml#type_26922">wil</w>
           <pc xml:id="SG_1021000_11" join="left">!</pc>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="3"><l n="1">
           <hi rend="initial">
             <w xml:id="SG_101010101_0" lemmaRef="lexicon.xml#lemma_5941" pos="PRO IPA" ana="lexicon.xml#lemma_5941_sense_9416" corresp="variants.xml#type_20941">waz</w>
           </hi>
@@ -518,7 +518,7 @@
           <w xml:id="SG_101010801_11" lemmaRef="lexicon.xml#lemma_7034" pos="VRB" ana="lexicon.xml#lemma_7034_sense_14878" corresp="variants.xml#type_96164">verzeret</w>
           <pc xml:id="SG_101010801_12" join="left">?</pc>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="4"><l n="1">
           <hi rend="initial">
             <w xml:id="SG_101020101_0" lemmaRef="lexicon.xml#lemma_5434" pos="ADV PRP CNJ" ana="lexicon.xml#lemma_5434_sense_8481" corresp="variants.xml#type_79335">sit</w>
           </hi>
@@ -640,7 +640,7 @@
           <w xml:id="SG_101020801_11" lemmaRef="lexicon.xml#lemma_751" pos="NOM" ana="lexicon.xml#lemma_751_sense_1227" corresp="variants.xml#type_109632">bly</w>
           <pc xml:id="SG_101020801_12" join="left">.</pc>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="5"><l n="1">
           <hi rend="initial">
             <w xml:id="SG_101030101_0" lemmaRef="lexicon.xml#lemma_5961" pos="PRO IPA" ana="lexicon.xml#lemma_5961_sense_9448" corresp="variants.xml#type_21021">wer</w>
           </hi>
@@ -760,7 +760,7 @@
           <w xml:id="SG_101030801_11" lemmaRef="lexicon.xml#lemma_2453" pos="NOM" ana="lexicon.xml#lemma_2453_sense_3939" corresp="variants.xml#type_8224">golt</w>
           <pc xml:id="SG_101030801_12" join="left">.</pc>
         </l>
-      </p>
+      </lg></p>
     </body>
   </text>
 </TEI>

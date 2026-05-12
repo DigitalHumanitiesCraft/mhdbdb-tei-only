@@ -134,7 +134,7 @@
         </hi>
         <w xml:id="RDJ_10_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
         <w xml:id="RDJ_10_2" lemmaRef="lexicon.xml#lemma_3157" pos="NOM ADJ" ana="lexicon.xml#lemma_3157_sense_4990" corresp="variants.xml#type_10828">junge</w>
-        <l n="1">
+        <lg type="stanza" n="1"><l n="1">
           <hi rend="initial">
             <w xml:id="RDJ_100100_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
           </hi>
@@ -200,7 +200,7 @@
           <w xml:id="RDJ_100600_7" lemmaRef="lexicon.xml#lemma_7034" pos="VRB" ana="lexicon.xml#lemma_7034_sense_14878" corresp="variants.xml#type_24861">verzert</w>
           <pc xml:id="RDJ_100600_8" join="left">.</pc>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="2"><l n="1">
           <hi rend="initial">
             <w xml:id="RDJ_200100_0" lemmaRef="lexicon.xml#lemma_3028" pos="PRP" ana="lexicon.xml#lemma_3028_sense_63605" corresp="variants.xml#type_10369">in</w>
           </hi>
@@ -269,7 +269,7 @@
           <w xml:id="RDJ_200600_6" lemmaRef="lexicon.xml#lemma_4252" pos="NOM" ana="lexicon.xml#lemma_4252_sense_6652" corresp="variants.xml#type_14816">munt</w>
           <pc xml:id="RDJ_200600_7" join="left">.</pc>
         </l>
-      </p>
+      </lg></p>
     </body>
   </text>
 </TEI>

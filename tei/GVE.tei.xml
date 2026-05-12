@@ -136,7 +136,7 @@
         <w xml:id="GVE_10_0" lemmaRef="lexicon.xml#lemma_31255" pos="NAM" ana="lexicon.xml#lemma_31255_sense_48982" corresp="variants.xml#type_235249">goesli</w>
         <w xml:id="GVE_10_1" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
         <w xml:id="GVE_10_2" lemmaRef="lexicon.xml#lemma_43753" pos="NAM" ana="lexicon.xml#lemma_43753_sense_68046" corresp="variants.xml#type_235250">ehenhein</w>
-        <l n="1">
+        <lg type="stanza" n="1"><l n="1">
           <hi rend="initial">
             <w xml:id="GVE_101001000_0" lemmaRef="lexicon.xml#lemma_5434" pos="ADV PRP CNJ" ana="lexicon.xml#lemma_5434_sense_8481" corresp="variants.xml#type_18992">sît</w>
           </hi>
@@ -222,7 +222,7 @@
           <w xml:id="GVE_101009000_6" lemmaRef="lexicon.xml#lemma_920" pos="VRB" ana="lexicon.xml#lemma_920_sense_1527" corresp="variants.xml#type_2914">büezen</w>
           <pc xml:id="GVE_101009000_7" join="left">.</pc>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="2"><l n="1">
           <hi rend="initial">
             <w xml:id="GVE_102001000_0" lemmaRef="lexicon.xml#lemma_7500" pos="ADJ" ana="lexicon.xml#lemma_7500_sense_12237" corresp="variants.xml#type_27158">werdiu</w>
           </hi>
@@ -309,7 +309,7 @@
           <w xml:id="GVE_102009000_6" lemmaRef="lexicon.xml#lemma_7479" pos="NOM VRB" ana="lexicon.xml#lemma_7479_sense_12173" corresp="variants.xml#type_26986">wenden</w>
           <pc xml:id="GVE_102009000_7" join="left">.</pc>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="3"><l n="1">
           <hi rend="initial">
             <w xml:id="GVE_103001000_0" lemmaRef="lexicon.xml#lemma_3028" pos="PRP" ana="lexicon.xml#lemma_3028_sense_63605" corresp="variants.xml#type_10369">in</w>
           </hi>
@@ -398,7 +398,7 @@
           <w xml:id="GVE_103009000_5" lemmaRef="lexicon.xml#lemma_4960" pos="ADJ" ana="lexicon.xml#lemma_4960_sense_7716" corresp="variants.xml#type_235254">roeslehte</w>
           <pc xml:id="GVE_103009000_6" join="left">.</pc>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="4"><l n="1">
           <hi rend="initial">
             <w xml:id="GVE_201001000_0" lemmaRef="lexicon.xml#lemma_8604" pos="ADV VEX" ana="lexicon.xml#lemma_8604_sense_13326" corresp="variants.xml#type_30110">nûst</w>
           </hi>
@@ -502,7 +502,7 @@
           <w xml:id="GVE_201013000_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25984">frouwen</w>
           <pc xml:id="GVE_201013000_5" join="left">.</pc>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="5"><l n="1">
           <hi rend="initial">
             <w xml:id="GVE_202001000_0" lemmaRef="lexicon.xml#lemma_56116" pos="PRO" ana="lexicon.xml#lemma_56116_sense_90960" corresp="variants.xml#type_305331">sî</w>
           </hi>
@@ -613,7 +613,7 @@
           <w xml:id="GVE_202013000_4" lemmaRef="lexicon.xml#lemma_6941" pos="VRB" ana="lexicon.xml#lemma_6941_sense_11157" corresp="variants.xml#type_24465">verschulden</w>
           <pc xml:id="GVE_202013000_5" join="left">.</pc>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="6"><l n="1">
           <hi rend="initial">
             <w xml:id="GVE_203001000_0" lemmaRef="lexicon.xml#lemma_7252" pos="NOM" ana="lexicon.xml#lemma_7252_sense_11755" corresp="variants.xml#type_25884">fröide</w>
           </hi>
@@ -725,7 +725,7 @@
           <w xml:id="GVE_203013000_4" lemmaRef="lexicon.xml#lemma_4265" pos="VRB" ana="lexicon.xml#lemma_4265_sense_6675" corresp="variants.xml#type_14842">muoten</w>
           <pc xml:id="GVE_203013000_5" join="left">.</pc>
         </l>
-      </p>
+      </lg></p>
     </body>
   </text>
 </TEI>

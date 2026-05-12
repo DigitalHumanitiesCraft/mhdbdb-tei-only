@@ -145,7 +145,7 @@
     <body>
       <p>
         <w xml:id="SP_1_0" lemmaRef="lexicon.xml#lemma_40604" pos="NAM" ana="lexicon.xml#lemma_40604_sense_63039" corresp="variants.xml#type_215042">pfeffel</w>
-        <l n="1">
+        <lg type="stanza" n="1"><l n="1">
           <hi rend="initial">
             <w xml:id="SP_101010_0" lemmaRef="lexicon.xml#lemma_7252" pos="NOM" ana="lexicon.xml#lemma_7252_sense_11755" corresp="variants.xml#type_25893">vreude</w>
           </hi>
@@ -273,7 +273,7 @@
           <w xml:id="SP_101170_4" lemmaRef="lexicon.xml#lemma_7857" pos="NOM" ana="lexicon.xml#lemma_7857_sense_12879" corresp="variants.xml#type_28470">zit</w>
           <pc xml:id="SP_101170_5" join="left">.</pc>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="2"><l n="1">
           <hi rend="initial">
             <w xml:id="SP_102010_0" lemmaRef="lexicon.xml#lemma_3157" pos="NOM ADJ" ana="lexicon.xml#lemma_3157_sense_4990" corresp="variants.xml#type_46623">jung</w>
           </hi>
@@ -413,7 +413,7 @@
           <w xml:id="SP_102170_4" lemmaRef="lexicon.xml#lemma_2573" pos="NOM ADJ ADV" ana="lexicon.xml#lemma_2573_sense_4121" corresp="variants.xml#type_8633">guot</w>
           <pc xml:id="SP_102170_5" join="left">.</pc>
         </l>
-        <l n="1">
+        </lg><lg type="stanza" n="3"><l n="1">
           <hi rend="initial">
             <w xml:id="SP_103010_0" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
           </hi>
@@ -547,7 +547,7 @@
           <w xml:id="SP_103170_4" lemmaRef="lexicon.xml#lemma_7918" pos="NOM" ana="lexicon.xml#lemma_7918_sense_12992" corresp="variants.xml#type_28781">zuht</w>
           <pc xml:id="SP_103170_5" join="left">.</pc>
         </l>
-      </p>
+      </lg></p>
     </body>
   </text>
 </TEI>
