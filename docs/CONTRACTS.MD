@@ -447,23 +447,33 @@ getCachedIndex(name):
 
     // Version check
     if name === 'corpus-index':
-        if cached.version !== INDEX_VERSION ('4.0.0'):  → invalidate
+        if cached.version !== INDEX_VERSION ('4.1.1'):           → invalidate
     if name === 'authority-index':
-        if cached.version !== cached.data.version:      → invalidate
+        if cached.version !== AUTHORITY_INDEX_VERSION ('1.2.1'): → invalidate
 
     // Expiration check
     age = Date.now() - cached.timestamp
-    if age > 30 days:                                   → invalidate
+    if age > 30 days:                                            → invalidate
 
     return cached.data
 ```
+
+**Drei-Stellen-Versions-Bump (Pflicht-Synchronizität):**
+
+Bei jedem Index-Schema-Bump müssen drei Stellen synchron gehalten werden, sonst greift die Cache-Invalidate-Logik nicht. Production-User mit altem Cache sehen sonst den neuen Index nie:
+
+1. `scripts/build-corpus-index.py` → `'version': 'X.Y.Z'` im finalen Index-Dict
+2. `scripts/build-authority-index.py` → analog
+3. `assets/js/lib/corpus-loader.js` → `INDEX_VERSION` und `AUTHORITY_INDEX_VERSION`
+
+Strukturell verankert: `scripts/audit/check-index-versions.py` plus CI-Workflow `.github/workflows/index-version-check.yml` (PR/Push für die drei Files). Lokal `python scripts/audit/check-index-versions.py` vor Commit ausführen; exit 1 bei Drift mit File:Line-Annotation.
 
 **How to force refetch:**
 
 | Method | What to change | When |
 |--------|---------------|------|
-| Corpus version bump | Change `INDEX_VERSION` in `corpus-loader.js` | After rebuilding corpus index with schema changes |
-| Authority version bump | Change `version` field in `build-authority-index.py` output | After rebuilding authority index with schema changes |
+| Corpus version bump | `INDEX_VERSION` in `corpus-loader.js` + `version`-Konstante in `build-corpus-index.py` | After rebuilding corpus index with schema changes |
+| Authority version bump | `AUTHORITY_INDEX_VERSION` in `corpus-loader.js` + `version` in `build-authority-index.py` | After rebuilding authority index with schema changes |
 | User manual clear | "Alle Daten löschen" button on index.html | Clears all IndexedDB + localStorage |
 | Developer clear | Browser DevTools → Application → IndexedDB → delete databases | Debugging |
 

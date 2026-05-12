@@ -286,16 +286,16 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
 ### Corpus Index
 
 **File:** `data/corpus-index.json.gz`
-**Size:** ~34 MB compressed
-**Version:** 4.0.0
+**Size:** ~40 MB compressed (v4.1.x; war ~34 MB in v4.0.1)
+**Version:** 4.1.1
 
 **Schema:**
 ```javascript
 {
-  version: "4.0.1",                  // 4.0.0: document-level indexing. 4.0.1: WZB integriert
+  version: "4.1.1",                  // 4.0.0: document-level. 4.0.1: WZB. 4.1.0: lineStarts/lineEnds (#47.3). 4.1.1: Korpus-Rebuild nach Stanza-Insertion-Sweep (#23).
   generatedAt: "ISO-8601 timestamp",
   totalTexts: 667,
-  totalLemmata: 43754,
+  totalLemmata: 42630,
 
   texts: [{
     id: "ABG",                       // sigle (primary identifier, used in URLs)
@@ -310,7 +310,9 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
     lemmata: {                       // reverse map per text: lemma → positions
       "lemma_879": [0, 12, 47],
       "lemma_881": [3, 9]
-    }
+    },
+    lineStarts: [0, 8, 15, ...],     // word-index where each <l> starts (#47.3)
+    lineEnds:   [7, 14, 22, ...]     // word-index where each <l> ends (inclusive)
   }],
 
   lemmaIndex: {                      // global reverse index: lemma → text sigles
@@ -320,20 +322,27 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
 }
 ```
 
-**Key features (v4.0.1):**
+**Key features (v4.1.x):**
 - Document-level word indexing (removed paragraph-based indexing in 4.0.0)
 - `words[i]` = lemma ID at position `i` (sequential, 0-indexed)
 - Only words with `@lemmaRef` are indexed
 - `lemmata` is the per-text reverse index (lemma → positions), enables O(1) lookup of "where does lemma X appear in text Y"
 - `lemmaIndex` is the global reverse index (lemma → list of text sigles), enables fast "which texts contain lemma X" queries
-- 100% word coverage from TEI `<body>` elements
-- Supports accurate proximity search
+- `lineStarts[]` / `lineEnds[]` (seit 4.1.0): pro Text die Word-Indizes der `<l>`-Boundaries. Gleiche Länge wie die Anzahl `<l>` mit mindestens einem indizierten Wort. Empty arrays für Prosa-Texte ohne `<l>` (64/667 ≈ 10 % des Korpus). Enables „Lemma am Versanfang/Versende"-Lookups in O(L) statt O(W).
+- 100% word coverage from TEI `<body>` elements (Wörter außerhalb von `<l>` wie `<head>`, `<note>`, `<fw>` zählen in `words[]`, aber matchen keine Vers-Boundary)
+- Supports accurate proximity search + Versposition-Filter
 
 **Why v4.0.0?** Removed paragraph-based indexing due to position misalignment between Python extraction and JavaScript parsing. Document-level indexing is simpler and more accurate.
 
 **Why v4.0.1?** WZB (Wenzelsbibel) ingested into the corpus after Phase-2 POS coverage reached 95.5% (Issue #34).
 
+**Why v4.1.0?** Per-Text `lineStarts[]` / `lineEnds[]` für #47.3 Lemmasuche nach Versposition. 1.359.789 `<l>`-Elemente über 603 Versdichtungs-Texte. Bumped `Schema-feature-add` (MINOR), nicht nur `data-add` (PATCH). Index-Größe +6 MB gz (34 → 40 MB).
+
+**Why v4.1.1?** Korpus-Rebuild nach Stanza-Insertion-Sweep (#23) — etwa 90 Texte bekamen `<lg type="stanza">`-Wrapper, was die `lineStarts`/`lineEnds`-Werte für diese Texte ändert; keine Schema-Änderung, daher PATCH.
+
 **Field name note:** the primary identifier is `id` (sigle), not `textId`. Older docs and some code paths may use `textId` — the canonical field in the index JSON is `id`.
+
+**Versions-Sync (kritisch):** der Index-Versions-String muss synchron mit `INDEX_VERSION` in `assets/js/lib/corpus-loader.js` und der `'version'`-Konstante in `scripts/build-corpus-index.py` gehalten werden. Sonst greift die Cache-Invalidate-Logik nicht (siehe `docs/CONTRACTS.md` §IndexedDB). CI-Garantie via `.github/workflows/index-version-check.yml`; lokal `python scripts/audit/check-index-versions.py` vor Commit.
 
 ## Data Processing Pipeline
 
