@@ -16,12 +16,35 @@ const DEFAULT_STATE = Object.freeze({
   resolvedConcept: null,     // {id, termDE, termEN, normalized} oder null
   candidates: [],            // alternative Concept-Matches
   matchingLemmata: [],       // [{id, lemma}] alle Lemmata, die diesen Concept referenzieren
+  distribution: null,        // [{id, title, count, ...}] oder null wenn (noch) nicht berechnet
+  computing: false,          // true waehrend async-Aggregation
+  computeProgress: 0,        // 0..1 fuer Spinner-Anzeige
   sortBy: 'frequency',       // 'frequency' | 'alphabetic'
   freqMode: 'absolute',      // 'absolute' | 'relative'
   topN: 30
 });
 
 const TOP_N_OPTIONS = [15, 30, 50, 100];
+// Worst-case (concept_21072000: 8718 Lemmata) erzeugt ohne Chunking ~2.7s Long-
+// Task. Mit time-based Yield bei 30ms pro Chunk bleiben Long-Tasks unter dem
+// 50ms-Schwellwert, an dem der Browser sie als "blocking" wertet (UI bleibt
+// responsive, Scroll/Klick reagieren). Gesamtdauer steigt minimal durch das
+// Yield-Overhead, aber subjektiv ist es "Spinner laeuft" statt "Browser haengt".
+const CHUNK_BUDGET_MS = 30;
+
+// MessageChannel statt setTimeout(0) als yield-Mechanismus: setTimeout hat
+// einen 4ms-Mindest-Delay im fokussierten Tab und wird auf >=1000ms
+// gedrosselt, sobald der Tab in den Hintergrund geht (Chrome timer throttling
+// fuer hidden tabs). MessageChannel hat keine solche Drosselung und liefert
+// trotzdem einen frischen Macrotask, der den Longtask-Reporter zurueck-
+// setzt. Beobachtet 2026-05-12: hidden tab + setTimeout(0) -> 95x langsamer.
+function yieldToMain() {
+  return new Promise(resolve => {
+    const ch = new MessageChannel();
+    ch.port1.onmessage = () => resolve();
+    ch.port2.postMessage(null);
+  });
+}
 
 export class ConceptDistribution {
   constructor(getCorpusTexts, authorityManager, getAuthorityData) {
@@ -79,6 +102,12 @@ export class ConceptDistribution {
 
   /**
    * Find all lemmata whose senses reference the given concept.
+   *
+   * Synchron: pro Suche ein einzelner Pass ueber 43.754 Lemmata. Worst-Case
+   * ~80-100ms Long-Task; akzeptabel, weil danach der async-chunked
+   * computeDistribution-Pfad anlaeuft und die UI sofort wieder frei wird.
+   * Async machen brachte ueberraschend mehr 100-200ms-Tasks (zusaetzliche
+   * render()-Cycles dazwischen kosten mehr als die Synchronizitaet spart).
    */
   findMatchingLemmata(conceptId) {
     const lemmata = this.getAuthorityData().lemmata || [];
@@ -97,12 +126,20 @@ export class ConceptDistribution {
 
   /**
    * For each text, sum occurrences of all matching lemmata.
+   *
+   * Async + time-based Chunking: nach jeweils CHUNK_BUDGET_MS Rechenzeit yield
+   * auf die Event-Loop. Das haelt jeden einzelnen Long-Task unter 50ms, sodass
+   * die UI (Scroll, Klick, Spinner-Animation) waehrend der Aggregation
+   * responsive bleibt. Wird sonst spuerbar bei concepts mit >2000 Lemmata
+   * (13 Stueck im Korpus, Worst-Case 8718 Lemmata).
    */
-  computeDistribution(matchingLemmata) {
+  async computeDistribution(matchingLemmata, onProgress) {
     const texts = this.getCorpusTexts() || [];
     const lemmaIds = matchingLemmata.map(l => l.id);
     const hits = [];
-    for (const text of texts) {
+    let chunkStart = performance.now();
+    for (let i = 0; i < texts.length; i++) {
+      const text = texts[i];
       let total = 0;
       let distinctLemmata = 0;
       for (const lid of lemmaIds) {
@@ -124,7 +161,13 @@ export class ConceptDistribution {
           wordCount: wc
         });
       }
+      if (performance.now() - chunkStart > CHUNK_BUDGET_MS) {
+        if (onProgress) onProgress((i + 1) / texts.length);
+        await yieldToMain();
+        chunkStart = performance.now();
+      }
     }
+    if (onProgress) onProgress(1);
     return hits;
   }
 
@@ -227,7 +270,27 @@ export class ConceptDistribution {
       `;
     }
 
-    const dist = this.computeDistribution(this.state.matchingLemmata);
+    if (this.state.computing) {
+      const pct = Math.round(this.state.computeProgress * 100);
+      return `
+        <div class="rounded-2xl border border-slate-200 bg-white p-6 text-sm">
+          <div class="font-semibold text-slate-800">${escapeHtml(concept.termDE || concept.id)}</div>
+          <div class="mt-1 text-xs text-slate-500">${escapeHtml(concept.id)} &middot; ${this.state.matchingLemmata.length.toLocaleString('de-DE')} Lemmata zugeordnet</div>
+          <p class="mt-4 text-slate-600">Berechne Verteilung &uuml;ber 667 Texte ...</p>
+          <div class="mt-2 h-2 w-full rounded bg-slate-100 overflow-hidden">
+            <div id="cdProgressBar" class="h-full bg-brand-400 transition-all" style="width: ${pct}%"></div>
+          </div>
+          <div id="cdProgressLabel" class="mt-1 text-xs text-slate-500 tabular-nums">${pct} %</div>
+        </div>
+      `;
+    }
+
+    if (!this.state.distribution) {
+      // sollte nie passieren ausser direkt nach Search-Klick vor erstem Render
+      return '<div class="rounded-2xl border border-slate-100 bg-white p-6 text-sm text-slate-500">...</div>';
+    }
+
+    const dist = this.state.distribution;
     if (dist.length === 0) {
       return `
         <div class="rounded-2xl border border-slate-200 bg-white p-6 text-sm">
@@ -362,7 +425,7 @@ export class ConceptDistribution {
   }
 
   attachHandlers() {
-    const runSearch = () => {
+    const runSearch = async () => {
       const input = document.getElementById('cdQuery');
       if (!input) return;
       this.state.query = input.value;
@@ -370,12 +433,40 @@ export class ConceptDistribution {
       this.state.resolvedConcept = resolved;
       this.state.candidates = candidates;
       this.state.matchingLemmata = resolved ? this.findMatchingLemmata(resolved.id) : [];
-      this.render();
-      const newInput = document.getElementById('cdQuery');
-      if (newInput) {
-        newInput.focus();
-        newInput.setSelectionRange(newInput.value.length, newInput.value.length);
+      this.state.distribution = null;
+
+      if (!resolved || this.state.matchingLemmata.length === 0) {
+        this.state.computing = false;
+        this.state.computeProgress = 0;
+        this.render();
+        this.refocusInput();
+        return;
       }
+
+      // Asynchrone Aggregation mit Chunking. Render Spinner zuerst, dann
+      // Patch-Update der Progress-Bar ohne komplettes re-render (Form bleibt
+      // stehen, Input behaelt Fokus). Nach Abschluss komplettes re-render.
+      this.state.computing = true;
+      this.state.computeProgress = 0;
+      this.render();
+      this.refocusInput();
+
+      const dist = await this.computeDistribution(this.state.matchingLemmata, (frac) => {
+        this.state.computeProgress = frac;
+        const bar = document.getElementById('cdProgressBar');
+        const label = document.getElementById('cdProgressLabel');
+        if (bar) bar.style.width = `${Math.round(frac * 100)}%`;
+        if (label) label.textContent = `${Math.round(frac * 100)} %`;
+      });
+
+      // Falls inzwischen eine neue Suche gestartet wurde (matchingLemmata
+      // hat sich geaendert), Ergebnis verwerfen.
+      if (!this.state.computing) return;
+
+      this.state.distribution = dist;
+      this.state.computing = false;
+      this.state.computeProgress = 1;
+      this.render();
     };
 
     document.getElementById('cdSearchBtn')?.addEventListener('click', runSearch);
@@ -385,6 +476,8 @@ export class ConceptDistribution {
         runSearch();
       }
     });
+    // sortBy / freqMode / topN aendern nur Anzeige, nicht die Aggregation.
+    // Re-Render reicht; computeDistribution muss nicht erneut laufen.
     document.getElementById('cdFreqMode')?.addEventListener('change', (e) => {
       this.state.freqMode = e.target.value;
       this.render();
@@ -397,6 +490,14 @@ export class ConceptDistribution {
       this.state.topN = parseInt(e.target.value, 10) || DEFAULT_STATE.topN;
       this.render();
     });
+  }
+
+  refocusInput() {
+    const newInput = document.getElementById('cdQuery');
+    if (newInput) {
+      newInput.focus();
+      newInput.setSelectionRange(newInput.value.length, newInput.value.length);
+    }
   }
 }
 
