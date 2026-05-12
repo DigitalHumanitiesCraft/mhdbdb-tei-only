@@ -258,65 +258,53 @@ class LemmaPage {
         ).join('');
 
         // Fetch Wörterbuchnetz entries asynchronously (non-blocking)
-        this.fetchWoerterbuchnetz(lemma.normalized, lemma.lemma);
+        this.fetchWoerterbuchnetz(lemma.normalized);
     }
 
     /**
-     * Render MWB search link (static) and query Wörterbuchnetz API for Lexer entries.
+     * Query Wörterbuchnetz HTTPS API for MWB + Lexer entries and render direct deep-links.
      *
-     * MWB (mhdwb-online.de) has no HTTPS lemma-level API; a pre-filled search URL
-     * is the best available deep-link. Lexer is available via the Wörterbuchnetz
-     * HTTPS API and returns specific entry links.
+     * Both dictionaries use the same `/dictionaries/{sigle}/lemmata/{form}` endpoint.
+     * MWB deep-links use http://mhdwb-online.de — modern browsers allow navigation
+     * to http targets from https pages via <a target="_blank"> (no Mixed-Content block).
      */
-    async fetchWoerterbuchnetz(normalizedForm, rawForm) {
+    async fetchWoerterbuchnetz(normalizedForm) {
         const section = document.getElementById('wbnetzSection');
         const container = document.getElementById('wbnetzLinks');
         if (!section || !container) return;
 
         const bookIcon = '<svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>';
 
-        // MWB: static pre-filled search link (no HTTPS entry-level API available)
-        const mwbSearchUrl = `https://mhdwb-online.de/suche.php?q=${encodeURIComponent(rawForm || normalizedForm)}&modus=Lemma`;
-        const links = [
-            `<a href="${mwbSearchUrl}" class="external-link" target="_blank" rel="noopener">
-                ${bookIcon}
-                <span class="font-semibold text-xs">MWB</span>
-                ${this.escapeHtml(rawForm || normalizedForm)}
-                <span class="text-slate-400 text-xs">(Suche)</span>
-            </a>`
-        ];
+        const dictionaries = ['MWB', 'Lexer'];
+        const lookupForm = encodeURIComponent(normalizedForm);
 
-        section.classList.remove('hidden');
-        container.innerHTML = links.join('');
+        const results = await Promise.all(
+            dictionaries.map(async sigle => {
+                try {
+                    const r = await fetch(`https://api.woerterbuchnetz.de/open-api/dictionaries/${sigle}/lemmata/${lookupForm}`);
+                    if (!r.ok) return { sigle, entries: [] };
+                    const data = await r.json();
+                    return { sigle, entries: data.result_set || [] };
+                } catch (e) {
+                    console.warn(`[LemmaPage] Wörterbuchnetz ${sigle} API unavailable:`, e.message);
+                    return { sigle, entries: [] };
+                }
+            })
+        );
 
-        // Lexer: live lookup via Wörterbuchnetz HTTPS API
-        try {
-            const resp = await fetch(
-                `https://api.woerterbuchnetz.de/open-api/dictionaries/Lexer/lemmata/${encodeURIComponent(normalizedForm)}`
-            );
-            if (!resp.ok) return;
-            const data = await resp.json();
-            if (!data.result_set?.length) return;
-
-            const lexerLinks = data.result_set.map(e =>
+        const links = results.flatMap(({ sigle, entries }) =>
+            entries.map(e =>
                 `<a href="${e.wbnetzlink}" class="external-link" target="_blank" rel="noopener">
                     ${bookIcon}
-                    <span class="font-semibold text-xs">Lexer</span>
+                    <span class="font-semibold text-xs">${sigle}</span>
                     ${this.decodeHtmlEntities(e.lemma)}${e.gram ? ` <span class="text-slate-400 text-xs">(${e.gram})</span>` : ''}
                 </a>`
-            );
-            container.innerHTML = links.concat(lexerLinks).join('');
-        } catch (e) {
-            console.warn('[LemmaPage] Wörterbuchnetz Lexer API unavailable:', e.message);
-        }
-    }
+            )
+        );
 
-    escapeHtml(str) {
-        return String(str)
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/"/g, '&quot;');
+        if (links.length === 0) return;
+        section.classList.remove('hidden');
+        container.innerHTML = links.join('');
     }
 
     renderVariants(lemmaKey) {
