@@ -883,3 +883,42 @@ Aus Julias paralleler Session (alphabetisch nach Hash, dieser Handoff Session H)
 - **Corpus-Index-Auto-Invalidate-Loader-Fix** (kein Issue, vom Kollegen heute morgen identifiziert): bleibt bestehen als bekannter Doppel-Bumps-Workaround
 - Sonst alles aus dem `aac7fe23e`-Carryover unverändert: #34 (Julia + Helmut), #81 (KZW), #91 (Tag + Webhook), #92 (Carina), #107/#108 (claude-ready M), #109 (FWF-Antrag), #106 (KZW-Backlog-Bestätigung).
 
+---
+
+## 2026-05-12 18:42 — handoff
+
+**Summary:** Die drei „Anti-Sycophancy"-Followups aus dem `aac7fe23e`-Handoff vollständig abgearbeitet: (1) Survey-Skript + Edge-Case-Coverage-Report über alle 567 Concepts; (2) Performance-Patch in `concept-distribution.js` — 2.747ms Browser-Freeze auf 60-200ms Long-Tasks reduziert (Faktor 13-49) plus Playwright-Regression-Test; (3) DESIGN.MD §Playground TEI-Analysis Module Pattern als formale Konvention; (4) GitHub-Issue #111 „Index-Größen-Soft-Cap" als Trigger-Reminder.
+
+**Decisions:**
+- **Patch-Strategie B (requestIdleCallback-Chunking via MessageChannel) statt C (Pre-Computed Index-Feld):** B ist minimal-invasiv (~120 Z. Diff), keine Index-Schema-Migration. C wäre langfristig schneller (O(1) statt O(L×T)), aber kostet 2-4 MB gz und einen v4.2.0-Bump — verschoben in Issue #111 als „Trigger bei 50 MB gz".
+- **MessageChannel statt setTimeout(0) als Yield-Mechanismus:** setTimeout(0) wird im hidden Tab auf >=1000ms gedrosselt (Chrome timer throttling). Beobachtet 2026-05-12 im Test-Setup: 95x langsamer als erwartet. MessageChannel hat keine solche Drosselung. Dokumentiert in `concept-distribution.js`-Kommentar und in DESIGN.MD.
+- **findMatchingLemmata synchron belassen:** Async-Chunking dort brachte überraschend mehr 100-200ms Long-Tasks (zusätzliche `render()`-Cycles während des async-Flows kosten mehr als der findMatchingLemmata-Sync). Sync-Pass ~80-100ms bei worst-case ist akzeptabel.
+- **CHUNK_BUDGET_MS = 30, nicht 20:** Budget=20 brachte Regression (215ms peak). Optimum bei 30ms — Trade-off zwischen Yield-Overhead und Long-Task-Größe.
+
+**Dead ends:**
+- **Budget=20-Versuch:** brachte Regression statt Verbesserung (3 Long-Tasks > 50ms statt 2). Zurück auf 30. Kosten: ~10 min.
+- **findMatchingLemmata async-Versuch:** brachte 162-204ms Long-Tasks statt erwartet <50ms. Zusätzliche `render()`-Cycles während findMatchingLemmata-Loop kosteten mehr als die Synchronizität spart. Sync wieder hergestellt. Kosten: ~15 min, finaler Code aber sauberer.
+- **JSON-Dump des Surveys (124 KB):** ist reproduzierbar via `--json`-Flag, daher gitignored — nicht commit-würdig.
+
+**Phase:** Implementation (iteration). Alle 14 Promptotyping-Docs aktuell. DESIGN.MD um neue Sektion erweitert, ARCHITECTURE.MD-Verweis gesetzt, ROADMAP.md §Future angepasst, JOURNAL.md (dieser Eintrag).
+
+**Open issues (post-Session):**
+- **#111** Index-Größen-Strategie: Trigger-Reminder, keine Aktion bis 50 MB gz erreicht.
+- **#107 Kookkurrenz-Ranking** + **#108 Textvergleich**: claude-ready, M-Effort.
+- **#109 FWF-Projekt:** wartet auf @wachauer-Antragstext.
+- **#106:** wartet auf KZW-Kommentar zur Scope-Reduktion.
+- **Playwright-Test `concept-distribution.spec.js` nicht ausgeführt** — User hat die Tests bisher nicht selbst gestartet. Wenn `npm test` läuft, sollten die vier neuen Tests grün sein (alle Assertions sind großzügig dimensioniert: <500ms / <200ms / <150ms Long-Task-Limits).
+- **Performance-Regression-Beobachtung:** initial-run nach Page-Load zeigt 200ms+ peak (V8-JIT-Warmup), steady-state 60-70ms. Falls in CI mit kalter V8 die 500ms-Schwelle gerissen wird, Test-Limit hochsetzen oder ein Warmup-Run einbauen.
+
+**Next steps (für die nächste Session):**
+1. `/promptotyping orient` (lädt Project-State).
+2. **Falls User #107 Kookkurrenz-Ranking startet:** kann analog Begriffs-Verteilung gebaut werden (gleiches Modul-Pattern, jetzt formal in DESIGN.MD). Async-Chunking wenn Concept-Pair-Aggregation O(C × T) wird.
+3. **Falls User #108 Textvergleich startet:** Set-Ops auf Lemma-Listen pro Text, weniger Compute-intensiv, vermutlich kein Chunking nötig.
+4. **Carryover unverändert:** #23, #34, #81, #91, #92, #104, #106, #107, #108, #109, Auto-Invalidate-Loader-Fix.
+
+**Commits (gepusht, neueste zuerst):**
+- `95caa996d` `docs(playground): Survey-Skript + Modul-Konvention + Index-Strategie-Issue` (6 Files, +563)
+- `90472358a` `perf(playground): #47 R2-Followup Begriffs-Verteilung async + chunked` (2 Files, +233/-9, neuer Spec + Patch)
+
+**Externe:** Issue **#111 erstellt** (pipeline + future plans, kein Assignee), Browser-Performance-Befund dokumentiert in `docs/research/concept-distribution-survey.md` (untracked JSON-Dump bleibt lokal).
+
