@@ -663,3 +663,50 @@ Aus Julias paralleler Session (alphabetisch nach Hash, dieser Handoff Session H)
 2. **#105 Authority-Files-Counter:** String-Drift-Fix (vermutlich auf `index.html` Stats-Block und Hilfe-Seiten). KZW-Screenshots in Issue zeigen genaue Stellen.
 3. **#104 Siglen zusammenziehen:** PL1-3 deterministisch prüfen (gleiche Metadaten? Nur Body unterschiedlich?). FLG/FLG1 + FR1-3 brauchen KZW-Klärung der Editions-Politik.
 4. **Carryover:** #23 Bulk-Run (wartet auf KZW-Go), #47.3 Versposition-Pipeline, #91 Zenodo-Tag.
+
+---
+
+## 2026-05-12 — Nachmittag: #105 + #47.3 (Versposition-Pipeline-Sprint)
+
+**Summary:** Zwei weitere Issues abgeschlossen nach Julias Vormittagsblock. **#105** (Authority-Files-Counter 7 vs 8) als One-Liner-Fix auf `index.html` — User-Bauchgefühl war richtig, `contributors.xml` ist semantisch kein Authority-File; pragmatisch trotzdem auf 8 vereinheitlicht, weil Hilfe-Seiten + INDEX.MD + Validierungs-Kontext schon 8 zählen. Anschließend **#47.3 Lemmasuche nach Versposition** als ~2h-Sprint: Corpus-Index v4.0.1 → v4.1.0 mit `lineStarts[]`/`lineEnds[]`, neues Playground-Modul analog `lemma-distribution.js`, Chrome-verifiziert mit echten Reimpaaren.
+
+**Decisions:**
+- **#105 Authority-Counter: pragmatisch auf 8 vereinheitlicht** statt sauberer Trennung „7 suchbar + 8 validiert". User-Argument: „meta-meta-info, interessiert niemanden". Stats-Block `index.html:293` 7→8; Playground-Loader-Status `ui-helpers.js:604` bleibt 7 (technisch korrekt — `authority-index.json.gz` enthält nur die 7 inhaltstragenden Files, `contributors.xml` ist separat). UX-Inkonsistenz „Startseite 8 ↔ Playground-Status 7" akzeptiert (1-Sekunde-Sichtbarkeit bis ✅-State).
+- **#47.3 Datenmodell-Design:** `lineStarts[]` UND `lineEnds[]` statt nur Starts. Vorteil: O(1)-Lookup für Versende ohne Binary-Search; kostenmäßig vernachlässigbar (~3 MB extra gzipped). 1.36M `<l>`-Elemente über 603 Versdichtungs-Texte; 64 Prosa-Texte haben leere Arrays — UI filtert sie automatisch heraus.
+- **#47.3 Code-Pattern:** Modul analog `lemma-distribution.js` (in-place Form + Body in `resultsContainer`) statt Modal. KZW spezifizierte „eigener, schlanker Dialog" — das LemmaDistribution-Pattern ist genauso schlank, aber konsistent mit den anderen TEI-Tools.
+- **Default Position = Versende:** Reim-Use-Case (häufiger) bekommt den Default. Treffer-Zahlen bestätigen: `minne` Versende 532 vs. Versanfang 110 in PZ/TR.
+
+**Dead ends:**
+- **lxml-Proxy-ID-Bug** in erster Version von `extract_word_data()`: separate `body.iter('<w>')` + `l_el.iter('<w>')` Aufrufe lieferten unterschiedliche Python-Element-Proxies mit unterschiedlichen `id()`-Werten → dict-Lookup fand nur das jeweils letzte Word einer Iteration. Lösung: Single-pass `iterwalk(events=('start','end'))` mit Stack-tracking für `<l>`-Verschachtelung. Stichprobe AGS war Lebensretter — ohne den Test wäre der Bug erst nach 7-Minuten-Build aufgefallen.
+- **IndexedDB-Cache-Trap nach Index-Bump:** Frontend zeigte zunächst `corpusData.texts[0].lineStarts === undefined`. Ursache: gecachter v4.0.1-Index in IndexedDB. Manuelles `indexedDB.deleteDatabase()` plus Hard-Reload löste es. Auto-Invalidate bei Version-Bump (analog #94 für `authority-index`) wäre ein eigener Issue wert.
+- **„minne" POS-Auflösung ergibt ADJ:** `searchLemmaByOrthography('minne')` liefert `lemma_4130 minne ADJ` — überraschend für das zentrale MHG-Substantiv. Treffer-Zahlen plausibel (76 Texte, 532 Versende-Hits) → vermutlich POS-Tag-Drift im Authority-Index, siehe #27. Nicht-Problem von #47.3, aber notable für künftige POS-Cleanups.
+
+**Phase:** Implementation (iteration). Promptotyping-Docs aktualisiert: ROADMAP.md (#47.3 + #105 in Recently Completed, #105 raus aus Now-Quick-Wins), INDEX.MD (Recent Milestones erweitert), JOURNAL.md (dieser Eintrag). Corpus-Index v4.1.0 als neue Baseline.
+
+**Commits (alle gepusht, neueste zuerst):**
+- `ea7b0a507` `feat(playground): #47.3 Lemmasuche nach Versposition` (6 Files, +328 −31, inkl. corpus-index.json.gz 34 → 40 MB)
+- `8bf689d93` `fix(landing): #105 Authority-Files-Stats-Counter 7 -> 8` (Closes #105)
+
+**Externe:** #105 closed via `Closes #105`-Trailer. #47-Umbrella-Kommentar mit #47.3-Status, Chrome-Verifikation, POS-Drift-Caveat und Cache-Invalidate-Hinweis: [issuecomment-4429961763](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/47#issuecomment-4429961763).
+
+**Verifikation (Chrome `localhost:8080`):**
+- Versanfang/Versende für „minne", „vriunt" plausibel (Versende dominiert deutlich, konsistent mit Reim-Realität)
+- Unknown-Lemma „xyzunknown" → amber-„Kein Lemma gefunden"-Block sauber
+- Ground-Truth AGS-Versenden = echte Reimpaare (gân/begân, bant/bekant, mûzære/gewære, rote/nota, jâr/hâr)
+- Keine Console-Errors
+
+**Open issues (post-Session):**
+- **#104** Siglen-Werk-Gruppierung (FLG/FLG1, PL1-3, FR1-3): Kollege analysiert gerade, kein Action-Item für uns.
+- **#92** ARITHMETIC: Carina pendent.
+- **#91** Zenodo: Tag + Webhook pendent.
+- **#81** Sprachstufen AC1-3: KZW-Code-Wahl pendent.
+- **#23** Stanza-Insert Bulk: KZW-Go pendent.
+- **#34** WZB Phase 3 92.5 %: Julia + Helmut.
+- **#47** Release 2 (Begriffs-Verteilung) + Release 3 (POS, abhängig von #27): ungeplant.
+
+**Next session:**
+1. `/promptotyping orient`
+2. **Corpus-Index-Auto-Invalidate:** kleiner Loader-Fix analog #94 — bei Version-String-Wechsel automatisch IndexedDB-Cache verwerfen. Heute manuell, sollte automatisch sein.
+3. **#104-Befund abwarten** (Kollege).
+4. **Falls KZW reviewt #47.3:** evtl. Untertitel/Wording polishen, Position-Default-Frage klären (jetzt Versende).
+

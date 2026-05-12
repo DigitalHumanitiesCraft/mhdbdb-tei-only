@@ -138,6 +138,8 @@ Post-MVP with stable v4.0.0 corpus index and v1.2.0 authority index
 - ✅ **#73 Lemma-Linking MWB + Lexer** (2026-05-12) - Beide Wörterbücher über Wörterbuchnetz-API (`/dictionaries/{MWB|Lexer}/lemmata/{form}`); ersetzt Julias initialen, defekten MWB-Suchlink (POST-only-Form öffnete leere Suchseite); Section nur sichtbar wenn min. 1 Treffer
 - ✅ **WZB Pentateuch-Scope** (2026-05-12, Julia) - WZB-Titel + works.xml + projectDesc auf „Wenzelsbibel (Pentateuch: Gen–Dtn, Cod. 2759–2764)" präzisiert; Authority-Index-Rebuild
 - ✅ **Blog-Post-Draft WZB-Pipeline** (2026-05-12, Julia + C. Pollin) - `publications/BLOG-POST-WZB-PIPELINE.md` v3: 30J. MHDBDB-Kontext, LOD, dreiphasige LLM-Pipeline, böhmische Schreibkonventionen; unpublished
+- ✅ **#105 Authority-Files-Counter** (2026-05-12) - Stats-Block auf Startseite 7 → 8 angeglichen; Playground-Loader-Status bleibt 7 (technisch korrekt, `contributors.xml` nicht im authority-index)
+- ✅ **#47.3 Lemmasuche nach Versposition** (2026-05-12) - Neuer Playground-Eintrag unter Multi-Lemma-Suche, findet Lemmata am Versanfang/Versende; Corpus-Index v4.1.0 mit `lineStarts[]`/`lineEnds[]` (1,359,789 `<l>` über 603 Versdichtungs-Texte, +6 MB gz); Chrome-verifiziert mit echten Reimpaaren in AGS
 
 ### Known Limitations
 - Desktop-only interface (not mobile-responsive)
