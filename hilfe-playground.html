@@ -106,10 +106,11 @@
                 <li><a href="#worum-es-geht" class="text-brand-600 hover:text-brand-700 font-medium">1. Worum es geht</a></li>
                 <li><a href="#drei-spalten" class="text-brand-600 hover:text-brand-700 font-medium">2. Der Drei-Spalten-Aufbau</a></li>
                 <li><a href="#multi-lemma" class="text-brand-600 hover:text-brand-700 font-medium">3. Multi-Lemma-Suche</a></li>
-                <li><a href="#forschungsfragen" class="text-brand-600 hover:text-brand-700 font-medium">4. Typische Forschungsfragen</a></li>
-                <li><a href="#authority-files" class="text-brand-600 hover:text-brand-700 font-medium">5. Authority Files im Einsatz</a></li>
-                <li><a href="#workflow" class="text-brand-600 hover:text-brand-700 font-medium">6. Vom Playground in die Leseansicht</a></li>
-                <li><a href="#weiter" class="text-brand-600 hover:text-brand-700 font-medium">7. Was Sie als Nächstes tun können</a></li>
+                <li><a href="#verse-position" class="text-brand-600 hover:text-brand-700 font-medium">4. Lemmasuche nach Versposition</a></li>
+                <li><a href="#forschungsfragen" class="text-brand-600 hover:text-brand-700 font-medium">5. Typische Forschungsfragen</a></li>
+                <li><a href="#authority-files" class="text-brand-600 hover:text-brand-700 font-medium">6. Authority Files im Einsatz</a></li>
+                <li><a href="#workflow" class="text-brand-600 hover:text-brand-700 font-medium">7. Vom Playground in die Leseansicht</a></li>
+                <li><a href="#weiter" class="text-brand-600 hover:text-brand-700 font-medium">8. Was Sie als Nächstes tun können</a></li>
             </ol>
         </nav>
 
@@ -209,9 +210,66 @@
             </p>
         </section>
 
-        <!-- 4. Typische Forschungsfragen -->
+        <!-- 4. Lemmasuche nach Versposition -->
+        <section id="verse-position" class="mb-12 scroll-mt-24">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">4. Lemmasuche nach Versposition</h2>
+
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Findet ein einzelnes Lemma, das genau am <strong>Versanfang</strong> oder
+                <strong>Versende</strong> steht. Eine direkte Antwort auf mediävistische Fragen wie:
+                „Wie oft reimt Wolfram auf <em>minne</em>?" oder „Welche Wörter dominieren das
+                Versende im Parzival?"
+            </p>
+
+            <h3 class="text-lg font-semibold text-slate-900 mt-6 mb-2">Wie es funktioniert</h3>
+            <ol class="space-y-2 text-sm text-slate-700 mb-4 ml-4 list-decimal list-inside">
+                <li>Lemma eingeben (Wort wie <code class="px-2 py-0.5 bg-slate-100 rounded">minne</code> oder Lemma-ID).</li>
+                <li>Position wählen: <strong>Versanfang</strong> oder <strong>Versende</strong> (Default: Versende, weil der Reim-Use-Case häufiger ist).</li>
+                <li>Auf <strong>Suchen</strong> klicken.</li>
+                <li>Die Trefferliste zeigt jeden Text mit den Treffern an der gewählten Position, daneben den Anteil an allen Vorkommen im Text (z.B. „54%" heißt: jedes zweite Vorkommen des Lemmas im Text steht am Versende).</li>
+            </ol>
+
+            <h3 class="text-lg font-semibold text-slate-900 mt-6 mb-2">Was die Position bedeutet</h3>
+            <p class="text-slate-700 leading-relaxed mb-3">
+                Die Funktion arbeitet auf der <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;l&gt;</code>-Auszeichnung
+                des TEI-Korpus, also auf jeder vom Editions-Layout vorgegebenen Verszeile.
+                „Versanfang" ist das erste annotierte Wort einer <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;l&gt;</code>,
+                „Versende" das letzte. Wortpositionen außerhalb von <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;l&gt;</code>
+                (etwa in Kapitelüberschriften, Marginalia oder Notizen) gelten weder als Anfang noch als Ende.
+            </p>
+
+            <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded-r-lg my-6">
+                <p class="text-sm text-slate-700">
+                    <strong>Anwendungsbereich:</strong> Die Funktion wirkt nur in Versdichtung
+                    (603 von 667 Texten, rund 90 % des Korpus). Prosa-Texte ohne
+                    <code class="px-2 py-0.5 bg-slate-100 rounded text-xs">&lt;l&gt;</code>-Auszeichnung
+                    werden automatisch übersprungen und tauchen in den Ergebnissen nicht auf.
+                </p>
+            </div>
+
+            <h3 class="text-lg font-semibold text-slate-900 mt-6 mb-2">Beispiel: Reimpaare in AGS</h3>
+            <p class="text-slate-700 leading-relaxed mb-3">
+                Eine Stichprobe der ersten zehn Versenden in der Spruchsammlung
+                <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">AGS</code> zeigt klare
+                AABB-Reimpaare:
+                <code class="px-1 py-0.5 bg-slate-100 rounded text-sm">gân / begân</code>,
+                <code class="px-1 py-0.5 bg-slate-100 rounded text-sm">bant / bekant</code>,
+                <code class="px-1 py-0.5 bg-slate-100 rounded text-sm">mûzære / gewære</code>,
+                <code class="px-1 py-0.5 bg-slate-100 rounded text-sm">rote / nota</code>,
+                <code class="px-1 py-0.5 bg-slate-100 rounded text-sm">jâr / hâr</code>.
+                Wer Reimwort-Vorkommen sucht, kommt auf diesem Weg direkt zu den Belegstellen.
+            </p>
+
+            <p class="text-slate-700 leading-relaxed">
+                Die Position-Spalte in den Ergebnissen ist auch ein Indikator für reimgetriebene
+                Wortwahl: ein Lemma mit hohem Versende-Anteil (60 %+) steht überwiegend am Reim,
+                eines mit niedrigem Anteil (unter 10 %) ist eher semantisch motiviert positioniert.
+            </p>
+        </section>
+
+        <!-- 5. Typische Forschungsfragen -->
         <section id="forschungsfragen" class="mb-12 scroll-mt-24">
-            <h2 class="text-2xl font-bold text-slate-900 mb-4">4. Typische Forschungsfragen</h2>
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">5. Typische Forschungsfragen</h2>
 
             <p class="text-slate-700 leading-relaxed mb-4">
                 Damit die abstrakten Modi greifbarer werden: vier Fragen, die häufig an die
@@ -266,7 +324,7 @@
 
         <!-- 5. Authority Files im Einsatz -->
         <section id="authority-files" class="mb-12 scroll-mt-24">
-            <h2 class="text-2xl font-bold text-slate-900 mb-4">5. Authority Files im Einsatz</h2>
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">6. Authority Files im Einsatz</h2>
 
             <p class="text-slate-700 leading-relaxed mb-4">
                 Sechs Authority-Ansichten öffnen je einen Einstiegspunkt in die kontrollierten
@@ -295,7 +353,7 @@
 
         <!-- 6. Workflow -->
         <section id="workflow" class="mb-12 scroll-mt-24">
-            <h2 class="text-2xl font-bold text-slate-900 mb-4">6. Vom Playground in die Leseansicht</h2>
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">7. Vom Playground in die Leseansicht</h2>
 
             <p class="text-slate-700 leading-relaxed mb-4">
                 Der typische Forschungsworkflow verbindet Playground und Korpussuche:
@@ -315,7 +373,7 @@
 
         <!-- 7. Weiter -->
         <section id="weiter" class="mb-12 scroll-mt-24">
-            <h2 class="text-2xl font-bold text-slate-900 mb-4">7. Was Sie als Nächstes tun können</h2>
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">8. Was Sie als Nächstes tun können</h2>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
 
@@ -359,10 +417,11 @@
                     <li><a href="#worum-es-geht" class="text-brand-600 hover:text-brand-700 font-medium">1. Worum es geht</a></li>
                     <li><a href="#drei-spalten" class="text-brand-600 hover:text-brand-700 font-medium">2. Drei-Spalten-Aufbau</a></li>
                     <li><a href="#multi-lemma" class="text-brand-600 hover:text-brand-700 font-medium">3. Multi-Lemma-Suche</a></li>
-                    <li><a href="#forschungsfragen" class="text-brand-600 hover:text-brand-700 font-medium">4. Forschungsfragen</a></li>
-                    <li><a href="#authority-files" class="text-brand-600 hover:text-brand-700 font-medium">5. Authority Files</a></li>
-                    <li><a href="#workflow" class="text-brand-600 hover:text-brand-700 font-medium">6. Zur Leseansicht</a></li>
-                    <li><a href="#weiter" class="text-brand-600 hover:text-brand-700 font-medium">7. Was als Nächstes</a></li>
+                    <li><a href="#verse-position" class="text-brand-600 hover:text-brand-700 font-medium">4. Versposition</a></li>
+                    <li><a href="#forschungsfragen" class="text-brand-600 hover:text-brand-700 font-medium">5. Forschungsfragen</a></li>
+                    <li><a href="#authority-files" class="text-brand-600 hover:text-brand-700 font-medium">6. Authority Files</a></li>
+                    <li><a href="#workflow" class="text-brand-600 hover:text-brand-700 font-medium">7. Zur Leseansicht</a></li>
+                    <li><a href="#weiter" class="text-brand-600 hover:text-brand-700 font-medium">8. Was als Nächstes</a></li>
                 </ol>
             </nav>
         </aside>
