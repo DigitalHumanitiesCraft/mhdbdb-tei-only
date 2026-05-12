@@ -9,7 +9,8 @@
  * URL scheme: #<view>[&<key>=<value>&...]
  * Supported views:
  *   authors, works, lemmata, concepts, genres, names,
- *   multi-lemma, verse-position, word-frequency, text-statistics, lemma-distribution
+ *   multi-lemma, verse-position, word-frequency, text-statistics, lemma-distribution,
+ *   concept-distribution
  *
  * Example URLs:
  *   playground/#authors                          → open Autoren-Explorer
@@ -19,6 +20,7 @@
  *   playground/#word-frequency                   → open Wortfrequenz-Analyse
  *   playground/#text-statistics                  → open Text-Statistiken
  *   playground/#lemma-distribution               → open Lemma-Verteilung
+ *   playground/#concept-distribution             → open Begriffs-Verteilung
  */
 
 const ROUTES = {
@@ -33,6 +35,7 @@ const ROUTES = {
   'word-frequency':     ()       => window.playground.ui.wordFrequency.show(),
   'text-statistics':    ()       => window.playground.ui.textStatistics.show(),
   'lemma-distribution': ()       => window.playground.ui.lemmaDistribution.show(),
+  'concept-distribution': ()     => window.playground.ui.conceptDistribution.show(),
 };
 
 /**

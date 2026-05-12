@@ -18,6 +18,7 @@ import { WordFrequencyAnalyzer } from './ui/tei/word-frequency.js';
 import { TextStatistics } from './ui/tei/text-statistics.js';
 import { LemmaDistribution } from './ui/tei/lemma-distribution.js';
 import { VersePositionSearch } from './ui/tei/verse-position-search.js';
+import { ConceptDistribution } from './ui/tei/concept-distribution.js';
 
 // Wire up file display helpers for progress.js
 setFileDisplayHelpers(setupCollapsibleFileList, setupFileFilter);
@@ -72,6 +73,11 @@ class MHDBDBPlayground {
         this.ui.textStatistics = new TextStatistics(corpusTextsThunk);
         this.ui.lemmaDistribution = new LemmaDistribution(corpusTextsThunk, this.authorityManager);
         this.ui.versePositionSearch = new VersePositionSearch(corpusTextsThunk, this.authorityManager);
+        this.ui.conceptDistribution = new ConceptDistribution(
+            corpusTextsThunk,
+            this.authorityManager,
+            () => this.authorityData
+        );
 
         this.init();
     }
@@ -466,7 +472,8 @@ class MHDBDBPlayground {
             { id: 'findVersePositionBtn',    handler: () => navigate('verse-position') },
             { id: 'showWordFrequencyBtn',    handler: () => navigate('word-frequency') },
             { id: 'showTextStatisticsBtn',   handler: () => navigate('text-statistics') },
-            { id: 'showLemmaDistributionBtn', handler: () => navigate('lemma-distribution') }
+            { id: 'showLemmaDistributionBtn', handler: () => navigate('lemma-distribution') },
+            { id: 'showConceptDistributionBtn', handler: () => navigate('concept-distribution') }
         ];
 
         teiButtons.forEach(({ id, handler }) => {
