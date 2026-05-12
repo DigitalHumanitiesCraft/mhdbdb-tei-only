@@ -17,6 +17,7 @@ import { MultiLemmaSearchUI } from './ui/tei/multi-lemma-search.js';
 import { WordFrequencyAnalyzer } from './ui/tei/word-frequency.js';
 import { TextStatistics } from './ui/tei/text-statistics.js';
 import { LemmaDistribution } from './ui/tei/lemma-distribution.js';
+import { VersePositionSearch } from './ui/tei/verse-position-search.js';
 
 // Wire up file display helpers for progress.js
 setFileDisplayHelpers(setupCollapsibleFileList, setupFileFilter);
@@ -70,6 +71,7 @@ class MHDBDBPlayground {
         );
         this.ui.textStatistics = new TextStatistics(corpusTextsThunk);
         this.ui.lemmaDistribution = new LemmaDistribution(corpusTextsThunk, this.authorityManager);
+        this.ui.versePositionSearch = new VersePositionSearch(corpusTextsThunk, this.authorityManager);
 
         this.init();
     }
@@ -461,6 +463,7 @@ class MHDBDBPlayground {
         // UPDATED: Go through the hash router so the URL reflects the current view.
         const teiButtons = [
             { id: 'findMultiLemmaBtn',       handler: () => navigate('multi-lemma') },
+            { id: 'findVersePositionBtn',    handler: () => navigate('verse-position') },
             { id: 'showWordFrequencyBtn',    handler: () => navigate('word-frequency') },
             { id: 'showTextStatisticsBtn',   handler: () => navigate('text-statistics') },
             { id: 'showLemmaDistributionBtn', handler: () => navigate('lemma-distribution') }

@@ -6,9 +6,9 @@ Build Corpus Index
 Generates pre-built corpus index from tei/ directory (667 TEI files).
 Output: data/corpus-index.json.gz (~3-5 MB compressed)
 
-Index structure (v4.0.1 - DOCUMENT-LEVEL):
+Index structure (v4.1.0 - DOCUMENT-LEVEL + LINE BOUNDARIES):
 {
-  "version": "4.0.1",
+  "version": "4.1.0",
   "generatedAt": "2025-01-01T00:00:00Z",
   "totalTexts": 667,
   "totalLemmata": 45000,
@@ -26,7 +26,9 @@ Index structure (v4.0.1 - DOCUMENT-LEVEL):
       "lemmata": {
         "lemma_879": [0, 2, 15],  # Word positions
         "lemma_123": [1]
-      }
+      },
+      "lineStarts": [0, 8, 15, ...],   # word-index where each <l> starts (#47.3)
+      "lineEnds":   [7, 14, 22, ...]   # word-index where each <l> ends (inclusive)
     }
   ],
   "lemmaIndex": {
@@ -34,6 +36,14 @@ Index structure (v4.0.1 - DOCUMENT-LEVEL):
     "lemma_123": ["ABG"]
   }
 }
+
+Notes on lineStarts/lineEnds (added in v4.1.0 for #47.3):
+- Same length as the number of <l> elements with at least one indexed word.
+- Empty for prose texts without <l> elements (~10% of corpus).
+- A lemma occurrence at position P is at Versanfang iff P in lineStarts,
+  at Versende iff P in lineEnds.
+- Words outside any <l> (e.g. inside <head>, <note>, mid-paragraph <fw>)
+  match neither.
 """
 
 import argparse
@@ -145,59 +155,81 @@ def extract_metadata(filepath):
 
 def extract_word_data(filepath, text_id):
     """
-    Extract word data using document-level indexing (v4.0.0).
+    Extract word data using document-level indexing (v4.1.0).
 
-    Returns: (words_list, lemmata_dict, word_count)
+    Returns: (words_list, lemmata_dict, word_count, line_starts, line_ends)
     where:
       words_list = ["lemma_879", "lemma_123", ...]  # ALL words in <body> in document order
       lemmata_dict = {"lemma_879": [0, 2, 15], ...}
+      line_starts = [0, 8, 15, ...]  # word-index where each <l> starts
+      line_ends   = [7, 14, 22, ...] # word-index where each <l> ends (inclusive)
     """
     try:
         tree = etree.parse(str(filepath))
-        ns = get_namespaces(tree)
 
         # Get body element
         TEI = '{http://www.tei-c.org/ns/1.0}'
         body = tree.find(f'.//{TEI}body')
         if body is None:
-            return [], {}, 0
-
-        # Get ALL words in <body> in document order
-        # Uses iter() with Clark notation — orders of magnitude faster than
-        # xpath() with namespace mapping on large files (PL1: 0.2s vs timeout)
-        word_els = [w for w in body.iter(f'{TEI}w') if w.get('lemmaRef')]
+            return [], {}, 0, [], []
 
         words = []  # All lemma IDs in document order
         lemmata = defaultdict(list)
         word_count = 0
 
-        for word_el in word_els:
-            lemma_ref = word_el.get('lemmaRef')
-            text_content = ''.join(word_el.itertext()).strip()
+        line_starts = []
+        line_ends = []
+        # Stack tracks <l> nesting depth (in practice always 0 or 1, but defensive)
+        # Each frame holds (first_w_idx, last_w_idx) for the currently-open <l>.
+        l_stack = []
 
+        # Single-pass iterwalk: start/end events for <w> and <l> together.
+        # This avoids lxml's proxy-id instability between separate .iter() calls.
+        for event, el in etree.iterwalk(body, events=('start', 'end'),
+                                         tag=(f'{TEI}w', f'{TEI}l')):
+            tag = el.tag
+
+            if tag == f'{TEI}l':
+                if event == 'start':
+                    l_stack.append([None, None])  # [first_idx, last_idx]
+                else:  # end
+                    frame = l_stack.pop()
+                    if frame[0] is not None:
+                        line_starts.append(frame[0])
+                        line_ends.append(frame[1])
+                continue
+
+            # tag == <w>, event == 'start' (we ignore <w>-end events)
+            if event != 'start':
+                continue
+
+            lemma_ref = el.get('lemmaRef')
+            if not lemma_ref:
+                continue
+            text_content = ''.join(el.itertext()).strip()
             if not text_content:
                 continue
 
-            # Extract lemma ID
-            # Format: "lexicon.xml#lemma_879" -> "lemma_879"
-            if '#' in lemma_ref:
-                lemma_id = lemma_ref.split('#')[1]
-            else:
-                lemma_id = lemma_ref
+            lemma_id = lemma_ref.split('#')[1] if '#' in lemma_ref else lemma_ref
 
-            # Store word data (just lemma ID)
             word_idx = len(words)
             words.append(lemma_id)
-
-            # Record position in lemma index
             lemmata[lemma_id].append(word_idx)
             word_count += 1
 
-        return words, dict(lemmata), word_count
+            # If we're inside one or more <l>, update each open frame.
+            # (Inner-most <l> defines Versanfang/Versende; outer frames are
+            # extremely rare in TEI but cost nothing to track.)
+            for frame in l_stack:
+                if frame[0] is None:
+                    frame[0] = word_idx
+                frame[1] = word_idx
+
+        return words, dict(lemmata), word_count, line_starts, line_ends
 
     except Exception as e:
         print(f"⚠️  Error extracting word data from {filepath.name}: {e}")
-        return [], {}, 0
+        return [], {}, 0, [], []
 
 
 def process_tei_file(filepath):
@@ -209,15 +241,17 @@ def process_tei_file(filepath):
 
     text_id = metadata['id']
 
-    # Extract full word data (document-level)
-    words, lemmata, word_count = extract_word_data(filepath, text_id)
+    # Extract full word data + line boundaries (document-level)
+    words, lemmata, word_count, line_starts, line_ends = extract_word_data(filepath, text_id)
 
     # Combine
     text_data = {
         **metadata,
         'wordCount': word_count,
         'words': words,
-        'lemmata': lemmata
+        'lemmata': lemmata,
+        'lineStarts': line_starts,
+        'lineEnds': line_ends
     }
 
     return text_data
@@ -269,7 +303,7 @@ def build_corpus_index():
 
     # Build final index
     index = {
-        'version': '4.0.1',  # 4.0.0: document-level indexing (removed paragraph logic). 4.0.1: WZB hinzugefügt
+        'version': '4.1.0',  # 4.0.0: document-level indexing. 4.0.1: WZB. 4.1.0: lineStarts/lineEnds für #47.3.
         'generatedAt': datetime.now().isoformat() + 'Z',
         'totalTexts': len(texts),
         'totalLemmata': len(lemma_index),
