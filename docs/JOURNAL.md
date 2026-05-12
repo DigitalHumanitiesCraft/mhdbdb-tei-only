@@ -745,3 +745,98 @@ Aus Julias paralleler Session (alphabetisch nach Hash, dieser Handoff Session H)
 
 **Externe:** **#47 closed** mit Bilanz-Kommentar (issuecomment-4430321460), **#105 closed** via `Closes #105`-Trailer in `8bf689d93`, **#107/#108/#109 erstellt** (#109 mit @wachauer als Assignee, FWF-Budget-Constraint dokumentiert), Memory `feedback_concurrent_sessions.md` erweitert um Pre-Commit-Drill ohne Pfad-Filter, Memory `feedback_index_version_bump.md` neu (drei-Stellen-Bump-Regel).
 
+---
+
+## 2026-05-12 — Abend (Fortsetzung): Promptotyping-Check + 3 offene Follow-Ups für Next Session
+
+**Summary:** Nach dem #47-Close-Sprint kam ein `/promptotyping check` mit 7 Drift-Findings. Davon 2 Blocking + 3 Should-fix + 2 Nice-to-have in zwei Commits abgearbeitet (`8d2505d28` DATA-MODEL+CONTRACTS, `5a82862bf` ARCHITECTURE+FEATURES+DEVELOPMENT+DECISIONS+INDEX inkl. ADR-014). Die drei Anti-Sycophancy-Punkte bleiben als konkrete Tasks für die nächste Session offen.
+
+**Next session — drei Tasks in dieser Reihenfolge:**
+
+### 1. (zuerst) Edge-Case-Coverage Begriffs-Verteilung systematisch — ~1-1.5h
+
+**Risk-driven:** das größte Concept hat vielleicht 5000+ zugeordnete Lemmata. `concept-distribution.js:findMatchingLemmata()` iteriert dann über alle Lemmata × alle Texte (667) — könnte den Browser einfrieren. Heute nur 2/567 Concepts manuell getestet.
+
+**Zwei-Schritt-Plan:**
+
+**Schritt 1.1 — Programmatischer Survey (Python, ~30min):**
+```python
+# scripts/audit/survey-concept-distribution.py (NEU)
+# - Lade authority-index.json.gz + corpus-index.json.gz
+# - Für jedes Concept (567 total):
+#   - Anzahl zugeordnete Lemmata
+#   - Anzahl Texte mit min. 1 Treffer
+#   - Total Vorkommen
+# - Output: sortiertes CSV/Markdown mit Min/Max/Median/P95
+# - Flagge: Concepts mit >2000 Lemmata, mit 0 Lemmata, mit >100k Vorkommen
+```
+
+**Schritt 1.2 — Browser-Performance-Check (~20min):**
+- Worst-case Concept (höchste Lemma-Count) im Playground testen
+- DevTools Performance-Profile: ist die Suche <500ms? <2s? >2s = freeze
+- Wenn freeze: Performance-Patch nötig (Web-Worker oder `requestIdleCallback`-Chunking in `findMatchingLemmata`)
+- Wenn OK: Playwright-Regression-Test in `testing/tests/` schreiben, der das worst-case Concept lädt und Treffer-Count gegen erwarteten Wert prüft
+
+**Definition of done:** Survey-Report committed in `scripts/audit/`, performance verifiziert (oder gepatcht), Playwright-Lock in Test-Suite. Falls Performance-Patch nötig: separates Issue + ADR-Eintrag „Frontend-Aggregation für große Concepts".
+
+### 2. (dann) DESIGN.MD Playground-Modul-Konvention dokumentieren — ~20min
+
+**Wo:** `docs/DESIGN.MD` neue Sektion zwischen „Component Patterns" und „Layout Patterns". Section-Titel z.B. „Playground TEI-Analysis Module Pattern".
+
+**Was reinschreiben** (das gemeinsame Schema aller fünf Module — `word-frequency.js`, `text-statistics.js`, `lemma-distribution.js`, `verse-position-search.js`, `concept-distribution.js`):
+- **Konstruktor:** `(getCorpusTexts, authorityManager, ...)` — Thunks statt direkter Datenreferenzen, damit nach Index-Reload nichts stale ist
+- **`show()`** als Router-Entry-Point — guards corpus-loaded, ruft `render()`
+- **`render()`** → `resultsContainer.innerHTML = renderForm() + renderBody()` → `attachHandlers()` neu binden
+- **Stateful state-Objekt** `this.state = { ...DEFAULT_STATE }` für Form-Werte; render() konsumiert state, nicht DOM
+- **Escape-Helpers** (`escapeHtml`, `escapeAttr`) am Modul-Ende, NICHT importiert (jedes Modul self-contained)
+- **Brand-Akzent** (`bg-brand-50`, `text-brand-700`) nur für Default-Button; sekundäre Buttons `bg-white border-slate-200`
+
+**Multi-Lemma als dokumentierter Outlier:** nutzt Modal (`#multiLemmaModal`) statt in-place-Form, weil es 4 Eingabe-Lemmata + Modus + Distanz braucht und das im Sidebar nicht reinpassen würde.
+
+**Definition of done:** Section in DESIGN.MD, mit ~20-Zeilen-Code-Skelett als Template-Snippet. Verweis von ARCHITECTURE.MD §UI-Layer auf den neuen DESIGN-Abschnitt.
+
+### 3. (zuletzt) Index-Größen-Strategie als Issue — ~15min
+
+**Issue anlegen** (Title-Vorschlag: „Index-Größen-Soft-Cap und modulare Splitting-Strategie"):
+
+**Body-Skelett:**
+- **Status quo:** corpus-index.json.gz heute 40 MB gz (ca. 160 MB uncompressed). Authority-Index ~3 MB gz.
+- **Trajektorie:** mit jedem neuen Index-Feld wächst er. POS-Workflow (#27): +3-5 MB gz erwartet (per-word POS-Tag). NER-Annotation (#109): vermutlich +5-10 MB. Reim-Klassifikation (#109 Komplex A): +1-2 MB.
+- **Trigger-Bedingung:** wenn corpus-index >50 MB gz oder >200 MB uncompressed erreicht — Soft-Cap.
+- **Optionen bei Trigger:**
+  - **A. Modulares Splitting** in core (Metadaten + lemmata{}) + on-demand-chunks (words[], lineStarts[], future POS-array). Loader fetcht core eager, chunks lazy bei Feature-Aktivierung.
+  - **B. Compression-Upgrade:** gzip → brotli (typisch 20-30 % kleiner). Browser-Support für Brotli-content-encoding ist universal.
+  - **C. Binärformat** (MessagePack / FlatBuffers). Größere Code-Investition, bricht JSON-Compatibility.
+- **Heute keine Entscheidung notwendig** — Issue dient als Trigger-Reminder. Sobald 50 MB erreicht, wird ADR-015 geschrieben.
+- **Labels:** `pipeline`, `future plans`
+- **Assignee:** keiner; ist eher technische Diskussions-Notiz.
+
+**Definition of done:** Issue veröffentlicht und in ROADMAP.md unter „Future / Needs Design" verlinkt.
+
+---
+
+**Verweise für Next Session:**
+- Schema-Datenstruktur: [docs/DATA-MODEL.md §Corpus Index](DATA-MODEL.md) (frisch auf v4.1.1 gesynct)
+- Modul-Pattern als Vorbild: `playground/js/ui/tei/lemma-distribution.js` (~300 Z., kanonisches Beispiel)
+- Audit-Skript-Template: `scripts/audit/check-index-versions.py` (Header-Stil, Exit-Codes, GitHub-Actions-Annotations)
+- Pre-Commit-Drill: `git diff --cached --stat` OHNE Pfad-Filter (Memory `feedback_concurrent_sessions.md`)
+
+**Carryover (unverändert):**
+- #23 Stanza-Insert Bulk: Kollege macht; weitere Stanza-Wraps im Index v4.1.1 vermutlich enthalten
+- #34 WZB Phase 3: Julia + Helmut
+- #81 Sprachstufen AC1-3: KZW BCP-47-Wahl
+- #91 Zenodo: Tag + Webhook
+- #92 ARITHMETIC: Carina
+- #104 Siglen-Gruppierung: Kollege analysiert
+- #107 Kookkurrenz-Ranking: claude-ready, M-Effort
+- #108 Textvergleich: claude-ready, M-Effort
+- #109 FWF-Projekt: wartet auf KZW-Antragstext
+- #106 Vers-Boundary-Features: KZW soll Punkt 1 als Rolling-Backlog-Eintrag bestätigen
+- Corpus-Index-Auto-Invalidate (kein Issue): Loader-Fix analog #94 für corpus-index
+
+**Commit dieses Eintrags (separat von der Doku-Sync-Welle):**
+- `8d2505d28` Blocking-Fixes (DATA-MODEL.MD + CONTRACTS.MD auf v4.1.1)
+- `5a82862bf` Should-fix + Nice-to-have + ADR-014 (5 docs)
+
+**Phase:** Implementation (handoff). Alle 14 Promptotyping-Docs aktuell, Drift-Check sauber.
+
