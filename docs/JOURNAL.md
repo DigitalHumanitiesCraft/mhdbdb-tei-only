@@ -929,3 +929,38 @@ Aus Julias paralleler Session (alphabetisch nach Hash, dieser Handoff Session H)
 
 **Externer Commit dieses Nachtrags:** wird gemeinsam mit ROADMAP-Updates committed (sieh nächsten Commit).
 
+---
+
+## 2026-05-14 12:00 — handoff
+
+**Summary:** `/promptotyping check` durchgeführt — erster Check seit 2026-05-12, keine Code-Änderungen seitdem, entsprechend wenig Drift. Zwei Should-fix-Findings in `docs/ROADMAP.md` behoben: zwei offene Issues fehlten in der Triage-Matrix, und §Strategic Direction hatte doppelte Nummerierung.
+
+**Decisions:**
+- **#93 + #110 in ROADMAP nachgetragen:** #93 (Textreihentypologie-Umzug, `nice to have`/`future plans`) war in keinem Doc erfasst → §Future: Needs Design. #110 (WVV-Stanza-Followup, claude-ready) stand nur im JOURNAL → §Now. ROADMAP referenziert sich selbst als „full triage matrix", muss also vollständig sein.
+- **§Strategic Direction renumeriert:** Punkt „2." erschien zweimal, „TEI data quality" sogar als #2 und #4. Die zwei TEI-data-quality-Einträge zu einem zusammengeführt (jetzt Punkt 2, inkl. #23 + #110), sauber 1–6 durchnummeriert.
+- **`.gitignore` NICHT mitcommittet:** die `proposals/`-Zeile gehört zur parallel offenen `proposals/netidee/`-Arbeit des Users, nicht zu diesem Check. Nur `docs/ROADMAP.md` + `docs/JOURNAL.md` gestaget (Concurrent-Sessions-Regel).
+
+**Check-Findings ohne Aktion (bewusst):**
+- **`concept-distribution.spec.js` nie ausgeführt** — die 4 Playwright-Tests aus dem 18:42-Handoff sind weiterhin assumed-green; offene Verifikationslücke, kein Doc-Fehler. Begriffs-Verteilung (#47 R2) hatte zudem nie einen sauberen Live-Walkthrough (Tab-Tod 2×).
+- **JOURNAL.md bei 103 KB** — Anti-Sycophancy-Frage für die nächste Quartals-Runde: Handoff-Einträge älter als ~4 Wochen auf 3–4 Zeilen komprimieren (analog Health-Check-Report-Konvention in CLAUDE.md). Context-Rot trifft auch die Doku selbst.
+
+**Dead ends:** keine.
+
+**Phase:** Implementation (handoff). Alle 14 Promptotyping-Docs aktuell. Index-Versionen konsistent (corpus 4.1.1, authority 1.2.1 — Build-Skript + Loader, `check-index-versions.py` grün). `docs/features/` lifecycle-korrekt (034 ↔ #34 offen, 045 ↔ #45 offen).
+
+**Open issues (unverändert vom 18:42-Handoff):**
+- **#107 Kookkurrenz-Ranking** + **#108 Textvergleich**: claude-ready, M-Effort, Modul-Pattern in DESIGN.MD formalisiert.
+- **#110 WVV-Stanza-Followup**: claude-ready, S-M; Linecode-Source liegt vor.
+- **#111** Index-Größen-Strategie: Trigger-Reminder, keine Aktion bis 50 MB gz.
+- **#109 FWF-Projekt**: wartet auf @wachauer-Antragstext.
+- **#106**: wartet auf KZW-Kommentar zur Scope-Reduktion.
+- **`concept-distribution.spec.js`**: bei nächstem `npm test` mitlaufen lassen, ob die 4 neuen Tests grün sind.
+- **Carryover:** #23-Restdefizite (MUG/MSF, KZW-Input), #34 (Julia + Helmut), #81 (KZW BCP-47-Wahl), #91 (Tag + Webhook), #92 (Carina), #104 (KZW + Julia), Corpus-Index-Auto-Invalidate-Loader-Fix (kein Issue).
+
+**Next steps:**
+1. `/promptotyping orient` zum Laden des Project-State.
+2. Falls User #107 oder #108 startet: Modul-Pattern aus DESIGN.MD §Playground TEI-Analysis Module Pattern als Template.
+3. Falls User #110 startet: `scripts/insert-stanzas-from-linecode.py` `find_first_l_for_anchor`-Heuristik gegen WVV-Template `000000000cnddss--kk` prüfen.
+
+**Commit dieses Handoffs:** siehe nächsten Bash-Block.
+

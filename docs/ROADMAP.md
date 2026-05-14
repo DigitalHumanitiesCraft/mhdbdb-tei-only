@@ -1,6 +1,6 @@
 # Roadmap
 
-Strategic priorities for the MHDBDB TEI Repository. Updated 2026-05-12 (Abend).
+Strategic priorities for the MHDBDB TEI Repository. Updated 2026-05-14.
 
 See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/44) for the full triage matrix with per-issue status.
 
@@ -11,6 +11,7 @@ See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues
 | #91 | Zenodo-Integration — CITATION.cff von KZW finalisiert (`type=dataset`, Lead-Autorin); Zenodo-Webhook + Tag noch User-Steps | docs/release | S |
 | #81 | Sprachstufen-Differenzierung — 4/7 Texte abgehakt (SAL/SAT/BAR/TUN no-op); AC1-3 pending KZW-Code-Wahl | data | S |
 | #112 | Versposition-Klick highlightet Lemma im Reader nicht — Bug aus wachauer-Comment in #47 | frontend | S |
+| #110 | #23-Followup WVV — 23 Stanza-Anchors fehlen wegen ungewöhnlicher Linecode-Template-Geometrie; Source liegt vor, claude-ready | pipeline | S-M |
 
 ## Next: FAIR Data + Daten-Qualität
 
@@ -52,6 +53,7 @@ See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues
 | #59 | Antonomasien/Epitheta Modul | Standalone analysis module design |
 | #63 | Begriffssystem Update | Julia's future plans |
 | #80 | Umbrella: User-facing Dokumentation & Hilfe | Sub-issues #79, #78, #68 |
+| #93 | Textreihentypologie-Umzug (von marketext.at auf MHDBDB-Unterseite) — SKOS-Daten aus `textseries`-Repo, Baum-Visualisierung; dysfunktionale `dhplus`-URIs zu bereinigen | Visualisierung + Authority-File-Abgleich |
 | #109 | FWF-Einzelprojekt (Korpus-Tiefenanalyse, NER-Pipeline, phonetische Reimanalyse, Visualisierungen) — Antrag durch KZW, kleines Budget, max. 50% externe Mittel | Scope-Notiz für Antragstext |
 | #111 | Index-Größen-Soft-Cap und modulare Splitting-Strategie | Trigger >50 MB gz (heute 42); Optionen A modular / B brotli / C binär; keine Entscheidung bis Schwellwert erreicht |
 
@@ -110,13 +112,11 @@ See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues
 
 1. **TEI model consolidation done** — Soll-Modell (#32) fully implemented, #32-followup 17/17 abgeschlossen (P1-5 mit 3 kontextspezifischen Enum-Patterns für `idno/@type`, plus WZB shelfmark, Stage-1 PI cleanup, CI push trigger). Both schemas written (`mhdbdb.rnc`, `mhdbdb-authority.rnc`), all 667 corpus + 8 authority files validated. Target models: [TEI-MODEL.md](TEI-MODEL.md) + [TEI-MODEL-AUTH-FILES.md](TEI-MODEL-AUTH-FILES.md). Architecture Decision Record: [ADR-013 "Data Consolidation Before Schema Relaxation"](DECISIONS.MD#adr-013).
 
-2. **TEI data quality** — Structural fixes (#26, #30, #85), schema hardening (#32 ✅), and Wenzelsbibel (#34, Phase 3 at 92.5%) are the active workstreams. Most structural fixes are blocked on KZW review.
+2. **TEI data quality** — Structural fixes (#23, #26, #30, #85), schema hardening (#32 ✅), Wenzelsbibel (#34, Phase 3 at 92.5%) und WVV-Followup (#110) sind die aktiven Workstreams. Die meisten verbleibenden Structural Fixes sind auf KZW-Review geblockt.
 
-2. **Playground TEI Textanalyse Release 1 done** — UX-Cleanup (#87), Wortfrequenz (#88), Text-Statistiken (#89), Lemma-Verteilung (#90) alle 2026-05-11 closed. Release 2 (Begriffs-Verteilung) und Release 3 (POS-Anteile, abhängig von #27) noch ungeplant.
+3. **Playground TEI Textanalyse Release 1 done** — UX-Cleanup (#87), Wortfrequenz (#88), Text-Statistiken (#89), Lemma-Verteilung (#90) alle 2026-05-11 closed. Release 2 (Begriffs-Verteilung) und Release 3 (POS-Anteile, abhängig von #27) noch ungeplant.
 
-3. **FAIR data + Citability** — Static JSON API (#45) und Zenodo-DOI (#91, Stub geliefert) machen MHDBDB-Daten extern zitier- und programmierbar zugänglich. Enables external collaborations (MWB, Wörterbuchnetz, ZfdG-Einreichung).
-
-4. **TEI data quality** — Remaining structural fixes (#23, #26, #85). Mostly blocked on human review.
+4. **FAIR data + Citability** — Static JSON API (#45) und Zenodo-DOI (#91, Stub geliefert) machen MHDBDB-Daten extern zitier- und programmierbar zugänglich. Enables external collaborations (MWB, Wörterbuchnetz, ZfdG-Einreichung).
 
 5. **Frontend refinements** — Reader (#17 ✅), UI-Polish (#20 ✅), Reading-View-Render-Policy (#101 ✅ 2026-05-12, Julia) und Lemma-Linking MWB+Lexer (#73 ✅ 2026-05-12) abgeschlossen. Upload-UI-Dead-Code-Cleanup pendent (kein Issue).
 
