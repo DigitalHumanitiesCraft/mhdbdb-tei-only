@@ -1,6 +1,6 @@
 # Roadmap
 
-Strategic priorities for the MHDBDB TEI Repository. Updated 2026-05-14.
+Strategic priorities for the MHDBDB TEI Repository. Updated 2026-05-15.
 
 See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/44) for the full triage matrix with per-issue status.
 
@@ -9,7 +9,6 @@ See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues
 | # | What | Domain | Effort |
 |---|------|--------|--------|
 | #91 | Zenodo-Integration — CITATION.cff von KZW finalisiert (`type=dataset`, Lead-Autorin); Zenodo-Webhook + Tag noch User-Steps | docs/release | S |
-| #81 | Sprachstufen-Differenzierung — 4/7 Texte abgehakt (SAL/SAT/BAR/TUN no-op); AC1-3 pending KZW-Code-Wahl | data | S |
 | #112 | Versposition-Klick highlightet Lemma im Reader nicht — Bug aus wachauer-Comment in #47 | frontend | S |
 | #110 | #23-Followup WVV — 23 Stanza-Anchors fehlen wegen ungewöhnlicher Linecode-Template-Geometrie; Source liegt vor, claude-ready | pipeline | S-M |
 
@@ -30,7 +29,6 @@ See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues
 |---|------|-------------|
 | #92 | ARITHMETIC ingest — 6 fnhd. Rechenbuch-HS von Carina (Graz); wartet auf Carinas Antwort zu Sigle/Lizenz/Edition/Genre + Schlüsselfrage Domänen-Klassifikation erhalten? | Carina (via Katharina) |
 | #30 | TEI structural fixes — auto-fixes ready, draft-fixes prepared | KZW (review) |
-| #81 | Sprachstufen-Differenzierung: pauschales `gmh` stimmt nicht | KZW |
 | #34 | Ingest Wenzelsbibel — Phase 3 at 92.5% @meaningRef, 4,013 rows pending; branch rebased 2026-05-06; evaluation script (`wzb-sense-evaluate.py`) ready | Julia + Helmut |
 | #68 | Guide: How to add data to MHDBDB — Teil 1 (`hilfe-daten-beitragen.html`) shipped 2026-05-07, Contributing-Guide-Update 2026-05-12 (Two-Wege-Block + 9-Punkte-Checkliste); weitere Onboarding-Artefakte hängen an #34-Lessons | KZW |
 
@@ -42,7 +40,6 @@ See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues
 | #28 | Foreign language search | Index needs `xml:lang`; UI design needed |
 | #18 | Multi-lemma + PoS tag search | Depends on POS corpus migration (#27) |
 | #23 | Missing stanza markup (104 texts) | Complex cases need Linecode docs (#31, done) + Julia input |
-| #104 | Siglen, die zu einem Werk zusammengehören (FLG/FLG1, PL1-3, FR1-3) — KZW-Issue 2026-05-11 | KZW + Julia |
 | #106 | Vers-Boundary-Folgefeatures — Punkt 1 (Reim-Wörterbuch) bleibt Rolling-Backlog; Punkte 2-7 wandern in #109 FWF-Projekt; Punkt 8 in Multi-Lemma-Backlog | KZW priorisiert weiter |
 
 ## Future: Needs Design
@@ -61,6 +58,8 @@ See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues
 
 | # | What |
 |---|------|
+| ~~#104~~ | Sigle-Titel-Differenzierung (2026-05-15, commit `c0b546a45`): PL1-3, FLG/FLG1, FR1-3 bekommen sprechende Anzeigetitel mit Edition + Datum. FLG-`<biblStruct>` umgestellt auf Neumann/Vollmann-Profe 1990 (Edition) + Harsch 2009 (digitalIntermediary). Index-Bump corpus 4.1.2 / authority 1.2.2. KZW-Wording wortgleich; 130/131 Tests grün, Chrome-UI verifiziert |
+| ~~#81~~ | Sprachstufen-Differenzierung (closed 2026-05-15): SAL/SAT/BAR/TUN waren Wikidata-Fehler (`gmh` bleibt). AC1-3 (Ackermann aus Böhmen) bleiben ebenfalls `gmh` — KZW-Entscheidung 2026-05-08: solange kein ISO-Code für Frühneuhochdeutsch existiert, ist `gmh` die TEI-konformste Lösung. 537 unerforschte Texte als eigener Task ausgelagert (nicht angelegt — nicht in Plan) |
 | ~~#47~~ | TEI Textanalyse Umbrella geschlossen (2026-05-12): R1 (#87-90) und R2-Hauptpunkt Begriffs-Verteilung shipped; Folgepunkte ausgelagert in #107 (Kookkurrenz-Ranking), #108 (Textvergleich), #106 (Vers-Boundary-Features, Punkt 1 als Rolling-Backlog), #109 (FWF-Projekt für NER + tiefere Analysen) |
 | ~~#47 R2~~ | Begriffs-Verteilung (2026-05-12): Neuer Playground-Eintrag analog Lemma-Verteilung (#90), aber concept-basiert. Datenpfad concept → senses → lemmata → texts. Verifiziert mit „Sterben" (682 Lemmata, 659 Texte, 103.657 Vorkommen) und „love" (Intimität mit Candidates) |
 | ~~#47.3~~ | Lemmasuche nach Versposition (2026-05-12): Neuer Playground-Eintrag unter Multi-Lemma-Suche, findet Lemmata am Versanfang/Versende. Corpus-Index v4.1.0 mit `lineStarts[]`/`lineEnds[]` (1,359,789 `<l>` über 603 Versdichtungs-Texte, +6 MB gz). KZW-Wording wortgleich; Chrome-verifiziert (Reimpaare gân/begân, bant/bekant am Versende von AGS) |
