@@ -10,7 +10,7 @@
  * Supported views:
  *   authors, works, lemmata, concepts, genres, names,
  *   multi-lemma, verse-position, word-frequency, text-statistics, lemma-distribution,
- *   concept-distribution, text-comparison
+ *   concept-distribution, text-comparison, cooccurrence-ranking
  *
  * Example URLs:
  *   playground/#authors                          → open Autoren-Explorer
@@ -22,6 +22,7 @@
  *   playground/#lemma-distribution               → open Lemma-Verteilung
  *   playground/#concept-distribution             → open Begriffs-Verteilung
  *   playground/#text-comparison                  → open Textvergleich
+ *   playground/#cooccurrence-ranking             → open Kookkurrenz-Ranking
  */
 
 const ROUTES = {
@@ -38,6 +39,7 @@ const ROUTES = {
   'lemma-distribution': ()       => window.playground.ui.lemmaDistribution.show(),
   'concept-distribution': ()     => window.playground.ui.conceptDistribution.show(),
   'text-comparison':    ()       => window.playground.ui.textComparison.show(),
+  'cooccurrence-ranking': ()     => window.playground.ui.cooccurrenceRanking.show(),
 };
 
 /**
