@@ -767,7 +767,7 @@ def build_index():
 
     # Build index structure
     index = {
-        'version': '1.2.1',  # 1.2.0: Authority migration (genre ptrs, person-works derivation, Frauendienst split). 1.2.1: WZB-Lemmata + Varianten + Werk-Eintrag
+        'version': '1.2.2',  # 1.2.0: Authority migration (genre ptrs, person-works derivation, Frauendienst split). 1.2.1: WZB-Lemmata + Varianten + Werk-Eintrag. 1.2.2: #104 FLG/FLG1-Werk-Titel + work_571 biblStruct auf Vollmann-Profe/Neumann 1990.
         'generatedAt': datetime.utcnow().isoformat() + 'Z',
         'lemmata': lemmata,
         'persons': persons,

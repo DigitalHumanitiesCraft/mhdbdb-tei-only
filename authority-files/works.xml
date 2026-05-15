@@ -1914,29 +1914,47 @@
           </relatedItem>
         </bibl>
         <bibl xml:id="work_571">
-          <title xml:lang="de">Das fließende Licht der Gottheit (Buch 1 &amp; 2)</title>
+          <title xml:lang="de">Das fließende Licht der Gottheit (Buch 1-2 / Vollmann-Profe 1990)</title>
           <idno type="sigle">FLG</idno>
           <idno type="handschriftencensus">http://www.handschriftencensus.de/werke/1179</idno>
           <idno type="GND">https://d-nb.info/gnd/4226427-3</idno>
           <ptr target="genres.xml#genre_9eee7c13"/>
           <author ref="persons.xml#person_1547">Mechthild von Magdeburg</author>
           <relatedItem>
-            <biblStruct type="book" xml:id="FLG_FLG" corresp="http://zotero.org/groups/5043625/items/MLJUUSLC" key="FLG">
-              <monogr>
+            <biblStruct type="bookSection" xml:id="FLG_FLG" corresp="http://zotero.org/groups/5043625/items/ATWPNQPS" key="FLG">
+              <analytic>
+                <title level="a">Das fließende Licht der Gottheit: Bd. I: Text (Buch 1-2)</title>
                 <author>
                   <name>Mechthild von Magdeburg</name>
                 </author>
-                <title>Das Fließende Licht Der Gottheit: Buch 1 &amp; 2; Digitale Textedition</title>
+              </analytic>
+              <monogr>
+                <title level="m">Das Fließende Licht der Gottheit: Band 1: Text; Band 2: Untersuchungen</title>
                 <idno type="callNumber">FLG</idno>
+                <editor>
+                  <forename>Hans</forename>
+                  <surname>Neumann</surname>
+                </editor>
+                <editor>
+                  <forename>Gisela</forename>
+                  <surname>Vollmann-Profe</surname>
+                </editor>
                 <imprint>
-                  <date>2009</date>
+                  <pubPlace>München</pubPlace>
+                  <biblScope unit="volume">1</biblScope>
+                  <publisher>Artemis</publisher>
+                  <date>1990</date>
                 </imprint>
               </monogr>
+              <series>
+                <title level="s">Münchener Texte und Untersuchungen zur Deutschen Literatur des Mittelalters</title>
+              </series>
+              <note>Mechthild von Magdeburg. Das fließende Licht der Gottheit. Hrsg. von Hans Neumann. Bd. I: Text. Besorgt von Gisela Vollmann-Profe. München 1990.</note>
             </biblStruct>
           </relatedItem>
         </bibl>
         <bibl xml:id="work_587">
-          <title xml:lang="de">Das fließende Licht der Gottheit (Buch 3-7)</title>
+          <title xml:lang="de">Das fließende Licht der Gottheit (Buch 3-7 / Neumann MTU 1990)</title>
           <idno type="sigle">FLG1</idno>
           <idno type="handschriftencensus">http://www.handschriftencensus.de/werke/1179</idno>
           <idno type="GND">https://d-nb.info/gnd/4226427-3</idno>
