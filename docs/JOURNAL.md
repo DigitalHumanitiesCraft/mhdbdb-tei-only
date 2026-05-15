@@ -964,3 +964,36 @@ Aus Julias paralleler Session (alphabetisch nach Hash, dieser Handoff Session H)
 
 **Commit dieses Handoffs:** siehe nächsten Bash-Block.
 
+---
+
+## 2026-05-15 13:11 — handoff
+
+**Summary:** Drei Issues in einer Sitzung durchgegangen: #86 (Barrierefreiheit-Ping an KZW), #104 (Sigle-Titel-Differenzierung PL1-3/FLG/FLG1/FR1-3 plus FLG-biblStruct-Umstellung auf Vollmann-Profe/Neumann 1990), #81 (Sprachstufen-Differenzierung no-op-Closure nach KZW-Decision 2026-05-08), #110 (WVV-Stanza-Wrapping 478/482 + Skript-Härtung für 3 Edge-Cases). Drei Commits gepusht, alle drei Issues closed (#86 nur Ping, weiterhin open).
+
+**Decisions:**
+- **#104 FLG-Editor-Modellierung**: Variante A (beide Neumann + Vollmann-Profe als `<editor>`) gewählt, weil bibliografisch korrekter und konsistent mit FLG1. Anzeigetitel bleibt KZWs Kurzform „/ Vollmann-Profe 1990". `@role="bookEditor"` zunächst gesetzt, dann entfernt, weil mhdbdb.rnc das Attribut auf `<editor>` nicht erlaubt — TEI-Note erklärt die Rollendifferenzierung im Klartext.
+- **#104 works.xml-Scope**: nur work_571/work_587 (FLG-Einzelwerke) bekamen neue Titel + biblStruct-Update. work_113 (PL-Cluster) und work_463 (FR-Cluster) blieben generisch — KZWs Sigle-Differenzierung lebt auf TEI-Header-Ebene, nicht Work-Ebene.
+- **#110 Skript-Robustheits-Fixes (3 Edge-Cases)**: max_candidates=12 (Header-in-`<supplied>`-Fallback), parent-mismatch-Walk-Forward-Fallback (Section-Wechsel im gleichen Stanza-Counter), wrap_stanza-Pre-Check für `<l>`-only-Range (Schema-konform). Alle additiv — keine Regressionen für die bereits gewrappten 99/100 Sigles aus dem #23-Bulk-Run.
+- **#110 4 wrap_failed bleiben unbehandelt**: Section-Wechsel ohne Stanza-Counter-Change (1174/1180/1208/1242) brauchen philologische Entscheidung. Skript meldet sie sauber statt sie defekt zu wrappen. Issue-Comment dokumentiert für KZW/Julia.
+
+**Dead ends:**
+- Erster Skript-Lauf wrappte WVV erfolgreich (482/482), aber zerstörte Stage-1-Validität, weil eine Strophe (394, Linecode 1180→1181) freistehende `<hi rend="initial">`-Elemente zwischen `<l>`s hatte, die in `<lg>` reingerollt wurden. → wrap_stanza-Pre-Check eingebaut, jetzt 478/482 mit gültigem Schema.
+- Erste `npm test`-Run für #104 mit `| tail -50`-Pipe lief grün durch (130/131), aber Output-Datei blieb leer wegen der Pipe — User dachte zuerst „timed out". Mein Fehler bei Bash-Invocation.
+
+**Phase:** Implementation (handoff). Alle 14 Promptotyping-Docs aktuell. Drei Commits gepusht — `c0b546a45` (#104), `0e1bb45a6` (#81 docs), `7ad32a6ac` (#110). Index-Versionen jetzt corpus 4.1.3, authority 1.2.2. ROADMAP synchronisiert.
+
+**Open issues:**
+- **#86 Barrierefreiheit**: KZW-Sichtung der Live-Seite offen — sie wurde gepingt mit Diff-Zusammenfassung der 5 umgesetzten Änderungen, hat noch nicht geantwortet.
+- **#110 4 wrap_failed Strophen** (WVV 1174/1180/1208/1242): brauchen philologische Entscheidung von KZW/Julia, ob Ton-Wechsel-Stellen als eine oder zwei Strophen wrappen sollen.
+- **#34 WZB CoReMA-Teil**: weiterhin wartend auf Julia + Helmut.
+- **#92 ARITHMETIC**: wartet auf Carinas Antworten (Sigle/Lizenz/Edition/Genre + Domänen-Klassifikation).
+- **#107 Kookkurrenz-Ranking + #108 Textvergleich**: claude-ready, M-Effort, Modul-Pattern aus DESIGN.MD als Template — nicht angefangen.
+- **#112 Versposition-Klick-Bug**: claude-ready, S — Bug aus wachauer-Comment in #47.
+- **`concept-distribution.spec.js:90`**: bekannter pre-existing Test-Fail (Spinner-Visibility), unabhängig von #110 — beim nächsten #47-R2-Tweak prüfen.
+
+**Next steps:**
+1. `/promptotyping orient` zum Laden des Project-State.
+2. Falls KZW auf #86 antwortet: Final-Version-Anpassung + Issue close.
+3. Falls #110 4 wrap_failed durch KZW/Julia geklärt werden: manuelle `<lg>`-Splits in WVV.tei.xml + Re-Validate + neuer Index-Bump.
+4. Anders neue Quick-Wins: **#112** (Versposition-Bug, S-Effort) oder **#107/#108** (Playground-Module, M-Effort) sind die nächsten claude-ready-Kandidaten.
+5. CI Schema-Validation auf GitHub Actions: bei rotem Lauf melden.
