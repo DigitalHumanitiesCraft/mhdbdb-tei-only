@@ -21,8 +21,16 @@ const DEFAULT_STATE = Object.freeze({
   computeProgress: 0,        // 0..1 fuer Spinner-Anzeige
   sortBy: 'frequency',       // 'frequency' | 'alphabetic'
   freqMode: 'absolute',      // 'absolute' | 'relative'
-  topN: 30
+  topN: 30,
+  // Autocomplete (#113)
+  autocompleteOpen: false,   // sichtbar/unsichtbar
+  autocompleteIndex: -1,     // -1 = nichts highlighted; 0..N-1 = highlighted
+  autocompleteItems: []      // gecachte top-N Suggestions fuer den aktuellen Eingabe-Text
 });
+
+// Max Anzahl Suggestions im Dropdown. resolveQuery() liefert oben bis zu 12;
+// 8 reichen visuell ohne dass das Dropdown zu lang wird.
+const AUTOCOMPLETE_LIMIT = 8;
 
 const TOP_N_OPTIONS = [15, 30, 50, 100];
 // Worst-case (concept_21072000: 8718 Lemmata) erzeugt ohne Chunking ~2.7s Long-
@@ -211,13 +219,20 @@ export class ConceptDistribution {
           Aggregiert alle Lemmata, die diesem Begriff zugeordnet sind, und zeigt deren gemeinsame Häufigkeit pro Text.
         </p>
         <div class="grid gap-3 sm:grid-cols-4">
-          <label class="sm:col-span-2 block">
-            <span class="text-xs font-medium text-slate-600">Begriff (deutsch oder englisch)</span>
-            <input id="cdQuery" type="text" autocomplete="off"
-              value="${escapeAttr(this.state.query)}"
-              placeholder="z.B. Sterben"
-              class="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm focus:border-brand-400 focus:outline-none"/>
-          </label>
+          <div class="sm:col-span-2">
+            <label class="block">
+              <span class="text-xs font-medium text-slate-600">Begriff (deutsch oder englisch)</span>
+              <div class="relative mt-1">
+                <input id="cdQuery" type="text" autocomplete="off" role="combobox"
+                  aria-autocomplete="list" aria-controls="cdAutocomplete" aria-expanded="false"
+                  value="${escapeAttr(this.state.query)}"
+                  placeholder="z.B. Sterben"
+                  class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm focus:border-brand-400 focus:outline-none"/>
+                <div id="cdAutocomplete" role="listbox"
+                  class="absolute left-0 right-0 top-full z-30 mt-1 hidden max-h-72 overflow-y-auto rounded-lg border border-slate-200 bg-white shadow-lg"></div>
+              </div>
+            </label>
+          </div>
           <label class="block">
             <span class="text-xs font-medium text-slate-600">Frequenz</span>
             <select id="cdFreqMode" class="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm focus:border-brand-400 focus:outline-none">
@@ -424,11 +439,70 @@ export class ConceptDistribution {
     `;
   }
 
+  /**
+   * Build dropdown DOM from current autocompleteItems. Direct DOM mutation,
+   * KEIN re-render — sonst verliert das Input bei jedem Keypress den Fokus
+   * und die Selection-Range.
+   */
+  renderAutocomplete() {
+    const dd = document.getElementById('cdAutocomplete');
+    const input = document.getElementById('cdQuery');
+    if (!dd) return;
+    const items = this.state.autocompleteItems || [];
+    if (!this.state.autocompleteOpen || items.length === 0) {
+      dd.classList.add('hidden');
+      dd.innerHTML = '';
+      if (input) input.setAttribute('aria-expanded', 'false');
+      return;
+    }
+    const idx = this.state.autocompleteIndex;
+    dd.innerHTML = items.map((c, i) => {
+      const active = i === idx;
+      const cls = active ? 'bg-brand-50 text-brand-800' : 'text-slate-700 hover:bg-slate-50';
+      const en = c.termEN ? `<span class="text-xs text-slate-500"> · ${escapeHtml(c.termEN)}</span>` : '';
+      return `<button type="button" role="option" data-cd-ac-idx="${i}"
+        aria-selected="${active}"
+        class="block w-full cursor-pointer px-3 py-2 text-left text-sm ${cls}">
+        <span class="font-medium">${escapeHtml(c.termDE || c.id)}</span>${en}
+        <span class="ml-2 text-xs font-mono text-slate-400">${escapeHtml(c.id)}</span>
+      </button>`;
+    }).join('');
+    dd.classList.remove('hidden');
+    if (input) input.setAttribute('aria-expanded', 'true');
+    // Active-Eintrag in den Viewport scrollen
+    const activeEl = dd.querySelector(`[data-cd-ac-idx="${idx}"]`);
+    if (activeEl) activeEl.scrollIntoView({ block: 'nearest' });
+  }
+
+  updateAutocomplete(query) {
+    const trimmed = (query || '').trim();
+    if (!trimmed) {
+      this.state.autocompleteItems = [];
+      this.state.autocompleteIndex = -1;
+      this.state.autocompleteOpen = false;
+      this.renderAutocomplete();
+      return;
+    }
+    const { candidates } = this.resolveQuery(trimmed);
+    this.state.autocompleteItems = candidates.slice(0, AUTOCOMPLETE_LIMIT);
+    // Bei Tippen: keinen Auto-Highlight setzen, sonst springt Enter unerwartet
+    this.state.autocompleteIndex = -1;
+    this.state.autocompleteOpen = this.state.autocompleteItems.length > 0;
+    this.renderAutocomplete();
+  }
+
+  closeAutocomplete() {
+    this.state.autocompleteOpen = false;
+    this.state.autocompleteIndex = -1;
+    this.renderAutocomplete();
+  }
+
   attachHandlers() {
     const runSearch = async () => {
       const input = document.getElementById('cdQuery');
       if (!input) return;
       this.state.query = input.value;
+      this.closeAutocomplete();
       const { resolved, candidates } = this.resolveQuery(this.state.query);
       this.state.resolvedConcept = resolved;
       this.state.candidates = candidates;
@@ -470,12 +544,80 @@ export class ConceptDistribution {
     };
 
     document.getElementById('cdSearchBtn')?.addEventListener('click', runSearch);
-    document.getElementById('cdQuery')?.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
+
+    const input = document.getElementById('cdQuery');
+    if (input) {
+      // Live-Suggestions waehrend Tippen
+      input.addEventListener('input', (e) => {
+        this.updateAutocomplete(e.target.value);
+      });
+
+      // Tastatur-Navigation im Dropdown
+      input.addEventListener('keydown', (e) => {
+        const open = this.state.autocompleteOpen && this.state.autocompleteItems.length > 0;
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          // Wenn ein Eintrag aktiv ist (Pfeil-Nav benutzt): diesen waehlen.
+          if (open && this.state.autocompleteIndex >= 0) {
+            const c = this.state.autocompleteItems[this.state.autocompleteIndex];
+            input.value = c.termDE || c.id;
+            this.closeAutocomplete();
+            runSearch();
+            return;
+          }
+          // Sonst: normale Submit-Resolution wie bisher
+          runSearch();
+        } else if (e.key === 'ArrowDown') {
+          if (!open) return;
+          e.preventDefault();
+          this.state.autocompleteIndex = (this.state.autocompleteIndex + 1) % this.state.autocompleteItems.length;
+          this.renderAutocomplete();
+        } else if (e.key === 'ArrowUp') {
+          if (!open) return;
+          e.preventDefault();
+          const n = this.state.autocompleteItems.length;
+          this.state.autocompleteIndex = (this.state.autocompleteIndex - 1 + n) % n;
+          this.renderAutocomplete();
+        } else if (e.key === 'Escape') {
+          if (open) {
+            e.preventDefault();
+            this.closeAutocomplete();
+          }
+        }
+      });
+
+      // Bei Focus mit existierenden Items wieder oeffnen
+      input.addEventListener('focus', () => {
+        if (input.value.trim() && this.state.autocompleteItems.length > 0) {
+          this.state.autocompleteOpen = true;
+          this.renderAutocomplete();
+        }
+      });
+
+      // Blur schliesst — aber mit setTimeout, sonst feuert blur vor click in dropdown
+      input.addEventListener('blur', () => {
+        setTimeout(() => this.closeAutocomplete(), 150);
+      });
+    }
+
+    // Klick auf einen Dropdown-Eintrag waehlt + sucht
+    const dd = document.getElementById('cdAutocomplete');
+    if (dd) {
+      dd.addEventListener('mousedown', (e) => {
+        // mousedown statt click: feuert VOR blur, sodass das Dropdown nicht
+        // erst geschlossen wird, bevor wir den geklickten Eintrag identifizieren.
+        const btn = e.target.closest('[data-cd-ac-idx]');
+        if (!btn) return;
         e.preventDefault();
+        const idx = parseInt(btn.getAttribute('data-cd-ac-idx'), 10);
+        const c = this.state.autocompleteItems[idx];
+        if (!c) return;
+        const inputEl = document.getElementById('cdQuery');
+        if (inputEl) inputEl.value = c.termDE || c.id;
+        this.closeAutocomplete();
         runSearch();
-      }
-    });
+      });
+    }
     // sortBy / freqMode / topN aendern nur Anzeige, nicht die Aggregation.
     // Re-Render reicht; computeDistribution muss nicht erneut laufen.
     document.getElementById('cdFreqMode')?.addEventListener('change', (e) => {
