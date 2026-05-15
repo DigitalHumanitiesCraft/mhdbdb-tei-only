@@ -207,7 +207,7 @@ export class LemmaDistribution {
       const barH = maxVal > 0 ? Math.max(1, (val / maxVal) * chartHeight) : 0;
       const x = idx * (barWidth + barGap);
       const y = chartHeight - barH;
-      const href = `../korpus.html?textId=${encodeURIComponent(h.id)}&lemmaIds=${encodeURIComponent(cleanId)}`;
+      const href = `../korpus.html?textId=${encodeURIComponent(h.id)}&lemmaIds=${encodeURIComponent(lemma.id)}`;
       const tooltip = `${h.id} — ${h.title}\nAbsolut: ${h.count.toLocaleString('de-DE')}\npro 1000 Tokens: ${h.rel.toFixed(2)}`;
       return `
         <a href="${href}" target="_blank" rel="noopener">
@@ -228,7 +228,7 @@ export class LemmaDistribution {
           <ul class="mt-3 grid gap-1 text-sm sm:grid-cols-2">
             ${rest.map(h => `
               <li>
-                <a href="../korpus.html?textId=${encodeURIComponent(h.id)}&lemmaIds=${encodeURIComponent(cleanId)}" target="_blank" rel="noopener"
+                <a href="../korpus.html?textId=${encodeURIComponent(h.id)}&lemmaIds=${encodeURIComponent(lemma.id)}" target="_blank" rel="noopener"
                   class="flex items-center justify-between rounded px-2 py-1 hover:bg-white">
                   <span class="font-mono text-xs text-brand-700">${escapeHtml(h.id)}</span>
                   <span class="ml-2 flex-1 truncate text-xs text-slate-600">${escapeHtml(h.title)}</span>

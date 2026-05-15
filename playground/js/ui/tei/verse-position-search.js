@@ -153,7 +153,7 @@ export class VersePositionSearch {
 
     const rows = hits.map(h => {
       const ratio = h.totalOccurrences > 0 ? (h.count / h.totalOccurrences * 100) : 0;
-      const href = `../korpus.html?textId=${encodeURIComponent(h.id)}&lemmaIds=${encodeURIComponent(cleanId)}`;
+      const href = `../korpus.html?textId=${encodeURIComponent(h.id)}&lemmaIds=${encodeURIComponent(lemma.id)}`;
       return `
         <li>
           <a href="${href}" target="_blank" rel="noopener"
