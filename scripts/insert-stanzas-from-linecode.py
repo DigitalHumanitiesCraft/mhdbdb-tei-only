@@ -90,12 +90,19 @@ def stanza_positions_in_file(template: str, file_width: int) -> list[int]:
     return [i - offset for i, ch in enumerate(template) if ch == "s" and i - offset >= 0]
 
 
-def find_stanza_anchors(linecode_path: Path, s_positions: list[int]) -> list[tuple[str, str]]:
-    """Yield (xml_id_numeric, stanza_value) at each stanza transition.
+def find_stanza_anchors(linecode_path: Path, s_positions: list[int],
+                        max_candidates: int = 12) -> list[tuple[str, list[str]]]:
+    """Return [(stanza_value, [xml_id_numeric_candidates])] per stanza-block.
+
+    Per stanza we collect up to `max_candidates` linecodes — needed for texts
+    like WVV where the first linecode of a stanza-block is a section header
+    (rendered as <head>/<supplied>, not <l>), and the actual first verse
+    sits a few lines later. The wrapper tries candidates in order until one
+    finds an <l>-ancestor.
 
     Skips the initial '00' / all-zero stanza value (typically the head/title).
     """
-    anchors = []
+    anchors = []  # list of (stanza_val, [xml_id_candidates])
     prev_stanza = None
     with linecode_path.open(encoding="utf-8") as f:
         for raw in f:
@@ -107,35 +114,55 @@ def find_stanza_anchors(linecode_path: Path, s_positions: list[int]) -> list[tup
                 continue
             lc = parts[0]
             stanza = "".join(lc[p] for p in s_positions)
+            xml_id_numeric = lc.lstrip("0") or "0"
             if stanza != prev_stanza:
-                if int(stanza) > 0:  # skip head/title (stanza == 0)
-                    xml_id_numeric = lc.lstrip("0") or "0"
-                    anchors.append((xml_id_numeric, stanza))
+                if int(stanza) > 0:
+                    anchors.append((stanza, [xml_id_numeric]))
                 prev_stanza = stanza
+            elif anchors and len(anchors[-1][1]) < max_candidates:
+                anchors[-1][1].append(xml_id_numeric)
     return anchors
 
 
-def find_first_l_for_anchor(root, sigle: str, xml_id_numeric: str):
-    """Find the <l> ancestor of <w xml:id="SIG_<id>_*">, looking up to 3 wrappers."""
-    for suffix in ("_0", "_1", "_2"):
-        target_id = f"{sigle}_{xml_id_numeric}{suffix}"
-        for w in root.xpath(f".//tei:w[@xml:id='{target_id}']", namespaces=NS):
-            cur = w
-            while cur is not None and cur.tag != L_TAG:
-                cur = cur.getparent()
-            if cur is not None:
-                return cur
+def find_first_l_for_anchor(root, sigle: str, xml_id_candidates):
+    """Try each candidate xml:id; return the first <l>-ancestor found.
+
+    `xml_id_candidates` may be a single string (legacy) or a list (post #110).
+    """
+    if isinstance(xml_id_candidates, str):
+        xml_id_candidates = [xml_id_candidates]
+    for xml_id_numeric in xml_id_candidates:
+        for suffix in ("_0", "_1", "_2"):
+            target_id = f"{sigle}_{xml_id_numeric}{suffix}"
+            for w in root.xpath(f".//tei:w[@xml:id='{target_id}']", namespaces=NS):
+                cur = w
+                while cur is not None and cur.tag != L_TAG:
+                    cur = cur.getparent()
+                if cur is not None:
+                    return cur
     return None
 
 
 def wrap_stanza(first_l, last_l, stanza_n: int) -> bool:
     """Wrap [first_l, last_l] (inclusive sibling range) into <lg type='stanza' n='N'>.
 
-    Returns True on success. Both must share the same parent.
+    Returns True on success. Both must share the same parent. Returns False
+    (without modifying the tree) if the range contains an Element that is
+    not <l> (e.g. a stray <hi rend="initial"> or free <w> — WVV section-wechsel
+    pattern). <lg> requires <l>-only content per tei_all.rng.
     """
     parent = first_l.getparent()
     if parent is None or last_l.getparent() is not parent:
         return False
+
+    # Pre-check: only <l> children allowed inside the range
+    sib = first_l
+    while sib is not None:
+        if isinstance(sib.tag, str) and sib.tag != L_TAG:
+            return False
+        if sib is last_l:
+            break
+        sib = sib.getnext()
 
     lg = etree.Element(LG_TAG, attrib={"type": "stanza", "n": str(stanza_n)})
     # Mirror indentation: lg.tail takes first_l's tail; first_l's leading
@@ -202,16 +229,16 @@ def insert_stanzas_for_text(sigle: str, tei_path: Path, linecode_path: Path,
     # For each anchor, find its first <l>; then the next stanza's first <l>
     # is the boundary. The last stanza's range goes to the parent's last <l>.
     first_ls = []
-    for xml_id_num, stanza_val in anchors:
-        l = find_first_l_for_anchor(root, sigle, xml_id_num)
+    for stanza_val, candidates in anchors:
+        l = find_first_l_for_anchor(root, sigle, candidates)
         if l is None:
-            stats["missing_anchors"].append((xml_id_num, stanza_val))
+            stats["missing_anchors"].append((candidates[0], stanza_val))
             first_ls.append(None)
         else:
             first_ls.append(l)
 
     # Build (first_l, last_l) ranges. last_l = sibling immediately before next first_l.
-    for idx, ((xml_id_num, stanza_val), first_l) in enumerate(zip(anchors, first_ls)):
+    for idx, ((stanza_val, candidates), first_l) in enumerate(zip(anchors, first_ls)):
         if first_l is None:
             continue
         if idx + 1 < len(anchors) and first_ls[idx + 1] is not None:
@@ -236,15 +263,25 @@ def insert_stanzas_for_text(sigle: str, tei_path: Path, linecode_path: Path,
                     last_l = sib
                 sib = sib.getnext()
 
-        # Both must share parent
+        # Both must share parent. If walk-back from next_first landed in a
+        # different container (e.g. next stanza is in a separate <p>/<div>
+        # because a section boundary fell between them — see WVV 1242→2223),
+        # fall back to walk-forward in first_l's own parent.
         if first_l.getparent() is not last_l.getparent():
-            stats["wrap_failed"].append((xml_id_num, "parent mismatch"))
-            continue
+            last_l = first_l
+            sib = first_l.getnext()
+            while sib is not None:
+                if sib.tag == L_TAG:
+                    last_l = sib
+                sib = sib.getnext()
+            if first_l.getparent() is not last_l.getparent():
+                stats["wrap_failed"].append((candidates[0], "parent mismatch"))
+                continue
 
         if wrap_stanza(first_l, last_l, idx + 1):
             stats["wrapped"] += 1
         else:
-            stats["wrap_failed"].append((xml_id_num, "wrap_stanza returned False"))
+            stats["wrap_failed"].append((candidates[0], "wrap_stanza returned False"))
 
     if not dry_run and stats["wrapped"] > 0:
         # lxml drops the newline between <?xml-model?> and <TEI> on serialize.

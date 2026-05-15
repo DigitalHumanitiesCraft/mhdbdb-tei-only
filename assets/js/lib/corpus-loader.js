@@ -5,7 +5,7 @@
  * Uses Dexie.js for IndexedDB caching
  */
 
-const INDEX_VERSION = '4.1.2';  // 4.0.0: document-level indexing. 4.0.1: WZB. 4.1.0: lineStarts/lineEnds für #47.3. 4.1.1: #23 Stanza-Wraps. 4.1.2: #104 Sigle-Titel-Differenzierung.
+const INDEX_VERSION = '4.1.3';  // 4.0.0: document-level indexing. 4.0.1: WZB. 4.1.0: lineStarts/lineEnds für #47.3. 4.1.1: #23 Stanza-Wraps. 4.1.2: #104 Sigle-Titel-Differenzierung. 4.1.3: #110 WVV 478 Stanza-Wraps.
 const AUTHORITY_INDEX_VERSION = '1.2.2';  // 1.2.0: Authority migration. 1.2.1: WZB-Lemmata + Werk-Eintrag. 1.2.2: #104 FLG/FLG1-Werk-Titel + work_571 biblStruct (Vollmann-Profe/Neumann 1990).
 const CACHE_DURATION = 30 * 24 * 60 * 60 * 1000; // 30 days in milliseconds
 
