@@ -204,14 +204,16 @@ playground/js/ui/
 │   ├── concept-explorer.js
 │   ├── genre-explorer.js
 │   └── name-explorer.js
-├── tei/               # TEI text analysis (Release 1 + 2 + #47.3)
+├── tei/               # TEI text analysis (Release 1 + 2 + #47.3 + 2026-05-15-Welle)
 │   ├── tei-ui.js
 │   ├── multi-lemma-search.js
 │   ├── word-frequency.js          # Wortfrequenz-Analyse (#88, R1)
 │   ├── text-statistics.js         # Text-Statistiken (#89, R1)
 │   ├── lemma-distribution.js      # Lemma-Verteilung (#90, R1)
 │   ├── verse-position-search.js   # Lemmasuche nach Versposition (#47.3)
-│   └── concept-distribution.js    # Begriffs-Verteilung (#47 R2)
+│   ├── concept-distribution.js    # Begriffs-Verteilung (#47 R2, + Autocomplete #113)
+│   ├── text-comparison.js         # Textvergleich Nur-A/Beide/Nur-B (#108)
+│   └── cooccurrence-ranking.js    # Kookkurrenz-Ranking DWDS-Style (#107)
 └── search/
     └── SearchHelpers.js
 ```
@@ -222,7 +224,7 @@ playground/js/ui/
 - Easier testing and maintenance
 - Net reduction: 5,536 lines removed
 
-**Playground TEI-Modul-Konvention:** alle sieben Module unter `playground/js/ui/tei/` (außer `multi-lemma-search.js` als dokumentierter Modal-Outlier) folgen dem gleichen Constructor/`show()`/`render()`-Pattern mit Thunks statt direkter Daten-Referenzen, state-driven `renderBody()`, pro-Modul-Escape-Helpers und MessageChannel-Yield bei großen Aggregationen. Pattern ist als Template in [DESIGN.MD §Playground TEI-Analysis Module Pattern](DESIGN.MD#playground-tei-analysis-module-pattern) dokumentiert.
+**Playground TEI-Modul-Konvention:** alle neun Module unter `playground/js/ui/tei/` (außer `multi-lemma-search.js` als dokumentierter Modal-Outlier) folgen dem gleichen Constructor/`show()`/`render()`-Pattern mit Thunks statt direkter Daten-Referenzen, state-driven `renderBody()`, pro-Modul-Escape-Helpers und MessageChannel-Yield bei großen Aggregationen. Pattern ist als Template in [DESIGN.MD §Playground TEI-Analysis Module Pattern](DESIGN.MD#playground-tei-analysis-module-pattern) dokumentiert.
 
 **Authority Explorers:**
 Each explorer follows consistent pattern:
@@ -267,7 +269,9 @@ Each explorer follows consistent pattern:
 | Wortfrequenz | `#word-frequency` | Top-N Lemmata, mit Stopwort-Filter (#88) |
 | Text-Statistiken | `#text-statistics` | Token-Count, Lemma-Diversität, Hapax-Rate (#89) |
 | Lemma-Verteilung | `#lemma-distribution` | Bar-Chart pro Lemma über alle Texte (#90) |
-| Begriffs-Verteilung | `#concept-distribution` | Bar-Chart pro Konzept über alle Texte (#47 R2) |
+| Begriffs-Verteilung | `#concept-distribution` | Bar-Chart pro Konzept über alle Texte (#47 R2, mit Autocomplete-Dropdown #113) |
+| Textvergleich | `#text-comparison` | Set-Ops Nur-A / Beide / Nur-B über zwei Texte (#108) |
+| Kookkurrenz-Ranking | `#cooccurrence-ranking` | Top-N Nachbar-Lemmata eines Lemmas, POS-gefiltert (#107) |
 
 **Parameters:**
 

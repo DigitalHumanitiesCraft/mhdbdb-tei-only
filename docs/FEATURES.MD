@@ -161,13 +161,33 @@ Corpus-wide text analysis using pre-built indexes. Sieben Werkzeuge, alle direkt
 - Absolute oder relative Frequenz (pro 1000 Tokens)
 - Klick auf Balken oder Sigle → Reading View mit Highlighting
 
-**Begriffs-Verteilung (#47 R2):**
+**Begriffs-Verteilung (#47 R2, mit Autocomplete #113):**
 - Single Concept (deutsch, englisch, oder `concept_xxxxx`-ID) → Bar-Chart über alle Texte
 - Aggregiert alle Lemmata, deren `senses[*].conceptIds` das Concept enthält
 - Datenpfad: concept → senses → lemmata → texts (summiert Vorkommen pro Text)
 - Alternative Begriffs-Candidates werden angezeigt (z.B. bei „love" → Intimität + Liebe/Zuneigung)
 - Auklappbare „zugeordnete Lemmata"-Sektion zur Validierung der Concept-Selektion
 - Klick auf Treffer → Reading View
+- **Live-Autocomplete-Dropdown** im Begriffs-Input (max. 8 Suggestions, Pfeil-Navigation, Enter wählt + sucht, Escape schließt) — gleiches Pattern wie DWDS oder Google-Suche
+
+**Textvergleich (#108):**
+- Zwei Texte über Dropdown-Menüs auswählen (alle 667 Sigles mit Titel + Autor)
+- Drei Lemma-Mengen werden berechnet: Nur in A, in Beiden, Nur in B
+- Per Lemma: Frequenz in A, Frequenz in B, absolute Differenz |A−B|
+- Sortierung Frequenz / Differenz / Alphabetisch, Lemma-Name-Substring-Filter
+- A↔B-Swap-Button für gespiegelte Perspektive
+- Datenpfad: reine Set-Ops auf `Object.keys(text.lemmata)`, keine neuen Index-Felder
+- Use Cases: „Welche Lemmata teilt PZ mit JT?", „Lehnvers-Indizien (geteilte seltene Lemmata zwischen sonst unverbundenen Texten)", „Lemma-Profile pro Werk"
+- Klick auf Frequenz-Zahl öffnet Reading View des jeweiligen Texts mit Highlighting
+
+**Kookkurrenz-Ranking (#107):**
+- DWDS-Style „Welche Lemmata stehen am häufigsten bei X?"
+- Eingabe-Lemma + Kontextfenster (±3-25 Wörter, Default ±10) → rangierte Tabelle Top-N Partner-Lemmata
+- POS-Filter essentiell: Default „Inhaltswörter" (NOM/VRB/ADJ/ADV) verhindert dass Stopwords (der/und/ich/daz/er) die Liste dominieren; auch „nur Nomen", „nur Verben", „nur Adjektive", oder „alle"
+- Datenpfad: Window-Scan über `text.words[pos±w]` für jede Position in `text.lemmata[X]`
+- Async-Chunking (MessageChannel-Yield alle 30ms) hält UI responsiv auch für häufige Lemmata; POS-Filter-Switch ohne Re-Compute (rawCounts gecacht)
+- Use Cases: „Was steht typisch bei `êre`?" (→ tuon, sprechen, got, herre), „Welche Adjektive begleiten `wîp`?"
+- Klick auf Partner → Multi-Lemma-Suche mit beiden Lemmata + aktueller Distanz vorbefüllt; Klick auf Lemma → Lemma-Page
 
 **Cross-platform workflow:**
 1. Perform analysis in playground

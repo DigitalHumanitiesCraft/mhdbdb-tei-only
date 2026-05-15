@@ -159,7 +159,7 @@ Checkbox accent: `accent-color: #3b75d8`.
 
 Neun Module unter `playground/js/ui/tei/` teilen eine konsistente Struktur. Wer ein neues Analyse-Werkzeug ergänzt, sollte das Pattern befolgen — neue Module ohne erkennbaren Grund abweichen lassen den Playground inkonsistent wirken und brechen Konventionen, auf die der Router und die Sidebar-Buttons aufbauen.
 
-**Kanonische Beispiele:** `lemma-distribution.js` (#90), `verse-position-search.js` (#47.3), `concept-distribution.js` (#47 R2).
+**Kanonische Beispiele:** `lemma-distribution.js` (#90), `verse-position-search.js` (#47.3), `concept-distribution.js` (#47 R2 + #113 Autocomplete), `text-comparison.js` (#108), `cooccurrence-ranking.js` (#107).
 
 ### Konstruktor — Thunks statt direkter Referenzen
 
@@ -310,6 +310,104 @@ Nicht hash-routen — `korpus.html` ist eine separate Site. Pure-Anchor-Tags mit
 ### Multi-Lemma als dokumentierter Outlier
 
 `playground/js/ui/tei/multi-lemma.js` nutzt **Modal statt in-place Form** (`#multiLemmaModal`), weil seine vier Inputs (Lemmata-Liste, Modus, Distanz, Korpus-Auswahl-Checkbox) im Sidebar nicht reinpassen würden. Das ist die einzige zulässige Abweichung — wer ein neues Modul mit 1-3 Inputs baut, gehört in den in-place-Form-Pfad. Modal nur bei genuin grossen Input-Surfaces.
+
+### Performance-Map gegen O(N)-Lookups (text-comparison Lesson)
+
+`AuthorityFilesManager.findLemmaById()` ist `Array.find()` über 42.630 Lexikon-Einträge — O(N) pro Aufruf. Solange ein Modul den Lookup nur dutzendweise braucht (concept-distribution, lemma-distribution: 30-50 Treffer für TopN-Anzeige), ist das egal. Sobald aber pro `enrichment` über *tausende* Lemmata iteriert wird, multiplizieren sich die Iterationen:
+
+```
+text-comparison PZ vs JT, „Beide": 3.058 lookups × 42.630 = 130 Mio. Iterationen ≈ 5962ms
+                                  ↓ (lokale Map einmal pro show())
+                                       1 lookup × 42.630 (build) + 3.058 × O(1) ≈ 53ms (112× schneller)
+```
+
+Pattern:
+
+```js
+ensureLemmaMap() {
+  if (this._lemmaMap) return;
+  this._lemmaMap = new Map();
+  for (const l of this.authorityManager?.authorityData?.lemmata || []) {
+    if (l?.id) this._lemmaMap.set(l.id, l);
+  }
+}
+// In show(): this.ensureLemmaMap();
+// In enrich: const lemma = this._lemmaMap.get(lemmaId);
+```
+
+Faustregel: wenn ein Lookup im inneren Loop von `>500 Items` läuft, lokale Map bauen. `AuthorityFilesManager` selbst NICHT modifizieren — der hat noch ältere Konsumenten mit unklarem Verhalten bei API-Änderung.
+
+### Abort-Token gegen Race-Conditions (cooccurrence-ranking Lesson)
+
+Bei async-Compute, das User durch Re-Submit, POS-Switch, Lemma-Switch unterbrechen können, schreibt sonst der späte erste Run sein Ergebnis nach dem frühen zweiten Run. State wird inkonsistent („Suchergebnis flackert kurz, springt zurück, springt wieder vor"). Pattern:
+
+```js
+constructor() {
+  this._abortToken = 0;
+}
+
+async runSearch() {
+  this._abortToken += 1;
+  const myToken = this._abortToken;
+  // ...
+  const result = await this.computeCooccurrences(/* ... */);
+  if (this._abortToken !== myToken) return;  // anderer Lauf hat uns überholt
+  this.state.result = result;
+  this.render();
+}
+
+async computeCooccurrences(...) {
+  const myToken = this._abortToken;
+  for (let i = 0; i < texts.length; i++) {
+    if (this._abortToken !== myToken) return null;
+    // ... chunk ...
+    await yieldToMain();
+    if (this._abortToken !== myToken) return null;
+  }
+}
+```
+
+Token-Increment passiert SYNCHRON in `runSearch()`, bevor `await` läuft. Damit ist garantiert, dass der zweite Lauf den ersten ungültig macht, *bevor* der erste auch nur einen `yieldToMain()`-Cycle hatte. Loop-interner Check nach jedem Yield fängt es schnell ab.
+
+### Live-Autocomplete-Dropdown (concept-distribution #113 Lesson)
+
+Klassisches DWDS/Google-Style-Dropdown unter Lemma-/Concept-Inputs. Direkter DOM-Update statt full `render()` bei jedem Keystroke — sonst verliert Input den Fokus und die Selection-Range, das Tippen wird unbedienbar.
+
+```js
+DEFAULT_STATE = {
+  // ...
+  autocompleteOpen: false,
+  autocompleteIndex: -1,        // -1 = keiner highlighted; 0..N-1 keyboard-aktiv
+  autocompleteItems: []
+};
+
+// HTML: <input> mit <div class="absolute top-full ... hidden"> als Dropdown.
+
+updateAutocomplete(query) {
+  this.state.autocompleteItems = this.resolveQuery(query).candidates.slice(0, 8);
+  this.state.autocompleteIndex = -1;  // Reset, sonst springt Enter unerwartet
+  this.state.autocompleteOpen = this.state.autocompleteItems.length > 0;
+  this.renderAutocomplete();  // direkt innerHTML, KEIN render()
+}
+
+// Keydown-Switch: ArrowDown/Up → index ±1, Enter mit idx>=0 → wähle aus Items,
+// Enter mit idx===-1 → normale Submit-Resolution wie bisher (kompatibel), Escape → schliesse.
+
+// Click-Handler: mousedown statt click, weil blur 150ms vor click feuert:
+dd.addEventListener('mousedown', (e) => {
+  const btn = e.target.closest('[data-cd-ac-idx]');
+  if (!btn) return;
+  e.preventDefault();
+  // ... auswählen + runSearch()
+});
+
+// blur mit setTimeout-Delay schließt Dropdown — sonst feuert blur vor mousedown.
+input.addEventListener('blur', () => setTimeout(() => this.closeAutocomplete(), 150));
+```
+
+ARIA: `role="combobox" + aria-controls + aria-expanded` am Input, `role="listbox"` am Dropdown, `role="option" + aria-selected` an Buttons. Scroll-into-view des aktiven Items bei Pfeil-Nav (`activeEl.scrollIntoView({block: 'nearest'})`). Reuse `resolveQuery()` als Suggestions-Quelle — kein zweiter Resolver-Pfad.
+
+Pattern ist heute (2026-05-15) nur in `concept-distribution.js` umgesetzt. wachauer wird vermutlich „und in Lemma-/Verseposition-/Kookkurrenz-Suche auch" wollen — vorrätig portierbar.
 
 ## Layout Patterns
 
