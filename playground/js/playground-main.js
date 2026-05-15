@@ -19,6 +19,7 @@ import { TextStatistics } from './ui/tei/text-statistics.js';
 import { LemmaDistribution } from './ui/tei/lemma-distribution.js';
 import { VersePositionSearch } from './ui/tei/verse-position-search.js';
 import { ConceptDistribution } from './ui/tei/concept-distribution.js';
+import { TextComparison } from './ui/tei/text-comparison.js';
 
 // Wire up file display helpers for progress.js
 setFileDisplayHelpers(setupCollapsibleFileList, setupFileFilter);
@@ -78,6 +79,7 @@ class MHDBDBPlayground {
             this.authorityManager,
             () => this.authorityData
         );
+        this.ui.textComparison = new TextComparison(corpusTextsThunk, this.authorityManager);
 
         this.init();
     }
@@ -473,7 +475,8 @@ class MHDBDBPlayground {
             { id: 'showWordFrequencyBtn',    handler: () => navigate('word-frequency') },
             { id: 'showTextStatisticsBtn',   handler: () => navigate('text-statistics') },
             { id: 'showLemmaDistributionBtn', handler: () => navigate('lemma-distribution') },
-            { id: 'showConceptDistributionBtn', handler: () => navigate('concept-distribution') }
+            { id: 'showConceptDistributionBtn', handler: () => navigate('concept-distribution') },
+            { id: 'showTextComparisonBtn', handler: () => navigate('text-comparison') }
         ];
 
         teiButtons.forEach(({ id, handler }) => {
