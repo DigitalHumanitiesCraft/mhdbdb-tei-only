@@ -997,3 +997,49 @@ Aus Julias paralleler Session (alphabetisch nach Hash, dieser Handoff Session H)
 3. Falls #110 4 wrap_failed durch KZW/Julia geklärt werden: manuelle `<lg>`-Splits in WVV.tei.xml + Re-Validate + neuer Index-Bump.
 4. Anders neue Quick-Wins: **#112** (Versposition-Bug, S-Effort) oder **#107/#108** (Playground-Module, M-Effort) sind die nächsten claude-ready-Kandidaten.
 5. CI Schema-Validation auf GitHub Actions: bei rotem Lauf melden.
+
+---
+
+## 2026-05-15 16:48 — handoff
+
+**Summary:** Vier Issues in einer autonomen Nachmittagssession durchgegangen: #112 (Versposition-Klick-Highlight-Bug), #108 (Textvergleich), #107 (Kookkurrenz-Ranking), #113 (Begriffs-Verteilung Autocomplete). Alle vier live in Chrome verifiziert, jeweils einzeln committed + gepusht mit `Closes #` Trailern, GitHub hat alle vier auto-geschlossen.
+
+**Decisions:**
+- **#112 Fix-Lokus**: URL-Param-Quelle korrigieren statt Highlighter robust machen. Begründung: URL-Contract klar halten (`lemmaIds=lemma_X`), nicht zwei Formate akzeptieren. Bug betraf auch #90 Lemma-Verteilung (3 Stellen in 2 Files).
+- **#108 Performance-Tuning während Bau**: `AuthorityFilesManager.findLemmaById()` ist O(N) linear, bei 3.058 Beide-Lemmata × 42.630 Lexikon = 130M Iterationen = 5962ms. Fix: lokale `Map` in TextComparison einmal pro `show()` → 53ms (112× schneller). Manager nicht modifiziert (Scope-Disziplin).
+- **#107 POS-Filter als Default „content"**: Ohne POS-Filter dominieren Stopwords (der/und/ich/daz/er). POS=NOM/VRB/ADJ/ADV macht das Tool philologisch nutzbar. `êre` + POS=NOM → haben, tuon, sprechen, got, herre. Filter wirkt post-compute, daher Switch ohne Re-Compute (rawCounts gecacht, ~15ms).
+- **#113 klassisches Dropdown statt live-filter-list**: Concept-Explorer hat eigentlich keine Autocomplete, sondern live-search-with-rerender (passt für Tab-Layout). Begriffs-Verteilung hat dedicated Form mit Frequency/Sort/TopN-Controls → klassisches DWDS-Style Dropdown unter dem Input ist besser. Direkter DOM-Update statt full re-render (Focus + Selection-Range bleibt erhalten beim Tippen).
+- **mousedown statt click für Suggestion-Auswahl**: feuert VOR blur, sodass `closeAutocomplete()` (im blur-Handler mit 150ms Delay) nicht zuerst das Dropdown leert.
+
+**Dead ends:**
+- **#107 erster Test mit „posSwitch_ms: 906ms"**: war Test-Skript-Artefakt (`await new Promise(setTimeout, 200)` im Polling-Loop), echter Switch ist 14-15ms.
+- **#108 erster Test mit „êre = minne-Ergebnis"**: ebenfalls Test-Skript-Bug — `inp.value` wurde auf dem alten Input-Element gesetzt nachdem `sel.dispatchEvent` ein Re-Render ausgelöst hatte, das den Input ersetzte. Sauberer Test mit page-reload bestätigte korrekte Trennung.
+- **Dev-Server EADDRINUSE**: alter Port-8080-Server-Prozess hat TaskStop überlebt. Habe einfach den existierenden weitergenutzt — kein Blocker.
+
+**Phase:** Implementation (handoff). Alle 14 Promptotyping-Docs aktuell. DESIGN.MD §Module Pattern-Inventar auf „Neun Module" gebracht (text-comparison + cooccurrence-ranking neu, concept-distribution erweitert). ROADMAP Now/Next bereinigt, vier neue Recently-Completed-Einträge.
+
+**Open issues:**
+- **#86 Barrierefreiheit**: KZW-Sichtung der Live-Seite weiterhin ausstehend.
+- **#110 4 wrap_failed Strophen** (WVV 1174/1180/1208/1242): brauchen philologische Entscheidung KZW/Julia zu Ton-Wechsel-Splits.
+- **#34 WZB CoReMA**: weiterhin wartend auf Julia + Helmut.
+- **#92 ARITHMETIC**: wartet auf Carinas Antworten.
+- **#91 Zenodo**: Webhook + Tag = User-Steps.
+- **#45 Static JSON API**: claude-ready, L-Effort — nächster größerer Brocken.
+- **#78 Frontend-Doku MHDBDB-Schema**: claude-ready, M-Effort.
+- **`concept-distribution.spec.js:90`**: bekannter pre-existing Test-Fail (Spinner-Visibility), nicht durch diese Session adressiert. POS-Filter-Erweiterung des Moduls in #107 ist parallel — `concept-distribution.js` selbst nur in #113 angefasst (Autocomplete + DOM-Mutation).
+
+**Next steps:**
+1. `/promptotyping orient` zum Laden des Project-State.
+2. Falls KZW auf #86 antwortet: Final-Version-Anpassung + Issue close.
+3. **#45 Static JSON API** als nächster großer Block-Posten — L-Effort, planning doc liegt vor (`features/045-static-api.md`).
+4. Alternative claude-ready Quick-Wins: **#78 Frontend-Doku-MHDBDB-Schema** (M), **#28 Foreign-Language-Filter** (L), **#27 POS-Workflow-Ausbau** (L).
+5. Falls #110 Strophen-Klärung kommt: manuelle `<lg>`-Splits + Re-Validate + Index-Bump corpus 4.1.4 / authority bleibt.
+6. Falls Cooccurrence-Ranking-Pattern auch in Lemma-Verteilung/Verseposition-Suche autocomplete bekommen soll: gleiche Logik aus `concept-distribution.js` abstrahieren oder kopieren. Kein Issue dafür, müsste KZW/wachauer initiieren.
+
+**Commits (gepusht):**
+- `131fed17b` `fix: #112 Lemma-Highlight im Reader nach Playground-Klick`
+- `c53a8ac0d` `feat: #108 Textvergleich — gemeinsame vs. exklusive Lemmata zweier Texte`
+- `70d0bf280` `feat: #107 Kookkurrenz-Ranking — häufigste Nachbar-Lemmata pro Lemma`
+- `a2e7b0b36` `feat: #113 Autocomplete in Begriffs-Verteilung`
+
+**Carryover:** unverändert vom 13:11-Handoff abgesehen von den vier abgearbeiteten Issues. #34, #92, #91, #45, #109, #106 weiterhin offen mit identischen Begründungen.

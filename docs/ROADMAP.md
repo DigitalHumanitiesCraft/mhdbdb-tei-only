@@ -9,8 +9,7 @@ See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues
 | # | What | Domain | Effort |
 |---|------|--------|--------|
 | #91 | Zenodo-Integration — CITATION.cff von KZW finalisiert (`type=dataset`, Lead-Autorin); Zenodo-Webhook + Tag noch User-Steps | docs/release | S |
-| #112 | Versposition-Klick highlightet Lemma im Reader nicht — Bug aus wachauer-Comment in #47 | frontend | S |
-| #110 | #23-Followup WVV — 23 Stanza-Anchors fehlen wegen ungewöhnlicher Linecode-Template-Geometrie; Source liegt vor, claude-ready | pipeline | S-M |
+| #110 | #23-Followup WVV — 4 wrap_failed Strophen (1174/1180/1208/1242) brauchen philologische Klärung KZW/Julia (Ton-Wechsel: eine oder zwei Strophen?) | pipeline | S |
 
 ## Next: FAIR Data + Daten-Qualität
 
@@ -19,9 +18,6 @@ See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues
 | #45 | Static JSON API (FAIR data) — [planning doc](features/045-static-api.md) ready | pipeline + frontend | L |
 | #78 | Frontend-Dokumentation: MHDBDB-Schema & Daten-Tutorial | documentation | M |
 | #86 | Barrierefreiheitserklärung (WZG) — needs Uni Salzburg input | documentation | M |
-| #107 | Kookkurrenz-Ranking („Welche Lemmata stehen am häufigsten bei X?") — sofort umsetzbar, alle Daten im Index | frontend | M |
-| #108 | Textvergleich (gemeinsame vs. exklusive Lemmata zweier Texte) — sofort umsetzbar | frontend | M |
-| #113 | Autovervollständigung im Begriffs-Verteilung-Input — Pattern aus concept-explorer übernehmen | frontend | M |
 
 ## Blocked: Needs Human Input
 
@@ -58,6 +54,10 @@ See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues
 
 | # | What |
 |---|------|
+| ~~#113~~ | Autocomplete im Begriffs-Verteilung-Input (2026-05-15, commit `a2e7b0b36`): klassisches Dropdown unter dem Input mit max. 8 Concept-Suggestions, Pfeil-Navigation (ArrowDown/Up), Enter wählt + sucht, Escape schließt, Klick (mousedown vor blur) wählt + sucht. Reuse `resolveQuery()` als Suggestions-Quelle. ARIA: combobox/listbox/aria-selected/aria-expanded. Live-verifiziert: „ster" → Sterben + Bruderschaft. |
+| ~~#107~~ | Kookkurrenz-Ranking (2026-05-15, commit `70d0bf280`): DWDS-Style „Welche Lemmata stehen am häufigsten bei X?". Window-Scan über `text.words[pos±w]` für jede Position in `text.lemmata[X]`. POS-Filter (Inhaltswörter / NOM / VRB / ADJ / alle) essentiell weil ohne Filter Stopwords dominieren. `êre` (9.930 Vorkommen, 6.361 Partner): 1.002ms inkl. UI-Render dank MessageChannel-Yield-Chunking. POS-Filter-Switch ohne Re-Compute: ~15ms (rawCounts gecacht). Belege-Klick → Multi-Lemma-Suche mit beiden Lemmata vorbefüllt. |
+| ~~#108~~ | Textvergleich (2026-05-15, commit `c53a8ac0d`): Zwei Texte auswählen → drei Lemma-Mengen (Nur A / Beide / Nur B) mit Frequenz pro Text und absoluter Differenz. Reine Set-Ops auf `Object.keys(text.lemmata)`, keine neuen Index-Felder. Lokale `_lemmaMap` (einmal pro `show()` gebaut) reduziert 6s Click-Latenz auf 53ms (112× schneller) — `AuthorityFilesManager.findLemmaById()` ist O(N) linear. Verifiziert PZ vs JT: „triuwe" 447× nur in JT (Lemmatisierungs-Unterschied Wolfram/Albrecht). |
+| ~~#112~~ | Versposition-Klick-Highlight-Bug (2026-05-15, commit `131fed17b`): `verse-position-search.js` + `lemma-distribution.js` bauten Reader-URLs mit `lemmaIds=5567` (cleanId), Highlighter sucht jedoch `#${id}` in `lemmaRef="lexicon.xml#lemma_5567"` — `#5567` matcht nicht. Fix: URL-Param erhält volle Form `lemma_5567`. Live-verifiziert (76 + 140 URLs jeweils mit korrektem Prefix; 4 Highlights für `lemma_5567` in AXW). |
 | ~~#104~~ | Sigle-Titel-Differenzierung (2026-05-15, commit `c0b546a45`): PL1-3, FLG/FLG1, FR1-3 bekommen sprechende Anzeigetitel mit Edition + Datum. FLG-`<biblStruct>` umgestellt auf Neumann/Vollmann-Profe 1990 (Edition) + Harsch 2009 (digitalIntermediary). Index-Bump corpus 4.1.2 / authority 1.2.2. KZW-Wording wortgleich; 130/131 Tests grün, Chrome-UI verifiziert |
 | ~~#81~~ | Sprachstufen-Differenzierung (closed 2026-05-15): SAL/SAT/BAR/TUN waren Wikidata-Fehler (`gmh` bleibt). AC1-3 (Ackermann aus Böhmen) bleiben ebenfalls `gmh` — KZW-Entscheidung 2026-05-08: solange kein ISO-Code für Frühneuhochdeutsch existiert, ist `gmh` die TEI-konformste Lösung. 537 unerforschte Texte als eigener Task ausgelagert (nicht angelegt — nicht in Plan) |
 | ~~#47~~ | TEI Textanalyse Umbrella geschlossen (2026-05-12): R1 (#87-90) und R2-Hauptpunkt Begriffs-Verteilung shipped; Folgepunkte ausgelagert in #107 (Kookkurrenz-Ranking), #108 (Textvergleich), #106 (Vers-Boundary-Features, Punkt 1 als Rolling-Backlog), #109 (FWF-Projekt für NER + tiefere Analysen) |
