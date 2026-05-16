@@ -1052,3 +1052,47 @@ Aus Julias paralleler Session (alphabetisch nach Hash, dieser Handoff Session H)
 Alle drei direkt im selben Pass gefixt. Severity-2/3-Findings (Autocomplete-auf-andere-Module portieren, POS-Tag-Qualität in Authority-Daten, JOURNAL.md > 110 KB) bleiben als Notiz — kein Issue angelegt, weil User-Entscheidung.
 
 Lehre fürs nächste Handoff: **Modul-Inventar + Pattern-Dokumentation gehören in den Handoff-Lauf, nicht erst in den Check danach.** Bei drei neuen Modulen + erweitertem viertem Modul ist die „Inventar aktuell"-Behauptung im Handoff-Body sonst unwahr.
+
+---
+
+## 2026-05-16 — handoff (Audit-Session)
+
+**Summary:** Gestern Spät-Session-Frage „außer #45 ist jedes Issue geblocked?" — heute systematischer Re-Check aller 20 offenen Issues, 2 Doku-Drifts behoben (#78 false-open, #110 reopened), Autocomplete auf 3 weitere Lemma-Module portiert (lemma-distribution, verse-position-search, cooccurrence-ranking), #44 Triage-Matrix vollständig refreshed, Label-Korrekturen (#28, #23, #110). Kerngedanke der zweiten Tageshälfte: **Audit-driven Preparation statt blinder Pings** — 6 Issues mit konkreten Datenbefunden aufbereitet, damit KZW/Julia/Linda/Chris/Carina statt freier Fragen Yes/No-Entscheidungen treffen können.
+
+**Decisions:**
+- **Process-Lehre `Closes #N`-Trailer**: voreilig auto-closing bei partial-complete (siehe #110-Reopen). Künftig: Closes nur bei vollständig fertig; bei partial-complete → keine Closes-Trailer + manueller Comment „X von Y done, Rest wartet auf …".
+- **Process-Lehre Cross-Check ROADMAP gegen `gh`**: gestriger Check hatte nur Doku-Inventar geprüft, nicht ROADMAP-Issue-References gegen GitHub-State. Heute durchgeführt → #78 (false-open) + #110 (false-closed) entdeckt. **Künftig im Check: alle #NN-Refs in 14 Docs gegen `gh issue view` cross-checken.**
+- **Autocomplete-Helper zentral statt 3× kopiert**: `AuthorityFilesManager.getLemmaAutocompleteMatches()` neu — prefix-search auf `lemma.normalized` (mhd-norm „ere" matcht „êre") + length-Sort. Bricht gestrige „Manager nicht modifizieren"-Lehre bewusst, weil zentrale Helper > 3× Duplikation.
+- **Audit-driven Preparation als Pattern**: bei „blockierten" Issues nicht nur pingen, sondern erst die Audits machen, die der Entscheider braucht. Spart 5 min Entscheidung statt 5 Wochen Hin-und-Her.
+
+**Audit-Befunde (alle als Issue-Comments gepostet):**
+- **#30** TEI-Strukturelemente (Re-Audit): **29/29 Stage-2-valid**, Original-Liste post-#32/#83/#85/#26 obsolet. Vorschlag closen + 2 Follow-Up-Issues (`<div>`-Hüllen für HUG/KLA/PL1-3/MBS editorisch klären, Phase 4 falls #101 nicht abdeckt).
+- **#27** POS-Audit: 43.754 Lexicon-Einträge (0 leer, 0 multi). **Aber:** Lexicon-POS oft lexikografisch grob (`haben` als NOM = Habe-Substantiv, nicht Auxiliarverb). PZ-Sample: **26,5 % der Tokens haben Multi-POS** vom Tagger (29.554 von 111.599; ADJ ADV, ART CNJ, ADV PRP, NOM VRB, …). Drei Schichten getrennt: 1. Lexicon-Politik (Multi-POS pro Lemma?), 2. Token-POS im Index nutzen (M-Effort, sofort bessere Filter), 3. Neuer Tagger (XL = #109 FWF). Empfehlung Schicht 2.
+- **#28** Foreign-Lang-Audit: **0 `<w xml:lang>`, 0 `<foreign>` im gesamten Korpus**. Feature ist datenseitig blockiert. xml:lang existiert nur in Header (titleStmt/msName/gloss). 5 Optionen (Manuell / Heuristik / langid-Modell / WZB-Vorarbeit ziehen / FWF). **Label-Rollback** claude-ready → needs-clarification.
+- **#92** ARITHMETIC Stage-1-Vorbereitung: 6 HS mit Token-Counts (AUG81=3.532, BRE1948=7.545, EIN624=408, **MUE279=97 Fragment?**, MUE746=377, WIEN5206=7.367). Genre-Vorschlag `genre_1fb94b80 Rechenbuch` (`genre_20b2d746` Arithmetik als broader). Wikidata-Refs pro Bibliothek vorgeschlagen. 6 Yes/No-Fragen für Carina formuliert (Sigle, Genre, MUE279-Status, Edition, Lizenz, Begriffssystem-Mapping). Stage 1 in ~1-2h durchführbar sobald Carina bestätigt.
+- **#59** Antonomasien/Epitheta JSON-Audit: Lindas Repo öffentlich (`lindabeutel/Naming-analysis/data`). 154 KB `naming_variants_dict.json`, 4 Werke (Iwein/Rolandslied/Trojanerkrieg/Eneasroman), Sigles existieren alle im MHDBDB-Korpus (IW/ROL/TRO/ENE). Encoding-Artefakt im Rolandslied (`\xa0` statt Space). Effort revidiert L → M+. Modul sofort bauenbereit wenn A gewählt.
+- **#106** Reim-Wörterbuch-Prototyp: `lineEnds[]` reicht out-of-the-box. 4 Sample-Texte: IW 1.027 Reimpaare (muot↔guot 27×), PZ 3.250 (komen↔vernemen 43×), TRO 6.491 (komen↔nemen 89×, kraft↔rîterschaft 73×). Klassisches MHD-Reimschema bestätigt. 3 Varianten (Min Lemma-basiert M, Mittel mit Orig-Token-Suffix M+L mit Index-Bump, Voll mit phonetischer Norm XL → #109). Empfehlung Minimal als Rolling-Backlog.
+
+**Dead ends:**
+- **#28 enthusiasm**: heute morgen als „falsch-blockiert, eigentlich claude-ready" eingestuft. Audit zeigte: ist falsch eingestuft *in die andere Richtung* — gar nicht implementierbar mit aktuellen Daten. Label korrigiert.
+- **Schemas-Validierungs-Subprozess** lief im Background mit Output ins Temp-File — `validate-corpus.py --corpus-only --sample` brauchte 54s für 29 Files. Acceptable, kein Blocker.
+- **pgrep auf Windows-Git-Bash**: nicht verfügbar. `Monitor`-Tool wäre die richtige Alternative gewesen.
+
+**Phase:** Implementation (handoff). Alle 14 Promptotyping-Docs aktuell. Index-Versionen unverändert (corpus 4.1.3, authority 1.2.2). Working-Tree clean (nach Push).
+
+**Open issues nach diesem Handoff:**
+- **Pings warten auf Antworten:** #23 (close-Vorschlag), #27 (Scope-Wahl), #28 (Daten-Schicht), #59 (A/B/C), #68 (organisatorischer Teil), #86 (gestern KZW), #92 (Carina), #106 (Min/Mittel/Voll), #110 (4 Strophen)
+- **Echt claude-ready ohne Klärungsbedarf:** **#45 Static JSON API** ist heute der einzige verbliebene große Block-Posten.
+- **`concept-distribution.spec.js:90`**: pre-existing Spinner-Visibility-Fail, unverändert.
+
+**Next steps:**
+1. `/promptotyping orient` zum Laden des Project-State.
+2. Falls #45 angegangen wird: planning doc `docs/features/045-static-api.md` als Ausgangspunkt, L-Effort vermutlich 1-2 Tagessessions.
+3. Falls Antworten auf Pings kommen: priorisiert abarbeiten — kleinste Effort zuerst (#23 close → #59 build → #92 Stage-1 → #106 minimal → #27 Token-POS-Index → #28 falls Daten-Schicht entschieden).
+4. Quartals-Komprimierung von JOURNAL.md (heute >1.100 Zeilen / ~115 KB) bleibt offen.
+
+**Commits dieser Session (10 total, alle gepusht):**
+- Vormittag: `f83925f36` Autocomplete-Portierung, `28a471f88` ROADMAP-Drift-Fix #78, `598254f6e` #110 reopened.
+- Nachmittag: nur Issue-Comments (kein Code) — 6 Audit-Comments + 5 Ping-Comments + 1 Reopen-Comment auf GitHub, plus #44 Body-Update via gh edit.
+
+**Carryover:** unverändert vom 16:48-Handoff gestern abgesehen davon dass #28 jetzt daten-blockiert ist, nicht claude-ready. #45 ist der letzte freie claude-ready-Block-Posten.
