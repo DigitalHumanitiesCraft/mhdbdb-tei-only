@@ -146,7 +146,7 @@ export class AuthorityFilesManager {
   getLemmaSuggestions(partialInput, maxSuggestions = 10) {
     const normalized = partialInput.toLowerCase();
     return this.authorityData.lemmata
-      .filter(lemma => 
+      .filter(lemma =>
         lemma.lemma && lemma.lemma.toLowerCase().startsWith(normalized)
       )
       .slice(0, maxSuggestions)
@@ -155,6 +155,55 @@ export class AuthorityFilesManager {
         id: lemma.id.replace('lemma_', ''),
         pos: lemma.pos
       }));
+  }
+
+  /**
+   * Live-Autocomplete-Suggestions: prefix-match auf `lemma.normalized`
+   * (mhd-normalisiert) mit includes-Fallback. Liefert vollständige Lemma-
+   * Objekte (`{id, lemma, pos, ...}` mit `lemma_X`-Präfix), im Gegensatz zu
+   * `getLemmaSuggestions()` (legacy, strippt Präfix).
+   *
+   * Genutzt von lemma-distribution.js, verse-position-search.js,
+   * cooccurrence-ranking.js für Live-Dropdown im Lemma-Input. Siehe
+   * DESIGN.MD §Live-Autocomplete-Dropdown.
+   *
+   * Eingabe wird inline normalisiert (â→a, ê→e, ü→ue, …) damit „ere" auch
+   * „êre" matcht. Linear scan über 43.754 Lemmata, ~5-10ms pro Aufruf —
+   * akzeptabel für keystroke-Frequenz.
+   */
+  getLemmaAutocompleteMatches(partialInput, maxSuggestions = 8) {
+    const trimmed = (partialInput || '').trim();
+    if (!trimmed) return [];
+    const needle = trimmed.toLowerCase()
+      .replace(/[âáà]/g, 'a').replace(/[êéè]/g, 'e').replace(/[îíì]/g, 'i')
+      .replace(/[ôóò]/g, 'o').replace(/[ûúù]/g, 'u')
+      .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/ß/g, 'ss');
+    const lemmata = this.authorityData?.lemmata || [];
+    const startsWith = [];
+    const includes = [];
+    // Voll-Scan (43k) ohne Early-Break, sonst springen kurze Treffer wie „êre"
+    // unter längere wie „êrengir" weil das Lemma-Array nicht ID-sortiert ist.
+    // 43k Iterationen sind ~3-5ms — pro Keystroke akzeptabel.
+    for (const l of lemmata) {
+      if (!l.normalized) continue;
+      const ln = l.normalized;
+      if (ln.startsWith(needle)) startsWith.push(l);
+      else if (ln.includes(needle)) includes.push(l);
+    }
+    // Sortierung: exakt-match → kürzere Lemmata → alphabetisch. So steht
+    // „êre" über „êrengir" und „minne" über „minnesänger".
+    const sortByRelevance = (a, b) => {
+      const an = a.normalized;
+      const bn = b.normalized;
+      const aExact = an === needle ? 0 : 1;
+      const bExact = bn === needle ? 0 : 1;
+      if (aExact !== bExact) return aExact - bExact;
+      if (an.length !== bn.length) return an.length - bn.length;
+      return an.localeCompare(bn, 'de');
+    };
+    startsWith.sort(sortByRelevance);
+    includes.sort(sortByRelevance);
+    return [...startsWith, ...includes].slice(0, maxSuggestions);
   }
 
   // ==================== UTILITY METHODS ====================

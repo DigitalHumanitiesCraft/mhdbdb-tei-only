@@ -384,7 +384,11 @@ DEFAULT_STATE = {
 // HTML: <input> mit <div class="absolute top-full ... hidden"> als Dropdown.
 
 updateAutocomplete(query) {
-  this.state.autocompleteItems = this.resolveQuery(query).candidates.slice(0, 8);
+  // Concept-Module: resolveQuery liefert candidates (substring+startsWith-scoring im Modul).
+  // Lemma-Module: authorityManager.getLemmaAutocompleteMatches() — prefix-search auf
+  // l.normalized (mhd-norm „ere" → matcht „êre") + length-Sort, weil resolveQuery
+  // bei exact-match Stage-1-early-returnt und nur 1 Treffer liefert.
+  this.state.autocompleteItems = this.authorityManager.getLemmaAutocompleteMatches(query, 8);
   this.state.autocompleteIndex = -1;  // Reset, sonst springt Enter unerwartet
   this.state.autocompleteOpen = this.state.autocompleteItems.length > 0;
   this.renderAutocomplete();  // direkt innerHTML, KEIN render()
@@ -407,7 +411,7 @@ input.addEventListener('blur', () => setTimeout(() => this.closeAutocomplete(), 
 
 ARIA: `role="combobox" + aria-controls + aria-expanded` am Input, `role="listbox"` am Dropdown, `role="option" + aria-selected` an Buttons. Scroll-into-view des aktiven Items bei Pfeil-Nav (`activeEl.scrollIntoView({block: 'nearest'})`). Reuse `resolveQuery()` als Suggestions-Quelle — kein zweiter Resolver-Pfad.
 
-Pattern ist heute (2026-05-15) nur in `concept-distribution.js` umgesetzt. wachauer wird vermutlich „und in Lemma-/Verseposition-/Kookkurrenz-Suche auch" wollen — vorrätig portierbar.
+Pattern ist (Stand 2026-05-16) in vier Modulen umgesetzt: `concept-distribution.js` (#113 original), `lemma-distribution.js`, `verse-position-search.js`, `cooccurrence-ranking.js` (alle drei portiert 2026-05-16). Falls weitere Module Lemma-/Concept-Input bekommen: einfach kopieren, IDs anpassen (`xxQuery`/`xxAutocomplete`/`data-xx-ac-idx`).
 
 ## Layout Patterns
 

@@ -12,8 +12,14 @@ const DEFAULT_STATE = Object.freeze({
   query: '',
   resolvedLemma: null,
   candidates: [],
-  position: 'end'   // 'start' | 'end' — Versende ist der häufigere Use Case (Reim)
+  position: 'end',  // 'start' | 'end' — Versende ist der häufigere Use Case (Reim)
+  // Autocomplete (Port aus #113-Pattern)
+  autocompleteOpen: false,
+  autocompleteIndex: -1,
+  autocompleteItems: []
 });
+
+const AUTOCOMPLETE_LIMIT = 8;
 
 export class VersePositionSearch {
   constructor(getCorpusTexts, authorityManager) {
@@ -94,13 +100,20 @@ export class VersePositionSearch {
           Nur Verstexte (mit <code class="rounded bg-white px-1.5 py-0.5 font-mono">&lt;l&gt;</code>); Prosa wird ignoriert.
         </p>
         <div class="grid gap-3 sm:grid-cols-4">
-          <label class="sm:col-span-2 block">
-            <span class="text-xs font-medium text-slate-600">Lemma</span>
-            <input id="vpsQuery" type="text" autocomplete="off"
-              value="${escapeAttr(this.state.query)}"
-              placeholder="z.B. minne"
-              class="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm focus:border-brand-400 focus:outline-none"/>
-          </label>
+          <div class="sm:col-span-2">
+            <label class="block">
+              <span class="text-xs font-medium text-slate-600">Lemma</span>
+              <div class="relative mt-1">
+                <input id="vpsQuery" type="text" autocomplete="off" role="combobox"
+                  aria-autocomplete="list" aria-controls="vpsAutocomplete" aria-expanded="false"
+                  value="${escapeAttr(this.state.query)}"
+                  placeholder="z.B. minne"
+                  class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm focus:border-brand-400 focus:outline-none"/>
+                <div id="vpsAutocomplete" role="listbox"
+                  class="absolute left-0 right-0 top-full z-30 mt-1 hidden max-h-72 overflow-y-auto rounded-lg border border-slate-200 bg-white shadow-lg"></div>
+              </div>
+            </label>
+          </div>
           <label class="block">
             <span class="text-xs font-medium text-slate-600">Position</span>
             <select id="vpsPosition" class="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm focus:border-brand-400 focus:outline-none">
@@ -207,11 +220,65 @@ export class VersePositionSearch {
     `;
   }
 
+  // Autocomplete-Pattern (DESIGN.MD §Live-Autocomplete-Dropdown, Port aus #113).
+  renderAutocomplete() {
+    const dd = document.getElementById('vpsAutocomplete');
+    const input = document.getElementById('vpsQuery');
+    if (!dd) return;
+    const items = this.state.autocompleteItems || [];
+    if (!this.state.autocompleteOpen || items.length === 0) {
+      dd.classList.add('hidden');
+      dd.innerHTML = '';
+      if (input) input.setAttribute('aria-expanded', 'false');
+      return;
+    }
+    const idx = this.state.autocompleteIndex;
+    dd.innerHTML = items.map((l, i) => {
+      const active = i === idx;
+      const cls = active ? 'bg-brand-50 text-brand-800' : 'text-slate-700 hover:bg-slate-50';
+      const pos = l.pos ? `<span class="ml-1 rounded bg-slate-100 px-1 text-[10px] font-mono text-slate-600">${escapeHtml(l.pos)}</span>` : '';
+      return `<button type="button" role="option" data-vps-ac-idx="${i}"
+        aria-selected="${active}"
+        class="block w-full cursor-pointer px-3 py-2 text-left text-sm ${cls}">
+        <span class="font-medium">${escapeHtml(l.lemma || l.id)}</span>${pos}
+        <span class="ml-2 text-xs font-mono text-slate-400">${escapeHtml(l.id)}</span>
+      </button>`;
+    }).join('');
+    dd.classList.remove('hidden');
+    if (input) input.setAttribute('aria-expanded', 'true');
+    const activeEl = dd.querySelector(`[data-vps-ac-idx="${idx}"]`);
+    if (activeEl) activeEl.scrollIntoView({ block: 'nearest' });
+  }
+
+  updateAutocomplete(query) {
+    const trimmed = (query || '').trim();
+    if (!trimmed) {
+      this.state.autocompleteItems = [];
+      this.state.autocompleteIndex = -1;
+      this.state.autocompleteOpen = false;
+      this.renderAutocomplete();
+      return;
+    }
+    // getLemmaAutocompleteMatches statt resolveQuery: liefert echte prefix-
+    // Vorschläge (startsWith + includes), nicht den Stage-1-Early-Return.
+    this.state.autocompleteItems = this.authorityManager.getLemmaAutocompleteMatches(trimmed, AUTOCOMPLETE_LIMIT);
+    this.state.autocompleteIndex = -1;
+    this.state.autocompleteOpen = this.state.autocompleteItems.length > 0;
+    this.renderAutocomplete();
+  }
+
+  closeAutocomplete() {
+    this.state.autocompleteOpen = false;
+    this.state.autocompleteIndex = -1;
+    this.renderAutocomplete();
+  }
+
   attachHandlers() {
     const runSearch = () => {
       const input = document.getElementById('vpsQuery');
       if (!input) return;
       this.state.query = input.value;
+      this.closeAutocomplete();
       const { resolved, candidates } = this.resolveQuery(this.state.query);
       this.state.resolvedLemma = resolved;
       this.state.candidates = candidates;
@@ -224,12 +291,62 @@ export class VersePositionSearch {
     };
 
     document.getElementById('vpsSearchBtn')?.addEventListener('click', runSearch);
-    document.getElementById('vpsQuery')?.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
+
+    const input = document.getElementById('vpsQuery');
+    if (input) {
+      input.addEventListener('input', (e) => this.updateAutocomplete(e.target.value));
+      input.addEventListener('keydown', (e) => {
+        const open = this.state.autocompleteOpen && this.state.autocompleteItems.length > 0;
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          if (open && this.state.autocompleteIndex >= 0) {
+            const c = this.state.autocompleteItems[this.state.autocompleteIndex];
+            input.value = c.lemma || c.id;
+            this.closeAutocomplete();
+            runSearch();
+            return;
+          }
+          runSearch();
+        } else if (e.key === 'ArrowDown') {
+          if (!open) return;
+          e.preventDefault();
+          this.state.autocompleteIndex = (this.state.autocompleteIndex + 1) % this.state.autocompleteItems.length;
+          this.renderAutocomplete();
+        } else if (e.key === 'ArrowUp') {
+          if (!open) return;
+          e.preventDefault();
+          const n = this.state.autocompleteItems.length;
+          this.state.autocompleteIndex = (this.state.autocompleteIndex - 1 + n) % n;
+          this.renderAutocomplete();
+        } else if (e.key === 'Escape') {
+          if (open) { e.preventDefault(); this.closeAutocomplete(); }
+        }
+      });
+      input.addEventListener('focus', () => {
+        if (input.value.trim() && this.state.autocompleteItems.length > 0) {
+          this.state.autocompleteOpen = true;
+          this.renderAutocomplete();
+        }
+      });
+      input.addEventListener('blur', () => setTimeout(() => this.closeAutocomplete(), 150));
+    }
+
+    const dd = document.getElementById('vpsAutocomplete');
+    if (dd) {
+      dd.addEventListener('mousedown', (e) => {
+        const btn = e.target.closest('[data-vps-ac-idx]');
+        if (!btn) return;
         e.preventDefault();
+        const idx = parseInt(btn.getAttribute('data-vps-ac-idx'), 10);
+        const c = this.state.autocompleteItems[idx];
+        if (!c) return;
+        const inputEl = document.getElementById('vpsQuery');
+        if (inputEl) inputEl.value = c.lemma || c.id;
+        this.closeAutocomplete();
         runSearch();
-      }
-    });
+      });
+    }
+
     document.getElementById('vpsPosition')?.addEventListener('change', (e) => {
       this.state.position = e.target.value;
       if (this.state.resolvedLemma) this.render();
