@@ -9,7 +9,7 @@ See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues
 | # | What | Domain | Effort |
 |---|------|--------|--------|
 | #91 | Zenodo-Integration — CITATION.cff von KZW finalisiert (`type=dataset`, Lead-Autorin); Zenodo-Webhook + Tag noch User-Steps | docs/release | S |
-| #110 | #23-Followup WVV — 4 wrap_failed Strophen (1174/1180/1208/1242) brauchen philologische Klärung KZW/Julia (Ton-Wechsel: eine oder zwei Strophen?) | pipeline | S |
+| #110 | #23-Followup WVV — 4 wrap_failed Strophen (1174/1180/1208/1242) brauchen philologische Klärung KZW/Julia (Ton-Wechsel: eine oder zwei Strophen?). Issue **reopened 2026-05-16** — Auto-Close gestern via `Closes`-Trailer war voreilig | pipeline | S |
 
 ## Next: FAIR Data + Daten-Qualität
 
