@@ -16,7 +16,6 @@ See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues
 | # | What | Domain | Effort |
 |---|------|--------|--------|
 | #45 | Static JSON API (FAIR data) — [planning doc](features/045-static-api.md) ready | pipeline + frontend | L |
-| #78 | Frontend-Dokumentation: MHDBDB-Schema & Daten-Tutorial | documentation | M |
 | #86 | Barrierefreiheitserklärung (WZG) — needs Uni Salzburg input | documentation | M |
 
 ## Blocked: Needs Human Input
@@ -45,7 +44,7 @@ See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues
 | #58 | Begriff→Lemma→Beleg Workflow | Playground UX redesign |
 | #59 | Antonomasien/Epitheta Modul | Standalone analysis module design |
 | #63 | Begriffssystem Update | Julia's future plans |
-| #80 | Umbrella: User-facing Dokumentation & Hilfe | Sub-issues #79, #78, #68 |
+| #80 | Umbrella: User-facing Dokumentation & Hilfe | Sub-issues #68 (#79 + #78 bereits closed) |
 | #93 | Textreihentypologie-Umzug (von marketext.at auf MHDBDB-Unterseite) — SKOS-Daten aus `textseries`-Repo, Baum-Visualisierung; dysfunktionale `dhplus`-URIs zu bereinigen | Visualisierung + Authority-File-Abgleich |
 | #109 | FWF-Einzelprojekt (Korpus-Tiefenanalyse, NER-Pipeline, phonetische Reimanalyse, Visualisierungen) — Antrag durch KZW, kleines Budget, max. 50% externe Mittel | Scope-Notiz für Antragstext |
 | #111 | Index-Größen-Soft-Cap und modulare Splitting-Strategie | Trigger >50 MB gz (heute 42); Optionen A modular / B brotli / C binär; keine Entscheidung bis Schwellwert erreicht |
