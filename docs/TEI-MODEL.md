@@ -890,13 +890,15 @@ Durchgeführte Bereinigungen:
 
 ## 11. Versionierung
 
+**Source of Truth für Index-Versionen.** Alle anderen Promptotyping-Docs (DATA-MODEL.MD, DEVELOPMENT.MD, CONTRACTS.md, INDEX.MD §Status, TEI-MODEL-AUTH-FILES.md) verweisen auf diese Tabelle und nennen in ihren Code-Snippets nur generische Platzhalter (`X.Y.Z`, `"1.x.x"`). Pflege bei jedem Index-Bump: hier, in `corpus-loader.js`, im Build-Skript, in INDEX.MD §Status (siehe Memory `feedback_index_version_bump`).
+
 | Artefakt | Version | Datum |
 |----------|---------|-------|
 | Dieses Dokument | 1.0.0 | 2026-04-10 |
 | RELAX NG Schema (`schema/mhdbdb.rnc`) | 1.0.0 | 2026-04-09 |
 | POS-Tagset | 1.0 (19 Tags) | 2026-03 |
-| Corpus Index | 4.0.0 | 2026-04-09 |
-| Authority Index | 1.2.0 | 2026-04-10 |
+| Corpus Index | 4.1.3 | 2026-05-16 |
+| Authority Index | 1.3.0 | 2026-05-28 |
 | Authority Schema (`schema/mhdbdb-authority.rnc`) | 1.0.0 | 2026-04-10 |
 
 ---

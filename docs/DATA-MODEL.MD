@@ -186,12 +186,12 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
 
 **File:** `data/authority-index.json.gz`
 **Size:** ~3 MB compressed
-**Version:** 1.2.0
+**Version:** Aktueller Stand in [TEI-MODEL.md §11](TEI-MODEL.md#11-versionierung). Quelle im Code: `AUTHORITY_INDEX_VERSION` in `assets/js/lib/corpus-loader.js` und `'version'` in `scripts/build-authority-index.py`.
 
-**Schema:**
+**Schema (illustrativ — konkrete Version siehe Tabelle in TEI-MODEL.md §11):**
 ```javascript
 {
-  version: "1.2.0",
+  version: "1.x.x",
   generatedAt: "ISO-8601 timestamp",
 
   persons: [{
@@ -290,12 +290,12 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
 
 **File:** `data/corpus-index.json.gz`
 **Size:** ~40 MB compressed (v4.1.x; war ~34 MB in v4.0.1)
-**Version:** 4.1.1
+**Version:** Aktueller Stand in [TEI-MODEL.md §11](TEI-MODEL.md#11-versionierung). Quelle im Code: `INDEX_VERSION` in `assets/js/lib/corpus-loader.js` und `'version'` in `scripts/build-corpus-index.py` (dort steht auch der Versions-Historien-Kommentar). MAJOR/MINOR/PATCH-Semantik siehe unten.
 
-**Schema:**
+**Schema (illustrativ — konkrete Version siehe Tabelle in TEI-MODEL.md §11):**
 ```javascript
 {
-  version: "4.1.1",                  // 4.0.0: document-level. 4.0.1: WZB. 4.1.0: lineStarts/lineEnds (#47.3). 4.1.1: Korpus-Rebuild nach Stanza-Insertion-Sweep (#23).
+  version: "4.x.x",
   generatedAt: "ISO-8601 timestamp",
   totalTexts: 667,
   totalLemmata: 42630,

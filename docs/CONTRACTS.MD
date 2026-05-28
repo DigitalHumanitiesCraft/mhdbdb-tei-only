@@ -445,11 +445,11 @@ getCachedIndex(name):
     cached = db.indices.get(name)
     if !cached → return null (cache miss)
 
-    // Version check
+    // Version check (konkrete Konstanten siehe corpus-loader.js; aktueller Stand TEI-MODEL.md §11)
     if name === 'corpus-index':
-        if cached.version !== INDEX_VERSION ('4.1.1'):           → invalidate
+        if cached.version !== INDEX_VERSION:           → invalidate
     if name === 'authority-index':
-        if cached.version !== AUTHORITY_INDEX_VERSION ('1.2.1'): → invalidate
+        if cached.version !== AUTHORITY_INDEX_VERSION: → invalidate
 
     // Expiration check
     age = Date.now() - cached.timestamp

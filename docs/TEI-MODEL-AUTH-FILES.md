@@ -480,7 +480,7 @@ Alle Migrationsschritte wurden in Phases F-K implementiert. Scripts sind nach Ab
 
 | Script | Aenderung |
 |--------|-----------|
-| `build-authority-index.py` | Genre-Text aus genres.xml aufgeloest; person→works aus works.xml abgeleitet; GND Casing; Version 1.2.0 |
+| `build-authority-index.py` | Genre-Text aus genres.xml aufgeloest; person→works aus works.xml abgeleitet; GND Casing. Versionierung siehe [TEI-MODEL.md §11](TEI-MODEL.md#11-versionierung). |
 | `enhance_works_with_zotero.py` | `<biblStruct>` in `<relatedItem>` wrappen; 4 Bugs gefixt |
 
 ---

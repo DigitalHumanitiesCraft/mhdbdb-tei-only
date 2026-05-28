@@ -102,7 +102,7 @@ After significant changes, increment version in build script to force browser ca
 
 ```python
 # In build-authority-index.py
-VERSION = "1.2.0"  # Increment for breaking changes
+VERSION = "1.x.x"  # Aktueller Stand siehe TEI-MODEL.md §11 (Source-of-Truth); Increment for breaking changes
 ```
 
 ## Testing
@@ -295,7 +295,7 @@ git push origin main
 Increment version number in build scripts to force browser refetch:
 
 ```python
-VERSION = "1.2.0"  # In build-authority-index.py
+VERSION = "1.x.x"  # In build-authority-index.py; aktueller Stand siehe TEI-MODEL.md §11
 ```
 
 ## Historical Context: Initial Data Wrangling

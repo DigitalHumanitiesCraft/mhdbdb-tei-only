@@ -105,7 +105,7 @@ Located in `/publications/` (outside `docs/`):
 ## Project Status
 
 ### Current Phase
-Post-MVP with stable v4.0.0 corpus index and v1.2.0 authority index
+Post-MVP. Aktuelle Index-Versionen siehe [TEI-MODEL.md §11](TEI-MODEL.md#11-versionierung) (Stand 2026-05-28: Corpus Index v4.1.3, Authority Index v1.3.0).
 
 ### Recent Milestones
 - ✅ **Phase 7 Refactoring** - Modular UI architecture
