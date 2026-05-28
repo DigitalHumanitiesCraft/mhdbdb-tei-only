@@ -39,7 +39,9 @@ concurrency:
 jobs:
   check:
     runs-on: ubuntu-latest
-    timeout-minutes: 2
+    # Repo ist gross (TEI-Korpus + Indexes); Checkout allein dauert ~1:44 min.
+    # Frueheres timeout=2 fing den Audit nie ein, jede Push-Run cancelled.
+    timeout-minutes: 10
     steps:
       - name: Checkout
         uses: actions/checkout@v4
