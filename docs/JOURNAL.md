@@ -1196,3 +1196,39 @@ Das Authority-Cross-Reference-Audit war als Mini-Task gedacht, hat aber struktur
 2. KZW-Reminder-Response prüfen (User hat persönlich rausgeschickt).
 3. Wenn freie Kapazität: **#45 Static JSON API** beginnen oder Authority-Cross-Reference-Audit zu Issue formalisieren.
 4. Bei KZW-Antworten: Issues entsprechend bewegen.
+
+---
+
+## 2026-05-28 16:00 — handoff (Issues anlegen, #44 nachziehen, KZW-Reminder out)
+
+**Summary:** Nach Mini-/Klein-Audit-Sweep zwei neue Issues angelegt (#115 Cross-Ref-Integrity, #116 pb-Backlog) und #44-Triagematrix entsprechend nachgezogen. User hat persönlichen Reminder an KZW ausserhalb GitHub ausgesendet (8 stille Pings + die zwei neuen Klärungs-Fragen).
+
+**Decisions:**
+- **#115 + #116 mit chsteiner + wachauer + juliahin als Assignees** — Editorial-Konvention aus Memory `feedback_editorial_assignees`. #115 ist primär technisch, #116 primär editorial; Assignment-Schema bleibt einheitlich.
+- **Kein zusätzlicher Issue-Comment-Ping** auf #115/#116 — Assignment ist der Ping; User hat parallel persönlich gepingt; Issue-Comments wären Lärm.
+- **#28 aus Claude-Ready demoted zu Claude-Doable nach Klärung** — Audit zeigt 0 Daten im Korpus, Code-Start ohne KZW-Entscheidung wäre Spaghetti.
+- **Quick-Stats in #44 umstrukturiert:** „claude-ready" reduziert auf 1 (nur #45), neue Kategorie „claude-doable nach Klärung" für 6 Issues mit ausstehender Klärung sichtbar gemacht.
+
+**Phase:** Implementation (handoff-Ende). Alle 14 Promptotyping-Docs aktuell, alle gepushten Aktionen heute durch.
+
+**Open issues nach diesem Handoff:**
+- **8 unbeantwortete Pings** vom 16.05. + 2 neue Klärungs-Issues (#115, #116) — KZW-Reminder out ausserhalb GitHub
+- **6 lokale Kollegen-Commits vor origin/main** (Christian-Steiner-Identity) zum #114 Tabellenansicht-Stream — Kollege arbeitet, Push liegt bei ihm. Mein JOURNAL-Commit kommt obendrauf, der nächste Push wird die Kollegen-Commits mitnehmen, das ist OK
+- **Authority-Cross-Reference-Befund (#115)** — Phase 1 (Detail-Audit-Skript) ist claude-startbar parallel zur KZW-Klärung
+- **#45 Static JSON API** bleibt einziger großer Claude-Ready-Workstream, ungestartet seit 12 Tagen
+- **#28 wartet auf KZW-Entscheidung** (a/b/c-Optionen im Comment 4564139381)
+- **#73 wartet auf KZW-Daumen** zum Closen
+
+**Next steps (nächste Session):**
+1. `/promptotyping orient` — lädt diesen Handoff plus den 15:00-Handoff.
+2. KZW-Antworten checken (persönlicher Reminder von gestern abend).
+3. Wenn freie Kapazität und KZW-Antworten kommen nicht: **#115 Phase 1** (Detail-Audit-Skript) als kleiner technischer Workstream oder **#45 Static JSON API** als großer Workstream.
+4. Push-Status der 6 Kollegen-Commits zu #114 prüfen — wenn der Kollege fertig ist, gemeinsam pushen.
+
+**Tagesbilanz 2026-05-28:**
+- 7 Commits auf origin/main + 1 JOURNAL-Commit lokal (dieser)
+- 2 neue Issues (#115, #116), 1 Issue closed (#80), 4 Issue-Updates/-Comments (#28, #27, #44, #73)
+- 3 Promptotyping-Check-Iterationen
+- Komplette `.md`-Vereinheitlichung (30 Files)
+- Single-Source-of-Truth für Index-Versionen etabliert (TEI-MODEL.md §11 + Memory-Update)
+- 7 Mini-/Klein-Audits, davon einer mit signifikantem Daten-Befund (Cross-Ref-Integrity)
