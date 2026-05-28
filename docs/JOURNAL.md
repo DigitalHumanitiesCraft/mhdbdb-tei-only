@@ -1096,3 +1096,117 @@ Lehre fürs nächste Handoff: **Modul-Inventar + Pattern-Dokumentation gehören 
 - Nachmittag: nur Issue-Comments (kein Code) — 6 Audit-Comments + 5 Ping-Comments + 1 Reopen-Comment auf GitHub, plus #44 Body-Update via gh edit.
 
 **Carryover:** unverändert vom 16:48-Handoff gestern abgesehen davon dass #28 jetzt daten-blockiert ist, nicht claude-ready. #45 ist der letzte freie claude-ready-Block-Posten.
+
+---
+
+## 2026-05-28 12:42 — handoff (Session-Wechsel wegen Browser-Tool-Reconnect)
+
+**Summary:** #113 KZW-Followup vom 2026-05-18 angegangen. Beim Audit ein **Last-Wins-Bug** im Authority-Index-Build entdeckt: `parse_concepts()` iterierte alle `<term xml:lang="de">` und überschrieb `term_de` bei jedem Treffer — bei concept_13023100 gewinnt daher das Alternative „Früchte" über das Primär „Obst". 263 Concepts betroffen. Build-Skript gefixt (Primär vs. `altDE[]`/`altEN[]`/`altNormalized[]` getrennt), Index v1.2.2 → v1.3.0 (3 Stellen synchron + Audit-Skript-Doku), beide UI-Module (`concept-explorer.js` + `concept-distribution.js`) um `altDE/altEN` als Such-Felder erweitert plus „auch: …"-Hint im Autocomplete bei Synonym-Match. Index rebuilt, Daten-Stichprobe sauber. **Code NICHT committed**, **UI-Verifikation NICHT abgeschlossen** — Browser-Tools in dieser Session nicht ansprechbar (ToolSearch findet `mcp__claude-in-chrome__*` nicht trotz angekoppelter Browser-Extension), darum Handoff an neue Session.
+
+**Decisions:**
+- **Build-Skript-Fix vor Schema-Anpassung**: Daten-vor-Schema-Prinzip wendet hier auch fürs Index-Build — die XML-Daten sind korrekt (`<term type="alternative">` ist semantisch eindeutig), das Build-Skript hat den Bug. Fix im Skript, nicht in den authority-files.
+- **Index-Schema v1.3.0 abwärtskompatibel additiv**: `termDE/termEN/normalized` Felder unverändert, `altDE/altEN/altNormalized` nur dann attached wenn Alternative-Terms vorhanden (263 von 567 Concepts). Heißt: Code der nur Primär liest, bleibt unverändert funktional.
+- **Hint-Anzeige im Autocomplete als „auch: …"-Subtitle**: User-Wahl via AskUserQuestion. Macht Match-Pfad transparent ohne den Primär-Term zu verdrängen.
+
+**Files im Working-Tree (uncommitted):**
+- `scripts/build-authority-index.py` — `parse_concepts()` umgebaut, `'version': '1.3.0'` in Index-Struktur
+- `assets/js/lib/corpus-loader.js` — `AUTHORITY_INDEX_VERSION = '1.3.0'`
+- `scripts/audit/check-index-versions.py` — Doku-Header auf v4.1.3 / v1.3.0 refreshed (kein Logik-Change)
+- `playground/js/ui/authority/concept-explorer.js` — `searchConcepts()` matcht zusätzlich `altDE/altEN`, neue `findAlternativeMatch()`-Helper unten + `TextNormalizer`-Import
+- `playground/js/ui/tei/concept-distribution.js` — `resolveQuery()` mit getrenntem `primaryScore`/`altScore` (90/45/8 vs. 100/50/10), `matchedAlt`-Feld an Candidates angehängt; `renderAutocomplete()` zeigt „auch: …"-Hint
+- `data/authority-index.json.gz` — rebuilt v1.3.0 (567 Concepts, 263 mit altDE, 266 mit altEN)
+
+**Verifikation bisher:**
+- ✅ `python scripts/audit/check-index-versions.py` → konsistent (corpus 4.1.3, authority 1.3.0)
+- ✅ Daten-Stichprobe concept_13023100: `termDE: "Obst"`, `altDE: ["Früchte"]`, `altNormalized: ["fruechte"]`
+- ✅ JSON UTF-8 korrekt (kein Encoding-Glitch in den Daten, nur im Windows-Konsolen-Print)
+- ❌ UI-Verifikation **noch nicht durchgeführt** (Browser-Tools nicht verfügbar)
+- ❌ npm test **nicht gelaufen** (laut Memory-Regel: User muss vorher fragen)
+
+**Phase:** Implementation (mid-flight, Code fertig, Verify+Commit offen).
+
+**Open issues nach diesem Handoff:**
+- **#113 KZW-Followup**: Code fertig, wartet auf UI-Verify + Commit + Issue-Comment. **Nicht closen** — Issue beschreibt das Autocomplete-Pattern insgesamt, das ist nur der Synonym-Sub-Task. Nach Verify entscheiden, ob #113 closed werden kann oder ob KZW erst Feedback geben soll.
+- **#114 Tabellenansicht Korpussuche**: Als nächster Step nach #113 geplant (User-Reihenfolge im Turn: „zuerst 113, dann 114").
+- **Pings/Carryover sonst unverändert** vom 2026-05-16-Handoff.
+- **Dev-Server läuft als Background-Task `b9l11be3h`** auf :8080 — neue Session entscheiden ob nutzen oder neu starten.
+
+**Next steps (nächste Session):**
+1. `/promptotyping orient` — lädt diesen Handoff.
+2. Browser-Tools sollten nach Session-Restart wieder via ToolSearch findbar sein (`mcp__claude-in-chrome__*`). Falls nicht: User fragen, ob Extension reconnected ist.
+3. Dev-Server-Status checken — entweder Background-Task `b9l11be3h` weiternutzen, oder mit `npm run serve` neu starten.
+4. **UI-Verify** in beiden Modulen — **Hard-Reload erforderlich** (Cache-Invalidate wegen Version-Bump v1.2.2 → v1.3.0 sollte automatisch greifen, aber CTRL+SHIFT+R zur Sicherheit):
+   - **Begriffe-Explorer**: Sidebar → Begriffe → Eingabe „obs" → erwartet: concept_13023100 „Obst / Fruits" mit Subtitle „auch: …"-Hint NICHT (Primär-Match). Eingabe „frü" → erwartet: concept_13023100 „Obst / Fruits" mit Subtitle „auch: Früchte".
+   - **Begriffs-Verteilung** (TEI-Analyse-Modul): Eingabe „frü" → Autocomplete-Dropdown zeigt concept_13023100 mit „auch: Früchte" als sekundäre Zeile. Eingabe „obs" → zeigt es ohne Hint. Enter triggert Suche, Resolved-Concept = Obst (nicht Früchte).
+5. Wenn Verify ok: Stage die 6 Files explizit (NICHT `git add -A`/`.` wegen Concurrent-Session-Regel), Commit-Message-Vorschlag unten, dann push.
+6. Issue-Comment auf #113 mit Kurz-Befund: „Bug 1 (Last-Wins) + Bug 2 (Alternative nicht matchbar) gefixt. 263 Concepts haben jetzt altDE-Synonyme. Bitte Live-Check, dann ggf. closen oder offen lassen für weiteres Feedback."
+7. Wenn alles grün: weiter mit #114.
+
+**Empfohlener Commit-Message:**
+```
+fix(#113-followup): concepts.xml Alternative-Terms separat vom Primär-Term
+
+## Changes
+- scripts/build-authority-index.py: parse_concepts() trennt term[@type="alternative"]
+  von Primär-Term; bisher überschrieb Last-Wins-Iteration den Primär-Term
+  (concept_13023100: "Früchte" statt "Obst" als termDE)
+- Authority-Index v1.2.2 → v1.3.0 (additiv: altDE[], altEN[], altNormalized[]
+  nur attached wenn Alternative-Terms vorhanden — 263 von 567 Concepts)
+- assets/js/lib/corpus-loader.js + scripts/audit/check-index-versions.py:
+  Version-Konstanten synchron
+- playground/js/ui/authority/concept-explorer.js: matcht zusätzlich altDE/altEN,
+  zeigt "auch: <Synonym>"-Hint bei Alternative-Match
+- playground/js/ui/tei/concept-distribution.js: resolveQuery() mit getrenntem
+  primaryScore/altScore (Primär gewinnt bei Tie); Autocomplete zeigt
+  "auch: <Synonym>"-Hint
+- data/authority-index.json.gz rebuilt
+
+Behebt KZW-Comment in #113 (2026-05-18): Bei Eingabe "Frü" ODER "Obs" wird
+jetzt concept_13023100 vorgeschlagen, mit "Obst" als Headline.
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+```
+
+**Risiken/Edge-Cases die zu prüfen sind:**
+- IndexedDB-Cache muss invalidieren — Version-Bump v1.2.2 → v1.3.0 triggert das automatisch via [corpus-loader.js:124-126](assets/js/lib/corpus-loader.js#L124-L126). Sollte transparent sein, aber bei Verify im DevTools-Console „Cache version mismatch" sehen — Hinweis dass es funktioniert hat.
+- `concept-distribution.js`-Candidates haben jetzt `...c, matchedAlt: ...` (Spread+Anhang). Wenn irgendwo `===`-Identity-Check auf das Concept-Objekt erwartet wird, könnte das brechen. Schnell-Scan im Code zeigt: candidates wird nur gelesen, nicht Identity-verglichen. Sollte safe sein.
+- `concept-explorer.js`: `findAlternativeMatch()` ruft `TextNormalizer.matchesNormalized()` — Import oben am File ergänzt. Wenn der Import-Pfad falsch ist, gibt's einen Runtime-Error in der Konsole.
+
+---
+
+## 2026-05-28 13:04 — handoff (Verify + Commit + Push erledigt)
+
+**Summary:** Folge-Session zum 12:42-Handoff. Browser-Tools liefen sauber (`mcp__claude-in-chrome__*` via ToolSearch in dieser Session findbar — Workaround vom 12:42-Handoff nicht mehr nötig). UI-Verify in beiden Modulen (Begriffe-Explorer + Begriffs-Verteilung) mit „obs"/„frü"-Stichproben grün, plus Konsistenz-Bonus über `Wahnsinn`/`Tobsucht` als Allgemein-Fall „altDE-Match nicht-trivial". Commit `f7c8592c2` (6 Code/Daten-Files) + Push auf `origin/main` + Issue-Comment auf #113 ([#issuecomment-4563371418](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/113#issuecomment-4563371418)).
+
+**Decisions:**
+- **Split-Commit (Code vs. Journal)**: Folge der bestehenden Konvention im Log (`fix:` getrennt von `docs(journal):`). Code/Daten-Fix als `f7c8592c2`, Journal-Update als separater Handoff-Commit am Session-Ende.
+- **#113 offen gelassen, nicht geschlossen**: KZW-Comment erbittet implizit Live-Check; Issue erst nach OK von KZW closen. Memory-Regel „Editorial-Issues → Kat+Julia beide" greift hier nicht (#113 ist UI-Code, nicht editorial).
+- **Klick-Simulation via `MouseEvent('mousedown')`**: Der Autocomplete-Listener in `concept-distribution.js` ist auf `mousedown` (vor `blur`), nicht `click` — `firstBtn.click()` triggert ihn nicht. Direkter `dispatchEvent('mousedown')` löst's. Hinweis fürs nächste UI-Verify in diesem Modul.
+
+**Dead ends:**
+- Erster `find()`-Versuch fand „Begriffe-Explorer öffnen"-Button statt direkt das Suchfeld. Workaround: `location.hash = '#concepts'` direkt setzen statt durchklicken — Hash-Routing aus #48 macht das robust und schneller.
+- Erste DOM-Query für `auch:`-Hint in concept-distribution suchte nur `<span>`-Descendants, übersah aber, dass `renderAutocomplete()` den Hint als `<div>` rendert. Nachschau im Code (`grep` auf `matchedAlt|auch:` in concept-distribution.js) hat's geklärt.
+
+**Daten-Quirk dokumentiert (nicht-blockierend):** Mehrere Concepts in `authority-files/concepts.xml` haben slash-separierte altDE-Strings als einzelnes `<term type="alternative">`-Element, z.B. `concept_21111200 Mahlzeiten` mit `auch: Abendessen/Nachtmahl/Festmahl/Imbiss/Frühstück/Suppe`. Build-Skript speichert das 1:1, Hint zeigt's komplett. Verbose, aber transparent. Falls ein editorialer Followup gewünscht ist: separate `<term>`-Elemente pro Synonym. Nicht-blockierend, mit Maximum-Token-Pattern-Recognition-Risiko, wenn solche Strings als „1 alt" gezählt werden statt als 6.
+
+**Phase:** Implementation (#113 KZW-Followup abgeschlossen, gepusht, wartet auf optionalen KZW-Live-Check).
+
+**Open issues nach diesem Handoff:**
+- **CI auf `f7c8592c2` läuft noch** beim Zeitpunkt des Handoffs: `Index Version Check` + `pages-build-deployment` beide `in_progress`. Schema-Validation triggert nicht (kein XML in diesem Commit). Erwartet grün — `check-index-versions.py` war lokal konsistent (corpus 4.1.3, authority 1.3.0).
+- **#113 lässt KZW Live-Check machen**, dann ggf. closen.
+- **#114 Tabellenansicht Korpussuche** als nächster Posten laut Reihenfolge im 12:42-Handoff.
+- **Pings/Carryover** unverändert vom 2026-05-16-Handoff.
+- **Dev-Server `bjq9bqyew` läuft im Hintergrund** auf :8080 (in dieser Session gestartet, Port war bereits belegt → Failed-Start, aber der zugrunde liegende Server aus früherer Session antwortet weiter 200). Nächste Session: status checken statt blind neu starten.
+
+**Next steps (nächste Session):**
+1. `/promptotyping orient` — lädt diesen Handoff.
+2. CI-Status auf `f7c8592c2` checken: `gh run list --limit 4 --json status,conclusion,workflowName,headSha`. Falls rot: Index-Version-Drift (lokal konsistent gewesen, aber Cache-Edge-Cases möglich), Pages-Build prüfen.
+3. **#114 Tabellenansicht Korpussuche** beginnen, falls KZW kein Feedback zu #113.
+4. Falls KZW #113 OK gibt: Issue closen mit kurzem Closing-Comment.
+
+**Empfohlener Commit-Message für DIESEN Handoff:**
+```
+docs(journal): Handoff 2026-05-28 (Verify + Commit + Push für #113-Followup)
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+```
