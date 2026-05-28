@@ -724,7 +724,44 @@ class MainSiteApp {
 
         this.teiReader.openReadingView(textId, { lemmaIds }, this.elements);
     }
-    copyResultsToClipboard() { console.log('[Task 8] copy TSV'); }
+    /**
+     * Issue #114: Serialisiert this.currentResults im TSV-Format.
+     * Reihenfolge respektiert aktuelle Sortierung.
+     */
+    serializeResultsAsTSV() {
+        const header = ['Sigle', 'Titel', 'Autor*in', 'Treffer', 'Frequenz/10k', 'Wörter'].join('\t');
+        const rows = this.currentResults.map(r => {
+            const freq = (r.wordCount > 0) ? ((r.matchCount / r.wordCount) * 10000).toFixed(1) : '';
+            return [
+                r.textId,
+                (r.title || '').replace(/[\t\n\r]/g, ' '),  // TSV-Killer aus dem Titel filtern
+                (r.author || '').replace(/[\t\n\r]/g, ' '),
+                r.matchCount,
+                freq,
+                r.wordCount || ''
+            ].join('\t');
+        });
+        return [header, ...rows].join('\n');
+    }
+
+    async copyResultsToClipboard() {
+        const btn = document.getElementById('resultsCopyBtn');
+        const originalText = btn?.textContent;
+        try {
+            const tsv = this.serializeResultsAsTSV();
+            await navigator.clipboard.writeText(tsv);
+            if (btn) {
+                btn.textContent = '✓ Kopiert';
+                setTimeout(() => { btn.textContent = originalText; }, 2000);
+            }
+        } catch (err) {
+            console.error('[MainSiteApp] Clipboard write failed:', err);
+            if (btn) {
+                btn.textContent = '✗ Fehler';
+                setTimeout(() => { btn.textContent = originalText; }, 2000);
+            }
+        }
+    }
     downloadResultsAsCSV() { console.log('[Task 9] download CSV'); }
 
     /**
