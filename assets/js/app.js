@@ -477,6 +477,10 @@ class MainSiteApp {
             this.currentResults = Array.from(textMap.values());
             this.currentPage = 0;
 
+            // Issue #114: Sort-Spec bei neuer Suche auf Default zurück
+            this.sortSpec = { column: 'matchCount', direction: 'desc' };
+            this.sortResults();
+
             // Display lemma info
             this.displayLemmaInfo(Array.from(lemmaSet));
 
@@ -594,6 +598,33 @@ class MainSiteApp {
     // Issue #114: Tabellen-Rendering (Stub — volle Implementierung in Task 5)
     renderTable() {
         this.elements.resultsList.innerHTML = '<p class="text-slate-500">Tabelle (Task 5)</p>';
+    }
+
+    /**
+     * Issue #114: Sortiert this.currentResults in-place gemäß sortSpec.
+     * Comparators sind reine Funktionen — Frequenz wird on-the-fly aus
+     * matchCount und wordCount berechnet.
+     */
+    sortResults() {
+        const { column, direction } = this.sortSpec;
+        const dir = direction === 'asc' ? 1 : -1;
+
+        const valueGetter = {
+            title: (r) => (r.title || '').toLowerCase(),
+            author: (r) => (r.author || '￿').toLowerCase(),  // Unbekannte ans Ende (U+FFFF, höchster BMP-Codepoint)
+            matchCount: (r) => r.matchCount || 0,
+            wordCount: (r) => r.wordCount || 0,
+            frequency: (r) => (r.wordCount > 0) ? (r.matchCount / r.wordCount) * 10000 : -Infinity,
+        }[column];
+
+        if (!valueGetter) return;
+
+        this.currentResults.sort((a, b) => {
+            const va = valueGetter(a);
+            const vb = valueGetter(b);
+            if (typeof va === 'string') return va.localeCompare(vb, 'de') * dir;
+            return (va - vb) * dir;
+        });
     }
 
     // --- Issue #114: View-Mode helpers ---
