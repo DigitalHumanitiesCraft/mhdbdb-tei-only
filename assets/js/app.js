@@ -637,8 +637,14 @@ class MainSiteApp {
             <div class="mb-3 flex items-center justify-between gap-3">
                 <p class="text-sm text-slate-500">Klick auf Spalten-Header sortiert. Klick auf Zeile öffnet den Text.</p>
                 <div class="flex gap-2" id="resultsExportButtons">
-                    <button type="button" id="resultsCopyBtn" class="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-sm font-medium hover:bg-slate-50">📋 Kopieren</button>
-                    <button type="button" id="resultsDownloadBtn" class="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-sm font-medium hover:bg-slate-50">⬇ CSV</button>
+                    <button type="button" id="resultsCopyBtn" class="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-sm font-medium hover:bg-slate-50 inline-flex items-center gap-1.5">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+                        <span>Kopieren</span>
+                    </button>
+                    <button type="button" id="resultsDownloadBtn" class="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-sm font-medium hover:bg-slate-50 inline-flex items-center gap-1.5">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                        <span>CSV</span>
+                    </button>
                 </div>
             </div>
             <div class="overflow-y-auto rounded-2xl border border-slate-200 bg-white" style="max-height: calc(100vh - 280px);">
@@ -746,19 +752,21 @@ class MainSiteApp {
 
     async copyResultsToClipboard() {
         const btn = document.getElementById('resultsCopyBtn');
-        const originalText = btn?.textContent;
+        const originalHTML = btn?.innerHTML;
+        const successHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg><span>Kopiert</span>';
+        const errorHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg><span>Fehler</span>';
         try {
             const tsv = this.serializeResultsAsTSV();
             await navigator.clipboard.writeText(tsv);
             if (btn) {
-                btn.textContent = '✓ Kopiert';
-                setTimeout(() => { btn.textContent = originalText; }, 2000);
+                btn.innerHTML = successHTML;
+                setTimeout(() => { btn.innerHTML = originalHTML; }, 2000);
             }
         } catch (err) {
             console.error('[MainSiteApp] Clipboard write failed:', err);
             if (btn) {
-                btn.textContent = '✗ Fehler';
-                setTimeout(() => { btn.textContent = originalText; }, 2000);
+                btn.innerHTML = errorHTML;
+                setTimeout(() => { btn.innerHTML = originalHTML; }, 2000);
             }
         }
     }
