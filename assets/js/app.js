@@ -703,7 +703,27 @@ class MainSiteApp {
         this.sortResults();
         this.renderTable();  // Re-render mit neuer Sortierung + aktualisierten Sort-Icons
     }
-    handleTableRowClick(textId) { console.log('[Task 7] open reader for', textId); }
+    handleTableRowClick(textId) {
+        // Result aus currentResults für die lemmaIds finden
+        const result = this.currentResults.find(r => r.textId === textId);
+        if (!result) return;
+
+        const lemmaIds = result.lemmaIds || [result.lemmaId];
+
+        // Issue #114: Vor Reader-Öffnen zurück auf Listen-Modus wechseln,
+        // damit das 3-Spalten-Layout (mit Reader-Slot) wieder greift.
+        // localStorage bleibt auf 'table' — beim Reader-Schließen erwartet
+        // der User die Tabelle zurück; eine Lösung dafür liegt außerhalb
+        // dieses MVPs und ist im Spec als Out-of-Scope dokumentiert.
+        if (this.viewMode === 'table') {
+            this.viewMode = 'list';
+            // localStorage NICHT überschreiben — User-Präferenz bleibt 'table'
+            this.updateViewToggleUI();
+            this.displayResults();
+        }
+
+        this.teiReader.openReadingView(textId, { lemmaIds }, this.elements);
+    }
     copyResultsToClipboard() { console.log('[Task 8] copy TSV'); }
     downloadResultsAsCSV() { console.log('[Task 9] download CSV'); }
 
