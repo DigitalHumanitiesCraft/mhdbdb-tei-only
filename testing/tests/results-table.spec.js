@@ -59,10 +59,13 @@ test.describe('Issue #114: Tabellenansicht für Korpussuche', () => {
         const firstRowSigle = await page.locator('#resultsList tbody tr').first().locator('.font-mono').textContent();
         expect(firstRowSigle?.trim()).toMatch(/^JT$/);
 
-        // Klick Titel-Header und prüfe absteigende Sortierung
+        // Klick Titel-Header und prüfe absteigende Sortierung.
+        // Sortierung im App-Code basiert NUR auf r.title (nicht auf textId);
+        // die erste td enthält aber Sigle UND Titel als zwei Spans, daher
+        // gezielt das zweite span (ohne .font-mono-Klasse) auslesen.
         await page.click('button[data-sort-col="title"]');
-        const titlesAfterSort = await page.locator('#resultsList tbody tr td:first-child').allTextContents();
-        const trimmed = titlesAfterSort.map(t => t.replace(/\s+/g, ' ').trim());
+        const titlesAfterSort = await page.locator('#resultsList tbody tr td:first-child span:not(.font-mono)').allTextContents();
+        const trimmed = titlesAfterSort.map(t => t.trim());
         const sortedDesc = [...trimmed].sort((a, b) => b.localeCompare(a, 'de'));
         expect(trimmed.slice(0, 5)).toEqual(sortedDesc.slice(0, 5));
     });
