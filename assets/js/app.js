@@ -762,7 +762,56 @@ class MainSiteApp {
             }
         }
     }
-    downloadResultsAsCSV() { console.log('[Task 9] download CSV'); }
+    /**
+     * Issue #114: CSV-Cell-Quoting nach RFC 4180 / Excel-Konvention.
+     * Wenn der Wert Komma, Quote oder Newline enthält, in "..." einfassen
+     * und enthaltene Quotes verdoppeln.
+     */
+    escapeCsvCell(value) {
+        const str = String(value ?? '');
+        if (/[",\n\r]/.test(str)) {
+            return `"${str.replace(/"/g, '""')}"`;
+        }
+        return str;
+    }
+
+    serializeResultsAsCSV() {
+        const header = ['Sigle', 'Titel', 'Autor*in', 'Treffer', 'Frequenz/10k', 'Wörter']
+            .map(c => this.escapeCsvCell(c))
+            .join(',');
+        const rows = this.currentResults.map(r => {
+            const freq = (r.wordCount > 0) ? ((r.matchCount / r.wordCount) * 10000).toFixed(1) : '';
+            return [
+                r.textId,
+                r.title || '',
+                r.author || '',
+                r.matchCount,
+                freq,
+                r.wordCount || ''
+            ].map(c => this.escapeCsvCell(c)).join(',');
+        });
+        return [header, ...rows].join('\r\n');  // CRLF für Excel-Kompatibilität
+    }
+
+    downloadResultsAsCSV() {
+        const lemma = this.elements.searchInput?.value?.trim() || 'suche';
+        const safeLemma = lemma.replace(/[^a-zA-Z0-9äöüÄÖÜß-]/g, '_').slice(0, 40);
+        const today = new Date().toISOString().slice(0, 10);
+        const filename = `mhdbdb-suche-${safeLemma}-${today}.csv`;
+
+        // UTF-8 BOM für Excel-Kompatibilität (﻿)
+        const csv = '﻿' + this.serializeResultsAsCSV();
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
 
     /**
      * Issue #114: Sortiert this.currentResults in-place gemäß sortSpec.
