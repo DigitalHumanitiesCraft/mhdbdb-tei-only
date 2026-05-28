@@ -238,7 +238,10 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
     termEN: "Food",
     broader: "concept_5678",
     narrower: ["concept_9012"],
-    normalized: "..."
+    normalized: "...",
+    altDE: ["Speise", "Essen"],        // optional, only if <term type="alternative" xml:lang="de"> exists
+    altEN: ["Sustenance"],              // optional, only if <term type="alternative" xml:lang="en"> exists
+    altNormalized: ["speise", "essen"]  // optional, only if altDE exists (normalized via normalizeMHG)
   }],
 
   genres: [{

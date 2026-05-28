@@ -289,6 +289,14 @@ TEI Ch. 2.3.7 (The Classification Declaration / Taxonomy). Daten in `<encodingDe
           <ptr type="broader" target="#concept_11000000"/>
         </catDesc>
       </category>
+      <category xml:id="concept_13023100">
+        <catDesc>
+          <term xml:lang="de">Obst</term>
+          <term xml:lang="de" type="alternative">Früchte</term>
+          <term xml:lang="en">Fruits</term>
+          <ptr type="broader" target="#concept_13023000"/>
+        </catDesc>
+      </category>
     </taxonomy>
   </classDecl>
 </encodingDesc>
@@ -297,6 +305,8 @@ TEI Ch. 2.3.7 (The Classification Declaration / Taxonomy). Daten in `<encodingDe
   <p>Taxonomy data in encodingDesc/classDecl.</p>
 </body>
 ```
+
+**`<term type="alternative">`** — optionale Synonyme zum Primär-Term. Pro Sprache mehrere `type="alternative"`-Einträge erlaubt; 263 von 567 Concepts haben aktuell mindestens ein deutsches Synonym, 266 ein englisches. Build-Skript (`scripts/build-authority-index.py:parse_concepts()`) trennt Primär (`termDE`/`termEN`) von Alternative (`altDE[]`/`altEN[]`), siehe DATA-MODEL.MD §Concepts. **Quirk:** Einige Einträge verwenden Slash-separierte Strings innerhalb eines einzigen `<term type="alternative">` (z.B. `Abendessen/Nachtmahl/Festmahl`); editorialer Followup für Aufteilung in separate `<term>`-Elemente offen.
 
 ### 3.6 genres.xml — Gattungstaxonomie
 

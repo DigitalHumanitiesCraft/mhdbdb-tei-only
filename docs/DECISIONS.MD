@@ -806,6 +806,12 @@ Both motivating cases were resolved in single day:
 
 This ADR retroactively describes a policy that was already applied in Phase A–E of #32 (the original TEI Model Consolidation, April 2026): `@meaningRef` → `@ana`, `@wordRef` → `@corresp`, `<seg type="pc">` → `<pc>`, `<l>` → `<lb/>` in prose, `<suppplied>` → `<supplied>` — all of these were data migrations to fit a tighter schema, not schema-relaxations to accept legacy data. ADR-013 formalizes that pattern as the project default going forward.
 
+### Dokumentierte Ausnahme (2026-05-08, PD-001): nested `<hi>` wieder erlaubt
+
+Die ursprüngliche Flatten-Migration (143 Files, 36,924 Instanzen) ist nicht zurückgenommen — der gesamte Altbestand bleibt flach. Aber das Schema-Pattern `hi.content.model` erlaubt seit PD-001 wieder rekursives `<hi>`, weil die ARITHMETIC-Domäne semantisch nicht-flatten-bare Strukturen enthält (durchgestrichene Brüche: `<hi rend="line-through"><hi rend="superscript">2</hi>/<hi rend="subscript">3</hi></hi>`). Diese Compound-Semantik lässt sich nicht in `<hi rend="line-through superscript">` zusammenziehen, weil Numerator und Denominator unterschiedliche Rends brauchen. Performance ist unauffällig (aktuell 2 Vorkommen in WIEN5206). Schema-Diskussion und Beschluss siehe **PD-001** (vorne in DECISIONS.MD).
+
+Der Daten-vor-Schema-Default bleibt — diese Ausnahme ist explizit als „semantisch gefährlich, wenn man die Domänen-Semantik wegtransformieren würde" begründet (siehe ADR-013 §Decision: Schema-Lockerung „nur wenn Daten-Migration unverhältnismäßig teuer oder semantisch gefährlich").
+
 **TEI P5 basis:** Chapters [2.2.7](https://www.tei-c.org/release/doc/tei-p5-doc/en/html/HD.html) (`<sourceDesc>`), [2.2.8](https://www.tei-c.org/release/doc/tei-p5-doc/en/html/HD.html) (electronic-to-electronic), `att.typed` (free `@type`).
 
 ---

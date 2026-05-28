@@ -1,6 +1,6 @@
 # Roadmap
 
-Strategic priorities for the MHDBDB TEI Repository. Updated 2026-05-15.
+Strategic priorities for the MHDBDB TEI Repository. Updated 2026-05-28.
 
 See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/44) for the full triage matrix with per-issue status.
 
@@ -53,6 +53,7 @@ See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues
 
 | # | What |
 |---|------|
+| ~~#113-Followup~~ | KZW-Synonym-Match in Begriffs-Verteilung + Begriffe-Explorer (2026-05-28, commit `f7c8592c2`): Last-Wins-Bug in `parse_concepts()` gefixt (Primär-Term wurde von Alternative überschrieben, z.B. concept_13023100 zeigte „Früchte" statt „Obst"). Authority-Index v1.2.2 → v1.3.0 mit additiven Feldern `altDE[]`/`altEN[]`/`altNormalized[]` (263/567 Concepts mit deutschem Synonym). Beide UI-Module matchen Synonyme zusätzlich und zeigen „auch: …"-Hint im Autocomplete. Chrome-verifiziert mit „obs"/„frü"/„Wahnsinn-Tobsucht". |
 | ~~#113~~ | Autocomplete im Begriffs-Verteilung-Input (2026-05-15, commit `a2e7b0b36`): klassisches Dropdown unter dem Input mit max. 8 Concept-Suggestions, Pfeil-Navigation (ArrowDown/Up), Enter wählt + sucht, Escape schließt, Klick (mousedown vor blur) wählt + sucht. Reuse `resolveQuery()` als Suggestions-Quelle. ARIA: combobox/listbox/aria-selected/aria-expanded. Live-verifiziert: „ster" → Sterben + Bruderschaft. |
 | ~~#107~~ | Kookkurrenz-Ranking (2026-05-15, commit `70d0bf280`): DWDS-Style „Welche Lemmata stehen am häufigsten bei X?". Window-Scan über `text.words[pos±w]` für jede Position in `text.lemmata[X]`. POS-Filter (Inhaltswörter / NOM / VRB / ADJ / alle) essentiell weil ohne Filter Stopwords dominieren. `êre` (9.930 Vorkommen, 6.361 Partner): 1.002ms inkl. UI-Render dank MessageChannel-Yield-Chunking. POS-Filter-Switch ohne Re-Compute: ~15ms (rawCounts gecacht). Belege-Klick → Multi-Lemma-Suche mit beiden Lemmata vorbefüllt. |
 | ~~#108~~ | Textvergleich (2026-05-15, commit `c53a8ac0d`): Zwei Texte auswählen → drei Lemma-Mengen (Nur A / Beide / Nur B) mit Frequenz pro Text und absoluter Differenz. Reine Set-Ops auf `Object.keys(text.lemmata)`, keine neuen Index-Felder. Lokale `_lemmaMap` (einmal pro `show()` gebaut) reduziert 6s Click-Latenz auf 53ms (112× schneller) — `AuthorityFilesManager.findLemmaById()` ist O(N) linear. Verifiziert PZ vs JT: „triuwe" 447× nur in JT (Lemmatisierungs-Unterschied Wolfram/Albrecht). |
