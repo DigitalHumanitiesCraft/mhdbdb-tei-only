@@ -4,6 +4,38 @@ Chronological log of development decisions, dead ends, and savepoints. Not a cha
 
 ---
 
+## 2026-05-28 16:30 — handoff
+
+**Summary:** Issue #114 Tabellenansicht-Korpussuche durchimplementiert über `superpowers:subagent-driven-development` (11 Plan-Tasks → 13 Commits). Frischer Subagent pro Task plus Spec-Compliance- und Code-Quality-Review (Haiku/Sonnet je nach Komplexität). Visual-Review nach KZW-Ping fand zwei CSS-Bugs (Toggle-Stack durch fehlendes `.inline-flex` im gepurgten Tailwind-Output, h2-Wrap durch zu großen text-2xl-Counter in 612px-Spalte) — beide gefixt + Memory um `feedback_tailwind_rebuild.md` und `feedback_no_emoji_icons.md` ergänzt.
+
+**Decisions:**
+- **Direkt auf `main`, nicht Feature-Branch:** Repo-Konvention (alle Recent Commits direkt main); 13 Commits über die Session, kein PR.
+- **Implementer dürfen `npm test` nicht selbst starten:** Memory-Regel "vor npm test fragen" gilt auch für dispatched Subagents — Controller (ich) muss Tests fahren, nicht Subagents. Erste Verletzung in Task 1 toleriert, ab Task 2 explizit verboten in Prompt.
+- **Tabellen-Mode überlagert das 3-Spalten-Layout mit vollbreitem 1fr-Grid** (`.table-layout` auf `#mainGrid`, `!important` gegen Tailwind-`xl:grid-cols-[1fr_2fr]`). Row-Click switcht viewMode → 'list', behält aber `localStorage` auf 'table' — User-Präferenz bleibt.
+- **Heroicons inline SVG statt Emoji-Icons** in Buttons + Feedback-States; User-Korrektur nach Task-9-Implementation. `textContent`-Setter im Feedback durch `innerHTML` ersetzt, damit SVG beim Wechsel erhalten bleibt.
+- **CSV mit UTF-8-BOM + CRLF + RFC-4180-Quoting** für Excel-Kompatibilität; TSV-Clipboard parallel via `navigator.clipboard.writeText`.
+
+**Dead ends:**
+- Erster Sortier-Test in `results-table.spec.js` verglich `td:first-child` (Sigle + Title zusammen) gegen `localeCompare`-Erwartung der gleichen Strings — App sortiert aber nur nach `title`, daher Mismatch. Fix: Selector auf `td:first-child span:not(.font-mono)` verengt.
+- Clipboard-API-Verifikation im Chrome-MCP scheitert an "Document is not focused" — Production-User sieht den Erfolgspfad, automatisierter Test kann nur den Fehlerpfad sehen. Direkte `serializeResultsAsTSV()`-Stichprobe deckt den Inhalts-Check ab.
+
+**Phase:** Implementation (#114 abgeschlossen). 14 Promptotyping-Docs unverändert; `docs/features/114-tabellenansicht-korpussuche.md` + `…-plan.md` sind temporary (sollten beim #114-Close gelöscht werden — siehe `CLAUDE.md §Temporal Artifacts`).
+
+**Open issues:**
+- **#114 wartet auf KZW + Julia:** Issue-Comment ist gesetzt (https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/114#issuecomment-4565004013), bisher kein Live-Check. Bugfix-Commit `e780139dd` fährt automatisch im Pages-Deploy nach — kein zweiter Ping geschickt.
+- **Lemmata-Count in Tabellen-Spalte fehlt:** In Listenansicht-Cards steht "54 Treffer (3 Lemmata)" bei Multi-Lemma-Matches; in der Tabelle nur der Zahl-Wert. Out-of-Scope für #114, ggf. Followup.
+- **`docs/features/114-*.md`:** sollte beim Issue-Close gelöscht werden — Bugs/Knowledge in stable Docs übernehmen (kein notwendiger ARCHITECTURE-Entrag, da Tabellen-Funktion in sich abgeschlossen).
+
+**Next steps:**
+1. **Auf KZW-Review warten,** auf #114 antworten/closen.
+2. **#114-Feature-Docs löschen** sobald Issue closed (Git-History ist Archiv).
+3. **Lemmata-Count-Spalte in Tabelle** als Followup-Issue eröffnen wenn KZW/Julia es vermisst (out-of-scope-aktuell, aber valid Idee).
+4. **Andere offene #-Issues** über `/promptotyping orient` in nächster Session evaluieren — `git log` zeigt parallele Sessions (Issues #115, #116 angelegt, #44 nachgezogen).
+
+**Savepoints (push-fertig auf `origin/main`):** `df2d6c8ab` Task 1, `995c95d63` Task 2, `b5b258be0` Task 3, `59f65d583` Task 4, `f2e376529` Task 5, `ebbceac5a` Task 6, `d173e0945` Task 7, `2a5d8deb3` Task 8, `2cf61ac8d` Task 9, `f5aa29b75` Emoji→Heroicons-Fix, `c08969299` Playwright-Spec, `49490625a` Sortier-Test-Selector-Fix, `e780139dd` Tailwind-Rebuild + h2-Wrap-Fix.
+
+---
+
 ## 2025-02-24 — Phase 0: Stabilization
 
 **Trigger:** Codebase cleanup before #42.
