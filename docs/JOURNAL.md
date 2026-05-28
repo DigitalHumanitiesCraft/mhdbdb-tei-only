@@ -1027,3 +1027,57 @@ docs(journal): Handoff 2026-05-28 (Verify + Commit + Push für #113-Followup)
 
 Co-Authored-By: Claude <noreply@anthropic.com>
 ```
+
+---
+
+## 2026-05-28 14:00 — handoff (Promptotyping-Check 3 Iterationen + .md-Vereinheitlichung + #73-Befund + #44-Refresh)
+
+**Summary:** Drei `/promptotyping check`-Iterationen mit zunehmender Tiefe:
+
+- **Iteration 1:** JOURNAL.md-Kompressionsbedarf identifiziert + Should-Fixes für altDE/altEN-Doc-Drift. 1212 → 1029 Zeilen komprimiert (commit `ce6381e71`).
+- **Iteration 2:** Doc-Sync für v1.3.0-Concept-Schema (DATA-MODEL, TEI-MODEL-AUTH-FILES) + ADR-013-Ausnahme für nested `<hi>` aus PD-001 (DECISIONS) + ROADMAP-Datum + #113-Followup-Recently-Completed (commit `4a171fa77`).
+- **Iteration 3:** Strukturellen Versions-String-Drift aufgedeckt — sieben+ Doc-Stellen waren seit 2026-05-08 bei jedem Bump stale, weil Memory-Reminder als Architektur gerissen war. Option-C-Lösung: TEI-MODEL.md §11 als kanonische Source-of-Truth, alle anderen Stellen generisch (`X.Y.Z`/`1.x.x`/`4.x.x`) + Verweis. Memory `feedback_index_version_bump` entsprechend erweitert (3 Code-Stellen + 2 Doc-Stellen, CI gegated nur die 3 Code-Stellen) (commit `c16ec4486`).
+
+Plus separates Sweep nach User-Hint: 9 stable Docs `.MD → .md` umbenannt (Two-Step wegen Windows-Case-Insensitivity) + alle 226 Cross-References in 29 Files via Python-Sweep angeglichen (commit `742bdc3a9`). 4 Commits gepusht.
+
+**KZW-Status (Auswertung 28.05.):** Von 9 Pings vom 16.05. (12 Tage später) hat KZW nur **#73** beantwortet — Mail-Weiterleitung von Ute Recker-Hamm vom MWB. Ute hat eine neue HTTPS-API gebaut (`mhdwb-online.de/API/retrieve-id/{Lexer-ID}` → JSON mit MWB-Artikel-IDs). 28.05.-Comment auf #73 verifiziert die API mit zwei Stichproben (LA00004 → 2 Treffer; LS01234 → 0 Treffer wegen s-Bereich-Lücke); aktuell **kein Code-Change nötig**, weil Wörterbuchnetz- und Utes-Service dieselbe MWB-Datenbasis abdecken. Issue-Vorschlag: closen, MWB-3,4-Migration als Folge-Task wenn s-z verfügbar wird.
+
+#44 aktualisiert (Updated 2026-05-16 → 2026-05-28): neuer Ping-Status-Block, #113-Followup in Recently Completed, #73 in „Claude-Doable nach Klärung" mit Close-Vorschlag, #114 in Future/Trigger-Wait, Reihenfolge-Empfehlung um „bei stiller Front: persönlicher Reminder" ergänzt.
+
+**Decisions:**
+- **Option C für Index-Versions-Drift gewählt** (statt B = alle Stellen jedes Mal nachziehen, statt A = alle entwerten). Kompromiss: zwei kanonische „aktueller Stand"-Stellen (TEI-MODEL.md §11 + INDEX.md §Status), alle anderen Doc-Stellen generisch. Begründung: Reader-Friction minimieren ohne Drift-Falle.
+- **Komprimierung mittel-aggressiv:** 11 Handoffs aus April + früher Mai → 4 Sammelblöcke (~50 Zeilen statt ~230). Verbatim ab 2026-05-11 — Carryover-Ketten und operative Details intakt. Permanent gültige Lessons in den komprimierten Blöcken erhalten (PL1 mit 404k Kindern, „Daten vor Schema", `8b5d0e6ac`-Mishap, PD-001 Mittelweg, Cache-self-referential-Pattern).
+- **#73 nicht aktiv schließen, Ball bei KZW lassen** — Issue-Comment mit Close-Vorschlag und @wachauer-Ping. Sie soll Daumen hoch/runter geben.
+- **Pings nicht eskalieren** über GitHub-Comments — wenn keine Antwort, dann persönlicher Reminder (Signal/Mail) als nächste Stufe. Empfehlung steht in #44.
+
+**Dead ends / Lessons:**
+- **`--amend` rutschte durch** beim Single-Source-of-Truth-Commit, weil `git add docs/CONTRACTS.md` (klein) die Datei nicht stagete (Git-Index trackte als `.MD`). Two-Step `git add docs/CONTRACTS.MD` + `git commit --amend --no-edit` repariert. Strenggenommen gegen CLAUDE.md-Regel (immer neuer Commit) — User-transparent kommuniziert, kein Workverlust, aber Erinnerung: Pre-Stage immer `git status --porcelain` checken.
+- **Case-Sensitivity-Falle:** Windows ist case-insensitive im Filesystem, Git-Index ist case-sensitive — File-Renames müssen Two-Step laufen (`X.MD` → `_X.md` → `X.md`).
+- **#44 war 12 Tage alt** als ich nachschaute — die Matrix selbst war noch ~90% korrekt, aber das Vertrauen erodiert mit dem Alter. Konvention: nach jedem Spurt-Tag #44 mit-aktualisieren, nicht akkumulieren lassen.
+
+**Files berührt (alle gepusht):**
+- `ce6381e71` docs(journal) — JOURNAL-Kompression
+- `4a171fa77` docs — Doc-Sync v1.3.0
+- `c16ec4486` docs — Single-Source-of-Truth Index-Versionen
+- `742bdc3a9` chore(docs) — .md-Vereinheitlichung (30 Files, 9 Renames + 21 Mods)
+
+**Externe:**
+- #73 Comment `4563667366` (Ute-API verifiziert, Close-Vorschlag, Ping an wachauer)
+- #44 Body komplett neu (Ping-Status-Block, Recently Completed um #113-Followup, #73 hochgezogen)
+
+**Phase:** Implementation (handoff). Alle 14 Promptotyping-Docs aktuell. Memory `feedback_index_version_bump` erweitert. Working Tree clean.
+
+**Open / Carryover:**
+- **#73 Close-Entscheidung bei KZW** — wenn Daumen hoch: dann closen + Memory-Notiz für MWB-3,4-Trigger
+- **8 unbeantwortete Pings** (#23, #27, #30, #34, #59, #68, #86, #92, #110) — Eskalation: persönlicher Reminder, nicht weitere GitHub-Comments
+- **#28 Foreign-Lang nicht gestartet** seit 16.05. — claude-ready, kein Blocker, größter Workstream-Kandidat für nächste Session (oder #45 Static JSON API als Alternative)
+- **CI auf `742bdc3a9`:** Schema Validation queued (triggert wegen `schema/mhdbdb.rnc`-Kommentar-Change im .md-Sweep, Schema selbst unverändert), pages-build-deployment queued. Erwartet grün.
+- **Dev-Server `bjq9bqyew`** läuft im Hintergrund auf :8080 (aus früherer Session).
+
+**Next steps (nächste Session):**
+1. `/promptotyping orient` — lädt diesen Handoff.
+2. CI-Status auf `742bdc3a9` checken (Schema Validation grün).
+3. KZW-Antwort auf #73-Close-Vorschlag prüfen — wenn da: closen.
+4. Entscheidung: **#28 Foreign-Lang** ODER **#45 Static JSON API** als nächster L-Workstream — beide sind seit Wochen claude-ready.
+5. Falls KZW/Linda/Julia in der Zwischenzeit auf andere Pings geantwortet haben: dort weiterarbeiten.
+6. Falls weiter Stille: **persönlichen Reminder an KZW** als Eskalations-Schritt überlegen (Signal/Mail an chsteiner zur Weiterleitung).
