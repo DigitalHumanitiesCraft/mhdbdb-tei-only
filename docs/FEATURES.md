@@ -243,6 +243,6 @@ Concept-based similarity section on each lemma page.
 
 ---
 
-For technical implementation, see [ARCHITECTURE.MD](ARCHITECTURE.MD).
-For data structures, see [DATA-MODEL.MD](DATA-MODEL.MD).
-For development workflow, see [DEVELOPMENT.MD](DEVELOPMENT.MD).
+For technical implementation, see [ARCHITECTURE.md](ARCHITECTURE.md).
+For data structures, see [DATA-MODEL.md](DATA-MODEL.md).
+For development workflow, see [DEVELOPMENT.md](DEVELOPMENT.md).

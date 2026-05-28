@@ -191,4 +191,4 @@ Die TEI-Community verwendet traditionell ODD (One Document Does it all) zur Sche
 
 - [TEI-MODEL.md](../docs/TEI-MODEL.md) — Kodierungsmodell für Korpusdateien (Soll-Modell)
 - [TEI-MODEL-AUTH-FILES.md](../docs/TEI-MODEL-AUTH-FILES.md) — Kodierungsmodell für Authority Files
-- [CONTRACTS.MD](../docs/CONTRACTS.MD) — Positionszählungsvertrag (Python/JS-Parität)
+- [CONTRACTS.md](../docs/CONTRACTS.md) — Positionszählungsvertrag (Python/JS-Parität)

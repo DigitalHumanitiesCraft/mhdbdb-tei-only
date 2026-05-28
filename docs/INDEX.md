@@ -68,21 +68,21 @@ Advanced exploration tools for medievalists and digital humanities researchers:
 
 ## Documentation Structure
 
-This knowledge base follows a hub-and-spoke architecture with INDEX.MD as the central gateway:
+This knowledge base follows a hub-and-spoke architecture with INDEX.md as the central gateway:
 
 ### Stable Knowledge (what the project IS)
 
 | Document | Content | Target Reader |
 |----------|---------|---------------|
-| **[INDEX.MD](INDEX.MD)** | Project overview, navigation hub | Anyone |
-| **[DATA-MODEL.MD](DATA-MODEL.MD)** | Data sources, schemas, transformation pipeline | Data engineers |
-| **[ARCHITECTURE.MD](ARCHITECTURE.MD)** | Technical components, data flow, storage patterns | Developers |
-| **[DESIGN.MD](DESIGN.MD)** | Visual patterns, color system, components, CSS architecture | Developers/Designers |
-| **[FEATURES.MD](FEATURES.MD)** | User-facing functionality descriptions | Users/Stakeholders |
-| **[DEVELOPMENT.MD](DEVELOPMENT.MD)** | Build commands, git workflow, deployment | New contributors |
-| **[RESEARCH.MD](RESEARCH.MD)** | Academic context, TEI/MHG standards | Researchers |
-| **[DECISIONS.MD](DECISIONS.MD)** | Architecture Decision Records (ADRs) | Architects |
-| **[CONTRACTS.MD](CONTRACTS.MD)** | Cross-language parity constraints, algorithm pseudocode, API contracts | Developers |
+| **[INDEX.md](INDEX.md)** | Project overview, navigation hub | Anyone |
+| **[DATA-MODEL.md](DATA-MODEL.md)** | Data sources, schemas, transformation pipeline | Data engineers |
+| **[ARCHITECTURE.md](ARCHITECTURE.md)** | Technical components, data flow, storage patterns | Developers |
+| **[DESIGN.md](DESIGN.md)** | Visual patterns, color system, components, CSS architecture | Developers/Designers |
+| **[FEATURES.md](FEATURES.md)** | User-facing functionality descriptions | Users/Stakeholders |
+| **[DEVELOPMENT.md](DEVELOPMENT.md)** | Build commands, git workflow, deployment | New contributors |
+| **[RESEARCH.md](RESEARCH.md)** | Academic context, TEI/MHG standards | Researchers |
+| **[DECISIONS.md](DECISIONS.md)** | Architecture Decision Records (ADRs) | Architects |
+| **[CONTRACTS.md](CONTRACTS.md)** | Cross-language parity constraints, algorithm pseudocode, API contracts | Developers |
 | **[TEI-MODEL.md](TEI-MODEL.md)** | Normative TEI encoding (Soll-Modell), IST/SOLL-Vergleiche, Validierungsbaseline | Data engineers, Developers |
 | **[TEI-MODEL-AUTH-FILES.md](TEI-MODEL-AUTH-FILES.md)** | Authority-File-Schemas und Migrationshistorie (lexicon, persons, works, concepts, genres, names, variants) | Data engineers |
 | **[LINECODE.md](LINECODE.md)** | Legacy Linecode → TEI mapping (Letter-zu-Element-Tabelle, xml:id-Pattern-Erklärung, Diagnose-Workflows für #23) | Data engineers |
@@ -193,7 +193,7 @@ Post-MVP. Aktuelle Index-Versionen siehe [TEI-MODEL.md §11](TEI-MODEL.md#11-ver
 1. Clone repository: `git clone https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only.git`
 2. Install dependencies: `npm install`
 3. Serve locally: `npm run serve`
-4. Read [DEVELOPMENT.MD](DEVELOPMENT.MD) for build and deployment workflows
+4. Read [DEVELOPMENT.md](DEVELOPMENT.md) for build and deployment workflows
 
 ---
 

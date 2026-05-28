@@ -413,7 +413,7 @@ Three core build scripts:
 | | | `//tei:titleStmt/tei:title/text()` | Title |
 | | | `//tei:titleStmt/tei:author` | Author name + `@ref` |
 | | | `//tei:msIdentifier` | `@corresp` → work reference |
-| | | `//tei:body//tei:w[@lemmaRef]` | All words with positions (see [CONTRACTS.MD](CONTRACTS.MD#b-position-counting-contract)) |
+| | | `//tei:body//tei:w[@lemmaRef]` | All words with positions (see [CONTRACTS.md](CONTRACTS.md#b-position-counting-contract)) |
 
 #### Namespace Handling
 
@@ -487,7 +487,7 @@ Search resolves user input to lemma IDs through 3 stages with early return:
 | 2 | Variants dictionary lookup (~176k mappings) | Exactly 1 | O(1) hash |
 | 3 | Bidirectional substring fallback | 0..N (fuzzy) | O(n) scan |
 
-Stages are mutually exclusive — first match wins. **Full pseudocode with worked example:** see [CONTRACTS.MD](CONTRACTS.MD#c-3-stage-lemma-resolution-algorithm)
+Stages are mutually exclusive — first match wins. **Full pseudocode with worked example:** see [CONTRACTS.md](CONTRACTS.md#c-3-stage-lemma-resolution-algorithm)
 
 **Why 3 stages?** Historical spelling variations in Middle High German are extensive. Variants dictionary captures actual corpus attestations, while fallback handles edge cases.
 
@@ -568,5 +568,5 @@ python scripts/validate-indices.py
 
 ---
 
-For technical implementation, see [ARCHITECTURE.MD](ARCHITECTURE.MD).
-For architecture decisions, see [DECISIONS.MD](DECISIONS.MD).
+For technical implementation, see [ARCHITECTURE.md](ARCHITECTURE.md).
+For architecture decisions, see [DECISIONS.md](DECISIONS.md).

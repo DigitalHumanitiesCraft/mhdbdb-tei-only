@@ -33,7 +33,7 @@ Beide Interfaces nutzen vorgebaute Indizes für die Suche und laden TEI-Dateien 
 
 ### Für Entwickler:innen
 - **[CLAUDE.md](CLAUDE.md)**: primäres Entwickler-Briefing und Projekt-Überblick
-- **[docs/INDEX.MD](docs/INDEX.MD)**: Wissensbasis mit Verweisen auf alle Spezial-Dokumente
+- **[docs/INDEX.md](docs/INDEX.md)**: Wissensbasis mit Verweisen auf alle Spezial-Dokumente
 
 ### Für Nutzer:innen
 - Playground: integrierte Hilfe, Such-Beispiele und Authority-Daten-Browsing mit Filterung und Sortierung
@@ -92,7 +92,7 @@ Zentrale Konzepte und ihre TEI-Repräsentation:
 
 **Hierarchie:** Ein **Token** hat ein **Lemma** (Form), optional einen **Sense** (Bedeutung), und ein Sense kann auf ein oder mehrere **Konzepte** (semantische Tags) verweisen.
 
-Tiefergehende Details in [docs/TEI-MODEL.md](docs/TEI-MODEL.md) und [docs/DATA-MODEL.MD](docs/DATA-MODEL.MD).
+Tiefergehende Details in [docs/TEI-MODEL.md](docs/TEI-MODEL.md) und [docs/DATA-MODEL.md](docs/DATA-MODEL.md).
 
 ## Authority Files
 

@@ -165,7 +165,7 @@ export class AuthorityFilesManager {
    *
    * Genutzt von lemma-distribution.js, verse-position-search.js,
    * cooccurrence-ranking.js für Live-Dropdown im Lemma-Input. Siehe
-   * DESIGN.MD §Live-Autocomplete-Dropdown.
+   * DESIGN.md §Live-Autocomplete-Dropdown.
    *
    * Eingabe wird inline normalisiert (â→a, ê→e, ü→ue, …) damit „ere" auch
    * „êre" matcht. Linear scan über 43.754 Lemmata, ~5-10ms pro Aufruf —

@@ -94,7 +94,7 @@ python scripts/build-corpus-index.py
 python scripts/validate-indices.py
 ```
 
-**Note on variants:** `authority-files/variants.xml` is rebuilt manually when the corpus changes — there is currently no `extract-variants.py` script in the repo (the build-authority-index.py reads `variants.xml` as-is). See [DATA-MODEL.MD](DATA-MODEL.MD#data-processing-pipeline) for context.
+**Note on variants:** `authority-files/variants.xml` is rebuilt manually when the corpus changes — there is currently no `extract-variants.py` script in the repo (the build-authority-index.py reads `variants.xml` as-is). See [DATA-MODEL.md](DATA-MODEL.md#data-processing-pipeline) for context.
 
 ### Version Increment
 
@@ -138,7 +138,7 @@ npm run report        # View HTML report
 | `playground.spec.js` | Playground | Authority explorers, TEI analysis, UI navigation |
 | `playground-authority-index.spec.js` | Playground | Authority index loading, data structure integrity |
 | `playground-corpus.spec.js` | Playground | Corpus index loading, search functions |
-| `normalization-parity.spec.js` | Cross-cutting | Python/JS normalizer agreement (see [CONTRACTS.MD](CONTRACTS.MD#a-mhg-normalization-parity)) |
+| `normalization-parity.spec.js` | Cross-cutting | Python/JS normalizer agreement (see [CONTRACTS.md](CONTRACTS.md#a-mhg-normalization-parity)) |
 | `cross-reference-test.spec.js` | Data integrity | Authority/corpus cross-reference validity |
 | `corpus.spec.js` | Data integrity | Corpus index structure validation |
 | `visual-mobile-test.spec.js` | Visual | Responsive layout (skipped — desktop-only) |
@@ -324,7 +324,7 @@ The MHDBDB project originally maintained data in multiple formats (RDF, relation
 
 ---
 
-For data structures, see [DATA-MODEL.MD](DATA-MODEL.MD).
-For technical architecture, see [ARCHITECTURE.MD](ARCHITECTURE.MD).
-For user-facing features, see [FEATURES.MD](FEATURES.MD).
-For architecture decisions, see [DECISIONS.MD](DECISIONS.MD).
+For data structures, see [DATA-MODEL.md](DATA-MODEL.md).
+For technical architecture, see [ARCHITECTURE.md](ARCHITECTURE.md).
+For user-facing features, see [FEATURES.md](FEATURES.md).
+For architecture decisions, see [DECISIONS.md](DECISIONS.md).

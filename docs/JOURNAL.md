@@ -175,7 +175,7 @@ schema/README.md als single entry point. /check-md review (8 findings fixed).
 
 ## 2026-05-11 11:59 — handoff (Session A: Playground Release 1 + 3 Follow-up-Cleanups)
 
-**Summary:** Parallele Zwei-Session-Arbeit. Session A: Playground Release 1 komplett (#87 UX-Cleanup, #88 Wortfrequenz, #89 Text-Statistiken, #90 Lemma-Verteilung) — alle Chrome-DevTools-verifiziert (Stichproben „minne"/„êre", NBB/PZ/ABG). Vier Follow-ups: Corpus-Index-Schema in DATA-MODEL.MD dokumentiert, #97 Corpus-Source-Inkonsistenz repariert, #98 Dead Code raus, #99 toter loadCorpusBtn-Setup-Block weg, #100 Pre-flight-Check für Build-Skripte. Session B parallel: #20 Lesbarkeit + #96 Metadatenanzeige + CITATION.cff-Vorbereitung.
+**Summary:** Parallele Zwei-Session-Arbeit. Session A: Playground Release 1 komplett (#87 UX-Cleanup, #88 Wortfrequenz, #89 Text-Statistiken, #90 Lemma-Verteilung) — alle Chrome-DevTools-verifiziert (Stichproben „minne"/„êre", NBB/PZ/ABG). Vier Follow-ups: Corpus-Index-Schema in DATA-MODEL.md dokumentiert, #97 Corpus-Source-Inkonsistenz repariert, #98 Dead Code raus, #99 toter loadCorpusBtn-Setup-Block weg, #100 Pre-flight-Check für Build-Skripte. Session B parallel: #20 Lesbarkeit + #96 Metadatenanzeige + CITATION.cff-Vorbereitung.
 
 **Decisions:**
 - **Briefing-Workflow für parallele Sessions etabliert:** zwei detaillierte Briefing-MDs (`briefing-session-a.md` + `briefing-session-b.md` auf Desktop) mit Audit-Sektion „ist das schon erledigt?" und Pfad-Ankern. Wert: Audit präzisierte in Session A bereits beim Start #87-Tasks (Buttons nicht „broken", nur redundant) und entdeckte Corpus-Index-Schema-Mismatch früh.
@@ -210,7 +210,7 @@ Session B (chronologisch verschachtelt): `0a287cccf` (#96 Reader-Download), `5ea
 
 ## 2026-05-11 12:32 — handoff (Session B: #20 + #96 + #91-Stub + Doku-Sync + Audit-Toolchain)
 
-**Summary:** Session B parallel zum Playground-Track. Drei Briefing-Issues: #20 (Counter `text-2xl` + blue-50-Hinweisbox), #96 (TEI-XML-Download-Link am Ende Reader-Metadaten + Anonym-Wikidata-Link unterdrückt), #91 (CITATION.cff-Stub + DOI-Badge-Platzhalter; KZW gepingt, hat in dieser Session auf `type=dataset` verfeinert). WZB-Stage-2-Fail in `works.xml` aufgelöst gemeinsam mit Julias `af72bd261`. Anschließend `/promptotyping check` — alle drei Should-Fixes erledigt (TEI-MODEL.md §10 auf 667/667 + Authority-Files 8 + WZB-Note, ROADMAP.md closed-Issues raus, INDEX.MD Milestones extended) und 4 von 6 Blind-Spots umgesetzt.
+**Summary:** Session B parallel zum Playground-Track. Drei Briefing-Issues: #20 (Counter `text-2xl` + blue-50-Hinweisbox), #96 (TEI-XML-Download-Link am Ende Reader-Metadaten + Anonym-Wikidata-Link unterdrückt), #91 (CITATION.cff-Stub + DOI-Badge-Platzhalter; KZW gepingt, hat in dieser Session auf `type=dataset` verfeinert). WZB-Stage-2-Fail in `works.xml` aufgelöst gemeinsam mit Julias `af72bd261`. Anschließend `/promptotyping check` — alle drei Should-Fixes erledigt (TEI-MODEL.md §10 auf 667/667 + Authority-Files 8 + WZB-Note, ROADMAP.md closed-Issues raus, INDEX.md Milestones extended) und 4 von 6 Blind-Spots umgesetzt.
 
 **Decisions:**
 - **Daten vor Schema bei WZB-Eintrag:** works.xml-Verstöße (`<ref>` statt `<ptr>`, `<note type="manuscript">` direkt unter `<bibl>`, `<biblStruct>` ohne `<relatedItem>`-Wrapper, `<date>` außerhalb `<imprint>`) durch Daten-Migration gelöst statt Schema-Lockerung. KZW: Manuskript-Signatur "Wien, ÖNB, Cod. 2759-2764" in `note` mergen statt droppen. Julias paralleler Fix `af72bd261` flanschte Normdaten an (Wikidata Q476495, GND 4117632-7, HSC werke/4577); Merge-Konflikt sauber via `git checkout` + ff-pull + Folge-Edit.
@@ -450,7 +450,7 @@ Aus paralleler Session: `d21e50dc6` JOURNAL-Handoff Session D, `a1a53f663` JOURN
 - **API-Probing mit falscher Sigle:** `Mwb` und `MWBNetz` liefern `400 illegal dictionary sigla` (nicht 404). Wörterbuchnetz erwartet exakte Großschreibung `MWB`. Liste der 52 verfügbaren Dictionaries via `GET /open-api/dictionaries`.
 - **Browser-Test mit `window.location.href`-Schleife:** der Inspector verlor seinen Context („Inspected target navigated or closed"). Lösung: einzelne `navigate`-Aufrufe pro Lemma statt Schleife im JS.
 
-**Phase:** Implementation (iteration). Alle 14 Promptotyping-Docs aktuell. Heute aktualisiert: ROADMAP.md (Datum 2026-05-12, #85 raus aus Blocked, #73 raus aus Needs Clarification, #104/#105 als neue offene, Strategic Direction Punkt 5), INDEX.MD Recent Milestones (#26, #85, #101, #73, WZB-Pentateuch, Blog-Post), JOURNAL.md (dieser Eintrag), #44-Body folgt im selben Commit-Cluster.
+**Phase:** Implementation (iteration). Alle 14 Promptotyping-Docs aktuell. Heute aktualisiert: ROADMAP.md (Datum 2026-05-12, #85 raus aus Blocked, #73 raus aus Needs Clarification, #104/#105 als neue offene, Strategic Direction Punkt 5), INDEX.md Recent Milestones (#26, #85, #101, #73, WZB-Pentateuch, Blog-Post), JOURNAL.md (dieser Eintrag), #44-Body folgt im selben Commit-Cluster.
 
 **Open issues (post-Session):**
 - **#104** Siglen, die zu einem Werk zusammengehören (FLG/FLG1, PL1-3, FR1-3): KZW-Issue 2026-05-11. Deterministisch teilweise (PL1-3 zusammenziehen falls Body identisch), philologisch Klärungsbedarf bei FLG/FLG1 (verschiedene Editionen).
@@ -485,7 +485,7 @@ Aus Julias paralleler Session (alphabetisch nach Hash, dieser Handoff Session H)
 
 ## 2026-05-12 — Nachmittag: #105 + #47.3 (Versposition-Pipeline-Sprint)
 
-**Summary:** Zwei weitere Issues abgeschlossen nach Julias Vormittagsblock. **#105** (Authority-Files-Counter 7 vs 8) als One-Liner-Fix auf `index.html` — User-Bauchgefühl war richtig, `contributors.xml` ist semantisch kein Authority-File; pragmatisch trotzdem auf 8 vereinheitlicht, weil Hilfe-Seiten + INDEX.MD + Validierungs-Kontext schon 8 zählen. Anschließend **#47.3 Lemmasuche nach Versposition** als ~2h-Sprint: Corpus-Index v4.0.1 → v4.1.0 mit `lineStarts[]`/`lineEnds[]`, neues Playground-Modul analog `lemma-distribution.js`, Chrome-verifiziert mit echten Reimpaaren.
+**Summary:** Zwei weitere Issues abgeschlossen nach Julias Vormittagsblock. **#105** (Authority-Files-Counter 7 vs 8) als One-Liner-Fix auf `index.html` — User-Bauchgefühl war richtig, `contributors.xml` ist semantisch kein Authority-File; pragmatisch trotzdem auf 8 vereinheitlicht, weil Hilfe-Seiten + INDEX.md + Validierungs-Kontext schon 8 zählen. Anschließend **#47.3 Lemmasuche nach Versposition** als ~2h-Sprint: Corpus-Index v4.0.1 → v4.1.0 mit `lineStarts[]`/`lineEnds[]`, neues Playground-Modul analog `lemma-distribution.js`, Chrome-verifiziert mit echten Reimpaaren.
 
 **Decisions:**
 - **#105 Authority-Counter: pragmatisch auf 8 vereinheitlicht** statt sauberer Trennung „7 suchbar + 8 validiert". User-Argument: „meta-meta-info, interessiert niemanden". Stats-Block `index.html:293` 7→8; Playground-Loader-Status `ui-helpers.js:604` bleibt 7 (technisch korrekt — `authority-index.json.gz` enthält nur die 7 inhaltstragenden Files, `contributors.xml` ist separat). UX-Inkonsistenz „Startseite 8 ↔ Playground-Status 7" akzeptiert (1-Sekunde-Sichtbarkeit bis ✅-State).
@@ -498,7 +498,7 @@ Aus Julias paralleler Session (alphabetisch nach Hash, dieser Handoff Session H)
 - **IndexedDB-Cache-Trap nach Index-Bump:** Frontend zeigte zunächst `corpusData.texts[0].lineStarts === undefined`. Ursache: gecachter v4.0.1-Index in IndexedDB. Manuelles `indexedDB.deleteDatabase()` plus Hard-Reload löste es. Auto-Invalidate bei Version-Bump (analog #94 für `authority-index`) wäre ein eigener Issue wert.
 - **„minne" POS-Auflösung ergibt ADJ:** `searchLemmaByOrthography('minne')` liefert `lemma_4130 minne ADJ` — überraschend für das zentrale MHG-Substantiv. Treffer-Zahlen plausibel (76 Texte, 532 Versende-Hits) → vermutlich POS-Tag-Drift im Authority-Index, siehe #27. Nicht-Problem von #47.3, aber notable für künftige POS-Cleanups.
 
-**Phase:** Implementation (iteration). Promptotyping-Docs aktualisiert: ROADMAP.md (#47.3 + #105 in Recently Completed, #105 raus aus Now-Quick-Wins), INDEX.MD (Recent Milestones erweitert), JOURNAL.md (dieser Eintrag). Corpus-Index v4.1.0 als neue Baseline.
+**Phase:** Implementation (iteration). Promptotyping-Docs aktualisiert: ROADMAP.md (#47.3 + #105 in Recently Completed, #105 raus aus Now-Quick-Wins), INDEX.md (Recent Milestones erweitert), JOURNAL.md (dieser Eintrag). Corpus-Index v4.1.0 als neue Baseline.
 
 **Commits (alle gepusht, neueste zuerst):**
 - `ea7b0a507` `feat(playground): #47.3 Lemmasuche nach Versposition` (6 Files, +328 −31, inkl. corpus-index.json.gz 34 → 40 MB)
@@ -544,7 +544,7 @@ Aus Julias paralleler Session (alphabetisch nach Hash, dieser Handoff Session H)
 - **#105 Authority-Counter-Frage „pragmatisch oder semantisch":** User-Bauchgefühl war richtig (`contributors.xml` ist semantisch kein User-facing Authority-File), aber pragmatischer Konsens war „pauschal auf 8 vereinheitlichen, niemanden interessiert die Meta-Trennung". Ein-Zeilen-Fix `index.html:293` 7→8 statt großem Sprachsweep.
 - **Index-Version-Drift in Loader:** zwischen Build-Skript (`4.1.0`) und Loader-Konstante (`4.0.1`) drift nach #47.3-Bump. Production-User mit altem Cache hätten den neuen Index nie gesehen. In `8f375bc4e` nachgepatcht. Strukturell verankert via neuem `scripts/audit/check-index-versions.py` + `.github/workflows/index-version-check.yml` (Commit `07c9f3244`), plus Memory `feedback_index_version_bump.md`.
 
-**Phase:** Implementation (iteration). Promptotyping-Docs aktualisiert: ROADMAP.md (#47 closed, #107/#108 in Next, #109 in Future, #106-Scope-Reduktion-Note in Needs-Clarification), INDEX.MD (Recent Milestones um Begriffs-Verteilung + #47-Close-Bilanz), JOURNAL.md (dieser Eintrag).
+**Phase:** Implementation (iteration). Promptotyping-Docs aktualisiert: ROADMAP.md (#47 closed, #107/#108 in Next, #109 in Future, #106-Scope-Reduktion-Note in Needs-Clarification), INDEX.md (Recent Milestones um Begriffs-Verteilung + #47-Close-Bilanz), JOURNAL.md (dieser Eintrag).
 
 **Open issues (post-Session):**
 - **#107 Kookkurrenz-Ranking:** claude-ready, ~3-4h Sprint nach Begriffs-Verteilung-Pattern.
@@ -596,9 +596,9 @@ Aus Julias paralleler Session (alphabetisch nach Hash, dieser Handoff Session H)
 
 **Definition of done:** Survey-Report committed in `scripts/audit/`, performance verifiziert (oder gepatcht), Playwright-Lock in Test-Suite. Falls Performance-Patch nötig: separates Issue + ADR-Eintrag „Frontend-Aggregation für große Concepts".
 
-### 2. (dann) DESIGN.MD Playground-Modul-Konvention dokumentieren — ~20min
+### 2. (dann) DESIGN.md Playground-Modul-Konvention dokumentieren — ~20min
 
-**Wo:** `docs/DESIGN.MD` neue Sektion zwischen „Component Patterns" und „Layout Patterns". Section-Titel z.B. „Playground TEI-Analysis Module Pattern".
+**Wo:** `docs/DESIGN.md` neue Sektion zwischen „Component Patterns" und „Layout Patterns". Section-Titel z.B. „Playground TEI-Analysis Module Pattern".
 
 **Was reinschreiben** (das gemeinsame Schema aller fünf Module — `word-frequency.js`, `text-statistics.js`, `lemma-distribution.js`, `verse-position-search.js`, `concept-distribution.js`):
 - **Konstruktor:** `(getCorpusTexts, authorityManager, ...)` — Thunks statt direkter Datenreferenzen, damit nach Index-Reload nichts stale ist
@@ -610,7 +610,7 @@ Aus Julias paralleler Session (alphabetisch nach Hash, dieser Handoff Session H)
 
 **Multi-Lemma als dokumentierter Outlier:** nutzt Modal (`#multiLemmaModal`) statt in-place-Form, weil es 4 Eingabe-Lemmata + Modus + Distanz braucht und das im Sidebar nicht reinpassen würde.
 
-**Definition of done:** Section in DESIGN.MD, mit ~20-Zeilen-Code-Skelett als Template-Snippet. Verweis von ARCHITECTURE.MD §UI-Layer auf den neuen DESIGN-Abschnitt.
+**Definition of done:** Section in DESIGN.md, mit ~20-Zeilen-Code-Skelett als Template-Snippet. Verweis von ARCHITECTURE.md §UI-Layer auf den neuen DESIGN-Abschnitt.
 
 ### 3. (zuletzt) Index-Größen-Strategie als Issue — ~15min
 
@@ -652,7 +652,7 @@ Aus Julias paralleler Session (alphabetisch nach Hash, dieser Handoff Session H)
 - Corpus-Index-Auto-Invalidate (kein Issue): Loader-Fix analog #94 für corpus-index
 
 **Commit dieses Eintrags (separat von der Doku-Sync-Welle):**
-- `8d2505d28` Blocking-Fixes (DATA-MODEL.MD + CONTRACTS.MD auf v4.1.1)
+- `8d2505d28` Blocking-Fixes (DATA-MODEL.md + CONTRACTS.md auf v4.1.1)
 - `5a82862bf` Should-fix + Nice-to-have + ADR-014 (5 docs)
 
 **Phase:** Implementation (handoff). Alle 14 Promptotyping-Docs aktuell, Drift-Check sauber.
@@ -696,7 +696,7 @@ Aus Julias paralleler Session (alphabetisch nach Hash, dieser Handoff Session H)
 **Commit dieses Handoffs:** wird nach Stage angefügt — siehe nächsten Bash-Block.
 
 **Carryover (vom Kollegen-Handoff `aac7fe23e` ergänzt):**
-- **3 Should-Fix-Tasks des Kollegen** (Concept-Distribution-Survey + DESIGN.MD Modul-Pattern + Index-Größen-Strategie-Issue) sind separate Workstreams seinerseits, ich greife nicht ein
+- **3 Should-Fix-Tasks des Kollegen** (Concept-Distribution-Survey + DESIGN.md Modul-Pattern + Index-Größen-Strategie-Issue) sind separate Workstreams seinerseits, ich greife nicht ein
 - **Corpus-Index-Auto-Invalidate-Loader-Fix** (kein Issue, vom Kollegen heute morgen identifiziert): bleibt bestehen als bekannter Doppel-Bumps-Workaround
 - Sonst alles aus dem `aac7fe23e`-Carryover unverändert: #34 (Julia + Helmut), #81 (KZW), #91 (Tag + Webhook), #92 (Carina), #107/#108 (claude-ready M), #109 (FWF-Antrag), #106 (KZW-Backlog-Bestätigung).
 
@@ -704,11 +704,11 @@ Aus Julias paralleler Session (alphabetisch nach Hash, dieser Handoff Session H)
 
 ## 2026-05-12 18:42 — handoff
 
-**Summary:** Die drei „Anti-Sycophancy"-Followups aus dem `aac7fe23e`-Handoff vollständig abgearbeitet: (1) Survey-Skript + Edge-Case-Coverage-Report über alle 567 Concepts; (2) Performance-Patch in `concept-distribution.js` — 2.747ms Browser-Freeze auf 60-200ms Long-Tasks reduziert (Faktor 13-49) plus Playwright-Regression-Test; (3) DESIGN.MD §Playground TEI-Analysis Module Pattern als formale Konvention; (4) GitHub-Issue #111 „Index-Größen-Soft-Cap" als Trigger-Reminder.
+**Summary:** Die drei „Anti-Sycophancy"-Followups aus dem `aac7fe23e`-Handoff vollständig abgearbeitet: (1) Survey-Skript + Edge-Case-Coverage-Report über alle 567 Concepts; (2) Performance-Patch in `concept-distribution.js` — 2.747ms Browser-Freeze auf 60-200ms Long-Tasks reduziert (Faktor 13-49) plus Playwright-Regression-Test; (3) DESIGN.md §Playground TEI-Analysis Module Pattern als formale Konvention; (4) GitHub-Issue #111 „Index-Größen-Soft-Cap" als Trigger-Reminder.
 
 **Decisions:**
 - **Patch-Strategie B (requestIdleCallback-Chunking via MessageChannel) statt C (Pre-Computed Index-Feld):** B ist minimal-invasiv (~120 Z. Diff), keine Index-Schema-Migration. C wäre langfristig schneller (O(1) statt O(L×T)), aber kostet 2-4 MB gz und einen v4.2.0-Bump — verschoben in Issue #111 als „Trigger bei 50 MB gz".
-- **MessageChannel statt setTimeout(0) als Yield-Mechanismus:** setTimeout(0) wird im hidden Tab auf >=1000ms gedrosselt (Chrome timer throttling). Beobachtet 2026-05-12 im Test-Setup: 95x langsamer als erwartet. MessageChannel hat keine solche Drosselung. Dokumentiert in `concept-distribution.js`-Kommentar und in DESIGN.MD.
+- **MessageChannel statt setTimeout(0) als Yield-Mechanismus:** setTimeout(0) wird im hidden Tab auf >=1000ms gedrosselt (Chrome timer throttling). Beobachtet 2026-05-12 im Test-Setup: 95x langsamer als erwartet. MessageChannel hat keine solche Drosselung. Dokumentiert in `concept-distribution.js`-Kommentar und in DESIGN.md.
 - **findMatchingLemmata synchron belassen:** Async-Chunking dort brachte überraschend mehr 100-200ms Long-Tasks (zusätzliche `render()`-Cycles während des async-Flows kosten mehr als der findMatchingLemmata-Sync). Sync-Pass ~80-100ms bei worst-case ist akzeptabel.
 - **CHUNK_BUDGET_MS = 30, nicht 20:** Budget=20 brachte Regression (215ms peak). Optimum bei 30ms — Trade-off zwischen Yield-Overhead und Long-Task-Größe.
 
@@ -717,7 +717,7 @@ Aus Julias paralleler Session (alphabetisch nach Hash, dieser Handoff Session H)
 - **findMatchingLemmata async-Versuch:** brachte 162-204ms Long-Tasks statt erwartet <50ms. Zusätzliche `render()`-Cycles während findMatchingLemmata-Loop kosteten mehr als die Synchronizität spart. Sync wieder hergestellt. Kosten: ~15 min, finaler Code aber sauberer.
 - **JSON-Dump des Surveys (124 KB):** ist reproduzierbar via `--json`-Flag, daher gitignored — nicht commit-würdig.
 
-**Phase:** Implementation (iteration). Alle 14 Promptotyping-Docs aktuell. DESIGN.MD um neue Sektion erweitert, ARCHITECTURE.MD-Verweis gesetzt, ROADMAP.md §Future angepasst, JOURNAL.md (dieser Eintrag).
+**Phase:** Implementation (iteration). Alle 14 Promptotyping-Docs aktuell. DESIGN.md um neue Sektion erweitert, ARCHITECTURE.md-Verweis gesetzt, ROADMAP.md §Future angepasst, JOURNAL.md (dieser Eintrag).
 
 **Open issues (post-Session):**
 - **#111** Index-Größen-Strategie: Trigger-Reminder, keine Aktion bis 50 MB gz erreicht.
@@ -729,7 +729,7 @@ Aus Julias paralleler Session (alphabetisch nach Hash, dieser Handoff Session H)
 
 **Next steps (für die nächste Session):**
 1. `/promptotyping orient` (lädt Project-State).
-2. **Falls User #107 Kookkurrenz-Ranking startet:** kann analog Begriffs-Verteilung gebaut werden (gleiches Modul-Pattern, jetzt formal in DESIGN.MD). Async-Chunking wenn Concept-Pair-Aggregation O(C × T) wird.
+2. **Falls User #107 Kookkurrenz-Ranking startet:** kann analog Begriffs-Verteilung gebaut werden (gleiches Modul-Pattern, jetzt formal in DESIGN.md). Async-Chunking wenn Concept-Pair-Aggregation O(C × T) wird.
 3. **Falls User #108 Textvergleich startet:** Set-Ops auf Lemma-Listen pro Text, weniger Compute-intensiv, vermutlich kein Chunking nötig.
 4. **Carryover unverändert:** #23, #34, #81, #91, #92, #104, #106, #107, #108, #109, Auto-Invalidate-Loader-Fix.
 
@@ -766,7 +766,7 @@ Aus Julias paralleler Session (alphabetisch nach Hash, dieser Handoff Session H)
 **Phase:** Implementation (handoff). Alle 14 Promptotyping-Docs aktuell. Index-Versionen konsistent (corpus 4.1.1, authority 1.2.1 — Build-Skript + Loader, `check-index-versions.py` grün). `docs/features/` lifecycle-korrekt (034 ↔ #34 offen, 045 ↔ #45 offen).
 
 **Open issues (unverändert vom 18:42-Handoff):**
-- **#107 Kookkurrenz-Ranking** + **#108 Textvergleich**: claude-ready, M-Effort, Modul-Pattern in DESIGN.MD formalisiert.
+- **#107 Kookkurrenz-Ranking** + **#108 Textvergleich**: claude-ready, M-Effort, Modul-Pattern in DESIGN.md formalisiert.
 - **#110 WVV-Stanza-Followup**: claude-ready, S-M; Linecode-Source liegt vor.
 - **#111** Index-Größen-Strategie: Trigger-Reminder, keine Aktion bis 50 MB gz.
 - **#109 FWF-Projekt**: wartet auf @wachauer-Antragstext.
@@ -776,7 +776,7 @@ Aus Julias paralleler Session (alphabetisch nach Hash, dieser Handoff Session H)
 
 **Next steps:**
 1. `/promptotyping orient` zum Laden des Project-State.
-2. Falls User #107 oder #108 startet: Modul-Pattern aus DESIGN.MD §Playground TEI-Analysis Module Pattern als Template.
+2. Falls User #107 oder #108 startet: Modul-Pattern aus DESIGN.md §Playground TEI-Analysis Module Pattern als Template.
 3. Falls User #110 startet: `scripts/insert-stanzas-from-linecode.py` `find_first_l_for_anchor`-Heuristik gegen WVV-Template `000000000cnddss--kk` prüfen.
 
 **Commit dieses Handoffs:** siehe nächsten Bash-Block.
@@ -804,7 +804,7 @@ Aus Julias paralleler Session (alphabetisch nach Hash, dieser Handoff Session H)
 - **#110 4 wrap_failed Strophen** (WVV 1174/1180/1208/1242): brauchen philologische Entscheidung von KZW/Julia, ob Ton-Wechsel-Stellen als eine oder zwei Strophen wrappen sollen.
 - **#34 WZB CoReMA-Teil**: weiterhin wartend auf Julia + Helmut.
 - **#92 ARITHMETIC**: wartet auf Carinas Antworten (Sigle/Lizenz/Edition/Genre + Domänen-Klassifikation).
-- **#107 Kookkurrenz-Ranking + #108 Textvergleich**: claude-ready, M-Effort, Modul-Pattern aus DESIGN.MD als Template — nicht angefangen.
+- **#107 Kookkurrenz-Ranking + #108 Textvergleich**: claude-ready, M-Effort, Modul-Pattern aus DESIGN.md als Template — nicht angefangen.
 - **#112 Versposition-Klick-Bug**: claude-ready, S — Bug aus wachauer-Comment in #47.
 - **`concept-distribution.spec.js:90`**: bekannter pre-existing Test-Fail (Spinner-Visibility), unabhängig von #110 — beim nächsten #47-R2-Tweak prüfen.
 
@@ -833,7 +833,7 @@ Aus Julias paralleler Session (alphabetisch nach Hash, dieser Handoff Session H)
 - **#108 erster Test mit „êre = minne-Ergebnis"**: ebenfalls Test-Skript-Bug — `inp.value` wurde auf dem alten Input-Element gesetzt nachdem `sel.dispatchEvent` ein Re-Render ausgelöst hatte, das den Input ersetzte. Sauberer Test mit page-reload bestätigte korrekte Trennung.
 - **Dev-Server EADDRINUSE**: alter Port-8080-Server-Prozess hat TaskStop überlebt. Habe einfach den existierenden weitergenutzt — kein Blocker.
 
-**Phase:** Implementation (handoff). Alle 14 Promptotyping-Docs aktuell. DESIGN.MD §Module Pattern-Inventar auf „Neun Module" gebracht (text-comparison + cooccurrence-ranking neu, concept-distribution erweitert). ROADMAP Now/Next bereinigt, vier neue Recently-Completed-Einträge.
+**Phase:** Implementation (handoff). Alle 14 Promptotyping-Docs aktuell. DESIGN.md §Module Pattern-Inventar auf „Neun Module" gebracht (text-comparison + cooccurrence-ranking neu, concept-distribution erweitert). ROADMAP Now/Next bereinigt, vier neue Recently-Completed-Einträge.
 
 **Open issues:**
 - **#86 Barrierefreiheit**: KZW-Sichtung der Live-Seite weiterhin ausstehend.
@@ -862,9 +862,9 @@ Aus Julias paralleler Session (alphabetisch nach Hash, dieser Handoff Session H)
 **Carryover:** unverändert vom 13:11-Handoff abgesehen von den vier abgearbeiteten Issues. #34, #92, #91, #45, #109, #106 weiterhin offen mit identischen Begründungen.
 
 **Post-Handoff-Check (17:00, commit `33150019e`):** `/promptotyping check` direkt nach Handoff zeigte drei Should-fix-Drifts, die der Handoff-Eintrag oben mit „Alle 14 Promptotyping-Docs aktuell" unterschlagen hatte:
-1. `ARCHITECTURE.MD:212-214` Modul-Inventar fehlten `text-comparison.js` + `cooccurrence-ranking.js`; Routes-Tabelle :266-270 fehlten `#text-comparison` + `#cooccurrence-ranking`.
-2. `FEATURES.MD:158-170` keine User-Facing-Sektion für Textvergleich + Kookkurrenz-Ranking; Begriffs-Verteilung ohne Autocomplete-Erwähnung.
-3. `DESIGN.MD §Module Pattern`: Count auf „Neun" gebracht, aber drei neue Patterns aus heute nicht dokumentiert: Performance-Map gegen O(N) (text-comparison-Lesson, 5962ms → 53ms), Abort-Token gegen Race-Conditions (cooccurrence-ranking), Live-Autocomplete-Dropdown (concept-distribution #113, direktes DOM-Update, mousedown-vor-blur, ARIA).
+1. `ARCHITECTURE.md:212-214` Modul-Inventar fehlten `text-comparison.js` + `cooccurrence-ranking.js`; Routes-Tabelle :266-270 fehlten `#text-comparison` + `#cooccurrence-ranking`.
+2. `FEATURES.md:158-170` keine User-Facing-Sektion für Textvergleich + Kookkurrenz-Ranking; Begriffs-Verteilung ohne Autocomplete-Erwähnung.
+3. `DESIGN.md §Module Pattern`: Count auf „Neun" gebracht, aber drei neue Patterns aus heute nicht dokumentiert: Performance-Map gegen O(N) (text-comparison-Lesson, 5962ms → 53ms), Abort-Token gegen Race-Conditions (cooccurrence-ranking), Live-Autocomplete-Dropdown (concept-distribution #113, direktes DOM-Update, mousedown-vor-blur, ARIA).
 
 Alle drei direkt im selben Pass gefixt. Severity-2/3-Findings (Autocomplete-auf-andere-Module portieren, POS-Tag-Qualität in Authority-Daten, JOURNAL.md > 110 KB) bleiben als Notiz — kein Issue angelegt, weil User-Entscheidung.
 

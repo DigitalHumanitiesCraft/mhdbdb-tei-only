@@ -42,7 +42,7 @@ Adding a parallel Python-only "strict mode" would duplicate logic and
 drift over time. If a new invariant is discovered that RelaxNG cannot
 express (e.g., a cross-file constraint like `@lemmaRef` pointing at a
 real lemma in lexicon.xml), that should become a Stage-3 check — not
-something bolted onto this validator. See docs/DECISIONS.MD ADR-013
+something bolted onto this validator. See docs/DECISIONS.md ADR-013
 for the "Daten vor Schema" policy and docs/features/032-schema-followup.md
 P3 section for Schematron candidates.
 

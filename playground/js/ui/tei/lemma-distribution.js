@@ -277,7 +277,7 @@ export class LemmaDistribution {
     `;
   }
 
-  // Autocomplete-Pattern aus DESIGN.MD §Live-Autocomplete-Dropdown (#113-Port).
+  // Autocomplete-Pattern aus DESIGN.md §Live-Autocomplete-Dropdown (#113-Port).
   // Direkter DOM-Update statt full render() bei jedem Keystroke; sonst verliert
   // Input den Fokus + Selection-Range.
   renderAutocomplete() {

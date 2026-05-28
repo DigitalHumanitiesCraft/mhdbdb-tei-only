@@ -142,9 +142,9 @@ The reading view converts TEI XML elements to HTML. Source: `extractAndFormatBod
 
 **Multi-lemma color assignment:** `lemmaColorMap[lemmaId] = colors[idx % 5]` — sequential assignment, wraps at 5.
 
-**`<hi rend>` token-based rendering:** `@rend` is space-separated (CSS-class style). The renderer splits on whitespace and emits `hi-{token}` per token. Compound values like `rend="initial upper_case_first_letter"` produce `class="hi hi-initial hi-upper_case_first_letter"`, with rules stacking from CSS. ~43k compound values that previously fell through to the single-class default are now correctly styled. Source: [DESIGN.MD §TEI Reading View CSS Classes](DESIGN.MD).
+**`<hi rend>` token-based rendering:** `@rend` is space-separated (CSS-class style). The renderer splits on whitespace and emits `hi-{token}` per token. Compound values like `rend="initial upper_case_first_letter"` produce `class="hi hi-initial hi-upper_case_first_letter"`, with rules stacking from CSS. ~43k compound values that previously fell through to the single-class default are now correctly styled. Source: [DESIGN.md §TEI Reading View CSS Classes](DESIGN.md).
 
-**Position counting contract:** see [CONTRACTS.MD](CONTRACTS.MD#b-position-counting-contract)
+**Position counting contract:** see [CONTRACTS.md](CONTRACTS.md#b-position-counting-contract)
 
 ### TEI Cache Management
 
@@ -152,7 +152,7 @@ The reading view converts TEI XML elements to HTML. Source: `extractAndFormatBod
 - Cache serialized DOM as XML string in IndexedDB (database: `MHDBDB_TEI_Cache`)
 - 30-day expiration (checked on read, corrupted entries auto-deleted)
 - Subsequent loads from cache (~100-200 ms vs 3-5 seconds)
-- **Cache invalidation and version check flow:** see [CONTRACTS.MD](CONTRACTS.MD#e-cache-invalidation)
+- **Cache invalidation and version check flow:** see [CONTRACTS.md](CONTRACTS.md#e-cache-invalidation)
 
 ## Playground Architecture
 
@@ -224,7 +224,7 @@ playground/js/ui/
 - Easier testing and maintenance
 - Net reduction: 5,536 lines removed
 
-**Playground TEI-Modul-Konvention:** alle neun Module unter `playground/js/ui/tei/` (außer `multi-lemma-search.js` als dokumentierter Modal-Outlier) folgen dem gleichen Constructor/`show()`/`render()`-Pattern mit Thunks statt direkter Daten-Referenzen, state-driven `renderBody()`, pro-Modul-Escape-Helpers und MessageChannel-Yield bei großen Aggregationen. Pattern ist als Template in [DESIGN.MD §Playground TEI-Analysis Module Pattern](DESIGN.MD#playground-tei-analysis-module-pattern) dokumentiert.
+**Playground TEI-Modul-Konvention:** alle neun Module unter `playground/js/ui/tei/` (außer `multi-lemma-search.js` als dokumentierter Modal-Outlier) folgen dem gleichen Constructor/`show()`/`render()`-Pattern mit Thunks statt direkter Daten-Referenzen, state-driven `renderBody()`, pro-Modul-Escape-Helpers und MessageChannel-Yield bei großen Aggregationen. Pattern ist als Template in [DESIGN.md §Playground TEI-Analysis Module Pattern](DESIGN.md#playground-tei-analysis-module-pattern) dokumentiert.
 
 **Authority Explorers:**
 Each explorer follows consistent pattern:
@@ -343,7 +343,7 @@ Three URL formats accepted (parsed in order, first match wins):
 | Variants | `authorityIndex.variants` (flat map) | **Invert**: scan all entries, collect those where `value === lemmaKey` |
 | Compounds | `authorityIndex.lemmata` | Filter lemmata whose `etymology[].lemmaRef === lemmaKey` |
 | Occurrences | `corpusIndex.lemmaIndex[lemmaKey]` → textIds | Look up text metadata, count positions, sort by frequency desc |
-| Wörterbuchnetz | External API (async) | See CONTRACTS.MD D.2 |
+| Wörterbuchnetz | External API (async) | See CONTRACTS.md D.2 |
 
 ### Concept Label Resolution
 
@@ -425,7 +425,7 @@ resolveConceptLabels(conceptIds):
 
 - Automatic image fetching via Wikidata P18 property (3-step chain: claims → FilePath → attribution)
 - Dual identifier display (work GND/Wikidata vs author GND/Wikidata)
-- **Full API request/response specs:** see [CONTRACTS.MD](CONTRACTS.MD#d-external-api-contracts)
+- **Full API request/response specs:** see [CONTRACTS.md](CONTRACTS.md#d-external-api-contracts)
 
 ## Testing Architecture
 
@@ -494,7 +494,7 @@ npm run test:headed   # Visible browser
 
 ---
 
-For data structures and schemas, see [DATA-MODEL.MD](DATA-MODEL.MD).
-For user-facing functionality, see [FEATURES.MD](FEATURES.MD).
-For development workflow, see [DEVELOPMENT.MD](DEVELOPMENT.MD).
-For architecture decisions, see [DECISIONS.MD](DECISIONS.MD).
+For data structures and schemas, see [DATA-MODEL.md](DATA-MODEL.md).
+For user-facing functionality, see [FEATURES.md](FEATURES.md).
+For development workflow, see [DEVELOPMENT.md](DEVELOPMENT.md).
+For architecture decisions, see [DECISIONS.md](DECISIONS.md).

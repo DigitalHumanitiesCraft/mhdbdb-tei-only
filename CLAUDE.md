@@ -8,18 +8,18 @@ MHDBDB TEI Repository: ~670 TEI-encoded Middle High German texts with semantic a
 
 ## Documentation Hub
 
-@docs/INDEX.MD — gateway to all project knowledge:
+@docs/INDEX.md — gateway to all project knowledge:
 
 | Doc | What's in it |
 |-----|-------------|
-| DATA-MODEL.MD | Schemas, data pipeline, index structure |
-| ARCHITECTURE.MD | Components, data flow, storage |
-| DESIGN.MD | Visual patterns, color system, CSS architecture |
-| FEATURES.MD | User-facing functionality |
-| DEVELOPMENT.MD | Build commands, git workflow, deployment |
-| RESEARCH.MD | Academic context, TEI/MHG standards |
-| DECISIONS.MD | Architecture Decision Records |
-| CONTRACTS.MD | Cross-language parity, algorithm pseudocode, API contracts |
+| DATA-MODEL.md | Schemas, data pipeline, index structure |
+| ARCHITECTURE.md | Components, data flow, storage |
+| DESIGN.md | Visual patterns, color system, CSS architecture |
+| FEATURES.md | User-facing functionality |
+| DEVELOPMENT.md | Build commands, git workflow, deployment |
+| RESEARCH.md | Academic context, TEI/MHG standards |
+| DECISIONS.md | Architecture Decision Records |
+| CONTRACTS.md | Cross-language parity, algorithm pseudocode, API contracts |
 | ROADMAP.md | Current priorities and strategic direction |
 | JOURNAL.md | Chronological development log |
 | `features/` | Feature-scoped planning docs (active issues only) |
@@ -85,7 +85,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>
 
 ## Temporal Artifacts (Promptotyping convention)
 
-- **Feature docs** (`docs/features/`): Live while issue is open. On completion: extract critical knowledge into stable docs (CONTRACTS.MD, ARCHITECTURE.MD, etc.), then delete. Git history = archive.
+- **Feature docs** (`docs/features/`): Live while issue is open. On completion: extract critical knowledge into stable docs (CONTRACTS.md, ARCHITECTURE.md, etc.), then delete. Git history = archive.
 - **Health check reports**: Run via `/promptotyping check` (operative Mechanik). Full report → Scorecard in JOURNAL.md (3-4 Zeilen, dated). Action items → separate Issues. **Keine .md-Datei in `docs/`** — der Report ist disposable, sobald Action Items extrahiert sind.
 
 ### Health-Check-Checkliste (MHDBDB-spezifisch)
@@ -110,9 +110,9 @@ Nach größeren Doku-Änderungen oder quartalsweise (auch ohne Änderungen, gege
 
 ## Key Patterns
 
-- **3-stage lemma resolution**: exact match → variants dictionary (176k entries) → partial match fallback. See ARCHITECTURE.MD.
+- **3-stage lemma resolution**: exact match → variants dictionary (176k entries) → partial match fallback. See ARCHITECTURE.md.
 - **MHG normalization**: `â→a, ê→e, î→i, ô→o, û→u, ä→ae, ö→oe, ü→ue`. Centralized in `assets/js/lib/text-normalizer.js`.
-- **Pre-built indexes**: authority (3 MB gz, v1.2.0) + corpus (34 MB gz, v4.0.0). See DATA-MODEL.MD for schemas.
+- **Pre-built indexes**: authority (3 MB gz, v1.2.0) + corpus (34 MB gz, v4.0.0). See DATA-MODEL.md for schemas.
 
 ## License
 

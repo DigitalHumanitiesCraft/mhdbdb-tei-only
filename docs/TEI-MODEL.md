@@ -431,7 +431,7 @@ Das `<w>`-Element ist die zentrale Annotationseinheit. Im Soll-Modell stammen al
 | `@meaningRef` | **NICHT Standard** | nein | 5,852,223 (63.0%) in 666/666 Dateien | → `@ana` migrieren |
 | `@wordRef` | **NICHT Standard** | nein | 7,406,166 (79.8%) in **666/666 Dateien** | → `@corresp` migrieren (siehe 4.4) |
 
-Korpus: 9,282,982 `<w>`-Elemente in 666 Dateien. 20.4% haben kein `@lemmaRef` (unannotierte Woerter — werden vom Corpus-Index uebersprungen, siehe CONTRACTS.MD Sec. B).
+Korpus: 9,282,982 `<w>`-Elemente in 666 Dateien. 20.4% haben kein `@lemmaRef` (unannotierte Woerter — werden vom Corpus-Index uebersprungen, siehe CONTRACTS.md Sec. B).
 
 > **Wichtig:** `@lemmaRef` ist seit TEI P5 3.3.0 ein Standard-Attribut der Klasse `att.linguistic`. Es muss **nicht** migriert werden. `@meaningRef` und `@wordRef` sind die Validierungsblocker — sie sind keine TEI-Standard-Attribute. Beide sind in **100% der Dateien** vorhanden.
 
@@ -560,7 +560,7 @@ Viele `<w>`-Elemente im Altbestand tragen Compound-Tags (~35-40%) (z.B. `pos="VR
 
 ### 6.0 Optionale Erweiterungen (seit 2026-05-08, PD-001)
 
-Mit der ARITHMETIC-Aufnahme wurden folgende TEI-P5-Standardelemente als **optionale** Inline-Elemente ins Schema aufgenommen. Sie sind für jedes Korpus erlaubt, aber für keines vorgeschrieben. Lyrik-, Predigt- oder Rezept-Korpora müssen sie nicht nutzen. Vollständige Begründung siehe [DECISIONS.MD § PD-001](DECISIONS.MD).
+Mit der ARITHMETIC-Aufnahme wurden folgende TEI-P5-Standardelemente als **optionale** Inline-Elemente ins Schema aufgenommen. Sie sind für jedes Korpus erlaubt, aber für keines vorgeschrieben. Lyrik-, Predigt- oder Rezept-Korpora müssen sie nicht nutzen. Vollständige Begründung siehe [DECISIONS.md § PD-001](DECISIONS.md).
 
 | Kategorie | Elemente | Verwendung |
 |---|---|---|
@@ -890,7 +890,7 @@ Durchgeführte Bereinigungen:
 
 ## 11. Versionierung
 
-**Source of Truth für Index-Versionen.** Alle anderen Promptotyping-Docs (DATA-MODEL.MD, DEVELOPMENT.MD, CONTRACTS.md, INDEX.MD §Status, TEI-MODEL-AUTH-FILES.md) verweisen auf diese Tabelle und nennen in ihren Code-Snippets nur generische Platzhalter (`X.Y.Z`, `"1.x.x"`). Pflege bei jedem Index-Bump: hier, in `corpus-loader.js`, im Build-Skript, in INDEX.MD §Status (siehe Memory `feedback_index_version_bump`).
+**Source of Truth für Index-Versionen.** Alle anderen Promptotyping-Docs (DATA-MODEL.md, DEVELOPMENT.md, CONTRACTS.md, INDEX.md §Status, TEI-MODEL-AUTH-FILES.md) verweisen auf diese Tabelle und nennen in ihren Code-Snippets nur generische Platzhalter (`X.Y.Z`, `"1.x.x"`). Pflege bei jedem Index-Bump: hier, in `corpus-loader.js`, im Build-Skript, in INDEX.md §Status (siehe Memory `feedback_index_version_bump`).
 
 | Artefakt | Version | Datum |
 |----------|---------|-------|
@@ -943,9 +943,9 @@ Diese drei Bausteine sind in allen 667 Bestandsdateien identisch und wurden vom 
 ## Referenzen
 
 ### Projekt-intern
-- [CONTRACTS.MD](CONTRACTS.MD) -- Cross-System Contracts (Position Counting, Normalization)
-- [DATA-MODEL.MD](DATA-MODEL.MD) -- Authority-File-Schemas, Index-Struktur
-- [ARCHITECTURE.MD](ARCHITECTURE.MD) -- Technische Komponenten, Datenfluss
+- [CONTRACTS.md](CONTRACTS.md) -- Cross-System Contracts (Position Counting, Normalization)
+- [DATA-MODEL.md](DATA-MODEL.md) -- Authority-File-Schemas, Index-Struktur
+- [ARCHITECTURE.md](ARCHITECTURE.md) -- Technische Komponenten, Datenfluss
 - [features/030-tei-structural-fixes.md](features/030-tei-structural-fixes.md) -- Triage-Plan fuer strukturelle Fixes
 - `.gemini/skills/pos-disambiguator/SKILL.md` -- POS-Tagset-Definition und Disambiguierungs-Regeln
 - `schema/examples/corpus.example.tei.xml` -- Korpus-Maximalbeispiel (validiert gegen tei_all.rng)

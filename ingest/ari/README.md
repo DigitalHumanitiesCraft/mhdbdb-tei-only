@@ -15,7 +15,7 @@ Sechs Handschriften aus Carinas TEI-Daten, mechanisch ins MHDBDB-Schema konverti
 | `ARI_MUE746.tei.xml` | München, UB, 8 Cod.ms. 746 | PASS |
 | `ARI_WIEN5206.tei.xml` | Wien, ÖNB, Cod. 5206 | PASS |
 
-Alle 6 validieren sauber gegen `schema/mhdbdb.rng` nach der Schema-Erweiterung vom 2026-05-08 (siehe [`docs/DECISIONS.MD § PD-001`](../../docs/DECISIONS.MD)).
+Alle 6 validieren sauber gegen `schema/mhdbdb.rng` nach der Schema-Erweiterung vom 2026-05-08 (siehe [`docs/DECISIONS.md § PD-001`](../../docs/DECISIONS.md)).
 
 ## Warum hier statt in `tei/`
 

@@ -15,7 +15,7 @@ Mechanische Transformationen (kein Carina-Input nötig):
     Autor person_anonym, Genre als Platzhalter)
 
 Bewusst stehen gelassen — das ist genau die offene Frage in
-docs/DECISIONS.MD § PD-001:
+docs/DECISIONS.md § PD-001:
   - <div type="commodity_calculation"|"reckoning_example">
   - <unit type="...">, <rs type="...">
   - <unclear>, <hi rend="superscript|subscript">

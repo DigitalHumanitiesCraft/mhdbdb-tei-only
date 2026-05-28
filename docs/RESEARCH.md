@@ -220,6 +220,6 @@ Dual normalization handles MHG orthographic variation:
 
 ---
 
-For data structures, see [DATA-MODEL.MD](DATA-MODEL.MD).
-For technical implementation, see [ARCHITECTURE.MD](ARCHITECTURE.MD).
-For user-facing features, see [FEATURES.MD](FEATURES.MD).
+For data structures, see [DATA-MODEL.md](DATA-MODEL.md).
+For technical implementation, see [ARCHITECTURE.md](ARCHITECTURE.md).
+For user-facing features, see [FEATURES.md](FEATURES.md).

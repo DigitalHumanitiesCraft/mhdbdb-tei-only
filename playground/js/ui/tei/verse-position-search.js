@@ -220,7 +220,7 @@ export class VersePositionSearch {
     `;
   }
 
-  // Autocomplete-Pattern (DESIGN.MD §Live-Autocomplete-Dropdown, Port aus #113).
+  // Autocomplete-Pattern (DESIGN.md §Live-Autocomplete-Dropdown, Port aus #113).
   renderAutocomplete() {
     const dd = document.getElementById('vpsAutocomplete');
     const input = document.getElementById('vpsQuery');

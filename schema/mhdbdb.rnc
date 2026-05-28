@@ -260,7 +260,7 @@ inline.model =
     | note | lg | l | head
     # Editorisches Standard-Vokabular (TEI-P5, fakultativ).
     # Aufgenommen 2026-05-08 mit ARITHMETIC-Ingest (siehe
-    # docs/DECISIONS.MD PD-001). <unclear> war im Bestand frueher
+    # docs/DECISIONS.md PD-001). <unclear> war im Bestand frueher
     # kursiv und ist verloren gegangen, kommt damit zurueck.
     | unclear | add | gap | abbr | expan | am | g
     # Onomastik (TEI-P5, fakultativ). Generisch nuetzlich fuer
@@ -300,7 +300,7 @@ hi.content.model =
 
 # div/@type Enum-Pattern.
 # Standard: alle Korpora. Arithmetik: nur Rechenbuch-Korpora (ARI),
-# aufgenommen 2026-05-08 mit ARITHMETIC-Ingest (siehe DECISIONS.MD PD-001).
+# aufgenommen 2026-05-08 mit ARITHMETIC-Ingest (siehe DECISIONS.md PD-001).
 div.type.standard = "chapter" | "section" | "number" | "song" | "parallel" | "colophon" | "recipe"
 div.type.arithmetic =
     "outline"
@@ -412,7 +412,7 @@ caesura = element caesura { attribute xml:id { xsd:NCName }?, empty }
 # ============================================================
 # Editorische Standard-Tags (TEI-P5, fakultativ)
 # ============================================================
-# Aufgenommen 2026-05-08 mit ARITHMETIC-Ingest (siehe DECISIONS.MD PD-001).
+# Aufgenommen 2026-05-08 mit ARITHMETIC-Ingest (siehe DECISIONS.md PD-001).
 # Alle TEI-P5-konform. Keine Datei muss diese Elemente nutzen — sie
 # stehen zur Verfuegung fuer Editionen mit philologischem Apparat
 # oder fuer Quellen-Materialien mit editorischen Markierungen.
@@ -502,7 +502,7 @@ person.inline = element person {
 # ============================================================
 # Domain-Erweiterung Arithmetik (fakultativ)
 # ============================================================
-# Aufgenommen 2026-05-08 mit ARITHMETIC-Ingest (siehe DECISIONS.MD PD-001).
+# Aufgenommen 2026-05-08 mit ARITHMETIC-Ingest (siehe DECISIONS.md PD-001).
 # Ermoeglicht Carinas Domaenen-Annotation in Rechenbuch-Korpora.
 # Werte aus Audit aller 6 ARI-HS, distinct-Werte als Enum.
 # Begriffssystem-Anbindung erfolgt ueber @ana → concepts.xml#concept_NNNN

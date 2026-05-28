@@ -21,7 +21,7 @@ Die kleinste der sechs Handschriften (München, Universitätsbibliothek, 8 Cod.m
 
 ### Pending Decision PD-001 (offen, blockiert Stage-2-PASS)
 
-Fünf Element-/Attributklassen in Carinas Daten sind nicht im aktuellen MHDBDB-Schema. Sie wurden bewusst **stehengelassen**, damit der Befund den Entscheidungs-Hebel für [`docs/DECISIONS.MD § PD-001`](../../../docs/DECISIONS.MD) liefert:
+Fünf Element-/Attributklassen in Carinas Daten sind nicht im aktuellen MHDBDB-Schema. Sie wurden bewusst **stehengelassen**, damit der Befund den Entscheidungs-Hebel für [`docs/DECISIONS.md § PD-001`](../../../docs/DECISIONS.md) liefert:
 
 | Element / Attribut | Vorkommen in MUE279 | Forschungsrelevanz |
 |---|---|---|

@@ -766,8 +766,8 @@ python scripts/ingest/wzb/wzb-encoding-cleanup.py
 
 ## References
 
-- [MHDBDB POS Tag Set](../DATA-MODEL.MD) — Full tag definitions
-- [Variant Resolution](../ARCHITECTURE.MD) — 3-stage matching algorithm
+- [MHDBDB POS Tag Set](../DATA-MODEL.md) — Full tag definitions
+- [Variant Resolution](../ARCHITECTURE.md) — 3-stage matching algorithm
 - [MHG Normalization (JS)](../../assets/js/lib/text-normalizer.js) — Canonical normalization rules
 - [MHG Normalization (Python)](../../scripts/mhg_normalizer.py) — Python parity implementation for build scripts
 - [Wörterbuchnetz API](https://api.woerterbuchnetz.de) — BMZ/Lexer for cross-referencing

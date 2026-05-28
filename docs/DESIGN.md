@@ -1,6 +1,6 @@
 # Design
 
-Visual and interaction patterns for the MHDBDB TEI Repository. Complements [ARCHITECTURE.MD](ARCHITECTURE.MD) (technical) and [FEATURES.MD](FEATURES.MD) (user-facing). This document is the reference when building new UI components.
+Visual and interaction patterns for the MHDBDB TEI Repository. Complements [ARCHITECTURE.md](ARCHITECTURE.md) (technical) and [FEATURES.md](FEATURES.md) (user-facing). This document is the reference when building new UI components.
 
 ## Color System
 
@@ -495,7 +495,7 @@ Three-layer stack (load order):
 
 ## TEI Reading View CSS Classes
 
-Source: `assets/css/korpus.css` (post-#17 reader-view styling). Element-to-class mapping in [ARCHITECTURE.MD §TEI Element Rendering Map](ARCHITECTURE.MD#tei-element-rendering-map).
+Source: `assets/css/korpus.css` (post-#17 reader-view styling). Element-to-class mapping in [ARCHITECTURE.md §TEI Element Rendering Map](ARCHITECTURE.md#tei-element-rendering-map).
 
 | Class | Key Styling | TEI Element |
 |-------|------------|-------------|

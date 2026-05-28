@@ -4,7 +4,7 @@ den in der Doku verankerten Zahlen abgleichen.
 
 Hintergrund: bei jeder Korpus-Aenderung (z.B. WZB-Aufnahme 2026-05-08
 hat das Korpus von 666 auf 667 Dateien gebracht) muessen mehrere Stellen
-in docs/TEI-MODEL.md, docs/INDEX.MD und docs/ROADMAP.md mitwandern,
+in docs/TEI-MODEL.md, docs/INDEX.md und docs/ROADMAP.md mitwandern,
 sonst driftet die Doku schnell. Dieser Audit zeigt den aktuellen Stand
 plus die Stellen in den Docs, wo die Zahlen NICHT mehr stimmen.
 
@@ -73,7 +73,7 @@ LABELS = [
 DOC_TARGETS = [
     ('docs/TEI-MODEL.md', ['corpus_files', 'lexicon_entries', 'works', 'persons',
                             'concepts', 'genres', 'names', 'variants_entries', 'variants_forms']),
-    ('docs/INDEX.MD', ['corpus_files']),
+    ('docs/INDEX.md', ['corpus_files']),
     ('docs/ROADMAP.md', ['corpus_files']),
     # CLAUDE.md is intentionally vague ("~670 TEI texts"), no exact check.
 ]
