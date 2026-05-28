@@ -560,11 +560,16 @@ class MainSiteApp {
         this.elements.noResults.classList.add('hidden');
         this.elements.resultsSection.classList.remove('hidden');
 
-        // Update grid to 3-column layout (search + results + reading)
+        // Issue #114: Layout je nach View-Mode wechseln
         const mainGrid = document.getElementById('mainGrid');
         if (mainGrid) {
-            mainGrid.classList.add('three-column');
-            mainGrid.classList.remove('two-column');
+            if (this.viewMode === 'table') {
+                mainGrid.classList.add('table-layout');
+                mainGrid.classList.remove('three-column', 'two-column');
+            } else {
+                mainGrid.classList.add('three-column');
+                mainGrid.classList.remove('table-layout', 'two-column');
+            }
         }
 
         // Update results count
@@ -573,13 +578,22 @@ class MainSiteApp {
         // Clear previous results
         this.elements.resultsList.innerHTML = '';
 
-        // Display first page
-        this.loadMoreResults();
+        // Display first page (Listen-Mode) ODER ganze Tabelle (Tabellen-Mode)
+        if (this.viewMode === 'table') {
+            this.renderTable();
+        } else {
+            this.loadMoreResults();
+        }
 
         // Auto-scroll to results section (with offset for sticky header)
         setTimeout(() => {
             this.scrollToElement(this.elements.resultsSection);
         }, 100);
+    }
+
+    // Issue #114: Tabellen-Rendering (Stub — volle Implementierung in Task 5)
+    renderTable() {
+        this.elements.resultsList.innerHTML = '<p class="text-slate-500">Tabelle (Task 5)</p>';
     }
 
     // --- Issue #114: View-Mode helpers ---

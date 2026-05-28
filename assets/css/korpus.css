@@ -725,3 +725,26 @@
 .error-label {
   font-weight: 600;
 }
+
+/*
+ * Issue #114: Tabellen-Modus überlagert das 3-Spalten-Layout
+ * mit voller Breite, damit die Tabelle bei kleineren Viewports
+ * (1280-1920px) nicht in eine ~300-460px-schmale Results-Spalte
+ * gequetscht wird.
+ * Hinweis: Die Sidebar-Klasse in korpus.html lautet .search-card
+ * (nicht .search-sidebar), daher wird .search-card hier verwendet.
+ */
+#mainGrid.table-layout {
+  grid-template-columns: 1fr !important;
+}
+
+#mainGrid.table-layout > .search-card {
+  /* Sidebar belegt volle Breite oberhalb der Tabelle, collapsed-by-default */
+  max-height: 4rem;
+  overflow: hidden;
+  transition: max-height 0.2s ease;
+}
+
+#mainGrid.table-layout > .search-card.expanded {
+  max-height: none;
+}
