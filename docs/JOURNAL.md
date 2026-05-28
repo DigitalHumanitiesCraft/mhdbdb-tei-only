@@ -1081,3 +1081,53 @@ Plus separates Sweep nach User-Hint: 9 stable Docs `.MD → .md` umbenannt (Two-
 4. Entscheidung: **#28 Foreign-Lang** ODER **#45 Static JSON API** als nächster L-Workstream — beide sind seit Wochen claude-ready.
 5. Falls KZW/Linda/Julia in der Zwischenzeit auf andere Pings geantwortet haben: dort weiterarbeiten.
 6. Falls weiter Stille: **persönlichen Reminder an KZW** als Eskalations-Schritt überlegen (Signal/Mail an chsteiner zur Weiterleitung).
+
+---
+
+## 2026-05-28 14:56 — handoff (#113-Followup live + CI-Fix + #114-Spec + #114-Plan)
+
+**Summary:** Folge-Session zum 13:04-Handoff (parallele Session). Drei Werkstücke abgeschlossen, alle gepusht. (1) #113 KZW-Followup live verifiziert via Chrome-DevTools (4/4 UI-Tests grün — Obst/Früchte + Wahnsinn/Tobsucht-Cross-Check), `f7c8592c2` committed + pushed, Issue-Comment mit Befund + KZW-@-Ping abgesetzt. (2) CI-Workflow `Index Version Check` reanimiert (`13557978`) — timeout-minutes 2→10; jeder Run seit 2026-05-12 war wegen 2-min-Limit am Checkout cancelled, der Drift-Schutz war faktisch disabled. (3) #114 Tabellenansicht durchgebrainstormed → Spec (`dabfc601c`) + Implementation-Plan (`f8d464211`); Spec via `/check-md` rigoros geprüft, 1 CRITICAL (wordCount fehlt in Search-Engine-Projektion) + 3 MEDIUM (Sticky-Header-Container, Viewport-Width-Realität, Row-Click-Verhalten) + 3 LOW alle inline gefixt vor Commit.
+
+**Decisions:**
+- **CI-Timeout 2→10 min als Daten-Eingriff vor Schema-Lockerung**: Trotz CLAUDE.md-Pattern „Daten vor Schema" ist hier *Workflow vor Audit-Logik* analog — Audit lief lokal jahrlang sauber, Workflow killte sich beim Checkout. Fix: Timeout-Limit, nicht Audit-Logik aufweichen. Memo intern.
+- **#114-Spec in `docs/features/`, nicht `docs/superpowers/specs/`**: User-Korrektur zur Skill-Default-Location. Auch der Plan unter `docs/features/114-…-plan.md` als Sibling. Existing-Pattern (one file per feature aspect) erweitert.
+- **#114 Tabellen-Modus erzwingt vollbreites Layout** statt im 3-Spalten-Modus zu rendern: bei 1280-1920 px Viewport ist die Results-Spalte nur 300-460 px breit, 5-Spalten-Tabelle würde da unbenutzbar. Mental-Modell: „Tabelle = Vergleichs-/Export-Modus, Liste = Lese-Modus". Row-Click in der Tabelle wechselt zurück auf Listen-Modus + öffnet Reader. `localStorage`-Wert bleibt `'table'` — User-Präferenz nicht überschreiben.
+- **Subagent-Driven für #114-Implementation in frischer Session**: User-Wahl. Plan hat 11 Tasks, jeder als eigener Subagent-Run mit Review zwischen Tasks.
+
+**Dead ends:**
+- Erster `find()`-Versuch in der UI-Verify-Phase fand „Begriffe-Explorer öffnen"-Button statt direkt das Suchfeld → Hash-Routing `#concepts` aus #48 direkt setzen ist robuster.
+- Click-Handler-Simulation für concept-distribution-Autocomplete: `firstBtn.click()` triggerte nicht, weil Listener auf `mousedown` (vor `blur`) statt `click` hängt. `dispatchEvent(new MouseEvent('mousedown', …))` fixt's.
+- Erste DOM-Query für „auch:"-Hint suchte nur `<span>`-Descendants, übersah dass renderAutocomplete den Hint als `<div>` rendert.
+- Plan-Self-Review-Pass nach Schreiben fand kaputten Heroicon-SVG-Path (`a0 0 0 010 0` ist degeneriert) — als Implementer-Annahme im Plan markiert, wird inline gefixt.
+
+**Phase:** Implementation. #113 lebt auf production, #114 ist Spec+Plan-fertig und wartet auf Coding.
+
+**Commits (intern, alle gepusht):**
+- `f7c8592c2` fix(#113-followup): concepts.xml Alternative-Terms separat vom Primär-Term
+- `95745ac2a` docs(journal): Handoff 2026-05-28 (Verify + Commit + Push für #113-Followup)
+- `135579789` ci: index-version-check timeout 2 → 10 min
+- `dabfc601c` feat(#114): Spec Tabellenansicht für Korpussuche
+- `f8d464211` docs(#114): Implementation-Plan für Tabellenansicht
+- (dazwischen parallele Session: `742bdc3a9` .md-Vereinheitlichung, `c9f001446` Handoff 14:00, weitere Doku-Commits)
+
+**Externe:**
+- #113 Comment `4563371418` (Followup-Befund verifiziert + committed) + Comment `4563440114` (@wachauer-Ping zum Live-Check)
+- #114 Comment `4564110295` (Spec-Link + Kern-Entscheidungen + Voraussetzung wordCount-Propagation)
+
+**Open / Carryover:**
+- **#113 wartet auf KZW-Live-Check** auf der gepushten Version — nicht zumachen.
+- **#114 Implementation startet in nächster Session** via `superpowers:subagent-driven-development` aus Plan `f8d464211`. 11 Tasks, geschätzt 1.5-2 h.
+- **#28/#45 als L-Workstream-Alternative** falls #114 in der Pipeline stockt (vom 14:00-Handoff übernommen, unverändert).
+- **CI auf `f7c8592c2`/`13557978`/`f8d464211`:** Index-Check grün, Pages grün. Nach Push `f8d464211` triggert kein Build (nur docs).
+- **Dev-Server `bjq9bqyew`** läuft im Hintergrund auf :8080 — nächste Session checken statt blind neu starten.
+
+**Next steps (nächste Session):**
+1. `/promptotyping orient` — lädt diesen Handoff.
+2. CI-Stand auf letztem main-Commit prüfen (3-Punkt-Audit auf `f8d464211` und ggf. weitere parallele Commits).
+3. **#114 Implementation**: `superpowers:subagent-driven-development` mit Plan-File `docs/features/114-tabellenansicht-korpussuche-plan.md`. Per Task einen frischen Subagent dispatchen, zwischen Tasks reviewen. Feature-Branch oder direkt-main ist beim Start zu entscheiden (siehe Skill-Konvention vs. Repo-Pattern).
+4. Vor Task 1 (wordCount-Propagation) den Dev-Server-Status checken; Tests werden gegen den laufenden Server gefahren.
+5. Bei jedem Test-Lauf: User vorher fragen (Memory-Regel `feedback_ask_before_npm_test`).
+6. Falls KZW-Reply auf #113 / #73 inzwischen da: dort weiterarbeiten.
+
+**Memory-Updates dieser Session:**
+- Keine neuen Memories nötig — alle Patterns sind schon abgedeckt (Concurrent-Sessions, Index-Version-Bump, Test-Invocation). Der CI-Timeout-Fix ist projektspezifisch und im Journal dokumentiert, nicht als Memory.
