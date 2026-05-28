@@ -101,6 +101,7 @@ class SearchEngine {
                     author: this.getAuthorName(text.authorRef),
                     genre: this.getGenre(text.workRef),
                     matchCount: matchCount,
+                    wordCount: text.wordCount,
                     snippet: snippet
                 });
             });
