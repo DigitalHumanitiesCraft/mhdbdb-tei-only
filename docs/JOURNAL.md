@@ -125,234 +125,51 @@ schema/README.md als single entry point. /check-md review (8 findings fixed).
 
 ---
 
-## 2026-04-10 17:00 — handoff
+> **Komprimierung 2026-05-28:** Die Handoff-Einträge zwischen 2026-04-10 und 2026-05-08 wurden auf ihre Kern-Decisions und permanent gültigen Lessons verdichtet (Originale in `git log`, ROADMAP „Recently Completed" enthält die Issue-Refs). Ab 2026-05-11 alles verbatim.
 
-**Summary:** #32 TEI Model Consolidation feature-complete. PR #69 (Corpus) + PR #71 (Authority) gemergt. Deep schema audit: 666/666 corpus files valid. Branch protection on main. 121/121 Playwright tests passing. #32, #70 (pc-spacing) geschlossen. Feature-Branch + 2 obsolete Branches gelöscht.
+## 2026-04-10 17:00 — handoff (#32 feature-complete)
 
-**Docs status (v1.0.0):** TEI-MODEL.md, TEI-MODEL-AUTH-FILES.md, `schema/mhdbdb.rnc`+`.rng` (666/666), `schema/mhdbdb-authority.rnc`+`.rng` (7/7), schema/README.md (external mapping guide), `schema/examples/` (8 validated).
-
-**WZB-Branch:** braucht KEINE Attribut-Migration (hat bereits `@ana`/`@corresp`). Rebase auf main nötig nur für Docs/Config-Konflikte. 5 eigene Commits (#66), 1451 Dateien.
-
-**Open:** #20 Lesbarkeit, #52 Authority Files Card — beide offen.
+#32 TEI Model Consolidation gemergt (PR #69 Corpus + PR #71 Authority). Deep Schema Audit: 11 Gaps, **`div` ist RNC-Keyword (root cause RNC→RNG-Failure → `tei.div`)**. 666/666 valid. Authority Migration F-K parallel: works.xml 3,422 genre-`<ref>` → 870 `<ptr/>`, persons listBibl removed (derived from works.xml). Code-Review fand 3 Pre-Merge-Bugs (`@ana` in `resolveConceptReferences`, `<pc>`-Wrapper im zweiten Renderpfad, `etree` round-trip). Branch protection auf `main`. 121/121 Tests. **Carryover:** #20 Lesbarkeit, #52 Authority Card.
 
 ---
 
-## 2026-04-14 18:30 — handoff
+## 2026-04-14–16 — Schema-Hardening & Frontend-Sprint (5 Handoffs)
 
-**Summary:** Frontend Quick-Wins #62 (Impressum) + #52 (Authority-Files-Card) gebaut, an wachauer eskaliert. Editor-Attribution-Plan bis Commit 3/7 durch (contributors.xml mit 51 Personen + 2 Orgs, Authority-Schema um `contributors.body`-Pattern erweitert, Corpus-Schema additiv für Mehrfach-respStmt + persName+@ref, Standalone-Migration-Script inkl. Whitespace-Bug-Fix verifiziert). WorksSyncer-gnd-Drift als P0-5 Pre-Fix vorab gefixt, damit nächster `--works`-Sync den P0-4-Fix (`61a0b4a1a`) nicht revertiert.
+**#83 Editor-Attribution geschlossen** (5 Commits): `contributors.xml` mit 51 Personen + 2 Orgs, Authority-Schema um `contributors.body`-Pattern, Corpus-Schema additiv für Mehrfach-respStmt + persName+@ref. KZW-Antworten: Reihenfolge `<authority>` (Zeppezauer-Wachauer → Schmidt → Pütz), PUC auch Brom-Lead, externe Provider (Klug/Gloning/Harsch) + 4 Institutionen NICHT in `contributors.xml`. Whitespace-Bug in `add_lead_editor()`: `child_indent` von voriger `<respStmt>`-Tail gelesen.
 
-**Phase:** Implementation — editor-attribution 3/7 Commits done. Commits 4-7 (666-Datei Header-Migration, Lead-Editor respStmts, Doku, Script-Archivierung) warten auf User-Review + Go/No-Go.
+**#32-followup 16/17 fertig** + „Daten vor Schema"-Konvention etabliert (CLAUDE.md Hard Constraint): PL1/PL2/PL3 Mega-`<p>` Split + nested `<hi>` Flatten über 143 Files. Schema verschärft (`<hi>`-Rekursion entfernt, persName/@type Enum, msIdentifier/@corresp Pflicht), neue CI `schema-validation.yml` (RNG-Drift-Check + 2-stufige Validation), `validate-corpus.py` als echter RelaxNG-Validator reimplementiert. **PL1-Validation-Pathologie war nicht Größe (63 MB OVG validierte in 7.5s) sondern eine `<p>` mit 404k direkten Kindern** + rekursiver `<hi>`-Matcher als Verstärker. Korpus-Validation 830s → 493s. `claude.yml` entfernt (versehentliche `@claude`-Trigger).
 
-**Whitespace-Bug:** `add_lead_editor()` las `child_indent` aus Struktur, wo vorherige letzte `<respStmt>` (von `migrate_collective_respstmt()`) noch `closing_indent` als `.tail` hatte → neue lead-editor-respStmt 2 Spaces zu weit links. Fix: vor Append `title_stmt[-1].tail = child_indent`. Verifiziert auf TKR.
+**`8b5d0e6ac`-Mishap:** `git add -A` zog während paralleler Session gestagete Kollegen-Files aus `playground/` mit-committet. Folge: CLAUDE.md Git-Rule „never `git add -A` with concurrent sessions" + Memory `feedback_concurrent_sessions.md`.
 
-**Commits (5 auf main):**
-- `83d8546ed` Frontend #62 + #52 (impressum.html + footer-links + authority-card collapse)
-- `05e9c2d91` #32-followup P0-5: WorksSyncer gnd→GND
-- `6f80e5d47` editor-attribution Commit 1: contributors.xml + authority schema + example
-- `1849a09fa` editor-attribution Commit 2: Corpus-Schema additiv
-- `f2034fe94` editor-attribution Commit 3: migrate-header-credits.py (Script-only)
+**Parallele Frontend-Session (7 Commits):** #31 `docs/LINECODE.md` + `linecode-mapping.csv` aus Julias OneDrive-Handover. #56 S1+S2 URL-Bug-Fix im „MEHR →"-Button (`parseLemmaId()` lemmaKey doppelt → live broken). #56 S3 concept-based Similar Lemmata (43,750 Lemmata Concept-Overlap, Full-Scan 75ms). #48 Hash-Router alle 5 Phasen (`?q=`, `?show=`, Multi-Lemma-State).
 
-**Validierung:** 8/8 Authority-Files grün gegen tei_all + mhdbdb-authority. 9/9 Schema-Examples grün. Volle Korpus-Validierung 30/30 baseline, 0/0 mhdbdb baseline. Migration-Script Sample-Test sauber, 0 Whitespace-Noise. Full-Dry-Run 666 Files: 0 Fehler, `auth=True resp=True` überall, `lead=True` bei TKR/TKA/VTC/JT.
+**Issue-Triage (#44 Body neu):** **Lösungskategorien A-G** als Triage-Framework (Code/KI/KI+Web/Vorbereitung/Chris/Katharina/Julia/Extern). `depends-on-human` re-evaluiert: #85/#81/#26/#73 sind durch Julia-Antworten / Linecode-Files / KI-Recherche lösbar. Audit-Output-Files in `.gitignore`.
 
-**Schema-Followup-Stand:** P1-5 `idno/@type` Enum braucht kontextspezifische Verteilung (Korpus hat 7 @type-Werte, `ISBN`/`callNumber` müssen unter `<biblStruct>`/`<monogr>` frei bleiben — nicht globaler Enum). P1-6 persName/@type clean (nur `preferred` + `alternative`). P1-10 msIdentifier/@corresp braucht Daten-Audit. P2-11 Doku-Kommentar 5 Min. P2-12 validate-corpus.py rewrite 30 Min. P2-13/14 CI-Schema-Validation 1h.
+**#17 Reader View komplett:** `processHi()` Token-basiert (`rend.split(/\s+/)` → CSS-Klassen `hi-initial`, `hi-bold`) — löst ~43k bisher unstyled Compound-`@rend`-Elemente. `<lb>` als `<br>` + inline `<span class="lb-number">`. 128/128 Tests grün. Chrome-verifiziert. 7 Issues closed (#48, #31, #56, #62, #17 + 2 Temporal-Artifacts), #87-#90 für #47 Release 1 angelegt.
+
+**Nicht-Befunde / Lessons:** CRLF-Falle in Windows `Path.write_text()` → 14,6M-Zeilen-Diff statt 2; Fix: `path.write_bytes()` mit dynamischer Newline-Erkennung. `<seg type="pc">` in TEI-MODEL/DECISIONS/JOURNAL ist historisch korrekt; `<seg type="component">` in DATA-MODEL ist anderer Typ (Etymologie).
 
 ---
 
-## 2026-04-15 12:10 — handoff
+## 2026-05-07 22:41 — handoff (#32-followup Abschluss + #68 Guide + WZB-Reorg + ARITHMETIC)
 
-**Summary:** Massiver Schema-/Daten-Cleanup-Tag. editor-attribution komplett (Commits 1–6, #83 closed nach Katharina-Review), 16/17 Items aus `032-schema-followup.md` erledigt, zwei „Daten vor Schema"-Migrationen (PL1/PL2/PL3 Mega-`<p>` Split + nested `<hi>` Flatten über 143 Files), Schema verschärft (`<hi>`-Rekursion entfernt, persName/@type Enum, msIdentifier/@corresp Pflicht, Taxonomie-Body Doku-Kommentar), neue CI-Workflow `schema-validation.yml` mit RNG-Drift-Check + 2-stufiger Validation, `validate-corpus.py` als echter RelaxNG-Validator reimplementiert, `claude.yml`-Workflow entfernt (versehentliche `@claude`-Pings), CLAUDE.md Hard Constraint „Daten vor Schema".
+#32-followup vollständig **17/17** (P1-5 `idno/@type` mit 3 kontextspezifischen Enum-Patterns `msIdentifier`/`monogr`/`person`, WZB-shelfmark-Fix als „Daten vor Schema"-Move, Stage-1 PI cleanup auf allen 667 Files, CI push trigger).
 
-**Phase:** Implementation — #32-followup praktisch komplett (1 Item offen: P1-5), editor-attribution komplett (WZB-Mini-Commit wartet auf #66-Merge), Korpus-Validation ~40% schneller (830s → 493s nach Data+Schema-Cleanup).
+**#68 Architektur:** HTML user-facing in `hilfe-daten-beitragen.html`, kein Promptotyping-Doc-Duplikat. Promptotyping-Docs = LLM-targeted (englisch), user-facing = deutsch (`hilfe-*.html`-Pattern). **Guide-Tonality:** 99% der Leser haben TEI-Erfahrung; Guide ist Schema-Konversions-Reference, nicht Onboarding-Funnel. Erstversion (Eligibility-Funnel + 3-Pfade) komplett verworfen.
 
-**Commit-Serie (alle main):** `7e526c8f2` P2-11 Doku-Kommentar; `f72887eaa` P1-6 persName/@type Enum; `7a79693d7` editor-attribution Doku; `9ab92cdb2` CLAUDE.md „Daten vor Schema"; `49d7b58aa` + `67526399e` PL-Mega-`<p>` Split + Archive; `b3e76ce7b` + `38b0bdd10` + `0f503ada8` Nested `<hi>` Flatten + Schema-Simplification + Archive; `54b450f32` claude.yml entfernt; `3ceb6b738` + `6bcd61d07` + `62ad64d2a` editor-attribution Commits 4-6 (full migration + doc-fix + archive, Closes #83); `674fd3258` + `1590f9405` P2-15 xml-model PIs + Archive; `8b5d0e6ac` + `20a9d1a22` #84 Doku-Fix + Klarstellungs-Commit (Closes #84); `83b511eec` P1-10 msIdentifier/@corresp Pflicht; `e9d43ead4` P2-12 validate-corpus.py rewrite; `becceda03` + `2d752769f` 032-Plan Status-Updates; `7d3801520` P2-13/14 schema-validation.yml CI.
-
-Parallel Kollege (Frontend): `2c204cd4c` #56 Lemmata-Explorer, `aad5a55bd`, `0189a2eed`, `897431795`, `ba6b1ebcc` #31 Linecode-Doku — keine Kollisionen. `8b5d0e6ac` hat versehentlich gestagete Kollegen-Dateien aus `playground/` mit-committet, klarstellung in `20a9d1a22`.
-
-**Katharinas Antworten (#83 closed):** Reihenfolge `<authority>`: Zeppezauer-Wachauer → Schmidt → Pütz. PUC auch Brom-Lead-Editor: JA. Klug/Gloning/Harsch NICHT in `contributors.xml` (externe Provider). 4 Institutionen NICHT (Datengeber). DHC drin.
-
-**Open:** P1-5 letztes #32-followup-Item (~1h, kontextspezifischer `idno/@type` Enum); WZB Lead-Editor Mini-Commit wartet auf #66-Merge.
-
-**Nicht-Befunde:** #84 (HZU/HZU2 MMTT) war bereits seit `415e70147` erledigt — Phase A hatte das migriert; TEI-MODEL.md §3.5 war veraltet, jetzt aktualisiert. P1-7/8/9 vom Kollegen schon erledigt (`f436963e0`), Plan-Status nachgezogen. CRLF-Falle in Windows `Path.write_text()` → 14,6M-Zeilen-Diff statt 2; Fix: `path.write_bytes()` mit dynamischer Newline-Erkennung. PL1-Validation-Pathologie war nicht Größe (63 MB OVG validiert in 7.5s) sondern **eine `<p>` mit 404k direkten Kindern**; rekursiver `<hi>`-Matcher Verstärker. GitHub `@claude`-Bot via Katharinas „Bestätige: @claude" auf #84 getriggert, hat `claude/issue-84-…`-Branch angelegt, ist gelöscht; `claude.yml` weg, automatischer PR-Review bleibt.
+**WZB-Pipeline-Reorg:** 20 Skripte → `scripts/ingest/wzb/`, 4 Sackgassen → `scripts/_archived/wzb/`. **ARITHMETIC (#92):** 6 fnhd. Rechenbuch-HS von Carina (Graz) inspiziert. Carina muss nicht nochmal an TEI ran — Konversions-Drift (`<seg type="token">` → `<w>`, `tei:`-Namespace, Header, xml:id) ist scriptbar. Sie liefert Metadaten + QA. **Dead end:** `Arithmetic_MHDBDB.zip` mit `rm -f` versehentlich gelöscht — Lesson: keine `rm` auf untracked files ohne Bestätigung.
 
 ---
 
-## 2026-04-15 14:45 — handoff (Frontend, post-audit)
+## 2026-05-08 — vier parallele Sessions im Tagesverlauf
 
-**Summary:** Parallele Session zum 12:10-Schema-Track. 7 eigene Commits auf main: #31 Linecode-Referenz-Docs, #56 S1+S2 (URL-Bug-Fix) + S3 concept-based Similar Lemmata, #48 alle 5 Phasen Hash-Router. Plus Audit: #44 Triage-Matrix neu, `docs/features/031-*` gelöscht, CLAUDE.md Git-Rule concurrent sessions, Memory um `feedback_concurrent_sessions.md` + `feedback_scratch_files.md` erweitert.
+**13:26 Memory-Audit + #44 Re-Push + Issue-Comments + GND-Fix:** Memory-Hygiene (3 stale Einträge weg, MEMORY.md re-indexed). Schema-Bug `gnd → GND` in `corpus.example.tei.xml` gefixt. #44 zweimal nachgezogen, Em-Dashes raus (13 total — Lesson: bei Body-Edits nicht auf Original-Konsistenz vertrauen). **#23 Verifizierung „Julia bis RVR korrigiert" widerlegt — nur 2/104 gefixt; Stufe-1-Recon 96/100 HIGH-Konfidenz.** #81 AC1-3 verschoben (Issue-Body-Typo: `enm` ist Middle English, nicht FNHD — Klärung `gmh-x-fnhd` vs. `gmh` vs. `de-x-fnhd`). #91 Zenodo-Scoping (CITATION.cff-Skelett). **Slip:** Commit-Message `Schema-Konformitaet` ohne Umlaute trotz Memory-Regel — Lesson: Commit-Messages mit gleicher Strenge prüfen wie Doc-Inhalt.
 
-**Commits:**
-- `ba6b1ebcc` #31 — `docs/LINECODE.md` + `docs/data/linecode-mapping.csv` aus Julias Handover (OneDrive, lokal `C:/Users/chstn/Downloads/Linecode2TEI/`); 3 offene Template-Decoding-Fragen als #31-Kommentar an Julia.
-- `2c204cd4c` #56 S1+S2 — `lemma-explorer.js`: Lemma-Titel klickbare Links, URL-Bug-Fix im „MEHR →"-Button (`../lemma/${l.id}` → `../lemma/lemma_879` → `parseLemmaId()` lemmaKey doppelt → nicht gefunden; MEHR→ war live broken).
-- `dad8bb8a7` #56 S3 (concept-based) — Ähnliche Lemmata: rankt 43,750 Lemmata nach Concept-Overlap, Top 50 als Chip-Links. Full-Scan 75ms. S3 distributional similarity (Co-Occurrence) out-of-scope, eigenes Folge-Ticket bei Bedarf.
-- `aad5a55bd` #48 Phase 3 — `?q=` Auto-Fill via Shared `dispatch()`-Helper, 6 Authority-Views mit per-View Search-Input-ID-Map.
-- `0189a2eed` #48 Phase 4 — `?show=` Drill-Down. View-agnostische `triggerExpand(itemId)`: findet ersten Button, dessen onclick die Item-ID als gequotete Substring enthält. Limit: nur für Items im sichtbaren Top-50-Result-Set.
-- `897431795` #48 Phase 5 — Multi-Lemma Modal State. `handleMultiLemmaRoute(params)` füllt `ui.lemmas` + Chips direkt, ruft `executeSearch()` auf. Test `#multi-lemma&lemmata=minne,êre&mode=proximity&dist=10` → 67 Treffer · 25 Kontexte.
-- `db1a3b51e` audit — `031-linecode2tei-doku.md` archiviert.
-- `44cf51adc` audit — CLAUDE.md Git-Rule „never `git add -A` with concurrent sessions" (Folge des `8b5d0e6ac`-Mishaps).
+**14:04 Doc-Sync (3 Iterationen) + ARI Stage 0 + PD-001 Schema-Erweiterung:** **PD-001 „Mittelweg" (Katharina + Christian via Signal):** TEI-P5-Standardelemente aus Carinas Daten (`<unclear>`, `<add>`, `<gap>`, `<abbr>`, `<expan>`, `<am>`, `<g>`, `<roleName>`, `<occupation>`, `<placeName>`, `<unit>`, `<rs>`, `<figure>`) + Inline-Patterns für `<persName>`/`<person>` + 24 `<div>/@type`-Werte optional ins Hauptschema. Aufnehmen = erlauben, nicht vorschreiben. Modulares ARI-Schema wäre TEI-Lehrbuch, aber n=2 verfrüht. **ADR-013-Ausnahme: nested `<hi>` wieder erlaubt** (Carinas durchgestrichene Brüche semantisch nicht via Compound-Rend transformierbar). **Lizenz BY-SA für ARI** (Share-Alike mit BY-NC-SA inkompatibel). **Ingest-Pattern `ingest/<sigle>/`** als Top-Level-Konvention etabliert (analog `scripts/ingest/<sigle>/`). **Generische Ingest-Skripte: noch nicht** — n=2 zu wenig, ab CoReMA (n=3) entscheiden. Schema-Validation-Cascade: 5/6 ARI-HS failten erst mit Cascade-Fehlern; schrittweise aufgelöst.
 
-**Audit ohne Commit:** #44 Triage-Matrix komplett neu (Quick Stats, Full Matrix, 26 open issues exkl. evergreen — #73/#78/#79/#80/#81 fehlten vorher). Memory: neu `feedback_concurrent_sessions.md` + `feedback_scratch_files.md`, Update `project_tei_consolidation.md`, MEMORY.md-Index erweitert.
+**14:54 WZB live + Authority-Cache-Bugfix #94:** WZB in beiden Indexen (corpus 4.0.0 → 4.0.1, authority 1.2.0 → 1.2.1). **PATCH vs. MINOR-Konvention:** „neuer Text rein" = PATCH; MINOR/MAJOR für Schema/Algorithmus. **Authority-Cache invalidierte de-facto nie** — `cached.version !== cached.data.version` ist selbstreferenziell (beide aus derselben Cache-Quelle). Fix: `AUTHORITY_INDEX_VERSION`-Konstante analog `INDEX_VERSION`. **Dead ends:** Erster Rebuild zog `ARI_MUE279` als Beifang (untracked file in `tei/`); Backup-Race-Condition (`cp` parallel zum Build → erwischte NEUE Datei) — Lesson: Backup VOR Build, nicht parallel.
 
-**Katharina-Status:** #17 freigegeben (alle 5 Design-Fragen beantwortet — Scope-Refinement passt, deutsche `div/@type`-Labels passen, jede 5. Zeile Marginalia, „Strophe N"-Label oben, `hi rend="bold|italic|upper_case"` visuell). Keine Blocker. #56 „Bedeutungen anzeigen"-Frage, #52/#62/#20 weiter auf Approval. #85 neu (Julia + Katharina für Hierarchie + DL1/DWA). #31 wartet auf Julia (3 Template-Fragen).
-
-**Nicht-Befunde:** `@claude`-Action-Kommentar auf #17 um 09:05 stale — claude.yml direkt danach (`54b450f32`) entfernt, Action hat nie committet. Julias OneDrive-Handover hat `Mhdbdb_to_TEI(Linecode).csv` als Single-Source-of-Truth (21 Zeilen, ~1.4 KB) — jetzt als `docs/data/linecode-mapping.csv` committed. PDF-Template `0000000000aaau----h` ist illustrativ — stimmt NICHT mit ALLs tatsächlichem 13-stelligen Linecode überein. Pro-Text-Varianz Regelfall (ANN 5 Digits, AT 3 Digits, ALL 8 Digits per `Stanza Problem/fix_tei_stanzas.py`).
-
----
-
-## 2026-04-16 — handoff (Docs + Triage-Konsolidierung)
-
-**Summary:** Promptotyping-Docs-Session nach Team-Issue-Triage. Zwei Health-Checks (Round 1 + ULTRATHINK Round 2), 10 Findings, alle gefixt. Systematische Neubewertung der `depends-on-human` TEI-Issues → 4 von 5 zu `claude-ready`. #44 Body komplett neu mit Lösungskategorien-Framework. Playground-Router via Chrome browser-verifiziert.
-
-**Decisions:**
-- Lösungskategorien A–G (Code/KI/KI+Web/Vorbereitung/Chris/Katharina/Julia/Extern) als Triage-Framework. In #44 dokumentiert.
-- `depends-on-human` entfernt von #85, #81, #26, #73 — durch Julias 15.04.-Antworten, lokale Linecode-Files und KI-Web-Recherche lösbar.
-- Label `external-research` reaktiviert + beschrieben.
-- Audit-Output-Files (`scripts/audit/*.json`, `*-REPORT.md`) per `.gitignore` ignoriert.
-- Feature-Doc `062-impressum.md` archiviert (#62 closed). `052-authority-files-card.md` wiederhergestellt (versehentlich gelöscht).
-
-**Commits:** `1c3c71136` docs post-triage update (ROADMAP, ARCHITECTURE, FEATURES, INDEX, DEVELOPMENT, CONTRACTS, .gitignore, 062 archiviert); `092839c4f` docs/features/017 Reader View Plan mit Corpus-Inventar + hi/@rend compound fix.
-
-**GitHub-Aktionen:** #49 Health-Check-Kommentar; #44 Body neu (Lösungskategorien, Matrix, TEI-Daten Details, Reihenfolge); #44 historische Kommentare gelöscht (Body = SoT); 8 Label-Änderungen (#85/#81/#26/#23/#73/#86/#78/#58/#59).
-
-**Browser-Verifizierung (Chrome):** `#lemmata&q=minne` → 168 Treffer; `#multi-lemma&lemmata=minne,êre&mode=proximity&dist=10` → 67 / 25 Kontexte; `#authors` → 210; `#concepts&q=liebe` → 1 Treffer.
-
-**Nicht-Befunde:** `<seg type="pc">` in TEI-MODEL, DECISIONS, JOURNAL ist historisch korrekt (Migrations-Doku). `<seg type="component">` in DATA-MODEL/TEI-MODEL-AUTH-FILES ist anderer Typ (Etymologie). Fragile Zeilennummern in CONTRACTS + DESIGN vorbestehend, separates Ticket wert.
-
----
-
-## 2026-04-16 — handoff (Audit + #17 Reader View)
-
-**Summary:** Großer Issue-Audit (27 open, alle Kat/Julia/Linda-Kommentare ausgewertet), 7 Issues closed (#48, #31, #56, #62, #17 + 2 Temporal-Artifacts gelöscht), 4 Sub-Issues für #47 Release 1 angelegt (#87–#90), #17 Reader View vollständig implementiert und Chrome-verifiziert, 2 vorbekannte Playground-Test-Failures gefixt (128/128 grün).
-
-**Decisions:**
-- #17 braucht keinen Index-Rebuild — Reader View parst Raw-TEI-XML via DOMParser, nicht Corpus-Index.
-- `processHi()` von Switch auf Token-basierte Klassen (`rend.split(/\s+/)` → CSS-Klassen `hi-initial`, `hi-bold`) — löst ~43k bisher unstyled Compound-`@rend`-Elemente.
-- `<lb>` Rendering: `<br>` + inline `<span class="lb-number">` statt Block-Span (Milestone-Element, Inhalt folgt nach, nicht innerhalb).
-- Playground-Test-Failures waren veraltete englische Strings ("TEI Data Explorer" → "TEI-Daten-Explorer").
-
-**Commits:** `1616f582e` Impressum (Korrekturen + Datenschutz); `1c3c71136` docs post-triage; `092839c4f` features/017 Plan; `ecebbb94e` **#17 Reader View** (JS + CSS + 7 Tests); `d364cc38b` fix(tests) Playground deutsche Title.
-
-`017-reader-view-tei-elements.md` dreifach per `/check-md` verifiziert: FR1 war "Frauenlob" nicht "Frauendienst", h_-Präfix in 43/64 Texten (nicht nur ABG/HZU), ASCII-Art per-stanza statt continuous.
-
----
-
-## 2026-05-07 22:41 — handoff (#32-followup Abschluss + #68 Guide + WZB-Reorg + ARITHMETIC vorbereitet)
-
-**Summary:** #32-followup komplett (17/17, P1-5 `idno/@type` Enum + WZB-shelfmark + Stage-1-PI cleanup 667 Files + CI push trigger). Neuer user-facing `hilfe-daten-beitragen.html` als technischer Schema-Konversions-Leitfaden (deutsch). WZB-Skripte aus `scripts/`-Wurzel in `scripts/ingest/wzb/` (20) und `scripts/_archived/wzb/` (4) reorganisiert. ARITHMETIC-Probe (Carina, 6 HS) inspiziert, #92 angelegt, Mail-Entwurf für Katharina an Carina vorbereitet.
-
-**Decisions:**
-- **#68 Architektur:** HTML user-facing in `hilfe-daten-beitragen.html`, kein Promptotyping-Doc-Duplikat. Promptotyping-Docs = LLM-targeted (englisch), user-facing = deutsch (`hilfe-*.html`-Pattern).
-- **Guide-Tonality:** 99% der Leser haben TEI-Erfahrung; Erstkontakt via Kernteam. Guide ist Schema-Konversions-Reference, nicht Onboarding-Funnel. Erste Version (Eligibility/3-Pfade) komplett umgeschrieben zu technischem Re-Frame.
-- **WZB-Skript-Aufräum-Tiefe:** Mittel (ingest-Struktur) statt Maximal (generische Skripte). Pipeline ist fertig, Refaktor ohne Nutzen.
-- **ARITHMETIC:** Carina muss nicht nochmal an TEI ran. Konversions-Drift (`<seg type="token">` → `<w>`, `tei:`-Namespace, Header, xml:id) ist scriptbar. Sie liefert Metadaten + QA.
-- **Domänen-Klassifikation in ARITHMETIC** (`<unit>`, `<person>`, `div/@type=commodity_calculation/reckoning_example`): offen an Katharina/Carina — erhalten (Schema-Erweiterung) vs. wegtransformieren.
-
-**Dead ends:**
-- Erstversion `hilfe-daten-beitragen.html` (Eligibility-Funnel + 3-Pfade + 6-Step-Workflow) komplett verworfen. Lesson: Tonality-Annahmen vorab abklären, nicht spekulativ bauen.
-- Versehentlich `Arithmetic_MHDBDB.zip` mit `rm -f` gelöscht (dachte stray) — User hatte das absichtlich für Folgetask drin. Lesson: nie `rm` auf untracked files ohne Bestätigung.
-
-**Commits:**
-- `3d481c633` `#32-followup: P1-5 + WZB shelfmark + Stage-1 PI cleanup + CI push trigger`
-- `56b97728b` `feat(hilfe): #68 hilfe-daten-beitragen.html — technischer Leitfaden`
-- `5d3d3083b` `refactor(scripts): WZB-Pipeline nach ingest/wzb/, 4 Sackgassen archiviert`
-
-Issue #92 ARITHMETIC angelegt (Labels `ingestpipeline`, `enhancement`). Memory: `project_arithmetic_ingest.md`. Mail-Entwurf für Katharina kopierbereit (extern).
-
----
-
-## 2026-05-08 13:26 — handoff (Memory-Audit + #44 Re-Push + #81/#23/#91 Comments + GND-Fix)
-
-**Summary:** Memory-System auditiert (3 stale Einträge weg, 2 Files gelöscht, MEMORY.md re-indexed). Schema-Bug `gnd → GND` in `corpus.example.tei.xml` gefixt (gepusht, valide gegen `mhdbdb.rng`). #44 zweimal nachgezogen (#17/#52 closed, #91/#92 ergänzt, Em-Dashes raus, #81/#23 Status präzisiert). Issue-Comments: #81 (4/7 Sprachstufen abgehakt + AC1-3 Klärungsfrage zu `enm`-Typo), #23 (Verifizierung "Julia bis RVR korrigiert" widerlegt: nur 2/104 gefixt; Stufe-1-Recon 96/100 HIGH-Konfidenz), #91 (Zenodo-Scoping mit 3 Team-Decisions + CITATION.cff-Skelett).
-
-**Decisions:**
-- **Memory-Hygiene:** `feedback_tei_model_file_locations.md` gelöscht (Pfad existiert nicht mehr). `project_tei_consolidation.md` zu Wissensanker (kein Status-Tracking). `feedback_script_conventions.md` auf neue Topologie aktualisiert. `feedback_no_playwright_parallel.md` → `feedback_ask_before_npm_test.md` umgewidmet.
-- **#23 Stanza-Wrap-Format:** ohne `@n` (Schema sagt optional). User: "wir nehmen das was simpler ist".
-- **#23 Skript-Location:** `scripts/temp/` (gitignored, lokal). Nicht `scripts/migrate/` weil Stufe 1 Recherche.
-- **#81 AC1-3:** Action verschoben. Issue-Body Typo: `enm` ist Middle English (ISO 639-3), nicht FNHD. Klärung an Katharina: `gmh-x-fnhd` (BCP 47) vs. `gmh` lassen vs. `de-x-fnhd`.
-- **ARI-Konfliktzonen-Disziplin:** `scripts/ingest/`, `tei/ARI*`, `schema/mhdbdb.rnc`, `hilfe-daten-beitragen.html`, `docs/TEI-MODEL.md` nicht angefasst.
-
-**Dead ends:**
-- Erste #81-Annahme: AC1-3 direkt scriptbar (per #44 „kanonisch FNHD"). Issue-Body hat Typo. Klärung > Action.
-- Zwei Em-Dashes im ersten #44-Vorschlag durchgerutscht. Eigen-Review aufgedeckt: 13 Em-Dashes total. Lesson: bei Edits eines bestehenden Bodys nicht auf Original-Konsistenz vertrauen.
-- Slip in Commit-Message für GND-Fix: `Schema-Konformitaet`/`gross` statt mit Umlauten (Verstoß `feedback_german_umlauts`). Memory war im Kontext, trotzdem passiert. Lesson: Commit-Messages mit gleicher Strenge prüfen.
-
-**Commit:** `58fecc9b3` `fix(schema): GND-Casing in corpus.example.tei.xml` (gepusht).
-
-**Externe:** #44 zweimal repush; #81 Body + Comment (`issuecomment-4405563024`); #23 Comments `4405583456` + `4405784301`; #91 Comment `4405625581`; Memory-System cleanups (siehe Decisions).
-
-**Lokale Artefakte:** `scripts/temp/stanza-23-recon.{py,csv,md}` (gitignored). Plus 2 Commits paralleler Session: `5d118e5b7` (ARI Stage-0 #92), `81cd5b7c5` (docs/hilfe Konversions-Sektion). Gehören zu #92-Track.
-
----
-
-## 2026-05-08 14:04 — handoff (Doc-Sync 3 Iterationen + ARI Stage 0 + Schema-Erweiterung PD-001)
-
-**Summary:** Drei Iterationen `/promptotyping check` mit Faktenverifikation (10 Stable Docs aktualisiert, 3 Feature-Docs entfernt). ARI Stage 0 implementiert mit Dogfood auf München UB 279. Mail-Klärung mit Carina + Schema-Diskussion mit Katharina → PD-001-Beschluss „Mittelweg": alle 12 Element-Klassen + 24 `div/@type`-Werte optional ins Hauptschema. Schema-Erweiterung implementiert, RNG regeneriert, 667 Bestand + 6 ARI-HS validieren grün gegen Stage 2.
-
-**Decisions:**
-- **PD-001 Mittelweg (Katharina + Christian via Signal):** TEI-P5-Standardelemente aus Carinas Daten (`<unclear>`, `<add>`, `<gap>`, `<abbr>`, `<expan>`, `<am>`, `<g>`, `<roleName>`, `<occupation>`, `<placeName>`, `<unit>`, `<rs>`, `<figure>`) + Inline-Patterns für `<persName>`/`<person>` + 24 `<div>/@type`-Werte optional. Aufnehmen = erlauben, nicht vorschreiben. Modulares Schema (eigenes `mhdbdb-arithmetic.rnc`) wäre TEI-Lehrbuch-konformer, aber für n=2 (WZB+ARI) verfrühte Architektur.
-- **ADR-013-Ausnahme: nested `<hi>` wieder erlaubt.** Carinas durchgestrichene Brüche (`<hi rend="line-through"><hi rend="superscript">2</hi>/<hi rend="subscript">3</hi></hi>`) semantisch nicht via Compound-Rend transformierbar. Performance unauffällig (2 Vorkommen in WIEN5206).
-- **Lizenz BY-SA für ARI** (statt Doppelung BY-SA + BY-NC-SA). Carinas BY-SA Share-Alike-Klausel ist mit BY-NC-SA inkompatibel.
-- **Generische Ingest-Skripte: noch nicht.** Audit `wzb-auto-match.py` und `wzb-pos-assign.py`: 95–98% mechanisch/korpus-agnostisch. Trotzdem n=2 zu wenig. Strategie: bei ARI-Phase 1 zu `ari-auto-match.py` kopieren mit `# ARI-only:`-Kommentaren, Diff messen. <10% → generalisieren. >30% → auf CoReMA (n=3) warten.
-
-**Dead ends:**
-- Erste Mail-Entwurf war faktisch falsch — nur München UB 279 inspiziert, 5 statt 12 Element-Klassen genannt. Audit aller 6 HS zeigte 12 Klassen + 24 div/@type. Lesson: bei „alle Daten"-Spec-Aussagen immer voll-auditieren.
-- Mail-Vermischung — kompletten Entwurf geschrieben ohne zu wissen, dass User schon gesendet hat. Lesson: bei E-Mail-Tasks erst nach existierendem Stand fragen.
-- Lizenz-Doppelung im Header-Template — mechanisch MHDBDB-Pattern (BY-SA + BY-NC-SA) ins ARI-Skript übernommen. User: „wieso doppelung?".
-- Skript-Crash bei XML-Comments. Erste Konversion Einsiedeln 624 crashte, weil Carinas TEI Kommentare enthält und `deep_clone` die nicht handhabte. Defensive Checks ergänzt.
-- Schema-Validation-Cascade unterschätzt. 5/6 ARI-HS failten erst mit Cascade-Fehlern. Schritt für Schritt aufgelöst (`<lb @break>`, `<roleName>`/`<occupation>` mit `inline.model`-Inhalt, `<persName>`/`<person>` als Inline-Patterns, `<note>` mit `<p>`-Children + `@place`, nested `<hi>`).
-
-**Ingest-Pattern eingeführt:** `ingest/<sigle>/` als Top-Level für Source-Daten + Pipeline-Artefakte (analog `scripts/ingest/<sigle>/` für Skripte). Konvention seit dieser Session. WZB liegt aus historischen Gründen noch unter `Wenzelsbibel/` — Refactor zu `ingest/wzb/` als Folge-Task.
-
-**Commits (alle main, NICHT gepusht außer `b5061085e`):**
-- `b5061085e` `docs: Promptotyping doc-sync nach 2026-05-07-Handoff` — gepusht
-- `5d118e5b7` `feat(ingest): ARI Stage-0-Konversion + Dogfood-Befund (#92)`
-- `81cd5b7c5` `docs(hilfe): Konversions-Sektion + Katharinas ARITHMETIC-Antworten`
-- `4972793ba` `docs(ari): PD-001 entschieden + Lizenz-Doppelung korrigiert`
-- `b59350bb5` `feat(schema): MHDBDB-Schema-Erweiterung fuer ARITHMETIC (PD-001)`
-- `bbb2c3549` `docs(tei-model): §6.0 "Optionale Erweiterungen" (PD-001)`
-
-**Committete ARI-Artefakte (nicht in `tei/`):** `ingest/ari/` mit allen 6 HS + README. Stage-0 sauber + Stage-2-validiert. Header haben `work_TBD`/`genre_TBD`/`msIdentifier corresp TBD`-Platzhalter, deshalb `ingest/ari/` statt `tei/` (build-corpus-index würde sonst Platzhalter indexieren). Ziehen nach `tei/` um sobald Carina finale Metadaten liefert.
-
----
-
-## 2026-05-08 14:54 — handoff (WZB live in beiden Indexen + Authority-Cache-Bugfix #94)
-
-**Summary:** WZB.tei.xml lag annotiert in `tei/`, aber weder Corpus- noch Authority-Index rebuilt. Beide neu gebaut, Version-Bumps (corpus 4.0.0 → 4.0.1, authority 1.2.0 → 1.2.1). Beim Verifizieren entdeckt: Authority-Cache invalidierte de-facto nie, weil `cached.version !== cached.data.version` per Konstruktion immer falsch ist. Fix in derselben Session: zweite JS-Konstante `AUTHORITY_INDEX_VERSION` analog zu `INDEX_VERSION`, beide Pfade vergleichen gegen Konstante. End-to-end Browser-getestet, Suche „got" findet WZB.
-
-**Decisions:**
-- **PATCH statt MINOR für Datenzugänge.** Index-Bumps für „neuer Text rein" sind PATCH (4.0.1, 1.2.1). MINOR/MAJOR bleibt reserviert für Schema/Algorithmus-Änderungen.
-- **Ein Commit für Rebuild + Bugfix.** Bug wurde *durch* den Versions-Bump entdeckt, ohne Fix wäre Bump wirkungslos. Coupling rechtfertigt gemeinsamen Commit.
-- **AUTHORITY_INDEX_VERSION-Konstante statt self-referential check.** Bestand-Logik verglich `cached.version` gegen `cached.data.version` — beide aus derselben Cache-Quelle, also nie auseinanderlaufend. Neue Logik spiegelt Corpus-Pattern (Konstante als Wahrheitsquelle).
-- **`variants.xml`-Sweep des Kollegen NICHT in WZB-Commit aufgenommen** — Header „666 → 667" war parallele Sweep-Session, gehörte in dessen Commit `f14683f07`. Memory `feedback_concurrent_sessions` hielt das scharf.
-
-**Dead ends:**
-- Erster Rebuild zog ARI_MUE279 als Beifang. Build-Skript scannt blind `tei/`. Während paralleler ARI-Session lag `tei/ARI_MUE279.tei.xml` als untracked file dort. Erster Build → 668 Texte (WZB + ARI). User-Hint → nach ARI-Entfernung sauber rebuilt → 667.
-- „Nur kosmetisch"-Fehlschluss bei `variants.xml`. Erster Check via `git status` zeigte nur uncommitted Diff. User korrigierte: Authority-Files könnten zwischen WZB-Ingest und letztem Index-Build *committed* worden sein. mtime-Check bewies: `lexicon.xml`/`works.xml` 2026-05-07, Index 2026-04-10. Lesson: bei „Hat sich was geändert?" nicht nur `git status`, auch mtimes + commit-history gegen `generatedAt`.
-- Backup-Race-Condition: Backup parallel zum Build → `cp` erwischte NEUE Datei statt alter. Workaround: `git show HEAD:data/authority-index.json.gz` für sauberen Diff. Lesson: Backup VOR Build, nicht parallel.
-
-**Commit:** `d7011105f` `feat(ingest): WZB-Index-Rebuild + Authority-Cache-Bugfix` (5 Files). Push umfasste auch 3 Kollegen-Commits ab `f14683f07`.
-
-**Externe:** Push deployed WZB live `https://dhcraft.org/mhdbdb-tei-only/korpus.html?text=WZB`. #94 erstellt + sofort geschlossen (Bug-Doku, Fix-Referenz `d7011105f`, Label `frontend`). Kommentare auf #34 (WB live) und #68 (Dogfood-Lessons aus WZB).
-
-**Verifikation:** `totalTextCount` 666 → 667 nach Cache-Invalidation, Console `Cache version mismatch for authority-index: 1.2.0 != 1.2.1` und `Authority index loaded: 43754 lemmata`. Suche „got" findet WZB (~800ms). 142,174 Tokens / 2,142 Lemmata in WZB, +4 neue Lemmata + work_WZB.
-
----
-
-## 2026-05-08 15:04 — handoff (Hilfe-Faktencheck + Issue-Updates + #79 closed)
-
-**Summary:** Nach parallelem WZB-Rebuild-Track (`19aa5b955`) Faktencheck über 4 Hilfe-Seiten: Variantenzahl `175.910 → 192.472` an 5 Stellen, 4 Authority-File-Größen in `hilfe-daten.html` aktualisiert, Stand „Mai 2026" überall, Em-Dash-Hygiene. Issue-Comments auf #92 + #68. #79 (User-facing Hilfe-Seite) geschlossen, 7/8 AKs erfüllt; Plan-Doc `079-hilfe-seite.md` gelöscht.
-
-**Decisions:**
-- **#79 schließen, nicht offen lassen:** 7/8 AKs erfüllt — Hub erreichbar, 5 V1-Seiten live (pragmatisch reduziert von 12), Nav-„Hilfe" auf allen Hauptseiten, Zitation mit Copy-Button, Lemmata-/Variantenzahl konsistent, keine englischen UI-Strings, `docs/research/` archiviert. Playwright-Smoke-Test als Maintenance-Folge.
-- **Plan-Doc `079-hilfe-seite.md` löschen** statt aufbewahren: ursprünglicher 12-Seiten-Plan in 5 Seiten umgesetzt; Doc beschrieb nicht-existente Struktur. Promptotyping-Konvention sagt zwar „Doc bleibt während Issue offen", aber obsoletes Doc schadet mehr als es nützt. Git-Historie als Archiv.
-- **Em-Dash-Hygiene auch in Code-Snippets:** einen Em-Dash gefixt, den ich heute eingeführt hatte (§7 `'FAIL — toleriert'`). Memory verbietet Em-Dashes in user-facing — auch in Code-Snippets (sichtbar im print-Output). Doppelpunkt statt Em-Dash.
-
-**Dead ends:**
-- Eigenes Review unvollständig. Erstes „alle Punkte gefixt"-Statement übersah einen SHOULD-FIX (S3 Initial-Pattern §3.2). User: „hast du das alles gefixed?". Lesson: bei eigenem Self-Check Punkt-für-Punkt abgleichen, nicht auf Buchhaltung im Kopf verlassen.
-- Mail-Quellen vermischt (vorige Session): Entwurf vermischte Carinas Originalmail, ihre Antwort und Katharinas Signal-Chat. Lesson: bei Mail-Tasks erst nach existierendem Stand fragen.
-
-**Commits:** `cb99c1df5` Hilfe-Faktenkorrektur + Stand-Update Mai 2026; `ff504cdf8` features/079-hilfe-seite.md gelöscht.
-
-**Externe:** #92 Comment `4406549960` (ARITHMETIC-Stand); #68 Comment `4406552591` (hilfe-daten-beitragen.html Erweiterungen); #79 closed.
+**15:04 Hilfe-Faktencheck + #79 closed:** Variantenzahl `175.910 → 192.472` an 5 Stellen, 4 Authority-File-Größen aktualisiert. **#79** (User-facing Hilfe-Seiten) closed: 7/8 AKs (5 V1-Seiten live, pragmatisch reduziert von 12). Plan-Doc `079-hilfe-seite.md` gelöscht (obsolet — beschrieb nicht-existente 12-Seiten-Struktur). **Em-Dash-Hygiene auch in Code-Snippets** (sichtbar im print-Output). **Lessons:** Self-Check Punkt-für-Punkt abgleichen (Eigen-Review hatte SHOULD-FIX übersehen); bei Mail-Tasks erst nach existierendem Stand fragen.
 
 ---
 
