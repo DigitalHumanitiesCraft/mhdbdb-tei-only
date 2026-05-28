@@ -1131,3 +1131,68 @@ Plus separates Sweep nach User-Hint: 9 stable Docs `.MD → .md` umbenannt (Two-
 
 **Memory-Updates dieser Session:**
 - Keine neuen Memories nötig — alle Patterns sind schon abgedeckt (Concurrent-Sessions, Index-Version-Bump, Test-Invocation). Der CI-Timeout-Fix ist projektspezifisch und im Journal dokumentiert, nicht als Memory.
+
+---
+
+## 2026-05-28 15:00 — handoff (Mini-/Klein-Audit-Sweep: CI grün, Sigle-Coverage, Cross-Ref-Audit, #80 closed)
+
+**Summary:** Sechs Mini-/Klein-Aufgaben nach Tages-Doc-Sweep abgearbeitet. Schwerpunkt: read-only Audits, leichte Issue-Hygiene. Ergebnis: CI bestätigt grün; ein bisher unbekannter Daten-Befund ans Tageslicht (226k unresolved Variant-Refs); ein Umbrella geschlossen; ein Memory-Drift gefixt.
+
+**Erledigt:**
+
+1. **CI-Verify** auf den heutigen 5 Commits — alle grün (Schema Validation, Index Version Check, pages-build-deployment). Eine `pages-build-deployment` cancelled, vermutlich wegen Concurrent-Run-Cancellation.
+
+2. **Corpus-Index-Größen-Audit (v4.1.3):** 40,23 MB gz / 160,58 MB raw, Ratio 4,0×. Authority-Index 2,91 MB gz / 20,30 MB raw, Ratio 7,0× (sehr gut komprimiert wegen vieler wiederholter lemma-IDs). Corpus-Index zu 100 % aus `texts[]` (174 MB raw, plus 4 MB `lemmaIndex`). #111-Soft-Cap-Trigger (50 MB gz) ist ~10 MB entfernt — ~25 % Korpus-Wachstum führt zum Trigger. Top-15 größte Texte: OVG (9 MB), JT, PL1, TRO, PL2, REN, PL3, WZB, AXU, JEW, HTR, CRO, PZ, RVBR, GAR.
+
+3. **Sigle-Coverage-Report (POS/Lemma/structural pro 667 Texte):**
+   - 202 Sigles (30 %) Kategorie A (POS+Lemma ≥95 %)
+   - 107 Sigles (16 %) Kategorie B (≥80 %)
+   - 358 Sigles (54 %) Kategorie C (≥50 %)
+   - 0 Sigles Kategorie D, 0 leer
+   - 64 Texte ohne `<l>` (Prosa-Verdacht, matched bekanntes Bild)
+   - **606 Texte ohne `<pb>`** — page-break-Annotation fehlt großflächig. #26 hat 14 Texte gefixed, das eigentliche Volumen ist viel größer. Bewusst nicht angefasst oder echter Backlog? Ggf. KZW-Frage wert.
+
+4. **Authority-Cross-Reference-Audit (NEUER ERKENNTNIS):**
+   - 21,3 M Cross-References im Korpus gescannt
+   - **226.863 unresolved (1,06 %)**, davon **225.886 auf `variants.xml`** (64.291 distinct Variant-IDs)
+   - **977 unresolved auf `lexicon.xml`** (349 distinct Lemma-IDs)
+   - **4 negative type-IDs als Daten-Format-Issue identifiziert:** `type_-7` (6369x), `type_-15` (5267x), `type_-10` (1630x), `type_-11` (1629x) — vermutlich Placeholder für „nicht-zugeordnet"
+   - Echte unresolved Lemma-IDs (349 distinct) sind Datenleichen — Lemma-Migration hat sie nicht entfernt oder Korpus referenziert nicht-mehr-existierende Einträge
+   - **Empfehlung:** Neues Issue für `data:tei-wrangling` anlegen — „Authority-Cross-Reference-Integrity-Audit". Heute nicht angefasst weil Mini-Scope.
+
+5. **#80 Umbrella geschlossen** — #79 + #78 längst durch, nur #68 organisatorisch offen. Closing-Comment dokumentiert Status, Leitprinzipien stehen weiter. #68 trackt eigenständig.
+
+6. **Memory-Audit:** 16 Files durchgegangen, project-Files spotchecked.
+   - `project_tei_consolidation.md`: aktuell als Wissensanker markiert, kein Update nötig.
+   - `project_issue30_tei_review.md`: behauptet `feature/tei-structural-fixes-30` lebt lokal — verifiziert via `git branch`, stimmt.
+   - `project_arithmetic_ingest.md`: **gefixed** — Verweis auf `Arithmetic_MHDBDB.zip` raus (war am 2026-05-07 versehentlich mit `rm -f` gelöscht); Stand auf „Daten leben in `ingest/ari/` seit 2026-05-08, validiert" aktualisiert.
+   - `project_benchmark_repo.md`: 72 Tage alt aber inhaltlich stabil (Sibling-Repo-Existenz verifiziert), kein Update.
+   - feedback_*-Files: alle gerade gepflegt (feedback_index_version_bump heute erweitert).
+
+7. **features/-Lifecycle-Audit:** vier Dateien (034 wenzelsbibel 45 KB, 045 static-api 9 KB, 114-Doppel vom Kollegen). Alle vier passend zum Lifecycle — keine Aktion. 034 ist groß und WB-Teil ist fertig, aber CoReMA-Teil steht noch aus (Issue #34 offen), darum kein Extract.
+
+**Anti-Sycophancy-Befund:**
+
+Das Authority-Cross-Reference-Audit war als Mini-Task gedacht, hat aber strukturelle Datenqualitäts-Lücke aufgedeckt: 226 K unresolved Refs, davon 225 K auf Varianten, 977 auf Lemmata. Negative type-IDs deuten auf Datenformat-Eigenheit, aber 349 distinct unresolved Lemma-Refs sind echte Datenleichen. Das gehört eigentlich in ein eigenes Issue (CI-relevant — `check-index-versions.py` könnte erweitert werden), wurde aber heute nicht angelegt, um den Mini-Scope nicht zu sprengen. Beim nächsten Carryover prüfen.
+
+**Files berührt (committable):**
+- `docs/JOURNAL.md` (dieser Handoff)
+
+**Files berührt (Memory, nicht im Repo):**
+- `memory/project_arithmetic_ingest.md` (ZIP-Verweis raus, ingest/ari-Status drin)
+
+**Externe:**
+- #80 closed (Comment + Close-Trailer)
+
+**Phase:** Implementation (handoff). Working Tree nach Commit clean.
+
+**Open / Carryover (Stand vor diesem Handoff unverändert):**
+- 8 unbeantwortete Pings — User hat persönlichen Reminder rausgeschickt
+- #45 Static JSON API + #114 (Kollege) + #28 (wartet auf KZW-Klärung)
+- **NEU als Carryover:** Authority-Cross-Reference-Audit-Befund — entweder als Issue anlegen oder im nächsten Workstream mit beheben (z. B. `check-index-versions.py` um Cross-Ref-Check erweitern, neuer CI-Workflow)
+
+**Next steps (nächste Session):**
+1. `/promptotyping orient` — lädt diesen Handoff.
+2. KZW-Reminder-Response prüfen (User hat persönlich rausgeschickt).
+3. Wenn freie Kapazität: **#45 Static JSON API** beginnen oder Authority-Cross-Reference-Audit zu Issue formalisieren.
+4. Bei KZW-Antworten: Issues entsprechend bewegen.
