@@ -21,6 +21,10 @@ class MainSiteApp {
         this.currentPage = 0;
         this.resultsPerPage = 20;
 
+        // Issue #114: View-Mode für Korpussuche-Ergebnisse
+        this.viewMode = this.loadViewMode();        // 'list' | 'table'
+        this.sortSpec = { column: 'matchCount', direction: 'desc' };  // Default, nicht persistiert
+
         // Corpus data (for text selection)
         this.corpusData = {
             texts: [],
@@ -308,6 +312,13 @@ class MainSiteApp {
             // Reading panel navigation controls
             this.elements.prevHighlight.addEventListener('click', () => this.teiReader.navigateHighlight(-1));
             this.elements.nextHighlight.addEventListener('click', () => this.teiReader.navigateHighlight(1));
+
+            // Issue #114: View-Mode Toggle
+            document.getElementById('viewToggleList')?.addEventListener('click', () => this.setViewMode('list'));
+            document.getElementById('viewToggleTable')?.addEventListener('click', () => this.setViewMode('table'));
+
+            // Initial UI-State setzen
+            this.updateViewToggleUI();
         }
 
         console.log(`[MainSiteApp] Event listeners attached (${this.isSearchPage ? 'Search' : 'Landing'} page)`);
@@ -570,6 +581,40 @@ class MainSiteApp {
             this.scrollToElement(this.elements.resultsSection);
         }, 100);
     }
+
+    // --- Issue #114: View-Mode helpers ---
+
+    loadViewMode() {
+        const stored = localStorage.getItem('mhdbdb-results-view');
+        return (stored === 'table' || stored === 'list') ? stored : 'list';
+    }
+
+    setViewMode(mode) {
+        if (mode !== 'list' && mode !== 'table') return;
+        this.viewMode = mode;
+        localStorage.setItem('mhdbdb-results-view', mode);
+        this.updateViewToggleUI();
+        // Re-render ohne neue Suche
+        if (this.currentResults.length > 0) {
+            this.displayResults();
+        }
+    }
+
+    updateViewToggleUI() {
+        const listBtn = document.getElementById('viewToggleList');
+        const tableBtn = document.getElementById('viewToggleTable');
+        if (!listBtn || !tableBtn) return;
+
+        const active = 'bg-brand-600 text-white';
+        const inactive = 'text-slate-600 hover:bg-slate-50';
+
+        listBtn.className = `px-3 py-1.5 text-sm font-medium rounded-md flex items-center gap-1.5 ${this.viewMode === 'list' ? active : inactive}`;
+        tableBtn.className = `px-3 py-1.5 text-sm font-medium rounded-md flex items-center gap-1.5 ${this.viewMode === 'table' ? active : inactive}`;
+        listBtn.setAttribute('aria-pressed', this.viewMode === 'list');
+        tableBtn.setAttribute('aria-pressed', this.viewMode === 'table');
+    }
+
+    // --- Ende Issue #114 View-Mode helpers ---
 
     /**
      * Scroll to element with offset for sticky header
