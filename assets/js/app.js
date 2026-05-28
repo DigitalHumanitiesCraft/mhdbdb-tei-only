@@ -692,7 +692,17 @@ class MainSiteApp {
     }
 
     // Stubs — werden in Tasks 6, 7, 8, 9 implementiert
-    handleSortClick(column) { console.log('[Task 6] sort', column); }
+    handleSortClick(column) {
+        if (this.sortSpec.column === column) {
+            // Re-Klick toggelt direction
+            this.sortSpec.direction = this.sortSpec.direction === 'asc' ? 'desc' : 'asc';
+        } else {
+            // Neue Spalte → desc als initial
+            this.sortSpec = { column, direction: 'desc' };
+        }
+        this.sortResults();
+        this.renderTable();  // Re-render mit neuer Sortierung + aktualisierten Sort-Icons
+    }
     handleTableRowClick(textId) { console.log('[Task 7] open reader for', textId); }
     copyResultsToClipboard() { console.log('[Task 8] copy TSV'); }
     downloadResultsAsCSV() { console.log('[Task 9] download CSV'); }
