@@ -748,3 +748,45 @@
 #mainGrid.table-layout > .search-card.expanded {
   max-height: none;
 }
+
+/* Issue #114: Tabellen-Styles */
+.results-table-th {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: rgb(51 65 85);  /* slate-700 */
+    border-bottom: 1px solid rgb(226 232 240);  /* slate-200 */
+}
+
+.results-table-sort-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font: inherit;
+    color: inherit;
+    padding: 0;
+}
+
+.results-table-sort-btn:hover {
+    color: rgb(37 99 235);  /* brand-600 */
+}
+
+.results-table-td {
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid rgb(241 245 249);  /* slate-100 */
+    vertical-align: top;
+}
+
+.results-table-row:focus {
+    outline: 2px solid rgb(37 99 235);
+    outline-offset: -2px;
+}
+
+.results-table-row:last-child .results-table-td {
+    border-bottom: none;
+}

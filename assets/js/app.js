@@ -595,10 +595,107 @@ class MainSiteApp {
         }, 100);
     }
 
-    // Issue #114: Tabellen-Rendering (Stub — volle Implementierung in Task 5)
+    /**
+     * Issue #114: Rendert die Tabellen-Ansicht der Suchergebnisse.
+     * 5 Spalten: Titel (mit Sigle-Präfix), Autor*in, Treffer, Frequenz/10k, Wörter.
+     * Header sind klickbare Sort-Buttons; Zeilen-Klick öffnet den Reader.
+     */
     renderTable() {
-        this.elements.resultsList.innerHTML = '<p class="text-slate-500">Tabelle (Task 5)</p>';
+        const { column, direction } = this.sortSpec;
+        const sortIcon = (col) => col === column ? (direction === 'asc' ? '↑' : '↓') : '↕';
+        const ariaSort = (col) => col === column ? (direction === 'asc' ? 'ascending' : 'descending') : 'none';
+
+        const headerCell = (col, label, alignClass = '') => `
+            <th scope="col" aria-sort="${ariaSort(col)}" class="results-table-th ${alignClass}" style="position: sticky; top: 0; background: #f8fafc; z-index: 10;">
+                <button type="button" data-sort-col="${col}" class="results-table-sort-btn">
+                    ${this.escapeHtml(label)} <span class="text-xs text-slate-400">${sortIcon(col)}</span>
+                </button>
+            </th>
+        `;
+
+        const rows = this.currentResults.map(r => {
+            const freq = (r.wordCount > 0)
+                ? ((r.matchCount / r.wordCount) * 10000).toFixed(1)
+                : '–';
+            const wordsFmt = r.wordCount ? r.wordCount.toLocaleString('de-DE') : '–';
+            const matchesFmt = r.matchCount.toLocaleString('de-DE');
+            return `
+                <tr data-text-id="${this.escapeHtml(r.textId)}" tabindex="0" role="button" class="results-table-row hover:bg-slate-50 cursor-pointer">
+                    <td class="results-table-td">
+                        <span class="font-mono text-xs text-brand-600 mr-1">${this.escapeHtml(r.textId)}</span>
+                        <span>${this.escapeHtml(r.title)}</span>
+                    </td>
+                    <td class="results-table-td">${this.escapeHtml(r.author || '–')}</td>
+                    <td class="results-table-td text-right tabular-nums">${matchesFmt}</td>
+                    <td class="results-table-td text-right tabular-nums">${freq}</td>
+                    <td class="results-table-td text-right tabular-nums text-slate-500">${wordsFmt}</td>
+                </tr>
+            `;
+        }).join('');
+
+        const html = `
+            <div class="mb-3 flex items-center justify-between gap-3">
+                <p class="text-sm text-slate-500">Klick auf Spalten-Header sortiert. Klick auf Zeile öffnet den Text.</p>
+                <div class="flex gap-2" id="resultsExportButtons">
+                    <button type="button" id="resultsCopyBtn" class="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-sm font-medium hover:bg-slate-50">📋 Kopieren</button>
+                    <button type="button" id="resultsDownloadBtn" class="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-sm font-medium hover:bg-slate-50">⬇ CSV</button>
+                </div>
+            </div>
+            <div class="overflow-y-auto rounded-2xl border border-slate-200 bg-white" style="max-height: calc(100vh - 280px);">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr>
+                            ${headerCell('title', 'Titel', 'text-left')}
+                            ${headerCell('author', 'Autor*in', 'text-left')}
+                            ${headerCell('matchCount', 'Treffer', 'text-right')}
+                            ${headerCell('frequency', 'Freq./10k W.', 'text-right')}
+                            ${headerCell('wordCount', 'Wörter', 'text-right')}
+                        </tr>
+                    </thead>
+                    <tbody>${rows}</tbody>
+                </table>
+            </div>
+        `;
+
+        this.elements.resultsList.innerHTML = html;
+
+        // Load-More-Button verstecken (gehört zur Liste)
+        this.elements.loadMoreContainer?.classList.add('hidden');
+
+        // Event-Handler binden — Sort, Row-Click, Export (Tasks 6-9 füllen)
+        this.bindTableEvents();
     }
+
+    bindTableEvents() {
+        // Sort-Header
+        this.elements.resultsList.querySelectorAll('[data-sort-col]').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.handleSortClick(btn.dataset.sortCol);
+            });
+        });
+
+        // Row-Klick → Reader (Task 7 erweitert)
+        this.elements.resultsList.querySelectorAll('.results-table-row').forEach(row => {
+            row.addEventListener('click', () => this.handleTableRowClick(row.dataset.textId));
+            row.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    this.handleTableRowClick(row.dataset.textId);
+                }
+            });
+        });
+
+        // Export-Buttons (Tasks 8-9 erweitern)
+        document.getElementById('resultsCopyBtn')?.addEventListener('click', () => this.copyResultsToClipboard());
+        document.getElementById('resultsDownloadBtn')?.addEventListener('click', () => this.downloadResultsAsCSV());
+    }
+
+    // Stubs — werden in Tasks 6, 7, 8, 9 implementiert
+    handleSortClick(column) { console.log('[Task 6] sort', column); }
+    handleTableRowClick(textId) { console.log('[Task 7] open reader for', textId); }
+    copyResultsToClipboard() { console.log('[Task 8] copy TSV'); }
+    downloadResultsAsCSV() { console.log('[Task 9] download CSV'); }
 
     /**
      * Issue #114: Sortiert this.currentResults in-place gemäß sortSpec.
