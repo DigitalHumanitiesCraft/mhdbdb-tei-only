@@ -5,11 +5,11 @@ Hintergrund (Lehre aus 2026-05-12, #47.3): der Corpus-Index wird durch
 drei Stellen versioniert, die alle synchron sein muessen, sonst greift
 die Cache-Invalidate-Logik im Frontend nicht.
 
-  1. scripts/build-corpus-index.py        -> 'version': '4.1.0'
-  2. scripts/build-authority-index.py     -> 'version': '1.2.1'
+  1. scripts/build-corpus-index.py        -> 'version': '4.1.3'
+  2. scripts/build-authority-index.py     -> 'version': '1.3.0'
   3. assets/js/lib/corpus-loader.js
-        INDEX_VERSION             = '4.1.0'
-        AUTHORITY_INDEX_VERSION   = '1.2.1'
+        INDEX_VERSION             = '4.1.3'
+        AUTHORITY_INDEX_VERSION   = '1.3.0'
 
 Wenn diese auseinanderlaufen, cached der Loader den neuen Index mit
 der alten Version-Konstante und gibt ihn beim naechsten Load auch wieder

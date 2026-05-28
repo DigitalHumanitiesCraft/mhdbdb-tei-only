@@ -73,7 +73,12 @@ export class ConceptDistribution {
 
   /**
    * Resolve user query to a concept. Matches termDE / termEN / normalized
-   * (case-insensitive substring), prefers exact match if present.
+   * primarily, falls back to altDE / altEN (with slightly lower scores so
+   * the primary term wins on ties).
+   *
+   * Returns each candidate with `matchedAlt` when the hit came only via an
+   * alternative term — used by the autocomplete dropdown to render the
+   * "auch: …" hint (#113-Followup).
    */
   resolveQuery(query) {
     const trimmed = (query || '').trim();
@@ -94,17 +99,46 @@ export class ConceptDistribution {
       const de = (c.termDE || '').toLowerCase();
       const en = (c.termEN || '').toLowerCase();
       const norm = (c.normalized || '').toLowerCase();
-      let score = 0;
-      if (de === needle || en === needle || norm === needle) score = 100;
-      else if (de.startsWith(needle) || en.startsWith(needle) || norm.startsWith(needle)) score = 50;
-      else if (de.includes(needle) || en.includes(needle) || norm.includes(needle)) score = 10;
-      if (score > 0) scored.push({ c, score });
+
+      let primaryScore = 0;
+      if (de === needle || en === needle || norm === needle) primaryScore = 100;
+      else if (de.startsWith(needle) || en.startsWith(needle) || norm.startsWith(needle)) primaryScore = 50;
+      else if (de.includes(needle) || en.includes(needle) || norm.includes(needle)) primaryScore = 10;
+
+      let altScore = 0;
+      let matchedAlt = null;
+      const altCandidates = [
+        ...(c.altDE || []).map(t => ({ text: t, lower: t.toLowerCase() })),
+        ...(c.altEN || []).map(t => ({ text: t, lower: t.toLowerCase() })),
+        ...(c.altNormalized || []).map(t => ({ text: t, lower: t.toLowerCase() })),
+      ];
+      for (const alt of altCandidates) {
+        let s = 0;
+        if (alt.lower === needle) s = 90;
+        else if (alt.lower.startsWith(needle)) s = 45;
+        else if (alt.lower.includes(needle)) s = 8;
+        if (s > altScore) {
+          altScore = s;
+          // Prefer the human-readable form (DE/EN) for the hint, not normalized
+          if (alt.text && !(c.altNormalized || []).includes(alt.text)) {
+            matchedAlt = alt.text;
+          } else if (!matchedAlt) {
+            matchedAlt = alt.text;
+          }
+        }
+      }
+
+      const score = Math.max(primaryScore, altScore);
+      if (score === 0) continue;
+      // Only attach hint when alternative-only match (no primary hit)
+      const viaAlternative = primaryScore === 0 && altScore > 0;
+      scored.push({ c, score, matchedAlt: viaAlternative ? matchedAlt : null });
     }
     if (scored.length === 0) return { resolved: null, candidates: [] };
     scored.sort((a, b) => b.score - a.score || (a.c.termDE || '').localeCompare(b.c.termDE || '', 'de'));
     return {
       resolved: scored[0].c,
-      candidates: scored.slice(0, 12).map(s => s.c)
+      candidates: scored.slice(0, 12).map(s => ({ ...s.c, matchedAlt: s.matchedAlt }))
     };
   }
 
@@ -460,11 +494,15 @@ export class ConceptDistribution {
       const active = i === idx;
       const cls = active ? 'bg-brand-50 text-brand-800' : 'text-slate-700 hover:bg-slate-50';
       const en = c.termEN ? `<span class="text-xs text-slate-500"> · ${escapeHtml(c.termEN)}</span>` : '';
+      const altHint = c.matchedAlt
+        ? `<div class="mt-0.5 text-xs italic text-slate-500">auch: ${escapeHtml(c.matchedAlt)}</div>`
+        : '';
       return `<button type="button" role="option" data-cd-ac-idx="${i}"
         aria-selected="${active}"
         class="block w-full cursor-pointer px-3 py-2 text-left text-sm ${cls}">
         <span class="font-medium">${escapeHtml(c.termDE || c.id)}</span>${en}
         <span class="ml-2 text-xs font-mono text-slate-400">${escapeHtml(c.id)}</span>
+        ${altHint}
       </button>`;
     }).join('');
     dd.classList.remove('hidden');
