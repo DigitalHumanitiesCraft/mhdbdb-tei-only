@@ -79,6 +79,8 @@ scripts/sync/.zotero_cache.json
 # Audit script outputs (regenerated on each run)
 scripts/audit/*.json
 scripts/audit/*-REPORT.md
+scripts/audit/lexicon-backfill-*.md
+scripts/audit/lexicon-backfill-*.xml
 docs/research/*.json
 
 # Debug and manual test files

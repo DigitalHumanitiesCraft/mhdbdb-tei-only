@@ -364,9 +364,11 @@ class PersonsSyncer(AuthoritySyncer):
     
     def load_authority_data(self) -> Dict:
         """Load person data from persons.xml. Returns person_id → person data."""
-        # TODO: Implement when needed
-        logger.info(f"[{self.name}] Not yet implemented")
-        return {}
+        # TODO: Implement when needed. Until then, fail loudly rather than
+        # returning {} (which the summary would render as a clean "0 updated").
+        raise NotImplementedError(
+            "PersonsSyncer is a declared stub (TODO). See IMPLEMENTED_SYNCERS in main()."
+        )
     
     def update_tei_header(self, tei_tree: etree._ElementTree, sigle: str, 
                          data: any, dry_run: bool) -> bool:
@@ -380,9 +382,10 @@ class GenresSyncer(AuthoritySyncer):
     
     def load_authority_data(self) -> Dict:
         """Load genre data from genres.xml."""
-        # TODO: Implement when needed
-        logger.info(f"[{self.name}] Not yet implemented")
-        return {}
+        # TODO: Implement when needed. Fail loudly instead of silent (0, 0).
+        raise NotImplementedError(
+            "GenresSyncer is a declared stub (TODO). See IMPLEMENTED_SYNCERS in main()."
+        )
     
     def update_tei_header(self, tei_tree: etree._ElementTree, sigle: str, 
                          data: any, dry_run: bool) -> bool:
@@ -396,9 +399,10 @@ class ConceptsSyncer(AuthoritySyncer):
     
     def load_authority_data(self) -> Dict:
         """Load concept data from concepts.xml."""
-        # TODO: Implement when needed
-        logger.info(f"[{self.name}] Not yet implemented")
-        return {}
+        # TODO: Implement when needed. Fail loudly instead of silent (0, 0).
+        raise NotImplementedError(
+            "ConceptsSyncer is a declared stub (TODO). See IMPLEMENTED_SYNCERS in main()."
+        )
     
     def update_tei_header(self, tei_tree: etree._ElementTree, sigle: str, 
                          data: any, dry_run: bool) -> bool:
@@ -414,6 +418,11 @@ SYNCERS = {
     'genres': GenresSyncer,
     'concepts': ConceptsSyncer,
 }
+
+# Only these are actually implemented; the others are declared stubs (see the
+# classes above). Kept explicit so an unimplemented syncer fails LOUDLY instead
+# of silently returning (0, 0), which reads as "ran fine, nothing to do".
+IMPLEMENTED_SYNCERS = {'works'}
 
 
 def main():
@@ -474,6 +483,24 @@ Examples:
         parser.print_help()
         logger.error("\nError: Must specify at least one authority file (--all, --works, etc.)")
         return 1
+
+    # Guard against the silent-stub trap: an explicit request for an
+    # unimplemented syncer must fail loudly; --all just skips them with a note.
+    unimplemented = [s for s in syncers_to_run if s not in IMPLEMENTED_SYNCERS]
+    if unimplemented and not args.all:
+        logger.error(
+            f"Not implemented: {', '.join(unimplemented)}. "
+            f"Implemented: {', '.join(sorted(IMPLEMENTED_SYNCERS))}. "
+            "These are declared stubs in sync_tei_headers.py (TODO: implement when needed). "
+            "Refusing to report a misleading '0 updated' success."
+        )
+        return 1
+    if unimplemented:  # args.all
+        logger.warning(
+            f"Skipping not-yet-implemented syncers: {', '.join(unimplemented)} "
+            "(declared stubs; nothing is synced for them)."
+        )
+        syncers_to_run = [s for s in syncers_to_run if s in IMPLEMENTED_SYNCERS]
     
     # Display mode
     if args.dry_run:
