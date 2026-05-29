@@ -4,6 +4,38 @@ Chronological log of development decisions, dead ends, and savepoints. Not a cha
 
 ---
 
+## 2026-05-29 10:13 — handoff
+
+**Summary:** Ausgehend von #115 (Cross-Reference-Audit) wurde die Wurzelursache der Authority-Drift gefunden und die größte stille Datendrift behoben. Kernerkenntnis (KZW): Das Repo war ein Transformationsprojekt (Alt-MHDBDB + RDF → TEI-only), ist jetzt aktives Projekt mit Ingest, aber die abgeleiteten Files hatten keinen Regenerationspfad. Cross-Ref-unresolved von 226.863 auf 977 gesenkt (variants.xml regeneriert + negative-type-Interpunktion entfernt), Cross-Ref-Audit als CI-Gate verankert, transformation→active samt Data-Change-Lifecycle in den Docs festgehalten.
+
+**Decisions:**
+- **negative type-IDs (`type_-7|-10|-11|-15`) = Interpunktion (`- « » /`), keine Varianten** (0 lemmaRef, je 1 Zeichen). Schema-Check zeigte: `<pc>`-Konversion bräuchte erfundenes `@join` (Pflicht), verstößt gegen Daten-vor-Schema → stattdessen Option B: totes `@corresp` gedroppt (14.895 über 296 Files, byte-genau, `scripts/audit/drop-negative-variant-corresp.py`).
+- **variants.xml ist korpus-abgeleitet und war stale** (64.287 Formen fehlten). Neuer #32-fähiger Generator `scripts/sync/extract-variants.py` (liest `@lemmaRef`+`@corresp` statt Pre-#32-`@wordRef`; xml:id-Eindeutigkeit per Mehrheit). Regeneriert verlustfrei: 192.472 → 256.759 Formen, Schema-valide 2/2, cross-ref variants→0. Authority-Index v1.3.0 → v1.4.0.
+- **lexicon.xml: Repo ist Master, kein Salzburg-Re-Export** (KZW-Korrektur). `lexicon.csv` war selbst RDF-abgeleitet (liegt auf `initial-data-wrangling` unter `lists/`), Migration verlustfrei abgebildet (CSV 43.750/62.240 → xml 43.754/62.244). Die 977 dangling Refs (349 IDs) sind zu 100 % post-Migration ingest-erzeugt (98 im WZB-Range ≥78000), 0 im alten CSV → repo-interner Backfill, kein externer Export. TEXTWORD.xml obsolet (sense→type-Mapping steht in `<sense @ana>` + im Korpus).
+- **CI-Gaps geschlossen:** Cross-Ref-Audit `--check` als Gate in `schema-validation.yml` (scheitert außerhalb lexicon.xml; lexicon = Baseline), `index-version-check.yml` triggert auch auf `data/**`, `validate-indices.py` leitet erwartete Versionen aus `corpus-loader.js` ab (war hardcodiert 1.0.0), `generate-manifest.py`-Orphan entfernt.
+- **Methodik:** Zwei Workflows (8-Agenten Authority-Staleness-Audit, 5+1 Data-Change-Lifecycle-Audit) lieferten die evidenzbasierte Provenienz- + Gap-Analyse.
+
+**Dead ends:**
+- Erster `extract-variants.py`-Dry-Run hing: `lemma_changed`-Diff war O(types × lemmas) via `next(... if t in ts)`. Fix: `type_to_lemma`-Reverse-Map (O(1)). Hintergrund-Task gestoppt (TaskStop), gefixt, neu gelaufen.
+- `tasklist`-Prozesscheck über Git Bash = False Negative (Arg-Mangling). `/tmp`-Pfad-Mismatch Git-Bash vs. Python: CSV direkt via `subprocess git show` gelesen.
+
+**Phase:** Implementation (aktiver Betrieb). Alle 14 Promptotyping-Docs aktuell; Doku reflektiert jetzt transformation→active (INDEX/CLAUDE), Data-Change-Lifecycle (DATA-MODEL als kanonische Quelle), Authority-Provenienz-Map (TEI-MODEL-AUTH-FILES), ADR-005-Korrektur (DECISIONS).
+
+**Open issues:**
+- **lexicon.xml-Backfill (G3, #44/#115):** 977 dangling Refs / 349 ingest-erzeugte Lemma+Sense-IDs. Repo-intern lösbar (kein Salzburg). Lemma-Stubs aus Korpus (POS+Form) machbar; Sense→Begriff-Klassifikation nicht aus Korpus rekonstruierbar → ggf. KZW/Julia oder Ingest-Records (`scripts/ingest/wzb/`). Bis dahin in der Cross-Ref-CI-Baseline ausgenommen.
+- **Nicht gemacht (dokumentiert in der Gap-Analyse):** G6 PersonsSyncer/GenresSyncer/ConceptsSyncer sind TODO-Stubs in `sync_tei_headers.py`; G2 Index-Freshness-CI (rebuild+diff, gzip-Determinismus klären); G8 `npm test` in CI (Laufzeit-/Kosten-Entscheid KZW); G15 `.zotero_cache.json` gitignored (frischer Clone kann `--offline` nicht).
+- **Nicht gepusht.** 6 Commits liegen lokal auf `main`. Beim Push fahren schema-validation (inkl. neuer Cross-Ref-Gate) + index-version-check hoch; lokal verifiziert grün, aber CI-Erstlauf der neuen Gate beobachten.
+
+**Next steps:**
+1. **Push** `origin/main` (6 Commits) und CI-Lauf beobachten (Cross-Ref-Gate `--check`, Schema, Index-Version).
+2. **lexicon-Backfill (G3)** scopen: Stub-Generierung aus Korpus für die 349 IDs vs. KZW/Julia-Input für Sense→Begriff. Eigenes Issue, Assignees wachauer + juliahin.
+3. **Optional CI/Cleanup:** G6 PersonsSyncer implementieren, G2 Freshness-Gate, G8 npm-test-Workflow — je nach KZW-Priorität.
+4. **#115/#116** ggf. mit diesem Stand kommentieren/teil-closen (Issue-Kommentare nicht gepostet, outward-facing).
+
+**Savepoints (push-fertig auf `main`):** `96a71e489` Audit-Skript, `fa746f219` Cleanup-Skript, `3a9623ae4` negative-`@corresp`-Entfernung (296 Files), `0867a370f` variants-Regenerierung (v1.4.0), `80b5f872f` CI-Gaps (G4/G5/G7/G13), `e21d84bd6` Doku (Lifecycle + Provenance + ADR-005). Memory: `project_authority_provenance` (Provenienz/Staleness-Map) ergänzt.
+
+---
+
 ## 2026-05-28 16:30 — handoff
 
 **Summary:** Issue #114 Tabellenansicht-Korpussuche durchimplementiert über `superpowers:subagent-driven-development` (11 Plan-Tasks → 13 Commits). Frischer Subagent pro Task plus Spec-Compliance- und Code-Quality-Review (Haiku/Sonnet je nach Komplexität). Visual-Review nach KZW-Ping fand zwei CSS-Bugs (Toggle-Stack durch fehlendes `.inline-flex` im gepurgten Tailwind-Output, h2-Wrap durch zu großen text-2xl-Counter in 612px-Spalte) — beide gefixt + Memory um `feedback_tailwind_rebuild.md` und `feedback_no_emoji_icons.md` ergänzt.
