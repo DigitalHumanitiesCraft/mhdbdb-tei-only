@@ -101,6 +101,7 @@ def iter_refs(elem):
 
 
 def main():
+    check = '--check' in sys.argv
     if not TEI_DIR.exists() or not AUTHORITY_DIR.exists():
         print('Error: run from repo root (tei/ and authority-files/ required)')
         return 1
@@ -274,6 +275,22 @@ def main():
     for sigle, info in sigle_rows[:8]:
         print(f'  {sigle:8} {info["unresolved"]:>10,}')
     print(f'\nReport written: {JSON_OUT}')
+
+    if check:
+        # CI gate: variants/persons/works/concepts/genres/names must resolve fully.
+        # lexicon.xml carries a known ingest-backfill baseline (#44/#115) and is
+        # reported, not gated, until that backfill lands.
+        offenders = {tf: c for tf, c in by_target.items() if tf != 'lexicon.xml'}
+        for tf, c in missing_target_files.items():
+            offenders[tf] = offenders.get(tf, 0) + c
+        if offenders:
+            print('\nCI CHECK FAILED: unresolved corpus->authority refs outside lexicon.xml:')
+            for tf, c in sorted(offenders.items(), key=lambda x: -x[1]):
+                print(f'  {tf}: {c:,}')
+            return 1
+        lex = by_target.get('lexicon.xml', 0)
+        print(f'\nCI CHECK OK: variants/persons/works/concepts/genres/names = 0 unresolved. '
+              f'lexicon.xml = {lex:,} (known ingest-backfill baseline, #44/#115).')
     return 0
 
 

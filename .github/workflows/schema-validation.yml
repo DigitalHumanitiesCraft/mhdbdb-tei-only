@@ -13,6 +13,10 @@ name: Schema Validation
 #      (Stage 1) and mhdbdb.rng / mhdbdb-authority.rng (Stage 2).
 #      Fails when any Stage-2 check fails.
 #
+#   3. Authority cross-reference integrity (#44/#115): fails on dangling
+#      corpus->authority refs outside lexicon.xml (lexicon carries a known
+#      ingest-backfill baseline and is reported, not gated).
+#
 # The script (scripts/audit/validate-corpus.py) exits 0 if Stage-2
 # is clean, even if Stage-1 has the known #30-baseline fails. Pushes
 # that would add new Stage-1 failures are NOT auto-blocked — they
@@ -113,3 +117,13 @@ jobs:
 
       - name: Validate corpus and authority files (P2-13)
         run: python scripts/audit/validate-corpus.py --fail-fast
+
+      - name: Authority cross-reference integrity (#44/#115)
+        # Catches dangling corpus->authority references (a <w>/header pointing at
+        # an xml:id that does not exist in the target authority file). Fails on
+        # any unresolved ref OUTSIDE lexicon.xml — variants/persons/works/
+        # concepts/genres/names must stay fully resolved. lexicon.xml carries a
+        # known ingest-backfill baseline (#44/#115) and is reported, not gated,
+        # until that backfill lands. This is the only automated detector of the
+        # derived-file drift that the transformation->active shift introduced.
+        run: python scripts/audit/check-authority-cross-refs.py --check

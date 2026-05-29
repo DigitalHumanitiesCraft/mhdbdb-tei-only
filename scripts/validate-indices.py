@@ -34,7 +34,24 @@ DATA_DIR = PROJECT_ROOT / 'data'
 AUTHORITY_INDEX = DATA_DIR / 'authority-index.json.gz'
 CORPUS_INDEX = DATA_DIR / 'corpus-index.json.gz'
 
-EXPECTED_VERSION = '1.0.0'
+# Expected versions are derived from the loader constants (single source of
+# truth), not hardcoded — otherwise this gate silently goes stale on every
+# index bump (it sat at '1.0.0' while the indexes reached 4.1.3 / 1.4.0).
+import re
+
+_LOADER = PROJECT_ROOT / 'assets' / 'js' / 'lib' / 'corpus-loader.js'
+
+
+def _loader_const(name):
+    try:
+        m = re.search(rf"const {name} = '([^']+)'", _LOADER.read_text(encoding='utf-8'))
+        return m.group(1) if m else None
+    except OSError:
+        return None
+
+
+EXPECTED_AUTHORITY_VERSION = _loader_const('AUTHORITY_INDEX_VERSION')
+EXPECTED_CORPUS_VERSION = _loader_const('INDEX_VERSION')
 
 
 def validate_authority_index():
@@ -60,8 +77,8 @@ def validate_authority_index():
             return False
 
     # Check version
-    if data['version'] != EXPECTED_VERSION:
-        print(f"[WARN] Version mismatch: {data['version']} (expected {EXPECTED_VERSION})")
+    if EXPECTED_AUTHORITY_VERSION and data['version'] != EXPECTED_AUTHORITY_VERSION:
+        print(f"[WARN] Version mismatch: {data['version']} (loader expects {EXPECTED_AUTHORITY_VERSION})")
 
     # Check data types
     if not isinstance(data['lemmata'], list):
@@ -126,8 +143,8 @@ def validate_corpus_index():
             return False
 
     # Check version
-    if data['version'] != EXPECTED_VERSION:
-        print(f"[WARN] WARNING: Version mismatch: {data['version']} (expected {EXPECTED_VERSION})")
+    if EXPECTED_CORPUS_VERSION and data['version'] != EXPECTED_CORPUS_VERSION:
+        print(f"[WARN] WARNING: Version mismatch: {data['version']} (loader expects {EXPECTED_CORPUS_VERSION})")
 
     # Check data types
     if not isinstance(data['texts'], list):

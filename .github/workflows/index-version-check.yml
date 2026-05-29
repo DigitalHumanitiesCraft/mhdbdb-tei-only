@@ -20,6 +20,7 @@ on:
       - 'scripts/build-authority-index.py'
       - 'assets/js/lib/corpus-loader.js'
       - 'scripts/audit/check-index-versions.py'
+      - 'data/**'
       - '.github/workflows/index-version-check.yml'
   push:
     branches:
@@ -29,6 +30,7 @@ on:
       - 'scripts/build-authority-index.py'
       - 'assets/js/lib/corpus-loader.js'
       - 'scripts/audit/check-index-versions.py'
+      - 'data/**'
       - '.github/workflows/index-version-check.yml'
   workflow_dispatch:
 
