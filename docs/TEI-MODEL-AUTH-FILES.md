@@ -15,7 +15,7 @@ Pendant zu `docs/TEI-MODEL.md` (Korpusdateien).
 | Datei | Inhalt | Eintraege | Groesse |
 |-------|--------|-----------|---------|
 | `lexicon.xml` | Lemmata mit Senses, POS, Etymologie | 43,750 | 33 MB |
-| `variants.xml` | Orthographische Varianten pro Lemma | 39,282 Eintraege, 192,472 Formen | 13 MB |
+| `variants.xml` | Orthographische Varianten pro Lemma | 42,627 Eintraege, 256,759 Formen | 16 MB |
 | `persons.xml` | Autoren/Personen mit Normdaten | 211 | 74 KB |
 | `works.xml` | Werke mit Bibliographie und Genre | 583 | 1.4 MB |
 | `contributors.xml` | MHDBDB-Mitwirkende (Gruender, Koordination, Editor:innen) | 51 Personen + 2 Orgs | 15 KB |
@@ -32,6 +32,23 @@ Pendant zu `docs/TEI-MODEL.md` (Korpusdateien).
 | Bibliographie | works.xml | TEI Ch. 3 (Bibliography) | `<body>` |
 | Mitwirkende | contributors.xml | TEI Ch. 13 (Names/People) + Ch. 3 (Orgs) | `<body>` |
 | Taxonomien | concepts.xml, genres.xml, names.xml | TEI Ch. 2.3.7 (Taxonomy) | `<encodingDesc>/<classDecl>` |
+
+### Provenienz & Aktualitaet
+
+Wichtig fuer den aktiven Betrieb (siehe [INDEX.md → Current Phase](INDEX.md#current-phase)): Die Authority-Files stammen aus unterschiedlichen Quellen und altern unterschiedlich. „Stale" heisst hier: aus dem Korpus oder einem externen Master abgeleitet und nicht mit-regeneriert, sobald neue Daten ankommen. Detektor: `scripts/audit/check-authority-cross-refs.py` (in CI via `schema-validation.yml`).
+
+| Datei | Provenienz | Generator | Drift-Risiko |
+|-------|-----------|-----------|--------------|
+| `variants.xml` | **korpus-abgeleitet** (einziges) | `scripts/sync/extract-variants.py` (#44/#115) | hoch: jede neue Form muss nachgezogen werden. Regenerierung verlustfrei + claude-automatisierbar |
+| `lexicon.xml` | Migrations-Snapshot, **jetzt Repo = Master** | historisch `tei-transformation.py::create_lexicon_tei` aus `lists/lexicon.csv` (RDF-Export, auf Branch `initial-data-wrangling`) | mittel: ingest-erzeugte Lemma/Sense-IDs brauchen repo-internen Backfill. **Kein Salzburg-Re-Export noetig** (CSV war selbst RDF-abgeleitet, „nichts Neues") |
+| `persons.xml` | externer Master (RDF→CSV→TEI), seither handgepflegt | archiviert; manuell editieren | gering (0 unresolved) |
+| `works.xml` | RDF-Basis + Zotero-Enrichment (`enhance_works_with_zotero.py`) | gemischt | gering (0 unresolved) |
+| `concepts.xml` | externer Master (Begriffssystem), handgepflegt | archiviert; manuell | gering (0 unresolved) |
+| `genres.xml` | externer Master, handgepflegt | archiviert („DO NOT RUN") | gering (0 unresolved) |
+| `names.xml` | externer Master, korpus-entkoppelt | archiviert; manuell | gering (0 Korpus-Kopplung) |
+| `contributors.xml` | **handgepflegt** (kein Generator) | keiner | keines |
+
+**Gesamtmuster:** Die meisten Authority-Files sind einmalige Salzburg-Master-Exporte aus der Migration (erzeugt vom archivierten `scripts/_archived/tei-transformation.py`), seither von Hand TEI-konform gehalten. Nur `variants.xml` ist korpus-abgeleitet. `lexicon.xml` und `variants.xml` waren bis 2026-05 stale; `variants.xml` ist regeneriert (256.759 Formen, 2026-05-29), `lexicon.xml` hat noch 977 ingest-bedingte dangling Refs (349 IDs, repo-interner Backfill offen). Die `_archived`-Generatoren schreiben korpus-seitig Pre-#32-Attribute (`@wordRef`/`@meaningRef`) und duerfen nie ungeprueft gegen den aktuellen Korpus laufen.
 
 ---
 

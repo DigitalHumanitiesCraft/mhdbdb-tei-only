@@ -780,8 +780,8 @@ jing schema/tei_all.rng tei/{SIGLE}.tei.xml
 # Stufe 2: MHDBDB-Konformitaet (strenger, Subset von tei_all)
 jing schema/mhdbdb.rnc tei/{SIGLE}.tei.xml
 
-# 3. Referenz-Integritaet (Authority-Files) — Script geplant, noch nicht verfuegbar
-# python scripts/validate-references.py tei/{SIGLE}.tei.xml
+# 3. Referenz-Integritaet (Korpus -> Authority): dangling @lemmaRef/@ana/@corresp/@ref/@target
+python scripts/audit/check-authority-cross-refs.py --check
 
 # 4. Index-Rebuild
 python scripts/build-corpus-index.py

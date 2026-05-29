@@ -317,8 +317,10 @@ Implement 3-stage lemma resolution:
 
 **Mitigations:**
 - Clear comments explaining each stage
-- Variants regenerated automatically from corpus
+- Variants regenerated from the corpus via `scripts/sync/extract-variants.py --apply` (#44/#115), run after corpus changes, then authority-index rebuild + version bump
 - Partial match used only as fallback (rare)
+
+> **Korrektur 2026-05-29:** Frühere Fassung behauptete „Variants regenerated automatically from corpus". Das war falsch: Der ursprüngliche Extractor lag nur auf dem archivierten `initial-data-wrangling`-Branch und las das Pre-#32-`@wordRef`, lief also nie gegen den migrierten Korpus. `variants.xml` driftete dadurch um 64.287 Formen, bis am 2026-05-29 der gepflegte Generator `scripts/sync/extract-variants.py` (`@corresp`-basiert) ergänzt und die Datei regeneriert wurde (192.472 → 256.759 Formen). Es gibt **keinen** automatischen Trigger; Regenerierung ist ein manueller Lifecycle-Schritt (siehe [DATA-MODEL.md → Data-Change-Lifecycle](DATA-MODEL.md#data-change-lifecycle)).
 
 ---
 

@@ -375,7 +375,7 @@ Three core build scripts:
    - Check cross-references
    - Verify data quality
 
-**Variants regeneration:** `authority-files/variants.xml` is consumed by `build-authority-index.py` but is itself generated from the corpus. There is currently no standalone extraction script in `scripts/`; the file is rebuilt manually when the corpus changes (see [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/44) for the open extractor question).
+**Variants regeneration:** `authority-files/variants.xml` is consumed by `build-authority-index.py` but is itself **derived from the corpus** (one `<form xml:id="type_N">` per orthographic variant, grouped under the lemma it attests). Regenerate it with `python scripts/sync/extract-variants.py --apply` (reads current `@lemmaRef` + `@corresp`; xml:id uniqueness by majority vote) whenever the corpus gains new orthographic forms, then rebuild the authority index and bump its version. *Historical note:* the original extractor lived only on the archived `initial-data-wrangling` branch and read the pre-#32 `@wordRef`, so the file silently drifted by 64,287 forms until the maintained generator was added and `variants.xml` regenerated on 2026-05-29 (192,472 → 256,759 forms; #44/#115).
 
 ### Build Script XPath Reference
 
@@ -556,7 +556,7 @@ Build scripts perform integrity checks:
 
 **Rebuild workflow:**
 ```bash
-# variants.xml updaten (manuell oder via geplantes Extractor-Skript, siehe oben)
+python scripts/sync/extract-variants.py --apply   # variants.xml aus Korpus regenerieren (#44/#115)
 python scripts/build-authority-index.py
 python scripts/build-corpus-index.py
 python scripts/validate-indices.py
@@ -565,6 +565,43 @@ python scripts/validate-indices.py
 **Cache invalidation:**
 - Increment version number in build script
 - Browser checks version and refetches if mismatch
+
+---
+
+## Data-Change-Lifecycle
+
+> Das Projekt ist ein **aktives Projekt mit laufendem Ingest** (siehe [INDEX.md → Current Phase](INDEX.md#current-phase)). Der Reader liest TEI live (`tei/<SIG>.tei.xml`) und zeigt Edits sofort, ABER Suche, Lemma-Zähler und alle Index-Features werden aus den vor-gebauten `data/*.json.gz` bedient. Eine Daten-Änderung ist erst „live", wenn die abgeleitete Schicht neu gebaut, versioniert und committet ist. Diese Checklisten sind die verbindliche Schrittfolge; sie ersetzen die früher über mehrere Docs verstreuten Rebuild-Hinweise.
+
+Status-Legende: **CI** = automatisiert (GitHub Actions) · **Skript** = Skript-eingebauter Guard · **manuell** = dokumentiert, nicht erzwungen.
+
+### Wenn sich `tei/` ändert (neuer Text oder Annotations-Edit)
+
+| # | Schritt | Bricht wenn vergessen | Status |
+|---|---------|----------------------|--------|
+| 1 | UTF-8, Namespace `http://www.tei-c.org/ns/1.0`; positionstragende Annotation auf `<w @lemmaRef>` (nur die zählen für Positionen) | Wort unsichtbar für Suche, falsche Highlight-Positionen | manuell |
+| 2 | Schema: `python scripts/audit/validate-corpus.py --sample <SIG>` | invalides TEI; `schema-validation.yml` fängt es auf PR/Push | CI |
+| 3 | Korpus-Index: `python scripts/build-corpus-index.py` (Pre-flight bricht bei dirty tree ab, sonst `--allow-dirty`) | Suche, Trefferzahlen, Proximity, Versposition, Playground-Analysen stale; neuer Text fehlt komplett | manuell |
+| 4 | **Bei neuen Formen:** `python scripts/sync/extract-variants.py --apply` (`variants.xml` ist korpus-abgeleitet) | neue Wortformen lösen sich nicht zum Lemma auf (Stage-2-Resolution); Lemma-Page-Chips unvollständig | manuell |
+| 5 | Nach Schritt 4: `python scripts/build-authority-index.py` | Variant-Map im Index bleibt stale | manuell |
+| 6 | Version bumpen (`build-*-index.py` Dict-Literal `'version'` + `corpus-loader.js`), dann `python scripts/audit/check-index-versions.py` | wiederkehrende Nutzer behalten den 30-Tage-IndexedDB-Cache mit altem Index (#47.3/#94) | CI (Konsistenz) |
+| 7 | Cross-Ref-Audit: `python scripts/audit/check-authority-cross-refs.py --check` | dangling Refs (Lemma/Variant not found, leere Panels) | CI (in `schema-validation.yml`) |
+| 8 | `python scripts/validate-indices.py` + `npm test` (**User vorher fragen**) | strukturelle Index-/Frontend-Regression | manuell |
+| 9 | Commit **TEI + gebautes `data/*.json.gz` + Bumps zusammen**, Files by name stagen (nie `git add -A`, shared working dir) | Production serviert stale Suche bzw. alten Cache | manuell |
+| 10 | Push zu main → GitHub Pages deployt statisch (~2-5 min, kein Pages-Build) | erreicht Production nie; was committet ist, ist was shippt | CI (Auto-Deploy) |
+
+### Wenn sich `authority-files/` ändert
+
+| # | Schritt | Bricht wenn vergessen | Status |
+|---|---------|----------------------|--------|
+| 1 | (nur `works.xml`) `enhance_works_with_zotero.py` + `sync_tei_headers.py --works` (erst `--dry-run`) | Editor/Bibliografie + Header stale (nur WorksSyncer implementiert, Persons/Genres/Concepts sind TODO-Stubs) | manuell |
+| 2 | **Authority-Index: `python scripts/build-authority-index.py`** (Frontend liest NUR den Index, nie das XML) | jede Authority-Änderung unsichtbar bis Rebuild + Commit (so blieb die lexicon/variants-Drift unbemerkt) | manuell |
+| 3 | Version bumpen (`build-authority-index.py` + `corpus-loader.js`) + `check-index-versions.py` | stale Cache bis 30 Tage | CI (Konsistenz) |
+| 4 | Cross-Ref-Audit `--check` + Schema `validate-corpus.py --fail-fast` | dangling Refs / invalides XML | CI |
+| 5 | Gebautes `data/authority-index.json.gz` + Bumps committen, by name | Production serviert alten Index | manuell |
+
+**Entkopplung:** Eine reine `authority-files/`-Änderung braucht **keinen** Korpus-Index-Rebuild (`build-corpus-index.py` liest `authority-files/` nicht). Eine reine `tei/`-Änderung braucht den Authority-Rebuild nur, wenn neue Formen eine `variants.xml`-Regenerierung erzwingen (Schritt 4 → 5).
+
+**Offene Lücke (kein Trigger):** `lexicon.xml`-Backfill für ingest-erzeugte Lemma/Sense-IDs (977 dangling Refs, 349 IDs, repo-intern, #44/#115). Bis dahin ist `lexicon.xml` in der Cross-Ref-CI-Baseline ausgenommen (nur Refs außerhalb `lexicon.xml` brechen den Build).
 
 ---
 

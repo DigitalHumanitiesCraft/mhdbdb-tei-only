@@ -105,7 +105,7 @@ Located in `/publications/` (outside `docs/`):
 ## Project Status
 
 ### Current Phase
-Post-MVP. Aktuelle Index-Versionen siehe [TEI-MODEL.md §11](TEI-MODEL.md#11-versionierung) (Stand 2026-05-28: Corpus Index v4.1.3, Authority Index v1.3.0).
+Post-MVP und **aktiver Betrieb**. Das Projekt begann als einmaliges Transformationsprojekt (Alt-MHDBDB + RDF-Export nach TEI-only-Repo); diese Migration ist abgeschlossen. Seither ist es ein **aktives Projekt mit laufendem Daten-Ingest** (WZB/Wenzelsbibel, ARITHMETIC #92, weitere geplant), nicht eingefroren. Konsequenz: Jede Änderung in `tei/` oder `authority-files/` muss die abgeleitete Schicht mitziehen (Indexe, korpus-abgeleitete `variants.xml`), sonst driftet sie still. Verbindliche Schrittfolge: [DATA-MODEL.md → Data-Change-Lifecycle](DATA-MODEL.md#data-change-lifecycle). Aktuelle Index-Versionen siehe [TEI-MODEL.md §11](TEI-MODEL.md#11-versionierung) (Stand 2026-05-29: Corpus Index v4.1.3, Authority Index v1.4.0).
 
 ### Recent Milestones
 - ✅ **Phase 7 Refactoring** - Modular UI architecture
@@ -146,7 +146,7 @@ Post-MVP. Aktuelle Index-Versionen siehe [TEI-MODEL.md §11](TEI-MODEL.md#11-ver
 ### Known Limitations
 - Desktop-only interface (not mobile-responsive)
 - No backend processing (all computation in browser)
-- Static corpus (requires rebuild for updates)
+- No live updates: index-backed features (search, lemma counts) require a manual rebuild after each data change. The corpus itself is **not** static (active ingest) — see the Data-Change-Lifecycle in [DATA-MODEL.md](DATA-MODEL.md#data-change-lifecycle).
 
 ### Future Directions
 - Mobile optimization

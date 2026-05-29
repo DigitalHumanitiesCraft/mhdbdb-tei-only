@@ -6,6 +6,8 @@ Operational briefing for Claude Code. Details live in `docs/` — this file is t
 
 MHDBDB TEI Repository: ~670 TEI-encoded Middle High German texts with semantic annotations. **Frontend-only** (GitHub Pages, no backend). Pre-built JSON indexes replace runtime XML parsing. Target audience: medievalists and DH researchers.
 
+**Transformation → active project:** Started as a one-time migration (old MHDBDB + RDF export → TEI-only repo); that migration is done. It is now an **active project with ongoing ingest** (WZB, ARITHMETIC, more planned), so every data change must propagate through the derived layer (indexes, corpus-derived `variants.xml`) or it drifts silently. The mandatory step sequence lives in `docs/DATA-MODEL.md` → Data-Change-Lifecycle.
+
 ## Documentation Hub
 
 @docs/INDEX.md — gateway to all project knowledge:

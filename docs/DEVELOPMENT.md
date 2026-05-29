@@ -66,6 +66,8 @@ Pre-built indexes are included in repository. Rebuild only when modifying source
 
 ### When to Rebuild
 
+> **Kanonische, geordnete Schrittfolge:** [DATA-MODEL.md → Data-Change-Lifecycle](DATA-MODEL.md#data-change-lifecycle). Die Liste hier ist nur die Kurzfassung der Trigger.
+
 **Authority Index:**
 - Authority XML files modified
 - Cross-references added/changed
@@ -94,15 +96,18 @@ python scripts/build-corpus-index.py
 python scripts/validate-indices.py
 ```
 
-**Note on variants:** `authority-files/variants.xml` is rebuilt manually when the corpus changes — there is currently no `extract-variants.py` script in the repo (the build-authority-index.py reads `variants.xml` as-is). See [DATA-MODEL.md](DATA-MODEL.md#data-processing-pipeline) for context.
+**Note on variants:** `authority-files/variants.xml` is corpus-derived. Regenerate it with `python scripts/sync/extract-variants.py --apply` after the corpus gains new orthographic forms, then rebuild the authority index and bump its version. Full step sequence: [DATA-MODEL.md → Data-Change-Lifecycle](DATA-MODEL.md#data-change-lifecycle).
 
 ### Version Increment
 
 After significant changes, increment version in build script to force browser cache invalidation:
 
 ```python
-# In build-authority-index.py
-VERSION = "1.x.x"  # Aktueller Stand siehe TEI-MODEL.md §11 (Source-of-Truth); Increment for breaking changes
+# In build-authority-index.py / build-corpus-index.py liegt die Version als
+# Inline-Dict-Literal im Index, z.B. 'version': '1.4.0' (KEINE VERSION-Konstante).
+# Muss zusammen mit der passenden Konstante in assets/js/lib/corpus-loader.js
+# (INDEX_VERSION / AUTHORITY_INDEX_VERSION) gebumpt werden; check-index-versions.py
+# erzwingt Paritaet. Aktueller Stand siehe TEI-MODEL.md §11.
 ```
 
 ## Testing
@@ -184,7 +189,8 @@ Diagnose- und Validierungs-Skripte in `scripts/audit/`:
 |--------|-------|
 | `validate-corpus.py` | Two-stage RelaxNG-Validierung aller 667 Korpus- + 8 Authority-Files (gerufen von schema-validation.yml) |
 | `check-index-versions.py` | Versions-Konsistenz Build-Skripte ↔ Loader (siehe oben) |
-| `audit-authority-files.py` | Struktur, Querverweise und Datenqualität für alle 8 Authority-Files (ID-Muster, verwaiste Referenzen, strukturelle Konsistenz) |
+| `audit-authority-files.py` | Struktur, Querverweise und Datenqualität **innerhalb** der 8 Authority-Files (authority→authority; ID-Muster, verwaiste Referenzen, strukturelle Konsistenz) |
+| `check-authority-cross-refs.py` | **Korpus→Authority** Cross-Ref-Integrität: dangling `@lemmaRef`/`@ana`/`@corresp`/`@ref`/`@target`. `--check` = CI-Gate in `schema-validation.yml` (scheitert bei unresolved refs außerhalb `lexicon.xml`). Einziger Detektor der Derived-File-Drift (#44/#115) |
 | `audit-tei-corpus.py` | Korpus-weite Stichproben (z.B. fehlende `<l>`/`<lg>`, ungewöhnliche xml:id-Pattern, Encoding-Anomalien) |
 | `check-lexicon-senses.py` | `lexicon.xml`-Sanity: Lemmata ohne `<sense>`, Senses ohne `conceptIds` |
 | `doc-count-audit.py` | Drift-Detektor zwischen tatsächlichen Korpus-/Authority-Zahlen und den in der Doku verankerten Werten. Heuristik: Window ±2 absolut oder ±2 % relativ, strikter Keyword-Anchor unmittelbar nach der Zahl |
