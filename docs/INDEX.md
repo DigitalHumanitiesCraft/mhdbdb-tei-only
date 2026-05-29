@@ -16,7 +16,7 @@ The MHDBDB TEI Repository provides a comprehensive digital corpus of Middle High
 
 ### Curated Corpus
 - **667 TEI files** - Complete Middle High German texts with word-level annotations
-- **8 authority files** - 7 searchable controlled vocabularies (persons, works, lexicon, concepts, genres, names, variants) plus `contributors.xml` as project-internal MHDBDB team register (since 2026-04)
+- **8 authority files** - 7 searchable controlled vocabularies (persons, works, lexicon, concepts, genres, names, variants) plus `contributors.xml` as project-internal MHDBDB team register (since 2026-04). All are RDF-derived migration snapshots now maintained in-repo (this repo is the sole master, no Salzburg re-export); `variants.xml` is corpus-derived and regenerated after corpus changes. See [TEI-MODEL-AUTH-FILES.md → Provenienz](TEI-MODEL-AUTH-FILES.md#provenienz-und-aktualitaet)
 - **Pre-built indexes** - Compressed JSON (3 MB authority + 34 MB corpus) replacing runtime XML parsing
 
 ### Key Architecture Decision
@@ -105,7 +105,13 @@ Located in `/publications/` (outside `docs/`):
 ## Project Status
 
 ### Current Phase
-Post-MVP und **aktiver Betrieb**. Das Projekt begann als einmaliges Transformationsprojekt (Alt-MHDBDB + RDF-Export nach TEI-only-Repo); diese Migration ist abgeschlossen. Seither ist es ein **aktives Projekt mit laufendem Daten-Ingest** (WZB/Wenzelsbibel, ARITHMETIC #92, weitere geplant), nicht eingefroren. Konsequenz: Jede Änderung in `tei/` oder `authority-files/` muss die abgeleitete Schicht mitziehen (Indexe, korpus-abgeleitete `variants.xml`), sonst driftet sie still. Verbindliche Schrittfolge: [DATA-MODEL.md → Data-Change-Lifecycle](DATA-MODEL.md#data-change-lifecycle). Aktuelle Index-Versionen siehe [TEI-MODEL.md §11](TEI-MODEL.md#11-versionierung) (Stand 2026-05-29: Corpus Index v4.1.3, Authority Index v1.4.0).
+Post-MVP und **aktiver Betrieb**. Drei Aspekte, die jede Session kennen sollte:
+
+- **Herkunft (abgeschlossen):** einmalige, dreistufige Migration Alt-MHDBDB (RDF-Triple-Store bei Salzburg) → CSV-Snapshots (via SPARQL) → TEI-only-Repo (`tei-transformation.py`, 2025-07-22). **Seither ist dieses Repo der alleinige Master aller 8 Authority-Files** (kein Salzburg-Re-Export, keine lebende externe Quelle).
+- **Heute:** aktives Projekt mit laufendem Daten-Ingest (WZB/Wenzelsbibel, ARITHMETIC #92, weitere geplant) UND laufenden händischen Korpus-Korrekturen, nicht eingefroren.
+- **Konsequenz:** Jede Änderung in `tei/` oder `authority-files/` muss die abgeleitete Schicht mitziehen (Indexe, korpus-abgeleitete `variants.xml`); dabei **führt der Korpus**, `lexicon.xml` ist Index und zieht nach (siehe [CONTRACTS.md → Authority Source Rules](CONTRACTS.md#f-authority-source-rules)), sonst driftet es still. Verbindliche Schrittfolge: [DATA-MODEL.md → Data-Change-Lifecycle](DATA-MODEL.md#data-change-lifecycle).
+
+Aktuelle Index-Versionen siehe [TEI-MODEL.md §11](TEI-MODEL.md#11-versionierung) (Stand 2026-05-29: Corpus Index v4.1.3, Authority Index v1.4.0).
 
 ### Recent Milestones
 - ✅ **Phase 7 Refactoring** - Modular UI architecture
@@ -146,7 +152,7 @@ Post-MVP und **aktiver Betrieb**. Das Projekt begann als einmaliges Transformati
 ### Known Limitations
 - Desktop-only interface (not mobile-responsive)
 - No backend processing (all computation in browser)
-- No live updates: index-backed features (search, lemma counts) require a manual rebuild after each data change. The corpus itself is **not** static (active ingest) — see the Data-Change-Lifecycle in [DATA-MODEL.md](DATA-MODEL.md#data-change-lifecycle).
+- No live updates: index-backed features (search, lemma counts, playground analyses) read from pre-built `data/*.json.gz` and require a manual rebuild + deploy after each data change. Manual corpus edits appear in the TEI reading view immediately (read live from disk) but stay invisible to search until indexes are rebuilt. The corpus itself is **not** static (active ingest plus ongoing manual correction); see the Data-Change-Lifecycle in [DATA-MODEL.md](DATA-MODEL.md#data-change-lifecycle).
 
 ### Future Directions
 - Mobile optimization

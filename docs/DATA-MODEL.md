@@ -166,7 +166,7 @@ Notes: Multiple sigles per work (editions). GND/Wikidata may be full URLs or bar
 | genres.xml | `genre_{hex}` | — (but many broader pointers, polyhierarchical) |
 | names.xml | `name_{numeric}` | `exactMatch`, `closeMatch` → `concepts.xml#...` |
 
-#### variants.xml (~13 MB, ~176k variant forms)
+#### variants.xml (~16 MB, 256,759 variant forms)
 
 ```xml
 <TEI><text><body><div type="orthographicVariants">
@@ -263,7 +263,7 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
   variants: {
     "brot": "lemma_879",   // normalized form → lemma ID
     "brott": "lemma_879",
-    // ... ~176k mappings
+    // ... 234,244 mappings (2026-05-29)
   },
 
   maps: {
@@ -484,7 +484,7 @@ Search resolves user input to lemma IDs through 3 stages with early return:
 | Stage | Method | Return | Performance |
 |-------|--------|--------|-------------|
 | 1 | Exact match on normalized canonical form | 0..N (homographs) | O(n) scan |
-| 2 | Variants dictionary lookup (~176k mappings) | Exactly 1 | O(1) hash |
+| 2 | Variants dictionary lookup (~234k mappings) | Exactly 1 | O(1) hash |
 | 3 | Bidirectional substring fallback | 0..N (fuzzy) | O(n) scan |
 
 Stages are mutually exclusive — first match wins. **Full pseudocode with worked example:** see [CONTRACTS.md](CONTRACTS.md#c-3-stage-lemma-resolution-algorithm)
@@ -574,7 +574,12 @@ python scripts/validate-indices.py
 
 Status-Legende: **CI** = automatisiert (GitHub Actions) · **Skript** = Skript-eingebauter Guard · **manuell** = dokumentiert, nicht erzwungen.
 
-### Wenn sich `tei/` ändert (neuer Text oder Annotations-Edit)
+**Grundprinzipien für den Lifecycle** (Auszug; das vollständige Regelwerk F.1–F.3 steht normativ in [CONTRACTS.md → Authority Source Rules](CONTRACTS.md#f-authority-source-rules)):
+
+1. **Der Korpus führt, die Authority-Files folgen.** `lexicon.xml`/`variants.xml` sind abgeleitete Indizes der Korpus-Annotation. Trägt ein `<w>` eine `@lemmaRef`/`@ana`, die dort fehlt, ist die Korpus-Annotation maßgeblich und die Authority muss nachgezogen werden — nie umgekehrt. (Einzige Ausnahme: ein offensichtlicher Tippfehler im Korpus wird im Korpus korrigiert.)
+2. **Händische Edits zählen genauso wie Ingest.** Diese Schrittfolge gilt für JEDE Korpus-Änderung, nicht nur Skript-Ingest: auch eine von Hand korrigierte `@pos`, ein neu gesetzter `@lemmaRef` oder eine Variantenannotation. Der Korpus wird laufend manuell editiert (Korrekturen, nicht nur Neuzugänge); jede solche Änderung löst dieselbe Nachzieh-Pflicht aus.
+
+### Wenn sich `tei/` ändert (Skript-Ingest, neuer Text ODER händische Korrektur)
 
 | # | Schritt | Bricht wenn vergessen | Status |
 |---|---------|----------------------|--------|
@@ -601,7 +606,7 @@ Status-Legende: **CI** = automatisiert (GitHub Actions) · **Skript** = Skript-e
 
 **Entkopplung:** Eine reine `authority-files/`-Änderung braucht **keinen** Korpus-Index-Rebuild (`build-corpus-index.py` liest `authority-files/` nicht). Eine reine `tei/`-Änderung braucht den Authority-Rebuild nur, wenn neue Formen eine `variants.xml`-Regenerierung erzwingen (Schritt 4 → 5).
 
-**Offene Lücke (kein Trigger):** `lexicon.xml`-Backfill für ingest-erzeugte Lemma/Sense-IDs (977 dangling Refs, 349 IDs, repo-intern, #44/#115). Bis dahin ist `lexicon.xml` in der Cross-Ref-CI-Baseline ausgenommen (nur Refs außerhalb `lexicon.xml` brechen den Build).
+**Offene Lücke (kein Trigger):** `lexicon.xml`-Backfill für ingest-erzeugte Lemma/Sense-IDs (977 dangling Refs, 349 IDs, repo-intern, #44/#115). **Ursache:** Die Ingest-Pipelines (WZB Phase 1b–3, 2026-04/05) sind reine Forward-Pipelines: sie schreiben neue Lemma-/Sense-IDs ins Korpus, aber **kein Skript zieht `lexicon.xml` nach** (es gibt kein `*-backfill-lexicon.py`). So entstanden 98 Lemma-IDs ≥78000 im Korpus, die in `lexicon.xml` fehlen (nur 4 wurden je manuell ergänzt, Commits `8caa09627`/`649c0fe55`; viele Sense-IDs ≥78000 sind strukturelle Artefakte der Lemma-Erzeugung). Das ist **kein** Salzburg-Re-Export-Problem (Repo ist Master), sondern eine fehlende Rückwärts-Synchronisation. Lemma-Stubs (Form + POS) sind aus dem Korpus generierbar; die **Sense→Begriff-Zuordnung ist kuratorisch** (Team vergibt die concept-Zuordnung, nicht aus dem Korpus rekonstruierbar). Bis zum Backfill ist `lexicon.xml` in der Cross-Ref-CI-Baseline ausgenommen (nur Refs außerhalb `lexicon.xml` brechen den Build). `scripts/audit/check-lexicon-senses.py` detektiert sense-lose Lemmata lokal. Konsequenz für künftige Ingests siehe [DECISIONS.md → ADR-015](DECISIONS.md#adr-015-authority-source-modell-korpus-führt-ingest-braucht-rückwärts-sync).
 
 ---
 

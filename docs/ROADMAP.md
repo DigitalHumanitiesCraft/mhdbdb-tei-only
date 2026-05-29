@@ -24,7 +24,7 @@ See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues
 |---|------|-------------|
 | #92 | ARITHMETIC ingest — 6 fnhd. Rechenbuch-HS von Carina (Graz); wartet auf Carinas Antwort zu Sigle/Lizenz/Edition/Genre + Schlüsselfrage Domänen-Klassifikation erhalten? | Carina (via Katharina) |
 | #30 | TEI structural fixes — auto-fixes ready, draft-fixes prepared | KZW (review) |
-| #34 | Ingest Wenzelsbibel — Phase 3 at 92.5% @meaningRef, 4,013 rows pending; branch rebased 2026-05-06; evaluation script (`wzb-sense-evaluate.py`) ready | Julia + Helmut |
+| #34 | Ingest Wenzelsbibel — Phase 3 at 92.5% @meaningRef, 4,013 rows pending; branch rebased 2026-05-06; evaluation script (`wzb-sense-evaluate.py`) ready. **Drift-Blocker (#115):** Phase 1b prägte 98 Lemma-IDs ≥78000 ins Korpus ohne lexicon.xml-Nachzug (977 dangling Refs); künftige Ingests brauchen einen Backfill-Schritt (siehe [ADR-015](DECISIONS.md#adr-015-authority-source-modell-korpus-führt-ingest-braucht-rückwärts-sync)) | Julia + Helmut |
 | #68 | Guide: How to add data to MHDBDB — Teil 1 (`hilfe-daten-beitragen.html`) shipped 2026-05-07, Contributing-Guide-Update 2026-05-12 (Two-Wege-Block + 9-Punkte-Checkliste); weitere Onboarding-Artefakte hängen an #34-Lessons | KZW |
 
 ## Needs Clarification
@@ -109,7 +109,7 @@ See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues
 
 ## Strategic Direction
 
-1. **TEI model consolidation done** — Soll-Modell (#32) fully implemented, #32-followup 17/17 abgeschlossen (P1-5 mit 3 kontextspezifischen Enum-Patterns für `idno/@type`, plus WZB shelfmark, Stage-1 PI cleanup, CI push trigger). Both schemas written (`mhdbdb.rnc`, `mhdbdb-authority.rnc`), all 667 corpus + 8 authority files validated. Target models: [TEI-MODEL.md](TEI-MODEL.md) + [TEI-MODEL-AUTH-FILES.md](TEI-MODEL-AUTH-FILES.md). Architecture Decision Record: [ADR-013 "Data Consolidation Before Schema Relaxation"](DECISIONS.md#adr-013).
+1. **TEI model consolidation done** — Soll-Modell (#32) fully implemented, #32-followup 17/17 abgeschlossen (P1-5 mit 3 kontextspezifischen Enum-Patterns für `idno/@type`, plus WZB shelfmark, Stage-1 PI cleanup, CI push trigger). Both schemas written (`mhdbdb.rnc`, `mhdbdb-authority.rnc`), all 667 corpus + 8 authority files validated. Target models: [TEI-MODEL.md](TEI-MODEL.md) + [TEI-MODEL-AUTH-FILES.md](TEI-MODEL-AUTH-FILES.md). Architecture Decision Record: [ADR-013 "Data Consolidation Before Schema Relaxation"](DECISIONS.md#adr-013-data-consolidation-before-schema-relaxation).
 
 2. **TEI data quality** — Structural fixes (#23, #26, #30, #85), schema hardening (#32 ✅), Wenzelsbibel (#34, Phase 3 at 92.5%) und WVV-Followup (#110) sind die aktiven Workstreams. Die meisten verbleibenden Structural Fixes sind auf KZW-Review geblockt.
 

@@ -6,15 +6,17 @@ This document describes the academic context, standards, and methodological back
 
 ### MHDBDB Salzburg
 
-The Mittelhochdeutsche Begriffsdatenbank (MHDBDB) is a research project at the University of Salzburg's Department of German Studies. The project focuses on semantic annotation of Middle High German literature, providing controlled vocabularies and concept taxonomies for medieval German philology.
+This MHDBDB TEI Repository is a **standalone, active project** that originated from the University of Salzburg's Mittelhochdeutsche Begriffsdatenbank (MHDBDB), a research project at the University of Salzburg's Department of German Studies. The Salzburg MHDBDB created the original semantic taxonomy and controlled vocabularies for Middle High German philology.
 
-**Project Goals:**
+**Project Goals (inherited from the Salzburg MHDBDB):**
 - Create comprehensive semantic annotations for MHG texts
 - Establish controlled vocabularies for concepts, genres, persons, works
 - Enable corpus linguistic analysis of medieval German literature
 - Support research in historical semantics and concept history
 
-**Data Source:** https://www.mhdbdb.sbg.ac.at
+**Historical relationship:** The initial corpus and authority data were exported from Salzburg's RDF-based MHDBDB (three-stage: RDF → CSV snapshots → TEI-XML) and migrated into this repository, completed 2025-07-22. **Since that migration (2025-07-22), this repository is the independent, sole master** — all data is maintained here; there are no ongoing re-exports or syncs with Salzburg. It is now an active project with continuing ingest (WZB/Wenzelsbibel, ARITHMETIC) and manual editorial correction, not a static export. See [INDEX.md → Current Phase](INDEX.md#current-phase) and [CONTRACTS.md → Authority Source Rules](CONTRACTS.md#f-authority-source-rules).
+
+**Original data source (historical):** https://www.mhdbdb.sbg.ac.at
 
 ### TEI Encoding
 

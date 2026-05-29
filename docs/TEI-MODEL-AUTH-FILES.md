@@ -33,22 +33,24 @@ Pendant zu `docs/TEI-MODEL.md` (Korpusdateien).
 | Mitwirkende | contributors.xml | TEI Ch. 13 (Names/People) + Ch. 3 (Orgs) | `<body>` |
 | Taxonomien | concepts.xml, genres.xml, names.xml | TEI Ch. 2.3.7 (Taxonomy) | `<encodingDesc>/<classDecl>` |
 
-### Provenienz & Aktualitaet
+### Provenienz und Aktualitaet
 
-Wichtig fuer den aktiven Betrieb (siehe [INDEX.md → Current Phase](INDEX.md#current-phase)): Die Authority-Files stammen aus unterschiedlichen Quellen und altern unterschiedlich. „Stale" heisst hier: aus dem Korpus oder einem externen Master abgeleitet und nicht mit-regeneriert, sobald neue Daten ankommen. Detektor: `scripts/audit/check-authority-cross-refs.py` (in CI via `schema-validation.yml`).
+Wichtig fuer den aktiven Betrieb (siehe [INDEX.md → Current Phase](INDEX.md#current-phase)): Alle Authority-Files entstanden aus **einer einmaligen Migration** (2025-07-22), die **dreistufig** war: Alt-MHDBDB (RDF-Triple-Store bei Salzburg, SPARQL ueber dh.plus.ac.at) → CSV-Snapshots (via SPARQL-Queries, auf Branch `initial-data-wrangling` unter `lists/`) → TEI-XML (via `scripts/_archived/tei-transformation.py`, Commit `8513589ea`). **Seit dieser Migration ist dieses Repo der alleinige Master fuer alle 8 Authority-Files. Es gibt keinen Re-Export aus Salzburg und keine lebende externe Quelle.** Die CSV-Exporte waren Snapshots, keine Schnittstelle: alles Weitere wird hier gepflegt.
 
-| Datei | Provenienz | Generator | Drift-Risiko |
+„Stale" heisst hier: aus dem Korpus abgeleitet und nicht mit-regeneriert, sobald sich Daten aendern. Der Korpus wird laufend editiert (Skript-Ingest UND haendische Korrekturen), daher driften korpus-gekoppelte Files. Detektor: `scripts/audit/check-authority-cross-refs.py` (in CI via `schema-validation.yml`).
+
+| Datei | Herkunft (einmalig, 2025-07-22) | Aktuelle Pflege | Drift-Risiko |
 |-------|-----------|-----------|--------------|
-| `variants.xml` | **korpus-abgeleitet** (einziges) | `scripts/sync/extract-variants.py` (#44/#115) | hoch: jede neue Form muss nachgezogen werden. Regenerierung verlustfrei + claude-automatisierbar |
-| `lexicon.xml` | Migrations-Snapshot, **jetzt Repo = Master** | historisch `tei-transformation.py::create_lexicon_tei` aus `lists/lexicon.csv` (RDF-Export, auf Branch `initial-data-wrangling`) | mittel: ingest-erzeugte Lemma/Sense-IDs brauchen repo-internen Backfill. **Kein Salzburg-Re-Export noetig** (CSV war selbst RDF-abgeleitet, „nichts Neues") |
-| `persons.xml` | externer Master (RDF→CSV→TEI), seither handgepflegt | archiviert; manuell editieren | gering (0 unresolved) |
-| `works.xml` | RDF-Basis + Zotero-Enrichment (`enhance_works_with_zotero.py`) | gemischt | gering (0 unresolved) |
-| `concepts.xml` | externer Master (Begriffssystem), handgepflegt | archiviert; manuell | gering (0 unresolved) |
-| `genres.xml` | externer Master, handgepflegt | archiviert („DO NOT RUN") | gering (0 unresolved) |
-| `names.xml` | externer Master, korpus-entkoppelt | archiviert; manuell | gering (0 Korpus-Kopplung) |
-| `contributors.xml` | **handgepflegt** (kein Generator) | keiner | keines |
+| `variants.xml` | korpus-extrahiert (`initial-data-wrangling`) | **korpus-abgeleitet**, regenerierbar via `scripts/sync/extract-variants.py` (#44/#115) | hoch: jede neue/geaenderte Form muss nachgezogen werden. Regenerierung verlustfrei + automatisierbar |
+| `lexicon.xml` | RDF→CSV-Snapshot (`lists/lexicon.csv`) → `tei-transformation.py::create_lexicon_tei` | **Repo = Master UND Korpus-Index** (Korpus fuehrt, lexicon zieht nach) | mittel: ingest-erzeugte Lemma/Sense-IDs brauchen repo-internen Backfill (977 dangling Refs, 349 IDs, #115). Kein Salzburg-Re-Export moeglich (CSV war selbst nur Snapshot) |
+| `persons.xml` | RDF→CSV→TEI-Snapshot | repo-intern handgepflegt, **kein Re-Export** | gering (0 unresolved) |
+| `works.xml` | RDF-Snapshot + Zotero-Enrichment | `enhance_works_with_zotero.py` + manuell, repo-intern | gering (0 unresolved) |
+| `concepts.xml` | RDF→CSV→TEI-Snapshot (Begriffssystem) | repo-intern handgepflegt, **kein Re-Export** | gering (0 unresolved) |
+| `genres.xml` | RDF→CSV→TEI-Snapshot | repo-intern handgepflegt, **kein Re-Export** | gering (0 unresolved) |
+| `names.xml` | RDF→CSV→TEI-Snapshot | repo-intern handgepflegt, korpus-entkoppelt | gering (0 Korpus-Kopplung) |
+| `contributors.xml` | born-digital (2026-04) | **handgepflegt** (kein Generator) | keines |
 
-**Gesamtmuster:** Die meisten Authority-Files sind einmalige Salzburg-Master-Exporte aus der Migration (erzeugt vom archivierten `scripts/_archived/tei-transformation.py`), seither von Hand TEI-konform gehalten. Nur `variants.xml` ist korpus-abgeleitet. `lexicon.xml` und `variants.xml` waren bis 2026-05 stale; `variants.xml` ist regeneriert (256.759 Formen, 2026-05-29), `lexicon.xml` hat noch 977 ingest-bedingte dangling Refs (349 IDs, repo-interner Backfill offen). Die `_archived`-Generatoren schreiben korpus-seitig Pre-#32-Attribute (`@wordRef`/`@meaningRef`) und duerfen nie ungeprueft gegen den aktuellen Korpus laufen.
+**Gesamtmuster:** Alle Files sind RDF-abgeleitete Migrations-Snapshots (2025-07-22), seit der Migration **repo-intern** gepflegt — es gibt keinen externen Master mehr und keine Re-Export-Quelle. Nur `variants.xml` ist korpus-abgeleitet und regenerierbar. `lexicon.xml` ist Repo-Master UND Index der Korpus-Annotation: traegt ein Korpus-`<w>` eine `@lemmaRef`/`@ana`, die in lexicon.xml fehlt, fuehrt der Korpus und lexicon.xml muss nachgezogen werden (siehe [CONTRACTS.md → Authority Source Rules](CONTRACTS.md#f-authority-source-rules)). Neue **Sense-Bedeutungen** sind dabei kuratorisch (Team vergibt die concept-Zuordnung), nicht automatisch aus dem Korpus rekonstruierbar. `lexicon.xml` und `variants.xml` waren bis 2026-05 stale; `variants.xml` ist regeneriert (256.759 Formen, 2026-05-29), `lexicon.xml` hat noch 977 ingest-bedingte dangling Refs (349 IDs, repo-interner Backfill offen, #115; Ursache siehe §6.1). Die `_archived`-Generatoren schreiben korpus-seitig Pre-#32-Attribute (`@wordRef`/`@meaningRef`) und duerfen nie ungeprueft gegen den aktuellen Korpus laufen.
 
 ---
 
@@ -499,6 +501,16 @@ Alle Migrationsschritte wurden in Phases F-K implementiert. Scripts sind nach Ab
 |--------|-----------|
 | `build-authority-index.py` | Genre-Text aus genres.xml aufgeloest; person→works aus works.xml abgeleitet; GND Casing. Versionierung siehe [TEI-MODEL.md §11](TEI-MODEL.md#11-versionierung). |
 | `enhance_works_with_zotero.py` | `<biblStruct>` in `<relatedItem>` wrappen; 4 Bugs gefixt |
+
+### 6.1 Post-Migration Ingest-Drift (WZB) und die Backfill-Luecke
+
+Nach der #32-Migration begann der aktive Ingest. Die Wenzelsbibel-Pipeline (WZB, 2026-04 bis 2026-05) legte das Drift-Muster offen, das #115 aufdeckte:
+
+- **Phase 1b** (Commit `5cdc98831`, 2026-04) erkannte neue Wortformen und vergab neue Lemma-IDs ≥78000. Davon kamen nur 4 (zunaechst sense-los) in `lexicon.xml`. Insgesamt fehlen heute **98 Lemma-IDs ≥78000** in `lexicon.xml` (#115): `wzb-apply-lemmarefs.py` schrieb sie als `@lemmaRef` ins Korpus, aber **kein Skript zog `lexicon.xml` nach**.
+- **Phase 3** (Sense-Aufloesung) waehlte ueberwiegend bestehende Senses (<78000); die fehlenden Sense-IDs ≥78000 sind grossteils strukturelle Artefakte der Lemma-Erzeugung, keine neuen Bedeutungen.
+- **Notreparatur** (Commits `8caa09627`/`649c0fe55`, 2026-05): die 4 sense-losen Lemmata bekamen manuell je einen `<sense>`; `scripts/audit/check-lexicon-senses.py` entstand als Regression-Schutz.
+
+**Lesson** (→ [ADR-015](DECISIONS.md#adr-015-authority-source-modell-korpus-führt-ingest-braucht-rückwärts-sync), [CONTRACTS.md → F.3](CONTRACTS.md#f3-ingest-requires-backward-sync)): Eine Forward-Only-Ingest-Pipeline ohne `*-backfill-lexicon.py` erzeugt zwangslaeufig dangling Refs. Resultat: 977 unresolved Refs (349 IDs), repo-intern zu schliessen (Lemma-Stubs automatisch generierbar, Sense-Bedeutung kuratorisch). Detektor: `scripts/audit/check-authority-cross-refs.py --check` (CI-Gate in `schema-validation.yml`).
 
 ---
 

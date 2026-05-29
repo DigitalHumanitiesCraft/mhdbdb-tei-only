@@ -196,7 +196,7 @@ User types: **brott**
 ### Variant Dictionary Structure
 
 - Flat map: `{ normalized_variant_form: lemma_id }`
-- ~176,000 entries, extracted from `authority-files/variants.xml`
+- 234,244 normalized entries (Stand 2026-05-29; 256,759 raw forms in variants.xml, deduped first-occurrence-wins), extracted from `authority-files/variants.xml`
 - **First occurrence wins** — if two lemmata claim the same variant form, only the first one stored (source: `build-authority-index.py:526-571`)
 - Keys are **normalized** forms (lowercase + MHG character mapping applied before storage)
 
@@ -486,3 +486,29 @@ Strukturell verankert: `scripts/audit/check-index-versions.py` plus CI-Workflow 
 **Expiration:** 30 days (same as index cache). Checked on read (`get()`). Background cleanup via `cleanExpired()`.
 
 **Corruption handling:** If `DOMParser` returns a `parsererror` element, the cached entry is deleted and null returned (triggers fresh network fetch).
+
+---
+
+## F. Authority Source Rules
+
+**Contract:** When corpus annotation and authority files conflict, the corpus is authoritative. `lexicon.xml` and `variants.xml` are derived indexes, not the master.
+
+**Why:** The corpus is edited continuously — both by script ingest and by manual correction (existing data is fixed, not only new data added). If the authority files were treated as master, legitimate corpus edits would be discarded as "errors" when in fact the authority is lagging behind. This rule stops a future session from misreading dangling refs as corpus errors instead of authority gaps to backfill. (#44/#115)
+
+### F.1 Corpus Leads, Authority Follows
+
+When a `<w>` carries a `@lemmaRef` / `@ana` / `@corresp` that does not exist in the target authority file — a **dangling ref** (detector: `scripts/audit/check-authority-cross-refs.py`):
+
+- **Default:** the corpus annotation wins. The authority must gain the missing entry (lemma stub from form + `@pos`; variant via `extract-variants.py`).
+- **Exception:** an obvious corpus typo (reference to a never-existing ID, single occurrence, a neighbouring ID exists with the right form) is fixed in the corpus instead.
+- `lexicon.xml` is never the master for the question "does this lemma exist?" — the corpus is.
+
+### F.2 Sense Meanings Are Curatorial
+
+A lemma *form* is generatable from the corpus (word form + `@pos`). A sense *meaning* (its `concepts.xml` assignment) is NOT — it is assigned manually by the team (KZW / Julia). A backfill can therefore only create lemma/sense **stubs**; the semantic classification stays curatorial handwork. Phase-3 ingest records (e.g. WZB) hold resolved-sense IDs but no semantic classification.
+
+### F.3 Ingest Requires Backward Sync
+
+Any ingest pipeline that mints new lemma/sense IDs in the corpus MUST write them into `lexicon.xml` atomically. A forward-only pipeline (annotate corpus without authority sync) produces dangling refs — exactly the WZB drift (#115): Phase 1b minted lemma IDs ≥78000 into the corpus, but no script backfilled `lexicon.xml`. Detector: `scripts/audit/check-authority-cross-refs.py --check` (CI gate in `schema-validation.yml`). See [DECISIONS.md → ADR-015](DECISIONS.md#adr-015-authority-source-modell-korpus-führt-ingest-braucht-rückwärts-sync).
+
+**Master of record:** Since the migration (2025-07-22) this repository is the *sole* master for all 8 authority files; there is no Salzburg re-export and no live external source. See [TEI-MODEL-AUTH-FILES.md → Provenienz](TEI-MODEL-AUTH-FILES.md#provenienz-und-aktualitaet).

@@ -174,7 +174,7 @@ The reading view converts TEI XML elements to HTML. Source: `extractAndFormatBod
 - Load and query authority data
 - 3-stage lemma resolution:
   1. Exact match in lexicon (canonical forms)
-  2. Variants dictionary lookup (~176k mappings)
+  2. Variants dictionary lookup (~234k mappings)
   3. Partial match fallback (fuzzy search)
 - Direct array access (no XML DOM queries)
 - Performance maps for fast lookups

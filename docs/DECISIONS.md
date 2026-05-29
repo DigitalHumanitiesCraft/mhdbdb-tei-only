@@ -299,7 +299,7 @@ Middle High German has extensive orthographic variation:
 
 Implement 3-stage lemma resolution:
 1. **Exact match in lexicon:** Check canonical forms first (fastest)
-2. **Variants dictionary lookup:** Check 176k attested variants (O(1))
+2. **Variants dictionary lookup:** Check ~234k attested variants (O(1))
 3. **Partial match fallback:** Fuzzy search if no exact match (catches edge cases)
 
 ### Consequences
@@ -320,7 +320,7 @@ Implement 3-stage lemma resolution:
 - Variants regenerated from the corpus via `scripts/sync/extract-variants.py --apply` (#44/#115), run after corpus changes, then authority-index rebuild + version bump
 - Partial match used only as fallback (rare)
 
-> **Korrektur 2026-05-29:** Frühere Fassung behauptete „Variants regenerated automatically from corpus". Das war falsch: Der ursprüngliche Extractor lag nur auf dem archivierten `initial-data-wrangling`-Branch und las das Pre-#32-`@wordRef`, lief also nie gegen den migrierten Korpus. `variants.xml` driftete dadurch um 64.287 Formen, bis am 2026-05-29 der gepflegte Generator `scripts/sync/extract-variants.py` (`@corresp`-basiert) ergänzt und die Datei regeneriert wurde (192.472 → 256.759 Formen). Es gibt **keinen** automatischen Trigger; Regenerierung ist ein manueller Lifecycle-Schritt (siehe [DATA-MODEL.md → Data-Change-Lifecycle](DATA-MODEL.md#data-change-lifecycle)).
+> **Korrektur 2026-05-29:** Frühere Fassung behauptete „Variants regenerated automatically from corpus". Das war falsch: Der ursprüngliche Extractor lag nur auf dem archivierten `initial-data-wrangling`-Branch und las das Pre-#32-`@wordRef`, lief also nie gegen den migrierten Korpus. `variants.xml` driftete dadurch um 64.287 Formen, bis am 2026-05-29 der gepflegte Generator `scripts/sync/extract-variants.py` (`@corresp`-basiert) ergänzt und die Datei regeneriert wurde (192.472 → 256.759 Formen). Es gibt **keinen** automatischen Trigger; Regenerierung ist ein manueller Lifecycle-Schritt (siehe [DATA-MODEL.md → Data-Change-Lifecycle](DATA-MODEL.md#data-change-lifecycle)). Anders als Varianten ist der **Lemma-/Sense-Backfill** (#115) nicht voll automatisierbar: Lemma-Stubs lassen sich aus dem Korpus generieren, die Sense→Begriff-Zuordnung bleibt kuratorisch (siehe [ADR-015](#adr-015-authority-source-modell-korpus-führt-ingest-braucht-rückwärts-sync)).
 
 ---
 
@@ -877,6 +877,50 @@ Schema-Bump auf v4.1.0 (MINOR, da Schema-Erweiterung). Aufbau im Build-Skript vi
 ### Verbindung zu ADR-001 und ADR-003
 
 ADR-001 (Pre-Built Indexes statt Runtime-XML-Parsing) und ADR-003 (Document-Level Word Indexing) etablierten die Philosophie „lieber im Build-Schritt aufwändig sein als zur Laufzeit". ADR-014 setzt diese Linie für Vers-Boundaries fort: einmal bei Index-Build extrahieren, beliebig oft im Frontend in O(1) abfragen.
+
+---
+
+## ADR-015: Authority-Source-Modell (Korpus führt, Ingest braucht Rückwärts-Sync)
+
+**Status:** Accepted (2026-05-29, KZW-Bestätigung; dokumentiert im Zuge von #44/#115)
+**Context:** Die Wurzelanalyse der 977 dangling Cross-Refs (#115) deckte ein nie explizit entschiedenes Daten-Autoritätsmodell auf.
+
+### Problem
+
+Das Repo begann als einmalige Transformation (Alt-MHDBDB RDF → CSV → TEI, 2025-07-22) und wurde danach zum aktiven Projekt mit laufendem Ingest (WZB, ARITHMETIC) UND laufenden händischen Korpus-Korrekturen. Nie festgehalten war:
+
+- Wenn Korpus-Annotation (`@lemmaRef`/`@ana`) und `lexicon.xml` divergieren — wer führt?
+- Wer pflegt die Authority-Files (noch Salzburg, oder das Repo)?
+- Wie kommen neue Sense-Bedeutungen rein?
+
+Folge: Die WZB-Pipeline (Phase 1b, 2026-04) prägte neue Lemma-IDs ≥78000 ins Korpus, aber kein Skript trug sie in `lexicon.xml` nach (nur 4 manuell, Commits `8caa09627`/`649c0fe55`; viele Sense-IDs ≥78000 sind strukturelle Artefakte der Lemma-Erzeugung). 977 Refs zeigen seither auf fehlende lexicon-Einträge. Eine frühere Session interpretierte das fälschlich als „Migrations-Lücke" und schlug vor, aus dem archivierten Branch zu backfillen — semantisch falsch, weil das Repo der Master ist und die IDs post-Migration entstanden.
+
+### Decision
+
+Drei verbindliche Regeln, normativ in [CONTRACTS.md → F. Authority Source Rules](CONTRACTS.md#f-authority-source-rules):
+
+1. **Korpus führt, Authority folgt.** Fehlt eine im Korpus referenzierte ID in `lexicon.xml`/`variants.xml`, ist die Korpus-Annotation maßgeblich; die Authority wird nachgezogen. Ausnahme: offensichtlicher Tippfehler im Korpus (nie existierende ID, Einzelvorkommen, Nachbar-ID existiert mit passender Form) wird im Korpus korrigiert.
+2. **Repo ist alleiniger Master.** Seit der Migration (2025-07-22) gibt es keinen Salzburg-Re-Export und keine lebende externe Quelle. Alle 8 Authority-Files werden repo-intern gepflegt.
+3. **Ingest braucht Rückwärts-Sync.** Jede Pipeline, die neue Lemma-/Sense-IDs erzeugt, muss `lexicon.xml` atomisch nachtragen. Lemma-Stubs (Form + POS) sind aus dem Korpus generierbar; die Sense→Begriff-Zuordnung ist **kuratorisch** (Team, nicht aus dem Korpus rekonstruierbar).
+
+### Consequences
+
+**Positive:**
+- Eindeutige Regel verhindert die Fehlinterpretation „dangling Ref = Korpus-Fehler" bzw. „aus Alt-Branch backfillen".
+- Cross-Ref-Audit (`scripts/audit/check-authority-cross-refs.py --check`) ist als CI-Gate der Drift-Detektor (in `schema-validation.yml`).
+- Klare Trennung backfillbar (Lemma-Stub) vs. kuratorisch (Sense-Bedeutung).
+
+**Negative:**
+- Forward-Only-Ingest-Pipelines (WZB) brauchen nachträglich ein Backfill-Skript; bis dahin ist `lexicon.xml` in der CI-Baseline ausgenommen (977 Refs, G3 in #115 offen).
+- Sense-Backfill ist nicht vollautomatisch (kuratorischer Schritt KZW/Julia).
+
+**Mitigations:**
+- `scripts/audit/check-lexicon-senses.py` detektiert sense-lose Lemmata lokal (Regression-Schutz seit 2026-05-11).
+- Künftige Ingest-Pipelines (ARITHMETIC, Linda, …) müssen einen `*-backfill-lexicon.py`-Schritt enthalten (Folge-Anforderung aus #115).
+
+### Verbindung zu ADR-013
+
+ADR-013 („Daten vor Schema") und ADR-015 sind komplementär: ADR-013 schützt Bestandsdaten gegen Schema-Aufweichung; ADR-015 legt fest, welche Datenschicht (Korpus) bei Authority-Konflikten führt. Beide sagen: die gewachsenen Daten sind die Wahrheit, abgeleitete Artefakte ziehen nach.
 
 ---
 
