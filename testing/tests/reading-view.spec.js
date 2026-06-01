@@ -155,6 +155,38 @@ test.describe('Reading View', () => {
         expect(count).toBeGreaterThan(0);
     });
 
+    // === #127: visible verse-line numbering policy (.verse-line-numbered) ===
+    // Policy: number the FIRST numeric line, then every line whose absolute @n is a
+    // multiple of 5; non-numeric @n (e.g. h_* headers) is never numbered.
+
+    test('#127: NBB (stanza-local @n) numbers only the first verse line', async ({ page }) => {
+        // Nibelungenlied: @n resets per stanza (1..4) and never reaches a multiple of
+        // 5, so only the very first numeric line carries a margin number.
+        await page.goto('http://localhost:8080/korpus.html?textId=NBB&lemmaIds=lemma_879');
+        await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
+        await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
+
+        const numbered = await page.$$eval('#readingBody .verse-line-numbered',
+            els => els.map(e => e.getAttribute('data-n')));
+        expect(numbered).toEqual(['1']);
+        // numeric guard: a numbered line always has a purely numeric @n (no h_* header)
+        expect(numbered.every(n => /^\d+$/.test(n))).toBe(true);
+    });
+
+    test('#127: AGS (continuous @n) numbers the first line plus every 5th', async ({ page }) => {
+        // Der altgewordene Sünder: continuous @n -> first line anchored + 5,10,15,...
+        await page.goto('http://localhost:8080/korpus.html?textId=AGS&lemmaIds=lemma_879');
+        await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
+        await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
+
+        const numbered = await page.$$eval('#readingBody .verse-line-numbered',
+            els => els.map(e => parseInt(e.getAttribute('data-n'), 10)));
+        expect(numbered.length).toBeGreaterThan(1);
+        expect(numbered.slice(0, 4)).toEqual([1, 5, 10, 15]);
+        // exactly one non-multiple-of-5 survives: the first-line anchor (@n=1)
+        expect(numbered.filter(n => n % 5 !== 0)).toEqual([1]);
+    });
+
     test('should render prose line numbers (lb)', async ({ page }) => {
         // ABG has lb elements with h_ prefix numbers
         await page.goto('http://localhost:8080/korpus.html?textId=ABG&lemmaIds=lemma_879');

@@ -15,41 +15,65 @@
 </head>
 <body class="bg-slate-100 text-slate-900">
 
-    <!-- Header (global Top-Nav) -->
-    <header class="border-b border-slate-200 bg-white/90 backdrop-blur sticky top-0 z-50">
-        <div class="container mx-auto px-6 py-4">
-            <nav class="flex items-center justify-between">
-                <a href="index.html" class="flex items-center gap-3">
-                    <img src="assets/images/mhdbdb-logo.png" alt="MHDBDB Logo" class="w-40">
-                    <span class="text-lg font-bold text-brand-600">MHDBDB</span>
+<!-- NAV:START -->
+<header class="border-b border-slate-200 bg-white/90 backdrop-blur sticky top-0 z-50">
+    <div class="container mx-auto px-6 py-4">
+        <nav class="flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-3">
+                <img src="assets/images/mhdbdb-logo.png" alt="MHDBDB Logo" class="w-40">
+                <span class="text-lg font-bold text-brand-600">MHDBDB</span>
+            </a>
+
+            <!-- Desktop Navigation -->
+            <div class="hidden md:flex items-center gap-6">
+                <a href="index.html" data-nav="start" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                    Startseite
                 </a>
+                <a href="korpus.html" data-nav="korpus" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                    Korpussuche
+                </a>
+                <a href="playground/index.html" data-nav="playground" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                    Playground
+                </a>
+                <a href="hilfe.html" data-nav="hilfe" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                    Hilfe
+                </a>
+                <a href="index.html#contact" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                    Kontakt
+                </a>
+            </div>
 
-                <div class="hidden md:flex items-center gap-6">
-                    <a href="index.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">Startseite</a>
-                    <a href="korpus.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">Korpussuche</a>
-                    <a href="playground/index.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">Playground</a>
-                    <a href="hilfe.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">Hilfe</a>
-                    <a href="index.html#contact" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">Kontakt</a>
-                </div>
+            <!-- Mobile Menu Button -->
+            <button id="mobileMenuButton" class="md:hidden p-2 text-slate-600 hover:text-slate-900 transition" aria-label="Toggle menu">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </nav>
 
-                <button id="mobileMenuButton" class="md:hidden p-2 text-slate-600 hover:text-slate-900 transition" aria-label="Toggle menu">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                </button>
-            </nav>
-
-            <div id="mobileMenu" class="hidden md:hidden mt-4 pb-4 border-t border-slate-200">
-                <div class="flex flex-col gap-3 pt-4">
-                    <a href="index.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">Startseite</a>
-                    <a href="korpus.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">Korpussuche</a>
-                    <a href="playground/index.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">Playground</a>
-                    <a href="hilfe.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">Hilfe</a>
-                    <a href="index.html#contact" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">Kontakt</a>
-                </div>
+        <!-- Mobile Navigation (Hidden by default, only visible on mobile) -->
+        <div id="mobileMenu" class="hidden md:hidden mt-4 pb-4 border-t border-slate-200">
+            <div class="flex flex-col gap-3 pt-4">
+                <a href="index.html" data-nav="start" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                    Startseite
+                </a>
+                <a href="korpus.html" data-nav="korpus" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                    Korpussuche
+                </a>
+                <a href="playground/index.html" data-nav="playground" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                    Playground
+                </a>
+                <a href="hilfe.html" data-nav="hilfe" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                    Hilfe
+                </a>
+                <a href="index.html#contact" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                    Kontakt
+                </a>
             </div>
         </div>
-    </header>
+    </div>
+</header>
+<!-- NAV:END -->
 
     <!-- Main Content -->
     <main class="container mx-auto max-w-3xl px-6 py-12">
@@ -108,7 +132,7 @@
                 Universität Salzburg<br>
                 Mittelhochdeutsche Begriffsdatenbank (MHDBDB)<br>
                 Koordination: Dr. Katharina Zeppezauer-Wachauer<br>
-                Fachbereich Germanistik
+                Fachbereich Germanistik | Interdisziplinäres Zentrum für Mittelalter und Frühneuzeit (IZMF)
             </p>
 
             <p class="text-base text-slate-700 leading-relaxed mb-4">
@@ -159,85 +183,103 @@
 
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-slate-100 text-slate-900 py-12 mt-20">
-        <div class="container mx-auto px-6">
-            <div class="flex flex-wrap items-center justify-center gap-8 mb-6 pb-6 border-b border-slate-300">
-                <img src="assets/images/mhdbdb-logo.png" alt="MHDBDB Logo" class="h-16 w-auto">
-                <img src="assets/images/university-logo.png" alt="Universität Salzburg" class="h-24 w-auto">
-                <img src="assets/images/clariah-logo.png" alt="CLARIAH-AT" class="h-24 w-auto">
-            </div>
-            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
-                <div class="text-center md:text-left">
-                    <p class="text-sm mb-2">
-                        Universität Salzburg, 2025–<span class="current-year">2026</span> |
-                        <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="hover:text-brand-600 transition" target="_blank" rel="noopener">
-                            CC BY-NC-SA 4.0
-                        </a>
-                    </p>
-                    <div class="flex flex-wrap justify-center md:justify-start gap-4 text-sm text-slate-600">
-                        <a href="mailto:mhdbdb@plus.ac.at" class="hover:text-brand-600 transition">mhdbdb@plus.ac.at</a>
-                        <span>|</span>
-                        <a href="https://mhdbdb.plus.ac.at" class="hover:text-brand-600 transition" target="_blank" rel="noopener">mhdbdb.plus.ac.at</a>
-                        <span>|</span>
-                        <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only" class="hover:text-brand-600 transition" target="_blank" rel="noopener">GitHub</a>
-                        <span>|</span>
-                        <a href="impressum.html" class="hover:text-brand-600 transition">Impressum</a>
-                    </div>
-                </div>
-                <button id="clearSiteDataBtn" class="btn-secondary text-sm flex items-center gap-2" title="Alle gespeicherten Daten löschen (Cache, IndexedDB, etc.)">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                    </svg>
-                    <span>Website-Daten löschen</span>
-                </button>
-            </div>
+<!-- FOOTER:START -->
+<footer class="bg-slate-100 text-slate-900 py-8">
+  <div class="container mx-auto px-6">
+    <!-- Logos Row -->
+    <div
+      class="flex flex-wrap items-center justify-center gap-8 mb-6 pb-6 border-b border-slate-300"
+    >
+      <img
+        src="assets/images/mhdbdb-logo.png"
+        alt="MHDBDB Logo"
+        class="h-16 w-auto"
+      />
+      <img
+        src="assets/images/university-logo.png"
+        alt="Universität Salzburg"
+        class="h-24 w-auto"
+      />
+      <img
+        src="assets/images/clariah-logo.png"
+        alt="CLARIAH-AT"
+        class="h-24 w-auto"
+      />
+    </div>
+
+    <!-- Info and Button Row -->
+    <div
+      class="flex flex-col md:flex-row justify-between items-center gap-6"
+    >
+      <div class="text-center md:text-left">
+        <p class="text-sm mb-2">
+          Universität Salzburg, 2025–<span class="current-year">2026</span> |
+          <a
+            href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
+            class="hover:text-brand-600 transition"
+            target="_blank"
+            rel="noopener"
+          >
+            CC BY-NC-SA 4.0
+          </a>
+        </p>
+        <div
+          class="flex flex-wrap justify-center md:justify-start gap-4 text-sm text-slate-600"
+        >
+          <a
+            href="mailto:mhdbdb@plus.ac.at"
+            class="hover:text-brand-600 transition"
+            >mhdbdb@plus.ac.at</a
+          >
+          <span>|</span>
+          <a
+            href="https://mhdbdb.plus.ac.at"
+            class="hover:text-brand-600 transition"
+            target="_blank"
+            rel="noopener"
+          >
+            mhdbdb.plus.ac.at
+          </a>
+          <span>|</span>
+          <a
+            href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only"
+            class="hover:text-brand-600 transition"
+            target="_blank"
+            rel="noopener"
+          >
+            GitHub
+          </a>
+          <span>|</span>
+          <a
+            href="impressum.html"
+            class="hover:text-brand-600 transition"
+          >
+            Impressum
+          </a>
+          <span>|</span>
+          <a
+            href="barrierefreiheit.html"
+            class="hover:text-brand-600 transition"
+          >
+            Barrierefreiheit
+          </a>
         </div>
-    </footer>
+      </div>
+      <button
+        id="clearSiteDataBtn"
+        class="btn-secondary text-sm flex items-center gap-2"
+        title="Alle gespeicherten Daten löschen (Cache, IndexedDB, etc.)"
+      >
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+        </svg>
+        <span>Website-Daten löschen</span>
+      </button>
+    </div>
+  </div>
+</footer>
+<script src="assets/js/site-chrome.js" defer></script>
+<!-- FOOTER:END -->
 
-    <!-- Inline Scripts: Mobile Menu + Clear Site Data -->
-    <script>
-        const mobileMenuButton = document.getElementById('mobileMenuButton');
-        const mobileMenu = document.getElementById('mobileMenu');
-        if (mobileMenuButton && mobileMenu) {
-            mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
-            document.addEventListener('click', (e) => {
-                if (!mobileMenuButton.contains(e.target) && !mobileMenu.contains(e.target)) {
-                    mobileMenu.classList.add('hidden');
-                }
-            });
-            mobileMenu.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
-            });
-        }
-
-        const clearBtn = document.getElementById('clearSiteDataBtn');
-        if (clearBtn) {
-            clearBtn.addEventListener('click', async () => {
-                const message = 'Alle gespeicherten Daten löschen?\n\nDies umfasst:\n' +
-                    '• TEI-Dateien Cache\n' +
-                    '• Authority- und Corpus-Indizes\n' +
-                    '• Alle lokalen Einstellungen\n\n' +
-                    'Die Seite wird neu geladen.';
-                if (!confirm(message)) return;
-                try {
-                    if (indexedDB.databases) {
-                        const dbs = await indexedDB.databases();
-                        await Promise.all(dbs.map(db => new Promise(resolve => {
-                            const req = indexedDB.deleteDatabase(db.name);
-                            req.onsuccess = req.onerror = req.onblocked = () => resolve();
-                        })));
-                    }
-                    localStorage.clear();
-                    sessionStorage.clear();
-                } catch (err) {
-                    console.error('[impressum.html] Clear site data failed:', err);
-                }
-                location.reload();
-            });
-        }
-    </script>
-
-    <script>document.querySelectorAll('.current-year').forEach(el => { const y = new Date().getFullYear(); if (y > 2025) el.textContent = y; });</script>
 </body>
 </html>

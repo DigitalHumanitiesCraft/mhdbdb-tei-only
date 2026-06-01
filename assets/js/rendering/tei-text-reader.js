@@ -332,7 +332,7 @@ class TEITextReader {
         }
 
         const highlights = [];
-        const state = { wordPosition: 0 }; // Use object to pass by reference
+        const state = { wordPosition: 0, firstNumericLineShown: false }; // Use object to pass by reference
 
         // Create lemma-to-color mapping for multi-lemma mode
         const lemmaColorMap = {};
@@ -381,7 +381,21 @@ class TEITextReader {
                 }
                 case 'l': {
                     const lineN = el.getAttribute('n') || '';
-                    return `<span class="verse-line" data-n="${this.escapeHtml(lineN)}">${children()}</span>`;
+                    // Marginal line number: the first verse line carrying a numeric
+                    // @n (anchor) and thereafter every 5th by ABSOLUTE @n, not render
+                    // order. Non-numeric @n (e.g. ALX heading lines "h_1") and bare
+                    // <l> without @n (WZB prose) get no number; stanza-local resets
+                    // (NBB l@n=1..4) never hit %5, so they keep only their "Strophe N"
+                    // labels and avoid a jumbled margin. See #127.
+                    const isNumeric = /^\d+$/.test(lineN);
+                    // First numeric line (anchor) shows, then every 5th by absolute
+                    // @n. Once the anchor fires the flag stays set, so afterwards only
+                    // the %5 branch matters.
+                    const showNumber = isNumeric &&
+                        (!state.firstNumericLineShown || parseInt(lineN, 10) % 5 === 0);
+                    if (showNumber) state.firstNumericLineShown = true;
+                    const cls = showNumber ? 'verse-line verse-line-numbered' : 'verse-line';
+                    return `<span class="${cls}" data-n="${this.escapeHtml(lineN)}">${children()}</span>`;
                 }
                 case 'lb': {
                     const lbN = el.getAttribute('n') || '';

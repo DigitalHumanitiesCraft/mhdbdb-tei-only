@@ -473,16 +473,9 @@
   position: relative;
 }
 
-/* Show line number for line 1 and every 5th line */
-.reading-body .verse-line[data-n="1"]::before,
-.reading-body .verse-line[data-n="5"]::before,
-.reading-body .verse-line[data-n="10"]::before,
-.reading-body .verse-line[data-n="15"]::before,
-.reading-body .verse-line[data-n="20"]::before,
-.reading-body .verse-line[data-n="25"]::before,
-.reading-body .verse-line[data-n="30"]::before,
-.reading-body .verse-line[data-n="35"]::before,
-.reading-body .verse-line[data-n="40"]::before {
+/* Show line number for verse lines the renderer marked (first line + every 5th
+   absolute verse number). Selector is class-based, not hardcoded @n. See #127. */
+.reading-body .verse-line-numbered::before {
   content: attr(data-n);
   position: absolute;
   left: calc(-1 * var(--space-8));

@@ -15,6 +15,7 @@ export function createSearchInterface(config) {
     resultsId,
     totalCount,
     helpText = 'Geben Sie einen Suchbegriff ein, um zu starten.',
+    extraControlsHTML = '',
   } = config;
 
   return `
@@ -31,6 +32,7 @@ export function createSearchInterface(config) {
           class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm text-slate-700 shadow-sm transition focus:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-200"
         />
       </div>
+      ${extraControlsHTML}
       <div
         id="${resultsId}"
         class="rounded-2xl border border-dashed border-slate-200 bg-slate-50/70 p-6 text-center text-sm text-slate-500"
@@ -88,7 +90,7 @@ export function setupSearchInput(inputId, searchHandler) {
 // ==================== RESULT ITEM GENERATION ====================
 
 export function generateResultItem(config) {
-  const { meta, title, subtitle = '', buttons = [], detailsId = '', highlight = false } = config;
+  const { meta, title, subtitle = '', buttons = [], detailsId = '', highlight = false, dimmed = false } = config;
 
   const buttonHTML = buttons
     .map(
@@ -111,13 +113,19 @@ export function generateResultItem(config) {
     : '';
 
   const titleClass = highlight ? 'highlight' : '';
+  // Dimmed cards (e.g. genres without assigned works, #119) use lighter,
+  // already-purged Tailwind classes — no opacity utility, so no CSS rebuild needed.
+  const articleClass = dimmed
+    ? 'result-item rounded-2xl border border-slate-100 bg-slate-50/60 p-4 shadow-sm'
+    : 'result-item rounded-2xl border border-slate-200 bg-white/95 p-4 shadow-sm';
+  const titleColor = dimmed ? 'text-slate-500' : 'text-slate-900';
 
   return `
-    <article class="result-item rounded-2xl border border-slate-200 bg-white/95 p-4 shadow-sm">
+    <article class="${articleClass}">
       <header class="result-meta text-xs font-semibold uppercase tracking-wide text-brand-600">${meta}</header>
       <div class="result-snippet mt-2 space-y-2">
         <div class="flex items-start justify-between gap-3">
-          <span class="${titleClass} text-sm font-semibold text-slate-900">${title}</span>
+          <span class="${titleClass} text-sm font-semibold ${titleColor}">${title}</span>
           <div class="flex flex-wrap gap-2">${buttonHTML}</div>
         </div>
         ${subtitleHTML}

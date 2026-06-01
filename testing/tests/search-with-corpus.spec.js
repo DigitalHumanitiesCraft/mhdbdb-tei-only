@@ -108,6 +108,65 @@ test.describe('Search Functions with Pre-Built Corpus', () => {
         console.log('✅ Names search works');
     });
 
+    test('Search 5b (#119): Gattungen-Filter "nur mit Werken" + Dimming', async ({ page }) => {
+        await page.click('#showGenresBtn');
+        await page.waitForSelector('#genreSearch', { timeout: 5000 });
+
+        await page.fill('#genreSearch', 'chronik');
+        await page.waitForTimeout(500);
+
+        // Unchecked: matches include genres without works -> dimmed cards + placeholder
+        const before = await page.locator('#genreResults article').count();
+        expect(before).toBeGreaterThan(0);
+        const dimmedBefore = await page.locator('#genreResults article')
+            .evaluateAll(els => els.filter(e => e.className.includes('bg-slate-50/60')).length);
+        expect(dimmedBefore).toBeGreaterThan(0);
+        await expect(page.locator('#genreResults'))
+            .toContainText('Noch keine Werke in der MHDBDB zugeordnet');
+
+        // Toggle the filter -> only genres with works remain, placeholder gone
+        await page.check('#genreOnlyWithWorks');
+        await page.waitForTimeout(500);
+        const after = await page.locator('#genreResults article').count();
+        expect(after).toBeGreaterThan(0);
+        expect(after).toBeLessThan(before);
+        const dimmedAfter = await page.locator('#genreResults article')
+            .evaluateAll(els => els.filter(e => e.className.includes('bg-slate-50/60')).length);
+        expect(dimmedAfter).toBe(0);
+        await expect(page.locator('#genreResults')).not.toContainText('Noch keine Werke');
+        console.log('✅ #119 genre filter + dimming works');
+    });
+
+    test('Search 6b (#120): Name -> Begriff -> Lemmata mit namespaced Container', async ({ page }) => {
+        await page.click('#showNamesBtn');
+        await page.waitForSelector('#nameSearch', { timeout: 5000 });
+
+        // "Geographika (Toponyme)" is an authority name with a concept connection
+        await page.fill('#nameSearch', 'Geographika');
+        await page.waitForTimeout(500);
+
+        const conceptBtn = page.locator('#nameResults button:has-text("Begriffe anzeigen")').first();
+        await expect(conceptBtn).toBeVisible();
+        await conceptBtn.click();
+        await page.waitForTimeout(300);
+
+        // Related-concept cards expose a "Lemmata anzeigen" button
+        const lemmaBtn = page.locator('#resultsContainer button:has-text("Lemmata anzeigen")').first();
+        await expect(lemmaBtn).toBeVisible();
+        await lemmaBtn.click();
+        await page.waitForTimeout(500);
+
+        // The namespaced container (lemmas-<nameId>-<conceptId>) must fill. Before the
+        // #120 fix the authority-ui proxy dropped the detailsId, so the container id
+        // did not match and getElementById mis-resolved across name cards.
+        const filled = await page.evaluate(() => {
+            const cs = [...document.querySelectorAll('[id^="lemmas-name_"]')];
+            return cs.some(c => c.offsetParent !== null && c.innerHTML.trim().length > 20);
+        });
+        expect(filled).toBe(true);
+        console.log('✅ #120 name -> concept -> lemma navigation works');
+    });
+
     // ==================== TEI TEXT SEARCHES (4) ====================
 
     test('Search 7-9: Multi-Lemma searches (Paragraph/Document/Proximity)', async ({ page }) => {
