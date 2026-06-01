@@ -114,15 +114,26 @@ export class NameExplorer {
         return "Keine Begriffsverbindungen für diesen Namen gefunden.";
       }
 
+      // Render each related concept as a clickable card that expands to its
+      // lemmata, reusing the concept-explorer's showLemmasWithConcept (which
+      // toggles a `lemmas-<conceptId>` container). Same pattern as the concept
+      // explorer, so the navigation Name -> Begriff -> Lemmata works. See #120.
       const conceptsHTML = concepts
         .slice(0, 10)
-        .map(
-          (concept) => `
-            <div style="margin-bottom: 3px; font-size: 0.85rem;">
-                • <strong>${concept.termDE || concept.termEN}</strong>
-                <span style="color: #475569;">(${concept.id})</span>
-            </div>
-        `
+        .map((concept) =>
+          generateResultItem({
+            meta: `ID: ${concept.id}`,
+            title: concept.termDE || concept.termEN,
+            buttons: [
+              {
+                text: "Lemmata anzeigen",
+                action: `window.playground.ui.authorityExplorers.showLemmasWithConcept('${
+                  concept.id
+                }', '${escapeForJS(concept.termDE || concept.termEN)}')`,
+              },
+            ],
+            detailsId: `lemmas-${concept.id}`,
+          })
         )
         .join("");
 
