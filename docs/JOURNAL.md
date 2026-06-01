@@ -4,6 +4,39 @@ Chronological log of development decisions, dead ends, and savepoints. Not a cha
 
 ---
 
+## 2026-06-01 15:29 — handoff
+
+**Summary:** Der Site-Chrome-Refactor (`feature/site-chrome-refactor`) wurde in zwei Review-Runden gehärtet (lokaler Multi-Agent-Review + konsolidierte 9-Angle-Review), Playwright-Coverage ergänzt, nach `main` gemergt (`--no-ff`, `2e8d48d95`) und live deployt. Anschließend 4 Issues (#127/#119/#120/#122) geschlossen und die CI-Action-Versionen gehoben (Node-20-Deprecation). Alles auf `origin/main`.
+
+**Decisions:**
+- **clearSiteData cross-browser per delete-by-name** statt `clearCache()`/`clear()`: Firefox hat kein `indexedDB.databases()`, der alte Pfad löschte dort nichts und meldete trotzdem Erfolg. Jetzt werden die 3 Projekt-DBs (`MHDBDBMainSite`, `MHDBDB_TEI_Cache`, `MHDBDB_Playground`) explizit per Namen gelöscht (Superset: deckt auch die app-losen Hilfeseiten ohne App-Objekt).
+- **#8 Mobile-Menü in `site-chrome.js` zentralisiert** (`initMobileMenu`): die ~10-zeilige Toggle-Logik war 12× dupliziert außerhalb der Marker (vom `--check` ungeschützt). Kehrt die ursprünglich bewusste „bleibt inline"-Entscheidung um — zulässig, weil die Inline-Kopien jetzt entfernt sind (kein Double-Toggle mehr).
+- **`--no-ff`-Merge** (klarer Merge-Punkt, als Einheit revertierbar); `main` war nicht divergiert (kein Kollegen-#44 auf main).
+- **Plan-Doc gelöscht** (`docs/superpowers/plans/2026-06-01-shared-site-chrome.md`) als Temporal Artifact (CLAUDE.md).
+- **CI-Actions** auf neueste Majors: `actions/checkout` v4→v6, `actions/setup-python` v5→v6 (Inputs unverändert → Drop-in).
+
+**Dead ends:**
+- **#120-Fix war zunächst unvollständig:** der `authority-ui.js`-Proxy reichte das neue `detailsId`-Argument nicht durch → namespaced Container blieb leer. **Nur durch Browser-Runtime-Verifikation gefunden** (statischer/Syntax-Check hätte es nie gezeigt) → Proxy gefixt.
+- **site-chrome.spec.js** Mobile-Menü-Test zunächst rot: `toHaveClass(/hidden/)` matchte auch `md:hidden` als Substring → auf `classList.contains('hidden')` (exaktes Token) umgestellt.
+
+**Phase:** Implementation (aktiver Betrieb). Promptotyping-Docs (14) unverändert — der Refactor ist UI/Build/JS, kein Schema-/Architektur-Change, der Doku-Update bräuchte. Memory `project_site_chrome_refactor` aktualisiert (Mobile-Menü jetzt zentral; clearSiteData delete-by-name).
+
+**Open issues:**
+- **#6 (Review-Finding, kein GH-Issue):** Der #127-Tradeoff markiert bei stanza-lokalem `@n` nur die ERSTE numerische Verszeile (ABS 74×, ABG 34× betroffen) — bewusste Designentscheidung („avoid jumbled margin"), aber für Texte OHNE `<lg>`-„Strophe N"-Labels eine Sichtprüfung/Followup-Issue für KZW wert.
+- **`pages-build-deployment` (dynamic)** nutzt weiter Node-20-Actions — GitHub-verwaltet, keine Repo-Datei, nicht hebbar (außer Umstieg auf eigenen Pages-Actions-Workflow, größerer Umbau).
+- **`build-pages.py --check` ist NICHT in CI verdrahtet** (Drift-Gate existiert, aber unerzwungen — Review-Finding #4; User wählte „nichts weiter"). Hand-Edits einer Nav/Footer-Markerregion fielen erst beim manuellen Lauf auf.
+- **Volle Playwright-Suite nicht gefahren** (nur betroffene Specs `site-chrome`/`reading-view`/`search-with-corpus` + `build --check`); 25 bewusst geskippte Tests (#43).
+
+**Next steps:**
+1. **Journal-Commit pushen** (liegt lokal auf `main`, 1 Commit ahead) — Rest ist schon auf `origin/main`.
+2. *(optional)* `build-pages.py --check` als CI-Step in einen Workflow hängen — schützt die Refactor-Invariante (Nav/Footer-Single-Source) gegen stille Hand-Edits.
+3. *(optional)* #6 als Followup-Issue für KZW anlegen (stanza-marker Sichtprüfung bei ABS/ABG).
+4. *(optional)* Volle `npm test`-Suite einmal fahren, falls ein Komplett-Grün vor weiteren Features gewünscht ist.
+
+**Savepoints (alle auf `origin/main`):** `9d6f30e9c` CI-Action-Bump · `2e8d48d95` Merge feature/site-chrome-refactor · darin `ecd8e7a17` Plan-Doc-Löschung, `0d5d32cd6` #8 Mobile-Menü, `6c48b731d` Review-Runde 2 (Firefox-Clear), `edaba556e` Playwright-Coverage, `f50883369` Review-Runde 1, `436c0fb4a` Refactor-Basis, `c759773a`/`ffbc8aa2`/`31d54367` #127/#120/#119. Lokaler Branch `feature/site-chrome-refactor` nach Merge gelöscht.
+
+---
+
 ## 2026-06-01 — Health-Check (/promptotyping check)
 
 **Scorecard:** Authority-Source-Docs (ADR-015, CONTRACTS §F, DATA-MODEL Lifecycle, INDEX, TEI-MODEL-AUTH-FILES) konsistent; 3 Algorithmen + 3 XPaths code-konform. Fixes diesem Pass: TEI-MODEL §11 Authority-Index-Version war stale (1.3.0 → 1.4.0); CONTRACTS bekam neuen §B.1 „Lemma Highlight Matching" (token-exakt, #126) + Z.77-Korrektur (Highlighting ist `@lemmaRef`-, nicht positions-basiert); Lemma-Zahl 43.750 → 43.754 vereinheitlicht (DATA-MODEL/FEATURES/TEI-MODEL-AUTH-FILES); CLAUDE.md Varianten-Dict 176k → ~234k und Index-Versionen v1.2.0/v4.0.0 → v1.4.0/v4.1.3; ARCHITECTURE + CLAUDE Key-Patterns um das Matching ergänzt; DATA-MODEL ptr-XPath Doppel- → Einfach-Slash. **Lücke → #130:** keine Testabdeckung für Lemma-Matching-Exaktheit (#126 shippte ungetestet). **Bekannt:** Corpus-Index stale seit 2026-05-15 (gutartig, #125). **Fehlbefund gefiltert:** ADR-015 ist sehr wohl in DECISIONS.md (Blindspot-Agent irrte). Grade: solide. Methodik: 5-Agenten-Check-Workflow + manuelle Verifikation der Blocking-Claims.
