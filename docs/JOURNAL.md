@@ -4,6 +4,12 @@ Chronological log of development decisions, dead ends, and savepoints. Not a cha
 
 ---
 
+## 2026-06-01 — Health-Check (/promptotyping check)
+
+**Scorecard:** Authority-Source-Docs (ADR-015, CONTRACTS §F, DATA-MODEL Lifecycle, INDEX, TEI-MODEL-AUTH-FILES) konsistent; 3 Algorithmen + 3 XPaths code-konform. Fixes diesem Pass: TEI-MODEL §11 Authority-Index-Version war stale (1.3.0 → 1.4.0); CONTRACTS bekam neuen §B.1 „Lemma Highlight Matching" (token-exakt, #126) + Z.77-Korrektur (Highlighting ist `@lemmaRef`-, nicht positions-basiert); Lemma-Zahl 43.750 → 43.754 vereinheitlicht (DATA-MODEL/FEATURES/TEI-MODEL-AUTH-FILES); CLAUDE.md Varianten-Dict 176k → ~234k und Index-Versionen v1.2.0/v4.0.0 → v1.4.0/v4.1.3; ARCHITECTURE + CLAUDE Key-Patterns um das Matching ergänzt; DATA-MODEL ptr-XPath Doppel- → Einfach-Slash. **Lücke → #130:** keine Testabdeckung für Lemma-Matching-Exaktheit (#126 shippte ungetestet). **Bekannt:** Corpus-Index stale seit 2026-05-15 (gutartig, #125). **Fehlbefund gefiltert:** ADR-015 ist sehr wohl in DECISIONS.md (Blindspot-Agent irrte). Grade: solide. Methodik: 5-Agenten-Check-Workflow + manuelle Verifikation der Blocking-Claims.
+
+---
+
 ## 2026-05-29 10:13 — handoff
 
 **Summary:** Ausgehend von #115 (Cross-Reference-Audit) wurde die Wurzelursache der Authority-Drift gefunden und die größte stille Datendrift behoben. Kernerkenntnis (KZW): Das Repo war ein Transformationsprojekt (Alt-MHDBDB + RDF → TEI-only), ist jetzt aktives Projekt mit Ingest, aber die abgeleiteten Files hatten keinen Regenerationspfad. Cross-Ref-unresolved von 226.863 auf 977 gesenkt (variants.xml regeneriert + negative-type-Interpunktion entfernt), Cross-Ref-Audit als CI-Gate verankert, transformation→active samt Data-Change-Lifecycle in den Docs festgehalten.

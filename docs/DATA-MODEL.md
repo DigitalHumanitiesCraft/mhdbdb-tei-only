@@ -60,7 +60,7 @@ Eight authority files — seven inhaltstragende controlled vocabularies (in the 
 
 All files use namespace `xmlns="http://www.tei-c.org/ns/1.0"`.
 
-#### lexicon.xml (~33 MB, ~43,750 entries)
+#### lexicon.xml (~33 MB, 43,754 entries)
 
 ```xml
 <TEI><text><body><div type="lexicon">
@@ -386,7 +386,7 @@ Three core build scripts:
 | | | `.//tei:pos` | Part(s) of speech |
 | | | `.//tei:etym[@type="morphological"]//tei:seg[@type="component"]` | Etymology components + `@corresp` |
 | | | `.//tei:sense` | Senses (with `@xml:id`, `@ana`) |
-| | | `.//tei:sense//tei:ptr[contains(@target,"concepts.xml#")]` | Concept pointers per sense |
+| | | `.//tei:sense/tei:ptr[contains(@target,"concepts.xml#")]` | Concept pointers per sense |
 | | persons.xml | `//tei:person` | Person records |
 | | | `.//tei:persName[@type="preferred"]` | Canonical name |
 | | | `.//tei:idno[@type="GND"]` | GND identifier |

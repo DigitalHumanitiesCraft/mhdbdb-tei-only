@@ -74,7 +74,7 @@ These 17 cases must pass in both languages. Source: `scripts/mhg_normalizer.py:1
 
 **Contract:** Python build scripts and JavaScript TEI renderer MUST assign identical word positions to each `<w>` element.
 
-**Why:** The corpus index stores lemma positions as integers (e.g., lemma_879 appears at positions [0, 15, 42]). The reading view highlights words by matching these positions during DOM traversal. If Python counts position 42 differently than JavaScript, highlights land on the wrong word. Proximity search (`|pos_a - pos_b| <= maxDistance`) also breaks.
+**Why:** The corpus index stores lemma positions as integers (e.g., lemma_879 appears at positions [0, 15, 42]). The reading view uses these positions to navigate between hits (scroll to next/previous occurrence) and to align a clicked search result with the right word during DOM traversal. If Python counts position 42 differently than JavaScript, navigation jumps to the wrong word and proximity search (`|pos_a - pos_b| <= maxDistance`) breaks. (The highlight *decision* itself is by exact `@lemmaRef` id, not by position — see Contract B.1.)
 
 ### Rules
 
@@ -136,6 +136,36 @@ Corpus index stores: `lemmata: { "lemma_879": [1] }` — position 1, not 2.
 
 - **v3.x:** Paragraph-based indexing (positions reset per `<p>` — caused misalignment between Python XPath extraction and JavaScript DOM traversal)
 - **v4.0.0:** Document-level indexing (positions never reset — simple, reliable)
+
+---
+
+## B.1 Lemma Highlight Matching Contract
+
+**Contract:** A `<w>` is highlighted iff its `@lemmaRef` contains the searched lemma id as an **exact whitespace-separated token** — never as a substring.
+
+**Why:** `@lemmaRef` may carry several space-separated values (e.g. `lexicon.xml#lemma_308 lexicon.xml#lemma_5`). A substring test (`lemmaRef.includes('#lemma_308')`) also matches neighbouring ids like `#lemma_3089` (jâmer), `#lemma_3087`, `#lemma_30800` — so a search for one lemma highlights unrelated words and inflates the in-reader hit counter. This was bug #126 (fix `8e38f25cc`).
+
+### Rule
+
+```
+refIds  = lemmaRef.split(/\s+/).map(t => t.split('#')[1]).filter(Boolean)
+isMatch = refIds.includes(searchLemmaId)     // exact — NOT lemmaRef.includes('#' + id)
+```
+
+### Test cases
+
+| `@lemmaRef` | search id | match? |
+|-------------|-----------|--------|
+| `lexicon.xml#lemma_308` | `lemma_308` | yes |
+| `lexicon.xml#lemma_3089` | `lemma_308` | **no** (substring trap) |
+| `lexicon.xml#lemma_308 lexicon.xml#lemma_5` | `lemma_5` | yes |
+| `lexicon.xml#lemma_30800` | `lemma_308` | **no** |
+
+**Applies to all highlight/match paths:** `tei-text-reader.js` (single + multi-lemma), `text-renderer.js` (`findLemmaContexts`), and the playground (`tei-manager.js` proximity + enrichment, `ui-helpers.js` context highlight). Validated on real corpus data: PL1 689 → 57, OVG 369 → 26 (matches the result-card count).
+
+### Test Coverage
+
+No automated test yet — #126 shipped undetected (regression test tracked in #130). A regression test should assert the four cases above and that searching `lemma_308` in a text also containing `lemma_3089` highlights only the `lemma_308` words.
 
 ---
 

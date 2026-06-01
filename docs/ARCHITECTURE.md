@@ -135,7 +135,7 @@ The reading view converts TEI XML elements to HTML. Source: `extractAndFormatBod
 | `<num>` | | `<span>` | `.number` |
 | `<pc>` | `@join` | `<span data-join>` | `.punctuation` |
 | `<seg>` | | (transparent — children only) | — |
-| `<w>` | `@lemmaRef` (match) | `<mark>` | `.highlight` / `.highlight.multi-lemma` |
+| `<w>` | `@lemmaRef` (exact id match, see CONTRACTS §B.1) | `<mark>` | `.highlight` / `.highlight.multi-lemma` |
 | `<w>` | `@lemmaRef` (no match) | escaped text + space | — |
 | `<w>` | no `@lemmaRef` | escaped text + space | — |
 | (unknown) | | recurse into children | — |

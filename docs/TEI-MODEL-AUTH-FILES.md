@@ -14,7 +14,7 @@ Pendant zu `docs/TEI-MODEL.md` (Korpusdateien).
 
 | Datei | Inhalt | Eintraege | Groesse |
 |-------|--------|-----------|---------|
-| `lexicon.xml` | Lemmata mit Senses, POS, Etymologie | 43,750 | 33 MB |
+| `lexicon.xml` | Lemmata mit Senses, POS, Etymologie | 43,754 | 33 MB |
 | `variants.xml` | Orthographische Varianten pro Lemma | 42,627 Eintraege, 256,759 Formen | 16 MB |
 | `persons.xml` | Autoren/Personen mit Normdaten | 211 | 74 KB |
 | `works.xml` | Werke mit Bibliographie und Genre | 583 | 1.4 MB |

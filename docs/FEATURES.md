@@ -232,7 +232,7 @@ Persistent pages for individual lemmata, accessible at `/lemma/{numericId}`. The
 Concept-based similarity section on each lemma page.
 
 **How it works:**
-- Scans all ~43,750 lemmata for shared concept references (`<sense>` → `<ptr target="concepts.xml#...">`)
+- Scans all 43,754 lemmata for shared concept references (`<sense>` → `<ptr target="concepts.xml#...">`)
 - Ranks by concept overlap with the current lemma
 - Displays top 50 as clickable chip links
 - Performance: ~75 ms for full scan

@@ -112,9 +112,10 @@ Nach größeren Doku-Änderungen oder quartalsweise (auch ohne Änderungen, gege
 
 ## Key Patterns
 
-- **3-stage lemma resolution**: exact match → variants dictionary (176k entries) → partial match fallback. See ARCHITECTURE.md.
+- **3-stage lemma resolution**: exact match → variants dictionary (~234k entries) → partial match fallback. See ARCHITECTURE.md.
+- **Lemma highlight matching**: a `<w>` is highlighted only if `@lemmaRef` contains the searched id as an exact whitespace-separated token (never a substring: `#lemma_308` must not match `#lemma_3089`). See CONTRACTS.md §B.1 (#126).
 - **MHG normalization**: `â→a, ê→e, î→i, ô→o, û→u, ä→ae, ö→oe, ü→ue`. Centralized in `assets/js/lib/text-normalizer.js`.
-- **Pre-built indexes**: authority (3 MB gz, v1.2.0) + corpus (34 MB gz, v4.0.0). See DATA-MODEL.md for schemas.
+- **Pre-built indexes**: authority (3 MB gz, v1.4.0) + corpus (~42 MB gz, v4.1.3). See DATA-MODEL.md for schemas.
 
 ## License
 
