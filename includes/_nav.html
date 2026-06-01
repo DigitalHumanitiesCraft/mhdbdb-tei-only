@@ -1,0 +1,57 @@
+<header class="border-b border-slate-200 bg-white/90 backdrop-blur sticky top-0 z-50">
+    <div class="container mx-auto px-6 py-4">
+        <nav class="flex items-center justify-between">
+            <a href="{{ROOT}}index.html" class="flex items-center gap-3">
+                <img src="{{ROOT}}assets/images/mhdbdb-logo.png" alt="MHDBDB Logo" class="w-40">
+                <span class="text-lg font-bold text-brand-600">MHDBDB</span>
+            </a>
+
+            <!-- Desktop Navigation -->
+            <div class="hidden md:flex items-center gap-6">
+                <a href="{{ROOT}}index.html" data-nav="start" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                    Startseite
+                </a>
+                <a href="{{ROOT}}korpus.html" data-nav="korpus" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                    Korpussuche
+                </a>
+                <a href="{{ROOT}}playground/index.html" data-nav="playground" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                    Playground
+                </a>
+                <a href="{{ROOT}}hilfe.html" data-nav="hilfe" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                    Hilfe
+                </a>
+                <a href="{{ROOT}}index.html#contact" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                    Kontakt
+                </a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobileMenuButton" class="md:hidden p-2 text-slate-600 hover:text-slate-900 transition" aria-label="Toggle menu">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </nav>
+
+        <!-- Mobile Navigation (Hidden by default, only visible on mobile) -->
+        <div id="mobileMenu" class="hidden md:hidden mt-4 pb-4 border-t border-slate-200">
+            <div class="flex flex-col gap-3 pt-4">
+                <a href="{{ROOT}}index.html" data-nav="start" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                    Startseite
+                </a>
+                <a href="{{ROOT}}korpus.html" data-nav="korpus" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                    Korpussuche
+                </a>
+                <a href="{{ROOT}}playground/index.html" data-nav="playground" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                    Playground
+                </a>
+                <a href="{{ROOT}}hilfe.html" data-nav="hilfe" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                    Hilfe
+                </a>
+                <a href="{{ROOT}}index.html#contact" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                    Kontakt
+                </a>
+            </div>
+        </div>
+    </div>
+</header>

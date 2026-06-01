@@ -1,0 +1,95 @@
+<footer class="bg-slate-100 text-slate-900 py-8">
+  <div class="container mx-auto px-6">
+    <!-- Logos Row -->
+    <div
+      class="flex flex-wrap items-center justify-center gap-8 mb-6 pb-6 border-b border-slate-300"
+    >
+      <img
+        src="{{ROOT}}assets/images/mhdbdb-logo.png"
+        alt="MHDBDB Logo"
+        class="h-16 w-auto"
+      />
+      <img
+        src="{{ROOT}}assets/images/university-logo.png"
+        alt="Universität Salzburg"
+        class="h-24 w-auto"
+      />
+      <img
+        src="{{ROOT}}assets/images/clariah-logo.png"
+        alt="CLARIAH-AT"
+        class="h-24 w-auto"
+      />
+    </div>
+
+    <!-- Info and Button Row -->
+    <div
+      class="flex flex-col md:flex-row justify-between items-center gap-6"
+    >
+      <div class="text-center md:text-left">
+        <p class="text-sm mb-2">
+          Universität Salzburg, 2025–<span class="current-year">2026</span> |
+          <a
+            href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
+            class="hover:text-brand-600 transition"
+            target="_blank"
+            rel="noopener"
+          >
+            CC BY-NC-SA 4.0
+          </a>
+        </p>
+        <div
+          class="flex flex-wrap justify-center md:justify-start gap-4 text-sm text-slate-600"
+        >
+          <a
+            href="mailto:mhdbdb@plus.ac.at"
+            class="hover:text-brand-600 transition"
+            >mhdbdb@plus.ac.at</a
+          >
+          <span>|</span>
+          <a
+            href="https://mhdbdb.plus.ac.at"
+            class="hover:text-brand-600 transition"
+            target="_blank"
+            rel="noopener"
+          >
+            mhdbdb.plus.ac.at
+          </a>
+          <span>|</span>
+          <a
+            href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only"
+            class="hover:text-brand-600 transition"
+            target="_blank"
+            rel="noopener"
+          >
+            GitHub
+          </a>
+          <span>|</span>
+          <a
+            href="{{ROOT}}impressum.html"
+            class="hover:text-brand-600 transition"
+          >
+            Impressum
+          </a>
+          <span>|</span>
+          <a
+            href="{{ROOT}}barrierefreiheit.html"
+            class="hover:text-brand-600 transition"
+          >
+            Barrierefreiheit
+          </a>
+        </div>
+      </div>
+      <button
+        id="clearSiteDataBtn"
+        class="btn-secondary text-sm flex items-center gap-2"
+        title="Alle gespeicherten Daten löschen (Cache, IndexedDB, etc.)"
+      >
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+        </svg>
+        <span>Website-Daten löschen</span>
+      </button>
+    </div>
+  </div>
+</footer>
+<script src="{{ROOT}}assets/js/site-chrome.js" defer></script>

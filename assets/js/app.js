@@ -43,8 +43,7 @@ class MainSiteApp {
             loadingStatus: document.getElementById('loadingStatus'),
             loadingProgress: document.getElementById('loadingProgress'),
             errorDisplay: document.getElementById('errorDisplay'),
-            errorMessage: document.getElementById('errorMessage'),
-            clearSiteDataBtn: document.getElementById('clearSiteDataBtn')
+            errorMessage: document.getElementById('errorMessage')
         };
 
         // Search page specific elements
@@ -285,11 +284,6 @@ class MainSiteApp {
     }
 
     setupEventListeners() {
-        // Clear Site Data button (both pages)
-        if (this.elements.clearSiteDataBtn) {
-            this.elements.clearSiteDataBtn.addEventListener('click', () => this.handleClearSiteData());
-        }
-
         // Search page specific listeners
         if (this.isSearchPage) {
             // Search
@@ -1021,64 +1015,6 @@ class MainSiteApp {
         return true; // URL params were processed
     }
 
-    /**
-     * Clear all site data (equivalent to Chrome DevTools "Clear site data")
-     * Clears:
-     * - TEI cache (IndexedDB: MHDBDB_TEI_Cache)
-     * - Authority/Corpus indices (IndexedDB: MHDBDBMainSite)
-     * - localStorage
-     * - sessionStorage
-     */
-    async handleClearSiteData() {
-        const message = `Alle gespeicherten Daten löschen?\n\nDies umfasst:\n` +
-            `• TEI-Dateien Cache\n` +
-            `• Authority- und Corpus-Indizes\n` +
-            `• Alle lokalen Einstellungen\n\n` +
-            `Die Seite wird neu geladen.`;
-
-        if (!confirm(message)) {
-            return;
-        }
-
-        try {
-            console.log('[MainSiteApp] Clearing all site data...');
-
-            // 1. Clear TEI cache
-            if (this.textRenderer && this.textRenderer.cache) {
-                console.log('[MainSiteApp] Clearing TEI cache...');
-                await this.textRenderer.cache.clear();
-            }
-
-            // 2. Clear corpus loader IndexedDB (authority/corpus indices)
-            if (this.corpusLoader && this.corpusLoader.db) {
-                console.log('[MainSiteApp] Clearing corpus indices...');
-                await this.corpusLoader.db.indices.clear();
-            }
-
-            // 3. Clear all IndexedDB databases
-            console.log('[MainSiteApp] Clearing all IndexedDB databases...');
-            const databases = await indexedDB.databases();
-            for (const db of databases) {
-                console.log(`[MainSiteApp] Deleting database: ${db.name}`);
-                indexedDB.deleteDatabase(db.name);
-            }
-
-            // 4. Clear localStorage and sessionStorage
-            console.log('[MainSiteApp] Clearing localStorage and sessionStorage...');
-            localStorage.clear();
-            sessionStorage.clear();
-
-            console.log('[MainSiteApp] All site data cleared successfully');
-
-            // Reload page to reinitialize
-            alert('Alle Daten wurden gelöscht. Die Seite wird neu geladen.');
-            window.location.reload();
-
-        } catch (error) {
-            console.error('[MainSiteApp] Error clearing site data:', error);
-            alert('Fehler beim Löschen der Daten: ' + error.message);
-        }
-    }
 }
 
 // Initialize app when DOM is ready
