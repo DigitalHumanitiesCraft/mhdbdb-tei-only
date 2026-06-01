@@ -127,8 +127,11 @@ export class AuthorityUI {
     this.conceptExplorer.searchConcepts(searchTerm);
   }
 
-  showLemmasWithConcept(conceptId, conceptName) {
-    this.conceptExplorer.showLemmasWithConcept(conceptId, conceptName);
+  showLemmasWithConcept(conceptId, conceptName, detailsId) {
+    // detailsId is optional: the name-explorer passes a namespaced container id
+    // (lemmas-<nameId>-<conceptId>) so two open name cards sharing a concept do
+    // not collide; the concept-explorer's own buttons omit it (default applies). See #120.
+    this.conceptExplorer.showLemmasWithConcept(conceptId, conceptName, detailsId);
   }
 
   findLemmasWithConcept(conceptId) {

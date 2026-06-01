@@ -120,8 +120,12 @@ export class NameExplorer {
       // explorer, so the navigation Name -> Begriff -> Lemmata works. See #120.
       const conceptsHTML = concepts
         .slice(0, 10)
-        .map((concept) =>
-          generateResultItem({
+        .map((concept) => {
+          // Namespace the lemmata container by nameId so the same concept under
+          // two simultaneously-open name cards gets distinct IDs (not a duplicate
+          // `lemmas-<conceptId>` that getElementById would resolve to the first). See #120.
+          const lemmasDetailsId = `lemmas-${nameId}-${concept.id}`;
+          return generateResultItem({
             meta: `ID: ${concept.id}`,
             title: concept.termDE || concept.termEN,
             buttons: [
@@ -129,12 +133,14 @@ export class NameExplorer {
                 text: "Lemmata anzeigen",
                 action: `window.playground.ui.authorityExplorers.showLemmasWithConcept('${
                   concept.id
-                }', '${escapeForJS(concept.termDE || concept.termEN)}')`,
+                }', '${escapeForJS(
+                  concept.termDE || concept.termEN
+                )}', '${lemmasDetailsId}')`,
               },
             ],
-            detailsId: `lemmas-${concept.id}`,
-          })
-        )
+            detailsId: lemmasDetailsId,
+          });
+        })
         .join("");
 
       return `

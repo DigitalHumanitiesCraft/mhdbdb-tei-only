@@ -108,17 +108,19 @@ export class ConceptExplorer {
     renderToContainer("conceptResults", result.headerHTML + resultHTML);
   }
 
-  showLemmasWithConcept(conceptId, conceptName) {
-    toggleDetails(`lemmas-${conceptId}`, () => {
+  showLemmasWithConcept(conceptId, conceptName, detailsId = `lemmas-${conceptId}`) {
+    toggleDetails(detailsId, () => {
       const lemmasWithConcept = this.findLemmasWithConcept(conceptId);
 
       if (lemmasWithConcept.length === 0) {
         return "Keine Lemmata für diesen Begriff gefunden.";
       }
 
-      // Create full search interface for exploring lemmata
-      const searchId = `lemma-concept-search-${conceptId}`;
-      const resultsId = `lemma-concept-results-${conceptId}`;
+      // Create full search interface for exploring lemmata. The inner IDs are
+      // derived from detailsId (not just conceptId) so the same concept opened
+      // under two different name cards in the name-explorer cannot collide. See #120.
+      const searchId = `${detailsId}-search`;
+      const resultsId = `${detailsId}-results`;
 
       const searchHTML = createSearchInterface({
         title: `${lemmasWithConcept.length} Lemmata mit Begriff "${conceptName}"`,
