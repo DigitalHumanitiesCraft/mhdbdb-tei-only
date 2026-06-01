@@ -13,8 +13,6 @@
  * NOTE: the mobile-menu toggle is intentionally NOT handled here — each page
  * still carries its own inline mobile-menu script (toggle + click-outside-close).
  * Binding it here too would double-toggle and cancel out.
- *
- * See docs/superpowers/plans/2026-06-01-shared-site-chrome.md.
  */
 (function () {
   "use strict";
@@ -26,12 +24,15 @@
     });
   }
 
-  // Close known IndexedDB connections so deleteDatabase() is not blocked by an
-  // open handle. On the main-site pages app.js (window._mhdbdbApp) holds the big
-  // corpus/authority DB (Dexie 'MHDBDBMainSite') and the TEI cache (IDBDatabase);
-  // an open connection makes deleteDatabase fire "blocked" and the drop silently
-  // does not run while the page is alive. Best-effort + optional chaining so this
-  // never throws on pages that have no app.
+  // Project IndexedDB databases, deleted explicitly BY NAME so the reset works in
+  // Firefox too — it still does not implement indexedDB.databases(), so name-based
+  // deleteDatabase (supported everywhere) is the only cross-browser path. This also
+  // covers the app-less help pages, which have no app object to clear through.
+  const KNOWN_DB_NAMES = ["MHDBDBMainSite", "MHDBDB_TEI_Cache", "MHDBDB_Playground"];
+
+  // Close the open app handles first so the drop is not "blocked". On the main-site
+  // pages app.js (window._mhdbdbApp) holds the corpus/authority DB (Dexie) and the
+  // TEI cache; best-effort + optional chaining so it never throws where there is no app.
   function closeKnownConnections() {
     try {
       const app = window._mhdbdbApp;
@@ -42,27 +43,33 @@
     }
   }
 
-  // Delete every IndexedDB database and WAIT for each drop (success/error/blocked)
-  // before returning, so the indices are actually gone before we reload.
-  function deleteAllDatabases() {
-    if (typeof indexedDB.databases !== "function") return Promise.resolve();
-    return indexedDB.databases().then((dbs) =>
-      Promise.all(
-        dbs.map(
-          (db) =>
-            new Promise((resolve) => {
-              if (!db.name) return resolve();
-              const req = indexedDB.deleteDatabase(db.name);
-              req.onblocked = () => {
-                console.warn(`[SiteChrome] deleteDatabase blocked: ${db.name}`);
-                resolve();
-              };
-              req.onsuccess = () => resolve();
-              req.onerror = () => resolve();
-            })
-        )
-      )
-    );
+  function dropDatabase(name) {
+    return new Promise((resolve) => {
+      const req = indexedDB.deleteDatabase(name);
+      // A connection still open on the page that owns this DB blocks the drop; it
+      // then completes on the reload below. Resolve either way so we never hang.
+      req.onblocked = () => {
+        console.warn(`[SiteChrome] deleteDatabase blocked, finishes on reload: ${name}`);
+        resolve();
+      };
+      req.onsuccess = () => resolve();
+      req.onerror = () => resolve();
+    });
+  }
+
+  // Delete the known project DBs by name (cross-browser) plus any extras that
+  // indexedDB.databases() can enumerate (Chromium only), and wait for each drop.
+  async function deleteAllDatabases() {
+    const names = new Set(KNOWN_DB_NAMES);
+    if (typeof indexedDB.databases === "function") {
+      try {
+        const dbs = await indexedDB.databases();
+        dbs.forEach((db) => { if (db.name) names.add(db.name); });
+      } catch (error) {
+        console.warn("[SiteChrome] indexedDB.databases() failed:", error);
+      }
+    }
+    await Promise.all([...names].map(dropDatabase));
   }
 
   function initClearSiteData() {

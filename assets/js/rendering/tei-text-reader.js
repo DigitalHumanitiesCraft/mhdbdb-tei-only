@@ -388,15 +388,12 @@ class TEITextReader {
                     // (NBB l@n=1..4) never hit %5, so they keep only their "Strophe N"
                     // labels and avoid a jumbled margin. See #127.
                     const isNumeric = /^\d+$/.test(lineN);
-                    let showNumber = false;
-                    if (isNumeric) {
-                        if (!state.firstNumericLineShown) {
-                            showNumber = true;
-                            state.firstNumericLineShown = true;
-                        } else if (parseInt(lineN, 10) % 5 === 0) {
-                            showNumber = true;
-                        }
-                    }
+                    // First numeric line (anchor) shows, then every 5th by absolute
+                    // @n. Once the anchor fires the flag stays set, so afterwards only
+                    // the %5 branch matters.
+                    const showNumber = isNumeric &&
+                        (!state.firstNumericLineShown || parseInt(lineN, 10) % 5 === 0);
+                    if (showNumber) state.firstNumericLineShown = true;
                     const cls = showNumber ? 'verse-line verse-line-numbered' : 'verse-line';
                     return `<span class="${cls}" data-n="${this.escapeHtml(lineN)}">${children()}</span>`;
                 }

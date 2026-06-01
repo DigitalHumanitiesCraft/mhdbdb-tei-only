@@ -135,7 +135,7 @@ export class NameExplorer {
                   concept.id
                 }', '${escapeForJS(
                   concept.termDE || concept.termEN
-                )}', '${lemmasDetailsId}')`,
+                )}', '${escapeForJS(lemmasDetailsId)}')`,
               },
             ],
             detailsId: lemmasDetailsId,
