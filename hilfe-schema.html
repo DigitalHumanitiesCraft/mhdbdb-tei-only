@@ -723,22 +723,8 @@ print('MHDBDB:', 'VALID' if mhdbdb.validate(tree)  else mhdbdb.error_log)
     <script defer src="assets/vendor/prism/prism-core.min.js"></script>
     <script defer src="assets/vendor/prism/prism-markup.min.js"></script>
 
-    <!-- Inline Scripts: Mobile Menu + Example Loader -->
+    <!-- Inline Script: Example Loader -->
     <script>
-        const mobileMenuButton = document.getElementById('mobileMenuButton');
-        const mobileMenu = document.getElementById('mobileMenu');
-        if (mobileMenuButton && mobileMenu) {
-            mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
-            document.addEventListener('click', (e) => {
-                if (!mobileMenuButton.contains(e.target) && !mobileMenu.contains(e.target)) {
-                    mobileMenu.classList.add('hidden');
-                }
-            });
-            mobileMenu.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
-            });
-        }
-
         // Lazy-load example XML files on first open of each <details>.
         // Why fetch instead of inlining: nine examples total >1000 lines —
         // inlining would inflate the page by ~50 KB and run a Prism pass

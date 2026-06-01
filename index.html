@@ -709,36 +709,8 @@
       </div>
     </div>
 
-    <!-- Mobile Menu Toggle -->
+    <!-- Inline Script: Citation -->
     <script>
-      // Mobile menu toggle
-      const mobileMenuButton = document.getElementById("mobileMenuButton");
-      const mobileMenu = document.getElementById("mobileMenu");
-
-      if (mobileMenuButton && mobileMenu) {
-        mobileMenuButton.addEventListener("click", () => {
-          mobileMenu.classList.toggle("hidden");
-        });
-
-        // Close mobile menu when clicking outside
-        document.addEventListener("click", (e) => {
-          if (
-            !mobileMenuButton.contains(e.target) &&
-            !mobileMenu.contains(e.target)
-          ) {
-            mobileMenu.classList.add("hidden");
-          }
-        });
-
-        // Close mobile menu when clicking a link
-        const mobileLinks = mobileMenu.querySelectorAll("a");
-        mobileLinks.forEach((link) => {
-          link.addEventListener("click", () => {
-            mobileMenu.classList.add("hidden");
-          });
-        });
-      }
-
       // Citation: dynamic access date + copy to clipboard
       const citationDate = document.getElementById("citationDate");
       if (citationDate) {

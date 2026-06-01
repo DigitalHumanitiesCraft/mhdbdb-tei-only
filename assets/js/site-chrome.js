@@ -10,9 +10,10 @@
  * favour of this one implementation — binding the same button in two places would
  * fire two confirm dialogs and race two clear+reload sequences.
  *
- * NOTE: the mobile-menu toggle is intentionally NOT handled here — each page
- * still carries its own inline mobile-menu script (toggle + click-outside-close).
- * Binding it here too would double-toggle and cancel out.
+ * It also owns the mobile-menu toggle (open/close + click-outside + close-on-link),
+ * centralized here so that ~10 lines are no longer duplicated inline on every page.
+ * Pages must therefore NOT keep their own mobile-menu script, or the two handlers
+ * would double-toggle and cancel out.
  */
 (function () {
   "use strict";
@@ -21,6 +22,23 @@
     const year = String(new Date().getFullYear());
     document.querySelectorAll(".current-year").forEach((el) => {
       el.textContent = year;
+    });
+  }
+
+  // Mobile-menu toggle (the nav burger is md:hidden, so only relevant < md). Single
+  // implementation for all pages; the per-page inline copies were removed with this.
+  function initMobileMenu() {
+    const button = document.getElementById("mobileMenuButton");
+    const menu = document.getElementById("mobileMenu");
+    if (!button || !menu) return;
+    button.addEventListener("click", () => menu.classList.toggle("hidden"));
+    document.addEventListener("click", (event) => {
+      if (!button.contains(event.target) && !menu.contains(event.target)) {
+        menu.classList.add("hidden");
+      }
+    });
+    menu.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => menu.classList.add("hidden"));
     });
   }
 
@@ -101,6 +119,7 @@
   }
 
   function init() {
+    initMobileMenu();
     initCurrentYear();
     initClearSiteData();
   }
