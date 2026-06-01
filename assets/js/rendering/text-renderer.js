@@ -122,14 +122,18 @@ class TextRenderer {
         const contexts = [];
 
         // Find all <w> elements with matching lemmaRef
-        const lemmaRefPattern = `#${lemmaId}`;
         const wordElements = teiDoc.querySelectorAll('w[lemmaRef]');
 
         wordElements.forEach((wordEl, index) => {
             const lemmaRef = wordEl.getAttribute('lemmaRef');
 
-            // Check if lemmaRef matches: "lexicon.xml#lemma_879" contains "#lemma_879"
-            if (lemmaRef && lemmaRef.includes(lemmaRefPattern)) {
+            // Exact lemma-id match. @lemmaRef may hold several whitespace-separated
+            // values; an unbounded substring test would wrongly match "#lemma_308"
+            // inside "#lemma_3089". See #126.
+            const wordLemmaIds = lemmaRef
+                ? lemmaRef.split(/\s+/).map(t => t.split('#')[1]).filter(Boolean)
+                : [];
+            if (wordLemmaIds.includes(lemmaId)) {
                 const context = this.extractContext(wordEl, index);
                 contexts.push(context);
             }

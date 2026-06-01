@@ -413,12 +413,14 @@ async function enrichFileResults(fileResults, lemmaIds) {
         const highlightedParts = contextWords.map(word => {
           const text = word.textContent?.trim() || '';
           const lemmaRef = word.getAttribute('lemmaRef') || '';
+          // Exact lemma-id match; substring test wrongly matched lemma_3089 for 308. See #126.
+          const refIds = lemmaRef.split(/\s+/).map(t => t.split('#')[1]).filter(Boolean);
 
           // Highlight matched lemmas
           for (let i = 0; i < lemmaIds.length; i++) {
             const lemmaId = lemmaIds[i];
             const cleanId = lemmaId.toString().replace('lemma_', '');
-            if (lemmaRef.includes(`lemma_${cleanId}`)) {
+            if (refIds.includes(`lemma_${cleanId}`)) {
               const color = LEMMA_COLORS[i % LEMMA_COLORS.length];
               return `<span style="background-color: ${color.bg}; color: ${color.text}; border-bottom: 2px solid ${color.border}; padding: 2px 4px; border-radius: 3px; font-weight: 500;">${text}</span>`;
             }
