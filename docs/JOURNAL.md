@@ -4,6 +4,36 @@ Chronological log of development decisions, dead ends, and savepoints. Not a cha
 
 ---
 
+## 2026-06-02 10:59 — handoff
+
+**Summary:** Drei Arbeitsblöcke, alle auf `origin/main`. (1) **#130** Lemma-Matching-Exaktheit: TDD-Test geschrieben (Unit §B.1-Tabelle + e2e Reader PL1=57/OVG=26) und dabei die 6 inline-Substring-Match-Kopien in eine zentrale `lemmaRefMatchesId()` (`assets/js/lib/lemma-match.js`) refactort — `Closes #130`. (2) **#131** als Followup angelegt (§B Python↔JS Position-Counting-Paritätstest). (3) **/promptotyping check** als Multi-Agent-Workflow: 26 Drift-Befunde bestätigt, 1 Fehlbefund adversarial gefiltert, alle 26 in einem Doc-Commit gefixt.
+
+**Decisions:**
+- **#130 Refactor statt Test-only** (User-Wahl): die 6-fach-Duplikation war die Wurzel von #126; Zentralisierung eliminiert das Regress-Risiko, eine getestete Quelle (CONTRACTS §B.1). TDD rückwärts gefahren (Code war schon gefixt): Test grün → Funktion temporär auf Substring zurück → rot bewiesen → zurück.
+- **Check als Workflow, Fixes manuell:** Fan-out lohnt für die Analyse (6 Dimensionen, adversariale Verifikation pro Befund), nicht für die Fixes (überlappende Dateien, deutsche Prosa-Präzision, Em-Dash-Regel).
+- **26 Fixes in EINEM Commit** (`c6af48cc4`), nicht 4 thematische: dieselben Dateien tragen mehrere Themen, saubere Trennung bräuchte `git add -p` (gegen Concurrent-Session-Regel). Folgt der Konvention des letzten Checks (`c083fda03`).
+- **#131-Assignee KZW→chsteiner korrigiert** (User-Einwand): Memory-Regel sagt technische Issues → `chsteiner`, nicht `wachauer`. War mein reflexhafter Fehlgriff gegen die eigene Regel.
+- **DECISIONS:36/:54** (47→2.9-MB-Ratio) bewusst als historische ADR-Werte belassen, nur die Present-Tense-Output-Zeile :47 aktualisiert.
+
+**Dead ends:**
+- Erste §C.2.1-Quellzeile im Check war als app.js:409-427 dokumentiert (echt: inline in `handleSearch()` 451-469, keine `deduplicateResults`-Funktion) — Doku korrigiert.
+- Workflow-Output-Pfad-Tippfehler beim Nachlesen (UUID verschrieben) — per Glob gelöst.
+
+**Phase:** Implementation (aktiver Betrieb). Alle 14 Promptotyping-Docs aktuell UND nach dem Check konsistent mit verifizierten Code/Daten-Werten (Index-Größen, variants-Counts, Korpus-667, Site-Chrome-Pipeline jetzt in ARCHITECTURE/DEVELOPMENT/DESIGN dokumentiert). Memory unverändert (kein neuer Fakt; Assignee-Regel war bereits korrekt dokumentiert).
+
+**Open issues:**
+- **#131** (§B Position-Counting-Paritätstest, `claude-ready`, assignee chsteiner): inkl. dokumentiertem Empty-Text-Skip-Asymmetrie-Fall (Python skippt leere `<w lemmaRef>`, JS nicht; heute 0 Korpus-Fälle, latent bei künftigem Ingest).
+- **Offen aus Vorsessions (optional):** `build-pages.py --check` nicht in CI verdrahtet (schützt die jetzt dokumentierte Site-Chrome-Single-Source-Invariante); #6 stanza-marker-Sichtprüfung (ABS/ABG) für KZW; volle `npm test`-Suite seit Site-Chrome-Refactor nicht komplett gefahren.
+
+**Next steps:**
+1. *(optional)* **#131** implementieren — §B-Paritätstest inkl. Empty-Text-Skip-Fall.
+2. *(optional)* `build-pages.py --check` als CI-Step verdrahten (Drift-Gate für Nav/Footer-Single-Source).
+3. *(optional)* #6 als Followup-Issue für KZW (stanza-marker ABS/ABG).
+
+**Savepoints (alle auf `origin/main`):** `c6af48cc4` Check-Drift-Fixes (14 Dateien) · `fdc087fea` #130 Lemma-Matching-Test+Refactor · `6fec2ec8a` Vorsession-Handoff. GitHub: #130 closed, #131 offen (+ Empty-Skip-Kommentar).
+
+---
+
 ## 2026-06-02 — Health-Check (/promptotyping check)
 
 **Scorecard:** Multi-Agent-Check (Workflow `wpq1w301u`, 6 Dimensionen, jeder Befund adversarial gegen Code/Daten verifiziert): **26 Drift-Befunde bestätigt, 1 Fehlbefund gefiltert** (fabrizierter works-Count, der im Doc gar nicht vorkam — adversarialer Schritt hat funktioniert). Alle 26 in diesem Pass gefixt (13 Dateien). **Hauptbefund:** Der Site-Chrome-Refactor (Vorsession) hinterließ Doku-Schuld — `build-pages.py`, `includes/`, `site-chrome.js` standen in KEINER Stable-Doc (nur JOURNAL); der damalige Eintrag (2026-06-01 15:29, „kein Architektur-Change, der Doku-Update bräuchte") hatte den nötigen Update wegargumentiert. Nachgezogen: ARCHITECTURE (neues Pattern „Build-Injected Site Chrome" + Key Files), DEVELOPMENT (Frontend-Build-Commands inkl. `build-pages.py`/`build:css`/`build:vendor`, Directory um `includes/`+`site-chrome.js`+`hilfe-schema.html`), DESIGN (Nav/Footer/Mobile-Menü → `site-chrome.js`, falsche „No active-page highlighting"-Aussage korrigiert), scripts/README (Baum + Spalte-E-Fix). **Zahlen-Sync:** Corpus-Index 34→40 MB (5 Docs), variants 39.282/192.472 → 42.627/256.759 (TEI-MODEL), ~670→667 TEI (CLAUDE), Authority-Index 2.90→3.1 MB (DECISIONS). **Algorithmen:** §B um `iterwalk` + Empty-Text-Skip-Parity ergänzt (latent, 0 Korpus-Fälle, → in #131 aufgenommen); §C.2.1 falsche Zeile/Funktionsname, §C Off-by-one, `@ana`-Phantom (DATA-MODEL), `indexed-db-base.js`-Phantom (lib/README). **#130-Nachzügler:** `lemma-match.js` in CLAUDE Key-Patterns + ARCHITECTURE Pattern + lib/README + DEVELOPMENT lib-Zeile. **Korrektur-Aktion:** #131 (§B-Paritätstest) um den Empty-Text-Skip-Fall erweitert. **Doc-Schuld-Lehre:** Build-Pipeline-Erweiterungen (neue Skripte/Partials/geteilte Module) gehören in DEVELOPMENT + ARCHITECTURE, auch ohne Schema-Change. Methodik: 33 Agenten, ~6 min. Grade: solide; Stable-Docs jetzt konsistent mit verifizierten Code/Daten-Werten.
