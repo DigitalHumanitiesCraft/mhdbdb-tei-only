@@ -4,6 +4,7 @@
  */
 
 import { TEIStorageManager } from './storage/tei-storage.js';
+import { lemmaRefMatchesId } from '../../../assets/js/lib/lemma-match.js';
 
 export class TEIFilesManager {
     constructor(teiData) {
@@ -513,10 +514,8 @@ export class TEIFilesManager {
                 lemmaPositions[lemmaId] = [];
                 wordArray.forEach((word, index) => {
                     const lemmaRef = word.getAttribute('lemmaRef');
-                    // Exact lemma-id match (lemmaId is numeric here). A substring
-                    // test would wrongly match lemma_3089 for lemma_308. See #126.
-                    const refIds = lemmaRef ? lemmaRef.split(/\s+/).map(t => t.split('#')[1]).filter(Boolean) : [];
-                    if (refIds.includes(`lemma_${lemmaId}`)) {
+                    // Exact lemma-id match (CONTRACTS §B.1) — never a substring. See #126.
+                    if (lemmaRefMatchesId(lemmaRef, `lemma_${lemmaId}`)) {
                         lemmaPositions[lemmaId].push({
                             index: index,
                             word: word,
@@ -1121,10 +1120,8 @@ export class TEIFilesManager {
 
                         words.forEach(word => {
                             const lemmaRef = word.getAttribute('lemmaRef');
-                            // Exact lemma-id match. Substring tests (incl. the bare
-                            // cleanId) wrongly matched lemma_3089/lemma_1308 etc. See #126.
-                            const refIds = lemmaRef ? lemmaRef.split(/\s+/).map(t => t.split('#')[1]).filter(Boolean) : [];
-                            if (refIds.includes(`lemma_${cleanId}`)) {
+                            // Exact lemma-id match (CONTRACTS §B.1) — never a substring. See #126.
+                            if (lemmaRefMatchesId(lemmaRef, `lemma_${cleanId}`)) {
                                 result.matchingWords[lemmaId].push({
                                     text: word.textContent?.trim() || '',
                                     lemmaRef: lemmaRef

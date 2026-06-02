@@ -147,9 +147,13 @@ Corpus index stores: `lemmata: { "lemma_879": [1] }` — position 1, not 2.
 
 ### Rule
 
+Single source: `lemmaRefMatchesId(lemmaRef, lemmaId)` in `assets/js/lib/lemma-match.js` (shared by main site and playground, like `text-normalizer.js`).
+
 ```
-refIds  = lemmaRef.split(/\s+/).map(t => t.split('#')[1]).filter(Boolean)
-isMatch = refIds.includes(searchLemmaId)     // exact — NOT lemmaRef.includes('#' + id)
+function lemmaRefMatchesId(lemmaRef, lemmaId):
+    if not lemmaRef or not lemmaId: return false
+    refIds = lemmaRef.split(/\s+/).map(t => t.split('#')[1]).filter(Boolean)
+    return refIds.includes(lemmaId)        // exact — NOT lemmaRef.includes('#' + id)
 ```
 
 ### Test cases
@@ -161,11 +165,11 @@ isMatch = refIds.includes(searchLemmaId)     // exact — NOT lemmaRef.includes(
 | `lexicon.xml#lemma_308 lexicon.xml#lemma_5` | `lemma_5` | yes |
 | `lexicon.xml#lemma_30800` | `lemma_308` | **no** |
 
-**Applies to all highlight/match paths:** `tei-text-reader.js` (single + multi-lemma), `text-renderer.js` (`findLemmaContexts`), and the playground (`tei-manager.js` proximity + enrichment, `ui-helpers.js` context highlight). Validated on real corpus data: PL1 689 → 57, OVG 369 → 26 (matches the result-card count).
+**Applies to all highlight/match paths**, all routed through the single `lemmaRefMatchesId` since #130 (was 6 inline copies across 4 files, the duplication that made #126 possible): `tei-text-reader.js` (single + multi-lemma), `text-renderer.js` (`findLemmaContexts`), and the playground (`tei-manager.js` proximity + enrichment, `ui-helpers.js` context highlight). Validated on real corpus data: PL1 689 → 57, OVG 369 → 26 (matches the result-card count).
 
 ### Test Coverage
 
-No automated test yet — #126 shipped undetected (regression test tracked in #130). A regression test should assert the four cases above and that searching `lemma_308` in a text also containing `lemma_3089` highlights only the `lemma_308` words.
+`testing/tests/lemma-matching.spec.js` (#130). Block 1 asserts the §B.1 case table against the real `lemmaRefMatchesId`; Block 2 is an e2e reader assertion (`korpus.html?textId=PL1&lemmaIds=lemma_308` → exactly 57 `.highlight`, OVG → 26). Verified to fail red against the pre-#126 substring logic.
 
 ---
 

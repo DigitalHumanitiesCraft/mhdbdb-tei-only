@@ -6,6 +6,8 @@
  * Metadata Source: Prioritizes TEI header data, falls back to corpus index for missing fields
  */
 
+import { lemmaRefMatchesId } from '../lib/lemma-match.js';
+
 class TEITextReader {
     constructor(corpusIndex, authorityIndex, cache) {
         this.corpusIndex = corpusIndex;
@@ -502,19 +504,14 @@ class TEITextReader {
         const wordText = wordEl.textContent.trim();
         const lemmaRef = wordEl.getAttribute('lemmaRef');
         const currentPosition = state.wordPosition;
-        // @lemmaRef may carry several whitespace-separated values
-        // (e.g. "lexicon.xml#lemma_308 lexicon.xml#lemma_5"). Resolve to the
-        // exact set of lemma ids and compare exactly: an unbounded substring
-        // test would wrongly match "#lemma_308" inside "#lemma_3089" (jâmer),
-        // highlighting the wrong words. See #126.
-        const wordLemmaIds = lemmaRef
-            ? lemmaRef.split(/\s+/).map(t => t.split('#')[1]).filter(Boolean)
-            : [];
+        // Highlight on exact @lemmaRef token match (CONTRACTS §B.1) — never a
+        // substring, which would wrongly match "lemma_308" inside "lemma_3089"
+        // (jâmer) and inflate the hit counter. See #126.
 
         // Multi-lemma mode: check all lemmaIds with colors
         if (lemmaIds.length > 0 && lemmaRef) {
             for (const searchLemmaId of lemmaIds) {
-                if (wordLemmaIds.includes(searchLemmaId)) {
+                if (lemmaRefMatchesId(lemmaRef, searchLemmaId)) {
                     const color = lemmaColorMap[searchLemmaId];
                     const id = `highlight-${highlights.length}`;
                     highlights.push({ id, element: null, position: currentPosition }); // Track position
@@ -528,7 +525,7 @@ class TEITextReader {
 
         // Single lemma mode: standard highlighting
         if (lemmaId && lemmaRef) {
-            if (wordLemmaIds.includes(lemmaId)) {
+            if (lemmaRefMatchesId(lemmaRef, lemmaId)) {
                 const id = `highlight-${highlights.length}`;
                 highlights.push({ id, element: null, position: currentPosition }); // Track position
                 return `<mark class="highlight" id="${id}">${this.escapeHtml(wordText)}</mark> `;
