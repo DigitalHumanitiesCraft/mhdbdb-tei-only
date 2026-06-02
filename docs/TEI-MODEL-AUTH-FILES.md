@@ -194,7 +194,7 @@ TEI Ch. 9 (Dictionaries). Jeder Eintrag entspricht einem Lemma und listet alle b
 </body>
 ```
 
-**Design-Entscheidung:** Varianten in separater Datei statt in lexicon.xml (192k Formen wuerden das 33MB-Lexikon auf >60MB aufblaehen). Verknuepfung via `@corresp`.
+**Design-Entscheidung:** Varianten in separater Datei statt in lexicon.xml (256k Formen wuerden das 33MB-Lexikon auf >60MB aufblaehen). Verknuepfung via `@corresp`.
 
 **Referentielle Integritaet:** Alle Lemma-Referenzen valide (154 verwaiste Eintraege bereinigt 2026-04-10).
 

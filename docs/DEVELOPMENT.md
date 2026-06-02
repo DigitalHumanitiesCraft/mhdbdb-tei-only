@@ -34,11 +34,13 @@ mhdbdb-tei-only/
 │   ├── css/               # Stylesheets (korpus.css, tailwind)
 │   ├── js/                # Main site JavaScript
 │   │   ├── app.js         # Application entry point
+│   │   ├── site-chrome.js # Shared nav/footer behaviour (mobile menu, current-year, clear-site-data) — loaded on every page
 │   │   ├── search/        # Search engine
 │   │   ├── rendering/     # TEI text reader, text renderer
 │   │   ├── storage/       # TEI cache manager
-│   │   └── lib/           # Shared utilities (corpus-loader, text-normalizer)
+│   │   └── lib/           # Shared utilities (corpus-loader, text-normalizer, lemma-match)
 │   └── images/            # Static images
+├── includes/              # Nav/footer single-source partials (_nav.html, _footer.html) → build-injected by scripts/build-pages.py
 ├── authority-files/       # 8 XML authority files (inkl. contributors.xml)
 ├── tei/                   # TEI corpus files
 ├── data/                  # Pre-built indexes (generated)
@@ -57,6 +59,7 @@ mhdbdb-tei-only/
 ├── hilfe-playground.html  # Playground-Anleitung
 ├── hilfe-daten.html       # Daten-Erklärung für Leser:innen
 ├── hilfe-daten-beitragen.html  # Schema-Konversions-Guide für TEI-Beitragende (#68 Teil 1)
+├── hilfe-schema.html      # Normatives TEI-Schema + Prism-Beispiele (#78)
 └── 404.html               # Lemma-page redirect (GitHub-Pages-Workaround)
 ```
 
@@ -90,10 +93,28 @@ python scripts/build-authority-index.py
 
 # Build corpus index
 python scripts/build-corpus-index.py
-# Output: data/corpus-index.json.gz (~34 MB)
+# Output: data/corpus-index.json.gz (~40 MB, v4.1.x)
 
 # Validate indices
 python scripts/validate-indices.py
+```
+
+### Frontend Build Commands
+
+```bash
+# Rebuild the purged Tailwind stylesheet (run after new utility classes appear in HTML/JS)
+npm run build:css        # assets/css/tailwind-input.css → assets/css/tailwind-output.css (--minify)
+
+# Bundle vendored JS dependencies
+npm run build:vendor     # node scripts/build-vendor.js
+
+# Re-inject the shared nav + footer into every registered page after editing
+# includes/_nav.html or includes/_footer.html (NOT the pages directly):
+python scripts/build-pages.py            # rewrite changed pages (idempotent)
+python scripts/build-pages.py --check    # exit 1 if any page is out of sync (drift gate)
+
+# Aggregate: CSS + vendor + both indexes
+npm run build            # build:css && build:vendor && build:authority && build:corpus
 ```
 
 **Note on variants:** `authority-files/variants.xml` is corpus-derived. Regenerate it with `python scripts/sync/extract-variants.py --apply` after the corpus gains new orthographic forms, then rebuild the authority index and bump its version. Full step sequence: [DATA-MODEL.md → Data-Change-Lifecycle](DATA-MODEL.md#data-change-lifecycle).
@@ -238,7 +259,10 @@ npm test
 # DO NOT COMMIT without user approval!
 
 # 5. Commit with descriptive message
-git add .
+# Stage specific files BY NAME — never `git add .` / `git add -A`.
+# Concurrent sessions share the working dir; a blanket add captures another
+# session's staged files (see CLAUDE.md Git Rules, commit 8b5d0e6ac mishap).
+git add path/to/file1 path/to/file2
 git commit -m "Add feature: description
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)

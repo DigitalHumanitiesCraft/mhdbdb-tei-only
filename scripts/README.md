@@ -8,8 +8,15 @@ Build, validation, and data transformation scripts for MHDBDB TEI corpus.
 scripts/
 ├── build-authority-index.py     # Authority-Index generieren
 ├── build-corpus-index.py        # Korpus-Index generieren
+├── build-pages.py               # Nav/Footer aus includes/ in alle Seiten injizieren (--check Drift-Gate)
+├── build-vendor.js              # Vendored JS-Dependencies bündeln
 ├── validate-indices.py          # Generierte Indexes validieren
 ├── mhg_normalizer.py            # MHG-Textnormalisierung (shared lib)
+├── insert-pb-from-linecode.py   # <pb> aus Legacy-Linecode einfügen (#26)
+├── insert-stanzas-from-linecode.py # Stanza-Anchors aus Legacy-Linecode (#23)
+├── wzb-add-lemma.py             # WZB-Ingest-Helfer
+│
+├── ingest/                      # Korpus-Ingest pro Sigle (ari/, wzb/)
 │
 ├── audit/                       # Korpus- & Authority-Analyse
 │   ├── audit-tei-corpus.py      # Element/Attribut-Inventar des Korpus
@@ -36,7 +43,10 @@ Die Build-Scripts werden über `npm run` aufgerufen und dürfen nicht verschoben
 Verarbeitet die 7 inhaltstragenden Authority Files und generiert `data/authority-index.json.gz` (~3 MB). Enthält Lemmata, Personen, Werke, Konzepte, Gattungen, Namen und Varianten. `contributors.xml` (8. Authority-File seit 2026-04-14) wird bewusst **nicht** indiziert — es ist Projekt-interne Editor-Attribution, kein Suchinhalt.
 
 ### `build-corpus-index.py`
-Parst alle TEI-Dateien in `tei/` und generiert `data/corpus-index.json.gz` (~34 MB). Extrahiert Lemma-Positionen, Wortzählung und Metadaten.
+Parst alle TEI-Dateien in `tei/` und generiert `data/corpus-index.json.gz` (~40 MB, v4.1.x). Extrahiert Lemma-Positionen, Wortzählung und Metadaten.
+
+### `build-pages.py`
+Injiziert die geteilte Navigation + Footer aus `includes/_nav.html` / `includes/_footer.html` in die Marker-Regionen (`NAV:START`/`FOOTER:START`) aller in `PAGES` registrierten Seiten. Idempotent; `{{ROOT}}`-Token wird pro Seitentiefe ersetzt; aktive Nav-Seite bekommt `aria-current="page"`. `--check` ist ein Drift-Gate (exit 1 bei Out-of-Sync, keine Writes). Nach Änderung an `includes/` ausführen — nicht die Seiten direkt editieren.
 
 ### `validate-indices.py`
 Validiert Struktur und Integrität der generierten Index-Dateien.
@@ -64,7 +74,7 @@ Prüft, dass die Index-Versions-Konstanten in Build-Skripten und `corpus-loader.
 Zwei-Stufen-Validierung: TEI P5 (`tei_all.rng`) + MHDBDB-Constraints (`mhdbdb.rng`). Validiert alle Korpus-Dateien und meldet Fehler.
 
 ### `TEXT_DATA_TABLE.xlsx`
-Linecode-Mapping aus dem Legacy-MHDBDB-System. Enthält die originalen Linecode-Definitionen pro Text (Spalte E). Referenz für strukturelle Rekonstruktion (Issues #23, #30, #31).
+Linecode-Mapping aus dem Legacy-MHDBDB-System. Enthält die originalen Linecode-Definitionen pro Text in Spalte `LINECODE` (die kanonischen Templates liegen in `docs/data/linecode-templates.csv`, ebenfalls Spalte `LINECODE` — die frühere „Spalte E"-Annahme war falsch, siehe LINECODE.md). Referenz für strukturelle Rekonstruktion (Issues #23, #30, #31).
 
 ## sync/ — Externe Daten → TEI/Authority
 

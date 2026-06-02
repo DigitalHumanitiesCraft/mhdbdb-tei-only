@@ -867,7 +867,7 @@ Fruehere Fehler (alle behoben durch Migration):
 | Datei | Einträge | Validierung |
 |-------|----------|-------------|
 | lexicon.xml | 43,754 Lemmata (+4 mit WZB-Aufnahme 2026-05-08) | tei_all ✓ · mhdbdb-authority ✓ |
-| variants.xml | 39,282 Einträge (192,472 Formen) | tei_all ✓ · mhdbdb-authority ✓ |
+| variants.xml | 42,627 Einträge (256,759 Formen) | tei_all ✓ · mhdbdb-authority ✓ |
 | persons.xml | 211 Personen | tei_all ✓ · mhdbdb-authority ✓ |
 | works.xml | 584 Werke (+1 work_WZB) | tei_all ✓ · mhdbdb-authority ✓ |
 | concepts.xml | 567 Kategorien | tei_all ✓ · mhdbdb-authority ✓ |

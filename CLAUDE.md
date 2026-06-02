@@ -4,7 +4,7 @@ Operational briefing for Claude Code. Details live in `docs/` — this file is t
 
 ## Project in One Paragraph
 
-MHDBDB TEI Repository: ~670 TEI-encoded Middle High German texts with semantic annotations. **Frontend-only** (GitHub Pages, no backend). Pre-built JSON indexes replace runtime XML parsing. Target audience: medievalists and DH researchers.
+MHDBDB TEI Repository: ~667 TEI-encoded Middle High German texts with semantic annotations. **Frontend-only** (GitHub Pages, no backend). Pre-built JSON indexes replace runtime XML parsing. Target audience: medievalists and DH researchers.
 
 **Transformation → active project:** Started as a one-time migration (old MHDBDB + RDF export → TEI-only repo); that migration is done. It is now an **active project with ongoing ingest** (WZB, ARITHMETIC, more planned), so every data change must propagate through the derived layer (indexes, corpus-derived `variants.xml`) or it drifts silently. The mandatory step sequence lives in `docs/DATA-MODEL.md` → Data-Change-Lifecycle.
 
@@ -32,7 +32,7 @@ MHDBDB TEI Repository: ~670 TEI-encoded Middle High German texts with semantic a
 assets/js/           # Main site JS (app.js, search/, rendering/, storage/, lib/)
 assets/css/          # Stylesheets
 authority-files/     # 8 XML authority files (source of truth, inkl. contributors.xml seit 2026-04-14)
-tei/                 # ~670 TEI corpus files
+tei/                 # 667 TEI corpus files
 data/                # Pre-built indexes (.json.gz, generated)
 scripts/             # Python build scripts + data-wrangling
 playground/          # Research tool (self-contained sub-app)
@@ -113,9 +113,9 @@ Nach größeren Doku-Änderungen oder quartalsweise (auch ohne Änderungen, gege
 ## Key Patterns
 
 - **3-stage lemma resolution**: exact match → variants dictionary (~234k entries) → partial match fallback. See ARCHITECTURE.md.
-- **Lemma highlight matching**: a `<w>` is highlighted only if `@lemmaRef` contains the searched id as an exact whitespace-separated token (never a substring: `#lemma_308` must not match `#lemma_3089`). See CONTRACTS.md §B.1 (#126).
+- **Lemma highlight matching**: a `<w>` is highlighted only if `@lemmaRef` contains the searched id as an exact whitespace-separated token (never a substring: `#lemma_308` must not match `#lemma_3089`). Centralized in `assets/js/lib/lemma-match.js` (`lemmaRefMatchesId`). See CONTRACTS.md §B.1 (#126/#130).
 - **MHG normalization**: `â→a, ê→e, î→i, ô→o, û→u, ä→ae, ö→oe, ü→ue`. Centralized in `assets/js/lib/text-normalizer.js`.
-- **Pre-built indexes**: authority (3 MB gz, v1.4.0) + corpus (~42 MB gz, v4.1.3). See DATA-MODEL.md for schemas.
+- **Pre-built indexes**: authority (3 MB gz, v1.4.0) + corpus (~40 MB gz, v4.1.3). See DATA-MODEL.md for schemas.
 
 ## License
 

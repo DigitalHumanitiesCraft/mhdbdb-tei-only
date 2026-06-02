@@ -4,6 +4,12 @@ Chronological log of development decisions, dead ends, and savepoints. Not a cha
 
 ---
 
+## 2026-06-02 — Health-Check (/promptotyping check)
+
+**Scorecard:** Multi-Agent-Check (Workflow `wpq1w301u`, 6 Dimensionen, jeder Befund adversarial gegen Code/Daten verifiziert): **26 Drift-Befunde bestätigt, 1 Fehlbefund gefiltert** (fabrizierter works-Count, der im Doc gar nicht vorkam — adversarialer Schritt hat funktioniert). Alle 26 in diesem Pass gefixt (13 Dateien). **Hauptbefund:** Der Site-Chrome-Refactor (Vorsession) hinterließ Doku-Schuld — `build-pages.py`, `includes/`, `site-chrome.js` standen in KEINER Stable-Doc (nur JOURNAL); der damalige Eintrag (2026-06-01 15:29, „kein Architektur-Change, der Doku-Update bräuchte") hatte den nötigen Update wegargumentiert. Nachgezogen: ARCHITECTURE (neues Pattern „Build-Injected Site Chrome" + Key Files), DEVELOPMENT (Frontend-Build-Commands inkl. `build-pages.py`/`build:css`/`build:vendor`, Directory um `includes/`+`site-chrome.js`+`hilfe-schema.html`), DESIGN (Nav/Footer/Mobile-Menü → `site-chrome.js`, falsche „No active-page highlighting"-Aussage korrigiert), scripts/README (Baum + Spalte-E-Fix). **Zahlen-Sync:** Corpus-Index 34→40 MB (5 Docs), variants 39.282/192.472 → 42.627/256.759 (TEI-MODEL), ~670→667 TEI (CLAUDE), Authority-Index 2.90→3.1 MB (DECISIONS). **Algorithmen:** §B um `iterwalk` + Empty-Text-Skip-Parity ergänzt (latent, 0 Korpus-Fälle, → in #131 aufgenommen); §C.2.1 falsche Zeile/Funktionsname, §C Off-by-one, `@ana`-Phantom (DATA-MODEL), `indexed-db-base.js`-Phantom (lib/README). **#130-Nachzügler:** `lemma-match.js` in CLAUDE Key-Patterns + ARCHITECTURE Pattern + lib/README + DEVELOPMENT lib-Zeile. **Korrektur-Aktion:** #131 (§B-Paritätstest) um den Empty-Text-Skip-Fall erweitert. **Doc-Schuld-Lehre:** Build-Pipeline-Erweiterungen (neue Skripte/Partials/geteilte Module) gehören in DEVELOPMENT + ARCHITECTURE, auch ohne Schema-Change. Methodik: 33 Agenten, ~6 min. Grade: solide; Stable-Docs jetzt konsistent mit verifizierten Code/Daten-Werten.
+
+---
+
 ## 2026-06-01 15:29 — handoff
 
 **Summary:** Der Site-Chrome-Refactor (`feature/site-chrome-refactor`) wurde in zwei Review-Runden gehärtet (lokaler Multi-Agent-Review + konsolidierte 9-Angle-Review), Playwright-Coverage ergänzt, nach `main` gemergt (`--no-ff`, `2e8d48d95`) und live deployt. Anschließend 4 Issues (#127/#119/#120/#122) geschlossen und die CI-Action-Versionen gehoben (Node-20-Deprecation). Alles auf `origin/main`.

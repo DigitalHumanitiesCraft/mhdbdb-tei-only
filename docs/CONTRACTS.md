@@ -86,15 +86,17 @@ These 17 cases must pass in both languages. Source: `scripts/mhg_normalizer.py:1
 
 ### Python (build-time)
 
-Source: `scripts/build-corpus-index.py`
+Source: `scripts/build-corpus-index.py` (`extract_word_data`)
+
+The selector below is the *logical* counting rule, not the literal implementation. The build does a single-pass `etree.iterwalk(body, events=('start','end'), tag=(w, l))` — chosen over a separate XPath / `.iter()` to avoid lxml proxy-id instability and to capture `<l>` boundaries (`lineStarts`/`lineEnds`, #47.3) in the same traversal.
 
 ```
-XPath: //tei:body//tei:w[@lemmaRef]
-Position = index in result list (0, 1, 2, ...)
+Logical selection: //tei:body//tei:w[@lemmaRef]   (document order)
 
-For each <w lemmaRef="lexicon.xml#lemma_X">:
+For each <w lemmaRef="lexicon.xml#lemma_X"> in document order:
     lemma_id = lemmaRef.split('#')[1]      → "lemma_X"
     word_text = ''.join(el.itertext()).strip()
+    if not word_text: continue              → empty <w lemmaRef> is NOT counted (Python only — see Parity note)
     position = len(words)                   → sequential from 0
     words.append(lemma_id)
     lemmata[lemma_id].append(position)
@@ -115,6 +117,10 @@ Recursive DOM traversal of <body> children:
             if (hasLemmaRef):
                 state.wordPosition++   // ONLY increment when lemmaRef exists
 ```
+
+### Parity note — empty `<w lemmaRef>` (known asymmetry)
+
+The Python build **skips** `<w lemmaRef>` with empty text content (`if not word_text: continue`); the JS runtime increments `wordPosition` for **every** `<w lemmaRef>` regardless of text. This is a latent parity gap exactly in the contract that guarantees identical positions. Currently harmless — a corpus scan finds **0** empty `<w lemmaRef>` across all 667 files — but a future ingest with placeholder/gap tokens would silently break position parity. The §B parity test (#131) should cover this case, and either both sides skip or neither does.
 
 ### Example
 
@@ -179,7 +185,7 @@ function lemmaRefMatchesId(lemmaRef, lemmaId):
 
 **Why:** MHG has extensive orthographic variation. A single lemma can appear as dozens of attested forms. The 3-stage approach balances precision (exact first) with recall (fuzzy last).
 
-Source: `assets/js/search/search-engine.js:118-147`
+Source: `assets/js/search/search-engine.js:119-148` (`resolveLemmaIds`)
 
 ### Pseudocode
 
@@ -244,12 +250,13 @@ User types: **brott**
 
 ### C.2.1 Main Site: Dedup by textId
 
-Source: `assets/js/app.js:409-427`
+Source: inline dedup in `handleSearch()`, `assets/js/app.js:451-469` (no standalone function)
 
 **Trigger:** User searches on `korpus.html`. `SearchEngine.searchLemma()` returns one result per (textId, lemmaId) pair. When N lemmata match, the same text can appear N times.
 
 ```
-function deduplicateResults(rawResults):
+// inline in handleSearch() — pseudocode:
+dedup(rawResults):
     // rawResults = [{textId, lemmaId, matchCount, ...}, ...]
     // Multiple entries per textId when search resolved to >1 lemmaId
 

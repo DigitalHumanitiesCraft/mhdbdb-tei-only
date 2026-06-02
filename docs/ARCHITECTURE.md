@@ -24,20 +24,20 @@ The MHDBDB project follows a **client-only architecture** with no backend server
 - ✅ No server maintenance
 - ✅ Fast global CDN distribution
 - ⚠️ Limited to browser memory
-- ⚠️ Large initial download (~37 MB indexes)
+- ⚠️ Large initial download (~43 MB indexes)
 - ⚠️ No real-time updates (requires rebuild + redeploy)
 
 ## Main Site Architecture
 
 **Purpose:** Public-facing corpus browser for students and general users
 **URL:** https://dhcraft.org/mhdbdb-tei-only/
-**Key Files:** `index.html`, `korpus.html`, `assets/js/app.js`, `assets/js/search/`, `assets/js/rendering/`
+**Key Files:** `index.html`, `korpus.html`, `assets/js/app.js`, `assets/js/site-chrome.js` (shared nav/footer behaviour, every page), `assets/js/search/`, `assets/js/rendering/`
 
 ### Application Structure
 
 **MainSiteApp** (`assets/js/app.js`)
 - Initialize corpus loader
-- Load pre-built corpus index (~34 MB compressed)
+- Load pre-built corpus index (~40 MB compressed)
 - Set up search interface and text selection
 - Coordinate SearchEngine and TextRenderer
 
@@ -491,6 +491,18 @@ npm run test:headed   # Visible browser
 **Problem:** Monolithic UI files hard to maintain
 **Solution:** 18 specialized modules organized by feature
 **Result:** 5,536 lines removed, improved maintainability
+
+### Shared Lemma Matching (#130)
+
+**Problem:** The exact-token `@lemmaRef` match was inline-duplicated at 6 sites across 4 files; one copy used a substring test (#126), highlighting wrong words
+**Solution:** Single `lemmaRefMatchesId()` in `assets/js/lib/lemma-match.js`, shared by main site and playground (like `text-normalizer.js`)
+**Result:** One tested source of truth (CONTRACTS §B.1); no copy can silently regress
+
+### Build-Injected Site Chrome
+
+**Problem:** Nav + footer were hand-maintained per page, drifting out of sync
+**Solution:** Single-source partials (`includes/_nav.html`, `includes/_footer.html`) injected into the marked region (`NAV:START`/`FOOTER:START`) of every registered page by `scripts/build-pages.py` (idempotent, `--check` drift gate); shared behaviour (mobile menu, current-year, cross-browser clear-site-data) in `assets/js/site-chrome.js`, loaded on every page via the footer partial
+**Result:** One nav/footer source; active page gets `aria-current="page"` automatically
 
 ---
 

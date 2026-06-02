@@ -366,7 +366,7 @@ Three core build scripts:
 
 2. **`build-corpus-index.py`** - Extract word positions from TEI files
    - Scan `tei/` directory for all `.tei.xml` files
-   - Extract metadata and words with `//tei:body//tei:w[@lemmaRef]`
+   - Extract metadata and words (logical selection `//tei:body//tei:w[@lemmaRef]`; implemented as a single-pass `etree.iterwalk` over `<body>`, see CONTRACTS §B)
    - Build words array with sequential positions
    - Output: `data/corpus-index.json.gz`
 
@@ -385,7 +385,7 @@ Three core build scripts:
 | | | `.//tei:form[@type="lemma"]/tei:orth` | Lemma text |
 | | | `.//tei:pos` | Part(s) of speech |
 | | | `.//tei:etym[@type="morphological"]//tei:seg[@type="component"]` | Etymology components + `@corresp` |
-| | | `.//tei:sense` | Senses (with `@xml:id`, `@ana`) |
+| | | `.//tei:sense` | Senses (with `@xml:id`; concept pointers per sense) |
 | | | `.//tei:sense/tei:ptr[contains(@target,"concepts.xml#")]` | Concept pointers per sense |
 | | persons.xml | `//tei:person` | Person records |
 | | | `.//tei:persName[@type="preferred"]` | Canonical name |
@@ -413,7 +413,7 @@ Three core build scripts:
 | | | `//tei:titleStmt/tei:title/text()` | Title |
 | | | `//tei:titleStmt/tei:author` | Author name + `@ref` |
 | | | `//tei:msIdentifier` | `@corresp` → work reference |
-| | | `//tei:body//tei:w[@lemmaRef]` | All words with positions (see [CONTRACTS.md](CONTRACTS.md#b-position-counting-contract)) |
+| | | `//tei:body//tei:w[@lemmaRef]` *(logical; real code: single-pass `iterwalk`)* | All words with positions (see [CONTRACTS.md](CONTRACTS.md#b-position-counting-contract)) |
 
 #### Namespace Handling
 

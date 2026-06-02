@@ -457,11 +457,11 @@ Pattern ist (Stand 2026-05-16) in vier Modulen umgesetzt: `concept-distribution.
 
 ### Header (all pages)
 
-Logo (`w-40` image + `text-lg font-bold text-brand-600`) left, nav links right (`hidden md:flex gap-6`). Mobile hamburger at `md:hidden`. No active-page highlighting.
+Logo (`w-40` image + `text-lg font-bold text-brand-600`) left, nav links right (`hidden md:flex gap-6`). Mobile hamburger at `md:hidden`. Nav + header markup is build-injected from `includes/_nav.html` by `scripts/build-pages.py`; the active page's link gets `aria-current="page"` + `text-slate-900 font-semibold`. The mobile-menu toggle (open/close, click-outside, close-on-link) lives centrally in `assets/js/site-chrome.js` (`initMobileMenu`) — pages must NOT carry their own inline mobile-menu script.
 
 ### Footer
 
-Institutional logos row + divider + copyright/clear-data row. `bg-slate-100 py-8`.
+Institutional logos row + divider + copyright/clear-data row. `bg-slate-100 py-8`. Markup is build-injected from `includes/_footer.html`; the copyright year and the cross-browser clear-site-data button are wired in `assets/js/site-chrome.js` (`initCurrentYear`, `initClearSiteData` via delete-by-name), not per page or via `app.js`.
 
 ### Cross-Page Links
 
@@ -531,4 +531,3 @@ Source: `assets/css/korpus.css` (post-#17 reader-view styling). Element-to-class
 - Multi-lemma highlight CSS duplicated in `korpus.css` and `playground/css/style.css` (+ JS array in `ui-helpers.js`)
 - Lemma page uses inline `<style>` instead of a dedicated CSS file
 - `#3b75d8` hardcoded in some places instead of using `--accent-primary` or `brand-500`
-- No active-page highlighting in navigation header

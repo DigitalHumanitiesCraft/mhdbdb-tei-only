@@ -32,23 +32,18 @@ const loader = new CorpusLoader();
 const authorityData = await loader.loadAuthorityIndex();
 ```
 
-### `indexed-db-base.js`
-Base class for IndexedDB operations (used by both apps).
+### `lemma-match.js`
+Exact-token matching of a searched lemma id against a `@lemmaRef` (CONTRACTS §B.1). Single source for the highlight/match decision, shared by reader and playground (#130 — was 6 inline copies).
 
 **Exports:**
-- `IndexedDBBase` class with common CRUD operations
+- `lemmaRefMatchesId(lemmaRef, lemmaId)` → boolean (exact whitespace-separated token, never a substring)
 
 **Usage:**
 ```javascript
-import { IndexedDBBase } from '../../lib/indexed-db-base.js';
+import { lemmaRefMatchesId } from '../../lib/lemma-match.js';
 
-class MyStorage extends IndexedDBBase {
-  constructor() {
-    super('MyDB', 1, [
-      { name: 'files', keyPath: 'id', indexes: [...] }
-    ]);
-  }
-}
+lemmaRefMatchesId('lexicon.xml#lemma_308', 'lemma_308');  // true
+lemmaRefMatchesId('lexicon.xml#lemma_3089', 'lemma_308'); // false (substring trap)
 ```
 
 ## Design Principles
