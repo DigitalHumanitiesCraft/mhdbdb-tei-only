@@ -4,6 +4,38 @@ Chronological log of development decisions, dead ends, and savepoints. Not a cha
 
 ---
 
+## 2026-06-03 13:46 — handoff
+
+**Summary:** #131 (§B Position-Counting-Paritätstest) implementiert, getestet, gemergt, gepusht (`7491e97b3`), Issue geschlossen. §B war die letzte der vier Cross-Language-Invarianten in CONTRACTS ohne eigenen Test — jetzt 4/4 abgedeckt. Dabei die latente Leer-`<w lemmaRef>`-Asymmetrie (Python skippt leeren Text, JS zählte ihn mit) per 1-Zeilen-Fix in `tei-text-reader.js` aufgelöst (JS an Python angeglichen). Anschließend auf eigene Schuld-Bilanz hin den Test gehärtet (Top-3-Lemmata pro Realtext + ganze Fixture-Sequenz) und den Python-Helper verschlankt (`a3d52d54d`).
+
+**Decisions:**
+- **Leer-`<w>`: Option A (JS → Python angleichen)** statt Tripwire/Skip (User delegierte „was empfiehlst du?"): Pythons Skip ist die richtige Semantik (leere Wörter rendern nichts, hätten keine navigierbare Position); der ausgelieferte Index encodet bereits Pythons Verhalten → bleibt valide, **kein Rebuild/Versions-Bump**. Gegenrichtung (Python zählt leere mit) hätte alle Positionen verschoben.
+- **Fix minimal (Increment-Gate via `hasText`)**, `processWord` unangetastet: 0 Korpus-Fälle → No-op auf Realdaten; der einzige Verhaltens-Change betrifft nicht-existente leere `<w lemmaRef>`.
+- **Test-Architektur = Spiegel von §A:** Python via `execSync` (echtes `extract_word_data` über `importlib`, da Bindestrich-Skriptname `build-corpus-index.py`), JS via echtes `extractAndFormatBody` (isoliert `new TEITextReader(null,null,null)`, `fetch`+`DOMParser` wie `loadTEIFile`). Probe: `highlights[].position` == `lemmata[lemma]`. Repräsentanten PL1 (Prosa, lineStarts=0) + OVG (Vers), `lemma_308` (57/26, deckt sich mit #130).
+- **TDD:** Fixture-RED aus korrektem Grund (`[0,2]≠[0,1]`) bewiesen, dann Fix → GREEN (zuerst 4/4; nach Test-Härtung 3/3). Verifikation: 3 betroffene Specs (lemma-matching/reading-view/search-with-corpus) 32/32 grün → Fix beweisbar No-op.
+- **Folge-Härtung (#2/#3 aus eigener Schuld-Bilanz, `a3d52d54d`):** Block 1 probt je die Top-3-häufigsten Lemmata + Konsistenzcheck `Σ Positionen == wordCount` (statt nur `lemma_308`); Fixture prüft die ganze Sequenz inkl. „leeres `<w>` (lemma_2) nicht gezählt"; Helper gibt nur noch `{wordCount, lemmata}` aus (kein `words[]` → Spec-maxBuffer 128→32 MB).
+
+**Dead ends:**
+- Erster Spec-Lauf RED aus *falschem* Grund (`Failed to resolve module specifier '/assets/...'`): `page.evaluate` ohne vorheriges `page.goto` läuft auf `about:blank` ohne Origin → `beforeEach` mit `goto /playground/` ergänzt (TDD: erst korrektes Fehlschlagen herstellen).
+- Hintergrund-`npm test | tail -70` schien 5 Min zu hängen (Output-Datei 0 Bytes): `tail` puffert bis EOF; eigentliche Bremse war der Playwright-webServer-Cold-Start, nicht die Tests. → Memory `environment.md`.
+- `python3.13` via Python-`subprocess.run` = `WinError 2` (Shell-Alias, kein echtes Executable); via `execSync`/Shell OK. → Memory `environment.md`.
+
+**Phase:** Implementation (aktiver Betrieb). Alle 14 Promptotyping-Docs aktuell; CONTRACTS §B von „bekannte Asymmetrie" auf „gelöst #131" (Parity-Test-Referenz + JS-Pseudocode mit `hasText`-Guard). Memory `environment.md` um 2 Windows/Test-Gotchas ergänzt.
+
+**Open issues (inkl. heute bewusst aufgenommener Mini-Schuld):**
+- **Residuum (out-of-scope, bewusst):** ein leeres `<w lemmaRef>`, das die *gesuchte* Lemma-ID trägt, erzeugt im Reader weiterhin ein (unsichtbares, leeres) `<mark>` an der wiederverwendeten Position. Positions-**Parität ist gewahrt** (das ist der getestete Vertrag); 0 Korpus-Fälle. Falls je relevant: `processWord` ebenfalls für leere `<w>` skippen. (Test-Tiefe #2 + Helper-Effizienz #3 wurden in `a3d52d54d` bereits behoben.)
+- **CI-Gate fehlt (pre-existing #G8):** der neue Test läuft nur bei lokalem `npm test`; wie alle Specs nicht in CI erzwungen.
+- **Aus Vorsessions (unverändert):** `build-pages.py --check` nicht in CI; #6 stanza-marker-Sichtprüfung (ABS/ABG) für KZW; volle `npm test`-Suite seit Site-Chrome-Refactor nicht komplett gefahren (heute nur 36 Tests: position-parity 4 + 3 betroffene Specs 32).
+
+**Next steps:**
+1. *(optional)* Lokale Commits pushen (`a3d52d54d` Test-Härtung + dieser Journal-Commit); Feature `7491e97b3` ist schon auf `origin/main`.
+2. *(optional)* Nächste Prio gem. Orient: **#129 KWIC-Kontextfenster** (höchster umsetzbarer Nutzerwert) oder **#124 Analytics** (Team-prio-1, erst Entscheidungsrunde).
+3. *(optional)* `build-pages.py --check` als CI-Step; #6 Followup-Issue für KZW.
+
+**Savepoints:** `7491e97b3` #131 Paritätstest + Leer-`<w>`-Fix (5 Files, auf `origin/main`) · `a3d52d54d` Test-Härtung (Top-3 + volle Fixture-Sequenz) + Helper-Slim · dieser Journal-Commit.
+
+---
+
 ## 2026-06-02 10:59 — handoff
 
 **Summary:** Drei Arbeitsblöcke, alle auf `origin/main`. (1) **#130** Lemma-Matching-Exaktheit: TDD-Test geschrieben (Unit §B.1-Tabelle + e2e Reader PL1=57/OVG=26) und dabei die 6 inline-Substring-Match-Kopien in eine zentrale `lemmaRefMatchesId()` (`assets/js/lib/lemma-match.js`) refactort — `Closes #130`. (2) **#131** als Followup angelegt (§B Python↔JS Position-Counting-Paritätstest). (3) **/promptotyping check** als Multi-Agent-Workflow: 26 Drift-Befunde bestätigt, 1 Fehlbefund adversarial gefiltert, alle 26 in einem Doc-Commit gefixt.
