@@ -158,13 +158,18 @@ npm run report        # View HTML report
 | `search-normalization.spec.js` | Main site | MHG normalization functions in browser context |
 | `search-with-corpus.spec.js` | Main site | Search against real corpus data |
 | `reading-view.spec.js` | Main site | TEI reading view rendering, highlighting, navigation |
+| `results-table.spec.js` | Main site | Corpus search results table view (#114): columns, sorting |
 | `tei-caching.spec.js` | Main site | IndexedDB TEI cache behavior |
 | `error-handling.spec.js` | Main site | Graceful error handling |
 | `lemma-page.spec.js` | Lemma pages | URL parsing, data rendering, external links |
 | `playground.spec.js` | Playground | Authority explorers, TEI analysis, UI navigation |
 | `playground-authority-index.spec.js` | Playground | Authority index loading, data structure integrity |
 | `playground-corpus.spec.js` | Playground | Corpus index loading, search functions |
+| `concept-distribution.spec.js` | Playground | Concept distribution analysis (concept → senses → lemmata → texts) |
 | `normalization-parity.spec.js` | Cross-cutting | Python/JS normalizer agreement (see [CONTRACTS.md](CONTRACTS.md#a-mhg-normalization-parity)) |
+| `lemma-matching.spec.js` | Cross-cutting | Lemma highlight matching exactness, #130 (see [CONTRACTS.md](CONTRACTS.md#b1-lemma-highlight-matching-contract)) |
+| `position-parity.spec.js` | Cross-cutting | Python/JS word-position agreement, #131 (see [CONTRACTS.md](CONTRACTS.md#b-position-counting-contract)) |
+| `site-chrome.spec.js` | Cross-cutting | Build-injected nav/footer + mobile-menu (`build-pages.py`) |
 | `cross-reference-test.spec.js` | Data integrity | Authority/corpus cross-reference validity |
 | `corpus.spec.js` | Data integrity | Corpus index structure validation |
 | `visual-mobile-test.spec.js` | Visual | Responsive layout (skipped — desktop-only) |
