@@ -430,8 +430,16 @@ class TEITextReader {
                     return children();
                 case 'w': {
                     const hasLemmaRef = el.getAttribute('lemmaRef');
+                    // Position parity with the Python build (CONTRACTS §B): only a
+                    // <w lemmaRef> with non-empty text content is counted. The build
+                    // skips empty ones (build-corpus-index.py: `if not text_content:
+                    // continue`); without this guard a future ingest with placeholder/
+                    // gap tokens would shift every later position relative to the index,
+                    // breaking hit-navigation and proximity search. 0 corpus cases today
+                    // -> no-op on current data. Enforced by position-parity.spec.js (#131).
+                    const hasText = el.textContent.trim().length > 0;
                     const result = this.processWord(el, lemmaId, lemmaIds, lemmaColorMap, highlights, state);
-                    if (hasLemmaRef) {
+                    if (hasLemmaRef && hasText) {
                         state.wordPosition++;
                     }
                     return result;

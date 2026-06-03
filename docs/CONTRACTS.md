@@ -76,6 +76,8 @@ These 17 cases must pass in both languages. Source: `scripts/mhg_normalizer.py:1
 
 **Why:** The corpus index stores lemma positions as integers (e.g., lemma_879 appears at positions [0, 15, 42]). The reading view uses these positions to navigate between hits (scroll to next/previous occurrence) and to align a clicked search result with the right word during DOM traversal. If Python counts position 42 differently than JavaScript, navigation jumps to the wrong word and proximity search (`|pos_a - pos_b| <= maxDistance`) breaks. (The highlight *decision* itself is by exact `@lemmaRef` id, not by position — see Contract B.1.)
 
+**Parity test:** `testing/tests/position-parity.spec.js` (#131) — runs a prose text (PL1), a verse text (OVG) and a synthetic empty-`<w>` fixture through both counting paths and asserts identical position sequences.
+
 ### Rules
 
 1. **Only count `<w>` elements with `@lemmaRef` attribute**
@@ -96,7 +98,7 @@ Logical selection: //tei:body//tei:w[@lemmaRef]   (document order)
 For each <w lemmaRef="lexicon.xml#lemma_X"> in document order:
     lemma_id = lemmaRef.split('#')[1]      → "lemma_X"
     word_text = ''.join(el.itertext()).strip()
-    if not word_text: continue              → empty <w lemmaRef> is NOT counted (Python only — see Parity note)
+    if not word_text: continue              → empty <w lemmaRef> is NOT counted (JS matches this since #131)
     position = len(words)                   → sequential from 0
     words.append(lemma_id)
     lemmata[lemma_id].append(position)
@@ -113,14 +115,15 @@ Recursive DOM traversal of <body> children:
     For each element encountered:
         if tagName === 'w':
             hasLemmaRef = el.getAttribute('lemmaRef')
+            hasText     = el.textContent.trim().length > 0
             processWord(el, ...)  // render + check highlight
-            if (hasLemmaRef):
-                state.wordPosition++   // ONLY increment when lemmaRef exists
+            if (hasLemmaRef && hasText):
+                state.wordPosition++   // increment only when lemmaRef AND non-empty text (parity with Python)
 ```
 
-### Parity note — empty `<w lemmaRef>` (known asymmetry)
+### Parity note — empty `<w lemmaRef>` (resolved #131)
 
-The Python build **skips** `<w lemmaRef>` with empty text content (`if not word_text: continue`); the JS runtime increments `wordPosition` for **every** `<w lemmaRef>` regardless of text. This is a latent parity gap exactly in the contract that guarantees identical positions. Currently harmless — a corpus scan finds **0** empty `<w lemmaRef>` across all 667 files — but a future ingest with placeholder/gap tokens would silently break position parity. The §B parity test (#131) should cover this case, and either both sides skip or neither does.
+Both sides now **skip** `<w lemmaRef>` with empty text content: Python via `if not word_text: continue`, JS via the `hasText` guard in `extractAndFormatBody` (`tei-text-reader.js`, `case 'w'`). Before #131 the JS runtime incremented `wordPosition` for **every** `<w lemmaRef>` regardless of text — a latent parity gap (harmless then: **0** empty `<w lemmaRef>` across all 667 files, so the fix was a no-op on real data) that a future ingest with placeholder/gap tokens would have silently broken. The empty-`<w>` case is now pinned by `testing/tests/position-parity.spec.js`. (Because the corpus has no empty `<w lemmaRef>`, the shipped index is unchanged — no rebuild or version bump needed.)
 
 ### Example
 
