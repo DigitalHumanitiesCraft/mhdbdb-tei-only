@@ -4,9 +4,9 @@
 Position-parity test helper (#131, CONTRACTS §B "Position Counting").
 
 Runs the REAL extract_word_data() from scripts/build-corpus-index.py against a
-single TEI file and prints JSON {wordCount, words, lemmata} on stdout, so the
-Playwright spec testing/tests/position-parity.spec.js can compare Python
-build-time word positions against the JS runtime reader (tei-text-reader.js).
+single TEI file and prints JSON {wordCount, lemmata} on stdout, so the Playwright
+spec testing/tests/position-parity.spec.js can compare Python build-time word
+positions against the JS runtime reader (tei-text-reader.js).
 
 This deliberately imports the production build function instead of
 re-implementing the counting rule — testing a copy would not catch drift in the
@@ -18,7 +18,9 @@ Usage:
     python3.13 extract_word_positions.py <tei_file_path> [text_id]
 
 Output (stdout, UTF-8 JSON):
-    {"wordCount": 57, "words": ["lemma_1", ...], "lemmata": {"lemma_1": [0, 2], ...}}
+    {"wordCount": 142, "lemmata": {"lemma_1": [0, 2], ...}}
+(The full words[] list extract_word_data also returns is omitted — unused by the
+spec, and ~wordCount entries of needless payload.)
 """
 import sys
 import json
@@ -50,10 +52,10 @@ def main():
         sys.exit(2)
 
     extract_word_data = load_extract_word_data()
-    words, lemmata, word_count, _line_starts, _line_ends = extract_word_data(tei_path, text_id)
+    _words, lemmata, word_count, _line_starts, _line_ends = extract_word_data(tei_path, text_id)
 
     json.dump(
-        {"wordCount": word_count, "words": words, "lemmata": lemmata},
+        {"wordCount": word_count, "lemmata": lemmata},
         sys.stdout,
         ensure_ascii=False,
     )
