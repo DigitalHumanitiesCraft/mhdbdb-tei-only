@@ -14,6 +14,16 @@
 
 import { test, expect } from '@playwright/test';
 
+// #113 ergaenzte ein Autocomplete-Dropdown an #cdQuery. Es oeffnet beim Befuellen
+// (input-Event -> updateAutocomplete) und legt sich (absolute, top-full, z-30)
+// ueber die Button-Zeile mit #cdSearchBtn, sodass page.click('#cdSearchBtn') vom
+// Dropdown abgefangen wird (-> 60s-Timeout). Escape schliesst es synchron
+// (concept-distribution.js keydown-Handler) — modelliert einen User, der die
+// Vorschlaege verwirft und dann auf „Suchen" klickt.
+async function dismissAutocomplete(page) {
+  await page.press('#cdQuery', 'Escape');
+}
+
 test.describe('Concept Distribution Performance Lock', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('http://localhost:8080/playground/#concept-distribution');
@@ -33,6 +43,7 @@ test.describe('Concept Distribution Performance Lock', () => {
     });
 
     await page.fill('#cdQuery', 'Objektbezogene Aktivität/Tätigkeit');
+    await dismissAutocomplete(page);
     await page.click('#cdSearchBtn');
 
     // Chart muss erscheinen (Worst-Case: 667 Texte mit Treffern -> 30 Top-N-Bars)
@@ -64,6 +75,7 @@ test.describe('Concept Distribution Performance Lock', () => {
     });
 
     await page.fill('#cdQuery', 'Sterben');
+    await dismissAutocomplete(page);
     const t0 = Date.now();
     await page.click('#cdSearchBtn');
     await page.waitForSelector('#resultsContainer svg rect', { state: 'visible', timeout: 10000 });
@@ -81,6 +93,7 @@ test.describe('Concept Distribution Performance Lock', () => {
 
   test('Spinner wird waehrend Aggregation sichtbar (UI bleibt responsive)', async ({ page }) => {
     await page.fill('#cdQuery', 'Objektbezogene Aktivität/Tätigkeit');
+    await dismissAutocomplete(page);
     await page.click('#cdSearchBtn');
 
     // Progress-Bar muss waehrend Worst-Case-Aggregation auftauchen, bevor das
@@ -94,6 +107,7 @@ test.describe('Concept Distribution Performance Lock', () => {
 
   test('sortBy-Wechsel triggert kein re-compute (Daten gecacht)', async ({ page }) => {
     await page.fill('#cdQuery', 'Sterben');
+    await dismissAutocomplete(page);
     await page.click('#cdSearchBtn');
     await page.waitForSelector('#resultsContainer svg rect', { state: 'visible', timeout: 10000 });
 
