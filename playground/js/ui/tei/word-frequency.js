@@ -121,7 +121,7 @@ export class WordFrequencyAnalyzer {
     const scopeOptions = [
       `<option value="corpus"${this.state.scope === 'corpus' ? ' selected' : ''}>Gesamtkorpus (${texts.length} Texte)</option>`,
       ...texts.map(t => {
-        const label = `${escapeHtml(t.id)}${t.title ? ' — ' + escapeHtml(t.title) : ''}`;
+        const label = `${escapeHtml(t.id)}${t.title ? '-' + escapeHtml(t.title) : ''}`;
         return `<option value="${escapeHtml(t.id)}"${this.state.scope === t.id ? ' selected' : ''}>${label}</option>`;
       })
     ].join('');

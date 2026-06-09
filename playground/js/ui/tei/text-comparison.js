@@ -146,7 +146,7 @@ export class TextComparison {
     const texts = this.getCorpusTexts() || [];
     const sorted = [...texts].sort((a, b) => (a.id || '').localeCompare(b.id || '', 'de'));
     const options = sorted.map(t => {
-      const label = `${t.id} — ${t.title || ''}${t.author ? ' — ' + t.author : ''}`;
+      const label = `${t.id}-${t.title || ''}${t.author ? ', ' + t.author : ''}`;
       return { value: t.id, label };
     });
 
@@ -164,14 +164,14 @@ export class TextComparison {
           <label class="block">
             <span class="text-xs font-medium text-slate-600">Text A</span>
             <select id="tcSelectA" class="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm focus:border-brand-400 focus:outline-none">
-              <option value="">— Text wählen —</option>
+              <option value="">Text wählen …</option>
               ${buildSelect(this.state.textAId)}
             </select>
           </label>
           <label class="block">
             <span class="text-xs font-medium text-slate-600">Text B</span>
             <select id="tcSelectB" class="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm focus:border-brand-400 focus:outline-none">
-              <option value="">— Text wählen —</option>
+              <option value="">Text wählen …</option>
               ${buildSelect(this.state.textBId)}
             </select>
           </label>
@@ -197,7 +197,7 @@ export class TextComparison {
     }
 
     if (textA.id === textB.id) {
-      return '<div class="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">Text A und Text B sind identisch — bitte zwei unterschiedliche Texte wählen.</div>';
+      return '<div class="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">Text A und Text B sind identisch. Bitte zwei unterschiedliche Texte wählen.</div>';
     }
 
     const { onlyA, onlyB, both } = this.computeComparison(textA, textB);
@@ -207,13 +207,13 @@ export class TextComparison {
         <div class="grid gap-2 sm:grid-cols-2 text-sm">
           <div>
             <div class="text-xs uppercase tracking-wide text-slate-500">Text A</div>
-            <div class="font-semibold text-brand-700">${escapeHtml(textA.id)} — ${escapeHtml(textA.title || '')}</div>
+            <div class="font-semibold text-brand-700">${escapeHtml(textA.id)}-${escapeHtml(textA.title || '')}</div>
             ${textA.author ? `<div class="text-xs text-slate-500">${escapeHtml(textA.author)}</div>` : ''}
             <div class="mt-1 text-xs text-slate-500">${(Object.keys(textA.lemmata || {}).length).toLocaleString('de-DE')} unique Lemmata · ${(textA.wordCount || 0).toLocaleString('de-DE')} Token</div>
           </div>
           <div>
             <div class="text-xs uppercase tracking-wide text-slate-500">Text B</div>
-            <div class="font-semibold text-brand-700">${escapeHtml(textB.id)} — ${escapeHtml(textB.title || '')}</div>
+            <div class="font-semibold text-brand-700">${escapeHtml(textB.id)}-${escapeHtml(textB.title || '')}</div>
             ${textB.author ? `<div class="text-xs text-slate-500">${escapeHtml(textB.author)}</div>` : ''}
             <div class="mt-1 text-xs text-slate-500">${(Object.keys(textB.lemmata || {}).length).toLocaleString('de-DE')} unique Lemmata · ${(textB.wordCount || 0).toLocaleString('de-DE')} Token</div>
           </div>

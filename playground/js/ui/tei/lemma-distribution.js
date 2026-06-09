@@ -220,7 +220,7 @@ export class LemmaDistribution {
       const x = idx * (barWidth + barGap);
       const y = chartHeight - barH;
       const href = `../korpus.html?textId=${encodeURIComponent(h.id)}&lemmaIds=${encodeURIComponent(lemma.id)}`;
-      const tooltip = `${h.id} — ${h.title}\nAbsolut: ${h.count.toLocaleString('de-DE')}\npro 1000 Tokens: ${h.rel.toFixed(2)}`;
+      const tooltip = `${h.id}-${h.title}\nAbsolut: ${h.count.toLocaleString('de-DE')}\npro 1000 Tokens: ${h.rel.toFixed(2)}`;
       return `
         <a href="${href}" target="_blank" rel="noopener">
           <title>${escapeHtml(tooltip)}</title>
@@ -259,7 +259,7 @@ export class LemmaDistribution {
           ${bars}
         </svg>
         <div class="mt-2 flex justify-between text-xs text-slate-500">
-          <span>${this.state.freqMode === 'relative' ? 'Frequenz pro 1000 Tokens' : 'Absolute Frequenz'} — Maximum: ${maxVal.toFixed(this.state.freqMode === 'relative' ? 2 : 0)}</span>
+          <span>${this.state.freqMode === 'relative' ? 'Frequenz pro 1000 Tokens' : 'Absolute Frequenz'} (Maximum: ${maxVal.toFixed(this.state.freqMode === 'relative' ? 2 : 0)})</span>
           <span>Klick auf Balken oder Sigle öffnet Text im Reader (mit Highlighting)</span>
         </div>
       </div>

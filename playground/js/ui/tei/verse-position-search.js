@@ -172,7 +172,7 @@ export class VersePositionSearch {
           <a href="${href}" target="_blank" rel="noopener"
             class="flex items-center justify-between gap-3 rounded px-2 py-1.5 hover:bg-slate-50">
             <span class="font-mono text-xs text-brand-700 w-16 flex-shrink-0">${escapeHtml(h.id)}</span>
-            <span class="flex-1 truncate text-xs text-slate-600">${escapeHtml(h.title)}${h.author ? ` <span class="text-slate-400">— ${escapeHtml(h.author)}</span>` : ''}</span>
+            <span class="flex-1 truncate text-xs text-slate-600">${escapeHtml(h.title)}${h.author ? ` <span class="text-slate-400">, ${escapeHtml(h.author)}</span>` : ''}</span>
             <span class="tabular-nums text-xs text-slate-700 flex-shrink-0">
               <strong>${h.count.toLocaleString('de-DE')}</strong>
               <span class="text-slate-400">/${h.totalOccurrences.toLocaleString('de-DE')}</span>
