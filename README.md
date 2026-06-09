@@ -1,6 +1,7 @@
 # MHDBDB TEI Repository
 
-[![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+[![Code License: MIT](https://img.shields.io/badge/Code-MIT-blue.svg)](LICENSE)
+[![Data License: CC BY-NC-SA 4.0](https://img.shields.io/badge/Data-CC%20BY--NC--SA%204.0-lightgrey.svg)](LICENSE-DATA)
 
 <!-- DOI-Badge wird nach Zenodo-Aktivierung (Issue #91) und erstem getaggten
      Release hier ergänzt: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.<RECORD-ID>.svg)](https://doi.org/10.5281/zenodo.<RECORD-ID>) -->
@@ -153,7 +154,10 @@ Alle Such-Funktionen nutzen eine zentrale MHG-Zeichen-Normalisierung:
 
 ## Lizenz & Kontakt
 
-**Lizenz:** [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+**Lizenz (zweigeteilt):**
+- **Code** (`assets/`, `scripts/`, `testing/`, Build-Konfiguration): [MIT](LICENSE) © Digital Humanities Craft OG
+- **Daten** (`tei/`, `authority-files/`, `data/`): [CC BY-NC-SA 4.0](LICENSE-DATA) © Mittelhochdeutsche Begriffsdatenbank (MHDBDB), Universität Salzburg
+
 **Kontakt:** mhdbdb@plus.ac.at | https://mhdbdb.plus.ac.at
 **Projekt:** Universität Salzburg, über 50 Jahre mediävistische Forschung
 
