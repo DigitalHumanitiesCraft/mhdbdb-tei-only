@@ -59,7 +59,7 @@ The MHDBDB project follows a **client-only architecture** with no backend server
 6. Create `TEITextReader(corpus, authority, cache)`
 7. Populate text list checkboxes from corpus index
 8. Check URL parameters (`?textId=...&lemmaIds=...&position=...`)
-9. If no URL params, auto-open ABG text in reading view
+9. If no URL params, show empty state (no auto-load): a placeholder prompting the user to enter a word/lemma or click a text (`showEmptyState()`, app.js:947)
 
 ### Search Flow
 
@@ -166,7 +166,7 @@ The reading view converts TEI XML elements to HTML. Source: `extractAndFormatBod
 - Initialize IndexedDB
 - Load authority index (~3 MB)
 - Initialize data managers (authority, TEI)
-- Set up modular UI components (18 modules)
+- Set up modular UI components (21 modules)
 
 ### Data Layer
 
@@ -174,7 +174,7 @@ The reading view converts TEI XML elements to HTML. Source: `extractAndFormatBod
 - Load and query authority data
 - 3-stage lemma resolution:
   1. Exact match in lexicon (canonical forms)
-  2. Variants dictionary lookup (~234k mappings)
+  2. Variants dictionary lookup (~257k mappings)
   3. Partial match fallback (fuzzy search)
 - Direct array access (no XML DOM queries)
 - Performance maps for fast lookups
@@ -196,7 +196,7 @@ playground/js/ui/
 │   ├── progress.js
 │   ├── file-display.js
 │   └── router.js      # Hash-based URL routing (#48)
-├── authority/         # Authority file exploration (6 modules)
+├── authority/         # Authority file exploration (7 modules)
 │   ├── authority-ui.js
 │   ├── person-explorer.js
 │   ├── work-explorer.js
@@ -369,11 +369,11 @@ resolveConceptLabels(conceptIds):
 
 **Component:** `playground/js/indexed-db-manager.js`
 
-**Object Stores:**
-1. **teiFiles** - Large TEI file caching (>5MB)
-   - No expiration (user content)
-2. **indices** - Pre-built index caching
-   - 30-day expiration
+**Object Stores:** (`indexed-db-manager.js`, `onupgradeneeded`)
+1. **tei_files** - User-uploaded TEI files (Indizes: timestamp, size, source)
+2. **corpus_tei_files** - Vorgeladene 667 Korpus-Texte (Indizes: timestamp, size, sigle, author, title)
+3. **authority_files** - Authority-Files mit `expires`-Index (Default 24h Expiration)
+4. **metadata** - Key/Value-Store
    - Version-based invalidation
 
 **Dual Expiration Policy:**
@@ -403,7 +403,7 @@ resolveConceptLabels(conceptIds):
 
 - **Endpoint**: `https://api.woerterbuchnetz.de/open-api/dictionaries/{sigle}/lemmata/{searchpattern}`
 - **Response**: `{ result_set: [{ sigle, lemma (HTML-encoded), gram, wbnetzid, wbnetzlink }] }`
-- **Queried dictionaries**: BMZ, Lexer, LexerN, FindeB (all MHG-relevant dictionaries in the network)
+- **Queried dictionaries**: MWB, Lexer (both via `/dictionaries/{sigle}/lemmata/{form}`; `lemma-page.js:278`)
 - **Search term**: Normalized lemma form (e.g., "brot" not "brôt")
 - MHDBDB is NOT a directly linkable dictionary in Wörterbuchnetz
 - **Integration**: Dynamic fetch on lemma page, results rendered in dedicated section
@@ -414,8 +414,8 @@ resolveConceptLabels(conceptIds):
 - **Deep link**: `https://www.mhdwb-online.de/wb/{lid}` (requires numeric MWB lid)
 - **Metadata API** (HTTP only): `http://tares-neu.uni-trier.de:8080/exist/rest/db/MWB/Services/retrieve_MWB_lemma_metadata.xql?lemma={term}`
 - **API response**: XML with `<entry><MWB><id>, <lemma>, <gram>, <url></MWB><MWV><lexer>, <bmz>, <fb></MWV></entry>`
-- **Current integration**: Static link only — API is HTTP-only, blocked by mixed content policy on HTTPS pages
-- **Upgrade path**: Switch to dynamic lookup (like Wörterbuchnetz) when MWB migrates API to HTTPS
+- **Current integration**: Dynamic lookup via the Wörterbuchnetz HTTPS API (MWB is a queried dictionary there, alongside Lexer; #73, 2026-05-12). Results render as deep-links to `http://mhdwb-online.de` via `target="_blank"` (navigation to http targets from https pages is not Mixed-Content-blocked)
+- **Note**: The Trier metadata API above remains HTTP-only and blocked, but is no longer needed; the Wörterbuchnetz route supersedes it
 
 ### Old MHDBDB
 
@@ -489,7 +489,7 @@ npm run test:headed   # Visible browser
 ### Modular UI (Phase 7)
 
 **Problem:** Monolithic UI files hard to maintain
-**Solution:** 18 specialized modules organized by feature
+**Solution:** 21 specialized modules organized by feature
 **Result:** 5,536 lines removed, improved maintainability
 
 ### Shared Lemma Matching (#130)

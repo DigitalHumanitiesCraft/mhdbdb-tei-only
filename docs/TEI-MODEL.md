@@ -348,7 +348,7 @@ In der mhd. Lyrik unterscheidet man fachlich zwischen Lied, Spruch und Leich. Di
 
 | Typ | Count | Beispiele | Aktion |
 |-----|-------|-----------|--------|
-| `stanza` | 1,122 | LZT | Bug → zu `<lg type="stanza">` migrieren (nicht `<div>`) |
+| `stanza` | 1,122 | LZT | ✓ migriert zu `<lg type="stanza">` (#23, Index v4.1.1); 0 `div type="stanza"` im Korpus |
 | `deed` | 300 | HZU, HZU2 | → `number` (Genre steht im Header; `deed` war Genre-Marker, nicht Strukturtyp) |
 | `part` | 176 | DL2, EHB | → `section` (identische Verwendung, Migrationsrest) |
 | `sermon` | 113 | ADP, ECK | → `number` (Genre steht im Header; analog zu `deed`) |
@@ -395,7 +395,7 @@ Katharina: "Band und Teil hatten nur veraltete technische Gruende. Kann in die M
 | **`parallel`** | 24 | BRW, DES2 | ✓ Akzeptiert (Parallelueberlieferung) |
 | **`colophon`** | 15 | ALX, APO | ✓ Akzeptiert (TEI hat `<colophon>`, aber `div type` ist kompatibel) |
 
-**Stanza-Check (verifiziert):** `div type="stanza"` existiert **nur in LZT** (1,122 Stueck). Alle 75 anderen Dateien nutzen korrekt `lg type="stanza"` (28,595). LZT wird migriert.
+**Stanza-Check (verifiziert):** `div type="stanza"` existierte historisch nur in LZT (1.122) und ist seit #23/v4.1.1 zu `lg type="stanza"` migriert; aktuell **0** `div type="stanza"` im Korpus (LZT nutzt jetzt `lg type="stanza"`).
 
 ---
 
@@ -403,7 +403,9 @@ Katharina: "Band und Teil hatten nur veraltete technische Gruende. Kann in die M
 
 Das `<w>`-Element ist die zentrale Annotationseinheit. Im Soll-Modell stammen alle Attribute aus TEI P5 `att.linguistic` und `att.global.analytic` (seit TEI 3.3.0, Jan 2018).
 
-**IST** (Bestand):
+> **Status (Phase B1/B2, 2026-04 — abgeschlossen):** Die früher nötigen Migrationen `@meaningRef → @ana` und `@wordRef → @corresp` sind korpusweit durchgeführt (inkl. WZB). Es gibt **0** verbleibende `@meaningRef`/`@wordRef`-Attribute, **667/667** Dateien nutzen `@ana`, und kein aktiver JS-/Python-Code liest die alten Namen (der `@meaningRef`-Treffer in `WZB.tei.xml` ist nur ein `revisionDesc`-Logeintrag, kein Attribut). Die §§4.1, 4.3, 4.4 dokumentieren das migrierte Modell und die Migrations-Historie; vgl. §10 „Frühere Fehler (alle behoben durch Migration)".
+
+**Vorher** (Bestand bis Phase B1/B2):
 ```xml
 <w xml:id="{SIGLE}_{page}{line}_{pos}"
    lemmaRef="lexicon.xml#lemma_{id}"
@@ -412,7 +414,7 @@ Das `<w>`-Element ist die zentrale Annotationseinheit. Im Soll-Modell stammen al
    wordRef="lexicon.xml#lemma_{id}_sense_{id}_type_{id}">sichtbarer Text</w>
 ```
 
-**SOLL** (TEI-konform):
+**Jetzt** (TEI-konform, migriert):
 ```xml
 <w xml:id="{SIGLE}_{page}{line}_{pos}"
    lemmaRef="lexicon.xml#lemma_{id}"
@@ -428,12 +430,12 @@ Das `<w>`-Element ist die zentrale Annotationseinheit. Im Soll-Modell stammen al
 | `@xml:id` | Standard (att.global) | ja | 9,282,982 (100%) | behalten |
 | `@lemmaRef` | **Standard** (att.linguistic) | ja* | 7,391,273 (79.6%) | behalten |
 | `@pos` | **Standard** (att.linguistic) | ja* | 7,406,168 (79.8%) | behalten |
-| `@meaningRef` | **NICHT Standard** | nein | 5,852,223 (63.0%) in 666/666 Dateien | → `@ana` migrieren |
-| `@wordRef` | **NICHT Standard** | nein | 7,406,166 (79.8%) in **666/666 Dateien** | → `@corresp` migrieren (siehe 4.4) |
+| `@ana` | **Standard** (att.global.analytic) | nein | ~5.9M (migriert aus `@meaningRef`, Phase B1) | behalten |
+| `@corresp` | **Standard** (att.global) | nein | ~7.5M (migriert aus `@wordRef`, Phase B2; URI → `variants.xml`) | behalten |
 
 Korpus: 9,282,982 `<w>`-Elemente in 666 Dateien. 20.4% haben kein `@lemmaRef` (unannotierte Woerter — werden vom Corpus-Index uebersprungen, siehe CONTRACTS.md Sec. B).
 
-> **Wichtig:** `@lemmaRef` ist seit TEI P5 3.3.0 ein Standard-Attribut der Klasse `att.linguistic`. Es muss **nicht** migriert werden. `@meaningRef` und `@wordRef` sind die Validierungsblocker — sie sind keine TEI-Standard-Attribute. Beide sind in **100% der Dateien** vorhanden.
+> **Wichtig:** `@lemmaRef` ist seit TEI P5 3.3.0 ein Standard-Attribut der Klasse `att.linguistic` und musste **nicht** migriert werden. `@meaningRef` und `@wordRef` **waren** die Validierungsblocker (keine TEI-Standard-Attribute); sie wurden korpusweit zu `@ana` bzw. `@corresp` migriert (Phase B1/B2, abgeschlossen — 0 verbleibende Vorkommen, 667/667 Dateien mit `@ana`).
 
 ### 4.2 `@xml:id` Format
 
@@ -448,7 +450,9 @@ Beispiele:
 
 Format variiert historisch bedingt. Neue Texte sollen ein konsistentes Schema verwenden. IDs muessen innerhalb eines Dokuments eindeutig sein.
 
-### 4.3 Migrations-Plan
+### 4.3 Migrations-Plan (abgeschlossen, Phase B1/B2)
+
+> Historischer Plan. Die Migration ist 2026-04 korpusweit durchgeführt (inkl. WZB); die Tabelle dokumentiert, was umgesetzt wurde.
 
 | Attribut | TEI-Status | Aktion | Aufwand | Abhaengigkeit |
 |----------|------------|--------|---------|---------------|
@@ -459,12 +463,7 @@ Format variiert historisch bedingt. Neue Texte sollen ein konsistentes Schema ve
 
 **Prioritaet:** `@meaningRef` → `@ana` und `@wordRef` → `@corresp` sind beide fuer TEI-Konformanz noetig. Beide sind Batch-Renames (Attributname aendern). Bei `@wordRef` muss zusaetzlich die URI korrigiert werden (siehe Sec. 4.4).
 
-**Code-Anpassung `@meaningRef` → `@ana`** (verifiziert per grep):
-- `tei-manager.js:208` — `querySelectorAll('[meaningRef]')` → `'[ana]'` (kritisch)
-- `tei-manager.js:210` — `getAttribute('meaningRef')` → `'ana'` (kritisch)
-- `tei-manager.js:215,372,377` + `tei-ui.js:684,689,707` — Property-Name `meaningRef` im internen Datenmodell/CSV-Export (6 Stellen, optional mitumbenennen)
-- `@wordRef`: 0 Stellen im JS-Code (bestaetigt)
-- Python: nur in `_ARCHIVED_tei-transformation.py` (archiviert, nicht aktiv)
+**Code-Anpassung `@meaningRef` → `@ana`** (✓ erledigt): Der aktive Playground-JS liest bereits `@ana` (querySelectorAll `[ana]`/`getAttribute('ana')`). Es gibt **0** Stellen im aktiven JS-Code, die `meaningRef`/`wordRef` lesen (bestätigt per grep über `assets/` + `playground/`, 2026-06-05). Python-Referenzen nur im archivierten `_ARCHIVED_tei-transformation.py` (nicht aktiv).
 
 **`@lemma` bewusst nicht umgesetzt:** TEI P5 erlaubt `@lemma` (att.linguistic) als menschenlesbare Grundform direkt am Wort. Wir setzen es nicht. Begruendung:
 
@@ -475,11 +474,13 @@ Format variiert historisch bedingt. Neue Texte sollen ein konsistentes Schema ve
 
 Die menschenlesbare Grundform bleibt per Lookup `@lemmaRef` → `lexicon.xml` zugaenglich — fuer Debug-Inspektion per `xmllint`/`grep`, fuer Tooling per Authority-Index.
 
-**Aufschub fuer WZB:** Die `@meaningRef` → `@ana` Migration betrifft den WZB-Branch nicht (WZB hat noch kein `@meaningRef`). Sie kann unabhaengig erfolgen.
+**WZB:** Auch WZB ist migriert und nutzt `@ana` (141.978 Vorkommen). Der einzige `@meaningRef`-Treffer in `WZB.tei.xml` ist ein `<change>`-Logeintrag im `revisionDesc`, kein Attribut.
 
-### 4.4 `@wordRef` → `@corresp`: Wortform-Referenz beibehalten
+### 4.4 `@wordRef` → `@corresp`: Wortform-Referenz beibehalten (✓ abgeschlossen)
 
-`@wordRef` ist kein TEI-Standard-Attribut, traegt aber **nicht-rekonstruierbare Information**:
+> Die Migration ist durchgeführt; dieser Abschnitt dokumentiert die Begründung (warum nicht gelöscht) und die URI-Korrektur.
+
+`@wordRef` war kein TEI-Standard-Attribut, trug aber **nicht-rekonstruierbare Information** (daher Migration zu `@corresp` statt Löschung):
 
 - ~21% der `<w>`-Elemente **mit** `@wordRef` haben kein `@meaningRef` (1,553,943 von 7,406,166) — ohne Sense ist der Lookup-Pfad Sense→Type unmoeglich
 - 42 von 43.404 Senses haben Types mit identischem Formtext — selbst mit Sense ist Text-Matching nicht eindeutig
@@ -487,21 +488,21 @@ Die menschenlesbare Grundform bleibt per Lookup `@lemmaRef` → `lexicon.xml` zu
 
 **Referenzkette:**
 ```
-@wordRef="lexicon.xml#lemma_2598_sense_77615_type_8717"  (IST: synthetische URI)
+@wordRef="lexicon.xml#lemma_2598_sense_77615_type_8717"  (vorher: synthetische URI)
     │
     ├─ lexicon.xml: <sense xml:id="lemma_2598_sense_77615" ana="#type_8717 ...">
     │
     └─ variants.xml: <form xml:id="type_8717">hân</form>
 ```
 
-**Migration:** `@wordRef` → `@corresp` (Standard-Attribut aus `att.global`). Die URI muss korrigiert werden — das Ziel liegt in `variants.xml`, nicht in `lexicon.xml`:
+**Migration (✓ abgeschlossen):** `@wordRef` wurde zu `@corresp` (Standard-Attribut aus `att.global`). Dabei wurde die URI korrigiert — das Ziel liegt in `variants.xml`, nicht in `lexicon.xml`:
 
 ```
-IST:   wordRef="lexicon.xml#lemma_2598_sense_77615_type_8717"  (synthetisch, falsche Datei)
-SOLL:  corresp="variants.xml#type_8717"                        (direkt, korrekte Datei)
+vorher:  wordRef="lexicon.xml#lemma_2598_sense_77615_type_8717"  (synthetisch, falsche Datei)
+jetzt:   corresp="variants.xml#type_8717"                        (direkt, korrekte Datei)
 ```
 
-**Aufwand:** Batch-Transformation — aus der synthetischen URI den `type_{id}`-Teil extrahieren und als `variants.xml#type_{id}` setzen. Kein Code liest `@wordRef` aktuell, daher keine JS-Anpassung noetig.
+**Umsetzung:** Batch-Transformation — aus der synthetischen URI den `type_{id}`-Teil extrahiert und als `variants.xml#type_{id}` gesetzt. Kein aktiver Code las `@wordRef`, daher keine JS-Anpassung nötig.
 
 ---
 
@@ -814,7 +815,7 @@ npm test
 | Unannotierte `<w>` (kein `@lemmaRef`) | ~1.9M (20.4%) |
 
 Migrationsscripts: einmalig in den Phasen A–E ausgeführt, inzwischen in `scripts/_archived/` bzw. Git-Historie nach Abschluss von #32.
-Validierungsscript: `scripts/audit/validate-corpus.py` (8 strukturelle Checks)
+Validierungsscript: `scripts/audit/validate-corpus.py` — zweistufige RelaxNG-Validierung (Stage 1 `tei_all.rng`, Stage 2 `mhdbdb.rng`/`mhdbdb-authority.rng`). Die frühere strukturelle Python-Prüfung (5 Checks) ist seit 2026-04-15 retired und durch `schema/mhdbdb.rnc` abgedeckt.
 
 ### Validierungsergebnis (Stand 2026-05-11)
 

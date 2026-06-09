@@ -37,7 +37,7 @@ Visual and interaction patterns for the MHDBDB TEI Repository. Complements [ARCH
 
 ### Multi-Lemma Highlight Palette
 
-**Authoritative source: `tei-text-reader.js` constructor (lines 23-29)**
+**Authoritative source: `tei-text-reader.js` constructor (lines 24-31)**
 
 These colors are used by the reading view for multi-lemma highlighting:
 
@@ -51,12 +51,12 @@ These colors are used by the reading view for multi-lemma highlighting:
 
 **Color assignment:** `colors[idx % 5]` — sequential, wraps after 5 lemmas.
 
-**Also defined in (may differ in slot order):**
-- `korpus.css` — `mark.highlight-{n}` classes (6 slots: red, green, blue, pink, orange, purple)
-- `playground/css/style.css` — duplicate of korpus.css pattern
+**Also defined in:**
+- `korpus.css` (Z. 637-691) — `.multi-lemma-{lemmaId}` classes, hardcoded per lemma ID (879=red, 7532=green, 1816=blue, 26713=pink, 712=orange) plus a `[class*="multi-lemma-"]` purple fallback
+- `playground/css/style.css` — duplicate of the korpus.css `.multi-lemma-*` block (verbatim)
 - `ui-helpers.js` `LEMMA_COLORS` — playground proximity search
 
-**Known inconsistency:** CSS classes use a different slot order (green=2, blue=3) and different colors for slots 4-5 (pink/orange vs yellow/purple). The JS inline styles in `tei-text-reader.js` override CSS classes in the reading view; CSS classes are used by playground proximity result cards.
+**Note:** The CSS `.multi-lemma-*` classes are lemma-ID-keyed (not index-keyed like the JS `colors[idx % 5]` palette) and are applied to playground proximity result cards. The reading view does not use them — it applies the JS inline styles from `tei-text-reader.js`.
 
 Single `<mark>` highlight (single-lemma mode): `#fbbf24` bg / `#78350f` text.
 
@@ -157,7 +157,7 @@ Checkbox accent: `accent-color: #3b75d8`.
 
 ## Playground TEI-Analysis Module Pattern
 
-Neun Module unter `playground/js/ui/tei/` teilen eine konsistente Struktur. Wer ein neues Analyse-Werkzeug ergänzt, sollte das Pattern befolgen — neue Module ohne erkennbaren Grund abweichen lassen den Playground inkonsistent wirken und brechen Konventionen, auf die der Router und die Sidebar-Buttons aufbauen.
+Sieben Analyse-Module unter `playground/js/ui/tei/` teilen eine konsistente Struktur (der Router `tei-ui.js` und der Modal-Controller `multi-lemma-search.js` folgen dem Pattern nicht). Wer ein neues Analyse-Werkzeug ergänzt, sollte das Pattern befolgen — neue Module ohne erkennbaren Grund abweichen lassen den Playground inkonsistent wirken und brechen Konventionen, auf die der Router und die Sidebar-Buttons aufbauen.
 
 **Kanonische Beispiele:** `lemma-distribution.js` (#90), `verse-position-search.js` (#47.3), `concept-distribution.js` (#47 R2 + #113 Autocomplete), `text-comparison.js` (#108), `cooccurrence-ranking.js` (#107).
 
@@ -309,16 +309,16 @@ Nicht hash-routen — `korpus.html` ist eine separate Site. Pure-Anchor-Tags mit
 
 ### Multi-Lemma als dokumentierter Outlier
 
-`playground/js/ui/tei/multi-lemma.js` nutzt **Modal statt in-place Form** (`#multiLemmaModal`), weil seine vier Inputs (Lemmata-Liste, Modus, Distanz, Korpus-Auswahl-Checkbox) im Sidebar nicht reinpassen würden. Das ist die einzige zulässige Abweichung — wer ein neues Modul mit 1-3 Inputs baut, gehört in den in-place-Form-Pfad. Modal nur bei genuin grossen Input-Surfaces.
+`playground/js/ui/tei/multi-lemma-search.js` nutzt **Modal statt in-place Form** (`#multiLemmaModal`), weil seine vier Inputs (Lemmata-Liste, Modus, Distanz, Korpus-Auswahl-Checkbox) im Sidebar nicht reinpassen würden. Das ist die einzige zulässige Abweichung — wer ein neues Modul mit 1-3 Inputs baut, gehört in den in-place-Form-Pfad. Modal nur bei genuin grossen Input-Surfaces.
 
 ### Performance-Map gegen O(N)-Lookups (text-comparison Lesson)
 
-`AuthorityFilesManager.findLemmaById()` ist `Array.find()` über 42.630 Lexikon-Einträge — O(N) pro Aufruf. Solange ein Modul den Lookup nur dutzendweise braucht (concept-distribution, lemma-distribution: 30-50 Treffer für TopN-Anzeige), ist das egal. Sobald aber pro `enrichment` über *tausende* Lemmata iteriert wird, multiplizieren sich die Iterationen:
+`AuthorityFilesManager.findLemmaById()` ist `Array.find()` über 43.754 Lexikon-Einträge (`authorityData.lemmata` aus dem Authority-Index) — O(N) pro Aufruf. Solange ein Modul den Lookup nur dutzendweise braucht (concept-distribution, lemma-distribution: 30-50 Treffer für TopN-Anzeige), ist das egal. Sobald aber pro `enrichment` über *tausende* Lemmata iteriert wird, multiplizieren sich die Iterationen:
 
 ```
-text-comparison PZ vs JT, „Beide": 3.058 lookups × 42.630 = 130 Mio. Iterationen ≈ 5962ms
+text-comparison PZ vs JT, „Beide": 3.058 lookups × 43.754 ≈ 134 Mio. Iterationen ≈ 5962ms
                                   ↓ (lokale Map einmal pro show())
-                                       1 lookup × 42.630 (build) + 3.058 × O(1) ≈ 53ms (112× schneller)
+                                       1 lookup × 43.754 (build) + 3.058 × O(1) ≈ 53ms (112× schneller)
 ```
 
 Pattern:
@@ -524,7 +524,7 @@ Source: `assets/css/korpus.css` (post-#17 reader-view styling). Element-to-class
 | `mark.highlight` | `bg: #fbbf24; color: #78350f; font-weight: 600; scroll-margin-top: 120px` | `<w>` match (single) |
 | `mark.highlight.multi-lemma` | Inline styles from JS (see palette above) | `<w>` match (multi) |
 
-**`<hi>` token-based stacking:** `@rend` is space-separated. The renderer emits `class="hi hi-{token1} hi-{token2} …"` per `<hi>`, so compound values like `rend="initial upper_case_first_letter"` accumulate both rules from CSS. Five token classes cover all 20 attested `@rend` shapes (5 single + 15 compounds, ~43k elements that were previously unstyled).
+**`<hi>` token-based stacking:** `@rend` is space-separated. The renderer emits `class="hi hi-{token1} hi-{token2} …"` per `<hi>`, so compound values like `rend="initial upper_case_first_letter"` accumulate both rules from CSS. Five token classes cover 20 of the 24 attested `@rend` shapes (5 single + 15 compounds). Four further single-token shapes (`textStyle`, `inkRed`, `initial_historisiert`, `marginalia`; 344 elements total) receive only the base `.hi` class. (The ~43k previously-unstyled elements are the #17 migration figure.)
 
 ## Known Inconsistencies
 

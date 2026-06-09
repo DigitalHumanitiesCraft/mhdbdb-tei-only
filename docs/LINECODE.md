@@ -55,12 +55,12 @@ Mirrors [`docs/data/linecode-mapping.csv`](data/linecode-mapping.csv) with post-
 | `t`  | TEIL | — | Originally `<div type="part">`. Migrated to `<div type="section">` during #32 (per TEI-MODEL.md §3.5). |
 | `u`  | PARALLELUEBERLIEFERUNG | `<div type="parallel" n>` | Counter = number of parallel transmissions for the passage. |
 | `v`  | HANDWRITINGSHEETPAGE | `<pb type="manuscript" n/>` | Value `1` = recto, `2` = verso. Julia marked this as a verification point — worth double-checking wherever recto/verso matters downstream. |
-| `x`  | DATE | `<note type="date">` | Julia marked the mapping as uncertain. In HZU/HZU2 the `@n` attribute carries an encoded MMTT format — see Issue #84. |
+| `x`  | DATE | `<note type="date">` | Julia marked the mapping as uncertain. In HZU/HZU2 the `@n` attribute previously carried an encoded MMTT format; migrated to Klartext (e.g. „24. Februar") on 2026-04-15, see closed Issue #84 / TEI-MODEL.md §3.5. |
 | `y`  | YEAR | `<note type="year">` | Julia marked the mapping as uncertain. |
 | `z`  | NUMBER | `<note type="number">` | Julia marked the mapping as uncertain. |
 | `0`  | NULL | (skip) | Padding zero at this position; or "this position is not used by this line". |
 
-**Post-#32 note.** `schema/mhdbdb.rnc` constrains `<div>/@type` to a closed enum of seven values: `chapter, section, number, song, parallel, colophon, recipe`. Linecode letters `b` (BAND), `f` (NONGRADED), `n` (TONVARIATION), and `t` (TEIL) all produced div-types outside this enum and were either migrated (t → section) or removed (b, f, n) during the #32 migration. Letter `s` (STANZA) moved from `<div>` to `<lg>`. Any remaining occurrences of the old types in `tei/*.tei.xml` are bugs.
+**Post-#32 note.** `schema/mhdbdb.rnc` allows seven *standard* `<div>/@type` values (`chapter, section, number, song, parallel, colophon, recipe`) plus ~24 optional arithmetic-domain values (`div.type.arithmetic`, added 2026-05-08 with the ARITHMETIC ingest, see DECISIONS.md PD-001); `@type` itself is optional (GAP 1). The corpus currently uses only the seven standard types (no ARI files ingested yet). Linecode letters `b` (BAND), `f` (NONGRADED), `n` (TONVARIATION), and `t` (TEIL) produced div-types outside this *standard* set and were either migrated (t → section) or removed (b, f, n) during the #32 migration. Letter `s` (STANZA) moved from `<div>` to `<lg>`. Any remaining occurrences of the old types in `tei/*.tei.xml` are bugs.
 
 ## xml:id ↔ Linecode
 
@@ -169,7 +169,7 @@ The letter→TEI mapping in this document and in `docs/data/linecode-mapping.csv
 - [`docs/data/linecode-templates.csv`](data/linecode-templates.csv) — per-sigle Linecode template + full text metadata (665 rows; the lookup table for "which slots does text X encode")
 - **TEI-MODEL.md §3.5** — post-#32 `<div>/@type` enum and migration history for Linecode letters `b` (BAND/volume), `t` (TEIL/part), and `s` (STANZA)
 - **TEI-MODEL.md §8.1** — the 18 prose texts where Linecode `-` became `<l>` and was then migrated to `<lb/>`
-- **Issue #23** — Fehlende Stanza-Auszeichnung (104 Texte). Unblocked by this document.
-- **Issue #85** — Umbrella for 26 texts with missing `<div>` wrappers (chapter/song/parallel + DL1 edge case). Unblocked by this document.
-- **Issue #84** — HZU/HZU2 `<note type="date">` decoding (Linecode letter `x` in Urkunden-Texten)
+- **Issue #23** — Fehlende Stanza-Auszeichnung (104 Fälle). Decoding durch dieses Dokument freigeschaltet; Bulk-Stanza-Sweep bereits gelaufen (Corpus-Index v4.1.1), Issue weiterhin OPEN.
+- **Issue #85** (closed 2026-05-12) — Umbrella for 26 texts with missing `<div>` wrappers (chapter/song/parallel + DL1 edge case). Unblocked by this document.
+- **Issue #84** (closed 2026-04-15) — HZU/HZU2 `<note type="date">` MMTT→Klartext migration (Linecode letter `x` in Urkunden-Texten); new ingests use the Klartext form directly
 - **Issue #31** — Julia's original handover issue

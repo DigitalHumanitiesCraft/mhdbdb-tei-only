@@ -1,6 +1,6 @@
 # Roadmap
 
-Strategic priorities for the MHDBDB TEI Repository. Updated 2026-05-28.
+Strategic priorities for the MHDBDB TEI Repository. Updated 2026-06-05.
 
 See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/44) for the full triage matrix with per-issue status.
 
@@ -26,6 +26,7 @@ See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues
 | #30 | TEI structural fixes — auto-fixes ready, draft-fixes prepared | KZW (review) |
 | #34 | Ingest Wenzelsbibel — Phase 3 at 92.5% @meaningRef, 4,013 rows pending; branch rebased 2026-05-06; evaluation script (`wzb-sense-evaluate.py`) ready. **Drift-Blocker (#115):** Phase 1b prägte 98 Lemma-IDs ≥78000 ins Korpus ohne lexicon.xml-Nachzug (977 dangling Refs); künftige Ingests brauchen einen Backfill-Schritt (siehe [ADR-015](DECISIONS.md#adr-015-authority-source-modell-korpus-führt-ingest-braucht-rückwärts-sync)) | Julia + Helmut |
 | #68 | Guide: How to add data to MHDBDB — Teil 1 (`hilfe-daten-beitragen.html`) shipped 2026-05-07, Contributing-Guide-Update 2026-05-12 (Two-Wege-Block + 9-Punkte-Checkliste); weitere Onboarding-Artefakte hängen an #34-Lessons | KZW |
+| #124 | Analytics/Nutzungsstatistik — Recherche abgeschlossen + im Issue gepostet (GA abgelehnt; Empfehlung: Uni-Matomo-Anfrage, sonst Cloudflare/self-host); Entscheidung offen | KZW (öffentlich vs. intern, Budget, Server) |
 
 ## Needs Clarification
 
@@ -47,7 +48,7 @@ See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues
 | #80 | Umbrella: User-facing Dokumentation & Hilfe | Sub-issues #68 (#79 + #78 bereits closed) |
 | #93 | Textreihentypologie-Umzug (von marketext.at auf MHDBDB-Unterseite) — SKOS-Daten aus `textseries`-Repo, Baum-Visualisierung; dysfunktionale `dhplus`-URIs zu bereinigen | Visualisierung + Authority-File-Abgleich |
 | #109 | FWF-Einzelprojekt (Korpus-Tiefenanalyse, NER-Pipeline, phonetische Reimanalyse, Visualisierungen) — Antrag durch KZW, kleines Budget, max. 50% externe Mittel | Scope-Notiz für Antragstext |
-| #111 | Index-Größen-Soft-Cap und modulare Splitting-Strategie | Trigger >50 MB gz (heute 42); Optionen A modular / B brotli / C binär; keine Entscheidung bis Schwellwert erreicht |
+| #111 | Index-Größen-Soft-Cap und modulare Splitting-Strategie | Trigger >50 MB gz (heute ~40); Optionen A modular / B brotli / C binär; keine Entscheidung bis Schwellwert erreicht |
 
 ## Recently Completed
 
@@ -64,7 +65,7 @@ See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues
 | ~~#47 R2~~ | Begriffs-Verteilung (2026-05-12): Neuer Playground-Eintrag analog Lemma-Verteilung (#90), aber concept-basiert. Datenpfad concept → senses → lemmata → texts. Verifiziert mit „Sterben" (682 Lemmata, 659 Texte, 103.657 Vorkommen) und „love" (Intimität mit Candidates) |
 | ~~#47.3~~ | Lemmasuche nach Versposition (2026-05-12): Neuer Playground-Eintrag unter Multi-Lemma-Suche, findet Lemmata am Versanfang/Versende. Corpus-Index v4.1.0 mit `lineStarts[]`/`lineEnds[]` (1,359,789 `<l>` über 603 Versdichtungs-Texte, +6 MB gz). KZW-Wording wortgleich; Chrome-verifiziert (Reimpaare gân/begân, bant/bekant am Versende von AGS) |
 | ~~#105~~ | Authority-Files-Counter (2026-05-12): Stats-Block auf Startseite von 7 → 8 angeglichen; Playground-Loader-Status bleibt bei 7 (technisch korrekt, `contributors.xml` nicht im authority-index) |
-| ~~#73~~ | Lemma-Linking MWB + Lexer (2026-05-12): MWB-Block über Wörterbuchnetz-API (`/dictionaries/MWB/lemmata/{form}`) statt POST-only-Suchformular; Dictionary-Loop für beide Wörterbücher, Section nur sichtbar wenn min. 1 Treffer. Julias initialer Suchlink (`05c8676a4`) war defekt |
+| #73 (shipped, Issue offen) | Lemma-Linking MWB + Lexer (2026-05-12): MWB-Block über Wörterbuchnetz-API (`/dictionaries/MWB/lemmata/{form}`) statt POST-only-Suchformular; Dictionary-Loop für beide Wörterbücher, Section nur sichtbar wenn min. 1 Treffer. Julias initialer Suchlink (`05c8676a4`) war defekt. **Issue bleibt OPEN** (needs-clarification: MWB-API noch unvollständig, KZW-Rückfrage bei Recker-Hamm offen) |
 | ~~#101~~ | Reading-View-Render-Policy (2026-05-12, Julia): `milestone[@unit="verse"]` → `<span class="verse-marker">` (superscript), `div[@type="chapter"]` → `<h3 class="section-head">`, `.hi-initial` Sonderformatierung entfernt; Marginalia/Glossen/Rubrum bleiben unstylisiert |
 | ~~#85~~ | Umbrella div-Wrapper (closed 2026-05-12): Kat. 2 (7 Lieder) bereits in `ef939f530`; Kat. 3 (DJEM `e7b99b990`, DES2 `f51a74468`, DUB `d92e398ec`); 13 MBS-Serie-Texte aus Kat. 1 strukturell als implizit-OK eingestuft |
 | ~~WZB Pentateuch~~ | (2026-05-12, Julia): WZB-Titel + works.xml + projectDesc auf „Wenzelsbibel (Pentateuch: Gen–Dtn, Cod. 2759–2764)" präzisiert; Authority-Index-Rebuild |

@@ -33,7 +33,7 @@ Technical contracts that bind Python (build-time) and JavaScript (runtime) toget
 
 ### Test Cases
 
-These 17 cases must pass in both languages. Source: `scripts/mhg_normalizer.py:131-151`
+These 18 cases must pass in both languages. Source: `scripts/mhg_normalizer.py:131-151`
 
 | Input | Expected | Why |
 |-------|----------|-----|
@@ -240,7 +240,7 @@ User types: **brott**
 
 - Flat map: `{ normalized_variant_form: lemma_id }`
 - 234,244 normalized entries (Stand 2026-05-29; 256,759 raw forms in variants.xml, deduped first-occurrence-wins), extracted from `authority-files/variants.xml`
-- **First occurrence wins** — if two lemmata claim the same variant form, only the first one stored (source: `build-authority-index.py:526-571`)
+- **First occurrence wins** — if two lemmata claim the same variant form, only the first one stored (source: `build-authority-index.py:643-644`, in `parse_variants()`)
 - Keys are **normalized** forms (lowercase + MHG character mapping applied before storage)
 
 ---
@@ -365,7 +365,7 @@ function searchDocumentLevel(lemmaIds, corpusData):
 
 **Trigger:** Reading view opens a text whose work has a `wikidata` field in the authority index.
 
-Source: `assets/js/rendering/tei-text-reader.js` (Wikidata section, ~line 730+)
+Source: `assets/js/rendering/tei-text-reader.js` → `getWikidataImage()` (~line 939; P18 `wbgetclaims` request at ~line 944)
 
 **Request chain (3 sequential calls):**
 
@@ -391,21 +391,22 @@ Source: `assets/js/rendering/tei-text-reader.js` (Wikidata section, ~line 730+)
 
 ### D.2 Wörterbuchnetz API
 
-**Trigger:** Lemma page loads (`lemma/lemma-page.js:269-312`)
+**Trigger:** Lemma page loads (`lemma/lemma-page.js:271-308`, `fetchWoerterbuchnetz`)
 
 ```
 GET https://api.woerterbuchnetz.de/open-api/dictionaries/{sigle}/lemmata/{normalizedForm}
 
-Parallel requests for: BMZ, Lexer, LexerN, FindeB
-Uses: Promise.allSettled() (one failure doesn't block others)
+Parallel requests for: MWB, Lexer        // lemma-page.js:278
+Uses: Promise.all() (each request individually try/catch-guarded,
+      so one failure yields empty entries instead of rejecting)
 
-Response: {
+Response: {                              // illustrative shape, IDs schematic
     result_set: [{
-        sigle: "BMZ",
+        sigle: "Lexer",
         lemma: "br&ocirc;t",     // HTML-encoded — decode with textarea trick
         gram: "stN",
-        wbnetzid: "B02435",
-        wbnetzlink: "https://www.woerterbuchnetz.de/BMZ/B02435"
+        wbnetzid: "L02435",
+        wbnetzlink: "https://www.woerterbuchnetz.de/Lexer/L02435"
     }]
 }
 ```
@@ -416,10 +417,9 @@ Response: {
 
 | Target | URL Pattern | Source |
 |--------|------------|--------|
-| Old MHDBDB | `https://mhdbdb-old.sbg.ac.at/mhdbdb/App?action=Dic&lid={numericId}` | `lemma-page.js:234` |
-| MWB Online (Trier) | `https://www.mhdwb-online.de/` (static, no deep linking) | `lemma-page.js:239` |
-| REALonline (IMAREAL) | `https://realonline.imareal.sbg.ac.at/suche#{json}` where json = `{"s":"{normalized}"}` | `lemma-page.js:245` |
-| Corpus search | `../korpus.html?search={lemma.lemma}` | `lemma-page.js:250` |
+| Old MHDBDB | `https://mhdbdb-old.sbg.ac.at/mhdbdb/App?action=Dic&lid={numericId}` | `lemma-page.js:239` |
+| REALonline (IMAREAL) | `https://realonline.imareal.sbg.ac.at/suche#{json}` where json = `{"s":"{normalized}"}` | `lemma-page.js:244` |
+| Corpus search | `../korpus.html?search={lemma.lemma}` | `lemma-page.js:249` |
 | GND (person/work) | `https://d-nb.info/gnd/{gndId}` | `tei-text-reader.js` |
 | Wikidata (person/work) | `https://www.wikidata.org/wiki/{wikidataId}` | `tei-text-reader.js` |
 | Handschriftencensus | URL stored in authority index `work.handschriftencensus` | `tei-text-reader.js` |

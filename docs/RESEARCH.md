@@ -35,7 +35,7 @@ TEI P5 provides the foundational markup structure for all texts and authority fi
 - `<text><body>` - Main content
 - `<w>` - Word tokens with `@lemmaRef`, `@ana`, and `@corresp` attributes
 - `<person>`, `<work>`, `<entry>` - Authority file entities
-- `<listRelation>` - Semantic relationships
+- `<ptr type="broader">` - Semantic/hierarchical relationships (concept & genre hierarchy)
 
 **TEI namespace:** `http://www.tei-c.org/ns/1.0`
 

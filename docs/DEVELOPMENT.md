@@ -172,7 +172,7 @@ npm run report        # View HTML report
 | `site-chrome.spec.js` | Cross-cutting | Build-injected nav/footer + mobile-menu (`build-pages.py`) |
 | `cross-reference-test.spec.js` | Data integrity | Authority/corpus cross-reference validity |
 | `corpus.spec.js` | Data integrity | Corpus index structure validation |
-| `visual-mobile-test.spec.js` | Visual | Responsive layout (skipped — desktop-only) |
+| `visual-mobile-test.spec.js` | Visual | Responsive Screenshots + Touch-Target-Größe über mehrere Viewports (iPhone-SE 375px … Desktop 1440px) |
 
 **Playwright config** (`testing/playwright.config.js`): Headless Chromium, 1 worker (sequential), 60s timeout per test, auto-starts `http-server` on port 8080. HTML + JSON reports.
 
@@ -221,9 +221,9 @@ Diagnose- und Validierungs-Skripte in `scripts/audit/`:
 | `check-lexicon-senses.py` | `lexicon.xml`-Sanity: Lemmata ohne `<sense>`, Senses ohne `conceptIds` |
 | `doc-count-audit.py` | Drift-Detektor zwischen tatsächlichen Korpus-/Authority-Zahlen und den in der Doku verankerten Werten. Heuristik: Window ±2 absolut oder ±2 % relativ, strikter Keyword-Anchor unmittelbar nach der Zahl |
 
-### Skipped Tests (Issue #43)
+### Skipped Tests (Issue #43 — resolved)
 
-25 tests are intentionally skipped in `main-site.spec.js`. They cover interactions rewritten during Phase 7 (modular UI refactoring) and Phase 0 (folder restructure) — reading view panel interactions, text selection state management, search result card navigation, multi-lemma URL parameter handling. Tracked in Issue #43.
+Keine Tests sind aktuell geskippt (0 skipped projektweit). Die früher in `main-site.spec.js` deaktivierten 25 Tests (Phase-7-/Phase-0-Refactoring) wurden in Commit `259bc505a` (2026-02-24, „88 passing, 0 skipped") wieder aktiviert bzw. ersetzt; #43 ist damit erledigt.
 
 ### Manual Testing Checklist
 

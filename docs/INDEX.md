@@ -39,14 +39,14 @@ Simple search and reading interface optimized for students and general users:
 ### Playground (Research Interface)
 Advanced exploration tools for medievalists and digital humanities researchers:
 
-- **10 Search Entry Points** - 6 authority file explorers + 4 TEI analysis modes
+- **14 Search Entry Points** - 6 authority file explorers + 8 TEI analysis tools
 - **Multi-Lemma Search** - Find texts containing multiple lemmata with:
   - Document-level search (all lemmata anywhere in text)
   - Proximity search (co-occurrence within N words)
   - 3-stage lemma resolution (exact match → variants → partial match)
   - Color-coded results with clickable navigation to reading view
 - **Authority Exploration** - Browse and search persons, works, lemmata, concepts, genres, names
-- **TEI Analysis** - Browse and analyze the pre-loaded MHDBDB corpus (words, lines, annotations, multi-lemma co-occurrence)
+- **TEI Analysis** - Eight analysis tools over the pre-loaded MHDBDB corpus: multi-lemma search (document + proximity), verse-position lemma search, word frequency, text statistics, lemma distribution, concept distribution, text comparison, co-occurrence ranking
 
 ## Technical Stack
 
@@ -100,6 +100,7 @@ Die 14 Dateien oben (12 Stable + 2 Process) sind die vollständige Menge der Pro
 
 Located in `/publications/` (outside `docs/`):
 - `BLOG-POST-POS-WORKFLOW.md` — DHCraft blog draft on PoS disambiguation
+- `BLOG-POST-WZB-PIPELINE.md` — DHCraft blog draft on the WZB (Wenzelsbibel) ingest pipeline (unpublished, v3)
 - `JAHRESBERICHT-2025.md` — CLARIAH-AT annual report
 
 ## Project Status
@@ -147,7 +148,8 @@ Aktuelle Index-Versionen siehe [TEI-MODEL.md §11](TEI-MODEL.md#11-versionierung
 - ✅ **#105 Authority-Files-Counter** (2026-05-12) - Stats-Block auf Startseite 7 → 8 angeglichen; Playground-Loader-Status bleibt 7 (technisch korrekt, `contributors.xml` nicht im authority-index)
 - ✅ **#47.3 Lemmasuche nach Versposition** (2026-05-12) - Neuer Playground-Eintrag unter Multi-Lemma-Suche, findet Lemmata am Versanfang/Versende; Corpus-Index v4.1.0 mit `lineStarts[]`/`lineEnds[]` (1,359,789 `<l>` über 603 Versdichtungs-Texte, +6 MB gz); Chrome-verifiziert mit echten Reimpaaren in AGS
 - ✅ **#47 R2 Begriffs-Verteilung** (2026-05-12) - Neuer Playground-Eintrag analog Lemma-Verteilung (#90), aber concept-basiert. Datenpfad: concept → senses → lemmata → texts. Verifiziert mit „Sterben" (682 Lemmata, 659 Texte, 103.657 Vorkommen) und englischer Eingabe „love" (Intimität, mit alternativen Candidates)
-- ✅ **#47 Umbrella TEI Textanalyse geschlossen** (2026-05-12) - R1 + R2-Hauptpunkt shipped; Folgepunkte in #107 Kookkurrenz-Ranking, #108 Textvergleich, #106 Vers-Boundary-Features (Punkt 1 als Rolling-Backlog), #109 FWF-Einzelprojekt für NER und tiefere Analysen ausgelagert
+- ✅ **#47 Umbrella TEI Textanalyse geschlossen** (2026-05-12) - R1 + R2-Hauptpunkt shipped; Folgepunkte #107 Kookkurrenz-Ranking + #108 Textvergleich (beide inzwischen geshippt, siehe nächster Eintrag), #106 Vers-Boundary-Features (Punkt 1 als Rolling-Backlog) und #109 FWF-Einzelprojekt für NER und tiefere Analysen ausgelagert
+- ✅ **#107 Kookkurrenz-Ranking + #108 Textvergleich** (2026-05-15) - Zwei neue Playground-TEI-Analyse-Modi: häufigste Nachbar-Lemmata pro Lemma (`cooccurrence-ranking.js`) bzw. gemeinsame/exklusive Lemmata zweier Texte (`text-comparison.js`); damit 8 TEI-Analyse-Werkzeuge im Playground
 
 ### Known Limitations
 - Desktop-only interface (not mobile-responsive)

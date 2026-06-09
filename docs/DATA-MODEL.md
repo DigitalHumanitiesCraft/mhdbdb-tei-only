@@ -284,7 +284,7 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
 - Normalized searchable text for all entities (MHG character conversion: â→a, ô→o, ü→ue)
 - Performance maps pre-computed (conceptToLemmas, genreToWorks, genreHierarchy)
 - Variants dictionary enables O(1) orthographic variant lookup
-- v1.1.0 added separate GND/Wikidata identifiers for works vs authors
+- Separate GND/Wikidata identifiers for works vs authors (added during the authority migration; current authority-index version per TEI-MODEL.md §11)
 
 ### Corpus Index
 
@@ -342,6 +342,10 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
 **Why v4.1.0?** Per-Text `lineStarts[]` / `lineEnds[]` für #47.3 Lemmasuche nach Versposition. 1.359.789 `<l>`-Elemente über 603 Versdichtungs-Texte. Bumped `Schema-feature-add` (MINOR), nicht nur `data-add` (PATCH). Index-Größe +6 MB gz (34 → 40 MB).
 
 **Why v4.1.1?** Korpus-Rebuild nach Stanza-Insertion-Sweep (#23) — etwa 90 Texte bekamen `<lg type="stanza">`-Wrapper, was die `lineStarts`/`lineEnds`-Werte für diese Texte ändert; keine Schema-Änderung, daher PATCH.
+
+**Why v4.1.2?** #104 Sigle-Titel-Differenzierung (PL1-3, FLG/FLG1, FR1-3); reiner Daten-Add, PATCH.
+
+**Why v4.1.3?** #110 WVV-Rebuild — 478 zusätzliche `<lg type="stanza">`-Wraps; PATCH.
 
 **Field name note:** the primary identifier is `id` (sigle), not `textId`. Older docs and some code paths may use `textId` — the canonical field in the index JSON is `id`.
 
@@ -423,11 +427,11 @@ Build scripts use `get_namespaces()` which handles TEI documents with or without
 2. If `None` key exists (default namespace), remap to `'tei'` prefix
 3. Fallback: set `'tei'` = `'http://www.tei-c.org/ns/1.0'`
 
-Source: `scripts/build-authority-index.py:50-67`
+Source: `scripts/build-authority-index.py:52-69` (`get_namespaces`)
 
 #### Variant Dictionary Deduplication
 
-When building the variants map, **first occurrence wins** — if two lemmata claim the same normalized variant form, only the first is stored. No collision detection or warning. Source: `build-authority-index.py:526-571`.
+When building the variants map, **first occurrence wins** — if two lemmata claim the same normalized variant form, only the first is stored. No collision detection or warning. Source: `build-authority-index.py:643-644` (in `parse_variants()`, lines 601-647).
 
 ### Data Wrangling Scripts
 
@@ -446,11 +450,6 @@ Scripts for enriching authority files with external data:
    - Read authority file changes (works.xml, persons.xml)
    - Update corresponding TEI file headers
    - Maintain intentional redundancy for accessibility
-
-3. **`test_zotero_extraction.py`** - Validation tests
-   - Compare Zotero data with generated biblStruct
-   - Verify complete field extraction
-   - Ensure data integrity
 
 **Title Case Transformation:** Zotero stores titles in sentence case, but German bibliographic style requires Title Case. The script converts automatically:
 - Capitalizes first word and words after colons
@@ -484,7 +483,7 @@ Search resolves user input to lemma IDs through 3 stages with early return:
 | Stage | Method | Return | Performance |
 |-------|--------|--------|-------------|
 | 1 | Exact match on normalized canonical form | 0..N (homographs) | O(n) scan |
-| 2 | Variants dictionary lookup (~234k mappings) | Exactly 1 | O(1) hash |
+| 2 | Variants dictionary lookup (~257k mappings) | Exactly 1 | O(1) hash |
 | 3 | Bidirectional substring fallback | 0..N (fuzzy) | O(n) scan |
 
 Stages are mutually exclusive — first match wins. **Full pseudocode with worked example:** see [CONTRACTS.md](CONTRACTS.md#c-3-stage-lemma-resolution-algorithm)
@@ -513,7 +512,7 @@ Three pre-computed maps accelerate common queries:
 
 **genreHierarchy:** Get parent genres for a genre
 - Extracted from `<ptr type="broader">` references
-- Fixed in v1.1.0 (was broken before)
+- Fixed during the authority migration (was broken before)
 
 ## Data Quality
 
@@ -528,7 +527,7 @@ Three pre-computed maps accelerate common queries:
 - This is correct XML encoding, not a bug
 
 **Genre Hierarchy:**
-- Fixed in v1.1.0 to use `<ptr type="broader">` references
+- Migrated to `<ptr type="broader">` references during the authority migration
 - Previously extracted nested categories (incorrect approach)
 
 ### Validation

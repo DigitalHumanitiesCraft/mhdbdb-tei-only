@@ -73,8 +73,8 @@ Full-text immersive reader with multi-lemma highlighting and rich metadata.
 Cache large TEI files in browser storage for faster subsequent loads.
 
 **How it works:**
-- Files >5MB automatically cached in IndexedDB
-- No expiration (user content persists)
+- Every opened TEI file is cached in IndexedDB after first parse (no size threshold)
+- 30-day expiration (expired entries auto-removed on read and via cleanup; caches read-only corpus TEI files)
 - Subsequent loads ~100-200ms vs 3-5 seconds
 
 ## Playground Features
@@ -120,7 +120,7 @@ Browse and search six controlled vocabularies with consistent interface patterns
 
 ### TEI Text Analysis
 
-Corpus-wide text analysis using pre-built indexes. Sieben Werkzeuge, alle direkt im Results-Panel als in-place Form + Body (außer Multi-Lemma als Modal).
+Corpus-wide text analysis using pre-built indexes. Neun Werkzeuge (acht Playground-Einträge; Multi-Lemma bietet Dokument- und Proximity-Modus), alle direkt im Results-Panel als in-place Form + Body (außer Multi-Lemma als Modal).
 
 **Multi-Lemma Document Search:**
 - Input multiple lemmata (space-separated or one per line)
@@ -146,7 +146,7 @@ Corpus-wide text analysis using pre-built indexes. Sieben Werkzeuge, alle direkt
 
 **Wortfrequenz-Analyse (#88):**
 - Top-N Lemmata über das gesamte Korpus oder pro Text
-- POS-basierter Stopwort-Filter (DET, ART, POS, PRO, PRP, CCNJ, SCNJ, NEG, IPA, VEX, VEM) — entfernt häufige Funktionswörter, hebt inhaltstragende Lemmata hervor
+- POS-basierter Stopwort-Filter (DET, ART, POS, PRO, PRP, CCNJ, SCNJ, CNJ, NEG, IPA, VEX, VEM) — entfernt häufige Funktionswörter, hebt inhaltstragende Lemmata hervor
 - Absolute oder relative Frequenz
 - Sortierung nach Frequenz oder alphabetisch
 
@@ -209,7 +209,7 @@ All playground views are bookmarkable and shareable via hash-based URLs.
 
 ### Search Normalization
 
-Consistent search behavior across all 10 entry points via Middle High German character normalization.
+Consistent search behavior across all 14 entry points via Middle High German character normalization.
 
 **Normalization rules:**
 - Long vowels: â→a, ê→e, î→i, ô→o, û→u
@@ -232,10 +232,10 @@ Persistent pages for individual lemmata, accessible at `/lemma/{numericId}`. The
 Concept-based similarity section on each lemma page.
 
 **How it works:**
-- Scans all 43,754 lemmata for shared concept references (`<sense>` → `<ptr target="concepts.xml#...">`)
+- Scans all 43,754 lemmata for shared concept references (pre-built `sense.conceptIds` in the authority index, extracted at build time from `<sense>`/`<ptr target="concepts.xml#...">`)
 - Ranks by concept overlap with the current lemma
 - Displays top 50 as clickable chip links
-- Performance: ~75 ms for full scan
+- Performance: client-side full scan over all lemmata (sub-100 ms in practice)
 
 **Use cases:**
 - Explore semantic neighborhoods (e.g., from "minne" discover related terms for love, devotion, affection)

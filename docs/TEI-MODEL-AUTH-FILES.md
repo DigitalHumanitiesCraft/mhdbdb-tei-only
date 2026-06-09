@@ -17,7 +17,7 @@ Pendant zu `docs/TEI-MODEL.md` (Korpusdateien).
 | `lexicon.xml` | Lemmata mit Senses, POS, Etymologie | 43,754 | 33 MB |
 | `variants.xml` | Orthographische Varianten pro Lemma | 42,627 Eintraege, 256,759 Formen | 16 MB |
 | `persons.xml` | Autoren/Personen mit Normdaten | 211 | 74 KB |
-| `works.xml` | Werke mit Bibliographie und Genre | 583 | 1.4 MB |
+| `works.xml` | Werke mit Bibliographie und Genre | 584 | 1.4 MB |
 | `contributors.xml` | MHDBDB-Mitwirkende (Gruender, Koordination, Editor:innen) | 51 Personen + 2 Orgs | 15 KB |
 | `concepts.xml` | Semantische Begriffsontologie | 567 Kategorien | 207 KB |
 | `genres.xml` | Gattungstaxonomie | 615 Kategorien | 405 KB |
@@ -54,7 +54,7 @@ Wichtig fuer den aktiven Betrieb (siehe [INDEX.md → Current Phase](INDEX.md#cu
 
 ---
 
-## 2. Grundregeln (gelten fuer alle 7 Dateien)
+## 2. Grundregeln (gelten fuer alle 8 Dateien)
 
 ### 2.1 Daten-Platzierung
 
@@ -91,8 +91,8 @@ Wichtig fuer den aktiven Betrieb (siehe [INDEX.md → Current Phase](INDEX.md#cu
 | Datei | Prefix | ID-Format | Beispiel |
 |-------|--------|-----------|----------|
 | lexicon.xml | `lemma` | numerisch | `lemma_879` |
-| lexicon.xml | `lemma_N_sense` | numerisch | `lemma_879_sense_1177` |
-| variants.xml | `type` | numerisch | `type_2239` |
+| lexicon.xml | `lemma_N_sense` | numerisch | `lemma_879_sense_1449` |
+| variants.xml | `type` | numerisch | `type_2783` |
 | persons.xml | `person` | numerisch | `person_1` |
 | works.xml | `work` | numerisch | `work_89` |
 | contributors.xml | `contrib` | 3-stellig zero-padded | `contrib_001` |
@@ -102,7 +102,7 @@ Wichtig fuer den aktiven Betrieb (siehe [INDEX.md → Current Phase](INDEX.md#cu
 
 **Anmerkung:** Genre-UUIDs bleiben (615 IDs + 3422 Referenzen umzubenennen waere unverhältnismaessig). Concepts und Names nutzen hierarchische 8-Steller — das ist ein sinnvolles Schema fuer Taxonomien.
 
-**Migration:** 4 Personen mit UUID-Format wurden zu `person_N` migriert (2026-04-10). 1 Person neu angelegt: `person_anonym` (Schweizer Anonymus, GND 103130276).
+**Migration:** 4 Personen mit UUID-Format wurden zu `person_N` migriert (2026-04-10). 1 Person neu angelegt: `person_anonym` (generischer Anonym-Sammelautor, Wikidata Q4233718; kein GND). Separat existiert `person_1772` (Schweizer Anonymus, GND 103130276).
 
 ### 2.4 Externe Identifier (Normdaten)
 
@@ -118,7 +118,7 @@ Alle Dateien nutzen `GND` (Uppercase, offizielles Akronym der Deutschen National
 
 ### 2.5 Gemeinsamer teiHeader
 
-Alle 7 Dateien haben denselben minimalen Header:
+Alle 8 Dateien haben denselben minimalen Header:
 
 ```xml
 <teiHeader>
@@ -151,13 +151,13 @@ TEI Ch. 9 (Dictionaries). Containert alle Lemmata des MHDBDB-Lexikons.
 <body>
   <div type="lexicon">
     <entry xml:id="lemma_879">
-      <form type="lemma"><orth>vriunt</orth></form>
+      <form type="lemma"><orth>brôt</orth></form>
       <gramGrp><pos>NOM</pos></gramGrp>
       <etym type="morphological">
         <seg type="component" corresp="lexicon.xml#lemma_X">Komponente</seg>
       </etym>
-      <sense xml:id="lemma_879_sense_1177" ana="#type_2239 #type_5544">
-        <ptr target="concepts.xml#concept_31422000"/>
+      <sense xml:id="lemma_879_sense_1449" ana="#type_2783 #type_2784 #type_2785">
+        <ptr target="concepts.xml#concept_21111300"/>
       </sense>
     </entry>
   </div>
@@ -186,9 +186,9 @@ TEI Ch. 9 (Dictionaries). Jeder Eintrag entspricht einem Lemma und listet alle b
 <body>
   <div type="orthographicVariants">
     <entry corresp="lexicon.xml#lemma_879">
-      <form xml:id="type_2239">vriunt</form>
-      <form xml:id="type_5544">vriwnt</form>
-      <form xml:id="type_8891">vrivnt</form>
+      <form xml:id="type_2783">brôt</form>
+      <form xml:id="type_2784">brôte</form>
+      <form xml:id="type_2785">brôtes</form>
     </entry>
   </div>
 </body>
@@ -235,9 +235,6 @@ TEI Ch. 3 (Core Tags for Headers / Bibliography).
     <bibl xml:id="work_350">
       <title xml:lang="de">Aalener Stadtratsgedicht</title>
       <idno type="sigle">ASG</idno>
-      <idno type="GND">4467770-4</idno>
-      <idno type="wikidata">Q2643537</idno>
-      <idno type="handschriftencensus">217</idno>
       <ptr target="genres.xml#genre_2c9f837c"/>
       <author ref="persons.xml#person_786">Heinrich von Rang</author>
       <relatedItem>
@@ -368,7 +365,7 @@ TEI Ch. 13 (Names/People) + Ch. 3 (Organizations). Zentrales Register aller Pers
 
 **Rollen auf `<person>/@role`:** `founder` | `coordinator` | `lead-editor` | `editor`. Vom Authority-Schema enforced (`schema/mhdbdb-authority.rnc`). `<org>`-Eintraege tragen keine `@role`.
 
-**ID-Konvention:** `contrib_NNN` (zero-padded 3-stellig). Slots 001–007 sind fest (Gruender, Koordinatorin, Lead-Editor:innen), 008+ folgen der chronologischen Mitwirkenden-Liste.
+**ID-Konvention:** `contrib_NNN` (zero-padded 3-stellig). Slots 001–006 sind fest (Gruender, Koordinatorin, Lead-Editor:innen), 007+ folgen der chronologischen Mitwirkenden-Liste.
 
 ```xml
 <text>
@@ -473,7 +470,7 @@ works.xml ──author @ref──> persons.xml
 |---------|-------|--------|
 | Verwaiste Lemma-Referenzen | variants.xml → lexicon.xml | Bereinigt (154 entfernt, 2026-04-10) |
 | Verwaiste Konzept-Referenzen | lexicon.xml → concepts.xml | Bereinigt (19 entfernt, 2026-04-10) |
-| Verwaiste Personen-Referenz | works.xml → persons.xml | Geloest: `person_anonym` angelegt (GND 103130276) |
+| Verwaiste Personen-Referenz | works.xml → persons.xml | Geloest: `person_anonym` angelegt (Anonym-Sammelautor, Wikidata Q4233718) |
 | Werk ohne Bibliographie | works.xml (work_6) | Geloest: Frauendienst/Frauenbuch-Split (work_6/work_7) |
 | 30% Senses ohne @ana | lexicon.xml | Akzeptabel (keine Belegstellen mit Wortformen) |
 
@@ -491,7 +488,7 @@ Alle Migrationsschritte wurden in Phases F-K implementiert. Scripts sind nach Ab
 | Externe IDs unwrappen | `unwrap-work-identifiers.py` | 368 `<note type="identifiers">` aufgeloest, 176x `gnd`→`GND` |
 | Works-Links entfernen | `remove-person-works-links.py` | 209 `<listBibl>` aus persons.xml entfernt |
 | UUID-IDs migrieren | `migrate-person-uuids.py` | 4 UUID→numerisch, Cascade in works.xml + tei/LUU.tei.xml |
-| Schweizer Anonymus | `migrate-person-uuids.py` | `person_anonym` angelegt (GND 103130276) |
+| Schweizer Anonymus | `migrate-person-uuids.py` | `person_1772` (Schweizer Anonymus, GND 103130276) |
 | Frauendienst-Split | `split-frauendienst.py` | work_6 (Frauendienst) / work_7 (Frauenbuch) getrennt |
 | Verwaiste Referenzen | `fix-orphan-refs.py` | 154 variants + 61+10 lexicon Orphans entfernt |
 
