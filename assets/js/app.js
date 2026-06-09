@@ -148,7 +148,7 @@ class MainSiteApp {
         this.updateLoadingStatus('Lade Authority-Index...', 10);
         const authorityIndex = await this.corpusLoader.loadAuthorityIndex();
 
-        this.updateLoadingStatus('Lade Corpus-Index...', 50);
+        this.updateLoadingStatus('Lade Korpus-Index...', 50);
         const corpusIndex = await this.corpusLoader.loadCorpusIndex();
 
         // Store corpus data

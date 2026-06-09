@@ -98,7 +98,7 @@
         "Alle gespeicherten Daten löschen?\n\n" +
         "Dies umfasst:\n" +
         "• TEI-Dateien Cache\n" +
-        "• Authority- und Corpus-Indizes\n" +
+        "• Authority- und Korpus-Indizes\n" +
         "• Alle lokalen Einstellungen\n\n" +
         "Die Seite wird neu geladen.";
       if (!window.confirm(message)) return;

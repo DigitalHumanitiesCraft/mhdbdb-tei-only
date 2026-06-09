@@ -106,7 +106,7 @@ class CorpusLoader {
 
         } catch (error) {
             console.error('[CorpusLoader] Failed to load corpus index:', error);
-            throw new Error(`Corpus index konnte nicht geladen werden: ${error.message}`);
+            throw new Error(`Korpus-Index konnte nicht geladen werden: ${error.message}`);
         }
     }
 
