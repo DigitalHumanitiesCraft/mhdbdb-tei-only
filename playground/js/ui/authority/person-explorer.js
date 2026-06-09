@@ -97,7 +97,14 @@ export class PersonExplorer {
         return generateResultItem({
           meta: formatMetadata([
             `ID: ${author.id}`,
-            author.gnd ? `GND: ${author.gnd}` : null,
+            // #135: GND/Wikidata als externe Links (neuer Tab). IDs sind im
+            // Authority-Index reine Bezeichner (kein URL-Präfix), siehe persons.xml.
+            author.gnd
+              ? `GND: <a href="https://d-nb.info/gnd/${author.gnd}" target="_blank" rel="noopener" class="underline hover:text-brand-900">${author.gnd}</a>`
+              : null,
+            author.wikidata
+              ? `Wikidata: <a href="https://www.wikidata.org/wiki/${author.wikidata}" target="_blank" rel="noopener" class="underline hover:text-brand-900">${author.wikidata}</a>`
+              : null,
             workCount > 0 ? `${workCount} Werke` : null,
           ]),
           title: author.preferredName,
@@ -134,15 +141,19 @@ export class PersonExplorer {
 
       const worksHTML = authorWorks
         .slice(0, 20)
-        .map(
-          (work) => `
+        .map((work) => {
+          // #135: Werk-Titel als Deep-Link in die Lesesuche, sofern eine Sigle
+          // existiert (= TEI-Text vorhanden). Ohne Sigle kein Link (kein toter Link).
+          const sigle = work.sigle || (work.sigles && work.sigles[0]) || null;
+          const titleHTML = sigle
+            ? `<a href="../korpus.html?textId=${encodeURIComponent(sigle)}" target="_blank" rel="noopener" class="text-brand-700 hover:text-brand-900 hover:underline"><strong>${work.title}</strong></a>`
+            : `<strong>${work.title}</strong>`;
+          return `
                 <div style="margin-bottom: 3px; font-size: 0.85rem;">
-                    • <strong>${work.title}</strong>${
-            work.sigle ? ` (${work.sigle})` : ""
-          }
+                    • ${titleHTML}${sigle ? ` (${sigle})` : ""}
                 </div>
-            `
-        )
+            `;
+        })
         .join("");
 
       return `

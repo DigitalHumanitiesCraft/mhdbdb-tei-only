@@ -976,8 +976,9 @@ class MainSiteApp {
     }
 
     /**
-     * Handle URL parameters from playground (multi-lemma reader jump)
-     * Expected params: ?textId=ABG&lemmaIds=879,7532&position=123
+     * Handle URL parameters for opening the reading view.
+     * - Playground multi-lemma jump: ?textId=ABG&lemmaIds=879,7532&position=123
+     * - Werk-Deep-Link (#135): ?textId=ABG (öffnet den Text ohne Highlights)
      */
     handleURLParameters() {
         const params = new URLSearchParams(window.location.search);
@@ -985,23 +986,25 @@ class MainSiteApp {
         const lemmaIdsParam = params.get('lemmaIds');
         const positionParam = params.get('position');
 
-        if (!textId || !lemmaIdsParam) {
+        if (!textId) {
             return false; // No relevant parameters
         }
 
-        console.log('[MainSiteApp] URL parameters detected:', { textId, lemmaIds: lemmaIdsParam, position: positionParam });
-
-        // Parse lemma IDs (comma-separated)
-        const lemmaIds = lemmaIdsParam.split(',').map(id => id.trim()).filter(id => id);
+        // Lemma-IDs sind optional — beim reinen Werk-Deep-Link (#135) fehlen sie.
+        const lemmaIds = lemmaIdsParam
+            ? lemmaIdsParam.split(',').map(id => id.trim()).filter(id => id)
+            : [];
         const targetPosition = positionParam ? parseInt(positionParam) : null;
 
-        // Build options object
-        const options = {
-            lemmaIds: lemmaIds
-        };
+        console.log('[MainSiteApp] URL parameters detected:', { textId, lemmaIds, position: positionParam });
 
-        if (targetPosition !== null && !isNaN(targetPosition)) {
-            options.targetPosition = targetPosition;
+        // Leeres options-Objekt = Text ohne Lemma-Highlights (wie der "Lesen"-Button).
+        const options = {};
+        if (lemmaIds.length > 0) {
+            options.lemmaIds = lemmaIds;
+            if (targetPosition !== null && !isNaN(targetPosition)) {
+                options.targetPosition = targetPosition;
+            }
         }
 
         // Open reader after brief delay (ensure DOM is ready)
