@@ -1,10 +1,10 @@
 # Citation File Format (https://citation-file-format.github.io/)
 #
-# Hinweis: Dies ist ein konservativer Stub mit den definitiv zustaendigen
-# Maintainer-Entitaeten. Die finale Autor*innen-Liste fuer das erste Zenodo-Release
+# Hinweis: Dies ist ein konservativer Stub mit den definitiv zuständigen
+# Maintainer-Entitäten. Die finale Autor*innen-Liste für das erste Zenodo-Release
 # wird vor dem Release-Tag abgestimmt (siehe Issue #91).
-# Weitere Mitwirkende sind in authority-files/contributors.xml dokumentiert:
-# https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/authority-files/contributors.xml
+# Das vollständige Register aller Mitwirkenden ist unten als identifiers-Eintrag
+# (type: url) verlinkt: authority-files/contributors.xml
 
 cff-version: 1.2.0
 
@@ -20,6 +20,11 @@ authors:
 license: "CC-BY-NC-SA-4.0"
 repository-code: "https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only"
 url: "https://dhcraft.org/mhdbdb-tei-only/"
+
+identifiers:
+  - type: url
+    value: "https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/authority-files/contributors.xml"
+    description: "Vollständiges Register aller MHDBDB-Mitwirkenden (Gründer, Koordination, Haupteditor:innen und Editor:innen; 51 Personen + 2 Organisationen mit Rollen)"
 
 keywords:
   - "MHDBDB"

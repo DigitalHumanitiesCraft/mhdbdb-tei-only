@@ -65,7 +65,7 @@ python scripts/build-corpus-index.py      # Rebuild corpus index
 - **NEVER commit or push without user testing and approval**
 - **Concurrent sessions share the working directory** — never use `git add -A` or `git add .`. Always stage specific files by name (`git add path/to/file1 path/to/file2`). Another Claude session may have staged files that do not belong in your commit. Example: commit `8b5d0e6ac` mistakenly swept router files into an unrelated #84 commit because `git add -A` captured the other session's staged playground edits.
 - Never force push to `main`
-- **Evergreen issues (#44, #91): NEVER close** — no `Closes #44` or `Fixes #91` in commits. These are permanent tracking issues (labeled `evergreen`, pinned).
+- **Evergreen issue (#44): NEVER close** — no `Closes #44` or `Fixes #44` in commits. Permanent tracking issue (labeled `evergreen`, pinned). (#91 Zenodo was mislabeled `evergreen` and is a normal closeable task — corrected 2026-06-09.)
 - Rebuild indexes after modifying XML in `authority-files/` or `tei/`
 - Run tests before pushing
 - Update `docs/` when architecture changes
