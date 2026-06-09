@@ -93,6 +93,10 @@ export class LemmaExplorer {
       (lemma) => lemma.lemma
     );
 
+    // #137: alphabetisch nach Lemma-Label sortieren (vorher implizit nach Lemma-ID),
+    // VOR dem maxResults-Cut in handleSearchResults. Idiom wie concept-explorer.js.
+    matches.sort((a, b) => (a.lemma || "").localeCompare(b.lemma || "", "de"));
+
     const result = handleSearchResults(searchTerm, matches, {
       maxResults: 50,
       emptyMessage: 'Keine Lemmata gefunden für "{term}"',
