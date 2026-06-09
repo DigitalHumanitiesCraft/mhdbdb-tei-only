@@ -4,6 +4,38 @@ Chronological log of development decisions, dead ends, and savepoints. Not a cha
 
 ---
 
+## 2026-06-09 11:33 – handoff
+
+**Summary:** Nach der #44-Re-Triage (eigener Eintrag unten) drei claude-ready-Issues implementiert, verifiziert, geschlossen und auf `origin/main` gepusht: #53 (Korpus-Terminologie-Regression), #137 (Lemmata-Explorer-Sortierung), #135 (Autor*innen-Explorer-Links + Reader-Routing-Erweiterung). Abschließend die #44-Matrix auf den Tagesstand nachgezogen (33 offen ohne Evergreen).
+
+**Decisions:**
+- **#135 Werk-Deep-Link:** `app.js` `handleURLParameters` um den `?textId`-only-Fall erweitert, der den Reader ohne Highlights öffnet (options `{}`, exakt der bestehende „Lesen"-Button-Pfad aus `app.js:237`) statt einen neuen Mechanismus zu bauen. Bonus-Effekt: `korpus.html?textId=<SIG>` ist jetzt generell als Text-Direktlink nutzbar. Der Playground-Multi-Lemma-Jump (`textId`+`lemmaIds`) bleibt unverändert.
+- **#137:** `localeCompare(b, 'de')` statt MHG-`text-normalizer` für die Sortierung (Konsistenz mit dem `concept-explorer.js`-Idiom, case-/akzent-tolerant); Sortierung läuft VOR dem 50er-`slice` in `handleSearchResults`, sonst würde nur die zufällige ID-Auswahl sortiert.
+- **#53:** nur die drei user-facing deutschen Strings (Lade-Status, Clear-Dialog, Fehlermeldung); Code-Identifier (`corpusIndex`), Dateinamen (`corpus-index.json.gz`), Debug-Logs und Doku bewusst unangetastet.
+- **Gestaffelte Verifikation je nach Risiko:** #53 per Grep (statisch), #137 per Node-Comparator an echten Beispielen, #135 per Browser-E2E (Playground-Render + Reader öffnet via `?textId=ABG`), weil dort eine neue Routing-Integration dranhängt.
+
+**Dead ends:**
+- `javascript_tool` top-level `await` schlug fehl (trotz Tool-Doku) → in async-IIFE gewrappt.
+- Kein echter Dead end, aber Awareness: zwei parallele Sessions committeten `4bc9fb2ac` (CITATION/CLAUDE #91-Fix) und `d3133345c` (Em-Dash-Fix) zwischen meine Pushes; alle fast-forward, kein Konflikt dank gezieltem `git add <datei>` (nie `-A`).
+
+**Phase:** Implementation (aktiver Betrieb). Alle 14 Promptotyping-Docs aktuell; keine Stable-Doc-Änderung nötig (reine Frontend-Fixes + eine Reader-Routing-Erweiterung). #44-Triage-Matrix auf Tagesstand (33 offen ohne Evergreen, 16 claude-ready).
+
+**Open issues:**
+- **Verbleibend aus dem Re-Triage-Rückstand:** #23 (MUG-Stanza-Lauf, ~5 min Script + Index-Rebuild + schließen), #59 (Antonomasien-Modul bauen, Linda-Freigabe Option A, ~1 Tag, braucht Fetch der 4 `categorization_*.json` aus `lindabeutel/Naming-analysis`).
+- **#135 Edge-Case:** `korpus.html?textId=<SIG>` öffnet den Reader; falls eine `work.sigle` keinem TEI-Korpustext entspricht (Werk ohne Korpustext), zeigt der Reader eine Fehlermeldung statt zu crashen, aber der Link wäre dann inhaltsleer. Bei echten besigelten Werken (verifiziert mit LUU) kein Problem.
+- **Doku-Arbeit (#132/#133) bewusst zurückgestellt** — User will gesondert über die Doku-Strategie reden, bevor daran gearbeitet wird.
+- Aus Vorsessions unverändert: `build-pages.py --check` nicht in CI; volle `npm test`-Suite seit Site-Chrome-Refactor nicht komplett gefahren.
+
+**Next steps:**
+1. *(optional)* #23 MUG durchschicken + schließen (~5 min, kleinster offener Rückstand-Rest).
+2. *(optional)* #59 Antonomasien-Modul bauen (freigegeben, ~1 Tag).
+3. *(optional)* weitere Quick-Wins: #121 Dropdown-Disambiguierung (S), #136 Text-Statistiken-Auswahl (M).
+4. Mit User die Doku-Strategie klären (#132/#133 + allgemein), bevor Doku-Tasks angefasst werden.
+
+**Savepoints (alle auf `origin/main`):** `1115ecf02` #53 · `6a7c6b73b` #137 · `d20bbc3bb` #135 · `d00a39eb7` #44-Re-Triage-Journal. #44-Body, #138/#139 + Closes/Label-Fixes auf GitHub. Dieser Journal-Commit lokal (Push nach User-Freigabe).
+
+---
+
 ## 2026-06-09 — #44 Re-Triage (Multi-Agent-Workflow)
 
 **Scorecard:** Vollständiger Re-Triage aller 37 offenen Issues gegen ihre GitHub-Threads (Workflow `w3vud52es`, 37 Read-Agenten auf Sonnet, ~2 min, ~1 Mio Subagent-Tokens; 1 Agent pro Issue → strukturierter Status, kuratorische Synthese + Drift-Abgleich bei mir). **Hauptbefund:** kein *Bewertungs*-Drift (die alten Matrix-Urteile stimmten weiter), sondern ein *Umsetzungs*-Rückstand – fünf seit dem 29.05./01.06. entscheidungsreife Tasks waren nie ausgeführt worden. Ein inkrementelles Delta-Update hätte das verfehlt; der Vollscan war hier den Token-Aufwand wert. **Abgearbeitet (alles ausgeführt):** #30 (TEI-Strukturelemente, 29/29 Stage-2-valid), #34 (Ingest WB/CoReMA, WZB live) und #73 (Lemma-Linking, Wörterbuchnetz-API live, KZW-Daumen-hoch) geschlossen; Follow-ups **#138** (editorische div-Hülle HUG/KLA/PL1-3/MBS, → wachauer; nimmt den `l`-vs-`lb`-Restpunkt der „Phase-4"-Policy auf, deren Render-Teil über #101 bereits erledigt ist) und **#139** (CoReMA-Ingest, nachgereiht) angelegt; veraltete `needs-clarification`-Labels bei #28/#59/#128 entfernt (+ `future plans` bei #59; #128-Blocker durch wachauers ALX.txt am 08.06. aufgelöst). **#91 (Zenodo) als Nicht-Evergreen reklassifiziert** (war fälschlich `evergreen`; Korrektur in CLAUDE.md durch chsteiner, in die Matrix übernommen). **Ergebnis:** 36 offen ohne Evergreen (#44); Buckets 19 claude-ready / 7 depends-on-human / 3 needs-clarification / 7 future. Sechs neue Issues (#132–#137) + das in den alten Tabellen fehlende #53 eingearbeitet. **Verbleibend aus dem Rückstand:** #23 (MUG-Stanza-Lauf, ~5 min) und #59 (Antonomasien-Modul bauen, Linda-Freigabe Option A). **Methodik:** Fan-out für die Datenerhebung, Synthese + outward-facing gh-Aktionen (Closes/Creates/Label-Fixes) bei mir. Matrix-Body verworfen, sobald gepostet (disposable); diese Zeile ist der Archiv-Stand.
