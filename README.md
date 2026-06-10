@@ -2,9 +2,10 @@
 
 [![Code License: MIT](https://img.shields.io/badge/Code-MIT-blue.svg)](LICENSE)
 [![Data License: CC BY-NC-SA 4.0](https://img.shields.io/badge/Data-CC%20BY--NC--SA%204.0-lightgrey.svg)](LICENSE-DATA)
+[![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.20627656-blue.svg)](https://doi.org/10.5281/zenodo.20627656)
 
-<!-- DOI-Badge wird nach Zenodo-Aktivierung (Issue #91) und erstem getaggten
-     Release hier ergänzt: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.<RECORD-ID>.svg)](https://doi.org/10.5281/zenodo.<RECORD-ID>) -->
+<!-- Concept-DOI 10.5281/zenodo.20627656 zeigt immer auf die neueste Version;
+     Versions-DOI v1.0.0: 10.5281/zenodo.20627657 (Issue #91) -->
 
 TEI-codierte Texte mittelhochdeutscher Literatur mit semantischen Annotationen und **zwei Web-Oberflächen** aus der [Mittelhochdeutschen Begriffsdatenbank (MHDBDB)](https://mhdbdb.plus.ac.at), Universität Salzburg.
 

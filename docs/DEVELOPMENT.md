@@ -207,6 +207,19 @@ npm run report        # View HTML report
 
 **Lokal:** `python scripts/audit/check-index-versions.py` — vor jedem Bump-Commit empfohlen.
 
+### CI: Release Version Check (Zenodo)
+
+**Workflow:** `.github/workflows/release-version-check.yml`
+**Triggers:** Push von Tags `v*` + `workflow_dispatch`.
+
+**Hintergrund (#91, 2026-06-10):** Zenodo zieht die Record-Metadaten beim Release aus `.zenodo.json`. Ein dort hartkodiertes, beim Taggen vergessenes `version`-Feld produziert einen Zenodo-Record mit falscher Versionsangabe — ohne Fehler, ohne Warnung. Deshalb zwei Regeln: `.zenodo.json` hat **kein** `version`-Feld (Zenodo nimmt dann automatisch den Tag-Namen; der Git-Tag ist Single Source of Truth), und `CITATION.cff → version` muss dem Tag entsprechen (speist GitHubs „Cite this repository"-Widget).
+
+**Timing:** Der Check läuft beim Tag-Push, der Zenodo-Webhook feuert erst beim Publizieren des GitHub-Releases. Scheitert der Check, einfach Tag löschen, `CITATION.cff` fixen, neu taggen — Zenodo hat dann noch nichts gesehen.
+
+**Release-Ablauf:** (1) `CITATION.cff`: `version` + `date-released` bumpen (ggf. `.zenodo.json`-Contributors nachziehen), (2) `git tag vX.Y.Z && git push origin vX.Y.Z`, (3) GitHub-Release erstellen (`gh release create vX.Y.Z`) → Zenodo archiviert automatisch eine neue Version unter dem Concept-DOI `10.5281/zenodo.20627656`.
+
+**Lokal:** `python scripts/audit/check-release-version.py v1.1.0`
+
 ### Audit Scripts Reference
 
 Diagnose- und Validierungs-Skripte in `scripts/audit/`:
@@ -215,6 +228,7 @@ Diagnose- und Validierungs-Skripte in `scripts/audit/`:
 |--------|-------|
 | `validate-corpus.py` | Two-stage RelaxNG-Validierung aller 667 Korpus- + 8 Authority-Files (gerufen von schema-validation.yml) |
 | `check-index-versions.py` | Versions-Konsistenz Build-Skripte ↔ Loader (siehe oben) |
+| `check-release-version.py` | Release-Tag ↔ `CITATION.cff`-Version; verbietet `version`-Feld in `.zenodo.json` (siehe oben) |
 | `audit-authority-files.py` | Struktur, Querverweise und Datenqualität **innerhalb** der 8 Authority-Files (authority→authority; ID-Muster, verwaiste Referenzen, strukturelle Konsistenz) |
 | `check-authority-cross-refs.py` | **Korpus→Authority** Cross-Ref-Integrität: dangling `@lemmaRef`/`@ana`/`@corresp`/`@ref`/`@target`. `--check` = CI-Gate in `schema-validation.yml` (scheitert bei unresolved refs außerhalb `lexicon.xml`). Einziger Detektor der Derived-File-Drift (#44/#115) |
 | `audit-tei-corpus.py` | Korpus-weite Stichproben (z.B. fehlende `<l>`/`<lg>`, ungewöhnliche xml:id-Pattern, Encoding-Anomalien) |
