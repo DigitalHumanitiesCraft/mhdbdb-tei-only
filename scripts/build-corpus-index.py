@@ -22,7 +22,7 @@ Index structure (v4.1.3 - DOCUMENT-LEVEL + LINE BOUNDARIES):
       "workRef": "#work_89",
       "genre": "genre_x",
       "wordCount": 1500,
-      "words": ["lemma_879", "lemma_123", "lemma_879", ...],  # ALL words in <body>
+      "words": ["lemma_879", "lemma_123", "lemma_879", ...],  # all lemmatized <w> in <body> (only @lemmaRef-bearing)
       "lemmata": {
         "lemma_879": [0, 2, 15],  # Word positions
         "lemma_123": [1]
