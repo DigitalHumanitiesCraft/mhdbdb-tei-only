@@ -169,6 +169,7 @@ Aktuelle Index-Versionen siehe [TEI-MODEL.md §11](TEI-MODEL.md#11-versionierung
 - **Playground:** https://dhcraft.org/mhdbdb-tei-only/playground/
 - **GitHub Repository:** https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only
 - **Issue Tracker:** https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues
+- **Zenodo (DOI):** https://doi.org/10.5281/zenodo.20627656 (Concept-DOI, zeigt immer auf die neueste Version; v1.0.0: 10.5281/zenodo.20627657)
 
 ### Data Sources
 - **MHDBDB Salzburg:** https://www.mhdbdb.sbg.ac.at
