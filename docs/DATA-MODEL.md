@@ -308,7 +308,7 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
     authorRef: "person_445",
     workRef: "work_001",
     genre: "Mystik",
-    wordCount: 2955,                 // total tokens (all <w> elements)
+    wordCount: 2955,                 // lemmatized tokens only (<w> with @lemmaRef), NOT all <w>
     words: ["lemma_879", ...],       // lemma IDs in document order; index = position
     lemmata: {                       // reverse map per text: lemma → positions
       "lemma_879": [0, 12, 47],
