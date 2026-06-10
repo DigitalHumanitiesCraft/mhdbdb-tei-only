@@ -1,0 +1,36 @@
+name: Release Version Check
+
+# Verhindert stillen Versions-Drift beim Zenodo-Release (#91):
+#
+#   - CITATION.cff -> version: "X.Y.Z" muss dem gepushten Tag entsprechen
+#     (speist GitHubs "Cite this repository"-Widget)
+#   - .zenodo.json darf KEIN hartkodiertes version-Feld haben -- ohne das
+#     Feld nimmt Zenodo automatisch den Tag-Namen als Version, der Git-Tag
+#     ist damit Single Source of Truth
+#
+# Laeuft beim Tag-Push, also VOR dem GitHub-Release: der Zenodo-Webhook
+# feuert erst beim Publizieren des Releases. Schlaegt der Check fehl,
+# einfach Tag loeschen, CITATION.cff fixen, neu taggen -- Zenodo hat
+# dann noch nichts gesehen.
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+
+      - name: Check release version consistency
+        run: python scripts/audit/check-release-version.py "$GITHUB_REF_NAME"
