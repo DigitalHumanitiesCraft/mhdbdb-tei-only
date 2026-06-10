@@ -1,10 +1,11 @@
 # Citation File Format (https://citation-file-format.github.io/)
 #
-# Hinweis: Dies ist ein konservativer Stub mit den definitiv zuständigen
-# Maintainer-Entitäten. Die finale Autor*innen-Liste für das erste Zenodo-Release
-# wird vor dem Release-Tag abgestimmt (siehe Issue #91).
-# Das vollständige Register aller Mitwirkenden ist unten als identifiers-Eintrag
-# (type: url) verlinkt: authority-files/contributors.xml
+# Autor*innen-Liste gemäß Team-Entscheidung in Issue #91 (2026-06-09):
+# Authors = Katharina Zeppezauer-Wachauer (Koordinatorin) + Klaus M. Schmidt (Urheber).
+# Alle weiteren Mitwirkenden stehen als Contributors (Rolle "Researcher") in
+# .zenodo.json — CFF 1.2.0 kennt kein contributors-Feld; Zenodo liest beim
+# Release bevorzugt .zenodo.json. Quelle: authority-files/contributors.xml
+# (unten zusätzlich als identifiers-Eintrag verlinkt).
 
 cff-version: 1.2.0
 
@@ -15,7 +16,13 @@ type: dataset
 authors:
   - family-names: "Zeppezauer-Wachauer"
     given-names: "Katharina"
+    orcid: "https://orcid.org/0000-0001-9310-9029"
     affiliation: "Universität Salzburg, Fachbereich Germanistik"
+  - family-names: "Schmidt"
+    given-names: "Klaus M."
+
+version: "1.0.0"
+date-released: "2026-06-10"
 
 license:
   - MIT
