@@ -4,6 +4,40 @@ Chronological log of development decisions, dead ends, and savepoints. Not a cha
 
 ---
 
+## 2026-06-10 15:09 – handoff
+
+**Summary:** Drei Blöcke: (1) Delta-Issue-Audit nach KZW-Aktivität vom 09.06. (#140/#141/#142 neu, #91 entsperrt) mit #44-Update; dabei #28 als versehentlichen Close identifiziert (09.06. 08:31, im gh-Fenster der Re-Triage-Session) und reopened. (2) #142 Code4Lib-Draft komplett: 1.887 Wörter (`From Six Billion RDF Triples to TEI-Only`), iterativ über /check-md, /anti-slop, Ton-Rebalancing (Client-only-Rettung als Durchbruch statt Defizit-Liste) und §4-Umbau (Agentic-Coding-Frame voran, nur echte Limitations); lebt jetzt im Google Doc (nicht committet), Issue geschlossen, Team-Steps dort bis 19.06. (3) #91 Zenodo end-to-end: DOI ist live — Concept `10.5281/zenodo.20627656`, v1.0.0 `10.5281/zenodo.20627657`, Release https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/releases/tag/v1.0.0; Metadaten per Zenodo-API verifiziert (Creators KZW+Schmidt, 49 Contributors als Researcher, cc-by-nc-sa-4.0). Nebenher den falschen `wordCount`-Kommentar gefixt (DATA-MODEL.md + Build-Skript-Docstring: zählt nur `@lemmaRef`-tragende `<w>`, 7,53 Mio., nicht alle 9,43 Mio.).
+
+**Decisions:**
+- **Contributors via `.zenodo.json`, nicht CFF:** CFF 1.2.0 hat kein `contributors`-Feld; „Researcher" ist exakt ein Zenodo-Contributor-Typ und Zenodo liest `.zenodo.json` bevorzugt. KZW+Schmidt dort nicht als Contributors dupliziert (sind Creators). `license` als Einzelwert `cc-by-nc-sa-4.0` (Zenodo kann keine Liste), MIT-Code in der Description erklärt.
+- **Concept-DOI in Badge + INDEX.md** (zeigt immer auf die neueste Version), Versions-DOI nur als Annotation.
+- **DOI-Badge via shields.io statt zenodo.org** (`56062190a`): Zenodo drosselt GitHubs Camo-Proxy-IPs — Badge-Abrufe schlugen auch nach Camo-PURGE in 2/3 Fällen mit 502 fehl. Stilgleich mit den Lizenz-Badges, Link unverändert.
+- **Git-Tag = Single Source of Truth für die Release-Version** (`41a71188a`): `version`-Feld aus `.zenodo.json` entfernt (Zenodo fällt dann auf den Tag-Namen zurück → dieser Drift-Kanal ist konstruktiv eliminiert); CI-Guard `release-version-check.yml` + `scripts/audit/check-release-version.py` prüft bei Tag-Push CFF-Version == Tag und verbietet Re-Einführung des Felds. Timing-Kniff: Check läuft beim Tag, Webhook feuert erst beim Release-Publish — rote CI heißt Tag löschen/fixen/neu, Zenodo sieht nichts.
+- **Kein Index-Rebuild trotz Julias WZB-Push** (`047745fff`, +35 Z. `tei/WZB.tei.xml`): Julia arbeitet heute Nachmittag aktiv weiter; einmal am Ende bauen statt nach jedem Zwischenstand (User-Entscheid).
+
+**Dead ends:**
+- **Zenodo-GitHub-Sync:** Org-Repo fehlte in der Zenodo-Liste trotz Admin-Rechten und OAuth-Grant; „Sync now" warf 400. Fix war Disconnect/Reconnect der GitHub-Verknüpfung in Zenodo (erzwingt Neuaufbau der Repo-Liste) — Sync-Button und Grant allein reichten nicht.
+- **zenodo.org-Badge:** Zweischichtig kaputt — erst Camo-404-Cache (Badge committet Sekunden vor DOI-Minting; PURGE per `-CustomMethod PURGE` half), darunter aber persistentes Rate-Limiting der Camo-IPs durch Zenodo. zenodo.org-Badge aufgegeben.
+
+**Phase:** Implementation (aktiver Betrieb). Stable-Docs aktuell; DEVELOPMENT.md um „CI: Release Version Check (Zenodo)" + Release-Ablauf erweitert, INDEX.md um den DOI. #44 auf Tagesstand (35 offen ohne Evergreen, 17 claude-ready).
+
+**Open issues:**
+- **#91 noch offen:** Restpunkte sind Community-Annahme durch KZW (Antrag an zenodo.org/communities/mhdbdb läuft automatisch, @-Ping im Issue) und DOI ins ZfdG-Exposé. User hat über Schließen noch nicht entschieden („mach zu" genügt).
+- **Indexe stale gegenüber Korpus:** Julias `047745fff` (WZB) ist nicht im Corpus-Index; bewusst zurückgestellt, bis ihre heutige Arbeitswelle durch ist. Dann Rebuild (je nach Inhalt + `variants.xml`/Authority).
+- **CITATION.cff `date-released`** ist der einzige verbleibende händische Versions-Touchpoint pro Release (Version wird per CI erzwungen, Datum nicht — bewusst, da Tag-Datum ≠ Commit-Datum sein kann).
+- Aus Vorsessions unverändert: #23 (MUG, ~5 min), #59 (Antonomasien, freigegeben), Doku-Strategie-Gespräch (#132/#133/#140) ausstehend; `build-pages.py --check` nicht in CI.
+
+**Next steps:**
+1. Nach Julias WZB-Welle: Corpus-Index-Rebuild (+ ggf. `variants.xml`/Authority-Index), dabei Index-Version bumpen falls Inhalt sich ändert.
+2. #23 MUG durchschicken + schließen (~5 min).
+3. #59 Antonomasien-Modul (~1 Tag, Linda-Freigabe liegt vor).
+4. *(optional)* #141 Aufgabe 0: `borte.md`-Metadaten-Template für Alan.
+5. #91 schließen, sobald User es freigibt (oder nach KZWs Community-Annahme).
+
+**Savepoints (alle auf `origin/main`):** `254b3b395` wordCount-Kommentar · `9438244f7` CITATION.cff+.zenodo.json · `5d0c9b56b` DOI-Badge+INDEX · `56062190a` shields.io-Badge · `41a71188a` Drift-Guard · Tag `v1.0.0` + GitHub-Release. #142 closed, #28 reopened, #44-Body 3× aktualisiert (GitHub). Dieser Journal-Commit lokal (Push nach User-Freigabe).
+
+---
+
 ## 2026-06-09 11:33 – handoff
 
 **Summary:** Nach der #44-Re-Triage (eigener Eintrag unten) drei claude-ready-Issues implementiert, verifiziert, geschlossen und auf `origin/main` gepusht: #53 (Korpus-Terminologie-Regression), #137 (Lemmata-Explorer-Sortierung), #135 (Autor*innen-Explorer-Links + Reader-Routing-Erweiterung). Abschließend die #44-Matrix auf den Tagesstand nachgezogen (33 offen ohne Evergreen).
