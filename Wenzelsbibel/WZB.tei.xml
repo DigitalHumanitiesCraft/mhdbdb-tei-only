@@ -46,31 +46,14 @@
                 <monogr>
                   <title level="m" type="main-de">Die Wenzelsbibel – Digitale Edition und Analyse</title>
                   <title level="m" type="main-en">The Wenceslas Bible – Digital Edition and Analysis</title>
-                  <editor>
-                    <forename>Linda</forename>
-                    <surname>Beutel-Thurow</surname>
-                  </editor>
-                  <editor>
-                    <forename>Julia</forename>
-                    <surname>Hintersteiner</surname>
-                  </editor>
-                  <editor>
-                    <forename>Viktoria</forename>
-                    <surname>Spadinger</surname>
-                  </editor>
-                  <edition>Version 7.0.0</edition>
                   <imprint>
-                    <publisher>Fachbereich Germanistik, Paris Lodron Universität Salzburg</publisher>
-                    <publisher>Österreichische Nationalbibliothek</publisher>
+                    <publisher>Oesterreichische Nationalbibliothek (OeNB)</publisher>
                     <pubPlace>Wien</pubPlace>
-                    <date when="2025-09-19">2025</date>
                   </imprint>
                 </monogr>
-                <note>Projektleitung: Manfred Kern</note>
-                <note>Technische Umsetzung: Martina Bürgermeister, Christoph Steindl</note>
                 <note type="license">CC BY 4.0 — https://creativecommons.org/licenses/by/4.0/</note>
-                <note type="url">https://edition.onb.ac.at/wenzelsbibel</note>
-                <note>Quelledition für die MHDBDB-Transformation. Verwendete Bücher: Prologus-Genesis, Exodus, Levitikus, Numeri, Deuteronomium (Wien, ÖNB, Cod. 2759–2764).</note>
+                <note type="url">https://www.onb.ac.at</note>
+                <note>Quelledition fuer die MHDBDB-Transformation. Verwendete Buecher: Prologus-Genesis (o:wen.book1), Exodus (o:wen.book2), Leviticus (o:wen.book3), Numeri (o:wen.book4), Deuteronomium (o:wen.book5).</note>
               </biblStruct>
             </listBibl>
           </additional>
@@ -105,7 +88,6 @@
     </profileDesc>
     <revisionDesc>
       <change when="2026-02-02" who="#llm_transformer" n="1.0">Initiale Transformation aus WB-DEA Edition (Phase 1, ohne POS)</change>
-      <change when="2026-06-10" who="contributors.xml#contrib_006">sourceDesc ergänzt: WB-DEA-Quelledition (Version 7.0.0, 2025-09-19) mit vollständiger Herausgeber-Attribution (Beutel-Thurow, Hintersteiner, Spadinger als Herausgabe; Kern als Projektleitung; Bürgermeister, Steindl als Technische Umsetzung) und korrekter URL kodiert</change>
     </revisionDesc>
   </teiHeader>
   <text>
