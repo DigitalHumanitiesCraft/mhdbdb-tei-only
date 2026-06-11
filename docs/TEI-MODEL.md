@@ -832,7 +832,7 @@ Validierungsscript: `scripts/audit/validate-corpus.py` — zweistufige RelaxNG-V
 | `<p>` an unerwarteter Position | LZT | 1 |
 | `<head>` fehlend/unerwartet | TKR, VOR | 2 |
 
-Diese 30 Dateien sind **keine Bugs**, sondern dokumentierte Bestandsabweichungen. Das MHDBDB-Modell ist in diesen Punkten absichtlich permissiver als strict-tei_all — die GAP-Kommentare im Schema begruenden jede Abweichung. Siehe auch das entsprechende Follow-up-Item in `docs/features/032-schema-followup.md`.
+Diese 30 Dateien sind **keine Bugs**, sondern dokumentierte Bestandsabweichungen. Das MHDBDB-Modell ist in diesen Punkten absichtlich permissiver als strict-tei_all — die GAP-Kommentare im Schema begruenden jede Abweichung. (Das frühere Feature-Doc `032-schema-followup.md` ist nach Issue-Abschluss gelöscht; Details in der Git-Historie.)
 
 **Hinweis WZB (Aufnahme 2026-05-08):** Die mit der Wenzelsbibel hinzugefügte 667. Datei ist sowohl stage-1- (tei_all) als auch stage-2-konform (mhdbdb) und faellt damit nicht unter die 30er-Baseline. WZB benutzt keine der GAP-Patterns aus der Tabelle oben.
 
@@ -886,6 +886,20 @@ Durchgeführte Bereinigungen:
 - 4 UUID-Personen-IDs → numerisch, 1 Person neu angelegt (Schweizer Anonymus)
 - 225 verwaiste Referenzen entfernt (154 variants, 61+10 lexicon)
 - Frauendienst/Frauenbuch Split (work_6/work_7)
+
+### Bekannte Encoding-Ausnahmen und offene Daten-Lücken (#133)
+
+Konsolidierte Liste aller bewusst nicht-normalisierten Daten-Inseln und bekannten Lücken. **Pflegeregel:** Jeder neue Ingest und jede neue bewusste Ausnahme bekommt hier einen Eintrag mit Grund und Tracking-Issue — sonst wächst Schatten-Heterogenität unsichtbar (Befund des Doku-Health-Checks 2026-06-05).
+
+| Ausnahme / Lücke | Betroffen | Grund | Status / Tracking |
+|------------------|-----------|-------|-------------------|
+| Schema-GAPs 1–11 (`schema/mhdbdb.rnc`) | 30 Korpus-Dateien (Kategorien-Tabelle oben) | Bestandsdaten; Migration unverhältnismäßig teuer oder semantisch riskant — dokumentierte Ausnahmen der Daten-vor-Schema-Regel | dauerhaft; jede GAP im Schema kommentiert |
+| ARI/PD-001 Domain-Elemente | 6 ARITHMETIC-Handschriften (noch nicht im Korpus) | 12 Nicht-Schema-Element-Klassen + 24 `div/@type`- + 7 `hi/@rend`-Werte aus Carinas Rechenbüchern; blockieren Stage-2-Validierung | entschieden 2026-05-08: Domain-Tags ins Schema (DECISIONS.md § PD-001); Schema-Erweiterung + Ingest ausstehend → #92 |
+| lexicon.xml-Backfill | 977 dangling `@lemmaRef`-Refs / 349 Lemma-IDs ≥78000 | WZB-Forward-Ingest prägte Lemma-IDs nur ins Korpus, nicht in lexicon.xml | offen → #115 (Lemma-Stub automatisierbar, Sense-Zuordnung kuratorisch) |
+| WVV Stanza-Anchors | WVV, 23 Stanzen | ungewöhnliches Linecode-Template, Anchors fehlen (#23-Followup) | offen → #110 (depends-on-human) |
+| Editorische `<div>`-Hülle | HUG, KLA, PL1–PL3, MBS-Serie | Follow-up aus dem manuellen TEI-Review (#30) | offen → #138 (needs-clarification) |
+| Prosa-Policy `<l>` vs. `<lb/>` | 17 l-kodierte Prosatexte | Phase C2 wandelte 18 Texte; Policy für die verbleibenden ungeklärt | offen → #143 (depends-on-human) |
+| WZB `@meaningRef` (historisch) | WZB | Alt-Annotation der Erstlieferung | **gelöst** — zu `@ana` migriert; es verbleibt nur ein `revisionDesc`-Logeintrag |
 
 ---
 
