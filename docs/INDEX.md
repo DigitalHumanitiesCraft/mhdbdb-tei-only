@@ -75,7 +75,7 @@ This knowledge base follows a hub-and-spoke architecture with INDEX.md as the ce
 | Document | Content | Target Reader |
 |----------|---------|---------------|
 | **[INDEX.md](INDEX.md)** | Project overview, navigation hub | Anyone |
-| **[DATA-MODEL.md](DATA-MODEL.md)** | Data sources, schemas, transformation pipeline | Data engineers |
+| **[DATA-MODEL.md](DATA-MODEL.md)** | Data sources, schemas, transformation pipeline, Ingest-Verfahren (normatives Phasenmuster), Data-Change-Lifecycle | Data engineers |
 | **[ARCHITECTURE.md](ARCHITECTURE.md)** | Technical components, data flow, storage patterns | Developers |
 | **[DESIGN.md](DESIGN.md)** | Visual patterns, color system, components, CSS architecture | Developers/Designers |
 | **[FEATURES.md](FEATURES.md)** | User-facing functionality descriptions | Users/Stakeholders |

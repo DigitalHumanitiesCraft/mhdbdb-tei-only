@@ -27,7 +27,8 @@ WZB encoding cleanup — four targeted fixes:
    <div type="prologus" xml:id="Prologus"> with type="" and xml:id="".
    Fix: type="section", xml:id="Prologus.1".
 
-Decision record: docs/features/034-wenzelsbibel-annotation.md §Encoding Cleanup
+Decision record: git history of docs/features/034-wenzelsbibel-annotation.md
+§Encoding Cleanup (doc deleted after #34)
 """
 
 import sys

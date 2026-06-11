@@ -567,6 +567,151 @@ python scripts/validate-indices.py
 
 ---
 
+## Ingest-Verfahren (Neuaufnahme von Texten)
+
+> Normative, interne Verfahrensdoku (#132). Beschreibt das beim Wenzelsbibel-Ingest (#34, 2026-04) entwickelte und für ARITHMETIC (#92) wiederverwendete Phasenmuster so, dass es **ohne die Skripte rekonstruierbar** ist (Rebuild-Test, CLAUDE.md). Abgrenzung: `hilfe-daten-beitragen.html` ist die user-facing Anleitung für externe Beitragende (#68); `scripts/ingest/<sigle>/README.md` dokumentiert die text-spezifische Instanziierung samt Endzustand; dieser Abschnitt ist das Muster selbst.
+
+**Skripte sind nicht plug-and-play.** Pro Neuaufnahme werden die drei kanonischen Skripte (`wzb-auto-match.py`, `wzb-pos-assign.py`, `wzb-sense-assign.py`) als Vorlage nach `scripts/ingest/<sigle>/` kopiert; Sigle-Konstanten, Pfade und text-spezifische Heuristiken (Schreibkonventionen, Sprachstufe) werden adaptiert. Siehe [`scripts/ingest/wzb/README.md`](../scripts/ingest/wzb/README.md).
+
+### Zielzustand
+
+Jedes lexikalische `<w>` trägt am Ende vier Attribute:
+
+```xml
+<w xml:id="ALL_20100010_1"
+   lemmaRef="lexicon.xml#lemma_722"
+   ana="lexicon.xml#lemma_722_sense_1177"
+   pos="VRB"
+   corresp="variants.xml#type_2239">bitte</w>
+```
+
+| Attribut | Format | Phase | Bedeutung |
+|---|---|---|---|
+| `@lemmaRef` | `lexicon.xml#lemma_{N}` | 1 | Lemma-Zuordnung |
+| `@pos` | Tag aus dem 19-Tag-MHDBDB-Set (`NOM NAM ADJ ADV DET POS PRO PRP NEG NUM CNJ SCNJ CCNJ IPA VRB VEX VEM INJ DIG`) | 2 | Wortart (kontextabhängig bei Multi-POS-Lemmata) |
+| `@ana` | `lexicon.xml#lemma_{N}_sense_{M}` | 3 | Bedeutung (Sense) |
+| `@corresp` | `variants.xml#type_{K}` | 3 | Orthographische Variantenform |
+
+*Historische Notiz:* Während des WZB-Ingests waren zeitweise die Extension-Attribute `@meaningRef`/`@wordRef` geplant (so noch im Feature-Doc zu #34, Git-History). Final gilt TEI-konform `@ana`/`@corresp`; die Skripte und `tei/WZB.tei.xml` verwenden ausschließlich diese.
+
+### Phasenübersicht
+
+```
+[Quell-TEI / Fremdformat]
+   ↓ Stage 0: Schema-Konversion (mechanisch)
+[MHDBDB-konformes TEI, unannotiert]
+   ↓ Strukturbereinigung + Paratext-Policy (#66)
+[nur lexikalische <w> in der Pipeline]
+   ↓ Phase 1: Lemmatisierung   (1a Auto-Match → 1b LLM/Mensch-Disambiguierung)
+   ↓ Phase 2: POS-Tagging      (Auto-Inherit → LLM/Mensch-Disambiguierung)
+   ↓ Phase 3: Sense-Auflösung  (Auto-Assign → LLM/Mensch-Disambiguierung)
+[voll annotiertes TEI]
+   ↓ Rückwärts-Sync (lexicon.xml-Backfill, PFLICHT — CONTRACTS F.3)
+   ↓ Registrierung (works.xml, tei/) + Data-Change-Lifecycle (Indexe, unten)
+[live in Suche und Playground]
+```
+
+Jede Annotationsphase folgt demselben Dreischritt (**Assign → Resolve → Apply**):
+
+1. **Assign:** Skript schreibt alle eindeutig entscheidbaren Fälle direkt ins TEI und emittiert die mehrdeutigen Fälle als Pending-TSV.
+2. **Resolve:** LLM und/oder Mensch füllen im TSV die Auflösungs-Spalten (`resolved_*`, `confidence`, `reviewer`). Zwei Granularitäten: **bulk** (eine Entscheidung pro Form/Lemma, gilt für alle Token) und **patch/instance** (Entscheidung pro `xml_id`, für Minderheits-Ausnahmen und kontextabhängige Fälle).
+3. **Apply:** Skript schreibt die aufgelösten TSV-Zeilen zurück ins TEI. Apply ist **additiv** — es überschreibt nie Auto-Assign-Ergebnisse.
+
+TSVs werden mitversioniert (Audit-Trail) und für LLM-Batches in ~50-Zeilen-Chunks gesplittet (`wzb-split-tsv.py`). LLM-Entscheidungen tragen eine `decision_type`-Taxonomie (`auto-single` / `bulk-llm` / `bulk-human` / `instance-llm` / `instance-human` / `abstain`); `abstain` wird nicht ins TEI geschrieben. Mensch reviewt alle `confidence=low`-Zeilen plus eine ~20%-Stichprobe von `medium`.
+
+### Stage 0 — Schema-Konversion (mechanisch)
+
+Fremdformat → MHDBDB-Schema, vollständig skriptbar (Referenz: `scripts/ingest/ari/01-convert-original-to-mhdbdb.py`):
+
+- `tei:`-Präfix entfernen, Elemente in den Default-Namespace `http://www.tei-c.org/ns/1.0` umsetzen
+- Tokenisierung normalisieren: `<seg type="token">` → `<w>` (xml:id übernehmen); `<seg type="pc">` → `<pc join="left|right">` per Vorgänger-Heuristik (Satzzeichen hängt an das vorangehende Wort, öffnende Zeichen an das folgende)
+- Voll-Header aus Template (Lizenz, Autor, Genre, particDesc; fehlende Felder als TBD-Platzhalter), `<TEI xml:id="{SIGLE}">`, xml-model-PIs auf `mhdbdb.rng` + `tei_all.rng`
+- **Schema-fremde Elemente nicht stillschweigend wegtransformieren**, sondern stehenlassen und als Pending Decision eskalieren (PD-001-Muster, ADR-013 „Daten vor Schema"). Beim ARI-Ingest führte das zur Schema-Aufnahme aller 12 TEI-P5-Standard-Elementklassen als optionale Elemente.
+
+Pro Quelle vorab zu klären (Beispiel-Antworten für ARI in `scripts/ingest/ari/README.md`): Sigle (`{PROJEKT}_{KÜRZEL}`), **Lizenzkompatibilität** (ARI: Quell-BY-SA ist inkompatibel mit BY-NC-SA → BY-SA für Daten und Annotationen übernommen), Autor-Zuschreibung (sonst `person_anonym`), Genre aus `genres.xml`, Editions-Nachweis als `<biblStruct>`.
+
+### Strukturbereinigung + Paratext-Policy (#66)
+
+> **Prinzip:** Strukturelemente werden in TEI kodiert, aber von der lexikalischen Annotation ausgeschlossen. Nur linguistisch relevante Token gehen in die Lemmatisierung. Wo nötig, werden neue Lemmata angelegt statt eines generischen Fallbacks.
+
+| Kategorie | Behandlung |
+|---|---|
+| Kolumnentitel/Running Headers (`<fw>`), `<surplus>` | Annotation strippen — nicht lexikalisch |
+| Kapitel-Apparat (z.B. CAPITULUM + Zahl) | `<head type="chapter" n="{arabisch}">` als erstes Kind des `<div type="chapter">`; `<milestone unit="chapter" n="N"/>` an der originalen Textfluss-Position (TEI P5 erlaubt kein `<head>` in `<l>`) |
+| Schreiberzeichen, Sektions-Initialen | `<w>` → `<pc join="left">` |
+| Römische Zahlen im Text | `<w>` behalten, `lemma_13826` (DIG) |
+| Fremdsprachige Einsprengsel (Latein, Alttschechisch …) | `<w>` behalten; existierendes Lemma zuordnen oder neues sprach-spezifisches Lemma anlegen (z.B. `lemma_78628` für alttschechische Glossen) |
+| `<div>`-Hygiene | jedes `<div>` mit `@type` aus dem Schema-Enum (`book`, `chapter`, `paratext`, `prologus`, `section`, …) |
+
+### Phase 1 — Lemmatisierung
+
+**1a Auto-Match** (kanonisch: `wzb-auto-match.py`), Algorithmus:
+
+```
+lookup = {}                                  # normalisierte Form → set(lemma_id)
+für jeden <entry corresp="lexicon.xml#lemma_N"> in variants.xml:
+    für jede <form>: lookup[normalize_mhg(form)].add(lemma_N)
+
+für jedes <w> im Text (Textinhalt = Matching-Form):
+    norm = normalize_mhg(form)
+    kandidaten = lookup.get(norm)
+    |kandidaten| == 1 → @lemmaRef schreiben (matched)
+    |kandidaten| == 0 → unmatched  → Report
+    |kandidaten| >  1 → ambiguous  → Report
+```
+
+**Kritisch:** Die MHG-Normalisierung (`â→a, ê→e, î→i, ô→o, û→u, ä→ae, ö→oe, ü→ue`) muss auf **beide Seiten** angewendet werden — `variants.xml` ist nicht pre-normalisiert. Python-Seite: `scripts/mhg_normalizer.py`, paritätsgetestet gegen `assets/js/lib/text-normalizer.js` (`testing/tests/normalization-parity.spec.js`).
+
+**1b Disambiguierung:** Pending-TSV (`xml_id`, `form`, `context` ±5 Wörter, `match_type`, `candidate_lemmas`, `count`, `resolved_lemma`, `confidence`, `reviewer`), frequenzgestaffelte Tiers: hochfrequente ambige Formen bulk auflösen (+ Patch-Datei für Minderheits-Lesarten), mittelfrequente instanzweise mit Mensch-Stichprobe, Hapaxe und Long-Tail-Unmatched bewusst deferren (akzeptierte Coverage-Lücke). Unmatchte echte Wörter gegen BMZ/Lexer prüfen ([Wörterbuchnetz-API](https://api.woerterbuchnetz.de)); nicht Auflösbares als frequenzsortierte Editorial-Liste (`wzb-extract-unmatched.py`) an das Lexikon-Team — **neue Lemmata entstehen nur durch Editorial-Entscheidung**, dann Re-Run (closed loop).
+
+### Phase 2 — POS-Tagging
+
+(kanonisch: `wzb-pos-assign.py`)
+
+```
+für jedes <w> mit @lemmaRef:
+    pos_liste = lexicon.xml-Eintrag → gramGrp/pos
+    |pos_liste| == 1 → @pos schreiben (Auto-Inherit)
+    |pos_liste| >  1 → Pending-TSV (Kontext entscheidet, z.B. NOM vs. VRB)
+```
+
+Auflösung wie 1b (bulk nach Lemma/Form, instance nach `xml_id`). QA: jedes `@pos` muss im 19-Tag-Set liegen; Mensch-Stichprobe ~5% pro Abschnitt.
+
+### Phase 3 — Sense-Auflösung (`@ana`, `@corresp`)
+
+(kanonisch: `wzb-sense-assign.py`) Vorbedingung: `@lemmaRef` gesetzt — nie `@ana` ohne `@lemmaRef`.
+
+```
+für jedes <w> mit @lemmaRef auf Lemma L:
+    |senses(L)| == 1 → @ana = lexicon.xml#lemma_N_sense_M (Auto-Assign)
+    |senses(L)| >  1 → Pending-TSV mit Kandidaten-Senses
+    |senses(L)| == 0 → skip + Editorial-Flag (sense-loses Lemma, meist Backfill-Stub)
+
+@corresp-Auflösung (nach gesetztem @ana):
+    typen = variants.xml-Lookup der Wortform  ∩  Type-Liste im @ana der Sense
+    genau 1 Treffer → @corresp = variants.xml#type_K
+    0 Treffer → Form fehlt in variants.xml → Editorial-Liste; >1 → manuelle Review
+```
+
+Kandidaten-Senses werden dem LLM als `sense_id :: Begriffs-Label DE (EN)` präsentiert (Labels via `<sense>` → `<ptr target="concepts.xml#…">` → `catDesc/term`). Auflösung bulk (eine Sense pro Lemma, wenn der Werk-Kontext sie erzwingt — z.B. „bruoder" im AT immer Blutsverwandter) oder instanzweise; `abstain` ist eine legitime Entscheidung und bleibt unannotiert. **Referenzwert:** Majority-Sense-Baseline über das annotierte Korpus = 66,7% (gewichtete Accuracy, `wzb-sense-baseline.py`); ein vollständiges pre-registriertes Evaluationsprotokoll (Stratifizierung, Metriken, Blind-Review) steht in der Git-History des Feature-Docs zu #34 und in `publications/BLOG-POST-WZB-PIPELINE.md`.
+
+### Rückwärts-Sync + Registrierung (Pflichtabschluss)
+
+1. **`lexicon.xml`-Backfill (PFLICHT, [CONTRACTS F.3](CONTRACTS.md#f-authority-source-rules)):** Jede Pipeline, die neue Lemma-/Sense-IDs prägt, muss sie atomisch in `lexicon.xml` nachtragen (`*-backfill-lexicon.py`-Schritt). Lemma-Stubs (Form + POS) sind aus dem Korpus generierbar; die Sense→Begriff-Zuordnung ist kuratorisch (F.2, Team). Die WZB-Pipeline war forward-only — Ergebnis: 977 dangling Refs (#115, [ADR-015](DECISIONS.md#adr-015-authority-source-modell-korpus-führt-ingest-braucht-rückwärts-sync)). Nicht wiederholen.
+2. **Registrierung:** `works.xml`-Eintrag (`work_{SIGLE}`, Titel, Genre-`<ptr>`, Autor-`@ref`, Normdaten), TEI-File nach `tei/<SIGLE>.tei.xml`, Header-Sync.
+3. **Abgeleitete Schicht:** `extract-variants.py --apply` → Index-Rebuilds → Versions-Bump → Tests — verbindliche Schrittfolge im [Data-Change-Lifecycle](#data-change-lifecycle) direkt unterhalb.
+
+### Coverage-Referenzwerte und QA
+
+| Korpus | Sprachstufe | `@lemmaRef` | `@pos` | `@ana` |
+|---|---|---|---|---|
+| WZB (149.148 Token, Ist 2026-04-15) | mhd. | 95,3% | 95,3% | 95,2% |
+| ARI (Erwartung) | fnhd. | ≥85% | ≥90% | — |
+
+100% sind nicht das Ziel — der deferred Long Tail (Hapaxe, seltene Eigennamen, Latein-Flexionen) ist eine akzeptierte, dokumentierte Lücke. Automatische Checks nach jeder Phase: jede `@lemmaRef`-Ziel-ID existiert (nach Backfill; Detektor `check-authority-cross-refs.py`), `@pos` im Tagset, kein `@ana` ohne `@lemmaRef`, `build-corpus-index.py` läuft als Smoke-Test über den neuen Text.
+
+---
+
 ## Data-Change-Lifecycle
 
 > Das Projekt ist ein **aktives Projekt mit laufendem Ingest** (siehe [INDEX.md → Current Phase](INDEX.md#current-phase)). Der Reader liest TEI live (`tei/<SIG>.tei.xml`) und zeigt Edits sofort, ABER Suche, Lemma-Zähler und alle Index-Features werden aus den vor-gebauten `data/*.json.gz` bedient. Eine Daten-Änderung ist erst „live", wenn die abgeleitete Schicht neu gebaut, versioniert und committet ist. Diese Checklisten sind die verbindliche Schrittfolge; sie ersetzen die früher über mehrere Docs verstreuten Rebuild-Hinweise.

@@ -4,6 +4,19 @@ Chronological log of development decisions, dead ends, and savepoints. Not a cha
 
 ---
 
+## 2026-06-11 – #132 Ingest-Verfahren in Stable-Docs gehoben
+
+**Summary:** Den „blocking blind spot" aus dem Health-Check 2026-06-05 geschlossen: Das WZB/ARI-Phasenmuster steht jetzt als normativer Abschnitt **„Ingest-Verfahren (Neuaufnahme von Texten)" in DATA-MODEL.md** (vor dem Data-Change-Lifecycle) — Stage-0 Schema-Konversion, Paratext-Policy (#66), Phase 1–3 jeweils mit rekonstruierbarem Algorithmus (Assign → Resolve → Apply als wiederkehrender Dreischritt), Pflicht-Rückwärts-Sync (CONTRACTS F.3/ADR-015) und Coverage-Referenzwerten. Quellen: `scripts/ingest/*/README.md`, Feature-Doc #34, Blog-Post-Draft, ADR-015.
+
+**Decisions:**
+- **Zielort DATA-MODEL.md, nicht CONTRACTS.md:** Das Verfahren ist eine Daten-Transformationspipeline (CONTRACTS behält die F-Regeln und verlinkt auf das Verfahren). Platzierung direkt vor dem Data-Change-Lifecycle, weil der Ingest dort mündet.
+- **`docs/features/034-wenzelsbibel-annotation.md` gelöscht** (Temporal-Artifacts-Konvention, #34 closed seit Mai): durables Wissen extrahiert; das pre-registrierte Phase-3-Evaluationsprotokoll (Julias Dissertationsteil) lebt bewusst nur in Git-History + Blog-Post-Draft weiter — es ist Forschungs-, keine Betriebsdoku. Alle 9 Verweise auf das Doc umgebogen (wzb-README, hilfe-daten-beitragen.html, 5 Skript-Docstrings, Report-String in `wzb-sense-evaluate.py`).
+- **`@meaningRef`/`@wordRef` als historisch markiert:** Das 034-Doc beschrieb die Extension-Attribute als geplant (inkl. „GAP 15", das im Schema nie ankam); Skripte und `tei/WZB.tei.xml` nutzen final `@ana`/`@corresp` — die Stable-Doc stellt das mit historischer Notiz richtig.
+
+**Phase:** Implementation (aktiver Betrieb). Parallel-Session-Hinweis: #59 (Antonomasien) läuft bei Kollegen — diese Session hat `playground/` und `data/` bewusst nicht angefasst.
+
+---
+
 ## 2026-06-10 15:09 – handoff
 
 **Summary:** Drei Blöcke: (1) Delta-Issue-Audit nach KZW-Aktivität vom 09.06. (#140/#141/#142 neu, #91 entsperrt) mit #44-Update; dabei #28 als versehentlichen Close identifiziert (09.06. 08:31, im gh-Fenster der Re-Triage-Session) und reopened. (2) #142 Code4Lib-Draft komplett: 1.887 Wörter (`From Six Billion RDF Triples to TEI-Only`), iterativ über /check-md, /anti-slop, Ton-Rebalancing (Client-only-Rettung als Durchbruch statt Defizit-Liste) und §4-Umbau (Agentic-Coding-Frame voran, nur echte Limitations); lebt jetzt im Google Doc (nicht committet), Issue geschlossen, Team-Steps dort bis 19.06. (3) #91 Zenodo end-to-end: DOI ist live — Concept `10.5281/zenodo.20627656`, v1.0.0 `10.5281/zenodo.20627657`, Release https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/releases/tag/v1.0.0; Metadaten per Zenodo-API verifiziert (Creators KZW+Schmidt, 49 Contributors als Researcher, cc-by-nc-sa-4.0). Nebenher den falschen `wordCount`-Kommentar gefixt (DATA-MODEL.md + Build-Skript-Docstring: zählt nur `@lemmaRef`-tragende `<w>`, 7,53 Mio., nicht alle 9,43 Mio.).

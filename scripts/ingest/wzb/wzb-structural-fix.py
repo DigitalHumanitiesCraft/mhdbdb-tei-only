@@ -22,7 +22,8 @@ WZB structural fix — two operations:
    The arabic chapter number (@n) is recomputed from the head text using a
    space-tolerant roman_to_arabic() that handles "I X" → IX = 9 correctly.
 
-Decision record: docs/features/034-wenzelsbibel-annotation.md §Structural Fix
+Decision record: git history of docs/features/034-wenzelsbibel-annotation.md
+§Structural Fix (doc deleted after #34; pattern now in docs/DATA-MODEL.md → Ingest-Verfahren)
 """
 
 import re

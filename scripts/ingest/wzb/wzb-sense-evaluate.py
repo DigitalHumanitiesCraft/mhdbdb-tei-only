@@ -29,7 +29,8 @@ Usage:
         --json     Wenzelsbibel/phase3/eval/report.json
 
 Pre-registered evaluation protocol:
-    docs/features/034-wenzelsbibel-annotation.md § "Pre-registered evaluation protocol"
+    git history of docs/features/034-wenzelsbibel-annotation.md
+    § "Pre-registered evaluation protocol" (doc deleted after #34)
 """
 
 import csv
@@ -481,7 +482,7 @@ def run_evaluate(args) -> None:
     lines: list[str] = []
     lines.append("=" * 64)
     lines.append("MHDBDB WSD Evaluation Report")
-    lines.append("Pre-registered protocol: 034-wenzelsbibel-annotation.md")
+    lines.append("Pre-registered protocol: git history of 034-wenzelsbibel-annotation.md")
     lines.append("=" * 64)
     lines.append("")
     lines.append(f"Gold tokens:          {n_total}")
