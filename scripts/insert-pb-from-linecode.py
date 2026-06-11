@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Insert <pb/> milestones into 14 TEI files using Julia's Linecode handover.
+"""Insert <pb/> milestones into TEI files using Julia's Linecode handover.
 
-Issue: #26 (Fehlende page/pb-Auszeichnung)
+Issue: #26 (Fehlende page/pb-Auszeichnung, 14 Texte)
+       #128 (ALX nachgetragen; Linecode-Datei + Template via KZW im Issue)
 
 For each text in TEMPLATES: parse the Linecode .txt to find lines where the
 page value (template letters `p` and optionally `v`) changes. Insert a
@@ -43,6 +44,7 @@ XML_ID = f"{{{NS_XML}}}id"
 # DIS (no page positions) and BDK (no Linecode file, plus already has 24 pb)
 # are intentionally excluded.
 TEMPLATES = {
+    "ALX":  "000000000000ppp---h",
     "APO":  "000000000000pppv--h",
     "ARB":  "00000000000000pp--h",
     "ATF":  "0000000000zzpppv--h",
