@@ -31,7 +31,7 @@ The MHDBDB project follows a **client-only architecture** with no backend server
 
 **Purpose:** Public-facing corpus browser for students and general users
 **URL:** https://dhcraft.org/mhdbdb-tei-only/
-**Key Files:** `index.html`, `korpus.html`, `assets/js/app.js`, `assets/js/site-chrome.js` (shared nav/footer behaviour, every page), `assets/js/search/`, `assets/js/rendering/`
+**Key Files:** `index.html`, `korpus.html`, `woerterbuch.html` + `assets/js/woerterbuch.js` (A–Z lemma register, #117), `assets/js/app.js`, `assets/js/site-chrome.js` (shared nav/footer behaviour, every page), `assets/js/search/`, `assets/js/rendering/`
 
 ### Application Structure
 
@@ -362,6 +362,12 @@ resolveConceptLabels(conceptIds):
 - **Occurrence links** → `../korpus.html?textId={id}&lemmaIds={numericId}` (opens reading view with highlighting)
 - **Corpus search link** → `../korpus.html?search={lemma.lemma}` (triggers main site search)
 - **Shared dependencies**: CorpusLoader, Pako, Dexie.js, shared.css, tailwind-output.css (all via `../assets/`)
+
+### Wörterbuch Entry Page (#117)
+
+**Component:** `woerterbuch.html` + `assets/js/woerterbuch.js` (`WoerterbuchPage`)
+
+A–Z-Einstiegsseite zu den Lemma-Seiten. Lädt nur den Authority-Index (via `CorpusLoader('data')`), bucketet die ~43.750 `lemmata`-Einträge client-seitig nach dem Anfangsbuchstaben von `normalized` (NFD-Strip als Fallback für `ë`/`ú`, Ziffern-Lemmata im `#`-Bucket) und rendert pro Buchstabe ein paginiertes Register (200 Einträge/Seite, `Intl.Collator('de')`-Sortierung). URL-State `?buchstabe=&seite=` über `history.replaceState`. Bewusst kein eigenes Build-Artefakt — der vorhandene Index reicht.
 
 ---
 

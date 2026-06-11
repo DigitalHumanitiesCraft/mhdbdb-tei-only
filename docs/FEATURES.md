@@ -81,6 +81,20 @@ Full-text immersive reader with multi-lemma highlighting and rich metadata.
 - Fixed navigation controls (responsive positioning)
 - Distinct visual treatment for verse vs prose (indentation, line breaks)
 
+### Wörterbuch (A–Z-Register) (#117)
+
+Konventionelle Wörterbuch-Einstiegsseite (`woerterbuch.html`) für alle ~43.750 Lemma-Seiten.
+
+**How it works:**
+- Indexleiste A–Z (+ `#` für Ziffern-Lemmata) mit Eintragszahl pro Buchstabe als Tooltip
+- Bucketing über das `normalized`-Feld des Authority-Index (NFD-Fallback für `ë`/`ú`-Anfänge)
+- Pagination à 200 Einträge innerhalb des Buchstabens, alphabetisch sortiert (`Intl.Collator('de')`)
+- Jeder Eintrag (Lemma + POS-Badge) verlinkt auf die persistente Lemma-Seite `lemma/?id=N`
+- Deep-Links über URL-State: `woerterbuch.html?buchstabe=s&seite=3`
+- Erreichbar über den Header-Menüpunkt „Wörterbuch" auf allen Seiten
+
+**Namensentscheidung:** „Wörterbuch" statt „Lemmata" (Playground-Fachbegriff) oder „Wortindex" (Alt-MHDBDB; wird im Untertitel der Seite als Brücke erwähnt) — begründet in Issue #117.
+
 ### TEI File Caching
 
 Cache large TEI files in browser storage for faster subsequent loads.

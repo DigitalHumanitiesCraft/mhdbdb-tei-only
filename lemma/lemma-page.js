@@ -79,7 +79,7 @@ class LemmaPage {
             const numericId = this.parseLemmaId();
 
             if (!numericId) {
-                this.showError('Keine Lemma-ID angegeben. Bitte verwenden Sie eine URL wie /lemma/879');
+                this.showError('Keine Lemma-ID angegeben. Alle Lemmata finden Sie im Wörterbuch.');
                 return;
             }
 

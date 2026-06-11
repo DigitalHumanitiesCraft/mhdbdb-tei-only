@@ -53,6 +53,7 @@ mhdbdb-tei-only/
 ├── schema/                # RELAX NG schemas (mhdbdb.rnc, mhdbdb-authority.rnc, examples)
 ├── index.html             # Landing page
 ├── korpus.html            # Main site search + reading view
+├── woerterbuch.html       # Wörterbuch: A–Z-Register aller Lemmata (#117)
 ├── impressum.html         # Legal notice (#62)
 ├── hilfe.html             # Hilfe-Hub (entry point)
 ├── hilfe-korpussuche.html # Korpus-Suche-Anleitung

@@ -3,6 +3,7 @@ module.exports = {
   content: [
     './index.html',
     './korpus.html',
+    './woerterbuch.html',
     './playground/index.html',
     './lemma/index.html',
     './testing/test.html',

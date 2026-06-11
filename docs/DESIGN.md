@@ -470,6 +470,7 @@ Institutional logos row + divider + copyright/clear-data row. `bg-slate-100 py-8
 | Playground result | Korpus reading view | `window.open('../korpus.html?textId=…&lemmaIds=…')` |
 | Lemma occurrence | Korpus reading view | `<a href="../korpus.html?textId=…&lemmaIds=…">` |
 | Lemma etymology | Other lemma page | `<a href="{numericId}" class="etymology-link">` |
+| Wörterbuch entry | Lemma page | `<a href="lemma/?id={numericId}">` |
 
 ## CSS Architecture
 

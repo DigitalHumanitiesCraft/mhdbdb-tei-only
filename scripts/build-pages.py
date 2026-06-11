@@ -41,6 +41,7 @@ INCLUDES = REPO_ROOT / "includes"
 PAGES = {
     "index.html": ("start", ""),
     "korpus.html": ("korpus", ""),
+    "woerterbuch.html": ("woerterbuch", ""),
     "impressum.html": (None, ""),
     "barrierefreiheit.html": (None, ""),
     "hilfe.html": ("hilfe", ""),
