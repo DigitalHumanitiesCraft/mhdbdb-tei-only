@@ -38,6 +38,11 @@ Verwendung:
 Kein Versions-Kanal in corpus-loader.js: das Modul lädt den Index lazy per
 fetch+pako ohne IndexedDB-Cache (klein genug), daher gibt es hier keinen
 Cache-Invalidierungs-Bump wie bei corpus-/authority-index (#94).
+
+Der Build ist deterministisch (generatedAt = Committer-Datum des Quell-
+Commits, gzip ohne mtime): gleicher Quellstand → byte-identischer Output.
+Darauf baut der wöchentliche Auto-Update-Workflow
+.github/workflows/naming-index-update.yml (rebuild → git diff → PR).
 """
 
 import argparse
@@ -123,15 +128,16 @@ def fetch(path, ref, source_dir):
         return resp.read().decode("utf-8")
 
 
-def resolve_commit_sha(ref):
-    """Provenienz: aufgelöste Commit-SHA des Refs (best effort)."""
+def resolve_commit(ref):
+    """Provenienz: Commit-SHA + Committer-Datum des Refs (best effort)."""
     url = f"https://api.github.com/repos/{REPO}/commits/{ref}"
     try:
-        req = urllib.request.Request(url, headers={"Accept": "application/vnd.github.sha"})
+        req = urllib.request.Request(url, headers={"Accept": "application/vnd.github+json"})
         with urllib.request.urlopen(req, timeout=15) as resp:
-            return resp.read().decode("ascii").strip()
+            data = json.loads(resp.read().decode("utf-8"))
+        return {"sha": data["sha"], "date": data["commit"]["committer"]["date"]}
     except Exception as exc:  # noqa: BLE001 — Provenienz ist optional
-        print(f"   (Commit-SHA nicht auflösbar: {exc})")
+        print(f"   (Commit nicht auflösbar: {exc})")
         return None
 
 
@@ -233,17 +239,25 @@ def main():
 
     commit = None
     if not args.source_dir:
-        commit = resolve_commit_sha(args.ref)
+        commit = resolve_commit(args.ref)
         if commit:
-            print(f"   Commit: {commit}")
+            print(f"   Commit: {commit['sha']} ({commit['date']})")
 
     print("\nBaue Index...")
     works, totals = build_index(args.ref, args.source_dir)
 
+    # generatedAt = Committer-Datum des Quell-Commits, nicht Build-Zeit:
+    # zwei Builds desselben Quellstands sind dadurch byte-identisch (#125-
+    # Prinzip), was den git-diff-Check in naming-index-update.yml trägt.
+    # Fallback Build-Zeit nur offline/--source-dir (dann kein Auto-Diff).
+    generated_at = (commit or {}).get("date") or \
+        datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+
     index = {
         "version": "1.0.0",
-        "generatedAt": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
-        "source": {**SOURCE_META, "ref": args.ref, **({"commit": commit} if commit else {})},
+        "generatedAt": generated_at,
+        "source": {**SOURCE_META, "ref": args.ref,
+                   **({"commit": commit["sha"]} if commit else {})},
         "works": works,
     }
 
@@ -255,8 +269,10 @@ def main():
     json_data = json.dumps(index, ensure_ascii=False, separators=(",", ":"))
     uncompressed = len(json_data.encode("utf-8"))
     OUTPUT_FILE.parent.mkdir(exist_ok=True)
-    with gzip.open(OUTPUT_FILE, "wt", encoding="utf-8") as f:
-        f.write(json_data)
+    # mtime=0: kein Zeitstempel im gzip-Header, sonst wäre jeder Build
+    # byte-verschieden und der Workflow-Diff immer dirty.
+    with gzip.GzipFile(OUTPUT_FILE, mode="wb", mtime=0) as f:
+        f.write(json_data.encode("utf-8"))
     compressed = OUTPUT_FILE.stat().st_size
 
     print(f"\nGespeichert: {OUTPUT_FILE}")

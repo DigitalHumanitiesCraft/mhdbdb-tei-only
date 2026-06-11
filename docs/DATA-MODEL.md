@@ -359,6 +359,8 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
 
 Externer kuratierter Datensatz (nicht korpus-abgeleitet): Eigennamen, Antonomasien und Epitheta je Figur für ENE/IW/ROL/TRO aus Linda Beutel-Thurows Dissertationsprojekt (DOI 10.5281/zenodo.18770138, CC BY-NC-SA 4.0). 10.506 Records.
 
+**Deterministischer Build:** `generatedAt` = Committer-Datum des Quell-Commits (nicht Build-Zeit), gzip ohne mtime — gleicher Quellstand erzeugt byte-identischen Output. Darauf baut der **Auto-Update-Workflow** `.github/workflows/naming-index-update.yml`: wöchentlicher Cron (Mo 05:17 UTC), Rebuild, bei `git diff` ein PR mit Build-Log und Quell-Compare-Link. Merge nur nach Sichtprüfung (Gate gegen Format-Drift in den extern kuratierten Quell-JSONs).
+
 ```json
 {
   "version": "1.0.0",
