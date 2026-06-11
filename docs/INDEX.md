@@ -39,14 +39,14 @@ Simple search and reading interface optimized for students and general users:
 ### Playground (Research Interface)
 Advanced exploration tools for medievalists and digital humanities researchers:
 
-- **14 Search Entry Points** - 6 authority file explorers + 8 TEI analysis tools
+- **15 Search Entry Points** - 6 authority file explorers + 9 TEI analysis tools
 - **Multi-Lemma Search** - Find texts containing multiple lemmata with:
   - Document-level search (all lemmata anywhere in text)
   - Proximity search (co-occurrence within N words)
   - 3-stage lemma resolution (exact match → variants → partial match)
   - Color-coded results with clickable navigation to reading view
 - **Authority Exploration** - Browse and search persons, works, lemmata, concepts, genres, names
-- **TEI Analysis** - Eight analysis tools over the pre-loaded MHDBDB corpus: multi-lemma search (document + proximity), verse-position lemma search, word frequency, text statistics, lemma distribution, concept distribution, text comparison, co-occurrence ranking
+- **TEI Analysis** - Nine analysis tools over the pre-loaded MHDBDB corpus: multi-lemma search (document + proximity), verse-position lemma search, word frequency, text statistics, lemma distribution, concept distribution, text comparison, co-occurrence ranking, curated character-naming explorer (4 works, Beta)
 
 ## Technical Stack
 
@@ -150,6 +150,7 @@ Aktuelle Index-Versionen siehe [TEI-MODEL.md §11](TEI-MODEL.md#11-versionierung
 - ✅ **#47 R2 Begriffs-Verteilung** (2026-05-12) - Neuer Playground-Eintrag analog Lemma-Verteilung (#90), aber concept-basiert. Datenpfad: concept → senses → lemmata → texts. Verifiziert mit „Sterben" (682 Lemmata, 659 Texte, 103.657 Vorkommen) und englischer Eingabe „love" (Intimität, mit alternativen Candidates)
 - ✅ **#47 Umbrella TEI Textanalyse geschlossen** (2026-05-12) - R1 + R2-Hauptpunkt shipped; Folgepunkte #107 Kookkurrenz-Ranking + #108 Textvergleich (beide inzwischen geshippt, siehe nächster Eintrag), #106 Vers-Boundary-Features (Punkt 1 als Rolling-Backlog) und #109 FWF-Einzelprojekt für NER und tiefere Analysen ausgelagert
 - ✅ **#107 Kookkurrenz-Ranking + #108 Textvergleich** (2026-05-15) - Zwei neue Playground-TEI-Analyse-Modi: häufigste Nachbar-Lemmata pro Lemma (`cooccurrence-ranking.js`) bzw. gemeinsame/exklusive Lemmata zweier Texte (`text-comparison.js`); damit 8 TEI-Analyse-Werkzeuge im Playground
+- ✅ **#59 Erweiterte Figurenbezeichnungen (Beta)** (2026-06-11) - Neuntes TEI-Analyse-Werkzeug: kuratierte Eigennamen, Antonomasien und Epitheta je Figur aus Linda Beutel-Thurows Naming-analysis (ENE/IW/ROL/TRO, 10.506 Belegstellen); eigener vorgebauter Index `data/naming-index.json.gz` (110 KB) via `scripts/ingest/naming/01-fetch-and-build-index.py`; sichtbare Attribution mit DOI, Chrome-verifiziert
 
 ### Known Limitations
 - Desktop-only interface (not mobile-responsive)

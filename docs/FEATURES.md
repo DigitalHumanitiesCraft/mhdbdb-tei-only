@@ -189,6 +189,15 @@ Corpus-wide text analysis using pre-built indexes. Neun Werkzeuge (acht Playgrou
 - Use Cases: „Was steht typisch bei `êre`?" (→ tuon, sprechen, got, herre), „Welche Adjektive begleiten `wîp`?"
 - Klick auf Partner → Multi-Lemma-Suche mit beiden Lemmata + aktueller Distanz vorbefüllt; Klick auf Lemma → Lemma-Page
 
+**Erweiterte Figurenbezeichnungen (#59, Beta):**
+- Kuratierte Bezeichnungspraktiken jenseits des Eigennamens für vier Werke (ENE, IW, ROL, TRO) aus dem Dissertationsprojekt Naming-analysis von Linda Beutel-Thurow
+- Auswahl Werk → Figur (nach Belegzahl sortiert) → Terme in drei Kategorien: Eigennamen, Antonomasien („der rîter" für Iwein), Epitheta („der küene")
+- Pro Term: Häufigkeit + aufklappbare Belegstellen mit Versangabe, Nennphrase und Sprecher (Erzähler / Figurenrede mit nennender Figur / Selbstnennung)
+- Term-Filter MHG-normalisiert („tore" findet `tôre`)
+- Bewusst ohne Reader-Deep-Links: die Verszählung folgt den Editionsgrundlagen der Erhebung und weicht teils von der MHDBDB-TEI-Zählung ab (nur ROL weitgehend deckungsgleich)
+- Sichtbare Attribution im Modul: Beutel-Thurow, L. (2026). Naming-analysis (v0.1.0-beta), DOI 10.5281/zenodo.18770138, CC BY-NC-SA 4.0
+- Datenbasis: `data/naming-index.json.gz` (~110 KB), gebaut via `scripts/ingest/naming/01-fetch-and-build-index.py`, lazy-geladen ohne IndexedDB-Cache
+
 **Cross-platform workflow:**
 1. Perform analysis in playground
 2. Find interesting result (co-occurrence, peak in distribution, top lemma at Versende, etc.)

@@ -213,7 +213,8 @@ playground/js/ui/
 │   ├── verse-position-search.js   # Lemmasuche nach Versposition (#47.3)
 │   ├── concept-distribution.js    # Begriffs-Verteilung (#47 R2, + Autocomplete #113)
 │   ├── text-comparison.js         # Textvergleich Nur-A/Beide/Nur-B (#108)
-│   └── cooccurrence-ranking.js    # Kookkurrenz-Ranking DWDS-Style (#107)
+│   ├── cooccurrence-ranking.js    # Kookkurrenz-Ranking DWDS-Style (#107)
+│   └── naming-explorer.js         # Erweiterte Figurenbezeichnungen, kuratiert 4 Werke (#59, Beta)
 └── search/
     └── SearchHelpers.js
 ```
@@ -224,7 +225,7 @@ playground/js/ui/
 - Easier testing and maintenance
 - Net reduction: 5,536 lines removed
 
-**Playground TEI-Modul-Konvention:** alle neun Module unter `playground/js/ui/tei/` (außer `multi-lemma-search.js` als dokumentierter Modal-Outlier) folgen dem gleichen Constructor/`show()`/`render()`-Pattern mit Thunks statt direkter Daten-Referenzen, state-driven `renderBody()`, pro-Modul-Escape-Helpers und MessageChannel-Yield bei großen Aggregationen. Pattern ist als Template in [DESIGN.md §Playground TEI-Analysis Module Pattern](DESIGN.md#playground-tei-analysis-module-pattern) dokumentiert.
+**Playground TEI-Modul-Konvention:** alle zehn Module unter `playground/js/ui/tei/` (außer `multi-lemma-search.js` als dokumentierter Modal-Outlier) folgen dem gleichen Constructor/`show()`/`render()`-Pattern mit Thunks statt direkter Daten-Referenzen, state-driven `renderBody()`, pro-Modul-Escape-Helpers und MessageChannel-Yield bei großen Aggregationen. Sonderfall `naming-explorer.js` (#59): hängt nicht am Corpus-Index, sondern lädt seinen eigenen kleinen Index (`data/naming-index.json.gz`) lazy per fetch+pako ohne IndexedDB-Cache. Pattern ist als Template in [DESIGN.md §Playground TEI-Analysis Module Pattern](DESIGN.md#playground-tei-analysis-module-pattern) dokumentiert.
 
 **Authority Explorers:**
 Each explorer follows consistent pattern:
@@ -272,6 +273,7 @@ Each explorer follows consistent pattern:
 | Begriffs-Verteilung | `#concept-distribution` | Bar-Chart pro Konzept über alle Texte (#47 R2, mit Autocomplete-Dropdown #113) |
 | Textvergleich | `#text-comparison` | Set-Ops Nur-A / Beide / Nur-B über zwei Texte (#108) |
 | Kookkurrenz-Ranking | `#cooccurrence-ranking` | Top-N Nachbar-Lemmata eines Lemmas, POS-gefiltert (#107) |
+| Erweiterte Figurenbezeichnungen | `#naming` | Kuratierte Eigennamen/Antonomasien/Epitheta je Figur in 4 Werken (#59, Beta) |
 
 **Parameters:**
 

@@ -351,6 +351,37 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
 
 **Versions-Sync (kritisch):** der Index-Versions-String muss synchron mit `INDEX_VERSION` in `assets/js/lib/corpus-loader.js` und der `'version'`-Konstante in `scripts/build-corpus-index.py` gehalten werden. Sonst greift die Cache-Invalidate-Logik nicht (siehe `docs/CONTRACTS.md` §IndexedDB). CI-Garantie via `.github/workflows/index-version-check.yml`; lokal `python scripts/audit/check-index-versions.py` vor Commit.
 
+### Naming Index (#59)
+
+**File:** `data/naming-index.json.gz` (~110 KB gz, v1.0.0)
+**Build:** `python scripts/ingest/naming/01-fetch-and-build-index.py` (fetcht von GitHub `lindabeutel/Naming-analysis@master`; `--source-dir` für offline)
+**Konsument:** nur `playground/js/ui/tei/naming-explorer.js` (Erweiterte Figurenbezeichnungen, Beta)
+
+Externer kuratierter Datensatz (nicht korpus-abgeleitet): Eigennamen, Antonomasien und Epitheta je Figur für ENE/IW/ROL/TRO aus Linda Beutel-Thurows Dissertationsprojekt (DOI 10.5281/zenodo.18770138, CC BY-NC-SA 4.0). 10.506 Records.
+
+```json
+{
+  "version": "1.0.0",
+  "generatedAt": "...",
+  "source": { "repo": "...", "ref": "master", "commit": "<sha>", "doi": "...", "citation": "...", "license": "..." },
+  "works": [
+    {
+      "sigle": "IW",
+      "bookName": "Iwein",
+      "figures": {
+        "Iwein": [
+          { "v": "803", "ph": "herre Îwein", "who": "erz|fig|self", "by": "Keie?", "eig": ["Iwein"], "ant": ["hêrre"], "epi": ["..."] }
+        ]
+      }
+    }
+  ]
+}
+```
+
+Kategorie-Ableitung beim Build: `Epitheta 1-5` → `epi`; `Bezeichnung 1-4` → `eig`, wenn das Lemma den Figurennamen trifft (case-insensitiv exakt oder Alias aus `lemma_normalization.json`, repliziert Lindas `match_name_to_lemma`), sonst `ant`. `who`: `erz` = Erzähler, `fig` = Figurenrede (`by` = nennende Figur), `self` = Selbstnennung. Versnummern (`v`) folgen Lindas Editionsgrundlagen, **nicht** der MHDBDB-TEI-Zählung — deshalb keine Reader-Links.
+
+**Kein Versions-Sync-Kanal:** der Index wird lazy per fetch+pako geladen, ohne IndexedDB-Cache und ohne Eintrag in `corpus-loader.js` — ein Rebuild ist mit dem Commit sofort live (#94-Klasse von Bugs konstruktiv ausgeschlossen). Update-Anlass: neue/aktualisierte Daten im Quell-Repo, danach Rebuild + Commit des `.gz`.
+
 ## Data Processing Pipeline
 
 ### Build Scripts

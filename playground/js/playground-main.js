@@ -21,6 +21,7 @@ import { VersePositionSearch } from './ui/tei/verse-position-search.js';
 import { ConceptDistribution } from './ui/tei/concept-distribution.js';
 import { TextComparison } from './ui/tei/text-comparison.js';
 import { CooccurrenceRanking } from './ui/tei/cooccurrence-ranking.js';
+import { NamingExplorer } from './ui/tei/naming-explorer.js';
 
 // Wire up file display helpers for progress.js
 setFileDisplayHelpers(setupCollapsibleFileList, setupFileFilter);
@@ -82,6 +83,7 @@ class MHDBDBPlayground {
         );
         this.ui.textComparison = new TextComparison(corpusTextsThunk, this.authorityManager);
         this.ui.cooccurrenceRanking = new CooccurrenceRanking(corpusTextsThunk, this.authorityManager);
+        this.ui.namingExplorer = new NamingExplorer('../data');
 
         this.init();
     }
@@ -479,7 +481,8 @@ class MHDBDBPlayground {
             { id: 'showLemmaDistributionBtn', handler: () => navigate('lemma-distribution') },
             { id: 'showConceptDistributionBtn', handler: () => navigate('concept-distribution') },
             { id: 'showTextComparisonBtn', handler: () => navigate('text-comparison') },
-            { id: 'showCooccurrenceRankingBtn', handler: () => navigate('cooccurrence-ranking') }
+            { id: 'showCooccurrenceRankingBtn', handler: () => navigate('cooccurrence-ranking') },
+            { id: 'showNamingExplorerBtn', handler: () => navigate('naming') }
         ];
 
         teiButtons.forEach(({ id, handler }) => {

@@ -10,7 +10,7 @@
  * Supported views:
  *   authors, works, lemmata, concepts, genres, names,
  *   multi-lemma, verse-position, word-frequency, text-statistics, lemma-distribution,
- *   concept-distribution, text-comparison, cooccurrence-ranking
+ *   concept-distribution, text-comparison, cooccurrence-ranking, naming
  *
  * Example URLs:
  *   playground/#authors                          → open Autoren-Explorer
@@ -23,6 +23,7 @@
  *   playground/#concept-distribution             → open Begriffs-Verteilung
  *   playground/#text-comparison                  → open Textvergleich
  *   playground/#cooccurrence-ranking             → open Kookkurrenz-Ranking
+ *   playground/#naming                           → open Erweiterte Figurenbezeichnungen (Beta)
  */
 
 const ROUTES = {
@@ -40,6 +41,7 @@ const ROUTES = {
   'concept-distribution': ()     => window.playground.ui.conceptDistribution.show(),
   'text-comparison':    ()       => window.playground.ui.textComparison.show(),
   'cooccurrence-ranking': ()     => window.playground.ui.cooccurrenceRanking.show(),
+  'naming':             ()       => window.playground.ui.namingExplorer.show(),
 };
 
 /**
