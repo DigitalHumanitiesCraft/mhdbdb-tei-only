@@ -783,3 +783,175 @@
 .results-table-row:last-child .results-table-td {
     border-bottom: none;
 }
+
+/* Issue #129: KWIC-Belege (Kontextfenster + Zeilenangaben) */
+.kwic-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: rgb(37 99 235);  /* brand-600 */
+}
+
+.kwic-toggle-btn:hover {
+    color: rgb(29 78 216);  /* brand-700 */
+}
+
+.kwic-chevron {
+    transition: transform 0.15s ease;
+}
+
+.kwic-open .kwic-chevron {
+    transform: rotate(180deg);
+}
+
+.kwic-row-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.125rem;
+    border-radius: 0.375rem;
+    color: rgb(100 116 139);  /* slate-500 */
+}
+
+.kwic-row-btn:hover {
+    color: rgb(37 99 235);
+    background: rgb(241 245 249);  /* slate-100 */
+}
+
+.kwic-panel {
+    margin-top: 0.75rem;
+    cursor: default;
+}
+
+.kwic-detail-cell {
+    padding: 0.25rem 0.75rem 0.75rem;
+    background: rgb(248 250 252);  /* slate-50 */
+    border-bottom: 1px solid rgb(241 245 249);
+}
+
+.kwic-detail-cell .kwic-panel {
+    margin-top: 0.25rem;
+}
+
+.kwic-status {
+    font-size: 0.8125rem;
+    color: rgb(100 116 139);
+    padding: 0.25rem 0;
+}
+
+.kwic-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 0.375rem;
+}
+
+.kwic-count {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: rgb(51 65 85);  /* slate-700 */
+}
+
+.kwic-window-label {
+    font-size: 0.75rem;
+    color: rgb(100 116 139);
+}
+
+.kwic-window-select {
+    margin-left: 0.25rem;
+    font-size: 0.75rem;
+    border: 1px solid rgb(226 232 240);
+    border-radius: 0.375rem;
+    padding: 0.125rem 0.25rem;
+    background: white;
+    color: rgb(51 65 85);
+}
+
+.kwic-list {
+    max-height: 20rem;
+    overflow-y: auto;
+    border: 1px solid rgb(226 232 240);
+    border-radius: 0.75rem;
+    background: white;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.kwic-list li + li .kwic-line {
+    border-top: 1px solid rgb(241 245 249);
+}
+
+/* Klassisches KWIC-Layout: Referenz | Kontext links (rechtsbündig) |
+   Keyword (zentriert) | Kontext rechts (linksbündig) */
+.kwic-line {
+    display: grid;
+    grid-template-columns: 3.5rem minmax(0, 1fr) auto minmax(0, 1fr);
+    column-gap: 0.5rem;
+    align-items: baseline;
+    width: 100%;
+    padding: 0.25rem 0.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.8125rem;
+    line-height: 1.4;
+    text-align: left;
+    color: rgb(51 65 85);
+}
+
+.kwic-line:hover {
+    background: rgb(248 250 252);
+}
+
+.kwic-ref {
+    font-size: 0.6875rem;
+    color: rgb(148 163 184);  /* slate-400 */
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+}
+
+.kwic-before {
+    text-align: right;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    direction: rtl;  /* Ellipsis links: Anfang des Kontexts wird abgeschnitten */
+}
+
+.kwic-before bdi,
+.kwic-before span {
+    direction: ltr;
+    unicode-bidi: isolate;
+}
+
+.kwic-keyword {
+    font-weight: 600;
+    color: rgb(30 64 175);  /* brand-800 */
+    background: rgb(219 234 254);  /* brand-100 */
+    border-radius: 0.25rem;
+    padding: 0 0.25rem;
+    white-space: nowrap;
+}
+
+.kwic-after {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.kwic-hint {
+    font-size: 0.6875rem;
+    color: rgb(148 163 184);
+    margin-top: 0.375rem;
+}

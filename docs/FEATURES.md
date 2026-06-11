@@ -24,6 +24,19 @@ Search for Middle High German words across the corpus with automatic normalizati
 - Match count with lemma indicator (e.g., "2399 Treffer (2 Lemmata)")
 - Auto-scroll to results with offset for sticky header
 
+### KWIC-Belege in den Suchergebnissen (#129)
+
+Pro Treffer-Text ausklappbare Keyword-in-Context-Konkordanz mit Zeilenangaben (Vorschlag K.M. Schmidt).
+
+**How it works:**
+- "Belege anzeigen" in der Ergebnis-Karte (Listenansicht) bzw. Chevron-Spalte (Tabellenansicht)
+- TEI wird on-demand geladen (über den Reader-Cache), `assets/js/search/kwic-service.js` extrahiert die Belegstellen
+- Kontextfenster konfigurierbar (5/10/15/20 Wörter je Seite, Default 10)
+- Zeilenreferenz je Beleg: Vers (`<l n>`) vor Prosazeile (`<lb n>`) vor Seite (`<pb n>`)
+- Anzeige-Cap 100 Belege pro Text (Gesamtzahl wird ausgewiesen)
+- Klick auf einen Beleg öffnet die Leseansicht an genau dieser Fundstelle (`targetPosition`)
+- Positionszählung in Parität zu CONTRACTS §B (nur `<w>` mit `@lemmaRef`); Treffer-Match exakt per `lemmaRefMatchesId` (§B.1)
+
 ### Text Selection Interface
 
 Include/exclude specific texts from search corpus.

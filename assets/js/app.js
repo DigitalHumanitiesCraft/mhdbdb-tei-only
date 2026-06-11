@@ -7,6 +7,7 @@
 
 import { CorpusLoader } from './lib/corpus-loader.js';
 import { SearchEngine } from './search/search-engine.js';
+import { extractKwicHits, formatLineRef } from './search/kwic-service.js';
 import { TextRenderer } from './rendering/text-renderer.js';
 import { TEITextReader } from './rendering/tei-text-reader.js';
 
@@ -24,6 +25,10 @@ class MainSiteApp {
         // Issue #114: View-Mode für Korpussuche-Ergebnisse
         this.viewMode = this.loadViewMode();        // 'list' | 'table'
         this.sortSpec = { column: 'matchCount', direction: 'desc' };  // Default, nicht persistiert
+
+        // Issue #129: KWIC-Belege in den Suchergebnissen
+        this.kwicContextWords = 10;   // Wörter Kontext je Seite (Schmidt-Default)
+        this.kwicMaxHits = 100;       // Anzeige-Cap pro Text (total wird ausgewiesen)
 
         // Corpus data (for text selection)
         this.corpusData = {
@@ -623,6 +628,11 @@ class MainSiteApp {
                     <td class="results-table-td text-right tabular-nums">${matchesFmt}</td>
                     <td class="results-table-td text-right tabular-nums">${freq}</td>
                     <td class="results-table-td text-right tabular-nums text-slate-500">${wordsFmt}</td>
+                    <td class="results-table-td text-center">
+                        <button type="button" class="kwic-row-btn" data-kwic-row title="Belege anzeigen" aria-expanded="false">
+                            <svg class="w-4 h-4 kwic-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </button>
+                    </td>
                 </tr>
             `;
         }).join('');
@@ -650,6 +660,7 @@ class MainSiteApp {
                             ${headerCell('matchCount', 'Treffer', 'text-right')}
                             ${headerCell('frequency', 'Freq./10k W.', 'text-right')}
                             ${headerCell('wordCount', 'Wörter', 'text-right')}
+                            <th scope="col" class="results-table-th text-center" style="position: sticky; top: 0; background: #f8fafc; z-index: 10;">Belege</th>
                         </tr>
                     </thead>
                     <tbody>${rows}</tbody>
@@ -689,6 +700,45 @@ class MainSiteApp {
         // Export-Buttons (Tasks 8-9 erweitern)
         document.getElementById('resultsCopyBtn')?.addEventListener('click', () => this.copyResultsToClipboard());
         document.getElementById('resultsDownloadBtn')?.addEventListener('click', () => this.downloadResultsAsCSV());
+
+        // Issue #129: KWIC-Belege pro Tabellen-Zeile (Detail-Zeile darunter)
+        this.elements.resultsList.querySelectorAll('[data-kwic-row]').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.toggleKwicTableRow(btn);
+            });
+            btn.addEventListener('keydown', (e) => e.stopPropagation());
+        });
+    }
+
+    /**
+     * Issue #129: Detail-Zeile mit KWIC-Panel unter einer Tabellen-Zeile
+     * ein-/ausklappen. Sortier-Re-Render räumt offene Detail-Zeilen weg.
+     */
+    toggleKwicTableRow(btn) {
+        const row = btn.closest('tr');
+        if (!row) return;
+
+        const next = row.nextElementSibling;
+        if (next && next.classList.contains('kwic-detail-row')) {
+            next.remove();
+            btn.setAttribute('aria-expanded', 'false');
+            btn.classList.remove('kwic-open');
+            return;
+        }
+
+        const result = this.currentResults.find(r => r.textId === row.dataset.textId);
+        if (!result) return;
+
+        const detail = document.createElement('tr');
+        detail.className = 'kwic-detail-row';
+        detail.innerHTML = '<td colspan="6" class="kwic-detail-cell"><div class="kwic-panel" data-kwic-panel></div></td>';
+        row.after(detail);
+
+        btn.setAttribute('aria-expanded', 'true');
+        btn.classList.add('kwic-open');
+
+        this.renderKwicPanel(detail.querySelector('[data-kwic-panel]'), result);
     }
 
     // Stubs — werden in Tasks 6, 7, 8, 9 implementiert
@@ -932,6 +982,13 @@ class MainSiteApp {
             </div>
             <p class="text-sm text-slate-600 mb-2">${this.escapeHtml(result.author || 'Unbekannte*r Autor*in')}</p>
             ${result.genre ? `<span class="inline-block bg-slate-100 text-slate-700 text-xs px-3 py-1 rounded-full">${this.escapeHtml(result.genre)}</span>` : ''}
+            <div class="mt-3 pt-3 border-t border-slate-100">
+                <button type="button" class="kwic-toggle-btn" data-kwic-toggle aria-expanded="false">
+                    <svg class="w-4 h-4 kwic-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    <span>Belege anzeigen</span>
+                </button>
+                <div class="kwic-panel hidden" data-kwic-panel></div>
+            </div>
         `;
 
         // Open reading view with highlighting (pass all lemmaIds for multi-lemma highlighting)
@@ -940,8 +997,123 @@ class MainSiteApp {
             this.teiReader.openReadingView(result.textId, { lemmaIds: lemmaIds }, this.elements);
         });
 
+        // Issue #129: KWIC-Belege ausklappen (darf den Karten-Klick nicht auslösen)
+        const kwicToggle = card.querySelector('[data-kwic-toggle]');
+        const kwicPanel = card.querySelector('[data-kwic-panel]');
+        kwicToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.toggleKwicPanel(kwicToggle, kwicPanel, result);
+        });
+        kwicPanel.addEventListener('click', (e) => e.stopPropagation());
+
         return card;
     }
+
+    // --- Issue #129: KWIC-Belege (Kontextfenster + Zeilenangaben) ---
+
+    /**
+     * Klappt das KWIC-Panel auf/zu; rendert beim ersten Öffnen.
+     */
+    toggleKwicPanel(toggleBtn, panelEl, result) {
+        const isHidden = panelEl.classList.contains('hidden');
+        panelEl.classList.toggle('hidden');
+        toggleBtn.setAttribute('aria-expanded', String(isHidden));
+        toggleBtn.classList.toggle('kwic-open', isHidden);
+        const label = toggleBtn.querySelector('span');
+        if (label) label.textContent = isHidden ? 'Belege verbergen' : 'Belege anzeigen';
+
+        if (isHidden && !panelEl.dataset.kwicLoaded) {
+            this.renderKwicPanel(panelEl, result);
+        }
+    }
+
+    /**
+     * Lädt das TEI (über den Reader-Cache) und rendert die KWIC-Konkordanz.
+     */
+    async renderKwicPanel(panelEl, result) {
+        panelEl.innerHTML = '<p class="kwic-status">Lade Belege …</p>';
+        try {
+            const text = this.corpusData.texts.find(t => t.id === result.textId);
+            const filename = (text && text.filename) || `${result.textId}.tei.xml`;
+            const teiDoc = await this.teiReader.loadTEIFile(filename);
+
+            const lemmaIds = (result.lemmaIds || [result.lemmaId]).map(id => id.toString());
+            const { hits, total } = extractKwicHits(teiDoc, lemmaIds, {
+                contextWords: this.kwicContextWords,
+                maxHits: this.kwicMaxHits
+            });
+
+            if (hits.length === 0) {
+                panelEl.innerHTML = '<p class="kwic-status">Keine Belege gefunden.</p>';
+                return;
+            }
+
+            const capNote = total > hits.length
+                ? `Erste ${hits.length} von ${total.toLocaleString('de-DE')} Belegen`
+                : `${total.toLocaleString('de-DE')} Beleg${total === 1 ? '' : 'e'}`;
+
+            const lines = hits.map(hit => `
+                <li>
+                    <button type="button" class="kwic-line" data-position="${hit.position}" title="Im Volltext öffnen">
+                        <span class="kwic-ref">${this.escapeHtml(formatLineRef(hit.lineRef))}</span>
+                        <span class="kwic-before"><bdi>${this.escapeHtml(hit.before.join(' '))}</bdi></span>
+                        <span class="kwic-keyword">${this.escapeHtml(hit.keyword)}</span>
+                        <span class="kwic-after">${this.escapeHtml(hit.after.join(' '))}</span>
+                    </button>
+                </li>
+            `).join('');
+
+            panelEl.innerHTML = `
+                <div class="kwic-header">
+                    <span class="kwic-count">${capNote}</span>
+                    <label class="kwic-window-label">Kontext:
+                        <select class="kwic-window-select" aria-label="Kontextfenster in Wörtern">
+                            ${[5, 10, 15, 20].map(n =>
+                                `<option value="${n}"${n === this.kwicContextWords ? ' selected' : ''}>${n} Wörter</option>`
+                            ).join('')}
+                        </select>
+                    </label>
+                </div>
+                <ol class="kwic-list">${lines}</ol>
+                <p class="kwic-hint">Klick auf einen Beleg öffnet die Fundstelle im Volltext.</p>
+            `;
+            panelEl.dataset.kwicLoaded = 'true';
+
+            panelEl.querySelector('.kwic-window-select').addEventListener('change', (e) => {
+                this.kwicContextWords = parseInt(e.target.value, 10);
+                this.renderKwicPanel(panelEl, result);
+            });
+
+            panelEl.querySelectorAll('.kwic-line').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    this.openReaderAtPosition(result, parseInt(btn.dataset.position, 10));
+                });
+            });
+
+        } catch (error) {
+            console.error('[MainSiteApp] KWIC rendering failed:', error);
+            panelEl.innerHTML = '<p class="kwic-status">Belege konnten nicht geladen werden.</p>';
+        }
+    }
+
+    /**
+     * Öffnet den Reader an einer konkreten Fundstelle (Wort-Position).
+     * Im Tabellen-Modus vorher auf Listen-Layout wechseln (wie handleTableRowClick).
+     */
+    openReaderAtPosition(result, position) {
+        const lemmaIds = result.lemmaIds || [result.lemmaId];
+
+        if (this.viewMode === 'table') {
+            this.viewMode = 'list';
+            // localStorage NICHT überschreiben — User-Präferenz bleibt 'table'
+            this.updateViewToggleUI();
+            this.displayResults();
+        }
+
+        this.teiReader.openReadingView(result.textId, { lemmaIds, targetPosition: position }, this.elements);
+    }
+
+    // --- Ende Issue #129 ---
 
 
     showEmptyState() {
