@@ -4,6 +4,40 @@ Chronological log of development decisions, dead ends, and savepoints. Not a cha
 
 ---
 
+## 2026-06-11 09:18 – handoff
+
+**Summary:** Drei Blöcke: (1) Index-Stale-Check nach Julias WZB-Welle: voller Corpus-Index-Rebuild war inhaltsgleich zu v4.1.3 (Diff seit `b1bb19b95` war header-only außerhalb `titleStmt`) — Rebuild verworfen, kein Bump, kein Commit; der „Indexe stale"-Punkt aus dem 10.06.-Handoff ist gegenstandslos. (2) **#23 geschlossen**: MUG gegen KZWs Linecode-Export verifiziert (Template `000000000000cddss--`), bestehendes Markup war vollständig korrekt (19/19 Strophen-Anker ID-genau, 406/406 `<l>` gewrappt; einzige Zähldifferenz: zwei im Flat-Export kollabierte Caesura-Leerverse `MUG_1010507/8`). Prosa-l/lb-Policy als **#143** ausgegliedert (17 l-basierte Kandidaten per Template-Heuristik „p ohne s/d", wachauer assigned). (3) **#59 Antonomasien-Modul komplett gebaut und live**: Ingest-Skript + `data/naming-index.json.gz` (10.506 Records, 616 Figuren, 110 KB gz) + `naming-explorer.js` + Route `#naming` + 6 Playwright-Smoke-Tests; volle Suite 153/153 grün; KZW im Issue gepingt (finaler UI-Test), Issue bleibt offen. Nebenher #91-Statuskorrektur in #44 (Community `mhdbdb` am 11.06. angenommen, API-verifiziert; Rest: DOI ins ZfdG-Exposé + Close-Freigabe).
+
+**Decisions:**
+- **Inhaltsgleiche Rebuilds nicht committen** (anders als `b1bb19b95`): generatedAt-only-Diff wäre ein 40-MB-Blob ohne Nutzen. Vergleichsmethode: beide `.gz` entpacken, `generatedAt` entfernen, Dict-Equality.
+- **MUG-`@n` bewusst nicht auf fortlaufende Zählung normalisiert**: die Nummerierung je Lied (inkl. der Reihenfolge 7 vor 6 am Schluss) spiegelt exakt den Linecode-Source; Skript-Decision „no overwrite" bestätigt.
+- **#59 Naming-Index ohne IndexedDB-Cache und ohne corpus-loader.js-Eintrag**: lazy fetch+pako (110 KB) — eliminiert den #94-Versions-Bump-Kanal konstruktiv. Dokumentiert in DATA-MODEL.md §Naming Index.
+- **#59 ohne Reader-Deep-Links**: Lindas Verszählung folgt Druckeditionen (ENE komplett anders, IW/TRO teils, nur ROL deckungsgleich; ihr Kommentar 05.03.) — Versangaben als Editionsreferenz, UI-Hinweis im Modul.
+- **Kategorisierung repliziert Lindas `match_name_to_lemma` exakt** (case-insensitiv exakt oder Alias aus `lemma_normalization.json`); Epitheta sind quellseitig bereits kategorisiert. Keine eigene Heuristik erfunden.
+- **Neuer fester Workflow (auch als Memory gespeichert):** Bei UI-Feature-Add-ons testet KZW final — nach Push immer `@wachauer` im Issue pingen (Live-URL + Test-Hinweise), Issue offen lassen bis OK.
+
+**Dead ends:** Keine echten. Befunde: Lindas pandas-Export-JSONs enthalten literale `NaN`-Tokens (JS `JSON.parse` würde brechen) und ~1.029 NBSP-Werte im Rolandslied — beides wird im Ingest bereinigt.
+
+**Phase:** Implementation (aktiver Betrieb). Stable-Docs für #59 nachgezogen (INDEX/FEATURES/ARCHITECTURE/DESIGN auf 9 TEI-Werkzeuge, DATA-MODEL neue Sektion „Naming Index"). **Parallel-Session lief während der gesamten Session:** #132 (Ingest-Verfahren, closed via `873322658`, Eintrag unten), #128 ALX-pb (`29e27980d`), Zenodo-UI-Spiegelung (`3036bfb5e`), #129 KWIC (WIP unkommittiert: `kwic-service.js`, `app.js`, `korpus.css`, FEATURES/INDEX.md) — deren WIP bewusst nicht angefasst.
+
+**Open issues:**
+- **#59 offen bis KZW-UI-Test** (Ping mit Test-Hinweisen im Issue; KZW lt. #142 diese Woche im Urlaub, steigt nächste Woche ein).
+- **#143** (Prosa-l/lb, 17 Texte) wartet auf KZW-Policy-Entscheid; historische „21er-Liste" (Audit 2026-04) weicht von der Heuristik ab, im Issue dokumentiert.
+- **#91**: nur noch DOI ins ZfdG-Exposé + Close-Freigabe („mach zu" genügt).
+- `naming-explorer.spec.js` lockt Iweins Belegzahl weich (242, Stand `edd39cc`) — bei Lindas Daten-Updates mitziehen.
+- `WZB_phase0.tei.xml`-Verschiebung nach `Wenzelsbibel/` (User, Root war Irrtum) ist noch unkommittiert.
+- Aus Vorsessions: Doku-Strategie-Gespräch (#133/#140; #132 inzwischen geschlossen), `build-pages.py --check` nicht in CI.
+
+**Next steps:**
+1. KZW-Rückmeldung zu #59 abwarten → Issue schließen.
+2. *(optional, klein)* #141 Aufgabe 0: `borte.md`-Metadaten-Template für Alan.
+3. Quick-Wins lt. #44: #121 Dropdown-Disambiguierung, #136 Text-Statistiken-Auswahl, #134 AK-Kontext.
+4. `WZB_phase0`-Verschiebung committen (ohne der Parallel-Arbeit in die Quere zu kommen).
+
+**Savepoints (auf `origin/main`):** `b255cb22a` #59 Feature + Docs · `5f850c8b4` #59 Tests (153+6 Playwright grün). GitHub: #23 closed mit Verifikations-Kommentar, #143 created (wachauer assigned), #44-Body 3× aktualisiert, #59-KZW-Ping. Dieser Journal-Commit lokal (Push nach User-Freigabe).
+
+---
+
 ## 2026-06-11 – #132 Ingest-Verfahren in Stable-Docs gehoben
 
 **Summary:** Den „blocking blind spot" aus dem Health-Check 2026-06-05 geschlossen: Das WZB/ARI-Phasenmuster steht jetzt als normativer Abschnitt **„Ingest-Verfahren (Neuaufnahme von Texten)" in DATA-MODEL.md** (vor dem Data-Change-Lifecycle) — Stage-0 Schema-Konversion, Paratext-Policy (#66), Phase 1–3 jeweils mit rekonstruierbarem Algorithmus (Assign → Resolve → Apply als wiederkehrender Dreischritt), Pflicht-Rückwärts-Sync (CONTRACTS F.3/ADR-015) und Coverage-Referenzwerten. Quellen: `scripts/ingest/*/README.md`, Feature-Doc #34, Blog-Post-Draft, ADR-015.
