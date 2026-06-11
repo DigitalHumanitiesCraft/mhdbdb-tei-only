@@ -83,7 +83,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>
 ### Branches
 - `main` — production
 - `feature/*` — active work
-- `pre-main-site`, `initial-data-wrangling` — archived
+- `initial-data-wrangling` — archived (`pre-main-site` wurde inzwischen gelöscht)
 
 ## Temporal Artifacts (Promptotyping convention)
 

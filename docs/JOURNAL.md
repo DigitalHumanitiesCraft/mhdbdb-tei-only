@@ -4,6 +4,12 @@ Chronological log of development decisions, dead ends, and savepoints. Not a cha
 
 ---
 
+## 2026-06-11 15:40 – Health-Check-Scorecard (Doku-Staleness + Altlasten)
+
+**Scorecard:** Algorithmen/XPaths/Paritäten komplett grün (§B.1 zentral, MHG-Normalisierung Py/JS identisch, 3-Stufen-Resolution, Position-Counting inkl. #131-Guard, Build-XPaths dokumentiert). Counts weitgehend konsistent (667/8/15/v4.1.3/v1.4.0); 3 Drifts gefixt: TEI-MODEL §4.1 als Audit-Snapshot datiert + aktueller Stand ergänzt, `barrierefreiheit.html` in DEVELOPMENT-Verzeichnisliste, `pre-main-site` aus CLAUDE.md (Branch existiert nicht mehr). Altlasten: `docs/research/`-Survey (#47/#113 closed) entfernt; `variants.xml` seit 2026-05-29 frisch (Korpus-Regeneration), lexicon-Seite bleibt via #115 offen; 114er-Feature-Docs bleiben bewusst (Issue offen, Lindas Integrationswünsche). Offene Entscheide (Christian): lokaler Branch `feature/tei-structural-fixes-30` (1 unique Commit, #30-Triage-Material, remote gone), Remote-Branch `origin/feature/wenzelsbibel-ingest` (vollständig gemergt, löschbar), Blog-Draft-Duplikat `BLOG-POST-1000WORTE.docx`.
+
+---
+
 ## 2026-06-11 12:15 – #59 Follow-ups: Auto-Update-Pipeline + ROL/TRO-Deep-Links
 
 **Summary:** Lindas Rückfragen im #59-Kommentar (07:27) abgearbeitet. (1) **Daten-Befunde** zu ihrem Paris/Alexander-Fix (`edd39cc`): Restfigur „Alexander" mit 1 Beleg (TRO V. 13808, Sprecherin Thetis) blieb übrig; „Alexander" erscheint bei Paris als Antonomasie, weil `lemma_normalization.json` ihn nicht als Paris-Variante listet — beides im Issue gemeldet. (2) **Auto-Update-Pipeline**: Build deterministisch gemacht (`generatedAt` = Committer-Datum des Quell-Commits statt Build-Zeit, gzip `mtime=0`; Doppel-Build hash-identisch verifiziert) + neuer Workflow `naming-index-update.yml` (Cron Mo 05:17 UTC, Rebuild, bei Diff PR mit Build-Log + Quell-Compare-Link). Bewusst PR statt Auto-Merge: extern kuratierte Daten gehen nie ungeprüft nach Production. (3) **Reader-Deep-Links für ROL + TRO**: Lindas Korrektur, dass auch TRO der MHDBDB-Zählung entspricht, stichprobenartig 4/4 verifiziert (u.a. V. 20665 „geheizen alexander") → Versangaben im Naming-Explorer verlinken jetzt via neuem URL-Param `korpus.html?textId=<SIG>&verse=<n>` (app.js `handleURLParameters` + `scrollToVerse()` im Reader, Amber-Puls auf der Zielzeile). ENE/IW bleiben link-los (Dezimal-Verse, andere Editionen). Chrome-verifiziert: TRO-Link-Klick, ROL-Direkt-URL, IW-Negativtest (0 Links), nicht-existenter Vers (graceful no-op).

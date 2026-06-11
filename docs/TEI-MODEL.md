@@ -433,7 +433,7 @@ Das `<w>`-Element ist die zentrale Annotationseinheit. Im Soll-Modell stammen al
 | `@ana` | **Standard** (att.global.analytic) | nein | ~5.9M (migriert aus `@meaningRef`, Phase B1) | behalten |
 | `@corresp` | **Standard** (att.global) | nein | ~7.5M (migriert aus `@wordRef`, Phase B2; URI → `variants.xml`) | behalten |
 
-Korpus: 9,282,982 `<w>`-Elemente in 666 Dateien. 20.4% haben kein `@lemmaRef` (unannotierte Woerter — werden vom Corpus-Index uebersprungen, siehe CONTRACTS.md Sec. B).
+Korpus zum Audit-Zeitpunkt (#32, 2026-04, vor WZB): 9,282,982 `<w>`-Elemente in 666 Dateien; 20.4% ohne `@lemmaRef` (unannotierte Woerter — werden vom Corpus-Index uebersprungen, siehe CONTRACTS.md Sec. B). Aktueller Stand: 667 Dateien, 9.432.130 `<w>` (Messung 2026-06-10 fuer den Code4Lib-Artikel, #142).
 
 > **Wichtig:** `@lemmaRef` ist seit TEI P5 3.3.0 ein Standard-Attribut der Klasse `att.linguistic` und musste **nicht** migriert werden. `@meaningRef` und `@wordRef` **waren** die Validierungsblocker (keine TEI-Standard-Attribute); sie wurden korpusweit zu `@ana` bzw. `@corresp` migriert (Phase B1/B2, abgeschlossen — 0 verbleibende Vorkommen, 667/667 Dateien mit `@ana`).
 
