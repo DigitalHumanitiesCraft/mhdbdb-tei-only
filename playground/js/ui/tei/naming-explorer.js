@@ -10,9 +10,11 @@
  * der Index ist klein (~110 KB gz) und ohne Cache entfällt der
  * Versions-Bump-Kanal, der bei corpus-/authority-index schiefgehen kann (#94).
  *
- * Die Verszählung folgt Lindas Editionsgrundlagen und weicht teils von der
- * MHDBDB-TEI-Zählung ab (#59-Kommentar 2026-03-05); deshalb zeigen die
- * Belegstellen Versnummern als Editionsreferenz, ohne Reader-Deep-Links.
+ * Die Verszählung folgt Lindas Editionsgrundlagen. Bei ROL und TRO ist sie
+ * mit der MHDBDB-TEI-Zählung deckungsgleich (Linda, #59-Kommentar
+ * 2026-06-11; TRO-Stichprobe 4/4 verifiziert) — dort verlinken die
+ * Belegstellen per ?textId=<SIG>&verse=<n> in die Leseansicht. ENE und IW
+ * weichen ab (andere Editionen, Dezimal-Verse) und bleiben link-los.
  *
  * Issue: #59
  */
@@ -33,6 +35,10 @@ const CATEGORY_META = {
 };
 
 const EVIDENCE_LIMIT = 50;
+
+// Werke, deren Edition-Verszählung der MHDBDB-<l n>-Zählung entspricht —
+// nur dort sind Vers-Deep-Links in den Reader korrekt (siehe Header-Kommentar).
+const READER_LINK_SIGLES = new Set(['ROL', 'TRO']);
 
 export class NamingExplorer {
   constructor(basePath = '../data') {
@@ -168,7 +174,7 @@ export class NamingExplorer {
           </label>
         </div>
         <p class="text-[11px] text-slate-500">
-          Versangaben folgen den Editionsgrundlagen der Naming-analysis-Erhebung und können von der MHDBDB-Verszählung abweichen.
+          Versangaben folgen den Editionsgrundlagen der Naming-analysis-Erhebung. Bei ROL und TRO ist die Zählung mit der MHDBDB deckungsgleich; dort führen die Versangaben direkt in die Leseansicht. Bei ENE und IW kann die Zählung abweichen.
         </p>
       </div>
     `;
@@ -313,6 +319,9 @@ export class NamingExplorer {
   }
 
   renderEvidenceRow(t) {
+    // Deep-Link nur bei deckungsgleicher Verszählung und ganzzahligem Vers
+    // (Dezimal-Verse wie 17.02 existieren in ROL/TRO nicht, Guard bleibt).
+    const linkable = READER_LINK_SIGLES.has(this.state.workSigle);
     const visible = t.evidence.slice(0, EVIDENCE_LIMIT);
     const items = visible.map(e => {
       let speaker;
@@ -323,9 +332,12 @@ export class NamingExplorer {
       } else {
         speaker = 'Erzähler';
       }
+      const verse = (linkable && /^\d+$/.test(e.v))
+        ? `<a href="../korpus.html?textId=${encodeURIComponent(this.state.workSigle)}&verse=${encodeURIComponent(e.v)}" target="_blank" rel="noopener" class="text-brand-700 hover:underline" title="Vers ${escapeAttr(e.v)} in der Leseansicht öffnen">V. ${escapeHtml(e.v)}</a>`
+        : `<span title="Versangabe der Editionsgrundlage">V. ${escapeHtml(e.v)}</span>`;
       return `
         <div class="flex items-baseline gap-3 border-b border-slate-100 py-1 last:border-b-0">
-          <span class="w-16 flex-shrink-0 text-right font-mono text-xs text-slate-500" title="Versangabe der Editionsgrundlage">V. ${escapeHtml(e.v)}</span>
+          <span class="w-16 flex-shrink-0 text-right font-mono text-xs text-slate-500">${verse}</span>
           <span class="flex-1 text-slate-700">${escapeHtml(e.ph)}</span>
           <span class="flex-shrink-0 text-xs text-slate-400">${speaker}</span>
         </div>

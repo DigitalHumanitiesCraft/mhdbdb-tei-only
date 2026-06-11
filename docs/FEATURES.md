@@ -207,7 +207,7 @@ Corpus-wide text analysis using pre-built indexes. Neun Werkzeuge (acht Playgrou
 - Auswahl Werk → Figur (nach Belegzahl sortiert) → Terme in drei Kategorien: Eigennamen, Antonomasien („der rîter" für Iwein), Epitheta („der küene")
 - Pro Term: Häufigkeit + aufklappbare Belegstellen mit Versangabe, Nennphrase und Sprecher (Erzähler / Figurenrede mit nennender Figur / Selbstnennung)
 - Term-Filter MHG-normalisiert („tore" findet `tôre`)
-- Bewusst ohne Reader-Deep-Links: die Verszählung folgt den Editionsgrundlagen der Erhebung und weicht teils von der MHDBDB-TEI-Zählung ab (nur ROL weitgehend deckungsgleich)
+- Reader-Deep-Links für ROL und TRO: Versangaben verlinken via `korpus.html?textId=<SIG>&verse=<n>` in die Leseansicht (Sprung zur Verszeile mit Hervorhebungs-Puls). Die Verszählung dieser beiden Werke ist mit der MHDBDB-TEI-Zählung deckungsgleich (Linda Beutel-Thurow, #59-Kommentar 2026-06-11; TRO-Stichprobe 4/4 verifiziert). ENE und IW folgen abweichenden Editionszählungen und bleiben bewusst link-los
 - Sichtbare Attribution im Modul: Beutel-Thurow, L. (2026). Naming-analysis (v0.1.0-beta), DOI 10.5281/zenodo.18770138, CC BY-NC-SA 4.0
 - Datenbasis: `data/naming-index.json.gz` (~110 KB), gebaut via `scripts/ingest/naming/01-fetch-and-build-index.py`, lazy-geladen ohne IndexedDB-Cache
 

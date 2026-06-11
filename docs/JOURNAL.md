@@ -4,6 +4,21 @@ Chronological log of development decisions, dead ends, and savepoints. Not a cha
 
 ---
 
+## 2026-06-11 12:15 – #59 Follow-ups: Auto-Update-Pipeline + ROL/TRO-Deep-Links
+
+**Summary:** Lindas Rückfragen im #59-Kommentar (07:27) abgearbeitet. (1) **Daten-Befunde** zu ihrem Paris/Alexander-Fix (`edd39cc`): Restfigur „Alexander" mit 1 Beleg (TRO V. 13808, Sprecherin Thetis) blieb übrig; „Alexander" erscheint bei Paris als Antonomasie, weil `lemma_normalization.json` ihn nicht als Paris-Variante listet — beides im Issue gemeldet. (2) **Auto-Update-Pipeline**: Build deterministisch gemacht (`generatedAt` = Committer-Datum des Quell-Commits statt Build-Zeit, gzip `mtime=0`; Doppel-Build hash-identisch verifiziert) + neuer Workflow `naming-index-update.yml` (Cron Mo 05:17 UTC, Rebuild, bei Diff PR mit Build-Log + Quell-Compare-Link). Bewusst PR statt Auto-Merge: extern kuratierte Daten gehen nie ungeprüft nach Production. (3) **Reader-Deep-Links für ROL + TRO**: Lindas Korrektur, dass auch TRO der MHDBDB-Zählung entspricht, stichprobenartig 4/4 verifiziert (u.a. V. 20665 „geheizen alexander") → Versangaben im Naming-Explorer verlinken jetzt via neuem URL-Param `korpus.html?textId=<SIG>&verse=<n>` (app.js `handleURLParameters` + `scrollToVerse()` im Reader, Amber-Puls auf der Zielzeile). ENE/IW bleiben link-los (Dezimal-Verse, andere Editionen). Chrome-verifiziert: TRO-Link-Klick, ROL-Direkt-URL, IW-Negativtest (0 Links), nicht-existenter Vers (graceful no-op).
+
+**Decisions:**
+- **`scrollToVerse` instant statt smooth**: Chrome verwirft programmatische smooth-Scrolls direkt nach Page-Load teils stillschweigend (ROL blieb im Test bei scrollY=0, Log behauptete Erfolg); `behavior: 'auto'` ist über sechsstellige Pixel-Distanzen ohnehin die bessere Orientierung.
+- **Vers-Deep-Link gewinnt gegen Highlight-Scroll**, falls beide URL-Params gesetzt sind.
+- **Kein Index-Daten-Diff in diesem Schritt**: `naming-index.json.gz` ändert sich nur im Header (generatedAt/gzip-mtime), Records identisch (10.506).
+
+**Phase:** Implementation (aktiver Betrieb). Docs nachgezogen: FEATURES.md (Deep-Link-Bullet ersetzt „bewusst ohne"), DATA-MODEL.md §Naming Index (Determinismus + Workflow). Neuer Playwright-Test (TRO verlinkt / IW nicht) in `naming-explorer.spec.js` — **noch nicht gelaufen**, Suite vor Push ausführen.
+
+**Open issues:** #59 bleibt offen bis KZW-UI-Test; Restfigur-Entscheidung (V. 13808 → Paris?) liegt bei Linda — wenn sie `alexander` als Paris-Variante in `lemma_normalization.json` einträgt, klassifiziert der nächste (automatische) Build ihn als Eigennamen um.
+
+---
+
 ## 2026-06-11 09:31 – handoff (Parallel-Session, übernommen)
 
 **Summary:** Die zweite Session des Vormittags ist hängengeblieben; Abschluss von der #59-Session übernommen. Geleistete Arbeit: (1) **#132 geschlossen** — Ingest-Verfahren als normativer Stable-Doc-Abschnitt in DATA-MODEL.md, Feature-Doc 034 gelöscht (eigener Eintrag unten, `873322658`). (2) **#128 ALX-pb**: 13 `<pb>` (n=147–159) aus KZWs Linecode-Export nachgetragen (`29e27980d`); Vollständigkeit gegen den Issue-Scope verifiziert (147–159 lückenlos), Issue von der übernehmenden Session geschlossen. Kein Index-Rebuild nötig: `<pb>` trägt keine `<w>`, Positionszählung und `lineStarts`/`lineEnds` unberührt. (3) **Zenodo-Spiegelung**: KZWs UI-Edits (CLARIAH-AT-Funding, `clariah-at`-Community) in `.zenodo.json` nachgezogen (`3036bfb5e`) — nächste Release-Version verliert die UI-Edits damit nicht. (4) **#129 KWIC-Belege**: vollständig gebaut (kwic-service.js + app.js Liste/Tabelle + korpus.css + Docs), lag beim Hänger unkommittiert im Working Tree; nach funktionaler Verifikation (minne in JT: 612 Belege, Kontext-Switch 5–20 Wörter, Klick springt zu „Treffer 1 von 612" im Reader) als `74d0c9490` übernommen.

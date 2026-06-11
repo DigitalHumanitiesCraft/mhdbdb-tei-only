@@ -85,6 +85,24 @@ test.describe('Naming Explorer (#59)', () => {
     await expect(page.locator('#resultsContainer')).toContainText(/Erzähler|Figurenrede|Selbstnennung/);
   });
 
+  test('TRO-Belegstellen verlinken in die Leseansicht, IW-Belegstellen nicht', async ({ page }) => {
+    // TRO/ROL: Verszählung deckungsgleich mit MHDBDB -> Vers-Deep-Link
+    await page.selectOption('#neWorkSelect', 'TRO');
+    await page.selectOption('#neFigureSelect', 'Achilles');
+    await page.waitForSelector('[data-ne-term]', { state: 'visible', timeout: 5000 });
+    await page.locator('[data-ne-term]').first().click();
+
+    const link = page.locator('#resultsContainer a[href*="korpus.html?textId=TRO&verse="]').first();
+    await expect(link).toBeVisible();
+    await expect(link).toContainText(/V\. \d/);
+
+    // IW: abweichende Editionszählung -> bewusst kein Link
+    await selectIwein(page);
+    await page.locator('[data-ne-term]').first().click();
+    await expect(page.locator('#resultsContainer')).toContainText(/V\. \d/);
+    await expect(page.locator('#resultsContainer a[href*="verse="]')).toHaveCount(0);
+  });
+
   test('Term-Filter ist MHG-normalisiert (tore findet tôre)', async ({ page }) => {
     await selectIwein(page);
 

@@ -34,7 +34,7 @@ class TEITextReader {
     /**
      * Open reading view modal
      * @param {string} textId - Text ID to display
-     * @param {object} options - { lemmaId: string, lemmaIds: string[], targetPosition: number } for highlighting (optional)
+     * @param {object} options - { lemmaId: string, lemmaIds: string[], targetPosition: number, targetVerse: string } for highlighting / verse jump (optional)
      * @param {object} elements - DOM element references
      */
     async openReadingView(textId, options = {}, elements) {
@@ -53,6 +53,7 @@ class TEITextReader {
         }
 
         this.targetPosition = options.targetPosition || null;
+        this.targetVerse = options.targetVerse || null;
         this.elements = elements;
 
         const lemmaInfo = this.currentLemmaIds.length > 0
@@ -102,9 +103,17 @@ class TEITextReader {
                 this.updateNavigationButtons();
 
                 // Scroll to target or first highlight after brief delay (wait for DOM to render)
-                setTimeout(() => this.scrollToHighlight(this.currentHighlightIndex), 600);
+                // — ein expliziter Vers-Deep-Link gewinnt gegen den Highlight-Scroll.
+                if (this.targetVerse === null) {
+                    setTimeout(() => this.scrollToHighlight(this.currentHighlightIndex), 600);
+                }
             } else {
                 this.showNavigation(false);
+            }
+
+            // Vers-Deep-Link (#59): zur Verszeile <l n="..."> scrollen
+            if (this.targetVerse !== null) {
+                setTimeout(() => this.scrollToVerse(this.targetVerse), 600);
             }
 
             // Hide loading
@@ -907,6 +916,40 @@ class TEITextReader {
         } else {
             console.warn(`[TEITextReader] Highlight ${index} element not found`);
         }
+    }
+
+    /**
+     * Scroll zur Verszeile <l n="..."> (Vers-Deep-Link, #59 Naming-Explorer).
+     * data-n stammt aus dem 'l'-Rendering (case 'l' in renderElement).
+     * Hintergrund-Puls statt scale: verse-line ist eine ganze Zeile,
+     * Skalierung würde den Textfluss verschieben.
+     */
+    scrollToVerse(verseN) {
+        const scope = this.elements?.readingBody || document;
+        const safe = (window.CSS && CSS.escape)
+            ? CSS.escape(String(verseN))
+            : String(verseN).replace(/["\\]/g, '');
+        const line = scope.querySelector(`.verse-line[data-n="${safe}"]`);
+        if (!line) {
+            console.warn(`[TEITextReader] Vers ${verseN} nicht gefunden (kein <l n="${verseN}"> im Text)`);
+            return;
+        }
+
+        const headerOffset = 120;
+        const offsetPosition = line.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+        // Instant statt smooth: der Vers-Deep-Link springt direkt nach dem
+        // Page-Load, wo Chrome programmatische smooth-Scrolls teils verwirft
+        // (im Test: ROL blieb bei scrollY=0). Über sechsstellige Pixel-
+        // Distanzen ist instant ohnehin die bessere Orientierung.
+        window.scrollTo({ top: offsetPosition, behavior: 'auto' });
+
+        console.log(`[TEITextReader] Scrolled to verse ${verseN}`);
+
+        line.style.transition = 'background-color 0.4s ease';
+        line.style.backgroundColor = '#fef3c7'; // amber-100
+        setTimeout(() => {
+            line.style.backgroundColor = '';
+        }, 1600);
     }
 
     /**

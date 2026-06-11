@@ -1151,12 +1151,15 @@ class MainSiteApp {
      * Handle URL parameters for opening the reading view.
      * - Playground multi-lemma jump: ?textId=ABG&lemmaIds=879,7532&position=123
      * - Werk-Deep-Link (#135): ?textId=ABG (öffnet den Text ohne Highlights)
+     * - Vers-Deep-Link (#59 Naming-Explorer): ?textId=TRO&verse=20665
+     *   (scrollt zur Verszeile <l n="20665">, ohne Lemma-Highlights)
      */
     handleURLParameters() {
         const params = new URLSearchParams(window.location.search);
         const textId = params.get('textId');
         const lemmaIdsParam = params.get('lemmaIds');
         const positionParam = params.get('position');
+        const verseParam = params.get('verse');
 
         if (!textId) {
             return false; // No relevant parameters
@@ -1168,7 +1171,7 @@ class MainSiteApp {
             : [];
         const targetPosition = positionParam ? parseInt(positionParam) : null;
 
-        console.log('[MainSiteApp] URL parameters detected:', { textId, lemmaIds, position: positionParam });
+        console.log('[MainSiteApp] URL parameters detected:', { textId, lemmaIds, position: positionParam, verse: verseParam });
 
         // Leeres options-Objekt = Text ohne Lemma-Highlights (wie der "Lesen"-Button).
         const options = {};
@@ -1177,6 +1180,9 @@ class MainSiteApp {
             if (targetPosition !== null && !isNaN(targetPosition)) {
                 options.targetPosition = targetPosition;
             }
+        }
+        if (verseParam) {
+            options.targetVerse = verseParam;
         }
 
         // Open reader after brief delay (ensure DOM is ready)
