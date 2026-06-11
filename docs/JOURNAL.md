@@ -4,6 +4,21 @@ Chronological log of development decisions, dead ends, and savepoints. Not a cha
 
 ---
 
+## 2026-06-11 09:31 – handoff (Parallel-Session, übernommen)
+
+**Summary:** Die zweite Session des Vormittags ist hängengeblieben; Abschluss von der #59-Session übernommen. Geleistete Arbeit: (1) **#132 geschlossen** — Ingest-Verfahren als normativer Stable-Doc-Abschnitt in DATA-MODEL.md, Feature-Doc 034 gelöscht (eigener Eintrag unten, `873322658`). (2) **#128 ALX-pb**: 13 `<pb>` (n=147–159) aus KZWs Linecode-Export nachgetragen (`29e27980d`); Vollständigkeit gegen den Issue-Scope verifiziert (147–159 lückenlos), Issue von der übernehmenden Session geschlossen. Kein Index-Rebuild nötig: `<pb>` trägt keine `<w>`, Positionszählung und `lineStarts`/`lineEnds` unberührt. (3) **Zenodo-Spiegelung**: KZWs UI-Edits (CLARIAH-AT-Funding, `clariah-at`-Community) in `.zenodo.json` nachgezogen (`3036bfb5e`) — nächste Release-Version verliert die UI-Edits damit nicht. (4) **#129 KWIC-Belege**: vollständig gebaut (kwic-service.js + app.js Liste/Tabelle + korpus.css + Docs), lag beim Hänger unkommittiert im Working Tree; nach funktionaler Verifikation (minne in JT: 612 Belege, Kontext-Switch 5–20 Wörter, Klick springt zu „Treffer 1 von 612" im Reader) als `74d0c9490` übernommen.
+
+**Decisions (aus dem Code rekonstruiert):**
+- KWIC-Positionszählung in CONTRACTS-§B-Parität (nur `<w @lemmaRef>`), Treffer-Match per `lemmaRefMatchesId` (§B.1) — `position` ist direkt als `targetPosition` für den Reader nutzbar.
+- Zeilenreferenz-Präferenz: Vers (`<l n>`) vor Prosazeile (`<lb n>`) vor Seite (`<pb n>`).
+- KWIC-Styles in `korpus.css` statt Tailwind-Utilities (kein build:css-Delta).
+
+**Phase:** Implementation (aktiver Betrieb). **Open issues:** #129 offen bis KZW-UI-Test (Ping folgt nach Push); WZB_phase0-Verschiebung nach `Wenzelsbibel/` committet (`6f1ad4f31`).
+
+**Savepoints:** `873322658` #132 · `29e27980d` #128 · `3036bfb5e` Zenodo · `74d0c9490` #129 KWIC · `6f1ad4f31` WZB_phase0-Move.
+
+---
+
 ## 2026-06-11 09:18 – handoff
 
 **Summary:** Drei Blöcke: (1) Index-Stale-Check nach Julias WZB-Welle: voller Corpus-Index-Rebuild war inhaltsgleich zu v4.1.3 (Diff seit `b1bb19b95` war header-only außerhalb `titleStmt`) — Rebuild verworfen, kein Bump, kein Commit; der „Indexe stale"-Punkt aus dem 10.06.-Handoff ist gegenstandslos. (2) **#23 geschlossen**: MUG gegen KZWs Linecode-Export verifiziert (Template `000000000000cddss--`), bestehendes Markup war vollständig korrekt (19/19 Strophen-Anker ID-genau, 406/406 `<l>` gewrappt; einzige Zähldifferenz: zwei im Flat-Export kollabierte Caesura-Leerverse `MUG_1010507/8`). Prosa-l/lb-Policy als **#143** ausgegliedert (17 l-basierte Kandidaten per Template-Heuristik „p ohne s/d", wachauer assigned). (3) **#59 Antonomasien-Modul komplett gebaut und live**: Ingest-Skript + `data/naming-index.json.gz` (10.506 Records, 616 Figuren, 110 KB gz) + `naming-explorer.js` + Route `#naming` + 6 Playwright-Smoke-Tests; volle Suite 153/153 grün; KZW im Issue gepingt (finaler UI-Test), Issue bleibt offen. Nebenher #91-Statuskorrektur in #44 (Community `mhdbdb` am 11.06. angenommen, API-verifiziert; Rest: DOI ins ZfdG-Exposé + Close-Freigabe).
