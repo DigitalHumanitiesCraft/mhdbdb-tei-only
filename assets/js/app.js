@@ -1153,6 +1153,8 @@ class MainSiteApp {
      * - Werk-Deep-Link (#135): ?textId=ABG (öffnet den Text ohne Highlights)
      * - Vers-Deep-Link (#59 Naming-Explorer): ?textId=TRO&verse=20665
      *   (scrollt zur Verszeile <l n="20665">, ohne Lemma-Highlights)
+     * - Such-Deep-Link (#144): ?search=brôt (Lemma-Seiten-Button „Im Korpus
+     *   suchen" und Schreibformen-Links; gleicher Pfad wie manuelle Eingabe)
      */
     handleURLParameters() {
         const params = new URLSearchParams(window.location.search);
@@ -1160,8 +1162,16 @@ class MainSiteApp {
         const lemmaIdsParam = params.get('lemmaIds');
         const positionParam = params.get('position');
         const verseParam = params.get('verse');
+        const searchParam = params.get('search');
 
         if (!textId) {
+            if (searchParam) {
+                console.log(`[MainSiteApp] URL search parameter detected: "${searchParam}"`);
+                this.elements.searchInput.value = searchParam;
+                window.history.replaceState({}, document.title, window.location.pathname);
+                this.handleSearch();
+                return true;
+            }
             return false; // No relevant parameters
         }
 

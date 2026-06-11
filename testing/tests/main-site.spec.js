@@ -168,3 +168,45 @@ test.describe('Main Site', () => {
     });
 
 });
+
+test.describe('Such-Deep-Link ?search= (#144)', () => {
+
+    test('?search=brôt füllt das Suchfeld und liefert Treffer', async ({ page }) => {
+        await page.goto('http://localhost:8080/korpus.html?search=br%C3%B4t');
+
+        await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
+
+        // Suche wird automatisch ausgelöst: Ergebnisse erscheinen ohne Klick
+        await page.waitForSelector('#resultsList > div', { timeout: 15000 });
+        const results = await page.locator('#resultsList > div').count();
+        expect(results).toBeGreaterThan(0);
+
+        // Suchfeld trägt den Begriff (Pfad der manuellen Eingabe)
+        const inputValue = await page.inputValue('#searchInput');
+        expect(inputValue).toBe('brôt');
+
+        // URL ist bereinigt (gleiche Konvention wie der textId-Pfad)
+        expect(page.url()).not.toContain('search=');
+    });
+
+    test('Lemma-Seiten-Button "Im Korpus suchen" führt zu Treffern', async ({ page, context }) => {
+        test.setTimeout(120000);
+
+        await page.goto('http://localhost:8080/lemma/?id=879');
+        await page.waitForSelector('#lemmaContent:not(.hidden)', { timeout: 30000 });
+
+        // Button verlinkt auf korpus.html?search=... und öffnet einen neuen Tab
+        const corpusLink = page.locator('#externalLinks a[href*="korpus.html?search="]');
+        await expect(corpusLink).toBeVisible();
+        const [searchPage] = await Promise.all([
+            context.waitForEvent('page'),
+            corpusLink.click(),
+        ]);
+
+        // Auf der Korpussuche erscheinen Treffer automatisch
+        await searchPage.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
+        await searchPage.waitForSelector('#resultsList > div', { timeout: 15000 });
+        expect(await searchPage.locator('#resultsList > div').count()).toBeGreaterThan(0);
+    });
+
+});

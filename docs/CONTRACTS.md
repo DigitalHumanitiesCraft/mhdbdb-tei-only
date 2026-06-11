@@ -419,7 +419,7 @@ Response: {                              // illustrative shape, IDs schematic
 |--------|------------|--------|
 | Old MHDBDB | `https://mhdbdb-old.sbg.ac.at/mhdbdb/App?action=Dic&lid={numericId}` | `lemma-page.js:239` |
 | REALonline (IMAREAL) | `https://realonline.imareal.sbg.ac.at/suche#{json}` where json = `{"s":"{normalized}"}` | `lemma-page.js:244` |
-| Corpus search | `../korpus.html?search={lemma.lemma}` | `lemma-page.js:249` |
+| Corpus search | `../korpus.html?search={lemma.lemma}` — ausgewertet in `app.js` `handleURLParameters()` (#144): befüllt das Suchfeld und löst die normale Suche aus | `lemma-page.js:249` |
 | GND (person/work) | `https://d-nb.info/gnd/{gndId}` | `tei-text-reader.js` |
 | Wikidata (person/work) | `https://www.wikidata.org/wiki/{wikidataId}` | `tei-text-reader.js` |
 | Handschriftencensus | URL stored in authority index `work.handschriftencensus` | `tei-text-reader.js` |
