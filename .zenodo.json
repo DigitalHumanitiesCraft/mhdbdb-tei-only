@@ -1,7 +1,7 @@
 {
   "upload_type": "dataset",
   "title": "Mittelhochdeutsche Begriffsdatenbank (MHDBDB) – TEI-XML Repository: Mittelhochdeutsche Texte mit semantischen Annotationen",
-  "description": "<p>TEI-XML-Repositorium der Mittelhochdeutschen Begriffsdatenbank (MHDBDB, Universit&auml;t Salzburg): 667 mittelhochdeutsche Texte mit semantischen Annotationen auf Wortebene (Lemmatisierung, Wortarten, Begriffssystem-Verkn&uuml;pfung), 8 Authority-Files (Personen, Werke, Lexikon, Begriffe, Gattungen, Namen, Varianten, Mitwirkende) sowie vorgebaute JSON-Indexe f&uuml;r die serverlose Such- und Analyse-Oberfl&auml;che unter <a href=\"https://dhcraft.org/mhdbdb-tei-only/\">dhcraft.org/mhdbdb-tei-only</a>.</p><p>Lizenzen: Daten (tei/, authority-files/, data/) CC BY-NC-SA 4.0; Quellcode MIT. Vollst&auml;ndiges Register aller Mitwirkenden mit Rollen: authority-files/contributors.xml.</p>",
+  "description": "<p>TEI-XML-Repositorium der Mittelhochdeutschen Begriffsdatenbank (MHDBDB, Universit&auml;t Salzburg): 667 mittelhochdeutsche Texte mit semantischen Annotationen auf Wortebene (Lemmatisierung, Wortarten, Begriffssystem-Verkn&uuml;pfung), 8 Authority-Files (Personen, Werke, Lexikon, Begriffe, Gattungen, Namen, Varianten, Mitwirkende) sowie vorgebaute JSON-Indexe f&uuml;r die serverlose Such- und Analyse-Oberfl&auml;che unter <a href=\"https://dhcraft.org/mhdbdb-tei-only/\">dhcraft.org/mhdbdb-tei-only</a>.</p><p>Lizenzen: Daten (tei/, authority-files/, data/) CC BY-NC-SA 4.0; Quellcode MIT. Vollst&auml;ndiges Register aller Mitwirkenden mit Rollen: authority-files/contributors.xml.</p><p>Funded by CLARIAH-AT.</p>",
   "creators": [
     {
       "name": "Zeppezauer-Wachauer, Katharina",
@@ -77,6 +77,7 @@
     "Mediävistik"
   ],
   "communities": [
-    { "identifier": "mhdbdb" }
+    { "identifier": "mhdbdb" },
+    { "identifier": "clariah-at" }
   ]
 }
