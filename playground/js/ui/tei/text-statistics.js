@@ -5,7 +5,11 @@
  * durchschnittliche Lemmafrequenz. Sortierbare Übersichtstabelle aller
  * 667 Korpus-Texte.
  *
- * Issue: #89
+ * Auswahl-UI (#136): Checkbox je Zeile + Master-Checkbox, Aktionsleiste mit
+ * Zähler, "Nur Auswahl anzeigen" und "Auswahl leeren". Die Auswahl lebt als
+ * Set auf der Instanz und übersteht damit Sortieren und Filter-Toggles.
+ *
+ * Issues: #89, #136
  */
 
 const COLUMNS = [
@@ -25,6 +29,8 @@ export class TextStatistics {
     this.getCorpusTexts = getCorpusTexts;
     this._stats = null;
     this.sort = { ...DEFAULT_SORT };
+    this.selected = new Set();
+    this.showSelectedOnly = false;
   }
 
   computeAllStats() {
@@ -70,10 +76,32 @@ export class TextStatistics {
     container.innerHTML = `
       <div class="space-y-4">
         ${this.renderHeader()}
+        ${this.renderSelectionBar()}
         ${this.renderTable()}
       </div>
     `;
     this.attachHandlers();
+  }
+
+  renderSelectionBar() {
+    const n = this.selected.size;
+    const total = this._stats?.length || 0;
+    return `
+      <div class="flex flex-wrap items-center gap-x-4 gap-y-2 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm shadow-sm">
+        <span class="text-slate-600">Ausgewählt:
+          <strong id="tsSelCount" class="tabular-nums text-slate-800">${n.toLocaleString('de-DE')}</strong>
+          <span class="text-slate-400">/ ${total.toLocaleString('de-DE')}</span>
+        </span>
+        <label class="flex cursor-pointer items-center gap-2 text-slate-600">
+          <input type="checkbox" id="tsShowSelected" class="rounded border-slate-300"${this.showSelectedOnly ? ' checked' : ''}>
+          Nur Auswahl anzeigen
+        </label>
+        <button id="tsClearSelection" type="button"
+          class="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs text-slate-600 hover:border-slate-400${n === 0 ? ' opacity-50' : ''}"${n === 0 ? ' disabled' : ''}>
+          Auswahl leeren
+        </button>
+      </div>
+    `;
   }
 
   renderHeader() {
@@ -84,6 +112,7 @@ export class TextStatistics {
         <p class="mt-2 text-sm text-slate-600">
           Stil-Visitenkarte aller ${count.toLocaleString('de-DE')} Texte im Korpus.
           Klick auf eine Spaltenüberschrift sortiert; Klick auf eine Sigle öffnet den Text im Reader.
+          Mit den Häkchen lassen sich Texte auswählen und als Subset betrachten; die Auswahl bleibt beim Sortieren erhalten.
         </p>
         <dl class="mt-3 grid gap-2 text-xs text-slate-600 sm:grid-cols-3">
           <div><dt class="font-medium text-slate-700">Diversität</dt><dd>unique Lemmata ÷ Tokens (Type-Token-Ratio)</dd></div>
@@ -96,12 +125,22 @@ export class TextStatistics {
 
   renderTable() {
     const sorted = this.sortedStats();
-    const headerRow = COLUMNS.map(col => {
+    const allVisibleSelected = sorted.length > 0 && sorted.every(s => this.selected.has(s.id));
+    const selectAllTh = `<th class="px-3 py-2 text-left"><input type="checkbox" id="tsSelectAll" class="rounded border-slate-300" title="Alle angezeigten Texte aus-/abwählen"${allVisibleSelected ? ' checked' : ''}></th>`;
+    const headerRow = selectAllTh + COLUMNS.map(col => {
       const isActive = this.sort.key === col.key;
       const arrow = isActive ? (this.sort.dir === 'asc' ? ' ↑' : ' ↓') : '';
       const alignClass = col.align === 'right' ? 'text-right' : 'text-left';
       return `<th data-sort-key="${col.key}" class="cursor-pointer select-none px-3 py-2 ${alignClass} text-xs font-semibold uppercase tracking-wide ${isActive ? 'text-brand-700' : 'text-slate-500'} hover:text-brand-700">${escapeHtml(col.label)}${arrow}</th>`;
     }).join('');
+
+    if (sorted.length === 0 && this.showSelectedOnly) {
+      return `
+        <div class="rounded-2xl border border-slate-200 bg-white p-6 text-center text-sm text-slate-500 shadow-sm">
+          Keine Texte ausgewählt. Häkchen in der Tabelle setzen oder „Nur Auswahl anzeigen" deaktivieren.
+        </div>
+      `;
+    }
 
     const rows = sorted.map(s => {
       const cells = COLUMNS.map(col => {
@@ -123,7 +162,8 @@ export class TextStatistics {
         }
         return `<td class="px-3 py-2 ${alignClass} text-sm text-slate-700">${display}</td>`;
       }).join('');
-      return `<tr class="border-t border-slate-100 hover:bg-brand-50/50">${cells}</tr>`;
+      const checkboxCell = `<td class="px-3 py-2 text-left"><input type="checkbox" data-select-id="${escapeHtml(s.id)}" class="rounded border-slate-300"${this.selected.has(s.id) ? ' checked' : ''}></td>`;
+      return `<tr class="border-t border-slate-100 hover:bg-brand-50/50">${checkboxCell}${cells}</tr>`;
     }).join('');
 
     return `
@@ -154,7 +194,10 @@ export class TextStatistics {
     if (!this._stats) return [];
     const { key, dir } = this.sort;
     const factor = dir === 'asc' ? 1 : -1;
-    const stats = [...this._stats];
+    const base = this.showSelectedOnly
+      ? this._stats.filter(s => this.selected.has(s.id))
+      : this._stats;
+    const stats = [...base];
     stats.sort((a, b) => {
       const va = a[key];
       const vb = b[key];
@@ -178,6 +221,49 @@ export class TextStatistics {
         }
         this.render();
       });
+    });
+
+    // --- Auswahl (#136) ---
+    // Einzel-Checkboxen aktualisieren nur Set + Leiste (kein Re-Render,
+    // damit die Scroll-Position in der Tabelle erhalten bleibt).
+    const updateBar = () => {
+      const cnt = document.getElementById('tsSelCount');
+      if (cnt) cnt.textContent = this.selected.size.toLocaleString('de-DE');
+      const clearBtn = document.getElementById('tsClearSelection');
+      if (clearBtn) {
+        clearBtn.disabled = this.selected.size === 0;
+        clearBtn.classList.toggle('opacity-50', this.selected.size === 0);
+      }
+      const master = document.getElementById('tsSelectAll');
+      if (master) {
+        const visible = this.sortedStats();
+        master.checked = visible.length > 0 && visible.every(s => this.selected.has(s.id));
+      }
+    };
+
+    document.querySelectorAll('[data-select-id]').forEach(cb => {
+      cb.addEventListener('change', () => {
+        if (cb.checked) this.selected.add(cb.dataset.selectId);
+        else this.selected.delete(cb.dataset.selectId);
+        updateBar();
+      });
+    });
+
+    document.getElementById('tsSelectAll')?.addEventListener('change', (e) => {
+      const visible = this.sortedStats();
+      if (e.target.checked) visible.forEach(s => this.selected.add(s.id));
+      else visible.forEach(s => this.selected.delete(s.id));
+      this.render();
+    });
+
+    document.getElementById('tsShowSelected')?.addEventListener('change', (e) => {
+      this.showSelectedOnly = e.target.checked;
+      this.render();
+    });
+
+    document.getElementById('tsClearSelection')?.addEventListener('click', () => {
+      this.selected.clear();
+      this.render();
     });
   }
 }

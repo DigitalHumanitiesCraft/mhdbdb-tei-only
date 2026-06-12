@@ -177,10 +177,11 @@ Corpus-wide text analysis using pre-built indexes. Neun Werkzeuge (acht Playgrou
 - Absolute oder relative Frequenz
 - Sortierung nach Frequenz oder alphabetisch
 
-**Text-Statistiken (#89):**
+**Text-Statistiken (#89, Auswahl-UI #136):**
 - Pro Text: Token-Count, Lemma-Diversität (unique / total), Hapax-Rate, durchschnittliche Lemma-Frequenz
 - Korpus-Übersicht als Tabelle, sortierbar
 - Stilistik-Indikator: hohe Lemma-Diversität bei knappen Texten = lexikalisch reich
+- Subset-Bildung: Checkbox je Zeile + Master-Checkbox, „Nur Auswahl anzeigen", Auswahlzähler; Auswahl übersteht Sortieren
 
 **Lemma-Verteilung (#90):**
 - Single Lemma → Bar-Chart über alle Texte
