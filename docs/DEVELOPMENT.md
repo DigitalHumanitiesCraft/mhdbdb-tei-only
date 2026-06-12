@@ -181,7 +181,7 @@ npm run report        # View HTML report
 ### CI: Data Integrity
 
 **Workflow:** `.github/workflows/data-integrity.yml` (konsolidiert seit #125 die früheren `schema-validation.yml` + `index-version-check.yml`)
-**Triggers:** PRs + main-Pushes, die `schema/`, `tei/`, `authority-files/`, die zwei Index-`.json.gz`, die Build-Skripte (`build-*-index.py`, `mhg_normalizer.py`, `extract-variants.py`), `check-index-versions.py` oder `corpus-loader.js` berühren. Plus `workflow_dispatch`.
+**Triggers:** PRs + main-Pushes, die `schema/`, `tei/`, `authority-files/`, die zwei Index-`.json.gz`, die Build-Skripte (`build-*-index.py`, `mhg_normalizer.py`), `scripts/sync/`, `scripts/audit/`, `corpus-loader.js` oder `requirements.txt` berühren. Plus `workflow_dispatch`.
 
 **Sieben Checks, billig → teuer (fail fast):**
 
@@ -190,10 +190,10 @@ npm run report        # View HTML report
 3. **TEI-P5-Pin** — `tei_all.rng` wird frisch geladen und gegen die gepinnte Version (4.11.0) geprüft.
 4. **Freshness variants.xml** (#125) — `extract-variants.py --apply` muss die committete Datei byte-identisch reproduzieren („Korpus geändert, variants.xml vergessen"). Blockierend VOR Check 5: der Index-Vergleich allein kann variants-Drift nicht erkennen.
 5. **Freshness Indexe** (#125, Rebuild-and-Compare) — beide Indexe werden frisch gebaut und dekomprimiert mit dem committeten Stand verglichen („Quelle/Build-Skript geändert, Rebuild vergessen"). Funktioniert nur, weil die Builds deterministisch sind.
-6. **Zweistufige RelaxNG-Validierung** (P2-13) — Stage 1 `tei_all.rng` (Warnungen, #30-Baseline), Stage 2 `mhdbdb.rng`/`mhdbdb-authority.rng` (hartes Gate).
-7. **Cross-Reference-Integrity** (#44/#115) — dangling Refs außerhalb `lexicon.xml` brechen den Build.
+6. **Cross-Reference-Integrity** (#44/#115) — dangling Refs außerhalb `lexicon.xml` brechen den Build.
+7. **Zweistufige RelaxNG-Validierung** (P2-13) — Stage 1 `tei_all.rng` (Warnungen, #30-Baseline), Stage 2 `mhdbdb.rng`/`mhdbdb-authority.rng` (hartes Gate). Als teuerster Check bewusst zuletzt.
 
-**Hinweis lxml-Pin:** lxml ist im Workflow gepinnt (aktuell 6.0.2), damit Serialisierungsänderungen neuer lxml-Versionen nicht als Drift-Fehlalarm erscheinen. Beim Pin-Bump lokal dieselbe Version installieren.
+**Hinweis Dependency-Pins:** lxml und rnc2rng sind in `requirements.txt` gepinnt (Single Source — CI installiert daraus), damit Serialisierungsänderungen neuer Versionen nicht als Drift-Fehlalarm erscheinen. Lokal `pip install -r requirements.txt` verwenden; beim Pin-Bump danach `variants.xml` regenerieren und die `.rng` neu erzeugen.
 
 **Debugging failures:**
 - Versions-Drift → `python scripts/audit/check-index-versions.py` lokal, Konstanten angleichen

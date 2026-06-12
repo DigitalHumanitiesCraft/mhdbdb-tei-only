@@ -261,8 +261,10 @@ def build_corpus_index():
     print(f"TEI directory: {TEI_DIR}")
 
     # Get all TEI files
-    # glob-Reihenfolge ist OS-abhängig — sortiert für deterministische Index-Bytes, #125
-    tei_files = sorted(TEI_DIR.glob('*.tei.xml'))
+    # glob-Reihenfolge ist OS-abhängig — sortiert für deterministische Index-Bytes, #125.
+    # key=p.name: Path-Objekte vergleichen auf Windows casefolded, auf Linux byte-weise —
+    # erst der String-Key macht die Ordnung plattformgleich (Review #146).
+    tei_files = sorted(TEI_DIR.glob('*.tei.xml'), key=lambda p: p.name)
     total_files = len(tei_files)
 
     print(f"Found {total_files} TEI files")
@@ -329,16 +331,16 @@ def save_index(index):
     # Create data directory if needed
     DATA_DIR.mkdir(exist_ok=True)
 
-    # Serialize to JSON
-    json_data = json.dumps(index, ensure_ascii=False, separators=(',', ':'))
+    # Serialize to JSON (einmal encodieren — der String ist ~200 MB)
+    json_bytes = json.dumps(index, ensure_ascii=False, separators=(',', ':')).encode('utf-8')
 
     # Get uncompressed size
-    uncompressed_size = len(json_data.encode('utf-8'))
+    uncompressed_size = len(json_bytes)
 
     # mtime=0: kein Zeitstempel im gzip-Header — Builds aus identischem
     # Quellstand sind byte-identisch (#125, Muster wie naming-index-Builder)
     with gzip.GzipFile(OUTPUT_FILE, mode='wb', mtime=0) as f:
-        f.write(json_data.encode('utf-8'))
+        f.write(json_bytes)
 
     # Get compressed size
     compressed_size = OUTPUT_FILE.stat().st_size

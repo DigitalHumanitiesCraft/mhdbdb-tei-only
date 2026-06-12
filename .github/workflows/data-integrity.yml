@@ -22,16 +22,20 @@ name: Data Integrity
 #      vergleichen (gzip-Bytes koennen je zlib-Build variieren).
 #      Traegt nur, weil die Builds seit #125 deterministisch sind
 #      (kein generatedAt, sorted glob, gzip mtime=0).
-#   6. Zweistufige RelaxNG-Validierung (P2-13): Stage 2
+#   6. Authority cross-reference integrity (#44/#115): dangling Refs
+#      ausserhalb lexicon.xml brechen den Build (lexicon traegt eine
+#      bekannte Backfill-Baseline und wird nur reportet). Vor der
+#      RelaxNG-Validierung, weil deutlich billiger (plain parse).
+#   7. Zweistufige RelaxNG-Validierung (P2-13): Stage 2
 #      (mhdbdb.rng / mhdbdb-authority.rng) ist das harte Gate;
 #      Stage-1-Baseline-Fails (#30) sind nur Warnungen.
-#   7. Authority cross-reference integrity (#44/#115): dangling Refs
-#      ausserhalb lexicon.xml brechen den Build (lexicon traegt eine
-#      bekannte Backfill-Baseline und wird nur reportet).
 #
-# lxml ist gepinnt: eine neue lxml-Serialisierung wuerde sonst in
-# Step 4/5 als falscher Drift-Alarm erscheinen. Bei Pin-Bump lokal
-# dieselbe Version installieren und Indexe einmal rebuilden.
+# Dependencies sind in requirements.txt gepinnt (CI und lokal dieselben
+# Versionen): eine neue lxml-Serialisierung wuerde sonst in Step 4 als
+# falscher Drift-Alarm erscheinen (variants.xml ist lxml-serialisiert;
+# die Indexe sind reines json.dumps), eine neue rnc2rng-Version in
+# Step 2. Bei Pin-Bump lokal `pip install -r requirements.txt` und
+# variants.xml einmal regenerieren.
 
 on:
   pull_request:
@@ -44,10 +48,12 @@ on:
       - 'scripts/build-corpus-index.py'
       - 'scripts/build-authority-index.py'
       - 'scripts/mhg_normalizer.py'
-      - 'scripts/sync/extract-variants.py'
-      - 'scripts/audit/validate-corpus.py'
-      - 'scripts/audit/check-index-versions.py'
+      # Globs statt Einzeldateien: jedes hier ausgefuehrte Gate-Skript
+      # soll seinen eigenen Aenderungs-Trigger haben (Review #146).
+      - 'scripts/sync/**'
+      - 'scripts/audit/**'
       - 'assets/js/lib/corpus-loader.js'
+      - 'requirements.txt'
       - '.github/workflows/data-integrity.yml'
   # Direct-to-main pushes also trigger the workflow (Branch-Protection
   # ist historisch umgangen worden, z.B. WZB-Merge 2026-05-06).
@@ -63,10 +69,10 @@ on:
       - 'scripts/build-corpus-index.py'
       - 'scripts/build-authority-index.py'
       - 'scripts/mhg_normalizer.py'
-      - 'scripts/sync/extract-variants.py'
-      - 'scripts/audit/validate-corpus.py'
-      - 'scripts/audit/check-index-versions.py'
+      - 'scripts/sync/**'
+      - 'scripts/audit/**'
       - 'assets/js/lib/corpus-loader.js'
+      - 'requirements.txt'
       - '.github/workflows/data-integrity.yml'
   workflow_dispatch:
 
@@ -89,9 +95,10 @@ jobs:
         uses: actions/setup-python@v6
         with:
           python-version: '3.13'
+          cache: 'pip'
 
       - name: Install dependencies
-        run: pip install --quiet lxml==6.0.2 rnc2rng
+        run: pip install --quiet -r requirements.txt
 
       - name: Index version consistency (#47.3)
         run: python scripts/audit/check-index-versions.py
@@ -104,15 +111,18 @@ jobs:
       - name: Fail if committed .rng differs from regenerated .rng
         run: |
           if ! git diff --exit-code schema/mhdbdb.rng schema/mhdbdb-authority.rng; then
-            echo "::error title=RNG drift::Committed .rng files are out of sync with their .rnc sources. Run 'python -m rnc2rng schema/mhdbdb.rnc schema/mhdbdb.rng && python -m rnc2rng schema/mhdbdb-authority.rnc schema/mhdbdb-authority.rng' locally and commit the result."
+            echo "::error title=RNG drift::Committete .rng-Dateien sind nicht synchron mit ihren .rnc-Quellen. Lokal 'python -m rnc2rng schema/mhdbdb.rnc schema/mhdbdb.rng && python -m rnc2rng schema/mhdbdb-authority.rnc schema/mhdbdb-authority.rng' ausfuehren und das Ergebnis committen."
             exit 1
           fi
 
       - name: Download tei_all.rng
         # tei_all.rng is gitignored in this repo (see schema/README.md).
         # Every run fetches it fresh from the TEI Consortium.
+        # -f: HTTP-Fehler (404/503) duerfen keine HTML-Fehlerseite als
+        # Schema speichern — sonst failt erst der Pin-Check mit einer
+        # irrefuehrenden "Header format changed"-Diagnose (Review #146).
         run: |
-          curl -sSL \
+          curl -fsSL \
             "https://tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" \
             -o schema/tei_all.rng
 
@@ -134,11 +144,11 @@ jobs:
           TEI_VERSION=$(python3 -c "import re; m = re.search(r'TEI Edition: P5 Version\s+([0-9]+\.[0-9]+\.[0-9]+)', open('schema/tei_all.rng', encoding='utf-8').read()); print(m.group(1) if m else '')")
           EXPECTED="4.11.0"
           if [ -z "$TEI_VERSION" ]; then
-            echo "::error title=TEI P5 version pin::Could not extract TEI P5 version from schema/tei_all.rng. Header format may have changed upstream."
+            echo "::error title=TEI P5 version pin::TEI-P5-Version konnte nicht aus schema/tei_all.rng extrahiert werden. Header-Format hat sich evtl. upstream geaendert."
             exit 1
           fi
           if [ "$TEI_VERSION" != "$EXPECTED" ]; then
-            echo "::error title=TEI P5 version drift::CI downloaded TEI P5 Version $TEI_VERSION, but the repo is pinned to $EXPECTED (see schema/README.md). Either bump the pin in schema/README.md + this workflow step, or investigate the tei-c.org URL if a version regression happened."
+            echo "::error title=TEI P5 version drift::CI hat TEI P5 Version $TEI_VERSION geladen, das Repo ist aber auf $EXPECTED gepinnt (siehe schema/README.md). Entweder den Pin in schema/README.md + diesem Workflow-Step bumpen, oder bei einer Versions-Regression die tei-c.org-URL pruefen."
             exit 1
           fi
           echo "TEI P5 version: $TEI_VERSION (matches pin)"
@@ -177,8 +187,8 @@ jobs:
           sys.exit(0 if ok else 1)
           EOF
 
-      - name: Validate corpus and authority files (P2-13)
-        run: python scripts/audit/validate-corpus.py --fail-fast
-
       - name: Authority cross-reference integrity (#44/#115)
         run: python scripts/audit/check-authority-cross-refs.py --check
+
+      - name: Validate corpus and authority files (P2-13)
+        run: python scripts/audit/validate-corpus.py --fail-fast

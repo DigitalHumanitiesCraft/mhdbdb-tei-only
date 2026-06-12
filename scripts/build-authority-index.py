@@ -819,16 +819,16 @@ def save_index(index):
     # Create data directory if needed
     DATA_DIR.mkdir(exist_ok=True)
 
-    # Serialize to JSON
-    json_data = json.dumps(index, ensure_ascii=False, separators=(',', ':'))
+    # Serialize to JSON (einmal encodieren — Duplikat zu build-corpus-index.py, bewusst)
+    json_bytes = json.dumps(index, ensure_ascii=False, separators=(',', ':')).encode('utf-8')
 
     # Get uncompressed size
-    uncompressed_size = len(json_data.encode('utf-8'))
+    uncompressed_size = len(json_bytes)
 
     # mtime=0: kein Zeitstempel im gzip-Header — Builds aus identischem
     # Quellstand sind byte-identisch (#125, Muster wie naming-index-Builder)
     with gzip.GzipFile(OUTPUT_FILE, mode='wb', mtime=0) as f:
-        f.write(json_data.encode('utf-8'))
+        f.write(json_bytes)
 
     # Get compressed size
     compressed_size = OUTPUT_FILE.stat().st_size

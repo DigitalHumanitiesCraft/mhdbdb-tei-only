@@ -27,7 +27,6 @@ Usage:
     python scripts/sync/extract-variants.py --apply    # overwrite authority-files/variants.xml
 """
 
-import io
 import re
 import sys
 from collections import Counter, defaultdict
@@ -162,19 +161,20 @@ def build_tree(lemma_to_types, type_to_form, n_files, date_text):
     return tree
 
 
-def existing_date():
-    """<date> der bestehenden variants.xml, oder None (Datei fehlt/kein date)."""
-    if not VARIANTS.exists():
-        return None
-    tree = etree.parse(str(VARIANTS))
-    el = tree.find(f'{TEI}teiHeader/{TEI}fileDesc/{TEI}publicationStmt/{TEI}date')
-    return el.text if el is not None and el.text else None
+HEADER_DATE = f'{TEI}teiHeader/{TEI}fileDesc/{TEI}publicationStmt/{TEI}date'
+HEADER_NAME = f'{TEI}teiHeader/{TEI}fileDesc/{TEI}titleStmt/{TEI}respStmt/{TEI}name'
 
 
-def current_map():
-    """type_id -> (lemma_id, form) from the existing variants.xml, for diffing."""
+def read_existing():
+    """Bestehende variants.xml in EINEM Parse einlesen (Diff + Header).
+
+    Return (type_map, date_text, name_text):
+      type_map:  type_id -> (lemma_id, form), fuer den Diff
+      date_text: <date>-Text oder None (Datei fehlt / kein date)
+      name_text: respStmt/<name>-Text ("MHDBDB TEI Corpus (N texts)") oder None
+    """
     if not VARIANTS.exists():
-        return {}
+        return {}, None, None
     out = {}
     tree = etree.parse(str(VARIANTS))
     for entry in tree.iter(f'{TEI}entry'):
@@ -183,7 +183,9 @@ def current_map():
             tid = form.get(f'{XML}id')
             if tid:
                 out[tid] = (lemma_id, (form.text or '').strip())
-    return out
+    date_text = tree.findtext(HEADER_DATE) or None
+    name_text = tree.findtext(HEADER_NAME)
+    return out, date_text, name_text
 
 
 def main():
@@ -197,7 +199,7 @@ def main():
     n_lemmas = len(lemma_to_types)
 
     # diff vs current
-    cur = current_map()
+    cur, old_date, old_name = read_existing()
     new_ids = set(type_to_form)
     cur_ids = set(cur)
     added = new_ids - cur_ids
@@ -205,18 +207,19 @@ def main():
     form_changed = sum(1 for t in (new_ids & cur_ids) if cur[t][1] != type_to_form[t])
     lemma_changed = sum(1 for t in (new_ids & cur_ids) if cur[t][0] != type_to_lemma[t])
 
-    # Datum nur bei inhaltlicher Aenderung (#125): erst mit dem bestehenden
-    # <date> serialisieren; ist das Ergebnis byte-identisch zur committeten
-    # Datei, bleibt das Datum stehen (No-op-Lauf erzeugt keinen Diff).
-    # Sonst heutiges Datum. <date> bedeutet damit "Stand der Daten".
-    old_date = existing_date()
+    # Datum nur bei inhaltlicher Aenderung (#125): der semantische Diff
+    # (Zaehler oben + Korpusgroesse im Header-<name>) entscheidet ueber den
+    # Restamp. Bewusst KEIN Byte-Vergleich: der wuerde bei lxml-
+    # Serialisierungs-Drift (lokale Version != requirements.txt-Pin)
+    # faelschlich stempeln (Review #146). Ausser Datum und <name> ist der
+    # Output eine reine Funktion der Diff-verglichenen Daten, der Diff ist
+    # also vollstaendig. <date> bedeutet damit "Stand der Daten".
     today = date.today().isoformat()
     tree = build_tree(lemma_to_types, type_to_form, len(base_files), old_date or today)
-    buf = io.BytesIO()
-    tree.write(buf, xml_declaration=True, encoding='UTF-8', pretty_print=True)
-    if old_date is not None and buf.getvalue() != VARIANTS.read_bytes():
-        d = tree.find(f'{TEI}teiHeader/{TEI}fileDesc/{TEI}publicationStmt/{TEI}date')
-        d.text = today
+    changed = (bool(added or removed or form_changed or lemma_changed)
+               or tree.findtext(HEADER_NAME) != old_name)
+    if changed and old_date is not None:
+        tree.find(HEADER_DATE).text = today
     out = VARIANTS if apply else DRY_OUT
     tree.write(str(out), xml_declaration=True, encoding='UTF-8', pretty_print=True)
 
