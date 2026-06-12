@@ -37,7 +37,7 @@ Pendant zu `docs/TEI-MODEL.md` (Korpusdateien).
 
 Wichtig fuer den aktiven Betrieb (siehe [INDEX.md → Current Phase](INDEX.md#current-phase)): Alle Authority-Files entstanden aus **einer einmaligen Migration** (2025-07-22), die **dreistufig** war: Alt-MHDBDB (RDF-Triple-Store bei Salzburg, SPARQL ueber dh.plus.ac.at) → CSV-Snapshots (via SPARQL-Queries, auf Branch `initial-data-wrangling` unter `lists/`) → TEI-XML (via `scripts/_archived/tei-transformation.py`, Commit `8513589ea`). **Seit dieser Migration ist dieses Repo der alleinige Master fuer alle 8 Authority-Files. Es gibt keinen Re-Export aus Salzburg und keine lebende externe Quelle.** Die CSV-Exporte waren Snapshots, keine Schnittstelle: alles Weitere wird hier gepflegt.
 
-„Stale" heisst hier: aus dem Korpus abgeleitet und nicht mit-regeneriert, sobald sich Daten aendern. Der Korpus wird laufend editiert (Skript-Ingest UND haendische Korrekturen), daher driften korpus-gekoppelte Files. Detektor: `scripts/audit/check-authority-cross-refs.py` (in CI via `schema-validation.yml`).
+„Stale" heisst hier: aus dem Korpus abgeleitet und nicht mit-regeneriert, sobald sich Daten aendern. Der Korpus wird laufend editiert (Skript-Ingest UND haendische Korrekturen), daher driften korpus-gekoppelte Files. Detektor: `scripts/audit/check-authority-cross-refs.py` (in CI via `data-integrity.yml`).
 
 | Datei | Herkunft (einmalig, 2025-07-22) | Aktuelle Pflege | Drift-Risiko |
 |-------|-----------|-----------|--------------|
@@ -507,7 +507,7 @@ Nach der #32-Migration begann der aktive Ingest. Die Wenzelsbibel-Pipeline (WZB,
 - **Phase 3** (Sense-Aufloesung) waehlte ueberwiegend bestehende Senses (<78000); die fehlenden Sense-IDs ≥78000 sind grossteils strukturelle Artefakte der Lemma-Erzeugung, keine neuen Bedeutungen.
 - **Notreparatur** (Commits `8caa09627`/`649c0fe55`, 2026-05): die 4 sense-losen Lemmata bekamen manuell je einen `<sense>`; `scripts/audit/check-lexicon-senses.py` entstand als Regression-Schutz.
 
-**Lesson** (→ [ADR-015](DECISIONS.md#adr-015-authority-source-modell-korpus-führt-ingest-braucht-rückwärts-sync), [CONTRACTS.md → F.3](CONTRACTS.md#f3-ingest-requires-backward-sync)): Eine Forward-Only-Ingest-Pipeline ohne `*-backfill-lexicon.py` erzeugt zwangslaeufig dangling Refs. Resultat: 977 unresolved Refs (349 IDs), repo-intern zu schliessen (Lemma-Stubs automatisch generierbar, Sense-Bedeutung kuratorisch). Detektor: `scripts/audit/check-authority-cross-refs.py --check` (CI-Gate in `schema-validation.yml`).
+**Lesson** (→ [ADR-015](DECISIONS.md#adr-015-authority-source-modell-korpus-führt-ingest-braucht-rückwärts-sync), [CONTRACTS.md → F.3](CONTRACTS.md#f3-ingest-requires-backward-sync)): Eine Forward-Only-Ingest-Pipeline ohne `*-backfill-lexicon.py` erzeugt zwangslaeufig dangling Refs. Resultat: 977 unresolved Refs (349 IDs), repo-intern zu schliessen (Lemma-Stubs automatisch generierbar, Sense-Bedeutung kuratorisch). Detektor: `scripts/audit/check-authority-cross-refs.py --check` (CI-Gate in `data-integrity.yml`).
 
 ---
 

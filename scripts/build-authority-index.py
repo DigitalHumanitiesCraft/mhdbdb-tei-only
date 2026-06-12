@@ -25,7 +25,6 @@ import subprocess
 import sys
 import os
 from pathlib import Path
-from datetime import datetime
 
 # Check dependencies
 try:
@@ -787,8 +786,7 @@ def build_index():
 
     # Build index structure
     index = {
-        'version': '1.4.0',  # 1.2.0: Authority migration (genre ptrs, person-works derivation, Frauendienst split). 1.2.1: WZB-Lemmata + Varianten + Werk-Eintrag. 1.2.2: #104 FLG/FLG1-Werk-Titel + work_571 biblStruct auf Vollmann-Profe/Neumann 1990. 1.3.0: #113-Followup — alternative-Terms in concepts.xml getrennt von Primär-Term (altDE/altEN/altNormalized) statt last-wins-Overwrite. 1.4.0: #44/#115 variants.xml aus Korpus regeneriert via scripts/sync/extract-variants.py (+64.287 Formen, 192.472→256.759).
-        'generatedAt': datetime.utcnow().isoformat() + 'Z',
+        'version': '1.4.1',  # 1.2.0: Authority migration (genre ptrs, person-works derivation, Frauendienst split). 1.2.1: WZB-Lemmata + Varianten + Werk-Eintrag. 1.2.2: #104 FLG/FLG1-Werk-Titel + work_571 biblStruct auf Vollmann-Profe/Neumann 1990. 1.3.0: #113-Followup — alternative-Terms in concepts.xml getrennt von Primär-Term (altDE/altEN/altNormalized) statt last-wins-Overwrite. 1.4.0: #44/#115 variants.xml aus Korpus regeneriert via scripts/sync/extract-variants.py (+64.287 Formen, 192.472→256.759). 1.4.1: #125 deterministischer Build (generatedAt entfernt, gzip mtime=0).
         'lemmata': lemmata,
         'persons': persons,
         'works': works,
@@ -827,9 +825,10 @@ def save_index(index):
     # Get uncompressed size
     uncompressed_size = len(json_data.encode('utf-8'))
 
-    # Compress with gzip
-    with gzip.open(OUTPUT_FILE, 'wt', encoding='utf-8') as f:
-        f.write(json_data)
+    # mtime=0: kein Zeitstempel im gzip-Header — Builds aus identischem
+    # Quellstand sind byte-identisch (#125, Muster wie naming-index-Builder)
+    with gzip.GzipFile(OUTPUT_FILE, mode='wb', mtime=0) as f:
+        f.write(json_data.encode('utf-8'))
 
     # Get compressed size
     compressed_size = OUTPUT_FILE.stat().st_size

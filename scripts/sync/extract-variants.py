@@ -27,6 +27,7 @@ Usage:
     python scripts/sync/extract-variants.py --apply    # overwrite authority-files/variants.xml
 """
 
+import io
 import re
 import sys
 from collections import Counter, defaultdict
@@ -126,7 +127,7 @@ def type_key(type_id):
     return int(m.group(1)) if m else 1 << 62
 
 
-def build_tree(lemma_to_types, type_to_form, n_files):
+def build_tree(lemma_to_types, type_to_form, n_files, date_text):
     root = etree.Element(f'{TEI}TEI', nsmap={None: TEI_NS})
     header = etree.SubElement(root, f'{TEI}teiHeader')
     fileDesc = etree.SubElement(header, f'{TEI}fileDesc')
@@ -137,7 +138,8 @@ def build_tree(lemma_to_types, type_to_form, n_files):
     etree.SubElement(respStmt, f'{TEI}name').text = f'MHDBDB TEI Corpus ({n_files} texts)'
     pubStmt = etree.SubElement(fileDesc, f'{TEI}publicationStmt')
     etree.SubElement(pubStmt, f'{TEI}publisher').text = 'MHDBDB'
-    etree.SubElement(pubStmt, f'{TEI}date').text = date.today().isoformat()
+    # Semantik: <date> = Stand der Daten, nicht letzter Script-Lauf — siehe main()
+    etree.SubElement(pubStmt, f'{TEI}date').text = date_text
     sourceDesc = etree.SubElement(fileDesc, f'{TEI}sourceDesc')
     etree.SubElement(sourceDesc, f'{TEI}p').text = 'Automatically extracted attestations from TEI corpus'
 
@@ -158,6 +160,15 @@ def build_tree(lemma_to_types, type_to_form, n_files):
     for target, content in PI_MODEL:
         root.addprevious(etree.ProcessingInstruction(target, content))
     return tree
+
+
+def existing_date():
+    """<date> der bestehenden variants.xml, oder None (Datei fehlt/kein date)."""
+    if not VARIANTS.exists():
+        return None
+    tree = etree.parse(str(VARIANTS))
+    el = tree.find(f'{TEI}teiHeader/{TEI}fileDesc/{TEI}publicationStmt/{TEI}date')
+    return el.text if el is not None and el.text else None
 
 
 def current_map():
@@ -194,7 +205,18 @@ def main():
     form_changed = sum(1 for t in (new_ids & cur_ids) if cur[t][1] != type_to_form[t])
     lemma_changed = sum(1 for t in (new_ids & cur_ids) if cur[t][0] != type_to_lemma[t])
 
-    tree = build_tree(lemma_to_types, type_to_form, len(base_files))
+    # Datum nur bei inhaltlicher Aenderung (#125): erst mit dem bestehenden
+    # <date> serialisieren; ist das Ergebnis byte-identisch zur committeten
+    # Datei, bleibt das Datum stehen (No-op-Lauf erzeugt keinen Diff).
+    # Sonst heutiges Datum. <date> bedeutet damit "Stand der Daten".
+    old_date = existing_date()
+    today = date.today().isoformat()
+    tree = build_tree(lemma_to_types, type_to_form, len(base_files), old_date or today)
+    buf = io.BytesIO()
+    tree.write(buf, xml_declaration=True, encoding='UTF-8', pretty_print=True)
+    if old_date is not None and buf.getvalue() != VARIANTS.read_bytes():
+        d = tree.find(f'{TEI}teiHeader/{TEI}fileDesc/{TEI}publicationStmt/{TEI}date')
+        d.text = today
     out = VARIANTS if apply else DRY_OUT
     tree.write(str(out), xml_declaration=True, encoding='UTF-8', pretty_print=True)
 

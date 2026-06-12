@@ -70,7 +70,7 @@ def validate_authority_index():
         return False
 
     # Check required fields
-    required_fields = ['version', 'generatedAt', 'lemmata', 'persons', 'works', 'variants']
+    required_fields = ['version', 'lemmata', 'persons', 'works', 'variants']
     for field in required_fields:
         if field not in data:
             print(f"[FAIL] Missing field: {field}")
@@ -136,7 +136,7 @@ def validate_corpus_index():
         return False
 
     # Check required fields
-    required_fields = ['version', 'generatedAt', 'totalTexts', 'totalLemmata', 'texts', 'lemmaIndex']
+    required_fields = ['version', 'totalTexts', 'totalLemmata', 'texts', 'lemmaIndex']
     for field in required_fields:
         if field not in data:
             print(f"[FAIL] FAIL: Missing field: {field}")

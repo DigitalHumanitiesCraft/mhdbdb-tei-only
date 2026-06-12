@@ -178,36 +178,29 @@ npm run report        # View HTML report
 
 **Playwright config** (`testing/playwright.config.js`): Headless Chromium, 1 worker (sequential), 60s timeout per test, auto-starts `http-server` on port 8080. HTML + JSON reports.
 
-### CI: Schema Validation
+### CI: Data Integrity
 
-**Workflow:** `.github/workflows/schema-validation.yml`
-**Triggers:** PRs touching `schema/`, `tei/`, `authority-files/`, or `scripts/audit/validate-corpus.py`. Also manual via `workflow_dispatch`.
+**Workflow:** `.github/workflows/data-integrity.yml` (konsolidiert seit #125 die früheren `schema-validation.yml` + `index-version-check.yml`)
+**Triggers:** PRs + main-Pushes, die `schema/`, `tei/`, `authority-files/`, die zwei Index-`.json.gz`, die Build-Skripte (`build-*-index.py`, `mhg_normalizer.py`, `extract-variants.py`), `check-index-versions.py` oder `corpus-loader.js` berühren. Plus `workflow_dispatch`.
 
-**Two checks:**
+**Sieben Checks, billig → teuer (fail fast):**
 
-1. **RNC→RNG sync check** — Regenerates `.rng` from `.rnc` sources and fails if committed `.rng` differs. Catches "edited RNC, forgot to regenerate RNG" drift.
+1. **Index-Versions-Konstanten** (#47.3) — Build-Skripte + `corpus-loader.js` müssen dieselben Versionen nennen, sonst greift die IndexedDB-Cache-Invalidierung nicht. Lokal: `python scripts/audit/check-index-versions.py`.
+2. **RNC→RNG sync check** (P2-14) — regeneriert `.rng` aus `.rnc`, Diff = Fail.
+3. **TEI-P5-Pin** — `tei_all.rng` wird frisch geladen und gegen die gepinnte Version (4.11.0) geprüft.
+4. **Freshness variants.xml** (#125) — `extract-variants.py --apply` muss die committete Datei byte-identisch reproduzieren („Korpus geändert, variants.xml vergessen"). Blockierend VOR Check 5: der Index-Vergleich allein kann variants-Drift nicht erkennen.
+5. **Freshness Indexe** (#125, Rebuild-and-Compare) — beide Indexe werden frisch gebaut und dekomprimiert mit dem committeten Stand verglichen („Quelle/Build-Skript geändert, Rebuild vergessen"). Funktioniert nur, weil die Builds deterministisch sind.
+6. **Zweistufige RelaxNG-Validierung** (P2-13) — Stage 1 `tei_all.rng` (Warnungen, #30-Baseline), Stage 2 `mhdbdb.rng`/`mhdbdb-authority.rng` (hartes Gate).
+7. **Cross-Reference-Integrity** (#44/#115) — dangling Refs außerhalb `lexicon.xml` brechen den Build.
 
-2. **Two-stage RelaxNG validation** — Validates all 667 corpus + 8 authority files:
-   - Stage 1: `tei_all.rng` (TEI P5 baseline) — 30 known fails (#30 baseline), warnings only
-   - Stage 2: `mhdbdb.rng` / `mhdbdb-authority.rng` (project schemas) — **hard gate, must be 0 fails**
-
-**TEI version pin:** CI downloads `tei_all.rng` fresh from TEI Consortium on each run and verifies it matches the pinned version (currently 4.11.0). A new TEI P5 release triggers a CI failure until the pin is explicitly bumped.
+**Hinweis lxml-Pin:** lxml ist im Workflow gepinnt (aktuell 6.0.2), damit Serialisierungsänderungen neuer lxml-Versionen nicht als Drift-Fehlalarm erscheinen. Beim Pin-Bump lokal dieselbe Version installieren.
 
 **Debugging failures:**
-- RNG drift → run `python -m rnc2rng schema/mhdbdb.rnc > schema/mhdbdb.rng` locally, commit the result
-- Stage 2 fail → run `python scripts/audit/validate-corpus.py --sample <SIGLE>` locally to reproduce
-- TEI version mismatch → update the `EXPECTED` variable in the workflow + `schema/README.md`
-
-### CI: Index Version Consistency
-
-**Workflow:** `.github/workflows/index-version-check.yml`
-**Triggers:** PRs touching `scripts/build-corpus-index.py`, `scripts/build-authority-index.py`, `assets/js/lib/corpus-loader.js`, `scripts/audit/check-index-versions.py`. Also `push` to main + `workflow_dispatch`.
-
-**Hintergrund (#47.3, 2026-05-12):** der Corpus-Index wird durch drei Stellen versioniert (Build-Skripte + Loader-Konstanten). Werden sie auseinander gehalten, greift die Cache-Invalidate-Logik nicht und Production-User mit altem IndexedDB-Cache sehen den neuen Index nie. Vor dem Audit-Workflow musste man sich auf manuelles Bumpen verlassen — der Fall ist konkret 2026-05-12 passiert (Loader-Konstante `4.0.1`, Build-Skript `4.1.0`, in `8f375bc4e` repariert).
-
-**Was der Check macht:** Regex-parst die vier Versions-Strings, vergleicht sie. Exit 0 sauber; exit 1 bei Drift mit File:Line + GitHub-Actions `::error`-Annotation; exit 2 bei Pattern-Parse-Failure.
-
-**Lokal:** `python scripts/audit/check-index-versions.py` — vor jedem Bump-Commit empfohlen.
+- Versions-Drift → `python scripts/audit/check-index-versions.py` lokal, Konstanten angleichen
+- RNG drift → `python -m rnc2rng schema/mhdbdb.rnc schema/mhdbdb.rng` lokal, committen
+- variants-/Index-Freshness → Data-Change-Lifecycle in DATA-MODEL.md abarbeiten (regenerieren, rebuilden, bumpen, alles in einem Commit)
+- Stage 2 fail → `python scripts/audit/validate-corpus.py --sample <SIGLE>` lokal
+- TEI version mismatch → `EXPECTED` im Workflow + `schema/README.md` bumpen
 
 ### CI: Release Version Check (Zenodo)
 
@@ -228,11 +221,11 @@ Diagnose- und Validierungs-Skripte in `scripts/audit/`:
 
 | Script | Zweck |
 |--------|-------|
-| `validate-corpus.py` | Two-stage RelaxNG-Validierung aller 667 Korpus- + 8 Authority-Files (gerufen von schema-validation.yml) |
+| `validate-corpus.py` | Two-stage RelaxNG-Validierung aller 667 Korpus- + 8 Authority-Files (gerufen von data-integrity.yml) |
 | `check-index-versions.py` | Versions-Konsistenz Build-Skripte ↔ Loader (siehe oben) |
 | `check-release-version.py` | Release-Tag ↔ `CITATION.cff`-Version; verbietet `version`-Feld in `.zenodo.json` (siehe oben) |
 | `audit-authority-files.py` | Struktur, Querverweise und Datenqualität **innerhalb** der 8 Authority-Files (authority→authority; ID-Muster, verwaiste Referenzen, strukturelle Konsistenz) |
-| `check-authority-cross-refs.py` | **Korpus→Authority** Cross-Ref-Integrität: dangling `@lemmaRef`/`@ana`/`@corresp`/`@ref`/`@target`. `--check` = CI-Gate in `schema-validation.yml` (scheitert bei unresolved refs außerhalb `lexicon.xml`). Einziger Detektor der Derived-File-Drift (#44/#115) |
+| `check-authority-cross-refs.py` | **Korpus→Authority** Cross-Ref-Integrität: dangling `@lemmaRef`/`@ana`/`@corresp`/`@ref`/`@target`. `--check` = CI-Gate in `data-integrity.yml` (scheitert bei unresolved refs außerhalb `lexicon.xml`). Einziger Detektor der Derived-File-Drift (#44/#115) |
 | `audit-tei-corpus.py` | Korpus-weite Stichproben (z.B. fehlende `<l>`/`<lg>`, ungewöhnliche xml:id-Pattern, Encoding-Anomalien) |
 | `check-lexicon-senses.py` | `lexicon.xml`-Sanity: Lemmata ohne `<sense>`, Senses ohne `conceptIds` |
 | `doc-count-audit.py` | Drift-Detektor zwischen tatsächlichen Korpus-/Authority-Zahlen und den in der Doku verankerten Werten. Heuristik: Window ±2 absolut oder ±2 % relativ, strikter Keyword-Anchor unmittelbar nach der Zahl |

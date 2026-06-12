@@ -1,0 +1,184 @@
+name: Data Integrity
+
+# Ein konsolidiertes Daten-Gate (#125): prueft Quellen UND abgeleitete
+# Schicht (Indexe, variants.xml) in einem Job, Steps von billig nach
+# teuer (fail fast). Konsolidiert das fruehere index-version-check.yml
+# (Step 1) und schema-validation.yml (Steps 2-3, 6-7).
+#
+#   1. Index-Versions-Konstanten: Build-Skripte und corpus-loader.js
+#      muessen dieselbe Version nennen, sonst greift die Cache-
+#      Invalidierung nicht (#47.3).
+#   2. RNC->RNG sync check (P2-14).
+#   3. TEI-P5-Versions-Pin fuer tei_all.rng.
+#   4. Freshness variants.xml: extract-variants.py --apply muss die
+#      committete Datei byte-identisch reproduzieren, sonst wurde nach
+#      einer Korpus-Aenderung die Regenerierung vergessen. MUSS als
+#      blockierender Step VOR Step 5 stehen: der Index-Vergleich kann
+#      variants-Drift prinzipiell nicht erkennen (der Rebuild nutzt
+#      dieselbe committete variants.xml und matcht). Nie auf advisory
+#      herunterstufen.
+#   5. Freshness Indexe (Rebuild-and-Compare): beide Indexe frisch
+#      bauen, DEKOMPRIMIERTEN Inhalt mit dem committeten Stand
+#      vergleichen (gzip-Bytes koennen je zlib-Build variieren).
+#      Traegt nur, weil die Builds seit #125 deterministisch sind
+#      (kein generatedAt, sorted glob, gzip mtime=0).
+#   6. Zweistufige RelaxNG-Validierung (P2-13): Stage 2
+#      (mhdbdb.rng / mhdbdb-authority.rng) ist das harte Gate;
+#      Stage-1-Baseline-Fails (#30) sind nur Warnungen.
+#   7. Authority cross-reference integrity (#44/#115): dangling Refs
+#      ausserhalb lexicon.xml brechen den Build (lexicon traegt eine
+#      bekannte Backfill-Baseline und wird nur reportet).
+#
+# lxml ist gepinnt: eine neue lxml-Serialisierung wuerde sonst in
+# Step 4/5 als falscher Drift-Alarm erscheinen. Bei Pin-Bump lokal
+# dieselbe Version installieren und Indexe einmal rebuilden.
+
+on:
+  pull_request:
+    paths:
+      - 'schema/**'
+      - 'tei/**'
+      - 'authority-files/**'
+      - 'data/corpus-index.json.gz'
+      - 'data/authority-index.json.gz'
+      - 'scripts/build-corpus-index.py'
+      - 'scripts/build-authority-index.py'
+      - 'scripts/mhg_normalizer.py'
+      - 'scripts/sync/extract-variants.py'
+      - 'scripts/audit/validate-corpus.py'
+      - 'scripts/audit/check-index-versions.py'
+      - 'assets/js/lib/corpus-loader.js'
+      - '.github/workflows/data-integrity.yml'
+  # Direct-to-main pushes also trigger the workflow (Branch-Protection
+  # ist historisch umgangen worden, z.B. WZB-Merge 2026-05-06).
+  push:
+    branches:
+      - main
+    paths:
+      - 'schema/**'
+      - 'tei/**'
+      - 'authority-files/**'
+      - 'data/corpus-index.json.gz'
+      - 'data/authority-index.json.gz'
+      - 'scripts/build-corpus-index.py'
+      - 'scripts/build-authority-index.py'
+      - 'scripts/mhg_normalizer.py'
+      - 'scripts/sync/extract-variants.py'
+      - 'scripts/audit/validate-corpus.py'
+      - 'scripts/audit/check-index-versions.py'
+      - 'assets/js/lib/corpus-loader.js'
+      - '.github/workflows/data-integrity.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: data-integrity-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    # Checkout ~2 min (grosses Repo) + Index-Builds (~5 min lokal) +
+    # RelaxNG-Validierung. 45 min lassen Luft fuer langsame Runner;
+    # nach den ersten realen Laeufen ggf. nachjustieren.
+    timeout-minutes: 45
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+
+      - name: Install dependencies
+        run: pip install --quiet lxml==6.0.2 rnc2rng
+
+      - name: Index version consistency (#47.3)
+        run: python scripts/audit/check-index-versions.py
+
+      - name: Regenerate RNG from RNC (P2-14 drift check)
+        run: |
+          python -m rnc2rng schema/mhdbdb.rnc schema/mhdbdb.rng
+          python -m rnc2rng schema/mhdbdb-authority.rnc schema/mhdbdb-authority.rng
+
+      - name: Fail if committed .rng differs from regenerated .rng
+        run: |
+          if ! git diff --exit-code schema/mhdbdb.rng schema/mhdbdb-authority.rng; then
+            echo "::error title=RNG drift::Committed .rng files are out of sync with their .rnc sources. Run 'python -m rnc2rng schema/mhdbdb.rnc schema/mhdbdb.rng && python -m rnc2rng schema/mhdbdb-authority.rnc schema/mhdbdb-authority.rng' locally and commit the result."
+            exit 1
+          fi
+
+      - name: Download tei_all.rng
+        # tei_all.rng is gitignored in this repo (see schema/README.md).
+        # Every run fetches it fresh from the TEI Consortium.
+        run: |
+          curl -sSL \
+            "https://tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" \
+            -o schema/tei_all.rng
+
+      - name: Verify TEI P5 version pin
+        # Catches silent drift between local dev (where tei_all.rng is
+        # cached at whatever version was downloaded last) and CI (which
+        # always fetches the current "latest" from tei-c.org). If TEI
+        # publishes a new P5 version, this step fails and forces us to
+        # bump the pin explicitly in schema/README.md + here. That is
+        # the right default — new TEI versions may change grammar and
+        # should not silently change validation semantics.
+        #
+        # NOTE: the version header in tei_all.rng contains a literal
+        # NBSP (U+00A0, UTF-8 bytes C2 A0) between "Version" and the
+        # number, so a naive `grep -oE 'Version [0-9.]+'` with a
+        # regular space does NOT match. Python's re.search with \s
+        # handles that correctly since Python 3.
+        run: |
+          TEI_VERSION=$(python3 -c "import re; m = re.search(r'TEI Edition: P5 Version\s+([0-9]+\.[0-9]+\.[0-9]+)', open('schema/tei_all.rng', encoding='utf-8').read()); print(m.group(1) if m else '')")
+          EXPECTED="4.11.0"
+          if [ -z "$TEI_VERSION" ]; then
+            echo "::error title=TEI P5 version pin::Could not extract TEI P5 version from schema/tei_all.rng. Header format may have changed upstream."
+            exit 1
+          fi
+          if [ "$TEI_VERSION" != "$EXPECTED" ]; then
+            echo "::error title=TEI P5 version drift::CI downloaded TEI P5 Version $TEI_VERSION, but the repo is pinned to $EXPECTED (see schema/README.md). Either bump the pin in schema/README.md + this workflow step, or investigate the tei-c.org URL if a version regression happened."
+            exit 1
+          fi
+          echo "TEI P5 version: $TEI_VERSION (matches pin)"
+
+      - name: Freshness variants.xml (#125)
+        run: |
+          python scripts/sync/extract-variants.py --apply
+          if ! git diff --exit-code -- authority-files/variants.xml; then
+            echo "::error file=authority-files/variants.xml::variants.xml ist nicht mit dem Korpus synchron. Lokal 'python scripts/sync/extract-variants.py --apply' ausfuehren und mitcommitten (DATA-MODEL.md -> Data-Change-Lifecycle)."
+            exit 1
+          fi
+
+      - name: Freshness Indexe — Rebuild-and-Compare (#125)
+        run: |
+          mkdir -p "$RUNNER_TEMP/committed"
+          cp data/corpus-index.json.gz data/authority-index.json.gz "$RUNNER_TEMP/committed/"
+          python scripts/build-corpus-index.py
+          python scripts/build-authority-index.py
+          python - <<'EOF'
+          import gzip, os, sys
+          tmp = os.path.join(os.environ['RUNNER_TEMP'], 'committed')
+          ok = True
+          for name in ('corpus-index.json.gz', 'authority-index.json.gz'):
+              with gzip.open(os.path.join('data', name), 'rb') as f:
+                  fresh = f.read()
+              with gzip.open(os.path.join(tmp, name), 'rb') as f:
+                  committed = f.read()
+              if fresh == committed:
+                  print(f'{name}: OK (Rebuild byte-identisch nach Dekompression)')
+              else:
+                  print(f'::error file=data/{name}::{name} ist nicht mit dem Quellstand '
+                        'synchron: Rebuild aus den aktuellen Quellen liefert anderen Inhalt. '
+                        'Lokal rebuilden, Version bumpen und mitcommitten '
+                        '(DATA-MODEL.md -> Data-Change-Lifecycle).')
+                  ok = False
+          sys.exit(0 if ok else 1)
+          EOF
+
+      - name: Validate corpus and authority files (P2-13)
+        run: python scripts/audit/validate-corpus.py --fail-fast
+
+      - name: Authority cross-reference integrity (#44/#115)
+        run: python scripts/audit/check-authority-cross-refs.py --check

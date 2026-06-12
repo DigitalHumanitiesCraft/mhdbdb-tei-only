@@ -871,7 +871,7 @@ Schema-Bump auf v4.1.0 (MINOR, da Schema-Erweiterung). Aufbau im Build-Skript vi
 - Loader-Konstante `INDEX_VERSION` muss synchron mit Build-Skript-Version gehalten werden, sonst greift Cache-Invalidate-Logik nicht. Erstmals 2026-05-12 vergessen (Loader auf `4.0.1`, Build-Skript auf `4.1.0`), in `8f375bc4e` repariert.
 
 **Mitigations:**
-- CI-Workflow `index-version-check.yml` mit `scripts/audit/check-index-versions.py` erzwingt jetzt Versions-Konsistenz (commit `07c9f3244`).
+- CI-Workflow `index-version-check.yml` mit `scripts/audit/check-index-versions.py` erzwingt jetzt Versions-Konsistenz (commit `07c9f3244`; seit #125 konsolidiert in `data-integrity.yml`).
 - Memory-Regel `feedback_index_version_bump.md` reminds future sessions an die Drei-Stellen-Regel.
 
 ### Verbindung zu ADR-001 und ADR-003
@@ -907,7 +907,7 @@ Drei verbindliche Regeln, normativ in [CONTRACTS.md → F. Authority Source Rule
 
 **Positive:**
 - Eindeutige Regel verhindert die Fehlinterpretation „dangling Ref = Korpus-Fehler" bzw. „aus Alt-Branch backfillen".
-- Cross-Ref-Audit (`scripts/audit/check-authority-cross-refs.py --check`) ist als CI-Gate der Drift-Detektor (in `schema-validation.yml`).
+- Cross-Ref-Audit (`scripts/audit/check-authority-cross-refs.py --check`) ist als CI-Gate der Drift-Detektor (in `schema-validation.yml`; seit #125 konsolidiert in `data-integrity.yml`).
 - Klare Trennung backfillbar (Lemma-Stub) vs. kuratorisch (Sense-Bedeutung).
 
 **Negative:**

@@ -28,11 +28,12 @@ Zusaetzlich Working-Tree-Check: uncommittete Quelländerungen ohne mitgebautes,
 gestagtes Artefakt -> Pre-Commit-Warnung.
 
 Read-only. Exit 0 = frisch, 1 = veraltet, 2 = kein git / Setup-Fehler.
-Derzeit als lokales Advisory gedacht (CI-Wiring + generatedAt-Determinismus
-sind als Folge-Issue ausgelagert): die Erkennung ist quelldatei-granular und
-ueber-flaggt Quelländerungen, die kein indexiertes Feld betreffen (z.B. reine
-@corresp-Entfernung). Vor einem Rebuild also Index-Relevanz der Aenderung
-pruefen.
+Lokales Advisory, v.a. fuer den Working-Tree-Check vor dem Commit (den CI
+nicht sehen kann). Das harte CI-Gate ist seit #125 der Rebuild-and-Compare-
+Step in .github/workflows/data-integrity.yml. Die Erkennung hier bleibt
+quelldatei-granular und ueber-flaggt Quelländerungen, die kein indexiertes
+Feld betreffen (z.B. reine @corresp-Entfernung) -- vor einem Rebuild also
+Index-Relevanz pruefen.
 
 Usage:
     python scripts/audit/check-index-freshness.py
