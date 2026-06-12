@@ -3,14 +3,14 @@
 """
 Build Corpus Index
 
-Generates pre-built corpus index from tei/ directory (666 TEI files).
+Generates pre-built corpus index from tei/ directory (667 TEI files).
 Output: data/corpus-index.json.gz (~3-5 MB compressed)
 
-Index structure (v4.0.0 - DOCUMENT-LEVEL):
+Index structure (v4.1.3 - DOCUMENT-LEVEL + LINE BOUNDARIES):
 {
-  "version": "4.0.0",
+  "version": "4.1.3",
   "generatedAt": "2025-01-01T00:00:00Z",
-  "totalTexts": 666,
+  "totalTexts": 667,
   "totalLemmata": 45000,
   "texts": [
     {
@@ -22,11 +22,13 @@ Index structure (v4.0.0 - DOCUMENT-LEVEL):
       "workRef": "#work_89",
       "genre": "genre_x",
       "wordCount": 1500,
-      "words": ["lemma_879", "lemma_123", "lemma_879", ...],  # ALL words in <body>
+      "words": ["lemma_879", "lemma_123", "lemma_879", ...],  # all lemmatized <w> in <body> (only @lemmaRef-bearing)
       "lemmata": {
         "lemma_879": [0, 2, 15],  # Word positions
         "lemma_123": [1]
-      }
+      },
+      "lineStarts": [0, 8, 15, ...],   # word-index where each <l> starts (#47.3)
+      "lineEnds":   [7, 14, 22, ...]   # word-index where each <l> ends (inclusive)
     }
   ],
   "lemmaIndex": {
@@ -34,12 +36,23 @@ Index structure (v4.0.0 - DOCUMENT-LEVEL):
     "lemma_123": ["ABG"]
   }
 }
+
+Notes on lineStarts/lineEnds (added in v4.1.0 for #47.3):
+- Same length as the number of <l> elements with at least one indexed word.
+- Empty for prose texts without <l> elements (~10% of corpus).
+- A lemma occurrence at position P is at Versanfang iff P in lineStarts,
+  at Versende iff P in lineEnds.
+- Words outside any <l> (e.g. inside <head>, <note>, mid-paragraph <fw>)
+  match neither.
 """
 
+import argparse
 import json
 import gzip
+import subprocess
 import sys
 import os
+import time
 from pathlib import Path
 from datetime import datetime
 from collections import defaultdict
@@ -142,56 +155,81 @@ def extract_metadata(filepath):
 
 def extract_word_data(filepath, text_id):
     """
-    Extract word data using document-level indexing (v4.0.0).
+    Extract word data using document-level indexing (v4.1.0).
 
-    Returns: (words_list, lemmata_dict, word_count)
+    Returns: (words_list, lemmata_dict, word_count, line_starts, line_ends)
     where:
       words_list = ["lemma_879", "lemma_123", ...]  # ALL words in <body> in document order
       lemmata_dict = {"lemma_879": [0, 2, 15], ...}
+      line_starts = [0, 8, 15, ...]  # word-index where each <l> starts
+      line_ends   = [7, 14, 22, ...] # word-index where each <l> ends (inclusive)
     """
     try:
         tree = etree.parse(str(filepath))
-        ns = get_namespaces(tree)
 
         # Get body element
-        body = tree.xpath('//tei:body', namespaces=ns)
-        if not body:
-            return [], {}, 0
-
-        # Get ALL words in <body> in document order (single XPath)
-        word_els = tree.xpath('//tei:body//tei:w[@lemmaRef]', namespaces=ns)
+        TEI = '{http://www.tei-c.org/ns/1.0}'
+        body = tree.find(f'.//{TEI}body')
+        if body is None:
+            return [], {}, 0, [], []
 
         words = []  # All lemma IDs in document order
         lemmata = defaultdict(list)
         word_count = 0
 
-        for word_el in word_els:
-            lemma_ref = word_el.get('lemmaRef')
-            text_content = ''.join(word_el.itertext()).strip()
+        line_starts = []
+        line_ends = []
+        # Stack tracks <l> nesting depth (in practice always 0 or 1, but defensive)
+        # Each frame holds (first_w_idx, last_w_idx) for the currently-open <l>.
+        l_stack = []
 
-            if not lemma_ref or not text_content:
+        # Single-pass iterwalk: start/end events for <w> and <l> together.
+        # This avoids lxml's proxy-id instability between separate .iter() calls.
+        for event, el in etree.iterwalk(body, events=('start', 'end'),
+                                         tag=(f'{TEI}w', f'{TEI}l')):
+            tag = el.tag
+
+            if tag == f'{TEI}l':
+                if event == 'start':
+                    l_stack.append([None, None])  # [first_idx, last_idx]
+                else:  # end
+                    frame = l_stack.pop()
+                    if frame[0] is not None:
+                        line_starts.append(frame[0])
+                        line_ends.append(frame[1])
                 continue
 
-            # Extract lemma ID
-            # Format: "lexicon.xml#lemma_879" -> "lemma_879"
-            if '#' in lemma_ref:
-                lemma_id = lemma_ref.split('#')[1]
-            else:
-                lemma_id = lemma_ref
+            # tag == <w>, event == 'start' (we ignore <w>-end events)
+            if event != 'start':
+                continue
 
-            # Store word data (just lemma ID)
+            lemma_ref = el.get('lemmaRef')
+            if not lemma_ref:
+                continue
+            text_content = ''.join(el.itertext()).strip()
+            if not text_content:
+                continue
+
+            lemma_id = lemma_ref.split('#')[1] if '#' in lemma_ref else lemma_ref
+
             word_idx = len(words)
             words.append(lemma_id)
-
-            # Record position in lemma index
             lemmata[lemma_id].append(word_idx)
             word_count += 1
 
-        return words, dict(lemmata), word_count
+            # If we're inside one or more <l>, update each open frame.
+            # (Inner-most <l> defines Versanfang/Versende; outer frames are
+            # extremely rare in TEI but cost nothing to track.)
+            for frame in l_stack:
+                if frame[0] is None:
+                    frame[0] = word_idx
+                frame[1] = word_idx
+
+        return words, dict(lemmata), word_count, line_starts, line_ends
 
     except Exception as e:
         print(f"⚠️  Error extracting word data from {filepath.name}: {e}")
-        return [], {}, 0
+        return [], {}, 0, [], []
 
 
 def process_tei_file(filepath):
@@ -203,15 +241,17 @@ def process_tei_file(filepath):
 
     text_id = metadata['id']
 
-    # Extract full word data (document-level)
-    words, lemmata, word_count = extract_word_data(filepath, text_id)
+    # Extract full word data + line boundaries (document-level)
+    words, lemmata, word_count, line_starts, line_ends = extract_word_data(filepath, text_id)
 
     # Combine
     text_data = {
         **metadata,
         'wordCount': word_count,
         'words': words,
-        'lemmata': lemmata
+        'lemmata': lemmata,
+        'lineStarts': line_starts,
+        'lineEnds': line_ends
     }
 
     return text_data
@@ -236,7 +276,6 @@ def build_corpus_index():
     texts = []
     lemma_index = defaultdict(list)  # lemma_id -> list of text IDs
 
-    import time
     start_time = time.time()
 
     for idx, filepath in enumerate(tei_files, 1):
@@ -264,7 +303,7 @@ def build_corpus_index():
 
     # Build final index
     index = {
-        'version': '4.0.0',  # Version 4.0.0: Document-level indexing (removed paragraph logic)
+        'version': '4.1.3',  # 4.0.0: document-level indexing. 4.0.1: WZB. 4.1.0: lineStarts/lineEnds für #47.3. 4.1.1: #23 Stanza-Wraps. 4.1.2: #104 Sigle-Titel-Differenzierung. 4.1.3: #110 WVV 478 Stanza-Wraps.
         'generatedAt': datetime.now().isoformat() + 'Z',
         'totalTexts': len(texts),
         'totalLemmata': len(lemma_index),
@@ -313,11 +352,56 @@ def save_index(index):
     print(f"\n✅ Corpus index saved successfully!")
 
 
+def check_working_tree(directory, allow_dirty):
+    """Pre-flight check: warn (or fail) when directory has uncommitted or
+    untracked TEI files. Prevents accidentally bundling work-in-progress
+    files into the published index. See #100."""
+    try:
+        result = subprocess.run(
+            ['git', 'status', '--porcelain', '--', str(directory)],
+            capture_output=True, text=True, check=True, cwd=PROJECT_ROOT
+        )
+    except (subprocess.CalledProcessError, FileNotFoundError) as e:
+        print(f"⚠️  git status check skipped: {e}")
+        return
+
+    lines = [ln for ln in result.stdout.splitlines() if ln.strip()]
+    untracked = [ln for ln in lines if ln.startswith('??')]
+    modified = [ln for ln in lines if not ln.startswith('??')]
+
+    if not lines:
+        return
+
+    print(f"⚠️  Working tree under {directory}/ is not clean:")
+    print(f"   {len(untracked)} untracked, {len(modified)} modified/staged")
+    for ln in lines[:10]:
+        print(f"     {ln}")
+    if len(lines) > 10:
+        print(f"     ... +{len(lines) - 10} more")
+
+    if allow_dirty:
+        print("   --allow-dirty set, continuing anyway.")
+    else:
+        sys.exit(
+            "Refusing to build a possibly-inconsistent index.\n"
+            "Commit/stash the changes above, or pass --allow-dirty for local tests."
+        )
+
+
 def main():
     """Main entry point."""
+    parser = argparse.ArgumentParser(description="Build MHDBDB corpus index from tei/")
+    parser.add_argument(
+        '--allow-dirty', action='store_true',
+        help="Build even if tei/ has untracked or modified files (use for local tests)."
+    )
+    args = parser.parse_args()
+
     print("=" * 60)
     print("MHDBDB Corpus Index Builder")
     print("=" * 60)
+
+    check_working_tree(TEI_DIR.relative_to(PROJECT_ROOT), args.allow_dirty)
 
     try:
         # Build index

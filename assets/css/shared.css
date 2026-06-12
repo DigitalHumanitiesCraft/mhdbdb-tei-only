@@ -259,3 +259,26 @@ body {
     transform: translateY(0);
   }
 }
+
+/* ============================================================
+ * Inline Help Icon – small ?-icon linking to a Hilfe-anchor
+ * Used on korpus.html, playground/index.html, lemma/index.html
+ * ============================================================ */
+.help-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  color: rgb(148, 163, 184); /* slate-400 */
+  transition: color 0.15s ease;
+  flex-shrink: 0;
+}
+.help-icon:hover,
+.help-icon:focus-visible {
+  color: rgb(38, 92, 196); /* brand-600 */
+}
+.help-icon svg {
+  width: 1rem;
+  height: 1rem;
+}

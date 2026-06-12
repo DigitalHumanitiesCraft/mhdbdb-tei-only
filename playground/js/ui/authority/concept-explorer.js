@@ -16,6 +16,7 @@ import {
   formatMetadata,
   SearchPatterns,
 } from "../search/SearchHelpers.js";
+import { TextNormalizer } from "../../../../assets/js/lib/text-normalizer.js";
 
 import { displayResults } from "../core/ui-helpers.js";
 
@@ -63,7 +64,12 @@ export class ConceptExplorer {
     const matches = SearchPatterns.multiFieldNormalized(
       this.authorityData.concepts,
       searchTerm,
-      [(concept) => concept.termDE || "", (concept) => concept.termEN || ""]
+      [
+        (concept) => concept.termDE || "",
+        (concept) => concept.termEN || "",
+        (concept) => (concept.altDE || []).join(" "),
+        (concept) => (concept.altEN || []).join(" "),
+      ]
     );
 
     const result = handleSearchResults(searchTerm, matches, {
@@ -77,10 +83,13 @@ export class ConceptExplorer {
     }
 
     const resultHTML = result.matches
-      .map((concept) =>
-        generateResultItem({
+      .map((concept) => {
+        const altHint = findAlternativeMatch(concept, searchTerm);
+        const subtitle = altHint ? `auch: ${altHint}` : "";
+        return generateResultItem({
           meta: `ID: ${concept.id}`,
           title: formatMultiLanguage(concept.termDE, concept.termEN),
+          subtitle,
           buttons: [
             {
               text: "Lemmata anzeigen",
@@ -92,24 +101,26 @@ export class ConceptExplorer {
             },
           ],
           detailsId: `lemmas-${concept.id}`,
-        })
-      )
+        });
+      })
       .join("");
 
     renderToContainer("conceptResults", result.headerHTML + resultHTML);
   }
 
-  showLemmasWithConcept(conceptId, conceptName) {
-    toggleDetails(`lemmas-${conceptId}`, () => {
+  showLemmasWithConcept(conceptId, conceptName, detailsId = `lemmas-${conceptId}`) {
+    toggleDetails(detailsId, () => {
       const lemmasWithConcept = this.findLemmasWithConcept(conceptId);
 
       if (lemmasWithConcept.length === 0) {
         return "Keine Lemmata für diesen Begriff gefunden.";
       }
 
-      // Create full search interface for exploring lemmata
-      const searchId = `lemma-concept-search-${conceptId}`;
-      const resultsId = `lemma-concept-results-${conceptId}`;
+      // Create full search interface for exploring lemmata. The inner IDs are
+      // derived from detailsId (not just conceptId) so the same concept opened
+      // under two different name cards in the name-explorer cannot collide. See #120.
+      const searchId = `${detailsId}-search`;
+      const resultsId = `${detailsId}-results`;
 
       const searchHTML = createSearchInterface({
         title: `${lemmasWithConcept.length} Lemmata mit Begriff "${conceptName}"`,
@@ -190,4 +201,25 @@ export class ConceptExplorer {
       )
       .filter(Boolean);
   }
+}
+
+/**
+ * If the search term matched the concept only via an alternative term
+ * (i.e. the primary termDE/termEN does not contain it, but one of the
+ * altDE/altEN does), return the first matching alternative for display
+ * as "auch: …" hint. Otherwise return null.
+ */
+function findAlternativeMatch(concept, searchTerm) {
+  const primaryMatch =
+    TextNormalizer.matchesNormalized(concept.termDE || "", searchTerm) ||
+    TextNormalizer.matchesNormalized(concept.termEN || "", searchTerm);
+  if (primaryMatch) return null;
+
+  const altCandidates = [...(concept.altDE || []), ...(concept.altEN || [])];
+  for (const alt of altCandidates) {
+    if (TextNormalizer.matchesNormalized(alt, searchTerm)) {
+      return alt;
+    }
+  }
+  return null;
 }

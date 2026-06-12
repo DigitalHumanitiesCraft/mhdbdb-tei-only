@@ -6,6 +6,8 @@
  * Metadata Source: Prioritizes TEI header data, falls back to corpus index for missing fields
  */
 
+import { lemmaRefMatchesId } from '../lib/lemma-match.js';
+
 class TEITextReader {
     constructor(corpusIndex, authorityIndex, cache) {
         this.corpusIndex = corpusIndex;
@@ -32,7 +34,7 @@ class TEITextReader {
     /**
      * Open reading view modal
      * @param {string} textId - Text ID to display
-     * @param {object} options - { lemmaId: string, lemmaIds: string[], targetPosition: number } for highlighting (optional)
+     * @param {object} options - { lemmaId: string, lemmaIds: string[], targetPosition: number, targetVerse: string } for highlighting / verse jump (optional)
      * @param {object} elements - DOM element references
      */
     async openReadingView(textId, options = {}, elements) {
@@ -51,6 +53,7 @@ class TEITextReader {
         }
 
         this.targetPosition = options.targetPosition || null;
+        this.targetVerse = options.targetVerse || null;
         this.elements = elements;
 
         const lemmaInfo = this.currentLemmaIds.length > 0
@@ -100,9 +103,17 @@ class TEITextReader {
                 this.updateNavigationButtons();
 
                 // Scroll to target or first highlight after brief delay (wait for DOM to render)
-                setTimeout(() => this.scrollToHighlight(this.currentHighlightIndex), 600);
+                // — ein expliziter Vers-Deep-Link gewinnt gegen den Highlight-Scroll.
+                if (this.targetVerse === null) {
+                    setTimeout(() => this.scrollToHighlight(this.currentHighlightIndex), 600);
+                }
             } else {
                 this.showNavigation(false);
+            }
+
+            // Vers-Deep-Link (#59): zur Verszeile <l n="..."> scrollen
+            if (this.targetVerse !== null) {
+                setTimeout(() => this.scrollToVerse(this.targetVerse), 600);
             }
 
             // Hide loading
@@ -322,7 +333,7 @@ class TEITextReader {
 
     /**
      * Extract and format body text with TEI structure preservation
-     * Handles: <head>, <p>, <div>, <lg>, <l>, <lb>, <pb>, <hi rend="...">, <seg type="pc">
+     * Handles: <head>, <p>, <div>, <lg>, <l>, <lb>, <pb>, <hi rend="...">, <pc>, <seg>
      * @returns {object} { html: string, highlights: Array<{element, position}> }
      */
     extractAndFormatBody(teiDoc, lemmaId = null, lemmaIds = []) {
@@ -332,7 +343,7 @@ class TEITextReader {
         }
 
         const highlights = [];
-        const state = { wordPosition: 0 }; // Use object to pass by reference
+        const state = { wordPosition: 0, firstNumericLineShown: false }; // Use object to pass by reference
 
         // Create lemma-to-color mapping for multi-lemma mode
         const lemmaColorMap = {};
@@ -342,88 +353,128 @@ class TEITextReader {
             });
         }
 
-        // Process element recursively
-        const processElement = (el) => {
+        // Render a single TEI element to HTML (single path for both top-level and recursive)
+        this._renderElement = (el) => {
             const tagName = el.tagName.toLowerCase();
+            const children = () => this.processChildren(el, lemmaId, lemmaIds, lemmaColorMap, highlights, state);
 
-            // Handle different TEI elements
             switch (tagName) {
                 case 'head':
-                    // Section heading
-                    return `<h3 class="section-head">${this.processChildren(el, lemmaId, lemmaIds, lemmaColorMap, highlights, state)}</h3>`;
-
+                    return `<h3 class="section-head">${children()}</h3>`;
                 case 'p':
                 case 'ab':
-                    // Paragraph
-                    return `<p>${this.processChildren(el, lemmaId, lemmaIds, lemmaColorMap, highlights, state)}</p>`;
-
-                case 'div':
-                    // Division (generic container)
-                    return `<div class="tei-div">${this.processChildren(el, lemmaId, lemmaIds, lemmaColorMap, highlights, state)}</div>`;
-
-                case 'lg':
-                    // Line group (verse)
-                    return `<div class="verse-group">${this.processChildren(el, lemmaId, lemmaIds, lemmaColorMap, highlights, state)}</div>`;
-
-                case 'l':
-                    // Single line (verse)
-                    return `<span class="verse-line">${this.processChildren(el, lemmaId, lemmaIds, lemmaColorMap, highlights, state)}</span>`;
-
-                case 'lb':
-                    // Line break
+                    return `<p>${children()}</p>`;
+                case 'div': {
+                    const divType = el.getAttribute('type') || '';
+                    const divN = el.getAttribute('n') || '';
+                    const divLabels = {
+                        'song': 'Lied', 'chapter': 'Kapitel', 'recipe': 'Rezept',
+                        'number': 'Nr.', 'section': 'Abschnitt',
+                        'colophon': 'Kolophon', 'parallel': 'Parallelüberlieferung'
+                    };
+                    const label = divLabels[divType];
+                    let header = '';
+                    if (divType === 'chapter') {
+                        // Chapter headings render like <head> (h3.section-head)
+                        const heading = label && divN ? `${label} ${divN}` : label || divN;
+                        if (heading) header = `<h3 class="section-head">${this.escapeHtml(heading)}</h3>`;
+                    } else if (label && divN) {
+                        header = `<div class="tei-div-header tei-div-${this.escapeHtml(divType)}">${this.escapeHtml(label)} ${this.escapeHtml(divN)}</div>`;
+                    } else if (label) {
+                        header = `<div class="tei-div-header tei-div-${this.escapeHtml(divType)}">${this.escapeHtml(label)}</div>`;
+                    }
+                    return `<div class="tei-div tei-div-${this.escapeHtml(divType)}" data-type="${this.escapeHtml(divType)}" data-n="${this.escapeHtml(divN)}">${header}${children()}</div>`;
+                }
+                case 'lg': {
+                    const lgN = el.getAttribute('n') || '';
+                    const lgLabel = lgN ? `<span class="stanza-label">Strophe ${this.escapeHtml(lgN)}</span>` : '';
+                    return `<div class="verse-group" data-n="${this.escapeHtml(lgN)}">${lgLabel}${children()}</div>`;
+                }
+                case 'l': {
+                    const lineN = el.getAttribute('n') || '';
+                    // Marginal line number: the first verse line carrying a numeric
+                    // @n (anchor) and thereafter every 5th by ABSOLUTE @n, not render
+                    // order. Non-numeric @n (e.g. ALX heading lines "h_1") and bare
+                    // <l> without @n (WZB prose) get no number; stanza-local resets
+                    // (NBB l@n=1..4) never hit %5, so they keep only their "Strophe N"
+                    // labels and avoid a jumbled margin. See #127.
+                    const isNumeric = /^\d+$/.test(lineN);
+                    // First numeric line (anchor) shows, then every 5th by absolute
+                    // @n. Once the anchor fires the flag stays set, so afterwards only
+                    // the %5 branch matters.
+                    const showNumber = isNumeric &&
+                        (!state.firstNumericLineShown || parseInt(lineN, 10) % 5 === 0);
+                    if (showNumber) state.firstNumericLineShown = true;
+                    const cls = showNumber ? 'verse-line verse-line-numbered' : 'verse-line';
+                    return `<span class="${cls}" data-n="${this.escapeHtml(lineN)}">${children()}</span>`;
+                }
+                case 'lb': {
+                    const lbN = el.getAttribute('n') || '';
+                    if (lbN) {
+                        return `<br class="line-break"><span class="lb-number">${this.escapeHtml(lbN)}</span>`;
+                    }
                     return '<br class="line-break">';
-
-                case 'pb':
-                    // Page break - show page number
+                }
+                case 'note': {
+                    const noteType = el.getAttribute('type');
+                    const noteN = el.getAttribute('n') || '';
+                    if ((noteType === 'date' || noteType === 'year') && noteN) {
+                        return `<span class="note-badge note-${this.escapeHtml(noteType)}" title="${noteType === 'date' ? 'Datum' : 'Jahr'}">${this.escapeHtml(noteN)}</span>`;
+                    }
+                    return children();
+                }
+                case 'pb': {
                     const pageNum = el.getAttribute('n');
                     return pageNum ? `<span class="page-break" title="Seite ${pageNum}">[${pageNum}]</span>` : '';
-
-                case 'hi':
-                    // Highlighting (rend="initial", rend="upper_case_first_letter")
+                }
+                case 'hi': {
                     const rend = el.getAttribute('rend');
                     return this.processHi(el, rend, lemmaId, lemmaIds, lemmaColorMap, highlights, state);
-
+                }
+                case 'pc': {
+                    const join = el.getAttribute('join') || 'left';
+                    return `<span class="punctuation" data-join="${join}">${this.escapeHtml(el.textContent)}</span>`;
+                }
                 case 'seg':
-                    // Segment (type="pc" = punctuation)
-                    const type = el.getAttribute('type');
-                    if (type === 'pc') {
-                        return `<span class="punctuation">${this.escapeHtml(el.textContent)}</span>`;
-                    }
-                    return this.processChildren(el, lemmaId, lemmaIds, lemmaColorMap, highlights, state);
-
-                case 'w':
-                    // Word element
+                    return children();
+                case 'w': {
                     const hasLemmaRef = el.getAttribute('lemmaRef');
+                    // Position parity with the Python build (CONTRACTS §B): only a
+                    // <w lemmaRef> with non-empty text content is counted. The build
+                    // skips empty ones (build-corpus-index.py: `if not text_content:
+                    // continue`); without this guard a future ingest with placeholder/
+                    // gap tokens would shift every later position relative to the index,
+                    // breaking hit-navigation and proximity search. 0 corpus cases today
+                    // -> no-op on current data. Enforced by position-parity.spec.js (#131).
+                    const hasText = el.textContent.trim().length > 0;
                     const result = this.processWord(el, lemmaId, lemmaIds, lemmaColorMap, highlights, state);
-                    // Only increment for words with lemmaRef (matches corpus index counting)
-                    if (hasLemmaRef) {
+                    if (hasLemmaRef && hasText) {
                         state.wordPosition++;
                     }
                     return result;
-
-                case 'cb':
-                    // Column break
+                }
+                case 'cb': {
                     const colNum = el.getAttribute('n');
-                    const colType = el.getAttribute('type');
                     return colNum
                         ? `<span class="column-break" title="Spalte ${colNum}">[Sp. ${this.escapeHtml(colNum)}]</span>`
                         : '<span class="column-break">[Sp.]</span>';
-
+                }
+                case 'milestone': {
+                    const unit = el.getAttribute('unit') || '';
+                    const msN = el.getAttribute('n') || '';
+                    if (unit === 'verse' && msN) {
+                        return `<span class="verse-marker" title="Vers ${this.escapeHtml(msN)}">${this.escapeHtml(msN)}</span>`;
+                    }
+                    return '';
+                }
                 case 'caesura':
-                    // Metrical pause in verse
                     return '<span class="caesura" title="Zäsur">||</span>';
-
                 case 'supplied':
-                    // Editor-supplied text
-                    return `<span class="supplied" title="Editorische Ergänzung">[${this.processChildren(el, lemmaId, lemmaIds, lemmaColorMap, highlights, state)}]</span>`;
-
+                    return `<span class="supplied" title="Editorische Ergänzung">[${children()}]</span>`;
                 case 'num':
-                    // Numeric value
-                    return `<span class="number">${this.processChildren(el, lemmaId, lemmaIds, lemmaColorMap, highlights, state)}</span>`;
-
+                    return `<span class="number">${children()}</span>`;
                 default:
-                    // For unknown elements, process children
-                    return this.processChildren(el, lemmaId, lemmaIds, lemmaColorMap, highlights, state);
+                    return children();
             }
         };
 
@@ -432,26 +483,34 @@ class TEITextReader {
         const children = Array.from(body.children);
 
         for (const child of children) {
-            html += processElement(child);
+            html += this._renderElement(child);
         }
 
-        return { html, highlights };
+        // Join punctuation to adjacent words based on @join attribute:
+        // join="left" → remove whitespace before (attach to preceding word)
+        //   Pass 1: whitespace directly before the punctuation span
+        //   Pass 2: trailing space inside a preceding element (e.g. <span>word </span><pc>)
+        // join="right" → remove whitespace after (attach to following word)
+        html = html.replace(/\s+(<span class="punctuation" data-join="left">)/g, '$1');
+        html = html.replace(/(\S)\s+(<\/\w+>\s*<span class="punctuation" data-join="left">)/g, '$1$2');
+        html = html.replace(/(<span class="punctuation" data-join="right">[^<]*<\/span>)\s+/g, '$1');
+
+        // Detect verse vs prose context
+        const hasVerse = !!body.querySelector('lg');
+
+        return { html, highlights, hasVerse };
     }
 
     /**
-     * Process <hi> element with rend attribute
+     * Process <hi> element with rend attribute — token-based for compound values
      */
     processHi(el, rend, lemmaId, lemmaIds, lemmaColorMap, highlights, state) {
         const content = this.processChildren(el, lemmaId, lemmaIds, lemmaColorMap, highlights, state);
+        if (!rend) return `<span class="hi">${content}</span>`;
 
-        switch (rend) {
-            case 'initial':
-                return `<span class="initial">${content}</span>`;
-            case 'upper_case_first_letter':
-                return `<span class="upper-case-first">${content}</span>`;
-            default:
-                return `<span class="hi">${content}</span>`;
-        }
+        const tokens = rend.split(/\s+/);
+        const classes = tokens.map(t => `hi-${t}`).join(' ');
+        return `<span class="hi ${classes}">${content}</span>`;
     }
 
     /**
@@ -462,13 +521,14 @@ class TEITextReader {
         const wordText = wordEl.textContent.trim();
         const lemmaRef = wordEl.getAttribute('lemmaRef');
         const currentPosition = state.wordPosition;
+        // Highlight on exact @lemmaRef token match (CONTRACTS §B.1) — never a
+        // substring, which would wrongly match "lemma_308" inside "lemma_3089"
+        // (jâmer) and inflate the hit counter. See #126.
 
         // Multi-lemma mode: check all lemmaIds with colors
         if (lemmaIds.length > 0 && lemmaRef) {
             for (const searchLemmaId of lemmaIds) {
-                const lemmaRefPattern = `#${searchLemmaId}`;
-
-                if (lemmaRef.includes(lemmaRefPattern)) {
+                if (lemmaRefMatchesId(lemmaRef, searchLemmaId)) {
                     const color = lemmaColorMap[searchLemmaId];
                     const id = `highlight-${highlights.length}`;
                     highlights.push({ id, element: null, position: currentPosition }); // Track position
@@ -482,9 +542,7 @@ class TEITextReader {
 
         // Single lemma mode: standard highlighting
         if (lemmaId && lemmaRef) {
-            const lemmaRefPattern = `#${lemmaId}`;
-
-            if (lemmaRef.includes(lemmaRefPattern)) {
+            if (lemmaRefMatchesId(lemmaRef, lemmaId)) {
                 const id = `highlight-${highlights.length}`;
                 highlights.push({ id, element: null, position: currentPosition }); // Track position
                 return `<mark class="highlight" id="${id}">${this.escapeHtml(wordText)}</mark> `;
@@ -495,56 +553,21 @@ class TEITextReader {
     }
 
     /**
-     * Process children of element recursively
+     * Process children of element recursively, delegating element rendering
+     * to the _renderElement closure set up by extractAndFormatBody().
+     * Must only be called within an extractAndFormatBody() call chain.
      */
     processChildren(el, lemmaId, lemmaIds, lemmaColorMap, highlights, state) {
+        if (!this._renderElement) {
+            throw new Error('processChildren called outside extractAndFormatBody context');
+        }
         let result = '';
 
         for (const node of el.childNodes) {
             if (node.nodeType === Node.TEXT_NODE) {
                 result += this.escapeHtml(node.textContent);
             } else if (node.nodeType === Node.ELEMENT_NODE) {
-                const tagName = node.tagName.toLowerCase();
-
-                if (tagName === 'w') {
-                    const hasLemmaRef = node.getAttribute('lemmaRef');
-                    result += this.processWord(node, lemmaId, lemmaIds, lemmaColorMap, highlights, state);
-                    // Only increment for words with lemmaRef (matches corpus index counting)
-                    if (hasLemmaRef) {
-                        state.wordPosition++;
-                    }
-                } else if (tagName === 'lb') {
-                    result += '<br class="line-break">';
-                } else if (tagName === 'pb') {
-                    const pageNum = node.getAttribute('n');
-                    result += pageNum ? `<span class="page-break" title="Seite ${pageNum}">[${pageNum}]</span> ` : '';
-                } else if (tagName === 'hi') {
-                    const rend = node.getAttribute('rend');
-                    result += this.processHi(node, rend, lemmaId, lemmaIds, lemmaColorMap, highlights, state);
-                } else if (tagName === 'seg') {
-                    const type = node.getAttribute('type');
-                    if (type === 'pc') {
-                        result += this.escapeHtml(node.textContent);
-                    } else {
-                        result += this.processChildren(node, lemmaId, lemmaIds, lemmaColorMap, highlights, state);
-                    }
-                } else if (tagName === 'l') {
-                    result += `<span class="verse-line">${this.processChildren(node, lemmaId, lemmaIds, lemmaColorMap, highlights, state)}</span>`;
-                } else if (tagName === 'cb') {
-                    const colNum = node.getAttribute('n');
-                    result += colNum
-                        ? `<span class="column-break" title="Spalte ${colNum}">[Sp. ${this.escapeHtml(colNum)}]</span>`
-                        : '<span class="column-break">[Sp.]</span>';
-                } else if (tagName === 'caesura') {
-                    result += '<span class="caesura" title="Zäsur">||</span>';
-                } else if (tagName === 'supplied') {
-                    result += `<span class="supplied" title="Editorische Ergänzung">[${this.processChildren(node, lemmaId, lemmaIds, lemmaColorMap, highlights, state)}]</span>`;
-                } else if (tagName === 'num') {
-                    result += `<span class="number">${this.processChildren(node, lemmaId, lemmaIds, lemmaColorMap, highlights, state)}</span>`;
-                } else {
-                    // Recursively process other elements
-                    result += this.processChildren(node, lemmaId, lemmaIds, lemmaColorMap, highlights, state);
-                }
+                result += this._renderElement(node);
             }
         }
 
@@ -649,7 +672,8 @@ class TEITextReader {
             if (metadata.authorGnd) {
                 metadataHTML += `<a href="https://d-nb.info/gnd/${metadata.authorGnd}" target="_blank" rel="noopener" class="external-link" title="Autor*in GND: ${metadata.authorGnd}"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"></path></svg> GND</a>`;
             }
-            if (metadata.authorWikidata) {
+            // Wikidata-Link bei Anonym-Autor*innen unterdrücken (Issue #96 KZW-Comment)
+            if (metadata.authorWikidata && metadata.authorId !== 'person_anonym') {
                 metadataHTML += `<a href="https://www.wikidata.org/wiki/${metadata.authorWikidata}" target="_blank" rel="noopener" class="external-link" title="Autor*in Wikidata: ${metadata.authorWikidata}"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"></path></svg> Wikidata</a>`;
             }
             metadataHTML += '</div>';
@@ -687,6 +711,13 @@ class TEITextReader {
             metadataHTML += `<a href="${metadata.handschriftencensus}" target="_blank" rel="noopener" class="external-link"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"></path></svg> Handschriftencensus</a>`;
             metadataHTML += '</div>';
         }
+
+        // Section 8: TEI-XML-Download (Issue #96)
+        metadataHTML += '<div class="metadata-section metadata-tei-download">';
+        metadataHTML += '<p class="metadata-tei-download-text">Detaillierte Metadaten (u. a. Referenzedition, verantwortliche Editor*innen und editorische Hinweise) sind in der zugehörigen TEI-XML dokumentiert; die Datei steht ';
+        metadataHTML += `<a href="tei/${this.escapeHtml(textId)}.tei.xml" download="${this.escapeHtml(textId)}.tei.xml" class="metadata-tei-download-link" title="TEI-XML-Datei herunterladen"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"></path></svg> hier</a>`;
+        metadataHTML += ' auch zum direkten Download bereit.</p>';
+        metadataHTML += '</div>';
 
         metadataHTML += '</div>'; // Close metadata-sections
         metadataHTML += '</div>'; // Close metadata-toggle-container
@@ -735,7 +766,9 @@ class TEITextReader {
             });
         });
 
-        // Populate body text
+        // Populate body text with verse/prose context
+        this.elements.readingBody.classList.remove('verse-context', 'prose-context');
+        this.elements.readingBody.classList.add(bodyResult.hasVerse ? 'verse-context' : 'prose-context');
         this.elements.readingBody.innerHTML = bodyResult.html;
 
         // Populate highlight element references after DOM insertion
@@ -883,6 +916,40 @@ class TEITextReader {
         } else {
             console.warn(`[TEITextReader] Highlight ${index} element not found`);
         }
+    }
+
+    /**
+     * Scroll zur Verszeile <l n="..."> (Vers-Deep-Link, #59 Naming-Explorer).
+     * data-n stammt aus dem 'l'-Rendering (case 'l' in renderElement).
+     * Hintergrund-Puls statt scale: verse-line ist eine ganze Zeile,
+     * Skalierung würde den Textfluss verschieben.
+     */
+    scrollToVerse(verseN) {
+        const scope = this.elements?.readingBody || document;
+        const safe = (window.CSS && CSS.escape)
+            ? CSS.escape(String(verseN))
+            : String(verseN).replace(/["\\]/g, '');
+        const line = scope.querySelector(`.verse-line[data-n="${safe}"]`);
+        if (!line) {
+            console.warn(`[TEITextReader] Vers ${verseN} nicht gefunden (kein <l n="${verseN}"> im Text)`);
+            return;
+        }
+
+        const headerOffset = 120;
+        const offsetPosition = line.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+        // Instant statt smooth: der Vers-Deep-Link springt direkt nach dem
+        // Page-Load, wo Chrome programmatische smooth-Scrolls teils verwirft
+        // (im Test: ROL blieb bei scrollY=0). Über sechsstellige Pixel-
+        // Distanzen ist instant ohnehin die bessere Orientierung.
+        window.scrollTo({ top: offsetPosition, behavior: 'auto' });
+
+        console.log(`[TEITextReader] Scrolled to verse ${verseN}`);
+
+        line.style.transition = 'background-color 0.4s ease';
+        line.style.backgroundColor = '#fef3c7'; // amber-100
+        setTimeout(() => {
+            line.style.backgroundColor = '';
+        }, 1600);
     }
 
     /**

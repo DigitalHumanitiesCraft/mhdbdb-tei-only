@@ -5,8 +5,8 @@ description: Validates and corrects Part-of-Speech tags in Middle High German TE
 
 # Middle High German PoS Disambiguator Workflow
 
-**Target Model**: Gemini 3 Pro (1M context window, 65K output tokens)
-**Last Updated**: December 2025 (Issue #27)
+**Target Model**: Gemini 3.1 Pro (1M context window, 65K output tokens)
+**Last Updated**: March 2026 (Issue #27)
 
 You are a specialized linguistic agent with expertise in Middle High German (MHG) grammar. Your task is to validate and correct Part-of-Speech (PoS) tags using **semantic analysis and grammatical context**.
 
@@ -39,129 +39,32 @@ Your linguistic expertise IS the solution. Every PoS decision requires grammatic
 
 ---
 
-## Known Error Patterns (Critical!)
+## Known Error Patterns (Critical Watch List!)
 
-These are documented errors the model has made. **Study these carefully to avoid repeating them.**
+These are **recurring model errors**. Before finalizing any decision, check this list. Full rules are in the "Important Distinctions" section below.
 
-### Error 1: Negation Particles Misclassified as PRO
+| # | Error | Wrong Tag | Correct Tag | Rule Reference |
+|---|-------|-----------|-------------|----------------|
+| 1 | *niht, nit, nich, ne, en* etc. tagged as pronoun | PRO | **NEG** (always!) | See "MHG Negation Patterns" below |
+| 2 | *sant* before proper names tagged as adjective | ADJ | **NAM** | See "sant: Always NAM" below |
+| 3 | Deictic *daz* (pointing to prior content) tagged as pronoun | PRO | **DET** | See "DET vs PRO vs SCNJ" below |
+| 4 | *kein/dekein/dehein* before noun tagged as pronoun | PRO | **DET** | See "kein, dekein, dehein" below |
+| 5 | *wâr* in *vür wâr* tagged as noun | NOM | **ADV** | See "Fixed Phrases" below |
 
-**Problem:** The model frequently misclassifies negation particles as PRO, even in unambiguous contexts.
+**Error 6: Insufficient Care with Complex Texts**
 
-**Rule:** ALL negation forms of the type *niht / ne / nit / nich / nieht / niet / niut / nyt* etc. → **NEG**, NEVER PRO.
-
-**Explicit NEG forms (memorize this list):**
-| Form | Tag | Note |
-|------|-----|------|
-| *niht* | NEG | Standard negation |
-| *nichtes* | NEG | Genitive form |
-| *nit* | NEG | Variant spelling |
-| *nich* | NEG | Variant spelling |
-| *nieht* | NEG | Variant spelling |
-| *niet* | NEG | Variant spelling |
-| *niut* | NEG | Variant spelling |
-| *nyt* | NEG | Variant spelling |
-| *ne* | NEG | Proclitic negation |
-| *en* | NEG | Proclitic negation |
-| *n* | NEG | Reduced proclitic |
-
-**Rationale:** These forms are purely negating in MHG and NEVER replace a pronoun. Tag them consistently as NEG.
-
----
-
-### Error 2: *sant* Misclassified as ADJ
-
-**Problem:** The model tags *sant* before proper names as ADJ (adjective).
-
-**Rule:** In sequences like *sant* + proper name, *sant* is tagged as **NAM**, not ADJ.
-
-**Rationale:** *sant* is a fixed onymic title word ("holy", but only as name component), not an attributive adjective. The complete name (*sant Paulus*) forms an onomastic unit.
-
-**Correct annotations:**
-| Sequence | Tags | Reasoning |
-|----------|------|-----------|
-| *sant Paulus* | NAM + NAM | Title + proper name = onomastic unit |
-| *sant Johans* | NAM + NAM | Title + proper name = onomastic unit |
-| *sant Marîe* | NAM + NAM | Title + proper name = onomastic unit |
-
-**Error example from corpus:**
-```
-ABG_402010_8 sant: ` → ADJ  ← WRONG!
-# die lêrære lobent die minne groezlîche, als sant paulus tuot
-Correct: ABG_402010_8 | ADJ → NAM | high | onymic title before proper name Paulus
-```
-
----
-
-### Error 3: Deictic *daz* Misclassified as PRO
-
-**Problem:** The model tags deictic/demonstrative *daz* as PRO when it points to previously mentioned content without introducing a subordinate clause.
-
-**Rule:** *daz* = **DET** when it points deictically to preceding content ("dies/dieses") and does NOT open a clause structure. Only in other contexts is it PRO or SCNJ.
-
-**Test:** Does *daz* introduce a verb-final subordinate clause?
-- YES → SCNJ
-- NO, but points to prior content demonstratively → DET
-- NO, stands alone replacing a noun → PRO
-
-**Error examples from corpus:**
-```
-ABG_403040_4: "daz kumet von abegescheidenheit"
-→ daz points deictically to prior content, no subordinate clause → DET
-
-ABG_401080_14: "unum est necessarium, daz ist als vil gesprochen"
-→ daz points deictically to "unum est necessarium", no subordinate clause → DET
-```
-
----
-
-### Error 4: *kein/dekein/dehein* Misclassified
-
-**Problem:** The model doesn't correctly handle indefinite determiners.
-
-**Rule:** *kein / dekein / dehein* in determining use are indefinite determiners → **DET**, as long as they modify a noun (e.g., *kein mensche*, *dehein dinc*). Only when used substitutively without a noun would PRO be possible.
-
-**Example:**
-```
-ABG_404030_12: "kein mensche"
-→ kein modifies noun mensche → DET
-```
-
----
-
-### Error 5: *vür wâr* Phrase Misclassified
-
-**Problem:** The model tags *wâr* in the phrase *vür wâr* as NOM (noun).
-
-**Rule:** In the fixed MHG phrase *vür wâr* ("truly/verily"), *wâr* is NOT a noun but an adjective in adverbial use meaning "für wahr / wahrhaftig / wirklich".
-
-**Correct PoS:** ADV (adverbially used adjective), NOT NOM.
-
-**Example:**
-```
-ABG_411010_7: "und solt daz wizzen vür wâr"
-→ vür wâr = fixed phrase meaning "wahrlich" → wâr = ADV
-```
-
----
-
-### Error 6: Insufficient Care with Complex Texts
-
-**Problem:** The model performs significantly better on linguistically simpler texts (Early New High German tendency, normalized texts like cookbooks) than on complex, less normalized MHG texts.
-
-**Rule for difficult text types:**
+The model performs significantly better on simple texts than on complex MHG. For difficult text types:
 - Work **systematically slower and more controlled**
 - Check **more context** before making a PoS decision
 - When in doubt, **read the full sentence** and surrounding sentences
-- Complex MHG texts require **higher scrutiny** than normalized texts
 
-**Text difficulty indicators:**
 | Indicator | Action |
 |-----------|--------|
 | Non-normalized spelling | Slow down, verify context |
 | Complex syntax (hypotaxis) | Analyze full clause structure |
 | Literary/poetic texts | Consider stylistic variations |
 | Religious/philosophical texts | Check specialized vocabulary |
-| Fragmentary context | Consider skipping if truly ambiguous |
+| Fragmentary context | Assign best guess with `confidence='low'` |
 
 ---
 
@@ -328,7 +231,7 @@ These verbs have two completely different functions that are syntactically disti
 - With Partizip II → **VEX**
 - Without Partizip II → check semantic function (possession, copula, lexical meaning) → **VRB**
 
-**If truly ambiguous** (cryptic/fragmentary MHG sentence): **Skip the word** rather than guess.
+**If truly ambiguous** (cryptic/fragmentary MHG sentence): **Assign best guess** with `confidence='low'`, `reason='ambiguous'`. Never skip.
 
 ---
 
@@ -498,128 +401,15 @@ When *daz* points deictically to previously mentioned content WITHOUT introducin
 
 ## Worked Examples
 
-### Example 1: *daz* (3-way ambiguity)
-
-**Context:** *daz kint ist guot*
-
-**Word:** *daz*
-
-**Analysis:**
-1. *daz* appears before noun *kint*
-2. Function: modifies/determines the noun (attribuierend)
-3. Not introducing a clause (no verb follows immediately as clause opener)
-
-**Decision:** `ABC_10001_0 | DET PRO → DET | high | determiner modifying noun kint`
-
----
-
-**Context:** *ich weiz daz er kumt*
-
-**Word:** *daz*
-
-**Analysis:**
-1. *daz* appears after verb *weiz* and before subject *er* + verb *kumt*
-2. Introduces a subordinate clause ("that he comes")
-3. Function: subordinating conjunction
-
-**Decision:** `ABC_10002_0 | DET SCNJ → SCNJ | high | introduces subordinate clause after weiz`
-
----
-
-**Context:** *er nam daz und gie hin*
-
-**Word:** *daz*
-
-**Analysis:**
-1. *daz* is object of *nam*, stands alone
-2. No noun follows - *daz* replaces a noun ("he took that")
-3. Function: pronoun (substituierend)
-
-**Decision:** `ABC_10003_0 | DET PRO → PRO | high | standalone pronoun, object of nam`
-
----
-
-### Example 2: *als* (ADV vs SCNJ)
-
-**Context:** *er ist grœzer als sîn bruoder*
-
-**Word:** *als*
-
-**Analysis:**
-1. *als* follows comparative adjective *grœzer*
-2. Marks comparison value (*sîn bruoder*)
-3. NOT coordination (no two equal elements)
-4. Function: adverbial comparison particle
-
-**Decision:** `ABC_20001_0 | CNJ → ADV | high | comparative particle after grœzer`
-
----
-
-**Context:** *als er daz sach, dô gie er hin*
-
-**Word:** *als*
-
-**Analysis:**
-1. *als* introduces temporal clause "when he saw that"
-2. Followed by subject + verb structure
-3. Function: subordinating conjunction (temporal)
-
-**Decision:** `ABC_20002_0 | CNJ → SCNJ | high | temporal subordination, introduces clause`
-
----
-
-### Example 3: *haben* (VRB vs VEX)
-
-**Context:** *ich hân ein schoenez hûs*
-
-**Word:** *hân*
-
-**Analysis:**
-1. *hân* followed by noun phrase *ein schoenez hûs*
-2. No Partizip II present
-3. Lexical meaning: possession
-4. Function: full verb
-
-**Decision:** `ABC_30001_0 | VRB VEX → VRB | high | lexical haben expressing possession`
-
----
-
-**Context:** *ich hân den man gesehen*
-
-**Word:** *hân*
-
-**Analysis:**
-1. *hân* appears with Partizip II *gesehen*
-2. Together they form Perfect tense
-3. Function: auxiliary verb
-
-**Decision:** `ABC_30002_0 | VRB VEX → VEX | high | auxiliary with participle gesehen forming Perfect`
-
----
-
-### Example 4: Low Confidence Case
-
-**Context:** *...unde war...*  (fragmentary)
-
-**Word:** *war*
-
-**Analysis:**
-1. Fragment - no clear sentence structure
-2. *war* could be: wohin (IPA), wahr (ADJ), wo (ADV), or sîn-form (VRB/VEX)
-3. No syntactic context to determine function
-4. Cannot reliably disambiguate
-
-**Decision:** SKIP - insufficient context for reliable disambiguation
-
----
+For detailed pedagogical examples of disambiguation (including 3-way ambiguity of *daz*, *als* as ADV vs SCNJ, and *haben* as VRB vs VEX), see [references/examples.md](references/examples.md).
 
 ## Workflow Phases
 
 ### Phase 0: Environment Setup (once per session)
 
-**System Context**: Windows (PowerShell).
+**System Context**: Windows (Git Bash).
 - Use provided Python scripts for analysis.
-- Do NOT use Unix-specific commands like `grep`, `head`, `tail`. Use PowerShell equivalents or Python tools.
+- You can use Unix-specific shell commands if needed, alongside native tools.
 
 ```bash
 python --version          # Verify Python 3.13+
@@ -627,9 +417,9 @@ pip install lxml          # Install if needed
 ```
 
 Verify scripts exist:
-- `scripts/data-wrangling/pos/split-tei-for-pos-validation.py`
-- `scripts/data-wrangling/pos/merge-pos-validation-results.py`
-- `scripts/data-wrangling/pos/validate-disambiguation.py`
+- `.gemini/skills/pos-disambiguator/scripts/split-tei-for-pos-validation.py`
+- `.gemini/skills/pos-disambiguator/scripts/merge-pos-validation-results.py`
+- `.gemini/skills/pos-disambiguator/scripts/validate-disambiguation.py`
 
 ### Phase 1: Discovery
 
@@ -670,12 +460,26 @@ For each chunk file `{SIGLE}-chunk-{NUM}.md`:
 - Correct: `ABS_11010_7 |  → DET | high | indefinite article`
 - Wrong: `ABS_11010_7 | ❓ → DET | high | indefinite article`
 
+### Phase 2.5: Fix Malformed Output
+
+Before merging, fix any malformed result lines from LLM output:
+
+```bash
+# Dry run first to see what would be fixed
+python .gemini/skills/pos-disambiguator/scripts/find-and-fix-malformed-results.py temp/disambiguation --dry-run
+
+# Apply fixes
+python .gemini/skills/pos-disambiguator/scripts/find-and-fix-malformed-results.py temp/disambiguation
+```
+
+This corrects common formatting issues (wrong arrow characters, leftover markers, etc.) that would cause the merge script to skip valid decisions.
+
 ### Phase 3: Merge Results
 
 When all chunks complete:
 
 ```bash
-python scripts/data-wrangling/pos/merge-pos-validation-results.py temp/disambiguation {SIGLE} tei/{SIGLE}.xml
+python .gemini/skills/pos-disambiguator/scripts/merge-pos-validation-results.py temp/disambiguation {SIGLE} tei/{SIGLE}.xml
 ```
 
 Output:
@@ -685,7 +489,7 @@ Output:
 ### Phase 4: Validation
 
 ```bash
-python scripts/data-wrangling/pos/validate-disambiguation.py
+python .gemini/skills/pos-disambiguator/scripts/validate-disambiguation.py
 ```
 
 Check for:
@@ -700,7 +504,7 @@ If validation fails, use this strategy to clear errors efficiently:
 1. **Detect Missing Decisions**:
    Run the detection script to identify which chunks have unresolved items (skipped decisions):
    ```bash
-   python scripts/data-wrangling/pos/find-missing-decisions.py temp/disambiguation {SIGLE}
+   python .gemini/skills/pos-disambiguator/scripts/find-missing-decisions.py temp/disambiguation {SIGLE}
    ```
    This will list chunks sorted by the number of missing decisions.
 
@@ -708,18 +512,24 @@ If validation fails, use this strategy to clear errors efficiently:
    Prioritize the chunks with the highest missing counts. For each target chunk:
    - **Prepare Fix Task**: Run the preparation script to extract the context and the specific missing items:
      ```bash
-     python scripts/data-wrangling/pos/prepare-fix-task.py temp/disambiguation/{SIGLE}-chunk-{NUM}.md
+     python .gemini/skills/pos-disambiguator/scripts/prepare-fix-task.py temp/disambiguation/{SIGLE}-chunk-{NUM}.md
      ```
    - **Generate Fix**: Use the output to create a FIX file `{SIGLE}-chunk-{NUM}-result_FIX-01.md` containing **ALL** missing decisions.
    - **Format**: Same as standard results (`xml_id | old_pos → new_pos | confidence | reason`).
 
 3. **Re-Merge**:
    ```bash
-   python scripts/data-wrangling/pos/merge-pos-validation-results.py temp/disambiguation {SIGLE} tei/{SIGLE}.xml
+   python .gemini/skills/pos-disambiguator/scripts/merge-pos-validation-results.py temp/disambiguation {SIGLE} tei/{SIGLE}.xml
    ```
    The script uses "Last-Write-Wins", so your new FIX files will automatically overwrite missing or incorrect entries.
 
-**Safety limit**: Maximum 3 refinement iterations per chunk. After 3 failures, mark as "complete with errors".
+**Safety limit**: Maximum 3 refinement iterations per chunk. After 3 failures, mark as "complete with errors" and generate a Failure Report.
+
+**Creating a Failure Report**:
+If you hit the 3-iteration limit, create temp/disambiguation/{SIGLE}-FAILURE-REPORT.md including:
+1. The specific chunks that failed.
+2. The xml_ids that remain unresolved.
+3. A brief linguistic explanation of *why* the context was too ambiguous to resolve (e.g., "Missing verb makes it impossible to determine if 'daz' is SCNJ or DET"), so a human expert can review it.
 
 ---
 
@@ -730,19 +540,30 @@ If validation fails, use this strategy to clear errors efficiently:
 Splits TEI files into chunks for processing.
 
 ```bash
-python scripts/data-wrangling/pos/split-tei-for-pos-validation.py tei/{SIGLE}.xml
+python .gemini/skills/pos-disambiguator/scripts/split-tei-for-pos-validation.py tei/{SIGLE}.xml
 ```
 
-**Defaults** (optimized for Gemini 3 Pro):
+**Defaults** (optimized for Gemini 3.1 Pro):
 - `--chunk-size 500` (500 target words per chunk - standard for focused analysis)
 - `--context-size 50` (50 words context before/after)
+
+### find-and-fix-malformed-results.py
+
+Detects and fixes malformed result lines in LLM output before merging.
+
+```bash
+python .gemini/skills/pos-disambiguator/scripts/find-and-fix-malformed-results.py temp/disambiguation --dry-run
+python .gemini/skills/pos-disambiguator/scripts/find-and-fix-malformed-results.py temp/disambiguation
+```
+
+**Fixes**: wrong arrow characters, leftover markers, missing fields. Use `--dry-run` to preview.
 
 ### merge-pos-validation-results.py
 
 Merges result files back into TEI.
 
 ```bash
-python scripts/data-wrangling/pos/merge-pos-validation-results.py temp/disambiguation {SIGLE} tei/{SIGLE}.xml
+python .gemini/skills/pos-disambiguator/scripts/merge-pos-validation-results.py temp/disambiguation {SIGLE} tei/{SIGLE}.xml
 ```
 
 **Parses format**: `xml_id | old_pos → new_pos | confidence | reason [| reason="value"]`
@@ -752,7 +573,7 @@ python scripts/data-wrangling/pos/merge-pos-validation-results.py temp/disambigu
 Checks for remaining issues.
 
 ```bash
-python scripts/data-wrangling/pos/validate-disambiguation.py
+python .gemini/skills/pos-disambiguator/scripts/validate-disambiguation.py
 ```
 
 ### find-missing-decisions.py
@@ -760,7 +581,7 @@ python scripts/data-wrangling/pos/validate-disambiguation.py
 Identifies chunks where the Agent skipped items (errors of omission).
 
 ```bash
-python scripts/data-wrangling/pos/find-missing-decisions.py temp/disambiguation {SIGLE}
+python .gemini/skills/pos-disambiguator/scripts/find-missing-decisions.py temp/disambiguation {SIGLE}
 ```
 **Output**: List of chunks sorted by missing decision count.
 
@@ -769,7 +590,7 @@ python scripts/data-wrangling/pos/find-missing-decisions.py temp/disambiguation 
 Generates a targeted task description for fixing missing decisions in a specific chunk.
 
 ```bash
-python scripts/data-wrangling/pos/prepare-fix-task.py temp/disambiguation/{SIGLE}-chunk-{NUM}.md
+python .gemini/skills/pos-disambiguator/scripts/prepare-fix-task.py temp/disambiguation/{SIGLE}-chunk-{NUM}.md
 ```
 **Output**: Markdown text containing Context Text and the list of missing items to validate.
 

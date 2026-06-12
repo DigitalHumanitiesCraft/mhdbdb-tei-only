@@ -122,6 +122,140 @@ test.describe('Reading View', () => {
         expect(colors.length).toBeGreaterThanOrEqual(1);
     });
 
+    // === #17: TEI Structural Elements ===
+
+    test('should render div type headers (song, chapter, recipe)', async ({ page }) => {
+        // HZU has div type="number" headers
+        await page.goto('http://localhost:8080/korpus.html?textId=HZU&lemmaIds=lemma_879');
+        await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
+        await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
+
+        // Should have div-type headers with German labels
+        const headers = page.locator('#readingBody .tei-div-header');
+        await expect(headers.first()).toBeVisible();
+        const headerText = await headers.first().textContent();
+        expect(headerText).toMatch(/Nr\.\s+\d+/);
+    });
+
+    test('should render stanza labels and verse line numbers', async ({ page }) => {
+        // NBB (Nibelungenlied) has lg type="stanza" with l elements
+        await page.goto('http://localhost:8080/korpus.html?textId=NBB&lemmaIds=lemma_879');
+        await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
+        await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
+
+        // Stanza labels should exist
+        const stanzaLabels = page.locator('#readingBody .stanza-label');
+        await expect(stanzaLabels.first()).toBeVisible();
+        const labelText = await stanzaLabels.first().textContent();
+        expect(labelText).toMatch(/Strophe\s+\d+/);
+
+        // Verse lines should have data-n attributes
+        const verseLines = page.locator('#readingBody .verse-line[data-n]');
+        const count = await verseLines.count();
+        expect(count).toBeGreaterThan(0);
+    });
+
+    // === #127: visible verse-line numbering policy (.verse-line-numbered) ===
+    // Policy: number the FIRST numeric line, then every line whose absolute @n is a
+    // multiple of 5; non-numeric @n (e.g. h_* headers) is never numbered.
+
+    test('#127: NBB (stanza-local @n) numbers only the first verse line', async ({ page }) => {
+        // Nibelungenlied: @n resets per stanza (1..4) and never reaches a multiple of
+        // 5, so only the very first numeric line carries a margin number.
+        await page.goto('http://localhost:8080/korpus.html?textId=NBB&lemmaIds=lemma_879');
+        await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
+        await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
+
+        const numbered = await page.$$eval('#readingBody .verse-line-numbered',
+            els => els.map(e => e.getAttribute('data-n')));
+        expect(numbered).toEqual(['1']);
+        // numeric guard: a numbered line always has a purely numeric @n (no h_* header)
+        expect(numbered.every(n => /^\d+$/.test(n))).toBe(true);
+    });
+
+    test('#127: AGS (continuous @n) numbers the first line plus every 5th', async ({ page }) => {
+        // Der altgewordene Sünder: continuous @n -> first line anchored + 5,10,15,...
+        await page.goto('http://localhost:8080/korpus.html?textId=AGS&lemmaIds=lemma_879');
+        await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
+        await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
+
+        const numbered = await page.$$eval('#readingBody .verse-line-numbered',
+            els => els.map(e => parseInt(e.getAttribute('data-n'), 10)));
+        expect(numbered.length).toBeGreaterThan(1);
+        expect(numbered.slice(0, 4)).toEqual([1, 5, 10, 15]);
+        // exactly one non-multiple-of-5 survives: the first-line anchor (@n=1)
+        expect(numbered.filter(n => n % 5 !== 0)).toEqual([1]);
+    });
+
+    test('should render prose line numbers (lb)', async ({ page }) => {
+        // ABG has lb elements with h_ prefix numbers
+        await page.goto('http://localhost:8080/korpus.html?textId=ABG&lemmaIds=lemma_879');
+        await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
+        await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
+
+        // Line numbers should be rendered
+        const lineNumbers = page.locator('#readingBody .lb-number');
+        await expect(lineNumbers.first()).toBeVisible();
+    });
+
+    test('should render note date and year badges', async ({ page }) => {
+        // HZU has note type="date" and note type="year"
+        await page.goto('http://localhost:8080/korpus.html?textId=HZU&lemmaIds=lemma_879');
+        await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
+        await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
+
+        // Year badge
+        const yearBadge = page.locator('#readingBody .note-year');
+        await expect(yearBadge.first()).toBeVisible();
+        const yearText = await yearBadge.first().textContent();
+        expect(yearText).toMatch(/\d{4}/);
+
+        // Date badge
+        const dateBadge = page.locator('#readingBody .note-date');
+        await expect(dateBadge.first()).toBeVisible();
+    });
+
+    test('should render hi rend compound values with token classes', async ({ page }) => {
+        // IW (Iwein) has hi rend="initial" elements
+        await page.goto('http://localhost:8080/korpus.html?textId=IW&lemmaIds=lemma_879');
+        await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
+        await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
+
+        // hi-initial class should exist (token-based, not the old .initial)
+        const initials = page.locator('#readingBody .hi-initial');
+        const count = await initials.count();
+        expect(count).toBeGreaterThan(0);
+    });
+
+    test('should render colophon with distinct styling', async ({ page }) => {
+        // ALX has div type="colophon"
+        await page.goto('http://localhost:8080/korpus.html?textId=ALX&lemmaIds=lemma_879');
+        await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
+        await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
+
+        // Colophon div should exist (use div[data-type] to avoid matching the header too)
+        const colophon = page.locator('#readingBody div.tei-div[data-type="colophon"]');
+        await expect(colophon).toBeVisible();
+
+        // Should have italic styling
+        const fontStyle = await colophon.evaluate(el => getComputedStyle(el).fontStyle);
+        expect(fontStyle).toBe('italic');
+    });
+
+    test('should apply verse-context or prose-context class', async ({ page }) => {
+        // NBB (verse) should get verse-context
+        await page.goto('http://localhost:8080/korpus.html?textId=NBB&lemmaIds=lemma_879');
+        await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
+        await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
+        await expect(page.locator('#readingBody.verse-context')).toBeVisible();
+
+        // ABG (prose) should get prose-context
+        await page.goto('http://localhost:8080/korpus.html?textId=ABG&lemmaIds=lemma_879');
+        await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
+        await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
+        await expect(page.locator('#readingBody.prose-context')).toBeVisible();
+    });
+
     test('should show error for missing text', async ({ page }) => {
         await page.goto('http://localhost:8080/korpus.html?textId=NONEXISTENT_TEXT&lemmaIds=lemma_879');
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });

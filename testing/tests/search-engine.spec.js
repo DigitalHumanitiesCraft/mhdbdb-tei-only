@@ -123,4 +123,18 @@ test.describe('Search Engine', () => {
         expect(results[0].snippet.length).toBeGreaterThan(0);
     });
 
+    test('search results include wordCount for frequency calculations', async ({ page }) => {
+        const results = await page.evaluate(async () => {
+            const se = window._mhdbdbApp.searchEngine;
+            return await se.searchLemma('minne');
+        });
+
+        expect(results.length).toBeGreaterThan(0);
+
+        const firstResult = results[0];
+        expect(firstResult).toHaveProperty('wordCount');
+        expect(typeof firstResult.wordCount).toBe('number');
+        expect(firstResult.wordCount).toBeGreaterThan(0);
+    });
+
 });

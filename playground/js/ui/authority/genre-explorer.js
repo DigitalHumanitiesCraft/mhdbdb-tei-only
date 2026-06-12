@@ -21,6 +21,7 @@ import { displayResults } from "../core/ui-helpers.js";
 export class GenreExplorer {
   constructor(authorityData) {
     this.authorityData = authorityData;
+    this.onlyWithWorks = false; // #119 filter: only show genres that have assigned works
   }
 
   showGenres() {
@@ -41,16 +42,35 @@ export class GenreExplorer {
   }
 
   showGenresWithSearch() {
+    const checkboxHTML = `
+      <label class="flex items-center gap-2 text-sm text-slate-700 cursor-pointer">
+        <input type="checkbox" id="genreOnlyWithWorks" ${this.onlyWithWorks ? "checked" : ""}
+               class="w-4 h-4 rounded border-slate-300 text-brand-600 focus:ring-brand-500" />
+        <span>Nur Gattungen mit zugeordneten Werken anzeigen</span>
+      </label>
+    `;
+
     const searchHTML = createSearchInterface({
       title: "Gattungen-Explorer",
       placeholder: "Gattung suchen (z.B. Höfischer Roman, Epik, Lyrik)",
       searchInputId: "genreSearch",
       resultsId: "genreResults",
       totalCount: this.authorityData.genres.length,
+      extraControlsHTML: checkboxHTML,
     });
 
     renderToContainer("resultsContainer", searchHTML);
     setupSearchInput("genreSearch", (term) => this.searchGenres(term));
+
+    // #119: re-run the search with the current term when the filter toggles.
+    // The checkbox lives in the outer section, so it survives the genreResults re-render.
+    document
+      .getElementById("genreOnlyWithWorks")
+      ?.addEventListener("change", (event) => {
+        this.onlyWithWorks = event.target.checked;
+        const term = document.getElementById("genreSearch")?.value || "";
+        this.searchGenres(term);
+      });
   }
 
   searchGenres(searchTerm) {
@@ -59,11 +79,18 @@ export class GenreExplorer {
       return;
     }
 
-    const matches = SearchPatterns.multiFieldNormalized(
+    let matches = SearchPatterns.multiFieldNormalized(
       this.authorityData.genres,
       searchTerm,
       [(genre) => genre.termDE || "", (genre) => genre.termEN || ""]
     );
+
+    // #119: optional filter to genres that actually have assigned works.
+    if (this.onlyWithWorks) {
+      matches = matches.filter(
+        (genre) => this.findWorksInGenre(genre.id).length > 0
+      );
+    }
 
     const result = handleSearchResults(searchTerm, matches, {
       maxResults: 30,
@@ -78,32 +105,35 @@ export class GenreExplorer {
     const resultHTML = result.matches
       .map((genre) => {
         const worksInGenre = this.findWorksInGenre(genre.id);
+        const hasWorks = worksInGenre.length > 0;
         const parentGenre = this.getGenreHierarchy(genre.id);
 
         return generateResultItem({
           meta: formatMetadata([
             `ID: ${genre.id}`,
-            worksInGenre.length > 0 ? `${worksInGenre.length} Werke` : null,
+            hasWorks ? `${worksInGenre.length} Werke` : null,
             parentGenre ? `Übergeordnet: ${parentGenre}` : null,
           ]),
           title: genre.termDE || genre.termEN,
-          buttons:
-            worksInGenre.length > 0
-              ? [
-                  {
-                    text: "Werke anzeigen",
-                    action: `window.playground.ui.authorityExplorers.showWorksInGenre('${
-                      genre.id
-                    }', '${escapeForJS(genre.termDE || genre.termEN)}')`,
-                  },
-                  {
-                    text: "Autor*innen anzeigen",
-                    action: `window.playground.ui.authorityExplorers.showAuthorsInGenre('${
-                      genre.id
-                    }', '${escapeForJS(genre.termDE || genre.termEN)}')`,
-                  },
-                ]
-              : [],
+          // #119: genres without assigned works get a placeholder note + dimmed card
+          subtitle: hasWorks ? "" : "Noch keine Werke in der MHDBDB zugeordnet",
+          dimmed: !hasWorks,
+          buttons: hasWorks
+            ? [
+                {
+                  text: "Werke anzeigen",
+                  action: `window.playground.ui.authorityExplorers.showWorksInGenre('${
+                    genre.id
+                  }', '${escapeForJS(genre.termDE || genre.termEN)}')`,
+                },
+                {
+                  text: "Autor*innen anzeigen",
+                  action: `window.playground.ui.authorityExplorers.showAuthorsInGenre('${
+                    genre.id
+                  }', '${escapeForJS(genre.termDE || genre.termEN)}')`,
+                },
+              ]
+            : [],
           detailsId: `genre-details-${genre.id}`,
         });
       })

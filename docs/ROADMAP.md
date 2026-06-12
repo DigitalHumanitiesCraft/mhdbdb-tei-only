@@ -1,78 +1,123 @@
 # Roadmap
 
-Strategic priorities for the MHDBDB TEI Repository. Updated Feb 2026.
+Strategic priorities for the MHDBDB TEI Repository. Updated 2026-06-05.
 
 See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/44) for the full triage matrix with per-issue status.
 
-## Now: Claude-Ready
-
-Work that can be picked up immediately.
+## Now: Quick Wins + prio-1
 
 | # | What | Domain | Effort |
 |---|------|--------|--------|
-| #14 | License update → CC BY-NC-SA 4.0 (TEI headers + UI footer) | data+frontend | M |
-| #20 | Readability fixes (font sizes, contrast) — done, awaiting approval | frontend | S |
-| #22 | TEI Encoding Guidelines (convert SharePoint docs) | documentation | M |
-| #52 | Playground "Authority Files" card clickable | minor-UX/UI | S |
-| #53 | "Korpus durchsuchen" UX improvement | minor-UX/UI | S |
+| #91 | Zenodo-Integration — CITATION.cff von KZW finalisiert (`type=dataset`, Lead-Autorin); Zenodo-Webhook + Tag noch User-Steps | docs/release | S |
+| #110 | #23-Followup WVV — 4 wrap_failed Strophen (1174/1180/1208/1242) brauchen philologische Klärung KZW/Julia (Ton-Wechsel: eine oder zwei Strophen?). Issue **reopened 2026-05-16** — Auto-Close gestern via `Closes`-Trailer war voreilig | pipeline | S |
 
-## Next: Clear but Larger
-
-Well-specified, ready to build, but require more effort.
+## Next: FAIR Data + Daten-Qualität
 
 | # | What | Domain | Effort |
 |---|------|--------|--------|
 | #45 | Static JSON API (FAIR data) — [planning doc](features/045-static-api.md) ready | pipeline + frontend | L |
-| #17 | TEI structural rendering in reader view | frontend | L |
-| #48 | Playground URL routing (shareable views) | frontend | M |
-| #47 | TEI Textanalyse im Playground (6 features) — needs scoping | frontend | L |
+| #86 | Barrierefreiheitserklärung (WZG) — needs Uni Salzburg input | documentation | M |
 
 ## Blocked: Needs Human Input
 
 | # | What | Who's needed |
 |---|------|-------------|
-| #29 | Stricker/Kaufringer `<supplied>` → `<div type="parallel">` — structural mismatch, [awaiting clarification](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/29#issuecomment-3973088014) | KZW |
-| #26 | Missing `<pb>` elements (17 texts) | KZW manual check |
-| #23 | Missing stanza markup (104 texts) — partially actionable | Linecode docs (#31) |
-| #31 | Doku: Linecode2TEI — do #23 + #29 first | KZW |
-| #30 | Manual review of TEI structural elements (~20 texts) — KZW reviewing from KW 8 | KZW |
-| #34 | Ingest Wenzelsbibel + CoReMA | Julia + Helmut coordination |
-| #32 | TEI schema / ODD — decision: no ODD, eliminate custom attrs first | Future phase |
-| #42 | Persistent lemma pages — feature done, scope expanded (Lemmata-Explorer rename, semantic explorer) | Decision: close + new issues? |
+| #92 | ARITHMETIC ingest — 6 fnhd. Rechenbuch-HS von Carina (Graz); wartet auf Carinas Antwort zu Sigle/Lizenz/Edition/Genre + Schlüsselfrage Domänen-Klassifikation erhalten? | Carina (via Katharina) |
+| #30 | TEI structural fixes — auto-fixes ready, draft-fixes prepared | KZW (review) |
+| #34 | Ingest Wenzelsbibel — Phase 3 at 92.5% @meaningRef, 4,013 rows pending; branch rebased 2026-05-06; evaluation script (`wzb-sense-evaluate.py`) ready. **Drift-Blocker (#115):** Phase 1b prägte 98 Lemma-IDs ≥78000 ins Korpus ohne lexicon.xml-Nachzug (977 dangling Refs); künftige Ingests brauchen einen Backfill-Schritt (siehe [ADR-015](DECISIONS.md#adr-015-authority-source-modell-korpus-führt-ingest-braucht-rückwärts-sync)) | Julia + Helmut |
+| #68 | Guide: How to add data to MHDBDB — Teil 1 (`hilfe-daten-beitragen.html`) shipped 2026-05-07, Contributing-Guide-Update 2026-05-12 (Two-Wege-Block + 9-Punkte-Checkliste); weitere Onboarding-Artefakte hängen an #34-Lessons | KZW |
+| #124 | Analytics/Nutzungsstatistik — Recherche abgeschlossen + im Issue gepostet (GA abgelehnt; Empfehlung: Uni-Matomo-Anfrage, sonst Cloudflare/self-host); Entscheidung offen | KZW (öffentlich vs. intern, Budget, Server) |
 
-## In Progress
+## Needs Clarification
 
-| # | What | Status |
-|---|------|--------|
-| #27 | POS Workflow expansion | Active — linguistic decisions answered, batch list provided |
-| #30 | TEI structural review | KZW reviewing manually from KW 8 |
+| # | What | Key question |
+|---|------|-------------|
+| #27 | POS Workflow expansion | Linguistic decisions answered — implementation scope? |
+| #28 | Foreign language search | Index needs `xml:lang`; UI design needed |
+| #18 | Multi-lemma + PoS tag search | Depends on POS corpus migration (#27) |
+| #23 | Missing stanza markup (104 texts) | Complex cases need Linecode docs (#31, done) + Julia input |
+| #106 | Vers-Boundary-Folgefeatures — Punkt 1 (Reim-Wörterbuch) bleibt Rolling-Backlog; Punkte 2-7 wandern in #109 FWF-Projekt; Punkt 8 in Multi-Lemma-Backlog | KZW priorisiert weiter |
 
 ## Future: Needs Design
 
 | # | What | Key question |
 |---|------|-------------|
-| #18 | Multi-lemma + PoS tag search | Corpus index needs PoS data; depends on #27 |
-| #28 | Foreign language search in playground | Index needs `xml:lang`; new UI section design |
+| #58 | Begriff→Lemma→Beleg Workflow | Playground UX redesign |
+| #59 | Antonomasien/Epitheta Modul | Standalone analysis module design |
+| #63 | Begriffssystem Update | Julia's future plans |
+| #80 | Umbrella: User-facing Dokumentation & Hilfe | Sub-issues #68 (#79 + #78 bereits closed) |
+| #93 | Textreihentypologie-Umzug (von marketext.at auf MHDBDB-Unterseite) — SKOS-Daten aus `textseries`-Repo, Baum-Visualisierung; dysfunktionale `dhplus`-URIs zu bereinigen | Visualisierung + Authority-File-Abgleich |
+| #109 | FWF-Einzelprojekt (Korpus-Tiefenanalyse, NER-Pipeline, phonetische Reimanalyse, Visualisierungen) — Antrag durch KZW, kleines Budget, max. 50% externe Mittel | Scope-Notiz für Antragstext |
+| #111 | Index-Größen-Soft-Cap und modulare Splitting-Strategie | Trigger >50 MB gz (heute ~40); Optionen A modular / B brotli / C binär; keine Entscheidung bis Schwellwert erreicht |
 
 ## Recently Completed
 
 | # | What |
 |---|------|
-| ~~#50~~ | Fix 43 test failures → 121/121 passing ✅ |
-| ~~#54~~ | Document multi-lemma dedup in CONTRACTS.MD ✅ |
-| ~~#55~~ | Document lemma pages for rebuild feasibility ✅ |
-| ~~#42~~ | Persistent lemma pages (base feature) ✅ |
-| ~~#43~~ | Playwright test coverage ✅ |
-| ~~#46~~ | Merge Lemma-Suche into Multi-Lemma-Suche ✅ |
-| ~~#21~~ | Rename "Konzepte" → "Begriffe" ✅ |
-| ~~#35–40~~ | Provenance metadata (5 batches + model) ✅ |
+| ~~#113-Followup~~ | KZW-Synonym-Match in Begriffs-Verteilung + Begriffe-Explorer (2026-05-28, commit `f7c8592c2`): Last-Wins-Bug in `parse_concepts()` gefixt (Primär-Term wurde von Alternative überschrieben, z.B. concept_13023100 zeigte „Früchte" statt „Obst"). Authority-Index v1.2.2 → v1.3.0 mit additiven Feldern `altDE[]`/`altEN[]`/`altNormalized[]` (263/567 Concepts mit deutschem Synonym). Beide UI-Module matchen Synonyme zusätzlich und zeigen „auch: …"-Hint im Autocomplete. Chrome-verifiziert mit „obs"/„frü"/„Wahnsinn-Tobsucht". |
+| ~~#113~~ | Autocomplete im Begriffs-Verteilung-Input (2026-05-15, commit `a2e7b0b36`): klassisches Dropdown unter dem Input mit max. 8 Concept-Suggestions, Pfeil-Navigation (ArrowDown/Up), Enter wählt + sucht, Escape schließt, Klick (mousedown vor blur) wählt + sucht. Reuse `resolveQuery()` als Suggestions-Quelle. ARIA: combobox/listbox/aria-selected/aria-expanded. Live-verifiziert: „ster" → Sterben + Bruderschaft. |
+| ~~#107~~ | Kookkurrenz-Ranking (2026-05-15, commit `70d0bf280`): DWDS-Style „Welche Lemmata stehen am häufigsten bei X?". Window-Scan über `text.words[pos±w]` für jede Position in `text.lemmata[X]`. POS-Filter (Inhaltswörter / NOM / VRB / ADJ / alle) essentiell weil ohne Filter Stopwords dominieren. `êre` (9.930 Vorkommen, 6.361 Partner): 1.002ms inkl. UI-Render dank MessageChannel-Yield-Chunking. POS-Filter-Switch ohne Re-Compute: ~15ms (rawCounts gecacht). Belege-Klick → Multi-Lemma-Suche mit beiden Lemmata vorbefüllt. |
+| ~~#108~~ | Textvergleich (2026-05-15, commit `c53a8ac0d`): Zwei Texte auswählen → drei Lemma-Mengen (Nur A / Beide / Nur B) mit Frequenz pro Text und absoluter Differenz. Reine Set-Ops auf `Object.keys(text.lemmata)`, keine neuen Index-Felder. Lokale `_lemmaMap` (einmal pro `show()` gebaut) reduziert 6s Click-Latenz auf 53ms (112× schneller) — `AuthorityFilesManager.findLemmaById()` ist O(N) linear. Verifiziert PZ vs JT: „triuwe" 447× nur in JT (Lemmatisierungs-Unterschied Wolfram/Albrecht). |
+| ~~#112~~ | Versposition-Klick-Highlight-Bug (2026-05-15, commit `131fed17b`): `verse-position-search.js` + `lemma-distribution.js` bauten Reader-URLs mit `lemmaIds=5567` (cleanId), Highlighter sucht jedoch `#${id}` in `lemmaRef="lexicon.xml#lemma_5567"` — `#5567` matcht nicht. Fix: URL-Param erhält volle Form `lemma_5567`. Live-verifiziert (76 + 140 URLs jeweils mit korrektem Prefix; 4 Highlights für `lemma_5567` in AXW). |
+| ~~#104~~ | Sigle-Titel-Differenzierung (2026-05-15, commit `c0b546a45`): PL1-3, FLG/FLG1, FR1-3 bekommen sprechende Anzeigetitel mit Edition + Datum. FLG-`<biblStruct>` umgestellt auf Neumann/Vollmann-Profe 1990 (Edition) + Harsch 2009 (digitalIntermediary). Index-Bump corpus 4.1.2 / authority 1.2.2. KZW-Wording wortgleich; 130/131 Tests grün, Chrome-UI verifiziert |
+| ~~#81~~ | Sprachstufen-Differenzierung (closed 2026-05-15): SAL/SAT/BAR/TUN waren Wikidata-Fehler (`gmh` bleibt). AC1-3 (Ackermann aus Böhmen) bleiben ebenfalls `gmh` — KZW-Entscheidung 2026-05-08: solange kein ISO-Code für Frühneuhochdeutsch existiert, ist `gmh` die TEI-konformste Lösung. 537 unerforschte Texte als eigener Task ausgelagert (nicht angelegt — nicht in Plan) |
+| ~~#47~~ | TEI Textanalyse Umbrella geschlossen (2026-05-12): R1 (#87-90) und R2-Hauptpunkt Begriffs-Verteilung shipped; Folgepunkte ausgelagert in #107 (Kookkurrenz-Ranking), #108 (Textvergleich), #106 (Vers-Boundary-Features, Punkt 1 als Rolling-Backlog), #109 (FWF-Projekt für NER + tiefere Analysen) |
+| ~~#47 R2~~ | Begriffs-Verteilung (2026-05-12): Neuer Playground-Eintrag analog Lemma-Verteilung (#90), aber concept-basiert. Datenpfad concept → senses → lemmata → texts. Verifiziert mit „Sterben" (682 Lemmata, 659 Texte, 103.657 Vorkommen) und „love" (Intimität mit Candidates) |
+| ~~#47.3~~ | Lemmasuche nach Versposition (2026-05-12): Neuer Playground-Eintrag unter Multi-Lemma-Suche, findet Lemmata am Versanfang/Versende. Corpus-Index v4.1.0 mit `lineStarts[]`/`lineEnds[]` (1,359,789 `<l>` über 603 Versdichtungs-Texte, +6 MB gz). KZW-Wording wortgleich; Chrome-verifiziert (Reimpaare gân/begân, bant/bekant am Versende von AGS) |
+| ~~#105~~ | Authority-Files-Counter (2026-05-12): Stats-Block auf Startseite von 7 → 8 angeglichen; Playground-Loader-Status bleibt bei 7 (technisch korrekt, `contributors.xml` nicht im authority-index) |
+| #73 (shipped, Issue offen) | Lemma-Linking MWB + Lexer (2026-05-12): MWB-Block über Wörterbuchnetz-API (`/dictionaries/MWB/lemmata/{form}`) statt POST-only-Suchformular; Dictionary-Loop für beide Wörterbücher, Section nur sichtbar wenn min. 1 Treffer. Julias initialer Suchlink (`05c8676a4`) war defekt. **Issue bleibt OPEN** (needs-clarification: MWB-API noch unvollständig, KZW-Rückfrage bei Recker-Hamm offen) |
+| ~~#101~~ | Reading-View-Render-Policy (2026-05-12, Julia): `milestone[@unit="verse"]` → `<span class="verse-marker">` (superscript), `div[@type="chapter"]` → `<h3 class="section-head">`, `.hi-initial` Sonderformatierung entfernt; Marginalia/Glossen/Rubrum bleiben unstylisiert |
+| ~~#85~~ | Umbrella div-Wrapper (closed 2026-05-12): Kat. 2 (7 Lieder) bereits in `ef939f530`; Kat. 3 (DJEM `e7b99b990`, DES2 `f51a74468`, DUB `d92e398ec`); 13 MBS-Serie-Texte aus Kat. 1 strukturell als implizit-OK eingestuft |
+| ~~WZB Pentateuch~~ | (2026-05-12, Julia): WZB-Titel + works.xml + projectDesc auf „Wenzelsbibel (Pentateuch: Gen–Dtn, Cod. 2759–2764)" präzisiert; Authority-Index-Rebuild |
+| ~~Blog-Post WZB-Pipeline~~ | (2026-05-12, Julia + C. Pollin): Draft v3 in `publications/BLOG-POST-WZB-PIPELINE.md` (30J. MHDBDB-Kontext, LOD, dreiphasige LLM-Pipeline, böhmische Schreibkonventionen); unpublished |
+| ~~#20~~ | Readability fixes (2026-05-11): Counter „667/667 Texte ausgewählt" auf text-2xl/font-semibold, dedizierte blue-50-Hinweisbox mit Info-Icon zum Deselect-Workflow |
+| ~~#96~~ | Metadatenanzeige (2026-05-11): TEI-XML-Download-Link am Ende des Reader-Metadaten-Panels, Anonym-Wikidata-Link bei `authorId === 'person_anonym'` unterdrückt |
+| ~~#87~~ | Playground TEI Textanalyse UX-Cleanup (2026-05-11): 3 broken Buttons raus, Reorder |
+| ~~#88~~ | Playground Wortfrequenz-Analyse (2026-05-11): Top-N Lemmata mit Frequenz-Bars |
+| ~~#89~~ | Playground Text-Statistiken (2026-05-11): Token-Anzahl, Lemma-Diversität, Hapax-Rate |
+| ~~#90~~ | Playground Lemma-Verteilung (2026-05-11): Bar-Chart Lemma × Text |
+| ~~#100~~ | Pre-flight Working-Tree-Check für Index-Builder (2026-05-11): `git status --porcelain`-Check verhindert dirty Builds |
+| ~~#97-99~~ | Playground Follow-up-Cleanups (2026-05-11): Corpus-Index-Property-Drift gefixt, ~700 Zeilen Dead Code aus tei-ui.js entfernt |
+| ~~#79~~ | /hilfe/ User-facing Help Pages (2026-05-08): 5 Hilfe-Seiten live (Korpussuche, Playground, Daten, Daten beitragen, Index) |
+| ~~#94~~ | Authority-Cache invalidiert nicht bei Versions-Bump (2026-05-08): selbstreferenzieller Vergleich gefixt |
+| ~~#17~~ | Reader View TEI-Strukturelemente (2026-04-16): Token-basierte `<hi rend>` Klassen (43k Compound-Werte gefixt), `<div>/<lg>/<l>/<lb>` Margin-Numbers, Note-Badges für `@type="year\|date"`, 128/128 Tests grün |
+| ~~#52~~ | Authority Files Card (2026-04-16): collapse-by-default, weniger visuelle Dominanz im Playground-Sidebar |
+| ~~#32-followup~~ | vollständig 17/17 (2026-05-07): P1-5 `idno/@type` 3 kontextspezifische Enum-Patterns (`msIdentifier` / `monogr` / `person`), WZB-shelfmark-Fix (Daten vor Schema), Stage-1 PI-Cleanup auf 667 Files, CI Push-Trigger |
+| ~~#68 Teil 1~~ | `hilfe-daten-beitragen.html` (2026-05-07): user-facing Schema-Konversions-Leitfaden für TEI-Beitragende |
+| ~~WZB-Reorg~~ | (2026-05-07): 20 Pipeline-Skripte in `scripts/ingest/wzb/`, 4 Sackgassen in `scripts/_archived/wzb/` |
+| ~~#62~~ | Impressum (2026-04-16): `impressum.html` mit Datenschutz, Footer-Links auf allen Seiten |
+| ~~#48~~ | Playground URL-Routing (2026-04-15): Hash-basierte shareable URLs für alle Playground-Views |
+| ~~#56~~ | Lemmata-Explorer (2026-04-15): Titel-Links zu Lemma-Seiten, URL-Bug-Fix, concept-based Similar Lemmata |
+| ~~#31~~ | Linecode2TEI-Dokumentation (2026-04-15): `docs/LINECODE.md` |
+| ~~#22~~ | TEI Encoding Guidelines (2026-04-16): superseded by TEI-MODEL.md + schema README |
+| ~~#43~~ | Playwright test coverage (2026-04-16): 121/121 passing, 25 skipped intentional |
+| ~~#83~~ | Editor-Attribution & Credits-Modell (2026-04-15) |
+| ~~#84~~ | HZU/HZU2 Datum-Notes — already migrated in #32 Phase A |
+| ~~#32-followup~~ | Schema hardening: 16/17 items done (P1-5 `idno/@type` enum remains) |
+| ~~#32~~ | TEI Model Consolidation (675→666 files, 15M+ transformations, 2 schemas) |
+| ~~#29~~ | Stricker-Texte |
+| ~~#60~~ | Parzival Struktur-Bug |
+| ~~#61~~ | Textauswahl Whitespace-Bug |
+| ~~#53~~ | Korpus durchsuchen UX |
+| ~~#67~~ | Abbreviaturen Header (124 Texte) |
+| ~~#70~~ | pc join spacing |
+| ~~#14~~ | Sonderfall Lizenzen |
+| ~~#50~~ | Fix 43 test failures → 121/121 passing |
+| ~~#42~~ | Persistent lemma pages |
+| ~~#46~~ | Merge Lemma-Suche |
+| ~~#21~~ | Rename Konzepte→Begriffe |
+| ~~#35–40~~ | Provenance metadata (5 batches) |
 
 ## Strategic Direction
 
-1. **FAIR data first** — Make all MHDBDB data citable and programmatically accessible (#45, #42). This enables external collaborations (MWB, Worterbuchnetz) and increases project visibility.
+1. **TEI model consolidation done** — Soll-Modell (#32) fully implemented, #32-followup 17/17 abgeschlossen (P1-5 mit 3 kontextspezifischen Enum-Patterns für `idno/@type`, plus WZB shelfmark, Stage-1 PI cleanup, CI push trigger). Both schemas written (`mhdbdb.rnc`, `mhdbdb-authority.rnc`), all 667 corpus + 8 authority files validated. Target models: [TEI-MODEL.md](TEI-MODEL.md) + [TEI-MODEL-AUTH-FILES.md](TEI-MODEL-AUTH-FILES.md). Architecture Decision Record: [ADR-013 "Data Consolidation Before Schema Relaxation"](DECISIONS.md#adr-013-data-consolidation-before-schema-relaxation).
 
-2. **TEI data quality** — Structural fixes (#23, #26, #29, #30) and schema consolidation (#32) strengthen the corpus as a reliable research resource. Most blocked on human review.
+2. **TEI data quality** — Structural fixes (#23, #26, #30, #85), schema hardening (#32 ✅), Wenzelsbibel (#34, Phase 3 at 92.5%) und WVV-Followup (#110) sind die aktiven Workstreams. Die meisten verbleibenden Structural Fixes sind auf KZW-Review geblockt.
 
-3. **Frontend refinements** — UI polish (#20), TEI rendering (#17), URL routing (#48), and advanced playground features (#47) improve the user experience.
+3. **Playground TEI Textanalyse Release 1 done** — UX-Cleanup (#87), Wortfrequenz (#88), Text-Statistiken (#89), Lemma-Verteilung (#90) alle 2026-05-11 closed. Release 2 (Begriffs-Verteilung) und Release 3 (POS-Anteile, abhängig von #27) noch ungeplant.
 
-4. **Advanced search** — PoS-based search (#18) and foreign language search (#28) depend on corpus index extensions.
+4. **FAIR data + Citability** — Static JSON API (#45) und Zenodo-DOI (#91, Stub geliefert) machen MHDBDB-Daten extern zitier- und programmierbar zugänglich. Enables external collaborations (MWB, Wörterbuchnetz, ZfdG-Einreichung).
+
+5. **Frontend refinements** — Reader (#17 ✅), UI-Polish (#20 ✅), Reading-View-Render-Policy (#101 ✅ 2026-05-12, Julia) und Lemma-Linking MWB+Lexer (#73 ✅ 2026-05-12) abgeschlossen. Upload-UI-Dead-Code-Cleanup pendent (kein Issue).
+
+6. **Advanced search** — PoS-based search (#18) and foreign language search (#28) depend on corpus index extensions.

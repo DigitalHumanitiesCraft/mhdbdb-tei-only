@@ -5,22 +5,24 @@
   "type": "module",
   "scripts": {
     "test": "cd testing && playwright test",
+    "test:quick": "cd testing && playwright test main-site.spec.js playground.spec.js corpus.spec.js",
     "test:ui": "cd testing && playwright test --ui",
     "test:debug": "cd testing && playwright test --debug",
     "test:headed": "cd testing && playwright test --headed",
     "build:css": "tailwindcss -i assets/css/tailwind-input.css -o assets/css/tailwind-output.css --minify",
     "build:css:watch": "tailwindcss -i assets/css/tailwind-input.css -o assets/css/tailwind-output.css --watch",
+    "build:vendor": "node scripts/build-vendor.js",
     "serve": "http-server . -p 8080 -c-1",
     "report": "cd testing && playwright show-report",
     "build:authority": "python3.13 scripts/build-authority-index.py",
     "build:corpus": "python3.13 scripts/build-corpus-index.py",
-    "build:manifest": "python3.13 scripts/generate-manifest.py",
-    "build": "npm run build:css && npm run build:authority && npm run build:corpus && npm run build:manifest",
+    "build": "npm run build:css && npm run build:vendor && npm run build:authority && npm run build:corpus",
     "validate:indices": "python3.13 scripts/validate-indices.py"
   },
   "devDependencies": {
     "@playwright/test": "^1.40.0",
     "http-server": "^14.1.1",
+    "prismjs": "^1.30.0",
     "tailwindcss": "^3.4.19"
   },
   "keywords": [
@@ -31,5 +33,5 @@
     "playwright"
   ],
   "author": "MHDBDB Project",
-  "license": "CC-BY-NC-SA-3.0"
+  "license": "MIT"
 }

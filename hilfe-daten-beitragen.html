@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Technischer Leitfaden zur Konversion bestehender TEI-Daten (MHD/FNHD) in das MHDBDB-Schema: Header-Struktur, Wort-Annotation, Authority-Files, Pipeline, Validierung.">
+    <meta name="keywords" content="MHDBDB, TEI, Schema, Konversion, Lemmatisierung, Authority Files, Mittelhochdeutsch, Frühneuhochdeutsch">
+    <meta name="author" content="Universität Salzburg">
+
+    <title>Eigene Texte beitragen – MHDBDB Hilfe</title>
+
+    <link rel="stylesheet" href="assets/css/tailwind-output.css">
+    <link rel="icon" type="image/png" href="assets/images/mhdbdb-logo.png">
+    <link rel="stylesheet" href="assets/css/shared.css">
+    <link rel="stylesheet" href="assets/css/hilfe.css">
+    <link rel="stylesheet" href="assets/vendor/prism/prism.css">
+</head>
+<body class="bg-slate-100 text-slate-900">
+
+<!-- NAV:START key=hilfe -->
+<header class="border-b border-slate-200 bg-white/90 backdrop-blur sticky top-0 z-50">
+    <div class="container mx-auto px-6 py-4">
+        <nav class="flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-3">
+                <img src="assets/images/mhdbdb-logo.png" alt="MHDBDB Logo" class="w-40">
+                <span class="text-lg font-bold text-brand-600">MHDBDB</span>
+            </a>
+
+            <!-- Desktop Navigation -->
+            <div class="hidden md:flex items-center gap-6">
+                <a href="index.html" data-nav="start" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                    Startseite
+                </a>
+                <a href="korpus.html" data-nav="korpus" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                    Korpussuche
+                </a>
+                <a href="playground/index.html" data-nav="playground" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                    Playground
+                </a>
+                <a href="woerterbuch.html" data-nav="woerterbuch" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                    Wörterbuch
+                </a>
+                <a aria-current="page" href="hilfe.html" data-nav="hilfe" class="text-sm text-slate-900 font-semibold hover:text-slate-900 transition">
+                    Hilfe
+                </a>
+                <a href="index.html#contact" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                    Kontakt
+                </a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobileMenuButton" class="md:hidden p-2 text-slate-600 hover:text-slate-900 transition" aria-label="Toggle menu">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </nav>
+
+        <!-- Mobile Navigation (Hidden by default, only visible on mobile) -->
+        <div id="mobileMenu" class="hidden md:hidden mt-4 pb-4 border-t border-slate-200">
+            <div class="flex flex-col gap-3 pt-4">
+                <a href="index.html" data-nav="start" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                    Startseite
+                </a>
+                <a href="korpus.html" data-nav="korpus" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                    Korpussuche
+                </a>
+                <a href="playground/index.html" data-nav="playground" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                    Playground
+                </a>
+                <a href="woerterbuch.html" data-nav="woerterbuch" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                    Wörterbuch
+                </a>
+                <a aria-current="page" href="hilfe.html" data-nav="hilfe" class="text-sm text-slate-900 font-semibold hover:text-slate-900 transition py-2">
+                    Hilfe
+                </a>
+                <a href="index.html#contact" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                    Kontakt
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- NAV:END -->
+
+    <!-- Hilfe-interne Nav-Leiste -->
+    <nav class="bg-white border-b border-slate-200" aria-label="Hilfe-Bereiche">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-wrap gap-x-8 gap-y-2 -mb-px">
+                <a href="hilfe.html" class="py-3 border-b-2 border-transparent text-slate-600 hover:text-slate-900 hover:border-slate-300 transition text-sm font-medium">
+                    Quick-Start
+                </a>
+                <a href="hilfe-korpussuche.html" class="py-3 border-b-2 border-transparent text-slate-600 hover:text-slate-900 hover:border-slate-300 transition text-sm font-medium">
+                    Korpussuche-Hilfe
+                </a>
+                <a href="hilfe-playground.html" class="py-3 border-b-2 border-transparent text-slate-600 hover:text-slate-900 hover:border-slate-300 transition text-sm font-medium">
+                    Playground-Hilfe
+                </a>
+                <a href="hilfe-daten.html" class="py-3 border-b-2 border-brand-600 text-brand-700 font-semibold text-sm" aria-current="page">
+                    Daten
+                </a>
+                <a href="hilfe-schema.html" class="py-3 border-b-2 border-transparent text-slate-600 hover:text-slate-900 hover:border-slate-300 transition text-sm font-medium">
+                    Schema
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-12">
+      <div class="hilfe-main-grid">
+        <div class="hilfe-content">
+
+        <!-- Brotkrume -->
+        <nav aria-label="Pfad" class="mb-6 text-sm text-slate-500">
+            <a href="hilfe.html" class="hover:text-brand-600 transition">Hilfe</a>
+            <span class="mx-2">›</span>
+            <a href="hilfe-daten.html" class="hover:text-brand-600 transition">Daten</a>
+            <span class="mx-2">›</span>
+            <span class="text-slate-700">Eigene Texte beitragen</span>
+        </nav>
+
+        <!-- Hero -->
+        <section class="mb-10">
+            <h1 class="text-4xl font-bold text-slate-900 mb-4">Eigene Texte beitragen</h1>
+            <p class="text-lg text-slate-600 leading-relaxed">
+                Technischer Leitfaden zur Konversion bestehender TEI-Daten (MHD/FNHD) in
+                das MHDBDB-Schema: spezifische Konventionen, Authority-File-Verknüpfungen
+                und halbautomatische Annotations-Pipeline.
+            </p>
+        </section>
+
+        <!-- Zwei Wege -->
+        <section class="mb-10">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-white rounded-2xl border-2 border-brand-300 p-6 shadow-sm">
+                    <h2 class="text-lg font-bold text-slate-900 mb-2">Weg A: Selbst-Ingest</h2>
+                    <p class="text-sm text-slate-600 leading-relaxed mb-3">
+                        Sie haben TEI-Kompetenz und richten die Pipeline selbst ein.
+                        Dieser Leitfaden führt Sie Schritt für Schritt durch das MHDBDB-Schema,
+                        die Authority-File-Verknüpfung und die halbautomatische Annotations-Pipeline.
+                    </p>
+                    <p class="text-sm font-medium text-brand-700">→ Lesen Sie die Abschnitte 1–9 unten.</p>
+                </div>
+                <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+                    <h2 class="text-lg font-bold text-slate-900 mb-2">Weg B: DHCraft-Konvertierungsservice</h2>
+                    <p class="text-sm text-slate-600 leading-relaxed mb-3">
+                        DHCraft OG übernimmt Konvertierung, Lemmatisierung und Ingest als externen,
+                        kostenpflichtigen Service. Geeignet für Projekte ohne eigene TEI-Pipeline-Kapazität.
+                        Konditionen und Projektfinanzierungsoptionen auf Anfrage.
+                    </p>
+                    <p class="text-sm font-medium text-brand-700">
+                        → <a href="mailto:mhdbdb@plus.ac.at" class="underline hover:text-brand-800">mhdbdb@plus.ac.at</a> kontaktieren.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Vorab-Checkliste -->
+        <section class="mb-10">
+            <div class="bg-amber-50 border border-amber-200 rounded-2xl p-6">
+                <h2 class="text-base font-bold text-amber-900 mb-3">Vorab-Checkliste (vor dem ersten Schritt)</h2>
+                <ul class="space-y-2 text-sm text-amber-900">
+                    <li class="flex items-start gap-2"><span class="mt-0.5 text-amber-600 font-bold">☐</span> Sigle vereinbart (3–5 Großbuchstaben, eindeutig im Gesamtkorpus → <a href="mailto:mhdbdb@plus.ac.at" class="underline">per Mail abklären</a>)</li>
+                    <li class="flex items-start gap-2"><span class="mt-0.5 text-amber-600 font-bold">☐</span> Eintrag in <code class="px-1 py-0.5 bg-amber-100 rounded">works.xml</code> angelegt (Sigle, Titel, Genre, Autor)</li>
+                    <li class="flex items-start gap-2"><span class="mt-0.5 text-amber-600 font-bold">☐</span> Eintrag in <code class="px-1 py-0.5 bg-amber-100 rounded">persons.xml</code> vorhanden oder <code class="px-1 py-0.5 bg-amber-100 rounded">person_anonym</code> gesetzt</li>
+                    <li class="flex items-start gap-2"><span class="mt-0.5 text-amber-600 font-bold">☐</span> Genre-Klassifikation in <code class="px-1 py-0.5 bg-amber-100 rounded">genres.xml</code> existiert (oder neuen Eintrag anfragen)</li>
+                    <li class="flex items-start gap-2"><span class="mt-0.5 text-amber-600 font-bold">☐</span> TEI-Quelldatei liegt in <code class="px-1 py-0.5 bg-amber-100 rounded">ingest/&lt;sigle&gt;/</code> (nicht direkt in <code class="px-1 py-0.5 bg-amber-100 rounded">tei/</code>)</li>
+                    <li class="flex items-start gap-2"><span class="mt-0.5 text-amber-600 font-bold">☐</span> Stage-1-Validierung (TEI P5) läuft durch oder Abweichungen sind als GAP dokumentiert</li>
+                    <li class="flex items-start gap-2"><span class="mt-0.5 text-amber-600 font-bold">☐</span> Stage-2-Validierung (MHDBDB-Schema) ergibt 0 Fehler</li>
+                    <li class="flex items-start gap-2"><span class="mt-0.5 text-amber-600 font-bold">☐</span> <code class="px-1 py-0.5 bg-amber-100 rounded">@lemmaRef</code>-Coverage ≥ 85 % (oder begründete Abweichung dokumentiert)</li>
+                    <li class="flex items-start gap-2"><span class="mt-0.5 text-amber-600 font-bold">☐</span> Index-Rebuild durchgeführt (<code class="px-1 py-0.5 bg-amber-100 rounded">build-corpus-index.py</code> + <code class="px-1 py-0.5 bg-amber-100 rounded">build-authority-index.py</code>) und Versionsbumps synchronisiert</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Inhaltsverzeichnis -->
+        <nav aria-label="Auf dieser Seite" class="hilfe-toc-inline mb-12 bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+            <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500 mb-3">Auf dieser Seite</h2>
+            <ol class="space-y-2 text-sm">
+                <li><a href="#schema-spec" class="text-brand-600 hover:text-brand-700 font-medium">1. Schema-Spezifika gegenüber Standard-TEI</a></li>
+                <li><a href="#header" class="text-brand-600 hover:text-brand-700 font-medium">2. Header-Struktur</a></li>
+                <li><a href="#word-annotation" class="text-brand-600 hover:text-brand-700 font-medium">3. Wort- und Punctuation-Annotation</a></li>
+                <li><a href="#authority" class="text-brand-600 hover:text-brand-700 font-medium">4. Authority-Files vorbereiten</a></li>
+                <li><a href="#conversion" class="text-brand-600 hover:text-brand-700 font-medium">5. Konversion bestehender TEI-Daten</a></li>
+                <li><a href="#pipeline" class="text-brand-600 hover:text-brand-700 font-medium">6. Annotations-Pipeline</a></li>
+                <li><a href="#validation" class="text-brand-600 hover:text-brand-700 font-medium">7. Validierung</a></li>
+                <li><a href="#beispiel" class="text-brand-600 hover:text-brand-700 font-medium">8. Worked Example: Wenzelsbibel</a></li>
+                <li><a href="#refs" class="text-brand-600 hover:text-brand-700 font-medium">9. Referenzen</a></li>
+            </ol>
+        </nav>
+
+        <!-- 1. Schema-Spezifika -->
+        <section id="schema-spec" class="mb-12 scroll-mt-24">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">1. Schema-Spezifika gegenüber Standard-TEI</h2>
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Das MHDBDB-Schema (<code class="px-2 py-0.5 bg-slate-100 rounded text-sm">schema/mhdbdb.rnc</code>)
+                erweitert TEI&nbsp;P5 in zwei Richtungen: einige Strukturen werden strenger
+                modelliert, andere bewusst gelockert (GAPs&nbsp;1–11, dokumentiert im Schema).
+            </p>
+
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">Strenger als Standard-TEI</h3>
+            <div class="overflow-x-auto mb-6">
+                <table class="w-full text-sm border border-slate-200 rounded">
+                    <thead class="bg-slate-100">
+                        <tr>
+                            <th class="text-left p-3 font-semibold">Element/Attribut</th>
+                            <th class="text-left p-3 font-semibold">MHDBDB-Anforderung</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200">
+                        <tr>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">&lt;w&gt;/@xml:id</code></td>
+                            <td class="p-3">Pflicht, eindeutig pro Datei</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">&lt;pc&gt;/@join</code></td>
+                            <td class="p-3">Pflicht: <code class="px-2 py-0.5 bg-slate-100 rounded">"left"</code> oder <code class="px-2 py-0.5 bg-slate-100 rounded">"right"</code></td>
+                        </tr>
+                        <tr>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">&lt;div&gt;/@type</code></td>
+                            <td class="p-3">Enum: <code class="px-2 py-0.5 bg-slate-100 rounded">chapter | section | number | song | parallel | colophon | recipe</code> plus Domain-Erweiterungen (siehe TEI-MODEL.md §6.0)</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">&lt;msIdentifier&gt;/@corresp</code></td>
+                            <td class="p-3">Pflicht: <code class="px-2 py-0.5 bg-slate-100 rounded">works.xml#work_N</code></td>
+                        </tr>
+                        <tr>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">&lt;persName&gt;/@type</code></td>
+                            <td class="p-3">Enum: <code class="px-2 py-0.5 bg-slate-100 rounded">"preferred" | "alternative"</code></td>
+                        </tr>
+                        <tr>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">&lt;idno&gt;/@type</code></td>
+                            <td class="p-3">Kontextspezifisch (siehe §4.2)</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3">POS-Tagset</td>
+                            <td class="p-3">19 Tags, Werte aus anderen Tagsets wie <code class="px-2 py-0.5 bg-slate-100 rounded">ART</code> (STTS) oder <code class="px-2 py-0.5 bg-slate-100 rounded">GRA</code> sind ungültig</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">Attribute, die im MHDBDB-Modell nicht (mehr) verwendet werden</h3>
+            <ul class="space-y-2 text-sm text-slate-700 mb-6 ml-4 list-disc list-inside">
+                <li><code class="px-2 py-0.5 bg-slate-100 rounded">@meaningRef</code> auf <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;w&gt;</code> &nbsp;→ stattdessen <code class="px-2 py-0.5 bg-slate-100 rounded">@ana</code> mit Pfad <code class="px-2 py-0.5 bg-slate-100 rounded">lexicon.xml#lemma_N_sense_M</code></li>
+                <li><code class="px-2 py-0.5 bg-slate-100 rounded">@wordRef</code> auf <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;w&gt;</code> &nbsp;→ stattdessen <code class="px-2 py-0.5 bg-slate-100 rounded">@corresp</code> mit Pfad <code class="px-2 py-0.5 bg-slate-100 rounded">variants.xml#type_M</code></li>
+                <li><code class="px-2 py-0.5 bg-slate-100 rounded">&lt;seg type="pc"&gt;</code> &nbsp;→ stattdessen <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;pc join="left|right"&gt;</code></li>
+            </ul>
+
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">TEI-P5-Standardelemente, optional erlaubt (seit 2026-05-08)</h3>
+            <p class="text-sm text-slate-700 leading-relaxed mb-3">
+                Diese TEI-P5-Elemente waren bisher nicht im MHDBDB-Schema und wurden mit der ARITHMETIC-Aufnahme als optional zugelassen
+                (Beschluss <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/docs/DECISIONS.md" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">PD-001</a>, siehe auch §5.4).
+                Sie müssen für kein Korpus genutzt werden:
+            </p>
+            <div class="overflow-x-auto mb-3">
+                <table class="w-full text-sm border border-slate-200 rounded">
+                    <thead class="bg-slate-100">
+                        <tr>
+                            <th class="text-left p-3">Kategorie</th>
+                            <th class="text-left p-3">Elemente</th>
+                            <th class="text-left p-3">Verwendung</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200">
+                        <tr>
+                            <td class="p-3">Editorisch</td>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">&lt;unclear&gt;</code>, <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;add&gt;</code>, <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;gap&gt;</code>, <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;abbr&gt;</code>, <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;expan&gt;</code>, <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;am&gt;</code>, <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;g&gt;</code></td>
+                            <td class="p-3">Unsicherheit, Hinzufügung, Lücke, Abbreviatur und ihre Auflösung</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3">Onomastik</td>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">&lt;roleName&gt;</code>, <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;occupation&gt;</code>, <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;placeName&gt;</code>, <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;persName&gt;</code> (Inline), <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;person&gt;</code> (Inline)</td>
+                            <td class="p-3">Personen-, Rollen-, Berufs- und Ortsannotation im Body</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3">Domain Arithmetik</td>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">&lt;unit&gt;</code> (<code class="px-2 py-0.5 bg-slate-100 rounded">@type</code>: weight/length/volume/distance/measurement), <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;rs&gt;</code> (<code class="px-2 py-0.5 bg-slate-100 rounded">@type</code>: currency/goods), <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;figure&gt;</code></td>
+                            <td class="p-3">Maßeinheiten, Währungen, Diagramme/Rechen-Layouts</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-sm text-slate-600 leading-relaxed mb-6">
+                Plus 24 zusätzliche <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;div&gt;/@type</code>-Werte für Rechenbuch-Strukturklassifikation und 5 zusätzliche <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;hi&gt;/@rend</code>-Tokens (<em>superscript, subscript, line-through, heading, underline</em>). Vollständige Spec:
+                <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/docs/TEI-MODEL.md" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>TEI-MODEL.md §6.0</code></a>.
+            </p>
+
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">GAPs (bewusst gelockert)</h3>
+            <p class="text-slate-700 leading-relaxed mb-2">
+                Das Schema toleriert elf strukturelle Abweichungen von TEI&nbsp;P5, weil eine
+                Migration der Bestandsdaten unverhältnismäßig wäre. Wenn Ihre Daten dieselben
+                Muster zeigen, müssen sie nicht angepasst werden. Beispiele:
+            </p>
+            <ul class="space-y-1 text-sm text-slate-700 mb-2 ml-4 list-disc list-inside">
+                <li><code class="px-2 py-0.5 bg-slate-100 rounded">&lt;div&gt;/@type</code> kann fehlen (154 Bestandsfiles ohne)</li>
+                <li><code class="px-2 py-0.5 bg-slate-100 rounded">&lt;body&gt;</code> und <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;div&gt;</code> direkt mit Inline-Children (137+ Files)</li>
+                <li>Mehrere <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;title&gt;</code> in <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;monogr&gt;</code> (291 Files)</li>
+                <li><code class="px-2 py-0.5 bg-slate-100 rounded">&lt;p&gt;</code> mit eingebettetem <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;div&gt;</code> (7 Files)</li>
+            </ul>
+            <p class="text-sm text-slate-600 leading-relaxed italic">
+                Volle Liste in <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/schema/mhdbdb.rnc" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">schema/mhdbdb.rnc</a>, gekennzeichnet als <code class="px-2 py-0.5 bg-slate-100 rounded text-sm"># GAP N</code>.
+            </p>
+        </section>
+
+        <!-- 2. Header -->
+        <section id="header" class="mb-12 scroll-mt-24">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">2. Header-Struktur</h2>
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Pflicht-Skelett des <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;teiHeader&gt;</code>:
+            </p>
+            <pre class="bg-slate-50 border border-slate-200 rounded-lg p-4 text-xs overflow-x-auto mb-4"><code class="language-xml">&lt;teiHeader&gt;
+  &lt;fileDesc&gt;
+    &lt;titleStmt&gt;
+      &lt;title xml:lang="de"&gt;...&lt;/title&gt;
+      &lt;title xml:lang="en"&gt;...&lt;/title&gt;
+      &lt;author ref="#person_N"&gt;Name&lt;/author&gt;
+    &lt;/titleStmt&gt;
+    &lt;publicationStmt&gt;
+      &lt;publisher&gt;...&lt;/publisher&gt;
+      &lt;availability&gt;
+        &lt;licence target="https://creativecommons.org/licenses/by-nc-sa/4.0/"&gt;
+          CC BY-NC-SA 4.0
+        &lt;/licence&gt;
+      &lt;/availability&gt;
+      &lt;date when="YYYY"&gt;YYYY&lt;/date&gt;
+    &lt;/publicationStmt&gt;
+    &lt;sourceDesc&gt;
+      &lt;msDesc&gt;
+        &lt;msIdentifier corresp="works.xml#work_N"&gt;
+          &lt;idno type="sigle"&gt;SIGLE&lt;/idno&gt;
+          &lt;msName xml:lang="de"&gt;...&lt;/msName&gt;
+        &lt;/msIdentifier&gt;
+      &lt;/msDesc&gt;
+    &lt;/sourceDesc&gt;
+  &lt;/fileDesc&gt;
+
+  &lt;encodingDesc&gt;
+    &lt;projectDesc&gt;&lt;p xml:lang="de"&gt;...&lt;/p&gt;&lt;p xml:lang="en"&gt;...&lt;/p&gt;&lt;/projectDesc&gt;
+    &lt;editorialDecl&gt;&lt;p&gt;...&lt;/p&gt;&lt;/editorialDecl&gt;
+    &lt;classDecl&gt;
+      &lt;taxonomy xml:id="genres"&gt;
+        &lt;category xml:id="genre_PARENT" ana="parent" corresp="genres.xml#genre_PARENT"&gt;
+          &lt;gloss xml:lang="de"&gt;...&lt;/gloss&gt;
+        &lt;/category&gt;
+        &lt;category xml:id="genre_X" corresp="genres.xml#genre_X"&gt;
+          &lt;gloss xml:lang="de"&gt;...&lt;/gloss&gt;
+        &lt;/category&gt;
+      &lt;/taxonomy&gt;
+    &lt;/classDecl&gt;
+  &lt;/encodingDesc&gt;
+
+  &lt;profileDesc&gt;
+    &lt;langUsage&gt;&lt;language ident="gmh"&gt;Mittelhochdeutsch&lt;/language&gt;&lt;/langUsage&gt;
+    &lt;particDesc&gt;
+      &lt;listPerson&gt;
+        &lt;person xml:id="person_N" corresp="persons.xml#person_N"&gt;
+          &lt;persName type="preferred"&gt;...&lt;/persName&gt;
+          &lt;idno type="GND"&gt;...&lt;/idno&gt;
+          &lt;idno type="wikidata"&gt;...&lt;/idno&gt;
+        &lt;/person&gt;
+      &lt;/listPerson&gt;
+    &lt;/particDesc&gt;
+  &lt;/profileDesc&gt;
+
+  &lt;revisionDesc&gt;
+    &lt;change when="YYYY-MM-DD" who="#mhdbdb-team"&gt;Initial transformation&lt;/change&gt;
+    &lt;!-- @when und @who sind Pflicht; @n wäre nicht erlaubt --&gt;
+  &lt;/revisionDesc&gt;
+&lt;/teiHeader&gt;</code></pre>
+            <p class="text-sm text-slate-600 leading-relaxed">
+                Vollständige normative Spezifikation:
+                <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/docs/TEI-MODEL.md" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">docs/TEI-MODEL.md</a>.
+            </p>
+            <p class="text-sm text-slate-600 leading-relaxed mt-3">
+                Die <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;?xml-model?&gt;</code>-Processing-Instruction
+                am Datei-Anfang sollte auf <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">../schema/mhdbdb.rng</code>
+                zeigen. Das ermöglicht Live-Validierung in oXygen, VS&nbsp;Code Scholarly XML etc.
+                gegen das MHDBDB-Schema.
+            </p>
+        </section>
+
+        <!-- 3. Wort-Annotation -->
+        <section id="word-annotation" class="mb-12 scroll-mt-24">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">3. Wort- und Punctuation-Annotation</h2>
+
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">3.1 <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;w&gt;</code></h3>
+            <pre class="bg-slate-50 border border-slate-200 rounded-lg p-4 text-xs overflow-x-auto mb-3"><code class="language-xml">&lt;w xml:id="SIGLE_1ra_6_5"
+   lemmaRef="lexicon.xml#lemma_879"
+   pos="NOM"
+   ana="lexicon.xml#lemma_879_sense_1449"&gt;
+  brôt
+&lt;/w&gt;</code></pre>
+            <p class="text-sm text-slate-700 leading-relaxed mb-3">
+                Beim Schreiben Ihrer TEI-Daten setzen Sie nur <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">@xml:id</code>;
+                <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">@lemmaRef</code>, <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">@pos</code>,
+                <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">@ana</code> und <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">@corresp</code>
+                werden über die halbautomatische Pipeline (§6) gefüllt; die Spalte „Setzt"
+                gibt an, in welcher Phase das passiert.
+            </p>
+            <div class="overflow-x-auto mb-6">
+                <table class="w-full text-sm border border-slate-200 rounded">
+                    <thead class="bg-slate-100">
+                        <tr>
+                            <th class="text-left p-3">Attribut</th>
+                            <th class="text-left p-3">Setzt</th>
+                            <th class="text-left p-3">Beschreibung</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200">
+                        <tr>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">@xml:id</code></td>
+                            <td class="p-3">Beitragende:r (Pflicht)</td>
+                            <td class="p-3">Eindeutig pro Datei. Konvention: <code class="px-2 py-0.5 bg-slate-100 rounded">{SIGLE}_{folio}_{line}_{pos}</code> oder <code class="px-2 py-0.5 bg-slate-100 rounded">{SIGLE}_{seite}_{zeile}</code></td>
+                        </tr>
+                        <tr>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">@lemmaRef</code></td>
+                            <td class="p-3">Pipeline Phase 1</td>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">lexicon.xml#lemma_N</code></td>
+                        </tr>
+                        <tr>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">@pos</code></td>
+                            <td class="p-3">Pipeline Phase 2</td>
+                            <td class="p-3">Einer der 19 MHDBDB-POS-Tags (siehe §3.4)</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">@ana</code></td>
+                            <td class="p-3">Pipeline Phase 3 (optional)</td>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">lexicon.xml#lemma_N_sense_M</code>: semantische Auflösung</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">@corresp</code></td>
+                            <td class="p-3">Pipeline Phase 3 (optional)</td>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">variants.xml#type_M</code>: Wortform-Type</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">@reason</code></td>
+                            <td class="p-3">Beitragende:r oder Pipeline (optional)</td>
+                            <td class="p-3">Kommentar zur Auszeichnung (z.&nbsp;B. <code class="px-2 py-0.5 bg-slate-100 rounded">no-lemma</code> für residuale Lücken)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">3.2 <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;pc&gt;</code></h3>
+            <pre class="bg-slate-50 border border-slate-200 rounded-lg p-4 text-xs overflow-x-auto mb-3"><code class="language-xml">&lt;pc join="left"&gt;,&lt;/pc&gt;                  &lt;!-- linkangebunden, nach Wort --&gt;
+&lt;pc join="right"&gt;•&lt;/pc&gt;                 &lt;!-- rechtsangebunden, z.B. Cäsur --&gt;
+&lt;pc xml:id="SIGLE_1ra_6_6" join="left"&gt;.&lt;/pc&gt;  &lt;!-- xml:id ist optional --&gt;</code></pre>
+            <p class="text-sm text-slate-700 leading-relaxed mb-6">
+                Skribale Marker (ł, ̃, =, einzelne Initial-Buchstaben) gehören als
+                <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;pc&gt;</code>, nicht als
+                <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;w&gt;</code>.
+                Wenn der Initial-Buchstabe Teil eines Wortes ist (Pattern aus älteren GAMS-Daten:
+                <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;seg type="token"&gt;&lt;hi rend="initial"&gt;A&lt;/hi&gt;in&lt;/seg&gt;</code>),
+                wird er nach Konversion zu
+                <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;w&gt;&lt;hi rend="initial"&gt;A&lt;/hi&gt;in&lt;/w&gt;</code>:
+                der <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;w&gt;</code>-Container darf seit 2026-05-08
+                <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;hi&gt;</code>-Children enthalten.
+            </p>
+
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">3.3 Strukturelle Konventionen</h3>
+            <ul class="space-y-2 text-sm text-slate-700 mb-6 ml-4 list-disc list-inside">
+                <li>Kapitel-<code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;head&gt;</code> als <strong>erstes Kind</strong> des <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;div type="chapter"&gt;</code>, nicht inline. <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;milestone unit="chapter"/&gt;</code> markiert die ursprüngliche Position im Textfluss.</li>
+                <li>Dekorative Elemente (<code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;hi rend="initial_historisiert"&gt;</code>, <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;fw type="header"&gt;</code>) tragen <strong>kein</strong> <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">@lemmaRef</code> oder <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">@pos</code>.</li>
+                <li><code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;hi&gt;</code> erlaubt seit 2026-05-08 wieder Rekursion (kontrollierte Ausnahme für genuine semantische Schachtelung wie durchgestrichene Brüche <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;hi rend="line-through"&gt;&lt;hi rend="superscript"&gt;...&lt;/hi&gt;...&lt;/hi&gt;</code>). Bei rein optischer Schachtelung gilt weiter: flach machen.</li>
+            </ul>
+
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">3.4 POS-Tagset (19 Tags)</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm border border-slate-200 rounded">
+                    <thead class="bg-slate-100">
+                        <tr>
+                            <th class="text-left p-3">Tag</th>
+                            <th class="text-left p-3">Kategorie</th>
+                            <th class="text-left p-3">MHG-Beispiele</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200">
+                        <tr><td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">NOM</code></td><td class="p-3">Nomen</td><td class="p-3"><em>acker, zît, minne</em></td></tr>
+                        <tr><td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">NAM</code></td><td class="p-3">Eigenname</td><td class="p-3"><em>Uolrîch, Wiene, Rhîn</em>; <em>sant</em> vor Namen</td></tr>
+                        <tr><td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">ADJ</code></td><td class="p-3">Adjektiv</td><td class="p-3"><em>grôz, schoene, guot</em></td></tr>
+                        <tr><td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">ADV</code></td><td class="p-3">Adverb</td><td class="p-3"><em>schone, vil, sêre</em></td></tr>
+                        <tr><td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">DET</code></td><td class="p-3">Determinativ (Artikel + Demonstrativ)</td><td class="p-3"><em>der, diu, daz, ein, diser</em></td></tr>
+                        <tr><td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">POS</code></td><td class="p-3">Possessiv-Pronomen</td><td class="p-3"><em>mîn, dîn, unser, ir</em> (attributiv)</td></tr>
+                        <tr><td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">PRO</code></td><td class="p-3">Pronomen</td><td class="p-3"><em>ich, ez, wir</em>; Relativ- und Indefinitpronomen</td></tr>
+                        <tr><td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">PRP</code></td><td class="p-3">Präposition</td><td class="p-3"><em>ûf, zuo, under, durch</em></td></tr>
+                        <tr><td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">NEG</code></td><td class="p-3">Negation</td><td class="p-3"><em>niht, nit, nie, ne, en</em>; nie als <code class="px-2 py-0.5 bg-slate-100 rounded">PRO</code></td></tr>
+                        <tr><td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">NUM</code></td><td class="p-3">Numerale</td><td class="p-3"><em>zwô, drî, zweinzegest</em></td></tr>
+                        <tr><td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">CCNJ</code></td><td class="p-3">Koordinierende Konjunktion</td><td class="p-3"><em>und, oder, aber, ouch, noch</em></td></tr>
+                        <tr><td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">SCNJ</code></td><td class="p-3">Subordinierende Konjunktion</td><td class="p-3"><em>daz</em> (clause-opening), <em>ob, swenne, sît</em></td></tr>
+                        <tr><td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">CNJ</code></td><td class="p-3">Konjunktion (Fallback)</td><td class="p-3">Nur, wenn SCNJ/CCNJ nicht entscheidbar</td></tr>
+                        <tr><td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">IPA</code></td><td class="p-3">Interrogativpartikel</td><td class="p-3"><em>wie, war</em></td></tr>
+                        <tr><td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">VRB</code></td><td class="p-3">Vollverb</td><td class="p-3"><em>liuhten, varn, machen</em>; <em>haben/sîn/werden</em> lexikalisch</td></tr>
+                        <tr><td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">VEX</code></td><td class="p-3">Hilfsverb</td><td class="p-3"><em>haben/sîn/werden</em> in Perfekt/Passiv</td></tr>
+                        <tr><td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">VEM</code></td><td class="p-3">Modalverb</td><td class="p-3"><em>müezen, suln, kunnen</em></td></tr>
+                        <tr><td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">INJ</code></td><td class="p-3">Interjektion</td><td class="p-3"><em>ahî, owê</em></td></tr>
+                        <tr><td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">DIG</code></td><td class="p-3">Römische Ziffer</td><td class="p-3"><em>IX, XVII</em>; mediäval auch <em>UIII</em>=VIII</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-sm text-slate-600 leading-relaxed mt-3">
+                <strong><code class="px-2 py-0.5 bg-slate-100 rounded text-sm">ART</code> ist nicht gültig</strong>: Artikel werden als <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">DET</code> getaggt.
+                Disambiguierungs-Regeln zu <em>daz, ein, ûf, kein</em> etc.: siehe
+                <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/.gemini/skills/pos-disambiguator/SKILL.md" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">SKILL.md des POS-Disambiguators</a>.
+            </p>
+        </section>
+
+        <!-- 4. Authority-Files -->
+        <section id="authority" class="mb-12 scroll-mt-24">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">4. Authority-Files vorbereiten</h2>
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Bevor die TEI-Datei aufgenommen wird, müssen drei Authority-Files-Einträge
+                existieren oder ergänzt werden. Die Sigle ist das MHDBDB-Kürzel für den
+                Text (z.&nbsp;B. <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">WZB</code> für Wenzelsbibel): drei
+                bis fünf Großbuchstaben, abgesprochen mit dem Kernteam, eindeutig im
+                gesamten Korpus.
+            </p>
+
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">4.1 Pflicht-Einträge</h3>
+            <div class="overflow-x-auto mb-6">
+                <table class="w-full text-sm border border-slate-200 rounded">
+                    <thead class="bg-slate-100">
+                        <tr>
+                            <th class="text-left p-3">File</th>
+                            <th class="text-left p-3">Was eintragen</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200">
+                        <tr>
+                            <td class="p-3"><a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/authority-files/works.xml" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>works.xml</code></a></td>
+                            <td class="p-3">Neuer <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;bibl xml:id="work_X"&gt;</code> mit Sigle, Titel(n), GND/Wikidata/Handschriftencensus-<code class="px-2 py-0.5 bg-slate-100 rounded">&lt;idno&gt;</code>, Genre-Pointer (<code class="px-2 py-0.5 bg-slate-100 rounded">&lt;ptr target="genres.xml#…"/&gt;</code>), Autor-Ref, Edition in <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;relatedItem&gt;</code>. Erlaubte Kindelemente: <code class="px-2 py-0.5 bg-slate-100 rounded">title+, idno*, ptr*, author*, relatedItem*</code> – kein <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;note&gt;</code> auf bibl-Ebene.</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3"><a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/authority-files/persons.xml" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>persons.xml</code></a></td>
+                            <td class="p-3">Neuer <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;person xml:id="person_X"&gt;</code> mit GND/Wikidata-IDs, oder Verwendung von <code class="px-2 py-0.5 bg-slate-100 rounded">person_anonym</code> bei anonymer Überlieferung</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3"><a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/authority-files/genres.xml" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>genres.xml</code></a></td>
+                            <td class="p-3">Genre-Klassifikation muss in der MHDBDB-Taxonomie existieren; falls nicht, wird ein neuer Eintrag vorgeschlagen</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">4.2 <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;idno&gt;/@type</code> kontextspezifisch</h3>
+            <p class="text-sm text-slate-700 leading-relaxed mb-3">
+                Die erlaubten <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">@type</code>-Werte hängen von der Position im Header ab:
+            </p>
+            <div class="overflow-x-auto mb-6">
+                <table class="w-full text-sm border border-slate-200 rounded">
+                    <thead class="bg-slate-100">
+                        <tr>
+                            <th class="text-left p-3">Position</th>
+                            <th class="text-left p-3">Erlaubte <code class="px-2 py-0.5 bg-slate-100 rounded">@type</code></th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200">
+                        <tr>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">msIdentifier/idno</code></td>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">sigle | handschriftencensus | GND | wikidata | mwb-sigle</code></td>
+                        </tr>
+                        <tr>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">monogr/idno</code> (in <code class="px-2 py-0.5 bg-slate-100 rounded">biblStruct</code>)</td>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">callNumber | ISBN</code></td>
+                        </tr>
+                        <tr>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">person/idno</code> (in <code class="px-2 py-0.5 bg-slate-100 rounded">profileDesc/listPerson</code>)</td>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">GND | wikidata</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">4.3 Lemma-Anlage in <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">lexicon.xml</code></h3>
+            <p class="text-sm text-slate-700 leading-relaxed mb-3">
+                Wenn die Pipeline (§6) Wortformen findet, deren Lemma noch nicht in
+                <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">lexicon.xml</code>
+                existiert (~43.750 Einträge Stand 2026-05), werden neue Lemmata mit dem Skript
+                <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">scripts/wzb-add-lemma.py</code> angelegt.
+                Es vergibt automatisch die nächste freie ID (Konvention: max. vorhandene ID + 20)
+                und führt danach den Pre-flight-Check durch:
+            </p>
+            <pre class="bg-slate-50 border border-slate-200 rounded-lg p-4 text-xs overflow-x-auto mb-3"><code>python scripts/wzb-add-lemma.py \
+  --orth weise --pos NOM \
+  --concept concept_23112700   # concept_ID aus concepts.xml</code></pre>
+            <p class="text-sm text-slate-600 leading-relaxed">
+                Beispiel Wenzelsbibel: vier neue Lemmata (<em>cs</em> tschechische Glossen,
+                <em>herte</em> Herde/Viehzucht, <em>scot</em> Schekel, <em>weise</em> Waise).
+                Die Vergabe kann durch das Kernteam oder in Absprache durch Beitragende erfolgen.
+            </p>
+        </section>
+
+        <!-- 5. Konversion bestehender TEI-Daten -->
+        <section id="conversion" class="mb-12 scroll-mt-24">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">5. Konversion bestehender TEI-Daten</h2>
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Wenn Sie bereits annotiertes TEI haben, etwa aus einem älteren MHDBDB-Schema,
+                einem GAMS- oder TextGrid-Repositorium oder einer eigenen TEI-Konvention,
+                durchläuft die Aufnahme einen mechanischen Konversions-Schritt
+                <strong>vor</strong> der Annotations-Pipeline (§6). Dieser Abschnitt fasst die
+                wiederkehrenden Drift-Punkte zusammen, die das Pattern in
+                <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/tree/main/scripts/ingest/wzb" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>scripts/ingest/wzb/</code></a>
+                und
+                <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/tree/main/scripts/ingest/ari" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>scripts/ingest/ari/</code></a>
+                konkret adressiert.
+            </p>
+
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">5.1 Konversions-Cheatsheet</h3>
+            <p class="text-sm text-slate-700 leading-relaxed mb-3">
+                Wiederkehrende Drifts, die sich rein mechanisch konvertieren lassen:
+            </p>
+            <div class="overflow-x-auto mb-6">
+                <table class="w-full text-sm border border-slate-200 rounded">
+                    <thead class="bg-slate-100">
+                        <tr>
+                            <th class="text-left p-3">Quell-Konvention</th>
+                            <th class="text-left p-3">MHDBDB-Ziel</th>
+                            <th class="text-left p-3">Heuristik</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200">
+                        <tr>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">tei:</code>-Präfix + Default-NS doppelt deklariert</td>
+                            <td class="p-3">nur Default-NS <code class="px-2 py-0.5 bg-slate-100 rounded">http://www.tei-c.org/ns/1.0</code></td>
+                            <td class="p-3">Tags in den Default-NS umsetzen, <code class="px-2 py-0.5 bg-slate-100 rounded">tei:</code> entfernen</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">&lt;seg type="token"&gt;</code></td>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">&lt;w&gt;</code></td>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">@xml:id</code> übernehmen, <code class="px-2 py-0.5 bg-slate-100 rounded">@type</code> fallenlassen</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">&lt;seg type="pc"&gt;</code> ohne <code class="px-2 py-0.5 bg-slate-100 rounded">@join</code></td>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">&lt;pc join="left|right"&gt;</code></td>
+                            <td class="p-3">Vorgänger-Heuristik: existiert ein nicht-Whitespace-Vorgänger im selben Parent (ignorierend <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;lb&gt;</code>/<code class="px-2 py-0.5 bg-slate-100 rounded">&lt;cb&gt;</code>/<code class="px-2 py-0.5 bg-slate-100 rounded">&lt;pb&gt;</code>) → <code class="px-2 py-0.5 bg-slate-100 rounded">"left"</code>; sonst <code class="px-2 py-0.5 bg-slate-100 rounded">"right"</code></td>
+                        </tr>
+                        <tr>
+                            <td class="p-3">Minimaler Header (nur <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;title&gt;</code>)</td>
+                            <td class="p-3">Voller Header gemäß §2</td>
+                            <td class="p-3">Template-Stub mit Defaults; offene Felder als TBD-Marker (Sigle, Autor, Genre, <code class="px-2 py-0.5 bg-slate-100 rounded">work_N</code>)</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3">Kein <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;?xml-model?&gt;</code></td>
+                            <td class="p-3">Zwei PIs: <code class="px-2 py-0.5 bg-slate-100 rounded">../schema/mhdbdb.rng</code> + <code class="px-2 py-0.5 bg-slate-100 rounded">tei_all.rng</code></td>
+                            <td class="p-3">festes Pattern, vor dem <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;TEI&gt;</code>-Root einfügen</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">&lt;TEI&gt;</code> ohne <code class="px-2 py-0.5 bg-slate-100 rounded">@xml:id</code></td>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">&lt;TEI xml:id="{SIGLE}"&gt;</code></td>
+                            <td class="p-3">Sigle als ID-Wert</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">5.2 Pflicht-Attribute, die leicht übersehen werden</h3>
+            <ul class="space-y-2 text-sm text-slate-700 mb-6 ml-4 list-disc list-inside">
+                <li><code class="px-2 py-0.5 bg-slate-100 rounded">&lt;change&gt;/@who</code> ist <strong>Pflicht</strong> neben <code class="px-2 py-0.5 bg-slate-100 rounded">@when</code>, z.&nbsp;B. <code class="px-2 py-0.5 bg-slate-100 rounded">who="#mhdbdb-team"</code> oder <code class="px-2 py-0.5 bg-slate-100 rounded">who="#editor"</code>. Ein Versions-Attribut wie <code class="px-2 py-0.5 bg-slate-100 rounded">@n</code> ist <strong>nicht</strong> erlaubt.</li>
+                <li><code class="px-2 py-0.5 bg-slate-100 rounded">&lt;msIdentifier&gt;/@corresp</code> Pflicht: Verweis auf <code class="px-2 py-0.5 bg-slate-100 rounded">works.xml#work_N</code>.</li>
+                <li><code class="px-2 py-0.5 bg-slate-100 rounded">&lt;pc&gt;/@join</code> Pflicht: bei rein mechanischer Konversion via Heuristik (siehe 5.1).</li>
+            </ul>
+
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">5.3 RelaxNG-Cascade verstehen</h3>
+            <p class="text-sm text-slate-700 leading-relaxed mb-3">
+                Wenn die Stufe-2-Validierung (siehe §7) fehlschlägt, sind die Fehlermeldungen
+                oft <strong>kaskadierend</strong>: ein einziges Schema-fremdes Element
+                produziert eine Folge von „extra content"-Meldungen bis hoch in den
+                umschließenden <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;body&gt;</code>.
+                Beispiel aus dem ARITHMETIC-Dogfood:
+            </p>
+            <pre class="bg-slate-50 border border-slate-200 rounded-lg p-4 text-xs overflow-x-auto mb-3"><code>L164: Did not expect element unit there      ← echte Ursache
+L128: Element p has extra content: lb
+L127: Element div has extra content: p
+L126: Element div has extra content: div
+L106: Element div has extra content: pb
+L105: Element body has extra content: div    ← Cascade-Spitze</code></pre>
+            <p class="text-sm text-slate-700 leading-relaxed mb-6">
+                <strong>Praktische Konsequenz:</strong> beim Stage-2-Debug zuerst die innerste,
+                konkreteste Meldung adressieren („Did not expect element X"). Die anderen
+                lösen sich oft mit auf, sobald die Wurzel beseitigt ist.
+            </p>
+
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">5.4 Domänen-spezifische Inline-Elemente</h3>
+            <p class="text-sm text-slate-700 leading-relaxed mb-3">
+                Genre-Korpora (Predigten, Rezepte, Rechenbücher) bringen oft eigene Inline-Mark-up-Konventionen
+                mit. Bei der ARITHMETIC-Aufnahme (2026-05) wurden zwölf TEI-P5-Standardelemente und 24
+                zusätzliche <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;div&gt;/@type</code>-Werte
+                als optional ins Schema aufgenommen (siehe
+                <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/docs/TEI-MODEL.md" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>TEI-MODEL.md §6.0</code></a>).
+                Bei künftigen Genre-Konflikten gibt es drei Wege:
+            </p>
+            <ol class="space-y-2 text-sm text-slate-700 mb-3 ml-4 list-decimal list-inside">
+                <li><strong>Schema-Erweiterung mit optionaler Markierung</strong> (gewählt für ARITHMETIC): TEI-P5-konforme Elemente werden im Schema erlaubt, aber nirgends als Pflicht. Korpora ohne diese Annotation merken nichts davon.</li>
+                <li><strong>Wegtransformation:</strong> Wrapper entfernen (Inhalt bleibt), wenn die Annotation entbehrlich ist oder semantisch via <code class="px-2 py-0.5 bg-slate-100 rounded">@ana</code> auf das MHDBDB-Begriffssystem verweisen kann.</li>
+                <li><strong>Hybrid:</strong> TEI-konforme Standard-Elemente nutzen (<code class="px-2 py-0.5 bg-slate-100 rounded">&lt;measure&gt;</code> statt <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;unit&gt;</code>) und die Domänen-Klassifikation in <code class="px-2 py-0.5 bg-slate-100 rounded">@ana</code> oder <code class="px-2 py-0.5 bg-slate-100 rounded">@type</code> tragen.</li>
+            </ol>
+            <p class="text-sm text-slate-600 leading-relaxed italic mb-6">
+                Die Entscheidung gehört dem MHDBDB-Kernteam zusammen mit dem Beitragenden.
+                Begründung der ARITHMETIC-Wahl (Mittelweg): siehe
+                <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/docs/DECISIONS.md" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>docs/DECISIONS.md § PD-001</code></a>.
+                Folge-Task: Begriffssystem-Anbindung über <code class="px-2 py-0.5 bg-slate-100 rounded">@ana</code> auf <code class="px-2 py-0.5 bg-slate-100 rounded">concepts.xml</code> (damit Maßeinheiten und Währungen in der Suche auffindbar werden).
+            </p>
+
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">5.5 Worked Example: ARITHMETIC</h3>
+            <p class="text-sm text-slate-700 leading-relaxed mb-6">
+                Sechs frühneuhochdeutsche Rechenbuch-Handschriften (GAMS Graz, Carina, Mai 2026).
+                Konversion implementiert in
+                <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/tree/main/scripts/ingest/ari" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>scripts/ingest/ari/</code></a>.
+                Stand 2026-05-08: Schema-Erweiterung umgesetzt, alle 6 HS validieren Stage-2-PASS.
+                Konversions-Artefakte committet als Zwischenstand unter
+                <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/tree/main/ingest/ari" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>ingest/ari/</code></a>;
+                Umzug nach <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">tei/</code> erfolgt mit finalen Carina-Metadaten (Sigle, Edition, Genre).
+                Vollständige Befund-Tabelle:
+                <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/ingest/ari/README.md" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>ingest/ari/README.md</code></a>.
+            </p>
+        </section>
+
+        <!-- 6. Pipeline -->
+        <section id="pipeline" class="mb-12 scroll-mt-24">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">6. Annotations-Pipeline</h2>
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Die Annotation läuft in drei Phasen nach dem gleichen Muster: Auto-Match
+                gegen vorhandene Authority-Daten, Disambiguierungs-TSV für mehrdeutige Fälle,
+                Anwendung der aufgelösten TSV auf das TEI. Die Wenzelsbibel-Pipeline
+                (<a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/tree/main/scripts/ingest/wzb" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>scripts/ingest/wzb/</code></a>)
+                implementiert dieses Muster konkret und wird pro neuem Text vom Kernteam an
+                Sigle, Pfade und text-spezifische Eigenheiten angepasst; sie ist <strong>nicht
+                plug-and-play</strong>.
+            </p>
+            <p class="text-sm text-slate-600 leading-relaxed mb-4">
+                <strong>Ingest-Konvention</strong> (seit 2026-05-08): Source-Daten und Pipeline-Artefakte pro Korpus liegen unter
+                <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">ingest/&lt;sigle&gt;/</code>, die Pipeline-Skripte unter
+                <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">scripts/ingest/&lt;sigle&gt;/</code>.
+                <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">tei/</code> enthält nur produktionsreife Korpus-Files mit finalen Authority-Cross-References.
+            </p>
+
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">Phase 1: Lemmatisierung</h3>
+            <p class="text-sm text-slate-700 leading-relaxed mb-2">
+                <strong>Auto-Match:</strong> Jede <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;w&gt;</code>-Wortform
+                wird gegen <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">variants.xml</code>
+                (~192.000 Formen) gematcht, nach MHG-Normalisierung
+                (<em>â→a, ê→e, î→i, ô→o, û→u, ä→ae, ö→oe, ü→ue</em>).
+                Eindeutige Treffer setzen <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">@lemmaRef</code>;
+                mehrdeutige Formen wandern in eine Disambiguierungs-TSV.
+            </p>
+            <p class="text-sm text-slate-700 leading-relaxed mb-4">
+                <strong>Disambiguierung:</strong> Auflösung der TSV in Frequenz-Tranchen
+                (hochfrequent → einheitlich; mittelfrequent → mit Kontext; Hapax → manuell
+                oder akzeptierte Lücke). In der Praxis: ~85–92&nbsp;% nach Auto-Match, ~91–95&nbsp;% nach
+                Disambiguierungs-Tranchen, je nach Sprachstufe und Edition.
+            </p>
+
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">Phase 2: Wortart-Tagging</h3>
+            <p class="text-sm text-slate-700 leading-relaxed mb-4">
+                Lemmata mit nur einem POS-Wert in <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">lexicon.xml</code>
+                werden direkt zugeordnet. Mehrdeutige Lemmata (z.&nbsp;B. <em>daz</em>: <code class="px-2 py-0.5 bg-slate-100 rounded">DET</code>
+                oder <code class="px-2 py-0.5 bg-slate-100 rounded">SCNJ</code>) gehen in eine Pending-TSV und werden über
+                kontextbasierte Regeln (±4 Nachbarn) oder LLM-Batches aufgelöst. Erwartbar:
+                ~93–96&nbsp;% Coverage.
+            </p>
+
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">Phase 3: Bedeutungs-Auflösung (optional)</h3>
+            <p class="text-sm text-slate-700 leading-relaxed mb-4">
+                Auflösung von <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">@ana</code> auf
+                <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">lexicon.xml#lemma_N_sense_M</code>.
+                Lemmata mit nur einer Bedeutung werden direkt zugeordnet; polyseme Lemmata
+                erfordern KI-gestützte oder manuelle Disambiguierung. Diese Phase ist nicht
+                Pflicht für eine Erst-Aufnahme; sie kann nachgeholt werden.
+            </p>
+
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">Strukturelle Bereinigung</h3>
+            <ul class="space-y-2 text-sm text-slate-700 mb-4 ml-4 list-disc list-inside">
+                <li>Kapitel-Header in <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;fw&gt;</code>: <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">@lemmaRef</code>/<code class="px-2 py-0.5 bg-slate-100 rounded text-sm">@pos</code> entfernen (nicht lexikalisch)</li>
+                <li><code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;head type="chapter"&gt;</code> als erstes Kind des <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;div&gt;</code> ablegen, ggf. <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;milestone unit="chapter"/&gt;</code> für die Originalposition</li>
+                <li>Skribale Marker und einzelne Initialen: <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;w&gt;</code> → <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;pc&gt;</code></li>
+            </ul>
+        </section>
+
+        <!-- 7. Validierung -->
+        <section id="validation" class="mb-12 scroll-mt-24">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">7. Validierung</h2>
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Zwei-Stufen-Modell:
+                <strong>Stufe&nbsp;1</strong>
+                gegen <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">tei_all.rng</code> (TEI-P5-Konformität),
+                <strong>Stufe&nbsp;2</strong>
+                gegen <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">mhdbdb.rng</code>
+                (MHDBDB-Konventionen). Stufe&nbsp;2 ist das harte Gate: 0&nbsp;Fails sind erforderlich.
+                Stufe&nbsp;1 wird mit einer dokumentierten Baseline von 30 toleranten GAP-Files verglichen
+                (Drift-Wache).
+            </p>
+
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">Lokal validieren</h3>
+            <pre class="bg-slate-50 border border-slate-200 rounded-lg p-4 text-xs overflow-x-auto mb-4"><code># Voraussetzung: schema/tei_all.rng heruntergeladen, lxml installiert
+python -c "
+from lxml import etree
+tei_all = etree.RelaxNG(etree.parse('schema/tei_all.rng'))
+mhdbdb  = etree.RelaxNG(etree.parse('schema/mhdbdb.rng'))
+doc = etree.parse('tei/SIGLE.tei.xml')
+print('Stage 1 (TEI P5):  ', 'PASS' if tei_all.validate(doc) else 'FAIL: toleriert (siehe GAP-Baseline)')
+print('Stage 2 (MHDBDB):  ', 'PASS' if mhdbdb.validate(doc) else mhdbdb.error_log)
+"</code></pre>
+
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">Volles Skript</h3>
+            <pre class="bg-slate-50 border border-slate-200 rounded-lg p-4 text-xs overflow-x-auto mb-4"><code>python scripts/audit/validate-corpus.py --sample SIGLE</code></pre>
+
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">CI-Validierung</h3>
+            <p class="text-sm text-slate-700 leading-relaxed">
+                Der GitHub-Action-Workflow
+                <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/.github/workflows/schema-validation.yml" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>schema-validation.yml</code></a>
+                läuft auf jedem PR und auf direkten Pushes auf <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">main</code>.
+                Er regeneriert die <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">.rng</code>-Files
+                aus den <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">.rnc</code>-Quellen
+                (Drift-Check), validiert das gesamte Korpus + Authority-Files und schlägt
+                Stage-2-Fails als CI-Errors aus.
+            </p>
+        </section>
+
+        <!-- 8. Beispiel: WZB -->
+        <section id="beispiel" class="mb-12 scroll-mt-24">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">8. Worked Example: Wenzelsbibel</h2>
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Die <strong>Wenzelsbibel</strong> (Wien, ÖNB Cod. 2759–2764, Sigle <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">WZB</code>)
+                ist die erste vollständige Aufnahme nach diesem Workflow und dient als Referenz
+                für neue Beiträge.
+            </p>
+
+            <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm mb-4">
+                <dl class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                    <div>
+                        <dt class="font-semibold text-slate-700"><code class="px-2 py-0.5 bg-slate-100 rounded">&lt;w&gt;</code>-Tokens</dt>
+                        <dd class="text-slate-600">149.148</dd>
+                    </div>
+                    <div>
+                        <dt class="font-semibold text-slate-700">Sprache</dt>
+                        <dd class="text-slate-600">Mittelhochdeutsch mit böhmischen Schreibkonventionen</dd>
+                    </div>
+                    <div>
+                        <dt class="font-semibold text-slate-700"><code class="px-2 py-0.5 bg-slate-100 rounded">@lemmaRef</code> Coverage</dt>
+                        <dd class="text-slate-600">95,3&nbsp;%</dd>
+                    </div>
+                    <div>
+                        <dt class="font-semibold text-slate-700"><code class="px-2 py-0.5 bg-slate-100 rounded">@pos</code> Coverage</dt>
+                        <dd class="text-slate-600">95,3&nbsp;%</dd>
+                    </div>
+                    <div>
+                        <dt class="font-semibold text-slate-700"><code class="px-2 py-0.5 bg-slate-100 rounded">@ana</code> Coverage</dt>
+                        <dd class="text-slate-600">95,2&nbsp;%</dd>
+                    </div>
+                    <div>
+                        <dt class="font-semibold text-slate-700">Lessons Learned</dt>
+                        <dd class="text-slate-600">Böhmische Schreibungen (<em>cz=z, v=u, ou=û</em>), tschechische Interlinearglossen, Initial-Schmuck, Kapitel-Header-Position</dd>
+                    </div>
+                </dl>
+            </div>
+
+            <ul class="space-y-2 text-sm text-slate-700 ml-4 list-disc list-inside">
+                <li>TEI-Quelldatei: <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/tei/WZB.tei.xml" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>tei/WZB.tei.xml</code></a></li>
+                <li>Korpussuche: <a href="korpus.html?text=WZB" class="text-brand-600 hover:text-brand-700 font-medium">live ansehen</a></li>
+                <li>Vollständige Pipeline-Dokumentation: <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/docs/DATA-MODEL.md#ingest-verfahren-neuaufnahme-von-texten" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>docs/DATA-MODEL.md → Ingest-Verfahren</code></a></li>
+                <li>Annotations-Skripte (zur Adaption): <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/tree/main/scripts/ingest/wzb" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>scripts/ingest/wzb/</code></a></li>
+            </ul>
+        </section>
+
+        <!-- 9. Refs -->
+        <section id="refs" class="mb-12 scroll-mt-24">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">9. Referenzen</h2>
+
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">Schemata und Spezifikationen</h3>
+            <ul class="space-y-2 text-sm text-slate-700 mb-6 ml-4 list-disc list-inside">
+                <li><a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/schema/mhdbdb.rnc" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>schema/mhdbdb.rnc</code></a>: Korpus-Schema (RELAX NG, Compact Syntax)</li>
+                <li><a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/schema/mhdbdb-authority.rnc" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>schema/mhdbdb-authority.rnc</code></a>: Authority-Files-Schema</li>
+                <li><a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/docs/TEI-MODEL.md" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>docs/TEI-MODEL.md</code></a>: Normatives Soll-Modell für Korpus-Texte</li>
+                <li><a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/docs/TEI-MODEL-AUTH-FILES.md" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>docs/TEI-MODEL-AUTH-FILES.md</code></a>: Authority-File-Modell</li>
+                <li><a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/docs/DECISIONS.md" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>docs/DECISIONS.md</code></a>: Architektur-Entscheidungen (ADRs) und Pending Decisions (z.&nbsp;B. PD-001 ARITHMETIC-Schema-Aufnahme)</li>
+                <li><a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/schema/README.md" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>schema/README.md</code></a>: Validierungs-Anleitung</li>
+            </ul>
+
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">Werkzeuge</h3>
+            <ul class="space-y-2 text-sm text-slate-700 mb-6 ml-4 list-disc list-inside">
+                <li><code class="px-2 py-0.5 bg-slate-100 rounded text-sm">scripts/audit/validate-corpus.py</code>: Voll-Validierung des Korpus + Authority-Files</li>
+                <li><code class="px-2 py-0.5 bg-slate-100 rounded text-sm">scripts/audit/check-lexicon-senses.py</code>: Pre-flight-Check – prüft, dass alle<code class="px-2 py-0.5 bg-slate-100 rounded text-sm">lexicon.xml</code>-Einträge mindestens ein <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;sense&gt;</code> haben</li>
+                <li><code class="px-2 py-0.5 bg-slate-100 rounded text-sm">scripts/wzb-add-lemma.py</code>: Neues Lemma in <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">lexicon.xml</code> anlegen (auto-ID, auto-sense, Pre-flight-Check)</li>
+                <li><code class="px-2 py-0.5 bg-slate-100 rounded text-sm">scripts/ingest/wzb/</code>: Pipeline-Skripte (Auto-Match, Bulk-Resolve, POS-Apply); pro neuem Text adaptieren</li>
+                <li><a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/.gemini/skills/pos-disambiguator/SKILL.md" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>SKILL.md</code></a>: POS-Tagset-Reference + Disambiguierungs-Regeln</li>
+            </ul>
+
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">Kontakt</h3>
+            <p class="text-sm text-slate-700 leading-relaxed">
+                Inhaltliche Rückfragen oder Hängestellen im Workflow:
+                <a href="mailto:mhdbdb@plus.ac.at" class="text-brand-600 hover:text-brand-700 font-medium">mhdbdb@plus.ac.at</a>.
+                Issue-Tracker:
+                <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">GitHub Issues</a>.
+            </p>
+        </section>
+
+        </div><!-- /.hilfe-content -->
+
+        <!-- Sidebar TOC für desktop -->
+        <aside class="hilfe-toc-sticky" aria-label="Auf dieser Seite (Sidebar)">
+            <nav class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
+                <h2 class="text-xs font-semibold uppercase tracking-wide text-slate-500 mb-3">Auf dieser Seite</h2>
+                <ol class="space-y-2 text-sm">
+                    <li><a href="#schema-spec" class="text-brand-600 hover:text-brand-700 font-medium">1. Schema-Spezifika</a></li>
+                    <li><a href="#header" class="text-brand-600 hover:text-brand-700 font-medium">2. Header</a></li>
+                    <li><a href="#word-annotation" class="text-brand-600 hover:text-brand-700 font-medium">3. Wort-Annotation</a></li>
+                    <li><a href="#authority" class="text-brand-600 hover:text-brand-700 font-medium">4. Authority-Files</a></li>
+                    <li><a href="#conversion" class="text-brand-600 hover:text-brand-700 font-medium">5. Konversion</a></li>
+                    <li><a href="#pipeline" class="text-brand-600 hover:text-brand-700 font-medium">6. Pipeline</a></li>
+                    <li><a href="#validation" class="text-brand-600 hover:text-brand-700 font-medium">7. Validierung</a></li>
+                    <li><a href="#beispiel" class="text-brand-600 hover:text-brand-700 font-medium">8. Wenzelsbibel</a></li>
+                    <li><a href="#refs" class="text-brand-600 hover:text-brand-700 font-medium">9. Referenzen</a></li>
+                </ol>
+            </nav>
+        </aside>
+
+      </div><!-- /.hilfe-main-grid -->
+    </main>
+
+<!-- FOOTER:START -->
+<footer class="bg-slate-100 text-slate-900 py-8">
+  <div class="container mx-auto px-6">
+    <!-- Logos Row -->
+    <div
+      class="flex flex-wrap items-center justify-center gap-8 mb-6 pb-6 border-b border-slate-300"
+    >
+      <img
+        src="assets/images/mhdbdb-logo.png"
+        alt="MHDBDB Logo"
+        class="h-16 w-auto"
+      />
+      <img
+        src="assets/images/university-logo.png"
+        alt="Universität Salzburg"
+        class="h-24 w-auto"
+      />
+      <img
+        src="assets/images/clariah-logo.png"
+        alt="CLARIAH-AT"
+        class="h-24 w-auto"
+      />
+    </div>
+
+    <!-- Info and Button Row -->
+    <div
+      class="flex flex-col md:flex-row justify-between items-center gap-6"
+    >
+      <div class="text-center md:text-left">
+        <p class="text-sm mb-2">
+          Universität Salzburg, 2025–<span class="current-year">2026</span> |
+          <a
+            href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
+            class="hover:text-brand-600 transition"
+            target="_blank"
+            rel="noopener"
+          >
+            CC BY-NC-SA 4.0
+          </a>
+        </p>
+        <div
+          class="flex flex-wrap justify-center md:justify-start gap-4 text-sm text-slate-600"
+        >
+          <a
+            href="mailto:mhdbdb@plus.ac.at"
+            class="hover:text-brand-600 transition"
+            >mhdbdb@plus.ac.at</a
+          >
+          <span>|</span>
+          <a
+            href="https://mhdbdb.plus.ac.at"
+            class="hover:text-brand-600 transition"
+            target="_blank"
+            rel="noopener"
+          >
+            mhdbdb.plus.ac.at
+          </a>
+          <span>|</span>
+          <a
+            href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only"
+            class="hover:text-brand-600 transition"
+            target="_blank"
+            rel="noopener"
+          >
+            GitHub
+          </a>
+          <span>|</span>
+          <a
+            href="impressum.html"
+            class="hover:text-brand-600 transition"
+          >
+            Impressum
+          </a>
+          <span>|</span>
+          <a
+            href="barrierefreiheit.html"
+            class="hover:text-brand-600 transition"
+          >
+            Barrierefreiheit
+          </a>
+        </div>
+      </div>
+      <button
+        id="clearSiteDataBtn"
+        class="btn-secondary text-sm flex items-center gap-2"
+        title="Alle gespeicherten Daten löschen (Cache, IndexedDB, etc.)"
+      >
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+        </svg>
+        <span>Website-Daten löschen</span>
+      </button>
+    </div>
+  </div>
+</footer>
+<script src="assets/js/site-chrome.js" defer></script>
+<!-- FOOTER:END -->
+
+    <!-- Prism (Core + Markup-Sprache) -->
+    <script defer src="assets/vendor/prism/prism-core.min.js"></script>
+    <script defer src="assets/vendor/prism/prism-markup.min.js"></script>
+
+</body>
+</html>

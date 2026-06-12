@@ -4,6 +4,7 @@
  */
 
 import { TEIStorageManager } from './storage/tei-storage.js';
+import { lemmaRefMatchesId } from '../../../assets/js/lib/lemma-match.js';
 
 export class TEIFilesManager {
     constructor(teiData) {
@@ -205,14 +206,14 @@ export class TEIFilesManager {
         });
 
         // Extract annotations/semantic references
-        const annotatedElements = xmlDoc.querySelectorAll('[meaningRef], [conceptRef]');
+        const annotatedElements = xmlDoc.querySelectorAll('[ana], [conceptRef]');
         annotatedElements.forEach((element, index) => {
-            const meaningRef = element.getAttribute('meaningRef');
+            const ana = element.getAttribute('ana');
             const conceptRef = element.getAttribute('conceptRef');
             const text = element.textContent?.trim();
             
             this.teiData.annotations.push({
-                text, meaningRef, conceptRef, filename, index,
+                text, ana, conceptRef, filename, index,
                 tagName: element.tagName
             });
         });
@@ -290,8 +291,9 @@ export class TEIFilesManager {
         return this.teiData.annotations.map(annotation => {
             const resolvedConcepts = [];
             
-            if (annotation.conceptRef) {
-                const conceptId = annotation.conceptRef.split('#')[1];
+            const ref = annotation.ana || annotation.conceptRef;
+            if (ref) {
+                const conceptId = ref.split('#')[1];
                 const concept = authorityData.concepts.find(c => c.id === conceptId);
                 if (concept) resolvedConcepts.push(concept);
             }
@@ -369,12 +371,12 @@ export class TEIFilesManager {
     }
 
     exportAnnotationsAsCSV() {
-        const headers = ['filename', 'text', 'tagName', 'meaningRef', 'conceptRef'];
+        const headers = ['filename', 'text', 'tagName', 'ana', 'conceptRef'];
         const rows = this.teiData.annotations.map(annotation => [
             annotation.filename,
             annotation.text,
             annotation.tagName,
-            annotation.meaningRef || '',
+            annotation.ana || '',
             annotation.conceptRef || ''
         ]);
         
@@ -512,7 +514,8 @@ export class TEIFilesManager {
                 lemmaPositions[lemmaId] = [];
                 wordArray.forEach((word, index) => {
                     const lemmaRef = word.getAttribute('lemmaRef');
-                    if (lemmaRef && lemmaRef.includes(`lexicon.xml#lemma_${lemmaId}`)) {
+                    // Exact lemma-id match (CONTRACTS §B.1) — never a substring. See #126.
+                    if (lemmaRefMatchesId(lemmaRef, `lemma_${lemmaId}`)) {
                         lemmaPositions[lemmaId].push({
                             index: index,
                             word: word,
@@ -733,7 +736,7 @@ export class TEIFilesManager {
             await corpusLoader.dbReady;
 
             // Load corpus index
-            if (progressCallback) progressCallback(0, 666);
+            if (progressCallback) progressCallback(0, 667);
             console.log('📥 Loading corpus index...');
             const corpusIndex = await corpusLoader.loadCorpusIndex();
 
@@ -975,7 +978,7 @@ export class TEIFilesManager {
 
         const results = [];
 
-        // Now fetch XML only for matching texts (not all 666!)
+        // Now fetch XML only for matching texts (not all 667!)
         console.log(`📥 Loading XML for ${Object.keys(proximityMatches).length} matching texts...`);
 
         for (const [textId, matches] of Object.entries(proximityMatches)) {
@@ -1117,7 +1120,8 @@ export class TEIFilesManager {
 
                         words.forEach(word => {
                             const lemmaRef = word.getAttribute('lemmaRef');
-                            if (lemmaRef && (lemmaRef.includes(`lemma_${cleanId}`) || lemmaRef.includes(cleanId))) {
+                            // Exact lemma-id match (CONTRACTS §B.1) — never a substring. See #126.
+                            if (lemmaRefMatchesId(lemmaRef, `lemma_${cleanId}`)) {
                                 result.matchingWords[lemmaId].push({
                                     text: word.textContent?.trim() || '',
                                     lemmaRef: lemmaRef

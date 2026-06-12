@@ -14,6 +14,12 @@ testing/tests/*.json
 testing/tests/*.png
 testing/screenshots/
 
+# Proposals (secret)
+proposals/
+
+# Claude Code local settings (machine-specific permissions)
+.claude/settings.local.json
+
 # IDE and editor files
 # .vscode/
 .vscode/*
@@ -67,8 +73,15 @@ out/
 *.backup
 __pycache__/
 
-# Data wrangling cache files
-scripts/data-wrangling/.zotero_cache.json
+# Zotero API cache
+scripts/sync/.zotero_cache.json
+
+# Audit script outputs (regenerated on each run)
+scripts/audit/*.json
+scripts/audit/*-REPORT.md
+scripts/audit/lexicon-backfill-*.md
+scripts/audit/lexicon-backfill-*.xml
+docs/research/*.json
 
 # Debug and manual test files
 nul
@@ -76,3 +89,7 @@ testing/manual-*.html
 testing/test-debug.html
 
 proposals/
+schema/tei_all.rng
+
+# Source-ZIPs in Ingest-Ordnern (Original-Daten von Beitragenden, untracked)
+ingest/**/*.zip

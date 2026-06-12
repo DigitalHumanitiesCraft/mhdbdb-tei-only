@@ -1,0 +1,57 @@
+name: Index Version Check
+
+# Stellt sicher, dass die Index-Versions-Konstanten in den drei beteiligten
+# Stellen synchron sind:
+#
+#   scripts/build-corpus-index.py    -> 'version': 'X.Y.Z'
+#   scripts/build-authority-index.py -> 'version': 'X.Y.Z'
+#   assets/js/lib/corpus-loader.js   -> INDEX_VERSION / AUTHORITY_INDEX_VERSION
+#
+# Hintergrund (#47.3, 2026-05-12): wird beim Index-Bump die Loader-Konstante
+# vergessen, cached der Loader den neuen Index mit der alten Versions-
+# Konstante und liefert ihn beim naechsten Load wieder aus dem Cache,
+# weil der Versions-Vergleich match liefert. Production-User bekommen
+# den neuen Index nie zu sehen.
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/build-corpus-index.py'
+      - 'scripts/build-authority-index.py'
+      - 'assets/js/lib/corpus-loader.js'
+      - 'scripts/audit/check-index-versions.py'
+      - 'data/**'
+      - '.github/workflows/index-version-check.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'scripts/build-corpus-index.py'
+      - 'scripts/build-authority-index.py'
+      - 'assets/js/lib/corpus-loader.js'
+      - 'scripts/audit/check-index-versions.py'
+      - 'data/**'
+      - '.github/workflows/index-version-check.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: index-version-check-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    # Repo ist gross (TEI-Korpus + Indexes); Checkout allein dauert ~1:44 min.
+    # Frueheres timeout=2 fing den Audit nie ein, jede Push-Run cancelled.
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+
+      - name: Check index version consistency
+        run: python scripts/audit/check-index-versions.py

@@ -73,12 +73,6 @@ test.describe('Persistent Lemma Pages', () => {
         // Should have corpus search link
         const corpusLink = page.locator('#externalLinks a:has-text("Korpus")');
         await expect(corpusLink).toBeVisible();
-
-        // Should have MWB Online link
-        const mwbLink = page.locator('#externalLinks a:has-text("MWB Online")');
-        await expect(mwbLink).toBeVisible();
-        const mwbHref = await mwbLink.getAttribute('href');
-        expect(mwbHref).toContain('mhdwb-online.de');
     });
 
     test('lemma page loads Wörterbuchnetz entries via API', async ({ page }) => {
@@ -88,14 +82,16 @@ test.describe('Persistent Lemma Pages', () => {
         // Wörterbuchnetz section appears after async API call (brôt → brot)
         await page.waitForSelector('#wbnetzSection:not(.hidden)', { timeout: 15000 });
 
-        // Should have at least one dictionary link (BMZ or Lexer)
+        // Should have at least one dictionary link (MWB or Lexer)
         const wbnLinks = page.locator('#wbnetzLinks a');
         const count = await wbnLinks.count();
         expect(count).toBeGreaterThan(0);
 
-        // Links should point to woerterbuchnetz.de
+        // Links point to either mhdwb-online.de (MWB) or woerterbuchnetz.de (Lexer)
+        // — both come from the Wörterbuchnetz API but the original deep-links
+        // differ per dictionary (#73, dcbee3479).
         const firstHref = await wbnLinks.first().getAttribute('href');
-        expect(firstHref).toContain('woerterbuchnetz.de');
+        expect(firstHref).toMatch(/(mhdwb-online|woerterbuchnetz)\.de/);
     });
 
     test('invalid lemma ID shows error', async ({ page }) => {

@@ -1,0 +1,83 @@
+{
+  "upload_type": "dataset",
+  "title": "Mittelhochdeutsche Begriffsdatenbank (MHDBDB) – TEI-XML Repository: Mittelhochdeutsche Texte mit semantischen Annotationen",
+  "description": "<p>TEI-XML-Repositorium der Mittelhochdeutschen Begriffsdatenbank (MHDBDB, Universit&auml;t Salzburg): 667 mittelhochdeutsche Texte mit semantischen Annotationen auf Wortebene (Lemmatisierung, Wortarten, Begriffssystem-Verkn&uuml;pfung), 8 Authority-Files (Personen, Werke, Lexikon, Begriffe, Gattungen, Namen, Varianten, Mitwirkende) sowie vorgebaute JSON-Indexe f&uuml;r die serverlose Such- und Analyse-Oberfl&auml;che unter <a href=\"https://dhcraft.org/mhdbdb-tei-only/\">dhcraft.org/mhdbdb-tei-only</a>.</p><p>Lizenzen: Daten (tei/, authority-files/, data/) CC BY-NC-SA 4.0; Quellcode MIT. Vollst&auml;ndiges Register aller Mitwirkenden mit Rollen: authority-files/contributors.xml.</p><p>Funded by CLARIAH-AT.</p>",
+  "creators": [
+    {
+      "name": "Zeppezauer-Wachauer, Katharina",
+      "affiliation": "Universität Salzburg, Fachbereich Germanistik",
+      "orcid": "0000-0001-9310-9029"
+    },
+    {
+      "name": "Schmidt, Klaus M."
+    }
+  ],
+  "contributors": [
+    { "name": "Pütz, Horst", "type": "Researcher" },
+    { "name": "Brom, Vlastimil", "type": "Researcher" },
+    { "name": "Woesner, Katrin", "type": "Researcher" },
+    { "name": "Hintersteiner, Julia", "type": "Researcher", "orcid": "0009-0008-8333-3658" },
+    { "name": "van Beek, Alan", "type": "Researcher", "orcid": "0000-0002-3294-0510" },
+    { "name": "Aitenbichler, Barbara", "type": "Researcher" },
+    { "name": "Ahrends, Maike", "type": "Researcher" },
+    { "name": "Becker, Claudia", "type": "Researcher" },
+    { "name": "Bornholdt, Claudia", "type": "Researcher" },
+    { "name": "Brachtl, Michael", "type": "Researcher" },
+    { "name": "Callsen, Katrin", "type": "Researcher" },
+    { "name": "Danzl, Christof", "type": "Researcher" },
+    { "name": "Dietrich, Andrea", "type": "Researcher" },
+    { "name": "Dietl, Werner", "type": "Researcher" },
+    { "name": "Eder, Annemarie", "type": "Researcher" },
+    { "name": "Ecker, Jim", "type": "Researcher" },
+    { "name": "Feiel, Harald", "type": "Researcher" },
+    { "name": "Färberböck, Peter", "type": "Researcher" },
+    { "name": "Gebhardt, Bente", "type": "Researcher" },
+    { "name": "Gehrke, Susanne", "type": "Researcher" },
+    { "name": "Groth, Camilla", "type": "Researcher" },
+    { "name": "Hinkelmanns, Peter", "type": "Researcher" },
+    { "name": "Höller, Verena", "type": "Researcher" },
+    { "name": "Jäkel, Britta", "type": "Researcher" },
+    { "name": "Kraus, Barbara", "type": "Researcher" },
+    { "name": "Lang, Susanne", "type": "Researcher" },
+    { "name": "Mahler, Thomas", "type": "Researcher" },
+    { "name": "Majumdar, Anindo", "type": "Researcher" },
+    { "name": "Mayer, August", "type": "Researcher" },
+    { "name": "Meerwald, Peter", "type": "Researcher" },
+    { "name": "Morocutti, Nikolaus", "type": "Researcher" },
+    { "name": "Müller, Silvia", "type": "Researcher" },
+    { "name": "Osborne, Charles", "type": "Researcher" },
+    { "name": "Pouget, Judith", "type": "Researcher" },
+    { "name": "Rahmlow, Anne", "type": "Researcher" },
+    { "name": "Reazin, Ron", "type": "Researcher" },
+    { "name": "Schlager, Daniel", "type": "Researcher" },
+    { "name": "Schubert, Martin", "type": "Researcher" },
+    { "name": "Schürer, Rudolf", "type": "Researcher" },
+    { "name": "Schiwek, Leevke", "type": "Researcher" },
+    { "name": "Schulz, Svenja", "type": "Researcher" },
+    { "name": "Siebert, Barbara", "type": "Researcher" },
+    { "name": "Springeth, Margarete", "type": "Researcher" },
+    { "name": "Steinwendner, Joachim", "type": "Researcher" },
+    { "name": "Steiner, Christian", "type": "Researcher", "orcid": "0000-0002-6658-4622" },
+    { "name": "Uffner, Joe", "type": "Researcher" },
+    { "name": "Vogl, Tanja", "type": "Researcher" },
+    { "name": "Weichselbaumer, Ruth", "type": "Researcher" },
+    { "name": "Westreicher, Michael", "type": "Researcher" }
+  ],
+  "license": "cc-by-nc-sa-4.0",
+  "keywords": [
+    "MHDBDB",
+    "Middle High German",
+    "mittelhochdeutsch",
+    "TEI-XML",
+    "digital corpus",
+    "semantic annotation",
+    "authority files",
+    "digital humanities",
+    "medieval studies",
+    "Mediävistik"
+  ],
+  "communities": [
+    { "identifier": "mhdbdb" },
+    { "identifier": "clariah-at" }
+  ]
+}

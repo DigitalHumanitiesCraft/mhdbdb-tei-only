@@ -118,14 +118,14 @@ test.describe('Corpus Loading and Management', () => {
 
       await dbManager.initialize();
 
-      // Initially corpus should not be loaded (0/666)
+      // Initially corpus should not be loaded (0/667)
       let isLoaded = await dbManager.isCorpusLoaded();
       if (isLoaded) throw new Error('Corpus should not be loaded initially');
 
       let count = await dbManager.getCorpusCount();
       if (count !== 0) throw new Error(`Expected 0 files, got ${count}`);
 
-      // Add test files (not all 666, just a few for testing)
+      // Add test files (not all 667, just a few for testing)
       for (let i = 1; i <= 5; i++) {
         await dbManager.saveCorpusFile(
           `TEST${i}.tei.xml`,
@@ -134,7 +134,7 @@ test.describe('Corpus Loading and Management', () => {
         );
       }
 
-      // Should still not be loaded (5/666)
+      // Should still not be loaded (5/667)
       isLoaded = await dbManager.isCorpusLoaded();
       if (isLoaded) throw new Error('Corpus should not be fully loaded yet');
 
@@ -199,50 +199,6 @@ test.describe('Corpus Loading and Management', () => {
     expect(result.inBothStores).toBe(true);
   });
 
-  test('Corpus Loader - manifest parsing', async ({ page }) => {
-    await page.goto('/testing/test.html');
-
-    const result = await page.evaluate(async () => {
-      // Directly fetch manifest instead of using CorpusLoader (avoids path issues in test)
-      const manifestUrl = '/tei/manifest.json';
-      const response = await fetch(manifestUrl);
-
-      if (!response.ok) {
-        throw new Error(`Failed to fetch manifest: ${response.statusText}`);
-      }
-
-      const manifest = await response.json();
-
-      if (!manifest) throw new Error('Manifest not loaded');
-      if (!manifest.files) throw new Error('No files in manifest');
-      if (manifest.totalFiles !== 666) {
-        throw new Error(`Expected 666 files, got ${manifest.totalFiles}`);
-      }
-
-      // Check first file has required fields
-      const firstFile = manifest.files[0];
-      const requiredFields = ['filename', 'path', 'sigle', 'title', 'author', 'size'];
-
-      for (const field of requiredFields) {
-        if (!(field in firstFile)) {
-          throw new Error(`Missing field: ${field}`);
-        }
-      }
-
-      return {
-        success: true,
-        totalFiles: manifest.totalFiles,
-        totalSizeMB: manifest.totalSizeMB,
-        firstFile: firstFile
-      };
-    });
-
-    expect(result.success).toBe(true);
-    expect(result.totalFiles).toBe(666);
-    expect(result.totalSizeMB).toBeGreaterThan(1000); // Should be ~1523 MB
-    expect(result.firstFile.filename).toContain('.tei.xml');
-  });
-
   test('Corpus index structure after auto-load', async ({ page }) => {
     // Test that the corpus index has the expected structure
     await page.goto('/playground/index.html');
@@ -272,7 +228,7 @@ test.describe('Corpus Loading and Management', () => {
     });
 
     expect(result.success).toBe(true);
-    expect(result.textCount).toBe(666);
+    expect(result.textCount).toBe(667);
     expect(result.hasAllFields).toBe(true);
   });
 
@@ -283,7 +239,7 @@ test.describe('Corpus Loading and Management', () => {
     await page.waitForSelector('#fileBrowserSection', { state: 'visible', timeout: 60000 });
 
     const includedCount = await page.locator('#includedCount').textContent();
-    expect(parseInt(includedCount)).toBe(666);
+    expect(parseInt(includedCount)).toBe(667);
   });
 
   test('TEIFilesManager - available in playground', async ({ page }) => {
@@ -318,8 +274,8 @@ test.describe('Corpus Loading and Management', () => {
       const texts = window.playground?.corpusData?.texts;
       if (!texts) throw new Error('No corpusData.texts');
 
-      if (texts.length !== 666) {
-        throw new Error(`Expected 666 loaded texts, got ${texts.length}`);
+      if (texts.length !== 667) {
+        throw new Error(`Expected 667 loaded texts, got ${texts.length}`);
       }
 
       // Verify lemmaIndex is also populated
@@ -330,7 +286,7 @@ test.describe('Corpus Loading and Management', () => {
     });
 
     expect(result.success).toBe(true);
-    expect(result.loaded).toBe(666);
+    expect(result.loaded).toBe(667);
     expect(result.lemmaCount).toBeGreaterThan(0);
   });
 

@@ -251,6 +251,36 @@
   box-shadow: 0 2px 8px rgba(59, 117, 216, 0.3);
 }
 
+/* TEI-XML Download Hinweis (Issue #96) */
+.metadata-tei-download {
+  margin-top: var(--space-2);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--border-primary);
+}
+
+.metadata-tei-download-text {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.metadata-tei-download-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: var(--accent-primary);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: var(--transition-fast);
+}
+
+.metadata-tei-download-link:hover {
+  color: var(--accent-primary-hover, var(--accent-primary));
+  text-decoration-thickness: 2px;
+}
+
 /* Sigle Navigation */
 .sigle-navigation {
   display: flex;
@@ -382,14 +412,104 @@
 }
 
 /* TEI structural elements */
+
+/* --- div type headers --- */
 .reading-body .tei-div {
   margin: var(--space-4) 0;
 }
 
+.reading-body .tei-div-header {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--accent-primary);
+  margin-top: var(--space-6);
+  margin-bottom: var(--space-2);
+  padding-bottom: var(--space-1);
+  border-bottom: 1px solid var(--border-light, #e5e7eb);
+}
+
+.reading-body .tei-div-section > .tei-div-header {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  border-bottom-style: dotted;
+}
+
+.reading-body .tei-div-colophon {
+  font-style: italic;
+  color: var(--text-secondary);
+  margin-top: var(--space-6);
+  padding: var(--space-3) var(--space-4);
+  border-left: 3px solid var(--border-light, #e5e7eb);
+}
+
+.reading-body .tei-div-colophon > .tei-div-header {
+  font-style: normal;
+}
+
+/* --- Stanza blocks (lg) --- */
+.reading-body .verse-group {
+  margin: var(--space-4) 0;
+  padding-left: var(--space-8);
+  position: relative;
+}
+
+.reading-body .stanza-label {
+  display: block;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-tertiary);
+  margin-bottom: var(--space-1);
+  letter-spacing: 0.02em;
+}
+
+/* --- Verse lines (l) with marginal line numbers --- */
+.reading-body .verse-line {
+  display: block;
+  margin-left: var(--space-4);
+  line-height: 1.6;
+  position: relative;
+}
+
+/* Show line number for verse lines the renderer marked (first line + every 5th
+   absolute verse number). Selector is class-based, not hardcoded @n. See #127. */
+.reading-body .verse-line-numbered::before {
+  content: attr(data-n);
+  position: absolute;
+  left: calc(-1 * var(--space-8));
+  width: var(--space-6);
+  text-align: right;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* --- Prose line breaks (lb) with marginal numbers --- */
 .reading-body .line-break {
   display: inline;
 }
 
+.reading-body .lb-number {
+  display: inline-block;
+  width: 3rem;
+  margin-left: -3.5rem;
+  padding-right: 0.5rem;
+  text-align: right;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  user-select: none;
+}
+
+/* In prose context, add left padding for line number margin */
+.reading-body.prose-context {
+  padding-left: calc(var(--space-6) + 3.5rem);
+}
+
+/* --- Page and column breaks --- */
 .reading-body .page-break {
   display: inline-block;
   color: var(--text-tertiary);
@@ -402,20 +522,6 @@
   cursor: help;
 }
 
-.reading-body .initial {
-  font-weight: 700;
-  font-size: 1.5em;
-  color: var(--accent-primary);
-}
-
-.reading-body .upper-case-first {
-  text-transform: capitalize;
-}
-
-.reading-body .punctuation {
-  font-weight: normal;
-}
-
 .reading-body .column-break {
   display: inline-block;
   color: var(--text-tertiary);
@@ -426,6 +532,53 @@
   background: var(--bg-tertiary);
   border-radius: var(--radius-sm);
   cursor: help;
+}
+
+/* --- hi/@rend token-based classes --- */
+/* hi-initial: no special styling (renders as plain text per render policy) */
+
+.reading-body .hi-upper_case_first_letter {
+  text-transform: capitalize;
+}
+
+.reading-body .hi-upper_case {
+  text-transform: uppercase;
+}
+
+.reading-body .hi-bold {
+  font-weight: 700;
+}
+
+.reading-body .hi-italic {
+  font-style: italic;
+}
+
+/* --- Note badges (date, year) --- */
+.reading-body .note-badge {
+  display: inline-block;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.125rem var(--space-2);
+  border-radius: var(--radius-sm);
+  cursor: help;
+  vertical-align: middle;
+  margin: 0 var(--space-1);
+}
+
+.reading-body .note-date {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.reading-body .note-year {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+/* --- Other inline elements --- */
+.reading-body .punctuation {
+  font-weight: normal;
 }
 
 .reading-body .caesura {
@@ -443,6 +596,18 @@
 
 .reading-body .number {
   font-variant-numeric: oldstyle-nums;
+}
+
+/* --- milestone[@unit="verse"] inline marker --- */
+.reading-body .verse-marker {
+  display: inline-block;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  vertical-align: super;
+  margin: 0 0.15em 0 0.4em;
+  user-select: none;
 }
 
 /* Highlight styling for reading view */
@@ -552,4 +717,241 @@
 
 .error-label {
   font-weight: 600;
+}
+
+/*
+ * Issue #114: Tabellen-Modus überlagert das 3-Spalten-Layout
+ * mit voller Breite, damit die Tabelle bei kleineren Viewports
+ * (1280-1920px) nicht in eine ~300-460px-schmale Results-Spalte
+ * gequetscht wird.
+ * Hinweis: Die Sidebar-Klasse in korpus.html lautet .search-card
+ * (nicht .search-sidebar), daher wird .search-card hier verwendet.
+ */
+#mainGrid.table-layout {
+  grid-template-columns: 1fr !important;
+}
+
+#mainGrid.table-layout > .search-card {
+  /* Sidebar belegt volle Breite oberhalb der Tabelle, collapsed-by-default */
+  max-height: 4rem;
+  overflow: hidden;
+  transition: max-height 0.2s ease;
+}
+
+#mainGrid.table-layout > .search-card.expanded {
+  max-height: none;
+}
+
+/* Issue #114: Tabellen-Styles */
+.results-table-th {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: rgb(51 65 85);  /* slate-700 */
+    border-bottom: 1px solid rgb(226 232 240);  /* slate-200 */
+}
+
+.results-table-sort-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font: inherit;
+    color: inherit;
+    padding: 0;
+}
+
+.results-table-sort-btn:hover {
+    color: rgb(37 99 235);  /* brand-600 */
+}
+
+.results-table-td {
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid rgb(241 245 249);  /* slate-100 */
+    vertical-align: top;
+}
+
+.results-table-row:focus {
+    outline: 2px solid rgb(37 99 235);
+    outline-offset: -2px;
+}
+
+.results-table-row:last-child .results-table-td {
+    border-bottom: none;
+}
+
+/* Issue #129: KWIC-Belege (Kontextfenster + Zeilenangaben) */
+.kwic-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: rgb(37 99 235);  /* brand-600 */
+}
+
+.kwic-toggle-btn:hover {
+    color: rgb(29 78 216);  /* brand-700 */
+}
+
+.kwic-chevron {
+    transition: transform 0.15s ease;
+}
+
+.kwic-open .kwic-chevron {
+    transform: rotate(180deg);
+}
+
+.kwic-row-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.125rem;
+    border-radius: 0.375rem;
+    color: rgb(100 116 139);  /* slate-500 */
+}
+
+.kwic-row-btn:hover {
+    color: rgb(37 99 235);
+    background: rgb(241 245 249);  /* slate-100 */
+}
+
+.kwic-panel {
+    margin-top: 0.75rem;
+    cursor: default;
+}
+
+.kwic-detail-cell {
+    padding: 0.25rem 0.75rem 0.75rem;
+    background: rgb(248 250 252);  /* slate-50 */
+    border-bottom: 1px solid rgb(241 245 249);
+}
+
+.kwic-detail-cell .kwic-panel {
+    margin-top: 0.25rem;
+}
+
+.kwic-status {
+    font-size: 0.8125rem;
+    color: rgb(100 116 139);
+    padding: 0.25rem 0;
+}
+
+.kwic-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 0.375rem;
+}
+
+.kwic-count {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: rgb(51 65 85);  /* slate-700 */
+}
+
+.kwic-window-label {
+    font-size: 0.75rem;
+    color: rgb(100 116 139);
+}
+
+.kwic-window-select {
+    margin-left: 0.25rem;
+    font-size: 0.75rem;
+    border: 1px solid rgb(226 232 240);
+    border-radius: 0.375rem;
+    padding: 0.125rem 0.25rem;
+    background: white;
+    color: rgb(51 65 85);
+}
+
+.kwic-list {
+    max-height: 20rem;
+    overflow-y: auto;
+    border: 1px solid rgb(226 232 240);
+    border-radius: 0.75rem;
+    background: white;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.kwic-list li + li .kwic-line {
+    border-top: 1px solid rgb(241 245 249);
+}
+
+/* Klassisches KWIC-Layout: Referenz | Kontext links (rechtsbündig) |
+   Keyword (zentriert) | Kontext rechts (linksbündig) */
+.kwic-line {
+    display: grid;
+    grid-template-columns: 3.5rem minmax(0, 1fr) auto minmax(0, 1fr);
+    column-gap: 0.5rem;
+    align-items: baseline;
+    width: 100%;
+    padding: 0.25rem 0.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.8125rem;
+    line-height: 1.4;
+    text-align: left;
+    color: rgb(51 65 85);
+}
+
+.kwic-line:hover {
+    background: rgb(248 250 252);
+}
+
+.kwic-ref {
+    font-size: 0.6875rem;
+    color: rgb(148 163 184);  /* slate-400 */
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+}
+
+.kwic-before {
+    text-align: right;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    direction: rtl;  /* Ellipsis links: Anfang des Kontexts wird abgeschnitten */
+}
+
+.kwic-before bdi,
+.kwic-before span {
+    direction: ltr;
+    unicode-bidi: isolate;
+}
+
+.kwic-keyword {
+    font-weight: 600;
+    color: rgb(30 64 175);  /* brand-800 */
+    background: rgb(219 234 254);  /* brand-100 */
+    border-radius: 0.25rem;
+    padding: 0 0.25rem;
+    white-space: nowrap;
+}
+
+.kwic-after {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.kwic-hint {
+    font-size: 0.6875rem;
+    color: rgb(148 163 184);
+    margin-top: 0.375rem;
 }

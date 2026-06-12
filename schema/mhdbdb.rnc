@@ -1,0 +1,535 @@
+# MHDBDB RELAX NG Schema (Compact Syntax)
+# =========================================
+# Custom schema for the MHDBDB TEI corpus after migration.
+# Models only what the corpus actually uses (SOLL-Zustand).
+# Source of truth: docs/TEI-MODEL.md
+#
+# Validation:
+#   Stage 1: tei_all.rng (TEI P5 conformance)
+#   Stage 2: this schema (MHDBDB-specific constraints)
+#
+# Generated RNG (for lxml): trang mhdbdb.rnc mhdbdb.rng
+
+default namespace = "http://www.tei-c.org/ns/1.0"
+namespace xml = "http://www.w3.org/XML/1998/namespace"
+
+# ============================================================
+# Root
+# ============================================================
+
+start = element TEI {
+    attribute xml:id { xsd:NCName },
+    teiHeader,
+    element text {
+        element body { body.content }
+    }
+}
+
+# ============================================================
+# teiHeader
+# ============================================================
+
+teiHeader = element teiHeader {
+    fileDesc,
+    encodingDesc,
+    profileDesc,
+    revisionDesc
+}
+
+# --- fileDesc ---
+
+fileDesc = element fileDesc {
+    titleStmt,
+    publicationStmt,
+    sourceDesc
+}
+
+# GAP 5+6+7: multiple titles (291 files), @ana on title (638), multiple authors (5 files)
+titleStmt = element titleStmt {
+    element title {
+        attribute xml:lang { text }?,
+        attribute type { text }?,
+        attribute level { text }?,
+        attribute ana { text }?,
+        text
+    }+,
+    element author { attribute ref { text }?, mixed { (element name { text })* } }*,
+    element respStmt {
+        element resp { text },
+        (element name { attribute ref { xsd:anyURI }?, attribute role { text }?, attribute xml:lang { text }?, text }
+         | element orgName { attribute ref { xsd:anyURI }?, text })+
+    }+
+}
+
+# publicationStmt: flexible ordering — all children optional, any order
+publicationStmt = element publicationStmt {
+    (element publisher {
+        mixed {
+            (element orgName { text }
+             | element address {
+                element street { text },
+                element postCode { text },
+                element settlement { text },
+                element country { text }
+             }
+             | element email { text }
+             | element ptr { attribute target { xsd:anyURI } })*
+        }
+    }
+    | element authority {
+        element persName {
+            attribute role { text }?,
+            attribute ref { xsd:anyURI }?,
+            mixed {
+                (element forename { text }?,
+                 element surname { text }?)?
+            }
+        }+
+    }
+    | element availability {
+        attribute status { text }?,
+        element licence { attribute target { xsd:anyURI }, text },
+        p.header*,
+        element ab { attribute type { text }?, attribute n { text }?, text }*
+    }
+    | date.element
+    | element ref { attribute type { text }?, attribute target { xsd:anyURI }?, text }
+    | p.header)*
+}
+
+# idno/@type Enum-Pattern (P1-5, kontextspezifisch).
+# Audit 2026-05-07 zeigt drei verschiedene @type-Werte-Mengen je nach Position
+# im Header. Globaler Enum waere falsch — z.B. callNumber/ISBN gehoeren nicht
+# in msIdentifier, GND/wikidata sind nicht bibliografisch.
+idno.type.msIdentifier = "sigle" | "handschriftencensus" | "GND" | "wikidata" | "mwb-sigle"
+idno.type.monogr       = "callNumber" | "ISBN"
+idno.type.person       = "GND" | "wikidata"
+
+sourceDesc = element sourceDesc {
+    element msDesc {
+        element msIdentifier {
+            # @corresp verweist verpflichtend auf works.xml#work_N (TEI-MODEL.md §2.1).
+            # Audit 2026-04-15: 666/666 Korpus-Dateien haben @corresp gesetzt.
+            attribute corresp { xsd:anyURI },
+            (element idno { attribute type { idno.type.msIdentifier }, text }
+             | element msName { attribute xml:lang { text }?, text })*
+        },
+        element additional {
+            element listBibl {
+                (biblStruct | bibl)*
+            }
+        }?
+    }
+}
+
+# GAP 8: <note> in biblStruct (626 elements)
+biblStruct = element biblStruct {
+    attribute type { text }?,
+    attribute xml:id { xsd:NCName }?,
+    attribute corresp { text }?,
+    attribute key { text }?,
+    (element analytic {
+        (element author { mixed { (element name { text })* } }
+         | element title { attribute level { text }?, attribute type { text }?, text }
+         | element ref { attribute target { xsd:anyURI }?, attribute type { text }?, text }
+         | element idno { attribute type { text }, text })*
+    }?,
+     element monogr {
+        (element author { mixed { (element name { text })* } }*,
+         element title { attribute level { text }?, attribute type { text }?, text }+,
+         (element editor {
+            (element forename { text }?,
+             element surname { text }?)
+         }
+         | element idno { attribute type { idno.type.monogr }, text }
+         | element edition { text })*,
+         element imprint {
+            (element pubPlace { text }
+             | element publisher { text }
+             | date.element
+             | element biblScope { attribute unit { text }?, text })*
+         }?)
+     }?,
+     element series {
+        element title { attribute level { text }?, text },
+        element biblScope { attribute unit { text }?, text }*
+     }?,
+     element note { text }*)
+}
+
+bibl = element bibl {
+    attribute type { text }?,
+    attribute xml:id { xsd:NCName }?,
+    attribute corresp { text }?,
+    mixed {
+        (element title { attribute level { text }?, text }
+         | element respStmt {
+            element resp { text },
+            (element name { text } | element orgName { text })+
+         }
+         | date.element
+         | element ref { attribute target { xsd:anyURI }?, attribute type { text }?, text }
+         | element idno { attribute type { text }, text }
+         | element note { attribute type { text }?, text })*
+    }
+}
+
+# --- encodingDesc ---
+
+encodingDesc = element encodingDesc {
+    element projectDesc { p.header+ },
+    element editorialDecl {
+        p.header*,
+        # <interpretation> present in some files
+        element interpretation { p.header+ }?,
+        element normalization { p.header+ }?
+    },
+    element classDecl {
+        element taxonomy {
+            attribute xml:id { xsd:NCName },
+            element bibl { mixed { element ptr { attribute target { xsd:anyURI } }* } }?,
+            element category {
+                attribute xml:id { xsd:NCName },
+                attribute corresp { text }?,
+                attribute ana { text }?,
+                element gloss { attribute xml:lang { text }?, text }*
+            }*
+        }
+    }
+}
+
+# --- profileDesc ---
+
+profileDesc = element profileDesc {
+    element langUsage {
+        element language { attribute ident { text }, text }+
+    },
+    element particDesc {
+        element listPerson {
+            element person {
+                attribute xml:id { xsd:NCName },
+                attribute corresp { text }?,
+                element persName {
+                    attribute type { "preferred" | "alternative" }?,
+                    attribute role { text }?,
+                    attribute xml:lang { text }?,
+                    mixed {
+                        (element forename { text }?,
+                         element surname { text }?)?
+                    }
+                }*,
+                element idno { attribute type { idno.type.person }, text }*,
+                element note { attribute type { text }?, text }*
+            }*
+        }
+    }
+}
+
+# --- revisionDesc ---
+
+revisionDesc = element revisionDesc {
+    element change {
+        attribute when { text },
+        attribute who { text },
+        text
+    }+
+}
+
+# ============================================================
+# Shared patterns
+# ============================================================
+
+# GAP 11: header <p> with optional @xml:lang (2,664 occurrences)
+p.header = element p { attribute xml:lang { text }?, text }
+
+# GAP 9: date with @from, @notBefore, @notAfter (~90 files)
+date.element = element date {
+    attribute when { text }?,
+    attribute from { text }?,
+    attribute notBefore { text }?,
+    attribute notAfter { text }?,
+    text
+}
+
+# ============================================================
+# Inline content model (defined first — referenced everywhere)
+# ============================================================
+
+inline.model =
+    w | pc | hi | lb | pb | cb | caesura | supplied | num
+    | note | lg | l | head
+    # Editorisches Standard-Vokabular (TEI-P5, fakultativ).
+    # Aufgenommen 2026-05-08 mit ARITHMETIC-Ingest (siehe
+    # docs/DECISIONS.md PD-001). <unclear> war im Bestand frueher
+    # kursiv und ist verloren gegangen, kommt damit zurueck.
+    | unclear | add | gap | abbr | expan | am | g
+    # Onomastik (TEI-P5, fakultativ). Generisch nuetzlich fuer
+    # alle Korpora mit Personen- oder Ortsbezug.
+    | roleName | occupation | placeName | persName.inline | person.inline
+    # Domain-Erweiterung Arithmetik (fakultativ). Erlaubt
+    # Carinas Domaenen-Annotation; Lyrik-Editor:innen muessen
+    # diese Elemente nie nutzen.
+    | unit | rs | figure
+
+# Content model for <hi>: identical to inline.model.
+#
+# Geschichte: <hi> erlaubte ursprünglich beliebige inline.model-content
+# (inkl. nested <hi>), was RelaxNG-Matching auf Dateien mit nested-<hi>
+# nicht-linear machte. Die nested-<hi>/<hi>-Faelle des MHDBDB-Bestands
+# wurden 2026-04-15 via scripts/_archived/flatten-nested-hi.py geflatten.
+#
+# Wiedereinführung von nested-<hi> (2026-05-08, kontrollierte Ausnahme
+# zu ADR-013): Carinas ARI-Daten haben durchgestrichene Brüche als
+# <hi rend="line-through"><hi rend="superscript">2</hi>/<hi rend="subscript">3</hi></hi>.
+# Eine Compound-Rend-Transformation ("line-through superscript") wäre
+# semantisch lossy (welcher rend ist außen, welcher innen?) — daher hier
+# die Ausnahme: <hi> kann <hi> enthalten. Die Performance-Sorge von
+# 2026-04-15 ist nicht mehr akut, weil moderne lxml-Versionen nested-<hi>
+# linear matchen, sofern keine groesseren Cluster auftreten (Audit zeigt
+# 2 Vorkommen in WIEN5206, einzelne in anderen ARI-HS).
+hi.content.model =
+    hi | w | pc | lb | pb | cb | caesura | supplied | num
+    | note | lg | l | head
+    | unclear | add | gap | abbr | expan | am | g
+    | roleName | occupation | placeName | persName.inline | person.inline
+    | unit | rs | figure
+
+# ============================================================
+# Body content model
+# ============================================================
+
+# div/@type Enum-Pattern.
+# Standard: alle Korpora. Arithmetik: nur Rechenbuch-Korpora (ARI),
+# aufgenommen 2026-05-08 mit ARITHMETIC-Ingest (siehe DECISIONS.md PD-001).
+div.type.standard = "chapter" | "section" | "number" | "song" | "parallel" | "colophon" | "recipe"
+div.type.arithmetic =
+    "outline"
+    | "commodity_calculation" | "reckoning_example"
+    | "fraction_calculation" | "cooperation_calculation"
+    | "conversion_calculation" | "allocation_calculation"
+    | "calculation_on_the_line" | "test"
+    | "addition" | "multiplication" | "division" | "subtraction"
+    | "bisection" | "doubling" | "progression"
+    | "regula_de_tri" | "root_extraction" | "numeration"
+    | "interest_calculation" | "conversion_table"
+    | "result" | "distance_calculation" | "salary_calculation"
+
+# GAP 2: body and div have inline children directly in 137+ files
+# Note: body.content includes both block and inline elements because
+# some texts have <w>, <pc>, <l> etc. directly under <body> or <div>.
+# figure und die inline.model-Erweiterungen ab 2026-05-08 (PD-001).
+body.content = mixed { (tei.div | p | lg | l | head | ab | figure | inline.model)* }
+
+# GAP 1: div/@type is optional (154 files, 2179 elements without @type)
+# 'tei.div' not 'div' — 'div' is a reserved keyword in RELAX NG Compact
+tei.div = element div {
+    attribute type { div.type.standard | div.type.arithmetic }?,
+    attribute n { text }?,
+    mixed { (tei.div | p | lg | l | head | ab | figure | inline.model)* }
+}
+
+# GAP 4: <p> can contain <div> (7 files, 27 elements)
+p = element p {
+    attribute n { text }?,
+    attribute xml:lang { text }?,
+    mixed { (tei.div | inline.model)* }
+}
+
+head = element head {
+    mixed { inline.model* }
+}
+
+# GAP 3: <lg> can contain <p> (LZT: 1,122 elements)
+lg = element lg {
+    attribute type { "stanza" },
+    attribute n { text }?,
+    mixed { (l | p | inline.model)* }
+}
+
+l = element l {
+    attribute n { text }?,
+    mixed { inline.model* }
+}
+
+ab = element ab {
+    attribute type { text }?,
+    attribute n { text }?,
+    mixed { inline.model* }
+}
+
+# <w> erlaubt seit 2026-05-08 mixed content mit <hi>. Hintergrund:
+# in den ARI-Daten kommt das Pattern <seg type="token"><hi rend="initial">X</hi>Y</seg>
+# vor (Initial-Buchstaben am Wort-Anfang). Das uebersetzt sich zu
+# <w><hi rend="initial">X</hi>Y</w>. Im Bestand ist <w> rein text-basiert,
+# diese Erweiterung ist additiv (Bestand bleibt valide).
+w = element w {
+    attribute xml:id { xsd:NCName },
+    attribute lemmaRef { text }?,
+    attribute pos { text }?,
+    attribute ana { text }?,
+    attribute corresp { text }?,
+    attribute reason { text }?,
+    attribute xml:lang { text }?,
+    mixed { hi* }
+}
+
+pc = element pc {
+    attribute xml:id { xsd:NCName }?,
+    attribute join { "left" | "right" },
+    text
+}
+
+hi = element hi {
+    attribute rend { text },
+    mixed { hi.content.model* }
+}
+
+supplied = element supplied {
+    attribute n { text }?,
+    mixed { inline.model* }
+}
+
+num = element num {
+    mixed { inline.model* }
+}
+
+note = element note {
+    attribute type { text }?,
+    attribute n { text }?,
+    attribute place { text }?,
+    mixed { (p | inline.model)* }
+}
+
+# ============================================================
+# Milestone elements
+# ============================================================
+
+lb = element lb { attribute n { text }?, attribute break { text }?, empty }
+pb = element pb { attribute n { text }?, attribute type { text }?, empty }
+cb = element cb { attribute n { text }?, attribute type { text }?, empty }
+caesura = element caesura { attribute xml:id { xsd:NCName }?, empty }
+
+# ============================================================
+# Editorische Standard-Tags (TEI-P5, fakultativ)
+# ============================================================
+# Aufgenommen 2026-05-08 mit ARITHMETIC-Ingest (siehe DECISIONS.md PD-001).
+# Alle TEI-P5-konform. Keine Datei muss diese Elemente nutzen — sie
+# stehen zur Verfuegung fuer Editionen mit philologischem Apparat
+# oder fuer Quellen-Materialien mit editorischen Markierungen.
+
+unclear = element unclear {
+    attribute reason { text }?,
+    attribute cert { text }?,
+    mixed { inline.model* }
+}
+
+add = element add {
+    attribute place { text }?,
+    attribute hand { text }?,
+    mixed { inline.model* }
+}
+
+gap = element gap {
+    attribute reason { text }?,
+    attribute extent { text }?,
+    attribute unit { text }?,
+    empty
+}
+
+abbr = element abbr {
+    attribute type { text }?,
+    mixed { inline.model* }
+}
+
+expan = element expan {
+    attribute type { text }?,
+    mixed { inline.model* }
+}
+
+am = element am {
+    mixed { inline.model* }
+}
+
+g = element g {
+    attribute ref { text }?,
+    text
+}
+
+# ============================================================
+# Onomastik (TEI-P5, fakultativ)
+# ============================================================
+# Generisch nuetzlich fuer Korpora mit Personen- oder Ortsbezug.
+# Aufgenommen 2026-05-08 mit ARITHMETIC-Ingest.
+
+roleName = element roleName {
+    attribute type { text }?,
+    mixed { inline.model* }
+}
+
+occupation = element occupation {
+    attribute type { text }?,
+    mixed { inline.model* }
+}
+
+placeName = element placeName {
+    attribute type { text }?,
+    attribute ref { text }?,
+    mixed { inline.model* }
+}
+
+# persName als Inline-Element im Body (zusaetzlich zu den bestehenden
+# Verwendungen in titleStmt/authority/particDesc, die strikter sind).
+# In Carinas BRE1948 kommt <persName> einmal als Inline-Annotation im
+# Body vor. Die bestehenden persName-Patterns in den Header-Bereichen
+# bleiben unberuehrt; RelaxNG erlaubt verschiedene Inhaltsmodelle
+# je nach Kontext.
+persName.inline = element persName {
+    attribute type { text }?,
+    attribute role { text }?,
+    attribute ref { text }?,
+    attribute xml:lang { text }?,
+    mixed { inline.model* }
+}
+
+person.inline = element person {
+    attribute type { text }?,
+    attribute role { text }?,
+    attribute ref { text }?,
+    attribute xml:lang { text }?,
+    mixed { inline.model* }
+}
+
+# ============================================================
+# Domain-Erweiterung Arithmetik (fakultativ)
+# ============================================================
+# Aufgenommen 2026-05-08 mit ARITHMETIC-Ingest (siehe DECISIONS.md PD-001).
+# Ermoeglicht Carinas Domaenen-Annotation in Rechenbuch-Korpora.
+# Werte aus Audit aller 6 ARI-HS, distinct-Werte als Enum.
+# Begriffssystem-Anbindung erfolgt ueber @ana → concepts.xml#concept_NNNN
+# (Folge-Task, Mapping mit Carina post-Schema-Aufnahme).
+
+unit.type = "measurement" | "weight" | "length" | "volume" | "distance"
+
+unit = element unit {
+    attribute type { unit.type }?,
+    attribute ana { text }?,
+    mixed { inline.model* }
+}
+
+rs.type = "currency" | "goods"
+
+rs = element rs {
+    attribute type { rs.type }?,
+    attribute ref { text }?,
+    attribute ana { text }?,
+    mixed { inline.model* }
+}
+
+# figure: block-level, mit Sub-Typ-Klassifikation (z.B. "diagram",
+# "regula_de_tri", "multiplication"). @type bewusst frei (16 Werte
+# in ARI-Audit, vermutlich erweiterbar bei kuenftigen Korpora).
+figure = element figure {
+    attribute type { text }?,
+    attribute n { text }?,
+    mixed { (head | p | inline.model)* }
+}

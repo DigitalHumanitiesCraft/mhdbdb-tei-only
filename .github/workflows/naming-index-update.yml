@@ -1,0 +1,110 @@
+name: Naming Index Update
+
+# Wöchentlicher Abgleich mit Linda Beutel-Thurows Naming-analysis-Repo (#59):
+# baut data/naming-index.json.gz neu und öffnet bei inhaltlicher Änderung
+# einen PR. Merge erst nach Sichtprüfung — extern kuratierte Daten gehen
+# nie ungeprüft nach Production (auch als Gate gegen Format-Drift in den
+# Quell-JSONs: neue Spalten/Bücher fallen im PR-Diff bzw. Build-Log auf).
+#
+# Der Byte-Diff trägt nur, weil der Build deterministisch ist:
+# generatedAt = Committer-Datum des Quell-Commits, gzip ohne mtime
+# (scripts/ingest/naming/01-fetch-and-build-index.py).
+#
+# Hinweis: PRs aus dem GITHUB_TOKEN triggern keine weiteren Workflows;
+# die übrigen CI-Checks laufen erst nach menschlichem Push/Re-Trigger.
+
+on:
+  schedule:
+    - cron: '17 5 * * 1'   # montags 05:17 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: naming-index-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    # Repo ist gross (TEI-Korpus + Indexes); Checkout allein dauert ~1:44 min.
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+
+      - name: Quell-Commit des bestehenden Index lesen
+        id: old
+        run: |
+          python - <<'EOF' >> "$GITHUB_OUTPUT"
+          import gzip, json
+          idx = json.load(gzip.open("data/naming-index.json.gz", "rt", encoding="utf-8"))
+          print("commit=" + idx.get("source", {}).get("commit", ""))
+          EOF
+
+      - name: Index neu bauen
+        id: build
+        run: |
+          python scripts/ingest/naming/01-fetch-and-build-index.py | tee build.log
+          {
+            echo 'log<<BUILDLOG'
+            cat build.log
+            echo 'BUILDLOG'
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Auf inhaltliche Änderung prüfen
+        id: diff
+        run: |
+          if git diff --quiet -- data/naming-index.json.gz; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "Quellstand unverändert — kein PR."
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Neuen Quell-Commit lesen
+        id: new
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          python - <<'EOF' >> "$GITHUB_OUTPUT"
+          import gzip, json
+          idx = json.load(gzip.open("data/naming-index.json.gz", "rt", encoding="utf-8"))
+          print("commit=" + idx.get("source", {}).get("commit", ""))
+          EOF
+
+      - name: PR erstellen oder aktualisieren
+        if: steps.diff.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          add-paths: data/naming-index.json.gz
+          branch: chore/naming-index-update
+          delete-branch: true
+          commit-message: |
+            chore: naming-index.json.gz aus Naming-analysis aktualisiert (#59)
+
+            ## Changes
+            - Rebuild aus lindabeutel/Naming-analysis@${{ steps.new.outputs.commit }}
+
+            Co-Authored-By: Claude <noreply@anthropic.com>
+          title: 'Naming-Index: Datenupdate aus Naming-analysis (#59)'
+          body: |
+            Automatischer wöchentlicher Rebuild von `data/naming-index.json.gz`
+            (Workflow `naming-index-update.yml`, siehe #59).
+
+            **Quell-Diff:** [`${{ steps.old.outputs.commit }}` → `${{ steps.new.outputs.commit }}`](https://github.com/lindabeutel/Naming-analysis/compare/${{ steps.old.outputs.commit }}...${{ steps.new.outputs.commit }})
+
+            **Build-Log:**
+            ```
+            ${{ steps.build.outputs.log }}
+            ```
+
+            Bitte vor dem Merge das Build-Log auf Plausibilität prüfen
+            (Record-Zahlen je Werk, „übersprungen"-Zähler) und den
+            Quell-Diff sichten.

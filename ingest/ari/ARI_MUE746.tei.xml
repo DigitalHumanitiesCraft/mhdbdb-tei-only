@@ -1,0 +1,671 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?xml-model href="../schema/mhdbdb.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="https://tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="ARI_MUE746">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title xml:lang="de">Muenchen, Universitaetsbibliothek, 8 Cod.ms. 746</title>
+        <author ref="#person_anonym">Anonym</author>
+        <respStmt>
+          <resp>digitale Zusammenführung, Annotation und semantische Klassifikation</resp>
+          <orgName ref="contributors.xml#mhdbdb-team">MHDBDB-Team (vollständige Liste in contributors.xml)</orgName>
+        </respStmt>
+      </titleStmt>
+      <publicationStmt>
+        <publisher>
+          <orgName>Mittelhochdeutsche Begriffsdatenbank (MHDBDB)</orgName>
+          <orgName>Paris Lodron Universität Salzburg</orgName>
+          <address>
+            <street>Erzabt-Klotz-Straße 1</street>
+            <postCode>5020</postCode>
+            <settlement>Salzburg</settlement>
+            <country>Österreich</country>
+          </address>
+          <email>mhdbdb@plus.ac.at</email>
+          <ptr target="https://mhdbdb.plus.ac.at"/>
+        </publisher>
+        <authority>
+          <persName role="coordinator" ref="contributors.xml#contrib_003">
+            <forename>Katharina</forename>
+            <surname>Zeppezauer-Wachauer</surname>
+          </persName>
+          <persName role="founder" ref="contributors.xml#contrib_001">
+            <forename>Klaus M.</forename>
+            <surname>Schmidt</surname>
+          </persName>
+          <persName role="founder" ref="contributors.xml#contrib_002">
+            <forename>Horst</forename>
+            <surname>Pütz</surname>
+          </persName>
+        </authority>
+        <availability>
+          <licence target="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</licence>
+          <p>Daten und Annotationen unter CC BY-SA 4.0. Originaldaten aus dem Arithmetic-Projekt (Universität Graz, GAMS); Share-Alike-Klausel der Quell-Lizenz wird übernommen (CC BY-NC-SA 4.0 wäre mit BY-SA inkompatibel, daher kein Lizenz-Stack wie im MHDBDB-Bestand).</p>
+        </availability>
+        <date when="2026">2026</date>
+      </publicationStmt>
+      <sourceDesc>
+        <msDesc>
+          <msIdentifier corresp="works.xml#work_TBD">
+            <idno type="sigle">ARI_MUE746</idno>
+            <msName xml:lang="de">Muenchen, Universitaetsbibliothek, 8 Cod.ms. 746</msName>
+          </msIdentifier>
+          <additional>
+            <listBibl>
+              <bibl type="digitalIntermediary" xml:id="ARI_MUE746_arithmetic_gams" corresp="#ARI_MUE746_TBD">
+                <title>Arithmetic-Projekt, GAMS (Universität Graz)</title>
+                <respStmt>
+                  <resp>Elektronische Bereitstellung und TEI-Erstkodierung</resp>
+                  <name>Carina (Arithmetic-Projekt)</name>
+                </respStmt>
+                <ref target="https://gams.uni-graz.at/o:arithmetic.mue746"/>
+                <note type="provenance">TEI-Originaldaten aus dem GAMS-Repositorium der Universität Graz, Arithmetic-Projekt zu fnhd. Rechenbüchern. Konvertiert in das MHDBDB-Schema durch automatische Transformation (scripts/ingest/ari/01-convert-original-to-mhdbdb.py, 2026-05).</note>
+                <note type="fidelity">Mechanische Schema-Konversion ohne Eingriff in Wortgrenzen, Auszeichnungs-Semantik oder Strukturhierarchie.</note>
+              </bibl>
+            </listBibl>
+          </additional>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+    <encodingDesc>
+      <projectDesc>
+        <p xml:lang="de">Die Annotationen der MHDBDB basieren auf kontrollierten Vokabularen und domänenspezifischen Ontologien.</p>
+        <p xml:lang="en">The annotations of the MHDBDB are based on controlled vocabularies and domain-specific ontologies.</p>
+      </projectDesc>
+      <editorialDecl>
+        <p xml:lang="de">Lokale Dateireferenzen (z.B. persons.xml#person_anonym, lexicon.xml#lemma_879) verweisen auf kontrollierte Vokabulare im authority-files Verzeichnis dieses Repositorys.</p>
+      </editorialDecl>
+      <classDecl>
+        <taxonomy xml:id="genres">
+          <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
+          <category xml:id="genre_TBD" corresp="genres.xml#genre_TBD">
+            <gloss xml:lang="de">Rechenbuch (TBD: konkrete Genre-ID von Carina)</gloss>
+          </category>
+        </taxonomy>
+      </classDecl>
+    </encodingDesc>
+    <profileDesc>
+      <langUsage>
+        <language ident="gmf">Frühneuhochdeutsch</language>
+      </langUsage>
+      <particDesc>
+        <listPerson>
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
+            <persName type="preferred">Anonym</persName>
+          </person>
+        </listPerson>
+      </particDesc>
+    </profileDesc>
+    <revisionDesc>
+      <change when="2026-05-08" who="#mhdbdb-team">Initiale Konversion aus Arithmetic_MHDBDB.zip via scripts/ingest/ari/01-convert-original-to-mhdbdb.py.</change>
+    </revisionDesc>
+  </teiHeader>
+  <text>
+    <body><div>
+            <pb n="146v"/>
+            <div type="commodity_calculation">
+               <div type="reckoning_example">
+                  <p>
+                     <lb n="N001"/>
+                     <w xml:id="wd6t1030_1">Item</w>
+                     <w xml:id="wd6t1042_2">Ein</w>
+                     <w xml:id="wd6t1042_4">grund</w>
+                     <w xml:id="wd6t1042_6">vnd</w>
+                     <w xml:id="wd6t1042_8">ein</w>
+                     <w xml:id="wd6t1045_1">fundament</w>
+                     <w xml:id="wd6t1053_2">kurtʒlich</w>
+                     <w xml:id="wd6t1053_4">auff</w>
+                     <w xml:id="wd6t1053_6">dye</w>
+                     <unit type="length">
+                        <w xml:id="wd6t1057_1">ellen</w>
+                     </unit>
+                     <lb n="N002"/>
+                     <w xml:id="wd6t1070_1">vnd</w>
+                     <w xml:id="wd6t1070_3">der</w>
+                     <w xml:id="wd6t1070_5">anfang</w>
+                     <w xml:id="wd6t1073_1">von</w>
+                     <w xml:id="wd6t1081_2">der</w>
+                     <w xml:id="wd6t1081_4">regel</w>
+                     <w xml:id="wd6t1085_1">fractus</w>
+                     <w xml:id="wd6t1090_2">vnd</w>
+                     <w xml:id="wd6t1090_4">lernt</w>
+                     <w xml:id="wd6t1090_6">nach</w>
+                     <w xml:id="wd6t1090_8">der</w>
+                     <unit type="length">
+                        <w xml:id="wd6t1094_1">ellen</w>
+                     </unit>
+                     <lb n="N003"/>
+                     <w xml:id="wd6t1107_1">mit</w>
+                     <w xml:id="wd6t1107_3">kurtʒen</w>
+                     <w xml:id="wd6t1107_5">vmb</w>
+                     <w xml:id="wd6t1107_7">gen</w>
+                     <pc xml:id="wd6t1107_9" join="left">/</pc>
+                     <w xml:id="wd6t1107_11">Ʒwm</w>
+                     <w xml:id="wd6t1110_1">Erſten</w>
+                     <w xml:id="wd6t1118_2">Iſt</w>
+                     <w xml:id="wd6t1118_4">dye</w>
+                     <w xml:id="wd6t1118_6">frag</w>
+                     <w xml:id="wd6t1118_8">alſo</w>
+                     <w xml:id="wd6t1118_10">Ob</w>
+                     <w xml:id="wd6t1121_1">ainer</w>
+                     <lb n="N004"/>
+                     <w xml:id="wd6t1128_1">kawfft</w>
+                     <w xml:id="wd6t1128_3">ein</w>
+                     <unit type="length">
+                        <w xml:id="wd6t1133_1">ellen</w>
+                     </unit>
+                     <w xml:id="wd6t1147_2">vmb</w>
+                     <w xml:id="wd6t1147_4">60</w>
+                     <rs type="currency">
+                        <w xml:id="wd6t1151_1">denare</w>
+                     </rs>
+                     <w xml:id="wd6t1155_2">So</w>
+                     <w xml:id="wd6t1155_4">iſt</w>
+                     <w xml:id="wd6t1155_6">dye</w>
+                     <w xml:id="wd6t1155_8">gantʒ</w>
+                     <unit type="length">
+                        <w xml:id="wd6t1159_1">ellen</w>
+                     </unit>
+                     <pc xml:id="wd6t1173_2" join="left">/</pc>
+                     <w xml:id="wd6t1173_4">macht</w>
+                     <w xml:id="wd6t1173_6">60</w>
+                     <rs type="currency">
+                        <w xml:id="wd6t1177_1">denare</w>
+                     </rs>
+                     <w xml:id="wd6t1181_2">allain</w>
+                     <figure type="diagram"/>
+                  </p>
+               </div>
+               <div type="reckoning_example">
+                  <p>
+                     <lb n="N001"/>
+                     <w xml:id="wd6t1189_1">Item</w>
+                     <w xml:id="wd6t1204_1">wan</w>
+                     <w xml:id="wd6t1212_2">aber</w>
+                     <w xml:id="wd6t1215_1">ainer</w>
+                     <w xml:id="wd6t1220_2">ein</w>
+                     <w xml:id="wd6t1220_4">halbe</w>
+                     <unit type="length">
+                        <w xml:id="wd6t1224_1">ellen</w>
+                     </unit>
+                     <w xml:id="wd6t1238_2">kawfft</w>
+                     <w xml:id="wd6t1238_4">so</w>
+                     <w xml:id="wd6t1238_6">iſt</w>
+                     <w xml:id="wd6t1238_8">dy</w>
+                     <w xml:id="wd6t1238_10">halb</w>
+                     <unit type="length">
+                        <w xml:id="wd6t1240_1">ellen</w>
+                     </unit>
+                     <w xml:id="wd6t1241_2">30</w>
+                     <rs type="currency">
+                        <w xml:id="wd6t1246_1">denare</w>
+                     </rs>
+                     <w xml:id="wd6t1250_1"> </w>
+                     <lb n="N002"/>
+                     <w xml:id="wd6t1252_1">das</w>
+                     <w xml:id="wd6t1252_3">iſt</w>
+                     <w xml:id="wd6t1252_5">der</w>
+                     <w xml:id="wd6t1252_7">halb</w>
+                     <w xml:id="wd6t1252_9">tayll</w>
+                     <w xml:id="wd6t1252_11">von</w>
+                     <w xml:id="wd6t1252_13">60</w>
+                     <figure type="diagram"/>
+                  </p>
+               </div>
+               <div type="reckoning_example">
+                  <p>
+                     <lb n="N001"/>
+                     <w xml:id="wd6t1261_1">Jtem</w>
+                     <w xml:id="wd6t1272_2">wen</w>
+                     <w xml:id="wd6t1275_1">ainer</w>
+                     <w xml:id="wd6t1280_2">aber</w>
+                     <w xml:id="wd6t1280_4">kawfft</w>
+                     <w xml:id="wd6t1280_6">dy</w>
+                     <unit type="length">
+                        <w xml:id="wd6t1284_1">ellen</w>
+                     </unit>
+                     <w xml:id="wd6t1298_2">vmb</w>
+                     <w xml:id="wd6t1298_4">60</w>
+                     <rs type="currency">
+                        <w xml:id="wd6t1302_1">denare</w>
+                     </rs>
+                     <w xml:id="wd6t1306_2">vnd</w>
+                     <w xml:id="wd6t1306_4">wilt</w>
+                     <w xml:id="wd6t1309_1">haben</w>
+                     <w xml:id="wd6t1314_2">dʒ </w>
+                     <lb n="N002"/>
+                     <w xml:id="wd6t1317_1">trittail</w>
+                     <w xml:id="wd6t1317_3">wie</w>
+                     <w xml:id="wd6t1317_5">ſoll</w>
+                     <w xml:id="wd6t1317_7">er</w>
+                     <w xml:id="wd6t1317_9">dʒ</w>
+                     <w xml:id="wd6t1320_1">ʒallen</w>
+                     <w xml:id="wd6t1333_2">das</w>
+                     <w xml:id="wd6t1333_4">Im</w>
+                     <w xml:id="wd6t1333_6">recht</w>
+                     <w xml:id="wd6t1333_8">geſchech</w>
+                     <w xml:id="wd6t1333_10">vnd</w>
+                     <w xml:id="wd6t1333_12">auch</w>
+                     <w xml:id="wd6t1333_14">dem</w>
+                     <lb n="N003"/>
+                     <w xml:id="wd6t1335_1">der</w>
+                     <w xml:id="wd6t1335_3">Ims</w>
+                     <w xml:id="wd6t1335_5">gibt</w>
+                     <w xml:id="wd6t1335_7">ſo</w>
+                     <w xml:id="wd6t1335_9">leg</w>
+                     <w xml:id="wd6t1338_1">nider</w>
+                     <w xml:id="wd6t1343_2">60</w>
+                     <rs type="currency">
+                        <w xml:id="wd6t1347_1">denare</w>
+                     </rs>
+                     <w xml:id="wd6t1351_2">vnd</w>
+                     <w xml:id="wd6t1351_4">taills</w>
+                     <w xml:id="wd6t1351_6">In</w>
+                     <w xml:id="wd6t1351_8">3</w>
+                     <w xml:id="wd6t1351_10">tail</w>
+                     <w xml:id="wd6t1351_12">So</w>
+                     <w xml:id="wd6t1351_14">würſtw</w>
+                     <lb n="N004"/>
+                     <w xml:id="wd6t1356_1">vmb</w>
+                     <rs type="currency">
+                        <w xml:id="wd6t1368_1">denare</w>
+                     </rs>
+                     <w xml:id="wd6t1372_2">das</w>
+                     <w xml:id="wd6t1372_4">dir</w>
+                     <w xml:id="wd6t1372_6">wirt</w>
+                     <w xml:id="wd6t1375_1">kummen</w>
+                     <w xml:id="wd6t1383_2">das</w>
+                     <w xml:id="wd6t1383_4">trittail</w>
+                     <w xml:id="wd6t1383_6">vmb</w>
+                     <w xml:id="wd6t1383_8">20</w>
+                     <rs type="currency">
+                        <w xml:id="wd6t1387_1">denare</w>
+                     </rs>
+                     <w xml:id="wd6t1391_2">vnd</w>
+                     <w xml:id="wd6t1391_4">das</w>
+                     <w xml:id="wd6t1391_6">iſt</w>
+                     <lb n="N005"/>
+                     <w xml:id="wd6t1393_1">ein</w>
+                     <w xml:id="wd6t1393_3">3tail</w>
+                     <w xml:id="wd6t1396_1">von</w>
+                     <w xml:id="wd6t1404_2">60</w>
+                     <w xml:id="wd6t1404_4">Als</w>
+                     <w xml:id="wd6t1404_6">dye</w>
+                     <w xml:id="wd6t1404_8">figur</w>
+                     <w xml:id="wd6t1404_10">ſechs</w>
+                     <w xml:id="wd6t1404_12">an</w>
+                     <w xml:id="wd6t1404_14">der</w>
+                     <unit type="length">
+                        <w xml:id="wd6t1407_1">ellen</w>
+                     </unit>
+                     <w xml:id="wd6t1408_2">do</w>
+                     <w xml:id="wd6t1411_1">vercʒaichent</w>
+                     <lb n="N006"/>
+                     <w xml:id="wd6t1422_1">vnd</w>
+                     <w xml:id="wd6t1422_3">iſt</w>
+                     <w xml:id="wd6t1422_5">recht</w>
+                     <figure type="diagram"/>
+                  </p>
+               </div>
+               <div type="reckoning_example">
+                  <p>
+                     <lb n="N001"/>
+                     <w xml:id="wd6t1430_1">Item</w>
+                     <w xml:id="wd6t1442_2">vnd</w>
+                     <w xml:id="wd6t1442_4">alſo</w>
+                     <w xml:id="wd6t1442_6">thue</w>
+                     <w xml:id="wd6t1442_8">Im</w>
+                     <w xml:id="wd6t1442_10">auch</w>
+                     <w xml:id="wd6t1442_12">mit</w>
+                     <w xml:id="wd6t1442_14">den</w>
+                     <w xml:id="wd6t1445_1">viertaillen</w>
+                     <w xml:id="wd6t1450_2">als</w>
+                     <w xml:id="wd6t1450_4">wen</w>
+                     <w xml:id="wd6t1453_1">ainer</w>
+                     <w xml:id="wd6t1458_2">wolt </w>
+                     <lb n="N002"/>
+                     <w xml:id="wd6t1462_1">kawffen</w>
+                     <w xml:id="wd6t1477_1">oder</w>
+                     <w xml:id="wd6t1485_1">nemmen</w>
+                     <w xml:id="wd6t1499_2">j</w>
+                     <w xml:id="wd6t1499_4">virtail</w>
+                     <w xml:id="wd6t1502_1">von</w>
+                     <w xml:id="wd6t1513_1">der</w>
+                     <unit type="length">
+                        <w xml:id="wd6t1520_1">ellen</w>
+                     </unit>
+                     <w xml:id="wd6t1521_2">dye</w>
+                     <w xml:id="wd6t1521_4">da</w>
+                     <w xml:id="wd6t1521_6">koſſt</w>
+                     <w xml:id="wd6t1521_8">60</w>
+                     <rs type="currency">
+                        <w xml:id="wd6t1525_1">denare</w>
+                     </rs>
+                     <w xml:id="wd6t1529_2">dye</w>
+                     <lb n="N003"/>
+                     <w xml:id="wd6t1532_1">tayll</w>
+                     <w xml:id="wd6t1532_3">In</w>
+                     <w xml:id="wd6t1532_5">vier</w>
+                     <w xml:id="wd6t1532_7">ſo</w>
+                     <w xml:id="wd6t1535_1">kummen</w>
+                     <w xml:id="wd6t1549_2">15</w>
+                     <rs type="currency">
+                        <w xml:id="wd6t1553_1">denare</w>
+                     </rs>
+                     <w xml:id="wd6t1557_2">vnd</w>
+                     <w xml:id="wd6t1557_4">dʒ</w>
+                     <w xml:id="wd6t1557_6">virtaill</w>
+                     <w xml:id="wd6t1557_8">koſt</w>
+                     <w xml:id="wd6t1557_10">ſo</w>
+                     <w xml:id="wd6t1557_12">vill</w>
+                     <figure type="diagram"/>
+                  </p>
+               </div>
+               <div type="reckoning_example">
+                  <p>
+                     <lb n="N001"/>
+                     <w xml:id="wd6t1566_1">Item</w>
+                     <w xml:id="wd6t1577_2">das</w>
+                     <w xml:id="wd6t1577_4">funpftail</w>
+                     <w xml:id="wd6t1580_1">einer</w>
+                     <unit type="length">
+                        <w xml:id="wd6t1589_1">ellen</w>
+                     </unit>
+                     <w xml:id="wd6t1603_2">vmb</w>
+                     <w xml:id="wd6t1603_4">60</w>
+                     <rs type="currency">
+                        <w xml:id="wd6t1607_1">denare</w>
+                     </rs>
+                     <w xml:id="wd6t1611_2">kumbt</w>
+                     <w xml:id="wd6t1611_4">vmb</w>
+                     <w xml:id="wd6t1611_6">12</w>
+                     <rs type="currency">
+                        <w xml:id="wd6t1615_1">denare</w>
+                     </rs>
+                     <pc xml:id="wd6t1619_2" join="left">/</pc>
+                     <w xml:id="wd6t1619_4">So </w>
+                     <lb n="N002"/>
+                     <w xml:id="wd6t1622_1">legs</w>
+                     <w xml:id="wd6t1622_3">als</w>
+                     <w xml:id="wd6t1622_5">Dor</w>
+                     <w xml:id="wd6t1622_7">leg</w>
+                     <w xml:id="wd6t1625_1">nider</w>
+                     <w xml:id="wd6t1630_2">60</w>
+                     <rs type="currency">
+                        <w xml:id="wd6t1634_1">denare</w>
+                     </rs>
+                     <w xml:id="wd6t1638_2">dy</w>
+                     <w xml:id="wd6t1638_4">taill</w>
+                     <w xml:id="wd6t1638_6">in</w>
+                     <w xml:id="wd6t1638_8">5</w>
+                     <w xml:id="wd6t1638_10">ſo</w>
+                     <w xml:id="wd6t1638_12">kumbt</w>
+                     <w xml:id="wd6t1638_14">12</w>
+                     <pc xml:id="wd6t1638_16" join="left">/</pc>
+                     <rs type="currency">
+                        <w xml:id="wd6t1642_1">denare</w>
+                     </rs>
+                     <figure type="diagram"/>
+                  </p>
+               </div>
+               <div type="reckoning_example">
+                  <p>
+                     <lb n="N001"/>
+                     <w xml:id="wd6t1655_1">Item</w>
+                     <w xml:id="wd6t1667_2">das</w>
+                     <w xml:id="wd6t1667_4">6</w>
+                     <w xml:id="wd6t1667_6">tail</w>
+                     <w xml:id="wd6t1670_1">von</w>
+                     <w xml:id="wd6t1678_1">einer</w>
+                     <unit type="length">
+                        <w xml:id="wd6t1687_1">ellen</w>
+                     </unit>
+                     <w xml:id="wd6t1692_2">vmb</w>
+                     <w xml:id="wd6t1692_4">60</w>
+                     <rs type="currency">
+                        <w xml:id="wd6t1696_1">denare</w>
+                     </rs>
+                     <w xml:id="wd6t1700_2">dye</w>
+                     <w xml:id="wd6t1700_4">tayll</w>
+                     <w xml:id="wd6t1700_6">In</w>
+                     <w xml:id="wd6t1700_8">6</w>
+                     <w xml:id="wd6t1700_10">taill</w>
+                     <w xml:id="wd6t1700_12">So </w>
+                     <lb n="N002"/>
+                     <w xml:id="wd6t1705_1">kummen</w>
+                     <w xml:id="wd6t1714_2">10</w>
+                     <rs type="currency">
+                        <w xml:id="wd6t1718_1">denare</w>
+                     </rs>
+                     <w xml:id="wd6t1722_2">vnd</w>
+                     <w xml:id="wd6t1722_4">iſt</w>
+                     <w xml:id="wd6t1722_6">recht</w>
+                     <figure type="diagram"/>
+                  </p>
+               </div>
+               <div type="reckoning_example">
+                  <p>
+                     <lb n="N001"/>
+                     <w xml:id="wd6t1732_1">Item</w>
+                     <w xml:id="wd6t1744_2">das</w>
+                     <w xml:id="wd6t1744_4">7</w>
+                     <w xml:id="wd6t1744_6">taill</w>
+                     <w xml:id="wd6t1747_1">von</w>
+                     <w xml:id="wd6t1758_1">einer</w>
+                     <unit type="length">
+                        <w xml:id="wd6t1767_1">ellen</w>
+                     </unit>
+                     <w xml:id="wd6t1772_2">vmb</w>
+                     <w xml:id="wd6t1772_4">60</w>
+                     <rs type="currency">
+                        <w xml:id="wd6t1776_1">denare</w>
+                     </rs>
+                     <w xml:id="wd6t1780_2">kumbt</w>
+                     <w xml:id="wd6t1780_4">dʒ</w>
+                     <w xml:id="wd6t1780_6">7</w>
+                     <w xml:id="wd6t1780_8">taill </w>
+                     <lb n="N002"/>
+                     <w xml:id="wd6t1783_1">vmb</w>
+                     <w xml:id="wd6t1783_3">8</w>
+                     <rs type="currency">
+                        <w xml:id="wd6t1787_1">denare</w>
+                     </rs>
+                     <w xml:id="wd6t1791_2">vnd</w>
+                     <w xml:id="wd6t1791_4">vmb</w>
+                     <w xml:id="wd6t1791_6">4</w>
+                     <w xml:id="wd6t1791_8">taill</w>
+                     <w xml:id="wd6t1794_1">der</w>
+                     <w xml:id="wd6t1799_2">7</w>
+                     <w xml:id="wd6t1799_4">j</w>
+                     <rs type="currency">
+                        <w xml:id="wd6t1803_1">denare</w>
+                     </rs>
+                     <w xml:id="wd6t1807_2">thuen</w>
+                     <figure type="diagram"/>
+                  </p>
+               </div>
+               <pb n="147r"/>
+               <lb n="N001"/>
+               <div type="reckoning_example">
+                  <p>
+                     <w xml:id="wd6t1817_1">Item</w>
+                     <w xml:id="wd6t1822_2">fur</w>
+                     <w xml:id="wd6t1822_4">ein</w>
+                     <w xml:id="wd6t1822_6">achtayll</w>
+                     <w xml:id="wd6t1825_1">einer</w>
+                     <unit type="length">
+                        <w xml:id="wd6t1834_1">ellen</w>
+                     </unit>
+                     <w xml:id="wd6t1848_2">vmb</w>
+                     <w xml:id="wd6t1848_4">60</w>
+                     <rs type="currency">
+                        <w xml:id="wd6t1852_1">denare</w>
+                     </rs>
+                     <w xml:id="wd6t1856_2">kumbt</w>
+                     <w xml:id="wd6t1856_4">7</w>
+                     <hi rend="superscript">
+                        <w xml:id="wd6t1858_1">1</w>
+                     </hi>
+                     <pc xml:id="wd6t1859_1" join="left">/</pc>
+                     <hi rend="subscript">
+                        <w xml:id="wd6t1861_1">2</w>
+                     </hi>
+                     <rs type="currency">
+                        <w xml:id="wd6t1867_1">denare</w>
+                     </rs>
+                     <w xml:id="wd6t1871_2">vnd</w>
+                     <w xml:id="wd6t1871_4">iſt</w>
+                     <w xml:id="wd6t1871_6">recht</w>
+                     <figure type="diagram"/>
+                  </p>
+               </div>
+               <div type="reckoning_example">
+                  <p>
+                     <lb n="N001"/>
+                     <w xml:id="wd6t1880_1">Item</w>
+                     <w xml:id="wd6t1892_2">ein</w>
+                     <w xml:id="wd6t1892_4">9</w>
+                     <w xml:id="wd6t1892_6">taill</w>
+                     <w xml:id="wd6t1895_1">einer</w>
+                     <unit type="length">
+                        <w xml:id="wd6t1902_1">ellen</w>
+                     </unit>
+                     <w xml:id="wd6t1906_1">per</w>
+                     <w xml:id="wd6t1910_2">60</w>
+                     <rs type="currency">
+                        <w xml:id="wd6t1914_1">denare</w>
+                     </rs>
+                     <w xml:id="wd6t1918_2">kumbt</w>
+                     <w xml:id="wd6t1918_4">vmb</w>
+                     <w xml:id="wd6t1918_6">7</w>
+                     <hi rend="superscript">
+                        <w xml:id="wd6t1921_1">1</w>
+                     </hi>
+                     <pc xml:id="wd6t1922_1" join="left">/</pc>
+                     <hi rend="subscript">
+                        <w xml:id="wd6t1924_1">2</w>
+                     </hi>
+                     <rs type="currency">
+                        <w xml:id="wd6t1929_1">denare</w>
+                     </rs>
+                     <w xml:id="wd6t1933_2">vnd</w>
+                     <w xml:id="wd6t1933_4">vmb</w>
+                     <lb n="N002"/>
+                     <w xml:id="wd6t1935_1">ain</w>
+                     <w xml:id="wd6t1935_3">drittaill</w>
+                     <w xml:id="wd6t1935_5">eines</w>
+                     <rs type="currency">
+                        <w xml:id="wd6t1937_1">hallers</w>
+                     </rs>
+                     <figure type="diagram"/>
+                  </p>
+               </div>
+               <div type="reckoning_example">
+                  <p>
+                     <lb n="N001"/>
+                     <w xml:id="wd6t1946_1">Item</w>
+                     <w xml:id="wd6t1958_2">wen</w>
+                     <w xml:id="wd6t1958_4">dw</w>
+                     <w xml:id="wd6t1958_6">wild</w>
+                     <w xml:id="wd6t1961_1">haben</w>
+                     <w xml:id="wd6t1966_2">Ein</w>
+                     <w xml:id="wd6t1969_1">ʒehentay</w>
+                     <w xml:id="wd6t1980_1">von</w>
+                     <w xml:id="wd6t1991_1">einer</w>
+                     <unit type="length">
+                        <w xml:id="wd6t2001_1">ellen</w>
+                     </unit>
+                     <w xml:id="wd6t2012_1">per</w>
+                     <w xml:id="wd6t2016_2">60</w>
+                     <rs type="currency">
+                        <w xml:id="wd6t2020_1">denare</w>
+                     </rs>
+                     <lb n="N002"/>
+                     <w xml:id="wd6t2026_1">So</w>
+                     <w xml:id="wd6t2026_3">leg</w>
+                     <w xml:id="wd6t2029_1">nider</w>
+                     <w xml:id="wd6t2034_2">dye</w>
+                     <w xml:id="wd6t2034_4">60</w>
+                     <rs type="currency">
+                        <w xml:id="wd6t2038_1">denare</w>
+                     </rs>
+                     <w xml:id="wd6t2042_2">vnd</w>
+                     <w xml:id="wd6t2042_4">taill</w>
+                     <w xml:id="wd6t2042_6">ſy</w>
+                     <w xml:id="wd6t2042_8">In</w>
+                     <w xml:id="wd6t2042_10">10</w>
+                     <w xml:id="wd6t2042_12">so</w>
+                     <w xml:id="wd6t2046_1">chumen</w>
+                     <w xml:id="wd6t2054_2">dir</w>
+                     <w xml:id="wd6t2054_4">6</w>
+                     <rs type="currency">
+                        <w xml:id="wd6t2058_1">denare</w>
+                     </rs>
+                     <lb n="N003"/>
+                     <w xml:id="wd6t2064_1">vnd</w>
+                     <w xml:id="wd6t2064_3">das</w>
+                     <w xml:id="wd6t2064_5">iſt</w>
+                     <w xml:id="wd6t2064_7">das</w>
+                     <w xml:id="wd6t2064_9">10</w>
+                     <w xml:id="wd6t2064_11">taill</w>
+                     <w xml:id="wd6t2064_13">vnd</w>
+                     <w xml:id="wd6t2064_15">alſo</w>
+                     <w xml:id="wd6t2064_17">thue</w>
+                     <w xml:id="wd6t2064_19">Im</w>
+                     <w xml:id="wd6t2064_21">albeg</w>
+                     <w xml:id="wd6t2064_23">In</w>
+                     <w xml:id="wd6t2067_1">allen</w>
+                     <w xml:id="wd6t2084_1">ſochen</w>
+                     <lb n="N004"/>
+                     <w xml:id="wd6t2096_1">Wen</w>
+                     <w xml:id="wd6t2100_1">einer</w>
+                     <w xml:id="wd6t2105_2">wollt</w>
+                     <w xml:id="wd6t2108_1">haben</w>
+                     <w xml:id="wd6t2113_2">ein</w>
+                     <w xml:id="wd6t2113_4">funfftʒentayll</w>
+                     <w xml:id="wd6t2113_6">So</w>
+                     <w xml:id="wd6t2113_8">frag</w>
+                     <w xml:id="wd6t2113_10">was</w>
+                     <w xml:id="wd6t2113_12">das</w>
+                     <lb n="N005"/>
+                     <w xml:id="wd6t2115_1">ſey</w>
+                     <w xml:id="wd6t2115_3">iſt</w>
+                     <w xml:id="wd6t2115_5">es</w>
+                     <w xml:id="wd6t2115_7">60</w>
+                     <rs type="currency">
+                        <w xml:id="wd6t2119_1">denare</w>
+                     </rs>
+                     <w xml:id="wd6t2123_2">So</w>
+                     <w xml:id="wd6t2123_4">thail</w>
+                     <w xml:id="wd6t2123_6">dye</w>
+                     <w xml:id="wd6t2123_8">In</w>
+                     <w xml:id="wd6t2123_10">15</w>
+                     <w xml:id="wd6t2123_12">taill</w>
+                     <w xml:id="wd6t2123_14">vnd</w>
+                     <w xml:id="wd6t2123_16">alſo</w>
+                     <w xml:id="wd6t2123_18">fur</w>
+                     <w xml:id="wd6t2123_20">hin</w>
+                     <lb n="N006"/>
+                     <w xml:id="wd6t2125_1">auſʒ</w>
+                     <w xml:id="wd6t2125_3">vnd</w>
+                     <w xml:id="wd6t2125_5">auſʒ</w>
+                     <pc xml:id="wd6t2125_7" join="left">/</pc>
+                     <w xml:id="wd6t2128_1">aber</w>
+                     <w xml:id="wd6t2133_2">ain</w>
+                     <w xml:id="wd6t2133_4">10</w>
+                     <w xml:id="wd6t2133_6">tail</w>
+                     <w xml:id="wd6t2133_8">kumbt</w>
+                     <w xml:id="wd6t2133_10">Im</w>
+                     <w xml:id="wd6t2133_12">86</w>
+                     <rs type="currency">
+                        <w xml:id="wd6t2138_1">denare</w>
+                     </rs>
+                     <figure type="diagram"/>
+                  </p>
+               </div>
+            </div>
+         </div>
+      </body>
+  </text>
+</TEI>

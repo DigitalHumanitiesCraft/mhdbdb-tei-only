@@ -5,7 +5,8 @@
  * Uses Dexie.js for IndexedDB caching
  */
 
-const INDEX_VERSION = '4.0.0';  // Bumped for document-level indexing (removed paragraph logic)
+const INDEX_VERSION = '4.1.3';  // 4.0.0: document-level indexing. 4.0.1: WZB. 4.1.0: lineStarts/lineEnds für #47.3. 4.1.1: #23 Stanza-Wraps. 4.1.2: #104 Sigle-Titel-Differenzierung. 4.1.3: #110 WVV 478 Stanza-Wraps.
+const AUTHORITY_INDEX_VERSION = '1.4.0';  // 1.2.0: Authority migration. 1.2.1: WZB-Lemmata + Werk-Eintrag. 1.2.2: #104 FLG/FLG1-Werk-Titel + work_571 biblStruct (Vollmann-Profe/Neumann 1990). 1.3.0: #113-Followup — concepts altDE/altEN/altNormalized. 1.4.0: #44/#115 variants.xml aus Korpus regeneriert (+64.287 Formen).
 const CACHE_DURATION = 30 * 24 * 60 * 60 * 1000; // 30 days in milliseconds
 
 class CorpusLoader {
@@ -105,7 +106,7 @@ class CorpusLoader {
 
         } catch (error) {
             console.error('[CorpusLoader] Failed to load corpus index:', error);
-            throw new Error(`Corpus index konnte nicht geladen werden: ${error.message}`);
+            throw new Error(`Korpus-Index konnte nicht geladen werden: ${error.message}`);
         }
     }
 
@@ -120,25 +121,11 @@ class CorpusLoader {
                 return null;
             }
 
-            // For corpus index, check against INDEX_VERSION
-            // For authority index, check against the index's own version field
-            const expectedVersion = name === 'corpus-index' ? INDEX_VERSION : cached.data?.version;
-
-            if (name === 'corpus-index' && cached.version !== INDEX_VERSION) {
-                console.log(`[CorpusLoader] Cache version mismatch for ${name}: ${cached.version} != ${INDEX_VERSION}`);
+            const expectedVersion = name === 'corpus-index' ? INDEX_VERSION : AUTHORITY_INDEX_VERSION;
+            if (cached.version !== expectedVersion) {
+                console.log(`[CorpusLoader] Cache version mismatch for ${name}: ${cached.version} != ${expectedVersion}`);
                 await this.db.indices.delete(name);
                 return null;
-            }
-
-            // For authority index, compare stored version with index's own version
-            if (name === 'authority-index' && cached.data?.version) {
-                // If the cached version is different from what we expect, invalidate
-                // This allows the index to define its own version
-                if (cached.version !== cached.data.version) {
-                    console.log(`[CorpusLoader] Cache version mismatch for ${name}: ${cached.version} != ${cached.data.version}`);
-                    await this.db.indices.delete(name);
-                    return null;
-                }
             }
 
             // Check expiration
@@ -162,8 +149,7 @@ class CorpusLoader {
      */
     async cacheIndex(name, data) {
         try {
-            // Use the index's own version if available (for authority index)
-            const version = name === 'authority-index' && data.version ? data.version : INDEX_VERSION;
+            const version = name === 'corpus-index' ? INDEX_VERSION : AUTHORITY_INDEX_VERSION;
 
             await this.db.indices.put({
                 name: name,
@@ -215,4 +201,4 @@ class CorpusLoader {
     }
 }
 
-export { CorpusLoader, INDEX_VERSION };
+export { CorpusLoader, INDEX_VERSION, AUTHORITY_INDEX_VERSION };

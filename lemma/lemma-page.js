@@ -38,6 +38,9 @@ class LemmaPage {
             compoundsSection: document.getElementById('compoundsSection'),
             compoundsCount: document.getElementById('compoundsCount'),
             compoundsContent: document.getElementById('compoundsContent'),
+            similarLemmataSection: document.getElementById('similarLemmataSection'),
+            similarLemmataCount: document.getElementById('similarLemmataCount'),
+            similarLemmataContent: document.getElementById('similarLemmataContent'),
         };
     }
 
@@ -76,7 +79,7 @@ class LemmaPage {
             const numericId = this.parseLemmaId();
 
             if (!numericId) {
-                this.showError('Keine Lemma-ID angegeben. Bitte verwenden Sie eine URL wie /lemma/879');
+                this.showError('Keine Lemma-ID angegeben. Alle Lemmata finden Sie im Wörterbuch.');
                 return;
             }
 
@@ -104,6 +107,7 @@ class LemmaPage {
             // Render variants, compounds, and navigation (from authority index)
             this.renderVariants(lemmaKey);
             this.renderCompounds(lemmaKey);
+            this.renderSimilarLemmata(lemma);
 
             // Load corpus index for occurrences (non-blocking)
             this.updateLoading('Lade Belegstellen...', 80);
@@ -236,11 +240,6 @@ class LemmaPage {
                 icon: '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z"></path></svg>'
             },
             {
-                label: 'MWB Online (Trier)',
-                url: `https://www.mhdwb-online.de/`,
-                icon: '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>'
-            },
-            {
                 label: 'REALonline (IMAREAL)',
                 url: `https://realonline.imareal.sbg.ac.at/suche#${encodeURIComponent(JSON.stringify({ s: lemma.normalized }))}`,
                 icon: '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z"></path></svg>'
@@ -263,52 +262,49 @@ class LemmaPage {
     }
 
     /**
-     * Query Wörterbuchnetz API for matching lemmata in MHG dictionaries.
-     * Searches BMZ, Lexer, LexerN, and FindeB in parallel; renders results or hides section on failure.
+     * Query Wörterbuchnetz HTTPS API for MWB + Lexer entries and render direct deep-links.
+     *
+     * Both dictionaries use the same `/dictionaries/{sigle}/lemmata/{form}` endpoint.
+     * MWB deep-links use http://mhdwb-online.de — modern browsers allow navigation
+     * to http targets from https pages via <a target="_blank"> (no Mixed-Content block).
      */
     async fetchWoerterbuchnetz(normalizedForm) {
-        const wbnetzContainer = document.getElementById('wbnetzLinks');
-        if (!wbnetzContainer) return;
+        const section = document.getElementById('wbnetzSection');
+        const container = document.getElementById('wbnetzLinks');
+        if (!section || !container) return;
 
-        const dictionaries = ['BMZ', 'Lexer', 'LexerN', 'FindeB'];
-        const apiBase = 'https://api.woerterbuchnetz.de/open-api/dictionaries';
+        const bookIcon = '<svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>';
 
-        try {
-            const results = await Promise.allSettled(
-                dictionaries.map(sigle =>
-                    fetch(`${apiBase}/${sigle}/lemmata/${encodeURIComponent(normalizedForm)}`)
-                        .then(r => r.ok ? r.json() : null)
-                )
-            );
+        const dictionaries = ['MWB', 'Lexer'];
+        const lookupForm = encodeURIComponent(normalizedForm);
 
-            const entries = [];
-            results.forEach((result, i) => {
-                if (result.status === 'fulfilled' && result.value?.result_set) {
-                    for (const entry of result.value.result_set) {
-                        entries.push({
-                            sigle: entry.sigle,
-                            lemma: this.decodeHtmlEntities(entry.lemma),
-                            gram: entry.gram || '',
-                            url: entry.wbnetzlink
-                        });
-                    }
+        const results = await Promise.all(
+            dictionaries.map(async sigle => {
+                try {
+                    const r = await fetch(`https://api.woerterbuchnetz.de/open-api/dictionaries/${sigle}/lemmata/${lookupForm}`);
+                    if (!r.ok) return { sigle, entries: [] };
+                    const data = await r.json();
+                    return { sigle, entries: data.result_set || [] };
+                } catch (e) {
+                    console.warn(`[LemmaPage] Wörterbuchnetz ${sigle} API unavailable:`, e.message);
+                    return { sigle, entries: [] };
                 }
-            });
+            })
+        );
 
-            if (entries.length > 0) {
-                document.getElementById('wbnetzSection').classList.remove('hidden');
-                const bookIcon = '<svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>';
-                wbnetzContainer.innerHTML = entries.map(e =>
-                    `<a href="${e.url}" class="external-link" target="_blank" rel="noopener">
-                        ${bookIcon}
-                        <span class="font-semibold text-xs">${e.sigle}</span>
-                        ${e.lemma}${e.gram ? ` <span class="text-slate-400 text-xs">(${e.gram})</span>` : ''}
-                    </a>`
-                ).join('');
-            }
-        } catch (e) {
-            console.warn('[LemmaPage] Wörterbuchnetz API unavailable:', e.message);
-        }
+        const links = results.flatMap(({ sigle, entries }) =>
+            entries.map(e =>
+                `<a href="${e.wbnetzlink}" class="external-link" target="_blank" rel="noopener">
+                    ${bookIcon}
+                    <span class="font-semibold text-xs">${sigle}</span>
+                    ${this.decodeHtmlEntities(e.lemma)}${e.gram ? ` <span class="text-slate-400 text-xs">(${e.gram})</span>` : ''}
+                </a>`
+            )
+        );
+
+        if (links.length === 0) return;
+        section.classList.remove('hidden');
+        container.innerHTML = links.join('');
     }
 
     renderVariants(lemmaKey) {
@@ -348,6 +344,62 @@ class LemmaPage {
             const numId = c.id.replace('lemma_', '');
             return `<a href="?id=${numId}"
                 class="inline-block bg-slate-100 px-2 py-0.5 rounded text-xs mr-1 mb-1 hover:bg-brand-50 hover:text-brand-700 transition">${c.lemma}</a>`;
+        }).join('');
+    }
+
+    renderSimilarLemmata(lemma) {
+        if (!lemma.senses || lemma.senses.length === 0) return;
+
+        // Collect all unique concept IDs from this lemma's senses
+        const myConceptIds = new Set();
+        for (const sense of lemma.senses) {
+            if (sense.conceptIds) {
+                for (const cid of sense.conceptIds) myConceptIds.add(cid);
+            }
+        }
+        if (myConceptIds.size === 0) return;
+
+        // Find other lemmata with overlapping concepts
+        const similar = [];
+        for (const other of this.authorityIndex.lemmata) {
+            if (other.id === lemma.id || !other.senses) continue;
+
+            const shared = new Set();
+            for (const sense of other.senses) {
+                if (!sense.conceptIds) continue;
+                for (const cid of sense.conceptIds) {
+                    if (myConceptIds.has(cid)) shared.add(cid);
+                }
+            }
+
+            if (shared.size > 0) {
+                similar.push({ lemma: other, overlap: shared.size });
+            }
+        }
+        if (similar.length === 0) return;
+
+        // Sort by overlap (desc), then alphabetically for ties
+        similar.sort((a, b) =>
+            b.overlap - a.overlap || a.lemma.lemma.localeCompare(b.lemma.lemma)
+        );
+
+        // Cap at top N
+        const maxDisplay = 50;
+        const totalCount = similar.length;
+        const displayed = similar.slice(0, maxDisplay);
+
+        this.elements.similarLemmataSection.classList.remove('hidden');
+        this.elements.similarLemmataCount.textContent =
+            totalCount > maxDisplay
+                ? `(${maxDisplay} von ${totalCount})`
+                : `(${totalCount})`;
+
+        this.elements.similarLemmataContent.innerHTML = displayed.map(({ lemma: l, overlap }) => {
+            const numId = l.id.replace('lemma_', '');
+            const tooltip = `${overlap} gemeinsame Begriffszuordnung${overlap === 1 ? '' : 'en'}`;
+            return `<a href="?id=${numId}"
+                class="inline-block bg-slate-100 px-2 py-0.5 rounded text-xs mr-1 mb-1 hover:bg-brand-50 hover:text-brand-700 transition"
+                title="${tooltip}">${l.lemma}</a>`;
         }).join('');
     }
 

@@ -1,0 +1,21 @@
+Code;Description;Tei;Anmerkung
+0;NULL;;
+-;LINE;<l></l> oder <lb/>;Line eigentlich nur bei Verstexten! Sonst Line beginning
+a;PARAGRAPH;<p></p>;
+b;BAND;"<div type=""volume""></div>";Post-#32 aus dem Korpus entfernt (Metadaten stehen im Header)
+c;CHAPTER;"<div type=""chapter""></div>";
+d;LIED;"<div type=""song""></div>";
+f;NONGRADED;"<div type=""nongraded""></div>";"Als unecht eingestuft. Nicht im Post-#32-Enum"
+h;HEADLINE;"<head></head> // <hi rend=""head""></hi>";"Eintrag 0 ignorieren, häufig entspricht dies eher der Aussage ""Soll fett gedruckt werden"", daher bei TEI-Kompatibilität export als <hi rend=""head"">"
+i;INSERTION;<supplied></supplied>;
+k;COMMENT;<note></note>;
+l;HANDWRITINGSHEETCOLUMN;"<cb type=""manuscript""/>";1=A (linke Spalte), 2=B (rechte Spalte)
+n;TONVARIATION;"<div type=""tonvariation""></div>";"Mapping unsicher. Nicht im Post-#32-Enum"
+p;PAGE;<pb/>;Page beginning
+s;STANZA;"<lg type=""stanza""></lg>";"Legacy-Konverter produzierte oft <div type=""stanza"">; post-#32 durchgehend <lg type=""stanza"">"
+t;TEIL;"<div type=""part""></div>";Post-#32 zu <div type="section"> migriert
+u;PARALLELUEBERLIEFERUNG;"<div type=""parallel""/>";"Gibt an, wie viele Parallelüberlieferungen zu einem Vers existieren"
+v;HANDWRITINGSHEETPAGE;"<pb type=""manuscript""/>";"Page beginning. 1=recto, 2=verso"
+x;DATE;"<note type=""date""></note>";"Mapping laut Julia unsicher. HZU/HZU2 kodieren Datum in @n (MMTT) — siehe #84"
+y;YEAR;"<note type=""year""></note>";Mapping laut Julia unsicher
+z;NUMBER;"<note type=""number""></note>";Mapping laut Julia unsicher

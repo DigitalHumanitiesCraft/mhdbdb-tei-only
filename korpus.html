@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="MHDBDB Korpus-Suche - Durchsuchen Sie 666 TEI-kodierte mittelhochdeutsche Texte">
+    <meta name="description" content="MHDBDB Korpus-Suche - Durchsuchen Sie 667 TEI-kodierte mittelhochdeutsche Texte">
     <meta name="keywords" content="Middle High German, TEI, medieval literature, corpus search, MHDBDB">
     <meta name="author" content="Universität Salzburg">
 
@@ -27,7 +27,7 @@
     <div id="loadingScreen" class="loading-screen">
         <div class="loading-content">
             <div class="spinner-large spinner"></div>
-            <h2 class="text-xl font-semibold text-slate-800">Corpus wird geladen...</h2>
+            <h2 class="text-xl font-semibold text-slate-800">Korpus wird geladen...</h2>
             <p id="loadingStatus" class="loading-message">Initialisiere Datenbank...</p>
             <div class="progress-bar-container">
                 <div id="loadingProgress" class="progress-bar" style="width: 0%"></div>
@@ -35,64 +35,71 @@
         </div>
     </div>
 
-    <!-- Header -->
-    <header class="border-b border-slate-200 bg-white/90 backdrop-blur sticky top-0 z-50">
-        <div class="container mx-auto px-6 py-4">
-            <nav class="flex items-center justify-between">
-                <a href="index.html" class="flex items-center gap-3">
-                    <img src="assets/images/mhdbdb-logo.png" alt="MHDBDB Logo" class="w-40">
-                    <span class="text-lg font-bold text-brand-600">MHDBDB</span>
+<!-- NAV:START key=korpus -->
+<header class="border-b border-slate-200 bg-white/90 backdrop-blur sticky top-0 z-50">
+    <div class="container mx-auto px-6 py-4">
+        <nav class="flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-3">
+                <img src="assets/images/mhdbdb-logo.png" alt="MHDBDB Logo" class="w-40">
+                <span class="text-lg font-bold text-brand-600">MHDBDB</span>
+            </a>
+
+            <!-- Desktop Navigation -->
+            <div class="hidden md:flex items-center gap-6">
+                <a href="index.html" data-nav="start" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                    Startseite
                 </a>
+                <a aria-current="page" href="korpus.html" data-nav="korpus" class="text-sm text-slate-900 font-semibold hover:text-slate-900 transition">
+                    Korpussuche
+                </a>
+                <a href="playground/index.html" data-nav="playground" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                    Playground
+                </a>
+                <a href="woerterbuch.html" data-nav="woerterbuch" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                    Wörterbuch
+                </a>
+                <a href="hilfe.html" data-nav="hilfe" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                    Hilfe
+                </a>
+                <a href="index.html#contact" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                    Kontakt
+                </a>
+            </div>
 
-                <!-- Desktop Navigation -->
-                <div class="hidden md:flex items-center gap-6">
-                    <a href="index.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
-                        Startseite
-                    </a>
-                    <a href="korpus.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
-                        Korpus
-                    </a>
-                    <a href="playground/index.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
-                        Playground
-                    </a>
-                    <a href="index.html#documentation" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
-                        Dokumentation
-                    </a>
-                    <a href="index.html#contact" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
-                        Kontakt
-                    </a>
-                </div>
+            <!-- Mobile Menu Button -->
+            <button id="mobileMenuButton" class="md:hidden p-2 text-slate-600 hover:text-slate-900 transition" aria-label="Toggle menu">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </nav>
 
-                <!-- Mobile Menu Button -->
-                <button id="mobileMenuButton" class="md:hidden p-2 text-slate-600 hover:text-slate-900 transition" aria-label="Toggle menu">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                </button>
-            </nav>
-
-            <!-- Mobile Navigation (Hidden by default, only visible on mobile) -->
-            <div id="mobileMenu" class="hidden md:hidden mt-4 pb-4 border-t border-slate-200">
-                <div class="flex flex-col gap-3 pt-4">
-                    <a href="index.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
-                        Startseite
-                    </a>
-                    <a href="korpus.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
-                        Korpus
-                    </a>
-                    <a href="playground/index.html" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
-                        Playground
-                    </a>
-                    <a href="index.html#documentation" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
-                        Dokumentation
-                    </a>
-                    <a href="index.html#contact" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
-                        Kontakt
-                    </a>
-                </div>
+        <!-- Mobile Navigation (Hidden by default, only visible on mobile) -->
+        <div id="mobileMenu" class="hidden md:hidden mt-4 pb-4 border-t border-slate-200">
+            <div class="flex flex-col gap-3 pt-4">
+                <a href="index.html" data-nav="start" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                    Startseite
+                </a>
+                <a aria-current="page" href="korpus.html" data-nav="korpus" class="text-sm text-slate-900 font-semibold hover:text-slate-900 transition py-2">
+                    Korpussuche
+                </a>
+                <a href="playground/index.html" data-nav="playground" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                    Playground
+                </a>
+                <a href="woerterbuch.html" data-nav="woerterbuch" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                    Wörterbuch
+                </a>
+                <a href="hilfe.html" data-nav="hilfe" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                    Hilfe
+                </a>
+                <a href="index.html#contact" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                    Kontakt
+                </a>
             </div>
         </div>
-    </header>
+    </div>
+</header>
+<!-- NAV:END -->
 
     <!-- Main Content -->
     <main id="mainGrid" class="mt-10 grid grid-cols-1 xl:grid-cols-[1fr_2fr] gap-6 px-6 lg:items-start transition-all">
@@ -101,22 +108,25 @@
             <div>
                 <h2 class="text-2xl font-bold text-slate-900 mb-2">Texte durchsuchen</h2>
                 <p class="text-slate-600">
-                    Durchsuchen Sie 666 mittelhochdeutsche Texte mit automatischer Normalisierung
+                    Durchsuchen Sie 667 mittelhochdeutsche Texte mit automatischer Normalisierung
                     (â→a, ê→e, î→i, ô→o, û→u, ä→ae, ö→oe, ü→ue)
                 </p>
             </div>
 
             <!-- Search Input -->
             <div>
-                <label for="searchInput" class="block text-sm font-semibold text-slate-700 mb-2">
+                <label for="searchInput" class="flex items-center gap-1.5 text-sm font-semibold text-slate-700 mb-2">
                     Suche nach Wort oder Lemma:
+                    <a href="hilfe-korpussuche.html#lemma-suche" target="_blank" rel="noopener" class="help-icon" aria-label="Hilfe zur Lemma-Suche" title="Hilfe zur Lemma-Suche">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    </a>
                 </label>
-                <div class="flex flex-col sm:flex-row gap-3">
+                <div class="flex flex-col sm:flex-row sm:flex-wrap gap-3">
                     <input
                         type="text"
                         id="searchInput"
                         placeholder="z.B. brot, vriunt, liebe..."
-                        class="flex-1 px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition"
+                        class="flex-1 min-w-48 px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition"
                     >
                     <div class="flex gap-3">
                         <button
@@ -151,6 +161,8 @@
                         <button id="selectAllTexts" class="text-xs font-medium text-brand-600 hover:text-brand-700 transition">Alle</button>
                         <span class="text-slate-300">|</span>
                         <button id="selectNoneTexts" class="text-xs font-medium text-brand-600 hover:text-brand-700 transition">Keine</button>
+                        <span id="selectOnlyVisibleSep" class="text-slate-300" style="display: none;">|</span>
+                        <button id="selectOnlyVisible" class="text-xs font-medium text-brand-600 hover:text-brand-700 transition" style="display: none;">Nur diese</button>
                     </div>
                 </div>
 
@@ -171,23 +183,40 @@
                 </div>
 
                 <!-- Selection Summary -->
-                <div class="flex items-center justify-between text-xs text-slate-600 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2">
-                    <span><span id="selectedTextCount" class="font-semibold text-brand-600">666</span> / 666 Texte ausgewählt</span>
-                    <span id="filterInfoText" style="display: none;" class="text-slate-500">
+                <div class="flex items-center justify-between text-base text-slate-800 bg-slate-50 border border-slate-300 rounded-lg px-4 py-3">
+                    <span><span id="selectedTextCount" class="font-bold text-2xl text-brand-600">667</span> <span class="text-slate-500">/ <span id="totalTextCount">667</span></span> <span class="font-semibold">Texte ausgewählt</span></span>
+                    <span id="filterInfoText" style="display: none;" class="text-sm text-slate-600">
                         <span id="visibleTextCount">0</span> Texte sichtbar
                         <button id="clearTextFilter" class="text-brand-600 hover:text-brand-700 font-medium ml-2">Filter löschen</button>
                     </span>
+                </div>
+                <!-- Hinweis: Selection-Default + Deselect-Workflow (Issue #20) -->
+                <div class="mt-2 flex items-start gap-2 text-sm text-slate-700 bg-blue-50 border border-blue-200 rounded-lg px-3 py-2">
+                    <svg class="w-5 h-5 mt-0.5 flex-shrink-0 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <p class="m-0">Standardmäßig sind alle Texte ausgewählt. Um nur in einzelnen Texten zu suchen, klicken Sie oben rechts auf <strong>„Keine"</strong> und wählen anschließend die gewünschten Texte gezielt an.</p>
                 </div>
             </div>
         </section>
 
         <!-- Middle Column: Search Results (Hidden initially, shown after search) -->
         <section id="resultsSection" class="hidden space-y-6 rounded-3xl border border-slate-200 bg-white/95 p-6 shadow-sm ring-1 ring-slate-100/40 min-w-0">
-            <div class="flex items-center justify-between">
-                <h2 class="text-2xl font-bold text-slate-900">
+            <div class="flex items-center justify-between gap-4 mb-4">
+                <h2 class="text-2xl font-bold text-slate-900 min-w-0 truncate">
                     Suchergebnisse
-                    <span id="resultsCount" class="text-brand-600"></span>
+                    <span id="resultsCount" class="text-base font-normal text-brand-600 ml-1"></span>
                 </h2>
+                <div id="viewToggle" role="group" aria-label="Ergebnis-Ansicht wechseln" class="inline-flex flex-shrink-0 rounded-lg border border-slate-200 bg-white p-0.5">
+                    <button type="button" id="viewToggleList" class="px-3 py-1.5 text-sm font-medium rounded-md flex items-center gap-1.5" aria-pressed="true">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                        Liste
+                    </button>
+                    <button type="button" id="viewToggleTable" class="px-3 py-1.5 text-sm font-medium rounded-md flex items-center gap-1.5" aria-pressed="false">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h18v14H3zM3 10h18M3 14h18M9 5v14"/></svg>
+                        Tabelle
+                    </button>
+                </div>
             </div>
 
             <!-- Lemma Info (shown after search) -->
@@ -249,11 +278,14 @@
             <section id="readingPanel" class="rounded-3xl border border-slate-200 bg-white/95 shadow-sm ring-1 ring-slate-100/40 overflow-hidden">
                 <!-- Reading Header with Title -->
                 <div class="reading-header p-6 border-b border-slate-200">
-                    <div class="flex items-center justify-between">
+                    <div class="flex items-center justify-between gap-3">
                         <div>
                             <h3 id="readingTitle" class="text-2xl font-semibold text-slate-900"></h3>
                             <p id="readingAuthor" class="text-sm text-slate-600 mt-1"></p>
                         </div>
+                        <a href="hilfe-korpussuche.html#reading-view" target="_blank" rel="noopener" class="help-icon" aria-label="Hilfe zum Reading View" title="Hilfe zum Reading View">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        </a>
                     </div>
                 </div>
 
@@ -261,7 +293,7 @@
             <div id="readingLoading" class="hidden p-12 flex flex-col items-center justify-center gap-4">
                 <div class="spinner"></div>
                 <p class="loading-message">Lade Text...</p>
-                <p class="text-sm text-slate-500">Dies kann 30-60 Sekunden dauern</p>
+                <p class="text-sm text-slate-500">Beim ersten Aufruf einige Sekunden, danach aus dem Cache</p>
             </div>
 
             <!-- Metadata Section -->
@@ -294,47 +326,103 @@
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-slate-100 text-slate-900 py-12 mt-20">
-        <div class="container mx-auto px-6">
-            <div class="flex flex-wrap items-center justify-center gap-8 mb-6 pb-6 border-b border-slate-300">
-                <img src="assets/images/mhdbdb-logo.png" alt="MHDBDB Logo" class="h-16 w-auto">
-                <img src="assets/images/university-logo.png" alt="Universität Salzburg" class="h-24 w-auto">
-                <img src="assets/images/clariah-logo.png" alt="CLARIAH-AT" class="h-24 w-auto">
-            </div>
-            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
-                <div class="text-center md:text-left">
-                    <p class="text-sm mb-2">
-                        © 2025 Universität Salzburg |
-                        <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="hover:text-brand-600 transition" target="_blank" rel="noopener">
-                            CC BY-NC-SA 4.0
-                        </a>
-                    </p>
-                    <div class="flex flex-wrap justify-center md:justify-start gap-4 text-sm text-slate-600">
-                        <a href="mailto:mhdbdb@plus.ac.at" class="hover:text-brand-600 transition">mhdbdb@plus.ac.at</a>
-                        <span>|</span>
-                        <a href="https://mhdbdb.plus.ac.at" class="hover:text-brand-600 transition" target="_blank" rel="noopener">
-                            mhdbdb.plus.ac.at
-                        </a>
-                        <span>|</span>
-                        <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only" class="hover:text-brand-600 transition" target="_blank" rel="noopener">
-                            GitHub
-                        </a>
-                    </div>
-                </div>
-                <button
-                    id="clearSiteDataBtn"
-                    class="btn-secondary text-sm flex items-center gap-2"
-                    title="Alle gespeicherten Daten löschen (Cache, IndexedDB, etc.)"
-                >
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                    </svg>
-                    <span>Clear Site Data</span>
-                </button>
-            </div>
+<!-- FOOTER:START -->
+<footer class="bg-slate-100 text-slate-900 py-8">
+  <div class="container mx-auto px-6">
+    <!-- Logos Row -->
+    <div
+      class="flex flex-wrap items-center justify-center gap-8 mb-6 pb-6 border-b border-slate-300"
+    >
+      <img
+        src="assets/images/mhdbdb-logo.png"
+        alt="MHDBDB Logo"
+        class="h-16 w-auto"
+      />
+      <img
+        src="assets/images/university-logo.png"
+        alt="Universität Salzburg"
+        class="h-24 w-auto"
+      />
+      <img
+        src="assets/images/clariah-logo.png"
+        alt="CLARIAH-AT"
+        class="h-24 w-auto"
+      />
+    </div>
+
+    <!-- Info and Button Row -->
+    <div
+      class="flex flex-col md:flex-row justify-between items-center gap-6"
+    >
+      <div class="text-center md:text-left">
+        <p class="text-sm mb-2">
+          Universität Salzburg, 2025–<span class="current-year">2026</span> |
+          <a
+            href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
+            class="hover:text-brand-600 transition"
+            target="_blank"
+            rel="noopener"
+          >
+            CC BY-NC-SA 4.0
+          </a>
+        </p>
+        <div
+          class="flex flex-wrap justify-center md:justify-start gap-4 text-sm text-slate-600"
+        >
+          <a
+            href="mailto:mhdbdb@plus.ac.at"
+            class="hover:text-brand-600 transition"
+            >mhdbdb@plus.ac.at</a
+          >
+          <span>|</span>
+          <a
+            href="https://mhdbdb.plus.ac.at"
+            class="hover:text-brand-600 transition"
+            target="_blank"
+            rel="noopener"
+          >
+            mhdbdb.plus.ac.at
+          </a>
+          <span>|</span>
+          <a
+            href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only"
+            class="hover:text-brand-600 transition"
+            target="_blank"
+            rel="noopener"
+          >
+            GitHub
+          </a>
+          <span>|</span>
+          <a
+            href="impressum.html"
+            class="hover:text-brand-600 transition"
+          >
+            Impressum
+          </a>
+          <span>|</span>
+          <a
+            href="barrierefreiheit.html"
+            class="hover:text-brand-600 transition"
+          >
+            Barrierefreiheit
+          </a>
         </div>
-    </footer>
+      </div>
+      <button
+        id="clearSiteDataBtn"
+        class="btn-secondary text-sm flex items-center gap-2"
+        title="Alle gespeicherten Daten löschen (Cache, IndexedDB, etc.)"
+      >
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+        </svg>
+        <span>Website-Daten löschen</span>
+      </button>
+    </div>
+  </div>
+</footer>
+<script src="assets/js/site-chrome.js" defer></script>
+<!-- FOOTER:END -->
 
     <!-- Error Display -->
     <div id="errorDisplay" class="error-display hidden">
@@ -344,36 +432,7 @@
         </div>
     </div>
 
-    <!-- Mobile Menu Toggle -->
-    <script>
-        // Mobile menu toggle
-        const mobileMenuButton = document.getElementById('mobileMenuButton');
-        const mobileMenu = document.getElementById('mobileMenu');
-
-        if (mobileMenuButton && mobileMenu) {
-            mobileMenuButton.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-            });
-
-            // Close mobile menu when clicking outside
-            document.addEventListener('click', (e) => {
-                if (!mobileMenuButton.contains(e.target) && !mobileMenu.contains(e.target)) {
-                    mobileMenu.classList.add('hidden');
-                }
-            });
-
-            // Close mobile menu when clicking a link
-            const mobileLinks = mobileMenu.querySelectorAll('a');
-            mobileLinks.forEach(link => {
-                link.addEventListener('click', () => {
-                    mobileMenu.classList.add('hidden');
-                });
-            });
-        }
-    </script>
-
     <!-- Application Scripts (ES Modules) -->
     <script type="module" src="assets/js/app.js"></script>
-
 </body>
 </html>

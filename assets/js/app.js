@@ -7,6 +7,7 @@
 
 import { CorpusLoader } from './lib/corpus-loader.js';
 import { SearchEngine } from './search/search-engine.js';
+import { extractKwicHits, formatLineRef } from './search/kwic-service.js';
 import { TextRenderer } from './rendering/text-renderer.js';
 import { TEITextReader } from './rendering/tei-text-reader.js';
 
@@ -20,6 +21,14 @@ class MainSiteApp {
         this.currentResults = [];
         this.currentPage = 0;
         this.resultsPerPage = 20;
+
+        // Issue #114: View-Mode für Korpussuche-Ergebnisse
+        this.viewMode = this.loadViewMode();        // 'list' | 'table'
+        this.sortSpec = { column: 'matchCount', direction: 'desc' };  // Default, nicht persistiert
+
+        // Issue #129: KWIC-Belege in den Suchergebnissen
+        this.kwicContextWords = 10;   // Wörter Kontext je Seite (Schmidt-Default)
+        this.kwicMaxHits = 100;       // Anzeige-Cap pro Text (total wird ausgewiesen)
 
         // Corpus data (for text selection)
         this.corpusData = {
@@ -39,8 +48,7 @@ class MainSiteApp {
             loadingStatus: document.getElementById('loadingStatus'),
             loadingProgress: document.getElementById('loadingProgress'),
             errorDisplay: document.getElementById('errorDisplay'),
-            errorMessage: document.getElementById('errorMessage'),
-            clearSiteDataBtn: document.getElementById('clearSiteDataBtn')
+            errorMessage: document.getElementById('errorMessage')
         };
 
         // Search page specific elements
@@ -56,7 +64,10 @@ class MainSiteApp {
                 textFilter: document.getElementById('textFilter'),
                 selectAllTexts: document.getElementById('selectAllTexts'),
                 selectNoneTexts: document.getElementById('selectNoneTexts'),
+                selectOnlyVisible: document.getElementById('selectOnlyVisible'),
+                selectOnlyVisibleSep: document.getElementById('selectOnlyVisibleSep'),
                 selectedTextCount: document.getElementById('selectedTextCount'),
+                totalTextCount: document.getElementById('totalTextCount'),
                 filterInfoText: document.getElementById('filterInfoText'),
                 visibleTextCount: document.getElementById('visibleTextCount'),
                 clearTextFilter: document.getElementById('clearTextFilter'),
@@ -110,11 +121,9 @@ class MainSiteApp {
                 if (this.isSearchPage) {
                     const hasURLParams = this.handleURLParameters();
 
-                    // If no URL params, load ABG text automatically
+                    // If no URL params, show empty state (no auto-load)
                     if (!hasURLParams) {
-                        setTimeout(() => {
-                            this.teiReader.openReadingView('ABG', {}, this.elements);
-                        }, 200);
+                        this.showEmptyState();
                     }
                 }
             }, 500);
@@ -144,7 +153,7 @@ class MainSiteApp {
         this.updateLoadingStatus('Lade Authority-Index...', 10);
         const authorityIndex = await this.corpusLoader.loadAuthorityIndex();
 
-        this.updateLoadingStatus('Lade Corpus-Index...', 50);
+        this.updateLoadingStatus('Lade Korpus-Index...', 50);
         const corpusIndex = await this.corpusLoader.loadCorpusIndex();
 
         // Store corpus data
@@ -273,14 +282,13 @@ class MainSiteApp {
         if (selectedTextCountEl) {
             selectedTextCountEl.textContent = selectedCount;
         }
+        const totalTextCountEl = this.elements.totalTextCount;
+        if (totalTextCountEl) {
+            totalTextCountEl.textContent = this.corpusData.texts.length;
+        }
     }
 
     setupEventListeners() {
-        // Clear Site Data button (both pages)
-        if (this.elements.clearSiteDataBtn) {
-            this.elements.clearSiteDataBtn.addEventListener('click', () => this.handleClearSiteData());
-        }
-
         // Search page specific listeners
         if (this.isSearchPage) {
             // Search
@@ -303,6 +311,13 @@ class MainSiteApp {
             // Reading panel navigation controls
             this.elements.prevHighlight.addEventListener('click', () => this.teiReader.navigateHighlight(-1));
             this.elements.nextHighlight.addEventListener('click', () => this.teiReader.navigateHighlight(1));
+
+            // Issue #114: View-Mode Toggle
+            document.getElementById('viewToggleList')?.addEventListener('click', () => this.setViewMode('list'));
+            document.getElementById('viewToggleTable')?.addEventListener('click', () => this.setViewMode('table'));
+
+            // Initial UI-State setzen
+            this.updateViewToggleUI();
         }
 
         console.log(`[MainSiteApp] Event listeners attached (${this.isSearchPage ? 'Search' : 'Landing'} page)`);
@@ -319,6 +334,7 @@ class MainSiteApp {
         if (textFilter && textList) {
             textFilter.addEventListener('input', (e) => {
                 const query = e.target.value.toLowerCase().trim();
+                const queryWords = query.split(/\s+/).filter(w => w.length > 0);
                 const items = textList.querySelectorAll('label');
                 let visibleCount = 0;
 
@@ -326,10 +342,10 @@ class MainSiteApp {
                     const title = item.dataset.title || '';
                     const author = item.dataset.author || '';
                     const textId = item.dataset.textId || '';
+                    const searchText = `${title} ${author} ${textId.toLowerCase()}`;
 
-                    const matches = title.includes(query) ||
-                                   author.includes(query) ||
-                                   textId.toLowerCase().includes(query);
+                    const matches = queryWords.length === 0 ||
+                                   queryWords.every(word => searchText.includes(word));
 
                     if (matches) {
                         item.style.display = '';
@@ -339,12 +355,16 @@ class MainSiteApp {
                     }
                 });
 
-                // Show/hide filter info
+                // Show/hide filter info + "Nur diese" button
                 if (query) {
                     if (filterInfoText) filterInfoText.style.display = '';
                     if (visibleTextCount) visibleTextCount.textContent = visibleCount;
+                    if (this.elements.selectOnlyVisible) this.elements.selectOnlyVisible.style.display = '';
+                    if (this.elements.selectOnlyVisibleSep) this.elements.selectOnlyVisibleSep.style.display = '';
                 } else {
                     if (filterInfoText) filterInfoText.style.display = 'none';
+                    if (this.elements.selectOnlyVisible) this.elements.selectOnlyVisible.style.display = 'none';
+                    if (this.elements.selectOnlyVisibleSep) this.elements.selectOnlyVisibleSep.style.display = 'none';
                 }
             });
         }
@@ -363,21 +383,48 @@ class MainSiteApp {
 
         if (selectAllTexts && textList) {
             selectAllTexts.addEventListener('click', () => {
-                const visibleCheckboxes = Array.from(textList.querySelectorAll('label:not([style*="display: none"]) input[type="checkbox"]'));
-                visibleCheckboxes.forEach(cb => {
+                const allCheckboxes = Array.from(textList.querySelectorAll('input[type="checkbox"]'));
+                allCheckboxes.forEach(cb => {
                     cb.checked = true;
                     this.corpusData.includedTexts.add(cb.dataset.textId);
                 });
+                if (this.elements.textFilter) {
+                    this.elements.textFilter.value = '';
+                    this.elements.textFilter.dispatchEvent(new Event('input'));
+                }
                 this.updateTextListStats();
             });
         }
 
         if (selectNoneTexts && textList) {
             selectNoneTexts.addEventListener('click', () => {
-                const visibleCheckboxes = Array.from(textList.querySelectorAll('label:not([style*="display: none"]) input[type="checkbox"]'));
-                visibleCheckboxes.forEach(cb => {
+                this.corpusData.includedTexts.clear();
+                const allCheckboxes = Array.from(textList.querySelectorAll('input[type="checkbox"]'));
+                allCheckboxes.forEach(cb => {
                     cb.checked = false;
-                    this.corpusData.includedTexts.delete(cb.dataset.textId);
+                });
+                if (this.elements.textFilter) {
+                    this.elements.textFilter.value = '';
+                    this.elements.textFilter.dispatchEvent(new Event('input'));
+                }
+                this.updateTextListStats();
+            });
+        }
+
+        // "Nur diese" — select only visible (filtered) texts, deselect all others
+        const selectOnlyVisible = this.elements.selectOnlyVisible;
+        if (selectOnlyVisible && textList) {
+            selectOnlyVisible.addEventListener('click', () => {
+                // Clear includedTexts completely first, then rebuild from visible items
+                this.corpusData.includedTexts.clear();
+                const allCheckboxes = Array.from(textList.querySelectorAll('input[type="checkbox"]'));
+                allCheckboxes.forEach(cb => {
+                    const label = cb.closest('label');
+                    const isVisible = !label.style.display || label.style.display !== 'none';
+                    cb.checked = isVisible;
+                    if (isVisible) {
+                        this.corpusData.includedTexts.add(cb.dataset.textId);
+                    }
                 });
                 this.updateTextListStats();
             });
@@ -428,6 +475,10 @@ class MainSiteApp {
 
             this.currentResults = Array.from(textMap.values());
             this.currentPage = 0;
+
+            // Issue #114: Sort-Spec bei neuer Suche auf Default zurück
+            this.sortSpec = { column: 'matchCount', direction: 'desc' };
+            this.sortResults();
 
             // Display lemma info
             this.displayLemmaInfo(Array.from(lemmaSet));
@@ -512,11 +563,16 @@ class MainSiteApp {
         this.elements.noResults.classList.add('hidden');
         this.elements.resultsSection.classList.remove('hidden');
 
-        // Update grid to 3-column layout (search + results + reading)
+        // Issue #114: Layout je nach View-Mode wechseln
         const mainGrid = document.getElementById('mainGrid');
         if (mainGrid) {
-            mainGrid.classList.add('three-column');
-            mainGrid.classList.remove('two-column');
+            if (this.viewMode === 'table') {
+                mainGrid.classList.add('table-layout');
+                mainGrid.classList.remove('three-column', 'two-column');
+            } else {
+                mainGrid.classList.add('three-column');
+                mainGrid.classList.remove('table-layout', 'two-column');
+            }
         }
 
         // Update results count
@@ -525,14 +581,350 @@ class MainSiteApp {
         // Clear previous results
         this.elements.resultsList.innerHTML = '';
 
-        // Display first page
-        this.loadMoreResults();
+        // Display first page (Listen-Mode) ODER ganze Tabelle (Tabellen-Mode)
+        if (this.viewMode === 'table') {
+            this.renderTable();
+        } else {
+            this.loadMoreResults();
+        }
 
         // Auto-scroll to results section (with offset for sticky header)
         setTimeout(() => {
             this.scrollToElement(this.elements.resultsSection);
         }, 100);
     }
+
+    /**
+     * Issue #114: Rendert die Tabellen-Ansicht der Suchergebnisse.
+     * 5 Spalten: Titel (mit Sigle-Präfix), Autor*in, Treffer, Frequenz/10k, Wörter.
+     * Header sind klickbare Sort-Buttons; Zeilen-Klick öffnet den Reader.
+     */
+    renderTable() {
+        const { column, direction } = this.sortSpec;
+        const sortIcon = (col) => col === column ? (direction === 'asc' ? '↑' : '↓') : '↕';
+        const ariaSort = (col) => col === column ? (direction === 'asc' ? 'ascending' : 'descending') : 'none';
+
+        const headerCell = (col, label, alignClass = '') => `
+            <th scope="col" aria-sort="${ariaSort(col)}" class="results-table-th ${alignClass}" style="position: sticky; top: 0; background: #f8fafc; z-index: 10;">
+                <button type="button" data-sort-col="${col}" class="results-table-sort-btn">
+                    ${this.escapeHtml(label)} <span class="text-xs text-slate-400">${sortIcon(col)}</span>
+                </button>
+            </th>
+        `;
+
+        const rows = this.currentResults.map(r => {
+            const freq = (r.wordCount > 0)
+                ? ((r.matchCount / r.wordCount) * 10000).toFixed(1)
+                : '–';
+            const wordsFmt = r.wordCount ? r.wordCount.toLocaleString('de-DE') : '–';
+            const matchesFmt = r.matchCount.toLocaleString('de-DE');
+            return `
+                <tr data-text-id="${this.escapeHtml(r.textId)}" tabindex="0" role="button" class="results-table-row hover:bg-slate-50 cursor-pointer">
+                    <td class="results-table-td">
+                        <span class="font-mono text-xs text-brand-600 mr-1">${this.escapeHtml(r.textId)}</span>
+                        <span>${this.escapeHtml(r.title)}</span>
+                    </td>
+                    <td class="results-table-td">${this.escapeHtml(r.author || '–')}</td>
+                    <td class="results-table-td text-right tabular-nums">${matchesFmt}</td>
+                    <td class="results-table-td text-right tabular-nums">${freq}</td>
+                    <td class="results-table-td text-right tabular-nums text-slate-500">${wordsFmt}</td>
+                    <td class="results-table-td text-center">
+                        <button type="button" class="kwic-row-btn" data-kwic-row title="Belege anzeigen" aria-expanded="false">
+                            <svg class="w-4 h-4 kwic-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </button>
+                    </td>
+                </tr>
+            `;
+        }).join('');
+
+        const html = `
+            <div class="mb-3 flex items-center justify-between gap-3">
+                <p class="text-sm text-slate-500">Klick auf Spalten-Header sortiert. Klick auf Zeile öffnet den Text.</p>
+                <div class="flex gap-2" id="resultsExportButtons">
+                    <button type="button" id="resultsCopyBtn" class="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-sm font-medium hover:bg-slate-50 inline-flex items-center gap-1.5">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+                        <span>Kopieren</span>
+                    </button>
+                    <button type="button" id="resultsDownloadBtn" class="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-sm font-medium hover:bg-slate-50 inline-flex items-center gap-1.5">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                        <span>CSV</span>
+                    </button>
+                </div>
+            </div>
+            <div class="overflow-y-auto rounded-2xl border border-slate-200 bg-white" style="max-height: calc(100vh - 280px);">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr>
+                            ${headerCell('title', 'Titel', 'text-left')}
+                            ${headerCell('author', 'Autor*in', 'text-left')}
+                            ${headerCell('matchCount', 'Treffer', 'text-right')}
+                            ${headerCell('frequency', 'Freq./10k W.', 'text-right')}
+                            ${headerCell('wordCount', 'Wörter', 'text-right')}
+                            <th scope="col" class="results-table-th text-center" style="position: sticky; top: 0; background: #f8fafc; z-index: 10;">Belege</th>
+                        </tr>
+                    </thead>
+                    <tbody>${rows}</tbody>
+                </table>
+            </div>
+        `;
+
+        this.elements.resultsList.innerHTML = html;
+
+        // Load-More-Button verstecken (gehört zur Liste)
+        this.elements.loadMoreContainer?.classList.add('hidden');
+
+        // Event-Handler binden — Sort, Row-Click, Export (Tasks 6-9 füllen)
+        this.bindTableEvents();
+    }
+
+    bindTableEvents() {
+        // Sort-Header
+        this.elements.resultsList.querySelectorAll('[data-sort-col]').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.handleSortClick(btn.dataset.sortCol);
+            });
+        });
+
+        // Row-Klick → Reader (Task 7 erweitert)
+        this.elements.resultsList.querySelectorAll('.results-table-row').forEach(row => {
+            row.addEventListener('click', () => this.handleTableRowClick(row.dataset.textId));
+            row.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    this.handleTableRowClick(row.dataset.textId);
+                }
+            });
+        });
+
+        // Export-Buttons (Tasks 8-9 erweitern)
+        document.getElementById('resultsCopyBtn')?.addEventListener('click', () => this.copyResultsToClipboard());
+        document.getElementById('resultsDownloadBtn')?.addEventListener('click', () => this.downloadResultsAsCSV());
+
+        // Issue #129: KWIC-Belege pro Tabellen-Zeile (Detail-Zeile darunter)
+        this.elements.resultsList.querySelectorAll('[data-kwic-row]').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.toggleKwicTableRow(btn);
+            });
+            btn.addEventListener('keydown', (e) => e.stopPropagation());
+        });
+    }
+
+    /**
+     * Issue #129: Detail-Zeile mit KWIC-Panel unter einer Tabellen-Zeile
+     * ein-/ausklappen. Sortier-Re-Render räumt offene Detail-Zeilen weg.
+     */
+    toggleKwicTableRow(btn) {
+        const row = btn.closest('tr');
+        if (!row) return;
+
+        const next = row.nextElementSibling;
+        if (next && next.classList.contains('kwic-detail-row')) {
+            next.remove();
+            btn.setAttribute('aria-expanded', 'false');
+            btn.classList.remove('kwic-open');
+            return;
+        }
+
+        const result = this.currentResults.find(r => r.textId === row.dataset.textId);
+        if (!result) return;
+
+        const detail = document.createElement('tr');
+        detail.className = 'kwic-detail-row';
+        detail.innerHTML = '<td colspan="6" class="kwic-detail-cell"><div class="kwic-panel" data-kwic-panel></div></td>';
+        row.after(detail);
+
+        btn.setAttribute('aria-expanded', 'true');
+        btn.classList.add('kwic-open');
+
+        this.renderKwicPanel(detail.querySelector('[data-kwic-panel]'), result);
+    }
+
+    // Stubs — werden in Tasks 6, 7, 8, 9 implementiert
+    handleSortClick(column) {
+        if (this.sortSpec.column === column) {
+            // Re-Klick toggelt direction
+            this.sortSpec.direction = this.sortSpec.direction === 'asc' ? 'desc' : 'asc';
+        } else {
+            // Neue Spalte → desc als initial
+            this.sortSpec = { column, direction: 'desc' };
+        }
+        this.sortResults();
+        this.renderTable();  // Re-render mit neuer Sortierung + aktualisierten Sort-Icons
+    }
+    handleTableRowClick(textId) {
+        // Result aus currentResults für die lemmaIds finden
+        const result = this.currentResults.find(r => r.textId === textId);
+        if (!result) return;
+
+        const lemmaIds = result.lemmaIds || [result.lemmaId];
+
+        // Issue #114: Vor Reader-Öffnen zurück auf Listen-Modus wechseln,
+        // damit das 3-Spalten-Layout (mit Reader-Slot) wieder greift.
+        // localStorage bleibt auf 'table' — beim Reader-Schließen erwartet
+        // der User die Tabelle zurück; eine Lösung dafür liegt außerhalb
+        // dieses MVPs und ist im Spec als Out-of-Scope dokumentiert.
+        if (this.viewMode === 'table') {
+            this.viewMode = 'list';
+            // localStorage NICHT überschreiben — User-Präferenz bleibt 'table'
+            this.updateViewToggleUI();
+            this.displayResults();
+        }
+
+        this.teiReader.openReadingView(textId, { lemmaIds }, this.elements);
+    }
+    /**
+     * Issue #114: Serialisiert this.currentResults im TSV-Format.
+     * Reihenfolge respektiert aktuelle Sortierung.
+     */
+    serializeResultsAsTSV() {
+        const header = ['Sigle', 'Titel', 'Autor*in', 'Treffer', 'Frequenz/10k', 'Wörter'].join('\t');
+        const rows = this.currentResults.map(r => {
+            const freq = (r.wordCount > 0) ? ((r.matchCount / r.wordCount) * 10000).toFixed(1) : '';
+            return [
+                r.textId,
+                (r.title || '').replace(/[\t\n\r]/g, ' '),  // TSV-Killer aus dem Titel filtern
+                (r.author || '').replace(/[\t\n\r]/g, ' '),
+                r.matchCount,
+                freq,
+                r.wordCount || ''
+            ].join('\t');
+        });
+        return [header, ...rows].join('\n');
+    }
+
+    async copyResultsToClipboard() {
+        const btn = document.getElementById('resultsCopyBtn');
+        const originalHTML = btn?.innerHTML;
+        const successHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg><span>Kopiert</span>';
+        const errorHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg><span>Fehler</span>';
+        try {
+            const tsv = this.serializeResultsAsTSV();
+            await navigator.clipboard.writeText(tsv);
+            if (btn) {
+                btn.innerHTML = successHTML;
+                setTimeout(() => { btn.innerHTML = originalHTML; }, 2000);
+            }
+        } catch (err) {
+            console.error('[MainSiteApp] Clipboard write failed:', err);
+            if (btn) {
+                btn.innerHTML = errorHTML;
+                setTimeout(() => { btn.innerHTML = originalHTML; }, 2000);
+            }
+        }
+    }
+    /**
+     * Issue #114: CSV-Cell-Quoting nach RFC 4180 / Excel-Konvention.
+     * Wenn der Wert Komma, Quote oder Newline enthält, in "..." einfassen
+     * und enthaltene Quotes verdoppeln.
+     */
+    escapeCsvCell(value) {
+        const str = String(value ?? '');
+        if (/[",\n\r]/.test(str)) {
+            return `"${str.replace(/"/g, '""')}"`;
+        }
+        return str;
+    }
+
+    serializeResultsAsCSV() {
+        const header = ['Sigle', 'Titel', 'Autor*in', 'Treffer', 'Frequenz/10k', 'Wörter']
+            .map(c => this.escapeCsvCell(c))
+            .join(',');
+        const rows = this.currentResults.map(r => {
+            const freq = (r.wordCount > 0) ? ((r.matchCount / r.wordCount) * 10000).toFixed(1) : '';
+            return [
+                r.textId,
+                r.title || '',
+                r.author || '',
+                r.matchCount,
+                freq,
+                r.wordCount || ''
+            ].map(c => this.escapeCsvCell(c)).join(',');
+        });
+        return [header, ...rows].join('\r\n');  // CRLF für Excel-Kompatibilität
+    }
+
+    downloadResultsAsCSV() {
+        const lemma = this.elements.searchInput?.value?.trim() || 'suche';
+        const safeLemma = lemma.replace(/[^a-zA-Z0-9äöüÄÖÜß-]/g, '_').slice(0, 40);
+        const today = new Date().toISOString().slice(0, 10);
+        const filename = `mhdbdb-suche-${safeLemma}-${today}.csv`;
+
+        // UTF-8 BOM für Excel-Kompatibilität (﻿)
+        const csv = '﻿' + this.serializeResultsAsCSV();
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+
+    /**
+     * Issue #114: Sortiert this.currentResults in-place gemäß sortSpec.
+     * Comparators sind reine Funktionen — Frequenz wird on-the-fly aus
+     * matchCount und wordCount berechnet.
+     */
+    sortResults() {
+        const { column, direction } = this.sortSpec;
+        const dir = direction === 'asc' ? 1 : -1;
+
+        const valueGetter = {
+            title: (r) => (r.title || '').toLowerCase(),
+            author: (r) => (r.author || '￿').toLowerCase(),  // Unbekannte ans Ende (U+FFFF, höchster BMP-Codepoint)
+            matchCount: (r) => r.matchCount || 0,
+            wordCount: (r) => r.wordCount || 0,
+            frequency: (r) => (r.wordCount > 0) ? (r.matchCount / r.wordCount) * 10000 : -Infinity,
+        }[column];
+
+        if (!valueGetter) return;
+
+        this.currentResults.sort((a, b) => {
+            const va = valueGetter(a);
+            const vb = valueGetter(b);
+            if (typeof va === 'string') return va.localeCompare(vb, 'de') * dir;
+            return (va - vb) * dir;
+        });
+    }
+
+    // --- Issue #114: View-Mode helpers ---
+
+    loadViewMode() {
+        const stored = localStorage.getItem('mhdbdb-results-view');
+        return (stored === 'table' || stored === 'list') ? stored : 'list';
+    }
+
+    setViewMode(mode) {
+        if (mode !== 'list' && mode !== 'table') return;
+        this.viewMode = mode;
+        localStorage.setItem('mhdbdb-results-view', mode);
+        this.updateViewToggleUI();
+        // Re-render ohne neue Suche
+        if (this.currentResults.length > 0) {
+            this.displayResults();
+        }
+    }
+
+    updateViewToggleUI() {
+        const listBtn = document.getElementById('viewToggleList');
+        const tableBtn = document.getElementById('viewToggleTable');
+        if (!listBtn || !tableBtn) return;
+
+        const active = 'bg-brand-600 text-white';
+        const inactive = 'text-slate-600 hover:bg-slate-50';
+
+        listBtn.className = `px-3 py-1.5 text-sm font-medium rounded-md flex items-center gap-1.5 ${this.viewMode === 'list' ? active : inactive}`;
+        tableBtn.className = `px-3 py-1.5 text-sm font-medium rounded-md flex items-center gap-1.5 ${this.viewMode === 'table' ? active : inactive}`;
+        listBtn.setAttribute('aria-pressed', this.viewMode === 'list');
+        tableBtn.setAttribute('aria-pressed', this.viewMode === 'table');
+    }
+
+    // --- Ende Issue #114 View-Mode helpers ---
 
     /**
      * Scroll to element with offset for sticky header
@@ -590,6 +982,13 @@ class MainSiteApp {
             </div>
             <p class="text-sm text-slate-600 mb-2">${this.escapeHtml(result.author || 'Unbekannte*r Autor*in')}</p>
             ${result.genre ? `<span class="inline-block bg-slate-100 text-slate-700 text-xs px-3 py-1 rounded-full">${this.escapeHtml(result.genre)}</span>` : ''}
+            <div class="mt-3 pt-3 border-t border-slate-100">
+                <button type="button" class="kwic-toggle-btn" data-kwic-toggle aria-expanded="false">
+                    <svg class="w-4 h-4 kwic-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    <span>Belege anzeigen</span>
+                </button>
+                <div class="kwic-panel hidden" data-kwic-panel></div>
+            </div>
         `;
 
         // Open reading view with highlighting (pass all lemmaIds for multi-lemma highlighting)
@@ -598,9 +997,140 @@ class MainSiteApp {
             this.teiReader.openReadingView(result.textId, { lemmaIds: lemmaIds }, this.elements);
         });
 
+        // Issue #129: KWIC-Belege ausklappen (darf den Karten-Klick nicht auslösen)
+        const kwicToggle = card.querySelector('[data-kwic-toggle]');
+        const kwicPanel = card.querySelector('[data-kwic-panel]');
+        kwicToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.toggleKwicPanel(kwicToggle, kwicPanel, result);
+        });
+        kwicPanel.addEventListener('click', (e) => e.stopPropagation());
+
         return card;
     }
 
+    // --- Issue #129: KWIC-Belege (Kontextfenster + Zeilenangaben) ---
+
+    /**
+     * Klappt das KWIC-Panel auf/zu; rendert beim ersten Öffnen.
+     */
+    toggleKwicPanel(toggleBtn, panelEl, result) {
+        const isHidden = panelEl.classList.contains('hidden');
+        panelEl.classList.toggle('hidden');
+        toggleBtn.setAttribute('aria-expanded', String(isHidden));
+        toggleBtn.classList.toggle('kwic-open', isHidden);
+        const label = toggleBtn.querySelector('span');
+        if (label) label.textContent = isHidden ? 'Belege verbergen' : 'Belege anzeigen';
+
+        if (isHidden && !panelEl.dataset.kwicLoaded) {
+            this.renderKwicPanel(panelEl, result);
+        }
+    }
+
+    /**
+     * Lädt das TEI (über den Reader-Cache) und rendert die KWIC-Konkordanz.
+     */
+    async renderKwicPanel(panelEl, result) {
+        panelEl.innerHTML = '<p class="kwic-status">Lade Belege …</p>';
+        try {
+            const text = this.corpusData.texts.find(t => t.id === result.textId);
+            const filename = (text && text.filename) || `${result.textId}.tei.xml`;
+            const teiDoc = await this.teiReader.loadTEIFile(filename);
+
+            const lemmaIds = (result.lemmaIds || [result.lemmaId]).map(id => id.toString());
+            const { hits, total } = extractKwicHits(teiDoc, lemmaIds, {
+                contextWords: this.kwicContextWords,
+                maxHits: this.kwicMaxHits
+            });
+
+            if (hits.length === 0) {
+                panelEl.innerHTML = '<p class="kwic-status">Keine Belege gefunden.</p>';
+                return;
+            }
+
+            const capNote = total > hits.length
+                ? `Erste ${hits.length} von ${total.toLocaleString('de-DE')} Belegen`
+                : `${total.toLocaleString('de-DE')} Beleg${total === 1 ? '' : 'e'}`;
+
+            const lines = hits.map(hit => `
+                <li>
+                    <button type="button" class="kwic-line" data-position="${hit.position}" title="Im Volltext öffnen">
+                        <span class="kwic-ref">${this.escapeHtml(formatLineRef(hit.lineRef))}</span>
+                        <span class="kwic-before"><bdi>${this.escapeHtml(hit.before.join(' '))}</bdi></span>
+                        <span class="kwic-keyword">${this.escapeHtml(hit.keyword)}</span>
+                        <span class="kwic-after">${this.escapeHtml(hit.after.join(' '))}</span>
+                    </button>
+                </li>
+            `).join('');
+
+            panelEl.innerHTML = `
+                <div class="kwic-header">
+                    <span class="kwic-count">${capNote}</span>
+                    <label class="kwic-window-label">Kontext:
+                        <select class="kwic-window-select" aria-label="Kontextfenster in Wörtern">
+                            ${[5, 10, 15, 20].map(n =>
+                                `<option value="${n}"${n === this.kwicContextWords ? ' selected' : ''}>${n} Wörter</option>`
+                            ).join('')}
+                        </select>
+                    </label>
+                </div>
+                <ol class="kwic-list">${lines}</ol>
+                <p class="kwic-hint">Klick auf einen Beleg öffnet die Fundstelle im Volltext.</p>
+            `;
+            panelEl.dataset.kwicLoaded = 'true';
+
+            panelEl.querySelector('.kwic-window-select').addEventListener('change', (e) => {
+                this.kwicContextWords = parseInt(e.target.value, 10);
+                this.renderKwicPanel(panelEl, result);
+            });
+
+            panelEl.querySelectorAll('.kwic-line').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    this.openReaderAtPosition(result, parseInt(btn.dataset.position, 10));
+                });
+            });
+
+        } catch (error) {
+            console.error('[MainSiteApp] KWIC rendering failed:', error);
+            panelEl.innerHTML = '<p class="kwic-status">Belege konnten nicht geladen werden.</p>';
+        }
+    }
+
+    /**
+     * Öffnet den Reader an einer konkreten Fundstelle (Wort-Position).
+     * Im Tabellen-Modus vorher auf Listen-Layout wechseln (wie handleTableRowClick).
+     */
+    openReaderAtPosition(result, position) {
+        const lemmaIds = result.lemmaIds || [result.lemmaId];
+
+        if (this.viewMode === 'table') {
+            this.viewMode = 'list';
+            // localStorage NICHT überschreiben — User-Präferenz bleibt 'table'
+            this.updateViewToggleUI();
+            this.displayResults();
+        }
+
+        this.teiReader.openReadingView(result.textId, { lemmaIds, targetPosition: position }, this.elements);
+    }
+
+    // --- Ende Issue #129 ---
+
+
+    showEmptyState() {
+        if (this.elements.readingTitle) {
+            this.elements.readingTitle.textContent = '';
+        }
+        if (this.elements.readingBody) {
+            this.elements.readingBody.innerHTML =
+                '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:16rem;color:#94a3b8;padding:2rem">' +
+                '<svg style="width:48px;height:48px;margin-bottom:1rem" fill="none" stroke="currentColor" viewBox="0 0 24 24">' +
+                '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>' +
+                '</svg>' +
+                '<p style="font-size:1.125rem">Bitte geben Sie ein Wort oder Lemma ein und starten Sie die Suche.</p>' +
+                '<p style="font-size:0.875rem;margin-top:0.5rem">Oder klicken Sie auf einen Text in der Liste links.</p>' +
+                '</div>';
+        }
+    }
 
     showError(message) {
         this.elements.errorMessage.textContent = message;
@@ -618,32 +1148,51 @@ class MainSiteApp {
     }
 
     /**
-     * Handle URL parameters from playground (multi-lemma reader jump)
-     * Expected params: ?textId=ABG&lemmaIds=879,7532&position=123
+     * Handle URL parameters for opening the reading view.
+     * - Playground multi-lemma jump: ?textId=ABG&lemmaIds=879,7532&position=123
+     * - Werk-Deep-Link (#135): ?textId=ABG (öffnet den Text ohne Highlights)
+     * - Vers-Deep-Link (#59 Naming-Explorer): ?textId=TRO&verse=20665
+     *   (scrollt zur Verszeile <l n="20665">, ohne Lemma-Highlights)
+     * - Such-Deep-Link (#144): ?search=brôt (Lemma-Seiten-Button „Im Korpus
+     *   suchen" und Schreibformen-Links; gleicher Pfad wie manuelle Eingabe)
      */
     handleURLParameters() {
         const params = new URLSearchParams(window.location.search);
         const textId = params.get('textId');
         const lemmaIdsParam = params.get('lemmaIds');
         const positionParam = params.get('position');
+        const verseParam = params.get('verse');
+        const searchParam = params.get('search');
 
-        if (!textId || !lemmaIdsParam) {
+        if (!textId) {
+            if (searchParam) {
+                console.log(`[MainSiteApp] URL search parameter detected: "${searchParam}"`);
+                this.elements.searchInput.value = searchParam;
+                window.history.replaceState({}, document.title, window.location.pathname);
+                this.handleSearch();
+                return true;
+            }
             return false; // No relevant parameters
         }
 
-        console.log('[MainSiteApp] URL parameters detected:', { textId, lemmaIds: lemmaIdsParam, position: positionParam });
-
-        // Parse lemma IDs (comma-separated)
-        const lemmaIds = lemmaIdsParam.split(',').map(id => id.trim()).filter(id => id);
+        // Lemma-IDs sind optional — beim reinen Werk-Deep-Link (#135) fehlen sie.
+        const lemmaIds = lemmaIdsParam
+            ? lemmaIdsParam.split(',').map(id => id.trim()).filter(id => id)
+            : [];
         const targetPosition = positionParam ? parseInt(positionParam) : null;
 
-        // Build options object
-        const options = {
-            lemmaIds: lemmaIds
-        };
+        console.log('[MainSiteApp] URL parameters detected:', { textId, lemmaIds, position: positionParam, verse: verseParam });
 
-        if (targetPosition !== null && !isNaN(targetPosition)) {
-            options.targetPosition = targetPosition;
+        // Leeres options-Objekt = Text ohne Lemma-Highlights (wie der "Lesen"-Button).
+        const options = {};
+        if (lemmaIds.length > 0) {
+            options.lemmaIds = lemmaIds;
+            if (targetPosition !== null && !isNaN(targetPosition)) {
+                options.targetPosition = targetPosition;
+            }
+        }
+        if (verseParam) {
+            options.targetVerse = verseParam;
         }
 
         // Open reader after brief delay (ensure DOM is ready)
@@ -657,64 +1206,6 @@ class MainSiteApp {
         return true; // URL params were processed
     }
 
-    /**
-     * Clear all site data (equivalent to Chrome DevTools "Clear site data")
-     * Clears:
-     * - TEI cache (IndexedDB: MHDBDB_TEI_Cache)
-     * - Authority/Corpus indices (IndexedDB: MHDBDBMainSite)
-     * - localStorage
-     * - sessionStorage
-     */
-    async handleClearSiteData() {
-        const message = `Alle gespeicherten Daten löschen?\n\nDies umfasst:\n` +
-            `• TEI-Dateien Cache\n` +
-            `• Authority- und Corpus-Indizes\n` +
-            `• Alle lokalen Einstellungen\n\n` +
-            `Die Seite wird neu geladen.`;
-
-        if (!confirm(message)) {
-            return;
-        }
-
-        try {
-            console.log('[MainSiteApp] Clearing all site data...');
-
-            // 1. Clear TEI cache
-            if (this.textRenderer && this.textRenderer.cache) {
-                console.log('[MainSiteApp] Clearing TEI cache...');
-                await this.textRenderer.cache.clear();
-            }
-
-            // 2. Clear corpus loader IndexedDB (authority/corpus indices)
-            if (this.corpusLoader && this.corpusLoader.db) {
-                console.log('[MainSiteApp] Clearing corpus indices...');
-                await this.corpusLoader.db.indices.clear();
-            }
-
-            // 3. Clear all IndexedDB databases
-            console.log('[MainSiteApp] Clearing all IndexedDB databases...');
-            const databases = await indexedDB.databases();
-            for (const db of databases) {
-                console.log(`[MainSiteApp] Deleting database: ${db.name}`);
-                indexedDB.deleteDatabase(db.name);
-            }
-
-            // 4. Clear localStorage and sessionStorage
-            console.log('[MainSiteApp] Clearing localStorage and sessionStorage...');
-            localStorage.clear();
-            sessionStorage.clear();
-
-            console.log('[MainSiteApp] All site data cleared successfully');
-
-            // Reload page to reinitialize
-            alert('Alle Daten wurden gelöscht. Die Seite wird neu geladen.');
-            window.location.reload();
-
-        } catch (error) {
-            console.error('[MainSiteApp] Error clearing site data:', error);
-            alert('Fehler beim Löschen der Daten: ' + error.message);
-        }
-    }
 }
 
 // Initialize app when DOM is ready

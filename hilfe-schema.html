@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Das MHDBDB-Schema: TEI-Encoding-Modell, Pflicht-Elemente, Beispieldateien und Step-by-Step-Tutorial zur Erstellung MHDBDB-kompatibler TEI-Dateien.">
+    <meta name="keywords" content="MHDBDB, TEI, Schema, RELAX NG, RNG, Mittelhochdeutsch, Encoding, Validierung, Beispiele">
+    <meta name="author" content="Universität Salzburg">
+
+    <title>Schema – MHDBDB Hilfe</title>
+
+    <link rel="stylesheet" href="assets/css/tailwind-output.css">
+    <link rel="icon" type="image/png" href="assets/images/mhdbdb-logo.png">
+    <link rel="stylesheet" href="assets/css/shared.css">
+    <link rel="stylesheet" href="assets/css/hilfe.css">
+    <link rel="stylesheet" href="assets/vendor/prism/prism.css">
+</head>
+<body class="bg-slate-100 text-slate-900">
+
+<!-- NAV:START key=hilfe -->
+<header class="border-b border-slate-200 bg-white/90 backdrop-blur sticky top-0 z-50">
+    <div class="container mx-auto px-6 py-4">
+        <nav class="flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-3">
+                <img src="assets/images/mhdbdb-logo.png" alt="MHDBDB Logo" class="w-40">
+                <span class="text-lg font-bold text-brand-600">MHDBDB</span>
+            </a>
+
+            <!-- Desktop Navigation -->
+            <div class="hidden md:flex items-center gap-6">
+                <a href="index.html" data-nav="start" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                    Startseite
+                </a>
+                <a href="korpus.html" data-nav="korpus" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                    Korpussuche
+                </a>
+                <a href="playground/index.html" data-nav="playground" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                    Playground
+                </a>
+                <a href="woerterbuch.html" data-nav="woerterbuch" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                    Wörterbuch
+                </a>
+                <a aria-current="page" href="hilfe.html" data-nav="hilfe" class="text-sm text-slate-900 font-semibold hover:text-slate-900 transition">
+                    Hilfe
+                </a>
+                <a href="index.html#contact" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                    Kontakt
+                </a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobileMenuButton" class="md:hidden p-2 text-slate-600 hover:text-slate-900 transition" aria-label="Toggle menu">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </nav>
+
+        <!-- Mobile Navigation (Hidden by default, only visible on mobile) -->
+        <div id="mobileMenu" class="hidden md:hidden mt-4 pb-4 border-t border-slate-200">
+            <div class="flex flex-col gap-3 pt-4">
+                <a href="index.html" data-nav="start" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                    Startseite
+                </a>
+                <a href="korpus.html" data-nav="korpus" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                    Korpussuche
+                </a>
+                <a href="playground/index.html" data-nav="playground" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                    Playground
+                </a>
+                <a href="woerterbuch.html" data-nav="woerterbuch" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                    Wörterbuch
+                </a>
+                <a aria-current="page" href="hilfe.html" data-nav="hilfe" class="text-sm text-slate-900 font-semibold hover:text-slate-900 transition py-2">
+                    Hilfe
+                </a>
+                <a href="index.html#contact" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                    Kontakt
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- NAV:END -->
+
+    <!-- Hilfe-interne Nav-Leiste -->
+    <nav class="bg-white border-b border-slate-200" aria-label="Hilfe-Bereiche">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-wrap gap-x-8 gap-y-2 -mb-px">
+                <a href="hilfe.html" class="py-3 border-b-2 border-transparent text-slate-600 hover:text-slate-900 hover:border-slate-300 transition text-sm font-medium">Quick-Start</a>
+                <a href="hilfe-korpussuche.html" class="py-3 border-b-2 border-transparent text-slate-600 hover:text-slate-900 hover:border-slate-300 transition text-sm font-medium">Korpussuche-Hilfe</a>
+                <a href="hilfe-playground.html" class="py-3 border-b-2 border-transparent text-slate-600 hover:text-slate-900 hover:border-slate-300 transition text-sm font-medium">Playground-Hilfe</a>
+                <a href="hilfe-daten.html" class="py-3 border-b-2 border-transparent text-slate-600 hover:text-slate-900 hover:border-slate-300 transition text-sm font-medium">Daten</a>
+                <a href="hilfe-schema.html" class="py-3 border-b-2 border-brand-600 text-brand-700 font-semibold text-sm" aria-current="page">Schema</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-12">
+      <div class="hilfe-main-grid">
+        <div class="hilfe-content">
+
+        <!-- Brotkrume -->
+        <nav aria-label="Pfad" class="mb-6 text-sm text-slate-500">
+            <a href="hilfe.html" class="hover:text-brand-600 transition">Hilfe</a>
+            <span class="mx-2">›</span>
+            <span class="text-slate-700">Schema</span>
+        </nav>
+
+        <!-- Hero -->
+        <section class="mb-10">
+            <h1 class="text-4xl font-bold text-slate-900 mb-4">MHDBDB-Schema</h1>
+            <p class="text-lg text-slate-600 leading-relaxed">
+                Welches TEI-Modell verwendet die MHDBDB? Diese Seite zeigt das normative
+                Schema mit Pflicht-Elementen, neun validierten Beispieldateien zum Anschauen
+                und einen Step-by-Step-Pfad von der reinen Textdatei zur MHDBDB-konformen
+                TEI-XML.
+            </p>
+        </section>
+
+        <!-- Inhaltsverzeichnis (inline, unter xl sichtbar) -->
+        <nav aria-label="Auf dieser Seite" class="hilfe-toc-inline mb-12 bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+            <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500 mb-3">Auf dieser Seite</h2>
+            <ol class="space-y-2 text-sm">
+                <li><a href="#was" class="text-brand-600 hover:text-brand-700 font-medium">1. Was ist das MHDBDB-Schema?</a></li>
+                <li><a href="#skelett" class="text-brand-600 hover:text-brand-700 font-medium">2. Schema-Skelett und Pflicht-Elemente</a></li>
+                <li><a href="#beispiele" class="text-brand-600 hover:text-brand-700 font-medium">3. Neun Beispieldateien zum Anschauen</a></li>
+                <li><a href="#tutorial" class="text-brand-600 hover:text-brand-700 font-medium">4. Von der Textdatei zur MHDBDB-TEI</a></li>
+                <li><a href="#validieren" class="text-brand-600 hover:text-brand-700 font-medium">5. Validieren</a></li>
+                <li><a href="#einreichen" class="text-brand-600 hover:text-brand-700 font-medium">6. Einreichen</a></li>
+            </ol>
+        </nav>
+
+        <!-- 1. Was ist das Schema? -->
+        <section id="was" class="mb-12 scroll-mt-24">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">1. Was ist das MHDBDB-Schema?</h2>
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Das MHDBDB-Schema ist eine
+                <a href="https://relaxng.org/" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">RELAX-NG</a>-Definition,
+                die festlegt, wie eine TEI-Datei aussehen muss, damit sie von den
+                MHDBDB-Werkzeugen verarbeitet werden kann. Es gibt zwei Schemata:
+                eines für die Korpustexte
+                (<code class="px-2 py-0.5 bg-slate-100 rounded text-sm">schema/mhdbdb.rnc</code>),
+                eines für die acht Authority-Files
+                (<code class="px-2 py-0.5 bg-slate-100 rounded text-sm">schema/mhdbdb-authority.rnc</code>).
+            </p>
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Jede Datei wird in zwei Stufen validiert:
+            </p>
+            <ol class="space-y-2 text-sm text-slate-700 mb-4 ml-4 list-decimal list-inside">
+                <li><strong>Stufe&nbsp;1 – TEI&nbsp;P5</strong> (<code class="px-2 py-0.5 bg-slate-100 rounded text-sm">tei_all.rng</code>, gepinnt auf Version 4.11.0): Ist die Datei valides TEI?</li>
+                <li><strong>Stufe&nbsp;2 – MHDBDB-Constraints</strong> (<code class="px-2 py-0.5 bg-slate-100 rounded text-sm">mhdbdb.rnc</code> bzw. <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">mhdbdb-authority.rnc</code>): Folgt sie den MHDBDB-Konventionen?</li>
+            </ol>
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Stufe&nbsp;2 ist das maßgebliche Schema und wird hart in der CI geprüft;
+                Stufe&nbsp;1 sichert die Interoperabilität mit dem TEI-Ökosystem ab. Beide
+                Schemata liegen im
+                <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/tree/main/schema" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Schema-Verzeichnis</a>
+                auf GitHub.
+            </p>
+            <div class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded-r-lg my-6">
+                <p class="text-sm text-slate-700">
+                    <strong>Warum kein ODD?</strong> Die MHDBDB-Schemata sind direkt in
+                    RELAX&nbsp;NG geschrieben, nicht aus ODD generiert. Hintergrund:
+                    Die ODD-Toolchain (Roma, <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">odd2relax</code>)
+                    ist faktisch nicht mehr gepflegt; RELAX&nbsp;NG ist die eigentliche
+                    Validierungssprache. Details siehe
+                    <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/schema/README.md" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">schema/README.md</a>.
+                </p>
+            </div>
+        </section>
+
+        <!-- 2. Schema-Skelett -->
+        <section id="skelett" class="mb-12 scroll-mt-24">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">2. Schema-Skelett und Pflicht-Elemente</h2>
+
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">Dokumentstruktur einer Korpusdatei</h3>
+            <pre class="bg-slate-50 border border-slate-200 rounded-lg p-4 text-xs overflow-x-auto mb-6"><code class="language-xml">&lt;TEI xml:id="SIGLE"&gt;
+  &lt;teiHeader&gt;
+    &lt;fileDesc&gt;
+      &lt;titleStmt&gt;...&lt;/titleStmt&gt;
+      &lt;publicationStmt&gt;...&lt;/publicationStmt&gt;
+      &lt;sourceDesc&gt;&lt;msDesc&gt;...&lt;/msDesc&gt;&lt;/sourceDesc&gt;
+    &lt;/fileDesc&gt;
+    &lt;encodingDesc&gt;
+      &lt;projectDesc&gt;...&lt;/projectDesc&gt;
+      &lt;editorialDecl&gt;...&lt;/editorialDecl&gt;
+      &lt;classDecl&gt;&lt;taxonomy&gt;...&lt;/taxonomy&gt;&lt;/classDecl&gt;
+    &lt;/encodingDesc&gt;
+    &lt;profileDesc&gt;
+      &lt;langUsage&gt;&lt;language ident="gmh"/&gt;&lt;/langUsage&gt;
+      &lt;particDesc&gt;&lt;listPerson&gt;...&lt;/listPerson&gt;&lt;/particDesc&gt;
+    &lt;/profileDesc&gt;
+    &lt;revisionDesc&gt;&lt;change when="..." who="..."&gt;...&lt;/change&gt;&lt;/revisionDesc&gt;
+  &lt;/teiHeader&gt;
+  &lt;text&gt;&lt;body&gt;
+    &lt;div type="..."&gt;
+      &lt;p&gt; oder &lt;lg&gt; oder &lt;l&gt; oder &lt;ab&gt;       <span class="text-slate-500">&lt;!-- Blockelemente --&gt;</span>
+        &lt;w xml:id="..." lemmaRef="..." pos="..."&gt;...&lt;/w&gt;
+        &lt;pc join="left"&gt;,&lt;/pc&gt;
+      &lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/body&gt;&lt;/text&gt;
+&lt;/TEI&gt;</code></pre>
+
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">Pflicht-Attribute auf Kernelementen</h3>
+            <div class="overflow-x-auto mb-6">
+                <table class="w-full text-sm border border-slate-200 rounded">
+                    <thead class="bg-slate-100">
+                        <tr>
+                            <th class="text-left p-3 font-semibold">Element</th>
+                            <th class="text-left p-3 font-semibold">Pflicht</th>
+                            <th class="text-left p-3 font-semibold">Empfohlen</th>
+                            <th class="text-left p-3 font-semibold">Funktion</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200">
+                        <tr>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">&lt;w&gt;</code></td>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">@xml:id</code></td>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">@lemmaRef, @pos, @ana, @corresp</code></td>
+                            <td class="p-3">Wort-Token mit semantischer Annotation</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">&lt;pc&gt;</code></td>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">@join</code> = <code class="px-2 py-0.5 bg-slate-100 rounded">left</code> | <code class="px-2 py-0.5 bg-slate-100 rounded">right</code></td>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">@xml:id</code></td>
+                            <td class="p-3">Interpunktion (kein <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;seg type="pc"&gt;</code>)</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">&lt;div&gt;</code></td>
+                            <td class="p-3">–</td>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">@type, @n</code></td>
+                            <td class="p-3">Textgliederung; Enum siehe <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/docs/TEI-MODEL.md" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">TEI-MODEL §6</a></td>
+                        </tr>
+                        <tr>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">&lt;lg&gt;</code></td>
+                            <td class="p-3">–</td>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">@type="stanza", @n</code></td>
+                            <td class="p-3">Strophe (Vers)</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">&lt;l&gt;</code></td>
+                            <td class="p-3">–</td>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">@n</code></td>
+                            <td class="p-3">Verszeile</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">&lt;lb/&gt;</code></td>
+                            <td class="p-3">–</td>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">@n</code></td>
+                            <td class="p-3">Zeilenumbruch (Prosa); kein <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;l&gt;</code> für Prosa</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">&lt;msIdentifier&gt;</code></td>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">@corresp</code> = <code class="px-2 py-0.5 bg-slate-100 rounded">works.xml#work_N</code></td>
+                            <td class="p-3">–</td>
+                            <td class="p-3">Werk-Anker in den Authority Files</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">Wort-Annotationsmuster</h3>
+            <pre class="bg-slate-50 border border-slate-200 rounded-lg p-4 text-xs overflow-x-auto mb-3"><code class="language-xml">&lt;w xml:id="ABG_101_0"
+   lemmaRef="lexicon.xml#lemma_879"
+   pos="NOM"
+   ana="lexicon.xml#lemma_879_sense_1234"
+   corresp="variants.xml#type_5678"&gt;brôt&lt;/w&gt;</code></pre>
+            <ul class="space-y-1 text-sm text-slate-700 mb-4 ml-4 list-disc list-inside">
+                <li><code class="px-2 py-0.5 bg-slate-100 rounded">@lemmaRef</code> – Pfad zum Lemma-Eintrag in <code class="px-2 py-0.5 bg-slate-100 rounded">lexicon.xml</code></li>
+                <li><code class="px-2 py-0.5 bg-slate-100 rounded">@pos</code> – POS-Tag aus dem 19-Tag-MHDBDB-Set (nicht STTS/UD)</li>
+                <li><code class="px-2 py-0.5 bg-slate-100 rounded">@ana</code> – Pfad zur Bedeutung/zum Konzept</li>
+                <li><code class="px-2 py-0.5 bg-slate-100 rounded">@corresp</code> – Pfad zum orthographischen Variantentyp</li>
+            </ul>
+            <p class="text-sm text-slate-600 leading-relaxed">
+                Wörter ohne <code class="px-2 py-0.5 bg-slate-100 rounded">@lemmaRef</code>
+                werden vom Korpus-Index übersprungen. Vollständige normative Spezifikation:
+                <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/docs/TEI-MODEL.md" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">docs/TEI-MODEL.md</a>.
+            </p>
+        </section>
+
+        <!-- 3. Beispieldateien -->
+        <section id="beispiele" class="mb-12 scroll-mt-24">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">3. Neun Beispieldateien zum Anschauen</h2>
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Das Repository enthält neun validierte Beispieldateien, eine pro
+                Dokumenttyp. Jede ist eine minimale, aber vollständige Vorlage. Klicken
+                Sie zum Aufklappen.
+            </p>
+            <p class="text-sm text-slate-600 leading-relaxed mb-6">
+                Quelle: <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/tree/main/schema/examples" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">schema/examples/</a>
+                im Repository.
+            </p>
+
+            <div class="space-y-3">
+                <!-- Corpus -->
+                <details class="bg-white rounded-lg border border-slate-200 overflow-hidden example-block" data-src="schema/examples/corpus.example.tei.xml">
+                    <summary class="cursor-pointer px-4 py-3 hover:bg-slate-50 transition">
+                        <span class="font-semibold text-slate-800">corpus.example.tei.xml</span>
+                        <span class="text-sm text-slate-500 ml-2">– Alle Gattungsmuster (Vers, Prosa, Rezept, Lyrik, Predigt, Kolophon)</span>
+                    </summary>
+                    <div class="example-body border-t border-slate-200">
+                        <pre class="m-0 text-xs"><code class="language-xml"></code></pre>
+                    </div>
+                </details>
+
+                <details class="bg-white rounded-lg border border-slate-200 overflow-hidden example-block" data-src="schema/examples/authority-lexicon.example.xml">
+                    <summary class="cursor-pointer px-4 py-3 hover:bg-slate-50 transition">
+                        <span class="font-semibold text-slate-800">authority-lexicon.example.xml</span>
+                        <span class="text-sm text-slate-500 ml-2">– Lemma-Einträge mit Bedeutungen</span>
+                    </summary>
+                    <div class="example-body border-t border-slate-200">
+                        <pre class="m-0 text-xs"><code class="language-xml"></code></pre>
+                    </div>
+                </details>
+
+                <details class="bg-white rounded-lg border border-slate-200 overflow-hidden example-block" data-src="schema/examples/authority-persons.example.xml">
+                    <summary class="cursor-pointer px-4 py-3 hover:bg-slate-50 transition">
+                        <span class="font-semibold text-slate-800">authority-persons.example.xml</span>
+                        <span class="text-sm text-slate-500 ml-2">– Personeneinträge mit GND/Wikidata</span>
+                    </summary>
+                    <div class="example-body border-t border-slate-200">
+                        <pre class="m-0 text-xs"><code class="language-xml"></code></pre>
+                    </div>
+                </details>
+
+                <details class="bg-white rounded-lg border border-slate-200 overflow-hidden example-block" data-src="schema/examples/authority-works.example.xml">
+                    <summary class="cursor-pointer px-4 py-3 hover:bg-slate-50 transition">
+                        <span class="font-semibold text-slate-800">authority-works.example.xml</span>
+                        <span class="text-sm text-slate-500 ml-2">– Werkeinträge mit Bibliographie</span>
+                    </summary>
+                    <div class="example-body border-t border-slate-200">
+                        <pre class="m-0 text-xs"><code class="language-xml"></code></pre>
+                    </div>
+                </details>
+
+                <details class="bg-white rounded-lg border border-slate-200 overflow-hidden example-block" data-src="schema/examples/authority-genres.example.xml">
+                    <summary class="cursor-pointer px-4 py-3 hover:bg-slate-50 transition">
+                        <span class="font-semibold text-slate-800">authority-genres.example.xml</span>
+                        <span class="text-sm text-slate-500 ml-2">– Hierarchische Gattungstaxonomie</span>
+                    </summary>
+                    <div class="example-body border-t border-slate-200">
+                        <pre class="m-0 text-xs"><code class="language-xml"></code></pre>
+                    </div>
+                </details>
+
+                <details class="bg-white rounded-lg border border-slate-200 overflow-hidden example-block" data-src="schema/examples/authority-concepts.example.xml">
+                    <summary class="cursor-pointer px-4 py-3 hover:bg-slate-50 transition">
+                        <span class="font-semibold text-slate-800">authority-concepts.example.xml</span>
+                        <span class="text-sm text-slate-500 ml-2">– Semantische Begriffsontologie</span>
+                    </summary>
+                    <div class="example-body border-t border-slate-200">
+                        <pre class="m-0 text-xs"><code class="language-xml"></code></pre>
+                    </div>
+                </details>
+
+                <details class="bg-white rounded-lg border border-slate-200 overflow-hidden example-block" data-src="schema/examples/authority-variants.example.xml">
+                    <summary class="cursor-pointer px-4 py-3 hover:bg-slate-50 transition">
+                        <span class="font-semibold text-slate-800">authority-variants.example.xml</span>
+                        <span class="text-sm text-slate-500 ml-2">– Orthographische Variantenzuordnungen</span>
+                    </summary>
+                    <div class="example-body border-t border-slate-200">
+                        <pre class="m-0 text-xs"><code class="language-xml"></code></pre>
+                    </div>
+                </details>
+
+                <details class="bg-white rounded-lg border border-slate-200 overflow-hidden example-block" data-src="schema/examples/authority-names.example.xml">
+                    <summary class="cursor-pointer px-4 py-3 hover:bg-slate-50 transition">
+                        <span class="font-semibold text-slate-800">authority-names.example.xml</span>
+                        <span class="text-sm text-slate-500 ml-2">– Mittelalterliche Namensformen</span>
+                    </summary>
+                    <div class="example-body border-t border-slate-200">
+                        <pre class="m-0 text-xs"><code class="language-xml"></code></pre>
+                    </div>
+                </details>
+
+                <details class="bg-white rounded-lg border border-slate-200 overflow-hidden example-block" data-src="schema/examples/authority-contributors.example.xml">
+                    <summary class="cursor-pointer px-4 py-3 hover:bg-slate-50 transition">
+                        <span class="font-semibold text-slate-800">authority-contributors.example.xml</span>
+                        <span class="text-sm text-slate-500 ml-2">– Mitwirkenden-Register</span>
+                    </summary>
+                    <div class="example-body border-t border-slate-200">
+                        <pre class="m-0 text-xs"><code class="language-xml"></code></pre>
+                    </div>
+                </details>
+            </div>
+        </section>
+
+        <!-- 4. Tutorial -->
+        <section id="tutorial" class="mb-12 scroll-mt-24">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">4. Von der Textdatei zur MHDBDB-TEI</h2>
+            <p class="text-slate-700 leading-relaxed mb-6">
+                Sie haben einen lemmatisierten oder unlemmatisierten mittelhochdeutschen
+                Text, etwa als Plaintext oder als CSV mit Token-Spalten? So kommen Sie
+                Schritt für Schritt zu einer MHDBDB-konformen TEI-Datei. Wenn Sie schon
+                eine TEI-Datei haben, die in ein älteres MHD-Schema kodiert ist, ist der
+                <a href="hilfe-daten-beitragen.html" class="text-brand-600 hover:text-brand-700 font-medium">Konversionsleitfaden</a>
+                der bessere Einstieg.
+            </p>
+
+            <ol class="space-y-6">
+                <li class="flex gap-4">
+                    <span class="flex-shrink-0 w-10 h-10 rounded-full bg-brand-600 text-white font-bold flex items-center justify-center">1</span>
+                    <div class="min-w-0">
+                        <h3 class="text-lg font-semibold text-slate-900 mb-1">Skelett kopieren</h3>
+                        <p class="text-sm text-slate-700 leading-relaxed">
+                            Starten Sie nicht von Null. Kopieren Sie
+                            <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/schema/examples/corpus.example.tei.xml" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">corpus.example.tei.xml</a>
+                            aus dem Repository. Diese Datei enthält bereits Header-Skelett,
+                            Schema-Verweis und Beispiel-Strukturen für Vers und Prosa.
+                        </p>
+                    </div>
+                </li>
+
+                <li class="flex gap-4">
+                    <span class="flex-shrink-0 w-10 h-10 rounded-full bg-brand-600 text-white font-bold flex items-center justify-center">2</span>
+                    <div class="min-w-0">
+                        <h3 class="text-lg font-semibold text-slate-900 mb-1">Sigle und Werk-Anker vergeben</h3>
+                        <p class="text-sm text-slate-700 leading-relaxed mb-2">
+                            Vergeben Sie eine eindeutige <em>Sigle</em> (z.&nbsp;B.
+                            <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">ABG</code>
+                            für „Albrechts Gesta") und tragen Sie sie in
+                            <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;TEI xml:id="..."&gt;</code>,
+                            <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;idno type="sigle"&gt;</code>
+                            und in alle <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;w xml:id="SIGLE_..."&gt;</code>-Präfixe
+                            ein. Die Sigle wird mit dem MHDBDB-Team abgestimmt.
+                        </p>
+                        <p class="text-sm text-slate-700 leading-relaxed">
+                            Verlinken Sie das Werk per
+                            <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;msIdentifier corresp="works.xml#work_N"&gt;</code>
+                            zur <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">works.xml</code>.
+                            Existiert das Werk dort noch nicht, legen Sie es vorab gemeinsam mit
+                            dem Team an.
+                        </p>
+                    </div>
+                </li>
+
+                <li class="flex gap-4">
+                    <span class="flex-shrink-0 w-10 h-10 rounded-full bg-brand-600 text-white font-bold flex items-center justify-center">3</span>
+                    <div class="min-w-0">
+                        <h3 class="text-lg font-semibold text-slate-900 mb-1">Header füllen</h3>
+                        <p class="text-sm text-slate-700 leading-relaxed mb-2">
+                            Titel, Autor*in, Publikation, Lizenz, sowie ein Eintrag in
+                            <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;revisionDesc&gt;</code>
+                            mit <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">@when</code>
+                            und <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">@who</code>.
+                            Beispiel-Skelett komplett: Abschnitt 2 oben.
+                        </p>
+                        <p class="text-sm text-slate-700 leading-relaxed">
+                            Für die Sprachstufe wird aktuell durchgängig
+                            <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;language ident="gmh"&gt;</code>
+                            (Mittelhochdeutsch) verwendet. Eine MHDBDB-Konvention für
+                            Frühneuhochdeutsch oder feinere Sprachstufen ist noch in
+                            Diskussion (siehe
+                            <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/81" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Issue #81</a>);
+                            klären Sie den passenden Code vor der Einreichung mit dem Team.
+                        </p>
+                    </div>
+                </li>
+
+                <li class="flex gap-4">
+                    <span class="flex-shrink-0 w-10 h-10 rounded-full bg-brand-600 text-white font-bold flex items-center justify-center">4</span>
+                    <div class="min-w-0">
+                        <h3 class="text-lg font-semibold text-slate-900 mb-1">Body strukturieren</h3>
+                        <p class="text-sm text-slate-700 leading-relaxed mb-2">
+                            Verspoesie:
+                            <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;lg type="stanza"&gt;&lt;l&gt;...&lt;/l&gt;&lt;/lg&gt;</code>.
+                            Prosa:
+                            <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;p&gt;...&lt;lb/&gt;...&lt;/p&gt;</code>.
+                            Für die Gliederung verwenden Sie
+                            <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;div type="chapter|section|song|number|recipe|colophon|parallel"&gt;</code>;
+                            das genaue Enum dokumentiert
+                            <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/docs/TEI-MODEL.md" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">TEI-MODEL §6</a>.
+                        </p>
+                    </div>
+                </li>
+
+                <li class="flex gap-4">
+                    <span class="flex-shrink-0 w-10 h-10 rounded-full bg-brand-600 text-white font-bold flex items-center justify-center">5</span>
+                    <div class="min-w-0">
+                        <h3 class="text-lg font-semibold text-slate-900 mb-1">Wörter und Interpunktion taggen</h3>
+                        <p class="text-sm text-slate-700 leading-relaxed mb-2">
+                            Jedes Wort bekommt ein
+                            <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;w xml:id="..."&gt;</code>
+                            mit dateiweit eindeutiger ID. Interpunktion wird als
+                            <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;pc join="left"&gt;</code>
+                            (an das vorige Wort) oder <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">join="right"</code>
+                            (an das folgende) kodiert, nie als
+                            <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;seg type="pc"&gt;</code>.
+                        </p>
+                        <p class="text-sm text-slate-700 leading-relaxed">
+                            Lemmatisierung
+                            (<code class="px-2 py-0.5 bg-slate-100 rounded text-sm">@lemmaRef</code>)
+                            und POS-Tagging
+                            (<code class="px-2 py-0.5 bg-slate-100 rounded text-sm">@pos</code>)
+                            sind in der Erstfassung nicht zwingend; das MHDBDB-Team führt
+                            sie nachträglich in einer halbautomatischen Pipeline durch (siehe
+                            <a href="hilfe-daten-beitragen.html#pipeline" class="text-brand-600 hover:text-brand-700 font-medium">Konversionsleitfaden, Abschnitt 6</a>).
+                        </p>
+                    </div>
+                </li>
+
+                <li class="flex gap-4">
+                    <span class="flex-shrink-0 w-10 h-10 rounded-full bg-brand-600 text-white font-bold flex items-center justify-center">6</span>
+                    <div class="min-w-0">
+                        <h3 class="text-lg font-semibold text-slate-900 mb-1">Validieren</h3>
+                        <p class="text-sm text-slate-700 leading-relaxed">
+                            Vor der Einreichung gegen <em>beide</em> Schemata prüfen.
+                            Anleitung im nächsten Abschnitt.
+                        </p>
+                    </div>
+                </li>
+            </ol>
+        </section>
+
+        <!-- 5. Validieren -->
+        <section id="validieren" class="mb-12 scroll-mt-24">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">5. Validieren</h2>
+
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">Im Editor (oXygen, VS&nbsp;Code Scholarly XML)</h3>
+            <p class="text-slate-700 leading-relaxed mb-3">
+                Setzen Sie am Datei-Anfang eine
+                <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;?xml-model?&gt;</code>-Processing-Instruction:
+            </p>
+            <pre class="bg-slate-50 border border-slate-200 rounded-lg p-4 text-xs overflow-x-auto mb-4"><code class="language-xml">&lt;?xml-model href="../schema/mhdbdb.rng"
+            type="application/xml"
+            schematypens="http://relaxng.org/ns/structure/1.0"?&gt;
+&lt;TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="SIGLE"&gt;
+  ...</code></pre>
+            <p class="text-sm text-slate-600 leading-relaxed mb-6">
+                Damit prüft Ihr Editor live gegen das MHDBDB-Schema (Stufe&nbsp;2). Die
+                TEI-P5-Validation (Stufe&nbsp;1) bleibt der CI vorbehalten, weil 30
+                Korpus-Files bewusst gegen TEI-Standard sind (GAPs 1–11 im Schema-Header).
+            </p>
+
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">Vor dem Einreichen (Python)</h3>
+            <pre class="bg-slate-50 border border-slate-200 rounded-lg p-4 text-xs overflow-x-auto mb-3"><code class="language-bash">pip install lxml rnc2rng
+
+# tei_all.rng einmalig herunterladen
+curl -sL "https://tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" \
+     -o schema/tei_all.rng
+
+# Korpus-Datei validieren
+python -c "
+from lxml import etree
+tree = etree.parse('tei/SIGLE.tei.xml')
+tei_all = etree.RelaxNG(etree.parse('schema/tei_all.rng'))
+mhdbdb  = etree.RelaxNG(etree.parse('schema/mhdbdb.rng'))
+print('TEI P5:', 'VALID' if tei_all.validate(tree) else tei_all.error_log)
+print('MHDBDB:', 'VALID' if mhdbdb.validate(tree)  else mhdbdb.error_log)
+"</code></pre>
+            <p class="text-sm text-slate-600 leading-relaxed">
+                Beide Stufen müssen <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">VALID</code>
+                ausgeben. Bei Stufe-2-Fehlern muss die Datei korrigiert werden, bei
+                Stufe-1-Fehlern können Sie mit dem Team prüfen, ob ein GAP-Eintrag im
+                Schema gerechtfertigt ist.
+            </p>
+        </section>
+
+        <!-- 6. Einreichen -->
+        <section id="einreichen" class="mb-12 scroll-mt-24">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">6. Einreichen</h2>
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Wenn Ihre Datei beide Validierungsstufen besteht, gibt es zwei Wege:
+            </p>
+
+            <ul class="space-y-3 text-sm text-slate-700 mb-6 ml-4 list-disc list-inside">
+                <li>
+                    <strong>Einreichung per E-Mail</strong> –
+                    <a href="mailto:mhdbdb@plus.ac.at" class="text-brand-600 hover:text-brand-700 font-medium">mhdbdb@plus.ac.at</a>
+                    mit Sigle-Vorschlag, Werk-Metadaten (Titel, Autor, Edition, Lizenz)
+                    und der validierten TEI-Datei.
+                </li>
+                <li>
+                    <strong>Pull Request auf GitHub</strong> – wenn Sie git-vertraut sind:
+                    Fork von
+                    <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DigitalHumanitiesCraft/mhdbdb-tei-only</a>,
+                    TEI-Datei in <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">tei/</code>
+                    plus Werk-Eintrag in
+                    <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">authority-files/works.xml</code>,
+                    PR eröffnen. Die CI prüft automatisch beide Validierungsstufen.
+                </li>
+            </ul>
+
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">Was wir vom Beitrag wissen müssen</h3>
+            <ul class="space-y-2 text-sm text-slate-700 mb-4 ml-4 list-disc list-inside">
+                <li><strong>Sigle</strong> – ein 2–5 Buchstaben langer Werk-Identifier (z.&nbsp;B. <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">ABG</code>, <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">ARI1</code>)</li>
+                <li><strong>Werk-Metadaten</strong> – Titel, Autor (mit GND/Wikidata wenn vorhanden), Entstehungszeit, Gattung</li>
+                <li><strong>Quellangabe</strong> – Edition oder Handschrift, auf der die Auszeichnung basiert</li>
+                <li><strong>Lizenz</strong> – idealerweise CC&nbsp;BY-NC-SA 4.0, kompatibel mit dem MHDBDB-Korpus</li>
+                <li><strong>Kontakt</strong> – wer hat das transkribiert / annotiert, wer ist Ansprechperson</li>
+            </ul>
+
+            <p class="text-sm text-slate-600 leading-relaxed">
+                Für die Schema-Konversion bereits TEI-kodierter Daten siehe den
+                <a href="hilfe-daten-beitragen.html" class="text-brand-600 hover:text-brand-700 font-medium">Konversionsleitfaden</a>;
+                für den breiteren Kontext (Authority-Files, Pipeline, Wenzelsbibel als
+                Worked Example) ebenfalls dort.
+            </p>
+        </section>
+
+        <!-- Stand-Zeile -->
+        <p class="hilfe-stand">
+            Stand: Mai 2026 ·
+            <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/commits/main/hilfe-schema.html" target="_blank" rel="noopener">Änderungen auf GitHub</a>
+        </p>
+
+        </div><!-- /.hilfe-content -->
+
+        <!-- Sticky TOC (sichtbar ab xl) -->
+        <aside class="hilfe-toc-aside">
+            <nav aria-label="Auf dieser Seite" class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
+                <h2 class="text-xs font-semibold uppercase tracking-wide text-slate-500 mb-3">Auf dieser Seite</h2>
+                <ol class="space-y-2 text-sm">
+                    <li><a href="#was" class="text-brand-600 hover:text-brand-700 font-medium">1. Was ist das Schema?</a></li>
+                    <li><a href="#skelett" class="text-brand-600 hover:text-brand-700 font-medium">2. Skelett &amp; Pflicht</a></li>
+                    <li><a href="#beispiele" class="text-brand-600 hover:text-brand-700 font-medium">3. Beispieldateien</a></li>
+                    <li><a href="#tutorial" class="text-brand-600 hover:text-brand-700 font-medium">4. Tutorial</a></li>
+                    <li><a href="#validieren" class="text-brand-600 hover:text-brand-700 font-medium">5. Validieren</a></li>
+                    <li><a href="#einreichen" class="text-brand-600 hover:text-brand-700 font-medium">6. Einreichen</a></li>
+                </ol>
+            </nav>
+        </aside>
+
+      </div><!-- /.hilfe-main-grid -->
+    </main>
+
+<!-- FOOTER:START -->
+<footer class="bg-slate-100 text-slate-900 py-8">
+  <div class="container mx-auto px-6">
+    <!-- Logos Row -->
+    <div
+      class="flex flex-wrap items-center justify-center gap-8 mb-6 pb-6 border-b border-slate-300"
+    >
+      <img
+        src="assets/images/mhdbdb-logo.png"
+        alt="MHDBDB Logo"
+        class="h-16 w-auto"
+      />
+      <img
+        src="assets/images/university-logo.png"
+        alt="Universität Salzburg"
+        class="h-24 w-auto"
+      />
+      <img
+        src="assets/images/clariah-logo.png"
+        alt="CLARIAH-AT"
+        class="h-24 w-auto"
+      />
+    </div>
+
+    <!-- Info and Button Row -->
+    <div
+      class="flex flex-col md:flex-row justify-between items-center gap-6"
+    >
+      <div class="text-center md:text-left">
+        <p class="text-sm mb-2">
+          Universität Salzburg, 2025–<span class="current-year">2026</span> |
+          <a
+            href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
+            class="hover:text-brand-600 transition"
+            target="_blank"
+            rel="noopener"
+          >
+            CC BY-NC-SA 4.0
+          </a>
+        </p>
+        <div
+          class="flex flex-wrap justify-center md:justify-start gap-4 text-sm text-slate-600"
+        >
+          <a
+            href="mailto:mhdbdb@plus.ac.at"
+            class="hover:text-brand-600 transition"
+            >mhdbdb@plus.ac.at</a
+          >
+          <span>|</span>
+          <a
+            href="https://mhdbdb.plus.ac.at"
+            class="hover:text-brand-600 transition"
+            target="_blank"
+            rel="noopener"
+          >
+            mhdbdb.plus.ac.at
+          </a>
+          <span>|</span>
+          <a
+            href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only"
+            class="hover:text-brand-600 transition"
+            target="_blank"
+            rel="noopener"
+          >
+            GitHub
+          </a>
+          <span>|</span>
+          <a
+            href="impressum.html"
+            class="hover:text-brand-600 transition"
+          >
+            Impressum
+          </a>
+          <span>|</span>
+          <a
+            href="barrierefreiheit.html"
+            class="hover:text-brand-600 transition"
+          >
+            Barrierefreiheit
+          </a>
+        </div>
+      </div>
+      <button
+        id="clearSiteDataBtn"
+        class="btn-secondary text-sm flex items-center gap-2"
+        title="Alle gespeicherten Daten löschen (Cache, IndexedDB, etc.)"
+      >
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+        </svg>
+        <span>Website-Daten löschen</span>
+      </button>
+    </div>
+  </div>
+</footer>
+<script src="assets/js/site-chrome.js" defer></script>
+<!-- FOOTER:END -->
+
+    <!-- Prism (Core + Markup-Sprache) -->
+    <script defer src="assets/vendor/prism/prism-core.min.js"></script>
+    <script defer src="assets/vendor/prism/prism-markup.min.js"></script>
+
+    <!-- Inline Script: Example Loader -->
+    <script>
+        // Lazy-load example XML files on first open of each <details>.
+        // Why fetch instead of inlining: nine examples total >1000 lines —
+        // inlining would inflate the page by ~50 KB and run a Prism pass
+        // on content the user may never expand.
+        document.querySelectorAll('.example-block').forEach(block => {
+            const src = block.dataset.src;
+            const code = block.querySelector('code');
+            let loaded = false;
+            block.addEventListener('toggle', async () => {
+                if (!block.open || loaded) return;
+                loaded = true;
+                code.textContent = 'Laden …';
+                try {
+                    const res = await fetch(src);
+                    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                    const txt = await res.text();
+                    code.textContent = txt;
+                    if (window.Prism) Prism.highlightElement(code);
+                } catch (err) {
+                    code.textContent = `Fehler beim Laden: ${err.message}\n\nDirektlink: ${src}`;
+                }
+            }, { once: false });
+        });
+    </script>
+</body>
+</html>

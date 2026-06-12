@@ -6,6 +6,7 @@
  */
 
 import { TEICacheManager } from '../storage/tei-cache-manager.js';
+import { lemmaRefMatchesId } from '../lib/lemma-match.js';
 
 class TextRenderer {
     constructor(corpusIndex, authorityIndex) {
@@ -122,14 +123,13 @@ class TextRenderer {
         const contexts = [];
 
         // Find all <w> elements with matching lemmaRef
-        const lemmaRefPattern = `#${lemmaId}`;
         const wordElements = teiDoc.querySelectorAll('w[lemmaRef]');
 
         wordElements.forEach((wordEl, index) => {
             const lemmaRef = wordEl.getAttribute('lemmaRef');
 
-            // Check if lemmaRef matches: "lexicon.xml#lemma_879" contains "#lemma_879"
-            if (lemmaRef && lemmaRef.includes(lemmaRefPattern)) {
+            // Exact lemma-id match (CONTRACTS §B.1) — never a substring. See #126.
+            if (lemmaRefMatchesId(lemmaRef, lemmaId)) {
                 const context = this.extractContext(wordEl, index);
                 contexts.push(context);
             }

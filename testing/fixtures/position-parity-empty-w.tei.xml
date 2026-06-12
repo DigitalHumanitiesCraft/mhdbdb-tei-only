@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Synthetic fixture for the Position-Counting parity test (#131, CONTRACTS §B).
+  NOT corpus data. Exercises the empty <w lemmaRef> asymmetry.
+
+  Counted positions (only non-empty <w> carrying @lemmaRef, document order, 0-based):
+    pos 0 : <w lemmaRef="#lemma_1">Der</w>
+    skip  : <w lemmaRef="#lemma_2"></w>      empty text content
+    pos 1 : <w lemmaRef="#lemma_1">brot</w>
+    skip  : <w>ungezeichnet</w>              no @lemmaRef
+    pos 2 : <w lemmaRef="#lemma_3">ist</w>
+
+  Expected positions (both Python build and JS reader must agree):
+    lemma_1 to [0, 1]
+    lemma_3 to [2]
+
+  Before the #131 JS fix, the runtime reader counted the empty <w lemmaRef>
+  too, shifting lemma_1 to [0, 2] and lemma_3 to [3], so parity broke.
+-->
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>Position Parity Fixture (empty w lemmaRef, #131)</title>
+      </titleStmt>
+      <publicationStmt>
+        <p>Synthetic test fixture, not corpus data.</p>
+      </publicationStmt>
+      <sourceDesc>
+        <p>Synthetic.</p>
+      </sourceDesc>
+    </fileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <p>
+        <w lemmaRef="lexicon.xml#lemma_1">Der</w>
+        <w lemmaRef="lexicon.xml#lemma_2"></w>
+        <w lemmaRef="lexicon.xml#lemma_1">brot</w>
+        <w>ungezeichnet</w>
+        <w lemmaRef="lexicon.xml#lemma_3">ist</w>
+      </p>
+    </body>
+  </text>
+</TEI>

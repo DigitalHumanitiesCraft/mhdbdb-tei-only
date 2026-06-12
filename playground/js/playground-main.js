@@ -10,9 +10,18 @@ import { TEIFilesManager } from './data/tei-manager.js';
 import { updateAllUI } from './ui/core/ui-helpers.js';
 import { displayFileItem, setupCollapsibleFileList, setupFileFilter, updateFileCount } from './ui/core/file-display.js';
 import { showProgress, updateProgress, hideSpinner, setFileDisplayHelpers } from './ui/core/progress.js';
+import { initRouter, navigate, dispatchFromHash } from './ui/core/router.js';
 import { AuthorityUI } from './ui/authority/authority-ui.js';
 import { TEIExplorer } from './ui/tei/tei-ui.js';
 import { MultiLemmaSearchUI } from './ui/tei/multi-lemma-search.js';
+import { WordFrequencyAnalyzer } from './ui/tei/word-frequency.js';
+import { TextStatistics } from './ui/tei/text-statistics.js';
+import { LemmaDistribution } from './ui/tei/lemma-distribution.js';
+import { VersePositionSearch } from './ui/tei/verse-position-search.js';
+import { ConceptDistribution } from './ui/tei/concept-distribution.js';
+import { TextComparison } from './ui/tei/text-comparison.js';
+import { CooccurrenceRanking } from './ui/tei/cooccurrence-ranking.js';
+import { NamingExplorer } from './ui/tei/naming-explorer.js';
 
 // Wire up file display helpers for progress.js
 setFileDisplayHelpers(setupCollapsibleFileList, setupFileFilter);
@@ -59,6 +68,22 @@ class MHDBDBPlayground {
             this.ui.teiExplorer,
             this.authorityManager
         );
+        const corpusTextsThunk = () => this.corpusData?.texts || this.teiManager.corpusIndex?.texts || [];
+        this.ui.wordFrequency = new WordFrequencyAnalyzer(
+            corpusTextsThunk,
+            this.authorityData
+        );
+        this.ui.textStatistics = new TextStatistics(corpusTextsThunk);
+        this.ui.lemmaDistribution = new LemmaDistribution(corpusTextsThunk, this.authorityManager);
+        this.ui.versePositionSearch = new VersePositionSearch(corpusTextsThunk, this.authorityManager);
+        this.ui.conceptDistribution = new ConceptDistribution(
+            corpusTextsThunk,
+            this.authorityManager,
+            () => this.authorityData
+        );
+        this.ui.textComparison = new TextComparison(corpusTextsThunk, this.authorityManager);
+        this.ui.cooccurrenceRanking = new CooccurrenceRanking(corpusTextsThunk, this.authorityManager);
+        this.ui.namingExplorer = new NamingExplorer('../data');
 
         this.init();
     }
@@ -73,6 +98,11 @@ class MHDBDBPlayground {
         await this.autoLoadCorpus();
 
         this.updateUI();
+
+        // NEW: Wire up hash router and dispatch any initial hash from the URL.
+        // Done after data loading so that handlers can rely on populated state.
+        initRouter();
+        dispatchFromHash();
     }
 
     async loadAuthorityIndex() {
@@ -156,6 +186,13 @@ class MHDBDBPlayground {
                 lemmaIndex: corpusIndex.lemmaIndex || {},
                 includedTexts: new Set() // Track which texts are included in search
             };
+
+            // Also expose under teiManager.corpusIndex so downstream callers
+            // (multi-lemma search, word-frequency, text-statistics,
+            // lemma-distribution, future modules) can read from a single
+            // canonical location regardless of which loader populated it.
+            // See #97.
+            this.teiManager.corpusIndex = corpusIndex;
 
             // Initially include all texts
             this.corpusData.texts.forEach(text => {
@@ -295,12 +332,18 @@ class MHDBDBPlayground {
                 }
             });
 
-            // Show/hide filter info
+            // Show/hide filter info + "Nur diese" button
+            const onlyVisibleBtn = document.getElementById('selectOnlyVisibleBtn');
+            const onlyVisibleSep = document.getElementById('selectOnlyVisibleSep');
             if (query) {
                 if (filterInfo) filterInfo.style.display = 'flex';
                 if (visibleCountEl) visibleCountEl.textContent = visibleCount;
+                if (onlyVisibleBtn) onlyVisibleBtn.style.display = '';
+                if (onlyVisibleSep) onlyVisibleSep.style.display = '';
             } else {
                 if (filterInfo) filterInfo.style.display = 'none';
+                if (onlyVisibleBtn) onlyVisibleBtn.style.display = 'none';
+                if (onlyVisibleSep) onlyVisibleSep.style.display = 'none';
             }
         });
 
@@ -318,21 +361,49 @@ class MHDBDBPlayground {
 
         if (selectAllBtn) {
             selectAllBtn.addEventListener('click', () => {
-                const visibleCheckboxes = Array.from(fileList.querySelectorAll('.file-item:not([style*="display: none"]) input[type="checkbox"]'));
-                visibleCheckboxes.forEach(cb => {
+                const allCheckboxes = Array.from(fileList.querySelectorAll('input[type="checkbox"]'));
+                allCheckboxes.forEach(cb => {
                     cb.checked = true;
                     this.corpusData.includedTexts.add(cb.dataset.textId);
                 });
+                const fileFilter = document.getElementById('fileFilter');
+                if (fileFilter) {
+                    fileFilter.value = '';
+                    fileFilter.dispatchEvent(new Event('input'));
+                }
                 this.updateFileBrowserStats();
             });
         }
 
         if (selectNoneBtn) {
             selectNoneBtn.addEventListener('click', () => {
-                const visibleCheckboxes = Array.from(fileList.querySelectorAll('.file-item:not([style*="display: none"]) input[type="checkbox"]'));
-                visibleCheckboxes.forEach(cb => {
+                this.corpusData.includedTexts.clear();
+                const allCheckboxes = Array.from(fileList.querySelectorAll('input[type="checkbox"]'));
+                allCheckboxes.forEach(cb => {
                     cb.checked = false;
-                    this.corpusData.includedTexts.delete(cb.dataset.textId);
+                });
+                const fileFilter = document.getElementById('fileFilter');
+                if (fileFilter) {
+                    fileFilter.value = '';
+                    fileFilter.dispatchEvent(new Event('input'));
+                }
+                this.updateFileBrowserStats();
+            });
+        }
+
+        // "Nur diese" — select only visible (filtered) texts, deselect all others
+        const selectOnlyVisibleBtn = document.getElementById('selectOnlyVisibleBtn');
+        if (selectOnlyVisibleBtn) {
+            selectOnlyVisibleBtn.addEventListener('click', () => {
+                this.corpusData.includedTexts.clear();
+                const allCheckboxes = Array.from(fileList.querySelectorAll('input[type="checkbox"]'));
+                allCheckboxes.forEach(cb => {
+                    const item = cb.closest('.file-item');
+                    const isVisible = !item.style.display || item.style.display !== 'none';
+                    cb.checked = isVisible;
+                    if (isVisible) {
+                        this.corpusData.includedTexts.add(cb.dataset.textId);
+                    }
                 });
                 this.updateFileBrowserStats();
             });
@@ -380,14 +451,14 @@ class MHDBDBPlayground {
     }
 
     setupAuthorityQueries() {
-        // UPDATED: Use new modular UI methods
+        // UPDATED: Go through the hash router so the URL reflects the current view.
         const authorityButtons = [
-            { id: 'showAuthorsBtn', handler: () => this.ui.authorityExplorers.showAuthors() },
-            { id: 'showWorksBtn', handler: () => this.ui.authorityExplorers.showWorks() },
-            { id: 'showLemmataBtn', handler: () => this.ui.authorityExplorers.showLemmata() },
-            { id: 'showConceptsBtn', handler: () => this.ui.authorityExplorers.showConcepts() },
-            { id: 'showGenresBtn', handler: () => this.ui.authorityExplorers.showGenres() },
-            { id: 'showNamesBtn', handler: () => this.ui.authorityExplorers.showNames() }
+            { id: 'showAuthorsBtn',  handler: () => navigate('authors') },
+            { id: 'showWorksBtn',    handler: () => navigate('works') },
+            { id: 'showLemmataBtn',  handler: () => navigate('lemmata') },
+            { id: 'showConceptsBtn', handler: () => navigate('concepts') },
+            { id: 'showGenresBtn',   handler: () => navigate('genres') },
+            { id: 'showNamesBtn',    handler: () => navigate('names') }
         ];
 
         authorityButtons.forEach(({ id, handler }) => {
@@ -401,12 +472,17 @@ class MHDBDBPlayground {
     }
 
     setupTEIQueries() {
-        // UPDATED: Use new TEI explorer methods
+        // UPDATED: Go through the hash router so the URL reflects the current view.
         const teiButtons = [
-            { id: 'showWordsBtn', handler: () => this.ui.teiExplorer.showWords() },
-            { id: 'showLinesBtn', handler: () => this.ui.teiExplorer.showLines() },
-            { id: 'findMultiLemmaBtn', handler: () => this.ui.multiLemmaSearch.open() },
-            { id: 'showAnnotationsBtn', handler: () => this.ui.teiExplorer.showAnnotations() }
+            { id: 'findMultiLemmaBtn',       handler: () => navigate('multi-lemma') },
+            { id: 'findVersePositionBtn',    handler: () => navigate('verse-position') },
+            { id: 'showWordFrequencyBtn',    handler: () => navigate('word-frequency') },
+            { id: 'showTextStatisticsBtn',   handler: () => navigate('text-statistics') },
+            { id: 'showLemmaDistributionBtn', handler: () => navigate('lemma-distribution') },
+            { id: 'showConceptDistributionBtn', handler: () => navigate('concept-distribution') },
+            { id: 'showTextComparisonBtn', handler: () => navigate('text-comparison') },
+            { id: 'showCooccurrenceRankingBtn', handler: () => navigate('cooccurrence-ranking') },
+            { id: 'showNamingExplorerBtn', handler: () => navigate('naming') }
         ];
 
         teiButtons.forEach(({ id, handler }) => {
@@ -451,7 +527,7 @@ class MHDBDBPlayground {
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
                         </svg>
-                        <span>Load Full Corpus (666 Files)</span>
+                        <span>Load Full Corpus (667 Files)</span>
                     `;
                 }
 
@@ -616,87 +692,8 @@ document.addEventListener('DOMContentLoaded', () => {
     window.TextNormalizer = TextNormalizer;
     window.SearchPatterns = SearchPatterns;
 
-    // Setup Load Corpus button handler
-    const loadCorpusBtn = document.getElementById('loadCorpusBtn');
-    if (loadCorpusBtn) {
-        loadCorpusBtn.addEventListener('click', async () => {
-            if (!window.playground) return;
-
-            // Show loading state
-            const originalText = loadCorpusBtn.innerHTML;
-            loadCorpusBtn.disabled = true;
-            loadCorpusBtn.innerHTML = '<span>Clearing previous data...</span>';
-
-            try {
-                // Clear any previously uploaded TEI files first
-                await window.playground.teiManager.clearAllTEIData();
-
-                loadCorpusBtn.innerHTML = '<span>Loading corpus...</span>';
-                const result = await window.playground.teiManager.loadCorpusIntoPlayground((loaded, total) => {
-                    const percentage = Math.round((loaded / total) * 100);
-                    loadCorpusBtn.innerHTML = `<span>Loading: ${loaded}/${total} (${percentage}%)</span>`;
-                });
-
-                // Success! Keep button showing loaded state
-                loadCorpusBtn.innerHTML = `<span>✅ ${result.loaded} TEI files loaded</span>`;
-                loadCorpusBtn.disabled = true; // Keep disabled to prevent re-loading
-                loadCorpusBtn.classList.remove('hover:bg-brand-100');
-                loadCorpusBtn.classList.add('bg-green-50', 'border-green-200', 'text-green-700');
-
-                // Clear and repopulate the file display with corpus entries
-                const uploadedFilesContainer = document.getElementById('uploadedFiles');
-                if (uploadedFilesContainer) {
-                    uploadedFilesContainer.innerHTML = '';
-
-                    // Display corpus files with metadata
-                    window.playground.teiData.parsedXML.forEach(teiData => {
-                        displayFileItem(teiData, uploadedFilesContainer);
-                    });
-                }
-
-                // Update file count badge (just the number)
-                const fileCountBadge = document.getElementById('fileCount');
-                if (fileCountBadge) {
-                    fileCountBadge.textContent = result.loaded;
-                }
-
-                // Show file filter for corpus data (useful for 666 files)
-                const fileFilter = document.getElementById('fileFilter');
-                if (fileFilter) {
-                    fileFilter.style.display = '';
-                    fileFilter.value = ''; // Reset filter
-                }
-
-                // Show files summary section
-                const filesSummary = document.getElementById('filesSummary');
-                if (filesSummary) {
-                    filesSummary.style.display = 'flex';
-                }
-
-                // Update UI
-                window.playground.updateUI();
-
-                // Auto-open TEI analysis panel
-                const teiQueries = document.getElementById('teiQueries');
-                if (teiQueries) {
-                    teiQueries.style.display = 'block';
-                    teiQueries.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                }
-
-                console.log(`✅ Corpus loaded successfully: ${result.loaded} files available for analysis`);
-
-            } catch (error) {
-                console.error('Corpus loading error:', error);
-                loadCorpusBtn.innerHTML = `<span>❌ Error: ${error.message}</span>`;
-
-                // Reset button after 5 seconds
-                setTimeout(() => {
-                    loadCorpusBtn.disabled = false;
-                    loadCorpusBtn.innerHTML = originalText;
-                }, 5000);
-            }
-        });
-    }
+    // Note: The "Load Full Corpus" button was removed in the redesign;
+    // autoLoadCorpus() in init() handles corpus loading. See #99.
 
     console.log('MHDBDB Playground migrated to modular UI successfully!');
     console.log('Available UI modules:', Object.keys(window.playground.ui));

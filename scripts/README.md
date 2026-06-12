@@ -2,76 +2,121 @@
 
 Build, validation, and data transformation scripts for MHDBDB TEI corpus.
 
-## Index Generation
+## Verzeichnisstruktur
+
+```
+scripts/
+├── build-authority-index.py     # Authority-Index generieren
+├── build-corpus-index.py        # Korpus-Index generieren
+├── build-pages.py               # Nav/Footer aus includes/ in alle Seiten injizieren (--check Drift-Gate)
+├── build-vendor.js              # Vendored JS-Dependencies bündeln
+├── validate-indices.py          # Generierte Indexes validieren
+├── mhg_normalizer.py            # MHG-Textnormalisierung (shared lib)
+├── insert-pb-from-linecode.py   # <pb> aus Legacy-Linecode einfügen (#26)
+├── insert-stanzas-from-linecode.py # Stanza-Anchors aus Legacy-Linecode (#23)
+├── wzb-add-lemma.py             # WZB-Ingest-Helfer
+│
+├── ingest/                      # Korpus-Ingest pro Sigle (ari/, wzb/)
+│
+├── audit/                       # Korpus- & Authority-Analyse
+│   ├── audit-tei-corpus.py      # Element/Attribut-Inventar des Korpus
+│   ├── audit-authority-files.py # Struktur-Audit der Authority Files (authority→authority)
+│   ├── check-authority-cross-refs.py # Korpus→Authority Cross-Ref-Integrität (#44/#115)
+│   ├── check-index-versions.py  # Index-Versions-Konstanten konsistent
+│   ├── validate-corpus.py       # Zwei-Stufen-Schema-Validierung
+│   └── TEXT_DATA_TABLE.xlsx     # Legacy-Linecode-Mapping
+│
+├── sync/                        # Externe Daten / Korpus → TEI/Authority
+│   ├── enhance_works_with_zotero.py  # Zotero API → works.xml
+│   ├── extract-variants.py      # Korpus → variants.xml regenerieren (#44/#115)
+│   └── sync_tei_headers.py      # Authority Files → TEI-Header
+│
+└── _archived/                   # Referenz, nicht ausführen
+    └── tei-transformation.py    # Original RDF/MySQL→TEI-Migration
+```
+
+## Build-Pipeline (Root)
+
+Die Build-Scripts werden über `npm run` aufgerufen und dürfen nicht verschoben werden.
 
 ### `build-authority-index.py`
-Processes all 7 authority files (`authority-files/*.xml`) and generates a compressed JSON index (`data/authority-index.json.gz`, ~1.3 MB). Includes lemmata with grammatical annotations, persons, works with bibliographic data, concepts, genres, names, and orthographic variants. Uses `mhg_normalizer.py` for text normalization to ensure search consistency.
+Verarbeitet die 7 inhaltstragenden Authority Files und generiert `data/authority-index.json.gz` (~3 MB). Enthält Lemmata, Personen, Werke, Konzepte, Gattungen, Namen und Varianten. `contributors.xml` (8. Authority-File seit 2026-04-14) wird bewusst **nicht** indiziert — es ist Projekt-interne Editor-Attribution, kein Suchinhalt.
 
 ### `build-corpus-index.py`
-Parses all 666 TEI files in `tei/` directory and generates a compressed document-level corpus index (`data/corpus-index.json.gz`, ~21 MB). Extracts lemma positions, word counts, and metadata for fast lookup. Enables <100ms search latency.
+Parst alle TEI-Dateien in `tei/` und generiert `data/corpus-index.json.gz` (~40 MB, v4.1.x). Extrahiert Lemma-Positionen, Wortzählung und Metadaten.
 
-### `generate-manifest.py`
-Extracts metadata (title, author, sigle, word count) from all TEI file headers and generates `tei/manifest.json` (~182 KB). Used for quick corpus overview without parsing full TEI files.
-
-## Utilities
-
-### `mhg_normalizer.py`
-Middle High German text normalizer. Normalizes long vowels (â→a, ê→e), umlauts (ä→a, ö→o, ü→u), special characters (ʒ→z, ſ→s), and applies lowercase conversion. **CRITICAL:** Must produce identical results as JavaScript version (`playground/js/utils/text-normalizer.js`) to ensure search parity between build-time indices and runtime search.
+### `build-pages.py`
+Injiziert die geteilte Navigation + Footer aus `includes/_nav.html` / `includes/_footer.html` in die Marker-Regionen (`NAV:START`/`FOOTER:START`) aller in `PAGES` registrierten Seiten. Idempotent; `{{ROOT}}`-Token wird pro Seitentiefe ersetzt; aktive Nav-Seite bekommt `aria-current="page"`. `--check` ist ein Drift-Gate (exit 1 bei Out-of-Sync, keine Writes). Nach Änderung an `includes/` ausführen — nicht die Seiten direkt editieren.
 
 ### `validate-indices.py`
-Validates structure, content, and integrity of generated index files. Checks JSON structure, required fields, data types, version numbers, and statistical reasonableness. Exit code 0 = success, 1 = validation failed.
+Validiert Struktur und Integrität der generierten Index-Dateien.
 
-## Data Wrangling
+### `mhg_normalizer.py`
+Mittelhochdeutsche Textnormalisierung (â→a, ê→e, ä→a, ö→o, ü→u, ʒ→z, ſ→s). **Muss identische Ergebnisse liefern wie die JS-Version** (`assets/js/lib/text-normalizer.js`).
 
-Scripts for transforming and updating TEI source data from external sources (Zotero, database exports, etc.).
+## audit/ — Korpus- & Authority-Analyse
 
-### `data-wrangling/enhance_works_with_zotero.py` ⭐ UPDATED
-Fetches editor data from Zotero API and updates `authority-files/works.xml` with `<editor>` elements in biblStruct entries. **Step 1 of 2** for Issue #19. Uses live Zotero API with pagination (1,602 items). Supports `--dry-run` (preview), `--cache` (save API response), and `--offline` (use cached data) modes. Rate-limited to 3 requests/second. Run `sync_tei_headers.py` afterwards to propagate changes to TEI files.
+Scripts für die Analyse und Validierung der TEI-Quelldaten. Entstanden im Rahmen von Issue #32 (TEI Model Consolidation).
 
-### `data-wrangling/sync_tei_headers.py` ⭐ NEW
-General-purpose tool for syncing authority files to TEI headers. Parameterizable with `--all`, `--works`, `--persons`, `--genres`, `--concepts`. Currently implements `--works` (syncs `<editor>` elements from works.xml). **Step 2 of 2** for Issue #19. Keeps TEI headers in sync with authority files (intentionally redundant). Supports `--dry-run` mode. Extensible architecture for future authority file types.
+### `audit-tei-corpus.py`
+Element- und Attribut-Inventar des gesamten Korpus. Analysiert alle TEI-Dateien (exkl. `.disamb.tei.xml`) und erzeugt eine vollständige Aufstellung aller Elemente, Attribute und Werte.
 
-### `data-wrangling/_ARCHIVED_tei-transformation.py`
-⚠️ **ARCHIVED REFERENCE ONLY - DO NOT RUN**. Original monolithic transformation script (1605 lines) from initial-data-wrangling branch. Preserved as reference library of useful functions (CSV parsing, TEI manipulation, namespace handling, etc.). Best practice: Extract specific functions into new focused scripts rather than running this file.
+### `audit-authority-files.py`
+Struktur-, Querverweis- und Datenqualitäts-Audit für alle 8 Authority Files. Prüft ID-Muster, verwaiste Referenzen und strukturelle Konsistenz **innerhalb** der Authority Files (authority→authority).
 
-## Usage
+### `check-authority-cross-refs.py`
+Korpus→Authority Cross-Reference-Integrität (#44/#115): scannt alle `tei/*.tei.xml` nach `@lemmaRef`/`@ana`/`@corresp`/`@ref`/`@target`, die auf nicht-existente Authority-`xml:id`s zeigen. `--check` macht daraus ein CI-Gate (scheitert bei unresolved refs außerhalb `lexicon.xml`; `lexicon.xml` hat eine bekannte Ingest-Backfill-Baseline). Läuft in `schema-validation.yml`.
+
+### `check-index-versions.py`
+Prüft, dass die Index-Versions-Konstanten in Build-Skripten und `corpus-loader.js` synchron sind. Läuft in `index-version-check.yml`.
+
+### `validate-corpus.py`
+Zwei-Stufen-Validierung: TEI P5 (`tei_all.rng`) + MHDBDB-Constraints (`mhdbdb.rng`). Validiert alle Korpus-Dateien und meldet Fehler.
+
+### `TEXT_DATA_TABLE.xlsx`
+Linecode-Mapping aus dem Legacy-MHDBDB-System. Enthält die originalen Linecode-Definitionen pro Text in Spalte `LINECODE` (die kanonischen Templates liegen in `docs/data/linecode-templates.csv`, ebenfalls Spalte `LINECODE` — die frühere „Spalte E"-Annahme war falsch, siehe LINECODE.md). Referenz für strukturelle Rekonstruktion (Issues #23, #30, #31).
+
+## sync/ — Externe Daten → TEI/Authority
+
+Scripts für die Integration externer Datenquellen.
+
+### `enhance_works_with_zotero.py`
+Holt bibliographische Metadaten (v.a. Editor:innen) von der Zotero API und aktualisiert `authority-files/works.xml`. Unterstützt `--dry-run`, `--cache`, `--offline`.
+
+### `extract-variants.py`
+Regeneriert `authority-files/variants.xml` aus dem aktuellen Korpus (#44/#115). `variants.xml` ist **korpus-abgeleitet**: pro `<w @lemmaRef @corresp>` wird (Lemma, type-id, Form) gesammelt; xml:id-Eindeutigkeit via Mehrheitsentscheid. Ersetzt den veralteten, nur auf `initial-data-wrangling` liegenden Generator (las das Pre-#32-`@wordRef`). Dry-Run-Default, `--apply` überschreibt. **Nach `--apply`: Authority-Index neu bauen + Version bumpen.**
+
+### `sync_tei_headers.py`
+Synchronisiert Authority-File-Daten in die TEI-Header (667 Dateien). Erweiterbar (aktuell: `--works` für Editor-Sync). Unterstützt `--dry-run`.
+
+## _archived/ — Referenz
+
+### `tei-transformation.py`
+Originales Transformationsscript aus dem `initial-data-wrangling`-Branch (~2000 Zeilen). Enthält nützliche Utility-Funktionen (CSV-Parsing, TEI-Erstellung, ID-Normalisierung). **Nicht ausführen** — bei Bedarf einzelne Funktionen extrahieren.
+
+## Verwendung
 
 ```bash
-# After updating TEI or authority files, rebuild all indices
+# Indexes neu bauen (nach Änderungen an TEI/Authority Files)
 python scripts/build-authority-index.py
 python scripts/build-corpus-index.py
-python scripts/generate-manifest.py
 
-# Validate generated indices
+# Indexes validieren
 python scripts/validate-indices.py
 
-# Update editor metadata from Zotero API (Issue #19) - 2-step workflow
-python scripts/data-wrangling/enhance_works_with_zotero.py --dry-run  # Step 1: Preview works.xml changes
-python scripts/data-wrangling/enhance_works_with_zotero.py --cache    # Step 1: Update works.xml + save cache
-python scripts/data-wrangling/sync_tei_headers.py --works --dry-run   # Step 2: Preview TEI header changes
-python scripts/data-wrangling/sync_tei_headers.py --works             # Step 2: Sync TEI headers
-python scripts/build-authority-index.py                               # Rebuild index
+# Korpus gegen Schema validieren
+python scripts/audit/validate-corpus.py
 
-# Offline mode (use cached Zotero data)
-python scripts/data-wrangling/enhance_works_with_zotero.py --offline --dry-run
-
-# Sync all authority files to TEI headers (future use)
-python scripts/data-wrangling/sync_tei_headers.py --all --dry-run     # Preview all changes
-python scripts/data-wrangling/sync_tei_headers.py --all               # Sync all authority data
+# Zotero-Sync (immer erst --dry-run)
+python scripts/sync/enhance_works_with_zotero.py --dry-run
+python scripts/sync/enhance_works_with_zotero.py --cache
+python scripts/sync/sync_tei_headers.py --works --dry-run
+python scripts/sync/sync_tei_headers.py --works
 ```
 
 ## Best Practices
 
-### Archived Scripts
-Scripts prefixed with `_ARCHIVED_` are preserved for reference only and should not be executed. They contain useful functions that can be extracted for new focused scripts. Example: `_ARCHIVED_tei-transformation.py`
-
-### Data Wrangling Workflow
-1. Run script with `--dry-run` to preview changes
-2. Review proposed changes
-3. Run script without `--dry-run` to apply
-4. Review git diff of modified files
-5. Rebuild indices
-6. Commit changes
-
-### Note
-Data wrangling scripts modify source TEI files. Always review changes before committing.
+- **Immer `--dry-run` zuerst** bei sync-Scripts
+- **`git diff` prüfen** nach jeder Transformation
+- **Indexes neu bauen** nach Änderungen an TEI oder Authority Files
+- **Archived Scripts nicht ausführen** — einzelne Funktionen bei Bedarf extrahieren

@@ -1,0 +1,799 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?xml-model href="../schema/mhdbdb.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="https://tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="ARI_EIN624">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title xml:lang="de">Einsiedeln, Stiftsbibliothek, Cod. 624</title>
+        <author ref="#person_anonym">Anonym</author>
+        <respStmt>
+          <resp>digitale Zusammenführung, Annotation und semantische Klassifikation</resp>
+          <orgName ref="contributors.xml#mhdbdb-team">MHDBDB-Team (vollständige Liste in contributors.xml)</orgName>
+        </respStmt>
+      </titleStmt>
+      <publicationStmt>
+        <publisher>
+          <orgName>Mittelhochdeutsche Begriffsdatenbank (MHDBDB)</orgName>
+          <orgName>Paris Lodron Universität Salzburg</orgName>
+          <address>
+            <street>Erzabt-Klotz-Straße 1</street>
+            <postCode>5020</postCode>
+            <settlement>Salzburg</settlement>
+            <country>Österreich</country>
+          </address>
+          <email>mhdbdb@plus.ac.at</email>
+          <ptr target="https://mhdbdb.plus.ac.at"/>
+        </publisher>
+        <authority>
+          <persName role="coordinator" ref="contributors.xml#contrib_003">
+            <forename>Katharina</forename>
+            <surname>Zeppezauer-Wachauer</surname>
+          </persName>
+          <persName role="founder" ref="contributors.xml#contrib_001">
+            <forename>Klaus M.</forename>
+            <surname>Schmidt</surname>
+          </persName>
+          <persName role="founder" ref="contributors.xml#contrib_002">
+            <forename>Horst</forename>
+            <surname>Pütz</surname>
+          </persName>
+        </authority>
+        <availability>
+          <licence target="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</licence>
+          <p>Daten und Annotationen unter CC BY-SA 4.0. Originaldaten aus dem Arithmetic-Projekt (Universität Graz, GAMS); Share-Alike-Klausel der Quell-Lizenz wird übernommen (CC BY-NC-SA 4.0 wäre mit BY-SA inkompatibel, daher kein Lizenz-Stack wie im MHDBDB-Bestand).</p>
+        </availability>
+        <date when="2026">2026</date>
+      </publicationStmt>
+      <sourceDesc>
+        <msDesc>
+          <msIdentifier corresp="works.xml#work_TBD">
+            <idno type="sigle">ARI_EIN624</idno>
+            <msName xml:lang="de">Einsiedeln, Stiftsbibliothek, Cod. 624</msName>
+          </msIdentifier>
+          <additional>
+            <listBibl>
+              <bibl type="digitalIntermediary" xml:id="ARI_EIN624_arithmetic_gams" corresp="#ARI_EIN624_TBD">
+                <title>Arithmetic-Projekt, GAMS (Universität Graz)</title>
+                <respStmt>
+                  <resp>Elektronische Bereitstellung und TEI-Erstkodierung</resp>
+                  <name>Carina (Arithmetic-Projekt)</name>
+                </respStmt>
+                <ref target="https://gams.uni-graz.at/o:arithmetic.einsiedeln.624"/>
+                <note type="provenance">TEI-Originaldaten aus dem GAMS-Repositorium der Universität Graz, Arithmetic-Projekt zu fnhd. Rechenbüchern. Konvertiert in das MHDBDB-Schema durch automatische Transformation (scripts/ingest/ari/01-convert-original-to-mhdbdb.py, 2026-05).</note>
+                <note type="fidelity">Mechanische Schema-Konversion ohne Eingriff in Wortgrenzen, Auszeichnungs-Semantik oder Strukturhierarchie.</note>
+              </bibl>
+            </listBibl>
+          </additional>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+    <encodingDesc>
+      <projectDesc>
+        <p xml:lang="de">Die Annotationen der MHDBDB basieren auf kontrollierten Vokabularen und domänenspezifischen Ontologien.</p>
+        <p xml:lang="en">The annotations of the MHDBDB are based on controlled vocabularies and domain-specific ontologies.</p>
+      </projectDesc>
+      <editorialDecl>
+        <p xml:lang="de">Lokale Dateireferenzen (z.B. persons.xml#person_anonym, lexicon.xml#lemma_879) verweisen auf kontrollierte Vokabulare im authority-files Verzeichnis dieses Repositorys.</p>
+      </editorialDecl>
+      <classDecl>
+        <taxonomy xml:id="genres">
+          <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
+          <category xml:id="genre_TBD" corresp="genres.xml#genre_TBD">
+            <gloss xml:lang="de">Rechenbuch (TBD: konkrete Genre-ID von Carina)</gloss>
+          </category>
+        </taxonomy>
+      </classDecl>
+    </encodingDesc>
+    <profileDesc>
+      <langUsage>
+        <language ident="gmf">Frühneuhochdeutsch</language>
+      </langUsage>
+      <particDesc>
+        <listPerson>
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
+            <persName type="preferred">Anonym</persName>
+          </person>
+        </listPerson>
+      </particDesc>
+    </profileDesc>
+    <revisionDesc>
+      <change when="2026-05-08" who="#mhdbdb-team">Initiale Konversion aus Arithmetic_MHDBDB.zip via scripts/ingest/ari/01-convert-original-to-mhdbdb.py.</change>
+    </revisionDesc>
+  </teiHeader>
+  <text>
+    <body><div type="interest_calculation"><pb n="146v"/>
+            <div type="outline">
+               <p>
+                  <lb n="N001"/>
+                  <w xml:id="wd4t1122_1">
+                     <hi rend="initial">I</hi>tem</w>
+                  <w xml:id="wd4t1122_3">wer</w>
+                  <w xml:id="wd4t1122_5">ein</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1124_1">guldin</w>
+                  </rs>
+                  <w xml:id="wd4t1125_2">vnder</w>
+                  <w xml:id="wd4t1125_4">den</w>
+                  <w xml:id="wd4t1125_6">Iuden</w>
+                  <w xml:id="wd4t1125_8">nimpt</w>
+                  <w xml:id="wd4t1125_10">vnnd</w>
+                  <w xml:id="wd4t1125_12">gitt</w>
+                  <w xml:id="wd4t1125_14">dauon</w>
+                  <w xml:id="wd4t1125_16">ʒe</w>
+                  <lb n="N002"/>
+                  <w xml:id="wd4t1127_1">wuchen</w>
+                  <pc xml:id="wd4t1127_3" join="left">•</pc>
+                  <w xml:id="wd4t1127_5">nit</w>
+                  <w xml:id="wd4t1127_7">mer</w>
+                  <w xml:id="wd4t1127_9">den</w>
+                  <w xml:id="wd4t1127_11">ʒwen</w>
+                  <w xml:id="wd4t1127_13">alt</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1129_1">haller</w>
+                  </rs>
+                  <w xml:id="wd4t1130_2">vnd</w>
+                  <w xml:id="wd4t1130_4">alle</w>
+                  <w xml:id="wd4t1130_6">iär</w>
+                  <w xml:id="wd4t1130_8">einoſt</w>
+                  <w xml:id="wd4t1130_10">ab</w>
+                  <lb n="N003"/>
+                  <w xml:id="wd4t1132_1">gerechnott</w>
+                  <w xml:id="wd4t1132_3">vnd</w>
+                  <w xml:id="wd4t1132_5">ouch</w>
+                  <w xml:id="wd4t1132_7">nitt</w>
+                  <w xml:id="wd4t1132_9">nie</w>
+                  <pc xml:id="wd4t1132_11" join="left">•</pc>
+                  <w xml:id="wd4t1132_13">Das</w>
+                  <w xml:id="wd4t1132_15">macht</w>
+                  <w xml:id="wd4t1132_17">ſo</w>
+                  <w xml:id="wd4t1132_19">uil</w>
+                  <w xml:id="wd4t1132_21">wuͦcher</w>
+                  <w xml:id="wd4t1132_23">vnd</w>
+                  <lb n="N004"/>
+                  <w xml:id="wd4t1135_1">geltt</w>
+                  <w xml:id="wd4t1135_3">als</w>
+                  <w xml:id="wd4t1135_5">hie</w>
+                  <w xml:id="wd4t1135_7">nach</w>
+                  <w xml:id="wd4t1135_9">ſtätt</w>
+               </p>
+            </div>
+            <div type="reckoning_example">
+               <p>
+                  <lb n="N005"/>
+                  <w xml:id="wd4t1143_1">Item</w>
+                  <w xml:id="wd4t1143_3">Im</w>
+                  <w xml:id="wd4t1143_5">erſten</w>
+                  <w xml:id="wd4t1143_7">Iär</w>
+                  <w xml:id="wd4t1143_9">ein</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1145_1">guldin</w>
+                  </rs>
+                  <w xml:id="wd4t1146_2">houptguͦtt</w>
+                  <w xml:id="wd4t1146_4">bringt</w>
+                  <w xml:id="wd4t1146_6">xi</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1150_1">solidi</w>
+                  </rs>
+                  <lb n="N006"/>
+                  <w xml:id="wd4t1158_1">v</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1160_1">haller</w>
+                  </rs>
+                  <w xml:id="wd4t1161_2">wuͦcher</w>
+                  <lb n="N007"/>
+                  <w xml:id="wd4t1166_1">Item</w>
+                  <w xml:id="wd4t1171_2">Im</w>
+                  <w xml:id="wd4t1174_1">anderen</w>
+                  <w xml:id="wd4t1179_2">Iar</w>
+                  <w xml:id="wd4t1179_4">wirtt</w>
+                  <w xml:id="wd4t1179_6">des</w>
+                  <w xml:id="wd4t1179_8">houptguͦtʒ</w>
+                  <w xml:id="wd4t1179_10">vnd</w>
+                  <w xml:id="wd4t1179_12">wuͦcher</w>
+                  <w xml:id="wd4t1179_14">ii</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1183_1">gulden</w>
+                  </rs>
+                  <lb n="N008"/>
+                  <w xml:id="wd4t1190_1">iiii</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1194_1">solidi</w>
+                  </rs>
+                  <w xml:id="wd4t1200_2">viii</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1203_1">haller</w>
+                  </rs>
+                  <lb n="N009"/>
+                  <w xml:id="wd4t1208_1">Item</w>
+                  <w xml:id="wd4t1213_2">Im</w>
+                  <w xml:id="wd4t1213_4">dritten</w>
+                  <w xml:id="wd4t1213_6">Iär</w>
+                  <w xml:id="wd4t1213_8">wirtt</w>
+                  <w xml:id="wd4t1213_10">es</w>
+                  <pc xml:id="wd4t1213_12" join="left">•</pc>
+                  <w xml:id="wd4t1213_14">iii</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1215_1">guldin</w>
+                  </rs>
+                  <pc xml:id="wd4t1216_2" join="left">•</pc>
+                  <w xml:id="wd4t1216_4">i</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1220_1">solidi</w>
+                  </rs>
+                  <rs type="currency">
+                     <w xml:id="wd4t1228_1">hallerrʼ</w>
+                  </rs>
+                  <lb n="N010"/>
+                  <w xml:id="wd4t1234_1">Item</w>
+                  <w xml:id="wd4t1239_2">Im</w>
+                  <w xml:id="wd4t1239_4">fierden</w>
+                  <w xml:id="wd4t1239_6">Iär</w>
+                  <w xml:id="wd4t1239_8">wirt</w>
+                  <w xml:id="wd4t1239_10">es</w>
+                  <w xml:id="wd4t1239_12">iiii</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1241_1">guldin</w>
+                  </rs>
+                  <w xml:id="wd4t1242_2">xi</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1246_1">solidi</w>
+                  </rs>
+                  <w xml:id="wd4t1252_2">vi</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1254_1">häller</w>
+                  </rs>
+                  <lb n="N011"/>
+                  <w xml:id="wd4t1259_1">Item</w>
+                  <w xml:id="wd4t1264_2">Im</w>
+                  <w xml:id="wd4t1264_4">funften</w>
+                  <w xml:id="wd4t1264_6">iär</w>
+                  <w xml:id="wd4t1264_8">wirt</w>
+                  <w xml:id="wd4t1264_10">es</w>
+                  <pc xml:id="wd4t1264_12" join="left">•</pc>
+                  <w xml:id="wd4t1264_14">vi</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1267_1">guldin</w>
+                  </rs>
+                  <w xml:id="wd4t1268_2">xx</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1272_1">solidi</w>
+                  </rs>
+                  <w xml:id="wd4t1278_2">vi</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1280_1">haller</w>
+                  </rs>
+                  <lb n="N012"/>
+                  <w xml:id="wd4t1285_1">Item</w>
+                  <w xml:id="wd4t1290_2">im</w>
+                  <w xml:id="wd4t1290_4">Sechſten</w>
+                  <w xml:id="wd4t1290_6">Iär</w>
+                  <w xml:id="wd4t1290_8">wirt</w>
+                  <w xml:id="wd4t1290_10">es</w>
+                  <pc xml:id="wd4t1290_12" join="left">•</pc>
+                  <w xml:id="wd4t1290_14">x</w>
+                  <pc xml:id="wd4t1290_16" join="left">•</pc>
+                  <rs type="currency">
+                     <w xml:id="wd4t1294_1">guldin</w>
+                  </rs>
+                  <pc xml:id="wd4t1299_2" join="left">•</pc>
+                  <w xml:id="wd4t1299_4">v</w>
+                  <pc xml:id="wd4t1299_6" join="left">•</pc>
+                  <rs type="currency">
+                     <w xml:id="wd4t1302_1">haller</w>
+                  </rs>
+                  <lb n="N013"/>
+                  <w xml:id="wd4t1307_1">Item</w>
+                  <w xml:id="wd4t1312_2">Im</w>
+                  <w xml:id="wd4t1312_4">Sibenden</w>
+                  <w xml:id="wd4t1312_6">iär</w>
+                  <w xml:id="wd4t1312_8">wirt</w>
+                  <w xml:id="wd4t1312_10">es</w>
+                  <pc xml:id="wd4t1312_12" join="left">•</pc>
+                  <w xml:id="wd4t1312_14">xiiii</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1314_1">guldin</w>
+                  </rs>
+                  <pc xml:id="wd4t1315_2" join="left">•</pc>
+                  <w xml:id="wd4t1315_4">xx</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1319_1">solidi</w>
+                  </rs>
+                  <w xml:id="wd4t1325_2">v</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1329_1">haller</w>
+                  </rs>
+                  <lb n="N014"/>
+                  <w xml:id="wd4t1339_1">Item</w>
+                  <w xml:id="wd4t1344_2">Im</w>
+                  <w xml:id="wd4t1344_4">achtenden</w>
+                  <w xml:id="wd4t1344_6">Iär</w>
+                  <w xml:id="wd4t1344_8">wirt</w>
+                  <w xml:id="wd4t1344_10">es</w>
+                  <pc xml:id="wd4t1344_12" join="left">•</pc>
+                  <w xml:id="wd4t1344_14">xxii</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1346_1">guldin</w>
+                  </rs>
+                  <w xml:id="wd4t1347_2">ii</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1351_1">solidi</w>
+                  </rs>
+                  <w xml:id="wd4t1357_2">viii</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1359_1">hallerʼ</w>
+                  </rs>
+                  <lb n="N015"/>
+                  <w xml:id="wd4t1364_1">Item</w>
+                  <w xml:id="wd4t1369_2">Im</w>
+                  <w xml:id="wd4t1369_4">nunden</w>
+                  <w xml:id="wd4t1369_6">Iär</w>
+                  <w xml:id="wd4t1369_8">wirtt</w>
+                  <w xml:id="wd4t1369_10">es</w>
+                  <w xml:id="wd4t1369_12">xxxiii</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1372_1">guldin</w>
+                  </rs>
+                  <w xml:id="wd4t1373_2">xvi</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1377_1">solidi</w>
+                  </rs>
+                  <w xml:id="wd4t1383_2">i</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1387_1">haller</w>
+                  </rs>
+                  <lb n="N016"/>
+                  <w xml:id="wd4t1405_1">Item</w>
+                  <w xml:id="wd4t1410_2">im</w>
+                  <w xml:id="wd4t1410_4">ʒechenden</w>
+                  <w xml:id="wd4t1410_6">iar</w>
+                  <w xml:id="wd4t1410_8">wirt</w>
+                  <w xml:id="wd4t1410_10">es</w>
+                  <pc xml:id="wd4t1410_12" join="left">•</pc>
+                  <w xml:id="wd4t1410_14">xlviii</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1414_1">guldin</w>
+                  </rs>
+                  <w xml:id="wd4t1419_2">vii</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1424_1">solidi</w>
+                  </rs>
+                  <w xml:id="wd4t1430_2">iii</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1434_1">haller</w>
+                  </rs>
+                  <lb n="N017"/>
+                  <w xml:id="wd4t1443_1">Item</w>
+                  <w xml:id="wd4t1448_2">Im</w>
+                  <w xml:id="wd4t1448_4">einliften</w>
+                  <w xml:id="wd4t1448_6">iar</w>
+                  <w xml:id="wd4t1448_8">wirtt</w>
+                  <w xml:id="wd4t1448_10">es</w>
+                  <pc xml:id="wd4t1448_12" join="left">•</pc>
+                  <w xml:id="wd4t1448_14">lxviiii</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1452_1">guldin</w>
+                  </rs>
+                  <pc xml:id="wd4t1457_2" join="left">•</pc>
+                  <w xml:id="wd4t1457_4">xxii</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1461_1">solidi</w>
+                  </rs>
+                  <w xml:id="wd4t1467_2">vi</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1472_1">haller</w>
+                  </rs>
+                  <lb n="N018"/>
+                  <w xml:id="wd4t1481_1">Item</w>
+                  <w xml:id="wd4t1486_2">Im</w>
+                  <w xml:id="wd4t1486_4">ʒwelften</w>
+                  <w xml:id="wd4t1486_6">iar</w>
+                  <w xml:id="wd4t1486_8">wirt</w>
+                  <w xml:id="wd4t1486_10">es</w>
+                  <pc xml:id="wd4t1486_12" join="left">•</pc>
+                  <w xml:id="wd4t1486_14">C</w>
+                  <pc xml:id="wd4t1486_16" join="left">•</pc>
+                  <w xml:id="wd4t1486_18">v</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1488_1">guldin</w>
+                  </rs>
+                  <w xml:id="wd4t1489_2">v</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1493_1">solidi</w>
+                  </rs>
+                  <w xml:id="wd4t1499_2">iii</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1501_1">haller</w>
+                  </rs>
+                  <lb n="N019"/>
+                  <w xml:id="wd4t1507_1">Item</w>
+                  <w xml:id="wd4t1512_2">Im</w>
+                  <w xml:id="wd4t1512_4">driʒenden</w>
+                  <w xml:id="wd4t1512_6">Iar</w>
+                  <w xml:id="wd4t1512_8">wirt</w>
+                  <w xml:id="wd4t1512_10">es</w>
+                  <pc xml:id="wd4t1512_12" join="left">•</pc>
+                  <w xml:id="wd4t1512_14">ii</w>
+                  <hi rend="superscript">
+                     <w xml:id="wd4t1514_1">c</w>
+                  </hi>
+                  <pc xml:id="wd4t1515_2" join="left">•</pc>
+                  <rs type="currency">
+                     <w xml:id="wd4t1519_1">guldin</w>
+                  </rs>
+                  <w xml:id="wd4t1524_2">xviii</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1528_1">solidi</w>
+                  </rs>
+                  <w xml:id="wd4t1534_2">vi</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1538_1">haller</w>
+                  </rs>
+                  <w xml:id="wd4t1553_1">Item</w>
+                  <w xml:id="wd4t1554_2">Im</w>
+                  <w xml:id="wd4t1554_4">fierʒechenden</w>
+                  <w xml:id="wd4t1554_6">jar</w>
+                  <w xml:id="wd4t1554_8">wirt</w>
+                  <w xml:id="wd4t1554_10">es</w>
+                  <pc xml:id="wd4t1554_12" join="left">•</pc>
+                  <w xml:id="wd4t1554_14">ii</w>
+                  <hi rend="superscript">
+                     <w xml:id="wd4t1556_1">c</w>
+                  </hi>
+                  <pc xml:id="wd4t1557_2" join="left">•</pc>
+                  <w xml:id="wd4t1557_4">vnd</w>
+                  <w xml:id="wd4t1557_6">xxx</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1561_1">guldin</w>
+                  </rs>
+                  <w xml:id="wd4t1566_2">xxvi</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1570_1">solidi</w>
+                  </rs>
+                  <lb n="N021"/>
+                  <w xml:id="wd4t1578_1">vnnd</w>
+                  <pc xml:id="wd4t1578_3" join="left">•</pc>
+                  <w xml:id="wd4t1578_5">iii</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1580_1">haller</w>
+                  </rs>
+                  <lb n="N022"/>
+                  <w xml:id="wd4t1586_1">Item</w>
+                  <w xml:id="wd4t1591_2">Im</w>
+                  <w xml:id="wd4t1591_4">funfʒechenden</w>
+                  <w xml:id="wd4t1591_6">Iar</w>
+                  <w xml:id="wd4t1591_8">wirt</w>
+                  <w xml:id="wd4t1591_10">es</w>
+                  <w xml:id="wd4t1591_12">iii</w>
+                  <hi rend="superscript">
+                     <w xml:id="wd4t1593_1">c</w>
+                  </hi>
+                  <w xml:id="wd4t1594_2">xlii</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1598_1">guldin</w>
+                  </rs>
+                  <w xml:id="wd4t1603_2">ii</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1607_1">solidi</w>
+                  </rs>
+                  <w xml:id="wd4t1613_2">vi</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1617_1">haler</w>
+                  </rs>
+                  <lb n="N023"/>
+                  <w xml:id="wd4t1627_1">Item</w>
+                  <w xml:id="wd4t1632_2">Sechʒechenden</w>
+                  <w xml:id="wd4t1632_4">Iar</w>
+                  <w xml:id="wd4t1632_6">wirtt</w>
+                  <w xml:id="wd4t1632_8">es</w>
+                  <pc xml:id="wd4t1632_10" join="left">•</pc>
+                  <w xml:id="wd4t1632_12">v</w>
+                  <hi rend="superscript">
+                     <w xml:id="wd4t1634_1">c</w>
+                  </hi>
+                  <w xml:id="wd4t1635_2">vi</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1639_1">guldin</w>
+                  </rs>
+                  <w xml:id="wd4t1644_2">xviii</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1648_1">solidi</w>
+                  </rs>
+                  <w xml:id="wd4t1654_2">vi</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1658_1">haller</w>
+                  </rs>
+                  <lb n="N024"/>
+                  <w xml:id="wd4t1677_1">Item</w>
+                  <w xml:id="wd4t1682_2">Im</w>
+                  <w xml:id="wd4t1682_4">Sibenʒechenden</w>
+                  <w xml:id="wd4t1682_6">Iar</w>
+                  <w xml:id="wd4t1682_8">wirt</w>
+                  <w xml:id="wd4t1682_10">es</w>
+                  <w xml:id="wd4t1682_12">viii</w>
+                  <hi rend="superscript">
+                     <w xml:id="wd4t1684_1">c</w>
+                  </hi>
+                  <pc xml:id="wd4t1685_2" join="left">•</pc>
+                  <rs type="currency">
+                     <w xml:id="wd4t1687_1">guldin</w>
+                  </rs>
+                  <w xml:id="wd4t1688_2">xxi</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1692_1">solidi</w>
+                  </rs>
+                  <w xml:id="wd4t1698_2">iii</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1702_1">haller</w>
+                  </rs>
+                  <lb n="N025"/>
+                  <w xml:id="wd4t1712_1">Item</w>
+                  <w xml:id="wd4t1717_2">Im</w>
+                  <w xml:id="wd4t1717_4">achʒechenden</w>
+                  <w xml:id="wd4t1717_6">iar</w>
+                  <w xml:id="wd4t1717_8">wirt</w>
+                  <w xml:id="wd4t1717_10">es</w>
+                  <w xml:id="wd4t1717_12">xi</w>
+                  <hi rend="superscript">
+                     <w xml:id="wd4t1719_1">c</w>
+                  </hi>
+                  <pc xml:id="wd4t1720_2" join="left">•</pc>
+                  <w xml:id="wd4t1720_4">xxxxvii</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1724_1">guldin</w>
+                  </rs>
+                  <lb n="N026"/>
+                  <w xml:id="wd4t1731_1">xii</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1735_1">solidi</w>
+                  </rs>
+                  <w xml:id="wd4t1741_2">iiii</w>
+                  <w xml:id="wd4t1741_4">hallerr</w>
+                  <lb n="N027"/>
+                  <w xml:id="wd4t1746_1">Item</w>
+                  <w xml:id="wd4t1751_2">Im</w>
+                  <w xml:id="wd4t1751_4">nuͦnʒechenden</w>
+                  <w xml:id="wd4t1751_6">Iar</w>
+                  <w xml:id="wd4t1751_8">wirt</w>
+                  <w xml:id="wd4t1751_10">es</w>
+                  <w xml:id="wd4t1751_12">xvi</w>
+                  <hi rend="superscript">
+                     <w xml:id="wd4t1753_1">c</w>
+                  </hi>
+                  <pc xml:id="wd4t1754_2" join="left">•</pc>
+                  <w xml:id="wd4t1754_4">lxxxv</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1758_1">guldin</w>
+                  </rs>
+                  <lb n="N028"/>
+                  <w xml:id="wd4t1765_1">xiii</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1769_1">solidi</w>
+                  </rs>
+                  <lb n="N029"/>
+                  <w xml:id="wd4t1780_1">Item</w>
+                  <w xml:id="wd4t1785_2">Im</w>
+                  <w xml:id="wd4t1785_4">ʒwenʒigeſten</w>
+                  <w xml:id="wd4t1785_6">Iär</w>
+                  <w xml:id="wd4t1785_8">wirt</w>
+                  <w xml:id="wd4t1785_10">es</w>
+                  <w xml:id="wd4t1785_12">ii</w>
+                  <hi rend="superscript">
+                     <w xml:id="wd4t1787_1">m</w>
+                  </hi>
+                  <w xml:id="wd4t1788_2">iiii</w>
+                  <hi rend="superscript">
+                     <w xml:id="wd4t1790_1">c</w>
+                  </hi>
+                  <pc xml:id="wd4t1791_2" join="left">•</pc>
+                  <w xml:id="wd4t1791_4">lxxxxvi</w>
+                  <lb n="N030"/>
+                  <rs type="currency">
+                     <w xml:id="wd4t1794_1">guldin</w>
+                  </rs>
+                  <pc xml:id="wd4t1795_2" join="left">•</pc>
+                  <w xml:id="wd4t1795_4">xiii</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1799_1">solidi</w>
+                  </rs>
+                  <w xml:id="wd4t1805_2">iiii</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1808_1">haller</w>
+                  </rs>
+               </p>
+            </div>
+            <pb n="147r"/>
+            <div type="outline">
+               <p>
+                  <lb n="N001"/>
+                  <w xml:id="wd4t1820_1">
+                     <hi rend="initial">V</hi>nnd</w>
+                  <w xml:id="wd4t1820_3">ſint</w>
+                  <w xml:id="wd4t1820_5">dennocht</w>
+                  <w xml:id="wd4t1820_7">die</w>
+                  <w xml:id="wd4t1820_9">ubrigen</w>
+                  <w xml:id="wd4t1820_11">Coren</w>
+                  <w xml:id="wd4t1820_13">meß</w>
+                  <w xml:id="wd4t1820_15">vnd</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1822_1">haller</w>
+                  </rs>
+                  <w xml:id="wd4t1823_2">mit</w>
+                  <lb n="N002"/>
+                  <w xml:id="wd4t1825_1">gerechnott</w>
+                  <w xml:id="wd4t1825_3">was</w>
+                  <w xml:id="wd4t1825_5">vnder</w>
+                  <pc xml:id="wd4t1825_7" join="left">•</pc>
+                  <w xml:id="wd4t1825_9">iiii</w>
+                  <w xml:id="wd4t1825_11">Coren</w>
+                  <w xml:id="wd4t1825_13">meß</w>
+                  <w xml:id="wd4t1825_15">iſt</w>
+               </p>
+            </div>
+            <div type="reckoning_example">
+               <p>
+                  <lb n="N003"/>
+                  <w xml:id="wd4t1835_1">
+                     <hi rend="initial">I</hi>tem</w>
+                  <pc xml:id="wd4t1835_3" join="left">•</pc>
+                  <w xml:id="wd4t1835_5">x</w>
+                  <pc xml:id="wd4t1835_7" join="left">•</pc>
+                  <rs type="currency">
+                     <w xml:id="wd4t1837_1">guldin</w>
+                  </rs>
+                  <w xml:id="wd4t1838_2">von</w>
+                  <w xml:id="wd4t1838_4">den</w>
+                  <w xml:id="wd4t1838_6">Iuden</w>
+                  <w xml:id="wd4t1838_8">genomen</w>
+                  <w xml:id="wd4t1838_10">vnd</w>
+                  <w xml:id="wd4t1838_12">geſtanden</w>
+                  <pc xml:id="wd4t1838_14" join="left">•</pc>
+                  <w xml:id="wd4t1838_16">x</w>
+                  <pc xml:id="wd4t1838_18" join="left">•</pc>
+                  <w xml:id="wd4t1838_20">Iar</w>
+                  <lb n="N004"/>
+                  <w xml:id="wd4t1840_1">vnd</w>
+                  <w xml:id="wd4t1840_3">ledem</w>
+                  <hi rend="line-through">
+                     <w xml:id="wd4t1842_1">iar</w>
+                  </hi>
+                  <rs type="currency">
+                     <w xml:id="wd4t1845_1">guldin</w>
+                  </rs>
+                  <w xml:id="wd4t1846_2">genomen</w>
+                  <pc xml:id="wd4t1846_4" join="left">/</pc>
+                  <w xml:id="wd4t1846_6">ʒe</w>
+                  <w xml:id="wd4t1846_8">der</w>
+                  <w xml:id="wd4t1846_10">wuchen</w>
+                  <w xml:id="wd4t1846_12">ii</w>
+                  <pc xml:id="wd4t1846_14" join="left">•</pc>
+                  <w xml:id="wd4t1846_16">alt</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1849_1">haller</w>
+                  </rs>
+                  <lb n="N005"/>
+                  <w xml:id="wd4t1852_1">vnd</w>
+                  <w xml:id="wd4t1852_3">alle</w>
+                  <w xml:id="wd4t1852_5">Jar</w>
+                  <w xml:id="wd4t1852_7">eineſt</w>
+                  <w xml:id="wd4t1852_9">abgerechnett</w>
+                  <w xml:id="wd4t1852_11">bringt</w>
+                  <w xml:id="wd4t1852_13">an</w>
+                  <w xml:id="wd4t1852_15">houptguͦtt</w>
+                  <w xml:id="wd4t1852_17">vnd</w>
+                  <lb n="N006"/>
+                  <w xml:id="wd4t1854_1">wucher</w>
+                  <w xml:id="wd4t1854_3">an</w>
+                  <w xml:id="wd4t1854_5">einer</w>
+                  <w xml:id="wd4t1854_7">ſum</w>
+                  <w xml:id="wd4t1854_9">namlich</w>
+                  <pc xml:id="wd4t1854_11" join="left">•</pc>
+                  <w xml:id="wd4t1854_13">viiii</w>
+                  <hi rend="superscript">
+                     <w xml:id="wd4t1856_1">c</w>
+                  </hi>
+                  <pc xml:id="wd4t1857_2" join="left">•</pc>
+                  <w xml:id="wd4t1857_4">vnd</w>
+                  <w xml:id="wd4t1857_6">Lxi</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1861_1">guldin</w>
+                  </rs>
+                  <lb n="N007"/>
+                  <w xml:id="wd4t1868_1">xiii</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1873_1">solidi</w>
+                  </rs>
+                  <w xml:id="wd4t1879_2">iiii</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1881_1">haller</w>
+                  </rs>
+               </p>
+            </div>
+            <div type="reckoning_example">
+               <p>
+                  <lb n="N008"/>
+                  <w xml:id="wd4t1892_1">
+                     <hi rend="initial">I</hi>tem</w>
+                  <w xml:id="wd4t1892_3">x</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1894_1">guldin</w>
+                  </rs>
+                  <w xml:id="wd4t1895_2">In</w>
+                  <w xml:id="wd4t1895_4">Sömlicher</w>
+                  <w xml:id="wd4t1895_6">maß</w>
+                  <w xml:id="wd4t1895_8">geſtanden</w>
+                  <w xml:id="wd4t1895_10">an</w>
+                  <w xml:id="wd4t1895_12">dem</w>
+                  <w xml:id="wd4t1895_14">end</w>
+                  <lb n="N009"/>
+                  <w xml:id="wd4t1897_1">xx</w>
+                  <w xml:id="wd4t1897_3">Iar</w>
+                  <w xml:id="wd4t1897_5">bringt</w>
+                  <w xml:id="wd4t1897_7">an</w>
+                  <w xml:id="wd4t1897_9">houptguͦtt</w>
+                  <w xml:id="wd4t1897_11">vnd</w>
+                  <w xml:id="wd4t1897_13">wuͦcher</w>
+                  <pc xml:id="wd4t1897_15" join="left">•</pc>
+                  <w xml:id="wd4t1897_17">lxviiii</w>
+                  <hi rend="superscript">
+                     <w xml:id="wd4t1899_1">m</w>
+                  </hi>
+                  <lb n="N010"/>
+                  <w xml:id="wd4t1902_1">viiii</w>
+                  <hi rend="superscript">
+                     <w xml:id="wd4t1905_1">c</w>
+                  </hi>
+                  <w xml:id="wd4t1906_2">xxiii</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1908_1">guldin</w>
+                  </rs>
+                  <pc xml:id="wd4t1909_2" join="left">•</pc>
+                  <w xml:id="wd4t1909_4">ii</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1913_1">solidi</w>
+                  </rs>
+                  <w xml:id="wd4t1919_2">vi</w>
+                  <rs type="currency">
+                     <w xml:id="wd4t1921_1">häller</w>
+                  </rs>
+               </p>
+            </div>
+            <div>
+               <p>
+                  <lb n="N011"/>
+                  <w xml:id="wd4t1932_1">
+                     <hi rend="initial">D</hi>arumb</w>
+                  <w xml:id="wd4t1932_3">bedarff</w>
+                  <w xml:id="wd4t1932_5">nieman</w>
+                  <w xml:id="wd4t1935_1">wunderen</w>
+                  <w xml:id="wd4t1941_2">war</w>
+                  <w xml:id="wd4t1941_4">der</w>
+                  <w xml:id="wd4t1941_6">Criſten</w>
+                  <w xml:id="wd4t1941_8">gelt</w>
+                  <w xml:id="wd4t1941_10">kome</w>
+                  <lb n="N012"/>
+                  <w xml:id="wd4t1943_1">wenn</w>
+                  <w xml:id="wd4t1943_3">die</w>
+                  <w xml:id="wd4t1943_5">vnſaligen</w>
+                  <w xml:id="wd4t1943_7">hellhund</w>
+                  <w xml:id="wd4t1943_9">verſendent</w>
+                  <w xml:id="wd4t1943_11">es</w>
+                  <w xml:id="wd4t1943_13">mit</w>
+                  <w xml:id="wd4t1943_15">Iren</w>
+                  <lb n="N013"/>
+                  <gap reason="illegible"/>
+                  <w xml:id="wd4t1946_2">tag</w>
+                  <w xml:id="wd4t1946_4">vnd</w>
+                  <w xml:id="wd4t1946_6">nacht</w>
+                  <w xml:id="wd4t1946_8">vnd</w>
+                  <w xml:id="wd4t1946_10">vnderſtand</w>
+                  <gap reason="illegible"/>
+                  <gap reason="illegible"/>
+               </p>
+            </div>
+            <gap reason="lost"/>
+            <pb n="147v"/>
+         </div>
+      </body>
+  </text>
+</TEI>

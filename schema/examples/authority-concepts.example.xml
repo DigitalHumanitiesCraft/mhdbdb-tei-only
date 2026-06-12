@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Konzepte-Beispiel: zeigt Taxonomie-Struktur in concepts.xml
+     Validiert gegen: tei_all.rng + mhdbdb-authority.rnc
+     Daten leben in <encodingDesc>, <body> enthält nur einen Platzhalter-<p>.
+     IDs nutzen 8-stelliges hierarchisches Format: concept_NNNNNNNN -->
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt><title>Concepts Example</title></titleStmt>
+      <publicationStmt><publisher>MHDBDB</publisher><date>2026</date></publicationStmt>
+      <sourceDesc><p>Schema example</p></sourceDesc>
+    </fileDesc>
+    <encodingDesc>
+      <classDecl>
+        <taxonomy xml:id="mhdbdb-concepts">
+          <desc>Semantische Begriffsontologie der MHDBDB</desc>
+
+          <!-- Top-Level-Kategorie (kein broader-Zeiger) -->
+          <category xml:id="concept_10000000">
+            <catDesc>
+              <term xml:lang="de">Natur und Umwelt</term>
+              <term xml:lang="en">Nature and Environment</term>
+            </catDesc>
+          </category>
+
+          <!-- Kategorie mit broader-Zeiger zum Parent -->
+          <category xml:id="concept_11000000">
+            <catDesc>
+              <term xml:lang="de">Pflanzenwelt</term>
+              <term xml:lang="en">Plant World</term>
+              <ptr type="broader" target="#concept_10000000"/>
+            </catDesc>
+          </category>
+
+          <!-- Kategorie mit alternativen Term-Bezeichnungen -->
+          <category xml:id="concept_11100000">
+            <catDesc>
+              <term xml:lang="de">Baum</term>
+              <term xml:lang="de" type="alternative">Baumarten</term>
+              <term xml:lang="en">Tree</term>
+              <term xml:lang="en" type="alternative">Tree Species</term>
+              <ptr type="broader" target="#concept_11000000"/>
+            </catDesc>
+          </category>
+
+        </taxonomy>
+      </classDecl>
+    </encodingDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <!-- Platzhalter: Taxonomie-Daten liegen oben in encodingDesc/classDecl -->
+      <p>See encodingDesc for concept taxonomy.</p>
+    </body>
+  </text>
+</TEI>

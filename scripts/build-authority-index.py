@@ -18,8 +18,10 @@ Includes:
 CRITICAL: Uses mhg_normalizer.py for text normalization.
 """
 
+import argparse
 import json
 import gzip
+import subprocess
 import sys
 import os
 from pathlib import Path
@@ -78,9 +80,10 @@ def parse_lexicon():
 
     tree = etree.parse(str(lexicon_file))
     ns = get_namespaces(tree)
+    TEI = '{http://www.tei-c.org/ns/1.0}'
 
     lemmata = []
-    entries = tree.xpath('//tei:entry', namespaces=ns)
+    entries = tree.findall(f'.//{TEI}entry')
 
     for entry in entries:
         lemma_id = entry.get('{http://www.w3.org/XML/1998/namespace}id')
@@ -152,6 +155,28 @@ def parse_lexicon():
     return lemmata
 
 
+# Module-level person→works lookup, populated by _build_person_works_map()
+_person_works = {}
+
+
+def _build_person_works_map(works):
+    """Build person_id → comma-separated work_ids from parsed works data."""
+    global _person_works
+    for work in works:
+        author_ref = work.get('authorRef')
+        if not author_ref:
+            continue
+        # "persons.xml#person_5" → "person_5"
+        person_id = author_ref.split('#')[-1] if '#' in author_ref else author_ref
+        if person_id not in _person_works:
+            _person_works[person_id] = []
+        _person_works[person_id].append(work['id'])
+    # Convert lists to comma-separated strings
+    for pid in _person_works:
+        _person_works[pid] = ','.join(_person_works[pid])
+    print(f"   Built person→works map: {len(_person_works)} persons with works")
+
+
 def parse_persons():
     """Parse persons.xml to extract persons."""
     print("👤 Parsing persons.xml...")
@@ -165,7 +190,8 @@ def parse_persons():
     ns = get_namespaces(tree)
 
     persons = []
-    person_els = tree.xpath('//tei:person', namespaces=ns)
+    TEI = '{http://www.tei-c.org/ns/1.0}'
+    person_els = tree.findall(f'.//{TEI}person')
 
     for person_el in person_els:
         person_id = person_el.get('{http://www.w3.org/XML/1998/namespace}id')
@@ -189,9 +215,9 @@ def parse_persons():
         wikidata_el = person_el.xpath('.//tei:idno[@type="wikidata"]', namespaces=ns)
         wikidata = wikidata_el[0].text.strip() if wikidata_el and wikidata_el[0].text else None
 
-        # Extract works list (comma-separated work IDs)
-        works_el = person_el.xpath('.//tei:note[@type="works"]', namespaces=ns)
-        works = works_el[0].text.strip() if works_el and works_el[0].text else None
+        # Person→Work mapping is derived from works.xml <author @ref>
+        # (populated after parse_works via _build_person_works_map)
+        works = _person_works.get(person_id)
 
         persons.append({
             'id': person_id,
@@ -206,9 +232,35 @@ def parse_persons():
     return persons
 
 
+# Module-level genre name lookup, populated by _build_genre_names()
+_genre_names = {}
+
+
+def _build_genre_names():
+    """Build genre_id → German term lookup from genres.xml."""
+    global _genre_names
+    genres_file = AUTHORITY_DIR / 'genres.xml'
+    if not genres_file.exists():
+        return
+    tree = etree.parse(str(genres_file))
+    TEI = '{http://www.tei-c.org/ns/1.0}'
+    XML_ID = '{http://www.w3.org/XML/1998/namespace}id'
+    for cat in tree.iter(f'{TEI}category'):
+        cid = cat.get(XML_ID, '')
+        if not cid.startswith('genre_'):
+            continue
+        for term in cat.findall(f'{TEI}catDesc/{TEI}term'):
+            lang = term.get('{http://www.w3.org/XML/1998/namespace}lang', '')
+            if lang == 'de' and term.text:
+                _genre_names[cid] = term.text.strip()
+                break
+    print(f"   Built genre name lookup: {len(_genre_names)} entries")
+
+
 def parse_works():
     """Parse works.xml to extract works with full details."""
     print("📚 Parsing works.xml...")
+    _build_genre_names()
     works_file = AUTHORITY_DIR / 'works.xml'
 
     if not works_file.exists():
@@ -220,9 +272,10 @@ def parse_works():
 
     works = []
     # Try different possible root elements
-    work_els = tree.xpath('//tei:bibl', namespaces=ns)
+    TEI = '{http://www.tei-c.org/ns/1.0}'
+    work_els = tree.findall(f'.//{TEI}bibl')
     if not work_els:
-        work_els = tree.xpath('//work', namespaces=ns)
+        work_els = tree.findall('.//work')  # fallback for non-TEI
 
     for work_el in work_els:
         work_id = work_el.get('{http://www.w3.org/XML/1998/namespace}id')
@@ -268,20 +321,19 @@ def parse_works():
         author_text = author_el[0].text.strip() if author_el and author_el[0].text else None
         author = author_text or author_ref or "Unbekannt"
 
-        # Extract genre references
-        genre_refs = work_el.xpath('.//tei:ref[contains(@target, "genres.xml#")]', namespaces=ns)
+        # Extract genre references (<ptr target="genres.xml#genre_ID"/>)
+        # Genre label text is resolved from genres.xml via _genre_names lookup
+        genre_ptrs = work_el.xpath('./tei:ptr[contains(@target, "genres.xml#")]', namespaces=ns)
         genres = []
-        for ref in genre_refs:
-            lang = ref.get('{http://www.w3.org/XML/1998/namespace}lang')
-            if lang == 'de':  # Only German genre labels
-                target = ref.get('target')
-                if target:
-                    genre_id = target.split('#')[1] if '#' in target else target
-                    genre_text = ref.text.strip() if ref.text else ''
-                    genres.append({
-                        'id': genre_id,
-                        'text': genre_text
-                    })
+        for ptr in genre_ptrs:
+            target = ptr.get('target')
+            if target:
+                genre_id = target.split('#')[1] if '#' in target else target
+                genre_text = _genre_names.get(genre_id, '')
+                genres.append({
+                    'id': genre_id,
+                    'text': genre_text
+                })
 
         # Extract biblStruct elements (bibliographic sources)
         bibl_struct_els = work_el.xpath('.//tei:biblStruct', namespaces=ns)
@@ -305,7 +357,7 @@ def parse_works():
         handschriftencensus = hc_el[0].text.strip() if hc_el and hc_el[0].text else None
 
         # Extract GND identifier (for works)
-        gnd_el = work_el.xpath('.//tei:idno[@type="gnd"]', namespaces=ns)
+        gnd_el = work_el.xpath('.//tei:idno[@type="GND"]', namespaces=ns)
         gnd = None
         if gnd_el and gnd_el[0].text:
             gnd_text = gnd_el[0].text.strip()
@@ -357,10 +409,11 @@ def parse_concepts():
 
     tree = etree.parse(str(concepts_file))
     ns = get_namespaces(tree)
+    TEI = '{http://www.tei-c.org/ns/1.0}'
 
     concepts = []
     # Find all category elements with concept_ prefix
-    category_els = tree.xpath('//tei:category', namespaces=ns)
+    category_els = tree.findall(f'.//{TEI}category')
 
     for category_el in category_els:
         category_id = category_el.get('{http://www.w3.org/XML/1998/namespace}id')
@@ -376,27 +429,47 @@ def parse_concepts():
         if catdesc_el is None:
             continue
 
-        # Find German and English terms
+        # Find German and English terms — primary vs. alternative kept separate
+        # so the autocomplete can match synonyms without overwriting the primary
+        # label (Issue #113-Followup, KZW 2026-05-18).
         term_els = catdesc_el.findall('.//tei:term', namespaces=ns)
         term_de = ''
         term_en = ''
+        alt_de = []
+        alt_en = []
 
         for term_el in term_els:
             lang = term_el.get('{http://www.w3.org/XML/1998/namespace}lang')
+            ttype = term_el.get('type')
+            text = term_el.text.strip() if term_el.text else ''
+            if not text:
+                continue
             if lang == 'de':
-                term_de = term_el.text.strip() if term_el.text else ''
+                if ttype == 'alternative':
+                    alt_de.append(text)
+                elif not term_de:
+                    term_de = text
             elif lang == 'en':
-                term_en = term_el.text.strip() if term_el.text else ''
+                if ttype == 'alternative':
+                    alt_en.append(text)
+                elif not term_en:
+                    term_en = text
 
         if not term_de:
             continue
 
-        concepts.append({
+        concept_entry = {
             'id': category_id,
             'termDE': term_de,
             'termEN': term_en,
             'normalized': normalize_mhg(term_de)
-        })
+        }
+        if alt_de:
+            concept_entry['altDE'] = alt_de
+            concept_entry['altNormalized'] = [normalize_mhg(t) for t in alt_de]
+        if alt_en:
+            concept_entry['altEN'] = alt_en
+        concepts.append(concept_entry)
 
     print(f"   Found {len(concepts)} concepts")
     return concepts
@@ -413,10 +486,11 @@ def parse_genres():
 
     tree = etree.parse(str(genres_file))
     ns = get_namespaces(tree)
+    TEI = '{http://www.tei-c.org/ns/1.0}'
 
     genres = []
     # Find all category elements with genre_ prefix
-    category_els = tree.xpath('//tei:category', namespaces=ns)
+    category_els = tree.findall(f'.//{TEI}category')
 
     for category_el in category_els:
         category_id = category_el.get('{http://www.w3.org/XML/1998/namespace}id')
@@ -469,10 +543,11 @@ def parse_names():
 
     tree = etree.parse(str(names_file))
     ns = get_namespaces(tree)
+    TEI = '{http://www.tei-c.org/ns/1.0}'
 
     names = []
     # Find all category elements with name_ prefix
-    category_els = tree.xpath('//tei:category', namespaces=ns)
+    category_els = tree.findall(f'.//{TEI}category')
 
     for category_el in category_els:
         category_id = category_el.get('{http://www.w3.org/XML/1998/namespace}id')
@@ -534,9 +609,10 @@ def parse_variants():
 
     tree = etree.parse(str(variants_file))
     ns = get_namespaces(tree)
+    TEI = '{http://www.tei-c.org/ns/1.0}'
 
     variants = {}  # normalized_variant -> lemma_id
-    entry_els = tree.xpath('//tei:entry | //entry', namespaces=ns)
+    entry_els = tree.findall(f'.//{TEI}entry')
 
     for entry in entry_els:
         # Get lemma reference from corresp attribute
@@ -634,10 +710,11 @@ def build_performance_maps(lemmata, works, concepts, genres):
         if genres_file.exists():
             tree = etree.parse(str(genres_file))
             ns = get_namespaces(tree)
+            TEI = '{http://www.tei-c.org/ns/1.0}'
 
             # Build lookup: genre_id -> genre name (German)
             genre_names = {}
-            categories = tree.xpath('//tei:category', namespaces=ns)
+            categories = tree.findall(f'.//{TEI}category')
             for category in categories:
                 cat_id = category.get('{http://www.w3.org/XML/1998/namespace}id')
                 if not cat_id:
@@ -689,10 +766,17 @@ def build_index():
     print("\n🔨 Building authority index...")
     print(f"Authority files directory: {AUTHORITY_DIR}")
 
+    # Reset module-level caches (safe for repeated calls in test harnesses)
+    global _person_works, _genre_names
+    _person_works = {}
+    _genre_names = {}
+
     # Parse all authority files
+    # works before persons: person→works map is derived from works.xml <author @ref>
     lemmata = parse_lexicon()
-    persons = parse_persons()
     works = parse_works()
+    _build_person_works_map(works)
+    persons = parse_persons()
     concepts = parse_concepts()
     genres = parse_genres()
     names = parse_names()
@@ -703,7 +787,7 @@ def build_index():
 
     # Build index structure
     index = {
-        'version': '1.1.0',  # Bumped for GND/Wikidata in works
+        'version': '1.4.0',  # 1.2.0: Authority migration (genre ptrs, person-works derivation, Frauendienst split). 1.2.1: WZB-Lemmata + Varianten + Werk-Eintrag. 1.2.2: #104 FLG/FLG1-Werk-Titel + work_571 biblStruct auf Vollmann-Profe/Neumann 1990. 1.3.0: #113-Followup — alternative-Terms in concepts.xml getrennt von Primär-Term (altDE/altEN/altNormalized) statt last-wins-Overwrite. 1.4.0: #44/#115 variants.xml aus Korpus regeneriert via scripts/sync/extract-variants.py (+64.287 Formen, 192.472→256.759).
         'generatedAt': datetime.utcnow().isoformat() + 'Z',
         'lemmata': lemmata,
         'persons': persons,
@@ -758,11 +842,56 @@ def save_index(index):
     print(f"\n✅ Authority index saved successfully!")
 
 
+def check_working_tree(directory, allow_dirty):
+    """Pre-flight check: warn (or fail) when directory has uncommitted or
+    untracked authority files. Prevents accidentally bundling work-in-progress
+    files into the published index. See #100."""
+    try:
+        result = subprocess.run(
+            ['git', 'status', '--porcelain', '--', str(directory)],
+            capture_output=True, text=True, check=True, cwd=PROJECT_ROOT
+        )
+    except (subprocess.CalledProcessError, FileNotFoundError) as e:
+        print(f"⚠️  git status check skipped: {e}")
+        return
+
+    lines = [ln for ln in result.stdout.splitlines() if ln.strip()]
+    untracked = [ln for ln in lines if ln.startswith('??')]
+    modified = [ln for ln in lines if not ln.startswith('??')]
+
+    if not lines:
+        return
+
+    print(f"⚠️  Working tree under {directory}/ is not clean:")
+    print(f"   {len(untracked)} untracked, {len(modified)} modified/staged")
+    for ln in lines[:10]:
+        print(f"     {ln}")
+    if len(lines) > 10:
+        print(f"     ... +{len(lines) - 10} more")
+
+    if allow_dirty:
+        print("   --allow-dirty set, continuing anyway.")
+    else:
+        sys.exit(
+            "Refusing to build a possibly-inconsistent index.\n"
+            "Commit/stash the changes above, or pass --allow-dirty for local tests."
+        )
+
+
 def main():
     """Main entry point."""
+    parser = argparse.ArgumentParser(description="Build MHDBDB authority index from authority-files/")
+    parser.add_argument(
+        '--allow-dirty', action='store_true',
+        help="Build even if authority-files/ has untracked or modified files (use for local tests)."
+    )
+    args = parser.parse_args()
+
     print("=" * 60)
     print("MHDBDB Authority Index Builder")
     print("=" * 60)
+
+    check_working_tree(AUTHORITY_DIR.relative_to(PROJECT_ROOT), args.allow_dirty)
 
     try:
         # Build index

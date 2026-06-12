@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Datenbasis der Mittelhochdeutschen Begriffsdatenbank: 667 TEI-Texte, 43.754 Lemmata, acht Authority Files, Provenienz und bekannte Grenzen.">
+    <meta name="keywords" content="MHDBDB, Daten, TEI, Authority Files, Korpus, Mittelhochdeutsch, Provenienz">
+    <meta name="author" content="Universität Salzburg">
+
+    <title>Daten – MHDBDB Hilfe</title>
+
+    <link rel="stylesheet" href="assets/css/tailwind-output.css">
+    <link rel="icon" type="image/png" href="assets/images/mhdbdb-logo.png">
+    <link rel="stylesheet" href="assets/css/shared.css">
+    <link rel="stylesheet" href="assets/css/hilfe.css">
+</head>
+<body class="bg-slate-100 text-slate-900">
+
+<!-- NAV:START key=hilfe -->
+<header class="border-b border-slate-200 bg-white/90 backdrop-blur sticky top-0 z-50">
+    <div class="container mx-auto px-6 py-4">
+        <nav class="flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-3">
+                <img src="assets/images/mhdbdb-logo.png" alt="MHDBDB Logo" class="w-40">
+                <span class="text-lg font-bold text-brand-600">MHDBDB</span>
+            </a>
+
+            <!-- Desktop Navigation -->
+            <div class="hidden md:flex items-center gap-6">
+                <a href="index.html" data-nav="start" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                    Startseite
+                </a>
+                <a href="korpus.html" data-nav="korpus" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                    Korpussuche
+                </a>
+                <a href="playground/index.html" data-nav="playground" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                    Playground
+                </a>
+                <a href="woerterbuch.html" data-nav="woerterbuch" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                    Wörterbuch
+                </a>
+                <a aria-current="page" href="hilfe.html" data-nav="hilfe" class="text-sm text-slate-900 font-semibold hover:text-slate-900 transition">
+                    Hilfe
+                </a>
+                <a href="index.html#contact" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                    Kontakt
+                </a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobileMenuButton" class="md:hidden p-2 text-slate-600 hover:text-slate-900 transition" aria-label="Toggle menu">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </nav>
+
+        <!-- Mobile Navigation (Hidden by default, only visible on mobile) -->
+        <div id="mobileMenu" class="hidden md:hidden mt-4 pb-4 border-t border-slate-200">
+            <div class="flex flex-col gap-3 pt-4">
+                <a href="index.html" data-nav="start" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                    Startseite
+                </a>
+                <a href="korpus.html" data-nav="korpus" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                    Korpussuche
+                </a>
+                <a href="playground/index.html" data-nav="playground" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                    Playground
+                </a>
+                <a href="woerterbuch.html" data-nav="woerterbuch" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                    Wörterbuch
+                </a>
+                <a aria-current="page" href="hilfe.html" data-nav="hilfe" class="text-sm text-slate-900 font-semibold hover:text-slate-900 transition py-2">
+                    Hilfe
+                </a>
+                <a href="index.html#contact" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                    Kontakt
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- NAV:END -->
+
+    <!-- Hilfe-interne Nav-Leiste -->
+    <nav class="bg-white border-b border-slate-200" aria-label="Hilfe-Bereiche">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-wrap gap-x-8 gap-y-2 -mb-px">
+                <a href="hilfe.html" class="py-3 border-b-2 border-transparent text-slate-600 hover:text-slate-900 hover:border-slate-300 transition text-sm font-medium">
+                    Quick-Start
+                </a>
+                <a href="hilfe-korpussuche.html" class="py-3 border-b-2 border-transparent text-slate-600 hover:text-slate-900 hover:border-slate-300 transition text-sm font-medium">
+                    Korpussuche-Hilfe
+                </a>
+                <a href="hilfe-playground.html" class="py-3 border-b-2 border-transparent text-slate-600 hover:text-slate-900 hover:border-slate-300 transition text-sm font-medium">
+                    Playground-Hilfe
+                </a>
+                <a href="hilfe-daten.html" class="py-3 border-b-2 border-brand-600 text-brand-700 font-semibold text-sm" aria-current="page">
+                    Daten
+                </a>
+                <a href="hilfe-schema.html" class="py-3 border-b-2 border-transparent text-slate-600 hover:text-slate-900 hover:border-slate-300 transition text-sm font-medium">
+                    Schema
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-12">
+      <div class="hilfe-main-grid">
+        <div class="hilfe-content">
+
+        <!-- Brotkrume -->
+        <nav aria-label="Pfad" class="mb-6 text-sm text-slate-500">
+            <a href="hilfe.html" class="hover:text-brand-600 transition">Hilfe</a>
+            <span class="mx-2">›</span>
+            <span class="text-slate-700">Daten</span>
+        </nav>
+
+        <!-- Hero -->
+        <section class="mb-10">
+            <h1 class="text-4xl font-bold text-slate-900 mb-4">Daten</h1>
+            <p class="text-lg text-slate-600 leading-relaxed">
+                Woraus besteht die MHDBDB? Diese Seite beschreibt das Korpus, die acht Authority
+                Files, ihre Provenienz und die bekannten Grenzen der aktuellen Version.
+            </p>
+        </section>
+
+        <!-- Inhaltsverzeichnis (inline, unter xl sichtbar) -->
+        <nav aria-label="Auf dieser Seite" class="hilfe-toc-inline mb-12 bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+            <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500 mb-3">Auf dieser Seite</h2>
+            <ol class="space-y-2 text-sm">
+                <li><a href="#ueberblick" class="text-brand-600 hover:text-brand-700 font-medium">1. Das Korpus in Zahlen</a></li>
+                <li><a href="#authority-files" class="text-brand-600 hover:text-brand-700 font-medium">2. Acht Authority Files</a></li>
+                <li><a href="#provenienz" class="text-brand-600 hover:text-brand-700 font-medium">3. Provenienz und Editionen</a></li>
+                <li><a href="#grenzen" class="text-brand-600 hover:text-brand-700 font-medium">4. Bekannte Grenzen</a></li>
+                <li><a href="#mitwirken" class="text-brand-600 hover:text-brand-700 font-medium">5. Daten beitragen oder das Schema verstehen</a></li>
+            </ol>
+        </nav>
+
+        <!-- 1. Das Korpus in Zahlen -->
+        <section id="ueberblick" class="mb-12 scroll-mt-24">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">1. Das Korpus in Zahlen</h2>
+
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Die MHDBDB umfasst <strong>667 mittelhochdeutsche TEI-Texte</strong> mit
+                wortgenauer semantischer Annotation. Das Wörterbuch hält
+                <strong>43.754 Lemmata</strong> vor, dazu ein Variantenwörterbuch mit
+                <strong>192.472 orthographischen Varianten</strong>, das die Suche gegen die
+                tatsächlich attestierten Schreibformen im Korpus abgleicht.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-6">
+                <div class="bg-white rounded-xl border border-slate-200 p-5">
+                    <p class="text-3xl font-bold text-brand-600 mb-1">667</p>
+                    <p class="text-sm text-slate-600">TEI-Texte</p>
+                </div>
+                <div class="bg-white rounded-xl border border-slate-200 p-5">
+                    <p class="text-3xl font-bold text-brand-600 mb-1">43.754</p>
+                    <p class="text-sm text-slate-600">Lemmata im Wörterbuch</p>
+                </div>
+                <div class="bg-white rounded-xl border border-slate-200 p-5">
+                    <p class="text-3xl font-bold text-brand-600 mb-1">192.472</p>
+                    <p class="text-sm text-slate-600">orthographische Varianten</p>
+                </div>
+            </div>
+
+            <p class="text-slate-700 leading-relaxed">
+                Die Texte decken einen breiten Ausschnitt der mittelhochdeutschen Literatur ab:
+                Epik, Lyrik, geistliche Prosa, Lehrdichtung, Sangspruch, Chroniken. Viele Werke
+                liegen in mehreren Editionen vor; Sie können im Reading View zwischen den
+                Editionen wechseln.
+            </p>
+        </section>
+
+        <!-- 2. Acht Authority Files -->
+        <section id="authority-files" class="mb-12 scroll-mt-24">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">2. Acht Authority Files</h2>
+
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Die TEI-Texte referenzieren acht kontrollierte Vokabulare, die gemeinsam die
+                Grundlage für Suche, Lemmatisierung und semantische Analyse bilden. Sechs davon
+                können Sie im Playground direkt durchsuchen,
+                <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">variants.xml</code>
+                arbeitet unsichtbar im Hintergrund, und
+                <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">contributors.xml</code>
+                ist ein internes Mitwirkenden-Register für die Editor-Attribution in den
+                TEI-Headern.
+            </p>
+
+            <ul class="space-y-3 text-sm text-slate-700 mb-4">
+                <li>
+                    <strong>persons.xml</strong> <span class="text-slate-500">(0,05 MB)</span> –
+                    Autor*innen und historische Personen. Verknüpft mit GND und Wikidata, wo
+                    vorhanden.
+                </li>
+                <li>
+                    <strong>works.xml</strong> <span class="text-slate-500">(1,14 MB)</span> –
+                    Werk- und Handschriftenmetadaten: Sigle, Autor*in, Gattung, Edition. Jeder
+                    Werk-Eintrag verlinkt mit den zugehörigen Korpustexten.
+                </li>
+                <li>
+                    <strong>lexicon.xml</strong> <span class="text-slate-500">(31,84 MB)</span> –
+                    das Wörterbuch mit 43.754 Lemmata, grammatischen Annotationen, Bedeutungen und
+                    Anbindung an BMZ, Lexer und MWB.
+                </li>
+                <li>
+                    <strong>concepts.xml</strong> <span class="text-slate-500">(0,21 MB)</span> –
+                    semantische Begriffstaxonomie mit hierarchischer Struktur.
+                </li>
+                <li>
+                    <strong>genres.xml</strong> <span class="text-slate-500">(0,4 MB)</span> –
+                    literarische Gattungsklassifikation.
+                </li>
+                <li>
+                    <strong>names.xml</strong> <span class="text-slate-500">(0,03 MB)</span> –
+                    Eigennamen mit semantischen Relationen.
+                </li>
+                <li>
+                    <strong>variants.xml</strong> <span class="text-slate-500">(12,18 MB)</span> –
+                    orthographische Varianten, aus dem Korpus abgeleitet. Grundlage der
+                    Variantenauflösung in der Suche.
+                </li>
+                <li>
+                    <strong>contributors.xml</strong> <span class="text-slate-500">(intern)</span> –
+                    Register der MHDBDB-Mitwirkenden (51 Personen + 2 Organisationen). Dient
+                    der Editor-Attribution in den TEI-Headern und wird nicht über die Suche
+                    zugänglich gemacht.
+                </li>
+            </ul>
+
+            <p class="text-slate-700 leading-relaxed">
+                Alle Authority Files sind auf
+                <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/tree/main/authority-files" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">GitHub</a>
+                unter CC BY-NC-SA 4.0 verfügbar.
+            </p>
+        </section>
+
+        <!-- 3. Provenienz -->
+        <section id="provenienz" class="mb-12 scroll-mt-24">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">3. Provenienz und Editionen</h2>
+
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Die MHDBDB ist ein langjähriges Projekt der
+                <a href="https://www.plus.ac.at" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Universität Salzburg</a>.
+                Die ursprüngliche Datenbank der Mittelhochdeutschen Begriffsdatenbank wurde ab
+                den 1970er Jahren aufgebaut; die aktuelle TEI-Version ist das Ergebnis der
+                Konsolidierung und Neu-Auszeichnung dieser historisch gewachsenen Grundlage.
+            </p>
+
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Die digitalen Texte basieren auf etablierten Editionen. Im Reading View der
+                Korpussuche finden Sie für jeden Text im Metadaten-Panel die verwendete Edition.
+                Wo mehrere Editionen eines Werks vorliegen, listet die <strong>Siglen</strong>-Sektion
+                die weiteren Editionen als anklickbare Links – ein Klick lädt den jeweiligen Text.
+            </p>
+
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Die TEI-Auszeichnung folgt den
+                <a href="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">TEI P5 Guidelines</a>
+                im Namespace <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">http://www.tei-c.org/ns/1.0</code>.
+                Jedes lemmatisierte Wort ist mit <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;w&gt;</code>
+                und einem Referenzeintrag zum Wörterbuch ausgezeichnet.
+            </p>
+            <p class="text-slate-700 leading-relaxed">
+                <strong>Zitationshinweis:</strong> Wenn Sie die MHDBDB in einer Publikation
+                verwenden, steht auf der Startseite eine empfohlene Zitation unter
+                <a href="index.html#zitieren" class="text-brand-600 hover:text-brand-700 font-medium">Zitation &amp; Lizenz</a>.
+            </p>
+        </section>
+
+        <!-- 4. Grenzen -->
+        <section id="grenzen" class="mb-12 scroll-mt-24">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">4. Bekannte Grenzen</h2>
+
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Die aktuelle Version der Website hat bewusste und unbewusste Grenzen. Die
+                wichtigsten:
+            </p>
+
+            <ul class="space-y-3 text-sm text-slate-700 mb-4 ml-4 list-disc list-inside">
+                <li><strong>Desktop-only.</strong> Die Oberflächen von Korpussuche und Playground sind für Bildschirme ab 1200 Pixeln optimiert. Auf Mobilgeräten funktioniert vieles, einige Bedienelemente sind jedoch beengt.</li>
+                <li><strong>Statisches Korpus.</strong> Das Korpus wird nicht in Echtzeit aktualisiert. Änderungen an Texten oder Authority Files erfordern einen Build-Lauf und ein neues Deployment.</li>
+                <li><strong>Keine Serverkomponente.</strong> Alle Berechnungen laufen im Browser, gegen vorberechnete Indizes. Das ist schnell und privat, bedeutet aber auch: keine persistenten Nutzerdaten, kein Session-Zustand auf dem Server. Eine programmatische API ist in Arbeit.</li>
+                <li><strong>Lemmatisierung nicht vollständig.</strong> Nicht jedes Wort im Korpus ist lemmatisiert; die Abdeckung variiert zwischen Texten. Die Trefferzahlen sind entsprechend als untere Schranken zu lesen.</li>
+                <li><strong>Editionsabhängigkeit.</strong> Die Texte folgen den jeweiligen Druckausgaben. Varianten zwischen Editionen desselben Werks spiegeln die Editionsentscheidungen, nicht die Handschriften.</li>
+            </ul>
+
+            <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded-r-lg my-6">
+                <p class="text-sm text-slate-700">
+                    <strong>Cache leeren:</strong> Wenn Sie den Eindruck haben, dass Sie eine
+                    veraltete Version der Daten sehen, nutzen Sie den Button
+                    <strong>„Website-Daten löschen"</strong> im Footer jeder Seite. Er leert den
+                    Browser-Cache der Indizes und lädt die aktuelle Version neu.
+                </p>
+            </div>
+        </section>
+
+        <!-- 5. Mitwirken -->
+        <section id="mitwirken" class="mb-12 scroll-mt-24">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">5. Daten beitragen oder das Schema verstehen</h2>
+
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Sie wollen eigene Texte zur MHDBDB beitragen oder die genaue TEI-Auszeichnung
+                nachvollziehen? Beide Themen werden separat gepflegt:
+            </p>
+
+            <ul class="space-y-3 text-sm text-slate-700 mb-4 ml-4 list-disc list-inside">
+                <li><strong><a href="hilfe-schema.html" class="text-brand-600 hover:text-brand-700 font-medium">Schema-Seite</a></strong> – die normative Beschreibung, welche TEI-Elemente und Attribute in der MHDBDB verwendet werden, mit neun Beispieldateien zum Anschauen, Step-by-Step-Tutorial und Validierungshinweisen.</li>
+                <li><strong><a href="hilfe-daten-beitragen.html" class="text-brand-600 hover:text-brand-700 font-medium">Eigene Texte beitragen</a></strong> – technischer Leitfaden zur Konversion bestehender TEI-Daten (MHD/FNHD) in das MHDBDB-Schema: Header-Struktur, Wort-Annotation, Authority-Files, halbautomatische Pipeline, Validierung.</li>
+            </ul>
+
+            <p class="text-slate-700 leading-relaxed">
+                Inhaltliche Rückfragen oder Erstkontakt zum Beitragen eigener Texte:
+                <a href="mailto:mhdbdb@plus.ac.at" class="text-brand-600 hover:text-brand-700 font-medium">mhdbdb@plus.ac.at</a>.
+                Das TEI-Korpus und die Authority Files stehen offen auf
+                <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">GitHub</a>
+                zur Verfügung.
+            </p>
+        </section>
+
+        <!-- Stand-Zeile -->
+        <p class="hilfe-stand">
+            Stand: Mai 2026 ·
+            <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/commits/main/hilfe-daten.html" target="_blank" rel="noopener">Änderungen auf GitHub</a>
+        </p>
+
+        </div><!-- /.hilfe-content -->
+
+        <!-- Sticky TOC (sichtbar ab xl) -->
+        <aside class="hilfe-toc-aside">
+            <nav aria-label="Auf dieser Seite" class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
+                <h2 class="text-xs font-semibold uppercase tracking-wide text-slate-500 mb-3">Auf dieser Seite</h2>
+                <ol class="space-y-2 text-sm">
+                    <li><a href="#ueberblick" class="text-brand-600 hover:text-brand-700 font-medium">1. Korpus in Zahlen</a></li>
+                    <li><a href="#authority-files" class="text-brand-600 hover:text-brand-700 font-medium">2. Authority Files</a></li>
+                    <li><a href="#provenienz" class="text-brand-600 hover:text-brand-700 font-medium">3. Provenienz</a></li>
+                    <li><a href="#grenzen" class="text-brand-600 hover:text-brand-700 font-medium">4. Bekannte Grenzen</a></li>
+                    <li><a href="#mitwirken" class="text-brand-600 hover:text-brand-700 font-medium">5. Mitwirken</a></li>
+                </ol>
+            </nav>
+        </aside>
+
+      </div><!-- /.hilfe-main-grid -->
+    </main>
+
+<!-- FOOTER:START -->
+<footer class="bg-slate-100 text-slate-900 py-8">
+  <div class="container mx-auto px-6">
+    <!-- Logos Row -->
+    <div
+      class="flex flex-wrap items-center justify-center gap-8 mb-6 pb-6 border-b border-slate-300"
+    >
+      <img
+        src="assets/images/mhdbdb-logo.png"
+        alt="MHDBDB Logo"
+        class="h-16 w-auto"
+      />
+      <img
+        src="assets/images/university-logo.png"
+        alt="Universität Salzburg"
+        class="h-24 w-auto"
+      />
+      <img
+        src="assets/images/clariah-logo.png"
+        alt="CLARIAH-AT"
+        class="h-24 w-auto"
+      />
+    </div>
+
+    <!-- Info and Button Row -->
+    <div
+      class="flex flex-col md:flex-row justify-between items-center gap-6"
+    >
+      <div class="text-center md:text-left">
+        <p class="text-sm mb-2">
+          Universität Salzburg, 2025–<span class="current-year">2026</span> |
+          <a
+            href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
+            class="hover:text-brand-600 transition"
+            target="_blank"
+            rel="noopener"
+          >
+            CC BY-NC-SA 4.0
+          </a>
+        </p>
+        <div
+          class="flex flex-wrap justify-center md:justify-start gap-4 text-sm text-slate-600"
+        >
+          <a
+            href="mailto:mhdbdb@plus.ac.at"
+            class="hover:text-brand-600 transition"
+            >mhdbdb@plus.ac.at</a
+          >
+          <span>|</span>
+          <a
+            href="https://mhdbdb.plus.ac.at"
+            class="hover:text-brand-600 transition"
+            target="_blank"
+            rel="noopener"
+          >
+            mhdbdb.plus.ac.at
+          </a>
+          <span>|</span>
+          <a
+            href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only"
+            class="hover:text-brand-600 transition"
+            target="_blank"
+            rel="noopener"
+          >
+            GitHub
+          </a>
+          <span>|</span>
+          <a
+            href="impressum.html"
+            class="hover:text-brand-600 transition"
+          >
+            Impressum
+          </a>
+          <span>|</span>
+          <a
+            href="barrierefreiheit.html"
+            class="hover:text-brand-600 transition"
+          >
+            Barrierefreiheit
+          </a>
+        </div>
+      </div>
+      <button
+        id="clearSiteDataBtn"
+        class="btn-secondary text-sm flex items-center gap-2"
+        title="Alle gespeicherten Daten löschen (Cache, IndexedDB, etc.)"
+      >
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+        </svg>
+        <span>Website-Daten löschen</span>
+      </button>
+    </div>
+  </div>
+</footer>
+<script src="assets/js/site-chrome.js" defer></script>
+<!-- FOOTER:END -->
+
+</body>
+</html>

@@ -1,0 +1,192 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?xml-model href="../schema/mhdbdb-authority.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="https://tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>MHDBDB Contributors Registry</title>
+      </titleStmt>
+      <publicationStmt>
+        <publisher>Middle High German Conceptual Database (MHDBDB)</publisher>
+        <date>2026-04-14</date>
+      </publicationStmt>
+      <sourceDesc>
+        <p>Register aller Mitwirkenden an der Mittelhochdeutschen Begriffsdatenbank: Gründer, Koordination, Haupteditor:innen und Editor:innen, die an den bestehenden Texten gearbeitet haben. Dient als zentrale Authority-Quelle für die Editor-Attribution in den Korpus-Headern. Personenreihenfolge: contrib_001..006 sind feste Funktions-Slots (Gründer, Koordinatorin, Lead-Editor:innen); contrib_007..051 sind Editor:innen in der Reihenfolge von Katharinas ursprünglicher E-Mail-Liste (2026-04).</p>
+      </sourceDesc>
+    </fileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <listOrg>
+        <org xml:id="mhdbdb-team">
+          <orgName xml:lang="de">MHDBDB-Team</orgName>
+          <desc xml:lang="de">Alle Mitwirkenden der Mittelhochdeutschen Begriffsdatenbank — Gründer, Koordination und Editor:innen. Dient als Verweis-Anker für die kollektive Team-Attribution in den Korpus-Headern via orgName/@ref auf contributors.xml#mhdbdb-team.</desc>
+        </org>
+        <org xml:id="dhcraft">
+          <orgName xml:lang="de">Digital Humanities Craft</orgName>
+          <desc xml:lang="de">Digital-Humanities-Dienstleister mit Sitz in Graz, verantwortlich für technische Umsetzung, Grafikdesign und Webentwicklung der MHDBDB.</desc>
+          <idno type="URL">https://dhcraft.org</idno>
+        </org>
+      </listOrg>
+      <listPerson>
+        <person xml:id="contrib_001" role="founder">
+          <persName xml:lang="de">Klaus M. Schmidt</persName>
+        </person>
+        <person xml:id="contrib_002" role="founder">
+          <persName xml:lang="de">Horst Pütz</persName>
+        </person>
+        <person xml:id="contrib_003" role="coordinator">
+          <persName xml:lang="de">Katharina Zeppezauer-Wachauer</persName>
+        </person>
+        <person xml:id="contrib_004" role="lead-editor">
+          <persName xml:lang="de">Vlastimil Brom</persName>
+          <note xml:lang="de">Haupteditor für TKR, TKA, VTC.</note>
+        </person>
+        <person xml:id="contrib_005" role="lead-editor">
+          <persName xml:lang="de">Katrin Woesner</persName>
+          <note xml:lang="de">Haupteditorin für JT.</note>
+        </person>
+        <person xml:id="contrib_006" role="lead-editor">
+          <persName xml:lang="de">Julia Hintersteiner</persName>
+          <note xml:lang="de">Haupteditorin für WZB.</note>
+        </person>
+        <person xml:id="contrib_007" role="editor">
+          <persName xml:lang="de">Alan van Beek</persName>
+        </person>
+        <person xml:id="contrib_008" role="editor">
+          <persName xml:lang="de">Barbara Aitenbichler</persName>
+        </person>
+        <person xml:id="contrib_009" role="editor">
+          <persName xml:lang="de">Maike Ahrends</persName>
+        </person>
+        <person xml:id="contrib_010" role="editor">
+          <persName xml:lang="de">Claudia Becker</persName>
+        </person>
+        <person xml:id="contrib_011" role="editor">
+          <persName xml:lang="de">Claudia Bornholdt</persName>
+        </person>
+        <person xml:id="contrib_012" role="editor">
+          <persName xml:lang="de">Michael Brachtl</persName>
+        </person>
+        <person xml:id="contrib_013" role="editor">
+          <persName xml:lang="de">Katrin Callsen</persName>
+        </person>
+        <person xml:id="contrib_014" role="editor">
+          <persName xml:lang="de">Christof Danzl</persName>
+        </person>
+        <person xml:id="contrib_015" role="editor">
+          <persName xml:lang="de">Andrea Dietrich</persName>
+        </person>
+        <person xml:id="contrib_016" role="editor">
+          <persName xml:lang="de">Werner Dietl</persName>
+        </person>
+        <person xml:id="contrib_017" role="editor">
+          <persName xml:lang="de">Annemarie Eder</persName>
+        </person>
+        <person xml:id="contrib_018" role="editor">
+          <persName xml:lang="de">Jim Ecker</persName>
+        </person>
+        <person xml:id="contrib_019" role="editor">
+          <persName xml:lang="de">Harald Feiel</persName>
+        </person>
+        <person xml:id="contrib_020" role="editor">
+          <persName xml:lang="de">Peter Färberböck</persName>
+        </person>
+        <person xml:id="contrib_021" role="editor">
+          <persName xml:lang="de">Bente Gebhardt</persName>
+        </person>
+        <person xml:id="contrib_022" role="editor">
+          <persName xml:lang="de">Susanne Gehrke</persName>
+        </person>
+        <person xml:id="contrib_023" role="editor">
+          <persName xml:lang="de">Camilla Groth</persName>
+        </person>
+        <person xml:id="contrib_024" role="editor">
+          <persName xml:lang="de">Peter Hinkelmanns</persName>
+        </person>
+        <person xml:id="contrib_025" role="editor">
+          <persName xml:lang="de">Verena Höller</persName>
+        </person>
+        <person xml:id="contrib_026" role="editor">
+          <persName xml:lang="de">Britta Jäkel</persName>
+        </person>
+        <person xml:id="contrib_027" role="editor">
+          <persName xml:lang="de">Barbara Kraus</persName>
+        </person>
+        <person xml:id="contrib_028" role="editor">
+          <persName xml:lang="de">Susanne Lang</persName>
+        </person>
+        <person xml:id="contrib_029" role="editor">
+          <persName xml:lang="de">Thomas Mahler</persName>
+        </person>
+        <person xml:id="contrib_030" role="editor">
+          <persName xml:lang="de">Anindo Majumdar</persName>
+        </person>
+        <person xml:id="contrib_031" role="editor">
+          <persName xml:lang="de">August Mayer</persName>
+        </person>
+        <person xml:id="contrib_032" role="editor">
+          <persName xml:lang="de">Peter Meerwald</persName>
+        </person>
+        <person xml:id="contrib_033" role="editor">
+          <persName xml:lang="de">Nikolaus Morocutti</persName>
+        </person>
+        <person xml:id="contrib_034" role="editor">
+          <persName xml:lang="de">Silvia Müller</persName>
+        </person>
+        <person xml:id="contrib_035" role="editor">
+          <persName xml:lang="de">Charles Osborne</persName>
+        </person>
+        <person xml:id="contrib_036" role="editor">
+          <persName xml:lang="de">Judith Pouget</persName>
+        </person>
+        <person xml:id="contrib_037" role="editor">
+          <persName xml:lang="de">Anne Rahmlow</persName>
+        </person>
+        <person xml:id="contrib_038" role="editor">
+          <persName xml:lang="de">Ron Reazin</persName>
+        </person>
+        <person xml:id="contrib_039" role="editor">
+          <persName xml:lang="de">Daniel Schlager</persName>
+        </person>
+        <person xml:id="contrib_040" role="editor">
+          <persName xml:lang="de">Martin Schubert</persName>
+        </person>
+        <person xml:id="contrib_041" role="editor">
+          <persName xml:lang="de">Rudolf Schürer</persName>
+        </person>
+        <person xml:id="contrib_042" role="editor">
+          <persName xml:lang="de">Leevke Schiwek</persName>
+        </person>
+        <person xml:id="contrib_043" role="editor">
+          <persName xml:lang="de">Svenja Schulz</persName>
+        </person>
+        <person xml:id="contrib_044" role="editor">
+          <persName xml:lang="de">Barbara Siebert</persName>
+        </person>
+        <person xml:id="contrib_045" role="editor">
+          <persName xml:lang="de">Margarete Springeth</persName>
+        </person>
+        <person xml:id="contrib_046" role="editor">
+          <persName xml:lang="de">Joachim Steinwendner</persName>
+        </person>
+        <person xml:id="contrib_047" role="editor">
+          <persName xml:lang="de">Christian Steiner</persName>
+        </person>
+        <person xml:id="contrib_048" role="editor">
+          <persName xml:lang="de">Joe Uffner</persName>
+        </person>
+        <person xml:id="contrib_049" role="editor">
+          <persName xml:lang="de">Tanja Vogl</persName>
+        </person>
+        <person xml:id="contrib_050" role="editor">
+          <persName xml:lang="de">Ruth Weichselbaumer</persName>
+        </person>
+        <person xml:id="contrib_051" role="editor">
+          <persName xml:lang="de">Michael Westreicher</persName>
+        </person>
+      </listPerson>
+    </body>
+  </text>
+</TEI>

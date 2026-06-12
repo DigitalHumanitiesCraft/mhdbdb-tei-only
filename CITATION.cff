@@ -1,0 +1,48 @@
+# Citation File Format (https://citation-file-format.github.io/)
+#
+# Autor*innen-Liste gemäß Team-Entscheidung in Issue #91 (2026-06-09):
+# Authors = Katharina Zeppezauer-Wachauer (Koordinatorin) + Klaus M. Schmidt (Urheber).
+# Alle weiteren Mitwirkenden stehen als Contributors (Rolle "Researcher") in
+# .zenodo.json — CFF 1.2.0 kennt kein contributors-Feld; Zenodo liest beim
+# Release bevorzugt .zenodo.json. Quelle: authority-files/contributors.xml
+# (unten zusätzlich als identifiers-Eintrag verlinkt).
+
+cff-version: 1.2.0
+
+title: "Mittelhochdeutsche Begriffsdatenbank (MHDBDB) – TEI-XML Repository: Mittelhochdeutsche Texte mit semantischen Annotationen"
+message: "Wenn Sie Daten oder Software aus diesem Repository verwenden, zitieren Sie bitte den Zenodo-DOI der jeweils aktuellen Version (Concept DOI) und – falls relevant – die konkrete Release-Version. Weitere Mitwirkende siehe contributors.xml: https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/authority-files/contributors.xml"
+type: dataset
+
+authors:
+  - family-names: "Zeppezauer-Wachauer"
+    given-names: "Katharina"
+    orcid: "https://orcid.org/0000-0001-9310-9029"
+    affiliation: "Universität Salzburg, Fachbereich Germanistik"
+  - family-names: "Schmidt"
+    given-names: "Klaus M."
+
+version: "1.0.0"
+date-released: "2026-06-10"
+
+license:
+  - MIT
+  - CC-BY-NC-SA-4.0
+repository-code: "https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only"
+url: "https://dhcraft.org/mhdbdb-tei-only/"
+
+identifiers:
+  - type: url
+    value: "https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/authority-files/contributors.xml"
+    description: "Vollständiges Register aller MHDBDB-Mitwirkenden (Gründer, Koordination, Haupteditor:innen und Editor:innen; 51 Personen + 2 Organisationen mit Rollen)"
+
+keywords:
+  - "MHDBDB"
+  - "Middle High German"
+  - "mittelhochdeutsch"
+  - "TEI-XML"
+  - "digital corpus"
+  - "semantic annotation"
+  - "authority files"
+  - "digital humanities"
+  - "medieval studies"
+  - "Mediävistik"

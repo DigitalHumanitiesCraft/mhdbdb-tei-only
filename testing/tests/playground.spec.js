@@ -180,7 +180,7 @@ test.describe('MHDBDB Playground Test Suite', () => {
     await page.goto('/playground/index.html');
 
     // Wait for page to load
-    await expect(page).toHaveTitle(/TEI Data Explorer/);
+    await expect(page).toHaveTitle(/TEI-Daten-Explorer/);
 
     // Check if clear site data button exists (it's in the footer)
     const clearButton = page.locator('#clearSiteDataBtn');
@@ -194,10 +194,10 @@ test.describe('Playground Integration Tests', () => {
     await page.goto('/playground/index.html');
 
     // Wait for page to load
-    await expect(page).toHaveTitle(/TEI Data Explorer/);
+    await expect(page).toHaveTitle(/TEI-Daten-Explorer/);
 
     // Check for essential elements
-    await expect(page.locator('h1')).toContainText('TEI Data Explorer');
+    await expect(page.locator('h1')).toContainText('TEI-Daten-Explorer');
     await expect(page.locator('#authorityOverview')).toBeVisible();
 
     // Check for authority files loading
