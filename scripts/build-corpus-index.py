@@ -6,10 +6,9 @@ Build Corpus Index
 Generates pre-built corpus index from tei/ directory (667 TEI files).
 Output: data/corpus-index.json.gz (~3-5 MB compressed)
 
-Index structure (v4.1.3 - DOCUMENT-LEVEL + LINE BOUNDARIES):
+Index structure (v4.1.4 - DOCUMENT-LEVEL + LINE BOUNDARIES):
 {
-  "version": "4.1.3",
-  "generatedAt": "2025-01-01T00:00:00Z",
+  "version": "4.1.4",
   "totalTexts": 667,
   "totalLemmata": 45000,
   "texts": [
@@ -54,7 +53,6 @@ import sys
 import os
 import time
 from pathlib import Path
-from datetime import datetime
 from collections import defaultdict
 
 # Check dependencies
@@ -263,7 +261,10 @@ def build_corpus_index():
     print(f"TEI directory: {TEI_DIR}")
 
     # Get all TEI files
-    tei_files = list(TEI_DIR.glob('*.tei.xml'))
+    # glob-Reihenfolge ist OS-abhängig — sortiert für deterministische Index-Bytes, #125.
+    # key=p.name: Path-Objekte vergleichen auf Windows casefolded, auf Linux byte-weise —
+    # erst der String-Key macht die Ordnung plattformgleich (Review #146).
+    tei_files = sorted(TEI_DIR.glob('*.tei.xml'), key=lambda p: p.name)
     total_files = len(tei_files)
 
     print(f"Found {total_files} TEI files")
@@ -303,8 +304,7 @@ def build_corpus_index():
 
     # Build final index
     index = {
-        'version': '4.1.3',  # 4.0.0: document-level indexing. 4.0.1: WZB. 4.1.0: lineStarts/lineEnds für #47.3. 4.1.1: #23 Stanza-Wraps. 4.1.2: #104 Sigle-Titel-Differenzierung. 4.1.3: #110 WVV 478 Stanza-Wraps.
-        'generatedAt': datetime.now().isoformat() + 'Z',
+        'version': '4.1.4',  # 4.0.0: document-level indexing. 4.0.1: WZB. 4.1.0: lineStarts/lineEnds für #47.3. 4.1.1: #23 Stanza-Wraps. 4.1.2: #104 Sigle-Titel-Differenzierung. 4.1.3: #110 WVV 478 Stanza-Wraps. 4.1.4: #125 deterministischer Build (generatedAt entfernt, sorted glob, gzip mtime=0).
         'totalTexts': len(texts),
         'totalLemmata': len(lemma_index),
         'texts': texts,
@@ -331,15 +331,16 @@ def save_index(index):
     # Create data directory if needed
     DATA_DIR.mkdir(exist_ok=True)
 
-    # Serialize to JSON
-    json_data = json.dumps(index, ensure_ascii=False, separators=(',', ':'))
+    # Serialize to JSON (einmal encodieren — der String ist ~200 MB)
+    json_bytes = json.dumps(index, ensure_ascii=False, separators=(',', ':')).encode('utf-8')
 
     # Get uncompressed size
-    uncompressed_size = len(json_data.encode('utf-8'))
+    uncompressed_size = len(json_bytes)
 
-    # Compress with gzip
-    with gzip.open(OUTPUT_FILE, 'wt', encoding='utf-8') as f:
-        f.write(json_data)
+    # mtime=0: kein Zeitstempel im gzip-Header — Builds aus identischem
+    # Quellstand sind byte-identisch (#125, Muster wie naming-index-Builder)
+    with gzip.GzipFile(OUTPUT_FILE, mode='wb', mtime=0) as f:
+        f.write(json_bytes)
 
     # Get compressed size
     compressed_size = OUTPUT_FILE.stat().st_size

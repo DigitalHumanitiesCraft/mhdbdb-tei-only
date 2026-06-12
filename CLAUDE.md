@@ -115,7 +115,7 @@ Nach größeren Doku-Änderungen oder quartalsweise (auch ohne Änderungen, gege
 - **3-stage lemma resolution**: exact match → variants dictionary (~257k entries) → partial match fallback. See ARCHITECTURE.md.
 - **Lemma highlight matching**: a `<w>` is highlighted only if `@lemmaRef` contains the searched id as an exact whitespace-separated token (never a substring: `#lemma_308` must not match `#lemma_3089`). Centralized in `assets/js/lib/lemma-match.js` (`lemmaRefMatchesId`). See CONTRACTS.md §B.1 (#126/#130).
 - **MHG normalization**: `â→a, ê→e, î→i, ô→o, û→u, ä→ae, ö→oe, ü→ue`. Centralized in `assets/js/lib/text-normalizer.js`.
-- **Pre-built indexes**: authority (3 MB gz, v1.4.0) + corpus (~40 MB gz, v4.1.3). See DATA-MODEL.md for schemas.
+- **Pre-built indexes**: authority (3 MB gz, v1.4.1) + corpus (~40 MB gz, v4.1.4). See DATA-MODEL.md for schemas.
 
 ## License
 

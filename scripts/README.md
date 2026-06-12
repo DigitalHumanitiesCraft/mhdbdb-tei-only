@@ -65,10 +65,10 @@ Element- und Attribut-Inventar des gesamten Korpus. Analysiert alle TEI-Dateien 
 Struktur-, Querverweis- und Datenqualitäts-Audit für alle 8 Authority Files. Prüft ID-Muster, verwaiste Referenzen und strukturelle Konsistenz **innerhalb** der Authority Files (authority→authority).
 
 ### `check-authority-cross-refs.py`
-Korpus→Authority Cross-Reference-Integrität (#44/#115): scannt alle `tei/*.tei.xml` nach `@lemmaRef`/`@ana`/`@corresp`/`@ref`/`@target`, die auf nicht-existente Authority-`xml:id`s zeigen. `--check` macht daraus ein CI-Gate (scheitert bei unresolved refs außerhalb `lexicon.xml`; `lexicon.xml` hat eine bekannte Ingest-Backfill-Baseline). Läuft in `schema-validation.yml`.
+Korpus→Authority Cross-Reference-Integrität (#44/#115): scannt alle `tei/*.tei.xml` nach `@lemmaRef`/`@ana`/`@corresp`/`@ref`/`@target`, die auf nicht-existente Authority-`xml:id`s zeigen. `--check` macht daraus ein CI-Gate (scheitert bei unresolved refs außerhalb `lexicon.xml`; `lexicon.xml` hat eine bekannte Ingest-Backfill-Baseline). Läuft in `data-integrity.yml`.
 
 ### `check-index-versions.py`
-Prüft, dass die Index-Versions-Konstanten in Build-Skripten und `corpus-loader.js` synchron sind. Läuft in `index-version-check.yml`.
+Prüft, dass die Index-Versions-Konstanten in Build-Skripten und `corpus-loader.js` synchron sind. Läuft in `data-integrity.yml`.
 
 ### `validate-corpus.py`
 Zwei-Stufen-Validierung: TEI P5 (`tei_all.rng`) + MHDBDB-Constraints (`mhdbdb.rng`). Validiert alle Korpus-Dateien und meldet Fehler.

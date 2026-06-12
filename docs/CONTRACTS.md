@@ -510,7 +510,7 @@ Bei jedem Index-Schema-Bump müssen drei Stellen synchron gehalten werden, sonst
 2. `scripts/build-authority-index.py` → analog
 3. `assets/js/lib/corpus-loader.js` → `INDEX_VERSION` und `AUTHORITY_INDEX_VERSION`
 
-Strukturell verankert: `scripts/audit/check-index-versions.py` plus CI-Workflow `.github/workflows/index-version-check.yml` (PR/Push für die drei Files). Lokal `python scripts/audit/check-index-versions.py` vor Commit ausführen; exit 1 bei Drift mit File:Line-Annotation.
+Strukturell verankert: `scripts/audit/check-index-versions.py` plus CI-Workflow `.github/workflows/data-integrity.yml` (PR/Push für die drei Files). Lokal `python scripts/audit/check-index-versions.py` vor Commit ausführen; exit 1 bei Drift mit File:Line-Annotation.
 
 **How to force refetch:**
 
@@ -553,6 +553,6 @@ A lemma *form* is generatable from the corpus (word form + `@pos`). A sense *mea
 
 ### F.3 Ingest Requires Backward Sync
 
-Any ingest pipeline that mints new lemma/sense IDs in the corpus MUST write them into `lexicon.xml` atomically. A forward-only pipeline (annotate corpus without authority sync) produces dangling refs — exactly the WZB drift (#115): Phase 1b minted lemma IDs ≥78000 into the corpus, but no script backfilled `lexicon.xml`. Detector: `scripts/audit/check-authority-cross-refs.py --check` (CI gate in `schema-validation.yml`). See [DECISIONS.md → ADR-015](DECISIONS.md#adr-015-authority-source-modell-korpus-führt-ingest-braucht-rückwärts-sync). The full normative ingest procedure (Stage-0 conversion → Phases 1–3 → backfill) is documented in [DATA-MODEL.md → Ingest-Verfahren](DATA-MODEL.md#ingest-verfahren-neuaufnahme-von-texten).
+Any ingest pipeline that mints new lemma/sense IDs in the corpus MUST write them into `lexicon.xml` atomically. A forward-only pipeline (annotate corpus without authority sync) produces dangling refs — exactly the WZB drift (#115): Phase 1b minted lemma IDs ≥78000 into the corpus, but no script backfilled `lexicon.xml`. Detector: `scripts/audit/check-authority-cross-refs.py --check` (CI gate in `data-integrity.yml`). See [DECISIONS.md → ADR-015](DECISIONS.md#adr-015-authority-source-modell-korpus-führt-ingest-braucht-rückwärts-sync). The full normative ingest procedure (Stage-0 conversion → Phases 1–3 → backfill) is documented in [DATA-MODEL.md → Ingest-Verfahren](DATA-MODEL.md#ingest-verfahren-neuaufnahme-von-texten).
 
 **Master of record:** Since the migration (2025-07-22) this repository is the *sole* master for all 8 authority files; there is no Salzburg re-export and no live external source. See [TEI-MODEL-AUTH-FILES.md → Provenienz](TEI-MODEL-AUTH-FILES.md#provenienz-und-aktualitaet).

@@ -1,0 +1,7 @@
+# Gepinnt fuer byte-identische Rebuilds (#125): CI (data-integrity.yml)
+# und lokale Builds muessen dieselben Versionen nutzen, sonst erscheint
+# Serialisierungs-Drift (lxml: variants.xml, rnc2rng: schema/*.rng) als
+# falscher Freshness-/Drift-Alarm. Pin-Bump: lokal `pip install -r
+# requirements.txt`, dann variants.xml regenerieren + .rng neu erzeugen.
+lxml==6.0.2
+rnc2rng==2.7.0

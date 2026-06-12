@@ -24,13 +24,13 @@ Stufe 2 ist das maßgebliche Schema (hartes Gate in der CI). Stufe 1 stellt die 
 
 ### Editor-Validation: nur Stufe 2 als `<?xml-model?>`-PI
 
-Die TEI-Korpusdateien in `tei/` haben **nur eine** `<?xml-model?>`-Processing-Instruction, die auf `mhdbdb.rng` zeigt. `tei_all.rng` ist dort bewusst **nicht** als PI verlinkt, weil die 30 GAP-Files sonst in oXygen/VS Code Scholarly XML mit konstanten roten Markern gegen Strukturen anlaufen, die das MHDBDB-Schema bewusst toleriert. Vollständige Zwei-Stufen-Validation läuft weiterhin in der CI (`schema-validation.yml`) und im `validate-corpus.py`-Script.
+Die TEI-Korpusdateien in `tei/` haben **nur eine** `<?xml-model?>`-Processing-Instruction, die auf `mhdbdb.rng` zeigt. `tei_all.rng` ist dort bewusst **nicht** als PI verlinkt, weil die 30 GAP-Files sonst in oXygen/VS Code Scholarly XML mit konstanten roten Markern gegen Strukturen anlaufen, die das MHDBDB-Schema bewusst toleriert. Vollständige Zwei-Stufen-Validation läuft weiterhin in der CI (`data-integrity.yml`) und im `validate-corpus.py`-Script.
 
 Die 8 Authority-Files in `authority-files/` haben **beide** PIs — dort produziert die Stufe-1-Validierung keine false positives (alle 8 sind grün gegen `tei_all.rng`).
 
 ## Schnellstart: Datei validieren
 
-**Gepinnt auf TEI P5 Version 4.11.0** (Last updated 2026-02-18, revision `358d2e48e`). Der CI-Workflow `.github/workflows/schema-validation.yml` prüft beim Download, ob die von `tei-c.org` gelieferte Version mit diesem Pin übereinstimmt — bei einem Upstream-Versions-Bump schlägt der CI-Job mit einer klaren Fehlermeldung fehl und zwingt zur bewussten Aktualisierung (hier in diesem README und in der Workflow-Zeile `EXPECTED="4.11.0"`).
+**Gepinnt auf TEI P5 Version 4.11.0** (Last updated 2026-02-18, revision `358d2e48e`). Der CI-Workflow `.github/workflows/data-integrity.yml` prüft beim Download, ob die von `tei-c.org` gelieferte Version mit diesem Pin übereinstimmt — bei einem Upstream-Versions-Bump schlägt der CI-Job mit einer klaren Fehlermeldung fehl und zwingt zur bewussten Aktualisierung (hier in diesem README und in der Workflow-Zeile `EXPECTED="4.11.0"`).
 
 ```bash
 # tei_all.rng herunterladen (einmalig)

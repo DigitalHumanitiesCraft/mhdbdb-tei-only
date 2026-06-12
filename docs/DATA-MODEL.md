@@ -192,7 +192,6 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
 ```javascript
 {
   version: "1.x.x",
-  generatedAt: "ISO-8601 timestamp",
 
   persons: [{
     id: "person_445",
@@ -296,7 +295,6 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
 ```javascript
 {
   version: "4.x.x",
-  generatedAt: "ISO-8601 timestamp",
   totalTexts: 667,
   totalLemmata: 42630,
 
@@ -349,7 +347,7 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
 
 **Field name note:** the primary identifier is `id` (sigle), not `textId`. Older docs and some code paths may use `textId` — the canonical field in the index JSON is `id`.
 
-**Versions-Sync (kritisch):** der Index-Versions-String muss synchron mit `INDEX_VERSION` in `assets/js/lib/corpus-loader.js` und der `'version'`-Konstante in `scripts/build-corpus-index.py` gehalten werden. Sonst greift die Cache-Invalidate-Logik nicht (siehe `docs/CONTRACTS.md` §IndexedDB). CI-Garantie via `.github/workflows/index-version-check.yml`; lokal `python scripts/audit/check-index-versions.py` vor Commit.
+**Versions-Sync (kritisch):** der Index-Versions-String muss synchron mit `INDEX_VERSION` in `assets/js/lib/corpus-loader.js` und der `'version'`-Konstante in `scripts/build-corpus-index.py` gehalten werden. Sonst greift die Cache-Invalidate-Logik nicht (siehe `docs/CONTRACTS.md` §IndexedDB). CI-Garantie via `.github/workflows/data-integrity.yml`; lokal `python scripts/audit/check-index-versions.py` vor Commit.
 
 ### Naming Index (#59)
 
@@ -751,6 +749,8 @@ Kandidaten-Senses werden dem LLM als `sense_id :: Begriffs-Label DE (EN)` präse
 
 Status-Legende: **CI** = automatisiert (GitHub Actions) · **Skript** = Skript-eingebauter Guard · **manuell** = dokumentiert, nicht erzwungen.
 
+**Seit #125 (2026-06-12):** Die Index-Builds sind deterministisch (kein `generatedAt`, sortiertes glob, gzip ohne mtime) — ein No-op-Rebuild aus unverändertem Quellstand erzeugt **keinen Diff** mehr; „sicherheitshalber rebuilden" ist damit kostenlos. Das CI-Gate `data-integrity.yml` rebuildet variants.xml + beide Indexe bei jedem Daten-PR und vergleicht den dekomprimierten Inhalt mit dem committeten Stand: vergessene Rebuilds (Schritte 3-5) blocken den Merge.
+
 **Grundprinzipien für den Lifecycle** (Auszug; das vollständige Regelwerk F.1–F.3 steht normativ in [CONTRACTS.md → Authority Source Rules](CONTRACTS.md#f-authority-source-rules)):
 
 1. **Der Korpus führt, die Authority-Files folgen.** `lexicon.xml`/`variants.xml` sind abgeleitete Indizes der Korpus-Annotation. Trägt ein `<w>` eine `@lemmaRef`/`@ana`, die dort fehlt, ist die Korpus-Annotation maßgeblich und die Authority muss nachgezogen werden — nie umgekehrt. (Einzige Ausnahme: ein offensichtlicher Tippfehler im Korpus wird im Korpus korrigiert.)
@@ -761,12 +761,12 @@ Status-Legende: **CI** = automatisiert (GitHub Actions) · **Skript** = Skript-e
 | # | Schritt | Bricht wenn vergessen | Status |
 |---|---------|----------------------|--------|
 | 1 | UTF-8, Namespace `http://www.tei-c.org/ns/1.0`; positionstragende Annotation auf `<w @lemmaRef>` (nur die zählen für Positionen) | Wort unsichtbar für Suche, falsche Highlight-Positionen | manuell |
-| 2 | Schema: `python scripts/audit/validate-corpus.py --sample <SIG>` | invalides TEI; `schema-validation.yml` fängt es auf PR/Push | CI |
-| 3 | Korpus-Index: `python scripts/build-corpus-index.py` (Pre-flight bricht bei dirty tree ab, sonst `--allow-dirty`) | Suche, Trefferzahlen, Proximity, Versposition, Playground-Analysen stale; neuer Text fehlt komplett | manuell |
-| 4 | **Bei neuen Formen:** `python scripts/sync/extract-variants.py --apply` (`variants.xml` ist korpus-abgeleitet) | neue Wortformen lösen sich nicht zum Lemma auf (Stage-2-Resolution); Lemma-Page-Chips unvollständig | manuell |
-| 5 | Nach Schritt 4: `python scripts/build-authority-index.py` | Variant-Map im Index bleibt stale | manuell |
+| 2 | Schema: `python scripts/audit/validate-corpus.py --sample <SIG>` | invalides TEI; `data-integrity.yml` fängt es auf PR/Push | CI |
+| 3 | Korpus-Index: `python scripts/build-corpus-index.py` (Pre-flight bricht bei dirty tree ab, sonst `--allow-dirty`) | Suche, Trefferzahlen, Proximity, Versposition, Playground-Analysen stale; neuer Text fehlt komplett | CI (Freshness-Gate in data-integrity.yml) |
+| 4 | **Bei neuen Formen:** `python scripts/sync/extract-variants.py --apply` (`variants.xml` ist korpus-abgeleitet) | neue Wortformen lösen sich nicht zum Lemma auf (Stage-2-Resolution); Lemma-Page-Chips unvollständig | CI (Freshness-Gate) |
+| 5 | Nach Schritt 4: `python scripts/build-authority-index.py` | Variant-Map im Index bleibt stale | CI (Freshness-Gate) |
 | 6 | Version bumpen (`build-*-index.py` Dict-Literal `'version'` + `corpus-loader.js`), dann `python scripts/audit/check-index-versions.py` | wiederkehrende Nutzer behalten den 30-Tage-IndexedDB-Cache mit altem Index (#47.3/#94) | CI (Konsistenz) |
-| 7 | Cross-Ref-Audit: `python scripts/audit/check-authority-cross-refs.py --check` | dangling Refs (Lemma/Variant not found, leere Panels) | CI (in `schema-validation.yml`) |
+| 7 | Cross-Ref-Audit: `python scripts/audit/check-authority-cross-refs.py --check` | dangling Refs (Lemma/Variant not found, leere Panels) | CI (in `data-integrity.yml`) |
 | 8 | `python scripts/validate-indices.py` + `npm test` (**User vorher fragen**) | strukturelle Index-/Frontend-Regression | manuell |
 | 9 | Commit **TEI + gebautes `data/*.json.gz` + Bumps zusammen**, Files by name stagen (nie `git add -A`, shared working dir) | Production serviert stale Suche bzw. alten Cache | manuell |
 | 10 | Push zu main → GitHub Pages deployt statisch (~2-5 min, kein Pages-Build) | erreicht Production nie; was committet ist, ist was shippt | CI (Auto-Deploy) |
@@ -776,7 +776,7 @@ Status-Legende: **CI** = automatisiert (GitHub Actions) · **Skript** = Skript-e
 | # | Schritt | Bricht wenn vergessen | Status |
 |---|---------|----------------------|--------|
 | 1 | (nur `works.xml`) `enhance_works_with_zotero.py` + `sync_tei_headers.py --works` (erst `--dry-run`) | Editor/Bibliografie + Header stale (nur WorksSyncer implementiert, Persons/Genres/Concepts sind TODO-Stubs) | manuell |
-| 2 | **Authority-Index: `python scripts/build-authority-index.py`** (Frontend liest NUR den Index, nie das XML) | jede Authority-Änderung unsichtbar bis Rebuild + Commit (so blieb die lexicon/variants-Drift unbemerkt) | manuell |
+| 2 | **Authority-Index: `python scripts/build-authority-index.py`** (Frontend liest NUR den Index, nie das XML) | jede Authority-Änderung unsichtbar bis Rebuild + Commit (so blieb die lexicon/variants-Drift unbemerkt) | CI (Freshness-Gate in data-integrity.yml) |
 | 3 | Version bumpen (`build-authority-index.py` + `corpus-loader.js`) + `check-index-versions.py` | stale Cache bis 30 Tage | CI (Konsistenz) |
 | 4 | Cross-Ref-Audit `--check` + Schema `validate-corpus.py --fail-fast` | dangling Refs / invalides XML | CI |
 | 5 | Gebautes `data/authority-index.json.gz` + Bumps committen, by name | Production serviert alten Index | manuell |
