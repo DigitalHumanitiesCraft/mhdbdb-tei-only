@@ -4,7 +4,34 @@ Chronological log of development decisions, dead ends, and savepoints. Not a cha
 
 ---
 
-## 2026-06-12 07:45 – handoff (nachgeholt für 2026-06-11 nachmittags)
+## 2026-06-12 08:49 – handoff
+
+**Summary:** Großer Abräum-Tag am #30-Komplex plus zwei Playground-Features. (1) **#138 umgesetzt** (`9e146626e`): HUG bekam 40 `<div type="song" n>` aus KZWs Linecode-Export (dd-Songzähler; Mega-`<p>` aufgelöst, 33 freistehende römische Strophenziffern in `<ab>`, weil `<hi>` als div-Direktkind nicht tei_all-valide ist); MBS1/2/7 bekamen 4/58/4 `<div type="recipe">` an den `lb n=1`-Resets; MBS5s div „recipe 2" enthielt real die Rezepte 2-22 und wurde in 21 divs gesplittet. Skript `scripts/insert-div-wrappers-138.py` mit Token-Sequenz-Invariante (Abbruch bei Verletzung); 5/5 beide Schemas valid; kein Index-Rebuild nötig (Index iteriert nur `<w>`/`<l>`, per Live-Highlight-Test gegen den alten Index bestätigt). PL1-3: Teil-Zähler konstant pro Datei (die Dateien *sind* die Teile), nichts ableitbar. Chrome-Stichprobe HUG/MBS2 inkl. Suche-Sprung. (2) **#143-Analyse**: Reimprobe an Zeilenenden (kalibriert an ALL 37% / ROL 19%) entlarvt 15 der 17 „Prosa"-Kandidaten als Vers (WH=Wolframs Willehalm, WRB=Wittenwilers Ring, TKA/TKR Reimchroniken usw.); nur **APO (Steinhöwel!) und HMT (Hans Mair!) sind echte Prosa** – gegen die titelbasierte Fehlklassifikation „Klassisches Versepos" in TEI-MODEL §8.1; HH (1,1% Reim, 3,3 W/Z) ist rhythmische Prosa, nicht „Versdichtung". (3) **#121** (`36e165c95`): Titel-Dubletten in Text-Dropdowns disambiguiert via `buildTextLabelDisambiguator()` (ui-helpers.js) aus den works-biblStructs (74 Titel, 166 Texte; „(Hrsg. Knieschek, 1877)" bzw. Jahr-Fallback); frontend-only, kein Index-Change. (4) **#136** (`5837d69d4`): Auswahl-UI in Text-Statistiken (Checkbox je Zeile, Master-Checkbox, Zähler, „Nur Auswahl anzeigen", „Auswahl leeren"; Set übersteht Sortieren, Einzel-Klicks ohne Re-Render). (5) **×-Button-Overflow-Fix** (`940e3ca51`, Christians Fund beim Chrome-Test): Suchzeile in korpus.html bricht jetzt um (`sm:flex-wrap` + `min-w-48`). (6) Lokaler Branch `feature/tei-structural-fixes-30` gelöscht; Triage-Material am lokalen Tag `archive/30-triage-material`. Nachgeholtes Handoff für 11.06. nachmittags (`c5268d473`).
+
+**Decisions:**
+- **#138-Hüllen an DB-Grenzen, Diskrepanzen als KZW-Fragen**: lb-n=1-Resets sind die Rezeptgrenzen der alten DB; wo Alans Editionszählung abweicht (MBS2 58 vs. 56, MBS5 22 vs. 21, MBS7 4 vs. 3), wurden konkrete Merge-Kandidaten benannt (MBS2 Nr. 56/58 anaphorisch, MBS5 Nr. 5/6 ohne jtem-Auftakt) statt selbst zu raten.
+- **HUGs freistehende Strophenziffern → `<ab>`-Hülle**: block-level, beide Schemas valid, Reader rendert `ab` (Zeile 365), reversibel falls später `<lg>`-Strophen kommen.
+- **#143 nicht vorab konvertiert**: §8.1 dokumentiert eine explizite Gegen-Entscheidung; Überschreiben braucht KZW-Bestätigung (depends-on-human zu Recht).
+- **#121 frontend-only**: Editor/Jahr per Regex aus biblStructs.textContent statt Index-Schema-Erweiterung; bewusst kein Touch an Build-Skripten (Kollege arbeitet parallel an #125).
+- **Konfliktvermeidung mit #125-Session**: nur Frontend-Dateien angefasst, keine `scripts/build-*`, `.github/workflows/`, `data/*.gz`.
+
+**Dead ends:** Keine echten. Stolperer: `chunks[0]`-statt-`chunks[-1]`-Guard im Split ließ MBS1/7 zunächst als 1 Rezept durchgehen (pb-Pull leerte den ersten Chunk); Grep nach Tailwind-Klassen im Output braucht `\\\\:`-Escaping (CSS enthält `sm\:flex-wrap`).
+
+**Phase:** Implementation (aktiver Betrieb). FEATURES.md (#136-Bullet) nachgezogen; LINECODE/TEI-MODEL unverändert (§8.1-Korrektur erst nach KZW-Bestätigung in #143).
+
+**Open issues:**
+- **#138**: wartet auf KZW – Merge-Entscheidungen MBS2/5/7, PL-Kapitelfrage, optional HUG-Strophen-`<lg>` + `<head>`-Titel. Nach Antwort: ggf. Merge + Renumbering (Skript vorhanden), dann schließbar.
+- **#143**: wartet auf KZW – Bestätigung APO/HMT = Prosa (dann Konversion nach §8.1-Muster + §8.1-Korrektur + **Index-Rebuild**, lineStarts/lineEnds ändern sich) und HH-Entscheidung.
+- **#121 + #136**: wartet auf KZW-UI-Test (gepingt mit Live-URLs), dann schließen.
+- **#59, #117, #129**: weiterhin offen bis KZW-OK (Stand 11.06.).
+- Playwright-Suite ist heute **nicht** gelaufen (nur Chrome-Stichproben); die Frontend-Änderungen berühren keine bestehenden Test-Flows, aber vor dem nächsten größeren Push die Suite laufen lassen (vorher Christian fragen).
+
+**Next steps:**
+1. KZW-Antworten einsammeln (#138, #143, #121, #136, dazu Altbestand #59/#117/#129) und jeweils mechanisch umsetzen bzw. schließen.
+2. Bei #143-Bestätigung: APO/HMT-Konversionsskript (l → p+lb), §8.1 korrigieren, Index-Rebuild (vorher mit der #125-Session koordinieren, die hängt im selben Build-Bereich).
+3. Nächste konfliktfreie Kandidaten, falls #125 noch läuft: #134 (AK-Kontext im Reader) oder #140 (Doku-Lesbarkeit, DATA-MODEL.md aussparen).
+
+
 
 **Summary:** Das Handoff der gestrigen Nachmittagssession wurde vergessen; dieser Eintrag rekonstruiert aus Git-Log und Issue-Tracker. Nach dem 12:15-Eintrag (#59 Follow-ups) liefen noch fünf Commits: WZB-respStmt auf `role="lead-editor"` für contrib_006/J. Hintersteiner nachgezogen (`9f46c6d67` + `cba6e6e22`), **#117 Wörterbuch-Einstiegsseite** gebaut (`ac583e415` — `woerterbuch.html`, A–Z-Register zu allen ~43.750 Lemma-Seiten mit Indexleiste, Pagination, Deep-Links), **#144** gefixt (`ddadb06ae` — `korpus.html?search=` wird jetzt ausgewertet, closed), Health-Check committet (`02f9a7656`, eigener Scorecard-Eintrag unten) und **#133** geschlossen (`124e33a34` — konsolidierte Encoding-Exemptions-Liste in TEI-MODEL.md §10). Alles gepusht, `main` synchron mit origin.
 
