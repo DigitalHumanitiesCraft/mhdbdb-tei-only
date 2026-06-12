@@ -4,6 +4,29 @@ Chronological log of development decisions, dead ends, and savepoints. Not a cha
 
 ---
 
+## 2026-06-12 07:45 – handoff (nachgeholt für 2026-06-11 nachmittags)
+
+**Summary:** Das Handoff der gestrigen Nachmittagssession wurde vergessen; dieser Eintrag rekonstruiert aus Git-Log und Issue-Tracker. Nach dem 12:15-Eintrag (#59 Follow-ups) liefen noch fünf Commits: WZB-respStmt auf `role="lead-editor"` für contrib_006/J. Hintersteiner nachgezogen (`9f46c6d67` + `cba6e6e22`), **#117 Wörterbuch-Einstiegsseite** gebaut (`ac583e415` — `woerterbuch.html`, A–Z-Register zu allen ~43.750 Lemma-Seiten mit Indexleiste, Pagination, Deep-Links), **#144** gefixt (`ddadb06ae` — `korpus.html?search=` wird jetzt ausgewertet, closed), Health-Check committet (`02f9a7656`, eigener Scorecard-Eintrag unten) und **#133** geschlossen (`124e33a34` — konsolidierte Encoding-Exemptions-Liste in TEI-MODEL.md §10). Alles gepusht, `main` synchron mit origin.
+
+**Decisions:** Namensentscheidung „Wörterbuch" (statt Alternativen) mit Begründung im #117-Kommentar dokumentiert. Encoding-Exemptions als konsolidierte Liste in TEI-MODEL.md §10 statt verstreuter Einzelvermerke (#133).
+
+**Dead ends:** Keine bekannt (rekonstruierter Eintrag — Sackgassen der Session ggf. nicht erfasst).
+
+**Phase:** Implementation (aktiver Betrieb). Stable-Docs aktuell (Health-Check 15:40 bestätigt; INDEX.md führt #117 bereits als Milestone). Der offene Punkt aus dem 12:15-Eintrag („Playwright-Test noch nicht gelaufen") ist laut Christian (12.06.) erledigt.
+
+**Open issues:**
+- **#117 offen bis KZW-UI-Test** — @wachauer am 11.06. 12:28 mit Live-URL gepingt.
+- **#59 + #129 weiterhin offen bis KZW-OK** (gleicher Workflow); Restfigur-Entscheidung Alexander V. 13808 liegt bei Linda.
+- **#115** lexicon.xml-Backfill; **#124** Analytics (blockiert auf KZW); **#30** TEI-Review-Track eingeschlafen.
+- Drei Aufräum-Entscheide aus dem Health-Check (lokaler Branch `feature/tei-structural-fixes-30`, Remote-Branch `origin/feature/wenzelsbibel-ingest`, `BLOG-POST-1000WORTE.docx`) sind laut Christian (12.06.) erledigt bzw. entschieden.
+
+**Next steps:**
+1. KZW-Rückmeldungen zu #59, #117, #129 einsammeln (sie ist diese Woche zurück), danach Issues schließen.
+2. Bei Lindas Eintrag von `alexander` in `lemma_normalization.json`: nächster Cron-Build (`naming-index-update.yml`, Mo 05:17 UTC) klassifiziert automatisch um — PR prüfen.
+3. #115 lexicon.xml-Backfill, wenn Kapazität.
+
+---
+
 ## 2026-06-11 15:40 – Health-Check-Scorecard (Doku-Staleness + Altlasten)
 
 **Scorecard:** Algorithmen/XPaths/Paritäten komplett grün (§B.1 zentral, MHG-Normalisierung Py/JS identisch, 3-Stufen-Resolution, Position-Counting inkl. #131-Guard, Build-XPaths dokumentiert). Counts weitgehend konsistent (667/8/15/v4.1.3/v1.4.0); 3 Drifts gefixt: TEI-MODEL §4.1 als Audit-Snapshot datiert + aktueller Stand ergänzt, `barrierefreiheit.html` in DEVELOPMENT-Verzeichnisliste, `pre-main-site` aus CLAUDE.md (Branch existiert nicht mehr). Altlasten: `docs/research/`-Survey (#47/#113 closed) entfernt; `variants.xml` seit 2026-05-29 frisch (Korpus-Regeneration), lexicon-Seite bleibt via #115 offen; 114er-Feature-Docs bleiben bewusst (Issue offen, Lindas Integrationswünsche). Offene Entscheide (Christian): lokaler Branch `feature/tei-structural-fixes-30` (1 unique Commit, #30-Triage-Material, remote gone), Remote-Branch `origin/feature/wenzelsbibel-ingest` (vollständig gemergt, löschbar), Blog-Draft-Duplikat `BLOG-POST-1000WORTE.docx`.
