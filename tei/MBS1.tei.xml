@@ -140,8 +140,9 @@
   </teiHeader>
   <text>
     <body>
-      <p>
-        <pb n="35v"/>
+      <div type="recipe" n="1">
+        <p>
+          <pb n="35v"/>
         <lb n="1"/>
         <hi rend="initial">
           <w xml:id="MBS1_135201_0" lemmaRef="lexicon.xml#lemma_9050" pos="PRO VEM" ana="lexicon.xml#lemma_9050_sense_20722" corresp="variants.xml#type_30688">wiltu</w>
@@ -200,7 +201,11 @@
         <w xml:id="MBS1_135205_1" lemmaRef="lexicon.xml#lemma_7469" pos="ADJ IPA" ana="lexicon.xml#lemma_7469_sense_12152" corresp="variants.xml#type_34267">welche</w>
         <w xml:id="MBS1_135205_2" lemmaRef="lexicon.xml#lemma_84" pos="NOM" ana="lexicon.xml#lemma_84_sense_106" corresp="variants.xml#type_270210">agrest</w>
         <pc xml:id="MBS1_135205_3" join="left">.</pc>
-        <lb n="1"/>
+        </p>
+      </div>
+      <div type="recipe" n="2">
+        <p>
+          <lb n="1"/>
         <hi rend="initial">
           <w xml:id="MBS1_235201_0" lemmaRef="lexicon.xml#lemma_9050" pos="PRO VEM" ana="lexicon.xml#lemma_9050_sense_20722" corresp="variants.xml#type_30688">wiltu</w>
         </hi>
@@ -242,7 +247,11 @@
         <lb n="4"/>
         <w xml:id="MBS1_235204_0" lemmaRef="lexicon.xml#lemma_828" pos="NOM" ana="lexicon.xml#lemma_828_sense_1347" corresp="variants.xml#type_199818">praten</w>
         <pc xml:id="MBS1_235204_1" join="left">.</pc>
-        <lb n="1"/>
+        </p>
+      </div>
+      <div type="recipe" n="3">
+        <p>
+          <lb n="1"/>
         <hi rend="initial">
           <w xml:id="MBS1_335201_0" lemmaRef="lexicon.xml#lemma_9050" pos="PRO VEM" ana="lexicon.xml#lemma_9050_sense_20722" corresp="variants.xml#type_30688">wiltu</w>
         </hi>
@@ -367,7 +376,11 @@
         <lb n="10"/>
         <w xml:id="MBS1_336110_0" lemmaRef="lexicon.xml#lemma_5077" pos="NOM" ana="lexicon.xml#lemma_5077_sense_7908" corresp="variants.xml#type_274075">selßen</w>
         <pc xml:id="MBS1_336110_1" join="left">.</pc>
-        <lb n="1"/>
+        </p>
+      </div>
+      <div type="recipe" n="4">
+        <p>
+          <lb n="1"/>
         <hi rend="initial">
           <w xml:id="MBS1_436101_0" lemmaRef="lexicon.xml#lemma_9050" pos="PRO VEM" ana="lexicon.xml#lemma_9050_sense_20722" corresp="variants.xml#type_30688">wiltu</w>
         </hi>
@@ -475,7 +488,8 @@
         <w xml:id="MBS1_436108_2" lemmaRef="lexicon.xml#lemma_1732" pos="CNJ" ana="lexicon.xml#lemma_1732_sense_2721" corresp="variants.xml#type_5898">et</w>
         <w xml:id="MBS1_436108_3" lemmaRef="lexicon.xml#lemma_49520" pos="VRB" ana="lexicon.xml#lemma_49520_sense_77924" corresp="variants.xml#type_274087">sufficit</w>
         <pc xml:id="MBS1_436108_4" join="left">.</pc>
-      </p>
+        </p>
+      </div>
     </body>
   </text>
 </TEI>

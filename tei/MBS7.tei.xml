@@ -140,8 +140,9 @@
   </teiHeader>
   <text>
     <body>
-      <p>
-        <pb n="140v"/>
+      <div type="recipe" n="1">
+        <p>
+          <pb n="140v"/>
         <lb n="1"/>
         <hi rend="initial">
           <w xml:id="MBS7_1140201_0" lemmaRef="lexicon.xml#lemma_27037" pos="ADV CNJ" ana="lexicon.xml#lemma_27037_sense_43002" corresp="variants.xml#type_250222">jtem</w>
@@ -229,7 +230,11 @@
         <lb n="7"/>
         <w xml:id="MBS7_1141107_0" lemmaRef="lexicon.xml#lemma_26843" pos="NOM" ana="lexicon.xml#lemma_26843_sense_42732" corresp="variants.xml#type_275392">flader</w>
         <pc xml:id="MBS7_1141107_1" join="left">.</pc>
-        <lb n="1"/>
+        </p>
+      </div>
+      <div type="recipe" n="2">
+        <p>
+          <lb n="1"/>
         <hi rend="initial">
           <w xml:id="MBS7_2141101_0" lemmaRef="lexicon.xml#lemma_7608" pos="ADV IPA" ana="lexicon.xml#lemma_7608_sense_12462" corresp="variants.xml#type_27506">wie</w>
         </hi>
@@ -289,7 +294,11 @@
         <w xml:id="MBS7_2141104_8" lemmaRef="lexicon.xml#lemma_2730" pos="ADJ" ana="lexicon.xml#lemma_2730_sense_4400" corresp="variants.xml#type_274804">hayssen</w>
         <w xml:id="MBS7_2141104_9" lemmaRef="lexicon.xml#lemma_18415" pos="NOM" ana="lexicon.xml#lemma_18415_sense_31000" corresp="variants.xml#type_80162">stuben</w>
         <pc xml:id="MBS7_2141104_10" join="left">.</pc>
-        <lb n="1"/>
+        </p>
+      </div>
+      <div type="recipe" n="3">
+        <p>
+          <lb n="1"/>
         <hi rend="initial">
           <w xml:id="MBS7_3141101_0" lemmaRef="lexicon.xml#lemma_7608" pos="ADV IPA" ana="lexicon.xml#lemma_7608_sense_12462" corresp="variants.xml#type_27506">wie</w>
         </hi>
@@ -350,7 +359,11 @@
         <w xml:id="MBS7_3141105_1" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_31260">zu</w>
         <w xml:id="MBS7_3141105_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3504">dem</w>
         <pc xml:id="MBS7_3141105_3" join="left">)</pc>
-        <lb n="1"/>
+        </p>
+      </div>
+      <div type="recipe" n="4">
+        <p>
+          <lb n="1"/>
         <hi rend="initial">
           <w xml:id="MBS7_4141101_0" lemmaRef="lexicon.xml#lemma_27037" pos="ADV CNJ" ana="lexicon.xml#lemma_27037_sense_43002" corresp="variants.xml#type_250222">jtem</w>
         </hi>
@@ -466,7 +479,8 @@
         <w xml:id="MBS7_4150209_3" lemmaRef="lexicon.xml#lemma_13028" pos="NOM" ana="lexicon.xml#lemma_13028_sense_20646" corresp="variants.xml#type_367880">holer</w>
         <w xml:id="MBS7_4150209_4" lemmaRef="lexicon.xml#lemma_4261" pos="NOM" ana="lexicon.xml#lemma_4261_sense_6666" corresp="variants.xml#type_367883">mües</w>
         <pc xml:id="MBS7_4150209_5" join="left">.</pc>
-      </p>
+        </p>
+      </div>
     </body>
   </text>
 </TEI>
