@@ -8,6 +8,8 @@
  * Issue: #108
  */
 
+import { buildTextLabelDisambiguator } from '../core/ui-helpers.js';
+
 const DEFAULT_STATE = Object.freeze({
   textAId: '',
   textBId: '',
@@ -145,8 +147,11 @@ export class TextComparison {
   renderForm() {
     const texts = this.getCorpusTexts() || [];
     const sorted = [...texts].sort((a, b) => (a.id || '').localeCompare(b.id || '', 'de'));
+    const disambig = buildTextLabelDisambiguator(
+      sorted, this.authorityManager?.authorityData?.works || []
+    );
     const options = sorted.map(t => {
-      const label = `${t.id}-${t.title || ''}${t.author ? ', ' + t.author : ''}`;
+      const label = `${t.id}-${t.title || ''}${disambig.get(t.id) || ''}${t.author ? ', ' + t.author : ''}`;
       return { value: t.id, label };
     });
 

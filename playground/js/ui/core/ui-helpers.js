@@ -5,6 +5,56 @@
 
 import { lemmaRefMatchesId } from '../../../../assets/js/lib/lemma-match.js';
 
+// ==================== TEXT LABEL DISAMBIGUATION (#121) ====================
+
+/**
+ * Mehrere Siglen können denselben Werktitel tragen (AC1/AC2/AC3 sind alle
+ * "Der Ackermann aus Böhmen"). Für solche Titel-Dubletten liefert diese Map
+ * ein Label-Suffix "(Hrsg. Nachname, Jahr)" bzw. "(Jahr)", abgeleitet aus
+ * den biblStructs der Authority-Works (Editions-Zitat je Sigle, KZW #121).
+ * Nicht-Dubletten bekommen kein Suffix.
+ *
+ * @param {Array} texts  Corpus-Index-Texte ({id, title, ...})
+ * @param {Array} works  authorityData.works ({biblStructs: [{key, textContent}]})
+ * @returns {Map<string,string>} sigle -> " (Hrsg. X, 1969)" (mit führendem Leerzeichen)
+ */
+export function buildTextLabelDisambiguator(texts, works) {
+  const titleCounts = new Map();
+  for (const t of texts || []) {
+    if (t.title) titleCounts.set(t.title, (titleCounts.get(t.title) || 0) + 1);
+  }
+
+  const biblBySigle = new Map();
+  for (const w of works || []) {
+    for (const b of w.biblStructs || []) {
+      if (b.key && b.textContent) biblBySigle.set(b.key, b.textContent);
+    }
+  }
+
+  const suffixes = new Map();
+  for (const t of texts || []) {
+    if (!t.title || titleCounts.get(t.title) < 2) continue;
+    const citation = biblBySigle.get(t.id);
+    if (!citation) continue;
+
+    const years = citation.match(/\b(1[5-9]\d{2}|20[0-2]\d)\b/g);
+    const year = years ? years[years.length - 1] : null;
+
+    // Editor aus dem formatierten Zitat ("Hrsg. von Günther Jungbluth.");
+    // Klammer-Zusätze wie "(=Bibliothek ...)" beenden den Namen.
+    const edMatch = citation.match(/[Hh]rsg\.?\s*(?:von|v\.)?\s*([A-ZÄÖÜ][^.,;()]{2,40})/);
+    let surname = null;
+    if (edMatch) {
+      const nameParts = edMatch[1].trim().split(/\s+/);
+      surname = nameParts[nameParts.length - 1];
+    }
+
+    if (surname && year) suffixes.set(t.id, ` (Hrsg. ${surname}, ${year})`);
+    else if (year) suffixes.set(t.id, ` (${year})`);
+  }
+  return suffixes;
+}
+
 // ==================== STATUS MANAGEMENT ====================
 
 export function updateStatus(indicator, text) {
