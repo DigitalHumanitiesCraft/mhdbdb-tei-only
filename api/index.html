@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Dokumentation der statischen MHDBDB JSON-API: URL-Schema, Collections, Beispiele, Lizenz und Zitation.">
+    <title>MHDBDB JSON-API</title>
+    <style>
+        :root {
+            --text: #1e293b;
+            --muted: #64748b;
+            --border: #e2e8f0;
+            --bg: #f8fafc;
+            --accent: #1d4ed8;
+            --code-bg: #f1f5f9;
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            color: var(--text);
+            background: var(--bg);
+            line-height: 1.65;
+        }
+        header.site {
+            background: #fff;
+            border-bottom: 1px solid var(--border);
+            padding: 0.85rem 1.5rem;
+        }
+        header.site .inner {
+            max-width: 56rem;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 1rem;
+        }
+        header.site .brand { font-weight: 700; font-size: 1rem; }
+        header.site a { color: var(--accent); text-decoration: none; font-size: 0.9rem; }
+        header.site a:hover { text-decoration: underline; }
+        main {
+            max-width: 56rem;
+            margin: 0 auto;
+            padding: 2.5rem 1.5rem 4rem;
+        }
+        h1 { font-size: 2rem; margin: 0 0 0.75rem; line-height: 1.25; }
+        h2 { font-size: 1.35rem; margin: 2.5rem 0 0.75rem; line-height: 1.3; }
+        p { margin: 0 0 1rem; }
+        .lead { font-size: 1.05rem; color: var(--muted); }
+        a { color: var(--accent); }
+        code {
+            font-family: ui-monospace, SFMono-Regular, "Cascadia Code", Consolas, monospace;
+            font-size: 0.875em;
+            background: var(--code-bg);
+            padding: 0.1rem 0.35rem;
+            border-radius: 4px;
+        }
+        pre {
+            background: #0f172a;
+            color: #e2e8f0;
+            padding: 1rem 1.25rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.85rem;
+            line-height: 1.55;
+        }
+        pre code { background: none; padding: 0; color: inherit; font-size: inherit; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            margin: 1rem 0 1.5rem;
+            background: #fff;
+            border: 1px solid var(--border);
+        }
+        th, td {
+            text-align: left;
+            padding: 0.6rem 0.75rem;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+        }
+        th {
+            background: var(--code-bg);
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            color: var(--muted);
+        }
+        tr:last-child td { border-bottom: none; }
+        ul { padding-left: 1.4rem; margin: 0 0 1rem; }
+        li { margin-bottom: 0.4rem; }
+        .note {
+            background: #eff6ff;
+            border-left: 4px solid #60a5fa;
+            padding: 0.75rem 1rem;
+            border-radius: 0 8px 8px 0;
+            margin: 1.25rem 0;
+            font-size: 0.925rem;
+        }
+        footer.site {
+            border-top: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 0.85rem;
+            padding: 1.5rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<header class="site">
+    <div class="inner">
+        <span class="brand">MHDBDB JSON-API</span>
+        <a href="../index.html">MHDBDB Startseite</a>
+    </div>
+</header>
+
+<main>
+    <h1>MHDBDB JSON-API</h1>
+    <p class="lead">
+        Die MHDBDB stellt ihre Referenzdaten als statische, FAIR-orientierte JSON-Dateien
+        unter stabilen URLs bereit, generiert aus den vorgebauten MHDBDB-Indexen und gehostet
+        auf GitHub Pages. Es gibt keinen Server und keine serverseitige Suche: Sie laden
+        Dateien per HTTP (CORS ist offen) und filtern clientseitig.
+    </p>
+
+    <h2 id="url-schema">URL-Schema</h2>
+    <p>
+        Basis-URL: <code>https://dhcraft.org/mhdbdb-tei-only/api/</code>
+    </p>
+    <table>
+        <thead>
+            <tr>
+                <th scope="col">Pfad</th>
+                <th scope="col">Inhalt</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>index.json</code></td>
+                <td>Root-Manifest: alle Collections mit Counts sowie die Versionen der Quell-Indexe unter <code>sources</code>.</td>
+            </tr>
+            <tr>
+                <td><code>lemmata/index.json</code></td>
+                <td>Alle 43.754 Lemmata als ein Bundle (~13&nbsp;MB) mit vollen Records inklusive <code>senses</code>/<code>conceptIds</code> und <code>etymology</code>. Keine Einzeldateien; filtern Sie clientseitig nach <code>id</code>.</td>
+            </tr>
+            <tr>
+                <td><code>persons/index.json</code><br><code>persons/{id}.json</code></td>
+                <td>211 Personen. Beispiel-ID: <code>person_1768</code>.</td>
+            </tr>
+            <tr>
+                <td><code>works/index.json</code><br><code>works/{id}.json</code></td>
+                <td>584 Werke. Beispiel-ID: <code>work_350</code>.</td>
+            </tr>
+            <tr>
+                <td><code>concepts/index.json</code><br><code>concepts/{id}.json</code></td>
+                <td>567 Begriffe der semantischen Taxonomie. Beispiel-ID: <code>concept_10000000</code>.</td>
+            </tr>
+            <tr>
+                <td><code>genres/index.json</code><br><code>genres/{id}.json</code></td>
+                <td>615 Gattungen.</td>
+            </tr>
+            <tr>
+                <td><code>names/index.json</code><br><code>names/{id}.json</code></td>
+                <td>90 Eigennamen.</td>
+            </tr>
+            <tr>
+                <td><code>texts/index.json</code><br><code>texts/{id}.json</code></td>
+                <td>667 Korpustexte; die ID ist die Sigle, z.&nbsp;B. <code>ABG</code>. Metadaten ohne Wortpositionen.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2 id="beispiele">Beispiele</h2>
+    <p>JavaScript (<code>fetch</code>):</p>
+    <pre><code>const res = await fetch("https://dhcraft.org/mhdbdb-tei-only/api/persons/person_1768.json");
+const person = await res.json();
+console.log(person.preferredName); // "Karl IV."</code></pre>
+    <p>curl:</p>
+    <pre><code>curl -s https://dhcraft.org/mhdbdb-tei-only/api/texts/ABG.json</code></pre>
+
+    <h2 id="schema">Schema in Kürze</h2>
+    <ul>
+        <li>Jede Datei trägt ein Feld <code>"license"</code>.</li>
+        <li>Collection-Indexe (<code>{collection}/index.json</code>) haben die Form <code>{"license", "items": [...]}</code>.</li>
+        <li>Die Kurzlisten-Einträge in <code>items</code> enthalten je Collection:
+            <ul>
+                <li><strong>persons:</strong> <code>id</code>, <code>preferredName</code></li>
+                <li><strong>works:</strong> <code>id</code>, <code>title</code>, <code>sigle</code></li>
+                <li><strong>concepts, genres, names:</strong> <code>id</code>, <code>termDE</code>, <code>termEN</code></li>
+                <li><strong>texts:</strong> <code>id</code>, <code>title</code>, <code>author</code>, <code>wordCount</code></li>
+            </ul>
+        </li>
+        <li>Einzeldateien (<code>{collection}/{id}.json</code>) enthalten die vollen Records; Works z.&nbsp;B. inklusive <code>gnd</code>, <code>wikidata</code> und <code>handschriftencensus</code>.</li>
+    </ul>
+
+    <h2 id="referenz-konvention">Referenz-Konvention</h2>
+    <p>
+        Referenzfelder behalten die rohe Syntax der Quell-Indexe bei; gemischte Präfixe kommen
+        vor. Beispiele: in Works ist <code>authorRef = "persons.xml#person_786"</code>, in Texts
+        <code>authorRef = "#person_445"</code> und <code>workRef = "works.xml#work_89"</code>.
+    </p>
+    <div class="note">
+        <strong>Konvention:</strong> Die ID ist immer der Teil nach dem <code>#</code>.
+        Einzige Ausnahme: <code>persons.works</code> ist bereits ein normalisiertes
+        JSON-Array von Work-IDs.
+    </div>
+
+    <h2 id="aktualitaet">Aktualität</h2>
+    <p>
+        Die Dateien werden bei jeder Datenänderung regeneriert (CI-geprüft). Welche Versionen
+        der Quell-Indexe einem Stand zugrunde liegen, steht im Root-Manifest
+        <code>index.json</code> unter <code>"sources"</code>.
+    </p>
+
+    <h2 id="lizenz">Lizenz und Zitation</h2>
+    <p>
+        Alle Daten stehen unter
+        <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>.
+        Wenn Sie die Daten in einer Publikation verwenden, zitieren Sie bitte die MHDBDB über
+        den Zenodo-Concept-DOI
+        <a href="https://doi.org/10.5281/zenodo.20627656" target="_blank" rel="noopener">10.5281/zenodo.20627656</a>
+        (zeigt immer auf die neueste Version). Rückfragen:
+        <a href="mailto:mhdbdb@plus.ac.at">mhdbdb@plus.ac.at</a>.
+    </p>
+</main>
+
+<footer class="site">
+    Mittelhochdeutsche Begriffsdatenbank (MHDBDB), Universität Salzburg ·
+    <a href="../index.html">Startseite</a> ·
+    CC BY-NC-SA 4.0
+</footer>
+
+</body>
+</html>

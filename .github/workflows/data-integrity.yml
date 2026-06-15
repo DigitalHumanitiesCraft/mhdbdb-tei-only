@@ -3,7 +3,7 @@ name: Data Integrity
 # Ein konsolidiertes Daten-Gate (#125): prueft Quellen UND abgeleitete
 # Schicht (Indexe, variants.xml) in einem Job, Steps von billig nach
 # teuer (fail fast). Konsolidiert das fruehere index-version-check.yml
-# (Step 1) und schema-validation.yml (Steps 2-3, 6-7).
+# (Step 1) und schema-validation.yml (Steps 2-3, 7-8).
 #
 #   1. Index-Versions-Konstanten: Build-Skripte und corpus-loader.js
 #      muessen dieselbe Version nennen, sonst greift die Cache-
@@ -13,20 +13,26 @@ name: Data Integrity
 #   4. Freshness variants.xml: extract-variants.py --apply muss die
 #      committete Datei byte-identisch reproduzieren, sonst wurde nach
 #      einer Korpus-Aenderung die Regenerierung vergessen. MUSS als
-#      blockierender Step VOR Step 5 stehen: der Index-Vergleich kann
+#      blockierender Step VOR Step 6 stehen: der Index-Vergleich kann
 #      variants-Drift prinzipiell nicht erkennen (der Rebuild nutzt
 #      dieselbe committete variants.xml und matcht). Nie auf advisory
 #      herunterstufen.
-#   5. Freshness Indexe (Rebuild-and-Compare): beide Indexe frisch
+#   5. Freshness API (#45): build-api.py muss das committete api/
+#      byte-identisch reproduzieren (plain JSON, kein gzip — daher
+#      reicht git diff). MUSS VOR Step 6 laufen: der Index-Rebuild
+#      dort laesst data/*.json.gz mit potenziell anderen gz-Bytes
+#      zurueck (je zlib-Build), was den build-api-Pre-flight
+#      ("data/ muss clean sein") grundlos ausloesen wuerde.
+#   6. Freshness Indexe (Rebuild-and-Compare): beide Indexe frisch
 #      bauen, DEKOMPRIMIERTEN Inhalt mit dem committeten Stand
 #      vergleichen (gzip-Bytes koennen je zlib-Build variieren).
 #      Traegt nur, weil die Builds seit #125 deterministisch sind
 #      (kein generatedAt, sorted glob, gzip mtime=0).
-#   6. Authority cross-reference integrity (#44/#115): dangling Refs
+#   7. Authority cross-reference integrity (#44/#115): dangling Refs
 #      ausserhalb lexicon.xml brechen den Build (lexicon traegt eine
 #      bekannte Backfill-Baseline und wird nur reportet). Vor der
 #      RelaxNG-Validierung, weil deutlich billiger (plain parse).
-#   7. Zweistufige RelaxNG-Validierung (P2-13): Stage 2
+#   8. Zweistufige RelaxNG-Validierung (P2-13): Stage 2
 #      (mhdbdb.rng / mhdbdb-authority.rng) ist das harte Gate;
 #      Stage-1-Baseline-Fails (#30) sind nur Warnungen.
 #
@@ -45,8 +51,10 @@ on:
       - 'authority-files/**'
       - 'data/corpus-index.json.gz'
       - 'data/authority-index.json.gz'
+      - 'api/**'
       - 'scripts/build-corpus-index.py'
       - 'scripts/build-authority-index.py'
+      - 'scripts/build-api.py'
       - 'scripts/mhg_normalizer.py'
       # Globs statt Einzeldateien: jedes hier ausgefuehrte Gate-Skript
       # soll seinen eigenen Aenderungs-Trigger haben (Review #146).
@@ -66,8 +74,10 @@ on:
       - 'authority-files/**'
       - 'data/corpus-index.json.gz'
       - 'data/authority-index.json.gz'
+      - 'api/**'
       - 'scripts/build-corpus-index.py'
       - 'scripts/build-authority-index.py'
+      - 'scripts/build-api.py'
       - 'scripts/mhg_normalizer.py'
       - 'scripts/sync/**'
       - 'scripts/audit/**'
@@ -158,6 +168,14 @@ jobs:
           python scripts/sync/extract-variants.py --apply
           if ! git diff --exit-code -- authority-files/variants.xml; then
             echo "::error file=authority-files/variants.xml::variants.xml ist nicht mit dem Korpus synchron. Lokal 'python scripts/sync/extract-variants.py --apply' ausfuehren und mitcommitten (DATA-MODEL.md -> Data-Change-Lifecycle)."
+            exit 1
+          fi
+
+      - name: Freshness API (#45)
+        run: |
+          python scripts/build-api.py
+          if ! git diff --exit-code -- api/; then
+            echo "::error file=api/index.json::api/ ist nicht mit den Indexen synchron. Lokal 'python scripts/build-api.py' ausfuehren und mitcommitten (DATA-MODEL.md -> Data-Change-Lifecycle)."
             exit 1
           fi
 

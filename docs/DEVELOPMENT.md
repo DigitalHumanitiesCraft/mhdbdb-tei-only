@@ -99,6 +99,10 @@ python scripts/build-corpus-index.py
 
 # Validate indices
 python scripts/validate-indices.py
+
+# Build static JSON API from the two indexes (#45) — alias: npm run build:api
+python scripts/build-api.py
+# Output: api/ (2,742 plain JSON files, ~14 MB; not part of `npm run build`)
 ```
 
 ### Frontend Build Commands
@@ -181,17 +185,18 @@ npm run report        # View HTML report
 ### CI: Data Integrity
 
 **Workflow:** `.github/workflows/data-integrity.yml` (konsolidiert seit #125 die früheren `schema-validation.yml` + `index-version-check.yml`)
-**Triggers:** PRs + main-Pushes, die `schema/`, `tei/`, `authority-files/`, die zwei Index-`.json.gz`, die Build-Skripte (`build-*-index.py`, `mhg_normalizer.py`), `scripts/sync/`, `scripts/audit/`, `corpus-loader.js` oder `requirements.txt` berühren. Plus `workflow_dispatch`.
+**Triggers:** PRs + main-Pushes, die `schema/`, `tei/`, `authority-files/`, die zwei Index-`.json.gz`, `api/**`, die Build-Skripte (`build-*-index.py`, `build-api.py`, `mhg_normalizer.py`), `scripts/sync/`, `scripts/audit/`, `corpus-loader.js` oder `requirements.txt` berühren. Plus `workflow_dispatch`.
 
-**Sieben Checks, billig → teuer (fail fast):**
+**Acht Checks, billig → teuer (fail fast):**
 
 1. **Index-Versions-Konstanten** (#47.3) — Build-Skripte + `corpus-loader.js` müssen dieselben Versionen nennen, sonst greift die IndexedDB-Cache-Invalidierung nicht. Lokal: `python scripts/audit/check-index-versions.py`.
 2. **RNC→RNG sync check** (P2-14) — regeneriert `.rng` aus `.rnc`, Diff = Fail.
 3. **TEI-P5-Pin** — `tei_all.rng` wird frisch geladen und gegen die gepinnte Version (4.11.0) geprüft.
-4. **Freshness variants.xml** (#125) — `extract-variants.py --apply` muss die committete Datei byte-identisch reproduzieren („Korpus geändert, variants.xml vergessen"). Blockierend VOR Check 5: der Index-Vergleich allein kann variants-Drift nicht erkennen.
-5. **Freshness Indexe** (#125, Rebuild-and-Compare) — beide Indexe werden frisch gebaut und dekomprimiert mit dem committeten Stand verglichen („Quelle/Build-Skript geändert, Rebuild vergessen"). Funktioniert nur, weil die Builds deterministisch sind.
-6. **Cross-Reference-Integrity** (#44/#115) — dangling Refs außerhalb `lexicon.xml` brechen den Build.
-7. **Zweistufige RelaxNG-Validierung** (P2-13) — Stage 1 `tei_all.rng` (Warnungen, #30-Baseline), Stage 2 `mhdbdb.rng`/`mhdbdb-authority.rng` (hartes Gate). Als teuerster Check bewusst zuletzt.
+4. **Freshness variants.xml** (#125) — `extract-variants.py --apply` muss die committete Datei byte-identisch reproduzieren („Korpus geändert, variants.xml vergessen"). Blockierend VOR Check 6: der Index-Vergleich allein kann variants-Drift nicht erkennen.
+5. **Freshness API** (#45) — `build-api.py` muss das committete `api/` byte-identisch reproduzieren (plain JSON, `git diff` reicht). Vor dem Index-Gate, weil der CI-Index-Rebuild `data/` gz-dirty hinterlässt.
+6. **Freshness Indexe** (#125, Rebuild-and-Compare) — beide Indexe werden frisch gebaut und dekomprimiert mit dem committeten Stand verglichen („Quelle/Build-Skript geändert, Rebuild vergessen"). Funktioniert nur, weil die Builds deterministisch sind.
+7. **Cross-Reference-Integrity** (#44/#115) — dangling Refs außerhalb `lexicon.xml` brechen den Build.
+8. **Zweistufige RelaxNG-Validierung** (P2-13) — Stage 1 `tei_all.rng` (Warnungen, #30-Baseline), Stage 2 `mhdbdb.rng`/`mhdbdb-authority.rng` (hartes Gate). Als teuerster Check bewusst zuletzt.
 
 **Hinweis Dependency-Pins:** lxml und rnc2rng sind in `requirements.txt` gepinnt (Single Source — CI installiert daraus), damit Serialisierungsänderungen neuer Versionen nicht als Drift-Fehlalarm erscheinen. Lokal `pip install -r requirements.txt` verwenden; beim Pin-Bump danach `variants.xml` regenerieren und die `.rng` neu erzeugen.
 
@@ -199,6 +204,7 @@ npm run report        # View HTML report
 - Versions-Drift → `python scripts/audit/check-index-versions.py` lokal, Konstanten angleichen
 - RNG drift → `python -m rnc2rng schema/mhdbdb.rnc schema/mhdbdb.rng` lokal, committen
 - variants-/Index-Freshness → Data-Change-Lifecycle in DATA-MODEL.md abarbeiten (regenerieren, rebuilden, bumpen, alles in einem Commit)
+- API-Freshness → `python scripts/build-api.py` lokal, `api/` mitcommitten
 - Stage 2 fail → `python scripts/audit/validate-corpus.py --sample <SIGLE>` lokal
 - TEI version mismatch → `EXPECTED` im Workflow + `schema/README.md` bumpen
 

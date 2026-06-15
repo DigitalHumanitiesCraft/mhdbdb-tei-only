@@ -34,6 +34,7 @@ assets/css/          # Stylesheets
 authority-files/     # 8 XML authority files (source of truth, inkl. contributors.xml seit 2026-04-14)
 tei/                 # 667 TEI corpus files
 data/                # Pre-built indexes (.json.gz, generated)
+api/                 # Statische JSON-API (generiert via scripts/build-api.py, #45)
 scripts/             # Python build scripts + data-wrangling
 playground/          # Research tool (self-contained sub-app)
 lemma/               # Persistent lemma pages (Issue #42)
@@ -49,6 +50,7 @@ npm run serve                    # Dev server on :8080
 npm test                         # Playwright (auto-starts server) — NEVER use `npx playwright test` from root
 python scripts/build-authority-index.py   # Rebuild authority index
 python scripts/build-corpus-index.py      # Rebuild corpus index
+python scripts/build-api.py               # Rebuild static JSON API
 ```
 
 ## Hard Constraints

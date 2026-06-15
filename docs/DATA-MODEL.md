@@ -412,6 +412,19 @@ Three core build scripts:
 
 **Variants regeneration:** `authority-files/variants.xml` is consumed by `build-authority-index.py` but is itself **derived from the corpus** (one `<form xml:id="type_N">` per orthographic variant, grouped under the lemma it attests). Regenerate it with `python scripts/sync/extract-variants.py --apply` (reads current `@lemmaRef` + `@corresp`; xml:id uniqueness by majority vote) whenever the corpus gains new orthographic forms, then rebuild the authority index and bump its version. *Historical note:* the original extractor lived only on the archived `initial-data-wrangling` branch and read the pre-#32 `@wordRef`, so the file silently drifted by 64,287 forms until the maintained generator was added and `variants.xml` regenerated on 2026-05-29 (192,472 → 256,759 forms; #44/#115).
 
+### Static JSON API (`api/`)
+
+**Script:** `scripts/build-api.py` (alias: `npm run build:api`, not part of the `npm run build` aggregate)
+
+Third derived layer beside the two indexes. Reads **only** the two pre-built indexes (`data/authority-index.json.gz` + `data/corpus-index.json.gz`), never the XML sources, and emits a static JSON API into `api/` (2,742 files, ~14 MB), served as plain files by GitHub Pages:
+
+- `api/index.json` — root manifest (collection counts, source index versions)
+- `api/lemmata/index.json` — full lemma records as one bundle (43,754 records, no individual files)
+- `api/<coll>/{id}.json` + `api/<coll>/index.json` (summary list) for persons, works, concepts, genres, names, texts (texts stripped of the heavy `words`/`lemmata`/`lineStarts`/`lineEnds` arrays)
+- every emitted file carries `"license": "CC BY-NC-SA 4.0"`; `persons.works` is normalized from comma-string to array
+
+Build properties: deterministic on the #125 principle (no timestamps, compact JSON — same index state produces byte-identical output), pre-flight refuses a dirty `data/` (#100 pattern), wipes all `api/**/*.json` before writing (orphan protection; non-JSON files like the documentation page `api/index.html` are spared), ID-safety asserts before the wipe. CI-gated: the step "Freshness API (#45)" in `data-integrity.yml` rebuilds and compares. URL schema and field contracts: [CONTRACTS.md §G](CONTRACTS.md#g-static-json-api-contract-45).
+
 ### Build Script XPath Reference
 
 | Script | Source File | XPath | Extracts |
@@ -590,6 +603,7 @@ python scripts/sync/extract-variants.py --apply   # variants.xml aus Korpus rege
 python scripts/build-authority-index.py
 python scripts/build-corpus-index.py
 python scripts/validate-indices.py
+python scripts/build-api.py                       # statische JSON-API aus den zwei Indexen (#45)
 ```
 
 **Cache invalidation:**
@@ -749,7 +763,7 @@ Kandidaten-Senses werden dem LLM als `sense_id :: Begriffs-Label DE (EN)` präse
 
 Status-Legende: **CI** = automatisiert (GitHub Actions) · **Skript** = Skript-eingebauter Guard · **manuell** = dokumentiert, nicht erzwungen.
 
-**Seit #125 (2026-06-12):** Die Index-Builds sind deterministisch (kein `generatedAt`, sortiertes glob, gzip ohne mtime) — ein No-op-Rebuild aus unverändertem Quellstand erzeugt **keinen Diff** mehr; „sicherheitshalber rebuilden" ist damit kostenlos. Das CI-Gate `data-integrity.yml` rebuildet variants.xml + beide Indexe bei jedem Daten-PR und vergleicht den dekomprimierten Inhalt mit dem committeten Stand: vergessene Rebuilds (Schritte 3-5) blocken den Merge.
+**Seit #125 (2026-06-12):** Die Index-Builds sind deterministisch (kein `generatedAt`, sortiertes glob, gzip ohne mtime) — ein No-op-Rebuild aus unverändertem Quellstand erzeugt **keinen Diff** mehr; „sicherheitshalber rebuilden" ist damit kostenlos. Das CI-Gate `data-integrity.yml` rebuildet variants.xml + beide Indexe + die statische JSON-API (#45) bei jedem Daten-PR und vergleicht den (bei den Indexen dekomprimierten) Inhalt mit dem committeten Stand: vergessene Rebuilds (Schritte 3-6) blocken den Merge.
 
 **Grundprinzipien für den Lifecycle** (Auszug; das vollständige Regelwerk F.1–F.3 steht normativ in [CONTRACTS.md → Authority Source Rules](CONTRACTS.md#f-authority-source-rules)):
 
@@ -765,11 +779,12 @@ Status-Legende: **CI** = automatisiert (GitHub Actions) · **Skript** = Skript-e
 | 3 | Korpus-Index: `python scripts/build-corpus-index.py` (Pre-flight bricht bei dirty tree ab, sonst `--allow-dirty`) | Suche, Trefferzahlen, Proximity, Versposition, Playground-Analysen stale; neuer Text fehlt komplett | CI (Freshness-Gate in data-integrity.yml) |
 | 4 | **Bei neuen Formen:** `python scripts/sync/extract-variants.py --apply` (`variants.xml` ist korpus-abgeleitet) | neue Wortformen lösen sich nicht zum Lemma auf (Stage-2-Resolution); Lemma-Page-Chips unvollständig | CI (Freshness-Gate) |
 | 5 | Nach Schritt 4: `python scripts/build-authority-index.py` | Variant-Map im Index bleibt stale | CI (Freshness-Gate) |
-| 6 | Version bumpen (`build-*-index.py` Dict-Literal `'version'` + `corpus-loader.js`), dann `python scripts/audit/check-index-versions.py` | wiederkehrende Nutzer behalten den 30-Tage-IndexedDB-Cache mit altem Index (#47.3/#94) | CI (Konsistenz) |
-| 7 | Cross-Ref-Audit: `python scripts/audit/check-authority-cross-refs.py --check` | dangling Refs (Lemma/Variant not found, leere Panels) | CI (in `data-integrity.yml`) |
-| 8 | `python scripts/validate-indices.py` + `npm test` (**User vorher fragen**) | strukturelle Index-/Frontend-Regression | manuell |
-| 9 | Commit **TEI + gebautes `data/*.json.gz` + Bumps zusammen**, Files by name stagen (nie `git add -A`, shared working dir) | Production serviert stale Suche bzw. alten Cache | manuell |
-| 10 | Push zu main → GitHub Pages deployt statisch (~2-5 min, kein Pages-Build) | erreicht Production nie; was committet ist, ist was shippt | CI (Auto-Deploy) |
+| 6 | API regenerieren: `python scripts/build-api.py` (liest beide `data/*.json.gz`, daher nach Schritt 3/5; die frisch gebauten, noch uncommitteten Indexe erfordern lokal `--allow-dirty`) | statische JSON-API unter `api/` serviert stale oder verwaiste Records | CI (Freshness-Gate in data-integrity.yml) |
+| 7 | Version bumpen (`build-*-index.py` Dict-Literal `'version'` + `corpus-loader.js`), dann `python scripts/audit/check-index-versions.py` | wiederkehrende Nutzer behalten den 30-Tage-IndexedDB-Cache mit altem Index (#47.3/#94) | CI (Konsistenz) |
+| 8 | Cross-Ref-Audit: `python scripts/audit/check-authority-cross-refs.py --check` | dangling Refs (Lemma/Variant not found, leere Panels) | CI (in `data-integrity.yml`) |
+| 9 | `python scripts/validate-indices.py` + `npm test` (**User vorher fragen**) | strukturelle Index-/Frontend-Regression | manuell |
+| 10 | Commit **TEI + gebautes `data/*.json.gz` + `api/` + Bumps zusammen**, Files by name stagen (nie `git add -A`, shared working dir) | Production serviert stale Suche bzw. alten Cache | manuell |
+| 11 | Push zu main → GitHub Pages deployt statisch (~2-5 min, kein Pages-Build) | erreicht Production nie; was committet ist, ist was shippt | CI (Auto-Deploy) |
 
 ### Wenn sich `authority-files/` ändert
 
@@ -777,9 +792,10 @@ Status-Legende: **CI** = automatisiert (GitHub Actions) · **Skript** = Skript-e
 |---|---------|----------------------|--------|
 | 1 | (nur `works.xml`) `enhance_works_with_zotero.py` + `sync_tei_headers.py --works` (erst `--dry-run`) | Editor/Bibliografie + Header stale (nur WorksSyncer implementiert, Persons/Genres/Concepts sind TODO-Stubs) | manuell |
 | 2 | **Authority-Index: `python scripts/build-authority-index.py`** (Frontend liest NUR den Index, nie das XML) | jede Authority-Änderung unsichtbar bis Rebuild + Commit (so blieb die lexicon/variants-Drift unbemerkt) | CI (Freshness-Gate in data-integrity.yml) |
-| 3 | Version bumpen (`build-authority-index.py` + `corpus-loader.js`) + `check-index-versions.py` | stale Cache bis 30 Tage | CI (Konsistenz) |
-| 4 | Cross-Ref-Audit `--check` + Schema `validate-corpus.py --fail-fast` | dangling Refs / invalides XML | CI |
-| 5 | Gebautes `data/authority-index.json.gz` + Bumps committen, by name | Production serviert alten Index | manuell |
+| 3 | API regenerieren: `python scripts/build-api.py` (nach Schritt 2; der frisch gebaute, noch uncommittete Index erfordert lokal `--allow-dirty`) | statische JSON-API unter `api/` serviert stale Authority-Records | CI (Freshness-Gate in data-integrity.yml) |
+| 4 | Version bumpen (`build-authority-index.py` + `corpus-loader.js`) + `check-index-versions.py` | stale Cache bis 30 Tage | CI (Konsistenz) |
+| 5 | Cross-Ref-Audit `--check` + Schema `validate-corpus.py --fail-fast` | dangling Refs / invalides XML | CI |
+| 6 | Gebautes `data/authority-index.json.gz` + `api/` + Bumps committen, by name | Production serviert alten Index | manuell |
 
 **Entkopplung:** Eine reine `authority-files/`-Änderung braucht **keinen** Korpus-Index-Rebuild (`build-corpus-index.py` liest `authority-files/` nicht). Eine reine `tei/`-Änderung braucht den Authority-Rebuild nur, wenn neue Formen eine `variants.xml`-Regenerierung erzwingen (Schritt 4 → 5).
 
