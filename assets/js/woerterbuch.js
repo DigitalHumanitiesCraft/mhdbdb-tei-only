@@ -6,6 +6,7 @@
  */
 
 import { CorpusLoader } from './lib/corpus-loader.js';
+import { TextNormalizer } from './lib/text-normalizer.js';
 
 const PAGE_SIZE = 200;
 const LETTERS = [...'abcdefghijklmnopqrstuvwxyz', '#'];
@@ -14,15 +15,18 @@ class WoerterbuchPage {
     constructor() {
         this.corpusLoader = new CorpusLoader('data');
         this.buckets = new Map();   // letter → sortierte Lemma-Einträge
+        this.allEntries = [];       // alle Lemmata, global a–z–# sortiert (für die Suche)
         this.collator = new Intl.Collator('de');
         this.activeLetter = 'a';
         this.activePage = 1;
+        this.searchQuery = '';
 
         this.elements = {
             loadingScreen: document.getElementById('loadingScreen'),
             loadingStatus: document.getElementById('loadingStatus'),
             loadingProgress: document.getElementById('loadingProgress'),
             content: document.getElementById('woerterbuchContent'),
+            searchInput: document.getElementById('lemmaSearch'),
             letterBar: document.getElementById('letterBar'),
             letterHeading: document.getElementById('letterHeading'),
             entryGrid: document.getElementById('entryGrid'),
@@ -54,6 +58,8 @@ class WoerterbuchPage {
                 this.collator.compare(a.normalized || a.lemma, b.normalized || b.lemma)
                 || this.collator.compare(a.lemma, b.lemma));
         }
+        // Flache Gesamtliste in Bucket-Reihenfolge → bereits global a–z–# sortiert
+        this.allEntries = LETTERS.flatMap(letter => this.buckets.get(letter));
     }
 
     readUrlState() {
@@ -72,6 +78,11 @@ class WoerterbuchPage {
     }
 
     selectLetter(letter, page = 1) {
+        // Buchstabenwahl verlässt den Suchmodus
+        if (this.searchQuery) {
+            this.searchQuery = '';
+            this.elements.searchInput.value = '';
+        }
         this.activeLetter = letter;
         const pageCount = Math.max(1, Math.ceil(this.buckets.get(letter).length / PAGE_SIZE));
         this.activePage = Math.min(Math.max(1, page), pageCount);
@@ -79,6 +90,40 @@ class WoerterbuchPage {
         this.renderLetterBar();
         this.renderEntries();
         this.renderPagination();
+    }
+
+    /**
+     * Präfix-Suche über alle Lemmata (normalisierte Form). Filtert global,
+     * blendet Pagination aus; leere Eingabe stellt die Buchstabenansicht her.
+     */
+    runSearch() {
+        const query = this.elements.searchInput.value.trim();
+        this.searchQuery = query;
+
+        if (!query) {
+            this.renderLetterBar();
+            this.renderEntries();
+            this.renderPagination();
+            return;
+        }
+
+        const nq = TextNormalizer.normalizeMHG(query);
+        const matches = this.allEntries.filter(
+            e => (e.normalized || e.lemma.toLowerCase()).startsWith(nq));
+
+        this.renderLetterBar();              // ohne Aktiv-Markierung (searchQuery gesetzt)
+        this.elements.pagination.innerHTML = '';
+
+        if (matches.length === 0) {
+            this.elements.letterHeading.textContent = `Keine Treffer für „${query}“`;
+        } else if (matches.length > PAGE_SIZE) {
+            this.elements.letterHeading.textContent =
+                `„${query}“ – ${matches.length.toLocaleString('de-DE')} Treffer (erste ${PAGE_SIZE} angezeigt)`;
+        } else {
+            this.elements.letterHeading.textContent =
+                `„${query}“ – ${matches.length.toLocaleString('de-DE')} Treffer`;
+        }
+        this.renderEntryList(matches.slice(0, PAGE_SIZE));
     }
 
     renderLetterBar() {
@@ -91,7 +136,7 @@ class WoerterbuchPage {
             btn.title = `${count.toLocaleString('de-DE')} Lemmata`;
             btn.dataset.letter = letter;
             btn.disabled = count === 0;
-            const isActive = letter === this.activeLetter;
+            const isActive = !this.searchQuery && letter === this.activeLetter;
             btn.className = isActive
                 ? 'w-9 h-9 rounded-md text-sm font-semibold bg-brand-600 text-white'
                 : count === 0
@@ -113,8 +158,12 @@ class WoerterbuchPage {
         this.elements.letterHeading.textContent =
             `${label} – ${list.length.toLocaleString('de-DE')} Lemmata`;
 
+        this.renderEntryList(pageEntries);
+    }
+
+    renderEntryList(entries) {
         this.elements.entryGrid.innerHTML = '';
-        for (const entry of pageEntries) {
+        for (const entry of entries) {
             const numericId = entry.id.replace('lemma_', '');
             const row = document.createElement('div');
             row.className = 'flex items-center justify-between gap-2 py-1.5 px-2 rounded hover:bg-slate-50';
@@ -197,6 +246,8 @@ class WoerterbuchPage {
             this.buildBuckets(authorityIndex.lemmata);
             this.readUrlState();
             this.selectLetter(this.activeLetter, this.activePage);
+
+            this.elements.searchInput.addEventListener('input', () => this.runSearch());
 
             this.elements.loadingScreen.style.display = 'none';
             this.elements.content.classList.remove('hidden');
