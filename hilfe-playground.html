@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Hilfe zum Playground der Mittelhochdeutschen Begriffsdatenbank: Multi-Lemma-Suche, Kookkurrenz-Analyse, Authority Files, typische Forschungsfragen.">
-    <meta name="keywords" content="MHDBDB, Playground, Hilfe, Multi-Lemma-Suche, Kookkurrenz, Authority Files, Forschung">
+    <meta name="description" content="Hilfe zum Playground der Mittelhochdeutschen Begriffsdatenbank: Multi-Lemma- und Kookkurrenz-Suche, sechs Authority Files, neun TEI-Analysewerkzeuge, typische Forschungsfragen.">
+    <meta name="keywords" content="MHDBDB, Playground, Hilfe, Multi-Lemma-Suche, Kookkurrenz, Authority Files, TEI-Analyse, Forschung">
     <meta name="author" content="Universität Salzburg">
 
     <title>Playground-Hilfe – MHDBDB</title>
@@ -137,10 +137,11 @@
                 <li><a href="#drei-spalten" class="text-brand-600 hover:text-brand-700 font-medium">2. Der Drei-Spalten-Aufbau</a></li>
                 <li><a href="#multi-lemma" class="text-brand-600 hover:text-brand-700 font-medium">3. Multi-Lemma-Suche</a></li>
                 <li><a href="#verse-position" class="text-brand-600 hover:text-brand-700 font-medium">4. Lemmasuche nach Versposition</a></li>
-                <li><a href="#forschungsfragen" class="text-brand-600 hover:text-brand-700 font-medium">5. Typische Forschungsfragen</a></li>
-                <li><a href="#authority-files" class="text-brand-600 hover:text-brand-700 font-medium">6. Authority Files im Einsatz</a></li>
-                <li><a href="#workflow" class="text-brand-600 hover:text-brand-700 font-medium">7. Vom Playground in die Leseansicht</a></li>
-                <li><a href="#weiter" class="text-brand-600 hover:text-brand-700 font-medium">8. Was Sie als Nächstes tun können</a></li>
+                <li><a href="#weitere-werkzeuge" class="text-brand-600 hover:text-brand-700 font-medium">5. Weitere TEI-Analyse-Werkzeuge</a></li>
+                <li><a href="#forschungsfragen" class="text-brand-600 hover:text-brand-700 font-medium">6. Typische Forschungsfragen</a></li>
+                <li><a href="#authority-files" class="text-brand-600 hover:text-brand-700 font-medium">7. Authority Files im Einsatz</a></li>
+                <li><a href="#workflow" class="text-brand-600 hover:text-brand-700 font-medium">8. Vom Playground in die Leseansicht</a></li>
+                <li><a href="#weiter" class="text-brand-600 hover:text-brand-700 font-medium">9. Was Sie als Nächstes tun können</a></li>
             </ol>
         </nav>
 
@@ -149,11 +150,13 @@
             <h2 class="text-2xl font-bold text-slate-900 mb-4">1. Worum es geht</h2>
             <p class="text-slate-700 leading-relaxed mb-4">
                 Der <a href="playground/index.html" class="text-brand-600 hover:text-brand-700 font-medium">Playground</a>
-                erweitert die Korpussuche um zwei Dinge: Sie können <strong>mehrere Lemmata
-                gleichzeitig</strong> suchen und prüfen, wie nahe sie im Text zusammen stehen
-                (Kookkurrenz-Analyse), und Sie können die sechs <strong>Authority Files</strong>
-                direkt durchsuchen – Autor*innen, Werke, das Wörterbuch, die Begriffstaxonomie,
-                Gattungen und Eigennamen.
+                erweitert die Korpussuche um drei Säulen: Erstens die <strong>Mehr-Lemma- und
+                Kookkurrenz-Suche</strong> – mehrere Lemmata gleichzeitig suchen und prüfen, wie
+                nahe sie im Text zusammenstehen. Zweitens die sechs durchsuchbaren
+                <strong>Authority Files</strong> – Autor*innen, Werke, das Wörterbuch, die
+                Begriffstaxonomie, Gattungen und Eigennamen. Drittens <strong>neun
+                TEI-Analysewerkzeuge</strong> über dem vorgeladenen Korpus, von der
+                Wortfrequenz bis zum Kookkurrenz-Ranking.
             </p>
             <p class="text-slate-700 leading-relaxed">
                 Die Oberfläche ist forschungsorientiert: etwas dichter, mit mehr Bedienelementen
@@ -171,11 +174,11 @@
             </p>
             <ol class="space-y-2 text-sm text-slate-700 mb-4 ml-4 list-decimal list-inside">
                 <li><strong>Korpus-Browser</strong> (links) – alle 667 Texte sind standardmäßig aktiv. Hier schränken Sie die Analyse auf bestimmte Werke, Autor*innen oder Gattungen ein.</li>
-                <li><strong>Abfragen</strong> (Mitte) – sechs Authority-File-Einstiegspunkte plus die TEI-Analyse mit Multi-Lemma-Suche.</li>
+                <li><strong>Abfragen</strong> (Mitte) – sechs Authority-File-Einstiegspunkte plus neun TEI-Analysewerkzeuge: Multi-Lemma-Suche, Lemmasuche nach Versposition, Wortfrequenz-Analyse, Text-Statistiken, Lemma-Verteilung, Begriffs-Verteilung, Textvergleich, Kookkurrenz-Ranking und Erweiterte Figurenbezeichnungen (Beta).</li>
                 <li><strong>Ergebnisse</strong> (rechts) – die Trefferliste zur aktuellen Abfrage, mit farbkodiertem Highlighting und Klick-Navigation in die Leseansicht.</li>
             </ol>
             <p class="text-slate-700 leading-relaxed">
-                Beim ersten Besuch lädt der Playground den Korpus-Index (rund 36 MB) und den
+                Beim ersten Besuch lädt der Playground den Korpus-Index (rund 40 MB) und den
                 Authority-Index (rund 3 MB) einmalig in den Browser-Cache. Das dauert je nach
                 Verbindung einige Sekunden bis eine Minute. Bei späteren Besuchen liest der
                 Playground direkt aus dem lokalen Cache, solange Sie ihn nicht über
@@ -202,7 +205,7 @@
             </p>
             <p class="text-slate-700 leading-relaxed">
                 Die dreistufige Variantenauflösung aus der Korpussuche gilt auch hier: exakter
-                Treffer im Wörterbuch, dann Prüfung gegen 192.472 orthographische Varianten, dann
+                Treffer im Wörterbuch, dann Prüfung gegen 234.244 orthographische Varianten, dann
                 Teiltreffer als Fallback. Sonderzeichen (â, ê, î, ô, û, ä, ö, ü) werden automatisch
                 normalisiert.
             </p>
@@ -297,9 +300,122 @@
             </p>
         </section>
 
-        <!-- 5. Typische Forschungsfragen -->
+        <!-- 5. Weitere TEI-Analyse-Werkzeuge -->
+        <section id="weitere-werkzeuge" class="mb-12 scroll-mt-24">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">5. Weitere TEI-Analyse-Werkzeuge</h2>
+
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Neben der Multi-Lemma-Suche und der Lemmasuche nach Versposition bietet der
+                Bereich <strong>TEI-Textanalyse</strong> sieben weitere Werkzeuge über dem
+                vorgeladenen Korpus. Alle rechnen vollständig im Browser auf den vorgebauten
+                Indexen; wo es sinnvoll ist, führt ein Klick auf ein Ergebnis direkt in die
+                Leseansicht.
+            </p>
+
+            <div class="bg-white rounded-xl border border-slate-200 p-5 my-4">
+                <h4 class="text-base font-semibold text-slate-900 mb-2">Wortfrequenz-Analyse</h4>
+                <p class="text-sm text-slate-700 leading-relaxed">
+                    Listet die häufigsten Lemmata über das gesamte Korpus oder einen einzelnen
+                    Text (Top-N). Ein POS-basierter Stoppwort-Filter entfernt häufige
+                    Funktionswörter (Artikel, Pronomen, Präpositionen, Konjunktionen) und hebt
+                    inhaltstragende Lemmata hervor. Wahlweise absolute oder relative Frequenz,
+                    sortiert nach Häufigkeit oder alphabetisch.
+                </p>
+            </div>
+
+            <div class="bg-white rounded-xl border border-slate-200 p-5 my-4">
+                <h4 class="text-base font-semibold text-slate-900 mb-2">Text-Statistiken</h4>
+                <p class="text-sm text-slate-700 leading-relaxed">
+                    Pro Text: Token-Zahl, Lemma-Diversität (verschiedene Lemmata zur Gesamtzahl),
+                    Hapax-Rate und durchschnittliche Lemma-Frequenz, als sortierbare
+                    Korpus-Tabelle. Hohe Lemma-Diversität bei knappem Text ist ein Indikator für
+                    lexikalischen Reichtum. Über Checkboxen lässt sich ein Subset bilden („Nur
+                    Auswahl anzeigen"); die Auswahl übersteht das Sortieren.
+                </p>
+            </div>
+
+            <div class="bg-white rounded-xl border border-slate-200 p-5 my-4">
+                <h4 class="text-base font-semibold text-slate-900 mb-2">Lemma-Verteilung</h4>
+                <p class="text-sm text-slate-700 leading-relaxed">
+                    Zeigt ein einzelnes Lemma als Balkendiagramm über alle Texte: die Top-N als
+                    Balken, der Rest als aufklappbare Tabelle. Wahlweise absolut oder relativ
+                    (pro 1000 Tokens). Ein Klick auf einen Balken oder eine Sigle öffnet die
+                    Leseansicht mit Highlighting.
+                </p>
+            </div>
+
+            <div class="bg-white rounded-xl border border-slate-200 p-5 my-4">
+                <h4 class="text-base font-semibold text-slate-900 mb-2">Begriffs-Verteilung</h4>
+                <p class="text-sm text-slate-700 leading-relaxed">
+                    Wie die Lemma-Verteilung, aber begriffsbasiert: Sie geben einen Begriff ein
+                    (deutsch, englisch oder als <code class="px-2 py-0.5 bg-slate-100 rounded text-xs">concept_</code>-ID)
+                    und sehen das Balkendiagramm über alle Texte. Aggregiert werden alle Lemmata,
+                    deren Bedeutungen dem Begriff zugeordnet sind (Datenpfad Begriff → Bedeutungen
+                    → Lemmata → Texte). Ein Autocomplete schlägt passende Begriffe vor, alternative
+                    Kandidaten werden angezeigt (etwa bei „love" → Intimität und Liebe/Zuneigung);
+                    eine aufklappbare Liste der zugeordneten Lemmata erlaubt die Validierung der
+                    Auswahl.
+                </p>
+            </div>
+
+            <div class="bg-white rounded-xl border border-slate-200 p-5 my-4">
+                <h4 class="text-base font-semibold text-slate-900 mb-2">Textvergleich</h4>
+                <p class="text-sm text-slate-700 leading-relaxed">
+                    Vergleicht zwei über Dropdown gewählte Texte und berechnet drei Lemma-Mengen:
+                    nur in A, in beiden, nur in B – je mit Frequenz in A, Frequenz in B und der
+                    absoluten Differenz. Sortier- und filterbar, mit A↔B-Swap für die gespiegelte
+                    Perspektive. Nützlich für Fragen wie „Welche Lemmata teilt der Parzival mit
+                    dem Jüngeren Titurel?" oder zur Suche nach geteilten seltenen Lemmata als
+                    Lehnvers-Indiz. Ein Klick auf eine Frequenz-Zahl öffnet den jeweiligen Text in
+                    der Leseansicht.
+                </p>
+            </div>
+
+            <div class="bg-white rounded-xl border border-slate-200 p-5 my-4">
+                <h4 class="text-base font-semibold text-slate-900 mb-2">Kookkurrenz-Ranking</h4>
+                <p class="text-sm text-slate-700 leading-relaxed">
+                    Beantwortet die Frage „Welche Lemmata stehen am häufigsten bei <em>X</em>?".
+                    Sie geben ein <strong>einzelnes</strong> Lemma ein und erhalten eine rangierte
+                    Tabelle der häufigsten Nachbar-Lemmata innerhalb eines Kontextfensters
+                    (±3 bis ±25 Wörter, Standard ±10). Der POS-Filter steht standardmäßig auf
+                    Inhaltswörtern (Nomen, Verben, Adjektive, Adverbien), damit Funktionswörter
+                    die Liste nicht dominieren; alternativ nur Nomen, nur Verben, nur Adjektive
+                    oder alle. Ein Klick auf ein Partner-Lemma öffnet dessen Lemma-Seite; über
+                    den separaten Link „→ Belege" je Zeile landen beide Lemmata im Nähe-Modus
+                    der Multi-Lemma-Suche.
+                </p>
+            </div>
+
+            <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded-r-lg my-6">
+                <p class="text-sm text-slate-700">
+                    <strong>Kookkurrenz-Ranking vs. Nähe-Analyse:</strong> Beide drehen sich um
+                    Wortumgebungen, beantworten aber verschiedene Fragen. Das Kookkurrenz-Ranking
+                    geht von einem <em>einzigen</em> Lemma aus und rankt ungerichtet, welche anderen
+                    Lemmata in seiner Umgebung am häufigsten auftauchen – es entdeckt die Partner
+                    für Sie. Die Nähe-Analyse der Multi-Lemma-Suche (Abschnitt 3) setzt dagegen
+                    voraus, dass Sie die Lemmata bereits kennen, und prüft nur, an welchen Stellen
+                    sie nah zusammenstehen.
+                </p>
+            </div>
+
+            <div class="bg-white rounded-xl border border-slate-200 p-5 my-4">
+                <h4 class="text-base font-semibold text-slate-900 mb-2">Erweiterte Figurenbezeichnungen <span class="text-xs font-normal text-brand-600 ml-1">Beta</span></h4>
+                <p class="text-sm text-slate-700 leading-relaxed">
+                    Kuratierte Bezeichnungspraktiken jenseits des Eigennamens für vier Werke
+                    (Eneasroman, Iwein, Rolandslied, Trojanerkrieg) aus Linda Beutel-Thurows
+                    Dissertationsprojekt <em>Naming-analysis</em>. Pro Figur sind die Terme in drei
+                    Kategorien gegliedert: Eigennamen, Antonomasien („der rîter" für Iwein) und
+                    Epitheta („der küene"), je mit Häufigkeit und aufklappbaren Belegstellen samt
+                    Versangabe und Sprecher (Erzähler, Figurenrede oder Selbstnennung). Für
+                    Rolandslied und Trojanerkrieg verlinken die Versangaben direkt in die
+                    Leseansicht. Die Daten sind mit sichtbarer Attribution und DOI eingebunden.
+                </p>
+            </div>
+        </section>
+
+        <!-- 6. Typische Forschungsfragen -->
         <section id="forschungsfragen" class="mb-12 scroll-mt-24">
-            <h2 class="text-2xl font-bold text-slate-900 mb-4">5. Typische Forschungsfragen</h2>
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">6. Typische Forschungsfragen</h2>
 
             <p class="text-slate-700 leading-relaxed mb-4">
                 Damit die abstrakten Modi greifbarer werden: vier Fragen, die häufig an die
@@ -352,9 +468,9 @@
             </div>
         </section>
 
-        <!-- 5. Authority Files im Einsatz -->
+        <!-- 7. Authority Files im Einsatz -->
         <section id="authority-files" class="mb-12 scroll-mt-24">
-            <h2 class="text-2xl font-bold text-slate-900 mb-4">6. Authority Files im Einsatz</h2>
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">7. Authority Files im Einsatz</h2>
 
             <p class="text-slate-700 leading-relaxed mb-4">
                 Sechs Authority-Ansichten öffnen je einen Einstiegspunkt in die kontrollierten
@@ -381,9 +497,9 @@
             </div>
         </section>
 
-        <!-- 6. Workflow -->
+        <!-- 8. Workflow -->
         <section id="workflow" class="mb-12 scroll-mt-24">
-            <h2 class="text-2xl font-bold text-slate-900 mb-4">7. Vom Playground in die Leseansicht</h2>
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">8. Vom Playground in die Leseansicht</h2>
 
             <p class="text-slate-700 leading-relaxed mb-4">
                 Der typische Forschungsworkflow verbindet Playground und Korpussuche:
@@ -401,9 +517,9 @@
             </p>
         </section>
 
-        <!-- 7. Weiter -->
+        <!-- 9. Weiter -->
         <section id="weiter" class="mb-12 scroll-mt-24">
-            <h2 class="text-2xl font-bold text-slate-900 mb-4">8. Was Sie als Nächstes tun können</h2>
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">9. Was Sie als Nächstes tun können</h2>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
 
@@ -433,7 +549,7 @@
 
         <!-- Stand-Zeile -->
         <p class="hilfe-stand">
-            Stand: Mai 2026 ·
+            Stand: Juni 2026 ·
             <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/commits/main/hilfe-playground.html" target="_blank" rel="noopener">Änderungen auf GitHub</a>
         </p>
 
@@ -448,10 +564,11 @@
                     <li><a href="#drei-spalten" class="text-brand-600 hover:text-brand-700 font-medium">2. Drei-Spalten-Aufbau</a></li>
                     <li><a href="#multi-lemma" class="text-brand-600 hover:text-brand-700 font-medium">3. Multi-Lemma-Suche</a></li>
                     <li><a href="#verse-position" class="text-brand-600 hover:text-brand-700 font-medium">4. Versposition</a></li>
-                    <li><a href="#forschungsfragen" class="text-brand-600 hover:text-brand-700 font-medium">5. Forschungsfragen</a></li>
-                    <li><a href="#authority-files" class="text-brand-600 hover:text-brand-700 font-medium">6. Authority Files</a></li>
-                    <li><a href="#workflow" class="text-brand-600 hover:text-brand-700 font-medium">7. Zur Leseansicht</a></li>
-                    <li><a href="#weiter" class="text-brand-600 hover:text-brand-700 font-medium">8. Was als Nächstes</a></li>
+                    <li><a href="#weitere-werkzeuge" class="text-brand-600 hover:text-brand-700 font-medium">5. Weitere Werkzeuge</a></li>
+                    <li><a href="#forschungsfragen" class="text-brand-600 hover:text-brand-700 font-medium">6. Forschungsfragen</a></li>
+                    <li><a href="#authority-files" class="text-brand-600 hover:text-brand-700 font-medium">7. Authority Files</a></li>
+                    <li><a href="#workflow" class="text-brand-600 hover:text-brand-700 font-medium">8. Zur Leseansicht</a></li>
+                    <li><a href="#weiter" class="text-brand-600 hover:text-brand-700 font-medium">9. Was als Nächstes</a></li>
                 </ol>
             </nav>
         </aside>

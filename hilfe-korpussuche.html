@@ -134,9 +134,11 @@
                 <li><a href="#worum-es-geht" class="text-brand-600 hover:text-brand-700 font-medium">1. Worum es geht</a></li>
                 <li><a href="#lemma-suche" class="text-brand-600 hover:text-brand-700 font-medium">2. Lemma-Suche</a></li>
                 <li><a href="#texte-filtern" class="text-brand-600 hover:text-brand-700 font-medium">3. Texte filtern und auswählen</a></li>
-                <li><a href="#reading-view" class="text-brand-600 hover:text-brand-700 font-medium">4. Reading View und Highlighting</a></li>
-                <li><a href="#lemma-seite" class="text-brand-600 hover:text-brand-700 font-medium">5. Lemma-Seite</a></li>
-                <li><a href="#weiter" class="text-brand-600 hover:text-brand-700 font-medium">6. Was Sie als Nächstes tun können</a></li>
+                <li><a href="#suchergebnisse" class="text-brand-600 hover:text-brand-700 font-medium">4. Suchergebnisse: Liste, Tabelle, Belege</a></li>
+                <li><a href="#reading-view" class="text-brand-600 hover:text-brand-700 font-medium">5. Reading View und Highlighting</a></li>
+                <li><a href="#lemma-seite" class="text-brand-600 hover:text-brand-700 font-medium">6. Lemma-Seite</a></li>
+                <li><a href="#woerterbuch" class="text-brand-600 hover:text-brand-700 font-medium">7. Wörterbuch von A bis Z</a></li>
+                <li><a href="#weiter" class="text-brand-600 hover:text-brand-700 font-medium">8. Was Sie als Nächstes tun können</a></li>
             </ol>
         </nav>
 
@@ -189,7 +191,7 @@
             </p>
             <ol class="space-y-2 text-sm text-slate-700 mb-4 ml-4 list-decimal list-inside">
                 <li><strong>Exakter Treffer im Wörterbuch</strong> – Ihr Suchwort entspricht einem Lemma direkt.</li>
-                <li><strong>Variantenwörterbuch</strong> – 192.472 normalisierte Schreibvarianten werden gegen Ihre Eingabe geprüft.</li>
+                <li><strong>Variantenwörterbuch</strong> – 234.244 normalisierte Schreibvarianten werden gegen Ihre Eingabe geprüft.</li>
                 <li><strong>Teiltreffer</strong> als Fallback, wenn weder exakter noch Varianten-Treffer existiert.</li>
             </ol>
             <p class="text-slate-700 leading-relaxed">
@@ -234,9 +236,63 @@
             </div>
         </section>
 
-        <!-- 4. Reading View und Highlighting -->
+        <!-- 4. Suchergebnisse: Liste, Tabelle und Belege -->
+        <section id="suchergebnisse" class="mb-12 scroll-mt-24">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">4. Suchergebnisse: Liste, Tabelle und Belege</h2>
+
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Nach der Suche erscheinen die Treffer als eigene Karte. Über dem Ergebnis können Sie
+                rechts oben zwischen zwei Ansichten umschalten: <strong>Liste</strong> (eine Karte je
+                Text) und <strong>Tabelle</strong> (eine Zeile je Text). Beide zeigen dieselben Treffer,
+                nur unterschiedlich aufbereitet.
+            </p>
+
+            <h3 class="text-lg font-semibold text-slate-900 mt-6 mb-2">Tabellen-Ansicht: sortieren und exportieren</h3>
+            <p class="text-slate-700 leading-relaxed mb-3">
+                In der Tabelle lässt sich jede Spalte über ihren Spalten-Header sortieren:
+            </p>
+            <ul class="space-y-1 text-sm text-slate-700 mb-4 ml-4 list-disc list-inside">
+                <li><strong>Titel</strong> – Werktitel, alphabetisch</li>
+                <li><strong>Autor*in</strong> – Verfasser*in, alphabetisch</li>
+                <li><strong>Treffer</strong> – absolute Zahl der Belegstellen im Text</li>
+                <li><strong>Freq./10k Wörter</strong> – Trefferzahl normiert auf 10.000 Wörter, macht unterschiedlich lange Texte vergleichbar</li>
+                <li><strong>Wörter</strong> – Gesamtlänge des Textes in Wörtern</li>
+            </ul>
+            <p class="text-slate-700 leading-relaxed mb-3">
+                Zwei Buttons über der Tabelle exportieren das Ergebnis: <strong>Kopieren</strong> legt es
+                in die Zwischenablage, <strong>CSV</strong> lädt es als Datei herunter – etwa zur
+                Weiterverarbeitung in einer Tabellenkalkulation. Ein Klick auf eine Zeile öffnet den
+                zugehörigen Text im Reading View.
+            </p>
+
+            <h3 class="text-lg font-semibold text-slate-900 mt-6 mb-2">KWIC-Belege ausklappen</h3>
+            <p class="text-slate-700 leading-relaxed mb-3">
+                Jeder Treffer-Text trägt einen Schalter <strong>Belege anzeigen / Belege verbergen</strong>.
+                Er klappt direkt in der Trefferliste eine Keyword-in-Context-Konkordanz (KWIC) auf: pro
+                Belegstelle das gesuchte Wort, eingebettet in seinen Satzkontext. Jede Belegzeile beginnt
+                mit der Stellenangabe – <strong>V.</strong> für Vers, <strong>Z.</strong> für Zeile und
+                <strong>S.</strong> für Seite.
+            </p>
+            <ul class="space-y-1 text-sm text-slate-700 mb-4 ml-4 list-disc list-inside">
+                <li><strong>Kontextfenster</strong> – ein Dropdown stellt 5, 10, 15 oder 20 Wörter je Seite ein (Voreinstellung: 10).</li>
+                <li><strong>Anzeige-Grenze</strong> – bei vielen Belegen erscheint ein Hinweis wie „Erste 100 von 1.240 Belegen"; die Gesamtzahl bleibt sichtbar.</li>
+                <li><strong>Sprung zur Fundstelle</strong> – ein Klick auf eine Belegzeile öffnet den Text im Reading View und springt an die genaue Stelle.</li>
+            </ul>
+
+            <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded-r-lg my-6">
+                <p class="text-sm text-slate-700">
+                    <strong>Nicht verwechseln:</strong> Die KWIC-Belege hier blättern die Fundstellen
+                    schon in der Trefferliste auf, noch bevor Sie einen Text öffnen. Die Pfeile
+                    <strong>↑ Zurück</strong> und <strong>Weiter ↓</strong> aus Abschnitt 5
+                    („Zwischen Belegen springen") arbeiten dagegen <em>innerhalb</em> des bereits
+                    geöffneten Reading View.
+                </p>
+            </div>
+        </section>
+
+        <!-- 5. Reading View und Highlighting -->
         <section id="reading-view" class="mb-12 scroll-mt-24">
-            <h2 class="text-2xl font-bold text-slate-900 mb-4">4. Reading View und Highlighting</h2>
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">5. Reading View und Highlighting</h2>
 
             <p class="text-slate-700 leading-relaxed mb-4">
                 Klicken Sie auf einen Treffer in der Ergebnisliste – der Volltext öffnet sich rechts im
@@ -268,6 +324,7 @@
                 <li><strong>Sigle</strong> – die kanonische Werkabkürzung in der MHDBDB</li>
                 <li><strong>Gattung</strong> – literarische Klassifikation</li>
                 <li><strong>Quelle</strong> – die Edition, auf der der digitale Text basiert</li>
+                <li><strong>TEI-XML-Download</strong> – am Ende des Panels steht ein Direkt-Download der zugrunde liegenden TEI-Datei (<code class="px-2 py-0.5 bg-slate-100 rounded text-sm">tei/&lt;SIG&gt;.tei.xml</code>); darin sind detaillierte Metadaten dokumentiert, u. a. Referenzedition, verantwortliche Editor*innen und editorische Hinweise</li>
             </ul>
             <p class="text-slate-700 leading-relaxed">
                 Liegt ein Werk in mehreren Editionen vor, listet das Metadaten-Panel die
@@ -279,9 +336,9 @@
             </p>
         </section>
 
-        <!-- 5. Lemma-Seite -->
+        <!-- 6. Lemma-Seite -->
         <section id="lemma-seite" class="mb-12 scroll-mt-24">
-            <h2 class="text-2xl font-bold text-slate-900 mb-4">5. Lemma-Seite</h2>
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">6. Lemma-Seite</h2>
 
             <p class="text-slate-700 leading-relaxed mb-4">
                 Jedes Lemma in der MHDBDB hat eine eigene, persistent verlinkte Seite mit einer
@@ -310,9 +367,45 @@
             </p>
         </section>
 
-        <!-- 6. Was Sie als Nächstes tun können -->
+        <!-- 7. Wörterbuch von A bis Z -->
+        <section id="woerterbuch" class="mb-12 scroll-mt-24">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">7. Wörterbuch von A bis Z</h2>
+
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Über den Menüpunkt <strong>Wörterbuch</strong> erreichen Sie die A–Z-Registerseite
+                (<a href="woerterbuch.html" class="text-brand-600 hover:text-brand-700 font-medium">woerterbuch.html</a>) –
+                den alphabetischen Einstieg zu allen rund 43.754 Lemma-Seiten. Wer nicht über eine
+                Suche kommt, sondern stöbern oder gezielt nachschlagen möchte, beginnt hier.
+            </p>
+
+            <h3 class="text-lg font-semibold text-slate-900 mt-6 mb-2">Register und Pagination</h3>
+            <p class="text-slate-700 leading-relaxed mb-3">
+                Eine A–Z-Indexleiste führt zu den einzelnen Buchstaben; ein zusätzliches
+                <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">#</code>-Feld sammelt die Lemmata,
+                die mit einer Ziffer beginnen. Wie viele Einträge ein Buchstabe enthält, zeigt der
+                Tooltip beim Überfahren. Pro Buchstabe werden 200 Einträge je Seite angezeigt; bei mehr
+                Einträgen blättern Sie über die Pagination weiter. Jeder Eintrag besteht aus dem Lemma
+                und einem Wortart-Kürzel (POS-Badge) und verlinkt direkt auf die zugehörige Lemma-Seite
+                <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">lemma/?id=&lt;Nummer&gt;</code>.
+            </p>
+
+            <h3 class="text-lg font-semibold text-slate-900 mt-6 mb-2">Tipp-Suche und Deep-Links</h3>
+            <p class="text-slate-700 leading-relaxed mb-3">
+                Das Suchfeld über dem Register filtert noch während des Tippens über alle Lemmata –
+                als Präfix-Suche und mit derselben mittelhochdeutschen Normalisierung wie die
+                Korpussuche (â → a, ä → ae und so weiter). Die Eingabe <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">minn</code>
+                listet also alle Lemmata, die mit <em>minn-</em> beginnen.
+            </p>
+            <p class="text-slate-700 leading-relaxed">
+                Buchstabe und Seite stehen in der URL und ergeben zitierbare Deep-Links, z. B.
+                <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">woerterbuch.html?buchstabe=s&amp;seite=3</code>.
+                So lässt sich eine bestimmte Registerseite verlinken und in Publikationen referenzieren.
+            </p>
+        </section>
+
+        <!-- 8. Was Sie als Nächstes tun können -->
         <section id="weiter" class="mb-12 scroll-mt-24">
-            <h2 class="text-2xl font-bold text-slate-900 mb-4">6. Was Sie als Nächstes tun können</h2>
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">8. Was Sie als Nächstes tun können</h2>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
 
@@ -343,7 +436,7 @@
 
         <!-- Stand-Zeile -->
         <p class="hilfe-stand">
-            Stand: Mai 2026 ·
+            Stand: Juni 2026 ·
             <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/commits/main/hilfe-korpussuche.html" target="_blank" rel="noopener">Änderungen auf GitHub</a>
         </p>
 
@@ -357,9 +450,11 @@
                     <li><a href="#worum-es-geht" class="text-brand-600 hover:text-brand-700 font-medium">1. Worum es geht</a></li>
                     <li><a href="#lemma-suche" class="text-brand-600 hover:text-brand-700 font-medium">2. Lemma-Suche</a></li>
                     <li><a href="#texte-filtern" class="text-brand-600 hover:text-brand-700 font-medium">3. Texte filtern</a></li>
-                    <li><a href="#reading-view" class="text-brand-600 hover:text-brand-700 font-medium">4. Reading View</a></li>
-                    <li><a href="#lemma-seite" class="text-brand-600 hover:text-brand-700 font-medium">5. Lemma-Seite</a></li>
-                    <li><a href="#weiter" class="text-brand-600 hover:text-brand-700 font-medium">6. Was als Nächstes</a></li>
+                    <li><a href="#suchergebnisse" class="text-brand-600 hover:text-brand-700 font-medium">4. Suchergebnisse</a></li>
+                    <li><a href="#reading-view" class="text-brand-600 hover:text-brand-700 font-medium">5. Reading View</a></li>
+                    <li><a href="#lemma-seite" class="text-brand-600 hover:text-brand-700 font-medium">6. Lemma-Seite</a></li>
+                    <li><a href="#woerterbuch" class="text-brand-600 hover:text-brand-700 font-medium">7. Wörterbuch</a></li>
+                    <li><a href="#weiter" class="text-brand-600 hover:text-brand-700 font-medium">8. Was als Nächstes</a></li>
                 </ol>
             </nav>
         </aside>

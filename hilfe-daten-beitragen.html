@@ -739,7 +739,7 @@ L105: Element body has extra content: div    ← Cascade-Spitze</code></pre>
             <p class="text-sm text-slate-700 leading-relaxed mb-2">
                 <strong>Auto-Match:</strong> Jede <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;w&gt;</code>-Wortform
                 wird gegen <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">variants.xml</code>
-                (~192.000 Formen) gematcht, nach MHG-Normalisierung
+                (~257.000 Formen) gematcht, nach MHG-Normalisierung
                 (<em>â→a, ê→e, î→i, ô→o, û→u, ä→ae, ö→oe, ü→ue</em>).
                 Eindeutige Treffer setzen <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">@lemmaRef</code>;
                 mehrdeutige Formen wandern in eine Disambiguierungs-TSV.
@@ -808,7 +808,7 @@ print('Stage 2 (MHDBDB):  ', 'PASS' if mhdbdb.validate(doc) else mhdbdb.error_lo
             <h3 class="text-lg font-semibold text-slate-800 mb-2">CI-Validierung</h3>
             <p class="text-sm text-slate-700 leading-relaxed">
                 Der GitHub-Action-Workflow
-                <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/.github/workflows/schema-validation.yml" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>schema-validation.yml</code></a>
+                <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/.github/workflows/data-integrity.yml" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener"><code>data-integrity.yml</code></a>
                 läuft auf jedem PR und auf direkten Pushes auf <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">main</code>.
                 Er regeneriert die <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">.rng</code>-Files
                 aus den <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">.rnc</code>-Quellen

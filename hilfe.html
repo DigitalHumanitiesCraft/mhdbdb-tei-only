@@ -84,7 +84,7 @@
 </header>
 <!-- NAV:END -->
 
-    <!-- Hilfe-interne Nav-Leiste (4 Tabs) -->
+    <!-- Hilfe-interne Nav-Leiste (5 Tabs) -->
     <nav class="bg-white border-b border-slate-200" aria-label="Hilfe-Bereiche">
         <div class="container mx-auto px-6">
             <div class="flex flex-wrap gap-x-8 gap-y-2 -mb-px">
@@ -117,7 +117,8 @@
                 Willkommen in der Hilfe der Mittelhochdeutschen Begriffsdatenbank.
                 Hier finden Sie eine kurze Anleitung für die ersten Schritte sowie
                 ausführliche Walkthroughs für die Korpussuche, das Forschungswerkzeug
-                Playground und einen Überblick über die Datenbasis.
+                Playground, einen Überblick über die Datenbasis und das normative
+                TEI-Encoding-Modell des Schemas.
             </p>
         </section>
 
@@ -243,7 +244,7 @@
         <!-- Themen-Kacheln -->
         <section class="mb-16">
             <h2 class="text-2xl font-bold text-slate-900 mb-6">Themen-Seiten</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
 
                 <a href="hilfe-korpussuche.html" class="block bg-white rounded-2xl border border-slate-200 p-6 shadow-sm hover:border-brand-400 hover:shadow-md transition group">
                     <div class="flex items-center gap-3 mb-3">
@@ -284,6 +285,20 @@
                     </p>
                 </a>
 
+                <a href="hilfe-schema.html" class="block bg-white rounded-2xl border border-slate-200 p-6 shadow-sm hover:border-brand-400 hover:shadow-md transition group">
+                    <div class="flex items-center gap-3 mb-3">
+                        <svg class="w-6 h-6 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+                        </svg>
+                        <h3 class="text-lg font-bold text-slate-900 group-hover:text-brand-700 transition">Schema</h3>
+                    </div>
+                    <p class="text-sm text-slate-600">
+                        Das normative TEI-Encoding-Modell: Pflicht-Elemente, neun
+                        Beispieldateien, ein Step-by-Step-Tutorial und die Validierung
+                        MHDBDB-konformer TEI-XML.
+                    </p>
+                </a>
+
             </div>
         </section>
 
@@ -303,7 +318,7 @@
 
         <!-- Stand-Zeile -->
         <p class="hilfe-stand">
-            Stand: Mai 2026 ·
+            Stand: Juni 2026 ·
             <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/commits/main/hilfe.html" target="_blank" rel="noopener">Änderungen auf GitHub</a>
         </p>
 
