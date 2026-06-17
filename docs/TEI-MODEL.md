@@ -508,7 +508,7 @@ jetzt:   corresp="variants.xml#type_8717"                        (direkt, korrek
 
 ## 5. POS-Tagset (19 Tags)
 
-Kanonisches Tagset fuer alle MHDBDB-Texte. Definiert in `.gemini/skills/pos-disambiguator/SKILL.md`.
+Kanonisches Tagset fuer alle MHDBDB-Texte. Vollstaendige Referenz (Tag-Tabelle, Compound-Regeln, Legacy-Mapping, Korpus-Verteilung): [POS-TAGSET.md](POS-TAGSET.md). Der operative Disambiguierungs-Workflow ist als Agent-Skill `.gemini/skills/pos-disambiguator/` implementiert.
 
 > **WICHTIG:** `ART` ist KEIN valider Tag. Artikel werden als `DET` getaggt.
 
@@ -536,24 +536,11 @@ Kanonisches Tagset fuer alle MHDBDB-Texte. Definiert in `.gemini/skills/pos-disa
 
 ### 5.1 POS-Migration Altbestand
 
-Der Altbestand nutzt ein aelteres Tagset (`ART` statt `DET`, `CNJ` statt `CCNJ`/`SCNJ`). Die Migration ist ein separates Vorhaben nach Schema-Erstellung:
-
-| Alt | Neu | Aktion |
-|-----|-----|--------|
-| `ART` | `DET` | Batch-Umbenennung |
-| `CNJ` (koordinierend) | `CCNJ` | Kontextabhaengig |
-| `CNJ` (subordinierend) | `SCNJ` | Kontextabhaengig |
-| `GRA` | *entfaellt* | In ADJ aufgehen (Superlativ = ADJ) |
-
-**Hinweis:** Die CNJ-Differenzierung (CCNJ vs. SCNJ) erfordert linguistische Analyse und kann nicht mechanisch erfolgen. Der POS-Disambiguator-Workflow ist dafuer vorgesehen.
+Der Altbestand nutzt ein aelteres Tagset (`ART` statt `DET`, `CNJ` statt `CCNJ`/`SCNJ`, `GRA` geht in `ADJ` auf). Vollstaendige Mapping-Tabelle und die im Korpus verbleibenden Anteile: [POS-TAGSET.md §3](POS-TAGSET.md#3-legacy-tags-altbestand). Die CNJ-Differenzierung (CCNJ vs. SCNJ) erfordert linguistische Analyse und kann nicht mechanisch erfolgen.
 
 ### 5.2 Compound-Tags
 
-Viele `<w>`-Elemente im Altbestand tragen Compound-Tags (~35-40%) (z.B. `pos="VRB VEX"`, `pos="ART NUM"`), die Ambiguitaet ausdruecken. Der POS-Disambiguator-Workflow loest diese auf einen einzelnen Tag auf.
-
-**Ausnahme:** Morphologische Fusionen behalten zwei Tags:
-- Verb + enklitisches Pronomen: `wiltu` = wilt + du -> `VEM PRO`
-- Praeposition + Determinator: `zer` = ze + der -> `PRP DET`
+Viele `<w>`-Elemente im Altbestand tragen Compound-Tags (~35-40%) (z.B. `pos="VRB VEX"`, `pos="ART NUM"`), die Ambiguitaet ausdruecken. Der Disambiguierungs-Workflow loest diese auf einen einzelnen Tag auf; nur echte morphologische Fusionen (z.B. `wiltu` = wilt + du -> `VEM PRO`) behalten zwei Tags. Regeln und Ausnahmen: [POS-TAGSET.md §2](POS-TAGSET.md#2-compound-tags).
 
 ---
 

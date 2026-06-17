@@ -633,7 +633,7 @@ Jedes lexikalische `<w>` trägt am Ende vier Attribute:
 | Attribut | Format | Phase | Bedeutung |
 |---|---|---|---|
 | `@lemmaRef` | `lexicon.xml#lemma_{N}` | 1 | Lemma-Zuordnung |
-| `@pos` | Tag aus dem 19-Tag-MHDBDB-Set (`NOM NAM ADJ ADV DET POS PRO PRP NEG NUM CNJ SCNJ CCNJ IPA VRB VEX VEM INJ DIG`) | 2 | Wortart (kontextabhängig bei Multi-POS-Lemmata) |
+| `@pos` | Tag aus dem 19-Tag-MHDBDB-Set (`NOM NAM ADJ ADV DET POS PRO PRP NEG NUM CNJ SCNJ CCNJ IPA VRB VEX VEM INJ DIG`; vollständige Referenz [POS-TAGSET.md](POS-TAGSET.md)) | 2 | Wortart (kontextabhängig bei Multi-POS-Lemmata) |
 | `@ana` | `lexicon.xml#lemma_{N}_sense_{M}` | 3 | Bedeutung (Sense) |
 | `@corresp` | `variants.xml#type_{K}` | 3 | Orthographische Variantenform |
 
