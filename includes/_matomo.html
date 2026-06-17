@@ -1,0 +1,17 @@
+<!-- Matomo (cookieless) tracking, siehe Issue #124. Single source of truth: wird von scripts/build-pages.py in den Kopfbereich jeder registrierten Seite injiziert. Cookielos via disableCookies; IP-Anonymisierung ist serverseitig (Uni Salzburg) aktiv. Opt-out client-seitig: bei gesetztem localStorage-Flag (Checkbox im Impressum) wird Matomo gar nicht erst geladen, da das von der Uni gehostete Opt-out-Widget (index.php) extern 403-gesperrt ist. Diese Kopfzeile wird beim Injizieren entfernt. -->
+<script>
+  (function() {
+    var optedOut = false;
+    try { optedOut = window.localStorage && localStorage.getItem('mhdbdb-matomo-optout') === '1'; } catch (e) {}
+    if (optedOut) return;
+    var _paq = window._paq = window._paq || [];
+    _paq.push(['disableCookies']);
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    var u="https://webstatistics.sbg.ac.at/";
+    _paq.push(['setTrackerUrl', u+'matomo.php']);
+    _paq.push(['setSiteId', '15']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>

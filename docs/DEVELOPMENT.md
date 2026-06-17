@@ -40,7 +40,7 @@ mhdbdb-tei-only/
 │   │   ├── storage/       # TEI cache manager
 │   │   └── lib/           # Shared utilities (corpus-loader, text-normalizer, lemma-match)
 │   └── images/            # Static images
-├── includes/              # Nav/footer single-source partials (_nav.html, _footer.html) → build-injected by scripts/build-pages.py
+├── includes/              # Nav/footer/matomo single-source partials (_nav.html, _footer.html, _matomo.html) → build-injected by scripts/build-pages.py
 ├── authority-files/       # 8 XML authority files (inkl. contributors.xml)
 ├── tei/                   # TEI corpus files
 ├── data/                  # Pre-built indexes (generated)

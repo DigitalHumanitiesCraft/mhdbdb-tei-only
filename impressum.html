@@ -12,6 +12,24 @@
     <link rel="stylesheet" href="assets/css/tailwind-output.css">
     <link rel="icon" type="image/png" href="assets/images/mhdbdb-logo.png">
     <link rel="stylesheet" href="assets/css/shared.css">
+<!-- MATOMO:START -->
+<script>
+  (function() {
+    var optedOut = false;
+    try { optedOut = window.localStorage && localStorage.getItem('mhdbdb-matomo-optout') === '1'; } catch (e) {}
+    if (optedOut) return;
+    var _paq = window._paq = window._paq || [];
+    _paq.push(['disableCookies']);
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    var u="https://webstatistics.sbg.ac.at/";
+    _paq.push(['setTrackerUrl', u+'matomo.php']);
+    _paq.push(['setSiteId', '15']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<!-- MATOMO:END -->
 </head>
 <body class="bg-slate-100 text-slate-900">
 
@@ -171,8 +189,54 @@
             </p>
 
             <p class="text-base text-slate-700 leading-relaxed mb-4">
-                Die Website speichert Daten lokal in Ihrem Browser (IndexedDB, localStorage) ausschließlich zur Zwischenspeicherung der Korpus- und Autoritätsdaten-Indizes. Es werden keine personenbezogenen Daten erhoben, keine Cookies gesetzt und keine Daten an Dritte übermittelt.
+                Die Website speichert Daten lokal in Ihrem Browser (IndexedDB, localStorage) ausschließlich zur Zwischenspeicherung der Korpus- und Autoritätsdaten-Indizes. Diese lokal gespeicherten Daten verbleiben in Ihrem Browser und werden nicht an Dritte übermittelt.
             </p>
+
+            <h3 class="text-xl font-semibold text-slate-900 mt-8 mb-3">Reichweitenmessung mit Matomo</h3>
+
+            <p class="text-base text-slate-700 leading-relaxed mb-4">
+                Zur statistischen Auswertung der Nutzung dieser Website (etwa Seitenaufrufe, ungefähre Herkunftsregion und verwendeter Browsertyp) setzen wir die Open-Source-Software <a href="https://matomo.org/" class="text-brand-600 hover:text-brand-700 hover:underline" target="_blank" rel="noopener">Matomo</a> ein. Matomo wird auf einem Server der Universität Salzburg (webstatistics.sbg.ac.at) betrieben; die erhobenen Daten verbleiben bei der Universität Salzburg und werden nicht an Dritte weitergegeben.
+            </p>
+
+            <p class="text-base text-slate-700 leading-relaxed mb-4">
+                Die Erfassung erfolgt cookielos: Es werden keine Cookies gesetzt und es findet kein seitenübergreifendes Tracking statt. Ihre IP-Adresse wird vor der Speicherung serverseitig anonymisiert (gekürzt), sodass kein Rückschluss auf einzelne Personen möglich ist. Rechtsgrundlage ist das berechtigte Interesse an einer bedarfsgerechten Gestaltung und statistischen Auswertung des Angebots (Art.&nbsp;6 Abs.&nbsp;1 lit.&nbsp;f DSGVO).
+                <!-- TODO #124: Rechtsgrundlage (Art. 6 Abs. 1 lit. e öffentliche Aufgabe vs. lit. f berechtigtes Interesse) sowie Speicherdauer von der/dem Datenschutzbeauftragten der Universität Salzburg bestätigen lassen. -->
+            </p>
+
+            <p class="text-base text-slate-700 leading-relaxed mb-4">
+                Widerspruch (Opt-out): Sie können der statistischen Erfassung jederzeit widersprechen. Aktivieren Sie dazu das folgende Auswahlfeld. Ihr Widerspruch wird ausschließlich lokal in Ihrem Browser gespeichert; bei künftigen Seitenaufrufen wird Matomo dann gar nicht erst geladen.
+            </p>
+
+            <div class="mt-2 mb-4 p-4 border border-slate-200 rounded bg-slate-50">
+                <label class="flex items-center gap-3 text-base text-slate-700">
+                    <input type="checkbox" id="matomo-optout" class="h-4 w-4">
+                    <span>Statistische Erfassung deaktivieren (Opt-out)</span>
+                </label>
+                <p id="matomo-optout-status" class="text-sm text-slate-500 mt-2" role="status"></p>
+            </div>
+            <script>
+                (function () {
+                    var KEY = 'mhdbdb-matomo-optout';
+                    var box = document.getElementById('matomo-optout');
+                    var status = document.getElementById('matomo-optout-status');
+                    if (!box || !status) return;
+                    function readOut() { try { return localStorage.getItem(KEY) === '1'; } catch (e) { return false; } }
+                    function render() {
+                        var out = readOut();
+                        box.checked = out;
+                        status.textContent = out
+                            ? 'Sie haben der Erfassung widersprochen. Es werden keine Statistikdaten erhoben.'
+                            : 'Die Erfassung ist aktiv. Aktivieren Sie das Kästchen, um zu widersprechen.';
+                    }
+                    box.addEventListener('change', function () {
+                        try {
+                            if (box.checked) { localStorage.setItem(KEY, '1'); } else { localStorage.removeItem(KEY); }
+                        } catch (e) {}
+                        render();
+                    });
+                    render();
+                })();
+            </script>
         </section>
 
         <section>

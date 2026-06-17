@@ -8,7 +8,7 @@ Build, validation, and data transformation scripts for MHDBDB TEI corpus.
 scripts/
 ├── build-authority-index.py     # Authority-Index generieren
 ├── build-corpus-index.py        # Korpus-Index generieren
-├── build-pages.py               # Nav/Footer aus includes/ in alle Seiten injizieren (--check Drift-Gate)
+├── build-pages.py               # Nav/Footer/Matomo aus includes/ in alle Seiten injizieren (--check Drift-Gate)
 ├── build-vendor.js              # Vendored JS-Dependencies bündeln
 ├── validate-indices.py          # Generierte Indexes validieren
 ├── mhg_normalizer.py            # MHG-Textnormalisierung (shared lib)
@@ -46,7 +46,7 @@ Verarbeitet die 7 inhaltstragenden Authority Files und generiert `data/authority
 Parst alle TEI-Dateien in `tei/` und generiert `data/corpus-index.json.gz` (~40 MB, v4.1.x). Extrahiert Lemma-Positionen, Wortzählung und Metadaten.
 
 ### `build-pages.py`
-Injiziert die geteilte Navigation + Footer aus `includes/_nav.html` / `includes/_footer.html` in die Marker-Regionen (`NAV:START`/`FOOTER:START`) aller in `PAGES` registrierten Seiten. Idempotent; `{{ROOT}}`-Token wird pro Seitentiefe ersetzt; aktive Nav-Seite bekommt `aria-current="page"`. `--check` ist ein Drift-Gate (exit 1 bei Out-of-Sync, keine Writes). Nach Änderung an `includes/` ausführen — nicht die Seiten direkt editieren.
+Injiziert die geteilte Navigation + Footer + Matomo-Snippet aus `includes/_nav.html` / `includes/_footer.html` / `includes/_matomo.html` in die Marker-Regionen (`NAV:START`/`FOOTER:START`/`MATOMO:START`) der Seiten. Idempotent; `{{ROOT}}`-Token wird pro Seitentiefe ersetzt; aktive Nav-Seite bekommt `aria-current="page"`. Zwei Seitenlisten: `PAGES` bekommt die volle Chrome (Nav+Footer+Matomo); `MATOMO_PAGES` (Standalone-Seiten mit eigenem Layout wie `api/index.html`, `404.html`) bekommt nur das Matomo-Snippet vor `</head>`, ohne Header/Footer anzufassen. `--check` ist ein Drift-Gate (exit 1 bei Out-of-Sync, keine Writes). Nach Änderung an `includes/` ausführen — nicht die Seiten direkt editieren.
 
 ### `validate-indices.py`
 Validiert Struktur und Integrität der generierten Index-Dateien.
