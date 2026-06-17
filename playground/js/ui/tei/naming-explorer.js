@@ -155,7 +155,7 @@ export class NamingExplorer {
         </h3>
         <p class="text-xs text-slate-600">
           Kuratierte Bezeichnungspraktiken jenseits des Eigennamens: Wie wird eine Figur benannt, umschrieben (Antonomasie) und charakterisiert (Epitheton)?
-          Verfügbar für die vier Werke mit kuratierten Daten aus dem Dissertationsprojekt Naming-analysis.
+          Verfügbar für die vier Werke mit kuratierten Daten aus dem Dissertationsprojekt <em>Naming-analysis</em> <strong>von Linda Beutel-Thurow (Universität Salzburg).</strong>
         </p>
         <div class="grid gap-3 sm:grid-cols-2">
           <label class="block">

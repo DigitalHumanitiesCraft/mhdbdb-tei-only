@@ -192,7 +192,6 @@ Dual normalization handles MHG orthographic variation:
 - Extend temporal range (Early New High German)
 
 **Enhanced functionality:**
-- API for programmatic access
 - Advanced visualizations (network graphs, timelines)
 - Collaborative annotation features
 - Mobile-optimized interface

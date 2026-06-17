@@ -237,6 +237,19 @@
                 <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/tree/main/authority-files" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">GitHub</a>
                 unter CC BY-NC-SA 4.0 verfügbar.
             </p>
+
+            <!-- Teaser: JSON-API -->
+            <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded-r-lg my-6">
+                <p class="text-sm text-slate-700 mb-2">
+                    <strong>Programmatischer Zugriff (JSON-API):</strong> Für Skripte und eigene
+                    Anwendungen stehen die Referenzdaten zusätzlich als statische JSON-Dateien
+                    unter stabilen URLs bereit: Personen, Werke, Lemmata, Begriffe, Gattungen,
+                    Eigennamen und Textmetadaten. Kein Server, CORS offen, Lizenz in jeder Datei.
+                </p>
+                <p class="text-sm text-slate-700">
+                    <a href="api/index.html" class="text-brand-600 hover:text-brand-700 font-medium">Zur Dokumentation der JSON-API</a>
+                </p>
+            </div>
         </section>
 
         <!-- 3. Provenienz -->
@@ -284,7 +297,7 @@
             <ul class="space-y-3 text-sm text-slate-700 mb-4 ml-4 list-disc list-inside">
                 <li><strong>Desktop-only.</strong> Die Oberflächen von Korpussuche und Playground sind für Bildschirme ab 1200 Pixeln optimiert. Auf Mobilgeräten funktioniert vieles, einige Bedienelemente sind jedoch beengt.</li>
                 <li><strong>Statisches Korpus.</strong> Das Korpus wird nicht in Echtzeit aktualisiert. Änderungen an Texten oder Authority Files erfordern einen Build-Lauf und ein neues Deployment.</li>
-                <li><strong>Keine Serverkomponente.</strong> Alle Berechnungen laufen im Browser, gegen vorberechnete Indizes. Das ist schnell und privat, bedeutet aber auch: keine persistenten Nutzerdaten, kein Session-Zustand auf dem Server. Eine programmatische API ist in Arbeit.</li>
+                <li><strong>Keine Serverkomponente.</strong> Alle Berechnungen laufen im Browser, gegen vorberechnete Indizes. Das ist schnell und privat, bedeutet aber auch: keine persistenten Nutzerdaten, kein Session-Zustand auf dem Server. Für programmatische Zugriffe gibt es eine statische <a href="api/index.html" class="text-brand-600 hover:text-brand-700 font-medium">JSON-API</a>.</li>
                 <li><strong>Lemmatisierung nicht vollständig.</strong> Nicht jedes Wort im Korpus ist lemmatisiert; die Abdeckung variiert zwischen Texten. Die Trefferzahlen sind entsprechend als untere Schranken zu lesen.</li>
                 <li><strong>Editionsabhängigkeit.</strong> Die Texte folgen den jeweiligen Druckausgaben. Varianten zwischen Editionen desselben Werks spiegeln die Editionsentscheidungen, nicht die Handschriften.</li>
             </ul>

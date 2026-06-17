@@ -18,6 +18,7 @@ The MHDBDB TEI Repository provides a comprehensive digital corpus of Middle High
 - **667 TEI files** - Complete Middle High German texts with word-level annotations
 - **8 authority files** - 7 searchable controlled vocabularies (persons, works, lexicon, concepts, genres, names, variants) plus `contributors.xml` as project-internal MHDBDB team register (since 2026-04). All are RDF-derived migration snapshots now maintained in-repo (this repo is the sole master, no Salzburg re-export); `variants.xml` is corpus-derived and regenerated after corpus changes. See [TEI-MODEL-AUTH-FILES.md → Provenienz](TEI-MODEL-AUTH-FILES.md#provenienz-und-aktualitaet)
 - **Pre-built indexes** - Compressed JSON (3 MB authority + 40 MB corpus) replacing runtime XML parsing
+- **Static JSON API** - 2,742 plain JSON files under `/api/` (generated from the indexes) for programmatic access with stable, citable URLs; docs at [`api/index.html`](https://dhcraft.org/mhdbdb-tei-only/api/index.html) (#45)
 
 ### Key Architecture Decision
 The project migrated from runtime XML parsing to pre-built JSON indexes because large XML files caused 30-second browser load times. Pre-built indexes reduce download size by 19× and eliminate parsing overhead. Trade-off: requires Python build step when XML sources change.
@@ -154,6 +155,7 @@ Aktuelle Index-Versionen siehe [TEI-MODEL.md §11](TEI-MODEL.md#11-versionierung
 - ✅ **#107 Kookkurrenz-Ranking + #108 Textvergleich** (2026-05-15) - Zwei neue Playground-TEI-Analyse-Modi: häufigste Nachbar-Lemmata pro Lemma (`cooccurrence-ranking.js`) bzw. gemeinsame/exklusive Lemmata zweier Texte (`text-comparison.js`); damit 8 TEI-Analyse-Werkzeuge im Playground
 - ✅ **#59 Erweiterte Figurenbezeichnungen (Beta)** (2026-06-11) - Neuntes TEI-Analyse-Werkzeug: kuratierte Eigennamen, Antonomasien und Epitheta je Figur aus Linda Beutel-Thurows Naming-analysis (ENE/IW/ROL/TRO, 10.506 Belegstellen); eigener vorgebauter Index `data/naming-index.json.gz` (110 KB) via `scripts/ingest/naming/01-fetch-and-build-index.py`; sichtbare Attribution mit DOI, Chrome-verifiziert
 - ✅ **#125 Deterministische Index-Builds + CI-Freshness-Gate** (2026-06-12) - Identischer Quellstand erzeugt byte-identische Indexe (kein `generatedAt`, sortiertes glob, gzip `mtime=0`); CI-Workflow `data-integrity.yml` (konsolidiert die früheren `schema-validation.yml` + `index-version-check.yml`) rebuildet variants.xml + beide Indexe bei jedem Daten-PR und blockt vergessene Rebuilds; Dependency-Pins in `requirements.txt`; Corpus v4.1.4, Authority v1.4.1
+- ✅ **#45 Statische JSON-API** (2026-06-12) - FAIR-orientierte JSON-API unter `/api/` (2.742 Dateien, ~14 MB): Root-Manifest, Lemmata-Bundle (43.754 volle Records), Einzelressourcen für Persons/Works/Concepts/Genres/Names/Texte; deterministischer Build (`scripts/build-api.py`) + CI-Freshness-Gate; Doku-Seite `api/index.html`
 
 ### Known Limitations
 - Desktop-only interface (not mobile-responsive)
@@ -162,9 +164,8 @@ Aktuelle Index-Versionen siehe [TEI-MODEL.md §11](TEI-MODEL.md#11-versionierung
 
 ### Future Directions
 - Mobile optimization
-- RESTful API for programmatic access
 - Advanced visualizations (network graphs, timelines)
-- Backend integration for real-time updates
+- Backend integration for real-time updates (programmatic read access shipped 2026-06 as the static JSON API, #45; real-time backend remains future work)
 
 ## Links and Resources
 

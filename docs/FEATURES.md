@@ -278,6 +278,20 @@ Concept-based similarity section on each lemma page.
 - Explore semantic neighborhoods (e.g., from "minne" discover related terms for love, devotion, affection)
 - Navigate between conceptually related lemmata without knowing the exact term
 
+## JSON API for Programmatic Access (#45)
+
+Static JSON API under `/api/`, served directly by GitHub Pages — stable, citable URLs for every authority record and text.
+
+**What it offers:**
+- Root manifest at [`api/index.json`](https://dhcraft.org/mhdbdb-tei-only/api/index.json) listing all collections with counts
+- Individual records (`api/persons/person_445.json`, `api/works/work_WZB.json`, ...) plus a summary `index.json` per collection (persons, works, concepts, genres, names, texts)
+- Lemmata as a single bundle (`api/lemmata/index.json`, 43,754 full records) instead of 43k individual files
+- Every file carries its license (`CC BY-NC-SA 4.0`)
+
+**Documentation:** human-readable docs page at [`api/index.html`](https://dhcraft.org/mhdbdb-tei-only/api/index.html) (German), linked from `hilfe-daten.html`.
+
+**Target audience:** external projects that already reference MHDBDB lemma pages (MWB, Wörterbuchnetz, Wikidata P9351) and researchers who want machine-readable access without cloning the repo or parsing the gzipped indexes.
+
 ---
 
 For technical implementation, see [ARCHITECTURE.md](ARCHITECTURE.md).

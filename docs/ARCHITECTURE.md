@@ -405,6 +405,16 @@ A–Z-Einstiegsseite zu den Lemma-Seiten. Lädt nur den Authority-Index (via `Co
 - Subsequent loads: ~100-200 ms (IndexedDB read)
 - Cache hit rate: ~95%
 
+## Static JSON API (`api/`)
+
+**Generator:** `scripts/build-api.py` (#45) — reads the two pre-built indexes (`data/*.json.gz`), emits 2,742 plain JSON files (~14 MB) into `api/`.
+
+**Served by:** GitHub Pages, like every other file in the repo — no backend, no runtime component, CORS open (Pages sends `Access-Control-Allow-Origin: *`). The main site and playground do **not** consume the API (they load the gzipped indexes); it exists purely for external programmatic access, so it adds zero runtime cost to the site.
+
+**Structure:** root manifest `api/index.json` (counts + source index versions), lemmata as a single bundle (`api/lemmata/index.json`, 43,754 records), individual `{id}.json` + summary `index.json` per collection (persons, works, concepts, genres, names, texts). Every file carries a `license` field. Human documentation: `api/index.html` (German, standalone page).
+
+**Freshness:** deterministic build + CI gate ("Freshness API" in `data-integrity.yml`) keep `api/` byte-identical to what the committed indexes produce. Contracts (URL schema stability, field schemas): [CONTRACTS.md §G](CONTRACTS.md#g-static-json-api-contract-45).
+
 ## External Services
 
 ### Wörterbuchnetz API

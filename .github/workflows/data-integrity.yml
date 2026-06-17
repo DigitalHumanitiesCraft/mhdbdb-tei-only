@@ -3,7 +3,7 @@ name: Data Integrity
 # Ein konsolidiertes Daten-Gate (#125): prueft Quellen UND abgeleitete
 # Schicht (Indexe, variants.xml) in einem Job, Steps von billig nach
 # teuer (fail fast). Konsolidiert das fruehere index-version-check.yml
-# (Step 1) und schema-validation.yml (Steps 2-3, 6-7).
+# (Step 1) und schema-validation.yml (Steps 2-3, 7-8).
 #
 #   1. Index-Versions-Konstanten: Build-Skripte und corpus-loader.js
 #      muessen dieselbe Version nennen, sonst greift die Cache-
@@ -13,20 +13,26 @@ name: Data Integrity
 #   4. Freshness variants.xml: extract-variants.py --apply muss die
 #      committete Datei byte-identisch reproduzieren, sonst wurde nach
 #      einer Korpus-Aenderung die Regenerierung vergessen. MUSS als
-#      blockierender Step VOR Step 5 stehen: der Index-Vergleich kann
+#      blockierender Step VOR Step 6 stehen: der Index-Vergleich kann
 #      variants-Drift prinzipiell nicht erkennen (der Rebuild nutzt
 #      dieselbe committete variants.xml und matcht). Nie auf advisory
 #      herunterstufen.
-#   5. Freshness Indexe (Rebuild-and-Compare): beide Indexe frisch
+#   5. Freshness API (#45): build-api.py muss das committete api/
+#      byte-identisch reproduzieren (plain JSON, kein gzip — daher
+#      reicht git diff). MUSS VOR Step 6 laufen: der Index-Rebuild
+#      dort laesst data/*.json.gz mit potenziell anderen gz-Bytes
+#      zurueck (je zlib-Build), was den build-api-Pre-flight
+#      ("data/ muss clean sein") grundlos ausloesen wuerde.
+#   6. Freshness Indexe (Rebuild-and-Compare): beide Indexe frisch
 #      bauen, DEKOMPRIMIERTEN Inhalt mit dem committeten Stand
 #      vergleichen (gzip-Bytes koennen je zlib-Build variieren).
 #      Traegt nur, weil die Builds seit #125 deterministisch sind
 #      (kein generatedAt, sorted glob, gzip mtime=0).
-#   6. Authority cross-reference integrity (#44/#115): dangling Refs
+#   7. Authority cross-reference integrity (#44/#115): dangling Refs
 #      ausserhalb lexicon.xml brechen den Build (lexicon traegt eine
 #      bekannte Backfill-Baseline und wird nur reportet). Vor der
 #      RelaxNG-Validierung, weil deutlich billiger (plain parse).
-#   7. Zweistufige RelaxNG-Validierung (P2-13): Stage 2
+#   8. Zweistufige RelaxNG-Validierung (P2-13): Stage 2
 #      (mhdbdb.rng / mhdbdb-authority.rng) ist das harte Gate;
 #      Stage-1-Baseline-Fails (#30) sind nur Warnungen.
 #
@@ -45,8 +51,11 @@ on:
       - 'authority-files/**'
       - 'data/corpus-index.json.gz'
       - 'data/authority-index.json.gz'
+      - 'api/**'
+      - '!api/index.html'
       - 'scripts/build-corpus-index.py'
       - 'scripts/build-authority-index.py'
+      - 'scripts/build-api.py'
       - 'scripts/mhg_normalizer.py'
       # Globs statt Einzeldateien: jedes hier ausgefuehrte Gate-Skript
       # soll seinen eigenen Aenderungs-Trigger haben (Review #146).
@@ -66,8 +75,11 @@ on:
       - 'authority-files/**'
       - 'data/corpus-index.json.gz'
       - 'data/authority-index.json.gz'
+      - 'api/**'
+      - '!api/index.html'
       - 'scripts/build-corpus-index.py'
       - 'scripts/build-authority-index.py'
+      - 'scripts/build-api.py'
       - 'scripts/mhg_normalizer.py'
       - 'scripts/sync/**'
       - 'scripts/audit/**'
@@ -115,25 +127,15 @@ jobs:
             exit 1
           fi
 
-      - name: Download tei_all.rng
-        # tei_all.rng is gitignored in this repo (see schema/README.md).
-        # Every run fetches it fresh from the TEI Consortium.
-        # -f: HTTP-Fehler (404/503) duerfen keine HTML-Fehlerseite als
-        # Schema speichern — sonst failt erst der Pin-Check mit einer
-        # irrefuehrenden "Header format changed"-Diagnose (Review #146).
-        run: |
-          curl -fsSL \
-            "https://tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" \
-            -o schema/tei_all.rng
-
       - name: Verify TEI P5 version pin
-        # Catches silent drift between local dev (where tei_all.rng is
-        # cached at whatever version was downloaded last) and CI (which
-        # always fetches the current "latest" from tei-c.org). If TEI
-        # publishes a new P5 version, this step fails and forces us to
-        # bump the pin explicitly in schema/README.md + here. That is
-        # the right default — new TEI versions may change grammar and
-        # should not silently change validation semantics.
+        # tei_all.rng is committed to the repo (schema/tei_all.rng, see
+        # schema/README.md) — NO download from tei-c.org at build time, so
+        # the CI does not depend on upstream reachability (reproducible
+        # builds, #125; previously a tei-c.org outage failed every run).
+        # This step is a sanity check that the committed schema still
+        # carries the pinned version; it catches an accidental replacement
+        # with a different P5 version. Upgrading P5 is a deliberate act:
+        # replace schema/tei_all.rng and bump EXPECTED + schema/README.md.
         #
         # NOTE: the version header in tei_all.rng contains a literal
         # NBSP (U+00A0, UTF-8 bytes C2 A0) between "Version" and the
@@ -141,23 +143,40 @@ jobs:
         # regular space does NOT match. Python's re.search with \s
         # handles that correctly since Python 3.
         run: |
+          if [ ! -f schema/tei_all.rng ]; then
+            echo "::error title=TEI schema missing::schema/tei_all.rng fehlt im Repo. Die Datei muss committet sein (siehe schema/README.md)."
+            exit 1
+          fi
           TEI_VERSION=$(python3 -c "import re; m = re.search(r'TEI Edition: P5 Version\s+([0-9]+\.[0-9]+\.[0-9]+)', open('schema/tei_all.rng', encoding='utf-8').read()); print(m.group(1) if m else '')")
           EXPECTED="4.11.0"
           if [ -z "$TEI_VERSION" ]; then
-            echo "::error title=TEI P5 version pin::TEI-P5-Version konnte nicht aus schema/tei_all.rng extrahiert werden. Header-Format hat sich evtl. upstream geaendert."
+            echo "::error title=TEI P5 version pin::TEI-P5-Version konnte nicht aus schema/tei_all.rng extrahiert werden. Header-Format hat sich evtl. geaendert."
             exit 1
           fi
           if [ "$TEI_VERSION" != "$EXPECTED" ]; then
-            echo "::error title=TEI P5 version drift::CI hat TEI P5 Version $TEI_VERSION geladen, das Repo ist aber auf $EXPECTED gepinnt (siehe schema/README.md). Entweder den Pin in schema/README.md + diesem Workflow-Step bumpen, oder bei einer Versions-Regression die tei-c.org-URL pruefen."
+            echo "::error title=TEI P5 version drift::Committetes schema/tei_all.rng ist Version $TEI_VERSION, erwartet $EXPECTED (siehe schema/README.md). Beim bewussten P5-Upgrade EXPECTED + schema/README.md mitbumpen."
             exit 1
           fi
-          echo "TEI P5 version: $TEI_VERSION (matches pin)"
+          echo "TEI P5 version: $TEI_VERSION (matches pin, committed schema)"
 
       - name: Freshness variants.xml (#125)
         run: |
           python scripts/sync/extract-variants.py --apply
           if ! git diff --exit-code -- authority-files/variants.xml; then
             echo "::error file=authority-files/variants.xml::variants.xml ist nicht mit dem Korpus synchron. Lokal 'python scripts/sync/extract-variants.py --apply' ausfuehren und mitcommitten (DATA-MODEL.md -> Data-Change-Lifecycle)."
+            exit 1
+          fi
+
+      - name: Freshness API (#45)
+        run: |
+          python scripts/build-api.py
+          # git status --porcelain statt git diff: faengt zusaetzlich
+          # untracked Files (neuer Text -> neue api/texts/NEU.json), die
+          # git diff ignoriert (spiegelt das #100-Pre-flight-Muster in
+          # build-api.py check_working_tree()).
+          if [ -n "$(git status --porcelain -- api/)" ]; then
+            echo "::error file=api/index.json::api/ ist nicht mit den Indexen synchron (geaenderte ODER untracked Files). Lokal python scripts/build-api.py ausfuehren und mitcommitten (DATA-MODEL.md -> Data-Change-Lifecycle)."
+            git status --porcelain -- api/
             exit 1
           fi
 

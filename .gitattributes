@@ -2,6 +2,10 @@
 *.xml -text
 *.tei.xml -text
 
+# Committed TEI P5 schema (external, pinned): force LF for deterministic builds.
+# Specific path only — NOT *.rng, so the generated mhdbdb*.rng drift check is untouched.
+schema/tei_all.rng text eol=lf
+
 # Text files with proper normalization
 *.md text=auto
 *.js text=auto

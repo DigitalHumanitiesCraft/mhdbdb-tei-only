@@ -54,6 +54,7 @@ Vorgebaute Indizes sind im Repository enthalten. Zum Neubau:
 npm run build              # CSS + alle Indizes + Manifest bauen
 npm run build:authority    # Nur Authority-Index
 npm run build:corpus       # Nur Korpus-Index
+npm run build:api          # Statische JSON-API (api/) aus den Indizes
 npm run validate:indices   # Generierte Indizes validieren
 ```
 
@@ -65,6 +66,9 @@ npm run test:headed        # Mit sichtbarem Browser
 ```
 
 ### Programmatischer Zugriff
+
+**Statische JSON-API:** Alle Authority-Records und Text-Metadaten sind als zitierfähige JSON-Dateien unter [`/api/`](https://dhcraft.org/mhdbdb-tei-only/api/index.json) verfügbar, direkt von GitHub Pages serviert (kein Backend). Einstieg, URL-Schema und Beispiele: [API-Dokumentation](https://dhcraft.org/mhdbdb-tei-only/api/index.html).
+
 TEI-Dateien referenzieren Authority-Daten über `xml:id`:
 ```xml
 <author ref="#person_445">Meister Eckhart</author>
