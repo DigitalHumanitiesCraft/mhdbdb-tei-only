@@ -83,7 +83,7 @@ Full-text immersive reader with multi-lemma highlighting and rich metadata.
 
 ### Wörterbuch (A–Z-Register) (#117)
 
-Konventionelle Wörterbuch-Einstiegsseite (`woerterbuch.html`) für alle ~43.750 Lemma-Seiten.
+Konventionelle Wörterbuch-Einstiegsseite (`woerterbuch.html`) für alle 43.754 Lemma-Seiten.
 
 **How it works:**
 - Indexleiste A–Z (+ `#` für Ziffern-Lemmata) mit Eintragszahl pro Buchstabe als Tooltip
@@ -147,7 +147,7 @@ Browse and search six controlled vocabularies with consistent interface patterns
 
 ### TEI Text Analysis
 
-Corpus-wide text analysis using pre-built indexes. Neun Werkzeuge (acht Playground-Einträge; Multi-Lemma bietet Dokument- und Proximity-Modus), alle direkt im Results-Panel als in-place Form + Body (außer Multi-Lemma als Modal).
+Corpus-wide text analysis using pre-built indexes. Neun Werkzeuge in neun Playground-Einträgen (Multi-Lemma bietet Dokument- und Proximity-Modus in einem Eintrag), alle direkt im Results-Panel als in-place Form + Body (außer Multi-Lemma als Modal).
 
 **Multi-Lemma Document Search:**
 - Input multiple lemmata (space-separated or one per line)
@@ -246,7 +246,7 @@ All playground views are bookmarkable and shareable via hash-based URLs.
 
 ### Search Normalization
 
-Consistent search behavior across all 14 entry points via Middle High German character normalization.
+Consistent search behavior across all 15 entry points via Middle High German character normalization.
 
 **Normalization rules:**
 - Long vowels: â→a, ê→e, î→i, ô→o, û→u

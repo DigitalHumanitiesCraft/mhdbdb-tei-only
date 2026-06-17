@@ -122,7 +122,7 @@ The reading view converts TEI XML elements to HTML. Source: `extractAndFormatBod
 |------------|-----------|-------------|---------------|
 | `<head>` | | `<h3>` | `.section-head` |
 | `<p>`, `<ab>` | | `<p>` | — |
-| `<div>` | `@type`, `@n` | `<div data-type data-n>` with prepended `<div class="tei-div-header tei-div-{type}">{label} {n}</div>` | `.tei-div`, `.tei-div-{type}` (label map: song→Lied, chapter→Kapitel, recipe→Rezept, number→Nr., section→Abschnitt, colophon→Kolophon, parallel→Parallelüberlieferung) |
+| `<div>` | `@type`, `@n` | Always wraps children in `<div class="tei-div tei-div-{type}" data-type data-n>`. Prepended header is `<h3 class="section-head">{label} {n}</h3>` for `@type="chapter"` (rendered like `<head>`, #101) but `<div class="tei-div-header tei-div-{type}">{label} {n}</div>` for all other types | `.tei-div`, `.tei-div-{type}`, `.tei-div-header`, `.section-head` (label map: song→Lied, chapter→Kapitel, recipe→Rezept, number→Nr., section→Abschnitt, colophon→Kolophon, parallel→Parallelüberlieferung) |
 | `<lg>` | `@n` | `<div data-n>` with `<span>Strophe {n}</span>` prefix | `.verse-group`, `.stanza-label` |
 | `<l>` | `@n` | `<span data-n>` | `.verse-line` |
 | `<lb>` | `@n` | `<br>` followed by `<span>{n}</span>` | `.line-break`, `.lb-number` |
@@ -367,7 +367,7 @@ resolveConceptLabels(conceptIds):
 
 **Component:** `woerterbuch.html` + `assets/js/woerterbuch.js` (`WoerterbuchPage`)
 
-A–Z-Einstiegsseite zu den Lemma-Seiten. Lädt nur den Authority-Index (via `CorpusLoader('data')`), bucketet die ~43.750 `lemmata`-Einträge client-seitig nach dem Anfangsbuchstaben von `normalized` (NFD-Strip als Fallback für `ë`/`ú`, Ziffern-Lemmata im `#`-Bucket) und rendert pro Buchstabe ein paginiertes Register (200 Einträge/Seite, `Intl.Collator('de')`-Sortierung). URL-State `?buchstabe=&seite=` über `history.replaceState`. Bewusst kein eigenes Build-Artefakt — der vorhandene Index reicht.
+A–Z-Einstiegsseite zu den Lemma-Seiten. Lädt nur den Authority-Index (via `CorpusLoader('data')`), bucketet die 43.754 `lemmata`-Einträge client-seitig nach dem Anfangsbuchstaben von `normalized` (NFD-Strip als Fallback für `ë`/`ú`, Ziffern-Lemmata im `#`-Bucket) und rendert pro Buchstabe ein paginiertes Register (200 Einträge/Seite, `Intl.Collator('de')`-Sortierung). URL-State `?buchstabe=&seite=` über `history.replaceState`. Bewusst kein eigenes Build-Artefakt — der vorhandene Index reicht.
 
 ---
 

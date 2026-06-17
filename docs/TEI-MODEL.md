@@ -948,7 +948,6 @@ Diese drei Bausteine sind in allen 667 Bestandsdateien identisch und wurden vom 
 - [CONTRACTS.md](CONTRACTS.md) -- Cross-System Contracts (Position Counting, Normalization)
 - [DATA-MODEL.md](DATA-MODEL.md) -- Authority-File-Schemas, Index-Struktur
 - [ARCHITECTURE.md](ARCHITECTURE.md) -- Technische Komponenten, Datenfluss
-- [features/030-tei-structural-fixes.md](features/030-tei-structural-fixes.md) -- Triage-Plan fuer strukturelle Fixes
 - `.gemini/skills/pos-disambiguator/SKILL.md` -- POS-Tagset-Definition und Disambiguierungs-Regeln
 - `schema/examples/corpus.example.tei.xml` -- Korpus-Maximalbeispiel (validiert gegen tei_all.rng)
 - `schema/examples/authority-*.example.xml` -- Authority-File-Beispiele (validiert gegen tei_all.rng + mhdbdb-authority.rnc)

@@ -37,7 +37,7 @@ Simple search and reading interface optimized for students and general users:
   - Context navigation (jump between occurrences)
   - Separate work vs author identifiers (GND/Wikidata)
 - **Variant Resolution** - Automatic mapping of orthographic variants via variants.xml
-- **Wörterbuch** - A–Z-Einstiegsseite (`woerterbuch.html`) zu allen ~43.750 Lemma-Seiten mit Indexleiste, Pagination und Deep-Links (#117)
+- **Wörterbuch** - A–Z-Einstiegsseite (`woerterbuch.html`) zu allen 43.754 Lemma-Seiten mit Indexleiste, Pagination und Deep-Links (#117)
 
 ### Playground (Research Interface)
 Advanced exploration tools for medievalists and digital humanities researchers:

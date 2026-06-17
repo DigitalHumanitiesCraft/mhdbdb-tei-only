@@ -169,7 +169,9 @@ def main():
                 total_drift += len(findings)
 
     if total_drift == 0:
-        print('  No drift detected against scanned docs.')
+        print('  No drift detected against scanned docs (data counts only).')
+        print('  NB: covers corpus/authority data counts; does NOT check code-derived')
+        print('      counts (playground tools, ui/ module counts, router entry points).')
     else:
         print()
         print(f'  Total potential drift hits: {total_drift}')

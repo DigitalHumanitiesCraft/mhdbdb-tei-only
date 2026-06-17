@@ -108,12 +108,12 @@ Playground UI code concentrated in large files:
 
 ### Decision
 
-Decompose monolithic files into 21 specialized modules organized by feature (tei/ wuchs nach dem ursprünglichen Refactor mit den #87-#108 Textanalyse-Features):
+Decompose monolithic files into 22 specialized modules organized by feature (tei/ wuchs nach dem ursprünglichen Refactor mit den #87-#108 Textanalyse-Features sowie dem #59 naming-explorer):
 ```
 ui/
 ├── core/              # Core utilities (4 modules)
 ├── authority/         # Authority explorers (7 modules)
-├── tei/               # TEI analysis (9 modules)
+├── tei/               # TEI analysis (10 modules)
 └── search/            # Search utilities (1 module)
 ```
 
@@ -130,7 +130,7 @@ Each explorer gets dedicated file (person-explorer.js, work-explorer.js, etc.)
 - Reusable patterns across explorers
 
 **Negative:**
-- More files to navigate (21 modules vs 3 large files)
+- More files to navigate (22 modules vs 3 large files)
 - Slightly more imports/exports
 - Requires module-aware development
 
