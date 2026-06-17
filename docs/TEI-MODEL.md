@@ -775,7 +775,7 @@ Neue Texte muessen folgende Mindestanforderungen erfuellen:
 
 ```bash
 # Stufe 1: TEI-Konformitaet (keine illegalen Attribute/Elemente)
-# Download: curl -sL "https://tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" -o schema/tei_all.rng
+# schema/tei_all.rng liegt im Repo (committet, TEI P5 4.11.0) -- kein Download noetig
 jing schema/tei_all.rng tei/{SIGLE}.tei.xml
 
 # Stufe 2: MHDBDB-Konformitaet (strenger, Subset von tei_all)
@@ -965,7 +965,7 @@ Diese drei Bausteine sind in allen 667 Bestandsdateien identisch und wurden vom 
 - `.gemini/skills/pos-disambiguator/SKILL.md` -- POS-Tagset-Definition und Disambiguierungs-Regeln
 - `schema/examples/corpus.example.tei.xml` -- Korpus-Maximalbeispiel (validiert gegen tei_all.rng)
 - `schema/examples/authority-*.example.xml` -- Authority-File-Beispiele (validiert gegen tei_all.rng + mhdbdb-authority.rnc)
-- `schema/tei_all.rng` -- TEI P5 4.11.0 RELAX NG Schema (lokal, gitignored — Download: `curl -sL "https://tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" -o schema/tei_all.rng`)
+- `schema/tei_all.rng` -- TEI P5 4.11.0 RELAX NG Schema (committet im Repo, kein Download noetig)
 
 ### TEI P5 Spezifikation
 - [att.linguistic](https://www.tei-c.org/release/doc/tei-p5-doc/en/html/ref-att.linguistic.html) -- `@lemma`, `@lemmaRef`, `@pos`, `@msd`, `@join`

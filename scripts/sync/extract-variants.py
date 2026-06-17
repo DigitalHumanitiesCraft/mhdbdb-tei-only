@@ -49,7 +49,7 @@ LEMMA_NUM_RE = re.compile(r'^lemma_(\d+)$')
 
 PI_MODEL = [
     ('xml-model', 'href="../schema/mhdbdb-authority.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"'),
-    ('xml-model', 'href="https://tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng"'),
+    ('xml-model', 'href="../schema/tei_all.rng"'),
 ]
 
 
