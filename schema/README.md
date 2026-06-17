@@ -10,7 +10,7 @@ RELAX NG-Schemas für das MHDBDB-Korpus und die Authority Files. Gedacht für Pr
 | `mhdbdb.rng` | Korpus-Schema (generiert, für lxml/jing) |
 | `mhdbdb-authority.rnc` | Authority-Files-Schema (Quelldatei) |
 | `mhdbdb-authority.rng` | Authority-Files-Schema (generiert) |
-| `tei_all.rng` | TEI P5 4.11.0 (gitignored, Download siehe unten) |
+| `tei_all.rng` | TEI P5 4.11.0 (committet im Repo, siehe unten) |
 | `examples/` | Validierte Beispieldateien für alle Dokumenttypen |
 
 ## Zwei-Stufen-Validierung
@@ -30,11 +30,12 @@ Die 8 Authority-Files in `authority-files/` haben **beide** PIs — dort produzi
 
 ## Schnellstart: Datei validieren
 
-**Gepinnt auf TEI P5 Version 4.11.0** (Last updated 2026-02-18, revision `358d2e48e`). Der CI-Workflow `.github/workflows/data-integrity.yml` prüft beim Download, ob die von `tei-c.org` gelieferte Version mit diesem Pin übereinstimmt — bei einem Upstream-Versions-Bump schlägt der CI-Job mit einer klaren Fehlermeldung fehl und zwingt zur bewussten Aktualisierung (hier in diesem README und in der Workflow-Zeile `EXPECTED="4.11.0"`).
+**Gepinnt auf TEI P5 Version 4.11.0** (Last updated 2026-02-18, revision `358d2e48e`). Die Datei `schema/tei_all.rng` ist ins Repo committet, **kein Download von `tei-c.org` zur Build-Zeit** — so sind die Builds reproduzierbar und unabhängig von der Erreichbarkeit des TEI-Servers (#125; zuvor brach ein tei-c.org-Ausfall jeden CI-Run). Der CI-Workflow `.github/workflows/data-integrity.yml` prüft nur noch als Sanity-Check, ob die committete Datei noch die gepinnte Version trägt, und fängt so ein versehentliches Ersetzen. Ein P5-Upgrade ist eine bewusste Handlung: `schema/tei_all.rng` ersetzen und den Pin hier sowie die Workflow-Zeile `EXPECTED="4.11.0"` mitbumpen.
 
 ```bash
-# tei_all.rng herunterladen (einmalig)
-curl -sL "https://tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" -o schema/tei_all.rng
+# tei_all.rng liegt bereits im Repo (schema/tei_all.rng).
+# Nur bei einem bewussten TEI-P5-Upgrade neu herunterladen:
+#   curl -sL "https://tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" -o schema/tei_all.rng
 
 # RNG aus RNC neu generieren (nach Bearbeitung der .rnc)
 python -m rnc2rng schema/mhdbdb.rnc schema/mhdbdb.rng

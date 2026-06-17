@@ -127,25 +127,15 @@ jobs:
             exit 1
           fi
 
-      - name: Download tei_all.rng
-        # tei_all.rng is gitignored in this repo (see schema/README.md).
-        # Every run fetches it fresh from the TEI Consortium.
-        # -f: HTTP-Fehler (404/503) duerfen keine HTML-Fehlerseite als
-        # Schema speichern — sonst failt erst der Pin-Check mit einer
-        # irrefuehrenden "Header format changed"-Diagnose (Review #146).
-        run: |
-          curl -fsSL \
-            "https://tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" \
-            -o schema/tei_all.rng
-
       - name: Verify TEI P5 version pin
-        # Catches silent drift between local dev (where tei_all.rng is
-        # cached at whatever version was downloaded last) and CI (which
-        # always fetches the current "latest" from tei-c.org). If TEI
-        # publishes a new P5 version, this step fails and forces us to
-        # bump the pin explicitly in schema/README.md + here. That is
-        # the right default — new TEI versions may change grammar and
-        # should not silently change validation semantics.
+        # tei_all.rng is committed to the repo (schema/tei_all.rng, see
+        # schema/README.md) — NO download from tei-c.org at build time, so
+        # the CI does not depend on upstream reachability (reproducible
+        # builds, #125; previously a tei-c.org outage failed every run).
+        # This step is a sanity check that the committed schema still
+        # carries the pinned version; it catches an accidental replacement
+        # with a different P5 version. Upgrading P5 is a deliberate act:
+        # replace schema/tei_all.rng and bump EXPECTED + schema/README.md.
         #
         # NOTE: the version header in tei_all.rng contains a literal
         # NBSP (U+00A0, UTF-8 bytes C2 A0) between "Version" and the
@@ -153,17 +143,21 @@ jobs:
         # regular space does NOT match. Python's re.search with \s
         # handles that correctly since Python 3.
         run: |
+          if [ ! -f schema/tei_all.rng ]; then
+            echo "::error title=TEI schema missing::schema/tei_all.rng fehlt im Repo. Die Datei muss committet sein (siehe schema/README.md)."
+            exit 1
+          fi
           TEI_VERSION=$(python3 -c "import re; m = re.search(r'TEI Edition: P5 Version\s+([0-9]+\.[0-9]+\.[0-9]+)', open('schema/tei_all.rng', encoding='utf-8').read()); print(m.group(1) if m else '')")
           EXPECTED="4.11.0"
           if [ -z "$TEI_VERSION" ]; then
-            echo "::error title=TEI P5 version pin::TEI-P5-Version konnte nicht aus schema/tei_all.rng extrahiert werden. Header-Format hat sich evtl. upstream geaendert."
+            echo "::error title=TEI P5 version pin::TEI-P5-Version konnte nicht aus schema/tei_all.rng extrahiert werden. Header-Format hat sich evtl. geaendert."
             exit 1
           fi
           if [ "$TEI_VERSION" != "$EXPECTED" ]; then
-            echo "::error title=TEI P5 version drift::CI hat TEI P5 Version $TEI_VERSION geladen, das Repo ist aber auf $EXPECTED gepinnt (siehe schema/README.md). Entweder den Pin in schema/README.md + diesem Workflow-Step bumpen, oder bei einer Versions-Regression die tei-c.org-URL pruefen."
+            echo "::error title=TEI P5 version drift::Committetes schema/tei_all.rng ist Version $TEI_VERSION, erwartet $EXPECTED (siehe schema/README.md). Beim bewussten P5-Upgrade EXPECTED + schema/README.md mitbumpen."
             exit 1
           fi
-          echo "TEI P5 version: $TEI_VERSION (matches pin)"
+          echo "TEI P5 version: $TEI_VERSION (matches pin, committed schema)"
 
       - name: Freshness variants.xml (#125)
         run: |
