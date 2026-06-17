@@ -102,7 +102,8 @@ python scripts/validate-indices.py
 
 # Build static JSON API from the two indexes (#45) — alias: npm run build:api
 python scripts/build-api.py
-# Output: api/ (2,742 plain JSON files, ~14 MB; not part of `npm run build`)
+# Output: api/ (2,742 plain JSON files, ~14 MB). Single-shot target, needs a clean data/;
+# the full chain (incl. the API) runs via `npm run build:data` / `npm run build` — see below.
 ```
 
 ### Frontend Build Commands
@@ -119,8 +120,12 @@ npm run build:vendor     # node scripts/build-vendor.js
 python scripts/build-pages.py            # rewrite changed pages (idempotent)
 python scripts/build-pages.py --check    # exit 1 if any page is out of sync (drift gate)
 
-# Aggregate: CSS + vendor + both indexes
-npm run build            # build:css && build:vendor && build:authority && build:corpus
+# Build the full derived layer in dependency order: corpus index → variants.xml → authority index → API
+npm run build:data       # build:corpus && extract-variants --apply && build:authority && build-api --allow-dirty
+# build-api runs with --allow-dirty here because the just-rebuilt indexes in data/ are still uncommitted (dirty)
+
+# Aggregate: CSS + vendor + the full data chain (npm run build now includes build:data)
+npm run build            # build:css && build:vendor && build:data
 ```
 
 **Note on variants:** `authority-files/variants.xml` is corpus-derived. Regenerate it with `python scripts/sync/extract-variants.py --apply` after the corpus gains new orthographic forms, then rebuild the authority index and bump its version. Full step sequence: [DATA-MODEL.md → Data-Change-Lifecycle](DATA-MODEL.md#data-change-lifecycle).

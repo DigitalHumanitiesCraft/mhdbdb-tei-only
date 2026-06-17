@@ -63,6 +63,19 @@ TEXT_ID_RE = re.compile(r'^[A-Z0-9]+$')
 # Schwere Korpus-Felder, die nicht in die per-Text-API gehören
 TEXT_STRIP_KEYS = ('words', 'lemmata', 'lineStarts', 'lineEnds')
 
+# Pflicht-Keys, die die summarize-Lambdas in build_api() hart auslesen.
+# Vor dem Wipe geprüft, damit ein fehlender Key nicht erst api/ zerstört
+# und dann mit KeyError abbricht. lemmata bewusst NICHT enthalten — das
+# Lemma-Bundle dumpt die Records vollständig, ohne Key-Zugriff.
+REQUIRED_SUMMARY_KEYS = {
+    'persons': ('preferredName',),
+    'works': ('title',),
+    'concepts': ('termDE',),
+    'genres': ('termDE',),
+    'names': ('termDE',),
+    'texts': ('title', 'author', 'wordCount'),
+}
+
 
 def check_working_tree(directory, allow_dirty):
     """Pre-flight check (Muster #100, wie build-authority-index.py):
@@ -112,8 +125,9 @@ def clean_api_dir():
     """Orphan-Schutz: alle bestehenden JSON-Dateien unter api/ löschen,
     damit gelöschte Records keine Datei-Leichen hinterlassen. Nicht-JSON
     (api/index.html etc.) bleibt unangetastet.
-    Symlinks werden übersprungen (expliziter Guard; Python-3.13-rglob
-    traversiert keine Symlink-Dirs, aber Files könnten Symlinks sein).
+    Symlinks werden per unlink() entfernt (der Link selbst, nicht sein
+    Ziel; ein übersprungener Symlink würde sonst in die Schreibphase
+    überleben, wo write_bytes() ihm folgt und sein Ziel überschreibt).
     Nach dem Löschen werden leere Unterverzeichnisse bottom-up entfernt,
     damit umbenannte/weggefallene Collections keine leeren Dirs
     hinterlassen."""
@@ -121,8 +135,6 @@ def clean_api_dir():
         return 0
     removed = 0
     for json_file in sorted(API_DIR.rglob('*.json')):
-        if json_file.is_symlink():
-            continue
         json_file.unlink()
         removed += 1
     # leere Unterverzeichnisse bottom-up (rmdir wirft bei nicht-leer)
@@ -138,11 +150,18 @@ def clean_api_dir():
 
 def assert_ids(collection_name, ids, pattern):
     """ID-Validierung: Muster + case-insensitive Eindeutigkeit
-    (Windows-FS-Kollisionsschutz)."""
+    (Windows-FS-Kollisionsschutz) + reservierter Name 'index'
+    (kollidiert mit der per-Collection-Summary index.json)."""
     for record_id in ids:
         if not pattern.match(record_id):
             print(f"❌ ERROR: invalid id in {collection_name}: {record_id!r} "
                   f"(expected pattern {pattern.pattern})")
+            sys.exit(1)
+        # 'index' ist reserviert: <id>.json würde sonst die Summary
+        # index.json überschreiben (case-insensitiv auf Windows-FS).
+        if record_id.lower() == 'index':
+            print(f"❌ ERROR: reserved id in {collection_name}: {record_id!r} "
+                  f"(collides with the per-collection index.json)")
             sys.exit(1)
     seen = {}
     for record_id in ids:
@@ -161,13 +180,31 @@ def record_id(rec, coll):
     return rec['id']
 
 
+def assert_summary_keys(coll, records):
+    """Pflicht-Summary-Keys einer Collection prüfen — die summarize-Lambdas
+    in build_api() lesen diese hart aus. Vor dem Wipe aufgerufen, damit ein
+    fehlender Key nicht erst api/ zerstört und dann mit KeyError abbricht."""
+    required = REQUIRED_SUMMARY_KEYS.get(coll)
+    if not required:
+        return
+    for rec in records:
+        missing = [k for k in required if k not in rec]
+        if missing:
+            sys.exit(f"❌ ERROR: record {rec.get('id')!r} in {coll!r} missing "
+                     f"required summary key(s): {missing}")
+
+
 def validate_all_ids(authority, corpus):
     """Wipe-Safety: Alle Collections vollständig validieren BEVOR
-    clean_api_dir() läuft — ein ungültiger ID darf das bestehende api/
-    nicht erst zerstören und dann abbrechen."""
+    clean_api_dir() läuft — weder ein ungültiger ID noch ein fehlender
+    Pflicht-Summary-Key darf das bestehende api/ erst zerstören und dann
+    abbrechen. Geprüft werden IDs (Muster + Eindeutigkeit) und die von den
+    summarize-Lambdas hart ausgelesenen Pflicht-Keys."""
     for coll in ('lemmata', 'persons', 'works', 'concepts', 'genres', 'names'):
         assert_ids(coll, [record_id(rec, coll) for rec in authority[coll]], AUTHORITY_ID_RE)
+        assert_summary_keys(coll, authority[coll])
     assert_ids('texts', [record_id(rec, 'texts') for rec in corpus['texts']], TEXT_ID_RE)
+    assert_summary_keys('texts', corpus['texts'])
 
 
 def write_json(path, obj):

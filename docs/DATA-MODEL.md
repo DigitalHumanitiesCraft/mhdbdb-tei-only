@@ -763,7 +763,7 @@ Kandidaten-Senses werden dem LLM als `sense_id :: Begriffs-Label DE (EN)` präse
 
 Status-Legende: **CI** = automatisiert (GitHub Actions) · **Skript** = Skript-eingebauter Guard · **manuell** = dokumentiert, nicht erzwungen.
 
-**Seit #125 (2026-06-12):** Die Index-Builds sind deterministisch (kein `generatedAt`, sortiertes glob, gzip ohne mtime) — ein No-op-Rebuild aus unverändertem Quellstand erzeugt **keinen Diff** mehr; „sicherheitshalber rebuilden" ist damit kostenlos. Das CI-Gate `data-integrity.yml` rebuildet variants.xml + beide Indexe + die statische JSON-API (#45) bei jedem Daten-PR und vergleicht den (bei den Indexen dekomprimierten) Inhalt mit dem committeten Stand: vergessene Rebuilds (Schritte 3-6) blocken den Merge.
+**Seit #125 (2026-06-12):** Die Index-Builds sind deterministisch (kein `generatedAt`, sortiertes glob, gzip ohne mtime) — ein No-op-Rebuild aus unverändertem Quellstand erzeugt **keinen Diff** mehr; „sicherheitshalber rebuilden" ist damit kostenlos. Das CI-Gate `data-integrity.yml` rebuildet variants.xml + beide Indexe + die statische JSON-API (#45) bei jedem Daten-PR und vergleicht den (bei den Indexen dekomprimierten) Inhalt mit dem committeten Stand: vergessene Rebuilds (Schritte 4-7) blocken den Merge.
 
 **Grundprinzipien für den Lifecycle** (Auszug; das vollständige Regelwerk F.1–F.3 steht normativ in [CONTRACTS.md → Authority Source Rules](CONTRACTS.md#f-authority-source-rules)):
 
@@ -776,11 +776,11 @@ Status-Legende: **CI** = automatisiert (GitHub Actions) · **Skript** = Skript-e
 |---|---------|----------------------|--------|
 | 1 | UTF-8, Namespace `http://www.tei-c.org/ns/1.0`; positionstragende Annotation auf `<w @lemmaRef>` (nur die zählen für Positionen) | Wort unsichtbar für Suche, falsche Highlight-Positionen | manuell |
 | 2 | Schema: `python scripts/audit/validate-corpus.py --sample <SIG>` | invalides TEI; `data-integrity.yml` fängt es auf PR/Push | CI |
-| 3 | Korpus-Index: `python scripts/build-corpus-index.py` (Pre-flight bricht bei dirty tree ab, sonst `--allow-dirty`) | Suche, Trefferzahlen, Proximity, Versposition, Playground-Analysen stale; neuer Text fehlt komplett | CI (Freshness-Gate in data-integrity.yml) |
-| 4 | **Bei neuen Formen:** `python scripts/sync/extract-variants.py --apply` (`variants.xml` ist korpus-abgeleitet) | neue Wortformen lösen sich nicht zum Lemma auf (Stage-2-Resolution); Lemma-Page-Chips unvollständig | CI (Freshness-Gate) |
-| 5 | Nach Schritt 4: `python scripts/build-authority-index.py` | Variant-Map im Index bleibt stale | CI (Freshness-Gate) |
-| 6 | API regenerieren: `python scripts/build-api.py` (liest beide `data/*.json.gz`, daher nach Schritt 3/5; die frisch gebauten, noch uncommitteten Indexe erfordern lokal `--allow-dirty`) | statische JSON-API unter `api/` serviert stale oder verwaiste Records | CI (Freshness-Gate in data-integrity.yml) |
-| 7 | Version bumpen (`build-*-index.py` Dict-Literal `'version'` + `corpus-loader.js`), dann `python scripts/audit/check-index-versions.py` | wiederkehrende Nutzer behalten den 30-Tage-IndexedDB-Cache mit altem Index (#47.3/#94) | CI (Konsistenz) |
+| 3 | Version bumpen (`build-*-index.py` Dict-Literal `'version'` + `corpus-loader.js`), dann `python scripts/audit/check-index-versions.py` | wiederkehrende Nutzer behalten den 30-Tage-IndexedDB-Cache mit altem Index (#47.3/#94) | CI (Konsistenz) |
+| 4 | Korpus-Index: `python scripts/build-corpus-index.py` (Pre-flight bricht bei dirty tree ab, sonst `--allow-dirty`) | Suche, Trefferzahlen, Proximity, Versposition, Playground-Analysen stale; neuer Text fehlt komplett | CI (Freshness-Gate in data-integrity.yml) |
+| 5 | **Bei neuen Formen:** `python scripts/sync/extract-variants.py --apply` (`variants.xml` ist korpus-abgeleitet) | neue Wortformen lösen sich nicht zum Lemma auf (Stage-2-Resolution); Lemma-Page-Chips unvollständig | CI (Freshness-Gate) |
+| 6 | Nach Schritt 5: `python scripts/build-authority-index.py` | Variant-Map im Index bleibt stale | CI (Freshness-Gate) |
+| 7 | API regenerieren: `python scripts/build-api.py` (liest beide `data/*.json.gz`, daher nach Schritt 4/6; die frisch gebauten, noch uncommitteten Indexe erfordern lokal `--allow-dirty`) | statische JSON-API unter `api/` serviert stale oder verwaiste Records | CI (Freshness-Gate in data-integrity.yml) |
 | 8 | Cross-Ref-Audit: `python scripts/audit/check-authority-cross-refs.py --check` | dangling Refs (Lemma/Variant not found, leere Panels) | CI (in `data-integrity.yml`) |
 | 9 | `python scripts/validate-indices.py` + `npm test` (**User vorher fragen**) | strukturelle Index-/Frontend-Regression | manuell |
 | 10 | Commit **TEI + gebautes `data/*.json.gz` + `api/` + Bumps zusammen**, Files by name stagen (nie `git add -A`, shared working dir) | Production serviert stale Suche bzw. alten Cache | manuell |
@@ -791,13 +791,13 @@ Status-Legende: **CI** = automatisiert (GitHub Actions) · **Skript** = Skript-e
 | # | Schritt | Bricht wenn vergessen | Status |
 |---|---------|----------------------|--------|
 | 1 | (nur `works.xml`) `enhance_works_with_zotero.py` + `sync_tei_headers.py --works` (erst `--dry-run`) | Editor/Bibliografie + Header stale (nur WorksSyncer implementiert, Persons/Genres/Concepts sind TODO-Stubs) | manuell |
-| 2 | **Authority-Index: `python scripts/build-authority-index.py`** (Frontend liest NUR den Index, nie das XML) | jede Authority-Änderung unsichtbar bis Rebuild + Commit (so blieb die lexicon/variants-Drift unbemerkt) | CI (Freshness-Gate in data-integrity.yml) |
-| 3 | API regenerieren: `python scripts/build-api.py` (nach Schritt 2; der frisch gebaute, noch uncommittete Index erfordert lokal `--allow-dirty`) | statische JSON-API unter `api/` serviert stale Authority-Records | CI (Freshness-Gate in data-integrity.yml) |
-| 4 | Version bumpen (`build-authority-index.py` + `corpus-loader.js`) + `check-index-versions.py` | stale Cache bis 30 Tage | CI (Konsistenz) |
+| 2 | Version bumpen (`build-authority-index.py` + `corpus-loader.js`) + `check-index-versions.py` | stale Cache bis 30 Tage | CI (Konsistenz) |
+| 3 | **Authority-Index: `python scripts/build-authority-index.py`** (Frontend liest NUR den Index, nie das XML) | jede Authority-Änderung unsichtbar bis Rebuild + Commit (so blieb die lexicon/variants-Drift unbemerkt) | CI (Freshness-Gate in data-integrity.yml) |
+| 4 | API regenerieren: `python scripts/build-api.py` (nach Schritt 3; der frisch gebaute, noch uncommittete Index erfordert lokal `--allow-dirty`) | statische JSON-API unter `api/` serviert stale Authority-Records | CI (Freshness-Gate in data-integrity.yml) |
 | 5 | Cross-Ref-Audit `--check` + Schema `validate-corpus.py --fail-fast` | dangling Refs / invalides XML | CI |
 | 6 | Gebautes `data/authority-index.json.gz` + `api/` + Bumps committen, by name | Production serviert alten Index | manuell |
 
-**Entkopplung:** Eine reine `authority-files/`-Änderung braucht **keinen** Korpus-Index-Rebuild (`build-corpus-index.py` liest `authority-files/` nicht). Eine reine `tei/`-Änderung braucht den Authority-Rebuild nur, wenn neue Formen eine `variants.xml`-Regenerierung erzwingen (Schritt 4 → 5).
+**Entkopplung:** Eine reine `authority-files/`-Änderung braucht **keinen** Korpus-Index-Rebuild (`build-corpus-index.py` liest `authority-files/` nicht). Eine reine `tei/`-Änderung braucht den Authority-Rebuild nur, wenn neue Formen eine `variants.xml`-Regenerierung erzwingen (Schritt 5 → 6).
 
 **Offene Lücke (kein Trigger):** `lexicon.xml`-Backfill für ingest-erzeugte Lemma/Sense-IDs (977 dangling Refs, 349 IDs, repo-intern, #44/#115). **Ursache:** Die Ingest-Pipelines (WZB Phase 1b–3, 2026-04/05) sind reine Forward-Pipelines: sie schreiben neue Lemma-/Sense-IDs ins Korpus, aber **kein Skript zieht `lexicon.xml` nach** (es gibt kein `*-backfill-lexicon.py`). So entstanden 98 Lemma-IDs ≥78000 im Korpus, die in `lexicon.xml` fehlen (nur 4 wurden je manuell ergänzt, Commits `8caa09627`/`649c0fe55`; viele Sense-IDs ≥78000 sind strukturelle Artefakte der Lemma-Erzeugung). Das ist **kein** Salzburg-Re-Export-Problem (Repo ist Master), sondern eine fehlende Rückwärts-Synchronisation. Lemma-Stubs (Form + POS) sind aus dem Korpus generierbar; die **Sense→Begriff-Zuordnung ist kuratorisch** (Team vergibt die concept-Zuordnung, nicht aus dem Korpus rekonstruierbar). Bis zum Backfill ist `lexicon.xml` in der Cross-Ref-CI-Baseline ausgenommen (nur Refs außerhalb `lexicon.xml` brechen den Build). `scripts/audit/check-lexicon-senses.py` detektiert sense-lose Lemmata lokal. Konsequenz für künftige Ingests siehe [DECISIONS.md → ADR-015](DECISIONS.md#adr-015-authority-source-modell-korpus-führt-ingest-braucht-rückwärts-sync).
 

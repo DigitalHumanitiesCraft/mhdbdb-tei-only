@@ -52,6 +52,7 @@ on:
       - 'data/corpus-index.json.gz'
       - 'data/authority-index.json.gz'
       - 'api/**'
+      - '!api/index.html'
       - 'scripts/build-corpus-index.py'
       - 'scripts/build-authority-index.py'
       - 'scripts/build-api.py'
@@ -75,6 +76,7 @@ on:
       - 'data/corpus-index.json.gz'
       - 'data/authority-index.json.gz'
       - 'api/**'
+      - '!api/index.html'
       - 'scripts/build-corpus-index.py'
       - 'scripts/build-authority-index.py'
       - 'scripts/build-api.py'
@@ -174,8 +176,13 @@ jobs:
       - name: Freshness API (#45)
         run: |
           python scripts/build-api.py
-          if ! git diff --exit-code -- api/; then
-            echo "::error file=api/index.json::api/ ist nicht mit den Indexen synchron. Lokal 'python scripts/build-api.py' ausfuehren und mitcommitten (DATA-MODEL.md -> Data-Change-Lifecycle)."
+          # git status --porcelain statt git diff: faengt zusaetzlich
+          # untracked Files (neuer Text -> neue api/texts/NEU.json), die
+          # git diff ignoriert (spiegelt das #100-Pre-flight-Muster in
+          # build-api.py check_working_tree()).
+          if [ -n "$(git status --porcelain -- api/)" ]; then
+            echo "::error file=api/index.json::api/ ist nicht mit den Indexen synchron (geaenderte ODER untracked Files). Lokal python scripts/build-api.py ausfuehren und mitcommitten (DATA-MODEL.md -> Data-Change-Lifecycle)."
+            git status --porcelain -- api/
             exit 1
           fi
 

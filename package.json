@@ -17,7 +17,8 @@
     "build:authority": "python3.13 scripts/build-authority-index.py",
     "build:corpus": "python3.13 scripts/build-corpus-index.py",
     "build:api": "python3.13 scripts/build-api.py",
-    "build": "npm run build:css && npm run build:vendor && npm run build:authority && npm run build:corpus",
+    "build:data": "npm run build:corpus && python3.13 scripts/sync/extract-variants.py --apply && npm run build:authority && python3.13 scripts/build-api.py --allow-dirty",
+    "build": "npm run build:css && npm run build:vendor && npm run build:data",
     "validate:indices": "python3.13 scripts/validate-indices.py"
   },
   "devDependencies": {

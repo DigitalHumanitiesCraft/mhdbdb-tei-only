@@ -74,6 +74,14 @@ DERIVED = [
         'label': 'Authority-Index',
         'rebuild': 'python scripts/build-authority-index.py',
     },
+    {
+        'artifact': 'api/',
+        'sources': [
+            'data/corpus-index.json.gz', 'data/authority-index.json.gz',
+        ],
+        'label': 'Statische JSON-API (#45)',
+        'rebuild': 'python scripts/build-api.py',
+    },
 ]
 
 

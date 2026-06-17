@@ -143,34 +143,35 @@
             </tr>
             <tr>
                 <td><code>lemmata/index.json</code></td>
-                <td>Alle 43.754 Lemmata als ein Bundle (~13&nbsp;MB) mit vollen Records inklusive <code>senses</code>/<code>conceptIds</code> und <code>etymology</code>. Keine Einzeldateien; filtern Sie clientseitig nach <code>id</code>.</td>
+                <td>Alle Lemmata als ein Bundle (~13&nbsp;MB) mit vollen Records inklusive <code>senses</code>/<code>conceptIds</code> und <code>etymology</code>. Keine Einzeldateien; filtern Sie clientseitig nach <code>id</code>.</td>
             </tr>
             <tr>
                 <td><code>persons/index.json</code><br><code>persons/{id}.json</code></td>
-                <td>211 Personen. Beispiel-ID: <code>person_1768</code>.</td>
+                <td>Personen. Beispiel-ID: <code>person_1768</code>.</td>
             </tr>
             <tr>
                 <td><code>works/index.json</code><br><code>works/{id}.json</code></td>
-                <td>584 Werke. Beispiel-ID: <code>work_350</code>.</td>
+                <td>Werke. Beispiel-ID: <code>work_350</code>.</td>
             </tr>
             <tr>
                 <td><code>concepts/index.json</code><br><code>concepts/{id}.json</code></td>
-                <td>567 Begriffe der semantischen Taxonomie. Beispiel-ID: <code>concept_10000000</code>.</td>
+                <td>Begriffe der semantischen Taxonomie. Beispiel-ID: <code>concept_10000000</code>.</td>
             </tr>
             <tr>
                 <td><code>genres/index.json</code><br><code>genres/{id}.json</code></td>
-                <td>615 Gattungen.</td>
+                <td>Gattungen.</td>
             </tr>
             <tr>
                 <td><code>names/index.json</code><br><code>names/{id}.json</code></td>
-                <td>90 Eigennamen.</td>
+                <td>Eigennamen.</td>
             </tr>
             <tr>
                 <td><code>texts/index.json</code><br><code>texts/{id}.json</code></td>
-                <td>667 Korpustexte; die ID ist die Sigle, z.&nbsp;B. <code>ABG</code>. Metadaten ohne Wortpositionen.</td>
+                <td>Korpustexte; die ID ist die Sigle, z.&nbsp;B. <code>ABG</code>. Metadaten ohne Wortpositionen.</td>
             </tr>
         </tbody>
     </table>
+    <p>Die genaue Anzahl der Einträge je Collection steht im Root-Manifest <code>index.json</code> unter <code>collections</code> (Feld <code>count</code> je Collection).</p>
 
     <h2 id="beispiele">Beispiele</h2>
     <p>JavaScript (<code>fetch</code>):</p>

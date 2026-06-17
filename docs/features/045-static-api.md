@@ -250,9 +250,9 @@ The API does **not** cross-reference corpus statistics into authority data (e.g.
 `.github/workflows/data-integrity.yml` includes an API freshness step:
 
 1. Rebuild `api/` with `python scripts/build-api.py`
-2. Run `git diff --exit-code api/` — any change means the committed `api/` is stale; CI fails
+2. Run `git status --porcelain -- api/` — any non-empty output means the committed `api/` is stale (this also catches untracked files, which a plain `git diff` would miss); CI fails
 
-This step runs **before** the index freshness step. Rationale: the CI index-rebuild may produce `data/*.json.gz` with differing gz bytes even for identical content (gzip is not byte-stable across runs), which would falsely trip a byte-comparison on the API output. Running the API check first, against the committed indexes, avoids that false positive.
+This step runs **before** the index freshness step. Rationale: the CI index-rebuild leaves `data/*.json.gz` dirty even for identical content (gzip is not byte-stable across builds — identical content re-compresses to different bytes), and that dirty `data/` would trip `build-api.py`'s own pre-flight (`git status --porcelain -- data/` must be clean) and abort the API build. The API output itself is built from the decompressed index content and is byte-stable, so the `api/` gate never triggers falsely. The ordering exists only to keep `data/` clean while `build-api.py` runs.
 
 The handwritten `api/index.html` is never touched by `build-api.py`.
 

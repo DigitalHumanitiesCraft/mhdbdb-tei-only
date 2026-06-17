@@ -3,11 +3,15 @@
 **Branch:** `feature/45-static-api` · **Datum:** 2026-06-13 · **Reviewer:** Claude Code (`/code-review`, high effort)
 **Status:** temporäres Artefakt (ticket-gebunden, bei Issue-Close löschen — siehe `CLAUDE.md` → Temporal Artifacts)
 
-## Umsetzungs-Status (2026-06-15)
+## Umsetzungs-Status (2026-06-16)
 
-Verifiziert per Workflow (ein Verifier pro Finding + adversariale Gegenprüfung, 20 Agenten) gegen den aktuellen Stand von `feature/45-static-api`. **Ergebnis: keines der 10 Findings ist umgesetzt — alle offen.** Die adversariale Gegenprüfung bestätigte alle 10 Erst-Urteile (volle Übereinstimmung, je mit Zitat aus dem aktuellen Dateistand). Pro-Finding-Markierungen siehe unten; Prioritäten in der Empfehlungstabelle.
+**Alle 10 Findings umgesetzt** (Workflow `wf_df770277-1f2`, 7 Implement-Agenten je disjunkte Datei + ein adversarialer Verifier pro Gruppe, Opus 4.8/1M). Anschließend global verifiziert: `build-api.py`-Härtungen sind output-neutral (`api/`-JSON byte-identisch, kein Drift), `package.json` valides JSON, beide Python-Skripte `py_compile` OK, `data-integrity.yml` valides YAML (13 Steps), `check-index-versions.py` exit 0. Pro-Finding-Markierungen siehe unten.
 
-**Präzisierung zu Finding 4:** `--allow-dirty` ist `action='store_true'` mit Default `False`, und `check_working_tree()` blockt bei dirty `data/` — der Titel-Teil „wird zur Standard-Invokation" trifft so nicht zu. Das Kernproblem besteht aber unverändert: `npm run build` (`package.json:20`) enthält kein `build:api`, und es gibt kein Orchestrierungs-Target, das variants → beide Indexe → API in Abhängigkeitsreihenfolge baut.
+**Out of scope (Beobachtung, nicht Teil von #45):** `check-index-freshness.py` meldet eine vorbestehende `variants.xml`-Drift (7 tei-Dateien — ALX, HUG, MBS1/2/5/7, WZB — seit dem letzten variants-Build geändert). Unabhängig von diesen Fixes; der neue `api/`-DERIVED-Eintrag selbst meldet sich frisch.
+
+**Historie (2026-06-15):** Erst-Review verifiziert per Workflow (ein Verifier pro Finding + adversariale Gegenprüfung, 20 Agenten); Ergebnis damals: alle 10 offen.
+
+**Präzisierung zu Finding 4 (aus dem Erst-Review):** `--allow-dirty` ist `action='store_true'` mit Default `False`, und `check_working_tree()` blockt bei dirty `data/` — der Titel-Teil „wird zur Standard-Invokation" trifft so nicht zu. Das Kernproblem (kein Orchestrierungs-Target) wurde mit dem neuen `build:data`-npm-Target gelöst, in dem Post-Rebuild-Dirtiness der erwartete Zustand ist und `build-api --allow-dirty` legitim am Kettenende läuft.
 
 ## Scope
 
@@ -35,7 +39,7 @@ Die Claude-Bot-Kommentare auf PR #146 gehören zum **bereits gemmergten** #125-S
 
 ### 1. CI-Freshness-Gate ist blind für untracked Files — **Merge-Blocker**
 
-> **Status 2026-06-15: offen (nicht umgesetzt).** Der API-Freshness-Step nutzt weiterhin ausschließlich `git diff --exit-code -- api/`; keine `git status --porcelain`- oder `git add -N`-Untracked-Erkennung. (Das porcelain-Muster #100 existiert in `build-api.py` `check_working_tree()`, ist aber nur auf `data/` gerichtet, nicht ins Workflow-Gate gespiegelt.)
+> **Status 2026-06-16: umgesetzt.** Der API-Freshness-Step prüft jetzt auf nicht-leeres `git status --porcelain -- api/` (statt `git diff --exit-code`) und fängt damit auch untracked Files; spiegelt das #100-`check_working_tree()`-Muster.
 
 `.github/workflows/data-integrity.yml:177` · `git diff --exit-code -- api/`
 
@@ -47,7 +51,7 @@ Der neue API-Gate nutzt `git diff`, das **untracked Files ignoriert**. Deletions
 
 ### 2. Lifecycle-Reihenfolge erzwingt zwei rote CI-Runden bei Versions-Bumps — **Merge-Blocker (Doku)**
 
-> **Status 2026-06-15: offen (nicht umgesetzt).** In beiden Lifecycle-Tabellen (`DATA-MODEL.md` ~Z. 779–796) steht der Versions-Bump weiterhin nach allen Rebuild-Schritten, ohne Re-Run-Anweisung danach. Mechanik bestätigt: `build-corpus-index.py` backt die Version zur Build-Zeit ins gz, `build-api.py` liest sie ins Root-Manifest — Pre-Bump-Builds erzeugen also einen CI-Diff.
+> **Status 2026-06-16: umgesetzt.** In beiden Lifecycle-Tabellen wurde der Versions-Bump vor die Rebuild-Schritte gezogen (tei-Tabelle Schritt 3, Authority-Tabelle Schritt 2); die interne Referenz „Schritte 3-6" → „Schritte 4-7" mitkorrigiert.
 
 `docs/DATA-MODEL.md:782` (tei-Tabelle), analog `:795` (Authority-Tabelle)
 
@@ -59,7 +63,7 @@ Der neue API-Gate nutzt `git diff`, das **untracked Files ignoriert**. Deletions
 
 ### 3. Lokales Freshness-Advisory kennt api/ nicht
 
-> **Status 2026-06-15: offen (nicht umgesetzt).** Die `DERIVED`-Registry (`check-index-freshness.py:52–77`) enthält weiterhin nur drei Einträge (`variants.xml`, beide `.json.gz`); kein `api/`-Eintrag, Grep nach `api|build-api` über die ganze Datei ohne Treffer.
+> **Status 2026-06-16: umgesetzt.** `DERIVED` hat jetzt einen vierten Eintrag `{artifact: api/, sources: [beide .json.gz], rebuild: build-api.py}`; das Advisory erkennt stale `api/`. (Der aktuelle Lauf meldet `api/` frisch; der separate Exit-1 stammt aus der vorbestehenden variants-Drift, siehe Kopf.)
 
 `scripts/audit/check-index-freshness.py:52`
 
@@ -71,7 +75,7 @@ Die `DERIVED`-Registry wurde nicht um `api/` erweitert — das Tool meldet „OK
 
 ### 4. `npm run build` enthält build:api nicht; `--allow-dirty` wird zur Standard-Invokation
 
-> **Status 2026-06-15: offen (Kern-Befund), Titel teilweise präzisiert.** `package.json:20` `build` enthält weiterhin kein `build:api`; kein Orchestrierungs-Target vorhanden. Korrektur zum Titel: `--allow-dirty` ist `action='store_true'` (Default `False`) und `check_working_tree()` blockt bei dirty `data/` — es wird also *nicht* zur Default-Invokation. Der empfohlene Fix (Orchestrierungs-Skript für alle abgeleiteten Artefakte) ist nicht umgesetzt.
+> **Status 2026-06-16: umgesetzt.** Neues `build:data`-Target baut die volle abgeleitete Schicht in Abhängigkeitsreihenfolge (`build:corpus` → `extract-variants --apply` → `build:authority` → `build-api --allow-dirty`); `npm run build` bindet es ein. `--allow-dirty` läuft nur am Kettenende, wo Post-Rebuild-Dirtiness erwartet ist; `build:api` bleibt als Einzelaufruf ohne Bypass. Dokumentiert in `DEVELOPMENT.md`.
 
 `package.json:20`
 
@@ -83,7 +87,7 @@ Das `build`-Aggregat baut Indexe, aber nicht die API. Der kanonische Lifecycle e
 
 ### 5. Falsche Begründung für die Gate-Reihenfolge in der Feature-Doku
 
-> **Status 2026-06-15: offen (nicht umgesetzt).** `045-static-api.md:255` trägt unverändert die gz-Byte-Instabilitäts-Rationale. Der korrekte Pre-flight-Mechanismus ist im selben Dokument zwar belegt (Z. 244, 266), aber nicht in die Rationale auf Z. 255 eingearbeitet.
+> **Status 2026-06-16: umgesetzt.** Die Rationale auf Z. 255 ersetzt durch den korrekten Pre-flight-Mechanismus (Index-Rebuild lässt `data/` dirty → triggert `build-api`-eigenen `data/`-Pre-flight; API-Output selbst byte-stabil). Die Gate-Beschreibung nennt jetzt ebenfalls `git status --porcelain -- api/`.
 
 `docs/features/045-static-api.md:255`
 
@@ -95,7 +99,7 @@ Behauptet wird, gz-Byte-Instabilität würde den Byte-Vergleich des API-Outputs 
 
 ### 6. Kein reservierter Dateiname — Sigle `INDEX` kollidiert mit `index.json`
 
-> **Status 2026-06-15: offen (nicht umgesetzt).** `assert_ids` (`build-api.py:139–154`) prüft nur Pattern-Match und Case-Eindeutigkeit unter den IDs, keinen Guard gegen den Namen `index`. Aktuell trägt kein Text die Sigle `INDEX` (Risiko latent), der Fix bleibt unimplementiert.
+> **Status 2026-06-16: umgesetzt.** `assert_ids` lehnt jetzt jede ID mit Kleinschreibung `index` ab (eigener `sys.exit`), Docstring ergänzt. Output-neutral (kein Text trägt aktuell die Sigle).
 
 `scripts/build-api.py:204`
 
@@ -107,7 +111,7 @@ Eine Text-Sigle `INDEX` (gültig unter `TEXT_ID_RE`) erzeugt `api/texts/INDEX.js
 
 ### 7. Symlink-Skip in clean_api_dir() ist selbst-widersprüchlich
 
-> **Status 2026-06-15: offen (nicht umgesetzt).** `clean_api_dir()` überspringt Symlinks weiterhin per `continue` (`build-api.py` ~Z. 123–127), `unlink()` läuft nur für Nicht-Symlinks; der Docstring beschreibt das Skip als beabsichtigt. Empfohlener Fix (Symlink per `unlink()` entfernen) fehlt.
+> **Status 2026-06-16: umgesetzt.** Der Symlink-Skip (`continue`) ist entfernt; `unlink()` läuft jetzt auch für Symlinks (entfernt den Link, nicht das Ziel). Docstring entsprechend angepasst; die rmdir-Schleife unverändert.
 
 `scripts/build-api.py:124`
 
@@ -119,7 +123,7 @@ Ein übersprungener Symlink überlebt in die Schreibphase, wo `write_bytes()` ih
 
 ### 8. Wipe-Safety deckt nur ID-Validierung ab
 
-> **Status 2026-06-15: offen (nicht umgesetzt).** Pre-Wipe-Validierung (`validate_all_ids`) deckt weiterhin nur IDs ab; Reihenfolge in `main()` unverändert (validate → `clean_api_dir()` → build), kein Temp-Dir-Swap. Die summarize-Lambdas greifen weiterhin hart auf `preferredName`/`title`/`termDE`/`author`/`wordCount` zu, ausgeführt nach dem Wipe.
+> **Status 2026-06-16: umgesetzt.** Pre-Wipe-Validierung erweitert: neue Konstante `REQUIRED_SUMMARY_KEYS` + `assert_summary_keys`, in `validate_all_ids` für alle Collections (inkl. texts) aufgerufen — vor `clean_api_dir()`. Ein fehlender Summary-Key bricht jetzt vor dem Wipe ab.
 
 `scripts/build-api.py:319`
 
@@ -131,7 +135,7 @@ Die summarize-Lambdas greifen hart auf `preferredName`/`title`/`termDE`/`author`
 
 ### 9. api/index.html hardcodet Counts — Drift-by-Design
 
-> **Status 2026-06-15: offen (nicht umgesetzt).** Die Counts (43.754, 211, 584, 567, 615, 90, 667) stehen weiterhin als feste Literale in der URL-Schema-Tabelle; die Seite enthält kein `<script>`, lädt also nichts client-seitig aus `index.json`, und kein Gate vergleicht die Werte.
+> **Status 2026-06-16: umgesetzt (Variante „Counts entfernen").** Die exakten Counts sind aus der URL-Schema-Tabelle entfernt; ein neuer Absatz verweist auf das Root-Manifest `index.json` (`collections` → `count`). Kein `<script>` hinzugefügt, Seite bleibt JS-frei.
 
 `api/index.html:146`
 
@@ -143,7 +147,7 @@ Die handgeschriebene Doku-Seite hardcodet alle Collection-Counts (43.754, 211, 5
 
 ### 10. Trigger-Path `api/**` matcht auch api/index.html
 
-> **Status 2026-06-15: offen (bewusst zurückgestellt).** Beide Trigger-Listen (`data-integrity.yml`, `pull_request.paths` und `push.paths`) enthalten `api/**` ohne Negativ-Ausschluss. Im Review ausdrücklich als akzeptierbares Restrisiko eingestuft („nur falls Standalone-Edits häufiger werden") — kein Umsetzungs-Mangel, sondern bewusst offen.
+> **Status 2026-06-16: umgesetzt (auf Nutzerwunsch nachgezogen).** In beiden Trigger-Listen folgt `!api/index.html` direkt auf `api/**`; ein reiner Doku-Edit an der handgeschriebenen Seite löst den vollen Daten-Job nicht mehr aus.
 
 `.github/workflows/data-integrity.yml:54`
 
@@ -157,10 +161,10 @@ Ein Doku-only-Edit am handgeschriebenen `api/index.html` feuert den vollen monol
 
 ## Empfehlung
 
-| Priorität | Findings | Status (2026-06-15) |
+| Priorität | Findings | Status (2026-06-16) |
 |-----------|----------|---------------------|
-| Vor Merge | 1 (Gate untracked-blind), 2 (Lifecycle-Reihenfolge), 3 (Advisory-Registry), 4 (build-Aggregat/`--allow-dirty`) | alle 4 offen |
-| Einzeiler | 5 (Doku-Rationale), 6 (`index`-Reservierung), 7 (Symlink) | alle 3 offen |
-| Akzeptierbares Restrisiko | 8 (Wipe-Härtung), 9 (Count-Drift), 10 (Trigger-Path) | alle 3 offen (10 bewusst zurückgestellt) |
+| Vor Merge | 1 (Gate untracked-blind), 2 (Lifecycle-Reihenfolge), 3 (Advisory-Registry), 4 (build-Aggregat/`--allow-dirty`) | alle 4 umgesetzt |
+| Einzeiler | 5 (Doku-Rationale), 6 (`index`-Reservierung), 7 (Symlink) | alle 3 umgesetzt |
+| Akzeptierbares Restrisiko | 8 (Wipe-Härtung), 9 (Count-Drift), 10 (Trigger-Path) | alle 3 umgesetzt |
 
 Der Build-Code selbst ist solide; die schwerwiegenderen Punkte liegen im CI-Gate und in der dokumentierten Prozessreihenfolge, nicht in `build-api.py`.
