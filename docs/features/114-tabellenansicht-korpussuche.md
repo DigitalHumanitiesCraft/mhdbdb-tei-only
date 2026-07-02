@@ -200,3 +200,29 @@ Geschätzter Diff: ~150–220 Zeilen neues JS, 10–25 Zeilen HTML, 15–25 Zeil
 ## Open Questions
 
 Keine — alle Klärungen erledigt.
+
+## Addendum: Integrationswünsche aus der Prüfung (2026-07)
+
+Nach dem Shipping der Tabelle kamen aus Lindas Prüfung drei Wünsche; alle drei
+sind umgesetzt:
+
+1. **Gesamttrefferzahl-Ergebniszeile** — `<tfoot>` mit sticky-bottom-Gesamtzeile
+   (Summe Treffer, Gesamt-Frequenz/10k, Summe Wörter über alle Ergebnis-Texte);
+   zusätzlich steht die Gesamttrefferzahl im Results-Header
+   (`N Texte gefunden · M Treffer gesamt`), damit sie auch in der Listenansicht
+   sichtbar ist. CSS: `.results-table-total-td` in `korpus.css`.
+2. **Types + Wörterbuch-Verweise** — das Lemma-Panel (`#lemmaInfo`) zeigt pro
+   resolviertem Lemma (max. 3) die belegten Schreibformen aus dem
+   Variants-Dictionary als aufklappbare `<details>`-Liste (MHG-normalisiert,
+   gleiche Datenbasis wie die Lemma-Seite) plus asynchron nachgeladene
+   MWB-/Lexer-Deep-Links über die Wörterbuchnetz-API (Pattern aus #73,
+   `lemma/lemma-page.js`). Neue Methoden: `displayLemmaTypes()`,
+   `getVariantFormsFor()` (lazy invertierte Variants-Map),
+   `fetchWbnetzLinksInto()`.
+3. **Keyness** — neue sortierbare Spalte „Keyness (LL)": signierte
+   Log-Likelihood (Dunning 1993) der Trefferfrequenz im Text gegen den Rest des
+   **Gesamtkorpus** (alle Texte, unabhängig von der Auswahl — gleiche Referenz
+   wie Lindas naming-analysis). Werte ≥ 10,83 (p<0,001, df=1) werden fett/brand
+   markiert (= Schlüsselwort des Textes); Erklärungszeile unter der Tabelle.
+   Spalte ist in TSV-/CSV-Export enthalten; die Gesamtzeile wird bewusst NICHT
+   exportiert (Summenzeilen stören Weiterverarbeitung in Excel/R).

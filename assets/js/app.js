@@ -476,6 +476,9 @@ class MainSiteApp {
             this.currentResults = Array.from(textMap.values());
             this.currentPage = 0;
 
+            // Issue #114 (Followup): Keyness (Log-Likelihood) pro Text berechnen
+            this.computeKeyness(Array.from(lemmaSet));
+
             // Issue #114: Sort-Spec bei neuer Suche auf Default zurück
             this.sortSpec = { column: 'matchCount', direction: 'desc' };
             this.sortResults();
@@ -502,25 +505,138 @@ class MainSiteApp {
         }
 
         // Get lemma details from authority index (via searchEngine)
-        const lemmaDetails = lemmaIds.map(lemmaId => {
-            const lemma = this.searchEngine.authorityIndex.lemmata.find(l => l.id === lemmaId);
-            return lemma ? lemma.lemma : lemmaId;
-        });
+        const lemmata = lemmaIds.map(lemmaId =>
+            this.searchEngine.authorityIndex.lemmata.find(l => l.id === lemmaId)
+                || { id: lemmaId, lemma: lemmaId, normalized: '' }
+        );
 
         // Create lemma badges with links to lemma pages
-        this.elements.lemmaList.innerHTML = lemmaIds.map((lemmaId, i) => {
-            const numericId = lemmaId.replace('lemma_', '');
-            const lemmaText = this.escapeHtml(lemmaDetails[i]);
+        this.elements.lemmaList.innerHTML = lemmata.map(lemma => {
+            const numericId = lemma.id.replace('lemma_', '');
             return `<a href="lemma/?id=${numericId}" target="_blank" rel="noopener"
                 class="inline-block px-3 py-1 bg-blue-100 text-blue-800 text-sm font-medium rounded-full hover:bg-blue-200 transition">
-                ${lemmaText}
+                ${this.escapeHtml(lemma.lemma)}
             </a>`;
         }).join('');
+
+        // Issue #114 (Followup): Types (Schreibformen) + Wörterbuch-Links (MWB/Lexer)
+        this.displayLemmaTypes(lemmata);
 
         // Show lemma info
         this.elements.lemmaInfo.classList.remove('hidden');
 
-        console.log(`[MainSiteApp] Found ${lemmaIds.length} lemmata:`, lemmaDetails);
+        console.log(`[MainSiteApp] Found ${lemmaIds.length} lemmata:`, lemmata.map(l => l.lemma));
+    }
+
+    /**
+     * Issue #114 (Followup): Zeigt pro Lemma die belegten Schreibformen (Types,
+     * aus dem Variants-Dictionary, MHG-normalisiert) als aufklappbare Liste plus
+     * Wörterbuch-Deep-Links (MWB/Lexer via Wörterbuchnetz-API, wie Lemma-Seite #73).
+     * Begrenzt auf die ersten 3 Lemmata, damit Fuzzy-Suchen das Panel nicht fluten.
+     */
+    displayLemmaTypes(lemmata) {
+        const container = document.getElementById('lemmaTypes');
+        if (!container) return;
+
+        const shown = lemmata.slice(0, 3);
+        const blocks = shown.map(lemma => {
+            const forms = this.getVariantFormsFor(lemma.id);
+            const posBadge = lemma.pos
+                ? `<span class="ml-1 rounded bg-blue-100 px-1 text-[10px] font-mono text-blue-700">${this.escapeHtml(lemma.pos)}</span>`
+                : '';
+            const chips = forms.map(f =>
+                `<span class="inline-block bg-white border border-blue-200 px-1.5 py-0.5 rounded text-xs text-slate-700">${this.escapeHtml(f)}</span>`
+            ).join(' ');
+            const typesBlock = forms.length > 0
+                ? `<details class="mt-0.5">
+                       <summary class="cursor-pointer text-xs text-blue-800 hover:underline select-none">${forms.length} Schreibformen (Types) anzeigen</summary>
+                       <div class="mt-1 flex flex-wrap gap-1">${chips}</div>
+                   </details>`
+                : '<span class="text-xs text-slate-500">Keine Schreibvarianten verzeichnet.</span>';
+            return `<div class="pt-1.5 border-t border-blue-100 first:border-t-0 first:pt-0">
+                <div class="flex flex-wrap items-center gap-x-2 text-sm">
+                    <span class="font-semibold text-blue-900">${this.escapeHtml(lemma.lemma)}</span>${posBadge}
+                    <span class="inline-flex flex-wrap gap-2 text-xs" data-wbnetz-links="${this.escapeHtml(lemma.id)}"></span>
+                </div>
+                ${typesBlock}
+            </div>`;
+        }).join('');
+
+        const more = lemmata.length > shown.length
+            ? `<p class="mt-1.5 text-xs text-slate-500">Schreibformen und Wörterbuch-Links werden nur für die ersten ${shown.length} Lemmata angezeigt (+${lemmata.length - shown.length} weitere).</p>`
+            : '';
+
+        container.innerHTML = `<div class="space-y-1.5">${blocks}</div>${more}`;
+        container.classList.remove('hidden');
+
+        // Wörterbuch-Links asynchron nachladen (non-blocking, Fehler still)
+        shown.forEach(lemma => this.fetchWbnetzLinksInto(lemma));
+    }
+
+    /**
+     * Invertiert das flache Variants-Dictionary (normalisierte Schreibform →
+     * Lemma-ID, ~257k Einträge) einmalig zu Lemma-ID → [Formen] und cached es.
+     */
+    getVariantFormsFor(lemmaId) {
+        if (!this._variantsByLemma) {
+            this._variantsByLemma = new Map();
+            const variants = this.searchEngine?.authorityIndex?.variants || {};
+            for (const [form, targetId] of Object.entries(variants)) {
+                let list = this._variantsByLemma.get(targetId);
+                if (!list) {
+                    list = [];
+                    this._variantsByLemma.set(targetId, list);
+                }
+                list.push(form);
+            }
+            for (const list of this._variantsByLemma.values()) list.sort();
+        }
+        return this._variantsByLemma.get(lemmaId) || [];
+    }
+
+    /**
+     * Wörterbuchnetz-Lookup (MWB + Lexer) für ein Lemma, Ergebnis-Links in den
+     * zugehörigen data-wbnetz-links-Platzhalter rendern. Gleiches API-Pattern
+     * wie lemma/lemma-page.js (#73): nur anzeigen, wenn es Treffer gibt.
+     */
+    async fetchWbnetzLinksInto(lemma) {
+        const slot = document.querySelector(`[data-wbnetz-links="${CSS.escape(lemma.id)}"]`);
+        if (!slot || !lemma.normalized) return;
+
+        const dictionaries = ['MWB', 'Lexer'];
+        const lookupForm = encodeURIComponent(lemma.normalized);
+
+        const results = await Promise.all(dictionaries.map(async sigle => {
+            try {
+                const r = await fetch(`https://api.woerterbuchnetz.de/open-api/dictionaries/${sigle}/lemmata/${lookupForm}`);
+                if (!r.ok) return { sigle, entries: [] };
+                const data = await r.json();
+                return { sigle, entries: data.result_set || [] };
+            } catch (e) {
+                console.warn(`[MainSiteApp] Wörterbuchnetz ${sigle} API unavailable:`, e.message);
+                return { sigle, entries: [] };
+            }
+        }));
+
+        // Panel kann durch eine neue Suche bereits ersetzt worden sein
+        const freshSlot = document.querySelector(`[data-wbnetz-links="${CSS.escape(lemma.id)}"]`);
+        if (!freshSlot) return;
+
+        const links = results.flatMap(({ sigle, entries }) =>
+            entries.slice(0, 3).map(e =>
+                `<a href="${this.escapeHtml(e.wbnetzlink)}" target="_blank" rel="noopener"
+                    class="text-brand-700 hover:underline whitespace-nowrap">
+                    ${this.escapeHtml(sigle)}: ${this.escapeHtml(this.decodeHtmlEntities(e.lemma))} ↗
+                </a>`
+            )
+        );
+        freshSlot.innerHTML = links.join('');
+    }
+
+    decodeHtmlEntities(str) {
+        const textarea = document.createElement('textarea');
+        textarea.innerHTML = str ?? '';
+        return textarea.value;
     }
 
     clearSearch() {
@@ -575,8 +691,10 @@ class MainSiteApp {
             }
         }
 
-        // Update results count
-        this.elements.resultsCount.textContent = `(${this.currentResults.length} Texte gefunden)`;
+        // Update results count — inkl. Gesamttrefferzahl (#114 Followup)
+        const totalMatches = this.currentResults.reduce((sum, r) => sum + (r.matchCount || 0), 0);
+        this.elements.resultsCount.textContent =
+            `(${this.currentResults.length} Texte gefunden · ${totalMatches.toLocaleString('de-DE')} Treffer gesamt)`;
 
         // Clear previous results
         this.elements.resultsList.innerHTML = '';
@@ -596,7 +714,9 @@ class MainSiteApp {
 
     /**
      * Issue #114: Rendert die Tabellen-Ansicht der Suchergebnisse.
-     * 5 Spalten: Titel (mit Sigle-Präfix), Autor*in, Treffer, Frequenz/10k, Wörter.
+     * 6 Spalten: Titel (mit Sigle-Präfix), Autor*in, Treffer, Frequenz/10k,
+     * Keyness (LL), Wörter — plus Belege-Spalte (KWIC, #129) und eine
+     * Gesamtzeile (tfoot, sticky bottom) mit der Gesamttrefferzahl.
      * Header sind klickbare Sort-Buttons; Zeilen-Klick öffnet den Reader.
      */
     renderTable() {
@@ -618,6 +738,7 @@ class MainSiteApp {
                 : '–';
             const wordsFmt = r.wordCount ? r.wordCount.toLocaleString('de-DE') : '–';
             const matchesFmt = r.matchCount.toLocaleString('de-DE');
+            const keynessCell = this.formatKeynessCell(r.keyness);
             return `
                 <tr data-text-id="${this.escapeHtml(r.textId)}" tabindex="0" role="button" class="results-table-row hover:bg-slate-50 cursor-pointer">
                     <td class="results-table-td">
@@ -627,6 +748,7 @@ class MainSiteApp {
                     <td class="results-table-td">${this.escapeHtml(r.author || '–')}</td>
                     <td class="results-table-td text-right tabular-nums">${matchesFmt}</td>
                     <td class="results-table-td text-right tabular-nums">${freq}</td>
+                    ${keynessCell}
                     <td class="results-table-td text-right tabular-nums text-slate-500">${wordsFmt}</td>
                     <td class="results-table-td text-center">
                         <button type="button" class="kwic-row-btn" data-kwic-row title="Belege anzeigen" aria-expanded="false">
@@ -636,6 +758,21 @@ class MainSiteApp {
                 </tr>
             `;
         }).join('');
+
+        // Issue #114 (Followup): Gesamtzeile — Lindas Integrationswunsch
+        const totalMatches = this.currentResults.reduce((sum, r) => sum + (r.matchCount || 0), 0);
+        const totalWords = this.currentResults.reduce((sum, r) => sum + (r.wordCount || 0), 0);
+        const totalFreq = totalWords > 0 ? ((totalMatches / totalWords) * 10000).toFixed(1) : '–';
+        const totalRow = `
+            <tr class="results-table-total-row">
+                <td class="results-table-td results-table-total-td font-semibold" colspan="2">Gesamt (${this.currentResults.length} Texte)</td>
+                <td class="results-table-td results-table-total-td text-right tabular-nums font-semibold">${totalMatches.toLocaleString('de-DE')}</td>
+                <td class="results-table-td results-table-total-td text-right tabular-nums font-semibold">${totalFreq}</td>
+                <td class="results-table-td results-table-total-td"></td>
+                <td class="results-table-td results-table-total-td text-right tabular-nums font-semibold text-slate-600">${totalWords.toLocaleString('de-DE')}</td>
+                <td class="results-table-td results-table-total-td"></td>
+            </tr>
+        `;
 
         const html = `
             <div class="mb-3 flex items-center justify-between gap-3">
@@ -659,13 +796,20 @@ class MainSiteApp {
                             ${headerCell('author', 'Autor*in', 'text-left')}
                             ${headerCell('matchCount', 'Treffer', 'text-right')}
                             ${headerCell('frequency', 'Freq./10k W.', 'text-right')}
+                            ${headerCell('keyness', 'Keyness (LL)', 'text-right')}
                             ${headerCell('wordCount', 'Wörter', 'text-right')}
                             <th scope="col" class="results-table-th text-center" style="position: sticky; top: 0; background: #f8fafc; z-index: 10;">Belege</th>
                         </tr>
                     </thead>
                     <tbody>${rows}</tbody>
+                    <tfoot>${totalRow}</tfoot>
                 </table>
             </div>
+            <p class="mt-2 text-xs text-slate-500">
+                Keyness = Log-Likelihood (Dunning 1993): Über-/Unterrepräsentation der Trefferfrequenz
+                im Text gegenüber dem Gesamtkorpus. <strong>Fett</strong> markierte Werte ≥ 10,83 sind
+                signifikant überrepräsentiert (p&nbsp;&lt;&nbsp;0,001) — das Lemma ist ein Schlüsselwort dieses Textes.
+            </p>
         `;
 
         this.elements.resultsList.innerHTML = html;
@@ -732,7 +876,7 @@ class MainSiteApp {
 
         const detail = document.createElement('tr');
         detail.className = 'kwic-detail-row';
-        detail.innerHTML = '<td colspan="6" class="kwic-detail-cell"><div class="kwic-panel" data-kwic-panel></div></td>';
+        detail.innerHTML = '<td colspan="7" class="kwic-detail-cell"><div class="kwic-panel" data-kwic-panel></div></td>';
         row.after(detail);
 
         btn.setAttribute('aria-expanded', 'true');
@@ -779,15 +923,17 @@ class MainSiteApp {
      * Reihenfolge respektiert aktuelle Sortierung.
      */
     serializeResultsAsTSV() {
-        const header = ['Sigle', 'Titel', 'Autor*in', 'Treffer', 'Frequenz/10k', 'Wörter'].join('\t');
+        const header = ['Sigle', 'Titel', 'Autor*in', 'Treffer', 'Frequenz/10k', 'Keyness (LL)', 'Wörter'].join('\t');
         const rows = this.currentResults.map(r => {
             const freq = (r.wordCount > 0) ? ((r.matchCount / r.wordCount) * 10000).toFixed(1) : '';
+            const keyness = (typeof r.keyness === 'number') ? r.keyness.toFixed(1) : '';
             return [
                 r.textId,
                 (r.title || '').replace(/[\t\n\r]/g, ' '),  // TSV-Killer aus dem Titel filtern
                 (r.author || '').replace(/[\t\n\r]/g, ' '),
                 r.matchCount,
                 freq,
+                keyness,
                 r.wordCount || ''
             ].join('\t');
         });
@@ -828,17 +974,19 @@ class MainSiteApp {
     }
 
     serializeResultsAsCSV() {
-        const header = ['Sigle', 'Titel', 'Autor*in', 'Treffer', 'Frequenz/10k', 'Wörter']
+        const header = ['Sigle', 'Titel', 'Autor*in', 'Treffer', 'Frequenz/10k', 'Keyness (LL)', 'Wörter']
             .map(c => this.escapeCsvCell(c))
             .join(',');
         const rows = this.currentResults.map(r => {
             const freq = (r.wordCount > 0) ? ((r.matchCount / r.wordCount) * 10000).toFixed(1) : '';
+            const keyness = (typeof r.keyness === 'number') ? r.keyness.toFixed(1) : '';
             return [
                 r.textId,
                 r.title || '',
                 r.author || '',
                 r.matchCount,
                 freq,
+                keyness,
                 r.wordCount || ''
             ].map(c => this.escapeCsvCell(c)).join(',');
         });
@@ -880,6 +1028,7 @@ class MainSiteApp {
             matchCount: (r) => r.matchCount || 0,
             wordCount: (r) => r.wordCount || 0,
             frequency: (r) => (r.wordCount > 0) ? (r.matchCount / r.wordCount) * 10000 : -Infinity,
+            keyness: (r) => (typeof r.keyness === 'number') ? r.keyness : -Infinity,
         }[column];
 
         if (!valueGetter) return;
@@ -890,6 +1039,69 @@ class MainSiteApp {
             if (typeof va === 'string') return va.localeCompare(vb, 'de') * dir;
             return (va - vb) * dir;
         });
+    }
+
+    /**
+     * Issue #114 (Followup, Lindas Keyness-Wunsch): Log-Likelihood (Dunning 1993)
+     * pro Ergebnis-Text — vergleicht die Trefferfrequenz im Text mit dem REST des
+     * Gesamtkorpus (alle Texte, unabhängig von der Textauswahl; gleiche Referenz
+     * wie in Lindas naming-analysis). Positives Vorzeichen = überrepräsentiert,
+     * negatives = unterrepräsentiert. Schwellen (df=1): 3,84 → p<0,05; 10,83 → p<0,001.
+     */
+    computeKeyness(lemmaIds) {
+        const texts = this.searchEngine?.corpusIndex?.texts || [];
+        if (texts.length === 0 || this.currentResults.length === 0) return;
+
+        let corpusMatches = 0;
+        let corpusWords = 0;
+        for (const text of texts) {
+            corpusWords += text.wordCount || 0;
+            for (const lemmaId of lemmaIds) {
+                const positions = text.lemmata?.[lemmaId];
+                if (positions) corpusMatches += positions.length;
+            }
+        }
+
+        for (const r of this.currentResults) {
+            const c = r.wordCount || 0;
+            r.keyness = this.logLikelihood(
+                r.matchCount,
+                corpusMatches - r.matchCount,
+                c,
+                corpusWords - c
+            );
+        }
+    }
+
+    /**
+     * Signierte Log-Likelihood-Ratio (Dunning 1993) für eine 2x2-Kontingenz:
+     * a = Treffer im Text, b = Treffer im Restkorpus,
+     * c = Wörter im Text, d = Wörter im Restkorpus.
+     */
+    logLikelihood(a, b, c, d) {
+        if (c <= 0 || d <= 0 || (a + b) <= 0) return 0;
+        const e1 = c * (a + b) / (c + d);
+        const e2 = d * (a + b) / (c + d);
+        let ll = 0;
+        if (a > 0 && e1 > 0) ll += a * Math.log(a / e1);
+        if (b > 0 && e2 > 0) ll += b * Math.log(b / e2);
+        ll *= 2;
+        return (a / c >= (a + b) / (c + d)) ? ll : -ll;
+    }
+
+    /**
+     * Formatiert die Keyness-Zelle der Tabellen-Ansicht: signifikant
+     * überrepräsentierte Werte (LL ≥ 10,83, p<0,001) fett + brand-farbig.
+     */
+    formatKeynessCell(keyness) {
+        if (typeof keyness !== 'number') {
+            return '<td class="results-table-td text-right tabular-nums text-slate-400">–</td>';
+        }
+        const formatted = keyness.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+        if (keyness >= 10.83) {
+            return `<td class="results-table-td text-right tabular-nums font-semibold text-brand-700" title="Signifikant überrepräsentiert (p < 0,001) — Schlüsselwort dieses Textes">${formatted}</td>`;
+        }
+        return `<td class="results-table-td text-right tabular-nums text-slate-600">${formatted}</td>`;
     }
 
     // --- Issue #114: View-Mode helpers ---

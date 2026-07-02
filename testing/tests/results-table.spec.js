@@ -101,4 +101,66 @@ test.describe('Issue #114: Tabellenansicht für Korpussuche', () => {
         const download = await downloadPromise;
         expect(download.suggestedFilename()).toMatch(/^mhdbdb-suche-minne-\d{4}-\d{2}-\d{2}\.csv$/);
     });
+
+    // --- Issue #114 Followups (Integrationswünsche aus der Prüfung) ---
+
+    test('Gesamtzeile zeigt die Gesamttrefferzahl (tfoot)', async ({ page }) => {
+        await page.fill('#searchInput', 'minne');
+        await page.click('#searchButton');
+        await page.waitForSelector('#resultsList > *');
+        await page.click('#viewToggleTable');
+        await page.waitForSelector('#resultsList table tfoot');
+
+        // tfoot-Summe muss der Summe der matchCounts entsprechen
+        const expectedTotal = await page.evaluate(() =>
+            window._mhdbdbApp.currentResults.reduce((s, r) => s + r.matchCount, 0)
+        );
+        const totalRowText = await page.locator('#resultsList table tfoot tr').textContent();
+        const formatted = expectedTotal.toLocaleString('de-DE');
+        expect(totalRowText).toContain('Gesamt');
+        expect(totalRowText).toContain(formatted);
+
+        // Gesamttrefferzahl steht auch im Results-Header (gilt auch für Listenansicht)
+        const headerText = await page.locator('#resultsCount').textContent();
+        expect(headerText).toContain(`${formatted} Treffer gesamt`);
+    });
+
+    test('Keyness-Spalte wird gerendert und ist sortierbar', async ({ page }) => {
+        await page.fill('#searchInput', 'minne');
+        await page.click('#searchButton');
+        await page.waitForSelector('#resultsList > *');
+        await page.click('#viewToggleTable');
+        await page.waitForSelector('#resultsList table');
+
+        await expect(page.locator('button[data-sort-col="keyness"]')).toBeVisible();
+
+        // Jedes Result hat einen numerischen Keyness-Wert
+        const keynessOk = await page.evaluate(() =>
+            window._mhdbdbApp.currentResults.every(r => typeof r.keyness === 'number')
+        );
+        expect(keynessOk).toBe(true);
+
+        // Sortierung nach Keyness: erster Wert ist das Maximum
+        await page.click('button[data-sort-col="keyness"]');
+        const sorted = await page.evaluate(() => {
+            const values = window._mhdbdbApp.currentResults.map(r => r.keyness);
+            return values.every((v, i) => i === 0 || values[i - 1] >= v);
+        });
+        expect(sorted).toBe(true);
+    });
+
+    test('Types (Schreibformen) werden im Lemma-Panel angeboten', async ({ page }) => {
+        await page.fill('#searchInput', 'minne');
+        await page.click('#searchButton');
+        await page.waitForSelector('#resultsList > *');
+
+        await expect(page.locator('#lemmaTypes')).toBeVisible();
+        const summary = page.locator('#lemmaTypes details summary').first();
+        await expect(summary).toContainText(/\d+ Schreibformen \(Types\) anzeigen/);
+
+        // Aufklappen zeigt Varianten-Chips
+        await summary.click();
+        const chipCount = await page.locator('#lemmaTypes details[open] span').count();
+        expect(chipCount).toBeGreaterThan(0);
+    });
 });

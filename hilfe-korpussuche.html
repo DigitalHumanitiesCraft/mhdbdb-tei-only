@@ -274,13 +274,26 @@
                 <li><strong>Autor*in</strong> – Verfasser*in, alphabetisch</li>
                 <li><strong>Treffer</strong> – absolute Zahl der Belegstellen im Text</li>
                 <li><strong>Freq./10k Wörter</strong> – Trefferzahl normiert auf 10.000 Wörter, macht unterschiedlich lange Texte vergleichbar</li>
+                <li><strong>Keyness (LL)</strong> – Log-Likelihood-Wert: wie stark ist das Wort in diesem Text gegenüber dem Gesamtkorpus über- oder unterrepräsentiert? Fett markierte Werte ab 10,83 gelten als signifikant überrepräsentiert (p&nbsp;&lt;&nbsp;0,001) – das Wort ist ein Schlüsselwort dieses Textes</li>
                 <li><strong>Wörter</strong> – Gesamtlänge des Textes in Wörtern</li>
             </ul>
+            <p class="text-slate-700 leading-relaxed mb-3">
+                Die letzte Zeile der Tabelle ist eine <strong>Gesamtzeile</strong>: sie summiert
+                Treffer und Wortzahlen über alle gefundenen Texte; die Gesamttrefferzahl steht
+                zusätzlich immer oben neben der Überschrift („N Texte gefunden · M Treffer gesamt").
+            </p>
             <p class="text-slate-700 leading-relaxed mb-3">
                 Zwei Buttons über der Tabelle exportieren das Ergebnis: <strong>Kopieren</strong> legt es
                 in die Zwischenablage, <strong>CSV</strong> lädt es als Datei herunter – etwa zur
                 Weiterverarbeitung in einer Tabellenkalkulation. Ein Klick auf eine Zeile öffnet den
                 zugehörigen Text im Reading View.
+            </p>
+            <p class="text-slate-700 leading-relaxed mb-3">
+                Im blauen Lemma-Kasten über den Ergebnissen zeigt jedes gefundene Lemma zusätzlich
+                seine im Korpus belegten <strong>Schreibformen (Types)</strong> als aufklappbare
+                Liste sowie – falls vorhanden – direkte Links zu den Wörterbüchern
+                <strong>MWB</strong> (Mittelhochdeutsches Wörterbuch) und <strong>Lexer</strong>
+                über das Wörterbuchnetz.
             </p>
 
             <h3 class="text-lg font-semibold text-slate-900 mt-6 mb-2">KWIC-Belege ausklappen</h3>
