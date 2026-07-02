@@ -313,7 +313,7 @@ Nicht hash-routen — `korpus.html` ist eine separate Site. Pure-Anchor-Tags mit
 
 ### Performance-Map gegen O(N)-Lookups (text-comparison Lesson)
 
-`AuthorityFilesManager.findLemmaById()` ist `Array.find()` über 43.754 Lexikon-Einträge (`authorityData.lemmata` aus dem Authority-Index) — O(N) pro Aufruf. Solange ein Modul den Lookup nur dutzendweise braucht (concept-distribution, lemma-distribution: 30-50 Treffer für TopN-Anzeige), ist das egal. Sobald aber pro `enrichment` über *tausende* Lemmata iteriert wird, multiplizieren sich die Iterationen:
+`AuthorityFilesManager.findLemmaById()` ist `Array.find()` über 43.879 Lexikon-Einträge (`authorityData.lemmata` aus dem Authority-Index) — O(N) pro Aufruf. Solange ein Modul den Lookup nur dutzendweise braucht (concept-distribution, lemma-distribution: 30-50 Treffer für TopN-Anzeige), ist das egal. Sobald aber pro `enrichment` über *tausende* Lemmata iteriert wird, multiplizieren sich die Iterationen:
 
 ```
 text-comparison PZ vs JT, „Beide": 3.058 lookups × 43.754 ≈ 134 Mio. Iterationen ≈ 5962ms

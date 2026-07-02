@@ -37,7 +37,7 @@ Simple search and reading interface optimized for students and general users:
   - Context navigation (jump between occurrences)
   - Separate work vs author identifiers (GND/Wikidata)
 - **Variant Resolution** - Automatic mapping of orthographic variants via variants.xml
-- **Wörterbuch** - A–Z-Einstiegsseite (`woerterbuch.html`) zu allen 43.754 Lemma-Seiten mit Indexleiste, Pagination und Deep-Links (#117)
+- **Wörterbuch** - A–Z-Einstiegsseite (`woerterbuch.html`) zu allen 43.879 Lemma-Seiten mit Indexleiste, Pagination und Deep-Links (#117)
 
 ### Playground (Research Interface)
 Advanced exploration tools for medievalists and digital humanities researchers:
@@ -116,7 +116,7 @@ Post-MVP und **aktiver Betrieb**. Drei Aspekte, die jede Session kennen sollte:
 - **Heute:** aktives Projekt mit laufendem Daten-Ingest (WZB/Wenzelsbibel, ARITHMETIC #92, weitere geplant) UND laufenden händischen Korpus-Korrekturen, nicht eingefroren.
 - **Konsequenz:** Jede Änderung in `tei/` oder `authority-files/` muss die abgeleitete Schicht mitziehen (Indexe, korpus-abgeleitete `variants.xml`); dabei **führt der Korpus**, `lexicon.xml` ist Index und zieht nach (siehe [CONTRACTS.md → Authority Source Rules](CONTRACTS.md#f-authority-source-rules)), sonst driftet es still. Verbindliche Schrittfolge: [DATA-MODEL.md → Data-Change-Lifecycle](DATA-MODEL.md#data-change-lifecycle).
 
-Aktuelle Index-Versionen siehe [TEI-MODEL.md §11](TEI-MODEL.md#11-versionierung) (Stand 2026-07-02: Corpus Index v4.1.5, Authority Index v1.4.3).
+Aktuelle Index-Versionen siehe [TEI-MODEL.md §11](TEI-MODEL.md#11-versionierung) (Stand 2026-07-02: Corpus Index v4.1.5, Authority Index v1.4.4).
 
 ### Recent Milestones
 - ✅ **Phase 7 Refactoring** - Modular UI architecture

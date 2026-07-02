@@ -856,7 +856,7 @@ Fruehere Fehler (alle behoben durch Migration):
 
 | Datei | Einträge | Validierung |
 |-------|----------|-------------|
-| lexicon.xml | 43,754 Lemmata (+4 mit WZB-Aufnahme 2026-05-08) | tei_all ✓ · mhdbdb-authority ✓ |
+| lexicon.xml | 43,879 Lemmata (+4 WZB 2026-05-08, +125 #115-Stubs 2026-07-02) | tei_all ✓ · mhdbdb-authority ✓ |
 | variants.xml | 42,627 Einträge (256,759 Formen) | tei_all ✓ · mhdbdb-authority ✓ |
 | persons.xml | 211 Personen | tei_all ✓ · mhdbdb-authority ✓ |
 | works.xml | 584 Werke (+1 work_WZB) | tei_all ✓ · mhdbdb-authority ✓ |
@@ -884,7 +884,7 @@ Konsolidierte Liste aller bewusst nicht-normalisierten Daten-Inseln und bekannte
 |------------------|-----------|-------|-------------------|
 | Schema-GAPs 1–11 (`schema/mhdbdb.rnc`) | 30 Korpus-Dateien (Kategorien-Tabelle oben) | Bestandsdaten; Migration unverhältnismäßig teuer oder semantisch riskant — dokumentierte Ausnahmen der Daten-vor-Schema-Regel | dauerhaft; jede GAP im Schema kommentiert |
 | ARI/PD-001 Domain-Elemente | 6 ARITHMETIC-Handschriften (noch nicht im Korpus) | 12 Nicht-Schema-Element-Klassen + 24 `div/@type`- + 7 `hi/@rend`-Werte aus Carinas Rechenbüchern; blockieren Stage-2-Validierung | entschieden 2026-05-08: Domain-Tags ins Schema (DECISIONS.md § PD-001); Schema-Erweiterung + Ingest ausstehend → #92 |
-| lexicon.xml-Backfill | 977 dangling `@lemmaRef`-Refs / 349 Lemma-IDs ≥78000 | WZB-Forward-Ingest prägte Lemma-IDs nur ins Korpus, nicht in lexicon.xml | offen → #115 (Lemma-Stub automatisierbar, Sense-Zuordnung kuratorisch) |
+| lexicon.xml-Backfill | Rest 396 dangling Refs / 109 IDs (Kategorie B: Sense-Kuratorik, Kategorie C: Tippfehler/Homographen) | WZB-Forward-Ingest prägte Lemma-IDs nur ins Korpus; Kategorie A (125 Entries) 2026-07-02 per `backfill-lexicon.py` gestubbt | offen → #115 (B/C kuratorisch, KZW/Julia) |
 | WVV Stanza-Anchors | WVV, 23 Stanzen | ungewöhnliches Linecode-Template, Anchors fehlen (#23-Followup) | offen → #110 (depends-on-human) |
 | Editorische `<div>`-Hülle | HUG, KLA, PL1–PL3, MBS-Serie | Follow-up aus dem manuellen TEI-Review (#30) | offen → #138 (needs-clarification) |
 | Prosa-Policy `<l>` vs. `<lb/>` | 17 l-kodierte Prosatexte | Phase C2 wandelte 18 Texte; Policy für die verbleibenden ungeklärt | offen → #143 (depends-on-human) |
@@ -902,7 +902,7 @@ Konsolidierte Liste aller bewusst nicht-normalisierten Daten-Inseln und bekannte
 | RELAX NG Schema (`schema/mhdbdb.rnc`) | 1.0.0 | 2026-04-09 |
 | POS-Tagset | 1.0 (19 Tags) | 2026-03 |
 | Corpus Index | 4.1.5 | 2026-07-02 |
-| Authority Index | 1.4.3 | 2026-07-02 |
+| Authority Index | 1.4.4 | 2026-07-02 |
 | Authority Schema (`schema/mhdbdb-authority.rnc`) | 1.0.0 | 2026-04-10 |
 
 ---
