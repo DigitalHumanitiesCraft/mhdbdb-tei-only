@@ -14,7 +14,7 @@ Pendant zu `docs/TEI-MODEL.md` (Korpusdateien).
 
 | Datei | Inhalt | Eintraege | Groesse |
 |-------|--------|-----------|---------|
-| `lexicon.xml` | Lemmata mit Senses, POS, Etymologie | 43,754 | 33 MB |
+| `lexicon.xml` | Lemmata mit Senses, POS, Etymologie | 43,879 | 33 MB |
 | `variants.xml` | Orthographische Varianten pro Lemma | 42,627 Eintraege, 256,759 Formen | 16 MB |
 | `persons.xml` | Autoren/Personen mit Normdaten | 211 | 74 KB |
 | `works.xml` | Werke mit Bibliographie und Genre | 584 | 1.4 MB |
@@ -42,7 +42,7 @@ Wichtig fuer den aktiven Betrieb (siehe [INDEX.md → Current Phase](INDEX.md#cu
 | Datei | Herkunft (einmalig, 2025-07-22) | Aktuelle Pflege | Drift-Risiko |
 |-------|-----------|-----------|--------------|
 | `variants.xml` | korpus-extrahiert (`initial-data-wrangling`) | **korpus-abgeleitet**, regenerierbar via `scripts/sync/extract-variants.py` (#44/#115) | hoch: jede neue/geaenderte Form muss nachgezogen werden. Regenerierung verlustfrei + automatisierbar |
-| `lexicon.xml` | RDF→CSV-Snapshot (`lists/lexicon.csv`) → `tei-transformation.py::create_lexicon_tei` | **Repo = Master UND Korpus-Index** (Korpus fuehrt, lexicon zieht nach) | mittel: ingest-erzeugte Lemma/Sense-IDs brauchen repo-internen Backfill (977 dangling Refs, 349 IDs, #115). Kein Salzburg-Re-Export moeglich (CSV war selbst nur Snapshot) |
+| `lexicon.xml` | RDF→CSV-Snapshot (`lists/lexicon.csv`) → `tei-transformation.py::create_lexicon_tei` | **Repo = Master UND Korpus-Index** (Korpus fuehrt, lexicon zieht nach) | mittel: ingest-erzeugte Lemma/Sense-IDs brauchen repo-internen Backfill (Kategorie A 2026-07-02 gestubbt; Rest 396 Refs / 109 IDs kuratorisch, #115). Kein Salzburg-Re-Export moeglich (CSV war selbst nur Snapshot) |
 | `persons.xml` | RDF→CSV→TEI-Snapshot | repo-intern handgepflegt, **kein Re-Export** | gering (0 unresolved) |
 | `works.xml` | RDF-Snapshot + Zotero-Enrichment | `enhance_works_with_zotero.py` + manuell, repo-intern | gering (0 unresolved) |
 | `concepts.xml` | RDF→CSV→TEI-Snapshot (Begriffssystem) | repo-intern handgepflegt, **kein Re-Export** | gering (0 unresolved) |
@@ -50,7 +50,7 @@ Wichtig fuer den aktiven Betrieb (siehe [INDEX.md → Current Phase](INDEX.md#cu
 | `names.xml` | RDF→CSV→TEI-Snapshot | repo-intern handgepflegt, korpus-entkoppelt | gering (0 Korpus-Kopplung) |
 | `contributors.xml` | born-digital (2026-04) | **handgepflegt** (kein Generator) | keines |
 
-**Gesamtmuster:** Alle Files sind RDF-abgeleitete Migrations-Snapshots (2025-07-22), seit der Migration **repo-intern** gepflegt — es gibt keinen externen Master mehr und keine Re-Export-Quelle. Nur `variants.xml` ist korpus-abgeleitet und regenerierbar. `lexicon.xml` ist Repo-Master UND Index der Korpus-Annotation: traegt ein Korpus-`<w>` eine `@lemmaRef`/`@ana`, die in lexicon.xml fehlt, fuehrt der Korpus und lexicon.xml muss nachgezogen werden (siehe [CONTRACTS.md → Authority Source Rules](CONTRACTS.md#f-authority-source-rules)). Neue **Sense-Bedeutungen** sind dabei kuratorisch (Team vergibt die concept-Zuordnung), nicht automatisch aus dem Korpus rekonstruierbar. `lexicon.xml` und `variants.xml` waren bis 2026-05 stale; `variants.xml` ist regeneriert (256.759 Formen, 2026-05-29), `lexicon.xml` hat noch 977 ingest-bedingte dangling Refs (349 IDs, repo-interner Backfill offen, #115; Ursache siehe §6.1). Die `_archived`-Generatoren schreiben korpus-seitig Pre-#32-Attribute (`@wordRef`/`@meaningRef`) und duerfen nie ungeprueft gegen den aktuellen Korpus laufen.
+**Gesamtmuster:** Alle Files sind RDF-abgeleitete Migrations-Snapshots (2025-07-22), seit der Migration **repo-intern** gepflegt — es gibt keinen externen Master mehr und keine Re-Export-Quelle. Nur `variants.xml` ist korpus-abgeleitet und regenerierbar. `lexicon.xml` ist Repo-Master UND Index der Korpus-Annotation: traegt ein Korpus-`<w>` eine `@lemmaRef`/`@ana`, die in lexicon.xml fehlt, fuehrt der Korpus und lexicon.xml muss nachgezogen werden (siehe [CONTRACTS.md → Authority Source Rules](CONTRACTS.md#f-authority-source-rules)). Neue **Sense-Bedeutungen** sind dabei kuratorisch (Team vergibt die concept-Zuordnung), nicht automatisch aus dem Korpus rekonstruierbar. `lexicon.xml` und `variants.xml` waren bis 2026-05 stale; `variants.xml` ist regeneriert (256.759 Formen, 2026-05-29), `lexicon.xml` hat nach dem Kategorie-A-Stub-Backfill (2026-07-02) noch 396 ingest-bedingte dangling Refs (109 IDs, kuratorischer Rest B/C offen, #115; Ursache siehe §6.1). Die `_archived`-Generatoren schreiben korpus-seitig Pre-#32-Attribute (`@wordRef`/`@meaningRef`) und duerfen nie ungeprueft gegen den aktuellen Korpus laufen.
 
 ---
 
@@ -507,7 +507,7 @@ Nach der #32-Migration begann der aktive Ingest. Die Wenzelsbibel-Pipeline (WZB,
 - **Phase 3** (Sense-Aufloesung) waehlte ueberwiegend bestehende Senses (<78000); die fehlenden Sense-IDs ≥78000 sind grossteils strukturelle Artefakte der Lemma-Erzeugung, keine neuen Bedeutungen.
 - **Notreparatur** (Commits `8caa09627`/`649c0fe55`, 2026-05): die 4 sense-losen Lemmata bekamen manuell je einen `<sense>`; `scripts/audit/check-lexicon-senses.py` entstand als Regression-Schutz.
 
-**Lesson** (→ [ADR-015](DECISIONS.md#adr-015-authority-source-modell-korpus-führt-ingest-braucht-rückwärts-sync), [CONTRACTS.md → F.3](CONTRACTS.md#f3-ingest-requires-backward-sync)): Eine Forward-Only-Ingest-Pipeline ohne `*-backfill-lexicon.py` erzeugt zwangslaeufig dangling Refs. Resultat: 977 unresolved Refs (349 IDs), repo-intern zu schliessen (Lemma-Stubs automatisch generierbar, Sense-Bedeutung kuratorisch). Detektor: `scripts/audit/check-authority-cross-refs.py --check` (CI-Gate in `data-integrity.yml`).
+**Lesson** (→ [ADR-015](DECISIONS.md#adr-015-authority-source-modell-korpus-führt-ingest-braucht-rückwärts-sync), [CONTRACTS.md → F.3](CONTRACTS.md#f3-ingest-requires-backward-sync)): Eine Forward-Only-Ingest-Pipeline ohne `*-backfill-lexicon.py` erzeugt zwangslaeufig dangling Refs. Resultat: 977 unresolved Refs (349 IDs); die automatisierbaren Lemma-Stubs (Kategorie A) wurden 2026-07-02 via `scripts/sync/backfill-lexicon.py` geschlossen, der kuratorische Rest (396 Refs / 109 IDs) ist offen. Detektor: `scripts/audit/check-authority-cross-refs.py --check` (CI-Gate in `data-integrity.yml`).
 
 ---
 

@@ -109,10 +109,12 @@ def find_stale_numbers(doc_path: str, current: int, key: str) -> list:
     if not keywords:
         return []
 
-    # Drift window: 2 absolute or 2% relative (whichever is larger),
-    # capped at 50 to avoid catching e.g. "100" near "Lemmata" when
-    # current is 43754.
-    window_size = max(2, min(50, int(current * 0.02)))
+    # Drift window: 2 absolute or 2% relative (whichever is larger). Die
+    # fruehere 50er-Kappung machte das Audit blind fuer jeden Backfill/Ingest
+    # >50 Eintraege (der +125-Lemma-Backfill #115 passierte unbemerkt, Review
+    # PR #156). Gegen Fehlalarme wie "100 Lemmata" schuetzt nicht die Kappung,
+    # sondern der strikte Keyword-Anchor plus die relative Distanz.
+    window_size = max(2, int(current * 0.02))
     content = Path(doc_path).read_text(encoding='utf-8')
 
     findings = []

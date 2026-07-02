@@ -60,7 +60,7 @@ Eight authority files — seven inhaltstragende controlled vocabularies (in the 
 
 All files use namespace `xmlns="http://www.tei-c.org/ns/1.0"`.
 
-#### lexicon.xml (~33 MB, 43,754 entries)
+#### lexicon.xml (~33 MB, 43,879 entries)
 
 ```xml
 <TEI><text><body><div type="lexicon">
@@ -357,7 +357,9 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
 
 Externer kuratierter Datensatz (nicht korpus-abgeleitet): Eigennamen, Antonomasien und Epitheta je Figur für ENE/IW/ROL/TRO aus Linda Beutel-Thurows Dissertationsprojekt (DOI 10.5281/zenodo.18770138, CC BY-NC-SA 4.0). 10.506 Records.
 
-**Deterministischer Build:** `generatedAt` = Committer-Datum des Quell-Commits (nicht Build-Zeit), gzip ohne mtime — gleicher Quellstand erzeugt byte-identischen Output. Darauf baut der **Auto-Update-Workflow** `.github/workflows/naming-index-update.yml`: wöchentlicher Cron (Mo 05:17 UTC), Rebuild, bei `git diff` ein PR mit Build-Log und Quell-Compare-Link. Merge nur nach Sichtprüfung (Gate gegen Format-Drift in den extern kuratierten Quell-JSONs).
+**Deterministischer Build:** `generatedAt` = Committer-Datum des Quell-Commits (nicht Build-Zeit), gzip ohne mtime — gleicher Quellstand erzeugt byte-identischen Output. Darauf baut der **Auto-Update-Workflow** `.github/workflows/naming-index-update.yml`: wöchentlicher Cron (Mo 05:17 UTC), Rebuild, bei `git diff` ein PR mit Build-Log und Quell-Compare-Link. Merge nur nach Sichtprüfung (Gate gegen Format-Drift in den extern kuratierten Quell-JSONs). In CI läuft der Build mit `--require-commit` (#152): ist der Quell-Commit nicht auflösbar, failt der Build hart, statt `generatedAt` still auf Build-Zeit kippen zu lassen (nicht-deterministisch + Provenienz-Verlust).
+
+**CI-Gates (#152, in `data-integrity.yml`):** (1) Konsistenz-Check bei jedem Daten-PR: `source.commit` vorhanden + alle `works[].sigle` existieren als `tei/<SIG>.tei.xml` (ein Sigle-Rename bräche den Reader-Link im Playground sonst still). (2) Rebuild-and-Compare gegen den im Index gepinnten `source.commit`, nur wenn naming-Pfade sich geändert haben (keine externe Netz-Abhängigkeit auf jedem Daten-PR).
 
 ```json
 {
@@ -419,7 +421,7 @@ Three core build scripts:
 Third derived layer beside the two indexes. Reads **only** the two pre-built indexes (`data/authority-index.json.gz` + `data/corpus-index.json.gz`), never the XML sources, and emits a static JSON API into `api/` (2,742 files, ~14 MB), served as plain files by GitHub Pages:
 
 - `api/index.json` — root manifest (collection counts, source index versions)
-- `api/lemmata/index.json` — full lemma records as one bundle (43,754 records, no individual files)
+- `api/lemmata/index.json` — full lemma records as one bundle (43,879 records, no individual files)
 - `api/<coll>/{id}.json` + `api/<coll>/index.json` (summary list) for persons, works, concepts, genres, names, texts (texts stripped of the heavy `words`/`lemmata`/`lineStarts`/`lineEnds` arrays)
 - every emitted file carries `"license": "CC BY-NC-SA 4.0"`; `persons.works` is normalized from comma-string to array
 
@@ -742,7 +744,7 @@ Kandidaten-Senses werden dem LLM als `sense_id :: Begriffs-Label DE (EN)` präse
 
 ### Rückwärts-Sync + Registrierung (Pflichtabschluss)
 
-1. **`lexicon.xml`-Backfill (PFLICHT, [CONTRACTS F.3](CONTRACTS.md#f-authority-source-rules)):** Jede Pipeline, die neue Lemma-/Sense-IDs prägt, muss sie atomisch in `lexicon.xml` nachtragen (`*-backfill-lexicon.py`-Schritt). Lemma-Stubs (Form + POS) sind aus dem Korpus generierbar; die Sense→Begriff-Zuordnung ist kuratorisch (F.2, Team). Die WZB-Pipeline war forward-only — Ergebnis: 977 dangling Refs (#115, [ADR-015](DECISIONS.md#adr-015-authority-source-modell-korpus-führt-ingest-braucht-rückwärts-sync)). Nicht wiederholen.
+1. **`lexicon.xml`-Backfill (PFLICHT, [CONTRACTS F.3](CONTRACTS.md#f-authority-source-rules)):** Jede Pipeline, die neue Lemma-/Sense-IDs prägt, muss sie atomisch in `lexicon.xml` nachtragen (Referenz-Implementierung: `scripts/sync/backfill-lexicon.py`, #115). Lemma-Stubs (Form + POS) sind aus dem Korpus generierbar; die Sense→Begriff-Zuordnung ist kuratorisch (F.2, Team). Die WZB-Pipeline war forward-only — Ergebnis: 977 dangling Refs, deren Kategorie-A-Anteil 2026-07-02 per Stub-Backfill geschlossen wurde (#115, [ADR-015](DECISIONS.md#adr-015-authority-source-modell-korpus-führt-ingest-braucht-rückwärts-sync)). Nicht wiederholen.
 2. **Registrierung:** `works.xml`-Eintrag (`work_{SIGLE}`, Titel, Genre-`<ptr>`, Autor-`@ref`, Normdaten), TEI-File nach `tei/<SIGLE>.tei.xml`, Header-Sync.
 3. **Abgeleitete Schicht:** `extract-variants.py --apply` → Index-Rebuilds → Versions-Bump → Tests — verbindliche Schrittfolge im [Data-Change-Lifecycle](#data-change-lifecycle) direkt unterhalb.
 
@@ -799,7 +801,7 @@ Status-Legende: **CI** = automatisiert (GitHub Actions) · **Skript** = Skript-e
 
 **Entkopplung:** Eine reine `authority-files/`-Änderung braucht **keinen** Korpus-Index-Rebuild (`build-corpus-index.py` liest `authority-files/` nicht). Eine reine `tei/`-Änderung braucht den Authority-Rebuild nur, wenn neue Formen eine `variants.xml`-Regenerierung erzwingen (Schritt 5 → 6).
 
-**Offene Lücke (kein Trigger):** `lexicon.xml`-Backfill für ingest-erzeugte Lemma/Sense-IDs (977 dangling Refs, 349 IDs, repo-intern, #44/#115). **Ursache:** Die Ingest-Pipelines (WZB Phase 1b–3, 2026-04/05) sind reine Forward-Pipelines: sie schreiben neue Lemma-/Sense-IDs ins Korpus, aber **kein Skript zieht `lexicon.xml` nach** (es gibt kein `*-backfill-lexicon.py`). So entstanden 98 Lemma-IDs ≥78000 im Korpus, die in `lexicon.xml` fehlen (nur 4 wurden je manuell ergänzt, Commits `8caa09627`/`649c0fe55`; viele Sense-IDs ≥78000 sind strukturelle Artefakte der Lemma-Erzeugung). Das ist **kein** Salzburg-Re-Export-Problem (Repo ist Master), sondern eine fehlende Rückwärts-Synchronisation. Lemma-Stubs (Form + POS) sind aus dem Korpus generierbar; die **Sense→Begriff-Zuordnung ist kuratorisch** (Team vergibt die concept-Zuordnung, nicht aus dem Korpus rekonstruierbar). Bis zum Backfill ist `lexicon.xml` in der Cross-Ref-CI-Baseline ausgenommen (nur Refs außerhalb `lexicon.xml` brechen den Build). `scripts/audit/check-lexicon-senses.py` detektiert sense-lose Lemmata lokal. Konsequenz für künftige Ingests siehe [DECISIONS.md → ADR-015](DECISIONS.md#adr-015-authority-source-modell-korpus-führt-ingest-braucht-rückwärts-sync).
+**Offene Lücke (kein Trigger):** kuratorischer Rest des `lexicon.xml`-Backfills (396 dangling Refs / 109 IDs: Kategorie B = Sense→Begriff-Zuordnung an existierenden Lemmata, Kategorie C = Tippfehler/Homographen mit Korpus-Korrekturbedarf; #44/#115). **Ursache:** Die Ingest-Pipelines (WZB Phase 1b–3, 2026-04/05) waren reine Forward-Pipelines ohne lexicon-Nachzug; der automatisierbare Kategorie-A-Anteil (125 fehlende `<entry>`, 581 Refs) wurde 2026-07-02 per `scripts/sync/backfill-lexicon.py` als Stubs geschlossen (orth = dominante Korpusform, Senses ohne concept-`<ptr>` — Grundform-/Konzept-Review bleibt kuratorisch). Das ist **kein** Salzburg-Re-Export-Problem (Repo ist Master), sondern eine fehlende Rückwärts-Synchronisation. Lemma-Stubs (Form + POS) sind aus dem Korpus generierbar; die **Sense→Begriff-Zuordnung ist kuratorisch** (Team vergibt die concept-Zuordnung, nicht aus dem Korpus rekonstruierbar). Bis zum Backfill toleriert die Cross-Ref-CI den Altbestand über eine ID-Set-Ratsche (committete `scripts/audit/lexicon-baseline.json`, #152): Refs außerhalb `lexicon.xml` brechen den Build sofort, jede dangling lexicon-ID außerhalb der Baseline ebenfalls (auch bei kompensierendem Backfill im selben PR); nach gelandetem Backfill `--update-baseline` ausführen und den Datei-Diff mitcommitten. `scripts/audit/check-lexicon-senses.py` detektiert sense-lose Lemmata lokal. Konsequenz für künftige Ingests siehe [DECISIONS.md → ADR-015](DECISIONS.md#adr-015-authority-source-modell-korpus-führt-ingest-braucht-rückwärts-sync).
 
 ---
 
