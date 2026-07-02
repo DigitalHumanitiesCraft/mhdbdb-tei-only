@@ -523,13 +523,17 @@ Strukturell verankert: `scripts/audit/check-index-versions.py` plus CI-Workflow 
 
 ### TEI File Cache (MHDBDB_TEI_Cache)
 
-**Store schema:** `{ filename, xmlString, cachedAt, size, metadata }`
+**Store schema:** `{ filename, xmlString, etag, lastModified, cachedAt, size }`
 
-**Strategy:** Serialize parsed DOM to XML string via `XMLSerializer`, restore via `DOMParser`. This avoids re-fetching and re-parsing individual TEI files on repeat visits.
+**Strategy:** Cache the raw XML string as delivered by the server, restore via `DOMParser`. This avoids re-downloading multi-MB TEI files on repeat visits.
 
-**Expiration:** 30 days (same as index cache). Checked on read (`get()`). Background cleanup via `cleanExpired()`.
+**Freshness (#151):** Every `load()` sends a conditional GET (`If-None-Match` / `If-Modified-Since` from the stored validators, `cache: 'no-cache'` to bypass the browser HTTP cache). Server answers `304` → cached copy is served (one small roundtrip); `200` → fresh content replaces the cached entry together with its new validators. Corpus updates therefore become visible on the **next page load**, not after a TTL. Entries without validators (legacy, pre-#151) always trigger a full fetch once and are upgraded on write.
 
-**Corruption handling:** If `DOMParser` returns a `parsererror` element, the cached entry is deleted and null returned (triggers fresh network fetch).
+**Offline fallback:** If the conditional GET fails at network level, the cached copy is served with a console warning.
+
+**Expiration:** The 30-day TTL remains for storage hygiene only (`cleanExpired()`); it plays no role in freshness anymore.
+
+**Corruption handling:** If `DOMParser` returns a `parsererror` element for a cached entry, the entry is deleted and a full download is forced (also on the `304` path).
 
 ---
 

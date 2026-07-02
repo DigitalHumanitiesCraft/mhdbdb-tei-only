@@ -127,46 +127,14 @@ class TEITextReader {
     }
 
     /**
-     * Load TEI file from cache or network
+     * Load TEI file (cached in IndexedDB, revalidated per load — #151)
      */
     async loadTEIFile(filename) {
         try {
-            // Try cache first
-            const cachedDoc = await this.cache.get(filename);
-            if (cachedDoc) {
-                console.log(`[TEITextReader] ⚡ Loaded from cache: ${filename}`);
-                return cachedDoc;
-            }
-
-            // Cache miss - fetch from network
-            console.log(`[TEITextReader] 🌐 Fetching from network: ${filename}`);
             const startTime = Date.now();
-
-            const response = await fetch(`tei/${filename}`);
-            if (!response.ok) {
-                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-            }
-
-            const xmlText = await response.text();
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(xmlText, 'text/xml');
-
-            // Check for parse errors
-            const parseError = doc.querySelector('parsererror');
-            if (parseError) {
-                throw new Error('XML parsing failed');
-            }
-
-            const loadTime = Date.now() - startTime;
-            console.log(`[TEITextReader] Loaded in ${(loadTime / 1000).toFixed(1)}s`);
-
-            // Cache for next time (don't wait)
-            this.cache.set(filename, doc).catch(err =>
-                console.error('[TEITextReader] Cache write failed:', err)
-            );
-
+            const doc = await this.cache.load(filename);
+            console.log(`[TEITextReader] Loaded ${filename} in ${((Date.now() - startTime) / 1000).toFixed(1)}s`);
             return doc;
-
         } catch (error) {
             console.error(`[TEITextReader] Failed to load ${filename}:`, error);
             throw error;

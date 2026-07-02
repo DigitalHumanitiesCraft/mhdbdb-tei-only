@@ -161,7 +161,7 @@ Aktuelle Index-Versionen siehe [TEI-MODEL.md §11](TEI-MODEL.md#11-versionierung
 ### Known Limitations
 - Desktop-only interface (not mobile-responsive)
 - No backend processing (all computation in browser)
-- No live updates: index-backed features (search, lemma counts, playground analyses) read from pre-built `data/*.json.gz` and require a manual rebuild + deploy after each data change. Manual corpus edits appear in the TEI reading view immediately (read live from disk) but stay invisible to search until indexes are rebuilt. The corpus itself is **not** static (active ingest plus ongoing manual correction); see the Data-Change-Lifecycle in [DATA-MODEL.md](DATA-MODEL.md#data-change-lifecycle).
+- No live updates: index-backed features (search, lemma counts, playground analyses) read from pre-built `data/*.json.gz` and require a manual rebuild + deploy after each data change. Manual corpus edits appear in the TEI reading view on the next page load (the IndexedDB TEI cache revalidates against the server per load, #151) but stay invisible to search until indexes are rebuilt. The corpus itself is **not** static (active ingest plus ongoing manual correction); see the Data-Change-Lifecycle in [DATA-MODEL.md](DATA-MODEL.md#data-change-lifecycle).
 
 ### Future Directions
 - Mobile optimization

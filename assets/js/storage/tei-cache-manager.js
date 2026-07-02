@@ -1,9 +1,11 @@
 /**
  * TEI Cache Manager
- * Manages IndexedDB caching of parsed TEI XML DOMs
+ * Manages IndexedDB caching of TEI XML sources
  *
- * Strategy: Cache serialized DOMs after first parse to dramatically
- * reduce repeat load times from 30-60s to 2-3s
+ * Strategy: Cache the raw XML string after first download to skip the
+ * multi-MB transfer on repeat loads. Every load() revalidates against the
+ * server via conditional GET (ETag / Last-Modified), so corpus updates
+ * become visible on the next page load instead of after the 30-day TTL (#151).
  */
 
 class TEICacheManager {
@@ -11,7 +13,7 @@ class TEICacheManager {
         this.dbName = 'MHDBDB_TEI_Cache';
         this.dbVersion = 1;
         this.storeName = 'parsedTEI';
-        this.cacheExpiration = 30 * 24 * 60 * 60 * 1000; // 30 days in ms
+        this.cacheExpiration = 30 * 24 * 60 * 60 * 1000; // 30 days in ms (storage hygiene only, see cleanExpired)
         this.db = null;
     }
 
@@ -43,55 +45,85 @@ class TEICacheManager {
     }
 
     /**
-     * Get cached TEI Document
+     * Load a TEI Document, revalidating any cached copy against the server (#151)
+     *
+     * Sends a conditional GET (If-None-Match / If-Modified-Since): unchanged
+     * files cost one 304 roundtrip instead of a multi-MB download, changed
+     * files are re-fetched immediately. Falls back to the cached copy when
+     * the network is unavailable.
      * @param {string} filename - TEI filename (e.g., "BAR.tei.xml")
-     * @returns {Document|null} - Parsed XML Document or null if not cached/expired
+     * @returns {Document} - Parsed XML Document
      */
-    async get(filename) {
+    async load(filename) {
+        const cached = await this.getEntry(filename);
+
+        const headers = {};
+        if (cached && cached.etag) headers['If-None-Match'] = cached.etag;
+        if (cached && cached.lastModified) headers['If-Modified-Since'] = cached.lastModified;
+
+        let response;
+        try {
+            // cache: 'no-cache' forces revalidation with the server instead of
+            // a silent browser-HTTP-cache hit (GitHub Pages serves max-age=600)
+            response = await fetch(`tei/${filename}`, { cache: 'no-cache', headers });
+        } catch (networkError) {
+            const fallback = cached ? this.parseCachedEntry(cached) : null;
+            if (fallback) {
+                console.warn(`[TEICacheManager] Network unavailable, serving cached copy: ${filename}`);
+                return fallback;
+            }
+            throw networkError;
+        }
+
+        if (response.status === 304) {
+            const doc = cached ? this.parseCachedEntry(cached) : null;
+            if (doc) {
+                console.log(`[TEICacheManager] Revalidated (304): ${filename}`);
+                return doc;
+            }
+            // Cached copy unusable despite 304 → force full download
+            response = await fetch(`tei/${filename}`, { cache: 'reload' });
+        }
+
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+
+        const xmlString = await response.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(xmlString, 'text/xml');
+        if (doc.querySelector('parsererror')) {
+            throw new Error(`XML parsing failed: ${filename}`);
+        }
+
+        console.log(`[TEICacheManager] Fetched from network: ${filename} (${Math.round(xmlString.length / 1024)}KB)`);
+
+        // Cache for next time (don't wait)
+        this.set(filename, xmlString, {
+            etag: response.headers.get('ETag'),
+            lastModified: response.headers.get('Last-Modified')
+        }).catch(err =>
+            console.error(`[TEICacheManager] Cache write failed: ${filename}`, err)
+        );
+
+        return doc;
+    }
+
+    /**
+     * Read the raw cache entry (xmlString + validators), no freshness decision
+     * @param {string} filename - TEI filename
+     * @returns {Object|null} - Cache entry or null
+     */
+    async getEntry(filename) {
         try {
             if (!this.db) await this.init();
 
             const transaction = this.db.transaction([this.storeName], 'readonly');
             const store = transaction.objectStore(this.storeName);
 
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve) => {
                 const request = store.get(filename);
-
-                request.onsuccess = () => {
-                    const cached = request.result;
-
-                    if (!cached) {
-                        console.log(`[TEICacheManager] Cache miss: ${filename}`);
-                        resolve(null);
-                        return;
-                    }
-
-                    // Check expiration
-                    const age = Date.now() - cached.cachedAt;
-                    if (age > this.cacheExpiration) {
-                        console.log(`[TEICacheManager] Cache expired: ${filename} (${Math.round(age / (24 * 60 * 60 * 1000))} days old)`);
-                        this.delete(filename); // Clean up expired entry
-                        resolve(null);
-                        return;
-                    }
-
-                    // Parse cached XML string back to Document
-                    const parser = new DOMParser();
-                    const doc = parser.parseFromString(cached.xmlString, 'text/xml');
-
-                    // Check for parse errors
-                    const parseError = doc.querySelector('parsererror');
-                    if (parseError) {
-                        console.error(`[TEICacheManager] Parse error in cached XML: ${filename}`);
-                        this.delete(filename); // Remove corrupted cache
-                        resolve(null);
-                        return;
-                    }
-
-                    console.log(`[TEICacheManager] Cache hit: ${filename} (age: ${Math.round(age / (60 * 60 * 1000))}h)`);
-                    resolve(doc);
-                };
-
+                request.onsuccess = () => resolve(request.result || null);
                 request.onerror = () => {
                     console.error(`[TEICacheManager] Error reading cache: ${filename}`, request.error);
                     resolve(null); // Fail gracefully
@@ -105,25 +137,40 @@ class TEICacheManager {
     }
 
     /**
-     * Cache a TEI Document
-     * @param {string} filename - TEI filename
-     * @param {Document} doc - Parsed XML Document
-     * @param {Object} metadata - Optional metadata (title, author, etc.)
+     * Parse a cache entry's XML string; deletes the entry if corrupted
+     * @param {Object} cached - Cache entry from getEntry()
+     * @returns {Document|null} - Parsed XML Document or null if corrupted
      */
-    async set(filename, doc, metadata = {}) {
+    parseCachedEntry(cached) {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(cached.xmlString, 'text/xml');
+
+        if (doc.querySelector('parsererror')) {
+            console.error(`[TEICacheManager] Parse error in cached XML: ${cached.filename}`);
+            this.delete(cached.filename); // Remove corrupted cache
+            return null;
+        }
+
+        return doc;
+    }
+
+    /**
+     * Cache a TEI XML source with its HTTP validators
+     * @param {string} filename - TEI filename
+     * @param {string} xmlString - Raw XML source as delivered by the server
+     * @param {Object} validators - HTTP validators ({ etag, lastModified })
+     */
+    async set(filename, xmlString, { etag = null, lastModified = null } = {}) {
         try {
             if (!this.db) await this.init();
-
-            // Serialize Document to string
-            const serializer = new XMLSerializer();
-            const xmlString = serializer.serializeToString(doc);
 
             const cacheEntry = {
                 filename,
                 xmlString,
+                etag,
+                lastModified,
                 cachedAt: Date.now(),
-                size: xmlString.length,
-                metadata
+                size: xmlString.length
             };
 
             const transaction = this.db.transaction([this.storeName], 'readwrite');

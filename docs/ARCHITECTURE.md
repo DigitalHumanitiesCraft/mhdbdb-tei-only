@@ -149,9 +149,9 @@ The reading view converts TEI XML elements to HTML. Source: `extractAndFormatBod
 ### TEI Cache Management
 
 **TEICacheManager** (`assets/js/storage/tei-cache-manager.js`)
-- Cache serialized DOM as XML string in IndexedDB (database: `MHDBDB_TEI_Cache`)
-- 30-day expiration (checked on read, corrupted entries auto-deleted)
-- Subsequent loads from cache (~100-200 ms vs 3-5 seconds)
+- Caches raw TEI XML strings in IndexedDB (database: `MHDBDB_TEI_Cache`) with HTTP validators (ETag / Last-Modified)
+- Every `load()` revalidates via conditional GET: unchanged files cost one 304 roundtrip, changed files re-download immediately (#151) — corpus updates are visible on the next page load
+- Offline fallback to the cached copy; corrupted entries auto-deleted; 30-day TTL is storage hygiene only
 - **Cache invalidation and version check flow:** see [CONTRACTS.md](CONTRACTS.md#e-cache-invalidation)
 
 ## Playground Architecture
