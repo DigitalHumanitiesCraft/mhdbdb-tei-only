@@ -20,9 +20,14 @@ function isSafeLink(url) {
 }
 
 export function decodeHtmlEntities(str) {
-    const textarea = document.createElement('textarea');
-    textarea.innerHTML = str ?? '';
-    return textarea.value;
+    // DOMParser statt textarea-innerHTML-Trick: ein API-Wert wie
+    // "…</textarea><img src=x onerror=…>" beendet beim innerHTML-Write den
+    // RCDATA-Modus und erzeugt echte Elemente, deren Handler auch detached
+    // feuern können (mXSS-Klasse) — bevor nachgelagertes Escaping greift.
+    // DOMParser-Dokumente haben keinen Browsing-Context: kein Skript läuft,
+    // keine Ressource (img src) wird geladen; Markup wird zu reinem Text.
+    const doc = new DOMParser().parseFromString(String(str ?? ''), 'text/html');
+    return doc.body.textContent ?? '';
 }
 
 /**
@@ -40,7 +45,10 @@ export function fetchWbnetzEntries(normalizedForm) {
     const lookupForm = encodeURIComponent(normalizedForm);
     const promise = Promise.all(DICTIONARIES.map(async sigle => {
         try {
-            const r = await fetch(`https://api.woerterbuchnetz.de/open-api/dictionaries/${sigle}/lemmata/${lookupForm}`);
+            const r = await fetch(
+                `https://api.woerterbuchnetz.de/open-api/dictionaries/${sigle}/lemmata/${lookupForm}`,
+                { signal: AbortSignal.timeout(10000) }
+            );
             if (!r.ok) return { sigle, entries: [] };
             const data = await r.json();
             const entries = (data.result_set || []).filter(e => isSafeLink(e.wbnetzlink));

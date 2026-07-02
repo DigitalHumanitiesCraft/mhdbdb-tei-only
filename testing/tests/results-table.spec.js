@@ -154,12 +154,16 @@ test.describe('Issue #114: Tabellenansicht für Korpussuche', () => {
         // Shared Client gefiltert werden) + ein http(s)-Link mit Quote/Markup
         // im Wert (muss escapet in href landen, kein Attribut-Breakout).
         const evilHref = 'https://example.com/x?a="><img src=x onerror=alert(1)>';
+        // mXSS-Payload für decodeHtmlEntities: beendet beim alten
+        // textarea-innerHTML-Trick den RCDATA-Modus und erzeugte ein echtes
+        // <img>, dessen onerror auch detached feuert (window.__pwned).
+        const evilLemma = 'br&ocirc;t</textarea><img src=x onerror="window.__pwned=true">';
         await page.route('https://api.woerterbuchnetz.de/**', route => route.fulfill({
             status: 200,
             contentType: 'application/json',
             body: JSON.stringify({ result_set: [
                 { sigle: 'MWB', lemma: 'minne', gram: 'stF', wbnetzid: 'X1', wbnetzlink: 'javascript:alert(1)' },
-                { sigle: 'MWB', lemma: 'br&ocirc;t', gram: 'stN', wbnetzid: 'X2', wbnetzlink: evilHref },
+                { sigle: 'MWB', lemma: evilLemma, gram: 'stN', wbnetzid: 'X2', wbnetzlink: evilHref },
             ]}),
         }));
 
@@ -177,6 +181,12 @@ test.describe('Issue #114: Tabellenansicht für Korpussuche', () => {
             expect(href).toBe(evilHref);
         }
         await expect(slot.locator('img')).toHaveCount(0);
+
+        // decodeHtmlEntities darf beim Dekodieren keinen Code ausführen
+        // (DOMParser statt textarea-Trick); Entities bleiben korrekt dekodiert.
+        const pwned = await page.evaluate(() => window.__pwned);
+        expect(pwned).toBeUndefined();
+        await expect(slot).toContainText('brôt');
     });
 
     test('Types (Schreibformen) werden im Lemma-Panel angeboten', async ({ page }) => {
