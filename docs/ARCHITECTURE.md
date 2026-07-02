@@ -367,7 +367,7 @@ resolveConceptLabels(conceptIds):
 
 **Component:** `woerterbuch.html` + `assets/js/woerterbuch.js` (`WoerterbuchPage`)
 
-A–Z-Einstiegsseite zu den Lemma-Seiten. Lädt nur den Authority-Index (via `CorpusLoader('data')`), bucketet die 43.754 `lemmata`-Einträge client-seitig nach dem Anfangsbuchstaben von `normalized` (NFD-Strip als Fallback für `ë`/`ú`, Ziffern-Lemmata im `#`-Bucket) und rendert pro Buchstabe ein paginiertes Register (200 Einträge/Seite, `Intl.Collator('de')`-Sortierung). URL-State `?buchstabe=&seite=` über `history.replaceState`. Bewusst kein eigenes Build-Artefakt — der vorhandene Index reicht.
+A–Z-Einstiegsseite zu den Lemma-Seiten. Lädt nur den Authority-Index (via `CorpusLoader('data')`), bucketet die 43.879 `lemmata`-Einträge client-seitig nach dem Anfangsbuchstaben von `normalized` (NFD-Strip als Fallback für `ë`/`ú`, Ziffern-Lemmata im `#`-Bucket) und rendert pro Buchstabe ein paginiertes Register (200 Einträge/Seite, `Intl.Collator('de')`-Sortierung). URL-State `?buchstabe=&seite=` über `history.replaceState`. Bewusst kein eigenes Build-Artefakt — der vorhandene Index reicht.
 
 ---
 
@@ -411,7 +411,7 @@ A–Z-Einstiegsseite zu den Lemma-Seiten. Lädt nur den Authority-Index (via `Co
 
 **Served by:** GitHub Pages, like every other file in the repo — no backend, no runtime component, CORS open (Pages sends `Access-Control-Allow-Origin: *`). The main site and playground do **not** consume the API (they load the gzipped indexes); it exists purely for external programmatic access, so it adds zero runtime cost to the site.
 
-**Structure:** root manifest `api/index.json` (counts + source index versions), lemmata as a single bundle (`api/lemmata/index.json`, 43,754 records), individual `{id}.json` + summary `index.json` per collection (persons, works, concepts, genres, names, texts). Every file carries a `license` field. Human documentation: `api/index.html` (German, standalone page).
+**Structure:** root manifest `api/index.json` (counts + source index versions), lemmata as a single bundle (`api/lemmata/index.json`, 43,879 records), individual `{id}.json` + summary `index.json` per collection (persons, works, concepts, genres, names, texts). Every file carries a `license` field. Human documentation: `api/index.html` (German, standalone page).
 
 **Freshness:** deterministic build + CI gate ("Freshness API" in `data-integrity.yml`) keep `api/` byte-identical to what the committed indexes produce. Contracts (URL schema stability, field schemas): [CONTRACTS.md §G](CONTRACTS.md#g-static-json-api-contract-45).
 

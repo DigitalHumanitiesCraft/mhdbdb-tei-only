@@ -11,9 +11,12 @@ Konsumiert die Klassifikation aus `scripts/audit/classify-lexicon-backfill.py`
   - <orth>  = dominante Korpusform (candidate_orth). ACHTUNG: kann eine
               Flexionsform sein — die Grundform-Bestaetigung bleibt
               kuratorisch (KZW), siehe #115-Kommentar 2026-06-01.
-  - <pos>   = alle im Korpus evidenzierten Tags als mehrere <pos>-Elemente,
-              dominantes zuerst (Praezedenz: 10.167 Bestandseintraege haben
-              mehrere <pos>; der Index-Builder liest das erste). OHNE
+  - <pos>   = die Tags des HAEUFIGSTEN @pos-Werts im Korpus als mehrere
+              <pos>-Elemente, dominantes zuerst (Praezedenz: 10.167 Bestands-
+              eintraege haben mehrere <pos>; der Index-Builder liest das
+              erste). Achtung: candidate_pos stammt aus most_common(1) der
+              Klassifikation — Tags aus Minderheits-@pos-Werten desselben
+              Lemmas werden nicht uebernommen. OHNE
               Korpus-Evidenz (@pos="") wird EIN leeres <pos/> geschrieben —
               schema-valide (text erlaubt leer), aber ohne Praezedenz im
               Bestand; diese Lemmata stehen auf der kuratorischen
@@ -94,14 +97,21 @@ def main():
     parser.add_argument('--apply', action='store_true',
                         help='lexicon.xml wirklich schreiben (sonst Dry-Run)')
     parser.add_argument('--skip-classify', action='store_true',
-                        help='vorhandenes lexicon-backfill.json verwenden '
-                             'statt frisch zu klassifizieren')
+                        help='NUR Debug: vorhandenes lexicon-backfill.json '
+                             'verwenden. Ein stales JSON kann Orphan-Stubs '
+                             'einfuegen (Lemma inzwischen anderweitig '
+                             'aufgeloest) — fuer --apply immer frisch '
+                             'klassifizieren lassen')
     args = parser.parse_args()
 
     if not args.skip_classify:
         print('Klassifikation frisch erzeugen (classify-lexicon-backfill.py) ...')
-        subprocess.run([sys.executable, str(CLASSIFY)], check=True,
-                       cwd=PROJECT_ROOT, stdout=subprocess.DEVNULL)
+        proc = subprocess.run([sys.executable, str(CLASSIFY)],
+                              cwd=PROJECT_ROOT, capture_output=True, text=True)
+        if proc.returncode != 0:
+            # classify meldet Fehler via print auf stdout — nicht verschlucken
+            sys.exit(f'FEHLER: Klassifikation fehlgeschlagen (exit '
+                     f'{proc.returncode}):\n{proc.stdout}\n{proc.stderr}')
     rows = json.loads(CLASSIFY_JSON.read_text(encoding='utf-8'))['rows']
     a_rows = sorted((r for r in rows if r['category'] == 'A_MISSING_ENTRY'),
                     key=lambda r: r['lemma_id'])
@@ -116,6 +126,17 @@ def main():
     existing_ids = {e[2] for e in entries}
     indent = entries[0][1]
 
+    # Die Einfuege-Logik setzt String-Sortierung des Bestands voraus; der
+    # Bestand verletzt sie bereits an einer Stelle (WZB-Block lemma_78608-
+    # 78688 vor lemma_7861). Warnen statt failen: Stubs in einer verletzten
+    # Zone landen an der Position der ERSTEN groesseren ID in Dateireihenfolge.
+    id_seq = [e[2] for e in entries]
+    violations = sum(1 for a, b in zip(id_seq, id_seq[1:]) if a > b)
+    if violations:
+        print(f'WARNUNG: lexicon.xml ist an {violations} Stelle(n) nicht '
+              f'string-sortiert — Stub-Positionen in diesen Zonen folgen der '
+              f'Dateireihenfolge, nicht der reinen String-Sortierung.')
+
     dupes = [r['lemma_id'] for r in a_rows if r['lemma_id'] in existing_ids]
     if dupes:
         sys.exit(f'FEHLER: {len(dupes)} A-Lemmata existieren bereits in '
@@ -124,14 +145,14 @@ def main():
     # Sense-Minting oberhalb des globalen Maximums (lexicon + Korpus-dangling).
     max_lex_sense = max(int(m) for m in re.findall(r'_sense_(\d+)"', text))
     max_dangling = max((int(s.rsplit('_', 1)[1])
-                        for r in rows for s in r.get('dangling_senses', {})),
+                        for r in rows for s in r['dangling_senses']),
                        default=0)
     next_sense = max(max_lex_sense, max_dangling) + 1
 
     # Ende eines Entry-Blocks finden: schliessendes </entry> nach Position.
     close_tag = f'{indent}</entry>\n'
 
-    inserted, minted = 0, []
+    minted = []
     out_parts, cursor = [], 0
     stubs_todo = list(a_rows)
     for pos, _ind, xid in entries:
@@ -145,7 +166,6 @@ def main():
             out_parts.append(text[cursor:pos])
             out_parts.append(build_stub(row, indent, mint))
             cursor = pos
-            inserted += 1
     # Rest (ids > letzter Bestand): vor dem schliessenden Tag des letzten Entry.
     if stubs_todo:
         last_close = text.rindex(close_tag) + len(close_tag)
@@ -158,14 +178,17 @@ def main():
                 minted.append(mint)
                 next_sense += 1
             out_parts.append(build_stub(row, indent, mint))
-            inserted += 1
     out_parts.append(text[cursor:])
     result = ''.join(out_parts)
 
     no_pos = [r['lemma_id'] for r in a_rows if not r['candidate_pos'].strip()]
+    inserted = len(a_rows)  # Dupes-Check garantiert: jede A-Row genau einmal
     print(f'Kategorie-A-Stubs:        {inserted}')
     print(f'  davon ohne POS-Evidenz: {len(no_pos)} (leeres <pos/>, kuratorischer Nachtrag)')
-    print(f'  gemintete Sense-IDs:    {len(minted)} (ab _sense_{next_sense - len(minted)})')
+    if minted:
+        print(f'  gemintete Sense-IDs:    {len(minted)} (ab _sense_{next_sense - len(minted)})')
+    else:
+        print('  gemintete Sense-IDs:    0')
     print(f'  Senses ohne concept:    '
           f'{sum(len(r["dangling_senses"]) for r in a_rows) + len(minted)} (kuratorisch, check-lexicon-senses.py)')
 
@@ -182,7 +205,11 @@ def main():
         sys.exit(f'FEHLER: Entry-Zahl nach Einfuegen {new_count}, erwartet '
                  f'{old_count + inserted} — nichts geschrieben.')
 
-    LEXICON.write_text(result, encoding='utf-8')
+    # newline='': ohne das uebersetzt der Text-Modus '\n' -> os.linesep und
+    # wuerde unter Windows die komplette 31-MB-Datei auf CRLF umschreiben —
+    # Riesen-Diff, deterministische Builds (#125) und Freshness-Gate kaputt.
+    with open(LEXICON, 'w', encoding='utf-8', newline='') as f:
+        f.write(result)
     print(f'\nGeschrieben: {LEXICON} ({old_count} -> {new_count} entries)')
     print('Naechste Schritte (Data-Change-Lifecycle): Authority-Index-Rebuild '
           '+ Bump, build-api.py, Baseline in check-authority-cross-refs.py '

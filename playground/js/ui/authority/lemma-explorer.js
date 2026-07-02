@@ -239,9 +239,16 @@ export class LemmaExplorer {
           }
         }
 
+        // Ohne Begriffszuordnung (z.B. #115-Stubs) keine rohe Sense-ID als
+        // Pseudo-Bedeutung anzeigen — gleiche Behandlung wie lemma-page.js.
+        const senseLabel =
+          sense.conceptIds && sense.conceptIds.length > 0
+            ? senseId
+            : '<span style="color: #94a3b8;">Keine Begriffszuordnung</span>';
+
         return `
             <div style="margin-bottom: 8px; font-size: 0.9rem;">
-                <strong>Bedeutung ${index + 1}:</strong> ${senseId}
+                <strong>Bedeutung ${index + 1}:</strong> ${senseLabel}
                 ${conceptsHTML}
             </div>
         `;
