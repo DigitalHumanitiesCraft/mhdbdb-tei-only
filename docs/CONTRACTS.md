@@ -527,13 +527,13 @@ Strukturell verankert: `scripts/audit/check-index-versions.py` plus CI-Workflow 
 
 **Strategy:** Cache the raw XML string as delivered by the server, restore via `DOMParser`. This avoids re-downloading multi-MB TEI files on repeat visits.
 
-**Freshness (#151):** Every `load()` sends a conditional GET (`If-None-Match` / `If-Modified-Since` from the stored validators, `cache: 'no-cache'` to bypass the browser HTTP cache). Server answers `304` → cached copy is served (one small roundtrip); `200` → fresh content replaces the cached entry together with its new validators. Corpus updates therefore become visible on the **next page load**, not after a TTL. Entries without validators (legacy, pre-#151) always trigger a full fetch once and are upgraded on write.
+**Freshness (#151):** `load()` sends a conditional GET (`If-None-Match` / `If-Modified-Since` from the stored validators, `cache: 'no-cache'` to bypass the browser HTTP cache) — but at most **once per file per page load** (in-memory `revalidated` Set); later loads of the same file in the same session are pure IndexedDB hits with zero network. Server answers `304` → cached copy is served (one small roundtrip, `cachedAt` refreshed fire-and-forget); `200` → fresh content replaces the cached entry together with its new validators. Corpus updates therefore become visible on the **next page load**, not after a TTL. Entries without validators (legacy, pre-#151) trigger a full fetch once and are upgraded on write.
 
-**Offline fallback:** If the conditional GET fails at network level, the cached copy is served with a console warning.
+**Fallback to cache:** The cached copy is served with a console warning when the revalidation fails at network level (offline, 15s timeout via `AbortSignal.timeout`), when the server answers with an HTTP error (5xx/404 during a deploy window), or when a `200` body does not parse as XML (captive portal). A previously readable text therefore stays readable through server incidents.
 
-**Expiration:** The 30-day TTL remains for storage hygiene only (`cleanExpired()`); it plays no role in freshness anymore.
+**Expiration:** 30-day TTL is storage hygiene only: `cleanExpired()` runs in the background at `init()` (cursor over the `cachedAt` index, values never materialized) and purges entries not loaded/revalidated for 30 days — orphans of renamed or removed TEI files. Freshness is unaffected.
 
-**Corruption handling:** If `DOMParser` returns a `parsererror` element for a cached entry, the entry is deleted and a full download is forced (also on the `304` path).
+**Corruption handling:** If `DOMParser` returns a `parsererror` element for a cached entry, the entry is deleted; on the `304` path `load()` restarts and performs a plain full download.
 
 ---
 

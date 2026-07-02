@@ -378,8 +378,14 @@ class TEITextReader {
                 }
                 case 'lb': {
                     const lbN = el.getAttribute('n') || '';
+                    // Nur numerische @n als Marginal-Label zeigen — technische
+                    // Kennungen wie "h_1" (Heading-Zeilen) bleiben unsichtbar,
+                    // analog zur <l>-Policy (#127). data-n bleibt für beide
+                    // erhalten, damit ?verse=-Deep-Links auf Prosa-Zeilen
+                    // (Druckzeilen-Zählung) weiter auflösen (#143).
                     if (lbN) {
-                        return `<br class="line-break"><span class="lb-number">${this.escapeHtml(lbN)}</span>`;
+                        const label = /^\d+$/.test(lbN) ? this.escapeHtml(lbN) : '';
+                        return `<br class="line-break"><span class="lb-number" data-n="${this.escapeHtml(lbN)}">${label}</span>`;
                     }
                     return '<br class="line-break">';
                 }
@@ -887,8 +893,9 @@ class TEITextReader {
     }
 
     /**
-     * Scroll zur Verszeile <l n="..."> (Vers-Deep-Link, #59 Naming-Explorer).
-     * data-n stammt aus dem 'l'-Rendering (case 'l' in renderElement).
+     * Scroll zur Verszeile <l n="..."> (Vers-Deep-Link, #59 Naming-Explorer)
+     * oder zur Prosa-Zeile <lb n="..."> (Druckzeilen-Zählung, #143).
+     * data-n stammt aus dem 'l'- bzw. 'lb'-Rendering (renderElement).
      * Hintergrund-Puls statt scale: verse-line ist eine ganze Zeile,
      * Skalierung würde den Textfluss verschieben.
      */
@@ -897,7 +904,7 @@ class TEITextReader {
         const safe = (window.CSS && CSS.escape)
             ? CSS.escape(String(verseN))
             : String(verseN).replace(/["\\]/g, '');
-        const line = scope.querySelector(`.verse-line[data-n="${safe}"]`);
+        const line = scope.querySelector(`.verse-line[data-n="${safe}"], .lb-number[data-n="${safe}"]`);
         if (!line) {
             console.warn(`[TEITextReader] Vers ${verseN} nicht gefunden (kein <l n="${verseN}"> im Text)`);
             return;

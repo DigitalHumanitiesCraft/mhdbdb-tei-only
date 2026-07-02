@@ -101,8 +101,8 @@ Cache large TEI files in browser storage for faster subsequent loads.
 
 **How it works:**
 - Every opened TEI file is cached in IndexedDB after first download (no size threshold)
-- Each load revalidates against the server via conditional GET (ETag / Last-Modified, #151): unchanged files are served from cache after a 304 roundtrip, updated files re-download immediately
-- Subsequent loads skip the multi-MB transfer (~100-200ms vs 3-5 seconds); offline falls back to the cached copy
+- The first load per session revalidates against the server via conditional GET (ETag / Last-Modified, #151): unchanged files are served from cache after a 304 roundtrip, updated files re-download immediately; repeat loads in the same session skip the network entirely
+- Subsequent loads skip the multi-MB transfer (~100-200ms vs 3-5 seconds); network failures, server errors and timeouts fall back to the cached copy
 
 ## Playground Features
 
