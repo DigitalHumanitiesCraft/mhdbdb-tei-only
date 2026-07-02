@@ -143,8 +143,11 @@ jobs:
         run: |
           BASE=""
           if [ "${{ github.event_name }}" = "pull_request" ]; then
-            # $GITHUB_BASE_REF (Env statt ${{ }}-Interpolation, Actions-
-            # Hardening-Guidance). Retry gegen transiente Fetch-Fehler:
+            # $GITHUB_BASE_REF (Env-Var statt Kontext-Interpolation ins
+            # Skript, Actions-Hardening-Guidance; Achtung: auch Kommentare
+            # im run-Block werden auf Expressions gescannt — leere
+            # Doppelklammer-Ausdruecke hier crashen den Workflow-Parse).
+            # Retry gegen transiente Fetch-Fehler:
             # ein Fallback auf BASE="" wuerde das Bump-Gate still skippen,
             # ein Hard-Fail den ganzen Lauf vor allen Checks reissen.
             for i in 1 2 3; do
