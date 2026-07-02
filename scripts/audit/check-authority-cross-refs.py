@@ -25,7 +25,12 @@ This is a read-only, idempotent diagnostic. The JSON report is a disposable
 artifact and should not be committed.
 
 Usage:
-    python scripts/audit/check-authority-cross-refs.py
+    python scripts/audit/check-authority-cross-refs.py                    # Report
+    python scripts/audit/check-authority-cross-refs.py --check            # CI-Gate
+    python scripts/audit/check-authority-cross-refs.py --update-baseline  # Ratsche nachziehen
+
+The committed scripts/audit/lexicon-baseline.json pins the tolerated dangling
+lexicon-ID set (#152 ratchet); --check fails on any id outside it.
 """
 
 import json
@@ -54,13 +59,39 @@ SENSE_RE = re.compile(r'^lemma_\d+_sense_\d+$')
 
 # CI-Baseline fuer dangling lexicon.xml-Refs (#152): der Bestand ist zu 100 %
 # post-Migration-ingest-erzeugt (WZB u.a.), als repo-interner Backfill-Bedarf
-# in #115/#44 dokumentiert und bewusst toleriert. Das Gate ist eine Ratsche:
-# jeder Ingest, der NEUE dangling Refs einfuehrt, wird rot und muss entweder
-# sofort backfillen oder die Baseline hier bewusst und begruendet anheben
-# (KZW-Entscheidung). Sinkt der Ist-Stand (Backfill gelandet), die Baseline
-# mitsenken, damit die Ratsche greift. Stand 2026-07-02.
-LEXICON_BASELINE_REFS = 977
-LEXICON_BASELINE_DISTINCT = 349
+# in #115/#44 dokumentiert und bewusst toleriert. Das Gate ist eine Ratsche
+# auf der ID-MENGE (nicht auf Zaehlern — Zaehler liessen kompensierende Drift
+# durch: +5 neue dangling IDs und -5 gebackfillte im selben PR blieben gruen):
+# jede ID ausserhalb der committeten Baseline-Datei wird rot und muss entweder
+# sofort backfillt oder bewusst und begruendet via --update-baseline in die
+# Baseline aufgenommen werden (KZW-Entscheidung, reviewbarer Datei-Diff).
+# Sinkt der Ist-Stand (Backfill gelandet), --update-baseline ausfuehren und
+# die geschrumpfte Datei mitcommitten, damit die Ratsche nachzieht.
+LEXICON_BASELINE_FILE = SCRIPT_DIR / 'lexicon-baseline.json'
+
+
+def load_baseline():
+    """Tolerierte dangling lexicon-IDs (Set) aus der committeten Baseline."""
+    if not LEXICON_BASELINE_FILE.exists():
+        sys.exit(f'::error file=scripts/audit/lexicon-baseline.json::'
+                 f'Baseline-Datei fehlt ({LEXICON_BASELINE_FILE}). Einmalig mit '
+                 f'"python scripts/audit/check-authority-cross-refs.py '
+                 f'--update-baseline" erzeugen und committen (#152).')
+    data = json.loads(LEXICON_BASELINE_FILE.read_text(encoding='utf-8'))
+    return set(data['tolerated_ids'])
+
+
+def write_baseline(ids):
+    payload = {
+        'comment': ('Tolerierte dangling lexicon.xml-IDs (#152/#115-Ratsche). '
+                    'Nur via check-authority-cross-refs.py --update-baseline '
+                    'aendern — Aufnahme neuer IDs ist eine KZW-Entscheidung.'),
+        'updated': date.today().isoformat(),
+        'count': len(ids),
+        'tolerated_ids': sorted(ids),
+    }
+    LEXICON_BASELINE_FILE.write_text(
+        json.dumps(payload, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
 
 
 def collect_ids(filepath):
@@ -112,6 +143,7 @@ def iter_refs(elem):
 
 def main():
     check = '--check' in sys.argv
+    update_baseline = '--update-baseline' in sys.argv
     if not TEI_DIR.exists() or not AUTHORITY_DIR.exists():
         print('Error: run from repo root (tei/ and authority-files/ required)')
         return 1
@@ -286,11 +318,21 @@ def main():
         print(f'  {sigle:8} {info["unresolved"]:>10,}')
     print(f'\nReport written: {JSON_OUT}')
 
+    current_lex_ids = {frag for tf, frag, cnt, sigles in distinct_pairs
+                       if tf == 'lexicon.xml'}
+
+    if update_baseline:
+        write_baseline(current_lex_ids)
+        print(f'\nBaseline geschrieben: {LEXICON_BASELINE_FILE} '
+              f'({len(current_lex_ids)} tolerierte IDs). Diff reviewen und '
+              f'committen — Aufnahme NEUER IDs ist eine KZW-Entscheidung (#152).')
+        return 0
+
     if check:
         # CI gate: variants/persons/works/concepts/genres/names must resolve fully.
         # lexicon.xml carries a known ingest-backfill baseline (#44/#115) and is
-        # gated against that pinned baseline (#152): growth fails, the tolerated
-        # legacy set passes.
+        # gated as an ID-set ratchet (#152): any id outside the committed
+        # baseline fails, the tolerated legacy set passes.
         offenders = {tf: c for tf, c in by_target.items() if tf != 'lexicon.xml'}
         for tf, c in missing_target_files.items():
             offenders[tf] = offenders.get(tf, 0) + c
@@ -299,26 +341,32 @@ def main():
             for tf, c in sorted(offenders.items(), key=lambda x: -x[1]):
                 print(f'  {tf}: {c:,}')
             return 1
+        baseline = load_baseline()
+        new_ids = current_lex_ids - baseline
+        stale_ids = baseline - current_lex_ids
         lex_refs = by_target.get('lexicon.xml', 0)
-        lex_distinct = by_target_distinct.get('lexicon.xml', 0)
-        if lex_refs > LEXICON_BASELINE_REFS or lex_distinct > LEXICON_BASELINE_DISTINCT:
-            print(f'\n::error file=scripts/audit/check-authority-cross-refs.py::'
-                  f'CI CHECK FAILED: dangling lexicon.xml-Refs ueber der Baseline (#152): '
-                  f'{lex_refs:,} refs / {lex_distinct:,} distinct ids, erlaubt sind '
-                  f'{LEXICON_BASELINE_REFS:,} / {LEXICON_BASELINE_DISTINCT:,}. '
-                  f'Ein Ingest hat NEUE Refs auf nicht existierende lexicon-IDs '
-                  f'eingefuehrt. Entweder die fehlenden Lemmata/Senses in lexicon.xml '
-                  f'backfillen (DATA-MODEL.md -> Ingest-Verfahren, Backfill-Phase) '
-                  f'oder die Baseline bewusst und begruendet anheben (KZW-Entscheidung). '
-                  f'Details: scripts/audit/authority-cross-refs-audit.json -> lexicon_corpses.')
+        if new_ids:
+            sample = ', '.join(sorted(new_ids)[:10])
+            print(f'\n::error file=scripts/audit/lexicon-baseline.json::'
+                  f'CI CHECK FAILED: {len(new_ids)} NEUE dangling lexicon-IDs '
+                  f'ausserhalb der Baseline (#152), z.B. {sample}. Ein Ingest hat '
+                  f'Refs auf nicht existierende lexicon-IDs eingefuehrt. Entweder '
+                  f'die fehlenden Lemmata/Senses in lexicon.xml backfillen '
+                  f'(DATA-MODEL.md -> Ingest-Verfahren, Backfill-Phase) oder die '
+                  f'IDs bewusst und begruendet via --update-baseline tolerieren '
+                  f'(KZW-Entscheidung, reviewbarer Datei-Diff). Details: '
+                  f'scripts/audit/authority-cross-refs-audit.json -> lexicon_corpses.')
             return 1
         print(f'\nCI CHECK OK: variants/persons/works/concepts/genres/names = 0 unresolved. '
-              f'lexicon.xml = {lex_refs:,} refs / {lex_distinct:,} distinct ids '
-              f'(Baseline {LEXICON_BASELINE_REFS:,} / {LEXICON_BASELINE_DISTINCT:,}, #44/#115/#152).')
-        if lex_refs < LEXICON_BASELINE_REFS or lex_distinct < LEXICON_BASELINE_DISTINCT:
-            print(f'HINWEIS: Ist-Stand liegt UNTER der Baseline — Backfill gelandet? '
-                  f'LEXICON_BASELINE_* in diesem Skript auf den neuen Stand senken, '
-                  f'damit die Ratsche greift (#152).')
+              f'lexicon.xml = {lex_refs:,} refs / {len(current_lex_ids):,} distinct ids, '
+              f'alle innerhalb der Baseline ({len(baseline):,} tolerierte IDs, #44/#115/#152).')
+        if stale_ids:
+            print(f'::warning file=scripts/audit/lexicon-baseline.json::'
+                  f'{len(stale_ids)} Baseline-IDs sind nicht mehr dangling '
+                  f'(Backfill/Korpus-Korrektur gelandet). Ratsche nachziehen: '
+                  f'"python scripts/audit/check-authority-cross-refs.py '
+                  f'--update-baseline" ausfuehren und die geschrumpfte Datei '
+                  f'mitcommitten (#152).')
     return 0
 
 

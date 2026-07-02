@@ -272,7 +272,13 @@ def main():
             print(f"   Commit: {commit['sha']} ({commit['date']})")
 
     print("\nBaue Index...")
-    works, totals = build_index(args.ref, args.source_dir)
+    # Fetch unter dem RESOLVIERTEN SHA, nicht unter dem beweglichen Ref:
+    # zwischen resolve_commit und den raw-Fetches kann das Quell-Repo einen
+    # Push erhalten (bzw. der raw-CDN cached Branch-Refs ~5 min) — dann
+    # truege der Index source.commit=X bei Inhalt=Y, und das Freshness-Gate
+    # (data-integrity.yml) meldet spaeter falschen Drift (Review PR #155).
+    fetch_ref = commit["sha"] if commit else args.ref
+    works, totals = build_index(fetch_ref, args.source_dir)
 
     # generatedAt = Committer-Datum des Quell-Commits, nicht Build-Zeit:
     # zwei Builds desselben Quellstands sind dadurch byte-identisch (#125-

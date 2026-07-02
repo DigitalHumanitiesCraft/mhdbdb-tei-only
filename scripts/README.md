@@ -22,6 +22,8 @@ scripts/
 │   ├── audit-tei-corpus.py      # Element/Attribut-Inventar des Korpus
 │   ├── audit-authority-files.py # Struktur-Audit der Authority Files (authority→authority)
 │   ├── check-authority-cross-refs.py # Korpus→Authority Cross-Ref-Integrität (#44/#115)
+│   ├── check-index-version-bump.py # Inhalt geändert => Version gebumpt (#154)
+│   ├── check-naming-index.py    # naming-index: Provenienz + Sigle-Existenz (#152)
 │   ├── check-index-versions.py  # Index-Versions-Konstanten konsistent
 │   ├── validate-corpus.py       # Zwei-Stufen-Schema-Validierung
 │   └── TEXT_DATA_TABLE.xlsx     # Legacy-Linecode-Mapping
@@ -65,7 +67,13 @@ Element- und Attribut-Inventar des gesamten Korpus. Analysiert alle TEI-Dateien 
 Struktur-, Querverweis- und Datenqualitäts-Audit für alle 8 Authority Files. Prüft ID-Muster, verwaiste Referenzen und strukturelle Konsistenz **innerhalb** der Authority Files (authority→authority).
 
 ### `check-authority-cross-refs.py`
-Korpus→Authority Cross-Reference-Integrität (#44/#115): scannt alle `tei/*.tei.xml` nach `@lemmaRef`/`@ana`/`@corresp`/`@ref`/`@target`, die auf nicht-existente Authority-`xml:id`s zeigen. `--check` macht daraus ein CI-Gate (scheitert bei unresolved refs außerhalb `lexicon.xml`; `lexicon.xml` hat eine bekannte Ingest-Backfill-Baseline). Läuft in `data-integrity.yml`.
+Korpus→Authority Cross-Reference-Integrität (#44/#115): scannt alle `tei/*.tei.xml` nach `@lemmaRef`/`@ana`/`@corresp`/`@ref`/`@target`, die auf nicht-existente Authority-`xml:id`s zeigen. `--check` macht daraus ein CI-Gate (scheitert bei unresolved refs außerhalb `lexicon.xml`; `lexicon.xml` wird als ID-Set-Ratsche gegen die committete `lexicon-baseline.json` gegated — neue dangling IDs = rot, tolerierter Backfill-Altbestand = grün, #152). `--update-baseline` zieht die Ratsche nach gelandetem Backfill nach. Läuft in `data-integrity.yml`.
+
+### `check-index-version-bump.py`
+Versions-Bump-Gate (#154): hat sich der dekomprimierte Inhalt von corpus-/authority-index gegenüber `--base <rev>` geändert, muss der `version`-String mitgeändert sein — sonst invalidiert der Dexie-Cache nicht. Läuft in `data-integrity.yml` (Diff-Base = PR-Base-Tip bzw. `event.before`).
+
+### `check-naming-index.py`
+Naming-Index-Konsistenz (#152): `source.commit`-Provenienz vorhanden + alle `works[].sigle` existieren als `tei/<SIG>.tei.xml`. `--print-source-commit` liefert den Quell-Pin für die Workflows. Läuft in `data-integrity.yml` und `naming-index-update.yml`.
 
 ### `check-index-versions.py`
 Prüft, dass die Index-Versions-Konstanten in Build-Skripten und `corpus-loader.js` synchron sind. Läuft in `data-integrity.yml`.

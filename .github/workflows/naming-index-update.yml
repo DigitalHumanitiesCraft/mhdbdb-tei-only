@@ -42,12 +42,7 @@ jobs:
 
       - name: Quell-Commit des bestehenden Index lesen
         id: old
-        run: |
-          python - <<'EOF' >> "$GITHUB_OUTPUT"
-          import gzip, json
-          idx = json.load(gzip.open("data/naming-index.json.gz", "rt", encoding="utf-8"))
-          print("commit=" + idx.get("source", {}).get("commit", ""))
-          EOF
+        run: echo "commit=$(python scripts/audit/check-naming-index.py --print-source-commit)" >> "$GITHUB_OUTPUT"
 
       - name: Index neu bauen
         id: build
@@ -82,12 +77,7 @@ jobs:
       - name: Neuen Quell-Commit lesen
         id: new
         if: steps.diff.outputs.changed == 'true'
-        run: |
-          python - <<'EOF' >> "$GITHUB_OUTPUT"
-          import gzip, json
-          idx = json.load(gzip.open("data/naming-index.json.gz", "rt", encoding="utf-8"))
-          print("commit=" + idx.get("source", {}).get("commit", ""))
-          EOF
+        run: echo "commit=$(python scripts/audit/check-naming-index.py --print-source-commit)" >> "$GITHUB_OUTPUT"
 
       - name: PR erstellen oder aktualisieren
         if: steps.diff.outputs.changed == 'true'

@@ -59,15 +59,18 @@ def extract_version(data, label):
 
 
 def git_show(base, path):
-    """Blob von <base>:<path> oder None, wenn die Datei dort nicht existiert."""
+    """Blob von <base>:<path> oder None, wenn die Datei dort nicht existiert.
+
+    Fail-open bei JEDEM git-Fehler (nicht nur "Pfad fehlt in Base") — die
+    Base selbst ist vorher via rev-parse verifiziert, andere Fehlerarten
+    sind hier nicht unterscheidbar ohne stderr-Parsing.
+    """
     result = subprocess.run(
-        ['git', 'cat-file', '-e', f'{base}:{path}'],
+        ['git', 'show', f'{base}:{path}'],
         cwd=PROJECT_ROOT, capture_output=True)
     if result.returncode != 0:
         return None
-    return subprocess.run(
-        ['git', 'show', f'{base}:{path}'],
-        cwd=PROJECT_ROOT, capture_output=True, check=True).stdout
+    return result.stdout
 
 
 def main():
