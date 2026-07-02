@@ -5,6 +5,7 @@
  */
 
 import { CorpusLoader } from '../assets/js/lib/corpus-loader.js';
+import { escapeHtml } from '../assets/js/lib/escape.js';
 import { fetchWbnetzEntries, decodeHtmlEntities } from '../assets/js/lib/woerterbuchnetz.js';
 
 class LemmaPage {
@@ -296,13 +297,11 @@ class LemmaPage {
 
     /**
      * HTML/Attribut-Escaping für Werte aus der externen Wörterbuchnetz-API —
-     * escapt auch Anführungszeichen (Attribut-Kontext href="...").
+     * delegiert an lib/escape.js (geteilt mit app.js), escapt auch
+     * Anführungszeichen (Attribut-Kontext href="...").
      */
     escapeAttr(str) {
-        if (str == null) return '';
-        return String(str).replace(/[&<>"']/g, c => (
-            { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
-        ));
+        return escapeHtml(str);
     }
 
     renderVariants(lemmaKey) {

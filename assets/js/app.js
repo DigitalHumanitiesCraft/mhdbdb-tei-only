@@ -7,6 +7,7 @@
 
 import { CorpusLoader } from './lib/corpus-loader.js';
 import { TextNormalizer } from './lib/text-normalizer.js';
+import { escapeHtml } from './lib/escape.js';
 import { fetchWbnetzEntries, decodeHtmlEntities } from './lib/woerterbuchnetz.js';
 import { SearchEngine } from './search/search-engine.js';
 import { extractKwicHits, formatLineRef } from './search/kwic-service.js';
@@ -1404,13 +1405,9 @@ class MainSiteApp {
     }
 
     escapeHtml(text) {
-        // Replace-Map statt textContent/innerHTML-Trick: der escapte auch
-        // keine Anführungszeichen, sodass Werte in Attribut-Kontexten
-        // (href="...") aus dem Attribut ausbrechen konnten.
-        if (text == null) return '';
-        return String(text).replace(/[&<>"']/g, c => (
-            { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
-        ));
+        // Delegiert an lib/escape.js (geteilt mit lemma-page.js) — escapt
+        // auch Anführungszeichen für Attribut-Kontexte (href="...").
+        return escapeHtml(text);
     }
 
     /**
