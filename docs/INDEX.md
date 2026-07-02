@@ -30,6 +30,7 @@ Simple search and reading interface optimized for students and general users:
 
 - **Single Lemma Search** - Search across corpus with Middle High German character normalization
 - **KWIC-Belege** - Pro Treffer ausklappbare Keyword-in-Context-Konkordanz mit Vers-/Zeilenangabe und Sprung zur Fundstelle (#129)
+- **Tabellenansicht** - Umschaltbare Ergebnis-Tabelle (sortierbar) mit Gesamtzeile, Keyness-Spalte (Log-Likelihood), Types + Wörterbuch-Links im Lemma-Panel sowie TSV-/CSV-Export (#114)
 - **Text Selection** - Include/exclude texts via checkbox interface with live filtering
 - **Reading View** - Full-text reader with:
   - Multi-lemma highlighting (5 colors for concurrent searches)
@@ -42,14 +43,14 @@ Simple search and reading interface optimized for students and general users:
 ### Playground (Research Interface)
 Advanced exploration tools for medievalists and digital humanities researchers:
 
-- **15 Search Entry Points** - 6 authority file explorers + 9 TEI analysis tools
+- **16 Search Entry Points** - 6 authority file explorers + 10 TEI analysis tools
 - **Multi-Lemma Search** - Find texts containing multiple lemmata with:
   - Document-level search (all lemmata anywhere in text)
   - Proximity search (co-occurrence within N words)
   - 3-stage lemma resolution (exact match → variants → partial match)
   - Color-coded results with clickable navigation to reading view
 - **Authority Exploration** - Browse and search persons, works, lemmata, concepts, genres, names
-- **TEI Analysis** - Nine analysis tools over the pre-loaded MHDBDB corpus: multi-lemma search (document + proximity), verse-position lemma search, word frequency, text statistics, lemma distribution, concept distribution, text comparison, co-occurrence ranking, curated character-naming explorer (4 works, Beta)
+- **TEI Analysis** - Ten analysis tools over the pre-loaded MHDBDB corpus: multi-lemma search (document + proximity), verse-position lemma search, word frequency, text statistics, lemma distribution, concept distribution, text comparison, co-occurrence ranking, rhyme dictionary, curated character-naming explorer (4 works, Beta)
 
 ## Technical Stack
 
@@ -157,6 +158,8 @@ Aktuelle Index-Versionen siehe [TEI-MODEL.md §11](TEI-MODEL.md#11-versionierung
 - ✅ **#59 Erweiterte Figurenbezeichnungen (Beta)** (2026-06-11) - Neuntes TEI-Analyse-Werkzeug: kuratierte Eigennamen, Antonomasien und Epitheta je Figur aus Linda Beutel-Thurows Naming-analysis (ENE/IW/ROL/TRO, 10.506 Belegstellen); eigener vorgebauter Index `data/naming-index.json.gz` (110 KB) via `scripts/ingest/naming/01-fetch-and-build-index.py`; sichtbare Attribution mit DOI, Chrome-verifiziert
 - ✅ **#125 Deterministische Index-Builds + CI-Freshness-Gate** (2026-06-12) - Identischer Quellstand erzeugt byte-identische Indexe (kein `generatedAt`, sortiertes glob, gzip `mtime=0`); CI-Workflow `data-integrity.yml` (konsolidiert die früheren `schema-validation.yml` + `index-version-check.yml`) rebuildet variants.xml + beide Indexe bei jedem Daten-PR und blockt vergessene Rebuilds; Dependency-Pins in `requirements.txt`; Corpus v4.1.4, Authority v1.4.1
 - ✅ **#45 Statische JSON-API** (2026-06-12) - FAIR-orientierte JSON-API unter `/api/` (2.742 Dateien, ~14 MB): Root-Manifest, Lemmata-Bundle (43.754 volle Records), Einzelressourcen für Persons/Works/Concepts/Genres/Names/Texte; deterministischer Build (`scripts/build-api.py`) + CI-Freshness-Gate; Doku-Seite `api/index.html`
+- ✅ **#106 Reim-Wörterbuch (Minimalvariante)** (2026-07-02) - Zehntes TEI-Analyse-Werkzeug: Reimpartner-Lemmata an benachbarten Versenden (`lineEnds[]`-Scan, Suffix-Heuristik auf normalisierten Lemma-Formen, Paarreim-Annahme), optionaler Text/Autor-Filter, „→ Belege"-Link in die Multi-Lemma-Nähe-Suche; kein neuer Build-Schritt. Großplan (Original-Token, Phonetik) bleibt für #109 aufgehoben
+- ✅ **#114 Followups Tabellenansicht** (2026-07-02) - Integrationswünsche aus der Prüfung: Gesamtzeile mit Gesamttrefferzahl (sticky tfoot + Results-Header), Types/Schreibformen + MWB/Lexer-Links im Lemma-Panel (Wörterbuchnetz-API, Pattern #73), sortierbare Keyness-Spalte (Log-Likelihood Text vs. Gesamtkorpus, Signifikanz-Markierung ≥ 10,83)
 
 ### Known Limitations
 - Desktop-only interface (not mobile-responsive)

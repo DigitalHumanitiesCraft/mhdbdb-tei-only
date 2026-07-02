@@ -157,9 +157,9 @@ Checkbox accent: `accent-color: #3b75d8`.
 
 ## Playground TEI-Analysis Module Pattern
 
-Acht Analyse-Module unter `playground/js/ui/tei/` teilen eine konsistente Struktur (der Router `tei-ui.js` und der Modal-Controller `multi-lemma-search.js` folgen dem Pattern nicht). Wer ein neues Analyse-Werkzeug ergänzt, sollte das Pattern befolgen — neue Module ohne erkennbaren Grund abweichen lassen den Playground inkonsistent wirken und brechen Konventionen, auf die der Router und die Sidebar-Buttons aufbauen.
+Neun Analyse-Module unter `playground/js/ui/tei/` teilen eine konsistente Struktur (der Router `tei-ui.js` und der Modal-Controller `multi-lemma-search.js` folgen dem Pattern nicht). Wer ein neues Analyse-Werkzeug ergänzt, sollte das Pattern befolgen — neue Module ohne erkennbaren Grund abweichen lassen den Playground inkonsistent wirken und brechen Konventionen, auf die der Router und die Sidebar-Buttons aufbauen.
 
-**Kanonische Beispiele:** `lemma-distribution.js` (#90), `verse-position-search.js` (#47.3), `concept-distribution.js` (#47 R2 + #113 Autocomplete), `text-comparison.js` (#108), `cooccurrence-ranking.js` (#107), `naming-explorer.js` (#59, Abweichung: eigener Lazy-Index `data/naming-index.json.gz` statt Corpus-Thunk).
+**Kanonische Beispiele:** `lemma-distribution.js` (#90), `verse-position-search.js` (#47.3), `concept-distribution.js` (#47 R2 + #113 Autocomplete), `text-comparison.js` (#108), `cooccurrence-ranking.js` (#107), `rhyme-dictionary.js` (#106), `naming-explorer.js` (#59, Abweichung: eigener Lazy-Index `data/naming-index.json.gz` statt Corpus-Thunk).
 
 ### Konstruktor — Thunks statt direkter Referenzen
 

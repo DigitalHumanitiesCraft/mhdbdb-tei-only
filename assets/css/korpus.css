@@ -784,6 +784,17 @@
     border-bottom: none;
 }
 
+/* Issue #114 Followup: Gesamtzeile (Gesamttrefferzahl) — sticky am unteren
+   Rand des Scroll-Wrappers, analog zum sticky <th> am oberen Rand. */
+.results-table-total-td {
+    position: sticky;
+    bottom: 0;
+    z-index: 10;
+    background: rgb(248 250 252);  /* slate-50, wie der sticky Header */
+    border-bottom: none;
+    border-top: 2px solid rgb(226 232 240);  /* slate-200 */
+}
+
 /* Issue #129: KWIC-Belege (Kontextfenster + Zeilenangaben) */
 .kwic-toggle-btn {
     display: inline-flex;

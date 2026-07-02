@@ -37,6 +37,20 @@ Pro Treffer-Text ausklappbare Keyword-in-Context-Konkordanz mit Zeilenangaben (V
 - Klick auf einen Beleg öffnet die Leseansicht an genau dieser Fundstelle (`targetPosition`)
 - Positionszählung in Parität zu CONTRACTS §B (nur `<w>` mit `@lemmaRef`); Treffer-Match exakt per `lemmaRefMatchesId` (§B.1)
 
+### Tabellenansicht der Suchergebnisse (#114)
+
+Umschaltbare Ergebnis-Darstellung Liste ↔ Tabelle für die Frage „wie verteilt sich ein Lemma über den Korpus" (Userwunsch aus der alten MHDBDB).
+
+**How it works:**
+- Toggle im Results-Header, Wahl persistiert in `localStorage` (`mhdbdb-results-view`)
+- Sortierbare Spalten: Titel (mit Sigle-Präfix), Autor*in, Treffer, Frequenz/10k Wörter, Keyness (LL), Wörter — plus Belege-Spalte (KWIC #129)
+- Results-Header zeigt `N Texte gefunden · M Treffer gesamt` (auch in der Listenansicht)
+- **Gesamtzeile** (sticky `<tfoot>`): Summe Treffer, Gesamt-Frequenz, Summe Wörter über alle Ergebnis-Texte
+- **Keyness (LL):** signierte Log-Likelihood (Dunning 1993) der Trefferfrequenz im Text gegen den Rest des Gesamtkorpus; Werte ≥ 10,83 (p<0,001) fett/brand markiert = Schlüsselwort des Textes (Referenz: Lindas naming-analysis)
+- **Types + Wörterbuch-Links:** das Lemma-Panel zeigt pro resolviertem Lemma (max. 3) die Schreibformen aus dem Variants-Dictionary (aufklappbar; MHG-normalisierte Suchformen, nicht Original-Graphien — so beschriftet) plus asynchron geladene MWB-/Lexer-Deep-Links über den geteilten, session-gecachten Client `assets/js/lib/woerterbuchnetz.js` (CONTRACTS §D.2)
+- Export: TSV-Clipboard („Kopieren") + CSV-Download (UTF-8 BOM, RFC-4180-Quoting), respektiert aktuelle Sortierung; Gesamtzeile wird bewusst nicht exportiert
+- Row-Klick öffnet den Reader (wechselt automatisch auf Listen-Layout; localStorage-Präferenz bleibt `table`)
+
 ### Text Selection Interface
 
 Include/exclude specific texts from search corpus.
@@ -147,7 +161,7 @@ Browse and search six controlled vocabularies with consistent interface patterns
 
 ### TEI Text Analysis
 
-Corpus-wide text analysis using pre-built indexes. Neun Werkzeuge in neun Playground-Einträgen (Multi-Lemma bietet Dokument- und Proximity-Modus in einem Eintrag), alle direkt im Results-Panel als in-place Form + Body (außer Multi-Lemma als Modal).
+Corpus-wide text analysis using pre-built indexes. Zehn Werkzeuge in zehn Playground-Einträgen (Multi-Lemma bietet Dokument- und Proximity-Modus in einem Eintrag), alle direkt im Results-Panel als in-place Form + Body (außer Multi-Lemma als Modal).
 
 **Multi-Lemma Document Search:**
 - Input multiple lemmata (space-separated or one per line)
@@ -217,6 +231,14 @@ Corpus-wide text analysis using pre-built indexes. Neun Werkzeuge in neun Playgr
 - Use Cases: „Was steht typisch bei `êre`?" (→ tuon, sprechen, got, herre), „Welche Adjektive begleiten `wîp`?"
 - Klick auf Partner → Multi-Lemma-Suche mit beiden Lemmata + aktueller Distanz vorbefüllt; Klick auf Lemma → Lemma-Page
 
+**Reim-Wörterbuch (#106, Minimalvariante):**
+- „Welche Lemmata reimen sich auf X?" — Eingabe-Lemma + optionaler Text/Autor-Filter (Sigle exakt oder Titel/Autor-Substring) → rangierte Tabelle der Reimpartner-Lemmata
+- Datenpfad: Scan über `text.lineEnds[]` (Corpus-Index v4.1.x); Kandidaten sind die Lemmata der unmittelbar benachbarten Versenden (±1 Vers, Paarreim-Annahme)
+- Reim-Heuristik: 3-Letter-Suffix-Match der MHG-normalisierten Lemma-Formen (2-Letter nur, wenn beide Formen ≤4 Zeichen — findet `wîp : lîp` und `tac : slac`, ohne dass Kurzwörter wie `en`/`dô` lange Ziel-Lemmata fluten); identischer Reim (Lemma auf sich selbst) wird nur einfach gezählt
+- Pro Partner: Reimpaar-Zahl, Texte als Sigle-Chips mit Paarzahl, „→ Belege" öffnet beide Lemmata im Nähe-Modus der Multi-Lemma-Suche (Distanz 15)
+- Async-Chunking + Abort-Token (Pattern wie #107), Prosa (leere `lineEnds`) wird übersprungen
+- Bewusste Grenzen der Minimalvariante (Issue #106): lemma- statt token-basiert (reimende Flexionsform kann abweichen), strukturell statt phonetisch, Kreuzreime (ABAB) entgehen dem ±1-Scan; Original-Token-Variante bräuchte Index-Erweiterung (`lineEndWords[]`), phonetische Klassifikation ist #109-Folgearbeit
+
 **Erweiterte Figurenbezeichnungen (#59, Beta):**
 - Kuratierte Bezeichnungspraktiken jenseits des Eigennamens für vier Werke (ENE, IW, ROL, TRO) aus dem Dissertationsprojekt Naming-analysis von Linda Beutel-Thurow
 - Auswahl Werk → Figur (nach Belegzahl sortiert) → Terme in drei Kategorien: Eigennamen, Antonomasien („der rîter" für Iwein), Epitheta („der küene")
@@ -246,7 +268,7 @@ All playground views are bookmarkable and shareable via hash-based URLs.
 
 ### Search Normalization
 
-Consistent search behavior across all 15 entry points via Middle High German character normalization.
+Consistent search behavior across all 16 entry points via Middle High German character normalization.
 
 **Normalization rules:**
 - Long vowels: â→a, ê→e, î→i, ô→o, û→u

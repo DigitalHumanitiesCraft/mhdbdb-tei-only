@@ -35,7 +35,6 @@ See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues
 | #28 | Foreign language search | Index needs `xml:lang`; UI design needed |
 | #18 | Multi-lemma + PoS tag search | Depends on POS corpus migration (#27) |
 | #23 | Missing stanza markup (104 texts) | Complex cases need Linecode docs (#31, done) + Julia input |
-| #106 | Vers-Boundary-Folgefeatures — Punkt 1 (Reim-Wörterbuch) bleibt Rolling-Backlog; Punkte 2-7 wandern in #109 FWF-Projekt; Punkt 8 in Multi-Lemma-Backlog | KZW priorisiert weiter |
 
 ## Future: Needs Design
 
@@ -53,6 +52,8 @@ See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues
 
 | # | What |
 |---|------|
+| ~~#106~~ | Reim-Wörterbuch Minimalvariante (2026-07-02): Zehntes TEI-Analyse-Werkzeug `#rhyme-dictionary` — Reimpartner-Lemmata an benachbarten Versenden (`lineEnds[]`-Scan, Suffix-3-Heuristik auf normalisierten Formen, 2-Letter bei Kurzwörtern), optionaler Text/Autor-Filter, „→ Belege"-Link in Multi-Lemma-Nähe-Suche. Kein neuer Build-Schritt. Punkte 2-7 bleiben in #109 (FWF), Punkt 8 im Multi-Lemma-Backlog. |
+| ~~#114-Followups~~ | Integrationswünsche Tabellenansicht (2026-07-02): Gesamtzeile mit Gesamttrefferzahl (sticky tfoot + „M Treffer gesamt" im Header), Types/Schreibformen + MWB/Lexer-Links im Lemma-Panel (Wörterbuchnetz-API), Keyness-Spalte (signierte Log-Likelihood Text vs. Gesamtkorpus, fett ab 10,83) inkl. Export-Spalte. |
 | ~~#45~~ | Static JSON API (2026-06-12): FAIR-orientierte JSON-API unter `/api/` (2.742 Dateien, ~14 MB), deterministischer Build (`scripts/build-api.py`) + CI-Freshness-Gate, Doku-Seite `api/index.html`; PR #150 gemerged (Closes #45). |
 | ~~#113-Followup~~ | KZW-Synonym-Match in Begriffs-Verteilung + Begriffe-Explorer (2026-05-28, commit `f7c8592c2`): Last-Wins-Bug in `parse_concepts()` gefixt (Primär-Term wurde von Alternative überschrieben, z.B. concept_13023100 zeigte „Früchte" statt „Obst"). Authority-Index v1.2.2 → v1.3.0 mit additiven Feldern `altDE[]`/`altEN[]`/`altNormalized[]` (263/567 Concepts mit deutschem Synonym). Beide UI-Module matchen Synonyme zusätzlich und zeigen „auch: …"-Hint im Autocomplete. Chrome-verifiziert mit „obs"/„frü"/„Wahnsinn-Tobsucht". |
 | ~~#113~~ | Autocomplete im Begriffs-Verteilung-Input (2026-05-15, commit `a2e7b0b36`): klassisches Dropdown unter dem Input mit max. 8 Concept-Suggestions, Pfeil-Navigation (ArrowDown/Up), Enter wählt + sucht, Escape schließt, Klick (mousedown vor blur) wählt + sucht. Reuse `resolveQuery()` als Suggestions-Quelle. ARIA: combobox/listbox/aria-selected/aria-expanded. Live-verifiziert: „ster" → Sterben + Bruderschaft. |

@@ -391,19 +391,28 @@ Source: `assets/js/rendering/tei-text-reader.js` → `getWikidataImage()` (~line
 
 ### D.2 Wörterbuchnetz API
 
-**Trigger:** Lemma page loads (`lemma/lemma-page.js:271-308`, `fetchWoerterbuchnetz`)
+**Single implementation:** `assets/js/lib/woerterbuchnetz.js` (`fetchWbnetzEntries`, `decodeHtmlEntities`) — shared by both call sites; do NOT re-implement the fetch inline.
+
+**Triggers:**
+- Lemma page loads (`lemma/lemma-page.js`, `fetchWoerterbuchnetz`, #73)
+- Korpus search renders the lemma panel (`assets/js/app.js`, `fetchWbnetzLinksInto`, #114 — up to 3 lemmata per search)
 
 ```
 GET https://api.woerterbuchnetz.de/open-api/dictionaries/{sigle}/lemmata/{normalizedForm}
 
-Parallel requests for: MWB, Lexer        // lemma-page.js:278
+Parallel requests for: MWB, Lexer
 Uses: Promise.all() (each request individually try/catch-guarded,
       so one failure yields empty entries instead of rejecting)
+Caching: memoized per normalizedForm for the browser session
+      (repeat searches must not re-hit the external API)
+Safety: entries whose wbnetzlink is not http(s) are dropped by the
+      shared client; callers must still attribute-escape values
+      (incl. quotes) before interpolating into href="..."
 
 Response: {                              // illustrative shape, IDs schematic
     result_set: [{
         sigle: "Lexer",
-        lemma: "br&ocirc;t",     // HTML-encoded — decode with textarea trick
+        lemma: "br&ocirc;t",     // HTML-encoded — decode via DOMParser (see below)
         gram: "stN",
         wbnetzid: "L02435",
         wbnetzlink: "https://www.woerterbuchnetz.de/Lexer/L02435"
@@ -411,7 +420,9 @@ Response: {                              // illustrative shape, IDs schematic
 }
 ```
 
-**HTML entity decoding:** `lemma` field contains HTML entities. Decoded via `document.createElement('textarea'); textarea.innerHTML = str; return textarea.value;`
+**HTML entity decoding:** `lemma` field contains HTML entities. Decoded via the shared `decodeHtmlEntities` from `lib/woerterbuchnetz.js` — implemented with `DOMParser('text/html')` + `textContent`, NOT the textarea-`innerHTML` trick: a `</textarea><img onerror=…>` payload would create live elements during the `innerHTML` write (mXSS class), before any downstream escaping runs. DOMParser documents have no browsing context (no script execution, no resource loads).
+
+**Datenschutz:** Both triggers send the normalized lemma form to a third party; documented in `impressum.html` → Datenschutz („Wörterbuch-Verweise").
 
 ### D.3 Static External Links (no API calls)
 
