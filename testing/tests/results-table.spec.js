@@ -149,6 +149,36 @@ test.describe('Issue #114: Tabellenansicht für Korpussuche', () => {
         expect(sorted).toBe(true);
     });
 
+    test('Wörterbuchnetz-Links: javascript:-URLs gefiltert, Attribut-Breakout escapet', async ({ page }) => {
+        // Stub der externen API: ein bösartiger javascript:-Link (muss vom
+        // Shared Client gefiltert werden) + ein http(s)-Link mit Quote/Markup
+        // im Wert (muss escapet in href landen, kein Attribut-Breakout).
+        const evilHref = 'https://example.com/x?a="><img src=x onerror=alert(1)>';
+        await page.route('https://api.woerterbuchnetz.de/**', route => route.fulfill({
+            status: 200,
+            contentType: 'application/json',
+            body: JSON.stringify({ result_set: [
+                { sigle: 'MWB', lemma: 'minne', gram: 'stF', wbnetzid: 'X1', wbnetzlink: 'javascript:alert(1)' },
+                { sigle: 'MWB', lemma: 'br&ocirc;t', gram: 'stN', wbnetzid: 'X2', wbnetzlink: evilHref },
+            ]}),
+        }));
+
+        await page.fill('#searchInput', 'minne');
+        await page.click('#searchButton');
+        await page.waitForSelector('#lemmaTypes');
+
+        const slot = page.locator('[data-wbnetz-links]').first();
+        await expect(slot.locator('a')).toHaveCount(2, { timeout: 15000 }); // 2 Wörterbücher × 1 sicherer Eintrag; javascript: gefiltert
+
+        // Kein Breakout: der komplette bösartige Wert steht IM href-Attribut,
+        // es wurde kein <img> in den DOM injiziert.
+        const hrefs = await slot.locator('a').evaluateAll(as => as.map(a => a.getAttribute('href')));
+        for (const href of hrefs) {
+            expect(href).toBe(evilHref);
+        }
+        await expect(slot.locator('img')).toHaveCount(0);
+    });
+
     test('Types (Schreibformen) werden im Lemma-Panel angeboten', async ({ page }) => {
         await page.fill('#searchInput', 'minne');
         await page.click('#searchButton');

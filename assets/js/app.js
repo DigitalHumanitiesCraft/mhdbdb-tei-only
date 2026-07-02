@@ -478,14 +478,16 @@ class MainSiteApp {
             this.currentResults = Array.from(textMap.values());
             this.currentPage = 0;
 
-            // Issue #114 (Followup): Keyness (Log-Likelihood) pro Text berechnen.
+            // Issue #114 (Followup): Keyness (Log-Likelihood) pro Text.
             // Referenz sind ALLE resolvierten Lemmata (nicht lemmaSet): lemmaSet
             // enthält nur Lemmata mit Treffern in der Textauswahl, wodurch die
             // Referenzsumme sonst mit der Auswahl variieren würde.
-            const resolvedLemmaIds = this.searchEngine.resolveLemmaIds(
+            // Berechnung lazy erst beim Tabellen-Render (ensureKeyness) —
+            // in der Listenansicht wird Keyness nirgends konsumiert.
+            this._keynessLemmaIds = this.searchEngine.resolveLemmaIds(
                 TextNormalizer.normalizeMHG(searchTerm)
             );
-            this.computeKeyness(resolvedLemmaIds);
+            this._keynessComputed = false;
 
             // Issue #114: Sort-Spec bei neuer Suche auf Default zurück
             this.sortSpec = { column: 'matchCount', direction: 'desc' };
@@ -726,6 +728,10 @@ class MainSiteApp {
      * Header sind klickbare Sort-Buttons; Zeilen-Klick öffnet den Reader.
      */
     renderTable() {
+        // Keyness wird nur in der Tabellen-Ansicht konsumiert (Spalte, Sort,
+        // Export) — lazy hier statt bei jeder Suche berechnen.
+        this.ensureKeyness();
+
         const { column, direction } = this.sortSpec;
         const sortIcon = (col) => col === column ? (direction === 'asc' ? '↑' : '↓') : '↕';
         const ariaSort = (col) => col === column ? (direction === 'asc' ? 'ascending' : 'descending') : 'none';
@@ -1048,23 +1054,61 @@ class MainSiteApp {
     }
 
     /**
+     * Issue #114 (Followup): Keyness einmalig pro Suche berechnen, erst wenn
+     * die Tabellen-Ansicht sie braucht. Flag wird in performSearch zurückgesetzt.
+     */
+    ensureKeyness() {
+        if (this._keynessComputed) return;
+        this.computeKeyness(this._keynessLemmaIds || []);
+        this._keynessComputed = true;
+    }
+
+    /**
      * Issue #114 (Followup, Lindas Keyness-Wunsch): Log-Likelihood (Dunning 1993)
      * pro Ergebnis-Text — vergleicht die Trefferfrequenz im Text mit dem REST des
      * Gesamtkorpus (alle Texte, unabhängig von der Textauswahl; gleiche Referenz
      * wie in Lindas naming-analysis). Positives Vorzeichen = überrepräsentiert,
      * negatives = unterrepräsentiert. Schwellen (df=1): 3,84 → p<0,05; 10,83 → p<0,001.
+     *
+     * Läuft über den Reverse-Index (corpusIndex.lemmaIndex: Lemma → Texte, die
+     * es enthalten) statt über alle 667 Texte × alle Lemma-IDs — Fuzzy-Stufe 3
+     * kann tausende IDs liefern, der Aufwand bleibt so proportional zur
+     * tatsächlichen Dokumentfrequenz.
      */
     computeKeyness(lemmaIds) {
-        const texts = this.searchEngine?.corpusIndex?.texts || [];
+        const corpusIndex = this.searchEngine?.corpusIndex;
+        const texts = corpusIndex?.texts || [];
         if (texts.length === 0 || this.currentResults.length === 0) return;
 
+        // Einmalige Caches: Text-Map für O(1)-Zugriff + Gesamtwortzahl (konstant)
+        if (!this._textById) {
+            this._textById = new Map();
+            let words = 0;
+            for (const text of texts) {
+                this._textById.set(text.id, text);
+                words += text.wordCount || 0;
+            }
+            this._corpusWordTotal = words;
+        }
+        const corpusWords = this._corpusWordTotal;
+
         let corpusMatches = 0;
-        let corpusWords = 0;
-        for (const text of texts) {
-            corpusWords += text.wordCount || 0;
+        if (corpusIndex.lemmaIndex) {
             for (const lemmaId of lemmaIds) {
-                const positions = text.lemmata?.[lemmaId];
-                if (positions) corpusMatches += positions.length;
+                const textIds = corpusIndex.lemmaIndex[lemmaId];
+                if (!textIds) continue;
+                for (const textId of textIds) {
+                    const positions = this._textById.get(textId)?.lemmata?.[lemmaId];
+                    if (positions) corpusMatches += positions.length;
+                }
+            }
+        } else {
+            // Fallback für Index-Stände ohne lemmaIndex: Vollscan
+            for (const text of texts) {
+                for (const lemmaId of lemmaIds) {
+                    const positions = text.lemmata?.[lemmaId];
+                    if (positions) corpusMatches += positions.length;
+                }
             }
         }
 

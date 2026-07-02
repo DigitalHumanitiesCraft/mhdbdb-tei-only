@@ -27,7 +27,7 @@ const DEFAULT_STATE = Object.freeze({
   minCount: 1,                // Mindestanzahl Reimpaare pro Partner
   computing: false,
   progress: 0,
-  result: null,               // {endOccurrences, verseTextCount, scannedTextCount, partners, neighborTotal}
+  result: null,               // {endOccurrences, verseTextCount, scannedTextCount, partners}
   // Autocomplete (Pattern aus #107/#113)
   autocompleteOpen: false,
   autocompleteIndex: -1,
@@ -122,7 +122,6 @@ export class RhymeDictionary {
 
     const partners = new Map();   // lemmaId -> {count, texts: Map(textId -> count)}
     let endOccurrences = 0;       // Zielvorkommen am Versende
-    let neighborTotal = 0;        // alle geprüften Nachbar-Versenden (inkl. Nicht-Reime)
     let verseTextCount = 0;
     let chunkStart = performance.now();
     const myToken = this._abortToken;
@@ -154,7 +153,6 @@ export class RhymeDictionary {
           // Identischer Reim (Lemma reimt auf sich selbst, "rührender Reim"):
           // nur in eine Richtung zählen, sonst zählt jedes Paar doppelt.
           if (partnerId === targetId && delta === -1) continue;
-          neighborTotal++;
 
           const partnerNorm = this._lemmaMap?.get(partnerId)?.normalized || '';
           if (!rhymesWith(targetNorm, partnerNorm)) continue;
@@ -180,7 +178,6 @@ export class RhymeDictionary {
     if (onProgress) onProgress(1);
     return {
       endOccurrences,
-      neighborTotal,
       verseTextCount,
       scannedTextCount: texts.length,
       partners
@@ -232,10 +229,7 @@ export class RhymeDictionary {
     }
 
     this.state.result = {
-      endOccurrences: raw.endOccurrences,
-      neighborTotal: raw.neighborTotal,
-      verseTextCount: raw.verseTextCount,
-      scannedTextCount: raw.scannedTextCount,
+      ...raw,
       partners: this.enrichPartners(raw.partners)
     };
     this.state.computing = false;
