@@ -159,8 +159,8 @@ Das Repository enthält vorgebaute, komprimierte Indizes für schnelles Laden:
 ### Technologie-Stack
 
 - **Frontend:** Vanilla JavaScript (ES Modules), Tailwind CSS
-- **Kompression:** Pako (gzip, via CDN, gepinnt)
-- **Speicherung:** Dexie.js (IndexedDB-Wrapper, via CDN, gepinnt)
+- **Kompression:** Pako (gzip, vendored unter `assets/vendor/`, gepinnt via package-lock)
+- **Speicherung:** Dexie.js (IndexedDB-Wrapper, vendored unter `assets/vendor/`, gepinnt via package-lock)
 - **Syntax-Highlighting:** PrismJS (vendored, in Hilfe- und API-Seiten)
 - **Tests:** Playwright
 - **Build:** Python 3.13 + lxml für Index-Generierung; rnc2rng für RNC→RNG-Schemas
