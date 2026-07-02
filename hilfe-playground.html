@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Hilfe zum Playground der Mittelhochdeutschen Begriffsdatenbank: Multi-Lemma- und Kookkurrenz-Suche, sechs Authority Files, neun TEI-Analysewerkzeuge, typische Forschungsfragen.">
+    <meta name="description" content="Hilfe zum Playground der Mittelhochdeutschen Begriffsdatenbank: Multi-Lemma- und Kookkurrenz-Suche, sechs Authority Files, zehn TEI-Analysewerkzeuge, typische Forschungsfragen.">
     <meta name="keywords" content="MHDBDB, Playground, Hilfe, Multi-Lemma-Suche, Kookkurrenz, Authority Files, TEI-Analyse, Forschung">
     <meta name="author" content="Universität Salzburg">
 
@@ -172,9 +172,9 @@
                 Kookkurrenz-Suche</strong> – mehrere Lemmata gleichzeitig suchen und prüfen, wie
                 nahe sie im Text zusammenstehen. Zweitens die sechs durchsuchbaren
                 <strong>Authority Files</strong> – Autor*innen, Werke, das Wörterbuch, die
-                Begriffstaxonomie, Gattungen und Eigennamen. Drittens <strong>neun
+                Begriffstaxonomie, Gattungen und Eigennamen. Drittens <strong>zehn
                 TEI-Analysewerkzeuge</strong> über dem vorgeladenen Korpus, von der
-                Wortfrequenz bis zum Kookkurrenz-Ranking.
+                Wortfrequenz bis zum Reim-Wörterbuch.
             </p>
             <p class="text-slate-700 leading-relaxed">
                 Die Oberfläche ist forschungsorientiert: etwas dichter, mit mehr Bedienelementen
@@ -192,7 +192,7 @@
             </p>
             <ol class="space-y-2 text-sm text-slate-700 mb-4 ml-4 list-decimal list-inside">
                 <li><strong>Korpus-Browser</strong> (links) – alle 667 Texte sind standardmäßig aktiv. Hier schränken Sie die Analyse auf bestimmte Werke, Autor*innen oder Gattungen ein.</li>
-                <li><strong>Abfragen</strong> (Mitte) – sechs Authority-File-Einstiegspunkte plus neun TEI-Analysewerkzeuge: Multi-Lemma-Suche, Lemmasuche nach Versposition, Wortfrequenz-Analyse, Text-Statistiken, Lemma-Verteilung, Begriffs-Verteilung, Textvergleich, Kookkurrenz-Ranking und Erweiterte Figurenbezeichnungen (Beta).</li>
+                <li><strong>Abfragen</strong> (Mitte) – sechs Authority-File-Einstiegspunkte plus zehn TEI-Analysewerkzeuge: Multi-Lemma-Suche, Lemmasuche nach Versposition, Wortfrequenz-Analyse, Text-Statistiken, Lemma-Verteilung, Begriffs-Verteilung, Textvergleich, Kookkurrenz-Ranking, Reim-Wörterbuch und Erweiterte Figurenbezeichnungen (Beta).</li>
                 <li><strong>Ergebnisse</strong> (rechts) – die Trefferliste zur aktuellen Abfrage, mit farbkodiertem Highlighting und Klick-Navigation in die Leseansicht.</li>
             </ol>
             <p class="text-slate-700 leading-relaxed">
@@ -324,7 +324,7 @@
 
             <p class="text-slate-700 leading-relaxed mb-4">
                 Neben der Multi-Lemma-Suche und der Lemmasuche nach Versposition bietet der
-                Bereich <strong>TEI-Textanalyse</strong> sieben weitere Werkzeuge über dem
+                Bereich <strong>TEI-Textanalyse</strong> acht weitere Werkzeuge über dem
                 vorgeladenen Korpus. Alle rechnen vollständig im Browser auf den vorgebauten
                 Indexen; wo es sinnvoll ist, führt ein Klick auf ein Ergebnis direkt in die
                 Leseansicht.
@@ -414,6 +414,22 @@
                     für Sie. Die Nähe-Analyse der Multi-Lemma-Suche (Abschnitt 3) setzt dagegen
                     voraus, dass Sie die Lemmata bereits kennen, und prüft nur, an welchen Stellen
                     sie nah zusammenstehen.
+                </p>
+            </div>
+
+            <div class="bg-white rounded-xl border border-slate-200 p-5 my-4">
+                <h3 class="text-base font-semibold text-slate-900 mb-2">Reim-Wörterbuch</h3>
+                <p class="text-sm text-slate-700 leading-relaxed">
+                    Beantwortet die Frage „Welche Lemmata reimen sich auf <em>X</em>?". Sie geben
+                    ein Lemma ein (optional eingeschränkt auf einen Text oder eine Autorin bzw.
+                    einen Autor) und erhalten eine rangierte Tabelle der Reimpartner-Lemmata:
+                    Lemmata an unmittelbar benachbarten Versenden (Paarreim-Annahme), deren
+                    normalisierte Form im Auslaut übereinstimmt – etwa <em>muot : guot</em> oder
+                    <em>tugent : jugent</em>. Je Partner werden die Texte mit Paarzahl angezeigt;
+                    „→ Belege" öffnet beide Lemmata in der Nähe-Analyse der Multi-Lemma-Suche.
+                    Die Heuristik ist strukturell und lemma-basiert: Kreuzreime (ABAB) und rein
+                    klangliche Übereinstimmungen jenseits der Schriftform entgehen ihr; Prosatexte
+                    werden ignoriert.
                 </p>
             </div>
 
