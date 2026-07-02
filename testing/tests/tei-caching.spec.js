@@ -76,6 +76,125 @@ test.describe('TEI DOM Caching', () => {
         expect(cacheStats).toHaveProperty('totalSizeMB');
     });
 
+    test('stale cached copy is replaced on next load (revalidation, #151)', async ({ page }) => {
+        await page.goto('http://localhost:8080/korpus.html');
+        await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
+
+        const result = await page.evaluate(async () => {
+            const { TEICacheManager } = await import('/assets/js/storage/tei-cache-manager.js');
+            const cache = new TEICacheManager();
+            await cache.init();
+
+            // load()'s cache write is fire-and-forget → poll until the entry
+            // satisfies the predicate instead of racing it with a fixed sleep
+            const pollEntry = async (filename, predicate, timeoutMs = 5000) => {
+                const start = Date.now();
+                while (Date.now() - start < timeoutMs) {
+                    const entry = await cache.getEntry(filename);
+                    if (entry && predicate(entry)) return entry;
+                    await new Promise(r => setTimeout(r, 25));
+                }
+                return null;
+            };
+
+            const filename = 'EUS.tei.xml';
+            // Simulate the pre-deploy state: cached copy with outdated validators
+            await cache.set(
+                filename,
+                '<TEI xmlns="http://www.tei-c.org/ns/1.0"><text>STALE</text></TEI>',
+                { etag: '"outdated"', lastModified: 'Mon, 01 Jan 2001 00:00:00 GMT' }
+            );
+
+            const doc = await cache.load(filename);
+            const entry = await pollEntry(filename, e => e.size > 1000);
+
+            return {
+                isStale: doc.documentElement.textContent.includes('STALE'),
+                hasValidator: !!(entry && (entry.etag || entry.lastModified)),
+                cachedSize: entry ? entry.size : 0
+            };
+        });
+
+        expect(result.isStale).toBe(false);           // fresh content, not the 30-day-old copy
+        expect(result.hasValidator).toBe(true);       // validators stored for future 304s
+        expect(result.cachedSize).toBeGreaterThan(1000); // real TEI file re-cached
+    });
+
+    test('unchanged file revalidates via 304 and serves cached copy', async ({ page }) => {
+        await page.goto('http://localhost:8080/korpus.html');
+        await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
+
+        const result = await page.evaluate(async () => {
+            const { TEICacheManager } = await import('/assets/js/storage/tei-cache-manager.js');
+            const cache = new TEICacheManager();
+            await cache.init();
+
+            const pollEntry = async (c, filename, predicate, timeoutMs = 5000) => {
+                const start = Date.now();
+                while (Date.now() - start < timeoutMs) {
+                    const entry = await c.getEntry(filename);
+                    if (entry && predicate(entry)) return entry;
+                    await new Promise(r => setTimeout(r, 25));
+                }
+                return null;
+            };
+
+            const filename = 'EUS.tei.xml';
+            await cache.delete(filename);
+            await cache.load(filename); // prime cache with real validators
+            const primed = await pollEntry(cache, filename, e => !!(e.etag || e.lastModified));
+            if (!primed) return { error: 'cache write never landed' };
+
+            // Tamper with the cached content but keep the valid validators:
+            // a 304 must serve this cached copy without re-downloading
+            await cache.set(
+                filename,
+                '<TEI xmlns="http://www.tei-c.org/ns/1.0"><text>CACHED-COPY</text></TEI>',
+                { etag: primed.etag, lastModified: primed.lastModified }
+            );
+
+            // Fresh manager instance: its per-page-load revalidation memo is
+            // empty, so this load() really exercises the conditional-GET path
+            const cache2 = new TEICacheManager();
+            await cache2.init();
+            const doc = await cache2.load(filename);
+            return {
+                servedCached: doc.documentElement.textContent.includes('CACHED-COPY'),
+                hadValidators: !!(primed.etag || primed.lastModified)
+            };
+        });
+
+        expect(result.error).toBeUndefined();
+        expect(result.hadValidators).toBe(true);
+        expect(result.servedCached).toBe(true);
+    });
+
+    test('same session re-load skips the network (revalidation memo)', async ({ page }) => {
+        await page.goto('http://localhost:8080/korpus.html');
+        await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
+
+        const result = await page.evaluate(async () => {
+            const { TEICacheManager } = await import('/assets/js/storage/tei-cache-manager.js');
+            const cache = new TEICacheManager();
+            await cache.init();
+
+            const filename = 'EUS.tei.xml';
+            await cache.load(filename); // first load revalidates
+
+            let fetches = 0;
+            const origFetch = window.fetch;
+            window.fetch = (...args) => { fetches++; return origFetch(...args); };
+            try {
+                await cache.load(filename); // second load: memo hit, no network
+            } finally {
+                window.fetch = origFetch;
+            }
+            return { fetches };
+        });
+
+        expect(result.fetches).toBe(0);
+    });
+
     test('cache can be cleared', async ({ page }) => {
         await page.goto('http://localhost:8080/korpus.html');
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });

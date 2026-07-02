@@ -114,7 +114,8 @@ python scripts/build-api.py
 # Rebuild the purged Tailwind stylesheet (run after new utility classes appear in HTML/JS)
 npm run build:css        # assets/css/tailwind-input.css → assets/css/tailwind-output.css (--minify)
 
-# Bundle vendored JS dependencies
+# Bundle vendored JS dependencies (PrismJS, pako, Dexie — no runtime CDN dependencies;
+# sources pinned via package.json/package-lock, output committed under assets/vendor/)
 npm run build:vendor     # node scripts/build-vendor.js
 
 # Re-inject the shared nav + footer into every registered page after editing

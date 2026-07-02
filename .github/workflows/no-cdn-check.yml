@@ -1,0 +1,39 @@
+# No-CDN-Gate: committete HTML-Seiten dürfen keine externen <script src>
+# tragen — Runtime-Bibliotheken sind vendored (assets/vendor/, pako/dexie
+# 2026-07, Prism #78). Eigener leichter Workflow statt data-integrity.yml,
+# damit HTML-Edits nicht den vollen Index-Rebuild triggern.
+#
+# Lokales Gegenstück (inkl. Laufzeit-Check window.pako/Dexie):
+# testing/tests/vendor.spec.js
+
+name: no-cdn-check
+
+on:
+  pull_request:
+    paths:
+      - '**/*.html'
+      - 'scripts/audit/check-no-cdn.py'
+      - '.github/workflows/no-cdn-check.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - '**/*.html'
+      - 'scripts/audit/check-no-cdn.py'
+      - '.github/workflows/no-cdn-check.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: no-cdn-check-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: No external script src in committed HTML (stdlib only)
+        run: python3 scripts/audit/check-no-cdn.py

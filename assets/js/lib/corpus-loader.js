@@ -5,8 +5,8 @@
  * Uses Dexie.js for IndexedDB caching
  */
 
-const INDEX_VERSION = '4.1.4';  // 4.0.0: document-level indexing. 4.0.1: WZB. 4.1.0: lineStarts/lineEnds für #47.3. 4.1.1: #23 Stanza-Wraps. 4.1.2: #104 Sigle-Titel-Differenzierung. 4.1.3: #110 WVV 478 Stanza-Wraps. 4.1.4: #125 deterministischer Build (generatedAt entfernt).
-const AUTHORITY_INDEX_VERSION = '1.4.1';  // 1.2.0: Authority migration. 1.2.1: WZB-Lemmata + Werk-Eintrag. 1.2.2: #104 FLG/FLG1-Werk-Titel + work_571 biblStruct (Vollmann-Profe/Neumann 1990). 1.3.0: #113-Followup — concepts altDE/altEN/altNormalized. 1.4.0: #44/#115 variants.xml aus Korpus regeneriert (+64.287 Formen). 1.4.1: #125 deterministischer Build (generatedAt entfernt).
+const INDEX_VERSION = '4.1.5';  // 4.1.3: #110 WVV 478 Stanza-Wraps. 4.1.4: #125 deterministischer Build (generatedAt entfernt). 4.1.5: #143 APO/HMT/HH Prosa-Konversion l→lb.
+const AUTHORITY_INDEX_VERSION = '1.4.3';  // 1.2.0: Authority migration. 1.2.1: WZB-Lemmata + Werk-Eintrag. 1.2.2: #104 FLG/FLG1-Werk-Titel + work_571 biblStruct (Vollmann-Profe/Neumann 1990). 1.3.0: #113-Followup — concepts altDE/altEN/altNormalized. 1.4.0: #44/#115 variants.xml aus Korpus regeneriert (+64.287 Formen). 1.4.1: #125 deterministischer Build (generatedAt entfernt). 1.4.2: #143 HH-Genre-Korrektur (work_137). 1.4.3: #143 APO-Gattung nach Terrahe (work_568).
 const CACHE_DURATION = 30 * 24 * 60 * 60 * 1000; // 30 days in milliseconds
 
 class CorpusLoader {

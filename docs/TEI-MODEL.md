@@ -693,15 +693,17 @@ Alle Referenzen auf kontrollierte Vokabulare verwenden relative Pfade:
 
 TEI P5 definiert `<l>` als "a single line of **verse**" und nutzt in Kapitel 24 (Conformance) die Umdefinition von `<l>` als "typographic line" als **explizites Negativbeispiel** fuer Non-Konformanz.
 
-**Entscheidung:** 18 Prosa-Texte werden von `<l>` auf `<lb/>` migriert. 3 urspruenglich als Prosa eingestufte Texte behalten `<l>`, weil sie Versdichtung sind.
+**Entscheidung:** 18 Prosa-Texte werden von `<l>` auf `<lb/>` migriert. 3 Texte behielten bei #32 ihr `<l>` mit der Begruendung "Versdichtung" — diese Einstufung war falsch (Verwechslung mit gleichnamigen Verswerken anderer Autoren) und wurde 2026-07 revidiert (#143, KZW-Entscheid 2026-06-12):
 
-**Korrektur Genre-Zuordnung (`<l>` bleibt korrekt):**
+**Korrektur 2026-07 (#143): auch diese 3 sind Prosa, `<l>` → `<lb/>` konvertiert:**
 
-| Sigle | Titel | Begruendung |
-|-------|-------|-------------|
-| HMT | Buch von Troja | Klassisches Versepos |
-| APO | Apollonius von Tyrus | Klassisches Versepos |
-| HH | Himmel und Hoelle | Religioese Versdichtung |
+| Sigle | Titel | Befund |
+|-------|-------|--------|
+| HMT | Buch von Troja (Hans Mair) | Prosa lt. geschichtsquellen.de/werk/3419; Verwechslungskandidat war Konrads von Wuerzburg Vers-Trojanerkrieg (Reimquote 1,6%) |
+| APO | Apollonius (Heinrich Steinhoewel, 1461) | Prosa-Uebersetzung (Terrahe-Edition); Verwechslungskandidat war Heinrichs von Neustadt "Apollonius von Tyrland" (Reimquote 4,5%) |
+| HH | Himmel und Hoelle | fruehmhd. rhythmische Prosa in kurzen Kola, keine Versdichtung (Reimquote 1,1%) |
+
+Die 17 uebrigen `<l>`-basierten Kandidaten aus der #143-Heuristik (ALX, DIO, FB, FP, GWTK, MR1, MR2, PSG, PTS, RUD, TKA, TKR, WH, WLE, WRB) wurden inhaltlich geprueft (Reimprobe 18-36%, Wortdichte) und sind Versdichtung — `<l>` bleibt dort korrekt.
 
 **Zu migrieren (`<l>` → `<lb/>`):** 18 Dateien
 
@@ -899,8 +901,8 @@ Konsolidierte Liste aller bewusst nicht-normalisierten Daten-Inseln und bekannte
 | Dieses Dokument | 1.0.0 | 2026-04-10 |
 | RELAX NG Schema (`schema/mhdbdb.rnc`) | 1.0.0 | 2026-04-09 |
 | POS-Tagset | 1.0 (19 Tags) | 2026-03 |
-| Corpus Index | 4.1.4 | 2026-06-12 |
-| Authority Index | 1.4.1 | 2026-06-12 |
+| Corpus Index | 4.1.5 | 2026-07-02 |
+| Authority Index | 1.4.3 | 2026-07-02 |
 | Authority Schema (`schema/mhdbdb-authority.rnc`) | 1.0.0 | 2026-04-10 |
 
 ---
