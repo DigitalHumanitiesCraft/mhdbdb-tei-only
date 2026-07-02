@@ -193,23 +193,27 @@ npm run report        # View HTML report
 ### CI: Data Integrity
 
 **Workflow:** `.github/workflows/data-integrity.yml` (konsolidiert seit #125 die früheren `schema-validation.yml` + `index-version-check.yml`)
-**Triggers:** PRs + main-Pushes, die `schema/`, `tei/`, `authority-files/`, die zwei Index-`.json.gz`, `api/**`, die Build-Skripte (`build-*-index.py`, `build-api.py`, `mhg_normalizer.py`), `scripts/sync/`, `scripts/audit/`, `corpus-loader.js` oder `requirements.txt` berühren. Plus `workflow_dispatch`.
+**Triggers:** PRs + main-Pushes, die `schema/`, `tei/`, `authority-files/`, die drei Index-`.json.gz` (corpus/authority/naming), `api/**`, die Build-Skripte (`build-*-index.py`, `build-api.py`, `mhg_normalizer.py`), `scripts/sync/`, `scripts/audit/`, `scripts/ingest/naming/`, `corpus-loader.js` oder `requirements.txt` berühren. Plus `workflow_dispatch`.
 
-**Acht Checks, billig → teuer (fail fast):**
+**Elf Checks, billig → teuer (fail fast);** vorab bestimmt ein Hilfs-Step die Diff-Base (PR: Base-Branch-Tip, Push: `event.before`) für die Checks 2 und 9:
 
 1. **Index-Versions-Konstanten** (#47.3) — Build-Skripte + `corpus-loader.js` müssen dieselben Versionen nennen, sonst greift die IndexedDB-Cache-Invalidierung nicht. Lokal: `python scripts/audit/check-index-versions.py`.
-2. **RNC→RNG sync check** (P2-14) — regeneriert `.rng` aus `.rnc`, Diff = Fail.
-3. **TEI-P5-Pin** — `tei_all.rng` wird frisch geladen und gegen die gepinnte Version (4.11.0) geprüft.
-4. **Freshness variants.xml** (#125) — `extract-variants.py --apply` muss die committete Datei byte-identisch reproduzieren („Korpus geändert, variants.xml vergessen"). Blockierend VOR Check 6: der Index-Vergleich allein kann variants-Drift nicht erkennen.
-5. **Freshness API** (#45) — `build-api.py` muss das committete `api/` byte-identisch reproduzieren (plain JSON, `git diff` reicht). Vor dem Index-Gate, weil der CI-Index-Rebuild `data/` gz-dirty hinterlässt.
-6. **Freshness Indexe** (#125, Rebuild-and-Compare) — beide Indexe werden frisch gebaut und dekomprimiert mit dem committeten Stand verglichen („Quelle/Build-Skript geändert, Rebuild vergessen"). Funktioniert nur, weil die Builds deterministisch sind.
-7. **Cross-Reference-Integrity** (#44/#115) — dangling Refs außerhalb `lexicon.xml` brechen den Build.
-8. **Zweistufige RelaxNG-Validierung** (P2-13) — Stage 1 `tei_all.rng` (Warnungen, #30-Baseline), Stage 2 `mhdbdb.rng`/`mhdbdb-authority.rng` (hartes Gate). Als teuerster Check bewusst zuletzt.
+2. **Index-Versions-Bump-Gate** (#154) — hat sich der dekomprimierte Inhalt von corpus-/authority-index gegenüber der Diff-Base geändert, muss auch der `version`-String geändert sein; sonst wurde der Drei-Stellen-Bump vergessen und der Dexie-Cache invalidiert nicht (Nutzer behalten bis zu 30 Tage den alten Index). Lokal: `python scripts/audit/check-index-version-bump.py --base origin/main`. Ohne bestimmbare Diff-Base (workflow_dispatch, Force-Push) wird der Check übersprungen.
+3. **RNC→RNG sync check** (P2-14) — regeneriert `.rng` aus `.rnc`, Diff = Fail.
+4. **TEI-P5-Pin** — das committete `tei_all.rng` wird gegen die gepinnte Version (4.11.0) geprüft.
+5. **Freshness variants.xml** (#125) — `extract-variants.py --apply` muss die committete Datei byte-identisch reproduzieren („Korpus geändert, variants.xml vergessen"). Blockierend VOR Check 7: der Index-Vergleich allein kann variants-Drift nicht erkennen.
+6. **Freshness API** (#45) — `build-api.py` muss das committete `api/` byte-identisch reproduzieren (plain JSON, `git diff` reicht). Vor dem Index-Gate, weil der CI-Index-Rebuild `data/` gz-dirty hinterlässt.
+7. **Freshness Indexe** (#125, Rebuild-and-Compare) — beide Indexe werden frisch gebaut und dekomprimiert mit dem committeten Stand verglichen („Quelle/Build-Skript geändert, Rebuild vergessen"). Funktioniert nur, weil die Builds deterministisch sind.
+8. **Naming-Index Konsistenz** (#152) — `source.commit`-Provenienz vorhanden + alle `works[].sigle` existieren als `tei/<SIG>.tei.xml` (ein Sigle-Rename bräche den Reader-Link im Playground sonst still). Offline, läuft immer. Lokal: `python scripts/audit/check-naming-index.py`.
+9. **Freshness naming-index** (#152, Rebuild-and-Compare) — Rebuild aus dem im Index gepinnten `source.commit` muss den committeten Stand reproduzieren. Läuft NUR, wenn naming-Pfade sich gegenüber der Diff-Base geändert haben (externer Fetch nach `lindabeutel/Naming-analysis`; keine externe Netz-Abhängigkeit auf jedem Daten-PR, #125-Prinzip).
+10. **Cross-Reference-Integrity** (#44/#115/#152) — dangling Refs außerhalb `lexicon.xml` brechen den Build; `lexicon.xml` wird als **ID-Set-Ratsche** gegen die committete Baseline (`scripts/audit/lexicon-baseline.json`) gegated: jede ID außerhalb der Baseline = rot (auch bei kompensierendem Backfill im selben PR), tolerierter Altbestand = grün, geschrumpfter Ist-Stand = `::warning` → `--update-baseline` ausführen und Datei-Diff mitcommitten.
+11. **Zweistufige RelaxNG-Validierung** (P2-13) — Stage 1 `tei_all.rng` (Warnungen, #30-Baseline), Stage 2 `mhdbdb.rng`/`mhdbdb-authority.rng` (hartes Gate). Als teuerster Check bewusst zuletzt.
 
 **Hinweis Dependency-Pins:** lxml und rnc2rng sind in `requirements.txt` gepinnt (Single Source — CI installiert daraus), damit Serialisierungsänderungen neuer Versionen nicht als Drift-Fehlalarm erscheinen. Lokal `pip install -r requirements.txt` verwenden; beim Pin-Bump danach `variants.xml` regenerieren und die `.rng` neu erzeugen.
 
 **Debugging failures:**
 - Versions-Drift → `python scripts/audit/check-index-versions.py` lokal, Konstanten angleichen
+- Bump vergessen (#154) → Version in `build-*-index.py` + `corpus-loader.js` bumpen, Index rebuilden, alles in einem Commit
 - RNG drift → `python -m rnc2rng schema/mhdbdb.rnc schema/mhdbdb.rng` lokal, committen
 - variants-/Index-Freshness → Data-Change-Lifecycle in DATA-MODEL.md abarbeiten (regenerieren, rebuilden, bumpen, alles in einem Commit)
 - API-Freshness → `python scripts/build-api.py` lokal, `api/` mitcommitten
@@ -237,9 +241,11 @@ Diagnose- und Validierungs-Skripte in `scripts/audit/`:
 |--------|-------|
 | `validate-corpus.py` | Two-stage RelaxNG-Validierung aller 667 Korpus- + 8 Authority-Files (gerufen von data-integrity.yml) |
 | `check-index-versions.py` | Versions-Konsistenz Build-Skripte ↔ Loader (siehe oben) |
+| `check-index-version-bump.py` | Versions-Bump-Gate (#154): Index-Inhalt gegenüber `--base` geändert ⇒ `version`-String muss mitgeändert sein (siehe oben) |
 | `check-release-version.py` | Release-Tag ↔ `CITATION.cff`-Version; verbietet `version`-Feld in `.zenodo.json` (siehe oben) |
 | `audit-authority-files.py` | Struktur, Querverweise und Datenqualität **innerhalb** der 8 Authority-Files (authority→authority; ID-Muster, verwaiste Referenzen, strukturelle Konsistenz) |
-| `check-authority-cross-refs.py` | **Korpus→Authority** Cross-Ref-Integrität: dangling `@lemmaRef`/`@ana`/`@corresp`/`@ref`/`@target`. `--check` = CI-Gate in `data-integrity.yml` (scheitert bei unresolved refs außerhalb `lexicon.xml`). Einziger Detektor der Derived-File-Drift (#44/#115) |
+| `check-authority-cross-refs.py` | **Korpus→Authority** Cross-Ref-Integrität: dangling `@lemmaRef`/`@ana`/`@corresp`/`@ref`/`@target`. `--check` = CI-Gate in `data-integrity.yml`: unresolved refs außerhalb `lexicon.xml` = sofort rot; `lexicon.xml` als ID-Set-Ratsche gegen `lexicon-baseline.json` (#152) — neue IDs rot, Altbestand grün; `--update-baseline` zieht die Ratsche nach. Einziger Detektor der Derived-File-Drift (#44/#115) |
+| `check-naming-index.py` | Naming-Index-Konsistenz (#152): `source.commit` vorhanden + alle `works[].sigle` existieren in `tei/`; `--print-source-commit` liefert den Pin für die Workflows (siehe oben) |
 | `audit-tei-corpus.py` | Korpus-weite Stichproben (z.B. fehlende `<l>`/`<lg>`, ungewöhnliche xml:id-Pattern, Encoding-Anomalien) |
 | `check-lexicon-senses.py` | `lexicon.xml`-Sanity: Lemmata ohne `<sense>`, Senses ohne `conceptIds` |
 | `doc-count-audit.py` | Drift-Detektor zwischen tatsächlichen Korpus-/Authority-Zahlen und den in der Doku verankerten Werten. Heuristik: Window ±2 absolut oder ±2 % relativ, strikter Keyword-Anchor unmittelbar nach der Zahl |
