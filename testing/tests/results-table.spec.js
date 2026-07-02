@@ -149,6 +149,34 @@ test.describe('Issue #114: Tabellenansicht für Korpussuche', () => {
         expect(sorted).toBe(true);
     });
 
+    test('Keyness-Referenz ist konsistent mit den Treffer-Zählungen (Paritäts-Check)', async ({ page }) => {
+        // Bei Vollauswahl (Default) muss die korpusweite Referenzsumme aus
+        // computeKeyness (via lemmaIndex) exakt der Summe der matchCounts über
+        // alle Ergebnis-Texte entsprechen — beide zählen text.lemmata[id].length
+        // (CONTRACTS §B Position-Counting-Parität).
+        await page.fill('#searchInput', 'minne');
+        await page.click('#searchButton');
+        await page.waitForSelector('#resultsList > *');
+        await page.click('#viewToggleTable');
+        await page.waitForSelector('#resultsList table');
+
+        const counts = await page.evaluate(() => {
+            const app = window._mhdbdbApp;
+            const idx = app.searchEngine.corpusIndex;
+            const textById = new Map(idx.texts.map(t => [t.id, t]));
+            let corpusMatches = 0;
+            for (const lemmaId of app._keynessLemmaIds || []) {
+                for (const textId of idx.lemmaIndex[lemmaId] || []) {
+                    corpusMatches += textById.get(textId)?.lemmata?.[lemmaId]?.length || 0;
+                }
+            }
+            const resultSum = app.currentResults.reduce((s, r) => s + r.matchCount, 0);
+            return { corpusMatches, resultSum };
+        });
+        expect(counts.corpusMatches).toBeGreaterThan(0);
+        expect(counts.resultSum).toBe(counts.corpusMatches);
+    });
+
     test('Wörterbuchnetz-Links: javascript:-URLs gefiltert, Attribut-Breakout escapet', async ({ page }) => {
         // Stub der externen API: ein bösartiger javascript:-Link (muss vom
         // Shared Client gefiltert werden) + ein http(s)-Link mit Quote/Markup

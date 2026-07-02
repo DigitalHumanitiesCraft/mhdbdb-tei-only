@@ -412,7 +412,7 @@ Safety: entries whose wbnetzlink is not http(s) are dropped by the
 Response: {                              // illustrative shape, IDs schematic
     result_set: [{
         sigle: "Lexer",
-        lemma: "br&ocirc;t",     // HTML-encoded — decode with textarea trick
+        lemma: "br&ocirc;t",     // HTML-encoded — decode via DOMParser (see below)
         gram: "stN",
         wbnetzid: "L02435",
         wbnetzlink: "https://www.woerterbuchnetz.de/Lexer/L02435"
@@ -420,7 +420,7 @@ Response: {                              // illustrative shape, IDs schematic
 }
 ```
 
-**HTML entity decoding:** `lemma` field contains HTML entities. Decoded via the shared `decodeHtmlEntities` (textarea trick) from `lib/woerterbuchnetz.js`.
+**HTML entity decoding:** `lemma` field contains HTML entities. Decoded via the shared `decodeHtmlEntities` from `lib/woerterbuchnetz.js` — implemented with `DOMParser('text/html')` + `textContent`, NOT the textarea-`innerHTML` trick: a `</textarea><img onerror=…>` payload would create live elements during the `innerHTML` write (mXSS class), before any downstream escaping runs. DOMParser documents have no browsing context (no script execution, no resource loads).
 
 **Datenschutz:** Both triggers send the normalized lemma form to a third party; documented in `impressum.html` → Datenschutz („Wörterbuch-Verweise").
 
