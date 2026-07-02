@@ -6,8 +6,8 @@
  * aus Corpus-Index v4.1.x), sammelt die Lemmata der unmittelbar
  * benachbarten Versenden (±1 Vers, Paarreim-Annahme) und behält Paare,
  * deren MHG-normalisierte Lemma-Formen im Auslaut übereinstimmen
- * (3-Letter-Suffix; bei Kurzwörtern ≤3 Zeichen genügt das 2-Letter-Suffix,
- * damit z.B. wîp : lîp gefunden wird).
+ * (3-Letter-Suffix; sind beide Formen kurz, ≤4 Zeichen, genügt das
+ * 2-Letter-Suffix, damit z.B. wîp : lîp und tac : slac gefunden werden).
  *
  * Grenzen der Minimalvariante (bewusst, siehe Issue #106):
  * - lemma-basiert, nicht token-basiert — die Original-Schreibung am
@@ -52,12 +52,15 @@ function yieldToMain() {
 
 /**
  * Strukturelle Reim-Heuristik auf MHG-normalisierten Formen (Audit #106):
- * 3-Letter-Suffix-Match; bei Formen ≤3 Zeichen genügt das 2-Letter-Suffix.
+ * 3-Letter-Suffix-Match; der 2-Letter-Fallback greift nur, wenn BEIDE
+ * Formen kurz sind (≤4 Zeichen) — das findet wîp:lîp und tac:slac,
+ * verhindert aber, dass hochfrequente Kurzwörter (en, dô, sô …) jedes
+ * lange Ziel-Lemma über einen 2-Letter-Auslaut als "Reim" fluten.
  */
 function rhymesWith(normA, normB) {
   if (!normA || !normB) return false;
   if (normA.slice(-3) === normB.slice(-3)) return true;
-  if ((normA.length <= 3 || normB.length <= 3) && normA.slice(-2) === normB.slice(-2)) return true;
+  if (normA.length <= 4 && normB.length <= 4 && normA.slice(-2) === normB.slice(-2)) return true;
   return false;
 }
 
@@ -236,7 +239,20 @@ export class RhymeDictionary {
       partners: this.enrichPartners(raw.partners)
     };
     this.state.computing = false;
+    // Nicht rendern, wenn der User während des Scans zu einer anderen
+    // Playground-View navigiert ist — sonst überschreibt das fertige
+    // Ergebnis die aktuell angezeigte View in #resultsContainer.
+    if (!this.isActiveView()) return;
     this.render();
+  }
+
+  /**
+   * True, wenn die Router-Hash-Route noch zu diesem Modul gehört (oder kein
+   * Hash gesetzt ist, z.B. bei programmatischem show() ohne Route).
+   */
+  isActiveView() {
+    const view = (window.location.hash || '').replace(/^#/, '').split('&')[0];
+    return view === '' || view === 'rhyme-dictionary';
   }
 
   updateProgressBar() {
@@ -369,7 +385,11 @@ export class RhymeDictionary {
 
     const trs = visible.map((p, idx) => {
       const partnerClean = p.lemmaId.replace(/^lemma_/, '');
-      const multiHref = `#multi-lemma&lemmata=${encodeURIComponent(lemma.lemma || cleanId)},${encodeURIComponent(p.lemma || partnerClean)}&mode=proximity&dist=${BELEGE_PROXIMITY_DIST}`;
+      // Ohne Authority-Eintrag ist p.lemma die rohe ID ("lemma_NNN"), die
+      // die Multi-Lemma-Suche nicht auflösen kann — dann die numerische ID
+      // übergeben (deren Route akzeptiert /^\d+$/ direkt).
+      const partnerTerm = p.lemma && p.lemma !== p.lemmaId ? p.lemma : partnerClean;
+      const multiHref = `#multi-lemma&lemmata=${encodeURIComponent(lemma.lemma || cleanId)},${encodeURIComponent(partnerTerm)}&mode=proximity&dist=${BELEGE_PROXIMITY_DIST}`;
       const textChips = p.texts.slice(0, 6).map(t =>
         `<span class="mr-1 rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[10px] text-slate-600" title="${t.count} Reimpaar(e)">${escapeHtml(t.id)}&thinsp;·&thinsp;${t.count}</span>`
       ).join('');
@@ -432,7 +452,7 @@ export class RhymeDictionary {
         ${truncated ? `<div class="text-center text-xs text-slate-500">Zeige Top ${visible.length} von ${filtered.length.toLocaleString('de-DE')} Reimpartnern.</div>` : ''}
         <p class="text-xs text-slate-500">
           Heuristik: benachbarte Versenden (±1 Vers, Paarreim-Annahme) mit übereinstimmendem
-          3-Letter-Suffix der normalisierten Lemma-Form (2-Letter bei Kurzwörtern).
+          3-Letter-Suffix der normalisierten Lemma-Form (2-Letter, wenn beide Formen kurz sind).
           Lemma-basiert — die tatsächlich reimende Flexionsform kann abweichen; phonetische
           Reim-Klassifikation (sauberer Reim vs. Assonanz) ist Folgearbeit (#106/#109).
         </p>

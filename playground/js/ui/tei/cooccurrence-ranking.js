@@ -201,7 +201,20 @@ export class CooccurrenceRanking {
       _rawCounts: result.counts // fuer POS-Mode-Switching ohne Re-Compute
     };
     this.state.computing = false;
+    // Nicht rendern, wenn der User während des Scans zu einer anderen
+    // Playground-View navigiert ist — sonst überschreibt das fertige
+    // Ergebnis die aktuell angezeigte View in #resultsContainer (#106-Review).
+    if (!this.isActiveView()) return;
     this.render();
+  }
+
+  /**
+   * True, wenn die Router-Hash-Route noch zu diesem Modul gehört (oder kein
+   * Hash gesetzt ist, z.B. bei programmatischem show() ohne Route).
+   */
+  isActiveView() {
+    const view = (window.location.hash || '').replace(/^#/, '').split('&')[0];
+    return view === '' || view === 'cooccurrence-ranking';
   }
 
   updateProgressBar() {
@@ -340,8 +353,12 @@ export class CooccurrenceRanking {
 
     const trs = visible.map((p, idx) => {
       const partnerClean = p.lemmaId.replace(/^lemma_/, '');
-      // Klick auf Partner-Lemma → Multi-Lemma-Suche mit beiden Lemmata vorbefuellt
-      const multiHref = `#multi-lemma&lemmata=${encodeURIComponent(lemma.lemma || cleanId)},${encodeURIComponent(p.lemma || partnerClean)}&mode=proximity&dist=${this.state.window}`;
+      // Klick auf Partner-Lemma → Multi-Lemma-Suche mit beiden Lemmata vorbefuellt.
+      // Ohne Authority-Eintrag ist p.lemma die rohe ID ("lemma_NNN"), die die
+      // Multi-Lemma-Suche nicht aufloesen kann — dann die numerische ID
+      // uebergeben (deren Route akzeptiert /^\d+$/ direkt).
+      const partnerTerm = p.lemma && p.lemma !== p.lemmaId ? p.lemma : partnerClean;
+      const multiHref = `#multi-lemma&lemmata=${encodeURIComponent(lemma.lemma || cleanId)},${encodeURIComponent(partnerTerm)}&mode=proximity&dist=${this.state.window}`;
       return `
         <tr class="border-b border-slate-100 hover:bg-slate-50">
           <td class="px-3 py-1.5 text-right tabular-nums text-xs text-slate-500">${idx + 1}</td>

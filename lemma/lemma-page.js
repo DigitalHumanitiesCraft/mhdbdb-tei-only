@@ -5,6 +5,7 @@
  */
 
 import { CorpusLoader } from '../assets/js/lib/corpus-loader.js';
+import { fetchWbnetzEntries, decodeHtmlEntities } from '../assets/js/lib/woerterbuchnetz.js';
 
 class LemmaPage {
     constructor() {
@@ -264,40 +265,26 @@ class LemmaPage {
     /**
      * Query Wörterbuchnetz HTTPS API for MWB + Lexer entries and render direct deep-links.
      *
-     * Both dictionaries use the same `/dictionaries/{sigle}/lemmata/{form}` endpoint.
+     * Uses the shared client in assets/js/lib/woerterbuchnetz.js (#73/#114,
+     * CONTRACTS §D.2) — session-cached, non-http(s) deep-links filtered.
      * MWB deep-links use http://mhdwb-online.de — modern browsers allow navigation
      * to http targets from https pages via <a target="_blank"> (no Mixed-Content block).
      */
     async fetchWoerterbuchnetz(normalizedForm) {
+        const results = await fetchWbnetzEntries(normalizedForm);
+
         const section = document.getElementById('wbnetzSection');
         const container = document.getElementById('wbnetzLinks');
         if (!section || !container) return;
 
         const bookIcon = '<svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>';
 
-        const dictionaries = ['MWB', 'Lexer'];
-        const lookupForm = encodeURIComponent(normalizedForm);
-
-        const results = await Promise.all(
-            dictionaries.map(async sigle => {
-                try {
-                    const r = await fetch(`https://api.woerterbuchnetz.de/open-api/dictionaries/${sigle}/lemmata/${lookupForm}`);
-                    if (!r.ok) return { sigle, entries: [] };
-                    const data = await r.json();
-                    return { sigle, entries: data.result_set || [] };
-                } catch (e) {
-                    console.warn(`[LemmaPage] Wörterbuchnetz ${sigle} API unavailable:`, e.message);
-                    return { sigle, entries: [] };
-                }
-            })
-        );
-
         const links = results.flatMap(({ sigle, entries }) =>
             entries.map(e =>
-                `<a href="${e.wbnetzlink}" class="external-link" target="_blank" rel="noopener">
+                `<a href="${this.escapeAttr(e.wbnetzlink)}" class="external-link" target="_blank" rel="noopener">
                     ${bookIcon}
                     <span class="font-semibold text-xs">${sigle}</span>
-                    ${this.decodeHtmlEntities(e.lemma)}${e.gram ? ` <span class="text-slate-400 text-xs">(${e.gram})</span>` : ''}
+                    ${this.escapeAttr(decodeHtmlEntities(e.lemma))}${e.gram ? ` <span class="text-slate-400 text-xs">(${this.escapeAttr(e.gram)})</span>` : ''}
                 </a>`
             )
         );
@@ -305,6 +292,17 @@ class LemmaPage {
         if (links.length === 0) return;
         section.classList.remove('hidden');
         container.innerHTML = links.join('');
+    }
+
+    /**
+     * HTML/Attribut-Escaping für Werte aus der externen Wörterbuchnetz-API —
+     * escapt auch Anführungszeichen (Attribut-Kontext href="...").
+     */
+    escapeAttr(str) {
+        if (str == null) return '';
+        return String(str).replace(/[&<>"']/g, c => (
+            { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
+        ));
     }
 
     renderVariants(lemmaKey) {
@@ -401,12 +399,6 @@ class LemmaPage {
                 class="inline-block bg-slate-100 px-2 py-0.5 rounded text-xs mr-1 mb-1 hover:bg-brand-50 hover:text-brand-700 transition"
                 title="${tooltip}">${l.lemma}</a>`;
         }).join('');
-    }
-
-    decodeHtmlEntities(str) {
-        const textarea = document.createElement('textarea');
-        textarea.innerHTML = str;
-        return textarea.value;
     }
 
     showError(message) {

@@ -6,6 +6,8 @@
  */
 
 import { CorpusLoader } from './lib/corpus-loader.js';
+import { TextNormalizer } from './lib/text-normalizer.js';
+import { fetchWbnetzEntries, decodeHtmlEntities } from './lib/woerterbuchnetz.js';
 import { SearchEngine } from './search/search-engine.js';
 import { extractKwicHits, formatLineRef } from './search/kwic-service.js';
 import { TextRenderer } from './rendering/text-renderer.js';
@@ -476,8 +478,14 @@ class MainSiteApp {
             this.currentResults = Array.from(textMap.values());
             this.currentPage = 0;
 
-            // Issue #114 (Followup): Keyness (Log-Likelihood) pro Text berechnen
-            this.computeKeyness(Array.from(lemmaSet));
+            // Issue #114 (Followup): Keyness (Log-Likelihood) pro Text berechnen.
+            // Referenz sind ALLE resolvierten Lemmata (nicht lemmaSet): lemmaSet
+            // enthält nur Lemmata mit Treffern in der Textauswahl, wodurch die
+            // Referenzsumme sonst mit der Auswahl variieren würde.
+            const resolvedLemmaIds = this.searchEngine.resolveLemmaIds(
+                TextNormalizer.normalizeMHG(searchTerm)
+            );
+            this.computeKeyness(resolvedLemmaIds);
 
             // Issue #114: Sort-Spec bei neuer Suche auf Default zurück
             this.sortSpec = { column: 'matchCount', direction: 'desc' };
@@ -504,9 +512,12 @@ class MainSiteApp {
             return;
         }
 
-        // Get lemma details from authority index (via searchEngine)
+        // Get lemma details from authority index (via searchEngine).
+        // O(1)-Map statt .find() über 43k Lemmata: Fuzzy-Suchen (Stufe 3,
+        // ungecappt) können tausende lemmaIds liefern — DESIGN.md
+        // §Performance-Map gegen O(N)-Lookups.
         const lemmata = lemmaIds.map(lemmaId =>
-            this.searchEngine.authorityIndex.lemmata.find(l => l.id === lemmaId)
+            this.getLemmaById(lemmaId)
                 || { id: lemmaId, lemma: lemmaId, normalized: '' }
         );
 
@@ -549,7 +560,7 @@ class MainSiteApp {
             ).join(' ');
             const typesBlock = forms.length > 0
                 ? `<details class="mt-0.5">
-                       <summary class="cursor-pointer text-xs text-blue-800 hover:underline select-none">${forms.length} Schreibformen (Types) anzeigen</summary>
+                       <summary class="cursor-pointer text-xs text-blue-800 hover:underline select-none" title="MHG-normalisierte Formen aus dem Variants-Verzeichnis (â→a, ê→e, ü→ue) — nicht die Original-Schreibungen der Handschriften">${forms.length} Schreibformen (Types, normalisiert) anzeigen</summary>
                        <div class="mt-1 flex flex-wrap gap-1">${chips}</div>
                    </details>`
                 : '<span class="text-xs text-slate-500">Keine Schreibvarianten verzeichnet.</span>';
@@ -571,6 +582,20 @@ class MainSiteApp {
 
         // Wörterbuch-Links asynchron nachladen (non-blocking, Fehler still)
         shown.forEach(lemma => this.fetchWbnetzLinksInto(lemma));
+    }
+
+    /**
+     * O(1)-Lookup Lemma-ID → Lemma-Record (lazy gebaute Map über die
+     * 43k Lemmata des Authority-Index).
+     */
+    getLemmaById(lemmaId) {
+        if (!this._lemmaById) {
+            this._lemmaById = new Map();
+            for (const l of this.searchEngine?.authorityIndex?.lemmata || []) {
+                if (l?.id) this._lemmaById.set(l.id, l);
+            }
+        }
+        return this._lemmaById.get(lemmaId);
     }
 
     /**
@@ -596,47 +621,28 @@ class MainSiteApp {
 
     /**
      * Wörterbuchnetz-Lookup (MWB + Lexer) für ein Lemma, Ergebnis-Links in den
-     * zugehörigen data-wbnetz-links-Platzhalter rendern. Gleiches API-Pattern
-     * wie lemma/lemma-page.js (#73): nur anzeigen, wenn es Treffer gibt.
+     * zugehörigen data-wbnetz-links-Platzhalter rendern. Shared Client mit
+     * Session-Cache in lib/woerterbuchnetz.js (#73/#114, CONTRACTS §D.2):
+     * nur anzeigen, wenn es Treffer gibt.
      */
     async fetchWbnetzLinksInto(lemma) {
-        const slot = document.querySelector(`[data-wbnetz-links="${CSS.escape(lemma.id)}"]`);
-        if (!slot || !lemma.normalized) return;
+        if (!lemma.normalized) return;
 
-        const dictionaries = ['MWB', 'Lexer'];
-        const lookupForm = encodeURIComponent(lemma.normalized);
-
-        const results = await Promise.all(dictionaries.map(async sigle => {
-            try {
-                const r = await fetch(`https://api.woerterbuchnetz.de/open-api/dictionaries/${sigle}/lemmata/${lookupForm}`);
-                if (!r.ok) return { sigle, entries: [] };
-                const data = await r.json();
-                return { sigle, entries: data.result_set || [] };
-            } catch (e) {
-                console.warn(`[MainSiteApp] Wörterbuchnetz ${sigle} API unavailable:`, e.message);
-                return { sigle, entries: [] };
-            }
-        }));
+        const results = await fetchWbnetzEntries(lemma.normalized);
 
         // Panel kann durch eine neue Suche bereits ersetzt worden sein
-        const freshSlot = document.querySelector(`[data-wbnetz-links="${CSS.escape(lemma.id)}"]`);
-        if (!freshSlot) return;
+        const slot = document.querySelector(`[data-wbnetz-links="${CSS.escape(lemma.id)}"]`);
+        if (!slot) return;
 
         const links = results.flatMap(({ sigle, entries }) =>
             entries.slice(0, 3).map(e =>
                 `<a href="${this.escapeHtml(e.wbnetzlink)}" target="_blank" rel="noopener"
                     class="text-brand-700 hover:underline whitespace-nowrap">
-                    ${this.escapeHtml(sigle)}: ${this.escapeHtml(this.decodeHtmlEntities(e.lemma))} ↗
+                    ${this.escapeHtml(sigle)}: ${this.escapeHtml(decodeHtmlEntities(e.lemma))} ↗
                 </a>`
             )
         );
-        freshSlot.innerHTML = links.join('');
-    }
-
-    decodeHtmlEntities(str) {
-        const textarea = document.createElement('textarea');
-        textarea.innerHTML = str ?? '';
-        return textarea.value;
+        slot.innerHTML = links.join('');
     }
 
     clearSearch() {
@@ -1354,9 +1360,13 @@ class MainSiteApp {
     }
 
     escapeHtml(text) {
-        const div = document.createElement('div');
-        div.textContent = text;
-        return div.innerHTML;
+        // Replace-Map statt textContent/innerHTML-Trick: der escapte auch
+        // keine Anführungszeichen, sodass Werte in Attribut-Kontexten
+        // (href="...") aus dem Attribut ausbrechen konnten.
+        if (text == null) return '';
+        return String(text).replace(/[&<>"']/g, c => (
+            { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
+        ));
     }
 
     /**

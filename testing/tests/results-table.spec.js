@@ -156,7 +156,7 @@ test.describe('Issue #114: Tabellenansicht für Korpussuche', () => {
 
         await expect(page.locator('#lemmaTypes')).toBeVisible();
         const summary = page.locator('#lemmaTypes details summary').first();
-        await expect(summary).toContainText(/\d+ Schreibformen \(Types\) anzeigen/);
+        await expect(summary).toContainText(/\d+ Schreibformen \(Types, normalisiert\) anzeigen/);
 
         // Aufklappen zeigt Varianten-Chips
         await summary.click();
