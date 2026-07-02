@@ -51,8 +51,18 @@ jobs:
 
       - name: Index neu bauen
         id: build
+        # --require-commit (#152): ohne auflösbaren Quell-Commit würde
+        # generatedAt still auf Build-Zeit kippen — nicht-deterministischer
+        # Build plus PR ohne source.commit-Provenienz. Lieber laut failen.
+        # GITHUB_TOKEN gegen das IP-Rate-Limit unauthentifizierter
+        # api.github.com-Calls von geteilten Runnern.
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        # pipefail: ohne waere der harte --require-commit-Exit vom
+        # tee-Exitcode verschluckt (Default-Shell ist bash -e OHNE pipefail).
         run: |
-          python scripts/ingest/naming/01-fetch-and-build-index.py | tee build.log
+          set -o pipefail
+          python scripts/ingest/naming/01-fetch-and-build-index.py --require-commit | tee build.log
           {
             echo 'log<<BUILDLOG'
             cat build.log

@@ -52,6 +52,16 @@ NEG_TYPE_RE = re.compile(r'^type_-\d+$')
 LEMMA_RE = re.compile(r'^lemma_\d+$')
 SENSE_RE = re.compile(r'^lemma_\d+_sense_\d+$')
 
+# CI-Baseline fuer dangling lexicon.xml-Refs (#152): der Bestand ist zu 100 %
+# post-Migration-ingest-erzeugt (WZB u.a.), als repo-interner Backfill-Bedarf
+# in #115/#44 dokumentiert und bewusst toleriert. Das Gate ist eine Ratsche:
+# jeder Ingest, der NEUE dangling Refs einfuehrt, wird rot und muss entweder
+# sofort backfillen oder die Baseline hier bewusst und begruendet anheben
+# (KZW-Entscheidung). Sinkt der Ist-Stand (Backfill gelandet), die Baseline
+# mitsenken, damit die Ratsche greift. Stand 2026-07-02.
+LEXICON_BASELINE_REFS = 977
+LEXICON_BASELINE_DISTINCT = 349
+
 
 def collect_ids(filepath):
     """Return the set of all xml:id values in an XML file."""
@@ -279,7 +289,8 @@ def main():
     if check:
         # CI gate: variants/persons/works/concepts/genres/names must resolve fully.
         # lexicon.xml carries a known ingest-backfill baseline (#44/#115) and is
-        # reported, not gated, until that backfill lands.
+        # gated against that pinned baseline (#152): growth fails, the tolerated
+        # legacy set passes.
         offenders = {tf: c for tf, c in by_target.items() if tf != 'lexicon.xml'}
         for tf, c in missing_target_files.items():
             offenders[tf] = offenders.get(tf, 0) + c
@@ -288,9 +299,26 @@ def main():
             for tf, c in sorted(offenders.items(), key=lambda x: -x[1]):
                 print(f'  {tf}: {c:,}')
             return 1
-        lex = by_target.get('lexicon.xml', 0)
+        lex_refs = by_target.get('lexicon.xml', 0)
+        lex_distinct = by_target_distinct.get('lexicon.xml', 0)
+        if lex_refs > LEXICON_BASELINE_REFS or lex_distinct > LEXICON_BASELINE_DISTINCT:
+            print(f'\n::error file=scripts/audit/check-authority-cross-refs.py::'
+                  f'CI CHECK FAILED: dangling lexicon.xml-Refs ueber der Baseline (#152): '
+                  f'{lex_refs:,} refs / {lex_distinct:,} distinct ids, erlaubt sind '
+                  f'{LEXICON_BASELINE_REFS:,} / {LEXICON_BASELINE_DISTINCT:,}. '
+                  f'Ein Ingest hat NEUE Refs auf nicht existierende lexicon-IDs '
+                  f'eingefuehrt. Entweder die fehlenden Lemmata/Senses in lexicon.xml '
+                  f'backfillen (DATA-MODEL.md -> Ingest-Verfahren, Backfill-Phase) '
+                  f'oder die Baseline bewusst und begruendet anheben (KZW-Entscheidung). '
+                  f'Details: scripts/audit/authority-cross-refs-audit.json -> lexicon_corpses.')
+            return 1
         print(f'\nCI CHECK OK: variants/persons/works/concepts/genres/names = 0 unresolved. '
-              f'lexicon.xml = {lex:,} (known ingest-backfill baseline, #44/#115).')
+              f'lexicon.xml = {lex_refs:,} refs / {lex_distinct:,} distinct ids '
+              f'(Baseline {LEXICON_BASELINE_REFS:,} / {LEXICON_BASELINE_DISTINCT:,}, #44/#115/#152).')
+        if lex_refs < LEXICON_BASELINE_REFS or lex_distinct < LEXICON_BASELINE_DISTINCT:
+            print(f'HINWEIS: Ist-Stand liegt UNTER der Baseline — Backfill gelandet? '
+                  f'LEXICON_BASELINE_* in diesem Skript auf den neuen Stand senken, '
+                  f'damit die Ratsche greift (#152).')
     return 0
 
 

@@ -911,7 +911,7 @@ Drei verbindliche Regeln, normativ in [CONTRACTS.md → F. Authority Source Rule
 - Klare Trennung backfillbar (Lemma-Stub) vs. kuratorisch (Sense-Bedeutung).
 
 **Negative:**
-- Forward-Only-Ingest-Pipelines (WZB) brauchen nachträglich ein Backfill-Skript; bis dahin ist `lexicon.xml` in der CI-Baseline ausgenommen (977 Refs, G3 in #115 offen).
+- Forward-Only-Ingest-Pipelines (WZB) brauchen nachträglich ein Backfill-Skript; bis dahin ist `lexicon.xml` in der CI-Baseline ausgenommen (977 Refs, G3 in #115 offen). *Update 2026-07-02 (#152):* Die Ausnahme ist keine Blanko-Toleranz mehr — die 977 Refs / 349 IDs sind als Ratschen-Baseline in `check-authority-cross-refs.py` gepinnt; Wachstum bricht die CI.
 - Sense-Backfill ist nicht vollautomatisch (kuratorischer Schritt KZW/Julia).
 
 **Mitigations:**

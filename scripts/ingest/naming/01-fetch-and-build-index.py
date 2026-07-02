@@ -34,6 +34,7 @@ Bekannte Quirks, die dieses Skript bereinigt:
 Verwendung:
     python scripts/ingest/naming/01-fetch-and-build-index.py
         [--ref master] [--source-dir <lokale Kopie statt GitHub-Fetch>]
+        [--require-commit]   # CI: hart failen statt Build-Zeit-Fallback (#152)
 
 Kein Versions-Kanal in corpus-loader.js: das Modul lädt den Index lazy per
 fetch+pako ohne IndexedDB-Cache (klein genug), daher gibt es hier keinen
@@ -49,6 +50,7 @@ import argparse
 import gzip
 import json
 import math
+import os
 import sys
 import urllib.request
 from datetime import datetime, timezone
@@ -128,15 +130,35 @@ def fetch(path, ref, source_dir):
         return resp.read().decode("utf-8")
 
 
-def resolve_commit(ref):
-    """Provenienz: Commit-SHA + Committer-Datum des Refs (best effort)."""
+def resolve_commit(ref, require=False):
+    """Provenienz: Commit-SHA + Committer-Datum des Refs.
+
+    Ohne require=True best effort (interaktiv/lokal). Mit require=True
+    (CI, #152) harter Fehler: ein stiller Fallback auf Build-Zeit machte
+    den Build nicht-deterministisch und verlor die Provenienz (leerer PR
+    ohne source.commit).
+
+    Nutzt GITHUB_TOKEN aus der Umgebung, wenn gesetzt: unauthentifizierte
+    api.github.com-Calls von GitHub-Runnern teilen sich das IP-Rate-Limit
+    und schlagen sporadisch mit 403 fehl — genau die Flakiness, die das
+    harte Gate nicht haben darf.
+    """
     url = f"https://api.github.com/repos/{REPO}/commits/{ref}"
     try:
-        req = urllib.request.Request(url, headers={"Accept": "application/vnd.github+json"})
+        headers = {"Accept": "application/vnd.github+json"}
+        token = os.environ.get("GITHUB_TOKEN")
+        if token:
+            headers["Authorization"] = f"Bearer {token}"
+        req = urllib.request.Request(url, headers=headers)
         with urllib.request.urlopen(req, timeout=15) as resp:
             data = json.loads(resp.read().decode("utf-8"))
         return {"sha": data["sha"], "date": data["commit"]["committer"]["date"]}
-    except Exception as exc:  # noqa: BLE001 — Provenienz ist optional
+    except Exception as exc:  # noqa: BLE001 — Provenienz optional, ausser require
+        if require:
+            sys.exit(f"FEHLER (--require-commit): Commit für Ref '{ref}' nicht "
+                     f"auflösbar ({exc}). Ohne aufgelösten Commit wäre der Build "
+                     f"nicht-deterministisch (generatedAt = Build-Zeit) und die "
+                     f"Provenienz (source.commit) ginge verloren (#152).")
         print(f"   (Commit nicht auflösbar: {exc})")
         return None
 
@@ -229,7 +251,13 @@ def main():
                         help="Git-Ref im Quell-Repo (Default: master)")
     parser.add_argument("--source-dir", type=Path, default=None,
                         help="Lokale Repo-Kopie statt GitHub-Fetch (offline/reproduzierbar)")
+    parser.add_argument("--require-commit", action="store_true",
+                        help="Harter Fehler statt Build-Zeit-Fallback, wenn der "
+                             "Quell-Commit nicht auflösbar ist (CI, #152)")
     args = parser.parse_args()
+    if args.require_commit and args.source_dir:
+        parser.error("--require-commit ist mit --source-dir nicht kombinierbar "
+                     "(lokale Kopie hat keinen auflösbaren Quell-Commit)")
 
     print("=" * 60)
     print("MHDBDB Naming Index Builder (#59)")
@@ -239,7 +267,7 @@ def main():
 
     commit = None
     if not args.source_dir:
-        commit = resolve_commit(args.ref)
+        commit = resolve_commit(args.ref, require=args.require_commit)
         if commit:
             print(f"   Commit: {commit['sha']} ({commit['date']})")
 

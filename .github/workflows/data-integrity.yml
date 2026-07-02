@@ -5,9 +5,17 @@ name: Data Integrity
 # teuer (fail fast). Konsolidiert das fruehere index-version-check.yml
 # (Step 1) und schema-validation.yml (Steps 2-3, 7-8).
 #
+#   0. Diff-Base bestimmen (PR: origin/<base>, Push: event.before) —
+#      Grundlage fuer Step 1b und die Change-Detection in Step 6c.
 #   1. Index-Versions-Konstanten: Build-Skripte und corpus-loader.js
 #      muessen dieselbe Version nennen, sonst greift die Cache-
 #      Invalidierung nicht (#47.3).
+#   1b. Versions-Bump-Gate (#154): hat sich der dekomprimierte Inhalt
+#      von corpus-/authority-index gegenueber der Diff-Base geaendert,
+#      MUSS der version-String mitgebumpt sein — sonst invalidiert der
+#      Dexie-Cache nicht und wiederkehrende Nutzer behalten bis zu
+#      30 Tage den alten Index. MUSS VOR Step 6 laufen (der Rebuild
+#      dort ueberschreibt data/*.json.gz im Working Tree).
 #   2. RNC->RNG sync check (P2-14).
 #   3. TEI-P5-Versions-Pin fuer tei_all.rng.
 #   4. Freshness variants.xml: extract-variants.py --apply muss die
@@ -28,9 +36,21 @@ name: Data Integrity
 #      vergleichen (gzip-Bytes koennen je zlib-Build variieren).
 #      Traegt nur, weil die Builds seit #125 deterministisch sind
 #      (kein generatedAt, sorted glob, gzip mtime=0).
-#   7. Authority cross-reference integrity (#44/#115): dangling Refs
-#      ausserhalb lexicon.xml brechen den Build (lexicon traegt eine
-#      bekannte Backfill-Baseline und wird nur reportet). Vor der
+#   6b. Naming-Index Konsistenz (#152): source.commit-Provenienz
+#      vorhanden + alle works[].sigle existieren als tei/<SIG>.tei.xml
+#      (ein Sigle-Rename braeche den Reader-Link sonst still als No-op).
+#      Offline und billig, laeuft immer.
+#   6c. Freshness naming-index (#152): Rebuild aus dem im Index
+#      gepinnten source.commit muss den committeten Stand reproduzieren
+#      (deterministisch: generatedAt = Committer-Datum des Pins).
+#      Laeuft NUR, wenn naming-Pfade sich gegenueber der Diff-Base
+#      geaendert haben — der Fetch geht an ein externes Repo
+#      (lindabeutel/Naming-analysis), und externe Netz-Abhaengigkeit
+#      auf jedem Daten-PR widerspraeche dem #125-Prinzip.
+#   7. Authority cross-reference integrity (#44/#115/#152): dangling
+#      Refs ausserhalb lexicon.xml brechen den Build; lexicon.xml wird
+#      gegen die gepinnte Backfill-Baseline im Audit-Skript gegated
+#      (Wachstum = rot, tolerierter Altbestand = gruen). Vor der
 #      RelaxNG-Validierung, weil deutlich billiger (plain parse).
 #   8. Zweistufige RelaxNG-Validierung (P2-13): Stage 2
 #      (mhdbdb.rng / mhdbdb-authority.rng) ist das harte Gate;
@@ -51,6 +71,7 @@ on:
       - 'authority-files/**'
       - 'data/corpus-index.json.gz'
       - 'data/authority-index.json.gz'
+      - 'data/naming-index.json.gz'
       - 'api/**'
       - '!api/index.html'
       - 'scripts/build-corpus-index.py'
@@ -61,6 +82,7 @@ on:
       # soll seinen eigenen Aenderungs-Trigger haben (Review #146).
       - 'scripts/sync/**'
       - 'scripts/audit/**'
+      - 'scripts/ingest/naming/**'
       - 'assets/js/lib/corpus-loader.js'
       - 'requirements.txt'
       - '.github/workflows/data-integrity.yml'
@@ -75,6 +97,7 @@ on:
       - 'authority-files/**'
       - 'data/corpus-index.json.gz'
       - 'data/authority-index.json.gz'
+      - 'data/naming-index.json.gz'
       - 'api/**'
       - '!api/index.html'
       - 'scripts/build-corpus-index.py'
@@ -83,6 +106,7 @@ on:
       - 'scripts/mhg_normalizer.py'
       - 'scripts/sync/**'
       - 'scripts/audit/**'
+      - 'scripts/ingest/naming/**'
       - 'assets/js/lib/corpus-loader.js'
       - 'requirements.txt'
       - '.github/workflows/data-integrity.yml'
@@ -103,6 +127,33 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
+      - name: Diff-Base bestimmen (#154/#152)
+        id: base
+        # Liefert sha = Vergleichsstand fuer das Versions-Bump-Gate und
+        # die naming-Change-Detection. Leerer sha (workflow_dispatch,
+        # Force-Push-Edge) -> Bump-Gate wird uebersprungen, naming-Check
+        # laeuft konservativ.
+        run: |
+          BASE=""
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            git fetch --no-tags --depth=1 origin "${{ github.base_ref }}"
+            BASE=$(git rev-parse FETCH_HEAD)
+          elif [ "${{ github.event_name }}" = "push" ]; then
+            BASE="${{ github.event.before }}"
+            if [ "$BASE" = "0000000000000000000000000000000000000000" ] \
+               || ! git fetch --no-tags --depth=1 origin "$BASE" 2>/dev/null; then
+              BASE=""
+            fi
+          fi
+          echo "sha=$BASE" >> "$GITHUB_OUTPUT"
+          if [ -z "$BASE" ] \
+             || ! git diff --quiet "$BASE" HEAD -- data/naming-index.json.gz scripts/ingest/naming/; then
+            echo "naming_changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "naming_changed=false" >> "$GITHUB_OUTPUT"
+          fi
+          echo "Diff-Base: ${BASE:-<keine>} / naming_changed siehe Output"
+
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
@@ -114,6 +165,16 @@ jobs:
 
       - name: Index version consistency (#47.3)
         run: python scripts/audit/check-index-versions.py
+
+      - name: Index-Versions-Bump-Gate (#154)
+        # MUSS vor dem Index-Rebuild (Step 6) laufen: der ueberschreibt
+        # data/*.json.gz im Working Tree.
+        run: |
+          if [ -z "${{ steps.base.outputs.sha }}" ]; then
+            echo "::notice title=Versions-Bump-Gate::Kein Diff-Base bestimmbar (workflow_dispatch/Force-Push) — Gate uebersprungen."
+          else
+            python scripts/audit/check-index-version-bump.py --base "${{ steps.base.outputs.sha }}"
+          fi
 
       - name: Regenerate RNG from RNC (P2-14 drift check)
         run: |
@@ -206,7 +267,74 @@ jobs:
           sys.exit(0 if ok else 1)
           EOF
 
-      - name: Authority cross-reference integrity (#44/#115)
+      - name: Naming-Index Konsistenz (#152)
+        run: |
+          python - <<'EOF'
+          import gzip, json, sys
+          from pathlib import Path
+          idx = json.load(gzip.open('data/naming-index.json.gz', 'rt', encoding='utf-8'))
+          ok = True
+          commit = idx.get('source', {}).get('commit', '')
+          if not commit:
+              print('::error file=data/naming-index.json.gz::naming-index ohne '
+                    'source.commit — Provenienz verloren. Mit '
+                    'scripts/ingest/naming/01-fetch-and-build-index.py '
+                    '--require-commit rebuilden (#152).')
+              ok = False
+          works = idx.get('works', [])
+          for work in works:
+              sigle = work.get('sigle', '')
+              if not (Path('tei') / f'{sigle}.tei.xml').exists():
+                  print(f'::error file=data/naming-index.json.gz::naming-index '
+                        f'referenziert Sigle "{sigle}", aber tei/{sigle}.tei.xml '
+                        f'existiert nicht — Sigle-Rename ohne naming-Anpassung? '
+                        f'Der Reader-Link im Playground braeche sonst still (#152).')
+                  ok = False
+          if ok:
+              print(f'naming-index OK: source.commit={commit[:12]}, '
+                    f'{len(works)} Werke, alle Sigles im Korpus.')
+          sys.exit(0 if ok else 1)
+          EOF
+
+      - name: Freshness naming-index — Rebuild-and-Compare (#152)
+        if: steps.base.outputs.naming_changed == 'true'
+        # Rebuild aus dem im committeten Index gepinnten source.commit;
+        # deterministisch (generatedAt = Committer-Datum des Pins), daher
+        # muss der dekomprimierte Inhalt matchen. source.ref wird beim
+        # Vergleich normalisiert ('master' im Committed vs. Pin-SHA im
+        # Rebuild — Aufruf-Artefakt, kein Inhalt). GITHUB_TOKEN gegen das
+        # IP-Rate-Limit unauthentifizierter api.github.com-Calls.
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          PIN=$(python -c "import gzip, json; print(json.load(gzip.open('data/naming-index.json.gz', 'rt', encoding='utf-8'))['source'].get('commit', ''))")
+          if [ -z "$PIN" ]; then
+            echo "::error file=data/naming-index.json.gz::naming-index ohne source.commit — Rebuild-and-Compare nicht moeglich (#152)."
+            exit 1
+          fi
+          cp data/naming-index.json.gz "$RUNNER_TEMP/naming-committed.json.gz"
+          python scripts/ingest/naming/01-fetch-and-build-index.py --ref "$PIN" --require-commit
+          python - <<'EOF'
+          import gzip, json, os, sys
+          def load(path):
+              idx = json.load(gzip.open(path, 'rt', encoding='utf-8'))
+              idx.get('source', {}).pop('ref', None)
+              return idx
+          fresh = load('data/naming-index.json.gz')
+          committed = load(os.path.join(os.environ['RUNNER_TEMP'], 'naming-committed.json.gz'))
+          if fresh == committed:
+              print('naming-index: OK (Rebuild aus gepinntem source.commit reproduziert den committeten Stand)')
+              sys.exit(0)
+          print('::error file=data/naming-index.json.gz::naming-index ist nicht '
+                'aus seinem gepinnten source.commit reproduzierbar — Handedit, '
+                'Format-Drift in der Quelle oder Skript-Aenderung ohne Rebuild '
+                '(#152). Lokal scripts/ingest/naming/01-fetch-and-build-index.py '
+                'ausfuehren und das Ergebnis committen.')
+          sys.exit(1)
+          EOF
+          cp "$RUNNER_TEMP/naming-committed.json.gz" data/naming-index.json.gz
+
+      - name: Authority cross-reference integrity (#44/#115/#152)
         run: python scripts/audit/check-authority-cross-refs.py --check
 
       - name: Validate corpus and authority files (P2-13)
