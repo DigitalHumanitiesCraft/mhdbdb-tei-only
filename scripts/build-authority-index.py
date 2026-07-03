@@ -505,27 +505,49 @@ def parse_genres():
         if catdesc_el is None:
             continue
 
-        # Find German and English terms
+        # Find German and English terms — primary vs. alternative kept separate
+        # so the alternative never overwrites the primary label (same last-wins
+        # bug as in concepts, fixed there under #113-Followup; genres analog
+        # affected 250 categories where <term type="alternative"> follows the
+        # primary term).
         term_els = catdesc_el.findall('.//tei:term', namespaces=ns)
         term_de = ''
         term_en = ''
+        alt_de = []
+        alt_en = []
 
         for term_el in term_els:
             lang = term_el.get('{http://www.w3.org/XML/1998/namespace}lang')
+            ttype = term_el.get('type')
+            text = term_el.text.strip() if term_el.text else ''
+            if not text:
+                continue
             if lang == 'de':
-                term_de = term_el.text.strip() if term_el.text else ''
+                if ttype == 'alternative':
+                    alt_de.append(text)
+                elif not term_de:
+                    term_de = text
             elif lang == 'en':
-                term_en = term_el.text.strip() if term_el.text else ''
+                if ttype == 'alternative':
+                    alt_en.append(text)
+                elif not term_en:
+                    term_en = text
 
         if not term_de:
             continue
 
-        genres.append({
+        genre_entry = {
             'id': category_id,
             'termDE': term_de,
             'termEN': term_en,
             'normalized': normalize_mhg(term_de)
-        })
+        }
+        if alt_de:
+            genre_entry['altDE'] = alt_de
+            genre_entry['altNormalized'] = [normalize_mhg(t) for t in alt_de]
+        if alt_en:
+            genre_entry['altEN'] = alt_en
+        genres.append(genre_entry)
 
     print(f"   Found {len(genres)} genres")
     return genres
@@ -786,7 +808,7 @@ def build_index():
 
     # Build index structure
     index = {
-        'version': '1.4.4',  # 1.2.0: Authority migration (genre ptrs, person-works derivation, Frauendienst split). 1.2.1: WZB-Lemmata + Varianten + Werk-Eintrag. 1.2.2: #104 FLG/FLG1-Werk-Titel + work_571 biblStruct auf Vollmann-Profe/Neumann 1990. 1.3.0: #113-Followup — alternative-Terms in concepts.xml getrennt von Primär-Term (altDE/altEN/altNormalized) statt last-wins-Overwrite. 1.4.0: #44/#115 variants.xml aus Korpus regeneriert via scripts/sync/extract-variants.py (+64.287 Formen, 192.472→256.759). 1.4.1: #125 deterministischer Build (generatedAt entfernt, gzip mtime=0). 1.4.2: #143 HH-Genre-Korrektur (Marienleben → Geistliche Rede, work_137). 1.4.3: #143 APO-Gattungs-Metadaten nach Terrahe (work_568: Prosaroman/Antikenroman/Liebes-Abenteuerroman/Exempel/Fürstenspiegel). 1.4.4: #115 Kategorie-A-Stub-Backfill (+125 Lemma-Stubs in lexicon.xml).
+        'version': '1.5.0',  # 1.2.0: Authority migration (genre ptrs, person-works derivation, Frauendienst split). 1.2.1: WZB-Lemmata + Varianten + Werk-Eintrag. 1.2.2: #104 FLG/FLG1-Werk-Titel + work_571 biblStruct auf Vollmann-Profe/Neumann 1990. 1.3.0: #113-Followup — alternative-Terms in concepts.xml getrennt von Primär-Term (altDE/altEN/altNormalized) statt last-wins-Overwrite. 1.4.0: #44/#115 variants.xml aus Korpus regeneriert via scripts/sync/extract-variants.py (+64.287 Formen, 192.472→256.759). 1.4.1: #125 deterministischer Build (generatedAt entfernt, gzip mtime=0). 1.4.2: #143 HH-Genre-Korrektur (Marienleben → Geistliche Rede, work_137). 1.4.3: #143 APO-Gattungs-Metadaten nach Terrahe (work_568: Prosaroman/Antikenroman/Liebes-Abenteuerroman/Exempel/Fürstenspiegel). 1.4.4: #115 Kategorie-A-Stub-Backfill (+125 Lemma-Stubs in lexicon.xml). 1.5.0: Audit #5 — parse_genres last-wins-Fix: alternative-Terms überschreiben den Primär-Term nicht mehr (250 Kategorien korrigiert), altDE/altEN/altNormalized analog concepts.
         'lemmata': lemmata,
         'persons': persons,
         'works': works,
