@@ -20,19 +20,19 @@ elements before adding new ones, preventing duplicates.
 
 Usage:
     # Fetch from API and update works.xml
-    python scripts/data-wrangling/enhance_works_with_zotero.py
+    python scripts/sync/enhance_works_with_zotero.py
 
     # Preview changes without modifying files
-    python scripts/data-wrangling/enhance_works_with_zotero.py --dry-run
+    python scripts/sync/enhance_works_with_zotero.py --dry-run
 
     # Save API response for offline use
-    python scripts/data-wrangling/enhance_works_with_zotero.py --cache
+    python scripts/sync/enhance_works_with_zotero.py --cache
 
     # Use cached data (offline mode)
-    python scripts/data-wrangling/enhance_works_with_zotero.py --offline
+    python scripts/sync/enhance_works_with_zotero.py --offline
 
 After running:
-    python scripts/data-wrangling/sync_tei_headers.py --works  # Sync to TEI headers
+    python scripts/sync/sync_tei_headers.py --works  # Sync to TEI headers
     python scripts/build-authority-index.py                    # Rebuild index
 
 API Details:
@@ -718,19 +718,19 @@ def main():
         epilog="""
 Examples:
   # Fetch from API and update works.xml
-  python scripts/data-wrangling/enhance_works_with_zotero.py
+  python scripts/sync/enhance_works_with_zotero.py
 
   # Preview changes without modifying files
-  python scripts/data-wrangling/enhance_works_with_zotero.py --dry-run
+  python scripts/sync/enhance_works_with_zotero.py --dry-run
 
   # Save API response for offline use
-  python scripts/data-wrangling/enhance_works_with_zotero.py --cache
+  python scripts/sync/enhance_works_with_zotero.py --cache
 
   # Use cached data (offline mode)
-  python scripts/data-wrangling/enhance_works_with_zotero.py --offline
+  python scripts/sync/enhance_works_with_zotero.py --offline
 
 After running:
-  python scripts/data-wrangling/sync_tei_headers.py --works
+  python scripts/sync/sync_tei_headers.py --works
   python scripts/build-authority-index.py
         """
     )
@@ -799,7 +799,7 @@ After running:
         if not args.dry_run:
             logger.info("")
             logger.info("NEXT STEPS:")
-            logger.info("  1. python scripts/data-wrangling/sync_tei_headers.py --works")
+            logger.info("  1. python scripts/sync/sync_tei_headers.py --works")
             logger.info("  2. python scripts/build-authority-index.py")
 
         logger.info("=" * 60)

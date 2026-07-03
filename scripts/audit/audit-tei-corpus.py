@@ -9,7 +9,7 @@ Output:
   - docs/TEI-AUDIT-REPORT.md (human-readable)
 
 Usage:
-  python scripts/data-wrangling/tei-model/audit-tei-corpus.py
+  python scripts/audit/audit-tei-corpus.py
 """
 
 import json
@@ -167,7 +167,7 @@ def build_json(elements, file_stats, base_files):
             'files_analyzed': len(base_files),
             'files_excluded_pattern': '*.disamb.tei.xml',
             'date': str(date.today()),
-            'script': 'scripts/data-wrangling/tei-model/audit-tei-corpus.py',
+            'script': 'scripts/audit/audit-tei-corpus.py',
         },
         'corpus_stats': {
             'total_elements': sum(f['elements'] for f in file_stats),
@@ -369,7 +369,7 @@ def build_markdown(audit_json):
 def main():
     # Determine paths relative to repo root
     script_dir = Path(__file__).resolve().parent
-    repo_root = script_dir.parent.parent.parent  # scripts/data-wrangling/tei-model -> repo root
+    repo_root = script_dir.parent.parent  # scripts/audit -> repo root
     tei_dir = repo_root / 'tei'
     json_out = script_dir / 'tei-audit.json'
     md_out = script_dir / 'TEI-AUDIT-REPORT.md'

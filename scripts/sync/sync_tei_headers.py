@@ -14,21 +14,21 @@ Supported authority files:
 
 Usage:
     # Sync all authority files
-    python scripts/data-wrangling/sync_tei_headers.py --all [--dry-run]
+    python scripts/sync/sync_tei_headers.py --all [--dry-run]
     
     # Sync specific authority file
-    python scripts/data-wrangling/sync_tei_headers.py --works [--dry-run]
-    python scripts/data-wrangling/sync_tei_headers.py --persons [--dry-run]
+    python scripts/sync/sync_tei_headers.py --works [--dry-run]
+    python scripts/sync/sync_tei_headers.py --persons [--dry-run]
     
     # Sync multiple specific files
-    python scripts/data-wrangling/sync_tei_headers.py --works --persons [--dry-run]
+    python scripts/sync/sync_tei_headers.py --works --persons [--dry-run]
 
 Examples:
     # Preview changes from all authority files
-    python scripts/data-wrangling/sync_tei_headers.py --all --dry-run
+    python scripts/sync/sync_tei_headers.py --all --dry-run
     
     # Sync only works.xml (Issue #19)
-    python scripts/data-wrangling/sync_tei_headers.py --works
+    python scripts/sync/sync_tei_headers.py --works
     
 After running:
     python scripts/build-authority-index.py  # Rebuild index
@@ -433,16 +433,16 @@ def main():
         epilog="""
 Examples:
   # Sync all authority files
-  python scripts/data-wrangling/sync_tei_headers.py --all
+  python scripts/sync/sync_tei_headers.py --all
   
   # Sync only works.xml (for Issue #19)
-  python scripts/data-wrangling/sync_tei_headers.py --works
+  python scripts/sync/sync_tei_headers.py --works
   
   # Preview changes before applying
-  python scripts/data-wrangling/sync_tei_headers.py --works --dry-run
+  python scripts/sync/sync_tei_headers.py --works --dry-run
   
   # Sync multiple specific files
-  python scripts/data-wrangling/sync_tei_headers.py --works --persons
+  python scripts/sync/sync_tei_headers.py --works --persons
         """
     )
     

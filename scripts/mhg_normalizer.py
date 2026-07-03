@@ -4,7 +4,7 @@
 MHG (Middle High German) Text Normalizer
 
 CRITICAL: This module MUST produce IDENTICAL normalization results
-as playground/js/utils/text-normalizer.js
+as assets/js/lib/text-normalizer.js
 
 Any discrepancy will cause search failures between build-time indices
 and runtime search.
@@ -24,7 +24,7 @@ def normalize_mhg(text):
     """
     Normalize Middle High German text for consistent search.
 
-    Must match TextNormalizer.normalizeMHG() in text-normalizer.js EXACTLY.
+    Must match TextNormalizer.normalizeMHG() in assets/js/lib/text-normalizer.js EXACTLY.
 
     Transformations:
     - Long vowels → short: â→a, ê→e, î→i, ô→o, û→u (and ā,ē,ī,ō,ū variants)

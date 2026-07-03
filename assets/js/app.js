@@ -903,7 +903,7 @@ class MainSiteApp {
         this.renderKwicPanel(detail.querySelector('[data-kwic-panel]'), result);
     }
 
-    // Stubs — werden in Tasks 6, 7, 8, 9 implementiert
+    // Tabellen-Interaktionen: Sortier-Header, Zeilen-Klick, TSV/CSV-Export (#114)
     handleSortClick(column) {
         if (this.sortSpec.column === column) {
             // Re-Klick toggelt direction
@@ -1061,7 +1061,7 @@ class MainSiteApp {
 
     /**
      * Issue #114 (Followup): Keyness einmalig pro Suche berechnen, erst wenn
-     * die Tabellen-Ansicht sie braucht. Flag wird in performSearch zurückgesetzt.
+     * die Tabellen-Ansicht sie braucht. Flag wird in handleSearch zurückgesetzt.
      */
     ensureKeyness() {
         if (this._keynessComputed) return;

@@ -14,7 +14,7 @@ Output:
   - AUTHORITY-AUDIT-REPORT.md (human-readable)
 
 Usage:
-    python scripts/data-wrangling/tei-model/authority-files/audit-authority-files.py
+    python scripts/audit/audit-authority-files.py
 """
 
 import json

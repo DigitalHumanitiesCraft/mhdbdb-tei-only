@@ -59,7 +59,7 @@ The MHDBDB project follows a **client-only architecture** with no backend server
 6. Create `TEITextReader(corpus, authority, cache)`
 7. Populate text list checkboxes from corpus index
 8. Check URL parameters (`?textId=...&lemmaIds=...&position=...`)
-9. If no URL params, show empty state (no auto-load): a placeholder prompting the user to enter a word/lemma or click a text (`showEmptyState()`, app.js:947)
+9. If no URL params, show empty state (no auto-load): a placeholder prompting the user to enter a word/lemma or click a text (`showEmptyState()` in app.js)
 
 ### Search Flow
 
@@ -423,7 +423,7 @@ A–Z-Einstiegsseite zu den Lemma-Seiten. Lädt nur den Authority-Index (via `Co
 
 - **Endpoint**: `https://api.woerterbuchnetz.de/open-api/dictionaries/{sigle}/lemmata/{searchpattern}`
 - **Response**: `{ result_set: [{ sigle, lemma (HTML-encoded), gram, wbnetzid, wbnetzlink }] }`
-- **Queried dictionaries**: MWB, Lexer (both via `/dictionaries/{sigle}/lemmata/{form}`; `lemma-page.js:278`)
+- **Queried dictionaries**: MWB, Lexer (both via `/dictionaries/{sigle}/lemmata/{form}`; shared client `assets/js/lib/woerterbuchnetz.js`, `fetchWbnetzEntries()`)
 - **Search term**: Normalized lemma form (e.g., "brot" not "brôt")
 - MHDBDB is NOT a directly linkable dictionary in Wörterbuchnetz
 - **Integration**: Dynamic fetch on lemma page, results rendered in dedicated section

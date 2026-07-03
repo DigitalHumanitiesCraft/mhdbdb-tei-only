@@ -65,9 +65,8 @@ def load_resolutions(tsv_path):
 def build_id_index(w_elements):
     """Return {xml_id_string: element} for fast lookup.
 
-    lxml may drop invalid NCName xml:id values when recover=True is used,
-    so we fall back to the raw attribute string if the standard accessor
-    returns nothing.
+    Note: w elements whose xml:id the parser dropped (invalid NCName with
+    recover=True) are skipped — their rows resolve as not_found.
     """
     index = {}
     for w in w_elements:

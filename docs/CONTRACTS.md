@@ -253,7 +253,7 @@ User types: **brott**
 
 ### C.2.1 Main Site: Dedup by textId
 
-Source: inline dedup in `handleSearch()`, `assets/js/app.js:451-469` (no standalone function)
+Source: inline dedup in `handleSearch()`, `assets/js/app.js` (lemmaSet/textMap aggregation; no standalone function)
 
 **Trigger:** User searches on `korpus.html`. `SearchEngine.searchLemma()` returns one result per (textId, lemmaId) pair. When N lemmata match, the same text can appear N times.
 

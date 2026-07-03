@@ -118,7 +118,7 @@ def build_entry(lemma_num: int, sense_num: int, orth: str, pos: str,
 
 
 def find_insertion_point(doc) -> tuple:
-    """Return (parent_element, index_after_which_to_insert) for the max-id entry."""
+    """Return (parent_element, index_after_which_to_insert, max_id) for the max-id entry."""
     max_id, max_entry = max(
         (
             (int(m.group(1)), e)
