@@ -18,6 +18,7 @@ Vorbedingung je Datei: jedes <l ...> eröffnet eine eigene Zeile, jedes
 </l> steht allein auf seiner Zeile (wird geprüft, sonst Abbruch).
 """
 
+import argparse
 import re
 import sys
 from pathlib import Path
@@ -30,7 +31,14 @@ L_CLOSE = re.compile(r'^\s*</l>\s*$')
 L_ANY = re.compile(r'<l[ >]|</l>')
 
 
-def convert(sigle: str) -> bool:
+def plan(sigle: str):
+    """Validate the layout precondition and compute the converted content.
+
+    Returns (path, new_text, converted_count) on success, or None if the
+    precondition is violated. Performs NO write — so callers can validate all
+    files before mutating any (avoids the partial-write hazard of a per-file
+    check-and-write over multiple corpus files).
+    """
     path = REPO / 'tei' / f'{sigle}.tei.xml'
     lines = path.read_text(encoding='utf-8').splitlines(keepends=True)
 
@@ -40,7 +48,7 @@ def convert(sigle: str) -> bool:
     if opens != closes or opens * 2 != total_l:
         print(f'❌ {sigle}: Layout-Annahme verletzt '
               f'(opens={opens}, closes={closes}, l-Tokens={total_l}) — Abbruch')
-        return False
+        return None
 
     out = []
     converted = 0
@@ -55,15 +63,34 @@ def convert(sigle: str) -> bool:
             continue
         out.append(ln)
 
-    path.write_text(''.join(out), encoding='utf-8')
-    print(f'✅ {sigle}: {converted} <l> → <lb/> konvertiert')
-    return True
+    return path, ''.join(out), converted
 
 
 def main():
-    ok = all(convert(s) for s in SIGLES)
-    if not ok:
-        sys.exit(1)
+    parser = argparse.ArgumentParser(description=__doc__,
+                                     formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument('--dry-run', action='store_true',
+                        help='nur validieren + Zählung ausgeben, nichts schreiben')
+    args = parser.parse_args()
+
+    # Validate every file first; abort before writing anything if any fails.
+    plans = []
+    for sigle in SIGLES:
+        result = plan(sigle)
+        if result is None:
+            print('\nKeine Datei geändert (all-or-nothing).')
+            sys.exit(1)
+        plans.append((sigle, *result))
+
+    mode = 'DRY-RUN' if args.dry_run else 'WRITE'
+    for sigle, path, new_text, converted in plans:
+        if not args.dry_run:
+            path.write_text(new_text, encoding='utf-8')
+        print(f'✅ {sigle}: {converted} <l> → <lb/> ({mode})')
+
+    if args.dry_run:
+        print('\nDry-Run — nichts geschrieben. Ohne --dry-run erneut ausführen.')
+        return
     print('\nNächste Schritte: Schema-Validierung, Index-Rebuild '
           '(lineStarts/lineEnds ändern sich), TEI-MODEL §8.1 korrigieren.')
 

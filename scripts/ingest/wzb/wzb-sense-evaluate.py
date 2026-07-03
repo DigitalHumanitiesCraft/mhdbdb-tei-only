@@ -47,13 +47,15 @@ except ImportError:
     print("ERROR: Please install lxml: pip install lxml")
     sys.exit(1)
 
-sys.path.insert(0, str(Path(__file__).parent))
+# mhg_normalizer lives in scripts/ (two levels up after the 2026-05 ingest
+# reorg that moved this file into scripts/ingest/wzb/)
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 from mhg_normalizer import normalize_mhg
 
 if hasattr(sys.stdout, 'reconfigure'):
     sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
-PROJECT_ROOT    = Path(__file__).parent.parent
+PROJECT_ROOT    = Path(__file__).resolve().parent.parent.parent.parent
 DEFAULT_TEI_DIR = PROJECT_ROOT / "tei"
 DEFAULT_LEX     = PROJECT_ROOT / "authority-files" / "lexicon.xml"
 DEFAULT_CON     = PROJECT_ROOT / "authority-files" / "concepts.xml"
