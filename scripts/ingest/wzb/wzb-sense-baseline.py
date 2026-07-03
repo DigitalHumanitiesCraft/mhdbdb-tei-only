@@ -33,7 +33,7 @@ except ImportError:
 if hasattr(sys.stdout, 'reconfigure'):
     sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
-PROJECT_ROOT = Path(__file__).parent.parent
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent.parent
 DEFAULT_TEI_DIR = PROJECT_ROOT / "tei"
 DEFAULT_PENDING = PROJECT_ROOT / "Wenzelsbibel" / "phase3" / "wzb-sense-pending.tsv"
 DEFAULT_OUT     = PROJECT_ROOT / "Wenzelsbibel" / "phase3" / "wzb-sense-majority-baseline.tsv"

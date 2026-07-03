@@ -39,7 +39,7 @@ def uprint(*args, **kwargs):
     text = " ".join(str(a) for a in args) + kwargs.get("end", "\n")
     sys.stdout.buffer.write(text.encode("utf-8", errors="replace"))
 
-PROJECT_ROOT = Path(__file__).parent.parent
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent.parent
 DEFAULT_TEI  = PROJECT_ROOT / "Wenzelsbibel" / "WZB.lemma-autofill.tei.xml"
 DEFAULT_TSV  = PROJECT_ROOT / "Wenzelsbibel" / "phase1b" / "wzb-disambiguation.tsv"
 

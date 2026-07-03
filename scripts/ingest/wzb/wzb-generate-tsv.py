@@ -19,7 +19,7 @@ import sys
 if sys.stdout.encoding != 'utf-8':
     sys.stdout = open(sys.stdout.fileno(), mode='w', encoding='utf-8', buffering=1)
 
-PROJECT_ROOT = Path(__file__).parent.parent
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent.parent
 REPORT_CSV = PROJECT_ROOT / 'Wenzelsbibel' / 'reports' / 'wzb-auto-match-report.csv'
 OUTPUT_TSV = PROJECT_ROOT / 'Wenzelsbibel' / 'phase1b' / 'wzb-disambiguation.tsv'
 

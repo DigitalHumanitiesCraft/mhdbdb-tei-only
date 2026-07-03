@@ -34,7 +34,7 @@ except ImportError:
 if hasattr(sys.stdout, 'reconfigure'):
     sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
-PROJECT_ROOT = Path(__file__).parent.parent
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent.parent
 DEFAULT_TEI     = PROJECT_ROOT / "Wenzelsbibel" / "WZB.lemma-autofill.tei.xml"
 DEFAULT_PENDING = PROJECT_ROOT / "Wenzelsbibel" / "phase2" / "wzb-pos-pending.tsv"
 
