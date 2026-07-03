@@ -260,7 +260,10 @@ test.describe('Search Normalization Test Suite', () => {
                     { input: 'brôt', stage: 1, desc: 'Exact lexicon match', expectedLemma: 'lemma_879', exactCount: 1 },
                     { input: 'brott', stage: 2, desc: 'Exact variant match', expectedLemma: 'lemma_879', exactCount: 1 },
                     { input: 'brot', stage: 2, desc: 'Normalized variant match', expectedLemma: 'lemma_879', exactCount: 1 },
-                    { input: 'fri', stage: 3, desc: 'Partial match fallback', minCount: 2 }
+                    // 'minnecl' statt 'fri': 'fri' ist real ein Variants-Hit
+                    // (Stage 2, → lemma_7226) — 'minnecl' hat weder Exact-
+                    // noch Variants-Eintrag und trifft 5 Lemmata partial.
+                    { input: 'minnecl', stage: 3, desc: 'Partial match fallback', minCount: 2 }
                 ];
 
                 const results = testCases.map(tc => {
