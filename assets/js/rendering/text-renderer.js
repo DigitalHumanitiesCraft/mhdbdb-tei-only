@@ -1,225 +1,23 @@
 /**
- * Text Renderer
- * Handles lazy-loading of TEI files and rendering with lemma highlighting
- * Implements jump-to-context navigation
- * Now with DOM caching for 97% faster repeat loads!
+ * Text Renderer — reduced to providing the shared TEI DOM cache.
+ *
+ * The former render/highlight/context-navigation path in this class
+ * duplicated the live reading view (tei-text-reader.js) and was never
+ * called from anywhere (audit #42). app.js instantiates this class solely
+ * to hand its `cache` to TEITextReader.
  */
 
 import { TEICacheManager } from '../storage/tei-cache-manager.js';
-import { lemmaRefMatchesId } from '../lib/lemma-match.js';
 
 class TextRenderer {
     constructor(corpusIndex, authorityIndex) {
         this.corpusIndex = corpusIndex;
         this.authorityIndex = authorityIndex;
 
-        this.currentTextId = null;
-        this.currentLemmaId = null;
-        this.currentContexts = [];
-        this.currentContextIndex = 0;
-        this.elements = null;
-
-        // Initialize cache manager
+        // Shared TEI DOM cache (IndexedDB, revalidated per load — #151);
+        // consumed by TEITextReader via app.js.
         this.cache = new TEICacheManager();
         this.cache.init().catch(err => console.error('[TextRenderer] Cache init failed:', err));
-    }
-
-    /**
-     * Render TEI text with highlighted lemma occurrences
-     */
-    async renderText(textId, lemmaId, elements) {
-        this.currentTextId = textId;
-        this.currentLemmaId = lemmaId;
-        this.elements = elements;
-
-        console.log(`[TextRenderer] Rendering text: ${textId}, lemma: ${lemmaId}`);
-
-        try {
-            // Step 1: Get text metadata from index
-            const textMeta = this.corpusIndex.texts.find(t => t.id === textId);
-
-            if (!textMeta) {
-                throw new Error(`Text not found: ${textId}`);
-            }
-
-            // Step 2: Lazy-load TEI file
-            const teiDoc = await this.loadTEIFile(textMeta.filename);
-
-            // Step 3: Find all lemma occurrences
-            this.currentContexts = this.findLemmaContexts(teiDoc, lemmaId);
-
-            console.log(`[TextRenderer] Found ${this.currentContexts.length} occurrences`);
-
-            if (this.currentContexts.length === 0) {
-                const targetElement = elements.modalTextContent || elements.modalContent;
-                targetElement.innerHTML = '<p class="text-gray-600">Keine Treffer in diesem Text gefunden.</p>';
-                this.updateNavigationButtons();
-                return;
-            }
-
-            // Step 4: Render first context
-            this.currentContextIndex = 0;
-            this.renderContext();
-
-        } catch (error) {
-            console.error('[TextRenderer] Rendering failed:', error);
-            const targetElement = elements.modalTextContent || elements.modalContent;
-            targetElement.innerHTML = `<p class="text-red-600">Fehler beim Laden: ${error.message}</p>`;
-        }
-    }
-
-    /**
-     * Lazy-load TEI file (cached in IndexedDB, revalidated per load — #151)
-     */
-    async loadTEIFile(filename) {
-        try {
-            const startTime = Date.now();
-            const doc = await this.cache.load(filename);
-            console.log(`[TextRenderer] Loaded ${filename} in ${((Date.now() - startTime) / 1000).toFixed(1)}s`);
-            return doc;
-        } catch (error) {
-            console.error(`[TextRenderer] Failed to load ${filename}:`, error);
-            throw error;
-        }
-    }
-
-    /**
-     * Find all occurrences of lemma in TEI document
-     */
-    findLemmaContexts(teiDoc, lemmaId) {
-        const contexts = [];
-
-        // Find all <w> elements with matching lemmaRef
-        const wordElements = teiDoc.querySelectorAll('w[lemmaRef]');
-
-        wordElements.forEach((wordEl, index) => {
-            const lemmaRef = wordEl.getAttribute('lemmaRef');
-
-            // Exact lemma-id match (CONTRACTS §B.1) — never a substring. See #126.
-            if (lemmaRefMatchesId(lemmaRef, lemmaId)) {
-                const context = this.extractContext(wordEl, index);
-                contexts.push(context);
-            }
-        });
-
-        return contexts;
-    }
-
-    /**
-     * Extract surrounding context for a word element
-     */
-    extractContext(wordEl, wordIndex) {
-        const contextWordsBefore = 20;
-        const contextWordsAfter = 20;
-
-        // Find parent paragraph or similar structural element
-        let contextNode = wordEl.closest('p, div, ab, lg');
-
-        if (!contextNode) {
-            contextNode = wordEl.parentElement;
-        }
-
-        // Get all words in context
-        const allWords = contextNode.querySelectorAll('w');
-        const targetIndex = Array.from(allWords).indexOf(wordEl);
-
-        // Extract context window
-        const start = Math.max(0, targetIndex - contextWordsBefore);
-        const end = Math.min(allWords.length, targetIndex + contextWordsAfter + 1);
-
-        const contextWords = Array.from(allWords).slice(start, end);
-
-        return {
-            wordElement: wordEl,
-            wordIndex: wordIndex,
-            contextWords: contextWords,
-            targetWordIndex: targetIndex - start
-        };
-    }
-
-    /**
-     * Render current context with highlighting
-     */
-    renderContext() {
-        const context = this.currentContexts[this.currentContextIndex];
-
-        if (!context) {
-            return;
-        }
-
-        // Build HTML for context
-        const html = context.contextWords.map((wordEl, idx) => {
-            const wordText = wordEl.textContent;
-            const isTarget = (idx === context.targetWordIndex);
-
-            if (isTarget) {
-                return `<span class="highlight-lemma-1 font-bold">${this.escapeHtml(wordText)}</span>`;
-            } else {
-                return this.escapeHtml(wordText);
-            }
-        }).join(' ');
-
-        // Render in modal (use modalTextContent if available, fallback to modalContent)
-        const targetElement = this.elements.modalTextContent || this.elements.modalContent;
-        targetElement.innerHTML = `
-            <div class="text-gray-800 leading-relaxed">
-                ${html}
-            </div>
-        `;
-
-        // Update navigation
-        this.updateNavigationButtons();
-
-        // Scroll highlighted word into view
-        setTimeout(() => {
-            const highlighted = targetElement.querySelector('.highlight-lemma-1');
-            if (highlighted) {
-                highlighted.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-        }, 100);
-    }
-
-    /**
-     * Navigate to previous/next context
-     */
-    navigateContext(direction) {
-        const newIndex = this.currentContextIndex + direction;
-
-        if (newIndex < 0 || newIndex >= this.currentContexts.length) {
-            return;
-        }
-
-        this.currentContextIndex = newIndex;
-        this.renderContext();
-    }
-
-    /**
-     * Update navigation button states
-     */
-    updateNavigationButtons() {
-        if (!this.elements) return;
-
-        const { prevContext, nextContext, contextIndicator } = this.elements;
-
-        // Update indicator
-        if (this.currentContexts.length > 0) {
-            contextIndicator.textContent = `Treffer ${this.currentContextIndex + 1} von ${this.currentContexts.length}`;
-        } else {
-            contextIndicator.textContent = '';
-        }
-
-        // Disable/enable buttons
-        prevContext.disabled = (this.currentContextIndex === 0);
-        nextContext.disabled = (this.currentContextIndex === this.currentContexts.length - 1);
-    }
-
-    /**
-     * HTML escape utility
-     */
-    escapeHtml(text) {
-        const div = document.createElement('div');
-        div.textContent = text;
-        return div.innerHTML;
     }
 }
 

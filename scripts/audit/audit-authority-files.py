@@ -91,10 +91,13 @@ def audit_file(filepath):
     ids = collect_ids(tree)
     id_formats = Counter()
     for xid in ids:
-        if re.match(r'^[a-z]+_\d+$', xid):
-            id_formats['numeric'] += 1
-        elif re.match(r'^[a-z]+_\d{8}$', xid):
+        # Specific 8-digit pattern MUST precede the generic \d+ pattern —
+        # otherwise 'hierarchical' is unreachable (every 8-digit id also
+        # matches \d+$) and the report always shows 0 (audit #52).
+        if re.match(r'^[a-z]+_\d{8}$', xid):
             id_formats['hierarchical'] += 1
+        elif re.match(r'^[a-z]+_\d+$', xid):
+            id_formats['numeric'] += 1
         elif re.match(r'^[a-z]+_[a-f0-9]{8,}', xid):
             id_formats['uuid/hash'] += 1
         elif re.match(r'^[a-z]+_\d+_[a-z]+_\d+', xid):

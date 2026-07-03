@@ -60,13 +60,9 @@ These 18 cases must pass in both languages. Source: `scripts/mhg_normalizer.py:1
 
 `schône` (ô = circumflex) → `schone`, NOT `schoene`. The circumflex ô maps to plain `o`, while the umlaut ö maps to `oe`. Visually similar, semantically different.
 
-### Helper Functions (must also match)
+### Helper Functions
 
-| Purpose | Python | JavaScript |
-|---------|--------|-----------|
-| Contains (normalized) | `matches_normalized(text, search)` | `TextNormalizer.matchesNormalized(text, search)` |
-| Exact match (normalized) | `exact_match_normalized(text, search)` | `TextNormalizer.exactMatchNormalized(text, search)` |
-| Starts with (normalized) | `starts_with_normalized(text, search)` | `TextNormalizer.startsWithNormalized(text, search)` |
+Die Vergleichs-Helfer existieren nur auf der JS-Seite (`TextNormalizer.matchesNormalized` / `.exactMatchNormalized` / `.startsWithNormalized`). Die Python-Pendants wurden entfernt, weil kein Build-Skript sie je aufrief (Audit #107) — Python-Code vergleicht direkt über `normalize_mhg(a) == normalize_mhg(b)` etc. Der harte Paritäts-Vertrag gilt für `normalize_mhg()` ↔ `TextNormalizer.normalizeMHG()`; wer einen Python-Vergleichs-Helfer neu einführt, muss ihn wieder 1:1 gegen die JS-Semantik spiegeln (Substring/Exact/Prefix auf normalisierten Strings).
 
 ---
 

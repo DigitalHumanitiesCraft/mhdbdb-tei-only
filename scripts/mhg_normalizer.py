@@ -70,63 +70,6 @@ def normalize_mhg(text):
     return normalized
 
 
-def matches_normalized(text, search_term):
-    """
-    Check if text contains search term (with normalization).
-
-    Args:
-        text (str): Text to search in
-        search_term (str): Term to search for
-
-    Returns:
-        bool: True if normalized text contains normalized search term
-    """
-    if not text or not search_term:
-        return False
-
-    normalized_text = normalize_mhg(text)
-    normalized_search = normalize_mhg(search_term)
-
-    return normalized_search in normalized_text
-
-
-def exact_match_normalized(text, search_term):
-    """
-    Check for exact match (with normalization).
-
-    Args:
-        text (str): Text to compare
-        search_term (str): Term to match exactly
-
-    Returns:
-        bool: True if normalized texts are identical
-    """
-    if not text or not search_term:
-        return False
-
-    return normalize_mhg(text) == normalize_mhg(search_term)
-
-
-def starts_with_normalized(text, search_term):
-    """
-    Check if text starts with search term (with normalization).
-
-    Args:
-        text (str): Text to check
-        search_term (str): Term to check for at start
-
-    Returns:
-        bool: True if normalized text starts with normalized search term
-    """
-    if not text or not search_term:
-        return False
-
-    normalized_text = normalize_mhg(text)
-    normalized_search = normalize_mhg(search_term)
-
-    return normalized_text.startswith(normalized_search)
-
-
 # Test cases for validation
 TEST_CASES = [
     # (input, expected_output)

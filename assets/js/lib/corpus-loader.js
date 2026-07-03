@@ -166,39 +166,6 @@ class CorpusLoader {
         }
     }
 
-    /**
-     * Clear all cached indices (useful for debugging)
-     */
-    async clearCache() {
-        try {
-            await this.db.indices.clear();
-            console.log('[CorpusLoader] Cache cleared');
-        } catch (error) {
-            console.error('[CorpusLoader] Failed to clear cache:', error);
-        }
-    }
-
-    /**
-     * Get cache statistics
-     */
-    async getCacheStats() {
-        try {
-            const indices = await this.db.indices.toArray();
-
-            const stats = indices.map(index => ({
-                name: index.name,
-                version: index.version,
-                age: Math.round((Date.now() - index.timestamp) / (24 * 60 * 60 * 1000)),
-                size: JSON.stringify(index.data).length
-            }));
-
-            return stats;
-
-        } catch (error) {
-            console.error('[CorpusLoader] Failed to get cache stats:', error);
-            return [];
-        }
-    }
 }
 
 export { CorpusLoader, INDEX_VERSION, AUTHORITY_INDEX_VERSION };

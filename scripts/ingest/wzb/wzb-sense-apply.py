@@ -214,10 +214,6 @@ def apply_senses(tei_path, pending_path, lex_path, var_path, dry_run=False):
         for nf in not_found[:10]:
             print(f"  {nf}")
 
-    # Decision-type breakdown (for scientific reporting)
-    if "decision_type" in (list(resolutions.values())[0].keys() if resolutions else {}):
-        pass  # handled below via pending TSV re-read
-
     if dry_run:
         print(f"\nDRY RUN: @ana coverage would be "
               f"{projected}/{total} ({100*projected/total:.1f}%)")
@@ -231,27 +227,6 @@ def apply_senses(tei_path, pending_path, lex_path, var_path, dry_run=False):
 
     tree.write(str(tei_path), encoding="utf-8", xml_declaration=True, pretty_print=True)
     print(f"TEI written to {tei_path}")
-
-
-def report_decision_breakdown(pending_path: Path):
-    """Print @ana coverage broken down by decision_type."""
-    from collections import Counter
-    import csv as _csv
-    counts: Counter = Counter()
-    total = 0
-    with pending_path.open(encoding="utf-8") as f:
-        for row in _csv.DictReader(f, delimiter="\t"):
-            total += 1
-            sense = row.get("resolved_sense", "").strip()
-            dt    = row.get("decision_type", "").strip() or "unresolved"
-            if not sense:
-                dt = "unresolved"
-            elif sense.upper() == "ABSTAIN":
-                dt = "abstain"
-            counts[dt] += 1
-    print(f"\n=== Decision-type breakdown ({total} pending rows) ===")
-    for dt, n in sorted(counts.items(), key=lambda x: -x[1]):
-        print(f"  {dt:<20}: {n:>6} ({100*n/total:.1f}%)")
 
 
 if __name__ == "__main__":

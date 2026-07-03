@@ -86,18 +86,4 @@ export class TextNormalizer {
 
         return normalizedText.startsWith(normalizedSearch);
     }
-
-    /**
-     * Get normalized version of text for display/comparison
-     * (Useful for debugging and UI hints)
-     * @param {string} text - Text to normalize
-     * @returns {string} Normalized version with original preserved
-     */
-    static getNormalizedPreview(text) {
-        const normalized = this.normalizeMHG(text);
-        if (text.toLowerCase() === normalized) {
-            return text; // No changes needed
-        }
-        return `${text} (normalized: ${normalized})`;
-    }
 }

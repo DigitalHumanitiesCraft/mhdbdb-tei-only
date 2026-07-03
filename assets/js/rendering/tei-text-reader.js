@@ -1030,28 +1030,6 @@ class TEITextReader {
         this.highlightTextInList(this.currentTextId);
     }
 
-    closePanel() {
-        // Note: We might not actually want to hide the panel in the new UX
-        // For now, just reset state but keep panel visible
-
-        // Reset state
-        this.currentHighlights = [];
-        this.currentHighlightIndex = 0;
-        this.currentTextId = null;
-        this.currentLemmaId = null;
-
-        // Clear content
-        if (this.elements.readingBody) {
-            this.elements.readingBody.innerHTML = '';
-        }
-        if (this.elements.readingMetadata) {
-            this.elements.readingMetadata.classList.add('hidden');
-        }
-
-        // Remove text list highlighting
-        this.highlightTextInList(null);
-    }
-
     /**
      * Highlight the currently viewed text in the text list
      */

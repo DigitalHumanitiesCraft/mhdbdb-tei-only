@@ -456,25 +456,4 @@ export class TestUtils {
         this.testResults = [];
         console.log('🧪 Starting test suite...');
     }
-
-    // ==================== INTEGRATION HELPERS ====================
-
-    async initializePlayground() {
-        // Wait for the playground to be initialized
-        await this.waitFor(() => window.playground !== null);
-        return window.playground;
-    }
-
-    async loadTestModules() {
-        // Ensure all modules are loaded
-        const modules = ['storage-manager.js', 'tei-files.js', 'main.js'];
-
-        for (const module of modules) {
-            try {
-                await import(`./js/${module}`);
-            } catch (error) {
-                throw new Error(`Failed to load module ${module}: ${error.message}`);
-            }
-        }
-    }
 }
