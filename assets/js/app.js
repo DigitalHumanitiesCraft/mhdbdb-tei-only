@@ -708,7 +708,12 @@ class MainSiteApp {
         // Clear previous results
         this.elements.resultsList.innerHTML = '';
 
-        // Display first page (Listen-Mode) ODER ganze Tabelle (Tabellen-Mode)
+        // Display first page (Listen-Mode) ODER ganze Tabelle (Tabellen-Mode).
+        // currentPage zurücksetzen: displayResults rendert die Liste immer von
+        // vorn (innerHTML geleert), aber loadMoreResults zählt currentPage hoch.
+        // Ohne Reset zeigt ein erneuter Aufruf (z.B. View-Toggle Tabelle→Liste)
+        // einen späteren Slice statt Seite 0 — bei ≤1 Seite bleibt die Liste leer.
+        this.currentPage = 0;
         if (this.viewMode === 'table') {
             this.renderTable();
         } else {
@@ -1439,8 +1444,13 @@ class MainSiteApp {
         }
 
         // Lemma-IDs sind optional — beim reinen Werk-Deep-Link (#135) fehlen sie.
+        // Deep-Links tragen mal blanke numerische IDs (879), mal kanonische
+        // (lemma_879). Der Exact-Token-Match des Readers (lemma-match.js,
+        // CONTRACTS §B.1) braucht den lemma_-Präfix — hier normalisieren
+        // (idempotent für IDs, die ihn schon tragen), sonst kein Highlight.
         const lemmaIds = lemmaIdsParam
             ? lemmaIdsParam.split(',').map(id => id.trim()).filter(id => id)
+                .map(id => id.startsWith('lemma_') ? id : `lemma_${id}`)
             : [];
         const targetPosition = positionParam ? parseInt(positionParam) : null;
 

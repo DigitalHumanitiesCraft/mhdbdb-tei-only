@@ -213,6 +213,8 @@ test.describe('Persistent Lemma Pages', () => {
         // Should link to korpus.html with correct params
         expect(href).toContain('korpus.html');
         expect(href).toContain('textId=');
-        expect(href).toContain('lemmaIds=879');
+        // Reader-Highlight braucht den kanonischen lemma_-Präfix (CONTRACTS §B.1);
+        // der Belegstellen-Link muss ihn also mitgeben, nicht abstreifen.
+        expect(href).toContain('lemmaIds=lemma_879');
     });
 });

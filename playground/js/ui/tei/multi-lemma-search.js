@@ -212,7 +212,7 @@ export class MultiLemmaSearchUI {
                 if (resultsContainer) {
                     resultsContainer.innerHTML = `
                         <div class="text-sm text-red-600">
-                            ❌ Keine gültigen Lemmata gefunden für: ${searchTerms.join(', ')}
+                            ❌ Keine gültigen Lemmata gefunden für: ${searchTerms.map(t => this.escapeHtml(t)).join(', ')}
                         </div>
                     `;
                 }

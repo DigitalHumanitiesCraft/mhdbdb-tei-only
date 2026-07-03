@@ -223,7 +223,7 @@ class LemmaPage {
         this.elements.occurrencesContent.innerHTML = occurrences.map(occ => `
             <div class="occurrence-row">
                 <div>
-                    <a href="../korpus.html?textId=${encodeURIComponent(occ.textId)}&lemmaIds=${lemmaKey.replace('lemma_', '')}"
+                    <a href="../korpus.html?textId=${encodeURIComponent(occ.textId)}&lemmaIds=${encodeURIComponent(lemmaKey)}"
                        class="text-sm font-medium text-brand-600 hover:text-brand-800 transition">
                         ${occ.title}
                     </a>

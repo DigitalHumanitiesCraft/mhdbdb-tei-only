@@ -40,6 +40,29 @@ Von **129 Roh-Findings** (120 nach Deduplizierung) haben **113 die adversariale 
 
 ---
 
+## Nachtrag (2026-07-03): Korrekturen & Behebungsstand
+
+Nach Erstellung des Reports wurden Findings triagiert und teils behoben. Zwei Korrekturen am Report selbst:
+
+**1. Die „Archiv-Kandidat"-Dead-Code-Findings sind HINFÄLLIG.** Eine Live-Prüfung der GitHub-Issues widerlegt die Annahme, die betroffenen `scripts/`-Wurzel-Skripte seien abgeschlossene One-Shots:
+
+| Finding | Skript | Issue-Status | Verdikt |
+|---|---|---|---|
+| Z. 1359 | `convert-l-to-lb-143.py` | **#143 offen** (Policy-Entscheidung; bei „konvertieren" läuft genau dieses Skript) | kein Archiv |
+| #105 (Z. 1450) | `insert-lg-stanzas-138.py` | **#138 offen** (editorischer Substream, Kat. A = Skript-Umsetzung) | kein Archiv |
+| Low-Liste (Z. 1570) | `insert-div-wrappers-138.py` | **#138 offen** | kein Archiv |
+
+Ebenfalls nicht archivierbar (im Report nicht einzeln als Archiv-Finding gerendert): `insert-stanzas-from-linecode.py` (**#110 offen**, WVV-Bulk-Run steht aus) und `insert-pb-from-linecode.py` (#26 zu, aber als wiederverwendbares Template dokumentiert). Diese Skripte sind **dormant tooling an offenen Issues**, nicht legacy — Archivierung würde referenzierte Werkzeuge entfernen. Begründung: DATA-MODEL.md → Ingest-Verfahren.
+
+**2. Der `all()`-Schreib-Short-Circuit ist korrekt `convert-l-to-lb-143.py` zugeschrieben** (Z. 1375), nicht `insert-lg-stanzas-138.py` (letzteres hat `--dry-run` bereits). Diese Report-Zuordnung war richtig.
+
+**Behebungsstand (Commits auf diesem Branch):**
+- ✅ 6 Crash-/Import-Bugs in den dormanten Ingest-Skripten gefixt (`381d977`): WZB-`sys.path`/`PROJECT_ROOT`, fehlender `Counter`-Import, KeyError `auto_word_ref`→`auto_corresp`, argparse-dest-Kollision (`wzb-add-lemma`), sowie der `all()`-Short-Circuit + `--dry-run` in `convert-l-to-lb-143.py`.
+- ✅ Die einzige **Critical** (reflektiertes DOM-XSS, `multi-lemma-search.js`) und die **High**-Frontend-Bugs (`app.js` Pagination + Lemma-Präfix-Normalisierung, `lemma-page.js`-Emitter + Test, `person-explorer.js` Multi-Sigle) behoben.
+- ⏳ Übrige Medium/Low-Findings: offen zur Triage.
+
+---
+
 ## 🔴 Critical (1)
 
 ### 1. `playground/js/ui/tei/multi-lemma-search.js:215` — Bug
@@ -1358,6 +1381,8 @@ def get_namespaces(tree):
 ### 98. `scripts/convert-l-to-lb-143.py:1` — Dead Code
 *Abgeschlossenes Einmal-Migrationsskript convert-l-to-lb-143.py ist Archiv-Kandidat*
 
+> ⚠️ **HINFÄLLIG (Archiv-Teil):** #143 ist offen — Skript ist dormant tooling, kein Archiv. Der beschriebene `all()`/`--dry-run`-Bug ist jedoch real und in `381d977` behoben. Siehe Nachtrag oben.
+
 **Fehlerszenario:** Beweiskette Nicht-Referenzierung: Das Skript wandelt fest verdrahtet SIGLES = ['APO', 'HMT', 'HH'] (Zeile 26) einmalig von <l> auf <lb/> um (KZW-Entscheid #143, 2026-06-12, abgeschlossene Migration). Grep ueber .github/workflows/, package.json, requirements.txt, docs/ und alle anderen scripts/ findet KEINE Referenz ausser docs/journal-archive.md (disposabler Log). Es fehlt in scripts/README.md. Kein CLI-Parameter zur Wiederverwendung auf andere Texte (Ziel-Sigel hartcodiert). Ergebnis: das Skript liegt im aktiven scripts/-Wurzelverzeichnis, obwohl seine Migration erledigt ist und es von keiner lebenden Pipeline aufgerufen wird.
 
 ```
@@ -1448,6 +1473,8 @@ tail = el_to_remove.tail or ""
 
 ### 105. `scripts/insert-lg-stanzas-138.py:1` — Dead Code
 *Abgeschlossenes Einmal-Migrationsskript insert-lg-stanzas-138.py ist Archiv-Kandidat*
+
+> ⚠️ **HINFÄLLIG:** #138 ist offen — Skript wird für den editorischen Substream gebraucht, kein Archiv. Siehe Nachtrag oben.
 
 **Fehlerszenario:** Beweiskette Nicht-Referenzierung: Das Skript wrappt einmalig 814 <lg type="stanza"> in die HUG-Lieder aus KZWs HUG.txt-Linecode-Export (Issue #138 Punkt 5, laut JOURNAL 2026-06-12 als 9c9b78e83 gepusht/deployt/CI gruen = abgeschlossen). Ziel (HUG) und Mechanik sind hartcodiert. Grep ueber .github/workflows/, package.json, requirements.txt, docs/ und alle anderen scripts/ findet KEINE lebende Referenz ausser docs/JOURNAL.md/journal-archive.md (disposabler Log) und einem Kommentar-Verweis in convert-l-to-lb-143.py (selbst Archiv-Kandidat); es fehlt in scripts/README.md. Ergebnis: erledigtes One-Shot-Skript verbleibt im aktiven scripts/-Wurzelverzeichnis.
 
