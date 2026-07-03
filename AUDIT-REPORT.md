@@ -56,10 +56,18 @@ Ebenfalls nicht archivierbar (im Report nicht einzeln als Archiv-Finding gerende
 
 **2. Der `all()`-Schreib-Short-Circuit ist korrekt `convert-l-to-lb-143.py` zugeschrieben** (Z. 1375), nicht `insert-lg-stanzas-138.py` (letzteres hat `--dry-run` bereits). Diese Report-Zuordnung war richtig.
 
-**Behebungsstand (Commits auf diesem Branch):**
+**Behebungsstand (Commits auf diesem Branch bzw. Folge-Branch):**
 - ✅ 6 Crash-/Import-Bugs in den dormanten Ingest-Skripten gefixt (`381d977`): WZB-`sys.path`/`PROJECT_ROOT`, fehlender `Counter`-Import, KeyError `auto_word_ref`→`auto_corresp`, argparse-dest-Kollision (`wzb-add-lemma`), sowie der `all()`-Short-Circuit + `--dry-run` in `convert-l-to-lb-143.py`.
-- ✅ Die einzige **Critical** (reflektiertes DOM-XSS, `multi-lemma-search.js`) und die **High**-Frontend-Bugs (`app.js` Pagination + Lemma-Präfix-Normalisierung, `lemma-page.js`-Emitter + Test, `person-explorer.js` Multi-Sigle) behoben.
-- ⏳ Übrige Medium/Low-Findings: offen zur Triage.
+- ✅ Die einzige **Critical** (reflektiertes DOM-XSS, `multi-lemma-search.js`) und die **High**-Frontend-Bugs (`app.js` Pagination + Lemma-Präfix-Normalisierung, `lemma-page.js`-Emitter + Test, `person-explorer.js` Multi-Sigle) behoben (`a86c715`).
+
+**Nachtrag 2 (2026-07-03, Branch `claude/workflows-audit-status-i0h2hi`):**
+- ✅ **#28–#32, #70**: `PROJECT_ROOT` in den 7 restlichen WZB-Skripten auf Repo-Root korrigiert (komplettiert `381d977`); alle Default-Pfade verifiziert, Dry-Runs laufen end-to-end.
+- ✅ **#18, #19, #60–62, #66**: Escaping-Cluster — SearchHelpers-Suchbegriff, file-display (onclick → addEventListener-Closure), lemma-page-Index-Felder, multi-lemma-search Attribut-Kontext + querySelector.
+- ✅ **#47, #64, #65**: lebende `lemmaRef*=`-Substring-Selektoren in `tei-manager.js` durch `lemmaRefMatchesId` ersetzt (§B.1). Tote Methoden mit demselben Muster (`extractMatchingWordsFromParagraph`, `searchWordsInText`, `findWordsByLemmaRef`) bleiben für den Dead-Code-Sweep.
+- ✅ **#5** (letzter offener High): `parse_genres` last-wins gefixt (250 DE- + 308 EN-Labels), Authority-Index v1.5.0 + API-Rebuild.
+- ✅ **#43, #44, #54, #76, #77, #81–85, #87, #100, #104, #106, #108**: Docs-Drift + Klarheits-Kommentare. Dabei entdeckt und mitgefixt (nicht im Report): `audit-tei-corpus.py` `repo_root` zeigte nach der Reorg eine Ebene zu hoch — Skript war komplett lauffunfähig; identische stale Pfade auch in `sync_tei_headers.py` (10×) korrigiert.
+- ✅ **#38**: Tailwind-content-Globs — 8 ungescannte Seiten, Rebuild strikt additiv (405→437 Selektoren).
+- ⏳ Offen: Entscheidungs-Findings (#14, #15, #20, #45, #51, #37, #74, #75), Dead-Code-Sweep (23 Findings), Test-Härtung (~12 Findings), übrige Medium/Low.
 
 ---
 
