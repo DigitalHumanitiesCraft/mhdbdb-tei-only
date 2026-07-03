@@ -155,9 +155,9 @@ class LemmaPage {
             this.elements.etymologyContent.innerHTML = lemma.etymology.map(comp => {
                 const numId = comp.lemmaRef ? comp.lemmaRef.replace('lemma_', '') : null;
                 if (numId) {
-                    return `<a href="?id=${numId}" class="etymology-link">${comp.text}</a>`;
+                    return `<a href="?id=${numId}" class="etymology-link">${escapeHtml(comp.text)}</a>`;
                 }
-                return `<span class="etymology-link">${comp.text}</span>`;
+                return `<span class="etymology-link">${escapeHtml(comp.text)}</span>`;
             }).join(' <span class="text-slate-300">+</span> ');
         }
 
@@ -171,7 +171,7 @@ class LemmaPage {
                         <div class="text-xs text-slate-400 mb-1">Bedeutung ${idx + 1}</div>
                         <div class="text-sm text-slate-700">
                             ${conceptLabels.length > 0
-                                ? conceptLabels.map(c => `<span class="inline-block bg-slate-100 px-2 py-0.5 rounded text-xs mr-1 mb-1">${c}</span>`).join('')
+                                ? conceptLabels.map(c => `<span class="inline-block bg-slate-100 px-2 py-0.5 rounded text-xs mr-1 mb-1">${escapeHtml(c)}</span>`).join('')
                                 : '<span class="text-slate-400">Keine Begriffszuordnung</span>'
                             }
                         </div>
@@ -225,9 +225,9 @@ class LemmaPage {
                 <div>
                     <a href="../korpus.html?textId=${encodeURIComponent(occ.textId)}&lemmaIds=${encodeURIComponent(lemmaKey)}"
                        class="text-sm font-medium text-brand-600 hover:text-brand-800 transition">
-                        ${occ.title}
+                        ${escapeHtml(occ.title)}
                     </a>
-                    ${occ.author ? `<span class="text-xs text-slate-400 ml-2">${occ.author}</span>` : ''}
+                    ${occ.author ? `<span class="text-xs text-slate-400 ml-2">${escapeHtml(occ.author)}</span>` : ''}
                 </div>
                 <span class="text-xs text-slate-400 flex-shrink-0">${occ.frequency}x</span>
             </div>
@@ -322,7 +322,7 @@ class LemmaPage {
         this.elements.variantsCount.textContent = `(${variantForms.length})`;
         this.elements.variantsContent.innerHTML = variantForms.map(v =>
             `<a href="../korpus.html?search=${encodeURIComponent(v)}"
-                class="inline-block bg-slate-100 px-2 py-0.5 rounded text-xs mr-1 mb-1 hover:bg-brand-50 hover:text-brand-700 transition">${v}</a>`
+                class="inline-block bg-slate-100 px-2 py-0.5 rounded text-xs mr-1 mb-1 hover:bg-brand-50 hover:text-brand-700 transition">${escapeHtml(v)}</a>`
         ).join('');
     }
 
@@ -340,7 +340,7 @@ class LemmaPage {
         this.elements.compoundsContent.innerHTML = compounds.map(c => {
             const numId = c.id.replace('lemma_', '');
             return `<a href="?id=${numId}"
-                class="inline-block bg-slate-100 px-2 py-0.5 rounded text-xs mr-1 mb-1 hover:bg-brand-50 hover:text-brand-700 transition">${c.lemma}</a>`;
+                class="inline-block bg-slate-100 px-2 py-0.5 rounded text-xs mr-1 mb-1 hover:bg-brand-50 hover:text-brand-700 transition">${escapeHtml(c.lemma)}</a>`;
         }).join('');
     }
 
@@ -396,7 +396,7 @@ class LemmaPage {
             const tooltip = `${overlap} gemeinsame Begriffszuordnung${overlap === 1 ? '' : 'en'}`;
             return `<a href="?id=${numId}"
                 class="inline-block bg-slate-100 px-2 py-0.5 rounded text-xs mr-1 mb-1 hover:bg-brand-50 hover:text-brand-700 transition"
-                title="${tooltip}">${l.lemma}</a>`;
+                title="${tooltip}">${escapeHtml(l.lemma)}</a>`;
         }).join('');
     }
 

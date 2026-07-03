@@ -476,11 +476,13 @@ export class TEIFilesManager {
             if (!doc) continue;
 
             if (contextType === 'document') {
-                // Search across entire document
-                const containsAllLemmas = lemmaIds.every(lemmaId => {
-                    const elements = doc.querySelectorAll(`w[lemmaRef*="lexicon.xml#lemma_${lemmaId}"]`);
-                    return elements.length > 0;
-                });
+                // Search across entire document.
+                // Exact lemma-id match (CONTRACTS §B.1) — never a substring:
+                // the former *= selector matched lemma_3089 when searching lemma_308 (#126).
+                const words = Array.from(doc.querySelectorAll('w[lemmaRef]'));
+                const containsAllLemmas = lemmaIds.every(lemmaId =>
+                    words.some(word => lemmaRefMatchesId(word.getAttribute('lemmaRef'), `lemma_${lemmaId}`))
+                );
 
                 if (containsAllLemmas) {
                     const matchingWords = this.extractMatchingWordsFromDocument(doc, lemmaIds);
@@ -577,37 +579,28 @@ export class TEIFilesManager {
 
     extractMatchingWordsFromDocument(doc, lemmaIds) {
         const matchingWords = {};
-        
+
+        // Exact lemma-id match (CONTRACTS §B.1) — never a substring: the former
+        // *= selector pulled lemma_3089 words into lemma_308 results (#126).
+        // One pass per lemma over all w[lemmaRef]; no dedup needed since each
+        // word is checked exactly once.
+        const words = Array.from(doc.querySelectorAll('w[lemmaRef]'));
+
         lemmaIds.forEach(lemmaId => {
             matchingWords[lemmaId] = [];
-            
-            // Try multiple selector approaches
-            const selectors = [
-                `w[lemmaRef*="lexicon.xml#lemma_${lemmaId}"]`,
-                `w[lemmaRef="lexicon.xml#lemma_${lemmaId}"]`,
-                `w[lemmaRef$="#lemma_${lemmaId}"]`
-            ];
-            
-            const foundWords = new Set(); // Avoid duplicates
-            
-            selectors.forEach(selector => {
-                const words = doc.querySelectorAll(selector);
-                words.forEach(word => {
-                    const wordId = word.getAttribute('xml:id');
-                    if (!foundWords.has(wordId)) {
-                        foundWords.add(wordId);
-                        matchingWords[lemmaId].push({
-                            text: word.textContent?.trim(),
-                            id: wordId,
-                            lemmaRef: word.getAttribute('lemmaRef'),
-                            context: this.getWordParagraphContext(word)
-                        });
-                    }
-                });
+
+            words.forEach(word => {
+                if (lemmaRefMatchesId(word.getAttribute('lemmaRef'), `lemma_${lemmaId}`)) {
+                    matchingWords[lemmaId].push({
+                        text: word.textContent?.trim(),
+                        id: word.getAttribute('xml:id'),
+                        lemmaRef: word.getAttribute('lemmaRef'),
+                        context: this.getWordParagraphContext(word)
+                    });
+                }
             });
-            
         });
-        
+
         return matchingWords;
     }
 

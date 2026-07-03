@@ -45,6 +45,14 @@ export function createSearchInterface(config) {
 
 // ==================== SEARCH RESULT HANDLING ====================
 
+// Self-contained per module (DESIGN.md §Escaping-Konvention).
+function escapeHtml(s) {
+  if (s == null) return '';
+  return String(s).replace(/[&<>"']/g, c => (
+    { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
+  ));
+}
+
 export function handleSearchResults(searchTerm, matches, config) {
   const {
     searchTermForDisplay = searchTerm,
@@ -55,7 +63,7 @@ export function handleSearchResults(searchTerm, matches, config) {
   if (matches.length === 0) {
     return `
       <div class="rounded-2xl border border-dashed border-slate-200 bg-slate-50/70 p-6 text-center text-sm text-slate-500">
-        ${emptyMessage.replace('{term}', searchTermForDisplay)}
+        ${emptyMessage.replace('{term}', escapeHtml(searchTermForDisplay))}
       </div>
     `;
   }
@@ -67,7 +75,7 @@ export function handleSearchResults(searchTerm, matches, config) {
     matches: displayMatches,
     headerHTML: `
       <div class="rounded-xl bg-slate-50/80 px-4 py-2 text-sm font-medium text-slate-600">
-        ${matches.length} Treffer für "${searchTermForDisplay}"${countInfo}
+        ${matches.length} Treffer für "${escapeHtml(searchTermForDisplay)}"${countInfo}
       </div>
     `,
   };
