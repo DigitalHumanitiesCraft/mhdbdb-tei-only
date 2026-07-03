@@ -187,34 +187,6 @@ test.describe('Search Functions with Pre-Built Corpus', () => {
         }
     });
 
-    test('Search 10: XPath Query on TEI', async ({ page }) => {
-        // XPath query UI may not be present in current redesign
-        const xpathInput = page.locator('#xpathInput');
-
-        if (await xpathInput.isVisible({ timeout: 2000 }).catch(() => false)) {
-            // Select "TEI Texte" as target
-            await page.selectOption('#xpathTarget', 'tei');
-
-            // Enter a simple XPath query
-            await page.fill('#xpathInput', '//tei:w[@lemmaRef]');
-
-            // Execute query
-            await page.click('button:has-text("XPath ausführen")');
-
-            // Wait for results
-            await page.waitForTimeout(2000);
-
-            // Check if results appeared (not empty)
-            const results = await page.locator('#resultsContainer').textContent();
-            expect(results.length).toBeGreaterThan(100);
-
-            console.log('✅ XPath query on TEI corpus works');
-        } else {
-            // XPath UI not present in current redesign — verify core search still works
-            console.log('ℹ️ XPath query UI not present in current playground version');
-        }
-    });
-
     // ==================== PERFORMANCE TEST ====================
 
     test('Performance: Corpus auto-loads within 60 seconds', async ({ page }) => {

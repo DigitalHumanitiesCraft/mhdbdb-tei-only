@@ -34,7 +34,7 @@ test.describe('Search Engine', () => {
         expect(first).toHaveProperty('lemmaId');
     });
 
-    test('searchLemma() returns no exact/variant match for gibberish', async ({ page }) => {
+    test('authority index has no exact or variant entry for gibberish', async ({ page }) => {
         // Stage 3 partial match may still return results for any string,
         // so we test that resolveLemmaIds finds no exact or variant match
         const lemmaIds = await page.evaluate(() => {

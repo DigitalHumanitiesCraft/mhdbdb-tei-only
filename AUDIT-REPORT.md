@@ -67,7 +67,9 @@ Ebenfalls nicht archivierbar (im Report nicht einzeln als Archiv-Finding gerende
 - ✅ **#5** (letzter offener High): `parse_genres` last-wins gefixt (250 DE- + 308 EN-Labels), Authority-Index v1.5.0 + API-Rebuild.
 - ✅ **#43, #44, #54, #76, #77, #81–85, #87, #100, #104, #106, #108**: Docs-Drift + Klarheits-Kommentare. Dabei entdeckt und mitgefixt (nicht im Report): `audit-tei-corpus.py` `repo_root` zeigte nach der Reorg eine Ebene zu hoch — Skript war komplett lauffunfähig; identische stale Pfade auch in `sync_tei_headers.py` (10×) korrigiert.
 - ✅ **#38**: Tailwind-content-Globs — 8 ungescannte Seiten, Rebuild strikt additiv (405→437 Selektoren).
-- ⏳ Offen: Entscheidungs-Findings (#14, #15, #20, #45, #51, #37, #74, #75), Dead-Code-Sweep (23 Findings), Test-Härtung (~12 Findings), übrige Medium/Low.
+- ✅ **Dead-Code-Sweep** (#42, #46, #52, #78–80, #88–94, #101–103, #107, #109): −753 Zeilen; jedes Finding vor dem Löschen per repo-weitem Grep gegenverifiziert. Dabei 12 weitere tote Legacy-teiData-Helfer in `tei-manager.js` mit demselben Beweisstandard entfernt (im Report nicht einzeln gelistet). CONTRACTS §C angepasst (Vergleichs-Helfer nur noch JS-seitig). Volle Suite danach 185/187 (2 bekannte Umgebungs-Fails).
+- ✅ **Test-Härtung** (#12, #39–41, #55–57, #73, #110–113): vakuöse Tests durch echte Assertions ersetzt (Work→Author über reale UI statt totem „→ Autor"-Button; Lemma→Concept über senses[].conceptIds; Touch-Targets mit Mess-Pflicht; Cache-Tests mit Cache-Entry- bzw. Zero-Refetch-Assertion im selben Test; Multi-Lemma-Farbtest auf HTR mit ≥2-Farben-Pflicht — ABG enthielt wîn gar nicht; 3-Stufen-Test prüft jetzt konkrete Lemma-IDs pro Stufe); No-op-XPath-Test und assertionsfreier Log-„Test" gelöscht; neuer Click-Through-Test Lemma-Seite → Reader-Highlight (#12-Rest).
+- ⏳ Offen: Entscheidungs-Findings (#13–17, #20–23, #37, #45, #51, #74, #75 u. a. Medium/Low-Bugs mit Verhaltensänderung), übrige Low-Kommentar-Findings.
 
 ---
 

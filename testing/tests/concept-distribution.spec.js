@@ -64,7 +64,7 @@ test.describe('Concept Distribution Performance Lock', () => {
                     `gebrochen oder Daten haben sich stark veraendert.`).toBeLessThan(500);
   });
 
-  test('baseline-case (Sterben, ~682 Lemmata) rendert <2s mit Long-Task < 200ms', async ({ page }) => {
+  test('baseline-case (Sterben, ~682 Lemmata) rendert <5s mit Long-Task < 200ms', async ({ page }) => {
     await page.evaluate(() => {
       window.__longTasks = [];
       const obs = new PerformanceObserver((list) => {

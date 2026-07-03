@@ -14,43 +14,40 @@ test.describe('Cross-Reference Functionality', () => {
     });
 
     test('Work to Author cross-reference', async ({ page }) => {
-        // 1. Search for a work
+        // Ein "→ Autor"-Button existiert im Work-Explorer nicht (mehr) — die
+        // Work→Author-Verknüpfung zeigt sich als "Autor*in:"-Angabe in Karte
+        // und Details-Panel (Audit #39: der alte if-Zweig war unerreichbar,
+        // der Test damit dauerhaft assertion-frei grün).
         await page.click('button:has-text("Werke anzeigen")');
         await page.waitForSelector('#workSearch', { timeout: 5000 });
-        await page.fill('#workSearch', 'Predigt');
+        await page.fill('#workSearch', 'Iwein');
         await page.waitForTimeout(500);
-        
-        // 2. Find a work result with an author link
-        const hasAuthorLink = await page.locator('button:has-text("→ Autor")').count();
-        
-        if (hasAuthorLink > 0) {
-            // Click the first author link
-            await page.locator('button:has-text("→ Autor")').first().click();
-            await page.waitForTimeout(500);
-            
-            // Verify we're now in the author search view
-            const authorSearch = await page.locator('#authorSearch').count();
-            expect(authorSearch).toBeGreaterThan(0);
-            console.log('✅ Work→Author cross-reference works');
-        } else {
-            console.log('ℹ️ No author links found in works');
-        }
+
+        const results = page.locator('#workResults .result-item');
+        expect(await results.count()).toBeGreaterThan(0);
+
+        // Iwein (Hartmann von Aue) muss die Autor-Zeile zeigen
+        await expect(page.locator('#workResults')).toContainText('Autor*in:');
+
+        // Details-Panel öffnet und enthält die Autor-Angabe ebenfalls
+        await results.first().locator('button:has-text("Details anzeigen")').click();
+        await page.waitForTimeout(300);
+        await expect(page.locator('#workResults')).toContainText('Autor*in:');
     });
 
     test('Lemma to Concept cross-reference', async ({ page }) => {
-        // Check if lemmata have concept annotations
+        // Reales Datenmodell: Lemma → senses[] → conceptIds[] (ein flaches
+        // l.concepts-Feld gab es nie; Audit #40 — die alte Assertion
+        // `x !== undefined` konnte nie fehlschlagen).
         const hasConceptLinks = await page.evaluate(() => {
             const lemmata = window.playground.authorityManager.authorityData.lemmata;
-            return lemmata && lemmata.some(l => l.concepts && l.concepts.length > 0);
+            return !!lemmata && lemmata.some(l =>
+                Array.isArray(l.senses) &&
+                l.senses.some(s => Array.isArray(s.conceptIds) && s.conceptIds.length > 0)
+            );
         });
-        
-        if (hasConceptLinks) {
-            console.log('✅ Lemmata have concept annotations');
-        } else {
-            console.log('ℹ️ No concept annotations found in lemmata');
-        }
-        
-        expect(hasConceptLinks !== undefined).toBe(true);
+
+        expect(hasConceptLinks).toBe(true);
     });
 
     test('TEI text to Authority data linking', async ({ page }) => {
