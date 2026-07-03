@@ -213,6 +213,26 @@ test.describe('Persistent Lemma Pages', () => {
         // Should link to korpus.html with correct params
         expect(href).toContain('korpus.html');
         expect(href).toContain('textId=');
-        expect(href).toContain('lemmaIds=879');
+        // Reader-Highlight braucht den kanonischen lemma_-Präfix (CONTRACTS §B.1);
+        // der Belegstellen-Link muss ihn also mitgeben, nicht abstreifen.
+        expect(href).toContain('lemmaIds=lemma_879');
+    });
+
+    test('occurrence link click-through highlights the lemma in the reader', async ({ page }) => {
+        // Audit #12: der href-String-Test allein hatte das kaputte Link-Format
+        // zementiert — hier wird der reale Klickpfad bis zum sichtbaren
+        // Highlight verifiziert.
+        test.setTimeout(120000);
+
+        await page.goto('http://localhost:8080/lemma/?id=879');
+        await page.waitForSelector('#occurrencesSection:not(.hidden)', { timeout: 30000 });
+
+        await page.locator('#occurrencesContent a').first().click();
+
+        // Navigiert auf korpus.html; Reader lädt und MUSS Treffer markieren
+        await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
+        await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
+        const highlights = page.locator('#readingBody .highlight');
+        await expect(highlights.first()).toBeVisible({ timeout: 15000 });
     });
 });

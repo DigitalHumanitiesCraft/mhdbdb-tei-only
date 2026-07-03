@@ -4,7 +4,7 @@
 MHG (Middle High German) Text Normalizer
 
 CRITICAL: This module MUST produce IDENTICAL normalization results
-as playground/js/utils/text-normalizer.js
+as assets/js/lib/text-normalizer.js
 
 Any discrepancy will cause search failures between build-time indices
 and runtime search.
@@ -24,7 +24,7 @@ def normalize_mhg(text):
     """
     Normalize Middle High German text for consistent search.
 
-    Must match TextNormalizer.normalizeMHG() in text-normalizer.js EXACTLY.
+    Must match TextNormalizer.normalizeMHG() in assets/js/lib/text-normalizer.js EXACTLY.
 
     Transformations:
     - Long vowels → short: â→a, ê→e, î→i, ô→o, û→u (and ā,ē,ī,ō,ū variants)
@@ -68,63 +68,6 @@ def normalize_mhg(text):
     normalized = normalized.replace('ǒ', 'o')
 
     return normalized
-
-
-def matches_normalized(text, search_term):
-    """
-    Check if text contains search term (with normalization).
-
-    Args:
-        text (str): Text to search in
-        search_term (str): Term to search for
-
-    Returns:
-        bool: True if normalized text contains normalized search term
-    """
-    if not text or not search_term:
-        return False
-
-    normalized_text = normalize_mhg(text)
-    normalized_search = normalize_mhg(search_term)
-
-    return normalized_search in normalized_text
-
-
-def exact_match_normalized(text, search_term):
-    """
-    Check for exact match (with normalization).
-
-    Args:
-        text (str): Text to compare
-        search_term (str): Term to match exactly
-
-    Returns:
-        bool: True if normalized texts are identical
-    """
-    if not text or not search_term:
-        return False
-
-    return normalize_mhg(text) == normalize_mhg(search_term)
-
-
-def starts_with_normalized(text, search_term):
-    """
-    Check if text starts with search term (with normalization).
-
-    Args:
-        text (str): Text to check
-        search_term (str): Term to check for at start
-
-    Returns:
-        bool: True if normalized text starts with normalized search term
-    """
-    if not text or not search_term:
-        return False
-
-    normalized_text = normalize_mhg(text)
-    normalized_search = normalize_mhg(search_term)
-
-    return normalized_text.startswith(normalized_search)
 
 
 # Test cases for validation

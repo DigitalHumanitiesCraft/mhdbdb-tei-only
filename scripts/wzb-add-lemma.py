@@ -118,7 +118,7 @@ def build_entry(lemma_num: int, sense_num: int, orth: str, pos: str,
 
 
 def find_insertion_point(doc) -> tuple:
-    """Return (parent_element, index_after_which_to_insert) for the max-id entry."""
+    """Return (parent_element, index_after_which_to_insert, max_id) for the max-id entry."""
     max_id, max_entry = max(
         (
             (int(m.group(1)), e)
@@ -142,7 +142,10 @@ if __name__ == "__main__":
                         help="type_XXXXX IDs for <sense @ana> (optional)")
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--lexicon",  default=str(DEFAULT_LEX))
-    parser.add_argument("--concepts", default=str(DEFAULT_CON))
+    # NB: distinct dest — --concept (above) collects concept IDs into args.concepts;
+    # this flag is the path to concepts.xml and must not share that dest.
+    parser.add_argument("--concepts", dest="concepts_xml", default=str(DEFAULT_CON),
+                        metavar="CONCEPTS_XML", help="path to concepts.xml (validation source)")
     args = parser.parse_args()
 
     # --- validate POS ---
@@ -150,7 +153,7 @@ if __name__ == "__main__":
         sys.exit(f"ERROR: '{args.pos}' is not a valid POS tag.\nValid: {', '.join(sorted(VALID_POS))}")
 
     lex_path = Path(args.lexicon)
-    con_path = Path(args.concepts)
+    con_path = Path(args.concepts_xml)
     if not lex_path.exists():
         sys.exit(f"ERROR: lexicon not found: {lex_path}")
     if not con_path.exists():

@@ -151,7 +151,9 @@ export class MultiLemmaSearchUI {
     removeLemma(lemma) {
         this.lemmas = this.lemmas.filter(l => l !== lemma);
 
-        const chip = this.lemmaChips.querySelector(`[data-lemma="${lemma}"]`);
+        // dataset comparison instead of a CSS selector: a lemma containing
+        // quotes would throw in querySelector (#audit-66).
+        const chip = [...this.lemmaChips.children].find(ch => ch.dataset && ch.dataset.lemma === lemma);
         if (chip) {
             chip.style.animation = 'chipOut 200ms ease-in forwards';
             setTimeout(() => {
@@ -212,7 +214,7 @@ export class MultiLemmaSearchUI {
                 if (resultsContainer) {
                     resultsContainer.innerHTML = `
                         <div class="text-sm text-red-600">
-                            ❌ Keine gültigen Lemmata gefunden für: ${searchTerms.join(', ')}
+                            ❌ Keine gültigen Lemmata gefunden für: ${searchTerms.map(t => this.escapeHtml(t)).join(', ')}
                         </div>
                     `;
                 }
@@ -245,10 +247,14 @@ export class MultiLemmaSearchUI {
         }
     }
 
+    // Regex-based instead of the textContent/innerHTML trick: the value is
+    // also interpolated into attribute contexts (aria-label), where unescaped
+    // quotes would break out of the attribute (#audit-66).
     escapeHtml(text) {
-        const div = document.createElement('div');
-        div.textContent = text;
-        return div.innerHTML;
+        if (text == null) return '';
+        return String(text).replace(/[&<>"']/g, c => (
+            { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
+        ));
     }
 }
 

@@ -96,8 +96,9 @@ test.describe('Reading View', () => {
     });
 
     test('should color-code multi-lemma highlights', async ({ page }) => {
-        // Two lemma IDs for multi-lemma mode
-        await page.goto('http://localhost:8080/korpus.html?textId=ABG&lemmaIds=lemma_879,lemma_7532');
+        // HTR enthält beide Lemmata (brôt 56x, wîn 79x) — ABG enthielt wîn gar
+        // nicht, daher konnte der alte Test nie 2 Farben sehen (Audit #110).
+        await page.goto('http://localhost:8080/korpus.html?textId=HTR&lemmaIds=lemma_879,lemma_7532');
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
         await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
 
@@ -117,9 +118,9 @@ test.describe('Reading View', () => {
             return [...bgColors];
         });
 
-        // With two lemmata, we expect at least 2 different background colors
-        // (only if both lemmata have occurrences in this text)
-        expect(colors.length).toBeGreaterThanOrEqual(1);
+        // Beide Lemmata kommen in HTR vor — es MUSS zwei Farben geben, sonst
+        // ist die lemmaColorMap-Zuordnung kaputt (Audit #110).
+        expect(colors.length).toBeGreaterThanOrEqual(2);
     });
 
     // === #17: TEI Structural Elements ===

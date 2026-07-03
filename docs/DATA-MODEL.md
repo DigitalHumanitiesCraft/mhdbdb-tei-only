@@ -198,7 +198,7 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
     preferredName: "Meister Eckhart",
     gnd: "118528696",
     wikidata: "Q43976",
-    works: ["work_001", ...],
+    works: "work_001,work_002",   // comma-separated string; normalized to an array only in the static JSON API (see API section)
     normalized: "meister eckhart"
   }],
 
@@ -213,7 +213,7 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
     gnd: "work GND",              // Added v1.1.0
     wikidata: "work Wikidata",    // Added v1.1.0
     genres: ["genre_123"],
-    biblStructs: [{type, key, title}],
+    biblStructs: [{key, corresp, textContent}],
     handschriftencensus: "12345",
     normalized: "..."
   }],
@@ -235,9 +235,7 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
     id: "concept_1234",
     termDE: "Nahrung",
     termEN: "Food",
-    broader: "concept_5678",
-    narrower: ["concept_9012"],
-    normalized: "...",
+    normalized: "...",                 // no broader/narrower fields — concept hierarchy is not stored in the index
     altDE: ["Speise", "Essen"],        // optional, only if <term type="alternative" xml:lang="de"> exists
     altEN: ["Sustenance"],              // optional, only if <term type="alternative" xml:lang="en"> exists
     altNormalized: ["speise", "essen"]  // optional, only if altDE exists (normalized via normalizeMHG)
@@ -247,8 +245,10 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
     id: "genre_123",
     termDE: "Mystische Prosa",
     termEN: "Mystical Prose",
-    broader: ["Prosa", "Mystik"],
-    normalized: "..."
+    normalized: "...",                  // parent names live in maps.genreHierarchy, not on the genre entry
+    altDE: ["Prosa der Mystik"],        // optional, only if <term type="alternative" xml:lang="de"> exists (v1.5.0)
+    altEN: ["Mystic prose"],            // optional, analog (v1.5.0)
+    altNormalized: ["prosa der mystik"] // optional, only if altDE exists (v1.5.0)
   }],
 
   names: [{

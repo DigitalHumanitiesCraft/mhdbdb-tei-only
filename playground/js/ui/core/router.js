@@ -240,8 +240,10 @@ export function navigate(view, params = {}) {
   // Suppress our own hashchange listener so we don't double-dispatch
   _suppressHashUpdate = true;
   window.location.hash = buildHash(view, params);
-  // Release on next tick — the hashchange event fires synchronously after
-  // setting location.hash in most browsers, so one tick is enough
+  // Release on next tick — hashchange is queued as an async task, never
+  // fired synchronously. The setTimeout(0) reset runs AFTER that queued task,
+  // which is exactly why it must not be replaced by a synchronous reset
+  // (the guard would expire before the event fires -> double dispatch).
   setTimeout(() => { _suppressHashUpdate = false; }, 0);
 
   dispatch(view, params);

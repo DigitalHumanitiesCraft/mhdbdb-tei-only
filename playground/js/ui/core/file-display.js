@@ -5,6 +5,14 @@
 
 // ==================== FILE DISPLAY ====================
 
+// Self-contained per module (DESIGN.md §Escaping-Konvention).
+function escapeHtml(s) {
+  if (s == null) return '';
+  return String(s).replace(/[&<>"']/g, c => (
+    { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
+  ));
+}
+
 export function displayFileItem(data, container) {
   if (!container) return;
 
@@ -79,23 +87,22 @@ export function displayFileItem(data, container) {
   }
 
   // Display title if available (both corpus and uploaded files)
-  const displayTitle = data.title ? `<div class="text-xs text-slate-500 mt-0.5 truncate">${data.title}</div>` : '';
+  const displayTitle = data.title ? `<div class="text-xs text-slate-500 mt-0.5 truncate">${escapeHtml(data.title)}</div>` : '';
 
   fileItem.innerHTML = `
     <div class="flex items-start justify-between gap-3">
       <div class="flex-1 min-w-0">
         <div class="file-name flex items-center gap-2">
           <span class="${statusColor}">${statusIcon}</span>
-          <span class="truncate">${filename}</span>
+          <span class="truncate">${escapeHtml(filename)}</span>
         </div>
         ${displayTitle}
-        <div class="file-info">${fileInfo}</div>
+        <div class="file-info">${escapeHtml(fileInfo)}</div>
       </div>
       <div class="flex items-center gap-1 flex-shrink-0">
         ${!isCorpusData && (data.isCachedFile || data.savedToCache) ? `
           <button
-            onclick="window.playground.removeTEIFile('${filename}')"
-            class="p-1 text-red-500 hover:text-red-700 hover:bg-red-50 rounded transition-colors"
+            class="remove-file-btn p-1 text-red-500 hover:text-red-700 hover:bg-red-50 rounded transition-colors"
             title="Remove file"
           >
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -106,6 +113,13 @@ export function displayFileItem(data, container) {
       </div>
     </div>
   `;
+
+  // Closure over the original filename instead of an inline onclick JS string:
+  // filenames with quotes/HTML would otherwise break out of the attribute (#audit-18).
+  const removeBtn = fileItem.querySelector('.remove-file-btn');
+  if (removeBtn) {
+    removeBtn.addEventListener('click', () => window.playground.removeTEIFile(filename));
+  }
 
   container.appendChild(fileItem);
 

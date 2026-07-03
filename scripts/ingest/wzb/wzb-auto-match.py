@@ -22,7 +22,7 @@ so that matching behaviour is identical to the web application.
 import sys
 import csv
 from pathlib import Path
-from collections import defaultdict
+from collections import defaultdict, Counter
 
 # force UTF-8 output (matches mhg_normalizer behavior)
 if sys.stdout.encoding != 'utf-8':
@@ -35,14 +35,14 @@ except ImportError:
     print("❌ Please install lxml: pip install lxml")
     sys.exit(1)
 
-# local utilities
-sys.path.insert(0, str(Path(__file__).parent))
+# local utilities — mhg_normalizer lives in scripts/ (two levels up after the
+# 2026-05 ingest reorg that moved this file into scripts/ingest/wzb/)
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 from mhg_normalizer import normalize_mhg
 
-# default paths relative to project root
-PROJECT_ROOT = Path(__file__).parent.parent
+# default paths relative to project root (scripts/ingest/wzb/ -> repo root)
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent.parent
 VARIANTS_FILE = PROJECT_ROOT / 'authority-files' / 'variants.xml'
-LEXICON_FILE = PROJECT_ROOT / 'authority-files' / 'lexicon.xml'  # may not be used here
 DEFAULT_WZB_FILE = PROJECT_ROOT / 'Wenzelsbibel' / 'WZB.tei.xml'
 DEFAULT_OUTPUT_TEI = PROJECT_ROOT / 'Wenzelsbibel' / 'WZB.lemma-autofill.tei.xml'
 DEFAULT_REPORT_CSV = PROJECT_ROOT / 'Wenzelsbibel' / 'wzb-auto-match-report.csv'

@@ -36,13 +36,15 @@ except ImportError:
     print("ERROR: Please install lxml: pip install lxml")
     sys.exit(1)
 
-sys.path.insert(0, str(Path(__file__).parent))
+# mhg_normalizer lives in scripts/ (two levels up after the 2026-05 ingest
+# reorg that moved this file into scripts/ingest/wzb/)
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 from mhg_normalizer import normalize_mhg
 
 if hasattr(sys.stdout, 'reconfigure'):
     sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
-PROJECT_ROOT  = Path(__file__).parent.parent
+PROJECT_ROOT  = Path(__file__).resolve().parent.parent.parent.parent
 DEFAULT_TEI   = PROJECT_ROOT / "Wenzelsbibel" / "WZB.lemma-autofill.tei.xml"
 DEFAULT_LEX   = PROJECT_ROOT / "authority-files" / "lexicon.xml"
 DEFAULT_VAR   = PROJECT_ROOT / "authority-files" / "variants.xml"
@@ -280,7 +282,7 @@ def assign_senses(tei_path, lex_path, var_path, con_path, pending_path, dry_run=
     print(f"\nResults:")
     print(f"  Already had @meaningRef:   {stats['already_done']}")
     print(f"  Auto-assigned @meaningRef: {stats['auto_meaning']}")
-    print(f"  Auto-assigned @wordRef:    {stats['auto_word_ref']}")
+    print(f"  Auto-assigned @corresp:    {stats['auto_corresp']}")
     print(f"  Pending (multi-sense):     {stats['multi_sense']}")
     print(f"  Skipped (no @lemmaRef):    {stats['no_lemma']}")
     print(f"  Skipped (0 senses):        {stats['zero_sense']}")

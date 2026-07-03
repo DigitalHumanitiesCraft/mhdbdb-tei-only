@@ -144,7 +144,12 @@ export class PersonExplorer {
         .map((work) => {
           // #135: Werk-Titel als Deep-Link in die Lesesuche, sofern eine Sigle
           // existiert (= TEI-Text vorhanden). Ohne Sigle kein Link (kein toter Link).
-          const sigle = work.sigle || (work.sigles && work.sigles[0]) || null;
+          // Werke mit mehreren Textzeugen tragen sigle als Komma-String
+          // ("AXH, AXU"); der Reader adressiert genau EINEN Text, daher die erste
+          // Einzelsigle nehmen (sigles-Array bevorzugt), nie den Komma-String.
+          const sigle = (work.sigles && work.sigles[0])
+            || (work.sigle ? work.sigle.split(",")[0].trim() : null)
+            || null;
           const titleHTML = sigle
             ? `<a href="../korpus.html?textId=${encodeURIComponent(sigle)}" target="_blank" rel="noopener" class="text-brand-700 hover:text-brand-900 hover:underline"><strong>${work.title}</strong></a>`
             : `<strong>${work.title}</strong>`;

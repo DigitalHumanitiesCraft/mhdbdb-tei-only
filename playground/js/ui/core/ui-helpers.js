@@ -264,10 +264,6 @@ export function displaySummaryResults(title, summaryData, rawResults = null, lem
   setupSummaryExpansion();
 }
 
-export function getRawResults() {
-  return { results: storedRawResults, lemmaIds: storedLemmaIds };
-}
-
 function createSummaryCard(summary, index) {
   const previewText = summary.preview || 'Klicken für Details…';
   const hasDetails = summary.details && Array.isArray(summary.details) && summary.details.length > 0;
@@ -520,89 +516,6 @@ const LEMMA_COLORS = [
   { bg: '#fed7aa', text: '#7c2d12', border: '#fb923c' },  // Orange
 ];
 
-// Highlight matched words in text with different colors per lemma
-function highlightMatchedWords(text, matchingWords) {
-  let highlightedText = text;
-
-  console.log('Highlighting words:', Object.entries(matchingWords).map(([id, words]) =>
-    `lemma_${id}: [${words.map(w => w.text).join(', ')}]`
-  ).join(' | '));
-
-  const lemmaIds = Object.keys(matchingWords);
-
-  lemmaIds.forEach((lemmaId, index) => {
-    const words = matchingWords[lemmaId];
-    if (!words || words.length === 0) return;
-
-    // Get color for this lemma (cycle through palette)
-    const color = LEMMA_COLORS[index % LEMMA_COLORS.length];
-
-    words.forEach(word => {
-      if (!word.text) return;
-
-      // Escape special regex characters
-      const escapedWord = word.text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-      // Use word boundaries to match whole words only
-      const regex = new RegExp(`\\b${escapedWord}\\b`, 'gi');
-
-      highlightedText = highlightedText.replace(regex,
-        `<span class="highlight lemma-${index}" style="background-color: ${color.bg}; color: ${color.text}; border: 1px solid ${color.border}; padding: 2px 4px; border-radius: 3px; font-weight: 600;">$&</span>`
-      );
-    });
-  });
-
-  return highlightedText;
-}
-
-// ==================== FILE-GROUPED RESULTS ====================
-
-export function displayGroupedResults(title, groupedData) {
-  const container = document.getElementById('resultsContainer');
-  if (!container) return;
-
-  const groups = Object.entries(groupedData || {});
-  const totalResults = groups.reduce((sum, [, results]) => sum + results.length, 0);
-
-  const groupsHTML = groups
-    .map(([filename, results]) => {
-      const groupId = `group_${filename.replace(/[^a-z0-9]/gi, '_')}`;
-      return `
-        <section class="file-group">
-          <header class="file-group-header" data-group-id="${groupId}">
-            <span class="flex items-center gap-2 text-sm font-semibold text-slate-800">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-              ${filename}
-            </span>
-            <span class="file-group-count">${results.length}</span>
-          </header>
-          <div id="${groupId}" class="group-results">
-            ${results
-              .map(
-                (result) => `
-                  <div class="detail-item">
-                    <div class="detail-meta">${result.meta || ''}</div>
-                    <div class="detail-snippet">${result.snippet || result.text || ''}</div>
-                  </div>
-                `
-              )
-              .join('')}
-          </div>
-        </section>
-      `;
-    })
-    .join('');
-
-  container.innerHTML = `
-    <div class="mb-4 flex items-center justify-between rounded-xl bg-slate-50/80 px-4 py-2 text-sm font-medium text-slate-600">
-      <span>${title}</span>
-      <span class="text-sm uppercase tracking-wide text-slate-600">${totalResults} Treffer · ${groups.length} Dateien</span>
-    </div>
-    <div class="space-y-3">
-      ${groupsHTML}
-    </div>
-  `;
-}
-
 // ==================== WELCOME & ERROR STATES ====================
 
 export function showWelcomeMessage() {
@@ -617,38 +530,6 @@ export function showWelcomeMessage() {
       </p>
     </div>
   `;
-}
-
-export function showError(message) {
-  const container = document.getElementById('resultsContainer');
-  if (!container) return;
-
-  const errorDiv = document.createElement('div');
-  errorDiv.className = 'rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 shadow-sm';
-  errorDiv.textContent = message;
-  container.insertBefore(errorDiv, container.firstChild);
-}
-
-// ==================== CONTAINER MANAGEMENT ====================
-
-export function renderToContainer(containerId, html) {
-  const container = document.getElementById(containerId);
-  if (container) {
-    container.innerHTML = html;
-    return true;
-  }
-  console.warn(`Container not found: ${containerId}`);
-  return false;
-}
-
-export function appendToContainer(containerId, html) {
-  const container = document.getElementById(containerId);
-  if (container) {
-    container.insertAdjacentHTML('beforeend', html);
-    return true;
-  }
-  console.warn(`Container not found: ${containerId}`);
-  return false;
 }
 
 // ==================== UI STATE COORDINATION ====================
@@ -717,19 +598,4 @@ function setupDetailItemClickHandlers(detailsContainer, fileResults) {
       window.open(url, '_blank');
     });
   });
-}
-
-// ==================== EVENT DELEGATION HELPERS ====================
-
-export function delegateClick(containerId, selector, handler) {
-  const container = document.getElementById(containerId);
-  if (container) {
-    container.addEventListener('click', (e) => {
-      if (e.target.matches(selector)) {
-        handler(e);
-      }
-    });
-    return true;
-  }
-  return false;
 }

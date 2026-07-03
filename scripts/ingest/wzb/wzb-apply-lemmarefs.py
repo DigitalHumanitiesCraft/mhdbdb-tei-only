@@ -39,7 +39,7 @@ def uprint(*args, **kwargs):
     text = " ".join(str(a) for a in args) + kwargs.get("end", "\n")
     sys.stdout.buffer.write(text.encode("utf-8", errors="replace"))
 
-PROJECT_ROOT = Path(__file__).parent.parent
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent.parent
 DEFAULT_TEI  = PROJECT_ROOT / "Wenzelsbibel" / "WZB.lemma-autofill.tei.xml"
 DEFAULT_TSV  = PROJECT_ROOT / "Wenzelsbibel" / "phase1b" / "wzb-disambiguation.tsv"
 
@@ -65,9 +65,8 @@ def load_resolutions(tsv_path):
 def build_id_index(w_elements):
     """Return {xml_id_string: element} for fast lookup.
 
-    lxml may drop invalid NCName xml:id values when recover=True is used,
-    so we fall back to the raw attribute string if the standard accessor
-    returns nothing.
+    Note: w elements whose xml:id the parser dropped (invalid NCName with
+    recover=True) are skipped — their rows resolve as not_found.
     """
     index = {}
     for w in w_elements:

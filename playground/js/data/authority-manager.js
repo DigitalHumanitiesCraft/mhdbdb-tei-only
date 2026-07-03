@@ -223,7 +223,6 @@ export class AuthorityFilesManager {
   // The following cache management methods relied on storageManager which no longer exists
   // (authority data now loaded via CorpusLoader with Dexie.js caching):
   //   - getCacheStatus()
-  //   - clearCache()
   //   - clearExpiredCache()
   //   - getLoadStatistics()
   //   - refreshAuthorityFile()

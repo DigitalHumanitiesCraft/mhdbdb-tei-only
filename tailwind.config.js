@@ -1,9 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    './index.html',
-    './korpus.html',
-    './woerterbuch.html',
+    // Root glob instead of a hand-kept list: every root page links
+    // tailwind-output.css, and the old enumeration silently purged the
+    // classes of hilfe-*.html / impressum.html / barrierefreiheit.html.
+    './*.html',
     './playground/index.html',
     './lemma/index.html',
     './testing/test.html',

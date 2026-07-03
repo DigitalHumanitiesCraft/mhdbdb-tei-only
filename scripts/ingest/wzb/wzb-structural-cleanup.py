@@ -187,8 +187,9 @@ def process_capitulum(root):
         # Remove in reverse order so indices stay valid
         for pos in sorted(group.keys(), reverse=True):
             el_to_remove = children[pos]
-            # Preserve tail text (spacing)
-            tail = el_to_remove.tail or ""
+            # NB: the element's tail whitespace is dropped with it; the
+            # milestone/head handling in wzb-structural-fix.py re-serializes
+            # spacing, so nothing re-attaches it here.
             parent.remove(el_to_remove)
 
         # Re-read children after removals

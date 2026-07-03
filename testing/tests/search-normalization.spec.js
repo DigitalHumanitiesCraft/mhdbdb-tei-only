@@ -253,21 +253,30 @@ test.describe('Search Normalization Test Suite', () => {
                 // Stage 2: Exact variants match
                 // Stage 3: Partial match fallback
 
+                // expectedLemma prüft die Stufe wirklich (Audit #112):
+                // Stage 1/2 liefern genau EIN Lemma (Exact bzw. Variants-Hit
+                // auf lemma_879), Stage 3 (Partial) liefert viele Treffer.
                 const testCases = [
-                    { input: 'brôt', stage: 1, desc: 'Exact lexicon match' },
-                    { input: 'brott', stage: 2, desc: 'Exact variant match' },
-                    { input: 'brot', stage: 2, desc: 'Normalized variant match' },
-                    { input: 'fri', stage: 3, desc: 'Partial match fallback' }
+                    { input: 'brôt', stage: 1, desc: 'Exact lexicon match', expectedLemma: 'lemma_879', exactCount: 1 },
+                    { input: 'brott', stage: 2, desc: 'Exact variant match', expectedLemma: 'lemma_879', exactCount: 1 },
+                    { input: 'brot', stage: 2, desc: 'Normalized variant match', expectedLemma: 'lemma_879', exactCount: 1 },
+                    // 'minnecl' statt 'fri': 'fri' ist real ein Variants-Hit
+                    // (Stage 2, → lemma_7226) — 'minnecl' hat weder Exact-
+                    // noch Variants-Eintrag und trifft 5 Lemmata partial.
+                    { input: 'minnecl', stage: 3, desc: 'Partial match fallback', minCount: 2 }
                 ];
 
                 const results = testCases.map(tc => {
-                    const lemmaIds = manager.searchLemmaByOrthography(tc.input);
+                    const lemmas = manager.searchLemmaByOrthography(tc.input);
                     return {
                         input: tc.input,
                         expectedStage: tc.stage,
                         description: tc.desc,
-                        foundLemmas: lemmaIds.length,
-                        lemmaIds: lemmaIds.slice(0, 3) // First 3 results
+                        expectedLemma: tc.expectedLemma || null,
+                        exactCount: tc.exactCount || null,
+                        minCount: tc.minCount || 1,
+                        foundLemmas: lemmas.length,
+                        foundIds: lemmas.slice(0, 5).map(l => l.id)
                     };
                 });
 
@@ -275,12 +284,14 @@ test.describe('Search Normalization Test Suite', () => {
             });
 
             result.testResults.forEach(tc => {
-                console.log(`  Stage ${tc.expectedStage}: "${tc.input}" → ${tc.foundLemmas} lemmas`);
-                console.log(`    ${tc.description}`);
-                if (tc.lemmaIds.length > 0) {
-                    console.log(`    Found: ${tc.lemmaIds.join(', ')}`);
+                console.log(`  Stage ${tc.expectedStage}: "${tc.input}" → ${tc.foundLemmas} lemmas [${tc.foundIds.join(', ')}]`);
+                if (tc.exactCount !== null) {
+                    expect(tc.foundLemmas, `${tc.input}: Stage ${tc.expectedStage} muss genau ${tc.exactCount} Treffer liefern`).toBe(tc.exactCount);
                 }
-                expect(tc.foundLemmas).toBeGreaterThan(0);
+                if (tc.expectedLemma) {
+                    expect(tc.foundIds, `${tc.input}: erwartetes Lemma`).toContain(tc.expectedLemma);
+                }
+                expect(tc.foundLemmas).toBeGreaterThanOrEqual(tc.minCount);
             });
         });
 
@@ -462,39 +473,5 @@ test.describe('Search Normalization Test Suite', () => {
 
             expect(result.performant).toBe(true);
         });
-    });
-});
-
-test.describe('Search Normalization - Visual Summary', () => {
-    test('Display comprehensive test report', async () => {
-        console.log('\n' + '='.repeat(80));
-        console.log('SEARCH NORMALIZATION TEST SUITE - SUMMARY');
-        console.log('='.repeat(80));
-        console.log('\n✅ All 11 Search Entry Points Tested\n');
-
-        console.log('A. Authority Files Exploration (6 searches):');
-        console.log('   1. ✓ Autoren anzeigen - Author search with normalization');
-        console.log('   2. ✓ Werke anzeigen - Works search with normalization');
-        console.log('   3. ✓ Lemmata anzeigen - Lexicon search (brôt → brot)');
-        console.log('   4. ✓ Begriffe anzeigen - Concepts multi-field search');
-        console.log('   5. ✓ Gattungen anzeigen - Genres multi-field search');
-        console.log('   6. ✓ Namen anzeigen - Names multi-field search');
-
-        console.log('\nB. TEI Text Analysis (5 searches):');
-        console.log('   7. ✓ Variants.xml Integration - 175,910 orthographic forms');
-        console.log('   8. ✓ 3-Stage Resolution - Lexicon → Variants → Partial');
-        console.log('   9. ✓ Multi-Lemma Search - Variant spelling resolution');
-        console.log('   10. ✓ TextNormalizer - All MHG character rules');
-        console.log('   11. ✓ matchesNormalized - Flexible matching');
-
-        console.log('\nC. Integration:');
-        console.log('   12. ✓ All components loaded and functional');
-        console.log('   13. ✓ Performance validated (< 1ms per normalization)');
-
-        console.log('\n' + '='.repeat(80));
-        console.log('Implementation: text-normalizer.js (centralized utility)');
-        console.log('Coverage: 100% of search entry points');
-        console.log('Status: ✅ COMPLETE');
-        console.log('='.repeat(80) + '\n');
     });
 });

@@ -91,9 +91,9 @@ test('Main Site - Touch Interaction Test (iPhone)', async ({ page }) => {
     // Search button should be tappable
     const searchBtn = page.locator('#searchButton');
     const searchBtnBox = await searchBtn.boundingBox();
-    if (searchBtnBox) {
-        expect(searchBtnBox.height).toBeGreaterThanOrEqual(44);
-    }
+    // Ohne Bounding-Box wäre der Test assertion-frei gewesen (Audit #41)
+    expect(searchBtnBox).not.toBeNull();
+    expect(searchBtnBox.height).toBeGreaterThanOrEqual(44);
 });
 
 test('Playground - Touch Interaction Test (iPhone)', async ({ page }) => {
@@ -103,17 +103,22 @@ test('Playground - Touch Interaction Test (iPhone)', async ({ page }) => {
     // Wait for corpus to auto-load
     await page.waitForSelector('#fileBrowserSection', { state: 'visible', timeout: 30000 });
 
-    // Test action buttons are tappable
-    const buttons = page.locator('button');
+    // Test action buttons are tappable — nur sichtbare Buttons messen und
+    // sicherstellen, dass überhaupt gemessen wurde (Audit #41: bei 0 messbaren
+    // Buttons blieb minHeight Infinity und Infinity >= 44 bestand vakuös).
+    const buttons = page.locator('button:visible');
     const count = await buttons.count();
 
     let minHeight = Infinity;
+    let measured = 0;
     for (let i = 0; i < Math.min(count, 10); i++) {
         const box = await buttons.nth(i).boundingBox();
         if (box) {
             minHeight = Math.min(minHeight, box.height);
+            measured++;
         }
     }
 
+    expect(measured).toBeGreaterThan(0);
     expect(minHeight).toBeGreaterThanOrEqual(44);
 });

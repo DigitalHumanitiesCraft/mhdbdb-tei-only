@@ -221,168 +221,6 @@ export class TEIFilesManager {
         console.log(`TEI Analysis complete: ${words.length} words, ${lines.length} lines, ${annotatedElements.length} annotations`);
     }
 
-    // ==================== SEARCH AND FILTERING ====================
-
-    searchWordsInText(searchTerm) {
-        return this.teiData.words.filter(word => 
-            (word.lemmaRef && word.lemmaRef.includes(searchTerm)) ||
-            word.text.toLowerCase().includes(searchTerm.toLowerCase())
-        );
-    }
-
-    findWordsByLemmaRef(lemmaRef) {
-        return this.teiData.words.filter(word => 
-            word.lemmaRef && word.lemmaRef.includes(lemmaRef)
-        );
-    }
-
-    findLinesByText(searchTerm) {
-        return this.teiData.lines.filter(line => 
-            line.text.toLowerCase().includes(searchTerm.toLowerCase())
-        );
-    }
-
-    getWordContext(wordIndex, filename, contextSize = 3) {
-        // Find surrounding words for context
-        const wordsInFile = this.teiData.words.filter(w => w.filename === filename);
-        const targetWordIndex = wordsInFile.findIndex(w => w.index === wordIndex);
-        
-        if (targetWordIndex === -1) return null;
-
-        const start = Math.max(0, targetWordIndex - contextSize);
-        const end = Math.min(wordsInFile.length, targetWordIndex + contextSize + 1);
-        
-        return wordsInFile.slice(start, end);
-    }
-
-    getLineContext(lineNumber, filename, contextSize = 2) {
-        // Find surrounding lines for context
-        const linesInFile = this.teiData.lines.filter(l => l.filename === filename);
-        const targetLine = linesInFile.find(l => l.n === lineNumber);
-        
-        if (!targetLine) return null;
-
-        const targetIndex = linesInFile.indexOf(targetLine);
-        const start = Math.max(0, targetIndex - contextSize);
-        const end = Math.min(linesInFile.length, targetIndex + contextSize + 1);
-        
-        return linesInFile.slice(start, end);
-    }
-
-    // ==================== CROSS-REFERENCE RESOLUTION ====================
-
-    resolveLemmaReferences(authorityData) {
-        // Add resolved lemma information to words
-        return this.teiData.words.map(word => {
-            if (!word.lemmaRef) return word;
-
-            const lemmaId = word.lemmaRef.split('#')[1];
-            const lemma = authorityData.lemmata.find(l => l.id === lemmaId);
-            
-            return {
-                ...word,
-                resolvedLemma: lemma
-            };
-        });
-    }
-
-    resolveConceptReferences(authorityData) {
-        // Add resolved concept information to annotations
-        return this.teiData.annotations.map(annotation => {
-            const resolvedConcepts = [];
-            
-            const ref = annotation.ana || annotation.conceptRef;
-            if (ref) {
-                const conceptId = ref.split('#')[1];
-                const concept = authorityData.concepts.find(c => c.id === conceptId);
-                if (concept) resolvedConcepts.push(concept);
-            }
-            
-            return {
-                ...annotation,
-                resolvedConcepts
-            };
-        });
-    }
-
-    // ==================== STATISTICAL ANALYSIS ====================
-
-    getWordFrequency() {
-        const frequency = {};
-        this.teiData.words.forEach(word => {
-            const text = word.text.toLowerCase();
-            frequency[text] = (frequency[text] || 0) + 1;
-        });
-        
-        return Object.entries(frequency)
-            .sort(([,a], [,b]) => b - a)
-            .slice(0, 100); // Top 100 most frequent words
-    }
-
-    getLemmaFrequency() {
-        const frequency = {};
-        this.teiData.words.forEach(word => {
-            if (word.lemmaRef) {
-                const lemmaId = word.lemmaRef.split('#')[1];
-                frequency[lemmaId] = (frequency[lemmaId] || 0) + 1;
-            }
-        });
-        
-        return Object.entries(frequency)
-            .sort(([,a], [,b]) => b - a)
-            .slice(0, 50); // Top 50 most frequent lemmata
-    }
-
-    getPOSDistribution() {
-        const distribution = {};
-        this.teiData.words.forEach(word => {
-            if (word.pos) {
-                distribution[word.pos] = (distribution[word.pos] || 0) + 1;
-            }
-        });
-        
-        return distribution;
-    }
-
-    // ==================== EXPORT FUNCTIONS ====================
-
-    exportWordsAsCSV() {
-        const headers = ['filename', 'text', 'pos', 'lemmaRef', 'line'];
-        const rows = this.teiData.words.map(word => [
-            word.filename,
-            word.text,
-            word.pos || '',
-            word.lemmaRef || '',
-            word.line || ''
-        ]);
-        
-        return this.arrayToCSV([headers, ...rows]);
-    }
-
-    exportLinesAsCSV() {
-        const headers = ['filename', 'lineNumber', 'text'];
-        const rows = this.teiData.lines.map(line => [
-            line.filename,
-            line.n || '',
-            line.text
-        ]);
-        
-        return this.arrayToCSV([headers, ...rows]);
-    }
-
-    exportAnnotationsAsCSV() {
-        const headers = ['filename', 'text', 'tagName', 'ana', 'conceptRef'];
-        const rows = this.teiData.annotations.map(annotation => [
-            annotation.filename,
-            annotation.text,
-            annotation.tagName,
-            annotation.ana || '',
-            annotation.conceptRef || ''
-        ]);
-        
-        return this.arrayToCSV([headers, ...rows]);
-    }
-
     // ==================== UTILITY METHODS ====================
 
     readFileAsText(file) {
@@ -392,51 +230,6 @@ export class TEIFilesManager {
             reader.onerror = reject;
             reader.readAsText(file);
         });
-    }
-
-    arrayToCSV(array) {
-        return array.map(row => 
-            row.map(field => 
-                typeof field === 'string' && field.includes(',') 
-                    ? `"${field.replace(/"/g, '""')}"` 
-                    : field
-            ).join(',')
-        ).join('\n');
-    }
-
-    // ==================== XPATH UTILITIES ====================
-
-    executeXPathOnTEI(xpath) {
-        const results = [];
-
-        this.teiData.parsedXML.forEach(xmlData => {
-            try {
-                const xpathResult = xmlData.doc.evaluate(
-                    xpath,
-                    xmlData.doc,
-                    null,
-                    XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
-                    null
-                );
-
-                for (let i = 0; i < xpathResult.snapshotLength; i++) {
-                    const node = xpathResult.snapshotItem(i);
-                    results.push({
-                        filename: xmlData.filename,
-                        nodeName: node.nodeName,
-                        textContent: node.textContent?.trim(),
-                        outerHTML: node.outerHTML?.substring(0, 300)
-                    });
-                }
-            } catch (error) {
-                results.push({
-                    filename: xmlData.filename,
-                    error: error.message
-                });
-            }
-        });
-
-        return results;
     }
 
     // ==================== MULTI-LEMMA SEARCH ====================
@@ -476,11 +269,13 @@ export class TEIFilesManager {
             if (!doc) continue;
 
             if (contextType === 'document') {
-                // Search across entire document
-                const containsAllLemmas = lemmaIds.every(lemmaId => {
-                    const elements = doc.querySelectorAll(`w[lemmaRef*="lexicon.xml#lemma_${lemmaId}"]`);
-                    return elements.length > 0;
-                });
+                // Search across entire document.
+                // Exact lemma-id match (CONTRACTS §B.1) — never a substring:
+                // the former *= selector matched lemma_3089 when searching lemma_308 (#126).
+                const words = Array.from(doc.querySelectorAll('w[lemmaRef]'));
+                const containsAllLemmas = lemmaIds.every(lemmaId =>
+                    words.some(word => lemmaRefMatchesId(word.getAttribute('lemmaRef'), `lemma_${lemmaId}`))
+                );
 
                 if (containsAllLemmas) {
                     const matchingWords = this.extractMatchingWordsFromDocument(doc, lemmaIds);
@@ -540,74 +335,30 @@ export class TEIFilesManager {
         return results;
     }
 
-    extractMatchingWordsFromParagraph(paragraph, lemmaIds) {
-        const matchingWords = {};
-        
-        lemmaIds.forEach(lemmaId => {
-            matchingWords[lemmaId] = [];
-            
-            // Try multiple selector approaches
-            const selectors = [
-                `w[lemmaRef*="lexicon.xml#lemma_${lemmaId}"]`,
-                `w[lemmaRef="lexicon.xml#lemma_${lemmaId}"]`,
-                `w[lemmaRef$="#lemma_${lemmaId}"]`
-            ];
-            
-            const foundWords = new Set(); // Avoid duplicates
-            
-            selectors.forEach(selector => {
-                const words = paragraph.querySelectorAll(selector);
-                words.forEach(word => {
-                    const wordId = word.getAttribute('xml:id');
-                    if (!foundWords.has(wordId)) {
-                        foundWords.add(wordId);
-                        matchingWords[lemmaId].push({
-                            text: word.textContent?.trim(),
-                            id: wordId,
-                            lemmaRef: word.getAttribute('lemmaRef')
-                        });
-                    }
-                });
-            });
-            
-        });
-        
-        return matchingWords;
-    }
-
     extractMatchingWordsFromDocument(doc, lemmaIds) {
         const matchingWords = {};
-        
+
+        // Exact lemma-id match (CONTRACTS §B.1) — never a substring: the former
+        // *= selector pulled lemma_3089 words into lemma_308 results (#126).
+        // One pass per lemma over all w[lemmaRef]; no dedup needed since each
+        // word is checked exactly once.
+        const words = Array.from(doc.querySelectorAll('w[lemmaRef]'));
+
         lemmaIds.forEach(lemmaId => {
             matchingWords[lemmaId] = [];
-            
-            // Try multiple selector approaches
-            const selectors = [
-                `w[lemmaRef*="lexicon.xml#lemma_${lemmaId}"]`,
-                `w[lemmaRef="lexicon.xml#lemma_${lemmaId}"]`,
-                `w[lemmaRef$="#lemma_${lemmaId}"]`
-            ];
-            
-            const foundWords = new Set(); // Avoid duplicates
-            
-            selectors.forEach(selector => {
-                const words = doc.querySelectorAll(selector);
-                words.forEach(word => {
-                    const wordId = word.getAttribute('xml:id');
-                    if (!foundWords.has(wordId)) {
-                        foundWords.add(wordId);
-                        matchingWords[lemmaId].push({
-                            text: word.textContent?.trim(),
-                            id: wordId,
-                            lemmaRef: word.getAttribute('lemmaRef'),
-                            context: this.getWordParagraphContext(word)
-                        });
-                    }
-                });
+
+            words.forEach(word => {
+                if (lemmaRefMatchesId(word.getAttribute('lemmaRef'), `lemma_${lemmaId}`)) {
+                    matchingWords[lemmaId].push({
+                        text: word.textContent?.trim(),
+                        id: word.getAttribute('xml:id'),
+                        lemmaRef: word.getAttribute('lemmaRef'),
+                        context: this.getWordParagraphContext(word)
+                    });
+                }
             });
-            
         });
-        
+
         return matchingWords;
     }
 
