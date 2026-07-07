@@ -221,7 +221,8 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
   lemmata: [{
     id: "lemma_879",
     lemma: "brôt",
-    pos: "N",
+    pos: "N",             // first <pos> value (backwards compatible)
+    posAll: ["N"],        // all <pos> values; >1 entry for Multi-POS lemmata, e.g. salve = NOM+VRB (v1.6.0, #161)
     senseCount: 3,
     etymology: [{text: "brot", lemmaRef: "lemma_7779"}],
     senses: [{

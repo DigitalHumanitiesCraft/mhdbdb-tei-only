@@ -129,16 +129,18 @@ export class CooccurrenceRanking {
   }
 
   /**
-   * Pruefen, ob ein POS-Tag (oft Multi-Tag wie "NOM ADJ") dem aktuellen
-   * posMode entspricht. Wir akzeptieren ein Partner-Lemma, sobald MINDESTENS
-   * EIN Token in seiner POS-Liste matched (z.B. „NOM ADJ" zaehlt als Nomen
-   * UND als Adjektiv) — generoeser ist hier besser, sonst entgehen ambige
-   * Faelle wie POS="ART CNJ" die immer noch Inhaltswort-Charakter haben.
+   * Pruefen, ob die POS-Tags eines Lemmas dem aktuellen posMode entsprechen.
+   * posTags ist posAll[] aus dem Authority-Index (v1.6.0, #161): ein Eintrag
+   * pro <pos>-Element; einzelne Eintraege koennen Legacy-Compound-Tags wie
+   * "ART CNJ" sein, daher werden sie zusaetzlich an Whitespace gesplittet.
+   * Wir akzeptieren ein Partner-Lemma, sobald MINDESTENS EIN Token matched
+   * (z.B. NOM+VRB zaehlt als Nomen UND als Verb) — generoeser ist hier
+   * besser, sonst entgehen ambige Faelle mit Inhaltswort-Charakter.
    */
-  posPasses(pos) {
+  posPasses(posTags) {
     if (this.state.posMode === 'all') return true;
-    if (!pos) return false;
-    const tokens = pos.split(/\s+/);
+    if (!posTags || !posTags.length) return false;
+    const tokens = posTags.flatMap(p => p.split(/\s+/));
     if (this.state.posMode === 'content') {
       return tokens.some(t => t === 'NOM' || t === 'VRB' || t === 'ADJ' || t === 'ADV');
     }
@@ -153,12 +155,12 @@ export class CooccurrenceRanking {
     for (const [lemmaId, count] of counts) {
       if (count < this.state.minFreq) continue;
       const lemma = this._lemmaMap?.get(lemmaId);
-      const pos = lemma?.pos || '';
-      if (!this.posPasses(pos)) continue;
+      const posTags = lemma?.posAll || (lemma?.pos ? [lemma.pos] : []);
+      if (!this.posPasses(posTags)) continue;
       out.push({
         lemmaId,
         lemma: lemma?.lemma || lemmaId,
-        pos,
+        pos: posTags.join(' '),
         count
       });
     }
