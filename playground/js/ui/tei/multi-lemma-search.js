@@ -3,6 +3,8 @@
  * Handles the modal interface for advanced multi-lemma search
  */
 
+import { getNavigationEpoch } from '../core/router.js';
+
 export class MultiLemmaSearchUI {
     constructor(teiExplorer, authorityManager) {
         this.teiExplorer = teiExplorer;
@@ -207,6 +209,11 @@ export class MultiLemmaSearchUI {
         }
 
         try {
+            // Navigiert der User während der async Korpus-Suche zu einer
+            // anderen View, darf das fertige Ergebnis die dort angezeigte
+            // View nicht überschreiben (#159).
+            const myEpoch = getNavigationEpoch();
+
             // Resolve lemma IDs
             const lemmaIds = this.teiExplorer.resolveLemmaIds(searchTerms);
 
@@ -228,10 +235,12 @@ export class MultiLemmaSearchUI {
                 const maxDistance = parseInt(this.proximityDistance.value) || 10;
                 // Try fast index-based search first (falls back to XML if needed)
                 results = await teiManager.searchMultipleLemmasUsingIndex(lemmaIds, 'proximity', maxDistance);
+                if (getNavigationEpoch() !== myEpoch) return;
                 this.teiExplorer.displayCooccurrenceResults(results, searchTerms, maxDistance, lemmaIds);
             } else {
                 // Use fast index-based search for paragraph/document mode
                 results = await teiManager.searchMultipleLemmasUsingIndex(lemmaIds, searchMode);
+                if (getNavigationEpoch() !== myEpoch) return;
                 this.teiExplorer.displayMultiLemmaResults(results, searchTerms, searchMode);
             }
 

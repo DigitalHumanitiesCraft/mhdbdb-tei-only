@@ -19,9 +19,12 @@
  * Issue: #106
  */
 
+import { getNavigationEpoch } from '../core/router.js';
+
 const DEFAULT_STATE = Object.freeze({
   query: '',
   resolvedLemma: null,
+  selectedLemma: null,        // explizite Autocomplete-Auswahl (#163) — schlägt resolveQuery
   candidates: [],
   textFilter: '',             // Sigle/Titel/Autor-Substring, optional
   minCount: 1,                // Mindestanzahl Reimpaare pro Partner
@@ -125,9 +128,12 @@ export class RhymeDictionary {
     let verseTextCount = 0;
     let chunkStart = performance.now();
     const myToken = this._abortToken;
+    const myEpoch = getNavigationEpoch();
 
     for (let i = 0; i < texts.length; i++) {
-      if (this._abortToken !== myToken) return null;
+      // Abort on new search in this module (token) OR router navigation
+      // to another view (epoch, #159) while we were running.
+      if (this._abortToken !== myToken || getNavigationEpoch() !== myEpoch) return null;
 
       const text = texts[i];
       const ends = text.lineEnds;
@@ -170,7 +176,7 @@ export class RhymeDictionary {
       if (performance.now() - chunkStart > CHUNK_BUDGET_MS) {
         if (onProgress) onProgress((i + 1) / texts.length);
         await yieldToMain();
-        if (this._abortToken !== myToken) return null;
+        if (this._abortToken !== myToken || getNavigationEpoch() !== myEpoch) return null;
         chunkStart = performance.now();
       }
     }
@@ -204,10 +210,14 @@ export class RhymeDictionary {
 
   async runSearch() {
     const { resolved, candidates } = this.resolveQuery(this.state.query);
-    this.state.resolvedLemma = resolved;
+    // Explizite Autocomplete-Auswahl (#163) schlägt die String-Auflösung —
+    // aber nur solange der Query-Text noch der gewählten Form entspricht.
+    const sel = this.state.selectedLemma;
+    const useSelected = sel && (sel.lemma || sel.id) === (this.state.query || '').trim();
+    this.state.resolvedLemma = useSelected ? sel : resolved;
     this.state.candidates = candidates;
     this.state.result = null;
-    if (!resolved) {
+    if (!this.state.resolvedLemma) {
       this.render();
       return;
     }
@@ -217,12 +227,13 @@ export class RhymeDictionary {
     this.render();
 
     const myToken = this._abortToken;
-    const raw = await this.computeRhymes(resolved, (p) => {
+    const myEpoch = getNavigationEpoch();
+    const raw = await this.computeRhymes(this.state.resolvedLemma, (p) => {
       if (this._abortToken !== myToken) return;
       this.state.progress = p;
       this.updateProgressBar();
     });
-    if (this._abortToken !== myToken) return;
+    if (this._abortToken !== myToken || getNavigationEpoch() !== myEpoch) return;
     if (!raw) {
       this.state.computing = false;
       return;
@@ -233,20 +244,7 @@ export class RhymeDictionary {
       partners: this.enrichPartners(raw.partners)
     };
     this.state.computing = false;
-    // Nicht rendern, wenn der User während des Scans zu einer anderen
-    // Playground-View navigiert ist — sonst überschreibt das fertige
-    // Ergebnis die aktuell angezeigte View in #resultsContainer.
-    if (!this.isActiveView()) return;
     this.render();
-  }
-
-  /**
-   * True, wenn die Router-Hash-Route noch zu diesem Modul gehört (oder kein
-   * Hash gesetzt ist, z.B. bei programmatischem show() ohne Route).
-   */
-  isActiveView() {
-    const view = (window.location.hash || '').replace(/^#/, '').split('&')[0];
-    return view === '' || view === 'rhyme-dictionary';
   }
 
   updateProgressBar() {
@@ -530,7 +528,11 @@ export class RhymeDictionary {
 
     const input = document.getElementById('rdQuery');
     if (input) {
-      input.addEventListener('input', (e) => this.updateAutocomplete(e.target.value));
+      input.addEventListener('input', (e) => {
+        // Manuelle Eingabe invalidiert eine frühere Dropdown-Auswahl (#163).
+        this.state.selectedLemma = null;
+        this.updateAutocomplete(e.target.value);
+      });
       input.addEventListener('keydown', (e) => {
         const open = this.state.autocompleteOpen && this.state.autocompleteItems.length > 0;
         if (e.key === 'Enter') {
@@ -538,6 +540,7 @@ export class RhymeDictionary {
           if (open && this.state.autocompleteIndex >= 0) {
             const c = this.state.autocompleteItems[this.state.autocompleteIndex];
             input.value = c.lemma || c.id;
+            this.state.selectedLemma = c;
             this.closeAutocomplete();
             runSearch();
             return;
@@ -578,6 +581,7 @@ export class RhymeDictionary {
         if (!c) return;
         const inputEl = document.getElementById('rdQuery');
         if (inputEl) inputEl.value = c.lemma || c.id;
+        this.state.selectedLemma = c;
         this.closeAutocomplete();
         runSearch();
       });

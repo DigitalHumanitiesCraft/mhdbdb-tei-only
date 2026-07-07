@@ -369,6 +369,28 @@ async computeCooccurrences(...) {
 
 Token-Increment passiert SYNCHRON in `runSearch()`, bevor `await` läuft. Damit ist garantiert, dass der zweite Lauf den ersten ungültig macht, *bevor* der erste auch nur einen `yieldToMain()`-Cycle hatte. Loop-interner Check nach jedem Yield fängt es schnell ab.
 
+### Navigation-Epoch gegen Cross-View-Clobber (#159/#168)
+
+Der per-Modul-Token oben fängt nur **Same-View-Races** (neue Suche im selben Modul). Navigiert der User während eines laufenden Scans zu einer **anderen View**, bumpt kein Modul-Token — das fertige Ergebnis würde die inzwischen angezeigte View in `#resultsContainer` überschreiben. Dagegen exportiert der Router (`playground/js/ui/core/router.js`) einen globalen, monoton steigenden Zähler:
+
+```js
+import { getNavigationEpoch } from '../core/router.js';
+
+async runSearch() {
+  this._abortToken += 1;             // Same-View-Guard (wie oben)
+  const myToken = this._abortToken;
+  const myEpoch = getNavigationEpoch();  // Cross-View-Guard
+  const result = await this.compute(/* ... */);
+  if (this._abortToken !== myToken || getNavigationEpoch() !== myEpoch) return;
+  this.state.result = result;
+  this.render();
+}
+```
+
+`dispatch()` inkrementiert den Epoch bei JEDER Route-Änderung (`navigate()` wie `hashchange`/back/forward), aber erst nach dem Unknown-View-Check (unbekannte Route ändert die sichtbare View nicht). Beide Checks gehören zusammen in dieselbe Bedingung — auch in die Chunk-Loops nach jedem `yieldToMain()`, damit ein wegnavigierter Scan sofort abbricht statt CPU zu verbrennen. Der früher hier dokumentierte per-Modul-`isActiveView()`-Hash-Vergleich ist durch den Epoch ersetzt (eine Mechanik statt zwei, und er fängt auch Same-Route-Re-Dispatches mit neuen Params).
+
+Umgesetzt (Stand 2026-07-07): `cooccurrence-ranking.js`, `rhyme-dictionary.js`, `concept-distribution.js` (dort zusätzlich `_searchGen` als Such-Generation-Token, weil das `computing`-Flag als Identitätskriterium versagt — bei zwei überlappenden Suchen gewann die ältere), `multi-lemma-search.js`, `naming-explorer.js` (Erst-Load). Auf der Hauptseite nutzt `tei-text-reader.js openReadingView()` denselben Gedanken als `_loadSeq`-Request-Guard (kein Router dort).
+
 ### Live-Autocomplete-Dropdown (concept-distribution #113 Lesson)
 
 Klassisches DWDS/Google-Style-Dropdown unter Lemma-/Concept-Inputs. Direkter DOM-Update statt full `render()` bei jedem Keystroke — sonst verliert Input den Fokus und die Selection-Range, das Tippen wird unbedienbar.
@@ -411,7 +433,9 @@ input.addEventListener('blur', () => setTimeout(() => this.closeAutocomplete(), 
 
 ARIA: `role="combobox" + aria-controls + aria-expanded` am Input, `role="listbox"` am Dropdown, `role="option" + aria-selected` an Buttons. Scroll-into-view des aktiven Items bei Pfeil-Nav (`activeEl.scrollIntoView({block: 'nearest'})`). Reuse `resolveQuery()` als Suggestions-Quelle — kein zweiter Resolver-Pfad.
 
-Pattern ist (Stand 2026-05-16) in vier Modulen umgesetzt: `concept-distribution.js` (#113 original), `lemma-distribution.js`, `verse-position-search.js`, `cooccurrence-ranking.js` (alle drei portiert 2026-05-16). Falls weitere Module Lemma-/Concept-Input bekommen: einfach kopieren, IDs anpassen (`xxQuery`/`xxAutocomplete`/`data-xx-ac-idx`).
+Pattern ist (Stand 2026-05-16) in vier Modulen umgesetzt: `concept-distribution.js` (#113 original), `lemma-distribution.js`, `verse-position-search.js`, `cooccurrence-ranking.js` (alle drei portiert 2026-05-16; seit #106 auch `rhyme-dictionary.js`). Falls weitere Module Lemma-/Concept-Input bekommen: einfach kopieren, IDs anpassen (`xxQuery`/`xxAutocomplete`/`data-xx-ac-idx`).
+
+**Auswahl-Durchreichung (#163):** Die Dropdown-Auswahl darf nicht nur `input.value` (String) setzen — bei Homographen (drei Lemmata „rôt") löst `resolveQuery()` den String sonst wieder aufs falsche Lemma auf. Regel: Auswahl (Enter mit aktivem Item, mousedown) setzt zusätzlich `this.state.selectedLemma = c` (bzw. `selectedConcept`); der `input`-Handler setzt es bei manueller Eingabe auf `null` zurück; `runSearch()` bevorzugt `selectedLemma`, solange der Query-Text noch der gewählten Form entspricht. Default-Auflösung ohne explizite Auswahl: `searchLemmaByOrthography()` liefert Stage-1-Homographen frequenz-sortiert (Korpus-Frequenz absteigend), `matches[0]` ist also das plausibelste Lemma.
 
 ## Layout Patterns
 

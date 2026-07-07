@@ -20,6 +20,7 @@
  */
 
 import { TextNormalizer } from '../../../../assets/js/lib/text-normalizer.js';
+import { getNavigationEpoch } from '../core/router.js';
 
 const DEFAULT_STATE = Object.freeze({
   workSigle: '',
@@ -55,7 +56,11 @@ export class NamingExplorer {
 
     if (!this.index && !this.loadError) {
       container.innerHTML = '<div class="rounded-2xl border border-slate-200 bg-white p-8 text-center text-sm text-slate-500">Lade Figurenbezeichnungen ...</div>';
+      const myEpoch = getNavigationEpoch();
       await this.loadIndex();
+      // Navigiert der User während des Erst-Loads weg, nicht rendern —
+      // sonst überschreibt der fertige Index die andere View (#159).
+      if (getNavigationEpoch() !== myEpoch) return;
     }
     this.render();
   }
