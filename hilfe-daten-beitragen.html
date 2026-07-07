@@ -204,7 +204,8 @@
                 <li><a href="#pipeline" class="text-brand-600 hover:text-brand-700 font-medium">6. Annotations-Pipeline</a></li>
                 <li><a href="#validation" class="text-brand-600 hover:text-brand-700 font-medium">7. Validierung</a></li>
                 <li><a href="#beispiel" class="text-brand-600 hover:text-brand-700 font-medium">8. Worked Example: Wenzelsbibel</a></li>
-                <li><a href="#refs" class="text-brand-600 hover:text-brand-700 font-medium">9. Referenzen</a></li>
+                <li><a href="#einreichung" class="text-brand-600 hover:text-brand-700 font-medium">9. Einreichung und Aufnahmekriterien</a></li>
+                <li><a href="#refs" class="text-brand-600 hover:text-brand-700 font-medium">10. Referenzen</a></li>
             </ol>
         </nav>
 
@@ -881,9 +882,58 @@ print('Stage 2 (MHDBDB):  ', 'PASS' if mhdbdb.validate(doc) else mhdbdb.error_lo
             </ul>
         </section>
 
-        <!-- 9. Refs -->
+        <!-- 9. Einreichung -->
+        <section id="einreichung" class="mb-12 scroll-mt-24">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">9. Einreichung und Aufnahmekriterien</h2>
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Diese Kriterien definieren, wann ein Text in die MHDBDB aufgenommen werden kann.
+                Sie orientieren sich am normativen MHDBDB-Schema (TEI&nbsp;P5 + MHDBDB-Constraints)
+                und sind so gewählt, dass der Text (1)&nbsp;zitierfähig, (2)&nbsp;technisch validierbar
+                und (3)&nbsp;langfristig wartbar ist.
+            </p>
+
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">Mindestanforderungen (MUSS): „ingest-fähig"</h3>
+            <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm mb-6">
+                <ul class="space-y-3 text-sm text-slate-700">
+                    <li><strong>Format:</strong> Einreichung als <strong>TEI-P5-XML</strong> (MHDBDB-konform, siehe Abschnitte 1–5). Andere Formate werden nicht direkt akzeptiert. Falls Konversion gewünscht: bitte vorab Kontakt aufnehmen; Konversion/Mapping ist eine kostenpflichtige Zusatzleistung (siehe Weg&nbsp;B oben).</li>
+                    <li><strong>Einreichungsweg:</strong> Bevorzugt via <strong>Pull Request</strong> auf <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">GitHub</a>; die PR-Beschreibung enthält Quelle, Umfang und Besonderheiten.</li>
+                    <li><strong>Lizenz &amp; Rechte:</strong> Lizenz ist angegeben und mit dem MHDBDB-Korpus kompatibel; Rechteinhaber bzw. Projekt sind genannt.</li>
+                    <li><strong>TEI-Header:</strong> MHDBDB-konformer <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;teiHeader&gt;</code> nach dem Schema-Skelett (Abschnitt&nbsp;2); <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;TEI xml:id="SIGLE"&gt;</code> ist gesetzt.</li>
+                    <li><strong>Metadaten (inhaltlich):</strong> Werk eindeutig identifizierbar und im Sinne der MHDBDB modellierbar; Autor*in angegeben (bei anonymen Texten explizit „anonym"); Primärquelle (Edition/Handschrift/Transkription) zitierfähig dokumentiert; digitale Zwischenstufe/Provenienz dokumentiert (woher stammen Datei, Transkription, Annotation).</li>
+                    <li><strong>Werk-Anker (Authority-Link):</strong> Das Werk ist an <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">works.xml</code> angebunden. Falls neu: Der PR enthält die notwendige Ergänzung bzw. wird vorab mit dem Team abgestimmt.</li>
+                    <li><strong>Body-Struktur:</strong> Der Textkörper ist in einer für Texttyp/Genre plausiblen Struktur modelliert (sauber verschachtelte Blockelemente, keine „lose Tokenliste" ohne Struktur).</li>
+                    <li><strong>Tokenisierung (lexikalischer Textfluss):</strong> Sprachliche Tokens (der eigentliche Textfluss, inklusive Kolophone mit regulärem Sprachtext) sind als <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;w&gt;</code> ausgezeichnet; jedes <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;w&gt;</code> besitzt ein dateiweit eindeutiges <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">@xml:id</code>. Paratexte ohne Sprachfunktion (rein strukturelle Marker wie Kapitelmarken ohne lexikalischen Text) müssen nicht als <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;w&gt;</code> ausgezeichnet werden.</li>
+                    <li><strong>Lemmatisierung &amp; POS:</strong> Für sprachliche <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;w&gt;</code>-Tokens sind <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">@lemmaRef</code> (Verweis auf <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">lexicon.xml#lemma_…</code>) <strong>und</strong> <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">@pos</code> (MHDBDB-19-Tagset) gesetzt. Wenn Sie Lemmatisierung/POS nicht selbst liefern können: Kontakt mit dem MHDBDB-Team aufnehmen; die Annotation kann als kostenpflichtige Zusatzleistung übernommen werden (Aufwand abhängig von Umfang und Ausgangszustand).</li>
+                    <li><strong>Interpunktion:</strong> Als <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;pc join="left|right"&gt;…&lt;/pc&gt;</code> ausgezeichnet, nicht als freier Text zwischen Tokens.</li>
+                    <li><strong>Validierung:</strong> Die Datei validiert gegen die MHDBDB-Constraints (<code class="px-2 py-0.5 bg-slate-100 rounded text-sm">schema/mhdbdb.rnc</code>, siehe Abschnitt&nbsp;7); die CI ist grün.</li>
+                </ul>
+            </div>
+
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">Qualitätsanforderungen (SOLL): „review-freundlich"</h3>
+            <p class="text-sm text-slate-700 leading-relaxed mb-3">
+                Nicht zwingend, senken aber Review- und Ingest-Aufwand deutlich:
+            </p>
+            <ul class="space-y-2 text-sm text-slate-700 mb-6 ml-4 list-disc list-inside">
+                <li><strong>Editorische Eingriffe</strong> explizit ausgezeichnet (z.&nbsp;B. <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;supplied&gt;</code>, nach MHDBDB-Konvention).</li>
+                <li><strong>Normdaten:</strong> Autor*in/Werk verfügen, wenn vorhanden, über externe Normdaten-IDs (GND, Wikidata) in Header- bzw. Authority-Strukturen.</li>
+                <li><strong>Checkliste im PR:</strong> kurze Übersicht „was wurde gemappt, was nicht" plus Validierungsnachweis (Befehl/Output oder CI-Status).</li>
+            </ul>
+
+            <div class="bg-blue-50 border border-blue-200 rounded-2xl p-5 text-sm text-blue-900">
+                <p class="font-semibold mb-2">Definition of Done: Wann ist ein Beitrags-PR merge-bereit?</p>
+                <ol class="list-decimal list-inside space-y-1">
+                    <li>Schema-Validierung erfolgreich (Stufe&nbsp;2, 0&nbsp;Fails)</li>
+                    <li>Mindest-Header + zitierfähige Quelle vorhanden</li>
+                    <li>Tokenisierung (<code class="px-1 py-0.5 bg-blue-100 rounded">&lt;w xml:id&gt;</code>) vollständig</li>
+                    <li>Werk-/Authority-Linking geklärt</li>
+                    <li>Review erfolgt (fachlich + technisch)</li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- 10. Refs -->
         <section id="refs" class="mb-12 scroll-mt-24">
-            <h2 class="text-2xl font-bold text-slate-900 mb-4">9. Referenzen</h2>
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">10. Referenzen</h2>
 
             <h3 class="text-lg font-semibold text-slate-800 mb-2">Schemata und Spezifikationen</h3>
             <ul class="space-y-2 text-sm text-slate-700 mb-6 ml-4 list-disc list-inside">
@@ -928,7 +978,8 @@ print('Stage 2 (MHDBDB):  ', 'PASS' if mhdbdb.validate(doc) else mhdbdb.error_lo
                     <li><a href="#pipeline" class="text-brand-600 hover:text-brand-700 font-medium">6. Pipeline</a></li>
                     <li><a href="#validation" class="text-brand-600 hover:text-brand-700 font-medium">7. Validierung</a></li>
                     <li><a href="#beispiel" class="text-brand-600 hover:text-brand-700 font-medium">8. Wenzelsbibel</a></li>
-                    <li><a href="#refs" class="text-brand-600 hover:text-brand-700 font-medium">9. Referenzen</a></li>
+                    <li><a href="#einreichung" class="text-brand-600 hover:text-brand-700 font-medium">9. Einreichung</a></li>
+                    <li><a href="#refs" class="text-brand-600 hover:text-brand-700 font-medium">10. Referenzen</a></li>
                 </ol>
             </nav>
         </aside>
