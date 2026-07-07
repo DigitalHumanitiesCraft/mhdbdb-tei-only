@@ -189,14 +189,28 @@ test.describe('Reading View', () => {
     });
 
     test('should render prose line numbers (lb)', async ({ page }) => {
-        // ABG has lb elements with h_ prefix numbers
+        // ABG: 334 numerische Druckzeilen-Nummern + 5 technische h_-Zeilen
+        // (Header-Zählung). Numerische @n rendern als sichtbare .lb-number;
+        // h_-Zeilen als unsichtbarer .lb-anchor, der nur als Deep-Link-Ziel
+        // (?verse=h_N) dient (#158/#162).
         await page.goto('http://localhost:8080/korpus.html?textId=ABG&lemmaIds=lemma_879');
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
         await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
 
-        // Line numbers should be rendered
+        // Erste sichtbare Zeilennummer ist eine echte Druckzeilen-Zahl
         const lineNumbers = page.locator('#readingBody .lb-number');
         await expect(lineNumbers.first()).toBeVisible();
+        const firstText = (await lineNumbers.first().textContent()).trim();
+        expect(firstText).toMatch(/^\d+$/);
+
+        // .lb-number enthält KEINE leeren h_-Spans mehr
+        const emptyCount = await page.locator('#readingBody .lb-number:empty').count();
+        expect(emptyCount).toBe(0);
+
+        // h_-Zeilen existieren als unsichtbare Anker mit data-n (Deep-Links)
+        const anchor = page.locator('#readingBody .lb-anchor[data-n="h_1"]');
+        await expect(anchor).toHaveCount(1);
+        expect(((await anchor.textContent()) || '').trim()).toBe('');
     });
 
     test('should render note date and year badges', async ({ page }) => {
