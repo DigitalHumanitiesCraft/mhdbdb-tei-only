@@ -14,6 +14,109 @@ import { extractKwicHits, formatLineRef } from './search/kwic-service.js';
 import { TextRenderer } from './rendering/text-renderer.js';
 import { TEITextReader } from './rendering/tei-text-reader.js';
 
+/**
+ * Issue #160: Deklaratives Spaltenmodell der Ergebnis-Tabelle (#114/#129).
+ *
+ * SINGLE SOURCE OF TRUTH für Spalten-Reihenfolge, Header-Labels, Alignment,
+ * Sortierung, Zellen-Rendering, Gesamtzeile und TSV/CSV-Export. Vorher lebte
+ * dieses Wissen an sieben Stellen in app.js (Header, Zeilen, Keyness-Zelle,
+ * tfoot, sortResults, TSV- und CSV-Export) plus einem hartcodierten
+ * KWIC-colspan — jede Spaltenänderung musste alle synchron treffen.
+ *
+ * Feld-Referenz je Spalte:
+ *   key          Sort-Key (data-sort-col); null = nicht sortierbar (Belege)
+ *   label        Header-Beschriftung der Tabelle
+ *   headerAlign  Alignment-Klasse des <th>
+ *   cellClass    Zusatzklassen der <td> (results-table-td ist immer gesetzt)
+ *   cell(r, app) HTML-INHALT der <td> (bereits escaped)
+ *   tdHtml(r, app) alternativ: komplette <td> (Keyness: bedingte Klassen/Titel)
+ *   sortValue(r) Wert für den Comparator (string → localeCompare 'de')
+ *   exportFields Liste {label, value(r)} — eine Tabellen-Spalte kann in
+ *                mehrere Export-Felder aufgehen (Titel → Sigle + Titel)
+ *                oder in keines (Belege-Button)
+ *   totalColspan / totalSkip / totalClass / totalCell(totals)
+ *                Bausteine der tfoot-Gesamtzeile; totalSkip markiert Spalten,
+ *                die vom colspan des Vorgängers abgedeckt sind
+ */
+const RESULT_TABLE_COLUMNS = [
+    {
+        key: 'title',
+        label: 'Titel',
+        headerAlign: 'text-left',
+        cell: (r) => `<span class="font-mono text-xs text-brand-600 mr-1">${escapeHtml(r.textId)}</span><span>${escapeHtml(r.title)}</span>`,
+        sortValue: (r) => (r.title || '').toLowerCase(),
+        exportFields: [
+            { label: 'Sigle', value: (r) => r.textId },
+            { label: 'Titel', value: (r) => r.title || '' },
+        ],
+        totalColspan: 2,
+        totalClass: 'font-semibold',
+        totalCell: (t) => `Gesamt (${t.count} Texte)`,
+    },
+    {
+        key: 'author',
+        label: 'Autor*in',
+        headerAlign: 'text-left',
+        cell: (r) => escapeHtml(r.author || '–'),
+        // Unbekannte ans Ende (U+FFFF, höchster BMP-Codepoint)
+        sortValue: (r) => (r.author || '￿').toLowerCase(),
+        exportFields: [{ label: 'Autor*in', value: (r) => r.author || '' }],
+        totalSkip: true, // vom colspan der Titel-Spalte abgedeckt
+    },
+    {
+        key: 'matchCount',
+        label: 'Treffer',
+        headerAlign: 'text-right',
+        cellClass: 'text-right tabular-nums',
+        cell: (r) => r.matchCount.toLocaleString('de-DE'),
+        sortValue: (r) => r.matchCount || 0,
+        exportFields: [{ label: 'Treffer', value: (r) => r.matchCount }],
+        totalClass: 'text-right tabular-nums font-semibold',
+        totalCell: (t) => t.matches.toLocaleString('de-DE'),
+    },
+    {
+        key: 'frequency',
+        label: 'Freq./10k W.',
+        headerAlign: 'text-right',
+        cellClass: 'text-right tabular-nums',
+        cell: (r) => (r.wordCount > 0) ? ((r.matchCount / r.wordCount) * 10000).toFixed(1) : '–',
+        sortValue: (r) => (r.wordCount > 0) ? (r.matchCount / r.wordCount) * 10000 : -Infinity,
+        exportFields: [{ label: 'Frequenz/10k', value: (r) => (r.wordCount > 0) ? ((r.matchCount / r.wordCount) * 10000).toFixed(1) : '' }],
+        totalClass: 'text-right tabular-nums font-semibold',
+        totalCell: (t) => t.freq,
+    },
+    {
+        key: 'keyness',
+        label: 'Keyness (LL)',
+        headerAlign: 'text-right',
+        // Bedingte Klassen + title-Attribut (Signifikanz ≥ 10,83) → komplette td
+        tdHtml: (r, app) => app.formatKeynessCell(r.keyness),
+        sortValue: (r) => (typeof r.keyness === 'number') ? r.keyness : -Infinity,
+        exportFields: [{ label: 'Keyness (LL)', value: (r) => (typeof r.keyness === 'number') ? r.keyness.toFixed(1) : '' }],
+    },
+    {
+        key: 'wordCount',
+        label: 'Wörter',
+        headerAlign: 'text-right',
+        cellClass: 'text-right tabular-nums text-slate-500',
+        cell: (r) => r.wordCount ? r.wordCount.toLocaleString('de-DE') : '–',
+        sortValue: (r) => r.wordCount || 0,
+        exportFields: [{ label: 'Wörter', value: (r) => r.wordCount || '' }],
+        totalClass: 'text-right tabular-nums font-semibold text-slate-600',
+        totalCell: (t) => t.words.toLocaleString('de-DE'),
+    },
+    {
+        key: null, // nicht sortierbar
+        label: 'Belege',
+        headerAlign: 'text-center',
+        cellClass: 'text-center',
+        cell: () => `<button type="button" class="kwic-row-btn" data-kwic-row title="Belege anzeigen" aria-expanded="false">
+                            <svg class="w-4 h-4 kwic-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </button>`,
+        exportFields: [],
+    },
+];
+
 class MainSiteApp {
     constructor() {
         this.corpusLoader = new CorpusLoader();
@@ -742,37 +845,29 @@ class MainSiteApp {
         const sortIcon = (col) => col === column ? (direction === 'asc' ? '↑' : '↓') : '↕';
         const ariaSort = (col) => col === column ? (direction === 'asc' ? 'ascending' : 'descending') : 'none';
 
-        const headerCell = (col, label, alignClass = '') => `
-            <th scope="col" aria-sort="${ariaSort(col)}" class="results-table-th ${alignClass}" style="position: sticky; top: 0; background: #f8fafc; z-index: 10;">
-                <button type="button" data-sort-col="${col}" class="results-table-sort-btn">
-                    ${this.escapeHtml(label)} <span class="text-xs text-slate-400">${sortIcon(col)}</span>
+        // Alles Spalten-Wissen kommt aus RESULT_TABLE_COLUMNS (#160).
+        const headerCells = RESULT_TABLE_COLUMNS.map(col => {
+            if (!col.key) {
+                return `<th scope="col" class="results-table-th ${col.headerAlign}" style="position: sticky; top: 0; background: #f8fafc; z-index: 10;">${this.escapeHtml(col.label)}</th>`;
+            }
+            return `
+            <th scope="col" aria-sort="${ariaSort(col.key)}" class="results-table-th ${col.headerAlign}" style="position: sticky; top: 0; background: #f8fafc; z-index: 10;">
+                <button type="button" data-sort-col="${col.key}" class="results-table-sort-btn">
+                    ${this.escapeHtml(col.label)} <span class="text-xs text-slate-400">${sortIcon(col.key)}</span>
                 </button>
             </th>
         `;
+        }).join('');
 
         const rows = this.currentResults.map(r => {
-            const freq = (r.wordCount > 0)
-                ? ((r.matchCount / r.wordCount) * 10000).toFixed(1)
-                : '–';
-            const wordsFmt = r.wordCount ? r.wordCount.toLocaleString('de-DE') : '–';
-            const matchesFmt = r.matchCount.toLocaleString('de-DE');
-            const keynessCell = this.formatKeynessCell(r.keyness);
+            const cells = RESULT_TABLE_COLUMNS.map(col => {
+                if (col.tdHtml) return col.tdHtml(r, this);
+                const cls = col.cellClass ? ` ${col.cellClass}` : '';
+                return `<td class="results-table-td${cls}">${col.cell(r, this)}</td>`;
+            }).join('\n                    ');
             return `
                 <tr data-text-id="${this.escapeHtml(r.textId)}" tabindex="0" role="button" class="results-table-row hover:bg-slate-50 cursor-pointer">
-                    <td class="results-table-td">
-                        <span class="font-mono text-xs text-brand-600 mr-1">${this.escapeHtml(r.textId)}</span>
-                        <span>${this.escapeHtml(r.title)}</span>
-                    </td>
-                    <td class="results-table-td">${this.escapeHtml(r.author || '–')}</td>
-                    <td class="results-table-td text-right tabular-nums">${matchesFmt}</td>
-                    <td class="results-table-td text-right tabular-nums">${freq}</td>
-                    ${keynessCell}
-                    <td class="results-table-td text-right tabular-nums text-slate-500">${wordsFmt}</td>
-                    <td class="results-table-td text-center">
-                        <button type="button" class="kwic-row-btn" data-kwic-row title="Belege anzeigen" aria-expanded="false">
-                            <svg class="w-4 h-4 kwic-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-                        </button>
-                    </td>
+                    ${cells}
                 </tr>
             `;
         }).join('');
@@ -780,15 +875,23 @@ class MainSiteApp {
         // Issue #114 (Followup): Gesamtzeile — Lindas Integrationswunsch
         const totalMatches = this.currentResults.reduce((sum, r) => sum + (r.matchCount || 0), 0);
         const totalWords = this.currentResults.reduce((sum, r) => sum + (r.wordCount || 0), 0);
-        const totalFreq = totalWords > 0 ? ((totalMatches / totalWords) * 10000).toFixed(1) : '–';
+        const totals = {
+            count: this.currentResults.length,
+            matches: totalMatches,
+            words: totalWords,
+            freq: totalWords > 0 ? ((totalMatches / totalWords) * 10000).toFixed(1) : '–',
+        };
+        const totalCells = RESULT_TABLE_COLUMNS
+            .filter(col => !col.totalSkip)
+            .map(col => {
+                const cls = col.totalClass ? ` ${col.totalClass}` : '';
+                const span = col.totalColspan ? ` colspan="${col.totalColspan}"` : '';
+                const content = col.totalCell ? col.totalCell(totals) : '';
+                return `<td class="results-table-td results-table-total-td${cls}"${span}>${content}</td>`;
+            }).join('\n                ');
         const totalRow = `
             <tr class="results-table-total-row">
-                <td class="results-table-td results-table-total-td font-semibold" colspan="2">Gesamt (${this.currentResults.length} Texte)</td>
-                <td class="results-table-td results-table-total-td text-right tabular-nums font-semibold">${totalMatches.toLocaleString('de-DE')}</td>
-                <td class="results-table-td results-table-total-td text-right tabular-nums font-semibold">${totalFreq}</td>
-                <td class="results-table-td results-table-total-td"></td>
-                <td class="results-table-td results-table-total-td text-right tabular-nums font-semibold text-slate-600">${totalWords.toLocaleString('de-DE')}</td>
-                <td class="results-table-td results-table-total-td"></td>
+                ${totalCells}
             </tr>
         `;
 
@@ -810,13 +913,7 @@ class MainSiteApp {
                 <table class="w-full text-sm">
                     <thead>
                         <tr>
-                            ${headerCell('title', 'Titel', 'text-left')}
-                            ${headerCell('author', 'Autor*in', 'text-left')}
-                            ${headerCell('matchCount', 'Treffer', 'text-right')}
-                            ${headerCell('frequency', 'Freq./10k W.', 'text-right')}
-                            ${headerCell('keyness', 'Keyness (LL)', 'text-right')}
-                            ${headerCell('wordCount', 'Wörter', 'text-right')}
-                            <th scope="col" class="results-table-th text-center" style="position: sticky; top: 0; background: #f8fafc; z-index: 10;">Belege</th>
+                            ${headerCells}
                         </tr>
                     </thead>
                     <tbody>${rows}</tbody>
@@ -894,7 +991,8 @@ class MainSiteApp {
 
         const detail = document.createElement('tr');
         detail.className = 'kwic-detail-row';
-        detail.innerHTML = '<td colspan="7" class="kwic-detail-cell"><div class="kwic-panel" data-kwic-panel></div></td>';
+        // colspan aus dem Spaltenmodell ableiten statt hartcodieren (#160)
+        detail.innerHTML = `<td colspan="${RESULT_TABLE_COLUMNS.length}" class="kwic-detail-cell"><div class="kwic-panel" data-kwic-panel></div></td>`;
         row.after(detail);
 
         btn.setAttribute('aria-expanded', 'true');
@@ -941,20 +1039,12 @@ class MainSiteApp {
      * Reihenfolge respektiert aktuelle Sortierung.
      */
     serializeResultsAsTSV() {
-        const header = ['Sigle', 'Titel', 'Autor*in', 'Treffer', 'Frequenz/10k', 'Keyness (LL)', 'Wörter'].join('\t');
-        const rows = this.currentResults.map(r => {
-            const freq = (r.wordCount > 0) ? ((r.matchCount / r.wordCount) * 10000).toFixed(1) : '';
-            const keyness = (typeof r.keyness === 'number') ? r.keyness.toFixed(1) : '';
-            return [
-                r.textId,
-                (r.title || '').replace(/[\t\n\r]/g, ' '),  // TSV-Killer aus dem Titel filtern
-                (r.author || '').replace(/[\t\n\r]/g, ' '),
-                r.matchCount,
-                freq,
-                keyness,
-                r.wordCount || ''
-            ].join('\t');
-        });
+        const fields = RESULT_TABLE_COLUMNS.flatMap(col => col.exportFields);
+        const header = fields.map(f => f.label).join('\t');
+        const rows = this.currentResults.map(r =>
+            // TSV-Killer (Tab/Newline) aus allen Werten filtern
+            fields.map(f => String(f.value(r)).replace(/[\t\n\r]/g, ' ')).join('\t')
+        );
         return [header, ...rows].join('\n');
     }
 
@@ -992,22 +1082,11 @@ class MainSiteApp {
     }
 
     serializeResultsAsCSV() {
-        const header = ['Sigle', 'Titel', 'Autor*in', 'Treffer', 'Frequenz/10k', 'Keyness (LL)', 'Wörter']
-            .map(c => this.escapeCsvCell(c))
-            .join(',');
-        const rows = this.currentResults.map(r => {
-            const freq = (r.wordCount > 0) ? ((r.matchCount / r.wordCount) * 10000).toFixed(1) : '';
-            const keyness = (typeof r.keyness === 'number') ? r.keyness.toFixed(1) : '';
-            return [
-                r.textId,
-                r.title || '',
-                r.author || '',
-                r.matchCount,
-                freq,
-                keyness,
-                r.wordCount || ''
-            ].map(c => this.escapeCsvCell(c)).join(',');
-        });
+        const fields = RESULT_TABLE_COLUMNS.flatMap(col => col.exportFields);
+        const header = fields.map(f => this.escapeCsvCell(f.label)).join(',');
+        const rows = this.currentResults.map(r =>
+            fields.map(f => this.escapeCsvCell(f.value(r))).join(',')
+        );
         return [header, ...rows].join('\r\n');  // CRLF für Excel-Kompatibilität
     }
 
@@ -1040,14 +1119,8 @@ class MainSiteApp {
         const { column, direction } = this.sortSpec;
         const dir = direction === 'asc' ? 1 : -1;
 
-        const valueGetter = {
-            title: (r) => (r.title || '').toLowerCase(),
-            author: (r) => (r.author || '￿').toLowerCase(),  // Unbekannte ans Ende (U+FFFF, höchster BMP-Codepoint)
-            matchCount: (r) => r.matchCount || 0,
-            wordCount: (r) => r.wordCount || 0,
-            frequency: (r) => (r.wordCount > 0) ? (r.matchCount / r.wordCount) * 10000 : -Infinity,
-            keyness: (r) => (typeof r.keyness === 'number') ? r.keyness : -Infinity,
-        }[column];
+        const spec = RESULT_TABLE_COLUMNS.find(col => col.key === column);
+        const valueGetter = spec?.sortValue;
 
         if (!valueGetter) return;
 
