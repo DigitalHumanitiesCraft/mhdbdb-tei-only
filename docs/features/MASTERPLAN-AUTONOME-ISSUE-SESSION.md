@@ -2,7 +2,7 @@
 
 **Erstellt:** 2026-07-03 (Audit-Session, Fable 5)
 **Status:** Freigegeben durch chsteiner (Entscheidungen siehe §5)
-**Update 2026-07-07:** An den Repo-Stand nach Merge von PR #165 + #173 angepasst: Audit-Sammel-Issues #167–#172 einsortiert (§1.E), Wellen 1/9/10 und Kickoff-Prompt aktualisiert, Test-Baseline-Formulierung entschärft.
+**Update 2026-07-07:** An den Repo-Stand nach Merge von PR #165 + #173 angepasst: Audit-Sammel-Issues #167–#172 einsortiert (§1.E), Wellen 1/9/10 und Kickoff-Prompt aktualisiert, Test-Baseline-Formulierung entschärft. Zweites Update gleichen Tags: Missing-Inputs-Report durch Self-Service ersetzt; alle Input-Zugriffswege (GitHub-Attachments + pypdf, Issue-Kommentare, Zenodo, Google-Drive- und Gmail-MCP) einzeln verifiziert (§2 Regel 8).
 **Typ:** Temporal Artifact (Promptotyping-Konvention) — nach Abschluss der autonomen Session löschen; Git-History = Archiv.
 
 Quellen des Audits: alle 35 offenen Issue-Bodies (Dump 03.07.), Triage-Matrix #44 (Stand 17.06.), ROADMAP.md, JOURNAL.md (bis 02.07.), PR #165 (Code-Audit-Report, 113 Findings). Cross-Check durch unabhängigen Digest-Agenten: bestätigt, keine Widersprüche.
@@ -76,7 +76,12 @@ Die CLAUDE.md-Regel „never commit/push without user approval" wird durch den K
 5. **Verifikation je PR:** `npm test` aus `testing/` (Referenz: die in Welle 0 erhobene Baseline. Stand 03.07. waren 2 Fails bekannt: Wörterbuchnetz extern + #158, das die Session selbst grün macht; nach der Test-Härtung in PR #173 kann sich das verschoben haben, daher neu erheben); bei UI zusätzlich Chrome-Verifikation mit realen Belegen; bei TEI-Änderungen Schema-Validierung.
 6. **Konfliktmanagement ohne Merges:** PRs starten von main; bei Datei-Überschneidung wird der spätere Branch auf den früheren gestackt, PR-Body sagt „nach PR X mergen". Abschlussreport enthält die empfohlene Merge-Reihenfolge.
 7. **Kommunikation:** max. 1 sachlicher Statuskommentar pro Issue; keine Kontaktaufnahme mit Externen (Alan, Carina, Silvan) — Entwürfe dafür landen als Text im Issue.
-8. **Missing-Inputs-Report zuerst** (Entscheidung chsteiner 03.07.): Allererste Chat-Ausgabe der Session = vollständige Liste aller nicht zugänglichen Inputs; chsteiner providet direkt in die Session. Nicht warten — unabhängige Wellen laufen weiter, input-abhängige Items werden nachgezogen.
+8. **Inputs selbst beschaffen** (aktualisiert 07.07., Zugriffswege einzeln verifiziert): Die Session holt benötigte Inputs eigenständig statt sie von chsteiner zu erbitten. Verifiziert:
+   - GitHub-Issue-Attachments (KV-PDFs in #145, Borte-CSV/XLSX in #141) per `curl -L` von `github.com/user-attachments/...`; PDF-Text mit pypdf extrahieren (das Read-Tool rendert PDFs in dieser Umgebung nicht, poppler fehlt). Borte-CSV ist ISO-8859-kodiert, nicht UTF-8.
+   - Issue-Kommentare via `gh issue view N --json comments`: die #68-Intake-Kriterien (KZW 29.05.) und die #86-van-Beek-Kontaktdaten (KZW 29.05.) stehen dort vollständig.
+   - Zenodo-Records via WebFetch (#141: DOI 10.5281/zenodo.20626546, CC BY 4.0, public).
+   - Linecode-Quelldateien (`<SIG>_alterLinecode.txt`, für #110) liegen in KZWs Google Drive: via Google-Drive-MCP suchen und lesen. E-Mail-Kontext bei Bedarf via Gmail-MCP. **Beide MCP-Zugänge nur lesend verwenden** (nichts versenden, labeln oder ändern; deckt sich mit Regel 7).
+   Nur nachweislich Unbeschaffbares (z. B. die gedruckte Cormeau-Edition für #110) wird in Welle 0 kurz gemeldet und das betroffene Item dokumentiert übersprungen; nicht auf chsteiner warten.
 
 ---
 
@@ -84,7 +89,7 @@ Die CLAUDE.md-Regel „never commit/push without user approval" wird durch den K
 
 | Welle | Deliverable | Issues | Inhalt |
 |-------|-------------|--------|--------|
-| **0** | Chat-Report | — | Vorflug: Missing-Inputs-Report (PFLICHT, zuerst), Test-Baseline auf main, AUDIT-REPORT.md-Stand einlesen |
+| **0** | Chat-Report | — | Vorflug: alle Inputs selbst beschaffen (§2 Regel 8; nur nachweislich Unbeschaffbares melden), Test-Baseline auf main, AUDIT-REPORT.md-Stand einlesen |
 | **1** | PR 1 | #163, #164, #159, #168 | Gemeinsame Wurzel Dropdown/Lemma-Auflösung fixen (dabei #169 querlesen: mögliche gemeinsame Wurzel in der 3-Stufen-Auflösung, Erkenntnisse dort kommentieren); `rôt + munt` gegen 553-Treffer-Erwartung plausibilisieren; Router-globales Abort-Signal zusammen mit #168-Generation-Token designen (Navigation-Epoch) + DESIGN.md |
 | **2** | PR 2 | #158, #162 | `h_`-Nummern-Fix + Test-Umstellung (konservativ: Span für `h_` unterdrücken, Test auf echte Prosazeile), Begründung im PR; Duplikat-Hinweis als Kommentar |
 | **3** | PR 3 | #160 | Deklarative Spalten-Spec in `app.js` + KWIC-Aufklapp-Playwright-Test |
@@ -113,7 +118,7 @@ Geschätzter Output: 9–11 PRs, ~13–17 Issues ganz oder teilweise abgeräumt,
 1. **PR #165 (Audit-Report):** chsteiner behandelt den Branch vor Kickoff selbst. *Erledigt 03.07.: PR #165 + #173 gemerged, Rest-Findings in #167–#172 überführt.*
 2. **Stretch-Welle 9:** an, aber strikt nur nach Abschluss der Wellen 1–8 (Default).
 3. **#27-Scope:** NUR Policy-Dokument. Kein Pilot — Thema komplex und token-intensiv.
-4. **Missing Inputs:** Session meldet zuallererst alle nicht zugänglichen Daten; chsteiner providet sie direkt in die Session.
+4. **Missing Inputs:** Session meldet zuallererst alle nicht zugänglichen Daten; chsteiner providet sie direkt in die Session. *Überholt 07.07. (Entscheidung chsteiner): Die Session beschafft alle Inputs selbst, Zugriffswege verifiziert (§2 Regel 8); gemeldet wird nur nachweislich Unbeschaffbares.*
 
 ---
 
@@ -130,17 +135,25 @@ im PR-Body; #44 NIE mit Closes referenzieren). Pro Issue/Cluster ein frischer Br
 bei Datei-Überschneidung auf den Vorgänger-PR stacken und das im PR-Body vermerken. Nie git add -A.
 Max. 1 Statuskommentar pro Issue, keine Kontaktaufnahme mit Externen.
 
-WELLE 0 — VORFLUG + MISSING-INPUTS-REPORT (PFLICHT, ALLERERSTE AUSGABE):
-Bevor du irgendetwas implementierst: prüfe die Zugänglichkeit ALLER benötigten Inputs und melde
-mir als allererste Chat-Nachricht eine vollständige Liste dessen, was du NICHT lesen kannst
-(z.B. PDF-Anhänge in #145, Kontaktdaten in #86-Kommentaren, KZW-Intake-Kriterien in #68,
-Dry-Run-Output/Linecode-Quelle für #110, Zenodo-Tabelle für #141). Ich providere fehlende Daten
-direkt in diese Session. Danach NICHT warten: sofort mit allen Wellen fortfahren, die nicht von
-fehlenden Inputs abhängen; blockierte Items nachziehen, sobald ich die Daten geliefert habe,
-sonst am Ende als übersprungen dokumentieren. Außerdem in Welle 0: Test-Baseline auf main
-erheben (Stand 03.07. waren 2 Fails bekannt; nach der Test-Härtung in PR #173 neu messen) und
-den aktuellen Stand des Code-Audit-Reports einlesen (AUDIT-REPORT.md im Repo-Root; PR #165 +
-#173 sind gemerged, die Rest-Findings leben in den Sammel-Issues #167-#172).
+WELLE 0 — VORFLUG (INPUTS SELBST BESCHAFFEN):
+Beschaffe dir ALLE benötigten Inputs selbst; die Zugriffswege sind am 07.07. einzeln
+verifiziert worden:
+- GitHub-Issue-Attachments (KV-PDFs 32/25 + 33/25 und CLARIAH-Rechnungen in #145,
+  Borte-CSV/XLSX in #141): per curl -L von github.com/user-attachments/... laden;
+  PDF-Text mit pypdf extrahieren (das Read-Tool rendert PDFs hier nicht, poppler fehlt).
+  Achtung: die Borte-CSV ist ISO-8859-kodiert, nicht UTF-8.
+- KZW-Intake-Kriterien (#68) und van-Beek-Kontaktdaten (#86) stehen vollständig in den
+  Issue-Kommentaren vom 29.05. (gh issue view N --json comments).
+- Zenodo via WebFetch (#141: DOI 10.5281/zenodo.20626546, CC BY 4.0, public).
+- Linecode-Quelldateien (<SIG>_alterLinecode.txt, für #110) liegen in KZWs Google Drive:
+  via Google-Drive-MCP suchen/lesen (Tools per ToolSearch laden). E-Mail-Kontext bei Bedarf
+  via Gmail-MCP. Beide MCP-Zugänge NUR LESEND (nichts versenden, labeln oder ändern).
+Nur nachweislich Unbeschaffbares (z.B. die gedruckte Cormeau-Edition für #110) als kurze
+Liste melden, das betroffene Item dokumentiert überspringen und sofort weiterarbeiten.
+Außerdem in Welle 0: Test-Baseline auf main erheben (Stand 03.07. waren 2 Fails bekannt;
+nach der Test-Härtung in PR #173 neu messen) und den aktuellen Stand des Code-Audit-Reports
+einlesen (AUDIT-REPORT.md im Repo-Root; PR #165 + #173 sind gemerged, die Rest-Findings
+leben in den Sammel-Issues #167-#172).
 
 REIHENFOLGE (Wellen, jede mit npm test aus testing/ + Chrome-Verifikation bei UI + Schema-Validierung
 + Index/API-Rebuild mit Versions-Bump bei XML-Änderungen):
@@ -183,6 +196,6 @@ NICHT ANFASSEN: #92 #147(außer Stretch-Entwurf) #114 #129 #59 #115(B/C) #124 #1
 #169(nur Diagnose-Kommentar aus Welle 1 erlaubt) #172 (menschen-blockiert) und #63 #93 #109
 #111 #118 #123 #139 (future) — nur in der #44-Matrix korrekt einsortieren.
 
-Fehlender Input, der nicht nachgeliefert wurde → Issue überspringen + im Abschlussreport
-begründen, NICHT auf mich warten und NICHT fragen.
+Input, der sich auch über die verifizierten Wege nicht beschaffen lässt → Issue überspringen
++ im Abschlussreport begründen, NICHT auf mich warten und NICHT fragen.
 ```
