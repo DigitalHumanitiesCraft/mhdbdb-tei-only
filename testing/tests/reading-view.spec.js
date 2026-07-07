@@ -288,3 +288,41 @@ test.describe('Reading View', () => {
     });
 
 });
+
+test.describe('Issue #134: Ausschnitts-Kontext (Excerpt)', () => {
+
+    test.setTimeout(120000);
+
+    test('AK zeigt Excerpt-Banner und Ausschnitt-Metadaten', async ({ page }) => {
+        await page.goto('http://localhost:8080/korpus.html?textId=AK');
+        await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
+        await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
+
+        // Banner sichtbar über dem Text, OHNE das Metadaten-Panel zu öffnen
+        // (Akzeptanzkriterium: Ausschnittsbeziehung muss erkennbar sein)
+        const banner = page.locator('.excerpt-banner');
+        await expect(banner).toBeVisible();
+        await expect(banner).toContainText('Buch von Akkon');
+        await expect(banner).toContainText('44579–53866');
+
+        // Metadaten-Panel: strukturierte Ausschnitt-Sektion (Issue-Tabelle)
+        await page.click('.metadata-toggle-btn');
+        const sections = page.locator('.metadata-sections');
+        await expect(sections).toContainText('Ausschnitt');
+        await expect(sections).toContainText('Gesamtwerk:');
+        await expect(sections).toContainText('Versbereich:');
+        await expect(sections).toContainText('Zerstörung Akkons');
+    });
+
+    test('analytic-Titel ohne Versbereich löst KEINEN Banner aus (ABG)', async ({ page }) => {
+        // 534 Korpus-Header haben <analytic> für gewöhnliche
+        // Editions-Angaben (Zeitschriftenartikel, Sammelband-Kapitel).
+        // Excerpt-Signal ist ausschließlich biblScope unit="verse".
+        await page.goto('http://localhost:8080/korpus.html?textId=ABG');
+        await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
+        await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
+
+        await expect(page.locator('.excerpt-banner')).toHaveCount(0);
+    });
+
+});
