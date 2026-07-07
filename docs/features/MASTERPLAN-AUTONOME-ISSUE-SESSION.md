@@ -2,6 +2,7 @@
 
 **Erstellt:** 2026-07-03 (Audit-Session, Fable 5)
 **Status:** Freigegeben durch chsteiner (Entscheidungen siehe §5)
+**Update 2026-07-07:** An den Repo-Stand nach Merge von PR #165 + #173 angepasst: Audit-Sammel-Issues #167–#172 einsortiert (§1.E), Wellen 1/9/10 und Kickoff-Prompt aktualisiert, Test-Baseline-Formulierung entschärft.
 **Typ:** Temporal Artifact (Promptotyping-Konvention) — nach Abschluss der autonomen Session löschen; Git-History = Archiv.
 
 Quellen des Audits: alle 35 offenen Issue-Bodies (Dump 03.07.), Triage-Matrix #44 (Stand 17.06.), ROADMAP.md, JOURNAL.md (bis 02.07.), PR #165 (Code-Audit-Report, 113 Findings). Cross-Check durch unabhängigen Digest-Agenten: bestätigt, keine Widersprüche.
@@ -37,7 +38,7 @@ Quellen des Audits: alle 35 offenen Issue-Bodies (Dump 03.07.), Triage-Matrix #4
 | **#141** | Borte „Aufgabe 0": Metadaten-Template + Anforderungsliste an Alan (Quelltabelle: Zenodo 10.5281/zenodo.20626546) | Gesamt-Ingest wartet auf KZW-Priorisierung (nach #139) |
 | **#106** | Optional (Stretch): Punkt 8 „Lemma im Vers"-Filter | Punkte 2–7 sind FWF (#109) |
 
-**Bonus-Workstream:** PR #165 (Code-Audit) listet nach den bereits gefixten Critical/High-Findings noch ~100 offene Medium/Low-Findings — autonomes Abarbeitungsfeld für die Stretch-Welle. *chsteiner kümmert sich vor Kickoff um den PR-#165-Branch.*
+**Bonus-Workstream (aktualisiert 07.07.):** PR #165 + #173 sind gemerged; alle Low-Risk-Findings sind behoben, die Rest-Findings leben strukturiert in den Sammel-Issues #167–#172 (Einsortierung: §1.E). Autonomes Abarbeitungsfeld für die Stretch-Welle: #167, #170, #171.
 
 ### C. Blockiert auf Menschen (10) — Session fasst sie NICHT an
 
@@ -47,7 +48,20 @@ Quellen des Audits: alle 35 offenen Issue-Bodies (Dump 03.07.), Triage-Matrix #4
 
 #63, #93, #109, #111 (Trigger: Index > 50 MB gz), #118, #123, #139.
 
-**Fazit:** 17 von 35 Issues haben einen autonom lieferbaren Kern. Die Follow-up-Schicht der letzten zwei Wochen (#158–#164) ist komplett autonom wegräumbar.
+### E. Nachtrag 07.07.: Audit-Sammel-Issues #167–#172 (nach Plan-Erstellung angelegt)
+
+Die Rest-Findings aus dem Code-Audit wurden am 03.07. nach Erstellung dieses Plans in sechs Sammel-Issues überführt (PR #173, Commit `cdd8f1c65`). Einsortierung:
+
+| # | Was | Einsortierung |
+|---|-----|---------------|
+| **#167** | Frontend-/Playground-Kleinbugs (10 verifizierte Fixes, kein Entscheidungsbedarf) | Stretch (Welle 9) |
+| **#168** | Race-Conditions Reader + Begriffs-Verteilung (Generation-Token) | **Welle 1**, zusammen mit #159: das Issue empfiehlt selbst, Router-Abort-Signal (Cross-View) und Same-View-Guards gemeinsam zu designen, z. B. als Navigation-Epoch-Zähler |
+| **#169** | Suchsemantik-Entscheidungen (Nähesuche-Distanz, 3-Stufen-Drift, commonLemmas, Dedup) | Blockiert (needs-clarification, KZW/Team). Aber: bei der #163/#164-Diagnose in Welle 1 querlesen, das Issue vermerkt eine mögliche gemeinsame Wurzel; Diagnose-Erkenntnisse als Kommentar in #169, die 4 Semantik-Fixes selbst nicht umsetzen |
+| **#170** | Latente §B/§B.1-Paritäts-Drifts (heute verhaltensneutral; Gate: byte-identischer Index-Rebuild) | Stretch (Welle 9), vor dem nächsten Ingest sinnvoll |
+| **#171** | Python-Skript-Bugs (Build/Ingest/Audit) | Stretch (Welle 9); Priorität laut Issue: ARI-Escaping vor dem nächsten #92-Lauf, insert-stanzas-Fixes (#35/#36) vor jedem WVV-Bulk-Run (#110) |
+| **#172** | Test-Suite-Entscheidungen (45%-passRate-Floor, Magic-Numbers) | Blockiert (needs-clarification); nur in der #44-Matrix einsortieren |
+
+**Fazit:** 17 von 35 Issues (Stand 03.07.) haben einen autonom lieferbaren Kern; mit den Sammel-Issues aus §1.E (Stand 07.07.: 41 offene Issues) kommen #168 (Welle 1) sowie #167/#170/#171 (Stretch) dazu. Die Follow-up-Schicht der letzten zwei Wochen (#158–#164) ist komplett autonom wegräumbar.
 
 ---
 
@@ -59,7 +73,7 @@ Die CLAUDE.md-Regel „never commit/push without user approval" wird durch den K
 2. **Issues werden nie von der Session geschlossen** — nur via `Closes #N` im PR-Body beim Merge. #44 bekommt nie einen Close-Trailer.
 3. **Pro PR nur benannte Dateien stagen** (nie `git add -A`), Branch frisch von `origin/main`.
 4. **Daten vor Schema**; Data-Change-Lifecycle (Index-Rebuild + API + Versions-Bump) bei jeder XML-Änderung; deterministische Builds.
-5. **Verifikation je PR:** `npm test` aus `testing/` (Baseline: 2 bekannte Fails — Wörterbuchnetz extern + #158, das die Session selbst grün macht); bei UI zusätzlich Chrome-Verifikation mit realen Belegen; bei TEI-Änderungen Schema-Validierung.
+5. **Verifikation je PR:** `npm test` aus `testing/` (Referenz: die in Welle 0 erhobene Baseline. Stand 03.07. waren 2 Fails bekannt: Wörterbuchnetz extern + #158, das die Session selbst grün macht; nach der Test-Härtung in PR #173 kann sich das verschoben haben, daher neu erheben); bei UI zusätzlich Chrome-Verifikation mit realen Belegen; bei TEI-Änderungen Schema-Validierung.
 6. **Konfliktmanagement ohne Merges:** PRs starten von main; bei Datei-Überschneidung wird der spätere Branch auf den früheren gestackt, PR-Body sagt „nach PR X mergen". Abschlussreport enthält die empfohlene Merge-Reihenfolge.
 7. **Kommunikation:** max. 1 sachlicher Statuskommentar pro Issue; keine Kontaktaufnahme mit Externen (Alan, Carina, Silvan) — Entwürfe dafür landen als Text im Issue.
 8. **Missing-Inputs-Report zuerst** (Entscheidung chsteiner 03.07.): Allererste Chat-Ausgabe der Session = vollständige Liste aller nicht zugänglichen Inputs; chsteiner providet direkt in die Session. Nicht warten — unabhängige Wellen laufen weiter, input-abhängige Items werden nachgezogen.
@@ -71,7 +85,7 @@ Die CLAUDE.md-Regel „never commit/push without user approval" wird durch den K
 | Welle | Deliverable | Issues | Inhalt |
 |-------|-------------|--------|--------|
 | **0** | Chat-Report | — | Vorflug: Missing-Inputs-Report (PFLICHT, zuerst), Test-Baseline auf main, AUDIT-REPORT.md-Stand einlesen |
-| **1** | PR 1 | #163, #164, #159 | Gemeinsame Wurzel Dropdown/Lemma-Auflösung fixen; `rôt + munt` gegen 553-Treffer-Erwartung plausibilisieren; Router-globales Abort-Signal + DESIGN.md |
+| **1** | PR 1 | #163, #164, #159, #168 | Gemeinsame Wurzel Dropdown/Lemma-Auflösung fixen (dabei #169 querlesen: mögliche gemeinsame Wurzel in der 3-Stufen-Auflösung, Erkenntnisse dort kommentieren); `rôt + munt` gegen 553-Treffer-Erwartung plausibilisieren; Router-globales Abort-Signal zusammen mit #168-Generation-Token designen (Navigation-Epoch) + DESIGN.md |
 | **2** | PR 2 | #158, #162 | `h_`-Nummern-Fix + Test-Umstellung (konservativ: Span für `h_` unterdrücken, Test auf echte Prosazeile), Begründung im PR; Duplikat-Hinweis als Kommentar |
 | **3** | PR 3 | #160 | Deklarative Spalten-Spec in `app.js` + KWIC-Aufklapp-Playwright-Test |
 | **4** | PR 4 | #161 | Option A: `posAll[]` additiv, Authority-Index-Bump, API-Rebuild, Konsumenten, CONTRACTS §G; Verifikation an lemma_79188 `salve` u. a. |
@@ -79,8 +93,8 @@ Die CLAUDE.md-Regel „never commit/push without user approval" wird durch den K
 | **6** | PR 6 | #138-Rest | HUG-`<lg>` aus 814 röm. Ziffern (`insert-lg-stanzas-138.py`), Schema-Validierung, Index-Rebuild; MBS-Sub-Issue in #139 anlegen; veraltete Blocker-Labels vermerken |
 | **7** | PR 7 | #68, #86-Teil | Intake-Kriterien in `hilfe-daten-beitragen.html`; van-Beek-Kontakt in `barrierefreiheit.html`; `build-pages.py --check` als Gate |
 | **8** | PRs + Kommentare | #145, #27, #28, #110, #141 | Text-Deliverables: Rektoratsbericht (publications/, PR); POS-Policy-Dokument (**nur Doku, kein Pilot, keine Korpus-Änderung**); Fremdsprachen-Phasenplan (Kommentar + docs/features/); WVV-Entscheidungsvorlage (Kommentar); Borte-Aufgabe-0 (Kommentar) |
-| **9** | Stretch | Audit-Findings, opt. #106.8, opt. #147 | Nur wenn 1–8 komplett: Medium-Findings aus AUDIT-REPORT.md in Batches (kollisionsfreie Dateien zuerst); optional „Lemma im Vers"-Filter; optional #147 Stage-0-Parser-Entwurf (KEINE Transkriptionsdaten committen, Lizenz-Klärungsliste als Kommentar) |
-| **10** | Meta-PR + #44-Kommentar | #44, docs | Matrix komplett neu (inkl. #158–#164 + Session-Ergebnisse), ROADMAP.md + JOURNAL.md; Abschlussreport: PR-Liste + Merge-Reihenfolge + Übersprungenes (mit Grund) + Wer-wartet-worauf |
+| **9** | Stretch | #167, #170, #171, opt. #106.8, opt. #147 | Nur wenn 1–8 komplett: Sammel-Issues in getrennten PRs, kollisionsfreie Dateien zuerst: #167 (Frontend-Kleinbugs), #170 (Paritäts-Drifts; Gate: byte-identischer Index-Rebuild), #171 (Python-Skript-Bugs; ARI-Escaping + insert-stanzas-Fixes priorisieren); optional „Lemma im Vers"-Filter; optional #147 Stage-0-Parser-Entwurf (KEINE Transkriptionsdaten committen, Lizenz-Klärungsliste als Kommentar) |
+| **10** | Meta-PR + #44-Kommentar | #44, docs | Matrix komplett neu (inkl. #158–#164, #167–#172 + Session-Ergebnisse), ROADMAP.md + JOURNAL.md; Abschlussreport: PR-Liste + Merge-Reihenfolge + Übersprungenes (mit Grund) + Wer-wartet-worauf |
 
 Geschätzter Output: 9–11 PRs, ~13–17 Issues ganz oder teilweise abgeräumt, null blockierende Rückfragen.
 
@@ -88,7 +102,7 @@ Geschätzter Output: 9–11 PRs, ~13–17 Issues ganz oder teilweise abgeräumt,
 
 ## 4. Nicht anfassen
 
-- **Menschen-blockiert:** #92, #147 (außer Stretch-Entwurf), #114, #129, #59, #115 (B/C), #124, #140, #58, #18
+- **Menschen-blockiert:** #92, #147 (außer Stretch-Entwurf), #114, #129, #59, #115 (B/C), #124, #140, #58, #18, #169 (nur Diagnose-Kommentar aus Welle 1 erlaubt, keine Semantik-Fixes), #172
 - **Future/Trigger:** #63, #93, #109, #111, #118, #123, #139
 - Beide Gruppen nur in der #44-Matrix korrekt einsortieren.
 
@@ -96,7 +110,7 @@ Geschätzter Output: 9–11 PRs, ~13–17 Issues ganz oder teilweise abgeräumt,
 
 ## 5. Getroffene Entscheidungen (chsteiner, 03.07.2026)
 
-1. **PR #165 (Audit-Report):** chsteiner behandelt den Branch vor Kickoff selbst.
+1. **PR #165 (Audit-Report):** chsteiner behandelt den Branch vor Kickoff selbst. *Erledigt 03.07.: PR #165 + #173 gemerged, Rest-Findings in #167–#172 überführt.*
 2. **Stretch-Welle 9:** an, aber strikt nur nach Abschluss der Wellen 1–8 (Default).
 3. **#27-Scope:** NUR Policy-Dokument. Kein Pilot — Thema komplex und token-intensiv.
 4. **Missing Inputs:** Session meldet zuallererst alle nicht zugänglichen Daten; chsteiner providet sie direkt in die Session.
@@ -124,13 +138,18 @@ Dry-Run-Output/Linecode-Quelle für #110, Zenodo-Tabelle für #141). Ich provide
 direkt in diese Session. Danach NICHT warten: sofort mit allen Wellen fortfahren, die nicht von
 fehlenden Inputs abhängen; blockierte Items nachziehen, sobald ich die Daten geliefert habe,
 sonst am Ende als übersprungen dokumentieren. Außerdem in Welle 0: Test-Baseline auf main
-erheben und den aktuellen Stand des Code-Audit-Reports (AUDIT-REPORT.md, PR #165 wurde von mir
-vorab behandelt) einlesen.
+erheben (Stand 03.07. waren 2 Fails bekannt; nach der Test-Härtung in PR #173 neu messen) und
+den aktuellen Stand des Code-Audit-Reports einlesen (AUDIT-REPORT.md im Repo-Root; PR #165 +
+#173 sind gemerged, die Rest-Findings leben in den Sammel-Issues #167-#172).
 
 REIHENFOLGE (Wellen, jede mit npm test aus testing/ + Chrome-Verifikation bei UI + Schema-Validierung
 + Index/API-Rebuild mit Versions-Bump bei XML-Änderungen):
 1. PR: #163 + #164 (gemeinsame Wurzel Lemma-Dropdown/-Auflösung; Ground Truth: alte MHDBDB
-   liefert für rot+munt 553 Zeilen-Treffer) + #159 (Router-globales Abort-Signal, DESIGN.md nachziehen).
+   liefert für rot+munt 553 Zeilen-Treffer) + #159 + #168 (Cross-View-Clobber und Same-View-Races
+   zusammen designen, z.B. Router-globaler Navigation-Epoch-Zähler; DESIGN.md nachziehen).
+   Bei der #163/#164-Diagnose #169 querlesen (mögliche gemeinsame Wurzel in der 3-Stufen-
+   Auflösung); Erkenntnisse als Kommentar in #169, dessen 4 Semantik-Fixes selbst NICHT
+   umsetzen (KZW-Entscheid nötig).
 2. PR: #158 + #162 (Duplikate; h_-Nummern-Fix + Test-Umstellung, Entscheidung im PR begründen).
 3. PR: #160 deklaratives Spaltenmodell app.js + KWIC-Detail-Playwright-Test.
 4. PR: #161 Option A (posAll[] additiv, Authority-Index-Bump, API-Rebuild, Konsumenten,
@@ -151,16 +170,18 @@ REIHENFOLGE (Wellen, jede mit npm test aus testing/ + Chrome-Verifikation bei UI
      (Kommentar, kein Korpus-Commit).
    - #141 Aufgabe 0: borte.md-Metadaten-Template + präzise Anforderungsliste an Alan
      (Issue-Kommentar, nichts versenden).
-9. Stretch NUR wenn Wellen 1–8 komplett: Medium-Findings aus AUDIT-REPORT.md in thematischen
-   Batches (kollisionsfreie Dateien zuerst); optional #106 Punkt 8; optional #147 Stage-0-Parser
+9. Stretch NUR wenn Wellen 1–8 komplett: Sammel-Issues als getrennte PRs, kollisionsfreie
+   Dateien zuerst — #167 (Frontend-Kleinbugs), #170 (Paritäts-Drifts; Gate: byte-identischer
+   Index-Rebuild), #171 (Python-Skript-Bugs; ARI-Escaping vor #92 und insert-stanzas-Fixes
+   vor jedem WVV-Bulk-Run priorisieren); optional #106 Punkt 8; optional #147 Stage-0-Parser
    als Entwurf (KEINE Transkriptionsdaten committen, Lizenz-Klärungsliste als Kommentar).
-10. Meta: #44-Matrix komplett aktualisieren (inkl. #158–#164 + Session-Ergebnisse),
+10. Meta: #44-Matrix komplett aktualisieren (inkl. #158–#164, #167–#172 + Session-Ergebnisse),
     ROADMAP.md + JOURNAL.md nachziehen (PR), Abschlussreport als #44-Kommentar mit PR-Liste +
     empfohlener Merge-Reihenfolge + Übersprungenem (mit Grund) + Wer-wird-worauf-gewartet-Liste.
 
 NICHT ANFASSEN: #92 #147(außer Stretch-Entwurf) #114 #129 #59 #115(B/C) #124 #140 #58 #18
-(menschen-blockiert) und #63 #93 #109 #111 #118 #123 #139 (future) — nur in der #44-Matrix
-korrekt einsortieren.
+#169(nur Diagnose-Kommentar aus Welle 1 erlaubt) #172 (menschen-blockiert) und #63 #93 #109
+#111 #118 #123 #139 (future) — nur in der #44-Matrix korrekt einsortieren.
 
 Fehlender Input, der nicht nachgeliefert wurde → Issue überspringen + im Abschlussreport
 begründen, NICHT auf mich warten und NICHT fragen.
