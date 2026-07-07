@@ -77,7 +77,7 @@ Die CLAUDE.md-Regel „never commit/push without user approval" wird durch den K
 6. **Konfliktmanagement ohne Merges:** PRs starten von main; bei Datei-Überschneidung wird der spätere Branch auf den früheren gestackt, PR-Body sagt „nach PR X mergen". Abschlussreport enthält die empfohlene Merge-Reihenfolge.
 7. **Kommunikation:** max. 1 sachlicher Statuskommentar pro Issue; keine Kontaktaufnahme mit Externen (Alan, Carina, Silvan) — Entwürfe dafür landen als Text im Issue.
 8. **Inputs selbst beschaffen** (aktualisiert 07.07., Zugriffswege einzeln verifiziert): Die Session holt benötigte Inputs eigenständig statt sie von chsteiner zu erbitten. Verifiziert:
-   - GitHub-Issue-Attachments (KV-PDFs in #145, Borte-CSV/XLSX in #141) per `curl -L` von `github.com/user-attachments/...`; PDF-Text mit pypdf extrahieren (das Read-Tool rendert PDFs in dieser Umgebung nicht, poppler fehlt). Borte-CSV ist ISO-8859-kodiert, nicht UTF-8.
+   - GitHub-Issue-Attachments (KV-PDFs in #145, Borte-CSV/XLSX in #141) per `curl -L` von `github.com/user-attachments/...`; PDF-Text mit pypdf extrahieren. Das Read-Tool findet pdftoppm unter Windows nicht, obwohl poppler installiert ist (unix-orientierter Erkennungs-Check); für visuelles PDF-Rendering `pdftoppm -png` in der Shell aufrufen und das PNG mit Read lesen (verifiziert). Borte-CSV ist ISO-8859-kodiert, nicht UTF-8.
    - Issue-Kommentare via `gh issue view N --json comments`: die #68-Intake-Kriterien (KZW 29.05.) und die #86-van-Beek-Kontaktdaten (KZW 29.05.) stehen dort vollständig.
    - Zenodo-Records via WebFetch (#141: DOI 10.5281/zenodo.20626546, CC BY 4.0, public).
    - Linecode-Quelldateien (`<SIG>_alterLinecode.txt`, für #110) liegen in KZWs Google Drive: via Google-Drive-MCP suchen und lesen. E-Mail-Kontext bei Bedarf via Gmail-MCP. **Beide MCP-Zugänge nur lesend verwenden** (nichts versenden, labeln oder ändern; deckt sich mit Regel 7).
@@ -140,8 +140,10 @@ Beschaffe dir ALLE benötigten Inputs selbst; die Zugriffswege sind am 07.07. ei
 verifiziert worden:
 - GitHub-Issue-Attachments (KV-PDFs 32/25 + 33/25 und CLARIAH-Rechnungen in #145,
   Borte-CSV/XLSX in #141): per curl -L von github.com/user-attachments/... laden;
-  PDF-Text mit pypdf extrahieren (das Read-Tool rendert PDFs hier nicht, poppler fehlt).
-  Achtung: die Borte-CSV ist ISO-8859-kodiert, nicht UTF-8.
+  PDF-Text mit pypdf extrahieren. Das Read-Tool findet pdftoppm unter Windows nicht,
+  obwohl poppler installiert ist — Read NICHT direkt auf PDFs ansetzen; wenn du eine
+  Seite visuell brauchst: pdftoppm -png in der Shell, dann das PNG mit Read lesen
+  (beides verifiziert). Achtung: die Borte-CSV ist ISO-8859-kodiert, nicht UTF-8.
 - KZW-Intake-Kriterien (#68) und van-Beek-Kontaktdaten (#86) stehen vollständig in den
   Issue-Kommentaren vom 29.05. (gh issue view N --json comments).
 - Zenodo via WebFetch (#141: DOI 10.5281/zenodo.20626546, CC BY 4.0, public).
