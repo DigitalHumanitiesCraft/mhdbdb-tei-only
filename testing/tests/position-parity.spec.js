@@ -156,3 +156,59 @@ test.describe('B. Position Counting parity — empty <w lemmaRef> asymmetry (#13
     expect(lemmata.lemma_2, 'empty <w lemmaRef> (lemma_2) must not be counted').toBeUndefined();
   });
 });
+
+test.describe('B. Position Counting parity — #170 latent drifts', () => {
+  // Fixture with (a) a lemmatized <w> inside a date-<note> and (b) a
+  // whitespace-separated multi-reference @lemmaRef (CONTRACTS §B.1). Both have
+  // 0 corpus cases today; the fixture pins the contract for future ingest.
+  const FIXTURE_REL = 'testing/fixtures/position-parity-170.tei.xml';
+  const EXPECTED = { lemma_1: [0, 2], lemma_2: [1], lemma_3: [2], lemma_4: [3] };
+
+  test('Python: multi-lemmaRef registers the position under BOTH ids, no broken key', async () => {
+    const fixtureAbs = path.join(REPO_ROOT, FIXTURE_REL);
+    const { wordCount, lemmata } = pythonData(fixtureAbs, 'FIXTURE170');
+
+    expect(wordCount, '4 counted words').toBe(4);
+    for (const [lemmaId, expected] of Object.entries(EXPECTED)) {
+      expect(lemmata[lemmaId], `Python positions for ${lemmaId}`).toEqual(expected);
+    }
+    // Pre-fix failure mode: split('#')[1] on the multi-ref produced the broken
+    // key "lemma_1 lexicon.xml". No key may contain whitespace or a filename.
+    const brokenKeys = Object.keys(lemmata).filter(k => /\s|\.xml/.test(k));
+    expect(brokenKeys, 'no broken multi-ref keys').toEqual([]);
+  });
+
+  test('JS reader: word inside date-<note> is counted AND parity holds (badge + children)', async ({ page }) => {
+    const fixtureAbs = path.join(REPO_ROOT, FIXTURE_REL);
+    const { lemmata } = pythonData(fixtureAbs, 'FIXTURE170');
+    const js = await jsPositionsMap(page, `${BASE}/${FIXTURE_REL}`, Object.keys(EXPECTED));
+
+    for (const [lemmaId, expected] of Object.entries(EXPECTED)) {
+      expect(lemmata[lemmaId], `Python positions for ${lemmaId}`).toEqual(expected);
+      // Pre-fix: the date-note badge swallowed children(), so lemma_2 had no
+      // highlight at all and lemma_4 shifted to [2].
+      expect(js[lemmaId], `JS reader must match Python for ${lemmaId}`).toEqual(expected);
+    }
+  });
+
+  test('enrichFileResults (proximity context): empty <w lemmaRef> does not shift the window', async ({ page }) => {
+    // Fourth counting path (#170): the playground proximity-search enrichment
+    // maps index positions back onto DOM words. Python position 2 in the
+    // empty-w fixture is "ist" (lemma_3); pre-fix, the JS mapping counted the
+    // empty <w lemmaRef> too, so the window slid onto "brot" instead.
+    const result = await page.evaluate(async () => {
+      const { enrichFileResults } = await import('/playground/js/ui/core/ui-helpers.js');
+      const r = {
+        filename: '../testing/fixtures/position-parity-empty-w.tei.xml',
+        contextStart: 2,
+        contextEnd: 3,
+        distance: 0
+      };
+      await enrichFileResults([r], ['lemma_3']);
+      return r.contextText;
+    });
+
+    expect(result, 'context window must land on the Python position').toContain('ist');
+    expect(result, 'pre-fix failure mode: window slid onto "brot"').not.toContain('brot');
+  });
+});

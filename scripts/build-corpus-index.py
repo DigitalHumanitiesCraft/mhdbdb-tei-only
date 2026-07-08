@@ -208,11 +208,25 @@ def extract_word_data(filepath, text_id):
             if not text_content:
                 continue
 
-            lemma_id = lemma_ref.split('#')[1] if '#' in lemma_ref else lemma_ref
+            # Mehrfach-Referenzen (CONTRACTS §B.1: whitespace-getrennt, z.B.
+            # "lexicon.xml#lemma_308 lexicon.xml#lemma_5") pro Fragment
+            # auflösen — der alte split('#')[1] erzeugte daraus den defekten
+            # Key "lemma_308 lexicon.xml" (#170). words[] behält die ERSTE ID
+            # (ein Slot pro Token, Format unverändert); lemmata{} listet die
+            # Position unter JEDER referenzierten ID, damit die Index-Suche
+            # jedes der Lemmata findet. Heute 0 Mehrfach-Fälle im Korpus:
+            # der Rebuild muss byte-identisch bleiben.
+            lemma_ids = [
+                frag.split('#')[1] if '#' in frag else frag
+                for frag in lemma_ref.split()
+            ]
+            if not lemma_ids:
+                continue
 
             word_idx = len(words)
-            words.append(lemma_id)
-            lemmata[lemma_id].append(word_idx)
+            words.append(lemma_ids[0])
+            for lemma_id in dict.fromkeys(lemma_ids):
+                lemmata[lemma_id].append(word_idx)
             word_count += 1
 
             # If we're inside one or more <l>, update each open frame.

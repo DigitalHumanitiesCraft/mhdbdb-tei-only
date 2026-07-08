@@ -91,14 +91,19 @@ The selector below is the *logical* counting rule, not the literal implementatio
 ```
 Logical selection: //tei:body//tei:w[@lemmaRef]   (document order)
 
-For each <w lemmaRef="lexicon.xml#lemma_X"> in document order:
-    lemma_id = lemmaRef.split('#')[1]      → "lemma_X"
+For each <w lemmaRef="..."> in document order:
     word_text = ''.join(el.itertext()).strip()
     if not word_text: continue              → empty <w lemmaRef> is NOT counted (JS matches this since #131)
-    position = len(words)                   → sequential from 0
-    words.append(lemma_id)
-    lemmata[lemma_id].append(position)
+    # @lemmaRef may carry SEVERAL whitespace-separated references (§B.1),
+    # e.g. "lexicon.xml#lemma_308 lexicon.xml#lemma_5" (#170):
+    lemma_ids = [frag.split('#')[1] for frag in lemmaRef.split()]
+    position = len(words)                   → sequential from 0; ONE slot per token
+    words.append(lemma_ids[0])              → words[] keeps the FIRST id only
+    for lemma_id in dedupe(lemma_ids):
+        lemmata[lemma_id].append(position)  → lemmata{} lists the position under EVERY id
 ```
+
+**Consumer rule (follows from the words[]/lemmata{} split):** code answering "is position P an occurrence of lemma X?" MUST consult `lemmata[X]` (multi-ref-aware), never `words[P] === X` (first-id only). Applied in `verse-position-search.js` and `rhyme-dictionary.js` (target side); `cooccurrence-ranking.js`'s neighbor counting deliberately stays first-id (a full reverse map is not justified at 0 multi-ref corpus cases today).
 
 ### JavaScript (runtime)
 
@@ -120,6 +125,16 @@ Recursive DOM traversal of <body> children:
 ### Parity note — empty `<w lemmaRef>` (resolved #131)
 
 Both sides now **skip** `<w lemmaRef>` with empty text content: Python via `if not word_text: continue`, JS via the `hasText` guard in `extractAndFormatBody` (`tei-text-reader.js`, `case 'w'`). Before #131 the JS runtime incremented `wordPosition` for **every** `<w lemmaRef>` regardless of text — a latent parity gap (harmless then: **0** empty `<w lemmaRef>` across all 667 files, so the fix was a no-op on real data) that a future ingest with placeholder/gap tokens would have silently broken. The empty-`<w>` case is now pinned by `testing/tests/position-parity.spec.js`. (Because the corpus has no empty `<w lemmaRef>`, the shipped index is unchanged — no rebuild or version bump needed.)
+
+### Parity note — note children, multi-`@lemmaRef`, proximity context (resolved #170)
+
+Three further latent drifts of the same class ("0 corpus cases today, armed by the next ingest"), all fixed behavior-neutrally (byte-identical index rebuild):
+
+1. **`<w>` inside date/year `<note>`:** the reader's badge branch swallowed `children()`, so a future lemmatized `<w>` inside such a note would be counted by Python/KWIC but not rendered/counted by the reader — every position after it would shift. The badge now renders **plus** its children.
+2. **Whitespace-separated multi-`@lemmaRef`:** `split('#')[1]` on the whole attribute produced the broken key `"lemma_308 lexicon.xml"`. Now resolved per fragment (see pseudocode above): `words[]` keeps the first id, `lemmata{}` lists the position under every id.
+3. **Proximity-context enrichment (`playground/js/ui/core/ui-helpers.js`, `enrichFileResults`):** the fourth counting path mapped index positions back onto DOM words without the empty-`<w>` guard from #131 — one empty `<w lemmaRef/>` would shift every context window behind it. Now guarded identically.
+
+All three (plus the consumer rule above) are pinned by `testing/tests/position-parity.spec.js` with the fixture `position-parity-170.tei.xml`.
 
 ### Example
 
