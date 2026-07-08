@@ -103,6 +103,63 @@ Die Dominanz von `ART` (über 1 Mio.) und der niedrige `DET`-Wert (53k) zeigen, 
 
 Die Auflösung von Compound-Tags, die Korrektur von Falsch-Tags und die ART/CNJ/GRA-Migration erfolgen nicht mechanisch, sondern kontextabhängig über semantisch-grammatische Analyse. Der dafür vorgesehene Workflow ist als Agent-Skill `.gemini/skills/pos-disambiguator/` implementiert (Phasen: Split → Analyse → Merge → Validierung → Refinement). Pädagogische Beispiele für Mehrdeutigkeiten (*daz*, *als*, *haben*) liegen unter `.gemini/skills/pos-disambiguator/references/examples.md`.
 
+## 6. Disambiguierungs- und Migrations-Policy (#27)
+
+Verbindliche Policy für die Überführung des Altbestands (Compound-Tags, Legacy-Tags, bekannte Fehlannotationen) in das 19-Tag-Schema aus §1. Sie macht den Workflow planbar: Was wird in welcher Reihenfolge migriert, was entscheidet das LLM allein, was braucht Stichproben-Review, was bleibt liegen, bis KZW entscheidet. Kein Teil dieser Policy ändert das Tagset selbst.
+
+### 6.1 Verbindlichkeitsstufen
+
+| Stufe | Bedeutung |
+|-------|-----------|
+| **P-MUSS** | Ohne Erfüllung wird kein Batch committet |
+| **P-SOLL** | Abweichung erlaubt, im Provenienz-Log begründen |
+| **P-OFFEN** | Explizit KZW-Entscheid nötig, bis dahin Status quo |
+
+### 6.2 Migrations-Klassen und Reihenfolge
+
+Die Klassen sind nach Automatisierbarkeit absteigend sortiert und werden in dieser Reihenfolge abgearbeitet; jede Klasse ist ein eigener, unabhängig prüfbarer Batch (eigener Branch/PR, eigenes Provenienz-Log).
+
+| Klasse | Bestand (atomar, §4) | Verfahren | Stufe |
+|--------|---------------------:|-----------|-------|
+| K1: Rest-Artefakte (`-`, KOKOM, FM, PTK, X, SCJN) | < 100 | deterministische Tabelle (SCJN→SCNJ; Rest: Einzelfall-Liste im PR) | P-MUSS deterministisch |
+| K2: ART → DET | 1.064.439 | Batch-Umbenennung, KEIN Kontext nötig (Artikel sind DET per Definition §1) | P-MUSS deterministisch |
+| K3: GRA → ADJ | 60.278 | Batch gemäß §3 (Graduierung/Superlativ = ADJ) | P-MUSS deterministisch; Abweichung im Issue-Body („GRA→ADV/PART") ist ALT, siehe 6.5 |
+| K4: Compound-Auflösung (ADJ ADV, VRB VEX, ART CNJ, …) | ~35–40 % der Tokens | LLM kontextabhängig (Skill-Workflow), AUSSER echte Fusionen (§2: bleiben zweiwertig + `@reason`) | P-MUSS LLM + Gates 6.3 |
+| K5: CNJ → CCNJ/SCNJ | 943.199 | LLM kontextabhängig; CNJ bleibt als Fallback erlaubt bei echter Ambiguität | P-SOLL (Fallback erlaubt) |
+| K6: Bekannte Fehlannotations-Muster (Issue §2: enhaben, wiest, Morphologie-als-Zweittag, NEG-Vereinheitlichung, NAM-Übergriffe) | verstreut | LLM mit Watch-List (Skill „Known Error Patterns") | P-MUSS LLM + Gates 6.3 |
+
+Begründung der Reihenfolge: K1–K3 sind kontextfrei und schrumpfen den Problemraum messbar (über 1,1 Mio. atomare Alt-Tags), bevor die teuren LLM-Klassen laufen; K4 vor K5, weil viele CNJ-Fälle in Compounds stecken (ART CNJ: 271k) und sonst doppelt angefasst würden.
+
+### 6.3 Qualitätsgates (für K4–K6, P-MUSS)
+
+1. **Batch-Größe:** max. 1 Text pro LLM-Lauf-Einheit; Ausgabe als Diff-Liste (xml:id, alt, neu, Begründung, confidence).
+2. **Golden Set:** vor dem ersten Batch 200 händisch verifizierte Fälle (KZW/Studis) über alle Klassen; jeder Modell-/Prompt-Wechsel wird erst gegen das Golden Set gemessen (Ziel ≥ 95 % Übereinstimmung), dann eingesetzt.
+3. **Stichproben-Review:** pro Batch 50 Zufallsfälle + ALLE confidence='low' an menschliche Prüfung; Fehlerquote > 5 % → Batch verworfen, Prompt/Modell nachjustieren.
+4. **Invarianten (automatisch, CI-fähig):** (a) nur Tags aus §1 (+ dokumentierte Fusionen §2), (b) Token-Text/Reihenfolge/xml:id byte-identisch (nur `@pos`, `@comp`, `@needsSplit`, `@reason` ändern sich), (c) Positionszählung unverändert (Index-Rebuild diff-leer außer erwarteten pos-Feldern), (d) kein ART/GRA/Artefakt im Output.
+5. **Provenienz:** pro Batch ein Log unter `ingest/pos-disambig/<batch>/` (Modell, Prompt-Version, Datum, Diff-Statistik, Review-Ergebnis); revisionDesc-Change-Eintrag pro Datei.
+
+### 6.4 Technische Attribute (aus KZW-Fixierung 20.11.2025)
+
+- Kontraktionen/Fusionen: Token bleibt EIN `<w>`; echte morphologische Fusionen tragen zwei Tags + `@reason` (§2); zusätzlich `@comp="VRB+PRO"` und `@needsSplit="true"`, wo die Zerlegung analytisch gewünscht ist. KEINE Token-Splits in der Edition.
+- NEG: ausschließlich für Negationspartikeln (*niht, ne, en, n, nie* …); Negationsträger anderer Wortart bekommen NUR ihre Wortart (*dehein* → DET, *nieman* → PRO, *nie* → ADV). Bestands-Kombis wie `ADJ|NEG` werden in K6 aufgelöst.
+- Fremdsprachliches: NICHT über `@pos`, sondern über `@xml:lang` (+ optional `<foreign>`) — siehe #28-Phasenplan; für die POS-Migration out of scope.
+
+### 6.5 Aufgelöste Diskrepanzen und offene Punkte
+
+**Aufgelöst (Policy folgt Tagset-Fixierung vom 20.11.2025 = §1):**
+- ART ist kein Tag (Issue-§3-Tabelle war Zwischenstand) → K2.
+- PART ist NICHT im 19-Set (Issue-§5 nannte es als Kandidat; die fixierte Liste enthält es nicht). Partikeln von Partikelverben werden bis auf Weiteres ADV getaggt; siehe P-OFFEN-1.
+- GRA → ADJ (Issue-Body sagte an zwei Stellen ADV bzw. PART; §3 dieser Datei ist SSoT).
+
+**P-OFFEN (KZW-Entscheid nötig, blockiert die jeweilige Klasse NICHT als Ganzes):**
+1. **PART nachrüsten?** Wenn Partikelverben sauber unterscheidbar getaggt werden sollen (Issue §2.1 „zu/an/ab können Partikeln sein"), braucht es entweder ein 20. Tag PART oder eine Konvention (ADV + `@ana`?). Bis zur Entscheidung: ADV, Fälle mit confidence='low' sammeln.
+2. **CNJ-Restquote:** Wieviel ungelöstes CNJ ist akzeptabel (K5-Fallback)? Vorschlag: ≤ 10 % der ursprünglichen CNJ-Menge.
+3. **VEM im Fusions-Set:** *wiltu* = `VEM PRO` (§2) vs. Issue-Beispiele mit VRB — Liste der zulässigen Fusions-Tag-Paare finalisieren.
+
+### 6.6 Ausdrücklich NICHT Teil dieser Policy
+
+Kein Pilot-Lauf, keine Korpus-Änderung, keine Token-Kampagne im Rahmen von #27 (Scope-Entscheidung chsteiner 03.07.2026). Diese Policy ist die Vorlage, nach der künftige Kampagnen-Issues (pro Klasse eines) aufgesetzt werden. #18 (Datenmigration) hängt an K1–K3.
+
 ## Querverweise
 
 - [TEI-MODEL.md §5](TEI-MODEL.md) – `@pos` im normativen TEI-Soll-Modell
