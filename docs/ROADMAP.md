@@ -4,15 +4,15 @@ Strategic priorities for the MHDBDB TEI Repository. Updated 2026-07-08.
 
 See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/44) for the full triage matrix with per-issue status.
 
-## Now: PR-Review der autonomen Issue-Session (07.–08.07.)
+## Now: Nach-Merge-Betreuung + freigeschaltete Workstreams
 
-**12 offene PRs #174–#185**; Review + Merge durch chsteiner schließt 13 Issues automatisch (#163 #164 #159 #168 #158 #162 #160 #161 #134 #145 #27 #167 #170). Merge-Reihenfolge der zwei Stack-Ketten beachten:
+Die autonome Merge-Session (08.07., [MASTERPLAN-AUTONOME-MERGE-SESSION](features/MASTERPLAN-AUTONOME-MERGE-SESSION.md)) hat alle 13 PRs der Issue-Session nach main gebracht (#174–#186); 13 Issues wurden automatisch geschlossen (#163 #164 #159 #168 #158 #162 #160 #161 #134 #145 #27 #167 #170), #68/#86/#28/#171 bleiben planmäßig offen (Teilarbeit). Authority-Index v1.6.0 (posAll[]) ist live, Live-Smoke-Checks für beide Stack-Ketten und die Unabhängigen bestanden. Details: JOURNAL-Eintrag 08.07. (Merge-Session) + Abschlussreport in #44.
 
-- **Kette A:** #174 → #175 → #178 → #184 (Lemma-Auflösung/Races → lb-Nummern → AK-Excerpt → Paritäts-Drifts)
-- **Kette B:** #174 → #177 → #183 (→ posAll Multi-POS → Frontend-Kleinbugs)
-- **Unabhängig:** #176 (Spaltenmodell), #179 (Hilfe/Barrierefreiheit), #180 (Rektoratsbericht), #181 (POS-Policy), #182 (Fremdsprachen-Phasenplan), #185 (Python-Ingest-Fixes)
-
-Alle PRs tragen einen „Review-Triage"-Abschnitt (Bot-Review-Findings triagiert, Berechtigtes als Folge-Commits gefixt). #179 und #182 tragen Teilarbeit zu den offen bleibenden Issues #68/#86 bzw. #28 (Bucket „Teilarbeit" in der #44-Matrix, ebenso #185 → #171). Für die Abarbeitung des PR-Stapels: [MASTERPLAN-AUTONOME-MERGE-SESSION](features/MASTERPLAN-AUTONOME-MERGE-SESSION.md).
+Direkt startbar geworden:
+- **#187 posAll-Anzeige-Migration** — 11 Konsumenten-Dateien zeigen noch den POS-Erstwert; Muster + Dateiliste im Issue
+- **#92 ARITHMETIC Stage 1** — Escaping-Blocker in #185 gemerged; Metadatenfragen an Carina weiter offen
+- **#110 WVV-Strophen-Lauf** — F35/F36-Fixes gemerged; wartet nur noch auf KZW-Entscheid
+- **#18 Multi-Lemma + PoS-Suche** — POS-Policy (#27) gemerged; braucht POS-Daten im Corpus-Index
 
 **#124 (prio-1)** ist technisch fertig: cookieloses Matomo ist seit 17.06. deployed (`includes/_matomo.html`, Opt-out + Datenschutz-Abschnitt im Impressum, Commit `7abbf7672`); offen nur noch DSB-Absegnung der Rechtsgrundlage + Klärung des Dashboard-Zugangs.
 
@@ -20,13 +20,14 @@ Alle PRs tragen einen „Review-Triage"-Abschnitt (Bot-Review-Findings triagiert
 
 | # | What | Who's needed |
 |---|------|-------------|
-| #110 | WVV-Strophen — Entscheidungsvorlage liegt im Issue (Korpus-Survey + Empfehlung b); Skript-Blocker F35/F36 in PR #185 gefixt | KZW (Entscheid) |
+| #110 | WVV-Strophen — Entscheidungsvorlage liegt im Issue (Korpus-Survey + Empfehlung b); Skript-Blocker F35/F36 gemerged (#185) | KZW (Entscheid) |
 | #115 | Cross-Ref Phase 2 — 196 Lemmata kuratorisch (A 125 / B 36 / C 35) | KZW |
 | #129, #138 | KWIC-Belege + div-/lg-Hüllen: gebaut und live, warten auf Prüfung | KZW |
+| #44-Report | Neu live aus der Merge-Session: AK-Excerpt-Banner (#134), Tabellen-Spaltenmodell (#160), Homographen-/Multi-Lemma-Fixes (#163/#164), Multi-POS-Badges (#161) — Nachprüfung via #44-Abschlussreport | KZW |
 | #59, #114 | Naming-Fachklärung + Tabellenansicht-Freigabe | Linda |
-| #92 | ARITHMETIC — Metadatenfragen seit 16.05.; Escaping-Blocker in PR #185 gefixt, Stage 1 danach in ~1–2h | Carina (via KZW) |
+| #92 | ARITHMETIC — Metadatenfragen seit 16.05.; Escaping-Blocker gemerged (#185), Stage 1 danach in ~1–2h | Carina (via KZW) |
 | #147 | Weingrüße — Lizenz/Sigle/Genre/Zuschreibungen, Stage 0 | Silvan (via KZW) |
-| #86 | Barrierefreiheit — Ansprechpersonen-Block in PR #179; schließen nach Text-Freigabe | Alan van Beek |
+| #86 | Barrierefreiheit — Ansprechpersonen-Block live (barrierefreiheit.html, #179); schließen nach Text-Freigabe | Alan van Beek |
 
 ## Needs Clarification / Entscheidungs-Cluster (chsteiner)
 
@@ -34,9 +35,9 @@ Alle PRs tragen einen „Review-Triage"-Abschnitt (Bot-Review-Findings triagiert
 |---|------|-------------|
 | #140 | Doku menschenlesbar | Doku-Strategie-Gespräch (TEI-MODEL-Rolle, LLM-Artefakte) |
 | #58 | Begriff→Lemma→Beleg Workflow | Option A/B/C entscheiden |
-| #169 | Suchsemantik (Audit 3/6) | Nähesuche-Distanz, commonLemmas, Dedup — deterministische Teile bereits in PR #174 |
+| #169 | Suchsemantik (Audit 3/6) | Nähesuche-Distanz, commonLemmas, Dedup — deterministische Teile seit #174 gemerged |
 | #172 | Test-Suite-Policy (Audit 6/6) | 45%-passRate-Floor + korpusabhängige Magic-Numbers |
-| #18 | Multi-Lemma + PoS-Suche | Nach Merge von PR #181 (POS-Policy) spezifizierbar; braucht POS-Daten im Corpus-Index |
+| #18 | Multi-Lemma + PoS-Suche | POS-Policy (#27/#181) gemerged, spezifizierbar; braucht POS-Daten im Corpus-Index |
 
 ## Future: Needs Design / Trigger-Wait
 
@@ -56,6 +57,7 @@ Alle PRs tragen einen „Review-Triage"-Abschnitt (Bot-Review-Findings triagiert
 
 | # | What |
 |---|------|
+| ~~Merge-Session 08.07.~~ | 13 PRs #174–#186 auf main (Kette A #174→#175→#178→#184, Kette B #177→#183, unabhängig #176/#179/#180/#181/#182/#185, zuletzt #186). Schließt #163 #164 #159 #168 #158 #162 #160 #161 #134 #145 #27 #167 #170. Authority-Index v1.6.0 (posAll[]) live, Cache-Bust + Smoke-Checks Chrome-verifiziert. CI-Lehren (Retarget/Rerun-Payload) im JOURNAL. |
 | ~~#106~~ | Reim-Wörterbuch Minimalvariante (2026-07-02): Zehntes TEI-Analyse-Werkzeug `#rhyme-dictionary` — Reimpartner-Lemmata an benachbarten Versenden (`lineEnds[]`-Scan, Suffix-3-Heuristik auf normalisierten Formen, 2-Letter bei Kurzwörtern), optionaler Text/Autor-Filter, „→ Belege"-Link in Multi-Lemma-Nähe-Suche. Kein neuer Build-Schritt. Punkte 2-7 bleiben in #109 (FWF), Punkt 8 im Multi-Lemma-Backlog. |
 | ~~#114-Followups~~ | Integrationswünsche Tabellenansicht (2026-07-02): Gesamtzeile mit Gesamttrefferzahl (sticky tfoot + „M Treffer gesamt" im Header), Types/Schreibformen + MWB/Lexer-Links im Lemma-Panel (Wörterbuchnetz-API), Keyness-Spalte (signierte Log-Likelihood Text vs. Gesamtkorpus, fett ab 10,83) inkl. Export-Spalte. |
 | ~~#45~~ | Static JSON API (2026-06-12): FAIR-orientierte JSON-API unter `/api/` (2.742 Dateien, ~14 MB), deterministischer Build (`scripts/build-api.py`) + CI-Freshness-Gate, Doku-Seite `api/index.html`; PR #150 gemerged (Closes #45). |

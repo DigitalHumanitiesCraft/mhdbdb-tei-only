@@ -2,7 +2,7 @@
 
 Gegenstück zum `MASTERPLAN-AUTONOME-ISSUE-SESSION.md`: Während die Issue-Session PRs **erzeugt**, arbeitet die Merge-Session den offenen PR-Bestand **nach main ab**. Wiederverwendbares Verfahren; der konkrete PR-Bestand steht jeweils im Anhang. Temporal Artifact: nach erfolgreicher Session Kernwissen ins JOURNAL, Datei aktualisieren oder löschen.
 
-> **Speicherort-Hinweis (Henne-Ei):** Bis zum Merge von PR #186 existiert diese Datei NUR auf dem Branch `claude/session-0708-docs` — sie ist selbst Teil des Merge-Bestands, den sie beschreibt. Zugriff aus einer frischen Session: `git fetch origin && git show origin/claude/session-0708-docs:docs/features/MASTERPLAN-AUTONOME-MERGE-SESSION.md`. Nach dem #186-Merge liegt sie regulär auf main.
+> **Status:** Erste Merge-Session am 08.07.2026 vollständig durchgeführt (13 PRs #174–#186, Lehren siehe JOURNAL-Eintrag „Autonome Merge-Session"). Die G1-/Phase-1-Regeln unten sind auf den dort verifizierten Stand korrigiert (Retarget-/Rerun-Mechanik). Datei bleibt als wiederverwendbares Verfahren; der Anhang beschreibt jeweils die NÄCHSTE Session und ist derzeit leer.
 
 ## Betriebsvertrag (gilt nur nach explizitem User-Kickoff)
 
@@ -18,7 +18,7 @@ Unverändert aus dem Issue-Session-Vertrag: Issues nie manuell schließen (nur v
 
 Ein PR wird nur gemerged, wenn ALLE Gates grün sind:
 
-- **G1 CI grün** auf dem aktuellen Head. Achtung: Ein reines Base-Retarget (nach Merge + Branch-Löschung der Basis) triggert KEINE neuen Workflow-Läufe (`on: pull_request` hört default nur auf opened/synchronize/reopened, nicht auf den Base-Wechsel) — die angezeigten grünen Checks liefen dann noch gegen die alte Base. Bei Daten-PRs (Index-/api/-Änderungen) deshalb nach dem Retarget einen Re-Run anstoßen (`gh run rerun <letzter Lauf>` oder leerer Commit); bei reinen Code-/Doku-PRs genügt der letzte grüne Lauf — das main-CI nach dem Merge ist das Netz. Nach einem Rebase (neuer Head) laufen Checks regulär neu an: abwarten.
+- **G1 CI grün** auf dem aktuellen Head. Achtung: Ein reines Base-Retarget (nach Merge + Branch-Löschung der Basis) triggert KEINE neuen Workflow-Läufe (`on: pull_request` hört default nur auf opened/synchronize/reopened, nicht auf den Base-Wechsel) — die angezeigten grünen Checks liefen dann noch gegen die alte Base. Bei Daten-PRs (Index-/api/-Änderungen) deshalb nach dem Retarget einen frischen Lauf anstoßen — **per Close/Reopen des PRs, NICHT per `gh run rerun`**: Der Rerun recycelt das alte Event-Payload (`GITHUB_BASE_REF` = gelöschter Branch) und der Diff-Base-Step schlägt mit „couldn't find remote ref" fehl (Session 08.07., 2× reproduziert). Bei reinen Code-/Doku-PRs genügt der letzte grüne Lauf — das main-CI nach dem Merge ist das Netz. Nach einem Rebase (neuer Head) laufen Checks regulär neu an: abwarten.
 - **G2 Review-Triage abgeschlossen:** Bot-Review(s) vorhanden und im PR-Body triagiert (umgesetzt oder begründet abgelehnt). Trifft NACH dem letzten Push ein neues Bot-Review ein, wird es erst triagiert (receiving-code-review: echter Bug / Stilfrage / False Positive), dann gemerged.
 - **G3 Kein menschliches Veto offen:** Reviews von KZW/chsteiner mit Änderungswunsch blockieren. Abgrenzung beachten: menschliche Freigaben, die das ISSUE betreffen (z. B. Alans Text-Freigabe für #86, KZWs Freigabe des Rektoratsberichts VOR VERSAND), blockieren den Repo-Merge NICHT — der PR merged Entwürfe/Teilarbeit ins Repo, das Issue bleibt offen.
 - **G4 Mergeability:** GitHub meldet keinen Konflikt. Bei Konflikt: Branch auf main rebasen, Konflikt lösen, npm test (bei Code), `push --force-with-lease` (nach Rebase nötig; das Force-Verbot gilt nur für main, auf claude/*-PR-Branches ist es Standard), CI abwarten.
@@ -33,7 +33,7 @@ Ein PR wird nur gemerged, wenn ALLE Gates grün sind:
 
 ### Phase 1: Merge-Schleife (pro PR)
 1. Gates G1–G5 prüfen.
-2. `gh pr merge <nr> --merge --delete-branch` (Repo-Konvention: Merge-Commit, kein Squash — erhält die Folge-Commit-Historie der Review-Triage). GitHub retargetet abhängige Stack-PRs beim Löschen des Base-Branches automatisch auf main.
+2. `gh pr merge <nr> --merge` — **ohne `--delete-branch`** (Repo-Konvention: Merge-Commit, kein Squash — erhält die Folge-Commit-Historie der Review-Triage). **GitHub retargetet abhängige Stack-PRs beim Branch-Löschen NICHT zuverlässig, sondern schließt sie** (Session 08.07.: #177 wurde beim #174-Merge mit `--delete-branch` CLOSED; Recovery: alten Head-SHA als Branch re-pushen → reopen → `gh pr edit --base main` → Temp-Branch löschen). Sichere Sequenz: mergen, dann SOFORT abhängige PRs per `gh pr edit <dep> --base main` retargeten — das Repo-Auto-Delete räumt den Head-Branch anschließend selbst.
 3. CI auf main abwarten (v. a. `data-integrity.yml` bei Daten-PRs). Rot → STOPP der Merge-Schleife: diagnostizieren; der Fix läuft als neuer claude/*-Hotfix-Branch + PR (der gemergte PR-Branch ist gelöscht, und die Kickoff-Autorisierung deckt Merges, KEINE direkten main-Pushes). Erst nach grünem main weitermergen; NIE „einfach weitermergen".
 4. Beim nächsten PR der Kette: Retarget-Verhalten aus G1 beachten (Checks laufen bei reinem Retarget NICHT automatisch neu).
 
@@ -60,21 +60,9 @@ Ein PR wird nur gemerged, wenn ALLE Gates grün sind:
 | Neues Bot-Review mit echtem Bug kurz vor Merge | Fix als Folge-Commit + npm test + Triage-Nachtrag; erst dann mergen |
 | Playwright-Report-Server hält npm test offen | Prozess auf Port 9323 killen, Ergebnis steht in der Task-Ausgabe |
 | GitHub-API 5xx | Retry; bei anhaltend: dokumentieren, nächster PR |
+| Stack-PR nach Base-Merge plötzlich CLOSED | Base-Branch wurde gelöscht, bevor der PR retargetet war → alten Head-SHA re-pushen, reopen, `--base main`, Temp-Branch löschen (siehe Phase 1 Schritt 2) |
+| „Diff-Base bestimmen" rot nach Retarget-Rerun | Stale Event-Payload — Close/Reopen statt `gh run rerun` (siehe G1) |
 
-## Anhang: PR-Bestand für die erste Merge-Session (Stand 08.07.2026)
+## Anhang: PR-Bestand der nächsten Merge-Session
 
-**Reihenfolge:**
-1. **Kette A:** #174 → #175 → #178 → #184
-2. **Kette B:** #177 → #183 (#177 retargetet nach dem #174-Merge, #183 nach dem #177-Merge — jeweils automatisch beim Löschen des Base-Branches)
-3. **Unabhängig:** #176, #179, #180, #181, #182, #185
-4. **Zuletzt:** #186 (vorher ROADMAP/JOURNAL per Folge-Commit auf Nach-Merge-Stand bringen)
-
-**Kommentar-Budgets (aus der Issue-Session bereits verbraucht, max. 1 Statuskommentar pro Issue gilt kumulativ):** #169, #162, #141, #110, #27, #28. Der #44-Session-Report wird ausschließlich per Edit erweitert. Vor jedem Phase-3-Ping die Issue-Kommentare prüfen: existiert schon ein Session-Statuskommentar, dort per Edit nachtragen statt neu posten.
-
-**Bekannte Überschneidungen (erwartet konfliktfrei, da disjunkte Hunks):** CONTRACTS.md (§B in Kette A / §G.3 in Kette B), docs/INDEX.md (#177-Versionszeile / #180+#181-Zeilen), TEI-MODEL.md (§2.1 in #178 / §11 in #177), cooccurrence-ranking.spec.js (#174-Basis in beiden Ketten identisch).
-
-**Smoke-Checks:** Nach Kette A: Reader ABG (Prosa-Zeilennummern numerisch, kein leerer Span), AK-Excerpt-Banner, Multi-Lemma rôt+munt (Treffer > 0). Nach Kette B: Kookkurrenz `salve` — Zentrum- und Dropdown-Badge zeigen „NOM VRB" (der posMode-Filter wirkt auf die PARTNER-Liste, nicht das Zentrum; sein Multi-POS-Verhalten ist durch `cooccurrence-ranking.spec.js` gepinnt und braucht keinen manuellen Check) — plus Authority-Cache-Bust auf v1.6.0 (Konsole). Nach #176: Korpussuche-Tabelle Sortierung + TSV-Export. Nach #179: hilfe-daten-beitragen Sektion 9 + barrierefreiheit-Kontaktblock.
-
-**Nach-Merge-Pings (Phase 3):** #134-Banner ist KZW-relevant (via #44 oder Merge-Notiz, Kommentar-Budget beachten); #86 wartet weiter auf Alan (kein Ping — extern); #187 (posAll-Anzeige-Migration) wird durch #177-Merge startbar.
-
-**Erwartete Issue-Schließungen:** #163 #164 #159 #168 #158 #162 #160 #161 #134 #145 #27 #167 #170. Offen bleiben: #68 #86 #28 #171 (Part of) + #44 (Evergreen).
+*(derzeit leer — die erste Session vom 08.07.2026 hat den Bestand #174–#186 vollständig abgearbeitet: 13 PRs gemerged, 13 Issues geschlossen, Smoke-Checks grün. Ergebnis + Lehren: JOURNAL-Eintrag „2026-07-08 – handoff (Autonome Merge-Session)" und Abschlussreport in #44. Vor der nächsten Session hier eintragen: Reihenfolge/Stack-Ketten, Kommentar-Budgets, bekannte Datei-Überschneidungen, Smoke-Checks, erwartete Issue-Schließungen.)*
