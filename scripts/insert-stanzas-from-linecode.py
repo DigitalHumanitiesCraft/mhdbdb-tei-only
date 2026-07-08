@@ -238,11 +238,21 @@ def insert_stanzas_for_text(sigle: str, tei_path: Path, linecode_path: Path,
             first_ls.append(l)
 
     # Build (first_l, last_l) ranges. last_l = sibling immediately before next first_l.
+    # @n zählt die tatsächlich gewrappten <lg> fortlaufend ab 1 (KZW-Decision
+    # #23: sequenziell, nicht der rohe Linecode-Wert). Der alte Anker-Index
+    # idx+1 riss bei missing_anchors/wrap_failed Lücken in die Nummerierung
+    # (#171 Finding 36).
+    next_n = 1
     for idx, ((stanza_val, candidates), first_l) in enumerate(zip(anchors, first_ls)):
         if first_l is None:
             continue
-        if idx + 1 < len(anchors) and first_ls[idx + 1] is not None:
-            next_first = first_ls[idx + 1]
+        # Boundary = the NEXT RESOLVED anchor, not just idx+1 (#171 Finding 35):
+        # if the immediately-next anchor is unresolved (None), the old code fell
+        # into the "last stanza" branch and let this stanza run to the end of
+        # its container — swallowing all following stanzas and producing nested
+        # <lg> once their own wraps were applied.
+        next_first = next((fl for fl in first_ls[idx + 1:] if fl is not None), None)
+        if next_first is not None:
             # Walk back from next_first to find the previous <l> sibling
             sib = next_first.getprevious()
             last_l = None
@@ -278,8 +288,9 @@ def insert_stanzas_for_text(sigle: str, tei_path: Path, linecode_path: Path,
                 stats["wrap_failed"].append((candidates[0], "parent mismatch"))
                 continue
 
-        if wrap_stanza(first_l, last_l, idx + 1):
+        if wrap_stanza(first_l, last_l, next_n):
             stats["wrapped"] += 1
+            next_n += 1
         else:
             stats["wrap_failed"].append((candidates[0], "wrap_stanza returned False"))
 
