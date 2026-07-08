@@ -376,7 +376,9 @@ function setupSummaryExpansion() {
 }
 
 // Enrich file results with TEI text
-async function enrichFileResults(fileResults, lemmaIds) {
+// (exportiert für position-parity.spec.js — der Guard gegen leere <w> ist
+// der vierte Zählpfad der §B-Parität, #170)
+export async function enrichFileResults(fileResults, lemmaIds) {
   // Guard against null/undefined lemmaIds
   if (!lemmaIds || !Array.isArray(lemmaIds)) {
     console.warn(`No lemmaIds provided for enrichment`);
@@ -416,7 +418,13 @@ async function enrichFileResults(fileResults, lemmaIds) {
 
         const indexedWords = [];
         for (let i = 0; i < xpathIndexed.snapshotLength; i++) {
-          indexedWords.push(xpathIndexed.snapshotItem(i));
+          const w = xpathIndexed.snapshotItem(i);
+          // Paritäts-Guard (#170, analog #131): der Python-Build überspringt
+          // leere <w lemmaRef/> (build-corpus-index.py, text_content-Check) —
+          // ohne denselben Guard verschöbe ein einziges leeres <w> alle
+          // Kontextfenster hinter ihm (CONTRACTS §B).
+          if (!w.textContent.trim()) continue;
+          indexedWords.push(w);
         }
 
         // Get the matched word elements from index

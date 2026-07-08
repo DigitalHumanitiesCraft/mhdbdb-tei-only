@@ -448,7 +448,12 @@ class TEITextReader {
                     const noteType = el.getAttribute('type');
                     const noteN = el.getAttribute('n') || '';
                     if ((noteType === 'date' || noteType === 'year') && noteN) {
-                        return `<span class="note-badge note-${this.escapeHtml(noteType)}" title="${noteType === 'date' ? 'Datum' : 'Jahr'}">${this.escapeHtml(noteN)}</span>`;
+                        // Badge + Kindinhalt (#170): date/year-Notes sind heute
+                        // self-closing, aber ein künftig lemmatisiertes <w> darin
+                        // zählt im Python-Index und in KWIC mit (CONTRACTS §B) —
+                        // das Badge allein würde es im Reader verschlucken und
+                        // alle Highlights dahinter verschieben.
+                        return `<span class="note-badge note-${this.escapeHtml(noteType)}" title="${noteType === 'date' ? 'Datum' : 'Jahr'}">${this.escapeHtml(noteN)}</span>${children()}`;
                     }
                     return children();
                 }
