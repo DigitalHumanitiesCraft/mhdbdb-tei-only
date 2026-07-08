@@ -11,7 +11,7 @@ Die autonome Merge-Session (08.07., [MASTERPLAN-AUTONOME-MERGE-SESSION](features
 Direkt startbar geworden:
 - **#187 posAll-Anzeige-Migration** — 11 Konsumenten-Dateien zeigen noch den POS-Erstwert; Muster + Dateiliste im Issue
 - **#92 ARITHMETIC Stage 1** — Escaping-Blocker in #185 gemerged; Metadatenfragen an Carina weiter offen
-- **#110 WVV-Strophen-Lauf** — F35/F36-Fixes gemerged; wartet nur noch auf KZW-Entscheid
+- **WVV-Strophen-Lauf** — F35/F36-Fixes gemerged UND KZW-Entscheid da (08.07., Empfehlung b bestätigt, #110 von KZW geschlossen); der Lauf selbst steht noch aus
 - **#18 Multi-Lemma + PoS-Suche** — POS-Policy (#27) gemerged; braucht POS-Daten im Corpus-Index
 
 **#124 (prio-1)** ist technisch fertig: cookieloses Matomo ist seit 17.06. deployed (`includes/_matomo.html`, Opt-out + Datenschutz-Abschnitt im Impressum, Commit `7abbf7672`); offen nur noch DSB-Absegnung der Rechtsgrundlage + Klärung des Dashboard-Zugangs.
@@ -20,7 +20,6 @@ Direkt startbar geworden:
 
 | # | What | Who's needed |
 |---|------|-------------|
-| #110 | WVV-Strophen — Entscheidungsvorlage liegt im Issue (Korpus-Survey + Empfehlung b); Skript-Blocker F35/F36 gemerged (#185) | KZW (Entscheid) |
 | #115 | Cross-Ref Phase 2 — 196 Lemmata kuratorisch (A 125 / B 36 / C 35) | KZW |
 | #129, #138 | KWIC-Belege + div-/lg-Hüllen: gebaut und live, warten auf Prüfung | KZW |
 | #44-Report | Neu live aus der Merge-Session: AK-Excerpt-Banner (#134), Tabellen-Spaltenmodell (#160), Homographen-/Multi-Lemma-Fixes (#163/#164), Multi-POS-Badges (#161) — Nachprüfung via #44-Abschlussreport | KZW |
