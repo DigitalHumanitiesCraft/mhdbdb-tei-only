@@ -117,4 +117,16 @@ test.describe('Issue #161: Multi-POS posAll[] (Authority-Index v1.6.0)', () => {
     expect(r.compoundSplit).toBe(true); // Legacy-Compound-Tags werden weiter gesplittet
     expect(r.leerBeiFilter).toBe(false);
   });
+
+  test('Autocomplete-Badge zeigt alle POS-Tags eines Multi-POS-Lemmas', async ({ page }) => {
+    await page.goto('http://localhost:8080/playground/#cooccurrence-ranking');
+    await page.waitForSelector('#coRkQuery', { state: 'visible', timeout: 60000 });
+
+    await page.fill('#coRkQuery', 'salve');
+    await page.waitForSelector('#coRkAutocomplete button', { state: 'visible', timeout: 15000 });
+
+    // Vor dem Review-Fix zeigte das Badge nur den pos-Erstwert ("NOM")
+    const item = page.locator('#coRkAutocomplete button', { hasText: 'lemma_79188' });
+    await expect(item).toContainText('NOM VRB');
+  });
 });
