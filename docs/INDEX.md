@@ -90,7 +90,7 @@ This knowledge base follows a hub-and-spoke architecture with INDEX.md as the ce
 | **[TEI-MODEL.md](TEI-MODEL.md)** | Normative TEI encoding (Soll-Modell), IST/SOLL-Vergleiche, Validierungsbaseline | Data engineers, Developers |
 | **[TEI-MODEL-AUTH-FILES.md](TEI-MODEL-AUTH-FILES.md)** | Authority-File-Schemas und Migrationshistorie (lexicon, persons, works, concepts, genres, names, variants) | Data engineers |
 | **[LINECODE.md](LINECODE.md)** | Legacy Linecode → TEI mapping (Letter-zu-Element-Tabelle, xml:id-Pattern-Erklärung, Diagnose-Workflows für #23) | Data engineers |
-| **[POS-TAGSET.md](POS-TAGSET.md)** | Kanonische `@pos`-Referenz (19-Tag-Zielschema, Compound-Regeln, Legacy-Mapping ART/CNJ/GRA, Korpus-Verteilung) | Data engineers, Developers |
+| **[POS-TAGSET.md](POS-TAGSET.md)** | Kanonische `@pos`-Referenz (19-Tag-Zielschema, Compound-Regeln, Legacy-Mapping ART/CNJ/GRA, Korpus-Verteilung, Disambiguierungs-/Migrations-Policy §6) | Data engineers, Developers |
 
 ### Process (what's happening and why)
 
