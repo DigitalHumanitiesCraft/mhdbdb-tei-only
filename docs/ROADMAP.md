@@ -1,49 +1,51 @@
 # Roadmap
 
-Strategic priorities for the MHDBDB TEI Repository. Updated 2026-06-05.
+Strategic priorities for the MHDBDB TEI Repository. Updated 2026-07-08.
 
 See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/44) for the full triage matrix with per-issue status.
 
-## Now: Quick Wins + prio-1
+## Now: PR-Review der autonomen Issue-Session (07.–08.07.)
 
-| # | What | Domain | Effort |
-|---|------|--------|--------|
-| #91 | Zenodo-Integration — CITATION.cff von KZW finalisiert (`type=dataset`, Lead-Autorin); Zenodo-Webhook + Tag noch User-Steps | docs/release | S |
-| #110 | #23-Followup WVV — 4 wrap_failed Strophen (1174/1180/1208/1242) brauchen philologische Klärung KZW/Julia (Ton-Wechsel: eine oder zwei Strophen?). Issue **reopened 2026-05-16** — Auto-Close gestern via `Closes`-Trailer war voreilig | pipeline | S |
+**12 offene PRs #174–#185**; Review + Merge durch chsteiner schließt 13 Issues automatisch (#163 #164 #159 #168 #158 #162 #160 #161 #134 #145 #27 #167 #170). Merge-Reihenfolge der zwei Stack-Ketten beachten:
 
-## Next: FAIR Data + Daten-Qualität
+- **Kette A:** #174 → #175 → #178 → #184 (Lemma-Auflösung/Races → lb-Nummern → AK-Excerpt → Paritäts-Drifts)
+- **Kette B:** #174 → #177 → #183 (→ posAll Multi-POS → Frontend-Kleinbugs)
+- **Unabhängig:** #176 (Spaltenmodell), #179 (Hilfe/Barrierefreiheit), #180 (Rektoratsbericht), #181 (POS-Policy), #182 (Fremdsprachen-Phasenplan), #185 (Python-Ingest-Fixes)
 
-| # | What | Domain | Effort |
-|---|------|--------|--------|
-| #86 | Barrierefreiheitserklärung (WZG) — needs Uni Salzburg input | documentation | M |
+Alle PRs tragen einen „Review-Triage"-Abschnitt (Bot-Review-Findings triagiert, Berechtigtes als Folge-Commits gefixt). Daneben bleibt **#124 (prio-1)** aktiv: Uni-Matomo entschieden, wartet auf Bärthlein-Snippet + Datenschutz-Eckdaten.
 
-## Blocked: Needs Human Input
+## Next: Menschen-Pings (nach den Merges)
 
 | # | What | Who's needed |
 |---|------|-------------|
-| #92 | ARITHMETIC ingest — 6 fnhd. Rechenbuch-HS von Carina (Graz); wartet auf Carinas Antwort zu Sigle/Lizenz/Edition/Genre + Schlüsselfrage Domänen-Klassifikation erhalten? | Carina (via Katharina) |
-| #30 | TEI structural fixes — auto-fixes ready, draft-fixes prepared | KZW (review) |
-| #34 | Ingest Wenzelsbibel — Phase 3 at 92.5% @meaningRef, 4,013 rows pending; branch rebased 2026-05-06; evaluation script (`wzb-sense-evaluate.py`) ready. **Drift-Blocker (#115):** Phase 1b prägte 98 Lemma-IDs ≥78000 ins Korpus ohne lexicon.xml-Nachzug (977 dangling Refs; Kategorie A 2026-07-02 per `backfill-lexicon.py` gestubbt, Rest 396 kuratorisch); künftige Ingests brauchen einen Backfill-Schritt (siehe [ADR-015](DECISIONS.md#adr-015-authority-source-modell-korpus-führt-ingest-braucht-rückwärts-sync)) | Julia + Helmut |
-| #68 | Guide: How to add data to MHDBDB — Teil 1 (`hilfe-daten-beitragen.html`) shipped 2026-05-07, Contributing-Guide-Update 2026-05-12 (Two-Wege-Block + 9-Punkte-Checkliste); weitere Onboarding-Artefakte hängen an #34-Lessons | KZW |
-| #124 | Analytics/Nutzungsstatistik — Recherche abgeschlossen + im Issue gepostet (GA abgelehnt; Empfehlung: Uni-Matomo-Anfrage, sonst Cloudflare/self-host); Entscheidung offen | KZW (öffentlich vs. intern, Budget, Server) |
+| #110 | WVV-Strophen — Entscheidungsvorlage liegt im Issue (Korpus-Survey + Empfehlung b); Skript-Blocker F35/F36 in PR #185 gefixt | KZW (Entscheid) |
+| #115 | Cross-Ref Phase 2 — 196 Lemmata kuratorisch (A 125 / B 36 / C 35) | KZW |
+| #129, #138 | KWIC-Belege + div-/lg-Hüllen: gebaut und live, warten auf Prüfung | KZW |
+| #59, #114 | Naming-Fachklärung + Tabellenansicht-Freigabe | Linda |
+| #92 | ARITHMETIC — Metadatenfragen seit 16.05.; Escaping-Blocker in PR #185 gefixt, Stage 1 danach in ~1–2h | Carina (via KZW) |
+| #147 | Weingrüße — Lizenz/Sigle/Genre/Zuschreibungen, Stage 0 | Silvan (via KZW) |
+| #86 | Barrierefreiheit — Ansprechpersonen-Block in PR #179; schließen nach Text-Freigabe | Alan van Beek |
 
-## Needs Clarification
-
-| # | What | Key question |
-|---|------|-------------|
-| #27 | POS Workflow expansion | Linguistic decisions answered — implementation scope? |
-| #28 | Foreign language search | Index needs `xml:lang`; UI design needed |
-| #18 | Multi-lemma + PoS tag search | Depends on POS corpus migration (#27) |
-| #23 | Missing stanza markup (104 texts) | Complex cases need Linecode docs (#31, done) + Julia input |
-
-## Future: Needs Design
+## Needs Clarification / Entscheidungs-Cluster (chsteiner)
 
 | # | What | Key question |
 |---|------|-------------|
-| #58 | Begriff→Lemma→Beleg Workflow | Playground UX redesign |
-| #59 | Antonomasien/Epitheta Modul | Standalone analysis module design |
-| #63 | Begriffssystem Update | Julia's future plans |
-| #80 | Umbrella: User-facing Dokumentation & Hilfe | Sub-issues #68 (#79 + #78 bereits closed) |
+| #140 | Doku menschenlesbar | Doku-Strategie-Gespräch (TEI-MODEL-Rolle, LLM-Artefakte) |
+| #58 | Begriff→Lemma→Beleg Workflow | Option A/B/C entscheiden |
+| #169 | Suchsemantik (Audit 3/6) | Nähesuche-Distanz, commonLemmas, Dedup — deterministische Teile bereits in PR #174 |
+| #172 | Test-Suite-Policy (Audit 6/6) | 45%-passRate-Floor + korpusabhängige Magic-Numbers |
+| #18 | Multi-Lemma + PoS-Suche | Nach Merge von PR #181 (POS-Policy) spezifizierbar; braucht POS-Daten im Corpus-Index |
+
+## Future: Needs Design / Trigger-Wait
+
+| # | What | Key question |
+|---|------|-------------|
+| #141 | Borte-Ingest — Aufgabe 0 (borte.md-Metadaten-Template) im Issue geliefert | KZW-Priorisierung (nach #139) |
+| #106 | Vers-Boundary-Features — Minimalvariante shipped 02.07., Rolling-Backlog | Original-Token/Phonetik → #109 |
+| #139 | CoReMA-Korpus ingesten | Trigger/Kapazität |
+| #118 | Sprachstufen aus Normdaten | Policy + Architekturentscheid |
+| #123 | „König vom Odenwald" | Scope + Zeitfenster (KZW) |
+| #63 | Begriffssystem Update | Scope/Policy (KZW) |
 | #93 | Textreihentypologie-Umzug (von marketext.at auf MHDBDB-Unterseite) — SKOS-Daten aus `textseries`-Repo, Baum-Visualisierung; dysfunktionale `dhplus`-URIs zu bereinigen | Visualisierung + Authority-File-Abgleich |
 | #109 | FWF-Einzelprojekt (Korpus-Tiefenanalyse, NER-Pipeline, phonetische Reimanalyse, Visualisierungen) — Antrag durch KZW, kleines Budget, max. 50% externe Mittel | Scope-Notiz für Antragstext |
 | #111 | Index-Größen-Soft-Cap und modulare Splitting-Strategie | Trigger >50 MB gz (heute ~40); Optionen A modular / B brotli / C binär; keine Entscheidung bis Schwellwert erreicht |
