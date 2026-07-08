@@ -107,6 +107,7 @@ Located in `/publications/` (outside `docs/`):
 - `BLOG-POST-POS-WORKFLOW.md` — DHCraft blog draft on PoS disambiguation
 - `BLOG-POST-WZB-PIPELINE.md` — DHCraft blog draft on the WZB (Wenzelsbibel) ingest pipeline (unpublished, v3)
 - `JAHRESBERICHT-2025.md` — CLARIAH-AT annual report
+- `BERICHT-REKTORAT-MITTELVERWENDUNG-2026.md` — Freiwilliger Bericht + Dankesbrief an das Rektorat über die im Oktober 2025 freigegebenen Mittel (#145, Entwurf, KZW-Review vor Versand)
 
 ## Project Status
 
