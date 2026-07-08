@@ -231,4 +231,38 @@ test.describe('Issue #114: Tabellenansicht für Korpussuche', () => {
         const chipCount = await page.locator('#lemmaTypes details[open] span').count();
         expect(chipCount).toBeGreaterThan(0);
     });
+
+    test('KWIC-Aufklappzeile: Detail-Row mit vollem colspan + Belege, Toggle schließt (#160)', async ({ page }) => {
+        // Regressionsnetz für das Spaltenmodell: die Detail-Zeile muss die
+        // GESAMTE Tabellenbreite überspannen (colspan == Anzahl thead-Spalten).
+        // Vor #160 war der Wert hartcodiert ("7") und konnte bei Spalten-
+        // Änderungen still auseinanderlaufen.
+        test.setTimeout(120000);
+        await page.fill('#searchInput', 'minne');
+        await page.click('#searchButton');
+        await page.waitForSelector('#resultsList > *');
+        await page.click('#viewToggleTable');
+        await page.waitForSelector('#resultsList table');
+
+        const headerCount = await page.locator('#resultsList table thead th').count();
+        expect(headerCount).toBeGreaterThan(0);
+
+        // Erste Zeile aufklappen
+        const firstBtn = page.locator('[data-kwic-row]').first();
+        await firstBtn.click();
+        await expect(firstBtn).toHaveAttribute('aria-expanded', 'true');
+
+        const detailRow = page.locator('#resultsList .kwic-detail-row');
+        await expect(detailRow).toHaveCount(1);
+        const colspan = await detailRow.locator('td').first().getAttribute('colspan');
+        expect(parseInt(colspan, 10)).toBe(headerCount);
+
+        // KWIC-Panel lädt echte Belege (TEI-Fetch, kann dauern)
+        await expect(detailRow.locator('.kwic-list li').first()).toBeVisible({ timeout: 90000 });
+
+        // Toggle schließt die Detail-Zeile wieder
+        await firstBtn.click();
+        await expect(page.locator('#resultsList .kwic-detail-row')).toHaveCount(0);
+        await expect(firstBtn).toHaveAttribute('aria-expanded', 'false');
+    });
 });
