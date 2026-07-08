@@ -227,6 +227,12 @@ class TEITextReader {
                         verseRange: verseScope.textContent.trim(),
                         context: contextNote ? contextNote.textContent.trim() : null
                     };
+                } else {
+                    // Authoring-Signal statt stillem No-op: der Banner lebt rein
+                    // von kuratierten Header-Daten — fehlt der analytic-Titel
+                    // zum Versbereich, soll das beim Kuratieren auffallen,
+                    // nicht erst in der manuellen QA (Review-Finding PR #178).
+                    console.warn('[TEITextReader] biblScope unit="verse" gefunden, aber kein <analytic><title> — Excerpt-Banner wird nicht angezeigt.');
                 }
             }
 
