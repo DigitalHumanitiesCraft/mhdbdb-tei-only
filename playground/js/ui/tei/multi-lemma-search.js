@@ -208,12 +208,13 @@ export class MultiLemmaSearchUI {
             return;
         }
 
-        try {
-            // Navigiert der User während der async Korpus-Suche zu einer
-            // anderen View, darf das fertige Ergebnis die dort angezeigte
-            // View nicht überschreiben (#159).
-            const myEpoch = getNavigationEpoch();
+        // Navigiert der User während der async Korpus-Suche zu einer
+        // anderen View, darf das fertige Ergebnis die dort angezeigte
+        // View nicht überschreiben (#159). Vor dem try deklariert, damit
+        // auch der catch-Pfad den Guard prüfen kann.
+        const myEpoch = getNavigationEpoch();
 
+        try {
             // Resolve lemma IDs
             const lemmaIds = this.teiExplorer.resolveLemmaIds(searchTerms);
 
@@ -246,6 +247,10 @@ export class MultiLemmaSearchUI {
 
         } catch (error) {
             console.error('Search error:', error);
+            // Gleicher Epoch-Guard wie in den Success-Pfaden: eine nach dem
+            // View-Wechsel fehlschlagende Suche darf die neue View nicht mit
+            // der Fehlermeldung überschreiben (Review-Finding PR #174).
+            if (getNavigationEpoch() !== myEpoch) return;
             if (resultsContainer) {
                 resultsContainer.innerHTML = `
                     <div class="text-sm text-red-600">
