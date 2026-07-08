@@ -125,7 +125,7 @@ Geschätzter Output: 9–11 PRs, ~13–17 Issues ganz oder teilweise abgeräumt,
 ## 6. Kickoff-Prompt (copy-paste in die neue Session)
 
 ```
-Arbeite den Issue-Masterplan autonom ab (Detailfassung: docs/features/MASTERPLAN-AUTONOME-ISSUE-SESSION.md).
+Arbeite den Issue-Masterplan autonom ab (Detailfassung: docs/playbooks/MASTERPLAN-AUTONOME-ISSUE-SESSION.md).
 Betriebsvertrag:
 
 AUTORISIERUNG: Ich genehmige hiermit ausdrücklich Commits + Pushes auf claude/*-Feature-Branches

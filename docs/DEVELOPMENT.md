@@ -325,6 +325,10 @@ git push origin main
 - Force push to main
 - Skip hooks or validation
 
+### Autonome Sessions (Playbooks)
+
+Für autonome Issue-Abarbeitung und PR-Merge-Sessions existieren wiederverwendbare Verfahren mit Betriebsvertrag, Gates und Fehlerbildern in [`docs/playbooks/`](playbooks/). Sie laufen nur nach explizitem User-Kickoff und werden nach jeder Session mit den Lehren aktualisiert.
+
 ## Deployment
 
 ### GitHub Pages

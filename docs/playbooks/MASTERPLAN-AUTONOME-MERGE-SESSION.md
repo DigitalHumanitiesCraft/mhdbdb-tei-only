@@ -1,6 +1,6 @@
 # Masterplan: Autonome Merge-Session
 
-Gegenstück zum `MASTERPLAN-AUTONOME-ISSUE-SESSION.md`: Während die Issue-Session PRs **erzeugt**, arbeitet die Merge-Session den offenen PR-Bestand **nach main ab**. Wiederverwendbares Verfahren; der konkrete PR-Bestand steht jeweils im Anhang. Temporal Artifact: nach erfolgreicher Session Kernwissen ins JOURNAL, Datei aktualisieren oder löschen.
+Gegenstück zum `MASTERPLAN-AUTONOME-ISSUE-SESSION.md`: Während die Issue-Session PRs **erzeugt**, arbeitet die Merge-Session den offenen PR-Bestand **nach main ab**. Playbook (wiederverwendbares Verfahren, KEIN Temporal Artifact — siehe CLAUDE.md → Temporal Artifacts): nach jeder Session Kernwissen ins JOURNAL und Datei aktualisieren, nicht löschen; der konkrete PR-Bestand steht jeweils im Anhang.
 
 > **Status:** Erste Merge-Session am 08.07.2026 vollständig durchgeführt (13 PRs #174–#186, Lehren siehe JOURNAL-Eintrag „Autonome Merge-Session"). Die G1-/Phase-1-Regeln unten sind auf den dort verifizierten Stand korrigiert (Retarget-/Rerun-Mechanik). Datei bleibt als wiederverwendbares Verfahren; der Anhang beschreibt jeweils die NÄCHSTE Session und ist derzeit leer.
 
