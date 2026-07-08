@@ -133,14 +133,14 @@ Begründung der Reihenfolge: K1–K3 sind kontextfrei und schrumpfen den Problem
 ### 6.3 Qualitätsgates (für K4–K6, P-MUSS)
 
 1. **Batch-Größe:** max. 1 Text pro LLM-Lauf-Einheit; Ausgabe als Diff-Liste (xml:id, alt, neu, Begründung, confidence).
-2. **Golden Set:** vor dem ersten Batch 200 händisch verifizierte Fälle (KZW/Studis) über alle Klassen; jeder Modell-/Prompt-Wechsel wird erst gegen das Golden Set gemessen (Ziel ≥ 95 % Übereinstimmung), dann eingesetzt.
+2. **Golden Set:** vor dem ersten K4-Batch 200 händisch verifizierte Fälle (KZW/Studis) über alle Klassen; jeder Modell-/Prompt-Wechsel wird erst gegen das Golden Set gemessen (Ziel ≥ 95 % Übereinstimmung), dann eingesetzt. (Gilt nur für die LLM-Klassen K4–K6; die deterministischen K1–K3 brauchen kein Golden Set.)
 3. **Stichproben-Review:** pro Batch 50 Zufallsfälle + ALLE confidence='low' an menschliche Prüfung; Fehlerquote > 5 % → Batch verworfen, Prompt/Modell nachjustieren.
 4. **Invarianten (automatisch, CI-fähig):** (a) nur Tags aus §1 (+ dokumentierte Fusionen §2), (b) Token-Text/Reihenfolge/xml:id byte-identisch (nur `@pos`, `@comp`, `@needsSplit`, `@reason` ändern sich), (c) Positionszählung unverändert (Index-Rebuild diff-leer außer erwarteten pos-Feldern), (d) kein ART/GRA/Artefakt im Output.
-5. **Provenienz:** pro Batch ein Log unter `ingest/pos-disambig/<batch>/` (Modell, Prompt-Version, Datum, Diff-Statistik, Review-Ergebnis); revisionDesc-Change-Eintrag pro Datei.
+5. **Provenienz:** pro Batch ein Log unter `ingest/pos-disambig/<batch>/` (Modell, Prompt-Version, Datum, Diff-Statistik, Review-Ergebnis); revisionDesc-Change-Eintrag pro Datei. (Bewusst ein dritter Pfad-Typ unter `ingest/`: `scripts/ingest/<sigle>/` trägt Pipeline-Skripte, `ingest/<sigle>/` Roh-Quellen pro Text, `ingest/pos-disambig/` Kampagnen-Review-Logs.)
 
 ### 6.4 Technische Attribute (aus KZW-Fixierung 20.11.2025)
 
-- Kontraktionen/Fusionen: Token bleibt EIN `<w>`; echte morphologische Fusionen tragen zwei Tags + `@reason` (§2); zusätzlich `@comp="VRB+PRO"` und `@needsSplit="true"`, wo die Zerlegung analytisch gewünscht ist. KEINE Token-Splits in der Edition.
+- Kontraktionen/Fusionen: Token bleibt EIN `<w>`; echte morphologische Fusionen tragen zwei Tags + `@reason` (§2); zusätzlich `@comp="VRB+PRO"` und `@needsSplit="true"`, wo die Zerlegung analytisch gewünscht ist. KEINE Token-Splits in der Edition. **Caveat:** `@comp` und `@needsSplit` sind noch NICHT in `schema/mhdbdb.rnc` (die `<w>`-Produktion erlaubt sie nicht) und kommen im Korpus bisher nicht vor — vor dem ersten K4-Batch muss das Schema erweitert (oder ein GAP dokumentiert) werden, sonst bricht die CI-Schema-Validierung.
 - NEG: ausschließlich für Negationspartikeln (*niht, ne, en, n, nie* …); Negationsträger anderer Wortart bekommen NUR ihre Wortart (*dehein* → DET, *nieman* → PRO, *nie* → ADV). Bestands-Kombis wie `ADJ|NEG` werden in K6 aufgelöst.
 - Fremdsprachliches: NICHT über `@pos`, sondern über `@xml:lang` (+ optional `<foreign>`) — siehe #28-Phasenplan; für die POS-Migration out of scope.
 
@@ -152,7 +152,7 @@ Begründung der Reihenfolge: K1–K3 sind kontextfrei und schrumpfen den Problem
 - GRA → ADJ (Issue-Body sagte an zwei Stellen ADV bzw. PART; §3 dieser Datei ist SSoT).
 
 **P-OFFEN (KZW-Entscheid nötig, blockiert die jeweilige Klasse NICHT als Ganzes):**
-1. **PART nachrüsten?** Wenn Partikelverben sauber unterscheidbar getaggt werden sollen (Issue §2.1 „zu/an/ab können Partikeln sein"), braucht es entweder ein 20. Tag PART oder eine Konvention (ADV + `@ana`?). Bis zur Entscheidung: ADV, Fälle mit confidence='low' sammeln.
+1. **PART nachrüsten?** Wenn Partikelverben sauber unterscheidbar getaggt werden sollen (Issue §2.1 „zu/an/ab können Partikeln sein"), braucht es entweder ein 20. Tag PART oder eine Konvention (ADV + `@ana`?). Achtung bei der Konventions-Variante: `@ana` ist bereits als Sense-Referenz belegt (`lexicon.xml#lemma_{N}_sense_{M}`, siehe DATA-MODEL.md → Sense-Auflösung) — eine POS-Markierung über `@ana` würde das Attribut doppelt belegen und bräuchte mindestens ein eigenes Wert-Schema. Bis zur Entscheidung: ADV, Fälle mit confidence='low' sammeln.
 2. **CNJ-Restquote:** Wieviel ungelöstes CNJ ist akzeptabel (K5-Fallback)? Vorschlag: ≤ 10 % der ursprünglichen CNJ-Menge.
 3. **VEM im Fusions-Set:** *wiltu* = `VEM PRO` (§2) vs. Issue-Beispiele mit VRB — Liste der zulässigen Fusions-Tag-Paare finalisieren.
 
