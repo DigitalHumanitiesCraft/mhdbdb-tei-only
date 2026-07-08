@@ -44,6 +44,7 @@ Direkt startbar geworden:
 |---|------|-------------|
 | #141 | Borte-Ingest — Aufgabe 0 (borte.md-Metadaten-Template) im Issue geliefert | KZW-Priorisierung (nach #139) |
 | #106 | Vers-Boundary-Features — Minimalvariante shipped 02.07., Rolling-Backlog | Original-Token/Phonetik → #109 |
+| #28 | Fremdsprachen-Annotation — Daten-Phasenplan gemerged (`docs/features/FREMDSPRACHEN-PHASENPLAN-28.md`, Lemma-Ebene führt) | Umsetzung Phase 0–4 beim nächsten Daten-Slot |
 | #139 | CoReMA-Korpus ingesten | Trigger/Kapazität |
 | #118 | Sprachstufen aus Normdaten | Policy + Architekturentscheid |
 | #123 | „König vom Odenwald" | Scope + Zeitfenster (KZW) |
