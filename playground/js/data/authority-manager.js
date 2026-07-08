@@ -214,17 +214,19 @@ export class AuthorityFilesManager {
    * cooccurrence-ranking.js für Live-Dropdown im Lemma-Input. Siehe
    * DESIGN.md §Live-Autocomplete-Dropdown.
    *
-   * Eingabe wird inline normalisiert (â→a, ê→e, ü→ue, …) damit „ere" auch
-   * „êre" matcht. Linear scan über 43.754 Lemmata, ~5-10ms pro Aufruf —
-   * akzeptabel für keystroke-Frequenz.
+   * Eingabe wird mit TextNormalizer.normalizeMHG normalisiert (â→a, ê→e,
+   * ü→ue, æ→ae, ō→o, …) damit „ere" auch „êre" matcht — derselbe Normalizer,
+   * mit dem lemma.normalized gebaut wird (CONTRACTS §A). Linear scan über
+   * 43.754 Lemmata, ~5-10ms pro Aufruf — akzeptabel für keystroke-Frequenz.
    */
   getLemmaAutocompleteMatches(partialInput, maxSuggestions = 8) {
     const trimmed = (partialInput || '').trim();
     if (!trimmed) return [];
-    const needle = trimmed.toLowerCase()
-      .replace(/[âáà]/g, 'a').replace(/[êéè]/g, 'e').replace(/[îíì]/g, 'i')
-      .replace(/[ôóò]/g, 'o').replace(/[ûúù]/g, 'u')
-      .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/ß/g, 'ss');
+    // Kanonischer Normalizer statt Inline-Regex-Kette: lemma.normalized ist
+    // mit normalizeMHG gebaut — eine abweichende Eingabe-Normalisierung
+    // (fehlende Ligaturen æ/œ, Makrons ā/ē/ī/ō/ū) liefert für „mære" oder
+    // „brōt" sonst keine Vorschläge (#167 Finding 86, CONTRACTS §A).
+    const needle = TextNormalizer.normalizeMHG(trimmed);
     const lemmata = this.authorityData?.lemmata || [];
     const startsWith = [];
     const includes = [];

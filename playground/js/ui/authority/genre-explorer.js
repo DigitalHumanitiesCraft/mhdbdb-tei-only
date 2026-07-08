@@ -172,7 +172,7 @@ export class GenreExplorer {
             </div>
             ${worksHTML}
         `;
-    });
+    }, undefined, 'works');
   }
 
   showAuthorsInGenre(genreId, genreName) {
@@ -208,7 +208,7 @@ export class GenreExplorer {
             </div>
             ${authorsHTML}
         `;
-    });
+    }, undefined, 'authors');
   }
 
   findWorksInGenre(genreId) {

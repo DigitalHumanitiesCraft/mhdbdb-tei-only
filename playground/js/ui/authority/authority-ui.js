@@ -105,6 +105,10 @@ export class AuthorityUI {
     this.lemmaExplorer.showComponentLemma(originalLemmaId, componentLemmaId, componentText);
   }
 
+  showOriginalLemmaSenses(lemmaId) {
+    this.lemmaExplorer.showOriginalLemmaSenses(lemmaId);
+  }
+
   generateLemmaSenseContent(lemma, lemmaId, originalLemmaId = null) {
     return this.lemmaExplorer.generateLemmaSenseContent(lemma, lemmaId, originalLemmaId);
   }

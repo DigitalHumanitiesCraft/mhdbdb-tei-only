@@ -167,13 +167,25 @@ export class LemmaExplorer {
     container.innerHTML = `
         <div style="margin-bottom: 10px; padding: 8px; background: rgba(40, 167, 69, 0.1); border-radius: 4px;">
             <strong>Komponente:</strong> ${componentText} → ${lemma.lemma}
-            <button onclick="window.playground.ui.authorityExplorers.showLemmaSenses('${originalLemmaId}')"
+            <button onclick="window.playground.ui.authorityExplorers.showOriginalLemmaSenses('${originalLemmaId}')"
                     style="float: right; padding: 2px 6px; background: #6c757d; color: white; border: none; border-radius: 3px; font-size: 0.75rem; cursor: pointer;">
                 ← Zurück
             </button>
         </div>
         ${content}
     `;
+  }
+
+  // #167 Finding 17: „← Zurück" bei Etymologie-Komponenten darf das sichtbare
+  // Panel nicht togglen (= ausblenden), sondern rendert die Original-
+  // Bedeutungen direkt in den Container.
+  showOriginalLemmaSenses(lemmaId) {
+    const container = document.getElementById(`senses-${lemmaId}`);
+    if (!container) return;
+    const lemma = this.authorityData.lemmata.find((l) => l.id === lemmaId);
+    container.innerHTML = lemma
+      ? this.generateLemmaSenseContent(lemma, lemmaId)
+      : "Lemma nicht gefunden";
   }
 
   generateLemmaSenseContent(lemma, lemmaId, originalLemmaId = null) {

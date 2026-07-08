@@ -145,19 +145,23 @@ export function generateResultItem(config) {
 
 // ==================== TOGGLE DETAILS FUNCTIONALITY ====================
 
-export function toggleDetails(detailsId, contentGenerator, emptyMessage = 'Details nicht verfügbar') {
+export function toggleDetails(detailsId, contentGenerator, emptyMessage = 'Details nicht verfügbar', contentKey = '') {
   const container = document.getElementById(detailsId);
   if (!container) return false;
 
   const isHidden = container.classList.contains('hidden') || container.style.display === 'none' || container.style.display === '';
 
-  if (!isHidden) {
+  // Sichtbar + gleicher Inhalt → zuklappen. Sichtbar + ANDERER contentKey
+  // (z.B. Wechsel „Werke" → „Autor*innen" im selben Genre-Panel) → Inhalt
+  // umschalten statt ausblenden (#167 Finding 16).
+  if (!isHidden && (!contentKey || container.dataset.contentKey === contentKey)) {
     container.classList.add('hidden');
     container.style.display = 'none';
     return true;
   }
 
   try {
+    container.dataset.contentKey = contentKey;
     const content = contentGenerator();
     if (content === null || content === '') {
       container.innerHTML = `

@@ -49,15 +49,23 @@ export function fetchWbnetzEntries(normalizedForm) {
                 `https://api.woerterbuchnetz.de/open-api/dictionaries/${sigle}/lemmata/${lookupForm}`,
                 { signal: AbortSignal.timeout(10000) }
             );
-            if (!r.ok) return { sigle, entries: [] };
+            // 4xx (kein Eintrag) ist ein echtes, cachebares Ergebnis;
+            // 5xx ist transient und darf nicht memoisiert werden.
+            if (!r.ok) return { sigle, entries: [], failed: r.status >= 500 };
             const data = await r.json();
             const entries = (data.result_set || []).filter(e => isSafeLink(e.wbnetzlink));
             return { sigle, entries };
         } catch (e) {
             console.warn(`[Woerterbuchnetz] ${sigle} API unavailable:`, e.message);
-            return { sigle, entries: [] };
+            return { sigle, entries: [], failed: true };
         }
-    }));
+    })).then(results => {
+        // Degradierte Antworten (Timeout, Netzfehler, 5xx) aus dem Cache
+        // entfernen — sonst bleibt das Wörterbuch für diese Form die ganze
+        // Session leer und erholt sich nie (#167 Finding 13).
+        if (results.some(r => r.failed)) entryCache.delete(normalizedForm);
+        return results.map(({ sigle, entries }) => ({ sigle, entries }));
+    });
     entryCache.set(normalizedForm, promise);
     return promise;
 }

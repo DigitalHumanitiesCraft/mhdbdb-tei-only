@@ -570,8 +570,13 @@ export class CooccurrenceRanking {
     document.getElementById('coRkMinFreq')?.addEventListener('change', (e) => {
       const v = parseInt(e.target.value, 10);
       this.state.minFreq = isNaN(v) || v < 1 ? 1 : v;
-      // Wenn ein Result existiert, nur re-render (kein Re-Compute noetig).
-      if (this.state.result) this.render();
+      // minFreq wirkt in enrichPartners (Post-Compute) — die Partnerliste
+      // muss aus den Roh-Counts neu gefiltert werden, sonst widerspricht
+      // der Header der Tabelle (#167 Finding 21; analog posMode-Handler).
+      if (this.state.result) {
+        this.state.result.partners = this.enrichPartners(this.state.result._rawCounts || new Map());
+        this.render();
+      }
     });
     document.getElementById('coRkTopN')?.addEventListener('change', (e) => {
       this.state.topN = parseInt(e.target.value, 10) || DEFAULT_STATE.topN;
