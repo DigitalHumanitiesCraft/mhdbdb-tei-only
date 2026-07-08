@@ -12,7 +12,9 @@ See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues
 - **Kette B:** #174 → #177 → #183 (→ posAll Multi-POS → Frontend-Kleinbugs)
 - **Unabhängig:** #176 (Spaltenmodell), #179 (Hilfe/Barrierefreiheit), #180 (Rektoratsbericht), #181 (POS-Policy), #182 (Fremdsprachen-Phasenplan), #185 (Python-Ingest-Fixes)
 
-Alle PRs tragen einen „Review-Triage"-Abschnitt (Bot-Review-Findings triagiert, Berechtigtes als Folge-Commits gefixt). Daneben bleibt **#124 (prio-1)** aktiv: Uni-Matomo entschieden, wartet auf Bärthlein-Snippet + Datenschutz-Eckdaten.
+Alle PRs tragen einen „Review-Triage"-Abschnitt (Bot-Review-Findings triagiert, Berechtigtes als Folge-Commits gefixt). #179 und #182 tragen Teilarbeit zu den offen bleibenden Issues #68/#86 bzw. #28 (Bucket „Teilarbeit" in der #44-Matrix, ebenso #185 → #171). Für die Abarbeitung des PR-Stapels: [MASTERPLAN-AUTONOME-MERGE-SESSION](features/MASTERPLAN-AUTONOME-MERGE-SESSION.md).
+
+**#124 (prio-1)** ist technisch fertig: cookieloses Matomo ist seit 17.06. deployed (`includes/_matomo.html`, Opt-out + Datenschutz-Abschnitt im Impressum, Commit `7abbf7672`); offen nur noch DSB-Absegnung der Rechtsgrundlage + Klärung des Dashboard-Zugangs.
 
 ## Next: Menschen-Pings (nach den Merges)
 
