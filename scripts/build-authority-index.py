@@ -98,9 +98,16 @@ def parse_lexicon():
         if not lemma_text:
             continue
 
-        # Get part of speech
-        pos_el = entry.xpath('.//tei:pos', namespaces=ns)
-        pos = pos_el[0].text.strip() if pos_el and pos_el[0].text else ''
+        # Get part of speech — an entry can carry multiple <pos> siblings
+        # (#161, e.g. lemma_79188 "salve" = NOM + VRB). posAll keeps every
+        # value; pos stays the first one for backwards compatibility.
+        pos_els = entry.xpath('.//tei:pos', namespaces=ns)
+        pos_all = []
+        for pos_el in pos_els:
+            pos_text = pos_el.text.strip() if pos_el.text else ''
+            if pos_text and pos_text not in pos_all:
+                pos_all.append(pos_text)
+        pos = pos_all[0] if pos_all else ''
 
         # Extract etymology (morphological components)
         etym_components = []
@@ -145,6 +152,7 @@ def parse_lexicon():
             'lemma': lemma_text,
             'normalized': normalized,
             'pos': pos,
+            'posAll': pos_all,
             'senseCount': len(senses),
             'etymology': etym_components if etym_components else None,
             'senses': senses if senses else None
@@ -808,7 +816,7 @@ def build_index():
 
     # Build index structure
     index = {
-        'version': '1.5.0',  # 1.2.0: Authority migration (genre ptrs, person-works derivation, Frauendienst split). 1.2.1: WZB-Lemmata + Varianten + Werk-Eintrag. 1.2.2: #104 FLG/FLG1-Werk-Titel + work_571 biblStruct auf Vollmann-Profe/Neumann 1990. 1.3.0: #113-Followup — alternative-Terms in concepts.xml getrennt von Primär-Term (altDE/altEN/altNormalized) statt last-wins-Overwrite. 1.4.0: #44/#115 variants.xml aus Korpus regeneriert via scripts/sync/extract-variants.py (+64.287 Formen, 192.472→256.759). 1.4.1: #125 deterministischer Build (generatedAt entfernt, gzip mtime=0). 1.4.2: #143 HH-Genre-Korrektur (Marienleben → Geistliche Rede, work_137). 1.4.3: #143 APO-Gattungs-Metadaten nach Terrahe (work_568: Prosaroman/Antikenroman/Liebes-Abenteuerroman/Exempel/Fürstenspiegel). 1.4.4: #115 Kategorie-A-Stub-Backfill (+125 Lemma-Stubs in lexicon.xml). 1.5.0: Audit #5 — parse_genres last-wins-Fix: alternative-Terms überschreiben den Primär-Term nicht mehr (250 Kategorien korrigiert), altDE/altEN/altNormalized analog concepts.
+        'version': '1.6.0',  # 1.2.0: Authority migration (genre ptrs, person-works derivation, Frauendienst split). 1.2.1: WZB-Lemmata + Varianten + Werk-Eintrag. 1.2.2: #104 FLG/FLG1-Werk-Titel + work_571 biblStruct auf Vollmann-Profe/Neumann 1990. 1.3.0: #113-Followup — alternative-Terms in concepts.xml getrennt von Primär-Term (altDE/altEN/altNormalized) statt last-wins-Overwrite. 1.4.0: #44/#115 variants.xml aus Korpus regeneriert via scripts/sync/extract-variants.py (+64.287 Formen, 192.472→256.759). 1.4.1: #125 deterministischer Build (generatedAt entfernt, gzip mtime=0). 1.4.2: #143 HH-Genre-Korrektur (Marienleben → Geistliche Rede, work_137). 1.4.3: #143 APO-Gattungs-Metadaten nach Terrahe (work_568: Prosaroman/Antikenroman/Liebes-Abenteuerroman/Exempel/Fürstenspiegel). 1.4.4: #115 Kategorie-A-Stub-Backfill (+125 Lemma-Stubs in lexicon.xml). 1.5.0: Audit #5 — parse_genres last-wins-Fix: alternative-Terms überschreiben den Primär-Term nicht mehr (250 Kategorien korrigiert), altDE/altEN/altNormalized analog concepts. 1.6.0: #161 posAll[] — alle <pos>-Werte eines Lemmas (Multi-POS wie lemma_79188 salve NOM+VRB), pos bleibt Erstwert.
         'lemmata': lemmata,
         'persons': persons,
         'works': works,

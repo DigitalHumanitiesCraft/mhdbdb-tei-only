@@ -70,3 +70,63 @@ test.describe('Issue #164: Multi-Lemma-Suche rôt + munt', () => {
     expect(text).not.toContain('(0 Treffer)');
   });
 });
+
+test.describe('Issue #161: Multi-POS posAll[] (Authority-Index v1.6.0)', () => {
+  test('lemma_79188 salve trägt posAll [NOM, VRB] im geladenen Index', async ({ page }) => {
+    await page.goto('http://localhost:8080/playground/');
+    await page.waitForFunction(() => {
+      return window.playground?.authorityData?.lemmata?.length > 0;
+    }, { timeout: 60000 });
+
+    const rec = await page.evaluate(() => {
+      const l = window.playground.authorityData.lemmata.find(x => x.id === 'lemma_79188');
+      return l ? { pos: l.pos, posAll: l.posAll } : null;
+    });
+    expect(rec).not.toBeNull();
+    // pos bleibt der Erstwert (rückwärtskompatibel), posAll trägt alle Tags
+    expect(rec.pos).toBe('NOM');
+    expect(rec.posAll).toEqual(['NOM', 'VRB']);
+  });
+
+  test('posPasses zählt Multi-POS-Lemmata für jede ihrer Wortarten', async ({ page }) => {
+    await page.goto('http://localhost:8080/playground/');
+    await page.waitForFunction(() => !!window.playground?.ui?.cooccurrenceRanking, { timeout: 60000 });
+
+    const r = await page.evaluate(() => {
+      const view = window.playground.ui.cooccurrenceRanking;
+      const withMode = (mode, tags) => {
+        const prev = view.state.posMode;
+        view.state.posMode = mode;
+        const out = view.posPasses(tags);
+        view.state.posMode = prev;
+        return out;
+      };
+      return {
+        salveAlsVerb: withMode('vrb', ['NOM', 'VRB']),
+        salveAlsNomen: withMode('nom', ['NOM', 'VRB']),
+        nomenAlsVerb: withMode('vrb', ['NOM']),
+        compoundOhneInhaltswort: withMode('content', ['ART CNJ']),
+        compoundSplit: withMode('nom', ['PRP NOM']),
+        leerBeiFilter: withMode('vrb', []),
+      };
+    });
+    expect(r.salveAlsVerb).toBe(true); // vor #161: false, pos-Erstwert war NOM
+    expect(r.salveAlsNomen).toBe(true);
+    expect(r.nomenAlsVerb).toBe(false);
+    expect(r.compoundOhneInhaltswort).toBe(false);
+    expect(r.compoundSplit).toBe(true); // Legacy-Compound-Tags werden weiter gesplittet
+    expect(r.leerBeiFilter).toBe(false);
+  });
+
+  test('Autocomplete-Badge zeigt alle POS-Tags eines Multi-POS-Lemmas', async ({ page }) => {
+    await page.goto('http://localhost:8080/playground/#cooccurrence-ranking');
+    await page.waitForSelector('#coRkQuery', { state: 'visible', timeout: 60000 });
+
+    await page.fill('#coRkQuery', 'salve');
+    await page.waitForSelector('#coRkAutocomplete button', { state: 'visible', timeout: 15000 });
+
+    // Vor dem Review-Fix zeigte das Badge nur den pos-Erstwert ("NOM")
+    const item = page.locator('#coRkAutocomplete button', { hasText: 'lemma_79188' });
+    await expect(item).toContainText('NOM VRB');
+  });
+});

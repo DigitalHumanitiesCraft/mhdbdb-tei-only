@@ -129,16 +129,18 @@ export class CooccurrenceRanking {
   }
 
   /**
-   * Pruefen, ob ein POS-Tag (oft Multi-Tag wie "NOM ADJ") dem aktuellen
-   * posMode entspricht. Wir akzeptieren ein Partner-Lemma, sobald MINDESTENS
-   * EIN Token in seiner POS-Liste matched (z.B. „NOM ADJ" zaehlt als Nomen
-   * UND als Adjektiv) — generoeser ist hier besser, sonst entgehen ambige
-   * Faelle wie POS="ART CNJ" die immer noch Inhaltswort-Charakter haben.
+   * Pruefen, ob die POS-Tags eines Lemmas dem aktuellen posMode entsprechen.
+   * posTags ist posAll[] aus dem Authority-Index (v1.6.0, #161): ein Eintrag
+   * pro <pos>-Element; einzelne Eintraege koennen Legacy-Compound-Tags wie
+   * "ART CNJ" sein, daher werden sie zusaetzlich an Whitespace gesplittet.
+   * Wir akzeptieren ein Partner-Lemma, sobald MINDESTENS EIN Token matched
+   * (z.B. NOM+VRB zaehlt als Nomen UND als Verb) — generoeser ist hier
+   * besser, sonst entgehen ambige Faelle mit Inhaltswort-Charakter.
    */
-  posPasses(pos) {
+  posPasses(posTags) {
     if (this.state.posMode === 'all') return true;
-    if (!pos) return false;
-    const tokens = pos.split(/\s+/);
+    if (!posTags || !posTags.length) return false;
+    const tokens = posTags.flatMap(p => p.split(/\s+/));
     if (this.state.posMode === 'content') {
       return tokens.some(t => t === 'NOM' || t === 'VRB' || t === 'ADJ' || t === 'ADV');
     }
@@ -153,12 +155,12 @@ export class CooccurrenceRanking {
     for (const [lemmaId, count] of counts) {
       if (count < this.state.minFreq) continue;
       const lemma = this._lemmaMap?.get(lemmaId);
-      const pos = lemma?.pos || '';
-      if (!this.posPasses(pos)) continue;
+      const posTags = lemma?.posAll || (lemma?.pos ? [lemma.pos] : []);
+      if (!this.posPasses(posTags)) continue;
       out.push({
         lemmaId,
         lemma: lemma?.lemma || lemmaId,
-        pos,
+        pos: posTags.join(' '),
         count
       });
     }
@@ -331,6 +333,10 @@ export class CooccurrenceRanking {
     const lemma = this.state.resolvedLemma;
     const { totalOccurrences, partners } = this.state.result;
     const cleanId = lemma.id.replace(/^lemma_/, '');
+    // Alle POS-Tags wie in enrichPartners(), nicht nur den Erstwert —
+    // sonst zeigt der Header fuer Multi-POS-Lemmata (salve: NOM VRB)
+    // weniger als die Partner-Zeilen daneben (Review-Finding PR #177).
+    const posLabel = (lemma.posAll || (lemma.pos ? [lemma.pos] : [])).join(' ');
 
     const candidates = this.state.candidates.length > 1
       ? `<div class="mt-2 text-xs text-slate-500">Weitere Treffer: ${this.state.candidates.slice(1, 8).map(c => `<span class="mr-2 rounded bg-slate-100 px-1.5 py-0.5 font-mono">${escapeHtml(c.lemma || c.id)}</span>`).join('')}</div>`
@@ -382,7 +388,7 @@ export class CooccurrenceRanking {
             <div class="text-xs uppercase tracking-wide text-slate-500">Zentrum-Lemma</div>
             <div class="text-lg font-semibold text-brand-700">
               <a href="../lemma/?id=${escapeAttr(cleanId)}" target="_blank" rel="noopener" class="hover:underline">${escapeHtml(lemma.lemma || lemma.id)}</a>
-              ${lemma.pos ? `<span class="ml-2 rounded bg-slate-100 px-1.5 py-0.5 text-xs font-mono text-slate-600">${escapeHtml(lemma.pos)}</span>` : ''}
+              ${posLabel ? `<span class="ml-2 rounded bg-slate-100 px-1.5 py-0.5 text-xs font-mono text-slate-600">${escapeHtml(posLabel)}</span>` : ''}
             </div>
             <div class="text-xs text-slate-500">${escapeHtml(lemma.id)} · Kontextfenster ± ${this.state.window} · Mindest-Frequenz ${this.state.minFreq}</div>
             ${candidates}
@@ -448,7 +454,8 @@ export class CooccurrenceRanking {
     dd.innerHTML = items.map((l, i) => {
       const active = i === idx;
       const cls = active ? 'bg-brand-50 text-brand-800' : 'text-slate-700 hover:bg-slate-50';
-      const pos = l.pos ? `<span class="ml-1 rounded bg-slate-100 px-1 text-[10px] font-mono text-slate-600">${escapeHtml(l.pos)}</span>` : '';
+      const posTags = (l.posAll || (l.pos ? [l.pos] : [])).join(' ');
+      const pos = posTags ? `<span class="ml-1 rounded bg-slate-100 px-1 text-[10px] font-mono text-slate-600">${escapeHtml(posTags)}</span>` : '';
       return `<button type="button" role="option" data-co-rk-ac-idx="${i}"
         aria-selected="${active}"
         class="block w-full cursor-pointer px-3 py-2 text-left text-sm ${cls}">
