@@ -532,7 +532,8 @@ Source: `assets/css/korpus.css` (post-#17 reader-view styling). Element-to-class
 | `.stanza-label` | inline „Strophe N" prefix | first child of `<lg>` |
 | `.verse-line` | `display: block; margin-left: space-4; line-height: 1.6`; verse number in margin via `data-n` (1, 5, 10, …) | `<l>` |
 | `.line-break` | `display: inline` | `<lb>` |
-| `.lb-number` | small superscript-style line counter for prose | follows `<lb>` |
+| `.lb-number` | small superscript-style line counter for prose (numeric `@n` only) | follows `<lb>` |
+| `.lb-anchor` | unstyled empty span for non-numeric `<lb>`-`@n` (e.g. `h_1`) — deep-link target only, never visible (#158) | follows `<lb>` |
 | `.page-break` | `inline-block; 0.875rem; font-weight: 600; bg-tertiary; cursor: help` | `<pb>` |
 | `.column-break` | `inline-block; 0.875rem; font-weight: 600; bg-tertiary; cursor: help` | `<cb>` |
 | `.note-badge`, `.note-year`, `.note-date` | inline year/date marker rendered from `<note>@n` | `<note type="year\|date">` |
