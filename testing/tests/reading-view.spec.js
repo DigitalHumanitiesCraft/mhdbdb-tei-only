@@ -325,4 +325,15 @@ test.describe('Issue #134: Ausschnitts-Kontext (Excerpt)', () => {
         await expect(page.locator('.excerpt-banner')).toHaveCount(0);
     });
 
+    test('mehrere biblStructs ohne Versbereich lösen KEINEN Banner aus (FB)', async ({ page }) => {
+        // FB trägt zwei biblStruct-Einträge (book + bookSection) — die
+        // Excerpt-Erkennung durchsucht alle, findet aber ohne
+        // biblScope unit="verse" keinen Ausschnitt (Review-Finding PR #178).
+        await page.goto('http://localhost:8080/korpus.html?textId=FB');
+        await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
+        await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
+
+        await expect(page.locator('.excerpt-banner')).toHaveCount(0);
+    });
+
 });

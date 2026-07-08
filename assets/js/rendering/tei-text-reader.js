@@ -208,8 +208,13 @@ class TEITextReader {
             // work iff its header biblStruct carries a verse range
             // (biblScope unit="verse"). An <analytic> title alone is NOT
             // sufficient — 534 corpus headers have one for ordinary
-            // journal/book-section editions.
-            const excerptBibl = teiDoc.querySelector('sourceDesc biblStruct');
+            // journal/book-section editions. Headers may carry SEVERAL
+            // biblStruct entries (book + bookSection, e.g. FB/HZ/WZB), so the
+            // verse-scoped one is searched for across all of them, not just
+            // the first in document order.
+            const excerptBibl = Array.from(teiDoc.querySelectorAll('sourceDesc biblStruct'))
+                .find(bs => Array.from(bs.querySelectorAll('imprint biblScope'))
+                    .some(scope => scope.getAttribute('unit') === 'verse'));
             if (excerptBibl) {
                 const verseScope = Array.from(excerptBibl.querySelectorAll('imprint biblScope'))
                     .find(bs => bs.getAttribute('unit') === 'verse');
