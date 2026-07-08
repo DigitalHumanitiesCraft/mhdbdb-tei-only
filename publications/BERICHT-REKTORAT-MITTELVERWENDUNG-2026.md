@@ -36,7 +36,7 @@ Nicht Gegenstand dieses Berichts ist die einmalige Datenmigration der MHDBDB aus
 
 ### 2. Ausgangslage
 
-Die MHDBDB dokumentiert seit 1972 den Wortschatz der mittelhochdeutschen Literatur. Nach der technischen Neuaufstellung 2025 lag das gesamte Korpus, 667 semantisch annotierte Texte mit rund 7,5 Millionen Wortbelegen und einem Lexikon von 43.879 Lemmata, erstmals vollständig in offenen Standards (TEI-XML) vor. Die freigegebenen Mittel dienten dazu, diese Datenbasis in eine dauerhaft betreibbare, öffentlich nutzbare Forschungsplattform zu überführen und die Suchwerkzeuge auf das Niveau zu heben, das die internationale Fachcommunity von der MHDBDB erwartet.
+Die MHDBDB dokumentiert seit 1972 den Wortschatz der mittelhochdeutschen Literatur; die zuletzt betriebene technische Infrastruktur stammte im Kern aus den 1990er Jahren. Nach der technischen Neuaufstellung 2025 lag das gesamte Korpus, 667 semantisch annotierte Texte mit rund 7,5 Millionen Wortbelegen und einem Lexikon von 43.879 Lemmata, erstmals vollständig in offenen Standards (TEI-XML) vor. Die freigegebenen Mittel dienten dazu, diese Datenbasis in eine dauerhaft betreibbare, öffentlich nutzbare Forschungsplattform zu überführen und die Suchwerkzeuge auf das Niveau zu heben, das die internationale Fachcommunity von der MHDBDB erwartet.
 
 ### 3. Ergebnisse aus Angebot 33/25: Such- und Analysewerkzeuge
 
@@ -81,3 +81,5 @@ Die Plattform im Überblick:
 - 20.480 vs. Angebotssummen (7.000 + 14.000 brutto = 21.000): tatsächliche Rechnungssummen von KZW/chsteiner bestätigen lassen; Bericht nennt bewusst nur die freigegebene Summe
 - Zeitraum der Leistungserbringung präzisieren (Okt 2025 bis Mitte 2026?)
 - Ob DHCraft als Mitabsender auftreten soll
+- Altersangabe bitte absegnen: Der Bericht sagt „seit 1972" bzw. „seit über fünfzig Jahren" (Projektgründung); Jahresbericht und WZB-Blog-Entwurf sprechen von einer 30-jährigen Datenbank-Geschichte (digitale Infrastruktur seit den 1990er Jahren). Beides stimmt, der Bericht unterscheidet jetzt explizit Projekt (1972) und Infrastruktur (1990er) — Formulierung bitte bestätigen
+- Korpuszahl verifiziert: „rund 7,5 Millionen Wortbelege" = 7.533.447 annotierte Tokens, nachgerechnet aus dem Corpus-Index v4.1.5 (Summe aller Positionslisten)
