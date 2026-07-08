@@ -187,7 +187,10 @@ class TEITextReader {
 
             // External links
             handschriftencensus: null,
-            zoteroLinks: []
+            zoteroLinks: [],
+
+            // Excerpt relationship (from TEI header biblStruct, #134)
+            excerpt: null
         };
 
         try {
@@ -198,6 +201,38 @@ class TEITextReader {
                 // Extract work ID: "works.xml#work_131" → "work_131"
                 if (corresp && corresp.includes('#')) {
                     metadata.workId = corresp.split('#')[1];
+                }
+            }
+
+            // 1b. Excerpt relationship (#134): a text is an excerpt of a larger
+            // work iff its header biblStruct carries a verse range
+            // (biblScope unit="verse"). An <analytic> title alone is NOT
+            // sufficient — 534 corpus headers have one for ordinary
+            // journal/book-section editions. Headers may carry SEVERAL
+            // biblStruct entries (book + bookSection, e.g. FB/HZ/WZB), so the
+            // verse-scoped one is searched for across all of them, not just
+            // the first in document order.
+            const excerptBibl = Array.from(teiDoc.querySelectorAll('sourceDesc biblStruct'))
+                .find(bs => Array.from(bs.querySelectorAll('imprint biblScope'))
+                    .some(scope => scope.getAttribute('unit') === 'verse'));
+            if (excerptBibl) {
+                const verseScope = Array.from(excerptBibl.querySelectorAll('imprint biblScope'))
+                    .find(bs => bs.getAttribute('unit') === 'verse');
+                const analyticTitle = excerptBibl.querySelector('analytic > title');
+                if (verseScope && analyticTitle && analyticTitle.textContent.trim()) {
+                    const contextNote = Array.from(excerptBibl.querySelectorAll('note'))
+                        .find(n => n.getAttribute('type') === 'context');
+                    metadata.excerpt = {
+                        title: analyticTitle.textContent.trim(),
+                        verseRange: verseScope.textContent.trim(),
+                        context: contextNote ? contextNote.textContent.trim() : null
+                    };
+                } else {
+                    // Authoring-Signal statt stillem No-op: der Banner lebt rein
+                    // von kuratierten Header-Daten — fehlt der analytic-Titel
+                    // zum Versbereich, soll das beim Kuratieren auffallen,
+                    // nicht erst in der manuellen QA (Review-Finding PR #178).
+                    console.warn('[TEITextReader] biblScope unit="verse" gefunden, aber kein <analytic><title> — Excerpt-Banner wird nicht angezeigt.');
                 }
             }
 
@@ -576,8 +611,21 @@ class TEITextReader {
         this.elements.readingTitle.textContent = metadata.title;
         this.elements.readingAuthor.textContent = metadata.author;
 
+        // Excerpt banner (#134): sichtbar über dem Text, bewusst NICHT im
+        // eingeklappten Metadaten-Bereich — die Ausschnittsbeziehung muss
+        // ohne Öffnen des Panels erkennbar sein (Akzeptanzkriterium #134).
+        let metadataHTML = '';
+        if (metadata.excerpt) {
+            metadataHTML += '<div class="excerpt-banner">';
+            metadataHTML += `<strong>${this.escapeHtml(metadata.excerpt.title)}</strong> – Ausschnitt aus: ${this.escapeHtml(metadata.title)} (Verse ${this.escapeHtml(metadata.excerpt.verseRange)}).`;
+            if (metadata.excerpt.context) {
+                metadataHTML += ` ${this.escapeHtml(metadata.excerpt.context)}`;
+            }
+            metadataHTML += '</div>';
+        }
+
         // Build comprehensive metadata HTML with collapsible section
-        let metadataHTML = '<div class="metadata-toggle-container">';
+        metadataHTML += '<div class="metadata-toggle-container">';
         metadataHTML += '<button class="metadata-toggle-btn" aria-expanded="false">';
         // Heroicon: chevron-right (collapsed state)
         metadataHTML += '<svg class="toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>';
@@ -587,6 +635,20 @@ class TEITextReader {
 
         // Wikidata Image Section (will be populated asynchronously)
         metadataHTML += '<div id="wikidataImageContainer" class="wikidata-image-container" style="display: none;"></div>';
+
+        // Section 0: Excerpt relationship (#134) — strukturierte Felder
+        // analog zur Tabelle im Issue (Ausschnitt/Gesamtwerk/Versbereich/Kontext)
+        if (metadata.excerpt) {
+            metadataHTML += '<div class="metadata-section">';
+            metadataHTML += '<h4 class="metadata-section-title">Ausschnitt</h4>';
+            metadataHTML += `<div class="metadata-row"><strong>Ausschnitt:</strong> ${this.escapeHtml(metadata.excerpt.title)}</div>`;
+            metadataHTML += `<div class="metadata-row"><strong>Gesamtwerk:</strong> ${this.escapeHtml(metadata.title)}</div>`;
+            metadataHTML += `<div class="metadata-row"><strong>Versbereich:</strong> ${this.escapeHtml(metadata.excerpt.verseRange)}</div>`;
+            if (metadata.excerpt.context) {
+                metadataHTML += `<div class="metadata-row"><strong>Kontext:</strong> ${this.escapeHtml(metadata.excerpt.context)}</div>`;
+            }
+            metadataHTML += '</div>';
+        }
 
         // Section 1: All Titles
         if (metadata.titles && metadata.titles.length > 0) {

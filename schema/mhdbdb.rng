@@ -571,6 +571,12 @@
         <zeroOrMore>
           <element>
             <name ns="http://www.tei-c.org/ns/1.0">note</name>
+            <optional>
+              <attribute>
+                <name ns="">type</name>
+                <text/>
+              </attribute>
+            </optional>
             <text/>
           </element>
         </zeroOrMore>

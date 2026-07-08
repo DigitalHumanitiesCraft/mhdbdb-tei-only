@@ -80,6 +80,7 @@ Full-text immersive reader with multi-lemma highlighting and rich metadata.
 - **Dual identifiers:** Separate GND/Wikidata for work vs author
 - **Context navigation:** Prev/next buttons to jump between occurrences
 - **URL parameters:** `?textId=ABG&lemmaIds=879,7532&position=310`
+- **Ausschnitts-Kontext (#134):** Texte mit `biblScope unit="verse"` im Header (Ausschnitte eines Gesamtwerks, z. B. AK aus der Steirischen Reimchronik) zeigen einen sichtbaren Banner über dem Text sowie eine „Ausschnitt"-Metadaten-Sektion (Ausschnitt/Gesamtwerk/Versbereich/Kontext); siehe TEI-MODEL.md §2.1
 
 **TEI elements rendered:**
 - Text structure: `<head>`, `<p>`, `<div>`, `<lg>` (stanzas), `<l>` (verse lines)

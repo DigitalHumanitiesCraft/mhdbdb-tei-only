@@ -122,7 +122,9 @@ sourceDesc = element sourceDesc {
     }
 }
 
-# GAP 8: <note> in biblStruct (626 elements)
+# GAP 8: <note> in biblStruct (626 elements).
+# @type optional seit #134 (note type="context" traegt den Ausschnitts-Kontext
+# fuer Excerpt-Texte wie AK; analog zur note in bibl weiter unten).
 biblStruct = element biblStruct {
     attribute type { text }?,
     attribute xml:id { xsd:NCName }?,
@@ -154,7 +156,7 @@ biblStruct = element biblStruct {
         element title { attribute level { text }?, text },
         element biblScope { attribute unit { text }?, text }*
      }?,
-     element note { text }*)
+     element note { attribute type { text }?, text }*)
 }
 
 bibl = element bibl {

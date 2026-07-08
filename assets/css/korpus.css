@@ -119,6 +119,19 @@
   border-bottom: 1px solid var(--border-primary);
 }
 
+/* Excerpt banner (#134): Ausschnittsbeziehung sichtbar über dem Text,
+   blue-50-Info-Box analog zum Hinweis-Pattern der Startseite (#20) */
+.excerpt-banner {
+  margin: var(--space-4) var(--space-6) 0;
+  padding: var(--space-3) var(--space-4);
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 0.75rem;
+  font-size: var(--text-sm);
+  line-height: 1.6;
+  color: #1e3a8a;
+}
+
 .metadata-toggle-container {
   padding: var(--space-4) var(--space-6);
 }

@@ -98,6 +98,8 @@ The header is already largely standardized across all 667 files. This section do
 - Primaeredition immer als `<biblStruct>` mit Zotero-`corresp`
 - Digitale Zwischenstufen als `<bibl type="digitalIntermediary">` (ADR-012)
 
+**Ausschnittstexte (#134):** Ist der Korpus-Text ein definierter Ausschnitt eines groesseren Werks (z. B. AK = „Buch von Akkon" innerhalb der Steirischen Reimchronik), traegt die Primaeredition zusaetzlich `<biblScope unit="verse">{von}–{bis}</biblScope>` im `<imprint>` sowie optional `<note type="context">{inhaltlicher Zusammenhang}</note>` am `<biblStruct>`. Das `unit="verse"` ist das maschinenlesbare Excerpt-Signal: Der Reader zeigt dann Banner + „Ausschnitt"-Metadaten (Ausschnittstitel aus `<analytic>/<title>`). Ein `<analytic>`-Titel allein markiert KEINEN Ausschnitt — 534 Header haben ihn fuer gewoehnliche Editions-Angaben.
+
 ### 2.1bis Editor-Attribution & Credits
 
 Attribution der an der MHDBDB mitwirkenden Personen laeuft zentral ueber `authority-files/contributors.xml` (siehe [`TEI-MODEL-AUTH-FILES.md`](TEI-MODEL-AUTH-FILES.md) §3.8). Die Korpus-Header referenzieren dieses Register via `@ref`; namentlich ausgeschrieben wird im Header nur, was pro Datei variiert oder fuer Leser:innen direkt sichtbar sein soll.
