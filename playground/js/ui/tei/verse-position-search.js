@@ -58,12 +58,17 @@ export class VersePositionSearch {
     for (const text of texts) {
       const boundary = isStart ? text.lineStarts : text.lineEnds;
       if (!boundary || boundary.length === 0) continue; // prose
-      const positions = [];
-      for (const idx of boundary) {
-        if (text.words[idx] === lemmaId) positions.push(idx);
-      }
+      // Ueber die lemmata{}-Positionsliste statt words[idx] === lemmaId:
+      // words[] traegt bei Mehrfach-@lemmaRef nur die ERSTE ID (CONTRACTS
+      // §B.1), lemmata{} listet die Position unter JEDER referenzierten ID —
+      // sonst wuerde ein kuenftiges Multi-Ref-Wort an der Versgrenze fuer
+      // seine Zweit-ID nicht gefunden (#170 Review-Finding).
+      const lemmaPositions = text.lemmata?.[lemmaId];
+      if (!lemmaPositions || lemmaPositions.length === 0) continue;
+      const boundarySet = new Set(boundary);
+      const positions = lemmaPositions.filter(idx => boundarySet.has(idx));
       if (positions.length > 0) {
-        const totalForLemma = text.lemmata?.[lemmaId]?.length || 0;
+        const totalForLemma = lemmaPositions.length;
         hits.push({
           id: text.id,
           title: text.title || text.id,

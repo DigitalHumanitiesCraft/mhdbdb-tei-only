@@ -147,8 +147,18 @@ export class RhymeDictionary {
       // Nur scannen, wenn das Lemma im Text überhaupt vorkommt
       if (!text.lemmata?.[targetId]) continue;
 
+      // Ziel-Seite ueber die lemmata{}-Positionsliste statt words[...] ===
+      // targetId: words[] traegt bei Mehrfach-@lemmaRef nur die ERSTE ID
+      // (CONTRACTS §B.1) — die Zweit-ID eines kuenftigen Multi-Ref-Worts am
+      // Versende wuerde sonst nie als Reimwort gefunden (#170 Review-
+      // Finding). Die Partner-Seite (words[ends[j]]) bleibt bewusst
+      // Erst-ID: alle IDs einer Position braeuchten eine Reverse-Map,
+      // die der Index nicht hat — bei heute 0 Multi-Ref-Faellen nicht
+      // gerechtfertigt.
+      const targetPositions = new Set(text.lemmata[targetId]);
+
       for (let k = 0; k < ends.length; k++) {
-        if (words[ends[k]] !== targetId) continue;
+        if (!targetPositions.has(ends[k])) continue;
         endOccurrences++;
 
         for (const delta of [-1, 1]) {
