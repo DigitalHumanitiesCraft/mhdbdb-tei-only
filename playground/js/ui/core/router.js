@@ -68,6 +68,23 @@ const SEARCH_INPUT_IDS = {
  */
 let _suppressHashUpdate = false;
 
+/**
+ * Navigation-Epoch: monoton steigender Zähler, der bei jedem Route-Dispatch
+ * (navigate() wie hashchange/back/forward) inkrementiert wird. Async-Module
+ * merken sich den Wert beim Start ihrer Berechnung und verwerfen das
+ * Ergebnis vor dem Render, wenn er sich geändert hat — sonst überschreibt
+ * ein fertig werdender Scan die inzwischen angezeigte andere View
+ * (Cross-View-Clobber, #159). Same-View-Races (zweite Suche im selben
+ * Modul) fängt der Epoch NICHT — dafür braucht jedes Modul zusätzlich
+ * einen eigenen Such-Generation-Token (#168).
+ */
+let _navigationEpoch = 0;
+
+/** Aktueller Navigation-Epoch (siehe oben). */
+export function getNavigationEpoch() {
+  return _navigationEpoch;
+}
+
 /** Parse the current hash into { view, params }, or null if empty. */
 export function parseHash() {
   const hash = window.location.hash.slice(1); // strip leading '#'
@@ -204,6 +221,10 @@ function dispatch(view, params) {
     console.warn(`[Router] Unknown view: ${view}`);
     return;
   }
+
+  // Erst NACH dem Unknown-View-Check bumpen: eine unbekannte Route ändert
+  // die sichtbare View nicht, laufende Scans der alten View bleiben gültig.
+  _navigationEpoch += 1;
 
   handler(params);
 

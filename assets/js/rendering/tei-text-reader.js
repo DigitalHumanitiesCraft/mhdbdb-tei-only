@@ -38,6 +38,13 @@ class TEITextReader {
      * @param {object} elements - DOM element references
      */
     async openReadingView(textId, options = {}, elements) {
+        // Request-Generation-Guard (#168): Öffnet der User während eines
+        // langsamen Ladevorgangs (großes, ungecachtes TEI) einen anderen
+        // Text (z.B. Sigle-Link), darf der ältere Ladevorgang nach seinem
+        // await weder DOM noch Instanz-State überschreiben — sonst zeigen
+        // Lesebereich, aktive Sigle und Treffer-Navigation verschiedene Werke.
+        const mySeq = (this._loadSeq = (this._loadSeq || 0) + 1);
+
         this.currentTextId = textId;
 
         // Support both single lemmaId and multiple lemmaIds
@@ -74,6 +81,10 @@ class TEITextReader {
 
             // Load TEI file (cached)
             const teiDoc = await this.loadTEIFile(textMeta.filename);
+
+            // Ein neuerer openReadingView-Aufruf hat inzwischen übernommen —
+            // dieser ältere Ladevorgang darf nichts mehr rendern.
+            if (mySeq !== this._loadSeq) return;
 
             // Extract metadata (prioritizes TEI header, falls back to corpus index)
             const metadata = this.extractMetadata(teiDoc, textMeta);
@@ -121,6 +132,9 @@ class TEITextReader {
 
         } catch (error) {
             console.error('[TEITextReader] Failed to open reading view:', error);
+            // Fehler eines überholten Ladevorgangs nicht anzeigen — sie
+            // würden Loading-State/Anzeige des neueren Aufrufs zerstören.
+            if (mySeq !== this._loadSeq) return;
             this.showLoading(false);
             this.showError(`Fehler beim Laden: ${error.message}`);
         }

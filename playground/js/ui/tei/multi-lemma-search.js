@@ -3,6 +3,8 @@
  * Handles the modal interface for advanced multi-lemma search
  */
 
+import { getNavigationEpoch } from '../core/router.js';
+
 export class MultiLemmaSearchUI {
     constructor(teiExplorer, authorityManager) {
         this.teiExplorer = teiExplorer;
@@ -206,6 +208,12 @@ export class MultiLemmaSearchUI {
             return;
         }
 
+        // Navigiert der User während der async Korpus-Suche zu einer
+        // anderen View, darf das fertige Ergebnis die dort angezeigte
+        // View nicht überschreiben (#159). Vor dem try deklariert, damit
+        // auch der catch-Pfad den Guard prüfen kann.
+        const myEpoch = getNavigationEpoch();
+
         try {
             // Resolve lemma IDs
             const lemmaIds = this.teiExplorer.resolveLemmaIds(searchTerms);
@@ -228,15 +236,21 @@ export class MultiLemmaSearchUI {
                 const maxDistance = parseInt(this.proximityDistance.value) || 10;
                 // Try fast index-based search first (falls back to XML if needed)
                 results = await teiManager.searchMultipleLemmasUsingIndex(lemmaIds, 'proximity', maxDistance);
+                if (getNavigationEpoch() !== myEpoch) return;
                 this.teiExplorer.displayCooccurrenceResults(results, searchTerms, maxDistance, lemmaIds);
             } else {
                 // Use fast index-based search for paragraph/document mode
                 results = await teiManager.searchMultipleLemmasUsingIndex(lemmaIds, searchMode);
+                if (getNavigationEpoch() !== myEpoch) return;
                 this.teiExplorer.displayMultiLemmaResults(results, searchTerms, searchMode);
             }
 
         } catch (error) {
             console.error('Search error:', error);
+            // Gleicher Epoch-Guard wie in den Success-Pfaden: eine nach dem
+            // View-Wechsel fehlschlagende Suche darf die neue View nicht mit
+            // der Fehlermeldung überschreiben (Review-Finding PR #174).
+            if (getNavigationEpoch() !== myEpoch) return;
             if (resultsContainer) {
                 resultsContainer.innerHTML = `
                     <div class="text-sm text-red-600">

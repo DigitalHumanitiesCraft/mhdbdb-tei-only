@@ -100,16 +100,21 @@ export class AuthorityFilesManager {
     const normalized = orthography.toLowerCase();
     const normalizedCharacters = TextNormalizer.normalizeMHG(normalized);
 
-    // Stage 1: Try exact match in lexicon (fastest, canonical forms)
-    // Try both original and normalized
-    const exactMatch = this.authorityData.lemmata.find(lemma => {
+    // Stage 1: Exact match in lexicon (canonical forms). Sammelt ALLE
+    // Homographen (z.B. rôt: NAM lemma_11330, NOM lemma_19417, ADJ
+    // lemma_4954) statt nur den ersten Array-Treffer — matches[0]-Konsumenten
+    // (Multi-Lemma-Suche, Kookkurrenz, Reim, Versposition) bekamen sonst
+    // je nach Index-Reihenfolge einen 1-Beleg-Eigennamen statt des
+    // hochfrequenten Appellativs (#163/#164). Sortierung: Korpus-Frequenz
+    // absteigend, bei Gleichstand diakritisch-exakte Eingabe zuerst.
+    const exactMatches = this.authorityData.lemmata.filter(lemma => {
       if (!lemma.lemma) return false;
       const lemmaLower = lemma.lemma.toLowerCase();
       const lemmaNormalized = TextNormalizer.normalizeMHG(lemmaLower);
       return lemmaLower === normalized || lemmaNormalized === normalizedCharacters;
     });
-    if (exactMatch) {
-      return [exactMatch];
+    if (exactMatches.length > 0) {
+      return this.rankHomographs(exactMatches, normalized);
     }
 
     // Stage 2: Search in variants index (orthographic variants from TEI corpus)
@@ -135,6 +140,48 @@ export class AuthorityFilesManager {
       return TextNormalizer.matchesNormalized(lemma.lemma, orthography);
     });
     return partialMatches;
+  }
+
+  /**
+   * Homographen nach Korpus-Frequenz absteigend sortieren; bei Gleichstand
+   * gewinnt die diakritisch-exakte Schreibform der Eingabe, danach bleibt
+   * die Index-Reihenfolge stabil. Ist der Corpus-Index noch nicht geladen,
+   * sind alle Frequenzen 0 und die bisherige Reihenfolge bleibt erhalten.
+   */
+  rankHomographs(lemmata, normalizedInput) {
+    if (lemmata.length <= 1) return lemmata;
+    const decorated = lemmata.map((lemma, idx) => ({
+      lemma,
+      idx,
+      freq: this.getCorpusFrequency(lemma.id),
+      exact: lemma.lemma && lemma.lemma.toLowerCase() === normalizedInput ? 0 : 1
+    }));
+    decorated.sort((a, b) =>
+      (b.freq - a.freq) || (a.exact - b.exact) || (a.idx - b.idx)
+    );
+    return decorated.map(d => d.lemma);
+  }
+
+  /**
+   * Gesamtzahl der Vorkommen eines Lemmas im Korpus (Summe über alle
+   * texts[].lemmata[id]-Positionslisten des Corpus-Index). Ergebnisse werden
+   * gecacht — aber erst, sobald der Corpus-Index geladen ist, damit ein
+   * früher Aufruf (Autocomplete vor Corpus-Load) keine Nullen einfriert.
+   */
+  getCorpusFrequency(lemmaId) {
+    if (this._corpusFreqCache?.has(lemmaId)) {
+      return this._corpusFreqCache.get(lemmaId);
+    }
+    const texts = window.playground?.corpusData?.texts;
+    if (!texts || texts.length === 0) return 0;
+    let total = 0;
+    for (const t of texts) {
+      const positions = t.lemmata?.[lemmaId];
+      if (positions) total += positions.length;
+    }
+    if (!this._corpusFreqCache) this._corpusFreqCache = new Map();
+    this._corpusFreqCache.set(lemmaId, total);
+    return total;
   }
 
   findLemmaById(lemmaId) {

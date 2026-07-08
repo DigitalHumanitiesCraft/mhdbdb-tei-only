@@ -11,9 +11,12 @@
  * Analog zu lemma-distribution.js (#90), aber concept-basiert (#47-R2).
  */
 
+import { getNavigationEpoch } from '../core/router.js';
+
 const DEFAULT_STATE = Object.freeze({
   query: '',
   resolvedConcept: null,     // {id, termDE, termEN, normalized} oder null
+  selectedConcept: null,     // explizite Autocomplete-Auswahl (#163) — schlägt resolveQuery
   candidates: [],            // alternative Concept-Matches
   matchingLemmata: [],       // [{id, lemma}] alle Lemmata, die diesen Concept referenzieren
   distribution: null,        // [{id, title, count, ...}] oder null wenn (noch) nicht berechnet
@@ -180,6 +183,8 @@ export class ConceptDistribution {
     const lemmaIds = matchingLemmata.map(l => l.id);
     const hits = [];
     let chunkStart = performance.now();
+    const myGen = this._searchGen;
+    const myEpoch = getNavigationEpoch();
     for (let i = 0; i < texts.length; i++) {
       const text = texts[i];
       let total = 0;
@@ -206,6 +211,9 @@ export class ConceptDistribution {
       if (performance.now() - chunkStart > CHUNK_BUDGET_MS) {
         if (onProgress) onProgress((i + 1) / texts.length);
         await yieldToMain();
+        // Abort on new search (generation token, #168) OR router navigation
+        // to another view (epoch, #159) while we were yielding.
+        if (this._searchGen !== myGen || getNavigationEpoch() !== myEpoch) return null;
         chunkStart = performance.now();
       }
     }
@@ -542,18 +550,33 @@ export class ConceptDistribution {
       this.state.query = input.value;
       this.closeAutocomplete();
       const { resolved, candidates } = this.resolveQuery(this.state.query);
-      this.state.resolvedConcept = resolved;
+      // Explizite Autocomplete-Auswahl (#163) schlägt die String-Auflösung —
+      // aber nur solange der Query-Text noch der gewählten Form entspricht.
+      const sel = this.state.selectedConcept;
+      const useSelected = sel && (sel.termDE || sel.id) === (this.state.query || '').trim();
+      const concept = useSelected ? sel : resolved;
+      this.state.resolvedConcept = concept;
       this.state.candidates = candidates;
-      this.state.matchingLemmata = resolved ? this.findMatchingLemmata(resolved.id) : [];
+      this.state.matchingLemmata = concept ? this.findMatchingLemmata(concept.id) : [];
       this.state.distribution = null;
 
-      if (!resolved || this.state.matchingLemmata.length === 0) {
+      if (!concept || this.state.matchingLemmata.length === 0) {
         this.state.computing = false;
         this.state.computeProgress = 0;
         this.render();
         this.refocusInput();
         return;
       }
+
+      // Such-Generation (#168): das computing-Flag taugt nicht als
+      // Identitätskriterium — bei zwei überlappenden Suchen gewann sonst
+      // die ÄLTERE (sie committete ihre Verteilung und setzte computing=false,
+      // die neuere verwarf sich selbst). Der Zähler macht jede Suche
+      // eindeutig; der Navigation-Epoch verhindert zusätzlich, dass ein
+      // fertiger Scan eine andere, inzwischen angezeigte View überschreibt (#159).
+      this._searchGen = (this._searchGen || 0) + 1;
+      const myGen = this._searchGen;
+      const myEpoch = getNavigationEpoch();
 
       // Asynchrone Aggregation mit Chunking. Render Spinner zuerst, dann
       // Patch-Update der Progress-Bar ohne komplettes re-render (Form bleibt
@@ -564,6 +587,7 @@ export class ConceptDistribution {
       this.refocusInput();
 
       const dist = await this.computeDistribution(this.state.matchingLemmata, (frac) => {
+        if (this._searchGen !== myGen) return;
         this.state.computeProgress = frac;
         const bar = document.getElementById('cdProgressBar');
         const label = document.getElementById('cdProgressLabel');
@@ -571,9 +595,13 @@ export class ConceptDistribution {
         if (label) label.textContent = `${Math.round(frac * 100)} %`;
       });
 
-      // Falls inzwischen eine neue Suche gestartet wurde (matchingLemmata
-      // hat sich geaendert), Ergebnis verwerfen.
-      if (!this.state.computing) return;
+      // Nur committen, wenn dies noch die aktuelle Suche ist und der User
+      // nicht wegnavigiert hat.
+      if (this._searchGen !== myGen || getNavigationEpoch() !== myEpoch) return;
+      if (!dist) {
+        this.state.computing = false;
+        return;
+      }
 
       this.state.distribution = dist;
       this.state.computing = false;
@@ -587,6 +615,8 @@ export class ConceptDistribution {
     if (input) {
       // Live-Suggestions waehrend Tippen
       input.addEventListener('input', (e) => {
+        // Manuelle Eingabe invalidiert eine frühere Dropdown-Auswahl (#163).
+        this.state.selectedConcept = null;
         this.updateAutocomplete(e.target.value);
       });
 
@@ -599,6 +629,7 @@ export class ConceptDistribution {
           if (open && this.state.autocompleteIndex >= 0) {
             const c = this.state.autocompleteItems[this.state.autocompleteIndex];
             input.value = c.termDE || c.id;
+            this.state.selectedConcept = c;
             this.closeAutocomplete();
             runSearch();
             return;
@@ -652,6 +683,7 @@ export class ConceptDistribution {
         if (!c) return;
         const inputEl = document.getElementById('cdQuery');
         if (inputEl) inputEl.value = c.termDE || c.id;
+        this.state.selectedConcept = c;
         this.closeAutocomplete();
         runSearch();
       });

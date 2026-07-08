@@ -11,6 +11,7 @@
 const DEFAULT_STATE = Object.freeze({
   query: '',
   resolvedLemma: null,       // {id, lemma, pos} oder null
+  selectedLemma: null,       // explizite Autocomplete-Auswahl (#163) — schlägt resolveQuery
   candidates: [],            // alternative Resolutions bei Partial-Match
   sortBy: 'frequency',       // 'frequency' | 'alphabetic'
   freqMode: 'absolute',      // 'absolute' | 'relative'
@@ -339,7 +340,11 @@ export class LemmaDistribution {
       this.state.query = input.value;
       this.closeAutocomplete();
       const { resolved, candidates } = this.resolveQuery(this.state.query);
-      this.state.resolvedLemma = resolved;
+      // Explizite Autocomplete-Auswahl (#163) schlägt die String-Auflösung —
+      // aber nur solange der Query-Text noch der gewählten Form entspricht.
+      const sel = this.state.selectedLemma;
+      const useSelected = sel && (sel.lemma || sel.id) === (this.state.query || '').trim();
+      this.state.resolvedLemma = useSelected ? sel : resolved;
       this.state.candidates = candidates;
       this.render();
       // Restore focus after re-render (only if user just clicked search)
@@ -354,7 +359,11 @@ export class LemmaDistribution {
 
     const input = document.getElementById('ldQuery');
     if (input) {
-      input.addEventListener('input', (e) => this.updateAutocomplete(e.target.value));
+      input.addEventListener('input', (e) => {
+        // Manuelle Eingabe invalidiert eine frühere Dropdown-Auswahl (#163).
+        this.state.selectedLemma = null;
+        this.updateAutocomplete(e.target.value);
+      });
       input.addEventListener('keydown', (e) => {
         const open = this.state.autocompleteOpen && this.state.autocompleteItems.length > 0;
         if (e.key === 'Enter') {
@@ -362,6 +371,7 @@ export class LemmaDistribution {
           if (open && this.state.autocompleteIndex >= 0) {
             const c = this.state.autocompleteItems[this.state.autocompleteIndex];
             input.value = c.lemma || c.id;
+            this.state.selectedLemma = c;
             this.closeAutocomplete();
             runSearch();
             return;
@@ -402,6 +412,7 @@ export class LemmaDistribution {
         if (!c) return;
         const inputEl = document.getElementById('ldQuery');
         if (inputEl) inputEl.value = c.lemma || c.id;
+        this.state.selectedLemma = c;
         this.closeAutocomplete();
         runSearch();
       });

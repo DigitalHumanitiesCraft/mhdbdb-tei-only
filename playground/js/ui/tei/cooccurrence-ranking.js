@@ -9,9 +9,12 @@
  * Issue: #107
  */
 
+import { getNavigationEpoch } from '../core/router.js';
+
 const DEFAULT_STATE = Object.freeze({
   query: '',
   resolvedLemma: null,
+  selectedLemma: null,        // explizite Autocomplete-Auswahl (#163) — schlägt resolveQuery
   candidates: [],
   window: 10,                 // ± Nachbarn pro Vorkommen
   topN: 50,
@@ -86,10 +89,12 @@ export class CooccurrenceRanking {
     let totalOccurrences = 0;
     let chunkStart = performance.now();
     const myToken = this._abortToken;
+    const myEpoch = getNavigationEpoch();
 
     for (let i = 0; i < texts.length; i++) {
-      // Abort if user triggered a new search while we were running.
-      if (this._abortToken !== myToken) return null;
+      // Abort on new search in this module (token) OR router navigation
+      // to another view (epoch, #159) while we were running.
+      if (this._abortToken !== myToken || getNavigationEpoch() !== myEpoch) return null;
 
       const text = texts[i];
       const positions = text.lemmata?.[targetLemmaId];
@@ -114,7 +119,7 @@ export class CooccurrenceRanking {
       if (performance.now() - chunkStart > CHUNK_BUDGET_MS) {
         if (onProgress) onProgress((i + 1) / texts.length);
         await yieldToMain();
-        if (this._abortToken !== myToken) return null;
+        if (this._abortToken !== myToken || getNavigationEpoch() !== myEpoch) return null;
         chunkStart = performance.now();
       }
     }
@@ -169,10 +174,15 @@ export class CooccurrenceRanking {
 
   async runSearch() {
     const { resolved, candidates } = this.resolveQuery(this.state.query);
-    this.state.resolvedLemma = resolved;
+    // Explizite Autocomplete-Auswahl (#163) schlägt die String-Auflösung —
+    // aber nur solange der Query-Text noch der gewählten Form entspricht
+    // (Tippen setzt selectedLemma im input-Handler zurück).
+    const sel = this.state.selectedLemma;
+    const useSelected = sel && (sel.lemma || sel.id) === (this.state.query || '').trim();
+    this.state.resolvedLemma = useSelected ? sel : resolved;
     this.state.candidates = candidates;
     this.state.result = null;
-    if (!resolved) {
+    if (!this.state.resolvedLemma) {
       this.render();
       return;
     }
@@ -182,12 +192,14 @@ export class CooccurrenceRanking {
     this.render();
 
     const myToken = this._abortToken;
-    const result = await this.computeCooccurrences(resolved.id, this.state.window, (p) => {
+    const myEpoch = getNavigationEpoch();
+    const target = this.state.resolvedLemma;
+    const result = await this.computeCooccurrences(target.id, this.state.window, (p) => {
       if (this._abortToken !== myToken) return;
       this.state.progress = p;
       this.updateProgressBar();
     });
-    if (this._abortToken !== myToken) return;
+    if (this._abortToken !== myToken || getNavigationEpoch() !== myEpoch) return;
     if (!result) {
       this.state.computing = false;
       return;
@@ -195,26 +207,13 @@ export class CooccurrenceRanking {
 
     const partners = this.enrichPartners(result.counts);
     this.state.result = {
-      targetLemmaId: resolved.id,
+      targetLemmaId: target.id,
       totalOccurrences: result.totalOccurrences,
       partners,
       _rawCounts: result.counts // fuer POS-Mode-Switching ohne Re-Compute
     };
     this.state.computing = false;
-    // Nicht rendern, wenn der User während des Scans zu einer anderen
-    // Playground-View navigiert ist — sonst überschreibt das fertige
-    // Ergebnis die aktuell angezeigte View in #resultsContainer (#106-Review).
-    if (!this.isActiveView()) return;
     this.render();
-  }
-
-  /**
-   * True, wenn die Router-Hash-Route noch zu diesem Modul gehört (oder kein
-   * Hash gesetzt ist, z.B. bei programmatischem show() ohne Route).
-   */
-  isActiveView() {
-    const view = (window.location.hash || '').replace(/^#/, '').split('&')[0];
-    return view === '' || view === 'cooccurrence-ranking';
   }
 
   updateProgressBar() {
@@ -499,7 +498,11 @@ export class CooccurrenceRanking {
 
     const input = document.getElementById('coRkQuery');
     if (input) {
-      input.addEventListener('input', (e) => this.updateAutocomplete(e.target.value));
+      input.addEventListener('input', (e) => {
+        // Manuelle Eingabe invalidiert eine frühere Dropdown-Auswahl (#163).
+        this.state.selectedLemma = null;
+        this.updateAutocomplete(e.target.value);
+      });
       input.addEventListener('keydown', (e) => {
         const open = this.state.autocompleteOpen && this.state.autocompleteItems.length > 0;
         if (e.key === 'Enter') {
@@ -507,6 +510,7 @@ export class CooccurrenceRanking {
           if (open && this.state.autocompleteIndex >= 0) {
             const c = this.state.autocompleteItems[this.state.autocompleteIndex];
             input.value = c.lemma || c.id;
+            this.state.selectedLemma = c;
             this.closeAutocomplete();
             runSearch();
             return;
@@ -547,6 +551,7 @@ export class CooccurrenceRanking {
         if (!c) return;
         const inputEl = document.getElementById('coRkQuery');
         if (inputEl) inputEl.value = c.lemma || c.id;
+        this.state.selectedLemma = c;
         this.closeAutocomplete();
         runSearch();
       });

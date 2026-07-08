@@ -254,8 +254,9 @@ test.describe('Search Normalization Test Suite', () => {
                 // Stage 3: Partial match fallback
 
                 // expectedLemma prüft die Stufe wirklich (Audit #112):
-                // Stage 1/2 liefern genau EIN Lemma (Exact bzw. Variants-Hit
-                // auf lemma_879), Stage 3 (Partial) liefert viele Treffer.
+                // Stage 1/2 liefern bei eindeutigen Lemmata genau EIN Lemma
+                // (Exact bzw. Variants-Hit auf lemma_879), Stage 3 (Partial)
+                // liefert viele Treffer.
                 const testCases = [
                     { input: 'brôt', stage: 1, desc: 'Exact lexicon match', expectedLemma: 'lemma_879', exactCount: 1 },
                     { input: 'brott', stage: 2, desc: 'Exact variant match', expectedLemma: 'lemma_879', exactCount: 1 },
@@ -292,6 +293,40 @@ test.describe('Search Normalization Test Suite', () => {
                     expect(tc.foundIds, `${tc.input}: erwartetes Lemma`).toContain(tc.expectedLemma);
                 }
                 expect(tc.foundLemmas).toBeGreaterThanOrEqual(tc.minCount);
+            });
+        });
+
+        test('8b. searchLemmaByOrthography - Homographen frequenz-sortiert (#163/#164)', async () => {
+            // "rôt" existiert dreimal im Lexikon: lemma_11330 "Rot" (NAM,
+            // 1 Korpus-Beleg), lemma_19417 "rot" (NOM, 1 Beleg), lemma_4954
+            // "rôt" (ADJ, 1567 Belege). Stage 1 muss ALLE Homographen liefern,
+            // frequenz-sortiert, damit matches[0]-Konsumenten (Multi-Lemma-
+            // Suche, Kookkurrenz, Reim, Versposition) das plausibelste Lemma
+            // bekommen — nicht das zufällig erste im Index (#164: rôt+munt
+            // lieferte 0 Treffer, weil der Eigenname "Rot" gewann).
+            await page.waitForFunction(() => {
+                return window.playground?.corpusData?.texts?.length > 0;
+            }, { timeout: 60000 });
+
+            const result = await page.evaluate(() => {
+                const manager = window.playground.authorityManager;
+                return ['rôt', 'rot'].map(input => {
+                    const lemmas = manager.searchLemmaByOrthography(input);
+                    return {
+                        input,
+                        count: lemmas.length,
+                        firstId: lemmas[0]?.id,
+                        ids: lemmas.map(l => l.id)
+                    };
+                });
+            });
+
+            result.forEach(r => {
+                console.log(`  "${r.input}" → ${r.count} Homographen, erster: ${r.firstId} [${r.ids.join(', ')}]`);
+                expect(r.count, `${r.input}: alle Homographen müssen zurückkommen`).toBe(3);
+                expect(r.firstId, `${r.input}: frequentestes Lemma (ADJ rôt) muss zuerst stehen`).toBe('lemma_4954');
+                expect(r.ids).toContain('lemma_11330');
+                expect(r.ids).toContain('lemma_19417');
             });
         });
 
