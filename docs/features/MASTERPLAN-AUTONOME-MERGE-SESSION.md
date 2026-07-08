@@ -2,6 +2,8 @@
 
 Gegenstück zum `MASTERPLAN-AUTONOME-ISSUE-SESSION.md`: Während die Issue-Session PRs **erzeugt**, arbeitet die Merge-Session den offenen PR-Bestand **nach main ab**. Wiederverwendbares Verfahren; der konkrete PR-Bestand steht jeweils im Anhang. Temporal Artifact: nach erfolgreicher Session Kernwissen ins JOURNAL, Datei aktualisieren oder löschen.
 
+> **Speicherort-Hinweis (Henne-Ei):** Bis zum Merge von PR #186 existiert diese Datei NUR auf dem Branch `claude/session-0708-docs` — sie ist selbst Teil des Merge-Bestands, den sie beschreibt. Zugriff aus einer frischen Session: `git fetch origin && git show origin/claude/session-0708-docs:docs/features/MASTERPLAN-AUTONOME-MERGE-SESSION.md`. Nach dem #186-Merge liegt sie regulär auf main.
+
 ## Betriebsvertrag (gilt nur nach explizitem User-Kickoff)
 
 Dieser Plan autorisiert NICHTS. Eine Merge-Session startet erst, wenn der User sie mit einem Kickoff-Prompt eröffnet, der ausdrücklich enthält:
@@ -16,10 +18,10 @@ Unverändert aus dem Issue-Session-Vertrag: Issues nie manuell schließen (nur v
 
 Ein PR wird nur gemerged, wenn ALLE Gates grün sind:
 
-- **G1 CI grün** auf dem aktuellen Head (nach Retarget/Rebase neu abwarten!).
+- **G1 CI grün** auf dem aktuellen Head. Achtung: Ein reines Base-Retarget (nach Merge + Branch-Löschung der Basis) triggert KEINE neuen Workflow-Läufe (`on: pull_request` hört default nur auf opened/synchronize/reopened, nicht auf den Base-Wechsel) — die angezeigten grünen Checks liefen dann noch gegen die alte Base. Bei Daten-PRs (Index-/api/-Änderungen) deshalb nach dem Retarget einen Re-Run anstoßen (`gh run rerun <letzter Lauf>` oder leerer Commit); bei reinen Code-/Doku-PRs genügt der letzte grüne Lauf — das main-CI nach dem Merge ist das Netz. Nach einem Rebase (neuer Head) laufen Checks regulär neu an: abwarten.
 - **G2 Review-Triage abgeschlossen:** Bot-Review(s) vorhanden und im PR-Body triagiert (umgesetzt oder begründet abgelehnt). Trifft NACH dem letzten Push ein neues Bot-Review ein, wird es erst triagiert (receiving-code-review: echter Bug / Stilfrage / False Positive), dann gemerged.
 - **G3 Kein menschliches Veto offen:** Reviews von KZW/chsteiner mit Änderungswunsch blockieren. Abgrenzung beachten: menschliche Freigaben, die das ISSUE betreffen (z. B. Alans Text-Freigabe für #86, KZWs Freigabe des Rektoratsberichts VOR VERSAND), blockieren den Repo-Merge NICHT — der PR merged Entwürfe/Teilarbeit ins Repo, das Issue bleibt offen.
-- **G4 Mergeability:** GitHub meldet keinen Konflikt. Bei Konflikt: Branch auf main rebasen, Konflikt lösen, npm test (bei Code), push, CI abwarten.
+- **G4 Mergeability:** GitHub meldet keinen Konflikt. Bei Konflikt: Branch auf main rebasen, Konflikt lösen, npm test (bei Code), `push --force-with-lease` (nach Rebase nötig; das Force-Verbot gilt nur für main, auf claude/*-PR-Branches ist es Standard), CI abwarten.
 - **G5 Stack-Reihenfolge:** Ein gestackter PR wird nie vor seiner Basis gemerged.
 
 ## Verfahren
@@ -32,10 +34,10 @@ Ein PR wird nur gemerged, wenn ALLE Gates grün sind:
 ### Phase 1: Merge-Schleife (pro PR)
 1. Gates G1–G5 prüfen.
 2. `gh pr merge <nr> --merge --delete-branch` (Repo-Konvention: Merge-Commit, kein Squash — erhält die Folge-Commit-Historie der Review-Triage). GitHub retargetet abhängige Stack-PRs beim Löschen des Base-Branches automatisch auf main.
-3. CI auf main abwarten (v. a. `data-integrity.yml` bei Daten-PRs). Rot → STOPP: diagnostizieren, fixen oder Session dokumentiert abbrechen; NIE „einfach weitermergen".
-4. Beim nächsten PR der Kette: Checks laufen nach Retarget neu an — abwarten (G1).
+3. CI auf main abwarten (v. a. `data-integrity.yml` bei Daten-PRs). Rot → STOPP der Merge-Schleife: diagnostizieren; der Fix läuft als neuer claude/*-Hotfix-Branch + PR (der gemergte PR-Branch ist gelöscht, und die Kickoff-Autorisierung deckt Merges, KEINE direkten main-Pushes). Erst nach grünem main weitermergen; NIE „einfach weitermergen".
+4. Beim nächsten PR der Kette: Retarget-Verhalten aus G1 beachten (Checks laufen bei reinem Retarget NICHT automatisch neu).
 
-### Phase 2: Nach jeder Kette (Live-Verifikation)
+### Phase 2: Nach jeder Kette und nach dem Block der unabhängigen PRs (Live-Verifikation, gebündelt zulässig)
 1. GitHub-Pages-Deploy abwarten (Actions).
 2. Chrome-Smoke auf der Live-URL — **Hard-Reload** (http-Cache!) und bei Index-Bumps den IndexedDB-Cache-Bust verifizieren (Konsole: neue Version geladen).
 3. Kern-Flows je nach Kette (siehe Anhang).
@@ -52,8 +54,9 @@ Ein PR wird nur gemerged, wenn ALLE Gates grün sind:
 
 | Situation | Reaktion |
 |---|---|
-| CI rot nach Retarget | Ursache prüfen; Freshness-Gate rot nach Daten-Merge = wahrscheinlich Rebuild-Drift → Indexe auf dem PR-Branch neu bauen, committen |
-| Merge-Konflikt Kette B nach Kette-A-Merge | Erwartbar nur in geteilten Doku-Dateien (CONTRACTS/INDEX/TEI-MODEL, disjunkte Hunks) — rebase, lösen, npm test, push |
+| CI rot IM PR (nach Re-Run oder Rebase) | Ursache prüfen; Freshness-Gate rot = wahrscheinlich Rebuild-Drift → Indexe auf dem PR-Branch neu bauen, committen, pushen |
+| CI rot AUF MAIN (nach Merge) | STOPP der Merge-Schleife; Fix als neuer claude/*-Hotfix-Branch + PR (PR-Branch ist gelöscht, direkter main-Push nicht autorisiert); erst nach grünem main weiter |
+| Merge-Konflikt Kette B nach Kette-A-Merge | Erwartbar nur in geteilten Doku-Dateien (CONTRACTS/INDEX/TEI-MODEL, disjunkte Hunks) — rebase, lösen, npm test, `push --force-with-lease` |
 | Neues Bot-Review mit echtem Bug kurz vor Merge | Fix als Folge-Commit + npm test + Triage-Nachtrag; erst dann mergen |
 | Playwright-Report-Server hält npm test offen | Prozess auf Port 9323 killen, Ergebnis steht in der Task-Ausgabe |
 | GitHub-API 5xx | Retry; bei anhaltend: dokumentieren, nächster PR |
@@ -62,13 +65,15 @@ Ein PR wird nur gemerged, wenn ALLE Gates grün sind:
 
 **Reihenfolge:**
 1. **Kette A:** #174 → #175 → #178 → #184
-2. **Kette B:** #177 → #183 (retargeten nach #174-Merge automatisch)
+2. **Kette B:** #177 → #183 (#177 retargetet nach dem #174-Merge, #183 nach dem #177-Merge — jeweils automatisch beim Löschen des Base-Branches)
 3. **Unabhängig:** #176, #179, #180, #181, #182, #185
 4. **Zuletzt:** #186 (vorher ROADMAP/JOURNAL per Folge-Commit auf Nach-Merge-Stand bringen)
 
+**Kommentar-Budgets (aus der Issue-Session bereits verbraucht, max. 1 Statuskommentar pro Issue gilt kumulativ):** #169, #162, #141, #110, #27, #28. Der #44-Session-Report wird ausschließlich per Edit erweitert. Vor jedem Phase-3-Ping die Issue-Kommentare prüfen: existiert schon ein Session-Statuskommentar, dort per Edit nachtragen statt neu posten.
+
 **Bekannte Überschneidungen (erwartet konfliktfrei, da disjunkte Hunks):** CONTRACTS.md (§B in Kette A / §G.3 in Kette B), docs/INDEX.md (#177-Versionszeile / #180+#181-Zeilen), TEI-MODEL.md (§2.1 in #178 / §11 in #177), cooccurrence-ranking.spec.js (#174-Basis in beiden Ketten identisch).
 
-**Smoke-Checks:** Nach Kette A: Reader ABG (Prosa-Zeilennummern numerisch, kein leerer Span), AK-Excerpt-Banner, Multi-Lemma rôt+munt (Treffer > 0). Nach Kette B: Kookkurrenz `salve` (Badges „NOM VRB", POS-Filter vrb findet salve), Authority-Cache-Bust auf v1.6.0. Nach #176: Korpussuche-Tabelle Sortierung + TSV-Export. Nach #179: hilfe-daten-beitragen Sektion 9 + barrierefreiheit-Kontaktblock.
+**Smoke-Checks:** Nach Kette A: Reader ABG (Prosa-Zeilennummern numerisch, kein leerer Span), AK-Excerpt-Banner, Multi-Lemma rôt+munt (Treffer > 0). Nach Kette B: Kookkurrenz `salve` — Zentrum- und Dropdown-Badge zeigen „NOM VRB" (der posMode-Filter wirkt auf die PARTNER-Liste, nicht das Zentrum; sein Multi-POS-Verhalten ist durch `cooccurrence-ranking.spec.js` gepinnt und braucht keinen manuellen Check) — plus Authority-Cache-Bust auf v1.6.0 (Konsole). Nach #176: Korpussuche-Tabelle Sortierung + TSV-Export. Nach #179: hilfe-daten-beitragen Sektion 9 + barrierefreiheit-Kontaktblock.
 
 **Nach-Merge-Pings (Phase 3):** #134-Banner ist KZW-relevant (via #44 oder Merge-Notiz, Kommentar-Budget beachten); #86 wartet weiter auf Alan (kein Ping — extern); #187 (posAll-Anzeige-Migration) wird durch #177-Merge startbar.
 
