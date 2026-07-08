@@ -9,6 +9,7 @@
  */
 
 import { buildTextLabelDisambiguator } from '../core/ui-helpers.js';
+import { TextNormalizer } from '../../../../assets/js/lib/text-normalizer.js';
 
 const DEFAULT_STATE = Object.freeze({
   textAId: '',
@@ -127,9 +128,11 @@ export class TextComparison {
   }
 
   filterByName(rows) {
-    const f = this.state.nameFilter.trim().toLowerCase();
+    const f = this.state.nameFilter.trim();
     if (!f) return rows;
-    return rows.filter(r => (r.lemma || r.lemmaId).toLowerCase().includes(f));
+    // MHG-normalisierter Vergleich wie im naming-explorer: „tot" muss
+    // „tôtwunt" finden (#167 Finding 23).
+    return rows.filter(r => TextNormalizer.matchesNormalized(r.lemma || r.lemmaId, f));
   }
 
   render() {

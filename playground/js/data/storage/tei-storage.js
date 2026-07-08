@@ -17,7 +17,15 @@ export class TEIStorageManager {
         if (this.isInitialized) return true;
 
         try {
-            await this.indexedDBManager.initialize();
+            // IndexedDBManager.initialize() wirft nicht, sondern liefert
+            // false (kein IndexedDB-Support / open fehlgeschlagen) — das
+            // Ergebnis darf nicht als Erfolg gemeldet werden (#167 Finding 63).
+            const ok = await this.indexedDBManager.initialize();
+            if (!ok) {
+                console.error('❌ Storage initialization failed: IndexedDB not available');
+                this.isInitialized = false;
+                return false;
+            }
             this.isInitialized = true;
 
             console.log('🔧 Storage initialized: IndexedDB cache ready');

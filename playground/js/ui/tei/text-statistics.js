@@ -245,7 +245,13 @@ export class TextStatistics {
       cb.addEventListener('change', () => {
         if (cb.checked) this.selected.add(cb.dataset.selectId);
         else this.selected.delete(cb.dataset.selectId);
-        updateBar();
+        // Im Modus „Nur Auswahl anzeigen" muss die abgewählte Zeile sofort
+        // aus der Tabelle verschwinden (#167 Finding 67).
+        if (this.showSelectedOnly) {
+          this.render();
+        } else {
+          updateBar();
+        }
       });
     });
 

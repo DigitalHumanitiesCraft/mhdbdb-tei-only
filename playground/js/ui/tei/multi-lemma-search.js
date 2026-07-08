@@ -208,6 +208,19 @@ export class MultiLemmaSearchUI {
             return;
         }
 
+        // Guard analog zu den 8 Schwester-Tools: vor dem Corpus-Load liefert
+        // die Suche sonst still leere Ergebnisse (#167 Finding 22).
+        if (!window.playground?.corpusData?.texts?.length) {
+            if (resultsContainer) {
+                resultsContainer.innerHTML = `
+                    <div class="text-sm text-red-600">
+                        Korpus ist noch nicht geladen. Bitte einen Moment warten und erneut suchen.
+                    </div>
+                `;
+            }
+            return;
+        }
+
         // Navigiert der User während der async Korpus-Suche zu einer
         // anderen View, darf das fertige Ergebnis die dort angezeigte
         // View nicht überschreiben (#159). Vor dem try deklariert, damit

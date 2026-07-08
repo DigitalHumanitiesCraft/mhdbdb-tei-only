@@ -146,6 +146,12 @@ class LemmaPage {
             navigator.clipboard.writeText(lemma.id).then(() => {
                 this.elements.copyIdBtn.textContent = 'kopiert!';
                 setTimeout(() => { this.elements.copyIdBtn.textContent = 'kopieren'; }, 1500);
+            }).catch((err) => {
+                // Verweigerte Clipboard-Permission darf keine unhandled
+                // rejection sein und braucht Nutzer-Feedback (#167 Finding 59).
+                console.warn('[LemmaPage] Clipboard nicht verfügbar:', err);
+                this.elements.copyIdBtn.textContent = 'Kopieren nicht möglich';
+                setTimeout(() => { this.elements.copyIdBtn.textContent = 'kopieren'; }, 2500);
             });
         });
 
