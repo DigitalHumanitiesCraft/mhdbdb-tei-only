@@ -11,7 +11,9 @@ Temporal Artifact zu Issue #28 (Suche nach fremdsprachigen Passagen). Grundlage:
 
 ## Grundsatzentscheidung: Lemma-Ebene führt
 
-Annotiert wird primär in `lexicon.xml` (`@xml:lang` am `<entry>` bzw. an der Lemma-Form), NICHT direkt an Millionen Token. Token-Annotation wird dann deterministisch über `@lemmaRef` abgeleitet. Vorteile: 43.879 Entscheidungen statt 7,4 Mio.; Kuratierbarkeit; eine Quelle der Wahrheit; der Data-Change-Lifecycle bleibt beherrschbar. Token-AUSNAHMEN (ein im Kontext lateinisches Zitat eines sonst-mhd Lemmas) bleiben als manuelle Overrides möglich (direktes `<w xml:lang>`), werden aber nicht systematisch erzeugt.
+Annotiert wird primär in `lexicon.xml` (`@xml:lang` am `<entry>` bzw. an der Lemma-Form), NICHT direkt an Millionen Token. Token-Annotation wird dann deterministisch über `@lemmaRef` abgeleitet. Vorteile: 43.879 Entscheidungen statt 7,5 Mio. (7.533.447 annotierte Tokens, Corpus-Index v4.1.5); Kuratierbarkeit; eine Quelle der Wahrheit; der Data-Change-Lifecycle bleibt beherrschbar. Token-AUSNAHMEN (ein im Kontext lateinisches Zitat eines sonst-mhd Lemmas) bleiben als manuelle Overrides möglich (direktes `<w xml:lang>`), werden aber nicht systematisch erzeugt.
+
+Kein Widerspruch zu CONTRACTS §F.1 („Corpus Leads, Authority Follows"): §F regelt, dass Lemma-Existenz und -Zählung aus dem Korpusbestand abgeleitet werden und `lexicon.xml` dabei Index ist. Die Sprachzuordnung ist dagegen eine NEUE, eigenständig kuratierte Eigenschaft, die im Korpus nirgends vorhanden ist (0 Token-Annotationen) — `lexicon.xml` ist dafür die Erfassungsoberfläche. Das ist eine bewusste, auf dieses Feature begrenzte Festlegung, keine Änderung der generellen Authority-Source-Regel.
 
 ## Phase 0: Zielformat + Policy (S)
 
@@ -36,7 +38,7 @@ Annotiert wird primär in `lexicon.xml` (`@xml:lang` am `<entry>` bzw. an der Le
 
 - lexicon.xml: `xml:lang` an akzeptierte Lemmata (Skript, deterministisch, mit Provenienz-Log unter `ingest/foreign-lang/`).
 - Token-Ableitung: build-corpus-index erweitert um `foreignTokens[]` pro Text (position, lang) via lemmaRef-Lookup — KEINE Massen-Edits an `tei/*.xml` nötig. (Entscheidungspunkt: Token-`@xml:lang` zusätzlich physisch ins TEI schreiben? Empfehlung: nein, die Index-Ableitung genügt fürs Feature; TEI-Schreibung nur, wenn FAIR/Export es verlangt — dann eigener Bulk-Lauf mit Schema-Validierung.)
-- Data-Change-Lifecycle: Authority-Index-Bump (lexicon-Feld additiv `lang`), Corpus-Index-Bump (`foreignTokens`), API-Rebuild, CONTRACTS-§G-Ergänzung.
+- Data-Change-Lifecycle: Authority-Index-Bump (lexicon-Feld additiv `lang`), Corpus-Index-Bump (`foreignTokens`), API-Rebuild. CONTRACTS: das additive API-Feld `lang` in §G.3 (Full-Record-Schema) nachtragen; der Ableitungs-Contract selbst (Lemma-Ebene führt, Token via `lemmaRef` abgeleitet, Overrides gewinnen) kommt als NEUE §H — §G ist vollständig der statischen JSON-API (#45) gewidmet und darf nicht mit dem Sprach-Contract vermischt werden.
 
 ## Phase 4: Frontend (L, = ursprüngliches #28-Feature)
 
