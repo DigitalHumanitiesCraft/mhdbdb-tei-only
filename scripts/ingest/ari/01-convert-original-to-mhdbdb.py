@@ -36,6 +36,7 @@ Verwendung:
 import argparse
 import sys
 from pathlib import Path
+from xml.sax.saxutils import escape
 from lxml import etree
 
 TEI_NS = "http://www.tei-c.org/ns/1.0"
@@ -241,11 +242,14 @@ def convert(input_path, sigle, title_de, source_url, output_path, dry_run):
     tei = etree.Element(f"{{{TEI_NS}}}TEI", nsmap=nsmap)
     tei.set(f"{{{XML_NS}}}id", sigle)
 
-    # Header aus Template
+    # Header aus Template. Vollstaendiges XML-Escaping (#171 Finding 27):
+    # das blosse "-Replace liess & und < durch — ein & im Titel oder in der
+    # GAMS-URL (Query-Parameter!) crashte etree.fromstring. source_url steht
+    # in einem target-Attribut, daher auch " mitescapen.
     header_xml = HEADER_TEMPLATE.format(
         sigle=sigle,
-        title_de=title_de.replace('"', "&quot;"),
-        source_url=source_url,
+        title_de=escape(title_de, {'"': "&quot;"}),
+        source_url=escape(source_url, {'"': "&quot;"}),
     )
     header = etree.fromstring(header_xml)
     tei.append(header)
