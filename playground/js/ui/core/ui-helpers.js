@@ -422,8 +422,12 @@ export async function enrichFileResults(fileResults, lemmaIds) {
           // Paritäts-Guard (#170, analog #131): der Python-Build überspringt
           // leere <w lemmaRef/> (build-corpus-index.py, text_content-Check) —
           // ohne denselben Guard verschöbe ein einziges leeres <w> alle
-          // Kontextfenster hinter ihm (CONTRACTS §B).
-          if (!w.textContent.trim()) continue;
+          // Kontextfenster hinter ihm (CONTRACTS §B). Der lemmaRef-Check
+          // prüft den Attribut-WERT, nicht nur die Existenz: der XPath
+          // [@lemmaRef] matcht auch lemmaRef="" — Python (falsy-Check) und
+          // Reader (falsy-Check) überspringen das, dieser Pfad muss es
+          // genauso tun (#184 Review-Finding, 2. Runde).
+          if (!w.getAttribute('lemmaRef') || !w.textContent.trim()) continue;
           indexedWords.push(w);
         }
 

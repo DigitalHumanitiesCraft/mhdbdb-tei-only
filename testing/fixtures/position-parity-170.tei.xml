@@ -10,9 +10,13 @@
      the Python build produced the broken key "lemma_1 lexicon.xml" instead of
      registering the position under BOTH ids.
 
-  Counted positions (only non-empty <w> carrying @lemmaRef, document order, 0-based):
+  Counted positions (only non-empty <w> carrying a non-empty @lemmaRef,
+  document order, 0-based):
     pos 0 : <w lemmaRef="lexicon.xml#lemma_1">Wir</w>
     pos 1 : <w lemmaRef="lexicon.xml#lemma_2">anno</w>     inside <note type="date">
+    skip  : <w lemmaRef="">leer</w>       empty ATTRIBUTE VALUE — an XPath
+            [@lemmaRef] existence test matches it, but Python and the reader
+            skip falsy values, so every counting path must too (#184 review)
     pos 2 : <w lemmaRef="lexicon.xml#lemma_1 lexicon.xml#lemma_3">wirt</w>
     pos 3 : <w lemmaRef="lexicon.xml#lemma_4">hie</w>
 
@@ -41,6 +45,7 @@
       <p>
         <w lemmaRef="lexicon.xml#lemma_1">Wir</w>
         <note type="date" n="1291"><w lemmaRef="lexicon.xml#lemma_2">anno</w></note>
+        <w lemmaRef="">leer</w>
         <w lemmaRef="lexicon.xml#lemma_1 lexicon.xml#lemma_3">wirt</w>
         <w lemmaRef="lexicon.xml#lemma_4">hie</w>
       </p>
