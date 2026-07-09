@@ -29,12 +29,12 @@ Dieses Repository ist der alleinige Master der Daten (kein laufender Re-Export a
 | Aspekt | **Hauptseite** ([index.html](index.html)) | **Playground** ([playground/](playground/index.html)) |
 |--------|-------------------------------------------|--------------------------------------------------------|
 | **Zweck** | Öffentliche Suche & Lektüre | Erweiterte Forschung & Analyse |
-| **Suche** | Einzel-Lemma mit Filtern und KWIC-Belegen | Multi-Lemma, Proximity und neun TEI-Analyse-Werkzeuge |
+| **Suche** | Einzel-Lemma mit Filtern und KWIC-Belegen | Multi-Lemma, Proximity und zehn TEI-Analyse-Werkzeuge |
 | **Zielgruppe** | Allgemeines Publikum, Studierende | Forschende, Mediävist:innen |
 
-**Hauptseite:** Einzel-Lemma-Suche mit mittelhochdeutscher Normalisierung, ausklappbaren KWIC-Belegen (Keyword-in-Context mit Vers-/Zeilenangabe), Textauswahl per Checkbox, A–Z-[Wörterbuch](woerterbuch.html) zu allen ~43.750 Lemmata mit eigenen persistenten [Lemma-Seiten](lemma/) (client-seitig gerendert) sowie eine Reading View mit Multi-Lemma-Highlighting, Metadaten-Panel (Wikidata/GND), Wörterbuch-Links (MWB, Lexer) und TEI-Download pro Text.
+**Hauptseite:** Einzel-Lemma-Suche mit mittelhochdeutscher Normalisierung, ausklappbaren KWIC-Belegen (Keyword-in-Context mit Vers-/Zeilenangabe), Textauswahl per Checkbox, A–Z-[Wörterbuch](woerterbuch.html) zu allen 43.879 Lemmata mit eigenen persistenten [Lemma-Seiten](lemma/) (client-seitig gerendert) sowie eine Reading View mit Multi-Lemma-Highlighting, Metadaten-Panel (Wikidata/GND), Wörterbuch-Links (MWB, Lexer) und TEI-Download pro Text.
 
-**Playground:** sechs Authority-File-Explorer plus neun TEI-Analyse-Werkzeuge über dem vorgeladenen Korpus: Multi-Lemma-Suche (Dokument- und Proximity-Ebene), Lemmasuche nach Versposition, Wortfrequenz, Text-Statistiken, Lemma-Verteilung, Begriffs-Verteilung, Textvergleich, Kookkurrenz-Ranking und der kuratierte Figurenbezeichnungs-Explorer (Beta).
+**Playground:** sechs Authority-File-Explorer plus zehn TEI-Analyse-Werkzeuge über dem vorgeladenen Korpus: Multi-Lemma-Suche (Dokument- und Proximity-Ebene), Lemmasuche nach Versposition, Wortfrequenz, Text-Statistiken, Lemma-Verteilung, Begriffs-Verteilung, Textvergleich, Kookkurrenz-Ranking, Reim-Wörterbuch und der kuratierte Figurenbezeichnungs-Explorer (Beta).
 
 Beide Interfaces nutzen vorgebaute Indizes für die Suche und laden TEI-Dateien on-demand für die Text-Anzeige.
 

@@ -346,6 +346,10 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
 
 **Why v4.1.3?** #110 WVV-Rebuild — 478 zusätzliche `<lg type="stanza">`-Wraps; PATCH.
 
+**Why v4.1.4?** #125 Deterministischer Build — `generatedAt` entfernt, sortiertes glob, gzip `mtime=0`; gleicher Quellstand erzeugt byte-identische Indexe. PATCH.
+
+**Why v4.1.5?** #143 Prosa-Konversion APO/HMT/HH (`<l>` → `<lb/>`) — `lineStarts[]`/`lineEnds[]` entfallen für die drei Texte. PATCH.
+
 **Field name note:** the primary identifier is `id` (sigle), not `textId`. Older docs and some code paths may use `textId` — the canonical field in the index JSON is `id`.
 
 **Versions-Sync (kritisch):** der Index-Versions-String muss synchron mit `INDEX_VERSION` in `assets/js/lib/corpus-loader.js` und der `'version'`-Konstante in `scripts/build-corpus-index.py` gehalten werden. Sonst greift die Cache-Invalidate-Logik nicht (siehe `docs/CONTRACTS.md` §IndexedDB). CI-Garantie via `.github/workflows/data-integrity.yml`; lokal `python scripts/audit/check-index-versions.py` vor Commit.
