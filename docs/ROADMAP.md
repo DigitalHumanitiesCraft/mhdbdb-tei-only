@@ -6,7 +6,7 @@ See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues
 
 ## Now: Nach-Merge-Betreuung + freigeschaltete Workstreams
 
-**Erster Schritt der nächsten Arbeits-Session: Health-Check (`/promptotyping check`).** Trigger laut CLAUDE.md-Checkliste mehrfach erfüllt: großer Doku-Schwung (ROADMAP/JOURNAL/Masterpläne, 13 PRs mit Doku-Anteilen), neue Dateien/Struktur (`docs/playbooks/`), Index-Bump v1.6.0, neue Algorithmen (Homographen-Ranking, Navigation-Epoch).
+**Health-Check erledigt (2026-07-09):** Drift-Prüfung gegen main nach der Merge-Woche. Befund: Kern-Docs (TEI-MODEL §11, INDEX.md, Daten-Zählungen via `doc-count-audit.py`, Algorithmus-Spot-Checks §B.1/§D.2/posAll) ohne Drift; 5 Rand-Drifts gefixt (CLAUDE.md-Versionszeiger, README-Werkzeugzahl, LINECODE-#23-Status, DATA-MODEL-Changelog v4.1.4/v4.1.5, DECISIONS-Versionsplatzhalter). Scorecard im JOURNAL.
 
 Die autonome Merge-Session (08.07., [MASTERPLAN-AUTONOME-MERGE-SESSION](playbooks/MASTERPLAN-AUTONOME-MERGE-SESSION.md)) hat alle 13 PRs der Issue-Session nach main gebracht (#174–#186); 13 Issues wurden automatisch geschlossen (#163 #164 #159 #168 #158 #162 #160 #161 #134 #145 #27 #167 #170), #68/#86/#28/#171 bleiben planmäßig offen (Teilarbeit). Authority-Index v1.6.0 (posAll[]) ist live, Live-Smoke-Checks für beide Stack-Ketten und die Unabhängigen bestanden. Details: JOURNAL-Eintrag 08.07. (Merge-Session) + Abschlussreport in #44.
 

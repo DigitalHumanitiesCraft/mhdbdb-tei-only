@@ -293,3 +293,13 @@ Multi-Agent-Health-Check via `/promptotyping check mit /workflows` (47 Agents, 7
 3. Beide „CI rot"-Vorfälle der Session waren genau diese Payload-Artefakte, keine Datenprobleme. main-Data-Integrity war nach allen drei Daten-Merges (#178, #184, #177) grün; Pages-Deploys durchgehend erfolgreich.
 
 **Offen für Menschen:** KZW-Prüfungen (Bestand #129/#138 + neu live: #134-Banner, #160-Tabelle, #163/#164-Suchfixes, #161-Badges — via #44-Abschlussreport), Alan-Freigabe #86, Carina-Metadaten #92. **Mitten in der Session:** KZW bestätigte die #110-Empfehlung (b) und schloss das Issue (12:55) — der WVV-Strophen-Lauf ist damit voll entsperrt, steht aber noch aus. #187 (posAll-Anzeige-Migration) ist startbar. Unerwartete Auto-Schließung: #171 wurde vom #185-Merge über die Development-Verknüpfung geschlossen (kein Closes-Trailer!) — reopened; Lehre: vor dem Merge auch die Sidebar-Verknüpfungen prüfen, nicht nur die Trailer.
+
+---
+
+## 2026-07-09 – Health-Check nach Merge-Woche (Scorecard)
+
+Drift-Prüfung gegen main (`4390d4f9a`) nach den 13 Merges vom 08.07. **Kernbestand ohne Drift:** TEI-MODEL §11 deckungsgleich mit den echten Index-Headern (Corpus 4.1.5 / Authority 1.6.0, 667 Texte), INDEX.md vollständig nachgezogen (16 Entry-Points / 10 Werkzeuge, `playbooks/`, POS-TAGSET), `doc-count-audit.py --check` grün, Algorithmus-Spot-Checks 3/3 (CONTRACTS §B.1-Konsumentenregel ↔ `verse-position-search.js`/`rhyme-dictionary.js`, §D.2 DOMParser ↔ `woerterbuchnetz.js`, posAll ↔ `build-authority-index.py`).
+
+**Behoben (5 Rand-Drifts):** CLAUDE.md nannte Authority v1.4.4 → konkrete Versionen durch Zeiger auf TEI-MODEL §11 ersetzt (CLAUDE.md steht nicht in der §11-Pflegeliste); README 2× „neun" TEI-Werkzeuge + Reim-Wörterbuch fehlte in der Aufzählung + ~43.750 → 43.879 Lemmata; LINECODE.md #23 „weiterhin OPEN" (tatsächlich closed 2026-06-11); DATA-MODEL-Changelog um „Why v4.1.4/v4.1.5" ergänzt; DECISIONS.md ADR nannte konkrete v1.4.0 → §11-Verweis. ROADMAP-Health-Check-Vormerkung abgehakt.
+
+**Action Item:** #28 wurde vom #182-Merge auto-geschlossen (Development-Verknüpfung, identischer Mechanismus wie #171), obwohl ROADMAP/JOURNAL „bleiben planmäßig offen" sagen → Reopen empfohlen; damit wäre auch `docs/features/FREMDSPRACHEN-PHASENPLAN-28.md` wieder regelkonform (Feature-Doc an offenem Issue).
