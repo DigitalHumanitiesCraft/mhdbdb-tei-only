@@ -71,14 +71,18 @@ def extract(target):
     try:
         text = target['path'].read_text(encoding='utf-8')
     except FileNotFoundError:
-        sys.exit(f"::error title=Index version audit::File not found: {target['path']}")
+        # sys.exit(<string>) waere immer Exit-Code 1 — Parse-/Format-Fehler
+        # sollen laut Docstring als 2 von Drift (1) unterscheidbar sein (#171 F95).
+        print(f"::error title=Index version audit::File not found: {target['path']}")
+        sys.exit(2)
 
     m = target['pattern'].search(text)
     if not m:
-        sys.exit(
+        print(
             f"::error title=Index version audit::Pattern not found in {target['path'].relative_to(PROJECT_ROOT)}. "
             f"File format may have drifted from what this script expects. Update the regex in check-index-versions.py."
         )
+        sys.exit(2)
 
     # Find line number of the match
     lineno = text.count('\n', 0, m.start()) + 1

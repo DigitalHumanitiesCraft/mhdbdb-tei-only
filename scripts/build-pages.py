@@ -184,7 +184,10 @@ def process(rel, transform, check, changed, drift, errors):
     if not path.exists():
         errors.append(f"{rel}: file missing")
         return
-    raw = path.read_text(encoding="utf-8")
+    # read_bytes statt read_text: read_text() uebersetzt \r\n bereits zu \n
+    # (universal newlines), die CRLF-Erkennung sah also nie ein \r\n und
+    # jeder Lauf schrieb CRLF-Seiten still auf LF um (#171 F26).
+    raw = path.read_bytes().decode("utf-8")
     crlf = raw.count("\r\n")
     lf_only = raw.count("\n") - crlf
     newline = "\r\n" if crlf > lf_only else "\n"

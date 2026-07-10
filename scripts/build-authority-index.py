@@ -37,6 +37,7 @@ except ImportError:
 # Import our normalizer
 sys.path.insert(0, str(Path(__file__).parent))
 from mhg_normalizer import normalize_mhg
+from tei_namespaces import get_namespaces
 
 # Paths
 PROJECT_ROOT = Path(__file__).parent.parent
@@ -46,26 +47,6 @@ OUTPUT_FILE = DATA_DIR / 'authority-index.json.gz'
 
 # TEI namespace
 TEI_NS = {'tei': 'http://www.tei-c.org/ns/1.0'}
-
-
-def get_namespaces(tree):
-    """
-    Detect and return all namespaces in document (Critical Fix #2).
-
-    Handles default namespaces and unprefixed elements.
-    """
-    nsmap = tree.getroot().nsmap.copy()
-
-    # Move default namespace to 'tei' prefix
-    if None in nsmap:
-        nsmap['tei'] = nsmap[None]
-        del nsmap[None]
-
-    # Ensure TEI namespace exists
-    if 'tei' not in nsmap:
-        nsmap['tei'] = 'http://www.tei-c.org/ns/1.0'
-
-    return nsmap
 
 
 def parse_lexicon():

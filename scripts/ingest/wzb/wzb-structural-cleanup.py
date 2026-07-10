@@ -33,14 +33,15 @@ import sys
 from pathlib import Path
 from lxml import etree
 
+# gemeinsame Roman-Numeral-Helfer (#171 F34): die fruehere lokale Kopie war
+# nicht space-tolerant ('I X' -> 11 statt 9)
+from wzb_roman import is_roman_numeral, roman_to_arabic  # noqa: F401
+
 NS_TEI = "http://www.tei-c.org/ns/1.0"
 NS_XML = "http://www.w3.org/XML/1998/namespace"
 XML_ID = f"{{{NS_XML}}}id"
 
 ANNOTATION_ATTRS = ("lemmaRef", "meaningRef", "wordRef", "pos")
-
-# Roman numeral characters used in WZB (U stands for V)
-ROMAN_CHARS = set("IVXLCDUM")
 
 # Scribal marks that are never linguistic tokens
 SCRIBAL_MARK_FORMS = {
@@ -60,24 +61,6 @@ SCRIBAL_MARK_FORMS = {
 # Single-letter section initials (only treated as scribal when NOT inside fw/surplus,
 # no lemmaRef, and form is exactly one character)
 SECTION_INITIAL_FORMS = {"a", "A", "s", "S", "O", "o"}
-
-
-def is_roman_numeral(text: str) -> bool:
-    """Return True if text consists entirely of Roman numeral chars (WZB: U=V)."""
-    t = text.strip()
-    return bool(t) and len(t) <= 10 and all(c in ROMAN_CHARS for c in t)
-
-
-def roman_to_arabic(text: str) -> int:
-    """Convert Roman numeral string (U=V) to integer. Returns 0 on failure."""
-    vals = {"I": 1, "V": 5, "X": 10, "L": 50, "C": 100, "D": 500, "M": 1000, "U": 5}
-    t = text.strip()
-    result, prev = 0, 0
-    for ch in reversed(t):
-        v = vals.get(ch, 0)
-        result = result - v if v < prev else result + v
-        prev = v
-    return result
 
 
 def strip_annotation_attrs(element):

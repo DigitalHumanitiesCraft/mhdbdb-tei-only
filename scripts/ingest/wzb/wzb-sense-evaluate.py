@@ -422,9 +422,12 @@ def run_evaluate(args) -> None:
 
     print(f"Joined {len(joined)} tokens  ({len(gold)} gold, {len(resolved)} resolved)")
 
-    # Partition into evaluated / abstain / missing
+    # Partition into evaluated / abstain / missing.
+    # Konsistent strip().upper() vergleichen: das fruehere ungestrippte
+    # `.upper() != "ABSTAIN"` liess " ABSTAIN" doppelt zaehlen (abstain UND
+    # evaluated) und drueckte die berichtete Accuracy (#171 F33).
     abstain   = [(g, r) for g, r in joined if r.get("resolved_sense","").strip().upper() == "ABSTAIN"]
-    evaluated = [(g, r) for g, r in joined if r.get("resolved_sense","").strip() and r.get("resolved_sense","").upper() != "ABSTAIN"]
+    evaluated = [(g, r) for g, r in joined if r.get("resolved_sense","").strip() and r.get("resolved_sense","").strip().upper() != "ABSTAIN"]
     missing   = [(g, r) for g, r in joined if not r.get("resolved_sense","").strip()]
 
     n_total   = len(joined)
