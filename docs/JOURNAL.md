@@ -303,3 +303,15 @@ Drift-Prüfung gegen main (`4390d4f9a`) nach den 13 Merges vom 08.07. **Kernbest
 **Behoben (5 Rand-Drifts):** CLAUDE.md nannte Authority v1.4.4 → konkrete Versionen durch Zeiger auf TEI-MODEL §11 ersetzt (CLAUDE.md steht nicht in der §11-Pflegeliste); README 2× „neun" TEI-Werkzeuge + Reim-Wörterbuch fehlte in der Aufzählung + ~43.750 → 43.879 Lemmata; LINECODE.md #23 „weiterhin OPEN" (tatsächlich closed 2026-06-11); DATA-MODEL-Changelog um „Why v4.1.4/v4.1.5" ergänzt; DECISIONS.md ADR nannte konkrete v1.4.0 → §11-Verweis. ROADMAP-Health-Check-Vormerkung abgehakt.
 
 **Action Item:** #28 wurde vom #182-Merge auto-geschlossen (Development-Verknüpfung, identischer Mechanismus wie #171), obwohl ROADMAP/JOURNAL „bleiben planmäßig offen" sagen → Reopen empfohlen; damit wäre auch `docs/features/FREMDSPRACHEN-PHASENPLAN-28.md` wieder regelkonform (Feature-Doc an offenem Issue).
+
+---
+
+## 2026-07-10 – UI-Fix Treffer-Navigation im Reader (KZW-Feedback)
+
+**Summary:** KZW-Feedback zur Trefferanzeige unten rechts im Reading View („sehr klein und unintuitiv, Kontrast könnte höher sein", mit Screenshot): Buttons und Zähler von text-xs auf text-sm, Buttons dunkel (slate-700, weiße Schrift) statt hellgrau-auf-hellgrau, Zähler slate-900 semibold, Leiste deckender mit kräftigerem Rahmen/Schatten, Disabled-Zustand jetzt sichtbar (Opacity 0.4). Direkt auf main (`6df766522`), CI grün, deployed. Hilfeseiten geprüft: beschreiben die Buttons nur funktional (Beschriftung/Position), kein Nachzieh-Bedarf; DESIGN.md um `.reading-nav`-Komponente + Tailwind-Precompile-Gotcha ergänzt.
+
+**Decisions:**
+- **Styling als `.reading-nav*`-Komponenten in `korpus.css` statt Tailwind-Utilities** — auf KZWs Rechner gab es kein Node/npm, und das vorkompilierte tailwind-output.css hätte die neuen Utility-Klassen still verschluckt (Präzedenz: KWIC-Styles #129). Erster Ansatz (dunklere Utilities direkt in korpus.html) verworfen, weil 8 der benötigten Klassen im kompilierten CSS fehlten.
+- **Commit über temporäres Worktree von origin/main** — Arbeitsverzeichnis stand auf `ingest/bre-weingruesse` mit fremdem WIP; Worktree-Pfad musste kurz sein (`core.longpaths`-Falle bei tiefem Scratchpad-Pfad). Working-Tree-Duplikate danach zurückgesetzt, Branch bekommt die Änderung beim nächsten main-Merge.
+
+**Phase:** Aktiver Betrieb. Playwright lokal nicht lauffähig (damals kein npm) — betroffene Tests prüfen nur IDs und Disabled-Logik, beides unverändert. Node.js inzwischen auf KZWs Rechner installiert (v24, inkl. Chocolatey/Python 3.14/VS Build Tools via Installer-Checkbox); `npm install` im Projekt steht noch aus.

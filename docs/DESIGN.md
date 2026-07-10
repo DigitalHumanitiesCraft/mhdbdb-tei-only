@@ -496,6 +496,10 @@ Institutional logos row + divider + copyright/clear-data row. `bg-slate-100 py-8
 | Lemma etymology | Other lemma page | `<a href="{numericId}" class="etymology-link">` |
 | Wörterbuch entry | Lemma page | `<a href="lemma/?id={numericId}">` |
 
+### Treffer-Navigation (Reading View)
+
+`.reading-nav` / `.reading-nav-btn` / `.reading-nav-indicator` in `korpus.css` (markup: `#readingNavigation` in `korpus.html`, logic: `tei-text-reader.js updateNavigationButtons()`): floating bar fixed bottom-right above the reading view. White/97 backdrop-blur container with `--border-secondary` border and strong shadow; dark buttons (slate-700, white text, hover slate-800) and a slate-900 semibold counter („Treffer x von y") at `--text-sm`; disabled buttons drop to opacity 0.4. Restyled 2026-07-10 after KZW feedback (previously text-xs, light-gray buttons — too small, too low-contrast).
+
 ## CSS Architecture
 
 Three-layer stack (load order):
@@ -507,6 +511,8 @@ Three-layer stack (load order):
 | 3 | Page-specific CSS | `korpus.css` or `playground/css/style.css` or inline `<style>` (lemma) |
 
 **Rule**: Semantic tokens in CSS vars. Layout and one-off styling in Tailwind utilities. Page-specific components in dedicated CSS. JS-generated HTML uses Tailwind classes in template literals.
+
+**Gotcha**: `tailwind-output.css` is pre-compiled and committed — a utility class that isn't already in the compiled file silently does nothing until `npm run build:css` is run. When Node/npm is unavailable on the working machine, style new components in the page-specific CSS layer instead (precedent: KWIC styles #129, `.reading-nav` 2026-07-10).
 
 ### Animations (shared.css)
 
