@@ -12,7 +12,7 @@
         <date>2026-04-14</date>
       </publicationStmt>
       <sourceDesc>
-        <p>Register aller Mitwirkenden an der Mittelhochdeutschen Begriffsdatenbank: Gründer, Koordination, Haupteditor:innen und Editor:innen, die an den bestehenden Texten gearbeitet haben. Dient als zentrale Authority-Quelle für die Editor-Attribution in den Korpus-Headern. Personenreihenfolge: contrib_001..006 sind feste Funktions-Slots (Gründer, Koordinatorin, Lead-Editor:innen); contrib_007..051 sind Editor:innen in der Reihenfolge von Katharinas ursprünglicher E-Mail-Liste (2026-04).</p>
+        <p>Register aller Mitwirkenden an der Mittelhochdeutschen Begriffsdatenbank: Gründer, Koordination, Haupteditor:innen und Editor:innen, die an den bestehenden Texten gearbeitet haben. Dient als zentrale Authority-Quelle für die Editor-Attribution in den Korpus-Headern. Personenreihenfolge: contrib_001..006 sind feste Funktions-Slots (Gründer, Koordinatorin, Lead-Editor:innen); contrib_007..051 sind Editor:innen in der Reihenfolge von Katharinas ursprünglicher E-Mail-Liste (2026-04); ab contrib_052 folgen spätere Ergänzungen (z. B. Beitragende kuratierter Forschungsdaten, 2026-07 ff.).</p>
       </sourceDesc>
     </fileDesc>
   </teiHeader>
@@ -185,6 +185,10 @@
         </person>
         <person xml:id="contrib_051" role="editor">
           <persName xml:lang="de">Michael Westreicher</persName>
+        </person>
+        <person xml:id="contrib_052" role="editor">
+          <persName xml:lang="de">Linda Beutel-Thurow</persName>
+          <note xml:lang="de">Beigetragene Forschungsdaten: kuratierte Figurenbezeichnungen (Eigennamen, Antonomasien, Epitheta) für ENE, IW, ROL und TRO aus dem Dissertationsprojekt Naming-analysis, Universität Salzburg (DOI 10.5281/zenodo.18770138).</note>
         </person>
       </listPerson>
     </body>
