@@ -315,3 +315,32 @@ Drift-Prüfung gegen main (`4390d4f9a`) nach den 13 Merges vom 08.07. **Kernbest
 - **Commit über temporäres Worktree von origin/main** — Arbeitsverzeichnis stand auf `ingest/bre-weingruesse` mit fremdem WIP; Worktree-Pfad musste kurz sein (`core.longpaths`-Falle bei tiefem Scratchpad-Pfad). Working-Tree-Duplikate danach zurückgesetzt, Branch bekommt die Änderung beim nächsten main-Merge.
 
 **Phase:** Aktiver Betrieb. Playwright lokal nicht lauffähig (damals kein npm) — betroffene Tests prüfen nur IDs und Disabled-Logik, beides unverändert. Node.js inzwischen auf KZWs Rechner installiert (v24, inkl. Chocolatey/Python 3.14/VS Build Tools via Installer-Checkbox); `npm install` im Projekt steht noch aus.
+
+## 2026-07-10 13:09 – handoff (KZW-Rückstau + Frontend-Session: #203/#204/#187 live, WVV komplett, 6 Analysen)
+
+**Summary:** Tagesplan in vier Blöcken abgearbeitet (5 Commits auf main, alle CI grün, volle Suite 205/205). (A/B) Alle fünf wartenden KZW-Rückfragen bedient: #27 beantwortet + POS-TAGSET §6.5 nachgezogen, #124 (Matomo-Dashboard-Zugang), #190 (Beutel-Thurow = contrib_052), #110/WVV abgeschlossen (11 header-getrennte Blöcke gewrappt, 489 lg fortlaufend nummeriert, Index byte-identisch), #28 reopened + 26 Beispielfälle mit KWIC-Belegen für die Lehnwort/Fremdwort-Grenzziehung. (C) Analysen ohne Ingest-Code: #198-Scoping (Entwarnung: 183 Tokens statt 87k, Ziel-Lemma 2593 existiert), #139 CoReMA-Stage-0 (GAMS-URLs verifiziert, H2 ohne Rezept-Objekte, Text CC BY 4.0), #147 Weingrüße-Stage-0 (21 Zeugen statt 20, Konventionen + Fetch-Rezept, Wiki deklariert KEINE Lizenz). (D) Frontend: #203 KWIC-Belege-Export (CSV, ohne Anzeige-Cap), #204 Filter-vs-Auswahl-UX inkl. Fix der nie sichtbaren noResults-Box, #187 posAll-Migration über 10 Dateien (Closes).
+
+**Decisions:**
+- **Christian-Priorisierung 10.07.: KEIN Ingest-Coding, bevor Codebasis + Frontend „am bestmöglichen Stand" sind** — Analyse/Issue-Vorbau erlaubt, Konversions-Skripte nicht. CoReMA (#139) läuft später als gemeinsame Session (Christian ist selbst CoReMA-Datenexperte und hat die Daten lokal, kein GAMS-Bulk-Fetch nötig). Memory angelegt.
+- **juliahin ist wieder regulär im Projekt** (neue Finanzierung, KZW hängt ihr Issues um) — die Doppel-Assign-Regel wachauer+juliahin gilt wieder; Memory korrigiert.
+- **WVV (b) konsequent:** Die 4 Anker-Lücken enthielten 11 header-getrennte Blöcke (Zusatzstrophen 8a/11a/12a/42a/8b/12b, Tegernsee-Spruch, Meißnerton, Ton-Marker 1180/1181, 2108) — jeder Header ist Blockgrenze, dokumentweite Neunummerierung 1..489 (KZW-Regel „fortlaufend ab 1"); supplied/Ton-Marker unangetastet, Token-Strom byte-identisch.
+- **#203/#204 mit `Refs` statt `Closes`** (KZW-Live-OK-Regel, Pings mit Test-Anleitungen gepostet); **#187 mit `Closes`** (technische Migration, Verifikations-Hinweise im Issue).
+- **#187 nach Issue-Vorgabe als Inline-Muster** (`(lemma.posAll || …).join(' ')`, Präzedenz PR #177) statt neuem Shared-Helper.
+
+**Dead ends:**
+- *blêmensier*, das Beispiel aus dem #28-Phasenplan, existiert gar nicht als Lemma im lexicon (auch *messe*/*messîas* nicht) — Plan-Beispiel war hypothetisch, im Issue vermerkt.
+- Erster #187-Kommentar zitierte eine erfundene salve-Lemma-ID (33929 statt real 79188) — sofort editiert; Lehre: konkrete IDs vor dem Posten gegen lexicon verifizieren.
+- Die noResults-Box der Korpussuche konnte seit jeher nicht erscheinen (lag INNERHALB der im 0-Treffer-Fall versteckten resultsSection); die #204-Verifikations-Behauptung im Issue-Body war Code-Lektüre, kein Live-Test.
+
+**Phase:** Implementation (aktiver Betrieb). Stable-Docs angefasst: POS-TAGSET §6.5 (KZW-Entscheide PART/Fusionen, P-OFFEN auf 2 reduziert), FEATURES (KWIC-Export #203, Filter≠Auswahl #204, Header-Wortlaut), INDEX (KWIC-Bullet), hilfe-korpussuche.html. Index-Versionen unverändert (Corpus v4.1.5, Authority v1.6.0); WVV-Corpus-Rebuild byte-identisch verifiziert, contributors.xml ist nicht indexiert.
+
+**Open issues:**
+- **KZW:** Live-Tests #203/#204 (gepingt), Restfragen #27 (CNJ-Restquote ≤10 %? / wiltu: VEM oder VRB?), #28-Grenzziehung an den 26 Fällen (Julia mitgepingt), #124 DSB-Eckdaten + Dashboard-Ticket an Bärthlein, H2-Frage an Klug (#139: Rezept-Objekte fehlen, tauschen oder nachliefern?).
+- **Silvan Wagner:** wiki.brevitas.org deklariert keinerlei Lizenz (rightsinfo leer, Impressum-Links 404) — Nachnutzungs-Freigabe ist Blocker vor jedem #147-Einspielen; MHDBDB ist immerhin benannter Kooperationspartner der Hybridedition.
+- **#198:** Plan im Issue (183er-Batch nach §6.3-Gates + lexicon-Fix + Sense-Nutzungstabelle), Batch selbst noch nicht gelaufen.
+- **#147/#139:** bewusst kein Konversions-Code geschrieben (Priorisierung oben); Analysen liegen als Issue-Kommentare bereit für KZW ab KW 31.
+
+**Next steps:**
+1. `/promptotyping orient` — lädt diesen Handoff.
+2. Frontend-Kandidaten in Prio-Reihenfolge: #196 (Hapaxlegomena-Tool), #194 (Playground-Rubrik „Experimentelle Forschungsdaten"), Audit-Reste #169/#171/#172.
+3. #198-Batch, sobald KZW-Review-Kapazität da ist; CoReMA-Ingest als gemeinsame Session mit Christian; #147-Konversion erst nach Lizenzklärung UND Frontend-Freigabe.
