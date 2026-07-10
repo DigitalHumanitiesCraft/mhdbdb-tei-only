@@ -148,13 +148,14 @@ Begründung der Reihenfolge: K1–K3 sind kontextfrei und schrumpfen den Problem
 
 **Aufgelöst (Policy folgt Tagset-Fixierung vom 20.11.2025 = §1):**
 - ART ist kein Tag (Issue-§3-Tabelle war Zwischenstand) → K2.
-- PART ist NICHT im 19-Set (Issue-§5 nannte es als Kandidat; die fixierte Liste enthält es nicht). Partikeln von Partikelverben werden bis auf Weiteres ADV getaggt; siehe P-OFFEN-1.
+- PART ist NICHT im 19-Set (Issue-§5 nannte es als Kandidat; die fixierte Liste enthält es nicht). Partikeln von Partikelverben werden bis auf Weiteres ADV getaggt; siehe nächster Punkt.
 - GRA → ADJ (Issue-Body sagte an zwei Stellen ADV bzw. PART; §3 dieser Datei ist SSoT).
+- **Kein 20. Tag PART** (KZW-Entscheid 08.07.2026, #27): Partikeln von Partikelverben werden per Konvention ADV + `@ana` markiert. Technische Randbedingung vor der Umsetzung: `@ana` ist bereits als Sense-Referenz belegt (`lexicon.xml#lemma_{N}_sense_{M}`, siehe DATA-MODEL.md → Sense-Auflösung) — die POS-Markierung braucht deshalb ein eigenes, davon unterscheidbares Wert-Schema (Festlegung vor dem ersten K4-Batch, analog zum `@comp`/`@needsSplit`-Caveat in 6.4).
+- **Doppeltagging bei Kontraktionen zulässig** (KZW-Entscheid 08.07.2026, #27): Echte mhd. Kontraktionswörter — zwei Lemmata, sprachökonomisch zu einem Token zusammengezogen (*wiltu* = wilt + du) — behalten zwei Tags (§2). Ausdrücklich NICHT gemeint sind gewöhnliche Komposita (*hûsmûs* = einfach NOM). Das bestätigt die §2-Ausnahme als Policy.
 
 **P-OFFEN (KZW-Entscheid nötig, blockiert die jeweilige Klasse NICHT als Ganzes):**
-1. **PART nachrüsten?** Wenn Partikelverben sauber unterscheidbar getaggt werden sollen (Issue §2.1 „zu/an/ab können Partikeln sein"), braucht es entweder ein 20. Tag PART oder eine Konvention (ADV + `@ana`?). Achtung bei der Konventions-Variante: `@ana` ist bereits als Sense-Referenz belegt (`lexicon.xml#lemma_{N}_sense_{M}`, siehe DATA-MODEL.md → Sense-Auflösung) — eine POS-Markierung über `@ana` würde das Attribut doppelt belegen und bräuchte mindestens ein eigenes Wert-Schema. Bis zur Entscheidung: ADV, Fälle mit confidence='low' sammeln.
-2. **CNJ-Restquote:** Wieviel ungelöstes CNJ ist akzeptabel (K5-Fallback)? Vorschlag: ≤ 10 % der ursprünglichen CNJ-Menge.
-3. **VEM im Fusions-Set:** *wiltu* = `VEM PRO` (§2) vs. Issue-Beispiele mit VRB — Liste der zulässigen Fusions-Tag-Paare finalisieren.
+1. **CNJ-Restquote:** „Undifferenziertes CNJ" = Tokens, die nach der K5-Kampagne weiterhin das unspezifische `CNJ` tragen statt `CCNJ`/`SCNJ` — also genau die Fälle, in denen auch der Kontext nicht entscheidet, ob koordinierend oder subordinierend (KZW-Rückfrage 08.07.2026 damit bejaht). Offene Frage: Wieviel davon ist als K5-Fallback akzeptabel? Vorschlag: ≤ 10 % der ursprünglichen CNJ-Menge (943.199 Tokens, also ≤ ~94.000).
+2. **Fusions-Paarliste finalisieren:** Das Prinzip ist entschieden (s.o.), offen bleibt die abschließende Liste der zulässigen Tag-Paare — insbesondere ob Modalverb-Kontraktionen wie *wiltu* als `VEM PRO` (so §2) oder generisch `VRB PRO` getaggt werden.
 
 ### 6.6 Ausdrücklich NICHT Teil dieser Policy
 
