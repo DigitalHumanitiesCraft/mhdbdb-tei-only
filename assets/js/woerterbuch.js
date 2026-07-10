@@ -174,7 +174,8 @@ class WoerterbuchPage {
             link.className = 'text-brand-700 hover:text-brand-900 hover:underline font-medium truncate';
 
             const pos = document.createElement('span');
-            pos.textContent = entry.pos || '—';
+            // #187: posAll[] zeigt alle POS-Werte (Fallback: Erstwert aus altem Cache)
+            pos.textContent = (entry.posAll || (entry.pos ? [entry.pos] : [])).join(' ') || '—';
             pos.className = 'pos-badge bg-brand-100 text-brand-700 flex-shrink-0';
 
             row.appendChild(link);

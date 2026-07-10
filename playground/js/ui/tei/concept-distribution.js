@@ -161,7 +161,8 @@ export class ConceptDistribution {
       if (!l.senses) continue;
       for (const s of l.senses) {
         if (s.conceptIds && s.conceptIds.includes(conceptId)) {
-          out.push({ id: l.id, lemma: l.lemma, pos: l.pos });
+          // #187: alle POS-Werte (Fallback: Erstwert aus altem Cache)
+          out.push({ id: l.id, lemma: l.lemma, pos: (l.posAll || (l.pos ? [l.pos] : [])).join(' ') });
           break;
         }
       }

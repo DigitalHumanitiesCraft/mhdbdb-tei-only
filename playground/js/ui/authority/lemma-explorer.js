@@ -37,7 +37,7 @@ export class LemmaExplorer {
         generateResultItem({
           meta: formatMetadata([
             `ID: ${l.id}`,
-            l.pos ? `POS: ${l.pos}` : null,
+            (l.posAll?.length || l.pos) ? `POS: ${(l.posAll || [l.pos]).join(' ')}` : null,
             l.senseCount ? `${l.senseCount} Bedeutungen` : null,
           ]),
           title: `<a href="../lemma/?id=${l.id.replace(/^lemma_/, '')}" target="_blank" rel="noopener" class="text-brand-700 hover:text-brand-900 hover:underline">${l.lemma}</a>`,
@@ -112,7 +112,7 @@ export class LemmaExplorer {
         generateResultItem({
           meta: formatMetadata([
             `ID: ${lemma.id}`,
-            lemma.pos ? `POS: ${lemma.pos}` : null,
+            (lemma.posAll?.length || lemma.pos) ? `POS: ${(lemma.posAll || [lemma.pos]).join(' ')}` : null,
             lemma.senseCount ? `${lemma.senseCount} Bedeutungen` : null,
           ]),
           title: `<a href="../lemma/?id=${lemma.id.replace(/^lemma_/, '')}" target="_blank" rel="noopener" class="text-brand-700 hover:text-brand-900 hover:underline">${lemma.lemma}</a>`,

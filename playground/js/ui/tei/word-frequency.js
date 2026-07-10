@@ -176,12 +176,14 @@ export class WordFrequencyAnalyzer {
     }));
     const entries = this.state.hideFunctionWords
       ? allEntries.filter(e => {
-          const pos = this.getLemmaById(e.id)?.pos;
-          // POS-Wert kann zusammengesetzt sein (z.B. "VEM PRO" fuer wilt+du):
-          // splitten und ausblenden, sobald ein Teil zu den Funktionswort-Tags
-          // gehoert. Lemmata ohne pos-Annotation behalten (konservativ).
-          if (!pos) return true;
-          const tags = String(pos).trim().split(/\s+/);
+          const l = this.getLemmaById(e.id);
+          // POS-Werte koennen mehrere Tags umfassen (posAll[] seit v1.6.0,
+          // Compound-Strings wie "VEM PRO" im Fallback): ausblenden, sobald
+          // ein Tag zu den Funktionswort-Tags gehoert. Lemmata ohne
+          // pos-Annotation behalten (konservativ). (#187)
+          const tags = l?.posAll
+            || (l?.pos ? String(l.pos).trim().split(/\s+/) : []);
+          if (tags.length === 0) return true;
           return !tags.some(t => FUNCTION_WORD_POS.has(t));
         })
       : allEntries;
@@ -195,8 +197,9 @@ export class WordFrequencyAnalyzer {
       const lemma = this.getLemmaById(e.id);
       const lemmaText = lemma ? lemma.lemma : e.id;
       const cleanId = e.id.replace(/^lemma_/, '');
-      const pos = lemma?.pos
-        ? `<span class="ml-2 rounded bg-slate-100 px-1.5 py-0.5 text-xs font-mono text-slate-600">${escapeHtml(lemma.pos)}</span>`
+      const posLabel = (lemma?.posAll || (lemma?.pos ? [lemma.pos] : [])).join(' ');
+      const pos = posLabel
+        ? `<span class="ml-2 rounded bg-slate-100 px-1.5 py-0.5 text-xs font-mono text-slate-600">${escapeHtml(posLabel)}</span>`
         : '';
       return `
         <tr class="border-t border-slate-100 hover:bg-brand-50/50">

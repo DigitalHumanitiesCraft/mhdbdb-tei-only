@@ -225,7 +225,8 @@ export class RhymeDictionary {
       out.push({
         lemmaId,
         lemma: lemma?.lemma || lemmaId,
-        pos: lemma?.pos || '',
+        // #187: alle POS-Werte (Fallback: Erstwert aus altem Cache)
+        pos: (lemma?.posAll || (lemma?.pos ? [lemma.pos] : [])).join(' '),
         count: entry.count,
         belege: entry.belege,
         texts: Array.from(entry.texts.entries())
@@ -440,6 +441,8 @@ export class RhymeDictionary {
     }).join('');
 
     const truncated = filtered.length > visible.length;
+    // #187: alle POS-Werte anzeigen (Fallback: Erstwert aus altem Cache)
+    const posLabel = (lemma.posAll || (lemma.pos ? [lemma.pos] : [])).join(' ');
 
     return `
       <div class="rounded-2xl border border-slate-200 bg-white p-4 space-y-3">
@@ -448,7 +451,7 @@ export class RhymeDictionary {
             <div class="text-xs uppercase tracking-wide text-slate-500">Reim-Lemma</div>
             <div class="text-lg font-semibold text-brand-700">
               <a href="../lemma/?id=${escapeAttr(cleanId)}" target="_blank" rel="noopener" class="hover:underline">${escapeHtml(lemma.lemma || lemma.id)}</a>
-              ${lemma.pos ? `<span class="ml-2 rounded bg-slate-100 px-1.5 py-0.5 text-xs font-mono text-slate-600">${escapeHtml(lemma.pos)}</span>` : ''}
+              ${posLabel ? `<span class="ml-2 rounded bg-slate-100 px-1.5 py-0.5 text-xs font-mono text-slate-600">${escapeHtml(posLabel)}</span>` : ''}
               <span class="ml-2 rounded bg-brand-50 px-1.5 py-0.5 text-xs font-mono text-brand-700" title="Struktureller Reimklang (Suffix der normalisierten Form)">-${escapeHtml(suffix)}</span>
             </div>
             <div class="text-xs text-slate-500">${escapeHtml(lemma.id)} · Mindest-Reimpaare ${this.state.minCount}${filterNote}</div>
@@ -688,7 +691,8 @@ export class RhymeDictionary {
     dd.innerHTML = items.map((l, i) => {
       const active = i === idx;
       const cls = active ? 'bg-brand-50 text-brand-800' : 'text-slate-700 hover:bg-slate-50';
-      const pos = l.pos ? `<span class="ml-1 rounded bg-slate-100 px-1 text-[10px] font-mono text-slate-600">${escapeHtml(l.pos)}</span>` : '';
+      const acPosLabel = (l.posAll || (l.pos ? [l.pos] : [])).join(' ');
+      const pos = acPosLabel ? `<span class="ml-1 rounded bg-slate-100 px-1 text-[10px] font-mono text-slate-600">${escapeHtml(acPosLabel)}</span>` : '';
       return `<button type="button" role="option" data-rd-ac-idx="${i}"
         aria-selected="${active}"
         class="block w-full cursor-pointer px-3 py-2 text-left text-sm ${cls}">

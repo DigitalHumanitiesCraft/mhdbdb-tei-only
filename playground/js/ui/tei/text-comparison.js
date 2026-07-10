@@ -103,7 +103,8 @@ export class TextComparison {
     return {
       ...row,
       lemma: lemma?.lemma || row.lemmaId,
-      pos: lemma?.pos || ''
+      // #187: alle POS-Werte (Fallback: Erstwert aus altem Cache)
+      pos: (lemma?.posAll || (lemma?.pos ? [lemma.pos] : [])).join(' ')
     };
   }
 

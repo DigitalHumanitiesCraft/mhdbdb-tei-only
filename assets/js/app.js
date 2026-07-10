@@ -722,8 +722,10 @@ class MainSiteApp {
         const shown = lemmata.slice(0, 3);
         const blocks = shown.map(lemma => {
             const forms = this.getVariantFormsFor(lemma.id);
-            const posBadge = lemma.pos
-                ? `<span class="ml-1 rounded bg-blue-100 px-1 text-[10px] font-mono text-blue-700">${this.escapeHtml(lemma.pos)}</span>`
+            // #187: posAll[] zeigt alle POS-Werte (Fallback: Erstwert aus altem Cache)
+            const posLabel = (lemma.posAll || (lemma.pos ? [lemma.pos] : [])).join(' ');
+            const posBadge = posLabel
+                ? `<span class="ml-1 rounded bg-blue-100 px-1 text-[10px] font-mono text-blue-700">${this.escapeHtml(posLabel)}</span>`
                 : '';
             const chips = forms.map(f =>
                 `<span class="inline-block bg-white border border-blue-200 px-1.5 py-0.5 rounded text-xs text-slate-700">${this.escapeHtml(f)}</span>`
