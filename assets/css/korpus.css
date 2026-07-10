@@ -704,6 +704,51 @@
 }
 
 /* ========================================
+   TREFFER-NAVIGATION (Reading View)
+   ======================================== */
+
+/* Schwebende Leiste unten rechts: Zurück | Treffer x von y | Weiter.
+   Bewusst nicht via Tailwind-Utilities gestylt: das vorkompilierte
+   tailwind-output.css enthält die nötigen Klassen nicht und der
+   CSS-Build (npm run build:css) ist nicht auf jedem Rechner verfügbar. */
+.reading-nav {
+  background: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(4px);
+  border: 1px solid var(--border-secondary);
+  border-radius: var(--radius-md);
+  padding: var(--space-2) var(--space-3);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.2);
+}
+
+.reading-nav-btn {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  padding: var(--space-2) var(--space-4);
+  background: #334155;
+  color: #ffffff;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.reading-nav-btn:hover:not(:disabled) {
+  background: #1e293b;
+}
+
+.reading-nav-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.reading-nav-indicator {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: #0f172a;
+  white-space: nowrap;
+}
+
+/* ========================================
    ERROR DISPLAY
    ======================================== */
 

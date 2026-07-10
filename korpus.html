@@ -285,13 +285,13 @@
         <!-- Right Column: Reading View (Replaces Modal) -->
         <div class="space-y-0 min-w-0">
             <!-- Navigation Controls (Fixed at bottom, shown when highlighting) -->
-            <div id="readingNavigation" class="hidden fixed bottom-4 left-4 right-4 xl:left-auto xl:right-8 z-20 bg-white/90 backdrop-blur-sm border border-slate-300 rounded-xl px-3 py-2 shadow-md mx-auto xl:mx-0 max-w-2xl">
+            <div id="readingNavigation" class="reading-nav hidden fixed bottom-4 left-4 right-4 xl:left-auto xl:right-8 z-20 mx-auto xl:mx-0 max-w-2xl">
                 <div class="flex items-center justify-between gap-3">
-                    <button id="prevHighlight" class="text-xs px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg transition flex-1 font-medium whitespace-nowrap">
+                    <button id="prevHighlight" class="reading-nav-btn flex-1">
                         ↑ Zurück
                     </button>
-                    <span id="highlightIndicator" class="text-xs text-slate-600 whitespace-nowrap font-medium"></span>
-                    <button id="nextHighlight" class="text-xs px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg transition flex-1 font-medium whitespace-nowrap">
+                    <span id="highlightIndicator" class="reading-nav-indicator"></span>
+                    <button id="nextHighlight" class="reading-nav-btn flex-1">
                         Weiter ↓
                     </button>
                 </div>
