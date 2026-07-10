@@ -36,6 +36,7 @@ Pro Treffer-Text ausklappbare Keyword-in-Context-Konkordanz mit Zeilenangaben (V
 - Anzeige-Cap 100 Belege pro Text (Gesamtzahl wird ausgewiesen)
 - Klick auf einen Beleg öffnet die Leseansicht an genau dieser Fundstelle (`targetPosition`)
 - Positionszählung in Parität zu CONTRACTS §B (nur `<w>` mit `@lemmaRef`); Treffer-Match exakt per `lemmaRefMatchesId` (§B.1)
+- **Belege-Export (#203):** Button „Belege (CSV)" im Panel-Kopf exportiert ALLE Fundstellen des Texts (ohne Anzeige-Cap, aktuelle Kontextbreite) als CSV (UTF-8 BOM): Spalten `Vers/Zeile | Kontext davor | Keyword | Kontext danach`; Dateiname `mhdbdb-belege-<lemma>-<sigle>-<datum>.csv`
 
 ### Tabellenansicht der Suchergebnisse (#114)
 
@@ -44,7 +45,7 @@ Umschaltbare Ergebnis-Darstellung Liste ↔ Tabelle für die Frage „wie vertei
 **How it works:**
 - Toggle im Results-Header, Wahl persistiert in `localStorage` (`mhdbdb-results-view`)
 - Sortierbare Spalten: Titel (mit Sigle-Präfix), Autor*in, Treffer, Frequenz/10k Wörter, Keyness (LL), Wörter — plus Belege-Spalte (KWIC #129)
-- Results-Header zeigt `N Texte gefunden · M Treffer gesamt` (auch in der Listenansicht)
+- Results-Header zeigt `N von X ausgewählten Texten · M Treffer gesamt` (auch in der Listenansicht; X = Suchraum zum Suchzeitpunkt, #204)
 - **Gesamtzeile** (sticky `<tfoot>`): Summe Treffer, Gesamt-Frequenz, Summe Wörter über alle Ergebnis-Texte
 - **Keyness (LL):** signierte Log-Likelihood (Dunning 1993) der Trefferfrequenz im Text gegen den Rest des Gesamtkorpus; Werte ≥ 10,83 (p<0,001) fett/brand markiert = Schlüsselwort des Textes (Referenz: Lindas naming-analysis)
 - **Types + Wörterbuch-Links:** das Lemma-Panel zeigt pro resolviertem Lemma (max. 3) die Schreibformen aus dem Variants-Dictionary (aufklappbar; MHG-normalisierte Suchformen, nicht Original-Graphien — so beschriftet) plus asynchron geladene MWB-/Lexer-Deep-Links über den geteilten, session-gecachten Client `assets/js/lib/woerterbuchnetz.js` (CONTRACTS §D.2)
@@ -59,8 +60,9 @@ Include/exclude specific texts from search corpus.
 - Click button to open selection panel
 - See all texts with checkboxes (all checked by default)
 - Filter by title, sigle, or author
-- Bulk actions: "Alle auswählen" / "Keine auswählen"
+- Bulk actions: "Alle auswählen" / "Keine auswählen" / "Nur diese" (nur gefilterte)
 - Search respects selected texts
+- **Filter ≠ Auswahl abgesichert (#204):** Der Filter blendet nur die Liste aus, ändert die Auswahl nicht. Wenn bei aktivem Filter eine breitere Auswahl durchsucht wurde, erscheint über den Ergebnissen ein Hinweis mit One-Click-Korrektur („Nur die M gefilterten Texte durchsuchen"); die 0-Treffer-Box benennt Begriff + Suchraum („0 Treffer für ‚X' in N ausgewählten Texten")
 
 **Use cases:**
 - Genre-specific search (select only mystical prose)

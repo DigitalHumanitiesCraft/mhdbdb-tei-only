@@ -1,5 +1,6 @@
 // @ts-check
 import { test, expect } from '@playwright/test';
+import fs from 'fs';
 
 test.describe('Issue #114: Tabellenansicht für Korpussuche', () => {
     test.beforeEach(async ({ page }) => {
@@ -264,5 +265,42 @@ test.describe('Issue #114: Tabellenansicht für Korpussuche', () => {
         await firstBtn.click();
         await expect(page.locator('#resultsList .kwic-detail-row')).toHaveCount(0);
         await expect(firstBtn).toHaveAttribute('aria-expanded', 'false');
+    });
+});
+
+test.describe('Issue #203: KWIC-Belege-Export', () => {
+    test.beforeEach(async ({ page }) => {
+        await page.goto('/korpus.html');
+        await page.waitForFunction(() => window._mhdbdbApp?.searchEngine !== null, { timeout: 30000 });
+        await page.evaluate(() => localStorage.removeItem('mhdbdb-results-view'));
+    });
+
+    test('Belege (CSV) exportiert ALLE Fundstellen ohne Anzeige-Cap', async ({ page }) => {
+        test.setTimeout(120000);
+        await page.fill('#searchInput', 'minne');
+        await page.click('#searchButton');
+        await page.waitForSelector('#resultsList > *');
+
+        // Erstes KWIC-Panel in der Listenansicht öffnen (Top-Treffer JT, >100 Belege)
+        const toggle = page.locator('[data-kwic-toggle]').first();
+        await toggle.click();
+        const panel = page.locator('[data-kwic-panel]').first();
+        await expect(panel.locator('.kwic-list li').first()).toBeVisible({ timeout: 90000 });
+
+        const [download] = await Promise.all([
+            page.waitForEvent('download'),
+            panel.locator('.kwic-export-btn').click()
+        ]);
+
+        expect(download.suggestedFilename()).toMatch(/^mhdbdb-belege-minne-.+-\d{4}-\d{2}-\d{2}\.csv$/);
+
+        const csv = fs.readFileSync(await download.path(), 'utf-8');
+        const lines = csv.trim().split(/\r\n/);
+        expect(lines[0]).toContain('Vers/Zeile');
+        expect(lines[0]).toContain('Kontext davor');
+        expect(lines[0]).toContain('Keyword');
+        expect(lines[0]).toContain('Kontext danach');
+        // Anzeige capt bei 100 — der Export darf NICHT gecappt sein
+        expect(lines.length - 1).toBeGreaterThan(100);
     });
 });

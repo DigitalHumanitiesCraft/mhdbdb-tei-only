@@ -210,3 +210,54 @@ test.describe('Such-Deep-Link ?search= (#144)', () => {
     });
 
 });
+
+test.describe('Issue #204: Filter vs. Auswahl', () => {
+
+    test.beforeEach(async ({ page }) => {
+        await page.goto('http://localhost:8080/korpus.html');
+        await page.waitForFunction(() => window._mhdbdbApp?.searchEngine !== null, { timeout: 30000 });
+    });
+
+    test('Mismatch-Hinweis erscheint bei aktivem Filter + breiter Auswahl, One-Click korrigiert', async ({ page }) => {
+        // Filter setzen, Auswahl bleibt bei allen 667 Texten
+        await page.fill('#textFilter', 'Nibelungen');
+        await page.fill('#searchInput', 'minne');
+        await page.click('#searchButton');
+        await page.waitForSelector('#resultsList > *');
+
+        const note = page.locator('#filterMismatchNote');
+        await expect(note).toBeVisible();
+        await expect(page.locator('#mismatchSearchedCount')).toHaveText('667');
+
+        // One-Click: Auswahl auf gefilterte Liste einschränken + neu suchen
+        await page.click('#mismatchApplyFilter');
+        await expect(note).toBeHidden();
+        // Ergebnis-Header weist den (jetzt kleinen) Suchraum aus
+        await expect(page.locator('#resultsCount')).toContainText('ausgewählten Texten');
+        const headerText = await page.locator('#resultsCount').textContent();
+        const searched = parseInt(headerText.match(/von (\d+) ausgewählten/)[1], 10);
+        expect(searched).toBeLessThan(20);
+    });
+
+    test('Kein Mismatch-Hinweis ohne Filter', async ({ page }) => {
+        await page.fill('#searchInput', 'minne');
+        await page.click('#searchButton');
+        await page.waitForSelector('#resultsList > *');
+        await expect(page.locator('#filterMismatchNote')).toBeHidden();
+    });
+
+    test('0-Treffer-Box ist sichtbar und benennt Begriff + Suchraum', async ({ page }) => {
+        // Auswahl auf DTG (Die treue Gattin) beschränken — dort hat "schlafen" 0 Treffer
+        await page.fill('#textFilter', 'dtg');
+        await page.click('#selectOnlyVisible');
+        await page.fill('#searchInput', 'schlafen');
+        await page.click('#searchButton');
+
+        // Regressionsnetz: Die Box liegt INNERHALB von #resultsSection und war
+        // vor #204 durch das Verstecken der ganzen Section nie sichtbar.
+        await expect(page.locator('#noResults')).toBeVisible();
+        await expect(page.locator('#noResultsSummary')).toContainText('0 Treffer für');
+        await expect(page.locator('#noResultsSummary')).toContainText('schlafen');
+        await expect(page.locator('#noResultsSummary')).toContainText('ausgewählten Texten');
+    });
+});

@@ -220,6 +220,14 @@
 
         <!-- Middle Column: Search Results (Hidden initially, shown after search) -->
         <section id="resultsSection" class="hidden space-y-6 rounded-3xl border border-slate-200 bg-white/95 p-6 shadow-sm ring-1 ring-slate-100/40 min-w-0">
+            <!-- Issue #204: Hinweis, wenn der Anzeigefilter aktiv ist, die Suche aber eine breitere Auswahl durchsucht hat -->
+            <div id="filterMismatchNote" class="hidden p-3 bg-blue-50 border border-blue-200 rounded-lg text-sm text-slate-700">
+                <p class="m-0">
+                    Hinweis: Das Filterfeld schränkt nur die <strong>Anzeige der Textliste</strong> ein, nicht die Suche.
+                    Durchsucht wurden <span id="mismatchSearchedCount">0</span> ausgewählte Texte.
+                    <button id="mismatchApplyFilter" type="button" class="text-brand-600 hover:text-brand-700 font-medium underline">Nur die <span id="mismatchVisibleCount">0</span> gefilterten Texte durchsuchen</button>
+                </p>
+            </div>
             <div class="flex items-center justify-between gap-4 mb-4">
                 <h2 class="text-2xl font-bold text-slate-900 min-w-0 truncate">
                     Suchergebnisse
@@ -272,7 +280,7 @@
 
             <!-- No Results Message -->
             <div id="noResults" class="hidden bg-yellow-50 border border-yellow-200 rounded-2xl p-8 text-center">
-                <p class="text-slate-700 font-medium mb-2">Keine Ergebnisse gefunden.</p>
+                <p id="noResultsSummary" class="text-slate-700 font-medium mb-2">Keine Ergebnisse gefunden.</p>
                 <p class="text-sm text-slate-600">
                     Versuchen Sie eine alternative Schreibweise oder durchsuchen Sie die
                     <a href="playground/index.html" class="text-brand-600 hover:text-brand-700 font-medium underline">

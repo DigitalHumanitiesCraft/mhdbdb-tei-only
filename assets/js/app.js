@@ -181,6 +181,11 @@ class MainSiteApp {
                 resultsList: document.getElementById('resultsList'),
                 resultsCount: document.getElementById('resultsCount'),
                 noResults: document.getElementById('noResults'),
+                noResultsSummary: document.getElementById('noResultsSummary'),
+                filterMismatchNote: document.getElementById('filterMismatchNote'),
+                mismatchSearchedCount: document.getElementById('mismatchSearchedCount'),
+                mismatchVisibleCount: document.getElementById('mismatchVisibleCount'),
+                mismatchApplyFilter: document.getElementById('mismatchApplyFilter'),
                 loadMoreContainer: document.getElementById('loadMoreContainer'),
                 loadMoreButton: document.getElementById('loadMoreButton'),
                 // Reading panel elements (no longer modal)
@@ -520,21 +525,38 @@ class MainSiteApp {
         // "Nur diese" — select only visible (filtered) texts, deselect all others
         const selectOnlyVisible = this.elements.selectOnlyVisible;
         if (selectOnlyVisible && textList) {
-            selectOnlyVisible.addEventListener('click', () => {
-                // Clear includedTexts completely first, then rebuild from visible items
-                this.corpusData.includedTexts.clear();
-                const allCheckboxes = Array.from(textList.querySelectorAll('input[type="checkbox"]'));
-                allCheckboxes.forEach(cb => {
-                    const label = cb.closest('label');
-                    const isVisible = !label.style.display || label.style.display !== 'none';
-                    cb.checked = isVisible;
-                    if (isVisible) {
-                        this.corpusData.includedTexts.add(cb.dataset.textId);
-                    }
-                });
-                this.updateTextListStats();
+            selectOnlyVisible.addEventListener('click', () => this.selectOnlyVisibleTexts());
+        }
+
+        // Issue #204: One-Click-Korrektur aus dem Mismatch-Hinweis —
+        // Auswahl auf die gefilterte Liste einschränken und Suche wiederholen
+        if (this.elements.mismatchApplyFilter) {
+            this.elements.mismatchApplyFilter.addEventListener('click', () => {
+                this.selectOnlyVisibleTexts();
+                this.handleSearch();
             });
         }
+    }
+
+    /**
+     * Wählt genau die aktuell sichtbaren (gefilterten) Texte aus.
+     * Genutzt vom "Nur diese"-Button und dem #204-Mismatch-Hinweis.
+     */
+    selectOnlyVisibleTexts() {
+        const textList = this.elements.textList;
+        if (!textList) return;
+        // Clear includedTexts completely first, then rebuild from visible items
+        this.corpusData.includedTexts.clear();
+        const allCheckboxes = Array.from(textList.querySelectorAll('input[type="checkbox"]'));
+        allCheckboxes.forEach(cb => {
+            const label = cb.closest('label');
+            const isVisible = !label.style.display || label.style.display !== 'none';
+            cb.checked = isVisible;
+            if (isVisible) {
+                this.corpusData.includedTexts.add(cb.dataset.textId);
+            }
+        });
+        this.updateTextListStats();
     }
 
     async handleSearch() {
@@ -552,6 +574,11 @@ class MainSiteApp {
         }
 
         console.log(`[MainSiteApp] Searching for: "${searchTerm}" in ${this.corpusData.includedTexts.size} texts`);
+
+        // Issue #204: Suchraum-Snapshot für Ergebnis-Header, 0-Treffer-Box
+        // und Mismatch-Hinweis (Auswahl kann sich nach der Suche ändern)
+        this.lastSearchTerm = searchTerm;
+        this.lastSearchedCount = this.corpusData.includedTexts.size;
 
         try {
             // Execute search with text selection filter
@@ -603,6 +630,9 @@ class MainSiteApp {
             // Display results
             this.displayResults();
 
+            // Issue #204: ggf. Hinweis "Filter ≠ Auswahl" über den Ergebnissen
+            this.updateFilterMismatchNote();
+
             // Show clear button
             this.elements.clearSearchButton.style.display = 'block';
 
@@ -610,6 +640,40 @@ class MainSiteApp {
             console.error('[MainSiteApp] Search failed:', error);
             this.showError(`Suchfehler: ${error.message}`);
         }
+    }
+
+    /**
+     * Issue #204: Zeigt einen Hinweis über den Ergebnissen, wenn der
+     * Anzeigefilter aktiv ist, die Suche aber eine breitere Auswahl
+     * durchsucht hat (Filter ≠ Auswahl — realer Verwechslungsfall).
+     */
+    updateFilterMismatchNote() {
+        const note = this.elements.filterMismatchNote;
+        if (!note) return;
+
+        const query = this.elements.textFilter?.value?.trim();
+        let visibleIds = null;
+        if (query) {
+            visibleIds = new Set();
+            this.elements.textList?.querySelectorAll('label').forEach(label => {
+                if (label.style.display !== 'none') visibleIds.add(label.dataset.textId);
+            });
+        }
+
+        // Mismatch nur, wenn gefiltert wird, die Filterung Texte übrig lässt
+        // UND die Auswahl über die gefilterte Liste hinausgeht
+        const mismatch = visibleIds && visibleIds.size > 0 &&
+            [...this.corpusData.includedTexts].some(id => !visibleIds.has(id));
+
+        if (!mismatch) {
+            note.classList.add('hidden');
+            return;
+        }
+
+        const searchedCount = this.lastSearchedCount ?? this.corpusData.includedTexts.size;
+        this.elements.mismatchSearchedCount.textContent = searchedCount.toLocaleString('de-DE');
+        this.elements.mismatchVisibleCount.textContent = visibleIds.size.toLocaleString('de-DE');
+        note.classList.remove('hidden');
     }
 
     displayLemmaInfo(lemmaIds) {
@@ -764,9 +828,10 @@ class MainSiteApp {
         this.elements.resultsSection.classList.add('hidden');
         this.elements.noResults.classList.add('hidden');
 
-        // Hide clear button and lemma info
+        // Hide clear button, lemma info and mismatch note (#204)
         this.elements.clearSearchButton.style.display = 'none';
         this.elements.lemmaInfo.classList.add('hidden');
+        this.elements.filterMismatchNote?.classList.add('hidden');
 
         // Update grid to 2-column layout (search + reading)
         const mainGrid = document.getElementById('mainGrid');
@@ -779,19 +844,11 @@ class MainSiteApp {
     }
 
     displayResults() {
-        if (this.currentResults.length === 0) {
-            this.elements.resultsSection.classList.add('hidden');
-            this.elements.noResults.classList.remove('hidden');
-            // Scroll to no results message (with offset for sticky header)
-            this.scrollToElement(this.elements.noResults);
-            return;
-        }
-
-        // Show results section
-        this.elements.noResults.classList.add('hidden');
-        this.elements.resultsSection.classList.remove('hidden');
-
-        // Issue #114: Layout je nach View-Mode wechseln
+        // Issue #114: Layout je nach View-Mode wechseln.
+        // Läuft VOR dem 0-Treffer-Zweig: auch dann muss die Ergebnis-Spalte
+        // sichtbar werden, sonst bleibt die noResults-Box unsichtbar (#204 —
+        // die Box liegt INNERHALB von resultsSection; das frühere Verstecken
+        // der ganzen Section hat sie mitversteckt).
         const mainGrid = document.getElementById('mainGrid');
         if (mainGrid) {
             if (this.viewMode === 'table') {
@@ -802,11 +859,32 @@ class MainSiteApp {
                 mainGrid.classList.remove('table-layout', 'two-column');
             }
         }
+        this.elements.resultsSection.classList.remove('hidden');
 
-        // Update results count — inkl. Gesamttrefferzahl (#114 Followup)
+        // Issue #204: Suchraum sichtbar machen — N = Auswahl zum Suchzeitpunkt
+        const searchedCount = this.lastSearchedCount ?? this.corpusData.includedTexts.size;
+
+        if (this.currentResults.length === 0) {
+            this.elements.resultsList.innerHTML = '';
+            this.elements.loadMoreContainer.classList.add('hidden');
+            this.elements.resultsCount.textContent = '';
+            // 0-Treffer-Box konkretisieren (#204): Begriff + Suchraum benennen
+            if (this.elements.noResultsSummary && this.lastSearchTerm) {
+                this.elements.noResultsSummary.textContent =
+                    `0 Treffer für „${this.lastSearchTerm}“ in ${searchedCount.toLocaleString('de-DE')} ausgewählten Texten.`;
+            }
+            this.elements.noResults.classList.remove('hidden');
+            // Scroll to no results message (with offset for sticky header)
+            this.scrollToElement(this.elements.noResults);
+            return;
+        }
+
+        this.elements.noResults.classList.add('hidden');
+
+        // Update results count — inkl. Suchraum (#204) + Gesamttrefferzahl (#114 Followup)
         const totalMatches = this.currentResults.reduce((sum, r) => sum + (r.matchCount || 0), 0);
         this.elements.resultsCount.textContent =
-            `(${this.currentResults.length} Texte gefunden · ${totalMatches.toLocaleString('de-DE')} Treffer gesamt)`;
+            `(${this.currentResults.length} von ${searchedCount.toLocaleString('de-DE')} ausgewählten Texten · ${totalMatches.toLocaleString('de-DE')} Treffer gesamt)`;
 
         // Clear previous results
         this.elements.resultsList.innerHTML = '';
@@ -1091,14 +1169,20 @@ class MainSiteApp {
     }
 
     downloadResultsAsCSV() {
-        const lemma = this.elements.searchInput?.value?.trim() || 'suche';
-        const safeLemma = lemma.replace(/[^a-zA-Z0-9äöüÄÖÜß-]/g, '_').slice(0, 40);
         const today = new Date().toISOString().slice(0, 10);
-        const filename = `mhdbdb-suche-${safeLemma}-${today}.csv`;
+        const filename = `mhdbdb-suche-${this.safeFilenamePart()}-${today}.csv`;
+        this.triggerCsvDownload(filename, this.serializeResultsAsCSV());
+    }
 
-        // UTF-8 BOM für Excel-Kompatibilität (﻿)
-        const csv = '﻿' + this.serializeResultsAsCSV();
-        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+    /** Suchbegriff als dateinamen-sicherer Baustein (Pattern #114). */
+    safeFilenamePart() {
+        const lemma = this.elements.searchInput?.value?.trim() || 'suche';
+        return lemma.replace(/[^a-zA-Z0-9äöüÄÖÜß-]/g, '_').slice(0, 40);
+    }
+
+    /** Startet den Browser-Download einer CSV (UTF-8 BOM für Excel). */
+    triggerCsvDownload(filename, csv) {
+        const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8' });
         const url = URL.createObjectURL(blob);
 
         const a = document.createElement('a');
@@ -1108,6 +1192,32 @@ class MainSiteApp {
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
+    }
+
+    /**
+     * Issue #203: Exportiert ALLE Fundstellen eines Texts (ohne Anzeige-Cap)
+     * als CSV mit Kontext — Spalten wie das KWIC-Panel, Kontextbreite folgt
+     * der aktuellen Panel-Einstellung.
+     */
+    downloadKwicAsCSV(result, teiDoc) {
+        const lemmaIds = (result.lemmaIds || [result.lemmaId]).map(id => id.toString());
+        const { hits } = extractKwicHits(teiDoc, lemmaIds, {
+            contextWords: this.kwicContextWords,
+            maxHits: Infinity
+        });
+
+        const header = ['Vers/Zeile', 'Kontext davor', 'Keyword', 'Kontext danach']
+            .map(l => this.escapeCsvCell(l)).join(',');
+        const rows = hits.map(hit => [
+            formatLineRef(hit.lineRef),
+            hit.before.join(' '),
+            hit.keyword,
+            hit.after.join(' ')
+        ].map(v => this.escapeCsvCell(v)).join(','));
+
+        const today = new Date().toISOString().slice(0, 10);
+        const filename = `mhdbdb-belege-${this.safeFilenamePart()}-${result.textId}-${today}.csv`;
+        this.triggerCsvDownload(filename, [header, ...rows].join('\r\n'));
     }
 
     /**
@@ -1407,13 +1517,19 @@ class MainSiteApp {
             panelEl.innerHTML = `
                 <div class="kwic-header">
                     <span class="kwic-count">${capNote}</span>
-                    <label class="kwic-window-label">Kontext:
-                        <select class="kwic-window-select" aria-label="Kontextfenster in Wörtern">
-                            ${[5, 10, 15, 20].map(n =>
-                                `<option value="${n}"${n === this.kwicContextWords ? ' selected' : ''}>${n} Wörter</option>`
-                            ).join('')}
-                        </select>
-                    </label>
+                    <div class="kwic-header-actions">
+                        <label class="kwic-window-label">Kontext:
+                            <select class="kwic-window-select" aria-label="Kontextfenster in Wörtern">
+                                ${[5, 10, 15, 20].map(n =>
+                                    `<option value="${n}"${n === this.kwicContextWords ? ' selected' : ''}>${n} Wörter</option>`
+                                ).join('')}
+                            </select>
+                        </label>
+                        <button type="button" class="kwic-export-btn" title="Alle Fundstellen dieses Texts mit Kontext als CSV-Datei herunterladen">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                            <span>Belege (CSV)</span>
+                        </button>
+                    </div>
                 </div>
                 <ol class="kwic-list">${lines}</ol>
                 <p class="kwic-hint">Klick auf einen Beleg öffnet die Fundstelle im Volltext.</p>
@@ -1423,6 +1539,10 @@ class MainSiteApp {
             panelEl.querySelector('.kwic-window-select').addEventListener('change', (e) => {
                 this.kwicContextWords = parseInt(e.target.value, 10);
                 this.renderKwicPanel(panelEl, result);
+            });
+
+            panelEl.querySelector('.kwic-export-btn').addEventListener('click', () => {
+                this.downloadKwicAsCSV(result, teiDoc);
             });
 
             panelEl.querySelectorAll('.kwic-line').forEach(btn => {

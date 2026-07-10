@@ -29,7 +29,7 @@ The project migrated from runtime XML parsing to pre-built JSON indexes because 
 Simple search and reading interface optimized for students and general users:
 
 - **Single Lemma Search** - Search across corpus with Middle High German character normalization
-- **KWIC-Belege** - Pro Treffer ausklappbare Keyword-in-Context-Konkordanz mit Vers-/Zeilenangabe und Sprung zur Fundstelle (#129)
+- **KWIC-Belege** - Pro Treffer ausklappbare Keyword-in-Context-Konkordanz mit Vers-/Zeilenangabe, Sprung zur Fundstelle (#129) und CSV-Export aller Fundstellen eines Texts (#203)
 - **Tabellenansicht** - Umschaltbare Ergebnis-Tabelle (sortierbar) mit Gesamtzeile, Keyness-Spalte (Log-Likelihood), Types + Wörterbuch-Links im Lemma-Panel sowie TSV-/CSV-Export (#114)
 - **Text Selection** - Include/exclude texts via checkbox interface with live filtering
 - **Reading View** - Full-text reader with:
