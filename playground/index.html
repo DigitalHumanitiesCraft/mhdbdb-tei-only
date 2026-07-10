@@ -441,7 +441,7 @@
                 <div class="input-section">
                     <label class="input-label" style="display: inline-flex; align-items: center; gap: 0.375rem;">
                         Suchmodus wählen
-                        <a href="../hilfe-playground.html#multi-lemma" target="_blank" rel="noopener" class="help-icon" aria-label="Hilfe zu Nähe- und Dokument-Modus" title="Hilfe zu Nähe- und Dokument-Modus">
+                        <a href="../hilfe-playground.html#multi-lemma" target="_blank" rel="noopener" class="help-icon" aria-label="Hilfe zu Nähe-, Vers- und Dokument-Modus" title="Hilfe zu Nähe-, Vers- und Dokument-Modus">
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                         </a>
                     </label>
@@ -464,6 +464,20 @@
                                         <input type="number" id="proximityDistance" value="10" min="1" max="50" class="proximity-input" />
                                     </label>
                                 </div>
+                            </div>
+                        </label>
+
+                        <!-- Verse Mode (#106 Punkt 8) -->
+                        <label class="mode-card">
+                            <input type="radio" name="searchMode" value="verse" class="mode-radio" />
+                            <div class="mode-content">
+                                <div class="mode-header">
+                                    <svg class="mode-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h10M4 18h10"></path>
+                                    </svg>
+                                    <span class="mode-title">Im selben Vers</span>
+                                </div>
+                                <p class="mode-description">Findet Verse, die alle Lemmata gemeinsam enthalten (nur Versdichtung)</p>
                             </div>
                         </label>
 

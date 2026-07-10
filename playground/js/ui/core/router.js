@@ -128,7 +128,7 @@ export function buildHash(view, params = {}) {
  *
  * Supported params:
  *   lemmata — comma-separated list of lemma terms, e.g. "minne,êre"
- *   mode    — "proximity" (default) or "document"
+ *   mode    — "proximity" (default), "verse" (#106 Punkt 8) or "document"
  *   dist    — proximity distance (integer, default 10, only used in proximity mode)
  */
 function handleMultiLemmaRoute(params) {
@@ -163,7 +163,7 @@ function handleMultiLemmaRoute(params) {
   }
 
   // Set search mode (defaults to proximity per v4.0.0 convention)
-  const mode = params.mode === 'document' ? 'document' : 'proximity';
+  const mode = ['document', 'verse'].includes(params.mode) ? params.mode : 'proximity';
   const modeRadio = document.querySelector(`input[name="searchMode"][value="${mode}"]`);
   if (modeRadio) {
     modeRadio.checked = true;

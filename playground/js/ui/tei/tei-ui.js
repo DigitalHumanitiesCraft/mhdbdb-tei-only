@@ -328,13 +328,21 @@ export class TEIExplorer {
     // findCooccurringLemmas() method removed - now handled by MultiLemmaSearchUI modal
     // Co-occurrence analysis is available as "Nähe-Analyse" mode in the multi-lemma search
 
-    displayCooccurrenceResults(results, searchTerms, maxDistance, searchedLemmaIds) {
+    // opts.verseMode (#106 Punkt 8): Ergebnisse stammen aus der "Im selben
+    // Vers"-Suche — Labels sprechen von Versen statt Wortabstand; maxDistance
+    // ist dann null. Ergebnis-Shape ist identisch (siehe tei-manager.js).
+    displayCooccurrenceResults(results, searchTerms, maxDistance, searchedLemmaIds, opts = {}) {
+        const verseMode = !!opts.verseMode;
         if (results.length === 0) {
             displayResults(
                 `Kookkurrenz-Analyse: ${searchTerms.join(' + ')} (0 Treffer)`,
                 [{
-                    meta: `Keine Treffer im Abstand von ${maxDistance} Wörtern`,
-                    snippet: 'Versuchen Sie einen größeren Abstand oder andere Begriffe'
+                    meta: verseMode
+                        ? 'Keine gemeinsamen Verse gefunden'
+                        : `Keine Treffer im Abstand von ${maxDistance} Wörtern`,
+                    snippet: verseMode
+                        ? 'Versuchen Sie die Nähe-Analyse oder andere Begriffe (Prosa-Texte haben keine Verse)'
+                        : 'Versuchen Sie einen größeren Abstand oder andere Begriffe'
                 }]
             );
             return;
@@ -352,21 +360,26 @@ export class TEIExplorer {
         // Create summary data for cooccurrence results
         const summaryData = Object.entries(fileGroups).map(([filename, fileResults]) => {
             const count = fileResults.length;
-            const preview = `${count} Nähe-Beziehungen im Abstand von max. ${maxDistance} Wörtern`;
+            const preview = verseMode
+                ? `${count} ${count === 1 ? 'Vers' : 'Verse'} mit allen Lemmata`
+                : `${count} Nähe-Beziehungen im Abstand von max. ${maxDistance} Wörtern`;
 
             // v3.0.0: Show placeholder until user expands
             const details = fileResults.slice(0, 50).map(match => {
+                const meta = verseMode
+                    ? `Gemeinsam in Vers ${match.verseN}`
+                    : `Abstand: ${match.distance} Wörter`;
                 if (match.contextText) {
                     // Has enriched text (after expand)
                     return {
-                        meta: `Abstand: ${match.distance} Wörter`,
+                        meta: meta,
                         snippet: `"${match.contextText}"`
                     };
                 } else {
                     // No text yet - show lemma IDs preview
                     const preview = match.contextLemmas ? match.contextLemmas.slice(0, 20).join(' ') : '';
                     return {
-                        meta: `Abstand: ${match.distance} Wörter`,
+                        meta: meta,
                         snippet: `<em style="color: #475569;">Klicken Sie auf "KLICKEN ZUM ERWEITERN" um den vollständigen Text anzuzeigen</em>`
                     };
                 }
@@ -382,7 +395,9 @@ export class TEIExplorer {
 
         // Use the searched lemma IDs (e.g., [879, 7532]) not all positions from results
         displaySummaryResults(
-            `Kookkurrenz-Analyse: ${searchTerms.join(' + ')} (max. ${maxDistance} Wörter Abstand)`,
+            verseMode
+                ? `Kookkurrenz-Analyse: ${searchTerms.join(' + ')} (im selben Vers)`
+                : `Kookkurrenz-Analyse: ${searchTerms.join(' + ')} (max. ${maxDistance} Wörter Abstand)`,
             summaryData,
             results,  // Raw results
             searchedLemmaIds  // ONLY the searched lemmas for highlighting

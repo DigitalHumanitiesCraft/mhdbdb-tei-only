@@ -665,11 +665,109 @@ export class TEIFilesManager {
 
         if (contextType === 'proximity') {
             return this.searchProximityUsingEnhancedIndex(lemmaIds, maxDistance, corpusData);
+        } else if (contextType === 'verse') {
+            return this.searchVerseUsingEnhancedIndex(lemmaIds, corpusData);
         } else if (contextType === 'document') {
             return this.searchDocumentUsingEnhancedIndex(lemmaIds, corpusData);
         }
 
         return [];
+    }
+
+    /**
+     * "Im selben Vers"-Suche (#106 Punkt 8): Kookkurrenz eingeschränkt auf ein
+     * gemeinsames <l>, über die lineStarts[]/lineEnds[]-Arrays des Corpus-Index
+     * v4.1.0+ (CONTRACTS §B: word-index-Grenzen pro Vers, inklusive).
+     *
+     * Prosa-Texte (leere lineStarts) werden übersprungen — dort gibt es keine
+     * Verse (#106 Caveat). Ergebnis-Shape ist identisch zur Proximity-Suche
+     * (matchPositions/distance/contextStart/contextEnd/contextLemmas), plus
+     * verseN (1-basierte Versnummer im Text) für die Anzeige; Expand und
+     * Reader-Deep-Links funktionieren dadurch unverändert.
+     */
+    searchVerseUsingEnhancedIndex(lemmaIds, corpusData) {
+        const results = [];
+        const includedTexts = corpusData.includedTexts || new Set();
+
+        // Binärsuche: Index des Verses, der Wortposition pos enthält, sonst -1.
+        // lineStarts ist aufsteigend sortiert; Wörter außerhalb jedes <l>
+        // (Überschriften, Noten) liegen zwischen lineEnds[v] und lineStarts[v+1].
+        const verseIndexFor = (pos, lineStarts, lineEnds) => {
+            let lo = 0, hi = lineStarts.length - 1, found = -1;
+            while (lo <= hi) {
+                const mid = (lo + hi) >> 1;
+                if (lineStarts[mid] <= pos) { found = mid; lo = mid + 1; }
+                else { hi = mid - 1; }
+            }
+            return (found !== -1 && pos <= lineEnds[found]) ? found : -1;
+        };
+
+        corpusData.texts.forEach(text => {
+            if (!includedTexts.has(text.id)) return;
+            if (!text.words) return;
+            if (!text.lineStarts || text.lineStarts.length === 0) return; // Prosa
+
+            // Alle Positionen je Lemma sammeln (wie Proximity-Suche)
+            const lemmaPositions = {};
+            lemmaIds.forEach(lemmaId => {
+                const cleanId = lemmaId.toString().replace('lemma_', '');
+                lemmaPositions[lemmaId] = [];
+                text.words.forEach((lemmaRef, idx) => {
+                    if (lemmaRef.replace('lemma_', '') === cleanId) {
+                        lemmaPositions[lemmaId].push(idx);
+                    }
+                });
+            });
+            if (Object.values(lemmaPositions).some(positions => positions.length === 0)) {
+                return;
+            }
+
+            // Für jeden Vers, der das erste Lemma enthält: alle anderen prüfen.
+            // Ein Vers zählt höchstens einmal (seenVerses), egal wie oft das
+            // erste Lemma darin steht.
+            const firstPositions = lemmaPositions[lemmaIds[0]];
+            const seenVerses = new Set();
+
+            firstPositions.forEach(firstPos => {
+                const v = verseIndexFor(firstPos, text.lineStarts, text.lineEnds);
+                if (v === -1 || seenVerses.has(v)) return;
+                seenVerses.add(v);
+
+                const vStart = text.lineStarts[v];
+                const vEnd = text.lineEnds[v];
+                const nearbyPositions = {};
+                let allInVerse = true;
+                for (let i = 1; i < lemmaIds.length; i++) {
+                    const pos = lemmaPositions[lemmaIds[i]].find(p => p >= vStart && p <= vEnd);
+                    if (pos === undefined) { allInVerse = false; break; }
+                    nearbyPositions[lemmaIds[i]] = pos;
+                }
+                if (!allInVerse) return;
+
+                const allPositions = [firstPos, ...Object.values(nearbyPositions)];
+                const minPos = Math.min(...allPositions);
+                const maxPos = Math.max(...allPositions);
+
+                // Kontext: der ganze Vers plus etwas Umgebung
+                const contextStart = Math.max(0, vStart - 5);
+                const contextEnd = Math.min(text.words.length, vEnd + 6);
+
+                results.push({
+                    filename: text.filename,
+                    title: text.title,
+                    author: text.author || 'Unbekannt',
+                    matchPositions: allPositions,
+                    distance: maxPos - minPos,
+                    verseN: v + 1,
+                    contextStart: contextStart,
+                    contextEnd: contextEnd,
+                    contextLemmas: text.words.slice(contextStart, contextEnd)
+                });
+            });
+        });
+
+        console.log(`✅ Verse search complete: ${results.length} verses containing all lemmata`);
+        return results;
     }
 
     /**
