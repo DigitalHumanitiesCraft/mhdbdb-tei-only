@@ -11,7 +11,7 @@
  *   authors, works, lemmata, concepts, genres, names,
  *   multi-lemma, verse-position, word-frequency, text-statistics, lemma-distribution,
  *   concept-distribution, text-comparison, cooccurrence-ranking, rhyme-dictionary,
- *   hapax-legomena, naming
+ *   hapax-legomena, verse-ending-profile, naming
  *
  * Example URLs:
  *   playground/#authors                          → open Autoren-Explorer
@@ -26,6 +26,7 @@
  *   playground/#cooccurrence-ranking             → open Kookkurrenz-Ranking
  *   playground/#rhyme-dictionary                 → open Reim-Wörterbuch
  *   playground/#hapax-legomena                   → open Echte Hapaxlegomena
+ *   playground/#verse-ending-profile             → open Versendings-Profil
  *   playground/#naming                           → open Erweiterte Figurenbezeichnungen (Beta)
  */
 
@@ -46,6 +47,7 @@ const ROUTES = {
   'cooccurrence-ranking': ()     => window.playground.ui.cooccurrenceRanking.show(),
   'rhyme-dictionary':   ()       => window.playground.ui.rhymeDictionary.show(),
   'hapax-legomena':     ()       => window.playground.ui.hapaxLegomena.show(),
+  'verse-ending-profile': ()     => window.playground.ui.verseEndingProfile.show(),
   'naming':             ()       => window.playground.ui.namingExplorer.show(),
 };
 

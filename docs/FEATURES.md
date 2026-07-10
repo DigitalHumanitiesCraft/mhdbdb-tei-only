@@ -164,7 +164,7 @@ Browse and search six controlled vocabularies with consistent interface patterns
 
 ### TEI Text Analysis
 
-Corpus-wide text analysis using pre-built indexes. Elf Werkzeuge in elf Playground-Einträgen (Multi-Lemma bietet Dokument-, Proximity- und Vers-Modus in einem Eintrag), alle direkt im Results-Panel als in-place Form + Body (außer Multi-Lemma als Modal).
+Corpus-wide text analysis using pre-built indexes. Zwölf Werkzeuge in zwölf Playground-Einträgen (Multi-Lemma bietet Dokument-, Proximity- und Vers-Modus in einem Eintrag), alle direkt im Results-Panel als in-place Form + Body (außer Multi-Lemma als Modal).
 
 **Multi-Lemma Document Search:**
 - Input multiple lemmata (space-separated or one per line)
@@ -258,6 +258,13 @@ Corpus-wide text analysis using pre-built indexes. Elf Werkzeuge in elf Playgrou
 - Pro Partner: Reimpaar-Zahl, Texte als Sigle-Chips mit Paarzahl, „→ Belege" klappt die gezählten Verspaare direkt in der Tabelle auf: beide Verse als vollständiger `<l>`-Inhalt (lazy per TEI-Fetch; Highlight-Mapping über CONTRACTS-§B-Positionszählung, damit `lineEnds[]`-Positionen auf die richtigen Wörter zeigen), markierte Reimwörter, Versangabe aus `<l n>`, Reader-Deep-Link (`position=`); paginiert zu 10, Cap 1000 gespeicherte Verspaare pro Partner. (Vorher nur Link in den Nähe-Modus der Multi-Lemma-Suche mit Distanz 15 — zeigte auch Kookkurrenzen abseits der Versenden, also keine Reime; KZW-Report 2026-07-09)
 - Async-Chunking + Abort-Token (Pattern wie #107), Prosa (leere `lineEnds`) wird übersprungen
 - Bewusste Grenzen der Minimalvariante (Issue #106): lemma- statt token-basiert (reimende Flexionsform kann abweichen), strukturell statt phonetisch, Kreuzreime (ABAB) entgehen dem ±1-Scan; Original-Token-Variante bräuchte Index-Erweiterung (`lineEndWords[]`), phonetische Klassifikation ist #109-Folgearbeit
+
+**Versendings-Profil (#106 Punkt 2):**
+- Top-N häufigste Lemmata am Versende — Scope wählbar: Gesamtkorpus, Autor*in (optgroup) oder Einzeltext
+- Datenpfad: `text.words[lineEnds[i]]` je Vers (Corpus-Index v4.1.x), kein neuer Build-Schritt
+- Spalten: Versende-Belege (absolut), Anteil an allen Versenden des Scopes, **Reim-Druck** = Anteil der Vorkommen des Lemmas am Versende vs. gesamt (#106 Punkt 3: hoher Wert = reimgetrieben, niedriger = semantisch motiviert)
+- Funktionswort-Filter (gleiche POS-Menge wie Wortfrequenz/Hapax), Lemma-Links auf die Lemma-Seiten
+- Nur Versdichtung (leere `lineEnds` -> übersprungen); Use Case aus dem Issue: Reim-Stil-Vergleich Wolfram/Hartmann/Gottfried
 
 **Erweiterte Figurenbezeichnungen (#59, Beta):**
 - Kuratierte Bezeichnungspraktiken jenseits des Eigennamens für vier Werke (ENE, IW, ROL, TRO) aus dem Dissertationsprojekt Naming-analysis von Linda Beutel-Thurow
