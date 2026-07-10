@@ -22,6 +22,7 @@ import { ConceptDistribution } from './ui/tei/concept-distribution.js';
 import { TextComparison } from './ui/tei/text-comparison.js';
 import { CooccurrenceRanking } from './ui/tei/cooccurrence-ranking.js';
 import { RhymeDictionary } from './ui/tei/rhyme-dictionary.js';
+import { HapaxLegomenaAnalyzer } from './ui/tei/hapax-legomena.js';
 import { NamingExplorer } from './ui/tei/naming-explorer.js';
 
 // Wire up file display helpers for progress.js
@@ -85,6 +86,7 @@ class MHDBDBPlayground {
         this.ui.textComparison = new TextComparison(corpusTextsThunk, this.authorityManager);
         this.ui.cooccurrenceRanking = new CooccurrenceRanking(corpusTextsThunk, this.authorityManager);
         this.ui.rhymeDictionary = new RhymeDictionary(corpusTextsThunk, this.authorityManager);
+        this.ui.hapaxLegomena = new HapaxLegomenaAnalyzer(corpusTextsThunk, this.authorityData);
         this.ui.namingExplorer = new NamingExplorer('../data');
 
         this.init();
@@ -485,6 +487,7 @@ class MHDBDBPlayground {
             { id: 'showTextComparisonBtn', handler: () => navigate('text-comparison') },
             { id: 'showCooccurrenceRankingBtn', handler: () => navigate('cooccurrence-ranking') },
             { id: 'showRhymeDictionaryBtn', handler: () => navigate('rhyme-dictionary') },
+            { id: 'showHapaxLegomenaBtn', handler: () => navigate('hapax-legomena') },
             { id: 'showNamingExplorerBtn', handler: () => navigate('naming') }
         ];
 
