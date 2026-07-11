@@ -164,7 +164,7 @@ Browse and search six controlled vocabularies with consistent interface patterns
 
 ### TEI Text Analysis
 
-Corpus-wide text analysis using pre-built indexes. Elf Werkzeuge in elf Playground-Einträgen (Multi-Lemma bietet Dokument- und Proximity-Modus in einem Eintrag), alle direkt im Results-Panel als in-place Form + Body (außer Multi-Lemma als Modal).
+Corpus-wide text analysis using pre-built indexes. Elf Werkzeuge in elf Playground-Einträgen (Multi-Lemma bietet Dokument-, Proximity- und Vers-Modus in einem Eintrag), alle direkt im Results-Panel als in-place Form + Body (außer Multi-Lemma als Modal).
 
 **Multi-Lemma Document Search:**
 - Input multiple lemmata (space-separated or one per line)
@@ -179,6 +179,13 @@ Corpus-wide text analysis using pre-built indexes. Elf Werkzeuge in elf Playgrou
 - Automatic variant resolution
 - Results: Context snippets with color-coded highlighting
 - Click result → open main site reading view with URL parameters
+
+**Multi-Lemma-Suche „Im selben Vers" (#106 Punkt 8):**
+- Kookkurrenz auf ein gemeinsames `<l>` beschränkt (syntaktisch enger als das Wort-Fenster der Proximity-Suche)
+- Datenbasis: `lineStarts[]`/`lineEnds[]` aus dem Corpus-Index v4.1.0+, kein neuer Build-Schritt
+- Nur Versdichtung (603 von 667 Texten); Prosa wird automatisch übersprungen
+- Treffer nennen die Versnummer; Expand + Reader-Deep-Link wie in der Proximity-Suche
+- URL-Routing: `#multi-lemma&lemmata=…&mode=verse`
 
 **Lemmasuche nach Versposition (#47.3):**
 - Single Lemma + Position-Auswahl (Versanfang / Versende, Default Versende)
