@@ -704,19 +704,16 @@ export class TEIFilesManager {
 
         corpusData.texts.forEach(text => {
             if (!includedTexts.has(text.id)) return;
-            if (!text.words) return;
+            if (!text.words || !text.lemmata) return;
             if (!text.lineStarts || text.lineStarts.length === 0) return; // Prosa
 
-            // Alle Positionen je Lemma sammeln (wie Proximity-Suche)
+            // Alle Positionen je Lemma aus der Reverse-Map lemmata{} —
+            // multi-ref-bewusst per CONTRACTS §B.1 (words[] hält nur die
+            // erste @lemmaRef-ID pro <w>), wie findProximityMatchesInIndex.
             const lemmaPositions = {};
             lemmaIds.forEach(lemmaId => {
-                const cleanId = lemmaId.toString().replace('lemma_', '');
-                lemmaPositions[lemmaId] = [];
-                text.words.forEach((lemmaRef, idx) => {
-                    if (lemmaRef.replace('lemma_', '') === cleanId) {
-                        lemmaPositions[lemmaId].push(idx);
-                    }
-                });
+                const lemmaKey = lemmaId.toString().startsWith('lemma_') ? lemmaId : `lemma_${lemmaId}`;
+                lemmaPositions[lemmaId] = text.lemmata[lemmaKey] || [];
             });
             if (Object.values(lemmaPositions).some(positions => positions.length === 0)) {
                 return;
