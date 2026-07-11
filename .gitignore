@@ -78,6 +78,9 @@ scripts/sync/.zotero_cache.json
 
 # Audit script outputs (regenerated on each run)
 scripts/audit/*.json
+# CSV-Reports von quantify-unannotated-tokens.py (#189) — disposable Diagnose,
+# landen default in data/audit/ und gehoeren nie in den Index-Datenbestand
+data/audit/
 # Ausnahme: die #152-Ratschen-Baseline ist KEIN disposable Report, sie ist
 # die committete Referenzmenge des CI-Gates (check-authority-cross-refs.py)
 !scripts/audit/lexicon-baseline.json
