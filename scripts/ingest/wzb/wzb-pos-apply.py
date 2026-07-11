@@ -110,7 +110,9 @@ def apply_pos(tei_path, pending_path, dry_run=False):
     # Coverage report
     total = len(w_elements)
     has_pos = sum(1 for w in w_elements if w.get("pos"))
-    will_have = has_pos + (stats["applied"] if dry_run else 0)
+    # Overwrites stecken schon in has_pos — sie nochmal zu addieren wies im
+    # Dry-Run Coverage >100 % aus (real gesehen: "141.2%", #171 F69).
+    will_have = has_pos + (stats["applied"] - stats["overwrite"] if dry_run else 0)
 
     print(f"\nApplied:       {stats['applied']} (overwrote existing: {stats['overwrite']})")
     print(f"xml_id not found: {stats['not_found']}")

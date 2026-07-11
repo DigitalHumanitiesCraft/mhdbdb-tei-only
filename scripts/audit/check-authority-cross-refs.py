@@ -333,9 +333,10 @@ def main():
         # lexicon.xml carries a known ingest-backfill baseline (#44/#115) and is
         # gated as an ID-set ratchet (#152): any id outside the committed
         # baseline fails, the tolerated legacy set passes.
+        # by_target enthaelt Refs auf komplett fehlende Zieldateien bereits
+        # (jeder Ref auf eine unbekannte Datei ist unresolved); sie NOCHMAL aus
+        # missing_target_files zu addieren zaehlte 2N statt N (#171 F68).
         offenders = {tf: c for tf, c in by_target.items() if tf != 'lexicon.xml'}
-        for tf, c in missing_target_files.items():
-            offenders[tf] = offenders.get(tf, 0) + c
         if offenders:
             print('\nCI CHECK FAILED: unresolved corpus->authority refs outside lexicon.xml:')
             for tf, c in sorted(offenders.items(), key=lambda x: -x[1]):

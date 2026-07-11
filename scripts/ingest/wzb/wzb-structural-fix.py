@@ -46,22 +46,10 @@ CHAPTER_ID_RE = re.compile(r"^[A-Z][a-z]+\.[1-9]\d*$")
 
 
 # ---------------------------------------------------------------------------
-# Roman numeral helpers
+# Roman numeral helpers — gemeinsame Implementierung in wzb_roman.py (#171 F34)
 # ---------------------------------------------------------------------------
 
-def roman_to_arabic(text: str) -> int:
-    """Convert Roman numeral string (U=V; spaces between letters ignored)."""
-    vals = {"I": 1, "V": 5, "X": 10, "L": 50,
-            "C": 100, "D": 500, "M": 1000, "U": 5}
-    t = text.strip().replace(" ", "")   # "I X" → "IX"
-    if not t:
-        return 0
-    result, prev = 0, 0
-    for ch in reversed(t):
-        v = vals.get(ch, 0)
-        result = result - v if v < prev else result + v
-        prev = v
-    return result
+from wzb_roman import roman_to_arabic  # noqa: E402
 
 
 def chapter_n_from_head_text(head_text: str) -> int:

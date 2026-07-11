@@ -131,7 +131,11 @@ def find_stale_numbers(doc_path: str, current: int, key: str) -> list:
     # duerfen begrenzt Tags dazwischenliegen, z. B. Stat-Karten
     # "<p>256.759</p><p>orthographische Varianten</p>").
     near_keywords = {
-        'corpus_files': r'(?:TEI(?:-XML)?\s+(?:files?|Dateien)|Korpus(?:-?[Dd]ateien)?|(?:mittelhochdeutsche\s+)?TEI-Texte)',
+        # F25 (#171): auch "NNN Dateien", "NNN TEI-Dateien" (Bindestrich) und
+        # "NNN Files" matchen — die dominanten Schreibweisen in den Docs.
+        # Bare "Dateien"/"Files" ist vertretbar, weil der Drift-Window-Check
+        # (±2 %) und der Rundungs-/Arrow-Skip False Positives abfangen.
+        'corpus_files': r'(?:TEI(?:-XML)?[-\s](?:files?|Dateien|Texte)|Korpus(?:-?[Dd]ateien)?|(?:mittelhochdeutsche\s+)?TEI-Texte|Dateien|[Ff]iles)',
         'lexicon_entries': r'Lemmata',
         'works': r'Werke',
         'variants_entries': r'(?:Variant|Eintr[äa]ge)',
@@ -172,9 +176,19 @@ def find_stale_numbers(doc_path: str, current: int, key: str) -> list:
         if num == current or abs(num - current) > window_size:
             continue
         # Bewusst gerundete Angaben („~257.000 Formen", „rund 257.000") sind
-        # kein Drift — ueberspringen.
+        # kein Drift — ueberspringen. Ebenso historische Von-nach-Angaben
+        # („675→666 corpus files" aus der #32-Migrationshistorie), erkennbar
+        # am Pfeil unmittelbar vor der Zahl (F25, #171).
         prefix = content[max(0, m.start() - 8):m.start()]
-        if re.search(r'(?:~|rund\s|ca\.\s|etwa\s|über\s)$', prefix):
+        if re.search(r'(?:~|rund\s|ca\.\s|etwa\s|über\s|(?:→|->)\s*)$', prefix):
+            continue
+        # Historische Kontexte (Audit-Snapshots, Migrationsstaende wie
+        # "Korpus zum Audit-Zeitpunkt ... 666 Dateien" oder "initial 666
+        # Files am 2026-04-15") sind bewusst alt und kein Drift: Marker im
+        # Nahkontext vor der Zahl (gleiche Zeile, max. 120 Zeichen) skippen.
+        line_start = content.rfind('\n', 0, m.start()) + 1
+        hist_ctx = content[max(line_start, m.start() - 120):m.start()]
+        if re.search(r'(?:Audit-Zeitpunkt|zum Audit|Audit:|vor WZB|initial|historisch)', hist_ctx):
             continue
         # Keyword must appear right after the number (bounded markup allowed).
         suffix = content[m.end():m.end() + 300]

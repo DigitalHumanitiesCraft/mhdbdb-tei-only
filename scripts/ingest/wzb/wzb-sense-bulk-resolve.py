@@ -48,8 +48,18 @@ if __name__ == "__main__":
                         help="Decision provenance for scientific record (default: bulk-llm)")
     parser.add_argument("--model-id", default="claude-sonnet-4-6",
                         help="Model ID that produced the resolutions (default: claude-sonnet-4-6)")
+    parser.add_argument("--reviewer", default=REVIEWER,
+                        help=f"Reviewer fuer den Provenienz-Record (default: {REVIEWER}). "
+                             "Bei *-human decision types Pflicht (Name der pruefenden Person).")
     parser.add_argument("--dry-run", action="store_true", help="Report changes without writing")
     args = parser.parse_args()
+
+    # Provenienz-Guard (#171 F71): ein hart verdrahteter reviewer='claude'
+    # widerspricht menschlichen decision types — dann MUSS die Person benannt werden.
+    if args.decision_type.endswith("-human") and args.reviewer == REVIEWER:
+        uprint(f"ERROR: --decision-type {args.decision_type} verlangt --reviewer <Name> "
+               f"(default '{REVIEWER}' ist fuer menschliche Entscheidungen kein gueltiger Provenienz-Record)")
+        sys.exit(1)
 
     res_path     = Path(args.resolutions)
     pending_path = Path(args.pending)
@@ -98,7 +108,7 @@ if __name__ == "__main__":
             if not args.dry_run:
                 row["resolved_sense"] = resolved_sense
                 row["confidence"]     = confidence
-                row["reviewer"]       = REVIEWER
+                row["reviewer"]       = args.reviewer
                 if "decision_type" in (fieldnames or []):
                     row["decision_type"] = args.decision_type
                 if "model_id" in (fieldnames or []):
