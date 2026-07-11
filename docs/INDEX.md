@@ -43,7 +43,7 @@ Simple search and reading interface optimized for students and general users:
 ### Playground (Research Interface)
 Advanced exploration tools for medievalists and digital humanities researchers:
 
-- **17 Search Entry Points** - 6 authority file explorers + 11 TEI analysis tools
+- **18 Search Entry Points** - 6 authority file explorers + 12 TEI analysis tools
 - **Multi-Lemma Search** - Find texts containing multiple lemmata with:
   - Document-level search (all lemmata anywhere in text)
   - Proximity search (co-occurrence within N words)
@@ -51,7 +51,7 @@ Advanced exploration tools for medievalists and digital humanities researchers:
   - 3-stage lemma resolution (exact match → variants → partial match)
   - Color-coded results with clickable navigation to reading view
 - **Authority Exploration** - Browse and search persons, works, lemmata, concepts, genres, names
-- **TEI Analysis** - Eleven analysis tools over the pre-loaded MHDBDB corpus: multi-lemma search (document + proximity + same-verse), verse-position lemma search, word frequency, corpus-wide hapax legomena, text statistics, lemma distribution, concept distribution, text comparison, co-occurrence ranking, rhyme dictionary, curated character-naming explorer (4 works, Beta)
+- **TEI Analysis** - Twelve analysis tools over the pre-loaded MHDBDB corpus: multi-lemma search (document + proximity + same-verse), verse-position lemma search, word frequency, corpus-wide hapax legomena, text statistics, lemma distribution, concept distribution, text comparison, co-occurrence ranking, rhyme dictionary, verse-ending profile, curated character-naming explorer (4 works, Beta)
 
 ## Technical Stack
 

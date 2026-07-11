@@ -226,7 +226,7 @@ playground/js/ui/
 - Easier testing and maintenance
 - Net reduction: 5,536 lines removed
 
-**Playground TEI-Modul-Konvention:** alle zwölf Module unter `playground/js/ui/tei/` (außer `multi-lemma-search.js` als dokumentierter Modal-Outlier) folgen dem gleichen Constructor/`show()`/`render()`-Pattern mit Thunks statt direkter Daten-Referenzen, state-driven `renderBody()`, pro-Modul-Escape-Helpers und MessageChannel-Yield bei großen Aggregationen. Sonderfall `naming-explorer.js` (#59): hängt nicht am Corpus-Index, sondern lädt seinen eigenen kleinen Index (`data/naming-index.json.gz`) lazy per fetch+pako ohne IndexedDB-Cache. Pattern ist als Template in [DESIGN.md §Playground TEI-Analysis Module Pattern](DESIGN.md#playground-tei-analysis-module-pattern) dokumentiert.
+**Playground TEI-Modul-Konvention:** alle dreizehn Module unter `playground/js/ui/tei/` (außer `multi-lemma-search.js` als dokumentierter Modal-Outlier) folgen dem gleichen Constructor/`show()`/`render()`-Pattern mit Thunks statt direkter Daten-Referenzen, state-driven `renderBody()`, pro-Modul-Escape-Helpers und MessageChannel-Yield bei großen Aggregationen. Sonderfall `naming-explorer.js` (#59): hängt nicht am Corpus-Index, sondern lädt seinen eigenen kleinen Index (`data/naming-index.json.gz`) lazy per fetch+pako ohne IndexedDB-Cache. Pattern ist als Template in [DESIGN.md §Playground TEI-Analysis Module Pattern](DESIGN.md#playground-tei-analysis-module-pattern) dokumentiert.
 
 **Authority Explorers:**
 Each explorer follows consistent pattern:
