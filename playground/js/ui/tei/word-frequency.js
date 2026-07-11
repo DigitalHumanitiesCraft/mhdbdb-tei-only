@@ -22,7 +22,8 @@ const SORT_OPTIONS = [
 // (DET, CCNJ, SCNJ) als auch die im Authority-Index tatsaechlich auftretenden
 // Varianten (ART fuer Artikel statt DET, CNJ als Konjunktions-Fallback) --
 // die Daten-Schema-Drift wird in einem separaten POS-Workflow (#27) addressiert.
-const FUNCTION_WORD_POS = new Set([
+// Exportiert: hapax-legomena.js (#196) nutzt dieselbe Funktionswort-Menge.
+export const FUNCTION_WORD_POS = new Set([
   'DET', 'ART', 'POS', 'PRO', 'PRP', 'CCNJ', 'SCNJ', 'CNJ', 'NEG', 'IPA', 'VEX', 'VEM'
 ]);
 
