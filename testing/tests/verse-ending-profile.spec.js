@@ -22,16 +22,15 @@ test.describe('Issue #106.2: Versendings-Profil', () => {
 
   test('Funktionswort-Filter rendert die Tabelle neu', async ({ page }) => {
     await page.waitForSelector('#resultsContainer table tbody tr', { state: 'visible', timeout: 60000 });
-    const before = await page.locator('#resultsContainer table tbody tr').first().textContent();
 
     await page.check('#vepHideFunc');
     await page.waitForSelector('#resultsContainer table tbody tr', { state: 'visible', timeout: 60000 });
-    const after = await page.locator('#resultsContainer table tbody tr').first().textContent();
 
-    // Tabelle rendert weiterhin Zeilen; Top-Eintrag ändert sich, sobald ein
-    // Funktionswort vorher führte (im Gesamtkorpus praktisch sicher)
-    expect(after).toBeTruthy();
-    expect(after).not.toBe(before);
+    // Datenunabhängige Assertion (Review-Hinweis): sobald ≥1 Funktionswort
+    // gefiltert wird, zeigt der Header den Ausgeblendet-Zähler „(–N ausgeblendet)"
+    await expect(page.locator('#resultsContainer')).toContainText('ausgeblendet');
+    const rowCount = await page.locator('#resultsContainer table tbody tr').count();
+    expect(rowCount).toBeGreaterThan(0);
   });
 
   test('Text-Scope zeigt Textmeta statt Korpuslabel', async ({ page }) => {
