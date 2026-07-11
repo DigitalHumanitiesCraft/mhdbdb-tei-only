@@ -164,7 +164,7 @@ Browse and search six controlled vocabularies with consistent interface patterns
 
 ### TEI Text Analysis
 
-Corpus-wide text analysis using pre-built indexes. Zehn Werkzeuge in zehn Playground-Einträgen (Multi-Lemma bietet Dokument-, Proximity- und Vers-Modus in einem Eintrag), alle direkt im Results-Panel als in-place Form + Body (außer Multi-Lemma als Modal).
+Corpus-wide text analysis using pre-built indexes. Elf Werkzeuge in elf Playground-Einträgen (Multi-Lemma bietet Dokument-, Proximity- und Vers-Modus in einem Eintrag), alle direkt im Results-Panel als in-place Form + Body (außer Multi-Lemma als Modal).
 
 **Multi-Lemma Document Search:**
 - Input multiple lemmata (space-separated or one per line)
@@ -200,6 +200,16 @@ Corpus-wide text analysis using pre-built indexes. Zehn Werkzeuge in zehn Playgr
 - POS-basierter Stopwort-Filter (DET, ART, POS, PRO, PRP, CCNJ, SCNJ, CNJ, NEG, IPA, VEX, VEM) — entfernt häufige Funktionswörter, hebt inhaltstragende Lemmata hervor
 - Absolute oder relative Frequenz
 - Sortierung nach Frequenz oder alphabetisch
+
+**Echte Hapaxlegomena (#196):**
+- Lemmata (nicht Wortformen) mit korpusweiter Gesamtfrequenz ≤ n (Hapax/Dis/Tris, Default 1) — abzugrenzen von der Text-Hapax-Rate der Text-Statistiken (#89)
+- Datenpfad: ein Aggregations-Durchlauf über `text.lemmata` aller Texte (Pattern Wortfrequenz-Analyse); je Lemma werden die ersten ≤3 Fundorte (`textId` + Wortposition) mitgeführt, Versnummer via Binärsuche über `lineStarts[]`
+- Filter: Eigennamen ausblenden (NAM, Default an — 28 % der Hapaxe), Funktionswörter ausblenden (geteilte `FUNCTION_WORD_POS`-Menge aus word-frequency.js), Wortarten-Facette, Anfangsbuchstaben-Facette (auf `lemma.normalized`)
+- Pro Eintrag: Lemma-Link auf die Lemma-Seite, PoS-Badges, Fundort(e) als Reader-Deep-Link (`korpus.html?textId=&lemmaIds=&position=`), Details-Aufklapp mit Konzept-Chips und lazy Wörterbuchnetz-Abgleich (MWB/Lexer via geteiltem Client `assets/js/lib/woerterbuchnetz.js`, CONTRACTS §D.2) — beantwortet „echtes mhd. Hapax oder nur Korpus-Hapax?"
+- Lemma-IDs ohne Authority-Eintrag werden mit Badge angezeigt (Kuratierungs-Funde, 99 Stück Stand 2026-07)
+- Tab „Beitrag pro Text": Raritäten je Text absolut + pro 1.000 Tokens, sortierbar
+- CSV-Export der gefilterten Liste (UTF-8-BOM, Semikolon); Pagination zu 100 Einträgen
+- Bewusste Grenze: kein frei wählbares Subkorpus (Hapax relativ zu einer Textauswahl) — Follow-up-Kandidat, siehe Issue #196
 
 **Text-Statistiken (#89, Auswahl-UI #136):**
 - Pro Text: Token-Count, Lemma-Diversität (unique / total), Hapax-Rate, durchschnittliche Lemma-Frequenz

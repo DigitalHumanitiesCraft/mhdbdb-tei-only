@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Belegstellen und kuratierte Forschungsdaten zur MHDBDB beitragen: Wortfeld-Erhebungen, Figurenlisten und Stellenlisten als einfache CSV- oder Excel-Tabelle einreichen.">
+    <meta name="keywords" content="MHDBDB, Belegstellen, Forschungsdaten, beitragen, Community, Mittelhochdeutsch, CSV">
+    <meta name="author" content="Universität Salzburg">
+
+    <title>Belegstellen beitragen – MHDBDB Hilfe</title>
+
+    <link rel="stylesheet" href="assets/css/tailwind-output.css">
+    <link rel="icon" type="image/png" href="assets/images/mhdbdb-logo.png">
+    <link rel="stylesheet" href="assets/css/shared.css">
+    <link rel="stylesheet" href="assets/css/hilfe.css">
+<!-- MATOMO:START -->
+<script>
+  (function() {
+    var optedOut = false;
+    try { optedOut = window.localStorage && localStorage.getItem('mhdbdb-matomo-optout') === '1'; } catch (e) {}
+    if (optedOut) return;
+    var _paq = window._paq = window._paq || [];
+    _paq.push(['disableCookies']);
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    var u="https://webstatistics.sbg.ac.at/";
+    _paq.push(['setTrackerUrl', u+'matomo.php']);
+    _paq.push(['setSiteId', '15']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<!-- MATOMO:END -->
+</head>
+<body class="bg-slate-100 text-slate-900">
+
+<!-- NAV:START key=hilfe -->
+<header class="border-b border-slate-200 bg-white/90 backdrop-blur sticky top-0 z-50">
+    <div class="container mx-auto px-6 py-4">
+        <nav class="flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-3">
+                <img src="assets/images/mhdbdb-logo.png" alt="MHDBDB Logo" class="w-40">
+                <span class="text-lg font-bold text-brand-600">MHDBDB</span>
+            </a>
+
+            <!-- Desktop Navigation -->
+            <div class="hidden md:flex items-center gap-6">
+                <a href="index.html" data-nav="start" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                    Startseite
+                </a>
+                <a href="korpus.html" data-nav="korpus" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                    Korpussuche
+                </a>
+                <a href="playground/index.html" data-nav="playground" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                    Playground
+                </a>
+                <a href="woerterbuch.html" data-nav="woerterbuch" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                    Wörterbuch
+                </a>
+                <a aria-current="page" href="hilfe.html" data-nav="hilfe" class="text-sm text-slate-900 font-semibold hover:text-slate-900 transition">
+                    Hilfe
+                </a>
+                <a href="index.html#contact" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                    Kontakt
+                </a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobileMenuButton" class="md:hidden p-2 text-slate-600 hover:text-slate-900 transition" aria-label="Toggle menu">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </nav>
+
+        <!-- Mobile Navigation (Hidden by default, only visible on mobile) -->
+        <div id="mobileMenu" class="hidden md:hidden mt-4 pb-4 border-t border-slate-200">
+            <div class="flex flex-col gap-3 pt-4">
+                <a href="index.html" data-nav="start" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                    Startseite
+                </a>
+                <a href="korpus.html" data-nav="korpus" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                    Korpussuche
+                </a>
+                <a href="playground/index.html" data-nav="playground" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                    Playground
+                </a>
+                <a href="woerterbuch.html" data-nav="woerterbuch" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                    Wörterbuch
+                </a>
+                <a aria-current="page" href="hilfe.html" data-nav="hilfe" class="text-sm text-slate-900 font-semibold hover:text-slate-900 transition py-2">
+                    Hilfe
+                </a>
+                <a href="index.html#contact" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                    Kontakt
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- NAV:END -->
+
+    <!-- Hilfe-interne Nav-Leiste -->
+    <nav class="bg-white border-b border-slate-200" aria-label="Hilfe-Bereiche">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-wrap gap-x-8 gap-y-2 -mb-px">
+                <a href="hilfe.html" class="py-3 border-b-2 border-transparent text-slate-600 hover:text-slate-900 hover:border-slate-300 transition text-sm font-medium">
+                    Quick-Start
+                </a>
+                <a href="hilfe-korpussuche.html" class="py-3 border-b-2 border-transparent text-slate-600 hover:text-slate-900 hover:border-slate-300 transition text-sm font-medium">
+                    Korpussuche-Hilfe
+                </a>
+                <a href="hilfe-playground.html" class="py-3 border-b-2 border-transparent text-slate-600 hover:text-slate-900 hover:border-slate-300 transition text-sm font-medium">
+                    Playground-Hilfe
+                </a>
+                <a href="hilfe-daten.html" class="py-3 border-b-2 border-brand-600 text-brand-700 font-semibold text-sm" aria-current="page">
+                    Daten
+                </a>
+                <a href="hilfe-schema.html" class="py-3 border-b-2 border-transparent text-slate-600 hover:text-slate-900 hover:border-slate-300 transition text-sm font-medium">
+                    Schema
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-12">
+      <div class="hilfe-main-grid">
+        <div class="hilfe-content">
+
+        <!-- Brotkrume -->
+        <nav aria-label="Pfad" class="mb-6 text-sm text-slate-500">
+            <a href="hilfe.html" class="hover:text-brand-600 transition">Hilfe</a>
+            <span class="mx-2">›</span>
+            <span class="text-slate-700">Belegstellen beitragen</span>
+        </nav>
+
+        <!-- Hero -->
+        <section class="mb-10">
+            <h1 class="text-4xl font-bold text-slate-900 mb-4">Belegstellen &amp; kuratierte Daten beitragen</h1>
+            <p class="text-lg text-slate-600 leading-relaxed">
+                Sie forschen mit der MHDBDB und besitzen eine händisch erhobene Stellenliste,
+                eine Wortfeld-Erhebung oder eine Figurenliste? Solche Daten sind für uns
+                wertvoll, und Sie brauchen dafür weder TEI noch GitHub: eine einfache
+                Excel- oder CSV-Tabelle genügt. Die technische Aufbereitung übernehmen wir.
+            </p>
+        </section>
+
+        <!-- Inhaltsverzeichnis (inline, unter xl sichtbar) -->
+        <nav aria-label="Auf dieser Seite" class="hilfe-toc-inline mb-12 bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+            <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500 mb-3">Auf dieser Seite</h2>
+            <ol class="space-y-2 text-sm">
+                <li><a href="#was-wir-suchen" class="text-brand-600 hover:text-brand-700 font-medium">1. Was wir suchen</a></li>
+                <li><a href="#format" class="text-brand-600 hover:text-brand-700 font-medium">2. Einreichungsformat</a></li>
+                <li><a href="#gegenleistung" class="text-brand-600 hover:text-brand-700 font-medium">3. Was Sie davon haben</a></li>
+                <li><a href="#ablauf" class="text-brand-600 hover:text-brand-700 font-medium">4. Was mit den Daten passiert</a></li>
+                <li><a href="#kontakt" class="text-brand-600 hover:text-brand-700 font-medium">5. Kontakt und ganze Texte</a></li>
+            </ol>
+        </nav>
+
+        <!-- 1. Was wir suchen -->
+        <section id="was-wir-suchen" class="mb-12 scroll-mt-24">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">1. Was wir suchen</h2>
+
+            <p class="text-slate-700 leading-relaxed mb-4">
+                In Dissertationen, Aufsätzen und Seminararbeiten entstehen laufend sorgfältig
+                kuratierte Datensammlungen zur mittelhochdeutschen Literatur, die nach der
+                Publikation oft in der Schublade verschwinden. Genau diese Sammlungen suchen wir:
+            </p>
+
+            <ul class="space-y-3 text-sm text-slate-700 mb-4 ml-4 list-disc list-inside">
+                <li><strong>Belegstellenlisten</strong> – Lemma oder Wortform mit Werk und Versnummer(n), etwa alle Belege eines Wortfelds in einem Werk.</li>
+                <li><strong>Wortfeld-Erhebungen und semantische Klassifikationen</strong> – z. B. Farbadjektive, Emotionsvokabular, Rechtsterminologie.</li>
+                <li><strong>Figuren-, Namen- und Epitheta-Listen</strong> – als Vorbild dient das Playground-Werkzeug <a href="playground/index.html#naming" class="text-brand-600 hover:text-brand-700 font-medium">Erweiterte Figurenbezeichnungen</a> aus Linda Beutel-Thurows Dissertationsprojekt (10.506 Belegstellen, mit DOI zitierbar).</li>
+                <li><strong>Korrekturen einzelner Lemmatisierungen oder Annotationen</strong> – auch eine kurze Liste „an diesen Stellen ist die Annotation falsch" hilft.</li>
+            </ul>
+
+            <p class="text-slate-700 leading-relaxed">
+                Bevorzugt aus publizierten Arbeiten, weil zitierbar und qualitätsgeprüft;
+                unpublizierte Erhebungen sind ebenso willkommen.
+            </p>
+        </section>
+
+        <!-- 2. Einreichungsformat -->
+        <section id="format" class="mb-12 scroll-mt-24">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">2. Einreichungsformat: eine Tabelle genügt</h2>
+
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Excel, CSV oder eine einfache Textdatei: Was Sie haben, reicht. Ideal ist eine
+                Tabelle mit vier Spalten; zwei optionale Spalten für Anmerkungen und Quelle
+                dürfen gern dazu:
+            </p>
+
+            <div class="bg-white rounded-xl border border-slate-200 overflow-x-auto my-4">
+                <table class="w-full text-sm">
+                    <thead class="bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
+                        <tr>
+                            <th class="px-4 py-2 text-left">sigle</th>
+                            <th class="px-4 py-2 text-left">vers</th>
+                            <th class="px-4 py-2 text-left">wortform</th>
+                            <th class="px-4 py-2 text-left">lemma</th>
+                            <th class="px-4 py-2 text-left">bemerkung <span class="normal-case text-slate-400">(optional)</span></th>
+                            <th class="px-4 py-2 text-left">quelle <span class="normal-case text-slate-400">(optional)</span></th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-slate-700">
+                        <tr class="border-t border-slate-100">
+                            <td class="px-4 py-2 font-mono">GWTK</td>
+                            <td class="px-4 py-2 font-mono">1962</td>
+                            <td class="px-4 py-2">rotten</td>
+                            <td class="px-4 py-2">rôt</td>
+                            <td class="px-4 py-2">Adjektiv, flektiert</td>
+                            <td class="px-4 py-2">Diss. Kap. 4.2</td>
+                        </tr>
+                        <tr class="border-t border-slate-100">
+                            <td class="px-4 py-2 font-mono">IW</td>
+                            <td class="px-4 py-2 font-mono">3201-3204</td>
+                            <td class="px-4 py-2">der rîter</td>
+                            <td class="px-4 py-2">rîter</td>
+                            <td class="px-4 py-2">Antonomasie für Iwein</td>
+                            <td class="px-4 py-2"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Die <strong>Sigle</strong> ist das Textkürzel der MHDBDB (in der
+                <a href="korpus.html" class="text-brand-600 hover:text-brand-700 font-medium">Korpussuche</a>
+                neben jedem Titel sichtbar, z. B. <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">IW</code>
+                für Hartmanns <em>Iwein</em>). Wenn Sie nach einer anderen Edition zitieren,
+                notieren Sie das einfach in der Bemerkungs-Spalte; wir klären die Zuordnung.
+            </p>
+
+            <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded-r-lg my-6">
+                <p class="text-sm text-slate-700 mb-2">
+                    <strong>Vorlage herunterladen:</strong>
+                    <a href="assets/downloads/mhdbdb-belege-vorlage.csv" download class="text-brand-600 hover:text-brand-700 font-medium">mhdbdb-belege-vorlage.csv</a>
+                    (öffnet in Excel, LibreOffice oder jedem Texteditor; Kodierung UTF-8, Trennzeichen Semikolon).
+                </p>
+                <p class="text-sm text-slate-700">
+                    Einreichung per Mail an
+                    <a href="mailto:mhdbdb@plus.ac.at" class="text-brand-600 hover:text-brand-700 font-medium">mhdbdb@plus.ac.at</a>
+                    oder, wenn Sie mit GitHub vertraut sind, als
+                    <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">GitHub-Issue</a>.
+                </p>
+            </div>
+        </section>
+
+        <!-- 3. Was Sie davon haben -->
+        <section id="gegenleistung" class="mb-12 scroll-mt-24">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">3. Was Sie davon haben</h2>
+
+            <ul class="space-y-3 text-sm text-slate-700 mb-4 ml-4 list-disc list-inside">
+                <li><strong>Namentliche Attribution im Frontend.</strong> Wo Ihre Daten in ein Werkzeug einfließen, steht Ihr Name sichtbar dabei; Vorbild ist das Figurenbezeichnungs-Werkzeug mit Zitation und DOI.</li>
+                <li><strong>Eintrag im Mitwirkenden-Register</strong> der MHDBDB (<code class="px-2 py-0.5 bg-slate-100 rounded text-sm">contributors.xml</code>).</li>
+                <li><strong>Zitierbarkeit.</strong> Das Repositorium wird über Zenodo versioniert publiziert (Concept-DOI <a href="https://doi.org/10.5281/zenodo.20627656" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">10.5281/zenodo.20627656</a>); Ihr Beitrag wird damit Teil eines zitierfähigen Forschungsdatensatzes.</li>
+                <li><strong>Nachhaltigkeit.</strong> Aus der Schubladen-Tabelle werden dauerhaft nachnutzbare, offen lizenzierte Forschungsdaten.</li>
+            </ul>
+        </section>
+
+        <!-- 4. Ablauf -->
+        <section id="ablauf" class="mb-12 scroll-mt-24">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">4. Was mit den Daten passiert</h2>
+
+            <ul class="space-y-3 text-sm text-slate-700 mb-4 ml-4 list-disc list-inside">
+                <li><strong>Abgleich mit der Korpus-Annotation.</strong> Ihre Stellenliste sagt uns nicht nur, <em>dass</em> etwas fehlt oder falsch ist, sondern <em>was wo hingehört</em>. Solche Listen dienen als Goldstandard für die Nachannotation bisher unlemmatisierter oder ambiger Formen.</li>
+                <li><strong>Priorisierungssignal.</strong> Wo aktiv geforscht wird, verbessern wir die Annotation zuerst.</li>
+                <li><strong>Kuratierte Integration.</strong> Die Aufnahme erfolgt geprüft und schrittweise, kein Automatismus. Vor der Integration klären wir mit Ihnen die Lizenz; das Repositorium steht unter <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>.</li>
+                <li><strong>Realistische Erwartung.</strong> Je nach Umfang und Projektlage kann zwischen Einreichung und sichtbarer Integration Zeit vergehen; wir melden uns in jedem Fall zurück.</li>
+            </ul>
+        </section>
+
+        <!-- 5. Kontakt -->
+        <section id="kontakt" class="mb-12 scroll-mt-24">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">5. Kontakt und ganze Texte</h2>
+
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Erstkontakt, Rückfragen, Einreichungen:
+                <a href="mailto:mhdbdb@plus.ac.at" class="text-brand-600 hover:text-brand-700 font-medium">mhdbdb@plus.ac.at</a>.
+                Eine kurze Beschreibung Ihrer Daten (Werk, Umfang, Erhebungskontext) genügt für
+                den Anfang.
+            </p>
+
+            <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded-r-lg my-6">
+                <p class="text-sm text-slate-700">
+                    <strong>Sie wollen ganze Texte beitragen?</strong> Für vollständige
+                    TEI-Editionen (neue Werke, neue Textzeugen) gibt es einen eigenen
+                    technischen Leitfaden:
+                    <a href="hilfe-daten-beitragen.html" class="text-brand-600 hover:text-brand-700 font-medium">Eigene Texte beitragen</a>.
+                </p>
+            </div>
+        </section>
+
+        <!-- Stand-Zeile -->
+        <p class="hilfe-stand">
+            Stand: Juli 2026 ·
+            <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/commits/main/hilfe-belege-beitragen.html" target="_blank" rel="noopener">Änderungen auf GitHub</a>
+        </p>
+
+        </div><!-- /.hilfe-content -->
+
+        <!-- Sticky TOC (sichtbar ab xl) -->
+        <aside class="hilfe-toc-aside">
+            <nav aria-label="Auf dieser Seite" class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
+                <h2 class="text-xs font-semibold uppercase tracking-wide text-slate-500 mb-3">Auf dieser Seite</h2>
+                <ol class="space-y-2 text-sm">
+                    <li><a href="#was-wir-suchen" class="text-brand-600 hover:text-brand-700 font-medium">1. Was wir suchen</a></li>
+                    <li><a href="#format" class="text-brand-600 hover:text-brand-700 font-medium">2. Einreichungsformat</a></li>
+                    <li><a href="#gegenleistung" class="text-brand-600 hover:text-brand-700 font-medium">3. Was Sie davon haben</a></li>
+                    <li><a href="#ablauf" class="text-brand-600 hover:text-brand-700 font-medium">4. Was mit den Daten passiert</a></li>
+                    <li><a href="#kontakt" class="text-brand-600 hover:text-brand-700 font-medium">5. Kontakt und ganze Texte</a></li>
+                </ol>
+            </nav>
+        </aside>
+
+      </div><!-- /.hilfe-main-grid -->
+    </main>
+
+<!-- FOOTER:START -->
+<footer class="bg-slate-100 text-slate-900 py-8">
+  <div class="container mx-auto px-6">
+    <!-- Logos Row -->
+    <div
+      class="flex flex-wrap items-center justify-center gap-8 mb-6 pb-6 border-b border-slate-300"
+    >
+      <img
+        src="assets/images/mhdbdb-logo.png"
+        alt="MHDBDB Logo"
+        class="h-16 w-auto"
+      />
+      <img
+        src="assets/images/university-logo.png"
+        alt="Universität Salzburg"
+        class="h-24 w-auto"
+      />
+      <img
+        src="assets/images/clariah-logo.png"
+        alt="CLARIAH-AT"
+        class="h-24 w-auto"
+      />
+    </div>
+
+    <!-- Info and Button Row -->
+    <div
+      class="flex flex-col md:flex-row justify-between items-center gap-6"
+    >
+      <div class="text-center md:text-left">
+        <p class="text-sm mb-2">
+          Universität Salzburg, 2025–<span class="current-year">2026</span> |
+          <a
+            href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
+            class="hover:text-brand-600 transition"
+            target="_blank"
+            rel="noopener"
+          >
+            CC BY-NC-SA 4.0
+          </a>
+        </p>
+        <div
+          class="flex flex-wrap justify-center md:justify-start gap-4 text-sm text-slate-600"
+        >
+          <a
+            href="mailto:mhdbdb@plus.ac.at"
+            class="hover:text-brand-600 transition"
+            >mhdbdb@plus.ac.at</a
+          >
+          <span>|</span>
+          <a
+            href="https://mhdbdb.plus.ac.at"
+            class="hover:text-brand-600 transition"
+            target="_blank"
+            rel="noopener"
+          >
+            mhdbdb.plus.ac.at
+          </a>
+          <span>|</span>
+          <a
+            href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only"
+            class="hover:text-brand-600 transition"
+            target="_blank"
+            rel="noopener"
+          >
+            GitHub
+          </a>
+          <span>|</span>
+          <a
+            href="impressum.html"
+            class="hover:text-brand-600 transition"
+          >
+            Impressum
+          </a>
+          <span>|</span>
+          <a
+            href="barrierefreiheit.html"
+            class="hover:text-brand-600 transition"
+          >
+            Barrierefreiheit
+          </a>
+        </div>
+      </div>
+      <button
+        id="clearSiteDataBtn"
+        class="btn-secondary text-sm flex items-center gap-2"
+        title="Alle gespeicherten Daten löschen (Cache, IndexedDB, etc.)"
+      >
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+        </svg>
+        <span>Website-Daten löschen</span>
+      </button>
+    </div>
+  </div>
+</footer>
+<script src="assets/js/site-chrome.js" defer></script>
+<!-- FOOTER:END -->
+
+</body>
+</html>

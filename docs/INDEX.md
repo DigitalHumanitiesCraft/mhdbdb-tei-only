@@ -43,7 +43,7 @@ Simple search and reading interface optimized for students and general users:
 ### Playground (Research Interface)
 Advanced exploration tools for medievalists and digital humanities researchers:
 
-- **16 Search Entry Points** - 6 authority file explorers + 10 TEI analysis tools
+- **17 Search Entry Points** - 6 authority file explorers + 11 TEI analysis tools
 - **Multi-Lemma Search** - Find texts containing multiple lemmata with:
   - Document-level search (all lemmata anywhere in text)
   - Proximity search (co-occurrence within N words)
@@ -51,7 +51,7 @@ Advanced exploration tools for medievalists and digital humanities researchers:
   - 3-stage lemma resolution (exact match → variants → partial match)
   - Color-coded results with clickable navigation to reading view
 - **Authority Exploration** - Browse and search persons, works, lemmata, concepts, genres, names
-- **TEI Analysis** - Ten analysis tools over the pre-loaded MHDBDB corpus: multi-lemma search (document + proximity + same-verse), verse-position lemma search, word frequency, text statistics, lemma distribution, concept distribution, text comparison, co-occurrence ranking, rhyme dictionary, curated character-naming explorer (4 works, Beta)
+- **TEI Analysis** - Eleven analysis tools over the pre-loaded MHDBDB corpus: multi-lemma search (document + proximity + same-verse), verse-position lemma search, word frequency, corpus-wide hapax legomena, text statistics, lemma distribution, concept distribution, text comparison, co-occurrence ranking, rhyme dictionary, curated character-naming explorer (4 works, Beta)
 
 ## Technical Stack
 
@@ -161,6 +161,7 @@ Aktuelle Index-Versionen siehe [TEI-MODEL.md §11](TEI-MODEL.md#11-versionierung
 - ✅ **#125 Deterministische Index-Builds + CI-Freshness-Gate** (2026-06-12) - Identischer Quellstand erzeugt byte-identische Indexe (kein `generatedAt`, sortiertes glob, gzip `mtime=0`); CI-Workflow `data-integrity.yml` (konsolidiert die früheren `schema-validation.yml` + `index-version-check.yml`) rebuildet variants.xml + beide Indexe bei jedem Daten-PR und blockt vergessene Rebuilds; Dependency-Pins in `requirements.txt`; Corpus v4.1.4, Authority v1.4.1
 - ✅ **#45 Statische JSON-API** (2026-06-12) - FAIR-orientierte JSON-API unter `/api/` (2.742 Dateien, ~14 MB): Root-Manifest, Lemmata-Bundle (43.754 volle Records), Einzelressourcen für Persons/Works/Concepts/Genres/Names/Texte; deterministischer Build (`scripts/build-api.py`) + CI-Freshness-Gate; Doku-Seite `api/index.html`
 - ✅ **#106 Reim-Wörterbuch (Minimalvariante)** (2026-07-02) - Zehntes TEI-Analyse-Werkzeug: Reimpartner-Lemmata an benachbarten Versenden (`lineEnds[]`-Scan, Suffix-Heuristik auf normalisierten Lemma-Formen, Paarreim-Annahme), optionaler Text/Autor-Filter, „→ Belege"-Link in die Multi-Lemma-Nähe-Suche; kein neuer Build-Schritt. Großplan (Original-Token, Phonetik) bleibt für #109 aufgehoben
+- ✅ **#196 Echte Hapaxlegomena** (2026-07-10) - Elftes TEI-Analyse-Werkzeug: korpusweit einmalige Lemmata (Schwelle Hapax/Dis/Tris) mit Fundort + Versangabe + Reader-Deep-Link, Eigennamen-/Funktionswort-/PoS-/Buchstaben-Filter, Wörterbuchnetz-Abgleich je Eintrag (MWB/Lexer), Tab „Beitrag pro Text" (absolut + pro 1000 Tokens), CSV-Export; frontend-only ohne neuen Index
 - ✅ **#114 Followups Tabellenansicht** (2026-07-02) - Integrationswünsche aus der Prüfung: Gesamtzeile mit Gesamttrefferzahl (sticky tfoot + Results-Header), Types/Schreibformen + MWB/Lexer-Links im Lemma-Panel (Wörterbuchnetz-API, Pattern #73), sortierbare Keyness-Spalte (Log-Likelihood Text vs. Gesamtkorpus, Signifikanz-Markierung ≥ 10,83)
 
 ### Known Limitations

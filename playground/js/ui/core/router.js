@@ -10,7 +10,8 @@
  * Supported views:
  *   authors, works, lemmata, concepts, genres, names,
  *   multi-lemma, verse-position, word-frequency, text-statistics, lemma-distribution,
- *   concept-distribution, text-comparison, cooccurrence-ranking, rhyme-dictionary, naming
+ *   concept-distribution, text-comparison, cooccurrence-ranking, rhyme-dictionary,
+ *   hapax-legomena, naming
  *
  * Example URLs:
  *   playground/#authors                          → open Autoren-Explorer
@@ -24,6 +25,7 @@
  *   playground/#text-comparison                  → open Textvergleich
  *   playground/#cooccurrence-ranking             → open Kookkurrenz-Ranking
  *   playground/#rhyme-dictionary                 → open Reim-Wörterbuch
+ *   playground/#hapax-legomena                   → open Echte Hapaxlegomena
  *   playground/#naming                           → open Erweiterte Figurenbezeichnungen (Beta)
  */
 
@@ -43,6 +45,7 @@ const ROUTES = {
   'text-comparison':    ()       => window.playground.ui.textComparison.show(),
   'cooccurrence-ranking': ()     => window.playground.ui.cooccurrenceRanking.show(),
   'rhyme-dictionary':   ()       => window.playground.ui.rhymeDictionary.show(),
+  'hapax-legomena':     ()       => window.playground.ui.hapaxLegomena.show(),
   'naming':             ()       => window.playground.ui.namingExplorer.show(),
 };
 
