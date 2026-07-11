@@ -55,6 +55,7 @@ PAGES = {
     "hilfe.html": ("hilfe", ""),
     "hilfe-daten.html": ("hilfe", ""),
     "hilfe-daten-beitragen.html": ("hilfe", ""),
+    "hilfe-belege-beitragen.html": ("hilfe", ""),
     "hilfe-korpussuche.html": ("hilfe", ""),
     "hilfe-playground.html": ("hilfe", ""),
     "hilfe-schema.html": ("hilfe", ""),

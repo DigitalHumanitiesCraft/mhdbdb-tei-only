@@ -192,7 +192,7 @@
             </p>
             <ol class="space-y-2 text-sm text-slate-700 mb-4 ml-4 list-decimal list-inside">
                 <li><strong>Korpus-Browser</strong> (links) – alle 667 Texte sind standardmäßig aktiv. Hier schränken Sie die Analyse auf bestimmte Werke, Autor*innen oder Gattungen ein.</li>
-                <li><strong>Abfragen</strong> (Mitte) – sechs Authority-File-Einstiegspunkte plus zehn TEI-Analysewerkzeuge: Multi-Lemma-Suche, Lemmasuche nach Versposition, Wortfrequenz-Analyse, Text-Statistiken, Lemma-Verteilung, Begriffs-Verteilung, Textvergleich, Kookkurrenz-Ranking, Reim-Wörterbuch und Erweiterte Figurenbezeichnungen (Beta).</li>
+                <li><strong>Abfragen</strong> (Mitte) – sechs Authority-File-Einstiegspunkte plus zwölf TEI-Analysewerkzeuge: Multi-Lemma-Suche, Lemmasuche nach Versposition, Wortfrequenz-Analyse, Echte Hapaxlegomena, Text-Statistiken, Lemma-Verteilung, Begriffs-Verteilung, Textvergleich, Kookkurrenz-Ranking, Reim-Wörterbuch, Versendings-Profil und Erweiterte Figurenbezeichnungen (Beta).</li>
                 <li><strong>Ergebnisse</strong> (rechts) – die Trefferliste zur aktuellen Abfrage, mit farbkodiertem Highlighting und Klick-Navigation in die Leseansicht.</li>
             </ol>
             <p class="text-slate-700 leading-relaxed">
@@ -239,6 +239,18 @@
                     Abstand zusammenstehen). Der Standardwert von 10 Wörtern hat sich bewährt;
                     einstellbar von 1 bis 50. Ideal für Fragen wie: „In welchen Passagen stehen
                     <em>minne</em> und <em>herze</em> eng zusammen?"
+                </p>
+            </div>
+
+            <div class="bg-white rounded-xl border border-slate-200 p-5 my-4">
+                <h4 class="text-base font-semibold text-slate-900 mb-2">Im selben Vers</h4>
+                <p class="text-sm text-slate-700 leading-relaxed">
+                    Die syntaktisch engste Variante: findet nur Verse, in denen alle gesuchten
+                    Lemmata gemeinsam innerhalb <strong>einer Verszeile</strong> stehen. Ideal für
+                    Formel- und Kollokationsfragen wie: „Wo steht <em>rôt</em> unmittelbar bei
+                    <em>munt</em> im selben Vers?" Funktioniert nur in Versdichtung (rund 90 %
+                    des Korpus); Prosa-Texte haben keine Verszeilen und bleiben außen vor.
+                    Jeder Treffer nennt die Versnummer im Text.
                 </p>
             </div>
 
@@ -432,6 +444,44 @@
                     Die Heuristik ist strukturell und lemma-basiert: Kreuzreime (ABAB) und rein
                     klangliche Übereinstimmungen jenseits der Schriftform entgehen ihr; Prosatexte
                     werden ignoriert.
+                </p>
+            </div>
+
+            <div class="bg-white rounded-xl border border-slate-200 p-5 my-4">
+                <h3 class="text-base font-semibold text-slate-900 mb-2">Versendings-Profil</h3>
+                <p class="text-sm text-slate-700 leading-relaxed">
+                    Zeigt die häufigsten Lemmata am Versende – für das Gesamtkorpus, eine Autorin
+                    bzw. einen Autor oder einen einzelnen Text. Damit lassen sich Reim-Stile
+                    vergleichen: Was reimt Wolfram bevorzugt, was Hartmann? Neben der absoluten
+                    Zahl der Versende-Belege nennt die Tabelle den Anteil an allen Versenden des
+                    gewählten Bereichs sowie den <strong>Reim-Druck</strong>: den Anteil der
+                    Vorkommen eines Lemmas, die am Versende stehen. Ein Lemma mit 70 % Ende-Anteil
+                    ist stark reimgetrieben, eines mit 5 % eher semantisch motiviert. Der
+                    Funktionswort-Filter blendet Pronomen, Artikel und Hilfsverben aus. Wie alle
+                    Vers-Werkzeuge wertet das Profil nur Versdichtung aus (rund 90 % des Korpus);
+                    Prosa-Texte werden übersprungen.
+                </p>
+            </div>
+
+            <div class="bg-white rounded-xl border border-slate-200 p-5 my-4">
+                <h3 class="text-base font-semibold text-slate-900 mb-2">Echte Hapaxlegomena</h3>
+                <p class="text-sm text-slate-700 leading-relaxed">
+                    Listet Lemmata, die im gesamten Korpus nur einmal belegt sind (wählbar auch
+                    Frequenz ≤ 2 oder ≤ 3), mit Fundort samt Versangabe und Sprung in die
+                    Leseansicht. Wichtig zur Einordnung: Hier zählt die <em>korpusweite</em>
+                    Gesamtfrequenz eines Lemmas; die Hapax-Rate der Text-Statistiken zählt
+                    dagegen Lemmata, die innerhalb eines einzelnen Texts nur einmal vorkommen.
+                    Filter gegen Eigennamen (gut ein Viertel aller Hapaxe) und Funktionswörter,
+                    eine Wortarten- und eine Anfangsbuchstaben-Facette grenzen die Liste ein;
+                    „Details" prüft je Eintrag über das Wörterbuchnetz, ob das Lemma im
+                    Mittelhochdeutschen Wörterbuch oder im Lexer verzeichnet ist – so lässt
+                    sich abschätzen, ob ein echtes mhd. Hapax oder nur ein Korpus-Hapax
+                    vorliegt. Der zweite Tab „Beitrag pro Text" zeigt, welche Texte die meisten
+                    Raritäten enthalten (absolut und pro 1.000 Tokens); der CSV-Export übergibt
+                    die gefilterte Liste an die Redaktion oder eigene Auswertungen. Achtung:
+                    Unlemmatisierte Tokens sind im Index unsichtbar, und Hapaxe sind nicht
+                    selten schlicht Lemmatisierungsfehler – das Werkzeug ist damit zugleich
+                    ein Kuratierungsinstrument.
                 </p>
             </div>
 
@@ -631,9 +681,9 @@
         class="h-24 w-auto"
       />
       <img
-        src="assets/images/clariah-logo.png"
+        src="assets/images/clariah-logo.svg"
         alt="CLARIAH-AT"
-        class="h-24 w-auto"
+        class="h-16 w-auto"
       />
     </div>
 

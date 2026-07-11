@@ -10,7 +10,8 @@
  * Supported views:
  *   authors, works, lemmata, concepts, genres, names,
  *   multi-lemma, verse-position, word-frequency, text-statistics, lemma-distribution,
- *   concept-distribution, text-comparison, cooccurrence-ranking, rhyme-dictionary, naming
+ *   concept-distribution, text-comparison, cooccurrence-ranking, rhyme-dictionary,
+ *   hapax-legomena, verse-ending-profile, naming
  *
  * Example URLs:
  *   playground/#authors                          → open Autoren-Explorer
@@ -24,6 +25,8 @@
  *   playground/#text-comparison                  → open Textvergleich
  *   playground/#cooccurrence-ranking             → open Kookkurrenz-Ranking
  *   playground/#rhyme-dictionary                 → open Reim-Wörterbuch
+ *   playground/#hapax-legomena                   → open Echte Hapaxlegomena
+ *   playground/#verse-ending-profile             → open Versendings-Profil
  *   playground/#naming                           → open Erweiterte Figurenbezeichnungen (Beta)
  */
 
@@ -43,6 +46,8 @@ const ROUTES = {
   'text-comparison':    ()       => window.playground.ui.textComparison.show(),
   'cooccurrence-ranking': ()     => window.playground.ui.cooccurrenceRanking.show(),
   'rhyme-dictionary':   ()       => window.playground.ui.rhymeDictionary.show(),
+  'hapax-legomena':     ()       => window.playground.ui.hapaxLegomena.show(),
+  'verse-ending-profile': ()     => window.playground.ui.verseEndingProfile.show(),
   'naming':             ()       => window.playground.ui.namingExplorer.show(),
 };
 
@@ -128,7 +133,7 @@ export function buildHash(view, params = {}) {
  *
  * Supported params:
  *   lemmata — comma-separated list of lemma terms, e.g. "minne,êre"
- *   mode    — "proximity" (default) or "document"
+ *   mode    — "proximity" (default), "verse" (#106 Punkt 8) or "document"
  *   dist    — proximity distance (integer, default 10, only used in proximity mode)
  */
 function handleMultiLemmaRoute(params) {
@@ -163,7 +168,7 @@ function handleMultiLemmaRoute(params) {
   }
 
   // Set search mode (defaults to proximity per v4.0.0 convention)
-  const mode = params.mode === 'document' ? 'document' : 'proximity';
+  const mode = ['document', 'verse'].includes(params.mode) ? params.mode : 'proximity';
   const modeRadio = document.querySelector(`input[name="searchMode"][value="${mode}"]`);
   if (modeRadio) {
     modeRadio.checked = true;

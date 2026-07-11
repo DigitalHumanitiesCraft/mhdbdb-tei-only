@@ -251,6 +251,11 @@ export class MultiLemmaSearchUI {
                 results = await teiManager.searchMultipleLemmasUsingIndex(lemmaIds, 'proximity', maxDistance);
                 if (getNavigationEpoch() !== myEpoch) return;
                 this.teiExplorer.displayCooccurrenceResults(results, searchTerms, maxDistance, lemmaIds);
+            } else if (searchMode === 'verse') {
+                // #106 Punkt 8: Kookkurrenz auf ein gemeinsames <l> beschränkt
+                results = await teiManager.searchMultipleLemmasUsingIndex(lemmaIds, 'verse');
+                if (getNavigationEpoch() !== myEpoch) return;
+                this.teiExplorer.displayCooccurrenceResults(results, searchTerms, null, lemmaIds, { verseMode: true });
             } else {
                 // Use fast index-based search for paragraph/document mode
                 results = await teiManager.searchMultipleLemmasUsingIndex(lemmaIds, searchMode);

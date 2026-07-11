@@ -258,6 +258,15 @@
                                 <span class="text-xs font-normal text-slate-500 mt-0.5">Reimpartner-Lemmata an benachbarten Versenden</span>
                             </span>
                         </button>
+                        <button id="showVerseEndingProfileBtn" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 flex items-center gap-2.5">
+                            <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M10 10h10M4 14h16M10 18h10"></path>
+                            </svg>
+                            <span class="flex flex-col items-start leading-tight">
+                                <span>Versendings-Profil</span>
+                                <span class="text-xs font-normal text-slate-500 mt-0.5">Top-Lemmata am Versende pro Korpus, Autor*in oder Text</span>
+                            </span>
+                        </button>
                         <button id="showWordFrequencyBtn" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 flex items-center gap-2.5">
                             <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
@@ -265,6 +274,15 @@
                             <span class="flex flex-col items-start leading-tight">
                                 <span>Wortfrequenz-Analyse</span>
                                 <span class="text-xs font-normal text-slate-500 mt-0.5">Zeigt die Vorkommenshäufigkeit an</span>
+                            </span>
+                        </button>
+                        <button id="showHapaxLegomenaBtn" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 flex items-center gap-2.5">
+                            <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-5.197-5.197M15.803 15.803A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607zM10.5 7.5v6m3-3h-6"></path>
+                            </svg>
+                            <span class="flex flex-col items-start leading-tight">
+                                <span>Echte Hapaxlegomena</span>
+                                <span class="text-xs font-normal text-slate-500 mt-0.5">Korpusweit einmalige Lemmata mit Fundort</span>
                             </span>
                         </button>
                         <button id="showTextStatisticsBtn" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 flex items-center gap-2.5">
@@ -441,7 +459,7 @@
                 <div class="input-section">
                     <label class="input-label" style="display: inline-flex; align-items: center; gap: 0.375rem;">
                         Suchmodus wählen
-                        <a href="../hilfe-playground.html#multi-lemma" target="_blank" rel="noopener" class="help-icon" aria-label="Hilfe zu Nähe- und Dokument-Modus" title="Hilfe zu Nähe- und Dokument-Modus">
+                        <a href="../hilfe-playground.html#multi-lemma" target="_blank" rel="noopener" class="help-icon" aria-label="Hilfe zu Nähe-, Vers- und Dokument-Modus" title="Hilfe zu Nähe-, Vers- und Dokument-Modus">
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                         </a>
                     </label>
@@ -464,6 +482,20 @@
                                         <input type="number" id="proximityDistance" value="10" min="1" max="50" class="proximity-input" />
                                     </label>
                                 </div>
+                            </div>
+                        </label>
+
+                        <!-- Verse Mode (#106 Punkt 8) -->
+                        <label class="mode-card">
+                            <input type="radio" name="searchMode" value="verse" class="mode-radio" />
+                            <div class="mode-content">
+                                <div class="mode-header">
+                                    <svg class="mode-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h10M4 18h10"></path>
+                                    </svg>
+                                    <span class="mode-title">Im selben Vers</span>
+                                </div>
+                                <p class="mode-description">Findet Verse, die alle Lemmata gemeinsam enthalten (nur Versdichtung)</p>
                             </div>
                         </label>
 
@@ -515,9 +547,9 @@
         class="h-24 w-auto"
       />
       <img
-        src="../assets/images/clariah-logo.png"
+        src="../assets/images/clariah-logo.svg"
         alt="CLARIAH-AT"
-        class="h-24 w-auto"
+        class="h-16 w-auto"
       />
     </div>
 

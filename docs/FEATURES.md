@@ -164,7 +164,7 @@ Browse and search six controlled vocabularies with consistent interface patterns
 
 ### TEI Text Analysis
 
-Corpus-wide text analysis using pre-built indexes. Zehn Werkzeuge in zehn Playground-Einträgen (Multi-Lemma bietet Dokument- und Proximity-Modus in einem Eintrag), alle direkt im Results-Panel als in-place Form + Body (außer Multi-Lemma als Modal).
+Corpus-wide text analysis using pre-built indexes. Zwölf Werkzeuge in zwölf Playground-Einträgen (Multi-Lemma bietet Dokument-, Proximity- und Vers-Modus in einem Eintrag), alle direkt im Results-Panel als in-place Form + Body (außer Multi-Lemma als Modal).
 
 **Multi-Lemma Document Search:**
 - Input multiple lemmata (space-separated or one per line)
@@ -180,6 +180,13 @@ Corpus-wide text analysis using pre-built indexes. Zehn Werkzeuge in zehn Playgr
 - Results: Context snippets with color-coded highlighting
 - Click result → open main site reading view with URL parameters
 
+**Multi-Lemma-Suche „Im selben Vers" (#106 Punkt 8):**
+- Kookkurrenz auf ein gemeinsames `<l>` beschränkt (syntaktisch enger als das Wort-Fenster der Proximity-Suche)
+- Datenbasis: `lineStarts[]`/`lineEnds[]` aus dem Corpus-Index v4.1.0+, kein neuer Build-Schritt
+- Nur Versdichtung (603 von 667 Texten); Prosa wird automatisch übersprungen
+- Treffer nennen die Versnummer; Expand + Reader-Deep-Link wie in der Proximity-Suche
+- URL-Routing: `#multi-lemma&lemmata=…&mode=verse`
+
 **Lemmasuche nach Versposition (#47.3):**
 - Single Lemma + Position-Auswahl (Versanfang / Versende, Default Versende)
 - Findet Lemmata, die genau am ersten oder letzten `<w>` einer `<l>` stehen
@@ -193,6 +200,16 @@ Corpus-wide text analysis using pre-built indexes. Zehn Werkzeuge in zehn Playgr
 - POS-basierter Stopwort-Filter (DET, ART, POS, PRO, PRP, CCNJ, SCNJ, CNJ, NEG, IPA, VEX, VEM) — entfernt häufige Funktionswörter, hebt inhaltstragende Lemmata hervor
 - Absolute oder relative Frequenz
 - Sortierung nach Frequenz oder alphabetisch
+
+**Echte Hapaxlegomena (#196):**
+- Lemmata (nicht Wortformen) mit korpusweiter Gesamtfrequenz ≤ n (Hapax/Dis/Tris, Default 1) — abzugrenzen von der Text-Hapax-Rate der Text-Statistiken (#89)
+- Datenpfad: ein Aggregations-Durchlauf über `text.lemmata` aller Texte (Pattern Wortfrequenz-Analyse); je Lemma werden die ersten ≤3 Fundorte (`textId` + Wortposition) mitgeführt, Versnummer via Binärsuche über `lineStarts[]`
+- Filter: Eigennamen ausblenden (NAM, Default an — 28 % der Hapaxe), Funktionswörter ausblenden (geteilte `FUNCTION_WORD_POS`-Menge aus word-frequency.js), Wortarten-Facette, Anfangsbuchstaben-Facette (auf `lemma.normalized`)
+- Pro Eintrag: Lemma-Link auf die Lemma-Seite, PoS-Badges, Fundort(e) als Reader-Deep-Link (`korpus.html?textId=&lemmaIds=&position=`), Details-Aufklapp mit Konzept-Chips und lazy Wörterbuchnetz-Abgleich (MWB/Lexer via geteiltem Client `assets/js/lib/woerterbuchnetz.js`, CONTRACTS §D.2) — beantwortet „echtes mhd. Hapax oder nur Korpus-Hapax?"
+- Lemma-IDs ohne Authority-Eintrag werden mit Badge angezeigt (Kuratierungs-Funde, 99 Stück Stand 2026-07)
+- Tab „Beitrag pro Text": Raritäten je Text absolut + pro 1.000 Tokens, sortierbar
+- CSV-Export der gefilterten Liste (UTF-8-BOM, Semikolon); Pagination zu 100 Einträgen
+- Bewusste Grenze: kein frei wählbares Subkorpus (Hapax relativ zu einer Textauswahl) — Follow-up-Kandidat, siehe Issue #196
 
 **Text-Statistiken (#89, Auswahl-UI #136):**
 - Pro Text: Token-Count, Lemma-Diversität (unique / total), Hapax-Rate, durchschnittliche Lemma-Frequenz
@@ -241,6 +258,13 @@ Corpus-wide text analysis using pre-built indexes. Zehn Werkzeuge in zehn Playgr
 - Pro Partner: Reimpaar-Zahl, Texte als Sigle-Chips mit Paarzahl, „→ Belege" klappt die gezählten Verspaare direkt in der Tabelle auf: beide Verse als vollständiger `<l>`-Inhalt (lazy per TEI-Fetch; Highlight-Mapping über CONTRACTS-§B-Positionszählung, damit `lineEnds[]`-Positionen auf die richtigen Wörter zeigen), markierte Reimwörter, Versangabe aus `<l n>`, Reader-Deep-Link (`position=`); paginiert zu 10, Cap 1000 gespeicherte Verspaare pro Partner. (Vorher nur Link in den Nähe-Modus der Multi-Lemma-Suche mit Distanz 15 — zeigte auch Kookkurrenzen abseits der Versenden, also keine Reime; KZW-Report 2026-07-09)
 - Async-Chunking + Abort-Token (Pattern wie #107), Prosa (leere `lineEnds`) wird übersprungen
 - Bewusste Grenzen der Minimalvariante (Issue #106): lemma- statt token-basiert (reimende Flexionsform kann abweichen), strukturell statt phonetisch, Kreuzreime (ABAB) entgehen dem ±1-Scan; Original-Token-Variante bräuchte Index-Erweiterung (`lineEndWords[]`), phonetische Klassifikation ist #109-Folgearbeit
+
+**Versendings-Profil (#106 Punkt 2):**
+- Top-N häufigste Lemmata am Versende — Scope wählbar: Gesamtkorpus, Autor*in (optgroup) oder Einzeltext
+- Datenpfad: `text.words[lineEnds[i]]` je Vers (Corpus-Index v4.1.x), kein neuer Build-Schritt
+- Spalten: Versende-Belege (absolut), Anteil an allen Versenden des Scopes, **Reim-Druck** = Anteil der Vorkommen des Lemmas am Versende vs. gesamt (#106 Punkt 3: hoher Wert = reimgetrieben, niedriger = semantisch motiviert)
+- Funktionswort-Filter (gleiche POS-Menge wie Wortfrequenz/Hapax), Lemma-Links auf die Lemma-Seiten
+- Nur Versdichtung (leere `lineEnds` -> übersprungen); Use Case aus dem Issue: Reim-Stil-Vergleich Wolfram/Hartmann/Gottfried
 
 **Erweiterte Figurenbezeichnungen (#59, Beta):**
 - Kuratierte Bezeichnungspraktiken jenseits des Eigennamens für vier Werke (ENE, IW, ROL, TRO) aus dem Dissertationsprojekt Naming-analysis von Linda Beutel-Thurow
