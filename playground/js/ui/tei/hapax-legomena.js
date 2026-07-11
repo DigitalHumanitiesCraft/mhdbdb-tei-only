@@ -440,7 +440,7 @@ export class HapaxLegomenaAnalyzer {
       if (!dictEl) return;
       const links = results.flatMap(({ sigle, entries }) =>
         entries.slice(0, 3).map(e =>
-          `<a href="${e.wbnetzlink}" target="_blank" rel="noopener" class="text-brand-700 hover:underline">${escapeHtml(sigle)}: ${escapeHtml(decodeHtmlEntities(e.textstring || e.lemma || lemma.lemma))}</a>`
+          `<a href="${escapeHtml(e.wbnetzlink)}" target="_blank" rel="noopener" class="text-brand-700 hover:underline">${escapeHtml(sigle)}: ${escapeHtml(decodeHtmlEntities(e.textstring || e.lemma || lemma.lemma))}</a>`
         )
       );
       dictEl.innerHTML = links.length > 0
