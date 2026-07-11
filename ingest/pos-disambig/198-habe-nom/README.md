@@ -54,6 +54,14 @@ nach dem Umhängen wären sie lemma-fremd. Sie wurden entfernt und sind vollstä
 - `review-faelle.csv` — 17 Fälle für menschliches Review: 6 REVIEW (3 davon mit
   verbleibendem NOM unter lemma_2598), alle Konfidenz-<-high-Fälle, alle
   hauen/houwen-Verdachtsfälle
+- `actions.json` — LLM-Verdicts aller 714 Fälle (Verdict, Aktion, Begründung,
+  Konfidenz): die `--actions`-Eingabe des Anwendungs-Skripts
+- `cases.json` — Extraktions-Stand der 714 Tokens vor dem Batch (Datei, xml:id,
+  Form, alte Attribute, Kontext): die `--cases`-Eingabe des Anwendungs-Skripts
+
+Anwendungs-Skript: `scripts/ingest/pos-disambig/fix-198-habe-nom.py`. Ein Replay
+(Dry-Run oder `--apply`) setzt den Korpus-Stand vor dem Batch voraus
+(Parent-Commit), weil das Skript die Alt-Werte verifiziert, bevor es schreibt.
 
 ## Invarianten (geprüft)
 

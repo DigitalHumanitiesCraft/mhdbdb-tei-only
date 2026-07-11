@@ -22,10 +22,15 @@ Nur @lemmaRef/@pos/@ana/@corresp aendern sich; Token-Text, Reihenfolge und
 xml:id bleiben byte-identisch (Invariante POS-TAGSET.md §6.3.4).
 
 Usage:
-    python scripts/fix-198-habe-nom.py --actions <actions.json> --cases <cases.json> \
+    python scripts/ingest/pos-disambig/fix-198-habe-nom.py \
+        --actions ingest/pos-disambig/198-habe-nom/actions.json \
+        --cases ingest/pos-disambig/198-habe-nom/cases.json \
         --out-dir ingest/pos-disambig/198-habe-nom [--apply]
 
 Ohne --apply: Dry-Run (prueft alle Matches, schreibt nur die Diff-Liste).
+Achtung: nicht idempotent — ein Replay setzt den Korpus-Stand VOR dem Batch
+voraus (Parent-Commit dieses Batches), weil das Skript die Alt-Werte der
+Attribute verifiziert, bevor es schreibt.
 """
 import argparse
 import csv
@@ -35,7 +40,7 @@ import sys
 from collections import Counter
 from pathlib import Path
 
-REPO = Path(__file__).resolve().parent.parent
+REPO = Path(__file__).resolve().parents[3]
 TEI_DIR = REPO / "tei"
 
 TARGET_LEMMA_OLD = "lexicon.xml#lemma_2598"
@@ -93,7 +98,14 @@ def main() -> int:
             new_lemma, new_pos, new_ana, new_corresp = old_lemma, old_pos, old_ana, old_corresp
             if a["action"] == "MOVE":
                 new_lemma, new_pos, new_ana = TARGET_LEMMA_NEW, "NOM", None
-                new_corresp = CORRESP_NEW[c["form"].lower()]
+                new_corresp = CORRESP_NEW.get(c["form"].lower())
+                if new_corresp is None:
+                    # z. B. hawe: kein variants-Typ unter lemma_2593 bekannt —
+                    # laut Batch-Regel gehoeren solche Formen zu REVIEW, nicht MOVE.
+                    sys.exit(
+                        f"FEHLER: {xid}: MOVE fuer Form {c['form']!r} ohne CORRESP_NEW-Eintrag "
+                        f"(bekannt: {sorted(CORRESP_NEW)}). Form pruefen oder Mapping ergaenzen."
+                    )
             elif a["action"] == "STRIP":
                 new_pos = " ".join(t for t in old_pos.split() if t != "NOM")
                 if not new_pos:
