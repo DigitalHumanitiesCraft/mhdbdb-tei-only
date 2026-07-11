@@ -73,14 +73,15 @@ def extract(target):
     except FileNotFoundError:
         # sys.exit(<string>) waere immer Exit-Code 1 — Parse-/Format-Fehler
         # sollen laut Docstring als 2 von Drift (1) unterscheidbar sein (#171 F95).
-        print(f"::error title=Index version audit::File not found: {target['path']}")
+        print(f"::error title=Index version audit::File not found: {target['path']}", file=sys.stderr)
         sys.exit(2)
 
     m = target['pattern'].search(text)
     if not m:
         print(
             f"::error title=Index version audit::Pattern not found in {target['path'].relative_to(PROJECT_ROOT)}. "
-            f"File format may have drifted from what this script expects. Update the regex in check-index-versions.py."
+            f"File format may have drifted from what this script expects. Update the regex in check-index-versions.py.",
+            file=sys.stderr,
         )
         sys.exit(2)
 

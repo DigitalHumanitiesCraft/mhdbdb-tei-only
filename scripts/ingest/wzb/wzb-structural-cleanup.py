@@ -35,7 +35,7 @@ from lxml import etree
 
 # gemeinsame Roman-Numeral-Helfer (#171 F34): die fruehere lokale Kopie war
 # nicht space-tolerant ('I X' -> 11 statt 9)
-from wzb_roman import is_roman_numeral, roman_to_arabic  # noqa: F401
+from wzb_roman import is_roman_numeral, roman_to_arabic
 
 NS_TEI = "http://www.tei-c.org/ns/1.0"
 NS_XML = "http://www.w3.org/XML/1998/namespace"
