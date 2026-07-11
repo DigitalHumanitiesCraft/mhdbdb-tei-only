@@ -502,10 +502,14 @@ export async function enrichFileResults(fileResults, lemmaIds) {
 // v4.0.0: Only proximity search remains (paragraph search removed)
 function createDetailsFromEnrichedResults(results) {
   return results.map((result) => {
-    // v4.0.0: Proximity results with contextText
+    // v4.0.0: Proximity results with contextText.
+    // Vers-Suche-Ergebnisse (#106 Punkt 8) tragen verseN — deren Label bleibt
+    // auch nach dem Enrichment "Gemeinsam in Vers N" statt Wortabstand.
     if (result.contextText !== undefined) {
       return {
-        meta: `Abstand: ${result.distance} Wörter`,
+        meta: result.verseN !== undefined
+          ? `Gemeinsam in Vers ${result.verseN}`
+          : `Abstand: ${result.distance} Wörter`,
         snippet: `"${result.contextText}"`
       };
     }

@@ -187,9 +187,12 @@ def split_at_lb_resets(container, sigle: str):
     for i, child in enumerate(children):
         if child.tag == LB_TAG and child.get("n") == "1" and chunks[-1]:
             chunks.append([])
-            # vorangehende pb in den neuen Chunk ziehen
+            # vorangehende pb in den neuen Chunk ziehen — pop() liefert sie
+            # rueckwaerts, daher Dokumentreihenfolge wiederherstellen (#171 F72)
+            moved = []
             while chunks[-2] and chunks[-2][-1].tag == PB_TAG:
-                chunks[-1].append(chunks[-2].pop())
+                moved.append(chunks[-2].pop())
+            chunks[-1].extend(reversed(moved))
         chunks[-1].append(child)
     return [c for c in chunks if c]
 

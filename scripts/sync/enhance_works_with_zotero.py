@@ -242,6 +242,13 @@ def convert_to_title_case(text: str) -> str:
     words = text.split()
     result = []
 
+    def cap_first(w: str) -> str:
+        # Nur den ersten Buchstaben heben, Rest UNVERAENDERT lassen:
+        # str.capitalize() senkt alles Folgende und zerstoert Binnenmajuskeln
+        # und Akronyme ("Prosa-Lancelot" -> "Prosa-lancelot", "MTU" -> "Mtu")
+        # (#171 F37).
+        return w[:1].upper() + w[1:]
+
     for i, word in enumerate(words):
         # Check if word ends with punctuation
         trailing_punct = ''
@@ -255,13 +262,13 @@ def convert_to_title_case(text: str) -> str:
 
         # First word or word after colon/dash is always capitalized
         if i == 0 or (i > 0 and words[i-1].endswith((':',  '–', '—'))):
-            result.append(clean_word.capitalize() + trailing_punct)
+            result.append(cap_first(clean_word) + trailing_punct)
         # Check if lowercase word (and not already capitalized = likely not a noun)
         elif clean_word.lower() in lowercase_words and not clean_word[0].isupper():
             result.append(clean_word.lower() + trailing_punct)
         # Otherwise capitalize
         else:
-            result.append(clean_word.capitalize() + trailing_punct)
+            result.append(cap_first(clean_word) + trailing_punct)
 
     return ' '.join(result)
 

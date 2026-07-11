@@ -39,6 +39,7 @@ except ImportError:
 # 2026-05 ingest reorg that moved this file into scripts/ingest/wzb/)
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 from mhg_normalizer import normalize_mhg
+from tei_namespaces import get_namespaces
 
 # default paths relative to project root (scripts/ingest/wzb/ -> repo root)
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent.parent
@@ -49,16 +50,6 @@ DEFAULT_REPORT_CSV = PROJECT_ROOT / 'Wenzelsbibel' / 'wzb-auto-match-report.csv'
 
 # TEI namespace
 TEI_NS = {'tei': 'http://www.tei-c.org/ns/1.0'}
-
-
-def get_namespaces(tree):
-    nsmap = tree.getroot().nsmap.copy()
-    if None in nsmap:
-        nsmap['tei'] = nsmap[None]
-        del nsmap[None]
-    if 'tei' not in nsmap:
-        nsmap['tei'] = TEI_NS['tei']
-    return nsmap
 
 
 def build_variant_lookup(variants_path):

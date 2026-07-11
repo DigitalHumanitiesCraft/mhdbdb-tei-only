@@ -150,6 +150,15 @@ def check_referential_integrity(all_ids, all_refs):
                     'element': ref['element'],
                     'attribute': ref['attribute'],
                 })
+        else:
+            # Zieldatei existiert gar nicht (z. B. Tippfehler im Dateinamen) —
+            # das ist erst recht ein Orphan und darf nicht still durchrutschen (#171 F24).
+            orphans.append({
+                'source_file': ref.get('source_file', '?'),
+                'target': f"{ref['full_value']} (target file missing)",
+                'element': ref['element'],
+                'attribute': ref['attribute'],
+            })
     return orphans
 
 

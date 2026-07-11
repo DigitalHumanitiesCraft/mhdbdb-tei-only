@@ -50,7 +50,10 @@ def main():
     args = parser.parse_args()
 
     if not args.tag:
-        sys.exit("::error title=Release version audit::Kein Tag uebergeben und $GITHUB_REF_NAME ist leer. Usage: check-release-version.py v1.1.0")
+        # sys.exit(<string>) waere immer Exit-Code 1 — Parse-/Setup-Fehler sollen
+        # laut Docstring als 2 von Drift (1) unterscheidbar sein (#171 F96).
+        print("::error title=Release version audit::Kein Tag uebergeben und $GITHUB_REF_NAME ist leer. Usage: check-release-version.py v1.1.0", file=sys.stderr)
+        sys.exit(2)
 
     expected = args.tag.lstrip('v')
     errors = []
@@ -59,14 +62,17 @@ def main():
     try:
         cff_text = CITATION_CFF.read_text(encoding='utf-8')
     except FileNotFoundError:
-        sys.exit(f"::error title=Release version audit::File not found: {CITATION_CFF}")
+        print(f"::error title=Release version audit::File not found: {CITATION_CFF}", file=sys.stderr)
+        sys.exit(2)
 
     m = CFF_VERSION_PATTERN.search(cff_text)
     if not m:
-        sys.exit(
+        print(
             "::error title=Release version audit::Kein version-Feld in CITATION.cff gefunden. "
-            "File-Format-Drift? Regex in check-release-version.py anpassen."
+            "File-Format-Drift? Regex in check-release-version.py anpassen.",
+            file=sys.stderr,
         )
+        sys.exit(2)
     cff_version = m.group(1)
     cff_lineno = cff_text.count('\n', 0, m.start()) + 1
     if cff_version != expected:
@@ -79,9 +85,11 @@ def main():
     try:
         zenodo = json.loads(ZENODO_JSON.read_text(encoding='utf-8'))
     except FileNotFoundError:
-        sys.exit(f"::error title=Release version audit::File not found: {ZENODO_JSON}")
+        print(f"::error title=Release version audit::File not found: {ZENODO_JSON}", file=sys.stderr)
+        sys.exit(2)
     except json.JSONDecodeError as e:
-        sys.exit(f"::error file=.zenodo.json::JSON parse error: {e}")
+        print(f"::error file=.zenodo.json::JSON parse error: {e}", file=sys.stderr)
+        sys.exit(2)
 
     if 'version' in zenodo:
         errors.append(
