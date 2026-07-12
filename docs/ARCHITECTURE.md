@@ -121,26 +121,26 @@ The reading view converts TEI XML elements to HTML. Source: `extractAndFormatBod
 | TEI Element | Attributes | HTML Output | CSS Class(es) |
 |------------|-----------|-------------|---------------|
 | `<head>` | | `<h3>` | `.section-head` |
-| `<p>`, `<ab>` | | `<p>` | — |
+| `<p>`, `<ab>` | | `<p>` | – |
 | `<div>` | `@type`, `@n` | Always wraps children in `<div class="tei-div tei-div-{type}" data-type data-n>`. Prepended header is `<h3 class="section-head">{label} {n}</h3>` for `@type="chapter"` (rendered like `<head>`, #101) but `<div class="tei-div-header tei-div-{type}">{label} {n}</div>` for all other types | `.tei-div`, `.tei-div-{type}`, `.tei-div-header`, `.section-head` (label map: song→Lied, chapter→Kapitel, recipe→Rezept, number→Nr., section→Abschnitt, colophon→Kolophon, parallel→Parallelüberlieferung) |
 | `<lg>` | `@n` | `<div data-n>` with `<span>Strophe {n}</span>` prefix | `.verse-group`, `.stanza-label` |
 | `<l>` | `@n` | `<span data-n>` | `.verse-line` |
-| `<lb>` | `@n` | numeric `@n`: `<br>` followed by `<span>{n}</span>`; non-numeric `@n` (e.g. `h_1` heading lines): `<br>` + empty anchor span (deep-link target only, no visible number — #158) | `.line-break`, `.lb-number`, `.lb-anchor` |
+| `<lb>` | `@n` | numeric `@n`: `<br>` followed by `<span>{n}</span>`; non-numeric `@n` (e.g. `h_1` heading lines): `<br>` + empty anchor span (deep-link target only, no visible number – #158) | `.line-break`, `.lb-number`, `.lb-anchor` |
 | `<pb>` | `@n` | `<span>[{n}]</span>` | `.page-break` |
 | `<cb>` | `@n` | `<span title="Spalte {n}">[Sp. {n}]</span>` | `.column-break` |
 | `<caesura>` | | `<span>\|\|</span>` | `.caesura` |
 | `<note>` | `@type="year\|date"`, `@n` | `<span title="Datum\|Jahr">{n}</span>` (badge) | `.note-badge`, `.note-{type}` |
-| `<hi>` | `@rend` (token-based) | `<span class="hi hi-{token1} hi-{token2} ...">` — splits `@rend` on whitespace, prefixes each token with `hi-` | `.hi`, `.hi-initial`, `.hi-upper_case_first_letter`, `.hi-upper_case`, `.hi-bold`, `.hi-italic` (compounds stack) |
+| `<hi>` | `@rend` (token-based) | `<span class="hi hi-{token1} hi-{token2} ...">` – splits `@rend` on whitespace, prefixes each token with `hi-` | `.hi`, `.hi-initial`, `.hi-upper_case_first_letter`, `.hi-upper_case`, `.hi-bold`, `.hi-italic` (compounds stack) |
 | `<supplied>` | | `<span title="Editorische Ergänzung">[...]</span>` | `.supplied` |
 | `<num>` | | `<span>` | `.number` |
 | `<pc>` | `@join` | `<span data-join>` | `.punctuation` |
-| `<seg>` | | (transparent — children only) | — |
+| `<seg>` | | (transparent – children only) | – |
 | `<w>` | `@lemmaRef` (exact id match, see CONTRACTS §B.1) | `<mark>` | `.highlight` / `.highlight.multi-lemma` |
-| `<w>` | `@lemmaRef` (no match) | escaped text + space | — |
-| `<w>` | no `@lemmaRef` | escaped text + space | — |
-| (unknown) | | recurse into children | — |
+| `<w>` | `@lemmaRef` (no match) | escaped text + space | – |
+| `<w>` | no `@lemmaRef` | escaped text + space | – |
+| (unknown) | | recurse into children | – |
 
-**Multi-lemma color assignment:** `lemmaColorMap[lemmaId] = colors[idx % 5]` — sequential assignment, wraps at 5.
+**Multi-lemma color assignment:** `lemmaColorMap[lemmaId] = colors[idx % 5]` – sequential assignment, wraps at 5.
 
 **`<hi rend>` token-based rendering:** `@rend` is space-separated (CSS-class style). The renderer splits on whitespace and emits `hi-{token}` per token. Compound values like `rend="initial upper_case_first_letter"` produce `class="hi hi-initial hi-upper_case_first_letter"`, with rules stacking from CSS. ~43k compound values that previously fell through to the single-class default are now correctly styled. Source: [DESIGN.md §TEI Reading View CSS Classes](DESIGN.md).
 
@@ -150,7 +150,7 @@ The reading view converts TEI XML elements to HTML. Source: `extractAndFormatBod
 
 **TEICacheManager** (`assets/js/storage/tei-cache-manager.js`)
 - Caches raw TEI XML strings in IndexedDB (database: `MHDBDB_TEI_Cache`) with HTTP validators (ETag / Last-Modified)
-- `load()` revalidates via conditional GET at most once per file per page load (in-memory memo): unchanged files cost one 304 roundtrip, changed files re-download immediately (#151) — corpus updates are visible on the next page load, repeat loads in the same session are pure cache hits
+- `load()` revalidates via conditional GET at most once per file per page load (in-memory memo): unchanged files cost one 304 roundtrip, changed files re-download immediately (#151) – corpus updates are visible on the next page load, repeat loads in the same session are pure cache hits
 - Cache fallback on network failure/timeout (15s), HTTP errors (5xx) and unparseable 200-bodies; corrupted entries auto-deleted; 30-day TTL purge runs at `init()` (cursor-based `cleanExpired`)
 - **Cache invalidation and version check flow:** see [CONTRACTS.md](CONTRACTS.md#e-cache-invalidation)
 
@@ -303,7 +303,7 @@ Each explorer follows consistent pattern:
 
 ## Lemma Pages Architecture
 
-**Purpose:** Persistent, linkable pages for individual lemmata — target URLs for Worterbuchnetz, MWB, and other external systems
+**Purpose:** Persistent, linkable pages for individual lemmata – target URLs for Worterbuchnetz, MWB, and other external systems
 **URL:** `https://dhcraft.org/mhdbdb-tei-only/lemma/{numericId}`
 **Key Files:** `lemma/index.html`, `lemma/lemma-page.js`, `404.html`
 
@@ -320,9 +320,9 @@ User requests /lemma/879
 ```
 
 Three URL formats accepted (parsed in order, first match wins):
-1. `?id=879` — query parameter (canonical after redirect)
-2. `#879` — hash (for systems that strip query params)
-3. `/lemma/879` — path segment (pre-redirect, also works post-redirect)
+1. `?id=879` – query parameter (canonical after redirect)
+2. `#879` – hash (for systems that strip query params)
+3. `/lemma/879` – path segment (pre-redirect, also works post-redirect)
 
 ### Initialization Sequence
 
@@ -369,7 +369,7 @@ resolveConceptLabels(conceptIds):
 
 **Component:** `woerterbuch.html` + `assets/js/woerterbuch.js` (`WoerterbuchPage`)
 
-A–Z-Einstiegsseite zu den Lemma-Seiten. Lädt nur den Authority-Index (via `CorpusLoader('data')`), bucketet die 43.879 `lemmata`-Einträge client-seitig nach dem Anfangsbuchstaben von `normalized` (NFD-Strip als Fallback für `ë`/`ú`, Ziffern-Lemmata im `#`-Bucket) und rendert pro Buchstabe ein paginiertes Register (200 Einträge/Seite, `Intl.Collator('de')`-Sortierung). URL-State `?buchstabe=&seite=` über `history.replaceState`. Bewusst kein eigenes Build-Artefakt — der vorhandene Index reicht.
+A–Z-Einstiegsseite zu den Lemma-Seiten. Lädt nur den Authority-Index (via `CorpusLoader('data')`), bucketet die 43.879 `lemmata`-Einträge client-seitig nach dem Anfangsbuchstaben von `normalized` (NFD-Strip als Fallback für `ë`/`ú`, Ziffern-Lemmata im `#`-Bucket) und rendert pro Buchstabe ein paginiertes Register (200 Einträge/Seite, `Intl.Collator('de')`-Sortierung). URL-State `?buchstabe=&seite=` über `history.replaceState`. Bewusst kein eigenes Build-Artefakt – der vorhandene Index reicht.
 
 ---
 
@@ -409,9 +409,9 @@ A–Z-Einstiegsseite zu den Lemma-Seiten. Lädt nur den Authority-Index (via `Co
 
 ## Static JSON API (`api/`)
 
-**Generator:** `scripts/build-api.py` (#45) — reads the two pre-built indexes (`data/*.json.gz`), emits 2,742 plain JSON files (~14 MB) into `api/`.
+**Generator:** `scripts/build-api.py` (#45) – reads the two pre-built indexes (`data/*.json.gz`), emits 2,742 plain JSON files (~14 MB) into `api/`.
 
-**Served by:** GitHub Pages, like every other file in the repo — no backend, no runtime component, CORS open (Pages sends `Access-Control-Allow-Origin: *`). The main site and playground do **not** consume the API (they load the gzipped indexes); it exists purely for external programmatic access, so it adds zero runtime cost to the site.
+**Served by:** GitHub Pages, like every other file in the repo – no backend, no runtime component, CORS open (Pages sends `Access-Control-Allow-Origin: *`). The main site and playground do **not** consume the API (they load the gzipped indexes); it exists purely for external programmatic access, so it adds zero runtime cost to the site.
 
 **Structure:** root manifest `api/index.json` (counts + source index versions), lemmata as a single bundle (`api/lemmata/index.json`, 43,879 records), individual `{id}.json` + summary `index.json` per collection (persons, works, concepts, genres, names, texts). Every file carries a `license` field. Human documentation: `api/index.html` (German, standalone page).
 

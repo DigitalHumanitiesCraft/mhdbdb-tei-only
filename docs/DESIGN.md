@@ -49,14 +49,14 @@ These colors are used by the reading view for multi-lemma highlighting:
 | 4 | `#fde68a` | `#f59e0b` | `#92400e` | Yellow |
 | 5 | `#ddd6fe` | `#8b5cf6` | `#5b21b6` | Purple |
 
-**Color assignment:** `colors[idx % 5]` — sequential, wraps after 5 lemmas.
+**Color assignment:** `colors[idx % 5]` – sequential, wraps after 5 lemmas.
 
 **Also defined in:**
-- `korpus.css` (Z. 637-691) — `.multi-lemma-{lemmaId}` classes, hardcoded per lemma ID (879=red, 7532=green, 1816=blue, 26713=pink, 712=orange) plus a `[class*="multi-lemma-"]` purple fallback
-- `playground/css/style.css` — duplicate of the korpus.css `.multi-lemma-*` block (verbatim)
-- `ui-helpers.js` `LEMMA_COLORS` — playground proximity search
+- `korpus.css` (Z. 637-691) – `.multi-lemma-{lemmaId}` classes, hardcoded per lemma ID (879=red, 7532=green, 1816=blue, 26713=pink, 712=orange) plus a `[class*="multi-lemma-"]` purple fallback
+- `playground/css/style.css` – duplicate of the korpus.css `.multi-lemma-*` block (verbatim)
+- `ui-helpers.js` `LEMMA_COLORS` – playground proximity search
 
-**Note:** The CSS `.multi-lemma-*` classes are lemma-ID-keyed (not index-keyed like the JS `colors[idx % 5]` palette) and are applied to playground proximity result cards. The reading view does not use them — it applies the JS inline styles from `tei-text-reader.js`.
+**Note:** The CSS `.multi-lemma-*` classes are lemma-ID-keyed (not index-keyed like the JS `colors[idx % 5]` palette) and are applied to playground proximity result cards. The reading view does not use them – it applies the JS inline styles from `tei-text-reader.js`.
 
 Single `<mark>` highlight (single-lemma mode): `#fbbf24` bg / `#78350f` text.
 
@@ -66,7 +66,7 @@ Page background: `bg-slate-100` (`#f1f5f9`) on all pages.
 
 ### Font Stack
 
-- **UI**: System stack (Tailwind default) — `ui-sans-serif, system-ui, sans-serif`
+- **UI**: System stack (Tailwind default) – `ui-sans-serif, system-ui, sans-serif`
 - **Reading body**: `Georgia, 'Times New Roman', serif` at `1.125rem / 1.8` line-height (`.reading-body` in `korpus.css`)
 - No web fonts loaded
 
@@ -157,11 +157,11 @@ Checkbox accent: `accent-color: #3b75d8`.
 
 ## Playground TEI-Analysis Module Pattern
 
-Neun Analyse-Module unter `playground/js/ui/tei/` teilen eine konsistente Struktur (der Router `tei-ui.js` und der Modal-Controller `multi-lemma-search.js` folgen dem Pattern nicht). Wer ein neues Analyse-Werkzeug ergänzt, sollte das Pattern befolgen — neue Module ohne erkennbaren Grund abweichen lassen den Playground inkonsistent wirken und brechen Konventionen, auf die der Router und die Sidebar-Buttons aufbauen.
+Neun Analyse-Module unter `playground/js/ui/tei/` teilen eine konsistente Struktur (der Router `tei-ui.js` und der Modal-Controller `multi-lemma-search.js` folgen dem Pattern nicht). Wer ein neues Analyse-Werkzeug ergänzt, sollte das Pattern befolgen – neue Module ohne erkennbaren Grund abweichen lassen den Playground inkonsistent wirken und brechen Konventionen, auf die der Router und die Sidebar-Buttons aufbauen.
 
 **Kanonische Beispiele:** `lemma-distribution.js` (#90), `verse-position-search.js` (#47.3), `concept-distribution.js` (#47 R2 + #113 Autocomplete), `text-comparison.js` (#108), `cooccurrence-ranking.js` (#107), `rhyme-dictionary.js` (#106), `naming-explorer.js` (#59, Abweichung: eigener Lazy-Index `data/naming-index.json.gz` statt Corpus-Thunk).
 
-### Konstruktor — Thunks statt direkter Referenzen
+### Konstruktor – Thunks statt direkter Referenzen
 
 ```js
 constructor(getCorpusTexts, authorityManager, getAuthorityData) {
@@ -174,7 +174,7 @@ constructor(getCorpusTexts, authorityManager, getAuthorityData) {
 
 `getCorpusTexts`/`getAuthorityData` werden als Funktionen übergeben, nicht als fertige Arrays. Grund: nach Index-Reload (Bump v4.1.1 → v4.2.0, Cache-Invalidate) zeigen direkte Array-Referenzen auf stale Daten. Thunks ziehen jedes Mal das aktuelle Array vom `teiManager`. Lehre aus #97-#100 (Corpus-Index-Property-Drift).
 
-### State — Frozen Defaults + Stateful Instance
+### State – Frozen Defaults + Stateful Instance
 
 ```js
 const DEFAULT_STATE = Object.freeze({
@@ -192,7 +192,7 @@ const DEFAULT_STATE = Object.freeze({
 
 `Object.freeze` verhindert versehentliches Mutieren des Defaults; `this.state = { ...DEFAULT_STATE }` macht ein frisches mutables Objekt pro Instanz. Bei Reset (z.B. nach Korpus-Wechsel): `this.state = { ...DEFAULT_STATE }`.
 
-### Lifecycle — `show()` ➝ `render()` ➝ `renderForm() + renderBody()` ➝ `attachHandlers()`
+### Lifecycle – `show()` ➝ `render()` ➝ `renderForm() + renderBody()` ➝ `attachHandlers()`
 
 ```js
 show() {
@@ -216,7 +216,7 @@ render() {
 ```
 
 - `show()` ist der Router-Entrypoint, mit Guard für „Korpus noch nicht geladen".
-- `render()` macht **einmal** `innerHTML = ...` und ruft danach `attachHandlers()`. Kein DOM-Diffing — jeder Render ist ein Wegwerf. Form behält den Fokus, weil `attachHandlers()` nach `innerHTML` `refocusInput()` aufrufen kann.
+- `render()` macht **einmal** `innerHTML = ...` und ruft danach `attachHandlers()`. Kein DOM-Diffing – jeder Render ist ein Wegwerf. Form behält den Fokus, weil `attachHandlers()` nach `innerHTML` `refocusInput()` aufrufen kann.
 - `renderForm()` / `renderBody()` geben Strings zurück, kein direktes DOM-Mutating. Halt das Template-getrieben.
 
 ### State-Driven Body
@@ -268,9 +268,9 @@ async computeDistribution(items, onProgress) {
 }
 ```
 
-Vermeide `setTimeout(0)` als Yield — Chrome drosselt es auf >=1000ms im Hintergrund-Tab und macht Tests unreliabel. Vermeide `requestIdleCallback` — kein Garantie über Anteil der Frame-Zeit. MessageChannel ist die robuste Wahl.
+Vermeide `setTimeout(0)` als Yield – Chrome drosselt es auf >=1000ms im Hintergrund-Tab und macht Tests unreliabel. Vermeide `requestIdleCallback` – kein Garantie über Anteil der Frame-Zeit. MessageChannel ist die robuste Wahl.
 
-### Escape-Helpers — Pro-Modul, nicht importiert
+### Escape-Helpers – Pro-Modul, nicht importiert
 
 Jedes Modul hat am Ende:
 
@@ -286,7 +286,7 @@ function escapeAttr(s) { return escapeHtml(s); }
 
 Self-contained statt zentralem `lib/escape.js`-Import: Modul lässt sich kopieren/verschieben ohne Pfad-Anpassung, und die fünf Zeilen sind schneller geschrieben als die Import-Stelle.
 
-### Brand-Akzent — Nur Default-Button
+### Brand-Akzent – Nur Default-Button
 
 | Use | Klassen |
 |-----|---------|
@@ -305,15 +305,15 @@ Klick auf Treffer → Reading-View. Pattern:
 const href = `../korpus.html?textId=${encodeURIComponent(h.id)}&lemmaIds=${encodeURIComponent(lemmaId)}`;
 ```
 
-Nicht hash-routen — `korpus.html` ist eine separate Site. Pure-Anchor-Tags mit `target="_blank" rel="noopener"`, damit der User die Playground-Session nicht verliert.
+Nicht hash-routen – `korpus.html` ist eine separate Site. Pure-Anchor-Tags mit `target="_blank" rel="noopener"`, damit der User die Playground-Session nicht verliert.
 
 ### Multi-Lemma als dokumentierter Outlier
 
-`playground/js/ui/tei/multi-lemma-search.js` nutzt **Modal statt in-place Form** (`#multiLemmaModal`), weil seine vier Inputs (Lemmata-Liste, Modus, Distanz, Korpus-Auswahl-Checkbox) im Sidebar nicht reinpassen würden. Das ist die einzige zulässige Abweichung — wer ein neues Modul mit 1-3 Inputs baut, gehört in den in-place-Form-Pfad. Modal nur bei genuin grossen Input-Surfaces.
+`playground/js/ui/tei/multi-lemma-search.js` nutzt **Modal statt in-place Form** (`#multiLemmaModal`), weil seine vier Inputs (Lemmata-Liste, Modus, Distanz, Korpus-Auswahl-Checkbox) im Sidebar nicht reinpassen würden. Das ist die einzige zulässige Abweichung – wer ein neues Modul mit 1-3 Inputs baut, gehört in den in-place-Form-Pfad. Modal nur bei genuin grossen Input-Surfaces.
 
 ### Performance-Map gegen O(N)-Lookups (text-comparison Lesson)
 
-`AuthorityFilesManager.findLemmaById()` ist `Array.find()` über 43.879 Lexikon-Einträge (`authorityData.lemmata` aus dem Authority-Index) — O(N) pro Aufruf. Solange ein Modul den Lookup nur dutzendweise braucht (concept-distribution, lemma-distribution: 30-50 Treffer für TopN-Anzeige), ist das egal. Sobald aber pro `enrichment` über *tausende* Lemmata iteriert wird, multiplizieren sich die Iterationen:
+`AuthorityFilesManager.findLemmaById()` ist `Array.find()` über 43.879 Lexikon-Einträge (`authorityData.lemmata` aus dem Authority-Index) – O(N) pro Aufruf. Solange ein Modul den Lookup nur dutzendweise braucht (concept-distribution, lemma-distribution: 30-50 Treffer für TopN-Anzeige), ist das egal. Sobald aber pro `enrichment` über *tausende* Lemmata iteriert wird, multiplizieren sich die Iterationen:
 
 ```
 text-comparison PZ vs JT, „Beide": 3.058 lookups × 43.754 ≈ 134 Mio. Iterationen ≈ 5962ms
@@ -335,7 +335,7 @@ ensureLemmaMap() {
 // In enrich: const lemma = this._lemmaMap.get(lemmaId);
 ```
 
-Faustregel: wenn ein Lookup im inneren Loop von `>500 Items` läuft, lokale Map bauen. `AuthorityFilesManager` selbst NICHT modifizieren — der hat noch ältere Konsumenten mit unklarem Verhalten bei API-Änderung.
+Faustregel: wenn ein Lookup im inneren Loop von `>500 Items` läuft, lokale Map bauen. `AuthorityFilesManager` selbst NICHT modifizieren – der hat noch ältere Konsumenten mit unklarem Verhalten bei API-Änderung.
 
 ### Abort-Token gegen Race-Conditions (cooccurrence-ranking Lesson)
 
@@ -371,7 +371,7 @@ Token-Increment passiert SYNCHRON in `runSearch()`, bevor `await` läuft. Damit 
 
 ### Navigation-Epoch gegen Cross-View-Clobber (#159/#168)
 
-Der per-Modul-Token oben fängt nur **Same-View-Races** (neue Suche im selben Modul). Navigiert der User während eines laufenden Scans zu einer **anderen View**, bumpt kein Modul-Token — das fertige Ergebnis würde die inzwischen angezeigte View in `#resultsContainer` überschreiben. Dagegen exportiert der Router (`playground/js/ui/core/router.js`) einen globalen, monoton steigenden Zähler:
+Der per-Modul-Token oben fängt nur **Same-View-Races** (neue Suche im selben Modul). Navigiert der User während eines laufenden Scans zu einer **anderen View**, bumpt kein Modul-Token – das fertige Ergebnis würde die inzwischen angezeigte View in `#resultsContainer` überschreiben. Dagegen exportiert der Router (`playground/js/ui/core/router.js`) einen globalen, monoton steigenden Zähler:
 
 ```js
 import { getNavigationEpoch } from '../core/router.js';
@@ -387,13 +387,13 @@ async runSearch() {
 }
 ```
 
-`dispatch()` inkrementiert den Epoch bei JEDER Route-Änderung (`navigate()` wie `hashchange`/back/forward), aber erst nach dem Unknown-View-Check (unbekannte Route ändert die sichtbare View nicht). Beide Checks gehören zusammen in dieselbe Bedingung — auch in die Chunk-Loops nach jedem `yieldToMain()`, damit ein wegnavigierter Scan sofort abbricht statt CPU zu verbrennen. Der früher hier dokumentierte per-Modul-`isActiveView()`-Hash-Vergleich ist durch den Epoch ersetzt (eine Mechanik statt zwei, und er fängt auch Same-Route-Re-Dispatches mit neuen Params).
+`dispatch()` inkrementiert den Epoch bei JEDER Route-Änderung (`navigate()` wie `hashchange`/back/forward), aber erst nach dem Unknown-View-Check (unbekannte Route ändert die sichtbare View nicht). Beide Checks gehören zusammen in dieselbe Bedingung – auch in die Chunk-Loops nach jedem `yieldToMain()`, damit ein wegnavigierter Scan sofort abbricht statt CPU zu verbrennen. Der früher hier dokumentierte per-Modul-`isActiveView()`-Hash-Vergleich ist durch den Epoch ersetzt (eine Mechanik statt zwei, und er fängt auch Same-Route-Re-Dispatches mit neuen Params).
 
-Umgesetzt (Stand 2026-07-07): `cooccurrence-ranking.js`, `rhyme-dictionary.js`, `concept-distribution.js` (dort zusätzlich `_searchGen` als Such-Generation-Token, weil das `computing`-Flag als Identitätskriterium versagt — bei zwei überlappenden Suchen gewann die ältere), `multi-lemma-search.js`, `naming-explorer.js` (Erst-Load). Auf der Hauptseite nutzt `tei-text-reader.js openReadingView()` denselben Gedanken als `_loadSeq`-Request-Guard (kein Router dort).
+Umgesetzt (Stand 2026-07-07): `cooccurrence-ranking.js`, `rhyme-dictionary.js`, `concept-distribution.js` (dort zusätzlich `_searchGen` als Such-Generation-Token, weil das `computing`-Flag als Identitätskriterium versagt – bei zwei überlappenden Suchen gewann die ältere), `multi-lemma-search.js`, `naming-explorer.js` (Erst-Load). Auf der Hauptseite nutzt `tei-text-reader.js openReadingView()` denselben Gedanken als `_loadSeq`-Request-Guard (kein Router dort).
 
 ### Live-Autocomplete-Dropdown (concept-distribution #113 Lesson)
 
-Klassisches DWDS/Google-Style-Dropdown unter Lemma-/Concept-Inputs. Direkter DOM-Update statt full `render()` bei jedem Keystroke — sonst verliert Input den Fokus und die Selection-Range, das Tippen wird unbedienbar.
+Klassisches DWDS/Google-Style-Dropdown unter Lemma-/Concept-Inputs. Direkter DOM-Update statt full `render()` bei jedem Keystroke – sonst verliert Input den Fokus und die Selection-Range, das Tippen wird unbedienbar.
 
 ```js
 DEFAULT_STATE = {
@@ -431,17 +431,17 @@ dd.addEventListener('mousedown', (e) => {
 input.addEventListener('blur', () => setTimeout(() => this.closeAutocomplete(), 150));
 ```
 
-ARIA: `role="combobox" + aria-controls + aria-expanded` am Input, `role="listbox"` am Dropdown, `role="option" + aria-selected` an Buttons. Scroll-into-view des aktiven Items bei Pfeil-Nav (`activeEl.scrollIntoView({block: 'nearest'})`). Reuse `resolveQuery()` als Suggestions-Quelle — kein zweiter Resolver-Pfad.
+ARIA: `role="combobox" + aria-controls + aria-expanded` am Input, `role="listbox"` am Dropdown, `role="option" + aria-selected` an Buttons. Scroll-into-view des aktiven Items bei Pfeil-Nav (`activeEl.scrollIntoView({block: 'nearest'})`). Reuse `resolveQuery()` als Suggestions-Quelle – kein zweiter Resolver-Pfad.
 
 Pattern ist (Stand 2026-05-16) in vier Modulen umgesetzt: `concept-distribution.js` (#113 original), `lemma-distribution.js`, `verse-position-search.js`, `cooccurrence-ranking.js` (alle drei portiert 2026-05-16; seit #106 auch `rhyme-dictionary.js`). Falls weitere Module Lemma-/Concept-Input bekommen: einfach kopieren, IDs anpassen (`xxQuery`/`xxAutocomplete`/`data-xx-ac-idx`).
 
-**Auswahl-Durchreichung (#163):** Die Dropdown-Auswahl darf nicht nur `input.value` (String) setzen — bei Homographen (drei Lemmata „rôt") löst `resolveQuery()` den String sonst wieder aufs falsche Lemma auf. Regel: Auswahl (Enter mit aktivem Item, mousedown) setzt zusätzlich `this.state.selectedLemma = c` (bzw. `selectedConcept`); der `input`-Handler setzt es bei manueller Eingabe auf `null` zurück; `runSearch()` bevorzugt `selectedLemma`, solange der Query-Text noch der gewählten Form entspricht. Default-Auflösung ohne explizite Auswahl: `searchLemmaByOrthography()` liefert Stage-1-Homographen frequenz-sortiert (Korpus-Frequenz absteigend), `matches[0]` ist also das plausibelste Lemma.
+**Auswahl-Durchreichung (#163):** Die Dropdown-Auswahl darf nicht nur `input.value` (String) setzen – bei Homographen (drei Lemmata „rôt") löst `resolveQuery()` den String sonst wieder aufs falsche Lemma auf. Regel: Auswahl (Enter mit aktivem Item, mousedown) setzt zusätzlich `this.state.selectedLemma = c` (bzw. `selectedConcept`); der `input`-Handler setzt es bei manueller Eingabe auf `null` zurück; `runSearch()` bevorzugt `selectedLemma`, solange der Query-Text noch der gewählten Form entspricht. Default-Auflösung ohne explizite Auswahl: `searchLemmaByOrthography()` liefert Stage-1-Homographen frequenz-sortiert (Korpus-Frequenz absteigend), `matches[0]` ist also das plausibelste Lemma.
 
 ## Layout Patterns
 
 ### Container
 
-`container mx-auto px-6` — constrained to `max-w-6xl` (landing) or `max-w-4xl` (lemma page).
+`container mx-auto px-6` – constrained to `max-w-6xl` (landing) or `max-w-4xl` (lemma page).
 
 ### Column Grids
 
@@ -457,7 +457,7 @@ Pattern ist (Stand 2026-05-16) in vier Modulen umgesetzt: `concept-distribution.
 
 ### Sticky Header
 
-`sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-slate-200` — identical across all pages.
+`sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-slate-200` – identical across all pages.
 
 ## Loading and Error States
 
@@ -481,7 +481,7 @@ Pattern ist (Stand 2026-05-16) in vier Modulen umgesetzt: `concept-distribution.
 
 ### Header (all pages)
 
-Logo (`w-40` image + `text-lg font-bold text-brand-600`) left, nav links right (`hidden md:flex gap-6`). Mobile hamburger at `md:hidden`. Nav + header markup is build-injected from `includes/_nav.html` by `scripts/build-pages.py`; the active page's link gets `aria-current="page"` + `text-slate-900 font-semibold`. The mobile-menu toggle (open/close, click-outside, close-on-link) lives centrally in `assets/js/site-chrome.js` (`initMobileMenu`) — pages must NOT carry their own inline mobile-menu script.
+Logo (`w-40` image + `text-lg font-bold text-brand-600`) left, nav links right (`hidden md:flex gap-6`). Mobile hamburger at `md:hidden`. Nav + header markup is build-injected from `includes/_nav.html` by `scripts/build-pages.py`; the active page's link gets `aria-current="page"` + `text-slate-900 font-semibold`. The mobile-menu toggle (open/close, click-outside, close-on-link) lives centrally in `assets/js/site-chrome.js` (`initMobileMenu`) – pages must NOT carry their own inline mobile-menu script.
 
 ### Footer
 
@@ -498,7 +498,7 @@ Institutional logos row + divider + copyright/clear-data row. `bg-slate-100 py-8
 
 ### Treffer-Navigation (Reading View)
 
-`.reading-nav` / `.reading-nav-btn` / `.reading-nav-indicator` in `korpus.css` (markup: `#readingNavigation` in `korpus.html`, logic: `tei-text-reader.js updateNavigationButtons()`): floating bar fixed bottom-right above the reading view. White/97 backdrop-blur container with `--border-secondary` border and strong shadow; dark buttons (slate-700, white text, hover slate-800) and a slate-900 semibold counter („Treffer x von y") at `--text-sm`; disabled buttons drop to opacity 0.4. Restyled 2026-07-10 after KZW feedback (previously text-xs, light-gray buttons — too small, too low-contrast).
+`.reading-nav` / `.reading-nav-btn` / `.reading-nav-indicator` in `korpus.css` (markup: `#readingNavigation` in `korpus.html`, logic: `tei-text-reader.js updateNavigationButtons()`): floating bar fixed bottom-right above the reading view. White/97 backdrop-blur container with `--border-secondary` border and strong shadow; dark buttons (slate-700, white text, hover slate-800) and a slate-900 semibold counter („Treffer x von y") at `--text-sm`; disabled buttons drop to opacity 0.4. Restyled 2026-07-10 after KZW feedback (previously text-xs, light-gray buttons – too small, too low-contrast).
 
 ## CSS Architecture
 
@@ -512,7 +512,7 @@ Three-layer stack (load order):
 
 **Rule**: Semantic tokens in CSS vars. Layout and one-off styling in Tailwind utilities. Page-specific components in dedicated CSS. JS-generated HTML uses Tailwind classes in template literals.
 
-**Gotcha**: `tailwind-output.css` is pre-compiled and committed — a utility class that isn't already in the compiled file silently does nothing until `npm run build:css` is run. When Node/npm is unavailable on the working machine, style new components in the page-specific CSS layer instead (precedent: KWIC styles #129, `.reading-nav` 2026-07-10).
+**Gotcha**: `tailwind-output.css` is pre-compiled and committed – a utility class that isn't already in the compiled file silently does nothing until `npm run build:css` is run. When Node/npm is unavailable on the working machine, style new components in the page-specific CSS layer instead (precedent: KWIC styles #129, `.reading-nav` 2026-07-10).
 
 ### Animations (shared.css)
 
@@ -539,7 +539,7 @@ Source: `assets/css/korpus.css` (post-#17 reader-view styling). Element-to-class
 | `.verse-line` | `display: block; margin-left: space-4; line-height: 1.6`; verse number in margin via `data-n` (1, 5, 10, …) | `<l>` |
 | `.line-break` | `display: inline` | `<lb>` |
 | `.lb-number` | small superscript-style line counter for prose (numeric `@n` only) | follows `<lb>` |
-| `.lb-anchor` | unstyled empty span for non-numeric `<lb>`-`@n` (e.g. `h_1`) — deep-link target only, never visible (#158) | follows `<lb>` |
+| `.lb-anchor` | unstyled empty span for non-numeric `<lb>`-`@n` (e.g. `h_1`) – deep-link target only, never visible (#158) | follows `<lb>` |
 | `.page-break` | `inline-block; 0.875rem; font-weight: 600; bg-tertiary; cursor: help` | `<pb>` |
 | `.column-break` | `inline-block; 0.875rem; font-weight: 600; bg-tertiary; cursor: help` | `<cb>` |
 | `.note-badge`, `.note-year`, `.note-date` | inline year/date marker rendered from `<note>@n` | `<note type="year\|date">` |

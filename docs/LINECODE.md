@@ -4,22 +4,24 @@ Reference for the legacy MHDBDB Linecode system and its translation to TEI. Line
 
 **Status:** Stable reference. Extracted from Julia Hintersteiner's canonical mapping file and a direct inspection of the corpus.
 
+> **Audience:** This file is a technical reference specification, written primarily for development and automated tooling (precise, machine-oriented).
+
 **Canonical data files:**
 
-- [`docs/data/linecode-mapping.csv`](data/linecode-mapping.csv) — UTF-8 copy of Julia's `Mhdbdb_to_TEI(Linecode).csv`. Letter → TEI element mapping (`c` → `<div type="chapter">`, `s` → `<lg type="stanza">`, etc.). The table in this document mirrors that CSV; edit the CSV first when the mapping changes.
-- [`docs/data/linecode-templates.csv`](data/linecode-templates.csv) — UTF-8 export of `scripts/audit/TEXT_DATA_TABLE.xlsx` (Sheet `MHDBDB Texte`, 665 rows × 30 cols). **Per-text Linecode template** (column `LINECODE`, e.g. `MKB` → `000000000000cddss--`) plus full per-text metadata (TITLE, AUTHOR, EDITION, …). Single source of truth for which structural slots a given text encodes. Generated 2026-05-11 from the XLSX in the repo; if KZW updates the XLSX, regenerate the CSV.
+- [`docs/data/linecode-mapping.csv`](data/linecode-mapping.csv) – UTF-8 copy of Julia's `Mhdbdb_to_TEI(Linecode).csv`. Letter → TEI element mapping (`c` → `<div type="chapter">`, `s` → `<lg type="stanza">`, etc.). The table in this document mirrors that CSV; edit the CSV first when the mapping changes.
+- [`docs/data/linecode-templates.csv`](data/linecode-templates.csv) – UTF-8 export of `scripts/audit/TEXT_DATA_TABLE.xlsx` (Sheet `MHDBDB Texte`, 665 rows × 30 cols). **Per-text Linecode template** (column `LINECODE`, e.g. `MKB` → `000000000000cddss--`) plus full per-text metadata (TITLE, AUTHOR, EDITION, …). Single source of truth for which structural slots a given text encodes. Generated 2026-05-11 from the XLSX in the repo; if KZW updates the XLSX, regenerate the CSV.
 
 **Live exports from MHDBDB-old (Katharina, 2026-05-11):** Beyond Julia's frozen handover, **Katharina can produce fresh Linecode-with-content exports per sigle on demand** from the legacy MHDBDB. First example: BDK.txt for #102 (1056 lines, 70 manuscript folio pages). Use cases:
 
 - Texts not in `OUTDATED-Texte-mit-Linecode/` (e.g. BDK, MSF) can be requested as `<SIG>.txt` exports.
-- Cross-checking discrepancies between Julia's handover state and current MHDBDB-old (e.g. DIS: 408 lines in handover vs. 406 in OD — 2 head lines added).
+- Cross-checking discrepancies between Julia's handover state and current MHDBDB-old (e.g. DIS: 408 lines in handover vs. 406 in OD – 2 head lines added).
 - Resolving structural ambiguities surfaced by Julia's 5-column doc (`Abstellplatz/Dokumentation neues TEI vs alte DB 2.0.csv`) where the handover Linecode lacks a marker the DB tracked separately (e.g. DUB `parallel tradition`).
 
 Workflow: comment on the relevant GitHub issue with a request like *"@wachauer kannst du einen MHDBDB-old-Export für `<SIG>` liefern?"*. Katharina notes that some legacy encodings were technically pragmatic (e.g. encoding recipes as `<lied>` so the frontend would display them with counter numbers), so the Linecode is descriptive of the historic DB state, not necessarily the philologically optimal encoding.
 
 ## Context
 
-The old MHDBDB system stored text structure as a parallel **Linecode** — a positional letter+number string alongside the plaintext. Each letter position in the template represented one structural level (paragraph, verse, heading, page, etc.); at the corresponding position in an encoded instance, the digits recorded the running counter for that level. For instance, the letters `cc` in a template would mean "chapter counter, up to two digits wide" — in an encoded line, the two digits at that position record the running chapter number. The letter‑to‑structure mapping was hierarchical but less standardized than TEI.
+The old MHDBDB system stored text structure as a parallel **Linecode** – a positional letter+number string alongside the plaintext. Each letter position in the template represented one structural level (paragraph, verse, heading, page, etc.); at the corresponding position in an encoded instance, the digits recorded the running counter for that level. For instance, the letters `cc` in a template would mean "chapter counter, up to two digits wide" – in an encoded line, the two digits at that position record the running chapter number. The letter‑to‑structure mapping was hierarchical but less standardized than TEI.
 
 During the migration to TEI, the Linecodes were automatically converted into TEI markup, and each annotated token received an `xml:id` derived from its Linecode position:
 
@@ -41,20 +43,20 @@ Mirrors [`docs/data/linecode-mapping.csv`](data/linecode-mapping.csv) with post-
 |------|-------------|---------------------|-------|
 | `-`  | LINE | `<l n>` (verse) or `<lb n/>` (prose) | Linecode does not distinguish verse from prose. The original converter emitted `<l>` everywhere; 18 prose texts were migrated to `<lb/>` during #32 (see TEI-MODEL.md §8.1; migration complete, no surviving `<l>` in prose). |
 | `a`  | PARAGRAPH | `<p>` | |
-| `b`  | BAND | — | Originally `<div type="volume">`. Removed corpus-wide during #32 as an outdated technical structure (volume was a DB-era artifact, not a semantic structural level). Book-level counters preserved as `<div type="section">` where applicable — see TEI-MODEL.md §3.5. |
+| `b`  | BAND | – | Originally `<div type="volume">`. Removed corpus-wide during #32 as an outdated technical structure (volume was a DB-era artifact, not a semantic structural level). Book-level counters preserved as `<div type="section">` where applicable – see TEI-MODEL.md §3.5. |
 | `c`  | CHAPTER | `<div type="chapter" n>` | |
 | `d`  | LIED | `<div type="song" n>` | |
-| `f`  | NONGRADED | — | Originally `<div type="nongraded">`. Not in the post-#32 `<div>/@type` enum. Julia marked these as "unecht eingestuft". No occurrences remain in `tei/` as of 2026-04-15. |
-| `h`  | HEADLINE | `<hi rend="head">` (usually) or `<head>` (rare) | **Value `0` → ignore (no element).** Non-zero values usually mean "should be printed bold" in the original source, so the default TEI target is `<hi rend="head">`. Only when the position is clearly a structural heading (between stanzas, at the top of a `<div>`) should `<head>` be emitted. The original converter frequently emitted `<head>` for every non-zero `h` value, producing stray `<head>` elements that are really bold markers — see the "Diagnosing `<head>` vs `<hi rend="head">`" recipe below. |
+| `f`  | NONGRADED | – | Originally `<div type="nongraded">`. Not in the post-#32 `<div>/@type` enum. Julia marked these as "unecht eingestuft". No occurrences remain in `tei/` as of 2026-04-15. |
+| `h`  | HEADLINE | `<hi rend="head">` (usually) or `<head>` (rare) | **Value `0` → ignore (no element).** Non-zero values usually mean "should be printed bold" in the original source, so the default TEI target is `<hi rend="head">`. Only when the position is clearly a structural heading (between stanzas, at the top of a `<div>`) should `<head>` be emitted. The original converter frequently emitted `<head>` for every non-zero `h` value, producing stray `<head>` elements that are really bold markers – see the "Diagnosing `<head>` vs `<hi rend="head">`" recipe below. |
 | `i`  | INSERTION | `<supplied>` | Editorial additions. |
 | `k`  | COMMENT | `<note>` | |
 | `l`  | HANDWRITINGSHEETCOLUMN | `<cb type="manuscript" n/>` | Value `1` = A (left column), `2` = B (right column). |
-| `n`  | TONVARIATION | — | Originally `<div type="tonvariation">`. Julia marked the mapping as uncertain. Not in the post-#32 enum. No occurrences in `tei/` as of 2026-04-15. |
+| `n`  | TONVARIATION | – | Originally `<div type="tonvariation">`. Julia marked the mapping as uncertain. Not in the post-#32 enum. No occurrences in `tei/` as of 2026-04-15. |
 | `p`  | PAGE | `<pb n/>` | |
 | `s`  | STANZA | `<lg type="stanza" n>` | Legacy converter often emitted `<div type="stanza">` (per Julia's note referencing Alan). Migrated to `<lg type="stanza">` during #32. Zero `<div type="stanza">` remain in `tei/` as of 2026-04-15. |
-| `t`  | TEIL | — | Originally `<div type="part">`. Migrated to `<div type="section">` during #32 (per TEI-MODEL.md §3.5). |
+| `t`  | TEIL | – | Originally `<div type="part">`. Migrated to `<div type="section">` during #32 (per TEI-MODEL.md §3.5). |
 | `u`  | PARALLELUEBERLIEFERUNG | `<div type="parallel" n>` | Counter = number of parallel transmissions for the passage. |
-| `v`  | HANDWRITINGSHEETPAGE | `<pb type="manuscript" n/>` | Value `1` = recto, `2` = verso. Julia marked this as a verification point — worth double-checking wherever recto/verso matters downstream. |
+| `v`  | HANDWRITINGSHEETPAGE | `<pb type="manuscript" n/>` | Value `1` = recto, `2` = verso. Julia marked this as a verification point – worth double-checking wherever recto/verso matters downstream. |
 | `x`  | DATE | `<note type="date">` | Julia marked the mapping as uncertain. In HZU/HZU2 the `@n` attribute previously carried an encoded MMTT format; migrated to Klartext (e.g. „24. Februar") on 2026-04-15, see closed Issue #84 / TEI-MODEL.md §3.5. |
 | `y`  | YEAR | `<note type="year">` | Julia marked the mapping as uncertain. |
 | `z`  | NUMBER | `<note type="number">` | Julia marked the mapping as uncertain. |
@@ -64,7 +66,7 @@ Mirrors [`docs/data/linecode-mapping.csv`](data/linecode-mapping.csv) with post-
 
 ## xml:id ↔ Linecode
 
-The relation between a Linecode and its surviving `xml:id` form is **leading-zero stripping** — nothing more.
+The relation between a Linecode and its surviving `xml:id` form is **leading-zero stripping** – nothing more.
 
 Verified against `tei/ALL.tei.xml` and Julia's `OUTDATED-Texte-mit-Linecode/ALL.txt`:
 
@@ -107,11 +109,11 @@ Each `<w>` (and each `<pc>`) carries the same numeric portion for all tokens in 
 **Both the internal field layout and the overall Linecode width vary per text.**
 
 - *Same overall width, different field roles:* `tei/ALL.tei.xml` (verse, 13-digit Linecode encoding paragraph / parallel / line / head **per Julia's template gloss**; ALL's TEI body itself is flat `<l>` elements with no containing `<lg>`, `<p>`, or `<div>`) and `tei/BRIX.tei.xml` (recipe) both have 13-digit Linecodes, but BRIX encodes a recipe counter in positions where ALL encodes a paragraph counter.
-- *Different overall widths:* Julia's stanza fix script (`Stanza Problem/fix_tei_stanzas.py` in the handover folder) hard-codes per-text regex patterns with different widths — `0000000(\d{3})(\d{2})` for ANN (12-char Linecodes, 5 non-zero digits) versus `0000000000(\d{2})(\d)` for AT (13-char Linecodes, 3 non-zero digits). There is no single template that fits the whole corpus.
+- *Different overall widths:* Julia's stanza fix script (`Stanza Problem/fix_tei_stanzas.py` in the handover folder) hard-codes per-text regex patterns with different widths – `0000000(\d{3})(\d{2})` for ANN (12-char Linecodes, 5 non-zero digits) versus `0000000000(\d{2})(\d)` for AT (13-char Linecodes, 3 non-zero digits). There is no single template that fits the whole corpus.
 
-**Julia's published example template** in the handover PDF — `0000000000aaau----h`, glossed as paragraph (3 digits) + parallel (1) + line (4) + head (1) = 9 active positions — is **illustrative only**. It does not match ALL's actual 13-digit layout, nor any single general pattern. Treat the PDF template as a teaching device, not as a mechanical decoder.
+**Julia's published example template** in the handover PDF – `0000000000aaau----h`, glossed as paragraph (3 digits) + parallel (1) + line (4) + head (1) = 9 active positions – is **illustrative only**. It does not match ALL's actual 13-digit layout, nor any single general pattern. Treat the PDF template as a teaching device, not as a mechanical decoder.
 
-**Consequence for decoding.** There is no single formula that turns `20100010` into "paragraph 2, parallel 1, line 1, head 0" without first knowing ALL's specific field layout. If mechanical decoding is needed, the per-text layout must be recovered by inspecting the raw `.txt` files in `OUTDATED-Texte-mit-Linecode/` and matching digit changes to observable structural boundaries in the plaintext. (`TEXT_DATA_TABLE.csv` has a `LINECODE` column but was empty in the rows sampled — see Source Material.)
+**Consequence for decoding.** There is no single formula that turns `20100010` into "paragraph 2, parallel 1, line 1, head 0" without first knowing ALL's specific field layout. If mechanical decoding is needed, the per-text layout must be recovered by inspecting the raw `.txt` files in `OUTDATED-Texte-mit-Linecode/` and matching digit changes to observable structural boundaries in the plaintext. (`TEXT_DATA_TABLE.csv` has a `LINECODE` column but was empty in the rows sampled – see Source Material.)
 
 ## Reading `xml:id` Patterns in Practice
 
@@ -121,11 +123,11 @@ Every annotated token carries:
 <w xml:id="SIG_<digits>_<tok>" lemmaRef="..." pos="..." ana="..." corresp="...">wort</w>
 ```
 
-- `SIG` — text sigle (`ALL`, `NIB`, `PZ`, …)
-- `<digits>` — numeric portion of the Linecode, leading zeros stripped. Width varies per text; for ALL it is always 8 digits. Julia's ANN/AT regex patterns imply 5 non-zero digits for ANN and 3 for AT, so the observed range is at least 3–8 digits, with no verified upper bound.
-- `<tok>` — token index within the current structural position, 0-based. It resets whenever `<digits>` changes from one token to the next.
+- `SIG` – text sigle (`ALL`, `NIB`, `PZ`, …)
+- `<digits>` – numeric portion of the Linecode, leading zeros stripped. Width varies per text; for ALL it is always 8 digits. Julia's ANN/AT regex patterns imply 5 non-zero digits for ANN and 3 for AT, so the observed range is at least 3–8 digits, with no verified upper bound.
+- `<tok>` – token index within the current structural position, 0-based. It resets whenever `<digits>` changes from one token to the next.
 
-A change in `<digits>` signals **some** structural boundary — which one depends on the text's Linecode layout (new line for a verse text, new paragraph or `<lb/>` for a prose text, new recipe for a recipe text, and so on). Without the per-text layout, you cannot tell *which* level changed, but you can still tell *that* a boundary occurred — that alone is often enough for diagnostics.
+A change in `<digits>` signals **some** structural boundary – which one depends on the text's Linecode layout (new line for a verse text, new paragraph or `<lb/>` for a prose text, new recipe for a recipe text, and so on). Without the per-text layout, you cannot tell *which* level changed, but you can still tell *that* a boundary occurred – that alone is often enough for diagnostics.
 
 ## Practical Diagnosis Without Positional Decoding
 
@@ -135,16 +137,16 @@ The recipes below avoid the decoding trap by working from the raw Linecoded plai
 
 **Preconditions:** Julia's raw `<SIG>.txt` file for the affected text (one line per verse, each prefixed with its Linecode) and the current `tei/<SIG>.tei.xml`.
 
-1. Open the raw `<SIG>.txt` file. Each line of text is prefixed with its Linecode. **Read the plaintext column, not the Linecode digits**, to identify where stanza boundaries occur in the text: use the usual philological cues — new topic, new verse group, rhyme or meter shift, or a stanza division from the source edition. Without the per-text field layout there is no reliable way to read boundaries from the Linecode digits alone, so plaintext stays the primary signal.
+1. Open the raw `<SIG>.txt` file. Each line of text is prefixed with its Linecode. **Read the plaintext column, not the Linecode digits**, to identify where stanza boundaries occur in the text: use the usual philological cues – new topic, new verse group, rhyme or meter shift, or a stanza division from the source edition. Without the per-text field layout there is no reliable way to read boundaries from the Linecode digits alone, so plaintext stays the primary signal.
 2. For each identified stanza boundary, note the Linecode prefix of the first line of the new stanza. That prefix becomes an anchor for cross-referencing against the TEI.
 3. Open `tei/<SIG>.tei.xml` and search for the anchor as an `xml:id` (Linecode with leading zeros stripped). The corresponding `<l>` should be wrapped in a `<lg type="stanza">` element.
 4. If the wrapper is missing, that is a case to fix. Repeat for every stanza boundary in the text.
 
-Julia's `Stanza Problem/fix_tei_stanzas.py` was her earlier attempt at fixing stanzas, using the **positional-decoding approach this section deliberately avoids** — it hard-codes per-text regex patterns for specific sigles (e.g. ANN, AT). It is useful as a reference for which texts she had already tackled and which regex shapes fit them, but do not run it blindly: it was written before #32, has not been re-verified against the current corpus, and in general the plaintext-first workflow above is more robust than extending its per-text regex table.
+Julia's `Stanza Problem/fix_tei_stanzas.py` was her earlier attempt at fixing stanzas, using the **positional-decoding approach this section deliberately avoids** – it hard-codes per-text regex patterns for specific sigles (e.g. ANN, AT). It is useful as a reference for which texts she had already tackled and which regex shapes fit them, but do not run it blindly: it was written before #32, has not been re-verified against the current corpus, and in general the plaintext-first workflow above is more robust than extending its per-text regex table.
 
 ### Diagnosing `<head>` vs `<hi rend="head">`
 
-A `<head>` element embedded *inside* a verse line or stanza — typically with only one or two words, and no accompanying chapter/section break — is the typical fingerprint of a mis-conversion: the original `h` position was non-zero (so the converter emitted `<head>`) but the intended semantics were "print this bold" (so the target should have been `<hi rend="head">`). Real structural headings sit between stanzas or at the top of a `<div>`, not mid-verse.
+A `<head>` element embedded *inside* a verse line or stanza – typically with only one or two words, and no accompanying chapter/section break – is the typical fingerprint of a mis-conversion: the original `h` position was non-zero (so the converter emitted `<head>`) but the intended semantics were "print this bold" (so the target should have been `<hi rend="head">`). Real structural headings sit between stanzas or at the top of a `<div>`, not mid-verse.
 
 ### Diagnosing Verse vs. Prose Line Markup
 
@@ -154,22 +156,22 @@ The Linecode's `-` always became `<l>` in the original conversion. If a text is 
 
 Julia's handover folder (stored on Katharina's SharePoint/OneDrive):
 
-- `Mhdbdb_to_TEI(Linecode).csv` — canonical letter→TEI mapping. Copied into this repo as [`docs/data/linecode-mapping.csv`](data/linecode-mapping.csv).
-- `Zusammenfassung-Linecode2TEI.pdf` — Julia's handover summary. Attached to Issue #31 on GitHub.
-- `OUTDATED-Texte-mit-Linecode/<SIG>.txt` — raw Linecoded plaintext for 291 texts. Primary source for per-text layout recovery and diagnosis. **Frozen state** — for fresher data, request a Katharina export (see live-export note above).
-- `TEXT_DATA_TABLE.xlsx` — full per-text metadata table including Linecode templates. **Now in the repo** as `scripts/audit/TEXT_DATA_TABLE.xlsx` and exported to [`docs/data/linecode-templates.csv`](data/linecode-templates.csv). Earlier audit-note ("LINECODE column empty in sampled rows") was wrong: the XLSX has 665/665 templates filled, distinct templates: 131. The misread came from looking at the older CSV export.
-- `Dokumentation.xlsx` — older comparison table between the legacy DB and the TEI export. The 5-column "Anmerkung"-CSV variant (`Abstellplatz/Dokumentation neues TEI vs alte DB 2.0.csv`) is the source of Julia's per-text "fehlt"-notes (e.g. DJEM "parallel tradition fehlt"); used by #85.
-- `Stanza Problem/fix_tei_stanzas.py` — Julia's exploratory fix script for missing stanzas, with hard-coded per-text regex patterns for ANN and AT.
+- `Mhdbdb_to_TEI(Linecode).csv` – canonical letter→TEI mapping. Copied into this repo as [`docs/data/linecode-mapping.csv`](data/linecode-mapping.csv).
+- `Zusammenfassung-Linecode2TEI.pdf` – Julia's handover summary. Attached to Issue #31 on GitHub.
+- `OUTDATED-Texte-mit-Linecode/<SIG>.txt` – raw Linecoded plaintext for 291 texts. Primary source for per-text layout recovery and diagnosis. **Frozen state** – for fresher data, request a Katharina export (see live-export note above).
+- `TEXT_DATA_TABLE.xlsx` – full per-text metadata table including Linecode templates. **Now in the repo** as `scripts/audit/TEXT_DATA_TABLE.xlsx` and exported to [`docs/data/linecode-templates.csv`](data/linecode-templates.csv). Earlier audit-note ("LINECODE column empty in sampled rows") was wrong: the XLSX has 665/665 templates filled, distinct templates: 131. The misread came from looking at the older CSV export.
+- `Dokumentation.xlsx` – older comparison table between the legacy DB and the TEI export. The 5-column "Anmerkung"-CSV variant (`Abstellplatz/Dokumentation neues TEI vs alte DB 2.0.csv`) is the source of Julia's per-text "fehlt"-notes (e.g. DJEM "parallel tradition fehlt"); used by #85.
+- `Stanza Problem/fix_tei_stanzas.py` – Julia's exploratory fix script for missing stanzas, with hard-coded per-text regex patterns for ANN and AT.
 
 The letter→TEI mapping in this document and in `docs/data/linecode-mapping.csv` is the authoritative post-#32 reference. The PDF remains useful as the original narrative explanation.
 
 ## Cross-References
 
-- [`docs/data/linecode-mapping.csv`](data/linecode-mapping.csv) — letter → TEI element mapping (canonical, mirrored in the table above)
-- [`docs/data/linecode-templates.csv`](data/linecode-templates.csv) — per-sigle Linecode template + full text metadata (665 rows; the lookup table for "which slots does text X encode")
-- **TEI-MODEL.md §3.5** — post-#32 `<div>/@type` enum and migration history for Linecode letters `b` (BAND/volume), `t` (TEIL/part), and `s` (STANZA)
-- **TEI-MODEL.md §8.1** — the 18 prose texts where Linecode `-` became `<l>` and was then migrated to `<lb/>`
-- **Issue #23** (closed 2026-06-11) — Fehlende Stanza-Auszeichnung (104 Fälle). Decoding durch dieses Dokument freigeschaltet; Bulk-Stanza-Sweep gelaufen (Corpus-Index v4.1.1), Rest via WVV-Rebuild (v4.1.3).
-- **Issue #85** (closed 2026-05-12) — Umbrella for 26 texts with missing `<div>` wrappers (chapter/song/parallel + DL1 edge case). Unblocked by this document.
-- **Issue #84** (closed 2026-04-15) — HZU/HZU2 `<note type="date">` MMTT→Klartext migration (Linecode letter `x` in Urkunden-Texten); new ingests use the Klartext form directly
-- **Issue #31** — Julia's original handover issue
+- [`docs/data/linecode-mapping.csv`](data/linecode-mapping.csv) – letter → TEI element mapping (canonical, mirrored in the table above)
+- [`docs/data/linecode-templates.csv`](data/linecode-templates.csv) – per-sigle Linecode template + full text metadata (665 rows; the lookup table for "which slots does text X encode")
+- **TEI-MODEL.md §3.5** – post-#32 `<div>/@type` enum and migration history for Linecode letters `b` (BAND/volume), `t` (TEIL/part), and `s` (STANZA)
+- **TEI-MODEL.md §8.1** – the 18 prose texts where Linecode `-` became `<l>` and was then migrated to `<lb/>`
+- **Issue #23** (closed 2026-06-11) – Fehlende Stanza-Auszeichnung (104 Fälle). Decoding durch dieses Dokument freigeschaltet; Bulk-Stanza-Sweep gelaufen (Corpus-Index v4.1.1), Rest via WVV-Rebuild (v4.1.3).
+- **Issue #85** (closed 2026-05-12) – Umbrella for 26 texts with missing `<div>` wrappers (chapter/song/parallel + DL1 edge case). Unblocked by this document.
+- **Issue #84** (closed 2026-04-15) – HZU/HZU2 `<note type="date">` MMTT→Klartext migration (Linecode letter `x` in Urkunden-Texten); new ingests use the Klartext form directly
+- **Issue #31** – Julia's original handover issue

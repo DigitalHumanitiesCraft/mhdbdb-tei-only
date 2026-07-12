@@ -100,15 +100,15 @@ This knowledge base follows a hub-and-spoke architecture with INDEX.md as the ce
 | **[ROADMAP.md](ROADMAP.md)** | Current priorities, strategic direction, what's blocked | Everyone |
 | **[JOURNAL.md](JOURNAL.md)** | Chronological development log, decisions, dead ends | Developers |
 
-Die 15 Dateien oben (13 Stable + 2 Process) sind die vollständige Menge der Promptotyping-Dokumente. (`POS-TAGSET.md` 2026-06-17 ergänzt: das `@pos`-Tagset war zuvor nur im Agent-Skill `.gemini/skills/pos-disambiguator/` sowie verstreut in TEI-MODEL.md/DATA-MODEL.md dokumentiert; als zitierfähige Single Source of Truth herausgezogen, TEI-MODEL.md §5 verweist nun darauf.) `docs/features/` und `docs/research/` enthalten temporäre, ticket-gebundene Planungs- und Recherche-Artefakte und sind **nicht Teil** der Promptotyping-Dokumente — siehe `CLAUDE.md` → „Temporal Artifacts". `docs/playbooks/` enthält wiederverwendbare Session-Verfahren (autonome Issue-/Merge-Sessions): dauerhaft, aber ebenfalls **nicht Teil** der Promptotyping-Dokumente (2026-07-08 aus `docs/features/` herausgezogen, da nicht ticket-gebunden). Die Nutzer-facing Hilfe lebt als `hilfe-*.html` im Frontend, nicht in `docs/`.
+Die 15 Dateien oben (13 Stable + 2 Process) sind die vollständige Menge der Promptotyping-Dokumente. (`POS-TAGSET.md` 2026-06-17 ergänzt: das `@pos`-Tagset war zuvor nur im Agent-Skill `.gemini/skills/pos-disambiguator/` sowie verstreut in TEI-MODEL.md/DATA-MODEL.md dokumentiert; als zitierfähige Single Source of Truth herausgezogen, TEI-MODEL.md §5 verweist nun darauf.) `docs/features/` und `docs/research/` enthalten temporäre, ticket-gebundene Planungs- und Recherche-Artefakte und sind **nicht Teil** der Promptotyping-Dokumente – siehe `CLAUDE.md` → „Temporal Artifacts". `docs/playbooks/` enthält wiederverwendbare Session-Verfahren (autonome Issue-/Merge-Sessions): dauerhaft, aber ebenfalls **nicht Teil** der Promptotyping-Dokumente (2026-07-08 aus `docs/features/` herausgezogen, da nicht ticket-gebunden). Die Nutzer-facing Hilfe lebt als `hilfe-*.html` im Frontend, nicht in `docs/`.
 
 ### Publications (project outputs, not development docs)
 
 Located in `/publications/` (outside `docs/`):
-- `BLOG-POST-POS-WORKFLOW.md` — DHCraft blog draft on PoS disambiguation
-- `BLOG-POST-WZB-PIPELINE.md` — DHCraft blog draft on the WZB (Wenzelsbibel) ingest pipeline (unpublished, v3)
-- `JAHRESBERICHT-2025.md` — CLARIAH-AT annual report
-- `BERICHT-REKTORAT-MITTELVERWENDUNG-2026.md` — Freiwilliger Bericht + Dankesbrief an das Rektorat über die im Oktober 2025 freigegebenen Mittel (#145, Entwurf, KZW-Review vor Versand)
+- `BLOG-POST-POS-WORKFLOW.md` – DHCraft blog draft on PoS disambiguation
+- `BLOG-POST-WZB-PIPELINE.md` – DHCraft blog draft on the WZB (Wenzelsbibel) ingest pipeline (unpublished, v3)
+- `JAHRESBERICHT-2025.md` – CLARIAH-AT annual report
+- `BERICHT-REKTORAT-MITTELVERWENDUNG-2026.md` – Freiwilliger Bericht + Dankesbrief an das Rektorat über die im Oktober 2025 freigegebenen Mittel (#145, Entwurf, KZW-Review vor Versand)
 
 ## Project Status
 

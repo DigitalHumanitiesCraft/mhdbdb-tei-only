@@ -38,7 +38,7 @@ Each TEI file contains:
 **Location:** `authority-files/` directory
 **Format:** TEI P5 XML with custom MHDBDB schema
 
-Eight authority files — seven inhaltstragende controlled vocabularies (in the corpus index) plus one projekt-interner Mitwirkenden-Register:
+Eight authority files – seven inhaltstragende controlled vocabularies (in the corpus index) plus one projekt-interner Mitwirkenden-Register:
 
 - `persons.xml` - Authors and historical persons
 - `works.xml` - Work and manuscript metadata
@@ -141,7 +141,7 @@ Notes: IDs are numeric (`person_N`) except `person_anonym`. GND and Wikidata are
 </listBibl></body></text></TEI>
 ```
 
-Notes: Multiple sigles per work (editions). GND/Wikidata may be full URLs or bare IDs — build script extracts ID portion. Genre `<ref>` elements come in de/en pairs, plus optional parent hierarchy refs.
+Notes: Multiple sigles per work (editions). GND/Wikidata may be full URLs or bare IDs – build script extracts ID portion. Genre `<ref>` elements come in de/en pairs, plus optional parent hierarchy refs.
 
 #### concepts.xml, genres.xml, names.xml (shared pattern)
 
@@ -162,8 +162,8 @@ Notes: Multiple sigles per work (editions). GND/Wikidata may be full URLs or bar
 
 | File | ID format | Extra `<ptr>` types |
 |------|-----------|-------------------|
-| concepts.xml | `concept_{numeric}` | — |
-| genres.xml | `genre_{hex}` | — (but many broader pointers, polyhierarchical) |
+| concepts.xml | `concept_{numeric}` | – |
+| genres.xml | `genre_{hex}` | – (but many broader pointers, polyhierarchical) |
 | names.xml | `name_{numeric}` | `exactMatch`, `closeMatch` → `concepts.xml#...` |
 
 #### variants.xml (~16 MB, 256,759 variant forms)
@@ -188,7 +188,7 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
 **Size:** ~3 MB compressed
 **Version:** Aktueller Stand in [TEI-MODEL.md §11](TEI-MODEL.md#11-versionierung). Quelle im Code: `AUTHORITY_INDEX_VERSION` in `assets/js/lib/corpus-loader.js` und `'version'` in `scripts/build-authority-index.py`.
 
-**Schema (illustrativ — konkrete Version siehe Tabelle in TEI-MODEL.md §11):**
+**Schema (illustrativ – konkrete Version siehe Tabelle in TEI-MODEL.md §11):**
 ```javascript
 {
   version: "1.x.x",
@@ -292,7 +292,7 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
 **Size:** ~40 MB compressed (v4.1.x; war ~34 MB in v4.0.1)
 **Version:** Aktueller Stand in [TEI-MODEL.md §11](TEI-MODEL.md#11-versionierung). Quelle im Code: `INDEX_VERSION` in `assets/js/lib/corpus-loader.js` und `'version'` in `scripts/build-corpus-index.py` (dort steht auch der Versions-Historien-Kommentar). MAJOR/MINOR/PATCH-Semantik siehe unten.
 
-**Schema (illustrativ — konkrete Version siehe Tabelle in TEI-MODEL.md §11):**
+**Schema (illustrativ – konkrete Version siehe Tabelle in TEI-MODEL.md §11):**
 ```javascript
 {
   version: "4.x.x",
@@ -340,17 +340,17 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
 
 **Why v4.1.0?** Per-Text `lineStarts[]` / `lineEnds[]` für #47.3 Lemmasuche nach Versposition. 1.359.789 `<l>`-Elemente über 603 Versdichtungs-Texte. Bumped `Schema-feature-add` (MINOR), nicht nur `data-add` (PATCH). Index-Größe +6 MB gz (34 → 40 MB).
 
-**Why v4.1.1?** Korpus-Rebuild nach Stanza-Insertion-Sweep (#23) — etwa 90 Texte bekamen `<lg type="stanza">`-Wrapper, was die `lineStarts`/`lineEnds`-Werte für diese Texte ändert; keine Schema-Änderung, daher PATCH.
+**Why v4.1.1?** Korpus-Rebuild nach Stanza-Insertion-Sweep (#23) – etwa 90 Texte bekamen `<lg type="stanza">`-Wrapper, was die `lineStarts`/`lineEnds`-Werte für diese Texte ändert; keine Schema-Änderung, daher PATCH.
 
 **Why v4.1.2?** #104 Sigle-Titel-Differenzierung (PL1-3, FLG/FLG1, FR1-3); reiner Daten-Add, PATCH.
 
-**Why v4.1.3?** #110 WVV-Rebuild — 478 zusätzliche `<lg type="stanza">`-Wraps; PATCH.
+**Why v4.1.3?** #110 WVV-Rebuild – 478 zusätzliche `<lg type="stanza">`-Wraps; PATCH.
 
-**Why v4.1.4?** #125 Deterministischer Build — `generatedAt` entfernt, sortiertes glob, gzip `mtime=0`; gleicher Quellstand erzeugt byte-identische Indexe. PATCH.
+**Why v4.1.4?** #125 Deterministischer Build – `generatedAt` entfernt, sortiertes glob, gzip `mtime=0`; gleicher Quellstand erzeugt byte-identische Indexe. PATCH.
 
-**Why v4.1.5?** #143 Prosa-Konversion APO/HMT/HH (`<l>` → `<lb/>`) — `lineStarts[]`/`lineEnds[]` entfallen für die drei Texte. PATCH.
+**Why v4.1.5?** #143 Prosa-Konversion APO/HMT/HH (`<l>` → `<lb/>`) – `lineStarts[]`/`lineEnds[]` entfallen für die drei Texte. PATCH.
 
-**Field name note:** the primary identifier is `id` (sigle), not `textId`. Older docs and some code paths may use `textId` — the canonical field in the index JSON is `id`.
+**Field name note:** the primary identifier is `id` (sigle), not `textId`. Older docs and some code paths may use `textId` – the canonical field in the index JSON is `id`.
 
 **Versions-Sync (kritisch):** der Index-Versions-String muss synchron mit `INDEX_VERSION` in `assets/js/lib/corpus-loader.js` und der `'version'`-Konstante in `scripts/build-corpus-index.py` gehalten werden. Sonst greift die Cache-Invalidate-Logik nicht (siehe `docs/CONTRACTS.md` §IndexedDB). CI-Garantie via `.github/workflows/data-integrity.yml`; lokal `python scripts/audit/check-index-versions.py` vor Commit.
 
@@ -362,7 +362,7 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
 
 Externer kuratierter Datensatz (nicht korpus-abgeleitet): Eigennamen, Antonomasien und Epitheta je Figur für ENE/IW/ROL/TRO aus Linda Beutel-Thurows Dissertationsprojekt (DOI 10.5281/zenodo.18770138, CC BY-NC-SA 4.0). 10.506 Records.
 
-**Deterministischer Build:** `generatedAt` = Committer-Datum des Quell-Commits (nicht Build-Zeit), gzip ohne mtime — gleicher Quellstand erzeugt byte-identischen Output. Darauf baut der **Auto-Update-Workflow** `.github/workflows/naming-index-update.yml`: wöchentlicher Cron (Mo 05:17 UTC), Rebuild, bei `git diff` ein PR mit Build-Log und Quell-Compare-Link. Merge nur nach Sichtprüfung (Gate gegen Format-Drift in den extern kuratierten Quell-JSONs). In CI läuft der Build mit `--require-commit` (#152): ist der Quell-Commit nicht auflösbar, failt der Build hart, statt `generatedAt` still auf Build-Zeit kippen zu lassen (nicht-deterministisch + Provenienz-Verlust).
+**Deterministischer Build:** `generatedAt` = Committer-Datum des Quell-Commits (nicht Build-Zeit), gzip ohne mtime – gleicher Quellstand erzeugt byte-identischen Output. Darauf baut der **Auto-Update-Workflow** `.github/workflows/naming-index-update.yml`: wöchentlicher Cron (Mo 05:17 UTC), Rebuild, bei `git diff` ein PR mit Build-Log und Quell-Compare-Link. Merge nur nach Sichtprüfung (Gate gegen Format-Drift in den extern kuratierten Quell-JSONs). In CI läuft der Build mit `--require-commit` (#152): ist der Quell-Commit nicht auflösbar, failt der Build hart, statt `generatedAt` still auf Build-Zeit kippen zu lassen (nicht-deterministisch + Provenienz-Verlust).
 
 **CI-Gates (#152, in `data-integrity.yml`):** (1) Konsistenz-Check bei jedem Daten-PR: `source.commit` vorhanden + alle `works[].sigle` existieren als `tei/<SIG>.tei.xml` (ein Sigle-Rename bräche den Reader-Link im Playground sonst still). (2) Rebuild-and-Compare gegen den im Index gepinnten `source.commit`, nur wenn naming-Pfade sich geändert haben (keine externe Netz-Abhängigkeit auf jedem Daten-PR).
 
@@ -385,9 +385,9 @@ Externer kuratierter Datensatz (nicht korpus-abgeleitet): Eigennamen, Antonomasi
 }
 ```
 
-Kategorie-Ableitung beim Build: `Epitheta 1-5` → `epi`; `Bezeichnung 1-4` → `eig`, wenn das Lemma den Figurennamen trifft (case-insensitiv exakt oder Alias aus `lemma_normalization.json`, repliziert Lindas `match_name_to_lemma`), sonst `ant`. `who`: `erz` = Erzähler, `fig` = Figurenrede (`by` = nennende Figur), `self` = Selbstnennung. Versnummern (`v`) folgen Lindas Editionsgrundlagen, **nicht** der MHDBDB-TEI-Zählung — deshalb keine Reader-Links.
+Kategorie-Ableitung beim Build: `Epitheta 1-5` → `epi`; `Bezeichnung 1-4` → `eig`, wenn das Lemma den Figurennamen trifft (case-insensitiv exakt oder Alias aus `lemma_normalization.json`, repliziert Lindas `match_name_to_lemma`), sonst `ant`. `who`: `erz` = Erzähler, `fig` = Figurenrede (`by` = nennende Figur), `self` = Selbstnennung. Versnummern (`v`) folgen Lindas Editionsgrundlagen, **nicht** der MHDBDB-TEI-Zählung – deshalb keine Reader-Links.
 
-**Kein Versions-Sync-Kanal:** der Index wird lazy per fetch+pako geladen, ohne IndexedDB-Cache und ohne Eintrag in `corpus-loader.js` — ein Rebuild ist mit dem Commit sofort live (#94-Klasse von Bugs konstruktiv ausgeschlossen). Update-Anlass: neue/aktualisierte Daten im Quell-Repo, danach Rebuild + Commit des `.gz`.
+**Kein Versions-Sync-Kanal:** der Index wird lazy per fetch+pako geladen, ohne IndexedDB-Cache und ohne Eintrag in `corpus-loader.js` – ein Rebuild ist mit dem Commit sofort live (#94-Klasse von Bugs konstruktiv ausgeschlossen). Update-Anlass: neue/aktualisierte Daten im Quell-Repo, danach Rebuild + Commit des `.gz`.
 
 ## Data Processing Pipeline
 
@@ -398,7 +398,7 @@ Kategorie-Ableitung beim Build: `Epitheta 1-5` → `epi`; `Bezeichnung 1-4` → 
 
 Three core build scripts:
 
-1. **`build-authority-index.py`** - Extract authority data from 7 inhaltstragende XML files (the 8th, `contributors.xml`, is deliberately not indexed — see below)
+1. **`build-authority-index.py`** - Extract authority data from 7 inhaltstragende XML files (the 8th, `contributors.xml`, is deliberately not indexed – see below)
    - Parse XML with lxml
    - Extract structured data for each entity type
    - Build performance maps (conceptToLemmas, genreToWorks, genreHierarchy)
@@ -425,12 +425,12 @@ Three core build scripts:
 
 Third derived layer beside the two indexes. Reads **only** the two pre-built indexes (`data/authority-index.json.gz` + `data/corpus-index.json.gz`), never the XML sources, and emits a static JSON API into `api/` (2,742 files, ~14 MB), served as plain files by GitHub Pages:
 
-- `api/index.json` — root manifest (collection counts, source index versions)
-- `api/lemmata/index.json` — full lemma records as one bundle (43,879 records, no individual files)
+- `api/index.json` – root manifest (collection counts, source index versions)
+- `api/lemmata/index.json` – full lemma records as one bundle (43,879 records, no individual files)
 - `api/<coll>/{id}.json` + `api/<coll>/index.json` (summary list) for persons, works, concepts, genres, names, texts (texts stripped of the heavy `words`/`lemmata`/`lineStarts`/`lineEnds` arrays)
 - every emitted file carries `"license": "CC BY-NC-SA 4.0"`; `persons.works` is normalized from comma-string to array
 
-Build properties: deterministic on the #125 principle (no timestamps, compact JSON — same index state produces byte-identical output), pre-flight refuses a dirty `data/` (#100 pattern), wipes all `api/**/*.json` before writing (orphan protection; non-JSON files like the documentation page `api/index.html` are spared), ID-safety asserts before the wipe. CI-gated: the step "Freshness API (#45)" in `data-integrity.yml` rebuilds and compares. URL schema and field contracts: [CONTRACTS.md §G](CONTRACTS.md#g-static-json-api-contract-45).
+Build properties: deterministic on the #125 principle (no timestamps, compact JSON – same index state produces byte-identical output), pre-flight refuses a dirty `data/` (#100 pattern), wipes all `api/**/*.json` before writing (orphan protection; non-JSON files like the documentation page `api/index.html` are spared), ID-safety asserts before the wipe. CI-gated: the step "Freshness API (#45)" in `data-integrity.yml` rebuilds and compares. URL schema and field contracts: [CONTRACTS.md §G](CONTRACTS.md#g-static-json-api-contract-45).
 
 ### Build Script XPath Reference
 
@@ -482,7 +482,7 @@ Source: `scripts/build-authority-index.py:52-69` (`get_namespaces`)
 
 #### Variant Dictionary Deduplication
 
-When building the variants map, **first occurrence wins** — if two lemmata claim the same normalized variant form, only the first is stored. No collision detection or warning. Source: `build-authority-index.py:643-644` (in `parse_variants()`, lines 601-647).
+When building the variants map, **first occurrence wins** – if two lemmata claim the same normalized variant form, only the first is stored. No collision detection or warning. Source: `build-authority-index.py:643-644` (in `parse_variants()`, lines 601-647).
 
 ### Data Wrangling Scripts
 
@@ -537,7 +537,7 @@ Search resolves user input to lemma IDs through 3 stages with early return:
 | 2 | Variants dictionary lookup (~257k mappings) | Exactly 1 | O(1) hash |
 | 3 | Bidirectional substring fallback | 0..N (fuzzy) | O(n) scan |
 
-Stages are mutually exclusive — first match wins. **Full pseudocode with worked example:** see [CONTRACTS.md](CONTRACTS.md#c-3-stage-lemma-resolution-algorithm)
+Stages are mutually exclusive – first match wins. **Full pseudocode with worked example:** see [CONTRACTS.md](CONTRACTS.md#c-3-stage-lemma-resolution-algorithm)
 
 **Why 3 stages?** Historical spelling variations in Middle High German are extensive. Variants dictionary captures actual corpus attestations, while fallback handles edge cases.
 
@@ -667,11 +667,11 @@ Jede Annotationsphase folgt demselben Dreischritt (**Assign → Resolve → Appl
 
 1. **Assign:** Skript schreibt alle eindeutig entscheidbaren Fälle direkt ins TEI und emittiert die mehrdeutigen Fälle als Pending-TSV.
 2. **Resolve:** LLM und/oder Mensch füllen im TSV die Auflösungs-Spalten (`resolved_*`, `confidence`, `reviewer`). Zwei Granularitäten: **bulk** (eine Entscheidung pro Form/Lemma, gilt für alle Token) und **patch/instance** (Entscheidung pro `xml_id`, für Minderheits-Ausnahmen und kontextabhängige Fälle).
-3. **Apply:** Skript schreibt die aufgelösten TSV-Zeilen zurück ins TEI. Apply ist **additiv** — es überschreibt nie Auto-Assign-Ergebnisse.
+3. **Apply:** Skript schreibt die aufgelösten TSV-Zeilen zurück ins TEI. Apply ist **additiv** – es überschreibt nie Auto-Assign-Ergebnisse.
 
 TSVs werden mitversioniert (Audit-Trail) und für LLM-Batches in ~50-Zeilen-Chunks gesplittet (`wzb-split-tsv.py`). LLM-Entscheidungen tragen eine `decision_type`-Taxonomie (`auto-single` / `bulk-llm` / `bulk-human` / `instance-llm` / `instance-human` / `abstain`); `abstain` wird nicht ins TEI geschrieben. Mensch reviewt alle `confidence=low`-Zeilen plus eine ~20%-Stichprobe von `medium`.
 
-### Stage 0 — Schema-Konversion (mechanisch)
+### Stage 0 – Schema-Konversion (mechanisch)
 
 Fremdformat → MHDBDB-Schema, vollständig skriptbar (Referenz: `scripts/ingest/ari/01-convert-original-to-mhdbdb.py`):
 
@@ -688,14 +688,14 @@ Pro Quelle vorab zu klären (Beispiel-Antworten für ARI in `scripts/ingest/ari/
 
 | Kategorie | Behandlung |
 |---|---|
-| Kolumnentitel/Running Headers (`<fw>`), `<surplus>` | Annotation strippen — nicht lexikalisch |
+| Kolumnentitel/Running Headers (`<fw>`), `<surplus>` | Annotation strippen – nicht lexikalisch |
 | Kapitel-Apparat (z.B. CAPITULUM + Zahl) | `<head type="chapter" n="{arabisch}">` als erstes Kind des `<div type="chapter">`; `<milestone unit="chapter" n="N"/>` an der originalen Textfluss-Position (TEI P5 erlaubt kein `<head>` in `<l>`) |
 | Schreiberzeichen, Sektions-Initialen | `<w>` → `<pc join="left">` |
 | Römische Zahlen im Text | `<w>` behalten, `lemma_13826` (DIG) |
 | Fremdsprachige Einsprengsel (Latein, Alttschechisch …) | `<w>` behalten; existierendes Lemma zuordnen oder neues sprach-spezifisches Lemma anlegen (z.B. `lemma_78628` für alttschechische Glossen) |
 | `<div>`-Hygiene | jedes `<div>` mit `@type` aus dem Schema-Enum (`book`, `chapter`, `paratext`, `prologus`, `section`, …) |
 
-### Phase 1 — Lemmatisierung
+### Phase 1 – Lemmatisierung
 
 **1a Auto-Match** (kanonisch: `wzb-auto-match.py`), Algorithmus:
 
@@ -712,11 +712,11 @@ für jedes <w> im Text (Textinhalt = Matching-Form):
     |kandidaten| >  1 → ambiguous  → Report
 ```
 
-**Kritisch:** Die MHG-Normalisierung (`â→a, ê→e, î→i, ô→o, û→u, ä→ae, ö→oe, ü→ue`) muss auf **beide Seiten** angewendet werden — `variants.xml` ist nicht pre-normalisiert. Python-Seite: `scripts/mhg_normalizer.py`, paritätsgetestet gegen `assets/js/lib/text-normalizer.js` (`testing/tests/normalization-parity.spec.js`).
+**Kritisch:** Die MHG-Normalisierung (`â→a, ê→e, î→i, ô→o, û→u, ä→ae, ö→oe, ü→ue`) muss auf **beide Seiten** angewendet werden – `variants.xml` ist nicht pre-normalisiert. Python-Seite: `scripts/mhg_normalizer.py`, paritätsgetestet gegen `assets/js/lib/text-normalizer.js` (`testing/tests/normalization-parity.spec.js`).
 
-**1b Disambiguierung:** Pending-TSV (`xml_id`, `form`, `context` ±5 Wörter, `match_type`, `candidate_lemmas`, `count`, `resolved_lemma`, `confidence`, `reviewer`), frequenzgestaffelte Tiers: hochfrequente ambige Formen bulk auflösen (+ Patch-Datei für Minderheits-Lesarten), mittelfrequente instanzweise mit Mensch-Stichprobe, Hapaxe und Long-Tail-Unmatched bewusst deferren (akzeptierte Coverage-Lücke). Unmatchte echte Wörter gegen BMZ/Lexer prüfen ([Wörterbuchnetz-API](https://api.woerterbuchnetz.de)); nicht Auflösbares als frequenzsortierte Editorial-Liste (`wzb-extract-unmatched.py`) an das Lexikon-Team — **neue Lemmata entstehen nur durch Editorial-Entscheidung**, dann Re-Run (closed loop).
+**1b Disambiguierung:** Pending-TSV (`xml_id`, `form`, `context` ±5 Wörter, `match_type`, `candidate_lemmas`, `count`, `resolved_lemma`, `confidence`, `reviewer`), frequenzgestaffelte Tiers: hochfrequente ambige Formen bulk auflösen (+ Patch-Datei für Minderheits-Lesarten), mittelfrequente instanzweise mit Mensch-Stichprobe, Hapaxe und Long-Tail-Unmatched bewusst deferren (akzeptierte Coverage-Lücke). Unmatchte echte Wörter gegen BMZ/Lexer prüfen ([Wörterbuchnetz-API](https://api.woerterbuchnetz.de)); nicht Auflösbares als frequenzsortierte Editorial-Liste (`wzb-extract-unmatched.py`) an das Lexikon-Team – **neue Lemmata entstehen nur durch Editorial-Entscheidung**, dann Re-Run (closed loop).
 
-### Phase 2 — POS-Tagging
+### Phase 2 – POS-Tagging
 
 (kanonisch: `wzb-pos-assign.py`)
 
@@ -729,9 +729,9 @@ für jedes <w> mit @lemmaRef:
 
 Auflösung wie 1b (bulk nach Lemma/Form, instance nach `xml_id`). QA: jedes `@pos` muss im 19-Tag-Set liegen; Mensch-Stichprobe ~5% pro Abschnitt.
 
-### Phase 3 — Sense-Auflösung (`@ana`, `@corresp`)
+### Phase 3 – Sense-Auflösung (`@ana`, `@corresp`)
 
-(kanonisch: `wzb-sense-assign.py`) Vorbedingung: `@lemmaRef` gesetzt — nie `@ana` ohne `@lemmaRef`.
+(kanonisch: `wzb-sense-assign.py`) Vorbedingung: `@lemmaRef` gesetzt – nie `@ana` ohne `@lemmaRef`.
 
 ```
 für jedes <w> mit @lemmaRef auf Lemma L:
@@ -745,22 +745,22 @@ für jedes <w> mit @lemmaRef auf Lemma L:
     0 Treffer → Form fehlt in variants.xml → Editorial-Liste; >1 → manuelle Review
 ```
 
-Kandidaten-Senses werden dem LLM als `sense_id :: Begriffs-Label DE (EN)` präsentiert (Labels via `<sense>` → `<ptr target="concepts.xml#…">` → `catDesc/term`). Auflösung bulk (eine Sense pro Lemma, wenn der Werk-Kontext sie erzwingt — z.B. „bruoder" im AT immer Blutsverwandter) oder instanzweise; `abstain` ist eine legitime Entscheidung und bleibt unannotiert. **Referenzwert:** Majority-Sense-Baseline über das annotierte Korpus = 66,7% (gewichtete Accuracy, `wzb-sense-baseline.py`); ein vollständiges pre-registriertes Evaluationsprotokoll (Stratifizierung, Metriken, Blind-Review) steht in der Git-History des Feature-Docs zu #34 und in `publications/BLOG-POST-WZB-PIPELINE.md`.
+Kandidaten-Senses werden dem LLM als `sense_id :: Begriffs-Label DE (EN)` präsentiert (Labels via `<sense>` → `<ptr target="concepts.xml#…">` → `catDesc/term`). Auflösung bulk (eine Sense pro Lemma, wenn der Werk-Kontext sie erzwingt – z.B. „bruoder" im AT immer Blutsverwandter) oder instanzweise; `abstain` ist eine legitime Entscheidung und bleibt unannotiert. **Referenzwert:** Majority-Sense-Baseline über das annotierte Korpus = 66,7% (gewichtete Accuracy, `wzb-sense-baseline.py`); ein vollständiges pre-registriertes Evaluationsprotokoll (Stratifizierung, Metriken, Blind-Review) steht in der Git-History des Feature-Docs zu #34 und in `publications/BLOG-POST-WZB-PIPELINE.md`.
 
 ### Rückwärts-Sync + Registrierung (Pflichtabschluss)
 
-1. **`lexicon.xml`-Backfill (PFLICHT, [CONTRACTS F.3](CONTRACTS.md#f-authority-source-rules)):** Jede Pipeline, die neue Lemma-/Sense-IDs prägt, muss sie atomisch in `lexicon.xml` nachtragen (Referenz-Implementierung: `scripts/sync/backfill-lexicon.py`, #115). Lemma-Stubs (Form + POS) sind aus dem Korpus generierbar; die Sense→Begriff-Zuordnung ist kuratorisch (F.2, Team). Die WZB-Pipeline war forward-only — Ergebnis: 977 dangling Refs, deren Kategorie-A-Anteil 2026-07-02 per Stub-Backfill geschlossen wurde (#115, [ADR-015](DECISIONS.md#adr-015-authority-source-modell-korpus-führt-ingest-braucht-rückwärts-sync)). Nicht wiederholen.
+1. **`lexicon.xml`-Backfill (PFLICHT, [CONTRACTS F.3](CONTRACTS.md#f-authority-source-rules)):** Jede Pipeline, die neue Lemma-/Sense-IDs prägt, muss sie atomisch in `lexicon.xml` nachtragen (Referenz-Implementierung: `scripts/sync/backfill-lexicon.py`, #115). Lemma-Stubs (Form + POS) sind aus dem Korpus generierbar; die Sense→Begriff-Zuordnung ist kuratorisch (F.2, Team). Die WZB-Pipeline war forward-only – Ergebnis: 977 dangling Refs, deren Kategorie-A-Anteil 2026-07-02 per Stub-Backfill geschlossen wurde (#115, [ADR-015](DECISIONS.md#adr-015-authority-source-modell-korpus-führt-ingest-braucht-rückwärts-sync)). Nicht wiederholen.
 2. **Registrierung:** `works.xml`-Eintrag (`work_{SIGLE}`, Titel, Genre-`<ptr>`, Autor-`@ref`, Normdaten), TEI-File nach `tei/<SIGLE>.tei.xml`, Header-Sync.
-3. **Abgeleitete Schicht:** `extract-variants.py --apply` → Index-Rebuilds → Versions-Bump → Tests — verbindliche Schrittfolge im [Data-Change-Lifecycle](#data-change-lifecycle) direkt unterhalb.
+3. **Abgeleitete Schicht:** `extract-variants.py --apply` → Index-Rebuilds → Versions-Bump → Tests – verbindliche Schrittfolge im [Data-Change-Lifecycle](#data-change-lifecycle) direkt unterhalb.
 
 ### Coverage-Referenzwerte und QA
 
 | Korpus | Sprachstufe | `@lemmaRef` | `@pos` | `@ana` |
 |---|---|---|---|---|
 | WZB (149.148 Token, Ist 2026-04-15) | mhd. | 95,3% | 95,3% | 95,2% |
-| ARI (Erwartung) | fnhd. | ≥85% | ≥90% | — |
+| ARI (Erwartung) | fnhd. | ≥85% | ≥90% | – |
 
-100% sind nicht das Ziel — der deferred Long Tail (Hapaxe, seltene Eigennamen, Latein-Flexionen) ist eine akzeptierte, dokumentierte Lücke. Automatische Checks nach jeder Phase: jede `@lemmaRef`-Ziel-ID existiert (nach Backfill; Detektor `check-authority-cross-refs.py`), `@pos` im Tagset, kein `@ana` ohne `@lemmaRef`, `build-corpus-index.py` läuft als Smoke-Test über den neuen Text.
+100% sind nicht das Ziel – der deferred Long Tail (Hapaxe, seltene Eigennamen, Latein-Flexionen) ist eine akzeptierte, dokumentierte Lücke. Automatische Checks nach jeder Phase: jede `@lemmaRef`-Ziel-ID existiert (nach Backfill; Detektor `check-authority-cross-refs.py`), `@pos` im Tagset, kein `@ana` ohne `@lemmaRef`, `build-corpus-index.py` läuft als Smoke-Test über den neuen Text.
 
 ---
 
@@ -770,11 +770,11 @@ Kandidaten-Senses werden dem LLM als `sense_id :: Begriffs-Label DE (EN)` präse
 
 Status-Legende: **CI** = automatisiert (GitHub Actions) · **Skript** = Skript-eingebauter Guard · **manuell** = dokumentiert, nicht erzwungen.
 
-**Seit #125 (2026-06-12):** Die Index-Builds sind deterministisch (kein `generatedAt`, sortiertes glob, gzip ohne mtime) — ein No-op-Rebuild aus unverändertem Quellstand erzeugt **keinen Diff** mehr; „sicherheitshalber rebuilden" ist damit kostenlos. Das CI-Gate `data-integrity.yml` rebuildet variants.xml + beide Indexe + die statische JSON-API (#45) bei jedem Daten-PR und vergleicht den (bei den Indexen dekomprimierten) Inhalt mit dem committeten Stand: vergessene Rebuilds (Schritte 4-7) blocken den Merge.
+**Seit #125 (2026-06-12):** Die Index-Builds sind deterministisch (kein `generatedAt`, sortiertes glob, gzip ohne mtime) – ein No-op-Rebuild aus unverändertem Quellstand erzeugt **keinen Diff** mehr; „sicherheitshalber rebuilden" ist damit kostenlos. Das CI-Gate `data-integrity.yml` rebuildet variants.xml + beide Indexe + die statische JSON-API (#45) bei jedem Daten-PR und vergleicht den (bei den Indexen dekomprimierten) Inhalt mit dem committeten Stand: vergessene Rebuilds (Schritte 4-7) blocken den Merge.
 
 **Grundprinzipien für den Lifecycle** (Auszug; das vollständige Regelwerk F.1–F.3 steht normativ in [CONTRACTS.md → Authority Source Rules](CONTRACTS.md#f-authority-source-rules)):
 
-1. **Der Korpus führt, die Authority-Files folgen.** `lexicon.xml`/`variants.xml` sind abgeleitete Indizes der Korpus-Annotation. Trägt ein `<w>` eine `@lemmaRef`/`@ana`, die dort fehlt, ist die Korpus-Annotation maßgeblich und die Authority muss nachgezogen werden — nie umgekehrt. (Einzige Ausnahme: ein offensichtlicher Tippfehler im Korpus wird im Korpus korrigiert.)
+1. **Der Korpus führt, die Authority-Files folgen.** `lexicon.xml`/`variants.xml` sind abgeleitete Indizes der Korpus-Annotation. Trägt ein `<w>` eine `@lemmaRef`/`@ana`, die dort fehlt, ist die Korpus-Annotation maßgeblich und die Authority muss nachgezogen werden – nie umgekehrt. (Einzige Ausnahme: ein offensichtlicher Tippfehler im Korpus wird im Korpus korrigiert.)
 2. **Händische Edits zählen genauso wie Ingest.** Diese Schrittfolge gilt für JEDE Korpus-Änderung, nicht nur Skript-Ingest: auch eine von Hand korrigierte `@pos`, ein neu gesetzter `@lemmaRef` oder eine Variantenannotation. Der Korpus wird laufend manuell editiert (Korrekturen, nicht nur Neuzugänge); jede solche Änderung löst dieselbe Nachzieh-Pflicht aus.
 
 ### Wenn sich `tei/` ändert (Skript-Ingest, neuer Text ODER händische Korrektur)
@@ -806,7 +806,7 @@ Status-Legende: **CI** = automatisiert (GitHub Actions) · **Skript** = Skript-e
 
 **Entkopplung:** Eine reine `authority-files/`-Änderung braucht **keinen** Korpus-Index-Rebuild (`build-corpus-index.py` liest `authority-files/` nicht). Eine reine `tei/`-Änderung braucht den Authority-Rebuild nur, wenn neue Formen eine `variants.xml`-Regenerierung erzwingen (Schritt 5 → 6).
 
-**Offene Lücke (kein Trigger):** kuratorischer Rest des `lexicon.xml`-Backfills (396 dangling Refs / 109 IDs: Kategorie B = Sense→Begriff-Zuordnung an existierenden Lemmata, Kategorie C = Tippfehler/Homographen mit Korpus-Korrekturbedarf; #44/#115). **Ursache:** Die Ingest-Pipelines (WZB Phase 1b–3, 2026-04/05) waren reine Forward-Pipelines ohne lexicon-Nachzug; der automatisierbare Kategorie-A-Anteil (125 fehlende `<entry>`, 581 Refs) wurde 2026-07-02 per `scripts/sync/backfill-lexicon.py` als Stubs geschlossen (orth = dominante Korpusform, Senses ohne concept-`<ptr>` — Grundform-/Konzept-Review bleibt kuratorisch). Das ist **kein** Salzburg-Re-Export-Problem (Repo ist Master), sondern eine fehlende Rückwärts-Synchronisation. Lemma-Stubs (Form + POS) sind aus dem Korpus generierbar; die **Sense→Begriff-Zuordnung ist kuratorisch** (Team vergibt die concept-Zuordnung, nicht aus dem Korpus rekonstruierbar). Bis zum Backfill toleriert die Cross-Ref-CI den Altbestand über eine ID-Set-Ratsche (committete `scripts/audit/lexicon-baseline.json`, #152): Refs außerhalb `lexicon.xml` brechen den Build sofort, jede dangling lexicon-ID außerhalb der Baseline ebenfalls (auch bei kompensierendem Backfill im selben PR); nach gelandetem Backfill `--update-baseline` ausführen und den Datei-Diff mitcommitten. `scripts/audit/check-lexicon-senses.py` detektiert sense-lose Lemmata lokal. Konsequenz für künftige Ingests siehe [DECISIONS.md → ADR-015](DECISIONS.md#adr-015-authority-source-modell-korpus-führt-ingest-braucht-rückwärts-sync).
+**Offene Lücke (kein Trigger):** kuratorischer Rest des `lexicon.xml`-Backfills (396 dangling Refs / 109 IDs: Kategorie B = Sense→Begriff-Zuordnung an existierenden Lemmata, Kategorie C = Tippfehler/Homographen mit Korpus-Korrekturbedarf; #44/#115). **Ursache:** Die Ingest-Pipelines (WZB Phase 1b–3, 2026-04/05) waren reine Forward-Pipelines ohne lexicon-Nachzug; der automatisierbare Kategorie-A-Anteil (125 fehlende `<entry>`, 581 Refs) wurde 2026-07-02 per `scripts/sync/backfill-lexicon.py` als Stubs geschlossen (orth = dominante Korpusform, Senses ohne concept-`<ptr>` – Grundform-/Konzept-Review bleibt kuratorisch). Das ist **kein** Salzburg-Re-Export-Problem (Repo ist Master), sondern eine fehlende Rückwärts-Synchronisation. Lemma-Stubs (Form + POS) sind aus dem Korpus generierbar; die **Sense→Begriff-Zuordnung ist kuratorisch** (Team vergibt die concept-Zuordnung, nicht aus dem Korpus rekonstruierbar). Bis zum Backfill toleriert die Cross-Ref-CI den Altbestand über eine ID-Set-Ratsche (committete `scripts/audit/lexicon-baseline.json`, #152): Refs außerhalb `lexicon.xml` brechen den Build sofort, jede dangling lexicon-ID außerhalb der Baseline ebenfalls (auch bei kompensierendem Backfill im selben PR); nach gelandetem Backfill `--update-baseline` ausführen und den Datei-Diff mitcommitten. `scripts/audit/check-lexicon-senses.py` detektiert sense-lose Lemmata lokal. Konsequenz für künftige Ingests siehe [DECISIONS.md → ADR-015](DECISIONS.md#adr-015-authority-source-modell-korpus-führt-ingest-braucht-rückwärts-sync).
 
 ---
 

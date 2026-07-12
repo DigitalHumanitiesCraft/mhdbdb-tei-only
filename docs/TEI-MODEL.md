@@ -2,7 +2,9 @@
 
 Defines the normative TEI encoding for all texts in the MHDBDB corpus. New texts **must** conform to this model. Existing texts are migrated incrementally (see Issue #30).
 
-**Status:** DRAFT — pending review by Katharina Zeppezauer-Wachauer
+> **Zielgruppe:** Diese Datei ist eine technische Referenz-Spezifikation, primär für Entwicklung und automatisierte Werkzeuge gedacht (präzise, maschinenorientiert). Eine allgemeinverständliche Einführung bieten die Hilfe-Seiten der Website, etwa [Daten & Downloads](https://dhcraft.org/mhdbdb-tei-only/hilfe-daten.html) und [Eigene Texte beitragen](https://dhcraft.org/mhdbdb-tei-only/hilfe-daten-beitragen.html).
+
+**Status:** DRAFT – pending review by Katharina Zeppezauer-Wachauer
 **Issue:** #32 (TEI schema)
 **Schema:** `schema/mhdbdb.rnc` (RELAX NG Compact, Source of Truth) + `schema/mhdbdb.rng` (generiert via `trang`)
 **Validiert gegen:** TEI P5 Version 4.11.0 (`tei_all.rng`, 18. Feb 2026)
@@ -95,21 +97,21 @@ The header is already largely standardized across all 667 files. This section do
 **Rules:**
 - `<author ref>` verweist auf den `<person>`-Eintrag im selben Dokument (`profileDesc`), der via `@corresp` auf `persons.xml` verweist
 - `<msIdentifier corresp>` verweist auf `works.xml` via Fragment-ID (`works.xml#work_{id}`)
-- Primaeredition immer als `<biblStruct>` mit Zotero-`corresp`
+- Primäredition immer als `<biblStruct>` mit Zotero-`corresp`
 - Digitale Zwischenstufen als `<bibl type="digitalIntermediary">` (ADR-012)
 
-**Ausschnittstexte (#134):** Ist der Korpus-Text ein definierter Ausschnitt eines groesseren Werks (z. B. AK = „Buch von Akkon" innerhalb der Steirischen Reimchronik), traegt die Primaeredition zusaetzlich `<biblScope unit="verse">{von}–{bis}</biblScope>` im `<imprint>` sowie optional `<note type="context">{inhaltlicher Zusammenhang}</note>` am `<biblStruct>`. Das `unit="verse"` ist das maschinenlesbare Excerpt-Signal: Der Reader zeigt dann Banner + „Ausschnitt"-Metadaten (Ausschnittstitel aus `<analytic>/<title>`). Ein `<analytic>`-Titel allein markiert KEINEN Ausschnitt — 534 Header haben ihn fuer gewoehnliche Editions-Angaben.
+**Ausschnittstexte (#134):** Ist der Korpus-Text ein definierter Ausschnitt eines größeren Werks (z. B. AK = „Buch von Akkon" innerhalb der Steirischen Reimchronik), trägt die Primäredition zusätzlich `<biblScope unit="verse">{von}–{bis}</biblScope>` im `<imprint>` sowie optional `<note type="context">{inhaltlicher Zusammenhang}</note>` am `<biblStruct>`. Das `unit="verse"` ist das maschinenlesbare Excerpt-Signal: Der Reader zeigt dann Banner + „Ausschnitt"-Metadaten (Ausschnittstitel aus `<analytic>/<title>`). Ein `<analytic>`-Titel allein markiert KEINEN Ausschnitt – 534 Header haben ihn für gewöhnliche Editions-Angaben.
 
 ### 2.1bis Editor-Attribution & Credits
 
-Attribution der an der MHDBDB mitwirkenden Personen laeuft zentral ueber `authority-files/contributors.xml` (siehe [`TEI-MODEL-AUTH-FILES.md`](TEI-MODEL-AUTH-FILES.md) §3.8). Die Korpus-Header referenzieren dieses Register via `@ref`; namentlich ausgeschrieben wird im Header nur, was pro Datei variiert oder fuer Leser:innen direkt sichtbar sein soll.
+Attribution der an der MHDBDB mitwirkenden Personen läuft zentral über `authority-files/contributors.xml` (siehe [`TEI-MODEL-AUTH-FILES.md`](TEI-MODEL-AUTH-FILES.md) §3.8). Die Korpus-Header referenzieren dieses Register via `@ref`; namentlich ausgeschrieben wird im Header nur, was pro Datei variiert oder für Leser:innen direkt sichtbar sein soll.
 
-**Was wohin gehoert:**
+**Was wohin gehört:**
 
 | Information | Stelle im Header | Muster |
 |-------------|-----------------|--------|
 | Kollektive Team-Attribution | `<titleStmt>/<respStmt>` | `<orgName ref="contributors.xml#mhdbdb-team">` |
-| Gruender + Koordinatorin (immer gleich, alle 667 Dateien) | `<publicationStmt>/<authority>` | `<persName role="founder\|coordinator" ref="contributors.xml#contrib_00X">` |
+| Gründer + Koordinatorin (immer gleich, alle 667 Dateien) | `<publicationStmt>/<authority>` | `<persName role="founder\|coordinator" ref="contributors.xml#contrib_00X">` |
 | Prominente Lead-Editor:in (nur bei TKR/TKA/VTC/JT) | zweites `<titleStmt>/<respStmt>` | `<name role="lead-editor" ref="contributors.xml#contrib_00X">` |
 
 **Beispiel (ABG nach Migration 2026-04-14):**
@@ -140,7 +142,7 @@ Attribution der an der MHDBDB mitwirkenden Personen laeuft zentral ueber `author
 </publicationStmt>
 ```
 
-**Zusaetzliches Muster bei Lead-Editor:innen** (aktuell TKR/TKA/VTC mit Brom, JT mit Woesner):
+**Zusätzliches Muster bei Lead-Editor:innen** (aktuell TKR/TKA/VTC mit Brom, JT mit Woesner):
 
 ```xml
 <titleStmt>
@@ -158,14 +160,14 @@ Attribution der an der MHDBDB mitwirkenden Personen laeuft zentral ueber `author
 ```
 
 **Rules:**
-- `<orgName>`/`<persName>`/`<name>` tragen die Attribution-Information IMMER ueber `@ref`, nicht ueber inline-Text allein. Der sichtbare Text ist eingefroren, die kanonische Quelle ist `contributors.xml`.
-- `@ref` auf `<orgName>` ist fuer Organization-Records in `contributors.xml` gedacht (MHDBDB-Team, Digital Humanities Craft). Fuer Homepages einer Organisation benutzt `contributors.xml` das TEI-P5-idiomatische Pattern `<org><idno type="URL">https://...</idno></org>` statt `@ref`.
+- `<orgName>`/`<persName>`/`<name>` tragen die Attribution-Information IMMER über `@ref`, nicht über inline-Text allein. Der sichtbare Text ist eingefroren, die kanonische Quelle ist `contributors.xml`.
+- `@ref` auf `<orgName>` ist für Organization-Records in `contributors.xml` gedacht (MHDBDB-Team, Digital Humanities Craft). Für Homepages einer Organisation benutzt `contributors.xml` das TEI-P5-idiomatische Pattern `<org><idno type="URL">https://...</idno></org>` statt `@ref`.
 - `<persName role>` im `<authority>`-Block darf nur die fixen Rollen aus dem Authority-Schema tragen: `"founder" | "coordinator" | "lead-editor" | "editor"`.
-- 50+ weitere Editor:innen, die an den Bestandstexten mitgearbeitet haben, sind nur in `contributors.xml` gelistet — NICHT inline im jeweiligen Korpus-Header, um den Header schlank zu halten.
+- 50+ weitere Editor:innen, die an den Bestandstexten mitgearbeitet haben, sind nur in `contributors.xml` gelistet – NICHT inline im jeweiligen Korpus-Header, um den Header schlank zu halten.
 
 ### 2.1a `<monogr>` Element-Reihenfolge
 
-TEI P5 verlangt in `<monogr>`: `(author|editor)*, title+, editor*, (idno|imprint)*`. Das heisst `<author>` **vor** `<title>`, `<idno>` **nach** `<editor>`. Einige Bestandsdateien (z.B. WUT) haben die falsche Reihenfolge und scheitern an der tei_all Validierung.
+TEI P5 verlangt in `<monogr>`: `(author|editor)*, title+, editor*, (idno|imprint)*`. Das heißt `<author>` **vor** `<title>`, `<idno>` **nach** `<editor>`. Einige Bestandsdateien (z.B. WUT) haben die falsche Reihenfolge und scheitern an der tei_all Validierung.
 
 ### 2.2 `<encodingDesc>`
 
@@ -252,9 +254,9 @@ TEI P5 verlangt in `<monogr>`: `(author|editor)*, title+, editor*, (idno|imprint
 **Regeln:**
 - Verszeilen als `<l>` (line of verse) mit `@n`
 - Strophen als `<lg>` mit `@n`. Erlaubte `@type`-Werte: `stanza`
-- Optionale uebergeordnete `<div>` fuer Buecher/Abschnitte
+- Optionale übergeordnete `<div>` für Buecher/Abschnitte
 - Bei Liedern: `<div type="song">` > `<lg type="stanza">` > `<l>`
-- Zaesuren als `<caesura/>` innerhalb von `<l>` (optional, selten)
+- Zäsuren als `<caesura/>` innerhalb von `<l>` (optional, selten)
 
 **Ist-Zustand (Bestand):** Die meisten Vers-Texte haben `<l>` ohne `<lg>`-Wrapper. Die Migration erfolgt schrittweise (Issue #30, Stufe 2).
 
@@ -280,13 +282,13 @@ TEI P5 verlangt in `<monogr>`: `(author|editor)*, title+, editor*, (idno|imprint
 ```
 
 **Regeln:**
-- Absaetze als `<p>`
-- Zeilenumbrueche als `<lb/>` (line beginning) mit `@n`
+- Absätze als `<p>`
+- Zeilenumbrüche als `<lb/>` (line beginning) mit `@n`
 - Kapitel/Abschnitte als `<div type="chapter">` mit `<head>`
-- `<l>` ist fuer Vers-Texte reserviert, `<lb/>` fuer Prosa-Zeilenumbrueche (ENTSCHIEDEN)
-- 18 Prosa-Texte im Bestand werden migriert (`<l>` → `<lb/>`), siehe [Section 8.1](#81-l-vs-lb-in-prosa--entschieden-migration)
+- `<l>` ist für Vers-Texte reserviert, `<lb/>` für Prosa-Zeilenumbrüche
+- 18 Prosa-Texte im Bestand werden migriert (`<l>` → `<lb/>`), siehe [Section 8.1](#81-l-vs-lb-in-prosa-migration)
 
-### 3.3 Rezept-Texte (Kochbuecher, medizinische Texte)
+### 3.3 Rezept-Texte (Kochbücher, medizinische Texte)
 
 **Ziel-Struktur:**
 
@@ -309,7 +311,7 @@ TEI P5 verlangt in `<monogr>`: `(author|editor)*, title+, editor*, (idno|imprint
 **Regeln:**
 - Jedes Rezept als `<div type="recipe">` mit `@n` (Rezeptnummer aus Edition)
 - Rezepttitel als `<head>` im `<div>`
-- Fliesstext im `<p>` mit `<lb/>` fuer Zeilenumbrueche
+- Fließtext im `<p>` mit `<lb/>` für Zeilenumbrüche
 
 ### 3.4 Gemischte Texte
 
@@ -332,19 +334,19 @@ Texte mit Vers- und Prosa-Abschnitten verwenden verschachtelte `<div>`-Elemente:
 
 ### 3.5 `div/@type` Werte (Audit)
 
-15 distinkte Werte im Bestand. Die Werte stammen als 1:1-Uebersetzungen aus dem alten Datenbank-Export (Julias TEI-Doku, Juni 2024).
+15 distinkte Werte im Bestand. Die Werte stammen als 1:1-Übersetzungen aus dem alten Datenbank-Export (Julias TEI-Doku, Juni 2024).
 
-Vollstaendige Uebersicht aller akzeptierten Werte: siehe Tabelle "Alle div/@type Entscheidungen komplett" weiter unten.
+Vollständige Übersicht aller akzeptierten Werte: siehe Tabelle "Alle div/@type Entscheidungen komplett" weiter unten.
 
 **Designentscheidung: `song` bleibt breit, keine Differenzierung in `spruch`/`leich`**
 
-In der mhd. Lyrik unterscheidet man fachlich zwischen Lied, Spruch und Leich. Die Frage war, ob kuenftige Ingests feiner differenzieren sollen. Entscheidung: **Nein.**
+In der mhd. Lyrik unterscheidet man fachlich zwischen Lied, Spruch und Leich. Die Frage war, ob künftige Ingests feiner differenzieren sollen. Entscheidung: **Nein.**
 
-1. **Fachlich instabil:** Die Trias Lied/Spruch/Leich ist eine moderne Forschungskategorisierung, keine mittelalterliche Selbstbezeichnung. Die Abgrenzung ist in der Germanistik umstritten — Texte wechseln zwischen Formen, Zuordnungen haengen vom Forschungsstand ab (z.B. Hugo von Montfort: "Lied" oder "Rede" je nach Edition).
-2. **Information existiert an besserer Stelle:** Die Gattungstypologie im `<classDecl>` hat 600+ Genre-Bezeichnungen. Dort koennen Minnelied, Spruchdichtung, Leich als Genre-Kategorien fein unterschieden werden. `div/@type` markiert die **Struktureinheit** (= nummerierte lyrische Einheit), nicht das Genre.
-3. **Konsistenz ueberwiegt Praezision:** 1,373 bestehende `song`-Einheiten muessten reklassifiziert werden (nicht scriptbar, erfordert philologische Einzelentscheidungen). Bei zukuenftigen Ingests muesste jeder Text einzeln beurteilt werden.
+1. **Fachlich instabil:** Die Trias Lied/Spruch/Leich ist eine moderne Forschungskategorisierung, keine mittelalterliche Selbstbezeichnung. Die Abgrenzung ist in der Germanistik umstritten – Texte wechseln zwischen Formen, Zuordnungen hängen vom Forschungsstand ab (z.B. Hugo von Montfort: "Lied" oder "Rede" je nach Edition).
+2. **Information existiert an besserer Stelle:** Die Gattungstypologie im `<classDecl>` hat 600+ Genre-Bezeichnungen. Dort können Minnelied, Spruchdichtung, Leich als Genre-Kategorien fein unterschieden werden. `div/@type` markiert die **Struktureinheit** (= nummerierte lyrische Einheit), nicht das Genre.
+3. **Konsistenz überwiegt Präzision:** 1,373 bestehende `song`-Einheiten müssten reklassifiziert werden (nicht scriptbar, erfordert philologische Einzelentscheidungen). Bei zukünftigen Ingests müsste jeder Text einzeln beurteilt werden.
 
-`song` bedeutet im MHDBDB-Modell: **"nummerierte lyrische Einheit"** — bewusst breiter als die Fachterminologie. Feinere Unterscheidungen erfolgen ueber die Genre-Taxonomie im Header.
+`song` bedeutet im MHDBDB-Modell: **"nummerierte lyrische Einheit"** – bewusst breiter als die Fachterminologie. Feinere Unterscheidungen erfolgen über die Genre-Taxonomie im Header.
 
 **Migration (entschieden):**
 
@@ -358,9 +360,9 @@ In der mhd. Lyrik unterscheidet man fachlich zwischen Lied, Spruch und Leich. Di
 | `§` | 7 | KVM | Encoding-Artefakt (Linecode-Konvertierung) → `section` |
 | `sigil` | 9 | BOP | Lied-Siglen aus Edition → `number` (analog deed/sermon) |
 
-**Logik `deed`/`sermon` → `number`:** Diese `div`-Typen markieren keine Genre-Information (die kommt aus der `<classDecl>`-Taxonomie im Header), sondern nummerierte Einheiten (Urkunde Nr. 1, Predigt Nr. 2). Der Typ `number` drueckt die Funktion korrekt aus. Bestehendes `@n` bleibt erhalten.
+**Logik `deed`/`sermon` → `number`:** Diese `div`-Typen markieren keine Genre-Information (die kommt aus der `<classDecl>`-Taxonomie im Header), sondern nummerierte Einheiten (Urkunde Nr. 1, Predigt Nr. 2). Der Typ `number` drückt die Funktion korrekt aus. Bestehendes `@n` bleibt erhalten.
 
-**Zusaetzlich: `note type="date"` und `note type="year"` in HZU/HZU2**
+**Zusätzlich: `note type="date"` und `note type="year"` in HZU/HZU2**
 
 HZU (36 date-notes + 19 year-notes) und HZU2 (241 date-notes + 100 year-notes) tragen Datumsangaben in Urkunden:
 
@@ -376,14 +378,14 @@ HZU (36 date-notes + 19 year-notes) und HZU2 (241 date-notes + 100 year-notes) t
 | Typ | Count | Beispiele | Aktion |
 |-----|-------|-----------|--------|
 | `paragraph` | 76 | BDK | → `number` (Katharina: "weg damit, mehr Troubles als Nutzen") |
-| `volume` | 7 | FLG, FLG1 | → entfernen (veraltet, nur technische Gruende; Metadaten reichen) |
+| `volume` | 7 | FLG, FLG1 | → entfernen (veraltet, nur technische Gründe; Metadaten reichen) |
 
-**`volume` Sonderfaelle (FLG, FLG1, PL1-3):**
+**`volume` Sonderfälle (FLG, FLG1, PL1-3):**
 
-Katharina: "Band und Teil hatten nur veraltete technische Gruende. Kann in die Metadaten ausgelagert werden."
+Katharina: "Band und Teil hatten nur veraltete technische Gründe. Kann in die Metadaten ausgelagert werden."
 
-- **FLG** (Buch 1-2, Edition 2009) + **FLG1** (Buch 3-7, Edition 1990-93): Zusammenziehen **nicht empfohlen** — unterschiedliche Editionsgrundlagen. `div type="volume"` entfernen, Buchnummern als `div type="section"` behalten.
-- **PL1/PL2/PL3** (Prosa-Lancelot): Zusammenziehen **moeglich** — identischer Aufbau (gleicher Autor, flach `<body><p>`), nur unterschiedlicher Text. Aber: 822k `<w>` gesamt = Riesendatei. Separate Dateien mit `section`-Divs statt `volume` ist pragmatischer.
+- **FLG** (Buch 1-2, Edition 2009) + **FLG1** (Buch 3-7, Edition 1990-93): Zusammenziehen **nicht empfohlen** – unterschiedliche Editionsgrundlagen. `div type="volume"` entfernen, Buchnummern als `div type="section"` behalten.
+- **PL1/PL2/PL3** (Prosa-Lancelot): Zusammenziehen **möglich** – identischer Aufbau (gleicher Autor, flach `<body><p>`), nur unterschiedlicher Text. Aber: 822k `<w>` gesamt = Riesendatei. Separate Dateien mit `section`-Divs statt `volume` ist pragmatischer.
 
 **Alle `div/@type` Entscheidungen komplett:**
 
@@ -394,7 +396,7 @@ Katharina: "Band und Teil hatten nur veraltete technische Gruende. Kann in die M
 | **`recipe`** | 452 | ABS, BRIX | ✓ Akzeptiert |
 | **`section`** | 433 | DL1, DL2, EHB, KVM | ✓ Akzeptiert (inkl. ex-part/subsection/§) |
 | **`number`** | 498 | HZU, ADP, BDK, BOP | ✓ Akzeptiert (inkl. ex-deed/sermon/sigil/paragraph) |
-| **`parallel`** | 24 | BRW, DES2 | ✓ Akzeptiert (Parallelueberlieferung) |
+| **`parallel`** | 24 | BRW, DES2 | ✓ Akzeptiert (Parallelüberlieferung) |
 | **`colophon`** | 15 | ALX, APO | ✓ Akzeptiert (TEI hat `<colophon>`, aber `div type` ist kompatibel) |
 
 **Stanza-Check (verifiziert):** `div type="stanza"` existierte historisch nur in LZT (1.122) und ist seit #23/v4.1.1 zu `lg type="stanza"` migriert; aktuell **0** `div type="stanza"` im Korpus (LZT nutzt jetzt `lg type="stanza"`).
@@ -405,7 +407,7 @@ Katharina: "Band und Teil hatten nur veraltete technische Gruende. Kann in die M
 
 Das `<w>`-Element ist die zentrale Annotationseinheit. Im Soll-Modell stammen alle Attribute aus TEI P5 `att.linguistic` und `att.global.analytic` (seit TEI 3.3.0, Jan 2018).
 
-> **Status (Phase B1/B2, 2026-04 — abgeschlossen):** Die früher nötigen Migrationen `@meaningRef → @ana` und `@wordRef → @corresp` sind korpusweit durchgeführt (inkl. WZB). Es gibt **0** verbleibende `@meaningRef`/`@wordRef`-Attribute, **667/667** Dateien nutzen `@ana`, und kein aktiver JS-/Python-Code liest die alten Namen (der `@meaningRef`-Treffer in `WZB.tei.xml` ist nur ein `revisionDesc`-Logeintrag, kein Attribut). Die §§4.1, 4.3, 4.4 dokumentieren das migrierte Modell und die Migrations-Historie; vgl. §10 „Frühere Fehler (alle behoben durch Migration)".
+> **Status (Phase B1/B2, 2026-04 – abgeschlossen):** Die früher nötigen Migrationen `@meaningRef → @ana` und `@wordRef → @corresp` sind korpusweit durchgeführt (inkl. WZB). Es gibt **0** verbleibende `@meaningRef`/`@wordRef`-Attribute, **667/667** Dateien nutzen `@ana`, und kein aktiver JS-/Python-Code liest die alten Namen (der `@meaningRef`-Treffer in `WZB.tei.xml` ist nur ein `revisionDesc`-Logeintrag, kein Attribut). Die §§4.1, 4.3, 4.4 dokumentieren das migrierte Modell und die Migrations-Historie; vgl. §10 „Frühere Fehler (alle behoben durch Migration)".
 
 **Vorher** (Bestand bis Phase B1/B2):
 ```xml
@@ -435,9 +437,9 @@ Das `<w>`-Element ist die zentrale Annotationseinheit. Im Soll-Modell stammen al
 | `@ana` | **Standard** (att.global.analytic) | nein | ~5.9M (migriert aus `@meaningRef`, Phase B1) | behalten |
 | `@corresp` | **Standard** (att.global) | nein | ~7.5M (migriert aus `@wordRef`, Phase B2; URI → `variants.xml`) | behalten |
 
-Korpus zum Audit-Zeitpunkt (#32, 2026-04, vor WZB): 9,282,982 `<w>`-Elemente in 666 Dateien; 20.4% ohne `@lemmaRef` (unannotierte Woerter — werden vom Corpus-Index uebersprungen, siehe CONTRACTS.md Sec. B). Aktueller Stand: 667 Dateien, 9.432.130 `<w>` (Messung 2026-06-10 fuer den Code4Lib-Artikel, #142).
+Korpus zum Audit-Zeitpunkt (#32, 2026-04, vor WZB): 9,282,982 `<w>`-Elemente in 666 Dateien; 20.4% ohne `@lemmaRef` (unannotierte Wörter – werden vom Corpus-Index übersprungen, siehe CONTRACTS.md Sec. B). Aktueller Stand: 667 Dateien, 9.432.130 `<w>` (Messung 2026-06-10 für den Code4Lib-Artikel, #142).
 
-> **Wichtig:** `@lemmaRef` ist seit TEI P5 3.3.0 ein Standard-Attribut der Klasse `att.linguistic` und musste **nicht** migriert werden. `@meaningRef` und `@wordRef` **waren** die Validierungsblocker (keine TEI-Standard-Attribute); sie wurden korpusweit zu `@ana` bzw. `@corresp` migriert (Phase B1/B2, abgeschlossen — 0 verbleibende Vorkommen, 667/667 Dateien mit `@ana`).
+> **Wichtig:** `@lemmaRef` ist seit TEI P5 3.3.0 ein Standard-Attribut der Klasse `att.linguistic` und musste **nicht** migriert werden. `@meaningRef` und `@wordRef` **waren** die Validierungsblocker (keine TEI-Standard-Attribute); sie wurden korpusweit zu `@ana` bzw. `@corresp` migriert (Phase B1/B2, abgeschlossen – 0 verbleibende Vorkommen, 667/667 Dateien mit `@ana`).
 
 ### 4.2 `@xml:id` Format
 
@@ -450,31 +452,31 @@ Beispiele:
   WZB_1ra_6_5     (WZB, Folio 1ra, Zeile 6, Wort 5)
 ```
 
-Format variiert historisch bedingt. Neue Texte sollen ein konsistentes Schema verwenden. IDs muessen innerhalb eines Dokuments eindeutig sein.
+Format variiert historisch bedingt. Neue Texte sollen ein konsistentes Schema verwenden. IDs müssen innerhalb eines Dokuments eindeutig sein.
 
 ### 4.3 Migrations-Plan (abgeschlossen, Phase B1/B2)
 
 > Historischer Plan. Die Migration ist 2026-04 korpusweit durchgeführt (inkl. WZB); die Tabelle dokumentiert, was umgesetzt wurde.
 
-| Attribut | TEI-Status | Aktion | Aufwand | Abhaengigkeit |
+| Attribut | TEI-Status | Aktion | Aufwand | Abhängigkeit |
 |----------|------------|--------|---------|---------------|
-| `@lemmaRef` | Standard | **behalten** | keiner | — |
-| `@pos` | Standard | **behalten** | keiner | — |
+| `@lemmaRef` | Standard | **behalten** | keiner | – |
+| `@pos` | Standard | **behalten** | keiner | – |
 | `@meaningRef` | nicht Standard | **→ `@ana`** | gering (Rename) | Playground JS (8 Stellen, davon 2 kritisch) |
 | `@wordRef` | nicht Standard | **→ `@corresp`** | gering (Rename + URI-Korrektur) | siehe Sec. 4.4 |
 
-**Prioritaet:** `@meaningRef` → `@ana` und `@wordRef` → `@corresp` sind beide fuer TEI-Konformanz noetig. Beide sind Batch-Renames (Attributname aendern). Bei `@wordRef` muss zusaetzlich die URI korrigiert werden (siehe Sec. 4.4).
+**Priorität:** `@meaningRef` → `@ana` und `@wordRef` → `@corresp` sind beide für TEI-Konformanz nötig. Beide sind Batch-Renames (Attributname ändern). Bei `@wordRef` muss zusätzlich die URI korrigiert werden (siehe Sec. 4.4).
 
 **Code-Anpassung `@meaningRef` → `@ana`** (✓ erledigt): Der aktive Playground-JS liest bereits `@ana` (querySelectorAll `[ana]`/`getAttribute('ana')`). Es gibt **0** Stellen im aktiven JS-Code, die `meaningRef`/`wordRef` lesen (bestätigt per grep über `assets/` + `playground/`, 2026-06-05). Python-Referenzen nur im archivierten `_ARCHIVED_tei-transformation.py` (nicht aktiv).
 
-**`@lemma` bewusst nicht umgesetzt:** TEI P5 erlaubt `@lemma` (att.linguistic) als menschenlesbare Grundform direkt am Wort. Wir setzen es nicht. Begruendung:
+**`@lemma` bewusst nicht umgesetzt:** TEI P5 erlaubt `@lemma` (att.linguistic) als menschenlesbare Grundform direkt am Wort. Wir setzen es nicht. Begründung:
 
-- **Denormalisierung.** Source of Truth fuer die Grundform ist `lexicon.xml` → `<form type="lemma"><orth>`. `@lemma` waere eine redundante Kopie neben `@lemmaRef`. Das widerspricht dem Grundsatz aus [TEI-MODEL-AUTH-FILES.md](TEI-MODEL-AUTH-FILES.md) Sec. 2.2 ("Bidirektionale Links — eine Richtung ist Master, die andere wird abgeleitet"), der fuer Authority-Files gilt und hier konsequent fortgefuehrt wird.
-- **Datenvolumen.** ~9,3M `<w>`-Elemente × ~10 Byte → rund 90 MB zusaetzliche Roh-XML ueber 667 Dateien ohne funktionalen Nutzen.
-- **Kein Konsument.** Weder `build-corpus-index.py` (liest nur `@lemmaRef` und extrahiert die ID) noch die JS-Renderer (`text-renderer.js`, `tei-text-reader.js`) lesen `@lemma`. Die Anzeige der Grundform laeuft im Browser ueber den Authority-Index.
-- **Sync-Risiko.** Jede orthografische Korrektur im Lexikon muesste in alle 667 Korpusdateien propagiert werden, sonst driften sie auseinander.
+- **Denormalisierung.** Source of Truth für die Grundform ist `lexicon.xml` → `<form type="lemma"><orth>`. `@lemma` wäre eine redundante Kopie neben `@lemmaRef`. Das widerspricht dem Grundsatz aus [TEI-MODEL-AUTH-FILES.md](TEI-MODEL-AUTH-FILES.md) Sec. 2.2 ("Bidirektionale Links – eine Richtung ist Master, die andere wird abgeleitet"), der für Authority-Files gilt und hier konsequent fortgeführt wird.
+- **Datenvolumen.** ~9,3M `<w>`-Elemente × ~10 Byte → rund 90 MB zusätzliche Roh-XML über 667 Dateien ohne funktionalen Nutzen.
+- **Kein Konsument.** Weder `build-corpus-index.py` (liest nur `@lemmaRef` und extrahiert die ID) noch die JS-Renderer (`text-renderer.js`, `tei-text-reader.js`) lesen `@lemma`. Die Anzeige der Grundform läuft im Browser über den Authority-Index.
+- **Sync-Risiko.** Jede orthografische Korrektur im Lexikon müsste in alle 667 Korpusdateien propagiert werden, sonst driften sie auseinander.
 
-Die menschenlesbare Grundform bleibt per Lookup `@lemmaRef` → `lexicon.xml` zugaenglich — fuer Debug-Inspektion per `xmllint`/`grep`, fuer Tooling per Authority-Index.
+Die menschenlesbare Grundform bleibt per Lookup `@lemmaRef` → `lexicon.xml` zugänglich – für Debug-Inspektion per `xmllint`/`grep`, für Tooling per Authority-Index.
 
 **WZB:** Auch WZB ist migriert und nutzt `@ana` (141.978 Vorkommen). Der einzige `@meaningRef`-Treffer in `WZB.tei.xml` ist ein `<change>`-Logeintrag im `revisionDesc`, kein Attribut.
 
@@ -484,9 +486,9 @@ Die menschenlesbare Grundform bleibt per Lookup `@lemmaRef` → `lexicon.xml` zu
 
 `@wordRef` war kein TEI-Standard-Attribut, trug aber **nicht-rekonstruierbare Information** (daher Migration zu `@corresp` statt Löschung):
 
-- ~21% der `<w>`-Elemente **mit** `@wordRef` haben kein `@meaningRef` (1,553,943 von 7,406,166) — ohne Sense ist der Lookup-Pfad Sense→Type unmoeglich
-- 42 von 43.404 Senses haben Types mit identischem Formtext — selbst mit Sense ist Text-Matching nicht eindeutig
-- `@wordRef` ist die einzige direkte Verknuepfung einer Belegstelle mit ihrer Wortform (Type) in `variants.xml`
+- ~21% der `<w>`-Elemente **mit** `@wordRef` haben kein `@meaningRef` (1,553,943 von 7,406,166) – ohne Sense ist der Lookup-Pfad Sense→Type unmöglich
+- 42 von 43.404 Senses haben Types mit identischem Formtext – selbst mit Sense ist Text-Matching nicht eindeutig
+- `@wordRef` ist die einzige direkte Verknüpfung einer Belegstelle mit ihrer Wortform (Type) in `variants.xml`
 
 **Referenzkette:**
 ```
@@ -497,22 +499,22 @@ Die menschenlesbare Grundform bleibt per Lookup `@lemmaRef` → `lexicon.xml` zu
     └─ variants.xml: <form xml:id="type_8717">hân</form>
 ```
 
-**Migration (✓ abgeschlossen):** `@wordRef` wurde zu `@corresp` (Standard-Attribut aus `att.global`). Dabei wurde die URI korrigiert — das Ziel liegt in `variants.xml`, nicht in `lexicon.xml`:
+**Migration (✓ abgeschlossen):** `@wordRef` wurde zu `@corresp` (Standard-Attribut aus `att.global`). Dabei wurde die URI korrigiert – das Ziel liegt in `variants.xml`, nicht in `lexicon.xml`:
 
 ```
 vorher:  wordRef="lexicon.xml#lemma_2598_sense_77615_type_8717"  (synthetisch, falsche Datei)
 jetzt:   corresp="variants.xml#type_8717"                        (direkt, korrekte Datei)
 ```
 
-**Umsetzung:** Batch-Transformation — aus der synthetischen URI den `type_{id}`-Teil extrahiert und als `variants.xml#type_{id}` gesetzt. Kein aktiver Code las `@wordRef`, daher keine JS-Anpassung nötig.
+**Umsetzung:** Batch-Transformation – aus der synthetischen URI den `type_{id}`-Teil extrahiert und als `variants.xml#type_{id}` gesetzt. Kein aktiver Code las `@wordRef`, daher keine JS-Anpassung nötig.
 
 ---
 
 ## 5. POS-Tagset (19 Tags)
 
-Kanonisches Tagset fuer alle MHDBDB-Texte. Vollstaendige Referenz (Tag-Tabelle, Compound-Regeln, Legacy-Mapping, Korpus-Verteilung): [POS-TAGSET.md](POS-TAGSET.md). Der operative Disambiguierungs-Workflow ist als Agent-Skill `.gemini/skills/pos-disambiguator/` implementiert.
+Kanonisches Tagset für alle MHDBDB-Texte. Vollständige Referenz (Tag-Tabelle, Compound-Regeln, Legacy-Mapping, Korpus-Verteilung): [POS-TAGSET.md](POS-TAGSET.md). Der operative Disambiguierungs-Workflow ist als Agent-Skill `.gemini/skills/pos-disambiguator/` implementiert.
 
-> **WICHTIG:** `ART` ist KEIN valider Tag. Artikel werden als `DET` getaggt.
+> **Hinweis:** `ART` ist kein valider Tag. Artikel werden als `DET` getaggt.
 
 | Tag | Name | Beispiele |
 |-----|------|-----------|
@@ -523,10 +525,10 @@ Kanonisches Tagset fuer alle MHDBDB-Texte. Vollstaendige Referenz (Tag-Tabelle, 
 | **DET** | Determinante | der, diu, daz, ein, diser, jener, kein |
 | **POS** | Possessivpronomen | min, din, unser |
 | **PRO** | Pronomen | ich, ez, wir, Relativpronomen |
-| **PRP** | Praeposition | uf, zuo, under, durch |
+| **PRP** | Präposition | uf, zuo, under, durch |
 | **NEG** | Negation | nie, niht, nit, ne, en |
 | **NUM** | Numeral | zwo, dri |
-| **CNJ** | Konjunktion (allgemein) | Fallback bei Ambiguitaet |
+| **CNJ** | Konjunktion (allgemein) | Fallback bei Ambiguität |
 | **SCNJ** | Subordinierende Konj. | daz (Nebensatz), ob, swenne, sit |
 | **CCNJ** | Koordinierende Konj. | und, oder, aber, ouch |
 | **IPA** | Interrogativpartikel | wie (Frage), war (wohin?) |
@@ -534,15 +536,15 @@ Kanonisches Tagset fuer alle MHDBDB-Texte. Vollstaendige Referenz (Tag-Tabelle, 
 | **VEX** | Hilfsverb | haben/sin/werden (mit Partizip II) |
 | **VEM** | Modalverb | muezen, suln, kunnen |
 | **INJ** | Interjektion | ahi, owe |
-| **DIG** | Zahl (roemisch) | IX, XVII, III |
+| **DIG** | Zahl (römisch) | IX, XVII, III |
 
 ### 5.1 POS-Migration Altbestand
 
-Der Altbestand nutzt ein aelteres Tagset (`ART` statt `DET`, `CNJ` statt `CCNJ`/`SCNJ`, `GRA` geht in `ADJ` auf). Vollstaendige Mapping-Tabelle und die im Korpus verbleibenden Anteile: [POS-TAGSET.md §3](POS-TAGSET.md#3-legacy-tags-altbestand). Die CNJ-Differenzierung (CCNJ vs. SCNJ) erfordert linguistische Analyse und kann nicht mechanisch erfolgen.
+Der Altbestand nutzt ein älteres Tagset (`ART` statt `DET`, `CNJ` statt `CCNJ`/`SCNJ`, `GRA` geht in `ADJ` auf). Vollständige Mapping-Tabelle und die im Korpus verbleibenden Anteile: [POS-TAGSET.md §3](POS-TAGSET.md#3-legacy-tags-altbestand). Die CNJ-Differenzierung (CCNJ vs. SCNJ) erfordert linguistische Analyse und kann nicht mechanisch erfolgen.
 
 ### 5.2 Compound-Tags
 
-Viele `<w>`-Elemente im Altbestand tragen Compound-Tags (~35-40%) (z.B. `pos="VRB VEX"`, `pos="ART NUM"`), die Ambiguitaet ausdruecken. Der Disambiguierungs-Workflow loest diese auf einen einzelnen Tag auf; nur echte morphologische Fusionen (z.B. `wiltu` = wilt + du -> `VEM PRO`) behalten zwei Tags. Regeln und Ausnahmen: [POS-TAGSET.md §2](POS-TAGSET.md#2-compound-tags).
+Viele `<w>`-Elemente im Altbestand tragen Compound-Tags (~35-40%) (z.B. `pos="VRB VEX"`, `pos="ART NUM"`), die Ambiguität ausdrücken. Der Disambiguierungs-Workflow löst diese auf einen einzelnen Tag auf; nur echte morphologische Fusionen (z.B. `wiltu` = wilt + du -> `VEM PRO`) behalten zwei Tags. Regeln und Ausnahmen: [POS-TAGSET.md §2](POS-TAGSET.md#2-compound-tags).
 
 ---
 
@@ -582,11 +584,11 @@ Mit der ARITHMETIC-Aufnahme wurden folgende TEI-P5-Standardelemente als **option
 <pc join="left">.</pc>
 ```
 
-TEI P5 stellt `<pc>` (punctuation character) als Gegenstueck zu `<w>` bereit. Es ist Member von `att.linguistic` und unterstuetzt daher `@pos`, `@lemma` etc. — anders als `<seg type="pc">`. Das `@join`-Attribut (`left`, `right`, `both`, `no`) regelt Whitespace-Adjacenz.
+TEI P5 stellt `<pc>` (punctuation character) als Gegenstück zu `<w>` bereit. Es ist Member von `att.linguistic` und unterstützt daher `@pos`, `@lemma` etc. – anders als `<seg type="pc">`. Das `@join`-Attribut (`left`, `right`, `both`, `no`) regelt Whitespace-Adjacenz.
 
 **Migration:** 1,370,191 Vorkommen. Einfaches Batch-Rename (`<seg type="pc">` → `<pc join="left">`). JS-Rendering muss `<pc>` als Inline-Element behandeln (analog zu `<seg type="pc">`).
 
-**Achtung:** `&lt;` und `&gt;` in `<seg type="pc">` (bzw. kuenftig `<pc>`) sind korrekte XML-Entities (Winkelklammern im Quelltext), keine Bugs.
+**Achtung:** `&lt;` und `&gt;` in `<seg type="pc">` (bzw. künftig `<pc>`) sind korrekte XML-Entities (Winkelklammern im Quelltext), keine Bugs.
 
 ### 6.2 Hervorhebungen
 
@@ -621,14 +623,14 @@ TEI P5 stellt `<pc>` (punctuation character) als Gegenstueck zu `<w>` bereit. Es
 ```
 Vorteil: Konsistente, zentral verwaltete Rendition-Definitionen statt Freitext-Werte.
 
-### 6.3 Seitenumbrueche
+### 6.3 Seitenumbrüche
 
 ```xml
 <pb n="{Seitenzahl}"/>
 <pb type="folio" n="{Folio}"/>
 ```
 
-### 6.4 Ergaenzungen
+### 6.4 Ergänzungen
 
 ```xml
 <supplied>
@@ -636,15 +638,15 @@ Vorteil: Konsistente, zentral verwaltete Rendition-Definitionen statt Freitext-W
 </supplied>
 ```
 
-Nur fuer editorisch ergaenzte Textteile. Nicht fuer Rezepttitel oder Strukturmarkierung missbrauchen.
+Nur für editorisch ergänzte Textteile. Nicht für Rezepttitel oder Strukturmarkierung missbrauchen.
 
-### 6.5 Zaesur
+### 6.5 Zäsur
 
 ```xml
 <caesura/>
 ```
 
-Markiert eine Verszeilen-Zaesur innerhalb von `<l>`. Selten (5 Dateien im Bestand).
+Markiert eine Verszeilen-Zäsur innerhalb von `<l>`. Selten (5 Dateien im Bestand).
 
 ### 6.6 Zahlen
 
@@ -654,9 +656,9 @@ Markiert eine Verszeilen-Zaesur innerhalb von `<l>`. Selten (5 Dateien im Bestan
 </num>
 ```
 
-Wrapt `<w>`-Elemente mit numerischem Inhalt (roemische Zahlen etc.). Im Rendering als `<span class="number">` dargestellt.
+Wrapt `<w>`-Elemente mit numerischem Inhalt (römische Zahlen etc.). Im Rendering als `<span class="number">` dargestellt.
 
-### 6.7 Spaltenumbrueche
+### 6.7 Spaltenumbrüche
 
 ```xml
 <cb n="{Spaltennr}"/>
@@ -666,7 +668,7 @@ Markiert einen Spaltenumbruch (column break). Selten (996 Vorkommen in 3 Dateien
 
 ### 6.8 Bekannte Fehler im Bestand
 
-- **`<suppplied>`** (Tippfehler, 1 Vorkommen in 1 Datei) — muss zu `<supplied>` korrigiert werden.
+- **`<suppplied>`** (Tippfehler, 1 Vorkommen in 1 Datei) – muss zu `<supplied>` korrigiert werden.
 
 ---
 
@@ -685,27 +687,27 @@ Alle Referenzen auf kontrollierte Vokabulare verwenden relative Pfade:
 | `@corresp` (msIdentifier) | Standard | works.xml | `works.xml#work_89` |
 | `@corresp` (genre) | Standard | genres.xml | `genres.xml#genre_0480b285` |
 
-**Integritaets-Constraint:** Alle referenzierten IDs muessen in den Authority-Dateien existieren. Wird zur Build-Zeit validiert.
+**Integritäts-Constraint:** Alle referenzierten IDs müssen in den Authority-Dateien existieren. Wird zur Build-Zeit validiert.
 
 ---
 
 ## 8. Entschiedene Migrationspunkte
 
-### 8.1 `<l>` vs `<lb/>` in Prosa — ENTSCHIEDEN: Migration
+### 8.1 `<l>` vs `<lb/>` in Prosa: Migration
 
-TEI P5 definiert `<l>` als "a single line of **verse**" und nutzt in Kapitel 24 (Conformance) die Umdefinition von `<l>` als "typographic line" als **explizites Negativbeispiel** fuer Non-Konformanz.
+TEI P5 definiert `<l>` als "a single line of **verse**" und nutzt in Kapitel 24 (Conformance) die Umdefinition von `<l>` als "typographic line" als **explizites Negativbeispiel** für Non-Konformanz.
 
-**Entscheidung:** 18 Prosa-Texte werden von `<l>` auf `<lb/>` migriert. 3 Texte behielten bei #32 ihr `<l>` mit der Begruendung "Versdichtung" — diese Einstufung war falsch (Verwechslung mit gleichnamigen Verswerken anderer Autoren) und wurde 2026-07 revidiert (#143, KZW-Entscheid 2026-06-12):
+**Entscheidung:** 18 Prosa-Texte werden von `<l>` auf `<lb/>` migriert. 3 Texte behielten bei #32 ihr `<l>` mit der Begründung "Versdichtung" – diese Einstufung war falsch (Verwechslung mit gleichnamigen Verswerken anderer Autoren) und wurde 2026-07 revidiert (#143, KZW-Entscheid 2026-06-12):
 
 **Korrektur 2026-07 (#143): auch diese 3 sind Prosa, `<l>` → `<lb/>` konvertiert:**
 
 | Sigle | Titel | Befund |
 |-------|-------|--------|
-| HMT | Buch von Troja (Hans Mair) | Prosa lt. geschichtsquellen.de/werk/3419; Verwechslungskandidat war Konrads von Wuerzburg Vers-Trojanerkrieg (Reimquote 1,6%) |
-| APO | Apollonius (Heinrich Steinhoewel, 1461) | Prosa-Uebersetzung (Terrahe-Edition); Verwechslungskandidat war Heinrichs von Neustadt "Apollonius von Tyrland" (Reimquote 4,5%) |
-| HH | Himmel und Hoelle | fruehmhd. rhythmische Prosa in kurzen Kola, keine Versdichtung (Reimquote 1,1%) |
+| HMT | Buch von Troja (Hans Mair) | Prosa lt. geschichtsquellen.de/werk/3419; Verwechslungskandidat war Konrads von Würzburg Vers-Trojanerkrieg (Reimquote 1,6%) |
+| APO | Apollonius (Heinrich Steinhöwel, 1461) | Prosa-Übersetzung (Terrahe-Edition); Verwechslungskandidat war Heinrichs von Neustadt "Apollonius von Tyrland" (Reimquote 4,5%) |
+| HH | Himmel und Hölle | frühmhd. rhythmische Prosa in kurzen Kola, keine Versdichtung (Reimquote 1,1%) |
 
-Die 17 uebrigen `<l>`-basierten Kandidaten aus der #143-Heuristik (ALX, DIO, FB, FP, GWTK, MR1, MR2, PSG, PTS, RUD, TKA, TKR, WH, WLE, WRB) wurden inhaltlich geprueft (Reimprobe 18-36%, Wortdichte) und sind Versdichtung — `<l>` bleibt dort korrekt.
+Die 17 übrigen `<l>`-basierten Kandidaten aus der #143-Heuristik (ALX, DIO, FB, FP, GWTK, MR1, MR2, PSG, PTS, RUD, TKA, TKR, WH, WLE, WRB) wurden inhaltlich geprüft (Reimprobe 18-36%, Wortdichte) und sind Versdichtung – `<l>` bleibt dort korrekt.
 
 **Zu migrieren (`<l>` → `<lb/>`):** 18 Dateien
 
@@ -714,23 +716,23 @@ Die 17 uebrigen `<l>`-basierten Kandidaten aus der #143-Heuristik (ALX, DIO, FB,
 | PL1 | Prosa-Lancelot | Prosa-Roman |
 | PL2 | Prosa-Lancelot | Prosa-Roman |
 | PL3 | Prosa-Lancelot | Prosa-Roman |
-| FLG1 | Das fliessende Licht der Gottheit (Buch 3-7) | Mystik |
+| FLG1 | Das fließende Licht der Gottheit (Buch 3-7) | Mystik |
 | VTC | Vita Caroli Quarti Imperatoris | Chronik |
 | NBU | Dat nuwe Boych | Chronik |
 | PUC | Pulkava Chronik | Chronik |
 | ESB | Engelthaler Schwesternbuch | Chronik |
-| LUU | Lehre und Unterweisung | Baemler-Druck 1476 |
-| EHB | Ehbuechlein | Baemler-Druck 1476 |
-| EB1 | Erstes Ehbuechlein | Baemler-Druck 1476 |
-| EB2 | Zweites Ehbuechlein | Baemler-Druck 1476 |
-| MSP | Der menschen spiegel | Baemler-Druck 1476 |
-| PRJ | Processus juris | Baemler-Druck 1476 |
-| REG | Register der Augsburger Sittenlehre | Baemler-Druck 1476 |
+| LUU | Lehre und Unterweisung | Bämler-Druck 1476 |
+| EHB | Ehbüchlein | Bämler-Druck 1476 |
+| EB1 | Erstes Ehbüchlein | Bämler-Druck 1476 |
+| EB2 | Zweites Ehbüchlein | Bämler-Druck 1476 |
+| MSP | Der menschen spiegel | Bämler-Druck 1476 |
+| PRJ | Processus juris | Bämler-Druck 1476 |
+| REG | Register der Augsburger Sittenlehre | Bämler-Druck 1476 |
 | ATF | Facetiae Latinae et Germanicae | Sonstige |
 | SPH | Der Stein philosophorum | Sonstige |
 | WGI | Der Welsche Gast (Prosavorrede) | Sonstige |
 
-**Hinweis:** Die Baemler-1476-Gruppe (7 Texte) faellt auf — zwei weitere Texte desselben Drucks (FAN, NST) nutzen bereits korrekt `<lb/>`.
+**Hinweis:** Die Bämler-1476-Gruppe (7 Texte) fällt auf – zwei weitere Texte desselben Drucks (FAN, NST) nutzen bereits korrekt `<lb/>`.
 
 **Migration:** `<l n="X">content</l>` → `<lb n="X"/>content`. JS-Anpassung: 2 Stellen (`tei-text-reader.js`, `tei-manager.js`).
 
@@ -738,7 +740,7 @@ Die 17 uebrigen `<l>`-basierten Kandidaten aus der #143-Heuristik (ALX, DIO, FB,
 
 ## 9. Ingest-Anforderungen
 
-Neue Texte muessen folgende Mindestanforderungen erfuellen:
+Neue Texte müssen folgende Mindestanforderungen erfüllen:
 
 ### 9.1 Pflicht (Blocking)
 
@@ -749,18 +751,18 @@ Neue Texte muessen folgende Mindestanforderungen erfuellen:
 - [ ] `<msIdentifier @corresp>` verweist auf existierenden `works.xml`-Eintrag (oder neuer Eintrag angelegt)
 - [ ] Mindestens ein Genre via `<classDecl>/<taxonomy>`
 - [ ] `<w>`-Elemente mit `@xml:id` (eindeutig innerhalb Dokument)
-- [ ] `<w @lemmaRef>` fuer alle annotierten Woerter
-- [ ] `@pos` mit gueltigem Tag aus dem 19-Tag-Set (Sec. 5)
+- [ ] `<w @lemmaRef>` für alle annotierten Wörter
+- [ ] `@pos` mit gültigem Tag aus dem 19-Tag-Set (Sec. 5)
 - [ ] Body-Struktur konform mit Genre-Muster (Sec. 3)
-- [ ] Validierung gegen `schema/mhdbdb.rnc` (sobald verfuegbar)
+- [ ] Validierung gegen `schema/mhdbdb.rnc` (sobald verfügbar)
 
 ### 9.2 Empfohlen (Non-Blocking)
 
-- [ ] `@ana` fuer semantische Suche (Verweis auf Sense in lexicon.xml)
-- [ ] `<pb>` fuer Seiten-/Folio-Referenzen
-- [ ] `<bibl type="digitalIntermediary">` fuer Provenienz-Kette
+- [ ] `@ana` für semantische Suche (Verweis auf Sense in lexicon.xml)
+- [ ] `<pb>` für Seiten-/Folio-Referenzen
+- [ ] `<bibl type="digitalIntermediary">` für Provenienz-Kette
 - [ ] Handschriftencensus-Nr. in `<msIdentifier>`
-- [ ] GND/Wikidata-IDs fuer Autor und Werk
+- [ ] GND/Wikidata-IDs für Autor und Werk
 
 ### 9.3 Validierungs-Pipeline (Zwei-Stufen)
 
@@ -784,11 +786,11 @@ npm test
 ```
 
 **Schema-Dateien:**
-- `schema/mhdbdb.rnc` — Source of Truth (RELAX NG Compact, hand-editiert)
-- `schema/mhdbdb.rng` — generiert via `trang schema/mhdbdb.rnc schema/mhdbdb.rng` (fuer lxml/Python)
-- `schema/tei_all.rng` — TEI P5 4.11.0 Referenz (gitignored, Download-Befehl oben)
+- `schema/mhdbdb.rnc` – Source of Truth (RELAX NG Compact, hand-editiert)
+- `schema/mhdbdb.rng` – generiert via `trang schema/mhdbdb.rnc schema/mhdbdb.rng` (für lxml/Python)
+- `schema/tei_all.rng` – TEI P5 4.11.0 Referenz (gitignored, Download-Befehl oben)
 
-**Kein ODD:** Die TEI ODD-Toolchain (Stylesheets + Roma) hat 60-80 offene Issues, ist XSLT 2.0-abhaengig (Saxon), Roma-Webinterface instabil. TEI-Konformanzkriterium 5 ("documented via ODD or **analogous documentation**") wird durch dieses Dokument (TEI-MODEL.md) + das RELAX NG Schema gemeinsam erfuellt.
+**Kein ODD:** Die TEI ODD-Toolchain (Stylesheets + Roma) hat 60-80 offene Issues, ist XSLT 2.0-abhängig (Saxon), Roma-Webinterface instabil. TEI-Konformanzkriterium 5 ("documented via ODD or **analogous documentation**") wird durch dieses Dokument (TEI-MODEL.md) + das RELAX NG Schema gemeinsam erfüllt.
 
 ---
 
@@ -798,7 +800,7 @@ npm test
 
 | Metrik | Wert |
 |--------|------|
-| Dateien | 667 (aus 675 Ausgangsdateien — 9 disamb-Dateien in Base gemergt; +1 WZB-Aufnahme 2026-05-08) |
+| Dateien | 667 (aus 675 Ausgangsdateien – 9 disamb-Dateien in Base gemergt; +1 WZB-Aufnahme 2026-05-08) |
 | `<w>`-Elemente | ~9.3M |
 | `<pc>`-Elemente | ~1.4M (migriert aus `<seg type="pc">`) |
 | `@ana`-Attribute | ~5.9M (migriert aus `@meaningRef`) |
@@ -806,13 +808,13 @@ npm test
 | Unannotierte `<w>` (kein `@lemmaRef`) | ~1.9M (20.4%) |
 
 Migrationsscripts: einmalig in den Phasen A–E ausgeführt, inzwischen in `scripts/_archived/` bzw. Git-Historie nach Abschluss von #32.
-Validierungsscript: `scripts/audit/validate-corpus.py` — zweistufige RelaxNG-Validierung (Stage 1 `tei_all.rng`, Stage 2 `mhdbdb.rng`/`mhdbdb-authority.rng`). Die frühere strukturelle Python-Prüfung (5 Checks) ist seit 2026-04-15 retired und durch `schema/mhdbdb.rnc` abgedeckt.
+Validierungsscript: `scripts/audit/validate-corpus.py` – zweistufige RelaxNG-Validierung (Stage 1 `tei_all.rng`, Stage 2 `mhdbdb.rng`/`mhdbdb-authority.rng`). Die frühere strukturelle Python-Prüfung (5 Checks) ist seit 2026-04-15 retired und durch `schema/mhdbdb.rnc` abgedeckt.
 
 ### Validierungsergebnis (Stand 2026-05-11)
 
 **mhdbdb.rnc:** 667/667 Dateien valide gegen projektspezifisches Schema (`schema/mhdbdb.rnc`).
 
-**tei_all.rng:** 637/667 Dateien valide gegen TEI P5 4.11.0. 30 Dateien haben bewusst dokumentierte Abweichungen, die unser Custom-Schema ueber GAP-Kommentare 1–11 explizit abdeckt. Kategorien:
+**tei_all.rng:** 637/667 Dateien valide gegen TEI P5 4.11.0. 30 Dateien haben bewusst dokumentierte Abweichungen, die unser Custom-Schema über GAP-Kommentare 1–11 explizit abdeckt. Kategorien:
 
 | Kategorie | Dateien | Anzahl |
 |-----------|---------|-------:|
@@ -823,11 +825,11 @@ Validierungsscript: `scripts/audit/validate-corpus.py` — zweistufige RelaxNG-V
 | `<p>` an unerwarteter Position | LZT | 1 |
 | `<head>` fehlend/unerwartet | TKR, VOR | 2 |
 
-Diese 30 Dateien sind **keine Bugs**, sondern dokumentierte Bestandsabweichungen. Das MHDBDB-Modell ist in diesen Punkten absichtlich permissiver als strict-tei_all — die GAP-Kommentare im Schema begruenden jede Abweichung. (Das frühere Feature-Doc `032-schema-followup.md` ist nach Issue-Abschluss gelöscht; Details in der Git-Historie.)
+Diese 30 Dateien sind **keine Bugs**, sondern dokumentierte Bestandsabweichungen. Das MHDBDB-Modell ist in diesen Punkten absichtlich permissiver als strict-tei_all – die GAP-Kommentare im Schema begründen jede Abweichung. (Das frühere Feature-Doc `032-schema-followup.md` ist nach Issue-Abschluss gelöscht; Details in der Git-Historie.)
 
-**Hinweis WZB (Aufnahme 2026-05-08):** Die mit der Wenzelsbibel hinzugefügte 667. Datei ist sowohl stage-1- (tei_all) als auch stage-2-konform (mhdbdb) und faellt damit nicht unter die 30er-Baseline. WZB benutzt keine der GAP-Patterns aus der Tabelle oben.
+**Hinweis WZB (Aufnahme 2026-05-08):** Die mit der Wenzelsbibel hinzugefügte 667. Datei ist sowohl stage-1- (tei_all) als auch stage-2-konform (mhdbdb) und fällt damit nicht unter die 30er-Baseline. WZB benutzt keine der GAP-Patterns aus der Tabelle oben.
 
-Fruehere Fehler (alle behoben durch Migration):
+Frühere Fehler (alle behoben durch Migration):
 
 | Fehler | Behebung |
 |--------|----------|
@@ -846,13 +848,13 @@ Fruehere Fehler (alle behoben durch Migration):
 | 2 | Valid gegen TEI-Schema | ✓ |
 | 3 | Konform mit TEI Abstract Model | ✓ |
 | 4 | Korrekter TEI-Namespace | ✓ |
-| 5 | Dokumentiert via ODD oder Aequivalent | ✓ (TEI-MODEL.md + mhdbdb.rnc) |
+| 5 | Dokumentiert via ODD oder Äquivalent | ✓ (TEI-MODEL.md + mhdbdb.rnc) |
 
 **Zwei-Stufen-Validierung:**
-- **Stufe 1:** `tei_all.rng` = TEI-P5-Konformitaetstest (Kriterien 1-4). Baseline: 637/667 grün.
+- **Stufe 1:** `tei_all.rng` = TEI-P5-Konformitätstest (Kriterien 1-4). Baseline: 637/667 grün.
 - **Stufe 2:** `mhdbdb.rnc` = MHDBDB-Stempel. Deckt alle Bestandsmuster ab, inkl. der 30 tei_all-Abweichungen (GAPs 1–11). Baseline: 667/667 grün.
 
-`mhdbdb.rnc` ist **kein strenges Subset** von `tei_all.rng` — es ist in einigen Punkten strikter (enumerierte `@type`-Werte, restriktivere Kindelemente) und in anderen permissiver (GAPs). Die beiden Stufen pruefen unterschiedliche Eigenschaften und sind komplementaer, nicht redundant.
+`mhdbdb.rnc` ist **kein strenges Subset** von `tei_all.rng` – es ist in einigen Punkten strikter (enumerierte `@type`-Werte, restriktivere Kindelemente) und in anderen permissiver (GAPs). Die beiden Stufen prüfen unterschiedliche Eigenschaften und sind komplementär, nicht redundant.
 
 ### Authority Files Status (8 Dateien, Stand 2026-05-11)
 
@@ -880,17 +882,17 @@ Durchgeführte Bereinigungen:
 
 ### Bekannte Encoding-Ausnahmen und offene Daten-Lücken (#133)
 
-Konsolidierte Liste aller bewusst nicht-normalisierten Daten-Inseln und bekannten Lücken. **Pflegeregel:** Jeder neue Ingest und jede neue bewusste Ausnahme bekommt hier einen Eintrag mit Grund und Tracking-Issue — sonst wächst Schatten-Heterogenität unsichtbar (Befund des Doku-Health-Checks 2026-06-05).
+Konsolidierte Liste aller bewusst nicht-normalisierten Daten-Inseln und bekannten Lücken. **Pflegeregel:** Jeder neue Ingest und jede neue bewusste Ausnahme bekommt hier einen Eintrag mit Grund und Tracking-Issue – sonst wächst Schatten-Heterogenität unsichtbar (Befund des Doku-Health-Checks 2026-06-05).
 
 | Ausnahme / Lücke | Betroffen | Grund | Status / Tracking |
 |------------------|-----------|-------|-------------------|
-| Schema-GAPs 1–11 (`schema/mhdbdb.rnc`) | 30 Korpus-Dateien (Kategorien-Tabelle oben) | Bestandsdaten; Migration unverhältnismäßig teuer oder semantisch riskant — dokumentierte Ausnahmen der Daten-vor-Schema-Regel | dauerhaft; jede GAP im Schema kommentiert |
+| Schema-GAPs 1–11 (`schema/mhdbdb.rnc`) | 30 Korpus-Dateien (Kategorien-Tabelle oben) | Bestandsdaten; Migration unverhältnismäßig teuer oder semantisch riskant – dokumentierte Ausnahmen der Daten-vor-Schema-Regel | dauerhaft; jede GAP im Schema kommentiert |
 | ARI/PD-001 Domain-Elemente | 6 ARITHMETIC-Handschriften (noch nicht im Korpus) | 12 Nicht-Schema-Element-Klassen + 24 `div/@type`- + 7 `hi/@rend`-Werte aus Carinas Rechenbüchern; blockieren Stage-2-Validierung | entschieden 2026-05-08: Domain-Tags ins Schema (DECISIONS.md § PD-001); Schema-Erweiterung + Ingest ausstehend → #92 |
 | lexicon.xml-Backfill | Rest 396 dangling Refs / 109 IDs (Kategorie B: Sense-Kuratorik, Kategorie C: Tippfehler/Homographen) | WZB-Forward-Ingest prägte Lemma-IDs nur ins Korpus; Kategorie A (125 Entries) 2026-07-02 per `backfill-lexicon.py` gestubbt | offen → #115 (B/C kuratorisch, KZW/Julia) |
 | WVV Stanza-Anchors | WVV, 23 Stanzen | ungewöhnliches Linecode-Template, Anchors fehlen (#23-Followup) | offen → #110 (depends-on-human) |
 | Editorische `<div>`-Hülle | HUG, KLA, PL1–PL3, MBS-Serie | Follow-up aus dem manuellen TEI-Review (#30) | offen → #138 (needs-clarification) |
 | Prosa-Policy `<l>` vs. `<lb/>` | 17 l-kodierte Prosatexte | Phase C2 wandelte 18 Texte; Policy für die verbleibenden ungeklärt | offen → #143 (depends-on-human) |
-| WZB `@meaningRef` (historisch) | WZB | Alt-Annotation der Erstlieferung | **gelöst** — zu `@ana` migriert; es verbleibt nur ein `revisionDesc`-Logeintrag |
+| WZB `@meaningRef` (historisch) | WZB | Alt-Annotation der Erstlieferung | **gelöst** – zu `@ana` migriert; es verbleibt nur ein `revisionDesc`-Logeintrag |
 
 ---
 
@@ -909,13 +911,13 @@ Konsolidierte Liste aller bewusst nicht-normalisierten Daten-Inseln und bekannte
 
 ---
 
-## 12. Konventionen fuer neue Ingests
+## 12. Konventionen für neue Ingests
 
-Beim Ingest neuer Texte gelten fuer Editor-Attribution und Credits die folgenden Defaults. Sie ergaenzen die Mindestanforderungen aus §9.
+Beim Ingest neuer Texte gelten für Editor-Attribution und Credits die folgenden Defaults. Sie ergänzen die Mindestanforderungen aus §9.
 
 **Immer gleich (in jeder neuen Datei):**
 
-1. **Authority-Block** in `<publicationStmt>/<authority>` — drei Eintraege in dieser Reihenfolge (Koordinatorin zuerst, dann Gruender chronologisch):
+1. **Authority-Block** in `<publicationStmt>/<authority>` – drei Einträge in dieser Reihenfolge (Koordinatorin zuerst, dann Gründer chronologisch):
    - `<persName role="coordinator" ref="contributors.xml#contrib_003">Katharina Zeppezauer-Wachauer</persName>`
    - `<persName role="founder" ref="contributors.xml#contrib_001">Klaus M. Schmidt</persName>`
    - `<persName role="founder" ref="contributors.xml#contrib_002">Horst Pütz</persName>`
@@ -924,12 +926,12 @@ Beim Ingest neuer Texte gelten fuer Editor-Attribution und Credits die folgenden
 
 Diese drei Bausteine sind in allen 667 Bestandsdateien identisch und wurden vom Migrationsscript `scripts/_archived/migrate-header-credits.py` gesetzt (initial 666 Files am 2026-04-15, WZB beim Branch-Merge 2026-05-06 angeglichen). Bei neuen Ingests einfach aus einer Bestandsdatei oder aus `schema/examples/corpus.example.tei.xml` kopieren.
 
-**Nicht die volle Mitwirkenden-Liste in den Header schreiben.** Die 50+ Editor:innen, die historisch an den Bestandstexten mitgearbeitet haben, leben in `contributors.xml` und sind ueber den kollektiven `mhdbdb-team`-Verweis abgedeckt. Der Header bleibt schlank.
+**Nicht die volle Mitwirkenden-Liste in den Header schreiben.** Die 50+ Editor:innen, die historisch an den Bestandstexten mitgearbeitet haben, leben in `contributors.xml` und sind über den kollektiven `mhdbdb-team`-Verweis abgedeckt. Der Header bleibt schlank.
 
 **Spezifische Haupteditor:innen bei neuem Ingest:** Wenn ein neuer Text einen oder mehrere Haupt-Editor:innen im Heute-Sinne hat (wie Brom bei TKR/TKA/VTC oder Woesner bei JT), dann:
 
 1. In `contributors.xml` einen neuen `<person xml:id="contrib_NNN">` mit `@role="lead-editor"` anlegen (IDs fortlaufend ab der letzten vergebenen Nummer).
-2. Im neuen Korpus-Header ein zweites `<respStmt>` neben den kollektiven einfuegen:
+2. Im neuen Korpus-Header ein zweites `<respStmt>` neben den kollektiven einfügen:
 
    ```xml
    <respStmt>
@@ -938,11 +940,11 @@ Diese drei Bausteine sind in allen 667 Bestandsdateien identisch und wurden vom 
    </respStmt>
    ```
 
-3. Beide Validierungsstufen durchlaufen — `contributors.xml` gegen `mhdbdb-authority.rng`, der neue Korpus-Header gegen `mhdbdb.rng`.
+3. Beide Validierungsstufen durchlaufen – `contributors.xml` gegen `mhdbdb-authority.rng`, der neue Korpus-Header gegen `mhdbdb.rng`.
 
-**Nicht-Haupteditor:innen (einzelne Beitraege):** Wer als Editor:in an einem einzelnen Text mitgearbeitet hat, aber nicht als "Haupt-Editor:in dieser Ausgabe" sichtbar sein soll, wird nur in `contributors.xml` als `<person role="editor">` gefuehrt, ohne dass im Korpus-Header ein separater `<respStmt>` noetig ist. Die Sichtbarkeit ueber den kollektiven `mhdbdb-team`-Verweis reicht aus.
+**Nicht-Haupteditor:innen (einzelne Beiträge):** Wer als Editor:in an einem einzelnen Text mitgearbeitet hat, aber nicht als "Haupt-Editor:in dieser Ausgabe" sichtbar sein soll, wird nur in `contributors.xml` als `<person role="editor">` geführt, ohne dass im Korpus-Header ein separater `<respStmt>` nötig ist. Die Sichtbarkeit über den kollektiven `mhdbdb-team`-Verweis reicht aus.
 
-**Externe Primaertext-Provider** (z.B. Harsch/Bibliotheca Augustana, Gloning/Kochbuchkorpus, Klug/Pflanzendissertation, oder Institutionen wie Akademie Mainz / ETC Virginia / Kompetenzzentrum Trier / TITUS Frankfurt) werden **nicht** in `contributors.xml` gefuehrt — sie sind bereits im `<sourceDesc>/<listBibl>/<bibl type="digitalIntermediary">/<respStmt>` des jeweiligen Korpus-Headers dokumentiert (siehe ADR-012, Issues #35–#40). `contributors.xml` ist bewusst auf MHDBDB-interne Beteiligung beschraenkt.
+**Externe Primärtext-Provider** (z.B. Harsch/Bibliotheca Augustana, Gloning/Kochbuchkorpus, Klug/Pflanzendissertation, oder Institutionen wie Akademie Mainz / ETC Virginia / Kompetenzzentrum Trier / TITUS Frankfurt) werden **nicht** in `contributors.xml` geführt – sie sind bereits im `<sourceDesc>/<listBibl>/<bibl type="digitalIntermediary">/<respStmt>` des jeweiligen Korpus-Headers dokumentiert (siehe ADR-012, Issues #35–#40). `contributors.xml` ist bewusst auf MHDBDB-interne Beteiligung beschränkt.
 
 ---
 
@@ -955,18 +957,18 @@ Diese drei Bausteine sind in allen 667 Bestandsdateien identisch und wurden vom 
 - `.gemini/skills/pos-disambiguator/SKILL.md` -- POS-Tagset-Definition und Disambiguierungs-Regeln
 - `schema/examples/corpus.example.tei.xml` -- Korpus-Maximalbeispiel (validiert gegen tei_all.rng)
 - `schema/examples/authority-*.example.xml` -- Authority-File-Beispiele (validiert gegen tei_all.rng + mhdbdb-authority.rnc)
-- `schema/tei_all.rng` -- TEI P5 4.11.0 RELAX NG Schema (committet im Repo, kein Download noetig)
+- `schema/tei_all.rng` -- TEI P5 4.11.0 RELAX NG Schema (committet im Repo, kein Download nötig)
 
 ### TEI P5 Spezifikation
 - [att.linguistic](https://www.tei-c.org/release/doc/tei-p5-doc/en/html/ref-att.linguistic.html) -- `@lemma`, `@lemmaRef`, `@pos`, `@msd`, `@join`
-- [att.global.analytic](https://tei-c.org/release/doc/tei-p5-doc/en/html/ref-att.global.analytic.html) -- `@ana` (Ersatz fuer `@meaningRef`)
+- [att.global.analytic](https://tei-c.org/release/doc/tei-p5-doc/en/html/ref-att.global.analytic.html) -- `@ana` (Ersatz für `@meaningRef`)
 - [Element `<w>`](https://www.tei-c.org/release/doc/tei-p5-doc/en/html/ref-w.html) -- Wort-Element
-- [Element `<pc>`](https://www.tei-c.org/release/doc/tei-p5-doc/en/html/ref-pc.html) -- Interpunktions-Element (Ersatz fuer `<seg type="pc">`)
-- [Element `<l>`](https://tei-c.org/release/doc/tei-p5-doc/en/html/ref-l.html) -- "a single line of verse" (nicht fuer Prosa)
-- [Element `<lb/>`](https://tei-c.org/release/doc/tei-p5-doc/en/html/ref-lb.html) -- "line beginning" (fuer Zeilenumbrueche)
+- [Element `<pc>`](https://www.tei-c.org/release/doc/tei-p5-doc/en/html/ref-pc.html) -- Interpunktions-Element (Ersatz für `<seg type="pc">`)
+- [Element `<l>`](https://tei-c.org/release/doc/tei-p5-doc/en/html/ref-l.html) -- "a single line of verse" (nicht für Prosa)
+- [Element `<lb/>`](https://tei-c.org/release/doc/tei-p5-doc/en/html/ref-lb.html) -- "line beginning" (für Zeilenumbrüche)
 - [Kapitel 24: Conformance](https://tei-c.org/release/doc/tei-p5-doc/en/html/USE.html) -- 5 Konformanzkriterien
 
 ### Vergleichsprojekte
-- [DTABf (Deutsches Textarchiv)](https://www.deutschestextarchiv.de/doku/basisformat/) -- Gold-Standard fuer historische deutsche Texte
+- [DTABf (Deutsches Textarchiv)](https://www.deutschestextarchiv.de/doku/basisformat/) -- Gold-Standard für historische deutsche Texte
 - [MENOTA (Medieval Nordic Text Archive)](https://www.menota.org/HB3_ch11.xml) -- Mittelalterliche Texte mit Custom-Namespace-Erweiterungen
 - [ReM (Referenzkorpus Mittelhochdeutsch)](https://www.linguistics.rub.de/rem/) -- MHG-Korpus mit HiTS-Tagset

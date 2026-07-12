@@ -4,11 +4,13 @@ Kanonische Referenz für das Wortart-Tagset (`@pos`) der MHDBDB-TEI-Texte: das n
 
 Dies ist die **Single Source of Truth** für die `@pos`-Werte. Der zugehörige operative Disambiguierungs-Workflow (LLM-gestützte Auflösung von Compound- und Falsch-Tags) ist als Agent-Skill unter `.gemini/skills/pos-disambiguator/` implementiert; er nutzt dieses Tagset, definiert es aber nicht.
 
+> **Zielgruppe:** Diese Datei ist eine technische Referenz-Spezifikation, primär für Entwicklung und automatisierte Werkzeuge gedacht (präzise, maschinenorientiert).
+
 ## 1. Das 19-Tag-Zielschema
 
 Jedes annotierte `<w>`-Element trägt genau einen Tag aus diesem Set (Ausnahme: dokumentierte morphologische Fusionen, siehe §2).
 
-> **WICHTIG:** `ART` ist **kein** gültiger Tag. Artikel (*der, diu, daz, ein*) werden als `DET` getaggt. `ART` im Bestand ist Legacy und wird migriert (siehe §3).
+> **Hinweis:** `ART` ist **kein** gültiger Tag. Artikel (*der, diu, daz, ein*) werden als `DET` getaggt. `ART` im Bestand ist Legacy und wird migriert (siehe §3).
 
 | Tag | Name | Beispiele |
 |-----|------|-----------|
@@ -140,9 +142,9 @@ Begründung der Reihenfolge: K1–K3 sind kontextfrei und schrumpfen den Problem
 
 ### 6.4 Technische Attribute (aus KZW-Fixierung 20.11.2025)
 
-- Kontraktionen/Fusionen: Token bleibt EIN `<w>`; echte morphologische Fusionen tragen zwei Tags + `@reason` (§2); zusätzlich `@comp="VRB+PRO"` und `@needsSplit="true"`, wo die Zerlegung analytisch gewünscht ist. KEINE Token-Splits in der Edition. **Caveat:** `@comp` und `@needsSplit` sind noch NICHT in `schema/mhdbdb.rnc` (die `<w>`-Produktion erlaubt sie nicht) und kommen im Korpus bisher nicht vor — vor dem ersten K4-Batch muss das Schema erweitert (oder ein GAP dokumentiert) werden, sonst bricht die CI-Schema-Validierung.
+- Kontraktionen/Fusionen: Token bleibt EIN `<w>`; echte morphologische Fusionen tragen zwei Tags + `@reason` (§2); zusätzlich `@comp="VRB+PRO"` und `@needsSplit="true"`, wo die Zerlegung analytisch gewünscht ist. KEINE Token-Splits in der Edition. **Caveat:** `@comp` und `@needsSplit` sind noch NICHT in `schema/mhdbdb.rnc` (die `<w>`-Produktion erlaubt sie nicht) und kommen im Korpus bisher nicht vor – vor dem ersten K4-Batch muss das Schema erweitert (oder ein GAP dokumentiert) werden, sonst bricht die CI-Schema-Validierung.
 - NEG: ausschließlich für Negationspartikeln (*niht, ne, en, n, nie* …); Negationsträger anderer Wortart bekommen NUR ihre Wortart (*dehein* → DET, *nieman* → PRO, *nie* → ADV). Bestands-Kombis wie `ADJ|NEG` werden in K6 aufgelöst.
-- Fremdsprachliches: NICHT über `@pos`, sondern über `@xml:lang` (+ optional `<foreign>`) — siehe #28-Phasenplan; für die POS-Migration out of scope.
+- Fremdsprachliches: NICHT über `@pos`, sondern über `@xml:lang` (+ optional `<foreign>`) – siehe #28-Phasenplan; für die POS-Migration out of scope.
 
 ### 6.5 Aufgelöste Diskrepanzen und offene Punkte
 
@@ -150,12 +152,12 @@ Begründung der Reihenfolge: K1–K3 sind kontextfrei und schrumpfen den Problem
 - ART ist kein Tag (Issue-§3-Tabelle war Zwischenstand) → K2.
 - PART ist NICHT im 19-Set (Issue-§5 nannte es als Kandidat; die fixierte Liste enthält es nicht). Partikeln von Partikelverben werden bis auf Weiteres ADV getaggt; siehe nächster Punkt.
 - GRA → ADJ (Issue-Body sagte an zwei Stellen ADV bzw. PART; §3 dieser Datei ist SSoT).
-- **Kein 20. Tag PART** (KZW-Entscheid 08.07.2026, #27): Partikeln von Partikelverben werden per Konvention ADV + `@ana` markiert. Technische Randbedingung vor der Umsetzung: `@ana` ist bereits als Sense-Referenz belegt (`lexicon.xml#lemma_{N}_sense_{M}`, siehe DATA-MODEL.md → Sense-Auflösung) — die POS-Markierung braucht deshalb ein eigenes, davon unterscheidbares Wert-Schema (Festlegung vor dem ersten K4-Batch, analog zum `@comp`/`@needsSplit`-Caveat in 6.4).
-- **Doppeltagging bei Kontraktionen zulässig** (KZW-Entscheid 08.07.2026, #27): Echte mhd. Kontraktionswörter — zwei Lemmata, sprachökonomisch zu einem Token zusammengezogen (*wiltu* = wilt + du) — behalten zwei Tags (§2). Ausdrücklich NICHT gemeint sind gewöhnliche Komposita (*hûsmûs* = einfach NOM). Das bestätigt die §2-Ausnahme als Policy.
+- **Kein 20. Tag PART** (KZW-Entscheid 08.07.2026, #27): Partikeln von Partikelverben werden per Konvention ADV + `@ana` markiert. Technische Randbedingung vor der Umsetzung: `@ana` ist bereits als Sense-Referenz belegt (`lexicon.xml#lemma_{N}_sense_{M}`, siehe DATA-MODEL.md → Sense-Auflösung) – die POS-Markierung braucht deshalb ein eigenes, davon unterscheidbares Wert-Schema (Festlegung vor dem ersten K4-Batch, analog zum `@comp`/`@needsSplit`-Caveat in 6.4).
+- **Doppeltagging bei Kontraktionen zulässig** (KZW-Entscheid 08.07.2026, #27): Echte mhd. Kontraktionswörter – zwei Lemmata, sprachökonomisch zu einem Token zusammengezogen (*wiltu* = wilt + du) – behalten zwei Tags (§2). Ausdrücklich NICHT gemeint sind gewöhnliche Komposita (*hûsmûs* = einfach NOM). Das bestätigt die §2-Ausnahme als Policy.
 
 **P-OFFEN (KZW-Entscheid nötig, blockiert die jeweilige Klasse NICHT als Ganzes):**
-1. **CNJ-Restquote:** „Undifferenziertes CNJ" = Tokens, die nach der K5-Kampagne weiterhin das unspezifische `CNJ` tragen statt `CCNJ`/`SCNJ` — also genau die Fälle, in denen auch der Kontext nicht entscheidet, ob koordinierend oder subordinierend (KZW-Rückfrage 08.07.2026 damit bejaht). Offene Frage: Wieviel davon ist als K5-Fallback akzeptabel? Vorschlag: ≤ 10 % der ursprünglichen CNJ-Menge (943.199 Tokens, also ≤ ~94.000).
-2. **Fusions-Paarliste finalisieren:** Das Prinzip ist entschieden (s.o.), offen bleibt die abschließende Liste der zulässigen Tag-Paare — insbesondere ob Modalverb-Kontraktionen wie *wiltu* als `VEM PRO` (so §2) oder generisch `VRB PRO` getaggt werden.
+1. **CNJ-Restquote:** „Undifferenziertes CNJ" = Tokens, die nach der K5-Kampagne weiterhin das unspezifische `CNJ` tragen statt `CCNJ`/`SCNJ` – also genau die Fälle, in denen auch der Kontext nicht entscheidet, ob koordinierend oder subordinierend (KZW-Rückfrage 08.07.2026 damit bejaht). Offene Frage: Wieviel davon ist als K5-Fallback akzeptabel? Vorschlag: ≤ 10 % der ursprünglichen CNJ-Menge (943.199 Tokens, also ≤ ~94.000).
+2. **Fusions-Paarliste finalisieren:** Das Prinzip ist entschieden (s.o.), offen bleibt die abschließende Liste der zulässigen Tag-Paare – insbesondere ob Modalverb-Kontraktionen wie *wiltu* als `VEM PRO` (so §2) oder generisch `VRB PRO` getaggt werden.
 
 ### 6.6 Ausdrücklich NICHT Teil dieser Policy
 
