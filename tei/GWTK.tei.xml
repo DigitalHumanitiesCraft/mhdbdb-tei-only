@@ -128,6 +128,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-07-12" who="#editor">#189 GWTK-Pilot: 257 homographie-ambige Tokens der Formen rott/rotten/rotte/roten und jungen/junger kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu rôt, rote, junc; LLM-Batch nach POS-TAGSET §6.3, Goldstandard-validiert; Provenienz-Log: ingest/pos-disambig/189-gwtk-rot-junc/). 21 ambige Fälle bewusst unannotiert belassen (Review).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -1481,7 +1482,7 @@
                 <w xml:id="GWTK_3110012300_0" lemmaRef="lexicon.xml#lemma_6422" pos="ADV PRP" corresp="variants.xml#type_22719">umb</w>
               </hi>
             <w xml:id="GWTK_3110012300_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
-            <w xml:id="GWTK_3110012300_2">jungen</w>
+            <w xml:id="GWTK_3110012300_2" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_3110012300_3">ze</w>
             <w xml:id="GWTK_3110012300_4">hand</w>
             <pc xml:id="GWTK_3110012300_5" join="left">.</pc>
@@ -1677,7 +1678,7 @@
             <w xml:id="GWTK_3120014200_1">rubin</w>
             <w xml:id="GWTK_3120014200_2" lemmaRef="lexicon.xml#lemma_6764" pos="NOM ADJ" ana="lexicon.xml#lemma_6764_sense_10759" corresp="variants.xml#type_361322">varwen</w>
             <w xml:id="GWTK_3120014200_3" lemmaRef="lexicon.xml#lemma_4252" pos="NOM" corresp="variants.xml#type_14812">munde</w>
-            <w xml:id="GWTK_3120014200_4">rott</w>
+            <w xml:id="GWTK_3120014200_4" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_194575">rott</w>
           </l>
           <l n="143">
             <hi rend="initial upper_case_first_letter">
@@ -2064,7 +2065,7 @@
             <w xml:id="GWTK_4110017900_1" lemmaRef="lexicon.xml#lemma_1258" pos="PRP" ana="lexicon.xml#lemma_1258_sense_1977" corresp="variants.xml#type_4044">durch</w>
             <w xml:id="GWTK_4110017900_2" lemmaRef="lexicon.xml#lemma_3759" pos="NOM ADJ" ana="lexicon.xml#lemma_3759_sense_5949" corresp="variants.xml#type_355019">lïchte</w>
             <w xml:id="GWTK_4110017900_3" lemmaRef="lexicon.xml#lemma_4252" pos="NOM" corresp="variants.xml#type_14810">münde</w>
-            <w xml:id="GWTK_4110017900_4">rott</w>
+            <w xml:id="GWTK_4110017900_4" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_194575">rott</w>
           </l>
           <l n="180">
             <hi rend="initial upper_case_first_letter">
@@ -3479,7 +3480,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_6110031600_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
               </hi>
-            <w xml:id="GWTK_6110031600_1">jungen</w>
+            <w xml:id="GWTK_6110031600_1" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_6110031600_2" lemmaRef="lexicon.xml#lemma_3515" pos="ADJ ADV" corresp="variants.xml#type_326863">künstenklichen</w>
             <w xml:id="GWTK_6110031600_3" lemmaRef="lexicon.xml#lemma_3376" pos="NOM" corresp="variants.xml#type_11605">knaben</w>
           </l>
@@ -4670,7 +4671,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_8110042600_0">ain</w>
               </hi>
-            <w xml:id="GWTK_8110042600_1">rotte</w>
+            <w xml:id="GWTK_8110042600_1" lemmaRef="lexicon.xml#lemma_4978" pos="NOM" corresp="variants.xml#type_17203">rotte</w>
             <w xml:id="GWTK_8110042600_2" lemmaRef="lexicon.xml#lemma_1536" pos="VRB" ana="lexicon.xml#lemma_1536_sense_2384" corresp="variants.xml#type_327139">erbliken</w>
             <w xml:id="GWTK_8110042600_3">do</w>
             <w xml:id="GWTK_8110042600_4">began</w>
@@ -5071,7 +5072,7 @@
               </hi>
             <w xml:id="GWTK_8210046100_1">gegen</w>
             <w xml:id="GWTK_8210046100_2">dem</w>
-            <w xml:id="GWTK_8210046100_3">jungen</w>
+            <w xml:id="GWTK_8210046100_3" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_8210046100_4" lemmaRef="lexicon.xml#lemma_4886" pos="NOM" corresp="variants.xml#type_16870">ritter</w>
             <w xml:id="GWTK_8210046100_5" lemmaRef="lexicon.xml#lemma_5788" pos="NOM ADJ ADV" corresp="variants.xml#type_94992">stoltz</w>
             <pc xml:id="GWTK_8210046100_6" join="left">.</pc>
@@ -6701,7 +6702,7 @@
                 <w xml:id="GWTK_11110062100_0" lemmaRef="lexicon.xml#lemma_961" pos="NOM" ana="lexicon.xml#lemma_961_sense_1592" corresp="variants.xml#type_327352">prosunnen</w>
               </hi>
             <pc xml:id="GWTK_11110062100_1" join="left">,</pc>
-            <w xml:id="GWTK_11110062100_2">rotten</w>
+            <w xml:id="GWTK_11110062100_2" lemmaRef="lexicon.xml#lemma_4978" pos="NOM" corresp="variants.xml#type_17204">rotten</w>
             <pc xml:id="GWTK_11110062100_3" join="left">,</pc>
             <w xml:id="GWTK_11110062100_4">pfiffen</w>
             <pc xml:id="GWTK_11110062100_5" join="left">:</pc>
@@ -6750,7 +6751,7 @@
                 <w xml:id="GWTK_11210062400_0" lemmaRef="lexicon.xml#lemma_154" pos="ADV" ana="lexicon.xml#lemma_154_sense_189" corresp="variants.xml#type_308561">alsuss</w>
               </hi>
             <w xml:id="GWTK_11210062400_1" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="GWTK_11210062400_2">rotte</w>
+            <w xml:id="GWTK_11210062400_2" lemmaRef="lexicon.xml#lemma_4978" pos="NOM" corresp="variants.xml#type_17203">rotte</w>
             <w xml:id="GWTK_11210062400_3" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
             <w xml:id="GWTK_11210062400_4" lemmaRef="lexicon.xml#lemma_2933" pos="NOM" corresp="variants.xml#type_165351">husse</w>
             <w xml:id="GWTK_11210062400_5" lemmaRef="lexicon.xml#lemma_843" pos="VRB" corresp="variants.xml#type_2626">brach</w>
@@ -11820,7 +11821,7 @@
                 <w xml:id="GWTK_20110112200_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
               </hi>
             <w xml:id="GWTK_20110112200_1" lemmaRef="lexicon.xml#lemma_5743" pos="NOM" corresp="variants.xml#type_46580">stain</w>
-            <w xml:id="GWTK_20110112200_2">rott</w>
+            <w xml:id="GWTK_20110112200_2" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_194575">rott</w>
             <w xml:id="GWTK_20110112200_3">als</w>
             <w xml:id="GWTK_20110112200_4">ain</w>
             <w xml:id="GWTK_20110112200_5" lemmaRef="lexicon.xml#lemma_775" pos="NOM" ana="lexicon.xml#lemma_775_sense_1255" corresp="variants.xml#type_327554">blütt</w>
@@ -12028,7 +12029,7 @@
             <w xml:id="GWTK_20110114300_2">waz</w>
             <w xml:id="GWTK_20110114300_3">ain</w>
             <w xml:id="GWTK_20110114300_4" lemmaRef="lexicon.xml#lemma_6167" pos="NOM" ana="lexicon.xml#lemma_6167_sense_9720" corresp="variants.xml#type_216991">trake</w>
-            <w xml:id="GWTK_20110114300_5">rott</w>
+            <w xml:id="GWTK_20110114300_5" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_194575">rott</w>
             <pc xml:id="GWTK_20110114300_6" join="left">.</pc>
           </l>
           <cb n="2" type="manuscript"/>
@@ -13976,7 +13977,7 @@
               </hi>
             <w xml:id="GWTK_23210133100_1">er</w>
             <w xml:id="GWTK_23210133100_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
-            <w xml:id="GWTK_23210133100_3">jungen</w>
+            <w xml:id="GWTK_23210133100_3" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_23210133100_4">balde</w>
           </l>
           <l n="1332">
@@ -14065,7 +14066,7 @@
                 <w xml:id="GWTK_23210134100_0">in</w>
               </hi>
             <w xml:id="GWTK_23210134100_1">ainen</w>
-            <w xml:id="GWTK_23210134100_2">rotten</w>
+            <w xml:id="GWTK_23210134100_2" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_372362">rotten</w>
             <w xml:id="GWTK_23210134100_3" lemmaRef="lexicon.xml#lemma_4631" pos="NOM" ana="lexicon.xml#lemma_4631_sense_7196" corresp="variants.xml#type_15934">pfeller</w>
             <w xml:id="GWTK_23210134100_4">wand</w>
             <pc xml:id="GWTK_23210134100_5" join="left">;</pc>
@@ -14674,7 +14675,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_24210139900_0">dem</w>
               </hi>
-            <w xml:id="GWTK_24210139900_1">jungen</w>
+            <w xml:id="GWTK_24210139900_1" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_24210139900_2">wider</w>
             <w xml:id="GWTK_24210139900_3">varen</w>
             <pc xml:id="GWTK_24210139900_4" join="left">,</pc>
@@ -14790,7 +14791,7 @@
               </hi>
             <w xml:id="GWTK_24210141100_1">er</w>
             <w xml:id="GWTK_24210141100_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
-            <w xml:id="GWTK_24210141100_3">jungen</w>
+            <w xml:id="GWTK_24210141100_3" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_24210141100_4" lemmaRef="lexicon.xml#lemma_646" pos="VRB" corresp="variants.xml#type_1939">bevalch</w>
             <pc xml:id="GWTK_24210141100_5" join="left">,</pc>
           </l>
@@ -14921,7 +14922,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_25110142300_0">dem</w>
               </hi>
-            <w xml:id="GWTK_25110142300_1">jungen</w>
+            <w xml:id="GWTK_25110142300_1" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_25110142300_2" lemmaRef="lexicon.xml#lemma_561" pos="VRB" ana="lexicon.xml#lemma_561_sense_825" corresp="variants.xml#type_1646">beschach</w>
             <pc xml:id="GWTK_25110142300_3" join="left">.</pc>
           </l>
@@ -15056,7 +15057,7 @@
             <w xml:id="GWTK_25110143700_1" lemmaRef="lexicon.xml#lemma_7861" pos="VRB" corresp="variants.xml#type_179012">zugend</w>
             <w xml:id="GWTK_25110143700_2">sy</w>
             <w xml:id="GWTK_25110143700_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
-            <w xml:id="GWTK_25110143700_4">jungen</w>
+            <w xml:id="GWTK_25110143700_4" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_25110143700_5">tegen</w>
           </l>
           <l n="1438">
@@ -15489,7 +15490,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_25210148000_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
               </hi>
-            <w xml:id="GWTK_25210148000_1">jungen</w>
+            <w xml:id="GWTK_25210148000_1" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_25210148000_2" lemmaRef="lexicon.xml#lemma_3376" pos="NOM" corresp="variants.xml#type_11605">knaben</w>
             <w xml:id="GWTK_25210148000_3" lemmaRef="lexicon.xml#lemma_6280" pos="NOM" corresp="variants.xml#type_22200">tugend</w>
             <w xml:id="GWTK_25210148000_4">san</w>
@@ -15529,7 +15530,7 @@
             <w xml:id="GWTK_25210148300_2">müss</w>
             <w xml:id="GWTK_25210148300_3">din</w>
             <w xml:id="GWTK_25210148300_4">vil</w>
-            <w xml:id="GWTK_25210148300_5">junger</w>
+            <w xml:id="GWTK_25210148300_5" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10831">junger</w>
             <w xml:id="GWTK_25210148300_6">lib</w>
             <pc xml:id="GWTK_25210148300_7" join="left">,</pc>
             <pc xml:id="GWTK_25210148300_8" join="left">&gt;</pc>
@@ -15708,7 +15709,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_26120150000_0">sinen</w>
               </hi>
-            <w xml:id="GWTK_26120150000_1">jungen</w>
+            <w xml:id="GWTK_26120150000_1" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_26120150000_2">sun</w>
             <w xml:id="GWTK_26120150000_3" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
             <w xml:id="GWTK_26120150000_4">fromen</w>
@@ -16939,7 +16940,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_28120162200_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
               </hi>
-            <w xml:id="GWTK_28120162200_1">jungen</w>
+            <w xml:id="GWTK_28120162200_1" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_28120162200_2" lemmaRef="lexicon.xml#lemma_4059" pos="NOM" corresp="variants.xml#type_53004">maister</w>
             <pc xml:id="GWTK_28120162200_3" join="left">,</pc>
             <hi rend="upper_case_first_letter">
@@ -17046,7 +17047,7 @@
                 <w xml:id="GWTK_28210163200_0" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_32737">zü</w>
               </hi>
             <w xml:id="GWTK_28210163200_1">dem</w>
-            <w xml:id="GWTK_28210163200_2">jungen</w>
+            <w xml:id="GWTK_28210163200_2" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_28210163200_3" lemmaRef="lexicon.xml#lemma_13" pos="ADV NEG" ana="lexicon.xml#lemma_13_sense_18" corresp="variants.xml#type_327565">onne</w>
             <w xml:id="GWTK_28210163200_4" lemmaRef="lexicon.xml#lemma_11816" pos="NOM" ana="lexicon.xml#lemma_11816_sense_18691" corresp="variants.xml#type_132426">hass</w>
           </l>
@@ -17430,7 +17431,7 @@
               </hi>
             <w xml:id="GWTK_29110166600_1" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_32737">zü</w>
             <w xml:id="GWTK_29110166600_2">dem</w>
-            <w xml:id="GWTK_29110166600_3">jungen</w>
+            <w xml:id="GWTK_29110166600_3" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_29110166600_4">sy</w>
             <w xml:id="GWTK_29110166600_5">do</w>
             <w xml:id="GWTK_29110166600_6">sprach</w>
@@ -18030,7 +18031,7 @@
           </l>
           <l n="1725">
             <hi rend="initial upper_case_first_letter">
-                <w xml:id="GWTK_30110172500_0">rott</w>
+                <w xml:id="GWTK_30110172500_0" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_194575">rott</w>
               </hi>
             <w xml:id="GWTK_30110172500_1" lemmaRef="lexicon.xml#lemma_2567" pos="NOM ADJ" ana="lexicon.xml#lemma_2567_sense_4113" corresp="variants.xml#type_8596">guldin</w>
             <pc xml:id="GWTK_30110172500_2" join="left">,</pc>
@@ -18404,7 +18405,7 @@
                 <w xml:id="GWTK_30210176300_0">dem</w>
               </hi>
             <w xml:id="GWTK_30210176300_1" lemmaRef="lexicon.xml#lemma_1308" pos="NOM ADJ" ana="lexicon.xml#lemma_1308_sense_2042" corresp="variants.xml#type_4263">edlen</w>
-            <w xml:id="GWTK_30210176300_2">jungen</w>
+            <w xml:id="GWTK_30210176300_2" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_30210176300_3">sinen</w>
             <w xml:id="GWTK_30210176300_4" lemmaRef="lexicon.xml#lemma_4264" pos="NOM" corresp="variants.xml#type_334167">mütt</w>
             <pc xml:id="GWTK_30210176300_5" join="left">.</pc>
@@ -19051,7 +19052,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_32110182600_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
               </hi>
-            <w xml:id="GWTK_32110182600_1">jungen</w>
+            <w xml:id="GWTK_32110182600_1" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_32110182600_2">herren</w>
             <w xml:id="GWTK_32110182600_3" lemmaRef="lexicon.xml#lemma_5295" pos="VRB" corresp="variants.xml#type_18436">schowen</w>
             <pc xml:id="GWTK_32110182600_4" join="left">.</pc>
@@ -19063,7 +19064,7 @@
             <w xml:id="GWTK_32110182700_1" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_58795">aine</w>
             <w xml:id="GWTK_32110182700_2" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_32737">zü</w>
             <w xml:id="GWTK_32110182700_3">dem</w>
-            <w xml:id="GWTK_32110182700_4">jungen</w>
+            <w xml:id="GWTK_32110182700_4" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_32110182700_5">sprach</w>
             <pc xml:id="GWTK_32110182700_6" join="left">:</pc>
           </l>
@@ -19252,7 +19253,7 @@
             <w xml:id="GWTK_32110184300_1" lemmaRef="lexicon.xml#lemma_2471" pos="NOM" ana="lexicon.xml#lemma_2471_sense_3957" corresp="variants.xml#type_93257">göttin</w>
             <w xml:id="GWTK_32110184300_2" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_32737">zü</w>
             <w xml:id="GWTK_32110184300_3">dem</w>
-            <w xml:id="GWTK_32110184300_4">jungen</w>
+            <w xml:id="GWTK_32110184300_4" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_32110184300_5">man</w>
           </l>
           <l n="1844">
@@ -19892,7 +19893,7 @@
               </hi>
             <w xml:id="GWTK_33110190000_1">vil</w>
             <w xml:id="GWTK_33110190000_2" lemmaRef="lexicon.xml#lemma_4848" pos="NOM ADJ" corresp="variants.xml#type_59388">rainen</w>
-            <w xml:id="GWTK_33110190000_3">jungen</w>
+            <w xml:id="GWTK_33110190000_3" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_33110190000_4">barn</w>
           </l>
           <l n="1901">
@@ -20037,7 +20038,7 @@
             <w xml:id="GWTK_33220191400_3" lemmaRef="lexicon.xml#lemma_4330" pos="VRB" corresp="variants.xml#type_15092">nime</w>
             <w xml:id="GWTK_33220191400_4" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
             <w xml:id="GWTK_33220191400_5" lemmaRef="lexicon.xml#lemma_4465" pos="NOM" ana="lexicon.xml#lemma_4465_sense_6967" corresp="variants.xml#type_329347">öbs</w>
-            <w xml:id="GWTK_33220191400_6">rott</w>
+            <w xml:id="GWTK_33220191400_6" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_194575">rott</w>
             <pc xml:id="GWTK_33220191400_7" join="left">!</pc>
           </l>
           <l n="1915">
@@ -20644,7 +20645,7 @@
               </hi>
             <w xml:id="GWTK_34220197100_1">dem</w>
             <w xml:id="GWTK_34220197100_2">vil</w>
-            <w xml:id="GWTK_34220197100_3">jungen</w>
+            <w xml:id="GWTK_34220197100_3" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_34220197100_4">werden</w>
             <w xml:id="GWTK_34220197100_5">man</w>
             <pc xml:id="GWTK_34220197100_6" join="left">.</pc>
@@ -21165,7 +21166,7 @@
             <w xml:id="GWTK_35210202100_4" lemmaRef="lexicon.xml#lemma_2550" pos="NOM" corresp="variants.xml#type_160066">grüss</w>
             <pc xml:id="GWTK_35210202100_5" join="left">,</pc>
             <w xml:id="GWTK_35210202100_6">vil</w>
-            <w xml:id="GWTK_35210202100_7">junger</w>
+            <w xml:id="GWTK_35210202100_7" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10831">junger</w>
             <w xml:id="GWTK_35210202100_8">man</w>
             <pc xml:id="GWTK_35210202100_9" join="left">,</pc>
           </l>
@@ -21692,7 +21693,7 @@
                 <w xml:id="GWTK_36110206900_0">du</w>
               </hi>
             <w xml:id="GWTK_36110206900_1">vil</w>
-            <w xml:id="GWTK_36110206900_2">junger</w>
+            <w xml:id="GWTK_36110206900_2" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10831">junger</w>
             <hi rend="upper_case_first_letter">
               <w xml:id="GWTK_36110206900_3">paris</w>
             </hi>
@@ -23560,7 +23561,7 @@
                 <w xml:id="GWTK_39210224500_0" lemmaRef="lexicon.xml#lemma_6422" pos="ADV PRP" corresp="variants.xml#type_22719">umb</w>
               </hi>
             <w xml:id="GWTK_39210224500_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
-            <w xml:id="GWTK_39210224500_2">jungen</w>
+            <w xml:id="GWTK_39210224500_2" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_39210224500_3">schaiden</w>
             <pc xml:id="GWTK_39210224500_4" join="left">.</pc>
           </l>
@@ -23680,7 +23681,7 @@
             <w xml:id="GWTK_39210225800_2" lemmaRef="lexicon.xml#lemma_7929" pos="ADJ NUM" ana="lexicon.xml#lemma_7929_sense_13005" corresp="variants.xml#type_44738">zwain</w>
             <w xml:id="GWTK_39210225800_3">ward</w>
             <w xml:id="GWTK_39210225800_4">dem</w>
-            <w xml:id="GWTK_39210225800_5">jungen</w>
+            <w xml:id="GWTK_39210225800_5" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_39210225800_6">man</w>
           </l>
           <l n="2259">
@@ -24067,7 +24068,7 @@
             <w xml:id="GWTK_40110229600_1" lemmaRef="lexicon.xml#lemma_5693" pos="VRB" ana="lexicon.xml#lemma_5693_sense_8912" corresp="variants.xml#type_19968">sprechen</w>
             <w xml:id="GWTK_40110229600_2" lemmaRef="lexicon.xml#lemma_6422" pos="ADV PRP" corresp="variants.xml#type_22719">umb</w>
             <w xml:id="GWTK_40110229600_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
-            <w xml:id="GWTK_40110229600_4">jungen</w>
+            <w xml:id="GWTK_40110229600_4" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
             <pc xml:id="GWTK_40110229600_5" join="left">!</pc>
           </l>
           <l n="2297">
@@ -24207,7 +24208,7 @@
             <w xml:id="GWTK_40210231000_1">im</w>
             <w xml:id="GWTK_40210231000_2" lemmaRef="lexicon.xml#lemma_2199" pos="VRB" ana="lexicon.xml#lemma_2199_sense_3477" corresp="variants.xml#type_7449">geschach</w>
             <w xml:id="GWTK_40210231000_3" lemmaRef="lexicon.xml#lemma_678" pos="PRP" ana="lexicon.xml#lemma_678_sense_1096" corresp="variants.xml#type_44499">by</w>
-            <w xml:id="GWTK_40210231000_4">jungen</w>
+            <w xml:id="GWTK_40210231000_4" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_40210231000_5">tagen</w>
             <pc xml:id="GWTK_40210231000_6" join="left">.</pc>
           </l>
@@ -24273,7 +24274,7 @@
               </hi>
             <w xml:id="GWTK_40210231700_1">dem</w>
             <w xml:id="GWTK_40210231700_2">vil</w>
-            <w xml:id="GWTK_40210231700_3">jungen</w>
+            <w xml:id="GWTK_40210231700_3" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_40210231700_4">man</w>
             <pc xml:id="GWTK_40210231700_5" join="left">.</pc>
           </l>
@@ -24680,7 +24681,7 @@
             <w xml:id="GWTK_41110235500_1" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_44957">ainer</w>
             <w xml:id="GWTK_41110235500_2" lemmaRef="lexicon.xml#lemma_6079" pos="ADJ" ana="lexicon.xml#lemma_6079_sense_9604" corresp="variants.xml#type_329783">tïffen</w>
             <w xml:id="GWTK_41110235500_3">wunden</w>
-            <w xml:id="GWTK_41110235500_4">rott</w>
+            <w xml:id="GWTK_41110235500_4" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_194575">rott</w>
           </l>
           <note n="1">
             <l n="2355">
@@ -25632,7 +25633,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_43120244500_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
               </hi>
-            <w xml:id="GWTK_43120244500_1">jungen</w>
+            <w xml:id="GWTK_43120244500_1" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_43120244500_2" lemmaRef="lexicon.xml#lemma_6330" pos="ADV PRP" ana="lexicon.xml#lemma_6330_sense_9973" corresp="variants.xml#type_43643">uff</w>
             <w xml:id="GWTK_43120244500_3">ain</w>
             <w xml:id="GWTK_43120244500_4" lemmaRef="lexicon.xml#lemma_63548" pos="ADJ" ana="lexicon.xml#lemma_63548_sense_100322" corresp="variants.xml#type_329867">leres</w>
@@ -26108,7 +26109,7 @@
           </l>
           <l n="2490">
             <hi rend="initial upper_case_first_letter">
-                <w xml:id="GWTK_43210249000_0">rott</w>
+                <w xml:id="GWTK_43210249000_0" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_194575">rott</w>
               </hi>
             <w xml:id="GWTK_43210249000_1" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
             <w xml:id="GWTK_43210249000_2">raine</w>
@@ -26265,7 +26266,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_44110250600_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
               </hi>
-            <w xml:id="GWTK_44110250600_1">jungen</w>
+            <w xml:id="GWTK_44110250600_1" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_44110250600_2">nam</w>
             <w xml:id="GWTK_44110250600_3">sy</w>
             <w xml:id="GWTK_44110250600_4" lemmaRef="lexicon.xml#lemma_678" pos="PRP" ana="lexicon.xml#lemma_678_sense_1096" corresp="variants.xml#type_44499">by</w>
@@ -26333,7 +26334,7 @@
               </hi>
             <w xml:id="GWTK_44120251300_1">sy</w>
             <w xml:id="GWTK_44120251300_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
-            <w xml:id="GWTK_44120251300_3">jungen</w>
+            <w xml:id="GWTK_44120251300_3" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_44120251300_4" lemmaRef="lexicon.xml#lemma_2755" pos="NOM" ana="lexicon.xml#lemma_2755_sense_4446" corresp="variants.xml#type_44536">held</w>
             <pc xml:id="GWTK_44120251300_5" join="left">.</pc>
           </l>
@@ -27074,7 +27075,7 @@
           <l n="2587">
             <pc xml:id="GWTK_45210258700_0" join="right">&lt;</pc>
             <hi rend="initial upper_case_first_letter">
-                <w xml:id="GWTK_45210258700_1">junger</w>
+                <w xml:id="GWTK_45210258700_1" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10831">junger</w>
               </hi>
             <w xml:id="GWTK_45210258700_2">herr</w>
             <pc xml:id="GWTK_45210258700_3" join="left">,</pc>
@@ -27220,7 +27221,7 @@
             <w xml:id="GWTK_45210260000_2">sprach</w>
             <pc xml:id="GWTK_45210260000_3" join="left">:</pc>
             <pc xml:id="GWTK_45210260000_4" join="right">&lt;</pc>
-            <w xml:id="GWTK_45210260000_5">junger</w>
+            <w xml:id="GWTK_45210260000_5" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10831">junger</w>
             <w xml:id="GWTK_45210260000_6">here</w>
             <pc xml:id="GWTK_45210260000_7" join="left">,</pc>
           </l>
@@ -27425,7 +27426,7 @@
               </hi>
             <w xml:id="GWTK_46110261700_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
             <w xml:id="GWTK_46110261700_2">vil</w>
-            <w xml:id="GWTK_46110261700_3">jungen</w>
+            <w xml:id="GWTK_46110261700_3" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_46110261700_4">man</w>
             <pc xml:id="GWTK_46110261700_5" join="left">.</pc>
           </l>
@@ -27505,7 +27506,7 @@
                 <w xml:id="GWTK_46110262500_0" lemmaRef="lexicon.xml#lemma_6330" pos="ADV PRP" ana="lexicon.xml#lemma_6330_sense_9973" corresp="variants.xml#type_43643">uff</w>
               </hi>
             <w xml:id="GWTK_46110262500_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
-            <w xml:id="GWTK_46110262500_2">jungen</w>
+            <w xml:id="GWTK_46110262500_2" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_46110262500_3" lemmaRef="lexicon.xml#lemma_3376" pos="NOM" corresp="variants.xml#type_11605">knaben</w>
             <w xml:id="GWTK_46110262500_4">ward</w>
             <pc xml:id="GWTK_46110262500_5" join="left">.</pc>
@@ -27539,7 +27540,7 @@
               <w xml:id="GWTK_46110262800_1">nü</w>
             </supplied>
             <w xml:id="GWTK_46110262800_2">dem</w>
-            <w xml:id="GWTK_46110262800_3">jungen</w>
+            <w xml:id="GWTK_46110262800_3" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_46110262800_4" lemmaRef="lexicon.xml#lemma_3376" pos="NOM" corresp="variants.xml#type_11605">knaben</w>
             <w xml:id="GWTK_46110262800_5" lemmaRef="lexicon.xml#lemma_2706" pos="NOM ADJ" corresp="variants.xml#type_45245">hail</w>
             <pc xml:id="GWTK_46110262800_6" join="left">,</pc>
@@ -28413,7 +28414,7 @@
             <w xml:id="GWTK_47220271300_1">frow</w>
             <w xml:id="GWTK_47220271300_2" lemmaRef="lexicon.xml#lemma_7283" pos="VRB" corresp="variants.xml#type_326615">fürtt</w>
             <w xml:id="GWTK_47220271300_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
-            <w xml:id="GWTK_47220271300_4">jungen</w>
+            <w xml:id="GWTK_47220271300_4" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_47220271300_5" lemmaRef="lexicon.xml#lemma_2837" pos="ADV" corresp="variants.xml#type_9597">hin</w>
           </l>
           <l n="2714">
@@ -28447,7 +28448,7 @@
                 <w xml:id="GWTK_47220271700_0">ward</w>
               </hi>
             <w xml:id="GWTK_47220271700_1">dem</w>
-            <w xml:id="GWTK_47220271700_2">jungen</w>
+            <w xml:id="GWTK_47220271700_2" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_47220271700_3" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3255">da</w>
             <w xml:id="GWTK_47220271700_4" lemmaRef="lexicon.xml#lemma_6301" pos="VRB" ana="lexicon.xml#lemma_6301_sense_9929" corresp="variants.xml#type_44956">geton</w>
             <pc xml:id="GWTK_47220271700_5" join="left">.</pc>
@@ -28634,7 +28635,7 @@
             <w xml:id="GWTK_48110273400_1">sprach</w>
             <pc xml:id="GWTK_48110273400_2" join="left">:</pc>
             <pc xml:id="GWTK_48110273400_3" join="right">&lt;</pc>
-            <w xml:id="GWTK_48110273400_4">junger</w>
+            <w xml:id="GWTK_48110273400_4" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10831">junger</w>
             <w xml:id="GWTK_48110273400_5">her</w>
             <w xml:id="GWTK_48110273400_6" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
             <w xml:id="GWTK_48110273400_7" lemmaRef="lexicon.xml#lemma_7500" pos="ADJ GRA" corresp="variants.xml#type_27152">werder</w>
@@ -30919,7 +30920,7 @@
             <w xml:id="GWTK_52110295700_3" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
             <w xml:id="GWTK_52110295700_4">wagen</w>
             <pc xml:id="GWTK_52110295700_5" join="left">,</pc>
-            <w xml:id="GWTK_52110295700_6">junger</w>
+            <w xml:id="GWTK_52110295700_6" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10831">junger</w>
             <w xml:id="GWTK_52110295700_7">man</w>
             <pc xml:id="GWTK_52110295700_8" join="left">,</pc>
           </l>
@@ -31160,7 +31161,7 @@
               </hi>
             <w xml:id="GWTK_52110297900_1" lemmaRef="lexicon.xml#lemma_7242" pos="NOM" ana="lexicon.xml#lemma_7242_sense_11743" corresp="variants.xml#type_25801">friste</w>
             <w xml:id="GWTK_52110297900_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
-            <w xml:id="GWTK_52110297900_3">jungen</w>
+            <w xml:id="GWTK_52110297900_3" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10830">jungen</w>
             <hi rend="upper_case_first_letter">
               <w xml:id="GWTK_52110297900_4" lemmaRef="lexicon.xml#lemma_4568" pos="NAM" ana="lexicon.xml#lemma_4568_sense_7117" corresp="variants.xml#type_329696">pariss</w>
             </hi>
@@ -31252,7 +31253,7 @@
               </hi>
             <w xml:id="GWTK_52210298800_1" lemmaRef="lexicon.xml#lemma_6422" pos="ADV PRP" corresp="variants.xml#type_22719">umb</w>
             <w xml:id="GWTK_52210298800_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
-            <w xml:id="GWTK_52210298800_3">jungen</w>
+            <w xml:id="GWTK_52210298800_3" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
             <pc xml:id="GWTK_52210298800_4" join="left">,</pc>
             <w xml:id="GWTK_52210298800_5" lemmaRef="lexicon.xml#lemma_7672" pos="VRB" corresp="variants.xml#type_148318">wissend</w>
             <w xml:id="GWTK_52210298800_6" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3397">das</w>
@@ -32155,7 +32156,7 @@
               </hi>
             <w xml:id="GWTK_54110307500_1">sach</w>
             <w xml:id="GWTK_54110307500_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
-            <w xml:id="GWTK_54110307500_3">jungen</w>
+            <w xml:id="GWTK_54110307500_3" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_54110307500_4">an</w>
             <pc xml:id="GWTK_54110307500_5" join="left">.</pc>
           </l>
@@ -32169,7 +32170,7 @@
             <w xml:id="GWTK_54110307600_4" lemmaRef="lexicon.xml#lemma_3313" pos="NOM" ana="lexicon.xml#lemma_3313_sense_5196" corresp="variants.xml#type_11299">kind</w>
             <pc xml:id="GWTK_54110307600_5" join="left">,</pc>
             <w xml:id="GWTK_54110307600_6">vil</w>
-            <w xml:id="GWTK_54110307600_7">junger</w>
+            <w xml:id="GWTK_54110307600_7" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10831">junger</w>
             <w xml:id="GWTK_54110307600_8">man</w>
             <pc xml:id="GWTK_54110307600_9" join="left">,</pc>
           </l>
@@ -33088,7 +33089,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_55210316800_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
               </hi>
-            <w xml:id="GWTK_55210316800_1">rotten</w>
+            <w xml:id="GWTK_55210316800_1" lemmaRef="lexicon.xml#lemma_4978" pos="NOM" corresp="variants.xml#type_17204">rotten</w>
             <w xml:id="GWTK_55210316800_2">er</w>
             <w xml:id="GWTK_55210316800_3" lemmaRef="lexicon.xml#lemma_106" pos="ADJ" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_258">alle</w>
             <w xml:id="GWTK_55210316800_4" lemmaRef="lexicon.xml#lemma_1258" pos="PRP" ana="lexicon.xml#lemma_1258_sense_1977" corresp="variants.xml#type_4044">durch</w>
@@ -33347,7 +33348,7 @@
                 <w xml:id="GWTK_56110319300_0">ward</w>
               </hi>
             <w xml:id="GWTK_56110319300_1">dem</w>
-            <w xml:id="GWTK_56110319300_2">jungen</w>
+            <w xml:id="GWTK_56110319300_2" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_56110319300_3" lemmaRef="lexicon.xml#lemma_1961" pos="VRB" ana="lexicon.xml#lemma_1961_sense_3008" corresp="variants.xml#type_6635">gegeben</w>
             <pc xml:id="GWTK_56110319300_4" join="left">.</pc>
           </l>
@@ -38115,7 +38116,7 @@
             <w xml:id="GWTK_63220366500_2">es</w>
             <w xml:id="GWTK_63220366500_3">weren</w>
             <w xml:id="GWTK_63220366500_4" lemmaRef="lexicon.xml#lemma_6756" pos="NOM" ana="lexicon.xml#lemma_6756_sense_10736" corresp="variants.xml#type_87838">vannen</w>
-            <w xml:id="GWTK_63220366500_5">rott</w>
+            <w xml:id="GWTK_63220366500_5" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_194575">rott</w>
             <pc xml:id="GWTK_63220366500_6" join="left">.</pc>
           </l>
           <l n="3666">
@@ -38385,7 +38386,7 @@
               </hi>
             <w xml:id="GWTK_64110369000_1">sy</w>
             <w xml:id="GWTK_64110369000_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
-            <w xml:id="GWTK_64110369000_3">jungen</w>
+            <w xml:id="GWTK_64110369000_3" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_64110369000_4" lemmaRef="lexicon.xml#lemma_4568" pos="NAM" ana="lexicon.xml#lemma_4568_sense_7117" corresp="variants.xml#type_329696">pariss</w>
           </l>
           <l n="3691">
@@ -39069,7 +39070,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_65110375900_0">dem</w>
               </hi>
-            <w xml:id="GWTK_65110375900_1">jungen</w>
+            <w xml:id="GWTK_65110375900_1" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_65110375900_2" lemmaRef="lexicon.xml#lemma_7473" pos="VRB VEM" corresp="variants.xml#type_330449">woltey</w>
             <w xml:id="GWTK_65110375900_3">meren</w>
             <w xml:id="GWTK_65110375900_4" lemmaRef="lexicon.xml#lemma_4729" pos="NOM" corresp="variants.xml#type_211346">prisz</w>
@@ -40090,7 +40091,7 @@
               </hi>
             <w xml:id="GWTK_66220386000_1">man</w>
             <w xml:id="GWTK_66220386000_2" lemmaRef="lexicon.xml#lemma_3759" pos="ADJ" ana="lexicon.xml#lemma_3759_sense_5949" corresp="variants.xml#type_326645">lïchter</w>
-            <w xml:id="GWTK_66220386000_3">rott</w>
+            <w xml:id="GWTK_66220386000_3" lemmaRef="lexicon.xml#lemma_4978" pos="NOM" corresp="variants.xml#type_75564">rott</w>
           </l>
           <l n="3861">
             <hi rend="initial upper_case_first_letter">
@@ -40283,7 +40284,7 @@
                 <w xml:id="GWTK_67110388000_0" lemmaRef="lexicon.xml#lemma_3313" pos="NOM" ana="lexicon.xml#lemma_3313_sense_5196" corresp="variants.xml#type_11299">kind</w>
               </hi>
             <w xml:id="GWTK_67110388000_1" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
-            <w xml:id="GWTK_67110388000_2">jungen</w>
+            <w xml:id="GWTK_67110388000_2" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_67110388000_3" lemmaRef="lexicon.xml#lemma_3096" pos="NOM" ana="lexicon.xml#lemma_3096_sense_4919" corresp="variants.xml#type_10640">jaren</w>
             <pc xml:id="GWTK_67110388000_4" join="left">,</pc>
           </l>
@@ -40466,7 +40467,7 @@
                 <w xml:id="GWTK_67210389900_0">ir</w>
               </hi>
             <w xml:id="GWTK_67210389900_1" lemmaRef="lexicon.xml#lemma_7331" pos="NOM" ana="lexicon.xml#lemma_7331_sense_11882" corresp="variants.xml#type_330529">wappenklaitt</w>
-            <w xml:id="GWTK_67210389900_2">rott</w>
+            <w xml:id="GWTK_67210389900_2" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_194575">rott</w>
             <w xml:id="GWTK_67210389900_3" lemmaRef="lexicon.xml#lemma_5093" pos="NOM" ana="lexicon.xml#lemma_5093_sense_7926" corresp="variants.xml#type_330530">sematt</w>
             <w xml:id="GWTK_67210389900_4">was</w>
             <pc xml:id="GWTK_67210389900_5" join="left">.</pc>
@@ -42164,7 +42165,7 @@
               </hi>
             <w xml:id="GWTK_70110406700_1" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
             <w xml:id="GWTK_70110406700_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
-            <w xml:id="GWTK_70110406700_3">jungen</w>
+            <w xml:id="GWTK_70110406700_3" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
           </l>
           <l n="4068">
             <w xml:id="GWTK_70110406800_0" lemmaRef="lexicon.xml#lemma_6359" pos="PRP" ana="lexicon.xml#lemma_6359_sense_10020" corresp="variants.xml#type_22554">über</w>
@@ -43217,7 +43218,7 @@
               </hi>
             <w xml:id="GWTK_72120417300_1" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
             <w xml:id="GWTK_72120417300_2">dem</w>
-            <w xml:id="GWTK_72120417300_3">jungen</w>
+            <w xml:id="GWTK_72120417300_3" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_72120417300_4" lemmaRef="lexicon.xml#lemma_4889" pos="NOM" ana="lexicon.xml#lemma_4889_sense_7589" corresp="variants.xml#type_16913">ritterschaft</w>
           </l>
           <l n="4174">
@@ -43530,7 +43531,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_72210420400_0" lemmaRef="lexicon.xml#lemma_3962" pos="ADJ" ana="lexicon.xml#lemma_3962_sense_6245" corresp="variants.xml#type_58990">menig</w>
               </hi>
-            <w xml:id="GWTK_72210420400_1">junger</w>
+            <w xml:id="GWTK_72210420400_1" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10831">junger</w>
             <w xml:id="GWTK_72210420400_2">man</w>
             <w xml:id="GWTK_72210420400_3" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3255">da</w>
             <w xml:id="GWTK_72210420400_4" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
@@ -44230,7 +44231,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_73210427200_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
               </hi>
-            <w xml:id="GWTK_73210427200_1">jungen</w>
+            <w xml:id="GWTK_73210427200_1" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_73210427200_2" lemmaRef="lexicon.xml#lemma_4886" pos="NOM" corresp="variants.xml#type_16870">ritter</w>
             <w xml:id="GWTK_73210427200_3" lemmaRef="lexicon.xml#lemma_6359" pos="PRP" ana="lexicon.xml#lemma_6359_sense_10020" corresp="variants.xml#type_22554">über</w>
             <w xml:id="GWTK_73210427200_4" lemmaRef="lexicon.xml#lemma_106" pos="ADJ ADV" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_257">all</w>
@@ -49610,7 +49611,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_82210480100_0">dem</w>
               </hi>
-            <w xml:id="GWTK_82210480100_1">jungen</w>
+            <w xml:id="GWTK_82210480100_1" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_82210480100_2">küng</w>
             <w xml:id="GWTK_82210480100_3" lemmaRef="lexicon.xml#lemma_6157" pos="NOM ADJ ADV" corresp="variants.xml#type_96144">togen</w>
           </l>
@@ -50190,7 +50191,7 @@
                 <w xml:id="GWTK_83210486000_0" lemmaRef="lexicon.xml#lemma_2379" pos="NOM VRB" ana="lexicon.xml#lemma_2379_sense_3846" corresp="variants.xml#type_36710">gigen</w>
               </hi>
             <pc xml:id="GWTK_83210486000_1" join="left">,</pc>
-            <w xml:id="GWTK_83210486000_2">rotten</w>
+            <w xml:id="GWTK_83210486000_2" lemmaRef="lexicon.xml#lemma_4978" pos="NOM" corresp="variants.xml#type_17204">rotten</w>
             <w xml:id="GWTK_83210486000_3">sunder</w>
             <w xml:id="GWTK_83210486000_4" lemmaRef="lexicon.xml#lemma_7386" pos="NOM" corresp="variants.xml#type_76279">wank</w>
           </l>
@@ -50480,7 +50481,7 @@
               </hi>
             <w xml:id="GWTK_84110488900_1">mitt</w>
             <w xml:id="GWTK_84110488900_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
-            <w xml:id="GWTK_84110488900_3">jungen</w>
+            <w xml:id="GWTK_84110488900_3" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
           </l>
           <l n="4890">
             <hi rend="initial upper_case_first_letter">
@@ -52734,7 +52735,7 @@
             <w xml:id="GWTK_88110511800_1" lemmaRef="lexicon.xml#lemma_3554" pos="NOM" ana="lexicon.xml#lemma_3554_sense_5633" corresp="variants.xml#type_327514">kürsitt</w>
             <w xml:id="GWTK_88110511800_2" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
             <w xml:id="GWTK_88110511800_3" lemmaRef="lexicon.xml#lemma_775" pos="NOM" ana="lexicon.xml#lemma_775_sense_1255" corresp="variants.xml#type_162597">blütte</w>
-            <w xml:id="GWTK_88110511800_4">rott</w>
+            <w xml:id="GWTK_88110511800_4" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_194575">rott</w>
           </l>
           <l n="5119">
             <hi rend="initial upper_case_first_letter">
@@ -54878,7 +54879,7 @@
             <w xml:id="GWTK_91210533100_1" lemmaRef="lexicon.xml#lemma_3096" pos="NOM" ana="lexicon.xml#lemma_3096_sense_4919" corresp="variants.xml#type_10638">jar</w>
             <w xml:id="GWTK_91210533100_2" lemmaRef="lexicon.xml#lemma_1913" pos="ADJ ADV" ana="lexicon.xml#lemma_1913_sense_2938" corresp="variants.xml#type_6476">gar</w>
             <w xml:id="GWTK_91210533100_3">ain</w>
-            <w xml:id="GWTK_91210533100_4">junger</w>
+            <w xml:id="GWTK_91210533100_4" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10831">junger</w>
             <w xml:id="GWTK_91210533100_5">man</w>
             <pc xml:id="GWTK_91210533100_6" join="left">.</pc>
           </l>
@@ -58581,7 +58582,7 @@
                 <w xml:id="GWTK_97210569600_0" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
               </hi>
             <w xml:id="GWTK_97210569600_1" lemmaRef="lexicon.xml#lemma_3962" pos="ADJ" ana="lexicon.xml#lemma_3962_sense_6245" corresp="variants.xml#type_128217">menigem</w>
-            <w xml:id="GWTK_97210569600_2">rotten</w>
+            <w xml:id="GWTK_97210569600_2" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_372362">rotten</w>
             <w xml:id="GWTK_97210569600_3" lemmaRef="lexicon.xml#lemma_4252" pos="NOM" corresp="variants.xml#type_45737">mund</w>
             <pc xml:id="GWTK_97210569600_4" join="left">.</pc>
           </l>
@@ -61576,7 +61577,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_102210600000_0">ain</w>
               </hi>
-            <w xml:id="GWTK_102210600000_1">rotte</w>
+            <w xml:id="GWTK_102210600000_1" lemmaRef="lexicon.xml#lemma_4978" pos="NOM" corresp="variants.xml#type_17203">rotte</w>
             <w xml:id="GWTK_102210600000_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
             <w xml:id="GWTK_102210600000_3" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18956">ist</w>
             <w xml:id="GWTK_102210600000_4" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10237">mir</w>
@@ -62296,7 +62297,7 @@
             <pc xml:id="GWTK_104110607200_1" join="left">,</pc>
             <w xml:id="GWTK_104110607200_2">harpffen</w>
             <pc xml:id="GWTK_104110607200_3" join="left">,</pc>
-            <w xml:id="GWTK_104110607200_4">rotten</w>
+            <w xml:id="GWTK_104110607200_4" lemmaRef="lexicon.xml#lemma_4978" pos="NOM" corresp="variants.xml#type_17204">rotten</w>
             <w xml:id="GWTK_104110607200_5">an</w>
             <w xml:id="GWTK_104110607200_6" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
             <w xml:id="GWTK_104110607200_7" lemmaRef="lexicon.xml#lemma_6763" pos="NOM" corresp="variants.xml#type_136575">fartt</w>
@@ -63021,7 +63022,7 @@
               </hi>
             <w xml:id="GWTK_105120614600_1" lemmaRef="lexicon.xml#lemma_106" pos="ADJ" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_258">alle</w>
             <w xml:id="GWTK_105120614600_2" lemmaRef="lexicon.xml#lemma_4252" pos="NOM" corresp="variants.xml#type_14810">münde</w>
-            <w xml:id="GWTK_105120614600_3">rott</w>
+            <w xml:id="GWTK_105120614600_3" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_194575">rott</w>
           </l>
           <l n="6147">
             <hi rend="initial upper_case_first_letter">
@@ -63154,7 +63155,7 @@
             <w xml:id="GWTK_105210616000_1" lemmaRef="lexicon.xml#lemma_3759" pos="ADJ" ana="lexicon.xml#lemma_3759_sense_5949" corresp="variants.xml#type_326645">lïchter</w>
             <w xml:id="GWTK_105210616000_2" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
             <w xml:id="GWTK_105210616000_3" lemmaRef="lexicon.xml#lemma_4973" pos="NOM" ana="lexicon.xml#lemma_4973_sense_7730" corresp="variants.xml#type_17187">rossen</w>
-            <w xml:id="GWTK_105210616000_4">rott</w>
+            <w xml:id="GWTK_105210616000_4" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_194575">rott</w>
           </l>
           <l n="6161">
             <hi rend="initial upper_case_first_letter">
@@ -64908,7 +64909,7 @@
           </l>
           <l n="6327">
             <hi rend="initial upper_case_first_letter">
-                <w xml:id="GWTK_108210632700_0">rott</w>
+                <w xml:id="GWTK_108210632700_0" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_194575">rott</w>
               </hi>
             <pc xml:id="GWTK_108210632700_1" join="left">,</pc>
             <w xml:id="GWTK_108210632700_2" lemmaRef="lexicon.xml#lemma_2540" pos="ADJ" corresp="variants.xml#type_129653">grün</w>
@@ -68455,7 +68456,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_114210667300_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
               </hi>
-            <w xml:id="GWTK_114210667300_1">jungen</w>
+            <w xml:id="GWTK_114210667300_1" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_114210667300_2" lemmaRef="lexicon.xml#lemma_4874" pos="ADJ ADV" ana="lexicon.xml#lemma_4874_sense_7555" corresp="variants.xml#type_16786">rilichen</w>
             <w xml:id="GWTK_114210667300_3" lemmaRef="lexicon.xml#lemma_2755" pos="NOM" ana="lexicon.xml#lemma_2755_sense_4446" corresp="variants.xml#type_44536">held</w>
             <pc xml:id="GWTK_114210667300_4" join="left">.</pc>
@@ -68759,7 +68760,7 @@
             <w xml:id="GWTK_115120670100_1" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10237">mir</w>
             <w xml:id="GWTK_115120670100_2" lemmaRef="lexicon.xml#lemma_5385" pos="ADJ" ana="lexicon.xml#lemma_5385_sense_8406" corresp="variants.xml#type_30937">selber</w>
             <pc xml:id="GWTK_115120670100_3" join="left">,</pc>
-            <w xml:id="GWTK_115120670100_4">junger</w>
+            <w xml:id="GWTK_115120670100_4" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10831">junger</w>
             <w xml:id="GWTK_115120670100_5">man</w>
             <pc xml:id="GWTK_115120670100_6" join="left">.</pc>
           </l>
@@ -69446,7 +69447,7 @@
             <w xml:id="GWTK_116120676700_2">als</w>
             <w xml:id="GWTK_116120676700_3" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_44563">ainem</w>
             <w xml:id="GWTK_116120676700_4" lemmaRef="lexicon.xml#lemma_5832" pos="NOM" corresp="variants.xml#type_331635">strusse</w>
-            <w xml:id="GWTK_116120676700_5">rott</w>
+            <w xml:id="GWTK_116120676700_5" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_194575">rott</w>
             <pc xml:id="GWTK_116120676700_6" join="left">.</pc>
           </l>
           <l n="6768">
@@ -69794,7 +69795,7 @@
             <w xml:id="GWTK_116210680200_2" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
             <w xml:id="GWTK_116210680200_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
             <w xml:id="GWTK_116210680200_4">ougen</w>
-            <w xml:id="GWTK_116210680200_5">rott</w>
+            <w xml:id="GWTK_116210680200_5" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_194575">rott</w>
           </l>
           <l n="6803">
             <hi rend="initial upper_case_first_letter">
@@ -69838,7 +69839,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_116210680700_0">dem</w>
               </hi>
-            <w xml:id="GWTK_116210680700_1">jungen</w>
+            <w xml:id="GWTK_116210680700_1" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_116210680700_2" lemmaRef="lexicon.xml#lemma_4886" pos="NOM" corresp="variants.xml#type_16870">ritter</w>
             <w xml:id="GWTK_116210680700_3" lemmaRef="lexicon.xml#lemma_6330" pos="ADV PRP" ana="lexicon.xml#lemma_6330_sense_9973" corresp="variants.xml#type_43643">uff</w>
             <w xml:id="GWTK_116210680700_4">dem</w>
@@ -72535,7 +72536,7 @@
                 <w xml:id="GWTK_121210707600_0">gegen</w>
               </hi>
             <w xml:id="GWTK_121210707600_1">dem</w>
-            <w xml:id="GWTK_121210707600_2">jungen</w>
+            <w xml:id="GWTK_121210707600_2" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_121210707600_3" lemmaRef="lexicon.xml#lemma_5699" pos="NOM VRB" corresp="variants.xml#type_20006">springen</w>
             <w xml:id="GWTK_121210707600_4" lemmaRef="lexicon.xml#lemma_439" pos="VRB" corresp="variants.xml#type_298307">begon</w>
           </l>
@@ -72972,7 +72973,7 @@
                 <w xml:id="GWTK_122120711900_0">won</w>
               </hi>
             <w xml:id="GWTK_122120711900_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-            <w xml:id="GWTK_122120711900_2">jungen</w>
+            <w xml:id="GWTK_122120711900_2" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_122120711900_3" lemmaRef="lexicon.xml#lemma_3275" pos="NOM" ana="lexicon.xml#lemma_3275_sense_5146" corresp="variants.xml#type_330522">kaysserin</w>
             <pc xml:id="GWTK_122120711900_4" join="left">,</pc>
           </l>
@@ -73342,7 +73343,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_122210715500_0" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
               </hi>
-            <w xml:id="GWTK_122210715500_1">rotten</w>
+            <w xml:id="GWTK_122210715500_1" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_372362">rotten</w>
             <w xml:id="GWTK_122210715500_2" lemmaRef="lexicon.xml#lemma_4252" pos="NOM" corresp="variants.xml#type_14811">münden</w>
             <w xml:id="GWTK_122210715500_3" lemmaRef="lexicon.xml#lemma_5864" pos="NOM ADJ ADV" corresp="variants.xml#type_161130">süsse</w>
           </l>
@@ -73484,7 +73485,7 @@
               </hi>
             <w xml:id="GWTK_123120717200_1">mitt</w>
             <w xml:id="GWTK_123120717200_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
-            <w xml:id="GWTK_123120717200_3">jungen</w>
+            <w xml:id="GWTK_123120717200_3" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
           </l>
           <l n="7173">
             <hi rend="initial upper_case_first_letter">
@@ -73605,7 +73606,7 @@
                 <w xml:id="GWTK_123120718500_0" lemmaRef="lexicon.xml#lemma_2379" pos="NOM VRB" ana="lexicon.xml#lemma_2379_sense_3846" corresp="variants.xml#type_36710">gigen</w>
               </hi>
             <pc xml:id="GWTK_123120718500_1" join="left">,</pc>
-            <w xml:id="GWTK_123120718500_2">rotten</w>
+            <w xml:id="GWTK_123120718500_2" lemmaRef="lexicon.xml#lemma_4978" pos="NOM" corresp="variants.xml#type_17204">rotten</w>
             <pc xml:id="GWTK_123120718500_3" join="left">,</pc>
             <w xml:id="GWTK_123120718500_4">pfiffen</w>
           </l>
@@ -76413,7 +76414,7 @@
           </l>
           <l n="7458">
             <hi rend="initial upper_case_first_letter">
-                <w xml:id="GWTK_127210745800_0">rott</w>
+                <w xml:id="GWTK_127210745800_0" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_194575">rott</w>
               </hi>
             <w xml:id="GWTK_127210745800_1">an</w>
             <w xml:id="GWTK_127210745800_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
@@ -77115,7 +77116,7 @@
             <w xml:id="GWTK_129110752700_1">sy</w>
             <w xml:id="GWTK_129110752700_2">ze</w>
             <w xml:id="GWTK_129110752700_3">dem</w>
-            <w xml:id="GWTK_129110752700_4">rotten</w>
+            <w xml:id="GWTK_129110752700_4" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_372362">rotten</w>
             <w xml:id="GWTK_129110752700_5">man</w>
           </l>
           <l n="7528">
@@ -82686,7 +82687,7 @@
             <w xml:id="GWTK_138210807100_5">ir</w>
             <w xml:id="GWTK_138210807100_6" lemmaRef="lexicon.xml#lemma_4252" pos="NOM" corresp="variants.xml#type_45737">mund</w>
             <w xml:id="GWTK_138210807100_7" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
-            <w xml:id="GWTK_138210807100_8">rott</w>
+            <w xml:id="GWTK_138210807100_8" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_194575">rott</w>
             <pc xml:id="GWTK_138210807100_9" join="left">,</pc>
           </l>
           <l n="8072">
@@ -85982,7 +85983,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_143210839800_0">sine</w>
               </hi>
-            <w xml:id="GWTK_143210839800_1">jungen</w>
+            <w xml:id="GWTK_143210839800_1" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_143210839800_2">valken</w>
             <w xml:id="GWTK_143210839800_3" lemmaRef="lexicon.xml#lemma_7819" pos="VRB" corresp="variants.xml#type_155888">zartt</w>
           </l>
@@ -87276,7 +87277,7 @@
               </hi>
             <w xml:id="GWTK_146120852600_1" lemmaRef="lexicon.xml#lemma_6342" pos="ADV PRP" ana="lexicon.xml#lemma_6342_sense_9997" corresp="variants.xml#type_129506">uss</w>
             <w xml:id="GWTK_146120852600_2" lemmaRef="lexicon.xml#lemma_3759" pos="ADJ" ana="lexicon.xml#lemma_3759_sense_5949" corresp="variants.xml#type_326642">lïchtem</w>
-            <w xml:id="GWTK_146120852600_3">rott</w>
+            <w xml:id="GWTK_146120852600_3" lemmaRef="lexicon.xml#lemma_4954" pos="NOM" corresp="variants.xml#type_194575">rott</w>
           </l>
           <l n="8527">
             <hi rend="initial upper_case_first_letter">
@@ -87551,7 +87552,7 @@
             <w xml:id="GWTK_146210855200_1">ougen</w>
             <w xml:id="GWTK_146210855200_2" lemmaRef="lexicon.xml#lemma_7489" pos="VRB VEX" corresp="variants.xml#type_27068">wurden</w>
             <w xml:id="GWTK_146210855200_3" lemmaRef="lexicon.xml#lemma_22078" pos="VRB" ana="lexicon.xml#lemma_22078_sense_36069" corresp="variants.xml#type_99613">trechen</w>
-            <w xml:id="GWTK_146210855200_4">rott</w>
+            <w xml:id="GWTK_146210855200_4" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_194575">rott</w>
             <pc xml:id="GWTK_146210855200_5" join="left">.</pc>
           </l>
           <l n="8553">
@@ -88005,7 +88006,7 @@
             <w xml:id="GWTK_147110859400_4">wa</w>
             <w xml:id="GWTK_147110859400_5" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
             <w xml:id="GWTK_147110859400_6" lemmaRef="lexicon.xml#lemma_4252" pos="NOM" corresp="variants.xml#type_14811">münden</w>
-            <w xml:id="GWTK_147110859400_7">rott</w>
+            <w xml:id="GWTK_147110859400_7" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_194575">rott</w>
           </l>
           <l n="8595">
             <hi rend="initial upper_case_first_letter">
@@ -88848,7 +88849,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_148210867600_0">wer</w>
               </hi>
-            <w xml:id="GWTK_148210867600_1">rotte</w>
+            <w xml:id="GWTK_148210867600_1" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_372361">rotte</w>
             <w xml:id="GWTK_148210867600_2" lemmaRef="lexicon.xml#lemma_4252" pos="NOM" corresp="variants.xml#type_45737">mund</w>
             <w xml:id="GWTK_148210867600_3">welle</w>
             <w xml:id="GWTK_148210867600_4" lemmaRef="lexicon.xml#lemma_5652" pos="VRB" ana="lexicon.xml#lemma_5652_sense_8846" corresp="variants.xml#type_107512">spechen</w>
@@ -89312,7 +89313,7 @@
                 <w xml:id="GWTK_149210872300_0" lemmaRef="lexicon.xml#lemma_1436" pos="VRB" corresp="variants.xml#type_4712">enpfie</w>
               </hi>
             <w xml:id="GWTK_149210872300_1">dem</w>
-            <w xml:id="GWTK_149210872300_2">jungen</w>
+            <w xml:id="GWTK_149210872300_2" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_149210872300_3" lemmaRef="lexicon.xml#lemma_7307" pos="NOM" ana="lexicon.xml#lemma_7307_sense_11843" corresp="variants.xml#type_26274">fürsten</w>
             <w xml:id="GWTK_149210872300_4">werd</w>
           </l>
@@ -89712,7 +89713,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_150110876300_0">mitt</w>
               </hi>
-            <w xml:id="GWTK_150110876300_1">rotten</w>
+            <w xml:id="GWTK_150110876300_1" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_372362">rotten</w>
             <w xml:id="GWTK_150110876300_2" lemmaRef="lexicon.xml#lemma_4973" pos="NOM" ana="lexicon.xml#lemma_4973_sense_7730" corresp="variants.xml#type_17187">rossen</w>
             <w xml:id="GWTK_150110876300_3" lemmaRef="lexicon.xml#lemma_6359" pos="PRP" ana="lexicon.xml#lemma_6359_sense_10020" corresp="variants.xml#type_22554">über</w>
             <w xml:id="GWTK_150110876300_4" lemmaRef="lexicon.xml#lemma_106" pos="ADJ ADV" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_257">all</w>
@@ -90415,7 +90416,7 @@
             <w xml:id="GWTK_151110883400_1" lemmaRef="lexicon.xml#lemma_4330" pos="VRB" corresp="variants.xml#type_332262">namptt</w>
             <w xml:id="GWTK_151110883400_2">man</w>
             <w xml:id="GWTK_151110883400_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
-            <w xml:id="GWTK_151110883400_4">jungen</w>
+            <w xml:id="GWTK_151110883400_4" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
             <pc xml:id="GWTK_151110883400_5" join="left">:</pc>
           </l>
           <l n="8835">
@@ -91385,7 +91386,7 @@
                 <w xml:id="GWTK_153110893300_0">mitt</w>
               </hi>
             <w xml:id="GWTK_153110893300_1">dem</w>
-            <w xml:id="GWTK_153110893300_2">jungen</w>
+            <w xml:id="GWTK_153110893300_2" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_153110893300_3" lemmaRef="lexicon.xml#lemma_7307" pos="NOM" ana="lexicon.xml#lemma_7307_sense_11843" corresp="variants.xml#type_26274">fürsten</w>
             <w xml:id="GWTK_153110893300_4" lemmaRef="lexicon.xml#lemma_5818" pos="VRB" corresp="variants.xml#type_146382">straitt</w>
           </l>
@@ -91648,7 +91649,7 @@
             <w xml:id="GWTK_153210895700_2">was</w>
             <w xml:id="GWTK_153210895700_3">ain</w>
             <w xml:id="GWTK_153210895700_4" lemmaRef="lexicon.xml#lemma_809" pos="NOM" corresp="variants.xml#type_332333">bortte</w>
-            <w xml:id="GWTK_153210895700_5">rott</w>
+            <w xml:id="GWTK_153210895700_5" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_194575">rott</w>
             <pc xml:id="GWTK_153210895700_6" join="left">:</pc>
           </l>
           <l n="8958">
@@ -91690,7 +91691,7 @@
               </hi>
             <w xml:id="GWTK_153210896100_1">in</w>
             <w xml:id="GWTK_153210896100_2" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
-            <w xml:id="GWTK_153210896100_3">rotte</w>
+            <w xml:id="GWTK_153210896100_3" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_372361">rotte</w>
             <w xml:id="GWTK_153210896100_4" lemmaRef="lexicon.xml#lemma_2453" pos="NOM" ana="lexicon.xml#lemma_2453_sense_3939" corresp="variants.xml#type_8221">gold</w>
             <w xml:id="GWTK_153210896100_5" lemmaRef="lexicon.xml#lemma_3674" pos="VRB" corresp="variants.xml#type_147105">gelaitt</w>
           </l>
@@ -91994,7 +91995,7 @@
                 <w xml:id="GWTK_154110899200_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
               </hi>
             <w xml:id="GWTK_154110899200_1" lemmaRef="lexicon.xml#lemma_1374" pos="NOM ADJ" corresp="variants.xml#type_4444">ellenden</w>
-            <w xml:id="GWTK_154110899200_2">jungen</w>
+            <w xml:id="GWTK_154110899200_2" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_154110899200_3" lemmaRef="lexicon.xml#lemma_3376" pos="NOM" corresp="variants.xml#type_11605">knaben</w>
           </l>
           <l n="8993">
@@ -92491,7 +92492,7 @@
               </hi>
             <w xml:id="GWTK_154220904200_1">sy</w>
             <w xml:id="GWTK_154220904200_2">dinen</w>
-            <w xml:id="GWTK_154220904200_3">jungen</w>
+            <w xml:id="GWTK_154220904200_3" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_154220904200_4">lip</w>
           </l>
           <l n="9043">
@@ -92713,7 +92714,7 @@
             <w xml:id="GWTK_155210906200_1" lemmaRef="lexicon.xml#lemma_4252" pos="NOM" corresp="variants.xml#type_45737">mund</w>
             <w xml:id="GWTK_155210906200_2" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
             <w xml:id="GWTK_155210906200_3" lemmaRef="lexicon.xml#lemma_4973" pos="NOM" ana="lexicon.xml#lemma_4973_sense_7730" corresp="variants.xml#type_17187">rossen</w>
-            <w xml:id="GWTK_155210906200_4">rott</w>
+            <w xml:id="GWTK_155210906200_4" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_194575">rott</w>
           </l>
           <l n="9063">
             <hi rend="initial upper_case_first_letter">
@@ -93225,7 +93226,7 @@
                 <w xml:id="GWTK_156110911400_0">kund</w>
               </hi>
             <w xml:id="GWTK_156110911400_1" lemmaRef="lexicon.xml#lemma_3962" pos="ADJ" ana="lexicon.xml#lemma_3962_sense_6245" corresp="variants.xml#type_45193">mengem</w>
-            <w xml:id="GWTK_156110911400_2">rotten</w>
+            <w xml:id="GWTK_156110911400_2" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_372362">rotten</w>
             <w xml:id="GWTK_156110911400_3" lemmaRef="lexicon.xml#lemma_4252" pos="NOM" corresp="variants.xml#type_14812">munde</w>
             <pc xml:id="GWTK_156110911400_4" join="left">.</pc>
           </l>
@@ -93335,7 +93336,7 @@
               </hi>
             <w xml:id="GWTK_156110912500_1">ward</w>
             <w xml:id="GWTK_156110912500_2" lemmaRef="lexicon.xml#lemma_4252" pos="NOM" corresp="variants.xml#type_45737">mund</w>
-            <w xml:id="GWTK_156110912500_3">rotten</w>
+            <w xml:id="GWTK_156110912500_3" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_372362">rotten</w>
             <w xml:id="GWTK_156110912500_4" lemmaRef="lexicon.xml#lemma_4252" pos="NOM" corresp="variants.xml#type_14812">munde</w>
           </l>
           <l n="9126">
@@ -93842,7 +93843,7 @@
               </hi>
             <w xml:id="GWTK_157110917400_1" lemmaRef="lexicon.xml#lemma_7766" pos="ADJ" corresp="variants.xml#type_156272">zartten</w>
             <w xml:id="GWTK_157110917400_2" lemmaRef="lexicon.xml#lemma_7536" pos="ADJ ADV" ana="lexicon.xml#lemma_7536_sense_12303" corresp="variants.xml#type_27283">wiplichen</w>
-            <w xml:id="GWTK_157110917400_3">rotten</w>
+            <w xml:id="GWTK_157110917400_3" lemmaRef="lexicon.xml#lemma_4978" pos="NOM" corresp="variants.xml#type_17204">rotten</w>
           </l>
           <l n="9175">
             <hi rend="initial upper_case_first_letter">
@@ -93868,7 +93869,7 @@
             <w xml:id="GWTK_157110917700_1" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
             <w xml:id="GWTK_157110917700_2" lemmaRef="lexicon.xml#lemma_3330" pos="ADJ" corresp="variants.xml#type_329920">clauren</w>
             <w xml:id="GWTK_157110917700_3" lemmaRef="lexicon.xml#lemma_22078" pos="VRB" ana="lexicon.xml#lemma_22078_sense_36069" corresp="variants.xml#type_99613">trechen</w>
-            <w xml:id="GWTK_157110917700_4">rott</w>
+            <w xml:id="GWTK_157110917700_4" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_194575">rott</w>
             <pc xml:id="GWTK_157110917700_5" join="left">:</pc>
           </l>
           <l n="9178">
@@ -94863,7 +94864,7 @@
             <w xml:id="GWTK_158220927700_1">sy</w>
             <w xml:id="GWTK_158220927700_2">ungern</w>
             <w xml:id="GWTK_158220927700_3">schame</w>
-            <w xml:id="GWTK_158220927700_4">rott</w>
+            <w xml:id="GWTK_158220927700_4" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_194575">rott</w>
             <pc xml:id="GWTK_158220927700_5" join="left">,</pc>
           </l>
           <l n="9278">
@@ -95925,7 +95926,7 @@
               </hi>
             <w xml:id="GWTK_160220938100_1">ward</w>
             <w xml:id="GWTK_160220938100_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
-            <w xml:id="GWTK_160220938100_3">jungen</w>
+            <w xml:id="GWTK_160220938100_3" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_160220938100_4" lemmaRef="lexicon.xml#lemma_7307" pos="NOM" ana="lexicon.xml#lemma_7307_sense_11843" corresp="variants.xml#type_26274">fürsten</w>
             <w xml:id="GWTK_160220938100_5" lemmaRef="lexicon.xml#lemma_7897" pos="NOM" ana="lexicon.xml#lemma_7897_sense_12952" corresp="variants.xml#type_28659">zorn</w>
             <pc xml:id="GWTK_160220938100_6" join="left">.</pc>
@@ -96060,7 +96061,7 @@
             <w xml:id="GWTK_160220939500_1">er</w>
             <w xml:id="GWTK_160220939500_2" lemmaRef="lexicon.xml#lemma_237" pos="PRP VRB" ana="lexicon.xml#lemma_237_sense_300" corresp="variants.xml#type_637">ansach</w>
             <w xml:id="GWTK_160220939500_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
-            <w xml:id="GWTK_160220939500_4">jungen</w>
+            <w xml:id="GWTK_160220939500_4" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
             <pc xml:id="GWTK_160220939500_5" join="left">,</pc>
           </l>
           <l n="9396">
@@ -97152,7 +97153,7 @@
               </hi>
             <w xml:id="GWTK_162210950500_1" lemmaRef="lexicon.xml#lemma_5964" pos="NOM" ana="lexicon.xml#lemma_5964_sense_9453" corresp="variants.xml#type_326816">schwertt</w>
             <w xml:id="GWTK_162210950500_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="GWTK_162210950500_3">jungen</w>
+            <w xml:id="GWTK_162210950500_3" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
           </l>
           <l n="9506">
             <hi rend="initial upper_case_first_letter">
@@ -97675,7 +97676,7 @@
               </hi>
             <w xml:id="GWTK_163210955800_1">waz</w>
             <w xml:id="GWTK_163210955800_2">dem</w>
-            <w xml:id="GWTK_163210955800_3">jungen</w>
+            <w xml:id="GWTK_163210955800_3" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_163210955800_4" lemmaRef="lexicon.xml#lemma_7307" pos="NOM" ana="lexicon.xml#lemma_7307_sense_11843" corresp="variants.xml#type_26274">fürsten</w>
             <w xml:id="GWTK_163210955800_5" lemmaRef="lexicon.xml#lemma_7897" pos="NOM" ana="lexicon.xml#lemma_7897_sense_12952" corresp="variants.xml#type_28659">zorn</w>
             <pc xml:id="GWTK_163210955800_6" join="left">.</pc>
@@ -101775,7 +101776,7 @@
             <w xml:id="GWTK_170210996800_1">ward</w>
             <w xml:id="GWTK_170210996800_2" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
             <w xml:id="GWTK_170210996800_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
-            <w xml:id="GWTK_170210996800_4">jungen</w>
+            <w xml:id="GWTK_170210996800_4" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
           </l>
           <l n="9969">
             <hi rend="initial upper_case_first_letter">
@@ -103539,7 +103540,7 @@
               </hi>
             <w xml:id="GWTK_173211014700_1">dem</w>
             <w xml:id="GWTK_173211014700_2">vil</w>
-            <w xml:id="GWTK_173211014700_3">jungen</w>
+            <w xml:id="GWTK_173211014700_3" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_173211014700_4">man</w>
           </l>
           <l n="10148">
@@ -103590,7 +103591,7 @@
             </hi>
             <w xml:id="GWTK_173211015200_3" lemmaRef="lexicon.xml#lemma_4252" pos="NOM" corresp="variants.xml#type_14812">munde</w>
             <w xml:id="GWTK_173211015200_4" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
-            <w xml:id="GWTK_173211015200_5">rott</w>
+            <w xml:id="GWTK_173211015200_5" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_194575">rott</w>
             <pc xml:id="GWTK_173211015200_6" join="left">.</pc>
           </l>
           <l n="10153">
@@ -104334,7 +104335,7 @@
               </hi>
             <w xml:id="GWTK_175111022100_1">mitt</w>
             <w xml:id="GWTK_175111022100_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
-            <w xml:id="GWTK_175111022100_3">jungen</w>
+            <w xml:id="GWTK_175111022100_3" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
           </l>
           <l n="10222">
             <hi rend="initial upper_case_first_letter">
@@ -106791,7 +106792,7 @@
                 <w xml:id="GWTK_179111046900_0" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
               </hi>
             <w xml:id="GWTK_179111046900_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-            <w xml:id="GWTK_179111046900_2">jungen</w>
+            <w xml:id="GWTK_179111046900_2" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_179111046900_3" lemmaRef="lexicon.xml#lemma_3275" pos="NOM" ana="lexicon.xml#lemma_3275_sense_5146" corresp="variants.xml#type_330522">kaysserin</w>
             <pc xml:id="GWTK_179111046900_4" join="left">.</pc>
           </l>
@@ -107821,7 +107822,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_181111057200_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
               </hi>
-            <w xml:id="GWTK_181111057200_1">jungen</w>
+            <w xml:id="GWTK_181111057200_1" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_181111057200_2" lemmaRef="lexicon.xml#lemma_3275" pos="NOM" ana="lexicon.xml#lemma_3275_sense_5146" corresp="variants.xml#type_330135">kaysserinen</w>
             <w xml:id="GWTK_181111057200_3" lemmaRef="lexicon.xml#lemma_7819" pos="VRB" corresp="variants.xml#type_155888">zartt</w>
           </l>
@@ -108552,7 +108553,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_182111064800_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_116606">dü</w>
               </hi>
-            <w xml:id="GWTK_182111064800_1">rotte</w>
+            <w xml:id="GWTK_182111064800_1" lemmaRef="lexicon.xml#lemma_4978" pos="NOM" corresp="variants.xml#type_17203">rotte</w>
             <w xml:id="GWTK_182111064800_2">ze</w>
             <w xml:id="GWTK_182111064800_3" lemmaRef="lexicon.xml#lemma_6797" pos="NOM" corresp="variants.xml#type_23820">velde</w>
             <w xml:id="GWTK_182111064800_4" lemmaRef="lexicon.xml#lemma_843" pos="VRB" corresp="variants.xml#type_2626">brach</w>
@@ -112359,7 +112360,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_189121102500_0">dem</w>
               </hi>
-            <w xml:id="GWTK_189121102500_1">jungen</w>
+            <w xml:id="GWTK_189121102500_1" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_189121102500_2" lemmaRef="lexicon.xml#lemma_5449" pos="ADJ ADV" ana="lexicon.xml#lemma_5449_sense_8499" corresp="variants.xml#type_19026">sicherlich</w>
             <w xml:id="GWTK_189121102500_3" lemmaRef="lexicon.xml#lemma_6869" pos="VRB" corresp="variants.xml#type_151961">verjechen</w>
           </l>
@@ -112530,7 +112531,7 @@
                 <w xml:id="GWTK_189121104200_0" lemmaRef="lexicon.xml#lemma_446" pos="VRB" ana="lexicon.xml#lemma_446_sense_612" corresp="variants.xml#type_1231">begunde</w>
               </hi>
             <w xml:id="GWTK_189121104200_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
-            <w xml:id="GWTK_189121104200_2">jungen</w>
+            <w xml:id="GWTK_189121104200_2" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_189121104200_3" lemmaRef="lexicon.xml#lemma_2755" pos="NOM" ana="lexicon.xml#lemma_2755_sense_4446" corresp="variants.xml#type_44536">held</w>
             <w xml:id="GWTK_189121104200_4" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
             <w xml:id="GWTK_189121104200_5">sitten</w>
@@ -112634,7 +112635,7 @@
             <w xml:id="GWTK_189211105200_1" lemmaRef="lexicon.xml#lemma_7918" pos="NOM" corresp="variants.xml#type_45667">züchten</w>
             <w xml:id="GWTK_189211105200_2">do</w>
             <w xml:id="GWTK_189211105200_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
-            <w xml:id="GWTK_189211105200_4">jungen</w>
+            <w xml:id="GWTK_189211105200_4" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_189211105200_5">an</w>
             <pc xml:id="GWTK_189211105200_6" join="left">:</pc>
           </l>
@@ -114071,7 +114072,7 @@
                 <w xml:id="GWTK_192111119400_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
               </hi>
             <w xml:id="GWTK_192111119400_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
-            <w xml:id="GWTK_192111119400_2">jungen</w>
+            <w xml:id="GWTK_192111119400_2" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_192111119400_3" lemmaRef="lexicon.xml#lemma_7307" pos="NOM" ana="lexicon.xml#lemma_7307_sense_11843" corresp="variants.xml#type_26274">fürsten</w>
             <w xml:id="GWTK_192111119400_4" lemmaRef="lexicon.xml#lemma_3738" pos="NOM" ana="lexicon.xml#lemma_3738_sense_5924" corresp="variants.xml#type_289958">lipp</w>
           </l>
@@ -114130,7 +114131,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_192111120100_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
               </hi>
-            <w xml:id="GWTK_192111120100_1">jungen</w>
+            <w xml:id="GWTK_192111120100_1" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_192111120100_2">wer</w>
             <w xml:id="GWTK_192111120100_3">er</w>
             <w xml:id="GWTK_192111120100_4" lemmaRef="lexicon.xml#lemma_4240" pos="VRB VEM" corresp="variants.xml#type_14759">möchte</w>
@@ -114309,7 +114310,7 @@
                 <w xml:id="GWTK_192121122100_0">denn</w>
               </hi>
             <w xml:id="GWTK_192121122100_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
-            <w xml:id="GWTK_192121122100_2">jungen</w>
+            <w xml:id="GWTK_192121122100_2" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_192121122100_3" lemmaRef="lexicon.xml#lemma_905" pos="NOM" corresp="variants.xml#type_158404">brüder</w>
             <w xml:id="GWTK_192121122100_4">sin</w>
             <pc xml:id="GWTK_192121122100_5" join="left">.</pc>
@@ -114558,7 +114559,7 @@
             <w xml:id="GWTK_192211124600_2" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3255">da</w>
             <w xml:id="GWTK_192211124600_3">sy</w>
             <w xml:id="GWTK_192211124600_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
-            <w xml:id="GWTK_192211124600_5">jungen</w>
+            <w xml:id="GWTK_192211124600_5" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_192211124600_6" lemmaRef="lexicon.xml#lemma_7081" pos="VRB" corresp="variants.xml#type_25034">vand</w>
             <pc xml:id="GWTK_192211124600_7" join="left">.</pc>
           </l>
@@ -114611,7 +114612,7 @@
               </hi>
             <w xml:id="GWTK_192211124900_1">do</w>
             <w xml:id="GWTK_192211124900_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
-            <w xml:id="GWTK_192211124900_3">jungen</w>
+            <w xml:id="GWTK_192211124900_3" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_192211124900_4">man</w>
           </l>
           <l n="11250">
@@ -114809,7 +114810,7 @@
             <w xml:id="GWTK_193111126800_1" lemmaRef="lexicon.xml#lemma_3759" pos="NOM ADJ" ana="lexicon.xml#lemma_3759_sense_5949" corresp="variants.xml#type_355019">lïchte</w>
             <w xml:id="GWTK_193111126800_2" lemmaRef="lexicon.xml#lemma_4252" pos="NOM" corresp="variants.xml#type_45737">mund</w>
             <w xml:id="GWTK_193111126800_3" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
-            <w xml:id="GWTK_193111126800_4">rott</w>
+            <w xml:id="GWTK_193111126800_4" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_194575">rott</w>
           </l>
           <l n="11269">
             <hi rend="initial upper_case_first_letter">
@@ -114911,7 +114912,7 @@
             <w xml:id="GWTK_193121127800_2" lemmaRef="lexicon.xml#lemma_1545" pos="NOM ADJ" ana="lexicon.xml#lemma_1545_sense_2397" corresp="variants.xml#type_5166">erden</w>
             <w xml:id="GWTK_193121127800_3">für</w>
             <w xml:id="GWTK_193121127800_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
-            <w xml:id="GWTK_193121127800_5">jungen</w>
+            <w xml:id="GWTK_193121127800_5" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_193121127800_6">lie</w>
             <pc xml:id="GWTK_193121127800_7" join="left">.</pc>
           </l>
@@ -115052,7 +115053,7 @@
                 <w xml:id="GWTK_193211129200_0">für</w>
               </hi>
             <w xml:id="GWTK_193211129200_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
-            <w xml:id="GWTK_193211129200_2">jungen</w>
+            <w xml:id="GWTK_193211129200_2" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_193211129200_3">do</w>
             <w xml:id="GWTK_193211129200_4" lemmaRef="lexicon.xml#lemma_1844" pos="VRB" corresp="variants.xml#type_6313">gie</w>
             <pc xml:id="GWTK_193211129200_5" join="left">.</pc>
@@ -116938,7 +116939,7 @@
                 <w xml:id="GWTK_196211147700_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
               </hi>
             <w xml:id="GWTK_196211147700_1" lemmaRef="lexicon.xml#lemma_2867" pos="ADJ" ana="lexicon.xml#lemma_2867_sense_4601" corresp="variants.xml#type_47389">hochgebornen</w>
-            <w xml:id="GWTK_196211147700_2">jungen</w>
+            <w xml:id="GWTK_196211147700_2" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
           </l>
           <l n="11478">
             <hi rend="initial upper_case_first_letter">
@@ -117880,7 +117881,7 @@
               </hi>
             <w xml:id="GWTK_198211157300_1" lemmaRef="lexicon.xml#lemma_7699" pos="NOM" ana="lexicon.xml#lemma_7699_sense_12619" corresp="variants.xml#type_124052">wortt</w>
             <w xml:id="GWTK_198211157300_2">dem</w>
-            <w xml:id="GWTK_198211157300_3">jungen</w>
+            <w xml:id="GWTK_198211157300_3" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_198211157300_4" lemmaRef="lexicon.xml#lemma_7307" pos="NOM" ana="lexicon.xml#lemma_7307_sense_11843" corresp="variants.xml#type_26274">fürsten</w>
             <w xml:id="GWTK_198211157300_5">wag</w>
             <pc xml:id="GWTK_198211157300_6" join="left">:</pc>
@@ -120759,7 +120760,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_203111185800_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
               </hi>
-            <w xml:id="GWTK_203111185800_1">jungen</w>
+            <w xml:id="GWTK_203111185800_1" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_203111185800_2" lemmaRef="lexicon.xml#lemma_7735" pos="NOM" corresp="variants.xml#type_28030">wurme</w>
             <w xml:id="GWTK_203111185800_3" lemmaRef="lexicon.xml#lemma_64688" pos="ADJ" ana="lexicon.xml#lemma_64688_sense_101562" corresp="variants.xml#type_333222">egesan</w>
             <pc xml:id="GWTK_203111185800_4" join="left">.</pc>
@@ -120969,7 +120970,7 @@
               </hi>
             <w xml:id="GWTK_203211187800_1" lemmaRef="lexicon.xml#lemma_905" pos="NOM" corresp="variants.xml#type_158404">brüder</w>
             <w xml:id="GWTK_203211187800_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
-            <w xml:id="GWTK_203211187800_3">jungen</w>
+            <w xml:id="GWTK_203211187800_3" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_203211187800_4">man</w>
           </l>
           <l n="11879">
@@ -121674,7 +121675,7 @@
               </hi>
             <w xml:id="GWTK_204211194700_1">mitt</w>
             <w xml:id="GWTK_204211194700_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
-            <w xml:id="GWTK_204211194700_3">jungen</w>
+            <w xml:id="GWTK_204211194700_3" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
             <pc xml:id="GWTK_204211194700_4" join="left">,</pc>
           </l>
           <l n="11948">
@@ -124165,7 +124166,7 @@
           </l>
           <l n="12200">
             <hi rend="initial upper_case_first_letter">
-                <w xml:id="GWTK_209111220000_0">rotten</w>
+                <w xml:id="GWTK_209111220000_0" lemmaRef="lexicon.xml#lemma_4978" pos="NOM" corresp="variants.xml#type_17204">rotten</w>
               </hi>
             <pc xml:id="GWTK_209111220000_1" join="left">,</pc>
             <w xml:id="GWTK_209111220000_2">harpffen</w>
@@ -124657,7 +124658,7 @@
             <pc xml:id="GWTK_209211225100_1" join="left">,</pc>
             <w xml:id="GWTK_209211225100_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
             <w xml:id="GWTK_209211225100_3" lemmaRef="lexicon.xml#lemma_7929" pos="ADJ NUM" ana="lexicon.xml#lemma_7929_sense_13005" corresp="variants.xml#type_28804">zwen</w>
-            <w xml:id="GWTK_209211225100_4">jungen</w>
+            <w xml:id="GWTK_209211225100_4" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
           </l>
           <l n="12252">
             <hi rend="initial upper_case_first_letter">
@@ -126413,7 +126414,7 @@
               </hi>
             <w xml:id="GWTK_212211242400_1">ward</w>
             <w xml:id="GWTK_212211242400_2">dem</w>
-            <w xml:id="GWTK_212211242400_3">rotten</w>
+            <w xml:id="GWTK_212211242400_3" lemmaRef="lexicon.xml#lemma_4954" pos="NOM" corresp="variants.xml#type_372362">rotten</w>
             <w xml:id="GWTK_212211242400_4">bekant</w>
           </l>
           <l n="12425">
@@ -126456,7 +126457,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_213111242900_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
               </hi>
-            <w xml:id="GWTK_213111242900_1">rotte</w>
+            <w xml:id="GWTK_213111242900_1" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_372361">rotte</w>
             <w xml:id="GWTK_213111242900_2" lemmaRef="lexicon.xml#lemma_6743" pos="NOM ADJ" corresp="variants.xml#type_23577">valsche</w>
             <w xml:id="GWTK_213111242900_3" lemmaRef="lexicon.xml#lemma_64709" pos="NAM" ana="lexicon.xml#lemma_64709_sense_101583" corresp="variants.xml#type_333331">waradach</w>
           </l>
@@ -126793,7 +126794,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_213211246400_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
               </hi>
-            <w xml:id="GWTK_213211246400_1">rotte</w>
+            <w xml:id="GWTK_213211246400_1" lemmaRef="lexicon.xml#lemma_4954" pos="NOM" corresp="variants.xml#type_372361">rotte</w>
             <w xml:id="GWTK_213211246400_2" lemmaRef="lexicon.xml#lemma_3860" pos="VRB" ana="lexicon.xml#lemma_3860_sense_6096" corresp="variants.xml#type_194606">loffen</w>
             <w xml:id="GWTK_213211246400_3">began</w>
           </l>
@@ -126901,7 +126902,7 @@
             <w xml:id="GWTK_213211247500_2">ze</w>
             <w xml:id="GWTK_213211247500_3" lemmaRef="lexicon.xml#lemma_7320" pos="NOM" corresp="variants.xml#type_129831">füss</w>
             <w xml:id="GWTK_213211247500_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
-            <w xml:id="GWTK_213211247500_5">rotten</w>
+            <w xml:id="GWTK_213211247500_5" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_372362">rotten</w>
             <w xml:id="GWTK_213211247500_6">man</w>
           </l>
           <l n="12476">
@@ -126985,7 +126986,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_213211248200_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
               </hi>
-            <w xml:id="GWTK_213211248200_1">rotten</w>
+            <w xml:id="GWTK_213211248200_1" lemmaRef="lexicon.xml#lemma_4954" pos="NOM" corresp="variants.xml#type_372362">rotten</w>
             <w xml:id="GWTK_213211248200_2">kraft</w>
             <w xml:id="GWTK_213211248200_3" lemmaRef="lexicon.xml#lemma_1913" pos="ADJ ADV" ana="lexicon.xml#lemma_1913_sense_2938" corresp="variants.xml#type_6476">gar</w>
             <w xml:id="GWTK_213211248200_4" lemmaRef="lexicon.xml#lemma_25049" pos="ADJ PRP" ana="lexicon.xml#lemma_25049_sense_40229" corresp="variants.xml#type_303846">usserweltt</w>
@@ -127118,7 +127119,7 @@
               </hi>
             <w xml:id="GWTK_214111249500_1" lemmaRef="lexicon.xml#lemma_504" pos="VRB" ana="lexicon.xml#lemma_504_sense_722" corresp="variants.xml#type_46072">belaib</w>
             <w xml:id="GWTK_214111249500_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-            <w xml:id="GWTK_214111249500_3">rotte</w>
+            <w xml:id="GWTK_214111249500_3" lemmaRef="lexicon.xml#lemma_4954" pos="NOM" corresp="variants.xml#type_372361">rotte</w>
             <pc xml:id="GWTK_214111249500_4" join="left">.</pc>
           </l>
           <l n="12496">
@@ -127380,7 +127381,7 @@
             <w xml:id="GWTK_214211252300_1" lemmaRef="lexicon.xml#lemma_6580" pos="NOM NEG" ana="lexicon.xml#lemma_6580_sense_10447" corresp="variants.xml#type_330748">unhaill</w>
             <w xml:id="GWTK_214211252300_2">kam</w>
             <w xml:id="GWTK_214211252300_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-            <w xml:id="GWTK_214211252300_4">rotte</w>
+            <w xml:id="GWTK_214211252300_4" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_372361">rotte</w>
             <w xml:id="GWTK_214211252300_5">man</w>
           </l>
           <l n="12524">
@@ -127452,7 +127453,7 @@
               </hi>
             <w xml:id="GWTK_214211253000_1" lemmaRef="lexicon.xml#lemma_448" pos="VRB" corresp="variants.xml#type_82867">begraiff</w>
             <w xml:id="GWTK_214211253000_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-            <w xml:id="GWTK_214211253000_3">rotte</w>
+            <w xml:id="GWTK_214211253000_3" lemmaRef="lexicon.xml#lemma_4954" pos="NOM" corresp="variants.xml#type_372361">rotte</w>
             <w xml:id="GWTK_214211253000_4" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10226">mich</w>
           </l>
           <l n="12531">
@@ -130798,7 +130799,7 @@
               </hi>
             <pc xml:id="GWTK_220111285600_1" join="left">,</pc>
             <w xml:id="GWTK_220111285600_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-            <w xml:id="GWTK_220111285600_3">jungen</w>
+            <w xml:id="GWTK_220111285600_3" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_220111285600_4" lemmaRef="lexicon.xml#lemma_2811" pos="NOM" ana="lexicon.xml#lemma_2811_sense_4527" corresp="variants.xml#type_57018">hertzogin</w>
             <pc xml:id="GWTK_220111285600_5" join="left">,</pc>
           </l>
@@ -131661,7 +131662,7 @@
             <pc xml:id="GWTK_221221294500_1" join="left">,</pc>
             <w xml:id="GWTK_221221294500_2" lemmaRef="lexicon.xml#lemma_2540" pos="NOM ADJ" corresp="variants.xml#type_169412">grünne</w>
             <pc xml:id="GWTK_221221294500_3" join="left">,</pc>
-            <w xml:id="GWTK_221221294500_4">rott</w>
+            <w xml:id="GWTK_221221294500_4" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_194575">rott</w>
             <w xml:id="GWTK_221221294500_5" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
             <w xml:id="GWTK_221221294500_6" lemmaRef="lexicon.xml#lemma_2049" pos="ADJ" ana="lexicon.xml#lemma_2049_sense_3166" corresp="variants.xml#type_6902">gel</w>
             <pc xml:id="GWTK_221221294500_7" join="left">,</pc>
@@ -133779,7 +133780,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_225111315400_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
               </hi>
-            <w xml:id="GWTK_225111315400_1">rotten</w>
+            <w xml:id="GWTK_225111315400_1" lemmaRef="lexicon.xml#lemma_4978" pos="NOM" corresp="variants.xml#type_17204">rotten</w>
             <w xml:id="GWTK_225111315400_2" lemmaRef="lexicon.xml#lemma_152" pos="ADV" ana="lexicon.xml#lemma_152_sense_187" corresp="variants.xml#type_378">also</w>
             <w xml:id="GWTK_225111315400_3">nache</w>
             <w xml:id="GWTK_225111315400_4">kam</w>
@@ -134275,7 +134276,7 @@
               </hi>
             <pc xml:id="GWTK_226111320400_1" join="left">,</pc>
             <w xml:id="GWTK_226111320400_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
-            <w xml:id="GWTK_226111320400_3">jungen</w>
+            <w xml:id="GWTK_226111320400_3" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_226111320400_4">man</w>
             <pc xml:id="GWTK_226111320400_5" join="left">,</pc>
           </l>
@@ -137880,7 +137881,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_232211356500_0">dem</w>
               </hi>
-            <w xml:id="GWTK_232211356500_1">jungen</w>
+            <w xml:id="GWTK_232211356500_1" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_232211356500_2" lemmaRef="lexicon.xml#lemma_3274" pos="NOM" corresp="variants.xml#type_330080">kaysser</w>
             <w xml:id="GWTK_232211356500_3" lemmaRef="lexicon.xml#lemma_2101" pos="ADJ ADV" corresp="variants.xml#type_146692">gemaitt</w>
           </l>
@@ -138538,7 +138539,7 @@
               </hi>
             <w xml:id="GWTK_233211363000_1" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
             <w xml:id="GWTK_233211363000_2" lemmaRef="lexicon.xml#lemma_2307" pos="NOM" corresp="variants.xml#type_7786">gevilde</w>
-            <w xml:id="GWTK_233211363000_3">rott</w>
+            <w xml:id="GWTK_233211363000_3" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_194575">rott</w>
           </l>
           <l n="13631">
             <supplied>
@@ -138556,7 +138557,7 @@
                 <w xml:id="GWTK_233211363200_0" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
               </hi>
             <w xml:id="GWTK_233211363200_1" lemmaRef="lexicon.xml#lemma_775" pos="NOM" ana="lexicon.xml#lemma_775_sense_1255" corresp="variants.xml#type_327554">blütt</w>
-            <w xml:id="GWTK_233211363200_2">rott</w>
+            <w xml:id="GWTK_233211363200_2" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_194575">rott</w>
             <pc xml:id="GWTK_233211363200_3" join="left">,</pc>
             <w xml:id="GWTK_233211363200_4">als</w>
             <w xml:id="GWTK_233211363200_5">man</w>
@@ -139835,7 +139836,7 @@
             <pc xml:id="GWTK_235211376000_5" join="left">,</pc>
             <w xml:id="GWTK_235211376000_6" lemmaRef="lexicon.xml#lemma_2540" pos="ADJ" corresp="variants.xml#type_129653">grün</w>
             <w xml:id="GWTK_235211376000_7" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
-            <w xml:id="GWTK_235211376000_8">rott</w>
+            <w xml:id="GWTK_235211376000_8" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_194575">rott</w>
             <pc xml:id="GWTK_235211376000_9" join="left">.</pc>
           </l>
           <note n="1">
@@ -141272,7 +141273,7 @@
               </hi>
             <w xml:id="GWTK_238121390400_1" lemmaRef="lexicon.xml#lemma_1258" pos="PRP" ana="lexicon.xml#lemma_1258_sense_1977" corresp="variants.xml#type_4044">durch</w>
             <w xml:id="GWTK_238121390400_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="GWTK_238121390400_3">jungen</w>
+            <w xml:id="GWTK_238121390400_3" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_238121390400_4" lemmaRef="lexicon.xml#lemma_3275" pos="NOM" ana="lexicon.xml#lemma_3275_sense_5146" corresp="variants.xml#type_327241">kaisserin</w>
             <pc xml:id="GWTK_238121390400_5" join="left">.</pc>
           </l>
@@ -141825,7 +141826,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_239121395900_0" lemmaRef="lexicon.xml#lemma_64850" pos="ADJ" ana="lexicon.xml#lemma_64850_sense_101724" corresp="variants.xml#type_333690">erwegner</w>
               </hi>
-            <w xml:id="GWTK_239121395900_1">junger</w>
+            <w xml:id="GWTK_239121395900_1" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10831">junger</w>
             <w xml:id="GWTK_239121395900_2" lemmaRef="lexicon.xml#lemma_5964" pos="NOM" ana="lexicon.xml#lemma_5964_sense_9453" corresp="variants.xml#type_326816">schwertt</w>
             <w xml:id="GWTK_239121395900_3">tegen</w>
             <pc xml:id="GWTK_239121395900_4" join="left">,</pc>
@@ -143397,7 +143398,7 @@
             <w xml:id="GWTK_241211411400_1" lemmaRef="lexicon.xml#lemma_4973" pos="NOM" ana="lexicon.xml#lemma_4973_sense_7730" corresp="variants.xml#type_17185">ross</w>
             <w xml:id="GWTK_241211411400_2" lemmaRef="lexicon.xml#lemma_6764" pos="NOM ADJ" ana="lexicon.xml#lemma_6764_sense_10759" corresp="variants.xml#type_361322">varwen</w>
             <w xml:id="GWTK_241211411400_3" lemmaRef="lexicon.xml#lemma_775" pos="NOM" ana="lexicon.xml#lemma_775_sense_1255" corresp="variants.xml#type_162597">blütte</w>
-            <w xml:id="GWTK_241211411400_4">rott</w>
+            <w xml:id="GWTK_241211411400_4" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_194575">rott</w>
           </l>
           <l n="14115">
             <hi rend="initial upper_case_first_letter">
@@ -144355,7 +144356,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_243211421200_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
               </hi>
-            <w xml:id="GWTK_243211421200_1">jungen</w>
+            <w xml:id="GWTK_243211421200_1" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_243211421200_2" lemmaRef="lexicon.xml#lemma_7307" pos="NOM" ana="lexicon.xml#lemma_7307_sense_11843" corresp="variants.xml#type_26274">fürsten</w>
             <w xml:id="GWTK_243211421200_3">er</w>
             <w xml:id="GWTK_243211421200_4" lemmaRef="lexicon.xml#lemma_1436" pos="VRB" corresp="variants.xml#type_4712">enpfie</w>
@@ -144526,7 +144527,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_243211422800_0">dem</w>
               </hi>
-            <w xml:id="GWTK_243211422800_1">jungen</w>
+            <w xml:id="GWTK_243211422800_1" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_243211422800_2" lemmaRef="lexicon.xml#lemma_4886" pos="NOM" corresp="variants.xml#type_16870">ritter</w>
             <pc xml:id="GWTK_243211422800_3" join="left">,</pc>
             <w xml:id="GWTK_243211422800_4" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
@@ -144650,7 +144651,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_244111424100_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
               </hi>
-            <w xml:id="GWTK_244111424100_1">jungen</w>
+            <w xml:id="GWTK_244111424100_1" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10830">jungen</w>
             <hi rend="upper_case_first_letter">
               <w xml:id="GWTK_244111424100_2" lemmaRef="lexicon.xml#lemma_14399" pos="ADJ" ana="lexicon.xml#lemma_14399_sense_23865" corresp="variants.xml#type_333720">troyschen</w>
             </hi>
@@ -145387,7 +145388,7 @@
                 <w xml:id="GWTK_245121431600_0">ain</w>
               </hi>
             <w xml:id="GWTK_245121431600_1" lemmaRef="lexicon.xml#lemma_3349" pos="NOM ADJ ADV" corresp="variants.xml#type_44876">klaine</w>
-            <w xml:id="GWTK_245121431600_2">rotte</w>
+            <w xml:id="GWTK_245121431600_2" lemmaRef="lexicon.xml#lemma_4978" pos="NOM" corresp="variants.xml#type_17203">rotte</w>
             <w xml:id="GWTK_245121431600_3">ward</w>
             <w xml:id="GWTK_245121431600_4">in</w>
             <w xml:id="GWTK_245121431600_5">kund</w>
@@ -147773,7 +147774,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_249211455300_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
               </hi>
-            <w xml:id="GWTK_249211455300_1">rotten</w>
+            <w xml:id="GWTK_249211455300_1" lemmaRef="lexicon.xml#lemma_4978" pos="NOM" corresp="variants.xml#type_17204">rotten</w>
             <w xml:id="GWTK_249211455300_2" lemmaRef="lexicon.xml#lemma_1913" pos="ADJ ADV" ana="lexicon.xml#lemma_1913_sense_2938" corresp="variants.xml#type_6476">gar</w>
             <w xml:id="GWTK_249211455300_3" lemmaRef="lexicon.xml#lemma_7805" pos="VRB" corresp="variants.xml#type_28257">zerbrochen</w>
           </l>
@@ -150981,7 +150982,7 @@
             </supplied>
             <w xml:id="GWTK_254211487100_1">mitt</w>
             <w xml:id="GWTK_254211487100_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
-            <w xml:id="GWTK_254211487100_3">jungen</w>
+            <w xml:id="GWTK_254211487100_3" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
           </l>
           <l n="14872">
             <hi rend="initial upper_case_first_letter">
@@ -153993,7 +153994,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_260111517200_0" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
               </hi>
-            <w xml:id="GWTK_260111517200_1">jungen</w>
+            <w xml:id="GWTK_260111517200_1" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_260111517200_2" lemmaRef="lexicon.xml#lemma_3096" pos="NOM" ana="lexicon.xml#lemma_3096_sense_4919" corresp="variants.xml#type_10640">jaren</w>
             <pc xml:id="GWTK_260111517200_3" join="left">,</pc>
             <w xml:id="GWTK_260111517200_4">als</w>
@@ -154235,7 +154236,7 @@
             <w xml:id="GWTK_260221519700_1" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3255">da</w>
             <w xml:id="GWTK_260221519700_2" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
             <w xml:id="GWTK_260221519700_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
-            <w xml:id="GWTK_260221519700_4">jungen</w>
+            <w xml:id="GWTK_260221519700_4" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
           </l>
           <l n="15198">
             <hi rend="initial upper_case_first_letter">
@@ -154428,7 +154429,7 @@
             <w xml:id="GWTK_260221521700_1">grossen</w>
             <w xml:id="GWTK_260221521700_2" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
             <w xml:id="GWTK_260221521700_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="GWTK_260221521700_4">jungen</w>
+            <w xml:id="GWTK_260221521700_4" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
           </l>
           <l n="15218">
             <hi rend="initial upper_case_first_letter">
@@ -155134,7 +155135,7 @@
                 </hi>
                 <w xml:id="GWTK_262111528901_2" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
                 <w xml:id="GWTK_262111528901_3" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4321">einem</w>
-                <w xml:id="GWTK_262111528901_4">roten</w>
+                <w xml:id="GWTK_262111528901_4" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_80222">roten</w>
                 <hi rend="upper_case_first_letter">
                   <w xml:id="GWTK_262111528901_5" lemmaRef="lexicon.xml#lemma_7166" pos="NOM" corresp="variants.xml#type_25442">volke</w>
                 </hi>
@@ -155156,7 +155157,7 @@
               </hi>
             <w xml:id="GWTK_262111529100_1" lemmaRef="lexicon.xml#lemma_106" pos="ADJ" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_258">alle</w>
             <w xml:id="GWTK_262111529100_2" lemmaRef="lexicon.xml#lemma_7505" pos="VRB" corresp="variants.xml#type_273625">warend</w>
-            <w xml:id="GWTK_262111529100_3">rott</w>
+            <w xml:id="GWTK_262111529100_3" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_194575">rott</w>
             <w xml:id="GWTK_262111529100_4">gevar</w>
             <pc xml:id="GWTK_262111529100_5" join="left">.</pc>
           </l>
@@ -155281,7 +155282,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_262111530300_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
               </hi>
-            <w xml:id="GWTK_262111530300_1">rotten</w>
+            <w xml:id="GWTK_262111530300_1" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_372362">rotten</w>
             <w xml:id="GWTK_262111530300_2" lemmaRef="lexicon.xml#lemma_3806" pos="NOM" corresp="variants.xml#type_327850">lütte</w>
             <w xml:id="GWTK_262111530300_3" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18956">ist</w>
             <w xml:id="GWTK_262111530300_4" lemmaRef="lexicon.xml#lemma_152" pos="ADV" ana="lexicon.xml#lemma_152_sense_187" corresp="variants.xml#type_378">also</w>
@@ -155701,7 +155702,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_263111534400_0" lemmaRef="lexicon.xml#lemma_2097" pos="ADJ ADV" corresp="variants.xml#type_45547">gemain</w>
               </hi>
-            <w xml:id="GWTK_263111534400_1">rotte</w>
+            <w xml:id="GWTK_263111534400_1" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_372361">rotte</w>
             <w xml:id="GWTK_263111534400_2" lemmaRef="lexicon.xml#lemma_6764" pos="NOM ADJ" ana="lexicon.xml#lemma_6764_sense_10759" corresp="variants.xml#type_64371">farwe</w>
             <pc xml:id="GWTK_263111534400_3" join="left">.</pc>
           </l>
@@ -155803,7 +155804,7 @@
                 <w xml:id="GWTK_263111535401_1" lemmaRef="lexicon.xml#lemma_6359" pos="PRP" ana="lexicon.xml#lemma_6359_sense_10020" corresp="variants.xml#type_22554">über</w>
                 <w xml:id="GWTK_263111535401_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
                 <hi rend="upper_case_first_letter">
-                  <w xml:id="GWTK_263111535401_3">roten</w>
+                  <w xml:id="GWTK_263111535401_3" lemmaRef="lexicon.xml#lemma_4954" pos="NOM" corresp="variants.xml#type_80222">roten</w>
                 </hi>
                 <pc xml:id="GWTK_263111535401_4" join="left">.</pc>
               </supplied>
@@ -155881,7 +155882,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_263111536300_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
               </hi>
-            <w xml:id="GWTK_263111536300_1">rotten</w>
+            <w xml:id="GWTK_263111536300_1" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_372362">rotten</w>
             <w xml:id="GWTK_263111536300_2" lemmaRef="lexicon.xml#lemma_1155" pos="NOM" corresp="variants.xml#type_105084">diett</w>
             <w xml:id="GWTK_263111536300_3" lemmaRef="lexicon.xml#lemma_6616" pos="ADJ ADV NEG" ana="lexicon.xml#lemma_6616_sense_10496" corresp="variants.xml#type_120819">unraine</w>
           </l>
@@ -155936,7 +155937,7 @@
                 <w xml:id="GWTK_263211536900_0">für</w>
               </hi>
             <w xml:id="GWTK_263211536900_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
-            <w xml:id="GWTK_263211536900_2">jungen</w>
+            <w xml:id="GWTK_263211536900_2" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_263211536900_3">er</w>
             <w xml:id="GWTK_263211536900_4">do</w>
             <w xml:id="GWTK_263211536900_5" lemmaRef="lexicon.xml#lemma_5699" pos="VRB" corresp="variants.xml#type_20004">sprang</w>
@@ -156023,7 +156024,7 @@
             <w xml:id="GWTK_263211537800_1">werden</w>
             <w xml:id="GWTK_263211537800_2" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
             <w xml:id="GWTK_263211537800_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_116606">dü</w>
-            <w xml:id="GWTK_263211537800_4">jungen</w>
+            <w xml:id="GWTK_263211537800_4" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
             <pc xml:id="GWTK_263211537800_5" join="left">.</pc>
           </l>
           <l n="15379">
@@ -157574,7 +157575,7 @@
               </hi>
             <w xml:id="GWTK_266211553900_1">ward</w>
             <w xml:id="GWTK_266211553900_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_116606">dü</w>
-            <w xml:id="GWTK_266211553900_3">rotte</w>
+            <w xml:id="GWTK_266211553900_3" lemmaRef="lexicon.xml#lemma_4978" pos="NOM" corresp="variants.xml#type_17203">rotte</w>
             <w xml:id="GWTK_266211553900_4" lemmaRef="lexicon.xml#lemma_1645" pos="VRB" ana="lexicon.xml#lemma_1645_sense_2567" corresp="variants.xml#type_331909">ersechen</w>
             <pc xml:id="GWTK_266211553900_5" join="left">,</pc>
           </l>
@@ -158285,7 +158286,7 @@
               </hi>
             <w xml:id="GWTK_267211561200_1" lemmaRef="lexicon.xml#lemma_5864" pos="ADJ" corresp="variants.xml#type_153908">süssen</w>
             <w xml:id="GWTK_267211561200_2">rubin</w>
-            <w xml:id="GWTK_267211561200_3">rotten</w>
+            <w xml:id="GWTK_267211561200_3" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_372362">rotten</w>
             <w xml:id="GWTK_267211561200_4" lemmaRef="lexicon.xml#lemma_4252" pos="NOM" corresp="variants.xml#type_45737">mund</w>
           </l>
           <l n="15613">
@@ -162273,7 +162274,7 @@
               </hi>
             <w xml:id="GWTK_274211601700_1" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
             <w xml:id="GWTK_274211601700_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
-            <w xml:id="GWTK_274211601700_3">jungen</w>
+            <w xml:id="GWTK_274211601700_3" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
           </l>
           <l n="16018">
             <hi rend="initial upper_case_first_letter">
@@ -163793,7 +163794,7 @@
               </hi>
             <w xml:id="GWTK_277121617100_1">waz</w>
             <w xml:id="GWTK_277121617100_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_116606">dü</w>
-            <w xml:id="GWTK_277121617100_3">rott</w>
+            <w xml:id="GWTK_277121617100_3" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_194575">rott</w>
             <hi rend="upper_case_first_letter">
               <w xml:id="GWTK_277121617100_4" lemmaRef="lexicon.xml#lemma_36094" pos="NOM" ana="lexicon.xml#lemma_36094_sense_56180" corresp="variants.xml#type_334236">judischhaitt</w>
             </hi>
@@ -164736,7 +164737,7 @@
                 <w xml:id="GWTK_279111626600_0">ward</w>
               </hi>
             <w xml:id="GWTK_279111626600_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-            <w xml:id="GWTK_279111626600_2">rotten</w>
+            <w xml:id="GWTK_279111626600_2" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_372362">rotten</w>
             <w xml:id="GWTK_279111626600_3" lemmaRef="lexicon.xml#lemma_1155" pos="NOM" corresp="variants.xml#type_105084">diett</w>
             <w xml:id="GWTK_279111626600_4" lemmaRef="lexicon.xml#lemma_1648" pos="VRB" ana="lexicon.xml#lemma_1648_sense_2571" corresp="variants.xml#type_44632">erschlagen</w>
             <pc xml:id="GWTK_279111626600_5" join="left">.</pc>
@@ -169872,7 +169873,7 @@
                 <w xml:id="GWTK_288111678700_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
               </hi>
             <w xml:id="GWTK_288111678700_1" lemmaRef="lexicon.xml#lemma_4887" pos="ADJ ADV" ana="lexicon.xml#lemma_4887_sense_7585" corresp="variants.xml#type_16901">ritterlichen</w>
-            <w xml:id="GWTK_288111678700_2">jungen</w>
+            <w xml:id="GWTK_288111678700_2" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
           </l>
           <l n="16788">
             <hi rend="initial upper_case_first_letter">
@@ -171667,7 +171668,7 @@
                 <w xml:id="GWTK_291111697200_0" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
               </hi>
             <w xml:id="GWTK_291111697200_1" lemmaRef="lexicon.xml#lemma_3962" pos="ADJ" ana="lexicon.xml#lemma_3962_sense_6245" corresp="variants.xml#type_13832">manigem</w>
-            <w xml:id="GWTK_291111697200_2">rotten</w>
+            <w xml:id="GWTK_291111697200_2" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_372362">rotten</w>
             <w xml:id="GWTK_291111697200_3" lemmaRef="lexicon.xml#lemma_4252" pos="NOM" corresp="variants.xml#type_14812">munde</w>
             <pc xml:id="GWTK_291111697200_4" join="left">,</pc>
           </l>
@@ -174228,7 +174229,7 @@
               </hi>
             <w xml:id="GWTK_295211722700_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
             <w xml:id="GWTK_295211722700_2">starken</w>
-            <w xml:id="GWTK_295211722700_3">jungen</w>
+            <w xml:id="GWTK_295211722700_3" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
           </l>
           <l n="17228">
             <hi rend="initial upper_case_first_letter">
@@ -174821,7 +174822,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_296211728900_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
               </hi>
-            <w xml:id="GWTK_296211728900_1">jungen</w>
+            <w xml:id="GWTK_296211728900_1" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_296211728900_2" lemmaRef="lexicon.xml#lemma_14046" pos="NAM" ana="lexicon.xml#lemma_14046_sense_23250" corresp="variants.xml#type_327169">troynere</w>
           </l>
           <l n="17290">
@@ -174838,7 +174839,7 @@
                 <w xml:id="GWTK_296211729100_0" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
               </hi>
             <w xml:id="GWTK_296211729100_1" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_44563">ainem</w>
-            <w xml:id="GWTK_296211729100_2">rotten</w>
+            <w xml:id="GWTK_296211729100_2" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_372362">rotten</w>
             <w xml:id="GWTK_296211729100_3" lemmaRef="lexicon.xml#lemma_4252" pos="NOM" corresp="variants.xml#type_14812">munde</w>
             <pc xml:id="GWTK_296211729100_4" join="left">,</pc>
           </l>
@@ -175368,7 +175369,7 @@
             <hi rend="upper_case_first_letter">
               <w xml:id="GWTK_297211734400_1" lemmaRef="lexicon.xml#lemma_9288" pos="ADJ" ana="lexicon.xml#lemma_9288_sense_15194" corresp="variants.xml#type_334429">kryschen</w>
             </hi>
-            <w xml:id="GWTK_297211734400_2">rotten</w>
+            <w xml:id="GWTK_297211734400_2" lemmaRef="lexicon.xml#lemma_4978" pos="NOM" corresp="variants.xml#type_17204">rotten</w>
             <w xml:id="GWTK_297211734400_3">kunt</w>
           </l>
           <l n="17345">
@@ -176411,7 +176412,7 @@
                 <w xml:id="GWTK_299211745000_0">wart</w>
               </hi>
             <w xml:id="GWTK_299211745000_1">dem</w>
-            <w xml:id="GWTK_299211745000_2">jungen</w>
+            <w xml:id="GWTK_299211745000_2" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_299211745000_3">beraitt</w>
             <pc xml:id="GWTK_299211745000_4" join="left">.</pc>
           </l>
@@ -178057,7 +178058,7 @@
               </hi>
             <w xml:id="GWTK_302111761600_1" lemmaRef="lexicon.xml#lemma_1517" pos="POS" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_5024">siner</w>
             <w xml:id="GWTK_302111761600_2">werden</w>
-            <w xml:id="GWTK_302111761600_3">rotten</w>
+            <w xml:id="GWTK_302111761600_3" lemmaRef="lexicon.xml#lemma_4978" pos="NOM" corresp="variants.xml#type_17204">rotten</w>
             <w xml:id="GWTK_302111761600_4" lemmaRef="lexicon.xml#lemma_846" pos="ADJ" corresp="variants.xml#type_84452">braitt</w>
           </l>
           <l n="17617">
@@ -179182,7 +179183,7 @@
                 <w xml:id="GWTK_304111772500_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
               </hi>
             <w xml:id="GWTK_304111772500_1" lemmaRef="lexicon.xml#lemma_1912" pos="ADJ" ana="lexicon.xml#lemma_1912_sense_2937" corresp="variants.xml#type_65220">gantze</w>
-            <w xml:id="GWTK_304111772500_2">rotte</w>
+            <w xml:id="GWTK_304111772500_2" lemmaRef="lexicon.xml#lemma_4978" pos="NOM" corresp="variants.xml#type_17203">rotte</w>
             <w xml:id="GWTK_304111772500_3">ain</w>
             <w xml:id="GWTK_304111772500_4" lemmaRef="lexicon.xml#lemma_4886" pos="NOM" corresp="variants.xml#type_16870">ritter</w>
             <w xml:id="GWTK_304111772500_5">sach</w>
@@ -179422,7 +179423,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_304211774900_1" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
               </hi>
-            <w xml:id="GWTK_304211774900_2">rotten</w>
+            <w xml:id="GWTK_304211774900_2" lemmaRef="lexicon.xml#lemma_4978" pos="NOM" corresp="variants.xml#type_17204">rotten</w>
             <w xml:id="GWTK_304211774900_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
             <w xml:id="GWTK_304211774900_4">müss</w>
             <w xml:id="GWTK_304211774900_5" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
@@ -180419,7 +180420,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_306111784600_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
               </hi>
-            <w xml:id="GWTK_306111784600_1">rotte</w>
+            <w xml:id="GWTK_306111784600_1" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_372361">rotte</w>
             <w xml:id="GWTK_306111784600_2" lemmaRef="lexicon.xml#lemma_775" pos="NOM" ana="lexicon.xml#lemma_775_sense_1255" corresp="variants.xml#type_327554">blütt</w>
             <w xml:id="GWTK_306111784600_3" lemmaRef="lexicon.xml#lemma_6330" pos="ADV PRP" ana="lexicon.xml#lemma_6330_sense_9973" corresp="variants.xml#type_43643">uff</w>
             <w xml:id="GWTK_306111784600_4" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
@@ -180637,7 +180638,7 @@
                 <w xml:id="GWTK_306211786900_0" lemmaRef="lexicon.xml#lemma_6422" pos="ADV PRP" corresp="variants.xml#type_22719">umb</w>
               </hi>
             <w xml:id="GWTK_306211786900_1" lemmaRef="lexicon.xml#lemma_8700" pos="NOM PRO" ana="lexicon.xml#lemma_8700_sense_13698" corresp="variants.xml#type_30236">sines</w>
-            <w xml:id="GWTK_306211786900_2">jungen</w>
+            <w xml:id="GWTK_306211786900_2" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_306211786900_3" lemmaRef="lexicon.xml#lemma_905" pos="NOM" corresp="variants.xml#type_158404">brüder</w>
             <w xml:id="GWTK_306211786900_4">val</w>
             <pc xml:id="GWTK_306211786900_5" join="left">.</pc>
@@ -181031,7 +181032,7 @@
                 <w xml:id="GWTK_307111790700_0">sich</w>
               </hi>
             <w xml:id="GWTK_307111790700_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
-            <w xml:id="GWTK_307111790700_2">jungen</w>
+            <w xml:id="GWTK_307111790700_2" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_307111790700_3" lemmaRef="lexicon.xml#lemma_6471" pos="ADJ ADV PRP" ana="lexicon.xml#lemma_6471_sense_10240" corresp="variants.xml#type_22836">under</w>
             <w xml:id="GWTK_307111790700_4">wand</w>
             <pc xml:id="GWTK_307111790700_5" join="left">.</pc>
@@ -181959,7 +181960,7 @@
             <w xml:id="GWTK_309111800200_1" lemmaRef="lexicon.xml#lemma_3274" pos="NOM" corresp="variants.xml#type_156351">kaisser</w>
             <w xml:id="GWTK_309111800200_2" lemmaRef="lexicon.xml#lemma_2598" pos="VRB VEX" corresp="variants.xml#type_42501">hett</w>
             <w xml:id="GWTK_309111800200_3">sinne</w>
-            <w xml:id="GWTK_309111800200_4">rotten</w>
+            <w xml:id="GWTK_309111800200_4" lemmaRef="lexicon.xml#lemma_4978" pos="NOM" corresp="variants.xml#type_17204">rotten</w>
             <pc xml:id="GWTK_309111800200_5" join="left">.</pc>
           </l>
           <l n="18003">
@@ -182445,7 +182446,7 @@
             <w xml:id="GWTK_309221804900_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_116606">dü</w>
             <w xml:id="GWTK_309221804900_3" lemmaRef="lexicon.xml#lemma_4525" pos="VRB" ana="lexicon.xml#lemma_4525_sense_7062" corresp="variants.xml#type_163861">ögen</w>
             <w xml:id="GWTK_309221804900_4" lemmaRef="lexicon.xml#lemma_7489" pos="VRB VEX" corresp="variants.xml#type_27068">wurden</w>
-            <w xml:id="GWTK_309221804900_5">rott</w>
+            <w xml:id="GWTK_309221804900_5" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_194575">rott</w>
           </l>
           <l n="18050">
             <pc xml:id="GWTK_309221805000_0" join="right">(</pc>
@@ -182844,7 +182845,7 @@
             <w xml:id="GWTK_310211808800_1" lemmaRef="lexicon.xml#lemma_3538" pos="VRB VEM" corresp="variants.xml#type_12292">künnen</w>
             <w xml:id="GWTK_310211808800_2" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
             <w xml:id="GWTK_310211808800_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
-            <w xml:id="GWTK_310211808800_4">jungen</w>
+            <w xml:id="GWTK_310211808800_4" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
           </l>
           <l n="18089">
             <hi rend="initial upper_case_first_letter">
@@ -182938,7 +182939,7 @@
                 <w xml:id="GWTK_310211809800_0" lemmaRef="lexicon.xml#lemma_6422" pos="ADV PRP" corresp="variants.xml#type_22719">umb</w>
               </hi>
             <w xml:id="GWTK_310211809800_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
-            <w xml:id="GWTK_310211809800_2">jungen</w>
+            <w xml:id="GWTK_310211809800_2" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_310211809800_3" lemmaRef="lexicon.xml#lemma_3507" pos="NOM" ana="lexicon.xml#lemma_3507_sense_5555" corresp="variants.xml#type_12155">künges</w>
             <w xml:id="GWTK_310211809800_4">val</w>
             <pc xml:id="GWTK_310211809800_5" join="left">.</pc>
@@ -183594,7 +183595,7 @@
               </hi>
             <w xml:id="GWTK_311211816700_1">im</w>
             <w xml:id="GWTK_311211816700_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
-            <w xml:id="GWTK_311211816700_3">jungen</w>
+            <w xml:id="GWTK_311211816700_3" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_311211816700_4" lemmaRef="lexicon.xml#lemma_905" pos="NOM" corresp="variants.xml#type_158404">brüder</w>
             <w xml:id="GWTK_311211816700_5" lemmaRef="lexicon.xml#lemma_5525" pos="VRB" corresp="variants.xml#type_44576">schlüg</w>
             <pc xml:id="GWTK_311211816700_6" join="left">,</pc>
@@ -186138,7 +186139,7 @@
                 <w xml:id="GWTK_316111841700_0" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_32737">zü</w>
               </hi>
             <w xml:id="GWTK_316111841700_1" lemmaRef="lexicon.xml#lemma_1517" pos="POS" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_5024">siner</w>
-            <w xml:id="GWTK_316111841700_2">rotten</w>
+            <w xml:id="GWTK_316111841700_2" lemmaRef="lexicon.xml#lemma_4978" pos="NOM" corresp="variants.xml#type_17204">rotten</w>
             <w xml:id="GWTK_316111841700_3">er</w>
             <w xml:id="GWTK_316111841700_4">do</w>
             <w xml:id="GWTK_316111841700_5">gewan</w>
@@ -186304,7 +186305,7 @@
                 <w xml:id="GWTK_316121843400_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
               </hi>
             <w xml:id="GWTK_316121843400_1" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="GWTK_316121843400_2">rotte</w>
+            <w xml:id="GWTK_316121843400_2" lemmaRef="lexicon.xml#lemma_4978" pos="NOM" corresp="variants.xml#type_17203">rotte</w>
             <w xml:id="GWTK_316121843400_3" lemmaRef="lexicon.xml#lemma_3004" pos="ADV" ana="lexicon.xml#lemma_3004_sense_4808" corresp="variants.xml#type_10247">ie</w>
             <w xml:id="GWTK_316121843400_4" lemmaRef="lexicon.xml#lemma_42971" pos="ADJ ADV" ana="lexicon.xml#lemma_42971_sense_66633" corresp="variants.xml#type_228379">sichtig</w>
             <w xml:id="GWTK_316121843400_5">an</w>
@@ -186723,7 +186724,7 @@
               </hi>
             <w xml:id="GWTK_317111847600_1" lemmaRef="lexicon.xml#lemma_7194" pos="ADV PRP" ana="lexicon.xml#lemma_7194_sense_11657" corresp="variants.xml#type_25545">vor</w>
             <w xml:id="GWTK_317111847600_2" lemmaRef="lexicon.xml#lemma_1517" pos="POS" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_5024">siner</w>
-            <w xml:id="GWTK_317111847600_3">rotte</w>
+            <w xml:id="GWTK_317111847600_3" lemmaRef="lexicon.xml#lemma_4978" pos="NOM" corresp="variants.xml#type_17203">rotte</w>
           </l>
           <l n="18477">
             <hi rend="initial upper_case_first_letter">
@@ -189407,7 +189408,7 @@
               </hi>
             <w xml:id="GWTK_321221874000_1">vil</w>
             <w xml:id="GWTK_321221874000_2" lemmaRef="lexicon.xml#lemma_3759" pos="ADJ" ana="lexicon.xml#lemma_3759_sense_5949" corresp="variants.xml#type_326642">lïchtem</w>
-            <w xml:id="GWTK_321221874000_3">rott</w>
+            <w xml:id="GWTK_321221874000_3" lemmaRef="lexicon.xml#lemma_4954" pos="NOM" corresp="variants.xml#type_194575">rott</w>
           </l>
           <l n="18741">
             <hi rend="initial upper_case_first_letter">
@@ -191583,7 +191584,7 @@
                 <w xml:id="GWTK_325111895600_0" lemmaRef="lexicon.xml#lemma_1517" pos="POS" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_5024">siner</w>
               </hi>
             <w xml:id="GWTK_325111895600_1" lemmaRef="lexicon.xml#lemma_7356" pos="ADJ ADV" ana="lexicon.xml#lemma_7356_sense_11936" corresp="variants.xml#type_26539">werlichen</w>
-            <w xml:id="GWTK_325111895600_2">rotte</w>
+            <w xml:id="GWTK_325111895600_2" lemmaRef="lexicon.xml#lemma_4978" pos="NOM" corresp="variants.xml#type_17203">rotte</w>
           </l>
           <l n="18957">
             <hi rend="initial upper_case_first_letter">
@@ -192363,7 +192364,7 @@
               </hi>
             <w xml:id="GWTK_326221903400_1" lemmaRef="lexicon.xml#lemma_3004" pos="ADV" ana="lexicon.xml#lemma_3004_sense_4808" corresp="variants.xml#type_10247">ie</w>
             <w xml:id="GWTK_326221903400_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
-            <w xml:id="GWTK_326221903400_3">jungen</w>
+            <w xml:id="GWTK_326221903400_3" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
             <pc xml:id="GWTK_326221903400_4" join="left">,</pc>
           </l>
           <l n="19035">
@@ -192391,7 +192392,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_326221903700_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
               </hi>
-            <w xml:id="GWTK_326221903700_1">rotte</w>
+            <w xml:id="GWTK_326221903700_1" lemmaRef="lexicon.xml#lemma_4978" pos="NOM" corresp="variants.xml#type_17203">rotte</w>
             <w xml:id="GWTK_326221903700_2" lemmaRef="lexicon.xml#lemma_5234" pos="ADJ ADV" corresp="variants.xml#type_18196">schier</w>
             <w xml:id="GWTK_326221903700_3">ward</w>
             <w xml:id="GWTK_326221903700_4" lemmaRef="lexicon.xml#lemma_5184" pos="VRB" ana="lexicon.xml#lemma_5184_sense_8063" corresp="variants.xml#type_331190">geschartt</w>
@@ -193118,7 +193119,7 @@
             <w xml:id="GWTK_328111911100_1">er</w>
             <w xml:id="GWTK_328111911100_2" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
             <w xml:id="GWTK_328111911100_3">dem</w>
-            <w xml:id="GWTK_328111911100_4">jungen</w>
+            <w xml:id="GWTK_328111911100_4" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
           </l>
           <l n="19112">
             <hi rend="initial upper_case_first_letter">
@@ -193918,7 +193919,7 @@
             <w xml:id="GWTK_329211919100_1" lemmaRef="lexicon.xml#lemma_7489" pos="VRB VEX" corresp="variants.xml#type_27068">wurden</w>
             <w xml:id="GWTK_329211919100_2">ir</w>
             <w xml:id="GWTK_329211919100_3" lemmaRef="lexicon.xml#lemma_7394" pos="NOM" ana="lexicon.xml#lemma_7394_sense_12024" corresp="variants.xml#type_160673">wenglin</w>
-            <w xml:id="GWTK_329211919100_4">rott</w>
+            <w xml:id="GWTK_329211919100_4" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_194575">rott</w>
           </l>
           <l n="19192">
             <hi rend="initial upper_case_first_letter">
@@ -194715,7 +194716,7 @@
                 <w xml:id="GWTK_330221927300_0">in</w>
               </hi>
             <w xml:id="GWTK_330221927300_1" lemmaRef="lexicon.xml#lemma_1912" pos="ADJ" ana="lexicon.xml#lemma_1912_sense_2937" corresp="variants.xml#type_74402">gantzer</w>
-            <w xml:id="GWTK_330221927300_2">rotten</w>
+            <w xml:id="GWTK_330221927300_2" lemmaRef="lexicon.xml#lemma_4978" pos="NOM" corresp="variants.xml#type_17204">rotten</w>
             <w xml:id="GWTK_330221927300_3" lemmaRef="lexicon.xml#lemma_3437" pos="NOM" corresp="variants.xml#type_11856">krefte</w>
           </l>
           <pb type="folio" n="331r"/>
@@ -198015,7 +198016,7 @@
             <w xml:id="GWTK_336211959800_1">man</w>
             <w xml:id="GWTK_336211959800_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
             <w xml:id="GWTK_336211959800_3">frechen</w>
-            <w xml:id="GWTK_336211959800_4">jungen</w>
+            <w xml:id="GWTK_336211959800_4" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
           </l>
           <l n="19599">
             <hi rend="initial upper_case_first_letter">
@@ -201114,7 +201115,7 @@
             <w xml:id="GWTK_341211989400_1">ward</w>
             <w xml:id="GWTK_341211989400_2" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
             <w xml:id="GWTK_341211989400_3">dem</w>
-            <w xml:id="GWTK_341211989400_4">jungen</w>
+            <w xml:id="GWTK_341211989400_4" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
           </l>
           <l n="19895">
             <hi rend="initial upper_case_first_letter">
@@ -202003,7 +202004,7 @@
             <w xml:id="GWTK_343111998300_1" lemmaRef="lexicon.xml#lemma_843" pos="VRB" corresp="variants.xml#type_2626">brach</w>
             <w xml:id="GWTK_343111998300_2" lemmaRef="lexicon.xml#lemma_1258" pos="PRP" ana="lexicon.xml#lemma_1258_sense_1977" corresp="variants.xml#type_4044">durch</w>
             <w xml:id="GWTK_343111998300_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="GWTK_343111998300_4">rotten</w>
+            <w xml:id="GWTK_343111998300_4" lemmaRef="lexicon.xml#lemma_4978" pos="NOM" corresp="variants.xml#type_17204">rotten</w>
             <w xml:id="GWTK_343111998300_5" lemmaRef="lexicon.xml#lemma_846" pos="ADJ" corresp="variants.xml#type_84452">braitt</w>
             <pc xml:id="GWTK_343111998300_6" join="left">.</pc>
           </l>
@@ -202221,7 +202222,7 @@
             <w xml:id="GWTK_343222000400_1">du</w>
             <w xml:id="GWTK_343222000400_2" lemmaRef="lexicon.xml#lemma_3001" pos="POS" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10230">mine</w>
             <w xml:id="GWTK_343222000400_3">ougen</w>
-            <w xml:id="GWTK_343222000400_4">rott</w>
+            <w xml:id="GWTK_343222000400_4" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_194575">rott</w>
           </l>
           <l n="20005">
             <hi rend="initial upper_case_first_letter">
@@ -206537,7 +206538,7 @@
               </hi>
             <w xml:id="GWTK_350212042000_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
             <w xml:id="GWTK_350212042000_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25987">frowen</w>
-            <w xml:id="GWTK_350212042000_3">rotten</w>
+            <w xml:id="GWTK_350212042000_3" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_372362">rotten</w>
             <w xml:id="GWTK_350212042000_4" lemmaRef="lexicon.xml#lemma_4252" pos="NOM" corresp="variants.xml#type_45737">mund</w>
           </l>
           <l n="20421">
@@ -206956,7 +206957,7 @@
               </hi>
             <w xml:id="GWTK_351112046300_1" lemmaRef="lexicon.xml#lemma_2731" pos="VRB" corresp="variants.xml#type_134512">hiess</w>
             <w xml:id="GWTK_351112046300_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-            <w xml:id="GWTK_351112046300_3">rotte</w>
+            <w xml:id="GWTK_351112046300_3" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_372361">rotte</w>
             <hi rend="upper_case_first_letter">
               <w xml:id="GWTK_351112046300_4" lemmaRef="lexicon.xml#lemma_65410" pos="NAM" ana="lexicon.xml#lemma_65410_sense_102384" corresp="variants.xml#type_335420">livian</w>
             </hi>
@@ -207037,7 +207038,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_351212047100_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
               </hi>
-            <w xml:id="GWTK_351212047100_1">rotte</w>
+            <w xml:id="GWTK_351212047100_1" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_372361">rotte</w>
             <w xml:id="GWTK_351212047100_2">grosse</w>
             <w xml:id="GWTK_351212047100_3" lemmaRef="lexicon.xml#lemma_65410" pos="NAM" ana="lexicon.xml#lemma_65410_sense_102384" corresp="variants.xml#type_335420">livian</w>
           </l>
@@ -209499,7 +209500,7 @@
             <w xml:id="GWTK_355212071600_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25987">frowen</w>
             <w xml:id="GWTK_355212071600_3" lemmaRef="lexicon.xml#lemma_4252" pos="NOM" corresp="variants.xml#type_45737">mund</w>
             <w xml:id="GWTK_355212071600_4" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
-            <w xml:id="GWTK_355212071600_5">rott</w>
+            <w xml:id="GWTK_355212071600_5" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_194575">rott</w>
           </l>
           <l n="20717">
             <hi rend="initial upper_case_first_letter">
@@ -211033,7 +211034,7 @@
                 <w xml:id="GWTK_358112086300_0">siben</w>
               </hi>
             <w xml:id="GWTK_358112086300_1" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
-            <w xml:id="GWTK_358112086300_2">jungen</w>
+            <w xml:id="GWTK_358112086300_2" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_358112086300_3" lemmaRef="lexicon.xml#lemma_3096" pos="NOM" ana="lexicon.xml#lemma_3096_sense_4919" corresp="variants.xml#type_335513">jarren</w>
           </l>
           <l n="20864">
@@ -214959,7 +214960,7 @@
             <w xml:id="GWTK_364222124800_2">do</w>
             <w xml:id="GWTK_364222124800_3" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
             <w xml:id="GWTK_364222124800_4">dem</w>
-            <w xml:id="GWTK_364222124800_5">jungen</w>
+            <w xml:id="GWTK_364222124800_5" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
             <pc xml:id="GWTK_364222124800_6" join="left">.</pc>
           </l>
           <l n="21249">
@@ -215828,7 +215829,7 @@
             <w xml:id="GWTK_366112132800_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25987">frowen</w>
             <w xml:id="GWTK_366112132800_2" lemmaRef="lexicon.xml#lemma_4252" pos="NOM" corresp="variants.xml#type_45737">mund</w>
             <w xml:id="GWTK_366112132800_3" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
-            <w xml:id="GWTK_366112132800_4">rott</w>
+            <w xml:id="GWTK_366112132800_4" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_194575">rott</w>
           </l>
           <l n="21329">
             <hi rend="initial upper_case_first_letter">
@@ -219456,7 +219457,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_372112168300_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_116606">dü</w>
               </hi>
-            <w xml:id="GWTK_372112168300_1">junger</w>
+            <w xml:id="GWTK_372112168300_1" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10831">junger</w>
             <w xml:id="GWTK_372112168300_2">sprach</w>
             <pc xml:id="GWTK_372112168300_3" join="left">:</pc>
             <pc xml:id="GWTK_372112168300_4" join="right">&lt;</pc>
@@ -219623,7 +219624,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_372122169900_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_116606">dü</w>
               </hi>
-            <w xml:id="GWTK_372122169900_1">junger</w>
+            <w xml:id="GWTK_372122169900_1" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10831">junger</w>
             <w xml:id="GWTK_372122169900_2">sprach</w>
             <pc xml:id="GWTK_372122169900_3" join="left">:</pc>
             <pc xml:id="GWTK_372122169900_4" join="right">&lt;</pc>
@@ -221075,7 +221076,7 @@
                 <w xml:id="GWTK_374212183600_0">er</w>
               </hi>
             <w xml:id="GWTK_374212183600_1" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="GWTK_374212183600_2">rotten</w>
+            <w xml:id="GWTK_374212183600_2" lemmaRef="lexicon.xml#lemma_4978" pos="NOM" corresp="variants.xml#type_17204">rotten</w>
             <w xml:id="GWTK_374212183600_3">do</w>
             <w xml:id="GWTK_374212183600_4">an</w>
             <w xml:id="GWTK_374212183600_5" lemmaRef="lexicon.xml#lemma_4885" pos="VRB" ana="lexicon.xml#lemma_4885_sense_7583" corresp="variants.xml#type_159368">raitt</w>
@@ -221402,7 +221403,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_375122186900_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
               </hi>
-            <w xml:id="GWTK_375122186900_1">rotten</w>
+            <w xml:id="GWTK_375122186900_1" lemmaRef="lexicon.xml#lemma_4978" pos="NOM" corresp="variants.xml#type_17204">rotten</w>
             <w xml:id="GWTK_375122186900_2">er</w>
             <w xml:id="GWTK_375122186900_3" lemmaRef="lexicon.xml#lemma_1136" pos="ADJ ADV" corresp="variants.xml#type_58950">dik</w>
             <w xml:id="GWTK_375122186900_4" lemmaRef="lexicon.xml#lemma_1258" pos="PRP" ana="lexicon.xml#lemma_1258_sense_1977" corresp="variants.xml#type_4044">durch</w>
@@ -224004,7 +224005,7 @@
             <w xml:id="GWTK_379122211700_0" lemmaRef="lexicon.xml#lemma_56117" pos="POS" ana="lexicon.xml#lemma_56117_sense_90961" corresp="variants.xml#type_305414">üwer</w>
             <w xml:id="GWTK_379122211700_1" lemmaRef="lexicon.xml#lemma_2706" pos="NOM ADJ" corresp="variants.xml#type_45257">haill</w>
             <pc xml:id="GWTK_379122211700_2" join="left">,</pc>
-            <w xml:id="GWTK_379122211700_3">junger</w>
+            <w xml:id="GWTK_379122211700_3" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10831">junger</w>
             <w xml:id="GWTK_379122211700_4">man</w>
             <pc xml:id="GWTK_379122211700_5" join="left">,</pc>
           </l>
@@ -224777,7 +224778,7 @@
               </hi>
             <w xml:id="GWTK_380212219100_1">nam</w>
             <w xml:id="GWTK_380212219100_2" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
-            <w xml:id="GWTK_380212219100_3">junger</w>
+            <w xml:id="GWTK_380212219100_3" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10831">junger</w>
             <w xml:id="GWTK_380212219100_4" lemmaRef="lexicon.xml#lemma_3926" pos="NOM" corresp="variants.xml#type_94974">megetin</w>
           </l>
           <l n="22192">
@@ -226214,7 +226215,7 @@
             <w xml:id="GWTK_382212232500_1" lemmaRef="lexicon.xml#lemma_4848" pos="NOM ADJ" corresp="variants.xml#type_59388">rainen</w>
             <w xml:id="GWTK_382212232500_2" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
             <w xml:id="GWTK_382212232500_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_116606">dü</w>
-            <w xml:id="GWTK_382212232500_4">jungen</w>
+            <w xml:id="GWTK_382212232500_4" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
           </l>
           <l n="22326">
             <hi rend="initial upper_case_first_letter">
@@ -226309,7 +226310,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_383112233500_0">mitt</w>
               </hi>
-            <w xml:id="GWTK_383112233500_1">rotten</w>
+            <w xml:id="GWTK_383112233500_1" lemmaRef="lexicon.xml#lemma_4978" pos="NOM" corresp="variants.xml#type_17204">rotten</w>
             <pc xml:id="GWTK_383112233500_2" join="left">,</pc>
             <w xml:id="GWTK_383112233500_3" lemmaRef="lexicon.xml#lemma_2379" pos="NOM VRB" ana="lexicon.xml#lemma_2379_sense_3846" corresp="variants.xml#type_36710">gigen</w>
             <pc xml:id="GWTK_383112233500_4" join="left">,</pc>
@@ -229094,7 +229095,7 @@
               </hi>
             <w xml:id="GWTK_387212260200_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
             <w xml:id="GWTK_387212260200_2" lemmaRef="lexicon.xml#lemma_1308" pos="NOM ADJ" ana="lexicon.xml#lemma_1308_sense_2042" corresp="variants.xml#type_4263">edlen</w>
-            <w xml:id="GWTK_387212260200_3">jungen</w>
+            <w xml:id="GWTK_387212260200_3" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
           </l>
           <l n="22603">
             <hi rend="initial upper_case_first_letter">
@@ -233020,7 +233021,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_393222297700_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
               </hi>
-            <w xml:id="GWTK_393222297700_1">jungen</w>
+            <w xml:id="GWTK_393222297700_1" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_393222297700_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
             <w xml:id="GWTK_393222297700_3" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3255">da</w>
             <w xml:id="GWTK_393222297700_4" lemmaRef="lexicon.xml#lemma_3770" pos="VRB" corresp="variants.xml#type_179595">lagend</w>
@@ -233464,7 +233465,7 @@
                 <w xml:id="GWTK_394212301900_0">mitt</w>
               </hi>
             <w xml:id="GWTK_394212301900_1" lemmaRef="lexicon.xml#lemma_4042" pos="ADJ" corresp="variants.xml#type_189522">mechtiger</w>
-            <w xml:id="GWTK_394212301900_2">rotte</w>
+            <w xml:id="GWTK_394212301900_2" lemmaRef="lexicon.xml#lemma_4978" pos="NOM" corresp="variants.xml#type_17203">rotte</w>
             <w xml:id="GWTK_394212301900_3">kan</w>
             <pc xml:id="GWTK_394212301900_4" join="left">;</pc>
           </l>
@@ -233490,7 +233491,7 @@
             </hi>
             <pc xml:id="GWTK_394212302100_3" join="left">!</pc>
             <w xml:id="GWTK_394212302100_4">din</w>
-            <w xml:id="GWTK_394212302100_5">junger</w>
+            <w xml:id="GWTK_394212302100_5" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10831">junger</w>
             <w xml:id="GWTK_394212302100_6" lemmaRef="lexicon.xml#lemma_6118" pos="NOM ADJ" ana="lexicon.xml#lemma_6118_sense_9650" corresp="variants.xml#type_21564">tode</w>
           </l>
           <l n="23022">
@@ -235417,7 +235418,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_398112320800_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
               </hi>
-            <w xml:id="GWTK_398112320800_1">jungen</w>
+            <w xml:id="GWTK_398112320800_1" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_398112320800_2" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
             <w xml:id="GWTK_398112320800_3">dem</w>
             <w xml:id="GWTK_398112320800_4" lemmaRef="lexicon.xml#lemma_3274" pos="NOM" corresp="variants.xml#type_330080">kaysser</w>
@@ -235428,7 +235429,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_398112320900_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
               </hi>
-            <w xml:id="GWTK_398112320900_1">jungen</w>
+            <w xml:id="GWTK_398112320900_1" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_398112320900_2" lemmaRef="lexicon.xml#lemma_678" pos="PRP" ana="lexicon.xml#lemma_678_sense_1096" corresp="variants.xml#type_44499">by</w>
             <w xml:id="GWTK_398112320900_3">dem</w>
             <w xml:id="GWTK_398112320900_4">harre</w>
@@ -236129,7 +236130,7 @@
             <w xml:id="GWTK_399112327800_2" lemmaRef="lexicon.xml#lemma_2837" pos="ADV" corresp="variants.xml#type_9597">hin</w>
             <w xml:id="GWTK_399112327800_3">mitt</w>
             <w xml:id="GWTK_399112327800_4" lemmaRef="lexicon.xml#lemma_56117" pos="POS" ana="lexicon.xml#lemma_56117_sense_90961" corresp="variants.xml#type_305434">üwern</w>
-            <w xml:id="GWTK_399112327800_5">rotten</w>
+            <w xml:id="GWTK_399112327800_5" lemmaRef="lexicon.xml#lemma_4978" pos="NOM" corresp="variants.xml#type_17204">rotten</w>
           </l>
           <l n="23279">
             <hi rend="initial upper_case_first_letter">
@@ -236943,7 +236944,7 @@
             <w xml:id="GWTK_400212335800_1" lemmaRef="lexicon.xml#lemma_14304" pos="ADJ" ana="lexicon.xml#lemma_14304_sense_23699" corresp="variants.xml#type_102211">wolgestalter</w>
             <w xml:id="GWTK_400212335800_2" lemmaRef="lexicon.xml#lemma_4252" pos="NOM" corresp="variants.xml#type_14812">munde</w>
             <w xml:id="GWTK_400212335800_3" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
-            <w xml:id="GWTK_400212335800_4">rott</w>
+            <w xml:id="GWTK_400212335800_4" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_194575">rott</w>
           </l>
           <l n="23359">
             <hi rend="initial upper_case_first_letter">
@@ -238145,7 +238146,7 @@
             <w xml:id="GWTK_402212347400_1">sy</w>
             <w xml:id="GWTK_402212347400_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
             <w xml:id="GWTK_402212347400_3" lemmaRef="lexicon.xml#lemma_4848" pos="NOM ADJ" corresp="variants.xml#type_59388">rainen</w>
-            <w xml:id="GWTK_402212347400_4">rott</w>
+            <w xml:id="GWTK_402212347400_4" lemmaRef="lexicon.xml#lemma_4978" pos="NOM" corresp="variants.xml#type_75564">rott</w>
             <w xml:id="GWTK_402212347400_5" lemmaRef="lexicon.xml#lemma_1645" pos="VRB" ana="lexicon.xml#lemma_1645_sense_2567" corresp="variants.xml#type_5586">ersach</w>
             <pc xml:id="GWTK_402212347400_6" join="left">:</pc>
           </l>
@@ -238229,7 +238230,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_402212348200_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
               </hi>
-            <w xml:id="GWTK_402212348200_1">rotte</w>
+            <w xml:id="GWTK_402212348200_1" lemmaRef="lexicon.xml#lemma_4978" pos="NOM" corresp="variants.xml#type_17203">rotte</w>
             <w xml:id="GWTK_402212348200_2">ward</w>
             <w xml:id="GWTK_402212348200_3">er</w>
             <w xml:id="GWTK_402212348200_4">innen</w>
@@ -238560,7 +238561,7 @@
             <w xml:id="GWTK_403122351300_1" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
             <w xml:id="GWTK_403122351300_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
             <w xml:id="GWTK_403122351300_3" lemmaRef="lexicon.xml#lemma_1308" pos="NOM ADJ" ana="lexicon.xml#lemma_1308_sense_2042" corresp="variants.xml#type_4263">edlen</w>
-            <w xml:id="GWTK_403122351300_4">rotten</w>
+            <w xml:id="GWTK_403122351300_4" lemmaRef="lexicon.xml#lemma_4978" pos="NOM" corresp="variants.xml#type_17204">rotten</w>
             <w xml:id="GWTK_403122351300_5" lemmaRef="lexicon.xml#lemma_7819" pos="VRB" corresp="variants.xml#type_155888">zartt</w>
           </l>
           <l n="23514">
@@ -239030,7 +239031,7 @@
             <w xml:id="GWTK_404112355800_2" lemmaRef="lexicon.xml#lemma_6135" pos="NOM" ana="lexicon.xml#lemma_6135_sense_9676" corresp="variants.xml#type_44569">tochter</w>
             <w xml:id="GWTK_404112355800_3" lemmaRef="lexicon.xml#lemma_4252" pos="NOM" corresp="variants.xml#type_45737">mund</w>
             <w xml:id="GWTK_404112355800_4" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
-            <w xml:id="GWTK_404112355800_5">rott</w>
+            <w xml:id="GWTK_404112355800_5" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_194575">rott</w>
           </l>
           <l n="23559">
             <hi rend="initial upper_case_first_letter">
@@ -239953,7 +239954,7 @@
             <w xml:id="GWTK_405212365100_1" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
             <w xml:id="GWTK_405212365100_2" lemmaRef="lexicon.xml#lemma_1169" pos="DET" ana="lexicon.xml#lemma_1169_sense_1850" corresp="variants.xml#type_73796">disse</w>
             <w xml:id="GWTK_405212365100_3" lemmaRef="lexicon.xml#lemma_4252" pos="NOM" corresp="variants.xml#type_14810">münde</w>
-            <w xml:id="GWTK_405212365100_4">rott</w>
+            <w xml:id="GWTK_405212365100_4" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_194575">rott</w>
           </l>
           <l n="23652">
             <hi rend="initial upper_case_first_letter">
@@ -240883,7 +240884,7 @@
             <pc xml:id="GWTK_407112374000_7" join="left">,</pc>
             <w xml:id="GWTK_407112374000_8">brun</w>
             <pc xml:id="GWTK_407112374000_9" join="left">,</pc>
-            <w xml:id="GWTK_407112374000_10">rott</w>
+            <w xml:id="GWTK_407112374000_10" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_194575">rott</w>
           </l>
           <cb n="2" type="manuscript"/>
           <l n="23741">
@@ -241309,7 +241310,7 @@
             <supplied>
               <w xml:id="GWTK_407212378000_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
             </supplied>
-            <w xml:id="GWTK_407212378000_5">rotten</w>
+            <w xml:id="GWTK_407212378000_5" lemmaRef="lexicon.xml#lemma_4978" pos="NOM" corresp="variants.xml#type_17204">rotten</w>
             <w xml:id="GWTK_407212378000_6">sin</w>
             <pc xml:id="GWTK_407212378000_7" join="left">:</pc>
           </l>
@@ -241353,7 +241354,7 @@
             <w xml:id="GWTK_407212378400_3">ain</w>
             <w xml:id="GWTK_407212378400_4" lemmaRef="lexicon.xml#lemma_4252" pos="NOM" corresp="variants.xml#type_45737">mund</w>
             <w xml:id="GWTK_407212378400_5" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
-            <w xml:id="GWTK_407212378400_6">rott</w>
+            <w xml:id="GWTK_407212378400_6" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_194575">rott</w>
             <pc xml:id="GWTK_407212378400_7" join="left">,</pc>
           </l>
           <pb type="folio" n="408r"/>
@@ -241993,7 +241994,7 @@
             <w xml:id="GWTK_409112384700_2" lemmaRef="lexicon.xml#lemma_6359" pos="PRP" ana="lexicon.xml#lemma_6359_sense_10020" corresp="variants.xml#type_22554">über</w>
             <w xml:id="GWTK_409112384700_3" lemmaRef="lexicon.xml#lemma_106" pos="ADJ" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_258">alle</w>
             <w xml:id="GWTK_409112384700_4" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_116606">dü</w>
-            <w xml:id="GWTK_409112384700_5">rott</w>
+            <w xml:id="GWTK_409112384700_5" lemmaRef="lexicon.xml#lemma_4978" pos="NOM" corresp="variants.xml#type_75564">rott</w>
             <pc xml:id="GWTK_409112384700_6" join="left">.</pc>
           </l>
           <l n="23848">
@@ -242738,7 +242739,7 @@
                 <w xml:id="GWTK_410122392000_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
               </hi>
             <w xml:id="GWTK_410122392000_1" lemmaRef="lexicon.xml#lemma_3274" pos="NOM" corresp="variants.xml#type_82664">kaissers</w>
-            <w xml:id="GWTK_410122392000_2">rotte</w>
+            <w xml:id="GWTK_410122392000_2" lemmaRef="lexicon.xml#lemma_4978" pos="NOM" corresp="variants.xml#type_17203">rotte</w>
             <w xml:id="GWTK_410122392000_3">gevie</w>
           </l>
           <l n="23921">
@@ -247934,7 +247935,7 @@
             <w xml:id="GWTK_419122443900_2">ir</w>
             <w xml:id="GWTK_419122443900_3" lemmaRef="lexicon.xml#lemma_4252" pos="NOM" corresp="variants.xml#type_45737">mund</w>
             <w xml:id="GWTK_419122443900_4" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
-            <w xml:id="GWTK_419122443900_5">rott</w>
+            <w xml:id="GWTK_419122443900_5" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_194575">rott</w>
             <pc xml:id="GWTK_419122443900_6" join="left">,</pc>
           </l>
           <l n="24440">
@@ -247978,7 +247979,7 @@
                 <w xml:id="GWTK_419122444400_0" lemmaRef="lexicon.xml#lemma_3962" pos="ADJ" ana="lexicon.xml#lemma_3962_sense_6245" corresp="variants.xml#type_13830">manig</w>
               </hi>
             <w xml:id="GWTK_419122444400_1">rubin</w>
-            <w xml:id="GWTK_419122444400_2">rotten</w>
+            <w xml:id="GWTK_419122444400_2" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_372362">rotten</w>
             <w xml:id="GWTK_419122444400_3" lemmaRef="lexicon.xml#lemma_4252" pos="NOM" corresp="variants.xml#type_14812">munde</w>
             <w xml:id="GWTK_419122444400_4" lemmaRef="lexicon.xml#lemma_3330" pos="ADJ" corresp="variants.xml#type_327448">claur</w>
             <pc xml:id="GWTK_419122444400_5" join="left">.</pc>
@@ -248601,7 +248602,7 @@
             <pc xml:id="GWTK_420122450200_2" join="left">,</pc>
             <w xml:id="GWTK_420122450200_3" lemmaRef="lexicon.xml#lemma_1242" pos="POS" ana="lexicon.xml#lemma_1242_sense_1958" corresp="variants.xml#type_3958">dinem</w>
             <w xml:id="GWTK_420122450200_4" lemmaRef="lexicon.xml#lemma_4252" pos="NOM" corresp="variants.xml#type_14812">munde</w>
-            <w xml:id="GWTK_420122450200_5">rott</w>
+            <w xml:id="GWTK_420122450200_5" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_194575">rott</w>
           </l>
           <l n="24503">
             <hi rend="initial upper_case_first_letter">
@@ -249409,7 +249410,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_421212458100_0" lemmaRef="lexicon.xml#lemma_101" pos="NUM" ana="lexicon.xml#lemma_101_sense_134" corresp="variants.xml#type_329822">achtzegg</w>
               </hi>
-            <w xml:id="GWTK_421212458100_1">rotten</w>
+            <w xml:id="GWTK_421212458100_1" lemmaRef="lexicon.xml#lemma_4978" pos="NOM" corresp="variants.xml#type_17204">rotten</w>
             <w xml:id="GWTK_421212458100_2" lemmaRef="lexicon.xml#lemma_2683" pos="ADJ ADV" ana="lexicon.xml#lemma_2683_sense_4319" corresp="variants.xml#type_35522">herlich</w>
             <pc xml:id="GWTK_421212458100_3" join="left">,</pc>
           </l>
@@ -249592,7 +249593,7 @@
             <w xml:id="GWTK_422112460000_1">im</w>
             <w xml:id="GWTK_422112460000_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
             <w xml:id="GWTK_422112460000_3" lemmaRef="lexicon.xml#lemma_3274" pos="NOM" corresp="variants.xml#type_82664">kaissers</w>
-            <w xml:id="GWTK_422112460000_4">rotte</w>
+            <w xml:id="GWTK_422112460000_4" lemmaRef="lexicon.xml#lemma_4978" pos="NOM" corresp="variants.xml#type_17203">rotte</w>
             <w xml:id="GWTK_422112460000_5">kund</w>
             <pc xml:id="GWTK_422112460000_6" join="left">.</pc>
           </l>
@@ -250208,7 +250209,7 @@
             <w xml:id="GWTK_423112466000_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
             <w xml:id="GWTK_423112466000_3">zarten</w>
             <w xml:id="GWTK_423112466000_4" lemmaRef="lexicon.xml#lemma_4252" pos="NOM" corresp="variants.xml#type_14812">munde</w>
-            <w xml:id="GWTK_423112466000_5">rott</w>
+            <w xml:id="GWTK_423112466000_5" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_194575">rott</w>
             <pc xml:id="GWTK_423112466000_6" join="left">.</pc>
           </l>
           <l n="24661">
@@ -251243,7 +251244,7 @@
               </hi>
             <w xml:id="GWTK_424212475900_1" lemmaRef="lexicon.xml#lemma_5184" pos="VRB" ana="lexicon.xml#lemma_5184_sense_8063" corresp="variants.xml#type_336476">schartte</w>
             <w xml:id="GWTK_424212475900_2" lemmaRef="lexicon.xml#lemma_3962" pos="ADJ" ana="lexicon.xml#lemma_3962_sense_6245" corresp="variants.xml#type_13831">manige</w>
-            <w xml:id="GWTK_424212475900_3">rotte</w>
+            <w xml:id="GWTK_424212475900_3" lemmaRef="lexicon.xml#lemma_4978" pos="NOM" corresp="variants.xml#type_17203">rotte</w>
           </l>
           <l n="24760">
             <hi rend="initial upper_case_first_letter">
@@ -251993,7 +251994,7 @@
               </hi>
             <w xml:id="GWTK_425222483400_1">ze</w>
             <w xml:id="GWTK_425222483400_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-            <w xml:id="GWTK_425222483400_3">rotten</w>
+            <w xml:id="GWTK_425222483400_3" lemmaRef="lexicon.xml#lemma_4978" pos="NOM" corresp="variants.xml#type_17204">rotten</w>
             <w xml:id="GWTK_425222483400_4" lemmaRef="lexicon.xml#lemma_2837" pos="ADV" corresp="variants.xml#type_9597">hin</w>
           </l>
           <l n="24835">
@@ -253086,7 +253087,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_427212494100_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
               </hi>
-            <w xml:id="GWTK_427212494100_1">jungen</w>
+            <w xml:id="GWTK_427212494100_1" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_427212494100_2">in</w>
             <w xml:id="GWTK_427212494100_3">dem</w>
             <w xml:id="GWTK_427212494100_4">rich</w>
@@ -253728,7 +253729,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_428212500300_0">dem</w>
               </hi>
-            <w xml:id="GWTK_428212500300_1">jungen</w>
+            <w xml:id="GWTK_428212500300_1" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_10830">jungen</w>
             <w xml:id="GWTK_428212500300_2" lemmaRef="lexicon.xml#lemma_17321" pos="NAM" ana="lexicon.xml#lemma_17321_sense_29651" corresp="variants.xml#type_329625">krïchen</w>
             <pc xml:id="GWTK_428212500300_3" join="left">,</pc>
           </l>
@@ -254092,10 +254093,10 @@
           </note>
           <l n="25037">
             <hi rend="initial upper_case_first_letter">
-                <w xml:id="GWTK_429112503700_0">rotte</w>
+                <w xml:id="GWTK_429112503700_0" lemmaRef="lexicon.xml#lemma_4978" pos="NOM" corresp="variants.xml#type_17203">rotte</w>
               </hi>
             <w xml:id="GWTK_429112503700_1">gegen</w>
-            <w xml:id="GWTK_429112503700_2">rotte</w>
+            <w xml:id="GWTK_429112503700_2" lemmaRef="lexicon.xml#lemma_4978" pos="NOM" corresp="variants.xml#type_17203">rotte</w>
             <w xml:id="GWTK_429112503700_3" lemmaRef="lexicon.xml#lemma_4885" pos="VRB" ana="lexicon.xml#lemma_4885_sense_7583" corresp="variants.xml#type_159368">raitt</w>
             <pc xml:id="GWTK_429112503700_4" join="left">,</pc>
           </l>
