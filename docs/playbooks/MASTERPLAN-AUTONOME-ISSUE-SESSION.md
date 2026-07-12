@@ -1,67 +1,51 @@
 # Masterplan: Autonome Issue-Abarbeitungs-Session
 
-**Erstellt:** 2026-07-03 (Audit-Session, Fable 5)
-**Status:** Freigegeben durch chsteiner (Entscheidungen siehe §5)
-**Update 2026-07-07:** An den Repo-Stand nach Merge von PR #165 + #173 angepasst: Audit-Sammel-Issues #167–#172 einsortiert (§1.E), Wellen 1/9/10 und Kickoff-Prompt aktualisiert, Test-Baseline-Formulierung entschärft. Zweites Update gleichen Tags: Missing-Inputs-Report durch Self-Service ersetzt; alle Input-Zugriffswege (GitHub-Attachments + pypdf, Issue-Kommentare, Zenodo, Google-Drive- und Gmail-MCP) einzeln verifiziert (§2 Regel 8).
-**Typ:** Temporal Artifact (Promptotyping-Konvention) — nach Abschluss der autonomen Session löschen; Git-History = Archiv.
+**Erstellt:** 2026-07-03 (Audit-Session, Fable 5); Vorgänger-Session (Wellen 1-10) ist gelaufen und gemergt.
+**Neu befüllt:** 2026-07-12 (Voll-Audit aller 35 offenen Issues, Fable 5). Alte Session-Inhalte geleert; Git-History = Archiv.
+**Status:** Session 2026-07-12 GELAUFEN (Kickoff „starte gleich hier", Entscheidungen §5). Ergebnis und Lehren: §7. Vor der nächsten Session §1/§3/§5/§6 neu befüllen.
+**Typ:** Playbook (wiederverwendbares Session-Verfahren, dauerhaft). Der session-spezifische Teil (§1, §3, §5, §6) wird pro Session neu befüllt; der Betriebsvertrag (§2) ist der stabile Kern.
 
-Quellen des Audits: alle 35 offenen Issue-Bodies (Dump 03.07.), Triage-Matrix #44 (Stand 17.06.), ROADMAP.md, JOURNAL.md (bis 02.07.), PR #165 (Code-Audit-Report, 113 Findings). Cross-Check durch unabhängigen Digest-Agenten: bestätigt, keine Widersprüche.
+Quellen des Audits: alle 35 offenen Issue-Bodies + vollständige Kommentarverläufe (Dump 12.07.), git log (main bis `2d6335856`), Index-Größen-Check für den #111-Trigger (corpus-index.json.gz: 42,2 MB, Schwelle 50 MB, nicht erreicht).
 
 ---
 
-## 1. Audit-Ergebnis: 35 offene Issues
+## 1. Audit-Ergebnis: 35 offene Issues (Stand 2026-07-12)
 
-### A. Voll autonom lösbar (10)
+Die Lage unterscheidet sich deutlich von der Juli-Anfang-Session: Die damalige Follow-up-Schicht (#158-#164, #167-#171) ist komplett abgeräumt. Was heute offen ist, hängt überwiegend an Menschen (Review-Gates, Kuratorik, needs-clarification) oder ist Ingest/Future. Voll autonom lieferbar sind genau zwei Kern-Deliverables plus die Meta-Pflege.
+
+### A. Voll autonom lösbar (2 + Meta)
 
 | # | Was | Warum autonom | Aufwand |
 |---|-----|---------------|---------|
-| **#163** | Kookkurrenz-Dropdown wählt immer erstes Lemma (KZW-Bugreport 03.07.) | Reproduzierbarer Frontend-Bug | S |
-| **#164** | Multi-Lemma `rôt + munt` liefert nichts (KZW-Bugreport 03.07.) | Vermutlich gleiche Wurzel wie #163 (Lemma-Auflösung/Homographen); alte MHDBDB als Ground Truth (553 Zeilen-Treffer) | S–M |
-| **#158 + #162** | Duplikat-Paar: leere `.lb-number`-Spans bei `h_`-Nummern; Test dauerhaft rot auf main | Fix + Test-Anpassung; maskiert aktuell echte Regressionen | S |
-| **#159** | View-Clobber nach Navigation pattern-weit fixen | Lösung im Issue vorgezeichnet (Router-globales Abort-Signal) | M |
-| **#160** | Tabellen-Spaltenmodell deklarativ konsolidieren (7 Sync-Stellen) + KWIC-Test | Reines Refactoring, Regressionsnetz existiert (`results-table.spec.js`) | M |
-| **#161** | Multi-POS-Verlust im Authority-Index (silent data loss, betrifft API) | Lösungsweg A (additives `posAll[]`) im Issue empfohlen | M |
-| **#134** | AK-Kontext (Ausschnitt der Steirischen Reimchronik, Verse 44579–53866) im Reader | Daten liegen in AK.tei.xml, nur Reader-JS (#44: claude-ready) | M |
-| **#145** | Rektoratsbericht + Dankesbrief über 20.480 € | Schreibarbeit aus bestehender Doku; KZW-Review danach | M |
-| **#27** | POS-Workflow: Disambiguierungs-Policy | KZW hat Policy ans LLM delegiert (29.05., Tagset fixiert); **Scope: NUR Policy-Dokument** (Entscheidung chsteiner 03.07.) | L |
-| **#44** | Triage-Matrix aktualisieren | Evergreen-Meta-Aufgabe am Session-Ende; **nie schließen** | S |
+| **#189** | GWTK-Pilot (Punkt 1): Nachannotation der ambigen Formen *rott/rotten/rotte/roten* (139 Tokens) und *jungen/junger* (139 Tokens) in GWTK | Exakt das Muster von #198/PR #205 (autonom gelaufen, gemergt): konservativer Batch nach POS-TAGSET §6.3 mit Review-Artefakten. Externer Goldstandard existiert (händische Zählung der Anfragenden: 78 Belege *rôter munt*, 262 *jung*); alle Akzeptanzkriterien im Issue sind maschinell prüfbar. Bestehende Daten, kein Ingest. Punkt 2 (Quantifizierungs-Skript) ist bereits erledigt (PR #210). | M |
+| **#140** | Dokumentation in /docs für Menschen lesbar aufbereiten (LLM-Artefakte bereinigen) | Reine Doku-/Frontend-Arbeit: Steuerungsphrasen wie „(ENTSCHIEDEN)" entfernen, Encoding-Fehler (ae/oe/ue statt ä/ö/ü) und Em-Dashes in Prosa bereinigen, kaputte Markdown-Escapes fixen, Mensch/Agent-Doku trennen. Die einzige Weiche (TEI-MODEL.md ausblenden vs. deklarieren) bietet das Issue selbst als Alternativen an; konservative Variante (als technische Referenz deklarieren) ist ohne Rückfrage wählbar. | M |
+| **#44** | Triage-Matrix aktualisieren | Evergreen-Meta-Aufgabe am Session-Ende; **nie schließen**, nie mit Closes referenzieren | S |
 
-### B. Autonom als definierter Teilschritt — Issue bleibt offen (7)
+### B. Autonome Teilschritte als Stretch (Issue bleibt offen; Freigabe siehe §5)
 
 | # | Autonomer Teil | Bleibt offen wegen |
 |---|----------------|--------------------|
-| **#138** | HUG-Strophen-`<lg>` aus 814 röm. Ziffern ableiten + Index-Rebuild; MBS-Sub-Issue in #139 anlegen (KZW-Entscheid 12.06. liegt vor) | PL1–3-Kapitel brauchen Editionsmaterial |
-| **#68** | KZWs MUSS/SOLL-Intake-Kriterien (geliefert 29.05.) in `hilfe-daten-beitragen.html` einbauen | Abnahme KZW |
-| **#86** | van-Beek-Kontaktdaten in `barrierefreiheit.html` (KZW-Wunsch 29.05.) | Alans Freigabe des Gesamttexts |
-| **#110** | WVV: 23 fehlende Anchors rekonstruieren, Korpus-Survey Ton/dône, TEI-Pattern als Entscheidungsvorlage | Finale Strophen-Entscheidung = KZW |
-| **#28** | Daten-Phasenplan Fremdsprachen-Annotation (Weg von KZW freigegeben: LLM + `concept_23123000` + Lexer/MWB) | Korpus hat 0 Token-Annotationen; Umsetzung = eigene Kampagne |
-| **#141** | Borte „Aufgabe 0": Metadaten-Template + Anforderungsliste an Alan (Quelltabelle: Zenodo 10.5281/zenodo.20626546) | Gesamt-Ingest wartet auf KZW-Priorisierung (nach #139) |
-| **#106** | Optional (Stretch): Punkt 8 „Lemma im Vers"-Filter | Punkte 2–7 sind FWF (#109) |
+| **#59** | Alexander-Decknamen-Workaround: Lindas Frage vom 16.06. ist unbeantwortet. Technischer Vorschlag (Override-Mapping im Build-Skript `scripts/ingest/naming/`, damit Decknamen als Eigenname klassifizierbar werden, ohne Lindas `lemma_normalization.json` zu verbiegen) als Issue-Kommentar-Entwurf; Umsetzung erst nach Lindas OK | Kategorien-Umbenennung („Bezeichnungsvariante"/„Bezeichnungsattribute") ist KZW-Entscheid; Datenhoheit liegt bei Linda |
+| **#118** | Konzept-Entscheidungsvorlage Sprachstufen (Regeln + Datenquellen + TEI-Repräsentation + Unsicherheitsstufen) als docs/features/-Dokument + Issue-Kommentar; keine Header-Änderung | Umsetzung ist wissenschaftlich-kuratorisch; Issue ist explizit nachrangig (future plans) |
+| **#189-Follow-up** | Nach validiertem GWTK-Pilot: erstes Serien-Issue der Inhaltswort-Schicht anlegen (*minne* zuerst, ~7.000 unsichtbare Belege; Priorisierungsliste aus PR #210) | Serien-Umsetzung ist eigene Kampagne; Funktionswort-Grundsatzentscheidung liegt bei KZW |
 
-**Bonus-Workstream (aktualisiert 07.07.):** PR #165 + #173 sind gemerged; alle Low-Risk-Findings sind behoben, die Rest-Findings leben strukturiert in den Sammel-Issues #167–#172 (Einsortierung: §1.E). Autonomes Abarbeitungsfeld für die Stretch-Welle: #167, #170, #171.
+### C. Umgesetzt, warten nur auf Test-OK: Session fasst sie NICHT an (5)
 
-### C. Blockiert auf Menschen (10) — Session fasst sie NICHT an
+#204 (UX Textfilter, KZW gepingt 10.07.), #203 (KWIC-CSV-Export, KZW gepingt 10.07.), #196 (Hapaxlegomena, KZW gepingt 10.07.), #190 (Hilfe-Seite Belegstellen, KZW gepingt 10.07.), #114 (Tabellenansicht-Integrationswünsche, Linda gepingt 02.07.). Alle Pings sind draußen; kein erneutes Anpingen, kein Nacharbeiten vor dem OK (auch nicht der in #196 vermerkte Subkorpus-Follow-up).
 
-#92 (Carina: 5–6 Metadatenfragen), #147 (Silvan: Lizenz Wiki-Transkriptionen; Stage-0-Parser-Entwurf als Stretch erlaubt), #114 (Linda-Review), #129 (KZW-UI-Test), #59 (Linda-Fachklärung), #115 B/C (KZW-Kuratorik, 196 Lemmata), #124 (Matomo-Snippet Bärthlein), #140 (Strategie-Gespräch mit chsteiner), #58 (chsteiner-Entscheidung Option A/B/C), #18 (blockiert durch #27-Datenmigration).
+### D. Blockiert auf Menschen (13): Session fasst sie NICHT an
 
-### D. Future / Trigger-Wait (7) — bewusst liegen lassen
+#198 (Schritt 2 = KZW-Sense-Split lemma_2598, Review-Artefakte liegen im PR #205), #28 (wartet auf KZW/Julia-Antwort zu den 26 Beispielfällen vom 10.07.; danach wäre Phase 1 autonom), #115 (Rest = Kategorien B/C + Stub-Review, kuratorisch), #138 (KZW-Prüffragen), #169, #172 (needs-clarification/depends-on-human), #86 (Alans Freigabe), #63, #27, #18, #58 (needs-clarification), #68 (KZW-Abnahme), #59 (bis auf Stretch-Teil B).
 
-#63, #93, #109, #111 (Trigger: Index > 50 MB gz), #118, #123, #139.
+### E. Future / Trigger / extern blockiert (7): bewusst liegen lassen
 
-### E. Nachtrag 07.07.: Audit-Sammel-Issues #167–#172 (nach Plan-Erstellung angelegt)
+#93 (KZW-Entscheid Visualization + dysfunktionale SKOS-URIs), #106 (Rest ist FWF #109; dazu KZWs lokaler Branch `feature/106-reim-belege-versende`), #109 (FWF-Antrag), #111 (Trigger nicht erreicht: 42,2 MB < 50 MB, geprüft 12.07.), #118 (bis auf Stretch-Teil B), #194 (per Issue-Text blockiert auf #193), #195 (externe Dump-Beschaffung + Zenodo-Publikation).
 
-Die Rest-Findings aus dem Code-Audit wurden am 03.07. nach Erstellung dieses Plans in sechs Sammel-Issues überführt (PR #173, Commit `cdd8f1c65`). Einsortierung:
+### F. Ingest: nicht Teil dieses Playbooks (7)
 
-| # | Was | Einsortierung |
-|---|-----|---------------|
-| **#167** | Frontend-/Playground-Kleinbugs (10 verifizierte Fixes, kein Entscheidungsbedarf) | Stretch (Welle 9) |
-| **#168** | Race-Conditions Reader + Begriffs-Verteilung (Generation-Token) | **Welle 1**, zusammen mit #159: das Issue empfiehlt selbst, Router-Abort-Signal (Cross-View) und Same-View-Guards gemeinsam zu designen, z. B. als Navigation-Epoch-Zähler |
-| **#169** | Suchsemantik-Entscheidungen (Nähesuche-Distanz, 3-Stufen-Drift, commonLemmas, Dedup) | Blockiert (needs-clarification, KZW/Team). Aber: bei der #163/#164-Diagnose in Welle 1 querlesen, das Issue vermerkt eine mögliche gemeinsame Wurzel; Diagnose-Erkenntnisse als Kommentar in #169, die 4 Semantik-Fixes selbst nicht umsetzen |
-| **#170** | Latente §B/§B.1-Paritäts-Drifts (heute verhaltensneutral; Gate: byte-identischer Index-Rebuild) | Stretch (Welle 9), vor dem nächsten Ingest sinnvoll |
-| **#171** | Python-Skript-Bugs (Build/Ingest/Audit) | Stretch (Welle 9); Priorität laut Issue: ARI-Escaping vor dem nächsten #92-Lauf, insert-stanzas-Fixes (#35/#36) vor jedem WVV-Bulk-Run (#110) |
-| **#172** | Test-Suite-Entscheidungen (45%-passRate-Floor, Magic-Numbers) | Blockiert (needs-clarification); nur in der #44-Matrix einsortieren |
+#92 (ARITHMETIC), #123 (König vom Odenwald), #139 (CoReMA; laut Memory gemeinsame Einzelsession, nie autonom), #141 (Borte), #147 (Weingrüße), #191 (Flore und Blanscheflur), #193 (Arthurische Pferde).
 
-**Fazit:** 17 von 35 Issues (Stand 03.07.) haben einen autonom lieferbaren Kern; mit den Sammel-Issues aus §1.E (Stand 07.07.: 41 offene Issues) kommen #168 (Welle 1) sowie #167/#170/#171 (Stretch) dazu. Die Follow-up-Schicht der letzten zwei Wochen (#158–#164) ist komplett autonom wegräumbar.
+**Fazit:** 2 Kern-PRs (#189, #140) + Meta (#44) sind der gesamte voll autonome Bestand. Die Stretch-Teilschritte (§1.B) sind Text-/Entwurfs-Deliverables ohne Korpus-Risiko. Alles andere wartet auf Menschen oder ist bewusst ausgelagert.
 
 ---
 
@@ -70,134 +54,140 @@ Die Rest-Findings aus dem Code-Audit wurden am 03.07. nach Erstellung dieses Pla
 Die CLAUDE.md-Regel „never commit/push without user approval" wird durch den Kickoff-Prompt explizit für `claude/*`-Branches + PR-Erstellung freigegeben. Unverändert hart:
 
 1. **`main` ist tabu.** Kein Merge, kein Push. Alle Ergebnisse = PRs, die chsteiner reviewt und mergt.
-2. **Issues werden nie von der Session geschlossen** — nur via `Closes #N` im PR-Body beim Merge. #44 bekommt nie einen Close-Trailer.
+2. **Issues werden nie von der Session geschlossen**: nur via `Closes #N` im PR-Body beim Merge. #44 bekommt nie einen Close-Trailer.
 3. **Pro PR nur benannte Dateien stagen** (nie `git add -A`), Branch frisch von `origin/main`.
-4. **Daten vor Schema**; Data-Change-Lifecycle (Index-Rebuild + API + Versions-Bump) bei jeder XML-Änderung; deterministische Builds.
-5. **Verifikation je PR:** `npm test` aus `testing/` (Referenz: die in Welle 0 erhobene Baseline. Stand 03.07. waren 2 Fails bekannt: Wörterbuchnetz extern + #158, das die Session selbst grün macht; nach der Test-Härtung in PR #173 kann sich das verschoben haben, daher neu erheben); bei UI zusätzlich Chrome-Verifikation mit realen Belegen; bei TEI-Änderungen Schema-Validierung.
-6. **Konfliktmanagement ohne Merges:** PRs starten von main; bei Datei-Überschneidung wird der spätere Branch auf den früheren gestackt, PR-Body sagt „nach PR X mergen". Abschlussreport enthält die empfohlene Merge-Reihenfolge.
-7. **Kommunikation:** max. 1 sachlicher Statuskommentar pro Issue; keine Kontaktaufnahme mit Externen (Alan, Carina, Silvan) — Entwürfe dafür landen als Text im Issue.
-8. **Inputs selbst beschaffen** (aktualisiert 07.07., Zugriffswege einzeln verifiziert): Die Session holt benötigte Inputs eigenständig statt sie von chsteiner zu erbitten. Verifiziert:
-   - GitHub-Issue-Attachments (KV-PDFs in #145, Borte-CSV/XLSX in #141) per `curl -L` von `github.com/user-attachments/...`; PDF-Text mit pypdf extrahieren. Das Read-Tool findet pdftoppm unter Windows nicht, obwohl poppler installiert ist (unix-orientierter Erkennungs-Check); für visuelles PDF-Rendering `pdftoppm -png` in der Shell aufrufen und das PNG mit Read lesen (verifiziert). Borte-CSV ist ISO-8859-kodiert, nicht UTF-8.
-   - Issue-Kommentare via `gh issue view N --json comments`: die #68-Intake-Kriterien (KZW 29.05.) und die #86-van-Beek-Kontaktdaten (KZW 29.05.) stehen dort vollständig.
-   - Zenodo-Records via WebFetch (#141: DOI 10.5281/zenodo.20626546, CC BY 4.0, public).
-   - Linecode-Quelldateien (`<SIG>_alterLinecode.txt`, für #110) liegen in KZWs Google Drive: via Google-Drive-MCP suchen und lesen. E-Mail-Kontext bei Bedarf via Gmail-MCP. **Beide MCP-Zugänge nur lesend verwenden** (nichts versenden, labeln oder ändern; deckt sich mit Regel 7).
-   Nur nachweislich Unbeschaffbares (z. B. die gedruckte Cormeau-Edition für #110) wird in Welle 0 kurz gemeldet und das betroffene Item dokumentiert übersprungen; nicht auf chsteiner warten.
+4. **Daten vor Schema**; Data-Change-Lifecycle bei jeder XML-Änderung: variants.xml regenerieren, Corpus- + Authority-Index-Rebuild, API-Rebuild, Versions-Bump an allen drei Stellen (`python scripts/audit/check-index-versions.py` lokal vor Push), deterministische Builds (`git status --porcelain`-Pre-flight).
+5. **Verifikation je PR:** `npm test` aus dem Repo-Root (nie `npx playwright test`); Referenz ist die in Welle 0 erhobene Baseline auf main. Bei UI zusätzlich Chrome-Verifikation mit realen Belegen; bei TEI-Änderungen Schema-Validierung; bei HTML-Änderungen `python scripts/build-pages.py --check` und bei neuen Utility-Klassen `npm run build:css`.
+6. **Konfliktmanagement ohne Merges:** PRs starten von main; bei Datei-Überschneidung wird der spätere Branch auf den früheren gestackt, PR-Body sagt „nach PR X mergen". Abschlussreport enthält die empfohlene Merge-Reihenfolge und den Hinweis, laufende Opus-Review-Runs vor dem Merge zu canceln (nie `[skip ci]` bei Daten-PRs).
+7. **Kommunikation:** max. 1 sachlicher Statuskommentar pro Issue; keine Kontaktaufnahme mit Externen (Linda, Alan, Carina, Silvan); Entwürfe dafür landen als Text im Issue. Keine Emoji-Icons in UI/Doku (Heroicons inline SVG); keine Em-Dashes in Prosa (docs/, Hilfe-Seiten, Issue-Kommentare); echte Umlaute.
+8. **Inputs selbst beschaffen:** Für diese Session liegen alle Inputs im Repo bzw. in den Issue-Threads (`gh issue view N --json comments`); es sind keine externen Quellen (Drive/Gmail/Zenodo) nötig. Der Goldstandard für #189 steht im Issue-Body (78 *rôter munt* / 262 *jung*, plus eigene TEI-Auszählung 73 Vers-Kookkurrenzen / 265 junc-Formen). Nur nachweislich Unbeschaffbares wird im Abschlussreport dokumentiert übersprungen; nicht auf chsteiner warten, nicht fragen.
 
 ---
 
-## 3. Wellenplan (Reihenfolge = Risiko aufsteigend, Nutzerwert absteigend)
+## 3. Wellenplan (Reihenfolge = Risiko aufsteigend innerhalb der Kern-Deliverables)
 
 | Welle | Deliverable | Issues | Inhalt |
 |-------|-------------|--------|--------|
-| **0** | Chat-Report | — | Vorflug: alle Inputs selbst beschaffen (§2 Regel 8; nur nachweislich Unbeschaffbares melden), Test-Baseline auf main, AUDIT-REPORT.md-Stand einlesen |
-| **1** | PR 1 | #163, #164, #159, #168 | Gemeinsame Wurzel Dropdown/Lemma-Auflösung fixen (dabei #169 querlesen: mögliche gemeinsame Wurzel in der 3-Stufen-Auflösung, Erkenntnisse dort kommentieren); `rôt + munt` gegen 553-Treffer-Erwartung plausibilisieren; Router-globales Abort-Signal zusammen mit #168-Generation-Token designen (Navigation-Epoch) + DESIGN.md |
-| **2** | PR 2 | #158, #162 | `h_`-Nummern-Fix + Test-Umstellung (konservativ: Span für `h_` unterdrücken, Test auf echte Prosazeile), Begründung im PR; Duplikat-Hinweis als Kommentar |
-| **3** | PR 3 | #160 | Deklarative Spalten-Spec in `app.js` + KWIC-Aufklapp-Playwright-Test |
-| **4** | PR 4 | #161 | Option A: `posAll[]` additiv, Authority-Index-Bump, API-Rebuild, Konsumenten, CONTRACTS §G; Verifikation an lemma_79188 `salve` u. a. |
-| **5** | PR 5 | #134 | AK-Ausschnitts-Kontext in Metadaten-Panel + Reader, wiederverwendbar für künftige Ausschnittstexte |
-| **6** | PR 6 | #138-Rest | HUG-`<lg>` aus 814 röm. Ziffern (`insert-lg-stanzas-138.py`), Schema-Validierung, Index-Rebuild; MBS-Sub-Issue in #139 anlegen; veraltete Blocker-Labels vermerken |
-| **7** | PR 7 | #68, #86-Teil | Intake-Kriterien in `hilfe-daten-beitragen.html`; van-Beek-Kontakt in `barrierefreiheit.html`; `build-pages.py --check` als Gate |
-| **8** | PRs + Kommentare | #145, #27, #28, #110, #141 | Text-Deliverables: Rektoratsbericht (publications/, PR); POS-Policy-Dokument (**nur Doku, kein Pilot, keine Korpus-Änderung**); Fremdsprachen-Phasenplan (Kommentar + docs/features/); WVV-Entscheidungsvorlage (Kommentar); Borte-Aufgabe-0 (Kommentar) |
-| **9** | Stretch | #167, #170, #171, opt. #106.8, opt. #147 | Nur wenn 1–8 komplett: Sammel-Issues in getrennten PRs, kollisionsfreie Dateien zuerst: #167 (Frontend-Kleinbugs), #170 (Paritäts-Drifts; Gate: byte-identischer Index-Rebuild), #171 (Python-Skript-Bugs; ARI-Escaping + insert-stanzas-Fixes priorisieren); optional „Lemma im Vers"-Filter; optional #147 Stage-0-Parser-Entwurf (KEINE Transkriptionsdaten committen, Lizenz-Klärungsliste als Kommentar) |
-| **10** | Meta-PR + #44-Kommentar | #44, docs | Matrix komplett neu (inkl. #158–#164, #167–#172 + Session-Ergebnisse), ROADMAP.md + JOURNAL.md; Abschlussreport: PR-Liste + Merge-Reihenfolge + Übersprungenes (mit Grund) + Wer-wartet-worauf |
+| **0** | Chat-Report | - | Vorflug: Test-Baseline auf main erheben; `check-index-versions.py` + Index-Freshness prüfen; POS-TAGSET.md §6.3 und die PR-#205-Artefakte (`ingest/pos-disambig/198-habe-nom/`) als Muster einlesen; #189-Datenlage verifizieren (Token-Zählung der 6 Zielformen in GWTK gegen die Issue-Zahlen) |
+| **1** | PR 1 | #189 | GWTK-Pilot nach §6.3-Mechanik: alle *rott/rotten/rotte/roten*- und *jungen/junger*-Tokens ohne `@lemmaRef` in GWTK kontext-disambiguieren. Zuordnungen: rot-Formen → `lemma_4954` (*rôt* ADJ) vs. `lemma_4978` (*rote* NOM „Schar"); jung-Formen → `lemma_3157` (*junc* ADJ, inkl. substantivierter Fälle) vs. `lemma_3162` (*jungen* VRB). Konservativ: nur High-Confidence-Änderungen, Rest in `review-faelle.csv`. Artefakte nach `ingest/pos-disambig/189-gwtk-rot-junc/` (diff-liste.csv, stichprobe-50.csv, review-faelle.csv). Validierung gegen Goldstandard: Multi-Lemma-Suche „Im selben Vers" *rôt* + *munt* in GWTK ≥ 73 Treffer; *junc*-Belege in GWTK ~262 (± substantivierte Formen). Kompletter Data-Change-Lifecycle (§2 Regel 4); 1 Statuskommentar in #189 mit Diff-Zusammenfassung + Goldstandard-Abgleich |
+| **2** | PR 2 | #140 | Doku-Bereinigungs-Pass über alle docs/*.md: LLM-Steuerungsphrasen raus, Encoding-Fehler + Em-Dashes in Prosa + kaputte Escapes fixen. TEI-MODEL.md (und die ähnlich technischen CONTRACTS/LINECODE/POS-TAGSET/TEI-MODEL-AUTH-FILES) per Einleitungs-Banner als maschinenorientierte Referenz deklarieren, NICHT löschen oder entkernen (Rebuild-Fähigkeits-Kriterium der Health-Check-Checkliste bleibt Pflicht). Verlinkungen auf/in `hilfe-daten-beitragen.html` prüfen; falls HTML angefasst: `build-pages.py --check`. Danach Flow-Check über jede geänderte Datei; Doc-Count-Drift-Kontrolle (INDEX/FEATURES/ARCHITECTURE/DECISIONS/DESIGN) |
+| **3** | Stretch (nur wenn 1-2 komplett UND in §5 freigegeben) | #59-Teil, #118-Teil, #189-Follow-up | Nur Text-/Entwurfs-Deliverables: (a) #59 Workaround-Vorschlag als Issue-Kommentar (Override-Mapping-Design, kein Code-Merge-Anspruch); (b) #118 Konzept-Entscheidungsvorlage als docs/features/-Doc + Kommentar; (c) nach bestandenem Goldstandard-Abgleich aus Welle 1: Serien-Issue „Inhaltswort-Homographen: minne" anlegen (Mechanik-Verweis auf #189-Pilot + PR #210-Priorisierungsliste) |
+| **4** | Meta-PR + #44-Kommentar | #44, docs | Triage-Matrix aktualisieren (inkl. Kategorien C-F dieses Audits), ROADMAP.md + JOURNAL.md nachziehen; Abschlussreport als #44-Kommentar: PR-Liste + empfohlene Merge-Reihenfolge + Übersprungenes (mit Grund) + Wer-wartet-worauf-Liste (KZW: #204/#203/#196/#190/#198-Schritt-2/#28-Beispielfälle/#115-B/C; Linda: #114/#59) |
 
-Geschätzter Output: 9–11 PRs, ~13–17 Issues ganz oder teilweise abgeräumt, null blockierende Rückfragen.
+Geschätzter Output: 3-4 PRs, 2 Issues substanziell abgeräumt (#189-Pilot, #140), Meta gepflegt, null blockierende Rückfragen.
 
 ---
 
 ## 4. Nicht anfassen
 
-- **Menschen-blockiert:** #92, #147 (außer Stretch-Entwurf), #114, #129, #59, #115 (B/C), #124, #140, #58, #18, #169 (nur Diagnose-Kommentar aus Welle 1 erlaubt, keine Semantik-Fixes), #172
-- **Future/Trigger:** #63, #93, #109, #111, #118, #123, #139
-- Beide Gruppen nur in der #44-Matrix korrekt einsortieren.
+- **Review-Gates (Pings sind draußen):** #204, #203, #196, #190, #114
+- **Menschen-blockiert:** #198 (Schritt 2), #28, #115 (B/C), #138, #169, #172, #86, #68, #63, #59 (außer Stretch-Kommentar), #58, #27, #18
+- **Future/Trigger/extern:** #93, #106, #109, #111, #118 (außer Stretch-Vorlage), #194, #195
+- **Ingest:** #92, #123, #139, #141, #147, #191, #193
+- Alle Gruppen nur in der #44-Matrix korrekt einsortieren.
 
 ---
 
-## 5. Getroffene Entscheidungen (chsteiner, 03.07.2026)
+## 5. Getroffene Entscheidungen (chsteiner, 2026-07-12)
 
-1. **PR #165 (Audit-Report):** chsteiner behandelt den Branch vor Kickoff selbst. *Erledigt 03.07.: PR #165 + #173 gemerged, Rest-Findings in #167–#172 überführt.*
-2. **Stretch-Welle 9:** an, aber strikt nur nach Abschluss der Wellen 1–8 (Default).
-3. **#27-Scope:** NUR Policy-Dokument. Kein Pilot — Thema komplex und token-intensiv.
-4. **Missing Inputs:** Session meldet zuallererst alle nicht zugänglichen Daten; chsteiner providet sie direkt in die Session. *Überholt 07.07. (Entscheidung chsteiner): Die Session beschafft alle Inputs selbst, Zugriffswege verifiziert (§2 Regel 8); gemeldet wird nur nachweislich Unbeschaffbares.*
+1. **Stretch-Welle 3:** an, aber strikt erst nach Abschluss der Wellen 1-2.
+2. **#59-Workaround:** nur Kommentar-Entwurf (Override-Mapping-Design als Issue-Kommentar). Kein Code-PR; Datenhoheit liegt bei Linda, Kategorien-Frage parallel bei KZW.
+3. **#189-Serien-Issue (minne):** ja, anlegen sobald der Pilot den Goldstandard erfüllt. Reine Issue-Anlage, keine Umsetzung.
+4. **#140-Tiefe:** nur Bereinigung + Deklarations-Banner. Keine strukturellen Umbauten; Strukturfragen gehören in einen Health-Check mit Begründungsliste.
 
 ---
 
 ## 6. Kickoff-Prompt (copy-paste in die neue Session)
 
 ```
-Arbeite den Issue-Masterplan autonom ab (Detailfassung: docs/playbooks/MASTERPLAN-AUTONOME-ISSUE-SESSION.md).
+Arbeite den Issue-Masterplan autonom ab (Detailfassung: docs/playbooks/MASTERPLAN-AUTONOME-ISSUE-SESSION.md, Stand 2026-07-12).
 Betriebsvertrag:
 
 AUTORISIERUNG: Ich genehmige hiermit ausdrücklich Commits + Pushes auf claude/*-Feature-Branches
 und das Erstellen von Pull Requests (übersteuert die CLAUDE.md-Regel „never push without approval").
 main bleibt absolut tabu (kein Merge, kein Push). Issues nie selbst schließen (nur via Closes-Trailer
-im PR-Body; #44 NIE mit Closes referenzieren). Pro Issue/Cluster ein frischer Branch von origin/main;
+im PR-Body; #44 NIE mit Closes referenzieren). Pro Issue ein frischer Branch von origin/main;
 bei Datei-Überschneidung auf den Vorgänger-PR stacken und das im PR-Body vermerken. Nie git add -A.
-Max. 1 Statuskommentar pro Issue, keine Kontaktaufnahme mit Externen.
+Max. 1 Statuskommentar pro Issue, keine Kontaktaufnahme mit Externen (Linda, Alan, Carina, Silvan).
+Keine Emoji-Icons, keine Em-Dashes in Prosa, echte Umlaute.
 
-WELLE 0 — VORFLUG (INPUTS SELBST BESCHAFFEN):
-Beschaffe dir ALLE benötigten Inputs selbst; die Zugriffswege sind am 07.07. einzeln
-verifiziert worden:
-- GitHub-Issue-Attachments (KV-PDFs 32/25 + 33/25 und CLARIAH-Rechnungen in #145,
-  Borte-CSV/XLSX in #141): per curl -L von github.com/user-attachments/... laden;
-  PDF-Text mit pypdf extrahieren. Das Read-Tool findet pdftoppm unter Windows nicht,
-  obwohl poppler installiert ist — Read NICHT direkt auf PDFs ansetzen; wenn du eine
-  Seite visuell brauchst: pdftoppm -png in der Shell, dann das PNG mit Read lesen
-  (beides verifiziert). Achtung: die Borte-CSV ist ISO-8859-kodiert, nicht UTF-8.
-- KZW-Intake-Kriterien (#68) und van-Beek-Kontaktdaten (#86) stehen vollständig in den
-  Issue-Kommentaren vom 29.05. (gh issue view N --json comments).
-- Zenodo via WebFetch (#141: DOI 10.5281/zenodo.20626546, CC BY 4.0, public).
-- Linecode-Quelldateien (<SIG>_alterLinecode.txt, für #110) liegen in KZWs Google Drive:
-  via Google-Drive-MCP suchen/lesen (Tools per ToolSearch laden). E-Mail-Kontext bei Bedarf
-  via Gmail-MCP. Beide MCP-Zugänge NUR LESEND (nichts versenden, labeln oder ändern).
-Nur nachweislich Unbeschaffbares (z.B. die gedruckte Cormeau-Edition für #110) als kurze
-Liste melden, das betroffene Item dokumentiert überspringen und sofort weiterarbeiten.
-Außerdem in Welle 0: Test-Baseline auf main erheben (Stand 03.07. waren 2 Fails bekannt;
-nach der Test-Härtung in PR #173 neu messen) und den aktuellen Stand des Code-Audit-Reports
-einlesen (AUDIT-REPORT.md im Repo-Root; PR #165 + #173 sind gemerged, die Rest-Findings
-leben in den Sammel-Issues #167-#172).
+WELLE 0 (VORFLUG):
+- Test-Baseline auf main erheben (npm test aus dem Repo-Root; hiermit genehmigt).
+- python scripts/audit/check-index-versions.py + Index-Freshness prüfen.
+- Muster einlesen: docs/POS-TAGSET.md §6.3 und die Review-Artefakte aus PR #205
+  (ingest/pos-disambig/198-habe-nom/: diff-liste.csv, stichprobe-50.csv, review-faelle.csv).
+- #189-Datenlage verifizieren: Token-Zählung der Formen rott/rotten/rotte/roten und
+  jungen/junger ohne @lemmaRef in tei/GWTK.tei.xml gegen die Issue-Zahlen (je 139).
 
-REIHENFOLGE (Wellen, jede mit npm test aus testing/ + Chrome-Verifikation bei UI + Schema-Validierung
-+ Index/API-Rebuild mit Versions-Bump bei XML-Änderungen):
-1. PR: #163 + #164 (gemeinsame Wurzel Lemma-Dropdown/-Auflösung; Ground Truth: alte MHDBDB
-   liefert für rot+munt 553 Zeilen-Treffer) + #159 + #168 (Cross-View-Clobber und Same-View-Races
-   zusammen designen, z.B. Router-globaler Navigation-Epoch-Zähler; DESIGN.md nachziehen).
-   Bei der #163/#164-Diagnose #169 querlesen (mögliche gemeinsame Wurzel in der 3-Stufen-
-   Auflösung); Erkenntnisse als Kommentar in #169, dessen 4 Semantik-Fixes selbst NICHT
-   umsetzen (KZW-Entscheid nötig).
-2. PR: #158 + #162 (Duplikate; h_-Nummern-Fix + Test-Umstellung, Entscheidung im PR begründen).
-3. PR: #160 deklaratives Spaltenmodell app.js + KWIC-Detail-Playwright-Test.
-4. PR: #161 Option A (posAll[] additiv, Authority-Index-Bump, API-Rebuild, Konsumenten,
-   CONTRACTS §G); Verifikation an lemma_79188 salve u.a.
-5. PR: #134 AK-Ausschnitts-Kontext (Steirische Reimchronik, Verse 44579–53866) in
-   Metadaten-Panel + Reader; wiederverwendbar für künftige Ausschnittstexte.
-6. PR: #138-Rest — HUG-<lg> aus 814 röm. Ziffern (insert-lg-stanzas-138.py), Index-Rebuild;
-   MBS-Sub-Issue in #139 anlegen; veraltete Blocker-Labels im Issue vermerken.
-7. PR: #68 KZW-Intake-Kriterien in hilfe-daten-beitragen.html + #86-Teilschritt van-Beek-
-   Kontaktdaten in barrierefreiheit.html (build-pages.py --check als Gate).
-8. Text-Deliverables:
-   - #145 Bericht + Dankesbrief nach publications/ (PR); Basis: KV 32/25 + 33/25 + Projekt-Doku.
-   - #27 NUR Policy-Dokument (implementierbare POS-Disambiguierungs-Policy auf Basis
-     POS-TAGSET.md + Issue-Regeln). KEIN Pilot, KEINE Korpus-Änderung, KEINE Token-Kampagne —
-     das Thema ist bewusst auf das Dokument begrenzt.
-   - #28 Daten-Phasenplan (Issue-Kommentar + docs/features/-Doc), keine Implementierung.
-   - #110 Anchor-Rekonstruktion + Ton/dône-Survey + TEI-Pattern als Entscheidungsvorlage
-     (Kommentar, kein Korpus-Commit).
-   - #141 Aufgabe 0: borte.md-Metadaten-Template + präzise Anforderungsliste an Alan
-     (Issue-Kommentar, nichts versenden).
-9. Stretch NUR wenn Wellen 1–8 komplett: Sammel-Issues als getrennte PRs, kollisionsfreie
-   Dateien zuerst — #167 (Frontend-Kleinbugs), #170 (Paritäts-Drifts; Gate: byte-identischer
-   Index-Rebuild), #171 (Python-Skript-Bugs; ARI-Escaping vor #92 und insert-stanzas-Fixes
-   vor jedem WVV-Bulk-Run priorisieren); optional #106 Punkt 8; optional #147 Stage-0-Parser
-   als Entwurf (KEINE Transkriptionsdaten committen, Lizenz-Klärungsliste als Kommentar).
-10. Meta: #44-Matrix komplett aktualisieren (inkl. #158–#164, #167–#172 + Session-Ergebnisse),
-    ROADMAP.md + JOURNAL.md nachziehen (PR), Abschlussreport als #44-Kommentar mit PR-Liste +
-    empfohlener Merge-Reihenfolge + Übersprungenem (mit Grund) + Wer-wird-worauf-gewartet-Liste.
+WELLE 1 (PR): #189 GWTK-Pilot, Punkt 1.
+- Kontext-Disambiguierung aller unannotierten Zielform-Tokens in GWTK nach §6.3-Mechanik,
+  konservativ (nur High-Confidence; Rest nach review-faelle.csv).
+- Zuordnungen: rot-Formen -> lemma_4954 (rôt ADJ) vs. lemma_4978 (rote NOM „Schar");
+  jung-Formen -> lemma_3157 (junc ADJ, inkl. substantivierter Faelle) vs. lemma_3162 (jungen VRB).
+- Artefakte nach ingest/pos-disambig/189-gwtk-rot-junc/.
+- Validierung gegen den Goldstandard aus dem Issue: Multi-Lemma-Suche „Im selben Vers"
+  rôt + munt in GWTK >= 73 Treffer; junc in GWTK ~262 Belege (± substantivierte Formen).
+- Kompletter Data-Change-Lifecycle: variants.xml regenerieren, Corpus- + Authority-Index-
+  Rebuild, API-Rebuild, Versions-Bump an allen drei Stellen, Schema-Validierung,
+  deterministischer Build. 1 Statuskommentar in #189 (Diff-Zusammenfassung + Goldstandard-Abgleich).
 
-NICHT ANFASSEN: #92 #147(außer Stretch-Entwurf) #114 #129 #59 #115(B/C) #124 #140 #58 #18
-#169(nur Diagnose-Kommentar aus Welle 1 erlaubt) #172 (menschen-blockiert) und #63 #93 #109
-#111 #118 #123 #139 (future) — nur in der #44-Matrix korrekt einsortieren.
+WELLE 2 (PR): #140 Doku-Bereinigung.
+- Alle docs/*.md: LLM-Steuerungsphrasen (z. B. „(ENTSCHIEDEN)") raus, Encoding-Fehler
+  (ae/oe/ue statt ä/ö/ü), Em-Dashes in Prosa und kaputte Markdown-Escapes fixen.
+- TEI-MODEL.md und die ähnlich technischen Referenzen (CONTRACTS, LINECODE, POS-TAGSET,
+  TEI-MODEL-AUTH-FILES) per Einleitungs-Banner als maschinenorientierte Referenz deklarieren.
+  NICHTS löschen oder entkernen; die Docs müssen rekonstruktionsfähig bleiben
+  (Health-Check-Kriterium). Keine strukturellen Umbauten, nur Bereinigung.
+- Verlinkungen auf/in hilfe-daten-beitragen.html prüfen; falls HTML angefasst:
+  python scripts/build-pages.py --check; bei neuen Utility-Klassen npm run build:css.
+- Danach Flow-Check über jede geänderte Datei + Doc-Count-Drift-Kontrolle.
 
-Input, der sich auch über die verifizierten Wege nicht beschaffen lässt → Issue überspringen
-+ im Abschlussreport begründen, NICHT auf mich warten und NICHT fragen.
+WELLE 3 (STRETCH, nur wenn Wellen 1-2 komplett): nur Text-/Entwurfs-Deliverables.
+- #59: Workaround-Vorschlag für Lindas Alexander-Decknamen-Frage (16.06.) als Issue-Kommentar
+  (Override-Mapping-Design im Build-Skript, kein Code, keine Umsetzung); die Kategorien-
+  Umbenennungs-Frage NICHT beantworten (KZW-Entscheid).
+- #118: Konzept-Entscheidungsvorlage Sprachstufen als docs/features/-Doc + Issue-Kommentar,
+  keine Header-Änderung.
+- #189-Follow-up: NUR wenn der Goldstandard-Abgleich aus Welle 1 bestanden ist, das erste
+  Serien-Issue „Inhaltswort-Homographen: minne" anlegen (Mechanik-Verweis auf Pilot + PR #210).
+
+WELLE 4 (META): #44-Matrix komplett aktualisieren, ROADMAP.md + JOURNAL.md nachziehen (PR);
+Abschlussreport als #44-Kommentar: PR-Liste + empfohlene Merge-Reihenfolge (inkl. Hinweis,
+laufende Review-Runs vor dem Merge zu canceln; bei Daten-PRs nie [skip ci]) + Übersprungenes
+mit Grund + Wer-wartet-worauf-Liste (KZW: #204/#203/#196/#190/#198-Schritt-2/#28-Beispielfälle/
+#115-B/C; Linda: #114/#59).
+
+NICHT ANFASSEN: #204 #203 #196 #190 #114 (Review-Gates, Pings sind draußen) / #198 #28 #115
+#138 #169 #172 #86 #68 #63 #58 #27 #18 (menschen-blockiert; #59 nur Stretch-Kommentar) /
+#93 #106 #109 #111 #194 #195 (future/extern; #118 nur Stretch-Vorlage) / #92 #123 #139 #141
+#147 #191 #193 (Ingest). Alle nur in der #44-Matrix einsortieren.
+
+Jede Welle mit Verifikation: npm test gegen die Welle-0-Baseline; bei TEI-Änderungen
+Schema-Validierung; bei Index-Änderungen check-index-versions.py; bei UI/HTML Chrome-
+Verifikation bzw. build-pages.py --check. Unbeschaffbarer Input -> Item dokumentiert
+überspringen und weiterarbeiten, NICHT auf mich warten und NICHT fragen.
 ```
+
+---
+
+## 7. Session-Ergebnis 2026-07-12 (Anhang, vor nächster Session leeren)
+
+Alle 4 Wellen komplett, null blockierende Rückfragen. Output: 3 PRs, 1 neues Issue, 4 Issue-Kommentare, Matrix + Docs nachgezogen.
+
+| Welle | Ergebnis |
+|-------|----------|
+| 0 | Baseline 212/212; Indexe synchron; variants.xml hart drift-frei verifiziert; GWTK-Zahlen exakt bestätigt (2×139) |
+| 1 | **PR #214**: 257/278 Tokens annotiert (21 Review), Goldstandard exakt (73 rôt+munt-Verse, 259 junc); Corpus v4.1.7 + Authority v1.6.1 + API; 212/212 |
+| 2 | **PR #215**: 252 Encoding-Fixes + 418 Em→En-Dashes + 4 Marker + 5 Banner; doc-count-audit grün; 212/212 |
+| 3 | #59-Workaround-Entwurf (ohne Linda-Ping), #118-Entscheidungsvorlage (Kommentar + features-Doc), **#216** minne-Serie angelegt |
+| 4 | #44-Matrix aktualisiert (Body-Edit), JOURNAL + ROADMAP nachgezogen, Meta-PR (auf #215 gestackt), Abschlussreport in #44 |
+
+**Merge-Reihenfolge:** #214 (Daten-PR: Review-Runs canceln, kein [skip ci]) → #215 → Meta-PR.
+
+**Lehren (in die nächste Fassung einarbeiten):**
+1. **3-Commit-Muster auf Daten-Branches:** Die Pre-flight-Gates der Build-Skripte (#100) verlangen saubere Quell-Trees; auf Branches heißt das Quellen-Commit → Index-Commit → API-Commit. Der Squash-Merge stellt den Ein-Commit-Lifecycle auf main wieder her. Gehört als Standard in §2 Regel 4.
+2. **Freshness-Check nach Checkout misstrauen:** mtime-Rauschen erzeugt False Positives; hart verifizieren per Regenerat-Vergleich (`cmp` gegen `variants.regen.xml` – der Dry-Run schreibt NICHT in die Live-Datei, `git diff` greift ins Leere).
+3. **Lexikon-Senses der Kandidaten VOR dem Batch prüfen:** verborgene Lesarten stecken im selben Lemma (rote = Schar UND Saiteninstrument via sense_7735). Kandidaten-Erweiterung übers Issue hinaus lohnt (4 genannt, 7 relevant).
+4. **Moderations-Pass-Muster:** Subagenten-Verdicts nur mit dokumentiertem Beleg heben (hier: 2 andere Shards fanden dieselbe Zuordnung unabhängig = Bestätigung); Kennzeichnung in Diff-Liste + README.
+5. **revisionDesc ist P-MUSS (§6.3.5):** PR #205 hatte den Eintrag ausgelassen; diese Session hat ihn gesetzt. Bei künftigen Batches nicht dem #205-IST folgen, sondern der Policy.
+6. **Externen-Regel greift auch bei Assignees:** Linda ist Issue-Beteiligte, aber laut Betriebsvertrag extern → Entwurf ohne @-Ping, Team gibt frei.

@@ -1,10 +1,16 @@
 # Roadmap
 
-Strategic priorities for the MHDBDB TEI Repository. Updated 2026-07-08.
+Strategic priorities for the MHDBDB TEI Repository. Updated 2026-07-12.
 
 See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/44) for the full triage matrix with per-issue status.
 
-## Now: Nach-Merge-Betreuung + freigeschaltete Workstreams
+## Now: Merge-Queue 12.07. + Nachannotations-Serie
+
+**Autonome Issue-Session (12.07., [MASTERPLAN-AUTONOME-ISSUE-SESSION](playbooks/MASTERPLAN-AUTONOME-ISSUE-SESSION.md)):** 2 Kern-PRs in der Merge-Queue, je 212/212 Playwright gegen die main-Baseline: **PR #214** (#189 Punkt 1: GWTK-Pilot, 257 rot/jung-Tokens neu annotiert, Goldstandard erreicht (rôt+munt exakt: 73 bei ≥ 73, junc 259 bei ~262); Corpus v4.1.7, Authority v1.6.1) → **PR #215** (#140: Doku-Bereinigung, konservative Variante) → Session-Meta-PR (auf #215 gestackt). #214 ist ein Daten-PR: Review-Runs vor dem Merge canceln, kein [skip ci].
+
+Nach dem #214-Merge direkt startbar: **#216 minne-Serie** (~7.000 unannotierte Tokens in 262 Texten; Mechanik erprobt, Stichproben-Review durch KZW eingeplant), danach Serie 2 ff. nach der PR-#210-Priorisierung.
+
+## Laufend: Nach-Merge-Betreuung + freigeschaltete Workstreams
 
 **Health-Check erledigt (2026-07-09):** Drift-Prüfung gegen main nach der Merge-Woche. Befund: Kern-Docs (TEI-MODEL §11, INDEX.md, Daten-Zählungen via `doc-count-audit.py`, Algorithmus-Spot-Checks §B.1/§D.2/posAll) ohne Drift; 5 Rand-Drifts gefixt (CLAUDE.md-Versionszeiger, README-Werkzeugzahl, LINECODE-#23-Status, DATA-MODEL-Changelog v4.1.4/v4.1.5, DECISIONS-Versionsplatzhalter). Scorecard im JOURNAL.
 
@@ -25,7 +31,7 @@ Direkt startbar geworden:
 | #115 | Cross-Ref Phase 2 – 196 Lemmata kuratorisch (A 125 / B 36 / C 35) | KZW |
 | #129, #138 | KWIC-Belege + div-/lg-Hüllen: gebaut und live, warten auf Prüfung | KZW |
 | #44-Report | Neu live aus der Merge-Session: AK-Excerpt-Banner (#134), Tabellen-Spaltenmodell (#160), Homographen-/Multi-Lemma-Fixes (#163/#164), Multi-POS-Badges (#161) – Nachprüfung via #44-Abschlussreport | KZW |
-| #59, #114 | Naming-Fachklärung + Tabellenansicht-Freigabe | Linda |
+| #59, #114 | Naming-Fachklärung (Alexander-Workaround-Entwurf liegt seit 12.07. im Issue, Team-Freigabe vor Linda-Ping) + Tabellenansicht-Freigabe | Linda (via Team) |
 | #92 | ARITHMETIC – Metadatenfragen seit 16.05.; Escaping-Blocker gemerged (#185), Stage 1 danach in ~1–2h | Carina (via KZW) |
 | #147 | Weingrüße – Lizenz/Sigle/Genre/Zuschreibungen, Stage 0 | Silvan (via KZW) |
 | #86 | Barrierefreiheit – Ansprechpersonen-Block live (barrierefreiheit.html, #179); schließen nach Text-Freigabe | Alan van Beek |
@@ -34,7 +40,7 @@ Direkt startbar geworden:
 
 | # | What | Key question |
 |---|------|-------------|
-| #140 | Doku menschenlesbar | Doku-Strategie-Gespräch (TEI-MODEL-Rolle, LLM-Artefakte) |
+| #140 | Doku menschenlesbar | Bereinigung umgesetzt (PR #215, 12.07.); Abnahme + zwei Detailfragen (DRAFT-Status TEI-MODEL.md, Schreibweise „Woesner") |
 | #58 | Begriff→Lemma→Beleg Workflow | Option A/B/C entscheiden |
 | #169 | Suchsemantik (Audit 3/6) | Nähesuche-Distanz, commonLemmas, Dedup – deterministische Teile seit #174 gemerged |
 | #172 | Test-Suite-Policy (Audit 6/6) | 45%-passRate-Floor + korpusabhängige Magic-Numbers |
