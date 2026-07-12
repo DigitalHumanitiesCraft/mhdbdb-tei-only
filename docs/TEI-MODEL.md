@@ -167,7 +167,7 @@ Attribution der an der MHDBDB mitwirkenden Personen läuft zentral über `author
 
 ### 2.1a `<monogr>` Element-Reihenfolge
 
-TEI P5 verlangt in `<monogr>`: `(author|editor)*, title+, editor*, (idno|imprint)*`. Das heisst `<author>` **vor** `<title>`, `<idno>` **nach** `<editor>`. Einige Bestandsdateien (z.B. WUT) haben die falsche Reihenfolge und scheitern an der tei_all Validierung.
+TEI P5 verlangt in `<monogr>`: `(author|editor)*, title+, editor*, (idno|imprint)*`. Das heißt `<author>` **vor** `<title>`, `<idno>` **nach** `<editor>`. Einige Bestandsdateien (z.B. WUT) haben die falsche Reihenfolge und scheitern an der tei_all Validierung.
 
 ### 2.2 `<encodingDesc>`
 
@@ -311,7 +311,7 @@ TEI P5 verlangt in `<monogr>`: `(author|editor)*, title+, editor*, (idno|imprint
 **Regeln:**
 - Jedes Rezept als `<div type="recipe">` mit `@n` (Rezeptnummer aus Edition)
 - Rezepttitel als `<head>` im `<div>`
-- Fliesstext im `<p>` mit `<lb/>` für Zeilenumbrüche
+- Fließtext im `<p>` mit `<lb/>` für Zeilenumbrüche
 
 ### 3.4 Gemischte Texte
 
@@ -716,7 +716,7 @@ Die 17 übrigen `<l>`-basierten Kandidaten aus der #143-Heuristik (ALX, DIO, FB,
 | PL1 | Prosa-Lancelot | Prosa-Roman |
 | PL2 | Prosa-Lancelot | Prosa-Roman |
 | PL3 | Prosa-Lancelot | Prosa-Roman |
-| FLG1 | Das fliessende Licht der Gottheit (Buch 3-7) | Mystik |
+| FLG1 | Das fließende Licht der Gottheit (Buch 3-7) | Mystik |
 | VTC | Vita Caroli Quarti Imperatoris | Chronik |
 | NBU | Dat nuwe Boych | Chronik |
 | PUC | Pulkava Chronik | Chronik |

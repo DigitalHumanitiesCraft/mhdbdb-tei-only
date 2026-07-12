@@ -39,7 +39,7 @@ Pendant zu `docs/TEI-MODEL.md` (Korpusdateien).
 
 Wichtig für den aktiven Betrieb (siehe [INDEX.md → Current Phase](INDEX.md#current-phase)): Alle Authority-Files entstanden aus **einer einmaligen Migration** (2025-07-22), die **dreistufig** war: Alt-MHDBDB (RDF-Triple-Store bei Salzburg, SPARQL über dh.plus.ac.at) → CSV-Snapshots (via SPARQL-Queries, auf Branch `initial-data-wrangling` unter `lists/`) → TEI-XML (via `scripts/_archived/tei-transformation.py`, Commit `8513589ea`). **Seit dieser Migration ist dieses Repo der alleinige Master für alle 8 Authority-Files. Es gibt keinen Re-Export aus Salzburg und keine lebende externe Quelle.** Die CSV-Exporte waren Snapshots, keine Schnittstelle: alles Weitere wird hier gepflegt.
 
-„Stale" heisst hier: aus dem Korpus abgeleitet und nicht mit-regeneriert, sobald sich Daten ändern. Der Korpus wird laufend editiert (Skript-Ingest UND händische Korrekturen), daher driften korpus-gekoppelte Files. Detektor: `scripts/audit/check-authority-cross-refs.py` (in CI via `data-integrity.yml`).
+„Stale" heißt hier: aus dem Korpus abgeleitet und nicht mit-regeneriert, sobald sich Daten ändern. Der Korpus wird laufend editiert (Skript-Ingest UND händische Korrekturen), daher driften korpus-gekoppelte Files. Detektor: `scripts/audit/check-authority-cross-refs.py` (in CI via `data-integrity.yml`).
 
 | Datei | Herkunft (einmalig, 2025-07-22) | Aktuelle Pflege | Drift-Risiko |
 |-------|-----------|-----------|--------------|
@@ -506,7 +506,7 @@ Alle Migrationsschritte wurden in Phases F-K implementiert. Scripts sind nach Ab
 Nach der #32-Migration begann der aktive Ingest. Die Wenzelsbibel-Pipeline (WZB, 2026-04 bis 2026-05) legte das Drift-Muster offen, das #115 aufdeckte:
 
 - **Phase 1b** (Commit `5cdc98831`, 2026-04) erkannte neue Wortformen und vergab neue Lemma-IDs ≥78000. Davon kamen nur 4 (zunächst sense-los) in `lexicon.xml`. Insgesamt fehlen heute **98 Lemma-IDs ≥78000** in `lexicon.xml` (#115): `wzb-apply-lemmarefs.py` schrieb sie als `@lemmaRef` ins Korpus, aber **kein Skript zog `lexicon.xml` nach**.
-- **Phase 3** (Sense-Auflösung) wählte überwiegend bestehende Senses (<78000); die fehlenden Sense-IDs ≥78000 sind grossteils strukturelle Artefakte der Lemma-Erzeugung, keine neuen Bedeutungen.
+- **Phase 3** (Sense-Auflösung) wählte überwiegend bestehende Senses (<78000); die fehlenden Sense-IDs ≥78000 sind großteils strukturelle Artefakte der Lemma-Erzeugung, keine neuen Bedeutungen.
 - **Notreparatur** (Commits `8caa09627`/`649c0fe55`, 2026-05): die 4 sense-losen Lemmata bekamen manuell je einen `<sense>`; `scripts/audit/check-lexicon-senses.py` entstand als Regression-Schutz.
 
 **Lesson** (→ [ADR-015](DECISIONS.md#adr-015-authority-source-modell-korpus-führt-ingest-braucht-rückwärts-sync), [CONTRACTS.md → F.3](CONTRACTS.md#f3-ingest-requires-backward-sync)): Eine Forward-Only-Ingest-Pipeline ohne `*-backfill-lexicon.py` erzeugt zwangsläufig dangling Refs. Resultat: 977 unresolved Refs (349 IDs); die automatisierbaren Lemma-Stubs (Kategorie A) wurden 2026-07-02 via `scripts/sync/backfill-lexicon.py` geschlossen, der kuratorische Rest (396 Refs / 109 IDs) ist offen. Detektor: `scripts/audit/check-authority-cross-refs.py --check` (CI-Gate in `data-integrity.yml`).
