@@ -1,4 +1,4 @@
-# #118: Sprachstufen im TEI-Header — Konzept-Entscheidungsvorlage
+# #118: Sprachstufen im TEI-Header – Konzept-Entscheidungsvorlage
 
 Temporal Artifact (Promptotyping-Konvention): lebt, solange #118 offen ist.
 Erstellt 2026-07-12 (autonome Session) als Entscheidungsvorlage für KZW/Team.
@@ -29,9 +29,11 @@ TEI-konform mehrere `<language>` mit `@usage` (Prozent, grob gestuft):
 </langUsage>
 ```
 
-- **Codes:** BCP-47/ISO 639. `gmh` (Mittelhochdeutsch, ca. 1050-1350) und
-  `gml` (Mittelniederdeutsch) existieren als ISO-639-3-Codes. **Frühneuhoch-
-  deutsch hat keinen eigenen ISO-Code** — Entscheidungsbedarf:
+- **Codes:** BCP-47/ISO 639. `gmh` (Mittelhochdeutsch; der ISO-639-3-Umfang
+  reicht bis ca. 1500 und deckt Teile des FNHD mit ab) und `gml`
+  (Mittelniederdeutsch) existieren als ISO-639-3-Codes. Die Schwellen 1350/1450
+  im Regelgerüst unten sind Projekt-Konvention, nicht ISO-Definition. **Frühneuhoch-
+  deutsch hat keinen eigenen ISO-Code** – Entscheidungsbedarf:
   - A1 (empfohlen): private-use-Subtag **`de-x-fnhd`** (BCP-47-konform,
     selbstdokumentierend; Muster für weitere Stufen erweiterbar)
   - A2: pauschal `de` mit Klartext im Elementinhalt (verliert Suchbarkeit)
@@ -87,10 +89,10 @@ Regelgerüst (Entwurf, an ~20 Kalibrier-Texten festzuziehen):
 
 ## Entscheidungsbedarf (KZW/Team)
 
-1. Zielformat: Option A mit A1 (`de-x-fnhd`) — ja/nein?
+1. Zielformat: Option A mit A1 (`de-x-fnhd`) – ja/nein?
 2. `@usage`-Prozentangaben: grob gestuft (95/5) oder weglassen, wenn nicht
    belegbar?
-3. Schwellen des Regelgerüsts (1350/1450) — plausibel aus philologischer
+3. Schwellen des Regelgerüsts (1350/1450) – plausibel aus philologischer
    Sicht?
 4. Reihenfolge: vor oder nach #28-Phase 1 (Empfehlung: Code-Policy gemeinsam
    in #28 Phase 0 festlegen, Umsetzung von #118 danach unabhängig)?
