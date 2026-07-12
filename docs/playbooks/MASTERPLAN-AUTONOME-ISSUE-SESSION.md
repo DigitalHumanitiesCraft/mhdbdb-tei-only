@@ -186,7 +186,7 @@ Alle 4 Wellen komplett, null blockierende Rückfragen. Output: 3 PRs, 1 neues Is
 
 **Lehren (in die nächste Fassung einarbeiten):**
 1. **3-Commit-Muster auf Daten-Branches:** Die Pre-flight-Gates der Build-Skripte (#100) verlangen saubere Quell-Trees; auf Branches heißt das Quellen-Commit → Index-Commit → API-Commit. Der Squash-Merge stellt den Ein-Commit-Lifecycle auf main wieder her. Gehört als Standard in §2 Regel 4.
-2. **Freshness-Check nach Checkout misstrauen:** mtime-Rauschen erzeugt False Positives; hart verifizieren per Regenerat-Vergleich (`cmp` gegen `variants.regen.xml` — der Dry-Run schreibt NICHT in die Live-Datei, `git diff` greift ins Leere).
+2. **Freshness-Check nach Checkout misstrauen:** mtime-Rauschen erzeugt False Positives; hart verifizieren per Regenerat-Vergleich (`cmp` gegen `variants.regen.xml` – der Dry-Run schreibt NICHT in die Live-Datei, `git diff` greift ins Leere).
 3. **Lexikon-Senses der Kandidaten VOR dem Batch prüfen:** verborgene Lesarten stecken im selben Lemma (rote = Schar UND Saiteninstrument via sense_7735). Kandidaten-Erweiterung übers Issue hinaus lohnt (4 genannt, 7 relevant).
 4. **Moderations-Pass-Muster:** Subagenten-Verdicts nur mit dokumentiertem Beleg heben (hier: 2 andere Shards fanden dieselbe Zuordnung unabhängig = Bestätigung); Kennzeichnung in Diff-Liste + README.
 5. **revisionDesc ist P-MUSS (§6.3.5):** PR #205 hatte den Eintrag ausgelassen; diese Session hat ihn gesetzt. Bei künftigen Batches nicht dem #205-IST folgen, sondern der Policy.
