@@ -2,7 +2,11 @@ name: Claude Code Review
 
 on:
   pull_request:
-    types: [opened, synchronize]
+    # closed ist nur der Cancel-Hebel: der Merge/Close-Event betritt die
+    # Concurrency-Group und bricht damit ein noch laufendes Review ab
+    # (sonst postet es verspätet auf den gemergten PR); der Job selbst
+    # wird via if unten übersprungen.
+    types: [opened, synchronize, ready_for_review, closed]
     # Optional: nur bei bestimmten Dateiänderungen laufen lassen
     # paths:
     #   - "src/**/*.ts"
@@ -15,6 +19,7 @@ concurrency:
 
 jobs:
   claude-review:
+    if: github.event.action != 'closed' && github.event.pull_request.draft == false
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -38,4 +43,4 @@ jobs:
           prompt: "/code-review:code-review ${{ github.repository }}/pull/${{ github.event.pull_request.number }}"
           claude_args: |
             --model opus
-            --max-turns 30
+            --max-turns 50
