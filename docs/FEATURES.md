@@ -44,11 +44,11 @@ Umschaltbare Ergebnis-Darstellung Liste ↔ Tabelle für die Frage „wie vertei
 
 **How it works:**
 - Toggle im Results-Header, Wahl persistiert in `localStorage` (`mhdbdb-results-view`)
-- Sortierbare Spalten: Titel (mit Sigle-Präfix), Autor*in, Treffer, Frequenz/10k Wörter, Keyness (LL), Wörter — plus Belege-Spalte (KWIC #129)
+- Sortierbare Spalten: Titel (mit Sigle-Präfix), Autor*in, Treffer, Frequenz/10k Wörter, Keyness (LL), Wörter – plus Belege-Spalte (KWIC #129)
 - Results-Header zeigt `N von X ausgewählten Texten · M Treffer gesamt` (auch in der Listenansicht; X = Suchraum zum Suchzeitpunkt, #204)
 - **Gesamtzeile** (sticky `<tfoot>`): Summe Treffer, Gesamt-Frequenz, Summe Wörter über alle Ergebnis-Texte
 - **Keyness (LL):** signierte Log-Likelihood (Dunning 1993) der Trefferfrequenz im Text gegen den Rest des Gesamtkorpus; Werte ≥ 10,83 (p<0,001) fett/brand markiert = Schlüsselwort des Textes (Referenz: Lindas naming-analysis)
-- **Types + Wörterbuch-Links:** das Lemma-Panel zeigt pro resolviertem Lemma (max. 3) die Schreibformen aus dem Variants-Dictionary (aufklappbar; MHG-normalisierte Suchformen, nicht Original-Graphien — so beschriftet) plus asynchron geladene MWB-/Lexer-Deep-Links über den geteilten, session-gecachten Client `assets/js/lib/woerterbuchnetz.js` (CONTRACTS §D.2)
+- **Types + Wörterbuch-Links:** das Lemma-Panel zeigt pro resolviertem Lemma (max. 3) die Schreibformen aus dem Variants-Dictionary (aufklappbar; MHG-normalisierte Suchformen, nicht Original-Graphien – so beschriftet) plus asynchron geladene MWB-/Lexer-Deep-Links über den geteilten, session-gecachten Client `assets/js/lib/woerterbuchnetz.js` (CONTRACTS §D.2)
 - Export: TSV-Clipboard („Kopieren") + CSV-Download (UTF-8 BOM, RFC-4180-Quoting), respektiert aktuelle Sortierung; Gesamtzeile wird bewusst nicht exportiert
 - Row-Klick öffnet den Reader (wechselt automatisch auf Listen-Layout; localStorage-Präferenz bleibt `table`)
 
@@ -110,7 +110,7 @@ Konventionelle Wörterbuch-Einstiegsseite (`woerterbuch.html`) für alle 43.879 
 - Deep-Links über URL-State: `woerterbuch.html?buchstabe=s&seite=3`
 - Erreichbar über den Header-Menüpunkt „Wörterbuch" auf allen Seiten
 
-**Namensentscheidung:** „Wörterbuch" statt „Lemmata" (Playground-Fachbegriff) oder „Wortindex" (Alt-MHDBDB; wird im Untertitel der Seite als Brücke erwähnt) — begründet in Issue #117.
+**Namensentscheidung:** „Wörterbuch" statt „Lemmata" (Playground-Fachbegriff) oder „Wortindex" (Alt-MHDBDB; wird im Untertitel der Seite als Brücke erwähnt) – begründet in Issue #117.
 
 ### TEI File Caching
 
@@ -197,19 +197,19 @@ Corpus-wide text analysis using pre-built indexes. Zwölf Werkzeuge in zwölf Pl
 
 **Wortfrequenz-Analyse (#88):**
 - Top-N Lemmata über das gesamte Korpus oder pro Text
-- POS-basierter Stopwort-Filter (DET, ART, POS, PRO, PRP, CCNJ, SCNJ, CNJ, NEG, IPA, VEX, VEM) — entfernt häufige Funktionswörter, hebt inhaltstragende Lemmata hervor
+- POS-basierter Stopwort-Filter (DET, ART, POS, PRO, PRP, CCNJ, SCNJ, CNJ, NEG, IPA, VEX, VEM) – entfernt häufige Funktionswörter, hebt inhaltstragende Lemmata hervor
 - Absolute oder relative Frequenz
 - Sortierung nach Frequenz oder alphabetisch
 
 **Echte Hapaxlegomena (#196):**
-- Lemmata (nicht Wortformen) mit korpusweiter Gesamtfrequenz ≤ n (Hapax/Dis/Tris, Default 1) — abzugrenzen von der Text-Hapax-Rate der Text-Statistiken (#89)
+- Lemmata (nicht Wortformen) mit korpusweiter Gesamtfrequenz ≤ n (Hapax/Dis/Tris, Default 1) – abzugrenzen von der Text-Hapax-Rate der Text-Statistiken (#89)
 - Datenpfad: ein Aggregations-Durchlauf über `text.lemmata` aller Texte (Pattern Wortfrequenz-Analyse); je Lemma werden die ersten ≤3 Fundorte (`textId` + Wortposition) mitgeführt, Versnummer via Binärsuche über `lineStarts[]`
-- Filter: Eigennamen ausblenden (NAM, Default an — 28 % der Hapaxe), Funktionswörter ausblenden (geteilte `FUNCTION_WORD_POS`-Menge aus word-frequency.js), Wortarten-Facette, Anfangsbuchstaben-Facette (auf `lemma.normalized`)
-- Pro Eintrag: Lemma-Link auf die Lemma-Seite, PoS-Badges, Fundort(e) als Reader-Deep-Link (`korpus.html?textId=&lemmaIds=&position=`), Details-Aufklapp mit Konzept-Chips und lazy Wörterbuchnetz-Abgleich (MWB/Lexer via geteiltem Client `assets/js/lib/woerterbuchnetz.js`, CONTRACTS §D.2) — beantwortet „echtes mhd. Hapax oder nur Korpus-Hapax?"
+- Filter: Eigennamen ausblenden (NAM, Default an – 28 % der Hapaxe), Funktionswörter ausblenden (geteilte `FUNCTION_WORD_POS`-Menge aus word-frequency.js), Wortarten-Facette, Anfangsbuchstaben-Facette (auf `lemma.normalized`)
+- Pro Eintrag: Lemma-Link auf die Lemma-Seite, PoS-Badges, Fundort(e) als Reader-Deep-Link (`korpus.html?textId=&lemmaIds=&position=`), Details-Aufklapp mit Konzept-Chips und lazy Wörterbuchnetz-Abgleich (MWB/Lexer via geteiltem Client `assets/js/lib/woerterbuchnetz.js`, CONTRACTS §D.2) – beantwortet „echtes mhd. Hapax oder nur Korpus-Hapax?"
 - Lemma-IDs ohne Authority-Eintrag werden mit Badge angezeigt (Kuratierungs-Funde, 99 Stück Stand 2026-07)
 - Tab „Beitrag pro Text": Raritäten je Text absolut + pro 1.000 Tokens, sortierbar
 - CSV-Export der gefilterten Liste (UTF-8-BOM, Semikolon); Pagination zu 100 Einträgen
-- Bewusste Grenze: kein frei wählbares Subkorpus (Hapax relativ zu einer Textauswahl) — Follow-up-Kandidat, siehe Issue #196
+- Bewusste Grenze: kein frei wählbares Subkorpus (Hapax relativ zu einer Textauswahl) – Follow-up-Kandidat, siehe Issue #196
 
 **Text-Statistiken (#89, Auswahl-UI #136):**
 - Pro Text: Token-Count, Lemma-Diversität (unique / total), Hapax-Rate, durchschnittliche Lemma-Frequenz
@@ -230,7 +230,7 @@ Corpus-wide text analysis using pre-built indexes. Zwölf Werkzeuge in zwölf Pl
 - Alternative Begriffs-Candidates werden angezeigt (z.B. bei „love" → Intimität + Liebe/Zuneigung)
 - Auklappbare „zugeordnete Lemmata"-Sektion zur Validierung der Concept-Selektion
 - Klick auf Treffer → Reading View
-- **Live-Autocomplete-Dropdown** im Begriffs-Input (max. 8 Suggestions, Pfeil-Navigation, Enter wählt + sucht, Escape schließt) — gleiches Pattern wie DWDS oder Google-Suche
+- **Live-Autocomplete-Dropdown** im Begriffs-Input (max. 8 Suggestions, Pfeil-Navigation, Enter wählt + sucht, Escape schließt) – gleiches Pattern wie DWDS oder Google-Suche
 
 **Textvergleich (#108):**
 - Zwei Texte über Dropdown-Menüs auswählen (alle 667 Sigles mit Titel + Autor)
@@ -252,15 +252,15 @@ Corpus-wide text analysis using pre-built indexes. Zwölf Werkzeuge in zwölf Pl
 - Klick auf Partner → Multi-Lemma-Suche mit beiden Lemmata + aktueller Distanz vorbefüllt; Klick auf Lemma → Lemma-Page
 
 **Reim-Wörterbuch (#106, Minimalvariante):**
-- „Welche Lemmata reimen sich auf X?" — Eingabe-Lemma + optionaler Text/Autor-Filter (Sigle exakt oder Titel/Autor-Substring) → rangierte Tabelle der Reimpartner-Lemmata
+- „Welche Lemmata reimen sich auf X?" – Eingabe-Lemma + optionaler Text/Autor-Filter (Sigle exakt oder Titel/Autor-Substring) → rangierte Tabelle der Reimpartner-Lemmata
 - Datenpfad: Scan über `text.lineEnds[]` (Corpus-Index v4.1.x); Kandidaten sind die Lemmata der unmittelbar benachbarten Versenden (±1 Vers, Paarreim-Annahme)
-- Reim-Heuristik: 3-Letter-Suffix-Match der MHG-normalisierten Lemma-Formen (2-Letter nur, wenn beide Formen ≤4 Zeichen — findet `wîp : lîp` und `tac : slac`, ohne dass Kurzwörter wie `en`/`dô` lange Ziel-Lemmata fluten); identischer Reim (Lemma auf sich selbst) wird nur einfach gezählt
-- Pro Partner: Reimpaar-Zahl, Texte als Sigle-Chips mit Paarzahl, „→ Belege" klappt die gezählten Verspaare direkt in der Tabelle auf: beide Verse als vollständiger `<l>`-Inhalt (lazy per TEI-Fetch; Highlight-Mapping über CONTRACTS-§B-Positionszählung, damit `lineEnds[]`-Positionen auf die richtigen Wörter zeigen), markierte Reimwörter, Versangabe aus `<l n>`, Reader-Deep-Link (`position=`); paginiert zu 10, Cap 1000 gespeicherte Verspaare pro Partner. (Vorher nur Link in den Nähe-Modus der Multi-Lemma-Suche mit Distanz 15 — zeigte auch Kookkurrenzen abseits der Versenden, also keine Reime; KZW-Report 2026-07-09)
+- Reim-Heuristik: 3-Letter-Suffix-Match der MHG-normalisierten Lemma-Formen (2-Letter nur, wenn beide Formen ≤4 Zeichen – findet `wîp : lîp` und `tac : slac`, ohne dass Kurzwörter wie `en`/`dô` lange Ziel-Lemmata fluten); identischer Reim (Lemma auf sich selbst) wird nur einfach gezählt
+- Pro Partner: Reimpaar-Zahl, Texte als Sigle-Chips mit Paarzahl, „→ Belege" klappt die gezählten Verspaare direkt in der Tabelle auf: beide Verse als vollständiger `<l>`-Inhalt (lazy per TEI-Fetch; Highlight-Mapping über CONTRACTS-§B-Positionszählung, damit `lineEnds[]`-Positionen auf die richtigen Wörter zeigen), markierte Reimwörter, Versangabe aus `<l n>`, Reader-Deep-Link (`position=`); paginiert zu 10, Cap 1000 gespeicherte Verspaare pro Partner. (Vorher nur Link in den Nähe-Modus der Multi-Lemma-Suche mit Distanz 15 – zeigte auch Kookkurrenzen abseits der Versenden, also keine Reime; KZW-Report 2026-07-09)
 - Async-Chunking + Abort-Token (Pattern wie #107), Prosa (leere `lineEnds`) wird übersprungen
 - Bewusste Grenzen der Minimalvariante (Issue #106): lemma- statt token-basiert (reimende Flexionsform kann abweichen), strukturell statt phonetisch, Kreuzreime (ABAB) entgehen dem ±1-Scan; Original-Token-Variante bräuchte Index-Erweiterung (`lineEndWords[]`), phonetische Klassifikation ist #109-Folgearbeit
 
 **Versendings-Profil (#106 Punkt 2):**
-- Top-N häufigste Lemmata am Versende — Scope wählbar: Gesamtkorpus, Autor*in (optgroup) oder Einzeltext
+- Top-N häufigste Lemmata am Versende – Scope wählbar: Gesamtkorpus, Autor*in (optgroup) oder Einzeltext
 - Datenpfad: `text.words[lineEnds[i]]` je Vers (Corpus-Index v4.1.x), kein neuer Build-Schritt
 - Spalten: Versende-Belege (absolut), Anteil an allen Versenden des Scopes, **Reim-Druck** = Anteil der Vorkommen des Lemmas am Versende vs. gesamt (#106 Punkt 3: hoher Wert = reimgetrieben, niedriger = semantisch motiviert)
 - Funktionswort-Filter (gleiche POS-Menge wie Wortfrequenz/Hapax), Lemma-Links auf die Lemma-Seiten
@@ -329,7 +329,7 @@ Concept-based similarity section on each lemma page.
 
 ## JSON API for Programmatic Access (#45)
 
-Static JSON API under `/api/`, served directly by GitHub Pages — stable, citable URLs for every authority record and text.
+Static JSON API under `/api/`, served directly by GitHub Pages – stable, citable URLs for every authority record and text.
 
 **What it offers:**
 - Root manifest at [`api/index.json`](https://dhcraft.org/mhdbdb-tei-only/api/index.json) listing all collections with counts

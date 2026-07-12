@@ -14,7 +14,7 @@ This MHDBDB TEI Repository is a **standalone, active project** that originated f
 - Enable corpus linguistic analysis of medieval German literature
 - Support research in historical semantics and concept history
 
-**Historical relationship:** The initial corpus and authority data were exported from Salzburg's RDF-based MHDBDB (three-stage: RDF → CSV snapshots → TEI-XML) and migrated into this repository, completed 2025-07-22. **Since that migration (2025-07-22), this repository is the independent, sole master** — all data is maintained here; there are no ongoing re-exports or syncs with Salzburg. It is now an active project with continuing ingest (WZB/Wenzelsbibel, ARITHMETIC) and manual editorial correction, not a static export. See [INDEX.md → Current Phase](INDEX.md#current-phase) and [CONTRACTS.md → Authority Source Rules](CONTRACTS.md#f-authority-source-rules).
+**Historical relationship:** The initial corpus and authority data were exported from Salzburg's RDF-based MHDBDB (three-stage: RDF → CSV snapshots → TEI-XML) and migrated into this repository, completed 2025-07-22. **Since that migration (2025-07-22), this repository is the independent, sole master** – all data is maintained here; there are no ongoing re-exports or syncs with Salzburg. It is now an active project with continuing ingest (WZB/Wenzelsbibel, ARITHMETIC) and manual editorial correction, not a static export. See [INDEX.md → Current Phase](INDEX.md#current-phase) and [CONTRACTS.md → Authority Source Rules](CONTRACTS.md#f-authority-source-rules).
 
 **Original data source (historical):** https://www.mhdbdb.sbg.ac.at
 
@@ -133,7 +133,7 @@ Seven authority files provide controlled vocabularies:
 - **Names:** Proper names with semantic relations
 - **Variants:** Orthographic variants extracted from corpus
 
-These vocabularies ensure consistency and enable sophisticated cross-referencing. An 8th authority file, **`contributors.xml`**, was added in 2026-04 to register the MHDBDB team (founders, coordinator, lead-editors, editors) for structured editor-attribution in the TEI headers — it is project-internal and deliberately not part of the searchable corpus index.
+These vocabularies ensure consistency and enable sophisticated cross-referencing. An 8th authority file, **`contributors.xml`**, was added in 2026-04 to register the MHDBDB team (founders, coordinator, lead-editors, editors) for structured editor-attribution in the TEI headers – it is project-internal and deliberately not part of the searchable corpus index.
 
 ### Distant Reading
 

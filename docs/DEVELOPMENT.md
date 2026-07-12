@@ -158,7 +158,7 @@ npm run report        # View HTML report
 ```
 
 **Test configuration:** `testing/playwright.config.js`
-- Always use `npm test` — never `npx playwright test` from the project root (config and `baseURL` live in `testing/`)
+- Always use `npm test` – never `npx playwright test` from the project root (config and `baseURL` live in `testing/`)
 - Automated web server startup (port 8080)
 - Headless Chrome with `--disable-web-security`
 - 60-second timeout per test
@@ -197,19 +197,19 @@ npm run report        # View HTML report
 
 **Elf Checks, billig → teuer (fail fast);** vorab bestimmt ein Hilfs-Step die Diff-Base (PR: Base-Branch-Tip, Push: `event.before`) für die Checks 2 und 9:
 
-1. **Index-Versions-Konstanten** (#47.3) — Build-Skripte + `corpus-loader.js` müssen dieselben Versionen nennen, sonst greift die IndexedDB-Cache-Invalidierung nicht. Lokal: `python scripts/audit/check-index-versions.py`.
-2. **Index-Versions-Bump-Gate** (#154) — hat sich der dekomprimierte Inhalt von corpus-/authority-index gegenüber der Diff-Base geändert, muss auch der `version`-String geändert sein; sonst wurde der Drei-Stellen-Bump vergessen und der Dexie-Cache invalidiert nicht (Nutzer behalten bis zu 30 Tage den alten Index). Lokal: `python scripts/audit/check-index-version-bump.py --base origin/main`. Ohne bestimmbare Diff-Base (workflow_dispatch, Force-Push) wird der Check übersprungen.
-3. **RNC→RNG sync check** (P2-14) — regeneriert `.rng` aus `.rnc`, Diff = Fail.
-4. **TEI-P5-Pin** — das committete `tei_all.rng` wird gegen die gepinnte Version (4.11.0) geprüft.
-5. **Freshness variants.xml** (#125) — `extract-variants.py --apply` muss die committete Datei byte-identisch reproduzieren („Korpus geändert, variants.xml vergessen"). Blockierend VOR Check 7: der Index-Vergleich allein kann variants-Drift nicht erkennen.
-6. **Freshness API** (#45) — `build-api.py` muss das committete `api/` byte-identisch reproduzieren (plain JSON, `git diff` reicht). Vor dem Index-Gate, weil der CI-Index-Rebuild `data/` gz-dirty hinterlässt.
-7. **Freshness Indexe** (#125, Rebuild-and-Compare) — beide Indexe werden frisch gebaut und dekomprimiert mit dem committeten Stand verglichen („Quelle/Build-Skript geändert, Rebuild vergessen"). Funktioniert nur, weil die Builds deterministisch sind.
-8. **Naming-Index Konsistenz** (#152) — `source.commit`-Provenienz vorhanden + alle `works[].sigle` existieren als `tei/<SIG>.tei.xml` (ein Sigle-Rename bräche den Reader-Link im Playground sonst still). Offline, läuft immer. Lokal: `python scripts/audit/check-naming-index.py`.
-9. **Freshness naming-index** (#152, Rebuild-and-Compare) — Rebuild aus dem im Index gepinnten `source.commit` muss den committeten Stand reproduzieren. Läuft NUR, wenn naming-Pfade sich gegenüber der Diff-Base geändert haben (externer Fetch nach `lindabeutel/Naming-analysis`; keine externe Netz-Abhängigkeit auf jedem Daten-PR, #125-Prinzip).
-10. **Cross-Reference-Integrity** (#44/#115/#152) — dangling Refs außerhalb `lexicon.xml` brechen den Build; `lexicon.xml` wird als **ID-Set-Ratsche** gegen die committete Baseline (`scripts/audit/lexicon-baseline.json`) gegated: jede ID außerhalb der Baseline = rot (auch bei kompensierendem Backfill im selben PR), tolerierter Altbestand = grün, geschrumpfter Ist-Stand = `::warning` → `--update-baseline` ausführen und Datei-Diff mitcommitten.
-11. **Zweistufige RelaxNG-Validierung** (P2-13) — Stage 1 `tei_all.rng` (Warnungen, #30-Baseline), Stage 2 `mhdbdb.rng`/`mhdbdb-authority.rng` (hartes Gate). Als teuerster Check bewusst zuletzt.
+1. **Index-Versions-Konstanten** (#47.3) – Build-Skripte + `corpus-loader.js` müssen dieselben Versionen nennen, sonst greift die IndexedDB-Cache-Invalidierung nicht. Lokal: `python scripts/audit/check-index-versions.py`.
+2. **Index-Versions-Bump-Gate** (#154) – hat sich der dekomprimierte Inhalt von corpus-/authority-index gegenüber der Diff-Base geändert, muss auch der `version`-String geändert sein; sonst wurde der Drei-Stellen-Bump vergessen und der Dexie-Cache invalidiert nicht (Nutzer behalten bis zu 30 Tage den alten Index). Lokal: `python scripts/audit/check-index-version-bump.py --base origin/main`. Ohne bestimmbare Diff-Base (workflow_dispatch, Force-Push) wird der Check übersprungen.
+3. **RNC→RNG sync check** (P2-14) – regeneriert `.rng` aus `.rnc`, Diff = Fail.
+4. **TEI-P5-Pin** – das committete `tei_all.rng` wird gegen die gepinnte Version (4.11.0) geprüft.
+5. **Freshness variants.xml** (#125) – `extract-variants.py --apply` muss die committete Datei byte-identisch reproduzieren („Korpus geändert, variants.xml vergessen"). Blockierend VOR Check 7: der Index-Vergleich allein kann variants-Drift nicht erkennen.
+6. **Freshness API** (#45) – `build-api.py` muss das committete `api/` byte-identisch reproduzieren (plain JSON, `git diff` reicht). Vor dem Index-Gate, weil der CI-Index-Rebuild `data/` gz-dirty hinterlässt.
+7. **Freshness Indexe** (#125, Rebuild-and-Compare) – beide Indexe werden frisch gebaut und dekomprimiert mit dem committeten Stand verglichen („Quelle/Build-Skript geändert, Rebuild vergessen"). Funktioniert nur, weil die Builds deterministisch sind.
+8. **Naming-Index Konsistenz** (#152) – `source.commit`-Provenienz vorhanden + alle `works[].sigle` existieren als `tei/<SIG>.tei.xml` (ein Sigle-Rename bräche den Reader-Link im Playground sonst still). Offline, läuft immer. Lokal: `python scripts/audit/check-naming-index.py`.
+9. **Freshness naming-index** (#152, Rebuild-and-Compare) – Rebuild aus dem im Index gepinnten `source.commit` muss den committeten Stand reproduzieren. Läuft NUR, wenn naming-Pfade sich gegenüber der Diff-Base geändert haben (externer Fetch nach `lindabeutel/Naming-analysis`; keine externe Netz-Abhängigkeit auf jedem Daten-PR, #125-Prinzip).
+10. **Cross-Reference-Integrity** (#44/#115/#152) – dangling Refs außerhalb `lexicon.xml` brechen den Build; `lexicon.xml` wird als **ID-Set-Ratsche** gegen die committete Baseline (`scripts/audit/lexicon-baseline.json`) gegated: jede ID außerhalb der Baseline = rot (auch bei kompensierendem Backfill im selben PR), tolerierter Altbestand = grün, geschrumpfter Ist-Stand = `::warning` → `--update-baseline` ausführen und Datei-Diff mitcommitten.
+11. **Zweistufige RelaxNG-Validierung** (P2-13) – Stage 1 `tei_all.rng` (Warnungen, #30-Baseline), Stage 2 `mhdbdb.rng`/`mhdbdb-authority.rng` (hartes Gate). Als teuerster Check bewusst zuletzt.
 
-**Hinweis Dependency-Pins:** lxml und rnc2rng sind in `requirements.txt` gepinnt (Single Source — CI installiert daraus), damit Serialisierungsänderungen neuer Versionen nicht als Drift-Fehlalarm erscheinen. Lokal `pip install -r requirements.txt` verwenden; beim Pin-Bump danach `variants.xml` regenerieren und die `.rng` neu erzeugen.
+**Hinweis Dependency-Pins:** lxml und rnc2rng sind in `requirements.txt` gepinnt (Single Source – CI installiert daraus), damit Serialisierungsänderungen neuer Versionen nicht als Drift-Fehlalarm erscheinen. Lokal `pip install -r requirements.txt` verwenden; beim Pin-Bump danach `variants.xml` regenerieren und die `.rng` neu erzeugen.
 
 **Debugging failures:**
 - Versions-Drift → `python scripts/audit/check-index-versions.py` lokal, Konstanten angleichen
@@ -225,9 +225,9 @@ npm run report        # View HTML report
 **Workflow:** `.github/workflows/release-version-check.yml`
 **Triggers:** Push von Tags `v*` + `workflow_dispatch`.
 
-**Hintergrund (#91, 2026-06-10):** Zenodo zieht die Record-Metadaten beim Release aus `.zenodo.json`. Ein dort hartkodiertes, beim Taggen vergessenes `version`-Feld produziert einen Zenodo-Record mit falscher Versionsangabe — ohne Fehler, ohne Warnung. Deshalb zwei Regeln: `.zenodo.json` hat **kein** `version`-Feld (Zenodo nimmt dann automatisch den Tag-Namen; der Git-Tag ist Single Source of Truth), und `CITATION.cff → version` muss dem Tag entsprechen (speist GitHubs „Cite this repository"-Widget).
+**Hintergrund (#91, 2026-06-10):** Zenodo zieht die Record-Metadaten beim Release aus `.zenodo.json`. Ein dort hartkodiertes, beim Taggen vergessenes `version`-Feld produziert einen Zenodo-Record mit falscher Versionsangabe – ohne Fehler, ohne Warnung. Deshalb zwei Regeln: `.zenodo.json` hat **kein** `version`-Feld (Zenodo nimmt dann automatisch den Tag-Namen; der Git-Tag ist Single Source of Truth), und `CITATION.cff → version` muss dem Tag entsprechen (speist GitHubs „Cite this repository"-Widget).
 
-**Timing:** Der Check läuft beim Tag-Push, der Zenodo-Webhook feuert erst beim Publizieren des GitHub-Releases. Scheitert der Check, einfach Tag löschen, `CITATION.cff` fixen, neu taggen — Zenodo hat dann noch nichts gesehen.
+**Timing:** Der Check läuft beim Tag-Push, der Zenodo-Webhook feuert erst beim Publizieren des GitHub-Releases. Scheitert der Check, einfach Tag löschen, `CITATION.cff` fixen, neu taggen – Zenodo hat dann noch nichts gesehen.
 
 **Release-Ablauf:** (1) `CITATION.cff`: `version` + `date-released` bumpen (ggf. `.zenodo.json`-Contributors nachziehen), (2) `git tag vX.Y.Z && git push origin vX.Y.Z`, (3) GitHub-Release erstellen (`gh release create vX.Y.Z`) → Zenodo archiviert automatisch eine neue Version unter dem Concept-DOI `10.5281/zenodo.20627656`.
 
@@ -244,13 +244,13 @@ Diagnose- und Validierungs-Skripte in `scripts/audit/`:
 | `check-index-version-bump.py` | Versions-Bump-Gate (#154): Index-Inhalt gegenüber `--base` geändert ⇒ `version`-String muss mitgeändert sein (siehe oben) |
 | `check-release-version.py` | Release-Tag ↔ `CITATION.cff`-Version; verbietet `version`-Feld in `.zenodo.json` (siehe oben) |
 | `audit-authority-files.py` | Struktur, Querverweise und Datenqualität **innerhalb** der 8 Authority-Files (authority→authority; ID-Muster, verwaiste Referenzen, strukturelle Konsistenz) |
-| `check-authority-cross-refs.py` | **Korpus→Authority** Cross-Ref-Integrität: dangling `@lemmaRef`/`@ana`/`@corresp`/`@ref`/`@target`. `--check` = CI-Gate in `data-integrity.yml`: unresolved refs außerhalb `lexicon.xml` = sofort rot; `lexicon.xml` als ID-Set-Ratsche gegen `lexicon-baseline.json` (#152) — neue IDs rot, Altbestand grün; `--update-baseline` zieht die Ratsche nach. Einziger Detektor der Derived-File-Drift (#44/#115) |
+| `check-authority-cross-refs.py` | **Korpus→Authority** Cross-Ref-Integrität: dangling `@lemmaRef`/`@ana`/`@corresp`/`@ref`/`@target`. `--check` = CI-Gate in `data-integrity.yml`: unresolved refs außerhalb `lexicon.xml` = sofort rot; `lexicon.xml` als ID-Set-Ratsche gegen `lexicon-baseline.json` (#152) – neue IDs rot, Altbestand grün; `--update-baseline` zieht die Ratsche nach. Einziger Detektor der Derived-File-Drift (#44/#115) |
 | `check-naming-index.py` | Naming-Index-Konsistenz (#152): `source.commit` vorhanden + alle `works[].sigle` existieren in `tei/`; `--print-source-commit` liefert den Pin für die Workflows (siehe oben) |
 | `audit-tei-corpus.py` | Korpus-weite Stichproben (z.B. fehlende `<l>`/`<lg>`, ungewöhnliche xml:id-Pattern, Encoding-Anomalien) |
 | `check-lexicon-senses.py` | `lexicon.xml`-Sanity: Lemmata ohne `<sense>`, Senses ohne `conceptIds` |
 | `doc-count-audit.py` | Drift-Detektor zwischen tatsächlichen Korpus-/Authority-Zahlen und den in der Doku verankerten Werten. Heuristik: Window ±2 absolut oder ±2 % relativ, strikter Keyword-Anchor unmittelbar nach der Zahl |
 
-### Skipped Tests (Issue #43 — resolved)
+### Skipped Tests (Issue #43 – resolved)
 
 Keine Tests sind aktuell geskippt (0 skipped projektweit). Die früher in `main-site.spec.js` deaktivierten 25 Tests (Phase-7-/Phase-0-Refactoring) wurden in Commit `259bc505a` (2026-02-24, „88 passing, 0 skipped") wieder aktiviert bzw. ersetzt; #43 ist damit erledigt.
 

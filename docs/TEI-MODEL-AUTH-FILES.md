@@ -1,7 +1,9 @@
-# TEI Authority Files — Soll-Modell
+# TEI Authority Files – Soll-Modell
 
-Normatives Datenmodell fuer die 8 Authority Files in `authority-files/`.
+Normatives Datenmodell für die 8 Authority Files in `authority-files/`.
 Pendant zu `docs/TEI-MODEL.md` (Korpusdateien).
+
+> **Zielgruppe:** Diese Datei ist eine technische Referenz-Spezifikation, primär für Entwicklung und automatisierte Werkzeuge gedacht (präzise, maschinenorientiert). Eine allgemeinverständliche Einführung bieten die Hilfe-Seiten der Website, etwa [Daten & Downloads](https://dhcraft.org/mhdbdb-tei-only/hilfe-daten.html).
 
 **Status:** Implementiert (2026-04-10, Phases F-K; 2026-04-14 `contributors.xml` ergänzt)
 **Schema:** `schema/mhdbdb-authority.rnc` (Source) → `schema/mhdbdb-authority.rng` (generiert)
@@ -10,15 +12,15 @@ Pendant zu `docs/TEI-MODEL.md` (Korpusdateien).
 
 ---
 
-## 1. Ueberblick
+## 1. Überblick
 
-| Datei | Inhalt | Eintraege | Groesse |
+| Datei | Inhalt | Einträge | Größe |
 |-------|--------|-----------|---------|
 | `lexicon.xml` | Lemmata mit Senses, POS, Etymologie | 43,879 | 33 MB |
-| `variants.xml` | Orthographische Varianten pro Lemma | 42,627 Eintraege, 256,759 Formen | 16 MB |
+| `variants.xml` | Orthographische Varianten pro Lemma | 42,627 Einträge, 256,759 Formen | 16 MB |
 | `persons.xml` | Autoren/Personen mit Normdaten | 211 | 74 KB |
 | `works.xml` | Werke mit Bibliographie und Genre | 584 | 1.4 MB |
-| `contributors.xml` | MHDBDB-Mitwirkende (Gruender, Koordination, Editor:innen) | 51 Personen + 2 Orgs | 15 KB |
+| `contributors.xml` | MHDBDB-Mitwirkende (Gründer, Koordination, Editor:innen) | 51 Personen + 2 Orgs | 15 KB |
 | `concepts.xml` | Semantische Begriffsontologie | 567 Kategorien | 207 KB |
 | `genres.xml` | Gattungstaxonomie | 615 Kategorien | 405 KB |
 | `names.xml` | Onomastisches System (Eigennamen) | 90 Kategorien | 33 KB |
@@ -27,22 +29,22 @@ Pendant zu `docs/TEI-MODEL.md` (Korpusdateien).
 
 | Gruppe | Dateien | TEI-Modell | Daten in |
 |--------|---------|------------|----------|
-| Woerterbuch | lexicon.xml, variants.xml | TEI Ch. 9 (Dictionaries) | `<body>` |
+| Wörterbuch | lexicon.xml, variants.xml | TEI Ch. 9 (Dictionaries) | `<body>` |
 | Personen | persons.xml | TEI Ch. 13 (Names/People) | `<body>` |
 | Bibliographie | works.xml | TEI Ch. 3 (Bibliography) | `<body>` |
 | Mitwirkende | contributors.xml | TEI Ch. 13 (Names/People) + Ch. 3 (Orgs) | `<body>` |
 | Taxonomien | concepts.xml, genres.xml, names.xml | TEI Ch. 2.3.7 (Taxonomy) | `<encodingDesc>/<classDecl>` |
 
-### Provenienz und Aktualitaet
+### Provenienz und Aktualität
 
-Wichtig fuer den aktiven Betrieb (siehe [INDEX.md → Current Phase](INDEX.md#current-phase)): Alle Authority-Files entstanden aus **einer einmaligen Migration** (2025-07-22), die **dreistufig** war: Alt-MHDBDB (RDF-Triple-Store bei Salzburg, SPARQL ueber dh.plus.ac.at) → CSV-Snapshots (via SPARQL-Queries, auf Branch `initial-data-wrangling` unter `lists/`) → TEI-XML (via `scripts/_archived/tei-transformation.py`, Commit `8513589ea`). **Seit dieser Migration ist dieses Repo der alleinige Master fuer alle 8 Authority-Files. Es gibt keinen Re-Export aus Salzburg und keine lebende externe Quelle.** Die CSV-Exporte waren Snapshots, keine Schnittstelle: alles Weitere wird hier gepflegt.
+Wichtig für den aktiven Betrieb (siehe [INDEX.md → Current Phase](INDEX.md#current-phase)): Alle Authority-Files entstanden aus **einer einmaligen Migration** (2025-07-22), die **dreistufig** war: Alt-MHDBDB (RDF-Triple-Store bei Salzburg, SPARQL über dh.plus.ac.at) → CSV-Snapshots (via SPARQL-Queries, auf Branch `initial-data-wrangling` unter `lists/`) → TEI-XML (via `scripts/_archived/tei-transformation.py`, Commit `8513589ea`). **Seit dieser Migration ist dieses Repo der alleinige Master für alle 8 Authority-Files. Es gibt keinen Re-Export aus Salzburg und keine lebende externe Quelle.** Die CSV-Exporte waren Snapshots, keine Schnittstelle: alles Weitere wird hier gepflegt.
 
-„Stale" heisst hier: aus dem Korpus abgeleitet und nicht mit-regeneriert, sobald sich Daten aendern. Der Korpus wird laufend editiert (Skript-Ingest UND haendische Korrekturen), daher driften korpus-gekoppelte Files. Detektor: `scripts/audit/check-authority-cross-refs.py` (in CI via `data-integrity.yml`).
+„Stale" heisst hier: aus dem Korpus abgeleitet und nicht mit-regeneriert, sobald sich Daten ändern. Der Korpus wird laufend editiert (Skript-Ingest UND händische Korrekturen), daher driften korpus-gekoppelte Files. Detektor: `scripts/audit/check-authority-cross-refs.py` (in CI via `data-integrity.yml`).
 
 | Datei | Herkunft (einmalig, 2025-07-22) | Aktuelle Pflege | Drift-Risiko |
 |-------|-----------|-----------|--------------|
 | `variants.xml` | korpus-extrahiert (`initial-data-wrangling`) | **korpus-abgeleitet**, regenerierbar via `scripts/sync/extract-variants.py` (#44/#115) | hoch: jede neue/geaenderte Form muss nachgezogen werden. Regenerierung verlustfrei + automatisierbar |
-| `lexicon.xml` | RDF→CSV-Snapshot (`lists/lexicon.csv`) → `tei-transformation.py::create_lexicon_tei` | **Repo = Master UND Korpus-Index** (Korpus fuehrt, lexicon zieht nach) | mittel: ingest-erzeugte Lemma/Sense-IDs brauchen repo-internen Backfill (Kategorie A 2026-07-02 gestubbt; Rest 396 Refs / 109 IDs kuratorisch, #115). Kein Salzburg-Re-Export moeglich (CSV war selbst nur Snapshot) |
+| `lexicon.xml` | RDF→CSV-Snapshot (`lists/lexicon.csv`) → `tei-transformation.py::create_lexicon_tei` | **Repo = Master UND Korpus-Index** (Korpus führt, lexicon zieht nach) | mittel: ingest-erzeugte Lemma/Sense-IDs brauchen repo-internen Backfill (Kategorie A 2026-07-02 gestubbt; Rest 396 Refs / 109 IDs kuratorisch, #115). Kein Salzburg-Re-Export möglich (CSV war selbst nur Snapshot) |
 | `persons.xml` | RDF→CSV→TEI-Snapshot | repo-intern handgepflegt, **kein Re-Export** | gering (0 unresolved) |
 | `works.xml` | RDF-Snapshot + Zotero-Enrichment | `enhance_works_with_zotero.py` + manuell, repo-intern | gering (0 unresolved) |
 | `concepts.xml` | RDF→CSV→TEI-Snapshot (Begriffssystem) | repo-intern handgepflegt, **kein Re-Export** | gering (0 unresolved) |
@@ -50,11 +52,11 @@ Wichtig fuer den aktiven Betrieb (siehe [INDEX.md → Current Phase](INDEX.md#cu
 | `names.xml` | RDF→CSV→TEI-Snapshot | repo-intern handgepflegt, korpus-entkoppelt | gering (0 Korpus-Kopplung) |
 | `contributors.xml` | born-digital (2026-04) | **handgepflegt** (kein Generator) | keines |
 
-**Gesamtmuster:** Alle Files sind RDF-abgeleitete Migrations-Snapshots (2025-07-22), seit der Migration **repo-intern** gepflegt — es gibt keinen externen Master mehr und keine Re-Export-Quelle. Nur `variants.xml` ist korpus-abgeleitet und regenerierbar. `lexicon.xml` ist Repo-Master UND Index der Korpus-Annotation: traegt ein Korpus-`<w>` eine `@lemmaRef`/`@ana`, die in lexicon.xml fehlt, fuehrt der Korpus und lexicon.xml muss nachgezogen werden (siehe [CONTRACTS.md → Authority Source Rules](CONTRACTS.md#f-authority-source-rules)). Neue **Sense-Bedeutungen** sind dabei kuratorisch (Team vergibt die concept-Zuordnung), nicht automatisch aus dem Korpus rekonstruierbar. `lexicon.xml` und `variants.xml` waren bis 2026-05 stale; `variants.xml` ist regeneriert (256.759 Formen, 2026-05-29), `lexicon.xml` hat nach dem Kategorie-A-Stub-Backfill (2026-07-02) noch 396 ingest-bedingte dangling Refs (109 IDs, kuratorischer Rest B/C offen, #115; Ursache siehe §6.1). Die `_archived`-Generatoren schreiben korpus-seitig Pre-#32-Attribute (`@wordRef`/`@meaningRef`) und duerfen nie ungeprueft gegen den aktuellen Korpus laufen.
+**Gesamtmuster:** Alle Files sind RDF-abgeleitete Migrations-Snapshots (2025-07-22), seit der Migration **repo-intern** gepflegt – es gibt keinen externen Master mehr und keine Re-Export-Quelle. Nur `variants.xml` ist korpus-abgeleitet und regenerierbar. `lexicon.xml` ist Repo-Master UND Index der Korpus-Annotation: trägt ein Korpus-`<w>` eine `@lemmaRef`/`@ana`, die in lexicon.xml fehlt, führt der Korpus und lexicon.xml muss nachgezogen werden (siehe [CONTRACTS.md → Authority Source Rules](CONTRACTS.md#f-authority-source-rules)). Neue **Sense-Bedeutungen** sind dabei kuratorisch (Team vergibt die concept-Zuordnung), nicht automatisch aus dem Korpus rekonstruierbar. `lexicon.xml` und `variants.xml` waren bis 2026-05 stale; `variants.xml` ist regeneriert (256.759 Formen, 2026-05-29), `lexicon.xml` hat nach dem Kategorie-A-Stub-Backfill (2026-07-02) noch 396 ingest-bedingte dangling Refs (109 IDs, kuratorischer Rest B/C offen, #115; Ursache siehe §6.1). Die `_archived`-Generatoren schreiben korpus-seitig Pre-#32-Attribute (`@wordRef`/`@meaningRef`) und dürfen nie ungeprüft gegen den aktuellen Korpus laufen.
 
 ---
 
-## 2. Grundregeln (gelten fuer alle 8 Dateien)
+## 2. Grundregeln (gelten für alle 8 Dateien)
 
 ### 2.1 Daten-Platzierung
 
@@ -68,11 +70,11 @@ Wichtig fuer den aktiven Betrieb (siehe [INDEX.md → Current Phase](INDEX.md#cu
 | genres.xml | `<encodingDesc>/<classDecl>` | TEI Ch. 2.3.7 Taxonomy |
 | names.xml | `<encodingDesc>/<classDecl>` | TEI Ch. 2.3.7 Taxonomy |
 
-**Taxonomien bleiben in `<encodingDesc>`.** TEI erlaubt `<taxonomy>` NUR in `<encodingDesc>/<classDecl>` — nicht in `<body>` (getestet gegen tei_all.rng). Das ist die TEI-vorgesehene Platzierung fuer Klassifikationssysteme. Der `<body>` enthaelt einen Platzhalter-`<p>`.
+**Taxonomien bleiben in `<encodingDesc>`.** TEI erlaubt `<taxonomy>` NUR in `<encodingDesc>/<classDecl>` – nicht in `<body>` (getestet gegen tei_all.rng). Das ist die TEI-vorgesehene Platzierung für Klassifikationssysteme. Der `<body>` enthält einen Platzhalter-`<p>`.
 
 ### 2.2 Cross-Referencing
 
-**SOLL:** Ein Mechanismus pro Semantik, konsistent ueber alle Dateien.
+**SOLL:** Ein Mechanismus pro Semantik, konsistent über alle Dateien.
 
 | Semantik | Attribut/Element | Wann verwenden |
 |----------|-----------------|----------------|
@@ -81,8 +83,8 @@ Wichtig fuer den aktiven Betrieb (siehe [INDEX.md → Current Phase](INDEX.md#cu
 | Zeiger (kein Label) | `<ptr target="..."/>` | Verweis ohne sichtbaren Text: `<ptr target="concepts.xml#concept_N"/>` |
 
 **VERBOTEN:**
-- `<ref target="...">Label Text</ref>` fuer cross-file Verweise — das ist Denormalisierung. Der Label-Text gehoert in die Zieldatei.
-- Bidirektionale Links (gleiche Information an 2 Stellen) — eine Richtung ist Master, die andere wird abgeleitet.
+- `<ref target="...">Label Text</ref>` für cross-file Verweise – das ist Denormalisierung. Der Label-Text gehört in die Zieldatei.
+- Bidirektionale Links (gleiche Information an 2 Stellen) – eine Richtung ist Master, die andere wird abgeleitet.
 
 ### 2.3 Identifier
 
@@ -100,7 +102,7 @@ Wichtig fuer den aktiven Betrieb (siehe [INDEX.md → Current Phase](INDEX.md#cu
 | genres.xml | `genre` | UUID-Hash | `genre_2c9f837c` |
 | names.xml | `name` | 8-stellig hierarchisch | `name_41232000` |
 
-**Anmerkung:** Genre-UUIDs bleiben (615 IDs + 3422 Referenzen umzubenennen waere unverhältnismaessig). Concepts und Names nutzen hierarchische 8-Steller — das ist ein sinnvolles Schema fuer Taxonomien.
+**Anmerkung:** Genre-UUIDs bleiben (615 IDs + 3422 Referenzen umzubenennen wäre unverhältnismäßig). Concepts und Names nutzen hierarchische 8-Steller – das ist ein sinnvolles Schema für Taxonomien.
 
 **Migration:** 4 Personen mit UUID-Format wurden zu `person_N` migriert (2026-04-10). 1 Person neu angelegt: `person_anonym` (generischer Anonym-Sammelautor, Wikidata Q4233718; kein GND). Separat existiert `person_1772` (Schweizer Anonymus, GND 103130276).
 
@@ -137,13 +139,13 @@ Alle 8 Dateien haben denselben minimalen Header:
 </teiHeader>
 ```
 
-Taxonomie-Dateien (concepts, genres, names) haben zusaetzlich `<encodingDesc>/<classDecl>/<taxonomy>` — dort leben die Taxonomie-Daten (TEI erlaubt `<taxonomy>` nur dort).
+Taxonomie-Dateien (concepts, genres, names) haben zusätzlich `<encodingDesc>/<classDecl>/<taxonomy>` – dort leben die Taxonomie-Daten (TEI erlaubt `<taxonomy>` nur dort).
 
 ---
 
 ## 3. Datei-spezifische Modelle
 
-### 3.1 lexicon.xml — Woerterbuch
+### 3.1 lexicon.xml – Wörterbuch
 
 TEI Ch. 9 (Dictionaries). Containert alle Lemmata des MHDBDB-Lexikons.
 
@@ -170,15 +172,15 @@ TEI Ch. 9 (Dictionaries). Containert alle Lemmata des MHDBDB-Lexikons.
 |---------|---------|-----------|--------|
 | `<entry>` | ja | `@xml:id` (lemma_N) | form + gramGrp + sense* + etym? |
 | `<form type="lemma">` | ja | `@type="lemma"` | `<orth>` |
-| `<gramGrp>` | ja | — | `<pos>` (1+, manche Lemmata mehrere POS) |
+| `<gramGrp>` | ja | – | `<pos>` (1+, manche Lemmata mehrere POS) |
 | `<etym>` | optional | `@type="morphological"` | `<seg type="component">` |
 | `<sense>` | ja (1+) | `@xml:id`, `@ana`? | `<ptr target="concepts.xml#..."/>` |
 
-**`@ana` auf `<sense>`:** Raum-separierte `#type_N` Werte (Verweise auf variants.xml). 30% der Senses haben kein `@ana` — das ist akzeptabel (nicht alle Senses haben Belegstellen mit Wortformen).
+**`@ana` auf `<sense>`:** Raum-separierte `#type_N` Werte (Verweise auf variants.xml). 30% der Senses haben kein `@ana` – das ist akzeptabel (nicht alle Senses haben Belegstellen mit Wortformen).
 
-**Referentielle Integritaet:** Alle Konzept-Referenzen valide (19 verwaiste Referenzen bereinigt 2026-04-10).
+**Referentielle Integrität:** Alle Konzept-Referenzen valide (19 verwaiste Referenzen bereinigt 2026-04-10).
 
-### 3.2 variants.xml — Orthographische Varianten
+### 3.2 variants.xml – Orthographische Varianten
 
 TEI Ch. 9 (Dictionaries). Jeder Eintrag entspricht einem Lemma und listet alle belegten Schreibweisen.
 
@@ -194,11 +196,11 @@ TEI Ch. 9 (Dictionaries). Jeder Eintrag entspricht einem Lemma und listet alle b
 </body>
 ```
 
-**Design-Entscheidung:** Varianten in separater Datei statt in lexicon.xml (256k Formen wuerden das 33MB-Lexikon auf >60MB aufblaehen). Verknuepfung via `@corresp`.
+**Design-Entscheidung:** Varianten in separater Datei statt in lexicon.xml (256k Formen würden das 33MB-Lexikon auf >60MB aufblähen). Verknüpfung via `@corresp`.
 
-**Referentielle Integritaet:** Alle Lemma-Referenzen valide (154 verwaiste Eintraege bereinigt 2026-04-10).
+**Referentielle Integrität:** Alle Lemma-Referenzen valide (154 verwaiste Einträge bereinigt 2026-04-10).
 
-### 3.3 persons.xml — Personenregister
+### 3.3 persons.xml – Personenregister
 
 TEI Ch. 13 (Names, Dates, People, Places).
 
@@ -215,17 +217,17 @@ TEI Ch. 13 (Names, Dates, People, Places).
 </body>
 ```
 
-**SOLL-Aenderungen gegenueber IST:**
+**SOLL-Änderungen gegenüber IST:**
 
-| IST | SOLL | Begruendung |
+| IST | SOLL | Begründung |
 |-----|------|-------------|
 | `<listBibl><bibl corresp="works.xml#..."/>` | entfernt | Redundant: works.xml hat `<author ref="persons.xml#...">`. Build-Script leitet ab. |
-| 4x `person_UUID` | `person_N` | Konsistenz mit restlichen 206 Eintraegen |
+| 4x `person_UUID` | `person_N` | Konsistenz mit restlichen 206 Einträgen |
 | `<idno type="GND">` | `<idno type="GND">` | Bereits korrekt (Uppercase) |
 
-**Kein persons→works Link:** works.xml ist Master fuer die Autor-Werk-Beziehung. Der Build-Script (`build-authority-index.py`) leitet `person.works` aus works.xml ab.
+**Kein persons→works Link:** works.xml ist Master für die Autor-Werk-Beziehung. Der Build-Script (`build-authority-index.py`) leitet `person.works` aus works.xml ab.
 
-### 3.4 works.xml — Werkverzeichnis
+### 3.4 works.xml – Werkverzeichnis
 
 TEI Ch. 3 (Core Tags for Headers / Bibliography).
 
@@ -259,18 +261,18 @@ TEI Ch. 3 (Core Tags for Headers / Bibliography).
 </body>
 ```
 
-**SOLL-Aenderungen gegenueber IST:**
+**SOLL-Änderungen gegenüber IST:**
 
-| IST | SOLL | Begruendung |
+| IST | SOLL | Begründung |
 |-----|------|-------------|
 | `<biblStruct>` direkt in `<bibl>` | `<biblStruct>` in `<relatedItem>` | TEI: biblStruct nicht erlaubt als Kind von bibl |
-| `<ref target="genres.xml#...">Label</ref>` | `<ptr target="genres.xml#..."/>` | Label ist denormalisiert; Genre-Name gehoert in genres.xml |
+| `<ref target="genres.xml#...">Label</ref>` | `<ptr target="genres.xml#..."/>` | Label ist denormalisiert; Genre-Name gehört in genres.xml |
 | `<idno type="gnd">` | `<idno type="GND">` | Einheitliche Grossschreibung |
-| Externe IDs in `<note type="identifiers">` | Externe IDs als direkte `<idno>` | Moeglich weil `<ref>` → `<ptr>` (getestet: valid) |
-| Genre-Parent-Refs `<ref type="parent">` | entfernt | Hierarchie gehoert in genres.xml, nicht in works.xml |
+| Externe IDs in `<note type="identifiers">` | Externe IDs als direkte `<idno>` | Möglich weil `<ref>` → `<ptr>` (getestet: valid) |
+| Genre-Parent-Refs `<ref type="parent">` | entfernt | Hierarchie gehört in genres.xml, nicht in works.xml |
 | `<monogr>`: editor vor idno | idno vor editor | TEI Content Model |
 
-**Genre-Referenzen — IST vs SOLL:**
+**Genre-Referenzen – IST vs SOLL:**
 
 IST (denormalisiert, 4 Elemente pro Genre):
 ```xml
@@ -285,11 +287,11 @@ SOLL (normalisiert, 1 Element):
 <ptr target="genres.xml#genre_2c9f837c"/>
 ```
 
-Label und Parent-Hierarchie werden zur Laufzeit aus genres.xml aufgeloest. Der Build-Script macht das bereits.
+Label und Parent-Hierarchie werden zur Laufzeit aus genres.xml aufgelöst. Der Build-Script macht das bereits.
 
-**Autorenname in `<author>`:** Der Textinhalt (`Heinrich von Rang`) bleibt — TEI erwartet lesbaren Text in `<author>`. Die Quelle der Wahrheit fuer den Autorennamen ist `persons.xml`; der Text in `<author>` ist Convenience fuer menschliche Leser. Das ist keine Denormalisierung im selben Sinne wie Genre-Labels, weil `<author>` ohne Text semantisch unvollstaendig waere.
+**Autorenname in `<author>`:** Der Textinhalt (`Heinrich von Rang`) bleibt – TEI erwartet lesbaren Text in `<author>`. Die Quelle der Wahrheit für den Autorennamen ist `persons.xml`; der Text in `<author>` ist Convenience für menschliche Leser. Das ist keine Denormalisierung im selben Sinne wie Genre-Labels, weil `<author>` ohne Text semantisch unvollständig wäre.
 
-### 3.5 concepts.xml — Begriffsontologie
+### 3.5 concepts.xml – Begriffsontologie
 
 TEI Ch. 2.3.7 (The Classification Declaration / Taxonomy). Daten in `<encodingDesc>/<classDecl>` (TEI erlaubt `<taxonomy>` nur dort).
 
@@ -322,9 +324,9 @@ TEI Ch. 2.3.7 (The Classification Declaration / Taxonomy). Daten in `<encodingDe
 </body>
 ```
 
-**`<term type="alternative">`** — optionale Synonyme zum Primär-Term. Pro Sprache mehrere `type="alternative"`-Einträge erlaubt; 263 von 567 Concepts haben aktuell mindestens ein deutsches Synonym, 266 ein englisches. Build-Skript (`scripts/build-authority-index.py:parse_concepts()`) trennt Primär (`termDE`/`termEN`) von Alternative (`altDE[]`/`altEN[]`), siehe DATA-MODEL.md §Concepts. **Quirk:** Einige Einträge verwenden Slash-separierte Strings innerhalb eines einzigen `<term type="alternative">` (z.B. `Abendessen/Nachtmahl/Festmahl`); editorialer Followup für Aufteilung in separate `<term>`-Elemente offen.
+**`<term type="alternative">`** – optionale Synonyme zum Primär-Term. Pro Sprache mehrere `type="alternative"`-Einträge erlaubt; 263 von 567 Concepts haben aktuell mindestens ein deutsches Synonym, 266 ein englisches. Build-Skript (`scripts/build-authority-index.py:parse_concepts()`) trennt Primär (`termDE`/`termEN`) von Alternative (`altDE[]`/`altEN[]`), siehe DATA-MODEL.md §Concepts. **Quirk:** Einige Einträge verwenden Slash-separierte Strings innerhalb eines einzigen `<term type="alternative">` (z.B. `Abendessen/Nachtmahl/Festmahl`); editorialer Followup für Aufteilung in separate `<term>`-Elemente offen.
 
-### 3.6 genres.xml — Gattungstaxonomie
+### 3.6 genres.xml – Gattungstaxonomie
 
 Identisches Modell wie concepts.xml.
 
@@ -341,9 +343,9 @@ Identisches Modell wie concepts.xml.
 </taxonomy>
 ```
 
-### 3.7 names.xml — Onomastisches System
+### 3.7 names.xml – Onomastisches System
 
-Identisches Modell wie concepts.xml, mit zusaetzlichen Concept-Verweisen.
+Identisches Modell wie concepts.xml, mit zusätzlichen Concept-Verweisen.
 
 ```xml
 <taxonomy xml:id="mhdbdb-names">
@@ -359,13 +361,13 @@ Identisches Modell wie concepts.xml, mit zusaetzlichen Concept-Verweisen.
 </taxonomy>
 ```
 
-### 3.8 contributors.xml — Mitwirkenden-Register
+### 3.8 contributors.xml – Mitwirkenden-Register
 
-TEI Ch. 13 (Names/People) + Ch. 3 (Organizations). Zentrales Register aller Personen und Organisationen, die am MHDBDB-Projekt mitgewirkt haben. Dient als Authority-Quelle fuer die Editor-Attribution in den Korpus-Headern (via `@ref` aus `<titleStmt>/<respStmt>` und `<publicationStmt>/<authority>`).
+TEI Ch. 13 (Names/People) + Ch. 3 (Organizations). Zentrales Register aller Personen und Organisationen, die am MHDBDB-Projekt mitgewirkt haben. Dient als Authority-Quelle für die Editor-Attribution in den Korpus-Headern (via `@ref` aus `<titleStmt>/<respStmt>` und `<publicationStmt>/<authority>`).
 
-**Rollen auf `<person>/@role`:** `founder` | `coordinator` | `lead-editor` | `editor`. Vom Authority-Schema enforced (`schema/mhdbdb-authority.rnc`). `<org>`-Eintraege tragen keine `@role`.
+**Rollen auf `<person>/@role`:** `founder` | `coordinator` | `lead-editor` | `editor`. Vom Authority-Schema enforced (`schema/mhdbdb-authority.rnc`). `<org>`-Einträge tragen keine `@role`.
 
-**ID-Konvention:** `contrib_NNN` (zero-padded 3-stellig). Slots 001–006 sind fest (Gruender, Koordinatorin, Lead-Editor:innen), 007+ folgen der chronologischen Mitwirkenden-Liste.
+**ID-Konvention:** `contrib_NNN` (zero-padded 3-stellig). Slots 001–006 sind fest (Gründer, Koordinatorin, Lead-Editor:innen), 007+ folgen der chronologischen Mitwirkenden-Liste.
 
 ```xml
 <text>
@@ -373,7 +375,7 @@ TEI Ch. 13 (Names/People) + Ch. 3 (Organizations). Zentrales Register aller Pers
     <listOrg>
       <org xml:id="mhdbdb-team">
         <orgName xml:lang="de">MHDBDB-Team</orgName>
-        <desc xml:lang="de">Alle Mitwirkenden der MHDBDB — Verweis-Anker fuer kollektive Team-Attribution.</desc>
+        <desc xml:lang="de">Alle Mitwirkenden der MHDBDB — Verweis-Anker für kollektive Team-Attribution.</desc>
       </org>
       <org xml:id="dhcraft">
         <orgName xml:lang="de">Digital Humanities Craft</orgName>
@@ -390,7 +392,7 @@ TEI Ch. 13 (Names/People) + Ch. 3 (Organizations). Zentrales Register aller Pers
       </person>
       <person xml:id="contrib_004" role="lead-editor">
         <persName xml:lang="de">Vlastimil Brom</persName>
-        <note xml:lang="de">Haupteditor fuer TKR, TKA, VTC.</note>
+        <note xml:lang="de">Haupteditor für TKR, TKA, VTC.</note>
       </person>
       <!-- weitere contrib_NNN ... -->
     </listPerson>
@@ -400,11 +402,11 @@ TEI Ch. 13 (Names/People) + Ch. 3 (Organizations). Zentrales Register aller Pers
 
 **Wie das Korpus dieses Register benutzt:**
 
-- `<titleStmt>/<respStmt>` in jedem Korpus-Header verweist via `<orgName ref="contributors.xml#mhdbdb-team">` auf die kollektive Team-Attribution — kein Aufblaehen des Headers durch 50+ Namen.
-- `<publicationStmt>/<authority>` traegt drei `<persName ref="contributors.xml#contrib_00X">` fuer die Gruender + Koordinatorin (immer gleich, in jeder Datei).
-- Fuer prominente Haupteditor:innen (aktuell TKR/TKA/VTC/PUC/JT) kommt ein zweites `<respStmt>` mit `<name role="lead-editor" ref="contributors.xml#contrib_00X">` dazu.
+- `<titleStmt>/<respStmt>` in jedem Korpus-Header verweist via `<orgName ref="contributors.xml#mhdbdb-team">` auf die kollektive Team-Attribution – kein Aufblähen des Headers durch 50+ Namen.
+- `<publicationStmt>/<authority>` trägt drei `<persName ref="contributors.xml#contrib_00X">` für die Gründer + Koordinatorin (immer gleich, in jeder Datei).
+- Für prominente Haupteditor:innen (aktuell TKR/TKA/VTC/PUC/JT) kommt ein zweites `<respStmt>` mit `<name role="lead-editor" ref="contributors.xml#contrib_00X">` dazu.
 
-**Namens-Struktur — bewusste Asymmetrie:**
+**Namens-Struktur – bewusste Asymmetrie:**
 
 In `contributors.xml` selbst sind die Namen als Plaintext in `<persName>` gespeichert:
 
@@ -414,7 +416,7 @@ In `contributors.xml` selbst sind die Namen als Plaintext in `<persName>` gespei
 </person>
 ```
 
-In den Korpus-Headern werden dieselben drei Fest-Slot-Personen (Schmidt, Puetz, Zeppezauer-Wachauer) dagegen **strukturiert** als `<forename>` + `<surname>` ausgegeben:
+In den Korpus-Headern werden dieselben drei Fest-Slot-Personen (Schmidt, Pütz, Zeppezauer-Wachauer) dagegen **strukturiert** als `<forename>` + `<surname>` ausgegeben:
 
 ```xml
 <persName role="founder" ref="contributors.xml#contrib_001">
@@ -423,9 +425,9 @@ In den Korpus-Headern werden dieselben drei Fest-Slot-Personen (Schmidt, Puetz, 
 </persName>
 ```
 
-Das ist bewusst so: `contributors.xml` ist die kanonische semantische Quelle (mit `@xml:id` als Identitaet), der Header-Eintrag ist eine serialisierte Darstellung, die der `scripts/_archived/migrate-header-credits.py`-Migration 2026-04-15 aus einer hardcodierten `CANONICAL_AUTHORITY`-Konstante erzeugt hat. Die Konstante steht in der Script-Datei und war das einfachste Ausdrucksmittel, da die Spaltung "Vorname | Nachname" fuer drei Personen bekannt und stabil war. Die restlichen 48+ Editor:innen haben keinen Header-Eintrag — nur den kollektiven `mhdbdb-team`-Verweis.
+Das ist bewusst so: `contributors.xml` ist die kanonische semantische Quelle (mit `@xml:id` als Identität), der Header-Eintrag ist eine serialisierte Darstellung, die der `scripts/_archived/migrate-header-credits.py`-Migration 2026-04-15 aus einer hardcodierten `CANONICAL_AUTHORITY`-Konstante erzeugt hat. Die Konstante steht in der Script-Datei und war das einfachste Ausdrucksmittel, da die Spaltung "Vorname | Nachname" für drei Personen bekannt und stabil war. Die restlichen 48+ Editor:innen haben keinen Header-Eintrag – nur den kollektiven `mhdbdb-team`-Verweis.
 
-**Fuer zukuenftige Tools**, die contributors.xml lesen und strukturierte Namen brauchen (z.B. eine Reader-View-Integration fuer Lead-Editor-Anzeige): die Plaintext-Form muss am Whitespace gesplittet werden (letztes Token = Nachname), mit Sonder-Behandlung fuer Praefixe wie "van", "von", etc. Die Fest-Slot-Eintraege in der Script-Konstante sind keine verlaessliche Quelle fuer nicht-feste contrib_NNN-IDs.
+**Für zukünftige Tools**, die contributors.xml lesen und strukturierte Namen brauchen (z.B. eine Reader-View-Integration für Lead-Editor-Anzeige): die Plaintext-Form muss am Whitespace gesplittet werden (letztes Token = Nachname), mit Sonder-Behandlung für Präfixe wie "van", "von", etc. Die Fest-Slot-Einträge in der Script-Konstante sind keine verlässliche Quelle für nicht-feste contrib_NNN-IDs.
 
 Details siehe [`TEI-MODEL.md`](TEI-MODEL.md) §2.1bis.
 
@@ -446,13 +448,13 @@ works.xml ──author @ref──> persons.xml
      └──ptr──> genres.xml
 ```
 
-**Keine Rueckverweise:** persons.xml verweist NICHT auf works.xml. Der Build-Script leitet die Rueckrichtung ab.
+**Keine Rückverweise:** persons.xml verweist NICHT auf works.xml. Der Build-Script leitet die Rückrichtung ab.
 
 **Korpus → Authority** (nicht dargestellt): Die 667 TEI-Dateien verweisen via `@lemmaRef` auf lexicon.xml, `@ana` auf lexicon.xml (Senses), `@corresp` auf variants.xml, `@ref` auf persons.xml und works.xml. Diese Verweise sind im Korpus-Modell (`docs/TEI-MODEL.md`) dokumentiert.
 
 ### 4.2 Verweistypen
 
-| Von | Nach | Element/Attribut | Kardinalitaet |
+| Von | Nach | Element/Attribut | Kardinalität |
 |-----|------|-----------------|---------------|
 | lexicon → concepts | `<ptr target="concepts.xml#..."/>` | sense hat 0-N concept-Zeiger |
 | lexicon → lexicon | `<seg corresp="lexicon.xml#...">` | Etymologie-Komponenten |
@@ -464,14 +466,14 @@ works.xml ──author @ref──> persons.xml
 
 ---
 
-## 5. Datenqualitaet — Bekannte Probleme
+## 5. Datenqualität – Bekannte Probleme
 
 | Problem | Datei | Status |
 |---------|-------|--------|
 | Verwaiste Lemma-Referenzen | variants.xml → lexicon.xml | Bereinigt (154 entfernt, 2026-04-10) |
 | Verwaiste Konzept-Referenzen | lexicon.xml → concepts.xml | Bereinigt (19 entfernt, 2026-04-10) |
-| Verwaiste Personen-Referenz | works.xml → persons.xml | Geloest: `person_anonym` angelegt (Anonym-Sammelautor, Wikidata Q4233718) |
-| Werk ohne Bibliographie | works.xml (work_6) | Geloest: Frauendienst/Frauenbuch-Split (work_6/work_7) |
+| Verwaiste Personen-Referenz | works.xml → persons.xml | Gelöst: `person_anonym` angelegt (Anonym-Sammelautor, Wikidata Q4233718) |
+| Werk ohne Bibliographie | works.xml (work_6) | Gelöst: Frauendienst/Frauenbuch-Split (work_6/work_7) |
 | 30% Senses ohne @ana | lexicon.xml | Akzeptabel (keine Belegstellen mit Wortformen) |
 
 ---
@@ -480,12 +482,12 @@ works.xml ──author @ref──> persons.xml
 
 Alle Migrationsschritte wurden in Phases F-K implementiert. Scripts sind nach Abschluss von #32 nach `scripts/_archived/` bzw. in die Git-Historie verschoben.
 
-### Durchgefuehrte Aenderungen
+### Durchgeführte Änderungen
 
 | Schritt | Script | Ergebnis |
 |---------|--------|----------|
 | Genre-Refs entlabeln | `normalize-work-genres.py` | 3,422 `<ref>` → 870 `<ptr/>` (dedupliziert, Parent-Refs entfernt) |
-| Externe IDs unwrappen | `unwrap-work-identifiers.py` | 368 `<note type="identifiers">` aufgeloest, 176x `gnd`→`GND` |
+| Externe IDs unwrappen | `unwrap-work-identifiers.py` | 368 `<note type="identifiers">` aufgelöst, 176x `gnd`→`GND` |
 | Works-Links entfernen | `remove-person-works-links.py` | 209 `<listBibl>` aus persons.xml entfernt |
 | UUID-IDs migrieren | `migrate-person-uuids.py` | 4 UUID→numerisch, Cascade in works.xml + tei/LUU.tei.xml |
 | Schweizer Anonymus | `migrate-person-uuids.py` | `person_1772` (Schweizer Anonymus, GND 103130276) |
@@ -494,20 +496,20 @@ Alle Migrationsschritte wurden in Phases F-K implementiert. Scripts sind nach Ab
 
 ### Script-Anpassungen
 
-| Script | Aenderung |
+| Script | Änderung |
 |--------|-----------|
-| `build-authority-index.py` | Genre-Text aus genres.xml aufgeloest; person→works aus works.xml abgeleitet; GND Casing. Versionierung siehe [TEI-MODEL.md §11](TEI-MODEL.md#11-versionierung). |
+| `build-authority-index.py` | Genre-Text aus genres.xml aufgelöst; person→works aus works.xml abgeleitet; GND Casing. Versionierung siehe [TEI-MODEL.md §11](TEI-MODEL.md#11-versionierung). |
 | `enhance_works_with_zotero.py` | `<biblStruct>` in `<relatedItem>` wrappen; 4 Bugs gefixt |
 
-### 6.1 Post-Migration Ingest-Drift (WZB) und die Backfill-Luecke
+### 6.1 Post-Migration Ingest-Drift (WZB) und die Backfill-Lücke
 
 Nach der #32-Migration begann der aktive Ingest. Die Wenzelsbibel-Pipeline (WZB, 2026-04 bis 2026-05) legte das Drift-Muster offen, das #115 aufdeckte:
 
-- **Phase 1b** (Commit `5cdc98831`, 2026-04) erkannte neue Wortformen und vergab neue Lemma-IDs ≥78000. Davon kamen nur 4 (zunaechst sense-los) in `lexicon.xml`. Insgesamt fehlen heute **98 Lemma-IDs ≥78000** in `lexicon.xml` (#115): `wzb-apply-lemmarefs.py` schrieb sie als `@lemmaRef` ins Korpus, aber **kein Skript zog `lexicon.xml` nach**.
-- **Phase 3** (Sense-Aufloesung) waehlte ueberwiegend bestehende Senses (<78000); die fehlenden Sense-IDs ≥78000 sind grossteils strukturelle Artefakte der Lemma-Erzeugung, keine neuen Bedeutungen.
+- **Phase 1b** (Commit `5cdc98831`, 2026-04) erkannte neue Wortformen und vergab neue Lemma-IDs ≥78000. Davon kamen nur 4 (zunächst sense-los) in `lexicon.xml`. Insgesamt fehlen heute **98 Lemma-IDs ≥78000** in `lexicon.xml` (#115): `wzb-apply-lemmarefs.py` schrieb sie als `@lemmaRef` ins Korpus, aber **kein Skript zog `lexicon.xml` nach**.
+- **Phase 3** (Sense-Auflösung) wählte überwiegend bestehende Senses (<78000); die fehlenden Sense-IDs ≥78000 sind grossteils strukturelle Artefakte der Lemma-Erzeugung, keine neuen Bedeutungen.
 - **Notreparatur** (Commits `8caa09627`/`649c0fe55`, 2026-05): die 4 sense-losen Lemmata bekamen manuell je einen `<sense>`; `scripts/audit/check-lexicon-senses.py` entstand als Regression-Schutz.
 
-**Lesson** (→ [ADR-015](DECISIONS.md#adr-015-authority-source-modell-korpus-führt-ingest-braucht-rückwärts-sync), [CONTRACTS.md → F.3](CONTRACTS.md#f3-ingest-requires-backward-sync)): Eine Forward-Only-Ingest-Pipeline ohne `*-backfill-lexicon.py` erzeugt zwangslaeufig dangling Refs. Resultat: 977 unresolved Refs (349 IDs); die automatisierbaren Lemma-Stubs (Kategorie A) wurden 2026-07-02 via `scripts/sync/backfill-lexicon.py` geschlossen, der kuratorische Rest (396 Refs / 109 IDs) ist offen. Detektor: `scripts/audit/check-authority-cross-refs.py --check` (CI-Gate in `data-integrity.yml`).
+**Lesson** (→ [ADR-015](DECISIONS.md#adr-015-authority-source-modell-korpus-führt-ingest-braucht-rückwärts-sync), [CONTRACTS.md → F.3](CONTRACTS.md#f3-ingest-requires-backward-sync)): Eine Forward-Only-Ingest-Pipeline ohne `*-backfill-lexicon.py` erzeugt zwangsläufig dangling Refs. Resultat: 977 unresolved Refs (349 IDs); die automatisierbaren Lemma-Stubs (Kategorie A) wurden 2026-07-02 via `scripts/sync/backfill-lexicon.py` geschlossen, der kuratorische Rest (396 Refs / 109 IDs) ist offen. Detektor: `scripts/audit/check-authority-cross-refs.py --check` (CI-Gate in `data-integrity.yml`).
 
 ---
 
@@ -515,9 +517,9 @@ Nach der #32-Migration begann der aktive Ingest. Die Wenzelsbibel-Pipeline (WZB,
 
 Zwei-Stufen-Validierung analog zu den Korpusdateien:
 
-| Stufe | Schema | Prueft |
+| Stufe | Schema | Prüft |
 |-------|--------|--------|
-| 1 | `tei_all.rng` | TEI P5 Konformitaet |
+| 1 | `tei_all.rng` | TEI P5 Konformität |
 | 2 | `mhdbdb-authority.rnc` | MHDBDB-spezifische Constraints (Pflicht-Attribute, erlaubte Werte, Referenz-Muster) |
 
 ---

@@ -11,10 +11,10 @@ See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues
 Die autonome Merge-Session (08.07., [MASTERPLAN-AUTONOME-MERGE-SESSION](playbooks/MASTERPLAN-AUTONOME-MERGE-SESSION.md)) hat alle 13 PRs der Issue-Session nach main gebracht (#174–#186); 13 Issues wurden automatisch geschlossen (#163 #164 #159 #168 #158 #162 #160 #161 #134 #145 #27 #167 #170), #68/#86/#28/#171 bleiben planmäßig offen (Teilarbeit). Authority-Index v1.6.0 (posAll[]) ist live, Live-Smoke-Checks für beide Stack-Ketten und die Unabhängigen bestanden. Details: JOURNAL-Eintrag 08.07. (Merge-Session) + Abschlussreport in #44.
 
 Direkt startbar geworden:
-- **#187 posAll-Anzeige-Migration** — 11 Konsumenten-Dateien zeigen noch den POS-Erstwert; Muster + Dateiliste im Issue
-- **#92 ARITHMETIC Stage 1** — Escaping-Blocker in #185 gemerged; Metadatenfragen an Carina weiter offen
-- **WVV-Strophen-Lauf** — F35/F36-Fixes gemerged UND KZW-Entscheid da (08.07., Empfehlung b bestätigt, #110 von KZW geschlossen); der Lauf selbst steht noch aus
-- **#18 Multi-Lemma + PoS-Suche** — POS-Policy (#27) gemerged; braucht POS-Daten im Corpus-Index
+- **#187 posAll-Anzeige-Migration** – 11 Konsumenten-Dateien zeigen noch den POS-Erstwert; Muster + Dateiliste im Issue
+- **#92 ARITHMETIC Stage 1** – Escaping-Blocker in #185 gemerged; Metadatenfragen an Carina weiter offen
+- **WVV-Strophen-Lauf** – F35/F36-Fixes gemerged UND KZW-Entscheid da (08.07., Empfehlung b bestätigt, #110 von KZW geschlossen); der Lauf selbst steht noch aus
+- **#18 Multi-Lemma + PoS-Suche** – POS-Policy (#27) gemerged; braucht POS-Daten im Corpus-Index
 
 **#124 (prio-1)** ist technisch fertig: cookieloses Matomo ist seit 17.06. deployed (`includes/_matomo.html`, Opt-out + Datenschutz-Abschnitt im Impressum, Commit `7abbf7672`); offen nur noch DSB-Absegnung der Rechtsgrundlage + Klärung des Dashboard-Zugangs.
 
@@ -22,13 +22,13 @@ Direkt startbar geworden:
 
 | # | What | Who's needed |
 |---|------|-------------|
-| #115 | Cross-Ref Phase 2 — 196 Lemmata kuratorisch (A 125 / B 36 / C 35) | KZW |
+| #115 | Cross-Ref Phase 2 – 196 Lemmata kuratorisch (A 125 / B 36 / C 35) | KZW |
 | #129, #138 | KWIC-Belege + div-/lg-Hüllen: gebaut und live, warten auf Prüfung | KZW |
-| #44-Report | Neu live aus der Merge-Session: AK-Excerpt-Banner (#134), Tabellen-Spaltenmodell (#160), Homographen-/Multi-Lemma-Fixes (#163/#164), Multi-POS-Badges (#161) — Nachprüfung via #44-Abschlussreport | KZW |
+| #44-Report | Neu live aus der Merge-Session: AK-Excerpt-Banner (#134), Tabellen-Spaltenmodell (#160), Homographen-/Multi-Lemma-Fixes (#163/#164), Multi-POS-Badges (#161) – Nachprüfung via #44-Abschlussreport | KZW |
 | #59, #114 | Naming-Fachklärung + Tabellenansicht-Freigabe | Linda |
-| #92 | ARITHMETIC — Metadatenfragen seit 16.05.; Escaping-Blocker gemerged (#185), Stage 1 danach in ~1–2h | Carina (via KZW) |
-| #147 | Weingrüße — Lizenz/Sigle/Genre/Zuschreibungen, Stage 0 | Silvan (via KZW) |
-| #86 | Barrierefreiheit — Ansprechpersonen-Block live (barrierefreiheit.html, #179); schließen nach Text-Freigabe | Alan van Beek |
+| #92 | ARITHMETIC – Metadatenfragen seit 16.05.; Escaping-Blocker gemerged (#185), Stage 1 danach in ~1–2h | Carina (via KZW) |
+| #147 | Weingrüße – Lizenz/Sigle/Genre/Zuschreibungen, Stage 0 | Silvan (via KZW) |
+| #86 | Barrierefreiheit – Ansprechpersonen-Block live (barrierefreiheit.html, #179); schließen nach Text-Freigabe | Alan van Beek |
 
 ## Needs Clarification / Entscheidungs-Cluster (chsteiner)
 
@@ -36,7 +36,7 @@ Direkt startbar geworden:
 |---|------|-------------|
 | #140 | Doku menschenlesbar | Doku-Strategie-Gespräch (TEI-MODEL-Rolle, LLM-Artefakte) |
 | #58 | Begriff→Lemma→Beleg Workflow | Option A/B/C entscheiden |
-| #169 | Suchsemantik (Audit 3/6) | Nähesuche-Distanz, commonLemmas, Dedup — deterministische Teile seit #174 gemerged |
+| #169 | Suchsemantik (Audit 3/6) | Nähesuche-Distanz, commonLemmas, Dedup – deterministische Teile seit #174 gemerged |
 | #172 | Test-Suite-Policy (Audit 6/6) | 45%-passRate-Floor + korpusabhängige Magic-Numbers |
 | #18 | Multi-Lemma + PoS-Suche | POS-Policy (#27/#181) gemerged, spezifizierbar; braucht POS-Daten im Corpus-Index |
 
@@ -44,15 +44,15 @@ Direkt startbar geworden:
 
 | # | What | Key question |
 |---|------|-------------|
-| #141 | Borte-Ingest — Aufgabe 0 (borte.md-Metadaten-Template) im Issue geliefert | KZW-Priorisierung (nach #139) |
-| #106 | Vers-Boundary-Features — Minimalvariante shipped 02.07., Rolling-Backlog | Original-Token/Phonetik → #109 |
-| #28 | Fremdsprachen-Annotation — Daten-Phasenplan gemerged (`docs/features/FREMDSPRACHEN-PHASENPLAN-28.md`, Lemma-Ebene führt) | Umsetzung Phase 0–4 beim nächsten Daten-Slot |
+| #141 | Borte-Ingest – Aufgabe 0 (borte.md-Metadaten-Template) im Issue geliefert | KZW-Priorisierung (nach #139) |
+| #106 | Vers-Boundary-Features – Minimalvariante shipped 02.07., Rolling-Backlog | Original-Token/Phonetik → #109 |
+| #28 | Fremdsprachen-Annotation – Daten-Phasenplan gemerged (`docs/features/FREMDSPRACHEN-PHASENPLAN-28.md`, Lemma-Ebene führt) | Umsetzung Phase 0–4 beim nächsten Daten-Slot |
 | #139 | CoReMA-Korpus ingesten | Trigger/Kapazität |
 | #118 | Sprachstufen aus Normdaten | Policy + Architekturentscheid |
 | #123 | „König vom Odenwald" | Scope + Zeitfenster (KZW) |
 | #63 | Begriffssystem Update | Scope/Policy (KZW) |
-| #93 | Textreihentypologie-Umzug (von marketext.at auf MHDBDB-Unterseite) — SKOS-Daten aus `textseries`-Repo, Baum-Visualisierung; dysfunktionale `dhplus`-URIs zu bereinigen | Visualisierung + Authority-File-Abgleich |
-| #109 | FWF-Einzelprojekt (Korpus-Tiefenanalyse, NER-Pipeline, phonetische Reimanalyse, Visualisierungen) — Antrag durch KZW, kleines Budget, max. 50% externe Mittel | Scope-Notiz für Antragstext |
+| #93 | Textreihentypologie-Umzug (von marketext.at auf MHDBDB-Unterseite) – SKOS-Daten aus `textseries`-Repo, Baum-Visualisierung; dysfunktionale `dhplus`-URIs zu bereinigen | Visualisierung + Authority-File-Abgleich |
+| #109 | FWF-Einzelprojekt (Korpus-Tiefenanalyse, NER-Pipeline, phonetische Reimanalyse, Visualisierungen) – Antrag durch KZW, kleines Budget, max. 50% externe Mittel | Scope-Notiz für Antragstext |
 | #111 | Index-Größen-Soft-Cap und modulare Splitting-Strategie | Trigger >50 MB gz (heute ~40); Optionen A modular / B brotli / C binär; keine Entscheidung bis Schwellwert erreicht |
 
 ## Recently Completed
@@ -60,16 +60,16 @@ Direkt startbar geworden:
 | # | What |
 |---|------|
 | ~~Merge-Session 08.07.~~ | 13 PRs #174–#186 auf main (Kette A #174→#175→#178→#184, Kette B #177→#183, unabhängig #176/#179/#180/#181/#182/#185, zuletzt #186). Schließt #163 #164 #159 #168 #158 #162 #160 #161 #134 #145 #27 #167 #170. Authority-Index v1.6.0 (posAll[]) live, Cache-Bust + Smoke-Checks Chrome-verifiziert. CI-Lehren (Retarget/Rerun-Payload) im JOURNAL. |
-| ~~#106~~ | Reim-Wörterbuch Minimalvariante (2026-07-02): Zehntes TEI-Analyse-Werkzeug `#rhyme-dictionary` — Reimpartner-Lemmata an benachbarten Versenden (`lineEnds[]`-Scan, Suffix-3-Heuristik auf normalisierten Formen, 2-Letter bei Kurzwörtern), optionaler Text/Autor-Filter, „→ Belege"-Link in Multi-Lemma-Nähe-Suche. Kein neuer Build-Schritt. Punkte 2-7 bleiben in #109 (FWF), Punkt 8 im Multi-Lemma-Backlog. |
+| ~~#106~~ | Reim-Wörterbuch Minimalvariante (2026-07-02): Zehntes TEI-Analyse-Werkzeug `#rhyme-dictionary` – Reimpartner-Lemmata an benachbarten Versenden (`lineEnds[]`-Scan, Suffix-3-Heuristik auf normalisierten Formen, 2-Letter bei Kurzwörtern), optionaler Text/Autor-Filter, „→ Belege"-Link in Multi-Lemma-Nähe-Suche. Kein neuer Build-Schritt. Punkte 2-7 bleiben in #109 (FWF), Punkt 8 im Multi-Lemma-Backlog. |
 | ~~#114-Followups~~ | Integrationswünsche Tabellenansicht (2026-07-02): Gesamtzeile mit Gesamttrefferzahl (sticky tfoot + „M Treffer gesamt" im Header), Types/Schreibformen + MWB/Lexer-Links im Lemma-Panel (Wörterbuchnetz-API), Keyness-Spalte (signierte Log-Likelihood Text vs. Gesamtkorpus, fett ab 10,83) inkl. Export-Spalte. |
 | ~~#45~~ | Static JSON API (2026-06-12): FAIR-orientierte JSON-API unter `/api/` (2.742 Dateien, ~14 MB), deterministischer Build (`scripts/build-api.py`) + CI-Freshness-Gate, Doku-Seite `api/index.html`; PR #150 gemerged (Closes #45). |
 | ~~#113-Followup~~ | KZW-Synonym-Match in Begriffs-Verteilung + Begriffe-Explorer (2026-05-28, commit `f7c8592c2`): Last-Wins-Bug in `parse_concepts()` gefixt (Primär-Term wurde von Alternative überschrieben, z.B. concept_13023100 zeigte „Früchte" statt „Obst"). Authority-Index v1.2.2 → v1.3.0 mit additiven Feldern `altDE[]`/`altEN[]`/`altNormalized[]` (263/567 Concepts mit deutschem Synonym). Beide UI-Module matchen Synonyme zusätzlich und zeigen „auch: …"-Hint im Autocomplete. Chrome-verifiziert mit „obs"/„frü"/„Wahnsinn-Tobsucht". |
 | ~~#113~~ | Autocomplete im Begriffs-Verteilung-Input (2026-05-15, commit `a2e7b0b36`): klassisches Dropdown unter dem Input mit max. 8 Concept-Suggestions, Pfeil-Navigation (ArrowDown/Up), Enter wählt + sucht, Escape schließt, Klick (mousedown vor blur) wählt + sucht. Reuse `resolveQuery()` als Suggestions-Quelle. ARIA: combobox/listbox/aria-selected/aria-expanded. Live-verifiziert: „ster" → Sterben + Bruderschaft. |
 | ~~#107~~ | Kookkurrenz-Ranking (2026-05-15, commit `70d0bf280`): DWDS-Style „Welche Lemmata stehen am häufigsten bei X?". Window-Scan über `text.words[pos±w]` für jede Position in `text.lemmata[X]`. POS-Filter (Inhaltswörter / NOM / VRB / ADJ / alle) essentiell weil ohne Filter Stopwords dominieren. `êre` (9.930 Vorkommen, 6.361 Partner): 1.002ms inkl. UI-Render dank MessageChannel-Yield-Chunking. POS-Filter-Switch ohne Re-Compute: ~15ms (rawCounts gecacht). Belege-Klick → Multi-Lemma-Suche mit beiden Lemmata vorbefüllt. |
-| ~~#108~~ | Textvergleich (2026-05-15, commit `c53a8ac0d`): Zwei Texte auswählen → drei Lemma-Mengen (Nur A / Beide / Nur B) mit Frequenz pro Text und absoluter Differenz. Reine Set-Ops auf `Object.keys(text.lemmata)`, keine neuen Index-Felder. Lokale `_lemmaMap` (einmal pro `show()` gebaut) reduziert 6s Click-Latenz auf 53ms (112× schneller) — `AuthorityFilesManager.findLemmaById()` ist O(N) linear. Verifiziert PZ vs JT: „triuwe" 447× nur in JT (Lemmatisierungs-Unterschied Wolfram/Albrecht). |
-| ~~#112~~ | Versposition-Klick-Highlight-Bug (2026-05-15, commit `131fed17b`): `verse-position-search.js` + `lemma-distribution.js` bauten Reader-URLs mit `lemmaIds=5567` (cleanId), Highlighter sucht jedoch `#${id}` in `lemmaRef="lexicon.xml#lemma_5567"` — `#5567` matcht nicht. Fix: URL-Param erhält volle Form `lemma_5567`. Live-verifiziert (76 + 140 URLs jeweils mit korrektem Prefix; 4 Highlights für `lemma_5567` in AXW). |
+| ~~#108~~ | Textvergleich (2026-05-15, commit `c53a8ac0d`): Zwei Texte auswählen → drei Lemma-Mengen (Nur A / Beide / Nur B) mit Frequenz pro Text und absoluter Differenz. Reine Set-Ops auf `Object.keys(text.lemmata)`, keine neuen Index-Felder. Lokale `_lemmaMap` (einmal pro `show()` gebaut) reduziert 6s Click-Latenz auf 53ms (112× schneller) – `AuthorityFilesManager.findLemmaById()` ist O(N) linear. Verifiziert PZ vs JT: „triuwe" 447× nur in JT (Lemmatisierungs-Unterschied Wolfram/Albrecht). |
+| ~~#112~~ | Versposition-Klick-Highlight-Bug (2026-05-15, commit `131fed17b`): `verse-position-search.js` + `lemma-distribution.js` bauten Reader-URLs mit `lemmaIds=5567` (cleanId), Highlighter sucht jedoch `#${id}` in `lemmaRef="lexicon.xml#lemma_5567"` – `#5567` matcht nicht. Fix: URL-Param erhält volle Form `lemma_5567`. Live-verifiziert (76 + 140 URLs jeweils mit korrektem Prefix; 4 Highlights für `lemma_5567` in AXW). |
 | ~~#104~~ | Sigle-Titel-Differenzierung (2026-05-15, commit `c0b546a45`): PL1-3, FLG/FLG1, FR1-3 bekommen sprechende Anzeigetitel mit Edition + Datum. FLG-`<biblStruct>` umgestellt auf Neumann/Vollmann-Profe 1990 (Edition) + Harsch 2009 (digitalIntermediary). Index-Bump corpus 4.1.2 / authority 1.2.2. KZW-Wording wortgleich; 130/131 Tests grün, Chrome-UI verifiziert |
-| ~~#81~~ | Sprachstufen-Differenzierung (closed 2026-05-15): SAL/SAT/BAR/TUN waren Wikidata-Fehler (`gmh` bleibt). AC1-3 (Ackermann aus Böhmen) bleiben ebenfalls `gmh` — KZW-Entscheidung 2026-05-08: solange kein ISO-Code für Frühneuhochdeutsch existiert, ist `gmh` die TEI-konformste Lösung. 537 unerforschte Texte als eigener Task ausgelagert (nicht angelegt — nicht in Plan) |
+| ~~#81~~ | Sprachstufen-Differenzierung (closed 2026-05-15): SAL/SAT/BAR/TUN waren Wikidata-Fehler (`gmh` bleibt). AC1-3 (Ackermann aus Böhmen) bleiben ebenfalls `gmh` – KZW-Entscheidung 2026-05-08: solange kein ISO-Code für Frühneuhochdeutsch existiert, ist `gmh` die TEI-konformste Lösung. 537 unerforschte Texte als eigener Task ausgelagert (nicht angelegt – nicht in Plan) |
 | ~~#47~~ | TEI Textanalyse Umbrella geschlossen (2026-05-12): R1 (#87-90) und R2-Hauptpunkt Begriffs-Verteilung shipped; Folgepunkte ausgelagert in #107 (Kookkurrenz-Ranking), #108 (Textvergleich), #106 (Vers-Boundary-Features, Punkt 1 als Rolling-Backlog), #109 (FWF-Projekt für NER + tiefere Analysen) |
 | ~~#47 R2~~ | Begriffs-Verteilung (2026-05-12): Neuer Playground-Eintrag analog Lemma-Verteilung (#90), aber concept-basiert. Datenpfad concept → senses → lemmata → texts. Verifiziert mit „Sterben" (682 Lemmata, 659 Texte, 103.657 Vorkommen) und „love" (Intimität mit Candidates) |
 | ~~#47.3~~ | Lemmasuche nach Versposition (2026-05-12): Neuer Playground-Eintrag unter Multi-Lemma-Suche, findet Lemmata am Versanfang/Versende. Corpus-Index v4.1.0 mit `lineStarts[]`/`lineEnds[]` (1,359,789 `<l>` über 603 Versdichtungs-Texte, +6 MB gz). KZW-Wording wortgleich; Chrome-verifiziert (Reimpaare gân/begân, bant/bekant am Versende von AGS) |
@@ -101,7 +101,7 @@ Direkt startbar geworden:
 | ~~#22~~ | TEI Encoding Guidelines (2026-04-16): superseded by TEI-MODEL.md + schema README |
 | ~~#43~~ | Playwright test coverage (2026-04-16): 121/121 passing, 25 skipped intentional |
 | ~~#83~~ | Editor-Attribution & Credits-Modell (2026-04-15) |
-| ~~#84~~ | HZU/HZU2 Datum-Notes — already migrated in #32 Phase A |
+| ~~#84~~ | HZU/HZU2 Datum-Notes – already migrated in #32 Phase A |
 | ~~#32-followup~~ | Schema hardening: 16/17 items done (P1-5 `idno/@type` enum remains) |
 | ~~#32~~ | TEI Model Consolidation (675→666 files, 15M+ transformations, 2 schemas) |
 | ~~#29~~ | Stricker-Texte |
@@ -119,14 +119,14 @@ Direkt startbar geworden:
 
 ## Strategic Direction
 
-1. **TEI model consolidation done** — Soll-Modell (#32) fully implemented, #32-followup 17/17 abgeschlossen (P1-5 mit 3 kontextspezifischen Enum-Patterns für `idno/@type`, plus WZB shelfmark, Stage-1 PI cleanup, CI push trigger). Both schemas written (`mhdbdb.rnc`, `mhdbdb-authority.rnc`), all 667 corpus + 8 authority files validated. Target models: [TEI-MODEL.md](TEI-MODEL.md) + [TEI-MODEL-AUTH-FILES.md](TEI-MODEL-AUTH-FILES.md). Architecture Decision Record: [ADR-013 "Data Consolidation Before Schema Relaxation"](DECISIONS.md#adr-013-data-consolidation-before-schema-relaxation).
+1. **TEI model consolidation done** – Soll-Modell (#32) fully implemented, #32-followup 17/17 abgeschlossen (P1-5 mit 3 kontextspezifischen Enum-Patterns für `idno/@type`, plus WZB shelfmark, Stage-1 PI cleanup, CI push trigger). Both schemas written (`mhdbdb.rnc`, `mhdbdb-authority.rnc`), all 667 corpus + 8 authority files validated. Target models: [TEI-MODEL.md](TEI-MODEL.md) + [TEI-MODEL-AUTH-FILES.md](TEI-MODEL-AUTH-FILES.md). Architecture Decision Record: [ADR-013 "Data Consolidation Before Schema Relaxation"](DECISIONS.md#adr-013-data-consolidation-before-schema-relaxation).
 
-2. **TEI data quality** — Structural fixes (#23, #26, #30, #85), schema hardening (#32 ✅), Wenzelsbibel (#34, Phase 3 at 92.5%) und WVV-Followup (#110) sind die aktiven Workstreams. Die meisten verbleibenden Structural Fixes sind auf KZW-Review geblockt.
+2. **TEI data quality** – Structural fixes (#23, #26, #30, #85), schema hardening (#32 ✅), Wenzelsbibel (#34, Phase 3 at 92.5%) und WVV-Followup (#110) sind die aktiven Workstreams. Die meisten verbleibenden Structural Fixes sind auf KZW-Review geblockt.
 
-3. **Playground TEI Textanalyse Release 1 done** — UX-Cleanup (#87), Wortfrequenz (#88), Text-Statistiken (#89), Lemma-Verteilung (#90) alle 2026-05-11 closed. Release 2 (Begriffs-Verteilung) und Release 3 (POS-Anteile, abhängig von #27) noch ungeplant.
+3. **Playground TEI Textanalyse Release 1 done** – UX-Cleanup (#87), Wortfrequenz (#88), Text-Statistiken (#89), Lemma-Verteilung (#90) alle 2026-05-11 closed. Release 2 (Begriffs-Verteilung) und Release 3 (POS-Anteile, abhängig von #27) noch ungeplant.
 
-4. **FAIR data + Citability** — Static JSON API (#45) und Zenodo-DOI (#91, Stub geliefert) machen MHDBDB-Daten extern zitier- und programmierbar zugänglich. Enables external collaborations (MWB, Wörterbuchnetz, ZfdG-Einreichung).
+4. **FAIR data + Citability** – Static JSON API (#45) und Zenodo-DOI (#91, Stub geliefert) machen MHDBDB-Daten extern zitier- und programmierbar zugänglich. Enables external collaborations (MWB, Wörterbuchnetz, ZfdG-Einreichung).
 
-5. **Frontend refinements** — Reader (#17 ✅), UI-Polish (#20 ✅), Reading-View-Render-Policy (#101 ✅ 2026-05-12, Julia) und Lemma-Linking MWB+Lexer (#73 ✅ 2026-05-12) abgeschlossen. Upload-UI-Dead-Code-Cleanup pendent (kein Issue).
+5. **Frontend refinements** – Reader (#17 ✅), UI-Polish (#20 ✅), Reading-View-Render-Policy (#101 ✅ 2026-05-12, Julia) und Lemma-Linking MWB+Lexer (#73 ✅ 2026-05-12) abgeschlossen. Upload-UI-Dead-Code-Cleanup pendent (kein Issue).
 
-6. **Advanced search** — PoS-based search (#18) and foreign language search (#28) depend on corpus index extensions.
+6. **Advanced search** – PoS-based search (#18) and foreign language search (#28) depend on corpus index extensions.
