@@ -187,7 +187,7 @@ function lemmaRefMatchesId(lemmaRef, lemmaId):
 | `lexicon.xml#lemma_308 lexicon.xml#lemma_5` | `lemma_5` | yes |
 | `lexicon.xml#lemma_30800` | `lemma_308` | **no** |
 
-**Applies to all highlight/match paths**, all routed through the single `lemmaRefMatchesId` since #130 (was 6 inline copies across 4 files, the duplication that made #126 possible): `tei-text-reader.js` (single + multi-lemma), `text-renderer.js` (`findLemmaContexts`), and the playground (`tei-manager.js` proximity + enrichment, `ui-helpers.js` context highlight). Validated on real corpus data: PL1 689 → 57, OVG 369 → 26 (matches the result-card count).
+**Applies to all highlight/match paths**, all routed through the single `lemmaRefMatchesId` since #130 (was 6 inline copies across 4 files, the duplication that made #126 possible): `tei-text-reader.js` (single + multi-lemma) and the playground (`tei-manager.js` proximity + enrichment, `ui-helpers.js` context highlight). (`text-renderer.js` was a fourth call site until its dead render path, then the whole shim, were removed — audit #42 + Carearbeit 2026-07.) Validated on real corpus data: PL1 689 → 57, OVG 369 → 26 (matches the result-card count).
 
 ### Test Coverage
 
@@ -252,7 +252,7 @@ User types: **brott**
 ### Variant Dictionary Structure
 
 - Flat map: `{ normalized_variant_form: lemma_id }`
-- 234,244 normalized entries (Stand 2026-05-29; 256,759 raw forms in variants.xml, deduped first-occurrence-wins), extracted from `authority-files/variants.xml`
+- 234,244 normalized entries (Stand 2026-07-12; 256,761 raw forms in variants.xml, deduped first-occurrence-wins), extracted from `authority-files/variants.xml`
 - **First occurrence wins** – if two lemmata claim the same variant form, only the first one stored (source: `build-authority-index.py:643-644`, in `parse_variants()`)
 - Keys are **normalized** forms (lowercase + MHG character mapping applied before storage)
 

@@ -473,7 +473,7 @@ Format variiert historisch bedingt. Neue Texte sollen ein konsistentes Schema ve
 
 - **Denormalisierung.** Source of Truth für die Grundform ist `lexicon.xml` → `<form type="lemma"><orth>`. `@lemma` wäre eine redundante Kopie neben `@lemmaRef`. Das widerspricht dem Grundsatz aus [TEI-MODEL-AUTH-FILES.md](TEI-MODEL-AUTH-FILES.md) Sec. 2.2 ("Bidirektionale Links – eine Richtung ist Master, die andere wird abgeleitet"), der für Authority-Files gilt und hier konsequent fortgeführt wird.
 - **Datenvolumen.** ~9,3M `<w>`-Elemente × ~10 Byte → rund 90 MB zusätzliche Roh-XML über 667 Dateien ohne funktionalen Nutzen.
-- **Kein Konsument.** Weder `build-corpus-index.py` (liest nur `@lemmaRef` und extrahiert die ID) noch die JS-Renderer (`text-renderer.js`, `tei-text-reader.js`) lesen `@lemma`. Die Anzeige der Grundform läuft im Browser über den Authority-Index.
+- **Kein Konsument.** Weder `build-corpus-index.py` (liest nur `@lemmaRef` und extrahiert die ID) noch der JS-Renderer (`tei-text-reader.js`) lesen `@lemma`. Die Anzeige der Grundform läuft im Browser über den Authority-Index.
 - **Sync-Risiko.** Jede orthografische Korrektur im Lexikon müsste in alle 667 Korpusdateien propagiert werden, sonst driften sie auseinander.
 
 Die menschenlesbare Grundform bleibt per Lookup `@lemmaRef` → `lexicon.xml` zugänglich – für Debug-Inspektion per `xmllint`/`grep`, für Tooling per Authority-Index.
@@ -861,7 +861,7 @@ Frühere Fehler (alle behoben durch Migration):
 | Datei | Einträge | Validierung |
 |-------|----------|-------------|
 | lexicon.xml | 43,879 Lemmata (+4 WZB 2026-05-08, +125 #115-Stubs 2026-07-02) | tei_all ✓ · mhdbdb-authority ✓ |
-| variants.xml | 42,627 Einträge (256,759 Formen) | tei_all ✓ · mhdbdb-authority ✓ |
+| variants.xml | 42,627 Einträge (256,761 Formen) | tei_all ✓ · mhdbdb-authority ✓ |
 | persons.xml | 211 Personen | tei_all ✓ · mhdbdb-authority ✓ |
 | works.xml | 584 Werke (+1 work_WZB) | tei_all ✓ · mhdbdb-authority ✓ |
 | concepts.xml | 567 Kategorien | tei_all ✓ · mhdbdb-authority ✓ |
