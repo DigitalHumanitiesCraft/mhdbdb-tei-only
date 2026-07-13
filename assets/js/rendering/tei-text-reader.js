@@ -12,7 +12,7 @@ class TEITextReader {
     constructor(corpusIndex, authorityIndex, cache) {
         this.corpusIndex = corpusIndex;
         this.authorityIndex = authorityIndex;
-        this.cache = cache; // Reuse TextRenderer's TEICacheManager
+        this.cache = cache; // Shared TEICacheManager (created in app.js)
 
         this.currentTextId = null;
         this.currentLemmaId = null;
