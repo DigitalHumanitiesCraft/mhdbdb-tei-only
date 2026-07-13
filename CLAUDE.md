@@ -25,7 +25,7 @@ MHDBDB TEI Repository: ~667 TEI-encoded Middle High German texts with semantic a
 | ROADMAP.md | Current priorities and strategic direction |
 | JOURNAL.md | Chronological development log |
 | `features/` | Feature-scoped planning docs (active issues only) |
-| `playbooks/` | Wiederverwendbare Session-Verfahren (autonome Issue-/Merge-Sessions) |
+| `playbooks/` | Wiederverwendbare Session-Verfahren (autonome Issue-/Merge-/Carearbeit-Sessions) |
 
 ## Directory Layout
 
@@ -91,7 +91,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>
 ## Temporal Artifacts (Promptotyping convention)
 
 - **Feature docs** (`docs/features/`): Live while issue is open. On completion: extract critical knowledge into stable docs (CONTRACTS.md, ARCHITECTURE.md, etc.), then delete. Git history = archive.
-- **Playbooks** (`docs/playbooks/`): Bewusste Ausnahme von der Lösch-Regel — wiederverwendbare Session-Verfahren (autonome Issue-/Merge-Sessions), nicht ticket-gebunden. Nach jeder Session: Lehren einarbeiten, session-spezifischen Anhang leeren bzw. neu befüllen, Kernwissen ins JOURNAL. Autorisieren NICHTS von selbst; sie laufen nur nach explizitem User-Kickoff (Betriebsvertrag steht in den Dateien).
+- **Playbooks** (`docs/playbooks/`): Bewusste Ausnahme von der Lösch-Regel — wiederverwendbare Session-Verfahren (autonome Issue-/Merge-/Carearbeit-Sessions), nicht ticket-gebunden. Nach jeder Session: Lehren einarbeiten, session-spezifischen Anhang leeren bzw. neu befüllen, Kernwissen ins JOURNAL. Autorisieren NICHTS von selbst; sie laufen nur nach explizitem User-Kickoff (Betriebsvertrag steht in den Dateien).
 - **Health check reports**: Run via `/promptotyping check` (operative Mechanik). Full report → Scorecard in JOURNAL.md (3-4 Zeilen, dated). Action items → separate Issues. **Keine .md-Datei in `docs/`** — der Report ist disposable, sobald Action Items extrahiert sind.
 
 ### Health-Check-Checkliste (MHDBDB-spezifisch)
