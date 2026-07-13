@@ -166,7 +166,7 @@ Notes: Multiple sigles per work (editions). GND/Wikidata may be full URLs or bar
 | genres.xml | `genre_{hex}` | – (but many broader pointers, polyhierarchical) |
 | names.xml | `name_{numeric}` | `exactMatch`, `closeMatch` → `concepts.xml#...` |
 
-#### variants.xml (~16 MB, 256,759 variant forms)
+#### variants.xml (~16 MB, 256,761 variant forms)
 
 ```xml
 <TEI><text><body><div type="orthographicVariants">
@@ -478,11 +478,11 @@ Build scripts use `get_namespaces()` which handles TEI documents with or without
 2. If `None` key exists (default namespace), remap to `'tei'` prefix
 3. Fallback: set `'tei'` = `'http://www.tei-c.org/ns/1.0'`
 
-Source: `scripts/build-authority-index.py:52-69` (`get_namespaces`)
+Source: `scripts/tei_namespaces.py` (`get_namespaces`, seit #171 F97 geteilte Lib; von `build-authority-index.py` importiert)
 
 #### Variant Dictionary Deduplication
 
-When building the variants map, **first occurrence wins** – if two lemmata claim the same normalized variant form, only the first is stored. No collision detection or warning. Source: `build-authority-index.py:643-644` (in `parse_variants()`, lines 601-647).
+When building the variants map, **first occurrence wins** – if two lemmata claim the same normalized variant form, only the first is stored. No collision detection or warning. Source: `build-authority-index.py`, `parse_variants()` (Zeilenanker driften; Funktion per Name suchen).
 
 ### Data Wrangling Scripts
 

@@ -647,61 +647,10 @@
   border: 1px solid #f59e0b;
 }
 
-/* Multi-lemma highlighting (color-coded by lemma ID) */
-.multi-lemma-879 {
-  background-color: #fecaca;
-  border: 1px solid #ef4444;
-  color: #991b1b;
-  border-radius: var(--radius-sm);
-  padding: var(--space-1) var(--space-2);
-  font-weight: 600;
-}
-
-.multi-lemma-7532 {
-  background-color: #bbf7d0;
-  border: 1px solid #22c55e;
-  color: #14532d;
-  border-radius: var(--radius-sm);
-  padding: var(--space-1) var(--space-2);
-  font-weight: 600;
-}
-
-.multi-lemma-1816 {
-  background-color: #bfdbfe;
-  border: 1px solid #3b82f6;
-  color: #1e3a8a;
-  border-radius: var(--radius-sm);
-  padding: var(--space-1) var(--space-2);
-  font-weight: 600;
-}
-
-.multi-lemma-26713 {
-  background-color: #f9a8d4;
-  border: 1px solid #ec4899;
-  color: #831843;
-  border-radius: var(--radius-sm);
-  padding: var(--space-1) var(--space-2);
-  font-weight: 600;
-}
-
-.multi-lemma-712 {
-  background-color: #fed7aa;
-  border: 1px solid #f97316;
-  color: #9a3412;
-  border-radius: var(--radius-sm);
-  padding: var(--space-1) var(--space-2);
-  font-weight: 600;
-}
-
-/* Fallback for other lemma IDs */
-[class*="multi-lemma-"]:not(.multi-lemma-879):not(.multi-lemma-7532):not(.multi-lemma-1816):not(.multi-lemma-26713):not(.multi-lemma-712) {
-  background-color: #c4b5fd;
-  border: 1px solid #8b5cf6;
-  color: #581c87;
-  border-radius: var(--radius-sm);
-  padding: var(--space-1) var(--space-2);
-  font-weight: 600;
-}
+/* Multi-lemma highlighting: die Leseansicht (tei-text-reader.js) vergibt die
+   bare Klasse `highlight multi-lemma` plus Inline-Farben pro Lemma.
+   ID-suffigierte Klassen (`multi-lemma-<id>`) existieren nur im Playground
+   (playground/css/style.css + tei-ui.js), nicht auf dieser Seite. */
 
 /* ========================================
    TREFFER-NAVIGATION (Reading View)

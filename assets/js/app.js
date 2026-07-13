@@ -11,7 +11,7 @@ import { escapeHtml } from './lib/escape.js';
 import { fetchWbnetzEntries, decodeHtmlEntities } from './lib/woerterbuchnetz.js';
 import { SearchEngine } from './search/search-engine.js';
 import { extractKwicHits, formatLineRef } from './search/kwic-service.js';
-import { TextRenderer } from './rendering/text-renderer.js';
+import { TEICacheManager } from './storage/tei-cache-manager.js';
 import { TEITextReader } from './rendering/tei-text-reader.js';
 
 /**
@@ -121,7 +121,7 @@ class MainSiteApp {
     constructor() {
         this.corpusLoader = new CorpusLoader();
         this.searchEngine = null;
-        this.textRenderer = null;
+        this.teiCache = null;
         this.teiReader = null; // Unified reading view
 
         this.currentResults = [];
@@ -279,11 +279,12 @@ class MainSiteApp {
         this.updateLoadingStatus('Initialisiere Suchmaschine...', 80);
         this.searchEngine = new SearchEngine(authorityIndex, corpusIndex);
 
-        // Initialize text renderer (for cache only)
-        this.textRenderer = new TextRenderer(corpusIndex, authorityIndex);
+        // Shared TEI DOM cache (IndexedDB, revalidated per load — #151)
+        this.teiCache = new TEICacheManager();
+        this.teiCache.init().catch(err => console.error('[MainSiteApp] TEI cache init failed:', err));
 
         // Initialize unified TEI reader
-        this.teiReader = new TEITextReader(corpusIndex, authorityIndex, this.textRenderer.cache);
+        this.teiReader = new TEITextReader(corpusIndex, authorityIndex, this.teiCache);
 
         // Populate text list with checkboxes
         this.populateTextList();

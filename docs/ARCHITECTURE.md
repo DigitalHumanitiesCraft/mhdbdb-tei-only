@@ -39,7 +39,7 @@ The MHDBDB project follows a **client-only architecture** with no backend server
 - Initialize corpus loader
 - Load pre-built corpus index (~40 MB compressed)
 - Set up search interface and text selection
-- Coordinate SearchEngine and TextRenderer
+- Coordinate SearchEngine and TEITextReader
 
 ### Page Detection and Dual Initialization
 
@@ -55,7 +55,7 @@ The MHDBDB project follows a **client-only architecture** with no backend server
 2. Load corpus index (via `CorpusLoader`)
 3. Initialize all texts as included (`Set` of text IDs)
 4. Create `SearchEngine(authority, corpus)`
-5. Create `TextRenderer(corpus, authority)` (for cache)
+5. Create shared `TEICacheManager` (TEI DOM cache, IndexedDB)
 6. Create `TEITextReader(corpus, authority, cache)`
 7. Populate text list checkboxes from corpus index
 8. Check URL parameters (`?textId=...&lemmaIds=...&position=...`)

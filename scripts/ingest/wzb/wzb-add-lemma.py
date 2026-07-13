@@ -8,9 +8,9 @@ the WZB Phase 1b addition convention).  The new <entry> is inserted
 immediately after the current highest-ID lemma in the lexicon.
 
 Usage:
-    py scripts/wzb-add-lemma.py --orth <form> --pos <POS> --concept <ID> [...]
-    py scripts/wzb-add-lemma.py --orth weise --pos NOM --concept concept_23112700
-    py scripts/wzb-add-lemma.py --orth zipper --pos NOM \
+    py scripts/ingest/wzb/wzb-add-lemma.py --orth <form> --pos <POS> --concept <ID> [...]
+    py scripts/ingest/wzb/wzb-add-lemma.py --orth weise --pos NOM --concept concept_23112700
+    py scripts/ingest/wzb/wzb-add-lemma.py --orth zipper --pos NOM \
         --concept concept_23305330 --concept concept_14012000 \
         --ana type_12345 type_67890
 
@@ -43,7 +43,7 @@ VALID_POS = {
     "PRP", "VEX", "POS", "NAM", "NUM", "NEG", "INJ", "VEM", "IPA", "DIG",
 }
 
-PROJECT_ROOT  = Path(__file__).parent.parent
+PROJECT_ROOT  = Path(__file__).parents[3]  # scripts/ingest/wzb/ -> repo root
 DEFAULT_LEX   = PROJECT_ROOT / "authority-files" / "lexicon.xml"
 DEFAULT_CON   = PROJECT_ROOT / "authority-files" / "concepts.xml"
 ENTRY_INDENT  = "        "   # 8 spaces — matches existing lexicon indentation
@@ -188,11 +188,9 @@ if __name__ == "__main__":
     print(f"Written to {lex_path}")
 
     # --- post-write sanity check ---
-    from pathlib import Path as _P
-    sys.path.insert(0, str(Path(__file__).parent / "audit"))
-    import importlib.util, types
+    import importlib.util
     spec = importlib.util.spec_from_file_location(
-        "check_senses", Path(__file__).parent / "audit" / "check-lexicon-senses.py"
+        "check_senses", Path(__file__).parents[2] / "audit" / "check-lexicon-senses.py"
     )
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)

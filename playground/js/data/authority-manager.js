@@ -44,20 +44,6 @@ export class AuthorityFilesManager {
     }
   }
 
-  // ==================== DEAD CODE REMOVED ====================
-  // The following functions relied on parsedXML which no longer exists
-  // (authority data now loaded via pre-built index in main.js):
-  //   - loadAuthorityFiles()
-  //   - buildIndexes()
-  //   - buildGenreWorkIndexes()
-  //   - buildGenreHierarchyIndex()
-  //   - buildConceptLemmaIndex()
-  //   - processAuthorityFileContent()
-  //   - analyzeAuthorityFile()
-  //   - All extraction methods (extractPersons, extractWorks, etc.)
-  //   - findLemmaInXML()
-  //   - findWorksInGenre()
-
   // ==================== LEMMA RESOLUTION ====================
 
   resolveLemmaNames(searchTerms) {
@@ -190,25 +176,10 @@ export class AuthorityFilesManager {
     );
   }
 
-  getLemmaSuggestions(partialInput, maxSuggestions = 10) {
-    const normalized = partialInput.toLowerCase();
-    return this.authorityData.lemmata
-      .filter(lemma =>
-        lemma.lemma && lemma.lemma.toLowerCase().startsWith(normalized)
-      )
-      .slice(0, maxSuggestions)
-      .map(lemma => ({
-        lemma: lemma.lemma,
-        id: lemma.id.replace('lemma_', ''),
-        pos: lemma.pos
-      }));
-  }
-
   /**
    * Live-Autocomplete-Suggestions: prefix-match auf `lemma.normalized`
    * (mhd-normalisiert) mit includes-Fallback. Liefert vollständige Lemma-
-   * Objekte (`{id, lemma, pos, ...}` mit `lemma_X`-Präfix), im Gegensatz zu
-   * `getLemmaSuggestions()` (legacy, strippt Präfix).
+   * Objekte (`{id, lemma, pos, ...}` mit `lemma_X`-Präfix).
    *
    * Genutzt von lemma-distribution.js, verse-position-search.js,
    * cooccurrence-ranking.js für Live-Dropdown im Lemma-Input. Siehe
@@ -268,14 +239,4 @@ export class AuthorityFilesManager {
     console.log(`${indicator} ${text}`);
   }
 
-  // ==================== DEAD CODE REMOVED ====================
-  // The following cache management methods relied on storageManager which no longer exists
-  // (authority data now loaded via CorpusLoader with Dexie.js caching):
-  //   - getCacheStatus()
-  //   - clearExpiredCache()
-  //   - getLoadStatistics()
-  //   - refreshAuthorityFile()
-  //   - getStorageDebugInfo()
-  //
-  // Cache management is now handled by CorpusLoader in js/corpus-loader.js
 }
