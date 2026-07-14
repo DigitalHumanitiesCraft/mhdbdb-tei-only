@@ -11,7 +11,7 @@ For every lemma that appears in wzb-sense-pending.tsv, this script:
      unresolved pending tokens
 
 Output:
-  Wenzelsbibel/phase3/wzb-sense-majority-baseline.tsv
+  ingest/wzb/phase3/wzb-sense-majority-baseline.tsv
     lemma_id | majority_sense_id | majority_count | total_count | majority_pct
 
 Usage:
@@ -35,8 +35,8 @@ if hasattr(sys.stdout, 'reconfigure'):
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent.parent
 DEFAULT_TEI_DIR = PROJECT_ROOT / "tei"
-DEFAULT_PENDING = PROJECT_ROOT / "Wenzelsbibel" / "phase3" / "wzb-sense-pending.tsv"
-DEFAULT_OUT     = PROJECT_ROOT / "Wenzelsbibel" / "phase3" / "wzb-sense-majority-baseline.tsv"
+DEFAULT_PENDING = PROJECT_ROOT / "ingest" / "wzb" / "phase3" / "wzb-sense-pending.tsv"
+DEFAULT_OUT     = PROJECT_ROOT / "ingest" / "wzb" / "phase3" / "wzb-sense-majority-baseline.tsv"
 
 NS_TEI = "http://www.tei-c.org/ns/1.0"
 NS_XML = "http://www.w3.org/XML/1998/namespace"

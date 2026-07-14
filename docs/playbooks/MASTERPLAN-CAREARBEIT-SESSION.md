@@ -79,6 +79,6 @@ Parallel: `gh issue list` für den Regel-2-Bestand (geshippt-aber-offen).
 Vor der nächsten Session hier befüllen: Scope-Besonderheiten, seit der letzten Session bekannte Kandidaten, offene §5-Punkte.
 
 **Stand nach Session 1 (2026-07-13):**
-- #219 Wenzelsbibel-Entscheidung: falls bis dahin entschieden, Umsetzung als WP C-Punkt.
+- ~~#219 Wenzelsbibel-Entscheidung~~: entschieden und umgesetzt 2026-07-14 (Ausdünnen + Umzug nach `ingest/wzb/`, siehe dortiges README).
 - `doc-count-audit.py` um code-abgeleitete Counts erweitern (Lehre 1).
 - `playground/css/style.css`-Voll-Sweep nur bei konkretem Anlass (Lehre 6).

@@ -8,7 +8,7 @@ One row per unique (form, candidate_lemmas) combination, with:
 - one sample context
 - empty resolved_lemma / confidence / note columns for filling in
 
-Output: Wenzelsbibel/wzb-pending-review.tsv
+Output: ingest/wzb/wzb-pending-review.tsv
 
 Usage:
     py scripts/wzb-pending-review.py [--tsv <path>] [--out <path>]
@@ -19,8 +19,8 @@ import argparse
 from pathlib import Path
 from collections import defaultdict
 
-DEFAULT_TSV = "Wenzelsbibel/phase1b/wzb-disambiguation.tsv"
-DEFAULT_OUT = "Wenzelsbibel/phase1b/wzb-pending-review.tsv"
+DEFAULT_TSV = "ingest/wzb/phase1b/wzb-disambiguation.tsv"
+DEFAULT_OUT = "ingest/wzb/phase1b/wzb-pending-review.tsv"
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

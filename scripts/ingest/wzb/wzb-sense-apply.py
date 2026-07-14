@@ -14,13 +14,13 @@ Usage:
     py scripts/wzb-sense-apply.py [--dry-run]
 
 Input:
-    Wenzelsbibel/WZB.lemma-autofill.tei.xml
-    Wenzelsbibel/phase3/wzb-sense-pending.tsv   (with resolved_sense filled in)
+    ingest/wzb/WZB.lemma-autofill.tei.xml
+    ingest/wzb/phase3/wzb-sense-pending.tsv   (with resolved_sense filled in)
     authority-files/lexicon.xml
     authority-files/variants.xml
 
 Output:
-    Wenzelsbibel/WZB.lemma-autofill.tei.xml   (updated in-place, unless --dry-run)
+    ingest/wzb/WZB.lemma-autofill.tei.xml   (updated in-place, unless --dry-run)
 """
 
 import csv
@@ -43,8 +43,8 @@ if hasattr(sys.stdout, 'reconfigure'):
     sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
 PROJECT_ROOT  = Path(__file__).resolve().parent.parent.parent.parent
-DEFAULT_TEI   = PROJECT_ROOT / "Wenzelsbibel" / "WZB.lemma-autofill.tei.xml"
-DEFAULT_PEND  = PROJECT_ROOT / "Wenzelsbibel" / "phase3" / "wzb-sense-pending.tsv"
+DEFAULT_TEI   = PROJECT_ROOT / "ingest" / "wzb" / "WZB.lemma-autofill.tei.xml"
+DEFAULT_PEND  = PROJECT_ROOT / "ingest" / "wzb" / "phase3" / "wzb-sense-pending.tsv"
 DEFAULT_LEX   = PROJECT_ROOT / "authority-files" / "lexicon.xml"
 DEFAULT_VAR   = PROJECT_ROOT / "authority-files" / "variants.xml"
 

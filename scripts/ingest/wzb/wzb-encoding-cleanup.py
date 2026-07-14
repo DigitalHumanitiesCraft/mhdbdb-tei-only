@@ -147,7 +147,7 @@ def main():
     parser = argparse.ArgumentParser(
         description="WZB encoding cleanup: historiated initials, div types, Josua.0"
     )
-    parser.add_argument("--tei", default="Wenzelsbibel/WZB.lemma-autofill.tei.xml")
+    parser.add_argument("--tei", default="ingest/wzb/WZB.lemma-autofill.tei.xml")
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
 

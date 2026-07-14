@@ -17,7 +17,7 @@ Only rows with an empty resolved_sense are updated (never overwrites).
 
 Usage:
     py scripts/wzb-sense-bulk-resolve.py --resolutions <file> [--by lemma|xml_id] [--dry-run]
-    py scripts/wzb-sense-bulk-resolve.py -r Wenzelsbibel/phase3/resolutions/wzb-sense-batch01.tsv
+    py scripts/wzb-sense-bulk-resolve.py -r ingest/wzb/phase3/resolutions/wzb-sense-batch01.tsv
 """
 
 import csv
@@ -30,7 +30,7 @@ def uprint(*args, **kwargs):
     sys.stdout.buffer.write(text.encode("utf-8", errors="replace"))
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent.parent
-DEFAULT_PENDING = PROJECT_ROOT / "Wenzelsbibel" / "phase3" / "wzb-sense-pending.tsv"
+DEFAULT_PENDING = PROJECT_ROOT / "ingest" / "wzb" / "phase3" / "wzb-sense-pending.tsv"
 REVIEWER = "claude"
 
 
