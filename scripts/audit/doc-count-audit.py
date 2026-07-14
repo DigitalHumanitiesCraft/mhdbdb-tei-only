@@ -73,6 +73,46 @@ def collect_counts() -> dict:
     return counts
 
 
+# Explizite Ausnahme-Mengen statt -1/-2-Offsets (Review PR #222): beim
+# naechsten Werkzeug-Zuwachs hier pflegen, nicht in Zaehl-Magie suchen.
+NON_TOOL_MODULES = {'tei-ui.js'}                 # Router, kein Werkzeug
+MODAL_MODULES = {'multi-lemma-search.js'}        # folgt dem DESIGN-Pattern nicht
+PRE_DESCRIBED_TOOLS = {                          # in hilfe-playground vorab
+    'multi-lemma-search.js',                     # beschrieben; §5 zaehlt den
+    'verse-position-search.js',                  # Rest als "weitere Werkzeuge"
+}
+
+
+def collect_code_counts() -> dict:
+    """Code-abgeleitete Counts (Carearbeit-Lehre 2026-07-13: Drift-Klasse
+    Nr. 1 sind Werkzeug-/Entry-Point-Zahlen, nicht Datenzahlen).
+
+    Ableitungen folgen den Doku-Konventionen:
+    - TEI-Werkzeuge = Module in playground/js/ui/tei/ minus NON_TOOL_MODULES
+      (multi-lemma-search.js zaehlt als Werkzeug Nr. 1)
+    - Pattern-Module (DESIGN.md) = Werkzeuge minus MODAL_MODULES
+    - Authority-Explorer = die sechs show*Btn-Buttons der Authority-Sidebar
+    - Entry Points = Explorer + Werkzeuge
+    - "weitere Werkzeuge" (hilfe-playground §5) = Werkzeuge minus
+      PRE_DESCRIBED_TOOLS"""
+    counts = {}
+    module_names = {Path(m).name for m in glob.glob('playground/js/ui/tei/*.js')}
+    known = NON_TOOL_MODULES | MODAL_MODULES | PRE_DESCRIBED_TOOLS
+    missing = known - module_names
+    if missing:
+        sys.exit(f'FEHLER: Ausnahme-Mengen nennen nicht existierende Module: {sorted(missing)} '
+                 f'— NON_TOOL_MODULES/MODAL_MODULES/PRE_DESCRIBED_TOOLS pflegen.')
+    tools_set = module_names - NON_TOOL_MODULES
+    counts['tei_tools'] = len(tools_set)
+    counts['pattern_modules'] = len(tools_set - MODAL_MODULES)
+    counts['tei_tools_weitere'] = len(tools_set - PRE_DESCRIBED_TOOLS)
+    html = Path('playground/index.html').read_text(encoding='utf-8')
+    counts['authority_explorers'] = len(re.findall(
+        r'id="show(?:Authors|Works|Lemmata|Concepts|Genres|Names)Btn"', html))
+    counts['entry_points'] = counts['authority_explorers'] + counts['tei_tools']
+    return counts
+
+
 # (label, key, formatted-as-found-in-docs)
 LABELS = [
     ('Korpus-Dateien (tei/)', 'corpus_files'),
@@ -111,6 +151,91 @@ DOC_TARGETS = [
     ('hilfe-daten-beitragen.html', ['variants_forms']),
     ('playground/index.html', ['variants_normalized']),
 ]
+
+CODE_LABELS = [
+    ('Playground — TEI-Analyse-Werkzeuge', 'tei_tools'),
+    ('Playground — davon "weitere" (hilfe §5)', 'tei_tools_weitere'),
+    ('Playground — Pattern-Module (DESIGN)', 'pattern_modules'),
+    ('Playground — Authority-Explorer', 'authority_explorers'),
+    ('Playground — Search Entry Points', 'entry_points'),
+]
+
+# Kleine, code-abgeleitete Counts stehen in den Docs meist als Zahlwort
+# ("zwoelf TEI-Analysewerkzeuge", "Twelve analysis tools") oder kleine
+# Ziffer ("all 18 entry points") — der numerische Scan oben greift dafuer
+# nicht (Untergrenze 100). Eigener Wortzahl-Scan mit engen Ankern.
+CODE_DOC_TARGETS = [
+    ('README.md', ['tei_tools', 'authority_explorers', 'entry_points']),
+    ('docs/INDEX.md', ['tei_tools', 'entry_points']),
+    ('docs/FEATURES.md', ['tei_tools', 'entry_points']),
+    ('docs/ARCHITECTURE.md', ['tei_tools', 'pattern_modules', 'entry_points']),
+    ('docs/DESIGN.md', ['pattern_modules']),
+    ('hilfe-playground.html', ['tei_tools', 'tei_tools_weitere', 'authority_explorers']),
+]
+
+NUMBER_WORDS = {
+    'fuenf': 5, 'fünf': 5, 'sechs': 6, 'sieben': 7, 'acht': 8, 'neun': 9,
+    'zehn': 10, 'elf': 11, 'zwoelf': 12, 'zwölf': 12, 'dreizehn': 13,
+    'vierzehn': 14, 'fuenfzehn': 15, 'fünfzehn': 15, 'sechzehn': 16,
+    'siebzehn': 17, 'achtzehn': 18, 'neunzehn': 19, 'zwanzig': 20,
+    'five': 5, 'six': 6, 'seven': 7, 'eight': 8, 'nine': 9, 'ten': 10,
+    'eleven': 11, 'twelve': 12, 'thirteen': 13, 'fourteen': 14,
+    'fifteen': 15, 'sixteen': 16, 'seventeen': 17, 'eighteen': 18,
+    'nineteen': 19, 'twenty': 20,
+}
+
+CODE_ANCHORS = {
+    'tei_tools': r'(?:TEI-Analyse-?[Ww]erkzeuge|TEI-Analysewerkzeuge|(?:TEI[- ])?analysis tools|Analyse-Werkzeuge|Werkzeuge)',
+    'tei_tools_weitere': r'weitere\s+Werkzeuge',
+    'pattern_modules': r'Analyse-Module',
+    'authority_explorers': r'(?:Authority-File-(?:Explorer|Einstiegspunkte)|Authority-Explorer)',
+    'entry_points': r'(?:[Ss]earch\s+)?[Ee]ntry\s+[Pp]oints',
+}
+
+
+def find_stale_wordcounts(doc_path: str, current: int, key: str) -> list:
+    """Zahlwort- und Kleinziffern-Drift fuer code-abgeleitete Counts.
+
+    Gleiche Anker-Idee wie find_stale_numbers (Keyword direkt hinter der
+    Zahl, begrenzt Markup dazwischen), aber: Zahlwoerter statt grosser
+    Ziffern, KEIN Drift-Fenster (jede Abweichung vom Ist-Wert zaehlt),
+    und ein Skip fuer datierte Chronik-Zeilen (Milestones/Changelogs mit
+    "(20YY-" oder Haekchen-Marker), deren Zahlen bewusst historisch sind.
+    Ordinale ("Zehntes Werkzeug") matchen dank \\b-Grenzen nicht."""
+    if not Path(doc_path).exists():
+        return []
+    keywords = CODE_ANCHORS.get(key)
+    if not keywords:
+        return []
+    anchor = re.compile(r'(?:\s+|</?[a-zA-Z][^>]{0,80}>){0,8}' + keywords)
+    words = '|'.join(sorted(NUMBER_WORDS, key=len, reverse=True))
+    num_re = re.compile(rf'\b((?i:{words})|\d{{1,2}})\b')
+    content = Path(doc_path).read_text(encoding='utf-8')
+
+    findings = []
+    for m in num_re.finditer(content):
+        raw = m.group(1)
+        num = NUMBER_WORDS.get(raw.lower(), None)
+        if num is None:
+            try:
+                num = int(raw)
+            except ValueError:
+                continue
+        if num == current:
+            continue
+        if not anchor.match(content[m.end():m.end() + 300]):
+            continue
+        # Datierte Chronik-Zeilen (INDEX-Milestones, ROADMAP-Log) sind
+        # bewusst historisch: "damit 8 TEI-Analyse-Werkzeuge (2026-05-15)".
+        line_start = content.rfind('\n', 0, m.start()) + 1
+        line_end = content.find('\n', m.end())
+        line = content[line_start:line_end if line_end != -1 else len(content)]
+        if re.search(r'\(20\d\d-|✅|✓', line):
+            continue
+        line_no = content[:m.start()].count('\n') + 1
+        ctx = content[max(0, m.start() - 25):m.end() + 40].replace('\n', ' ').strip()
+        findings.append((line_no, raw, ctx[:80]))
+    return findings
 
 
 def find_stale_numbers(doc_path: str, current: int, key: str) -> list:
@@ -208,6 +333,7 @@ def main():
     args = ap.parse_args()
 
     counts = collect_counts()
+    code_counts = collect_code_counts()
 
     print('=== Current corpus + authority counts ===')
     print()
@@ -215,6 +341,8 @@ def main():
     print('|----------|----------------|')
     for label, key in LABELS:
         print(f'| {label} | {counts[key]:,} |')
+    for label, key in CODE_LABELS:
+        print(f'| {label} | {code_counts[key]} |')
     print()
 
     print('=== Doc drift scan ===')
@@ -233,11 +361,22 @@ def main():
                     print(f'    ... +{len(findings) - 5} more')
                 total_drift += len(findings)
 
+    for doc_path, keys in CODE_DOC_TARGETS:
+        for key in keys:
+            findings = find_stale_wordcounts(doc_path, code_counts[key], key)
+            if findings:
+                print(f'  {doc_path} — expected {code_counts[key]} for {key}:')
+                for line_no, raw, ctx in findings[:5]:
+                    print(f'    L{line_no}: "{raw}" near "{ctx}"')
+                if len(findings) > 5:
+                    print(f'    ... +{len(findings) - 5} more')
+                total_drift += len(findings)
+
     if total_drift == 0:
         print('  No drift detected against scanned docs + user-facing HTML pages')
-        print('  (data counts only).')
-        print('  NB: covers corpus/authority data counts; does NOT check code-derived')
-        print('      counts (playground tools, ui/ module counts, router entry points).')
+        print('  (data counts + code-derived playground counts).')
+        print('  NB: Zahlwort-Scan deckt Werkzeug-/Explorer-/Entry-Point-Claims ab;')
+        print('      datierte Chronik-Zeilen (Milestones/Changelogs) sind ausgenommen.')
     else:
         print()
         print(f'  Total potential drift hits: {total_drift}')

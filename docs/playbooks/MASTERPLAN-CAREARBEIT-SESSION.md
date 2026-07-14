@@ -80,5 +80,5 @@ Vor der nächsten Session hier befüllen: Scope-Besonderheiten, seit der letzten
 
 **Stand nach Session 1 (2026-07-13):**
 - ~~#219 Wenzelsbibel-Entscheidung~~: entschieden und umgesetzt 2026-07-14 (Ausdünnen + Umzug nach `ingest/wzb/`, siehe dortiges README).
-- `doc-count-audit.py` um code-abgeleitete Counts erweitern (Lehre 1).
+- ~~`doc-count-audit.py` um code-abgeleitete Counts erweitern (Lehre 1)~~: umgesetzt 2026-07-14 (Zahlwort-Scan für Werkzeug-/Explorer-/Entry-Point-Claims, Chronik-Zeilen ausgenommen).
 - `playground/css/style.css`-Voll-Sweep nur bei konkretem Anlass (Lehre 6).
