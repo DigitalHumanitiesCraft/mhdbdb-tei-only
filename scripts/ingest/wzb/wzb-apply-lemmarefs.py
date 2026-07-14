@@ -40,8 +40,8 @@ def uprint(*args, **kwargs):
     sys.stdout.buffer.write(text.encode("utf-8", errors="replace"))
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent.parent
-DEFAULT_TEI  = PROJECT_ROOT / "Wenzelsbibel" / "WZB.lemma-autofill.tei.xml"
-DEFAULT_TSV  = PROJECT_ROOT / "Wenzelsbibel" / "phase1b" / "wzb-disambiguation.tsv"
+DEFAULT_TEI  = PROJECT_ROOT / "ingest" / "wzb" / "WZB.lemma-autofill.tei.xml"
+DEFAULT_TSV  = PROJECT_ROOT / "ingest" / "wzb" / "phase1b" / "wzb-disambiguation.tsv"
 
 XML_ID_ATTR  = "{http://www.w3.org/XML/1998/namespace}id"
 

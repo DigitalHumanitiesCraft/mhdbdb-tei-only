@@ -21,8 +21,8 @@ if sys.stdout.encoding != 'utf-8':
     sys.stdout = open(sys.stdout.fileno(), mode='w', encoding='utf-8', buffering=1)
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent.parent
-REPORT_CSV = PROJECT_ROOT / 'Wenzelsbibel' / 'reports' / 'wzb-auto-match-report.csv'
-OUTPUT_TSV = PROJECT_ROOT / 'Wenzelsbibel' / 'reports' / 'wzb-unmatched-forms.tsv'
+REPORT_CSV = PROJECT_ROOT / 'ingest' / 'wzb' / 'reports' / 'wzb-auto-match-report.csv'
+OUTPUT_TSV = PROJECT_ROOT / 'ingest' / 'wzb' / 'reports' / 'wzb-unmatched-forms.tsv'
 
 if __name__ == '__main__':
     if not REPORT_CSV.exists():

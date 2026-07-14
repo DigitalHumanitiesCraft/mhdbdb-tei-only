@@ -59,7 +59,7 @@ PROJECT_ROOT    = Path(__file__).resolve().parent.parent.parent.parent
 DEFAULT_TEI_DIR = PROJECT_ROOT / "tei"
 DEFAULT_LEX     = PROJECT_ROOT / "authority-files" / "lexicon.xml"
 DEFAULT_CON     = PROJECT_ROOT / "authority-files" / "concepts.xml"
-DEFAULT_EVAL_DIR = PROJECT_ROOT / "Wenzelsbibel" / "phase3" / "eval"
+DEFAULT_EVAL_DIR = PROJECT_ROOT / "ingest" / "wzb" / "phase3" / "eval"
 
 NS_TEI = "http://www.tei-c.org/ns/1.0"
 NS_XML = "http://www.w3.org/XML/1998/namespace"

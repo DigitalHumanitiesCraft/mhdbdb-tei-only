@@ -43,8 +43,8 @@ if hasattr(sys.stdout, 'reconfigure'):
     sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
 PROJECT_ROOT  = Path(__file__).resolve().parent.parent.parent.parent
-DEFAULT_TEI   = PROJECT_ROOT / "Wenzelsbibel" / "WZB.lemma-autofill.tei.xml"
-DEFAULT_PEND  = PROJECT_ROOT / "Wenzelsbibel" / "phase3" / "wzb-sense-pending.tsv"
+DEFAULT_TEI   = PROJECT_ROOT / "ingest" / "wzb" / "WZB.lemma-autofill.tei.xml"
+DEFAULT_PEND  = PROJECT_ROOT / "ingest" / "wzb" / "phase3" / "wzb-sense-pending.tsv"
 DEFAULT_LEX   = PROJECT_ROOT / "authority-files" / "lexicon.xml"
 DEFAULT_VAR   = PROJECT_ROOT / "authority-files" / "variants.xml"
 

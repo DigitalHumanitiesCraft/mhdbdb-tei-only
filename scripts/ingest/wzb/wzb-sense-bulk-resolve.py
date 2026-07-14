@@ -30,7 +30,7 @@ def uprint(*args, **kwargs):
     sys.stdout.buffer.write(text.encode("utf-8", errors="replace"))
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent.parent
-DEFAULT_PENDING = PROJECT_ROOT / "Wenzelsbibel" / "phase3" / "wzb-sense-pending.tsv"
+DEFAULT_PENDING = PROJECT_ROOT / "ingest" / "wzb" / "phase3" / "wzb-sense-pending.tsv"
 REVIEWER = "claude"
 
 

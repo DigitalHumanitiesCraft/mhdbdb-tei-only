@@ -35,8 +35,8 @@ if hasattr(sys.stdout, 'reconfigure'):
     sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent.parent
-DEFAULT_TEI     = PROJECT_ROOT / "Wenzelsbibel" / "WZB.lemma-autofill.tei.xml"
-DEFAULT_PENDING = PROJECT_ROOT / "Wenzelsbibel" / "phase2" / "wzb-pos-pending.tsv"
+DEFAULT_TEI     = PROJECT_ROOT / "ingest" / "wzb" / "WZB.lemma-autofill.tei.xml"
+DEFAULT_PENDING = PROJECT_ROOT / "ingest" / "wzb" / "phase2" / "wzb-pos-pending.tsv"
 
 NS_TEI = "http://www.tei-c.org/ns/1.0"
 NS_XML = "http://www.w3.org/XML/1998/namespace"

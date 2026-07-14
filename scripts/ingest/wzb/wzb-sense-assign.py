@@ -45,11 +45,11 @@ if hasattr(sys.stdout, 'reconfigure'):
     sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
 PROJECT_ROOT  = Path(__file__).resolve().parent.parent.parent.parent
-DEFAULT_TEI   = PROJECT_ROOT / "Wenzelsbibel" / "WZB.lemma-autofill.tei.xml"
+DEFAULT_TEI   = PROJECT_ROOT / "ingest" / "wzb" / "WZB.lemma-autofill.tei.xml"
 DEFAULT_LEX   = PROJECT_ROOT / "authority-files" / "lexicon.xml"
 DEFAULT_VAR   = PROJECT_ROOT / "authority-files" / "variants.xml"
 DEFAULT_CON   = PROJECT_ROOT / "authority-files" / "concepts.xml"
-DEFAULT_OUT   = PROJECT_ROOT / "Wenzelsbibel" / "phase3" / "wzb-sense-pending.tsv"
+DEFAULT_OUT   = PROJECT_ROOT / "ingest" / "wzb" / "phase3" / "wzb-sense-pending.tsv"
 
 NS_TEI  = "http://www.tei-c.org/ns/1.0"
 NS_XML  = "http://www.w3.org/XML/1998/namespace"

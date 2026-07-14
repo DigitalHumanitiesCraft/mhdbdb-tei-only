@@ -44,9 +44,9 @@ from tei_namespaces import get_namespaces
 # default paths relative to project root (scripts/ingest/wzb/ -> repo root)
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent.parent
 VARIANTS_FILE = PROJECT_ROOT / 'authority-files' / 'variants.xml'
-DEFAULT_WZB_FILE = PROJECT_ROOT / 'Wenzelsbibel' / 'WZB.tei.xml'
-DEFAULT_OUTPUT_TEI = PROJECT_ROOT / 'Wenzelsbibel' / 'WZB.lemma-autofill.tei.xml'
-DEFAULT_REPORT_CSV = PROJECT_ROOT / 'Wenzelsbibel' / 'wzb-auto-match-report.csv'
+DEFAULT_WZB_FILE = PROJECT_ROOT / 'ingest' / 'wzb' / 'WZB.tei.xml'
+DEFAULT_OUTPUT_TEI = PROJECT_ROOT / 'ingest' / 'wzb' / 'WZB.lemma-autofill.tei.xml'
+DEFAULT_REPORT_CSV = PROJECT_ROOT / 'ingest' / 'wzb' / 'wzb-auto-match-report.csv'
 
 # TEI namespace
 TEI_NS = {'tei': 'http://www.tei-c.org/ns/1.0'}
