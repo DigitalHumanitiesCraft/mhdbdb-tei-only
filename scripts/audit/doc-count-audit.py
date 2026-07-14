@@ -73,29 +73,43 @@ def collect_counts() -> dict:
     return counts
 
 
+# Explizite Ausnahme-Mengen statt -1/-2-Offsets (Review PR #222): beim
+# naechsten Werkzeug-Zuwachs hier pflegen, nicht in Zaehl-Magie suchen.
+NON_TOOL_MODULES = {'tei-ui.js'}                 # Router, kein Werkzeug
+MODAL_MODULES = {'multi-lemma-search.js'}        # folgt dem DESIGN-Pattern nicht
+PRE_DESCRIBED_TOOLS = {                          # in hilfe-playground vorab
+    'multi-lemma-search.js',                     # beschrieben; §5 zaehlt den
+    'verse-position-search.js',                  # Rest als "weitere Werkzeuge"
+}
+
+
 def collect_code_counts() -> dict:
     """Code-abgeleitete Counts (Carearbeit-Lehre 2026-07-13: Drift-Klasse
     Nr. 1 sind Werkzeug-/Entry-Point-Zahlen, nicht Datenzahlen).
 
     Ableitungen folgen den Doku-Konventionen:
-    - TEI-Werkzeuge = Module in playground/js/ui/tei/ minus Router tei-ui.js
+    - TEI-Werkzeuge = Module in playground/js/ui/tei/ minus NON_TOOL_MODULES
       (multi-lemma-search.js zaehlt als Werkzeug Nr. 1)
-    - Pattern-Module (DESIGN.md) = Werkzeuge minus multi-lemma-search.js
-      (Modal-Controller folgt dem Pattern nicht)
+    - Pattern-Module (DESIGN.md) = Werkzeuge minus MODAL_MODULES
     - Authority-Explorer = die sechs show*Btn-Buttons der Authority-Sidebar
     - Entry Points = Explorer + Werkzeuge
-    - "weitere Werkzeuge" (hilfe-playground §5) = Werkzeuge minus die zwei
-      vorab beschriebenen (Multi-Lemma, Versposition)"""
+    - "weitere Werkzeuge" (hilfe-playground §5) = Werkzeuge minus
+      PRE_DESCRIBED_TOOLS"""
     counts = {}
-    tei_modules = sorted(glob.glob('playground/js/ui/tei/*.js'))
-    tools = len([m for m in tei_modules if not m.endswith('tei-ui.js')])
-    counts['tei_tools'] = tools
-    counts['pattern_modules'] = tools - 1
-    counts['tei_tools_weitere'] = tools - 2
+    module_names = {Path(m).name for m in glob.glob('playground/js/ui/tei/*.js')}
+    known = NON_TOOL_MODULES | MODAL_MODULES | PRE_DESCRIBED_TOOLS
+    missing = known - module_names
+    if missing:
+        sys.exit(f'FEHLER: Ausnahme-Mengen nennen nicht existierende Module: {sorted(missing)} '
+                 f'— NON_TOOL_MODULES/MODAL_MODULES/PRE_DESCRIBED_TOOLS pflegen.')
+    tools_set = module_names - NON_TOOL_MODULES
+    counts['tei_tools'] = len(tools_set)
+    counts['pattern_modules'] = len(tools_set - MODAL_MODULES)
+    counts['tei_tools_weitere'] = len(tools_set - PRE_DESCRIBED_TOOLS)
     html = Path('playground/index.html').read_text(encoding='utf-8')
     counts['authority_explorers'] = len(re.findall(
         r'id="show(?:Authors|Works|Lemmata|Concepts|Genres|Names)Btn"', html))
-    counts['entry_points'] = counts['authority_explorers'] + tools
+    counts['entry_points'] = counts['authority_explorers'] + counts['tei_tools']
     return counts
 
 
