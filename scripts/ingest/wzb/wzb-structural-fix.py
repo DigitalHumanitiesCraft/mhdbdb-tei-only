@@ -214,7 +214,7 @@ def main():
     parser = argparse.ArgumentParser(
         description="WZB structural fix: div @type + head placement (Issue #66)"
     )
-    parser.add_argument("--tei", default="Wenzelsbibel/WZB.lemma-autofill.tei.xml")
+    parser.add_argument("--tei", default="ingest/wzb/WZB.lemma-autofill.tei.xml")
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
 

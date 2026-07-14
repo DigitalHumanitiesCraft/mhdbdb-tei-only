@@ -10,14 +10,14 @@ run this script to write the @pos attributes.
 
 Usage:
     py scripts/wzb-pos-apply.py [--dry-run]
-    py scripts/wzb-pos-apply.py --pending Wenzelsbibel/wzb-pos-pending.tsv
+    py scripts/wzb-pos-apply.py --pending ingest/wzb/wzb-pos-pending.tsv
 
 Input:
-    Wenzelsbibel/WZB.lemma-autofill.tei.xml
-    Wenzelsbibel/wzb-pos-pending.tsv  (with resolved_pos filled in)
+    ingest/wzb/WZB.lemma-autofill.tei.xml
+    ingest/wzb/wzb-pos-pending.tsv  (with resolved_pos filled in)
 
 Output:
-    Wenzelsbibel/WZB.lemma-autofill.tei.xml   (updated in-place)
+    ingest/wzb/WZB.lemma-autofill.tei.xml   (updated in-place)
 """
 
 import csv

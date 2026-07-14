@@ -16,7 +16,7 @@ import sys
 from lxml import etree
 
 TEI = "http://www.tei-c.org/ns/1.0"
-INPUT = "Wenzelsbibel/WZB.tei.xml"
+INPUT = "ingest/wzb/WZB.tei.xml"
 
 SKIP_TAGS = {
     f"{{{TEI}}}lb",

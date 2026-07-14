@@ -3,7 +3,7 @@
 """
 Extract unmatched word forms from auto-match report for editorial review.
 
-Produces a TSV file (`Wenzelsbibel/wzb-unmatched-forms.tsv`) containing
+Produces a TSV file (`ingest/wzb/wzb-unmatched-forms.tsv`) containing
 unique forms that had no variant match, along with a sample context and
 frequency count.  This helps lexicon editors identify gaps.
 

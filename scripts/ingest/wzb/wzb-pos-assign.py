@@ -11,12 +11,12 @@ Usage:
     py scripts/wzb-pos-assign.py [--dry-run]
 
 Input:
-    Wenzelsbibel/WZB.lemma-autofill.tei.xml
+    ingest/wzb/WZB.lemma-autofill.tei.xml
     authority-files/lexicon.xml
 
 Output:
-    Wenzelsbibel/WZB.lemma-autofill.tei.xml   (updated in-place, unless --dry-run)
-    Wenzelsbibel/wzb-pos-pending.tsv           (rows needing LLM disambiguation)
+    ingest/wzb/WZB.lemma-autofill.tei.xml   (updated in-place, unless --dry-run)
+    ingest/wzb/wzb-pos-pending.tsv           (rows needing LLM disambiguation)
 """
 
 import csv

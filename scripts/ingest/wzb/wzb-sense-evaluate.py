@@ -15,18 +15,18 @@ Two subcommands:
 Usage:
     # Step 1 — extract gold standard sample
     py scripts/wzb-sense-evaluate.py sample \\
-        --gold-out     Wenzelsbibel/phase3/eval/gold-sample.tsv \\
-        --stripped-out Wenzelsbibel/phase3/eval/stripped-pending.tsv \\
+        --gold-out     ingest/wzb/phase3/eval/gold-sample.tsv \\
+        --stripped-out ingest/wzb/phase3/eval/stripped-pending.tsv \\
         --n 600 --seed 42
 
     # Step 2 — run pipeline on stripped-pending.tsv (wzb-sense-bulk-resolve.py etc.)
 
     # Step 3 — evaluate
     py scripts/wzb-sense-evaluate.py evaluate \\
-        --gold     Wenzelsbibel/phase3/eval/gold-sample.tsv \\
-        --resolved Wenzelsbibel/phase3/eval/resolved-pending.tsv \\
-        --output   Wenzelsbibel/phase3/eval/report.txt \\
-        --json     Wenzelsbibel/phase3/eval/report.json
+        --gold     ingest/wzb/phase3/eval/gold-sample.tsv \\
+        --resolved ingest/wzb/phase3/eval/resolved-pending.tsv \\
+        --output   ingest/wzb/phase3/eval/report.txt \\
+        --json     ingest/wzb/phase3/eval/report.json
 
 Pre-registered evaluation protocol:
     git history of docs/features/034-wenzelsbibel-annotation.md
@@ -359,8 +359,8 @@ def run_sample(args) -> None:
     print("  2. py scripts/wzb-sense-evaluate.py evaluate \\")
     print(f"       --gold {gold_path} \\")
     print(f"       --resolved {stripped_path} \\")
-    print(f"       --output Wenzelsbibel/phase3/eval/report.txt \\")
-    print(f"       --json   Wenzelsbibel/phase3/eval/report.json")
+    print(f"       --output ingest/wzb/phase3/eval/report.txt \\")
+    print(f"       --json   ingest/wzb/phase3/eval/report.json")
 
 
 # ---------------------------------------------------------------------------

@@ -3,7 +3,7 @@
 """
 Generate Phase 1b TSV template from the auto-match report.
 
-The resulting file (`Wenzelsbibel/wzb-disambiguation.tsv`) contains all
+The resulting file (`ingest/wzb/wzb-disambiguation.tsv`) contains all
 ambiguous and unmatched rows with empty columns for the human/LLM to fill
 (`resolved_lemma`, `confidence`, `reviewer`).
 

@@ -11,7 +11,7 @@ For every lemma that appears in wzb-sense-pending.tsv, this script:
      unresolved pending tokens
 
 Output:
-  Wenzelsbibel/phase3/wzb-sense-majority-baseline.tsv
+  ingest/wzb/phase3/wzb-sense-majority-baseline.tsv
     lemma_id | majority_sense_id | majority_count | total_count | majority_pct
 
 Usage:

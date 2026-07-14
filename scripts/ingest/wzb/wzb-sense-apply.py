@@ -14,13 +14,13 @@ Usage:
     py scripts/wzb-sense-apply.py [--dry-run]
 
 Input:
-    Wenzelsbibel/WZB.lemma-autofill.tei.xml
-    Wenzelsbibel/phase3/wzb-sense-pending.tsv   (with resolved_sense filled in)
+    ingest/wzb/WZB.lemma-autofill.tei.xml
+    ingest/wzb/phase3/wzb-sense-pending.tsv   (with resolved_sense filled in)
     authority-files/lexicon.xml
     authority-files/variants.xml
 
 Output:
-    Wenzelsbibel/WZB.lemma-autofill.tei.xml   (updated in-place, unless --dry-run)
+    ingest/wzb/WZB.lemma-autofill.tei.xml   (updated in-place, unless --dry-run)
 """
 
 import csv

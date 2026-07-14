@@ -17,11 +17,11 @@ Usage:
                 matches are preserved)
 
 Input:
-    Wenzelsbibel/WZB.lemma-autofill.tei.xml   (Phase 1 output)
-    Wenzelsbibel/wzb-disambiguation.tsv        (Phase 1b resolutions)
+    ingest/wzb/WZB.lemma-autofill.tei.xml   (Phase 1 output)
+    ingest/wzb/wzb-disambiguation.tsv        (Phase 1b resolutions)
 
 Output:
-    Wenzelsbibel/WZB.lemma-autofill.tei.xml   (updated in-place)
+    ingest/wzb/WZB.lemma-autofill.tei.xml   (updated in-place)
 """
 
 import csv

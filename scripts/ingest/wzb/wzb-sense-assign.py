@@ -15,14 +15,14 @@ Usage:
     py scripts/wzb-sense-assign.py [--dry-run]
 
 Input:
-    Wenzelsbibel/WZB.lemma-autofill.tei.xml
+    ingest/wzb/WZB.lemma-autofill.tei.xml
     authority-files/lexicon.xml
     authority-files/variants.xml
     authority-files/concepts.xml
 
 Output:
-    Wenzelsbibel/WZB.lemma-autofill.tei.xml   (updated in-place, unless --dry-run)
-    Wenzelsbibel/phase3/wzb-sense-pending.tsv  (multi-sense rows for LLM review)
+    ingest/wzb/WZB.lemma-autofill.tei.xml   (updated in-place, unless --dry-run)
+    ingest/wzb/phase3/wzb-sense-pending.tsv  (multi-sense rows for LLM review)
 """
 
 import csv
