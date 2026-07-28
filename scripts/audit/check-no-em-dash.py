@@ -90,15 +90,44 @@ GLOBS = (
 KOMMENTAR_PRAEFIXE = ('//', '*', '/*', '<!--')
 
 
-def relevante_dateien():
+def relevante_dateien(wurzel=None):
+    wurzel = wurzel or REPO
     for muster in GLOBS:
-        for pfad in REPO.glob(muster):
-            teile = pfad.relative_to(REPO).parts
+        for pfad in wurzel.glob(muster):
+            teile = pfad.relative_to(wurzel).parts
             if teile[0] in TOP_LEVEL_SKIP:
                 continue
             if any(t in SKIP_ANYWHERE for t in teile):
                 continue
             yield pfad
+
+
+def scanne_verzeichnis(wurzel=None):
+    """Alle relevanten Dateien unter `wurzel` pruefen.
+
+    Bewusst als eigene Funktion mit Wurzel-Parameter: die Fehler dieses
+    Gates sassen zweimal von dreimal NICHT im Scanner, sondern in der
+    Schicht davor, also in der Frage, welche Dateien und welche Bytes der
+    Scanner ueberhaupt zu sehen bekommt. Nur so laesst sich diese Schicht
+    im Selbsttest ueber ein temporaeres Verzeichnis mitpruefen.
+    """
+    wurzel = wurzel or REPO
+    fundstellen = []
+    for pfad in sorted(set(relevante_dateien(wurzel))):
+        try:
+            text = pfad.read_text(encoding='utf-8')
+        except (UnicodeDecodeError, OSError):
+            continue
+        # Vorfilter ueber ALLE Schreibweisen. Ein Filter nur auf das
+        # Literalzeichen verwirft genau den Fall, fuer den die Entity-
+        # Erkennung gebaut ist: eine Datei mit `&mdash;` und ohne Strich.
+        if not any(f in text for f in EM_FORMEN):
+            continue
+        scan = scanne_html if pfad.suffix == '.html' else scanne_js
+        rel = pfad.relative_to(wurzel).as_posix()
+        for nr, zeile in scan(text):
+            fundstellen.append((rel, nr, zeile))
+    return fundstellen
 
 
 def kommentar_beginn(zeile):
@@ -176,31 +205,46 @@ def scanne_html(text):
     im_kommentar = False
     for nr, zeile in enumerate(text.split('\n'), 1):
         rest = zeile
-        sichtbar = []
+        versatz = 0          # Position von `rest` in `zeile`
+        sichtbar = []        # (Text, Startindex in zeile)
         while rest:
             if im_kommentar:
                 ende = rest.find('-->')
                 if ende == -1:
-                    rest = ''
                     break
                 rest = rest[ende + 3:]
+                versatz += ende + 3
                 im_kommentar = False
                 continue
             start = rest.find('<!--')
             if start == -1:
-                sichtbar.append(rest)
-                rest = ''
+                sichtbar.append((rest, versatz))
                 break
-            sichtbar.append(rest[:start])
+            sichtbar.append((rest[:start], versatz))
             rest = rest[start + 4:]
+            versatz += start + 4
             im_kommentar = True
-        sichtbarer_text = ''.join(sichtbar)
-        if sichtbarer_text.lstrip().startswith(('//', '*')):
-            continue
-        pos = _fund(sichtbarer_text)
+        # Position der Fundstelle in der ORIGINALZEILE mitfuehren, statt sie
+        # hinterher per find() zu suchen: bei einer Zeile, die ein Kommentar
+        # zerteilt, ist der zusammengesetzte sichtbare Text kein
+        # zusammenhaengender Teilstring mehr.
+        pos = -1
+        for stueck, start in sichtbar:
+            p = _fund(stueck)
+            if p != -1:
+                pos = start + p
+                break
         if pos == -1:
             continue
-        treffer.append((nr, _ausschnitt(zeile, zeile.find(sichtbarer_text.strip()[:20]))))
+        sichtbarer_text = ''.join(s for s, _ in sichtbar)
+        if sichtbarer_text.lstrip().startswith(('//', '*')):
+            continue
+        # Nachgestellte JS-Kommentare im Inline-<script> genauso exempieren
+        # wie in .js-Dateien; sonst haelt der Docstring seine Zusage nicht.
+        k = kommentar_beginn(zeile)
+        if k != -1 and k < pos:
+            continue
+        treffer.append((nr, _ausschnitt(zeile, pos)))
     return treffer
 
 
@@ -222,6 +266,22 @@ SELBSTTEST = [
      '<p>Hinweis &mdash; sichtbar</p>\n', [1]),
     ('JS-Escape statt Literal', '.js',
      "const s = 'Hinweis " + chr(92) + "u2014 sichtbar';\n", [1]),
+    ('nachgestellter Kommentar im Inline-Script', '.html',
+     '<script>\n  laden();  // Grund ' + EM_DASH + ' nur intern\n</script>\n', []),
+]
+
+# Zweite Ebene: welche DATEIEN sieht der Scanner ueberhaupt. Zwei von drei
+# Fehlern dieses Gates sassen hier, nicht in der Zeilenlogik.
+SELBSTTEST_DATEIEN = [
+    # (relativer Pfad, Inhalt, wird erwartet?)
+    ('nur-entity.html', '<p>Hinweis &mdash; sichtbar</p>\n', True),
+    ('assets/js/a.js', "const s = 'x " + EM_DASH + " y';\n", True),
+    ('playground/js/b.js', "const s = 'x " + EM_DASH + " y';\n", True),
+    ('lemma/c.js', "const s = 'x " + EM_DASH + " y';\n", True),
+    ('includes/_d.html', '<p>x ' + EM_DASH + ' y</p>\n', True),
+    ('docs/e.html', '<p>x ' + EM_DASH + ' y</p>\n', False),
+    ('tei/f.html', '<p>x ' + EM_DASH + ' y</p>\n', False),
+    ('scripts/g.js', "const s = 'x " + EM_DASH + " y';\n", False),
 ]
 
 
@@ -234,8 +294,26 @@ def selbsttest():
         print(f'  [{"PASS" if ok else "FAIL"}] {name}: erwartet {erwartet}, bekommen {ist}')
         if not ok:
             fehler += 1
+
+    import tempfile
+    with tempfile.TemporaryDirectory() as tmp:
+        wurzel = Path(tmp)
+        for rel, inhalt, _ in SELBSTTEST_DATEIEN:
+            ziel = wurzel / rel
+            ziel.parent.mkdir(parents=True, exist_ok=True)
+            ziel.write_text(inhalt, encoding='utf-8')
+        gemeldet = {p for p, _, _ in scanne_verzeichnis(wurzel)}
+        for rel, _, erwartet in SELBSTTEST_DATEIEN:
+            ok = (rel in gemeldet) == erwartet
+            zustand = 'gemeldet' if rel in gemeldet else 'nicht gemeldet'
+            soll = 'gemeldet' if erwartet else 'nicht gemeldet'
+            print(f'  [{"PASS" if ok else "FAIL"}] Datei-Umfang {rel}: {zustand}, erwartet {soll}')
+            if not ok:
+                fehler += 1
+
+    gesamt = len(SELBSTTEST) + len(SELBSTTEST_DATEIEN)
     print()
-    print(f'Selbsttest: {len(SELBSTTEST) - fehler}/{len(SELBSTTEST)} bestanden')
+    print(f'Selbsttest: {gesamt - fehler}/{gesamt} bestanden')
     return fehler
 
 
@@ -250,18 +328,7 @@ def main() -> int:
     if args.selftest:
         return 1 if selbsttest() else 0
 
-    fundstellen = []
-    for pfad in sorted(set(relevante_dateien())):
-        try:
-            text = pfad.read_text(encoding='utf-8')
-        except (UnicodeDecodeError, OSError):
-            continue
-        if EM_DASH not in text:
-            continue
-        scan = scanne_html if pfad.suffix == '.html' else scanne_js
-        rel = pfad.relative_to(REPO).as_posix()
-        for nr, zeile in scan(text):
-            fundstellen.append((rel, nr, zeile))
+    fundstellen = scanne_verzeichnis()
 
     if not fundstellen:
         if not args.quiet:
