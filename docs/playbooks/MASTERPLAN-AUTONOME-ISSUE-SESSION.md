@@ -5,7 +5,7 @@
 **Status:** Session 2026-07-28 GELAUFEN (Kickoff „starte den plan autonom", Entscheidungen §5). Ergebnis und Lehren: §7. Vor der nächsten Session §1/§3/§5/§6 neu befüllen.
 **Typ:** Playbook (wiederverwendbares Session-Verfahren, dauerhaft). Der session-spezifische Teil (§1, §3, §5, §6) wird pro Session neu befüllt; der Betriebsvertrag (§2) ist der stabile Kern.
 
-Quellen des Audits: alle 36 offenen Issue-Bodies + Kommentarverläufe seit 13.07. (Dump 28.07.), die beiden Screenshots aus #224 und #196, git log (main bis `ee37bece4`), Belegzählungen gegen `authority-files/lexicon.xml`, `data/authority-index.json.gz` und `tei/*.tei.xml`.
+Quellen des Audits: alle 36 offenen Issue-Bodies + Kommentarverläufe seit 13.07. (Dump 28.07.), die beiden Screenshots aus #224 und #196, git log (main bis zum Stand 28.07.), Belegzählungen gegen `authority-files/lexicon.xml`, `data/authority-index.json.gz` und `tei/*.tei.xml`.
 
 ---
 
@@ -54,7 +54,7 @@ Zwei Befunde aus dem Vorflug-Audit bestimmen den Zuschnitt:
 
 #92 (ARITHMETIC), #123 (König vom Odenwald), #139 (CoReMA; laut Memory gemeinsame Einzelsession, nie autonom), #141 (Borte), #147 (Weingrüße), #191 (Flore und Blanscheflur), #193 (Arthurische Pferde).
 
-**Fazit:** 5 Kern-PRs + Meta sind der voll autonome Bestand, davon zwei (#190, #140) im XS-Bereich und mit KZW-Freigabe zum Schließen. Die Stretch-Teilschritte (§1.B) sind Text-Deliverables ohne Code-Risiko. Alles andere wartet auf Menschen oder ist bewusst ausgelagert.
+**Fazit:** 4 Kern-PRs + Meta sind der voll autonome Bestand, davon zwei (#190, #140) im XS-Bereich und mit KZW-Freigabe zum Schließen. Die Stretch-Teilschritte (§1.B) sind Text-Deliverables ohne Code-Risiko. Alles andere wartet auf Menschen oder ist bewusst ausgelagert.
 
 ---
 
@@ -75,7 +75,7 @@ Die CLAUDE.md-Regel „never commit/push without user approval" wird durch den K
 
 ## 3. Wellenplan (Reihenfolge = Risiko aufsteigend innerhalb der Kern-Deliverables)
 
-Die fünf Kern-Deliverables berühren disjunkte Dateien, deshalb startet jeder Branch frisch von `origin/main`; nur der Meta-PR wird auf Welle 3 gestackt (beide fassen `docs/` an). Reihenfolge nach Wirkung, nicht nach Risiko: #224 ist der einzige extern gemeldete Bug und braucht die frischeste Analyse.
+Die vier Kern-Deliverables berühren disjunkte Dateien, deshalb startet jeder Branch frisch von `origin/main`, auch der Meta-PR. Wo zwei Branches dieselbe Doku-Zeile anfassen, wird beim Merge aufgelöst, nicht vorher gestackt. Reihenfolge nach Wirkung, nicht nach Risiko: #224 ist der einzige extern gemeldete Bug und braucht die frischeste Analyse.
 
 | Welle | Deliverable | Issues | Inhalt |
 |-------|-------------|--------|--------|
@@ -85,9 +85,9 @@ Die fünf Kern-Deliverables berühren disjunkte Dateien, deshalb startet jeder B
 | **3** | PR 3 | #190, #140 | **KZW-Abnahme-Nachbesserungen.** `hilfe-belege-beitragen.html:179` zum vollständigen Satz umbauen, `:269` auf „CC BY-NC-SA 4.0" ohne Verhandlungsformel kürzen; `docs/TEI-MODEL.md:7` DRAFT-Kopf ersatzlos entfernen. `python scripts/build-pages.py --check`; bei neuen Utility-Klassen `npm run build:css`. `Closes #190` (KZW hat den Close ausdrücklich an diese zwei Punkte gebunden); **#140 bleibt offen** mit einem Kommentar, der beide Punkte als erledigt meldet und um die Abnahme bittet, weil KZW dort nur „für die Abnahme" geschrieben hat |
 | **4** | PR 4 | #138 (2 Teilpunkte) | **Leseansicht.** (a) Nach-oben-Button: Heroicons inline SVG, kein Emoji, sichtbar ab Scroll-Schwelle, Tastatur-erreichbar. (b) `state.firstNumericLineShown` zurücksetzen, **aber ausschließlich an `div`-Grenzen und nur, wenn die erste numerische `<l>` des `div` `n="1"` trägt**. Der Reset darf NIE an `lg`-Grenzen greifen: NBB restartet `l/@n` pro Strophe (1..4), ein `lg`-Reset würde dort in jeder Strophe eine Marginal-„1" zeigen, also genau die Regression, die der #127-Kommentar verhindert. Die `n="1"`-Bedingung verhindert zusätzlich, dass Kapitel-Texte mit durchlaufender Zählung neu einen Anker je Kapitel bekommen. Der bestehende Kommentar über der Stelle wird mit der neuen Begründung fortgeschrieben, nicht gelöscht, und die Regel in CONTRACTS nachgezogen. Bestehende Specs `reading-view.spec.js` müssen grün bleiben; neue Tests für den Reset **inklusive NBB-Fall**. Chrome-Verifikation an HUG (Lied 2 und 3) **und NBB und einem Kapitel-Text**. Der PR-Body sagt ausdrücklich, dass hier ein als #127-Entscheidung dokumentiertes Teilverhalten auf Julias Input geändert wird, damit der Merge eine bewusste Entscheidung ist. 1 Statuskommentar in #138, der zugleich Julias andere zwei Punkte beantwortet: die Winkelklammern in HUG sind editorische Klammern der Vorlage und als `<pc>` korrekt kodiert (kein Encoding-Fehler, offen ist nur die Render-Policy für KZW); für die „Kleinziffern (ii)" fehlt eine Textstelle, da weder römische `@n`-Werte noch `<milestone unit="verse">` in HUG/KLA/PL1/MBS1 vorkommen |
 | **5** | Stretch (nur wenn 1-4 komplett UND in §5 freigegeben) | #169, #225, #223 | Nur Text-Deliverables: (a) #169-Entscheidungsvorlage zu Punkt #45 mit den Messzahlen aus Welle 1 und drei benannten Optionen; (b) #225 Mail-Entwurf an Burch als Issue-Kommentar, ohne Versand und ohne Externen-Ping; (c) #223 Plausibilitätskommentar am offenen PR, ohne Merge |
-| **6** | Meta-PR (auf Welle 3 gestackt) + #44-Kommentar | #44, docs | #44-Matrix aktualisieren, ROADMAP.md + JOURNAL.md nachziehen, §7 dieses Playbooks befüllen und §1/§3/§5/§6 für die Folgesession leeren. Abschlussreport als #44-Kommentar: PR-Liste, empfohlene Merge-Reihenfolge (inkl. Hinweis, laufende Review-Runs vor dem Merge zu canceln), Übersprungenes mit Grund, Wer-wartet-worauf-Liste (KZW: #140-Abnahme, #115 B/C, #189-Review-Fälle, #138-Kern, #198-Schritt-2; Linda: #114, #59; Julia: #198-Prüffälle; extern: #92 Carina, #147 Silvan, #86 Alan) |
+| **6** | Meta-PR (von origin/main) + #44-Kommentar | #44, docs | #44-Matrix aktualisieren, ROADMAP.md + JOURNAL.md nachziehen, §7 dieses Playbooks befüllen und §1/§3/§5/§6 für die Folgesession leeren. Abschlussreport als #44-Kommentar: PR-Liste, empfohlene Merge-Reihenfolge (inkl. Hinweis, laufende Review-Runs vor dem Merge zu canceln), Übersprungenes mit Grund, Wer-wartet-worauf-Liste (KZW: #140-Abnahme, #115 B/C, #189-Review-Fälle, #138-Kern, #198-Schritt-2; Linda: #114, #59; Julia: #198-Prüffälle; extern: #92 Carina, #147 Silvan, #86 Alan) |
 
-Geschätzter Output: 5 PRs plus Meta-PR, 1 Issue geschlossen (#190), 3 substanziell abgeräumt (#224, #196, #140), 1 neues Sub-Issue, 5 bis 7 Issue-Kommentare.
+Geschätzter Output: 4 Code-PRs plus Meta-PR, 1 Issue geschlossen (#190), 3 substanziell abgeräumt (#224, #196, #140), 1 neues Sub-Issue, 5 bis 7 Issue-Kommentare.
 
 ---
 
@@ -132,7 +132,7 @@ AUTORISIERUNG: Ich genehmige hiermit ausdrücklich Commits + Pushes auf claude/*
 und das Erstellen von Pull Requests (übersteuert die CLAUDE.md-Regel „never push without approval").
 main bleibt absolut tabu (kein Merge, kein Push), auch PR #223 wird NICHT gemerged. Issues nie selbst
 schließen außer per Closes-Trailer im PR-Body; #44 NIE mit Closes referenzieren. Pro Issue ein frischer
-Branch von origin/main; nur der Meta-PR wird auf den #190/#140-Branch gestackt. Nie git add -A.
+Branch von origin/main, auch der Meta-PR. Nie git add -A.
 Max. 1 Statuskommentar pro Issue, keine Kontaktaufnahme mit Externen (Linda, Alan, Carina, Silvan, Burch).
 Keine Emoji-Icons (Heroicons inline SVG), keine Em-Dashes in Prosa, echte Umlaute.
 
@@ -200,7 +200,7 @@ WELLE 5 (STRETCH, nur wenn 1-4 komplett): nur Text-Deliverables.
 - #223: Plausibilitätskommentar am PR (kein Merge).
 
 WELLE 6 (META): #44-Matrix aktualisieren, ROADMAP.md + JOURNAL.md nachziehen, §7 dieses
-Playbooks befüllen und §1/§3/§5/§6 für die Folgesession leeren (Meta-PR, auf Welle 3 gestackt).
+Playbooks befüllen und §1/§3/§5/§6 für die Folgesession leeren (Meta-PR, von origin/main).
 Abschlussreport als #44-Kommentar: PR-Liste, empfohlene Merge-Reihenfolge (Review-Runs vor dem
 Merge canceln), Übersprungenes mit Grund, Wer-wartet-worauf-Liste.
 
@@ -214,28 +214,32 @@ weiterarbeiten, NICHT auf mich warten und NICHT fragen.
 ```
 
 ---
-
 ## 7. Session-Ergebnis 2026-07-28 (Anhang, vor nächster Session leeren)
 
-Alle sechs Wellen komplett, null blockierende Rückfragen. Output: 5 PRs, 1 neues Issue, 6 Issue-Kommentare, 1 PR-Kommentar, Matrix und Docs nachgezogen.
+Alle sechs Wellen komplett, null blockierende Rückfragen. Output: 4 Code-PRs plus Meta-PR, 1 neues Issue, 7 Issue-Kommentare, 1 PR-Kommentar, Matrix und Docs nachgezogen. Am selben Tag folgte die Merge-Session mit vier Fable-Reviews (siehe unten).
 
 | Welle | Ergebnis |
 |-------|----------|
 | 0 | Vorflug: Stage-3-Drift protokolliert, `lemma-match.js` als Muster gelesen, Messskript gebaut. Baseline-Lauf abgebrochen (siehe Lehre 2) |
-| 1 | **PR #227**: `lemma-resolve.js` (Prädikat + Comparator), beidseitiges Präfix mit Mindestlänge 3, Messung Top-1 0,3 % → 10,0 %, CONTRACTS §C + ARCHITECTURE + CLAUDE.md + INDEX + ADR-016 nachgezogen, 2 Regressionstests; `search-engine.spec.js` 11/11 |
-| 2 | **PR #229**: NUM-Filter (nur reines NUM), begründeter Sweep über alle zwölf Werkzeuge, Chrome-verifiziert (11.815 → 11.862 nach Schärfung). **#228** angelegt |
+| 1 | **PR #227**: `lemma-resolve.js` (Prädikat + Comparator), beidseitiges Präfix mit Mindestlänge 3, Messung Top-1 0,3 % → 9,3 % (Sortierung) → 10,0 % (Regel), CONTRACTS §A + §C + ARCHITECTURE + CLAUDE.md + INDEX + ADR-016 nachgezogen; nach den Reviews zusätzlich NFC-Komposition und Breve-Regel. `search-engine.spec.js` 13/13, `normalization-parity.spec.js` 6/6, Python-Selbsttest 23/23 |
+| 2 | **PR #229**: NUM-Filter (nur reines NUM), begründeter Sweep über alle zwölf Werkzeuge, Chrome-verifiziert (11.815 → 11.862 nach Schärfung). **#228** angelegt. Nach den Reviews: Facetten-Vorrang für alle drei Default-Filter. `hapax-legomena.spec.js` 5/5 |
 | 3 | **PR #230**: beide KZW-Textänderungen, `Closes #190`; #140 offen gelassen mit Kommentar |
-| 4 | **PR #231**: Nach-oben-Button + Verszählungs-Reset; `reading-view.spec.js` 19/19 plus neuer #138-Test, #127-Tests grün |
+| 4 | **PR #231**: Nach-oben-Button + Verszählungs-Reset; `reading-view.spec.js` 23/23 (4 neue Tests: Button-Sichtbarkeit, Sprungziel-Geometrie, HUG-Reset, NLA-Regression) |
 | 5 | #169-Entscheidungsvorlage mit Messzahlen, #225-Mailentwurf, #223-Plausibilitätskommentar |
-| 6 | #44-Matrix, JOURNAL, ROADMAP, dieses §7; verwaister Commit `ee37bece4` per Cherry-Pick gerettet |
+| 6 | #44-Matrix, JOURNAL, ROADMAP, dieses §7; verwaister Commit (JOURNAL-Handoff 14.07.) per Cherry-Pick gerettet |
 
-**Merge-Reihenfolge:** #230 → #229 → #231 → #227 → Meta-PR. Kein Daten-PR dabei, Indexe bleiben 4.1.7/1.6.1.
+**Merge-Ergebnis:** #229 → #227 → Meta-PR → #223 gemergt. **#230 und #231 zurückgestellt**, beide warten auf eine fachliche Antwort (Lizenz-Reichweite bzw. Sichtprüfung der 1.352 neuen Randnummern). **#227 ist ein Daten-PR:** Authority-Index 1.6.1 → 1.6.2, Corpus bleibt 4.1.7.
 
 **Lehren (in die nächste Fassung einarbeiten):**
 
 1. **Der Advisor-Durchgang vor dem Start lohnt sich bei Semantik-Änderungen.** Drei echte Planfehler gefunden und alle bestätigt: falsch kalibrierte Messmetrik (0-Treffer-Quote hätte immer ausgelöst), unterspezifizierter Reset-Bereich (hätte über `<lg>` die #127-Regression reproduziert), fehlender Doku-/Spec-Nachzug in derselben Welle. Sollte fester Bestandteil von Welle 0 werden, wenn eine Welle Suchsemantik oder Render-Policy anfasst.
-2. **Kein `npm test` als Hintergrund-Baseline, während Dateien geändert werden.** Der Lauf braucht bei 1 Worker über 40 Minuten und testet dann den Zwischenstand. Stattdessen pro Welle die betroffene Spec-Datei gezielt (`npx playwright test --config=testing/playwright.config.js <spec> --reporter=list`, unter 3 Minuten), Voll-Lauf nur einmal am Ende oder gar nicht.
+2. **Kein `npm test` als Hintergrund-Baseline, während Dateien geändert werden.** Der Lauf braucht bei 1 Worker über 40 Minuten und testet dann den Zwischenstand. Stattdessen pro Welle die betroffene Spec-Datei gezielt (`npx playwright test --config=testing/playwright.config.js <spec> --reporter=line`, unter 3 Minuten), Voll-Lauf nur einmal am Ende oder gar nicht.
 3. **Chrome-Verifikation nicht über den JS-Bridge-Kontext, wenn es um Sichtbarkeit geht.** Dort feuern weder IntersectionObserver-Callbacks noch `scroll`-Events aus `window.scrollTo`. Echtes Scrollen per `computer`-Tool plus Screenshot zeigt das wahre Verhalten; die Bridge taugt für Datenabfragen (`resolveLemmaIds`, DOM-Auszählungen), nicht für Interaktions-Zustände.
-4. **Screenshots aus Issues herunterladen und ansehen.** Beide entscheidenden Befunde dieser Session (die drei Kurzlemmata in #224, die Ziffern-Lemmata in #196) standen im Bild, nicht im Text.
+4. **Screenshots aus Issues herunterladen und ansehen** – und bei einem gemeldeten Zeichenproblem das Zeichen im Hexdump prüfen, nicht im Rendering. Die #224-Diagnose lag zweimal daneben, weil ich vom Aussehen auf die Kodierung geschlossen habe: es war ein Breve (U+0306), kein Trema (U+0308).
 5. **`git log origin/main..main` im Vorflug.** Lokales `main` war einen unveröffentlichten Commit voraus; ohne Prüfung wäre er verwaist.
-6. **Bei einer Datei, die zwei Wellen berührt** (hier `FEATURES.md`), nicht stacken, sondern den Hunk beim Branch-Wechsel kurz zurücknehmen und auf dem Zielbranch neu setzen. Kostet zwei Edits und hält die PRs unabhängig reviewbar.
+6. **Bei einer Datei, die zwei Wellen berührt** (hier `FEATURES.md`), nicht stacken, sondern den Hunk beim Branch-Wechsel kurz zurücknehmen und auf dem Zielbranch neu setzen. Kostet zwei Edits und hält die PRs unabhängig reviewbar. **Wenn das Playbook „gestackt" sagt, muss der Branch das auch sein:** in dieser Session behaupteten vier Stellen, der Meta-PR sei auf den #230-Branch gestackt, tatsächlich saß er auf `main`. Beim Mergen wäre das ein unnötiger Konflikt in derselben ROADMAP-Zeile geworden.
+7. **Grüner Test heißt nichts, solange nicht geprüft ist, ob er auch OHNE die Änderung grün wäre.** Der Rückbau kostet zwei Minuten (Datei sichern, Regel entfernen, einen Test mit `-g` laufen lassen, zurückspielen) und hat in dieser Session zweimal bestätigt und einmal widerlegt. Gehört an jede neue Regressionsassertion.
+8. **Eine Zusicherung, die strukturell trivial erfüllt ist, schützt nichts.** „NBB bleibt unverändert" war wertlos, weil NBB gar keine `<div>` hat. Vor jeder „Text X bleibt unberührt"-Aussage prüfen, ob die Struktur, um die es geht, dort überhaupt vorkommt.
+9. **`classList.contains()` ist kein Sichtbarkeits-Check.** Nötig ist die berechnete Anzeige (`getComputedStyle` bzw. Playwrights `toBeVisible`/`toBeHidden`). Daran ist ein CSS-Kaskadenfehler durchgerutscht, der den Button permanent sichtbar ließ.
+10. **Zahlen, die in Doku und Code-Kommentar zitiert werden, brauchen ein eingechecktes Skript.** Die #138-Reichweiten waren zweimal per Textfenster-Heuristik geschätzt und zweimal falsch. `scripts/audit/count-verse-numbering-resets.py` baut jetzt die Render-Reihenfolge nach; die Aussage ist prüfbar statt behauptet.
+11. **Unicode-Literale in Testdateien als Escape schreiben.** Werkzeuge normalisieren zerlegte Formen still zu NFC und entwerten den Test lautlos.

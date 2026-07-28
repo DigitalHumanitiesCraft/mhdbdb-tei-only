@@ -4,19 +4,22 @@ Strategic priorities for the MHDBDB TEI Repository. Updated 2026-07-28.
 
 See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/44) for the full triage matrix with per-issue status.
 
-## Now: Merge-Queue 28.07. (5 PRs) + Nachannotations-Serie
+## Now: Merge-Session 28.07. + Nachannotations-Serie
 
-**Autonome Issue-Session (28.07., [MASTERPLAN-AUTONOME-ISSUE-SESSION](playbooks/MASTERPLAN-AUTONOME-ISSUE-SESSION.md)):** Fünf PRs offen, ausgelöst durch KZWs Durchgang vom 27.07. und den externen Bug-Report #224. Empfohlene Merge-Reihenfolge:
+**Autonome Issue-Session + Merge-Session (28.07., [MASTERPLAN-AUTONOME-ISSUE-SESSION](playbooks/MASTERPLAN-AUTONOME-ISSUE-SESSION.md) und [MASTERPLAN-AUTONOME-MERGE-SESSION](playbooks/MASTERPLAN-AUTONOME-MERGE-SESSION.md)):** Ausgelöst durch KZWs Durchgang vom 27.07. und den externen Bug-Report #224. Fünf PRs entstanden, vier Fable-Reviews haben sie gegengeprüft.
 
-1. **PR #230** (#190 + #140): zwei Textänderungen im KZW-Wortlaut, `Closes #190`
-2. **PR #229** (#196): NUM-Filter im Hapax-Werkzeug + begründeter Sweep über alle zwölf Werkzeuge
-3. **PR #231** (#138): Nach-oben-Button + Verszählung pro Lied (berührt FEATURES.md in einem anderen Hunk als #229)
-4. **PR #227** (#224, refs #169): Stufe 3 der Lemma-Auflösung präfixorientiert statt Substring, braucht die meiste Review-Aufmerksamkeit
-5. **Meta-PR**: JOURNAL, ROADMAP, Playbook
+**Gemergt:** PR #229 (#196 NUM-Filter im Hapax-Werkzeug plus begründeter Sweep über alle zwölf Werkzeuge), PR #227 (#224, refs #169), Meta-PR, PR #223 (wöchentlicher naming-index-Rebuild).
 
-Keiner davon ist ein Daten-PR, die Indexe bleiben bei 4.1.7/1.6.1. Zusätzlich mergefähig: **PR #223** (wöchentlicher naming-index-Rebuild, plausibilisiert).
+**Zurückgestellt, beide brauchen eine Antwort:**
 
-**#224 war der wichtigste Fund:** Klaus Schmidts Report ist kein WZB-Problem, sondern ein Fehler in Stufe 3 der Lemma-Auflösung, der jede Suche mit einem nicht im Lexikon stehenden Wort betraf. Entschieden als ADR-016, gemessen (Top-1 0,3 % → 10,0 %), damit ist auch #169 Punkt #45 erledigt.
+| PR | Wartet auf | Frage |
+|----|------------|-------|
+| #230 (#190 + #140) | KZW | Gilt „Beigetragene Daten stehen unter CC BY-NC-SA 4.0" nur für Belegstellen oder global? Bei global ziehen `hilfe-schema.html`, `hilfe-daten-beitragen.html` und `impressum.html` nach. Zusätzlich: der neue Wortlaut ersetzt die bisherige Zusage „vor der Integration klären wir mit Ihnen die Lizenz" |
+| #231 (#138) | KZW oder Julia | Sichtprüfung der Verszählung. Der Reset macht **1.352 zusätzliche Randnummern in 49 Texten** sichtbar, größter Fall Parzival mit +826 kapitelweise |
+
+**#227 ist ein Daten-PR:** Authority-Index 1.6.1 → **1.6.2** (drei Datensätze mit zerlegtem ü waren über die normalisierte Suche unauffindbar), Corpus bleibt 4.1.7, vier `api/`-Dateien ziehen mit.
+
+**#224 war der wichtigste Fund, und die Diagnose hat zweimal danebengelegen:** Klaus Schmidts Eingabe trug ein **Breve** (`o` + U+0306), kopiert aus der WZB-Leseansicht. Die Wenzelsbibel schreibt Umlaute mit Breve und ist mit 830 solchen Tokens der einzige Text im Korpus, der welche hat. Sein Verdacht „das neue WZB-Vokabular" war also berechtigt. Der Fix hat drei Teile: NFC-Komposition und Breve-Regel im Normalizer (Contract A), die nur zusammen wirken, plus die davon unabhängige Präfix-Regel in Stufe 3 (ADR-016; Top-1 0,3 % → 9,3 % allein durch die neue Sortierung → 10,0 % mit der Regel, Recall 11,3 % → 10,7 %). Damit ist auch #169 Punkt 45 (Audit 3/6, keine Issue-Nummer) erledigt.
 
 Weiterhin direkt startbar: **#216 minne-Serie** (~7.000 unannotierte Tokens in 262 Texten; Mechanik erprobt, Stichproben-Review durch KZW eingeplant), danach Serie 2 ff. nach der PR-#210-Priorisierung.
 
@@ -39,6 +42,7 @@ Direkt startbar geworden:
 | # | What | Who's needed |
 |---|------|-------------|
 | #115 | Cross-Ref Phase 2 – 196 Lemmata kuratorisch (A 125 / B 36 / C 35) | KZW |
+| #129 | KWIC-Belege: gebaut und live seit Juni, Prüfung steht weiter aus | KZW |
 | #138 | div-/lg-Hüllen warten weiter auf Prüfung; neu dazu die Render-Policy-Frage zu den DIG-Strophenzählern in HUG (Julia, 17.07.) | KZW |
 | #228 | Neu: editorischer Apparat in `<note n=…>` ist als Text lemmatisiert (400 Tokens in 165 Notes über 16 Texte, ohne die GWTK-Notes mit ganzen Versblöcken; korpusweit 587 Notes mit 2.458 Tokens) – entannotieren? | KZW |
 | #44-Report | Neu live aus der Merge-Session: AK-Excerpt-Banner (#134), Tabellen-Spaltenmodell (#160), Homographen-/Multi-Lemma-Fixes (#163/#164), Multi-POS-Badges (#161) – Nachprüfung via #44-Abschlussreport | KZW |
@@ -51,8 +55,9 @@ Direkt startbar geworden:
 
 | # | What | Key question |
 |---|------|-------------|
-| #140 | Doku menschenlesbar | Bereinigung umgesetzt (PR #215, 12.07.); beide Detailfragen der Abnahme vom 27.07. erledigt (DRAFT-Kopf in TEI-MODEL.md entfernt, PR #230; „Woesner" repoweit einheitlich geschrieben, keine Variante „Wösner"/„Wosner" im Bestand, keine Änderung nötig). Offen ist nur noch die Abnahme durch KZW || #58 | Begriff→Lemma→Beleg Workflow | Option A/B/C entscheiden |
-| #169 | Suchsemantik (Audit 3/6) | Punkt #45 (3-Stufen-Drift) entschieden und in PR #227 umgesetzt (ADR-016). Offen: #15 Nähesuche-Distanz, #51 Fast-Path-Wörterbuch, #48 Dedup |
+| #140 | Doku menschenlesbar | Bereinigung umgesetzt (PR #215, 12.07.); beide Detailfragen der Abnahme vom 27.07. erledigt (DRAFT-Kopf in TEI-MODEL.md entfernt, PR #230; „Woesner" repoweit einheitlich geschrieben, keine Variante „Wösner"/„Wosner" im Bestand, keine Änderung nötig). Offen ist nur noch die Abnahme durch KZW |
+| #58 | Begriff→Lemma→Beleg Workflow | Option A/B/C entscheiden |
+| #169 | Suchsemantik (Audit 3/6) | Punkt 45 (3-Stufen-Drift; Audit-Punktnummern, keine Issue-Nummern) entschieden und in PR #227 umgesetzt (ADR-016). Offen: Punkt 15 Nähesuche-Distanz, Punkt 51 Fast-Path-Wörterbuch, Punkt 48 Dedup |
 | #172 | Test-Suite-Policy (Audit 6/6) | 45%-passRate-Floor + korpusabhängige Magic-Numbers |
 | #18 | Multi-Lemma + PoS-Suche | POS-Policy (#27/#181) gemerged, spezifizierbar; braucht POS-Daten im Corpus-Index |
 
