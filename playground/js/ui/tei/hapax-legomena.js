@@ -120,7 +120,14 @@ export class HapaxLegomenaAnalyzer {
     // sind wortbildungsmorphologisch interessant, deshalb abschaltbar statt
     // hart entfernt. Die fünf reinen Ziffern-Lemmata (1, 36, 42, 46, 49) sind
     // Altbestands-Artefakte und gehören ins TEI-Putzen, nicht in einen Filter.
-    if (this.state.hideNumerals && tags.includes('NUM')) return false;
+    //
+    // Bewusst NUR reine NUM-Lemmata, nicht jedes Lemma mit NUM unter mehreren
+    // Tags: 47 der 119 NUM-Hapaxe tragen weitere Wortarten (zwispeltic ADJ/NUM,
+    // zweizungen NOM/NUM, drîwîse ADV/NUM). Das sind Inhaltswörter mit
+    // Zahlbezug und genau die Funde, für die das Werkzeug gebaut ist. Deshalb
+    // hier strenger als hideNames/hideFunctionWords, die per includes/some
+    // arbeiten.
+    if (this.state.hideNumerals && tags.length === 1 && tags[0] === 'NUM') return false;
     if (this.state.hideFunctionWords && tags.length > 0 && tags.some(t => FUNCTION_WORD_POS.has(t))) return false;
     if (this.state.posFilter !== 'all' && !tags.includes(this.state.posFilter)) return false;
     if (this.state.initial !== 'all') {
@@ -254,7 +261,7 @@ export class HapaxLegomenaAnalyzer {
           </label>
           <label class="flex items-center gap-2 text-sm text-slate-700 cursor-pointer">
             <input type="checkbox" id="hxHideNum" ${this.state.hideNumerals ? 'checked' : ''} class="w-4 h-4 rounded border-slate-300 text-brand-600 focus:ring-brand-500" />
-            <span>Zahlwörter ausblenden <span class="text-xs text-slate-500">(PoS NUM)</span></span>
+            <span>Zahlwörter ausblenden <span class="text-xs text-slate-500">(nur reines NUM)</span></span>
           </label>
           <label class="flex items-center gap-2 text-sm text-slate-700 cursor-pointer">
             <input type="checkbox" id="hxHideFunc" ${this.state.hideFunctionWords ? 'checked' : ''} class="w-4 h-4 rounded border-slate-300 text-brand-600 focus:ring-brand-500" />
