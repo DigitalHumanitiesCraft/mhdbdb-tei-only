@@ -61,7 +61,8 @@ Bewusst NICHT geteilt wird die Orchestrierung der drei Stufen: beide Aufrufer ha
 import { isStage3Match, stage3Distance } from '../../lib/lemma-resolve.js';
 
 isStage3Match('minnecl', 'minnecl');   // true (Präfix)
-isStage3Match('in', 'minnecl');        // false (zu kurz für die Rückrichtung)
+isStage3Match('minneclich', 'minnecl'); // true (Lemma beginnt mit der Eingabe)
+isStage3Match('mi', 'minnecl');         // false (zu kurz für die Rückrichtung)
 ```
 
 ## Design Principles

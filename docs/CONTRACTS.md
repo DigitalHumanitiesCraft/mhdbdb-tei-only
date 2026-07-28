@@ -39,7 +39,7 @@ Technical contracts that bind Python (build-time) and JavaScript (runtime) toget
 
 ### Test Cases
 
-These 23 cases must pass in both languages. Source: `scripts/mhg_normalizer.py` → `TEST_CASES`, gespiegelt in `testing/tests/normalization-parity.spec.js`
+These 23 cases must pass in both languages (der `None`-Fall ist Python-only, die JS-Liste hat entsprechend 22). Source: `scripts/mhg_normalizer.py` → `TEST_CASES`, gespiegelt in `testing/tests/normalization-parity.spec.js`
 
 | Input | Expected | Why |
 |-------|----------|-----|
@@ -89,7 +89,11 @@ Zerlegte Formen entstehen beim Kopieren aus macOS-Quellen und aus manchen Editio
 
 Alle drei waren über die normalisierte Suche nicht auffindbar. Alle 43.879 Lemma-Normalisierungen und alle 234.244 Varianten-Schlüssel bleiben unverändert. Deshalb Authority-Index v1.6.2.
 
-**Nicht betroffen:** Der Korpus selbst enthält kombinierende Zeichen (Stichprobe: rund 110 Tremata in 60 Dateien, dazu Tilde und Cedille). Die sind editorisch gewollt und werden nicht normalisiert; der Korpus-Index speichert Lemma-IDs und Positionen, keine normalisierten Textformen.
+**Nicht betroffen:** Der Korpus-Index speichert Lemma-IDs und Positionen, keine normalisierten Textformen; `build-corpus-index.py` importiert `normalize_mhg` zwar, ruft es aber nirgends auf. Zum Korpustext selbst ist die präfbare Aussage schärfer als die ursprünglich hier notierte Stichprobe: **in `<w>` gibt es korpusweit kein einziges kombinierendes Trema und keine kombinierende Tilde.** Die 1.343 Tremata in 567 der 667 Dateien stehen sämtlich außerhalb der annotierten Tokens, größtenteils in `<note>`-Bibliographieprosa des teiHeader (Verlagsorte wie Tübingen, Zürich). In `<w>` stehen insgesamt 774 kombinierende Marken, davon 752 WZB-Breves und 22 Exoten (Makron, Punkt darunter).
+
+**Positiver Nebeneffekt:** Schritt 0 komponiert auch die drei `u` + U+0304 in `<w>` zu `ū`, das Schritt 2 dann zu `u` auflöst. Die waren vorher genauso unauffindbar wie die Breve-Tokens.
+
+**Berührt, aber nicht in diesem PR nachgezogen:** Die WZB-Ingest-Skripte (`scripts/ingest/wzb/wzb-auto-match.py`, `-sense-assign.py`, `-sense-apply.py`) normalisieren über dieselbe Funktion. 289 WZB-`<w>` mit o/u-Breve tragen bisher kein `@lemmaRef`, weil das Breve am Matcher stehenblieb; ein Re-Run wird einen Teil davon auflösen. Siehe ADR-016.
 
 ### Helper Functions
 

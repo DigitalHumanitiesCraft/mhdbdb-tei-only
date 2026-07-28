@@ -12,7 +12,8 @@
  * - Long vowels with macrons (alternate): ā→a, ē→e, ī→i, ō→o, ū→u
  * - Umlauts: ä→ae, ö→oe, ü→ue
  * - Ligatures: æ→ae, œ→oe
- * - Special characters: ǒ→o, ŏ→oe, ŭ→ue
+ * - Breve-Umlaute (Wenzelsbibel): ŏ→oe, ŭ→ue
+ * - Special characters: ǒ→o
  */
 export class TextNormalizer {
     /**

@@ -30,6 +30,7 @@ def normalize_mhg(text):
     Transformations:
     - Long vowels → short: â→a, ê→e, î→i, ô→o, û→u (and ā,ē,ī,ō,ū variants)
     - Umlauts → digraphs: ä→ae, ö→oe, ü→ue
+    - Breve-Umlaute (WZB): ŏ→oe, ŭ→ue
     - Ligatures: æ→ae, œ→oe
     - Special: ǒ→o
     - Lowercase all
