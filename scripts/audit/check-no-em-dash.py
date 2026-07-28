@@ -228,21 +228,26 @@ def scanne_html(text):
         # hinterher per find() zu suchen: bei einer Zeile, die ein Kommentar
         # zerteilt, ist der zusammengesetzte sichtbare Text kein
         # zusammenhaengender Teilstring mehr.
-        pos = -1
-        for stueck, start in sichtbar:
-            p = _fund(stueck)
-            if p != -1:
-                pos = start + p
-                break
-        if pos == -1:
-            continue
         sichtbarer_text = ''.join(s for s, _ in sichtbar)
         if sichtbarer_text.lstrip().startswith(('//', '*')):
             continue
         # Nachgestellte JS-Kommentare im Inline-<script> genauso exempieren
-        # wie in .js-Dateien; sonst haelt der Docstring seine Zusage nicht.
-        k = kommentar_beginn(zeile)
-        if k != -1 and k < pos:
+        # wie in .js-Dateien. Entscheidend ist der Geltungsbereich: sowohl
+        # der Em-Dash als auch das `//` muessen im SELBEN sichtbaren Stueck
+        # gesucht werden. Ein kommentar_beginn() auf der Rohzeile liesse ein
+        # `//` aus dem Kommentarinhalt den sichtbaren Rest stillschalten:
+        # `<!-- x // y --> <p>Hinweis - sichtbar</p>` waere durchgerutscht.
+        pos = -1
+        for stueck, start in sichtbar:
+            p = _fund(stueck)
+            if p == -1:
+                continue
+            k = kommentar_beginn(stueck)
+            if k != -1 and k < p:
+                break      # ab hier ist der Rest der Zeile JS-Kommentar
+            pos = start + p
+            break
+        if pos == -1:
             continue
         treffer.append((nr, _ausschnitt(zeile, pos)))
     return treffer
@@ -268,6 +273,12 @@ SELBSTTEST = [
      "const s = 'Hinweis " + chr(92) + "u2014 sichtbar';\n", [1]),
     ('nachgestellter Kommentar im Inline-Script', '.html',
      '<script>\n  laden();  // Grund ' + EM_DASH + ' nur intern\n</script>\n', []),
+    # Geltungsbereich: ein // IM HTML-Kommentar darf den sichtbaren Rest
+    # derselben Zeile nicht stillschalten (Fail-open aus Runde 4).
+    ('// im HTML-Kommentar, sichtbarer Text danach', '.html',
+     '<!-- x // y --> <p>Hinweis ' + EM_DASH + ' sichtbar</p>\n', [1]),
+    ('mehrzeiliger Kommentar mit // schliesst, Text danach', '.html',
+     '<!--\n  x // y --> <p>Hinweis ' + EM_DASH + ' sichtbar</p>\n', [2]),
 ]
 
 # Zweite Ebene: welche DATEIEN sieht der Scanner ueberhaupt. Zwei von drei
