@@ -973,3 +973,53 @@ Carina (Originalintention) plus Katharina (Forschungs-Roadmap). Bis dahin: Konve
 #### Verbindung zu ADR-013
 
 Diese Entscheidung ist die erste, die ADR-013 ("Daten vor Schema") in der Praxis gegen einen Genre-Sonderfall stellt: ist die Domänen-Annotation Bestandsdaten, die das Schema akzeptieren muss, oder Daten, die zu unserem Schema migriert werden? Eine Entscheidung schafft Präzedenz für künftige Spezial-Korpora (Linda, Minnereden, CoReMA).
+
+---
+
+## ADR-016: Stufe 3 der Lemma-Auflösung matcht Präfixe, nicht Substrings
+
+**Status:** Accepted (2026-07-28, im Zuge von #224; löst zugleich Punkt #45 aus #169)
+**Context:** Externer Bug-Report von Klaus Schmidt, verifiziert gegen den ausgelieferten Authority-Index.
+
+### Problem
+
+Stufe 3 der 3-Stufen-Auflösung (CONTRACTS.md §C) war ein bidirektionaler Substring-Test:
+
+```js
+lemma.normalized.includes(query) || query.includes(lemma.normalized)
+```
+
+Die zweite Richtung trifft jedes Kurzlemma, das irgendwo in der Eingabe steckt. Die Suche nach „böses" (normalisiert `boeses`) lieferte deshalb `ês`/`es`, `ô`/`o` und `sê`/`se` neben der einen richtigen Antwort `bœse`/`boese`. Das Lexikon hält 5 ein-, 98 zwei- und 598 dreibuchstabige normalisierte Formen; sie trafen praktisch jede Eingabe, die nicht im Lexikon steht. Für Klaus Schmidt sah das aus wie ein Problem mit dem neuen WZB-Vokabular, war aber seit jeher in jeder Suche mit einem unbekannten Wort enthalten.
+
+Zweiter Befund: Die Regel existierte zweimal und driftete. Die Hauptseite testete bidirektional, der Playground einseitig (Lemma enthält Eingabe). Dieselbe Eingabe lieferte je nach Oberfläche andere Mengen, dokumentiert als #169 Punkt #45.
+
+### Optionen
+
+1. **Mindestlänge auf den Substring-Test setzen.** Minimal-invasiv, behält aber die Infix-Treffer: „minnen" fände weiter `innen` und `i`.
+2. **Präfix-Matching in beide Richtungen** mit Mindestlänge nur suffixseitig. Nutzt aus, dass mittelhochdeutsche Flexion suffixal ist.
+3. **Stufe 3 ersatzlos streichen.** Am saubersten für die Präzision, nimmt aber die Trunkierungssuche („minn" findet „minne") weg, die Nutzende erwarten.
+
+Gewählt: **Option 2.**
+
+### Decision
+
+Stufe 3 akzeptiert einen Kandidaten, wenn `lemma.normalized` mit der Eingabe beginnt (Stamm-Eingabe) oder die Eingabe mit `lemma.normalized` beginnt (flektierte Eingabe) und das Lemma dabei mindestens 3 normalisierte Zeichen hat. Ergebnisse werden nach Längendifferenz zur Eingabe sortiert; der Playground bricht Gleichstände nach Korpus-Frequenz (ADR-Kontext #163/#164).
+
+Prädikat und Ranking-Abstand liegen als pure Funktionen in `assets/js/lib/lemma-resolve.js` und werden von beiden Oberflächen importiert. Bewusst geteilt ist **nur Stufe 3**, nicht die ganze Orchestrierung: die Hauptseite liest ein vorberechnetes `lemma.normalized`, der Playground normalisiert zur Laufzeit und rankt Homographen zusätzlich nach Frequenz. Das Muster folgt `lemma-match.js` (ADR-Kontext #126/#130).
+
+### Consequences
+
+Gemessen über 300 mit festem Seed gezogene Varianten-Formen mit bekanntem Ziel-Lemma, Stufe 1 und 2 umgangen (`scripts/audit/measure-stage3-resolution.py`):
+
+| Metrik | alt | neu |
+|--------|----:|----:|
+| Recall (Ziel irgendwo in der Liste) | 11,3 % | 10,7 % |
+| Top-1 nach Ranking | 0,3 % | 10,0 % |
+| Median der Listengröße | 8 | 0 |
+| Größte Liste | 108 | 8 |
+
+- **Der Median 0 ist gewollt.** Für eine unbekannte Form liefert Stufe 3 jetzt meist nichts statt acht Falschtreffern; die Oberfläche zeigt dann ihren Kein-Treffer-Zustand. Ein ehrliches „nicht gefunden" ist für ein philologisches Werkzeug mehr wert als eine plausibel aussehende Fehlleitung.
+- **Recall-Verlust 2 von 300**, beide Präfix-Brecher: `gewieren` → `wieren` (Präfix `ge-`) und die römische Zahl `ccccxli`. Beide sind belegte Varianten und werden im Echtbetrieb schon von Stufe 2 aufgelöst.
+- **Die Infix-Discovery des Playgrounds entfällt.** „wein" findet nicht mehr „rotwein". Das war der Träger des Rauschens; wer Komposita sucht, hat den Lemmata-Explorer.
+- **Ablaut und Umlaut bleiben ungelöst** (`slüege` → `slahen`). Der alte Test fand die auch nicht, er lieferte dort nur zufälligen Müll. Eine echte Lösung wäre Stemming oder eine Flexionstabelle und gehört zu #109.
+- **Messbias:** Echte Stufe-3-Eingaben sind eher neuhochdeutsche Wörter und Tippfehler als mittelhochdeutsche Flexionsformen. Die Stichprobe zeigt, ob der Fix Recall kostet, nicht wie oft Stufe 3 im Alltag das Richtige findet.

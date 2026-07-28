@@ -48,7 +48,7 @@ Advanced exploration tools for medievalists and digital humanities researchers:
   - Document-level search (all lemmata anywhere in text)
   - Proximity search (co-occurrence within N words)
   - Same-verse search (co-occurrence within a single verse line, #106)
-  - 3-stage lemma resolution (exact match → variants → partial match)
+  - 3-stage lemma resolution (exact match → variants → prefix match in both directions, #224)
   - Color-coded results with clickable navigation to reading view
 - **Authority Exploration** - Browse and search persons, works, lemmata, concepts, genres, names
 - **TEI Analysis** - Twelve analysis tools over the pre-loaded MHDBDB corpus: multi-lemma search (document + proximity + same-verse), verse-position lemma search, word frequency, corpus-wide hapax legomena, text statistics, lemma distribution, concept distribution, text comparison, co-occurrence ranking, rhyme dictionary, verse-ending profile, curated character-naming explorer (4 works, Beta)
