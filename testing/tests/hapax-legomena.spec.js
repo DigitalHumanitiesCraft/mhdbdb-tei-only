@@ -90,6 +90,27 @@ test.describe('Issue #196: Echte Hapaxlegomena', () => {
     await expect(page.locator('#hxHideNum')).toBeEnabled();
   });
 
+  test('Detail-Panel nennt Werktitel und Autor der Fundstelle (#196)', async ({ page }) => {
+    // KZW 28.07.: "wenn bei den Details auch noch direkt stehen wuerde, wer der
+    // Autor ist. Das interessiert bei Hapax besonders auf den ersten Blick."
+    // Faellt ohne die Aenderung durch: vor #196 stand im Panel nur die Sigle
+    // in der Tabellenspalte, das Panel selbst hatte Konzepte und Woerterbuch.
+    await page.waitForSelector('[data-hx-detail]', { state: 'visible', timeout: 60000 });
+    await page.locator('[data-hx-detail]').first().click();
+
+    const panel = page.locator('[id^="hxDetailCell-"]').first();
+    await expect(panel).toContainText('Fundstellen:', { timeout: 15000 });
+
+    // Werktitel als Reader-Link, nicht nur die Sigle.
+    const link = panel.locator('li a').first();
+    await expect(link).toHaveAttribute('href', /korpus\.html\?textId=/);
+    const titel = (await link.innerText()).trim();
+    expect(titel.length).toBeGreaterThan(3);
+
+    // Autor in Klammern dahinter. 660 der 667 Texte tragen einen.
+    await expect(panel.locator('li').first()).toContainText(/\(.+\)/);
+  });
+
   test('Route + Sidebar-Button öffnen das Modul, Liste füllt sich', async ({ page }) => {
     await expect(page.locator('#resultsContainer')).toContainText('Hapax');
     await expect(page.locator('#showHapaxLegomenaBtn')).toBeVisible();
