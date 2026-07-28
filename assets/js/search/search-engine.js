@@ -6,6 +6,7 @@
 
 // Import MHG normalizer from shared library
 import { TextNormalizer } from '../lib/text-normalizer.js';
+import { isStage3Match, stage3Distance } from '../lib/lemma-resolve.js';
 
 class SearchEngine {
     constructor(authorityIndex, corpusIndex) {
@@ -137,12 +138,17 @@ class SearchEngine {
             return lemmaIds;
         }
 
-        // Strategy 3: Partial match (fuzzy)
-        this.authorityIndex.lemmata.forEach(lemma => {
-            if (lemma.normalized.includes(normalized) || normalized.includes(lemma.normalized)) {
-                lemmaIds.push(lemma.id);
-            }
-        });
+        // Strategy 3: Partial match fallback. Prefix-oriented in both directions
+        // (stem input → lemma, inflected input → lemma), never an unbounded
+        // substring test: that is what made "böses" resolve to ês/ô/sê (#224).
+        // Rule and rationale live in lib/lemma-resolve.js, contract in
+        // CONTRACTS.md §C.
+        const partial = this.authorityIndex.lemmata
+            .filter(lemma => isStage3Match(lemma.normalized, normalized))
+            .sort((a, b) =>
+                stage3Distance(a.normalized, normalized) - stage3Distance(b.normalized, normalized)
+            );
+        partial.forEach(lemma => lemmaIds.push(lemma.id));
 
         return lemmaIds;
     }

@@ -78,8 +78,52 @@ test.describe('Search Engine', () => {
             return se.resolveLemmaIds('fri');
         });
 
-        // Stage 3 should find at least one partial match
+        // Stage 3 should find at least one prefix match ('fri' is a prefix of
+        // Friaul, Frîtel, friên, ...)
         expect(lemmaIds.length).toBeGreaterThanOrEqual(1);
+    });
+
+    test('resolveLemmaIds() - Stage 3 never matches short lemmata inside the query (#224)', async ({ page }) => {
+        // Bug report #224 (Klaus Schmidt): searching 'böses' returned the short
+        // lemmata ês (lemma id of 'es'), ô ('o') and sê ('se'), because Stage 3
+        // used an unbounded substring test in the 'query contains lemma'
+        // direction. The one correct answer, bœse, drowned among them.
+        const result = await page.evaluate(() => {
+            const se = window._mhdbdbApp.searchEngine;
+            const ids = se.resolveLemmaIds('boeses');
+            const byId = new Map(se.authorityIndex.lemmata.map(l => [l.id, l]));
+            return ids.map(id => ({ id, normalized: byId.get(id)?.normalized || '' }));
+        });
+
+        // Every hit must share a prefix boundary with the query in one direction.
+        for (const hit of result) {
+            const prefixOfQuery = 'boeses'.startsWith(hit.normalized);
+            const startsWithQuery = hit.normalized.startsWith('boeses');
+            expect(prefixOfQuery || startsWithQuery,
+                `"${hit.normalized}" is neither a prefix of the query nor starts with it`).toBeTruthy();
+            expect(hit.normalized.length).toBeGreaterThanOrEqual(3);
+        }
+
+        // The right answer must still be found.
+        expect(result.some(h => h.normalized === 'boese')).toBeTruthy();
+
+        // And the infix noise must be gone.
+        for (const noise of ['o', 'es', 'se']) {
+            expect(result.some(h => h.normalized === noise)).toBeFalsy();
+        }
+    });
+
+    test('resolveLemmaIds() - Stage 3 ranks the closest lemma first (#224)', async ({ page }) => {
+        // Sorting is by length distance to the query, so an exact-length or
+        // near-length lemma outranks long compounds.
+        const normalized = await page.evaluate(() => {
+            const se = window._mhdbdbApp.searchEngine;
+            const ids = se.resolveLemmaIds('boeses');
+            const byId = new Map(se.authorityIndex.lemmata.map(l => [l.id, l]));
+            return ids.map(id => byId.get(id)?.normalized || '');
+        });
+
+        expect(normalized[0]).toBe('boese');
     });
 
     test('text inclusion filter restricts results', async ({ page }) => {

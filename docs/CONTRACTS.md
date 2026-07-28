@@ -201,7 +201,7 @@ function lemmaRefMatchesId(lemmaRef, lemmaId):
 
 **Why:** MHG has extensive orthographic variation. A single lemma can appear as dozens of attested forms. The 3-stage approach balances precision (exact first) with recall (fuzzy last).
 
-Source: `assets/js/search/search-engine.js:119-148` (`resolveLemmaIds`)
+Source: `assets/js/search/search-engine.js` (`resolveLemmaIds`), `playground/js/data/authority-manager.js` (`searchLemmaByOrthography`). Das Stage-3-Prädikat und sein Ranking-Abstand liegen seit #224 gemeinsam in `assets/js/lib/lemma-resolve.js`; beide Oberflächen importieren sie. Geteilt ist ausdrücklich nur Stufe 3: Stufe 1 unterscheidet sich weiterhin (die Hauptseite vergleicht gegen das vorberechnete `lemma.normalized` des Index, der Playground normalisiert zur Laufzeit und rankt Homographen zusätzlich nach Korpus-Frequenz).
 
 ### Pseudocode
 
@@ -223,13 +223,15 @@ function resolveLemmaIds(normalized):
     if variantMatch:
         return [variantMatch]                // EARLY RETURN — skip stage 3
 
-    // Stage 3: Partial match fallback (bidirectional substring)
+    // Stage 3: Partial match fallback (bidirectional PREFIX, see #224)
     results = []
     for each lemma in authorityIndex.lemmata:
-        if lemma.normalized.includes(normalized)
-           OR normalized.includes(lemma.normalized):
-            results.push(lemma.id)
-    return results                           // May be empty
+        if lemma.normalized.startsWith(normalized)                  // Stamm-Eingabe
+           OR (lemma.normalized.length >= 3
+               AND normalized.startsWith(lemma.normalized)):        // flektierte Eingabe
+            results.push(lemma)
+    sort results by abs(len(lemma.normalized) - len(normalized))    // Nähe zuerst
+    return results.map(id)                   // May be empty
 ```
 
 ### Stage Behavior
@@ -238,7 +240,26 @@ function resolveLemmaIds(normalized):
 |-------|-----------|--------|-------------|---------|
 | 1 | Canonical or normalized form | 0..N lemma IDs (homographs) | O(n) scan | `brot` → `[lemma_879]` |
 | 2 | Attested orthographic variant | Exactly 1 lemma ID | O(1) lookup | `brott` → normalize → `brot` → variants[`brot`] → `lemma_879` |
-| 3 | Partial/fuzzy match | 0..N lemma IDs | O(n) scan | `bro` → matches `brot`, `brogen`, ... |
+| 3 | Prefix match, both directions | 0..N lemma IDs, nächste zuerst | O(n) scan + Sort | `bro` → `brot`, `brogen`, …; `boeses` → `bœse` |
+
+### Stufe 3: warum Präfix und nicht Substring (#224)
+
+Bis Juli 2026 war Stufe 3 ein bidirektionaler **Substring**-Test. Die Richtung „Eingabe enthält Lemma" traf jedes Kurzlemma, das irgendwo in der Eingabe steckte. Der externe Bug-Report #224 zeigte das an der Suche nach „böses" (normalisiert `boeses`): zurück kamen `ês`/`es`, `ô`/`o` und `sê`/`se` neben der einen richtigen Antwort `bœse`/`boese`. Das Lexikon hält 5 ein-, 98 zwei- und 598 dreibuchstabige normalisierte Formen; sie trafen praktisch jede Eingabe, die nicht im Lexikon steht.
+
+Mittelhochdeutsche Flexion ist suffixal, deshalb hält ein Präfix-Test beide nützlichen Fälle (Stamm-Eingabe findet das volle Lemma, flektierte Eingabe findet das Lemma) und lässt das Rauschen fallen. Die Mindestlänge 3 gilt nur in der Richtung „Eingabe beginnt mit Lemma"; in der anderen ist das Lemma konstruktionsbedingt länger als die Eingabe.
+
+Gemessen über 300 mit festem Seed gezogene Varianten-Formen mit bekanntem Ziel-Lemma (`scripts/audit/measure-stage3-resolution.py`, Stufe 1 und 2 umgangen):
+
+| Metrik | alt (Substring) | neu (Präfix) |
+|--------|----------------:|-------------:|
+| Recall (Ziel irgendwo in der Liste) | 11,3 % | 10,7 % |
+| Top-1 nach Ranking | 0,3 % | 10,0 % |
+| Median der Listengröße | 8 | 0 |
+| Größte Liste | 108 | 8 |
+
+Der Recall-Verlust von 2 Fällen auf 300 betrifft Präfix-Brecher: `gewieren` → `wieren` (Präfix `ge-`) und die römische Zahl `ccccxli`. Beide sind im Echtbetrieb belegte Varianten und werden bereits von Stufe 2 aufgelöst; die Messung umgeht Stufe 2 absichtlich. Der Median von 0 heißt: für eine zufällige unbekannte Form liefert Stufe 3 jetzt meist nichts statt acht Falschtreffern. Das ist gewollt, die Oberfläche zeigt dann ihren Kein-Treffer-Zustand.
+
+**Bias der Messung:** Echte Stufe-3-Eingaben sind eher neuhochdeutsche Wörter und Tippfehler als mittelhochdeutsche Flexionsformen. Die Stichprobe misst, ob der Fix Recall kostet, nicht wie oft Stufe 3 im Alltag überhaupt das Richtige findet.
 
 ### Worked Example
 
