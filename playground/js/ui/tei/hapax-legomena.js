@@ -111,9 +111,12 @@ export class HapaxLegomenaAnalyzer {
     // solange keine Buchstaben-Facette aktiv ist (keine Form bekannt).
     if (!lemma) return this.state.initial === 'all' && this.state.posFilter === 'all';
     const tags = lemma.posAll || (lemma.pos ? String(lemma.pos).trim().split(/\s+/) : []);
-    // Facetten-Vorrang wie bei den Zahlwörtern unten: wer NAM gezielt wählt,
-    // bekäme sonst kommentarlos eine leere Liste, weil der Filter default an ist.
-    if (this.state.hideNames && this.state.posFilter !== 'NAM' && tags.includes('NAM')) return false;
+    // Facetten-Vorrang, einheitlich für alle drei Default-Filter: wer eine
+    // Wortart gezielt in der Facette wählt, will sie sehen und bekäme sonst
+    // kommentarlos eine leere Liste, weil der gleichnamige Filter default an
+    // ist. Betrifft NAM, NUM und jede Wortart aus FUNCTION_WORD_POS.
+    const facet = this.state.posFilter;
+    if (this.state.hideNames && facet !== 'NAM' && tags.includes('NAM')) return false;
     // Zahlwörter defaultmäßig aus (#196, KZW 27.07.): Eine korpusweit einmalige
     // Zahl ist kein lexikalisches Hapax im philologischen Sinn, sondern eine
     // Funktion der Textlänge — "ahtundsibenzechundert" kommt einmal vor, weil
@@ -132,20 +135,20 @@ export class HapaxLegomenaAnalyzer {
     // hier strenger als hideNames/hideFunctionWords, die per includes/some
     // arbeiten.
     //
-    // Die explizite Wortart-Facette schlägt den Default: wer in der Facette
-    // "NUM" wählt, will Zahlwörter sehen und bekäme sonst kommentarlos nur die
-    // 47 gemischten statt aller 119.
+    // Die explizite Wortart-Facette schlägt den Default (siehe oben): wer in
+    // der Facette "NUM" wählt, bekäme sonst kommentarlos nur die 47 gemischten
+    // statt aller 119.
     //
     // DIG (römische Zahlen) braucht keinen eigenen Filter: es gibt genau drei
     // DIG-Lemmata, und keines kann hier je erscheinen. lemma_13826 "I" hat
     // 4.755 Korpusbelege, lemma_45842 "declinare" 4 (über der höchsten
     // Schwelle 3), lemma_21509 "xxtausent" steht nur im Lexikon und kommt im
     // Korpus nicht vor.
-    const numeralsExplicitlyWanted = this.state.posFilter === 'NUM';
-    if (this.state.hideNumerals && !numeralsExplicitlyWanted
+    if (this.state.hideNumerals && facet !== 'NUM'
         && tags.length === 1 && tags[0] === 'NUM') return false;
-    if (this.state.hideFunctionWords && tags.length > 0 && tags.some(t => FUNCTION_WORD_POS.has(t))) return false;
-    if (this.state.posFilter !== 'all' && !tags.includes(this.state.posFilter)) return false;
+    if (this.state.hideFunctionWords && !FUNCTION_WORD_POS.has(facet)
+        && tags.length > 0 && tags.some(t => FUNCTION_WORD_POS.has(t))) return false;
+    if (facet !== 'all' && !tags.includes(facet)) return false;
     if (this.state.initial !== 'all') {
       const first = (lemma.normalized || lemma.lemma || '').charAt(0).toLowerCase();
       if (first !== this.state.initial) return false;
@@ -246,6 +249,7 @@ export class HapaxLegomenaAnalyzer {
     // obwohl sie nichts mehr tut.
     const namOverridden = this.state.posFilter === 'NAM';
     const numOverridden = this.state.posFilter === 'NUM';
+    const funcOverridden = FUNCTION_WORD_POS.has(this.state.posFilter);
 
     const tabBtn = (tab, label) => `
       <button data-hx-tab="${tab}" class="rounded-lg px-3 py-1.5 text-sm font-medium transition ${this.state.tab === tab
@@ -284,9 +288,9 @@ export class HapaxLegomenaAnalyzer {
             <input type="checkbox" id="hxHideNum" ${this.state.hideNumerals ? 'checked' : ''} ${numOverridden ? 'disabled' : ''} class="w-4 h-4 rounded border-slate-300 text-brand-600 focus:ring-brand-500" />
             <span>Zahlwörter ausblenden <span class="text-xs text-slate-500">${numOverridden ? '(von der Facette NUM aufgehoben)' : '(nur reines NUM)'}</span></span>
           </label>
-          <label class="flex items-center gap-2 text-sm text-slate-700 cursor-pointer">
-            <input type="checkbox" id="hxHideFunc" ${this.state.hideFunctionWords ? 'checked' : ''} class="w-4 h-4 rounded border-slate-300 text-brand-600 focus:ring-brand-500" />
-            <span>Funktionswörter ausblenden</span>
+          <label class="flex items-center gap-2 text-sm text-slate-700 ${funcOverridden ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}"${funcOverridden ? ` title="Die Wortart-Facette ${this.state.posFilter} hebt diesen Filter auf."` : ''}>
+            <input type="checkbox" id="hxHideFunc" ${this.state.hideFunctionWords ? 'checked' : ''} ${funcOverridden ? 'disabled' : ''} class="w-4 h-4 rounded border-slate-300 text-brand-600 focus:ring-brand-500" />
+            <span>Funktionswörter ausblenden${funcOverridden ? ` <span class="text-xs text-slate-500">(von der Facette ${this.state.posFilter} aufgehoben)</span>` : ''}</span>
           </label>
           <button id="hxCsvExport" class="ml-auto rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 flex items-center gap-1.5">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5 5-5M12 15V3"></path></svg>
