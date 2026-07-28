@@ -137,6 +137,7 @@ All icons inherit color via `currentColor`.
 | Small action | `rounded-lg bg-brand-600 px-3 py-1 text-xs font-semibold text-white hover:bg-brand-700` |
 | Icon-only | `icon-btn`: `p-1 px-2 rounded-sm bg-secondary border-primary min-w-[2rem]` |
 | Text-only | `text-xs font-medium text-brand-600 hover:text-brand-700 transition` |
+| Floating (Leseansicht) | `.back-to-top` in `korpus.css`: runder 2,75rem-Button, `position: fixed; right: var(--space-8); bottom: 5.5rem`, `#334155` auf Weiß, Schatten wie `.reading-nav`. `z-index: 21` liegt bewusst eine Stufe über der Highlight-Navigation (`z-20`), damit sich beide bei aktivem Highlighting nicht überlagern. Sichtbar nur, wenn ein Text geladen ist und der Panelkopf aus dem Viewport gescrollt wurde (#138) |
 
 ### Badges / Pills
 

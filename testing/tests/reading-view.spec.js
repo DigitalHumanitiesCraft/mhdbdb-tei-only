@@ -213,6 +213,27 @@ test.describe('Reading View', () => {
         expect(((await anchor.textContent()) || '').trim()).toBe('');
     });
 
+    test('#138: HUG (div-lokale @n) zeigt in jedem Lied wieder die 1', async ({ page }) => {
+        // Julia, 17.07.: sichtbar setzte die Verszählung nur im ersten Lied bei 1
+        // ein, danach erst bei 5. Ursache war ein dokumentweiter Anker; er wird
+        // jetzt an jedem <div> zurückgesetzt, das seine Zählung bei n="1" neu
+        // beginnt. Der #127-Fall (NBB, strophenlokale Zählung) darf davon NICHT
+        // betroffen sein — dafür der Test oben.
+        await page.goto('http://localhost:8080/korpus.html?textId=HUG&lemmaIds=lemma_879');
+        await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
+        await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
+
+        const songs = page.locator('#readingBody .tei-div-song[data-n]');
+        const songCount = await songs.count();
+        expect(songCount).toBeGreaterThan(2);
+
+        // Die ersten drei Lieder müssen je eine sichtbare "1" tragen.
+        for (let i = 0; i < 3; i++) {
+            const firstNumbered = songs.nth(i).locator('.verse-line-numbered').first();
+            await expect(firstNumbered).toHaveAttribute('data-n', '1');
+        }
+    });
+
     test('should render note date and year badges', async ({ page }) => {
         // HZU has note type="date" and note type="year"
         await page.goto('http://localhost:8080/korpus.html?textId=HZU&lemmaIds=lemma_879');

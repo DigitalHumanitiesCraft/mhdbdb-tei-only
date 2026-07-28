@@ -349,6 +349,28 @@ class TEITextReader {
     }
 
     /**
+     * Beginnt dieses <div> eine eigene Verszählung bei 1? Kriterium ist die
+     * erste numerisch nummerierte <l> im Teilbaum: trägt sie n="1", ist das
+     * div ein eigener Zählungsbereich (HUG: div type="song"). Zählt es dagegen
+     * durch (Kapitel-divs mit n="234" als erster Zeile), bleibt der Anker beim
+     * ersten Vers des Texts.
+     *
+     * Nicht-numerische @n (ALX-Überschriftenzeilen „h_1") werden übersprungen,
+     * nicht als Zählungsstart gewertet. Siehe #138 und #127.
+     *
+     * @param {Element} divEl
+     * @returns {boolean}
+     */
+    divRestartsNumbering(divEl) {
+        for (const line of divEl.querySelectorAll('l[n]')) {
+            const n = line.getAttribute('n');
+            if (!/^\d+$/.test(n)) continue;
+            return n === '1';
+        }
+        return false;
+    }
+
+    /**
      * Extract and format body text with TEI structure preservation
      * Handles: <head>, <p>, <div>, <lg>, <l>, <lb>, <pb>, <hi rend="...">, <pc>, <seg>
      * @returns {object} { html: string, highlights: Array<{element, position}> }
@@ -384,6 +406,20 @@ class TEITextReader {
                 case 'div': {
                     const divType = el.getAttribute('type') || '';
                     const divN = el.getAttribute('n') || '';
+                    // Zählungs-Anker pro <div> zurücksetzen, wenn dieses div seine
+                    // eigene Verszählung bei 1 beginnt (HUG: jedes Lied zählt neu).
+                    // Ohne den Reset zeigt nur das erste Lied seine „1", alle
+                    // folgenden setzen sichtbar erst bei 5 ein (#138, Julia 17.07.).
+                    //
+                    // Bewusst NUR auf div-Ebene, nie auf <lg>: NBB startet jede
+                    // Strophe bei n=1: ein lg-Reset stellte in jede Strophe eine
+                    // Marginal-„1" und brächte genau das jumbled margin zurück,
+                    // das #127 beseitigt hat. Die n="1"-Bedingung hält zusätzlich
+                    // durchlaufend gezählte Kapitel-divs unverändert; dort bleibt
+                    // der Anker der erste Vers des Texts.
+                    if (this.divRestartsNumbering(el)) {
+                        state.firstNumericLineShown = false;
+                    }
                     const divLabels = {
                         'song': 'Lied', 'chapter': 'Kapitel', 'recipe': 'Rezept',
                         'number': 'Nr.', 'section': 'Abschnitt',
@@ -415,6 +451,12 @@ class TEITextReader {
                     // <l> without @n (WZB prose) get no number; stanza-local resets
                     // (NBB l@n=1..4) never hit %5, so they keep only their "Strophe N"
                     // labels and avoid a jumbled margin. See #127.
+                    //
+                    // Seit #138 ist der Anker nicht mehr dokumentweit einmalig: ein
+                    // <div>, das seine Zählung bei 1 neu beginnt, setzt ihn zurück
+                    // (divRestartsNumbering). In HUG bekommt damit jedes Lied seine
+                    // sichtbare „1"; NBB bleibt unverändert, weil dort die Strophen
+                    // und nicht die divs zurücksetzen.
                     const isNumeric = /^\d+$/.test(lineN);
                     // First numeric line (anchor) shows, then every 5th by absolute
                     // @n. Once the anchor fires the flag stays set, so afterwards only

@@ -201,7 +201,9 @@ class MainSiteApp {
                 readingNavigation: document.getElementById('readingNavigation'),
                 prevHighlight: document.getElementById('prevHighlight'),
                 nextHighlight: document.getElementById('nextHighlight'),
-                highlightIndicator: document.getElementById('highlightIndicator')
+                highlightIndicator: document.getElementById('highlightIndicator'),
+                readingPanel: document.getElementById('readingPanel'),
+                backToTop: document.getElementById('backToTop')
             };
         }
     }
@@ -420,6 +422,9 @@ class MainSiteApp {
             // Load more results
             this.elements.loadMoreButton.addEventListener('click', () => this.loadMoreResults());
 
+            // Zum Textanfang springen (#138)
+            this.setupBackToTop();
+
             // Reading panel navigation controls
             this.elements.prevHighlight.addEventListener('click', () => this.teiReader.navigateHighlight(-1));
             this.elements.nextHighlight.addEventListener('click', () => this.teiReader.navigateHighlight(1));
@@ -433,6 +438,65 @@ class MainSiteApp {
         }
 
         console.log(`[MainSiteApp] Event listeners attached (${this.isSearchPage ? 'Search' : 'Landing'} page)`);
+    }
+
+    /**
+     * Nach-oben-Button der Leseansicht (#138, Wunsch Julia 17.07.).
+     *
+     * Ziel ist der Kopf des Lesepanels, nicht der Seitenanfang: Wer in einem
+     * langen Text steckt, will zurück zu Titel und Metadaten, nicht in die
+     * Suchmaske. Sichtbar nur, wenn ein Text geladen ist und der Panelkopf
+     * bereits oben aus dem Viewport gescrollt wurde.
+     */
+    setupBackToTop() {
+        const btn = this.elements.backToTop;
+        const panel = this.elements.readingPanel;
+        if (!btn || !panel) return;
+
+        const SHOW_AFTER_PX = 240;
+
+        const update = () => {
+            // Kriterium ist der gesetzte Titel, NICHT readingBody.childElementCount:
+            // der Body traegt auch ohne geladenen Text einen Platzhalter
+            // ("Bitte geben Sie ein Wort oder Lemma ein ..."), der Button waere
+            // sonst schon auf der reinen Ergebnisseite sichtbar.
+            const hasText = !!(this.elements.readingTitle
+                && this.elements.readingTitle.textContent.trim());
+            const scrolledPast = panel.getBoundingClientRect().top < -SHOW_AFTER_PX;
+            btn.classList.toggle('hidden', !(hasText && scrolledPast));
+        };
+
+        btn.addEventListener('click', () => {
+            const top = panel.getBoundingClientRect().top + window.pageYOffset - 16;
+            // behavior: 'auto', nicht 'smooth'. In der Leseansicht ist smooth
+            // scrolling wirkungslos (in Chrome auf den langen Reader-Seiten
+            // verifiziert, unabhaengig von der Distanz und ohne aktives
+            // prefers-reduced-motion). Der Reader springt aus demselben Grund
+            // schon bei scrollToVerse/scrollToHighlight instant.
+            window.scrollTo({ top, behavior: 'auto' });
+        });
+
+        // Primaersignal ist ein IntersectionObserver, nicht das scroll-Event:
+        // der Reader springt selbst per window.scrollTo (Deep-Links mit
+        // ?position= / ?verse=, Highlight-Navigation). Programmatisches
+        // Scrollen loest den scroll-Listener nicht zuverlaessig aus, der
+        // Button haenge dann im falschen Zustand fest, bis der Nutzer von Hand
+        // scrollt. Der Observer feuert unabhaengig davon, wodurch gescrollt
+        // wurde. Das scroll-Event bleibt als billiger Zusatz erhalten, damit
+        // der Zustand auch bei reinen Layout-Verschiebungen aktuell ist.
+        // Beobachtet wird der Panelkopf, nicht das Panel: das Panel ist so hoch
+        // wie der ganze Text (bei HUG ueber 180.000 px) und verlaesst den
+        // Viewport nie, der Observer feuerte also nie eine Zustandsaenderung.
+        const sentinel = panel.querySelector('.reading-header') || panel;
+        if ('IntersectionObserver' in window) {
+            new IntersectionObserver(update, {
+                rootMargin: `-${SHOW_AFTER_PX}px 0px 0px 0px`,
+                threshold: [0, 1]
+            }).observe(sentinel);
+        }
+        window.addEventListener('scroll', update, { passive: true });
+        window.addEventListener('resize', update, { passive: true });
+        update();
     }
 
     setupTextFiltering() {

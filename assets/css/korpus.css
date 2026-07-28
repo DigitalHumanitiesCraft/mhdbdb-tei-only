@@ -660,6 +660,38 @@
    Bewusst nicht via Tailwind-Utilities gestylt: das vorkompilierte
    tailwind-output.css enthält die nötigen Klassen nicht und der
    CSS-Build (npm run build:css) ist nicht auf jedem Rechner verfügbar. */
+/* --- Back to top of the reading panel (#138) --- */
+/* Sits above the highlight navigation bar (z-20, bottom-4) so the two never
+   overlap when both are visible. */
+.back-to-top {
+  position: fixed;
+  right: var(--space-8);
+  bottom: 5.5rem;
+  z-index: 21;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  color: #ffffff;
+  background: #334155;
+  border: 1px solid var(--border-secondary);
+  border-radius: 9999px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.2);
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.back-to-top:hover {
+  background: #1e293b;
+  transform: translateY(-2px);
+}
+
+.back-to-top:focus-visible {
+  outline: 2px solid var(--brand-500, #2563eb);
+  outline-offset: 2px;
+}
+
 .reading-nav {
   background: rgba(255, 255, 255, 0.97);
   backdrop-filter: blur(4px);

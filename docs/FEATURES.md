@@ -81,6 +81,8 @@ Full-text immersive reader with multi-lemma highlighting and rich metadata.
 - **Wikidata integration:** Automatic image fetching with attribution
 - **Dual identifiers:** Separate GND/Wikidata for work vs author
 - **Context navigation:** Prev/next buttons to jump between occurrences
+- **Zum Textanfang (#138):** Runder Sprung-Button unten rechts, sobald der Panelkopf aus dem Viewport gescrollt ist; springt zurück zu Titel und Metadaten, nicht zum Seitenanfang
+- **Verszählung pro Zählungsbereich (#138):** Die sichtbare Randnummerierung setzt bei jedem `<div>`, das seine Zählung bei `n="1"` neu beginnt, wieder mit der 1 ein (HUG: jedes Lied). Texte, die pro Strophe zurücksetzen (NBB, `l/@n` 1..4 je `<lg>`), bleiben bewusst unverändert bei ihren „Strophe N"-Labels: eine Marginal-1 in jeder Strophe wäre genau das unruhige Randbild, das #127 beseitigt hat
 - **URL parameters:** `?textId=ABG&lemmaIds=879,7532&position=310`
 - **Ausschnitts-Kontext (#134):** Texte mit `biblScope unit="verse"` im Header (Ausschnitte eines Gesamtwerks, z. B. AK aus der Steirischen Reimchronik) zeigen einen sichtbaren Banner über dem Text sowie eine „Ausschnitt"-Metadaten-Sektion (Ausschnitt/Gesamtwerk/Versbereich/Kontext); siehe TEI-MODEL.md §2.1
 
