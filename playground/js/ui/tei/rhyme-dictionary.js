@@ -307,7 +307,7 @@ export class RhymeDictionary {
         <p class="text-xs text-slate-600">
           „Welche Lemmata reimen sich auf X?" Scannt alle Versenden des Korpus und sammelt
           die Lemmata benachbarter Versenden (±1 Vers, Paarreim-Annahme), deren normalisierte
-          Form im Auslaut übereinstimmt. Lemma-basiert und strukturell — keine phonetische
+          Form im Auslaut übereinstimmt. Lemma-basiert und strukturell, keine phonetische
           Reim-Klassifikation. Nur Verstexte; Prosa wird ignoriert.
         </p>
         <div class="grid gap-3 sm:grid-cols-4">
@@ -483,7 +483,7 @@ export class RhymeDictionary {
         <p class="text-xs text-slate-500">
           Heuristik: benachbarte Versenden (±1 Vers, Paarreim-Annahme) mit übereinstimmendem
           3-Letter-Suffix der normalisierten Lemma-Form (2-Letter, wenn beide Formen kurz sind).
-          Lemma-basiert — die tatsächlich reimende Flexionsform kann abweichen; phonetische
+          Lemma-basiert: die tatsächlich reimende Flexionsform kann abweichen; phonetische
           Reim-Klassifikation (sauberer Reim vs. Assonanz) ist Folgearbeit (#106/#109).
           „→ Belege" klappt die gezählten Verspaare auf – ausschließlich Vorkommen
           an benachbarten Versenden, mit Sprung in die Leseansicht.

@@ -1004,7 +1004,7 @@ class MainSiteApp {
             <p class="mt-2 text-xs text-slate-500">
                 Keyness = Log-Likelihood (Dunning 1993): Über-/Unterrepräsentation der Trefferfrequenz
                 im Text gegenüber dem Gesamtkorpus. <strong>Fett</strong> markierte Werte ≥ 10,83 sind
-                signifikant überrepräsentiert (p&nbsp;&lt;&nbsp;0,001) — das Lemma ist ein Schlüsselwort dieses Textes.
+                signifikant überrepräsentiert (p&nbsp;&lt;&nbsp;0,001): das Lemma ist ein Schlüsselwort dieses Textes.
             </p>
         `;
 

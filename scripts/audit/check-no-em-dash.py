@@ -2,26 +2,44 @@
 """
 Em-Dash-Gate: user-sichtbare Texte dürfen keine Em-Dashes (—) tragen.
 
-Hausregel des Projekts: in Prosa, die Nutzende oder Leserinnen sehen, steht
-statt eines Em-Dashes ein Doppelpunkt, ein Komma, eine Klammer oder ein
-eigener Satz. Ein En-Dash (–) mit Leerzeichen ist erlaubt.
+Hausregel des Projekts: in Prosa, die Nutzende sehen, steht statt eines
+Em-Dashes ein Doppelpunkt, ein Komma, eine Klammer oder ein eigener Satz.
+Ein En-Dash (–) mit Leerzeichen ist erlaubt, ebenso Em-Dashes in
+Code-Kommentaren.
 
-Der Anlass ist wiederkehrend: KZW hat am 28.07. zum wiederholten Mal einen
-Em-Dash im Frontend gemeldet (Issue #140, diesmal im Hapax-Werkzeug). Sieben
-Fundstellen steckten damals in `assets/js/` und `playground/js/`, keine davon
-wäre in einem Review aufgefallen, weil sie in Template-Literalen und
-title-Attributen sitzen.
+Anlass ist wiederkehrend: KZW hat am 28.07. zum wiederholten Mal einen
+Em-Dash im Frontend gemeldet (#140, diesmal im Hapax-Werkzeug).
 
-Bewusst NICHT geprüft:
-  - Code-Kommentare (`//`, `/* */`, `#`, `<!-- -->`) — dort sind Em-Dashes
-    laut Hausregel ausdrücklich erlaubt
-  - docs/**, publications/**, README — Autorentext, kein UI
-  - tei/**, authority-files/** — Quelldaten, editorisch gewollt
-  - assets/vendor/** und node_modules — Fremdcode
+## Die Regel, und warum sie so schlicht ist
 
-Geprüft werden:
-  - alle committeten *.html im Repo-Wurzelbereich und in playground/
-  - String- und Template-Literale in assets/js/** und playground/js/**
+Geflaggt wird ein Em-Dash in einer Zeile, die **nicht wie eine
+Kommentarzeile aussieht** und in der **vor dem Em-Dash kein `//` steht**.
+
+Zwei Anläufe davor sind gescheitert, beide an derselben Sorte Ehrgeiz:
+
+1. „Em-Dash zwischen zwei Anführungszeichen in derselben Zeile" ist
+   wertlos, weil fast die gesamte UI-Prosa dieses Projekts in
+   MEHRZEILIGEN Template-Literalen lebt, deren Textzeilen weder Backtick
+   noch Quote enthalten. Vier live sichtbare Em-Dashes sind so entgangen.
+2. Ein Zustandsautomat über String-, Template- und Kommentarzustände
+   verliert die Spur an Regex-Literalen (`/[",\\n\\r]/` in `app.js` öffnet
+   über das `"` einen String). Mit Regex-Erkennung nachgerüstet wurde es
+   nicht besser, nur schwerer zu prüfen: 27 Fundstellen, die Mehrzahl
+   Kommentarzeilen.
+
+Die schlichte Regel trifft alle real vorhandenen Fälle und ist in fünf
+Zeilen nachvollziehbar. Ihr bekannter blinder Fleck: eine Prosazeile
+innerhalb eines Template-Literals, die mit `*` oder `//` beginnt, würde
+für einen Kommentar gehalten. Im Bestand kommt das nicht vor, und wenn es
+je vorkommt, ist die Zeile ohnehin verdächtig formatiert.
+
+In HTML wird jeder Em-Dash außerhalb eines `<!-- -->`-Kommentars geflaggt;
+dort ist er entweder sichtbarer Text oder ein Attributwert.
+
+Geprüft werden die ausgelieferten HTML-Seiten sowie die JS-Verzeichnisse
+`assets/js/`, `playground/` und `lemma/`. Nicht geprüft: `docs/`,
+`publications/`, `tei/`, `authority-files/`, `schema/`, `testing/` und
+Fremdcode unter `vendor/`.
 
 Usage:
     python scripts/audit/check-no-em-dash.py            # Report + Exit-Code
@@ -31,7 +49,6 @@ Exit 0 = sauber, Exit 1 = Em-Dash in user-sichtbarem Text gefunden.
 """
 
 import argparse
-import re
 import sys
 from pathlib import Path
 
@@ -39,28 +56,32 @@ REPO = Path(__file__).resolve().parent.parent.parent
 
 EM_DASH = '—'
 
-# Achtung: nur auf der OBERSTEN Ebene ausschliessen. Ein Test mit
-# `part in SKIP_DIRS for part in ...parts` uebersieht ausgerechnet
-# playground/js/ui/tei/, weil dort ein Verzeichnis ebenfalls `tei` heisst.
+# Achtung: nur auf der OBERSTEN Ebene ausschliessen. Ein Test ueber alle
+# Pfadteile uebersieht ausgerechnet playground/js/ui/tei/, weil dort ein
+# Verzeichnis ebenfalls `tei` heisst. Das war der erste Fehler dieses Gates.
 TOP_LEVEL_SKIP = {'tei', 'data', 'docs', 'publications', 'schema', 'testing',
                   'proposals', 'node_modules', '.git', 'test-results'}
-# Diese duerfen auf jeder Ebene fehlen.
 SKIP_ANYWHERE = {'node_modules', 'vendor', '_archived', 'test-results', '.git'}
 
-# Em-Dash innerhalb eines Quoted- oder Template-Literals: nur solche Treffer
-# landen im DOM. Ein Em-Dash in einer Kommentarzeile ist erlaubt.
-IN_STRING = re.compile(
-    '(`[^`]*' + EM_DASH + '[^`]*`)'
-    "|('[^']*" + EM_DASH + "[^']*')"
-    '|("[^"]*' + EM_DASH + '[^"]*")'
+# `*.html` ist bewusst nicht rekursiv: die ausgelieferten Seiten liegen im
+# Wurzelverzeichnis, in playground/, lemma/, api/ und includes/. Ein
+# kuenftiger HTML-Unterordner braucht hier einen eigenen Eintrag.
+GLOBS = (
+    '*.html',
+    'playground/**/*.html',
+    'lemma/**/*.html',
+    'api/*.html',
+    'includes/*.html',
+    'assets/js/**/*.js',
+    'playground/**/*.js',
+    'lemma/**/*.js',
 )
 
-COMMENT_START = ('//', '*', '/*', '<!--', '#')
+KOMMENTAR_PRAEFIXE = ('//', '*', '/*', '<!--')
 
 
 def relevante_dateien():
-    for muster in ('*.html', 'assets/js/**/*.js', 'playground/**/*.js',
-                   'playground/**/*.html', 'lemma/**/*.html', 'api/*.html'):
+    for muster in GLOBS:
         for pfad in REPO.glob(muster):
             teile = pfad.relative_to(REPO).parts
             if teile[0] in TOP_LEVEL_SKIP:
@@ -70,24 +91,66 @@ def relevante_dateien():
             yield pfad
 
 
-def pruefe(pfad: Path):
-    """Liefert (Zeilennummer, Zeileninhalt) je Fundstelle."""
+def kommentar_beginn(zeile):
+    """Index des ersten `//`, das kein Teil von `://` ist, sonst -1."""
+    such = 0
+    while True:
+        idx = zeile.find('//', such)
+        if idx == -1:
+            return -1
+        if idx > 0 and zeile[idx - 1] == ':':
+            such = idx + 2
+            continue
+        return idx
+
+
+def scanne_js(text):
     treffer = []
-    try:
-        text = pfad.read_text(encoding='utf-8')
-    except (UnicodeDecodeError, OSError):
-        return treffer
-    ist_html = pfad.suffix == '.html'
     for nr, zeile in enumerate(text.split('\n'), 1):
-        gestrippt = zeile.strip()
-        if EM_DASH not in gestrippt:
+        pos = zeile.find(EM_DASH)
+        if pos == -1:
             continue
-        if gestrippt.startswith(COMMENT_START):
+        if zeile.lstrip().startswith(KOMMENTAR_PRAEFIXE):
             continue
-        # In HTML ist jeder Nicht-Kommentar-Treffer sichtbarer Text oder
-        # Attributwert; in JS nur, was in einem Literal steht.
-        if ist_html or IN_STRING.search(zeile):
-            treffer.append((nr, gestrippt[:160]))
+        k = kommentar_beginn(zeile)
+        if k != -1 and k < pos:
+            continue
+        treffer.append((nr, zeile.strip()[:160]))
+    return treffer
+
+
+def scanne_html(text):
+    """Em-Dashes ausserhalb von <!-- -->; die halten ueber Zeilengrenzen.
+
+    Inline-<script>-Bloecke enthalten JS-Kommentare, fuer die dieselbe
+    Ausnahme gilt wie in .js-Dateien (hilfe-schema.html traegt einen).
+    """
+    treffer = []
+    im_kommentar = False
+    for nr, zeile in enumerate(text.split('\n'), 1):
+        if zeile.lstrip().startswith(('//', '*')):
+            continue
+        rest = zeile
+        sichtbar = []
+        while rest:
+            if im_kommentar:
+                ende = rest.find('-->')
+                if ende == -1:
+                    rest = ''
+                    break
+                rest = rest[ende + 3:]
+                im_kommentar = False
+                continue
+            start = rest.find('<!--')
+            if start == -1:
+                sichtbar.append(rest)
+                rest = ''
+                break
+            sichtbar.append(rest[:start])
+            rest = rest[start + 4:]
+            im_kommentar = True
+        if EM_DASH in ''.join(sichtbar):
+            treffer.append((nr, zeile.strip()[:160]))
     return treffer
 
 
@@ -99,8 +162,16 @@ def main() -> int:
 
     fundstellen = []
     for pfad in sorted(set(relevante_dateien())):
-        for nr, zeile in pruefe(pfad):
-            fundstellen.append((pfad.relative_to(REPO).as_posix(), nr, zeile))
+        try:
+            text = pfad.read_text(encoding='utf-8')
+        except (UnicodeDecodeError, OSError):
+            continue
+        if EM_DASH not in text:
+            continue
+        scan = scanne_html if pfad.suffix == '.html' else scanne_js
+        rel = pfad.relative_to(REPO).as_posix()
+        for nr, zeile in scan(text):
+            fundstellen.append((rel, nr, zeile))
 
     if not fundstellen:
         if not args.quiet:

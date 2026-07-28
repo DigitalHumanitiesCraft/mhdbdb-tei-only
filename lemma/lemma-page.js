@@ -140,7 +140,7 @@ class LemmaPage {
         this.elements.lemmaNormalized.textContent = `Normalisiert: ${lemma.normalized}`;
         // #187: posAll[] zeigt alle POS-Werte (Fallback: Erstwert aus altem Cache)
         this.elements.lemmaPos.textContent =
-            (lemma.posAll || (lemma.pos ? [lemma.pos] : [])).join(' ') || '—';
+            (lemma.posAll || (lemma.pos ? [lemma.pos] : [])).join(' ') || '–';
         this.elements.lemmaId.textContent = lemma.id;
 
         // Copy ID button

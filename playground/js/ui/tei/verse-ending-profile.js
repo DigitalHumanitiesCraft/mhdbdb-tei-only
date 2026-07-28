@@ -166,7 +166,7 @@ export class VerseEndingProfileAnalyzer {
         </label>
         <p class="mt-3 text-xs text-slate-500">
           Zählt das Lemma am letzten Wort jedes Verses (<code>lineEnds[]</code>, Corpus-Index v4.1.0+).
-          „Reim-Druck" = Anteil der Vorkommen dieses Lemmas, die am Versende stehen — hohe Werte deuten
+          „Reim-Druck" = Anteil der Vorkommen dieses Lemmas, die am Versende stehen; hohe Werte deuten
           auf reimgetriebene Verwendung. Nur Versdichtung; Prosa-Texte werden übersprungen.
         </p>
       </div>
