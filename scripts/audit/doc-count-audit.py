@@ -140,7 +140,7 @@ DOC_TARGETS = [
     ('docs/ROADMAP.md', ['corpus_files']),
     # Beide tragen undatierte Ist-Angaben zu variants.xml und standen bis
     # 2026-07-28 nicht im Audit; sie blieben deshalb bei 256.761 stehen.
-    ('docs/DATA-MODEL.md', ['variants_forms', 'variants_entries']),
+    ('docs/DATA-MODEL.md', ['variants_forms', 'variants_entries', 'variants_normalized']),
     ('docs/TEI-MODEL-AUTH-FILES.md', ['variants_forms', 'variants_entries']),
     # CONTRACTS.md:315 beschreibt den Ist-Aufbau des Variants-Dictionary; der
     # Datumsstempel dort macht die Zeile nicht historisch.
@@ -284,7 +284,7 @@ def find_stale_numbers(doc_path: str, current: int, key: str) -> list:
         # ("variant forms", "raw forms"); ohne diese Alternativen greift dort
         # kein Anker und der DOC_TARGETS-Eintrag bliebe wirkungslos.
         'variants_forms': r'(?:Formen|[Oo]rthographische\w*\s+Varianten|(?:[Vv]ariant|[Rr]aw)\s+forms)',
-        'variants_normalized': r'(?:[Nn]ormalisierte\w*\s+(?:Schreibvarianten|Varianten)|[Ee]indeutige\s+Zuordnungen|[Nn]ormalized\s+entries)',
+        'variants_normalized': r'(?:[Nn]ormalisierte\w*\s+(?:Schreibvarianten|Varianten)|[Ee]indeutige\s+Zuordnungen|[Nn]ormalized\s+entries|mappings)',
         'persons': r'Personen',
         'concepts': r'(?:Konzepte|Begriffe|Kategorien)',
         'genres': r'(?:Gattungen|Kategorien)',

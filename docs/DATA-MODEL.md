@@ -263,7 +263,7 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
   variants: {
     "brot": "lemma_879",   // normalized form → lemma ID
     "brott": "lemma_879",
-    // ... 234,244 mappings (2026-05-29)
+    // ... 234,243 mappings (2026-07-28)
   },
 
   maps: {
