@@ -36,6 +36,7 @@ export class HapaxLegomenaAnalyzer {
     this.authorityData = authorityData;
     this._lemmaById = null;
     this._conceptById = null;
+    this._personById = null;
     this._corpusAgg = null;      // einmalige korpusweite Aggregation
     this._textLabelCache = null;
     this.state = {
@@ -454,6 +455,29 @@ export class HapaxLegomenaAnalyzer {
    * 660 der 667 Texte tragen einen Autor im Korpus-Index; die übrigen
    * bekommen gar keinen Klammerzusatz statt eines leeren.
    */
+  /**
+   * Autorname eines Texts, mit Rückgriff auf die Personen-Referenz.
+   *
+   * Sieben Korpusdateien tragen ein leeres `<author ref="#person_N"/>` (ALX,
+   * BVSN, PSG, PTS, BOP, MHG, MRB). Sie sind deshalb nicht autorlos: die
+   * Referenz steht im Index, und `persons` kennt den Namen (Mönch von
+   * Heilsbronn, Boppe, Herger, Burggraf von Riedenburg). Ohne diesen Rückgriff
+   * unterschlüge das Panel den Autor stillschweigend und verkaufte eine
+   * Datenlücke als Design. Die leeren `<author/>`-Elemente selbst gehören
+   * trotzdem im TEI gefüllt, das ist ein eigener Vorgang.
+   */
+  autorFuerText(text) {
+    if (!text) return '';
+    if (text.author) return text.author;
+    const ref = (text.authorRef || '').replace(/^#/, '');
+    if (!ref) return '';
+    if (!this._personById) {
+      const personen = this.authorityData?.persons || [];
+      this._personById = new Map(personen.map(p => [p.id, p]));
+    }
+    return this._personById.get(ref)?.preferredName || '';
+  }
+
   renderFundstellen(entry) {
     const textById = new Map((this.getCorpusTexts() || []).map(t => [t.id, t]));
     const items = (entry.occ || []).map(o => {
@@ -461,8 +485,9 @@ export class HapaxLegomenaAnalyzer {
       const verse = this.verseForPosition(text, o.pos);
       const stelle = verse ? `Vers ${verse}` : `Pos. ${o.pos}`;
       const titel = text?.title || o.textId;
-      const autor = text?.author
-        ? ` <span class="text-slate-600" data-hx-autor>(${escapeHtml(text.author)})</span>`
+      const autorName = this.autorFuerText(text);
+      const autor = autorName
+        ? ` <span class="text-slate-600" data-hx-autor>(${escapeHtml(autorName)})</span>`
         : '';
       const url = `../korpus.html?textId=${encodeURIComponent(o.textId)}&lemmaIds=${encodeURIComponent(entry.lemmaId)}&position=${o.pos}`;
       return `<li><a href="${url}" target="_blank" rel="noopener" class="text-brand-700 hover:underline" title="Im Reader mit Highlight öffnen">${escapeHtml(titel)}</a>${autor} <span class="text-slate-300">·</span> <span class="text-slate-600">${escapeHtml(stelle)}</span> <span class="font-mono text-xs text-slate-400">${escapeHtml(o.textId)}</span></li>`;

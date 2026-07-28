@@ -111,9 +111,11 @@ test.describe('Issue #196: Echte Hapaxlegomena', () => {
     expect(titel).not.toBe(sigle);
 
     // Autor per eigenem Attribut statt per Klammer-Regex: Werktitel dürfen
-    // selbst Klammern enthalten ("Wenzelsbibel (Pentateuch: ...)"), und 7 der
-    // 667 Texte haben gar keinen Autor. Deshalb über alle Fundstellen des
-    // Panels prüfen, nicht nur über die erste.
+    // selbst Klammern enthalten ("Wenzelsbibel (Pentateuch: ...)"). Sieben
+    // Texte tragen ein leeres <author ref="#person_N"/>; für die greift der
+    // Rückgriff auf die Personen-Referenz (autorFuerText), sie bleiben also
+    // nicht namenlos. Ein Hapax hat genau eine Fundstelle, der Count ist
+    // deshalb 1, nicht mehr.
     expect(await panel.locator('li [data-hx-autor]').count()).toBeGreaterThan(0);
   });
 
@@ -124,25 +126,37 @@ test.describe('Issue #196: Echte Hapaxlegomena', () => {
     // lexicon.xml-Eintrag entfernen, bliebe er grün. Genau diese Lemmata sind
     // aber Kuratierungs-Funde und ohne Fundort nicht nachverfolgbar.
     //
-    // Ehrliche Einschränkung: mit dem Indexstand vom 28.07. greift dieser Test
-    // NICHT. Es gibt 24 Lemma-IDs mit Korpusfrequenz 1 ohne lexicon.xml-Eintrag
-    // (lemma_78708 ff.), sie sortieren aber nach ihrer ID, landen damit unter
-    // "l" und liegen bei 16.630 Hapaxen und 100 Zeilen pro Seite tief in der
-    // Paginierung. Eine Buchstaben- oder Wortart-Facette hilft nicht: für
-    // Lemmata ohne Eintrag liefert passesFilters nur bei "alle/alle" true.
-    // Der Test skippt deshalb sichtbar, statt still grün zu sein, und greift,
-    // sobald ein solcher Eintrag auf Seite 1 auftaucht.
+    // Die erste Fassung suchte den Eintrag auf Seite 1 und skippte sonst. Das
+    // war kein datenabhängiger Skip, sondern ein dauerhafter: Einträge ohne
+    // Authority-Eintrag sortieren über den Fallback-Schlüssel `lemma_NNNNN`
+    // (computeList), landen damit unter "l" und können bei 100 Zeilen pro
+    // Seite und gut 16.000 Hapaxen nie auf Seite 1 stehen. Der Test hätte
+    // also nie etwas geprüft.
+    //
+    // Deshalb wird die Seite jetzt gezielt angesteuert. Der Klickpfad durch
+    // toggleDetail bleibt der echte Weg durch die Oberfläche, nur die
+    // Paginierung wird vorgespult.
     await page.waitForSelector('[data-hx-detail]', { state: 'visible', timeout: 60000 });
 
-    const zeile = page.locator('tr', { hasText: 'ohne Authority-Eintrag' }).first();
-    if (await zeile.count() === 0) {
-      test.skip(true, 'Kein Lemma ohne Authority-Eintrag auf Seite 1; '
-        + 'der Early-Return-Zweig ist über die Oberfläche nicht erreichbar '
-        + '(24 solcher Lemmata existieren, sortieren aber tief in die Liste).');
+    const idx = await page.evaluate(() => {
+      const hx = window.playground.ui.hapaxLegomena;
+      const { entries } = hx.computeList();
+      const i = entries.findIndex(e => !hx.getLemmaById(e.lemmaId));
+      if (i < 0) return -1;
+      hx.state.page = Math.floor(i / 100);
+      hx.render();
+      return i % 100;
+    });
+
+    if (idx < 0) {
+      test.skip(true, 'Kein Lemma ohne lexicon.xml-Eintrag im aktuellen Index; '
+        + 'dann gibt es diesen Zweig nicht zu prüfen.');
       return;
     }
 
-    await zeile.locator('[data-hx-detail]').click();
+    const zeile = page.locator('tr', { hasText: 'ohne Authority-Eintrag' }).first();
+    await expect(zeile).toBeVisible({ timeout: 15000 });
+    await page.click(`[data-hx-detail="${idx}"]`);
     const panel = page.locator('[id^="hxDetailCell-"]', { hasText: 'Kandidat für die Kuratierung' }).first();
     await expect(panel).toContainText('Fundstellen:', { timeout: 15000 });
     await expect(panel.locator('li a').first()).toHaveAttribute('href', /korpus\.html\?textId=/);
