@@ -114,12 +114,14 @@ export class HapaxLegomenaAnalyzer {
     if (this.state.hideNames && tags.includes('NAM')) return false;
     // Zahlwörter defaultmäßig aus (#196, KZW 27.07.): Eine korpusweit einmalige
     // Zahl ist kein lexikalisches Hapax im philologischen Sinn, sondern eine
-    // Funktion der Textlänge — "vierundsehzic" kommt einmal vor, weil genau
-    // einmal 64 gezählt wird. Anders als NAM ist NUM aber keine reine
-    // Rauschklasse: seltene Zahlwortbildungen (sehzehenthalp, vünfthalphundert)
-    // sind wortbildungsmorphologisch interessant, deshalb abschaltbar statt
-    // hart entfernt. Die fünf reinen Ziffern-Lemmata (1, 36, 42, 46, 49) sind
-    // Altbestands-Artefakte und gehören ins TEI-Putzen, nicht in einen Filter.
+    // Funktion der Textlänge — "ahtundsibenzechundert" kommt einmal vor, weil
+    // genau einmal 7800 gezählt wird. Anders als NAM ist NUM aber keine reine
+    // Rauschklasse: seltene Zahlwortbildungen wie "vünfthalphundert" oder
+    // "hunderttûsentstunt" (beide Frequenz 1) sind wortbildungsmorphologisch
+    // interessant, deshalb abschaltbar statt hart entfernt. Die drei
+    // Ziffern-Einträge, die diesen Filter ausgelöst haben (42, 46, 49), sind
+    // Altbestands-Artefakte und gehören ins TEI-Putzen (#228), nicht in einen
+    // Filter.
     //
     // Bewusst NUR reine NUM-Lemmata, nicht jedes Lemma mit NUM unter mehreren
     // Tags: 47 der 119 NUM-Hapaxe tragen weitere Wortarten (zwispeltic ADJ/NUM,
@@ -127,7 +129,13 @@ export class HapaxLegomenaAnalyzer {
     // Zahlbezug und genau die Funde, für die das Werkzeug gebaut ist. Deshalb
     // hier strenger als hideNames/hideFunctionWords, die per includes/some
     // arbeiten.
-    if (this.state.hideNumerals && tags.length === 1 && tags[0] === 'NUM') return false;
+    //
+    // Die explizite Wortart-Facette schlägt den Default: wer in der Facette
+    // "NUM" wählt, will Zahlwörter sehen und bekäme sonst kommentarlos nur die
+    // 47 gemischten statt aller 119.
+    const numeralsExplicitlyWanted = this.state.posFilter === 'NUM';
+    if (this.state.hideNumerals && !numeralsExplicitlyWanted
+        && tags.length === 1 && tags[0] === 'NUM') return false;
     if (this.state.hideFunctionWords && tags.length > 0 && tags.some(t => FUNCTION_WORD_POS.has(t))) return false;
     if (this.state.posFilter !== 'all' && !tags.includes(this.state.posFilter)) return false;
     if (this.state.initial !== 'all') {
