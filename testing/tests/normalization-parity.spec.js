@@ -32,6 +32,12 @@ const TEST_CASES = [
   { input: 'sǒne', expected: 'sone' },
   { input: 'cæsar', expected: 'caesar' },
   { input: 'œnologie', expected: 'oenologie' },
+  // Schritt 0, NFC (#224): zerlegte Umlaute müssen wie komponierte
+  // normalisieren. Escapes statt Literale, weil ein Editor mit
+  // Auto-Normalisierung die zerlegte Form still zu NFC zusammenzöge und den
+  // Test damit lautlos entwerten würde.
+  { input: 'bo\u0308ses', expected: 'boeses' },
+  { input: 'Mu\u0308hldorf', expected: 'muehldorf' },
   { input: '', expected: '' },
 ];
 

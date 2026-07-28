@@ -50,9 +50,12 @@ def normalize_mhg(text):
     # text-normalizer.js uebereinstimmen. Ein "oe" kann als ein Zeichen
     # (U+00F6) oder als o + kombinierendes Trema (U+006F U+0308) kodiert
     # sein; nur die komponierte Form trifft die Umlaut-Regeln unten.
-    # Die Authority-Files sind durchgaengig NFC, dieser Schritt aendert die
-    # Build-Ausgabe also nicht (verifiziert: Index byte-identisch). Er
-    # schuetzt die Laufzeit-Eingabe und kuenftige Ingests.
+    # Der Schritt aendert die Build-Ausgabe an genau drei Datensaetzen
+    # (person_1052, person_1332, work_435 tragen ein zerlegtes ue); der
+    # Authority-Index geht dadurch auf 1.6.2, drei api/-Dateien aendern sich.
+    # Lemmata und Varianten-Schluessel bleiben unveraendert. Kuenftige Ingests
+    # sind damit gegen dieselbe Falle abgesichert.
+    # Siehe docs/CONTRACTS.md Contract A, Schritt 0.
     normalized = unicodedata.normalize('NFC', text)
 
     # Step 1: Lowercase (like JavaScript)
@@ -99,6 +102,13 @@ TEST_CASES = [
     ('sǒne', 'sone'),  # ǒ→o
     ('cæsar', 'caesar'),  # æ→ae
     ('œnologie', 'oenologie'),  # œ→oe
+    # Schritt 0, NFC (#224): zerlegte Umlaute muessen wie komponierte
+    # normalisieren. Ohne die NFC-Komposition bleibt das kombinierende Trema
+    # stehen und die Umlaut-Regeln greifen nicht.
+    # Escapes statt Literale: ein Editor mit Auto-Normalisierung wuerde die
+    # zerlegte Form still zu NFC zusammenziehen und den Test entwerten.
+    ('bo\u0308ses', 'boeses'),        # o + kombinierendes Trema statt ö
+    ('Mu\u0308hldorf', 'muehldorf'),  # dito mit ü und Grossbuchstabe
     ('', ''),
     (None, ''),
 ]

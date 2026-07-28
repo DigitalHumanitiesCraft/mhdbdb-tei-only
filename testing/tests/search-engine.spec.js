@@ -71,15 +71,17 @@ test.describe('Search Engine', () => {
         expect(lemmaIds.some(id => id.includes('879'))).toBeTruthy();
     });
 
-    test('resolveLemmaIds() - partial match (Stage 3)', async ({ page }) => {
-        // A term that has no exact or variant match falls through to partial
+    test('resolveLemmaIds() - kurzer Stamm liefert einen Treffer', async ({ page }) => {
+        // Achtung, historische Fehlbenennung: dieser Test hiess "partial match
+        // (Stage 3)", erreicht Stufe 3 aber gar nicht. `fri` steht als belegte
+        // Variante in variants.xml, Stufe 2 macht Early Return und liefert
+        // genau ein Lemma. Die Stufe-3-Abdeckung liegt bei den `minnecl`-Tests
+        // weiter unten (#224).
         const lemmaIds = await page.evaluate(() => {
             const se = window._mhdbdbApp.searchEngine;
             return se.resolveLemmaIds('fri');
         });
 
-        // Stage 3 should find at least one prefix match ('fri' is a prefix of
-        // Friaul, Frîtel, friên, ...)
         expect(lemmaIds.length).toBeGreaterThanOrEqual(1);
     });
 

@@ -535,7 +535,7 @@ Search resolves user input to lemma IDs through 3 stages with early return:
 |-------|--------|--------|-------------|
 | 1 | Exact match on normalized canonical form | 0..N (homographs) | O(n) scan |
 | 2 | Variants dictionary lookup (~257k mappings) | Exactly 1 | O(1) hash |
-| 3 | Bidirectional substring fallback | 0..N (fuzzy) | O(n) scan |
+| 3 | Bidirectional PREFIX fallback, sorted by length distance (#224) | 0..N (fuzzy) | O(n) scan |
 
 Stages are mutually exclusive – first match wins. **Full pseudocode with worked example:** see [CONTRACTS.md](CONTRACTS.md#c-3-stage-lemma-resolution-algorithm)
 

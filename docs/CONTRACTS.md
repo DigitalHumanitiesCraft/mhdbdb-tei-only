@@ -36,7 +36,7 @@ Technical contracts that bind Python (build-time) and JavaScript (runtime) toget
 
 ### Test Cases
 
-These 18 cases must pass in both languages. Source: `scripts/mhg_normalizer.py:131-151`
+These 20 cases must pass in both languages. Source: `scripts/mhg_normalizer.py` → `TEST_CASES`, gespiegelt in `testing/tests/normalization-parity.spec.js`
 
 | Input | Expected | Why |
 |-------|----------|-----|
@@ -56,6 +56,8 @@ These 18 cases must pass in both languages. Source: `scripts/mhg_normalizer.py:1
 | `sǒne` | `sone` | ǒ → o |
 | `cæsar` | `caesar` | æ → ae |
 | `œnologie` | `oenologie` | œ → oe |
+| `bo` + U+0308 + `ses` | `boeses` | Schritt 0: zerlegtes ö komponiert vor Schritt 3 (#224) |
+| `Mu` + U+0308 + `hldorf` | `muehldorf` | dito mit ü, plus Grossbuchstabe |
 | `''` | `''` | Empty string |
 | `None`/`null` | `''` | Null handling |
 
@@ -250,7 +252,7 @@ function resolveLemmaIds(normalized):
                AND normalized.startsWith(lemma.normalized)):        // flektierte Eingabe
             results.push(lemma)
     sort results by abs(len(lemma.normalized) - len(normalized))    // Nähe zuerst
-    return results.map(id)                   // May be empty
+    return results.map(lemma => lemma.id)                          // May be empty
 ```
 
 ### Stage Behavior
