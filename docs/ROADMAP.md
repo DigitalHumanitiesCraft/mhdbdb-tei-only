@@ -8,7 +8,7 @@ See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues
 
 **Autonome Issue-Session + Merge-Session (28.07., [MASTERPLAN-AUTONOME-ISSUE-SESSION](playbooks/MASTERPLAN-AUTONOME-ISSUE-SESSION.md) und [MASTERPLAN-AUTONOME-MERGE-SESSION](playbooks/MASTERPLAN-AUTONOME-MERGE-SESSION.md)):** Ausgelöst durch KZWs Durchgang vom 27.07. und den externen Bug-Report #224. Fünf PRs entstanden, vier Fable-Reviews haben sie gegengeprüft.
 
-**Gemergt:** PR #229 (#196 NUM-Filter im Hapax-Werkzeug plus begründeter Sweep über alle zwölf Werkzeuge), PR #227 (#224, refs #169), Meta-PR, PR #223 (wöchentlicher naming-index-Rebuild).
+**Freigegeben und in dieser Reihenfolge gemergt:** PR #229 (#196 NUM-Filter im Hapax-Werkzeug plus begründeter Sweep über alle zwölf Werkzeuge), PR #227 (#224, refs #169), dieser Meta-PR, PR #223 (wöchentlicher naming-index-Rebuild).
 
 **Zurückgestellt, beide brauchen eine Antwort:**
 

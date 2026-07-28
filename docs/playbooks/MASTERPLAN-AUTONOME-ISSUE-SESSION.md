@@ -228,7 +228,7 @@ Alle sechs Wellen komplett, null blockierende Rückfragen. Output: 4 Code-PRs pl
 | 5 | #169-Entscheidungsvorlage mit Messzahlen, #225-Mailentwurf, #223-Plausibilitätskommentar |
 | 6 | #44-Matrix, JOURNAL, ROADMAP, dieses §7; verwaister Commit (JOURNAL-Handoff 14.07.) per Cherry-Pick gerettet |
 
-**Merge-Ergebnis:** #229 → #227 → Meta-PR → #223 gemergt. **#230 und #231 zurückgestellt**, beide warten auf eine fachliche Antwort (Lizenz-Reichweite bzw. Sichtprüfung der 1.352 neuen Randnummern). **#227 ist ein Daten-PR:** Authority-Index 1.6.1 → 1.6.2, Corpus bleibt 4.1.7.
+**Merge-Ergebnis:** freigegeben und in der Reihenfolge #229 → #227 → Meta-PR → #223 gemergt. **#230 und #231 zurückgestellt**, beide warten auf eine fachliche Antwort (Lizenz-Reichweite bzw. Sichtprüfung der 1.352 neuen Randnummern). **#227 ist ein Daten-PR:** Authority-Index 1.6.1 → 1.6.2, Corpus bleibt 4.1.7.
 
 **Lehren (in die nächste Fassung einarbeiten):**
 
