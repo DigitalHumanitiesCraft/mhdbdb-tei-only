@@ -51,5 +51,8 @@ jobs:
       - name: No external script src in committed HTML (stdlib only)
         run: python3 scripts/audit/check-no-cdn.py
 
+      - name: Em-Dash-Gate Selbsttest (#140)
+        run: python3 scripts/audit/check-no-em-dash.py --selftest
+
       - name: Keine Em-Dashes in user-sichtbarem Text (#140)
         run: python3 scripts/audit/check-no-em-dash.py

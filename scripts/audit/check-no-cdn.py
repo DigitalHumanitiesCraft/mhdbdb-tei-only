@@ -17,7 +17,14 @@ import sys
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent.parent
-SKIP_DIRS = {'node_modules', '.git', 'test-results', 'tei', 'data'}
+# Nur auf der OBERSTEN Ebene ausschliessen. Ein Test ueber ALLE Pfadteile
+# (so stand es hier bis 28.07.) uebersieht Verzeichnisse, die zufaellig
+# genauso heissen wie eine Datenwurzel: playground/js/ui/tei/ waere
+# wegen 'tei' stillschweigend ungeprueft geblieben. Aktuell liegt dort
+# kein HTML, der Fehler war also wirkungslos, aber es ist dieselbe Falle,
+# in die check-no-em-dash.py zuerst getappt ist (#140).
+TOP_LEVEL_SKIP = {'tei', 'data', 'node_modules', '.git', 'test-results'}
+SKIP_ANYWHERE = {'node_modules', '.git', 'test-results'}
 
 EXTERNAL_SCRIPT_SRC = re.compile(
     r'<script[^>]+src\s*=\s*["\']?\s*(?:https?:)?//', re.IGNORECASE
@@ -26,7 +33,10 @@ EXTERNAL_SCRIPT_SRC = re.compile(
 
 def html_files(root: Path):
     for path in root.rglob('*.html'):
-        if any(part in SKIP_DIRS for part in path.relative_to(root).parts):
+        teile = path.relative_to(root).parts
+        if teile[0] in TOP_LEVEL_SKIP:
+            continue
+        if any(t in SKIP_ANYWHERE for t in teile):
             continue
         yield path
 

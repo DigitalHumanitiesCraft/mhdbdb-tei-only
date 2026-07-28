@@ -56,9 +56,19 @@ REPO = Path(__file__).resolve().parent.parent.parent
 
 EM_DASH = '—'
 
-# Achtung: nur auf der OBERSTEN Ebene ausschliessen. Ein Test ueber alle
-# Pfadteile uebersieht ausgerechnet playground/js/ui/tei/, weil dort ein
-# Verzeichnis ebenfalls `tei` heisst. Das war der erste Fehler dieses Gates.
+# Auch die Umschreibungen fangen. Im Bestand gibt es davon aktuell null
+# Vorkommen; die Erweiterung kostet also nichts und schliesst die Tuer,
+# bevor jemand die Gotcha in CLAUDE.md als Zeichen- statt Typografie-Regel
+# liest und zur Entity greift.
+EM_FORMEN = (EM_DASH, '&mdash;', '&#8212;', '&#x2014;', chr(92) + 'u2014')
+
+# Sicherheitsnetz fuer kuenftige Globs, aktuell ohne Wirkung: die Liste in
+# GLOBS beginnt durchgaengig mit einem konkreten Segment, der erste Pfadteil
+# eines Fundes ist also nie `tei`, `data` oder `docs`. Wer hier spaeter ein
+# `**/*.js` einfuehrt, braucht den Filter, und dann gilt: nur auf der
+# OBERSTEN Ebene ausschliessen. Ein Test ueber alle Pfadteile uebersaehe
+# ausgerechnet playground/js/ui/tei/, weil dort ein Verzeichnis ebenfalls
+# `tei` heisst. Das war der erste Fehler dieses Gates.
 TOP_LEVEL_SKIP = {'tei', 'data', 'docs', 'publications', 'schema', 'testing',
                   'proposals', 'node_modules', '.git', 'test-results'}
 SKIP_ANYWHERE = {'node_modules', 'vendor', '_archived', 'test-results', '.git'}
@@ -92,7 +102,12 @@ def relevante_dateien():
 
 
 def kommentar_beginn(zeile):
-    """Index des ersten `//`, das kein Teil von `://` ist, sonst -1."""
+    """Index des ersten `//`, das kein Teil von `://` ist, sonst -1.
+
+    Bewusste Annahme: protokollrelative Links (`href="//example.org"`) vor
+    einem Em-Dash derselben Zeile wuerden die Zeile faelschlich als
+    Kommentar werten. Im Bestand kommt das nicht vor.
+    """
     such = 0
     while True:
         idx = zeile.find('//', such)
@@ -104,10 +119,35 @@ def kommentar_beginn(zeile):
         return idx
 
 
+def _fund(text):
+    """Index des ersten Em-Dash in irgendeiner Schreibweise, sonst -1."""
+    treffer = [text.find(f) for f in EM_FORMEN]
+    treffer = [t for t in treffer if t != -1]
+    return min(treffer) if treffer else -1
+
+
+def _ausschnitt(zeile, pos):
+    """Fenster um die Fundstelle statt eines Praefixes.
+
+    Ein reines `[:160]` schneidet den Em-Dash aus langen Zeilen heraus, und
+    dann hilft die Konsolenausgabe beim Suchen nicht mehr.
+    """
+    gestrippt = zeile.strip()
+    versatz = len(zeile) - len(zeile.lstrip())
+    pos = max(0, pos - versatz)
+    if len(gestrippt) <= 160:
+        return gestrippt
+    start = max(0, pos - 60)
+    ende = min(len(gestrippt), start + 160)
+    vorn = '…' if start > 0 else ''
+    hinten = '…' if ende < len(gestrippt) else ''
+    return vorn + gestrippt[start:ende] + hinten
+
+
 def scanne_js(text):
     treffer = []
     for nr, zeile in enumerate(text.split('\n'), 1):
-        pos = zeile.find(EM_DASH)
+        pos = _fund(zeile)
         if pos == -1:
             continue
         if zeile.lstrip().startswith(KOMMENTAR_PRAEFIXE):
@@ -115,12 +155,19 @@ def scanne_js(text):
         k = kommentar_beginn(zeile)
         if k != -1 and k < pos:
             continue
-        treffer.append((nr, zeile.strip()[:160]))
+        treffer.append((nr, _ausschnitt(zeile, pos)))
     return treffer
 
 
 def scanne_html(text):
     """Em-Dashes ausserhalb von <!-- -->; die halten ueber Zeilengrenzen.
+
+    Reihenfolge ist wichtig: erst den Kommentar-Zustand fortschreiben, DANN
+    die JS-Kommentar-Ausnahme auf den sichtbaren Rest anwenden. Andersherum
+    kann eine mit `//` oder `*` beginnende Zeile ein schliessendes `-->`
+    verschlucken; `im_kommentar` bliebe dauerhaft True und der gesamte Rest
+    der Datei liefe ungeprueft durch (fail open). Genau dieser Fall steckt
+    im Selbsttest.
 
     Inline-<script>-Bloecke enthalten JS-Kommentare, fuer die dieselbe
     Ausnahme gilt wie in .js-Dateien (hilfe-schema.html traegt einen).
@@ -128,8 +175,6 @@ def scanne_html(text):
     treffer = []
     im_kommentar = False
     for nr, zeile in enumerate(text.split('\n'), 1):
-        if zeile.lstrip().startswith(('//', '*')):
-            continue
         rest = zeile
         sichtbar = []
         while rest:
@@ -149,16 +194,61 @@ def scanne_html(text):
             sichtbar.append(rest[:start])
             rest = rest[start + 4:]
             im_kommentar = True
-        if EM_DASH in ''.join(sichtbar):
-            treffer.append((nr, zeile.strip()[:160]))
+        sichtbarer_text = ''.join(sichtbar)
+        if sichtbarer_text.lstrip().startswith(('//', '*')):
+            continue
+        pos = _fund(sichtbarer_text)
+        if pos == -1:
+            continue
+        treffer.append((nr, _ausschnitt(zeile, zeile.find(sichtbarer_text.strip()[:20]))))
     return treffer
+
+
+SELBSTTEST = [
+    # (Name, Endung, Quelltext, erwartete Zeilennummern)
+    ('mehrzeiliges Template-Literal', '.js',
+     'const html = `\n  <p>Hinweis ' + EM_DASH + ' sichtbar</p>\n`;\n', [2]),
+    ('JSDoc-Fortsetzungszeile', '.js',
+     '/**\n * Erlaeuterung ' + EM_DASH + ' erlaubt\n */\nconst a = 1;\n', []),
+    ('Inline-Kommentar hinter Code', '.js',
+     "const a = 1; // Grund " + EM_DASH + " erlaubt\n", []),
+    ('URL im String, Em-Dash danach', '.js',
+     "const s = 'https://x.org ' + '" + EM_DASH + " sichtbar';\n", [1]),
+    ('HTML-Kommentar ueber Zeilengrenzen', '.html',
+     '<!--\n  Notiz ' + EM_DASH + ' erlaubt\n-->\n<p>sauber</p>\n', []),
+    ('Kommentarende auf //-Zeile, danach sichtbarer Text', '.html',
+     '<!--\n// Notiz -->\n<p>Hinweis ' + EM_DASH + ' sichtbar</p>\n', [3]),
+    ('HTML-Entity statt Literal', '.html',
+     '<p>Hinweis &mdash; sichtbar</p>\n', [1]),
+    ('JS-Escape statt Literal', '.js',
+     "const s = 'Hinweis " + chr(92) + "u2014 sichtbar';\n", [1]),
+]
+
+
+def selbsttest():
+    fehler = 0
+    for name, endung, quelle, erwartet in SELBSTTEST:
+        scan = scanne_html if endung == '.html' else scanne_js
+        ist = [nr for nr, _ in scan(quelle)]
+        ok = ist == erwartet
+        print(f'  [{"PASS" if ok else "FAIL"}] {name}: erwartet {erwartet}, bekommen {ist}')
+        if not ok:
+            fehler += 1
+    print()
+    print(f'Selbsttest: {len(SELBSTTEST) - fehler}/{len(SELBSTTEST)} bestanden')
+    return fehler
 
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('--quiet', action='store_true', help='nur Exit-Code, keine Ausgabe')
+    ap.add_argument('--selftest', action='store_true',
+                    help='Scanner gegen eingebaute Faelle pruefen, Repo nicht anfassen')
     args = ap.parse_args()
+
+    if args.selftest:
+        return 1 if selbsttest() else 0
 
     fundstellen = []
     for pfad in sorted(set(relevante_dateien())):
