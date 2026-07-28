@@ -158,3 +158,32 @@ Playwright 212/212 grün (15,6 min). Savepoints: `ffcf6cb7c` (WP A), `4bf0700e7`
 **Open issues:** Ohne-KZW-Restliste: #216 minne-Serie (voll entsperrt, wartet auf Kickoff), #172 Test-Suite + #169 Suchsemantik-Technikteile (Christian-Entscheide; Vorlagen kann die nächste Session bauen), #139 CoReMA (gemeinsame Session). KZW-Gates unverändert (#196/#190/#203/#204/#114/#198-2/#115/#138/#28/#27).
 
 **Next steps:** 1. `/promptotyping orient` lädt diesen Handoff. 2. Bei Kickoff: #216 nach Pilot-Muster (#189/PR #214). 3. Alternativ #172-Stabilitäts-Messreihe als Entscheidungsvorlage.
+
+---
+
+## 2026-07-28 – Autonome Issue-Session (KZW-Rückgaben 27.07. + Bug #224): 4 PRs #227–#231, Sub-Issue #228
+
+**Summary:** Auslöser war KZWs Durchgang vom 27.07. (#203/#204 geschlossen, #196/#190/#140 mit Nachbesserungen zurück, #198 an Julia, #59-Ping an Linda) plus drei neue Issues (#224 Bug-Report Klaus Schmidt, #225 Wörterbuchnetz, #226 Blogbeitrag) und Julias vier Beobachtungen in #138 vom 17.07. Ergebnis: **PR #227** (#224 Stufe-3-Fix, refs #169), **PR #229** (#196 NUM-Filter + Werkzeug-Sweep), **PR #230** (#190 + #140 KZW-Nachbesserungen, `Closes #190`), **PR #231** (#138 zwei Frontend-Teilpunkte), **Meta-PR** (dieser). Neu angelegt: **#228** (TEI-Putzen Ziffern-Lemmata und lemmatisierter Apparat). Kommentare in #224, #196, #140, #138, #169, #225 und an PR #223.
+
+**Der eigentliche Fund (#224):** Klaus Schmidts Bug-Report („Sonderzeichen Wenzelsbibel") ist kein WZB-Problem. Ursache ist Stufe 3 der Lemma-Auflösung: der bidirektionale Substring-Test traf in der Richtung „Eingabe enthält Lemma" jedes Kurzlemma, das irgendwo in der Eingabe steckte. „böses" → `boeses` enthält `es`, `o`, `se` → `ês`, `ô`, `sê`. Das Lexikon hält 5 ein-, 98 zwei- und 598 dreibuchstabige normalisierte Formen; der Fehler betraf jede Suche mit einem nicht im Lexikon stehenden Wort und war so alt wie Stufe 3. Damit hat der seit Juli offene Entscheidungspunkt #169/#45 einen externen Beleg bekommen und ist entschieden (ADR-016).
+
+**Decisions:**
+1. **Stufe 3 matcht Präfixe, beidseitig, Mindestlänge 3 nur suffixseitig** (ADR-016, CONTRACTS §C). Gemessen über 300 Seed-Formen: Top-1 0,3 % → 10,0 %, Median-Liste 8 → 0, Recall 11,3 % → 10,7 %. Geteilt wird bewusst nur das Prädikat (`assets/js/lib/lemma-resolve.js`), nicht die Orchestrierung: die beiden Aufrufer halten ihre Lemmata verschieden. Die Infix-Discovery des Playgrounds entfällt dabei; sie war der Träger des Rauschens.
+2. **NUM-Filter nur bei reinem NUM**, nicht per `includes`: 47 der 119 NUM-Hapaxe tragen weitere Wortarten (`zwispeltic` ADJ/NUM, `zweizungen` NOM/NUM) und sind Inhaltswörter. Damit strenger als `hideNames`/`hideFunctionWords`, im Code begründet.
+3. **Kein NUM-Filter in den übrigen elf Werkzeugen**, je einzeln begründet (in der Wortfrequenz ist `ein` das häufigste NUM-Lemma überhaupt; an Versenden stehen NUM-Lemmata in 0,81 % als legitime Reimwörter).
+4. **Verszählungs-Reset nur an `<div>`-Grenzen und nur bei erster numerischer `<l>` mit `n="1"`.** Nie an `<lg>`: NBB zählt pro Strophe 1..4, ein lg-Reset hätte die #127-Regression reproduziert.
+5. **#140 nicht selbst geschlossen** (KZW schrieb „für die Abnahme", nicht „schließen"), #190 schon (expliziter Auftrag).
+
+**Dead ends / Lehren:**
+1. **Der Advisor-Durchgang (Fable 5) vor dem Start hat drei echte Planfehler gefunden**, alle bestätigt: (a) die geplante Messmetrik „0-Treffer-Quote als Abbruchkriterium" hätte immer ausgelöst, weil die alte Regel wegen der Kurzlemmata praktisch nie 0 Treffer liefert; ersetzt durch Recall/Median/Top-1. (b) „Reset pro Nummerierungsbereich" war unterspezifiziert und hätte über `<lg>` die NBB-Regression gebracht. (c) Der Doku-/Spec-Nachzug (CONTRACTS §C dokumentiert das Substring-Verhalten als Vertrag) fehlte in der Welle. Lohnt sich vor jeder Session mit Semantik-Änderung.
+2. **`npm test` als Baseline mitlaufen zu lassen, während man Dateien ändert, ist wertlos.** Der Lauf braucht bei 1 Worker und 40-MB-Index über 40 Minuten und testet dann den Zwischenstand. Besser: gezielte Spec-Dateien pro Welle (`search-engine.spec.js` 11/11, `reading-view.spec.js` 19/19 in je unter 3 Minuten).
+3. **Der JS-Bridge-Kontext der Chrome-Extension liefert keine IntersectionObserver-Callbacks** und `window.scrollTo` löst dort kein `scroll`-Event aus. Sichtbarkeitslogik lässt sich darüber nicht verifizieren; echtes Scrollen per `computer`-Tool zeigt das richtige Verhalten. Kostete zwei Fehldiagnosen.
+4. **`behavior: 'smooth'` ist auf den Reader-Seiten wirkungslos**, distanzunabhängig und ohne aktives `prefers-reduced-motion`. Der Reader springt aus demselben Grund schon überall instant.
+5. **`readingBody.childElementCount` ist kein Indikator für „Text geladen"** – der Body trägt immer einen Platzhalter. Kriterium ist `readingTitle`.
+6. **Lokales `main` war einen unveröffentlichten Commit voraus** (`ee37bece4`, JOURNAL-Handoff 14.07.). In diesem Meta-PR per Cherry-Pick mitgenommen. Bei Sessionbeginn `git log origin/main..main` prüfen.
+
+**Phase:** Betrieb. Promptotyping-Docs mitgezogen (CONTRACTS §C, ARCHITECTURE, FEATURES, DESIGN, DECISIONS ADR-016, INDEX, CLAUDE.md); `doc-count-audit.py` ohne Drift. Index-Versionen unverändert 4.1.7/1.6.1, diese Session hat **keine Daten angefasst**.
+
+**Open issues:** Neu bei KZW: #228 (Apparat-Entannotierung, 400 Tokens in 165 Notes über 16 Texte), #138 Render-Policy für die DIG-Strophenzähler in HUG, #140-Abnahme. Unverändert: #115, #189-Review-Fälle, #198-Schritt-2, #28, #27, #114 (Linda), #92 (Carina), #147 (Silvan), #86 (Alan). Ohne-KZW-Restliste: #216 minne-Serie, #172 Test-Policy, #58/#18-Entscheide.
+
+**Next steps:** 1. Merge-Reihenfolge #230 → #229 → #231 → #227 → Meta-PR (Begründung: #229 und #231 berühren beide FEATURES.md in disjunkten Hunks; #227 zuletzt, weil es die meiste Review-Aufmerksamkeit braucht). 2. PR #223 (naming-index) ist plausibilisiert und mergefähig. 3. Nach dem Deploy KZW für #224 und #196 anpingen.

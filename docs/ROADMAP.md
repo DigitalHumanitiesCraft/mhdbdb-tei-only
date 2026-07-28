@@ -1,14 +1,24 @@
 # Roadmap
 
-Strategic priorities for the MHDBDB TEI Repository. Updated 2026-07-12.
+Strategic priorities for the MHDBDB TEI Repository. Updated 2026-07-28.
 
 See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/44) for the full triage matrix with per-issue status.
 
-## Now: Merge-Queue 12.07. + Nachannotations-Serie
+## Now: Merge-Queue 28.07. (5 PRs) + Nachannotations-Serie
 
-**Autonome Issue-Session (12.07., [MASTERPLAN-AUTONOME-ISSUE-SESSION](playbooks/MASTERPLAN-AUTONOME-ISSUE-SESSION.md)):** 2 Kern-PRs in der Merge-Queue, je 212/212 Playwright gegen die main-Baseline: **PR #214** (#189 Punkt 1: GWTK-Pilot, 257 rot/jung-Tokens neu annotiert, Goldstandard erreicht (rôt+munt exakt: 73 bei ≥ 73, junc 259 bei ~262); Corpus v4.1.7, Authority v1.6.1) → **PR #215** (#140: Doku-Bereinigung, konservative Variante) → Session-Meta-PR (auf #215 gestackt). #214 ist ein Daten-PR: Review-Runs vor dem Merge canceln, kein [skip ci].
+**Autonome Issue-Session (28.07., [MASTERPLAN-AUTONOME-ISSUE-SESSION](playbooks/MASTERPLAN-AUTONOME-ISSUE-SESSION.md)):** Fünf PRs offen, ausgelöst durch KZWs Durchgang vom 27.07. und den externen Bug-Report #224. Empfohlene Merge-Reihenfolge:
 
-Nach dem #214-Merge direkt startbar: **#216 minne-Serie** (~7.000 unannotierte Tokens in 262 Texten; Mechanik erprobt, Stichproben-Review durch KZW eingeplant), danach Serie 2 ff. nach der PR-#210-Priorisierung.
+1. **PR #230** (#190 + #140): zwei Textänderungen im KZW-Wortlaut, `Closes #190`
+2. **PR #229** (#196): NUM-Filter im Hapax-Werkzeug + begründeter Sweep über alle zwölf Werkzeuge
+3. **PR #231** (#138): Nach-oben-Button + Verszählung pro Lied (berührt FEATURES.md in einem anderen Hunk als #229)
+4. **PR #227** (#224, refs #169): Stufe 3 der Lemma-Auflösung präfixorientiert statt Substring, braucht die meiste Review-Aufmerksamkeit
+5. **Meta-PR**: JOURNAL, ROADMAP, Playbook
+
+Keiner davon ist ein Daten-PR, die Indexe bleiben bei 4.1.7/1.6.1. Zusätzlich mergefähig: **PR #223** (wöchentlicher naming-index-Rebuild, plausibilisiert).
+
+**#224 war der wichtigste Fund:** Klaus Schmidts Report ist kein WZB-Problem, sondern ein Fehler in Stufe 3 der Lemma-Auflösung, der jede Suche mit einem nicht im Lexikon stehenden Wort betraf. Entschieden als ADR-016, gemessen (Top-1 0,3 % → 10,0 %), damit ist auch #169 Punkt #45 erledigt.
+
+Weiterhin direkt startbar: **#216 minne-Serie** (~7.000 unannotierte Tokens in 262 Texten; Mechanik erprobt, Stichproben-Review durch KZW eingeplant), danach Serie 2 ff. nach der PR-#210-Priorisierung.
 
 ## Laufend: Nach-Merge-Betreuung + freigeschaltete Workstreams
 
@@ -29,7 +39,8 @@ Direkt startbar geworden:
 | # | What | Who's needed |
 |---|------|-------------|
 | #115 | Cross-Ref Phase 2 – 196 Lemmata kuratorisch (A 125 / B 36 / C 35) | KZW |
-| #129, #138 | KWIC-Belege + div-/lg-Hüllen: gebaut und live, warten auf Prüfung | KZW |
+| #138 | div-/lg-Hüllen warten weiter auf Prüfung; neu dazu die Render-Policy-Frage zu den DIG-Strophenzählern in HUG (Julia, 17.07.) | KZW |
+| #228 | Neu: editorischer Apparat in `<note n=…>` ist als Text lemmatisiert (400 Tokens, 165 Notes, 16 Texte) – entannotieren? | KZW |
 | #44-Report | Neu live aus der Merge-Session: AK-Excerpt-Banner (#134), Tabellen-Spaltenmodell (#160), Homographen-/Multi-Lemma-Fixes (#163/#164), Multi-POS-Badges (#161) – Nachprüfung via #44-Abschlussreport | KZW |
 | #59, #114 | Naming-Fachklärung (Alexander-Workaround-Entwurf liegt seit 12.07. im Issue, Team-Freigabe vor Linda-Ping) + Tabellenansicht-Freigabe | Linda (via Team) |
 | #92 | ARITHMETIC – Metadatenfragen seit 16.05.; Escaping-Blocker gemerged (#185), Stage 1 danach in ~1–2h | Carina (via KZW) |
@@ -40,9 +51,8 @@ Direkt startbar geworden:
 
 | # | What | Key question |
 |---|------|-------------|
-| #140 | Doku menschenlesbar | Bereinigung umgesetzt (PR #215, 12.07.); beide Detailfragen der Abnahme vom 27.07. erledigt (DRAFT-Kopf in TEI-MODEL.md entfernt, PR #230; „Woesner" repoweit einheitlich geschrieben, keine Variante „Wösner"/„Wosner" im Bestand, keine Änderung nötig). Offen ist nur noch die Abnahme durch KZW |
-| #58 | Begriff→Lemma→Beleg Workflow | Option A/B/C entscheiden |
-| #169 | Suchsemantik (Audit 3/6) | Nähesuche-Distanz, commonLemmas, Dedup – deterministische Teile seit #174 gemerged |
+| #140 | Doku menschenlesbar | Bereinigung umgesetzt (PR #215, 12.07.); beide Detailfragen der Abnahme vom 27.07. erledigt (DRAFT-Kopf in TEI-MODEL.md entfernt, PR #230; „Woesner" repoweit einheitlich geschrieben, keine Variante „Wösner"/„Wosner" im Bestand, keine Änderung nötig). Offen ist nur noch die Abnahme durch KZW || #58 | Begriff→Lemma→Beleg Workflow | Option A/B/C entscheiden |
+| #169 | Suchsemantik (Audit 3/6) | Punkt #45 (3-Stufen-Drift) entschieden und in PR #227 umgesetzt (ADR-016). Offen: #15 Nähesuche-Distanz, #51 Fast-Path-Wörterbuch, #48 Dedup |
 | #172 | Test-Suite-Policy (Audit 6/6) | 45%-passRate-Floor + korpusabhängige Magic-Numbers |
 | #18 | Multi-Lemma + PoS-Suche | POS-Policy (#27/#181) gemerged, spezifizierbar; braucht POS-Daten im Corpus-Index |
 
