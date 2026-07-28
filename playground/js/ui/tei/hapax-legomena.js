@@ -447,15 +447,6 @@ export class HapaxLegomenaAnalyzer {
   }
 
   /**
-   * Fundstellen eines Eintrags mit Werktitel, Autor und Versangabe (#196).
-   *
-   * Die Tabellenspalte zeigt nur die Sigle, weil sie in eine Zeile passen
-   * muss. Im Detail-Panel ist Platz für die Frage, die bei einem Hapax
-   * zuerst kommt: in welchem Werk steht es, und von wem stammt das.
-   * 660 der 667 Texte tragen einen Autor im Korpus-Index; die übrigen
-   * bekommen gar keinen Klammerzusatz statt eines leeren.
-   */
-  /**
    * Autorname eines Texts, mit Rückgriff auf die Personen-Referenz.
    *
    * Sieben Korpusdateien tragen ein leeres `<author ref="#person_N"/>` (ALX,
@@ -478,6 +469,15 @@ export class HapaxLegomenaAnalyzer {
     return this._personById.get(ref)?.preferredName || '';
   }
 
+  /**
+   * Fundstellen eines Eintrags mit Werktitel, Autor und Versangabe (#196).
+   *
+   * Die Tabellenspalte zeigt nur die Sigle, weil sie in eine Zeile passen
+   * muss. Im Detail-Panel ist Platz für die Frage, die bei einem Hapax
+   * zuerst kommt: in welchem Werk steht es, und von wem stammt das. Über
+   * autorFuerText() bekommt jeder der 667 Texte einen Namen, auch die
+   * sieben mit leerem `<author ref>`.
+   */
   renderFundstellen(entry) {
     const textById = new Map((this.getCorpusTexts() || []).map(t => [t.id, t]));
     const items = (entry.occ || []).map(o => {

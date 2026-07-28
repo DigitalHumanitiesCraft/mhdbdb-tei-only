@@ -114,9 +114,9 @@ test.describe('Issue #196: Echte Hapaxlegomena', () => {
     // selbst Klammern enthalten ("Wenzelsbibel (Pentateuch: ...)"). Sieben
     // Texte tragen ein leeres <author ref="#person_N"/>; für die greift der
     // Rückgriff auf die Personen-Referenz (autorFuerText), sie bleiben also
-    // nicht namenlos. Ein Hapax hat genau eine Fundstelle, der Count ist
-    // deshalb 1, nicht mehr.
-    expect(await panel.locator('li [data-hx-autor]').count()).toBeGreaterThan(0);
+    // nicht namenlos. Bei Frequenz 1 hat der Eintrag genau eine Fundstelle,
+    // deshalb genau ein Autor-Element.
+    await expect(panel.locator('li [data-hx-autor]')).toHaveCount(1);
   });
 
   test('Fundstellen stehen auch bei Lemmata ohne Authority-Eintrag (#196)', async ({ page }) => {
@@ -143,9 +143,14 @@ test.describe('Issue #196: Echte Hapaxlegomena', () => {
       const { entries } = hx.computeList();
       const i = entries.findIndex(e => !hx.getLemmaById(e.lemmaId));
       if (i < 0) return -1;
-      hx.state.page = Math.floor(i / 100);
+      // Seitengröße nicht hartkodieren: PAGE_SIZE ist modul-privat, aber die
+      // aktuell gerenderte Seite ist voll (gut 16.000 Einträge), ihre
+      // Zeilenzahl ist also die Seitengröße. Sonst bricht der Test still,
+      // wenn PAGE_SIZE sich ändert.
+      const proSeite = document.querySelectorAll('[data-hx-detail]').length;
+      hx.state.page = Math.floor(i / proSeite);
       hx.render();
-      return i % 100;
+      return i % proSeite;
     });
 
     if (idx < 0) {
