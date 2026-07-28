@@ -153,16 +153,23 @@ test.describe('Search Engine', () => {
             const { TextNormalizer: N } = await import('/assets/js/lib/text-normalizer.js');
             const byId = new Map(se.authorityIndex.lemmata.map(l => [l.id, l]));
             const KOMPONIERT = 'böses';        // b + U+00F6 + ses
-            const ZERLEGT    = 'böses';       // b + o + U+0308 + ses
+            const ZERLEGT    = 'bo\u0308ses';   // b + o + U+0308 + ses, als Escape
             const aufloesen = eingabe => se.resolveLemmaIds(N.normalizeMHG(eingabe))
                 .map(id => byId.get(id)?.normalized || '');
             return {
                 normKomponiert: N.normalizeMHG(KOMPONIERT),
                 normZerlegt: N.normalizeMHG(ZERLEGT),
                 komponiert: aufloesen(KOMPONIERT),
-                zerlegt: aufloesen(ZERLEGT)
+                zerlegt: aufloesen(ZERLEGT),
+                laengeKomponiert: KOMPONIERT.length,
+                laengeZerlegt: ZERLEGT.length
             };
         });
+
+        // Schutz gegen stille Auto-Normalisierung der Testdatei: waere das
+        // Escape irgendwann zu einem einzelnen Zeichen zusammengezogen,
+        // pruefte der Test nur noch komponiert gegen komponiert.
+        expect(result.laengeZerlegt).toBeGreaterThan(result.laengeKomponiert);
 
         // Beide Schreibweisen normalisieren gleich ...
         expect(result.normZerlegt).toBe('boeses');

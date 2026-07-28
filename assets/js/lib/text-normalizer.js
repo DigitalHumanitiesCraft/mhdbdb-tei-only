@@ -48,12 +48,17 @@ export class TextNormalizer {
             // Breve über o/u ist in der Wenzelsbibel das Umlautzeichen,
             // nicht ein eigener Laut (#224, KZW 28.07.): Klaus Schmidts
             // Eingabe war bo+U+0306+ses aus der WZB-Leseansicht, nicht
-            // ein zerlegtes Trema. Belegt an 469 lemmatisierten WZB-Tokens
-            // (bo+breve+ses -> lemma_788 bœse, scho+breve+ne -> schœne,
-            // wu+breve+nschet -> wünschet). Steht nach .normalize('NFC'),
-            // weil das kombinierende Breve dort zu U+014F/U+016D wird.
-            // Breve auf w/n/y/z hat keine präkomponierte Form und bleibt
-            // unangetastet: dort ist es kein Umlautzeichen.
+            // ein zerlegtes Trema. Belegt an den lemmatisierten WZB-Tokens
+            // (bo+breve+ses -> lemma_788 bœse, scho+breve+ne -> lemma_5280
+            // schœne); von 469 lemmatisierten Breve-Tokens sitzen 405 auf
+            // o/u. Steht nach .normalize('NFC'), weil das kombinierende
+            // Breve dort zu U+014F/U+016D wird.
+            //
+            // Breve auf anderen Basiszeichen bleibt unangetastet (136 Tokens:
+            // w 91, n 22, y 5, a 5, v 4, r 2, m 2, i 2, e 2, z 1). Nicht weil
+            // die präkomponierte Form fehlte – für a/e/i gibt es sie –,
+            // sondern weil es dort keine Umlaute sind (hălses, nămen).
+            // Restlücke: 64 davon sind lemmatisiert, siehe ADR-016.
             .replace(/ŏ/g, 'oe')
             .replace(/ŭ/g, 'ue')
             // Ligatures

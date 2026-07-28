@@ -73,12 +73,20 @@ def normalize_mhg(text):
     normalized = normalized.replace('ö', 'oe')
     normalized = normalized.replace('ü', 'ue')
     # Breve ueber o/u ist in der Wenzelsbibel das Umlautzeichen, nicht ein
-    # eigener Laut (#224, bestaetigt an 469 lemmatisierten WZB-Tokens:
-    # bo+breve+ses -> lemma_788 boese, scho+breve+ne -> lemma_5280 schoene,
-    # wu+breve+nschet -> wuenschet). Greift nach Schritt 0, weil NFC das
-    # kombinierende Breve (U+0306) auf o/u zu U+014F/U+016D zusammenzieht.
-    # Breve auf w/n/y/z (WZB, 130 Tokens) hat KEINE praekomponierte Form,
-    # bleibt also unangetastet: dort ist es kein Umlautzeichen.
+    # eigener Laut (#224). Belegt an den lemmatisierten WZB-Tokens:
+    # bo+breve+ses -> lemma_788 boese, scho+breve+ne -> lemma_5280 schoene.
+    # Von 469 lemmatisierten Breve-Tokens sitzen 405 auf o/u.
+    # Greift nach Schritt 0, weil NFC das kombinierende Breve (U+0306) auf
+    # o/u zu U+014F/U+016D zusammenzieht.
+    #
+    # Breve auf anderen Basiszeichen bleibt unangetastet (136 WZB-Tokens:
+    # w 91, n 22, y 5, a 5, v 4, r 2, m 2, i 2, e 2, z 1). Grund ist NICHT
+    # die fehlende praekomponierte Form - fuer a/e/i gibt es sie (U+0103,
+    # U+0115, U+012D) und Schritt 0 erzeugt sie auch. Grund ist, dass es
+    # dort keine Umlaute sind: halses, namen, geslagen, schepfen, erschinen.
+    # Bekannte Restluecke, siehe ADR-016: 64 dieser 136 Tokens sind
+    # lemmatisiert (48 auf w, 16 auf n) und bleiben per Copy-Paste aus der
+    # Leseansicht unauffindbar.
     normalized = normalized.replace('ŏ', 'oe')
     normalized = normalized.replace('ŭ', 'ue')
 

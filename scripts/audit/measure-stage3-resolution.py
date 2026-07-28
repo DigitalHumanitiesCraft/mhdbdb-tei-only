@@ -184,11 +184,16 @@ def report(rows, genuine_total, trivial_total, sample_size, seed):
     print(f"  Top-1 nach Ranking       {pct(sum(r['old_top1'] for r in rows)):>14}  "
           f"{pct(sum(r['mid_top1'] for r in rows)):>14}  "
           f"{pct(sum(r['new_top1'] for r in rows)):>14}")
+    # Die Listengroesse haengt nur an der TrefferMENGE, nicht an der Sortierung:
+    # die mittlere Spalte ist hier per Definition gleich der linken.
     print(f"  Median Listengroesse     {statistics.median(r['old_size'] for r in rows):>14.0f}  "
+          f"{'(unveraendert)':>14}  "
           f"{statistics.median(r['new_size'] for r in rows):>14.0f}")
     print(f"  Mittel Listengroesse     {statistics.mean(r['old_size'] for r in rows):>14.1f}  "
+          f"{'(unveraendert)':>14}  "
           f"{statistics.mean(r['new_size'] for r in rows):>14.1f}")
     print(f"  Groesste Liste           {max(r['old_size'] for r in rows):>14}  "
+          f"{'(unveraendert)':>14}  "
           f"{max(r['new_size'] for r in rows):>14}")
     print()
 
