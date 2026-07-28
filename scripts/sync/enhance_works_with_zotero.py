@@ -273,6 +273,32 @@ def convert_to_title_case(text: str) -> str:
     return ' '.join(result)
 
 
+# In den Zotero-Notizen steht die Tilde in Harsch-URLs als Leerzeichen plus
+# kombinierende Tilde statt als ASCII-Tilde: aus /~harsch/ wurde "/ " + U+0303,
+# was den Link tot macht (#235). Betroffen waren 24 Notizen zu 21 Werken, auf
+# drei Hosts (hs-augsburg.de, fh-augsburg.de, staff.uni-marburg.de).
+#
+# Der Fix in works.xml allein haelt nicht: dieses Skript loescht bestehende
+# relatedItem/biblStruct und baut sie aus der API neu (siehe
+# replace_editions_with_biblstructs), und sync_tei_headers.py traegt sie von
+# works.xml aus wieder in die 21 TEI-Header. Ein Sync-Lauf haette die kaputten
+# URLs also zurueckgeschrieben. Der gitignorierte .zotero_cache.json macht das
+# noch wahrscheinlicher: ein --offline-Lauf reintroduziert sie garantiert,
+# selbst wenn die Gruppenbibliothek irgendwann korrigiert wird.
+#
+# Deshalb hier eine Reparatur beim Import statt nur am Bestand. Sie ist bewusst
+# eng: nur diese eine Sequenz, nur im Notiz-Text. Andere Felder tragen die
+# Korruption im Bestand nicht; wer sie dort findet, erweitert hier.
+KAPUTTE_TILDE = '\u0020\u0303'  # Leerzeichen + kombinierende Tilde, bewusst als Escape
+
+
+def repair_broken_tilde(text: str) -> str:
+    """Leerzeichen + kombinierende Tilde zu ASCII-Tilde (#235)."""
+    if not text:
+        return text
+    return text.replace(KAPUTTE_TILDE, '~')
+
+
 def api_item_to_biblstruct(item_data: dict, sigle: str, notes: List[str] = None) -> Optional[etree._Element]:
     """
     Convert Zotero API JSON item to TEI <biblStruct> element.
@@ -302,6 +328,7 @@ def api_item_to_biblstruct(item_data: dict, sigle: str, notes: List[str] = None)
     # Previously returned None if no editors, but now we process all items
 
     # Build <biblStruct> element
+    # (Zotero notes pass through repair_broken_tilde() below, see #235.)
     biblstruct = etree.Element(f"{{{TEI_NS_URI}}}biblStruct")
 
     # Set type from itemType
@@ -447,7 +474,7 @@ def api_item_to_biblstruct(item_data: dict, sigle: str, notes: List[str] = None)
     # Note section (from Zotero notes)
     if notes:
         # Concatenate all notes for this item
-        note_text = ' '.join(notes).strip()
+        note_text = repair_broken_tilde(' '.join(notes).strip())
         if note_text:
             note = etree.SubElement(biblstruct, f"{{{TEI_NS_URI}}}note")
             note.text = note_text

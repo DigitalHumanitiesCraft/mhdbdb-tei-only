@@ -905,7 +905,7 @@ Konsolidierte Liste aller bewusst nicht-normalisierten Daten-Inseln und bekannte
 | RELAX NG Schema (`schema/mhdbdb.rnc`) | 1.0.0 | 2026-04-09 |
 | POS-Tagset | 1.0 (19 Tags) | 2026-03 |
 | Corpus Index | 4.1.7 | 2026-07-12 |
-| Authority Index | 1.6.2 | 2026-07-28 |
+| Authority Index | 1.6.3 | 2026-07-28 |
 | Authority Schema (`schema/mhdbdb-authority.rnc`) | 1.0.0 | 2026-04-10 |
 
 ---
