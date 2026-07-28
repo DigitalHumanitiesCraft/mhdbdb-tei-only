@@ -376,13 +376,16 @@ class TEITextReader {
         //   a) die erste numerische Zeile ist die 1
         //   b) die 1 kommt im ganzen div GENAU EINMAL vor
         //
-        // (b) trennt div-lokale Durchzählung von strophenlokaler. HUG zählt je
-        // Lied 1..27 durch, dort ist die 1 einmalig und der Anker gewollt. NLA
-        // dagegen hat 38 untypisierte <div>, in denen jede Strophe wieder bei 1
-        // beginnt: ohne (b) bekäme der Text 38 nackte Randeinsen ohne
-        // erklärende Überschrift, also genau das unruhige Randbild, das #127
-        // beseitigt hat, nur über <div> statt über <lg> hereingekommen.
-        // Korpusweit hält (b) 1.497 divs und verwirft 1.172 strophenlokale.
+        // (b) trennt DURCHLAUFENDE Zählung von STROPHENLOKALER, nicht "mit
+        // Überschrift" von "ohne": 159 der qualifizierenden divs haben gar kein
+        // @type und rendern ebenfalls keine Überschrift, die sind gewollt.
+        // HUG zählt je Lied 1..27 durch, dort ist die 1 einmalig und der Anker
+        // gewollt. NLA dagegen hat 38 untypisierte <div>, in denen jede Strophe
+        // wieder bei 1 beginnt: ohne (b) bekäme der Text 38 zusätzliche
+        // Randeinsen, also genau das unruhige Randbild, das #127 beseitigt hat,
+        // nur über <div> statt über <lg> hereingekommen.
+        // Korpusweit hält (b) 1.497 divs und verwirft 1.172 strophenlokale in
+        // 84 Texten, was 1.007 unmotivierte Randeinsen verhindert.
         return first === '1' && einsen === 1;
     }
 
@@ -427,12 +430,15 @@ class TEITextReader {
                     // Ohne den Reset zeigt nur das erste Lied seine „1", alle
                     // folgenden setzen sichtbar erst bei 5 ein (#138, Julia 17.07.).
                     //
-                    // Reichweite: 1.497 divs in 137 Texten erfüllen das Kriterium
-                    // (897 chapter, 257 song, 177 section, 159 ohne @type,
-                    // 7 number); zusätzliche Randnummern entstehen in 40 Texten,
-                    // korpusweit 1.360. Größter Fall ist PZ mit 827 kapitelweise
-                    // neu zählenden divs. Texte mit durchlaufender Zählung sind
-                    // unberührt, weil dort nur der erste div bei n="1" beginnt.
+                    // Reichweite (reproduzierbar per
+                    // scripts/audit/count-verse-numbering-resets.py, das diese
+                    // Render-Reihenfolge nachbaut): 1.497 divs in 137 Texten
+                    // erfüllen das Kriterium (897 chapter, 257 song, 177 section,
+                    // 159 ohne @type, 7 number); sichtbar werden dadurch 1.352
+                    // zusätzliche Randnummern in 49 Texten. Größter Fall ist PZ
+                    // mit +826, dann FR3 +136, CHH +53, TKR +40, HUG +39. Texte
+                    // mit durchlaufender Zählung sind unberührt, weil dort nur
+                    // der erste div bei n="1" beginnt.
                     //
                     // Bewusst NUR auf div-Ebene, nie auf <lg>: NBB startet jede
                     // Strophe bei n=1: ein lg-Reset stellte in jede Strophe eine

@@ -300,9 +300,16 @@ test.describe('Reading View', () => {
         // Der eigentliche Risikofall der #138-Änderung, nicht NBB: NBB hat gar
         // keine <div>, die Zusicherung dort ist strukturell trivial. NLA hat 38
         // untypisierte <div>, in denen jede Strophe wieder bei n="1" beginnt.
-        // Ohne die Zusatzbedingung „die 1 kommt im div genau einmal vor" bekäme
-        // der Text 38 nackte Randeinsen ohne erklärende Überschrift, also die
-        // #127-Regression über <div> statt über <lg>.
+        //
+        // Wogegen dieser Test schützt, ist präzise messbar: mit nur der ersten
+        // Bedingung („erste numerische <l> trägt n=1") bekäme NLA 38 zusätzliche
+        // Randeinsen, mit beiden Bedingungen 0. Gegengerechnet mit
+        // `python scripts/audit/count-verse-numbering-resets.py --text NLA`.
+        //
+        // Wichtig zur Einordnung: gegen main ist der Test NICHT trennscharf, er
+        // wäre auch dort grün (main setzt gar nichts zurück). Er sichert die
+        // zweite Bedingung gegen ein späteres Vereinfachen ab, nicht das Feature
+        // gegen den Vorzustand. Trennscharf ist der HUG-Test darüber.
         await page.goto('http://localhost:8080/korpus.html?textId=NLA&lemmaIds=lemma_879');
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
         await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
