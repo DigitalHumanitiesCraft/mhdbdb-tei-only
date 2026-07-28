@@ -535,7 +535,7 @@ Search resolves user input to lemma IDs through 3 stages with early return:
 |-------|--------|--------|-------------|
 | 1 | Exact match on normalized canonical form | 0..N (homographs) | O(n) scan |
 | 2 | Variants dictionary lookup (~257k mappings) | Exactly 1 | O(1) hash |
-| 3 | Bidirectional substring fallback | 0..N (fuzzy) | O(n) scan |
+| 3 | Bidirectional PREFIX fallback, sorted by length distance (#224) | 0..N (fuzzy) | O(n) scan |
 
 Stages are mutually exclusive – first match wins. **Full pseudocode with worked example:** see [CONTRACTS.md](CONTRACTS.md#c-3-stage-lemma-resolution-algorithm)
 
@@ -712,7 +712,7 @@ für jedes <w> im Text (Textinhalt = Matching-Form):
     |kandidaten| >  1 → ambiguous  → Report
 ```
 
-**Kritisch:** Die MHG-Normalisierung (`â→a, ê→e, î→i, ô→o, û→u, ä→ae, ö→oe, ü→ue`) muss auf **beide Seiten** angewendet werden – `variants.xml` ist nicht pre-normalisiert. Python-Seite: `scripts/mhg_normalizer.py`, paritätsgetestet gegen `assets/js/lib/text-normalizer.js` (`testing/tests/normalization-parity.spec.js`).
+**Kritisch:** Die MHG-Normalisierung (`â→a, ê→e, î→i, ô→o, û→u, ä→ae, ö→oe, ü→ue, ŏ→oe, ŭ→ue`) muss auf **beide Seiten** angewendet werden – `variants.xml` ist nicht pre-normalisiert. Python-Seite: `scripts/mhg_normalizer.py`, paritätsgetestet gegen `assets/js/lib/text-normalizer.js` (`testing/tests/normalization-parity.spec.js`).
 
 **1b Disambiguierung:** Pending-TSV (`xml_id`, `form`, `context` ±5 Wörter, `match_type`, `candidate_lemmas`, `count`, `resolved_lemma`, `confidence`, `reviewer`), frequenzgestaffelte Tiers: hochfrequente ambige Formen bulk auflösen (+ Patch-Datei für Minderheits-Lesarten), mittelfrequente instanzweise mit Mensch-Stichprobe, Hapaxe und Long-Tail-Unmatched bewusst deferren (akzeptierte Coverage-Lücke). Unmatchte echte Wörter gegen BMZ/Lexer prüfen ([Wörterbuchnetz-API](https://api.woerterbuchnetz.de)); nicht Auflösbares als frequenzsortierte Editorial-Liste (`wzb-extract-unmatched.py`) an das Lexikon-Team – **neue Lemmata entstehen nur durch Editorial-Entscheidung**, dann Re-Run (closed loop).
 

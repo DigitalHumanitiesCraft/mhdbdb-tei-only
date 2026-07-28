@@ -973,3 +973,64 @@ Carina (Originalintention) plus Katharina (Forschungs-Roadmap). Bis dahin: Konve
 #### Verbindung zu ADR-013
 
 Diese Entscheidung ist die erste, die ADR-013 ("Daten vor Schema") in der Praxis gegen einen Genre-Sonderfall stellt: ist die Domänen-Annotation Bestandsdaten, die das Schema akzeptieren muss, oder Daten, die zu unserem Schema migriert werden? Eine Entscheidung schafft Präzedenz für künftige Spezial-Korpora (Linda, Minnereden, CoReMA).
+
+---
+
+## ADR-016: Stufe 3 der Lemma-Auflösung matcht Präfixe, nicht Substrings
+
+**Status:** Accepted (2026-07-28, im Zuge von #224; löst zugleich Punkt #45 aus #169)
+**Context:** Externer Bug-Report von Klaus Schmidt, verifiziert gegen den ausgelieferten Authority-Index.
+
+### Problem
+
+Stufe 3 der 3-Stufen-Auflösung (CONTRACTS.md §C) war ein bidirektionaler Substring-Test:
+
+```js
+lemma.normalized.includes(query) || query.includes(lemma.normalized)
+```
+
+Die zweite Richtung trifft jedes Kurzlemma, das irgendwo in der Eingabe steckt. Das Lexikon hält 5 ein-, 98 zwei- und 598 dreibuchstabige normalisierte Formen; sie trafen praktisch jede Eingabe, die Stufe 3 überhaupt erreichte. `minnecl` lieferte 16 Treffer (angeführt von `i`, `unminneclîche`, `nec`), `schwertkampf` 14 (`a`, `êr`, `wert`, `kamp`).
+
+**Der Bug-Report hatte zwei Ursachen, und die erste wäre beinahe übersehen worden.** Die dort gezeigte Suche nach „böses" trug kein gewöhnliches ö: Klaus Schmidt hatte aus der WZB-Leseansicht kopiert, und die Wenzelsbibel schreibt Umlaute mit **Breve** (`o` + U+0306). Der Normalizer kannte weder die zerlegte Form noch das Breve; die Eingabe verfehlte deshalb Stufe 1 und Stufe 2 (die Varianten-Map hält den Schlüssel `boeses`) und landete überhaupt erst in Stufe 3. Dort machte der Substring-Test aus dem Fehlschlag drei Falschtreffer. Das erklärt auch, warum im Screenshot `bœse` fehlt, obwohl es die richtige Antwort ist.
+
+Für Klaus Schmidt sah das aus wie ein Problem mit dem neuen WZB-Vokabular. Das war es zur Hälfte auch: die Wenzelsbibel hat 830 Breve-Tokens eingebracht, und kein anderer der 667 Texte hat ein einziges. Der Fix besteht deshalb aus zwei Teilen, die nur zusammen wirken: die NFC-Komposition zieht `o` + U+0306 zu `ŏ` zusammen, und die neue Breve-Regel macht daraus `oe`. Wer eine der beiden Stellen entfernt, bricht den gemeldeten Fall wieder. Unabhängig davon trifft die Stufe-3-Regel jede Eingabe, die dort landet.
+
+Zweiter Befund: Die Regel existierte zweimal und driftete. Die Hauptseite testete bidirektional, der Playground einseitig (Lemma enthält Eingabe). Dieselbe Eingabe lieferte je nach Oberfläche andere Mengen, dokumentiert als #169 Punkt #45.
+
+### Optionen
+
+1. **Mindestlänge auf den Substring-Test setzen.** Minimal-invasiv, behält aber die Infix-Treffer: „minnen" fände weiter `innen` und `i`.
+2. **Präfix-Matching in beide Richtungen** mit Mindestlänge nur suffixseitig. Nutzt aus, dass mittelhochdeutsche Flexion suffixal ist.
+3. **Stufe 3 ersatzlos streichen.** Am saubersten für die Präzision, nimmt aber die Trunkierungssuche („minn" findet „minne") weg, die Nutzende erwarten.
+
+Gewählt: **Option 2**, zusammen mit NFC-Komposition im Normalizer gegen Ursache 1 (Contract A, Schritt 0).
+
+### Decision
+
+Stufe 3 akzeptiert einen Kandidaten, wenn `lemma.normalized` mit der Eingabe beginnt (Stamm-Eingabe) oder die Eingabe mit `lemma.normalized` beginnt (flektierte Eingabe) und das Lemma dabei mindestens 3 normalisierte Zeichen hat. Ergebnisse werden nach Längendifferenz zur Eingabe sortiert; der Playground bricht Gleichstände nach Korpus-Frequenz (ADR-Kontext #163/#164).
+
+Prädikat und Ranking-Abstand liegen als pure Funktionen in `assets/js/lib/lemma-resolve.js` und werden von beiden Oberflächen importiert. Bewusst geteilt ist **nur Stufe 3**, nicht die ganze Orchestrierung: die Hauptseite liest ein vorberechnetes `lemma.normalized`, der Playground normalisiert zur Laufzeit und rankt Homographen zusätzlich nach Frequenz. Das Muster folgt `lemma-match.js` (ADR-Kontext #126/#130).
+
+### Consequences
+
+Gemessen über 300 mit festem Seed gezogene Varianten-Formen mit bekanntem Ziel-Lemma, Stufe 1 und 2 umgangen (`scripts/audit/measure-stage3-resolution.py`):
+
+| Metrik | alt | alt + neues Ranking | neu |
+|--------|----:|--------------------:|----:|
+| Recall (Ziel irgendwo in der Liste) | 11,3 % | 11,3 % | 10,7 % |
+| Top-1 nach Ranking | 0,3 % | 9,3 % | 10,0 % |
+| Median der Listengröße | 8 | 8 | 0 |
+| Größte Liste | 108 | 108 | 8 |
+
+Die mittlere Spalte gehört dazu, sonst liest sich der Top-1-Sprung als 30-facher Effekt der Regel. Er kommt fast vollständig aus der neuen Sortierung nach Längendifferenz; die Regel selbst trägt 9,3 % → 10,0 % bei. Ihr eigentlicher Gewinn steht in den unteren beiden Zeilen.
+
+- **Der Median 0 ist gewollt.** Für eine unbekannte Form liefert Stufe 3 jetzt meist nichts statt acht Falschtreffern; die Oberfläche zeigt dann ihren Kein-Treffer-Zustand. Ein ehrliches „nicht gefunden" ist für ein philologisches Werkzeug mehr wert als eine plausibel aussehende Fehlleitung.
+- **Recall-Verlust 2 von 300**, beide Präfix-Brecher: `gewieren` → `wieren` (Präfix `ge-`) und die römische Zahl `ccccxli`. Beide sind belegte Varianten und werden im Echtbetrieb schon von Stufe 2 aufgelöst.
+- **Die Infix-Discovery des Playgrounds entfällt.** „wein" findet nicht mehr „rotwein". Das ist eine eigene Rauschquelle, nicht die aus #224: das dortige Rauschen (`ês`, `ô`, `sê`) kam aus der Richtung „Eingabe enthält Lemma", die nur die Korpussuche hatte. Wer Komposita sucht, hat den Lemmata-Explorer.
+- **Ablaut und Umlaut bleiben ungelöst** (`slüege` → `slahen`). Der alte Test fand die auch nicht, er lieferte dort nur zufälligen Müll. Eine echte Lösung wäre Stemming oder eine Flexionstabelle und gehört zu #109.
+- **Messbias:** Echte Stufe-3-Eingaben sind eher neuhochdeutsche Wörter und Tippfehler als mittelhochdeutsche Flexionsformen. Die Stichprobe zeigt, ob der Fix Recall kostet, nicht wie oft Stufe 3 im Alltag das Richtige findet.
+- **Der Authority-Index ändert sich** (v1.6.1 → v1.6.2). Nicht wegen der Stufe-3-Regel, die ist reines Frontend, sondern wegen Schritt 0. Drei Datensätze mit zerlegtem ü waren über die normalisierte Suche unauffindbar: `person_1052` (Hugo von Mühldorf), `person_1332` (Wachsmut von Mühlhausen) und `work_435`. Lemmata und Varianten sind unverändert.
+- **Die WZB-Ingest-Strecke gewinnt mit, ist aber noch nicht nachgezogen.** `wzb-auto-match.py`, `wzb-sense-assign.py` und `wzb-sense-apply.py` normalisieren über dieselbe Funktion. **289 WZB-`<w>` mit o/u-Breve tragen bisher kein `@lemmaRef`**, weil das Breve am Matcher stehenblieb. Ein Re-Run des Matchers nach dieser Regel wird einen Teil davon auflösen; das ist Backfill-Arbeit auf der Datenseite und gehört in einen eigenen Lauf, nicht in diesen Frontend-PR.
+- **Breve bleibt auf 136 WZB-Tokens ungelöst, 64 davon lemmatisiert.** Die Regel deckt `ŏ` und `ŭ` ab, also 405 der 469 lemmatisierten Breve-Tokens. Die übrigen sitzen auf `w` (91 Tokens, 48 lemmatisiert) und `n` (22, davon 16), dazu Einzelfälle auf y/a/v/r/m/i/e/z. Dort ist das Breve kein Umlautzeichen, sondern eine böhmische Schreibkonvention: `few̆er` steht für `viur`, `ew̆er` für `ir`, `wenn̆` für `wan`. Wer diese Formen aus der Leseansicht kopiert, landet weiterhin im Fallback. Eine Regel dafür wäre eine editorische Entscheidung über die WZB-Transkription, keine technische, und gehört deshalb zu KZW, nicht in diesen ADR.
+- **Die Keyness-Spalte der Tabellenansicht** (#114) nutzt dieselbe `resolveLemmaIds`-Referenzmenge. Bei Stufe-3-Suchbegriffen ändern sich damit die Log-Likelihood-Werte, weil die Referenzsumme über weniger Lemmata läuft.
+- **Die Mindestlänge 3 lässt Fragmente durch.** „heldentum" findet als einzigen Treffer `hel`, „treueschwur" findet `tre`. `matches[0]`-Konsumenten im Playground nehmen das still. Das ist besser als die vorherigen 14 Zufallstreffer, aber kein gutes Ergebnis; eine Anhebung der Schwelle wäre die nächste Stellschraube, wenn Nutzende sich beschweren.

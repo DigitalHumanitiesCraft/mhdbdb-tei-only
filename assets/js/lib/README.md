@@ -46,6 +46,25 @@ lemmaRefMatchesId('lexicon.xml#lemma_308', 'lemma_308');  // true
 lemmaRefMatchesId('lexicon.xml#lemma_3089', 'lemma_308'); // false (substring trap)
 ```
 
+### `lemma-resolve.js`
+Prädikat und Sortier-Distanz für Stufe 3 der Lemma-Auflösung (CONTRACTS §C, ADR-016). Geteilt von Korpussuche und Playground, damit beide dieselbe Präfix-Regel verwenden (#224 — vorher zwei divergierende Substring-Varianten).
+
+Bewusst NICHT geteilt wird die Orchestrierung der drei Stufen: beide Aufrufer halten ihre Lemmata unterschiedlich (vorberechnetes `normalized` gegen Laufzeit-Normalisierung) und ranken unterschiedlich (Index-Reihenfolge gegen Korpus-Frequenz).
+
+**Exports:**
+- `isStage3Match(lemmaNormalized, queryNormalized)` → boolean
+- `stage3Distance(lemmaNormalized, queryNormalized)` → number (Längendifferenz, kleiner ist näher)
+- `MIN_LEMMA_PREFIX_LENGTH` → 3 (Mindestlänge nur in der Richtung „Eingabe beginnt mit Lemma")
+
+**Usage:**
+```javascript
+import { isStage3Match, stage3Distance } from '../../lib/lemma-resolve.js';
+
+isStage3Match('minnecl', 'minnecl');   // true (Präfix)
+isStage3Match('minneclich', 'minnecl'); // true (Lemma beginnt mit der Eingabe)
+isStage3Match('mi', 'minnecl');         // false (zu kurz für die Rückrichtung)
+```
+
 ## Design Principles
 
 1. **DRY (Don't Repeat Yourself)**: All shared code lives here

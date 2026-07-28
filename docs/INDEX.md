@@ -48,7 +48,7 @@ Advanced exploration tools for medievalists and digital humanities researchers:
   - Document-level search (all lemmata anywhere in text)
   - Proximity search (co-occurrence within N words)
   - Same-verse search (co-occurrence within a single verse line, #106)
-  - 3-stage lemma resolution (exact match → variants → partial match)
+  - 3-stage lemma resolution (exact match → variants → prefix match in both directions, #224)
   - Color-coded results with clickable navigation to reading view
 - **Authority Exploration** - Browse and search persons, works, lemmata, concepts, genres, names
 - **TEI Analysis** - Twelve analysis tools over the pre-loaded MHDBDB corpus: multi-lemma search (document + proximity + same-verse), verse-position lemma search, word frequency, corpus-wide hapax legomena, text statistics, lemma distribution, concept distribution, text comparison, co-occurrence ranking, rhyme dictionary, verse-ending profile, curated character-naming explorer (4 works, Beta)
@@ -119,7 +119,7 @@ Post-MVP und **aktiver Betrieb**. Drei Aspekte, die jede Session kennen sollte:
 - **Heute:** aktives Projekt mit laufendem Daten-Ingest (WZB/Wenzelsbibel, ARITHMETIC #92, weitere geplant) UND laufenden händischen Korpus-Korrekturen, nicht eingefroren.
 - **Konsequenz:** Jede Änderung in `tei/` oder `authority-files/` muss die abgeleitete Schicht mitziehen (Indexe, korpus-abgeleitete `variants.xml`); dabei **führt der Korpus**, `lexicon.xml` ist Index und zieht nach (siehe [CONTRACTS.md → Authority Source Rules](CONTRACTS.md#f-authority-source-rules)), sonst driftet es still. Verbindliche Schrittfolge: [DATA-MODEL.md → Data-Change-Lifecycle](DATA-MODEL.md#data-change-lifecycle).
 
-Aktuelle Index-Versionen siehe [TEI-MODEL.md §11](TEI-MODEL.md#11-versionierung) (Stand 2026-07-12: Corpus Index v4.1.7, Authority Index v1.6.1).
+Aktuelle Index-Versionen siehe [TEI-MODEL.md §11](TEI-MODEL.md#11-versionierung) (Stand 2026-07-28: Corpus Index v4.1.7, Authority Index v1.6.2).
 
 ### Recent Milestones
 - ✅ **Phase 7 Refactoring** - Modular UI architecture

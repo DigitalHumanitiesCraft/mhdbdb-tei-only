@@ -32,6 +32,17 @@ const TEST_CASES = [
   { input: 'sǒne', expected: 'sone' },
   { input: 'cæsar', expected: 'caesar' },
   { input: 'œnologie', expected: 'oenologie' },
+  // Schritt 0, NFC (#224): zerlegte Umlaute müssen wie komponierte
+  // normalisieren. Escapes statt Literale, weil ein Editor mit
+  // Auto-Normalisierung die zerlegte Form still zu NFC zusammenzöge und den
+  // Test damit lautlos entwerten würde.
+  { input: 'bo\u0308ses', expected: 'boeses' },
+  { input: 'Mu\u0308hldorf', expected: 'muehldorf' },
+  // Breve-Umlaute (#224, KZW 28.07.). Die Wenzelsbibel schreibt Umlaute mit
+  // Breve; Klaus Schmidts Eingabe war bo + U+0306 + ses aus der Leseansicht.
+  { input: 'bo\u0306ses', expected: 'boeses' },   // zerlegt, NFC zieht zusammen
+  { input: 'b\u014fses', expected: 'boeses' },    // praekomponiert
+  { input: 'w\u016dnschet', expected: 'wuenschet' },
   { input: '', expected: '' },
 ];
 

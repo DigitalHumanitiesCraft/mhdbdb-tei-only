@@ -224,8 +224,10 @@
             <p class="text-slate-700 leading-relaxed">
                 Die dreistufige Variantenauflösung aus der Korpussuche gilt auch hier: exakter
                 Treffer im Wörterbuch, dann Prüfung gegen 234.244 normalisierte Schreibvarianten, dann
-                Teiltreffer als Fallback. Sonderzeichen (â, ê, î, ô, û, ä, ö, ü) werden automatisch
-                normalisiert.
+                als Fallback der Wortanfang in beide Richtungen. Sonderzeichen (â, ê, î, ô, û, ä, ö, ü, dazu die
+                Breve-Umlaute ŏ und ŭ aus der Wenzelsbibel) werden automatisch normalisiert.
+                Seit Juli 2026 sucht der Fallback nicht mehr innerhalb von Wörtern: „wein“ findet also nicht mehr „rotwein“.
+                Für Komposita ist der Lemmata-Explorer zuständig.
             </p>
 
             <h3 class="text-lg font-semibold text-slate-900 mt-6 mb-2">Suchmodus wählen</h3>

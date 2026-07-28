@@ -71,15 +71,142 @@ test.describe('Search Engine', () => {
         expect(lemmaIds.some(id => id.includes('879'))).toBeTruthy();
     });
 
-    test('resolveLemmaIds() - partial match (Stage 3)', async ({ page }) => {
-        // A term that has no exact or variant match falls through to partial
+    test('resolveLemmaIds() - kurzer Stamm liefert einen Treffer', async ({ page }) => {
+        // Achtung, historische Fehlbenennung: dieser Test hiess "partial match
+        // (Stage 3)", erreicht Stufe 3 aber gar nicht. `fri` steht als belegte
+        // Variante in variants.xml, Stufe 2 macht Early Return und liefert
+        // genau ein Lemma. Die Stufe-3-Abdeckung liegt bei den `minnecl`-Tests
+        // weiter unten (#224).
         const lemmaIds = await page.evaluate(() => {
             const se = window._mhdbdbApp.searchEngine;
             return se.resolveLemmaIds('fri');
         });
 
-        // Stage 3 should find at least one partial match
         expect(lemmaIds.length).toBeGreaterThanOrEqual(1);
+    });
+
+    test('resolveLemmaIds() - Stage 3 drops short-lemma noise (#224)', async ({ page }) => {
+        // WICHTIG: der Suchbegriff muss Stufe 3 auch erreichen. "boeses" tut das
+        // NICHT — variants["boeses"] existiert, Stufe 2 fängt es ab und liefert
+        // korrekt bœse. Genau daran wäre ein Test mit "boeses" wertlos: er wäre
+        // auch vor dem Fix grün. "minnecl" trifft weder Stufe 1 noch Stufe 2.
+        const result = await page.evaluate(() => {
+            const se = window._mhdbdbApp.searchEngine;
+            const byId = new Map(se.authorityIndex.lemmata.map(l => [l.id, l]));
+            const norm = 'minnecl';
+            return {
+                stage1: se.authorityIndex.lemmata.some(l => l.normalized === norm),
+                stage2: !!se.authorityIndex.variants[norm],
+                hits: se.resolveLemmaIds(norm).map(id => byId.get(id)?.normalized || '')
+            };
+        });
+
+        // Vorbedingung des Tests: der Begriff landet wirklich in Stufe 3.
+        expect(result.stage1, 'minnecl darf Stufe 1 nicht treffen').toBeFalsy();
+        expect(result.stage2, 'minnecl darf Stufe 2 nicht treffen').toBeFalsy();
+
+        expect(result.hits.length).toBeGreaterThan(0);
+
+        // Jeder Treffer teilt eine Präfixgrenze mit der Eingabe.
+        for (const n of result.hits) {
+            const lemmaIstPraefix = 'minnecl'.startsWith(n);
+            const beginntMitEingabe = n.startsWith('minnecl');
+            expect(lemmaIstPraefix || beginntMitEingabe,
+                `"${n}" ist weder Präfix der Eingabe noch beginnt damit`).toBeTruthy();
+            if (lemmaIstPraefix && !beginntMitEingabe) {
+                expect(n.length).toBeGreaterThanOrEqual(3);
+            }
+        }
+
+        // Das alte Substring-Verhalten lieferte hier i, in, nec, innec.
+        for (const rauschen of ['i', 'in', 'nec', 'innec']) {
+            expect(result.hits).not.toContain(rauschen);
+        }
+    });
+
+    test('resolveLemmaIds() - Stage 3 ranks the closest lemma first (#224)', async ({ page }) => {
+        // Sortierung nach Längendifferenz: minnec (6) steht vor minneclîcheit (13).
+        const hits = await page.evaluate(() => {
+            const se = window._mhdbdbApp.searchEngine;
+            const byId = new Map(se.authorityIndex.lemmata.map(l => [l.id, l]));
+            return se.resolveLemmaIds('minnecl').map(id => byId.get(id)?.normalized || '');
+        });
+
+        expect(hits.length).toBeGreaterThan(1);
+        expect(hits[0]).toBe('minnec');
+
+        const abstand = n => Math.abs(n.length - 'minnecl'.length);
+        for (let i = 1; i < hits.length; i++) {
+            expect(abstand(hits[i])).toBeGreaterThanOrEqual(abstand(hits[i - 1]));
+        }
+    });
+
+    test('resolveLemmaIds() - zerlegtes Umlaut-ö wird komponiert (#224)', async ({ page }) => {
+        // Die eigentliche Ursache im Bug-Report: "böses" mit o + U+0308 verfehlte
+        // Stufe 1 UND Stufe 2 und fiel in den Fallback. Beide Schreibweisen
+        // müssen jetzt dasselbe liefern.
+        const result = await page.evaluate(async () => {
+            const se = window._mhdbdbApp.searchEngine;
+            // korpus.html legt TextNormalizer nicht auf window (nur der
+            // Playground tut das), deshalb hier dynamisch importieren statt
+            // Produktionscode für den Test zu erweitern.
+            const { TextNormalizer: N } = await import('/assets/js/lib/text-normalizer.js');
+            const byId = new Map(se.authorityIndex.lemmata.map(l => [l.id, l]));
+            const KOMPONIERT = 'böses';        // b + U+00F6 + ses
+            const ZERLEGT    = 'bo\u0308ses';   // b + o + U+0308 + ses, als Escape
+            const aufloesen = eingabe => se.resolveLemmaIds(N.normalizeMHG(eingabe))
+                .map(id => byId.get(id)?.normalized || '');
+            return {
+                normKomponiert: N.normalizeMHG(KOMPONIERT),
+                normZerlegt: N.normalizeMHG(ZERLEGT),
+                komponiert: aufloesen(KOMPONIERT),
+                zerlegt: aufloesen(ZERLEGT),
+                laengeKomponiert: KOMPONIERT.length,
+                laengeZerlegt: ZERLEGT.length
+            };
+        });
+
+        // Schutz gegen stille Auto-Normalisierung der Testdatei: waere das
+        // Escape irgendwann zu einem einzelnen Zeichen zusammengezogen,
+        // pruefte der Test nur noch komponiert gegen komponiert.
+        expect(result.laengeZerlegt).toBeGreaterThan(result.laengeKomponiert);
+
+        // Beide Schreibweisen normalisieren gleich ...
+        expect(result.normZerlegt).toBe('boeses');
+        expect(result.normZerlegt).toBe(result.normKomponiert);
+
+        // ... und loesen deshalb beide ueber Stufe 2 auf das richtige Lemma auf.
+        expect(result.komponiert).toEqual(['boese']);
+        expect(result.zerlegt).toEqual(result.komponiert);
+    });
+
+    test("resolveLemmaIds() - Breve-Umlaut aus der Wenzelsbibel (#224)", async ({ page }) => {
+        // Der tatsaechlich gemeldete Fall (KZW 28.07.): Klaus Schmidt hat aus
+        // der WZB-Leseansicht kopiert, und die Wenzelsbibel schreibt Umlaute
+        // mit Breve, nicht mit Trema. Der Token 'bo' + U+0306 + 'ses' im Korpus
+        // traegt lemmaRef lemma_788 (bœse). Ohne die Breve-Regel bleibt das
+        // Zeichen nach NFC als U+014F stehen, Stufe 1 und 2 verfehlen, und die
+        // Suche landet im Fallback.
+        const result = await page.evaluate(async () => {
+            const se = window._mhdbdbApp.searchEngine;
+            const { TextNormalizer: N } = await import('/assets/js/lib/text-normalizer.js');
+            const byId = new Map(se.authorityIndex.lemmata.map(l => [l.id, l]));
+            const ZERLEGT      = 'bo\u0306ses';
+            const PRAEKOMPONIERT = 'b\u014fses';
+            const aufloesen = eingabe => se.resolveLemmaIds(N.normalizeMHG(eingabe))
+                .map(id => byId.get(id)?.normalized || '');
+            return {
+                normZerlegt: N.normalizeMHG(ZERLEGT),
+                normPraekomponiert: N.normalizeMHG(PRAEKOMPONIERT),
+                zerlegt: aufloesen(ZERLEGT),
+                praekomponiert: aufloesen(PRAEKOMPONIERT)
+            };
+        });
+
+        expect(result.normZerlegt).toBe('boeses');
+        expect(result.normPraekomponiert).toBe('boeses');
+        expect(result.zerlegt).toEqual(['boese']);
+        expect(result.praekomponiert).toEqual(['boese']);
     });
 
     test('text inclusion filter restricts results', async ({ page }) => {

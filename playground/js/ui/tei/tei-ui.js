@@ -96,12 +96,13 @@ export class TEIExplorer {
             if (lemmaId) {
                 lemmaIds.push(lemmaId);
             } else {
-                // Fallback: Search through lexicon.xml for any matching lemma
-                // This uses 'includes()' so it's very flexible:
-                // - Searches all lemma entries in the lexicon
-                // - Finds partial matches (e.g., "brot" finds "brôt")
-                // - Works with any orthographic variant present in the lexicon
-                // Note: Takes first match if multiple lemmata contain the search term
+                // Fallback: 3-Stufen-Auflösung über den Authority-Manager
+                // (exakt -> Varianten -> Präfix-Match in beide Richtungen).
+                // Stufe 3 war bis #224 ein Substring-Test; sie matcht jetzt
+                // präfixorientiert und liefert bereits sortiert: erst Nähe zur
+                // Eingabe, dann Korpus-Frequenz. matches[0] ist damit das
+                // plausibelste Lemma und nicht mehr der erste Index-Treffer
+                // (#163/#164). Regel: assets/js/lib/lemma-resolve.js.
                 const authorityManager = window.playground?.authorityManager;
                 if (authorityManager) {
                     const matches = authorityManager.searchLemmaByOrthography(term);
