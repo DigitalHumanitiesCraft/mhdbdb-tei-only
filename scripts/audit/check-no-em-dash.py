@@ -85,7 +85,10 @@ EM_DASH = '—'
 # Vorkommen; die Erweiterung kostet also nichts und schliesst die Tuer,
 # bevor jemand die Gotcha in CLAUDE.md als Zeichen- statt Typografie-Regel
 # liest und zur Entity greift.
-EM_FORMEN = (EM_DASH, '&mdash;', '&#8212;', '&#x2014;', chr(92) + 'u2014')
+# Die beiden CSS-Escapes stehen mit dabei, seit assets/css/ im Umfang ist:
+# `content: "\2014"` rendert denselben Strich wie das Literalzeichen.
+EM_FORMEN = (EM_DASH, '&mdash;', '&#8212;', '&#x2014;', chr(92) + 'u2014',
+             chr(92) + '2014', chr(92) + '002014')
 
 # Sicherheitsnetz fuer kuenftige Globs, aktuell ohne Wirkung: die Liste in
 # GLOBS beginnt durchgaengig mit einem konkreten Segment, der erste Pfadteil
@@ -240,6 +243,12 @@ def scanne_css(text):
     Regex-Literale, also keine der Mehrdeutigkeiten, an denen Anlauf 2
     gescheitert ist. Strings (`content: "…"`) muessen nicht verfolgt werden,
     denn deren Inhalt ist genau das, was gesucht wird.
+
+    Bekannte Restluecke, im Bestand unbelegt: ein `/*` INNERHALB eines
+    Strings (`content: "/*"`) oeffnet einen Kommentar, den es nicht gibt,
+    und verschluckt den Rest bis zum naechsten `*/`. Das zu schliessen
+    hiesse Stringzustaende mitzufuehren, also genau den Schritt, der die
+    Einfachheit dieses Zweigs aufgeben wuerde.
     """
     treffer = []
     im_kommentar = False
@@ -402,9 +411,10 @@ SELBSTTEST_DATEIEN = [
     # fest, sie fallen schon durch die nicht-rekursiven HTML-Globs heraus.
     ('playground/js/ui/tei/h.js', "const s = 'x " + EM_DASH + " y';\n", True),
     ('assets/css/i.css', 'a::after { content: "x ' + EM_DASH + ' y"; }\n', True),
-    # Inhalt bewusst NICHT minifiziert: eine Zeile, die mit `*` beginnt, faellt
-    # schon an der Praefixregel durch und wuerde den Ausschluss nicht pruefen.
-    # So faellt der Fall ohne SKIP_DATEIEN durch und besteht mit.
+    # Der Fall prueft NUR den Ausschluss: ohne SKIP_DATEIEN wird die Datei
+    # gemeldet, mit nicht. (Die urspruengliche Begruendung hier, eine Zeile mit
+    # fuehrendem `*` falle ohnehin an der Praefixregel durch, gilt seit
+    # scanne_css nicht mehr; CSS wird jetzt korrekt gelesen.)
     ('assets/css/tailwind-output.css',
      'a::after { content: "x ' + EM_DASH + ' y"; }\n', False),
     ('docs/e.html', '<p>x ' + EM_DASH + ' y</p>\n', False),
