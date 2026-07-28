@@ -142,7 +142,9 @@ export class HapaxLegomenaAnalyzer {
     //
     // DIG (römische Zahlen) braucht keinen eigenen Filter: es gibt genau drei
     // DIG-Lemmata, und keines kann hier je erscheinen. lemma_13826 "I" hat
-    // 4.755 Korpusbelege, lemma_45842 "declinare" 4 (über der höchsten
+    // 4.049 Korpusbelege (bis #138 waren es 4.755; die 706 annotierten der
+    // 814 HUG-Strophenziffern hingen an genau diesem Lemma), lemma_45842
+    // "declinare" 4 (über der höchsten
     // Schwelle 3), lemma_21509 "xxtausent" steht nur im Lexikon und kommt im
     // Korpus nicht vor.
     if (this.state.hideNumerals && facet !== 'NUM'
