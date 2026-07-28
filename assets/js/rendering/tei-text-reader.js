@@ -349,25 +349,41 @@ class TEITextReader {
     }
 
     /**
-     * Beginnt dieses <div> eine eigene Verszählung bei 1? Kriterium ist die
-     * erste numerisch nummerierte <l> im Teilbaum: trägt sie n="1", ist das
-     * div ein eigener Zählungsbereich (HUG: div type="song"). Zählt es dagegen
-     * durch (Kapitel-divs mit n="234" als erster Zeile), bleibt der Anker beim
-     * ersten Vers des Texts.
+     * Beginnt dieses <div> eine eigene, durchlaufende Verszählung bei 1?
      *
-     * Nicht-numerische @n (ALX-Überschriftenzeilen „h_1") werden übersprungen,
-     * nicht als Zählungsstart gewertet. Siehe #138 und #127.
+     * Zwei Bedingungen: die erste numerisch nummerierte <l> im Teilbaum trägt
+     * n="1", UND die 1 kommt im div genau einmal vor. Zählt das div dagegen
+     * durch (Kapitel-divs mit n="234" als erster Zeile), bleibt der Anker beim
+     * ersten Vers des Texts; zählt es strophenlokal (mehrere Einsen), gibt es
+     * gar keinen sinnvollen Ankerpunkt.
+     *
+     * Nicht-numerische @n (ALX- und NLA-Überschriftenzeilen „h_1") werden
+     * übersprungen, nicht als Zählungsstart gewertet. Siehe #138 und #127.
      *
      * @param {Element} divEl
      * @returns {boolean}
      */
     divRestartsNumbering(divEl) {
+        let first = null;
+        let einsen = 0;
         for (const line of divEl.querySelectorAll('l[n]')) {
             const n = line.getAttribute('n');
             if (!/^\d+$/.test(n)) continue;
-            return n === '1';
+            if (first === null) first = n;
+            if (n === '1') einsen += 1;
         }
-        return false;
+        // Zwei Bedingungen, die zweite ist die wichtigere:
+        //   a) die erste numerische Zeile ist die 1
+        //   b) die 1 kommt im ganzen div GENAU EINMAL vor
+        //
+        // (b) trennt div-lokale Durchzählung von strophenlokaler. HUG zählt je
+        // Lied 1..27 durch, dort ist die 1 einmalig und der Anker gewollt. NLA
+        // dagegen hat 38 untypisierte <div>, in denen jede Strophe wieder bei 1
+        // beginnt: ohne (b) bekäme der Text 38 nackte Randeinsen ohne
+        // erklärende Überschrift, also genau das unruhige Randbild, das #127
+        // beseitigt hat, nur über <div> statt über <lg> hereingekommen.
+        // Korpusweit hält (b) 1.497 divs und verwirft 1.172 strophenlokale.
+        return first === '1' && einsen === 1;
     }
 
     /**
@@ -411,12 +427,12 @@ class TEITextReader {
                     // Ohne den Reset zeigt nur das erste Lied seine „1", alle
                     // folgenden setzen sichtbar erst bei 5 ein (#138, Julia 17.07.).
                     //
-                    // Reichweite: 183 Texte haben mindestens ein solches div
-                    // (2.540 insgesamt: 1.269 song, 876 chapter, 178 section),
-                    // in 81 davon entstehen zusätzliche Randnummern. Größter
-                    // Fall ist PZ mit 827 kapitelweise neu zählenden divs.
-                    // Texte mit durchlaufender Zählung sind unberührt, weil dort
-                    // nur der erste div bei n="1" beginnt.
+                    // Reichweite: 1.497 divs in 137 Texten erfüllen das Kriterium
+                    // (897 chapter, 257 song, 177 section, 159 ohne @type,
+                    // 7 number); zusätzliche Randnummern entstehen in 40 Texten,
+                    // korpusweit 1.360. Größter Fall ist PZ mit 827 kapitelweise
+                    // neu zählenden divs. Texte mit durchlaufender Zählung sind
+                    // unberührt, weil dort nur der erste div bei n="1" beginnt.
                     //
                     // Bewusst NUR auf div-Ebene, nie auf <lg>: NBB startet jede
                     // Strophe bei n=1: ein lg-Reset stellte in jede Strophe eine

@@ -259,12 +259,19 @@ test.describe('Reading View', () => {
         await btn.click();
         await page.waitForTimeout(500);
 
-        // Nach dem Sprung steht der Panelkopf wieder oben, der Button ist weg.
-        const panelTop = await page.locator('#readingPanel').evaluate(
-            el => Math.round(el.getBoundingClientRect().top)
-        );
-        expect(panelTop).toBeGreaterThan(-40);
-        expect(panelTop).toBeLessThan(60);
+        // Nach dem Sprung muss der Titel SICHTBAR sein, nicht bloß der Panelkopf
+        // an Position 0: der Seiten-Header ist `sticky top-0` und rund 73 px
+        // hoch, ein Sprung auf y=16 schöbe Titel und Metadaten darunter.
+        const geometrie = await page.evaluate(() => {
+            const header = document.querySelector('header');
+            const titel = document.getElementById('readingTitle');
+            return {
+                headerUnterkante: Math.round(header.getBoundingClientRect().bottom),
+                titelOberkante: Math.round(titel.getBoundingClientRect().top)
+            };
+        });
+        expect(geometrie.titelOberkante).toBeGreaterThanOrEqual(geometrie.headerUnterkante);
+
         await expect(btn).toBeHidden();
     });
 
@@ -287,6 +294,26 @@ test.describe('Reading View', () => {
             const firstNumbered = songs.nth(i).locator('.verse-line-numbered').first();
             await expect(firstNumbered).toHaveAttribute('data-n', '1');
         }
+    });
+
+    test('#138/#127: NLA (divs MIT strophenlokaler Zählung) bekommt keine Randeinsen', async ({ page }) => {
+        // Der eigentliche Risikofall der #138-Änderung, nicht NBB: NBB hat gar
+        // keine <div>, die Zusicherung dort ist strukturell trivial. NLA hat 38
+        // untypisierte <div>, in denen jede Strophe wieder bei n="1" beginnt.
+        // Ohne die Zusatzbedingung „die 1 kommt im div genau einmal vor" bekäme
+        // der Text 38 nackte Randeinsen ohne erklärende Überschrift, also die
+        // #127-Regression über <div> statt über <lg>.
+        await page.goto('http://localhost:8080/korpus.html?textId=NLA&lemmaIds=lemma_879');
+        await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
+        await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
+
+        // Vorbedingung: der Text hat wirklich divs mit strophenlokaler Zählung.
+        const divCount = await page.locator('#readingBody .tei-div').count();
+        expect(divCount).toBeGreaterThan(10);
+
+        // Höchstens der eine dokumentweite Anker darf eine sichtbare 1 tragen.
+        const einsen = await page.locator('#readingBody .verse-line-numbered[data-n="1"]').count();
+        expect(einsen).toBeLessThanOrEqual(1);
     });
 
     test('should render note date and year badges', async ({ page }) => {

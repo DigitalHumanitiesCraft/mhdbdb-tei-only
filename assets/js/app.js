@@ -466,8 +466,14 @@ class MainSiteApp {
             btn.classList.toggle('hidden', !(hasText && scrolledPast));
         };
 
+        // Offset wie in scrollToElement (dort `headerHeight = 80`): der Header
+        // ist `sticky top-0` und rund 73 px hoch. Mit den ursprünglichen 16 px
+        // landete der Panelkopf samt Titel und Metadaten hinter dem Header,
+        // also genau das nicht im Blick, wofür der Button da ist.
+        const HEADER_OFFSET = 80;
+
         btn.addEventListener('click', () => {
-            const top = panel.getBoundingClientRect().top + window.pageYOffset - 16;
+            const top = panel.getBoundingClientRect().top + window.pageYOffset - HEADER_OFFSET;
             // behavior: 'auto', nicht 'smooth'. In der Leseansicht ist smooth
             // scrolling wirkungslos (in Chrome auf den langen Reader-Seiten
             // verifiziert, unabhaengig von der Distanz und ohne aktives
@@ -476,14 +482,16 @@ class MainSiteApp {
             window.scrollTo({ top, behavior: 'auto' });
         });
 
-        // Primaersignal ist ein IntersectionObserver, nicht das scroll-Event:
-        // der Reader springt selbst per window.scrollTo (Deep-Links mit
-        // ?position= / ?verse=, Highlight-Navigation). Programmatisches
-        // Scrollen loest den scroll-Listener nicht zuverlaessig aus, der
-        // Button haenge dann im falschen Zustand fest, bis der Nutzer von Hand
-        // scrollt. Der Observer feuert unabhaengig davon, wodurch gescrollt
-        // wurde. Das scroll-Event bleibt als billiger Zusatz erhalten, damit
-        // der Zustand auch bei reinen Layout-Verschiebungen aktuell ist.
+        // Drei Signale, weil keins allein den ganzen Zustandsraum abdeckt:
+        //   - IntersectionObserver auf dem Panelkopf: feuert unabhaengig davon,
+        //     WODURCH gescrollt wurde. Der Reader springt selbst per
+        //     window.scrollTo (Deep-Links ?position=/?verse=,
+        //     Highlight-Navigation).
+        //   - scroll-Event: deckt das Fenster ab, in dem der Kopf zwar aus dem
+        //     Viewport ist, die Anzeigeschwelle von 240 px aber noch nicht
+        //     erreicht ist. Dort feuert der Observer nicht mehr.
+        //   - MutationObserver (unten): faengt den Fall, dass sich nur der
+        //     Ladezustand aendert und gar nicht gescrollt wird.
         // Beobachtet wird der Panelkopf, nicht das Panel: das Panel ist so hoch
         // wie der ganze Text (bei HUG ueber 180.000 px) und verlaesst den
         // Viewport nie, der Observer feuerte also nie eine Zustandsaenderung.
