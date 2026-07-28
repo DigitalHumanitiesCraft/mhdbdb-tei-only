@@ -64,6 +64,25 @@ test.describe('Issue #196: Echte Hapaxlegomena', () => {
     expect(erstesLemma.trim()).toMatch(/^\d/);
   });
 
+  test('NAM-Facette schlägt den Eigennamen-Default und deaktiviert dessen Checkbox', async ({ page }) => {
+    // Symmetrisch zum NUM-Vorrang: ohne ihn liefert die Facette NAM eine leere
+    // Liste, weil "Eigennamen ausblenden" per Default an ist. Der Test fällt
+    // ohne die Änderung durch, weil dann 0 statt gut 3.000 Zeilen kommen.
+    await page.waitForSelector('[data-hx-detail]', { state: 'visible', timeout: 60000 });
+    await expect(page.locator('#hxHideNames')).toBeChecked();
+
+    await page.selectOption('#hxPos', 'NAM');
+    await expect(page.locator('[data-hx-detail]').first()).toBeVisible({ timeout: 30000 });
+
+    const text = await page.locator('#resultsContainer').innerText();
+    const gesamt = parseInt(text.match(/([\d.]+) Lemmata mit Frequenz/)[1].replace(/\./g, ''), 10);
+    expect(gesamt).toBeGreaterThan(100);
+
+    // Die Checkbox darf nicht angehakt und wirkungslos dastehen.
+    await expect(page.locator('#hxHideNames')).toBeDisabled();
+    await expect(page.locator('#hxHideNum')).toBeEnabled();
+  });
+
   test('Route + Sidebar-Button öffnen das Modul, Liste füllt sich', async ({ page }) => {
     await expect(page.locator('#resultsContainer')).toContainText('Hapax');
     await expect(page.locator('#showHapaxLegomenaBtn')).toBeVisible();

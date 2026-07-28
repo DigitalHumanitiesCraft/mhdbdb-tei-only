@@ -111,7 +111,9 @@ export class HapaxLegomenaAnalyzer {
     // solange keine Buchstaben-Facette aktiv ist (keine Form bekannt).
     if (!lemma) return this.state.initial === 'all' && this.state.posFilter === 'all';
     const tags = lemma.posAll || (lemma.pos ? String(lemma.pos).trim().split(/\s+/) : []);
-    if (this.state.hideNames && tags.includes('NAM')) return false;
+    // Facetten-Vorrang wie bei den Zahlwörtern unten: wer NAM gezielt wählt,
+    // bekäme sonst kommentarlos eine leere Liste, weil der Filter default an ist.
+    if (this.state.hideNames && this.state.posFilter !== 'NAM' && tags.includes('NAM')) return false;
     // Zahlwörter defaultmäßig aus (#196, KZW 27.07.): Eine korpusweit einmalige
     // Zahl ist kein lexikalisches Hapax im philologischen Sinn, sondern eine
     // Funktion der Textlänge — "ahtundsibenzechundert" kommt einmal vor, weil
@@ -133,6 +135,12 @@ export class HapaxLegomenaAnalyzer {
     // Die explizite Wortart-Facette schlägt den Default: wer in der Facette
     // "NUM" wählt, will Zahlwörter sehen und bekäme sonst kommentarlos nur die
     // 47 gemischten statt aller 119.
+    //
+    // DIG (römische Zahlen) braucht keinen eigenen Filter: es gibt genau drei
+    // DIG-Lemmata, und keines kann hier je erscheinen. lemma_13826 "I" hat
+    // 4.755 Korpusbelege, lemma_45842 "declinare" 4 (über der höchsten
+    // Schwelle 3), lemma_21509 "xxtausent" steht nur im Lexikon und kommt im
+    // Korpus nicht vor.
     const numeralsExplicitlyWanted = this.state.posFilter === 'NUM';
     if (this.state.hideNumerals && !numeralsExplicitlyWanted
         && tags.length === 1 && tags[0] === 'NUM') return false;
@@ -233,6 +241,11 @@ export class HapaxLegomenaAnalyzer {
     const initialOptions = ['all', ...INITIALS]
       .map(c => `<option value="${c}"${this.state.initial === c ? ' selected' : ''}>${c === 'all' ? 'alle Buchstaben' : c.toUpperCase()}</option>`)
       .join('');
+    // Eine explizit gewählte Wortart-Facette hebt den gleichnamigen Default-Filter
+    // auf (siehe passesFilters). Die Checkbox bliebe sonst sichtbar angehakt,
+    // obwohl sie nichts mehr tut.
+    const namOverridden = this.state.posFilter === 'NAM';
+    const numOverridden = this.state.posFilter === 'NUM';
 
     const tabBtn = (tab, label) => `
       <button data-hx-tab="${tab}" class="rounded-lg px-3 py-1.5 text-sm font-medium transition ${this.state.tab === tab
@@ -263,13 +276,13 @@ export class HapaxLegomenaAnalyzer {
           </label>
         </div>
         <div class="mt-3 flex flex-wrap items-center gap-x-6 gap-y-2">
-          <label class="flex items-center gap-2 text-sm text-slate-700 cursor-pointer">
-            <input type="checkbox" id="hxHideNames" ${this.state.hideNames ? 'checked' : ''} class="w-4 h-4 rounded border-slate-300 text-brand-600 focus:ring-brand-500" />
-            <span>Eigennamen ausblenden <span class="text-xs text-slate-500">(PoS NAM, 28 % der Hapaxe)</span></span>
+          <label class="flex items-center gap-2 text-sm text-slate-700 ${namOverridden ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}"${namOverridden ? ' title="Die Wortart-Facette NAM hebt diesen Filter auf."' : ''}>
+            <input type="checkbox" id="hxHideNames" ${this.state.hideNames ? 'checked' : ''} ${namOverridden ? 'disabled' : ''} class="w-4 h-4 rounded border-slate-300 text-brand-600 focus:ring-brand-500" />
+            <span>Eigennamen ausblenden <span class="text-xs text-slate-500">${namOverridden ? '(von der Facette NAM aufgehoben)' : '(PoS NAM, 28 % der Hapaxe)'}</span></span>
           </label>
-          <label class="flex items-center gap-2 text-sm text-slate-700 cursor-pointer">
-            <input type="checkbox" id="hxHideNum" ${this.state.hideNumerals ? 'checked' : ''} class="w-4 h-4 rounded border-slate-300 text-brand-600 focus:ring-brand-500" />
-            <span>Zahlwörter ausblenden <span class="text-xs text-slate-500">(nur reines NUM)</span></span>
+          <label class="flex items-center gap-2 text-sm text-slate-700 ${numOverridden ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}"${numOverridden ? ' title="Die Wortart-Facette NUM hebt diesen Filter auf."' : ''}>
+            <input type="checkbox" id="hxHideNum" ${this.state.hideNumerals ? 'checked' : ''} ${numOverridden ? 'disabled' : ''} class="w-4 h-4 rounded border-slate-300 text-brand-600 focus:ring-brand-500" />
+            <span>Zahlwörter ausblenden <span class="text-xs text-slate-500">${numOverridden ? '(von der Facette NUM aufgehoben)' : '(nur reines NUM)'}</span></span>
           </label>
           <label class="flex items-center gap-2 text-sm text-slate-700 cursor-pointer">
             <input type="checkbox" id="hxHideFunc" ${this.state.hideFunctionWords ? 'checked' : ''} class="w-4 h-4 rounded border-slate-300 text-brand-600 focus:ring-brand-500" />

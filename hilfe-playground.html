@@ -471,8 +471,16 @@
                     Leseansicht. Wichtig zur Einordnung: Hier zählt die <em>korpusweite</em>
                     Gesamtfrequenz eines Lemmas; die Hapax-Rate der Text-Statistiken zählt
                     dagegen Lemmata, die innerhalb eines einzelnen Texts nur einmal vorkommen.
-                    Filter gegen Eigennamen (gut ein Viertel aller Hapaxe) und Funktionswörter,
-                    eine Wortarten- und eine Anfangsbuchstaben-Facette grenzen die Liste ein;
+                    Filter gegen Eigennamen (gut ein Viertel aller Hapaxe), gegen Zahlwörter und
+                    gegen Funktionswörter sowie eine Wortarten- und eine Anfangsbuchstaben-Facette
+                    grenzen die Liste ein. Die ersten drei Filter sind beim Öffnen aktiv. Beim
+                    Zahlwort-Filter ist der Grund: dass „ahtundsibenzechundert" nur einmal
+                    vorkommt, sagt etwas über die Textlänge und nichts über den Wortschatz.
+                    Ausgeblendet werden dabei nur Lemmata, deren einzige
+                    Wortart NUM ist; Wörter mit Zahlbezug und weiterer Wortart (etwa „zwispeltic"
+                    als Adjektiv und Zahlwort) bleiben stehen. Wer die Zahlwörter sehen will,
+                    nimmt den Haken heraus oder wählt in der Wortart-Facette gezielt NUM, was den
+                    Filter aufhebt.
                     „Details" prüft je Eintrag über das Wörterbuchnetz, ob das Lemma im
                     Mittelhochdeutschen Wörterbuch oder im Lexer verzeichnet ist – so lässt
                     sich abschätzen, ob ein echtes mhd. Hapax oder nur ein Korpus-Hapax
