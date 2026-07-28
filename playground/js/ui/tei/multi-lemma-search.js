@@ -200,8 +200,8 @@ export class MultiLemmaSearchUI {
         if (!teiManager) {
             if (resultsContainer) {
                 resultsContainer.innerHTML = `
-                    <div class="text-sm text-red-600">
-                        ❌ Fehler: TEI Manager nicht verfügbar. Bitte laden Sie TEI-Dateien.
+                    <div class="rounded-2xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+                        Fehler: TEI Manager nicht verfügbar. Bitte laden Sie TEI-Dateien.
                     </div>
                 `;
             }
@@ -234,8 +234,8 @@ export class MultiLemmaSearchUI {
             if (lemmaIds.length === 0) {
                 if (resultsContainer) {
                     resultsContainer.innerHTML = `
-                        <div class="text-sm text-red-600">
-                            ❌ Keine gültigen Lemmata gefunden für: ${searchTerms.map(t => this.escapeHtml(t)).join(', ')}
+                        <div class="rounded-2xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+                            Keine gültigen Lemmata gefunden für: ${searchTerms.map(t => this.escapeHtml(t)).join(', ')}
                         </div>
                     `;
                 }
@@ -271,8 +271,8 @@ export class MultiLemmaSearchUI {
             if (getNavigationEpoch() !== myEpoch) return;
             if (resultsContainer) {
                 resultsContainer.innerHTML = `
-                    <div class="text-sm text-red-600">
-                        ❌ Suchfehler: ${error.message}
+                    <div class="rounded-2xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+                        Suchfehler: ${this.escapeHtml(String(error.message))}
                     </div>
                 `;
             }
