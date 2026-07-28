@@ -213,6 +213,61 @@ test.describe('Reading View', () => {
         expect(((await anchor.textContent()) || '').trim()).toBe('');
     });
 
+    test('#138: Nach-oben-Button ist ohne geladenen Text unsichtbar', async ({ page }) => {
+        // Prüft die BERECHNETE Sichtbarkeit, nicht die Klassenliste: .back-to-top
+        // steht in korpus.css, das nach tailwind-output.css geladen wird. Ohne
+        // die Regel `.back-to-top.hidden { display: none }` gewinnt display:flex
+        // gegen Tailwinds .hidden, und der Button steht dauerhaft auf der Seite,
+        // obwohl seine Klassenliste korrekt aussieht.
+        await page.goto('http://localhost:8080/korpus.html');
+        await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
+
+        const btn = page.locator('#backToTop');
+        await expect(btn).toHaveCount(1);
+        await expect(btn).toBeHidden();
+
+        // Auch weit unten auf der Seite bleibt er weg, solange kein Text offen ist.
+        await page.mouse.wheel(0, 4000);
+        await page.waitForTimeout(400);
+        await expect(btn).toBeHidden();
+    });
+
+    test('#138: Nach-oben-Button erscheint mit Text und springt zum Panelkopf', async ({ page }) => {
+        await page.goto('http://localhost:8080/korpus.html?textId=HUG&lemmaIds=lemma_879');
+        await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
+        await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
+
+        // Der Reader springt 600 ms nach dem Laden selbst zum ersten Treffer
+        // (scrollToHighlight). Ohne dieses Warten überholt dieser Sprung den
+        // Klick und der Test misst die falsche Position.
+        await page.waitForTimeout(1500);
+
+        const btn = page.locator('#backToTop');
+
+        // Ganz nach oben: der Panelkopf ist im Blick, der Button muss weg sein.
+        await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'auto' }));
+        await page.mouse.wheel(0, 1);
+        await page.mouse.wheel(0, -1);
+        await page.waitForTimeout(300);
+        await expect(btn).toBeHidden();
+
+        // Weit nach unten in den Text: der Button muss erscheinen.
+        await page.evaluate(() => window.scrollTo({ top: 3000, behavior: 'auto' }));
+        await page.mouse.wheel(0, 1);
+        await expect(btn).toBeVisible({ timeout: 5000 });
+
+        await btn.click();
+        await page.waitForTimeout(500);
+
+        // Nach dem Sprung steht der Panelkopf wieder oben, der Button ist weg.
+        const panelTop = await page.locator('#readingPanel').evaluate(
+            el => Math.round(el.getBoundingClientRect().top)
+        );
+        expect(panelTop).toBeGreaterThan(-40);
+        expect(panelTop).toBeLessThan(60);
+        await expect(btn).toBeHidden();
+    });
+
     test('#138: HUG (div-lokale @n) zeigt in jedem Lied wieder die 1', async ({ page }) => {
         // Julia, 17.07.: sichtbar setzte die Verszählung nur im ersten Lied bei 1
         // ein, danach erst bei 5. Ursache war ein dokumentweiter Anker; er wird

@@ -494,6 +494,18 @@ class MainSiteApp {
                 threshold: [0, 1]
             }).observe(sentinel);
         }
+        // Dritter Auslöser: der Titel selbst. Wer auf der Ergebnisliste nach
+        // unten gescrollt hat (Button korrekt versteckt, weil kein Text offen)
+        // und dann einen Text öffnet, ändert nur `hasText` — ohne Scroll und
+        // ohne Positionswechsel feuert sonst kein Signal und der Button bliebe
+        // aus, bis der Nutzer von Hand scrollt.
+        if (this.elements.readingTitle && 'MutationObserver' in window) {
+            new MutationObserver(update).observe(this.elements.readingTitle, {
+                childList: true,
+                characterData: true,
+                subtree: true
+            });
+        }
         window.addEventListener('scroll', update, { passive: true });
         window.addEventListener('resize', update, { passive: true });
         update();

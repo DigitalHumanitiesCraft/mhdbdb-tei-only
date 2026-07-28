@@ -411,6 +411,13 @@ class TEITextReader {
                     // Ohne den Reset zeigt nur das erste Lied seine „1", alle
                     // folgenden setzen sichtbar erst bei 5 ein (#138, Julia 17.07.).
                     //
+                    // Reichweite: 183 Texte haben mindestens ein solches div
+                    // (2.540 insgesamt: 1.269 song, 876 chapter, 178 section),
+                    // in 81 davon entstehen zusätzliche Randnummern. Größter
+                    // Fall ist PZ mit 827 kapitelweise neu zählenden divs.
+                    // Texte mit durchlaufender Zählung sind unberührt, weil dort
+                    // nur der erste div bei n="1" beginnt.
+                    //
                     // Bewusst NUR auf div-Ebene, nie auf <lg>: NBB startet jede
                     // Strophe bei n=1: ein lg-Reset stellte in jede Strophe eine
                     // Marginal-„1" und brächte genau das jumbled margin zurück,
