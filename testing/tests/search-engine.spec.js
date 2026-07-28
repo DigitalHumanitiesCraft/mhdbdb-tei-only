@@ -83,47 +83,92 @@ test.describe('Search Engine', () => {
         expect(lemmaIds.length).toBeGreaterThanOrEqual(1);
     });
 
-    test('resolveLemmaIds() - Stage 3 never matches short lemmata inside the query (#224)', async ({ page }) => {
-        // Bug report #224 (Klaus Schmidt): searching 'böses' returned the short
-        // lemmata ês (lemma id of 'es'), ô ('o') and sê ('se'), because Stage 3
-        // used an unbounded substring test in the 'query contains lemma'
-        // direction. The one correct answer, bœse, drowned among them.
+    test('resolveLemmaIds() - Stage 3 drops short-lemma noise (#224)', async ({ page }) => {
+        // WICHTIG: der Suchbegriff muss Stufe 3 auch erreichen. "boeses" tut das
+        // NICHT — variants["boeses"] existiert, Stufe 2 fängt es ab und liefert
+        // korrekt bœse. Genau daran wäre ein Test mit "boeses" wertlos: er wäre
+        // auch vor dem Fix grün. "minnecl" trifft weder Stufe 1 noch Stufe 2.
         const result = await page.evaluate(() => {
             const se = window._mhdbdbApp.searchEngine;
-            const ids = se.resolveLemmaIds('boeses');
             const byId = new Map(se.authorityIndex.lemmata.map(l => [l.id, l]));
-            return ids.map(id => ({ id, normalized: byId.get(id)?.normalized || '' }));
+            const norm = 'minnecl';
+            return {
+                stage1: se.authorityIndex.lemmata.some(l => l.normalized === norm),
+                stage2: !!se.authorityIndex.variants[norm],
+                hits: se.resolveLemmaIds(norm).map(id => byId.get(id)?.normalized || '')
+            };
         });
 
-        // Every hit must share a prefix boundary with the query in one direction.
-        for (const hit of result) {
-            const prefixOfQuery = 'boeses'.startsWith(hit.normalized);
-            const startsWithQuery = hit.normalized.startsWith('boeses');
-            expect(prefixOfQuery || startsWithQuery,
-                `"${hit.normalized}" is neither a prefix of the query nor starts with it`).toBeTruthy();
-            expect(hit.normalized.length).toBeGreaterThanOrEqual(3);
+        // Vorbedingung des Tests: der Begriff landet wirklich in Stufe 3.
+        expect(result.stage1, 'minnecl darf Stufe 1 nicht treffen').toBeFalsy();
+        expect(result.stage2, 'minnecl darf Stufe 2 nicht treffen').toBeFalsy();
+
+        expect(result.hits.length).toBeGreaterThan(0);
+
+        // Jeder Treffer teilt eine Präfixgrenze mit der Eingabe.
+        for (const n of result.hits) {
+            const lemmaIstPraefix = 'minnecl'.startsWith(n);
+            const beginntMitEingabe = n.startsWith('minnecl');
+            expect(lemmaIstPraefix || beginntMitEingabe,
+                `"${n}" ist weder Präfix der Eingabe noch beginnt damit`).toBeTruthy();
+            if (lemmaIstPraefix && !beginntMitEingabe) {
+                expect(n.length).toBeGreaterThanOrEqual(3);
+            }
         }
 
-        // The right answer must still be found.
-        expect(result.some(h => h.normalized === 'boese')).toBeTruthy();
-
-        // And the infix noise must be gone.
-        for (const noise of ['o', 'es', 'se']) {
-            expect(result.some(h => h.normalized === noise)).toBeFalsy();
+        // Das alte Substring-Verhalten lieferte hier i, in, nec, innec.
+        for (const rauschen of ['i', 'in', 'nec', 'innec']) {
+            expect(result.hits).not.toContain(rauschen);
         }
     });
 
     test('resolveLemmaIds() - Stage 3 ranks the closest lemma first (#224)', async ({ page }) => {
-        // Sorting is by length distance to the query, so an exact-length or
-        // near-length lemma outranks long compounds.
-        const normalized = await page.evaluate(() => {
+        // Sortierung nach Längendifferenz: minnec (6) steht vor minneclîcheit (13).
+        const hits = await page.evaluate(() => {
             const se = window._mhdbdbApp.searchEngine;
-            const ids = se.resolveLemmaIds('boeses');
             const byId = new Map(se.authorityIndex.lemmata.map(l => [l.id, l]));
-            return ids.map(id => byId.get(id)?.normalized || '');
+            return se.resolveLemmaIds('minnecl').map(id => byId.get(id)?.normalized || '');
         });
 
-        expect(normalized[0]).toBe('boese');
+        expect(hits.length).toBeGreaterThan(1);
+        expect(hits[0]).toBe('minnec');
+
+        const abstand = n => Math.abs(n.length - 'minnecl'.length);
+        for (let i = 1; i < hits.length; i++) {
+            expect(abstand(hits[i])).toBeGreaterThanOrEqual(abstand(hits[i - 1]));
+        }
+    });
+
+    test('resolveLemmaIds() - zerlegtes Umlaut-ö wird komponiert (#224)', async ({ page }) => {
+        // Die eigentliche Ursache im Bug-Report: "böses" mit o + U+0308 verfehlte
+        // Stufe 1 UND Stufe 2 und fiel in den Fallback. Beide Schreibweisen
+        // müssen jetzt dasselbe liefern.
+        const result = await page.evaluate(async () => {
+            const se = window._mhdbdbApp.searchEngine;
+            // korpus.html legt TextNormalizer nicht auf window (nur der
+            // Playground tut das), deshalb hier dynamisch importieren statt
+            // Produktionscode für den Test zu erweitern.
+            const { TextNormalizer: N } = await import('/assets/js/lib/text-normalizer.js');
+            const byId = new Map(se.authorityIndex.lemmata.map(l => [l.id, l]));
+            const KOMPONIERT = 'böses';        // b + U+00F6 + ses
+            const ZERLEGT    = 'böses';       // b + o + U+0308 + ses
+            const aufloesen = eingabe => se.resolveLemmaIds(N.normalizeMHG(eingabe))
+                .map(id => byId.get(id)?.normalized || '');
+            return {
+                normKomponiert: N.normalizeMHG(KOMPONIERT),
+                normZerlegt: N.normalizeMHG(ZERLEGT),
+                komponiert: aufloesen(KOMPONIERT),
+                zerlegt: aufloesen(ZERLEGT)
+            };
+        });
+
+        // Beide Schreibweisen normalisieren gleich ...
+        expect(result.normZerlegt).toBe('boeses');
+        expect(result.normZerlegt).toBe(result.normKomponiert);
+
+        // ... und loesen deshalb beide ueber Stufe 2 auf das richtige Lemma auf.
+        expect(result.komponiert).toEqual(['boese']);
+        expect(result.zerlegt).toEqual(result.komponiert);
     });
 
     test('text inclusion filter restricts results', async ({ page }) => {

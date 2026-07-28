@@ -24,6 +24,16 @@ export class TextNormalizer {
         if (!text) return '';
 
         return text
+            // Unicode-Komposition ZUERST (#224): Ein „ö" kann als ein Zeichen
+            // (U+00F6) oder als o + kombinierendes Trema (U+006F U+0308)
+            // kodiert sein. Beide sehen identisch aus, aber nur die erste Form
+            // trifft die ö→oe-Regel unten. Ohne diesen Schritt fällt eine
+            // zerlegte Eingabe durch Stufe 1 UND Stufe 2 der Lemma-Auflösung
+            // und landet im Partial-Match-Fallback: die Suche nach „böses"
+            // lieferte so ês, ô und sê statt bœse (Bug-Report Klaus Schmidt).
+            // Zerlegte Formen entstehen beim Kopieren aus macOS-Quellen und
+            // aus manchen Editionsdatenbanken.
+            .normalize('NFC')
             .toLowerCase()
             // Long vowels with circumflex
             .replace(/[âā]/g, 'a')

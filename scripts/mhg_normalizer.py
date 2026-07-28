@@ -13,6 +13,7 @@ Parity tests: testing/tests/normalization-parity.spec.js
 """
 
 import sys
+import unicodedata
 import io
 
 # Force UTF-8 output for Windows console
@@ -45,8 +46,17 @@ def normalize_mhg(text):
     # Must match JavaScript order and replacements EXACTLY
     # JavaScript: text.toLowerCase().replace(/[âā]/g, 'a').replace(...)
 
-    # Step 1: Lowercase FIRST (like JavaScript)
-    normalized = text.lower()
+    # Step 0: Unicode-Komposition (#224). Muss mit .normalize('NFC') in
+    # text-normalizer.js uebereinstimmen. Ein "oe" kann als ein Zeichen
+    # (U+00F6) oder als o + kombinierendes Trema (U+006F U+0308) kodiert
+    # sein; nur die komponierte Form trifft die Umlaut-Regeln unten.
+    # Die Authority-Files sind durchgaengig NFC, dieser Schritt aendert die
+    # Build-Ausgabe also nicht (verifiziert: Index byte-identisch). Er
+    # schuetzt die Laufzeit-Eingabe und kuenftige Ingests.
+    normalized = unicodedata.normalize('NFC', text)
+
+    # Step 1: Lowercase (like JavaScript)
+    normalized = normalized.lower()
 
     # Step 2: Replace long vowels with circumflex and macron
     normalized = normalized.replace('â', 'a').replace('ā', 'a')

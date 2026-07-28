@@ -989,7 +989,11 @@ Stufe 3 der 3-Stufen-Auflösung (CONTRACTS.md §C) war ein bidirektionaler Subst
 lemma.normalized.includes(query) || query.includes(lemma.normalized)
 ```
 
-Die zweite Richtung trifft jedes Kurzlemma, das irgendwo in der Eingabe steckt. Die Suche nach „böses" (normalisiert `boeses`) lieferte deshalb `ês`/`es`, `ô`/`o` und `sê`/`se` neben der einen richtigen Antwort `bœse`/`boese`. Das Lexikon hält 5 ein-, 98 zwei- und 598 dreibuchstabige normalisierte Formen; sie trafen praktisch jede Eingabe, die nicht im Lexikon steht. Für Klaus Schmidt sah das aus wie ein Problem mit dem neuen WZB-Vokabular, war aber seit jeher in jeder Suche mit einem unbekannten Wort enthalten.
+Die zweite Richtung trifft jedes Kurzlemma, das irgendwo in der Eingabe steckt. Das Lexikon hält 5 ein-, 98 zwei- und 598 dreibuchstabige normalisierte Formen; sie trafen praktisch jede Eingabe, die Stufe 3 überhaupt erreichte. `minnecl` lieferte 16 Treffer (angeführt von `i`, `unminneclîche`, `nec`), `schwertkampf` 14 (`a`, `êr`, `wert`, `kamp`).
+
+**Der Bug-Report hatte zwei Ursachen, und die erste wäre beinahe übersehen worden.** Die dort gezeigte Suche nach „böses" trug ein **zerlegtes** Umlaut-ö (`o` + U+0308 statt U+00F6). Der Normalizer kannte nur die komponierte Form, die Eingabe verfehlte deshalb Stufe 1 und Stufe 2 (die Varianten-Map hält den Schlüssel `boeses`) und landete überhaupt erst in Stufe 3. Dort machte der Substring-Test aus dem Fehlschlag drei Falschtreffer. Das erklärt auch, warum im Screenshot `bœse` fehlt, obwohl es die richtige Antwort ist: mit komponiertem ö fängt Stufe 2 die Eingabe ab und liefert genau dieses Lemma.
+
+Für Klaus Schmidt sah das aus wie ein Problem mit dem neuen WZB-Vokabular. Tatsächlich trifft es jede Eingabe mit zerlegtem Umlaut, und unabhängig davon jede Eingabe, die Stufe 3 erreicht.
 
 Zweiter Befund: Die Regel existierte zweimal und driftete. Die Hauptseite testete bidirektional, der Playground einseitig (Lemma enthält Eingabe). Dieselbe Eingabe lieferte je nach Oberfläche andere Mengen, dokumentiert als #169 Punkt #45.
 
@@ -999,7 +1003,7 @@ Zweiter Befund: Die Regel existierte zweimal und driftete. Die Hauptseite testet
 2. **Präfix-Matching in beide Richtungen** mit Mindestlänge nur suffixseitig. Nutzt aus, dass mittelhochdeutsche Flexion suffixal ist.
 3. **Stufe 3 ersatzlos streichen.** Am saubersten für die Präzision, nimmt aber die Trunkierungssuche („minn" findet „minne") weg, die Nutzende erwarten.
 
-Gewählt: **Option 2.**
+Gewählt: **Option 2**, zusammen mit NFC-Komposition im Normalizer gegen Ursache 1 (Contract A, Schritt 0).
 
 ### Decision
 
@@ -1011,15 +1015,20 @@ Prädikat und Ranking-Abstand liegen als pure Funktionen in `assets/js/lib/lemma
 
 Gemessen über 300 mit festem Seed gezogene Varianten-Formen mit bekanntem Ziel-Lemma, Stufe 1 und 2 umgangen (`scripts/audit/measure-stage3-resolution.py`):
 
-| Metrik | alt | neu |
-|--------|----:|----:|
-| Recall (Ziel irgendwo in der Liste) | 11,3 % | 10,7 % |
-| Top-1 nach Ranking | 0,3 % | 10,0 % |
-| Median der Listengröße | 8 | 0 |
-| Größte Liste | 108 | 8 |
+| Metrik | alt | alt + neues Ranking | neu |
+|--------|----:|--------------------:|----:|
+| Recall (Ziel irgendwo in der Liste) | 11,3 % | 11,3 % | 10,7 % |
+| Top-1 nach Ranking | 0,3 % | 9,3 % | 10,0 % |
+| Median der Listengröße | 8 | 8 | 0 |
+| Größte Liste | 108 | 108 | 8 |
+
+Die mittlere Spalte gehört dazu, sonst liest sich der Top-1-Sprung als 30-facher Effekt der Regel. Er kommt fast vollständig aus der neuen Sortierung nach Längendifferenz; die Regel selbst trägt 9,3 % → 10,0 % bei. Ihr eigentlicher Gewinn steht in den unteren beiden Zeilen.
 
 - **Der Median 0 ist gewollt.** Für eine unbekannte Form liefert Stufe 3 jetzt meist nichts statt acht Falschtreffern; die Oberfläche zeigt dann ihren Kein-Treffer-Zustand. Ein ehrliches „nicht gefunden" ist für ein philologisches Werkzeug mehr wert als eine plausibel aussehende Fehlleitung.
 - **Recall-Verlust 2 von 300**, beide Präfix-Brecher: `gewieren` → `wieren` (Präfix `ge-`) und die römische Zahl `ccccxli`. Beide sind belegte Varianten und werden im Echtbetrieb schon von Stufe 2 aufgelöst.
 - **Die Infix-Discovery des Playgrounds entfällt.** „wein" findet nicht mehr „rotwein". Das war der Träger des Rauschens; wer Komposita sucht, hat den Lemmata-Explorer.
 - **Ablaut und Umlaut bleiben ungelöst** (`slüege` → `slahen`). Der alte Test fand die auch nicht, er lieferte dort nur zufälligen Müll. Eine echte Lösung wäre Stemming oder eine Flexionstabelle und gehört zu #109.
 - **Messbias:** Echte Stufe-3-Eingaben sind eher neuhochdeutsche Wörter und Tippfehler als mittelhochdeutsche Flexionsformen. Die Stichprobe zeigt, ob der Fix Recall kostet, nicht wie oft Stufe 3 im Alltag das Richtige findet.
+- **Der Authority-Index ändert sich** (v1.6.1 → v1.6.2). Nicht wegen der Stufe-3-Regel, die ist reines Frontend, sondern wegen Schritt 0: „Hugo von Mühldorf" in `persons.xml` trägt ein zerlegtes ü und war deshalb als `hugo von mühldorf` indiziert, über die normalisierte Suche also unauffindbar.
+- **Die Keyness-Spalte der Tabellenansicht** (#114) nutzt dieselbe `resolveLemmaIds`-Referenzmenge. Bei Stufe-3-Suchbegriffen ändern sich damit die Log-Likelihood-Werte, weil die Referenzsumme über weniger Lemmata läuft.
+- **Die Mindestlänge 3 lässt Fragmente durch.** „heldentum" findet als einzigen Treffer `hel`, „treueschwur" findet `tre`. `matches[0]`-Konsumenten im Playground nehmen das still. Das ist besser als die vorherigen 14 Zufallstreffer, aber kein gutes Ergebnis; eine Anhebung der Schwelle wäre die nächste Stellschraube, wenn Nutzende sich beschweren.

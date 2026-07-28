@@ -20,6 +20,7 @@ Technical contracts that bind Python (build-time) and JavaScript (runtime) toget
 
 | Step | Operation | Characters | Result | JS | Python |
 |------|-----------|-----------|--------|-----|--------|
+| 0 | Unicode-Komposition | o + U+0308 | ö | `.normalize('NFC')` | `unicodedata.normalize('NFC', …)` |
 | 1 | Lowercase | all | lowercase | `.toLowerCase()` | `.lower()` |
 | 2 | Long vowels (circumflex + macron) | â ā | a | `/[âā]/g` | `.replace('â','a').replace('ā','a')` |
 | 2 | | ê ē | e | `/[êē]/g` | `.replace('ê','e').replace('ē','e')` |
@@ -61,6 +62,16 @@ These 18 cases must pass in both languages. Source: `scripts/mhg_normalizer.py:1
 ### Common Pitfall
 
 `schône` (ô = circumflex) → `schone`, NOT `schoene`. The circumflex ô maps to plain `o`, while the umlaut ö maps to `oe`. Visually similar, semantically different.
+
+### Schritt 0: Unicode-Komposition (#224)
+
+Ein „ö" kann als ein Zeichen (U+00F6) oder als `o` + kombinierendes Trema (U+006F U+0308) kodiert sein. Beide sehen identisch aus, aber nur die komponierte Form trifft die Umlaut-Regel in Schritt 3. Ohne die Komposition fällt eine zerlegte Eingabe durch Stufe 1 **und** Stufe 2 der Lemma-Auflösung (§C) und landet im Partial-Match-Fallback. Genau das war die erste Ursache im Bug-Report #224: die Suche nach „böses" mit zerlegtem ö lieferte `ês`, `ô`, `sê` statt `bœse`.
+
+Zerlegte Formen entstehen beim Kopieren aus macOS-Quellen und aus manchen Editionsdatenbanken, sind also normale Nutzereingaben.
+
+**Wirkung auf die Build-Seite:** Der Schritt ändert die Ausgabe fast nirgends, weil die Authority-Files bis auf zwei Stellen NFC sind. Die eine Stelle, die er korrigiert, ist `persons.xml`: „Hugo von Mühldorf" trägt dort ein zerlegtes ü und wurde deshalb als `hugo von mühldorf` statt `hugo von muehldorf` indiziert, war also über die normalisierte Suche nicht auffindbar. Deshalb Authority-Index v1.6.2.
+
+**Nicht betroffen:** Der Korpus selbst enthält kombinierende Zeichen (Stichprobe: rund 110 Tremata in 60 Dateien, dazu Tilde und Cedille). Die sind editorisch gewollt und werden nicht normalisiert; der Korpus-Index speichert Lemma-IDs und Positionen, keine normalisierten Textformen.
 
 ### Helper Functions
 
@@ -240,26 +251,32 @@ function resolveLemmaIds(normalized):
 |-------|-----------|--------|-------------|---------|
 | 1 | Canonical or normalized form | 0..N lemma IDs (homographs) | O(n) scan | `brot` → `[lemma_879]` |
 | 2 | Attested orthographic variant | Exactly 1 lemma ID | O(1) lookup | `brott` → normalize → `brot` → variants[`brot`] → `lemma_879` |
-| 3 | Prefix match, both directions | 0..N lemma IDs, nächste zuerst | O(n) scan + Sort | `bro` → `brot`, `brogen`, …; `boeses` → `bœse` |
+| 3 | Prefix match, both directions | 0..N lemma IDs, nächste zuerst | O(n) scan + Sort | `minnecl` → `minnec`, `minne`, `minneclîch`, …; `schwertkampf` → keine |
 
 ### Stufe 3: warum Präfix und nicht Substring (#224)
 
-Bis Juli 2026 war Stufe 3 ein bidirektionaler **Substring**-Test. Die Richtung „Eingabe enthält Lemma" traf jedes Kurzlemma, das irgendwo in der Eingabe steckte. Der externe Bug-Report #224 zeigte das an der Suche nach „böses" (normalisiert `boeses`): zurück kamen `ês`/`es`, `ô`/`o` und `sê`/`se` neben der einen richtigen Antwort `bœse`/`boese`. Das Lexikon hält 5 ein-, 98 zwei- und 598 dreibuchstabige normalisierte Formen; sie trafen praktisch jede Eingabe, die nicht im Lexikon steht.
+Bis Juli 2026 war Stufe 3 ein bidirektionaler **Substring**-Test. Die Richtung „Eingabe enthält Lemma" traf jedes Kurzlemma, das irgendwo in der Eingabe steckte. Das Lexikon hält 5 ein-, 98 zwei- und 598 dreibuchstabige normalisierte Formen; sie trafen praktisch jede Eingabe, die Stufe 3 überhaupt erreichte. Für `minnecl` kamen 16 Treffer zurück, angeführt von `i`, `unminneclîche` und `nec`; für `schwertkampf` 14, darunter `a`, `êr`, `wert`, `kamp`.
 
 Mittelhochdeutsche Flexion ist suffixal, deshalb hält ein Präfix-Test beide nützlichen Fälle (Stamm-Eingabe findet das volle Lemma, flektierte Eingabe findet das Lemma) und lässt das Rauschen fallen. Die Mindestlänge 3 gilt nur in der Richtung „Eingabe beginnt mit Lemma"; in der anderen ist das Lemma konstruktionsbedingt länger als die Eingabe.
 
+**Zur Genese des Bug-Reports, weil sie leicht falsch erzählt wird:** Die dort gezeigte Suche nach „böses" trug ein **zerlegtes** Umlaut-ö (`o` + U+0308 statt U+00F6). Deshalb verfehlte sie Stufe 1 und Stufe 2 (die Varianten-Map hält den Schlüssel `boeses`, nicht die zerlegte Form) und landete überhaupt erst in Stufe 3, wo der Substring-Test daraus `ês`, `ô`, `sê` machte, ohne `bœse`. Mit komponiertem ö löst Stufe 2 dieselbe Eingabe korrekt zu `bœse` auf. Der Report hatte also zwei Ursachen, und beide sind behoben: die NFC-Komposition in Contract A und die Präfix-Regel hier.
+
 Gemessen über 300 mit festem Seed gezogene Varianten-Formen mit bekanntem Ziel-Lemma (`scripts/audit/measure-stage3-resolution.py`, Stufe 1 und 2 umgangen):
 
-| Metrik | alt (Substring) | neu (Präfix) |
-|--------|----------------:|-------------:|
-| Recall (Ziel irgendwo in der Liste) | 11,3 % | 10,7 % |
-| Top-1 nach Ranking | 0,3 % | 10,0 % |
-| Median der Listengröße | 8 | 0 |
-| Größte Liste | 108 | 8 |
+| Metrik | alt (Substring) | alt + neues Ranking | neu (Präfix) |
+|--------|----------------:|--------------------:|-------------:|
+| Recall (Ziel irgendwo in der Liste) | 11,3 % | 11,3 % | 10,7 % |
+| Top-1 nach Ranking | 0,3 % | 9,3 % | 10,0 % |
+| Median der Listengröße | 8 | 8 | 0 |
+| Größte Liste | 108 | 108 | 8 |
+
+**Die mittlere Spalte ist wichtig:** Der große Sprung bei Top-1 (0,3 % → 9,3 %) kommt von der neuen Sortierung nach Längendifferenz, nicht von der neuen Regel. Die Regel selbst trägt 9,3 % → 10,0 % bei. Ihr eigentlicher Gewinn steht in den unteren beiden Zeilen: die Ergebnisliste schrumpft von median 8 auf 0.
 
 Der Recall-Verlust von 2 Fällen auf 300 betrifft Präfix-Brecher: `gewieren` → `wieren` (Präfix `ge-`) und die römische Zahl `ccccxli`. Beide sind im Echtbetrieb belegte Varianten und werden bereits von Stufe 2 aufgelöst; die Messung umgeht Stufe 2 absichtlich. Der Median von 0 heißt: für eine zufällige unbekannte Form liefert Stufe 3 jetzt meist nichts statt acht Falschtreffern. Das ist gewollt, die Oberfläche zeigt dann ihren Kein-Treffer-Zustand.
 
 **Bias der Messung:** Echte Stufe-3-Eingaben sind eher neuhochdeutsche Wörter und Tippfehler als mittelhochdeutsche Flexionsformen. Die Stichprobe misst, ob der Fix Recall kostet, nicht wie oft Stufe 3 im Alltag überhaupt das Richtige findet.
+
+**Nebenwirkung auf Stufe 3 hinaus:** `resolveLemmaIds` liefert auch die Referenzmenge für die Keyness-Spalte der Tabellenansicht (#114, `app.js`). Bei Suchbegriffen, die Stufe 3 erreichen, ändern sich damit die Log-Likelihood-Werte, weil die Referenzsumme über weniger Lemmata läuft.
 
 ### Worked Example
 

@@ -7,10 +7,23 @@ bidirektionales Substring-Matching:
     lemma.normalized.includes(query) OR query.includes(lemma.normalized)
 
 Die zweite Richtung trifft jedes Kurzlemma, das irgendwo in der Eingabe steckt.
-Bug-Report #224 (Klaus Schmidt): Die Suche nach "boeses" liefert die Lemmata
-es (ês), o (ô) und se (sê) statt bœse. Der Korpus haelt 5 ein-, 98 zwei- und
-598 dreibuchstabige normalisierte Lemma-Formen, die so jede Suche mit einem
-nicht im Lexikon stehenden Wort vergiften.
+Der Korpus haelt 5 ein-, 98 zwei- und 598 dreibuchstabige normalisierte
+Lemma-Formen, die so jede Suche vergiften, die Stufe 3 ueberhaupt erreicht.
+
+Der Bug-Report #224 (Klaus Schmidt) hatte ZWEI Ursachen, das ist beim Lesen
+der Zahlen wichtig:
+
+  1. Die gezeigte Eingabe "boeses" trug ein ZERLEGTES Umlaut-oe
+     (o + U+0308 statt U+00F6). Der Normalizer kannte nur die komponierte
+     Form, die Eingabe fiel also durch Stufe 1 UND Stufe 2 (variants haelt
+     den Schluessel "boeses", nicht die zerlegte Form).
+  2. Erst dadurch landete sie in Stufe 3, wo der Substring-Test aus dem
+     Fehlschlag drei Falschtreffer machte: es, o, se — und eben NICHT
+     boese, was den Screenshot erklaert.
+
+Mit komponiertem oe faengt Stufe 2 die Eingabe ab und liefert korrekt bœse.
+Behoben wurde deshalb beides: NFC-Komposition im Normalizer (Ursache 1) und
+die Praefix-Regel hier (Ursache 2).
 
 Neue Regel: beidseitig praefixorientiert, Mindestlaenge 3 nur in der Richtung
 "Eingabe beginnt mit Lemma" (mhd. Flexion ist suffixal).
@@ -27,7 +40,11 @@ Messmethodik (Auflagen aus dem Advisor-Review 2026-07-28):
     stillschweigend mitgezaehlt.
   * Stichprobe mit festem Seed gezogen, nicht die ersten N.
   * Metriken sind Recall, Median der Ergebnislistengroesse und Top-1 nach
-    Ranking. NICHT die 0-Treffer-Quote: die alte Regel liefert wegen der
+    Ranking. Die Top-1-Spalte wird DREIFACH ausgewiesen (alt / alt mit neuem
+    Ranking / neu), weil der groesste Teil des Top-1-Gewinns aus der neuen
+    Sortierung kommt und nicht aus der neuen Regel. Ohne die mittlere Spalte
+    liest sich das Delta als 30-facher Effekt der Regel, was falsch waere.
+    NICHT die 0-Treffer-Quote: die alte Regel liefert wegen der
     Kurzlemmata praktisch nie 0 Treffer, ihre Quote steigt also zwangslaeufig.
     Ein 0-Treffer-Fall, in dem die alte Regel nur Falschtreffer hatte, ist
     eine Verbesserung.
@@ -40,7 +57,7 @@ ueberhaupt das Richtige findet.
 Usage:
     python scripts/audit/measure-stage3-resolution.py
     python scripts/audit/measure-stage3-resolution.py --sample 300 --seed 20260728
-    python scripts/audit/measure-stage3-resolution.py --probe boeses --probe minnen
+    python scripts/audit/measure-stage3-resolution.py --probe minnecl --probe schwertkampf
 
 Exit codes:
     0 = Messung gelaufen (Bewertung liegt beim Menschen, das Skript urteilt nicht)
@@ -58,7 +75,7 @@ REPO = Path(__file__).resolve().parents[2]
 AUTHORITY_INDEX = REPO / "data" / "authority-index.json.gz"
 
 # Mindestlaenge fuer die Richtung "Eingabe beginnt mit Lemma". Muss mit
-# MIN_SUFFIX_STRIP_LENGTH in assets/js/lib/lemma-resolve.js uebereinstimmen.
+# MIN_LEMMA_PREFIX_LENGTH in assets/js/lib/lemma-resolve.js uebereinstimmen.
 MIN_LEMMA_PREFIX_LENGTH = 3
 
 
@@ -82,8 +99,14 @@ def stage3_new(query, lemmata):
     return out
 
 
-def rank_new(query, matches):
-    """Sortierung der neuen Regel: kleinste Laengendifferenz zuerst, dann stabil."""
+def rank_by_distance(query, matches):
+    """Distanz-Ranking: kleinste Laengendifferenz zuerst, dann stabil.
+
+    Der Tiebreak nach l["id"] ist eine Messkonvention, damit der Lauf
+    reproduzierbar ist. Produktiv bricht die Hauptseite Gleichstaende gar
+    nicht (stabile Index-Reihenfolge), der Playground nach Korpus-Frequenz.
+    Auf dieser Stichprobe folgenlos, aber beim Lesen der Zahlen mitdenken.
+    """
     return sorted(matches, key=lambda l: (abs(len(l["normalized"]) - len(query)), l["id"]))
 
 
@@ -114,9 +137,14 @@ def measure(lemmata, variants, sample_size, seed):
     rows = []
     for form, lemma_id in sample:
         old = stage3_old(form, lemmata)
-        new = rank_new(form, stage3_new(form, lemmata))
+        new = rank_by_distance(form, stage3_new(form, lemmata))
         old_ids = [l["id"] for l in old]
         new_ids = [l["id"] for l in new]
+        # Dritte Messreihe: alte REGEL mit neuem RANKING. Trennt den Anteil
+        # des Regelwechsels vom Anteil "vorher unsortiert, jetzt sortiert".
+        # Ohne diese Spalte liest sich das Top-1-Delta wie ein Effekt der
+        # Regel allein, was es nicht ist.
+        mid_ids = [l["id"] for l in rank_by_distance(form, old)]
         rows.append({
             "form": form,
             "target": lemma_id,
@@ -126,6 +154,7 @@ def measure(lemmata, variants, sample_size, seed):
             "new_size": len(new_ids),
             # Alt hat keine Sortierung, die Index-Reihenfolge IST das Ranking.
             "old_top1": bool(old_ids) and old_ids[0] == lemma_id,
+            "mid_top1": bool(mid_ids) and mid_ids[0] == lemma_id,
             "new_top1": bool(new_ids) and new_ids[0] == lemma_id,
         })
     return rows, len(genuine), len(trivial)
@@ -149,10 +178,11 @@ def report(rows, genuine_total, trivial_total, sample_size, seed):
     print(f"Stichprobe:       {n} Formen, Seed {seed}")
     print(f"Mindestlaenge:    {MIN_LEMMA_PREFIX_LENGTH} (nur Richtung 'Eingabe beginnt mit Lemma')")
     print()
-    print("                              alt            neu")
+    print("                              alt      alt + Ranking            neu")
     print(f"  Recall (Ziel in Liste)   {pct(sum(r['old_recall'] for r in rows)):>14}  "
-          f"{pct(sum(r['new_recall'] for r in rows)):>14}")
+          f"{'(unveraendert)':>14}  {pct(sum(r['new_recall'] for r in rows)):>14}")
     print(f"  Top-1 nach Ranking       {pct(sum(r['old_top1'] for r in rows)):>14}  "
+          f"{pct(sum(r['mid_top1'] for r in rows)):>14}  "
           f"{pct(sum(r['new_top1'] for r in rows)):>14}")
     print(f"  Median Listengroesse     {statistics.median(r['old_size'] for r in rows):>14.0f}  "
           f"{statistics.median(r['new_size'] for r in rows):>14.0f}")
@@ -175,15 +205,29 @@ def report(rows, genuine_total, trivial_total, sample_size, seed):
     print()
 
 
-def probe(lemmata, terms):
+def probe(lemmata, variants, terms):
     print("=" * 68)
     print("Einzelproben")
     print("=" * 68)
+    print("ACHTUNG: zeigt, was das Stage-3-PRAEDIKAT taete. Ein Begriff, der")
+    print("schon Stufe 1 oder 2 trifft, erreicht Stufe 3 produktiv nie — das")
+    print("steht dann in der Zeile darunter.")
+    by_norm = {}
+    for l in lemmata:
+        by_norm.setdefault(l["normalized"], []).append(l)
     for term in terms:
         old = stage3_old(term, lemmata)
-        new = rank_new(term, stage3_new(term, lemmata))
+        new = rank_by_distance(term, stage3_new(term, lemmata))
         fmt = lambda ms: ", ".join(f"{l['lemma']} ({l['normalized']})" for l in ms[:8]) or "keine"
+        s1 = by_norm.get(term, [])
+        s2 = variants.get(term)
         print(f"\n  {term!r}")
+        if s1:
+            print(f"    ERREICHT STUFE 3 NICHT: Stufe 1 trifft ({', '.join(l['id'] for l in s1)})")
+        elif s2:
+            print(f"    ERREICHT STUFE 3 NICHT: Stufe 2 trifft (variants -> {s2})")
+        else:
+            print(f"    erreicht Stufe 3")
         print(f"    alt ({len(old):>3}): {fmt(old)}")
         print(f"    neu ({len(new):>3}): {fmt(new)}")
     print()
@@ -202,7 +246,7 @@ def main():
     rows, genuine_total, trivial_total = measure(lemmata, variants, args.sample, args.seed)
     report(rows, genuine_total, trivial_total, args.sample, args.seed)
     if args.probe:
-        probe(lemmata, args.probe)
+        probe(lemmata, variants, args.probe)
 
 
 if __name__ == "__main__":
