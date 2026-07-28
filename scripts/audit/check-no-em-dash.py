@@ -445,10 +445,23 @@ SELBSTTEST = [
      '<!--\n  Notiz ' + EM_DASH + ' erlaubt\n-->\n<p>sauber</p>\n', []),
     ('Kommentarende auf //-Zeile, danach sichtbarer Text', '.html',
      '<!--\n// Notiz -->\n<p>Hinweis ' + EM_DASH + ' sichtbar</p>\n', [3]),
+    # Alle sieben Eintraege aus EM_FORMEN einmal durchspielen. Vorher waren nur
+    # drei davon getestet (Literal, &mdash;, —); die beiden numerischen
+    # Entities und die beiden CSS-Escapes liessen sich aus EM_FORMEN loeschen,
+    # ohne dass ein einziger Fall rot wurde. Fail-open-Richtung, deshalb je ein
+    # Fall. Befund aus dem Review zu diesem PR.
     ('HTML-Entity statt Literal', '.html',
      '<p>Hinweis &mdash; sichtbar</p>\n', [1]),
+    ('numerische Entity, dezimal', '.html',
+     '<p>Hinweis &#8212; sichtbar</p>\n', [1]),
+    ('numerische Entity, hexadezimal', '.html',
+     '<p>Hinweis &#x2014; sichtbar</p>\n', [1]),
     ('JS-Escape statt Literal', '.js',
      "const s = 'Hinweis " + chr(92) + "u2014 sichtbar';\n", [1]),
+    ('CSS-Escape, vierstellig', '.css',
+     'a::after { content: "' + chr(92) + '2014"; }\n', [1]),
+    ('CSS-Escape, sechsstellig', '.css',
+     'a::after { content: "' + chr(92) + '002014"; }\n', [1]),
     ('nachgestellter Kommentar im Inline-Script', '.html',
      '<script>\n  laden();  // Grund ' + EM_DASH + ' nur intern\n</script>\n', []),
     # Geltungsbereich: ein // IM HTML-Kommentar darf den sichtbaren Rest
@@ -475,6 +488,14 @@ SELBSTTEST_DATEIEN = [
     # fest, sie fallen schon durch die nicht-rekursiven HTML-Globs heraus.
     ('playground/js/ui/tei/h.js', "const s = 'x " + EM_DASH + " y';\n", True),
     ('assets/css/i.css', 'a::after { content: "x ' + EM_DASH + ' y"; }\n', True),
+    # Die drei HTML-Globs ausserhalb des Wurzelverzeichnisses waren ungetestet:
+    # `api/*.html`, `lemma/**/*.html` und `playground/**/*.html` liessen sich
+    # einzeln aus GLOBS loeschen, ohne dass ein Fall rot wurde, obwohl unter
+    # api/ und playground/ ausgelieferte Seiten liegen. Befund aus dem Review.
+    # Der lemma-Fall prueft zugleich, dass das Glob rekursiv ist.
+    ('api/index.html', '<p>x ' + EM_DASH + ' y</p>\n', True),
+    ('playground/index.html', '<p>x ' + EM_DASH + ' y</p>\n', True),
+    ('lemma/lemma_1/index.html', '<p>x ' + EM_DASH + ' y</p>\n', True),
     # Kaputte Kodierung: 0x97 ist in CP-1252 selbst ein Em-Dash. Frueher fiel
     # so eine Datei still aus dem Scan, jetzt wird sie gemeldet.
     ('assets/js/j.js', b"const s = 'a \x97 b';\n", True),
