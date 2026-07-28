@@ -232,7 +232,7 @@ class TEITextReader {
                     // von kuratierten Header-Daten — fehlt der analytic-Titel
                     // zum Versbereich, soll das beim Kuratieren auffallen,
                     // nicht erst in der manuellen QA (Review-Finding PR #178).
-                    console.warn('[TEITextReader] biblScope unit="verse" gefunden, aber kein <analytic><title> — Excerpt-Banner wird nicht angezeigt.');
+                    console.warn('[TEITextReader] biblScope unit="verse" gefunden, aber kein <analytic><title>: Excerpt-Banner wird nicht angezeigt.');
                 }
             }
 

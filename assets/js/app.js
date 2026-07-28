@@ -733,7 +733,7 @@ class MainSiteApp {
             ).join(' ');
             const typesBlock = forms.length > 0
                 ? `<details class="mt-0.5">
-                       <summary class="cursor-pointer text-xs text-blue-800 hover:underline select-none" title="MHG-normalisierte Formen aus dem Variants-Verzeichnis (â→a, ê→e, ü→ue) — nicht die Original-Schreibungen der Handschriften">${forms.length} Schreibformen (Types, normalisiert) anzeigen</summary>
+                       <summary class="cursor-pointer text-xs text-blue-800 hover:underline select-none" title="MHG-normalisierte Formen aus dem Variants-Verzeichnis (â→a, ê→e, ü→ue), nicht die Original-Schreibungen der Handschriften">${forms.length} Schreibformen (Types, normalisiert) anzeigen</summary>
                        <div class="mt-1 flex flex-wrap gap-1">${chips}</div>
                    </details>`
                 : '<span class="text-xs text-slate-500">Keine Schreibvarianten verzeichnet.</span>';
@@ -1004,7 +1004,7 @@ class MainSiteApp {
             <p class="mt-2 text-xs text-slate-500">
                 Keyness = Log-Likelihood (Dunning 1993): Über-/Unterrepräsentation der Trefferfrequenz
                 im Text gegenüber dem Gesamtkorpus. <strong>Fett</strong> markierte Werte ≥ 10,83 sind
-                signifikant überrepräsentiert (p&nbsp;&lt;&nbsp;0,001) — das Lemma ist ein Schlüsselwort dieses Textes.
+                signifikant überrepräsentiert (p&nbsp;&lt;&nbsp;0,001): das Lemma ist ein Schlüsselwort dieses Textes.
             </p>
         `;
 
@@ -1341,7 +1341,7 @@ class MainSiteApp {
         }
         const formatted = keyness.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
         if (keyness >= 10.83) {
-            return `<td class="results-table-td text-right tabular-nums font-semibold text-brand-700" title="Signifikant überrepräsentiert (p < 0,001) — Schlüsselwort dieses Textes">${formatted}</td>`;
+            return `<td class="results-table-td text-right tabular-nums font-semibold text-brand-700" title="Signifikant überrepräsentiert (p < 0,001): Schlüsselwort dieses Textes">${formatted}</td>`;
         }
         return `<td class="results-table-td text-right tabular-nums text-slate-600">${formatted}</td>`;
     }

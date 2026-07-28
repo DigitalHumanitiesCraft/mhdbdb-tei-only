@@ -328,7 +328,7 @@ export class HapaxLegomenaAnalyzer {
       const lemmaLabel = lemma
         ? `<a href="../lemma/?id=${escapeHtml(cleanId)}" target="_blank" rel="noopener" class="font-medium text-brand-700 hover:underline">${escapeHtml(lemma.lemma)}</a>`
         : `<span class="font-mono text-sm text-slate-500">${escapeHtml(e.lemmaId)}</span>
-           <span class="ml-1 rounded bg-amber-100 px-1.5 py-0.5 text-xs text-amber-800" title="Lemma-ID ohne Eintrag in lexicon.xml — Datenqualitäts-Fund">ohne Authority-Eintrag</span>`;
+           <span class="ml-1 rounded bg-amber-100 px-1.5 py-0.5 text-xs text-amber-800" title="Lemma-ID ohne Eintrag in lexicon.xml: Datenqualitäts-Fund">ohne Authority-Eintrag</span>`;
       const posLabel = (lemma?.posAll || []).join(' ');
       const pos = posLabel
         ? `<span class="ml-2 rounded bg-slate-100 px-1.5 py-0.5 text-xs font-mono text-slate-600">${escapeHtml(posLabel)}</span>`
@@ -462,7 +462,7 @@ export class HapaxLegomenaAnalyzer {
     if (!entry) return;
     const lemma = this.getLemmaById(entry.lemmaId);
     if (!lemma) {
-      cell.innerHTML = '<span class="text-sm text-slate-500">Kein Eintrag in lexicon.xml — Kandidat für die Kuratierung (Lemma-ID wird im Korpus referenziert, fehlt aber im Authority-File).</span>';
+      cell.innerHTML = '<span class="text-sm text-slate-500">Kein Eintrag in lexicon.xml, Kandidat für die Kuratierung (Lemma-ID wird im Korpus referenziert, fehlt aber im Authority-File).</span>';
       return;
     }
 
@@ -491,7 +491,7 @@ export class HapaxLegomenaAnalyzer {
       );
       dictEl.innerHTML = links.length > 0
         ? `<span class="font-medium text-slate-500">Wörterbücher:</span> ${links.join('<span class="text-slate-300"> · </span>')}`
-        : `<span class="text-slate-500">In MWB/Lexer nicht als Lemma gefunden — Kandidat für ein echtes Hapax (oder Schreibform-/Lemmatisierungsproblem).</span>`;
+        : `<span class="text-slate-500">In MWB/Lexer nicht als Lemma gefunden, Kandidat für ein echtes Hapax (oder Schreibform-/Lemmatisierungsproblem).</span>`;
     } catch (e) {
       if (dictEl) dictEl.textContent = 'Wörterbuchnetz nicht erreichbar.';
     }
