@@ -28,18 +28,35 @@ Zwei Anläufe davor sind gescheitert, beide an derselben Sorte Ehrgeiz:
    Kommentarzeilen.
 
 Die schlichte Regel trifft alle real vorhandenen Fälle und ist in fünf
-Zeilen nachvollziehbar. Ihr bekannter blinder Fleck: eine Prosazeile
-innerhalb eines Template-Literals, die mit `*` oder `//` beginnt, würde
-für einen Kommentar gehalten. Im Bestand kommt das nicht vor, und wenn es
-je vorkommt, ist die Zeile ohnehin verdächtig formatiert.
+Zeilen nachvollziehbar. Sie hat zwei bekannte blinde Flecken, beide zum
+Fail-open hin, beide im Bestand aktuell unbelegt:
+
+1. Eine Prosazeile innerhalb eines Template-Literals, die mit `*` oder
+   `//` beginnt, gilt als Kommentar. Wenn das je vorkommt, ist die Zeile
+   ohnehin verdächtig formatiert.
+2. Die `//`-Ausnahme fragt nicht, ob sie in JS-Code steht. In den
+   Dokuseiten (`api/index.html`, `hilfe-daten-beitragen.html`,
+   `hilfe-schema.html`) stehen Code-Beispiele als sichtbarer Seitentext
+   in `<pre>`/`<code>`; ein Em-Dash hinter dem `//` eines solchen
+   Beispiels wäre lesbar und liefe durch. Das sauber zu trennen hieße,
+   `<script>`- und `<pre>`-Bereiche über Zeilengrenzen mitzuführen, also
+   genau die Zustandsverfolgung, an der Anlauf 2 gescheitert ist und die
+   in diesem Skript bisher jedes Mal einen neuen Fail-open erzeugt hat.
+   Bewusst nicht gebaut. Der Bestand ist ausgezählt: 15 HTML-Zeilen
+   tragen ein `//`, 14 davon in echten `<script>`-Blöcken (404.html,
+   hilfe-schema.html, index.html), genau eine als sichtbarer
+   Seitentext (`api/index.html`, das `console.log`-Beispiel), und die
+   trägt keinen Em-Dash. Wer hier einen Em-Dash einbaut, muss ihn
+   selbst sehen; das Gate sagt nichts dazu.
 
 In HTML wird jeder Em-Dash außerhalb eines `<!-- -->`-Kommentars geflaggt;
 dort ist er entweder sichtbarer Text oder ein Attributwert.
 
-Geprüft werden die ausgelieferten HTML-Seiten sowie die JS-Verzeichnisse
-`assets/js/`, `playground/` und `lemma/`. Nicht geprüft: `docs/`,
-`publications/`, `tei/`, `authority-files/`, `schema/`, `testing/` und
-Fremdcode unter `vendor/`.
+Geprüft werden die ausgelieferten HTML-Seiten, die JS-Verzeichnisse
+`assets/js/`, `playground/` und `lemma/` sowie `assets/css/`, weil
+`content:`-Deklarationen als sichtbarer Text rendern. Nicht geprüft:
+`docs/`, `publications/`, `tei/`, `authority-files/`, `schema/`,
+`testing/` und Fremdcode unter `vendor/`.
 
 Usage:
     python scripts/audit/check-no-em-dash.py            # Report + Exit-Code
@@ -85,6 +102,7 @@ GLOBS = (
     'assets/js/**/*.js',
     'playground/**/*.js',
     'lemma/**/*.js',
+    'assets/css/**/*.css',
 )
 
 KOMMENTAR_PRAEFIXE = ('//', '*', '/*', '<!--')
@@ -290,6 +308,13 @@ SELBSTTEST_DATEIEN = [
     ('playground/js/b.js', "const s = 'x " + EM_DASH + " y';\n", True),
     ('lemma/c.js', "const s = 'x " + EM_DASH + " y';\n", True),
     ('includes/_d.html', '<p>x ' + EM_DASH + ' y</p>\n', True),
+    # Regressionstest zum ERSTEN Fehler dieses Gates: `any(part in SKIP_DIRS)`
+    # ueber alle Pfadteile verschluckte playground/js/ui/tei/, weil dort ein
+    # Verzeichnis `tei` heisst. Drei der sieben Fundstellen dieses PRs lagen
+    # genau dort. Die beiden Faelle darunter (docs/, tei/) nageln das NICHT
+    # fest, sie fallen schon durch die nicht-rekursiven HTML-Globs heraus.
+    ('playground/js/ui/tei/h.js', "const s = 'x " + EM_DASH + " y';\n", True),
+    ('assets/css/i.css', 'a::after { content: "x ' + EM_DASH + ' y"; }\n', True),
     ('docs/e.html', '<p>x ' + EM_DASH + ' y</p>\n', False),
     ('tei/f.html', '<p>x ' + EM_DASH + ' y</p>\n', False),
     ('scripts/g.js', "const s = 'x " + EM_DASH + " y';\n", False),
