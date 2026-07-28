@@ -69,7 +69,15 @@ Ein „ö" kann als ein Zeichen (U+00F6) oder als `o` + kombinierendes Trema (U+
 
 Zerlegte Formen entstehen beim Kopieren aus macOS-Quellen und aus manchen Editionsdatenbanken, sind also normale Nutzereingaben.
 
-**Wirkung auf die Build-Seite:** Der Schritt ändert die Ausgabe fast nirgends, weil die Authority-Files bis auf zwei Stellen NFC sind. Die eine Stelle, die er korrigiert, ist `persons.xml`: „Hugo von Mühldorf" trägt dort ein zerlegtes ü und wurde deshalb als `hugo von mühldorf` statt `hugo von muehldorf` indiziert, war also über die normalisierte Suche nicht auffindbar. Deshalb Authority-Index v1.6.2.
+**Wirkung auf die Build-Seite:** Der Schritt ändert die Ausgabe an genau drei Stellen, weil die Authority-Files sonst NFC sind. Betroffen sind die Datensätze mit zerlegtem ü in `persons.xml` und `works.xml`:
+
+| Datensatz | vorher | nachher |
+|-----------|--------|---------|
+| `person_1052` Hugo von Mühldorf | `hugo von mühldorf` | `hugo von muehldorf` |
+| `person_1332` Wachsmut von Mühlhausen | `wachsmut von mühlhausen` | `wachsmut von muehlhausen` |
+| `work_435` Lyrik von Hugo von Mühldorf | `lyrik von hugo von mühldorf` | `lyrik von hugo von muehldorf` |
+
+Alle drei waren über die normalisierte Suche nicht auffindbar. Alle 43.879 Lemma-Normalisierungen und alle 234.244 Varianten-Schlüssel bleiben unverändert. Deshalb Authority-Index v1.6.2.
 
 **Nicht betroffen:** Der Korpus selbst enthält kombinierende Zeichen (Stichprobe: rund 110 Tremata in 60 Dateien, dazu Tilde und Cedille). Die sind editorisch gewollt und werden nicht normalisiert; der Korpus-Index speichert Lemma-IDs und Positionen, keine normalisierten Textformen.
 
