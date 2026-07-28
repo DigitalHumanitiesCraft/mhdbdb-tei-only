@@ -91,10 +91,10 @@ test.describe('Issue #196: Echte Hapaxlegomena', () => {
   });
 
   test('Detail-Panel nennt Werktitel und Autor der Fundstelle (#196)', async ({ page }) => {
-    // KZW 28.07.: "wenn bei den Details auch noch direkt stehen wuerde, wer der
+    // KZW 28.07.: "wenn bei den Details auch noch direkt stehen würde, wer der
     // Autor ist. Das interessiert bei Hapax besonders auf den ersten Blick."
-    // Faellt ohne die Aenderung durch: vor #196 stand im Panel nur die Sigle
-    // in der Tabellenspalte, das Panel selbst hatte Konzepte und Woerterbuch.
+    // Fällt ohne die Änderung durch: vor #196 stand im Panel nur die Sigle
+    // in der Tabellenspalte, das Panel selbst hatte Konzepte und Wörterbuch.
     await page.waitForSelector('[data-hx-detail]', { state: 'visible', timeout: 60000 });
     await page.locator('[data-hx-detail]').first().click();
 
@@ -102,19 +102,50 @@ test.describe('Issue #196: Echte Hapaxlegomena', () => {
     await expect(panel).toContainText('Fundstellen:', { timeout: 15000 });
 
     // Werktitel als Reader-Link, und zwar der TITEL, nicht die Sigle. Ein
-    // Laengenvergleich reichte dafuer nicht: Siglen wie DJEM haben vier
-    // Zeichen und bestuenden ihn auch als Fallback.
+    // Längenvergleich reichte dafür nicht: Siglen wie DJEM haben vier
+    // Zeichen und bestünden ihn auch als Fallback.
     const zeile = panel.locator('li').first();
     const titel = (await zeile.locator('a').innerText()).trim();
     const sigle = (await zeile.locator('span.font-mono').innerText()).trim();
     await expect(zeile.locator('a')).toHaveAttribute('href', /korpus\.html\?textId=/);
     expect(titel).not.toBe(sigle);
 
-    // Autor per eigenem Attribut statt per Klammer-Regex: Werktitel duerfen
+    // Autor per eigenem Attribut statt per Klammer-Regex: Werktitel dürfen
     // selbst Klammern enthalten ("Wenzelsbibel (Pentateuch: ...)"), und 7 der
-    // 667 Texte haben gar keinen Autor. Deshalb ueber alle Fundstellen des
-    // Panels pruefen, nicht nur ueber die erste.
+    // 667 Texte haben gar keinen Autor. Deshalb über alle Fundstellen des
+    // Panels prüfen, nicht nur über die erste.
     expect(await panel.locator('li [data-hx-autor]').count()).toBeGreaterThan(0);
+  });
+
+  test('Fundstellen stehen auch bei Lemmata ohne Authority-Eintrag (#196)', async ({ page }) => {
+    // Zweiter Einsetzpunkt, eigener Test. Der Test darüber klickt den ersten
+    // Listeneintrag und trifft damit den Authority-Zweig; würde man
+    // `${fundstellenHtml}` aus dem Early Return für Lemmata OHNE
+    // lexicon.xml-Eintrag entfernen, bliebe er grün. Genau diese Lemmata sind
+    // aber Kuratierungs-Funde und ohne Fundort nicht nachverfolgbar.
+    //
+    // Ehrliche Einschränkung: mit dem Indexstand vom 28.07. greift dieser Test
+    // NICHT. Es gibt 24 Lemma-IDs mit Korpusfrequenz 1 ohne lexicon.xml-Eintrag
+    // (lemma_78708 ff.), sie sortieren aber nach ihrer ID, landen damit unter
+    // "l" und liegen bei 16.630 Hapaxen und 100 Zeilen pro Seite tief in der
+    // Paginierung. Eine Buchstaben- oder Wortart-Facette hilft nicht: für
+    // Lemmata ohne Eintrag liefert passesFilters nur bei "alle/alle" true.
+    // Der Test skippt deshalb sichtbar, statt still grün zu sein, und greift,
+    // sobald ein solcher Eintrag auf Seite 1 auftaucht.
+    await page.waitForSelector('[data-hx-detail]', { state: 'visible', timeout: 60000 });
+
+    const zeile = page.locator('tr', { hasText: 'ohne Authority-Eintrag' }).first();
+    if (await zeile.count() === 0) {
+      test.skip(true, 'Kein Lemma ohne Authority-Eintrag auf Seite 1; '
+        + 'der Early-Return-Zweig ist über die Oberfläche nicht erreichbar '
+        + '(24 solcher Lemmata existieren, sortieren aber tief in die Liste).');
+      return;
+    }
+
+    await zeile.locator('[data-hx-detail]').click();
+    const panel = page.locator('[id^="hxDetailCell-"]', { hasText: 'Kandidat für die Kuratierung' }).first();
+    await expect(panel).toContainText('Fundstellen:', { timeout: 15000 });
+    await expect(panel.locator('li a').first()).toHaveAttribute('href', /korpus\.html\?textId=/);
   });
 
   test('Route + Sidebar-Button öffnen das Modul, Liste füllt sich', async ({ page }) => {
