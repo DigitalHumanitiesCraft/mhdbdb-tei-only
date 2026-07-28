@@ -506,7 +506,7 @@ export class HapaxLegomenaAnalyzer {
       cell.innerHTML = `
         <div class="space-y-2 text-sm">
           ${fundstellenHtml}
-          <div class="text-slate-500">Kein Eintrag in lexicon.xml, Kandidat für die Kuratierung (Lemma-ID wird im Korpus referenziert, fehlt aber im Authority-File).</div>
+          <div class="text-slate-500">Kein Eintrag in lexicon.xml: Kandidat für die Kuratierung (Lemma-ID wird im Korpus referenziert, fehlt aber im Authority-File).</div>
         </div>
       `;
       return;
