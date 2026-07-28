@@ -36,6 +36,7 @@ export class HapaxLegomenaAnalyzer {
     this.authorityData = authorityData;
     this._lemmaById = null;
     this._conceptById = null;
+    this._personById = null;
     this._corpusAgg = null;      // einmalige korpusweite Aggregation
     this._textLabelCache = null;
     this.state = {
@@ -141,7 +142,9 @@ export class HapaxLegomenaAnalyzer {
     //
     // DIG (römische Zahlen) braucht keinen eigenen Filter: es gibt genau drei
     // DIG-Lemmata, und keines kann hier je erscheinen. lemma_13826 "I" hat
-    // 4.755 Korpusbelege, lemma_45842 "declinare" 4 (über der höchsten
+    // 4.049 Korpusbelege (bis #138 waren es 4.755; die 706 annotierten der
+    // 814 HUG-Strophenziffern hingen an genau diesem Lemma), lemma_45842
+    // "declinare" 4 (über der höchsten
     // Schwelle 3), lemma_21509 "xxtausent" steht nur im Lexikon und kommt im
     // Korpus nicht vor.
     if (this.state.hideNumerals && facet !== 'NUM'
@@ -445,6 +448,63 @@ export class HapaxLegomenaAnalyzer {
     return this._textLabelCache;
   }
 
+  /**
+   * Autorname eines Texts, mit Rückgriff auf die Personen-Referenz.
+   *
+   * Sieben Korpusdateien tragen ein leeres `<author ref="#person_N"/>` (ALX,
+   * BVSN, PSG, PTS, BOP, MHG, MRB). Sie sind deshalb nicht autorlos: die
+   * Referenz steht im Index, und `persons` kennt den Namen (Mönch von
+   * Heilsbronn, Boppe, Herger, Burggraf von Riedenburg). Ohne diesen Rückgriff
+   * unterschlüge das Panel den Autor stillschweigend und verkaufte eine
+   * Datenlücke als Design. Die leeren `<author/>`-Elemente selbst gehören
+   * trotzdem im TEI gefüllt, das ist ein eigener Vorgang.
+   */
+  autorFuerText(text) {
+    if (!text) return '';
+    if (text.author) return text.author;
+    const ref = (text.authorRef || '').replace(/^#/, '');
+    if (!ref) return '';
+    if (!this._personById) {
+      const personen = this.authorityData?.persons || [];
+      this._personById = new Map(personen.map(p => [p.id, p]));
+    }
+    return this._personById.get(ref)?.preferredName || '';
+  }
+
+  /**
+   * Fundstellen eines Eintrags mit Werktitel, Autor und Versangabe (#196).
+   *
+   * Die Tabellenspalte zeigt nur die Sigle, weil sie in eine Zeile passen
+   * muss. Im Detail-Panel ist Platz für die Frage, die bei einem Hapax
+   * zuerst kommt: in welchem Werk steht es, und von wem stammt das. Über
+   * autorFuerText() bekommt jeder der 667 Texte einen Namen, auch die
+   * sieben mit leerem `<author ref>`.
+   */
+  renderFundstellen(entry) {
+    const textById = new Map((this.getCorpusTexts() || []).map(t => [t.id, t]));
+    const items = (entry.occ || []).map(o => {
+      const text = textById.get(o.textId);
+      const verse = this.verseForPosition(text, o.pos);
+      const stelle = verse ? `Vers ${verse}` : `Pos. ${o.pos}`;
+      const titel = text?.title || o.textId;
+      const autorName = this.autorFuerText(text);
+      const autor = autorName
+        ? ` <span class="text-slate-600" data-hx-autor>(${escapeHtml(autorName)})</span>`
+        : '';
+      const url = `../korpus.html?textId=${encodeURIComponent(o.textId)}&lemmaIds=${encodeURIComponent(entry.lemmaId)}&position=${o.pos}`;
+      return `<li><a href="${url}" target="_blank" rel="noopener" class="text-brand-700 hover:underline" title="Im Reader mit Highlight öffnen">${escapeHtml(titel)}</a>${autor} <span class="text-slate-300">·</span> <span class="text-slate-600">${escapeHtml(stelle)}</span> <span class="font-mono text-xs text-slate-400">${escapeHtml(o.textId)}</span></li>`;
+    });
+    if (items.length === 0) return '';
+    const mehr = entry.count > items.length
+      ? `<div class="text-xs text-slate-400">Angezeigt sind die ersten ${items.length} von ${entry.count} Vorkommen.</div>`
+      : '';
+    return `<div>
+      <span class="text-xs font-medium text-slate-500">Fundstellen:</span>
+      <ul class="mt-1 space-y-0.5 list-disc list-inside">${items.join('')}</ul>
+      ${mehr}
+    </div>`;
+  }
+
   /** Detail-Panel: Konzepte + Wörterbuchnetz-Abgleich (lazy, on expand). */
   async toggleDetail(idx) {
     const row = document.getElementById(`hxDetailRow-${idx}`);
@@ -460,9 +520,22 @@ export class HapaxLegomenaAnalyzer {
 
     const entry = this._lastEntries?.[idx];
     if (!entry) return;
+
+    // Fundstellen mit Werk und Autor (#196, KZW 28.07.): bei einem Hapax ist
+    // die erste Frage, WO es steht und von wem. Die Sigle allein in der
+    // Tabellenspalte beantwortet das nicht. Steht bewusst vor dem Early
+    // Return, damit auch Kuratierungs-Funde ohne Authority-Eintrag ihren
+    // Fundort zeigen.
+    const fundstellenHtml = this.renderFundstellen(entry);
+
     const lemma = this.getLemmaById(entry.lemmaId);
     if (!lemma) {
-      cell.innerHTML = '<span class="text-sm text-slate-500">Kein Eintrag in lexicon.xml, Kandidat für die Kuratierung (Lemma-ID wird im Korpus referenziert, fehlt aber im Authority-File).</span>';
+      cell.innerHTML = `
+        <div class="space-y-2 text-sm">
+          ${fundstellenHtml}
+          <div class="text-slate-500">Kein Eintrag in lexicon.xml: Kandidat für die Kuratierung (Lemma-ID wird im Korpus referenziert, fehlt aber im Authority-File).</div>
+        </div>
+      `;
       return;
     }
 
@@ -475,6 +548,7 @@ export class HapaxLegomenaAnalyzer {
 
     cell.innerHTML = `
       <div class="space-y-2 text-sm">
+        ${fundstellenHtml}
         ${conceptChips ? `<div><span class="text-xs font-medium text-slate-500">Konzepte:</span> ${conceptChips}</div>` : ''}
         <div id="hxDict-${idx}" class="text-xs text-slate-500">Wörterbuchnetz wird abgefragt …</div>
       </div>

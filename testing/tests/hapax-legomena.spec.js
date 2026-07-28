@@ -90,6 +90,83 @@ test.describe('Issue #196: Echte Hapaxlegomena', () => {
     await expect(page.locator('#hxHideNum')).toBeEnabled();
   });
 
+  test('Detail-Panel nennt Werktitel und Autor der Fundstelle (#196)', async ({ page }) => {
+    // KZW 28.07.: "wenn bei den Details auch noch direkt stehen würde, wer der
+    // Autor ist. Das interessiert bei Hapax besonders auf den ersten Blick."
+    // Fällt ohne die Änderung durch: vor #196 stand im Panel nur die Sigle
+    // in der Tabellenspalte, das Panel selbst hatte Konzepte und Wörterbuch.
+    await page.waitForSelector('[data-hx-detail]', { state: 'visible', timeout: 60000 });
+    await page.locator('[data-hx-detail]').first().click();
+
+    const panel = page.locator('[id^="hxDetailCell-"]').first();
+    await expect(panel).toContainText('Fundstellen:', { timeout: 15000 });
+
+    // Werktitel als Reader-Link, und zwar der TITEL, nicht die Sigle. Ein
+    // Längenvergleich reichte dafür nicht: Siglen wie DJEM haben vier
+    // Zeichen und bestünden ihn auch als Fallback.
+    const zeile = panel.locator('li').first();
+    const titel = (await zeile.locator('a').innerText()).trim();
+    const sigle = (await zeile.locator('span.font-mono').innerText()).trim();
+    await expect(zeile.locator('a')).toHaveAttribute('href', /korpus\.html\?textId=/);
+    expect(titel).not.toBe(sigle);
+
+    // Autor per eigenem Attribut statt per Klammer-Regex: Werktitel dürfen
+    // selbst Klammern enthalten ("Wenzelsbibel (Pentateuch: ...)"). Sieben
+    // Texte tragen ein leeres <author ref="#person_N"/>; für die greift der
+    // Rückgriff auf die Personen-Referenz (autorFuerText), sie bleiben also
+    // nicht namenlos. Bei Frequenz 1 hat der Eintrag genau eine Fundstelle,
+    // deshalb genau ein Autor-Element.
+    await expect(panel.locator('li [data-hx-autor]')).toHaveCount(1);
+  });
+
+  test('Fundstellen stehen auch bei Lemmata ohne Authority-Eintrag (#196)', async ({ page }) => {
+    // Zweiter Einsetzpunkt, eigener Test. Der Test darüber klickt den ersten
+    // Listeneintrag und trifft damit den Authority-Zweig; würde man
+    // `${fundstellenHtml}` aus dem Early Return für Lemmata OHNE
+    // lexicon.xml-Eintrag entfernen, bliebe er grün. Genau diese Lemmata sind
+    // aber Kuratierungs-Funde und ohne Fundort nicht nachverfolgbar.
+    //
+    // Die erste Fassung suchte den Eintrag auf Seite 1 und skippte sonst. Das
+    // war kein datenabhängiger Skip, sondern ein dauerhafter: Einträge ohne
+    // Authority-Eintrag sortieren über den Fallback-Schlüssel `lemma_NNNNN`
+    // (computeList), landen damit unter "l" und können bei 100 Zeilen pro
+    // Seite und gut 16.000 Hapaxen nie auf Seite 1 stehen. Der Test hätte
+    // also nie etwas geprüft.
+    //
+    // Deshalb wird die Seite jetzt gezielt angesteuert. Der Klickpfad durch
+    // toggleDetail bleibt der echte Weg durch die Oberfläche, nur die
+    // Paginierung wird vorgespult.
+    await page.waitForSelector('[data-hx-detail]', { state: 'visible', timeout: 60000 });
+
+    const idx = await page.evaluate(() => {
+      const hx = window.playground.ui.hapaxLegomena;
+      const { entries } = hx.computeList();
+      const i = entries.findIndex(e => !hx.getLemmaById(e.lemmaId));
+      if (i < 0) return -1;
+      // Seitengröße nicht hartkodieren: PAGE_SIZE ist modul-privat, aber die
+      // aktuell gerenderte Seite ist voll (gut 16.000 Einträge), ihre
+      // Zeilenzahl ist also die Seitengröße. Sonst bricht der Test still,
+      // wenn PAGE_SIZE sich ändert.
+      const proSeite = document.querySelectorAll('[data-hx-detail]').length;
+      hx.state.page = Math.floor(i / proSeite);
+      hx.render();
+      return i % proSeite;
+    });
+
+    if (idx < 0) {
+      test.skip(true, 'Kein Lemma ohne lexicon.xml-Eintrag im aktuellen Index; '
+        + 'dann gibt es diesen Zweig nicht zu prüfen.');
+      return;
+    }
+
+    const zeile = page.locator('tr', { hasText: 'ohne Authority-Eintrag' }).first();
+    await expect(zeile).toBeVisible({ timeout: 15000 });
+    await page.click(`[data-hx-detail="${idx}"]`);
+    const panel = page.locator('[id^="hxDetailCell-"]', { hasText: 'Kandidat für die Kuratierung' }).first();
+    await expect(panel).toContainText('Fundstellen:', { timeout: 15000 });
+    await expect(panel.locator('li a').first()).toHaveAttribute('href', /korpus\.html\?textId=/);
+  });
+
   test('Route + Sidebar-Button öffnen das Modul, Liste füllt sich', async ({ page }) => {
     await expect(page.locator('#resultsContainer')).toContainText('Hapax');
     await expect(page.locator('#showHapaxLegomenaBtn')).toBeVisible();
