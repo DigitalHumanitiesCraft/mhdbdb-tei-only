@@ -40,7 +40,7 @@ Direkt startbar geworden:
 |---|------|-------------|
 | #115 | Cross-Ref Phase 2 – 196 Lemmata kuratorisch (A 125 / B 36 / C 35) | KZW |
 | #138 | div-/lg-Hüllen warten weiter auf Prüfung; neu dazu die Render-Policy-Frage zu den DIG-Strophenzählern in HUG (Julia, 17.07.) | KZW |
-| #228 | Neu: editorischer Apparat in `<note n=…>` ist als Text lemmatisiert (400 Tokens, 165 Notes, 16 Texte) – entannotieren? | KZW |
+| #228 | Neu: editorischer Apparat in `<note n=…>` ist als Text lemmatisiert (400 Tokens in 165 Notes über 16 Texte, ohne die GWTK-Notes mit ganzen Versblöcken; korpusweit 587 Notes mit 2.458 Tokens) – entannotieren? | KZW |
 | #44-Report | Neu live aus der Merge-Session: AK-Excerpt-Banner (#134), Tabellen-Spaltenmodell (#160), Homographen-/Multi-Lemma-Fixes (#163/#164), Multi-POS-Badges (#161) – Nachprüfung via #44-Abschlussreport | KZW |
 | #59, #114 | Naming-Fachklärung (Alexander-Workaround-Entwurf liegt seit 12.07. im Issue, Team-Freigabe vor Linda-Ping) + Tabellenansicht-Freigabe | Linda (via Team) |
 | #92 | ARITHMETIC – Metadatenfragen seit 16.05.; Escaping-Blocker gemerged (#185), Stage 1 danach in ~1–2h | Carina (via KZW) |
