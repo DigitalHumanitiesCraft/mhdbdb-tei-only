@@ -17,7 +17,7 @@ Pendant zu `docs/TEI-MODEL.md` (Korpusdateien).
 | Datei | Inhalt | Einträge | Größe |
 |-------|--------|-----------|---------|
 | `lexicon.xml` | Lemmata mit Senses, POS, Etymologie | 43,879 | 33 MB |
-| `variants.xml` | Orthographische Varianten pro Lemma | 42,627 Einträge, 256,761 Formen | 16 MB |
+| `variants.xml` | Orthographische Varianten pro Lemma | 42,627 Einträge, 256,760 Formen | 16 MB |
 | `persons.xml` | Autoren/Personen mit Normdaten | 211 | 74 KB |
 | `works.xml` | Werke mit Bibliographie und Genre | 584 | 1.4 MB |
 | `contributors.xml` | MHDBDB-Mitwirkende (Gründer, Koordination, Editor:innen) | 52 Personen + 2 Orgs | 15 KB |
@@ -52,7 +52,7 @@ Wichtig für den aktiven Betrieb (siehe [INDEX.md → Current Phase](INDEX.md#cu
 | `names.xml` | RDF→CSV→TEI-Snapshot | repo-intern handgepflegt, korpus-entkoppelt | gering (0 Korpus-Kopplung) |
 | `contributors.xml` | born-digital (2026-04) | **handgepflegt** (kein Generator) | keines |
 
-**Gesamtmuster:** Alle Files sind RDF-abgeleitete Migrations-Snapshots (2025-07-22), seit der Migration **repo-intern** gepflegt – es gibt keinen externen Master mehr und keine Re-Export-Quelle. Nur `variants.xml` ist korpus-abgeleitet und regenerierbar. `lexicon.xml` ist Repo-Master UND Index der Korpus-Annotation: trägt ein Korpus-`<w>` eine `@lemmaRef`/`@ana`, die in lexicon.xml fehlt, führt der Korpus und lexicon.xml muss nachgezogen werden (siehe [CONTRACTS.md → Authority Source Rules](CONTRACTS.md#f-authority-source-rules)). Neue **Sense-Bedeutungen** sind dabei kuratorisch (Team vergibt die concept-Zuordnung), nicht automatisch aus dem Korpus rekonstruierbar. `lexicon.xml` und `variants.xml` waren bis 2026-05 stale; `variants.xml` ist regeneriert (zuletzt 256.761 Formen, 2026-07-12 mit #189), `lexicon.xml` hat nach dem Kategorie-A-Stub-Backfill (2026-07-02) noch 396 ingest-bedingte dangling Refs (109 IDs, kuratorischer Rest B/C offen, #115; Ursache siehe §6.1). Die `_archived`-Generatoren schreiben korpus-seitig Pre-#32-Attribute (`@wordRef`/`@meaningRef`) und dürfen nie ungeprüft gegen den aktuellen Korpus laufen.
+**Gesamtmuster:** Alle Files sind RDF-abgeleitete Migrations-Snapshots (2025-07-22), seit der Migration **repo-intern** gepflegt – es gibt keinen externen Master mehr und keine Re-Export-Quelle. Nur `variants.xml` ist korpus-abgeleitet und regenerierbar. `lexicon.xml` ist Repo-Master UND Index der Korpus-Annotation: trägt ein Korpus-`<w>` eine `@lemmaRef`/`@ana`, die in lexicon.xml fehlt, führt der Korpus und lexicon.xml muss nachgezogen werden (siehe [CONTRACTS.md → Authority Source Rules](CONTRACTS.md#f-authority-source-rules)). Neue **Sense-Bedeutungen** sind dabei kuratorisch (Team vergibt die concept-Zuordnung), nicht automatisch aus dem Korpus rekonstruierbar. `lexicon.xml` und `variants.xml` waren bis 2026-05 stale; `variants.xml` ist regeneriert (zuletzt 256.760 Formen, 2026-07-28 mit #138), `lexicon.xml` hat nach dem Kategorie-A-Stub-Backfill (2026-07-02) noch 396 ingest-bedingte dangling Refs (109 IDs, kuratorischer Rest B/C offen, #115; Ursache siehe §6.1). Die `_archived`-Generatoren schreiben korpus-seitig Pre-#32-Attribute (`@wordRef`/`@meaningRef`) und dürfen nie ungeprüft gegen den aktuellen Korpus laufen.
 
 ---
 
