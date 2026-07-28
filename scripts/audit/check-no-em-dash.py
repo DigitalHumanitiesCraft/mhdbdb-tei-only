@@ -492,10 +492,34 @@ SELBSTTEST_DATEIEN = [
     # `api/*.html`, `lemma/**/*.html` und `playground/**/*.html` liessen sich
     # einzeln aus GLOBS loeschen, ohne dass ein Fall rot wurde, obwohl unter
     # api/ und playground/ ausgelieferte Seiten liegen. Befund aus dem Review.
-    # Der lemma-Fall prueft zugleich, dass das Glob rekursiv ist.
     ('api/index.html', '<p>x ' + EM_DASH + ' y</p>\n', True),
     ('playground/index.html', '<p>x ' + EM_DASH + ' y</p>\n', True),
     ('lemma/lemma_1/index.html', '<p>x ' + EM_DASH + ' y</p>\n', True),
+    # Die drei Faelle darunter schliessen zwei Luecken auf einmal (zweite
+    # Review-Runde, wieder per Mutation nachgewiesen):
+    #
+    # (a) REKURSIVITAET. `assets/js/**/*.js`, `playground/**/*.html` und
+    #     `assets/css/**/*.css` liessen sich auf die nicht-rekursive Form
+    #     verkuerzen, ohne dass ein Fall rot wurde: alle bisherigen Dateien
+    #     liegen im Wurzel ihres Teilbaums. Real liegen 10 von 13 JS-Dateien
+    #     unter assets/js/ in Unterordnern (lib/, search/, rendering/,
+    #     storage/). `playground/**/*.js` war als einziges schon gedeckt,
+    #     naemlich durch playground/js/ui/tei/h.js.
+    #
+    # (b) VORFILTER. Vor dem Scan steht ein `any(f in text for f in
+    #     EM_FORMEN)`. Die Zeilen-Faelle rufen den Scanner direkt auf und
+    #     umgehen ihn; auf Dateiebene trug bis hierher jeder Fall das
+    #     Literalzeichen oder `&mdash;`. Der Vorfilter liess sich also auf
+    #     diese zwei Formen verengen, und eine Datei mit ausschliesslich
+    #     `—`, `&#8212;` oder einem CSS-Escape waere still uebersprungen
+    #     worden: genau der Fail-open, den die Zeilen-Faelle eine Ebene
+    #     hoeher schliessen sollten. Deshalb tragen die drei Faelle je eine
+    #     NICHT-literale Schreibweise.
+    ('assets/js/lib/k.js',
+     "const s = 'x " + chr(92) + "u2014 y';\n", True),
+    ('playground/sub/x.html', '<p>x &#8212; y</p>\n', True),
+    ('assets/css/sub/m.css',
+     'a::after { content: "' + chr(92) + '2014"; }\n', True),
     # Kaputte Kodierung: 0x97 ist in CP-1252 selbst ein Em-Dash. Frueher fiel
     # so eine Datei still aus dem Scan, jetzt wird sie gemeldet.
     ('assets/js/j.js', b"const s = 'a \x97 b';\n", True),
