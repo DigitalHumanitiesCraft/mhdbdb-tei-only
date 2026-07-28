@@ -54,8 +54,10 @@ dort ist er entweder sichtbarer Text oder ein Attributwert.
 
 Geprüft werden die ausgelieferten HTML-Seiten, die JS-Verzeichnisse
 `assets/js/`, `playground/` und `lemma/` sowie `assets/css/`, weil
-`content:`-Deklarationen als sichtbarer Text rendern. Nicht geprüft:
-`docs/`, `publications/`, `tei/`, `authority-files/`, `schema/`,
+`content:`-Deklarationen als sichtbarer Text rendern. Ausgenommen davon
+ist `tailwind-output.css`: generiert, minifiziert, und über
+`tailwind-input.css` plus die HTML-Klassen ohnehin mitgeprüft. Nicht
+geprüft: `docs/`, `publications/`, `tei/`, `authority-files/`, `schema/`,
 `testing/` und Fremdcode unter `vendor/`.
 
 Usage:
@@ -90,6 +92,15 @@ TOP_LEVEL_SKIP = {'tei', 'data', 'docs', 'publications', 'schema', 'testing',
                   'proposals', 'node_modules', '.git', 'test-results'}
 SKIP_ANYWHERE = {'node_modules', 'vendor', '_archived', 'test-results', '.git'}
 
+# Generierte Artefakte gehoeren nicht in ein Gate, das auf handgeschriebene
+# Prosa zielt. tailwind-output.css ist minifiziert und traegt keinen einzigen
+# Zeilenumbruch, besteht fuer den zeilenweisen Scanner also aus genau einer
+# Zeile, die mit dem Universalselektor `*` beginnt und damit als
+# Kommentarfortsetzung durchfaellt. Statt dieser stillen Luecke ein sichtbarer
+# Ausschluss: die Quelle (tailwind-input.css und die HTML-Klassen) wird
+# gescannt, das Kompilat braucht es nicht.
+SKIP_DATEIEN = {'assets/css/tailwind-output.css'}
+
 # `*.html` ist bewusst nicht rekursiv: die ausgelieferten Seiten liegen im
 # Wurzelverzeichnis, in playground/, lemma/, api/ und includes/. Ein
 # kuenftiger HTML-Unterordner braucht hier einen eigenen Eintrag.
@@ -116,6 +127,8 @@ def relevante_dateien(wurzel=None):
             if teile[0] in TOP_LEVEL_SKIP:
                 continue
             if any(t in SKIP_ANYWHERE for t in teile):
+                continue
+            if pfad.relative_to(wurzel).as_posix() in SKIP_DATEIEN:
                 continue
             yield pfad
 
@@ -315,6 +328,11 @@ SELBSTTEST_DATEIEN = [
     # fest, sie fallen schon durch die nicht-rekursiven HTML-Globs heraus.
     ('playground/js/ui/tei/h.js', "const s = 'x " + EM_DASH + " y';\n", True),
     ('assets/css/i.css', 'a::after { content: "x ' + EM_DASH + ' y"; }\n', True),
+    # Inhalt bewusst NICHT minifiziert: eine Zeile, die mit `*` beginnt, faellt
+    # schon an der Praefixregel durch und wuerde den Ausschluss nicht pruefen.
+    # So faellt der Fall ohne SKIP_DATEIEN durch und besteht mit.
+    ('assets/css/tailwind-output.css',
+     'a::after { content: "x ' + EM_DASH + ' y"; }\n', False),
     ('docs/e.html', '<p>x ' + EM_DASH + ' y</p>\n', False),
     ('tei/f.html', '<p>x ' + EM_DASH + ' y</p>\n', False),
     ('scripts/g.js', "const s = 'x " + EM_DASH + " y';\n", False),
