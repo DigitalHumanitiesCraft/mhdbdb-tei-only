@@ -4,7 +4,6 @@ Defines the normative TEI encoding for all texts in the MHDBDB corpus. New texts
 
 > **Zielgruppe:** Diese Datei ist eine technische Referenz-Spezifikation, primär für Entwicklung und automatisierte Werkzeuge gedacht (präzise, maschinenorientiert). Eine allgemeinverständliche Einführung bieten die Hilfe-Seiten der Website, etwa [Daten & Downloads](https://dhcraft.org/mhdbdb-tei-only/hilfe-daten.html) und [Eigene Texte beitragen](https://dhcraft.org/mhdbdb-tei-only/hilfe-daten-beitragen.html).
 
-**Status:** DRAFT – pending review by Katharina Zeppezauer-Wachauer
 **Issue:** #32 (TEI schema)
 **Schema:** `schema/mhdbdb.rnc` (RELAX NG Compact, Source of Truth) + `schema/mhdbdb.rng` (generiert via `trang`)
 **Validiert gegen:** TEI P5 Version 4.11.0 (`tei_all.rng`, 18. Feb 2026)

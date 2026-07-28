@@ -40,7 +40,7 @@ Direkt startbar geworden:
 
 | # | What | Key question |
 |---|------|-------------|
-| #140 | Doku menschenlesbar | Bereinigung umgesetzt (PR #215, 12.07.); Abnahme + zwei Detailfragen (DRAFT-Status TEI-MODEL.md, Schreibweise „Woesner") |
+| #140 | Doku menschenlesbar | Bereinigung umgesetzt (PR #215, 12.07.); beide Detailfragen der Abnahme vom 27.07. erledigt (DRAFT-Kopf in TEI-MODEL.md entfernt, PR #230; „Woesner" repoweit einheitlich geschrieben, keine Variante „Wösner"/„Wosner" im Bestand, keine Änderung nötig). Offen ist nur noch die Abnahme durch KZW |
 | #58 | Begriff→Lemma→Beleg Workflow | Option A/B/C entscheiden |
 | #169 | Suchsemantik (Audit 3/6) | Nähesuche-Distanz, commonLemmas, Dedup – deterministische Teile seit #174 gemerged |
 | #172 | Test-Suite-Policy (Audit 6/6) | 45%-passRate-Floor + korpusabhängige Magic-Numbers |
