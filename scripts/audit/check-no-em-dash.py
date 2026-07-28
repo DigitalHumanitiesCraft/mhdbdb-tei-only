@@ -27,6 +27,23 @@ Zwei Anläufe davor sind gescheitert, beide an derselben Sorte Ehrgeiz:
    nicht besser, nur schwerer zu prüfen: 27 Fundstellen, die Mehrzahl
    Kommentarzeilen.
 
+Ein dritter Weg wurde erwogen und verworfen: **Totalverbot** von U+2014 in
+den Auslieferungsverzeichnissen, Kommentare eingeschlossen. Das Skript
+schrumpfte auf gut 15 Zeilen ohne Zustand und ohne Kommentar-Erkennung, und
+die gesamte Fehlerklasse dieses Gates wäre weg statt geflickt: alle
+gefundenen Fail-opens saßen ausnahmslos in der Kommentar-Ausnahme. Dagegen
+spricht, dass die Hausregel Em-Dashes in Code-Kommentaren ausdrücklich
+erlaubt; eine repo-lokale Verschärfung nur für dieses Verzeichnis wäre eine
+Regeländerung und keine Entscheidung, die ein Audit-Skript treffen darf.
+Wenn die Kommentar-Ausnahme je fällt, ist das hier die einfachere Lösung.
+
+Der Selbsttest ist gegen Mutationen abgesichert: mehrere Änderungen am
+Scanner (Reihenfolgebedingung `k < pos` entfernen, sichtbaren Text vor einem
+öffnenden Kommentar verwerfen, Kodierungsfehler still überspringen) haben
+eine frühere Fassung der Fälle vollständig bestanden und waren trotzdem
+Fail-opens. Wer hier Fälle ergänzt, prüfe sie so: Mutation einbauen, Fälle
+laufen lassen. Ein Fall, der jede Mutation überlebt, prüft nichts.
+
 Die schlichte Regel trifft alle real vorhandenen Fälle und ist in fünf
 Zeilen nachvollziehbar. Sie hat zwei bekannte blinde Flecken, beide zum
 Fail-open hin, beide im Bestand aktuell unbelegt:
@@ -65,6 +82,14 @@ ist `tailwind-output.css`: generiert, minifiziert, und über
 `tailwind-input.css` plus die HTML-Klassen ohnehin mitgeprüft. Nicht
 geprüft: `docs/`, `publications/`, `tei/`, `authority-files/`, `schema/`,
 `testing/` und Fremdcode unter `vendor/`.
+
+Wenn ein Em-Dash einmal als DATEN gebraucht wird und nicht als Typografie
+(Normalisierungstabelle, Interpunktions-Regex, Platzhalter-Glyphe), dann ist
+der vorgesehene Weg `String.fromCharCode(0x2014)` beziehungsweise in Python
+`chr(0x2014)`, nicht ein weiterer Eintrag in `SKIP_DATEIEN`. Eine ganze
+Datei blindzuschalten, um ein Zeichen zu erlauben, ist der teuerste
+denkbare Tausch. Ein nachgestelltes `// erlaubt` hilft nicht: die Ausnahme
+verlangt das `//` VOR dem Fund.
 
 Usage:
     python scripts/audit/check-no-em-dash.py            # Report + Exit-Code
@@ -156,9 +181,21 @@ def scanne_verzeichnis(wurzel=None):
     wurzel = wurzel or REPO
     fundstellen = []
     for pfad in sorted(set(relevante_dateien(wurzel))):
+        rel = pfad.relative_to(wurzel).as_posix()
         try:
             text = pfad.read_text(encoding='utf-8')
-        except (UnicodeDecodeError, OSError):
+        except UnicodeDecodeError:
+            # NICHT ueberspringen. Ein stiller `continue` war ein Fail-open
+            # genau in der Schicht, die schon zwei Fehler dieses Gates trug:
+            # eine Datei mit einem einzigen Fremd-Byte fiele samt aller
+            # korrekt kodierten Em-Dashes aus dem Scan. Der realistische Fall
+            # ist ausgerechnet der hier gesuchte: Copy-Paste aus Word liefert
+            # CP-1252, und dort IST 0x97 der Em-Dash. UTF-8 ist ohnehin harte
+            # Projektvorgabe, also wird das gemeldet statt geschluckt.
+            fundstellen.append((rel, 1, 'Datei ist nicht UTF-8 und konnte '
+                                        'nicht geprueft werden'))
+            continue
+        except OSError:
             continue
         # Vorfilter ueber ALLE Schreibweisen. Ein Filter nur auf das
         # Literalzeichen verwirft genau den Fall, fuer den die Entity-
@@ -166,7 +203,6 @@ def scanne_verzeichnis(wurzel=None):
         if not any(f in text for f in EM_FORMEN):
             continue
         scan = scanner_fuer(pfad.suffix)
-        rel = pfad.relative_to(wurzel).as_posix()
         for nr, zeile in scan(text):
             fundstellen.append((rel, nr, zeile))
     return fundstellen
@@ -334,7 +370,10 @@ def scanne_html(text):
         # zerteilt, ist der zusammengesetzte sichtbare Text kein
         # zusammenhaengender Teilstring mehr.
         sichtbarer_text = ''.join(s for s, _ in sichtbar)
-        if sichtbarer_text.lstrip().startswith(('//', '*')):
+        # `/*` gehoert dazu: Inline-<script>- und <style>-Bloecke tragen
+        # Blockkommentare, und ohne diesen Praefix meldete das Gate eine ganz
+        # normale `/* ... */`-Kommentarzeile darin als Fehlalarm.
+        if sichtbarer_text.lstrip().startswith(('//', '*', '/*')):
             continue
         # Nachgestellte JS-Kommentare im Inline-<script> genauso exempieren
         # wie in .js-Dateien. Entscheidend ist der Geltungsbereich: sowohl
@@ -360,6 +399,31 @@ def scanne_html(text):
 
 SELBSTTEST = [
     # (Name, Endung, Quelltext, erwartete Zeilennummern)
+    #
+    # Die naechsten vier Faelle nageln die REIHENFOLGE fest und sind
+    # nachtraeglich entstanden: ein Mutationstest hat gezeigt, dass drei
+    # Aenderungen am Scanner alle bis dahin vorhandenen Faelle bestanden und
+    # trotzdem Fail-opens waren. Ohne sie darf man `k < pos` durch `k != -1`
+    # ersetzen (jede Zeile mit irgendeinem `//` waere exempt) oder in
+    # `scanne_html` den sichtbaren Text VOR einem oeffnenden `<!--` verwerfen.
+    # Gemeinsamer Nenner: kein Fall hatte die Reihenfolge "Em-Dash zuerst,
+    # Kommentar danach", obwohl genau das die haeufigste Form im Bestand ist.
+    ('Em-Dash im String, Kommentar erst danach', '.js',
+     "const s = 'x " + EM_DASH + " y'; // Hinweis\n", [1]),
+    ('Em-Dash im Inline-Script, Kommentar danach', '.html',
+     '<script>\n  const s = "x ' + EM_DASH + ' y"; // Hinweis\n</script>\n', [2]),
+    ('sichtbarer Text, danach oeffnet ein HTML-Kommentar', '.html',
+     '<p>x ' + EM_DASH + ' y</p> <!-- ok -->\n', [1]),
+    ('CSS: content-String, danach oeffnet ein Kommentar', '.css',
+     'a::after { content: "' + EM_DASH + '"; } /* ok */\n', [1]),
+    # Gegenrichtung zum vorletzten Fall: derselbe Zeilenbau, aber der Em-Dash
+    # steht IM mittig geoeffneten Kommentar und darf nicht gemeldet werden.
+    ('Em-Dash im mittig geoeffneten HTML-Kommentar', '.html',
+     '<p>sichtbar</p> <!-- Anmerkung ' + EM_DASH + ' erlaubt -->\n', []),
+    # Blockkommentar in einem Inline-<script>: haeufige Form, war ein
+    # Fehlalarm, solange der HTML-Zweig nur `//` und `*` als Praefix kannte.
+    ('Blockkommentar im Inline-Script', '.html',
+     '<script>\n/* Hinweis ' + EM_DASH + ' erlaubt */\n</script>\n', []),
     # CSS-Zweig: der erste Fall faellt unter scanne_js durch (Zeile beginnt
     # mit dem Universalselektor `*`, den die Praefixregel fuer einen Kommentar
     # haelt) und ist damit der Grund, warum es scanne_css gibt.
@@ -411,6 +475,9 @@ SELBSTTEST_DATEIEN = [
     # fest, sie fallen schon durch die nicht-rekursiven HTML-Globs heraus.
     ('playground/js/ui/tei/h.js', "const s = 'x " + EM_DASH + " y';\n", True),
     ('assets/css/i.css', 'a::after { content: "x ' + EM_DASH + ' y"; }\n', True),
+    # Kaputte Kodierung: 0x97 ist in CP-1252 selbst ein Em-Dash. Frueher fiel
+    # so eine Datei still aus dem Scan, jetzt wird sie gemeldet.
+    ('assets/js/j.js', b"const s = 'a \x97 b';\n", True),
     # Der Fall prueft NUR den Ausschluss: ohne SKIP_DATEIEN wird die Datei
     # gemeldet, mit nicht. (Die urspruengliche Begruendung hier, eine Zeile mit
     # fuehrendem `*` falle ohnehin an der Praefixregel durch, gilt seit
@@ -439,7 +506,11 @@ def selbsttest():
         for rel, inhalt, _ in SELBSTTEST_DATEIEN:
             ziel = wurzel / rel
             ziel.parent.mkdir(parents=True, exist_ok=True)
-            ziel.write_text(inhalt, encoding='utf-8')
+            # bytes statt str erlaubt einen Fall mit kaputter Kodierung
+            if isinstance(inhalt, bytes):
+                ziel.write_bytes(inhalt)
+            else:
+                ziel.write_text(inhalt, encoding='utf-8')
         gemeldet = {p for p, _, _ in scanne_verzeichnis(wurzel)}
         for rel, _, erwartet in SELBSTTEST_DATEIEN:
             ok = (rel in gemeldet) == erwartet
