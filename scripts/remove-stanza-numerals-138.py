@@ -159,13 +159,25 @@ def ist_ziffer(container):
 
 
 def sammle(root):
-    """(kandidaten, verletzungen) -- Verletzungen der Invariante brechen ab."""
+    """(kandidaten, verletzungen, uebersprungen).
+
+    Verletzungen der Invariante brechen ab. `uebersprungen` sind divs ohne
+    <lg type="stanza">: fuer die gibt es keine Invariante, sie werden nicht
+    angefasst. Sie werden gezaehlt und berichtet, statt still zu verschwinden,
+    denn eine Ziffer in einem strophenlosen div wuerde sonst kommentarlos
+    ueberleben. In HUG sind das 7 der 40 Lieder, und dort liegt keine Ziffer.
+    """
     kandidaten = []
     verletzungen = []
+    uebersprungen = []
 
     for div in root.iter(DIV_TAG):
         strophen = [lg for lg in div.findall(LG_TAG) if lg.get("type") == "stanza"]
         if not strophen:
+            # Nur melden, wenn dort ueberhaupt etwas Ziffernartiges liegt.
+            offen = sum(1 for c in div.iter(L_TAG, AB_TAG)
+                        if ist_ziffer(c) is not None)
+            uebersprungen.append((div.get("n"), offen))
             continue
 
         gefunden = []
@@ -182,7 +194,15 @@ def sammle(root):
 
         kandidaten.extend(gefunden)
 
-    return kandidaten, verletzungen
+    # Schutz gegen geschachtelte <div>: root.iter(DIV_TAG) trifft aussen und
+    # innen, ein Kandidat wuerde dann zweimal in entferne() laufen. HUG hat 40
+    # flache Geschwister-divs, das ist hier also Vorsorge fuer die
+    # Wiederverwendung auf anderen Texten.
+    doppelt = len(kandidaten) - len({id(w) for _, w in kandidaten})
+    if doppelt:
+        verletzungen.append(("(geschachtelte divs)", 0, doppelt))
+
+    return kandidaten, verletzungen, uebersprungen
 
 
 def wert_abgleich(kandidaten):
@@ -221,13 +241,20 @@ def entferne(w):
     entfernten Knotens an den Vorgaenger bzw. auf den Elterntext wandert.
     """
     ziel = w
-    # Eine <hi>-Huelle, die nur die Ziffer traegt, geht mit.
+    # Eine <hi>- bzw. <ab>-Huelle geht mit, aber nur wenn sie ausser der
+    # Ziffer NICHTS traegt. `len(el) == 1` prueft nur Element-Kinder; ohne die
+    # Textpruefung wuerde ein <hi>Anmerkung <w>ii</w></hi> samt Anmerkung
+    # verschwinden. In HUG tragen die Huellen nur Einrueckungs-Whitespace.
+    def huelle_leer(el):
+        return not (el.text or "").strip()
+
     eltern = ziel.getparent()
-    if eltern is not None and eltern.tag == HI_TAG and len(eltern) == 1:
+    if (eltern is not None and eltern.tag == HI_TAG
+            and len(eltern) == 1 and huelle_leer(eltern)):
         ziel = eltern
-    # Ein <ab>, das nur die Ziffer traegt, geht ebenfalls mit.
     eltern = ziel.getparent()
-    if eltern is not None and eltern.tag == AB_TAG and len(eltern) == 1:
+    if (eltern is not None and eltern.tag == AB_TAG
+            and len(eltern) == 1 and huelle_leer(eltern)):
         ziel = eltern
 
     eltern = ziel.getparent()
@@ -264,11 +291,21 @@ def main():
     root = tree.getroot()
 
     vorher_w = sum(1 for _ in root.iter(W_TAG))
-    kandidaten, verletzungen = sammle(root)
+    kandidaten, verletzungen, uebersprungen = sammle(root)
 
     print(f"Datei:            {args.datei.name}")
     print(f"<w> gesamt:       {vorher_w}")
     print(f"Ziffern gefunden: {len(kandidaten)}")
+
+    if uebersprungen:
+        offen = sum(n for _, n in uebersprungen)
+        print(f"divs ohne Strophen: {len(uebersprungen)} "
+              f"(uebersprungen, dort {offen} ziffernartige Token)")
+        if offen:
+            print("  ACHTUNG: dort liegen Ziffern, die keine Invariante schuetzt:")
+            for div_n, n in uebersprungen:
+                if n:
+                    print(f"    Lied {div_n}: {n}")
 
     if verletzungen:
         print()
