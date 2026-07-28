@@ -52,6 +52,12 @@ Fail-open hin, beide im Bestand aktuell unbelegt:
 In HTML wird jeder Em-Dash außerhalb eines `<!-- -->`-Kommentars geflaggt;
 dort ist er entweder sichtbarer Text oder ein Attributwert.
 
+CSS bekommt einen eigenen Zweig (`scanne_css`), weil die Präfixregel sonst
+am Universalselektor scheitert: `*, ::before { … }` sähe aus wie eine
+Kommentarfortsetzung. Ein Zustandsautomat ist dort im Gegensatz zu JS
+unbedenklich, weil CSS nur `/* */` kennt und weder Template- noch
+Regex-Literale hat.
+
 Geprüft werden die ausgelieferten HTML-Seiten, die JS-Verzeichnisse
 `assets/js/`, `playground/` und `lemma/` sowie `assets/css/`, weil
 `content:`-Deklarationen als sichtbarer Text rendern. Ausgenommen davon
@@ -93,12 +99,14 @@ TOP_LEVEL_SKIP = {'tei', 'data', 'docs', 'publications', 'schema', 'testing',
 SKIP_ANYWHERE = {'node_modules', 'vendor', '_archived', 'test-results', '.git'}
 
 # Generierte Artefakte gehoeren nicht in ein Gate, das auf handgeschriebene
-# Prosa zielt. tailwind-output.css ist minifiziert und traegt keinen einzigen
-# Zeilenumbruch, besteht fuer den zeilenweisen Scanner also aus genau einer
-# Zeile, die mit dem Universalselektor `*` beginnt und damit als
-# Kommentarfortsetzung durchfaellt. Statt dieser stillen Luecke ein sichtbarer
-# Ausschluss: die Quelle (tailwind-input.css und die HTML-Klassen) wird
-# gescannt, das Kompilat braucht es nicht.
+# Prosa zielt: die Quelle (tailwind-input.css und die HTML-Klassen) wird
+# gescannt, das Kompilat braucht es nicht, und ein Fund dort waere ohnehin
+# nicht dort zu beheben.
+#
+# Die Datei war vorher zusaetzlich unsichtbar, weil sie minifiziert ist und
+# als eine einzige Zeile mit fuehrendem `*` an der JS-Praefixregel durchfiel.
+# Diese Ursache ist mit `scanne_css` weg; der Ausschluss bleibt trotzdem, aber
+# jetzt aus dem einen Grund, der ihn traegt, statt als Symptomkur.
 SKIP_DATEIEN = {'assets/css/tailwind-output.css'}
 
 # `*.html` ist bewusst nicht rekursiv: die ausgelieferten Seiten liegen im
@@ -154,7 +162,7 @@ def scanne_verzeichnis(wurzel=None):
         # Erkennung gebaut ist: eine Datei mit `&mdash;` und ohne Strich.
         if not any(f in text for f in EM_FORMEN):
             continue
-        scan = scanne_html if pfad.suffix == '.html' else scanne_js
+        scan = scanner_fuer(pfad.suffix)
         rel = pfad.relative_to(wurzel).as_posix()
         for nr, zeile in scan(text):
             fundstellen.append((rel, nr, zeile))
@@ -217,6 +225,63 @@ def scanne_js(text):
             continue
         treffer.append((nr, _ausschnitt(zeile, pos)))
     return treffer
+
+
+def scanne_css(text):
+    """Em-Dashes ausserhalb von `/* */`, die ueber Zeilengrenzen halten.
+
+    Eigener Zweig statt der JS-Praefixregel, weil die in CSS am haeufigsten
+    gebrauchten Selektoren mit `*` beginnen (`*, ::before { … }`), und
+    `scanne_js` haelt eine solche Zeile fuer eine Kommentarfortsetzung. Der
+    Scan waere damit ausgerechnet gegen die uebliche Selektorform blind.
+
+    Der Zustandsautomat ist hier vertretbar, obwohl er es in JS nicht war:
+    CSS kennt genau eine Kommentarform und weder Template-Literale noch
+    Regex-Literale, also keine der Mehrdeutigkeiten, an denen Anlauf 2
+    gescheitert ist. Strings (`content: "…"`) muessen nicht verfolgt werden,
+    denn deren Inhalt ist genau das, was gesucht wird.
+    """
+    treffer = []
+    im_kommentar = False
+    for nr, zeile in enumerate(text.split('\n'), 1):
+        rest = zeile
+        versatz = 0
+        sichtbar = []
+        while rest:
+            if im_kommentar:
+                ende = rest.find('*/')
+                if ende == -1:
+                    break
+                rest = rest[ende + 2:]
+                versatz += ende + 2
+                im_kommentar = False
+                continue
+            start = rest.find('/*')
+            if start == -1:
+                sichtbar.append((rest, versatz))
+                break
+            sichtbar.append((rest[:start], versatz))
+            rest = rest[start + 2:]
+            versatz += start + 2
+            im_kommentar = True
+        pos = -1
+        for stueck, start in sichtbar:
+            p = _fund(stueck)
+            if p != -1:
+                pos = start + p
+                break
+        if pos == -1:
+            continue
+        treffer.append((nr, _ausschnitt(zeile, pos)))
+    return treffer
+
+
+def scanner_fuer(endung):
+    if endung == '.html':
+        return scanne_html
+    if endung == '.css':
+        return scanne_css
+    return scanne_js
 
 
 def scanne_html(text):
@@ -286,6 +351,15 @@ def scanne_html(text):
 
 SELBSTTEST = [
     # (Name, Endung, Quelltext, erwartete Zeilennummern)
+    # CSS-Zweig: der erste Fall faellt unter scanne_js durch (Zeile beginnt
+    # mit dem Universalselektor `*`, den die Praefixregel fuer einen Kommentar
+    # haelt) und ist damit der Grund, warum es scanne_css gibt.
+    ('Universalselektor, Em-Dash im content-String', '.css',
+     '*, ::before { content: "x ' + EM_DASH + ' y"; }\n', [1]),
+    ('CSS-Blockkommentar ueber mehrere Zeilen', '.css',
+     '/* Hinweis\n   Fortsetzung ' + EM_DASH + ' erlaubt\n*/\na { color: red; }\n', []),
+    ('Text nach dem Kommentarende derselben Zeile', '.css',
+     '/* x */ a::after { content: "' + EM_DASH + '"; }\n', [1]),
     ('mehrzeiliges Template-Literal', '.js',
      'const html = `\n  <p>Hinweis ' + EM_DASH + ' sichtbar</p>\n`;\n', [2]),
     ('JSDoc-Fortsetzungszeile', '.js',
@@ -342,7 +416,7 @@ SELBSTTEST_DATEIEN = [
 def selbsttest():
     fehler = 0
     for name, endung, quelle, erwartet in SELBSTTEST:
-        scan = scanne_html if endung == '.html' else scanne_js
+        scan = scanner_fuer(endung)
         ist = [nr for nr, _ in scan(quelle)]
         ok = ist == erwartet
         print(f'  [{"PASS" if ok else "FAIL"}] {name}: erwartet {erwartet}, bekommen {ist}')
