@@ -42,6 +42,7 @@ export class HapaxLegomenaAnalyzer {
       tab: 'list',               // 'list' | 'perText'
       maxFreq: 1,
       hideNames: true,           // Eigennamen (NAM) sind 28 % der Hapaxe
+      hideNumerals: true,        // Zahlwörter (NUM), siehe passesFilters (#196)
       hideFunctionWords: false,
       posFilter: 'all',
       initial: 'all',
@@ -103,7 +104,7 @@ export class HapaxLegomenaAnalyzer {
     return lo > 0 ? lo : null;
   }
 
-  /** Lemma-Level-Filter (NAM, Funktionswörter, PoS-Facette, Anfangsbuchstabe). */
+  /** Lemma-Level-Filter (NAM, NUM, Funktionswörter, PoS-Facette, Anfangsbuchstabe). */
   passesFilters(lemmaId) {
     const lemma = this.getLemmaById(lemmaId);
     // Lemmata ohne Authority-Eintrag sind Kuratierungs-Funde: immer zeigen,
@@ -111,6 +112,15 @@ export class HapaxLegomenaAnalyzer {
     if (!lemma) return this.state.initial === 'all' && this.state.posFilter === 'all';
     const tags = lemma.posAll || (lemma.pos ? String(lemma.pos).trim().split(/\s+/) : []);
     if (this.state.hideNames && tags.includes('NAM')) return false;
+    // Zahlwörter defaultmäßig aus (#196, KZW 27.07.): Eine korpusweit einmalige
+    // Zahl ist kein lexikalisches Hapax im philologischen Sinn, sondern eine
+    // Funktion der Textlänge — "vierundsehzic" kommt einmal vor, weil genau
+    // einmal 64 gezählt wird. Anders als NAM ist NUM aber keine reine
+    // Rauschklasse: seltene Zahlwortbildungen (sehzehenthalp, vünfthalphundert)
+    // sind wortbildungsmorphologisch interessant, deshalb abschaltbar statt
+    // hart entfernt. Die fünf reinen Ziffern-Lemmata (1, 36, 42, 46, 49) sind
+    // Altbestands-Artefakte und gehören ins TEI-Putzen, nicht in einen Filter.
+    if (this.state.hideNumerals && tags.includes('NUM')) return false;
     if (this.state.hideFunctionWords && tags.length > 0 && tags.some(t => FUNCTION_WORD_POS.has(t))) return false;
     if (this.state.posFilter !== 'all' && !tags.includes(this.state.posFilter)) return false;
     if (this.state.initial !== 'all') {
@@ -241,6 +251,10 @@ export class HapaxLegomenaAnalyzer {
           <label class="flex items-center gap-2 text-sm text-slate-700 cursor-pointer">
             <input type="checkbox" id="hxHideNames" ${this.state.hideNames ? 'checked' : ''} class="w-4 h-4 rounded border-slate-300 text-brand-600 focus:ring-brand-500" />
             <span>Eigennamen ausblenden <span class="text-xs text-slate-500">(PoS NAM, 28 % der Hapaxe)</span></span>
+          </label>
+          <label class="flex items-center gap-2 text-sm text-slate-700 cursor-pointer">
+            <input type="checkbox" id="hxHideNum" ${this.state.hideNumerals ? 'checked' : ''} class="w-4 h-4 rounded border-slate-300 text-brand-600 focus:ring-brand-500" />
+            <span>Zahlwörter ausblenden <span class="text-xs text-slate-500">(PoS NUM)</span></span>
           </label>
           <label class="flex items-center gap-2 text-sm text-slate-700 cursor-pointer">
             <input type="checkbox" id="hxHideFunc" ${this.state.hideFunctionWords ? 'checked' : ''} class="w-4 h-4 rounded border-slate-300 text-brand-600 focus:ring-brand-500" />
@@ -500,6 +514,10 @@ export class HapaxLegomenaAnalyzer {
     });
     document.getElementById('hxHideNames')?.addEventListener('change', (e) => {
       this.state.hideNames = e.target.checked;
+      rerender();
+    });
+    document.getElementById('hxHideNum')?.addEventListener('change', (e) => {
+      this.state.hideNumerals = e.target.checked;
       rerender();
     });
     document.getElementById('hxHideFunc')?.addEventListener('change', (e) => {
