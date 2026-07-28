@@ -12,7 +12,7 @@
  * - Long vowels with macrons (alternate): ā→a, ē→e, ī→i, ō→o, ū→u
  * - Umlauts: ä→ae, ö→oe, ü→ue
  * - Ligatures: æ→ae, œ→oe
- * - Special characters: ǒ→o
+ * - Special characters: ǒ→o, ŏ→oe, ŭ→ue
  */
 export class TextNormalizer {
     /**
@@ -45,6 +45,17 @@ export class TextNormalizer {
             .replace(/ä/g, 'ae')
             .replace(/ö/g, 'oe')
             .replace(/ü/g, 'ue')
+            // Breve über o/u ist in der Wenzelsbibel das Umlautzeichen,
+            // nicht ein eigener Laut (#224, KZW 28.07.): Klaus Schmidts
+            // Eingabe war bo+U+0306+ses aus der WZB-Leseansicht, nicht
+            // ein zerlegtes Trema. Belegt an 469 lemmatisierten WZB-Tokens
+            // (bo+breve+ses -> lemma_788 bœse, scho+breve+ne -> schœne,
+            // wu+breve+nschet -> wünschet). Steht nach .normalize('NFC'),
+            // weil das kombinierende Breve dort zu U+014F/U+016D wird.
+            // Breve auf w/n/y/z hat keine präkomponierte Form und bleibt
+            // unangetastet: dort ist es kein Umlautzeichen.
+            .replace(/ŏ/g, 'oe')
+            .replace(/ŭ/g, 'ue')
             // Ligatures
             .replace(/æ/g, 'ae')
             .replace(/œ/g, 'oe')

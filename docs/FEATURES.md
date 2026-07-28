@@ -299,7 +299,7 @@ Consistent search behavior across all 18 entry points via Middle High German cha
 
 **Normalization rules:**
 - Long vowels: â→a, ê→e, î→i, ô→o, û→u
-- Umlauts: ä→ae, ö→oe, ü→ue
+- Umlauts: ä→ae, ö→oe, ü→ue; Breve-Umlaute der Wenzelsbibel: ŏ→oe, ŭ→ue (#224)
 - Ligatures: æ→ae, œ→oe
 
 **Implementation:**

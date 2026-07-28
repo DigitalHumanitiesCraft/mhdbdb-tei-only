@@ -72,6 +72,15 @@ def normalize_mhg(text):
     normalized = normalized.replace('ä', 'ae')
     normalized = normalized.replace('ö', 'oe')
     normalized = normalized.replace('ü', 'ue')
+    # Breve ueber o/u ist in der Wenzelsbibel das Umlautzeichen, nicht ein
+    # eigener Laut (#224, bestaetigt an 469 lemmatisierten WZB-Tokens:
+    # bo+breve+ses -> lemma_788 boese, scho+breve+ne -> lemma_5280 schoene,
+    # wu+breve+nschet -> wuenschet). Greift nach Schritt 0, weil NFC das
+    # kombinierende Breve (U+0306) auf o/u zu U+014F/U+016D zusammenzieht.
+    # Breve auf w/n/y/z (WZB, 130 Tokens) hat KEINE praekomponierte Form,
+    # bleibt also unangetastet: dort ist es kein Umlautzeichen.
+    normalized = normalized.replace('ŏ', 'oe')
+    normalized = normalized.replace('ŭ', 'ue')
 
     # Step 4: Ligatures
     normalized = normalized.replace('æ', 'ae')
@@ -109,6 +118,10 @@ TEST_CASES = [
     # zerlegte Form still zu NFC zusammenziehen und den Test entwerten.
     ('bo\u0308ses', 'boeses'),        # o + kombinierendes Trema statt ö
     ('Mu\u0308hldorf', 'muehldorf'),  # dito mit ü und Grossbuchstabe
+    # Breve-Umlaute (#224, WZB). Escapes wie oben.
+    ('bo\u0306ses', 'boeses'),     # zerlegt: NFC zieht zu o-Breve zusammen
+    ('b\u014fses', 'boeses'),      # praekomponiert
+    ('w\u016dnschet', 'wuenschet'),
     ('', ''),
     (None, ''),
 ]

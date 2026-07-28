@@ -173,6 +173,35 @@ test.describe('Search Engine', () => {
         expect(result.zerlegt).toEqual(result.komponiert);
     });
 
+    test("resolveLemmaIds() - Breve-Umlaut aus der Wenzelsbibel (#224)", async ({ page }) => {
+        // Der tatsaechlich gemeldete Fall (KZW 28.07.): Klaus Schmidt hat aus
+        // der WZB-Leseansicht kopiert, und die Wenzelsbibel schreibt Umlaute
+        // mit Breve, nicht mit Trema. Der Token 'bo' + U+0306 + 'ses' im Korpus
+        // traegt lemmaRef lemma_788 (bœse). Ohne die Breve-Regel bleibt das
+        // Zeichen nach NFC als U+014F stehen, Stufe 1 und 2 verfehlen, und die
+        // Suche landet im Fallback.
+        const result = await page.evaluate(async () => {
+            const se = window._mhdbdbApp.searchEngine;
+            const { TextNormalizer: N } = await import('/assets/js/lib/text-normalizer.js');
+            const byId = new Map(se.authorityIndex.lemmata.map(l => [l.id, l]));
+            const ZERLEGT      = 'bo\u0306ses';
+            const PRAEKOMPONIERT = 'b\u014fses';
+            const aufloesen = eingabe => se.resolveLemmaIds(N.normalizeMHG(eingabe))
+                .map(id => byId.get(id)?.normalized || '');
+            return {
+                normZerlegt: N.normalizeMHG(ZERLEGT),
+                normPraekomponiert: N.normalizeMHG(PRAEKOMPONIERT),
+                zerlegt: aufloesen(ZERLEGT),
+                praekomponiert: aufloesen(PRAEKOMPONIERT)
+            };
+        });
+
+        expect(result.normZerlegt).toBe('boeses');
+        expect(result.normPraekomponiert).toBe('boeses');
+        expect(result.zerlegt).toEqual(['boese']);
+        expect(result.praekomponiert).toEqual(['boese']);
+    });
+
     test('text inclusion filter restricts results', async ({ page }) => {
         const results = await page.evaluate(async () => {
             const se = window._mhdbdbApp.searchEngine;

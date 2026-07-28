@@ -21,6 +21,7 @@ Technical contracts that bind Python (build-time) and JavaScript (runtime) toget
 | Step | Operation | Characters | Result | JS | Python |
 |------|-----------|-----------|--------|-----|--------|
 | 0 | Unicode-Komposition | o + U+0308 | ö | `.normalize('NFC')` | `unicodedata.normalize('NFC', …)` |
+| 0 | | o + U+0306 | ŏ | dito | dito |
 | 1 | Lowercase | all | lowercase | `.toLowerCase()` | `.lower()` |
 | 2 | Long vowels (circumflex + macron) | â ā | a | `/[âā]/g` | `.replace('â','a').replace('ā','a')` |
 | 2 | | ê ē | e | `/[êē]/g` | `.replace('ê','e').replace('ē','e')` |
@@ -30,13 +31,15 @@ Technical contracts that bind Python (build-time) and JavaScript (runtime) toget
 | 3 | Umlauts → digraphs | ä | ae | `/ä/g` | `.replace('ä','ae')` |
 | 3 | | ö | oe | `/ö/g` | `.replace('ö','oe')` |
 | 3 | | ü | ue | `/ü/g` | `.replace('ü','ue')` |
+| 3 | Breve-Umlaute (WZB, #224) | ŏ | oe | `/ŏ/g` | `.replace('ŏ','oe')` |
+| 3 | | ŭ | ue | `/ŭ/g` | `.replace('ŭ','ue')` |
 | 4 | Ligatures | æ | ae | `/æ/g` | `.replace('æ','ae')` |
 | 4 | | œ | oe | `/œ/g` | `.replace('œ','oe')` |
 | 5 | Special | ǒ | o | `/ǒ/g` | `.replace('ǒ','o')` |
 
 ### Test Cases
 
-These 20 cases must pass in both languages. Source: `scripts/mhg_normalizer.py` → `TEST_CASES`, gespiegelt in `testing/tests/normalization-parity.spec.js`
+These 23 cases must pass in both languages. Source: `scripts/mhg_normalizer.py` → `TEST_CASES`, gespiegelt in `testing/tests/normalization-parity.spec.js`
 
 | Input | Expected | Why |
 |-------|----------|-----|
@@ -58,6 +61,9 @@ These 20 cases must pass in both languages. Source: `scripts/mhg_normalizer.py` 
 | `œnologie` | `oenologie` | œ → oe |
 | `bo` + U+0308 + `ses` | `boeses` | Schritt 0: zerlegtes ö komponiert vor Schritt 3 (#224) |
 | `Mu` + U+0308 + `hldorf` | `muehldorf` | dito mit ü, plus Grossbuchstabe |
+| `bo` + U+0306 + `ses` | `boeses` | Der gemeldete Fall: Breve, Schritt 0 komponiert zu ŏ, Schritt 3 löst auf (#224) |
+| `bŏses` | `boeses` | dito, schon präkomponiert |
+| `wŭnschet` | `wuenschet` | ŭ → ue |
 | `''` | `''` | Empty string |
 | `None`/`null` | `''` | Null handling |
 
@@ -67,9 +73,11 @@ These 20 cases must pass in both languages. Source: `scripts/mhg_normalizer.py` 
 
 ### Schritt 0: Unicode-Komposition (#224)
 
-Ein „ö" kann als ein Zeichen (U+00F6) oder als `o` + kombinierendes Trema (U+006F U+0308) kodiert sein. Beide sehen identisch aus, aber nur die komponierte Form trifft die Umlaut-Regel in Schritt 3. Ohne die Komposition fällt eine zerlegte Eingabe durch Stufe 1 **und** Stufe 2 der Lemma-Auflösung (§C) und landet im Partial-Match-Fallback. Genau das war die erste Ursache im Bug-Report #224: die Suche nach „böses" mit zerlegtem ö lieferte `ês`, `ô`, `sê` statt `bœse`.
+Ein „ö" kann als ein Zeichen (U+00F6) oder als `o` + kombinierendes Trema (U+006F U+0308) kodiert sein. Beide sehen identisch aus, aber nur die komponierte Form trifft die Umlaut-Regel in Schritt 3. Ohne die Komposition fällt eine zerlegte Eingabe durch Stufe 1 **und** Stufe 2 der Lemma-Auflösung (§C) und landet im Partial-Match-Fallback. Der Bug-Report #224 ist genau dieser Fall, nur mit einem anderen Diakritikum: die gemeldete Eingabe trug `o` + kombinierendes **Breve** (U+0306), kopiert aus der WZB-Leseansicht. Schritt 0 komponiert das zu `ŏ`, und erst die Breve-Regel in Schritt 3 macht daraus `oe`. Beide Schritte zusammen sind der Fix, keiner allein.
 
 Zerlegte Formen entstehen beim Kopieren aus macOS-Quellen und aus manchen Editionsdatenbanken, sind also normale Nutzereingaben.
+
+**Breve statt Trema (WZB, #224).** Die Wenzelsbibel schreibt Umlaute mit Breve: der Korpus-Token `bo` + U+0306 + `ses` trägt `lemmaRef` auf `lemma_788` (`bœse`), `scho` + U+0306 + `ne` auf `lemma_5280` (`schœne`), `wŭnschet` ist `wünschet`. Belegt an 469 lemmatisierten WZB-Tokens. Deshalb `ŏ` → `oe` und `ŭ` → `ue` in Schritt 3. Breve auf `w`, `n`, `y` oder `z` (130 weitere WZB-Tokens) bleibt unangetastet: dort ist es kein Umlautzeichen, und Unicode kennt dafür auch keine präkomponierte Form, die Schritt 0 erzeugen könnte.
 
 **Wirkung auf die Build-Seite:** Der Schritt ändert die Ausgabe an genau drei Stellen, weil die Authority-Files sonst NFC sind. Betroffen sind die Datensätze mit zerlegtem ü in `persons.xml` und `works.xml`:
 
