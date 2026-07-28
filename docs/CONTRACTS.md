@@ -312,7 +312,7 @@ User types: **brott**
 ### Variant Dictionary Structure
 
 - Flat map: `{ normalized_variant_form: lemma_id }`
-- 234,244 normalized entries (Stand 2026-07-12; 256,761 raw forms in variants.xml, deduped first-occurrence-wins), extracted from `authority-files/variants.xml`
+- 234,243 normalized entries (Stand 2026-07-28; 256,760 raw forms in variants.xml, deduped first-occurrence-wins), extracted from `authority-files/variants.xml`
 - **First occurrence wins** – if two lemmata claim the same variant form, only the first one stored (source: `build-authority-index.py:643-644`, in `parse_variants()`)
 - Keys are **normalized** forms (lowercase + MHG character mapping applied before storage)
 

@@ -166,7 +166,7 @@ Notes: Multiple sigles per work (editions). GND/Wikidata may be full URLs or bar
 | genres.xml | `genre_{hex}` | – (but many broader pointers, polyhierarchical) |
 | names.xml | `name_{numeric}` | `exactMatch`, `closeMatch` → `concepts.xml#...` |
 
-#### variants.xml (~16 MB, 256,761 variant forms)
+#### variants.xml (~16 MB, 256,760 variant forms)
 
 ```xml
 <TEI><text><body><div type="orthographicVariants">
@@ -263,7 +263,7 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
   variants: {
     "brot": "lemma_879",   // normalized form → lemma ID
     "brott": "lemma_879",
-    // ... 234,244 mappings (2026-05-29)
+    // ... 234,243 mappings (2026-07-28)
   },
 
   maps: {
@@ -691,7 +691,8 @@ Pro Quelle vorab zu klären (Beispiel-Antworten für ARI in `scripts/ingest/ari/
 | Kolumnentitel/Running Headers (`<fw>`), `<surplus>` | Annotation strippen – nicht lexikalisch |
 | Kapitel-Apparat (z.B. CAPITULUM + Zahl) | `<head type="chapter" n="{arabisch}">` als erstes Kind des `<div type="chapter">`; `<milestone unit="chapter" n="N"/>` an der originalen Textfluss-Position (TEI P5 erlaubt kein `<head>` in `<l>`) |
 | Schreiberzeichen, Sektions-Initialen | `<w>` → `<pc join="left">` |
-| Römische Zahlen im Text | `<w>` behalten, `lemma_13826` (DIG) |
+| Römische Zahlen im Textfluss | `<w>` behalten, `lemma_13826` (DIG) |
+| Römische Zahlen als Randzählung (Strophen-, Kapitel-, Versnummern) | Annotation strippen, Token entfernen; die Zählung gehört in `lg/@n` bzw. `@n` des zugehörigen Elements. Erkennbar am xml:id-Block: die Randziffer sitzt im Legacy-Linecode in einer eigenen Untereinheit (`SIG_30040_9` = Vers, `SIG_30041_0` = Ziffer), ein Wort des Textes immer im Block des Verses. `@pos="DIG"` ist als Kriterium untauglich, in HUG trugen 108 der 814 Randziffern gar keine Annotation (#138) |
 | Fremdsprachige Einsprengsel (Latein, Alttschechisch …) | `<w>` behalten; existierendes Lemma zuordnen oder neues sprach-spezifisches Lemma anlegen (z.B. `lemma_78628` für alttschechische Glossen) |
 | `<div>`-Hygiene | jedes `<div>` mit `@type` aus dem Schema-Enum (`book`, `chapter`, `paratext`, `prologus`, `section`, …) |
 

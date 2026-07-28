@@ -138,12 +138,23 @@ DOC_TARGETS = [
                             'concepts', 'genres', 'names', 'variants_entries', 'variants_forms']),
     ('docs/INDEX.md', ['corpus_files']),
     ('docs/ROADMAP.md', ['corpus_files']),
+    # Beide tragen undatierte Ist-Angaben zu variants.xml und standen bis
+    # 2026-07-28 nicht im Audit; sie blieben deshalb bei 256.761 stehen.
+    ('docs/DATA-MODEL.md', ['variants_forms', 'variants_entries', 'variants_normalized']),
+    ('docs/TEI-MODEL-AUTH-FILES.md', ['variants_forms', 'variants_entries']),
+    # CONTRACTS.md:315 beschreibt den Ist-Aufbau des Variants-Dictionary; der
+    # Datumsstempel dort macht die Zeile nicht historisch.
+    ('docs/CONTRACTS.md', ['variants_forms', 'variants_normalized']),
     # CLAUDE.md is intentionally vague ("~670 TEI texts"), no exact check.
     # User-facing HTML-Seiten (#192): hartkodierte Kennzahlen driften mit
     # jedem Ingest. Konvention (erklaert auf hilfe-daten.html):
     # variants_forms = rohe orthographische Varianten,
     # variants_normalized = dedupliziert — die Zahl, die Suche/Playground zeigen.
     ('README.md', ['corpus_files', 'lexicon_entries']),
+    # index.html traegt den Stats-Block der Startseite (TEI-Texte, Lemmata,
+    # rohe Varianten-Formen). Fehlte bis 2026-07-28 im Audit, deshalb blieb
+    # dort 256.761 stehen, waehrend #138 alle anderen Seiten auf 256.760 zog.
+    ('index.html', ['corpus_files', 'lexicon_entries', 'variants_forms']),
     ('hilfe-daten.html', ['corpus_files', 'lexicon_entries',
                           'variants_forms', 'variants_normalized']),
     ('hilfe-korpussuche.html', ['variants_normalized']),
@@ -264,8 +275,16 @@ def find_stale_numbers(doc_path: str, current: int, key: str) -> list:
         'lexicon_entries': r'Lemmata',
         'works': r'Werke',
         'variants_entries': r'(?:Variant|Eintr[äa]ge)',
-        'variants_forms': r'(?:Formen|orthographische\w*\s+Varianten)',
-        'variants_normalized': r'(?:normalisierte\w*\s+(?:Schreibvarianten|Varianten)|eindeutige\s+Zuordnungen)',
+        # Satzanfang und Karten-Labels schreiben das Adjektiv gross
+        # ("Orthographische Varianten" im Stats-Block der Startseite); ohne
+        # die Grossschreib-Variante lief der Anker dort ins Leere und
+        # index.html blieb auf 256.761 stehen, waehrend #138 alle anderen
+        # Seiten auf 256.760 zog.
+        # DATA-MODEL.md und CONTRACTS.md schreiben die Formenzahl englisch
+        # ("variant forms", "raw forms"); ohne diese Alternativen greift dort
+        # kein Anker und der DOC_TARGETS-Eintrag bliebe wirkungslos.
+        'variants_forms': r'(?:Formen|[Oo]rthographische\w*\s+Varianten|(?:[Vv]ariant|[Rr]aw)\s+forms)',
+        'variants_normalized': r'(?:[Nn]ormalisierte\w*\s+(?:Schreibvarianten|Varianten)|[Ee]indeutige\s+Zuordnungen|[Nn]ormalized\s+entries|mappings)',
         'persons': r'Personen',
         'concepts': r'(?:Konzepte|Begriffe|Kategorien)',
         'genres': r'(?:Gattungen|Kategorien)',
