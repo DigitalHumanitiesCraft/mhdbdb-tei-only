@@ -101,14 +101,20 @@ test.describe('Issue #196: Echte Hapaxlegomena', () => {
     const panel = page.locator('[id^="hxDetailCell-"]').first();
     await expect(panel).toContainText('Fundstellen:', { timeout: 15000 });
 
-    // Werktitel als Reader-Link, nicht nur die Sigle.
-    const link = panel.locator('li a').first();
-    await expect(link).toHaveAttribute('href', /korpus\.html\?textId=/);
-    const titel = (await link.innerText()).trim();
-    expect(titel.length).toBeGreaterThan(3);
+    // Werktitel als Reader-Link, und zwar der TITEL, nicht die Sigle. Ein
+    // Laengenvergleich reichte dafuer nicht: Siglen wie DJEM haben vier
+    // Zeichen und bestuenden ihn auch als Fallback.
+    const zeile = panel.locator('li').first();
+    const titel = (await zeile.locator('a').innerText()).trim();
+    const sigle = (await zeile.locator('span.font-mono').innerText()).trim();
+    await expect(zeile.locator('a')).toHaveAttribute('href', /korpus\.html\?textId=/);
+    expect(titel).not.toBe(sigle);
 
-    // Autor in Klammern dahinter. 660 der 667 Texte tragen einen.
-    await expect(panel.locator('li').first()).toContainText(/\(.+\)/);
+    // Autor per eigenem Attribut statt per Klammer-Regex: Werktitel duerfen
+    // selbst Klammern enthalten ("Wenzelsbibel (Pentateuch: ...)"), und 7 der
+    // 667 Texte haben gar keinen Autor. Deshalb ueber alle Fundstellen des
+    // Panels pruefen, nicht nur ueber die erste.
+    expect(await panel.locator('li [data-hx-autor]').count()).toBeGreaterThan(0);
   });
 
   test('Route + Sidebar-Button öffnen das Modul, Liste füllt sich', async ({ page }) => {

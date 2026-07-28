@@ -461,7 +461,9 @@ export class HapaxLegomenaAnalyzer {
       const verse = this.verseForPosition(text, o.pos);
       const stelle = verse ? `Vers ${verse}` : `Pos. ${o.pos}`;
       const titel = text?.title || o.textId;
-      const autor = text?.author ? ` <span class="text-slate-600">(${escapeHtml(text.author)})</span>` : '';
+      const autor = text?.author
+        ? ` <span class="text-slate-600" data-hx-autor>(${escapeHtml(text.author)})</span>`
+        : '';
       const url = `../korpus.html?textId=${encodeURIComponent(o.textId)}&lemmaIds=${encodeURIComponent(entry.lemmaId)}&position=${o.pos}`;
       return `<li><a href="${url}" target="_blank" rel="noopener" class="text-brand-700 hover:underline" title="Im Reader mit Highlight öffnen">${escapeHtml(titel)}</a>${autor} <span class="text-slate-300">·</span> <span class="text-slate-600">${escapeHtml(stelle)}</span> <span class="font-mono text-xs text-slate-400">${escapeHtml(o.textId)}</span></li>`;
     });
