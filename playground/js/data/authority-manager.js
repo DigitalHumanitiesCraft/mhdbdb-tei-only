@@ -128,7 +128,9 @@ export class AuthorityFilesManager {
     // Vorher stand hier ein einseitiger Infix-Test (Lemma enthaelt Eingabe),
     // die Hauptseite testete bidirektional — dieselbe Eingabe lieferte je nach
     // Oberflaeche andere Mengen (#169 Punkt #45). Seit #224 teilen sich beide
-    // dasselbe Praedikat. Die Infix-Discovery ("win" findet "lantwin") faellt
+    // dasselbe Praedikat. Die Infix-Discovery ("lantwin" enthaelt "win", was
+    // hier keinen Treffer mehr gibt, sofern eine Eingabe Stufe 3 ueberhaupt
+    // erreicht: "win" ist selbst Lemma und bricht oben bei Stufe 1 ab) faellt
     // dabei bewusst weg; sie war der Traeger des #224-Rauschens.
     //
     // Sortierung wie bei den Homographen: erst Naehe zur Eingabe, dann
