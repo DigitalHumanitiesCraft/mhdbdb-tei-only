@@ -226,8 +226,9 @@
                 Treffer im Wörterbuch, dann Prüfung gegen 234.243 normalisierte Schreibvarianten, dann
                 als Fallback der Wortanfang in beide Richtungen. Sonderzeichen (â, ê, î, ô, û, ä, ö, ü, dazu die
                 Breve-Umlaute ŏ und ŭ aus der Wenzelsbibel) werden automatisch normalisiert.
-                Seit Juli 2026 sucht der Fallback nicht mehr innerhalb von Wörtern: „wein“ findet also nicht mehr „rotwein“.
-                Für Komposita ist der Lemmata-Explorer zuständig.
+                Seit Juli 2026 greift der Fallback nur am Wortanfang, nicht im Wortinneren.
+                Für Komposita ist deshalb die <a href="#wortbestandteil" class="text-brand-600 hover:text-brand-700 font-medium">Wortbestandteil-Suche</a>
+                im Lemmata-Explorer zuständig: sie findet <em>lantwîn</em> über den Bestandteil <em>wîn</em>.
             </p>
 
             <h3 class="text-lg font-semibold text-slate-900 mt-6 mb-2">Suchmodus wählen</h3>
@@ -579,7 +580,7 @@
             <ul class="space-y-3 text-sm text-slate-700 mb-4">
                 <li><strong>Autor*innen</strong> – Einstieg, wenn Sie bei einer Person beginnen: „Welche Werke sind Walther von der Vogelweide zugeschrieben?" Von dort öffnen Sie jedes Werk direkt im Reading View.</li>
                 <li><strong>Werke</strong> – Einstieg, wenn Sie bei einem Text beginnen: Sigle, Autor*in, Editionen und Handschriftenzeugen im Überblick. Nützlich, um mehrere Editionen eines Werks zu vergleichen.</li>
-                <li><strong>Lemmata</strong> – Einstieg, wenn Sie ein Wort nachschlagen wollen, bevor Sie suchen: Wortart, Bedeutungen und Belegzahl auf einen Blick.</li>
+                <li><strong>Lemmata</strong> – Einstieg, wenn Sie ein Wort nachschlagen wollen, bevor Sie suchen: Wortart, Bedeutungen und Belegzahl auf einen Blick. Enthält zusätzlich die <a href="#wortbestandteil" class="text-brand-600 hover:text-brand-700 font-medium">Wortbestandteil-Suche</a> für Komposita-Recherche.</li>
                 <li><strong>Begriffe</strong> – Einstieg für semantische Recherche: von einem Konzept (z.B. <em>Tugend</em>) zu allen zugeordneten Lemmata absteigen.</li>
                 <li><strong>Gattungen</strong> – Einstieg für gattungsbasierte Korpusselektion.</li>
                 <li><strong>Namen</strong> – Einstieg für onomastische Fragen: Eigennamen mit semantischen Relationen.</li>
@@ -592,6 +593,66 @@
                     wenn Sie die spätere TEI-Analyse auf wenige Texte einschränken wollen.
                 </p>
             </div>
+
+            <h3 id="wortbestandteil" class="text-lg font-semibold text-slate-900 mt-8 mb-2 scroll-mt-24">Wortbestandteil-Suche im Lemmata-Explorer</h3>
+
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Der Lemmata-Explorer hat zwei Modi. <strong>Lemma suchen</strong> findet Lemmata zu
+                einer Schreibform, so wie die Korpussuche. <strong>Wortbestandteil suchen</strong>
+                beantwortet die umgekehrte Frage: welche Bildungen gibt es überhaupt zu einem
+                Grundwort? Gesucht wird gegen die Lemmaliste, nicht gegen den Korpus. Das Ergebnis
+                ist also eine Wortschatz-Übersicht, keine Belegliste. Mindestens drei Zeichen.
+            </p>
+
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Die Treffer sind danach gruppiert, wo der Bestandteil steht, weil davon der
+                Erkenntniswert abhängt:
+            </p>
+
+            <ul class="space-y-2 text-sm text-slate-700 mb-4">
+                <li><strong>Am Wortende</strong> – der Bestandteil ist das Grundwort. Hier stehen die Determinativkomposita, etwa <em>ôsterwîn</em>, <em>ziperwîn</em> und <em>lantwîn</em> zu <em>wîn</em>.</li>
+                <li><strong>Am Wortanfang</strong> – der Bestandteil bestimmt ein anderes Grundwort näher, etwa <em>wînrebe</em> oder <em>wînhûs</em>.</li>
+                <li><strong>In der Wortmitte</strong> – startet zugeklappt, weil hier die meisten Zufallstreffer liegen.</li>
+            </ul>
+
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Gesucht wird auf der normalisierten Form, angezeigt wird die Originalform. Die
+                Eingabe „wein“ wird über die Variantenliste auf das Lemma <em>wîn</em> geführt und
+                sucht dann den Bestandteil „win“. Der Kopf der Trefferliste nennt beide Formen, damit
+                nachvollziehbar bleibt, warum <em>wîn</em> unter der Eingabe „wein“ erscheint.
+                Geben Sie den Bestandteil unflektiert ein: die Brücke greift nur bei belegten
+                Schreibformen, „weine“ führt also nicht auf <em>wîn</em>.
+            </p>
+
+            <div class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded-r-lg my-6">
+                <p class="text-sm text-slate-700">
+                    <strong>Was der Zeichenvergleich nicht kann:</strong> Er vergleicht Zeichenfolgen,
+                    nicht Wortbildung. „win“ trifft deshalb auch <em>winter</em>, <em>gewinnen</em> und
+                    <em>winden</em>, und die Komposita auf <em>-swîn</em> (Schwein) stehen neben denen
+                    auf <em>-wîn</em> (Wein). Zwei Dinge helfen beim Aussortieren: die Wortart in der
+                    Trefferzeile (Eigennamen wie <em>Baldewîn</em> tragen NAM) und die Markierung
+                    <em>belegte Wortbildung</em>.
+                </p>
+            </div>
+
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Diese Markierung kommt aus dem Wörterbuch selbst: rund 62 Prozent der Lemmata führen
+                im Lexikon ihre morphologischen Bestandteile mit, <em>ôsterwîn</em> etwa als
+                <em>ôstern</em> plus <em>wîn</em>. Trifft einer dieser Bestandteile das gesuchte
+                Grundwort, ist der Treffer eine verzeichnete Wortbildung und kein Zufall. Das trennt
+                genau die Fälle, die der Zeichenvergleich nicht auseinanderhält: <em>wiltswîn</em>
+                führt <em>swîn</em>, nicht <em>wîn</em>, und <em>winter</em> führt gar nichts.
+                Die Checkbox <strong>Nur belegte Wortbildungen</strong> blendet alles andere aus.
+                Für die übrigen gut 38 Prozent ohne verzeichnete Wortbildung bleibt der
+                Zeichenvergleich der einzige Zugang, deshalb ist er die Voreinstellung.
+            </p>
+
+            <p class="text-slate-700 leading-relaxed">
+                Interessante Treffer lassen sich ankreuzen und gesammelt an die Multi-Lemma-Suche
+                übergeben. Damit bleiben Wortschatz-Recherche und Belegsuche getrennt, aber
+                verbunden. Mehrere übergebene Lemmata werden dort UND-verknüpft, es werden also
+                Texte gesucht, die alle Gewählten enthalten.
+            </p>
         </section>
 
         <!-- 8. Workflow -->

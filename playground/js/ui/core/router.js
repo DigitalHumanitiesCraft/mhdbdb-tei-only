@@ -16,6 +16,7 @@
  * Example URLs:
  *   playground/#authors                          → open Autoren-Explorer
  *   playground/#concepts                         → open Begriffs-Explorer
+ *   playground/#lemmata&mode=component&q=wein    → open Wortbestandteil-Suche (#239)
  *   playground/#multi-lemma                      → open Multi-Lemma-Suche modal
  *   playground/#verse-position                   → open Lemmasuche nach Versposition
  *   playground/#word-frequency                   → open Wortfrequenz-Analyse
@@ -33,7 +34,12 @@
 const ROUTES = {
   'authors':            (params) => window.playground.ui.authorityExplorers[params.q ? 'showAuthorsWithSearch'  : 'showAuthors'](),
   'works':              (params) => window.playground.ui.authorityExplorers[params.q ? 'showWorksWithSearch'    : 'showWorks'](),
-  'lemmata':            (params) => window.playground.ui.authorityExplorers[params.q ? 'showLemmataWithSearch'  : 'showLemmata'](),
+  // #239: mode=component öffnet die Wortbestandteil-Suche. Sie braucht immer
+  // das Sucheingabe-Interface, auch ohne q, weil showLemmata() sonst die
+  // ersten 100 Lemmata rendert und der Modus gar nicht sichtbar wird.
+  'lemmata':            (params) => params.mode === 'component'
+                          ? window.playground.ui.authorityExplorers.showLemmataWithSearch('component')
+                          : window.playground.ui.authorityExplorers[params.q ? 'showLemmataWithSearch'  : 'showLemmata'](),
   'concepts':           (params) => window.playground.ui.authorityExplorers[params.q ? 'showConceptsWithSearch' : 'showConcepts'](),
   'genres':             (params) => window.playground.ui.authorityExplorers[params.q ? 'showGenresWithSearch'   : 'showGenres'](),
   'names':              (params) => window.playground.ui.authorityExplorers[params.q ? 'showNamesWithSearch'    : 'showNames'](),

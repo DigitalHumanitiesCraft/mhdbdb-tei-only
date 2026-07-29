@@ -89,12 +89,34 @@ export class AuthorityUI {
     this.lemmaExplorer.showAllLemmata();
   }
 
-  showLemmataWithSearch() {
-    this.lemmaExplorer.showLemmataWithSearch();
+  showLemmataWithSearch(mode) {
+    this.lemmaExplorer.showLemmataWithSearch(mode);
   }
 
   searchLemmata(searchTerm) {
     this.lemmaExplorer.searchLemmata(searchTerm);
+  }
+
+  // Wortbestandteil-Suche (#239)
+
+  searchWordComponents(searchTerm) {
+    this.lemmaExplorer.searchWordComponents(searchTerm);
+  }
+
+  switchLemmaSearchMode(mode) {
+    this.lemmaExplorer.switchLemmaSearchMode(mode);
+  }
+
+  toggleWordComponentGroup(key) {
+    this.lemmaExplorer.toggleWordComponentGroup(key);
+  }
+
+  toggleComponentMorphFilter(an) {
+    this.lemmaExplorer.toggleComponentMorphFilter(an);
+  }
+
+  sendWordComponentSelection() {
+    this.lemmaExplorer.sendWordComponentSelection();
   }
 
   showLemmaSenses(lemmaId) {
