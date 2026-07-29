@@ -267,8 +267,10 @@ test.describe('Aufräumrunde: doppelte Lemma-IDs degenerieren die Kookkurrenz-Su
         // Die beobachtbare Folge steckt in matchPositions, nicht in der
         // Distanz: ohne Dedup stuende die doppelte Positionsliste ein zweites
         // Mal unter den abzudeckenden, und die Trefferposition erschiene
-        // doppelt ([12, 12, 30] statt [12, 30]). Die UI hebt genau darueber
-        // hervor. Die Distanz aendert sich dabei NICHT, weil lemma_2 ohnehin
+        // doppelt ([12, 12, 30] statt [12, 30]). In der Oberflaeche faellt
+        // das heute nicht auf (matchPositions wird dort nur als Math.min
+        // fuer die Sprungmarke gelesen), deshalb wird es hier auf
+        // API-Ebene festgenagelt. Die Distanz aendert sich NICHT, weil lemma_2 ohnehin
         // abgedeckt werden muss und windowStart = firstPos immer tragfaehig
         // ist; eine Zusicherung auf die Distanz allein wuerde den Dedup also
         // nicht pruefen.

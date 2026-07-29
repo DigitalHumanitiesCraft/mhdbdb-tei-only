@@ -873,11 +873,17 @@ export class TEIFilesManager {
         // truege dieselbe Positionsliste zweimal als abzudeckende Liste
         // ein. Die deckt sich selbst ab. Die gemeldete Distanz bleibt
         // dabei gleich (das dritte Lemma muss ohnehin abgedeckt werden,
-        // und windowStart = firstPos ist immer tragfaehig), sichtbar wird
-        // es an matchPositions: dort stuende die Trefferposition doppelt,
-        // [12, 12, 30] statt [12, 30], und die UI hebt darueber hervor.
-        // Eine Anfrage ueber drei Lemmata waere still als eine ueber zwei
-        // beantwortet. Die Funktionskoerper vertragen bare IDs.
+        // und windowStart = firstPos ist immer tragfaehig), der Unterschied
+        // steht in matchPositions: dort stuende die Trefferposition
+        // doppelt, [12, 12, 30] statt [12, 30]. Eine Anfrage ueber drei
+        // Lemmata waere still als eine ueber zwei beantwortet.
+        //
+        // Beobachtbare Folge in der Oberflaeche hat das heute keine: das
+        // Feld wird nur in ui-helpers.js als Math.min fuer die
+        // Sprungposition gelesen, und ein Duplikat verschiebt das Minimum
+        // nicht. Der Guard ist Vertragshygiene fuer den naechsten
+        // Aufrufer und auf API-Ebene getestet. Die Funktionskoerper
+        // vertragen bare IDs.
         lemmaIds = [...new Set(lemmaIds.map(id => String(id).replace(/^lemma_/, '')))];
         if (lemmaIds.length < 2) return [];
 
