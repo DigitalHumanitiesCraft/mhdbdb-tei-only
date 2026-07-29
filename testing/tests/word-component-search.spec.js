@@ -238,6 +238,36 @@ test.describe('#239: Belegte Wortbildungen aus lemma.etymology', () => {
         await expect(page.locator('#component-group-anfang')).toBeHidden();
     });
 
+    test('der Filter bleibt abschaltbar, wenn er alles wegfiltert', async ({ page }) => {
+        // Sackgassen-Probe. „lantwîn" hat genau einen weiteren Treffer, und der
+        // ist keine belegte Wortbildung: mit Filter ist die Anzeigemenge leer.
+        // Der Kopf muss trotzdem stehen, denn in ihm sitzt die Checkbox, auf
+        // die die Meldung gerade verweist. Ohne Kopf bliebe componentOnlyMorph
+        // gesetzt und wäre nicht mehr erreichbar.
+        await page.fill('#lemmaSearch', 'lantwîn');
+        await page.locator('#componentOnlyMorph').check();
+
+        await expect(page.locator('#lemmaResults')).toContainText('Filter abschalten');
+        await expect(page.locator('#componentOnlyMorph')).toBeVisible();
+        await expect(page.locator('#componentOnlyMorph')).toBeChecked();
+
+        // und der Weg zurück funktioniert auch wirklich
+        await page.locator('#componentOnlyMorph').uncheck();
+        await expect(page.locator('#component-group-ende')).toHaveCount(1);
+    });
+
+    test('die Leer-Meldung leugnet den Exakt-Treffer nicht', async ({ page }) => {
+        // „wiltswîn" ist selbst Lemma, hat aber keinen einzigen Treffer in den
+        // Positionsgruppen. „Kein Lemma enthält den Bestandteil" wäre hier
+        // nachweislich falsch: das Lemma steht im Kopf darüber.
+        await page.fill('#lemmaSearch', 'wiltswîn');
+
+        const ergebnis = page.locator('#lemmaResults');
+        await expect(ergebnis).toContainText('Der gesuchte Bestandteil ist selbst ein Lemma');
+        await expect(ergebnis).toContainText('Außer dem Lemma selbst');
+        await expect(ergebnis).not.toContainText('Kein Lemma enthält den Bestandteil');
+    });
+
     test('der Gruppenkopf trägt aria-expanded passend zum Zustand', async ({ page }) => {
         const ende = page.locator('[aria-controls="component-group-ende"]');
         const mitte = page.locator('[aria-controls="component-group-mitte"]');

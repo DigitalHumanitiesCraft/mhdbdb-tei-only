@@ -166,6 +166,10 @@ export class LemmaExplorer {
    * Geht über den Hash, damit der Modus bookmarkbar bleibt (#48-Konvention).
    */
   switchLemmaSearchMode(modus) {
+    // Der Moduswechsel verwirft die Trefferliste, also auch ihren gesicherten
+    // Zustand. Sonst überlebt eine Sicherung den Ausflug in die normale
+    // Lemmasuche und wird nach der Rückkehr auf einen anderen Begriff gelegt.
+    this.discardComponentViewState();
     const eingabe = document.getElementById("lemmaSearch");
     const term = eingabe ? eingabe.value.trim() : "";
     const teile = ["lemmata"];
@@ -295,6 +299,7 @@ export class LemmaExplorer {
     const term = (searchTerm || "").trim();
 
     if (!term) {
+      this.discardComponentViewState();
       showEmptySearchState(
         "lemmaResults",
         `Wortbestandteil eingeben, mindestens ${COMPONENT_MIN_LENGTH} Zeichen.`
@@ -308,6 +313,7 @@ export class LemmaExplorer {
     // und Fehlermeldung drei Zeichen versprechen.
     if (term.length < COMPONENT_MIN_LENGTH ||
         TextNormalizer.normalizeMHG(term).length < COMPONENT_MIN_LENGTH) {
+      this.discardComponentViewState();
       showEmptySearchState(
         "lemmaResults",
         `Mindestens ${COMPONENT_MIN_LENGTH} Zeichen, sonst wird die Trefferliste unbrauchbar groß.`
@@ -390,14 +396,28 @@ export class LemmaExplorer {
       .reduce((s, [, liste]) => s + liste.length, 0);
 
     if (angezeigt === 0) {
+      // Der Kopf MUSS auch hier stehen. In ihm sitzt die Filter-Checkbox, und
+      // die Meldung darunter rät gerade dazu, den Filter abzuschalten: ohne
+      // Kopf verschwindet das Bedienelement zusammen mit den Treffern,
+      // `componentOnlyMorph` bleibt aber gesetzt. Wer einmal hier landet, käme
+      // nur über eine neue Suche mit belegten Treffern wieder heraus.
+      const meldung = this.componentOnlyMorph && gefundenGesamt > 0
+        ? `Keiner der ${gefundenGesamt} Treffer für "${this.escapeText(term)}" führt ein passendes Grundwort als belegte Wortbildung. Filter abschalten, um alle Zeichen-Treffer zu sehen.`
+        : gruppen.exakt.length
+          // „Kein Lemma enthält …" wäre hier falsch: das Lemma steht im Kopf.
+          ? `Außer dem Lemma selbst enthält kein weiteres den Bestandteil "${this.escapeText(term)}".`
+          : `Kein Lemma enthält den Bestandteil "${this.escapeText(term)}".`;
+
       renderToContainer(
         "lemmaResults",
+        this.buildComponentHeaderHTML(
+          term, formen, quellen, gruppen, gefundenGesamt, belegteGesamt, angezeigt
+        ) +
         `<div class="rounded-2xl border border-dashed border-slate-200 bg-slate-50/70 p-6 text-center text-sm text-slate-500">
-          ${this.componentOnlyMorph && gefundenGesamt > 0
-            ? `Keiner der ${gefundenGesamt} Treffer für "${this.escapeText(term)}" führt ein passendes Grundwort als belegte Wortbildung. Filter abschalten, um alle Zeichen-Treffer zu sehen.`
-            : `Kein Lemma enthält den Bestandteil "${this.escapeText(term)}".`}
+          ${meldung}
         </div>`
       );
+      this.restoreComponentViewState();
       return;
     }
 
@@ -434,6 +454,18 @@ export class LemmaExplorer {
         return el && !el.classList.contains("hidden");
       }).map((g) => g.key)
     );
+  }
+
+  /**
+   * Gesicherten Ansichtszustand wegwerfen. Nötig in jedem Pfad, der die
+   * Trefferliste verlässt, ohne sie neu aufzubauen: die Sicherung wird sonst
+   * von der NÄCHSTEN Suche eingelöst und setzt dort Häkchen, die zu einem
+   * anderen Suchbegriff gehören. Sichtbar würde das erst bei der Übergabe an
+   * die Multi-Lemma-Suche, also zu spät.
+   */
+  discardComponentViewState() {
+    this._componentPicked = null;
+    this._componentOpen = null;
   }
 
   restoreComponentViewState() {
