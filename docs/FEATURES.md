@@ -143,11 +143,21 @@ Browse and search six controlled vocabularies with consistent interface patterns
 - Display: Title, sigle, author, genres, GND/Wikidata (work-specific), bibliographic references
 - Note: v1.1.0 added separate work identifiers (distinct from author)
 
-**Lemma Explorer:**
+**Lemma Explorer:** two named modes, switchable in the header, routed as `#lemmata` and `#lemmata&mode=component`
+
+*Lemma suchen* (default):
 - Search by lemma (normalized MHG)
 - Display: Lemma, POS, sense count, etymology, full sense definitions with concepts
 - Lemma titles link to persistent lemma pages (`/lemma/{id}`)
 - Action: Search lemma in corpus
+
+*Wortbestandteil suchen* (#239, word-component search for compounds):
+- Searches the lemma list, not the corpus: the result is a vocabulary survey, not a concordance
+- Results grouped by where the component sits: word-final (the head of a determinative compound, expanded), word-initial (expanded), word-medial (collapsed by default, most false hits live there)
+- Matching runs on the normalized form, display keeps the original. The input additionally resolves through the variants list, which is what lets „wein" reach `wîn` and thus `ôsterwîn`; without that bridge nothing would match, because `normalizeMHG("wein")` is `wein` and `normalizeMHG("ôsterwîn")` is `osterwin`. The header names both forms
+- Minimum input length 3, enforced on the bridged form as well
+- Selected lemmata (including the base word itself) can be handed to the multi-lemma search as a set
+- Character-based without morphology: „win" also hits `winter`, `gewinnen`, and the `-swîn` (pig) compounds sit next to the `-wîn` (wine) ones. Stemming belongs to #109. Stage 1 to 3 of the regular resolution are untouched (ADR-016)
 
 **Concept Explorer:**
 - Search by concept term (German or English)

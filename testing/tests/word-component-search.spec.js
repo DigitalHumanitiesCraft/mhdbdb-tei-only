@@ -1,0 +1,188 @@
+/**
+ * Wortbestandteil-Suche im Lemmata-Explorer (#239)
+ *
+ * Eigener, benannter Modus für Komposita-Recherche, ausgelagert aus #169:
+ * mit der Präfix-Regel in Stufe 3 (ADR-016, #224) entfällt die stille
+ * Infix-Discovery der normalen Suche, die Funktion selbst ist philologisch
+ * aber gewollt.
+ *
+ * Zwei Dinge, die diese Tests festhalten, weil sie nicht offensichtlich sind:
+ *
+ * 1. Die Eingabe „wein" findet Wein-Komposita nur über eine Brücke.
+ *    normalizeMHG("wein") ist "wein", normalizeMHG("ôsterwîn") ist
+ *    "osterwin". Gesucht wird deshalb zusätzlich mit der normalisierten Form
+ *    des Lemmas, auf das die Variantenliste zeigt (wîn → "win").
+ *
+ * 2. `rôtwîn` aus dem Ticket-Beispiel steht NICHT im Lexikon (geprüft gegen
+ *    data/authority-index.json.gz: kein Lemma normalisiert auf "rotwin",
+ *    kein Varianten-Schlüssel). Die Tests belegen die Anforderung deshalb an
+ *    den vorhandenen Determinativkomposita ôsterwîn, ziperwîn und lantwîn.
+ */
+
+import { test, expect } from '@playwright/test';
+
+const KOMPONENTEN_ROUTE = 'http://localhost:8080/playground/#lemmata&mode=component';
+
+/** Wartet, bis der Authority-Index geladen und der Explorer verdrahtet ist. */
+async function playgroundBereit(page) {
+    await page.waitForFunction(
+        () => window.playground?.authorityData?.lemmata?.length > 0 &&
+              window.playground?.ui?.authorityExplorers !== undefined,
+        { timeout: 60000 }
+    );
+}
+
+/** Lemma-Beschriftungen einer Positionsgruppe, in Anzeigereihenfolge. */
+function gruppe(page, key) {
+    return page.evaluate((k) => {
+        const el = document.getElementById(`component-group-${k}`);
+        if (!el) return null;
+        return {
+            zugeklappt: el.classList.contains('hidden'),
+            lemmata: [...el.querySelectorAll('.component-pick')].map(b => b.value)
+        };
+    }, key);
+}
+
+test.describe('#239: Wortbestandteil-Suche', () => {
+    test.beforeEach(async ({ page }) => {
+        await page.goto(`${KOMPONENTEN_ROUTE}&q=wein`);
+        await playgroundBereit(page);
+        await page.waitForSelector('#component-group-ende', { timeout: 30000 });
+    });
+
+    test('„wein" findet Wein-Komposita in der Gruppe am Wortende', async ({ page }) => {
+        const ende = await gruppe(page, 'ende');
+
+        expect(ende.zugeklappt).toBe(false);
+        // Determinativkomposita zu wîn, die tatsächlich im Lexikon stehen.
+        expect(ende.lemmata).toContain('ôsterwîn');
+        expect(ende.lemmata).toContain('ziperwîn');
+        expect(ende.lemmata).toContain('lantwîn');
+    });
+
+    test('die Normalisierungs-Brücke steht sichtbar im Kopf', async ({ page }) => {
+        // Anforderung 4: ohne diesen Satz ist nicht nachvollziehbar, warum die
+        // Eingabe „wein" das Lemma wîn und dessen Komposita findet.
+        const kopf = page.locator('#lemmaResults');
+        await expect(kopf).toContainText('Gesucht wird auf der normalisierten Form');
+        await expect(kopf).toContainText('wîn');
+        await expect(kopf).toContainText('Angezeigt werden die Originalformen');
+    });
+
+    test('gewinnen steht in der Wortmitte, und die Gruppe startet zugeklappt', async ({ page }) => {
+        const mitte = await gruppe(page, 'mitte');
+
+        expect(mitte.zugeklappt).toBe(true);
+        expect(mitte.lemmata).toContain('gewinnen');
+
+        // Die Gruppe ist zugeklappt, nicht leer: ihre Einträge sind im DOM.
+        expect(mitte.lemmata.length).toBeGreaterThan(50);
+        await expect(page.locator('#component-group-mitte')).toBeHidden();
+    });
+
+    test('winter landet am Wortanfang, nicht in der Wortmitte', async ({ page }) => {
+        // Abweichung vom zweiten Akzeptanzkriterium in #239, das winter
+        // zusammen mit gewinnen in der Wortmitten-Gruppe erwartet. „winter"
+        // BEGINNT mit dem gesuchten Bestandteil „win", die Gruppen sind aber
+        // positional definiert (Anforderung 3). Als Zufallstreffer bleibt es
+        // trotzdem erkennbar, nur eben eine Gruppe weiter oben.
+        const anfang = await gruppe(page, 'anfang');
+        const mitte = await gruppe(page, 'mitte');
+
+        expect(anfang.lemmata).toContain('winter');
+        expect(mitte.lemmata).not.toContain('winter');
+    });
+
+    test('Auswahl wird gesammelt an die Multi-Lemma-Suche übergeben', async ({ page }) => {
+        await page.locator('#component-group-ende .component-pick[value="ôsterwîn"]').check();
+        await page.locator('#component-group-ende .component-pick[value="ziperwîn"]').check();
+        await page.getByRole('button', { name: /Auswahl an die Multi-Lemma-Suche/ }).click();
+
+        await expect(page).toHaveURL(/#multi-lemma&lemmata=/);
+        const hash = decodeURIComponent(new URL(page.url()).hash);
+        expect(hash).toContain('ôsterwîn');
+        expect(hash).toContain('ziperwîn');
+    });
+
+    test('auch das Grundwort selbst ist ankreuzbar und übergebbar', async ({ page }) => {
+        // Die Eingabe „wein" führt über die Variantenliste auf wîn. Wer
+        // Komposita sammelt, will das Grundwort oft mitgeben (wîn + trinken);
+        // ohne Checkbox im Kopf müsste man es drüben nachtippen.
+        const exaktBox = page.locator('#lemmaResults .component-pick[value="wîn"]');
+        await expect(exaktBox).toHaveCount(1);
+
+        await exaktBox.check();
+        await page.getByRole('button', { name: /Auswahl an die Multi-Lemma-Suche/ }).click();
+
+        await expect(page).toHaveURL(/#multi-lemma&lemmata=/);
+        expect(decodeURIComponent(new URL(page.url()).hash)).toContain('wîn');
+    });
+
+    test('ohne Auswahl navigiert der Übergabe-Knopf nicht weg', async ({ page }) => {
+        await page.getByRole('button', { name: /Auswahl an die Multi-Lemma-Suche/ }).click();
+
+        await expect(page.locator('#componentPickHint')).toContainText('mindestens ein Lemma');
+        expect(page.url()).not.toContain('multi-lemma');
+    });
+
+    test('Mindestlänge von 3 Zeichen wird durchgesetzt', async ({ page }) => {
+        await page.fill('#lemmaSearch', 'wi');
+
+        await expect(page.locator('#lemmaResults')).toContainText('Mindestens 3 Zeichen');
+        await expect(page.locator('#component-group-ende')).toHaveCount(0);
+    });
+});
+
+test.describe('#239: Modus-Umschaltung und Regression der normalen Lemmasuche', () => {
+    test('der Umschalter wechselt zwischen beiden Modi und nimmt den Begriff mit', async ({ page }) => {
+        await page.goto(`${KOMPONENTEN_ROUTE}&q=wein`);
+        await playgroundBereit(page);
+        await page.waitForSelector('#component-group-ende', { timeout: 30000 });
+
+        await page.getByRole('button', { name: 'Lemma suchen' }).click();
+
+        // Normale Lemmasuche: keine Positionsgruppen, Suchbegriff erhalten.
+        await expect(page.locator('#component-group-ende')).toHaveCount(0);
+        await expect(page.locator('#lemmaSearch')).toHaveValue('wein');
+        await expect(page.locator('#lemmaResults')).toContainText('Treffer für "wein"');
+    });
+
+    test('die normale Lemmasuche arbeitet unverändert (ADR-016 unangetastet)', async ({ page }) => {
+        // Regressionstest gegen Akzeptanzkriterium 4: der neue Modus darf die
+        // reguläre Suche nicht anfassen. Sie ist unverändert substring-basiert
+        // auf der normalisierten Form und kennt keine Gruppen.
+        await page.goto('http://localhost:8080/playground/#lemmata&q=minne');
+        await playgroundBereit(page);
+
+        await expect(page.locator('#lemmaResults')).toContainText('Treffer für "minne"', { timeout: 30000 });
+        await expect(page.locator('#component-group-ende')).toHaveCount(0);
+        await expect(page.locator('#lemmaResults')).not.toContainText('Als Grundwort am Wortende');
+
+        const treffer = await page.evaluate(() => {
+            const ae = window.playground.ui.authorityExplorers;
+            const N = window.playground.authorityData;
+            // Dieselbe Menge, die searchLemmata() rendert: normalisierter
+            // Substring-Test über alle Lemma-Labels.
+            return {
+                modus: ae.lemmaExplorer.searchMode,
+                hatWortbestandteilMethode: typeof ae.searchWordComponents,
+                lemmataGesamt: N.lemmata.length
+            };
+        });
+
+        expect(treffer.modus).toBe('lemma');
+        expect(treffer.hatWortbestandteilMethode).toBe('function');
+        expect(treffer.lemmataGesamt).toBeGreaterThan(40000);
+    });
+
+    test('die Route ohne mode-Parameter öffnet weiterhin die normale Suche', async ({ page }) => {
+        await page.goto('http://localhost:8080/playground/#lemmata');
+        await playgroundBereit(page);
+
+        const modus = await page.evaluate(
+            () => window.playground.ui.authorityExplorers.lemmaExplorer.searchMode
+        );
+        expect(modus).toBe('lemma');
+    });
+});
