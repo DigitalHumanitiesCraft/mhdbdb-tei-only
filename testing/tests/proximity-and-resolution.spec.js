@@ -275,6 +275,11 @@ test.describe('Aufräumrunde: doppelte Lemma-IDs degenerieren die Kookkurrenz-Su
             return explorer.resolveLemmaIds(['wîn', 'wein']);
         });
 
-        expect(ids).toEqual(['7532']);
+        // Geprüft wird die Eigenschaft, nicht das ID-Paar: welche ID „wein"
+        // trifft, kann sich ändern (die Lemma-IDs wurden schon einmal neu
+        // vergeben, siehe den Fast-Path-Kommentar in tei-ui.js), der Dedup
+        // bleibt davon unberührt.
+        expect(ids.length).toBe(1);
+        expect(new Set(ids).size).toBe(ids.length);
     });
 });

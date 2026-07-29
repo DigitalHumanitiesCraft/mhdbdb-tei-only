@@ -657,7 +657,9 @@ export class TEIFilesManager {
         // Vergleichsschleife startet bei i = 1 und läuft mit einem Lemma
         // gar nicht, allInVerse bliebe true und jeder Vers mit dem Lemma
         // wäre ein Treffer.
-        if (new Set(lemmaIds.map(String)).size < 2) return [];
+        // Normalisiert wie der Code darunter: "7532" und "lemma_7532"
+        // sind dieselbe ID, sonst kaeme genau das Paar durch den Guard.
+        if (new Set(lemmaIds.map(id => String(id).replace(/^lemma_/, ''))).size < 2) return [];
 
         const results = [];
         const includedTexts = corpusData.includedTexts || new Set();
@@ -930,7 +932,9 @@ export class TEIFilesManager {
         // ein leeres Array, das ist truthy, und jede Fundstelle käme als
         // Treffer mit Abstand 0 zurück. Die Oberfläche fängt den Fall schon ab
         // und erklärt ihn; dieser Guard steht für den nächsten Aufrufer.
-        if (new Set(lemmaIds.map(String)).size < 2) return [];
+        // Normalisiert wie der Code darunter: "7532" und "lemma_7532"
+        // sind dieselbe ID, sonst kaeme genau das Paar durch den Guard.
+        if (new Set(lemmaIds.map(id => String(id).replace(/^lemma_/, ''))).size < 2) return [];
 
         const results = [];
         const includedTexts = corpusData.includedTexts || new Set();
