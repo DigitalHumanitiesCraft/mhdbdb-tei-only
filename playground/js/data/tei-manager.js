@@ -580,37 +580,6 @@ export class TEIFilesManager {
     // ==================== INDEX-BASED SEARCH (FAST) ====================
 
     /**
-     * Check if corpus is loaded from pre-built index (enables fast search)
-     */
-    hasCorpusIndex() {
-        return this.corpusIndex && this.corpusIndex.texts && this.corpusIndex.lemmaIndex;
-    }
-
-    /**
-     * Find texts containing all specified lemmas using index (instant filtering)
-     */
-    findTextsContainingLemmas(lemmaIds) {
-        if (!this.hasCorpusIndex()) return null;
-
-        console.log(`🔍 Filtering ${this.corpusIndex.texts.length} texts using index...`);
-
-        // Get texts for each lemma from lemmaIndex
-        const textSets = lemmaIds.map(lemmaId => {
-            const lemmaKey = lemmaId.toString().startsWith('lemma_') ? lemmaId : `lemma_${lemmaId}`;
-            return new Set(this.corpusIndex.lemmaIndex[lemmaKey] || []);
-        });
-
-        // Find intersection (texts containing ALL lemmas)
-        const firstSet = textSets[0];
-        const intersection = Array.from(firstSet).filter(textId =>
-            textSets.every(set => set.has(textId))
-        );
-
-        console.log(`   Found ${intersection.length} texts containing all ${lemmaIds.length} lemmas`);
-        return intersection;
-    }
-
-    /**
      * Fast multi-lemma search using index data (when available)
      * Falls back to XML search for uploaded files
      */
@@ -902,10 +871,13 @@ export class TEIFilesManager {
         // "lemma_7532" sind dieselbe ID, ein Aufruf mit
         // ['7532','lemma_7532','9999'] kaeme sonst durch den Guard und
         // truege dieselbe Positionsliste zweimal als abzudeckende Liste
-        // ein. Die deckt sich selbst ab, und die gemeldete Distanz
-        // stammte dann von zwei Vorkommen desselben Lemmas: eine Anfrage
-        // ueber drei Lemmata waere still als eine ueber zwei beantwortet.
-        // Die Funktionskoerper vertragen bare IDs.
+        // ein. Die deckt sich selbst ab. Die gemeldete Distanz bleibt
+        // dabei gleich (das dritte Lemma muss ohnehin abgedeckt werden,
+        // und windowStart = firstPos ist immer tragfaehig), sichtbar wird
+        // es an matchPositions: dort stuende die Trefferposition doppelt,
+        // [12, 12, 30] statt [12, 30], und die UI hebt darueber hervor.
+        // Eine Anfrage ueber drei Lemmata waere still als eine ueber zwei
+        // beantwortet. Die Funktionskoerper vertragen bare IDs.
         lemmaIds = [...new Set(lemmaIds.map(id => String(id).replace(/^lemma_/, '')))];
         if (lemmaIds.length < 2) return [];
 

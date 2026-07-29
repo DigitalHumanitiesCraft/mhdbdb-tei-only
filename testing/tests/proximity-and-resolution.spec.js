@@ -263,15 +263,22 @@ test.describe('Aufräumrunde: doppelte Lemma-IDs degenerieren die Kookkurrenz-Su
         const gemischt = await runProximity(page, { 10: '1', 40: '1' }, ['1', 'lemma_1'], 10);
         expect(gemischt).toHaveLength(0);
 
-        // Und mit einem echten dritten Lemma bleibt es eine Suche ueber ZWEI:
-        // die Distanz muss vom Abstand zu lemma_2 stammen, nicht von zwei
-        // Vorkommen von lemma_1. Ohne Dedup faende die Fenstersuche das
-        // engere Fenster um die beiden lemma_1-Positionen.
+        // Und mit einem echten dritten Lemma bleibt es eine Suche ueber ZWEI.
+        // Die beobachtbare Folge steckt in matchPositions, nicht in der
+        // Distanz: ohne Dedup stuende die doppelte Positionsliste ein zweites
+        // Mal unter den abzudeckenden, und die Trefferposition erschiene
+        // doppelt ([12, 12, 30] statt [12, 30]). Die UI hebt genau darueber
+        // hervor. Die Distanz aendert sich dabei NICHT, weil lemma_2 ohnehin
+        // abgedeckt werden muss und windowStart = firstPos immer tragfaehig
+        // ist; eine Zusicherung auf die Distanz allein wuerde den Dedup also
+        // nicht pruefen.
         const mitDrittem = await runProximity(
             page, { 10: '1', 12: '1', 30: '2' }, ['1', 'lemma_1', '2'], 25
         );
         expect(mitDrittem).toHaveLength(1);
         expect(mitDrittem[0].distance).toBe(18);
+        expect(mitDrittem[0].matchPositions).toHaveLength(2);
+        expect([...mitDrittem[0].matchPositions].sort((a, b) => a - b)).toEqual([12, 30]);
     });
 
     test('die Vers-Suche verweigert dieselbe Arbeit', async ({ page }) => {
@@ -287,10 +294,14 @@ test.describe('Aufräumrunde: doppelte Lemma-IDs degenerieren die Kookkurrenz-Su
                     lineStarts: [0, 2], lineEnds: [1, 3]
                 }]
             };
+            const tm = window.playground.teiManager;
+            const mitDrittem = tm.searchVerseUsingEnhancedIndex(['1', 'lemma_1', '2'], korpus);
             return {
-                echt: window.playground.teiManager.searchVerseUsingEnhancedIndex(['1', '2'], korpus).length,
-                doppelt: window.playground.teiManager.searchVerseUsingEnhancedIndex(['1', 'lemma_1'], korpus).length,
-                einzeln: window.playground.teiManager.searchVerseUsingEnhancedIndex(['1'], korpus).length
+                echt: tm.searchVerseUsingEnhancedIndex(['1', '2'], korpus).length,
+                doppelt: tm.searchVerseUsingEnhancedIndex(['1', 'lemma_1'], korpus).length,
+                einzeln: tm.searchVerseUsingEnhancedIndex(['1'], korpus).length,
+                mitDrittemAnzahl: mitDrittem.length,
+                mitDrittemPositionen: mitDrittem[0] ? mitDrittem[0].matchPositions.length : null
             };
         });
 
@@ -298,6 +309,11 @@ test.describe('Aufräumrunde: doppelte Lemma-IDs degenerieren die Kookkurrenz-Su
         // Ohne Guard waere hier JEDER Vers mit lemma_1 ein Treffer, also 2.
         expect(treffer.doppelt).toBe(0);
         expect(treffer.einzeln).toBe(0);
+
+        // Und wie im Naehe-Pfad zeigt sich der Dedup an matchPositions: ohne
+        // ihn stuende die Position von lemma_1 zweimal darin.
+        expect(treffer.mitDrittemAnzahl).toBe(1);
+        expect(treffer.mitDrittemPositionen).toBe(2);
     });
 
     test('resolveLemmaIds liefert jede Lemma-ID nur einmal', async ({ page }) => {
