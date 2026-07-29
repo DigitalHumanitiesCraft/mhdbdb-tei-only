@@ -1,245 +1,245 @@
 # Masterplan: Autonome Issue-Abarbeitungs-Session
 
-**Erstellt:** 2026-07-03 (Audit-Session, Fable 5); Vorgänger-Sessions sind gelaufen und gemergt.
-**Neu befüllt:** 2026-07-28 (Voll-Audit aller 36 offenen Issues, Opus 5). Session-Inhalte 12.07. geleert; Git-History = Archiv.
-**Status:** Session 2026-07-28 GELAUFEN (Kickoff „starte den plan autonom", Entscheidungen §5). Ergebnis und Lehren: §7. Vor der nächsten Session §1/§3/§5/§6 neu befüllen.
-**Typ:** Playbook (wiederverwendbares Session-Verfahren, dauerhaft). Der session-spezifische Teil (§1, §3, §5, §6) wird pro Session neu befüllt; der Betriebsvertrag (§2) ist der stabile Kern.
+**Erstellt:** 2026-07-03 (Audit-Session, Fable 5); mehrere Vorgänger-Sessions sind gelaufen und gemergt.
+**Neu befüllt:** 2026-07-29 (nach der Merge-Session 28./29.07., Opus 5). Session-Inhalte 28.07. geleert; Git-History = Archiv.
+**Status:** BEREIT. Kickoff-Prompt steht in §6. Vor der übernächsten Session §1/§3/§5/§6 neu befüllen.
+**Typ:** Playbook (wiederverwendbares Session-Verfahren, dauerhaft). Der session-spezifische Teil (§1, §3, §5, §6) wird pro Session neu befüllt; der Betriebsvertrag (§2) und die Verifikations-Handwerksregeln (§2.1) sind der stabile Kern.
 
-Quellen des Audits: alle 36 offenen Issue-Bodies + Kommentarverläufe seit 13.07. (Dump 28.07.), die beiden Screenshots aus #224 und #196, git log (main bis zum Stand 28.07.), Belegzählungen gegen `authority-files/lexicon.xml`, `data/authority-index.json.gz` und `tei/*.tei.xml`.
+Quellen dieses Audits: alle 41 offenen Issue-Bodies und die Kommentarverläufe seit 27.07. (Stand 29.07. 10:00), die Entscheidungen von KZW vom 28.07. in #169 und #138, `git log` auf `main` bis `aa774199c`, sowie eigene Messungen gegen `data/authority-index.json.gz`, `playground/js/data/tei-manager.js` und `playground/js/ui/tei/tei-ui.js`.
 
 ---
 
-## 1. Audit-Ergebnis: 36 offene Issues (Stand 2026-07-28)
+## 1. Ausgangslage (Stand 2026-07-29)
 
-Auslöser dieser Session ist KZWs Durchgang vom 27.07.: zwei Issues geschlossen (#203, #204), drei mit konkreten Nachbesserungen zurückgegeben (#196, #190, #140), eines an Julia übergeben (#198), eines an Linda gepingt (#59). Dazu drei neue Issues (#224, #225, #226) und vier Beobachtungen von Julia in #138. Der autonom lieferbare Bestand ist damit deutlich größer als am 12.07.: fünf Kern-Deliverables statt zwei.
+41 offene Issues. Die Merge-Session vom 28./29.07. hat sechs PRs auf `main` gebracht (#241, #238, #243, #240, #244, #231); es ist kein PR mehr offen. **#196 hat KZW am 29.07. um 08:17 selbst geschlossen**, 14 Minuten nach dem Ping mit der Live-URL: das Hapax-Detailpanel ist abgenommen.
 
-Zwei Befunde aus dem Vorflug-Audit bestimmen den Zuschnitt:
+**Der Anlass dieser Session ist, dass KZW am 28.07. vier Entscheidungen getroffen hat**, die vorher blockierten:
 
-**#224 ist kein WZB-Problem, sondern Stufe 3 der Lemma-Auflösung.** `assets/js/search/search-engine.js:142` wertet `normalized.includes(lemma.normalized)` aus. Gegen `data/authority-index.json.gz` nachgerechnet liefert die Suche nach „böses" (normalisiert `boeses`) genau vier Stage-3-Treffer: `ês`/`es`, `ô`/`o`, `sê`/`se` und `bœse`/`boese`. Die drei Kurzlemmata sind der Bug, `bœse` ist die gesuchte Antwort. Der Korpus enthält 5 einbuchstabige, 98 zweibuchstabige und 598 dreibuchstabige normalisierte Lemma-Formen; sie vergiften jede Suche mit einem nicht im Lexikon stehenden Wort. Damit ist der seit Juli offene Entscheidungspunkt #169/#45 („welche Stage-3-Variante ist kanonisch?") nicht mehr theoretisch, sondern hat einen externen Bug-Report.
+In **#169** steht wörtlich „Option B ist bestätigt", dazu „**#15 Nähesuche: bitte fixen**" und „**#51 und #48: einverstanden, bitte umsetzen**". Achtung, Stolperstelle: `#15`, `#51` und `#48` sind **Befund-Nummern innerhalb des #169-Bodys**, keine Issue-Nummern. Wer sie als Issues nachschlägt, landet bei einem Actions-Workflow von 2025 und zwei längst geschlossenen Tickets.
 
-**#196: KZWs Intuition trifft zu, aber für 5 statt 202 Lemmata.** `lexicon.xml` enthält 202 NUM-only-Lemmata. 197 davon sind echte Zahlwörter (drî, hundert, zweite, drîzehenhundert) und damit keine „stummen Lemmata"; NUM ist reguläres Tag des 19er-Sets (116.966 `@pos`-Vorkommen laut POS-TAGSET.md §2; lemma-seitig 121.258 Tokens im Korpus-Index). Reine Ziffern-Lemmata gibt es genau fünf: `1` (lemma_53328), `36` (lemma_69748), `42` (lemma_69749), `46` (lemma_69733), `49` (lemma_69750), zusammen 118 Belege über fünf Texte (NEIM 63, BRW 26, MR1 15, WVV 11, NML 3). Genau diese fünf stehen in KZWs Screenshot. Der Filter-Wunsch und die TEI-Putz-Frage sind deshalb zwei getrennte Deliverables.
+In **#138** steht „stimme zu" unter der Kollation gegen die Hofmeister-Edition. Die Verszählung ist damit fachlich bestätigt; der Kern von #138 (die editorischen `<div>`-Hüllen) bleibt offen und weiter bei KZW.
 
-### A. Voll autonom lösbar (5 + Meta)
+Neu von KZW angelegt (28.07.): #242 Sparkling Science, #239 Wortbestandteil-Suche, #237 Vlastimil Brom, #236 Frauenlob. Neu von chsteiner: #235, #228.
+
+### A. Voll autonom lösbar (2 + Meta)
 
 | Rang | # | Was | Warum autonom | Aufwand |
 |-----:|---|-----|---------------|---------|
-| **1** | **#224** | Stufe 3 der Lemma-Auflösung entschärfen und die Parität zum Playground-Pendant herstellen | Ursache lokalisiert und gegen den realen Index nachgerechnet; Fix ist frontend-only ohne Datenberührung; Wirkung messbar (Präzisions-Messung gegen `variants.xml`, siehe §3 Welle 1) | M |
-| **2** | **#196** | NUM aus der Hapax-Liste nehmen, Sweep über die anderen elf Werkzeuge, Sub-Issue für die 5 Ziffern-Lemmata | KZWs Rückgabe ist eine konkrete Anweisung; das Filter-Muster (`FUNCTION_WORD_POS`) existiert bereits; die Beleglage für das Sub-Issue ist erhoben | S |
-| **3** | **#190** | Zwei von KZW wörtlich diktierte Textänderungen in `hilfe-belege-beitragen.html` (Zeile 179 und 269) | Wortlaut steht im Issue; KZW hat den Close explizit an diese beiden Punkte gebunden | XS |
-| **4** | **#140** | `docs/TEI-MODEL.md:7` DRAFT-Kopf entfernen | KZW-Punkt 2 („Woesner") ist bereits erfüllt: repoweit 6 Vorkommen, alle korrekt, keine Falschschreibung im Repo | XS |
-| **5** | **#138** (2 Teilpunkte Julias) | Nach-oben-Button in der Leseansicht; Verszählungs-Einstieg pro Lied | Beide frontend-only. Punkt 2 ist diagnostiziert: die Daten sind korrekt (jedes `div type="song"` in HUG startet bei `l n="1"`), `state.firstNumericLineShown` in `tei-text-reader.js:422` ist dokumentweit statt pro Nummerierungsbereich | S |
-| (kein Rang) | **#44** | Triage-Matrix aktualisieren | Evergreen-Meta-Aufgabe am Session-Ende; **nie schließen**, nie mit Closes referenzieren | S |
+| **1** | **#169** | Die drei von KZW freigegebenen Audit-Befunde fixen | Entscheidungen liegen schriftlich vor; alle drei Befunde am Code verifiziert (§1.1); frontend-only ohne Datenberührung | M |
+| **2** | **#239** | Wortbestandteil-Suche als eigener Modus im Lemmata-Explorer | KZWs Spezifikation ist vollständig, inklusive Akzeptanzkriterien und benannter Fehltreffer-Quelle; frontend-only | M |
+| (kein Rang) | **#44** | Triage-Matrix aktualisieren | Evergreen-Meta-Aufgabe am Session-Ende; **nie schließen**, nie mit `Closes` referenzieren | S |
 
-### B. Autonome Teilschritte als Stretch (Issue bleibt offen; Freigabe siehe §5)
+### 1.1 Die drei #169-Befunde, am Code verifiziert (29.07.)
 
-| # | Autonomer Teil | Bleibt offen wegen |
-|---|----------------|--------------------|
-| **#169** | Punkt #45 ist durch #224 entscheidungsreif: drei Optionen (nur Präfix / bidirektional mit Mindestlänge / Stage 3 streichen) mit gemessenen Trefferzahlen aus Welle 1, als Entscheidungsvorlage im Issue | Die anderen drei Punkte (#15 Nähesuche-Distanz, #51 Fast-Path-Wörterbuch, #48 Dedup) verändern Forschungsergebnisse und brauchen chsteiner |
-| **#225** | Mail-Entwurf an Dr. Thomas Burch (Wörterbuchnetz) nach Mail-Stil-Konvention, KZW im Cc, mit den drei Bitten aus dem Issue-Body und der offenen Domain-Frage als eigenem Absatz | Versand ist chsteiners Sache; Externen-Kontakt ist per Betriebsvertrag ausgeschlossen |
-| **#223** | Plausibilitätsprüfung des offenen Auto-Rebuild-PRs als Kommentar (10.505 gegen 10.506 Records, 0 übersprungen, Figuren-Zahlen unverändert) | Merge nach main ist per §2 Regel 1 tabu |
+Die Zeilennummern im Issue sind veraltet: `tei-manager.js` ist seit dem Audit von 1.198 auf 1.158 Zeilen geschrumpft. Aktuelle Fundorte und Sachstand:
 
-### C. Umgesetzt, warten nur auf Test-OK: Session fasst sie NICHT an (1)
+**Befund #15, Nähesuche misst nur zum Anker.** `playground/js/data/tei-manager.js:1043`:
 
-#114 (Tabellenansicht-Integrationswünsche, Linda gepingt 02.07.). Kein erneutes Anpingen, kein Nacharbeiten vor dem OK.
+```js
+const nearbyPos = positions.find(pos => Math.abs(pos - firstPos) <= maxDistance);
+```
 
-### D. Blockiert auf Menschen (12): Session fasst sie NICHT an
+Jedes weitere Lemma wird ausschließlich gegen `firstPos` geprüft. Bei „innerhalb 5 Wörter" passieren B bei Anker−5 und C bei Anker+5 beide, real liegen sie 10 auseinander. Die Ironie: `actualDistance = maxPos - minPos` einige Zeilen darunter rechnet die 10 korrekt aus und meldet sie im Ergebnis, der Filter hat sie aber schon durchgelassen. Der Fix ist eine paarweise Prüfung über alle Positionen. **Er verkleinert Treffermengen ab 3 Lemmata.** KZW hat das ausdrücklich in Kauf genommen und dazu gesagt: „bitte im Journal mit Datum festhalten, damit ältere Zahlen zuordenbar bleiben." Bei zwei Lemmata ändert sich nichts.
 
-#198 (KZW hat am 27.07. an @juliahin übergeben; Schritt 2 Sense-Split bleibt danach KZW), #59 (KZW hat Linda am 27.07. gepingt; Antwort abwarten, nicht nachfassen), #115 (Kategorien B/C + Stub-Review, kuratorisch), #189 (21 Review-Fälle + Funktionswort-Grundsatzentscheidung), #138-Kern (die `<div>`-Hüllen selbst, KZW-Prüffragen), #28, #27, #68, #86, #63, #58, #172.
+**Befund #51, hartkodiertes Fast-Path-Wörterbuch.** `playground/js/ui/tei/tei-ui.js:120-138`, aufgerufen in `resolveLemmaIds` (`:95`) **vor** der regulären Auflösung. Das Issue führt es als künftiges Risiko („bei künftigem Renumbering"). Das ist zu milde: **fünf der elf Einträge liefern schon heute das falsche Lemma.** Gemessen gegen `data/authority-index.json.gz`:
 
-### E. Future / Trigger / extern blockiert (10): bewusst liegen lassen
+| Eingabe | Fast-Path liefert | reguläre Auflösung | Urteil |
+|---|---|---|---|
+| `brôt`, `brot` | lemma_879 `brôt` | lemma_879 `brôt` | ok |
+| `wîn`, `win`, `wein` | lemma_7532 `wîn` | lemma_7532 `wîn` | ok |
+| `fleisch`, `vleisch` | lemma_1816 **`forma`** | lemma_7121 `vleisch` | falsch |
+| `käse`, `kæse` | lemma_26713 **`eierkæse`** | lemma_3175 `kæse` | falsch |
+| `bier` | lemma_712 **`bir`** (Birne) | lemma_702 `bier` | falsch |
+| `bîr` | lemma_712 `bir` | lemma_542 `bern` | beide fragwürdig |
 
-#93, #106 (Rolling-Backlog), #109, #111 (Trigger nicht erreicht), #118 (Vorlage liegt seit 12.07., KZW-Antwort offen), #194 (per Issue-Text blockiert auf #193), #195, #216 (technisch entsperrt, aber Batch-Größe und Stichproben-Review brauchen KZW-Begleitung), #226 (chsteiner-Review eines Google-Docs), #18 (braucht Query-Syntax-Entscheid).
+Wer heute im Playground „fleisch" sucht, bekommt also *forma*, wer „bier" sucht, bekommt die Birne. Das ersatzlose Streichen ist damit nicht nur Hygiene, sondern ein Bugfix. Die fünf korrekten Einträge (`brôt`, `brot`, `wîn`, `win`, `wein`) verlieren nichts: die reguläre Auflösung findet sie über Stufe 1 bzw. Stufe 2 genauso. Das ist wichtig, weil `wein` zugleich das Leitbeispiel von #239 ist.
+
+**Befund #48, Dedup behält den Falschen und lügt darüber.** `playground/js/data/tei-manager.js:1096-1112`. Sortiert wird nach `contextStart`, behalten wird der zuerst hinzugefügte nicht-überlappende Treffer. Der Kommentar darüber sagt „keep closest", und das Log gibt bei jeder Überlappung wörtlich aus: `keeping shorter distance (${existing.distance} vs ${result.distance})`. Beides ist unwahr: `existing` gewinnt allein, weil er früher startet. Dem Nutzer wird gegebenenfalls die weiter entfernte Kookkurrenz angezeigt.
+
+### B. Nicht in dieser Session, mit Begründung
+
+**#194 (Rubrik „Experimentelle Forschungsdaten") bleibt draußen.** Das Ticket sperrt sich unter „Timing" selbst: „Erst umsetzen, wenn das Arthurische-Pferde-Feature (#193) gebaut ist, bis dahin bleibt der Naming-Explorer, wo er ist." Es sieht nach einem leichten Einstieg aus und ist per Auftrag blockiert.
+
+**#228 (TEI-Putzen Ziffern-Lemmata) ist halb-autonom und bleibt draußen.** Die Beleglage steht vollständig im Issue (fünf bedeutungslose Ziffern-Lemmata, 118 Belege, davon 92 in `<note n="…">`). Was fehlt, ist die kuratorische Entscheidung, was mit dem Sammeltopf `lemma_53328` geschieht, auf den in MR1 die Tokens 1 bis 15 annotiert sind. Das ist KZWs Ruf.
+
+### C. Umgesetzt, warten auf Test-OK: Session fasst sie NICHT an (3)
+
+#138-Frontend (Randnummern, KZW und Julia angepingt 29.07.), #114 (Linda seit 02.07.), #140 (Em-Dash-Gate, Health-Check und Emoji-Icons erledigt; KZW hat „für die Abnahme“ geschrieben, nicht „schließen“, deshalb offen).
+
+### D. Blockiert auf Menschen: Session fasst sie NICHT an (17)
+
+#198 (bei Julia), #59 (Linda gepingt), #115 (Kategorien B/C, kuratorisch), #189 (21 Review-Fälle), #138-Kern (`<div>`-Hüllen), #224 (Fix ist gemergt; offen ist nur noch Julias Breve-Frage für `w`/`n`/`y`/`z`), #228 (siehe oben), #235 (bei Julia), #236 (Frauenlob, `depends-on-human`), #242 (Sparkling Science), #28, #27, #68, #86, #63, #58, #172.
+
+### E. Future / Trigger / extern (12)
+
+#93, #106 (Rolling-Backlog), #109, #111, #118, #194 (siehe oben), #195, #216 (technisch entsperrt, Batch-Größe braucht KZW), #225 und #237 (Externenkontakt), #226 (Text in chsteiners Stimme), #18.
 
 ### F. Ingest: nicht Teil dieses Playbooks (7)
 
-#92 (ARITHMETIC), #123 (König vom Odenwald), #139 (CoReMA; laut Memory gemeinsame Einzelsession, nie autonom), #141 (Borte), #147 (Weingrüße), #191 (Flore und Blanscheflur), #193 (Arthurische Pferde).
+#92, #123, #139 (laut Memory gemeinsame Einzelsession, nie autonom), #141, #147, #191, #193.
 
-**Fazit:** 4 Kern-PRs + Meta sind der voll autonome Bestand, davon zwei (#190, #140) im XS-Bereich und mit KZW-Freigabe zum Schließen. Die Stretch-Teilschritte (§1.B) sind Text-Deliverables ohne Code-Risiko. Alles andere wartet auf Menschen oder ist bewusst ausgelagert.
+**Fazit:** zwei Kern-PRs plus Meta-PR. Kleiner als die Session vom 28.07., dafür mit schriftlich vorliegenden Entscheidungen zu jedem Punkt.
 
 ---
 
 ## 2. Betriebsvertrag der autonomen Session
 
-Die CLAUDE.md-Regel „never commit/push without user approval" wird durch den Kickoff-Prompt explizit für `claude/*`-Branches + PR-Erstellung freigegeben. Unverändert hart:
+Die CLAUDE.md-Regel „never commit/push without user approval" wird durch den Kickoff-Prompt explizit für `claude/*`-Branches und PR-Erstellung freigegeben. Unverändert hart:
 
-1. **`main` ist tabu.** Kein Merge, kein Push. Alle Ergebnisse = PRs, die chsteiner reviewt und mergt.
-2. **Issues werden nie von der Session geschlossen**: nur via `Closes #N` im PR-Body beim Merge. #44 bekommt nie einen Close-Trailer.
+1. **`main` ist tabu.** Kein Merge, kein Push. Alle Ergebnisse sind PRs, die chsteiner reviewt und mergt.
+2. **Issues werden nie von der Session geschlossen**, nur per `Closes #N` im PR-Body beim Merge. #44 bekommt nie einen Close-Trailer.
 3. **Pro PR nur benannte Dateien stagen** (nie `git add -A`), Branch frisch von `origin/main`.
-4. **Daten vor Schema**; Data-Change-Lifecycle bei jeder XML-Änderung: variants.xml regenerieren, Corpus- + Authority-Index-Rebuild, API-Rebuild, Versions-Bump an allen drei Stellen (`python scripts/audit/check-index-versions.py` lokal vor Push), deterministische Builds (`git status --porcelain`-Pre-flight). **3-Commit-Muster auf Daten-Branches** (Lehre 12.07.): Quellen-Commit → Index-Commit → API-Commit, weil die Pre-flight-Gates aus #100 saubere Quell-Trees verlangen; der Merge stellt den Ein-Commit-Lifecycle auf main wieder her. Freshness-Checks direkt nach einem Checkout nicht glauben (mtime-Rauschen), sondern hart per Regenerat-Vergleich prüfen.
-5. **Verifikation je PR:** `npm test` aus dem Repo-Root (nie `npx playwright test`); Referenz ist die in Welle 0 erhobene Baseline auf main. Bei UI zusätzlich Chrome-Verifikation mit realen Belegen; bei TEI-Änderungen Schema-Validierung; bei HTML-Änderungen `python scripts/build-pages.py --check` und bei neuen Utility-Klassen `npm run build:css`.
-6. **Konfliktmanagement ohne Merges:** PRs starten von main; bei Datei-Überschneidung wird der spätere Branch auf den früheren gestackt, PR-Body sagt „nach PR X mergen". Abschlussreport enthält die empfohlene Merge-Reihenfolge und den Hinweis, laufende Opus-Review-Runs vor dem Merge zu canceln (nie `[skip ci]` bei Daten-PRs).
-7. **Kommunikation:** max. 1 sachlicher Statuskommentar pro Issue; keine Kontaktaufnahme mit Externen (Linda, Alan, Carina, Silvan); Entwürfe dafür landen als Text im Issue. Keine Emoji-Icons in UI/Doku (Heroicons inline SVG); keine Em-Dashes in Prosa (docs/, Hilfe-Seiten, Issue-Kommentare); echte Umlaute.
-8. **Inputs selbst beschaffen:** Für diese Session liegen alle Inputs im Repo bzw. in den Issue-Threads (`gh issue view N --json comments`); es sind keine externen Quellen (Drive/Gmail/Zenodo) nötig. Der Goldstandard für #189 steht im Issue-Body (78 *rôter munt* / 262 *jung*, plus eigene TEI-Auszählung 73 Vers-Kookkurrenzen / 265 junc-Formen). Nur nachweislich Unbeschaffbares wird im Abschlussreport dokumentiert übersprungen; nicht auf chsteiner warten, nicht fragen.
+4. **Daten vor Schema**; Data-Change-Lifecycle bei jeder XML-Änderung (in dieser Session nicht einschlägig, beide Deliverables sind frontend-only).
+5. **Verifikation je PR:** `npm test` aus dem Repo-Root, nie `npx playwright test`. Gezielt pro Welle (`npm test -- <spec-fragment>`), nicht die volle Suite nebenher. Bei UI zusätzlich Chrome-Verifikation mit realen Belegen; bei HTML-Änderungen `python scripts/build-pages.py --check`; bei neuen Utility-Klassen `npm run build:css`.
+6. **Fable-Review vor Abschluss jedes PRs.** Stehende Anweisung von chsteiner (28.07.). Der Berater hat kein Bash: Diff in den Scratchpad dumpen, Pfad mitgeben, dazu PR-Body, Ziel, eigene Zweifel und **auf welchem Branch der Arbeitsbaum steht**. Befunde nachmessen, nicht glauben.
+7. **Konfliktmanagement ohne Merges:** PRs starten von `main`; bei Datei-Überschneidung wird der spätere Branch auf den früheren gestackt und der PR-Body sagt „nach PR X mergen". Wenn das Playbook „gestackt" sagt, muss der Branch das auch sein.
+8. **Kommunikation:** höchstens ein sachlicher Statuskommentar pro Issue; keine Kontaktaufnahme mit Externen (Linda, Alan, Carina, Silvan, Burch, Brom). Entwürfe dafür landen als Text im Issue. Keine Emoji-Icons (Heroicons inline SVG); keine Em-Dashes in Prosa; echte Umlaute, nie ASCII-Ersatz.
+9. **Inputs selbst beschaffen.** Alles Nötige liegt im Repo und in den Issue-Threads (`gh issue view N --json comments`). Nur nachweislich Unbeschaffbares wird im Abschlussreport dokumentiert übersprungen; nicht auf chsteiner warten, nicht fragen.
+
+### 2.1 Verifikations-Handwerk (stabiler Kern, aus mehreren Sessions destilliert)
+
+Diese Regeln haben in der Praxis Fehler gefangen, die alle Gates passiert hatten. Sie sind teurer erkauft als sie aussehen.
+
+1. **Ein grünes Gate ist kein wirksames Gate. Mutation ist der Beweis.** Wer eine Prüfung ergänzt, baut den Fehler ein, den sie fangen soll, und lässt sie laufen. In der Session vom 29.07. sind dreimal hintereinander Audit-Einträge entstanden, die grün liefen und nichts fingen; jedes Mal deckte erst die Mutation es auf.
+2. **Substring-Suchen lügen.** `grep -c "shrink-0"` findet einen Treffer in `flex-shrink-0`, `grep "256.760"` findet Teilstrings längerer Zahlen. Auf den Selektor bzw. das Wort ankern (`\.shrink-0{`, `\b`).
+3. **Grüner Test heißt nichts, solange nicht geprüft ist, ob er auch OHNE die Änderung grün wäre.** Rückbau kostet zwei Minuten und hat mehrfach ein Scheinergebnis entlarvt.
+4. **Eine Zusicherung, die strukturell trivial erfüllt ist, schützt nichts.** „NBB bleibt unverändert" war wertlos, weil NBB gar keine `<div>` hat. Vor jeder „Text X bleibt unberührt"-Aussage prüfen, ob die Struktur dort überhaupt vorkommt.
+5. **`expect(await locator).toHaveCount(n)` wartet nichts ab und besteht immer.** Richtig ist `await expect(locator)`.
+6. **Die Ausgabedatei eines Hintergrund-Laufs behält nur den Schwanz.** Nach `npm test` fehlten die ersten 182 Testzeilen. Wer Abdeckung belegen will, wertet `testing/test-results/report.json` aus oder lässt die betroffenen Specs gezielt noch einmal laufen.
+7. **Auf CI-Checks warten heißt auf ihre Existenz warten.** `grep -c pending` ist unmittelbar nach dem Push 0, weil die Checks noch nicht angelegt sind, und die Schleife fällt sofort durch. Auf die erwartete Anzahl abgeschlossener Checks warten und den `head_sha` gegenprüfen.
+8. **`git rebase --continue` frisst `#`-Zeilen** aus der Commit-Message: Betreff „#138: …" und alle `##`-Überschriften verschwinden. Nach dem Auflösen `git commit -C <original> --cleanup=verbatim`, dann erst `--continue`.
+9. **Git-Bash-`/tmp` ist nicht Windows-`C:\tmp`.** Python und `gh` sehen etwas anderes als die Shell-Umleitung; ein `cmd1 > /tmp/x || cmd2`-Fallback läuft nie an. Immer den Scratchpad-Pfad ausschreiben.
+10. **lxml-Proxy-`id()` wechselt zwischen Iterationen.** Elemente selbst festhalten und mit `is` vergleichen, nie ihre `id()`. Steht auch in `docs/DECISIONS.md:858`.
+11. **Zahlen in Doku und Code-Kommentaren altern mit den Daten.** Ein Kommentar begründete einen fehlenden Filter mit „4.755 Korpusbelege"; nach einer Datenänderung waren es 4.049. Wer Zahlen zitiert, prüft sie im selben PR nach oder hinterlegt ein Skript.
+12. **Chrome-Verifikation nicht über den JS-Bridge-Kontext, wenn es um Sichtbarkeit geht.** Dort feuern weder IntersectionObserver-Callbacks noch `scroll`-Events aus `window.scrollTo`. Die Bridge taugt für Datenabfragen und DOM-Auszählungen, nicht für Interaktionszustände.
+13. **`classList.contains()` ist kein Sichtbarkeits-Check.** Nötig ist die berechnete Anzeige (`getComputedStyle`, Playwrights `toBeVisible`/`toBeHidden`).
+14. **Unicode-Literale in Testdateien als Escape schreiben.** Werkzeuge normalisieren zerlegte Formen still zu NFC und entwerten den Test lautlos.
+15. **`git log origin/main..main` im Vorflug.** Lokales `main` kann einen unveröffentlichten Commit voraus sein; ohne Prüfung verwaist er.
 
 ---
 
-## 3. Wellenplan (Reihenfolge = Risiko aufsteigend innerhalb der Kern-Deliverables)
+## 3. Wellenplan
 
-Die vier Kern-Deliverables berühren disjunkte Dateien, deshalb startet jeder Branch frisch von `origin/main`, auch der Meta-PR. Wo zwei Branches dieselbe Doku-Zeile anfassen, wird beim Merge aufgelöst, nicht vorher gestackt. Reihenfolge nach Wirkung, nicht nach Risiko: #224 ist der einzige extern gemeldete Bug und braucht die frischeste Analyse.
+Die beiden Kern-Deliverables berühren teils dieselbe Datei (`playground/js/ui/tei/tei-ui.js` in Welle 1, der Lemmata-Explorer in Welle 2), liegen aber in verschiedenen Funktionen. Beide Branches starten frisch von `origin/main`; sollte es beim Merge haken, gilt die Reihenfolge 1 vor 2.
 
 | Welle | Deliverable | Issues | Inhalt |
 |-------|-------------|--------|--------|
-| **0** | Chat-Report | - | Vorflug: Test-Baseline auf main (`npm test`); `check-index-versions.py`; die zweite Stage-3-Implementierung in `playground/js/data/authority-manager.js:135` lesen und die Richtungs-Drift gegen `search-engine.js:142` protokollieren; `assets/js/lib/lemma-match.js` als Muster für die Modul-Extraktion einlesen; bestehende Such-Specs in `testing/tests/` sichten |
-| **1** | PR 1 | #224 (refs #169) | **Stage-3-Fix.** Neues Modul `assets/js/lib/lemma-resolve.js` nach dem Muster von `lemma-match.js`, aber **nur Prädikat + Comparator als pure Funktionen**; die Orchestrierung bleibt je Aufrufer, weil `search-engine.js` vorberechnetes `lemma.normalized` liest und `authority-manager.js` zur Laufzeit normalisiert (kleinerer Blast-Radius bei gleicher Paritätswirkung). Regel: Stage 3 matcht **beidseitig präfixorientiert** (`lemmaNorm.startsWith(query)` für Stammeingabe, `query.startsWith(lemmaNorm)` für flektierte Eingabe); die Mindestlänge 3 gilt nur in der zweiten Richtung. Sortierung nach Längendifferenz, im Playground mit Tie-Break nach Korpus-Frequenz (Lehre #163/#164: sonst steht eine 1-Beleg-Rarität vor dem frequenten Lemma). Belegte Wirkung auf „böses": `ês`, `ô`, `sê` fallen weg, `bœse` bleibt. **Keine gestufte Fallback-Strategie**: sie präjudiziert die offene #169/#45-Entscheidung und holt den Infix-Müll zurück. **Messpflicht vor dem Commit:** Stage-3-Prädikat direkt aufrufen (Stage 1+2 umgehen), 300 mit festem Seed gezogene flektierte Formen aus `authority-files/variants.xml`; Formen, deren Normalisierung gleich der Lemma-Normalisierung ist, separat ausweisen (die hätten Stage 1 getroffen). Metriken: **Recall** (wahres Lemma irgendwo in der Liste, alt vs. neu), **Median der Ergebnislistengröße**, **Top-1 nach Ranking**. Ausdrücklich NICHT die 0-Treffer-Quote als Abbruchkriterium: die alte Regel liefert wegen der 5 ein- und 98 zweibuchstabigen Lemmata fast nie 0 Treffer, die Quote steigt also zwangsläufig; ein 0-Treffer-Fall, in dem alt nur Falschtreffer hatte, ist eine Verbesserung. Sample-Bias (echte Stage-3-Eingaben sind eher nhd. Wörter und Tippfehler) im Messbericht benennen. **Doku- und Spec-Nachzug in derselben Welle:** CONTRACTS.md §C (Pseudocode + das Beispiel „`bro` → `brot`, `brogen`"), CLAUDE.md Key Patterns, ARCHITECTURE.md, der irreführende Kommentar in `tei-ui.js:99-104`; `testing/tests/search-engine.spec.js:74-81` (erwartet für `fri` einen Stage-3-Treffer) vorab prüfen und bewusst anpassen. Zusätzlich den Keyness-Pfad `app.js:619` mit einem Stage-3-Begriff gegenprüfen. Playwright-Regressionstest analog #126/#130. Im PR- und Issue-Text nur von **Stage-3-Parität** sprechen, nicht von Parität überhaupt. 1 Statuskommentar in #224 mit Ursachenanalyse und Messergebnis (dabei klarstellen, dass es kein WZB-Sonderzeichen-Problem ist) |
-| **2** | PR 2 | #196 | **NUM-Filter + Feature-Sweep.** NUM aus der Hapax-Liste nehmen (Filter-Set analog `FUNCTION_WORD_POS` in `word-frequency.js`, mit sichtbarem Ausblend-Zähler statt stiller Unterdrückung). Danach KZWs zweiten Auftrag ausführen: alle zwölf TEI-Analyse-Werkzeuge daraufhin prüfen, ob NUM dort sinnvoll ist, und das Ergebnis je Werkzeug im Statuskommentar begründen (nicht pauschal überall filtern). Sub-Issue „TEI-Putzen: 5 Ziffern-Lemmata" mit der fertigen Belegliste (118 Tokens in NEIM/BRW/MR1/WVV/NML) anlegen und KZWs Frage beantworten: 197 der 202 NUM-Lemmata sind echte Zahlwörter, nur die 5 Ziffern sind Altbestands-Artefakte. Chrome-Verifikation der Hapax-Liste vorher/nachher |
-| **3** | PR 3 | #190, #140 | **KZW-Abnahme-Nachbesserungen.** `hilfe-belege-beitragen.html:179` zum vollständigen Satz umbauen, `:269` auf „CC BY-NC-SA 4.0" ohne Verhandlungsformel kürzen; `docs/TEI-MODEL.md:7` DRAFT-Kopf ersatzlos entfernen. `python scripts/build-pages.py --check`; bei neuen Utility-Klassen `npm run build:css`. `Closes #190` (KZW hat den Close ausdrücklich an diese zwei Punkte gebunden); **#140 bleibt offen** mit einem Kommentar, der beide Punkte als erledigt meldet und um die Abnahme bittet, weil KZW dort nur „für die Abnahme" geschrieben hat |
-| **4** | PR 4 | #138 (2 Teilpunkte) | **Leseansicht.** (a) Nach-oben-Button: Heroicons inline SVG, kein Emoji, sichtbar ab Scroll-Schwelle, Tastatur-erreichbar. (b) `state.firstNumericLineShown` zurücksetzen, **aber ausschließlich an `div`-Grenzen und nur, wenn die erste numerische `<l>` des `div` `n="1"` trägt**. Der Reset darf NIE an `lg`-Grenzen greifen: NBB restartet `l/@n` pro Strophe (1..4), ein `lg`-Reset würde dort in jeder Strophe eine Marginal-„1" zeigen, also genau die Regression, die der #127-Kommentar verhindert. Die `n="1"`-Bedingung verhindert zusätzlich, dass Kapitel-Texte mit durchlaufender Zählung neu einen Anker je Kapitel bekommen. Der bestehende Kommentar über der Stelle wird mit der neuen Begründung fortgeschrieben, nicht gelöscht, und die Regel in CONTRACTS nachgezogen. Bestehende Specs `reading-view.spec.js` müssen grün bleiben; neue Tests für den Reset **inklusive NBB-Fall**. Chrome-Verifikation an HUG (Lied 2 und 3) **und NBB und einem Kapitel-Text**. Der PR-Body sagt ausdrücklich, dass hier ein als #127-Entscheidung dokumentiertes Teilverhalten auf Julias Input geändert wird, damit der Merge eine bewusste Entscheidung ist. 1 Statuskommentar in #138, der zugleich Julias andere zwei Punkte beantwortet: die Winkelklammern in HUG sind editorische Klammern der Vorlage und als `<pc>` korrekt kodiert (kein Encoding-Fehler, offen ist nur die Render-Policy für KZW); für die „Kleinziffern (ii)" fehlt eine Textstelle, da weder römische `@n`-Werte noch `<milestone unit="verse">` in HUG/KLA/PL1/MBS1 vorkommen |
-| **5** | Stretch (nur wenn 1-4 komplett UND in §5 freigegeben) | #169, #225, #223 | Nur Text-Deliverables: (a) #169-Entscheidungsvorlage zu Punkt #45 mit den Messzahlen aus Welle 1 und drei benannten Optionen; (b) #225 Mail-Entwurf an Burch als Issue-Kommentar, ohne Versand und ohne Externen-Ping; (c) #223 Plausibilitätskommentar am offenen PR, ohne Merge |
-| **6** | Meta-PR (von origin/main) + #44-Kommentar | #44, docs | #44-Matrix aktualisieren, ROADMAP.md + JOURNAL.md nachziehen, §7 dieses Playbooks befüllen und §1/§3/§5/§6 für die Folgesession leeren. Abschlussreport als #44-Kommentar: PR-Liste, empfohlene Merge-Reihenfolge (inkl. Hinweis, laufende Review-Runs vor dem Merge zu canceln), Übersprungenes mit Grund, Wer-wartet-worauf-Liste (KZW: #140-Abnahme, #115 B/C, #189-Review-Fälle, #138-Kern, #198-Schritt-2; Linda: #114, #59; Julia: #198-Prüffälle; extern: #92 Carina, #147 Silvan, #86 Alan) |
+| **0** | Chat-Report | - | Vorflug: `git log origin/main..main` (muss leer sein); `python scripts/audit/check-index-versions.py`; die drei Fundorte aus §1.1 aufsuchen und bestätigen, dass sie noch dort stehen (die Zeilennummern in diesem Playbook sind vom 29.07.); `testing/tests/` nach bestehenden Specs für Nähesuche und Lemmata-Explorer durchsehen und die Ausgangslage protokollieren. **Kein voller `npm test` als Hintergrund-Baseline.** |
+| **1** | PR 1 | #169 | **Die drei freigegebenen Befunde.** (a) **Nähesuche paarweise:** in `findProximityMatchesInIndex` bzw. der Stelle um `tei-manager.js:1043` alle gewählten Positionen paarweise gegen `maxDistance` prüfen, nicht nur gegen `firstPos`. Vor dem Commit die Wirkung messen: dieselbe Beispielsuche mit 3 Lemmata alt gegen neu, Trefferzahl und ein konkreter Fall, der jetzt korrekt herausfällt. (b) **Fast-Path streichen:** `findLemmaIdByOrthography` und ihren Aufruf in `resolveLemmaIds` ersatzlos entfernen. Im PR-Text die Tabelle aus §1.1 zeigen: fünf der elf Einträge liefern heute das falsche Lemma, und die fünf korrekten verlieren nichts, weil Stufe 1 und 2 sie ohnehin finden. Gegenprobe für alle elf Eingaben nach dem Fix. (c) **Dedup:** entweder tatsächlich den distanzkürzesten Treffer behalten (dann Kommentar und Log stimmen) oder das Log ehrlich machen. **Empfehlung: distanzkürzesten behalten**, weil Kommentar, Log und #169 das seit jeher behaupten und der Nutzer es so erwartet; die Änderung im PR-Body als Verhaltensänderung benennen. Playwright: bestehende Playground-Specs müssen grün bleiben, neue Tests für (a) und (c). Ein Statuskommentar in #169 mit den gemessenen Auswirkungen. **JOURNAL-Eintrag mit Datum**, weil KZW ausdrücklich darum gebeten hat, damit ältere Trefferzahlen zuordenbar bleiben. |
+| **2** | PR 2 | #239 (refs #169, #224) | **Wortbestandteil-Suche im Lemmata-Explorer.** Eigener, benannter Modus, klar getrennt von der normalen Lemmasuche. Sucht gegen die Lemmaliste, nicht gegen den Korpus; Ergebnis ist eine Lemma-Liste. Treffer nach Position gruppiert: am Wortende (Grundwort) zuerst und aufgeklappt, am Wortanfang als zweite Gruppe, in der Wortmitte als dritte, standardmäßig eingeklappte Gruppe. Gesucht wird auf der normalisierten Form, angezeigt wird die Originalform, und die UI sagt das. Mindestlänge 3 Zeichen. Ausgewählte Lemmata müssen gesammelt an die Multi-Lemma-Suche übergeben werden können. In der UI kurz benennen, dass `win` auch `winter`, `gewinnen`, `winden` trifft: das ist der Preis eines zeichenbasierten Verfahrens ohne Morphologie, die echte Lösung gehört zu #109. **Nicht in Scope:** keine Änderung an Stufe 1 bis 3 der normalen Auflösung (ADR-016 bleibt), kein Rückbau der Infix-Suche in die Haupt- oder Playground-Suche. Regressionstest, dass die normale Lemmasuche unverändert arbeitet. `hilfe-playground.html` um den Modus ergänzen, danach `python scripts/build-pages.py --check` und `python scripts/audit/doc-count-audit.py`. Chrome-Verifikation mit „wein" (muss `rôtwîn` in der Gruppe „am Wortende" zeigen) und mit „win" (muss `winter` in der eingeklappten Wortmitten-Gruppe zeigen). Alle fünf Akzeptanzkriterien aus dem Issue einzeln abhaken. |
+| **3** | Meta-PR (von origin/main) + #44-Kommentar | #44, docs | #44-Matrix aktualisieren, ROADMAP.md und JOURNAL.md nachziehen, §7 dieses Playbooks befüllen und §1/§3/§5/§6 für die Folgesession leeren. Abschlussreport als #44-Kommentar: PR-Liste, empfohlene Merge-Reihenfolge samt Hinweis, laufende Review-Runs vor dem Merge zu canceln, Übersprungenes mit Grund, Wer-wartet-worauf-Liste. |
 
-Geschätzter Output: 4 Code-PRs plus Meta-PR, 1 Issue geschlossen (#190), 3 substanziell abgeräumt (#224, #196, #140), 1 neues Sub-Issue, 5 bis 7 Issue-Kommentare.
+Erwarteter Output: 2 Code-PRs plus Meta-PR, kein Issue geschlossen (beide bleiben bis zur Abnahme offen), 2 bis 3 Issue-Kommentare.
 
 ---
 
 ## 4. Nicht anfassen
 
-- **Review-Gate (Ping ist draußen):** #114 (Linda seit 02.07.)
-- **Menschen-blockiert:** #198 (jetzt bei Julia), #59 (KZW hat Linda am 27.07. gepingt), #115 (B/C), #189 (Review-Fälle + Funktionswort-Grundsatz), #138-Kern (die `<div>`-Hüllen selbst), #28, #27, #68, #86, #63, #58, #172
-- **Future/Trigger/extern:** #93, #106, #109, #111, #118, #194, #195, #216, #226, #18
-- **Ingest:** #92, #123, #139, #141, #147, #191, #193
-- **Kein Merge nach main**, auch nicht bei PR #223 (Auto-Rebuild) trotz grüner Plausibilitätsprüfung.
+- **Review-Gate, Ping ist draußen:** #138-Frontend (29.07. an KZW und Julia), #114 (Linda seit 02.07.), #140 (Abnahme durch KZW).
+- **Menschen-blockiert:** #198, #59, #115, #189, #138-Kern, #224, #228, #235, #236, #242, #28, #27, #68, #86, #63, #58, #172.
+- **Future/Trigger/extern:** #93, #106, #109, #111, #118, #194 (per Issue-Text auf #193 blockiert), #195, #216, #225, #226, #237, #18.
+- **Ingest:** #92, #123, #139, #141, #147, #191, #193.
+- **Kein Merge nach `main`.**
 - Alle Gruppen nur in der #44-Matrix korrekt einsortieren.
 
 ---
 
-## 5. Getroffene Entscheidungen (chsteiner, 2026-07-28)
+## 5. Getroffene Entscheidungen (chsteiner, 2026-07-29)
 
-1. **Stretch-Welle 5:** an, aber strikt erst nach Abschluss der Wellen 1-4.
-2. **#224-Tiefe:** der Fix bleibt auf Stage 3 beschränkt. Die drei anderen #169-Punkte (Nähesuche-Distanz #15, Fast-Path-Wörterbuch #51, Dedup #48) werden nicht mitgefixt, weil sie Forschungsergebnisse verändern; sie bleiben Entscheidungsvorlage.
-3. **#196-Reichweite:** NUM wird nicht pauschal aus allen Werkzeugen gefiltert, sondern je Werkzeug begründet. In Wortfrequenz und Text-Statistiken sind Zahlwörter legitime Daten; die Filterung zielt auf die Raritäten-Werkzeuge.
-4. **#140:** wird nicht selbst geschlossen (KZW hat nur „für die Abnahme" geschrieben), #190 schon (expliziter Close-Auftrag).
-5. **Ziffern-Lemmata:** diese Session ändert keine TEI-Daten. Die 5 Ziffern-Lemmata werden ausschließlich als Sub-Issue mit Belegliste dokumentiert; die Entscheidung, ob sie stumm geschaltet, umannotiert oder gelöscht werden, ist kuratorisch.
-
-### Nachträge aus dem Advisor-Review (Fable 5, 28.07.)
-
-Drei Befunde waren echte Planfehler und sind in §3 eingearbeitet:
-
-1. **Messmetrik Welle 1 war falsch kalibriert.** Die 0-Treffer-Quote als Abbruchkriterium hätte immer ausgelöst, weil die alte Regel wegen der Kurzlemmata praktisch nie 0 Treffer liefert. Ersetzt durch Recall, Median-Listengröße und Top-1. Ablaut-Fälle (`slüege`/`slahen`) findet auch die alte Regel nicht, sie liefert dort nur zufälligen Müll: 0 Treffer sind das ehrlichere Ergebnis, keine Regression.
-2. **Reset-Bereich in #138(b) war unterspezifiziert** und hätte über `lg`-Grenzen die NBB-Regression reproduziert, die #127 gerade verhindert hat.
-3. **Doku- und Spec-Nachzug fehlte in Welle 1.** CONTRACTS §C dokumentiert das bidirektionale Substring-Verhalten als Vertrag; `search-engine.spec.js:74-81` erwartet es. Beides gehört in denselben PR.
-
-Zwei weitere Punkte übernommen, ohne dass sie Fehler waren: der Modul-Zuschnitt (nur Prädikat + Comparator statt voller 3-Stufen-Orchestrierung) und der Hinweis, dass die Playground-Stage-3 heute unidirektional Infix ist und den #224-Bug gar nicht hat. Die Vereinheitlichung entfernt dort Infix-Discovery, das ist eine echte Verhaltensänderung und wird im PR so benannt.
+1. **Reihenfolge:** erst #169, dann #239. #194 fällt entgegen der ersten Empfehlung heraus, weil das Ticket sich unter „Timing" selbst auf #193 sperrt.
+2. **Fast-Path (#51):** ersatzloses Streichen, nicht Korrigieren der falschen IDs. Ein hartkodiertes Wörterbuch vor der zentralen Auflösung ist auch mit richtigen IDs ein Fehler; die reguläre Auflösung liefert alle elf Eingaben korrekt.
+3. **Dedup (#48):** tatsächlich den distanzkürzesten Treffer behalten, nicht bloß das Log an das falsche Verhalten anpassen. Kommentar, Log und Ticket behaupten es seit jeher, und es ist die Erwartung der Nutzer.
+4. **Nähesuche (#15):** paarweise Prüfung, sinkende Trefferzahlen sind von KZW abgenommen. Pflicht ist der datierte JOURNAL-Eintrag, damit ältere Zahlen zuordenbar bleiben.
+5. **#239 bleibt streng im Lemmata-Explorer.** Kein Rückbau der Infix-Suche in die normale Suche, ADR-016 unangetastet.
+6. **Keine TEI-Datenänderung in dieser Session.** Beide Deliverables sind frontend-only; damit entfällt der Data-Change-Lifecycle und der Index-Versions-Bump.
 
 ---
 
 ## 6. Kickoff-Prompt (copy-paste in die neue Session)
 
 ```
-Arbeite den Issue-Masterplan autonom ab (Detailfassung: docs/playbooks/MASTERPLAN-AUTONOME-ISSUE-SESSION.md, Stand 2026-07-28).
+Arbeite den Issue-Masterplan autonom ab (Detailfassung: docs/playbooks/MASTERPLAN-AUTONOME-ISSUE-SESSION.md, Stand 2026-07-29).
 Betriebsvertrag:
 
 AUTORISIERUNG: Ich genehmige hiermit ausdrücklich Commits + Pushes auf claude/*-Feature-Branches
 und das Erstellen von Pull Requests (übersteuert die CLAUDE.md-Regel „never push without approval").
-main bleibt absolut tabu (kein Merge, kein Push), auch PR #223 wird NICHT gemerged. Issues nie selbst
-schließen außer per Closes-Trailer im PR-Body; #44 NIE mit Closes referenzieren. Pro Issue ein frischer
-Branch von origin/main, auch der Meta-PR. Nie git add -A.
-Max. 1 Statuskommentar pro Issue, keine Kontaktaufnahme mit Externen (Linda, Alan, Carina, Silvan, Burch).
+main bleibt absolut tabu (kein Merge, kein Push). Issues nie selbst schließen außer per Closes-Trailer
+im PR-Body; #44 NIE mit Closes referenzieren. Pro Issue ein frischer Branch von origin/main, auch der
+Meta-PR. Nie git add -A. Max. 1 Statuskommentar pro Issue, keine Kontaktaufnahme mit Externen.
 Keine Emoji-Icons (Heroicons inline SVG), keine Em-Dashes in Prosa, echte Umlaute.
+Jeden PR vor Abschluss zusätzlich vom fable-advisor reviewen lassen (er hat kein Bash: Diff in den
+Scratchpad dumpen, Pfad mitgeben, sagen auf welchem Branch der Arbeitsbaum steht). Befunde nachmessen,
+nicht glauben.
+
+WICHTIG ZUR NOTATION: In #169 sind „#15", „#51" und „#48" BEFUND-Nummern innerhalb des Issue-Bodys,
+keine Issue-Nummern. Nicht als Issues nachschlagen.
 
 WELLE 0 (VORFLUG):
-- Test-Baseline auf main erheben (npm test aus dem Repo-Root; hiermit genehmigt).
+- git log origin/main..main (muss leer sein).
 - python scripts/audit/check-index-versions.py.
-- playground/js/data/authority-manager.js:135 gegen assets/js/search/search-engine.js:142 lesen
-  und die Richtungs-Drift protokollieren (#169/#45).
-- assets/js/lib/lemma-match.js als Muster für die Modul-Extraktion einlesen; bestehende
-  Such-Specs in testing/tests/ sichten.
+- Die drei Fundorte aus §1.1 des Playbooks aufsuchen und bestätigen, dass sie noch dort stehen;
+  die Zeilennummern im Playbook sind vom 29.07.
+- testing/tests/ nach bestehenden Specs für Nähesuche und Lemmata-Explorer durchsehen.
+- KEIN voller npm test als Hintergrund-Baseline (40+ min bei 1 Worker, testet den Zwischenstand).
 
-WELLE 1 (PR): #224 Stage-3-Fix (refs #169).
-- Neues Modul assets/js/lib/lemma-resolve.js: NUR Stage-3-Prädikat + Comparator als pure
-  Funktionen; Orchestrierung bleibt je Aufrufer (verschiedene Datenformen).
-- Regel: beidseitig präfixorientiert (lemmaNorm.startsWith(query) ODER query.startsWith(lemmaNorm)),
-  Mindestlänge 3 nur in der zweiten Richtung. Sortierung nach Längendifferenz, im Playground
-  Tie-Break nach Korpus-Frequenz (Lehre #163/#164). KEINE gestufte Fallback-Strategie.
-- MESSPFLICHT vor dem Commit: Stage-3-Prädikat direkt aufrufen (Stage 1+2 umgehen),
-  300 Formen aus variants.xml mit festem Seed gezogen; Formen mit Normalisierung == Lemma-
-  Normalisierung separat ausweisen. Metriken: Recall (wahres Lemma in der Liste, alt vs. neu),
-  Median der Listengröße, Top-1 nach Ranking. NICHT die 0-Treffer-Quote als Abbruchkriterium.
-  Sample-Bias im Messbericht benennen.
-- Im selben PR nachziehen: CONTRACTS.md §C (Pseudocode + „bro"-Beispiel), CLAUDE.md Key Patterns,
-  ARCHITECTURE.md, Kommentar tei-ui.js:99-104. testing/tests/search-engine.spec.js:74-81
-  (erwartet Stage-3-Treffer für „fri") vorab prüfen und bewusst anpassen.
-  Keyness-Pfad app.js:619 mit einem Stage-3-Begriff gegenprüfen.
-- Playwright-Regressionstest analog #126/#130.
-- Im PR- und Issue-Text nur von Stage-3-Parität sprechen. Benennen, dass die Playground-Stage-3
-  heute unidirektional Infix ist und Infix-Discovery dort wegfällt.
-- 1 Statuskommentar in #224 mit Ursachenanalyse + Messergebnis; ausdrücklich klarstellen,
-  dass es kein WZB-Sonderzeichen-Problem ist.
+WELLE 1 (PR): #169, die drei von KZW am 28.07. freigegebenen Befunde.
+(a) Nähesuche paarweise prüfen statt nur gegen firstPos (tei-manager.js:1043). Wirkung vor dem
+    Commit messen: dieselbe 3-Lemma-Suche alt gegen neu, plus ein konkreter Fall, der jetzt
+    korrekt herausfällt. Sinkende Trefferzahlen sind abgenommen.
+(b) Fast-Path-Wörterbuch ersatzlos streichen (tei-ui.js:120-138 + Aufruf :95). Im PR-Text zeigen,
+    dass fünf der elf Einträge HEUTE falsch auflösen (fleisch/vleisch -> forma, käse/kæse ->
+    eierkæse, bier -> bir/Birne) und die fünf korrekten nichts verlieren. Nach dem Fix alle elf
+    Eingaben gegenprüfen.
+(c) Dedup: den distanzkürzesten Treffer behalten (tei-manager.js:1096-1112). Kommentar und Log
+    behaupten das seit jeher, der Code tut es nicht. Als Verhaltensänderung benennen.
+- Playwright: bestehende Playground-Specs grün halten, neue Tests für (a) und (c).
+- 1 Statuskommentar in #169 mit den gemessenen Auswirkungen.
+- JOURNAL-Eintrag MIT DATUM: KZW hat ausdrücklich darum gebeten, damit ältere Trefferzahlen
+  zuordenbar bleiben.
 
-WELLE 2 (PR): #196 NUM-Filter.
-- NUM aus der Hapax-Liste nehmen (Filter-Set analog FUNCTION_WORD_POS, mit sichtbarem
-  Ausblend-Zähler statt stiller Unterdrückung).
-- KZWs zweiten Auftrag ausführen: alle zwölf TEI-Analyse-Werkzeuge prüfen und je Werkzeug
-  BEGRÜNDEN, ob NUM dort sinnvoll ist. Nicht pauschal überall filtern.
-- Sub-Issue „TEI-Putzen: 5 Ziffern-Lemmata" anlegen (1/36/42/46/49, 118 Belege in NEIM/BRW/MR1/WVV/NML);
-  KZWs Frage im Statuskommentar beantworten: 197 von 202 NUM-Lemmata sind echte Zahlwörter.
-- Chrome-Verifikation der Hapax-Liste vorher/nachher. KEINE TEI-Datenänderung in dieser Session.
+WELLE 2 (PR): #239 Wortbestandteil-Suche im Lemmata-Explorer.
+- Eigener, benannter Modus, getrennt von der normalen Lemmasuche. Sucht gegen die Lemmaliste,
+  Ergebnis ist eine Lemma-Liste.
+- Treffer nach Position gruppiert: Wortende (Grundwort) zuerst aufgeklappt, Wortanfang zweite
+  Gruppe, Wortmitte dritte und standardmäßig EINGEKLAPPT.
+- Gesucht auf normalisierter Form, angezeigt in Originalform, und die UI sagt das. Mindestlänge 3.
+- Ausgewählte Lemmata sammelbar an die Multi-Lemma-Suche übergeben.
+- In der UI benennen, dass „win" auch winter/gewinnen/winden trifft (zeichenbasiert ohne
+  Morphologie; echte Lösung gehört zu #109).
+- NICHT IN SCOPE: keine Änderung an Stufe 1-3 der normalen Auflösung (ADR-016 bleibt), kein
+  Rückbau der Infix-Suche in die Haupt- oder Playground-Suche.
+- Regressionstest, dass die normale Lemmasuche unverändert arbeitet.
+- hilfe-playground.html ergänzen, dann build-pages.py --check und doc-count-audit.py.
+- Chrome-Verifikation: „wein" muss rôtwîn unter „am Wortende" zeigen, „win" muss winter in der
+  eingeklappten Wortmitten-Gruppe zeigen. Alle fünf Akzeptanzkriterien aus #239 einzeln abhaken.
 
-WELLE 3 (PR): #190 + #140 KZW-Abnahme-Nachbesserungen.
-- hilfe-belege-beitragen.html:179 zum vollständigen Satz; :269 auf „CC BY-NC-SA 4.0" kürzen.
-- docs/TEI-MODEL.md:7 DRAFT-Kopf ersatzlos entfernen (Woesner ist bereits überall korrekt).
-- python scripts/build-pages.py --check; bei neuen Utility-Klassen npm run build:css.
-- Closes #190. #140 BLEIBT OFFEN, nur Kommentar mit Bitte um Abnahme.
+WELLE 3 (META): #44-Matrix aktualisieren, ROADMAP.md + JOURNAL.md nachziehen, §7 des Playbooks
+befüllen und §1/§3/§5/§6 für die Folgesession leeren (Meta-PR, von origin/main). Abschlussreport
+als #44-Kommentar: PR-Liste, empfohlene Merge-Reihenfolge (Review-Runs vor dem Merge canceln),
+Übersprungenes mit Grund, Wer-wartet-worauf-Liste.
 
-WELLE 4 (PR): #138 zwei Teilpunkte Julias.
-- Nach-oben-Button in der Leseansicht (Heroicons inline SVG, Tastatur-erreichbar).
-- state.firstNumericLineShown zurücksetzen (tei-text-reader.js:422), aber NUR an div-Grenzen
-  und nur, wenn die erste numerische l des div n="1" trägt. NIE an lg-Grenzen: NBB restartet
-  l/@n pro Strophe (1..4), ein lg-Reset reproduziert die #127-Regression. Den bestehenden
-  #127-Kommentar fortschreiben, nicht löschen; Regel in CONTRACTS nachziehen. Tests für den
-  Reset INKLUSIVE NBB-Fall; reading-view.spec.js muss grün bleiben. Chrome-Verifikation an
-  HUG Lied 2 und 3, an NBB und an einem Kapitel-Text.
-- PR-Body sagt ausdrücklich, dass ein als #127-Entscheidung dokumentiertes Teilverhalten auf
-  Julias Input geändert wird.
-- 1 Statuskommentar in #138, der zugleich Julias andere zwei Punkte beantwortet
-  (Winkelklammern = korrekte editorische Klammern, Render-Policy-Frage an KZW;
-  „Kleinziffern (ii)" nicht lokalisierbar, Textstelle erbeten).
+VERIFIKATIONS-HANDWERK (§2.1 des Playbooks, gilt durchgehend):
+- Neue Prüfung? Mutation bauen und beweisen, dass sie rot wird. Ein grünes Gate ist kein Gate.
+- Substring-Greps lügen (shrink-0 in flex-shrink-0). Auf Selektor/Wortgrenze ankern.
+- Neuer Test? Prüfen, ob er OHNE die Änderung auch grün wäre.
+- expect(await locator) wartet nichts ab. await expect(locator) ist richtig.
+- Hintergrund-Logs behalten nur den Schwanz: testing/test-results/report.json auswerten.
+- Auf CI warten heißt auf die EXISTENZ der Checks warten und head_sha gegenprüfen.
+- git rebase --continue frisst #-Zeilen: git commit -C <original> --cleanup=verbatim.
+- Git-Bash-/tmp ist nicht Windows-C:\tmp. Scratchpad-Pfad ausschreiben.
 
-WELLE 5 (STRETCH, nur wenn 1-4 komplett): nur Text-Deliverables.
-- #169: Entscheidungsvorlage zu Punkt #45 mit den Messzahlen aus Welle 1, drei benannte Optionen.
-- #225: Mail-Entwurf an Burch als Issue-Kommentar (kein Versand, kein Externen-Ping).
-- #223: Plausibilitätskommentar am PR (kein Merge).
+NICHT ANFASSEN: #138 #114 #140 (Review-Gate, Pings sind draußen) / #198 #59 #115 #189 #224
+#228 #235 #236 #242 #28 #27 #68 #86 #63 #58 #172 (menschen-blockiert) / #93 #106 #109 #111 #118
+#194 #195 #216 #225 #226 #237 #18 (future/extern) / #92 #123 #139 #141 #147 #191 #193 (Ingest).
+#194 sieht nach leichtem Einstieg aus, sperrt sich aber im eigenen Ticket-Text auf #193.
+Alle nur in der #44-Matrix einsortieren.
 
-WELLE 6 (META): #44-Matrix aktualisieren, ROADMAP.md + JOURNAL.md nachziehen, §7 dieses
-Playbooks befüllen und §1/§3/§5/§6 für die Folgesession leeren (Meta-PR, von origin/main).
-Abschlussreport als #44-Kommentar: PR-Liste, empfohlene Merge-Reihenfolge (Review-Runs vor dem
-Merge canceln), Übersprungenes mit Grund, Wer-wartet-worauf-Liste.
-
-NICHT ANFASSEN: #114 (Review-Gate, Ping ist draußen) / #198 #59 #115 #189 #138-Kern #28 #27 #68
-#86 #63 #58 #172 (menschen-blockiert) / #93 #106 #109 #111 #118 #194 #195 #216 #226 #18
-(future/extern) / #92 #123 #139 #141 #147 #191 #193 (Ingest). Alle nur in der #44-Matrix einsortieren.
-
-Jede Welle mit Verifikation: npm test gegen die Welle-0-Baseline; bei UI/HTML Chrome-Verifikation
-bzw. build-pages.py --check. Unbeschaffbarer Input -> Item dokumentiert überspringen und
+Jede Welle mit Verifikation. Unbeschaffbarer Input -> Item dokumentiert überspringen und
 weiterarbeiten, NICHT auf mich warten und NICHT fragen.
 ```
 
 ---
-## 7. Session-Ergebnis 2026-07-28 (Anhang, vor nächster Session leeren)
 
-Alle sechs Wellen komplett, null blockierende Rückfragen. Output: 4 Code-PRs plus Meta-PR, 1 neues Issue, 7 Issue-Kommentare, 1 PR-Kommentar, Matrix und Docs nachgezogen. Am selben Tag folgte die Merge-Session mit vier Fable-Reviews (siehe unten).
+## 7. Session-Ergebnis (Anhang, wird von der nächsten Session befüllt)
 
-| Welle | Ergebnis |
-|-------|----------|
-| 0 | Vorflug: Stage-3-Drift protokolliert, `lemma-match.js` als Muster gelesen, Messskript gebaut. Baseline-Lauf abgebrochen (siehe Lehre 2) |
-| 1 | **PR #227**: `lemma-resolve.js` (Prädikat + Comparator), beidseitiges Präfix mit Mindestlänge 3, Messung Top-1 0,3 % → 9,3 % (Sortierung) → 10,0 % (Regel), CONTRACTS §A + §C + ARCHITECTURE + CLAUDE.md + INDEX + ADR-016 nachgezogen; nach den Reviews zusätzlich NFC-Komposition und Breve-Regel. `search-engine.spec.js` 13/13, `normalization-parity.spec.js` 6/6, Python-Selbsttest 23/23 |
-| 2 | **PR #229**: NUM-Filter (nur reines NUM), begründeter Sweep über alle zwölf Werkzeuge, Chrome-verifiziert (11.815 → 11.862 nach Schärfung). **#228** angelegt. Nach den Reviews: Facetten-Vorrang für alle drei Default-Filter. `hapax-legomena.spec.js` 5/5 |
-| 3 | **PR #230**: beide KZW-Textänderungen, `Closes #190`; #140 offen gelassen mit Kommentar |
-| 4 | **PR #231**: Nach-oben-Button + Verszählungs-Reset; `reading-view.spec.js` 23/23 (4 neue Tests: Button-Sichtbarkeit, Sprungziel-Geometrie, HUG-Reset, NLA-Regression) |
-| 5 | #169-Entscheidungsvorlage mit Messzahlen, #225-Mailentwurf, #223-Plausibilitätskommentar |
-| 6 | #44-Matrix, JOURNAL, ROADMAP, dieses §7; verwaister Commit (JOURNAL-Handoff 14.07.) per Cherry-Pick gerettet |
-
-**Merge-Ergebnis:** freigegeben in der Reihenfolge #229 → #227 → Meta-PR → #223. **#230 und #231 zurückgestellt**, beide warten auf eine fachliche Antwort (Lizenz-Reichweite bzw. Sichtprüfung der 1.352 neuen Randnummern). **#227 ist ein Daten-PR:** Authority-Index 1.6.1 → 1.6.2, Corpus bleibt 4.1.7.
-
-**Lehren (in die nächste Fassung einarbeiten):**
-
-1. **Der Advisor-Durchgang vor dem Start lohnt sich bei Semantik-Änderungen.** Drei echte Planfehler gefunden und alle bestätigt: falsch kalibrierte Messmetrik (0-Treffer-Quote hätte immer ausgelöst), unterspezifizierter Reset-Bereich (hätte über `<lg>` die #127-Regression reproduziert), fehlender Doku-/Spec-Nachzug in derselben Welle. Sollte fester Bestandteil von Welle 0 werden, wenn eine Welle Suchsemantik oder Render-Policy anfasst.
-2. **Kein `npm test` als Hintergrund-Baseline, während Dateien geändert werden.** Der Lauf braucht bei 1 Worker über 40 Minuten und testet dann den Zwischenstand. Stattdessen pro Welle die betroffene Spec-Datei gezielt (`npx playwright test --config=testing/playwright.config.js <spec> --reporter=line`, unter 3 Minuten), Voll-Lauf nur einmal am Ende oder gar nicht.
-3. **Chrome-Verifikation nicht über den JS-Bridge-Kontext, wenn es um Sichtbarkeit geht.** Dort feuern weder IntersectionObserver-Callbacks noch `scroll`-Events aus `window.scrollTo`. Echtes Scrollen per `computer`-Tool plus Screenshot zeigt das wahre Verhalten; die Bridge taugt für Datenabfragen (`resolveLemmaIds`, DOM-Auszählungen), nicht für Interaktions-Zustände.
-4. **Screenshots aus Issues herunterladen und ansehen** – und bei einem gemeldeten Zeichenproblem das Zeichen im Hexdump prüfen, nicht im Rendering. Die #224-Diagnose lag zweimal daneben, weil ich vom Aussehen auf die Kodierung geschlossen habe: es war ein Breve (U+0306), kein Trema (U+0308).
-5. **`git log origin/main..main` im Vorflug.** Lokales `main` war einen unveröffentlichten Commit voraus; ohne Prüfung wäre er verwaist.
-6. **Bei einer Datei, die zwei Wellen berührt** (hier `FEATURES.md`), nicht stacken, sondern den Hunk beim Branch-Wechsel kurz zurücknehmen und auf dem Zielbranch neu setzen. Kostet zwei Edits und hält die PRs unabhängig reviewbar. **Wenn das Playbook „gestackt" sagt, muss der Branch das auch sein:** in dieser Session behaupteten vier Stellen, der Meta-PR sei auf den #230-Branch gestackt, tatsächlich saß er auf `main`. Beim Mergen wäre das ein unnötiger Konflikt in derselben ROADMAP-Zeile geworden.
-7. **Grüner Test heißt nichts, solange nicht geprüft ist, ob er auch OHNE die Änderung grün wäre.** Der Rückbau kostet zwei Minuten (Datei sichern, Regel entfernen, einen Test mit `-g` laufen lassen, zurückspielen) und hat in dieser Session zweimal bestätigt und einmal widerlegt. Gehört an jede neue Regressionsassertion.
-8. **Eine Zusicherung, die strukturell trivial erfüllt ist, schützt nichts.** „NBB bleibt unverändert" war wertlos, weil NBB gar keine `<div>` hat. Vor jeder „Text X bleibt unberührt"-Aussage prüfen, ob die Struktur, um die es geht, dort überhaupt vorkommt.
-9. **`classList.contains()` ist kein Sichtbarkeits-Check.** Nötig ist die berechnete Anzeige (`getComputedStyle` bzw. Playwrights `toBeVisible`/`toBeHidden`). Daran ist ein CSS-Kaskadenfehler durchgerutscht, der den Button permanent sichtbar ließ.
-10. **Zahlen, die in Doku und Code-Kommentar zitiert werden, brauchen ein eingechecktes Skript.** Die #138-Reichweiten waren zweimal per Textfenster-Heuristik geschätzt und zweimal falsch. `scripts/audit/count-verse-numbering-resets.py` baut jetzt die Render-Reihenfolge nach; die Aussage ist prüfbar statt behauptet.
-11. **Unicode-Literale in Testdateien als Escape schreiben.** Werkzeuge normalisieren zerlegte Formen still zu NFC und entwerten den Test lautlos.
+Leer. Die vorige Fassung (Session 2026-07-28, sechs Wellen, vier Code-PRs) ist in der Git-History und im JOURNAL-Eintrag vom 28.07. archiviert; ihre übertragbaren Lehren stehen jetzt in §2.1, ihre inhaltlichen Ergebnisse im JOURNAL.
