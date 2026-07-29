@@ -128,7 +128,7 @@ export class AuthorityFilesManager {
     // Vorher stand hier ein einseitiger Infix-Test (Lemma enthaelt Eingabe),
     // die Hauptseite testete bidirektional — dieselbe Eingabe lieferte je nach
     // Oberflaeche andere Mengen (#169 Punkt #45). Seit #224 teilen sich beide
-    // dasselbe Praedikat. Die Infix-Discovery ("wein" findet "rotwein") faellt
+    // dasselbe Praedikat. Die Infix-Discovery ("win" findet "lantwin") faellt
     // dabei bewusst weg; sie war der Traeger des #224-Rauschens.
     //
     // Sortierung wie bei den Homographen: erst Naehe zur Eingabe, dann

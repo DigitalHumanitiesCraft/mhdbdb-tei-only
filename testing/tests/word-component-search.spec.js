@@ -15,8 +15,10 @@
  *
  * 2. `rôtwîn` aus dem Ticket-Beispiel steht NICHT im Lexikon (geprüft gegen
  *    data/authority-index.json.gz: kein Lemma normalisiert auf "rotwin",
- *    kein Varianten-Schlüssel). Die Tests belegen die Anforderung deshalb an
- *    den vorhandenen Determinativkomposita ôsterwîn, ziperwîn und lantwîn.
+ *    kein Varianten-Schlüssel). KZW hat in #239 am 29.07.2026 entschieden,
+ *    das Beispiel zu ersetzen statt das Lemma nachzutragen; Leitbeispiel ist
+ *    seither lantwîn (lemma_51889). Die Tests belegen die Anforderung an den
+ *    vorhandenen Determinativkomposita ôsterwîn, ziperwîn und lantwîn.
  */
 
 import { test, expect } from '@playwright/test';
