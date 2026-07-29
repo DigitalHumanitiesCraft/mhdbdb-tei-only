@@ -382,6 +382,8 @@ Two steps that both changed with #169 (KZW decision 2026-07-28). Numbers from be
 
 `maxDistance` is clamped to the range the UI declares (`0…50`, from `input#proximityDistance[max=50]`) before the search runs, with a non-numeric value falling back to 10. The hash route only validates `dist > 0`, and unlike the old anchor test the window search gets more expensive as the distance grows, so the data layer enforces the bound itself rather than trusting the surface.
 
+**Precondition on the lemma list (same reasoning, one level over).** Both enhanced paths, `searchProximityUsingEnhancedIndex` and `searchVerseUsingEnhancedIndex`, normalise their `lemmaIds` once to bare ids (`lemma_7532` and `7532` are the same lemma), deduplicate them, and continue with that list. **With fewer than two remaining ids they return `[]` before searching.** Without this, a search degenerates silently: `findCoveringWindow` has no list left to cover and returns an empty array, which is truthy, and the caller only tests `chosen === null`, so every occurrence of the single lemma would be reported as a hit with distance 0. The verse path degenerates the same way for a different reason: its comparison loop starts at `i = 1` and never runs, leaving `allInVerse` true. Duplicates reach this point in practice because different inputs resolve to the same lemma (`wîn` via stage 1, `wein` via the variants list). The pseudocode below therefore describes a case, the empty `otherPositionLists`, that the enhanced paths can no longer produce; it is kept because `findCoveringWindow` is also tested directly.
+
 ```
 function findCoveringWindow(firstPos, otherPositionLists, maxDistance):
     // otherPositionLists = ascending position arrays, one per non-anchor lemma
