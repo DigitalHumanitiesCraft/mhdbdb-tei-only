@@ -90,51 +90,36 @@ export class TEIExplorer {
                 return;
             }
 
-            // Try hardcoded common lemma mappings first (fast path)
-            // Supports exact variants like: brôt/brot, wîn/win/wein, etc.
-            const lemmaId = this.findLemmaIdByOrthography(term);
-            if (lemmaId) {
-                lemmaIds.push(lemmaId);
-            } else {
-                // Fallback: 3-Stufen-Auflösung über den Authority-Manager
-                // (exakt -> Varianten -> Präfix-Match in beide Richtungen).
-                // Stufe 3 war bis #224 ein Substring-Test; sie matcht jetzt
-                // präfixorientiert und liefert bereits sortiert: erst Nähe zur
-                // Eingabe, dann Korpus-Frequenz. matches[0] ist damit das
-                // plausibelste Lemma und nicht mehr der erste Index-Treffer
-                // (#163/#164). Regel: assets/js/lib/lemma-resolve.js.
-                const authorityManager = window.playground?.authorityManager;
-                if (authorityManager) {
-                    const matches = authorityManager.searchLemmaByOrthography(term);
-                    if (matches.length > 0) {
-                        const lemmaId = matches[0].id.replace('lemma_', '');
-                        lemmaIds.push(lemmaId);
-                    }
+            // 3-Stufen-Auflösung über den Authority-Manager (exakt ->
+            // Varianten -> Präfix-Match in beide Richtungen). Stufe 3 war bis
+            // #224 ein Substring-Test; sie matcht jetzt präfixorientiert und
+            // liefert bereits sortiert: erst Nähe zur Eingabe, dann
+            // Korpus-Frequenz. matches[0] ist damit das plausibelste Lemma und
+            // nicht mehr der erste Index-Treffer (#163/#164).
+            // Regel: assets/js/lib/lemma-resolve.js.
+            //
+            // Davor stand hier bis 2026-07 ein hartkodiertes 11-Eintrag-
+            // Wörterbuch als „fast path" (brôt -> 879, wîn -> 7532, …), das die
+            // zentrale Auflösung umging (#169 Befund #51). Es war zum Zeitpunkt
+            // der Entfernung bereits in fünf von elf Einträgen falsch, weil die
+            // Lemma-IDs seit dem Eintragen neu vergeben wurden: „fleisch" und
+            // „vleisch" lieferten lemma_1816 forma statt lemma_7121 vleisch,
+            // „käse" und „kæse" lemma_26713 eierkæse statt lemma_3175 kæse,
+            // „bier" lemma_712 bir (die Birne) statt lemma_702 bier. Die sechs
+            // korrekten Einträge verlieren nichts: Stufe 1 und 2 finden sie
+            // ohnehin. Genau dieses stille Veralten war der Grund, es zu
+            // streichen statt die IDs nachzuziehen.
+            const authorityManager = window.playground?.authorityManager;
+            if (authorityManager) {
+                const matches = authorityManager.searchLemmaByOrthography(term);
+                if (matches.length > 0) {
+                    const lemmaId = matches[0].id.replace('lemma_', '');
+                    lemmaIds.push(lemmaId);
                 }
             }
         });
 
         return lemmaIds;
-    }
-
-    findLemmaIdByOrthography(orthography) {
-        // Common Middle High German lemma mappings
-        const commonLemmas = {
-            'brôt': '879',
-            'brot': '879', 
-            'wîn': '7532',
-            'win': '7532',
-            'wein': '7532',
-            'fleisch': '1816',
-            'vleisch': '1816',
-            'käse': '26713',
-            'kæse': '26713',
-            'bier': '712',
-            'bîr': '712'
-        };
-        
-        const normalized = orthography.toLowerCase();
-        return commonLemmas[normalized] || null;
     }
 
     // Context selection is now handled by the MultiLemmaSearchUI modal
