@@ -54,6 +54,7 @@ Diese Regeln haben in der Praxis Fehler gefangen, die alle Gates passiert hatten
 19. **Auch prüfen, was ohnehin erfüllt scheint.** Ein Sortier-Tiebreak sah nach totem Code aus, weil die Einfügereihenfolge ihn schon erfüllte. Die Mutation zeigte das Gegenteil.
 20. **Minifizierte Build-Artefakte per Selektorliste diffen.** Bei `tailwind-output.css` ist der Zeilendiff immer die ganze Datei. Selektoren vorher und nachher extrahieren und mit `comm` vergleichen; so wird sichtbar, ob der Rebuild eine Klasse ergänzt oder eine verloren hat.
 21. **Beispiele aus Tickets sind Behauptungen, keine Daten.** Sowohl das Leitbeispiel von #239 (`rôtwîn`) als auch ein Tabelleneintrag dieses Playbooks (`bîr`) hielten der Messung nicht stand. Jedes Beispiel, an dem ein Akzeptanzkriterium hängt, vor der Umsetzung gegen die Daten prüfen.
+22. **Kein Branchwechsel, solange ein Testlauf im Hintergrund läuft.** Der Arbeitsbaum ist geteilt: ein `git checkout` zieht Playwright die Spec-Dateien unter den Füßen weg. Der Lauf meldet dann „Cannot find module …spec.js", die Zusammenfassung nennt aber nur eine niedrigere Bestanden-Zahl und keinen Fehler. Genau deshalb `testing/test-results/report.json` auswerten statt der Konsolenzeile: dort standen 57 Tests mit einem `unexpected` und fünfzehn `skipped`, während die Konsole „41 passed" meldete.
 
 ---
 
