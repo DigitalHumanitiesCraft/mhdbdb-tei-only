@@ -368,40 +368,75 @@ dedup(rawResults):
    - `{textId: "DES2", matchCount: 5, lemmaIds: ["lemma_879"]}`
 4. Both lemmata get distinct highlight colors in reading view
 
-### C.2.2 Playground: Proximity Context Window Dedup
+### C.2.2 Playground: Proximity Window Selection and Context Dedup
 
-Source: `playground/js/data/tei-manager.js` (proximity search function)
+Source: `playground/js/data/tei-manager.js` (`findCoveringWindow`, `searchProximityUsingEnhancedIndex`)
 
-**Trigger:** Proximity search finds multiple overlapping co-occurrence windows in the same text. Without dedup, the same passage appears multiple times with slightly shifted windows.
+Two steps that both changed with #169 (KZW decision 2026-07-28). Numbers from before 2026-07-29 are not comparable for searches with three or more lemmata; see the JOURNAL entry of that date.
+
+**Caveat on the input positions.** This function builds its per-lemma position lists by scanning `words[]` for equality, so it is first-id only and does not follow the §B.1 consumer rule (the verse search next to it does, via `lemmata{}`). Same standing justification as `cooccurrence-ranking.js`: 0 multi-ref cases in the corpus today. It becomes wrong the moment a `<w>` carries two `@lemmaRef` ids.
+
+**Step 1 – window selection.** `maxDistance` bounds the SPAN of all matched positions, not each position's distance to the anchor lemma. A hit requires one window of width `maxDistance` that holds the anchor and one occurrence of every other lemma.
+
+`maxDistance` is clamped to the range the UI declares (`0…50`, from `input#proximityDistance[max=50]`) before the search runs, with a non-numeric value falling back to 10. The hash route only validates `dist > 0`, and unlike the old anchor test the window search gets more expensive as the distance grows, so the data layer enforces the bound itself rather than trusting the surface.
+
+```
+function findCoveringWindow(firstPos, otherPositionLists, maxDistance):
+    // otherPositionLists = ascending position arrays, one per non-anchor lemma
+    if otherPositionLists is empty: return []
+
+    // An optimal window always starts on an occupied position
+    candidates = {firstPos}
+    for each list in otherPositionLists:
+        candidates += every p in list with firstPos - maxDistance <= p <= firstPos
+
+    best = null, bestSpan = INFINITY
+    for each windowStart in sorted(candidates):
+        windowEnd = windowStart + maxDistance
+        if firstPos > windowEnd: continue
+
+        chosen = []
+        for each list in otherPositionLists:
+            p = first element of list >= windowStart     // binary search
+            if p does not exist OR p > windowEnd: mark uncovered, break
+            chosen.push(p)
+        if uncovered: continue
+
+        span = max(firstPos, ...chosen) - min(firstPos, ...chosen)
+        if span < bestSpan: bestSpan = span, best = chosen
+
+    return best        // null when no window carries all lemmata
+```
+
+**Why the search over window starts, not just a range check.** Until 2026-07-29 each further lemma was tested against `firstPos` alone (`positions.find(p => abs(p - firstPos) <= maxDistance)`), so B at anchor−5 and C at anchor+5 both passed at `maxDistance` 5 although they sit 10 apart; `actualDistance` then reported the 10 correctly in the very same result object. Adding a span check on top of the old selection would not fix it, because `find()` returns the FIRST position in anchor range, not the most useful one. With B = {90, 110}, C = {109}, `firstPos` = 100 and `maxDistance` = 10 that selection yields B = 90, span 19, and the hit would be dropped although B = 110 with C = 109 spans exactly 10. Iterating the possible window starts also keeps the reported distance minimal.
+
+**Step 2 – context dedup.** Overlapping context windows in the same file collapse to the one with the SHORTEST distance.
 
 ```
 function deduplicateProximityResults(rawMatches):
     // rawMatches = [{filename, matchPositions, distance, contextStart, contextEnd, ...}, ...]
-
-    // Step 1: Group by filename
     byFile = groupBy(rawMatches, 'filename')
-
     deduplicated = []
 
-    // Step 2: For each file, remove overlapping windows
     for each (filename, fileResults) in byFile:
-        sort fileResults by contextStart ascending
+        byDistance = COPY of fileResults sorted by (distance asc, contextStart asc)
 
-        for each result in fileResults:
-            overlaps = deduplicated.any(existing =>
-                existing.filename === result.filename
-                AND max(existing.contextStart, result.contextStart)
+        kept = []
+        for each result in byDistance:
+            overlaps = kept.any(existing =>
+                max(existing.contextStart, result.contextStart)
                     < min(existing.contextEnd, result.contextEnd)
             )
+            if NOT overlaps: kept.push(result)
+            // else: discard — the kept match is the closer one by construction
 
-            if NOT overlaps:
-                deduplicated.push(result)
-            // else: discard (keep earlier/shorter-distance match)
+        sort kept by contextStart ascending      // output follows the text
+        deduplicated += kept
 
     return deduplicated
 ```
 
-**Behavior:** When two context windows overlap, the first one (earlier position, already added) wins. This keeps the closer match since results within each file are sorted by position.
+**Behavior:** the closest co-occurrence in a passage wins; output order stays reading order. Before 2026-07-29 the sort key was `contextStart`, so the EARLIEST match won while the comment and the console log claimed "keeping shorter distance" (#169 finding 48). Users were shown the more distant co-occurrence whenever the earlier window happened to be the wider one.
 
 ### C.2.3 Playground: Document-Level Aggregation
 

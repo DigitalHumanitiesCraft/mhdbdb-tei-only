@@ -57,7 +57,7 @@ Direkt startbar geworden:
 |---|------|-------------|
 | #140 | Doku menschenlesbar | Bereinigung umgesetzt (PR #215, 12.07.); beide Detailfragen der Abnahme vom 27.07. erledigt (DRAFT-Kopf in TEI-MODEL.md entfernt, PR #230; „Woesner" repoweit einheitlich geschrieben, keine Variante „Wösner"/„Wosner" im Bestand, keine Änderung nötig). Offen ist nur noch die Abnahme durch KZW |
 | #58 | Begriff→Lemma→Beleg Workflow | Option A/B/C entscheiden |
-| #169 | Suchsemantik (Audit 3/6) | Punkt 45 (3-Stufen-Drift; Audit-Punktnummern, keine Issue-Nummern) entschieden und in PR #227 umgesetzt (ADR-016). Offen: Punkt 15 Nähesuche-Distanz, Punkt 51 Fast-Path-Wörterbuch, Punkt 48 Dedup |
+| #169 | Suchsemantik (Audit 3/6) | Alle vier Punkte umgesetzt (Punktnummern sind Audit-Befunde, keine Issue-Nummern): Punkt 45 3-Stufen-Drift in PR #227 (ADR-016), Punkte 15/48/51 nach KZW-Freigabe vom 28.07. am 29.07. Offen ist nur noch die Abnahme. Zahlen-Zäsur für 3+-Lemma-Nähesuchen im JOURNAL 2026-07-29 |
 | #172 | Test-Suite-Policy (Audit 6/6) | 45%-passRate-Floor + korpusabhängige Magic-Numbers |
 | #18 | Multi-Lemma + PoS-Suche | POS-Policy (#27/#181) gemerged, spezifizierbar; braucht POS-Daten im Corpus-Index |
 
