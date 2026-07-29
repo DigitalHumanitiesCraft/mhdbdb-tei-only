@@ -1,10 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<?xml-model href="../schema/mhdbdb.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
-<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="FR2">
+<?xml-model href="../schema/mhdbdb.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?><TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="FR2">
   <teiHeader>
     <fileDesc>
       <titleStmt>
-        <title xml:lang="de">Lyrik von Frauenlob (Lied XIV / Stackmann 1981)</title>
+        <title xml:lang="de">Lyrik von Frauenlob (Lieder, GA XIV / Stackmann–Bertau 1981)</title>
         <author ref="#person_1347">Frauenlob</author>
         <respStmt>
           <resp>digitale Zusammenführung, Annotation und semantische Klassifikation</resp>
@@ -51,13 +50,13 @@
           <msIdentifier corresp="works.xml#work_463">
             <idno type="sigle">FR2</idno>
             <idno type="handschriftencensus">113</idno>
-            <msName xml:lang="de">Lyrik von Frauenlob (Lied XIV / Stackmann 1981)</msName>
+            <msName xml:lang="de">Lyrik von Frauenlob (Lieder, GA XIV / Stackmann–Bertau 1981)</msName>
           </msIdentifier>
           <additional>
             <listBibl>
               <biblStruct type="bookSection" xml:id="FR2_FR2" corresp="http://zotero.org/groups/5043625/items/F596XRX9" key="FR2">
                 <analytic>
-                  <title level="a">Frauenlob Teil Ii</title>
+                  <title level="a">Frauenlob Teil II</title>
                   <author>
                     <name>Heinrich von Meißen</name>
                   </author>
@@ -98,7 +97,10 @@
       <editorialDecl>
         <p xml:lang="de">Lokale Dateireferenzen (z.B. persons.xml#person_445, lexicon.xml#lemma_879, genres.xml#genre_XXX) verweisen auf kontrollierte Vokabulare im authority-files Verzeichnis dieses Repositorys. Diese internen Querverweise ermöglichen die Verknüpfung mit Personen-, Werk-, Lemma-, Konzept-, Genre- und Namensautoritätsdateien.</p>
         <p xml:lang="en">Local file references (e.g. persons.xml#person_445, lexicon.xml#lemma_879, genres.xml#genre_XXX) point to controlled vocabularies in the authority-files directory of this repository. These internal cross-references enable linking to person, work, lemma, concept, genre, and name authority files.</p>
-      <normalization><p>Band 1 der großen Göttinger Frauenlob-Edition besteht aus 14 Teilen (I-XIV), wobei I-XIII Leichs und XI Lieder sind. Aufgrund unterschiedlicher Zählweisen wurden in FR2 in der MHDBDB nur die Lieder (XIV.) aufgenommen. I-XIII(Leichs) finden sich in FR1.</p><p>Die Ligatur von oe wurde aufgelöst.</p><p>Lemmatisiert, aber noch nicht disambiguiert.</p><p>Die Groß-/Kleinschreibung entspricht aus technischen Gründen nur teilweise der Edition.</p></normalization></editorialDecl>
+      <p xml:lang="de">Band 1 der Göttinger Frauenlob-Ausgabe (Stackmann/Bertau 1981) besteht aus 14 Teilen (I–XIV): I–III sind Leichs (Marienleich, Kreuzleich, Minneleich), IV–XIII Sangspruchtöne, XIV die Lieder. In der MHDBDB sind die Teile I–XIII als FR1 aufgenommen und Teil XIV als FR2. Die frühere Angabe, FR1 enthalte nur die Leichs, war unzutreffend: auf 973 Leich-Verse kommen dort 5.654 Sangspruch-Verse.</p>
+        <p xml:lang="de">Eingriffe der MHDBDB in die Textgestalt (2026-07, Issue #236): Die GA-Ebene XIV existierte nur als loses Wort im Textfluss und ist nun in &lt;head&gt; und in div/@n ("XIV,1" bis "XIV,7") explizit.</p>
+        <p xml:lang="de">Der E-Text der MHDBDB ist daher an den hier genannten Stellen nicht mit der Druckedition identisch. Für Zitate ist die gedruckte Ausgabe maßgeblich.</p>
+        <normalization><p>Die Ligatur von oe wurde aufgelöst.</p><p>Lemmatisiert, aber noch nicht disambiguiert.</p><p>Die Groß-/Kleinschreibung entspricht aus technischen Gründen nur teilweise der Edition.</p></normalization></editorialDecl>
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
@@ -153,13 +155,8 @@
   </teiHeader>
   <text>
     <body>
-      <p>
-        <hi rend="initial">
-          <w xml:id="FR2_1_0" lemmaRef="lexicon.xml#lemma_13826" pos="DIG" ana="lexicon.xml#lemma_13826_sense_22789" corresp="variants.xml#type_54870">xiv</w>
-        </hi>
-        <pc xml:id="FR2_1_1" join="left">.</pc>
-      </p>
-      <div type="song" n="1">
+      <head>XIV. Lieder</head>
+      <div type="song" n="XIV,1">
         <p>
           <lg type="stanza" n="1">
             <l n="1">
@@ -939,7 +936,7 @@
           </lg>
         </p>
       </div>
-      <div type="song" n="2">
+      <div type="song" n="XIV,2">
         <p>
           <lg type="stanza" n="6">
             <l n="1">
@@ -1319,7 +1316,7 @@
           </lg>
         </p>
       </div>
-      <div type="song" n="3">
+      <div type="song" n="XIV,3">
         <p>
           <lg type="stanza" n="11">
             <l n="1">
@@ -1867,7 +1864,7 @@
           </lg>
         </p>
       </div>
-      <div type="song" n="4">
+      <div type="song" n="XIV,4">
         <p>
           <lg type="stanza" n="16">
             <l n="1">
@@ -2442,7 +2439,7 @@
           </lg>
         </p>
       </div>
-      <div type="song" n="5">
+      <div type="song" n="XIV,5">
         <p>
           <lg type="stanza" n="21">
             <l n="1">
@@ -3168,7 +3165,7 @@
           </lg>
         </p>
       </div>
-      <div type="song" n="6">
+      <div type="song" n="XIV,6">
         <p>
           <lg type="stanza" n="26">
             <l n="1">
@@ -3893,7 +3890,7 @@
           </lg>
         </p>
       </div>
-      <div type="song" n="7">
+      <div type="song" n="XIV,7">
         <p>
           <lg type="stanza" n="31">
             <l n="1">
