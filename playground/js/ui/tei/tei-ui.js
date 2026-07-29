@@ -47,39 +47,6 @@ export class TEIExplorer {
         }, 100);
     }
 
-    executeProximitySearch(lemmaIds, searchTerms) {
-        const maxDistance = parseInt(prompt('Maximaler Wortabstand (empfohlen: 5-15):', '10')) || 10;
-
-        // Show loading spinner
-        showOverlaySpinner('resultsContainer', 'Analysiere Nähe-Beziehungen...', true);
-
-        // Get TEI manager from global reference
-        const teiManager = window.playground?.teiManager;
-        if (!teiManager) {
-            hideSpinner('resultsContainer');
-            displayResults('Fehler', [{
-                meta: 'TEI Manager nicht verfügbar',
-                snippet: 'Bitte laden Sie TEI-Dateien'
-            }]);
-            return;
-        }
-
-        // Use setTimeout to allow UI to update with spinner before heavy processing
-        setTimeout(() => {
-            try {
-                const results = teiManager.findCooccurringLemmas(lemmaIds, maxDistance);
-                hideSpinner('resultsContainer');
-                this.displayCooccurrenceResults(results, searchTerms, maxDistance, lemmaIds);
-            } catch (error) {
-                hideSpinner('resultsContainer');
-                displayResults('Fehler', [{
-                    meta: 'Nähe-Analyse Fehler',
-                    snippet: error.message
-                }]);
-            }
-        }, 100);
-    }
-
     resolveLemmaIds(searchTerms) {
         const lemmaIds = [];
 
@@ -119,7 +86,15 @@ export class TEIExplorer {
             }
         });
 
-        return lemmaIds;
+        // Verschiedene Eingaben können auf dasselbe Lemma zeigen: „wîn" und
+        // „wein" landen beide auf lemma_7532, das eine über Stufe 1, das
+        // andere über die Variantenliste. Ohne Dedup steht diese ID zweimal in
+        // der Liste, und die Nähesuche sucht ein Fenster, das dieselbe
+        // Positionsliste zweimal abdeckt: das leistet jede einzelne Position,
+        // also meldet sie jede Fundstelle als Treffer mit Abstand 0. Vor #169
+        // fiel das weniger auf, seit der Fensterlogik ist es deterministisch.
+        // Reihenfolge bleibt erhalten, der erste Treffer gewinnt.
+        return [...new Set(lemmaIds)];
     }
 
     // Context selection is now handled by the MultiLemmaSearchUI modal

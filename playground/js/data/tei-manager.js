@@ -292,6 +292,24 @@ export class TEIFilesManager {
         return results;
     }
 
+    /**
+     * XML-Fallback der Nähesuche, benutzt wenn kein Korpus-Index vorliegt
+     * (hochgeladene Dateien).
+     *
+     * ACHTUNG, bewusste Abweichung von CONTRACTS §B: dieser Pfad zählt ALLE
+     * `<w>`, der Korpus-Index dagegen nur die mit `@lemmaRef`. Über alle 667
+     * Korpusdateien tragen 1.898.318 von 9.431.316 `<w>` kein `@lemmaRef`,
+     * also 20,1 % (Spitzenwerte AUP 41,6 %, REF 39,3 %, DL1 38,8 %; 145
+     * Dateien ganz ohne Lücke). Die beiden Zählweisen laufen also weit
+     * auseinander. Innerhalb dieses Pfades ist das konsistent, weil
+     * Positionen UND Kontextfenster aus derselben Liste stammen; ein
+     * `maxDistance` von 10 bedeutet hier aber „10 Tokens", im Index-Pfad
+     * „10 lemmatisierte Tokens". Ergebnisse der beiden Pfade sind deshalb
+     * nicht direkt vergleichbar und dürfen nicht vermischt werden.
+     *
+     * Nicht angeglichen, weil hochgeladene Dateien nicht lemmatisiert sein
+     * müssen: ein `[@lemmaRef]`-Filter würde dort im Zweifel alles verwerfen.
+     */
     async findCooccurringLemmas(lemmaIds, maxDistance = 10) {
         const results = [];
 
@@ -562,88 +580,6 @@ export class TEIFilesManager {
     // ==================== INDEX-BASED SEARCH (FAST) ====================
 
     /**
-     * Check if corpus is loaded from pre-built index (enables fast search)
-     */
-    hasCorpusIndex() {
-        return this.corpusIndex && this.corpusIndex.texts && this.corpusIndex.lemmaIndex;
-    }
-
-    /**
-     * Find texts containing all specified lemmas using index (instant filtering)
-     */
-    findTextsContainingLemmas(lemmaIds) {
-        if (!this.hasCorpusIndex()) return null;
-
-        console.log(`🔍 Filtering ${this.corpusIndex.texts.length} texts using index...`);
-
-        // Get texts for each lemma from lemmaIndex
-        const textSets = lemmaIds.map(lemmaId => {
-            const lemmaKey = lemmaId.toString().startsWith('lemma_') ? lemmaId : `lemma_${lemmaId}`;
-            return new Set(this.corpusIndex.lemmaIndex[lemmaKey] || []);
-        });
-
-        // Find intersection (texts containing ALL lemmas)
-        const firstSet = textSets[0];
-        const intersection = Array.from(firstSet).filter(textId =>
-            textSets.every(set => set.has(textId))
-        );
-
-        console.log(`   Found ${intersection.length} texts containing all ${lemmaIds.length} lemmas`);
-        return intersection;
-    }
-
-    /**
-     * Find proximity matches using index data (word positions)
-     * Returns: {textId: [{lemma1Pos, lemma2Pos, distance}, ...]}
-     */
-    findProximityMatchesInIndex(lemmaIds, maxDistance) {
-        if (!this.hasCorpusIndex()) return null;
-
-        const candidateTextIds = this.findTextsContainingLemmas(lemmaIds);
-        if (!candidateTextIds || candidateTextIds.length === 0) return {};
-
-        console.log(`🔍 Checking proximity in ${candidateTextIds.length} candidate texts...`);
-
-        const matches = {};
-
-        for (const textId of candidateTextIds) {
-            // Find text data
-            const text = this.corpusIndex.texts.find(t => t.id === textId);
-            if (!text || !text.lemmata) continue;
-
-            // Get positions for each lemma
-            const positionSets = lemmaIds.map(lemmaId => {
-                const lemmaKey = lemmaId.toString().startsWith('lemma_') ? lemmaId : `lemma_${lemmaId}`;
-                return text.lemmata[lemmaKey] || [];
-            });
-
-            // Check all position combinations for proximity
-            const proximityMatches = [];
-
-            // For each position of first lemma
-            for (const pos1 of positionSets[0]) {
-                // Check if any position of second lemma is within maxDistance
-                for (const pos2 of positionSets[1]) {
-                    const distance = Math.abs(pos1 - pos2);
-                    if (distance <= maxDistance && distance > 0) {
-                        proximityMatches.push({
-                            positions: [pos1, pos2],
-                            distance: distance
-                        });
-                    }
-                }
-            }
-
-            if (proximityMatches.length > 0) {
-                matches[textId] = proximityMatches;
-            }
-        }
-
-        console.log(`   Found ${Object.keys(matches).length} texts with proximity matches`);
-        return matches;
-    }
-
-    /**
      * Fast multi-lemma search using index data (when available)
      * Falls back to XML search for uploaded files
      */
@@ -686,6 +622,21 @@ export class TEIFilesManager {
      * Reader-Deep-Links funktionieren dadurch unverändert.
      */
     searchVerseUsingEnhancedIndex(lemmaIds, corpusData) {
+        // Dieselbe Degeneration wie im Nähe-Pfad, andere Ursache: die
+        // Vergleichsschleife startet bei i = 1 und läuft mit einem Lemma
+        // gar nicht, allInVerse bliebe true und jeder Vers mit dem Lemma
+        // wäre ein Treffer.
+        //
+        // Deshalb einmal normalisieren, deduplizieren und mit DIESER Liste
+        // weiterarbeiten. Nur zu zaehlen genuegt nicht: "7532" und
+        // "lemma_7532" sind dieselbe ID, ein Aufruf mit
+        // ['7532','lemma_7532','9999'] kaeme sonst durch den Guard, und der
+        // doppelte Eintrag laege per Konstruktion im selben Vers wie der
+        // Anker. Eine Anfrage ueber drei Lemmata waere still als eine ueber
+        // zwei beantwortet. Die Funktionskoerper vertragen bare IDs.
+        lemmaIds = [...new Set(lemmaIds.map(id => String(id).replace(/^lemma_/, '')))];
+        if (lemmaIds.length < 2) return [];
+
         const results = [];
         const includedTexts = corpusData.includedTexts || new Set();
 
@@ -709,7 +660,13 @@ export class TEIFilesManager {
 
             // Alle Positionen je Lemma aus der Reverse-Map lemmata{} —
             // multi-ref-bewusst per CONTRACTS §B.1 (words[] hält nur die
-            // erste @lemmaRef-ID pro <w>), wie findProximityMatchesInIndex.
+            // erste @lemmaRef-ID pro <w>).
+            //
+            // Kein Vergleich mit dem Nähe-Pfad: searchProximityUsingEnhancedIndex
+            // scannt weiterhin words[] und ist damit die bekannte Abweichung
+            // von der Consumer-Rule, nicht das Vorbild. Folgenlos ist das nur,
+            // solange kein <w> mehrere Referenzen trägt; gemessen am Korpus
+            // sind das derzeit 0 von 7.532.998 @lemmaRef-Werten.
             const lemmaPositions = {};
             lemmaIds.forEach(lemmaId => {
                 const lemmaKey = lemmaId.toString().startsWith('lemma_') ? lemmaId : `lemma_${lemmaId}`;
@@ -767,122 +724,6 @@ export class TEIFilesManager {
         return results;
     }
 
-    /**
-     * v4.0.0: Document search using index (fast filtering)
-     * Paragraph mode removed in v4.0.0
-     */
-    async searchDocumentUsingIndex(lemmaIds) {
-        console.log(`🚀 Using index-based document search (fast path)`);
-
-        // Step 1: Fast filtering using index
-        const candidateTextIds = this.findTextsContainingLemmas(lemmaIds);
-        if (!candidateTextIds || candidateTextIds.length === 0) return [];
-
-        const results = [];
-
-        // Step 2: Load XML only for matching texts
-        console.log(`📥 Loading XML for ${candidateTextIds.length} matching texts...`);
-
-        for (const textId of candidateTextIds) {
-            const textData = this.teiData.parsedXML.find(t =>
-                t.filename && t.filename.replace('.tei.xml', '') === textId
-            );
-
-            if (!textData) continue;
-
-            const doc = await this.getXMLDoc(textData);
-            if (!doc) continue;
-
-            // Document-level search (already filtered by index)
-            const matchingWords = this.extractMatchingWordsFromDocument(doc, lemmaIds);
-            results.push({
-                filename: textData.filename,
-                title: textData.title,
-                author: textData.author,
-                context: 'document',
-                matchingWords: matchingWords,
-                totalWords: Object.values(textData.lemmata || {}).flat().length
-            });
-        }
-
-        console.log(`✅ Index-based search complete: ${results.length} matches`);
-        return results;
-    }
-
-    /**
-     * Proximity search using index data (super fast!)
-     */
-    async searchProximityUsingIndex(lemmaIds, maxDistance) {
-        console.log(`🚀 Using index-based proximity search (fast path)`);
-
-        const proximityMatches = this.findProximityMatchesInIndex(lemmaIds, maxDistance);
-        if (!proximityMatches) {
-            // Index not available, fall back to XML search
-            console.log('   Index not available, falling back to XML search');
-            return await this.findCooccurringLemmas(lemmaIds, maxDistance);
-        }
-
-        const results = [];
-
-        // Now fetch XML only for matching texts (not all 667!)
-        console.log(`📥 Loading XML for ${Object.keys(proximityMatches).length} matching texts...`);
-
-        for (const [textId, matches] of Object.entries(proximityMatches)) {
-            // Find the text data
-            const textData = this.teiData.parsedXML.find(t =>
-                t.filename && t.filename.replace('.tei.xml', '') === textId
-            );
-
-            if (!textData) {
-                console.warn(`   Text ${textId} not found in parsedXML`);
-                continue;
-            }
-
-            // Load XML for this specific text
-            const doc = await this.getXMLDoc(textData);
-            if (!doc) continue;
-
-            // Get all words
-            const words = doc.querySelectorAll('w');
-            const wordArray = Array.from(words);
-
-            // Extract context for each proximity match
-            for (const match of matches) {
-                const positions = match.positions;
-                const distance = match.distance;
-
-                // Get surrounding context (±10 words)
-                const minPos = Math.min(...positions);
-                const maxPos = Math.max(...positions);
-                const contextStart = Math.max(0, minPos - 10);
-                const contextEnd = Math.min(wordArray.length, maxPos + 10);
-
-                const contextWords = wordArray.slice(contextStart, contextEnd);
-                const contextText = contextWords.map(w => w.textContent).join(' ');
-
-                // Highlight the matching words
-                const highlightedWords = {};
-                lemmaIds.forEach((lemmaId, idx) => {
-                    highlightedWords[lemmaId] = positions[idx];
-                });
-
-                results.push({
-                    filename: textData.filename,
-                    title: textData.title,
-                    author: textData.author,
-                    matchPositions: positions,
-                    distance: distance,
-                    contextText: contextText,
-                    contextStart: contextStart,
-                    contextEnd: contextEnd
-                });
-            }
-        }
-
-        console.log(`✅ Index-based search complete: ${results.length} proximity matches`);
-        return results;
-    }
-
     // ========== REDESIGN: Enhanced Index Search Methods (v2.0.0) ==========
     // These methods use the pre-built corpus index with full word data
     // NO XML LOADING REQUIRED - instant results!
@@ -930,59 +771,6 @@ export class TEIFilesManager {
     }
 
     // v4.0.0: Paragraph search removed (document-level indexing only)
-
-    /**
-     * Enrich v3.0.0 compact results with actual TEI text
-     */
-    async enrichResultsWithTEIText(results, lemmaIds) {
-        console.log('📄 Fetching TEI files to extract actual text...');
-
-        for (const result of results) {
-            try {
-                // Fetch TEI file
-                const teiPath = `../tei/${result.filename}`;
-                const response = await fetch(teiPath);
-                if (!response.ok) continue;
-
-                const xmlText = await response.text();
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(xmlText, 'text/xml');
-
-                // Get paragraphs
-                const paragraphs = doc.querySelectorAll('p, lg');
-                const para = paragraphs[result.paragraphIndex];
-
-                if (para) {
-                    // Extract paragraph text
-                    result.text = para.textContent?.trim() || '';
-
-                    // Extract matching words with actual text
-                    const words = para.querySelectorAll('w[lemmaRef]');
-                    result.matchingWords = {};
-
-                    lemmaIds.forEach(lemmaId => {
-                        const cleanId = lemmaId.toString().replace('lemma_', '');
-                        result.matchingWords[lemmaId] = [];
-
-                        words.forEach(word => {
-                            const lemmaRef = word.getAttribute('lemmaRef');
-                            // Exact lemma-id match (CONTRACTS §B.1) — never a substring. See #126.
-                            if (lemmaRefMatchesId(lemmaRef, `lemma_${cleanId}`)) {
-                                result.matchingWords[lemmaId].push({
-                                    text: word.textContent?.trim() || '',
-                                    lemmaRef: lemmaRef
-                                });
-                            }
-                        });
-                    });
-                }
-            } catch (error) {
-                console.warn(`Failed to enrich ${result.filename}:`, error);
-            }
-        }
-
-        console.log('✅ TEI text enrichment complete');
-    }
 
     /**
      * Index der ersten Position >= value in einer aufsteigend sortierten Liste
@@ -1073,6 +861,32 @@ export class TEIFilesManager {
      * Finds lemmas within maxDistance words of each other
      */
     async searchProximityUsingEnhancedIndex(lemmaIds, maxDistance, corpusData) {
+        // Weniger als zwei VERSCHIEDENE Lemmata lassen die Fenstersuche
+        // degenerieren: ohne abzudeckende Restliste liefert findCoveringWindow
+        // ein leeres Array, das ist truthy, und jede Fundstelle käme als
+        // Treffer mit Abstand 0 zurück. Die Oberfläche fängt den Fall schon ab
+        // und erklärt ihn; dieser Guard steht für den nächsten Aufrufer.
+        // Einmal normalisieren, deduplizieren und mit DIESER Liste
+        // weiterarbeiten. Nur zu zaehlen genuegt nicht: "7532" und
+        // "lemma_7532" sind dieselbe ID, ein Aufruf mit
+        // ['7532','lemma_7532','9999'] kaeme sonst durch den Guard und
+        // truege dieselbe Positionsliste zweimal als abzudeckende Liste
+        // ein. Die deckt sich selbst ab. Die gemeldete Distanz bleibt
+        // dabei gleich (das dritte Lemma muss ohnehin abgedeckt werden,
+        // und windowStart = firstPos ist immer tragfaehig), der Unterschied
+        // steht in matchPositions: dort stuende die Trefferposition
+        // doppelt, [12, 12, 30] statt [12, 30]. Eine Anfrage ueber drei
+        // Lemmata waere still als eine ueber zwei beantwortet.
+        //
+        // Beobachtbare Folge in der Oberflaeche hat das heute keine: das
+        // Feld wird nur in ui-helpers.js als Math.min fuer die
+        // Sprungposition gelesen, und ein Duplikat verschiebt das Minimum
+        // nicht. Der Guard ist Vertragshygiene fuer den naechsten
+        // Aufrufer und auf API-Ebene getestet. Die Funktionskoerper
+        // vertragen bare IDs.
+        lemmaIds = [...new Set(lemmaIds.map(id => String(id).replace(/^lemma_/, '')))];
+        if (lemmaIds.length < 2) return [];
+
         const results = [];
         const includedTexts = corpusData.includedTexts || new Set();
 
@@ -1213,34 +1027,4 @@ export class TEIFilesManager {
         return deduplicated;
     }
 
-    /**
-     * Enrich v3.0.0 proximity results with actual TEI text
-     */
-    async enrichProximityResultsWithText(results) {
-        console.log('📄 Fetching TEI files for proximity context...');
-
-        for (const result of results) {
-            try {
-                const teiPath = `../tei/${result.filename}`;
-                const response = await fetch(teiPath);
-                if (!response.ok) continue;
-
-                const xmlText = await response.text();
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(xmlText, 'text/xml');
-
-                // Get all words
-                const words = doc.querySelectorAll('w');
-
-                // Extract context text
-                const contextWords = Array.from(words).slice(result.contextStart, result.contextEnd);
-                result.contextText = contextWords.map(w => w.textContent?.trim()).join(' ');
-
-            } catch (error) {
-                console.warn(`Failed to enrich proximity result ${result.filename}:`, error);
-            }
-        }
-
-        console.log('✅ Proximity text enrichment complete');
-    }
 }
