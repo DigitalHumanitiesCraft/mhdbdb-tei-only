@@ -448,12 +448,22 @@ export class LemmaExplorer {
     this._componentPicked = new Set(
       Array.from(document.querySelectorAll(".component-pick:checked")).map((b) => b.value)
     );
-    this._componentOpen = new Set(
-      COMPONENT_GROUPS.filter((g) => {
-        const el = document.getElementById(`component-group-${g.key}`);
-        return el && !el.classList.contains("hidden");
-      }).map((g) => g.key)
-    );
+    // Nur Gruppen erfassen, die es im aktuellen Render überhaupt gab, und den
+    // Zustand je Gruppe ablegen statt als Menge der offenen. Der Unterschied
+    // entscheidet den Rückweg aus dem Leerzustand: dort existiert keine
+    // einzige Gruppe, eine Menge wäre leer, und ein leeres Set ist truthy.
+    // Die Wiederherstellung würde daraufhin ALLE Gruppen zuklappen, auch die
+    // beiden, die COMPONENT_GROUPS offen startet. Wer den Filter abschaltet,
+    // um wieder alle Treffer zu sehen, bekäme drei zugeklappte Kopfzeilen.
+    const gerendert = COMPONENT_GROUPS.map((g) => [
+      g.key, document.getElementById(`component-group-${g.key}`)
+    ]).filter(([, el]) => el);
+
+    this._componentOpen = gerendert.length
+      ? Object.fromEntries(
+          gerendert.map(([key, el]) => [key, !el.classList.contains("hidden")])
+        )
+      : null;
   }
 
   /**
@@ -479,7 +489,11 @@ export class LemmaExplorer {
       COMPONENT_GROUPS.forEach((g) => {
         const el = document.getElementById(`component-group-${g.key}`);
         if (!el) return;
-        const sollOffen = this._componentOpen.has(g.key);
+        // Für eine Gruppe, die es beim Merken nicht gab, existiert kein
+        // gemerkter Zustand. Dann gilt ihre Voreinstellung, nicht „zu".
+        const sollOffen = g.key in this._componentOpen
+          ? this._componentOpen[g.key]
+          : !g.collapsed;
         el.classList.toggle("hidden", !sollOffen);
         const knopf = document.querySelector(`[aria-controls="component-group-${g.key}"]`);
         if (knopf) knopf.setAttribute("aria-expanded", String(sollOffen));

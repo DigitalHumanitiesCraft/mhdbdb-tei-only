@@ -251,9 +251,15 @@ test.describe('#239: Belegte Wortbildungen aus lemma.etymology', () => {
         await expect(page.locator('#componentOnlyMorph')).toBeVisible();
         await expect(page.locator('#componentOnlyMorph')).toBeChecked();
 
-        // und der Weg zurück funktioniert auch wirklich
+        // Und der Weg zurück muss auch wirklich zu den Treffern führen.
+        // toBeVisible statt toHaveCount: zugeklappt existiert die Gruppe im
+        // DOM ebenfalls. Im Leerzustand ist keine Gruppe gerendert, der
+        // gemerkte Zustand darf deshalb nicht als „alle zu" gelesen werden.
         await page.locator('#componentOnlyMorph').uncheck();
-        await expect(page.locator('#component-group-ende')).toHaveCount(1);
+        await expect(page.locator('#component-group-ende')).toBeVisible();
+        await expect(
+            page.locator('#component-group-ende .component-pick[value="alantwîn"]')
+        ).toBeVisible();
     });
 
     test('die Leer-Meldung leugnet den Exakt-Treffer nicht', async ({ page }) => {
