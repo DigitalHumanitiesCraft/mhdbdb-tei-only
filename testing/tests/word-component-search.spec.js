@@ -204,6 +204,38 @@ test.describe('#239: Belegte Wortbildungen aus lemma.etymology', () => {
         expect(anfang.lemmata).toContain('wînrebe');
     });
 
+    test('die Gesamtzahl im Kopf bleibt die ungefilterte', async ({ page }) => {
+        const kopf = page.locator('#lemmaResults');
+        const vorher = (await kopf.textContent()).match(/(\d+) Lemmata enthalten/)[1];
+
+        await page.locator('#componentOnlyMorph').check();
+        await expect(kopf).toContainText('als belegte Wortbildung angezeigt');
+
+        // Die Antwort auf „wie viele enthalten den Bestandteil" ändert sich
+        // durch einen Anzeigefilter nicht.
+        const nachher = (await kopf.textContent()).match(/(\d+) Lemmata enthalten/)[1];
+        expect(nachher).toBe(vorher);
+    });
+
+    test('der Filter behält Auswahl und aufgeklappte Gruppen', async ({ page }) => {
+        await page.locator('#component-group-ende .component-pick[value="ôsterwîn"]').check();
+
+        // Wortanfang von Hand zuklappen: der Zustand muss den Filter überleben.
+        // (Die Wortmitten-Gruppe eignet sich dafür nicht, sie hat mit Filter
+        // null Treffer und verschwindet ganz.)
+        await page.locator('[aria-controls="component-group-anfang"]').click();
+        await expect(page.locator('#component-group-anfang')).toBeHidden();
+
+        await page.locator('#componentOnlyMorph').check();
+        await expect(page.locator('#lemmaResults')).toContainText('als belegte Wortbildung angezeigt');
+
+        // ôsterwîn überlebt den Filter (es IST eine belegte Wortbildung) und
+        // muss sein Häkchen behalten, sonst ist die Auswahl stillschweigend weg.
+        await expect(page.locator('#component-group-ende .component-pick[value="ôsterwîn"]'))
+            .toBeChecked();
+        await expect(page.locator('#component-group-anfang')).toBeHidden();
+    });
+
     test('der Gruppenkopf trägt aria-expanded passend zum Zustand', async ({ page }) => {
         const ende = page.locator('[aria-controls="component-group-ende"]');
         const mitte = page.locator('[aria-controls="component-group-mitte"]');

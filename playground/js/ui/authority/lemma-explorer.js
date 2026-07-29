@@ -357,6 +357,12 @@ export class LemmaExplorer {
       .filter(([key]) => key !== "exakt")
       .reduce((s, [, liste]) => s + liste.filter((e) => e.belegt).length, 0);
 
+    // Die Antwort auf „wie viele Lemmata enthalten den Bestandteil" ist immer
+    // die ungefilterte Zahl. Was der Filter ändert, ist die Anzeigemenge.
+    const gefundenGesamt = Object.entries(gruppen)
+      .filter(([key]) => key !== "exakt")
+      .reduce((s, [, liste]) => s + liste.length, 0);
+
     if (this.componentOnlyMorph) {
       Object.keys(gruppen).forEach((key) => {
         if (key !== "exakt") gruppen[key] = gruppen[key].filter((e) => e.belegt);
@@ -376,13 +382,19 @@ export class LemmaExplorer {
       )
     );
 
-    const gesamt = Object.values(gruppen).reduce((s, l) => s + l.length, 0);
-    if (gesamt === 0) {
+    // Die Leer-Meldung hängt an den Positionsgruppen OHNE die Exakt-Gruppe.
+    // Sonst kann sie nie erscheinen, sobald der gesuchte Bestandteil selbst
+    // ein Lemma ist, und das ist in diesem Modus der Regelfall.
+    const angezeigt = Object.entries(gruppen)
+      .filter(([key]) => key !== "exakt")
+      .reduce((s, [, liste]) => s + liste.length, 0);
+
+    if (angezeigt === 0) {
       renderToContainer(
         "lemmaResults",
         `<div class="rounded-2xl border border-dashed border-slate-200 bg-slate-50/70 p-6 text-center text-sm text-slate-500">
-          ${this.componentOnlyMorph
-            ? `Kein Treffer für "${this.escapeText(term)}" führt ein passendes Grundwort als belegte Wortbildung. Filter abschalten, um alle Zeichen-Treffer zu sehen.`
+          ${this.componentOnlyMorph && gefundenGesamt > 0
+            ? `Keiner der ${gefundenGesamt} Treffer für "${this.escapeText(term)}" führt ein passendes Grundwort als belegte Wortbildung. Filter abschalten, um alle Zeichen-Treffer zu sehen.`
             : `Kein Lemma enthält den Bestandteil "${this.escapeText(term)}".`}
         </div>`
       );
@@ -391,21 +403,60 @@ export class LemmaExplorer {
 
     renderToContainer(
       "lemmaResults",
-      this.buildComponentHeaderHTML(term, formen, quellen, gruppen, gesamt, belegteGesamt) +
-        COMPONENT_GROUPS.map((g) => this.buildComponentGroupHTML(g, gruppen[g.key])).join("")
+      this.buildComponentHeaderHTML(
+        term, formen, quellen, gruppen, gefundenGesamt, belegteGesamt, angezeigt
+      ) + COMPONENT_GROUPS.map((g) => this.buildComponentGroupHTML(g, gruppen[g.key])).join("")
     );
+
+    this.restoreComponentViewState();
   }
 
   /**
    * Filter „nur belegte Wortbildungen" umschalten und dieselbe Suche neu
-   * rendern.
+   * rendern. Vorher werden Auswahl und aufgeklappte Gruppen gesichert: der
+   * wahrscheinlichste Ablauf ist ankreuzen, dann filtern, dann weiter
+   * ankreuzen, und ein kommentarloser Verlust der Häkchen wäre echter
+   * Arbeitsverlust.
    */
   toggleComponentMorphFilter(an) {
+    this.rememberComponentViewState();
     this.componentOnlyMorph = !!an;
     if (this.lastComponentTerm) this.searchWordComponents(this.lastComponentTerm);
   }
 
-  buildComponentHeaderHTML(term, formen, quellen, gruppen, gesamt, belegteGesamt) {
+  rememberComponentViewState() {
+    this._componentPicked = new Set(
+      Array.from(document.querySelectorAll(".component-pick:checked")).map((b) => b.value)
+    );
+    this._componentOpen = new Set(
+      COMPONENT_GROUPS.filter((g) => {
+        const el = document.getElementById(`component-group-${g.key}`);
+        return el && !el.classList.contains("hidden");
+      }).map((g) => g.key)
+    );
+  }
+
+  restoreComponentViewState() {
+    if (this._componentPicked) {
+      document.querySelectorAll(".component-pick").forEach((box) => {
+        if (this._componentPicked.has(box.value)) box.checked = true;
+      });
+      this._componentPicked = null;
+    }
+    if (this._componentOpen) {
+      COMPONENT_GROUPS.forEach((g) => {
+        const el = document.getElementById(`component-group-${g.key}`);
+        if (!el) return;
+        const sollOffen = this._componentOpen.has(g.key);
+        el.classList.toggle("hidden", !sollOffen);
+        const knopf = document.querySelector(`[aria-controls="component-group-${g.key}"]`);
+        if (knopf) knopf.setAttribute("aria-expanded", String(sollOffen));
+      });
+      this._componentOpen = null;
+    }
+  }
+
+  buildComponentHeaderHTML(term, formen, quellen, gruppen, gefundenGesamt, belegteGesamt, angezeigt) {
     const gesucht = formen.map((f) => `<code>${this.escapeText(f)}</code>`).join(", ");
 
     // Anforderung 4: sichtbar machen, worauf tatsächlich gesucht wird. Ohne
@@ -443,7 +494,11 @@ export class LemmaExplorer {
       <div class="space-y-3">
         <div class="rounded-xl bg-slate-50/80 px-4 py-3 text-sm text-slate-600">
           <p class="font-medium text-slate-700">
-            ${gesamt} Lemmata enthalten den Bestandteil "${this.escapeText(term)}"
+            ${gefundenGesamt} Lemmata enthalten den Bestandteil "${this.escapeText(term)}"${
+              this.componentOnlyMorph
+                ? `, davon ${angezeigt} als belegte Wortbildung angezeigt`
+                : ""
+            }
           </p>
           <p class="mt-2">
             Gesucht wird auf der normalisierten Form (<code>î</code> zu <code>i</code>,
