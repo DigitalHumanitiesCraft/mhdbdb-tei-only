@@ -213,6 +213,116 @@ test.describe('Reading View', () => {
         expect(((await anchor.textContent()) || '').trim()).toBe('');
     });
 
+    test('#138: Nach-oben-Button ist ohne geladenen Text unsichtbar', async ({ page }) => {
+        // Prüft die BERECHNETE Sichtbarkeit, nicht die Klassenliste: .back-to-top
+        // steht in korpus.css, das nach tailwind-output.css geladen wird. Ohne
+        // die Regel `.back-to-top.hidden { display: none }` gewinnt display:flex
+        // gegen Tailwinds .hidden, und der Button steht dauerhaft auf der Seite,
+        // obwohl seine Klassenliste korrekt aussieht.
+        await page.goto('http://localhost:8080/korpus.html');
+        await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
+
+        const btn = page.locator('#backToTop');
+        await expect(btn).toHaveCount(1);
+        await expect(btn).toBeHidden();
+
+        // Auch weit unten auf der Seite bleibt er weg, solange kein Text offen ist.
+        await page.mouse.wheel(0, 4000);
+        await page.waitForTimeout(400);
+        await expect(btn).toBeHidden();
+    });
+
+    test('#138: Nach-oben-Button erscheint mit Text und springt zum Panelkopf', async ({ page }) => {
+        await page.goto('http://localhost:8080/korpus.html?textId=HUG&lemmaIds=lemma_879');
+        await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
+        await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
+
+        // Der Reader springt 600 ms nach dem Laden selbst zum ersten Treffer
+        // (scrollToHighlight). Ohne dieses Warten überholt dieser Sprung den
+        // Klick und der Test misst die falsche Position.
+        await page.waitForTimeout(1500);
+
+        const btn = page.locator('#backToTop');
+
+        // Ganz nach oben: der Panelkopf ist im Blick, der Button muss weg sein.
+        await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'auto' }));
+        await page.mouse.wheel(0, 1);
+        await page.mouse.wheel(0, -1);
+        await page.waitForTimeout(300);
+        await expect(btn).toBeHidden();
+
+        // Weit nach unten in den Text: der Button muss erscheinen.
+        await page.evaluate(() => window.scrollTo({ top: 3000, behavior: 'auto' }));
+        await page.mouse.wheel(0, 1);
+        await expect(btn).toBeVisible({ timeout: 5000 });
+
+        await btn.click();
+        await page.waitForTimeout(500);
+
+        // Nach dem Sprung muss der Titel SICHTBAR sein, nicht bloß der Panelkopf
+        // an Position 0: der Seiten-Header ist `sticky top-0` und rund 73 px
+        // hoch, ein Sprung auf y=16 schöbe Titel und Metadaten darunter.
+        const geometrie = await page.evaluate(() => {
+            const header = document.querySelector('header');
+            const titel = document.getElementById('readingTitle');
+            return {
+                headerUnterkante: Math.round(header.getBoundingClientRect().bottom),
+                titelOberkante: Math.round(titel.getBoundingClientRect().top)
+            };
+        });
+        expect(geometrie.titelOberkante).toBeGreaterThanOrEqual(geometrie.headerUnterkante);
+
+        await expect(btn).toBeHidden();
+    });
+
+    test('#138: HUG (div-lokale @n) zeigt in jedem Lied wieder die 1', async ({ page }) => {
+        // Julia, 17.07.: sichtbar setzte die Verszählung nur im ersten Lied bei 1
+        // ein, danach erst bei 5. Ursache war ein dokumentweiter Anker; er wird
+        // jetzt an jedem <div> zurückgesetzt, das seine Zählung bei n="1" neu
+        // beginnt. Der #127-Fall (NBB, strophenlokale Zählung) darf davon NICHT
+        // betroffen sein — dafür der Test oben.
+        await page.goto('http://localhost:8080/korpus.html?textId=HUG&lemmaIds=lemma_879');
+        await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
+        await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
+
+        const songs = page.locator('#readingBody .tei-div-song[data-n]');
+        const songCount = await songs.count();
+        expect(songCount).toBeGreaterThan(2);
+
+        // Die ersten drei Lieder müssen je eine sichtbare "1" tragen.
+        for (let i = 0; i < 3; i++) {
+            const firstNumbered = songs.nth(i).locator('.verse-line-numbered').first();
+            await expect(firstNumbered).toHaveAttribute('data-n', '1');
+        }
+    });
+
+    test('#138/#127: NLA (divs MIT strophenlokaler Zählung) bekommt keine Randeinsen', async ({ page }) => {
+        // Der eigentliche Risikofall der #138-Änderung, nicht NBB: NBB hat gar
+        // keine <div>, die Zusicherung dort ist strukturell trivial. NLA hat 38
+        // untypisierte <div>, in denen jede Strophe wieder bei n="1" beginnt.
+        //
+        // Wogegen dieser Test schützt, ist präzise messbar: mit nur der ersten
+        // Bedingung („erste numerische <l> trägt n=1") bekäme NLA 38 zusätzliche
+        // Randeinsen, mit beiden Bedingungen 0. Gegengerechnet mit
+        // `python scripts/audit/count-verse-numbering-resets.py --text NLA`.
+        //
+        // Wichtig zur Einordnung: gegen main ist der Test NICHT trennscharf, er
+        // wäre auch dort grün (main setzt gar nichts zurück). Er sichert die
+        // zweite Bedingung gegen ein späteres Vereinfachen ab, nicht das Feature
+        // gegen den Vorzustand. Trennscharf ist der HUG-Test darüber.
+        await page.goto('http://localhost:8080/korpus.html?textId=NLA&lemmaIds=lemma_879');
+        await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
+        await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
+
+        // Vorbedingung: der Text hat wirklich divs mit strophenlokaler Zählung.
+        const divCount = await page.locator('#readingBody .tei-div').count();
+        expect(divCount).toBeGreaterThan(10);
+
+        // Höchstens der eine dokumentweite Anker darf eine sichtbare 1 tragen.
+        const einsen = await page.locator('#readingBody .verse-line-numbered[data-n="1"]').count();
+        expect(einsen).toBeLessThanOrEqual(1);
+    });
+
     test('should render note date and year badges', async ({ page }) => {
         // HZU has note type="date" and note type="year"
         await page.goto('http://localhost:8080/korpus.html?textId=HZU&lemmaIds=lemma_879');

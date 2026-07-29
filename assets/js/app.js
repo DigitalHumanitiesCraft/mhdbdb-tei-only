@@ -201,7 +201,9 @@ class MainSiteApp {
                 readingNavigation: document.getElementById('readingNavigation'),
                 prevHighlight: document.getElementById('prevHighlight'),
                 nextHighlight: document.getElementById('nextHighlight'),
-                highlightIndicator: document.getElementById('highlightIndicator')
+                highlightIndicator: document.getElementById('highlightIndicator'),
+                readingPanel: document.getElementById('readingPanel'),
+                backToTop: document.getElementById('backToTop')
             };
         }
     }
@@ -420,6 +422,9 @@ class MainSiteApp {
             // Load more results
             this.elements.loadMoreButton.addEventListener('click', () => this.loadMoreResults());
 
+            // Zum Textanfang springen (#138)
+            this.setupBackToTop();
+
             // Reading panel navigation controls
             this.elements.prevHighlight.addEventListener('click', () => this.teiReader.navigateHighlight(-1));
             this.elements.nextHighlight.addEventListener('click', () => this.teiReader.navigateHighlight(1));
@@ -433,6 +438,85 @@ class MainSiteApp {
         }
 
         console.log(`[MainSiteApp] Event listeners attached (${this.isSearchPage ? 'Search' : 'Landing'} page)`);
+    }
+
+    /**
+     * Nach-oben-Button der Leseansicht (#138, Wunsch Julia 17.07.).
+     *
+     * Ziel ist der Kopf des Lesepanels, nicht der Seitenanfang: Wer in einem
+     * langen Text steckt, will zurück zu Titel und Metadaten, nicht in die
+     * Suchmaske. Sichtbar nur, wenn ein Text geladen ist und der Panelkopf
+     * bereits oben aus dem Viewport gescrollt wurde.
+     */
+    setupBackToTop() {
+        const btn = this.elements.backToTop;
+        const panel = this.elements.readingPanel;
+        if (!btn || !panel) return;
+
+        const SHOW_AFTER_PX = 240;
+
+        const update = () => {
+            // Kriterium ist der gesetzte Titel, NICHT readingBody.childElementCount:
+            // der Body traegt auch ohne geladenen Text einen Platzhalter
+            // ("Bitte geben Sie ein Wort oder Lemma ein ..."), der Button waere
+            // sonst schon auf der reinen Ergebnisseite sichtbar.
+            const hasText = !!(this.elements.readingTitle
+                && this.elements.readingTitle.textContent.trim());
+            const scrolledPast = panel.getBoundingClientRect().top < -SHOW_AFTER_PX;
+            btn.classList.toggle('hidden', !(hasText && scrolledPast));
+        };
+
+        // Offset wie in scrollToElement (dort `headerHeight = 80`): der Header
+        // ist `sticky top-0` und rund 73 px hoch. Mit den ursprünglichen 16 px
+        // landete der Panelkopf samt Titel und Metadaten hinter dem Header,
+        // also genau das nicht im Blick, wofür der Button da ist.
+        const HEADER_OFFSET = 80;
+
+        btn.addEventListener('click', () => {
+            const top = panel.getBoundingClientRect().top + window.pageYOffset - HEADER_OFFSET;
+            // behavior: 'auto', nicht 'smooth'. In der Leseansicht ist smooth
+            // scrolling wirkungslos (in Chrome auf den langen Reader-Seiten
+            // verifiziert, unabhaengig von der Distanz und ohne aktives
+            // prefers-reduced-motion). Der Reader springt aus demselben Grund
+            // schon bei scrollToVerse/scrollToHighlight instant.
+            window.scrollTo({ top, behavior: 'auto' });
+        });
+
+        // Drei Signale, weil keins allein den ganzen Zustandsraum abdeckt:
+        //   - IntersectionObserver auf dem Panelkopf: feuert unabhaengig davon,
+        //     WODURCH gescrollt wurde. Der Reader springt selbst per
+        //     window.scrollTo (Deep-Links ?position=/?verse=,
+        //     Highlight-Navigation).
+        //   - scroll-Event: deckt das Fenster ab, in dem der Kopf zwar aus dem
+        //     Viewport ist, die Anzeigeschwelle von 240 px aber noch nicht
+        //     erreicht ist. Dort feuert der Observer nicht mehr.
+        //   - MutationObserver (unten): faengt den Fall, dass sich nur der
+        //     Ladezustand aendert und gar nicht gescrollt wird.
+        // Beobachtet wird der Panelkopf, nicht das Panel: das Panel ist so hoch
+        // wie der ganze Text (bei HUG ueber 180.000 px) und verlaesst den
+        // Viewport nie, der Observer feuerte also nie eine Zustandsaenderung.
+        const sentinel = panel.querySelector('.reading-header') || panel;
+        if ('IntersectionObserver' in window) {
+            new IntersectionObserver(update, {
+                rootMargin: `-${SHOW_AFTER_PX}px 0px 0px 0px`,
+                threshold: [0, 1]
+            }).observe(sentinel);
+        }
+        // Dritter Auslöser: der Titel selbst. Wer auf der Ergebnisliste nach
+        // unten gescrollt hat (Button korrekt versteckt, weil kein Text offen)
+        // und dann einen Text öffnet, ändert nur `hasText` — ohne Scroll und
+        // ohne Positionswechsel feuert sonst kein Signal und der Button bliebe
+        // aus, bis der Nutzer von Hand scrollt.
+        if (this.elements.readingTitle && 'MutationObserver' in window) {
+            new MutationObserver(update).observe(this.elements.readingTitle, {
+                childList: true,
+                characterData: true,
+                subtree: true
+            });
+        }
+        window.addEventListener('scroll', update, { passive: true });
+        window.addEventListener('resize', update, { passive: true });
+        update();
     }
 
     setupTextFiltering() {
