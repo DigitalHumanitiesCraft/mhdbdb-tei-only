@@ -626,14 +626,26 @@
 
             <div class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded-r-lg my-6">
                 <p class="text-sm text-slate-700">
-                    <strong>Was das Verfahren nicht kann:</strong> Es vergleicht Zeichenfolgen, nicht
-                    Wortbildung. „win“ trifft deshalb auch <em>winter</em>, <em>gewinnen</em> und
+                    <strong>Was der Zeichenvergleich nicht kann:</strong> Er vergleicht Zeichenfolgen,
+                    nicht Wortbildung. „win“ trifft deshalb auch <em>winter</em>, <em>gewinnen</em> und
                     <em>winden</em>, und die Komposita auf <em>-swîn</em> (Schwein) stehen neben denen
-                    auf <em>-wîn</em> (Wein). Die Wortart in der Trefferzeile hilft beim Aussortieren:
-                    Eigennamen wie <em>Baldewîn</em> tragen NAM. Eine echte Trennung bräuchte
-                    Stemming oder eine Wortbildungstabelle.
+                    auf <em>-wîn</em> (Wein). Zwei Dinge helfen beim Aussortieren: die Wortart in der
+                    Trefferzeile (Eigennamen wie <em>Baldewîn</em> tragen NAM) und die Markierung
+                    <em>belegte Wortbildung</em>.
                 </p>
             </div>
+
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Diese Markierung kommt aus dem Wörterbuch selbst: rund 62 Prozent der Lemmata führen
+                im Lexikon ihre morphologischen Bestandteile mit, <em>ôsterwîn</em> etwa als
+                <em>ôstern</em> plus <em>wîn</em>. Trifft einer dieser Bestandteile das gesuchte
+                Grundwort, ist der Treffer eine verzeichnete Wortbildung und kein Zufall. Das trennt
+                genau die Fälle, die der Zeichenvergleich nicht auseinanderhält: <em>wiltswîn</em>
+                führt <em>swîn</em>, nicht <em>wîn</em>, und <em>winter</em> führt gar nichts.
+                Die Checkbox <strong>Nur belegte Wortbildungen</strong> blendet alles andere aus.
+                Für die übrigen gut 38 Prozent ohne verzeichnete Wortbildung bleibt der
+                Zeichenvergleich der einzige Zugang, deshalb ist er die Voreinstellung.
+            </p>
 
             <p class="text-slate-700 leading-relaxed">
                 Interessante Treffer lassen sich ankreuzen und gesammelt an die Multi-Lemma-Suche

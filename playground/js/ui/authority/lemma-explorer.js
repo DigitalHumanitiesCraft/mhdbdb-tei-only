@@ -246,8 +246,11 @@ export class LemmaExplorer {
    *
    * Das ist zugleich die im Ticket benannte Fehltreffer-Quelle: mit „win"
    * kommen `winter`, `gewinnen`, `winden` und die Eigennamen auf -wîn mit.
-   * Ein zeichenbasiertes Verfahren ohne Morphologie kann das nicht trennen;
-   * die echte Lösung gehört zu #109.
+   * Der Zeichenvergleich allein kann das nicht trennen. Wo `lexicon.xml` die
+   * Wortbildung ausdrücklich verzeichnet (27.166 Lemmata tragen
+   * `etymology[]`, rund 62 Prozent), markiert die Trefferliste das und der
+   * Filter blendet den Rest aus; für die übrigen 38 Prozent bleibt der
+   * Zeichenvergleich der einzige Zugang.
    *
    * @returns {{formen: string[], quellen: Array<{form: string, lemma: object}>}}
    */
@@ -299,13 +302,20 @@ export class LemmaExplorer {
       return;
     }
 
-    if (TextNormalizer.normalizeMHG(term).length < COMPONENT_MIN_LENGTH) {
+    // Beide Längen prüfen. normalizeMHG VERLÄNGERT bei Umlauten und
+    // Ligaturen (ä zu ae, œ zu oe), eine zweibuchstabige Eingabe wie „wä"
+    // oder „bœ" käme sonst dreizeichig durch die Schranke, obwohl Platzhalter
+    // und Fehlermeldung drei Zeichen versprechen.
+    if (term.length < COMPONENT_MIN_LENGTH ||
+        TextNormalizer.normalizeMHG(term).length < COMPONENT_MIN_LENGTH) {
       showEmptySearchState(
         "lemmaResults",
         `Mindestens ${COMPONENT_MIN_LENGTH} Zeichen, sonst wird die Trefferliste unbrauchbar groß.`
       );
       return;
     }
+
+    this.lastComponentTerm = term;
 
     const { formen, quellen } = this.resolveComponentForms(term);
     const rang = { exakt: 0, ende: 1, anfang: 2, mitte: 3 };
@@ -330,8 +340,40 @@ export class LemmaExplorer {
       if (beste) gruppen[beste].push({ lemma, form: besteForm, norm: lemmaNorm });
     });
 
+    // Kuratierte Wortbildung: welche Treffer führen eines der Ziel-Lemmata
+    // ausdrücklich als morphologische Komponente? Die Exakt-Gruppe ist genau
+    // die Menge der Lemmata, die der Eingabe entsprechen (bei „wein" also
+    // wîn über die Variantenbrücke).
+    const zielIds = new Set(gruppen.exakt.map((e) => e.lemma.id));
     Object.values(gruppen).forEach((liste) =>
-      liste.sort((a, b) => (a.lemma.lemma || "").localeCompare(b.lemma.lemma || "", "de"))
+      liste.forEach((eintrag) => {
+        eintrag.belegt = (eintrag.lemma.etymology || []).some(
+          (komponente) => komponente.lemmaRef && zielIds.has(komponente.lemmaRef)
+        );
+      })
+    );
+
+    const belegteGesamt = Object.entries(gruppen)
+      .filter(([key]) => key !== "exakt")
+      .reduce((s, [, liste]) => s + liste.filter((e) => e.belegt).length, 0);
+
+    if (this.componentOnlyMorph) {
+      Object.keys(gruppen).forEach((key) => {
+        if (key !== "exakt") gruppen[key] = gruppen[key].filter((e) => e.belegt);
+      });
+    }
+
+    // Sortierung: belegte Wortbildungen zuerst, dann nach Bedeutungszahl,
+    // dann alphabetisch. Die Reihenfolge entscheidet zugleich, was der
+    // Gruppendeckel abschneidet; rein alphabetisch wäre das ein beliebiges
+    // Präfix statt der aussagekräftigsten Treffer.
+    Object.values(gruppen).forEach((liste) =>
+      liste.sort(
+        (a, b) =>
+          Number(b.belegt) - Number(a.belegt) ||
+          (b.lemma.senseCount || 0) - (a.lemma.senseCount || 0) ||
+          (a.lemma.lemma || "").localeCompare(b.lemma.lemma || "", "de")
+      )
     );
 
     const gesamt = Object.values(gruppen).reduce((s, l) => s + l.length, 0);
@@ -339,7 +381,9 @@ export class LemmaExplorer {
       renderToContainer(
         "lemmaResults",
         `<div class="rounded-2xl border border-dashed border-slate-200 bg-slate-50/70 p-6 text-center text-sm text-slate-500">
-          Kein Lemma enthält den Bestandteil "${this.escapeText(term)}".
+          ${this.componentOnlyMorph
+            ? `Kein Treffer für "${this.escapeText(term)}" führt ein passendes Grundwort als belegte Wortbildung. Filter abschalten, um alle Zeichen-Treffer zu sehen.`
+            : `Kein Lemma enthält den Bestandteil "${this.escapeText(term)}".`}
         </div>`
       );
       return;
@@ -347,12 +391,21 @@ export class LemmaExplorer {
 
     renderToContainer(
       "lemmaResults",
-      this.buildComponentHeaderHTML(term, formen, quellen, gruppen, gesamt) +
+      this.buildComponentHeaderHTML(term, formen, quellen, gruppen, gesamt, belegteGesamt) +
         COMPONENT_GROUPS.map((g) => this.buildComponentGroupHTML(g, gruppen[g.key])).join("")
     );
   }
 
-  buildComponentHeaderHTML(term, formen, quellen, gruppen, gesamt) {
+  /**
+   * Filter „nur belegte Wortbildungen" umschalten und dieselbe Suche neu
+   * rendern.
+   */
+  toggleComponentMorphFilter(an) {
+    this.componentOnlyMorph = !!an;
+    if (this.lastComponentTerm) this.searchWordComponents(this.lastComponentTerm);
+  }
+
+  buildComponentHeaderHTML(term, formen, quellen, gruppen, gesamt, belegteGesamt) {
     const gesucht = formen.map((f) => `<code>${this.escapeText(f)}</code>`).join(", ");
 
     // Anforderung 4: sichtbar machen, worauf tatsächlich gesucht wird. Ohne
@@ -373,7 +426,7 @@ export class LemmaExplorer {
     // mit an die Multi-Lemma-Suche gehen kann (wîn + trinken).
     const exakt = gruppen.exakt.length
       ? `<p class="mt-2 flex flex-wrap items-center gap-2 text-sm text-slate-600">
-          <span>Die gesuchte Form ist selbst ein Lemma:</span>
+          <span>Der gesuchte Bestandteil ist selbst ein Lemma:</span>
           ${gruppen.exakt
             .map(
               (e) => `<label class="inline-flex items-center gap-1">
@@ -398,17 +451,23 @@ export class LemmaExplorer {
             Angezeigt werden die Originalformen.
           </p>
           <p class="mt-2 text-xs text-slate-500">
-            Das Verfahren vergleicht Zeichenfolgen, nicht Wortbildung. „win" trifft
+            Der Scan vergleicht Zeichenfolgen, nicht Wortbildung. „win" trifft
             deshalb auch <em>winter</em>, <em>gewinnen</em> und <em>winden</em>, und die
             Komposita auf <em>-swîn</em> (Schwein) landen neben denen auf <em>-wîn</em>
-            (Wein). Eine Trennung bräuchte Stemming oder eine Wortbildungstabelle und
-            gehört zu #109. Geben Sie den Bestandteil unflektiert ein: die Brücke über
+            (Wein). Wo das Wörterbuch die Wortbildung ausdrücklich verzeichnet, ist der
+            Treffer mit „belegte Wortbildung" markiert; der Filter darunter blendet
+            alles andere aus. Geben Sie den Bestandteil unflektiert ein: die Brücke über
             die Variantenliste greift nur bei belegten Schreibformen, „weine" führt
             also nicht auf <em>wîn</em>.
           </p>
           ${exakt}
         </div>
         <div class="flex flex-wrap items-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3">
+          <label class="inline-flex items-center gap-2 text-xs text-slate-600">
+            <input type="checkbox" id="componentOnlyMorph" ${this.componentOnlyMorph ? "checked" : ""}
+              onchange="window.playground.ui.authorityExplorers.toggleComponentMorphFilter(this.checked)" />
+            <span>Nur belegte Wortbildungen (${belegteGesamt})</span>
+          </label>
           <button type="button"
             onclick="window.playground.ui.authorityExplorers.sendWordComponentSelection()"
             class="rounded-lg bg-brand-600 px-3 py-1 text-xs font-semibold text-white shadow-sm transition hover:bg-brand-700">
@@ -437,16 +496,23 @@ export class LemmaExplorer {
       `;
     }
 
+    // Gekappt wird nach der Sortierung „belegte Wortbildung zuerst, dann
+    // Bedeutungszahl": ein alphabetischer Schnitt würde bei häufigen
+    // Bestandteilen wie „lich" ein beliebiges Präfix zeigen.
     const sichtbar = eintraege.slice(0, COMPONENT_GROUP_LIMIT);
     const gekappt =
       anzahl > COMPONENT_GROUP_LIMIT
-        ? `<p class="px-1 pb-2 text-xs text-slate-500">Angezeigt werden die ersten
-             ${COMPONENT_GROUP_LIMIT} von ${anzahl} Treffern dieser Gruppe.</p>`
+        ? `<p class="px-1 pb-2 text-xs text-slate-500">Angezeigt werden
+             ${COMPONENT_GROUP_LIMIT} von ${anzahl} Treffern dieser Gruppe: erst die
+             belegten Wortbildungen, dann die Lemmata mit den meisten Bedeutungen.</p>`
         : "";
 
     const eintraegeHTML = sichtbar
-      .map(({ lemma }) => {
+      .map(({ lemma, belegt }) => {
         const kurzId = lemma.id.replace(/^lemma_/, "");
+        const abzeichen = belegt
+          ? `<span class="rounded bg-brand-50 px-1.5 py-0.5 text-xs font-medium text-brand-700">belegte Wortbildung</span>`
+          : "";
         return `
           <article class="result-item flex items-start gap-3 rounded-2xl border border-slate-200 bg-white/95 p-3 shadow-sm">
             <input type="checkbox" class="component-pick mt-1" value="${this.escapeText(lemma.lemma)}"
@@ -461,9 +527,10 @@ export class LemmaExplorer {
                   lemma.senseCount ? `${lemma.senseCount} Bedeutungen` : null,
                 ])}
               </p>
-              <p class="mt-1 text-sm font-semibold text-slate-900">
+              <p class="mt-1 flex flex-wrap items-center gap-2 text-sm font-semibold text-slate-900">
                 <a href="../lemma/?id=${kurzId}" target="_blank" rel="noopener"
                    class="text-brand-700 hover:text-brand-900 hover:underline">${this.escapeText(lemma.lemma)}</a>
+                ${abzeichen}
               </p>
             </div>
           </article>
@@ -473,7 +540,7 @@ export class LemmaExplorer {
 
     return `
       <div class="mt-4">
-        <button type="button"
+        <button type="button" aria-expanded="${!gruppe.collapsed}" aria-controls="${listenId}"
           onclick="window.playground.ui.authorityExplorers.toggleWordComponentGroup('${gruppe.key}')"
           class="w-full rounded-xl bg-slate-50/80 px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:bg-slate-100">
           ${gruppe.title} (${anzahl})
@@ -489,7 +556,10 @@ export class LemmaExplorer {
 
   toggleWordComponentGroup(key) {
     const liste = document.getElementById(`component-group-${key}`);
-    if (liste) liste.classList.toggle("hidden");
+    if (!liste) return;
+    const jetztVersteckt = liste.classList.toggle("hidden");
+    const knopf = document.querySelector(`[aria-controls="component-group-${key}"]`);
+    if (knopf) knopf.setAttribute("aria-expanded", String(!jetztVersteckt));
   }
 
   /**
@@ -508,15 +578,34 @@ export class LemmaExplorer {
       // Kein alert(): ein blockierender Dialog hängt die Seite, und das
       // Projekt schleppt mit executeProximitySearch() schon einen solchen
       // Altfall mit.
+      //
+      // Der Originaltext wird gemerkt und beim nächsten Häkchen wieder
+      // hergestellt. Ohne das bliebe der Hinweis nach einem Fehlklick
+      // dauerhaft rot und der Satz zur UND-Verknüpfung für immer weg.
       if (meldung) {
+        if (!meldung.dataset.originalText) {
+          meldung.dataset.originalText = meldung.textContent;
+          meldung.dataset.originalClass = meldung.className;
+        }
         meldung.textContent = "Bitte zuerst mindestens ein Lemma ankreuzen.";
         meldung.className = "text-xs font-medium text-red-600";
+        document.querySelectorAll(".component-pick").forEach((box) =>
+          box.addEventListener("change", () => this.resetComponentPickHint(), { once: true })
+        );
       }
       return;
     }
 
     const terme = gewaehlt.map((t) => encodeURIComponent(t)).join(",");
     window.location.hash = `multi-lemma&lemmata=${terme}&mode=document`;
+  }
+
+  /** Fehlerzustand des Übergabe-Hinweises zurücknehmen. */
+  resetComponentPickHint() {
+    const meldung = document.getElementById("componentPickHint");
+    if (!meldung || !meldung.dataset.originalText) return;
+    meldung.textContent = meldung.dataset.originalText;
+    meldung.className = meldung.dataset.originalClass || "text-xs text-slate-500";
   }
 
   /** Self-contained per module (DESIGN.md §Escaping-Konvention). */

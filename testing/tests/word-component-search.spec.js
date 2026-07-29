@@ -132,6 +132,89 @@ test.describe('#239: Wortbestandteil-Suche', () => {
         await expect(page.locator('#lemmaResults')).toContainText('Mindestens 3 Zeichen');
         await expect(page.locator('#component-group-ende')).toHaveCount(0);
     });
+
+    test('Umlaute umgehen die Mindestlänge nicht', async ({ page }) => {
+        // normalizeMHG VERLÄNGERT: "wä" wird zu "wae" und wäre nach der
+        // normalisierten Länge allein dreizeichig. Geprüft wird deshalb auch
+        // die Rohlänge, sonst verspricht die UI drei Zeichen und lässt zwei zu.
+        await page.fill('#lemmaSearch', 'wä');
+
+        await expect(page.locator('#lemmaResults')).toContainText('Mindestens 3 Zeichen');
+        await expect(page.locator('#component-group-ende')).toHaveCount(0);
+    });
+
+    test('der Fehlerhinweis kehrt nach dem nächsten Häkchen zurück', async ({ page }) => {
+        const hinweis = page.locator('#componentPickHint');
+        await expect(hinweis).toContainText('UND-verknüpft');
+
+        await page.getByRole('button', { name: /Auswahl an die Multi-Lemma-Suche/ }).click();
+        await expect(hinweis).toContainText('mindestens ein Lemma');
+
+        await page.locator('#component-group-ende .component-pick').first().check();
+        await expect(hinweis).toContainText('UND-verknüpft');
+    });
+});
+
+test.describe('#239: Belegte Wortbildungen aus lemma.etymology', () => {
+    test.beforeEach(async ({ page }) => {
+        await page.goto(`${KOMPONENTEN_ROUTE}&q=wein`);
+        await playgroundBereit(page);
+        await page.waitForSelector('#component-group-ende', { timeout: 30000 });
+    });
+
+    test('kuratierte Wortbildungen sind markiert, Zufallstreffer nicht', async ({ page }) => {
+        // ôsterwîn führt wîn (lemma_7532) als morphologische Komponente,
+        // wiltswîn dagegen swîn, winter gar nichts. Genau die Trennung, die
+        // der Zeichenvergleich nicht leisten kann.
+        const markiert = await page.evaluate(() => {
+            const karte = (wort) => [...document.querySelectorAll('.result-item')]
+                .find(a => a.querySelector('.component-pick')?.value === wort);
+            const hat = (wort) => {
+                const k = karte(wort);
+                return k ? k.textContent.includes('belegte Wortbildung') : null;
+            };
+            return { osterwin: hat('ôsterwîn'), wiltswin: hat('wiltswîn'), winter: hat('winter') };
+        });
+
+        expect(markiert.osterwin).toBe(true);
+        expect(markiert.wiltswin).toBe(false);
+        expect(markiert.winter).toBe(false);
+    });
+
+    test('der Filter reduziert auf die verzeichneten Bildungen', async ({ page }) => {
+        const vorher = await gruppe(page, 'ende');
+        expect(vorher.lemmata).toContain('wiltswîn');
+
+        await page.locator('#componentOnlyMorph').check();
+        await page.waitForFunction(
+            () => !document.getElementById('component-group-ende')
+                || ![...document.querySelectorAll('#component-group-ende .component-pick')]
+                     .some(b => b.value === 'wiltswîn'),
+            { timeout: 15000 }
+        );
+
+        const nachher = await gruppe(page, 'ende');
+        expect(nachher.lemmata).toContain('ôsterwîn');
+        expect(nachher.lemmata).not.toContain('wiltswîn');
+        expect(nachher.lemmata.length).toBeLessThan(vorher.lemmata.length);
+
+        // Die Wortanfang-Gruppe verliert die Zufallstreffer ebenfalls.
+        const anfang = await gruppe(page, 'anfang');
+        expect(anfang.lemmata).not.toContain('winter');
+        expect(anfang.lemmata).toContain('wînrebe');
+    });
+
+    test('der Gruppenkopf trägt aria-expanded passend zum Zustand', async ({ page }) => {
+        const ende = page.locator('[aria-controls="component-group-ende"]');
+        const mitte = page.locator('[aria-controls="component-group-mitte"]');
+
+        await expect(ende).toHaveAttribute('aria-expanded', 'true');
+        await expect(mitte).toHaveAttribute('aria-expanded', 'false');
+
+        await mitte.click();
+        await expect(mitte).toHaveAttribute('aria-expanded', 'true');
+        await expect(page.locator('#component-group-mitte')).toBeVisible();
+    });
 });
 
 test.describe('#239: Modus-Umschaltung und Regression der normalen Lemmasuche', () => {

@@ -157,7 +157,9 @@ Browse and search six controlled vocabularies with consistent interface patterns
 - Matching runs on the normalized form, display keeps the original. The input additionally resolves through the variants list, which is what lets „wein" reach `wîn` and thus `ôsterwîn`; without that bridge nothing would match, because `normalizeMHG("wein")` is `wein` and `normalizeMHG("ôsterwîn")` is `osterwin`. The header names both forms
 - Minimum input length 3, enforced on the bridged form as well
 - Selected lemmata (including the base word itself) can be handed to the multi-lemma search as a set
-- Character-based without morphology: „win" also hits `winter`, `gewinnen`, and the `-swîn` (pig) compounds sit next to the `-wîn` (wine) ones. Stemming belongs to #109. Stage 1 to 3 of the regular resolution are untouched (ADR-016)
+- Two layers. The default is a character scan, which is why „win" also hits `winter`, `gewinnen`, and why the `-swîn` (pig) compounds sit next to the `-wîn` (wine) ones. On top of it, hits whose `lemma.etymology[]` names one of the target lemmata as a morphological component are badged „belegte Wortbildung", and a checkbox narrows the list to those. That data is curated in `lexicon.xml` (`<etym type="morphological">`, 27,166 lemmata or ~62 %) and already ships in the authority index, so the filter needs no new build step. It separates exactly the cases the character scan cannot: `wiltswîn` lists `swîn`, not `wîn`, and `winter` lists nothing. The remaining ~38 % without recorded word formation are reachable only through the character scan, which is why that stays the default
+- Group order also drives the 200-per-group cap: badged hits first, then sense count, then alphabetical. A purely alphabetical cut would show an arbitrary prefix for frequent components like `lich`
+- Stage 1 to 3 of the regular resolution are untouched (ADR-016)
 
 **Concept Explorer:**
 - Search by concept term (German or English)
