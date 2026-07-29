@@ -378,6 +378,8 @@ Two steps that both changed with #169 (KZW decision 2026-07-28). Numbers from be
 
 **Step 1 – window selection.** `maxDistance` bounds the SPAN of all matched positions, not each position's distance to the anchor lemma. A hit requires one window of width `maxDistance` that holds the anchor and one occurrence of every other lemma.
 
+`maxDistance` is clamped to the range the UI declares (`0…50`, from `input#proximityDistance[max=50]`) before the search runs, with a non-numeric value falling back to 10. The hash route only validates `dist > 0`, and unlike the old anchor test the window search gets more expensive as the distance grows, so the data layer enforces the bound itself rather than trusting the surface.
+
 ```
 function findCoveringWindow(firstPos, otherPositionLists, maxDistance):
     // otherPositionLists = ascending position arrays, one per non-anchor lemma
@@ -417,10 +419,10 @@ function deduplicateProximityResults(rawMatches):
     deduplicated = []
 
     for each (filename, fileResults) in byFile:
-        sort fileResults by (distance ascending, contextStart ascending)
+        byDistance = COPY of fileResults sorted by (distance asc, contextStart asc)
 
         kept = []
-        for each result in fileResults:
+        for each result in byDistance:
             overlaps = kept.any(existing =>
                 max(existing.contextStart, result.contextStart)
                     < min(existing.contextEnd, result.contextEnd)

@@ -1076,6 +1076,16 @@ export class TEIFilesManager {
         const results = [];
         const includedTexts = corpusData.includedTexts || new Set();
 
+        // Der Wortabstand kommt aus einem Eingabefeld mit max="50", die
+        // Hash-Route prüft ihn aber nur auf > 0 (router.js, Parameter dist).
+        // Die alte Ankerprüfung war unabhängig von maxDistance teuer, die
+        // Fenstersuche nicht: ihre Kandidatenmenge wächst mit der Distanz.
+        // Ein hand-getipptes dist=9999 auf einem häufigen Lemma träfe damit
+        // die Kandidatensuche, deshalb hier auf den deklarierten UI-Bereich
+        // klemmen statt sich auf die Oberfläche zu verlassen.
+        const parsed = Number(maxDistance);
+        maxDistance = Number.isFinite(parsed) ? Math.max(0, Math.min(50, parsed)) : 10;
+
         corpusData.texts.forEach(text => {
             // Skip excluded texts
             if (!includedTexts.has(text.id)) return;

@@ -91,6 +91,26 @@ test.describe('#169 Befund #15: Nähesuche misst die Spanne, nicht den Ankerabst
         expect(treffer[0].distance).toBe(7);
     });
 
+    test('maxDistance wird auf den deklarierten UI-Bereich geklemmt', async ({ page }) => {
+        // Das Eingabefeld hat max="50", die Hash-Route prüft dist aber nur auf
+        // > 0. Die Fenstersuche ist im Gegensatz zur alten Ankerprüfung von
+        // der Distanz abhängig teuer, deshalb klemmt die Datenschicht selbst.
+        const placements = { 100: '1', 160: '2' };  // 60 Wörter auseinander
+
+        const ueberGrenze = await runProximity(page, placements, ['1', '2'], 9999, 300);
+        expect(ueberGrenze).toHaveLength(0);
+
+        // Gegenprobe: bei 60 wäre der Treffer da, wenn nicht geklemmt würde.
+        // Der Clamp macht daraus 50, also bleibt es bei null Treffern.
+        const knappDrunter = await runProximity(page, placements, ['1', '2'], 60, 300);
+        expect(knappDrunter).toHaveLength(0);
+
+        // Und bei 50 trägt eine Konstellation innerhalb der Grenze weiterhin.
+        const innerhalb = await runProximity(page, { 100: '1', 140: '2' }, ['1', '2'], 50, 300);
+        expect(innerhalb).toHaveLength(1);
+        expect(innerhalb[0].distance).toBe(40);
+    });
+
     test('findCoveringWindow: kleinste tragfähige Spanne, sonst null', async ({ page }) => {
         const ergebnis = await page.evaluate(() => {
             const tm = window.playground.teiManager;
@@ -133,6 +153,22 @@ test.describe('#169 Befund #48: Dedup behält den distanzkürzesten Treffer', ()
         expect(treffer).toHaveLength(1);
         expect(treffer[0].distance).toBe(1);
         expect([...treffer[0].matchPositions].sort((a, b) => a - b)).toEqual([120, 121]);
+    });
+
+    test('bei gleicher Distanz gewinnt der frühere Treffer', async ({ page }) => {
+        // Der zweite Teil des Sortierschlüssels, (distance, contextStart).
+        // Zwei überlappende Treffer mit identischer Distanz 2:
+        //   Anker 100 / Partner 102, Kontext [90, 113]
+        //   Anker 108 / Partner 110, Kontext [98, 121]
+        // Ohne den contextStart-Tiebreak hinge das Ergebnis daran, welchen
+        // die Sortierung zufällig vornliegen lässt.
+        const treffer = await runProximity(
+            page, { 100: '1', 108: '1', 102: '2', 110: '2' }, ['1', '2'], 10
+        );
+
+        expect(treffer).toHaveLength(1);
+        expect(treffer[0].distance).toBe(2);
+        expect([...treffer[0].matchPositions].sort((a, b) => a - b)).toEqual([100, 102]);
     });
 
     test('nicht überlappende Treffer bleiben alle erhalten, in Lesereihenfolge', async ({ page }) => {
