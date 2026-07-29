@@ -21,6 +21,8 @@ See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues
 
 Weiterhin direkt startbar: **#216 minne-Serie** (~7.000 unannotierte Tokens in 262 Texten; Mechanik erprobt, Stichproben-Review durch KZW eingeplant), danach Serie 2 ff. nach der PR-#210-Priorisierung.
 
+**Neu belegt, für #109 und die Datenpflege gleichermaßen interessant:** 27.166 der 43.879 Lemmata (61,9 Prozent) führen im Lexikon ihre morphologischen Bestandteile mit (`<etym type="morphological">`), und diese Angaben liegen bereits im ausgelieferten Authority-Index. Die Wortbestandteil-Suche nutzt sie jetzt als Filter. Damit ist die verbreitete Annahme widerlegt, Komposita-Zerlegung im Frontend bräuchte zwingend Stemming; für die verbleibenden 38 Prozent ohne verzeichnete Wortbildung gilt sie weiter.
+
 **Klein und autonom machbar, neu aus dieser Session:** eine Aufräumrunde im Playground. `findProximityMatchesInIndex` ignoriert ab dem dritten Lemma alles und ist über `searchProximityUsingIndex` erreichbar, das nirgends aufgerufen wird; `executeProximitySearch` in `tei-ui.js` öffnet ein blockierendes `prompt()` und ist ebenfalls tot; `resolveLemmaIds` dedupliziert nicht, zwei Eingaben auf dieselbe ID ergeben Treffer mit Distanz 0.
 
 ## Laufend: Nach-Merge-Betreuung + freigeschaltete Workstreams
@@ -45,7 +47,7 @@ Direkt startbar geworden:
 | #129 | KWIC-Belege: gebaut und live seit Juni, Prüfung steht weiter aus | KZW |
 | #138 | div-/lg-Hüllen warten weiter auf Prüfung; neu dazu die Render-Policy-Frage zu den DIG-Strophenzählern in HUG (Julia, 17.07.) | KZW |
 | #228 | Neu: editorischer Apparat in `<note n=…>` ist als Text lemmatisiert (400 Tokens in 165 Notes über 16 Texte, ohne die GWTK-Notes mit ganzen Versblöcken; korpusweit 587 Notes mit 2.458 Tokens) – entannotieren? | KZW |
-| #239 | Neu 29.07.: Wortbestandteil-Suche gebaut (PR #246). Zwei Rückfragen im Issue: `rôtwîn` aus dem Ticket-Beispiel steht nicht im Lexikon (nachtragen?), und `winter` landet positionsrichtig in der Wortanfang- statt in der Wortmitten-Gruppe | KZW |
+| #239 | Neu 29.07.: Wortbestandteil-Suche gebaut (PR #246), inklusive Markierung und Filter für die im Lexikon verzeichneten Wortbildungen. Zwei Rückfragen im Issue: `rôtwîn` aus dem Ticket-Beispiel steht nicht im Lexikon (nachtragen?), und `winter` landet positionsrichtig in der Wortanfang- statt in der Wortmitten-Gruppe. Dritte Frage aus der Umsetzung: soll der Filter „nur belegte Wortbildungen" standardmäßig an sein? | KZW |
 | #169 | Neu 29.07.: die drei freigegebenen Befunde umgesetzt (PR #245), Abnahme steht aus. Die Trefferzahlen für 3+-Lemma-Nähesuchen sinken, das ist gewollt und datiert im JOURNAL | KZW |
 | #224 | Fix ist gemergt und live; offen ist nur noch die Breve-Frage für die Basiszeichen `w`, `n`, `y`, `z` (64 lemmatisierte Tokens) | Julia |
 | #59, #114 | Naming-Fachklärung (Alexander-Workaround-Entwurf liegt seit 12.07. im Issue, Team-Freigabe vor Linda-Ping) + Tabellenansicht-Freigabe | Linda (via Team) |
