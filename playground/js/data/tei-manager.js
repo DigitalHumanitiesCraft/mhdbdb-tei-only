@@ -657,9 +657,16 @@ export class TEIFilesManager {
         // Vergleichsschleife startet bei i = 1 und läuft mit einem Lemma
         // gar nicht, allInVerse bliebe true und jeder Vers mit dem Lemma
         // wäre ein Treffer.
-        // Normalisiert wie der Code darunter: "7532" und "lemma_7532"
-        // sind dieselbe ID, sonst kaeme genau das Paar durch den Guard.
-        if (new Set(lemmaIds.map(id => String(id).replace(/^lemma_/, ''))).size < 2) return [];
+        //
+        // Deshalb einmal normalisieren, deduplizieren und mit DIESER Liste
+        // weiterarbeiten. Nur zu zaehlen genuegt nicht: "7532" und
+        // "lemma_7532" sind dieselbe ID, ein Aufruf mit
+        // ['7532','lemma_7532','9999'] kaeme sonst durch den Guard, und der
+        // doppelte Eintrag laege per Konstruktion im selben Vers wie der
+        // Anker. Eine Anfrage ueber drei Lemmata waere still als eine ueber
+        // zwei beantwortet. Die Funktionskoerper vertragen bare IDs.
+        lemmaIds = [...new Set(lemmaIds.map(id => String(id).replace(/^lemma_/, '')))];
+        if (lemmaIds.length < 2) return [];
 
         const results = [];
         const includedTexts = corpusData.includedTexts || new Set();
@@ -745,48 +752,6 @@ export class TEIFilesManager {
         });
 
         console.log(`✅ Verse search complete: ${results.length} verses containing all lemmata`);
-        return results;
-    }
-
-    /**
-     * v4.0.0: Document search using index (fast filtering)
-     * Paragraph mode removed in v4.0.0
-     */
-    async searchDocumentUsingIndex(lemmaIds) {
-        console.log(`🚀 Using index-based document search (fast path)`);
-
-        // Step 1: Fast filtering using index
-        const candidateTextIds = this.findTextsContainingLemmas(lemmaIds);
-        if (!candidateTextIds || candidateTextIds.length === 0) return [];
-
-        const results = [];
-
-        // Step 2: Load XML only for matching texts
-        console.log(`📥 Loading XML for ${candidateTextIds.length} matching texts...`);
-
-        for (const textId of candidateTextIds) {
-            const textData = this.teiData.parsedXML.find(t =>
-                t.filename && t.filename.replace('.tei.xml', '') === textId
-            );
-
-            if (!textData) continue;
-
-            const doc = await this.getXMLDoc(textData);
-            if (!doc) continue;
-
-            // Document-level search (already filtered by index)
-            const matchingWords = this.extractMatchingWordsFromDocument(doc, lemmaIds);
-            results.push({
-                filename: textData.filename,
-                title: textData.title,
-                author: textData.author,
-                context: 'document',
-                matchingWords: matchingWords,
-                totalWords: Object.values(textData.lemmata || {}).flat().length
-            });
-        }
-
-        console.log(`✅ Index-based search complete: ${results.length} matches`);
         return results;
     }
 
@@ -932,9 +897,17 @@ export class TEIFilesManager {
         // ein leeres Array, das ist truthy, und jede Fundstelle käme als
         // Treffer mit Abstand 0 zurück. Die Oberfläche fängt den Fall schon ab
         // und erklärt ihn; dieser Guard steht für den nächsten Aufrufer.
-        // Normalisiert wie der Code darunter: "7532" und "lemma_7532"
-        // sind dieselbe ID, sonst kaeme genau das Paar durch den Guard.
-        if (new Set(lemmaIds.map(id => String(id).replace(/^lemma_/, ''))).size < 2) return [];
+        // Einmal normalisieren, deduplizieren und mit DIESER Liste
+        // weiterarbeiten. Nur zu zaehlen genuegt nicht: "7532" und
+        // "lemma_7532" sind dieselbe ID, ein Aufruf mit
+        // ['7532','lemma_7532','9999'] kaeme sonst durch den Guard und
+        // truege dieselbe Positionsliste zweimal als abzudeckende Liste
+        // ein. Die deckt sich selbst ab, und die gemeldete Distanz
+        // stammte dann von zwei Vorkommen desselben Lemmas: eine Anfrage
+        // ueber drei Lemmata waere still als eine ueber zwei beantwortet.
+        // Die Funktionskoerper vertragen bare IDs.
+        lemmaIds = [...new Set(lemmaIds.map(id => String(id).replace(/^lemma_/, '')))];
+        if (lemmaIds.length < 2) return [];
 
         const results = [];
         const includedTexts = corpusData.includedTexts || new Set();

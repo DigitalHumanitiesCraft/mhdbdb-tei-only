@@ -256,6 +256,50 @@ test.describe('Aufräumrunde: doppelte Lemma-IDs degenerieren die Kookkurrenz-Su
         expect(echt[0].distance).toBe(4);
     });
 
+    test('praefixierte und bare Schreibweise derselben ID gelten als eine', async ({ page }) => {
+        // Der Code unter dem Guard behandelt "1" und "lemma_1" ohnehin als
+        // dieselbe ID. Zaehlte der Guard sie als zwei, kaeme das Paar durch
+        // und die doppelte Positionsliste deckte sich selbst ab.
+        const gemischt = await runProximity(page, { 10: '1', 40: '1' }, ['1', 'lemma_1'], 10);
+        expect(gemischt).toHaveLength(0);
+
+        // Und mit einem echten dritten Lemma bleibt es eine Suche ueber ZWEI:
+        // die Distanz muss vom Abstand zu lemma_2 stammen, nicht von zwei
+        // Vorkommen von lemma_1. Ohne Dedup faende die Fenstersuche das
+        // engere Fenster um die beiden lemma_1-Positionen.
+        const mitDrittem = await runProximity(
+            page, { 10: '1', 12: '1', 30: '2' }, ['1', 'lemma_1', '2'], 25
+        );
+        expect(mitDrittem).toHaveLength(1);
+        expect(mitDrittem[0].distance).toBe(18);
+    });
+
+    test('die Vers-Suche verweigert dieselbe Arbeit', async ({ page }) => {
+        // Eigener Aufbau: die Vers-Suche liest die Reverse-Map lemmata{} und
+        // braucht Versgrenzen. Zwei Verse, im ersten stehen beide Lemmata.
+        const treffer = await page.evaluate(async () => {
+            const korpus = {
+                includedTexts: new Set(['T1']),
+                texts: [{
+                    id: 'T1', filename: 'T1.tei.xml', title: 'Verstext',
+                    words: ['lemma_1', 'lemma_2', 'lemma_9', 'lemma_1'],
+                    lemmata: { lemma_1: [0, 3], lemma_2: [1] },
+                    lineStarts: [0, 2], lineEnds: [1, 3]
+                }]
+            };
+            return {
+                echt: window.playground.teiManager.searchVerseUsingEnhancedIndex(['1', '2'], korpus).length,
+                doppelt: window.playground.teiManager.searchVerseUsingEnhancedIndex(['1', 'lemma_1'], korpus).length,
+                einzeln: window.playground.teiManager.searchVerseUsingEnhancedIndex(['1'], korpus).length
+            };
+        });
+
+        expect(treffer.echt).toBe(1);
+        // Ohne Guard waere hier JEDER Vers mit lemma_1 ein Treffer, also 2.
+        expect(treffer.doppelt).toBe(0);
+        expect(treffer.einzeln).toBe(0);
+    });
+
     test('resolveLemmaIds liefert jede Lemma-ID nur einmal', async ({ page }) => {
         // Auf die geladenen Authority-Daten warten, nicht nur auf die
         // UI-Klasse: resolveLemmaIds fragt den Authority-Manager, und solange
