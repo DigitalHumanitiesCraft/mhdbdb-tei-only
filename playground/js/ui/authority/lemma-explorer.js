@@ -676,9 +676,11 @@ export class LemmaExplorer {
     const meldung = document.getElementById("componentPickHint");
 
     if (gewaehlt.length === 0) {
-      // Kein alert(): ein blockierender Dialog hängt die Seite, und das
-      // Projekt schleppt mit executeProximitySearch() schon einen solchen
-      // Altfall mit.
+      // Kein alert(): ein blockierender Dialog hängt die Seite. Der Altfall
+      // dieser Art in den Such-Flows, das prompt() in
+      // executeProximitySearch(), ist inzwischen entfernt. Übrig sind nur
+      // noch die Dialoge in playground-main.js (Ladefehler und
+      // Cache-Verwaltung), die keinen Suchweg blockieren.
       //
       // Der Originaltext wird gemerkt und beim nächsten Häkchen wieder
       // hergestellt. Ohne das bliebe der Hinweis nach einem Fehlklick

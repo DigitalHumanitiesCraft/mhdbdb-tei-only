@@ -117,6 +117,8 @@ Die Vergleichs-Helfer existieren nur auf der JS-Seite (`TextNormalizer.matchesNo
 4. Counting starts at **0** for each document
 5. Order = **document order** (depth-first traversal of `<body>`)
 
+**Eine dokumentierte Ausnahme:** der XML-Fallback der Nähesuche für hochgeladene Dateien (`tei-manager.js`, `findCooccurringLemmas`) zählt alle `<w>`, auch die ohne `@lemmaRef`. Der Unterschied ist erheblich: über alle 667 Korpusdateien tragen 1.898.318 von 9.431.316 `<w>` kein `@lemmaRef`, also 20,1 % (Spitzenwerte AUP 41,6 %, REF 39,3 %, DL1 38,8 %; 145 Dateien tragen durchgehend `@lemmaRef`). Innerhalb dieses Pfades bleibt es konsistent, weil Positionen und Kontextfenster aus derselben Liste stammen; ein `maxDistance` von 10 heißt dort aber „10 Tokens" statt „10 lemmatisierte Tokens". Ergebnisse beider Pfade dürfen deshalb nicht vermischt oder verglichen werden. Nicht angeglichen, weil hochgeladene Dateien nicht lemmatisiert sein müssen und ein `[@lemmaRef]`-Filter dort im Zweifel alles verwerfen würde.
+
 ### Python (build-time)
 
 Source: `scripts/build-corpus-index.py` (`extract_word_data`)
