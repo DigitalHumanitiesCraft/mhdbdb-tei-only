@@ -1,14 +1,29 @@
 # Roadmap
 
-Strategic priorities for the MHDBDB TEI Repository. Updated 2026-07-12.
+Strategic priorities for the MHDBDB TEI Repository. Updated 2026-07-29.
 
 See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/44) for the full triage matrix with per-issue status.
 
-## Now: Merge-Queue 12.07. + Nachannotations-Serie
+## Now: Suchsemantik entschieden und umgesetzt
 
-**Autonome Issue-Session (12.07., [MASTERPLAN-AUTONOME-ISSUE-SESSION](playbooks/MASTERPLAN-AUTONOME-ISSUE-SESSION.md)):** 2 Kern-PRs in der Merge-Queue, je 212/212 Playwright gegen die main-Baseline: **PR #214** (#189 Punkt 1: GWTK-Pilot, 257 rot/jung-Tokens neu annotiert, Goldstandard erreicht (rôt+munt exakt: 73 bei ≥ 73, junc 259 bei ~262); Corpus v4.1.7, Authority v1.6.1) → **PR #215** (#140: Doku-Bereinigung, konservative Variante) → Session-Meta-PR (auf #215 gestackt). #214 ist ein Daten-PR: Review-Runs vor dem Merge canceln, kein [skip ci].
+**Autonome Issue-Session 29.07.** ([MASTERPLAN-AUTONOME-ISSUE-SESSION](playbooks/MASTERPLAN-AUTONOME-ISSUE-SESSION.md)), ausgelöst durch KZWs vier Entscheidungen vom 28.07. Zwei Code-PRs plus Meta-PR, beide Code-PRs frontend-only: kein Daten-PR, Indexe bleiben 4.1.8 / 1.6.4.
 
-Nach dem #214-Merge direkt startbar: **#216 minne-Serie** (~7.000 unannotierte Tokens in 262 Texten; Mechanik erprobt, Stichproben-Review durch KZW eingeplant), danach Serie 2 ff. nach der PR-#210-Priorisierung.
+| PR | Issue | Inhalt |
+|----|-------|--------|
+| #245 | #169 | Nähesuche misst die Spanne statt des Ankerabstands, Dedup behält den distanzkürzesten Treffer, Fast-Path-Wörterbuch gestrichen |
+| #246 | #239 | Wortbestandteil-Suche als zweiter Modus im Lemmata-Explorer |
+
+**Merge-Reihenfolge:** #245, dann #246, dann der Meta-PR (auf #245 gestackt, weil beide `JOURNAL.md` und `ROADMAP.md` berühren). Laufende Review-Runs vor dem Merge canceln.
+
+**Die Zahlen-Zäsur, die KZW protokolliert haben wollte:** Trefferzahlen aus Nähesuchen mit **drei oder mehr Lemmata** von vor dem 29.07.2026 liegen systematisch zu hoch. `maxDistance` begrenzte bisher nur den Abstand jedes Lemmas zum Anker, nicht die Spanne; sie konnte damit das Doppelte erreichen. Gemessen an „minne + herze + leit" bei Abstand 20: der größte alte Treffer hatte eine reale Spanne von **38**. Bei zwei Lemmata ändert der Fenster-Fix nichts, der Dedup-Fix schon (243 auf 244 bei „minne + herze"). Details im JOURNAL-Eintrag 2026-07-29.
+
+**Der Fast-Path war kein Zukunftsrisiko mehr, sondern ein aktiver Bug:** fünf der elf hartkodierten Einträge lösten falsch auf, weil die Lemma-IDs seit dem Eintragen neu vergeben wurden. Wer im Playground „bier" suchte, bekam die Birne. Lehre für die Codebasis: ein Fast-Path vor einer zentralen Auflösung kommt per Konstruktion nie an der Stelle vorbei, die seinen Fehler bemerken würde.
+
+Weiterhin direkt startbar: **#216 minne-Serie** (~7.000 unannotierte Tokens in 262 Texten; Mechanik erprobt, Stichproben-Review durch KZW eingeplant), danach Serie 2 ff. nach der PR-#210-Priorisierung.
+
+**Neu belegt, für #109 und die Datenpflege gleichermaßen interessant:** 27.166 der 43.879 Lemmata (61,9 Prozent) führen im Lexikon ihre morphologischen Bestandteile mit (`<etym type="morphological">`), und diese Angaben liegen bereits im ausgelieferten Authority-Index. Die Wortbestandteil-Suche nutzt sie jetzt als Filter. Damit ist die verbreitete Annahme widerlegt, Komposita-Zerlegung im Frontend bräuchte zwingend Stemming; für die verbleibenden 38 Prozent ohne verzeichnete Wortbildung gilt sie weiter.
+
+**Klein und autonom machbar, neu aus dieser Session:** eine Aufräumrunde im Playground. `findProximityMatchesInIndex` ignoriert ab dem dritten Lemma alles und ist über `searchProximityUsingIndex` erreichbar, das nirgends aufgerufen wird; `executeProximitySearch` in `tei-ui.js` öffnet ein blockierendes `prompt()` und ist ebenfalls tot; `resolveLemmaIds` dedupliziert nicht, zwei Eingaben auf dieselbe ID ergeben Treffer mit Distanz 0.
 
 ## Laufend: Nach-Merge-Betreuung + freigeschaltete Workstreams
 
@@ -29,8 +44,12 @@ Direkt startbar geworden:
 | # | What | Who's needed |
 |---|------|-------------|
 | #115 | Cross-Ref Phase 2 – 196 Lemmata kuratorisch (A 125 / B 36 / C 35) | KZW |
-| #129, #138 | KWIC-Belege + div-/lg-Hüllen: gebaut und live, warten auf Prüfung | KZW |
-| #44-Report | Neu live aus der Merge-Session: AK-Excerpt-Banner (#134), Tabellen-Spaltenmodell (#160), Homographen-/Multi-Lemma-Fixes (#163/#164), Multi-POS-Badges (#161) – Nachprüfung via #44-Abschlussreport | KZW |
+| #129 | KWIC-Belege: gebaut und live seit Juni, Prüfung steht weiter aus | KZW |
+| #138 | div-/lg-Hüllen warten weiter auf Prüfung; neu dazu die Render-Policy-Frage zu den DIG-Strophenzählern in HUG (Julia, 17.07.) | KZW |
+| #228 | Neu: editorischer Apparat in `<note n=…>` ist als Text lemmatisiert (400 Tokens in 165 Notes über 16 Texte, ohne die GWTK-Notes mit ganzen Versblöcken; korpusweit 587 Notes mit 2.458 Tokens) – entannotieren? | KZW |
+| #239 | Neu 29.07.: Wortbestandteil-Suche gebaut (PR #246), inklusive Markierung und Filter für die im Lexikon verzeichneten Wortbildungen. Zwei Rückfragen im Issue: `rôtwîn` aus dem Ticket-Beispiel steht nicht im Lexikon (nachtragen?), und `winter` landet positionsrichtig in der Wortanfang- statt in der Wortmitten-Gruppe. Dritte Frage aus der Umsetzung: soll der Filter „nur belegte Wortbildungen" standardmäßig an sein? | KZW |
+| #169 | Neu 29.07.: die drei freigegebenen Befunde umgesetzt (PR #245), Abnahme steht aus. Die Trefferzahlen für 3+-Lemma-Nähesuchen sinken, das ist gewollt und datiert im JOURNAL | KZW |
+| #224 | Fix ist gemergt und live; offen ist nur noch die Breve-Frage für die Basiszeichen `w`, `n`, `y`, `z` (64 lemmatisierte Tokens) | Julia |
 | #59, #114 | Naming-Fachklärung (Alexander-Workaround-Entwurf liegt seit 12.07. im Issue, Team-Freigabe vor Linda-Ping) + Tabellenansicht-Freigabe | Linda (via Team) |
 | #92 | ARITHMETIC – Metadatenfragen seit 16.05.; Escaping-Blocker gemerged (#185), Stage 1 danach in ~1–2h | Carina (via KZW) |
 | #147 | Weingrüße – Lizenz/Sigle/Genre/Zuschreibungen, Stage 0 | Silvan (via KZW) |
@@ -40,9 +59,9 @@ Direkt startbar geworden:
 
 | # | What | Key question |
 |---|------|-------------|
-| #140 | Doku menschenlesbar | Bereinigung umgesetzt (PR #215, 12.07.); Abnahme + zwei Detailfragen (DRAFT-Status TEI-MODEL.md, Schreibweise „Woesner") |
+| #140 | Doku menschenlesbar | Bereinigung umgesetzt (PR #215, 12.07.); beide Detailfragen der Abnahme vom 27.07. erledigt (DRAFT-Kopf in TEI-MODEL.md entfernt, PR #230; „Woesner" repoweit einheitlich geschrieben, keine Variante „Wösner"/„Wosner" im Bestand, keine Änderung nötig). Offen ist nur noch die Abnahme durch KZW |
 | #58 | Begriff→Lemma→Beleg Workflow | Option A/B/C entscheiden |
-| #169 | Suchsemantik (Audit 3/6) | Nähesuche-Distanz, commonLemmas, Dedup – deterministische Teile seit #174 gemerged |
+| #169 | Suchsemantik (Audit 3/6) | Alle vier Punkte umgesetzt (Punktnummern sind Audit-Befunde, keine Issue-Nummern): Punkt 45 3-Stufen-Drift in PR #227 (ADR-016), Punkte 15/48/51 nach KZW-Freigabe vom 28.07. am 29.07. Offen ist nur noch die Abnahme. Zahlen-Zäsur für 3+-Lemma-Nähesuchen im JOURNAL 2026-07-29 |
 | #172 | Test-Suite-Policy (Audit 6/6) | 45%-passRate-Floor + korpusabhängige Magic-Numbers |
 | #18 | Multi-Lemma + PoS-Suche | POS-Policy (#27/#181) gemerged, spezifizierbar; braucht POS-Daten im Corpus-Index |
 

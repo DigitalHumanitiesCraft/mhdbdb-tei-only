@@ -109,6 +109,7 @@ Nach größeren Doku-Änderungen oder quartalsweise (auch ohne Änderungen, gege
 
 ## Gotchas
 
+- **Keine Em-Dashes in user-sichtbarem Text**: Gate ist `scripts/audit/check-no-em-dash.py` (CI: `no-cdn-check.yml`). Kommentare sind ausgenommen. Statt — einen Doppelpunkt, ein Komma, eine Klammer oder einen eigenen Satz setzen.
 - **Angle bracket entities** (`&lt;`, `&gt;`) in `<pc>` are correct XML — not bugs
 - **Nav/Footer sind build-injiziert**: Nicht in den HTML-Seiten direkt editieren. Quelle ist `includes/` + `scripts/build-pages.py` (Marker-Bereiche); `build-pages.py --check` ist das Drift-Gate. Mobile-Menü bleibt inline. Siehe DEVELOPMENT.md.
 - **Zotero cache** (`.zotero_cache.json`) is gitignored — use `--offline` for reproducible builds
@@ -116,9 +117,9 @@ Nach größeren Doku-Änderungen oder quartalsweise (auch ohne Änderungen, gege
 
 ## Key Patterns
 
-- **3-stage lemma resolution**: exact match → variants dictionary (~257k entries) → partial match fallback. See ARCHITECTURE.md.
+- **3-stage lemma resolution**: exact match → variants dictionary (~257k entries) → prefix-match fallback. Stage 3 matches prefixes in both directions (stem input → lemma, inflected input → lemma), never unbounded substrings: that made "böses" resolve to `ês`/`ô`/`sê` (#224). Predicate shared by main site and playground in `assets/js/lib/lemma-resolve.js`. See ARCHITECTURE.md and CONTRACTS.md §C.
 - **Lemma highlight matching**: a `<w>` is highlighted only if `@lemmaRef` contains the searched id as an exact whitespace-separated token (never a substring: `#lemma_308` must not match `#lemma_3089`). Centralized in `assets/js/lib/lemma-match.js` (`lemmaRefMatchesId`). See CONTRACTS.md §B.1 (#126/#130).
-- **MHG normalization**: `â→a, ê→e, î→i, ô→o, û→u, ä→ae, ö→oe, ü→ue`. Centralized in `assets/js/lib/text-normalizer.js`.
+- **MHG normalization**: `â→a, ê→e, î→i, ô→o, û→u, ä→ae, ö→oe, ü→ue, ŏ→oe, ŭ→ue`. Centralized in `assets/js/lib/text-normalizer.js`.
 - **Pre-built indexes**: authority (~3 MB gz) + corpus (~40 MB gz). Aktuelle Versionen: TEI-MODEL.md §11 (Source of Truth). See DATA-MODEL.md for schemas.
 
 ## License

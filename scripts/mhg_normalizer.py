@@ -13,6 +13,7 @@ Parity tests: testing/tests/normalization-parity.spec.js
 """
 
 import sys
+import unicodedata
 import io
 
 # Force UTF-8 output for Windows console
@@ -29,6 +30,7 @@ def normalize_mhg(text):
     Transformations:
     - Long vowels → short: â→a, ê→e, î→i, ô→o, û→u (and ā,ē,ī,ō,ū variants)
     - Umlauts → digraphs: ä→ae, ö→oe, ü→ue
+    - Breve-Umlaute (WZB): ŏ→oe, ŭ→ue
     - Ligatures: æ→ae, œ→oe
     - Special: ǒ→o
     - Lowercase all
@@ -45,8 +47,20 @@ def normalize_mhg(text):
     # Must match JavaScript order and replacements EXACTLY
     # JavaScript: text.toLowerCase().replace(/[âā]/g, 'a').replace(...)
 
-    # Step 1: Lowercase FIRST (like JavaScript)
-    normalized = text.lower()
+    # Step 0: Unicode-Komposition (#224). Muss mit .normalize('NFC') in
+    # text-normalizer.js uebereinstimmen. Ein "oe" kann als ein Zeichen
+    # (U+00F6) oder als o + kombinierendes Trema (U+006F U+0308) kodiert
+    # sein; nur die komponierte Form trifft die Umlaut-Regeln unten.
+    # Der Schritt aendert die Build-Ausgabe an genau drei Datensaetzen
+    # (person_1052, person_1332, work_435 tragen ein zerlegtes ue); der
+    # Authority-Index geht dadurch auf 1.6.2, drei api/-Dateien aendern sich.
+    # Lemmata und Varianten-Schluessel bleiben unveraendert. Kuenftige Ingests
+    # sind damit gegen dieselbe Falle abgesichert.
+    # Siehe docs/CONTRACTS.md Contract A, Schritt 0.
+    normalized = unicodedata.normalize('NFC', text)
+
+    # Step 1: Lowercase (like JavaScript)
+    normalized = normalized.lower()
 
     # Step 2: Replace long vowels with circumflex and macron
     normalized = normalized.replace('â', 'a').replace('ā', 'a')
@@ -59,6 +73,23 @@ def normalize_mhg(text):
     normalized = normalized.replace('ä', 'ae')
     normalized = normalized.replace('ö', 'oe')
     normalized = normalized.replace('ü', 'ue')
+    # Breve ueber o/u ist in der Wenzelsbibel das Umlautzeichen, nicht ein
+    # eigener Laut (#224). Belegt an den lemmatisierten WZB-Tokens:
+    # bo+breve+ses -> lemma_788 boese, scho+breve+ne -> lemma_5280 schoene.
+    # Von 469 lemmatisierten Breve-Tokens sitzen 405 auf o/u.
+    # Greift nach Schritt 0, weil NFC das kombinierende Breve (U+0306) auf
+    # o/u zu U+014F/U+016D zusammenzieht.
+    #
+    # Breve auf anderen Basiszeichen bleibt unangetastet (136 WZB-Tokens:
+    # w 91, n 22, y 5, a 5, v 4, r 2, m 2, i 2, e 2, z 1). Grund ist NICHT
+    # die fehlende praekomponierte Form - fuer a/e/i gibt es sie (U+0103,
+    # U+0115, U+012D) und Schritt 0 erzeugt sie auch. Grund ist, dass es
+    # dort keine Umlaute sind: halses, namen, geslagen, schepfen, erschinen.
+    # Bekannte Restluecke, siehe ADR-016: 64 dieser 136 Tokens sind
+    # lemmatisiert (48 auf w, 16 auf n) und bleiben per Copy-Paste aus der
+    # Leseansicht unauffindbar.
+    normalized = normalized.replace('ŏ', 'oe')
+    normalized = normalized.replace('ŭ', 'ue')
 
     # Step 4: Ligatures
     normalized = normalized.replace('æ', 'ae')
@@ -89,6 +120,17 @@ TEST_CASES = [
     ('sǒne', 'sone'),  # ǒ→o
     ('cæsar', 'caesar'),  # æ→ae
     ('œnologie', 'oenologie'),  # œ→oe
+    # Schritt 0, NFC (#224): zerlegte Umlaute muessen wie komponierte
+    # normalisieren. Ohne die NFC-Komposition bleibt das kombinierende Trema
+    # stehen und die Umlaut-Regeln greifen nicht.
+    # Escapes statt Literale: ein Editor mit Auto-Normalisierung wuerde die
+    # zerlegte Form still zu NFC zusammenziehen und den Test entwerten.
+    ('bo\u0308ses', 'boeses'),        # o + kombinierendes Trema statt ö
+    ('Mu\u0308hldorf', 'muehldorf'),  # dito mit ü und Grossbuchstabe
+    # Breve-Umlaute (#224, WZB). Escapes wie oben.
+    ('bo\u0306ses', 'boeses'),     # zerlegt: NFC zieht zu o-Breve zusammen
+    ('b\u014fses', 'boeses'),      # praekomponiert
+    ('w\u016dnschet', 'wuenschet'),
     ('', ''),
     (None, ''),
 ]

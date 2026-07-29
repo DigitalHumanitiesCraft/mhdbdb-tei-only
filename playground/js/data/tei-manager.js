@@ -985,12 +985,106 @@ export class TEIFilesManager {
     }
 
     /**
+     * Index der ersten Position >= value in einer aufsteigend sortierten Liste
+     * (untere Schranke), sonst list.length.
+     */
+    lowerBound(list, value) {
+        let lo = 0, hi = list.length;
+        while (lo < hi) {
+            const mid = (lo + hi) >> 1;
+            if (list[mid] < value) lo = mid + 1;
+            else hi = mid;
+        }
+        return lo;
+    }
+
+    /**
+     * Kleinstes Fenster der Breite maxDistance, das firstPos und je eine
+     * Position aus jeder weiteren Positionsliste enthält (#169 Befund #15).
+     *
+     * Vorher prüfte die Nähesuche jedes weitere Lemma nur gegen den Anker
+     * firstPos. Bei „innerhalb 5 Wörter" passierten damit B bei Anker−5 und
+     * C bei Anker+5 beide, obwohl sie real 10 auseinanderliegen. Die daneben
+     * berechnete `actualDistance` meldete die 10 dann sogar korrekt: der
+     * Filter hatte sie nur schon durchgelassen. KZW hat den Fix am 28.07. in
+     * #169 freigegeben, sinkende Trefferzahlen ab 3 Lemmata inklusive.
+     *
+     * Es genügt nicht, die alte Auswahl nachträglich an der Spanne zu prüfen
+     * und sonst zu verwerfen: `positions.find()` nahm die erste Position im
+     * Ankerfenster, nicht die günstigste. Bei B = {90, 110}, C = {109},
+     * firstPos = 100 und maxDistance = 10 fiele der Treffer sonst weg, obwohl
+     * B = 110 zusammen mit C = 109 und dem Anker eine Spanne von genau 10
+     * bildet. Deshalb wird über die möglichen Fensteranfänge iteriert und die
+     * kleinste tragfähige Spanne gewählt; das hält zugleich die angezeigte
+     * Distanz minimal.
+     *
+     * @param {number} firstPos - Ankerposition (erstes Lemma)
+     * @param {number[][]} otherPositionLists - aufsteigend sortierte Positionen
+     *   der weiteren Lemmata, in Eingabereihenfolge
+     * @param {number} maxDistance - erlaubte Spanne in Wörtern
+     * @returns {number[]|null} gewählte Positionen in Listenreihenfolge, oder
+     *   null, wenn kein Fenster alle Lemmata trägt
+     */
+    findCoveringWindow(firstPos, otherPositionLists, maxDistance) {
+        if (otherPositionLists.length === 0) return [];
+
+        // Ein optimales Fenster beginnt immer auf einer belegten Position:
+        // entweder auf dem Anker selbst oder auf einer Position links davon,
+        // die noch in Reichweite liegt.
+        const candidates = new Set([firstPos]);
+        for (const list of otherPositionLists) {
+            for (let i = this.lowerBound(list, firstPos - maxDistance);
+                 i < list.length && list[i] <= firstPos; i++) {
+                candidates.add(list[i]);
+            }
+        }
+
+        let best = null;
+        let bestSpan = Infinity;
+
+        for (const windowStart of [...candidates].sort((a, b) => a - b)) {
+            const windowEnd = windowStart + maxDistance;
+            if (firstPos > windowEnd) continue;
+
+            const chosen = [];
+            let covered = true;
+            for (const list of otherPositionLists) {
+                const i = this.lowerBound(list, windowStart);
+                if (i >= list.length || list[i] > windowEnd) {
+                    covered = false;
+                    break;
+                }
+                chosen.push(list[i]);
+            }
+            if (!covered) continue;
+
+            const span = Math.max(firstPos, ...chosen) - Math.min(firstPos, ...chosen);
+            if (span < bestSpan) {
+                bestSpan = span;
+                best = chosen;
+            }
+        }
+
+        return best;
+    }
+
+    /**
      * Proximity search using enhanced index (instant!)
      * Finds lemmas within maxDistance words of each other
      */
     async searchProximityUsingEnhancedIndex(lemmaIds, maxDistance, corpusData) {
         const results = [];
         const includedTexts = corpusData.includedTexts || new Set();
+
+        // Der Wortabstand kommt aus einem Eingabefeld mit max="50", die
+        // Hash-Route prüft ihn aber nur auf > 0 (router.js, Parameter dist).
+        // Die alte Ankerprüfung war unabhängig von maxDistance teuer, die
+        // Fenstersuche nicht: ihre Kandidatenmenge wächst mit der Distanz.
+        // Ein hand-getipptes dist=9999 auf einem häufigen Lemma träfe damit
+        // die Kandidatensuche, deshalb hier auf den deklarierten UI-Bereich
+        // klemmen statt sich auf die Oberfläche zu verlassen.
+        const parsed = Number(maxDistance);
+        maxDistance = Number.isFinite(parsed) ? Math.max(0, Math.min(50, parsed)) : 10;
 
         corpusData.texts.forEach(text => {
             // Skip excluded texts
@@ -1029,51 +1123,38 @@ export class TEIFilesManager {
             const firstLemma = lemmaIds[0];
             const firstPositions = lemmaPositions[firstLemma];
 
+            // Positionslisten der weiteren Lemmata, in der Reihenfolge der
+            // Eingabe; aufsteigend sortiert, weil sie aus einem Index-Scan
+            // über words[] stammen.
+            const otherPositionLists = lemmaIds.slice(1).map(id => lemmaPositions[id]);
+
             firstPositions.forEach(firstPos => {
-                // Check if all other lemmas have at least one occurrence within maxDistance
-                const nearbyPositions = {};
-                let allNearby = true;
+                // #169 Befund #15: alle gewählten Positionen müssen zusammen in
+                // ein Fenster der Breite maxDistance passen, nicht nur einzeln
+                // in Ankernähe liegen.
+                const chosen = this.findCoveringWindow(firstPos, otherPositionLists, maxDistance);
+                if (chosen === null) return;
 
-                for (let i = 1; i < lemmaIds.length; i++) {
-                    const lemmaId = lemmaIds[i];
-                    const positions = lemmaPositions[lemmaId];
+                const allPositions = [firstPos, ...chosen];
+                const minPos = Math.min(...allPositions);
+                const maxPos = Math.max(...allPositions);
+                const actualDistance = maxPos - minPos;
 
-                    // Find closest position to firstPos
-                    const nearbyPos = positions.find(pos =>
-                        Math.abs(pos - firstPos) <= maxDistance
-                    );
+                // Extract context (±10 words)
+                const contextStart = Math.max(0, minPos - 10);
+                const contextEnd = Math.min(text.words.length, maxPos + 11);
 
-                    if (nearbyPos !== undefined) {
-                        nearbyPositions[lemmaId] = nearbyPos;
-                    } else {
-                        allNearby = false;
-                        break;
-                    }
-                }
-
-                if (allNearby) {
-                    // Calculate actual distance (max distance between any pair)
-                    const allPositions = [firstPos, ...Object.values(nearbyPositions)];
-                    const minPos = Math.min(...allPositions);
-                    const maxPos = Math.max(...allPositions);
-                    const actualDistance = maxPos - minPos;
-
-                    // Extract context (±10 words)
-                    const contextStart = Math.max(0, minPos - 10);
-                    const contextEnd = Math.min(text.words.length, maxPos + 11);
-
-                    // Store positions and metadata - UI will fetch TEI for actual text
-                    results.push({
-                        filename: text.filename,
-                        title: text.title,
-                        author: text.author || 'Unbekannt',
-                        matchPositions: allPositions,
-                        distance: actualDistance,
-                        contextStart: contextStart,
-                        contextEnd: contextEnd,
-                        contextLemmas: text.words.slice(contextStart, contextEnd)
-                    });
-                }
+                // Store positions and metadata - UI will fetch TEI for actual text
+                results.push({
+                    filename: text.filename,
+                    title: text.title,
+                    author: text.author || 'Unbekannt',
+                    matchPositions: allPositions,
+                    distance: actualDistance,
+                    contextStart: contextStart,
+                    contextEnd: contextEnd,
+                    contextLemmas: text.words.slice(contextStart, contextEnd)
+                });
             });
         });
 
@@ -1081,6 +1162,15 @@ export class TEIFilesManager {
 
         // v4.0.0: Deduplicate overlapping matches
         // Keep only the closest match when context windows overlap
+        //
+        // #169 Befund #48: bis 2026-07 sortierte diese Stelle nach contextStart
+        // und behielt damit den zuerst STARTENDEN Treffer, während Kommentar
+        // und Log-Zeile „keeping shorter distance" das Gegenteil behaupteten.
+        // Bei Überlappung bekam der Nutzer also gegebenenfalls die weiter
+        // entfernte Kookkurrenz angezeigt. Jetzt entscheidet tatsächlich die
+        // Distanz: pro Datei aufsteigend nach Distanz greedy auswählen, bei
+        // Gleichstand der frühere Treffer. Ausgegeben wird wieder in
+        // Lesereihenfolge, damit die Anzeige dem Textverlauf folgt.
         const deduplicated = [];
 
         // Group by filename first
@@ -1092,30 +1182,27 @@ export class TEIFilesManager {
 
         // For each file, remove overlapping matches (keep closest)
         Object.entries(byFile).forEach(([filename, fileResults]) => {
-            // Sort by contextStart for easier overlap detection
-            fileResults.sort((a, b) => a.contextStart - b.contextStart);
+            const byDistance = [...fileResults].sort((a, b) =>
+                (a.distance - b.distance) || (a.contextStart - b.contextStart)
+            );
 
-            fileResults.forEach(result => {
-                // Check if this result overlaps with any already added result
-                const overlaps = deduplicated.some(existing => {
-                    if (existing.filename !== result.filename) return false;
+            const kept = [];
+            byDistance.forEach(result => {
+                const overlapping = kept.find(existing =>
+                    Math.max(existing.contextStart, result.contextStart) <
+                    Math.min(existing.contextEnd, result.contextEnd)
+                );
 
-                    // Check if context windows overlap
-                    const overlapStart = Math.max(existing.contextStart, result.contextStart);
-                    const overlapEnd = Math.min(existing.contextEnd, result.contextEnd);
-                    const hasOverlap = overlapStart < overlapEnd;
-
-                    if (hasOverlap) {
-                        console.log(`  🔄 Overlap detected: ${filename} [${result.contextStart}-${result.contextEnd}] overlaps with [${existing.contextStart}-${existing.contextEnd}], keeping shorter distance (${existing.distance} vs ${result.distance})`);
-                    }
-
-                    return hasOverlap;
-                });
-
-                if (!overlaps) {
-                    deduplicated.push(result);
+                if (overlapping) {
+                    console.log(`  🔄 Overlap detected: ${filename} [${result.contextStart}-${result.contextEnd}] overlaps with [${overlapping.contextStart}-${overlapping.contextEnd}], keeping shorter distance (${overlapping.distance} vs ${result.distance})`);
+                    return;
                 }
+
+                kept.push(result);
             });
+
+            kept.sort((a, b) => a.contextStart - b.contextStart);
+            deduplicated.push(...kept);
         });
 
         const removedCount = results.length - deduplicated.length;

@@ -232,7 +232,7 @@ class TEITextReader {
                     // von kuratierten Header-Daten — fehlt der analytic-Titel
                     // zum Versbereich, soll das beim Kuratieren auffallen,
                     // nicht erst in der manuellen QA (Review-Finding PR #178).
-                    console.warn('[TEITextReader] biblScope unit="verse" gefunden, aber kein <analytic><title> — Excerpt-Banner wird nicht angezeigt.');
+                    console.warn('[TEITextReader] biblScope unit="verse" gefunden, aber kein <analytic><title>: Excerpt-Banner wird nicht angezeigt.');
                 }
             }
 
@@ -349,6 +349,47 @@ class TEITextReader {
     }
 
     /**
+     * Beginnt dieses <div> eine eigene, durchlaufende Verszählung bei 1?
+     *
+     * Zwei Bedingungen: die erste numerisch nummerierte <l> im Teilbaum trägt
+     * n="1", UND die 1 kommt im div genau einmal vor. Zählt das div dagegen
+     * durch (Kapitel-divs mit n="234" als erster Zeile), bleibt der Anker beim
+     * ersten Vers des Texts; zählt es strophenlokal (mehrere Einsen), gibt es
+     * gar keinen sinnvollen Ankerpunkt.
+     *
+     * Nicht-numerische @n (ALX- und NLA-Überschriftenzeilen „h_1") werden
+     * übersprungen, nicht als Zählungsstart gewertet. Siehe #138 und #127.
+     *
+     * @param {Element} divEl
+     * @returns {boolean}
+     */
+    divRestartsNumbering(divEl) {
+        let first = null;
+        let einsen = 0;
+        for (const line of divEl.querySelectorAll('l[n]')) {
+            const n = line.getAttribute('n');
+            if (!/^\d+$/.test(n)) continue;
+            if (first === null) first = n;
+            if (n === '1') einsen += 1;
+        }
+        // Zwei Bedingungen, die zweite ist die wichtigere:
+        //   a) die erste numerische Zeile ist die 1
+        //   b) die 1 kommt im ganzen div GENAU EINMAL vor
+        //
+        // (b) trennt DURCHLAUFENDE Zählung von STROPHENLOKALER, nicht "mit
+        // Überschrift" von "ohne": 159 der qualifizierenden divs haben gar kein
+        // @type und rendern ebenfalls keine Überschrift, die sind gewollt.
+        // HUG zählt je Lied 1..27 durch, dort ist die 1 einmalig und der Anker
+        // gewollt. NLA dagegen hat 38 untypisierte <div>, in denen jede Strophe
+        // wieder bei 1 beginnt: ohne (b) bekäme der Text 38 zusätzliche
+        // Randeinsen, also genau das unruhige Randbild, das #127 beseitigt hat,
+        // nur über <div> statt über <lg> hereingekommen.
+        // Korpusweit hält (b) 1.497 divs und verwirft 1.172 strophenlokale in
+        // 84 Texten, was 1.007 unmotivierte Randeinsen verhindert.
+        return first === '1' && einsen === 1;
+    }
+
+    /**
      * Extract and format body text with TEI structure preservation
      * Handles: <head>, <p>, <div>, <lg>, <l>, <lb>, <pb>, <hi rend="...">, <pc>, <seg>
      * @returns {object} { html: string, highlights: Array<{element, position}> }
@@ -384,6 +425,30 @@ class TEITextReader {
                 case 'div': {
                     const divType = el.getAttribute('type') || '';
                     const divN = el.getAttribute('n') || '';
+                    // Zählungs-Anker pro <div> zurücksetzen, wenn dieses div seine
+                    // eigene Verszählung bei 1 beginnt (HUG: jedes Lied zählt neu).
+                    // Ohne den Reset zeigt nur das erste Lied seine „1", alle
+                    // folgenden setzen sichtbar erst bei 5 ein (#138, Julia 17.07.).
+                    //
+                    // Reichweite (reproduzierbar per
+                    // scripts/audit/count-verse-numbering-resets.py, das diese
+                    // Render-Reihenfolge nachbaut): 1.497 divs in 137 Texten
+                    // erfüllen das Kriterium (897 chapter, 257 song, 177 section,
+                    // 159 ohne @type, 7 number); sichtbar werden dadurch 1.352
+                    // zusätzliche Randnummern in 49 Texten. Größter Fall ist PZ
+                    // mit +826, dann FR3 +136, CHH +53, TKR +40, HUG +39. Texte
+                    // mit durchlaufender Zählung sind unberührt, weil dort nur
+                    // der erste div bei n="1" beginnt.
+                    //
+                    // Bewusst NUR auf div-Ebene, nie auf <lg>: NBB startet jede
+                    // Strophe bei n=1: ein lg-Reset stellte in jede Strophe eine
+                    // Marginal-„1" und brächte genau das jumbled margin zurück,
+                    // das #127 beseitigt hat. Die n="1"-Bedingung hält zusätzlich
+                    // durchlaufend gezählte Kapitel-divs unverändert; dort bleibt
+                    // der Anker der erste Vers des Texts.
+                    if (this.divRestartsNumbering(el)) {
+                        state.firstNumericLineShown = false;
+                    }
                     const divLabels = {
                         'song': 'Lied', 'chapter': 'Kapitel', 'recipe': 'Rezept',
                         'number': 'Nr.', 'section': 'Abschnitt',
@@ -415,6 +480,12 @@ class TEITextReader {
                     // <l> without @n (WZB prose) get no number; stanza-local resets
                     // (NBB l@n=1..4) never hit %5, so they keep only their "Strophe N"
                     // labels and avoid a jumbled margin. See #127.
+                    //
+                    // Seit #138 ist der Anker nicht mehr dokumentweit einmalig: ein
+                    // <div>, das seine Zählung bei 1 neu beginnt, setzt ihn zurück
+                    // (divRestartsNumbering). In HUG bekommt damit jedes Lied seine
+                    // sichtbare „1"; NBB bleibt unverändert, weil dort die Strophen
+                    // und nicht die divs zurücksetzen.
                     const isNumeric = /^\d+$/.test(lineN);
                     // First numeric line (anchor) shows, then every 5th by absolute
                     // @n. Once the anchor fires the flag stays set, so afterwards only

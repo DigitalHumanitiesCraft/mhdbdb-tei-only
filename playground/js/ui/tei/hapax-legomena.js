@@ -36,12 +36,14 @@ export class HapaxLegomenaAnalyzer {
     this.authorityData = authorityData;
     this._lemmaById = null;
     this._conceptById = null;
+    this._personById = null;
     this._corpusAgg = null;      // einmalige korpusweite Aggregation
     this._textLabelCache = null;
     this.state = {
       tab: 'list',               // 'list' | 'perText'
       maxFreq: 1,
       hideNames: true,           // Eigennamen (NAM) sind 28 % der Hapaxe
+      hideNumerals: true,        // Zahlwörter (NUM), siehe passesFilters (#196)
       hideFunctionWords: false,
       posFilter: 'all',
       initial: 'all',
@@ -103,16 +105,53 @@ export class HapaxLegomenaAnalyzer {
     return lo > 0 ? lo : null;
   }
 
-  /** Lemma-Level-Filter (NAM, Funktionswörter, PoS-Facette, Anfangsbuchstabe). */
+  /** Lemma-Level-Filter (NAM, NUM, Funktionswörter, PoS-Facette, Anfangsbuchstabe). */
   passesFilters(lemmaId) {
     const lemma = this.getLemmaById(lemmaId);
     // Lemmata ohne Authority-Eintrag sind Kuratierungs-Funde: immer zeigen,
     // solange keine Buchstaben-Facette aktiv ist (keine Form bekannt).
     if (!lemma) return this.state.initial === 'all' && this.state.posFilter === 'all';
     const tags = lemma.posAll || (lemma.pos ? String(lemma.pos).trim().split(/\s+/) : []);
-    if (this.state.hideNames && tags.includes('NAM')) return false;
-    if (this.state.hideFunctionWords && tags.length > 0 && tags.some(t => FUNCTION_WORD_POS.has(t))) return false;
-    if (this.state.posFilter !== 'all' && !tags.includes(this.state.posFilter)) return false;
+    // Facetten-Vorrang, einheitlich für alle drei Default-Filter: wer eine
+    // Wortart gezielt in der Facette wählt, will sie sehen und bekäme sonst
+    // kommentarlos eine leere Liste, weil der gleichnamige Filter default an
+    // ist. Betrifft NAM, NUM und jede Wortart aus FUNCTION_WORD_POS.
+    const facet = this.state.posFilter;
+    if (this.state.hideNames && facet !== 'NAM' && tags.includes('NAM')) return false;
+    // Zahlwörter defaultmäßig aus (#196, KZW 27.07.): Eine korpusweit einmalige
+    // Zahl ist kein lexikalisches Hapax im philologischen Sinn, sondern eine
+    // Funktion der Textlänge — "ahtundsibenzechundert" kommt einmal vor, weil
+    // genau einmal 7800 gezählt wird. Anders als NAM ist NUM aber keine reine
+    // Rauschklasse: seltene Zahlwortbildungen wie "vünfthalphundert" oder
+    // "hunderttûsentstunt" (beide Frequenz 1) sind wortbildungsmorphologisch
+    // interessant, deshalb abschaltbar statt hart entfernt. Die drei
+    // Ziffern-Einträge, die diesen Filter ausgelöst haben (42, 46, 49), sind
+    // Altbestands-Artefakte und gehören ins TEI-Putzen (#228), nicht in einen
+    // Filter.
+    //
+    // Bewusst NUR reine NUM-Lemmata, nicht jedes Lemma mit NUM unter mehreren
+    // Tags: 47 der 119 NUM-Hapaxe tragen weitere Wortarten (zwispeltic ADJ/NUM,
+    // zweizungen NOM/NUM, drîwîse ADV/NUM). Das sind Inhaltswörter mit
+    // Zahlbezug und genau die Funde, für die das Werkzeug gebaut ist. Deshalb
+    // hier strenger als hideNames/hideFunctionWords, die per includes/some
+    // arbeiten.
+    //
+    // Die explizite Wortart-Facette schlägt den Default (siehe oben): wer in
+    // der Facette "NUM" wählt, bekäme sonst kommentarlos nur die 47 gemischten
+    // statt aller 119.
+    //
+    // DIG (römische Zahlen) braucht keinen eigenen Filter: es gibt genau drei
+    // DIG-Lemmata, und keines kann hier je erscheinen. lemma_13826 "I" hat
+    // 4.049 Korpusbelege (bis #138 waren es 4.755; die 706 annotierten der
+    // 814 HUG-Strophenziffern hingen an genau diesem Lemma), lemma_45842
+    // "declinare" 4 (über der höchsten
+    // Schwelle 3), lemma_21509 "xxtausent" steht nur im Lexikon und kommt im
+    // Korpus nicht vor.
+    if (this.state.hideNumerals && facet !== 'NUM'
+        && tags.length === 1 && tags[0] === 'NUM') return false;
+    if (this.state.hideFunctionWords && !FUNCTION_WORD_POS.has(facet)
+        && tags.length > 0 && tags.some(t => FUNCTION_WORD_POS.has(t))) return false;
+    if (facet !== 'all' && !tags.includes(facet)) return false;
     if (this.state.initial !== 'all') {
       const first = (lemma.normalized || lemma.lemma || '').charAt(0).toLowerCase();
       if (first !== this.state.initial) return false;
@@ -208,6 +247,12 @@ export class HapaxLegomenaAnalyzer {
     const initialOptions = ['all', ...INITIALS]
       .map(c => `<option value="${c}"${this.state.initial === c ? ' selected' : ''}>${c === 'all' ? 'alle Buchstaben' : c.toUpperCase()}</option>`)
       .join('');
+    // Eine explizit gewählte Wortart-Facette hebt den gleichnamigen Default-Filter
+    // auf (siehe passesFilters). Die Checkbox bliebe sonst sichtbar angehakt,
+    // obwohl sie nichts mehr tut.
+    const namOverridden = this.state.posFilter === 'NAM';
+    const numOverridden = this.state.posFilter === 'NUM';
+    const funcOverridden = FUNCTION_WORD_POS.has(this.state.posFilter);
 
     const tabBtn = (tab, label) => `
       <button data-hx-tab="${tab}" class="rounded-lg px-3 py-1.5 text-sm font-medium transition ${this.state.tab === tab
@@ -238,13 +283,17 @@ export class HapaxLegomenaAnalyzer {
           </label>
         </div>
         <div class="mt-3 flex flex-wrap items-center gap-x-6 gap-y-2">
-          <label class="flex items-center gap-2 text-sm text-slate-700 cursor-pointer">
-            <input type="checkbox" id="hxHideNames" ${this.state.hideNames ? 'checked' : ''} class="w-4 h-4 rounded border-slate-300 text-brand-600 focus:ring-brand-500" />
-            <span>Eigennamen ausblenden <span class="text-xs text-slate-500">(PoS NAM, 28 % der Hapaxe)</span></span>
+          <label class="flex items-center gap-2 text-sm text-slate-700 ${namOverridden ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}"${namOverridden ? ' title="Die Wortart-Facette NAM hebt diesen Filter auf."' : ''}>
+            <input type="checkbox" id="hxHideNames" ${this.state.hideNames ? 'checked' : ''} ${namOverridden ? 'disabled' : ''} class="w-4 h-4 rounded border-slate-300 text-brand-600 focus:ring-brand-500" />
+            <span>Eigennamen ausblenden <span class="text-xs text-slate-500">${namOverridden ? '(von der Facette NAM aufgehoben)' : '(PoS NAM, 28 % der Hapaxe)'}</span></span>
           </label>
-          <label class="flex items-center gap-2 text-sm text-slate-700 cursor-pointer">
-            <input type="checkbox" id="hxHideFunc" ${this.state.hideFunctionWords ? 'checked' : ''} class="w-4 h-4 rounded border-slate-300 text-brand-600 focus:ring-brand-500" />
-            <span>Funktionswörter ausblenden</span>
+          <label class="flex items-center gap-2 text-sm text-slate-700 ${numOverridden ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}"${numOverridden ? ' title="Die Wortart-Facette NUM hebt diesen Filter auf."' : ''}>
+            <input type="checkbox" id="hxHideNum" ${this.state.hideNumerals ? 'checked' : ''} ${numOverridden ? 'disabled' : ''} class="w-4 h-4 rounded border-slate-300 text-brand-600 focus:ring-brand-500" />
+            <span>Zahlwörter ausblenden <span class="text-xs text-slate-500">${numOverridden ? '(von der Facette NUM aufgehoben)' : '(nur reines NUM)'}</span></span>
+          </label>
+          <label class="flex items-center gap-2 text-sm text-slate-700 ${funcOverridden ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}"${funcOverridden ? ` title="Die Wortart-Facette ${this.state.posFilter} hebt diesen Filter auf."` : ''}>
+            <input type="checkbox" id="hxHideFunc" ${this.state.hideFunctionWords ? 'checked' : ''} ${funcOverridden ? 'disabled' : ''} class="w-4 h-4 rounded border-slate-300 text-brand-600 focus:ring-brand-500" />
+            <span>Funktionswörter ausblenden${funcOverridden ? ` <span class="text-xs text-slate-500">(von der Facette ${this.state.posFilter} aufgehoben)</span>` : ''}</span>
           </label>
           <button id="hxCsvExport" class="ml-auto rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 flex items-center gap-1.5">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5 5-5M12 15V3"></path></svg>
@@ -282,7 +331,7 @@ export class HapaxLegomenaAnalyzer {
       const lemmaLabel = lemma
         ? `<a href="../lemma/?id=${escapeHtml(cleanId)}" target="_blank" rel="noopener" class="font-medium text-brand-700 hover:underline">${escapeHtml(lemma.lemma)}</a>`
         : `<span class="font-mono text-sm text-slate-500">${escapeHtml(e.lemmaId)}</span>
-           <span class="ml-1 rounded bg-amber-100 px-1.5 py-0.5 text-xs text-amber-800" title="Lemma-ID ohne Eintrag in lexicon.xml — Datenqualitäts-Fund">ohne Authority-Eintrag</span>`;
+           <span class="ml-1 rounded bg-amber-100 px-1.5 py-0.5 text-xs text-amber-800" title="Lemma-ID ohne Eintrag in lexicon.xml: Datenqualitäts-Fund">ohne Authority-Eintrag</span>`;
       const posLabel = (lemma?.posAll || []).join(' ');
       const pos = posLabel
         ? `<span class="ml-2 rounded bg-slate-100 px-1.5 py-0.5 text-xs font-mono text-slate-600">${escapeHtml(posLabel)}</span>`
@@ -399,6 +448,63 @@ export class HapaxLegomenaAnalyzer {
     return this._textLabelCache;
   }
 
+  /**
+   * Autorname eines Texts, mit Rückgriff auf die Personen-Referenz.
+   *
+   * Sieben Korpusdateien tragen ein leeres `<author ref="#person_N"/>` (ALX,
+   * BVSN, PSG, PTS, BOP, MHG, MRB). Sie sind deshalb nicht autorlos: die
+   * Referenz steht im Index, und `persons` kennt den Namen (Mönch von
+   * Heilsbronn, Boppe, Herger, Burggraf von Riedenburg). Ohne diesen Rückgriff
+   * unterschlüge das Panel den Autor stillschweigend und verkaufte eine
+   * Datenlücke als Design. Die leeren `<author/>`-Elemente selbst gehören
+   * trotzdem im TEI gefüllt, das ist ein eigener Vorgang.
+   */
+  autorFuerText(text) {
+    if (!text) return '';
+    if (text.author) return text.author;
+    const ref = (text.authorRef || '').replace(/^#/, '');
+    if (!ref) return '';
+    if (!this._personById) {
+      const personen = this.authorityData?.persons || [];
+      this._personById = new Map(personen.map(p => [p.id, p]));
+    }
+    return this._personById.get(ref)?.preferredName || '';
+  }
+
+  /**
+   * Fundstellen eines Eintrags mit Werktitel, Autor und Versangabe (#196).
+   *
+   * Die Tabellenspalte zeigt nur die Sigle, weil sie in eine Zeile passen
+   * muss. Im Detail-Panel ist Platz für die Frage, die bei einem Hapax
+   * zuerst kommt: in welchem Werk steht es, und von wem stammt das. Über
+   * autorFuerText() bekommt jeder der 667 Texte einen Namen, auch die
+   * sieben mit leerem `<author ref>`.
+   */
+  renderFundstellen(entry) {
+    const textById = new Map((this.getCorpusTexts() || []).map(t => [t.id, t]));
+    const items = (entry.occ || []).map(o => {
+      const text = textById.get(o.textId);
+      const verse = this.verseForPosition(text, o.pos);
+      const stelle = verse ? `Vers ${verse}` : `Pos. ${o.pos}`;
+      const titel = text?.title || o.textId;
+      const autorName = this.autorFuerText(text);
+      const autor = autorName
+        ? ` <span class="text-slate-600" data-hx-autor>(${escapeHtml(autorName)})</span>`
+        : '';
+      const url = `../korpus.html?textId=${encodeURIComponent(o.textId)}&lemmaIds=${encodeURIComponent(entry.lemmaId)}&position=${o.pos}`;
+      return `<li><a href="${url}" target="_blank" rel="noopener" class="text-brand-700 hover:underline" title="Im Reader mit Highlight öffnen">${escapeHtml(titel)}</a>${autor} <span class="text-slate-300">·</span> <span class="text-slate-600">${escapeHtml(stelle)}</span> <span class="font-mono text-xs text-slate-400">${escapeHtml(o.textId)}</span></li>`;
+    });
+    if (items.length === 0) return '';
+    const mehr = entry.count > items.length
+      ? `<div class="text-xs text-slate-400">Angezeigt sind die ersten ${items.length} von ${entry.count} Vorkommen.</div>`
+      : '';
+    return `<div>
+      <span class="text-xs font-medium text-slate-500">Fundstellen:</span>
+      <ul class="mt-1 space-y-0.5 list-disc list-inside">${items.join('')}</ul>
+      ${mehr}
+    </div>`;
+  }
+
   /** Detail-Panel: Konzepte + Wörterbuchnetz-Abgleich (lazy, on expand). */
   async toggleDetail(idx) {
     const row = document.getElementById(`hxDetailRow-${idx}`);
@@ -414,9 +520,22 @@ export class HapaxLegomenaAnalyzer {
 
     const entry = this._lastEntries?.[idx];
     if (!entry) return;
+
+    // Fundstellen mit Werk und Autor (#196, KZW 28.07.): bei einem Hapax ist
+    // die erste Frage, WO es steht und von wem. Die Sigle allein in der
+    // Tabellenspalte beantwortet das nicht. Steht bewusst vor dem Early
+    // Return, damit auch Kuratierungs-Funde ohne Authority-Eintrag ihren
+    // Fundort zeigen.
+    const fundstellenHtml = this.renderFundstellen(entry);
+
     const lemma = this.getLemmaById(entry.lemmaId);
     if (!lemma) {
-      cell.innerHTML = '<span class="text-sm text-slate-500">Kein Eintrag in lexicon.xml — Kandidat für die Kuratierung (Lemma-ID wird im Korpus referenziert, fehlt aber im Authority-File).</span>';
+      cell.innerHTML = `
+        <div class="space-y-2 text-sm">
+          ${fundstellenHtml}
+          <div class="text-slate-500">Kein Eintrag in lexicon.xml: Kandidat für die Kuratierung (Lemma-ID wird im Korpus referenziert, fehlt aber im Authority-File).</div>
+        </div>
+      `;
       return;
     }
 
@@ -429,6 +548,7 @@ export class HapaxLegomenaAnalyzer {
 
     cell.innerHTML = `
       <div class="space-y-2 text-sm">
+        ${fundstellenHtml}
         ${conceptChips ? `<div><span class="text-xs font-medium text-slate-500">Konzepte:</span> ${conceptChips}</div>` : ''}
         <div id="hxDict-${idx}" class="text-xs text-slate-500">Wörterbuchnetz wird abgefragt …</div>
       </div>
@@ -445,7 +565,7 @@ export class HapaxLegomenaAnalyzer {
       );
       dictEl.innerHTML = links.length > 0
         ? `<span class="font-medium text-slate-500">Wörterbücher:</span> ${links.join('<span class="text-slate-300"> · </span>')}`
-        : `<span class="text-slate-500">In MWB/Lexer nicht als Lemma gefunden — Kandidat für ein echtes Hapax (oder Schreibform-/Lemmatisierungsproblem).</span>`;
+        : `<span class="text-slate-500">In MWB/Lexer nicht als Lemma gefunden, Kandidat für ein echtes Hapax (oder Schreibform-/Lemmatisierungsproblem).</span>`;
     } catch (e) {
       if (dictEl) dictEl.textContent = 'Wörterbuchnetz nicht erreichbar.';
     }
@@ -500,6 +620,10 @@ export class HapaxLegomenaAnalyzer {
     });
     document.getElementById('hxHideNames')?.addEventListener('change', (e) => {
       this.state.hideNames = e.target.checked;
+      rerender();
+    });
+    document.getElementById('hxHideNum')?.addEventListener('change', (e) => {
+      this.state.hideNumerals = e.target.checked;
       rerender();
     });
     document.getElementById('hxHideFunc')?.addEventListener('change', (e) => {

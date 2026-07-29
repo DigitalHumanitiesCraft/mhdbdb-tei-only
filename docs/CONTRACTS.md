@@ -20,6 +20,8 @@ Technical contracts that bind Python (build-time) and JavaScript (runtime) toget
 
 | Step | Operation | Characters | Result | JS | Python |
 |------|-----------|-----------|--------|-----|--------|
+| 0 | Unicode-Komposition | o + U+0308 | ö | `.normalize('NFC')` | `unicodedata.normalize('NFC', …)` |
+| 0 | | o + U+0306 | ŏ | dito | dito |
 | 1 | Lowercase | all | lowercase | `.toLowerCase()` | `.lower()` |
 | 2 | Long vowels (circumflex + macron) | â ā | a | `/[âā]/g` | `.replace('â','a').replace('ā','a')` |
 | 2 | | ê ē | e | `/[êē]/g` | `.replace('ê','e').replace('ē','e')` |
@@ -29,13 +31,15 @@ Technical contracts that bind Python (build-time) and JavaScript (runtime) toget
 | 3 | Umlauts → digraphs | ä | ae | `/ä/g` | `.replace('ä','ae')` |
 | 3 | | ö | oe | `/ö/g` | `.replace('ö','oe')` |
 | 3 | | ü | ue | `/ü/g` | `.replace('ü','ue')` |
+| 3 | Breve-Umlaute (WZB, #224) | ŏ | oe | `/ŏ/g` | `.replace('ŏ','oe')` |
+| 3 | | ŭ | ue | `/ŭ/g` | `.replace('ŭ','ue')` |
 | 4 | Ligatures | æ | ae | `/æ/g` | `.replace('æ','ae')` |
 | 4 | | œ | oe | `/œ/g` | `.replace('œ','oe')` |
 | 5 | Special | ǒ | o | `/ǒ/g` | `.replace('ǒ','o')` |
 
 ### Test Cases
 
-These 18 cases must pass in both languages. Source: `scripts/mhg_normalizer.py:131-151`
+These 23 cases must pass in both languages (der `None`-Fall ist Python-only, die JS-Liste hat entsprechend 22). Source: `scripts/mhg_normalizer.py` → `TEST_CASES`, gespiegelt in `testing/tests/normalization-parity.spec.js`
 
 | Input | Expected | Why |
 |-------|----------|-----|
@@ -55,12 +59,41 @@ These 18 cases must pass in both languages. Source: `scripts/mhg_normalizer.py:1
 | `sǒne` | `sone` | ǒ → o |
 | `cæsar` | `caesar` | æ → ae |
 | `œnologie` | `oenologie` | œ → oe |
+| `bo` + U+0308 + `ses` | `boeses` | Schritt 0: zerlegtes ö komponiert vor Schritt 3 (#224) |
+| `Mu` + U+0308 + `hldorf` | `muehldorf` | dito mit ü, plus Grossbuchstabe |
+| `bo` + U+0306 + `ses` | `boeses` | Der gemeldete Fall: Breve, Schritt 0 komponiert zu ŏ, Schritt 3 löst auf (#224) |
+| `bŏses` | `boeses` | dito, schon präkomponiert |
+| `wŭnschet` | `wuenschet` | ŭ → ue |
 | `''` | `''` | Empty string |
 | `None`/`null` | `''` | Null handling |
 
 ### Common Pitfall
 
 `schône` (ô = circumflex) → `schone`, NOT `schoene`. The circumflex ô maps to plain `o`, while the umlaut ö maps to `oe`. Visually similar, semantically different.
+
+### Schritt 0: Unicode-Komposition (#224)
+
+Ein „ö" kann als ein Zeichen (U+00F6) oder als `o` + kombinierendes Trema (U+006F U+0308) kodiert sein. Beide sehen identisch aus, aber nur die komponierte Form trifft die Umlaut-Regel in Schritt 3. Ohne die Komposition fällt eine zerlegte Eingabe durch Stufe 1 **und** Stufe 2 der Lemma-Auflösung (§C) und landet im Partial-Match-Fallback. Der Bug-Report #224 ist genau dieser Fall, nur mit einem anderen Diakritikum: die gemeldete Eingabe trug `o` + kombinierendes **Breve** (U+0306), kopiert aus der WZB-Leseansicht. Schritt 0 komponiert das zu `ŏ`, und erst die Breve-Regel in Schritt 3 macht daraus `oe`. Beide Schritte zusammen sind der Fix, keiner allein.
+
+Zerlegte Formen entstehen beim Kopieren aus macOS-Quellen und aus manchen Editionsdatenbanken, sind also normale Nutzereingaben.
+
+**Breve statt Trema (WZB, #224).** Die Wenzelsbibel schreibt Umlaute mit Breve: der Korpus-Token `bo` + U+0306 + `ses` trägt `lemmaRef` auf `lemma_788` (`bœse`), `scho` + U+0306 + `ne` auf `lemma_5280` (`schœne`), `wŭnschet` ist `wünschet`. Belegt an 469 lemmatisierten WZB-Tokens. Deshalb `ŏ` → `oe` und `ŭ` → `ue` in Schritt 3. Breve auf anderen Basiszeichen bleibt unangetastet: 136 weitere WZB-Tokens (w 91, n 22, y 5, a 5, v 4, r 2, m 2, i 2, e 2, z 1). Der Grund ist, dass es dort keine Umlaute sind (`hălses`, `nămen`, `geslăgen`, `schĕpfen`, `erschĭnen`), nicht eine fehlende präkomponierte Form – für `a`, `e` und `i` gibt es sie (U+0103, U+0115, U+012D), und Schritt 0 erzeugt sie auch. **Bekannte Restlücke:** 64 dieser 136 Tokens sind lemmatisiert (48 auf `w`, 16 auf `n`, etwa `few̆er` → `viur`, `wenn̆` → `wan`) und bleiben per Copy-Paste aus der Leseansicht unauffindbar. Eine Regel dafür wäre eine editorische Entscheidung über die böhmische Schreibkonvention, keine technische.
+
+**Wirkung auf die Build-Seite:** Der Schritt ändert die Ausgabe an genau drei Stellen, weil die Authority-Files sonst NFC sind. Betroffen sind die Datensätze mit zerlegtem ü in `persons.xml` und `works.xml`:
+
+| Datensatz | vorher | nachher |
+|-----------|--------|---------|
+| `person_1052` Hugo von Mühldorf | `hugo von mühldorf` | `hugo von muehldorf` |
+| `person_1332` Wachsmut von Mühlhausen | `wachsmut von mühlhausen` | `wachsmut von muehlhausen` |
+| `work_435` Lyrik von Hugo von Mühldorf | `lyrik von hugo von mühldorf` | `lyrik von hugo von muehldorf` |
+
+Alle drei waren über die normalisierte Suche nicht auffindbar. Alle 43.879 Lemma-Normalisierungen und alle 234.244 Varianten-Schlüssel bleiben unverändert. Deshalb Authority-Index v1.6.2.
+
+**Nicht betroffen:** Der Korpus-Index speichert Lemma-IDs und Positionen, keine normalisierten Textformen; `build-corpus-index.py` importiert `normalize_mhg` zwar, ruft es aber nirgends auf. Zum Korpustext selbst ist die prüfbare Aussage schärfer als die ursprünglich hier notierte Stichprobe: **in `<w>` gibt es korpusweit kein einziges kombinierendes Trema und keine kombinierende Tilde.** Die 1.343 Tremata in 567 der 667 Dateien stehen sämtlich außerhalb der annotierten Tokens, größtenteils in `<note>`-Bibliographieprosa des teiHeader (Verlagsorte wie Tübingen, Zürich). In `<w>` stehen insgesamt 774 kombinierende Marken, davon 752 WZB-Breves und 22 Exoten: 11 Punkt darunter, 8 Makron, 3 U+035B (Abbreviatur-Zickzack in `cetera͛`, `her͛re`).
+
+**Kein Gewinn, aber derselbe Topf:** In `<w>` stehen acht kombinierende Makra (u 3, p 2, d 1, i 1, n 1). Schritt 0 komponiert davon vier, die drei `u` zu `ū` und das `i` zu `ī`; Schritt 2 löst beide auf. Für `d`, `n` und `p` gibt es keine präkomponierte Form. **Auffindbar werden sie dadurch trotzdem nicht: keines der acht Tokens trägt ein `@lemmaRef`** (`flūte`, `Dorūmbe`, `cap̄`, `vn̄`). Sie gehören in denselben Backfill-Topf wie die 289 Kandidaten unten, nicht in eine Gewinn-Spalte.
+
+**Berührt, aber nicht in diesem PR nachgezogen:** Die WZB-Ingest-Skripte (`scripts/ingest/wzb/wzb-auto-match.py`, `-sense-assign.py`, `-sense-apply.py`) normalisieren über dieselbe Funktion. 289 WZB-`<w>` mit o/u-Breve tragen bisher kein `@lemmaRef`, weil das Breve am Matcher stehenblieb; ein Re-Run wird einen Teil davon auflösen. Siehe ADR-016.
 
 ### Helper Functions
 
@@ -201,7 +234,7 @@ function lemmaRefMatchesId(lemmaRef, lemmaId):
 
 **Why:** MHG has extensive orthographic variation. A single lemma can appear as dozens of attested forms. The 3-stage approach balances precision (exact first) with recall (fuzzy last).
 
-Source: `assets/js/search/search-engine.js:119-148` (`resolveLemmaIds`)
+Source: `assets/js/search/search-engine.js` (`resolveLemmaIds`), `playground/js/data/authority-manager.js` (`searchLemmaByOrthography`). Das Stage-3-Prädikat und sein Ranking-Abstand liegen seit #224 gemeinsam in `assets/js/lib/lemma-resolve.js`; beide Oberflächen importieren sie. Geteilt ist ausdrücklich nur Stufe 3: Stufe 1 unterscheidet sich weiterhin (die Hauptseite vergleicht gegen das vorberechnete `lemma.normalized` des Index, der Playground normalisiert zur Laufzeit und rankt Homographen zusätzlich nach Korpus-Frequenz). Den Frequenz-Tie-Break setzt der Playground seit #224 auch in **Stufe 3** ein, nach der Längendistanz und vor der Index-Reihenfolge (`authority-manager.js`, `searchLemmaByOrthography`). Der Pseudocode unten bildet die Hauptseiten-Sortierung ab; wer die Playground-Reihenfolge braucht, liest die Lehre aus #163/#164 mit: bei gleicher Distanz gewinnt das häufigere Lemma, weil `matches[0]`-Konsumenten still den ersten Treffer nehmen.
 
 ### Pseudocode
 
@@ -223,13 +256,15 @@ function resolveLemmaIds(normalized):
     if variantMatch:
         return [variantMatch]                // EARLY RETURN — skip stage 3
 
-    // Stage 3: Partial match fallback (bidirectional substring)
+    // Stage 3: Partial match fallback (bidirectional PREFIX, see #224)
     results = []
     for each lemma in authorityIndex.lemmata:
-        if lemma.normalized.includes(normalized)
-           OR normalized.includes(lemma.normalized):
-            results.push(lemma.id)
-    return results                           // May be empty
+        if lemma.normalized.startsWith(normalized)                  // Stamm-Eingabe
+           OR (lemma.normalized.length >= 3
+               AND normalized.startsWith(lemma.normalized)):        // flektierte Eingabe
+            results.push(lemma)
+    sort results by abs(len(lemma.normalized) - len(normalized))    // Nähe zuerst
+    return results.map(lemma => lemma.id)                          // May be empty
 ```
 
 ### Stage Behavior
@@ -238,7 +273,32 @@ function resolveLemmaIds(normalized):
 |-------|-----------|--------|-------------|---------|
 | 1 | Canonical or normalized form | 0..N lemma IDs (homographs) | O(n) scan | `brot` → `[lemma_879]` |
 | 2 | Attested orthographic variant | Exactly 1 lemma ID | O(1) lookup | `brott` → normalize → `brot` → variants[`brot`] → `lemma_879` |
-| 3 | Partial/fuzzy match | 0..N lemma IDs | O(n) scan | `bro` → matches `brot`, `brogen`, ... |
+| 3 | Prefix match, both directions | 0..N lemma IDs, nächste zuerst | O(n) scan + Sort | `minnecl` → `minnec`, `minne`, `minneclîch`, …; `schwertkampf` → keine |
+
+### Stufe 3: warum Präfix und nicht Substring (#224)
+
+Bis Juli 2026 war Stufe 3 ein bidirektionaler **Substring**-Test. Die Richtung „Eingabe enthält Lemma" traf jedes Kurzlemma, das irgendwo in der Eingabe steckte. Das Lexikon hält 5 ein-, 98 zwei- und 598 dreibuchstabige normalisierte Formen; sie trafen praktisch jede Eingabe, die Stufe 3 überhaupt erreichte. Für `minnecl` kamen 16 Treffer zurück, angeführt von `i`, `unminneclîche` und `nec`; für `schwertkampf` 14, darunter `a`, `êr`, `wert`, `kamp`.
+
+Mittelhochdeutsche Flexion ist suffixal, deshalb hält ein Präfix-Test beide nützlichen Fälle (Stamm-Eingabe findet das volle Lemma, flektierte Eingabe findet das Lemma) und lässt das Rauschen fallen. Die Mindestlänge 3 gilt nur in der Richtung „Eingabe beginnt mit Lemma"; in der anderen ist das Lemma konstruktionsbedingt länger als die Eingabe.
+
+**Zur Genese des Bug-Reports, weil sie leicht falsch erzählt wird:** Die dort gezeigte Suche nach „böses" trug ein **zerlegtes** Umlaut-ö (`o` + U+0308 statt U+00F6). Deshalb verfehlte sie Stufe 1 und Stufe 2 (die Varianten-Map hält den Schlüssel `boeses`, nicht die zerlegte Form) und landete überhaupt erst in Stufe 3, wo der Substring-Test daraus `ês`, `ô`, `sê` machte, ohne `bœse`. Mit komponiertem ö löst Stufe 2 dieselbe Eingabe korrekt zu `bœse` auf. Der Report hatte also zwei Ursachen, und beide sind behoben: die NFC-Komposition in Contract A und die Präfix-Regel hier.
+
+Gemessen über 300 mit festem Seed gezogene Varianten-Formen mit bekanntem Ziel-Lemma (`scripts/audit/measure-stage3-resolution.py`, Stufe 1 und 2 umgangen):
+
+| Metrik | alt (Substring) | alt + neues Ranking | neu (Präfix) |
+|--------|----------------:|--------------------:|-------------:|
+| Recall (Ziel irgendwo in der Liste) | 11,3 % | 11,3 % | 10,7 % |
+| Top-1 nach Ranking | 0,3 % | 9,3 % | 10,0 % |
+| Median der Listengröße | 8 | 8 | 0 |
+| Größte Liste | 108 | 108 | 8 |
+
+**Die mittlere Spalte ist wichtig:** Der große Sprung bei Top-1 (0,3 % → 9,3 %) kommt von der neuen Sortierung nach Längendifferenz, nicht von der neuen Regel. Die Regel selbst trägt 9,3 % → 10,0 % bei. Ihr eigentlicher Gewinn steht in den unteren beiden Zeilen: die Ergebnisliste schrumpft von median 8 auf 0.
+
+Der Recall-Verlust von 2 Fällen auf 300 betrifft Präfix-Brecher: `gewieren` → `wieren` (Präfix `ge-`) und die römische Zahl `ccccxli`. Beide sind im Echtbetrieb belegte Varianten und werden bereits von Stufe 2 aufgelöst; die Messung umgeht Stufe 2 absichtlich. Der Median von 0 heißt: für eine zufällige unbekannte Form liefert Stufe 3 jetzt meist nichts statt acht Falschtreffern. Das ist gewollt, die Oberfläche zeigt dann ihren Kein-Treffer-Zustand.
+
+**Bias der Messung:** Echte Stufe-3-Eingaben sind eher neuhochdeutsche Wörter und Tippfehler als mittelhochdeutsche Flexionsformen. Die Stichprobe misst, ob der Fix Recall kostet, nicht wie oft Stufe 3 im Alltag überhaupt das Richtige findet.
+
+**Nebenwirkung auf Stufe 3 hinaus:** `resolveLemmaIds` liefert auch die Referenzmenge für die Keyness-Spalte der Tabellenansicht (#114, `app.js`). Bei Suchbegriffen, die Stufe 3 erreichen, ändern sich damit die Log-Likelihood-Werte, weil die Referenzsumme über weniger Lemmata läuft.
 
 ### Worked Example
 
@@ -252,7 +312,7 @@ User types: **brott**
 ### Variant Dictionary Structure
 
 - Flat map: `{ normalized_variant_form: lemma_id }`
-- 234,244 normalized entries (Stand 2026-07-12; 256,761 raw forms in variants.xml, deduped first-occurrence-wins), extracted from `authority-files/variants.xml`
+- 234,243 normalized entries (Stand 2026-07-28; 256,760 raw forms in variants.xml, deduped first-occurrence-wins), extracted from `authority-files/variants.xml`
 - **First occurrence wins** – if two lemmata claim the same variant form, only the first one stored (source: `build-authority-index.py:643-644`, in `parse_variants()`)
 - Keys are **normalized** forms (lowercase + MHG character mapping applied before storage)
 
@@ -308,40 +368,75 @@ dedup(rawResults):
    - `{textId: "DES2", matchCount: 5, lemmaIds: ["lemma_879"]}`
 4. Both lemmata get distinct highlight colors in reading view
 
-### C.2.2 Playground: Proximity Context Window Dedup
+### C.2.2 Playground: Proximity Window Selection and Context Dedup
 
-Source: `playground/js/data/tei-manager.js` (proximity search function)
+Source: `playground/js/data/tei-manager.js` (`findCoveringWindow`, `searchProximityUsingEnhancedIndex`)
 
-**Trigger:** Proximity search finds multiple overlapping co-occurrence windows in the same text. Without dedup, the same passage appears multiple times with slightly shifted windows.
+Two steps that both changed with #169 (KZW decision 2026-07-28). Numbers from before 2026-07-29 are not comparable for searches with three or more lemmata; see the JOURNAL entry of that date.
+
+**Caveat on the input positions.** This function builds its per-lemma position lists by scanning `words[]` for equality, so it is first-id only and does not follow the §B.1 consumer rule (the verse search next to it does, via `lemmata{}`). Same standing justification as `cooccurrence-ranking.js`: 0 multi-ref cases in the corpus today. It becomes wrong the moment a `<w>` carries two `@lemmaRef` ids.
+
+**Step 1 – window selection.** `maxDistance` bounds the SPAN of all matched positions, not each position's distance to the anchor lemma. A hit requires one window of width `maxDistance` that holds the anchor and one occurrence of every other lemma.
+
+`maxDistance` is clamped to the range the UI declares (`0…50`, from `input#proximityDistance[max=50]`) before the search runs, with a non-numeric value falling back to 10. The hash route only validates `dist > 0`, and unlike the old anchor test the window search gets more expensive as the distance grows, so the data layer enforces the bound itself rather than trusting the surface.
+
+```
+function findCoveringWindow(firstPos, otherPositionLists, maxDistance):
+    // otherPositionLists = ascending position arrays, one per non-anchor lemma
+    if otherPositionLists is empty: return []
+
+    // An optimal window always starts on an occupied position
+    candidates = {firstPos}
+    for each list in otherPositionLists:
+        candidates += every p in list with firstPos - maxDistance <= p <= firstPos
+
+    best = null, bestSpan = INFINITY
+    for each windowStart in sorted(candidates):
+        windowEnd = windowStart + maxDistance
+        if firstPos > windowEnd: continue
+
+        chosen = []
+        for each list in otherPositionLists:
+            p = first element of list >= windowStart     // binary search
+            if p does not exist OR p > windowEnd: mark uncovered, break
+            chosen.push(p)
+        if uncovered: continue
+
+        span = max(firstPos, ...chosen) - min(firstPos, ...chosen)
+        if span < bestSpan: bestSpan = span, best = chosen
+
+    return best        // null when no window carries all lemmata
+```
+
+**Why the search over window starts, not just a range check.** Until 2026-07-29 each further lemma was tested against `firstPos` alone (`positions.find(p => abs(p - firstPos) <= maxDistance)`), so B at anchor−5 and C at anchor+5 both passed at `maxDistance` 5 although they sit 10 apart; `actualDistance` then reported the 10 correctly in the very same result object. Adding a span check on top of the old selection would not fix it, because `find()` returns the FIRST position in anchor range, not the most useful one. With B = {90, 110}, C = {109}, `firstPos` = 100 and `maxDistance` = 10 that selection yields B = 90, span 19, and the hit would be dropped although B = 110 with C = 109 spans exactly 10. Iterating the possible window starts also keeps the reported distance minimal.
+
+**Step 2 – context dedup.** Overlapping context windows in the same file collapse to the one with the SHORTEST distance.
 
 ```
 function deduplicateProximityResults(rawMatches):
     // rawMatches = [{filename, matchPositions, distance, contextStart, contextEnd, ...}, ...]
-
-    // Step 1: Group by filename
     byFile = groupBy(rawMatches, 'filename')
-
     deduplicated = []
 
-    // Step 2: For each file, remove overlapping windows
     for each (filename, fileResults) in byFile:
-        sort fileResults by contextStart ascending
+        byDistance = COPY of fileResults sorted by (distance asc, contextStart asc)
 
-        for each result in fileResults:
-            overlaps = deduplicated.any(existing =>
-                existing.filename === result.filename
-                AND max(existing.contextStart, result.contextStart)
+        kept = []
+        for each result in byDistance:
+            overlaps = kept.any(existing =>
+                max(existing.contextStart, result.contextStart)
                     < min(existing.contextEnd, result.contextEnd)
             )
+            if NOT overlaps: kept.push(result)
+            // else: discard — the kept match is the closer one by construction
 
-            if NOT overlaps:
-                deduplicated.push(result)
-            // else: discard (keep earlier/shorter-distance match)
+        sort kept by contextStart ascending      // output follows the text
+        deduplicated += kept
 
     return deduplicated
 ```
 
-**Behavior:** When two context windows overlap, the first one (earlier position, already added) wins. This keeps the closer match since results within each file are sorted by position.
+**Behavior:** the closest co-occurrence in a passage wins; output order stays reading order. Before 2026-07-29 the sort key was `contextStart`, so the EARLIEST match won while the comment and the console log claimed "keeping shorter distance" (#169 finding 48). Users were shown the more distant co-occurrence whenever the earlier window happened to be the wider one.
 
 ### C.2.3 Playground: Document-Level Aggregation
 

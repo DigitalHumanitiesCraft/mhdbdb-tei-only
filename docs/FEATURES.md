@@ -81,6 +81,10 @@ Full-text immersive reader with multi-lemma highlighting and rich metadata.
 - **Wikidata integration:** Automatic image fetching with attribution
 - **Dual identifiers:** Separate GND/Wikidata for work vs author
 - **Context navigation:** Prev/next buttons to jump between occurrences
+- **Zum Textanfang (#138):** Runder Sprung-Button unten rechts, sobald der Panelkopf aus dem Viewport gescrollt ist; springt zurück zu Titel und Metadaten, nicht zum Seitenanfang
+- **Verszählung pro Zählungsbereich (#138):** Die sichtbare Randnummerierung setzt bei jedem `<div>` wieder mit der 1 ein, das eine eigene **durchlaufende** Zählung bei `n="1"` beginnt. Kriterium sind zwei Bedingungen: die erste numerische `<l>` trägt `n="1"`, und die 1 kommt im `<div>` genau einmal vor. Von 6.802 `<div>`s im Korpus erfüllen 2.669 die erste Bedingung, davon qualifizieren **1.497 in 137 Texten** (897 `chapter`, 257 `song`, 177 `section`, 159 ohne `@type`, 7 `number`). Sichtbar werden dadurch **1.352 zusätzliche Randnummern in 49 Texten**. Größter Fall ist PZ (Parzival) mit +826, gefolgt von FR3 (+136), CHH (+53), TKR (+40) und HUG (+39, Julias Ausgangsfall). Alle Zahlen sind reproduzierbar: `python scripts/audit/count-verse-numbering-resets.py` baut die Render-Reihenfolge nach und vergleicht „mit Reset" gegen „ohne Reset".
+
+  Die zweite Bedingung ist der eigentliche Schutz: Texte mit **strophenlokaler** Zählung innerhalb eines `<div>` bekommen bewusst keinen Anker. Sie verwirft korpusweit 1.172 `<div>`s in 84 Texten und verhindert damit 1.007 unmotivierte Randeinsen. NLA (Nibelungenlied Hs. A) ist der Musterfall: 38 untypisierte `<div>`s, in denen jede Strophe wieder bei 1 beginnt und die mangels `@type`/`@n` gar keine Überschrift rendern; ohne die Bedingung bekäme der Text genau 38 zusätzliche Randeinsen, also die #127-Regression über `<div>` statt über `<lg>`. NBB ist von der Änderung strukturell gar nicht berührt, weil der Text keine `<div>`-Elemente enthält
 - **URL parameters:** `?textId=ABG&lemmaIds=879,7532&position=310`
 - **Ausschnitts-Kontext (#134):** Texte mit `biblScope unit="verse"` im Header (Ausschnitte eines Gesamtwerks, z. B. AK aus der Steirischen Reimchronik) zeigen einen sichtbaren Banner über dem Text sowie eine „Ausschnitt"-Metadaten-Sektion (Ausschnitt/Gesamtwerk/Versbereich/Kontext); siehe TEI-MODEL.md §2.1
 
@@ -139,11 +143,23 @@ Browse and search six controlled vocabularies with consistent interface patterns
 - Display: Title, sigle, author, genres, GND/Wikidata (work-specific), bibliographic references
 - Note: v1.1.0 added separate work identifiers (distinct from author)
 
-**Lemma Explorer:**
+**Lemma Explorer:** two named modes, switchable in the header, routed as `#lemmata` and `#lemmata&mode=component`
+
+*Lemma suchen* (default):
 - Search by lemma (normalized MHG)
 - Display: Lemma, POS, sense count, etymology, full sense definitions with concepts
 - Lemma titles link to persistent lemma pages (`/lemma/{id}`)
 - Action: Search lemma in corpus
+
+*Wortbestandteil suchen* (#239, word-component search for compounds):
+- Searches the lemma list, not the corpus: the result is a vocabulary survey, not a concordance
+- Results grouped by where the component sits: word-final (the head of a determinative compound, expanded), word-initial (expanded), word-medial (collapsed by default, most false hits live there)
+- Matching runs on the normalized form, display keeps the original. The input additionally resolves through the variants list, which is what lets „wein" reach `wîn` and thus `ôsterwîn`; without that bridge nothing would match, because `normalizeMHG("wein")` is `wein` and `normalizeMHG("ôsterwîn")` is `osterwin`. The header names both forms
+- Minimum input length 3, enforced on the bridged form as well
+- Selected lemmata (including the base word itself) can be handed to the multi-lemma search as a set
+- Two layers. The default is a character scan, which is why „win" also hits `winter`, `gewinnen`, and why the `-swîn` (pig) compounds sit next to the `-wîn` (wine) ones. On top of it, hits whose `lemma.etymology[]` names one of the target lemmata as a morphological component are badged „belegte Wortbildung", and a checkbox narrows the list to those. That data is curated in `lexicon.xml` (`<etym type="morphological">`, 27,166 lemmata or ~62 %) and already ships in the authority index, so the filter needs no new build step. It separates exactly the cases the character scan cannot: `wiltswîn` lists `swîn`, not `wîn`, and `winter` lists nothing. The remaining ~38 % without recorded word formation are reachable only through the character scan, which is why that stays the default
+- Group order also drives the 200-per-group cap: badged hits first, then sense count, then alphabetical. A purely alphabetical cut would show an arbitrary prefix for frequent components like `lich`
+- Stage 1 to 3 of the regular resolution are untouched (ADR-016)
 
 **Concept Explorer:**
 - Search by concept term (German or English)
@@ -204,7 +220,8 @@ Corpus-wide text analysis using pre-built indexes. Zwölf Werkzeuge in zwölf Pl
 **Echte Hapaxlegomena (#196):**
 - Lemmata (nicht Wortformen) mit korpusweiter Gesamtfrequenz ≤ n (Hapax/Dis/Tris, Default 1) – abzugrenzen von der Text-Hapax-Rate der Text-Statistiken (#89)
 - Datenpfad: ein Aggregations-Durchlauf über `text.lemmata` aller Texte (Pattern Wortfrequenz-Analyse); je Lemma werden die ersten ≤3 Fundorte (`textId` + Wortposition) mitgeführt, Versnummer via Binärsuche über `lineStarts[]`
-- Filter: Eigennamen ausblenden (NAM, Default an – 28 % der Hapaxe), Funktionswörter ausblenden (geteilte `FUNCTION_WORD_POS`-Menge aus word-frequency.js), Wortarten-Facette, Anfangsbuchstaben-Facette (auf `lemma.normalized`)
+- **Facetten-Vorrang (einheitlich für alle drei Default-Filter):** Eine explizit in der Wortart-Facette gewählte Wortart hebt den gleichnamigen Filter auf (NAM, NUM, jede Wortart aus `FUNCTION_WORD_POS`); die betroffene Checkbox rendert dann `disabled` und gedimmt. Ohne diese Regel liefert die Facette kommentarlos eine leere Liste
+- Filter: Eigennamen ausblenden (NAM, Default an – 28 % der Hapaxe), Zahlwörter ausblenden (Default an – greift nur bei reinem NUM, nicht bei Mehrfach-Wortarten wie `zwispeltic` ADJ/NUM; betrifft 72 der 119 NUM-Hapaxe. Anlass waren die drei Ziffern-Lemmata 42/46/49, die alphabetisch auf den Rängen 1 bis 3 standen, siehe #228), Funktionswörter ausblenden (geteilte `FUNCTION_WORD_POS`-Menge aus word-frequency.js), Wortarten-Facette, Anfangsbuchstaben-Facette (auf `lemma.normalized`)
 - Pro Eintrag: Lemma-Link auf die Lemma-Seite, PoS-Badges, Fundort(e) als Reader-Deep-Link (`korpus.html?textId=&lemmaIds=&position=`), Details-Aufklapp mit Konzept-Chips und lazy Wörterbuchnetz-Abgleich (MWB/Lexer via geteiltem Client `assets/js/lib/woerterbuchnetz.js`, CONTRACTS §D.2) – beantwortet „echtes mhd. Hapax oder nur Korpus-Hapax?"
 - Lemma-IDs ohne Authority-Eintrag werden mit Badge angezeigt (Kuratierungs-Funde, 99 Stück Stand 2026-07)
 - Tab „Beitrag pro Text": Raritäten je Text absolut + pro 1.000 Tokens, sortierbar
@@ -299,7 +316,7 @@ Consistent search behavior across all 18 entry points via Middle High German cha
 
 **Normalization rules:**
 - Long vowels: â→a, ê→e, î→i, ô→o, û→u
-- Umlauts: ä→ae, ö→oe, ü→ue
+- Umlauts: ä→ae, ö→oe, ü→ue; Breve-Umlaute der Wenzelsbibel: ŏ→oe, ŭ→ue (#224)
 - Ligatures: æ→ae, œ→oe
 
 **Implementation:**

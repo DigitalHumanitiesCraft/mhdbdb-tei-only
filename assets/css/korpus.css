@@ -697,6 +697,43 @@
   white-space: nowrap;
 }
 
+/* --- Zum Textanfang springen (#138) --- */
+/* Liegt eine z-Stufe über der Treffer-Navigation (z-20, bottom-4), damit sich
+   beide bei aktivem Highlighting nicht überlagern.
+   Die .hidden-Regel ist Pflicht, nicht Redundanz: korpus.css wird in
+   korpus.html NACH tailwind-output.css geladen, und `.back-to-top` hat
+   dieselbe Spezifität wie Tailwinds `.hidden{display:none}`. Ohne die
+   zusammengesetzte Regel (0,2,0) gewinnt `display: flex` und der Button steht
+   dauerhaft sichtbar und fokussierbar auf der Seite. Genau deshalb setzt
+   .reading-nav oben gar kein `display`. */
+.back-to-top {
+  position: fixed;
+  right: var(--space-8);
+  bottom: 5.5rem;
+  z-index: 21;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  color: #ffffff;
+  background: #334155;
+  border: 1px solid var(--border-secondary);
+  border-radius: 9999px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.2);
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.back-to-top.hidden {
+  display: none;
+}
+
+.back-to-top:hover {
+  background: #1e293b;
+  transform: translateY(-2px);
+}
+
 /* ========================================
    ERROR DISPLAY
    ======================================== */

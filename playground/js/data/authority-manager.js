@@ -6,6 +6,7 @@
  */
 
 import { TextNormalizer } from '../../../assets/js/lib/text-normalizer.js';
+import { isStage3Match, stage3Distance } from '../../../assets/js/lib/lemma-resolve.js';
 
 export class AuthorityFilesManager {
   constructor(authorityData) {
@@ -120,11 +121,35 @@ export class AuthorityFilesManager {
       }
     }
 
-    // Stage 3: Fallback to partial match in lexicon (includes search with normalization)
-    const partialMatches = this.authorityData.lemmata.filter(lemma => {
-      if (!lemma.lemma) return false;
-      return TextNormalizer.matchesNormalized(lemma.lemma, orthography);
-    });
+    // Stage 3: Partial-Match-Fallback, praefixorientiert in beide Richtungen
+    // (Stamm-Eingabe -> Lemma, flektierte Eingabe -> Lemma). Regel und
+    // Begruendung: assets/js/lib/lemma-resolve.js, Vertrag: CONTRACTS.md §C.
+    //
+    // Vorher stand hier ein einseitiger Infix-Test (Lemma enthaelt Eingabe),
+    // die Hauptseite testete bidirektional — dieselbe Eingabe lieferte je nach
+    // Oberflaeche andere Mengen (#169 Punkt #45). Seit #224 teilen sich beide
+    // dasselbe Praedikat. Die Infix-Discovery ("lantwin" enthaelt "win", was
+    // hier keinen Treffer mehr gibt, sofern eine Eingabe Stufe 3 ueberhaupt
+    // erreicht: "win" ist selbst Lemma und bricht oben bei Stufe 1 ab) faellt
+    // dabei bewusst weg; sie war der Traeger des #224-Rauschens.
+    //
+    // Sortierung wie bei den Homographen: erst Naehe zur Eingabe, dann
+    // Korpus-Frequenz, damit matches[0]-Konsumenten (Multi-Lemma-Suche,
+    // Kookkurrenz, Reim, Versposition) nicht wieder einen 1-Beleg-Eigennamen
+    // vor das hochfrequente Appellativ gesetzt bekommen (#163/#164).
+    const partialMatches = this.authorityData.lemmata
+      .map((lemma, idx) => ({
+        lemma,
+        idx,
+        norm: lemma.lemma ? TextNormalizer.normalizeMHG(lemma.lemma.toLowerCase()) : ''
+      }))
+      .filter(entry => isStage3Match(entry.norm, normalizedCharacters))
+      .sort((a, b) =>
+        (stage3Distance(a.norm, normalizedCharacters) - stage3Distance(b.norm, normalizedCharacters))
+        || (this.getCorpusFrequency(b.lemma.id) - this.getCorpusFrequency(a.lemma.id))
+        || (a.idx - b.idx)
+      )
+      .map(entry => entry.lemma);
     return partialMatches;
   }
 

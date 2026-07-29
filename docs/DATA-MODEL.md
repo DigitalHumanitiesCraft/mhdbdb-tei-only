@@ -166,7 +166,7 @@ Notes: Multiple sigles per work (editions). GND/Wikidata may be full URLs or bar
 | genres.xml | `genre_{hex}` | – (but many broader pointers, polyhierarchical) |
 | names.xml | `name_{numeric}` | `exactMatch`, `closeMatch` → `concepts.xml#...` |
 
-#### variants.xml (~16 MB, 256,761 variant forms)
+#### variants.xml (~16 MB, 256,760 variant forms)
 
 ```xml
 <TEI><text><body><div type="orthographicVariants">
@@ -263,7 +263,7 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
   variants: {
     "brot": "lemma_879",   // normalized form → lemma ID
     "brott": "lemma_879",
-    // ... 234,244 mappings (2026-05-29)
+    // ... 234,243 mappings (2026-07-28)
   },
 
   maps: {
@@ -360,7 +360,7 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
 **Build:** `python scripts/ingest/naming/01-fetch-and-build-index.py` (fetcht von GitHub `lindabeutel/Naming-analysis@master`; `--source-dir` für offline)
 **Konsument:** nur `playground/js/ui/tei/naming-explorer.js` (Erweiterte Figurenbezeichnungen, Beta)
 
-Externer kuratierter Datensatz (nicht korpus-abgeleitet): Eigennamen, Antonomasien und Epitheta je Figur für ENE/IW/ROL/TRO aus Linda Beutel-Thurows Dissertationsprojekt (DOI 10.5281/zenodo.18770138, CC BY-NC-SA 4.0). 10.506 Records.
+Externer kuratierter Datensatz (nicht korpus-abgeleitet): Eigennamen, Antonomasien und Epitheta je Figur für ENE/IW/ROL/TRO aus Linda Beutel-Thurows Dissertationsprojekt (DOI 10.5281/zenodo.18770138, CC BY-NC-SA 4.0). Rund 10.500 Records; die genaue Zahl bewegt sich, weil ein woechentlicher Cron den Index gegen Lindas Repo neu baut (PR-Serie `chore/naming-index-update`). Aktueller Stand: `python scripts/audit/check-naming-index.py`.
 
 **Deterministischer Build:** `generatedAt` = Committer-Datum des Quell-Commits (nicht Build-Zeit), gzip ohne mtime – gleicher Quellstand erzeugt byte-identischen Output. Darauf baut der **Auto-Update-Workflow** `.github/workflows/naming-index-update.yml`: wöchentlicher Cron (Mo 05:17 UTC), Rebuild, bei `git diff` ein PR mit Build-Log und Quell-Compare-Link. Merge nur nach Sichtprüfung (Gate gegen Format-Drift in den extern kuratierten Quell-JSONs). In CI läuft der Build mit `--require-commit` (#152): ist der Quell-Commit nicht auflösbar, failt der Build hart, statt `generatedAt` still auf Build-Zeit kippen zu lassen (nicht-deterministisch + Provenienz-Verlust).
 
@@ -535,7 +535,7 @@ Search resolves user input to lemma IDs through 3 stages with early return:
 |-------|--------|--------|-------------|
 | 1 | Exact match on normalized canonical form | 0..N (homographs) | O(n) scan |
 | 2 | Variants dictionary lookup (~257k mappings) | Exactly 1 | O(1) hash |
-| 3 | Bidirectional substring fallback | 0..N (fuzzy) | O(n) scan |
+| 3 | Bidirectional PREFIX fallback, sorted by length distance (#224) | 0..N (fuzzy) | O(n) scan |
 
 Stages are mutually exclusive – first match wins. **Full pseudocode with worked example:** see [CONTRACTS.md](CONTRACTS.md#c-3-stage-lemma-resolution-algorithm)
 
@@ -691,7 +691,8 @@ Pro Quelle vorab zu klären (Beispiel-Antworten für ARI in `scripts/ingest/ari/
 | Kolumnentitel/Running Headers (`<fw>`), `<surplus>` | Annotation strippen – nicht lexikalisch |
 | Kapitel-Apparat (z.B. CAPITULUM + Zahl) | `<head type="chapter" n="{arabisch}">` als erstes Kind des `<div type="chapter">`; `<milestone unit="chapter" n="N"/>` an der originalen Textfluss-Position (TEI P5 erlaubt kein `<head>` in `<l>`) |
 | Schreiberzeichen, Sektions-Initialen | `<w>` → `<pc join="left">` |
-| Römische Zahlen im Text | `<w>` behalten, `lemma_13826` (DIG) |
+| Römische Zahlen im Textfluss | `<w>` behalten, `lemma_13826` (DIG) |
+| Römische Zahlen als Randzählung (Strophen-, Kapitel-, Versnummern) | Annotation strippen, Token entfernen; die Zählung gehört in `lg/@n` bzw. `@n` des zugehörigen Elements. Erkennbar am xml:id-Block: die Randziffer sitzt im Legacy-Linecode in einer eigenen Untereinheit (`SIG_30040_9` = Vers, `SIG_30041_0` = Ziffer), ein Wort des Textes immer im Block des Verses. `@pos="DIG"` ist als Kriterium untauglich, in HUG trugen 108 der 814 Randziffern gar keine Annotation (#138) |
 | Fremdsprachige Einsprengsel (Latein, Alttschechisch …) | `<w>` behalten; existierendes Lemma zuordnen oder neues sprach-spezifisches Lemma anlegen (z.B. `lemma_78628` für alttschechische Glossen) |
 | `<div>`-Hygiene | jedes `<div>` mit `@type` aus dem Schema-Enum (`book`, `chapter`, `paratext`, `prologus`, `section`, …) |
 
@@ -712,7 +713,7 @@ für jedes <w> im Text (Textinhalt = Matching-Form):
     |kandidaten| >  1 → ambiguous  → Report
 ```
 
-**Kritisch:** Die MHG-Normalisierung (`â→a, ê→e, î→i, ô→o, û→u, ä→ae, ö→oe, ü→ue`) muss auf **beide Seiten** angewendet werden – `variants.xml` ist nicht pre-normalisiert. Python-Seite: `scripts/mhg_normalizer.py`, paritätsgetestet gegen `assets/js/lib/text-normalizer.js` (`testing/tests/normalization-parity.spec.js`).
+**Kritisch:** Die MHG-Normalisierung (`â→a, ê→e, î→i, ô→o, û→u, ä→ae, ö→oe, ü→ue, ŏ→oe, ŭ→ue`) muss auf **beide Seiten** angewendet werden – `variants.xml` ist nicht pre-normalisiert. Python-Seite: `scripts/mhg_normalizer.py`, paritätsgetestet gegen `assets/js/lib/text-normalizer.js` (`testing/tests/normalization-parity.spec.js`).
 
 **1b Disambiguierung:** Pending-TSV (`xml_id`, `form`, `context` ±5 Wörter, `match_type`, `candidate_lemmas`, `count`, `resolved_lemma`, `confidence`, `reviewer`), frequenzgestaffelte Tiers: hochfrequente ambige Formen bulk auflösen (+ Patch-Datei für Minderheits-Lesarten), mittelfrequente instanzweise mit Mensch-Stichprobe, Hapaxe und Long-Tail-Unmatched bewusst deferren (akzeptierte Coverage-Lücke). Unmatchte echte Wörter gegen BMZ/Lexer prüfen ([Wörterbuchnetz-API](https://api.woerterbuchnetz.de)); nicht Auflösbares als frequenzsortierte Editorial-Liste (`wzb-extract-unmatched.py`) an das Lexikon-Team – **neue Lemmata entstehen nur durch Editorial-Entscheidung**, dann Re-Run (closed loop).
 

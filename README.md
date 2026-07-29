@@ -170,7 +170,7 @@ Das Repository enthält vorgebaute, komprimierte Indizes für schnelles Laden:
 
 Alle Such-Funktionen nutzen eine zentrale MHG-Zeichen-Normalisierung:
 - Lange Vokale: `â→a, ê→e, î→i, ô→o, û→u`
-- Umlaute: `ä→ae, ö→oe, ü→ue`
+- Umlaute: `ä→ae, ö→oe, ü→ue`, Breve-Varianten `ŏ→oe, ŭ→ue`
 - Parität zwischen Python (Build) und JavaScript (Runtime)
 - Umfassende automatisierte Test-Abdeckung
 

@@ -48,9 +48,9 @@ Advanced exploration tools for medievalists and digital humanities researchers:
   - Document-level search (all lemmata anywhere in text)
   - Proximity search (co-occurrence within N words)
   - Same-verse search (co-occurrence within a single verse line, #106)
-  - 3-stage lemma resolution (exact match → variants → partial match)
+  - 3-stage lemma resolution (exact match → variants → prefix match in both directions, #224)
   - Color-coded results with clickable navigation to reading view
-- **Authority Exploration** - Browse and search persons, works, lemmata, concepts, genres, names
+- **Authority Exploration** - Browse and search persons, works, lemmata, concepts, genres, names; the Lemmata explorer additionally offers a word-component mode for compound research, grouped by position of the component (#239)
 - **TEI Analysis** - Twelve analysis tools over the pre-loaded MHDBDB corpus: multi-lemma search (document + proximity + same-verse), verse-position lemma search, word frequency, corpus-wide hapax legomena, text statistics, lemma distribution, concept distribution, text comparison, co-occurrence ranking, rhyme dictionary, verse-ending profile, curated character-naming explorer (4 works, Beta)
 
 ## Technical Stack
@@ -119,7 +119,7 @@ Post-MVP und **aktiver Betrieb**. Drei Aspekte, die jede Session kennen sollte:
 - **Heute:** aktives Projekt mit laufendem Daten-Ingest (WZB/Wenzelsbibel, ARITHMETIC #92, weitere geplant) UND laufenden händischen Korpus-Korrekturen, nicht eingefroren.
 - **Konsequenz:** Jede Änderung in `tei/` oder `authority-files/` muss die abgeleitete Schicht mitziehen (Indexe, korpus-abgeleitete `variants.xml`); dabei **führt der Korpus**, `lexicon.xml` ist Index und zieht nach (siehe [CONTRACTS.md → Authority Source Rules](CONTRACTS.md#f-authority-source-rules)), sonst driftet es still. Verbindliche Schrittfolge: [DATA-MODEL.md → Data-Change-Lifecycle](DATA-MODEL.md#data-change-lifecycle).
 
-Aktuelle Index-Versionen siehe [TEI-MODEL.md §11](TEI-MODEL.md#11-versionierung) (Stand 2026-07-12: Corpus Index v4.1.7, Authority Index v1.6.1).
+Aktuelle Index-Versionen siehe [TEI-MODEL.md §11](TEI-MODEL.md#11-versionierung) (Stand 2026-07-28: Corpus Index v4.1.8, Authority Index v1.6.4).
 
 ### Recent Milestones
 - ✅ **Phase 7 Refactoring** - Modular UI architecture
@@ -157,7 +157,7 @@ Aktuelle Index-Versionen siehe [TEI-MODEL.md §11](TEI-MODEL.md#11-versionierung
 - ✅ **#47 R2 Begriffs-Verteilung** (2026-05-12) - Neuer Playground-Eintrag analog Lemma-Verteilung (#90), aber concept-basiert. Datenpfad: concept → senses → lemmata → texts. Verifiziert mit „Sterben" (682 Lemmata, 659 Texte, 103.657 Vorkommen) und englischer Eingabe „love" (Intimität, mit alternativen Candidates)
 - ✅ **#47 Umbrella TEI Textanalyse geschlossen** (2026-05-12) - R1 + R2-Hauptpunkt shipped; Folgepunkte #107 Kookkurrenz-Ranking + #108 Textvergleich (beide inzwischen geshippt, siehe nächster Eintrag), #106 Vers-Boundary-Features (Punkt 1 als Rolling-Backlog) und #109 FWF-Einzelprojekt für NER und tiefere Analysen ausgelagert
 - ✅ **#107 Kookkurrenz-Ranking + #108 Textvergleich** (2026-05-15) - Zwei neue Playground-TEI-Analyse-Modi: häufigste Nachbar-Lemmata pro Lemma (`cooccurrence-ranking.js`) bzw. gemeinsame/exklusive Lemmata zweier Texte (`text-comparison.js`); damit 8 TEI-Analyse-Werkzeuge im Playground
-- ✅ **#59 Erweiterte Figurenbezeichnungen (Beta)** (2026-06-11) - Neuntes TEI-Analyse-Werkzeug: kuratierte Eigennamen, Antonomasien und Epitheta je Figur aus Linda Beutel-Thurows Naming-analysis (ENE/IW/ROL/TRO, 10.506 Belegstellen); eigener vorgebauter Index `data/naming-index.json.gz` (110 KB) via `scripts/ingest/naming/01-fetch-and-build-index.py`; sichtbare Attribution mit DOI, Chrome-verifiziert
+- ✅ **#59 Erweiterte Figurenbezeichnungen (Beta)** (2026-06-11) - Neuntes TEI-Analyse-Werkzeug: kuratierte Eigennamen, Antonomasien und Epitheta je Figur aus Linda Beutel-Thurows Naming-analysis (ENE/IW/ROL/TRO, rund 10.500 Belegstellen); eigener vorgebauter Index `data/naming-index.json.gz` (110 KB) via `scripts/ingest/naming/01-fetch-and-build-index.py`; sichtbare Attribution mit DOI, Chrome-verifiziert
 - ✅ **#125 Deterministische Index-Builds + CI-Freshness-Gate** (2026-06-12) - Identischer Quellstand erzeugt byte-identische Indexe (kein `generatedAt`, sortiertes glob, gzip `mtime=0`); CI-Workflow `data-integrity.yml` (konsolidiert die früheren `schema-validation.yml` + `index-version-check.yml`) rebuildet variants.xml + beide Indexe bei jedem Daten-PR und blockt vergessene Rebuilds; Dependency-Pins in `requirements.txt`; Corpus v4.1.4, Authority v1.4.1
 - ✅ **#45 Statische JSON-API** (2026-06-12) - FAIR-orientierte JSON-API unter `/api/` (2.742 Dateien, ~14 MB): Root-Manifest, Lemmata-Bundle (43.754 volle Records), Einzelressourcen für Persons/Works/Concepts/Genres/Names/Texte; deterministischer Build (`scripts/build-api.py`) + CI-Freshness-Gate; Doku-Seite `api/index.html`
 - ✅ **#106 Reim-Wörterbuch (Minimalvariante)** (2026-07-02) - Zehntes TEI-Analyse-Werkzeug: Reimpartner-Lemmata an benachbarten Versenden (`lineEnds[]`-Scan, Suffix-Heuristik auf normalisierten Lemma-Formen, Paarreim-Annahme), optionaler Text/Autor-Filter, „→ Belege"-Link in die Multi-Lemma-Nähe-Suche; kein neuer Build-Schritt. Großplan (Original-Token, Phonetik) bleibt für #109 aufgehoben

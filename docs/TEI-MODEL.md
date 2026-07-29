@@ -4,7 +4,6 @@ Defines the normative TEI encoding for all texts in the MHDBDB corpus. New texts
 
 > **Zielgruppe:** Diese Datei ist eine technische Referenz-Spezifikation, primär für Entwicklung und automatisierte Werkzeuge gedacht (präzise, maschinenorientiert). Eine allgemeinverständliche Einführung bieten die Hilfe-Seiten der Website, etwa [Daten & Downloads](https://dhcraft.org/mhdbdb-tei-only/hilfe-daten.html) und [Eigene Texte beitragen](https://dhcraft.org/mhdbdb-tei-only/hilfe-daten-beitragen.html).
 
-**Status:** DRAFT – pending review by Katharina Zeppezauer-Wachauer
 **Issue:** #32 (TEI schema)
 **Schema:** `schema/mhdbdb.rnc` (RELAX NG Compact, Source of Truth) + `schema/mhdbdb.rng` (generiert via `trang`)
 **Validiert gegen:** TEI P5 Version 4.11.0 (`tei_all.rng`, 18. Feb 2026)
@@ -861,7 +860,7 @@ Frühere Fehler (alle behoben durch Migration):
 | Datei | Einträge | Validierung |
 |-------|----------|-------------|
 | lexicon.xml | 43,879 Lemmata (+4 WZB 2026-05-08, +125 #115-Stubs 2026-07-02) | tei_all ✓ · mhdbdb-authority ✓ |
-| variants.xml | 42,627 Einträge (256,761 Formen) | tei_all ✓ · mhdbdb-authority ✓ |
+| variants.xml | 42,627 Einträge (256,760 Formen) | tei_all ✓ · mhdbdb-authority ✓ |
 | persons.xml | 211 Personen | tei_all ✓ · mhdbdb-authority ✓ |
 | works.xml | 584 Werke (+1 work_WZB) | tei_all ✓ · mhdbdb-authority ✓ |
 | concepts.xml | 567 Kategorien | tei_all ✓ · mhdbdb-authority ✓ |
@@ -905,8 +904,8 @@ Konsolidierte Liste aller bewusst nicht-normalisierten Daten-Inseln und bekannte
 | Dieses Dokument | 1.0.0 | 2026-04-10 |
 | RELAX NG Schema (`schema/mhdbdb.rnc`) | 1.0.0 | 2026-04-09 |
 | POS-Tagset | 1.0 (19 Tags) | 2026-03 |
-| Corpus Index | 4.1.7 | 2026-07-12 |
-| Authority Index | 1.6.1 | 2026-07-12 |
+| Corpus Index | 4.1.8 | 2026-07-28 |
+| Authority Index | 1.6.4 | 2026-07-28 |
 | Authority Schema (`schema/mhdbdb-authority.rnc`) | 1.0.0 | 2026-04-10 |
 
 ---

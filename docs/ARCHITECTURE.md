@@ -175,7 +175,7 @@ The reading view converts TEI XML elements to HTML. Source: `extractAndFormatBod
 - 3-stage lemma resolution:
   1. Exact match in lexicon (canonical forms)
   2. Variants dictionary lookup (~257k mappings)
-  3. Partial match fallback (fuzzy search)
+  3. Prefix-match fallback, both directions, shared with the main site via `assets/js/lib/lemma-resolve.js` (#224; before that an unbounded substring test, one-directional here and bidirectional on the main site)
 - Direct array access (no XML DOM queries)
 - Performance maps for fast lookups
 
@@ -485,8 +485,8 @@ npm run test:headed   # Visible browser
 ### 3-Stage Lemma Resolution
 
 **Problem:** Historical spelling variations prevent exact matches
-**Solution:** Three-stage lookup (exact → variants → fuzzy)
-**Result:** 100% recall for orthographic variants
+**Solution:** Three-stage lookup (exact → variants → prefix match in both directions)
+**Result:** Attested orthographic variants resolve via stage 2; stage 3 catches stems and inflected forms without drowning them in short-lemma noise (#224)
 
 ### IndexedDB Dual Expiration
 

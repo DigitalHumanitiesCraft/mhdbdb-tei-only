@@ -6,9 +6,9 @@ Build Corpus Index
 Generates pre-built corpus index from tei/ directory (667 TEI files).
 Output: data/corpus-index.json.gz (~3-5 MB compressed)
 
-Index structure (v4.1.7 - DOCUMENT-LEVEL + LINE BOUNDARIES):
+Index structure (v4.1.8 - DOCUMENT-LEVEL + LINE BOUNDARIES):
 {
-  "version": "4.1.7",
+  "version": "4.1.8",
   "totalTexts": 667,
   "totalLemmata": 45000,
   "texts": [
@@ -303,7 +303,7 @@ def build_corpus_index():
 
     # Build final index
     index = {
-        'version': '4.1.7',  # 4.1.5: #143 APO/HMT/HH Prosa-Konversion l→lb (lineStarts/lineEnds entfallen für die drei Texte). 4.1.6: #198 habe/hab-Disambiguierung (25 Tokens zu lemma_2593, 179 NOM-Strips). 4.1.7: #189 GWTK-Pilot — 257 nackte rot/jung-Tokens neu annotiert (rôt/rote/junc, Goldstandard-validiert).
+        'version': '4.1.8',  # 4.1.5: #143 APO/HMT/HH Prosa-Konversion l→lb (lineStarts/lineEnds entfallen für die drei Texte). 4.1.6: #198 habe/hab-Disambiguierung (25 Tokens zu lemma_2593, 179 NOM-Strips). 4.1.7: #189 GWTK-Pilot — 257 nackte rot/jung-Tokens neu annotiert (rôt/rote/junc, Goldstandard-validiert). 4.1.8: #138 814 Strophenziffern aus dem HUG-Verstext entfernt (706 davon pos=DIG, 108 unannotiert; die Strophenzahl steht ab jetzt nur noch in lg/@n).
         'totalTexts': len(texts),
         'totalLemmata': len(lemma_index),
         'texts': texts,

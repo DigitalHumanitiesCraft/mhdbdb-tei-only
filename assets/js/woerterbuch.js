@@ -175,7 +175,7 @@ class WoerterbuchPage {
 
             const pos = document.createElement('span');
             // #187: posAll[] zeigt alle POS-Werte (Fallback: Erstwert aus altem Cache)
-            pos.textContent = (entry.posAll || (entry.pos ? [entry.pos] : [])).join(' ') || '—';
+            pos.textContent = (entry.posAll || (entry.pos ? [entry.pos] : [])).join(' ') || '–';
             pos.className = 'pos-badge bg-brand-100 text-brand-700 flex-shrink-0';
 
             row.appendChild(link);
