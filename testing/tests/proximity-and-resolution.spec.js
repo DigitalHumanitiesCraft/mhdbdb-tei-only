@@ -230,3 +230,51 @@ test.describe('#169 Befund #51: Fast-Path-Wörterbuch ist gestrichen', () => {
         expect(vorhanden).toBe('undefined');
     });
 });
+
+test.describe('Aufräumrunde: doppelte Lemma-IDs degenerieren die Kookkurrenz-Suche', () => {
+    test.beforeEach(async ({ page }) => {
+        await page.goto('http://localhost:8080/playground/');
+        await page.waitForFunction(() => window.playground?.teiManager !== undefined,
+            { timeout: 60000 });
+    });
+
+    test('dieselbe ID zweimal ergibt keine Treffer mit Abstand 0', async ({ page }) => {
+        // Ohne Guard hat findCoveringWindow keine abzudeckende Restliste mehr
+        // und gibt [] zurück. Ein leeres Array ist truthy, also galt JEDE
+        // Fundstelle als Treffer mit Abstand 0. Der synthetische Text trägt
+        // lemma_1 an drei Stellen; ohne Guard wären das drei Treffer.
+        const doppelt = await runProximity(page, { 10: '1', 40: '1', 90: '1' }, ['1', '1'], 10);
+        expect(doppelt).toHaveLength(0);
+
+        // Ein einzelnes Lemma ebenso.
+        const einzeln = await runProximity(page, { 10: '1', 40: '1' }, ['1'], 10);
+        expect(einzeln).toHaveLength(0);
+
+        // Gegenprobe: mit zwei verschiedenen Lemmata sucht sie normal weiter.
+        const echt = await runProximity(page, { 10: '1', 14: '2' }, ['1', '2'], 10);
+        expect(echt).toHaveLength(1);
+        expect(echt[0].distance).toBe(4);
+    });
+
+    test('resolveLemmaIds liefert jede Lemma-ID nur einmal', async ({ page }) => {
+        // Auf die geladenen Authority-Daten warten, nicht nur auf die
+        // UI-Klasse: resolveLemmaIds fragt den Authority-Manager, und solange
+        // dessen Lemmaliste leer ist, liefert es kommentarlos [] statt zu
+        // scheitern. Ohne diese Bedingung ist der Test ein Münzwurf.
+        await page.waitForFunction(
+            () => window.playground?.ui?.multiLemmaSearch !== undefined &&
+                  window.playground?.authorityData?.lemmata?.length > 0,
+            { timeout: 60000 }
+        );
+
+        // „wîn" trifft Stufe 1 (eigenes Lemma), „wein" Stufe 2 (belegte
+        // Variante). Beide landen auf lemma_7532, ohne Dedup stand die ID
+        // zweimal in der Liste und die Nähesuche lief in die Degeneration.
+        const ids = await page.evaluate(() => {
+            const explorer = window.playground.ui.multiLemmaSearch.teiExplorer;
+            return explorer.resolveLemmaIds(['wîn', 'wein']);
+        });
+
+        expect(ids).toEqual(['7532']);
+    });
+});

@@ -653,6 +653,12 @@ export class TEIFilesManager {
      * Reader-Deep-Links funktionieren dadurch unverändert.
      */
     searchVerseUsingEnhancedIndex(lemmaIds, corpusData) {
+        // Dieselbe Degeneration wie im Nähe-Pfad, andere Ursache: die
+        // Vergleichsschleife startet bei i = 1 und läuft mit einem Lemma
+        // gar nicht, allInVerse bliebe true und jeder Vers mit dem Lemma
+        // wäre ein Treffer.
+        if (new Set(lemmaIds.map(String)).size < 2) return [];
+
         const results = [];
         const includedTexts = corpusData.includedTexts || new Set();
 
@@ -676,7 +682,13 @@ export class TEIFilesManager {
 
             // Alle Positionen je Lemma aus der Reverse-Map lemmata{} —
             // multi-ref-bewusst per CONTRACTS §B.1 (words[] hält nur die
-            // erste @lemmaRef-ID pro <w>), wie searchProximityUsingEnhancedIndex.
+            // erste @lemmaRef-ID pro <w>).
+            //
+            // Kein Vergleich mit dem Nähe-Pfad: searchProximityUsingEnhancedIndex
+            // scannt weiterhin words[] und ist damit die bekannte Abweichung
+            // von der Consumer-Rule, nicht das Vorbild. Folgenlos ist das nur,
+            // solange kein <w> mehrere Referenzen trägt; gemessen am Korpus
+            // sind das derzeit 0 von 7.532.998 @lemmaRef-Werten.
             const lemmaPositions = {};
             lemmaIds.forEach(lemmaId => {
                 const lemmaKey = lemmaId.toString().startsWith('lemma_') ? lemmaId : `lemma_${lemmaId}`;
@@ -824,7 +836,6 @@ export class TEIFilesManager {
 
     // v4.0.0: Paragraph search removed (document-level indexing only)
 
-
     /**
      * Index der ersten Position >= value in einer aufsteigend sortierten Liste
      * (untere Schranke), sonst list.length.
@@ -914,6 +925,13 @@ export class TEIFilesManager {
      * Finds lemmas within maxDistance words of each other
      */
     async searchProximityUsingEnhancedIndex(lemmaIds, maxDistance, corpusData) {
+        // Weniger als zwei VERSCHIEDENE Lemmata lassen die Fenstersuche
+        // degenerieren: ohne abzudeckende Restliste liefert findCoveringWindow
+        // ein leeres Array, das ist truthy, und jede Fundstelle käme als
+        // Treffer mit Abstand 0 zurück. Die Oberfläche fängt den Fall schon ab
+        // und erklärt ihn; dieser Guard steht für den nächsten Aufrufer.
+        if (new Set(lemmaIds.map(String)).size < 2) return [];
+
         const results = [];
         const includedTexts = corpusData.includedTexts || new Set();
 

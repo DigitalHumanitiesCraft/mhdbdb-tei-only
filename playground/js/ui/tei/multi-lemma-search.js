@@ -250,9 +250,20 @@ export class MultiLemmaSearchUI {
             // Treffer mit Abstand 0 gemeldet. Lieber sagen, was los ist.
             if ((searchMode === 'proximity' || searchMode === 'verse') && lemmaIds.length < 2) {
                 if (resultsContainer) {
-                    const grund = searchTerms.length > 1
-                        ? `Ihre Eingaben (${searchTerms.map(t => this.escapeHtml(t)).join(', ')}) führen auf dasselbe Lemma.`
-                        : 'Es ist nur ein Lemma angegeben.';
+                    // Zwei sehr verschiedene Ursachen führen hierher, und die
+                    // falsche Diagnose schickt jemanden auf die Suche nach
+                    // einer Homonymie, die es nicht gibt: „minne" + „qqqq"
+                    // ergibt ebenfalls eine ID, weil der zweite Begriff
+                    // überhaupt nicht auflöst. Deshalb je Begriff einzeln
+                    // nachfragen; das kostet nur in diesem Fehlerfall etwas.
+                    const ohneTreffer = searchTerms.filter(
+                        t => this.teiExplorer.resolveLemmaIds([t]).length === 0
+                    );
+                    const grund = ohneTreffer.length > 0
+                        ? `Kein Lemma gefunden für: ${ohneTreffer.map(t => this.escapeHtml(t)).join(', ')}.`
+                        : searchTerms.length > 1
+                            ? `Ihre Eingaben (${searchTerms.map(t => this.escapeHtml(t)).join(', ')}) führen auf dasselbe Lemma.`
+                            : 'Es ist nur ein Lemma angegeben.';
                     resultsContainer.innerHTML = `
                         <div class="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
                             Diese Suche vergleicht die Fundstellen zweier Lemmata und braucht deshalb zwei verschiedene. ${grund}

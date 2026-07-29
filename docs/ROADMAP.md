@@ -23,7 +23,9 @@ Weiterhin direkt startbar: **#216 minne-Serie** (~7.000 unannotierte Tokens in 2
 
 **Neu belegt, für #109 und die Datenpflege gleichermaßen interessant:** 27.166 der 43.879 Lemmata (61,9 Prozent) führen im Lexikon ihre morphologischen Bestandteile mit (`<etym type="morphological">`), und diese Angaben liegen bereits im ausgelieferten Authority-Index. Die Wortbestandteil-Suche nutzt sie jetzt als Filter. Damit ist die verbreitete Annahme widerlegt, Komposita-Zerlegung im Frontend bräuchte zwingend Stemming; für die verbleibenden 38 Prozent ohne verzeichnete Wortbildung gilt sie weiter.
 
-**Klein und autonom machbar, neu aus dieser Session:** eine Aufräumrunde im Playground. `findProximityMatchesInIndex` ignoriert ab dem dritten Lemma alles und ist über `searchProximityUsingIndex` erreichbar, das nirgends aufgerufen wird; `executeProximitySearch` in `tei-ui.js` öffnet ein blockierendes `prompt()` und ist ebenfalls tot; `resolveLemmaIds` dedupliziert nicht, zwei Eingaben auf dieselbe ID ergeben Treffer mit Distanz 0.
+**Erledigt am 29.07.:** die Playground-Aufräumrunde. Fünf Funktionen ohne Aufrufer entfernt (darunter zwei, die zusätzlich Kontextfenster mit Index-Positionen in die ungefilterte `<w>`-Liste schnitten), `resolveLemmaIds` dedupliziert, und beide Kookkurrenz-Modi verweigern jetzt die Arbeit statt bei einem einzigen Lemma jede Fundstelle als Treffer mit Abstand 0 zu melden. Die abweichende Zählweise des Upload-Fallbacks steht mit Messwerten in CONTRACTS §B.
+
+**Offen aus derselben Ecke:** #251, die Auswahl im Wortbestandteil-Modus wird aus dem DOM abgeleitet statt eigenständig geführt.
 
 ## Laufend: Nach-Merge-Betreuung + freigeschaltete Workstreams
 
