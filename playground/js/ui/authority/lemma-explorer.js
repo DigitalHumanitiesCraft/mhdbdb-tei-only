@@ -476,6 +476,21 @@ export class LemmaExplorer {
     } else {
       this.componentPicked.delete(wert);
     }
+
+    // Homographen gleichschreibend zusammenhalten. 102 der 43.765 Schreibformen
+    // gehören mehr als einem Lemma (`sal`, `wal`, `sin` je vier), und das Modell
+    // hält Formen, nicht IDs, weil die Multi-Lemma-Route Formen erwartet. Zwei
+    // Checkboxen können deshalb denselben `value` tragen. Ohne diesen Abgleich
+    // liefe die Anzeige auseinander: das Abwählen der einen leert das Modell,
+    // während die andere bis zum nächsten Render angehakt bliebe, und die
+    // Übergabe verlangte ein Häkchen, das sichtbar gesetzt ist. Der Vergleich
+    // läuft über `box.value` statt über einen Attribut-Selektor, weil Formen wie
+    // `z'âsen` und `m'amie` im Lexikon stehen.
+    const gesetzt = this.componentPicked.has(wert);
+    document.querySelectorAll(".component-pick").forEach((box) => {
+      if (box.value === wert) box.checked = gesetzt;
+    });
+
     this.updateComponentPickCount();
   }
 

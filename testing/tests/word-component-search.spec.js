@@ -385,3 +385,34 @@ test.describe('#239: Modus-Umschaltung und Regression der normalen Lemmasuche', 
         expect(modus).toBe('lemma');
     });
 });
+
+test.describe('#251: Homographen mit gleicher Schreibform', () => {
+    // Das Modell hält Schreibformen, nicht IDs, weil die Multi-Lemma-Route
+    // Formen erwartet und sie in der Ergebnisanzeige auch so beschriftet.
+    // 102 der 43.765 Schreibformen gehören mehr als einem Lemma; „sal" ist mit
+    // vier der größte Fall. Vier Checkboxen tragen damit denselben `value` und
+    // sind zwangsläufig eine einzige Auswahl. Der Test hält fest, dass die
+    // Anzeige das auch zeigt, statt auseinanderzulaufen.
+    test('vier gleichschreibende Checkboxen wirken als eine Auswahl', async ({ page }) => {
+        await page.goto(`${KOMPONENTEN_ROUTE}&q=sal`);
+        await playgroundBereit(page);
+        await page.waitForSelector('.component-pick');
+
+        const salBoxen = page.locator('.component-pick[value="sal"]');
+        await expect(salBoxen).toHaveCount(4);
+
+        await salBoxen.nth(0).check();
+        for (let i = 0; i < 4; i++) {
+            await expect(salBoxen.nth(i)).toBeChecked();
+        }
+        // Eine Auswahl, nicht vier: die vier Lemmata teilen dieselbe Form.
+        await expect(page.locator('#componentPickCount')).toHaveText('1 ausgewählt');
+
+        // Abwählen über eine ANDERE Checkbox derselben Form nimmt alle mit.
+        await salBoxen.nth(2).uncheck();
+        for (let i = 0; i < 4; i++) {
+            await expect(salBoxen.nth(i)).not.toBeChecked();
+        }
+        await expect(page.locator('#componentPickCount')).toHaveText('');
+    });
+});
