@@ -961,7 +961,8 @@ export class LemmaExplorer {
     if (lemma.origin && lemma.origin.languages && lemma.origin.languages.length > 0) {
       // Sprachcode mitanzeigen wie auf der Lemma-Seite: „dasselbe sagen" heißt
       // auch, nichts stillschweigend weglassen. Farbe ist #667eea wie die
-      // Bedeutungs-Überschrift unten, kein neuer Ton außerhalb von DESIGN.md.
+      // Bedeutungs-Überschrift unten, also ein im Playground eingeführtes
+      // Literal (DESIGN.md dokumentiert die Playground-Farben nicht).
       const langText = lemma.origin.languages
         .map((l) =>
           l.code

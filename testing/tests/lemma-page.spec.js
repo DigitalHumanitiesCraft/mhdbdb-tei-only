@@ -233,10 +233,15 @@ test.describe('Persistent Lemma Pages', () => {
         await page.waitForSelector('#originSection:not(.hidden)', { timeout: 5000 });
         const origin = await page.textContent('#originContent');
         expect(origin).toContain('Aramäisch');
-        expect(origin).toContain('arc');
         expect(origin).toContain('Lateinisch');
-        expect(origin).toContain('la');
         expect(origin).toContain('Bibel');
+
+        // Die Codes gezielt gegen die gerenderten Spans, nicht gegen den
+        // Gesamttext: „Lateinisch" und „lateinische Bibel" enthalten den String
+        // „la" auch dann, wenn der Code überhaupt nicht angezeigt würde.
+        const codes = (await page.locator('#originContent .font-mono').allTextContents())
+            .map(c => c.trim());
+        expect(codes).toEqual(['arc', 'la']);
 
         // Definition und Kommentar stehen im Bedeutungs-Block, vor den
         // Begriffs-Chips; der Kommentar trägt ein sichtbares Label.

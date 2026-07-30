@@ -123,7 +123,7 @@ def parse_lexicon():
         if borrow_el:
             languages = []
             for lang_el in borrow_el[0].xpath('./tei:lang', namespaces=ns):
-                name = (lang_el.text or '').strip()
+                name = _all_text(lang_el)
                 if not name:
                     continue
                 lang_data = {'name': name}
