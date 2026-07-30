@@ -2,6 +2,10 @@
 
     python scripts/ingest/legacy-sources/03-build-sources.py <ARCHIV> <SCAN-CSV> <REPO>
 
+<ARCHIV> ist `MHDBDB_Inhaltliches/Texte/` im Sharefolder-Backup, **nicht** der Unterordner
+`ERLEDIGT/`. Das war anfangs anders und war falsch: vier codierte Dateien liegen in
+`Neue Texte Klaus/`, also ausserhalb von ERLEDIGT. Wer die Wurzel enger setzt, uebersieht sie.
+
 <SCAN-CSV> ist die Ausgabe von 01-scan-linecode.py. Der Lauf ist idempotent: gleicher Archivstand
 erzeugt identische Dateien, ueberzaehlige Dateien aus einem frueheren Lauf werden entfernt.
 
@@ -20,24 +24,40 @@ from pathlib import Path
 
 # Codierte Datei, die kein Plaintext ist und deshalb nicht von 01-scan-linecode.py kommt.
 # RTF ist ein Textformat, das Git behandeln kann; die Word-Binaerformate bleiben draussen,
-# siehe sources/INVENTAR-ERLEDIGT.md.
-EXTRA = ["Frauenlob_Bd2-codiert.rtf"]
+# siehe sources/INVENTAR-ARCHIV.md.
+EXTRA = ["ERLEDIGT/Frauenlob_Bd2-codiert.rtf"]
+
+# Werkzeuge der Legacy-Pipeline: kein Text, sondern das Mittel, mit dem die Linecodes entstanden
+# sind. Landen ausserhalb von linecode/ und nicht im Manifest, weil sie keine Textquelle sind.
+TOOLING = {
+    "linecode Generator.dot": "legacy-tooling/linecode-generator.dot",
+}
 
 # Dublettengruppen: `CvK_KLD_codiert/<SIG>.txt` ist der sauberere Name gegenueber
 # `Alte Texte/Carl von Kraus/<SIG> (1).txt` und gewinnt.
-PREFER = "CvK_KLD_codiert/"
+PREFER = "ERLEDIGT/CvK_KLD_codiert/"
 
 # Byte-identische Arbeitskopien, die schon an anderer Stelle im Repo liegen. Werden bei jedem
 # Lauf geprueft, damit die beiden Staende nicht auseinanderlaufen.
 WORKING_COPIES = {
-    "FR2.txt": "scripts/ingest/frauenlob/source/FR2-linecode.txt",
-    "FR3.txt": "scripts/ingest/frauenlob/source/FR3-linecode.txt",
-    "WaltherHaupttext.txt": "ingest/wvv/WaltherHaupttext.txt",
-    "WaltherHaupttext1.txt": "ingest/wvv/WaltherHaupttext1.txt",
-    "WaltherHaupttext2.txt": "ingest/wvv/WaltherHaupttext2.txt",
-    "WaltherHaupttext3.txt": "ingest/wvv/WaltherHaupttext3.txt",
-    "WaltherHaupttext_cn.txt": "ingest/wvv/WaltherHaupttext_cn.txt",
-    "WaltherLeich.txt": "ingest/wvv/WaltherLeich.txt",
+    "ERLEDIGT/FR2.txt": "scripts/ingest/frauenlob/source/FR2-linecode.txt",
+    "ERLEDIGT/FR3.txt": "scripts/ingest/frauenlob/source/FR3-linecode.txt",
+    "ERLEDIGT/WaltherHaupttext.txt": "ingest/wvv/WaltherHaupttext.txt",
+    "ERLEDIGT/WaltherHaupttext1.txt": "ingest/wvv/WaltherHaupttext1.txt",
+    "ERLEDIGT/WaltherHaupttext2.txt": "ingest/wvv/WaltherHaupttext2.txt",
+    "ERLEDIGT/WaltherHaupttext3.txt": "ingest/wvv/WaltherHaupttext3.txt",
+    "ERLEDIGT/WaltherHaupttext_cn.txt": "ingest/wvv/WaltherHaupttext_cn.txt",
+    "ERLEDIGT/WaltherLeich.txt": "ingest/wvv/WaltherLeich.txt",
+}
+
+# Zuordnung der vier codierten Dateien ausserhalb von ERLEDIGT zu ihrem Korpustext. Ermittelt
+# ueber den xml:id-Join (Linecode ohne fuehrende Nullen), nicht ueber den Dateinamen, weil die
+# Namen dort nicht den Sigeln folgen. Treffer in Klammern.
+SIGLE_OVERRIDE = {
+    "Neue Texte Klaus/GTK2.txt": "GWTK",     # 400/400 Stems
+    "Neue Texte Klaus/EFB.txt": "CEFB",      # 399/400
+    "Neue Texte Klaus/CLV.txt": "CLV",       # 400/400
+    "Neue Texte Klaus/Normal.txt": "VTC",    # Namenregister, 14/14 Sonden im Volltext
 }
 
 
@@ -108,9 +128,10 @@ def main(archive, scan_csv, repo):
         m = meta.get(rel, {})
         stem = re.sub(r"\.(txt|bak)$", "", Path(rel).name, flags=re.I)
         cand = re.sub(r"\s*\(\d+\)\s*$", "", re.sub(r"\.txt$", "", stem, flags=re.I)).upper()
+        sigle = SIGLE_OVERRIDE.get(rel) or (cand if cand in sigles else "")
         manifest.append({
             "datei": str(d).replace("\\", "/"),
-            "sigle": cand if cand in sigles else "",
+            "sigle": sigle,
             "quelle": rel,
             "bytes": (archive / rel).stat().st_size,
             "zeilen": m.get("lines", ""),
@@ -126,6 +147,13 @@ def main(archive, scan_csv, repo):
     stale = [p for p in dest.rglob("*") if p.is_file() and p not in wanted]
     for p in stale:
         p.unlink()
+
+    for rel, target in TOOLING.items():
+        out = repo / "sources" / target
+        out.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(archive / rel, out)
+        sha = hashlib.sha256(out.read_bytes()).hexdigest()
+        print(f"Werkzeug: {target}  sha256 {sha[:16]}  ({(archive / rel).stat().st_size // 1024} KB)")
 
     with (repo / "sources" / "linecode-manifest.csv").open("w", encoding="utf-8", newline="\n") as fh:
         w = csv.DictWriter(fh, fieldnames=list(manifest[0].keys()))

@@ -10,14 +10,15 @@ Inventar des Quellarchivs.
 
 ## Voraussetzung
 
-`$ARCHIV` ist der lokale Pfad zu `MHDBDB_Inhaltliches/Texte/ERLEDIGT/` im
-MHDBDB-Sharefolder-Backup (OneDrive von KZW). Nur Python-Standardbibliothek, kein `lxml`, damit
+`$ARCHIV` ist der lokale Pfad zu `MHDBDB_Inhaltliches/Texte/` im MHDBDB-Sharefolder-Backup
+(OneDrive von KZW), **nicht** der Unterordner `ERLEDIGT/`: vier codierte Dateien liegen in
+`Neue Texte Klaus/`, wer die Wurzel enger setzt, übersieht sie. Nur Python-Standardbibliothek, kein `lxml`, damit
 auch das Default-Python ohne Zusatzpakete reicht.
 
 ## Ablauf
 
 ```bash
-ARCHIV="/pfad/zu/MHDBDB_Inhaltliches/Texte/ERLEDIGT"
+ARCHIV="/pfad/zu/MHDBDB_Inhaltliches/Texte"
 SCAN=/tmp/linecode-scan.csv
 
 python scripts/ingest/legacy-sources/01-scan-linecode.py "$ARCHIV" "$SCAN"
@@ -30,9 +31,9 @@ python scripts/ingest/legacy-sources/04-inventory.py     "$ARCHIV" .
 | `01-scan-linecode.py` | Findet die Plaintext-Dateien mit Legacy-Linecode. Schreibt eine Zwischen-CSV, kein Repo-Schreibzugriff |
 | `02-scan-binaries.py` | Diagnose: welche Word-/RTF-Dateien tragen Linecodes? Beantwortet, für welche Sigeln nur eine binäre codierte Fassung existiert. Reine stdout-Ausgabe |
 | `03-build-sources.py` | Kopiert die codierten Dateien nach `sources/linecode/` und schreibt `sources/linecode-manifest.csv` |
-| `04-inventory.py` | Schreibt `sources/erledigt-inventar.csv` und gibt die Tabellen für `sources/INVENTAR-ERLEDIGT.md` aus |
+| `04-inventory.py` | Schreibt `sources/archiv-inventar.csv` und gibt die Tabellen für `sources/INVENTAR-ARCHIV.md` aus |
 
-Schritt 01 dauert einige Minuten, weil OneDrive die Dateien beim ersten Zugriff einzeln
+Die Archivwurzel ist `Texte/`, nicht `Texte/ERLEDIGT/`. Schritt 01 dauert einige Minuten, weil OneDrive die Dateien beim ersten Zugriff einzeln
 herunterlädt.
 
 ## Wozu 02 gebraucht wird
@@ -40,7 +41,7 @@ herunterlädt.
 `02-scan-binaries.py` läuft nur bei Bedarf und schreibt nichts. Es unterscheidet echte codierte
 Dateien von solchen, die nur Seitenzahlen enthalten, über die Trefferdichte: Grundrauschen liegt um
 0,5 Treffer je KB, echte codierte Dateien bei 4 bis 13. Ergebnis des letzten Laufs steht in
-[`sources/INVENTAR-ERLEDIGT.md`](../../../sources/INVENTAR-ERLEDIGT.md) und benennt vier
+[`sources/INVENTAR-ARCHIV.md`](../../../sources/INVENTAR-ARCHIV.md) und benennt vier
 Korpustexte (`OVW`, `OSW`, `MSG`, `MSW`), deren codierte Fassung nur als Word-Datei existiert.
 
 ## Entscheidungen, die in den Skripten stecken

@@ -1,4 +1,4 @@
-"""Erzeugt das dateiweise Verzeichnis des Legacy-Archivs (`sources/erledigt-inventar.csv`).
+﻿"""Erzeugt das dateiweise Verzeichnis des Legacy-Archivs (`sources/archiv-inventar.csv`).
 
     python scripts/ingest/legacy-sources/04-inventory.py <ARCHIV> <REPO>
 
@@ -6,7 +6,7 @@ Liest nur Metadaten, keine Dateiinhalte. Aufgenommen wird alles ausser den FineR
 Projektdateien: die sind zu 14.450 Stueck und 7,4 GB die Masse des Archivs, enthalten aber keinen
 extrahierbaren Text und werden deshalb nur aggregiert gezaehlt.
 
-Ausgabe auf stdout ist die Ordner- und Kategorientabelle fuer `sources/INVENTAR-ERLEDIGT.md`.
+Ausgabe auf stdout ist die Ordner- und Kategorientabelle fuer `sources/INVENTAR-ARCHIV.md`.
 """
 import csv
 import sys
@@ -66,7 +66,7 @@ def main(root, repo):
         })
 
     rows.sort(key=lambda r: (r["folder"].lower(), r["file"].lower()))
-    out = repo / "sources" / "erledigt-inventar.csv"
+    out = repo / "sources" / "archiv-inventar.csv"
     with out.open("w", encoding="utf-8", newline="\n") as fh:
         w = csv.DictWriter(fh, fieldnames=list(rows[0].keys()))
         w.writeheader()

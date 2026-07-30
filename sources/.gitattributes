@@ -1,5 +1,8 @@
-# Archivkopien: byte-identisch zum Quellarchiv halten.
+﻿# Archivkopien: byte-identisch zum Quellarchiv halten.
 # Ohne -text wuerde core.autocrlf die Zeilenenden umschreiben und die sha256 im
 # Manifest waeren nicht mehr gegen das Original pruefbar.
 linecode/** -text
 *.csv -text
+
+# Word-Vorlage der Legacy-Pipeline: Binaerformat, nie diffen.
+legacy-tooling/*.dot binary
