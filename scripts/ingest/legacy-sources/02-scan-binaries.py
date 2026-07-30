@@ -3,7 +3,7 @@
     python scripts/ingest/legacy-sources/02-scan-binaries.py <ARCHIV>
 
 Diagnose, kein Schreibzugriff. Beantwortet die Frage: gibt es Korpustexte, deren codierte Fassung
-nur im Word-Binaerformat existiert? Ergebnis steht in `sources/INVENTAR-ERLEDIGT.md`.
+nur im Word-Binaerformat existiert? Ergebnis steht in `sources/INVENTAR-ARCHIV.md`.
 
 Gezaehlt werden Ziffernfolgen im Rohbytestrom, die wie ein Linecode aussehen (mindestens vier
 fuehrende Nullen). Aussagekraeftig ist die Dichte, nicht die absolute Zahl: Seitenzahlen und

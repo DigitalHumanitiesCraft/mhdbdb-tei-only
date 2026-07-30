@@ -1,10 +1,10 @@
-﻿"""Erzeugt das dateiweise Verzeichnis des Legacy-Archivs (`sources/archiv-inventar.csv`).
+"""Erzeugt das dateiweise Verzeichnis des Legacy-Archivs (`sources/archiv-inventar.csv`).
 
     python scripts/ingest/legacy-sources/04-inventory.py <ARCHIV> <REPO>
 
 Liest nur Metadaten, keine Dateiinhalte. Aufgenommen wird alles ausser den FineReader-
-Projektdateien: die sind zu 14.450 Stueck und 7,4 GB die Masse des Archivs, enthalten aber keinen
-extrahierbaren Text und werden deshalb nur aggregiert gezaehlt.
+Projektdateien: die sind zu 14.771 Stueck und 7.446 MB die Masse des Archivs (82 %), enthalten
+aber keinen extrahierbaren Text und werden deshalb nur aggregiert gezaehlt.
 
 Ausgabe auf stdout ist die Ordner- und Kategorientabelle fuer `sources/INVENTAR-ARCHIV.md`.
 """
@@ -65,6 +65,8 @@ def main(root, repo):
                                  .date().isoformat(),
         })
 
+    if not rows:
+        raise SystemExit(f"Keine Dateien unter {root}. Archivpfad richtig getippt?")
     rows.sort(key=lambda r: (r["folder"].lower(), r["file"].lower()))
     out = repo / "sources" / "archiv-inventar.csv"
     with out.open("w", encoding="utf-8", newline="\n") as fh:

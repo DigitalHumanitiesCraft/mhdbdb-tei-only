@@ -19,7 +19,7 @@ einen Druck aufschlägt.
 
 - **Stand:** aufgenommen 2026-07-30.
 - **Umfang:** 19.808 Dateien, 9,1 GB.
-- **Dateiweises Verzeichnis:** [`archiv-inventar.csv`](archiv-inventar.csv), 5.036 Zeilen.
+- **Dateiweises Verzeichnis:** [`archiv-inventar.csv`](archiv-inventar.csv), 5.037 Zeilen.
   Enthält alles außer den 14.771 FineReader-Projektdateien. Spalten: `folder`, `file`, `ext`,
   `kategorie`, `bytes`, `geaendert`.
 - **Was daraus im Repo ist:** 306 codierte Ingest-Dateien (26,0 MB) in
@@ -174,6 +174,12 @@ Korpus**, ohne das im Namen zu zeigen.
   mit der FnhdC-Textnummer.
 
 Wer die beiden für freie Rohtexte hält und einspeist, verletzt die Nutzungsbedingungen.
+
+Deshalb ist die Sperre nicht nur hier beschrieben, sondern in `03-build-sources.py` als
+Ausschlussliste durchgesetzt (`EXCLUDE_PREFIXES`, `EXCLUDE_FILES`), die übersprungene Pfade
+protokolliert. Nötig wurde das mit dem Wechsel der Archivwurzel auf `Texte/`: seither scannt
+`01-scan-linecode.py` den Ordner mit, und bis dahin verhinderte nur der Zufall, dass dort
+nichts wie ein Linecode aussieht, eine Aufnahme.
 
 ## Vier `.TXT`-Konvolute sind OCR-Rohtext, nicht Transkription
 

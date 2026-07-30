@@ -2,8 +2,10 @@
 
     python scripts/ingest/legacy-sources/01-scan-linecode.py <ARCHIV> <SCAN-CSV>
 
-<ARCHIV> ist der lokale Pfad zu `MHDBDB_Inhaltliches/Texte/ERLEDIGT/` (nur bei KZW, siehe
-`sources/INVENTAR-ERLEDIGT.md`). Ergebnis ist eine CSV, die 03-build-sources.py weiterverwendet.
+<ARCHIV> ist der lokale Pfad zu `MHDBDB_Inhaltliches/Texte/` (nur bei KZW, siehe
+`sources/INVENTAR-ARCHIV.md`), **nicht** der Unterordner `ERLEDIGT/`: vier codierte Dateien
+liegen in `Neue Texte Klaus/`. Wer die Wurzel enger setzt, findet sie nicht, und 03 merkt es
+nicht, weil es nur diese CSV liest. Ergebnis ist eine CSV, die 03-build-sources.py verwendet.
 
 Kriterium: mindestens die Haelfte der nichtleeren Zeilen beginnt mit einer Ziffernfolge von 9 bis
 25 Stellen, gefolgt von Whitespace. Die tatsaechlich beobachteten Breiten sind 13, 17, 18, 19 und

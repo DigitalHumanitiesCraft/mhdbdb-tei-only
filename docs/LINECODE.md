@@ -131,7 +131,7 @@ A change in `<digits>` signals **some** structural boundary – which one depend
 
 ## Practical Diagnosis Without Positional Decoding
 
-The recipes below avoid the decoding trap by working from the raw Linecoded plaintext side by side with the current TEI, rather than from the xml:ids alone. For 197 sigles that plaintext is now in the repo under [`sources/linecode/`](../sources/linecode/) (#248); look up the file for a sigle in [`sources/linecode-manifest.csv`](../sources/linecode-manifest.csv). Otherwise use Julia's `OUTDATED-Texte-mit-Linecode/<SIG>.txt` or request a fresh MHDBDB-old export.
+The recipes below avoid the decoding trap by working from the raw Linecoded plaintext side by side with the current TEI, rather than from the xml:ids alone. For 199 sigles that plaintext is now in the repo under [`sources/linecode/`](../sources/linecode/) (#248); look up the file for a sigle in [`sources/linecode-manifest.csv`](../sources/linecode-manifest.csv). Otherwise use Julia's `OUTDATED-Texte-mit-Linecode/<SIG>.txt` or request a fresh MHDBDB-old export.
 
 ### Diagnosing Missing Stanzas (Issue #23)
 
@@ -174,14 +174,14 @@ The second documented case of a lost structural level after DUB in #85 – and t
 ## Source Material
 
 **In the repo since 2026-07-30 (#248): [`sources/linecode/`](../sources/linecode/)** – 306
-Linecoded plaintext files covering 197 of the 667 corpus sigles, byte-verbatim copies from the
+Linecoded plaintext files covering 199 of the 667 corpus sigles, byte-verbatim copies from the
 legacy archive, with per-file provenance and sha256 in
 [`sources/linecode-manifest.csv`](../sources/linecode-manifest.csv). This is the **first
 in-repo Linecode source**: the diagnosis recipes above no longer require a file handover for
-those 197 texts. Not normative, never indexed, never edited – see
+those 199 texts. Not normative, never indexed, never edited – see
 [`sources/README.md`](../sources/README.md).
 
-For the 470 sigles it does not cover, the routes below still apply.
+For the 468 sigles it does not cover, the routes below still apply.
 [`sources/INVENTAR-ARCHIV.md`](../sources/INVENTAR-ARCHIV.md) records what else the archive holds,
 names four sigles (`OVW`, `OSW`, `MSG`, `MSW`) whose coded source survives only as a Word file, and
 flags the `FnhdC/` folder as licence-blocked. The Word template that *produced* the Linecodes is
