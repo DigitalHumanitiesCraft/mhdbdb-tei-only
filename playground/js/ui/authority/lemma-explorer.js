@@ -448,10 +448,9 @@ export class LemmaExplorer {
 
   /**
    * Filter „nur belegte Wortbildungen" umschalten und dieselbe Suche neu
-   * rendern. Vorher werden Auswahl und aufgeklappte Gruppen gesichert: der
-   * wahrscheinlichste Ablauf ist ankreuzen, dann filtern, dann weiter
-   * ankreuzen, und ein kommentarloser Verlust der Häkchen wäre echter
-   * Arbeitsverlust.
+   * rendern. Gesichert wird dabei nur der Aufklapp-Zustand der Gruppen; die
+   * Auswahl braucht keine Sicherung mehr, weil sie seit #251 im Modell
+   * `componentPicked` lebt und nicht mehr im DOM.
    */
   toggleComponentMorphFilter(an) {
     this.rememberComponentViewState();
@@ -495,15 +494,41 @@ export class LemmaExplorer {
   }
 
   /**
-   * Die Zahl der ausgewählten Lemmata sichtbar halten. Nötig, seit die Auswahl den
-   * Render überlebt: sonst gäbe es Häkchen, die zählen, aber gerade nicht zu sehen
-   * sind (ausgewählt, dann weggefiltert), und die Übergabe käme überraschend.
+   * Die Auswahl sichtbar halten. Nötig, seit sie den Render überlebt: sonst gäbe
+   * es Häkchen, die zählen, aber gerade nicht zu sehen sind (ausgewählt, dann
+   * weggefiltert), und die Übergabe käme überraschend.
+   *
+   * Gezählt werden **Schreibformen**, nicht Häkchen. Bei Homographen ist das ein
+   * Unterschied: „sal" trägt vier gleichschreibende Lemmata, also vier Häkchen,
+   * die eine einzige Anfrage an die Multi-Lemma-Suche ergeben. „1 ausgewählt"
+   * neben vier gesetzten Häkchen sähe nach einem Fehler aus, deshalb benennt der
+   * Text die Einheit.
    */
+  /**
+   * Beschriftung der Auswahl-Checkbox. Bei Homographen tragen mehrere Kontrollen
+   * dieselbe Schreibform; nur mit Wortart und Bedeutungszahl sind sie fuer
+   * Screenreader unterscheidbar. Sie schalten trotzdem gemeinsam, weil die
+   * Uebergabe Formen kennt und keine IDs, deshalb sagt der Zusatz "gemeinsam
+   * mit gleichlautenden".
+   */
+  componentPickLabel(lemma, mehrfach) {
+    const teile = [`${lemma.lemma} auswählen`];
+    const pos = (lemma.posAll || [lemma.pos]).filter(Boolean).join(" ");
+    if (pos) teile.push(`Wortart ${pos}`);
+    if (lemma.senseCount) teile.push(`${lemma.senseCount} Bedeutungen`);
+    if (mehrfach) teile.push("gemeinsam mit gleichlautenden Lemmata");
+    return teile.join(", ");
+  }
+
+  static pickCountLabel(n) {
+    if (!n) return "";
+    return n === 1 ? "1 Schreibform ausgewählt" : `${n} Schreibformen ausgewählt`;
+  }
+
   updateComponentPickCount() {
     const el = document.getElementById("componentPickCount");
     if (!el) return;
-    const n = this.componentPicked.size;
-    el.textContent = n ? `${n} ausgewählt` : "";
+    el.textContent = LemmaExplorer.pickCountLabel(this.componentPicked.size);
   }
 
   rememberComponentViewState() {
@@ -538,9 +563,11 @@ export class LemmaExplorer {
   }
 
   restoreComponentViewState() {
-    // Die Häkchen stellt der Render selbst aus `componentPicked` her (#251),
-    // hier bleibt nur der Aufklapp-Zustand der Gruppen.
-    this.updateComponentPickCount();
+    // Die Häkchen stellt der Render selbst aus `componentPicked` her (#251), den
+    // Zähler schreibt `buildComponentHeaderHTML` im selben Durchgang inline.
+    // Hier bleibt nur der Aufklapp-Zustand der Gruppen: ein zweiter Aufruf von
+    // `updateComponentPickCount()` wäre harmlos, würde aber die Antwort auf
+    // „wer schreibt den Zähler" verwischen.
     if (this._componentOpen) {
       COMPONENT_GROUPS.forEach((g) => {
         const el = document.getElementById(`component-group-${g.key}`);
@@ -586,7 +613,7 @@ export class LemmaExplorer {
                   <input type="checkbox" class="component-pick" value="${this.escapeText(e.lemma.lemma)}"
                     ${this.componentPicked.has(e.lemma.lemma) ? "checked" : ""}
                     onchange="window.playground.ui.authorityExplorers.toggleComponentPick(this.value, this.checked)"
-                    aria-label="${this.escapeText(e.lemma.lemma)} auswählen" />
+                    aria-label="${this.escapeText(this.componentPickLabel(e.lemma, gruppen.exakt.length > 1))}" />
                   <a href="../lemma/?id=${e.lemma.id.replace(/^lemma_/, "")}" target="_blank" rel="noopener" class="font-semibold text-brand-700 hover:underline">${this.escapeText(e.lemma.lemma)}</a>
                 </label>`
             )
@@ -632,8 +659,14 @@ export class LemmaExplorer {
             class="rounded-lg bg-brand-600 px-3 py-1 text-xs font-semibold text-white shadow-sm transition hover:bg-brand-700">
             Auswahl an die Multi-Lemma-Suche übergeben
           </button>
-          <span id="componentPickCount" class="text-xs font-medium text-brand-700">${
-            this.componentPicked.size ? `${this.componentPicked.size} ausgewählt` : ""
+          <!-- Live-Region: der Zähler ist das einzige Zeugnis einer Auswahl, die
+               der Filter gerade ausblendet. Ohne role/aria-live bliebe genau der
+               stille Verlust für Screenreader weiterhin still, und der
+               Fokus-Rückgabe-Fix im selben Durchgang adressiert dieselbe
+               Bedienart. -->
+          <span id="componentPickCount" role="status" aria-live="polite"
+            class="text-xs font-medium text-brand-700">${
+            LemmaExplorer.pickCountLabel(this.componentPicked.size)
           }</span>
           <span id="componentPickHint" class="text-xs text-slate-500">
             Lemmata ankreuzen und übergeben, um ihre Belege im Korpus zu suchen.
@@ -680,7 +713,7 @@ export class LemmaExplorer {
             <input type="checkbox" class="component-pick mt-1" value="${this.escapeText(lemma.lemma)}"
               ${this.componentPicked.has(lemma.lemma) ? "checked" : ""}
               onchange="window.playground.ui.authorityExplorers.toggleComponentPick(this.value, this.checked)"
-              aria-label="${this.escapeText(lemma.lemma)} auswählen" />
+              aria-label="${this.escapeText(this.componentPickLabel(lemma, false))}" />
             <div class="min-w-0">
               <p class="text-xs font-semibold uppercase tracking-wide text-brand-600">
                 ${formatMetadata([
@@ -736,7 +769,23 @@ export class LemmaExplorer {
     // Aus dem Modell, nicht aus dem DOM (#251): eine Auswahl, die der Filter
     // gerade ausblendet, ist trotzdem eine Auswahl. Der Zähler im Kopf macht sie
     // sichtbar, damit die Übergabe nicht mehr enthält, als jemand vor sich sieht.
-    const gewaehlt = Array.from(this.componentPicked);
+    //
+    // Sortiert wird nach Dokumentordnung, nicht nach Klickfolge. Drüben bestimmt
+    // die Termreihenfolge die Chip-Reihenfolge und die Hervorhebungsfarben, und
+    // vor #251 stand der Exakt-Treffer aus dem Kopf immer vorn, weil
+    // `querySelectorAll` in Dokumentordnung liefert. Ohne diese Sortierung wäre
+    // aus dem Umbau eine unbemerkte Verhaltensänderung geworden. Formen, deren
+    // Checkbox gerade weggefiltert ist, haben keine Position und hängen hinten an;
+    // `sort` ist stabil, sie behalten untereinander die Einfügereihenfolge.
+    const position = new Map();
+    document.querySelectorAll(".component-pick").forEach((box, i) => {
+      if (!position.has(box.value)) position.set(box.value, i);
+    });
+    const hinten = Number.MAX_SAFE_INTEGER;
+    const gewaehlt = Array.from(this.componentPicked).sort(
+      (a, b) => (position.has(a) ? position.get(a) : hinten) -
+                (position.has(b) ? position.get(b) : hinten)
+    );
     const meldung = document.getElementById("componentPickHint");
 
     if (gewaehlt.length === 0) {
