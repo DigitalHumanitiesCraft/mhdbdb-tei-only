@@ -446,3 +446,38 @@ test.describe('#251: Reihenfolge der Übergabe', () => {
         expect(terme).toEqual(['wîn', 'ôsterwîn']);
     });
 });
+
+test.describe('#251: Beschriftung behauptet nur, was das Verhalten hält', () => {
+    test('der Zusatz „gemeinsam mit gleichlautenden" steht genau bei mehrfach vergebenen Schreibformen', async ({ page }) => {
+        // Der Zusatz darf sich nicht auf die NORMALISIERTE Form stützen:
+        // 387 der 475 Norm-Gruppen mit mehreren Lemmata haben unterschiedliche
+        // Schreibformen. Bei der Eingabe „lit" stehen `lît` (zweimal) und `lit`
+        // (einmal) zusammen im Kopf; mitgeschaltet werden nur die beiden `lît`,
+        // weil toggleComponentPick über `box.value` abgleicht.
+        await page.goto(`${KOMPONENTEN_ROUTE}&q=lit`);
+        await playgroundBereit(page);
+        await page.waitForSelector('.component-pick');
+
+        const befund = await page.evaluate(() => {
+            const boxen = [...document.querySelectorAll('.component-pick')];
+            const zaehler = {};
+            boxen.forEach(b => { zaehler[b.value] = (zaehler[b.value] || 0) + 1; });
+            return boxen.map(b => ({
+                wert: b.value,
+                anzahl: zaehler[b.value],
+                sagtGemeinsam: /gemeinsam mit gleichlautenden/.test(b.getAttribute('aria-label') || '')
+            }));
+        });
+
+        // Die Invariante, unabhängig von konkreten Lemmata: der Zusatz steht
+        // genau dann, wenn die Schreibform mehr als eine Checkbox hat.
+        for (const b of befund) {
+            expect(b.sagtGemeinsam, `${b.wert} (${b.anzahl}x)`).toBe(b.anzahl > 1);
+        }
+
+        // Und der Test darf nicht leer bestehen: beide Fälle müssen vorkommen,
+        // sonst prüft die Schleife oben nichts (Handwerksregel 4 im Playbook).
+        expect(befund.some(b => b.anzahl > 1), 'kein mehrfach vergebener Wert im Render').toBe(true);
+        expect(befund.some(b => b.anzahl === 1), 'kein einzeln vergebener Wert im Render').toBe(true);
+    });
+});

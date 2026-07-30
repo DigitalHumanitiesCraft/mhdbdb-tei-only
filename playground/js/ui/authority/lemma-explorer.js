@@ -426,7 +426,12 @@ export class LemmaExplorer {
       renderToContainer(
         "lemmaResults",
         this.buildComponentHeaderHTML(
-          term, formen, quellen, gruppen, gefundenGesamt, belegteGesamt, angezeigt
+          term, formen, quellen, gruppen, gefundenGesamt, belegteGesamt, angezeigt,
+          // Im Leerzustand existieren nur die Exakt-Checkboxen; nur sie koennen
+          // hier gemeinsam schalten.
+          gruppen.exakt.reduce(
+            (m, e) => m.set(e.lemma.lemma, (m.get(e.lemma.lemma) || 0) + 1), new Map()
+          )
         ) +
         `<div class="rounded-2xl border border-dashed border-slate-200 bg-slate-50/70 p-6 text-center text-sm text-slate-500">
           ${meldung}
@@ -436,11 +441,34 @@ export class LemmaExplorer {
       return;
     }
 
+    // Wie oft kommt eine SCHREIBFORM im gleich folgenden Render vor? Das ist die
+    // Bedingung, unter der `toggleComponentPick` Checkboxen gemeinsam schaltet
+    // (Abgleich über `box.value`), und deshalb die einzige, die die Beschriftung
+    // behaupten darf. Die normalisierte Form taugt dafür nicht: 387 der 475
+    // Norm-Gruppen mit mehreren Lemmata haben unterschiedliche Schreibformen
+    // (`lît`/`lît`/`lit`, `schin`/`schîn`), dort schalten nur die gleich
+    // geschriebenen mit. Gezählt wird über die tatsächlich gerenderten Einträge,
+    // also nach Filter und nach Gruppendeckel.
+    const formZaehler = new Map();
+    const sichtbarProGruppe = {};
+    gruppen.exakt.forEach((e) =>
+      formZaehler.set(e.lemma.lemma, (formZaehler.get(e.lemma.lemma) || 0) + 1)
+    );
+    COMPONENT_GROUPS.forEach((g) => {
+      const sichtbar = gruppen[g.key].slice(0, COMPONENT_GROUP_LIMIT);
+      sichtbarProGruppe[g.key] = sichtbar;
+      sichtbar.forEach((e) =>
+        formZaehler.set(e.lemma.lemma, (formZaehler.get(e.lemma.lemma) || 0) + 1)
+      );
+    });
+
     renderToContainer(
       "lemmaResults",
       this.buildComponentHeaderHTML(
-        term, formen, quellen, gruppen, gefundenGesamt, belegteGesamt, angezeigt
-      ) + COMPONENT_GROUPS.map((g) => this.buildComponentGroupHTML(g, gruppen[g.key])).join("")
+        term, formen, quellen, gruppen, gefundenGesamt, belegteGesamt, angezeigt, formZaehler
+      ) + COMPONENT_GROUPS.map((g) =>
+        this.buildComponentGroupHTML(g, sichtbarProGruppe[g.key], gruppen[g.key].length, formZaehler)
+      ).join("")
     );
 
     this.restoreComponentViewState();
@@ -585,7 +613,7 @@ export class LemmaExplorer {
     }
   }
 
-  buildComponentHeaderHTML(term, formen, quellen, gruppen, gefundenGesamt, belegteGesamt, angezeigt) {
+  buildComponentHeaderHTML(term, formen, quellen, gruppen, gefundenGesamt, belegteGesamt, angezeigt, formZaehler = new Map()) {
     const gesucht = formen.map((f) => `<code>${this.escapeText(f)}</code>`).join(", ");
 
     // Anforderung 4: sichtbar machen, worauf tatsächlich gesucht wird. Ohne
@@ -613,7 +641,7 @@ export class LemmaExplorer {
                   <input type="checkbox" class="component-pick" value="${this.escapeText(e.lemma.lemma)}"
                     ${this.componentPicked.has(e.lemma.lemma) ? "checked" : ""}
                     onchange="window.playground.ui.authorityExplorers.toggleComponentPick(this.value, this.checked)"
-                    aria-label="${this.escapeText(this.componentPickLabel(e.lemma, gruppen.exakt.length > 1))}" />
+                    aria-label="${this.escapeText(this.componentPickLabel(e.lemma, (formZaehler.get(e.lemma.lemma) || 0) > 1))}" />
                   <a href="../lemma/?id=${e.lemma.id.replace(/^lemma_/, "")}" target="_blank" rel="noopener" class="font-semibold text-brand-700 hover:underline">${this.escapeText(e.lemma.lemma)}</a>
                 </label>`
             )
@@ -678,8 +706,7 @@ export class LemmaExplorer {
     `;
   }
 
-  buildComponentGroupHTML(gruppe, eintraege) {
-    const anzahl = eintraege.length;
+  buildComponentGroupHTML(gruppe, sichtbar, anzahl = sichtbar.length, formZaehler = new Map()) {
     const listenId = `component-group-${gruppe.key}`;
     const versteckt = gruppe.collapsed ? " hidden" : "";
 
@@ -694,7 +721,6 @@ export class LemmaExplorer {
     // Gekappt wird nach der Sortierung „belegte Wortbildung zuerst, dann
     // Bedeutungszahl": ein alphabetischer Schnitt würde bei häufigen
     // Bestandteilen wie „lich" ein beliebiges Präfix zeigen.
-    const sichtbar = eintraege.slice(0, COMPONENT_GROUP_LIMIT);
     const gekappt =
       anzahl > COMPONENT_GROUP_LIMIT
         ? `<p class="px-1 pb-2 text-xs text-slate-500">Angezeigt werden
@@ -713,7 +739,7 @@ export class LemmaExplorer {
             <input type="checkbox" class="component-pick mt-1" value="${this.escapeText(lemma.lemma)}"
               ${this.componentPicked.has(lemma.lemma) ? "checked" : ""}
               onchange="window.playground.ui.authorityExplorers.toggleComponentPick(this.value, this.checked)"
-              aria-label="${this.escapeText(this.componentPickLabel(lemma, false))}" />
+              aria-label="${this.escapeText(this.componentPickLabel(lemma, (formZaehler.get(lemma.lemma) || 0) > 1))}" />
             <div class="min-w-0">
               <p class="text-xs font-semibold uppercase tracking-wide text-brand-600">
                 ${formatMetadata([
