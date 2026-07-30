@@ -38,6 +38,10 @@ try:
 except ImportError:
     sys.exit("ERROR: lxml not installed")
 
+# Schreibt und stellt die Prolog-Umbrueche wieder her, die
+# tree.write(xml_declaration=True) verschluckt (siehe _tei_io.py).
+from _tei_io import write_tei
+
 REPO = Path(__file__).resolve().parents[3]
 TEI_NS = "http://www.tei-c.org/ns/1.0"
 
@@ -72,6 +76,18 @@ FR3_NOTE = (
 )
 FR3_SUPPLEMENT_REF = "Supplement zur Göttinger Ausgabe von 1981"
 
+# Ziel der Supplement-Relation, je Datei verschieden. `xml:id="FR1_FR1"` liegt in
+# works.xml und in tei/FR1.tei.xml, NICHT in tei/FR3.tei.xml: ein nacktes
+# "#FR1_FR1" haengt im FR3-Header also ins Leere (das Schema prueft nur
+# xsd:anyURI, deshalb faellt es keinem Gate auf). Korpus-Header zeigen laut
+# Bestand ueber den Dateinamen: 667x works.xml#…, 2.671x contributors.xml#…,
+# 1.805x genres.xml#…; ein nackter Fragment-Zeiger kommt sonst kein einziges Mal
+# vor. Deshalb im TEI der dateiqualifizierte Weg, in works.xml selbst das
+# dokumentinterne Fragment.
+SUPPLEMENT_XMLID = "FR1_FR1"
+SUPPLEMENT_TARGET_AUTHORITY = f"#{SUPPLEMENT_XMLID}"
+SUPPLEMENT_TARGET_TEI = f"works.xml#{SUPPLEMENT_XMLID}"
+
 
 def q(tag):
     return f"{{{TEI_NS}}}{tag}"
@@ -87,7 +103,7 @@ def set_text(el, value, log, label):
     return 1
 
 
-def fix_biblstruct(bs, sigle, log):
+def fix_biblstruct(bs, sigle, log, supplement_target):
     """Bringt einen biblStruct auf den korrekten Stand. Gibt Zahl der Aenderungen."""
     changes = 0
     analytic = bs.find(q("analytic"))
@@ -148,14 +164,24 @@ def fix_biblstruct(bs, sigle, log):
         if not existing:
             ref = etree.SubElement(analytic, q("ref"))
             ref.set("type", "supplement")
-            ref.set("target", "#FR1_FR1")
+            ref.set("target", supplement_target)
             ref.text = FR3_SUPPLEMENT_REF
             ref.tail = "\n" + " " * 14
             prev = ref.getprevious()
             if prev is not None:
                 prev.tail = "\n" + " " * 16
-            log.append('      <ref type="supplement" target="#FR1_FR1"> ergaenzt')
+            log.append(f'      <ref type="supplement" target="{supplement_target}"> ergaenzt')
             changes += 1
+        else:
+            # Auch ein bereits vorhandener Verweis wird nachgezogen. Ohne diesen
+            # Zweig bliebe ein einmal falsch geschriebenes @target stehen, und
+            # der zweite Lauf wuerde es bestaetigen statt es zu heilen.
+            for ref in existing:
+                if ref.get("target") != supplement_target:
+                    log.append(f'      <ref type="supplement">/@target: '
+                               f'{ref.get("target")} -> {supplement_target}')
+                    ref.set("target", supplement_target)
+                    changes += 1
 
     note = bs.find(q("note"))
     changes += set_text(note, FR3_NOTE, log, "note")
@@ -172,14 +198,14 @@ def process_works_xml(dry_run):
         if bs is None:
             sys.exit(f"ERROR: biblStruct key={sigle} nicht gefunden")
         log = []
-        n = fix_biblstruct(bs, sigle, log)
+        n = fix_biblstruct(bs, sigle, log, SUPPLEMENT_TARGET_AUTHORITY)
         if n:
             print(f"   {sigle}: {n} Aenderung(en)")
             for line in log:
                 print(line)
         total += n
     if total and not dry_run:
-        tree.write(str(path), encoding="UTF-8", xml_declaration=True)
+        write_tei(tree, path)
         print("   geschrieben.")
     elif not total:
         print("   nichts zu tun.")
@@ -200,14 +226,14 @@ def process_tei(sigle, dry_run):
 
     bs = tree.find(f".//{q('biblStruct')}[@key='{sigle}']")
     if bs is not None:
-        total += fix_biblstruct(bs, sigle, log)
+        total += fix_biblstruct(bs, sigle, log, SUPPLEMENT_TARGET_TEI)
 
     if total:
         print(f"   {total} Aenderung(en)")
         for line in log:
             print(line)
         if not dry_run:
-            tree.write(str(path), encoding="UTF-8", xml_declaration=True)
+            write_tei(tree, path)
             print("   geschrieben.")
     else:
         print("   nichts zu tun.")

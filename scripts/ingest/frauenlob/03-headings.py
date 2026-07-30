@@ -24,6 +24,7 @@ Idempotent: ein zweiter Lauf findet weder Tokens noch fehlende `<head>`.
     python scripts/ingest/frauenlob/03-headings.py [--dry-run]
 """
 import csv
+import re
 import sys
 from pathlib import Path
 
@@ -35,6 +36,10 @@ try:
     from lxml import etree
 except ImportError:
     sys.exit("ERROR: lxml not installed")
+
+# Schreibt und stellt die Prolog-Umbrueche wieder her, die
+# tree.write(xml_declaration=True) verschluckt (siehe _tei_io.py).
+from _tei_io import write_tei
 
 REPO = Path(__file__).resolve().parents[3]
 SOURCE = Path(__file__).resolve().parent / "source"
@@ -75,11 +80,37 @@ def is_heading_token(el):
     return stem.isdigit() and stem[-1] != "0"
 
 
+# Roemische Zahl in beliebiger Schreibung. Im Bestand sind es Kleinbuchstaben.
+ROMAN_RE = re.compile(r"^[ivxlcdm]+$", re.IGNORECASE)
+
+
+def is_plausible_heading_text(text):
+    """Sieht der zu entfernende Text aus wie eine Ueberschrift, nicht wie Text?
+
+    Die h-Stelle ist eine Konvention, kein Beweis. 339 der 620 Templates in
+    `docs/data/linecode-templates.csv` enden auf "h", die uebrigen 281 belegen die
+    letzte Stelle anders; liefe dieses Rezept auf einem solchen Text, loeschte es
+    echten Textbestand. In FR1/FR2/FR3 sind es ausschliesslich roemische
+    Ordnungszahlen (i bis xiv, 16 Tokens) und Satzzeichen (26 Tokens), zusammen die
+    42 gemeldeten. Alles andere bricht ab, statt still zu verschwinden.
+    """
+    t = (text or "").strip()
+    if not t:
+        return True
+    if ROMAN_RE.match(t):
+        return True
+    return not any(c.isalnum() for c in t)
+
+
 def strip_heading_tokens(body):
     """Entfernt die Ordnungszahl-Tokens und leergewordene Huellen."""
     removed = []
+    verdaechtig = []
     for el in list(body.iter()):
         if el.tag in (q("w"), q("pc")) and is_heading_token(el):
+            if not is_plausible_heading_text(el.text):
+                verdaechtig.append((el.get(XID), el.text))
+                continue
             removed.append((el.get(XID), el.text))
             parent = el.getparent()
             # Tail des Tokens an den Vorgaenger bzw. den Elterntext haengen,
@@ -91,6 +122,13 @@ def strip_heading_tokens(body):
                 else:
                     parent.text = (parent.text or "") + el.tail
             parent.remove(el)
+
+    if verdaechtig:
+        sys.exit(
+            "ERROR: Token mit h-Stelle, aber unplausiblem Inhalt — nichts entfernt.\n"
+            "       Erwartet werden roemische Ordnungszahlen oder Satzzeichen.\n"
+            + "\n".join(f"       {xid}: {text!r}" for xid, text in verdaechtig)
+        )
 
     # Leergewordene <hi>-Huellen aufloesen.
     for hi in list(body.iter(q("hi"))):
@@ -184,7 +222,7 @@ def process(sigle, tonnamen, dry_run):
         print(f"  (die entfernten Tokens trugen teils @lemmaRef/@ana — vgl. #228)")
 
     if not dry_run:
-        tree.write(str(path), encoding="UTF-8", xml_declaration=True)
+        write_tei(tree, path)
         print(f"  geschrieben: {path.relative_to(REPO)}")
     print()
     return len(removed) + changed_heads

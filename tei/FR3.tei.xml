@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<?xml-model href="../schema/mhdbdb.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?><TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="FR3">
+<?xml-model href="../schema/mhdbdb.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="FR3">
   <teiHeader>
     <fileDesc>
       <titleStmt>
@@ -61,7 +62,7 @@
                   <author>
                     <name>Heinrich von Meißen</name>
                   </author>
-                <ref type="supplement" target="#FR1_FR1">Supplement zur Göttinger Ausgabe von 1981</ref>
+                <ref type="supplement" target="works.xml#FR1_FR1">Supplement zur Göttinger Ausgabe von 1981</ref>
               </analytic>
                 <monogr>
                   <title level="m">Sangsprüche in Tönen Frauenlobs. Supplement zur Göttinger Frauenlob-Ausgabe</title>

@@ -43,25 +43,43 @@ TEMPLATES = {
 }
 
 
+# Bekannte Ingest-Normalisierung, von KZW in #236 benannt: bei Ton XV, Strophen 23
+# und 24 nummeriert die Quelle das einzige <lg> jeweils als 1, das TEI als 2 bzw. 3.
+# Kein Datenverlust (die Verszahlen stimmen), deshalb erlaubt. Der Eintrag steht hier
+# als Ratsche: eine WEITERE Umnummerierung wird zum Fehler, statt in einer pauschalen
+# Toleranz mitzulaufen. Schluessel: ((ton, strophe), u) -> (Quelle, TEI).
+LG_UMNUMMERIERT = {
+    ((15, 23), 1): ([1], [2]),
+    ((15, 24), 1): ([1], [3]),
+}
+
+
 def parse_linecode_file(path, sigle):
-    """Liest eine Linecode-Quelldatei. Gibt (zeilen, defekte) zurueck.
+    """Liest eine Linecode-Quelldatei. Gibt (zeilen, aufgefuellt, uebersprungen) zurueck.
 
     Defekt heisst hier: nicht 19-stellig. 86 Zeilen in FR3 haben nur 18 Stellen,
     weil eine fuehrende Null fehlt (VIII,215/u=1 und V,209/u=2) — siehe README.
     Diese werden mit zfill aufgefuellt und mitgezaehlt, nicht verworfen.
+
+    Nicht-numerische und zu lange Codes kann dieses Verfahren nicht deuten. Sie
+    werden uebersprungen, aber gemeldet: ein stiller Uebersprung wuerde genau die
+    Fehlerklasse verbergen, gegen die dieses Skript schuetzen soll. Aktuell ist
+    die Liste in beiden Quelldateien leer (0 nicht-numerische, 0 ueberlange).
     """
     _, slices = TEMPLATES[sigle]
-    rows, padded = [], 0
+    rows, padded, skipped = [], 0, []
     for lineno, raw in enumerate(path.read_text(encoding="utf-8-sig").splitlines(), 1):
         if not raw.strip():
             continue
         code, _, text = raw.partition(" ")
         if not code.isdigit():
+            skipped.append((lineno, "nicht numerisch", raw[:40]))
             continue
         if len(code) < 19:
             code = code.zfill(19)
             padded += 1
         elif len(code) > 19:
+            skipped.append((lineno, f"{len(code)} Stellen", raw[:40]))
             continue
         row = {name: int(code[a:b]) for name, a, b in slices}
         row["lineno"] = lineno
@@ -69,7 +87,7 @@ def parse_linecode_file(path, sigle):
         # Der xml:id-Rumpf ist der Linecode ohne fuehrende Nullen.
         row["idstem"] = str(int(code))
         rows.append(row)
-    return rows, padded
+    return rows, padded, skipped
 
 
 def tei_structure_fr3(tree):
@@ -113,7 +131,7 @@ def tei_structure_fr2(tree):
 
 
 def check_fr3():
-    rows, padded = parse_linecode_file(SOURCE / "FR3-linecode.txt", "FR3")
+    rows, padded, skipped = parse_linecode_file(SOURCE / "FR3-linecode.txt", "FR3")
     tree = etree.parse(str(REPO / "tei" / "FR3.tei.xml"))
     tei_struct, tei_l = tei_structure_fr3(tree)
 
@@ -130,19 +148,41 @@ def check_fr3():
     print(f"  Verse     Quelle {len(body_rows):>4}   TEI {tei_l:>4}")
 
     errors = []
+    errors.extend(f"uebersprungene Quellzeile {ln} ({grund}): {txt!r}"
+                  for ln, grund, txt in skipped)
     only_src = sorted(set(src) - set(tei_struct))
     only_tei = sorted(set(tei_struct) - set(src))
     if only_src:
         errors.append(f"nur in der Quelle: {only_src}")
     if only_tei:
         errors.append(f"nur im TEI: {only_tei}")
+
+    # Drei Ebenen, absteigend streng: u-Mengen, dann Zahl der <lg> je Zeuge, dann
+    # ihre Nummern. Die mittlere Ebene ist die eigentlich neue: eine abweichende
+    # Strophen-Unterteilung INNERHALB eines Zeugen laesst die Verssumme unberuehrt
+    # und lief vorher durch.
+    bekannt = 0
     for key in sorted(set(src) & set(tei_struct)):
         su = sorted(src[key])
         tu = sorted(tei_struct[key])
         if su != tu:
             errors.append(f"u-Ebenen {key}: Quelle {su} vs TEI {tu}")
+            continue
+        for u in su:
+            s_lg = sorted(src[key][u])
+            t_lg = sorted(tei_struct[key][u])
+            if len(s_lg) != len(t_lg):
+                errors.append(f"lg-Anzahl {key} u={u}: "
+                              f"Quelle {len(s_lg)} vs TEI {len(t_lg)}")
+            elif s_lg != t_lg:
+                if LG_UMNUMMERIERT.get((key, u)) == (s_lg, t_lg):
+                    bekannt += 1
+                else:
+                    errors.append(f"lg-Nummern {key} u={u}: Quelle {s_lg} vs TEI {t_lg}")
     if len(body_rows) != tei_l:
         errors.append(f"Verszahl: Quelle {len(body_rows)} vs TEI {tei_l}")
+    print(f"  lg-Nummern: {bekannt} von {len(LG_UMNUMMERIERT)} bekannten "
+          f"Umnummerierungen angetroffen")
 
     print()
     print("  Ueberschriften-Tokens (h=1), Sitz im Textfluss:")
@@ -155,7 +195,7 @@ def check_fr3():
 
 
 def check_fr2():
-    rows, padded = parse_linecode_file(SOURCE / "FR2-linecode.txt", "FR2")
+    rows, padded, skipped = parse_linecode_file(SOURCE / "FR2-linecode.txt", "FR2")
     tree = etree.parse(str(REPO / "tei" / "FR2.tei.xml"))
     tei_struct, tei_l = tei_structure_fr2(tree)
 
@@ -171,8 +211,15 @@ def check_fr2():
     print(f"  Ueberschriften: {[r['text'] for r in heads]}")
 
     errors = []
+    errors.extend(f"uebersprungene Quellzeile {ln} ({grund}): {txt!r}"
+                  for ln, grund, txt in skipped)
     if set(src) != set(tei_struct):
         errors.append(f"Lieder: Quelle {sorted(src)} vs TEI {sorted(tei_struct)}")
+    for lied in sorted(set(src) & set(tei_struct)):
+        s_str, t_str = sorted(src[lied]), sorted(tei_struct[lied])
+        if len(s_str) != len(t_str):
+            errors.append(f"Strophenzahl Lied {lied}: "
+                          f"Quelle {len(s_str)} vs TEI {len(t_str)}")
     if len(body_rows) != tei_l:
         errors.append(f"Verszahl: Quelle {len(body_rows)} vs TEI {tei_l}")
     return errors

@@ -343,7 +343,7 @@ In der mhd. Lyrik unterscheidet man fachlich zwischen Lied, Spruch und Leich. Di
 
 1. **Fachlich instabil:** Die Trias Lied/Spruch/Leich ist eine moderne Forschungskategorisierung, keine mittelalterliche Selbstbezeichnung. Die Abgrenzung ist in der Germanistik umstritten – Texte wechseln zwischen Formen, Zuordnungen hängen vom Forschungsstand ab (z.B. Hugo von Montfort: "Lied" oder "Rede" je nach Edition).
 2. **Information existiert an besserer Stelle:** Die Gattungstypologie im `<classDecl>` hat 600+ Genre-Bezeichnungen. Dort können Minnelied, Spruchdichtung, Leich als Genre-Kategorien fein unterschieden werden. `div/@type` markiert die **Struktureinheit** (= nummerierte lyrische Einheit), nicht das Genre.
-3. **Konsistenz überwiegt Präzision:** 1,373 bestehende `song`-Einheiten müssten reklassifiziert werden (nicht scriptbar, erfordert philologische Einzelentscheidungen). Bei zukünftigen Ingests müsste jeder Text einzeln beurteilt werden.
+3. **Konsistenz überwiegt Präzision:** 1,406 bestehende `song`-Einheiten müssten reklassifiziert werden (nicht scriptbar, erfordert philologische Einzelentscheidungen). Bei zukünftigen Ingests müsste jeder Text einzeln beurteilt werden.
 
 `song` bedeutet im MHDBDB-Modell: **"nummerierte lyrische Einheit"** – bewusst breiter als die Fachterminologie. Feinere Unterscheidungen erfolgen über die Genre-Taxonomie im Header.
 
@@ -390,13 +390,15 @@ Katharina: "Band und Teil hatten nur veraltete technische Gründe. Kann in die M
 
 | Typ | Count | Beispiele | Status |
 |-----|-------|-----------|--------|
-| **`song`** | 1,373 | BOP, BRH | ✓ Akzeptiert |
-| **`chapter`** | 604 | AC1, BDK | ✓ Akzeptiert |
-| **`recipe`** | 452 | ABS, BRIX | ✓ Akzeptiert |
-| **`section`** | 433 | DL1, DL2, EHB, KVM | ✓ Akzeptiert (inkl. ex-part/subsection/§) |
+| **`song`** | 1,406 | BOP, BRH | ✓ Akzeptiert |
+| **`chapter`** | 1,640 | AC1, BDK | ✓ Akzeptiert |
+| **`recipe`** | 606 | ABS, BRIX | ✓ Akzeptiert |
+| **`section`** | 460 | DL1, DL2, EHB, KVM | ✓ Akzeptiert (inkl. ex-part/subsection/§) |
 | **`number`** | 498 | HZU, ADP, BDK, BOP | ✓ Akzeptiert (inkl. ex-deed/sermon/sigil/paragraph) |
-| **`parallel`** | 24 | BRW, DES2 | ✓ Akzeptiert (Parallelüberlieferung) |
+| **`parallel`** | 51 | BRW, DES2, FR3 | ✓ Akzeptiert (Parallelüberlieferung) |
 | **`colophon`** | 15 | ALX, APO | ✓ Akzeptiert (TEI hat `<colophon>`, aber `div type` ist kompatibel) |
+
+Alle Zahlen am 2026-07-30 über alle 667 Korpusdateien nachgezählt (`div[@type]`, 4.676 gesamt, keine weiteren Typen). Fünf der sieben Werte standen vorher falsch da, und nur drei Abweichungen gehen auf #236 zurück: `song` −13 und `parallel` +36 (FR3 baut 23 gleichrangige Töne zu 10 Tönen mit 36 `div[@type="parallel"]` um), `section` −36 aus derselben Umhängung. `chapter` 604 → 1.640, `recipe` 452 → 606 und der Rest von `section` waren vorher schon gedriftet, vermutlich seit dem WZB-Ingest; sie sind hier mitkorrigiert, damit die Tabelle nicht halb stimmt.
 
 **Stanza-Check (verifiziert):** `div type="stanza"` existierte historisch nur in LZT (1.122) und ist seit #23/v4.1.1 zu `lg type="stanza"` migriert; aktuell **0** `div type="stanza"` im Korpus (LZT nutzt jetzt `lg type="stanza"`).
 

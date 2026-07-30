@@ -55,10 +55,27 @@ Abgleich `FR3-linecode.txt` gegen `tei/FR3.tei.xml`:
 
 ## Skripte
 
+In dieser Reihenfolge laufen zu lassen; jedes Skript kennt `--dry-run` (außer `01`, das
+ohnehin nichts schreibt).
+
 | Skript | Zweck |
 |---|---|
-| `01-verify-linecode-vs-tei.py` | Abgleich Quelle ↔ TEI, ohne Schreibzugriff. Vorbedingung für alles Weitere |
+| `01-verify-linecode-vs-tei.py` | Abgleich Quelle ↔ TEI, ohne Schreibzugriff. Vorbedingung für alles Weitere und danach als Gate wiederholbar: prüft u-Ebenen, Zahl der `<lg>` je Zeuge, Verssumme und Überschriften-Sitz |
 | `02-restore-parallel-level.py` | Führt Töne gleicher `@n` zusammen, hängt `u ≥ 2` als `<div type="parallel">` unter die Strophe |
+| `03-headings.py` | Entfernt die 42 Ordnungszahl-Tokens aus dem Textfluss (26 FR1 / 2 FR2 / 14 FR3), setzt 24 `<head>` mit GA-Nummer und Tonnamen, macht die GA-Ebene XIV in FR2 als `div/@n` explizit |
+| `04-metadata.py` | Titel aller drei Texte, FR3 auf den Supplementband 2000 (ISBN, Herausgeber, Reihenband), Zotero-Title-Case-Reparatur, Supplement-Relation als `<ref type="supplement">` |
+| `05-editorial-decl.py` | Verschiebt die editorischen Eingriffe von `<normalization>` nach `<editorialDecl>` und ersetzt den verstümmelten Legacy-Satz |
+| `_tei_io.py` | Kein eigenständiges Skript: gemeinsames Schreiben, stellt die Prolog-Umbrüche wieder her, die `tree.write(xml_declaration=True)` verschluckt |
+
+### Zwei Fallstricke beim Gegenzählen
+
+1. **Quelle 10 Überschriften-Zeilen, TEI 14 entfernte Tokens.** Die Zahlen dürfen nicht
+   übereinstimmen: eine Überschriftenzeile der Quelle wird im TEI zu mehreren Tokens
+   (römische Zahl plus Punkt), und umgekehrt sind „Etmüllersche Ausgabe" sowie das zweite
+   „VII" beim damaligen Ingest gar nicht ins TEI gelangt.
+2. **Die `h`-Stelle ist eine Konvention, kein Beweis.** 339 der 620 Templates enden auf `h`,
+   die übrigen 281 belegen die letzte Stelle anders. `03-headings.py` prüft deshalb zusätzlich
+   den Inhalt (römische Zahl oder Satzzeichen) und bricht bei allem anderen ab, statt zu löschen.
 
 ## Zählung von `parallel/@n`
 

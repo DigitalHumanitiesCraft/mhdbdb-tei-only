@@ -36,6 +36,10 @@ try:
 except ImportError:
     sys.exit("ERROR: lxml not installed")
 
+# Schreibt und stellt die Prolog-Umbrueche wieder her, die
+# tree.write(xml_declaration=True) verschluckt (siehe _tei_io.py).
+from _tei_io import write_tei
+
 REPO = Path(__file__).resolve().parents[3]
 TEI_PATH = REPO / "tei" / "FR3.tei.xml"
 TEI_NS = "http://www.tei-c.org/ns/1.0"
@@ -179,7 +183,7 @@ def main():
         print("\n--dry-run: nichts geschrieben.")
         return 0
 
-    tree.write(str(TEI_PATH), encoding="UTF-8", xml_declaration=True)
+    write_tei(tree, TEI_PATH)
     print(f"\nGeschrieben: {TEI_PATH.relative_to(REPO)}")
     return 0
 
