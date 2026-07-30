@@ -187,11 +187,16 @@ def check_fr3():
     # Fall inzwischen aufgeraeumt ist, als toter Code samt einer Begruendung
     # stehen, die nichts mehr beschreibt.
     if bekannt != len(LG_UMNUMMERIERT):
-        fehlend = [k for k in LG_UMNUMMERIERT if k[0] in tei_struct]
+        # Absichtlich offen formuliert: "Ausnahme gehoert gestrichen" waere nur
+        # im Fall "aufgeraeumt" richtig. Ist eine Adresse ANDERS umnummeriert,
+        # feuert oben schon der lg-Nummern-Fehler, und eine zweite Diagnose
+        # daneben wuerde jemanden dazu verleiten, einen noch gebrauchten Eintrag
+        # zu loeschen.
         errors.append(
-            f"nur {bekannt} von {len(LG_UMNUMMERIERT)} Eintraegen in "
-            f"LG_UMNUMMERIERT angetroffen: die Ausnahme ist nicht mehr noetig "
-            f"und gehoert gestrichen (noch adressierbar: {fehlend})"
+            f"LG_UMNUMMERIERT: {bekannt} von {len(LG_UMNUMMERIERT)} Eintraegen "
+            f"angetroffen. Entweder ist der Fall aufgeraeumt (dann Eintrag "
+            f"streichen) oder er sieht anders aus als beschrieben (dann steht "
+            f"die Abweichung oben) — bitte pruefen"
         )
 
     print()

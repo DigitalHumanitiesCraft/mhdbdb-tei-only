@@ -114,10 +114,14 @@ def strip_heading_tokens(body):
             # aufhalten soll. Im Bestand kommt das nicht vor (0 <w> mit Kindelement
             # ueber alle 667 Dateien), die Schranke ist aber der einzige Schutz,
             # wenn jemand das Rezept aus LINECODE.md auf einen anderen Text anwendet.
-            if not is_plausible_heading_text("".join(el.itertext())):
-                verdaechtig.append((el.get(XID), el.text))
+            # Einmal lesen, fuer Pruefung UND Bericht. Getrennt gelesen stand in
+            # der Abbruchmeldung `None`, also gerade nicht der Inhalt, der den
+            # Abbruch ausgeloest hat.
+            inhalt = "".join(el.itertext())
+            if not is_plausible_heading_text(inhalt):
+                verdaechtig.append((el.get(XID), inhalt))
                 continue
-            removed.append((el.get(XID), el.text))
+            removed.append((el.get(XID), inhalt))
             parent = el.getparent()
             # Tail des Tokens an den Vorgaenger bzw. den Elterntext haengen,
             # damit kein Whitespace-Sprung im Textfluss entsteht.
@@ -131,7 +135,8 @@ def strip_heading_tokens(body):
 
     if verdaechtig:
         sys.exit(
-            "ERROR: Token mit h-Stelle, aber unplausiblem Inhalt — nichts entfernt.\n"
+            "ERROR: Token mit h-Stelle, aber unplausiblem Inhalt. Nichts geschrieben,\n"
+            "       auch nicht fuer die bereits bearbeiteten Texte.\n"
             "       Erwartet werden roemische Ordnungszahlen oder Satzzeichen.\n"
             + "\n".join(f"       {xid}: {text!r}" for xid, text in verdaechtig)
         )
@@ -175,7 +180,7 @@ def set_head(div, text, indent):
     return True
 
 
-def process(sigle, tonnamen, dry_run):
+def process(sigle, tonnamen):
     path = REPO / "tei" / f"{sigle}.tei.xml"
     tree = etree.parse(str(path))
     body = tree.find(f".//{q('body')}")
@@ -227,21 +232,32 @@ def process(sigle, tonnamen, dry_run):
     if lemma_heads:
         print(f"  (die entfernten Tokens trugen teils @lemmaRef/@ana — vgl. #228)")
 
-    if not dry_run:
-        write_tei(tree, path)
-        print(f"  geschrieben: {path.relative_to(REPO)}")
     print()
-    return len(removed) + changed_heads
+    return len(removed) + changed_heads, tree, path
 
 
 def main():
     dry_run = "--dry-run" in sys.argv
     tonnamen = load_tonnamen()
     total = 0
+    zu_schreiben = []
     for sigle in ("FR1", "FR2", "FR3"):
-        total += process(sigle, tonnamen, dry_run)
+        n, tree, path = process(sigle, tonnamen)
+        total += n
+        zu_schreiben.append((tree, path))
+
+    # Geschrieben wird erst, wenn ALLE drei Texte fehlerfrei durch sind. Die
+    # Plausibilitaetsschranke bricht mit sys.exit ab; schrieb jeder Durchgang
+    # sofort, laegen bei einem Abbruch in FR3 die geaenderten FR1 und FR2 schon
+    # auf der Platte, waehrend die Meldung "nichts entfernt" Unversehrtheit
+    # behauptet. Ein halb angewandter Zustand ist genau das, was die Skripte
+    # hier vermeiden sollen.
     if dry_run:
         print("--dry-run: nichts geschrieben.")
+    else:
+        for tree, path in zu_schreiben:
+            write_tei(tree, path)
+            print(f"geschrieben: {path.relative_to(REPO)}")
     print(f"Aenderungen gesamt: {total}")
     return 0
 

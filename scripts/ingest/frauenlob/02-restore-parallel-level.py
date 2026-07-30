@@ -63,9 +63,16 @@ def shift_indent(elem, spaces="  "):
 
     Fasst ausschliesslich Whitespace-only-Text an. Mixed Content (der Textfluss
     in <l>, <w>, <pc>, <hi>) bleibt garantiert unberuehrt.
+
+    Der Tail des Wurzelknotens ist ausgenommen: er gehoert nicht zum Teilbaum,
+    sondern schliesst das ELTERNelement und ist damit auf dessen Ebene eingerueckt.
+    `iter()` liefert die Wurzel mit, ein naives Durchschieben verschob deshalb auch
+    ihn: 28 </div> der Sections mit Parallelzeuge standen dadurch zwei Spalten zu
+    tief (64 statt 36 Zeilen auf 10 Spalten in FR3).
     """
     for node in elem.iter():
-        for attr in ("text", "tail"):
+        attrs = ("text",) if node is elem else ("text", "tail")
+        for attr in attrs:
             val = getattr(node, attr)
             if val and val.strip() == "" and "\n" in val:
                 setattr(node, attr, val.replace("\n", "\n" + spaces))
