@@ -38,15 +38,22 @@ jobs:
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           track_progress: true
-          # Ein Kommentar pro PR statt einer pro Lauf. PR #254 sammelte am
-          # 29.07. acht Review-Kommentare, weil jeder Push einen neuen anhängt.
-          # Preis: die Befunde früherer Runden liegen danach in der
-          # Edit-Historie des Kommentars, nicht sichtbar untereinander.
-          # Die Action dokumentiert keine Wechselwirkung mit track_progress
-          # (das Tag-Modus plus Fortschritts-Kommentar erzwingt) und kein
-          # Beispiel, das beides kombiniert: falls die beiden sich beim
-          # nächsten Review in die Quere kommen, ist diese Zeile der Rückweg.
-          use_sticky_comment: true
+          # KEIN use_sticky_comment. Am 30.07. eingeschaltet und nach einem
+          # halben Tag wieder entfernt, damit es niemand erneut vorschlägt:
+          #
+          # Es tut, was es verspricht (ein Kommentar pro PR statt einer pro
+          # Lauf; PR #254 hatte am 29.07. acht). Der Preis ist aber höher als
+          # die Thread-Länge. Zusammen mit track_progress überschreibt der
+          # jeweils nächste Lauf den Kommentar zuerst mit seiner
+          # Fortschritts-Checkliste: der letzte Befund ist genau dann
+          # unsichtbar, wenn man ihn nachlesen will. Und die früheren Runden
+          # liegen danach ausschließlich in der Edit-Historie des Kommentars,
+          # also nur im Browser. Über die API und `gh` sind sie nicht mehr
+          # erreichbar, im Job-Log stehen sie auch nicht (die Action postet
+          # direkt per API). Bei #253 sind an einem Tag vier Runden gelaufen,
+          # jede mit einem echten Befund, und alle vier wurden per `gh api`
+          # gelesen und abgearbeitet. Redundante Kommentare sind billiger als
+          # verlorene Prüfspuren.
           plugin_marketplaces: "https://github.com/anthropics/claude-code.git"
           plugins: "code-review@claude-code-plugins"
           prompt: "/code-review:code-review ${{ github.repository }}/pull/${{ github.event.pull_request.number }}"
