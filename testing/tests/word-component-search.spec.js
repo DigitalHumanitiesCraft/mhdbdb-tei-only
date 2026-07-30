@@ -238,6 +238,52 @@ test.describe('#239: Belegte Wortbildungen aus lemma.etymology', () => {
         await expect(page.locator('#component-group-anfang')).toBeHidden();
     });
 
+    test('#251: ein Häkchen überlebt das Wegfiltern und Wiederkommen', async ({ page }) => {
+        // Der Fall, der die Auswahl vorher still verschluckt hat. „winter" ist
+        // KEINE belegte Wortbildung: mit Filter verschwindet seine Checkbox aus
+        // dem DOM. Vorher wurde die Auswahl beim Umschalten aus dem DOM gelesen
+        // und einmalig eingelöst, ein weggefiltertes Häkchen war damit weg,
+        // bemerkbar erst an der Trefferzahl drüben in der Multi-Lemma-Suche.
+        await page.locator('#component-group-ende .component-pick[value="ôsterwîn"]').check();
+        await page.locator('#component-group-anfang .component-pick[value="winter"]').check();
+        await expect(page.locator('#componentPickCount')).toHaveText('2 Schreibformen ausgewählt');
+
+        await page.locator('#componentOnlyMorph').check();
+        await expect(page.locator('#component-group-anfang .component-pick[value="winter"]'))
+            .toHaveCount(0);
+        // Der Zähler beweist, dass die Auswahl weiterlebt, obwohl sie unsichtbar ist.
+        await expect(page.locator('#componentPickCount')).toHaveText('2 Schreibformen ausgewählt');
+
+        await page.locator('#componentOnlyMorph').uncheck();
+        await expect(page.locator('#component-group-anfang .component-pick[value="winter"]'))
+            .toBeChecked();
+        await expect(page.locator('#component-group-ende .component-pick[value="ôsterwîn"]'))
+            .toBeChecked();
+    });
+
+    test('#251: die Übergabe nimmt auch eine weggefilterte Auswahl mit', async ({ page }) => {
+        await page.locator('#component-group-anfang .component-pick[value="winter"]').check();
+        await page.locator('#componentOnlyMorph').check();
+
+        await page.getByRole('button', { name: /Auswahl an die Multi-Lemma-Suche/ }).click();
+        await expect(page).toHaveURL(/#multi-lemma&lemmata=/);
+        expect(decodeURIComponent(new URL(page.url()).hash)).toContain('winter');
+    });
+
+    test('#251: ein neuer Suchbegriff beginnt eine neue Auswahl', async ({ page }) => {
+        // Gegenprobe zum Modell: es darf nicht ZU lange leben. Häkchen des
+        // vorigen Begriffs in der Übergabe wären ein stiller Fremdkörper.
+        await page.locator('#component-group-ende .component-pick[value="ôsterwîn"]').check();
+        await expect(page.locator('#componentPickCount')).toHaveText('1 Schreibform ausgewählt');
+
+        await page.fill('#lemmaSearch', 'winkel');
+        // Auf den Kopf des neuen Begriffs warten, nicht auf eine Gruppe: eine
+        // Gruppe ohne Treffer wird ohne id gerendert und existiert dann nicht.
+        await expect(page.locator('#lemmaResults'))
+            .toContainText('enthalten den Bestandteil "winkel"');
+        await expect(page.locator('#componentPickCount')).toHaveText('');
+    });
+
     test('der Filter bleibt abschaltbar, wenn er alles wegfiltert', async ({ page }) => {
         // Sackgassen-Probe. „lantwîn" hat genau einen weiteren Treffer, und der
         // ist keine belegte Wortbildung: mit Filter ist die Anzeigemenge leer.
@@ -337,5 +383,101 @@ test.describe('#239: Modus-Umschaltung und Regression der normalen Lemmasuche', 
             () => window.playground.ui.authorityExplorers.lemmaExplorer.searchMode
         );
         expect(modus).toBe('lemma');
+    });
+});
+
+test.describe('#251: Homographen mit gleicher Schreibform', () => {
+    // Das Modell hält Schreibformen, nicht IDs, weil die Multi-Lemma-Route
+    // Formen erwartet und sie in der Ergebnisanzeige auch so beschriftet.
+    // 102 der 43.765 Schreibformen gehören mehr als einem Lemma; „sal" ist mit
+    // vier der größte Fall. Vier Checkboxen tragen damit denselben `value` und
+    // sind zwangsläufig eine einzige Auswahl. Der Test hält fest, dass die
+    // Anzeige das auch zeigt, statt auseinanderzulaufen.
+    test('vier gleichschreibende Checkboxen wirken als eine Auswahl', async ({ page }) => {
+        await page.goto(`${KOMPONENTEN_ROUTE}&q=sal`);
+        await playgroundBereit(page);
+        await page.waitForSelector('.component-pick');
+
+        const salBoxen = page.locator('.component-pick[value="sal"]');
+        // Keine feste Kardinalitaet: das Lexikon waechst durch laufenden Ingest
+        // (CLAUDE.md), und ein neues sal-Lemma wuerde diesen Test aus einem
+        // Grund rot machen, der nichts mit dem gesicherten Verhalten zu tun hat.
+        // Abgesichert wird „alle Boxen derselben Form schalten gemeinsam und
+        // zaehlen als eine". Heute sind es vier.
+        const anzahl = await salBoxen.count();
+        expect(anzahl).toBeGreaterThanOrEqual(2);
+
+        await salBoxen.nth(0).check();
+        for (let i = 0; i < anzahl; i++) {
+            await expect(salBoxen.nth(i)).toBeChecked();
+        }
+        // Eine Auswahl, nicht vier: die Lemmata teilen dieselbe Form.
+        await expect(page.locator('#componentPickCount')).toHaveText('1 Schreibform ausgewählt');
+
+        // Abwählen über eine ANDERE Checkbox derselben Form nimmt alle mit.
+        await salBoxen.nth(anzahl - 1).uncheck();
+        for (let i = 0; i < anzahl; i++) {
+            await expect(salBoxen.nth(i)).not.toBeChecked();
+        }
+        await expect(page.locator('#componentPickCount')).toHaveText('');
+    });
+});
+
+test.describe('#251: Reihenfolge der Übergabe', () => {
+    test('die Übergabe folgt der Dokumentordnung, nicht der Klickfolge', async ({ page }) => {
+        // Vor der Modell-Umstellung las die Übergabe das DOM, `querySelectorAll`
+        // liefert in Dokumentordnung, und der Exakt-Treffer aus dem Kopf stand
+        // damit immer vorn. Drüben in der Multi-Lemma-Suche bestimmt die
+        // Termreihenfolge Chip-Reihenfolge und Hervorhebungsfarben, deshalb wird
+        // beim Absenden wieder nach Position sortiert.
+        await page.goto(`${KOMPONENTEN_ROUTE}&q=wein`);
+        await playgroundBereit(page);
+        await page.waitForSelector('#component-group-ende', { timeout: 30000 });
+
+        // Bewusst in umgekehrter Reihenfolge anklicken: erst ein Kompositum aus
+        // der Gruppe, dann das Grundwort im Kopf.
+        await page.locator('#component-group-ende .component-pick[value="ôsterwîn"]').check();
+        await page.locator('#lemmaResults .component-pick[value="wîn"]').check();
+        await page.getByRole('button', { name: /Auswahl an die Multi-Lemma-Suche/ }).click();
+
+        await expect(page).toHaveURL(/#multi-lemma&lemmata=/);
+        const hash = decodeURIComponent(new URL(page.url()).hash);
+        const terme = hash.replace(/^#multi-lemma&lemmata=/, '').split('&')[0].split(',');
+        expect(terme).toEqual(['wîn', 'ôsterwîn']);
+    });
+});
+
+test.describe('#251: Beschriftung behauptet nur, was das Verhalten hält', () => {
+    test('der Zusatz „gemeinsam mit gleichlautenden" steht genau bei mehrfach vergebenen Schreibformen', async ({ page }) => {
+        // Der Zusatz darf sich nicht auf die NORMALISIERTE Form stützen:
+        // 387 der 475 Norm-Gruppen mit mehreren Lemmata haben unterschiedliche
+        // Schreibformen. Bei der Eingabe „lit" stehen `lît` (zweimal) und `lit`
+        // (einmal) zusammen im Kopf; mitgeschaltet werden nur die beiden `lît`,
+        // weil toggleComponentPick über `box.value` abgleicht.
+        await page.goto(`${KOMPONENTEN_ROUTE}&q=lit`);
+        await playgroundBereit(page);
+        await page.waitForSelector('.component-pick');
+
+        const befund = await page.evaluate(() => {
+            const boxen = [...document.querySelectorAll('.component-pick')];
+            const zaehler = {};
+            boxen.forEach(b => { zaehler[b.value] = (zaehler[b.value] || 0) + 1; });
+            return boxen.map(b => ({
+                wert: b.value,
+                anzahl: zaehler[b.value],
+                sagtGemeinsam: /gemeinsam mit gleichlautenden/.test(b.getAttribute('aria-label') || '')
+            }));
+        });
+
+        // Die Invariante, unabhängig von konkreten Lemmata: der Zusatz steht
+        // genau dann, wenn die Schreibform mehr als eine Checkbox hat.
+        for (const b of befund) {
+            expect(b.sagtGemeinsam, `${b.wert} (${b.anzahl}x)`).toBe(b.anzahl > 1);
+        }
+
+        // Und der Test darf nicht leer bestehen: beide Fälle müssen vorkommen,
+        // sonst prüft die Schleife oben nichts (Handwerksregel 4 im Playbook).
+        expect(befund.some(b => b.anzahl > 1), 'kein mehrfach vergebener Wert im Render').toBe(true);
+        expect(befund.some(b => b.anzahl === 1), 'kein einzeln vergebener Wert im Render').toBe(true);
     });
 });

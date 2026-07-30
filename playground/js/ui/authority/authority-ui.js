@@ -115,6 +115,10 @@ export class AuthorityUI {
     this.lemmaExplorer.toggleComponentMorphFilter(an);
   }
 
+  toggleComponentPick(wert, an) {
+    this.lemmaExplorer.toggleComponentPick(wert, an);
+  }
+
   sendWordComponentSelection() {
     this.lemmaExplorer.sendWordComponentSelection();
   }
