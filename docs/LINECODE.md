@@ -131,7 +131,7 @@ A change in `<digits>` signals **some** structural boundary – which one depend
 
 ## Practical Diagnosis Without Positional Decoding
 
-The recipes below avoid the decoding trap by working from the raw Linecoded plaintext (in Julia's `OUTDATED-Texte-mit-Linecode/<SIG>.txt` files) side by side with the current TEI, rather than from the xml:ids alone.
+The recipes below avoid the decoding trap by working from the raw Linecoded plaintext side by side with the current TEI, rather than from the xml:ids alone. For 193 sigles that plaintext is now in the repo under [`sources/linecode/`](../sources/linecode/) (#248); look up the file for a sigle in [`sources/linecode-manifest.csv`](../sources/linecode-manifest.csv). Otherwise use Julia's `OUTDATED-Texte-mit-Linecode/<SIG>.txt` or request a fresh MHDBDB-old export.
 
 ### Diagnosing Missing Stanzas (Issue #23)
 

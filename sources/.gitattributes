@@ -1,0 +1,5 @@
+# Archivkopien: byte-identisch zum Quellarchiv halten.
+# Ohne -text wuerde core.autocrlf die Zeilenenden umschreiben und die sha256 im
+# Manifest waeren nicht mehr gegen das Original pruefbar.
+linecode/** -text
+*.csv -text

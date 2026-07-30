@@ -36,6 +36,7 @@ authority-files/     # 8 XML authority files (source of truth, inkl. contributor
 tei/                 # 667 TEI corpus files
 data/                # Pre-built indexes (.json.gz, generated)
 api/                 # Statische JSON-API (generiert via scripts/build-api.py, #45)
+sources/             # Legacy-Ingest-Quellen (Linecode), nicht normativ, #248
 scripts/             # Python build scripts + data-wrangling
 playground/          # Research tool (self-contained sub-app)
 lemma/               # Persistent lemma pages (Issue #42)
