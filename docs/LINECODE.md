@@ -152,6 +152,25 @@ A `<head>` element embedded *inside* a verse line or stanza – typically with o
 
 The Linecode's `-` always became `<l>` in the original conversion. If a text is clearly prose (paragraphs, no verse numbering, no stanzas) but has `<l n>` elements, it is a candidate for the same migration that was applied to the 18 prose texts listed in TEI-MODEL.md §8.1 during #32. That migration is complete; a newly discovered case would need its own fix rather than an add-on to a batch. See TEI-MODEL.md §8.1 for the prose-vs-verse criteria.
 
+### Recovering a Flattened Level (Issue #236, FR3)
+
+The second documented case of a lost structural level after DUB in #85 – and the first where the level was recovered mechanically and verified end to end.
+
+**Symptom.** FR3's handover Linecode is `0000000uddaaass---h`; the leading `u` is PARALLELUEBERLIEFERUNG. The ingest dropped that level, leaving 23 sibling `<div type="song">` with `@n` reused across witnesses: 28 (Ton, Strophe) pairs were multiply occupied, one stanza five times over. No passage in the text was uniquely addressable, and 1,563 of 9,595 `<l>` (16.3 %) entered every frequency, keyness and co-occurrence calculation as if they were independent text.
+
+**Why decoding worked here.** The sections above warn against positional decoding – rightly, because the per-text field layout is usually unknown. FR3 is the opposite case: its template is recorded in `docs/data/linecode-templates.csv`, so the field layout is *given*, not guessed. **When the template is known, decoding is exact and is the better tool.** The distinction is template-known vs. template-unknown, not "decoding is unreliable".
+
+**Recipe.**
+
+1. Read the per-text template from `docs/data/linecode-templates.csv` and the letter semantics from `docs/data/linecode-mapping.csv`. For FR3: `u` at position 8, `dd` Ton, `aaa` Strophe, `ss` stanza, `---` verse, `h` heading.
+2. Join source to TEI via the `@xml:id` stem, which is the **Linecode with leading zeros stripped**: `0000000105201010010` → `FR3_105201010010_0`. This is lossless in both directions and needs no text matching.
+3. Compare the structure derived from the source against the structure present in the TEI *before* changing anything, and treat a mismatch as a stop condition (`scripts/ingest/frauenlob/01-verify-linecode-vs-tei.py`). Derive the level per `<lg>` from its first token's `xml:id`, not from the enclosing `<div>` – then the same check stays valid after the rebuild and can serve as a permanent gate.
+4. Rebuild the level (`02-restore-parallel-level.py`), asserting afterwards that every (Ton, Strophe) address is now unique.
+
+**Watch out for defective codes.** 86 of the 9,605 lines in FR3's source carry only 18 digits instead of 19 – a missing leading zero, affecting exactly VIII,215 `u=1` and V,209 `u=2`. Left-pad with `zfill(19)` before slicing. Without that, two witnesses vanish silently and the structure looks self-consistent while being wrong.
+
+**The `h` position in the same file.** FR3 also illustrates the `<head>` mis-conversion described above, in its other failure mode: the converter emitted *nothing at all*. The roman tone numerals sit in the text flow as ordinary tokens, some carrying `@lemmaRef` and `@ana`. They are found by the same rule – the last digit of the `xml:id` stem is the `h` position, so a stem not ending in `0` is a heading token. That located 26 tokens in FR1, 2 in FR2 and 14 in FR3.
+
 ## Source Material
 
 Julia's handover folder (stored on Katharina's SharePoint/OneDrive):

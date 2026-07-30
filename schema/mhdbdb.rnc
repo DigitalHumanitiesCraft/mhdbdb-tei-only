@@ -342,6 +342,14 @@ head = element head {
 }
 
 # GAP 3: <lg> can contain <p> (LZT: 1,122 elements)
+#
+# GAP 12 (#236, decided by KZW 2026-07-29): @type stays pinned to "stanza"
+# although the Leich sections FR1 I-III (Marienleich, Kreuzleich, Minneleich)
+# are strictly speaking Versikel, not stanzas. Deliberate: the enum is not
+# widened for a distinction that only three divs need, and that is carried
+# instead by the <head> of the containing <div type="song">. Revisit only if
+# a further corpus brings verse forms that the stanza label actively
+# misdescribes.
 lg = element lg {
     attribute type { "stanza" },
     attribute n { text }?,

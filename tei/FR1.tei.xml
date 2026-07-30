@@ -4,7 +4,7 @@
   <teiHeader>
     <fileDesc>
       <titleStmt>
-        <title xml:lang="de">Lyrik von Frauenlob (Leichs I-XIII / Stackmann 1981)</title>
+        <title xml:lang="de">Lyrik von Frauenlob (Leichs und Sangsprüche, GA I–XIII / Stackmann–Bertau 1981)</title>
         <author ref="#person_1347">Frauenlob</author>
         <respStmt>
           <resp>digitale Zusammenführung, Annotation und semantische Klassifikation</resp>
@@ -51,7 +51,7 @@
           <msIdentifier corresp="works.xml#work_463">
             <idno type="sigle">FR1</idno>
             <idno type="handschriftencensus">113</idno>
-            <msName xml:lang="de">Lyrik von Frauenlob (Leichs I-XIII / Stackmann 1981)</msName>
+            <msName xml:lang="de">Lyrik von Frauenlob (Leichs und Sangsprüche, GA I–XIII / Stackmann–Bertau 1981)</msName>
           </msIdentifier>
           <additional>
             <listBibl>
@@ -98,7 +98,10 @@
       <editorialDecl>
         <p xml:lang="de">Lokale Dateireferenzen (z.B. persons.xml#person_445, lexicon.xml#lemma_879, genres.xml#genre_XXX) verweisen auf kontrollierte Vokabulare im authority-files Verzeichnis dieses Repositorys. Diese internen Querverweise ermöglichen die Verknüpfung mit Personen-, Werk-, Lemma-, Konzept-, Genre- und Namensautoritätsdateien.</p>
         <p xml:lang="en">Local file references (e.g. persons.xml#person_445, lexicon.xml#lemma_879, genres.xml#genre_XXX) point to controlled vocabularies in the authority-files directory of this repository. These internal cross-references enable linking to person, work, lemma, concept, genre, and name authority files.</p>
-      <normalization><p>Band 1 der großen Göttinger Frauenlob-Edition besteht aus 14 Teilen (I-XIV), wobei I-XIII Leichs und XI Lieder sind. Aufgrund unterschiedlicher Zählweisen wurden in FR1 in der MHDBDB nur die Leichs aufgenommen. XIV (Lieder) finden sich in FR2.</p><p>Die Ligatur von oe wurde aufgelöst.</p><p>Lemmatisiert, aber noch nicht disambiguiert.</p><p>Die Groß-/Kleinschreibung entspricht aus technischen Gründen nur teilweise der Edition.</p></normalization></editorialDecl>
+      <p xml:lang="de">Band 1 der Göttinger Frauenlob-Ausgabe (Stackmann/Bertau 1981) besteht aus 14 Teilen (I–XIV): I–III sind Leichs (Marienleich, Kreuzleich, Minneleich), IV–XIII Sangspruchtöne, XIV die Lieder. In der MHDBDB sind die Teile I–XIII als FR1 aufgenommen und Teil XIV als FR2. Die frühere Angabe, FR1 enthalte nur die Leichs, war unzutreffend: auf 973 Leich-Verse kommen dort 5.654 Sangspruch-Verse.</p>
+        <p xml:lang="de">Eingriffe der MHDBDB in die Textgestalt (2026-07, Issue #236): Die römischen Ordnungszahlen der Töne standen als gewöhnliche, teils lemmatisierte Wörter im Textfluss und sind durch &lt;head&gt;-Elemente mit GA-Nummer und Tonnamen ersetzt.</p>
+        <p xml:lang="de">Der E-Text der MHDBDB ist daher an den hier genannten Stellen nicht mit der Druckedition identisch. Für Zitate ist die gedruckte Ausgabe maßgeblich.</p>
+        <normalization><p>Die Ligatur von oe wurde aufgelöst.</p><p>Lemmatisiert, aber noch nicht disambiguiert.</p><p>Die Groß-/Kleinschreibung entspricht aus technischen Gründen nur teilweise der Edition.</p></normalization></editorialDecl>
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
@@ -153,13 +156,8 @@
   </teiHeader>
   <text>
     <body>
-      <p>
-        <hi rend="upper_case initial">
-            <w xml:id="FR1_1_0">i</w>
-          </hi>
-        <pc xml:id="FR1_1_1" join="left">.</pc>
-      </p>
       <div type="song" n="1">
+        <head>I. Marienleich</head>
         <p>
           <lg type="stanza" n="1">
             <l n="1">
@@ -5339,15 +5337,14 @@
               <w xml:id="FR1_1020360_4" lemmaRef="lexicon.xml#lemma_2830" pos="NOM" ana="lexicon.xml#lemma_2830_sense_90142" corresp="variants.xml#type_9579">himels</w>
               <w xml:id="FR1_1020360_5">margariten</w>
               <pc xml:id="FR1_1020360_6" join="left">.</pc>
-              <hi rend="upper_case">
-                <w xml:id="FR1_1020361_0" lemmaRef="lexicon.xml#lemma_13826" pos="DIG" ana="lexicon.xml#lemma_13826_sense_22789" corresp="variants.xml#type_54855">ii</w>
-              </hi>
-              <pc xml:id="FR1_1020361_1" join="left">.</pc>
+              
+              
             </l>
           </lg>
         </p>
       </div>
       <div type="song" n="2">
+        <head>II. Kreuzleich</head>
         <p>
           <lg type="stanza" n="1">
             <l n="1">
@@ -8125,15 +8122,14 @@
               <pc xml:id="FR1_2022100_11" join="left">!</pc>
               <w xml:id="FR1_2022100_12">amen</w>
               <pc xml:id="FR1_2022100_13" join="left">.</pc>
-              <hi rend="upper_case">
-                <w xml:id="FR1_2022101_0" lemmaRef="lexicon.xml#lemma_13826" pos="DIG" ana="lexicon.xml#lemma_13826_sense_22789" corresp="variants.xml#type_54857">iii</w>
-              </hi>
-              <pc xml:id="FR1_2022101_1" join="left">.</pc>
+              
+              
             </l>
           </lg>
         </p>
       </div>
       <div type="song" n="3">
+        <head>III. Minneleich</head>
         <p>
           <lg type="stanza" n="1">
             <l n="1">
@@ -10424,15 +10420,14 @@
               <w xml:id="FR1_3033080_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25992">vrouwen</w>
               <w xml:id="FR1_3033080_5" lemmaRef="lexicon.xml#lemma_57649" pos="VRB" ana="lexicon.xml#lemma_57649_sense_92763" corresp="variants.xml#type_309630">eret</w>
               <pc xml:id="FR1_3033080_6" join="left">!</pc>
-              <hi rend="upper_case">
-                <w xml:id="FR1_3033081_0" lemmaRef="lexicon.xml#lemma_13826" pos="DIG" ana="lexicon.xml#lemma_13826_sense_22789" corresp="variants.xml#type_305643">iv</w>
-              </hi>
-              <pc xml:id="FR1_3033081_1" join="left">.</pc>
+              
+              
             </l>
           </lg>
         </p>
       </div>
       <div type="song" n="4">
+        <head>IV. Minne und Welt</head>
         <p>
           <lg type="stanza" n="1">
             <l n="1">
@@ -13418,15 +13413,14 @@
               <w xml:id="FR1_4021120_7">din</w>
               <w xml:id="FR1_4021120_8">strit</w>
               <pc xml:id="FR1_4021120_9" join="left">.</pc>
-              <hi rend="upper_case">
-                <w xml:id="FR1_4021121_0">v</w>
-              </hi>
-              <pc xml:id="FR1_4021121_1" join="left">.</pc>
+              
+              
             </l>
           </lg>
         </p>
       </div>
       <div type="song" n="5">
+        <head>V. Langer Ton</head>
         <p>
           <lg type="stanza" n="1">
             <l n="1">
@@ -39145,15 +39139,14 @@
               <w xml:id="FR1_5122190_13" lemmaRef="lexicon.xml#lemma_5366" pos="VRB" ana="lexicon.xml#lemma_5366_sense_8382" corresp="variants.xml#type_18706">sehen</w>
               <pc xml:id="FR1_5122190_14" join="left">&gt;</pc>
               <pc xml:id="FR1_5122190_15" join="left">.</pc>
-              <hi rend="upper_case">
-                <w xml:id="FR1_5122191_0">vi</w>
-              </hi>
-              <pc xml:id="FR1_5122191_1" join="left">.</pc>
+              
+              
             </l>
           </lg>
         </p>
       </div>
       <div type="song" n="6">
+        <head>VI. Flugton</head>
         <p>
           <lg type="stanza" n="1">
             <l n="1">
@@ -40872,15 +40865,14 @@
               <w xml:id="FR1_6012170_2" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
               <w xml:id="FR1_6012170_3" lemmaRef="lexicon.xml#lemma_50675" pos="VRB" ana="lexicon.xml#lemma_50675_sense_80675" corresp="variants.xml#type_282093">wibet</w>
               <pc xml:id="FR1_6012170_4" join="left">.</pc>
-              <hi rend="upper_case">
-                <w xml:id="FR1_6012171_0" lemmaRef="lexicon.xml#lemma_13826" pos="DIG" ana="lexicon.xml#lemma_13826_sense_22789" corresp="variants.xml#type_54861">vii</w>
-              </hi>
-              <pc xml:id="FR1_6012171_1" join="left">.</pc>
+              
+              
             </l>
           </lg>
         </p>
       </div>
       <div type="song" n="7">
+        <head>VII. Grüner Ton</head>
         <p>
           <lg type="stanza" n="1">
             <l n="1">
@@ -48745,15 +48737,14 @@
               <w xml:id="FR1_7043190_7">kunde</w>
               <w xml:id="FR1_7043190_8">riuwen</w>
               <pc xml:id="FR1_7043190_9" join="left">.</pc>
-              <hi rend="upper_case">
-                <w xml:id="FR1_7043191_0" lemmaRef="lexicon.xml#lemma_13826" pos="DIG" ana="lexicon.xml#lemma_13826_sense_22789" corresp="variants.xml#type_54862">viii</w>
-              </hi>
-              <pc xml:id="FR1_7043191_1" join="left">.</pc>
+              
+              
             </l>
           </lg>
         </p>
       </div>
       <div type="song" n="8">
+        <head>VIII. Zarter Ton</head>
         <p>
           <lg type="stanza" n="1">
             <l n="1">
@@ -53887,15 +53878,14 @@
               <w xml:id="FR1_8026210_2" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
               <w xml:id="FR1_8026210_3" lemmaRef="lexicon.xml#lemma_7656" pos="NAM" ana="lexicon.xml#lemma_7656_sense_12561" corresp="variants.xml#type_27721">wirzeburc</w>
               <pc xml:id="FR1_8026210_4" join="left">.</pc>
-              <hi rend="upper_case">
-                <w xml:id="FR1_8026211_0" lemmaRef="lexicon.xml#lemma_13826" pos="DIG" ana="lexicon.xml#lemma_13826_sense_22789" corresp="variants.xml#type_54863">ix</w>
-              </hi>
-              <pc xml:id="FR1_8026211_1" join="left">.</pc>
+              
+              
             </l>
           </lg>
         </p>
       </div>
       <div type="song" n="9">
+        <head>IX. Würgendrüssel</head>
         <p>
           <lg type="stanza" n="1">
             <l n="1">
@@ -58712,15 +58702,14 @@
               <w xml:id="FR1_9022220_3">ein</w>
               <w xml:id="FR1_9022220_4" lemmaRef="lexicon.xml#lemma_5994" pos="NOM" corresp="variants.xml#type_21151">tag</w>
               <pc xml:id="FR1_9022220_5" join="left">.</pc>
-              <hi rend="upper_case">
-                <w xml:id="FR1_9022221_0">x</w>
-              </hi>
-              <pc xml:id="FR1_9022221_1" join="left">.</pc>
+              
+              
             </l>
           </lg>
         </p>
       </div>
       <div type="song" n="10">
+        <head>X. Vergessener Ton</head>
         <p>
           <lg type="stanza" n="1">
             <l n="1">
@@ -60541,15 +60530,14 @@
               <w xml:id="FR1_10011150_4">wirt</w>
               <w xml:id="FR1_10011150_5" lemmaRef="lexicon.xml#lemma_75808" pos="ADJ GRA" ana="lexicon.xml#lemma_75808_sense_114162" corresp="variants.xml#type_360840">swenker</w>
               <pc xml:id="FR1_10011150_6" join="left">.</pc>
-              <hi rend="upper_case">
-                <w xml:id="FR1_10011151_0" lemmaRef="lexicon.xml#lemma_13826" pos="DIG" ana="lexicon.xml#lemma_13826_sense_22789" corresp="variants.xml#type_54865">xi</w>
-              </hi>
-              <pc xml:id="FR1_10011151_1" join="left">.</pc>
+              
+              
             </l>
           </lg>
         </p>
       </div>
       <div type="song" n="11">
+        <head>XI. Neuer Ton</head>
         <p>
           <lg type="stanza" n="1">
             <l n="1">
@@ -63230,15 +63218,14 @@
               <w xml:id="FR1_11015170_5" lemmaRef="lexicon.xml#lemma_7075" pos="ADJ ADV" ana="lexicon.xml#lemma_7075_sense_11459" corresp="variants.xml#type_25008">vil</w>
               <w xml:id="FR1_11015170_6" lemmaRef="lexicon.xml#lemma_2199" pos="VRB" ana="lexicon.xml#lemma_2199_sense_3477" corresp="variants.xml#type_42556">geschen</w>
               <pc xml:id="FR1_11015170_7" join="left">.</pc>
-              <hi rend="upper_case">
-                <w xml:id="FR1_11015171_0" lemmaRef="lexicon.xml#lemma_13826" pos="DIG" ana="lexicon.xml#lemma_13826_sense_22789" corresp="variants.xml#type_54868">xii</w>
-              </hi>
-              <pc xml:id="FR1_11015171_1" join="left">.</pc>
+              
+              
             </l>
           </lg>
         </p>
       </div>
       <div type="song" n="12">
+        <head>XII. Goldener Ton</head>
         <p>
           <lg type="stanza" n="1">
             <l n="1">
@@ -64718,15 +64705,14 @@
               <w xml:id="FR1_12009200_3" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
               <w xml:id="FR1_12009200_4">ger</w>
               <pc xml:id="FR1_12009200_5" join="left">.</pc>
-              <hi rend="upper_case">
-                <w xml:id="FR1_12009201_0" lemmaRef="lexicon.xml#lemma_13826" pos="DIG" ana="lexicon.xml#lemma_13826_sense_22789" corresp="variants.xml#type_54869">xiii</w>
-              </hi>
-              <pc xml:id="FR1_12009201_1" join="left">.</pc>
+              
+              
             </l>
           </lg>
         </p>
       </div>
       <div type="song" n="13">
+        <head>XIII. Kurzer Ton</head>
         <p>
           <lg type="stanza" n="1">
             <l n="1">
