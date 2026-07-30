@@ -191,7 +191,8 @@ Die RDF-Migration brachte nur Klassifikation (POS, Konzept-Zeiger, Kompositions-
   <gramGrp><pos>NOM</pos></gramGrp>
   <etym type="borrowing">
     <lang norm="arc">Aramäisch</lang>
-    <note type="attribution" resp="contributors.xml#contrib_003">Vermittlung über die Vulgata …</note>
+    <lang norm="la">Lateinisch</lang>
+    <note type="attribution" resp="contributors.xml#contrib_003">Quellsprache ist das Aramäische; vermittelt hat die lateinische Bibel …</note>
   </etym>
   <sense xml:id="lemma_37818_sense_59052" ana="#type_198634">
     <def xml:lang="de" resp="contributors.xml#contrib_003">Aramäische Anrede Gottes: „mein Vater“ …</def>
@@ -203,13 +204,17 @@ Die RDF-Migration brachte nur Klassifikation (POS, Konzept-Zeiger, Kompositions-
 
 | Element | Trägt | Regel |
 |---------|-------|-------|
-| `<etym type="borrowing">` | Herkunftssprache (`<lang>` mit `@norm` = ISO 639-3/BCP-47) plus Quelle der Zuschreibung | Schicht B des Fremdsprachen-Phasenplans (#28). 1+ `<lang>`, weil Mehrfachherkunft normal ist (`mirre`: ar + he + arc). **Kein** Urteil über den Integrationsgrad (KZW-Entscheidung 3 vom 29.07.). Streng getrennt von `@xml:lang` am `<w>` im Korpus (Schicht A = Code-Switching im Text). |
+| `<etym type="borrowing">` | Herkunftssprachen (`<lang>` mit `@norm` = BCP-47) plus Quelle der Zuschreibung | Schicht B des Fremdsprachen-Phasenplans (#28). 1+ `<lang>`, weil Mehrfachherkunft normal ist (`mirre`: ar + he + arc). **Kein** Urteil über den Integrationsgrad (KZW-Entscheidung 3 vom 29.07.). Streng getrennt von `@xml:lang` am `<w>` im Korpus (Schicht A = Code-Switching im Text). |
 | `<def>` im `<sense>` | Bedeutungsangabe in Prosa | Das Begriffssystem klassifiziert, es formuliert nicht. Wörterbuchinhalt, keine Argumentation. |
 | `<note type="comment">` im `<sense>` | philologischer Kommentar (Belegkontext, Bezugsstellen) | Bewusst getrennt von `<def>`: hier steht die Begründung, dort die Bedeutung. |
 
-**`@resp`** verweist auf `contributors.xml#contrib_N` und ist bei beiden `<note>`-Typen Pflicht: ein Kommentar ohne Urheber ist nicht zitierfähig. Bei `<def>` optional (eine Bedeutungsangabe kann Redaktionsstand sein).
+**`@resp`** verweist auf `contributors.xml#contrib_N` und ist bei beiden `<note>`-Typen Pflicht: ein Kommentar ohne Urheber ist nicht zitierfähig. Bei `<def>` optional (eine Bedeutungsangabe kann Redaktionsstand sein). Der Wert ist als Pattern getypt (`contrib_` plus drei Ziffern), damit ein Tippfehler in der ID schon in der Stage-2-Validierung auffällt und nicht erst im Cross-Ref-Audit. Die Zurechenbarkeit endet derzeit auf der Datenebene: `contributors.xml` ist nicht Teil des Authority-Index, die Oberflächen können `contrib_003` also nicht zu einem Namen auflösen und zeigen die Prosa ohne Urheberangabe.
 
-**Sprachkonzepte vs. `<etym type="borrowing">`:** Der Konzept-Subtree `concept_23123000` (Einzelsprachen) wird im Bestand bereits als Herkunftsmarkierung verwendet (`mirre` trägt Arabisch, Hebräisch, Aramäisch; `Golgota` und `Barjona` Aramäisch). Beides bleibt nebeneinander: die Konzept-Zeiger machen die Herkunft im Begriffssystem such- und auswertbar, `<etym type="borrowing">` macht sie samt Quelle explizit. Wer eine Herkunft neu vergibt, setzt beides.
+**Sprachkonzepte vs. `<etym type="borrowing">`:** Der Konzept-Subtree `concept_23123000` (Einzelsprachen) wird im Bestand bereits als Herkunftsmarkierung verwendet (`mirre` trägt Arabisch, Hebräisch, Aramäisch; `Golgota` und `Barjona` Aramäisch). Beides bleibt nebeneinander: die Konzept-Zeiger machen die Herkunft im Begriffssystem such- und auswertbar, `<etym type="borrowing">` macht sie samt Quelle explizit.
+
+**Regel: die beiden Schichten müssen deckungsgleich sein.** Wer eine Herkunft neu vergibt, setzt für jede Sprache beides, den `<lang>`-Eintrag und den Konzept-Zeiger. Sonst bekommt ein Konsument je nach Zugriffsweg verschiedene Mengen: `lemma.origin.languages` aus dem Index gegen den Konzept-Subtree aus derselben Datei. Auch Vermittlungssprachen zählen als Herkunftsschicht und stehen in beiden (`Abba`: `arc` als Quellsprache, `la` als Vermittlung über die Vulgata). Welche der Sprachen Quelle und welche Vermittlung ist, sagt die `<note type="attribution">` in Prosa; maschinell ist die Liste ungeordnet.
+
+**Reihenfolge (RELAX NG, Sequenz ohne interleave):** im `<entry>` steht `<etym type="morphological">` vor `<etym type="borrowing">`, im `<sense>` gilt `<def>` vor `<note type="comment">` vor den `<ptr>`. Anhängendes Erzeugen (`SubElement`, wie in `scripts/ingest/wzb/wzb-add-lemma.py`) trifft das von sich aus; wer manuell einfügt, bekommt sonst einen Stage-2-Fehler, dessen Meldung die Ursache nicht nennt.
 
 **Index-Abbildung:** `lemma.origin = {languages[{name, code}], attribution?, resp?}` sowie `sense.definition` / `sense.comment` (plus `definitionResp` / `commentResp`), jeweils nur wenn im Lexikon vorhanden: 43.879 Lemmata mit Leerfeldern würden Index und API ohne Nutzen aufblähen. Authority Index ab v1.7.0.
 

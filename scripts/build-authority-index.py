@@ -49,6 +49,17 @@ OUTPUT_FILE = DATA_DIR / 'authority-index.json.gz'
 TEI_NS = {'tei': 'http://www.tei-c.org/ns/1.0'}
 
 
+def _all_text(el):
+    """Vollständiger Textinhalt eines Elements, auch über Kindelemente hinweg.
+
+    `el.text` liest nur den ersten Textknoten. Für die kuratierten Prosa-Felder
+    (<def>, <note>) erlaubt das Schema heute keine Kinder, aber sobald es das
+    tut (Bibelstellen als <ref> liegt nahe), würde `el.text` den Rest still
+    verschlucken.
+    """
+    return ''.join(el.itertext()).strip()
+
+
 def parse_lexicon():
     """Parse lexicon.xml to extract lemmata."""
     print("📖 Parsing lexicon.xml...")
@@ -122,10 +133,12 @@ def parse_lexicon():
             attribution_el = borrow_el[0].xpath('./tei:note[@type="attribution"]', namespaces=ns)
             if languages:
                 origin = {'languages': languages}
-                if attribution_el and attribution_el[0].text:
-                    origin['attribution'] = attribution_el[0].text.strip()
-                    if attribution_el[0].get('resp'):
-                        origin['resp'] = attribution_el[0].get('resp')
+                if attribution_el:
+                    attribution = _all_text(attribution_el[0])
+                    if attribution:
+                        origin['attribution'] = attribution
+                        if attribution_el[0].get('resp'):
+                            origin['resp'] = attribution_el[0].get('resp')
 
         # Extract all senses with details
         sense_els = entry.xpath('.//tei:sense', namespaces=ns)
@@ -152,16 +165,20 @@ def parse_lexicon():
             # wenn vorhanden: 43.879 Lemmata mit leeren Feldern würden Index
             # und API ohne Nutzen aufblähen.
             def_el = sense_el.xpath('./tei:def', namespaces=ns)
-            if def_el and def_el[0].text and def_el[0].text.strip():
-                sense_data['definition'] = def_el[0].text.strip()
-                if def_el[0].get('resp'):
-                    sense_data['definitionResp'] = def_el[0].get('resp')
+            if def_el:
+                definition = _all_text(def_el[0])
+                if definition:
+                    sense_data['definition'] = definition
+                    if def_el[0].get('resp'):
+                        sense_data['definitionResp'] = def_el[0].get('resp')
 
             comment_el = sense_el.xpath('./tei:note[@type="comment"]', namespaces=ns)
-            if comment_el and comment_el[0].text and comment_el[0].text.strip():
-                sense_data['comment'] = comment_el[0].text.strip()
-                if comment_el[0].get('resp'):
-                    sense_data['commentResp'] = comment_el[0].get('resp')
+            if comment_el:
+                comment = _all_text(comment_el[0])
+                if comment:
+                    sense_data['comment'] = comment
+                    if comment_el[0].get('resp'):
+                        sense_data['commentResp'] = comment_el[0].get('resp')
 
             senses.append(sense_data)
 

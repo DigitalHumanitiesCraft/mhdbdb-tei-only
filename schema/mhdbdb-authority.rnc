@@ -119,7 +119,16 @@ lexicon.entry = element entry {
 # ------------------------------------------------------------
 # Drei optionale Produktionen für händisch kuratiertes Wissen, das
 # die RDF-Migration nicht mitbringen konnte. Alle drei sind additiv:
-# die 43.879 migrierten Einträge bleiben ohne Änderung valide.
+# der Bestand (43.879 Einträge; die 43.750 in den Kommentaren oben sind
+# der gemessene Stand der #32-Migration vom April 2026) bleibt ohne
+# Änderung valide.
+#
+# REIHENFOLGE: RELAX NG modelliert hier eine Sequenz ohne interleave.
+# Im <entry> steht <etym type="morphological"> VOR
+# <etym type="borrowing">, im <sense> gilt <def> vor
+# <note type="comment"> vor den <ptr>. Anhängendes Erzeugen (SubElement)
+# trifft das von sich aus; wer manuell einfügt, bekommt sonst einen
+# Stage-2-Fehler, dessen Meldung die Ursache nicht nennt.
 #
 # 1. <etym type="borrowing"> — Herkunftssprache eines Lehn- oder
 #    Fremdworts. Das ist Schicht B des Fremdsprachen-Phasenplans
@@ -142,31 +151,39 @@ lexicon.entry = element entry {
 #
 # @resp verweist auf contributors.xml#contrib_N und macht jede kuratierte
 # Angabe einer Person zurechenbar (Pflicht bei <note>, weil ein Kommentar
-# ohne Urheber nicht zitierfähig ist).
+# ohne Urheber nicht zitierfähig ist). Getypt als Pattern, damit ein
+# Tippfehler in der ID nicht erst im Cross-Ref-Audit auffällt.
+
+# @norm ist BCP-47, dasselbe Register wie @xml:lang in Schicht A
+# (FREMDSPRACHEN-PHASENPLAN-28: la, fr, ar, he, grc, it, es, en, yi,
+# x-rotw, dazu arc). Kein ISO 639-3 daneben: das schrieb 'lat' statt 'la'
+# und beide Schichten wären über den Sprachcode nicht mehr joinbar.
+lexicon.lang.code = xsd:token { pattern = "[a-z]{2,3}(-[A-Za-z0-9]{1,8})*|x-[a-z]{2,8}" }
+lexicon.resp.ref = xsd:token { pattern = "contributors\.xml#contrib_[0-9]{3}" }
 
 lexicon.etym.borrowing = element etym {
     attribute type { "borrowing" },
     element lang {
-        attribute norm { text }?,      # ISO 639-3 / BCP-47 (arc, la, he, ...)
+        attribute norm { lexicon.lang.code }?,
         text                            # Sprachname, deutsch
     }+,                                 # 1+ — Mehrfachherkunft ist normal (mirre: ar + he + arc)
     element note {
         attribute type { "attribution" },
-        attribute resp { text },        # contributors.xml#contrib_N
+        attribute resp { lexicon.resp.ref },
         text
     }?
 }
 
 lexicon.def = element def {
     attribute xml:lang { text }?,
-    attribute resp { text }?,          # contributors.xml#contrib_N
+    attribute resp { lexicon.resp.ref }?,
     text
 }
 
 lexicon.sense.note = element note {
     attribute type { "comment" },
     attribute xml:lang { text }?,
-    attribute resp { text },           # contributors.xml#contrib_N
+    attribute resp { lexicon.resp.ref },
     text
 }
 

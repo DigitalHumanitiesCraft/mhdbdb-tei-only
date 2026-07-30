@@ -183,6 +183,16 @@
       </oneOrMore>
     </element>
   </define>
+  <define name="lexicon.lang.code">
+    <data type="token">
+      <param name="pattern">[a-z]{2,3}(-[A-Za-z0-9]{1,8})*|x-[a-z]{2,8}</param>
+    </data>
+  </define>
+  <define name="lexicon.resp.ref">
+    <data type="token">
+      <param name="pattern">contributors\.xml#contrib_[0-9]{3}</param>
+    </data>
+  </define>
   <define name="lexicon.etym.borrowing">
     <element>
       <name ns="http://www.tei-c.org/ns/1.0">etym</name>
@@ -196,7 +206,7 @@
           <optional>
             <attribute>
               <name ns="">norm</name>
-              <text/>
+              <ref name="lexicon.lang.code"/>
             </attribute>
           </optional>
           <text/>
@@ -211,7 +221,7 @@
           </attribute>
           <attribute>
             <name ns="">resp</name>
-            <text/>
+            <ref name="lexicon.resp.ref"/>
           </attribute>
           <text/>
         </element>
@@ -230,7 +240,7 @@
       <optional>
         <attribute>
           <name ns="">resp</name>
-          <text/>
+          <ref name="lexicon.resp.ref"/>
         </attribute>
       </optional>
       <text/>
@@ -251,7 +261,7 @@
       </optional>
       <attribute>
         <name ns="">resp</name>
-        <text/>
+        <ref name="lexicon.resp.ref"/>
       </attribute>
       <text/>
     </element>

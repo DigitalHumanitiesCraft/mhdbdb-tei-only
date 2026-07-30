@@ -195,8 +195,14 @@ class LemmaPage {
                 const definition = sense.definition
                     ? `<p class="text-sm text-slate-800 mb-2">${escapeHtml(sense.definition)}</p>`
                     : '';
+                // Der Kommentar bekommt ein sichtbares Label: das Datenmodell
+                // trennt Bedeutungsangabe und Argumentation, eine Graustufe
+                // allein macht diese Trennung nicht lesbar.
                 const comment = sense.comment
-                    ? `<p class="text-sm text-slate-600 mb-2 leading-relaxed">${escapeHtml(sense.comment)}</p>`
+                    ? `<div class="mb-2">
+                           <div class="text-xs text-slate-400 mb-0.5">Kommentar</div>
+                           <p class="text-sm text-slate-600 leading-relaxed">${escapeHtml(sense.comment)}</p>
+                       </div>`
                     : '';
                 return `
                     <div class="border-l-2 border-brand-200 pl-4">

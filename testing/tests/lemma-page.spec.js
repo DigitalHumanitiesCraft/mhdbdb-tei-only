@@ -227,22 +227,30 @@ test.describe('Persistent Lemma Pages', () => {
         await page.goto('http://localhost:8080/lemma/?id=37818');
         await page.waitForSelector('#lemmaContent:not(.hidden)', { timeout: 30000 });
 
+        // Beide Herkunftsschichten samt Code. Die Liste muss deckungsgleich mit
+        // den Sprach-Konzepten des Eintrags sein (Kurationsregel in
+        // TEI-MODEL-AUTH-FILES §3.1), deshalb wird sie hier gegen beide geprüft.
         await page.waitForSelector('#originSection:not(.hidden)', { timeout: 5000 });
         const origin = await page.textContent('#originContent');
         expect(origin).toContain('Aramäisch');
         expect(origin).toContain('arc');
-        expect(origin).toContain('Vulgata');
+        expect(origin).toContain('Lateinisch');
+        expect(origin).toContain('la');
+        expect(origin).toContain('Bibel');
 
         // Definition und Kommentar stehen im Bedeutungs-Block, vor den
-        // Begriffs-Chips.
+        // Begriffs-Chips; der Kommentar trägt ein sichtbares Label.
         const senses = await page.textContent('#sensesContent');
         expect(senses).toContain('Anrede Gottes');
+        expect(senses).toContain('Kommentar');
         expect(senses).toContain('ZUK 2377');
         expect(senses).toContain('Markus 14,36');
 
-        // Die neuen Begriffszuordnungen sind sichtbar
+        // Die neuen Begriffszuordnungen sind sichtbar, die entfernte nicht
         expect(senses).toContain('Aramäisch');
+        expect(senses).toContain('Lateinisch');
         expect(senses).toContain('Bibel/Religionsgeschichte');
+        expect(senses).not.toContain('Kirchliche Hierarchie');
     });
 
     test('Lemma ohne kuratierte Herkunft zeigt keine Herkunft-Sektion (879)', async ({ page }) => {
