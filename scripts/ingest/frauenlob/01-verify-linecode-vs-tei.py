@@ -183,6 +183,16 @@ def check_fr3():
         errors.append(f"Verszahl: Quelle {len(body_rows)} vs TEI {tei_l}")
     print(f"  lg-Nummern: {bekannt} von {len(LG_UMNUMMERIERT)} bekannten "
           f"Umnummerierungen angetroffen")
+    # Ratsche in beide Richtungen. Ohne diesen Zweig bliebe ein Eintrag, dessen
+    # Fall inzwischen aufgeraeumt ist, als toter Code samt einer Begruendung
+    # stehen, die nichts mehr beschreibt.
+    if bekannt != len(LG_UMNUMMERIERT):
+        fehlend = [k for k in LG_UMNUMMERIERT if k[0] in tei_struct]
+        errors.append(
+            f"nur {bekannt} von {len(LG_UMNUMMERIERT)} Eintraegen in "
+            f"LG_UMNUMMERIERT angetroffen: die Ausnahme ist nicht mehr noetig "
+            f"und gehoert gestrichen (noch adressierbar: {fehlend})"
+        )
 
     print()
     print("  Ueberschriften-Tokens (h=1), Sitz im Textfluss:")
@@ -215,11 +225,14 @@ def check_fr2():
                   for ln, grund, txt in skipped)
     if set(src) != set(tei_struct):
         errors.append(f"Lieder: Quelle {sorted(src)} vs TEI {sorted(tei_struct)}")
+    # In FR2 sind die Strophennummern der Quelle und `lg/@n` im TEI dieselbe
+    # durchlaufende Zaehlung (Lied 1 -> 1..5, Lied 2 -> 6..10, nachgemessen fuer
+    # alle sieben Lieder). Deshalb hier auf Gleichheit pruefen, nicht nur auf die
+    # Anzahl: eine Umnummerierung bei gleicher Strophenzahl liefe sonst durch.
     for lied in sorted(set(src) & set(tei_struct)):
         s_str, t_str = sorted(src[lied]), sorted(tei_struct[lied])
-        if len(s_str) != len(t_str):
-            errors.append(f"Strophenzahl Lied {lied}: "
-                          f"Quelle {len(s_str)} vs TEI {len(t_str)}")
+        if s_str != t_str:
+            errors.append(f"Strophen Lied {lied}: Quelle {s_str} vs TEI {t_str}")
     if len(body_rows) != tei_l:
         errors.append(f"Verszahl: Quelle {len(body_rows)} vs TEI {tei_l}")
     return errors

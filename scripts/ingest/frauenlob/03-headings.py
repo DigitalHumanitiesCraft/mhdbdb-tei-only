@@ -108,7 +108,13 @@ def strip_heading_tokens(body):
     verdaechtig = []
     for el in list(body.iter()):
         if el.tag in (q("w"), q("pc")) and is_heading_token(el):
-            if not is_plausible_heading_text(el.text):
+            # itertext, nicht el.text: `schema/mhdbdb.rnc` erlaubt <w> mixed { hi* },
+            # und bei <w><hi>xiv</hi></w> waere el.text leer. Der Token liefe dann
+            # ueber den Leer-Zweig ungeprueft durch die Schranke, die ihn gerade
+            # aufhalten soll. Im Bestand kommt das nicht vor (0 <w> mit Kindelement
+            # ueber alle 667 Dateien), die Schranke ist aber der einzige Schutz,
+            # wenn jemand das Rezept aus LINECODE.md auf einen anderen Text anwendet.
+            if not is_plausible_heading_text("".join(el.itertext())):
                 verdaechtig.append((el.get(XID), el.text))
                 continue
             removed.append((el.get(XID), el.text))

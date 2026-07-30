@@ -384,8 +384,15 @@ class TEITextReader {
         // wieder bei 1 beginnt: ohne (b) bekäme der Text 38 zusätzliche
         // Randeinsen, also genau das unruhige Randbild, das #127 beseitigt hat,
         // nur über <div> statt über <lg> hereingekommen.
-        // Korpusweit hält (b) 1.497 divs und verwirft 1.172 strophenlokale in
-        // 84 Texten, was 1.007 unmotivierte Randeinsen verhindert.
+        // Korpusweit hält (b) 1.473 divs und verwirft 1.188 strophenlokale in
+        // 84 Texten, was 1.026 unmotivierte Randeinsen verhindert.
+        //
+        // Seitenwirkung von #236: verschachtelte div[@type="parallel"] bringen
+        // eine zweite l[n=1] in den Teilbaum ihrer section, wodurch 19 der 127
+        // FR3-Sections ihren Anker verlieren und die sichtbare 1 zum
+        // Parallelzeugen wandert. Ob die Zählung nach Zeugen getrennt werden
+        // soll, ist in #250 offen; die Zahlen oben sind der Stand MIT diesem
+        // Effekt.
         return first === '1' && einsen === 1;
     }
 
@@ -432,11 +439,12 @@ class TEITextReader {
                     //
                     // Reichweite (reproduzierbar per
                     // scripts/audit/count-verse-numbering-resets.py, das diese
-                    // Render-Reihenfolge nachbaut): 1.497 divs in 137 Texten
-                    // erfüllen das Kriterium (897 chapter, 257 song, 177 section,
-                    // 159 ohne @type, 7 number); sichtbar werden dadurch 1.352
-                    // zusätzliche Randnummern in 49 Texten. Größter Fall ist PZ
-                    // mit +826, dann FR3 +136, CHH +53, TKR +40, HUG +39. Texte
+                    // Render-Reihenfolge nachbaut): 1.473 divs in 137 Texten
+                    // erfüllen das Kriterium (897 chapter, 252 song, 159 ohne
+                    // @type, 137 section, 21 parallel, 7 number); sichtbar werden
+                    // dadurch 1.333 zusätzliche Randnummern in 49 Texten. Größter
+                    // Fall ist PZ mit +826, dann FR3 +117, CHH +53, TKR +40,
+                    // HUG +39 (Stand 2026-07-30, nach #236). Texte
                     // mit durchlaufender Zählung sind unberührt, weil dort nur
                     // der erste div bei n="1" beginnt.
                     //
