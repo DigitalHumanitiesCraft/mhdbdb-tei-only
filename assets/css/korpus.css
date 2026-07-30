@@ -264,6 +264,24 @@
   box-shadow: 0 2px 8px rgba(59, 117, 216, 0.3);
 }
 
+/* Editorische Eingriffe (#250): Angaben aus editorialDecl, gesetzt wie Prosa
+   und nicht wie die Feld/Wert-Zeilen der übrigen Abschnitte. Die Absätze sind
+   ganze Sätze, teils mehrere pro Text (FR3: 10). */
+.metadata-editorial-intro {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.metadata-editorial-note {
+  font-size: var(--text-sm);
+  line-height: 1.6;
+  margin: 0;
+  padding-left: var(--space-3);
+  border-left: 2px solid var(--border-primary);
+}
+
 /* TEI-XML Download Hinweis (Issue #96) */
 .metadata-tei-download {
   margin-top: var(--space-2);
@@ -459,6 +477,34 @@
 
 .reading-body .tei-div-colophon > .tei-div-header {
   font-style: normal;
+}
+
+/* Label über einer eigenen <head>-Überschrift (#250): kleiner und ohne eigene
+   Trennlinie, damit „Lied 5" und „V. Langer Ton" als eine Einheit lesen statt
+   als zwei konkurrierende Überschriften. Die Nummer bleibt sichtbar, weil kein
+   <head> im Korpus sie mitführt (Begründung in tei-text-reader.js,
+   divHasOwnHead). Der Selektor nennt zusätzlich das umgebende .tei-div, damit er
+   die typspezifischen Regeln oben (.tei-div-section > .tei-div-header) ohne
+   Verlass auf die Quellreihenfolge überstimmt. */
+.reading-body .tei-div > .tei-div-header.tei-div-header-above-head {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-tertiary);
+  letter-spacing: 0.02em;
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+/* Die Überschrift schließt direkt an ihr Label an, statt ihren eigenen
+   Abstand nach oben zu behalten (sonst klafft die Einheit auseinander).
+
+   Der Nachbarselektor greift nur, wenn der <head> als erstes Kind gerendert
+   wird. Das trifft auf 1.061 der 1.097 Fälle zu; bei den übrigen 36 steht ein
+   anderes Element davor (etwa ein <pb/>), dort bleibt der reguläre Abstand.
+   Gemessen mit scripts/audit/count-editorial-notes-and-div-heads.py, Teil C. */
+.reading-body .tei-div-header-above-head + .section-head {
+  margin-top: 0;
 }
 
 /* --- Stanza blocks (lg) --- */

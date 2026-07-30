@@ -8,6 +8,28 @@
 
 import { lemmaRefMatchesId } from '../lib/lemma-match.js';
 
+/**
+ * Repository-Boilerplate im <editorialDecl>, das NICHT in die Leseansicht gehört (#250).
+ *
+ * Alle 667 Header führen ein <editorialDecl>. Der Abschnitt „Editorische Eingriffe"
+ * soll zeigen, was am TEXT gemacht wurde, nicht wie das Repository aufgebaut ist.
+ * Gemessen am Korpusstand vom 30.07.2026
+ * (scripts/audit/count-editorial-notes-and-div-heads.py, Teil A):
+ * 666 Absätze erklären wortidentisch die Auflösung lokaler Dateireferenzen
+ * (persons.xml#person_445 …), je einmal auf Deutsch und auf Englisch. Sie stehen
+ * als direkte <p>-Kinder des <editorialDecl> und tragen @xml:lang; die
+ * inhaltlichen Angaben stehen darunter in <normalization> ohne @xml:lang.
+ *
+ * Strukturell allein ist das nicht trennbar: FR1/FR2/FR3 tragen ihre
+ * Divergenz-Hinweise ebenfalls als direkte <p xml:lang="de">-Kinder. Deshalb der
+ * Präfix-Test. Er greift nur am Absatzanfang, damit WZB seinen Mischabsatz behält
+ * („Basiert auf der Lesefassung …", danach derselbe Boilerplate-Satz).
+ */
+const EDITORIAL_DECL_BOILERPLATE_PREFIXES = [
+    'Lokale Dateireferenzen',
+    'Local file references'
+];
+
 class TEITextReader {
     constructor(corpusIndex, authorityIndex, cache) {
         this.corpusIndex = corpusIndex;
@@ -190,7 +212,10 @@ class TEITextReader {
             zoteroLinks: [],
 
             // Excerpt relationship (from TEI header biblStruct, #134)
-            excerpt: null
+            excerpt: null,
+
+            // Editorial interventions (from TEI header editorialDecl, #250)
+            editorialNotes: []
         };
 
         try {
@@ -235,6 +260,23 @@ class TEITextReader {
                     console.warn('[TEITextReader] biblScope unit="verse" gefunden, aber kein <analytic><title>: Excerpt-Banner wird nicht angezeigt.');
                 }
             }
+
+            // 1c. Editorische Eingriffe (#250): alle Absätze des <editorialDecl>,
+            // ohne das Repository-Boilerplate und ohne die englische Parallelfassung.
+            // Die Oberfläche ist deutsch; der @xml:lang-Test ist zusätzlich zum
+            // Präfix-Test, damit ein Wegfall des Attributs die Filterung nicht
+            // aushebelt. Reihenfolge bleibt Dokumentreihenfolge: bei FR1-FR3 steht
+            // der Band-Kontext vor den textspezifischen Eingriffen.
+            metadata.editorialNotes = Array.from(teiDoc.querySelectorAll('editorialDecl p'))
+                .map(p => ({
+                    text: (p.textContent || '').replace(/\s+/g, ' ').trim(),
+                    lang: p.getAttribute('xml:lang')
+                        || p.getAttributeNS('http://www.w3.org/XML/1998/namespace', 'lang')
+                }))
+                .filter(note => note.text
+                    && note.lang !== 'en'
+                    && !EDITORIAL_DECL_BOILERPLATE_PREFIXES.some(prefix => note.text.startsWith(prefix)))
+                .map(note => note.text);
 
             // 2. Look up work in authority index
             if (metadata.workId && this.authorityIndex.works) {
@@ -397,6 +439,35 @@ class TEITextReader {
     }
 
     /**
+     * Trägt das div eine eigene Überschrift? (#250)
+     *
+     * Nur DIREKTE <head>-Kinder zählen: der <head> eines verschachtelten div
+     * (etwa der Parallelüberlieferung in FR3) gehört diesem, nicht dem
+     * umgebenden Abschnitt.
+     *
+     * Gebraucht wird das gegen die Doppelung aus #236: seit dort jeder Ton ein
+     * <head> mit GA-Nummer und Tonnamen trägt, stand „Lied 5" über
+     * „V. Langer Ton". Korpusweit betrifft das 1.097 der 4.676 typisierten divs
+     * in 35 Texten (scripts/audit/count-editorial-notes-and-div-heads.py, Teil B).
+     *
+     * Das synthetische Label wird deshalb NICHT unterdrückt: in keinem dieser
+     * 1.097 Fälle enthält der <head> die Nummer aus @n (AC1 hat n="1" und
+     * „das i capitel", ABS n="1" und „basteten."), und 932 davon haben ein @n.
+     * Unterdrücken hieße, die einzige sichtbare Zählung zu entfernen. Stattdessen
+     * wird das Label zur übergeordneten Zeile der Überschrift gesetzt, damit
+     * beide als eine Einheit lesen statt als zwei konkurrierende Überschriften.
+     *
+     * @param {Element} divEl
+     * @returns {boolean}
+     */
+    divHasOwnHead(divEl) {
+        for (const child of divEl.children) {
+            if (child.localName === 'head') return true;
+        }
+        return false;
+    }
+
+    /**
      * Extract and format body text with TEI structure preservation
      * Handles: <head>, <p>, <div>, <lg>, <l>, <lb>, <pb>, <hi rend="...">, <pc>, <seg>
      * @returns {object} { html: string, highlights: Array<{element, position}> }
@@ -463,15 +534,25 @@ class TEITextReader {
                         'colophon': 'Kolophon', 'parallel': 'Parallelüberlieferung'
                     };
                     const label = divLabels[divType];
+                    // Trägt das div eine eigene Überschrift, wird das synthetische
+                    // Label ihr übergeordnet (kleiner, direkt darüber) statt als
+                    // gleichrangige zweite Überschrift daneben (#250, #236).
+                    // Begründung und Zahlen: divHasOwnHead().
+                    const ownHead = this.divHasOwnHead(el);
+                    const headerClasses = ownHead
+                        ? `tei-div-header tei-div-header-above-head tei-div-${this.escapeHtml(divType)}`
+                        : `tei-div-header tei-div-${this.escapeHtml(divType)}`;
                     let header = '';
-                    if (divType === 'chapter') {
-                        // Chapter headings render like <head> (h3.section-head)
+                    if (divType === 'chapter' && !ownHead) {
+                        // Chapter headings render like <head> (h3.section-head).
+                        // Mit eigenem <head> entfällt das: zwei h3.section-head
+                        // untereinander sind die Doppelung aus #250.
                         const heading = label && divN ? `${label} ${divN}` : label || divN;
                         if (heading) header = `<h3 class="section-head">${this.escapeHtml(heading)}</h3>`;
                     } else if (label && divN) {
-                        header = `<div class="tei-div-header tei-div-${this.escapeHtml(divType)}">${this.escapeHtml(label)} ${this.escapeHtml(divN)}</div>`;
+                        header = `<div class="${headerClasses}">${this.escapeHtml(label)} ${this.escapeHtml(divN)}</div>`;
                     } else if (label) {
-                        header = `<div class="tei-div-header tei-div-${this.escapeHtml(divType)}">${this.escapeHtml(label)}</div>`;
+                        header = `<div class="${headerClasses}">${this.escapeHtml(label)}</div>`;
                     }
                     return `<div class="tei-div tei-div-${this.escapeHtml(divType)}" data-type="${this.escapeHtml(divType)}" data-n="${this.escapeHtml(divN)}">${header}${children()}</div>`;
                 }
@@ -852,9 +933,22 @@ class TEITextReader {
             metadataHTML += '</div>';
         }
 
+        // Section 7b: Editorische Eingriffe (#250, KZW-Entscheidung 29.07.2026)
+        // Ohne Eingriffe kein Abschnitt: 3 Texte (CEFB, GWTK, KVO) haben nach dem
+        // Boilerplate-Filter keinen einzigen Absatz mehr.
+        if (metadata.editorialNotes && metadata.editorialNotes.length > 0) {
+            metadataHTML += '<div class="metadata-section metadata-editorial">';
+            metadataHTML += '<h4 class="metadata-section-title">Editorische Eingriffe</h4>';
+            metadataHTML += '<p class="metadata-editorial-intro">Angaben aus dem TEI-Header dieses Texts. Wo die MHDBDB in die Textgestalt eingegriffen hat, ist für Zitate die gedruckte Ausgabe maßgeblich.</p>';
+            metadata.editorialNotes.forEach(note => {
+                metadataHTML += `<p class="metadata-editorial-note">${this.escapeHtml(note)}</p>`;
+            });
+            metadataHTML += '</div>';
+        }
+
         // Section 8: TEI-XML-Download (Issue #96)
         metadataHTML += '<div class="metadata-section metadata-tei-download">';
-        metadataHTML += '<p class="metadata-tei-download-text">Detaillierte Metadaten (u. a. Referenzedition, verantwortliche Editor*innen und editorische Hinweise) sind in der zugehörigen TEI-XML dokumentiert; die Datei steht ';
+        metadataHTML += '<p class="metadata-tei-download-text">Weitere Metadaten (u. a. Referenzedition und verantwortliche Editor*innen) sind in der zugehörigen TEI-XML dokumentiert; die Datei steht ';
         metadataHTML += `<a href="tei/${this.escapeHtml(textId)}.tei.xml" download="${this.escapeHtml(textId)}.tei.xml" class="metadata-tei-download-link" title="TEI-XML-Datei herunterladen"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"></path></svg> hier</a>`;
         metadataHTML += ' auch zum direkten Download bereit.</p>';
         metadataHTML += '</div>';

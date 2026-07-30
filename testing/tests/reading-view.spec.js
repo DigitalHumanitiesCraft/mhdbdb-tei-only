@@ -447,3 +447,117 @@ test.describe('Issue #134: Ausschnitts-Kontext (Excerpt)', () => {
     });
 
 });
+
+test.describe('Issue #250: Editorische Eingriffe im Metadatenpanel', () => {
+
+    test.setTimeout(180000);
+
+    test('ABS zeigt die Angaben aus editorialDecl, ohne das Repository-Boilerplate', async ({ page }) => {
+        // ABS ist der kleinste Text mit inhaltlichen Angaben (3 Absätze nach
+        // Filter, Zahlen aus scripts/audit/count-editorial-notes-and-div-heads.py).
+        await page.goto('http://localhost:8080/korpus.html?textId=ABS');
+        await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
+        await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
+
+        await page.click('.metadata-toggle-btn');
+        const editorial = page.locator('.metadata-editorial');
+        await expect(editorial).toBeVisible();
+        await expect(editorial).toContainText('Editorische Eingriffe');
+        await expect(editorial).toContainText('Der Text besteht aus 57 Rezepten');
+        await expect(editorial).toContainText('nicht disambiguiert');
+        await expect(page.locator('.metadata-editorial-note')).toHaveCount(3);
+
+        // Das Boilerplate über lokale Dateireferenzen steht in 666 Headern und
+        // ist eine Aussage über das Repository, nicht über den Text.
+        await expect(page.locator('.metadata-sections')).not.toContainText('Lokale Dateireferenzen');
+        // Die englische Parallelfassung ebenso nicht.
+        await expect(page.locator('.metadata-sections')).not.toContainText('Local file references');
+    });
+
+    test('FR3 zeigt den Divergenz-Hinweis, der den Abschnitt ausgeloest hat', async ({ page }) => {
+        // Der Anlassfall: FR3 hat die beiden Anhaenge der Edition vertauscht und
+        // einen Verszaehlungsfehler korrigiert. Wer daraus zitiert, ohne das zu
+        // wissen, zitiert falsch (#250, Punkt 1).
+        await page.goto('http://localhost:8080/korpus.html?textId=FR3');
+        await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
+        await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 120000 });
+
+        await page.click('.metadata-toggle-btn');
+        await expect(page.locator('.metadata-editorial')).toBeVisible();
+
+        // Auf die Absätze selbst zusichern, nicht auf den Abschnitt: der
+        // statische Einleitungssatz nennt die gedruckte Ausgabe ebenfalls. Er
+        // enthält die Kette unten derzeit nicht („ist für Zitate die gedruckte
+        // Ausgabe"), aber eine Umformulierung könnte sie hereinholen und die
+        // Zusicherung erfüllen, obwohl gar keine Angabe gerendert wurde.
+        const notes = page.locator('.metadata-editorial-note');
+        await expect(notes.filter({ hasText: 'ist die gedruckte Ausgabe' })).toHaveCount(1);
+        await expect(notes.filter({ hasText: 'Anhang II' })).toHaveCount(1);
+    });
+
+    test('KVO ohne inhaltliche Angaben zeigt den Abschnitt gar nicht', async ({ page }) => {
+        // Gegenprobe: 3 Texte (CEFB, GWTK, KVO) tragen im editorialDecl nur das
+        // Boilerplate. Ein leerer Abschnitt waere schlimmer als keiner.
+        await page.goto('http://localhost:8080/korpus.html?textId=KVO');
+        await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
+        await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
+
+        await page.click('.metadata-toggle-btn');
+        await expect(page.locator('.metadata-sections')).toBeVisible();
+        await expect(page.locator('.metadata-editorial')).toHaveCount(0);
+    });
+
+});
+
+test.describe('Issue #250: Label ueber einer eigenen head-Ueberschrift', () => {
+
+    test.setTimeout(180000);
+
+    test('ABS: Rezeptnummer bleibt sichtbar und wird der Ueberschrift untergeordnet', async ({ page }) => {
+        // Alle 57 recipe-divs in ABS tragen einen eigenen <head> ("basteten ."),
+        // und keiner davon fuehrt die Nummer aus @n mit. Das Label ist damit die
+        // einzige sichtbare Zaehlung und darf nicht verschwinden.
+        await page.goto('http://localhost:8080/korpus.html?textId=ABS');
+        await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
+        await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
+
+        const firstRecipe = page.locator('#readingBody .tei-div[data-type="recipe"]').first();
+        const label = firstRecipe.locator('> .tei-div-header');
+        await expect(label).toBeVisible();
+        await expect(label).toHaveText('Rezept 1');
+        await expect(label).toHaveClass(/tei-div-header-above-head/);
+
+        // Die Ueberschrift des Rezepts steht weiterhin als eigene h3 darunter.
+        await expect(firstRecipe.locator('> h3.section-head')).toHaveCount(1);
+    });
+
+    test('MBS1: Label ohne eigene head-Ueberschrift bleibt unveraendert', async ({ page }) => {
+        // Gegenprobe. MBS1 hat 4 recipe-divs, keines mit <head>: die neue Klasse
+        // darf dort nicht auftauchen, sonst wuerde die Aenderung Abschnitte
+        // umformatieren, die gar keine Doppelung haben.
+        await page.goto('http://localhost:8080/korpus.html?textId=MBS1');
+        await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
+        await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
+
+        const labels = page.locator('#readingBody .tei-div[data-type="recipe"] > .tei-div-header');
+        await expect(labels.first()).toBeVisible();
+        await expect(labels.first()).not.toHaveClass(/tei-div-header-above-head/);
+        await expect(page.locator('#readingBody .tei-div-header-above-head')).toHaveCount(0);
+    });
+
+    test('AC1: Kapitel mit eigener Ueberschrift hat nur noch eine h3', async ({ page }) => {
+        // Der sichtbarste Fall der Doppelung: bei type="chapter" rendert der
+        // Reader sein Label selbst als h3.section-head, der <head> ebenfalls.
+        // Vorher standen dort zwei h3 untereinander ("Kapitel 1" / "das i capitel").
+        await page.goto('http://localhost:8080/korpus.html?textId=AC1');
+        await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
+        await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
+
+        const chapter = page.locator('#readingBody .tei-div[data-type="chapter"]').first();
+        await expect(chapter.locator('> h3.section-head')).toHaveCount(1);
+        const label = chapter.locator('> .tei-div-header');
+        await expect(label).toHaveText('Kapitel 1');
+        await expect(label).toHaveClass(/tei-div-header-above-head/);
+    });
+
+});
