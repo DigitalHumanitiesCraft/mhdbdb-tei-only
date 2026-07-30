@@ -7,8 +7,9 @@ Ausgangslage: Die roemischen Ordnungszahlen der Toene sind im Legacy-Linecode ue
 die letzte Stelle (`h` = HEADLINE) markiert, wurden beim Ingest aber weder zu `<head>`
 noch zu `<hi rend="head">` konvertiert. Sie stehen als gewoehnliche Tokens im Textfluss:
 die erste jeweils als loses `<p>` direkt unter `<body>`, alle weiteren am Ende des
-*vorangehenden* Tons. Teils tragen sie `@lemmaRef`/`@ana` und landen damit in
-Lemmafrequenz und Woerterbuch (derselbe Fehlertyp wie #228).
+*vorangehenden* Tons. 16 der 42 tragen `@lemmaRef`/`@ana` (FR1 9, FR2 1, FR3 6) und
+landen damit in Lemmafrequenz und Woerterbuch (derselbe Fehlertyp wie #228). Die Zahl
+ist am Stand vor dem Umbau gemessen; das Skript zaehlt sie beim Lauf selbst mit.
 
 Dieses Skript:
   1. entfernt diese Tokens ersatzlos (der Inhalt wandert nach 2.),
@@ -106,6 +107,7 @@ def strip_heading_tokens(body):
     """Entfernt die Ordnungszahl-Tokens und leergewordene Huellen."""
     removed = []
     verdaechtig = []
+    annotiert = 0
     for el in list(body.iter()):
         if el.tag in (q("w"), q("pc")) and is_heading_token(el):
             # itertext, nicht el.text: `schema/mhdbdb.rnc` erlaubt <w> mixed { hi* },
@@ -122,6 +124,11 @@ def strip_heading_tokens(body):
                 verdaechtig.append((el.get(XID), inhalt))
                 continue
             removed.append((el.get(XID), inhalt))
+            # Gemessen statt behauptet: die Meldung unten sagte "trugen teils
+            # @lemmaRef/@ana", ohne es je zu pruefen. Das Attribut ist nur JETZT
+            # noch lesbar, vor dem remove.
+            if el.get("lemmaRef") or el.get("ana"):
+                annotiert += 1
             parent = el.getparent()
             # Tail des Tokens an den Vorgaenger bzw. den Elterntext haengen,
             # damit kein Whitespace-Sprung im Textfluss entsteht.
@@ -160,7 +167,7 @@ def strip_heading_tokens(body):
             body.remove(p)
             dropped_p += 1
 
-    return removed, dropped_p
+    return removed, dropped_p, annotiert
 
 
 def set_head(div, text, indent):
@@ -185,7 +192,7 @@ def process(sigle, tonnamen):
     tree = etree.parse(str(path))
     body = tree.find(f".//{q('body')}")
 
-    removed, dropped_p = strip_heading_tokens(body)
+    removed, dropped_p, annotiert = strip_heading_tokens(body)
     print(f"=== {sigle} ===")
     print(f"  Ueberschriften-Tokens entfernt: {len(removed)}"
           + (f", loses <p> unter <body>: {dropped_p}" if dropped_p else ""))
@@ -228,9 +235,9 @@ def process(sigle, tonnamen):
 
     print(f"  <head>-Elemente gesetzt/aktualisiert: {changed_heads}")
 
-    lemma_heads = [x for x, _ in removed]
-    if lemma_heads:
-        print(f"  (die entfernten Tokens trugen teils @lemmaRef/@ana — vgl. #228)")
+    if annotiert:
+        print(f"  davon mit @lemmaRef/@ana annotiert: {annotiert} von {len(removed)}"
+              f" (derselbe Fehlertyp wie #228)")
 
     print()
     return len(removed) + changed_heads, tree, path

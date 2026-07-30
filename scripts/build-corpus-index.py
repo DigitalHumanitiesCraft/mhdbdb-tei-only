@@ -6,9 +6,9 @@ Build Corpus Index
 Generates pre-built corpus index from tei/ directory (667 TEI files).
 Output: data/corpus-index.json.gz (~3-5 MB compressed)
 
-Index structure (v4.1.8 - DOCUMENT-LEVEL + LINE BOUNDARIES):
+Index structure (v4.2.0 - DOCUMENT-LEVEL + LINE BOUNDARIES):
 {
-  "version": "4.1.8",
+  "version": "4.2.0",
   "totalTexts": 667,
   "totalLemmata": 45000,
   "texts": [

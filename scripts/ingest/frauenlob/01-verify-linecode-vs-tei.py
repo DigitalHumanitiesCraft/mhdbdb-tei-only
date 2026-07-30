@@ -196,7 +196,7 @@ def check_fr3():
             f"LG_UMNUMMERIERT: {bekannt} von {len(LG_UMNUMMERIERT)} Eintraegen "
             f"angetroffen. Entweder ist der Fall aufgeraeumt (dann Eintrag "
             f"streichen) oder er sieht anders aus als beschrieben (dann steht "
-            f"die Abweichung oben) — bitte pruefen"
+            f"die Abweichung oben). Bitte pruefen"
         )
 
     print()
