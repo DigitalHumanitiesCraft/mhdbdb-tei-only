@@ -522,17 +522,6 @@ export class LemmaExplorer {
   }
 
   /**
-   * Die Auswahl sichtbar halten. Nötig, seit sie den Render überlebt: sonst gäbe
-   * es Häkchen, die zählen, aber gerade nicht zu sehen sind (ausgewählt, dann
-   * weggefiltert), und die Übergabe käme überraschend.
-   *
-   * Gezählt werden **Schreibformen**, nicht Häkchen. Bei Homographen ist das ein
-   * Unterschied: „sal" trägt vier gleichschreibende Lemmata, also vier Häkchen,
-   * die eine einzige Anfrage an die Multi-Lemma-Suche ergeben. „1 ausgewählt"
-   * neben vier gesetzten Häkchen sähe nach einem Fehler aus, deshalb benennt der
-   * Text die Einheit.
-   */
-  /**
    * Beschriftung der Auswahl-Checkbox. Bei Homographen tragen mehrere Kontrollen
    * dieselbe Schreibform; nur mit Wortart und Bedeutungszahl sind sie fuer
    * Screenreader unterscheidbar. Sie schalten trotzdem gemeinsam, weil die
@@ -548,6 +537,18 @@ export class LemmaExplorer {
     return teile.join(", ");
   }
 
+  /**
+   * Beschriftung des Auswahl-Zählers. Er hält die Auswahl sichtbar, seit sie den
+   * Render überlebt: sonst gäbe es Häkchen, die zählen, aber gerade nicht zu
+   * sehen sind (ausgewählt, dann weggefiltert), und die Übergabe käme
+   * überraschend.
+   *
+   * Gezählt werden **Schreibformen**, nicht Häkchen. Bei Homographen ist das ein
+   * Unterschied: „sal" trägt vier gleichschreibende Lemmata, also vier Häkchen,
+   * die eine einzige Anfrage an die Multi-Lemma-Suche ergeben. „1 ausgewählt"
+   * neben vier gesetzten Häkchen sähe nach einem Fehler aus, deshalb benennt der
+   * Text die Einheit.
+   */
   static pickCountLabel(n) {
     if (!n) return "";
     return n === 1 ? "1 Schreibform ausgewählt" : `${n} Schreibformen ausgewählt`;
@@ -706,6 +707,18 @@ export class LemmaExplorer {
     `;
   }
 
+  /**
+   * Eine Positionsgruppe rendern.
+   *
+   * **Vorbedingung:** `sichtbar` ist bereits gekappt. Der Deckel sitzt seit dem
+   * `formZaehler` im Aufrufer (`searchWordComponents`), weil dort über genau die
+   * Menge gezählt werden muss, die auch gerendert wird; sonst behauptet die
+   * Checkbox-Beschriftung Mitschalten für eine Box, die der Deckel abgeschnitten
+   * hat. `anzahl` ist die Gesamtzahl VOR dem Kappen und speist nur die Meldung.
+   * Wer hier die ungekappte Liste hereingibt, rendert alles und meldet daneben
+   * eine Kappung, die nicht stattgefunden hat; deshalb nennt die Meldung unten
+   * `sichtbar.length` statt der Konstanten.
+   */
   buildComponentGroupHTML(gruppe, sichtbar, anzahl = sichtbar.length, formZaehler = new Map()) {
     const listenId = `component-group-${gruppe.key}`;
     const versteckt = gruppe.collapsed ? " hidden" : "";
@@ -722,9 +735,9 @@ export class LemmaExplorer {
     // Bedeutungszahl": ein alphabetischer Schnitt würde bei häufigen
     // Bestandteilen wie „lich" ein beliebiges Präfix zeigen.
     const gekappt =
-      anzahl > COMPONENT_GROUP_LIMIT
+      anzahl > sichtbar.length
         ? `<p class="px-1 pb-2 text-xs text-slate-500">Angezeigt werden
-             ${COMPONENT_GROUP_LIMIT} von ${anzahl} Treffern dieser Gruppe: erst die
+             ${sichtbar.length} von ${anzahl} Treffern dieser Gruppe: erst die
              belegten Wortbildungen, dann die Lemmata mit den meisten Bedeutungen.</p>`
         : "";
 
