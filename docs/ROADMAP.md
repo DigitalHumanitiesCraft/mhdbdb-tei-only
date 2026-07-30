@@ -56,6 +56,7 @@ Direkt startbar geworden:
 | #92 | ARITHMETIC – Metadatenfragen seit 16.05.; Escaping-Blocker gemerged (#185), Stage 1 danach in ~1–2h | Carina (via KZW) |
 | #147 | Weingrüße – Lizenz/Sigle/Genre/Zuschreibungen, Stage 0 | Silvan (via KZW) |
 | #86 | Barrierefreiheit – Ansprechpersonen-Block live (barrierefreiheit.html, #179); schließen nach Text-Freigabe | Alan van Beek |
+| (ohne Issue) | Vermittlung Brom ↔ Nieser: Brom hat nach eigenen oder feingetunten Sprachmodellen auf MHDBDB-Daten gefragt, ParzivAI ist die nächstliegende Antwort und für beide Seiten interessant. Sachstand in [RESEARCH.md → Downstream Reuse and Related Projects](RESEARCH.md#downstream-reuse-and-related-projects) | chsteiner (an Vlastimil Brom + Florian Nieser) |
 
 ## Needs Clarification / Entscheidungs-Cluster (chsteiner)
 

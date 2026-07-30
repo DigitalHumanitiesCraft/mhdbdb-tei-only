@@ -192,6 +192,9 @@ Aktuelle Index-Versionen siehe [TEI-MODEL.md §11](TEI-MODEL.md#11-versionierung
 - **GND (Gemeinsame Normdatei):** https://www.dnb.de/gnd
 - **Wikidata:** https://www.wikidata.org
 
+### Related Projects
+- **ParzivAI:** https://github.com/ssciwr/parzivAI (Heidelberg chatbot on Middle High German language and literature; uses MHDBDB translations from the CLARIAH-AT project "MHDBDB goes AI" as training and reference data). Blog post: https://dhsalzburg.hypotheses.org/6295. Details in [RESEARCH.md → Downstream Reuse and Related Projects](RESEARCH.md#downstream-reuse-and-related-projects)
+
 ### Contact
 - **Email:** mhdbdb@plus.ac.at
 - **Maintainer:** Digital Humanities Craft OG
