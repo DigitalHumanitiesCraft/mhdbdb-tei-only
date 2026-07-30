@@ -165,6 +165,32 @@ Dual normalization handles MHG orthographic variation:
 
 **Rationale:** Character normalization handles systematic variations, variants dictionary handles historical spelling differences. Both required for comprehensive search coverage.
 
+## Downstream Reuse and Related Projects
+
+### ParzivAI (Heidelberg)
+
+An interactive chatbot answering questions on medieval history and on Middle High German language and literature: MHG → New High German translation, literary and historical context, linguistic analysis, image search, and an interactive quiz. Developed at Heidelberg University.
+
+**Institution and people:**
+- Florian Nieser (Heidelberg Center for Digital Humanities)
+- Thomas Renkert (Heidelberg School of Education)
+- Leonie Weiß (MHDBDB-funded support on the gold-standard translations)
+
+**Link to MHDBDB:** Support ran under the CLARIAH-AT project "MHDBDB goes AI". ParzivAI uses philologically verified translations from that project as training and reference data, covering courtly romance, heroic epic, Minnesang, and didactic-moral poetry.
+
+**Technical state (a moving target):**
+- The earlier version ran `llama3.2:1b` via Ollama (see the GitHub repository)
+- Current direction: open models such as Apertus, a new JSON schema with "thinking blocks" for reasoning processes, plus synthetic data generation
+
+**Status** (as of the conversation with Florian Nieser, 2026-07-09/10): iteration 1 is finished. Version 2 was planned for the 2026 summer term and did not make it because of workload; the new target is September 2026, followed by a paper and ParzivAI 2.0.
+
+**Sources:**
+- Blog post: https://dhsalzburg.hypotheses.org/6295
+- GitHub: https://github.com/ssciwr/parzivAI (organization `ssciwr` = Scientific Software Center Heidelberg)
+- Video: https://unitv.org/beitrag.asp?ID=1288&Keyword=ki
+
+**Why this is relevant here:** Vlastimil Brom (lead editor of TKR/TKA/VTC/PUC, Masaryk University Brno) asked in recent correspondence about own or fine-tuned language models trained on MHDBDB data; he experiments with GHisBERT and dbmdz-bert-base-german-europeana himself and is looking for more professional approaches. ParzivAI is the closest existing answer, and an introduction between Brom and Nieser could be worthwhile for both sides. Tracked as a people task in [ROADMAP.md → Next: Menschen-Pings](ROADMAP.md#next-menschen-pings-nach-den-merges).
+
 ## Limitations & Future Directions
 
 ### Current Limitations

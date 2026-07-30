@@ -230,3 +230,118 @@ test.describe('#169 Befund #51: Fast-Path-Wörterbuch ist gestrichen', () => {
         expect(vorhanden).toBe('undefined');
     });
 });
+
+test.describe('Aufräumrunde: doppelte Lemma-IDs degenerieren die Kookkurrenz-Suche', () => {
+    test.beforeEach(async ({ page }) => {
+        await page.goto('http://localhost:8080/playground/');
+        await page.waitForFunction(() => window.playground?.teiManager !== undefined,
+            { timeout: 60000 });
+    });
+
+    test('dieselbe ID zweimal ergibt keine Treffer mit Abstand 0', async ({ page }) => {
+        // Ohne Guard hat findCoveringWindow keine abzudeckende Restliste mehr
+        // und gibt [] zurück. Ein leeres Array ist truthy, also galt JEDE
+        // Fundstelle als Treffer mit Abstand 0. Der synthetische Text trägt
+        // lemma_1 an drei Stellen; ohne Guard wären das drei Treffer.
+        const doppelt = await runProximity(page, { 10: '1', 40: '1', 90: '1' }, ['1', '1'], 10);
+        expect(doppelt).toHaveLength(0);
+
+        // Ein einzelnes Lemma ebenso.
+        const einzeln = await runProximity(page, { 10: '1', 40: '1' }, ['1'], 10);
+        expect(einzeln).toHaveLength(0);
+
+        // Gegenprobe: mit zwei verschiedenen Lemmata sucht sie normal weiter.
+        const echt = await runProximity(page, { 10: '1', 14: '2' }, ['1', '2'], 10);
+        expect(echt).toHaveLength(1);
+        expect(echt[0].distance).toBe(4);
+    });
+
+    test('praefixierte und bare Schreibweise derselben ID gelten als eine', async ({ page }) => {
+        // Der Code unter dem Guard behandelt "1" und "lemma_1" ohnehin als
+        // dieselbe ID. Zaehlte der Guard sie als zwei, kaeme das Paar durch
+        // und die doppelte Positionsliste deckte sich selbst ab.
+        const gemischt = await runProximity(page, { 10: '1', 40: '1' }, ['1', 'lemma_1'], 10);
+        expect(gemischt).toHaveLength(0);
+
+        // Und mit einem echten dritten Lemma bleibt es eine Suche ueber ZWEI.
+        // Die beobachtbare Folge steckt in matchPositions, nicht in der
+        // Distanz: ohne Dedup stuende die doppelte Positionsliste ein zweites
+        // Mal unter den abzudeckenden, und die Trefferposition erschiene
+        // doppelt ([12, 12, 30] statt [12, 30]). In der Oberflaeche faellt
+        // das heute nicht auf (matchPositions wird dort nur als Math.min
+        // fuer die Sprungmarke gelesen), deshalb wird es hier auf
+        // API-Ebene festgenagelt. Die Distanz aendert sich NICHT, weil lemma_2 ohnehin
+        // abgedeckt werden muss und windowStart = firstPos immer tragfaehig
+        // ist; eine Zusicherung auf die Distanz allein wuerde den Dedup also
+        // nicht pruefen.
+        const mitDrittem = await runProximity(
+            page, { 10: '1', 12: '1', 30: '2' }, ['1', 'lemma_1', '2'], 25
+        );
+        expect(mitDrittem).toHaveLength(1);
+        expect(mitDrittem[0].distance).toBe(18);
+        expect(mitDrittem[0].matchPositions).toHaveLength(2);
+        expect([...mitDrittem[0].matchPositions].sort((a, b) => a - b)).toEqual([12, 30]);
+    });
+
+    test('die Vers-Suche verweigert dieselbe Arbeit', async ({ page }) => {
+        // Eigener Aufbau: die Vers-Suche liest die Reverse-Map lemmata{} und
+        // braucht Versgrenzen. Zwei Verse, im ersten stehen beide Lemmata.
+        const treffer = await page.evaluate(async () => {
+            const korpus = {
+                includedTexts: new Set(['T1']),
+                texts: [{
+                    id: 'T1', filename: 'T1.tei.xml', title: 'Verstext',
+                    words: ['lemma_1', 'lemma_2', 'lemma_9', 'lemma_1'],
+                    lemmata: { lemma_1: [0, 3], lemma_2: [1] },
+                    lineStarts: [0, 2], lineEnds: [1, 3]
+                }]
+            };
+            const tm = window.playground.teiManager;
+            const mitDrittem = tm.searchVerseUsingEnhancedIndex(['1', 'lemma_1', '2'], korpus);
+            return {
+                echt: tm.searchVerseUsingEnhancedIndex(['1', '2'], korpus).length,
+                doppelt: tm.searchVerseUsingEnhancedIndex(['1', 'lemma_1'], korpus).length,
+                einzeln: tm.searchVerseUsingEnhancedIndex(['1'], korpus).length,
+                mitDrittemAnzahl: mitDrittem.length,
+                mitDrittemPositionen: mitDrittem[0] ? mitDrittem[0].matchPositions.length : null
+            };
+        });
+
+        expect(treffer.echt).toBe(1);
+        // Ohne Guard waere hier JEDER Vers mit lemma_1 ein Treffer, also 2.
+        expect(treffer.doppelt).toBe(0);
+        expect(treffer.einzeln).toBe(0);
+
+        // Und wie im Naehe-Pfad zeigt sich der Dedup an matchPositions: ohne
+        // ihn stuende die Position von lemma_1 zweimal darin.
+        expect(treffer.mitDrittemAnzahl).toBe(1);
+        expect(treffer.mitDrittemPositionen).toBe(2);
+    });
+
+    test('resolveLemmaIds liefert jede Lemma-ID nur einmal', async ({ page }) => {
+        // Auf die geladenen Authority-Daten warten, nicht nur auf die
+        // UI-Klasse: resolveLemmaIds fragt den Authority-Manager, und solange
+        // dessen Lemmaliste leer ist, liefert es kommentarlos [] statt zu
+        // scheitern. Ohne diese Bedingung ist der Test ein Münzwurf.
+        await page.waitForFunction(
+            () => window.playground?.ui?.multiLemmaSearch !== undefined &&
+                  window.playground?.authorityData?.lemmata?.length > 0,
+            { timeout: 60000 }
+        );
+
+        // „wîn" trifft Stufe 1 (eigenes Lemma), „wein" Stufe 2 (belegte
+        // Variante). Beide landen auf lemma_7532, ohne Dedup stand die ID
+        // zweimal in der Liste und die Nähesuche lief in die Degeneration.
+        const ids = await page.evaluate(() => {
+            const explorer = window.playground.ui.multiLemmaSearch.teiExplorer;
+            return explorer.resolveLemmaIds(['wîn', 'wein']);
+        });
+
+        // Geprüft wird die Eigenschaft, nicht das ID-Paar: welche ID „wein"
+        // trifft, kann sich ändern (die Lemma-IDs wurden schon einmal neu
+        // vergeben, siehe den Fast-Path-Kommentar in tei-ui.js), der Dedup
+        // bleibt davon unberührt.
+        expect(ids.length).toBe(1);
+        expect(new Set(ids).size).toBe(ids.length);
+    });
+});

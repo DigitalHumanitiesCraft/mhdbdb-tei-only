@@ -117,6 +117,8 @@ Die Vergleichs-Helfer existieren nur auf der JS-Seite (`TextNormalizer.matchesNo
 4. Counting starts at **0** for each document
 5. Order = **document order** (depth-first traversal of `<body>`)
 
+**Eine dokumentierte Ausnahme:** der XML-Fallback der Nähesuche für hochgeladene Dateien (`tei-manager.js`, `findCooccurringLemmas`) zählt alle `<w>`, auch die ohne `@lemmaRef`. Der Unterschied ist erheblich: über alle 667 Korpusdateien tragen 1.898.318 von 9.431.316 `<w>` kein `@lemmaRef`, also 20,1 % (Spitzenwerte AUP 41,6 %, REF 39,3 %, DL1 38,8 %; 145 Dateien tragen durchgehend `@lemmaRef`). Nachzurechnen mit einem Zähllauf über `tei/*.tei.xml`, der je Datei die `<w`-Starttags mit und ohne `lemmaRef=` gegenüberstellt. Innerhalb dieses Pfades bleibt es konsistent, weil Positionen und Kontextfenster aus derselben Liste stammen; ein `maxDistance` von 10 heißt dort aber „10 Tokens" statt „10 lemmatisierte Tokens". Ergebnisse beider Pfade dürfen deshalb nicht vermischt oder verglichen werden. Nicht angeglichen, weil hochgeladene Dateien nicht lemmatisiert sein müssen und ein `[@lemmaRef]`-Filter dort im Zweifel alles verwerfen würde.
+
 ### Python (build-time)
 
 Source: `scripts/build-corpus-index.py` (`extract_word_data`)
@@ -379,6 +381,8 @@ Two steps that both changed with #169 (KZW decision 2026-07-28). Numbers from be
 **Step 1 – window selection.** `maxDistance` bounds the SPAN of all matched positions, not each position's distance to the anchor lemma. A hit requires one window of width `maxDistance` that holds the anchor and one occurrence of every other lemma.
 
 `maxDistance` is clamped to the range the UI declares (`0…50`, from `input#proximityDistance[max=50]`) before the search runs, with a non-numeric value falling back to 10. The hash route only validates `dist > 0`, and unlike the old anchor test the window search gets more expensive as the distance grows, so the data layer enforces the bound itself rather than trusting the surface.
+
+**Precondition on the lemma list (same reasoning, one level over).** Both enhanced paths, `searchProximityUsingEnhancedIndex` and `searchVerseUsingEnhancedIndex`, normalise their `lemmaIds` once to bare ids (`lemma_7532` and `7532` are the same lemma), deduplicate them, and continue with that list. **With fewer than two remaining ids they return `[]` before searching.** Without this, a search degenerates silently: `findCoveringWindow` has no list left to cover and returns an empty array, which is truthy, and the caller only tests `chosen === null`, so every occurrence of the single lemma would be reported as a hit with distance 0. The verse path degenerates the same way for a different reason: its comparison loop starts at `i = 1` and never runs, leaving `allInVerse` true. Duplicates reach this point in practice because different inputs resolve to the same lemma (`wîn` via stage 1, `wein` via the variants list). The pseudocode below therefore describes a case, the empty `otherPositionLists`, that the enhanced paths can no longer produce; it is kept because `findCoveringWindow` is also tested directly.
 
 ```
 function findCoveringWindow(firstPos, otherPositionLists, maxDistance):
