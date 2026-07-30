@@ -218,6 +218,55 @@ test.describe('Persistent Lemma Pages', () => {
         expect(href).toContain('lemmaIds=lemma_879');
     });
 
+    // Kuratierte Angaben (Authority Index v1.7.0): Herkunftssprache aus
+    // <etym type="borrowing">, Bedeutung aus <def>, Kommentar aus
+    // <note type="comment">. Alle drei sind optional und stehen heute nur an
+    // lemma_37818 (Abba) — genau deshalb prüft der zweite Test, dass ein
+    // Lemma ohne Kuratierung die Sektion nicht zeigt.
+    test('kuratierte Herkunft und Bedeutung erscheinen für Abba (37818)', async ({ page }) => {
+        await page.goto('http://localhost:8080/lemma/?id=37818');
+        await page.waitForSelector('#lemmaContent:not(.hidden)', { timeout: 30000 });
+
+        // Beide Herkunftsschichten samt Code. Die Liste muss deckungsgleich mit
+        // den Sprach-Konzepten des Eintrags sein (Kurationsregel in
+        // TEI-MODEL-AUTH-FILES §3.1), deshalb wird sie hier gegen beide geprüft.
+        await page.waitForSelector('#originSection:not(.hidden)', { timeout: 5000 });
+        const origin = await page.textContent('#originContent');
+        expect(origin).toContain('Aramäisch');
+        expect(origin).toContain('Lateinisch');
+        expect(origin).toContain('Bibel');
+
+        // Die Codes gezielt gegen die gerenderten Spans, nicht gegen den
+        // Gesamttext: „Lateinisch" und „lateinische Bibel" enthalten den String
+        // „la" auch dann, wenn der Code überhaupt nicht angezeigt würde.
+        const codes = (await page.locator('#originContent .font-mono').allTextContents())
+            .map(c => c.trim());
+        expect(codes).toEqual(['arc', 'la']);
+
+        // Definition und Kommentar stehen im Bedeutungs-Block, vor den
+        // Begriffs-Chips; der Kommentar trägt ein sichtbares Label.
+        const senses = await page.textContent('#sensesContent');
+        expect(senses).toContain('Anrede Gottes');
+        expect(senses).toContain('Kommentar');
+        expect(senses).toContain('ZUK 2377');
+        expect(senses).toContain('Markus 14,36');
+
+        // Die neuen Begriffszuordnungen sind sichtbar, die entfernte nicht
+        expect(senses).toContain('Aramäisch');
+        expect(senses).toContain('Lateinisch');
+        expect(senses).toContain('Bibel/Religionsgeschichte');
+        expect(senses).not.toContain('Kirchliche Hierarchie');
+    });
+
+    test('Lemma ohne kuratierte Herkunft zeigt keine Herkunft-Sektion (879)', async ({ page }) => {
+        await page.goto('http://localhost:8080/lemma/?id=879');
+        await page.waitForSelector('#lemmaContent:not(.hidden)', { timeout: 30000 });
+
+        const originHidden = await page.locator('#originSection')
+            .evaluate(el => el.classList.contains('hidden'));
+        expect(originHidden).toBe(true);
+    });
+
     test('occurrence link click-through highlights the lemma in the reader', async ({ page }) => {
         // Audit #12: der href-String-Test allein hatte das kaputte Link-Format
         // zementiert — hier wird der reale Klickpfad bis zum sichtbaren

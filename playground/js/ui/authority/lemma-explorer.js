@@ -955,6 +955,32 @@ export class LemmaExplorer {
           `;
     }
 
+    // Kuratierte Herkunftssprache (Schicht B von #28) — Angabe plus Quelle,
+    // kein Urteil über den Integrationsgrad. Gleiche Daten wie auf der
+    // Lemma-Seite, damit beide Oberflächen dasselbe sagen.
+    if (lemma.origin && lemma.origin.languages && lemma.origin.languages.length > 0) {
+      // Sprachcode mitanzeigen wie auf der Lemma-Seite: „dasselbe sagen" heißt
+      // auch, nichts stillschweigend weglassen. Farbe ist #667eea wie die
+      // Bedeutungs-Überschrift unten, also ein im Playground eingeführtes
+      // Literal (DESIGN.md dokumentiert die Playground-Farben nicht).
+      const langText = lemma.origin.languages
+        .map((l) =>
+          l.code
+            ? `${this.escapeText(l.name)} <code style="font-size: 0.8rem;">${this.escapeText(l.code)}</code>`
+            : this.escapeText(l.name)
+        )
+        .join(" • ");
+      const attribution = lemma.origin.attribution
+        ? `<div style="font-size: 0.8rem; color: #64748b; margin-top: 2px;">${this.escapeText(lemma.origin.attribution)}</div>`
+        : "";
+      resultHTML += `
+              <div style="margin-bottom: 8px;">
+                  <span style="font-weight: 500; color: #667eea;">Herkunft: ${langText}</span>
+                  ${attribution}
+              </div>
+          `;
+    }
+
     // Extract senses from index data
     if (!lemma.senses || lemma.senses.length === 0) {
       resultHTML += "Keine Bedeutungen gefunden";
@@ -992,9 +1018,21 @@ export class LemmaExplorer {
             ? senseId
             : '<span style="color: #94a3b8;">Keine Begriffszuordnung</span>';
 
+        // Kuratierte Prosa (<def> / <note type="comment"> im Lexikon)
+        const definitionHTML = sense.definition
+          ? `<div style="margin-top: 4px; font-size: 0.9rem; color: #1e293b;">${this.escapeText(sense.definition)}</div>`
+          : "";
+        const commentHTML = sense.comment
+          ? `<div style="margin-top: 4px; font-size: 0.85rem; color: #475569; line-height: 1.5;">
+               <strong>Kommentar:</strong> ${this.escapeText(sense.comment)}
+             </div>`
+          : "";
+
         return `
             <div style="margin-bottom: 8px; font-size: 0.9rem;">
                 <strong>Bedeutung ${index + 1}:</strong> ${senseLabel}
+                ${definitionHTML}
+                ${commentHTML}
                 ${conceptsHTML}
             </div>
         `;

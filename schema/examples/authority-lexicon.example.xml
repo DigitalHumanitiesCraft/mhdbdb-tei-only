@@ -46,6 +46,24 @@
           </sense>
         </entry>
 
+        <!-- Kuratierter Eintrag (seit 2026-07-30): Herkunftssprache als eigenes
+             etym, Bedeutung als Prosa, Kommentar getrennt davon. Alle drei
+             optional; @resp zeigt auf contributors.xml. Siehe
+             docs/TEI-MODEL-AUTH-FILES.md §3.1 „Kuratierte Angaben“. -->
+        <entry xml:id="lemma_5">
+          <form type="lemma"><orth>Abba</orth></form>
+          <gramGrp><pos>NOM</pos></gramGrp>
+          <etym type="borrowing">
+            <lang norm="arc">Aramäisch</lang>
+            <note type="attribution" resp="contributors.xml#contrib_003">Vermittlung über die Vulgata.</note>
+          </etym>
+          <sense xml:id="lemma_5_sense_1" ana="#type_700">
+            <def xml:lang="de" resp="contributors.xml#contrib_003">Aramäische Anrede Gottes: „mein Vater“.</def>
+            <note type="comment" xml:lang="de" resp="contributors.xml#contrib_003">Belegkontext und Bezugsstellen gehören hierher, nicht in die Definition.</note>
+            <ptr target="concepts.xml#concept_23123905"/>
+          </sense>
+        </entry>
+
         <!-- Sonderfall: leeres etym (Datenqualitätsproblem, ~1 Vorkommen) -->
         <entry xml:id="lemma_3">
           <form type="lemma"><orth>kotzoldei</orth></form>

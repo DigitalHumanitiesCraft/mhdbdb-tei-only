@@ -48,7 +48,10 @@ def collect_refs(tree, filename):
     """Collect all cross-references from a tree."""
     refs = []
     for elem in tree.iter():
-        for attr in ('ref', 'target', 'corresp'):
+        # 'resp' seit 2026-07-30: die kuratierten Lemma-Angaben in lexicon.xml
+        # zeigen damit auf contributors.xml#contrib_N. Ohne diesen Eintrag hätte
+        # ein Tippfehler in der ID kein Gate gefunden.
+        for attr in ('ref', 'target', 'corresp', 'resp'):
             val = elem.get(attr)
             if val and ('.xml' in val or val.startswith('#')):
                 local = elem.tag.replace(TEI, '')
