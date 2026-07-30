@@ -170,15 +170,50 @@ TEI Ch. 9 (Dictionaries). Containert alle Lemmata des MHDBDB-Lexikons.
 
 | Element | Pflicht | Attribute | Inhalt |
 |---------|---------|-----------|--------|
-| `<entry>` | ja | `@xml:id` (lemma_N) | form + gramGrp + sense* + etym? |
+| `<entry>` | ja | `@xml:id` (lemma_N) | form + gramGrp + etym? + sense+ |
 | `<form type="lemma">` | ja | `@type="lemma"` | `<orth>` |
 | `<gramGrp>` | ja | – | `<pos>` (1+, manche Lemmata mehrere POS) |
-| `<etym>` | optional | `@type="morphological"` | `<seg type="component">` |
-| `<sense>` | ja (1+) | `@xml:id`, `@ana`? | `<ptr target="concepts.xml#..."/>` |
+| `<etym type="morphological">` | optional | `@type="morphological"` | `<seg type="component">` |
+| `<etym type="borrowing">` | optional | `@type="borrowing"` | `<lang>`+ , `<note type="attribution">`? |
+| `<sense>` | ja (1+) | `@xml:id`, `@ana`? | `<def>`? , `<note type="comment">`? , `<ptr target="concepts.xml#..."/>`* |
 
 **`@ana` auf `<sense>`:** Raum-separierte `#type_N` Werte (Verweise auf variants.xml). 30% der Senses haben kein `@ana` – das ist akzeptabel (nicht alle Senses haben Belegstellen mit Wortformen).
 
 **Referentielle Integrität:** Alle Konzept-Referenzen valide (19 verwaiste Referenzen bereinigt 2026-04-10).
+
+#### Kuratierte Angaben (seit 2026-07-30)
+
+Die RDF-Migration brachte nur Klassifikation (POS, Konzept-Zeiger, Kompositions-Komponenten), keine Prosa. Für händisch kuratiertes Wissen gibt es drei optionale Produktionen. Alle sind additiv: die 43.879 migrierten Einträge bleiben unverändert valide.
+
+```xml
+<entry xml:id="lemma_37818">
+  <form type="lemma"><orth>Abba</orth></form>
+  <gramGrp><pos>NOM</pos></gramGrp>
+  <etym type="borrowing">
+    <lang norm="arc">Aramäisch</lang>
+    <note type="attribution" resp="contributors.xml#contrib_003">Vermittlung über die Vulgata …</note>
+  </etym>
+  <sense xml:id="lemma_37818_sense_59052" ana="#type_198634">
+    <def xml:lang="de" resp="contributors.xml#contrib_003">Aramäische Anrede Gottes: „mein Vater“ …</def>
+    <note type="comment" xml:lang="de" resp="contributors.xml#contrib_003">Im Korpus nur in ZUK 2377 …</note>
+    <ptr target="concepts.xml#concept_23123905"/>
+  </sense>
+</entry>
+```
+
+| Element | Trägt | Regel |
+|---------|-------|-------|
+| `<etym type="borrowing">` | Herkunftssprache (`<lang>` mit `@norm` = ISO 639-3/BCP-47) plus Quelle der Zuschreibung | Schicht B des Fremdsprachen-Phasenplans (#28). 1+ `<lang>`, weil Mehrfachherkunft normal ist (`mirre`: ar + he + arc). **Kein** Urteil über den Integrationsgrad (KZW-Entscheidung 3 vom 29.07.). Streng getrennt von `@xml:lang` am `<w>` im Korpus (Schicht A = Code-Switching im Text). |
+| `<def>` im `<sense>` | Bedeutungsangabe in Prosa | Das Begriffssystem klassifiziert, es formuliert nicht. Wörterbuchinhalt, keine Argumentation. |
+| `<note type="comment">` im `<sense>` | philologischer Kommentar (Belegkontext, Bezugsstellen) | Bewusst getrennt von `<def>`: hier steht die Begründung, dort die Bedeutung. |
+
+**`@resp`** verweist auf `contributors.xml#contrib_N` und ist bei beiden `<note>`-Typen Pflicht: ein Kommentar ohne Urheber ist nicht zitierfähig. Bei `<def>` optional (eine Bedeutungsangabe kann Redaktionsstand sein).
+
+**Sprachkonzepte vs. `<etym type="borrowing">`:** Der Konzept-Subtree `concept_23123000` (Einzelsprachen) wird im Bestand bereits als Herkunftsmarkierung verwendet (`mirre` trägt Arabisch, Hebräisch, Aramäisch; `Golgota` und `Barjona` Aramäisch). Beides bleibt nebeneinander: die Konzept-Zeiger machen die Herkunft im Begriffssystem such- und auswertbar, `<etym type="borrowing">` macht sie samt Quelle explizit. Wer eine Herkunft neu vergibt, setzt beides.
+
+**Index-Abbildung:** `lemma.origin = {languages[{name, code}], attribution?, resp?}` sowie `sense.definition` / `sense.comment` (plus `definitionResp` / `commentResp`), jeweils nur wenn im Lexikon vorhanden: 43.879 Lemmata mit Leerfeldern würden Index und API ohne Nutzen aufblähen. Authority Index ab v1.7.0.
+
+**Bestand:** 1 Eintrag (`lemma_37818` Abba, 2026-07-30). Der Rest folgt über #28 Phase 2/3.
 
 ### 3.2 variants.xml – Orthographische Varianten
 

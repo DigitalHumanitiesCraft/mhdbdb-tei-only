@@ -28,6 +28,8 @@ class LemmaPage {
             copyIdBtn: document.getElementById('copyIdBtn'),
             etymologySection: document.getElementById('etymologySection'),
             etymologyContent: document.getElementById('etymologyContent'),
+            originSection: document.getElementById('originSection'),
+            originContent: document.getElementById('originContent'),
             sensesSection: document.getElementById('sensesSection'),
             sensesContent: document.getElementById('sensesContent'),
             occurrencesSection: document.getElementById('occurrencesSection'),
@@ -169,14 +171,37 @@ class LemmaPage {
             }).join(' <span class="text-slate-300">+</span> ');
         }
 
+        // Herkunftssprache (kuratiert, Schicht B von #28): nur die Angabe plus
+        // ihre Quelle, kein Urteil über den Integrationsgrad des Worts.
+        if (lemma.origin && lemma.origin.languages && lemma.origin.languages.length > 0) {
+            this.elements.originSection.classList.remove('hidden');
+            const langs = lemma.origin.languages.map(l =>
+                `<span class="inline-block bg-brand-50 text-brand-700 px-2 py-0.5 rounded text-xs mr-1 mb-1">${escapeHtml(l.name)}${l.code ? ` <span class="text-brand-400 font-mono">${escapeHtml(l.code)}</span>` : ''}</span>`
+            ).join('');
+            const attribution = lemma.origin.attribution
+                ? `<p class="text-sm text-slate-600 mt-2">${escapeHtml(lemma.origin.attribution)}</p>`
+                : '';
+            this.elements.originContent.innerHTML = `<div>${langs}</div>${attribution}`;
+        }
+
         // Senses
         if (lemma.senses && lemma.senses.length > 0) {
             this.elements.sensesSection.classList.remove('hidden');
             this.elements.sensesContent.innerHTML = lemma.senses.map((sense, idx) => {
                 const conceptLabels = this.resolveConceptLabels(sense.conceptIds);
+                // Kuratierte Prosa steht VOR den Begriffs-Chips: wo eine
+                // Bedeutung ausformuliert ist, ist sie die Hauptinformation,
+                // die Begriffszuordnung bleibt die Klassifikation dazu.
+                const definition = sense.definition
+                    ? `<p class="text-sm text-slate-800 mb-2">${escapeHtml(sense.definition)}</p>`
+                    : '';
+                const comment = sense.comment
+                    ? `<p class="text-sm text-slate-600 mb-2 leading-relaxed">${escapeHtml(sense.comment)}</p>`
+                    : '';
                 return `
                     <div class="border-l-2 border-brand-200 pl-4">
                         <div class="text-xs text-slate-400 mb-1">Bedeutung ${idx + 1}</div>
+                        ${definition}${comment}
                         <div class="text-sm text-slate-700">
                             ${conceptLabels.length > 0
                                 ? conceptLabels.map(c => `<span class="inline-block bg-slate-100 px-2 py-0.5 rounded text-xs mr-1 mb-1">${escapeHtml(c)}</span>`).join('')

@@ -104,6 +104,29 @@ def parse_lexicon():
                         component_data['lemmaRef'] = corresp.split('#')[1]
                     etym_components.append(component_data)
 
+        # Herkunftssprache aus <etym type="borrowing"> (Schicht B, #28).
+        # Bewusst getrennt von 'etymology' (Komposition): das eine sagt, woher
+        # das Wort kommt, das andere, aus welchen mhd. Lemmata es gebaut ist.
+        origin = None
+        borrow_el = entry.xpath('.//tei:etym[@type="borrowing"]', namespaces=ns)
+        if borrow_el:
+            languages = []
+            for lang_el in borrow_el[0].xpath('./tei:lang', namespaces=ns):
+                name = (lang_el.text or '').strip()
+                if not name:
+                    continue
+                lang_data = {'name': name}
+                if lang_el.get('norm'):
+                    lang_data['code'] = lang_el.get('norm')
+                languages.append(lang_data)
+            attribution_el = borrow_el[0].xpath('./tei:note[@type="attribution"]', namespaces=ns)
+            if languages:
+                origin = {'languages': languages}
+                if attribution_el and attribution_el[0].text:
+                    origin['attribution'] = attribution_el[0].text.strip()
+                    if attribution_el[0].get('resp'):
+                        origin['resp'] = attribution_el[0].get('resp')
+
         # Extract all senses with details
         sense_els = entry.xpath('.//tei:sense', namespaces=ns)
         senses = []
@@ -120,15 +143,32 @@ def parse_lexicon():
                 if target and '#' in target:
                     concept_ids.append(target.split('#')[1])
 
-            senses.append({
+            sense_data = {
                 'id': sense_id,
                 'conceptIds': concept_ids
-            })
+            }
+
+            # Kuratierte Prosa-Angaben (optional, seit 2026-07-30). Nur setzen,
+            # wenn vorhanden: 43.879 Lemmata mit leeren Feldern würden Index
+            # und API ohne Nutzen aufblähen.
+            def_el = sense_el.xpath('./tei:def', namespaces=ns)
+            if def_el and def_el[0].text and def_el[0].text.strip():
+                sense_data['definition'] = def_el[0].text.strip()
+                if def_el[0].get('resp'):
+                    sense_data['definitionResp'] = def_el[0].get('resp')
+
+            comment_el = sense_el.xpath('./tei:note[@type="comment"]', namespaces=ns)
+            if comment_el and comment_el[0].text and comment_el[0].text.strip():
+                sense_data['comment'] = comment_el[0].text.strip()
+                if comment_el[0].get('resp'):
+                    sense_data['commentResp'] = comment_el[0].get('resp')
+
+            senses.append(sense_data)
 
         # Normalize lemma for search
         normalized = normalize_mhg(lemma_text)
 
-        lemmata.append({
+        lemma_record = {
             'id': lemma_id,
             'lemma': lemma_text,
             'normalized': normalized,
@@ -137,7 +177,10 @@ def parse_lexicon():
             'senseCount': len(senses),
             'etymology': etym_components if etym_components else None,
             'senses': senses if senses else None
-        })
+        }
+        if origin:
+            lemma_record['origin'] = origin
+        lemmata.append(lemma_record)
 
     print(f"   Found {len(lemmata)} lemmata")
     return lemmata
@@ -797,7 +840,7 @@ def build_index():
 
     # Build index structure
     index = {
-        'version': '1.6.5',  # 1.2.0: Authority migration (genre ptrs, person-works derivation, Frauendienst split). 1.2.1: WZB-Lemmata + Varianten + Werk-Eintrag. 1.2.2: #104 FLG/FLG1-Werk-Titel + work_571 biblStruct auf Vollmann-Profe/Neumann 1990. 1.3.0: #113-Followup — alternative-Terms in concepts.xml getrennt von Primär-Term (altDE/altEN/altNormalized) statt last-wins-Overwrite. 1.4.0: #44/#115 variants.xml aus Korpus regeneriert via scripts/sync/extract-variants.py (+64.287 Formen, 192.472→256.759). 1.4.1: #125 deterministischer Build (generatedAt entfernt, gzip mtime=0). 1.4.2: #143 HH-Genre-Korrektur (Marienleben → Geistliche Rede, work_137). 1.4.3: #143 APO-Gattungs-Metadaten nach Terrahe (work_568: Prosaroman/Antikenroman/Liebes-Abenteuerroman/Exempel/Fürstenspiegel). 1.4.4: #115 Kategorie-A-Stub-Backfill (+125 Lemma-Stubs in lexicon.xml). 1.5.0: Audit #5 — parse_genres last-wins-Fix: alternative-Terms überschreiben den Primär-Term nicht mehr (250 Kategorien korrigiert), altDE/altEN/altNormalized analog concepts. 1.6.0: #161 posAll[] — alle <pos>-Werte eines Lemmas (Multi-POS wie lemma_79188 salve NOM+VRB), pos bleibt Erstwert. 1.6.1: #189 GWTK-Pilot — variants.xml +2 Typen (rotte/rotten unter lemma_4954) + GWTK-Formen-Zuwachs aus der Neu-Annotation. 1.6.2: #224 NFC-Unicode-Komposition im Normalizer — zerlegte Umlaute (o + U+0308) werden jetzt komponiert, bevor die Umlaut-Regeln greifen; korrigiert 'hugo von mühldorf' zu 'hugo von muehldorf' in persons.xml (die Quelldatei traegt dort ein zerlegtes ue). 1.6.3: #235 kaputte Tilden in URLs (kombinierendes U+0303 hinter einem Leerzeichen statt ASCII-Tilde) in 24 works.xml-Notizen repariert; die gleichen Notizen stehen im TEI-Header, dort ohne Indexwirkung. 1.6.4: #138 814 Strophenziffern aus dem HUG-Verstext entfernt (706 davon pos=DIG, 108 unannotiert); variants.xml verliert dadurch den Typ type_195524 'cxlvix', der nur in HUG vorkam. 1.6.5: #236 FR3-Metadaten auf den Supplementband 2000 umgestellt (ISBN 3-525-82504-8, Hrsg. Haustein/Stackmann, Reihenband 232) und Zotero-Title-Case 'Teil Ii'/'Teil Iii' repariert; variants.xml unveraendert.
+        'version': '1.7.0',  # 1.2.0: Authority migration (genre ptrs, person-works derivation, Frauendienst split). 1.2.1: WZB-Lemmata + Varianten + Werk-Eintrag. 1.2.2: #104 FLG/FLG1-Werk-Titel + work_571 biblStruct auf Vollmann-Profe/Neumann 1990. 1.3.0: #113-Followup — alternative-Terms in concepts.xml getrennt von Primär-Term (altDE/altEN/altNormalized) statt last-wins-Overwrite. 1.4.0: #44/#115 variants.xml aus Korpus regeneriert via scripts/sync/extract-variants.py (+64.287 Formen, 192.472→256.759). 1.4.1: #125 deterministischer Build (generatedAt entfernt, gzip mtime=0). 1.4.2: #143 HH-Genre-Korrektur (Marienleben → Geistliche Rede, work_137). 1.4.3: #143 APO-Gattungs-Metadaten nach Terrahe (work_568: Prosaroman/Antikenroman/Liebes-Abenteuerroman/Exempel/Fürstenspiegel). 1.4.4: #115 Kategorie-A-Stub-Backfill (+125 Lemma-Stubs in lexicon.xml). 1.5.0: Audit #5 — parse_genres last-wins-Fix: alternative-Terms überschreiben den Primär-Term nicht mehr (250 Kategorien korrigiert), altDE/altEN/altNormalized analog concepts. 1.6.0: #161 posAll[] — alle <pos>-Werte eines Lemmas (Multi-POS wie lemma_79188 salve NOM+VRB), pos bleibt Erstwert. 1.6.1: #189 GWTK-Pilot — variants.xml +2 Typen (rotte/rotten unter lemma_4954) + GWTK-Formen-Zuwachs aus der Neu-Annotation. 1.6.2: #224 NFC-Unicode-Komposition im Normalizer — zerlegte Umlaute (o + U+0308) werden jetzt komponiert, bevor die Umlaut-Regeln greifen; korrigiert 'hugo von mühldorf' zu 'hugo von muehldorf' in persons.xml (die Quelldatei traegt dort ein zerlegtes ue). 1.6.3: #235 kaputte Tilden in URLs (kombinierendes U+0303 hinter einem Leerzeichen statt ASCII-Tilde) in 24 works.xml-Notizen repariert; die gleichen Notizen stehen im TEI-Header, dort ohne Indexwirkung. 1.6.4: #138 814 Strophenziffern aus dem HUG-Verstext entfernt (706 davon pos=DIG, 108 unannotiert); variants.xml verliert dadurch den Typ type_195524 'cxlvix', der nur in HUG vorkam. 1.6.5: #236 FR3-Metadaten auf den Supplementband 2000 umgestellt (ISBN 3-525-82504-8, Hrsg. Haustein/Stackmann, Reihenband 232) und Zotero-Title-Case 'Teil Ii'/'Teil Iii' repariert; variants.xml unveraendert. 1.7.0: kuratierte Lemma-Angaben im Index: lemma.origin (Herkunftssprache aus <etym type="borrowing">, Schicht B von #28) sowie sense.definition und sense.comment (Prosa aus <def> bzw. <note type="comment">), jeweils nur wenn im Lexikon vorhanden. Erster Eintrag: lemma_37818 Abba (aramaeische Gottesanrede, KZW 30.07.2026).
         'lemmata': lemmata,
         'persons': persons,
         'works': works,

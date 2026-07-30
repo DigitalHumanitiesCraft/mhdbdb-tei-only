@@ -148,6 +148,9 @@
           </zeroOrMore>
         </element>
       </optional>
+      <optional>
+        <ref name="lexicon.etym.borrowing"/>
+      </optional>
       <oneOrMore>
         <element>
           <name ns="http://www.tei-c.org/ns/1.0">sense</name>
@@ -161,6 +164,12 @@
               <text/>
             </attribute>
           </optional>
+          <optional>
+            <ref name="lexicon.def"/>
+          </optional>
+          <optional>
+            <ref name="lexicon.sense.note"/>
+          </optional>
           <zeroOrMore>
             <element>
               <name ns="http://www.tei-c.org/ns/1.0">ptr</name>
@@ -172,6 +181,79 @@
           </zeroOrMore>
         </element>
       </oneOrMore>
+    </element>
+  </define>
+  <define name="lexicon.etym.borrowing">
+    <element>
+      <name ns="http://www.tei-c.org/ns/1.0">etym</name>
+      <attribute>
+        <name ns="">type</name>
+        <value>borrowing</value>
+      </attribute>
+      <oneOrMore>
+        <element>
+          <name ns="http://www.tei-c.org/ns/1.0">lang</name>
+          <optional>
+            <attribute>
+              <name ns="">norm</name>
+              <text/>
+            </attribute>
+          </optional>
+          <text/>
+        </element>
+      </oneOrMore>
+      <optional>
+        <element>
+          <name ns="http://www.tei-c.org/ns/1.0">note</name>
+          <attribute>
+            <name ns="">type</name>
+            <value>attribution</value>
+          </attribute>
+          <attribute>
+            <name ns="">resp</name>
+            <text/>
+          </attribute>
+          <text/>
+        </element>
+      </optional>
+    </element>
+  </define>
+  <define name="lexicon.def">
+    <element>
+      <name ns="http://www.tei-c.org/ns/1.0">def</name>
+      <optional>
+        <attribute>
+          <name ns="http://www.w3.org/XML/1998/namespace">lang</name>
+          <text/>
+        </attribute>
+      </optional>
+      <optional>
+        <attribute>
+          <name ns="">resp</name>
+          <text/>
+        </attribute>
+      </optional>
+      <text/>
+    </element>
+  </define>
+  <define name="lexicon.sense.note">
+    <element>
+      <name ns="http://www.tei-c.org/ns/1.0">note</name>
+      <attribute>
+        <name ns="">type</name>
+        <value>comment</value>
+      </attribute>
+      <optional>
+        <attribute>
+          <name ns="http://www.w3.org/XML/1998/namespace">lang</name>
+          <text/>
+        </attribute>
+      </optional>
+      <attribute>
+        <name ns="">resp</name>
+        <text/>
+      </attribute>
+      <text/>
     </element>
   </define>
   <define name="variants.div">

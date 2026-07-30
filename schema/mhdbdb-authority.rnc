@@ -102,13 +102,72 @@ lexicon.entry = element entry {
             text
         }*                                 # can be empty (data quality issue)
     }?,
+    lexicon.etym.borrowing?,
     element sense {
         attribute xml:id { xsd:NCName },   # lemma_N_sense_M
         attribute ana { text }?,            # space-separated #type_N refs
+        lexicon.def?,
+        lexicon.sense.note?,
         element ptr {
             attribute target { text }       # concepts.xml#concept_N
         }*
     }+                                      # required (1+) — 43,750/43,750 entries have sense
+}
+
+# ------------------------------------------------------------
+# Kuratierte Lemma-Angaben (additiv, 2026-07-30)
+# ------------------------------------------------------------
+# Drei optionale Produktionen für händisch kuratiertes Wissen, das
+# die RDF-Migration nicht mitbringen konnte. Alle drei sind additiv:
+# die 43.879 migrierten Einträge bleiben ohne Änderung valide.
+#
+# 1. <etym type="borrowing"> — Herkunftssprache eines Lehn- oder
+#    Fremdworts. Das ist Schicht B des Fremdsprachen-Phasenplans
+#    (#28, docs/features/FREMDSPRACHEN-PHASENPLAN-28.md): Quellsprache
+#    plus Quelle der Zuschreibung, KEIN Urteil über den Integrations-
+#    grad (KZW-Entscheidung 3 vom 29.07.). Getrennt von
+#    <etym type="morphological">, weil das Kompositionsangaben trägt
+#    und beides an einem Lemma zugleich stehen kann.
+#    Nicht zu verwechseln mit Schicht A (`@xml:lang` am <w> im Korpus,
+#    Code-Switching) — die Trennung ist der Kern der #28-Entscheidung 1.
+#
+# 2. <def> im <sense> — die Bedeutungsangabe in Prosa. Das Begriffs-
+#    system (<ptr> auf concepts.xml) klassifiziert, es formuliert nicht;
+#    für Lemmata, die eine Erläuterung brauchen (Fremdwörter, Hapax,
+#    Bibelvokabular), fehlte bisher jeder Platz dafür.
+#
+# 3. <note type="comment"> im <sense> — philologischer Kommentar zur
+#    Bedeutung (Belegkontext, Bezugsstellen). Bewusst getrennt von <def>:
+#    die Definition ist Wörterbuchinhalt, der Kommentar ist Argumentation.
+#
+# @resp verweist auf contributors.xml#contrib_N und macht jede kuratierte
+# Angabe einer Person zurechenbar (Pflicht bei <note>, weil ein Kommentar
+# ohne Urheber nicht zitierfähig ist).
+
+lexicon.etym.borrowing = element etym {
+    attribute type { "borrowing" },
+    element lang {
+        attribute norm { text }?,      # ISO 639-3 / BCP-47 (arc, la, he, ...)
+        text                            # Sprachname, deutsch
+    }+,                                 # 1+ — Mehrfachherkunft ist normal (mirre: ar + he + arc)
+    element note {
+        attribute type { "attribution" },
+        attribute resp { text },        # contributors.xml#contrib_N
+        text
+    }?
+}
+
+lexicon.def = element def {
+    attribute xml:lang { text }?,
+    attribute resp { text }?,          # contributors.xml#contrib_N
+    text
+}
+
+lexicon.sense.note = element note {
+    attribute type { "comment" },
+    attribute xml:lang { text }?,
+    attribute resp { text },           # contributors.xml#contrib_N
+    text
 }
 
 # ============================================================

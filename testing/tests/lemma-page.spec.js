@@ -218,6 +218,42 @@ test.describe('Persistent Lemma Pages', () => {
         expect(href).toContain('lemmaIds=lemma_879');
     });
 
+    // Kuratierte Angaben (Authority Index v1.7.0): Herkunftssprache aus
+    // <etym type="borrowing">, Bedeutung aus <def>, Kommentar aus
+    // <note type="comment">. Alle drei sind optional und stehen heute nur an
+    // lemma_37818 (Abba) — genau deshalb prüft der zweite Test, dass ein
+    // Lemma ohne Kuratierung die Sektion nicht zeigt.
+    test('kuratierte Herkunft und Bedeutung erscheinen für Abba (37818)', async ({ page }) => {
+        await page.goto('http://localhost:8080/lemma/?id=37818');
+        await page.waitForSelector('#lemmaContent:not(.hidden)', { timeout: 30000 });
+
+        await page.waitForSelector('#originSection:not(.hidden)', { timeout: 5000 });
+        const origin = await page.textContent('#originContent');
+        expect(origin).toContain('Aramäisch');
+        expect(origin).toContain('arc');
+        expect(origin).toContain('Vulgata');
+
+        // Definition und Kommentar stehen im Bedeutungs-Block, vor den
+        // Begriffs-Chips.
+        const senses = await page.textContent('#sensesContent');
+        expect(senses).toContain('Anrede Gottes');
+        expect(senses).toContain('ZUK 2377');
+        expect(senses).toContain('Markus 14,36');
+
+        // Die neuen Begriffszuordnungen sind sichtbar
+        expect(senses).toContain('Aramäisch');
+        expect(senses).toContain('Bibel/Religionsgeschichte');
+    });
+
+    test('Lemma ohne kuratierte Herkunft zeigt keine Herkunft-Sektion (879)', async ({ page }) => {
+        await page.goto('http://localhost:8080/lemma/?id=879');
+        await page.waitForSelector('#lemmaContent:not(.hidden)', { timeout: 30000 });
+
+        const originHidden = await page.locator('#originSection')
+            .evaluate(el => el.classList.contains('hidden'));
+        expect(originHidden).toBe(true);
+    });
+
     test('occurrence link click-through highlights the lemma in the reader', async ({ page }) => {
         // Audit #12: der href-String-Test allein hatte das kaputte Link-Format
         // zementiert — hier wird der reale Klickpfad bis zum sichtbaren

@@ -31,12 +31,21 @@ Anlass war die Frage, wo die Grenze Lehnwort/Fremdwort verläuft (26 Beispielfä
 
 Damit ist die frühere Grundsatzentscheidung „Lemma-Ebene führt" auf Schicht B eingeschränkt. Kein Widerspruch zu CONTRACTS §F.1 („Corpus Leads, Authority Follows"): §F regelt Lemma-Existenz und -Zählung; die Herkunftsangabe ist eine neue, eigenständig kuratierte Eigenschaft, für die `lexicon.xml` die Erfassungsoberfläche ist.
 
-## Phase 0: Zielformat + Policy (S) – inhaltlich entschieden, Kodierung offen
+## Phase 0: Zielformat + Policy (S) – Schicht B kodiert, Schicht A offen
 
 - `@xml:lang`-Werte-Set: BCP-47 (la, fr, ar, he, grc, it, es, en, yi, x-rotw); gmh bleibt impliziter Default und wird NICHT ausgezeichnet.
-- Kodierung Schicht A: `<w xml:lang>` für Einzeltoken (schema-konform), `<foreign>` für mehrwortige Passagen (Schema-Ergänzung nötig, siehe Phase 3).
-- Kodierung Schicht B: `<etym>`-Erweiterung in lexicon.xml mit Quellsprache und Quellenangabe; Variante `<orth xml:lang>` scheidet aus, weil sie Schicht A und B wieder vermischen würde. Schema-Check + Eintrag in TEI-MODEL-AUTH-FILES.
-- Deliverable: 1-Seiten-Policy als Ergänzung in TEI-MODEL-AUTH-FILES.md, inklusive der Drei-Punkte-Prüfung als normativer Regel.
+- Kodierung Schicht A: `<w xml:lang>` für Einzeltoken (schema-konform), `<foreign>` für mehrwortige Passagen (Schema-Ergänzung nötig, siehe Phase 3). **Noch nicht angewendet**, siehe „Abba als Kalibrierfall“.
+- Kodierung Schicht B: **entschieden und im Schema (2026-07-30).** `<etym type="borrowing">` mit `<lang @norm>` (ISO 639-3/BCP-47) plus `<note type="attribution" @resp>` für die Quelle der Zuschreibung. Getrennt von `<etym type="morphological">`, beide können an einem Lemma stehen. Variante `<orth xml:lang>` bleibt ausgeschlossen, weil sie Schicht A und B wieder vermischen würde. Im gleichen Zug `<def>` und `<note type="comment">` im `<sense>`, weil eine Herkunftsangabe ohne Platz für die Bedeutung in der Luft hängt. Dokumentiert in TEI-MODEL-AUTH-FILES.md §3.1 („Kuratierte Angaben“); Index-Abbildung `lemma.origin` / `sense.definition` / `sense.comment` ab Authority Index v1.7.0.
+- Offen als Deliverable: die Drei-Punkte-Prüfung als normative Regel in TEI-MODEL-AUTH-FILES (betrifft Schicht A).
+
+### Abba als Kalibrierfall (2026-07-30)
+
+`lemma_37818` (Abba, aramäische Gottesanrede) ist der erste kuratierte Schicht-B-Eintrag und zeigt das Zielformat an einem echten Fall. Beim Token in ZUK 2377 wurde `@xml:lang` **bewusst nicht** gesetzt, obwohl der Fall die Drei-Punkte-Prüfung bestehen würde (keine mhd. Flexion, nicht reimgebunden, fremde Lautgestalt, dazu Zitatcharakter nach Mk 14,36):
+
+- Das Korpus trägt heute 0 `@xml:lang`-Token. Ein einziges markiertes Token behauptet im zitierbaren Datensatz, Fremdsprachigkeit sei erfasst, und wäre irreführender als gar keine Markierung.
+- Schicht A soll laut Phase 2 vollständig gesichtet und laut Phase 3 per Skript mit Provenienz-Log geschrieben werden. Ein handgesetztes Einzeltoken davor müsste der Skriptlauf entweder reproduzieren oder überschreiben.
+
+Damit ist „abba“ ein fertiger Testfall für Phase 1 Punkt 4 (Schicht-A-Kandidaten) und für Phase 2: Findet der Kandidaten-Scan diesen Beleg nicht, ist der Scan zu eng.
 
 ## Phase 1: Kandidaten-Generierung (M, dreigleisig, unabhängig parallelisierbar)
 

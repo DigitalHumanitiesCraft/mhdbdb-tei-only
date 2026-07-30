@@ -524,3 +524,24 @@ Setzt den Handoff vom Vormittag fort; dessen offene Punkte sind hier fortgeschri
 3. #250 umsetzen (`editorialDecl` im Metadatenpanel; die Zählregel bei verschachtelten Zeugen braucht eine eigene Messung über die 84 betroffenen Texte).
 4. Vor einer Änderung an Frequenz, Keyness oder Hapax auf #255 warten.
 5. Handwerksregel 27 ins Playbook aufnehmen, wenn chsteiner zustimmt.
+
+---
+
+## 2026-07-30 (abends) – Kuratiertes Lemma-Wissen bekommt einen Platz im Lexikon (lemma_37818 Abba)
+
+**Summary:** KZW hat zu `lemma_37818` (Abba) eine Erläuterung geliefert (aramäisch „mein Vater“, emphatische Verdoppelung der Gottesanrede in ZUK 2377, Anspielung auf Mk 14,36 / Röm 8,15 / Gal 4,6) und darum gebeten, sie in die Daten zu übernehmen. Dafür gab es im Lexikon keinen Ort: `lexicon.entry` kannte nur Klassifikation (POS, Konzept-Zeiger, Kompositions-Komponenten), keine Prosa. Neu sind drei optionale Produktionen im Authority-Schema (`<etym type="borrowing">`, `<def>`, `<note type="comment">`), ihre Abbildung im Authority-Index (v1.7.0: `lemma.origin`, `sense.definition`, `sense.comment`) und die Anzeige auf der Lemma-Seite plus im Playground-Lemmata-Explorer. Der Eintrag selbst trägt jetzt zusätzlich die Konzepte Aramäisch (`concept_23123905`) und Bibel/Religionsgeschichte (`concept_24411000`).
+
+**Decisions:**
+
+- **Herkunft wird zweifach geführt, nicht doppelt gepflegt.** Der Bestand nutzt den Konzept-Subtree `concept_23123000` (Einzelsprachen) bereits als Herkunftsmarkierung: `mirre` trägt Arabisch + Hebräisch + Aramäisch, `Golgota` und `Barjona` Aramäisch. Diese Konvention war der Grund, `concept_23123905` zu setzen statt sie durch das neue `<etym>` zu ersetzen: das Konzept macht die Herkunft im Begriffssystem auswertbar (Begriffs-Verteilung, ähnliche Lemmata), das `<etym type="borrowing">` macht sie samt Quelle explizit. Regel in TEI-MODEL-AUTH-FILES: wer eine Herkunft neu vergibt, setzt beides.
+- **Das ist Phase 0 von #28 für Schicht B, an einem echten Fall entschieden.** Der Phasenplan hatte die Kodierung offen gelassen. Jetzt festgelegt: `<lang @norm>` (ISO 639-3) plus `<note type="attribution" @resp>`, getrennt von `<etym type="morphological">`. Ein einziger kuratierter Eintrag ist der billigste Zeitpunkt für diese Entscheidung; fällt sie in Phase 2 anders aus, kostet die Migration eine Zeile.
+- **`@xml:lang` am Token in ZUK wurde bewusst NICHT gesetzt**, obwohl der Beleg die Drei-Punkte-Prüfung besteht. Das Korpus trägt 0 solche Token; ein einzelnes markiertes Token behauptet im zitierbaren Datensatz, Fremdsprachigkeit sei erfasst. Schicht A soll laut Plan gesichtet und per Skript mit Provenienz-Log geschrieben werden. „abba“ ist stattdessen als Kalibrierfall im Phasenplan notiert: findet der Kandidaten-Scan in Phase 1 diesen Beleg nicht, ist der Scan zu eng.
+- **`<def>` und `<note type="comment">` sind getrennt.** Die Definition ist Wörterbuchinhalt, der Kommentar ist Argumentation (Belegkontext, Bibelstellen). Zusammengelegt würde die Lemma-Seite Behauptung und Begründung in einem Absatz mischen und die API-Konsumenten könnten das eine nicht ohne das andere zitieren. `@resp` ist bei beiden `<note>`-Typen Pflicht.
+- **Die neuen Index-Felder werden nur gesetzt, wo kuratiert ist.** 43.879 Lemmata mit `null`-Feldern hätten Index und API ohne Nutzen aufgebläht. In CONTRACTS §G.3 nachgetragen, dass Konsumenten sie als optional behandeln müssen: kein Schema-Versprechen pro Record.
+- **`concept_24452000` (Kirchliche Hierarchie) wurde entfernt.** Die Zuordnung passt zum monastischen `abbas` „Abt“, nicht zum einzigen Korpusbeleg, der Gott anredet. Mit einer jetzt ausformulierten Bedeutung wäre der Chip auf der Lemma-Seite sichtbar falsch. Eine Zeile, rückholbar, KZW-Veto vorbehalten.
+
+**Dead ends:**
+
+- **Die Arbeit begann auf `feature/236-frauenlob`**, einem gemergten und auf GitHub gelöschten Branch, 10 Commits hinter `origin/main`. Der erste Index-Build lief damit gegen einen veralteten `works.xml`-Stand. Ein Branch-Wechsel im gemeinsamen Arbeitsverzeichnis war keine Option, weil dort parallel eine andere Session mit gestageten Dateien arbeitete. Konsequenz: `git worktree` unter `%TEMP%` auf frischem Branch von `origin/main`, Patch übertragen, Index und API dort neu gebaut. Das Arbeitsverzeichnis der anderen Session bleibt unangetastet. Nebenbefund für künftige Worktrees: der Scratchpad-Pfad ist zu lang für `.gemini/skills/pos-disambiguator/references` (`Filename too long`), kurzer `%TEMP%`-Pfad nötig.
+
+**Phase:** Betrieb (Daten + Schema, additiv). Gepflegt: TEI-MODEL-AUTH-FILES §3.1 (neuer Unterabschnitt), TEI-MODEL §11 (Authority-Index 1.7.0, Authority-Schema 1.1.0), CONTRACTS §G.3, INDEX §Status, `docs/features/FREMDSPRACHEN-PHASENPLAN-28.md` (Phase 0 + Kalibrierfall), `schema/examples/authority-lexicon.example.xml`.
