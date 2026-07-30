@@ -1,10 +1,22 @@
 # Roadmap
 
-Strategic priorities for the MHDBDB TEI Repository. Updated 2026-07-29.
+Strategic priorities for the MHDBDB TEI Repository. Updated 2026-07-30.
 
 See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/44) for the full triage matrix with per-issue status.
 
-## Now: Suchsemantik entschieden und umgesetzt
+## Now: Frauenlob ist drin, die Auswertungsfrage ist offen
+
+**#236 gemergt (30.07., `115c3a01f`).** Die beim Legacy-Ingest verlorene Parallelüberlieferungs-Ebene in FR3 ist rekonstruiert: 23 gleichrangige Töne zu 10 zusammengeführt, 36 `<div type="parallel">`, 127 eindeutige (Ton, Strophe)-Adressen, 1.563 von 9.595 Versen als Zeugenvarianten erkennbar. Dazu 42 römische Ordnungszahl-Tokens aus dem Textfluss entfernt und durch 24 `<head>` ersetzt, FR3-Metadaten auf den Supplementband 2000 korrigiert, editorische Eingriffe nach `<editorialDecl>`. **Korpus-Index 4.2.0, Authority-Index 1.6.5**, API neu gebaut. Grundlage waren die Legacy-Ingest-Quellen, die KZW am 29.07. freigegeben hat; sie liegen unter `scripts/ingest/frauenlob/source/` und machen die Rekonstruktion reproduzierbar statt erschlossen.
+
+**Die eigentliche Folgefrage ist neu und liegt bei KZW: #255.** Adressierbar heißt nicht ausgewertet. Zeugenvarianten zählen in Wortfrequenz, Keyness, Hapax-Werkzeug und Lemma-Verteilung weiter wie eigenständiger Text, und in der Nähesuche stehen die Fassungen desselben Verses jetzt direkt hintereinander, wodurch Selbst-Kookkurrenzen entstehen können. Der Index kennt kein Parallel-Merkmal. Entscheidung nötig, bevor Code entsteht.
+
+**#251 als PR #256 offen:** die Auswahl im Wortbestandteil-Modus liegt jetzt als Modell auf dem Explorer statt als DOM-Schnappschuss, mit Zähler „N ausgewählt", Fokus-Rückgabe und vier Regressionstests (24/24 in der betroffenen Spec). Wartet auf Merge.
+
+**Nach vier Review-Durchgängen auf #253 gelernt** (jeder brachte genau einen echten Befund, in absteigender Größe): ein `@target`-Verweis zeigte ins Leere und wäre für das Cross-Ref-Audit dauerhaft unsichtbar geblieben; die `div/@type`-Tabelle in TEI-MODEL.md stand in fünf von sieben Zeilen falsch, überwiegend schon vor diesem PR; ein `shift_indent`-Fehler rückte 28 `</div>` zwei Spalten zu tief ein, woraufhin FR3 aus der Quelle neu erzeugt statt nachgebessert wurde; und ein Docstring behauptete noch 4.1.8. Die Handwerksregeln daraus stehen in [MASTERPLAN-AUTONOME-ISSUE-SESSION §2.1](playbooks/MASTERPLAN-AUTONOME-ISSUE-SESSION.md) (Regeln 22 bis 26).
+
+**CI-Änderung:** der Review-Workflow postet jetzt einen Kommentar pro PR statt einen pro Lauf (`use_sticky_comment`). PR #254 hatte am 29.07. acht Kommentare gesammelt. Der `synchronize`-Trigger bleibt bewusst, weil der automatisch getriggerte zweite Lauf auf #253 den wertvollsten Befund des Tages fand. Der Auto-Cancel beim Merge (seit 12.07.) funktioniert nachweisbar und braucht keine Handarbeit.
+
+## Vorher: Suchsemantik entschieden und umgesetzt
 
 **Autonome Issue-Session 29.07.** ([MASTERPLAN-AUTONOME-ISSUE-SESSION](playbooks/MASTERPLAN-AUTONOME-ISSUE-SESSION.md)), ausgelöst durch KZWs vier Entscheidungen vom 28.07. Zwei Code-PRs plus Meta-PR, beide Code-PRs frontend-only: kein Daten-PR, Indexe bleiben 4.1.8 / 1.6.4.
 
@@ -25,7 +37,7 @@ Weiterhin direkt startbar: **#216 minne-Serie** (~7.000 unannotierte Tokens in 2
 
 **Erledigt am 29.07.:** die Playground-Aufräumrunde. Acht Funktionen ohne Aufrufer entfernt (darunter zwei, die zusätzlich Kontextfenster mit Index-Positionen in die ungefilterte `<w>`-Liste schnitten, und zwei, die erst durch die Löschung selbst verwaisten), `resolveLemmaIds` dedupliziert, und beide Kookkurrenz-Modi verweigern jetzt die Arbeit statt bei einem einzigen Lemma jede Fundstelle als Treffer mit Abstand 0 zu melden. Die abweichende Zählweise des Upload-Fallbacks steht mit Messwerten in CONTRACTS §B.
 
-**Offen aus derselben Ecke:** #251, die Auswahl im Wortbestandteil-Modus wird aus dem DOM abgeleitet statt eigenständig geführt.
+**Offen aus derselben Ecke:** #251, inzwischen als PR #256 umgesetzt, siehe oben.
 
 ## Laufend: Nach-Merge-Betreuung + freigeschaltete Workstreams
 
@@ -49,7 +61,10 @@ Direkt startbar geworden:
 | #129 | KWIC-Belege: gebaut und live seit Juni, Prüfung steht weiter aus | KZW |
 | #138 | div-/lg-Hüllen warten weiter auf Prüfung; neu dazu die Render-Policy-Frage zu den DIG-Strophenzählern in HUG (Julia, 17.07.) | KZW |
 | #228 | Neu: editorischer Apparat in `<note n=…>` ist als Text lemmatisiert (400 Tokens in 165 Notes über 16 Texte, ohne die GWTK-Notes mit ganzen Versblöcken; korpusweit 587 Notes mit 2.458 Tokens) – entannotieren? | KZW |
-| #239 | Neu 29.07.: Wortbestandteil-Suche gebaut (PR #246), inklusive Markierung und Filter für die im Lexikon verzeichneten Wortbildungen. Zwei Rückfragen im Issue: `rôtwîn` aus dem Ticket-Beispiel steht nicht im Lexikon (nachtragen?), und `winter` landet positionsrichtig in der Wortanfang- statt in der Wortmitten-Gruppe. Dritte Frage aus der Umsetzung: soll der Filter „nur belegte Wortbildungen" standardmäßig an sein? | KZW |
+| #239 | KZW hat am 29.07. um eine Neuerklärung gebeten („ich habe den Faden verloren"); am 30.07. mit gemessenen Gruppenzahlen beantwortet (Eingabe „wein": 67 am Wortende, 149 am Wortanfang, 191 in der Wortmitte, davon 50 belegte Wortbildungen). Zwei Fragen bleiben: ist `winter` in der Wortanfang-Gruppe akzeptabel (die positionale Definition verlangt es), und soll der Filter „nur belegte Wortbildungen" standardmäßig an sein? Empfehlung: aus, weil das Lexikon Bestandteile nur bei 61,9 Prozent der Lemmata verzeichnet | KZW |
+| #250 | KZW hat am 29.07. beide Punkte entschieden (Aufklapp-Abschnitt genügt, synthetisches Label nur wo sauber prüfbar). Dritter Punkt am 30.07. ergänzt und beziffert: seit der FR3-Verschachtelung verlieren 19 von 127 Sections ihren Verszählungs-Anker, die sichtbare 1 wandert zum Parallelzeugen. Umsetzung offen | KZW-Antwort liegt vor |
+| #252 | KZW hat am 29.07. entschieden: echte Auslassungen sollen `<gap/>` sein, `<caesura/>` bleibt der bewussten Zäsur innerhalb der Verszeile vorbehalten. Damit ist die Migration von 971 Stellen in 21 Texten arbeitsfähig (Datenblock, Data-Change-Lifecycle) | KZW-Antwort liegt vor |
+| #255 | Neu 30.07.: zählen Zeugenvarianten in Frequenz, Keyness und Hapax wie eigenständiger Text? Drei Entscheidungsfragen im Issue, die technische Umsetzung hängt allein an der ersten | KZW |
 | #169 | Neu 29.07.: die drei freigegebenen Befunde umgesetzt (PR #245), Abnahme steht aus. Die Trefferzahlen für 3+-Lemma-Nähesuchen sinken, das ist gewollt und datiert im JOURNAL | KZW |
 | #224 | Fix ist gemergt und live; offen ist nur noch die Breve-Frage für die Basiszeichen `w`, `n`, `y`, `z` (64 lemmatisierte Tokens) | Julia |
 | #59, #114 | Naming-Fachklärung (Alexander-Workaround-Entwurf liegt seit 12.07. im Issue, Team-Freigabe vor Linda-Ping) + Tabellenansicht-Freigabe | Linda (via Team) |
