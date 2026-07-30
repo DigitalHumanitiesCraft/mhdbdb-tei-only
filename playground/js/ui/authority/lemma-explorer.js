@@ -56,6 +56,17 @@ export class LemmaExplorer {
   constructor(authorityData) {
     this.authorityData = authorityData;
     this.searchMode = "lemma";
+    /**
+     * Auswahl im Wortbestandteil-Modus als Modell (#251). Vorher wurde sie beim
+     * Filterwechsel aus dem DOM gelesen und beim nächsten Render einmalig
+     * eingelöst; ein Häkchen überlebte damit genau einen Render und ging auf dem
+     * Weg durch einen leeren Zwischenzustand still verloren. Gehalten werden die
+     * Originalformen, weil die Multi-Lemma-Route Schreibformen erwartet;
+     * Homographen mit gleicher Schreibform fallen deshalb zusammen, genau wie
+     * bei der alten DOM-Auswahl.
+     */
+    this.componentPicked = new Set();
+    this.lastComponentTerm = null;
   }
 
   showLemmata() {
@@ -321,6 +332,10 @@ export class LemmaExplorer {
       return;
     }
 
+    // Ein anderer Suchbegriff beginnt eine neue Auswahl. Ohne diesen Schnitt
+    // wanderten Häkchen der vorigen Suche in die Übergabe, sichtbar erst dort.
+    // Der Filterwechsel sucht mit demselben Begriff weiter und behält sie.
+    if (term !== this.lastComponentTerm) this.componentPicked.clear();
     this.lastComponentTerm = term;
 
     const { formen, quellen } = this.resolveComponentForms(term);
@@ -441,13 +456,42 @@ export class LemmaExplorer {
   toggleComponentMorphFilter(an) {
     this.rememberComponentViewState();
     this.componentOnlyMorph = !!an;
+    // Der Filter rendert den ganzen Kopf neu, also auch die Checkbox, an der die
+    // Bedienung gerade hängt. Ohne diese Rückgabe landet der Tastaturfokus auf
+    // <body>, und die Umschaltung ist mit der Tastatur nur einmal möglich.
+    const lagAufFilter = document.activeElement?.id === "componentOnlyMorph";
     if (this.lastComponentTerm) this.searchWordComponents(this.lastComponentTerm);
+    if (lagAufFilter) document.getElementById("componentOnlyMorph")?.focus();
+  }
+
+  /**
+   * Ein Häkchen wurde gesetzt oder entfernt. Die Wahrheit steht im Modell, nicht
+   * im DOM: der nächste Render liest sie von hier, egal ob der Eintrag durch den
+   * Filter, den Gruppendeckel oder einen Leerzustand zwischenzeitlich verschwindet.
+   */
+  toggleComponentPick(wert, an) {
+    if (an) {
+      this.componentPicked.add(wert);
+      this.resetComponentPickHint();
+    } else {
+      this.componentPicked.delete(wert);
+    }
+    this.updateComponentPickCount();
+  }
+
+  /**
+   * Die Zahl der ausgewählten Lemmata sichtbar halten. Nötig, seit die Auswahl den
+   * Render überlebt: sonst gäbe es Häkchen, die zählen, aber gerade nicht zu sehen
+   * sind (ausgewählt, dann weggefiltert), und die Übergabe käme überraschend.
+   */
+  updateComponentPickCount() {
+    const el = document.getElementById("componentPickCount");
+    if (!el) return;
+    const n = this.componentPicked.size;
+    el.textContent = n ? `${n} ausgewählt` : "";
   }
 
   rememberComponentViewState() {
-    this._componentPicked = new Set(
-      Array.from(document.querySelectorAll(".component-pick:checked")).map((b) => b.value)
-    );
     // Nur Gruppen erfassen, die es im aktuellen Render überhaupt gab, und den
     // Zustand je Gruppe ablegen statt als Menge der offenen. Der Unterschied
     // entscheidet den Rückweg aus dem Leerzustand: dort existiert keine
@@ -467,24 +511,21 @@ export class LemmaExplorer {
   }
 
   /**
-   * Gesicherten Ansichtszustand wegwerfen. Nötig in jedem Pfad, der die
-   * Trefferliste verlässt, ohne sie neu aufzubauen: die Sicherung wird sonst
-   * von der NÄCHSTEN Suche eingelöst und setzt dort Häkchen, die zu einem
-   * anderen Suchbegriff gehören. Sichtbar würde das erst bei der Übergabe an
-   * die Multi-Lemma-Suche, also zu spät.
+   * Ansichtszustand UND Auswahl wegwerfen. Nötig in jedem Pfad, der die
+   * Trefferliste verlässt, ohne sie neu aufzubauen: Häkchen eines anderen
+   * Suchbegriffs würden sonst in die Übergabe an die Multi-Lemma-Suche wandern,
+   * und sichtbar wäre das erst dort, also zu spät.
    */
   discardComponentViewState() {
-    this._componentPicked = null;
+    this.componentPicked.clear();
+    this.lastComponentTerm = null;
     this._componentOpen = null;
   }
 
   restoreComponentViewState() {
-    if (this._componentPicked) {
-      document.querySelectorAll(".component-pick").forEach((box) => {
-        if (this._componentPicked.has(box.value)) box.checked = true;
-      });
-      this._componentPicked = null;
-    }
+    // Die Häkchen stellt der Render selbst aus `componentPicked` her (#251),
+    // hier bleibt nur der Aufklapp-Zustand der Gruppen.
+    this.updateComponentPickCount();
     if (this._componentOpen) {
       COMPONENT_GROUPS.forEach((g) => {
         const el = document.getElementById(`component-group-${g.key}`);
@@ -528,6 +569,8 @@ export class LemmaExplorer {
             .map(
               (e) => `<label class="inline-flex items-center gap-1">
                   <input type="checkbox" class="component-pick" value="${this.escapeText(e.lemma.lemma)}"
+                    ${this.componentPicked.has(e.lemma.lemma) ? "checked" : ""}
+                    onchange="window.playground.ui.authorityExplorers.toggleComponentPick(this.value, this.checked)"
                     aria-label="${this.escapeText(e.lemma.lemma)} auswählen" />
                   <a href="../lemma/?id=${e.lemma.id.replace(/^lemma_/, "")}" target="_blank" rel="noopener" class="font-semibold text-brand-700 hover:underline">${this.escapeText(e.lemma.lemma)}</a>
                 </label>`
@@ -574,6 +617,9 @@ export class LemmaExplorer {
             class="rounded-lg bg-brand-600 px-3 py-1 text-xs font-semibold text-white shadow-sm transition hover:bg-brand-700">
             Auswahl an die Multi-Lemma-Suche übergeben
           </button>
+          <span id="componentPickCount" class="text-xs font-medium text-brand-700">${
+            this.componentPicked.size ? `${this.componentPicked.size} ausgewählt` : ""
+          }</span>
           <span id="componentPickHint" class="text-xs text-slate-500">
             Lemmata ankreuzen und übergeben, um ihre Belege im Korpus zu suchen.
             Mehrere Lemmata werden dort UND-verknüpft, also als Texte gesucht,
@@ -617,6 +663,8 @@ export class LemmaExplorer {
         return `
           <article class="result-item flex items-start gap-3 rounded-2xl border border-slate-200 bg-white/95 p-3 shadow-sm">
             <input type="checkbox" class="component-pick mt-1" value="${this.escapeText(lemma.lemma)}"
+              ${this.componentPicked.has(lemma.lemma) ? "checked" : ""}
+              onchange="window.playground.ui.authorityExplorers.toggleComponentPick(this.value, this.checked)"
               aria-label="${this.escapeText(lemma.lemma)} auswählen" />
             <div class="min-w-0">
               <p class="text-xs font-semibold uppercase tracking-wide text-brand-600">
@@ -670,9 +718,10 @@ export class LemmaExplorer {
    * auch so beschriftet. Sie laufen dort durch Stufe 1 der Auflösung.
    */
   sendWordComponentSelection() {
-    const gewaehlt = Array.from(document.querySelectorAll(".component-pick:checked")).map(
-      (box) => box.value
-    );
+    // Aus dem Modell, nicht aus dem DOM (#251): eine Auswahl, die der Filter
+    // gerade ausblendet, ist trotzdem eine Auswahl. Der Zähler im Kopf macht sie
+    // sichtbar, damit die Übergabe nicht mehr enthält, als jemand vor sich sieht.
+    const gewaehlt = Array.from(this.componentPicked);
     const meldung = document.getElementById("componentPickHint");
 
     if (gewaehlt.length === 0) {
@@ -692,9 +741,9 @@ export class LemmaExplorer {
         }
         meldung.textContent = "Bitte zuerst mindestens ein Lemma ankreuzen.";
         meldung.className = "text-xs font-medium text-red-600";
-        document.querySelectorAll(".component-pick").forEach((box) =>
-          box.addEventListener("change", () => this.resetComponentPickHint(), { once: true })
-        );
+        // Keine eigenen Listener mehr: `toggleComponentPick` nimmt den
+        // Fehlerzustand beim nächsten Häkchen zurück und überlebt im Gegensatz
+        // zu einmaligen Listenern auch einen Neuaufbau der Trefferliste.
       }
       return;
     }

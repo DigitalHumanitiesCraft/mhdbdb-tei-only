@@ -238,6 +238,52 @@ test.describe('#239: Belegte Wortbildungen aus lemma.etymology', () => {
         await expect(page.locator('#component-group-anfang')).toBeHidden();
     });
 
+    test('#251: ein Häkchen überlebt das Wegfiltern und Wiederkommen', async ({ page }) => {
+        // Der Fall, der die Auswahl vorher still verschluckt hat. „winter" ist
+        // KEINE belegte Wortbildung: mit Filter verschwindet seine Checkbox aus
+        // dem DOM. Vorher wurde die Auswahl beim Umschalten aus dem DOM gelesen
+        // und einmalig eingelöst, ein weggefiltertes Häkchen war damit weg,
+        // bemerkbar erst an der Trefferzahl drüben in der Multi-Lemma-Suche.
+        await page.locator('#component-group-ende .component-pick[value="ôsterwîn"]').check();
+        await page.locator('#component-group-anfang .component-pick[value="winter"]').check();
+        await expect(page.locator('#componentPickCount')).toHaveText('2 ausgewählt');
+
+        await page.locator('#componentOnlyMorph').check();
+        await expect(page.locator('#component-group-anfang .component-pick[value="winter"]'))
+            .toHaveCount(0);
+        // Der Zähler beweist, dass die Auswahl weiterlebt, obwohl sie unsichtbar ist.
+        await expect(page.locator('#componentPickCount')).toHaveText('2 ausgewählt');
+
+        await page.locator('#componentOnlyMorph').uncheck();
+        await expect(page.locator('#component-group-anfang .component-pick[value="winter"]'))
+            .toBeChecked();
+        await expect(page.locator('#component-group-ende .component-pick[value="ôsterwîn"]'))
+            .toBeChecked();
+    });
+
+    test('#251: die Übergabe nimmt auch eine weggefilterte Auswahl mit', async ({ page }) => {
+        await page.locator('#component-group-anfang .component-pick[value="winter"]').check();
+        await page.locator('#componentOnlyMorph').check();
+
+        await page.getByRole('button', { name: /Auswahl an die Multi-Lemma-Suche/ }).click();
+        await expect(page).toHaveURL(/#multi-lemma&lemmata=/);
+        expect(decodeURIComponent(new URL(page.url()).hash)).toContain('winter');
+    });
+
+    test('#251: ein neuer Suchbegriff beginnt eine neue Auswahl', async ({ page }) => {
+        // Gegenprobe zum Modell: es darf nicht ZU lange leben. Häkchen des
+        // vorigen Begriffs in der Übergabe wären ein stiller Fremdkörper.
+        await page.locator('#component-group-ende .component-pick[value="ôsterwîn"]').check();
+        await expect(page.locator('#componentPickCount')).toHaveText('1 ausgewählt');
+
+        await page.fill('#lemmaSearch', 'winkel');
+        // Auf den Kopf des neuen Begriffs warten, nicht auf eine Gruppe: eine
+        // Gruppe ohne Treffer wird ohne id gerendert und existiert dann nicht.
+        await expect(page.locator('#lemmaResults'))
+            .toContainText('enthalten den Bestandteil "winkel"');
+        await expect(page.locator('#componentPickCount')).toHaveText('');
+    });
+
     test('der Filter bleibt abschaltbar, wenn er alles wegfiltert', async ({ page }) => {
         // Sackgassen-Probe. „lantwîn" hat genau einen weiteren Treffer, und der
         // ist keine belegte Wortbildung: mit Filter ist die Anzeigemenge leer.
