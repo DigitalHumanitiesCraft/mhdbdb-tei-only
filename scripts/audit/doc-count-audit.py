@@ -100,9 +100,11 @@ SCAN_MIN_OVERRIDE = {'names': 50}
 # wirkungslos: der Scan liefe, das Muster faende die einstellige Zahl nie,
 # und die Selbstpruefung meldete nichts, weil weder Schwelle noch Anker
 # verletzt sind. Genau das Muster 'konfiguriert, gruen, prueft nichts'.
-assert not SCAN_MIN_OVERRIDE or min(SCAN_MIN_OVERRIDE.values()) >= 10, (
-    'SCAN_MIN_OVERRIDE unter 10 braucht zuerst ein einstelliges Ziffernmuster '
-    'in find_stale_numbers')
+if SCAN_MIN_OVERRIDE and min(SCAN_MIN_OVERRIDE.values()) < 10:
+    # raise statt assert: ein assert verschwindet unter python -O, und diese
+    # Pruefung soll auch dort halten.
+    raise SystemExit('SCAN_MIN_OVERRIDE unter 10 braucht zuerst ein '
+                     'einstelliges Ziffernmuster in find_stale_numbers')
 
 
 def scan_min_for(key: str) -> int:
@@ -225,10 +227,17 @@ DOC_TARGETS = [
     #
     # docs/ARCHITECTURE.md und docs/DECISIONS.md fuehren fuer
     # variants_normalized seit #279/#294 KEINE Zahl mehr, sondern verweisen
-    # auf CONTRACTS §C. Ihr Target bleibt trotzdem stehen: es ist eine
-    # Ratsche, die greift, sobald jemand die Zahl wieder einsetzt. Solange
-    # sie fehlt, prueft der Ziffern-Scan dort nichts, und das ist der
-    # gewollte Zustand, nicht eine Luecke (Review PR #305).
+    # auf CONTRACTS §C. Ihr Target bleibt trotzdem stehen, aber mit einer
+    # ehrlicheren Erwartung als "Ratsche" (Review PR #305): gefangen wird
+    # nur eine AUSGESCHRIEBENE Wiedereinsetzung ("234.244 Mappings").
+    #
+    # Ausgerechnet die Form, die dort vorher stand, faellt durch: "~257k"
+    # matcht das Ziffernmuster nicht (zwischen 7 und k liegt keine
+    # Wortgrenze), und selbst "~257.000" faengt der Rundungs-Skip ab. Das
+    # ist kein Versehen, sondern die Grenze des Verfahrens: eine gerundete
+    # Angabe ist per Konvention erlaubt, und ob sie sich auf die richtige
+    # Groesse bezieht, kann ein Ziffern-Scan nicht wissen. Genau daran ist
+    # #279 aufgefallen, und zwar per Hand, nicht per Gate.
     ('README.md', ['corpus_files', 'lexicon_entries']),
     # index.html traegt den Stats-Block der Startseite (TEI-Texte, Lemmata,
     # rohe Varianten-Formen). Fehlte bis 2026-07-28 im Audit, deshalb blieb
@@ -516,7 +525,8 @@ def check_anchor_coverage(counts: dict, code_counts: dict) -> list:
     Gemeldet werden sechs Zustaende:
       missing-file  Pfad existiert nicht (Umbenennung, Tippfehler)
       no-anchor     kein Anker-Muster fuer den Key hinterlegt
-      below-min     Ist-Wert unter NUMERIC_SCAN_MIN, Ziffern-Scan laeuft nie
+      below-min     Ist-Wert unter der Schwelle des Keys (scan_min_for),
+                    der Ziffern-Scan laeuft dort nie
       no-hit        Anker kommt im ganzen Dokument nicht vor
       silent        wie no-hit, aber als bewusste Entscheidung hinterlegt
                     (INTENTIONALLY_SILENT) und damit kein offener Punkt
@@ -624,10 +634,14 @@ def main():
     # werfen wie echte Luecken macht die Meldung zu Rauschen, das jeder Lauf
     # wiederholt und niemand mehr liest.
     silent = [g for g in gaps if g[2] == 'silent']
-    open_gaps = [g for g in gaps if g[2] != 'silent']
+    # silent-obsolet gehoert in keinen der beiden Toepfe: dort TRIFFT der
+    # Anker, das Paar prueft also potenziell etwas, nur ist die hinterlegte
+    # Begruendung veraltet. Es unter "prueft derzeit nichts" zu zaehlen waere
+    # dieselbe Ungenauigkeit, gegen die die Selbstpruefung gebaut ist.
+    obsolet = [g for g in gaps if g[2] == 'silent-obsolet']
+    open_gaps = [g for g in gaps if g[2] not in ('silent', 'silent-obsolet')]
     if not open_gaps:
-        print('  Jedes konfigurierte (Datei, Key)-Paar hat einen Anker-Treffer')
-        print('  im Dokument oder ist als bewusst zahlenlos hinterlegt.')
+        print('  Kein konfiguriertes (Datei, Key)-Paar ohne Anker-Treffer.')
     else:
         for doc_path, key, kind, detail in open_gaps:
             suffix = f' — {detail}' if detail else ''
@@ -637,6 +651,11 @@ def main():
         print('  Kein Fehler und kein Exit-Code: eine Datei darf ueber einen Count')
         print('  schweigen. Aber ein Target ohne Anker-Treffer ist derselbe blinde')
         print('  Fleck wie ein fehlendes Target, nur schwerer zu sehen (#276).')
+    if obsolet:
+        print()
+        print('  Veraltete Ausnahme, bitte entfernen:')
+        for doc_path, key, _kind, detail in obsolet:
+            print(f'    {doc_path} / {key}: {detail}')
     if silent:
         print()
         print('  Bewusst ohne Zahl (INTENTIONALLY_SILENT, #297 Punkt 4):')
