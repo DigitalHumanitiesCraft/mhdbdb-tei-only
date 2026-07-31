@@ -468,7 +468,9 @@ Build properties: deterministic on the #125 principle (no timestamps, compact JS
 | | | `//tei:titleStmt/tei:title/text()` | Title |
 | | | `//tei:titleStmt/tei:author` | Author name + `@ref` |
 | | | `//tei:msIdentifier` | `@corresp` → work reference |
+| | | `//tei:keywords/tei:term[@type="genre"]/text()`, Fallback `//tei:term[@type="genre"]/text()` | Genre |
 | | | `//tei:body//tei:w[@lemmaRef]` *(logical; real code: single-pass `iterwalk`)* | All words with positions (see [CONTRACTS.md](CONTRACTS.md#b-position-counting-contract)) |
+| | | `//tei:body//tei:l` *(im selben `iterwalk`)* | `lineStarts`/`lineEnds`, Wortindex des ersten und letzten indizierten `<w>` je Vers |
 
 #### Namespace Handling
 
@@ -778,13 +780,49 @@ Status-Legende: **CI** = automatisiert (GitHub Actions) · **Skript** = Skript-e
 1. **Der Korpus führt, die Authority-Files folgen.** `lexicon.xml`/`variants.xml` sind abgeleitete Indizes der Korpus-Annotation. Trägt ein `<w>` eine `@lemmaRef`/`@ana`, die dort fehlt, ist die Korpus-Annotation maßgeblich und die Authority muss nachgezogen werden – nie umgekehrt. (Einzige Ausnahme: ein offensichtlicher Tippfehler im Korpus wird im Korpus korrigiert.)
 2. **Händische Edits zählen genauso wie Ingest.** Diese Schrittfolge gilt für JEDE Korpus-Änderung, nicht nur Skript-Ingest: auch eine von Hand korrigierte `@pos`, ein neu gesetzter `@lemmaRef` oder eine Variantenannotation. Der Korpus wird laufend manuell editiert (Korrekturen, nicht nur Neuzugänge); jede solche Änderung löst dieselbe Nachzieh-Pflicht aus.
 
+### Welche Schritte gelten für meine Änderung? (Routing)
+
+Die beiden Checklisten unten beschreiben den **Maximalfall**. Nicht jede Änderung braucht jeden Schritt, und maßgeblich dafür ist eine einzige Frage: liest der Build die geänderte Stelle überhaupt?
+
+**Was die vier Builds lesen:**
+
+- `build-corpus-index.py` liest aus `tei/` den Dateinamen und fünf Kopfangaben (Sigle aus `idno[@type="sigle"]`, Titel, Autor samt `@ref`, `msIdentifier/@corresp`, Genre-Term) sowie jedes `<w @lemmaRef>` mit nicht-leerem Text im `<body>` samt Dokumentreihenfolge und die `<l>`-Grenzen. Alles andere im TEI ist für ihn unsichtbar, insbesondere `@pos` und `@ana` sowie `<div>`, `<lg>` und `<pb>`. XPaths: [Build Script XPath Reference](#build-script-xpath-reference).
+- `extract-variants.py` liest aus `tei/` nur `<w>`, die **beides** tragen, `@lemmaRef` und ein `@corresp="variants.xml#type_N"`, und davon Lemma-ID, Type-ID und Wortlaut. Dazu die Zahl der Korpusdateien, die im Kopf von `variants.xml` steht.
+- `build-authority-index.py` liest ausschließlich `authority-files/` (die sieben indizierten Dateien inkl. `variants.xml`, ohne `contributors.xml`). `tei/` liest er nicht.
+- `build-api.py` liest ausschließlich die beiden gebauten `data/*.json.gz`, weder `tei/` noch `authority-files/`.
+
+**Routing nach Änderungstyp:**
+
+| Geändert | Nötige Schritte | Bauzeit |
+|---|---|---|
+| `tei/`: `@pos` oder `@ana`; `<note>` im Header, Encoding-Beschreibung, `<respStmt>`; `<div>`, `<lg>`, `<pb>`, Kommentare, Einrückung außerhalb von `<w>`. Bedingung: die Folge der `<w>` und die `<l>`-Grenzen bleiben unverändert | kein Rebuild, damit auch kein Versions-Bump. Es bleiben Schritt 2 (Schema) und Schritt 8 (Cross-Ref-Audit), dann committen und pushen | 0 s |
+| `tei/`: `<l>`-Grenzen verschoben oder eine der fünf Kopfangaben geändert. Kein `<w>` hinzugekommen, entfallen oder in Wortlaut, `@lemmaRef` oder `@corresp` geändert | Korpus-Checkliste ohne Schritt 5 und 6 | rund 200 s |
+| `tei/`: `<w>`-Bestand, Wortlaut, `@lemmaRef` oder `@corresp` berührt; Datei hinzugefügt oder entfernt | Korpus-Checkliste vollständig | rund 310 s |
+| `authority-files/contributors.xml` | kein Rebuild, kein Bump (keine der Ausgaben enthält die Datei). Schema und Cross-Ref-Audit, dann committen und pushen | 0 s |
+| Eine der sieben indizierten `authority-files/` außer `works.xml` | Authority-Checkliste vollständig außer Schritt 1 | rund 20 s |
+| `authority-files/works.xml` | Authority-Checkliste vollständig | rund 20 s plus Zotero-Lauf |
+
+Der Versions-Bump (Korpus-Checkliste Schritt 3, Authority-Checkliste Schritt 2) entfällt nur in den Zeilen ohne Rebuild. Sobald ein Index neu gebaut wird, ist er Pflicht, denn der Browser invalidiert seinen 30-Tage-Cache ausschließlich über die Versionsnummer (#94). Seit #154 fängt `scripts/audit/check-index-version-bump.py` den vergessenen Bump ab: es vergleicht den dekomprimierten Index-Inhalt gegen die Diff-Base und läuft in `data-integrity.yml` bewusst **vor** dem Rebuild-Schritt. Zwei Restlücken bleiben: ohne bestimmbare Diff-Base (`workflow_dispatch`, Force-Push) überspringt der Workflow das Gate mit einem `notice`, und die Versionsangaben in der Doku (TEI-MODEL.md §11, INDEX.md) deckt es nicht ab.
+
+Umgekehrt gilt: einen Bump ohne Inhaltsänderung setzt man nicht. Er zwingt jede wiederkehrende Person zum Neuladen des Index, ohne dass sich etwas geändert hat, und keine CI merkt das.
+
+Einzelzeiten, gemessen am 2026-07-31 über 667 Korpusdateien auf einem Windows-Notebook: `build-corpus-index.py` 192 s, `extract-variants.py --apply` 100 s, `build-authority-index.py` 14 s, `build-api.py` 5 s. Größenordnungen für die Planung, keine Zusicherung.
+
+Ein Rebuild entfällt, eine Prüfung nicht: `<div>`, `<lg>` und `<pb>` sind für die Indexe unsichtbar, für die **Leseansicht** aber nicht (sie rendert Kapitel-`<div>`, Strophen und Seitenwechsel, siehe #17/#101). Wer daran etwas ändert, sieht sich den Text im Reader an, auch wenn die Tabelle 0 s sagt.
+
+**Zwei Eigenheiten von `variants.xml`,** die den Diff größer machen können als erwartet und beide kein Fehler sind: eine hinzugefügte oder entfernte Korpusdatei ändert die Datei auch dann, wenn sie kein einziges variantentragendes `<w>` enthält (die Dateizahl steht im Kopf). Und pro Type-ID entscheidet die häufigste Form im **gesamten** Korpus, ein Eingriff in einem Text kann also Einträge umschreiben, die nur in anderen Texten attestiert sind.
+
+**Im Zweifel bauen.** Seit #125 erzeugt ein Rebuild aus unverändertem Quellstand keinen Diff. Eine Fehleinschätzung nach oben kostet also nur Wartezeit, eine nach unten erzeugt stillen Drift. Die Tabelle spart Zeit, wo der Fall klar ist, sie ersetzt das Bauen im Grenzfall nicht.
+
+Zeile 2 gegen Zeile 3 lässt sich messen statt raten: `extract-variants.py` **ohne** `--apply` laufen lassen und die vier semantischen Zähler der Ausgabe lesen (`added`, `removed`, `form text changed`, `lemma assignment changed`). Alle vier auf 0 heißt Zeile 2, sofern keine Korpusdatei hinzugekommen oder entfallen ist: die Dateizahl im Kopf ist die fünfte Bedingung und taucht in den Zählern nicht auf. Der Dry-Run kostet denselben Scan, fasst `variants.xml` nicht an und legt sein Ergebnis als `authority-files/variants.regen.xml` ab, die nicht committet werden darf. Nicht über `--apply` plus `git status` entscheiden: das Skript warnt an dieser Stelle selbst vor dem Fehlschluss, denn ein Byte-Diff kann auch aus lxml-Serialisierungs-Drift entstehen (lokale Version gegen den Pin in `requirements.txt`), ohne dass sich inhaltlich etwas geändert hätte.
+
 ### Wenn sich `tei/` ändert (Skript-Ingest, neuer Text ODER händische Korrektur)
 
 | # | Schritt | Bricht wenn vergessen | Status |
 |---|---------|----------------------|--------|
 | 1 | UTF-8, Namespace `http://www.tei-c.org/ns/1.0`; positionstragende Annotation auf `<w @lemmaRef>` (nur die zählen für Positionen) | Wort unsichtbar für Suche, falsche Highlight-Positionen | manuell |
 | 2 | Schema: `python scripts/audit/validate-corpus.py --sample <SIG>` | invalides TEI; `data-integrity.yml` fängt es auf PR/Push | CI |
-| 3 | Version bumpen (`build-*-index.py` Dict-Literal `'version'` + `corpus-loader.js`), dann `python scripts/audit/check-index-versions.py` | wiederkehrende Nutzer behalten den 30-Tage-IndexedDB-Cache mit altem Index (#47.3/#94) | CI (Konsistenz) |
+| 3 | Version bumpen (`build-*-index.py` Dict-Literal `'version'` + `corpus-loader.js`), dann `python scripts/audit/check-index-versions.py` | wiederkehrende Nutzer behalten den 30-Tage-IndexedDB-Cache mit altem Index (#47.3/#94) | CI (Konsistenz + Bump-Gate #154, siehe Routing-Abschnitt) |
 | 4 | Korpus-Index: `python scripts/build-corpus-index.py` (Pre-flight bricht bei dirty tree ab, sonst `--allow-dirty`) | Suche, Trefferzahlen, Proximity, Versposition, Playground-Analysen stale; neuer Text fehlt komplett | CI (Freshness-Gate in data-integrity.yml) |
 | 5 | **Bei neuen Formen:** `python scripts/sync/extract-variants.py --apply` (`variants.xml` ist korpus-abgeleitet) | neue Wortformen lösen sich nicht zum Lemma auf (Stage-2-Resolution); Lemma-Page-Chips unvollständig | CI (Freshness-Gate) |
 | 6 | Nach Schritt 5: `python scripts/build-authority-index.py` | Variant-Map im Index bleibt stale | CI (Freshness-Gate) |
@@ -799,13 +837,13 @@ Status-Legende: **CI** = automatisiert (GitHub Actions) · **Skript** = Skript-e
 | # | Schritt | Bricht wenn vergessen | Status |
 |---|---------|----------------------|--------|
 | 1 | (nur `works.xml`) `enhance_works_with_zotero.py` + `sync_tei_headers.py --works` (erst `--dry-run`) | Editor/Bibliografie + Header stale (nur WorksSyncer implementiert, Persons/Genres/Concepts sind TODO-Stubs) | manuell |
-| 2 | Version bumpen (`build-authority-index.py` + `corpus-loader.js`) + `check-index-versions.py` | stale Cache bis 30 Tage | CI (Konsistenz) |
+| 2 | Version bumpen (`build-authority-index.py` + `corpus-loader.js`) + `check-index-versions.py` | stale Cache bis 30 Tage | CI (Konsistenz + Bump-Gate #154, siehe Routing-Abschnitt) |
 | 3 | **Authority-Index: `python scripts/build-authority-index.py`** (Frontend liest NUR den Index, nie das XML) | jede Authority-Änderung unsichtbar bis Rebuild + Commit (so blieb die lexicon/variants-Drift unbemerkt) | CI (Freshness-Gate in data-integrity.yml) |
 | 4 | API regenerieren: `python scripts/build-api.py` (nach Schritt 3; der frisch gebaute, noch uncommittete Index erfordert lokal `--allow-dirty`) | statische JSON-API unter `api/` serviert stale Authority-Records | CI (Freshness-Gate in data-integrity.yml) |
 | 5 | Cross-Ref-Audit `--check` + Schema `validate-corpus.py --fail-fast` | dangling Refs / invalides XML | CI |
 | 6 | Gebautes `data/authority-index.json.gz` + `api/` + Bumps committen, by name | Production serviert alten Index | manuell |
 
-**Entkopplung:** Eine reine `authority-files/`-Änderung braucht **keinen** Korpus-Index-Rebuild (`build-corpus-index.py` liest `authority-files/` nicht). Eine reine `tei/`-Änderung braucht den Authority-Rebuild nur, wenn neue Formen eine `variants.xml`-Regenerierung erzwingen (Schritt 5 → 6).
+**Entkopplung:** Eine reine `authority-files/`-Änderung braucht **keinen** Korpus-Index-Rebuild (`build-corpus-index.py` liest `authority-files/` nicht). Eine reine `tei/`-Änderung braucht den Authority-Rebuild nur, wenn neue Formen eine `variants.xml`-Regenerierung erzwingen (Schritt 5 → 6). Welche Schritte im Einzelfall entfallen, steht in der [Routing-Tabelle](#welche-schritte-gelten-für-meine-änderung-routing) oben.
 
 **Offene Lücke (kein Trigger):** kuratorischer Rest des `lexicon.xml`-Backfills (396 dangling Refs / 109 IDs: Kategorie B = Sense→Begriff-Zuordnung an existierenden Lemmata, Kategorie C = Tippfehler/Homographen mit Korpus-Korrekturbedarf; #44/#115). **Ursache:** Die Ingest-Pipelines (WZB Phase 1b–3, 2026-04/05) waren reine Forward-Pipelines ohne lexicon-Nachzug; der automatisierbare Kategorie-A-Anteil (125 fehlende `<entry>`, 581 Refs) wurde 2026-07-02 per `scripts/sync/backfill-lexicon.py` als Stubs geschlossen (orth = dominante Korpusform, Senses ohne concept-`<ptr>` – Grundform-/Konzept-Review bleibt kuratorisch). Das ist **kein** Salzburg-Re-Export-Problem (Repo ist Master), sondern eine fehlende Rückwärts-Synchronisation. Lemma-Stubs (Form + POS) sind aus dem Korpus generierbar; die **Sense→Begriff-Zuordnung ist kuratorisch** (Team vergibt die concept-Zuordnung, nicht aus dem Korpus rekonstruierbar). Bis zum Backfill toleriert die Cross-Ref-CI den Altbestand über eine ID-Set-Ratsche (committete `scripts/audit/lexicon-baseline.json`, #152): Refs außerhalb `lexicon.xml` brechen den Build sofort, jede dangling lexicon-ID außerhalb der Baseline ebenfalls (auch bei kompensierendem Backfill im selben PR); nach gelandetem Backfill `--update-baseline` ausführen und den Datei-Diff mitcommitten. `scripts/audit/check-lexicon-senses.py` detektiert sense-lose Lemmata lokal. Konsequenz für künftige Ingests siehe [DECISIONS.md → ADR-015](DECISIONS.md#adr-015-authority-source-modell-korpus-führt-ingest-braucht-rückwärts-sync).
 
