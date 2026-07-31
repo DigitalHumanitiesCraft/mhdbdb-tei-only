@@ -114,8 +114,7 @@ npm run report
 
 - **`MHDBDBPlayground`** (main.js) - Main application controller
 - **`AuthorityFilesManager`** - Authority file loading and parsing
-- **`TEIFilesManager`** - TEI document processing and analysis
-- **`TEIStorageManager`** - IndexedDB persistence for TEI files
+- **`TEIFilesManager`** - Multi-lemma search over the pre-built corpus index
 - **`AuthorityStorageManager`** - IndexedDB caching with expiration
 
 ### UI Components (Modular)

@@ -176,7 +176,6 @@
     <!-- Scripts -->
     <script type="module">
         import { TestUtils } from './test-utils.js';
-        import { TEIStorageManager } from '../playground/js/data/storage/tei-storage.js';
         import { TEIFilesManager } from '../playground/js/data/tei-manager.js';
         import { IndexedDBManager } from '../playground/js/indexed-db-manager.js';
         import { AuthorityFilesManager } from '../playground/js/data/authority-manager.js';
@@ -236,91 +235,6 @@
             let completedTests = 0;
 
             // Test 1: Storage Manager Tests
-            await window.testUtils.describe('TEIStorageManager', async () => {
-                const storage = new TEIStorageManager();
-
-                await window.testUtils.it('should initialize with empty storage', async () => {
-                    const files = await storage.listCachedFiles();
-                    window.testUtils.assertEqual(files.length, 0);
-                });
-
-                await window.testUtils.it('should save file to IndexedDB cache', async () => {
-                    const content = window.testUtils.generateMockTEIContent(5);
-                    const result = await storage.saveToCache('test1.xml', content);
-                    window.testUtils.assertTrue(result);
-                });
-
-                await window.testUtils.it('should retrieve saved file', async () => {
-                    const content = await storage.loadFromCache('test1.xml');
-                    window.testUtils.assertExists(content);
-                    window.testUtils.assert(content.includes('Test TEI File'));
-                });
-
-                await window.testUtils.it('should list cached files', async () => {
-                    const files = await storage.listCachedFiles();
-                    window.testUtils.assertEqual(files.length, 1);
-                    window.testUtils.assertEqual(files[0].filename, 'test1.xml');
-                });
-
-                await window.testUtils.it('should check if file is in cache', async () => {
-                    window.testUtils.assertTrue(await storage.isInCache('test1.xml'));
-                    window.testUtils.assertFalse(await storage.isInCache('nonexistent.xml'));
-                });
-
-                await window.testUtils.it('should remove file from cache', async () => {
-                    const result = await storage.removeFromCache('test1.xml');
-                    window.testUtils.assertTrue(result);
-                    window.testUtils.assertFalse(await storage.isInCache('test1.xml'));
-                });
-
-                await window.testUtils.it('should clear all cached files', async () => {
-                    await storage.saveToCache('test2.xml', 'content');
-                    await storage.saveToCache('test3.xml', 'content');
-                    const removed = await storage.clearAllCache();
-                    window.testUtils.assertEqual(removed, 2);
-                });
-
-                completedTests += 7;
-                updateProgress(completedTests, 30, 'Storage Manager tests completed');
-            });
-
-            // Test 2: TEI Files Manager Tests
-            await window.testUtils.describe('TEIFilesManager', async () => {
-                const teiData = { files: [], parsedXML: [], words: [], lines: [], annotations: [] };
-                const manager = new TEIFilesManager(teiData);
-
-                await window.testUtils.it('should validate TEI files', () => {
-                    const validFile = { name: 'test.xml', type: 'text/xml' };
-                    const invalidFile = { name: 'test.txt', type: 'text/plain' };
-
-                    window.testUtils.assertTrue(manager.isTEIFile(validFile));
-                    window.testUtils.assertFalse(manager.isTEIFile(invalidFile));
-                });
-
-                await window.testUtils.it('should process TEI content from string', async () => {
-                    const content = window.testUtils.generateMockTEIContent(3);
-                    await manager.processTEIFromContent('test.xml', content, true);
-
-                    window.testUtils.assertEqual(teiData.files.length, 1);
-                    window.testUtils.assertEqual(teiData.parsedXML.length, 1);
-                });
-
-                await window.testUtils.it('should extract words from TEI', () => {
-                    window.testUtils.assertTrue(teiData.words.length > 0);
-                    window.testUtils.assertExists(teiData.words[0].text);
-                });
-
-                await window.testUtils.it('should handle session file removal', async () => {
-                    const result = await manager.removeTEIFile('test.xml');
-                    window.testUtils.assertTrue(result);
-                    window.testUtils.assertEqual(teiData.files.length, 0);
-                });
-
-                completedTests += 4;
-                updateProgress(completedTests, 30, 'TEI Files Manager tests completed');
-            });
-
-            // Test 3: DOM Integration Tests
             await window.testUtils.describe('DOM Integration', async () => {
                 await window.testUtils.it('should find required DOM elements', () => {
                     // We're not running in the full playground, so we'll mock this
@@ -346,37 +260,18 @@
                     window.testUtils.assert(endTime - startTime < 100, 'Large content generation should be fast');
                 });
 
-                await window.testUtils.it('should not exceed storage quota', async () => {
-                    const storage = new TEIStorageManager();
-                    await storage.initialize();
-                    const quota = await storage.getStorageQuotaInfo();
-                    window.testUtils.assert(quota.percentUsed < 90, 'Storage usage should be reasonable');
-                });
-
-                completedTests += 2;
+                completedTests += 1;
                 updateProgress(completedTests, 30, 'Performance tests completed');
             });
 
             // Test 5: Error Handling Tests
             await window.testUtils.describe('Error Handling', async () => {
-                await window.testUtils.it('should handle malformed XML gracefully', async () => {
-                    const teiData = { files: [], parsedXML: [], words: [], lines: [], annotations: [] };
-                    const manager = new TEIFilesManager(teiData);
-
-                    try {
-                        await manager.processTEIFromContent('bad.xml', '<invalid>xml');
-                        window.testUtils.fail('Should have thrown an error');
-                    } catch (error) {
-                        window.testUtils.assert(error.message.includes('XML Parsing Error'));
-                    }
-                });
-
                 await window.testUtils.it('should handle storage errors', () => {
                     // Test storage full scenario would require filling up IndexedDB
                     window.testUtils.assert(true, 'Storage error handling verified');
                 });
 
-                completedTests += 2;
+                completedTests += 1;
                 updateProgress(completedTests, 30, 'Error handling tests completed');
             });
 
@@ -392,56 +287,11 @@
                     window.testUtils.assertTrue(initialized || !window.indexedDB, 'Should initialize or gracefully fallback');
                 });
 
-                await window.testUtils.it('should handle TEI storage operations', async () => {
-                    const teiStorageManager = new TEIStorageManager();
-                    await window.testUtils.testStorageManager(teiStorageManager, 'TEI Storage Manager');
-                });
-
-                await window.testUtils.it('should get storage quota information', async () => {
-                    const teiStorageManager = new TEIStorageManager();
-                    const quota = await window.testUtils.testStorageQuota(teiStorageManager);
-                    console.log(`📊 Storage quota: ${(quota.estimatedQuota / 1024 / 1024).toFixed(2)} MB`);
-                });
-
                 completedTests += 4;
                 updateProgress(completedTests, 30, 'IndexedDB tests completed');
             });
 
             // Test 7: Large File Handling Tests
-            await window.testUtils.describe('Large File Handling', async () => {
-                await window.testUtils.it('should handle moderately large files (1MB)', async () => {
-                    const teiStorageManager = new TEIStorageManager();
-                    const result = await window.testUtils.testLargeFileHandling(teiStorageManager, 1);
-                    window.testUtils.assert(result.saveTime < 5000, 'Should save 1MB file within 5 seconds');
-                    console.log(`💾 1MB file: Save ${result.saveTime.toFixed(0)}ms, Load ${result.loadTime.toFixed(0)}ms`);
-                });
-
-                // Only test very large files if we have IndexedDB support
-                await window.testUtils.it('should handle large files like ADP.tei.xml', async () => {
-                    if (!window.indexedDB) {
-                        console.log('⏭️ Skipping large file test - IndexedDB not available');
-                        return;
-                    }
-
-                    const teiStorageManager = new TEIStorageManager();
-                    await teiStorageManager.initialize();
-
-                    // Only test if IndexedDB is actually being used
-                    const quota = await teiStorageManager.getStorageQuotaInfo();
-                    if (quota.storageType !== 'IndexedDB') {
-                        console.log('⏭️ Skipping large file test - using fallback storage');
-                        return;
-                    }
-
-                    const result = await window.testUtils.testLargeFileHandling(teiStorageManager, 5); // 5MB test
-                    window.testUtils.assert(result.saveTime < 15000, 'Should save 5MB file within 15 seconds');
-                    console.log(`💾 5MB file: Save ${result.saveTime.toFixed(0)}ms, Load ${result.loadTime.toFixed(0)}ms`);
-                });
-
-                completedTests += 2;
-                updateProgress(completedTests, 30, 'Large file tests completed');
-            });
-
             // Final results
             updateProgress(30, 30, '🎉 All tests completed!');
 

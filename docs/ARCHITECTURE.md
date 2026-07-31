@@ -180,7 +180,7 @@ The reading view converts TEI XML elements to HTML. Source: `extractAndFormatBod
 - Performance maps for fast lookups
 
 **TEIFilesManager** (`playground/js/data/tei-manager.js`)
-- TEI document processing and analysis
+- Multi-lemma search over the pre-built corpus index (the file-upload path was removed in #314)
 - Single lemma search with context extraction
 - Multi-lemma document search (all lemmata anywhere in text)
 - Multi-lemma proximity search (co-occurrence within N words)
@@ -194,7 +194,6 @@ playground/js/ui/
 ├── core/              # Core UI utilities
 │   ├── ui-helpers.js
 │   ├── progress.js
-│   ├── file-display.js
 │   └── router.js      # Hash-based URL routing (#48)
 ├── authority/         # Authority file exploration (7 modules)
 │   ├── authority-ui.js
@@ -386,13 +385,13 @@ A–Z-Einstiegsseite zu den Lemma-Seiten. Lädt nur den Authority-Index (via `Co
 
 **Object Store:** (`indexed-db-manager.js`, `onupgradeneeded`) genau einer, seit DB-Version 3.
 
-1. **tei_files** - User-uploaded TEI files (Indizes: timestamp, size, source), beschrieben über `saveTEIFile()` in `data/storage/tei-storage.js`
+1. **tei_files** - vormals die vom Benutzer hochgeladenen TEI-Dateien (Indizes: timestamp, size, source). Der einzige Schreiber lag in `data/storage/tei-storage.js` und ist mit #314 entfernt; der Store hat seither keinen mehr, bleibt aber vorerst angelegt (siehe unten)
 
 Bis Version 2 legte der Manager zusätzlich `corpus_tei_files`, `authority_files` und `metadata` an. Diese drei stammten aus der Zeit vor dem gemeinsamen `CorpusLoader` und hatten keinen Schreiber mehr; die „24h Expiration" des Authority-Stores war deshalb nirgends wirksam. Version 3 entfernt sie und löscht sie über `deleteObjectStore` auch aus bestehenden Browser-Datenbanken (#280). Der Playground liest Korpus- und Authority-Daten über denselben `CorpusLoader` wie die Hauptseite, also aus `MHDBDBMainSite`.
 
 **Expiration Policy (ADR-004), wirksam im `CorpusLoader`, nicht hier:**
 - Authority- und Corpus-Index: 30-Tage-Cache (`CACHE_DURATION` in `assets/js/lib/corpus-loader.js`, Datenbank `MHDBDBMainSite`) plus Versions-Invalidierung
-- User TEI files persist indefinitely → no expiration
+- `tei_files` hatte keine Ablauffrist, weil hochgeladene Dateien dem Benutzer gehörten. Seit #314 gibt es keinen Upload mehr, die Regel ist damit gegenstandslos und der Store schreiberlos
 - Balances freshness with performance
 
 ### Corpus Loader

@@ -8,8 +8,7 @@ import { TEIFilesManager } from './data/tei-manager.js';
 
 // NEW: Import modular UI components (decomposed from UICore.js)
 import { updateAllUI } from './ui/core/ui-helpers.js';
-import { displayFileItem, setupCollapsibleFileList, setupFileFilter, updateFileCount } from './ui/core/file-display.js';
-import { showProgress, updateProgress, hideSpinner, setFileDisplayHelpers } from './ui/core/progress.js';
+import { hideSpinner } from './ui/core/progress.js';
 import { initRouter, navigate, dispatchFromHash } from './ui/core/router.js';
 import { AuthorityUI } from './ui/authority/authority-ui.js';
 import { TEIExplorer } from './ui/tei/tei-ui.js';
@@ -25,9 +24,6 @@ import { RhymeDictionary } from './ui/tei/rhyme-dictionary.js';
 import { HapaxLegomenaAnalyzer } from './ui/tei/hapax-legomena.js';
 import { VerseEndingProfileAnalyzer } from './ui/tei/verse-ending-profile.js';
 import { NamingExplorer } from './ui/tei/naming-explorer.js';
-
-// Wire up file display helpers for progress.js
-setFileDisplayHelpers(setupCollapsibleFileList, setupFileFilter);
 
 // Import utilities for global exposure (needed for testing)
 import { TextNormalizer } from '../../assets/js/lib/text-normalizer.js';
@@ -420,40 +416,8 @@ class MHDBDBPlayground {
     // ==================== EVENT LISTENERS (UPDATED) ====================
     
     initializeEventListeners() {
-        this.setupFileUpload();
         this.setupAuthorityQueries();
         this.setupTEIQueries();
-
-        // Setup collapsible file list functionality
-        setupCollapsibleFileList();
-        setupFileFilter();
-    }
-
-    setupFileUpload() {
-        const uploadZone = document.getElementById('uploadZone');
-        const fileInput = document.getElementById('fileInput');
-
-        if (!uploadZone || !fileInput) {
-            // Upload UI removed in redesign - corpus auto-loads instead
-            return;
-        }
-
-        uploadZone.addEventListener('click', () => fileInput.click());
-        uploadZone.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            uploadZone.classList.add('dragover');
-        });
-        uploadZone.addEventListener('dragleave', () => {
-            uploadZone.classList.remove('dragover');
-        });
-        uploadZone.addEventListener('drop', (e) => {
-            e.preventDefault();
-            uploadZone.classList.remove('dragover');
-            this.handleTEIFiles(e.dataTransfer.files);
-        });
-        fileInput.addEventListener('change', (e) => {
-            this.handleTEIFiles(e.target.files);
-        });
     }
 
     setupAuthorityQueries() {
@@ -502,174 +466,6 @@ class MHDBDBPlayground {
                 console.warn(`Missing TEI button: ${id}`);
             }
         });
-    }
-
-    // ==================== TEI FILE HANDLING (UPDATED) ====================
-
-    async handleTEIFiles(files) {
-        const fileArray = Array.from(files);
-        const uploadedFilesContainer = document.getElementById('uploadedFiles');
-        const totalFiles = fileArray.length;
-
-        if (totalFiles === 0) return;
-
-        // Check if corpus is already loaded
-        if (this.teiData.parsedXML.length > 0) {
-            const hasCorpusData = this.teiData.parsedXML.some(item => 'xmlDoc' in item);
-            if (hasCorpusData) {
-                const confirmed = confirm(
-                    `Der vollständige Korpus (${this.teiData.parsedXML.length} Dateien) ist bereits geladen.\n\n` +
-                    `Möchten Sie diesen löschen und stattdessen ${totalFiles} neue Datei(en) hochladen?`
-                );
-                if (!confirmed) return;
-
-                // Clear corpus data before uploading
-                await this.teiManager.clearAllTEIData();
-
-                // Reset load corpus button to original state
-                const loadCorpusBtn = document.getElementById('loadCorpusBtn');
-                if (loadCorpusBtn) {
-                    loadCorpusBtn.disabled = false;
-                    loadCorpusBtn.classList.remove('bg-green-50', 'border-green-200', 'text-green-700');
-                    loadCorpusBtn.classList.add('hover:bg-brand-100');
-                    loadCorpusBtn.innerHTML = `
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
-                        </svg>
-                        <span>Load Full Corpus (667 Files)</span>
-                    `;
-                }
-
-                // Clear corpus UI indicators
-                const fileCountBadge = document.getElementById('fileCount');
-                if (fileCountBadge) {
-                    fileCountBadge.textContent = '0';
-                }
-
-                // Clear file list container
-                const uploadedFilesContainer = document.getElementById('uploadedFiles');
-                if (uploadedFilesContainer) {
-                    uploadedFilesContainer.innerHTML = '';
-                }
-
-                // Show file filter again
-                const fileFilter = document.getElementById('fileFilter');
-                if (fileFilter) {
-                    fileFilter.style.display = '';
-                    fileFilter.value = ''; // Reset filter
-                }
-
-                this.updateUI();
-            }
-        }
-
-        // Show progress if uploading multiple files
-        if (totalFiles > 1) {
-            showProgress('uploadedFilesSection', 0, totalFiles, 'Lade TEI-Dateien');
-        }
-        
-        let processedCount = 0;
-        
-        for (const file of fileArray) {
-            if (this.teiManager.isTEIFile(file)) {
-                try {
-                    // Update progress for multi-file uploads
-                    if (totalFiles > 1) {
-                        updateProgress('uploadedFilesSection', processedCount, totalFiles,
-                            `Verarbeite: ${file.name}`);
-                    }
-                    
-                    await this.teiManager.processTEIFile(file);
-                    processedCount++;
-                    
-                    // For single file, show immediate feedback
-                    if (totalFiles === 1) {
-                        displayFileItem(file, uploadedFilesContainer);
-                    }
-                } catch (error) {
-                    console.error(`Fehler beim Verarbeiten von ${file.name}:`, error);
-                    // Continue with other files even if one fails
-                }
-            }
-        }
-        
-        // Complete progress and show all files for multi-file uploads
-        if (totalFiles > 1) {
-            updateProgress('uploadedFilesSection', totalFiles, totalFiles, 'Abgeschlossen');
-
-            // After a brief delay, show the file list
-            setTimeout(() => {
-                hideSpinner('uploadedFilesSection');
-
-                // Get fresh reference to container after HTML reset
-                const freshUploadedFilesContainer = document.getElementById('uploadedFiles');
-
-                // Display all successfully processed files
-                this.teiData.files.forEach(file => {
-                    displayFileItem(file, freshUploadedFilesContainer);
-                });
-            }, 500);
-        }
-
-        this.updateUI();
-    }
-
-    // ==================== SESSION FILE MANAGEMENT ====================
-
-    async removeTEIFile(filename) {
-        if (await this.teiManager.removeTEIFile(filename)) {
-            // Update UI
-            const fileItem = document.querySelector(`[data-filename="${filename.toLowerCase()}"]`);
-            if (fileItem) {
-                fileItem.remove();
-            }
-
-            // Update file count and overview
-            updateFileCount();
-            this.updateUI();
-        }
-    }
-
-    async clearAllCachedFiles() {
-        try {
-            // Clear TEI files
-            const removedCount = await this.teiManager.clearAllCachedFiles();
-
-            // NOTE: Authority file cache is managed by CorpusLoader (Dexie.js)
-            // and will be cleared when the page reloads
-
-            if (removedCount > 0) {
-                // Clear UI
-                const uploadedFiles = document.getElementById('uploadedFiles');
-                if (uploadedFiles) {
-                    const cachedFileItems = uploadedFiles.querySelectorAll('[data-cached-file="true"]');
-                    cachedFileItems.forEach(item => item.remove());
-                }
-
-                // Update file count and overview
-                updateFileCount();
-                this.updateUI();
-
-                // Show success message and offer full page reload
-                const reload = confirm(`Cleared ${removedCount} cached TEI files.\n\nReload the page to also clear authority cache?`);
-                if (reload) {
-                    window.location.reload();
-                }
-            } else {
-                // No TEI files to clear, just offer reload
-                const reload = confirm(`No cached TEI files found.\n\nReload the page to clear authority cache?`);
-                if (reload) {
-                    window.location.reload();
-                }
-            }
-        } catch (error) {
-            console.error('❌ Error clearing cache:', error);
-            alert('Error clearing cache. Please reload the page manually.');
-        }
-    }
-
-    async getStorageInfo() {
-        return await this.teiManager.getStorageInfo();
     }
 
     // ==================== UI UPDATES (SIMPLIFIED) ====================

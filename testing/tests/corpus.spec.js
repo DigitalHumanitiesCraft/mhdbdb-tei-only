@@ -189,8 +189,10 @@ test.describe('Corpus Loading and Management', () => {
 
       return {
         success: true,
-        hasMethods: typeof teiManager.isTEIFile === 'function' &&
-                    typeof teiManager.loadCorpusIntoPlayground === 'function'
+        // #314: isTEIFile und loadCorpusIntoPlayground gehoerten zum
+        // Upload-Pfad und sind entfernt. Geprueft wird jetzt der aktive
+        // Einstiegspunkt der Multi-Lemma-Suche.
+        hasMethods: typeof teiManager.searchMultipleLemmasUsingIndex === 'function'
       };
     });
 

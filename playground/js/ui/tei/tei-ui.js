@@ -12,41 +12,6 @@ export class TEIExplorer {
         this.authorityData = authorityData;
     }
 
-    // ==================== MULTI-LEMMA SEARCH ====================
-    // Note: The UI modal is now handled by MultiLemmaSearchUI class
-    // This method is kept for backward compatibility but delegates to the modal
-
-    executeMultiLemmaSearch(lemmaIds, searchTerms, contextType) {
-        // Show loading spinner
-        showOverlaySpinner('resultsContainer', 'Durchsuche TEI-Texte...', true);
-
-        // Get TEI manager from global reference
-        const teiManager = window.playground?.teiManager;
-        if (!teiManager) {
-            hideSpinner('resultsContainer');
-            displayResults('Fehler', [{ 
-                meta: 'TEI Manager nicht verfügbar', 
-                snippet: 'Bitte laden Sie TEI-Dateien' 
-            }]);
-            return;
-        }
-
-        // Use setTimeout to allow UI to update with spinner before heavy processing
-        setTimeout(() => {
-            try {
-                const results = teiManager.searchMultipleLemmas(lemmaIds, contextType);
-                hideSpinner('resultsContainer');
-                this.displayMultiLemmaResults(results, searchTerms, contextType);
-            } catch (error) {
-                hideSpinner('resultsContainer');
-                displayResults('Fehler', [{ 
-                    meta: 'Suchfehler', 
-                    snippet: error.message 
-                }]);
-            }
-        }, 100);
-    }
-
     resolveLemmaIds(searchTerms) {
         const lemmaIds = [];
 

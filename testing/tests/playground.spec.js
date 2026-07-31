@@ -67,16 +67,16 @@ test.describe('MHDBDB Playground Test Suite', () => {
     await expect(resultsContainer.locator('.test-summary')).toBeVisible();
 
     // Check for test suites (updated for IndexedDB tests)
-    await expect(resultsContainer.locator('.test-suite')).toHaveCount(7, { timeout: 10000 }); // Should have 7 test suites
+    // #314: von sieben Suites sind vier geblieben. TEIStorageManager,
+    // TEIFilesManager und Large File Handling pruefen den Datei-Upload,
+    // den es seit dem Redesign nicht mehr gibt.
+    await expect(resultsContainer.locator('.test-suite')).toHaveCount(4, { timeout: 10000 });
 
     // Verify suite names
     const suiteNames = await resultsContainer.locator('.test-suite h3').allTextContents();
-    expect(suiteNames).toContain('TEIStorageManager');
-    expect(suiteNames).toContain('TEIFilesManager');
     expect(suiteNames).toContain('DOM Integration');
     expect(suiteNames).toContain('Performance Tests');
     expect(suiteNames).toContain('IndexedDB Storage');
-    expect(suiteNames).toContain('Large File Handling');
     expect(suiteNames).toContain('Error Handling');
   });
 
@@ -113,7 +113,7 @@ test.describe('MHDBDB Playground Test Suite', () => {
     await expect(consoleOutput).toContainText('Test suite starting');
 
     // Should show test progress
-    await expect(consoleOutput).toContainText('TEIStorageManager', { timeout: 30000 });
+    await expect(consoleOutput).toContainText('IndexedDB Storage', { timeout: 30000 });
   });
 
   test('should handle download report functionality', async ({ page }) => {

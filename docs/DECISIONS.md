@@ -210,7 +210,7 @@ Implement document-level word indexing in corpus index v4.0.0:
 
 ## ADR-004: IndexedDB Dual Expiration Policy
 
-**Status:** Implemented (September 2025)
+**Status:** Implemented (September 2025), zur Hälfte gegenstandslos seit #314 (2026-07-31): der Zweig „User TEI files persist indefinitely" begründete sich mit dem Datei-Upload des Playgrounds, den es nicht mehr gibt. Die 30-Tage-Frist für Authority- und Korpus-Index gilt unverändert
 **Context:** Browser caching for performance
 
 ### Problem
