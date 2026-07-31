@@ -32,7 +32,7 @@ Dieses Repository ist der alleinige Master der Daten (kein laufender Re-Export a
 | **Suche** | Einzel-Lemma mit Filtern und KWIC-Belegen | Multi-Lemma, Proximity und zwölf TEI-Analyse-Werkzeuge |
 | **Zielgruppe** | Allgemeines Publikum, Studierende | Forschende, Mediävist:innen |
 
-**Hauptseite:** Einzel-Lemma-Suche mit mittelhochdeutscher Normalisierung, ausklappbaren KWIC-Belegen (Keyword-in-Context mit Vers-/Zeilenangabe), Textauswahl per Checkbox, A–Z-[Wörterbuch](woerterbuch.html) zu allen 43.879 Lemmata mit eigenen persistenten [Lemma-Seiten](lemma/) (client-seitig gerendert) sowie eine Reading View mit Multi-Lemma-Highlighting, Metadaten-Panel (Wikidata/GND), Wörterbuch-Links (MWB, Lexer) und TEI-Download pro Text.
+**Hauptseite:** Einzel-Lemma-Suche mit mittelhochdeutscher Normalisierung, ausklappbaren KWIC-Belegen (Keyword-in-Context mit Vers-/Zeilenangabe), Textauswahl per Checkbox, A–Z-[Wörterbuch](woerterbuch.html) zu allen 43.879 Lemmata mit eigenen persistenten [Lemma-Seiten](lemma/) (client-seitig gerendert) sowie eine Reading View mit Multi-Lemma-Highlighting, Metadaten-Panel (Wikidata/GND), Wörterbuch-Links in fünf Wörterbücher des Wörterbuchnetzes (MWB, Lexer, LexerN, BMZ, FindeB) und TEI-Download pro Text.
 
 **Playground:** sechs Authority-File-Explorer plus zwölf TEI-Analyse-Werkzeuge über dem vorgeladenen Korpus: Multi-Lemma-Suche (Dokument- und Proximity-Ebene), Lemmasuche nach Versposition, Wortfrequenz, Echte Hapaxlegomena, Text-Statistiken, Lemma-Verteilung, Begriffs-Verteilung, Textvergleich, Kookkurrenz-Ranking, Reim-Wörterbuch, Versendings-Profil und der kuratierte Figurenbezeichnungs-Explorer (Beta).
 
