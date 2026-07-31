@@ -17,18 +17,22 @@ Unterschied zwischen "mit Reset" und "ohne Reset" direkt.
 
 Nachgebaute Logik, Paritaet zu assets/js/rendering/tei-text-reader.js:
 
-  divRestartsNumbering(div)   -> :366
+  divRestartsNumbering(div)   -> :411
       a) die erste numerische <l> im Teilbaum traegt n="1"
       b) n="1" kommt im Teilbaum GENAU EINMAL vor
       (querySelectorAll('l[n]') greift auf ALLE Nachfahren, auch ueber
       geschachtelte <div> hinweg; iter() bildet das ab)
 
-  Randnummer sichtbar    -> :487
+  isInNestedParallel(l, div)  -> :473
+      Zeilen eines eingehaengten Parallelzeugen zaehlen fuer das umgebende
+      <div> nicht mit (#250 Punkt 3, nachgezogen in #302)
+
+  Randnummer sichtbar    -> :627
       isNumeric UND (noch kein Anker gesetzt ODER int(n) % 5 == 0)
 
 Der Walk ist eine Pre-Order-Traversierung ueber <body>, weil der Renderer
-rekursiv ueber die Kindelemente laeuft. <note> rendert seine Kinder mit
-(:512-523), Notes werden also bewusst nicht uebersprungen.
+rekursiv ueber die Kindelemente laeuft. <note> rendert seine Kinder mit,
+Notes werden also bewusst nicht uebersprungen.
 
 Usage:
     python scripts/audit/count-verse-numbering-resets.py           # Gesamtreport
@@ -52,11 +56,35 @@ TEI_NS = 'http://www.tei-c.org/ns/1.0'
 NUMERIC = re.compile(r'^\d+$')
 
 
+def in_nested_parallel(node, div_el):
+    """Liegt der Knoten in einem Parallelzeugen INNERHALB von div_el?
+
+    Paritaet zu tei-text-reader.js:473 (isInNestedParallel), #250 Punkt 3.
+    Die Vorfahrenkette wird nur bis div_el hochgelaufen: ist div_el SELBST die
+    parallel-div, endet die Schleife sofort und der Zeuge behaelt seine eigene
+    Zaehlung. Genau das trennt die beiden Faelle, ein einfaches
+    div_el.find('.//div[@type="parallel"]') koennte es nicht.
+    """
+    parent = node.getparent()
+    while parent is not None and parent is not div_el:
+        if (etree.QName(parent).localname == 'div'
+                and parent.get('type') == 'parallel'):
+            return True
+        parent = parent.getparent()
+    return False
+
+
 def div_conditions(div_el):
     """(Bedingung a, Bedingung b) fuer ein <div>.
 
     a) die erste numerische <l> traegt n="1"
     b) n="1" kommt im Teilbaum genau einmal vor
+
+    Zeilen eines eingehaengten Parallelzeugen bleiben bei beiden Bedingungen
+    aussen vor (#250 Punkt 3): jeder Zeuge wird nur an seinen eigenen Zeilen
+    gemessen. Ohne das sah der Teilbaum einer FR3-section zwei Einsen, die
+    section fiel an (b) durch, und die sichtbare Randnummer wanderte vom
+    Basiszeugen zum Parallelzeugen.
 
     Getrennt zurueckgegeben, weil die Doku ausweisen muss, wie viele <div>
     allein an (b) scheitern: das ist die Menge mit strophenlokaler Zaehlung,
@@ -68,6 +96,8 @@ def div_conditions(div_el):
         n = line.get('n')
         if n is None or not NUMERIC.match(n):
             continue
+        if in_nested_parallel(line, div_el):
+            continue
         if first is None:
             first = n
         if n == '1':
@@ -76,7 +106,7 @@ def div_conditions(div_el):
 
 
 def div_restarts_numbering(div_el):
-    """Parity zu tei-text-reader.js:366 (divRestartsNumbering)."""
+    """Parity zu tei-text-reader.js:411 (divRestartsNumbering)."""
     a, b = div_conditions(div_el)
     return a and b
 

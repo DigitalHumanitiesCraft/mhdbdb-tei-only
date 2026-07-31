@@ -451,13 +451,14 @@ class TEITextReader {
      * Aufruf geprüft (divEl ist dann die parallel-div, die Schleife endet
      * davor) und behält seine 1.
      *
-     * Gemessen über alle 667 Texte (Variante der Render-Simulation aus
-     * scripts/audit/count-verse-numbering-resets.py): qualifizierende divs
-     * 1.473 → 1.492, ausschließlich section-divs in FR3 (137 → 156), kein
-     * einziges div verliert seine Qualifikation. Sichtbare Randnummern
-     * 1.333 → 1.352 zusätzliche in denselben 49 Texten, die Differenz liegt
-     * vollständig in FR3 (+117 → +136). DES2 und PKP haben ebenfalls
-     * verschachtelte parallel-divs und bleiben unverändert.
+     * Gemessen über alle 667 Texte mit
+     * scripts/audit/count-verse-numbering-resets.py, das diese Regel seit
+     * #302 mitführt: qualifizierende divs 1.473 → 1.492, ausschließlich
+     * section-divs in FR3 (137 → 156), kein einziges div verliert seine
+     * Qualifikation. Sichtbare Randnummern 1.333 → 1.352 zusätzliche in
+     * denselben 49 Texten, die Differenz liegt vollständig in FR3
+     * (+117 → +136). DES2 und PKP haben ebenfalls verschachtelte
+     * parallel-divs und bleiben unverändert.
      *
      * Grenze der Regel: sie wirkt auf die PRÜFUNG, nicht auf die Render-
      * Reihenfolge. In FR3 steht jeder Parallelzeuge hinter den Zeilen seines
@@ -558,11 +559,10 @@ class TEITextReader {
                     // mit durchlaufender Zählung sind unberührt, weil dort nur
                     // der erste div bei n="1" beginnt.
                     //
-                    // scripts/audit/count-verse-numbering-resets.py baut diese
-                    // Render-Reihenfolge nach, kennt die Zeugentrennung aus #250
-                    // aber noch nicht und weist deshalb den Stand davor aus
-                    // (1.473 divs, 1.333 zusätzliche Randnummern, FR3 +117).
-                    // Nachziehen ist als Folgeschritt zu #250 vermerkt.
+                    // Alle Zahlen sind reproduzierbar mit
+                    // scripts/audit/count-verse-numbering-resets.py, das die
+                    // Render-Reihenfolge nachbaut und seit #302 auch die
+                    // Zeugentrennung kennt.
                     //
                     // Bewusst NUR auf div-Ebene, nie auf <lg>: NBB startet jede
                     // Strophe bei n=1: ein lg-Reset stellte in jede Strophe eine
