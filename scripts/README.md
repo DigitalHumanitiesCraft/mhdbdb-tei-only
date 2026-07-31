@@ -6,36 +6,70 @@ Build, validation, and data transformation scripts for MHDBDB TEI corpus.
 
 ```
 scripts/
+├── build-api.py                 # Statische JSON-API unter api/ generieren (#45)
 ├── build-authority-index.py     # Authority-Index generieren
 ├── build-corpus-index.py        # Korpus-Index generieren
 ├── build-pages.py               # Nav/Footer/Matomo aus includes/ in alle Seiten injizieren (--check Drift-Gate)
 ├── build-vendor.js              # Vendored JS-Dependencies bündeln
 ├── validate-indices.py          # Generierte Indexes validieren
 ├── mhg_normalizer.py            # MHG-Textnormalisierung (shared lib)
+├── tei_namespaces.py            # TEI-Namespace-Erkennung für lxml-Bäume (shared lib)
 ├── insert-pb-from-linecode.py   # <pb> aus Legacy-Linecode einfügen (#26)
 ├── insert-stanzas-from-linecode.py # Stanza-Anchors aus Legacy-Linecode (#23)
-├── wzb-add-lemma.py             # WZB-Ingest-Helfer
+├── insert-div-wrappers-138.py   # Editorische <div>-Hüllen für HUG und MBS (#138)
+├── insert-lg-stanzas-138.py     # <lg type="stanza"> in HUG-Lieder einfügen (#138)
+├── remove-stanza-numerals-138.py # Strophenziffern aus dem Verstext entfernen (#138)
 │
-├── ingest/                      # Korpus-Ingest pro Sigle (ari/, wzb/)
+├── ingest/                      # Korpus-Ingest je Vorhaben
+│   ├── ari/                     # ARITHMETIC, 6 Rechenbuch-Handschriften (#92)
+│   ├── frauenlob/               # Frauenlob-Revision (#236)
+│   ├── legacy-sources/          # Linecode-Quellen ins Repo spiegeln (#248)
+│   ├── naming/                  # Figurenbezeichnungen, naming-index bauen (#59)
+│   ├── pos-disambig/            # PoS-/Lemma-Disambiguierung in Batches (#189/#198)
+│   └── wzb/                     # Wenzelsbibel (#224 und Vorläufer)
 │
-├── audit/                       # Korpus- & Authority-Analyse
+├── audit/                       # Korpus- & Authority-Analyse, CI-Gates
 │   ├── audit-tei-corpus.py      # Element/Attribut-Inventar des Korpus
 │   ├── audit-authority-files.py # Struktur-Audit der Authority Files (authority→authority)
 │   ├── check-authority-cross-refs.py # Korpus→Authority Cross-Ref-Integrität (#44/#115)
 │   ├── check-index-version-bump.py # Inhalt geändert => Version gebumpt (#154)
-│   ├── check-naming-index.py    # naming-index: Provenienz + Sigle-Existenz (#152)
 │   ├── check-index-versions.py  # Index-Versions-Konstanten konsistent
+│   ├── check-lexicon-senses.py  # jeder <entry> in lexicon.xml hat mindestens einen <sense>
+│   ├── check-naming-index.py    # naming-index: Provenienz + Sigle-Existenz (#152)
+│   ├── check-no-cdn.py          # keine externen <script src> in committeten Seiten
+│   ├── check-no-em-dash.py      # keine Em-Dashes in user-sichtbarem Text
+│   ├── check-release-version.py # Release-Version gegen CITATION.cff und .zenodo.json
+│   ├── classify-lexicon-backfill.py # Backfill-Lücken in lexicon.xml klassifizieren (#115)
+│   ├── count-editorial-notes-and-div-heads.py # Zahlen hinter den Reader-Änderungen (#250)
+│   ├── count-verse-numbering-resets.py # Reichweite der Verszählung messen (#138)
+│   ├── doc-count-audit.py       # Zählungen aus den Daten gegen die Doku prüfen
+│   ├── drop-negative-variant-corresp.py # tote @corresp aus <w> entfernen (#115)
+│   ├── measure-stage3-resolution.py # Wirkung von Stufe 3 der Lemma-Auflösung (#224)
+│   ├── quantify-unannotated-tokens.py # unannotierte Wortformen korpusweit zählen (#189)
+│   ├── survey-concept-distribution.py # Concepts für die Begriffs-Verteilung (#47)
 │   ├── validate-corpus.py       # Zwei-Stufen-Schema-Validierung
+│   ├── lexicon-baseline.json    # committete Referenzmenge des #152-Gates, per !-Regel vom *.json-Ignore ausgenommen
 │   └── TEXT_DATA_TABLE.xlsx     # Legacy-Linecode-Mapping
 │
 ├── sync/                        # Externe Daten / Korpus → TEI/Authority
+│   ├── backfill-lexicon.py      # Kategorie-A-Stubs in lexicon.xml nachtragen (#115)
 │   ├── enhance_works_with_zotero.py  # Zotero API → works.xml
 │   ├── extract-variants.py      # Korpus → variants.xml regenerieren (#44/#115)
 │   └── sync_tei_headers.py      # Authority Files → TEI-Header
 │
 └── _archived/                   # Referenz, nicht ausführen
-    └── tei-transformation.py    # Original RDF/MySQL→TEI-Migration
+    ├── tei-transformation.py    # Original RDF/MySQL→TEI-Migration
+    ├── add-xml-model-pi.py      # xml-model-PI nachrüsten (#32 Stage 1)
+    ├── flatten-nested-hi.py     # verschachtelte <hi> auflösen (#32-Followup)
+    ├── migrate-header-credits.py # Editor-Attribution in die Header (#83)
+    ├── split-prose-mega-p.py    # Mega-<p> an <pb/> teilen (#32-Followup)
+    ├── convert-l-to-lb-143.py   # <l> → <lb/> in drei Prosatexten (#143, geschlossen)
+    └── wzb/                     # WZB-Sackgassen, siehe wzb/README.md
 ```
+
+Ein issue-gebundenes Einmal-Skript wandert nach `_archived/`, sobald sein Issue geschlossen ist. Die Grenze ist der Issue-Status, nicht die Frage, ob das Skript schon gelaufen ist: solange das Issue offen ist, kann eine Prüffrage einen erneuten Lauf erzwingen. Deshalb stehen die drei `*-138.py` oben, bis #138 geschlossen ist, und `convert-l-to-lb-143.py` liegt im Archiv. Die beiden `insert-*-from-linecode.py` sind keine Einmal-Skripte, sie werden für weitere Texte gebraucht.
+
+Skripte im Archiv sind Referenz und nicht lauffähig: sie berechnen die Repo-Wurzel als `Path(__file__).resolve().parent.parent`, was eine Ebene tiefer auf `scripts/` zeigt. Wer eines wieder braucht, verschiebt es zurück, statt es aus `_archived/` heraus aufzurufen.
 
 ## Build-Pipeline (Root)
 
