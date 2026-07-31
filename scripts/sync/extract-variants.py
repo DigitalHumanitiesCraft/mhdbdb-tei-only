@@ -29,7 +29,6 @@ Usage:
 """
 
 import concurrent.futures
-import os
 import re
 import sys
 from collections import Counter, defaultdict
@@ -38,22 +37,21 @@ from pathlib import Path
 
 from lxml import etree
 
+# Korpusauswahl, -reihenfolge und Worker-Obergrenze teilen sich alle
+# Korpus-Leser (#287). scripts/ auf den Pfad, wie in classify-lexicon-backfill.
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from corpus_files import corpus_files, default_jobs  # noqa: E402
+
 TEI_NS = 'http://www.tei-c.org/ns/1.0'
 TEI = f'{{{TEI_NS}}}'
 XML = '{http://www.w3.org/XML/1998/namespace}'
 
-TEI_DIR = Path('tei')
 VARIANTS = Path('authority-files/variants.xml')
 DRY_OUT = Path('authority-files/variants.regen.xml')
 
 TYPE_POS_RE = re.compile(r'^type_\d+$')        # positive type id only
 TYPE_NUM_RE = re.compile(r'^type_(\d+)$')
 LEMMA_NUM_RE = re.compile(r'^lemma_(\d+)$')
-
-# Worker-Obergrenze (#284): jeder Worker haelt einen lxml-Baum im Speicher,
-# und der Elternprozess summiert alle Teilergebnisse allein. Siehe die
-# gleichlautende Konstante in scripts/build-corpus-index.py.
-DEFAULT_JOBS_CAP = 8
 
 PI_MODEL = [
     ('xml-model', 'href="../schema/mhdbdb-authority.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"'),
@@ -248,7 +246,7 @@ def read_existing():
 
 
 def parse_jobs(argv):
-    """--jobs N aus argv lesen. Default: bis DEFAULT_JOBS_CAP Prozesse.
+    """--jobs N aus argv lesen. Default: bis corpus_files.DEFAULT_JOBS_CAP Prozesse.
 
     Bewusst kein argparse: das Skript liest seine Flags seit jeher direkt aus
     sys.argv, und ein halber Umstieg waere die schlechtere Variante.
@@ -264,7 +262,7 @@ def parse_jobs(argv):
             sys.exit('--jobs braucht eine Zahl')
         raw = argv[i + 1]
     else:
-        return min(DEFAULT_JOBS_CAP, os.cpu_count() or 1)
+        return default_jobs()
     try:
         jobs = int(raw)
     except ValueError:
@@ -277,7 +275,7 @@ def parse_jobs(argv):
 def main():
     apply = '--apply' in sys.argv
     jobs = parse_jobs(sys.argv)
-    base_files = sorted(f for f in TEI_DIR.glob('*.tei.xml') if '.disamb.' not in f.name)
+    base_files = corpus_files()
     print(f'Scanning {len(base_files)} corpus files for <w @lemmaRef @corresp>... ({jobs} Prozesse)')
     type_form, type_lemma = collect(base_files, jobs=jobs)
     lemma_to_types, type_to_form, type_to_lemma, multi_form, multi_lemma = resolve(type_form, type_lemma)

@@ -51,7 +51,6 @@ import json
 import gzip
 import subprocess
 import sys
-import os
 import time
 from pathlib import Path
 from collections import defaultdict
@@ -68,33 +67,16 @@ except ImportError:
 sys.path.insert(0, str(Path(__file__).parent))
 from mhg_normalizer import normalize_mhg
 from tei_namespaces import get_namespaces
+# PROJECT_ROOT/TEI_DIR kommen mit, damit TEI_DIR.relative_to(PROJECT_ROOT) in
+# check_working_tree() nicht davon abhaengt, ob beide gleich aufgeloest sind.
+from corpus_files import PROJECT_ROOT, TEI_DIR, corpus_files, default_jobs
 
 # Paths
-PROJECT_ROOT = Path(__file__).parent.parent
-TEI_DIR = PROJECT_ROOT / 'tei'
 DATA_DIR = PROJECT_ROOT / 'data'
 OUTPUT_FILE = DATA_DIR / 'corpus-index.json.gz'
 
 # TEI namespace
 TEI_NS = {'tei': 'http://www.tei-c.org/ns/1.0'}
-
-# Worker-Obergrenze (#284). Nicht cpu_count(): jeder Worker haelt einen
-# kompletten lxml-Baum im Speicher, und der Elternprozess muss jedes Ergebnis
-# entpicken und behalten (der fertige Index sind rund 200 MB JSON).
-#
-# Gemessen am 2026-07-31, 667 Dateien, 16 Kerne, Hash jedes Mal identisch:
-#   jobs= 1  183,5 s     jobs= 4   56,1 s     jobs=12   39,9 s
-#   jobs= 2   97,9 s     jobs= 8   45,8 s     jobs=16   42,4 s
-# Ab 8 ist die Kurve flach, ab 12 kippt sie (Ueberbuchung). Der Rest sind
-# rund 16 s Serialisieren und Gzippen, die niemand parallelisiert.
-#
-# Speicher-Peak ueber alle Python-Prozesse, gleiche Messung:
-#   jobs=1  1.344 MB       jobs=8  3.893 MB
-# Also rund 320 MB je zusaetzlichem Worker, linear. Bei 16 waeren es ueber
-# 6 GB fuer 6 gesparte Sekunden. Deshalb 8: der Grossteil des Gewinns zum
-# halben Aufschlag. Wer mehr Kerne als Sorgen hat, nimmt --jobs. Auf
-# kleineren Maschinen greift min(cap, cpu_count).
-DEFAULT_JOBS_CAP = 8
 
 
 def extract_metadata(filepath):
@@ -310,11 +292,9 @@ def build_corpus_index(jobs=1):
     print("\n🔨 Building corpus index...")
     print(f"TEI directory: {TEI_DIR}")
 
-    # Get all TEI files
-    # glob-Reihenfolge ist OS-abhängig — sortiert für deterministische Index-Bytes, #125.
-    # key=p.name: Path-Objekte vergleichen auf Windows casefolded, auf Linux byte-weise —
-    # erst der String-Key macht die Ordnung plattformgleich (Review #146).
-    tei_files = sorted(TEI_DIR.glob('*.tei.xml'), key=lambda p: p.name)
+    # Auswahl und Sortierung liegen in scripts/corpus_files.py (#287), damit
+    # extract-variants.py und die audit/-Skripte dieselbe Liste sehen.
+    tei_files = corpus_files()
     total_files = len(tei_files)
 
     print(f"Found {total_files} TEI files")
@@ -447,7 +427,7 @@ def main():
         help="Build even if tei/ has untracked or modified files (use for local tests)."
     )
     parser.add_argument(
-        '--jobs', type=int, default=min(DEFAULT_JOBS_CAP, os.cpu_count() or 1),
+        '--jobs', type=int, default=default_jobs(),
         help="Worker-Prozesse fuer das Parsen (1 = sequentiell). Das Ergebnis ist "
              "von diesem Wert unabhaengig und byte-identisch (#284)."
     )

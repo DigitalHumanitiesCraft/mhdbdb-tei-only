@@ -48,9 +48,11 @@ try:
 except ImportError:
     sys.exit("ERROR: lxml not installed — run: pip install lxml")
 
-# Reuse the canonical MHG normalizer (parity with text-normalizer.js).
+# Reuse the canonical MHG normalizer (parity with text-normalizer.js)
+# und die gemeinsame Korpusauswahl (#287).
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from mhg_normalizer import normalize_mhg
+from corpus_files import PROJECT_ROOT, TEI_DIR, corpus_files
 
 if hasattr(sys.stdout, 'reconfigure'):
     sys.stdout.reconfigure(encoding='utf-8', errors='replace')
@@ -58,9 +60,7 @@ if hasattr(sys.stdout, 'reconfigure'):
 XML_NS = '{http://www.w3.org/XML/1998/namespace}'
 TEI_NS = '{http://www.tei-c.org/ns/1.0}'
 
-PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 LEXICON = PROJECT_ROOT / 'authority-files' / 'lexicon.xml'
-TEI_DIR = PROJECT_ROOT / 'tei'
 SCRIPT_DIR = Path(__file__).resolve().parent
 JSON_OUT = SCRIPT_DIR / 'lexicon-backfill.json'
 MD_OUT = SCRIPT_DIR / 'lexicon-backfill-curatorial.md'
@@ -155,8 +155,7 @@ def scan_corpus(lemma_ids, sense_ids):
       dangling_senses (Counter of sense_id -> ref count, only unresolved),
       resolved_sense_refs (int, refs whose sense DID resolve — context only).
     """
-    base_files = sorted(f for f in TEI_DIR.glob('*.tei.xml')
-                        if '.disamb.' not in f.name)
+    base_files = corpus_files()
     records = defaultdict(lambda: {
         'forms': Counter(), 'pos': Counter(), 'sigles': set(),
         'examples': [], 'lemma_ref_count': 0,

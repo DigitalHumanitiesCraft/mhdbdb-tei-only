@@ -21,6 +21,10 @@ from datetime import date
 from pathlib import Path
 from lxml import etree
 
+# Gemeinsame Korpusauswahl (#287).
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from corpus_files import DISAMB_MARKER, corpus_files  # noqa: E402
+
 TEI_NS = '{http://www.tei-c.org/ns/1.0}'
 XML_NS = '{http://www.w3.org/XML/1998/namespace}'
 
@@ -72,7 +76,7 @@ def audit_corpus(tei_dir):
     """Run the full audit on all base TEI files."""
     # Collect files
     all_files = sorted(Path(tei_dir).glob('*.tei.xml'))
-    base_files = [f for f in all_files if '.disamb.' not in f.name]
+    base_files = corpus_files(tei_dir)
 
     print(f'Found {len(base_files)} base TEI files (excluded {len(all_files) - len(base_files)} .disamb files)')
 
@@ -165,7 +169,7 @@ def build_json(elements, file_stats, base_files):
     result = {
         'meta': {
             'files_analyzed': len(base_files),
-            'files_excluded_pattern': '*.disamb.tei.xml',
+            'files_excluded_pattern': f'*{DISAMB_MARKER}tei.xml',
             'date': str(date.today()),
             'script': 'scripts/audit/audit-tei-corpus.py',
         },

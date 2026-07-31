@@ -24,9 +24,11 @@ import sys
 from pathlib import Path
 from lxml import etree
 
-# scripts/ auf den Pfad, damit der Parity-Normalizer importierbar ist
+# scripts/ auf den Pfad, damit der Parity-Normalizer und die gemeinsame
+# Korpusauswahl (#287) importierbar sind
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from mhg_normalizer import normalize_mhg
+from corpus_files import corpus_files
 
 if sys.stdout.encoding and sys.stdout.encoding.lower() not in ('utf-8', 'utf8'):
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', line_buffering=True)
@@ -57,7 +59,7 @@ def count_variants_normalized(path: str) -> int:
 
 def collect_counts() -> dict:
     counts = {}
-    counts['corpus_files'] = len(glob.glob('tei/*.tei.xml'))
+    counts['corpus_files'] = len(corpus_files())
     counts['authority_files'] = len(glob.glob('authority-files/*.xml'))
     counts['lexicon_entries'] = count_xml_elements('authority-files/lexicon.xml', '//tei:entry[@xml:id]')
     counts['variants_entries'] = count_xml_elements('authority-files/variants.xml', '//tei:entry[@corresp]')

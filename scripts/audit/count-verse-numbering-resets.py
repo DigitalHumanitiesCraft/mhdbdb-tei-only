@@ -36,15 +36,17 @@ Usage:
     python scripts/audit/count-verse-numbering-resets.py --text PZ # ein Text im Detail
 """
 import argparse
-import glob
 import re
+import sys
 from collections import Counter
 from pathlib import Path
 
 from lxml import etree
 
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
-TEI_DIR = PROJECT_ROOT / 'tei'
+# Gemeinsame Korpusauswahl (#287).
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from corpus_files import corpus_files  # noqa: E402
+
 TEI_NS = 'http://www.tei-c.org/ns/1.0'
 
 NUMERIC = re.compile(r'^\d+$')
@@ -154,15 +156,15 @@ def main():
     ap.add_argument('--text', help='nur diese Sigle, mit Detailausgabe')
     args = ap.parse_args()
 
-    files = sorted(glob.glob(str(TEI_DIR / '*.tei.xml')))
+    files = corpus_files()
     if args.text:
-        files = [f for f in files if Path(f).name.startswith(args.text + '.')]
+        files = [f for f in files if f.name.startswith(args.text + '.')]
         if not files:
             raise SystemExit(f'Keine TEI-Datei fuer Sigle {args.text}')
 
     results = []
     for f in files:
-        r = analyse(Path(f))
+        r = analyse(f)
         if r:
             results.append(r)
 

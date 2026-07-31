@@ -42,6 +42,10 @@ from pathlib import Path
 
 from lxml import etree
 
+# Gemeinsame Korpusauswahl (#287).
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from corpus_files import TEI_DIR, corpus_files  # noqa: E402
+
 XML_NS = '{http://www.w3.org/XML/1998/namespace}'
 
 # Reference-bearing attributes to scan, in priority order.
@@ -49,7 +53,6 @@ REF_ATTRS = ('lemmaRef', 'ana', 'corresp', 'ref', 'target')
 
 # Authority files live here; we resolve fragments against their xml:id sets.
 AUTHORITY_DIR = Path('authority-files')
-TEI_DIR = Path('tei')
 SCRIPT_DIR = Path(__file__).resolve().parent
 JSON_OUT = SCRIPT_DIR / 'authority-cross-refs-audit.json'
 
@@ -151,7 +154,7 @@ def main():
     print('Building authority id-sets...')
     auth_ids = build_authority_ids()
 
-    base_files = sorted(f for f in TEI_DIR.glob('*.tei.xml') if '.disamb.' not in f.name)
+    base_files = corpus_files()
     print(f'\nScanning {len(base_files)} base corpus files...')
 
     total_scanned = 0
