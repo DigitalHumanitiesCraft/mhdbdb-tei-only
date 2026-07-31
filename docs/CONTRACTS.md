@@ -757,8 +757,10 @@ Source: `assets/js/app.js`, `computeKeyness()` and `logLikelihood()`. Rendered a
 |---|---|---|
 | `a` | hits in *T* | `r.matchCount`, summed over all lemma IDs that matched in *T* |
 | `b` | hits in the rest of the corpus | `corpusMatches - a` |
-| `c` | tokens in *T* | `text.wordCount` |
-| `d` | tokens in the rest of the corpus | `corpusWordTotal - c` |
+| `c` | **indexed** tokens in *T* | `text.wordCount` |
+| `d` | **indexed** tokens in the rest of the corpus | `corpusWordTotal - c` |
+
+"Indexed token" everywhere in §H means what `build-corpus-index.py` counts: a `<w>` that has an `@lemmaRef` **and** non-empty text content. `wordCount` is therefore not "words in the text". Within the statistic this is harmless, because `a`, `b`, `c` and `d` all use the same population. For anyone reconstructing it, it is not: reading `c` as "all `<w>`" produces a different value in every row, and it looks exactly like the right one.
 
 ```
 # Reference corpus: ALL texts in the corpus index, never the user's selection.
@@ -802,7 +804,7 @@ entry qualifies  <=>  counts[lemmaId] <= maxFreq        # 1 | 2 | 3
 - **At most 3 occurrences are retained per lemma** during aggregation (hard cap, in text and position iteration order). The display says "Angezeigt sind die ersten N von M Vorkommen" whenever the stored count exceeds them. For `maxFreq <= 3` the cap cannot truncate; it exists so the aggregation stays bounded.
 - **Filter chain**, in this order: no authority entry (kept only when neither facet is set) → proper names (`hideNames`, default **on**, any tag `NAM`) → numerals (`hideNumerals`, default **on**, but only when `NUM` is the *sole* tag, so ADJ/NUM compounds survive) → function words (`hideFunctionWords`, default **off**, any tag in `FUNCTION_WORD_POS`, but lemmata with no tags at all are kept) → PoS facet → initial letter. An explicitly chosen PoS facet always overrides the identically named default filter.
 - **The percentage in the header uses the unfiltered count** (`rawCount / totalTypes`), and "ausgeblendet" is `rawCount` minus the whole filtered list, not minus the visible page. So the headline figure describes the corpus, not the current filter setting.
-- **Per-text tab counts distinct lemmata, not attestations:** `abs` = number of qualifying lemma IDs occurring in that text, `rel` = `abs / text.wordCount * 1000`.
+- **Per-text tab counts distinct lemmata, not attestations:** `abs` = number of qualifying lemma IDs occurring in that text, `rel` = `abs / text.wordCount * 1000`. The denominator is indexed tokens (see H.1), and the numerator counts types while the denominator counts tokens, so `rel` is a types-per-thousand-tokens rate, not a share.
 
 ### H.2a What `lineEnds[]` actually points at (prerequisite for H.3 and H.4)
 
@@ -859,14 +861,38 @@ rhymePressure = endCounts[l] / (totalCounts[l] or endCounts[l]) * 100
 - `sum(shareOfVerses)` over all lemmata is **exactly 100 %** (up to rounding), because `verseCount` and `endCounts` are built from the same `lineEnds[]` entries and every entry has an ID (H.2a). The share is therefore a share of *annotated* verses; verses without a single annotated token are in neither number. Do not read it as a share of all verses in the text.
 - Sorting is by `endCount` only, then truncated to `topN`. The optional function-word filter keeps lemmata with **no** PoS tags, same as in H.2. There is no facet override here: a chosen filter always applies.
 
-### H.5 Deliberately not here
+### H.5 Normalized figures in the remaining tools
 
-§H covers three of the twelve TEI analysis tools plus the main-site keyness column. The other nine are listed here by name, so that "not in §H" stays a decision rather than an oversight:
+Three tools outside H.1 to H.4 do produce derived figures. They are simple enough that a formula each is sufficient, but the **base of each ratio** is not obvious from the UI label, and two of the three mix bases.
 
-- **Plain counts over `text.lemmata`, nothing derived to get wrong:** word frequency, text statistics, lemma distribution, concept distribution, text comparison, co-occurrence ranking. They stay documented in prose in `docs/FEATURES.md`.
-- **Already under contract elsewhere:** multi-lemma search (document, proximity and same-verse) is §C.2, verse-position lemma search reads `lineStarts[]`/`lineEnds[]` under the definition in H.2a.
+```
+# Word frequency, "relative Frequenz" mode      (word-frequency.js)
+rel = count(lemma in scope) / totalTokens * 1000
+
+# Lemma distribution, per text                  (lemma-distribution.js)
+rel = len(text.lemmata[id]) / text.wordCount * 1000
+
+# Text statistics, three columns                (text-statistics.js)
+diversity    = uniqueLemmata / wordCount                 # type-token ratio
+hapaxRate    = hapaxInText / uniqueLemmata
+avgLemmaFreq = sum(len(text.lemmata[id])) / uniqueLemmata
+```
+
+Two properties that decide whether a comparison across texts is valid:
+
+1. **`diversity` is a type-token ratio and therefore length-dependent.** TTR falls systematically as texts get longer, for mathematical reasons and not stylistic ones. Sorting the column across texts of very different length ranks by length as much as by vocabulary richness. Comparisons are only safe between texts of comparable size, or after a length-normalized measure replaces it.
+2. **`diversity` and `avgLemmaFreq` do not share a base.** The denominator of `diversity` is `wordCount`, that is `len(words)`, one slot per token and therefore the **first** `@lemmaRef` ID only. The numerator of `avgLemmaFreq` sums `len(text.lemmata[id])` over all IDs, that is **every** reference. This is the same latent asymmetry that H.4 records for rhyme pressure, one level up. With zero multi-reference tokens today (H.2a) the two agree; they would diverge the moment that changes.
+
+`hapaxRate` is a within-text rate over types and is unrelated to the corpus-wide hapax tool in H.2. The two answer different questions and their numbers must never be compared.
+
+### H.6 Deliberately not here
+
+The remaining tools carry no derived figure:
+
+- **Plain counts over `text.lemmata`:** concept distribution, text comparison, co-occurrence ranking. They stay documented in prose in `docs/FEATURES.md`.
+- **Already under contract elsewhere:** multi-lemma search (document, proximity and same-verse) is §C.2; verse-position lemma search reads `lineStarts[]`/`lineEnds[]` under the definition in H.2a.
 - **Curated external dataset, trivial counting rule:** the extended character-naming explorer (#59) reads its own prebuilt `data/naming-index.json.gz` and reports attestation counts verbatim from it. What needs documenting there is provenance, not arithmetic, and that sits with the attribution in the view itself.
 
-If any of them grows a normalized, weighted or otherwise derived figure, it belongs here.
+If any of them grows a normalized, weighted or otherwise derived figure, it belongs in H.5.
 
-**Open dependency:** #255 asks whether parallel witnesses should count as independent texts in these evaluations. All four rules above currently count a witness like any other text. Whatever #255 decides changes H.1 (`corpusWordTotal`, `corpusMatches`), H.2 (`counts`) and H.4 (`verseCount`), and this section is where it has to be written down.
+**Open dependency:** #255 asks whether parallel witnesses should count as independent texts in these evaluations. All four rules above currently count a witness like any other text. Whatever #255 decides changes H.1 (`corpusWordTotal`, `corpusMatches`), H.2 (`counts`), H.4 (`verseCount`) and every base in H.5, and this section is where it has to be written down.
