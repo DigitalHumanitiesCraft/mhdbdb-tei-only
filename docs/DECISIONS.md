@@ -116,7 +116,7 @@ ui/
 ├── tei/               # TEI analysis (2 modules: tei-ui.js, multi-lemma-search.js)
 └── search/            # Search utilities (1 module)
 ```
-`core/` bekam später den Hash-Router (#48), und `tei/` füllte sich ab Mai 2026 mit den Analyse-Werkzeugen (#88 bis #108, #59, #106, #196). Den Ist-Stand hält der Modulbaum in [ARCHITECTURE.md](ARCHITECTURE.md#ui-layer-phase-7-modular-architecture); dieser ADR beschreibt die Entscheidung und nicht den heutigen Bestand.
+`core/` bekam später den Hash-Router (#48), und `tei/` füllte sich ab Mai 2026 mit den Analyse-Werkzeugen. Den Ist-Stand hält der Modulbaum in [ARCHITECTURE.md](ARCHITECTURE.md#ui-layer-phase-7-modular-architecture); dieser ADR beschreibt die Entscheidung und nicht den heutigen Bestand.
 
 Each explorer gets dedicated file (person-explorer.js, work-explorer.js, etc.)
 
@@ -131,7 +131,7 @@ Each explorer gets dedicated file (person-explorer.js, work-explorer.js, etc.)
 - Reusable patterns across explorers
 
 **Negative:**
-- More files to navigate (13 modules vs 3 large files; die Zahl ist seither auf ein Vielfaches gewachsen, siehe ARCHITECTURE.md)
+- More files to navigate (13 Module statt der beiden Monolithen oben; die Zahl ist seither auf ein Vielfaches gewachsen, siehe ARCHITECTURE.md)
 - Slightly more imports/exports
 - Requires module-aware development
 
