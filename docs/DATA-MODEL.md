@@ -796,19 +796,19 @@ Die beiden Checklisten unten beschreiben den **Maximalfall**. Nicht jede Änderu
 | Geändert | Nötige Schritte | Bauzeit |
 |---|---|---|
 | `tei/`: `@pos` oder `@ana`; `<note>` im Header, Encoding-Beschreibung, `<respStmt>`; `<div>`, `<lg>`, `<pb>`, Kommentare, Einrückung außerhalb von `<w>`. Bedingung: die Folge der `<w>` und die `<l>`-Grenzen bleiben unverändert | kein Rebuild, damit auch kein Versions-Bump. Es bleiben Schritt 2 (Schema) und Schritt 8 (Cross-Ref-Audit), dann committen und pushen | 0 s |
-| `tei/`: `<l>`-Grenzen verschoben oder eine der fünf Kopfangaben geändert. Kein `<w>` hinzugekommen, entfallen oder in Wortlaut, `@lemmaRef` oder `@corresp` geändert | Korpus-Checkliste ohne Schritt 5 und 6 | rund 200 s |
-| `tei/`: `<w>`-Bestand, Wortlaut, `@lemmaRef` oder `@corresp` berührt; Datei hinzugefügt oder entfernt | Korpus-Checkliste vollständig | rund 310 s |
+| `tei/`: `<l>`-Grenzen verschoben oder eine der fünf Kopfangaben geändert. Kein `<w>` hinzugekommen, entfallen oder in Wortlaut, `@lemmaRef` oder `@corresp` geändert | Korpus-Checkliste ohne Schritt 5 und 6 | rund 50 s |
+| `tei/`: `<w>`-Bestand, Wortlaut, `@lemmaRef` oder `@corresp` berührt; Datei hinzugefügt oder entfernt | Korpus-Checkliste vollständig | rund 85 s |
 | `authority-files/contributors.xml` | kein Rebuild, kein Bump (keine der Ausgaben enthält die Datei). Schema und Cross-Ref-Audit, dann committen und pushen | 0 s |
-| Eine der sieben indizierten `authority-files/` außer `works.xml` | Authority-Checkliste vollständig außer Schritt 1 | rund 20 s |
-| `authority-files/works.xml` | Authority-Checkliste vollständig | rund 20 s plus Zotero-Lauf |
+| Eine der sieben indizierten `authority-files/` außer `works.xml` | Authority-Checkliste vollständig außer Schritt 1 | rund 17 s |
+| `authority-files/works.xml` | Authority-Checkliste vollständig | rund 17 s plus Zotero-Lauf |
 
 Der Versions-Bump (Korpus-Checkliste Schritt 3, Authority-Checkliste Schritt 2) entfällt nur in den Zeilen ohne Rebuild. Sobald ein Index neu gebaut wird, ist er Pflicht, denn der Browser invalidiert seinen 30-Tage-Cache ausschließlich über die Versionsnummer (#94). Seit #154 fängt `scripts/audit/check-index-version-bump.py` den vergessenen Bump ab: es vergleicht den dekomprimierten Index-Inhalt gegen die Diff-Base und läuft in `data-integrity.yml` bewusst **vor** dem Rebuild-Schritt. Zwei Restlücken bleiben: ohne bestimmbare Diff-Base (`workflow_dispatch`, Force-Push) überspringt der Workflow das Gate mit einem `notice`, und die Versionsangaben in der Doku (TEI-MODEL.md §11, INDEX.md) deckt es nicht ab.
 
 Umgekehrt gilt: einen Bump ohne Inhaltsänderung setzt man nicht. Er zwingt jede wiederkehrende Person zum Neuladen des Index, ohne dass sich etwas geändert hat, und keine CI merkt das.
 
-Einzelzeiten, gemessen am 2026-07-31 über 667 Korpusdateien auf einem Windows-Notebook: `build-corpus-index.py` 192 s, `extract-variants.py --apply` 100 s, `build-authority-index.py` 14 s, `build-api.py` 5 s. Größenordnungen für die Planung, keine Zusicherung.
+Einzelzeiten, gemessen am 2026-07-31 über 667 Korpusdateien auf einem Windows-Notebook mit 16 Kernen, mit dem seit #284 vorgegebenen Standard von 8 Parallelprozessen: `build-corpus-index.py` 46 s, `extract-variants.py --apply` 23 s, `build-authority-index.py` 12 s, `build-api.py` 4 s. Sequentiell (`--jobs 1`) waren es 184 s, 97 s, 12 s und 4 s, zusammen also 297 s statt 85 s. Auf Maschinen mit weniger Kernen liegt der Wert dazwischen, der Default ist `min(8, cpu_count)`. Größenordnungen für die Planung, keine Zusicherung.
 
-Ein Rebuild entfällt, eine Prüfung nicht: `<div>`, `<lg>` und `<pb>` sind für die Indexe unsichtbar, für die **Leseansicht** aber nicht (sie rendert Kapitel-`<div>`, Strophen und Seitenwechsel, siehe #17/#101). Wer daran etwas ändert, sieht sich den Text im Reader an, auch wenn die Tabelle 0 s sagt.
+Ein Rebuild entfällt, eine Prüfung nicht: `<div>`, `<lg>` und `<pb>` sind für die Indexe unsichtbar, für die **Leseansicht** aber nicht (sie rendert Kapitel-`<div>`, Strophen und Seitenwechsel, siehe #17/#101). Wer daran etwas ändert, sieht sich den Text im Reader an, auch wenn die Tabelle 0 s sagt. Dasselbe gilt für `@n`: die Marginalnummern und die `?verse=`-Deep-Links lösen direkt dagegen auf (`data-n` in `tei-text-reader.js`). Eine Umnummerierung re-targetet damit stillschweigend jeden bereits geteilten Link, bei 0 s Bauzeit und ohne CI-Signal.
 
 **Zwei Eigenheiten von `variants.xml`,** die den Diff größer machen können als erwartet und beide kein Fehler sind: eine hinzugefügte oder entfernte Korpusdatei ändert die Datei auch dann, wenn sie kein einziges variantentragendes `<w>` enthält (die Dateizahl steht im Kopf). Und pro Type-ID entscheidet die häufigste Form im **gesamten** Korpus, ein Eingriff in einem Text kann also Einträge umschreiben, die nur in anderen Texten attestiert sind.
 
