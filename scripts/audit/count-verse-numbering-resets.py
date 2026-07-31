@@ -23,11 +23,11 @@ Nachgebaute Logik, Paritaet zu assets/js/rendering/tei-text-reader.js:
       (querySelectorAll('l[n]') greift auf ALLE Nachfahren, auch ueber
       geschachtelte <div> hinweg; iter() bildet das ab)
 
-  isInNestedParallel(l, div)  -> :472
+  isInNestedParallel(l, div)  -> :473
       Zeilen eines eingehaengten Parallelzeugen zaehlen fuer das umgebende
       <div> nicht mit (#250 Punkt 3, nachgezogen in #302)
 
-  Randnummer sichtbar    -> :628
+  Randnummer sichtbar    -> :627
       isNumeric UND (noch kein Anker gesetzt ODER int(n) % 5 == 0)
 
 Der Walk ist eine Pre-Order-Traversierung ueber <body>, weil der Renderer
@@ -59,7 +59,7 @@ NUMERIC = re.compile(r'^\d+$')
 def in_nested_parallel(node, div_el):
     """Liegt der Knoten in einem Parallelzeugen INNERHALB von div_el?
 
-    Paritaet zu tei-text-reader.js:472 (isInNestedParallel), #250 Punkt 3.
+    Paritaet zu tei-text-reader.js:473 (isInNestedParallel), #250 Punkt 3.
     Die Vorfahrenkette wird nur bis div_el hochgelaufen: ist div_el SELBST die
     parallel-div, endet die Schleife sofort und der Zeuge behaelt seine eigene
     Zaehlung. Genau das trennt die beiden Faelle, ein einfaches
