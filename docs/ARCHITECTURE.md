@@ -174,7 +174,7 @@ The reading view converts TEI XML elements to HTML. Source: `extractAndFormatBod
 - Load and query authority data
 - 3-stage lemma resolution:
   1. Exact match in lexicon (canonical forms)
-  2. Variants dictionary lookup (234.243 normalisierte Mappings; die 256.760 Rohformen aus `variants.xml` werden beim Bau nach Normalisierung dedupliziert, CONTRACTS §C)
+  2. Variants dictionary lookup: normalisierte **Mappings**, deutlich weniger als die Rohformen in `variants.xml`, weil der Bau nach Normalisierung dedupliziert. Beide Zahlen mit Stand in [CONTRACTS §C](CONTRACTS.md#c-3-stage-lemma-resolution-algorithm); sie hier zu wiederholen hieße, sie zu duplizieren, ohne dass ein Audit sie prüft
   3. Prefix-match fallback, both directions, shared with the main site via `assets/js/lib/lemma-resolve.js` (#224; before that an unbounded substring test, one-directional here and bidirectional on the main site)
 - Direct array access (no XML DOM queries)
 - Performance maps for fast lookups

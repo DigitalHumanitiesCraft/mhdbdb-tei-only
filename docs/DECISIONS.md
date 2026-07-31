@@ -108,7 +108,7 @@ Playground UI code concentrated in large files:
 
 ### Decision
 
-Decompose monolithic files into specialized modules organized by feature. Am Tag der Entscheidung (gemessen am Baum von `ae80175c4`) waren es 13 Module:
+Decompose monolithic files into specialized modules organized by feature. Am Tag der Entscheidung (gemessen am Baum von `ae80175c4`) waren es 13 Module insgesamt:
 ```
 ui/
 ├── core/              # Core utilities (3 modules)
@@ -116,7 +116,7 @@ ui/
 ├── tei/               # TEI analysis (2 modules: tei-ui.js, multi-lemma-search.js)
 └── search/            # Search utilities (1 module)
 ```
-`core/` bekam später den Hash-Router (#48), und `tei/` füllte sich ab Mai 2026 mit den Analyse-Werkzeugen (#87 bis #108, #59, #106, #196). Den Ist-Stand hält der Modulbaum in [ARCHITECTURE.md](ARCHITECTURE.md#ui-layer-phase-7-modular-architecture); dieser ADR beschreibt die Entscheidung und nicht den heutigen Bestand.
+`core/` bekam später den Hash-Router (#48), und `tei/` füllte sich ab Mai 2026 mit den Analyse-Werkzeugen (#88 bis #108, #59, #106, #196). Den Ist-Stand hält der Modulbaum in [ARCHITECTURE.md](ARCHITECTURE.md#ui-layer-phase-7-modular-architecture); dieser ADR beschreibt die Entscheidung und nicht den heutigen Bestand.
 
 Each explorer gets dedicated file (person-explorer.js, work-explorer.js, etc.)
 
