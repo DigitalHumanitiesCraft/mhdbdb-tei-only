@@ -863,7 +863,7 @@ rhymePressure = endCounts[l] / (totalCounts[l] or endCounts[l]) * 100
 
 ### H.5 Normalized figures in the remaining tools
 
-Three tools outside H.1 to H.4 do produce derived figures. They are simple enough that a formula each is sufficient, but the **base of each ratio** is not obvious from the UI label, and two of the three mix bases.
+Five tools outside H.1 to H.4 produce derived figures. Each is simple enough that a formula suffices, but the **base of each ratio** is not obvious from the UI label, and most of them do not divide like over like.
 
 ```
 # Word frequency, "relative Frequenz" mode      (word-frequency.js)
@@ -871,6 +871,12 @@ rel = count(lemma in scope) / totalTokens * 1000
 
 # Lemma distribution, per text                  (lemma-distribution.js)
 rel = len(text.lemmata[id]) / text.wordCount * 1000
+
+# Concept distribution, per text                (concept-distribution.js)
+rel = sum(len(text.lemmata[id]) for id in concept) / text.wordCount * 1000
+
+# Verse-position search, "(N%)" per text        (verse-position-search.js)
+ratio = positionsAtBoundary / len(text.lemmata[id]) * 100
 
 # Text statistics, three columns                (text-statistics.js)
 diversity    = uniqueLemmata / wordCount                 # type-token ratio
@@ -881,16 +887,28 @@ avgLemmaFreq = sum(len(text.lemmata[id])) / uniqueLemmata
 Two properties that decide whether a comparison across texts is valid:
 
 1. **`diversity` is a type-token ratio and therefore length-dependent.** TTR falls systematically as texts get longer, for mathematical reasons and not stylistic ones. Sorting the column across texts of very different length ranks by length as much as by vocabulary richness. Comparisons are only safe between texts of comparable size, or after a length-normalized measure replaces it.
-2. **None of these rates divides like over like.** Every numerator here counts over `text.lemmata`, that is **every** `@lemmaRef`; every denominator (`wordCount`, `totalTokens`) counts token slots, that is the **first** ID only. That holds for the two per-thousand rates as much as for `diversity` against `avgLemmaFreq`. It is the same latent asymmetry H.4 records for rhyme pressure, one level up: with zero multi-reference tokens today (H.2a) the two sides agree exactly, and they diverge the moment that changes.
+2. **Most of these rates do not divide like over like**, and they fail to in three distinct ways:
+
+   | Formula | Numerator counts | Denominator counts | Symmetric? |
+   |---|---|---|---|
+   | the three per-thousand rates | positions, i.e. **every** `@lemmaRef` | token slots (`wordCount`), i.e. the **first** ID only | no |
+   | `avgLemmaFreq` | positions, every ID | **types** (`uniqueLemmata`) | no, and differently |
+   | `diversity` | **types** | token slots | no, and differently again |
+   | `hapaxRate` | types | types | **yes** |
+   | `ratio` (verse position) | positions | positions, same list | **yes** |
+
+   The per-thousand rates carry the same latent asymmetry H.4 records for rhyme pressure. With zero multi-reference tokens today (H.2a) both sides agree exactly; they diverge the moment that changes. `hapaxRate` and the verse-position `ratio` are unaffected in principle, not just today.
+
+3. **The verse-position search is the symmetric counterpart to H.4 and worth knowing about.** It answers the same shape of question ("how much of this lemma's usage sits at a verse boundary?") but reads **both** sides from `text.lemmata`, deliberately and with a comment saying why (`verse-position-search.js:61-69`, the #170 review finding). Rhyme pressure in H.4 reads its numerator from `text.words[]`. After an ingest that introduces multi-reference tokens, the two views will report different percentages for the same lemma, and this is the reason: the verse-position figure is the correct one.
 
 `hapaxRate` is a within-text rate over types and is unrelated to the corpus-wide hapax tool in H.2. The two answer different questions and their numbers must never be compared.
 
 ### H.6 Deliberately not here
 
-The remaining tools carry no derived figure:
+The remaining tools carry no derived figure. Checked, not assumed: percentages that only size a progress bar do not count as output.
 
-- **Plain counts over `text.lemmata`:** concept distribution, text comparison, co-occurrence ranking. They stay documented in prose in `docs/FEATURES.md`.
-- **Already under contract elsewhere:** multi-lemma search (document, proximity and same-verse) is §C.2; verse-position lemma search reads `lineStarts[]`/`lineEnds[]` under the definition in H.2a.
+- **Plain counts over `text.lemmata`:** text comparison and co-occurrence ranking. They stay documented in prose in `docs/FEATURES.md`.
+- **Already under contract elsewhere:** multi-lemma search (document, proximity and same-verse) is §C.2. Its data path over `lineStarts[]`/`lineEnds[]`, like that of the verse-position search, follows the definition in H.2a.
 - **Curated external dataset, trivial counting rule:** the extended character-naming explorer (#59) reads its own prebuilt `data/naming-index.json.gz` and reports attestation counts verbatim from it. What needs documenting there is provenance, not arithmetic, and that sits with the attribution in the view itself.
 
 If any of them grows a normalized, weighted or otherwise derived figure, it belongs in H.5.
