@@ -120,7 +120,7 @@ export class TextStatistics {
           <div><dt class="font-medium text-slate-700">Ø-Freq</dt><dd>durchschnittliche Lemmafrequenz im Text: Vorkommen ÷ verschiedene Lemmata</dd></div>
         </dl>
         <p class="mt-2 text-xs text-slate-500">
-          „Tokens" meint durchgehend die annotierten Wortformen: gezählt werden Wortformen mit Lemma-Zuordnung. Wörter ohne Zuordnung stehen im Text, aber in keiner dieser Zahlen, und ihr Anteil schwankt je Text zwischen 0 % und 42 %.
+          „Tokens" meint durchgehend die annotierten Wortformen: gezählt werden Wortformen mit Lemma-Zuordnung. Wortformen ohne Lemma-Zuordnung stehen im Text, aber in keiner dieser Zahlen, und ihr Anteil schwankt je Text zwischen 0 % und 42 %.
         </p>
       </div>
     `;

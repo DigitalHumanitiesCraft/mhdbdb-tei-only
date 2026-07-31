@@ -244,7 +244,7 @@ export class VerseEndingProfileAnalyzer {
               <th class="w-12 px-3 py-2 text-left">#</th>
               <th class="px-3 py-2 text-left">Lemma</th>
               <th class="px-3 py-2 text-right" title="Verse, deren letztes Wort mit Lemma-Zuordnung auf dieses Lemma zeigt. Trägt das Schlusswort keine Zuordnung, zählt das letzte zugeordnete Wort des Verses, auch wenn es weiter vorne steht.">Versende-Belege</th>
-              <th class="px-3 py-2 text-right" title="Anteil an den annotierten Versen der Auswahl, nicht an allen Versen des Texts. Über alle Lemmata summiert sich die Spalte auf 100 %, über die angezeigten Top-N naturgemäß nicht.">Anteil der annotierten Verse</th>
+              <th class="px-3 py-2 text-right" title="Anteil an den annotierten Versen der Auswahl, nicht an allen Versen des Texts. Über alle Lemmata summiert sich die Spalte auf 100 %, über die angezeigten Top-N naturgemäß nicht.">Anteil an annot. Versen</th>
               <th class="px-3 py-2 text-right" title="Wie oft dieses Lemma innerhalb der Auswahl am Versende steht, gemessen an allen seinen Vorkommen in derselben Auswahl. Kein Vergleich mit dem Gesamtkorpus.">Reim-Druck</th>
             </tr>
           </thead>

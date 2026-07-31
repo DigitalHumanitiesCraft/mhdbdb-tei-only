@@ -239,8 +239,11 @@
                     Findet Belegstellen, an denen die gesuchten Lemmata innerhalb eines einstellbaren
                     Wortabstands zusammen vorkommen – eine
                     <strong>Kookkurrenz</strong> (zwei oder mehr Lemmata, die im Text in geringem
-                    Abstand zusammenstehen). Der Standardwert von 10 Wörtern hat sich bewährt;
-                    einstellbar von 1 bis 50. Ideal für Fragen wie: „In welchen Passagen stehen
+                    Abstand zusammenstehen). Der Standardwert von 10 hat sich bewährt;
+                    einstellbar von 1 bis 50. Gezählt wird der Abstand in annotierten Tokens,
+                    also in Wortformen mit Lemma-Zuordnung: Wörter ohne Zuordnung zählen nicht
+                    mit, das Fenster ist im Text also etwas breiter als die Zahl. Das gilt für
+                    alle Abstandsangaben auf dieser Seite. Ideal für Fragen wie: „In welchen Passagen stehen
                     <em>minne</em> und <em>herze</em> eng zusammen?"
                 </p>
             </div>
@@ -352,7 +355,7 @@
                     Text (Top-N). Ein POS-basierter Stoppwort-Filter entfernt häufige
                     Funktionswörter (Artikel, Pronomen, Präpositionen, Konjunktionen) und hebt
                     inhaltstragende Lemmata hervor. Die Tabelle zeigt je Lemma die absolute und
-                    die relative Frequenz (pro 1.000 Tokens); sortiert wird wahlweise nach der
+                    die relative Frequenz (pro 1.000 annotierte Tokens); sortiert wird wahlweise nach der
                     absoluten oder der relativen Frequenz.
                 </p>
             </div>
@@ -373,7 +376,7 @@
                 <p class="text-sm text-slate-700 leading-relaxed">
                     Zeigt ein einzelnes Lemma als Balkendiagramm über alle Texte: die Top-N als
                     Balken, der Rest als aufklappbare Tabelle. Wahlweise absolut oder relativ
-                    (pro 1000 Tokens). Ein Klick auf einen Balken oder eine Sigle öffnet die
+                    (pro 1.000 annotierte Tokens). Ein Klick auf einen Balken oder eine Sigle öffnet die
                     Leseansicht mit Highlighting.
                 </p>
             </div>
@@ -490,7 +493,7 @@
                     echtes mhd. Hapax oder nur ein Korpus-Hapax vorliegt. Bleibt die Zeile
                     leer, nennt der Hinweis die geprüften Wörterbücher beim Namen – der
                     Negativbefund gilt immer nur für diese fünf. Der zweite Tab „Beitrag pro Text" zeigt, welche Texte die meisten
-                    Raritäten enthalten (absolut und pro 1.000 Tokens); der CSV-Export übergibt
+                    Raritäten enthalten (absolut und pro 1.000 annotierte Tokens); der CSV-Export übergibt
                     die gefilterte Liste an die Redaktion oder eigene Auswertungen. Achtung:
                     Unlemmatisierte Tokens sind im Index unsichtbar, und Hapaxe sind nicht
                     selten schlicht Lemmatisierungsfehler – das Werkzeug ist damit zugleich

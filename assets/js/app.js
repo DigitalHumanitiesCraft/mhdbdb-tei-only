@@ -101,7 +101,7 @@ const RESULT_TABLE_COLUMNS = [
     {
         key: 'wordCount',
         label: 'Annot. Tokens',
-        headerTitle: 'Wortformen mit Lemma-Zuordnung. Wörter ohne Zuordnung stehen im Text, aber nicht in dieser Zahl: korpusweit sind das rund 20 %, je Text zwischen 0 % und 42 %.',
+        headerTitle: 'Wortformen mit Lemma-Zuordnung. Wortformen ohne Lemma-Zuordnung stehen im Text, aber nicht in dieser Zahl: korpusweit sind das rund 20 %, je Text zwischen 0 % und 42 %.',
         headerAlign: 'text-right',
         cellClass: 'text-right tabular-nums text-slate-500',
         cell: (r) => r.wordCount ? r.wordCount.toLocaleString('de-DE') : '–',
@@ -1023,7 +1023,7 @@ class MainSiteApp {
     /**
      * Issue #114: Rendert die Tabellen-Ansicht der Suchergebnisse.
      * 6 Spalten: Titel (mit Sigle-Präfix), Autor*in, Treffer, Frequenz/10k,
-     * Keyness (LL), Wörter — plus Belege-Spalte (KWIC, #129) und eine
+     * Keyness (LL), Annot. Tokens — plus Belege-Spalte (KWIC, #129) und eine
      * Gesamtzeile (tfoot, sticky bottom) mit der Gesamttrefferzahl.
      * Header sind klickbare Sort-Buttons; Zeilen-Klick öffnet den Reader.
      */
@@ -1430,7 +1430,9 @@ class MainSiteApp {
     /**
      * Signierte Log-Likelihood-Ratio (Dunning 1993) für eine 2x2-Kontingenz:
      * a = Treffer im Text, b = Treffer im Restkorpus,
-     * c = Wörter im Text, d = Wörter im Restkorpus.
+     * c = annotierte Tokens im Text, d = annotierte Tokens im Restkorpus.
+     * Nie als "Woerter" lesen: beide zaehlen nur <w> mit @lemmaRef
+     * (CONTRACTS Paragraph B), korpusweit rund 80 % der Wortformen.
      */
     logLikelihood(a, b, c, d) {
         if (c <= 0 || d <= 0 || (a + b) <= 0) return 0;

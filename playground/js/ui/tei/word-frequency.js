@@ -224,7 +224,7 @@ export class WordFrequencyAnalyzer {
           </div>
           <div class="text-right text-xs text-slate-500">
             <div>${uniqueCount.toLocaleString('de-DE')} unique Lemmata${hiddenCount > 0 ? ` <span class="text-slate-400">(–${hiddenCount.toLocaleString('de-DE')} ausgeblendet)</span>` : ''}</div>
-            <div title="Annotierte Tokens: Wortformen mit Lemma-Zuordnung. Unannotierte Wörter stehen im Text, aber in keiner Zahl dieser Ansicht.">${totalTokens.toLocaleString('de-DE')} annotierte Tokens</div>
+            <div title="Annotierte Tokens: Wortformen mit Lemma-Zuordnung. Wortformen ohne Lemma-Zuordnung stehen im Text, aber in keiner Zahl dieser Ansicht.">${totalTokens.toLocaleString('de-DE')} annotierte Tokens</div>
           </div>
         </header>
         <table class="w-full">
