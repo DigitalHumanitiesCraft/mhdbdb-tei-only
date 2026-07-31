@@ -87,7 +87,7 @@ Zerlegte Formen entstehen beim Kopieren aus macOS-Quellen und aus manchen Editio
 | `person_1332` Wachsmut von Mühlhausen | `wachsmut von mühlhausen` | `wachsmut von muehlhausen` |
 | `work_435` Lyrik von Hugo von Mühldorf | `lyrik von hugo von mühldorf` | `lyrik von hugo von muehldorf` |
 
-Alle drei waren über die normalisierte Suche nicht auffindbar. Alle 43.879 Lemma-Normalisierungen und alle 234.244 Varianten-Schlüssel bleiben unverändert. Deshalb Authority-Index v1.6.2.
+Alle drei waren über die normalisierte Suche nicht auffindbar. Alle 43.879 Lemma-Normalisierungen und alle 234.244 Varianten-Schlüssel bleiben unverändert. Deshalb Authority-Index v1.6.2. **Die 234.244 sind der Stand von v1.6.2, nicht der heutige** (heute 234.243, siehe §C): #138 hat mit den HUG-Strophenziffern den nur dort belegten Typ `type_195524` „cxlvix" mitgenommen, gemessen am Blob vor `87b6dc941`. Die Differenz von eins ist also ein realer Datenschritt und kein Tippfehler in einer der beiden Zeilen (#277).
 
 **Nicht betroffen:** Der Korpus-Index speichert Lemma-IDs und Positionen, keine normalisierten Textformen; `build-corpus-index.py` importiert `normalize_mhg` zwar, ruft es aber nirgends auf. Zum Korpustext selbst ist die prüfbare Aussage schärfer als die ursprünglich hier notierte Stichprobe: **in `<w>` gibt es korpusweit kein einziges kombinierendes Trema und keine kombinierende Tilde.** Die 1.343 Tremata in 567 der 667 Dateien stehen sämtlich außerhalb der annotierten Tokens, größtenteils in `<note>`-Bibliographieprosa des teiHeader (Verlagsorte wie Tübingen, Zürich). In `<w>` stehen insgesamt 774 kombinierende Marken, davon 752 WZB-Breves und 22 Exoten: 11 Punkt darunter, 8 Makron, 3 U+035B (Abbreviatur-Zickzack in `cetera͛`, `her͛re`).
 
@@ -315,6 +315,7 @@ User types: **brott**
 
 - Flat map: `{ normalized_variant_form: lemma_id }`
 - 234,243 normalized entries (Stand 2026-07-28; 256,760 raw forms in variants.xml, deduped first-occurrence-wins), extracted from `authority-files/variants.xml`
+- **Zwei Zahlen, die verschieden bleiben müssen:** 256.760 ist die Zahl der Rohformen in `variants.xml`, 234.243 die Zahl der Mappings im Runtime-Dictionary nach der Deduplizierung. Wer „variants dictionary" schreibt, meint die kleinere. Wer 234.244 liest, liest den Stand vor #138 (§A, Schritt 0)
 - **First occurrence wins** – if two lemmata claim the same variant form, only the first one stored (source: `build-authority-index.py:643-644`, in `parse_variants()`)
 - Keys are **normalized** forms (lowercase + MHG character mapping applied before storage)
 
