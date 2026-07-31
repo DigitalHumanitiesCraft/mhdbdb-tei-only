@@ -288,7 +288,7 @@ Each explorer follows consistent pattern:
 | `q` | All authority views | Auto-fills search input and triggers search |
 | `show` | All authority views | Expands detail panel for the given item ID |
 | `lemmata` | `multi-lemma` only | Comma-separated lemma terms |
-| `mode` | `multi-lemma` | `proximity` or `document` |
+| `mode` | `multi-lemma` | `proximity` (Default), `document` oder `verse` (Same-Verse-Suche, #106 Punkt 8); Quelle `router.js`, `handleMultiLemmaRoute()` |
 | `mode` | `lemmata` | `component` öffnet die Wortbestandteil-Suche (#239); der Modus erzwingt das Sucheingabe-Interface auch ohne `q` |
 | `dist` | `multi-lemma` only | Max word distance (integer) |
 
@@ -390,7 +390,7 @@ A–Z-Einstiegsseite zu den Lemma-Seiten. Lädt nur den Authority-Index (via `Co
 3. **authority_files** - angelegt mit `expires`-Index (Default 24h in `saveAuthorityFile()`), ohne Schreiber: der Playground lädt den Authority-Index über den gemeinsamen `CorpusLoader`
 4. **metadata** - Key/Value-Store, ohne Schreiber
 
-Die Stores 2 bis 4 stammen aus der Zeit vor dem gemeinsamen `CorpusLoader` und sind heute unbenutzt; die 24h aus `saveAuthorityFile()` sind deshalb nirgends wirksam. Aufräumen ist eigener Scope.
+Die Stores 2 bis 4 stammen aus der Zeit vor dem gemeinsamen `CorpusLoader` und sind heute unbenutzt; die 24h aus `saveAuthorityFile()` sind deshalb nirgends wirksam. Aufräumen ist eigener Scope (#280).
 
 **Expiration Policy (ADR-004), wirksam im `CorpusLoader`, nicht hier:**
 - Authority- und Corpus-Index: 30-Tage-Cache (`CACHE_DURATION` in `assets/js/lib/corpus-loader.js`, Datenbank `MHDBDBMainSite`) plus Versions-Invalidierung

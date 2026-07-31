@@ -108,15 +108,15 @@ Playground UI code concentrated in large files:
 
 ### Decision
 
-Decompose monolithic files into spezialisierte Module organisiert nach Feature. `tei/` wächst seit dem ursprünglichen Refactor mit jedem Analyse-Werkzeug weiter (#87-#108, #59 naming-explorer, #196 hapax-legomena, #106 rhyme-dictionary + verse-ending-profile); Stand heute 25 Module:
+Decompose monolithic files into specialized modules organized by feature. Zum Refactor-Zeitpunkt waren es 22 Module:
 ```
 ui/
 ├── core/              # Core utilities (4 modules)
 ├── authority/         # Authority explorers (7 modules)
-├── tei/               # TEI analysis (13 Dateien: Router + Modal + 11 Analyse-Module)
+├── tei/               # TEI analysis (10 modules)
 └── search/            # Search utilities (1 module)
 ```
-Einen automatischen Count für die Gesamtzahl der UI-Module gibt es noch nicht (#276); bis dahin ist der Modulbaum in [ARCHITECTURE.md](ARCHITECTURE.md) die Referenz, und diese Zahl hier altert mit jedem neuen Werkzeug.
+`tei/` wächst seither mit jedem Analyse-Werkzeug weiter (#59, #196, #106). Den Ist-Stand hält der Modulbaum in [ARCHITECTURE.md](ARCHITECTURE.md#ui-layer-phase-7-modular-architecture); dieser ADR beschreibt die Entscheidung, nicht den heutigen Bestand, und trägt deshalb bewusst die damaligen Zahlen.
 
 Each explorer gets dedicated file (person-explorer.js, work-explorer.js, etc.)
 
@@ -131,7 +131,7 @@ Each explorer gets dedicated file (person-explorer.js, work-explorer.js, etc.)
 - Reusable patterns across explorers
 
 **Negative:**
-- More files to navigate (zum Refactor-Zeitpunkt 22 Module gegen 3 große Dateien; heute 25 und weiter wachsend)
+- More files to navigate (22 modules vs 3 large files; die Zahl ist seither gewachsen, siehe ARCHITECTURE.md)
 - Slightly more imports/exports
 - Requires module-aware development
 
