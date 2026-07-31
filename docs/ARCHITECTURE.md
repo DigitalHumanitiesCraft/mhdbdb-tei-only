@@ -166,7 +166,7 @@ The reading view converts TEI XML elements to HTML. Source: `extractAndFormatBod
 - Initialize IndexedDB
 - Load authority index (~3 MB)
 - Initialize data managers (authority, TEI)
-- Set up modular UI components (21 modules)
+- Set up modular UI components (25 modules)
 
 ### Data Layer
 
@@ -174,7 +174,7 @@ The reading view converts TEI XML elements to HTML. Source: `extractAndFormatBod
 - Load and query authority data
 - 3-stage lemma resolution:
   1. Exact match in lexicon (canonical forms)
-  2. Variants dictionary lookup (~257k mappings)
+  2. Variants dictionary lookup (234.243 normalisierte Mappings; die 256.760 Rohformen aus `variants.xml` werden beim Bau nach Normalisierung dedupliziert, CONTRACTS §C)
   3. Prefix-match fallback, both directions, shared with the main site via `assets/js/lib/lemma-resolve.js` (#224; before that an unbounded substring test, one-directional here and bidirectional on the main site)
 - Direct array access (no XML DOM queries)
 - Performance maps for fast lookups
@@ -184,7 +184,7 @@ The reading view converts TEI XML elements to HTML. Source: `extractAndFormatBod
 - Single lemma search with context extraction
 - Multi-lemma document search (all lemmata anywhere in text)
 - Multi-lemma proximity search (co-occurrence within N words)
-- Uses corpus index (v4.1.x) for document-level word positions plus `<l>`-boundary arrays
+- Uses the corpus index (aktuelle Version: [TEI-MODEL.md §11](TEI-MODEL.md#11-versionierung)) for document-level word positions plus `<l>`-boundary arrays (ab v4.1.0)
 
 ### UI Layer (Phase 7 Modular Architecture)
 
@@ -204,9 +204,9 @@ playground/js/ui/
 │   ├── concept-explorer.js
 │   ├── genre-explorer.js
 │   └── name-explorer.js
-├── tei/               # TEI text analysis (Release 1 + 2 + #47.3 + 2026-05-15-Welle)
-│   ├── tei-ui.js
-│   ├── multi-lemma-search.js
+├── tei/               # TEI text analysis (13 Dateien: Router + Modal + 11 Analyse-Module)
+│   ├── tei-ui.js                  # Router/Einstiegspunkt, kein Analyse-Werkzeug
+│   ├── multi-lemma-search.js      # Modal-Outlier (DESIGN.md §Multi-Lemma als dokumentierter Outlier)
 │   ├── word-frequency.js          # Wortfrequenz-Analyse (#88, R1)
 │   ├── text-statistics.js         # Text-Statistiken (#89, R1)
 │   ├── lemma-distribution.js      # Lemma-Verteilung (#90, R1)
@@ -215,6 +215,8 @@ playground/js/ui/
 │   ├── text-comparison.js         # Textvergleich Nur-A/Beide/Nur-B (#108)
 │   ├── cooccurrence-ranking.js    # Kookkurrenz-Ranking DWDS-Style (#107)
 │   ├── rhyme-dictionary.js        # Reim-Wörterbuch über lineEnds[] (#106, Minimalvariante)
+│   ├── hapax-legomena.js          # Korpusweite Hapaxlegomena (#196)
+│   ├── verse-ending-profile.js    # Versendings-Profil, Top-N Versende-Lemmata + Reim-Druck (#106 Punkt 2/3)
 │   └── naming-explorer.js         # Erweiterte Figurenbezeichnungen, kuratiert 4 Werke (#59, Beta)
 └── search/
     └── SearchHelpers.js
@@ -226,7 +228,7 @@ playground/js/ui/
 - Easier testing and maintenance
 - Net reduction: 5,536 lines removed
 
-**Playground TEI-Modul-Konvention:** alle dreizehn Module unter `playground/js/ui/tei/` (außer `multi-lemma-search.js` als dokumentierter Modal-Outlier) folgen dem gleichen Constructor/`show()`/`render()`-Pattern mit Thunks statt direkter Daten-Referenzen, state-driven `renderBody()`, pro-Modul-Escape-Helpers und MessageChannel-Yield bei großen Aggregationen. Sonderfall `naming-explorer.js` (#59): hängt nicht am Corpus-Index, sondern lädt seinen eigenen kleinen Index (`data/naming-index.json.gz`) lazy per fetch+pako ohne IndexedDB-Cache. Pattern ist als Template in [DESIGN.md §Playground TEI-Analysis Module Pattern](DESIGN.md#playground-tei-analysis-module-pattern) dokumentiert.
+**Playground TEI-Modul-Konvention:** unter `playground/js/ui/tei/` liegen dreizehn Dateien; die elf Analyse-Module folgen dem gleichen Constructor/`show()`/`render()`-Pattern (ausgenommen sind `tei-ui.js` als Router und `multi-lemma-search.js` als dokumentierter Modal-Outlier) mit Thunks statt direkter Daten-Referenzen, state-driven `renderBody()`, pro-Modul-Escape-Helpers und MessageChannel-Yield bei großen Aggregationen. Sonderfall `naming-explorer.js` (#59): hängt nicht am Corpus-Index, sondern lädt seinen eigenen kleinen Index (`data/naming-index.json.gz`) lazy per fetch+pako ohne IndexedDB-Cache. Pattern ist als Template in [DESIGN.md §Playground TEI-Analysis Module Pattern](DESIGN.md#playground-tei-analysis-module-pattern) dokumentiert.
 
 **Authority Explorers:**
 Each explorer follows consistent pattern:
@@ -275,6 +277,8 @@ Each explorer follows consistent pattern:
 | Textvergleich | `#text-comparison` | Set-Ops Nur-A / Beide / Nur-B über zwei Texte (#108) |
 | Kookkurrenz-Ranking | `#cooccurrence-ranking` | Top-N Nachbar-Lemmata eines Lemmas, POS-gefiltert (#107) |
 | Reim-Wörterbuch | `#rhyme-dictionary` | Reimpartner-Lemmata an benachbarten Versenden, Suffix-Heuristik (#106) |
+| Hapaxlegomena | `#hapax-legomena` | Korpusweit einmalige Lemmata mit Fundort und Wörterbuch-Abgleich (#196) |
+| Versendings-Profil | `#verse-ending-profile` | Top-N Versende-Lemmata je Scope, Spalte „Reim-Druck" (#106 Punkt 2/3) |
 | Erweiterte Figurenbezeichnungen | `#naming` | Kuratierte Eigennamen/Antonomasien/Epitheta je Figur in 4 Werken (#59, Beta) |
 
 **Parameters:**
@@ -284,7 +288,8 @@ Each explorer follows consistent pattern:
 | `q` | All authority views | Auto-fills search input and triggers search |
 | `show` | All authority views | Expands detail panel for the given item ID |
 | `lemmata` | `multi-lemma` only | Comma-separated lemma terms |
-| `mode` | `multi-lemma` only | `proximity` or `document` |
+| `mode` | `multi-lemma` | `proximity` or `document` |
+| `mode` | `lemmata` | `component` öffnet die Wortbestandteil-Suche (#239); der Modus erzwingt das Sucheingabe-Interface auch ohne `q` |
 | `dist` | `multi-lemma` only | Max word distance (integer) |
 
 **Example:** `#multi-lemma&lemmata=minne,êre&mode=proximity&dist=10`
@@ -377,17 +382,18 @@ A–Z-Einstiegsseite zu den Lemma-Seiten. Lädt nur den Authority-Index (via `Co
 
 ### IndexedDB Manager
 
-**Component:** `playground/js/indexed-db-manager.js`
+**Component:** `playground/js/indexed-db-manager.js` (Datenbank `MHDBDB_Playground`)
 
 **Object Stores:** (`indexed-db-manager.js`, `onupgradeneeded`)
-1. **tei_files** - User-uploaded TEI files (Indizes: timestamp, size, source)
-2. **corpus_tei_files** - Vorgeladene 667 Korpus-Texte (Indizes: timestamp, size, sigle, author, title)
-3. **authority_files** - Authority-Files mit `expires`-Index (Default 24h Expiration)
-4. **metadata** - Key/Value-Store
-   - Version-based invalidation
+1. **tei_files** - User-uploaded TEI files (Indizes: timestamp, size, source) – der einzige Store mit aktivem Schreibpfad (`saveTEIFile()` über `data/storage/tei-storage.js`)
+2. **corpus_tei_files** - angelegt, aber ohne Schreiber: die vorgeladenen Korpus-Texte kommen aus dem Corpus-Index, nicht aus diesem Store
+3. **authority_files** - angelegt mit `expires`-Index (Default 24h in `saveAuthorityFile()`), ohne Schreiber: der Playground lädt den Authority-Index über den gemeinsamen `CorpusLoader`
+4. **metadata** - Key/Value-Store, ohne Schreiber
 
-**Dual Expiration Policy:**
-- Authority data changes infrequently → 30-day cache
+Die Stores 2 bis 4 stammen aus der Zeit vor dem gemeinsamen `CorpusLoader` und sind heute unbenutzt; die 24h aus `saveAuthorityFile()` sind deshalb nirgends wirksam. Aufräumen ist eigener Scope.
+
+**Expiration Policy (ADR-004), wirksam im `CorpusLoader`, nicht hier:**
+- Authority- und Corpus-Index: 30-Tage-Cache (`CACHE_DURATION` in `assets/js/lib/corpus-loader.js`, Datenbank `MHDBDBMainSite`) plus Versions-Invalidierung
 - User TEI files persist indefinitely → no expiration
 - Balances freshness with performance
 
@@ -510,7 +516,7 @@ npm run test:headed   # Visible browser
 ### Modular UI (Phase 7)
 
 **Problem:** Monolithic UI files hard to maintain
-**Solution:** 21 specialized modules organized by feature
+**Solution:** specialized modules organized by feature (Modulbaum und aktuelle Zahl oben unter „UI Layer")
 **Result:** 5,536 lines removed, improved maintainability
 
 ### Shared Lemma Matching (#130)
