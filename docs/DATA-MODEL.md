@@ -450,14 +450,14 @@ Build properties: deterministic on the #125 principle (no timestamps, compact JS
 | | | `.//tei:idno[@type="GND"]` | GND identifier |
 | | | `.//tei:idno[@type="wikidata"]` | Wikidata ID |
 | | | (derived from works.xml `<author @ref>`) | Work IDs (built at index time) |
-| | works.xml | `.//tei:bibl` (Fallback `.//work` fuer nicht-TEI-Quellen) | Work records |
+| | works.xml | `.//tei:bibl` (fallback `.//work` for non-TEI sources) | Work records |
 | | | `./tei:title` | All titles (with `@xml:lang`, `@type`) |
 | | | `.//tei:idno[@type="sigle"]` | Sigles (may be multiple) |
 | | | `.//tei:idno[@type="GND"]` | Work GND (extract ID from URL: strip `https://d-nb.info/gnd/`) |
 | | | `.//tei:idno[@type="wikidata"]` | Work Wikidata (extract Q-ID from URL: strip `https://www.wikidata.org/entity/`) |
 | | | `.//tei:idno[@type="handschriftencensus"]` | Handschriftencensus URL |
 | | | `./tei:ptr[contains(@target,"genres.xml#")]` | Genre pointers (label from genres.xml lookup) |
-| | | `./tei:author` (nur direktes Kind, siehe Hinweis unter der Tabelle) | Author name + `@ref` → person ID |
+| | | `./tei:author` (direct child only, see the note below the table) | Author name + `@ref` → person ID |
 | | | `.//tei:biblStruct` | Bibliography entries (with `@type`, `@key`, `@corresp`) |
 | | concepts.xml | `//tei:category` (filter ID starts with `concept_`) | Concept entries |
 | | genres.xml | `//tei:category` (filter ID starts with `genre_`) | Genre entries |
@@ -465,7 +465,7 @@ Build properties: deterministic on the #125 principle (no timestamps, compact JS
 | | (all three) | `.//tei:catDesc//tei:term` (filter `@xml:lang`) | DE/EN labels |
 | | genres.xml | `.//tei:catDesc/tei:ptr[@type="broader"]` | Genre hierarchy |
 | | names.xml | `.//tei:ptr[contains(@target,"concepts.xml#")]` | Concept cross-references |
-| | variants.xml | `.//tei:entry` (TEI-Namespace fest verdrahtet) | Variant groups |
+| | variants.xml | `.//tei:entry` (TEI namespace hard-coded) | Variant groups |
 | | | `.//tei:form` | Orthographic forms per lemma |
 | `build-corpus-index.py` | tei/*.tei.xml | `//tei:idno[@type="sigle"]/text()` | Sigle (fallback: filename without `.tei.xml`) |
 | | | `//tei:titleStmt/tei:title/text()` | Title |
@@ -491,7 +491,7 @@ Source: `scripts/tei_namespaces.py` (`get_namespaces`, seit #171 F97 geteilte Li
 
 **Reichweite dieser Robustheit.** Sie gilt nur für XPaths, die über den `ns`-Parameter laufen. Wo der Build `findall()` mit fest eingesetztem `{http://www.tei-c.org/ns/1.0}` benutzt, gibt es keinen namespace-losen Zweig: `.//tei:entry` in `variants.xml` und `.//tei:bibl` in `works.xml` finden in einem Dokument ohne TEI-Namespace nichts. Punkt 3 der Liste oben hilft dort ebenfalls nicht, denn er setzt bei einem namespace-losen Dokument gerade den TEI-Namespace ein. Beide Dateien sind namespaced, der Fall tritt also nicht ein; die Robustheit ist aber schmaler, als die Tabelle früher auswies (#293).
 
-**Warum `./tei:author` und nicht `.//tei:author`.** Der Autor eines Werks ist ein direktes Kind des `<bibl>`. Alle 584 `<bibl>` in `works.xml` enthalten seit dem Zotero-Sync ein `<biblStruct>` mit eigenen `<author>`-Elementen, das sind die Autoren der **Edition**, nicht des Werks. Eine Descendant-Suche würde bei einem Werk ohne eigenen `<author>` still den Editionsautor als Werksautor eintragen. Gemessen am 2026-07-31: 0 der 584 Einträge sind betroffen, alle haben ein direktes `<author>`-Kind. Die Enge kostet also nichts und schließt den Fall aus, bevor er entsteht (#293).
+**Warum `./tei:author` und nicht `.//tei:author`.** Der Autor eines Werks ist ein direktes Kind des `<bibl>`. Alle 584 Werke in `works.xml` enthalten seit dem Zotero-Sync ein `<biblStruct>` mit eigenen `<author>`-Elementen, das sind die Autoren der **Edition**, nicht des Werks. Eine Descendant-Suche würde bei einem Werk ohne eigenen `<author>` still den Editionsautor als Werksautor eintragen. Gemessen am 2026-07-31: kein einziger Eintrag ist betroffen, alle haben ein direktes `<author>`-Kind. Die Enge kostet also nichts und schließt den Fall aus, bevor er entsteht (#293).
 
 #### Variant Dictionary Deduplication
 

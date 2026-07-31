@@ -95,6 +95,15 @@ NUMERIC_SCAN_MIN = 100
 # Fehlalarmflaeche still mit. Dann pro Target entscheiden statt hier absenken.
 SCAN_MIN_OVERRIDE = {'names': 50}
 
+# min_digits (find_stale_numbers) koppelt die Stellenzahl an diese Schwelle
+# und kennt nur zwei- oder dreistellig. Ein Override unter 10 waere still
+# wirkungslos: der Scan liefe, das Muster faende die einstellige Zahl nie,
+# und die Selbstpruefung meldete nichts, weil weder Schwelle noch Anker
+# verletzt sind. Genau das Muster 'konfiguriert, gruen, prueft nichts'.
+assert not SCAN_MIN_OVERRIDE or min(SCAN_MIN_OVERRIDE.values()) >= 10, (
+    'SCAN_MIN_OVERRIDE unter 10 braucht zuerst ein einstelliges Ziffernmuster '
+    'in find_stale_numbers')
+
 
 def scan_min_for(key: str) -> int:
     return SCAN_MIN_OVERRIDE.get(key, NUMERIC_SCAN_MIN)
@@ -184,7 +193,8 @@ DOC_TARGETS = [
     ('docs/ROADMAP.md', ['corpus_files']),
     # Beide tragen undatierte Ist-Angaben zu variants.xml und standen bis
     # 2026-07-28 nicht im Audit; sie blieben deshalb bei 256.761 stehen.
-    ('docs/DATA-MODEL.md', ['variants_forms', 'variants_entries', 'variants_normalized']),
+    ('docs/DATA-MODEL.md', ['variants_forms', 'variants_entries', 'variants_normalized',
+                            'works']),  # works: #293 hat die 584 in Prosa gebracht
     ('docs/TEI-MODEL-AUTH-FILES.md', ['variants_forms', 'variants_entries']),
     # CONTRACTS.md:315 beschreibt den Ist-Aufbau des Variants-Dictionary; der
     # Datumsstempel dort macht die Zeile nicht historisch.
@@ -212,6 +222,13 @@ DOC_TARGETS = [
     # jedem Ingest. Konvention (erklaert auf hilfe-daten.html):
     # variants_forms = rohe orthographische Varianten,
     # variants_normalized = dedupliziert — die Zahl, die Suche/Playground zeigen.
+    #
+    # docs/ARCHITECTURE.md und docs/DECISIONS.md fuehren fuer
+    # variants_normalized seit #279/#294 KEINE Zahl mehr, sondern verweisen
+    # auf CONTRACTS §C. Ihr Target bleibt trotzdem stehen: es ist eine
+    # Ratsche, die greift, sobald jemand die Zahl wieder einsetzt. Solange
+    # sie fehlt, prueft der Ziffern-Scan dort nichts, und das ist der
+    # gewollte Zustand, nicht eine Luecke (Review PR #305).
     ('README.md', ['corpus_files', 'lexicon_entries']),
     # index.html traegt den Stats-Block der Startseite (TEI-Texte, Lemmata,
     # rohe Varianten-Formen). Fehlte bis 2026-07-28 im Audit, deshalb blieb
@@ -402,8 +419,10 @@ def find_stale_numbers(doc_path: str, current: int, key: str) -> list:
     still says 666" without flagging arbitrary numbers near generic
     words like "TEI" or "files".
 
-    Counts below NUMERIC_SCAN_MIN are not scanned: too many false positives
-    from table indices, percentages, section numbers, version strings."""
+    Counts below the key's threshold (scan_min_for: NUMERIC_SCAN_MIN, oder
+    ein Eintrag in SCAN_MIN_OVERRIDE) are not scanned: too many false
+    positives from table indices, percentages, section numbers, version
+    strings."""
     if not Path(doc_path).exists() or current < scan_min_for(key):
         return []
 
@@ -494,7 +513,7 @@ def check_anchor_coverage(counts: dict, code_counts: dict) -> list:
     einen Count schweigen — aber es darf nicht unsichtbar bleiben, sonst
     zaehlt man Targets und haelt sie fuer Abdeckung.
 
-    Gemeldet werden vier Zustaende:
+    Gemeldet werden sechs Zustaende:
       missing-file  Pfad existiert nicht (Umbenennung, Tippfehler)
       no-anchor     kein Anker-Muster fuer den Key hinterlegt
       below-min     Ist-Wert unter NUMERIC_SCAN_MIN, Ziffern-Scan laeuft nie
