@@ -1,12 +1,27 @@
 /**
  * MHDBDB Playground - IndexedDB Manager
- * Core IndexedDB wrapper with async operations for TEI and Authority files
+ *
+ * Core IndexedDB wrapper for the playground's *only* persistent client data:
+ * TEI files the user uploads themselves (object store `tei_files`).
+ *
+ * Deliberately NOT in here (#280): caches for the corpus and the authority
+ * files. Those live in the shared `CorpusLoader` (Dexie database
+ * `MHDBDBMainSite`, 30-day TTL plus version invalidation, see ADR-004 and
+ * `assets/js/lib/corpus-loader.js`), which the playground uses as well. The
+ * stores `corpus_tei_files`, `authority_files` and `metadata` predate that
+ * loader, had no writer left, and are dropped on upgrade to DB version 3.
+ * Do not reintroduce a second cache path here.
  */
 
 export class IndexedDBManager {
+    // Stores removed in v3; deleted from existing browser databases on upgrade.
+    static OBSOLETE_STORES = ['corpus_tei_files', 'authority_files', 'metadata'];
+
     constructor() {
         this.dbName = 'MHDBDB_Playground';
-        this.dbVersion = 2; // Bumped to 2 for corpus support
+        // v2 added the (never written) corpus store, v3 removes the three
+        // writer-less stores again (#280).
+        this.dbVersion = 3;
         this.db = null;
         this.isInitialized = false;
     }
@@ -43,42 +58,53 @@ export class IndexedDBManager {
                 reject(new Error(`IndexedDB open failed: ${request.error}`));
             };
 
+            // Another tab still holds a connection on the older version, so the
+            // upgrade cannot run. Without this handler the promise would stay
+            // pending forever and every await on ensureInitialized() would hang
+            // silently (#280). Reject instead: the caller reports "storage not
+            // available" and the user can close the other tab and reload.
+            request.onblocked = () => {
+                console.warn('⚠️ IndexedDB upgrade blocked by another open tab: close it and reload the page');
+                reject(new Error('IndexedDB upgrade blocked by another open tab'));
+            };
+
             request.onsuccess = () => {
-                resolve(request.result);
+                const db = request.result;
+
+                // Do not block a future version bump made in another tab.
+                db.onversionchange = () => {
+                    console.warn('⚠️ IndexedDB version change requested elsewhere: closing this connection');
+                    db.close();
+                    this.db = null;
+                    this.isInitialized = false;
+                };
+
+                resolve(db);
             };
 
             request.onupgradeneeded = (event) => {
                 const db = event.target.result;
 
-                // Create object store for TEI files (user uploads)
+                // Create object store for TEI files (user uploads) — the only
+                // store with a write path (saveTEIFile via data/storage/tei-storage.js)
                 if (!db.objectStoreNames.contains('tei_files')) {
                     const teiStore = db.createObjectStore('tei_files', { keyPath: 'filename' });
                     teiStore.createIndex('timestamp', 'timestamp', { unique: false });
                     teiStore.createIndex('size', 'size', { unique: false });
-                    teiStore.createIndex('source', 'source', { unique: false }); // NEW: Track source
+                    teiStore.createIndex('source', 'source', { unique: false }); // Track source
                 }
 
-                // Create object store for Corpus TEI files (pre-loaded 667 files)
-                if (!db.objectStoreNames.contains('corpus_tei_files')) {
-                    const corpusStore = db.createObjectStore('corpus_tei_files', { keyPath: 'filename' });
-                    corpusStore.createIndex('timestamp', 'timestamp', { unique: false });
-                    corpusStore.createIndex('size', 'size', { unique: false });
-                    corpusStore.createIndex('sigle', 'metadata.sigle', { unique: false });
-                    corpusStore.createIndex('author', 'metadata.author', { unique: false });
-                    corpusStore.createIndex('title', 'metadata.title', { unique: false });
-                    console.log('📦 Created corpus_tei_files store for 667 pre-loaded texts');
-                }
-
-                // Create object store for Authority files
-                if (!db.objectStoreNames.contains('authority_files')) {
-                    const authStore = db.createObjectStore('authority_files', { keyPath: 'filename' });
-                    authStore.createIndex('timestamp', 'timestamp', { unique: false });
-                    authStore.createIndex('expires', 'expires', { unique: false });
-                }
-
-                // Create object store for metadata
-                if (!db.objectStoreNames.contains('metadata')) {
-                    db.createObjectStore('metadata', { keyPath: 'key' });
+                // v3: drop the leftovers of the playground-local cache path that
+                // predates the shared CorpusLoader (#280). `authority_files` did
+                // have a writer until 3126c175c (authority-storage-manager.js), so
+                // long-time users may still carry stale authority XML here; the
+                // other two were never written to. Nothing is lost: the indexes
+                // live in MHDBDBMainSite and are re-fetched on demand.
+                for (const obsolete of IndexedDBManager.OBSOLETE_STORES) {
+                    if (db.objectStoreNames.contains(obsolete)) {
+                        db.deleteObjectStore(obsolete);
+                        console.log(`🧹 Removed obsolete object store: ${obsolete}`);
+                    }
                 }
 
                 console.log('📦 IndexedDB stores created/upgraded');
@@ -190,114 +216,6 @@ export class IndexedDBManager {
         }
     }
 
-    // ==================== AUTHORITY FILES OPERATIONS ====================
-
-    async saveAuthorityFile(filename, content, expirationHours = 24) {
-        await this.ensureInitialized();
-
-        try {
-            const transaction = this.db.transaction(['authority_files'], 'readwrite');
-            const store = transaction.objectStore('authority_files');
-
-            const fileData = {
-                filename: filename,
-                content: content,
-                size: content.length,
-                timestamp: Date.now(),
-                expires: Date.now() + (expirationHours * 60 * 60 * 1000),
-                type: 'authority'
-            };
-
-            await this.promisifyRequest(store.put(fileData));
-            console.log(`✅ Authority file cached: ${filename} (${(content.length / 1024).toFixed(1)} KB, expires in ${expirationHours}h)`);
-            return true;
-        } catch (error) {
-            console.error(`❌ Failed to cache authority file ${filename}:`, error);
-            return false;
-        }
-    }
-
-    async loadAuthorityFile(filename) {
-        await this.ensureInitialized();
-
-        try {
-            const transaction = this.db.transaction(['authority_files'], 'readonly');
-            const store = transaction.objectStore('authority_files');
-
-            const result = await this.promisifyRequest(store.get(filename));
-
-            if (result) {
-                // Check if expired
-                if (Date.now() > result.expires) {
-                    console.log(`⏰ Authority file expired: ${filename}, removing from cache`);
-                    await this.removeAuthorityFile(filename);
-                    return null;
-                }
-
-                console.log(`📁 Authority file loaded from cache: ${filename}`);
-                return result.content;
-            }
-            return null;
-        } catch (error) {
-            console.error(`❌ Failed to load authority file ${filename}:`, error);
-            return null;
-        }
-    }
-
-    async removeAuthorityFile(filename) {
-        await this.ensureInitialized();
-
-        try {
-            const transaction = this.db.transaction(['authority_files'], 'readwrite');
-            const store = transaction.objectStore('authority_files');
-
-            await this.promisifyRequest(store.delete(filename));
-            console.log(`🗑️ Authority file removed from cache: ${filename}`);
-            return true;
-        } catch (error) {
-            console.error(`❌ Failed to remove authority file ${filename}:`, error);
-            return false;
-        }
-    }
-
-    async clearExpiredAuthorityFiles() {
-        await this.ensureInitialized();
-
-        try {
-            const transaction = this.db.transaction(['authority_files'], 'readwrite');
-            const store = transaction.objectStore('authority_files');
-            const index = store.index('expires');
-
-            // Get all expired files
-            const range = IDBKeyRange.upperBound(Date.now());
-            const request = index.openCursor(range);
-
-            let removedCount = 0;
-
-            await new Promise((resolve, reject) => {
-                request.onsuccess = (event) => {
-                    const cursor = event.target.result;
-                    if (cursor) {
-                        cursor.delete();
-                        removedCount++;
-                        cursor.continue();
-                    } else {
-                        resolve();
-                    }
-                };
-                request.onerror = () => reject(request.error);
-            });
-
-            if (removedCount > 0) {
-                console.log(`🧹 Removed ${removedCount} expired authority files`);
-            }
-            return removedCount;
-        } catch (error) {
-            console.error('❌ Failed to clear expired authority files:', error);
-            return 0;
-        }
-    }
-
     async clearTEIFiles() {
         await this.ensureInitialized();
 
@@ -317,31 +235,6 @@ export class IndexedDBManager {
         } catch (error) {
             console.error('❌ Failed to clear TEI files:', error);
             return 0;
-        }
-    }
-
-    async clearAllCaches() {
-        await this.ensureInitialized();
-
-        try {
-            const transaction = this.db.transaction(['tei_files', 'authority_files'], 'readwrite');
-
-            // Clear TEI files
-            const teiStore = transaction.objectStore('tei_files');
-            const teiCount = await this.promisifyRequest(teiStore.count());
-            await this.promisifyRequest(teiStore.clear());
-
-            // Clear authority files
-            const authorityStore = transaction.objectStore('authority_files');
-            const authorityCount = await this.promisifyRequest(authorityStore.count());
-            await this.promisifyRequest(authorityStore.clear());
-
-            const totalCount = teiCount + authorityCount;
-            console.log(`🧹 Cleared all caches: ${teiCount} TEI files + ${authorityCount} authority files = ${totalCount} total`);
-            return { tei: teiCount, authority: authorityCount, total: totalCount };
-        } catch (error) {
-            console.error('❌ Failed to clear all caches:', error);
-            return { tei: 0, authority: 0, total: 0 };
         }
     }
 
@@ -384,31 +277,22 @@ export class IndexedDBManager {
             const teiFiles = await this.listTEIFiles();
             const teiSize = teiFiles.reduce((sum, file) => sum + (file.size || 0), 0);
 
-            // Get authority files count and size
-            const transaction = this.db.transaction(['authority_files'], 'readonly');
-            const store = transaction.objectStore('authority_files');
-            const authorityFiles = await this.promisifyRequest(store.getAll());
-            const authoritySize = authorityFiles.reduce((sum, file) => sum + (file.size || 0), 0);
-
+            // tei_files is the only store in this database, so its size is the
+            // whole database size (#280).
             return {
                 teiFiles: {
                     count: teiFiles.length,
                     size: teiSize
                 },
-                authorityFiles: {
-                    count: authorityFiles.length,
-                    size: authoritySize
-                },
                 total: {
-                    count: teiFiles.length + authorityFiles.length,
-                    size: teiSize + authoritySize
+                    count: teiFiles.length,
+                    size: teiSize
                 }
             };
         } catch (error) {
             console.error('❌ Failed to calculate database size:', error);
             return {
                 teiFiles: { count: 0, size: 0 },
-                authorityFiles: { count: 0, size: 0 },
                 total: { count: 0, size: 0 }
             };
         }
@@ -430,8 +314,7 @@ export class IndexedDBManager {
                 estimatedQuota: estimate.quota, // Alias for backward compatibility
                 percentUsed: estimate.percentUsed,
                 dbSize: dbSize.total.size,
-                teiFiles: dbSize.teiFiles,
-                authorityFiles: dbSize.authorityFiles
+                teiFiles: dbSize.teiFiles
             };
         } catch (error) {
             console.error('❌ Failed to get storage quota info:', error);
@@ -444,8 +327,7 @@ export class IndexedDBManager {
                 estimatedQuota: 0,
                 percentUsed: 0,
                 dbSize: 0,
-                teiFiles: { count: 0, size: 0 },
-                authorityFiles: { count: 0, size: 0 }
+                teiFiles: { count: 0, size: 0 }
             };
         }
     }
@@ -475,194 +357,6 @@ export class IndexedDBManager {
         return Math.round(bytes / 1024 / 1024 * 100) / 100 + ' MB';
     }
 
-    // ==================== CORPUS TEI FILES OPERATIONS ====================
-
-    async saveCorpusFile(filename, content, metadata = {}) {
-        await this.ensureInitialized();
-
-        try {
-            const transaction = this.db.transaction(['corpus_tei_files'], 'readwrite');
-            const store = transaction.objectStore('corpus_tei_files');
-
-            const fileData = {
-                filename: filename,
-                content: content,
-                size: content.length,
-                timestamp: Date.now(),
-                metadata: {
-                    sigle: metadata.sigle || '',
-                    title: metadata.title || '',
-                    author: metadata.author || '',
-                    authorRef: metadata.authorRef || '',
-                    workRef: metadata.workRef || ''
-                },
-                source: 'corpus'
-            };
-
-            await this.promisifyRequest(store.put(fileData));
-            console.log(`✅ Corpus file saved: ${filename} (${(content.length / 1024).toFixed(1)} KB)`);
-            return true;
-        } catch (error) {
-            console.error(`❌ Failed to save corpus file ${filename}:`, error);
-            return false;
-        }
-    }
-
-    async loadCorpusFile(filename) {
-        await this.ensureInitialized();
-
-        try {
-            const transaction = this.db.transaction(['corpus_tei_files'], 'readonly');
-            const store = transaction.objectStore('corpus_tei_files');
-
-            const result = await this.promisifyRequest(store.get(filename));
-
-            if (result) {
-                console.log(`📁 Corpus file loaded: ${filename}`);
-                return result.content;
-            }
-            return null;
-        } catch (error) {
-            console.error(`❌ Failed to load corpus file ${filename}:`, error);
-            return null;
-        }
-    }
-
-    async listCorpusFiles() {
-        await this.ensureInitialized();
-
-        try {
-            const transaction = this.db.transaction(['corpus_tei_files'], 'readonly');
-            const store = transaction.objectStore('corpus_tei_files');
-
-            const files = await this.promisifyRequest(store.getAll());
-
-            return files.map(file => ({
-                filename: file.filename,
-                size: file.size || 0,
-                timestamp: file.timestamp || 0,
-                sigle: file.metadata?.sigle || '',
-                title: file.metadata?.title || '',
-                author: file.metadata?.author || '',
-                authorRef: file.metadata?.authorRef || '',
-                workRef: file.metadata?.workRef || ''
-            })).sort((a, b) => (a.sigle || '').localeCompare(b.sigle || ''));
-        } catch (error) {
-            console.error('❌ Failed to list corpus files:', error);
-            return [];
-        }
-    }
-
-    async isCorpusLoaded() {
-        await this.ensureInitialized();
-
-        try {
-            const transaction = this.db.transaction(['corpus_tei_files'], 'readonly');
-            const store = transaction.objectStore('corpus_tei_files');
-            const count = await this.promisifyRequest(store.count());
-
-            console.log(`📊 Corpus status: ${count}/667 files loaded`);
-            return count === 667;
-        } catch (error) {
-            console.error('❌ Failed to check corpus status:', error);
-            return false;
-        }
-    }
-
-    async getCorpusCount() {
-        await this.ensureInitialized();
-
-        try {
-            const transaction = this.db.transaction(['corpus_tei_files'], 'readonly');
-            const store = transaction.objectStore('corpus_tei_files');
-            return await this.promisifyRequest(store.count());
-        } catch (error) {
-            console.error('❌ Failed to get corpus count:', error);
-            return 0;
-        }
-    }
-
-    async copyCorpusToPlayground(filename) {
-        await this.ensureInitialized();
-
-        try {
-            const transaction = this.db.transaction(['corpus_tei_files', 'tei_files'], 'readwrite');
-
-            // Read from corpus
-            const corpusStore = transaction.objectStore('corpus_tei_files');
-            const corpusFile = await this.promisifyRequest(corpusStore.get(filename));
-
-            if (!corpusFile) {
-                throw new Error(`Corpus file not found: ${filename}`);
-            }
-
-            // Write to playground with source marker
-            const teiStore = transaction.objectStore('tei_files');
-            const playgroundFile = {
-                filename: corpusFile.filename,
-                content: corpusFile.content,
-                size: corpusFile.size,
-                timestamp: Date.now(),  // Update timestamp
-                type: 'tei',
-                source: 'corpus-copy',  // Mark as copied from corpus
-                metadata: corpusFile.metadata  // Preserve metadata
-            };
-
-            await this.promisifyRequest(teiStore.put(playgroundFile));
-            console.log(`✅ Copied corpus file to playground: ${filename}`);
-            return true;
-        } catch (error) {
-            console.error(`❌ Failed to copy corpus file ${filename}:`, error);
-            return false;
-        }
-    }
-
-    async copyAllCorpusToPlayground(progressCallback) {
-        await this.ensureInitialized();
-
-        try {
-            const corpusFiles = await this.listCorpusFiles();
-            let copiedCount = 0;
-
-            for (const file of corpusFiles) {
-                const success = await this.copyCorpusToPlayground(file.filename);
-                if (success) {
-                    copiedCount++;
-
-                    if (progressCallback) {
-                        progressCallback(copiedCount, corpusFiles.length);
-                    }
-                }
-            }
-
-            console.log(`✅ Copied ${copiedCount} corpus files to playground`);
-            return copiedCount;
-        } catch (error) {
-            console.error('❌ Failed to copy corpus to playground:', error);
-            return 0;
-        }
-    }
-
-    async clearCorpusFiles() {
-        await this.ensureInitialized();
-
-        try {
-            const transaction = this.db.transaction(['corpus_tei_files'], 'readwrite');
-            const store = transaction.objectStore('corpus_tei_files');
-
-            const countRequest = store.count();
-            const count = await this.promisifyRequest(countRequest);
-
-            await this.promisifyRequest(store.clear());
-
-            console.log(`🧹 Cleared ${count} corpus files from IndexedDB`);
-            return count;
-        } catch (error) {
-            console.error('❌ Failed to clear corpus files:', error);
-            return 0;
-        }
-    }
-
     // ==================== ERROR RECOVERY ====================
 
     async validateDatabase() {
@@ -680,9 +374,6 @@ export class IndexedDBManager {
             if (retrieved !== testData) {
                 throw new Error('Database validation failed - data integrity issue');
             }
-
-            // Clean up expired authority files
-            await this.clearExpiredAuthorityFiles();
 
             console.log('✅ IndexedDB validation successful');
             return true;
