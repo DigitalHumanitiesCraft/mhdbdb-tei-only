@@ -8,7 +8,7 @@
 import { CorpusLoader } from './lib/corpus-loader.js';
 import { TextNormalizer } from './lib/text-normalizer.js';
 import { escapeHtml } from './lib/escape.js';
-import { fetchWbnetzEntries, decodeHtmlEntities } from './lib/woerterbuchnetz.js';
+import { fetchWbnetzEntries, decodeHtmlEntities, dictionaryTitle } from './lib/woerterbuchnetz.js';
 import { SearchEngine } from './search/search-engine.js';
 import { extractKwicHits, formatLineRef } from './search/kwic-service.js';
 import { TEICacheManager } from './storage/tei-cache-manager.js';
@@ -797,7 +797,7 @@ class MainSiteApp {
     /**
      * Issue #114 (Followup): Zeigt pro Lemma die belegten Schreibformen (Types,
      * aus dem Variants-Dictionary, MHG-normalisiert) als aufklappbare Liste plus
-     * Wörterbuch-Deep-Links (MWB/Lexer via Wörterbuchnetz-API, wie Lemma-Seite #73).
+     * Wörterbuch-Deep-Links (fünf Wörterbücher via Wörterbuchnetz-API, wie Lemma-Seite #73).
      * Begrenzt auf die ersten 3 Lemmata, damit Fuzzy-Suchen das Panel nicht fluten.
      */
     displayLemmaTypes(lemmata) {
@@ -877,10 +877,21 @@ class MainSiteApp {
     }
 
     /**
-     * Wörterbuchnetz-Lookup (MWB + Lexer) für ein Lemma, Ergebnis-Links in den
-     * zugehörigen data-wbnetz-links-Platzhalter rendern. Shared Client mit
-     * Session-Cache in lib/woerterbuchnetz.js (#73/#114, CONTRACTS §D.2):
-     * nur anzeigen, wenn es Treffer gibt.
+     * Wörterbuchnetz-Lookup für ein Lemma, Ergebnis-Links in den zugehörigen
+     * data-wbnetz-links-Platzhalter rendern. Shared Client mit Session-Cache
+     * in lib/woerterbuchnetz.js (#73/#114, CONTRACTS §D.2): nur anzeigen,
+     * wenn es Treffer gibt.
+     *
+     * Seit #258 werden fünf Wörterbücher abgefragt statt zwei. Deshalb steht
+     * die Sigle einmal pro Wörterbuch vor seinen Einträgen statt vor jedem
+     * einzelnen Link: bei fünf Wörterbüchern à drei Einträgen wiederholte sich
+     * die Sigle sonst bis zu 15-mal in einer Zeile des kompakten Panels.
+     * Der ausgeschriebene Titel hängt als title-Attribut an der Sigle.
+     *
+     * Die grammatische Angabe steht mit im Linktext, weil mehrere Einträge
+     * eines Wörterbuchs zum selben Stichwort Homographen sind und sonst als
+     * mehrere gleichlautende Links nebeneinander stünden (BMZ „liebe": adv.,
+     * stf., swv.) — für die Tastatur- und Screenreader-Navigation unbrauchbar.
      */
     async fetchWbnetzLinksInto(lemma) {
         if (!lemma.normalized) return;
@@ -891,15 +902,23 @@ class MainSiteApp {
         const slot = document.querySelector(`[data-wbnetz-links="${CSS.escape(lemma.id)}"]`);
         if (!slot) return;
 
-        const links = results.flatMap(({ sigle, entries }) =>
-            entries.slice(0, 3).map(e =>
-                `<a href="${this.escapeHtml(e.wbnetzlink)}" target="_blank" rel="noopener"
-                    class="text-brand-700 hover:underline whitespace-nowrap">
-                    ${this.escapeHtml(sigle)}: ${this.escapeHtml(decodeHtmlEntities(e.lemma))} ↗
-                </a>`
-            )
-        );
-        slot.innerHTML = links.join('');
+        const groups = results
+            .filter(({ entries }) => entries.length > 0)
+            .map(({ sigle, entries }) => {
+                const anchors = entries.slice(0, 3).map(e => {
+                    const gram = e.gram ? ` <span class="text-slate-500">(${this.escapeHtml(decodeHtmlEntities(e.gram))})</span>` : '';
+                    return `<a href="${this.escapeHtml(e.wbnetzlink)}" target="_blank" rel="noopener"
+                        class="text-brand-700 hover:underline whitespace-nowrap">${this.escapeHtml(decodeHtmlEntities(e.lemma))}${gram} ↗</a>`;
+                }).join('<span class="text-slate-400">, </span>');
+                // nowrap gehört auf den einzelnen Link, nicht auf die Gruppe: eine
+                // unumbrechbare Gruppe aus drei langen Komposita-Homographen plus
+                // gram verbreitert das Panel (gemessen 554 statt 510 px).
+                return `<span data-wbnetz-group="${this.escapeHtml(sigle)}">
+                    <span class="font-medium text-slate-500 whitespace-nowrap" title="${this.escapeHtml(dictionaryTitle(sigle))}">${this.escapeHtml(sigle)}:</span>
+                    ${anchors}
+                </span>`;
+            });
+        slot.innerHTML = groups.join('');
     }
 
     clearSearch() {

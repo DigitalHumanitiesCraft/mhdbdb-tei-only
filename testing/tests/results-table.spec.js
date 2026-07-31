@@ -201,7 +201,10 @@ test.describe('Issue #114: Tabellenansicht für Korpussuche', () => {
         await page.waitForSelector('#lemmaTypes');
 
         const slot = page.locator('[data-wbnetz-links]').first();
-        await expect(slot.locator('a')).toHaveCount(2, { timeout: 15000 }); // 2 Wörterbücher × 1 sicherer Eintrag; javascript: gefiltert
+        // 5 Wörterbücher (MWB, Lexer, LexerN, BMZ, FindeB) × 1 sicherer
+        // Eintrag; javascript: gefiltert. Die Zahl ist bewusst hart: wer die
+        // Wörterbuchliste ändert, soll hier vorbeikommen (#258).
+        await expect(slot.locator('a')).toHaveCount(5, { timeout: 15000 });
 
         // Kein Breakout: der komplette bösartige Wert steht IM href-Attribut,
         // es wurde kein <img> in den DOM injiziert.
@@ -216,6 +219,59 @@ test.describe('Issue #114: Tabellenansicht für Korpussuche', () => {
         const pwned = await page.evaluate(() => window.__pwned);
         expect(pwned).toBeUndefined();
         await expect(slot).toContainText('brôt');
+    });
+
+    test('#258: fünf Wörterbücher, Sigle einmal pro Gruppe mit Volltitel, Duplikate entfernt', async ({ page }) => {
+        // Stub: derselbe Deep-Link zweimal (FindeB liefert für Schreibdoubletten
+        // dieselbe wbnetzid mehrfach) plus ein zweiter, echter Eintrag.
+        const linkA = 'https://woerterbuchnetz.de/?sigle=X&lemid=A1';
+        const linkB = 'https://woerterbuchnetz.de/?sigle=X&lemid=B1';
+        const requested = [];
+        await page.route('https://api.woerterbuchnetz.de/**', route => {
+            requested.push(route.request().url());
+            route.fulfill({
+                status: 200,
+                contentType: 'application/json',
+                body: JSON.stringify({ result_set: [
+                    { sigle: 'X', lemma: 'minne', gram: 'stF', wbnetzid: 'A1', wbnetzlink: linkA },
+                    { sigle: 'X', lemma: 'Minne', gram: 'stF', wbnetzid: 'A1', wbnetzlink: linkA },
+                    { sigle: 'X', lemma: 'minne', gram: 'swV', wbnetzid: 'B1', wbnetzlink: linkB },
+                ]}),
+            });
+        });
+
+        await page.fill('#searchInput', 'minne');
+        await page.click('#searchButton');
+        await page.waitForSelector('#lemmaTypes');
+
+        const slot = page.locator('[data-wbnetz-links]').first();
+        // 5 Wörterbücher × 2 verbleibende Einträge — der doppelte Deep-Link
+        // ist pro Wörterbuch einmal weg, nicht global (sonst wären es 2).
+        await expect(slot.locator('a')).toHaveCount(10, { timeout: 15000 });
+
+        // Eine Gruppe je Wörterbuch, Sigle nur einmal pro Gruppe
+        const sigles = ['MWB', 'Lexer', 'LexerN', 'BMZ', 'FindeB'];
+        await expect(slot.locator('[data-wbnetz-group]')).toHaveCount(5);
+        for (const sigle of sigles) {
+            await expect(slot.locator(`[data-wbnetz-group="${sigle}"]`)).toHaveCount(1);
+        }
+
+        // Alle fünf Sigel wurden auch wirklich angefragt
+        const paths = requested.map(u => u.replace(/^.*\/dictionaries\//, '').split('/')[0]);
+        expect([...new Set(paths)].sort()).toEqual([...sigles].sort());
+
+        // Volltitel als title-Attribut an der Sigle (#258 Punkt 3): "FindeB"
+        // ist ohne Auflösung unverständlich.
+        const titles = await slot.locator('[title]').evaluateAll(els => els.map(e => e.getAttribute('title')));
+        expect(titles).toContain('Findebuch zum mittelhochdeutschen Wortschatz');
+        expect(titles).toContain('Benecke/Müller/Zarncke, Mittelhochdeutsches Wörterbuch');
+        expect(titles).toContain('Lexer, Nachträge zum Mittelhochdeutschen Handwörterbuch');
+
+        // Homographen desselben Wörterbuchs sind über die gram-Angabe
+        // unterscheidbar, sonst stünden gleichlautende Links nebeneinander.
+        const texts = await slot.locator('[data-wbnetz-group="BMZ"] a')
+            .evaluateAll(as => as.map(a => a.textContent.replace(/\s+/g, ' ').trim()));
+        expect(new Set(texts).size).toBe(texts.length);
     });
 
     test('Types (Schreibformen) werden im Lemma-Panel angeboten', async ({ page }) => {

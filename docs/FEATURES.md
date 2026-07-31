@@ -48,7 +48,7 @@ Umschaltbare Ergebnis-Darstellung Liste ↔ Tabelle für die Frage „wie vertei
 - Results-Header zeigt `N von X ausgewählten Texten · M Treffer gesamt` (auch in der Listenansicht; X = Suchraum zum Suchzeitpunkt, #204)
 - **Gesamtzeile** (sticky `<tfoot>`): Summe Treffer, Gesamt-Frequenz, Summe Wörter über alle Ergebnis-Texte
 - **Keyness (LL):** signierte Log-Likelihood (Dunning 1993) der Trefferfrequenz im Text gegen den Rest des Gesamtkorpus; Werte ≥ 10,83 (p<0,001) fett/brand markiert = Schlüsselwort des Textes (Referenz: Lindas naming-analysis)
-- **Types + Wörterbuch-Links:** das Lemma-Panel zeigt pro resolviertem Lemma (max. 3) die Schreibformen aus dem Variants-Dictionary (aufklappbar; MHG-normalisierte Suchformen, nicht Original-Graphien – so beschriftet) plus asynchron geladene MWB-/Lexer-Deep-Links über den geteilten, session-gecachten Client `assets/js/lib/woerterbuchnetz.js` (CONTRACTS §D.2)
+- **Types + Wörterbuch-Links:** das Lemma-Panel zeigt pro resolviertem Lemma (max. 3) die Schreibformen aus dem Variants-Dictionary (aufklappbar; MHG-normalisierte Suchformen, nicht Original-Graphien – so beschriftet) plus asynchron geladene Deep-Links in fünf Wörterbücher (MWB, Lexer, Lexer-Nachträge, Benecke/Müller/Zarncke, Findebuch) über den geteilten, session-gecachten Client `assets/js/lib/woerterbuchnetz.js` (#258, CONTRACTS §D.2). Die Sigle steht einmal je Wörterbuch und trägt den ausgeschriebenen Titel als Tooltip; je Wörterbuch werden bis zu drei Einträge verlinkt, mit grammatischer Angabe zur Unterscheidung der Homographen
 - Export: TSV-Clipboard („Kopieren") + CSV-Download (UTF-8 BOM, RFC-4180-Quoting), respektiert aktuelle Sortierung; Gesamtzeile wird bewusst nicht exportiert
 - Row-Klick öffnet den Reader (wechselt automatisch auf Listen-Layout; localStorage-Präferenz bleibt `table`)
 
@@ -224,7 +224,7 @@ Corpus-wide text analysis using pre-built indexes. Zwölf Werkzeuge in zwölf Pl
 - Datenpfad: ein Aggregations-Durchlauf über `text.lemmata` aller Texte (Pattern Wortfrequenz-Analyse); je Lemma werden die ersten ≤3 Fundorte (`textId` + Wortposition) mitgeführt, Versnummer via Binärsuche über `lineStarts[]`
 - **Facetten-Vorrang (einheitlich für alle drei Default-Filter):** Eine explizit in der Wortart-Facette gewählte Wortart hebt den gleichnamigen Filter auf (NAM, NUM, jede Wortart aus `FUNCTION_WORD_POS`); die betroffene Checkbox rendert dann `disabled` und gedimmt. Ohne diese Regel liefert die Facette kommentarlos eine leere Liste
 - Filter: Eigennamen ausblenden (NAM, Default an – 28 % der Hapaxe), Zahlwörter ausblenden (Default an – greift nur bei reinem NUM, nicht bei Mehrfach-Wortarten wie `zwispeltic` ADJ/NUM; betrifft 72 der 119 NUM-Hapaxe. Anlass waren die drei Ziffern-Lemmata 42/46/49, die alphabetisch auf den Rängen 1 bis 3 standen, siehe #228), Funktionswörter ausblenden (geteilte `FUNCTION_WORD_POS`-Menge aus word-frequency.js), Wortarten-Facette, Anfangsbuchstaben-Facette (auf `lemma.normalized`)
-- Pro Eintrag: Lemma-Link auf die Lemma-Seite, PoS-Badges, Fundort(e) als Reader-Deep-Link (`korpus.html?textId=&lemmaIds=&position=`), Details-Aufklapp mit Konzept-Chips und lazy Wörterbuchnetz-Abgleich (MWB/Lexer via geteiltem Client `assets/js/lib/woerterbuchnetz.js`, CONTRACTS §D.2) – beantwortet „echtes mhd. Hapax oder nur Korpus-Hapax?"
+- Pro Eintrag: Lemma-Link auf die Lemma-Seite, PoS-Badges, Fundort(e) als Reader-Deep-Link (`korpus.html?textId=&lemmaIds=&position=`), Details-Aufklapp mit Konzept-Chips und lazy Wörterbuchnetz-Abgleich (fünf Wörterbücher via geteiltem Client `assets/js/lib/woerterbuchnetz.js`, #258, CONTRACTS §D.2) – beantwortet „echtes mhd. Hapax oder nur Korpus-Hapax?". Der Negativbefund nennt die abgefragten Wörterbücher beim Namen, weil die Deutung „echtes Hapax" genau an dieser Liste hängt
 - Lemma-IDs ohne Authority-Eintrag werden mit Badge angezeigt (Kuratierungs-Funde, 99 Stück Stand 2026-07)
 - Tab „Beitrag pro Text": Raritäten je Text absolut + pro 1.000 Tokens, sortierbar
 - CSV-Export der gefilterten Liste (UTF-8-BOM, Semikolon); Pagination zu 100 Einträgen
@@ -331,6 +331,10 @@ Consistent search behavior across all 18 entry points via Middle High German cha
 ## Lemma Page Features
 
 Persistent pages for individual lemmata, accessible at `/lemma/{numericId}`. These URLs are stable external identifiers used by Wörterbuchnetz, MWB, and Wikidata (P9351).
+
+### Wörterbücher (#73, erweitert in #258)
+
+Abschnitt „Wörterbücher" mit Deep-Links in fünf mittelhochdeutsche Wörterbücher des Wörterbuchnetzes: MWB, Lexer, Lexer-Nachträge, Benecke/Müller/Zarncke und Findebuch. Die Lemma-Seite ist die Vertiefungsseite und darum die einzige Oberfläche, die die Sigle ausschreibt: je Wörterbuch eine Überschrift mit vollem Titel, darunter alle Einträge als Karten mit grammatischer Angabe (ungekürzt, anders als im kompakten Suchpanel). Wörterbücher ohne Treffer erscheinen nicht.
 
 ### Similar Lemmata
 

@@ -6,7 +6,7 @@
 
 import { CorpusLoader } from '../assets/js/lib/corpus-loader.js';
 import { escapeHtml } from '../assets/js/lib/escape.js';
-import { fetchWbnetzEntries, decodeHtmlEntities } from '../assets/js/lib/woerterbuchnetz.js';
+import { fetchWbnetzEntries, decodeHtmlEntities, dictionaryTitle } from '../assets/js/lib/woerterbuchnetz.js';
 
 class LemmaPage {
     constructor() {
@@ -303,12 +303,19 @@ class LemmaPage {
     }
 
     /**
-     * Query Wörterbuchnetz HTTPS API for MWB + Lexer entries and render direct deep-links.
+     * Query the Wörterbuchnetz HTTPS API for the five MHG dictionaries and
+     * render direct deep-links, grouped by dictionary.
      *
      * Uses the shared client in assets/js/lib/woerterbuchnetz.js (#73/#114,
      * CONTRACTS §D.2) — session-cached, non-http(s) deep-links filtered.
      * MWB deep-links use http://mhdwb-online.de — modern browsers allow navigation
      * to http targets from https pages via <a target="_blank"> (no Mixed-Content block).
+     *
+     * The lemma page is the deep-dive surface and therefore the one place that
+     * spells the sigles out (#258 point 3): a heading per dictionary carries the
+     * full title, the cards below it drop the sigle they would otherwise repeat.
+     * No per-dictionary cap here — unlike the compact korpus panel, this section
+     * exists precisely to show everything the dictionaries have.
      */
     async fetchWoerterbuchnetz(normalizedForm) {
         const results = await fetchWbnetzEntries(normalizedForm);
@@ -319,19 +326,27 @@ class LemmaPage {
 
         const bookIcon = '<svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>';
 
-        const links = results.flatMap(({ sigle, entries }) =>
-            entries.map(e =>
-                `<a href="${this.escapeAttr(e.wbnetzlink)}" class="external-link" target="_blank" rel="noopener">
-                    ${bookIcon}
-                    <span class="font-semibold text-xs">${sigle}</span>
-                    ${this.escapeAttr(decodeHtmlEntities(e.lemma))}${e.gram ? ` <span class="text-slate-400 text-xs">(${this.escapeAttr(e.gram)})</span>` : ''}
-                </a>`
-            )
-        );
+        const groups = results
+            .filter(({ entries }) => entries.length > 0)
+            .map(({ sigle, entries }) => {
+                const cards = entries.map(e =>
+                    `<a href="${this.escapeAttr(e.wbnetzlink)}" class="external-link" target="_blank" rel="noopener">
+                        ${bookIcon}
+                        ${this.escapeAttr(decodeHtmlEntities(e.lemma))}${e.gram ? ` <span class="text-slate-400 text-xs">(${this.escapeAttr(decodeHtmlEntities(e.gram))})</span>` : ''}
+                    </a>`
+                ).join('');
+                return `<div data-wbnetz-group="${this.escapeAttr(sigle)}">
+                    <h3 class="text-xs font-semibold text-slate-600 mb-2">
+                        ${this.escapeAttr(dictionaryTitle(sigle))}
+                        <span class="font-normal text-slate-400">(${this.escapeAttr(sigle)})</span>
+                    </h3>
+                    <div class="flex flex-wrap gap-3">${cards}</div>
+                </div>`;
+            });
 
-        if (links.length === 0) return;
+        if (groups.length === 0) return;
         section.classList.remove('hidden');
-        container.innerHTML = links.join('');
+        container.innerHTML = groups.join('');
     }
 
     /**

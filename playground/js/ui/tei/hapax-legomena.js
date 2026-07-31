@@ -15,7 +15,7 @@
 
 import { buildTextLabelDisambiguator } from '../core/ui-helpers.js';
 import { FUNCTION_WORD_POS } from './word-frequency.js';
-import { fetchWbnetzEntries, decodeHtmlEntities } from '../../../../assets/js/lib/woerterbuchnetz.js';
+import { fetchWbnetzEntries, decodeHtmlEntities, dictionaryTitle, DICTIONARIES } from '../../../../assets/js/lib/woerterbuchnetz.js';
 
 const FREQ_OPTIONS = [
   { value: 1, label: 'Hapaxlegomena (Frequenz = 1)' },
@@ -558,14 +558,46 @@ export class HapaxLegomenaAnalyzer {
     try {
       const results = await fetchWbnetzEntries(lemma.normalized || lemma.lemma);
       if (!dictEl) return;
-      const links = results.flatMap(({ sigle, entries }) =>
-        entries.slice(0, 3).map(e =>
-          `<a href="${escapeHtml(e.wbnetzlink)}" target="_blank" rel="noopener" class="text-brand-700 hover:underline">${escapeHtml(sigle)}: ${escapeHtml(decodeHtmlEntities(e.textstring || e.lemma || lemma.lemma))}</a>`
-        )
-      );
-      dictEl.innerHTML = links.length > 0
-        ? `<span class="font-medium text-slate-500">Wörterbücher:</span> ${links.join('<span class="text-slate-300"> · </span>')}`
-        : `<span class="text-slate-500">In MWB/Lexer nicht als Lemma gefunden, Kandidat für ein echtes Hapax (oder Schreibform-/Lemmatisierungsproblem).</span>`;
+      // Leere Suchform: der Client fragt gar nicht erst und liefert ein leeres
+      // Array. Ohne diesen Zweig fiele das unten in den Negativbefund und
+      // behauptete "nicht als Lemma gefunden" über eine Abfrage, die es nie
+      // gab — dieselbe Fehlerklasse wie der Ausfall darunter.
+      if (results.length === 0) {
+        dictEl.innerHTML = '<span class="text-amber-700">Beleglage nicht prüfbar: keine normalisierte Form für die Abfrage vorhanden.</span>';
+        return;
+      }
+      // Sigle einmal je Wörterbuch statt einmal je Eintrag (#258): bei fünf
+      // Wörterbüchern à drei Einträgen wird die Zelle sonst unlesbar. Der
+      // ausgeschriebene Titel hängt als title-Attribut an der Sigle.
+      const groups = results
+        .filter(({ entries }) => entries.length > 0)
+        .map(({ sigle, entries }) => {
+          const anchors = entries.slice(0, 3).map(e => {
+            // gram mit im Linktext: mehrere Einträge eines Wörterbuchs sind
+            // Homographen und stünden sonst als gleichlautende Links nebeneinander.
+            const gram = e.gram ? ` <span class="text-slate-500">(${escapeHtml(decodeHtmlEntities(e.gram))})</span>` : '';
+            return `<a href="${escapeHtml(e.wbnetzlink)}" target="_blank" rel="noopener" class="text-brand-700 hover:underline whitespace-nowrap">${escapeHtml(decodeHtmlEntities(e.textstring || e.lemma || lemma.lemma))}${gram}</a>`;
+          }).join('<span class="text-slate-400">, </span>');
+          // nowrap auf dem einzelnen Link, nicht auf der Gruppe: sonst wird eine
+          // Gruppe aus drei langen Komposita-Homographen unumbrechbar breit.
+          return `<span data-wbnetz-group="${escapeHtml(sigle)}"><span class="font-medium text-slate-500 whitespace-nowrap" title="${escapeHtml(dictionaryTitle(sigle))}">${escapeHtml(sigle)}:</span> ${anchors}</span>`;
+        });
+      // Gescheiterte Requests von "kein Eintrag" trennen. Ohne diese
+      // Unterscheidung gibt sich eine Netzstörung als Beleglage aus: alle fünf
+      // Wörterbücher liefern leere Listen, und die Zelle behauptete "nicht als
+      // Lemma gefunden, Kandidat für ein echtes Hapax" — genau die Aussage,
+      // für die dieses Werkzeug da ist (#258, Review-Befund 1).
+      const gescheitert = results.filter(r => r.failed).map(r => r.sigle);
+      const unvollstaendig = gescheitert.length > 0
+        ? `<div class="mt-1 text-amber-700">Unvollständig abgefragt: ${escapeHtml(gescheitert.join(', '))} nicht erreichbar.</div>`
+        : '';
+      dictEl.innerHTML = groups.length > 0
+        ? `<span class="font-medium text-slate-500">Wörterbücher:</span> ${groups.join('<span class="text-slate-300"> · </span>')}${unvollstaendig}`
+        : gescheitert.length > 0
+          ? `<span class="text-amber-700">Beleglage nicht prüfbar: ${escapeHtml(gescheitert.join(', '))} nicht erreichbar. Ob ein echtes Hapax vorliegt, lässt sich ohne vollständige Abfrage nicht sagen.</span>`
+          // Die Liste der Wörterbücher wird aus DICTIONARIES abgeleitet, damit
+          // dieser Satz beim nächsten Ausbau nicht still falsch wird.
+          : `<span class="text-slate-500">In den abgefragten Wörterbüchern (${escapeHtml(DICTIONARIES.join(', '))}) nicht als Lemma gefunden, Kandidat für ein echtes Hapax (oder Schreibform-/Lemmatisierungsproblem).</span>`;
     } catch (e) {
       if (dictEl) dictEl.textContent = 'Wörterbuchnetz nicht erreichbar.';
     }

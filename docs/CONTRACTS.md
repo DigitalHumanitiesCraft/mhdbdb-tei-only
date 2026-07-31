@@ -503,16 +503,17 @@ Source: `assets/js/rendering/tei-text-reader.js` → `getWikidataImage()` (~line
 
 ### D.2 Wörterbuchnetz API
 
-**Single implementation:** `assets/js/lib/woerterbuchnetz.js` (`fetchWbnetzEntries`, `decodeHtmlEntities`) – shared by both call sites; do NOT re-implement the fetch inline.
+**Single implementation:** `assets/js/lib/woerterbuchnetz.js` (`fetchWbnetzEntries`, `decodeHtmlEntities`, `DICTIONARIES`, `DICTIONARY_TITLES`, `dictionaryTitle`) – shared by all three call sites; do NOT re-implement the fetch inline.
 
 **Triggers:**
 - Lemma page loads (`lemma/lemma-page.js`, `fetchWoerterbuchnetz`, #73)
 - Korpus search renders the lemma panel (`assets/js/app.js`, `fetchWbnetzLinksInto`, #114 – up to 3 lemmata per search)
+- Hapax tool expands a row's detail panel (`playground/js/ui/tei/hapax-legomena.js`, #196 – one lookup per expanded row)
 
 ```
 GET https://api.woerterbuchnetz.de/open-api/dictionaries/{sigle}/lemmata/{normalizedForm}
 
-Parallel requests for: MWB, Lexer
+Parallel requests for: MWB, Lexer, LexerN, BMZ, FindeB   (five since #258, 2026-07-31)
 Uses: Promise.all() (each request individually try/catch-guarded,
       so one failure yields empty entries instead of rejecting)
 Caching: memoized per normalizedForm for the browser session
@@ -520,6 +521,15 @@ Caching: memoized per normalizedForm for the browser session
 Safety: entries whose wbnetzlink is not http(s) are dropped by the
       shared client; callers must still attribute-escape values
       (incl. quotes) before interpolating into href="..."
+Dedup: within one dictionary, a wbnetzlink already seen is dropped —
+      FindeB repeats a wbnetzid across spelling doublets and would
+      otherwise render as several identical links. Deliberately NOT
+      global: the same deep-link under two sigles is two articles.
+Returns: [{sigle, entries, failed}] — `failed` marks the empty lists
+      that mean "request did not go through" (timeout, network, 5xx)
+      rather than "no such headword" (4xx). Link renderers may ignore
+      it; any caller that turns an empty result into a STATEMENT about
+      the evidence must not (see below).
 
 Response: {                              // illustrative shape, IDs schematic
     result_set: [{
@@ -532,9 +542,15 @@ Response: {                              // illustrative shape, IDs schematic
 }
 ```
 
+**Dictionary list and order.** `DICTIONARIES` is query order and display order in one; `DICTIONARY_TITLES` resolves the sigles, which the API itself does not expose (`/dictionaries` returns sigle + path only, no titles). Rendering rule per surface: the lemma page, as the deep-dive surface, spells the title out as a heading above each dictionary group and shows every entry; the two compact surfaces (korpus lemma panel, hapax detail cell) carry the title as a `title` attribute on the sigle and cap each dictionary at three entries. The `gram` value belongs in the link text on all three: several entries of one dictionary are homographs and would otherwise render as identical adjacent links.
+
+**Not a defect:** a dictionary returning zero entries for a well-attested word. The MWB is still being published; measured 2026-07-31 it has no entry for `minne` or `vriunt`, while `herze` and `liebe` resolve. Do not treat that as a broken endpoint and do not build a workaround.
+
+**Absence of a link is not absence of attestation.** The hapax tool (#196) is the one consumer that reads an empty result as evidence („Kandidat für ein echtes Hapax"). It must therefore branch on `failed`: on a full outage it says the evidence is not checkable, on a partial one it names the dictionaries that did not answer. Any future consumer that draws a philological conclusion from an empty result carries the same obligation, otherwise a network fault is published as a finding.
+
 **HTML entity decoding:** `lemma` field contains HTML entities. Decoded via the shared `decodeHtmlEntities` from `lib/woerterbuchnetz.js` – implemented with `DOMParser('text/html')` + `textContent`, NOT the textarea-`innerHTML` trick: a `</textarea><img onerror=…>` payload would create live elements during the `innerHTML` write (mXSS class), before any downstream escaping runs. DOMParser documents have no browsing context (no script execution, no resource loads).
 
-**Datenschutz:** Both triggers send the normalized lemma form to a third party; documented in `impressum.html` → Datenschutz („Wörterbuch-Verweise").
+**Datenschutz:** All three triggers send the normalized lemma form to a third party; documented in `impressum.html` → Datenschutz („Wörterbuch-Verweise"), which names the queried dictionaries and must be updated whenever `DICTIONARIES` changes.
 
 ### D.3 Static External Links (no API calls)
 
