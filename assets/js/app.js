@@ -857,7 +857,8 @@ class MainSiteApp {
 
     /**
      * Invertiert das flache Variants-Dictionary (normalisierte Schreibform →
-     * Lemma-ID, ~257k Einträge) einmalig zu Lemma-ID → [Formen] und cached es.
+     * Lemma-ID; Mappings, nicht Rohformen, siehe CONTRACTS §C) einmalig zu
+     * Lemma-ID → [Formen] und cached es.
      */
     getVariantFormsFor(lemmaId) {
         if (!this._variantsByLemma) {

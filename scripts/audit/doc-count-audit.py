@@ -81,6 +81,49 @@ def collect_counts() -> dict:
 # Selbstpruefung dieselbe Schwelle melden kann statt sie zu verschweigen.
 NUMERIC_SCAN_MIN = 100
 
+# Ausnahmen von NUMERIC_SCAN_MIN (#297 Punkt 1). Die 100er-Schwelle schuetzt
+# gegen Tabellenindizes, Prozente und Abschnittsnummern; sie macht das Audit
+# aber blind fuer jede Datenzahl darunter. names.xml ist die einzige
+# doc-gepruefte Authority-Datei unter der Schwelle (90 Kategorien) und stand
+# damit still in docs/TEI-MODEL.md. Zulaessig ist die Absenkung nur bei einem
+# Key, dessen Anker die Zahl eng bindet und dessen Drift-Fenster klein bleibt:
+# bei 90 sind das +-2, es werden also nur 88 bis 92 mit direkt folgendem
+# "Kategorien" oder "Namen" gemeldet.
+#
+# Die Absenkung gilt KEY-GLOBAL, nicht pro (Datei, Key): kommt der Key spaeter
+# in einem zahlenreichen Target dazu (INDEX.md, ROADMAP.md), waechst die
+# Fehlalarmflaeche still mit. Dann pro Target entscheiden statt hier absenken.
+SCAN_MIN_OVERRIDE = {'names': 50}
+
+# min_digits (find_stale_numbers) koppelt die Stellenzahl an diese Schwelle
+# und kennt nur zwei- oder dreistellig. Ein Override unter 10 waere still
+# wirkungslos: der Scan liefe, das Muster faende die einstellige Zahl nie,
+# und die Selbstpruefung meldete nichts, weil weder Schwelle noch Anker
+# verletzt sind. Genau das Muster 'konfiguriert, gruen, prueft nichts'.
+if SCAN_MIN_OVERRIDE and min(SCAN_MIN_OVERRIDE.values()) < 10:
+    # raise statt assert: ein assert verschwindet unter python -O, und diese
+    # Pruefung soll auch dort halten.
+    raise SystemExit('SCAN_MIN_OVERRIDE unter 10 braucht zuerst ein '
+                     'einstelliges Ziffernmuster in find_stale_numbers')
+
+
+def scan_min_for(key: str) -> int:
+    return SCAN_MIN_OVERRIDE.get(key, NUMERIC_SCAN_MIN)
+
+
+# (Datei, Key)-Paare, die BEWUSST keine Zahl fuehren (#297 Punkt 4). Ohne
+# diese Liste meldet die Selbstpruefung sie als Abdeckungsluecke, obwohl sie
+# das Gegenteil sind: eine Entscheidung. Das Target bleibt konfiguriert, damit
+# eine spaeter doch eingesetzte Zahl sofort gegatet ist.
+INTENTIONALLY_SILENT = {
+    ('README.md', 'entry_points'):
+        'nennt sechs Explorer und zwoelf Werkzeuge einzeln, nie die Summe',
+    ('docs/ARCHITECTURE.md', 'entry_points'):
+        'nennt die Werkzeuge einzeln in der Routing-Tabelle, nie als Summe',
+    ('docs/ARCHITECTURE.md', 'tei_tools'):
+        'nennt die Werkzeuge einzeln in der Routing-Tabelle, nie als Summe',
+}
+
 
 # Explizite Ausnahme-Mengen statt -1/-2-Offsets (Review PR #222): beim
 # naechsten Werkzeug-Zuwachs hier pflegen, nicht in Zaehl-Magie suchen.
@@ -152,7 +195,8 @@ DOC_TARGETS = [
     ('docs/ROADMAP.md', ['corpus_files']),
     # Beide tragen undatierte Ist-Angaben zu variants.xml und standen bis
     # 2026-07-28 nicht im Audit; sie blieben deshalb bei 256.761 stehen.
-    ('docs/DATA-MODEL.md', ['variants_forms', 'variants_entries', 'variants_normalized']),
+    ('docs/DATA-MODEL.md', ['variants_forms', 'variants_entries', 'variants_normalized',
+                            'works']),  # works: #293 hat die 584 in Prosa gebracht
     ('docs/TEI-MODEL-AUTH-FILES.md', ['variants_forms', 'variants_entries']),
     # CONTRACTS.md:315 beschreibt den Ist-Aufbau des Variants-Dictionary; der
     # Datumsstempel dort macht die Zeile nicht historisch.
@@ -180,6 +224,20 @@ DOC_TARGETS = [
     # jedem Ingest. Konvention (erklaert auf hilfe-daten.html):
     # variants_forms = rohe orthographische Varianten,
     # variants_normalized = dedupliziert — die Zahl, die Suche/Playground zeigen.
+    #
+    # docs/ARCHITECTURE.md und docs/DECISIONS.md fuehren fuer
+    # variants_normalized seit #279/#294 KEINE Zahl mehr, sondern verweisen
+    # auf CONTRACTS §C. Ihr Target bleibt trotzdem stehen, aber mit einer
+    # ehrlicheren Erwartung als "Ratsche" (Review PR #305): gefangen wird
+    # nur eine AUSGESCHRIEBENE Wiedereinsetzung ("234.244 Mappings").
+    #
+    # Ausgerechnet die Form, die dort vorher stand, faellt durch: "~257k"
+    # matcht das Ziffernmuster nicht (zwischen 7 und k liegt keine
+    # Wortgrenze), und selbst "~257.000" faengt der Rundungs-Skip ab. Das
+    # ist kein Versehen, sondern die Grenze des Verfahrens: eine gerundete
+    # Angabe ist per Konvention erlaubt, und ob sie sich auf die richtige
+    # Groesse bezieht, kann ein Ziffern-Scan nicht wissen. Genau daran ist
+    # #279 aufgefallen, und zwar per Hand, nicht per Gate.
     ('README.md', ['corpus_files', 'lexicon_entries']),
     # index.html traegt den Stats-Block der Startseite (TEI-Texte, Lemmata,
     # rohe Varianten-Formen). Fehlte bis 2026-07-28 im Audit, deshalb blieb
@@ -370,9 +428,11 @@ def find_stale_numbers(doc_path: str, current: int, key: str) -> list:
     still says 666" without flagging arbitrary numbers near generic
     words like "TEI" or "files".
 
-    Counts below NUMERIC_SCAN_MIN are not scanned: too many false positives
-    from table indices, percentages, section numbers, version strings."""
-    if not Path(doc_path).exists() or current < NUMERIC_SCAN_MIN:
+    Counts below the key's threshold (scan_min_for: NUMERIC_SCAN_MIN, oder
+    ein Eintrag in SCAN_MIN_OVERRIDE) are not scanned: too many false
+    positives from table indices, percentages, section numbers, version
+    strings."""
+    if not Path(doc_path).exists() or current < scan_min_for(key):
         return []
 
     keywords = NEAR_KEYWORDS.get(key)
@@ -396,7 +456,13 @@ def find_stale_numbers(doc_path: str, current: int, key: str) -> list:
     content = Path(doc_path).read_text(encoding='utf-8')
 
     findings = []
-    for m in re.finditer(rf'\b(\d{{1,3}}(?:[.,]\d{{3}})+|\d{{3,7}})\b', content):
+    # Mindeststellenzahl haengt an der Schwelle (#297): das Muster fand bisher
+    # nur Zahlen ab drei Stellen, ein abgesenktes SCAN_MIN_OVERRIDE allein
+    # blieb deshalb wirkungslos. Zweistellig wird nur gesucht, wo die Schwelle
+    # das ausdruecklich erlaubt; Schutz gegen Fehlalarme ist dort das enge
+    # Drift-Fenster (bei 90 sind es +-2) plus der direkt folgende Anker.
+    min_digits = 2 if scan_min_for(key) < 100 else 3
+    for m in re.finditer(rf'\b(\d{{1,3}}(?:[.,]\d{{3}})+|\d{{{min_digits},7}})\b', content):
         raw = m.group(1)
         try:
             num = int(raw.replace('.', '').replace(',', ''))
@@ -419,6 +485,22 @@ def find_stale_numbers(doc_path: str, current: int, key: str) -> list:
         hist_ctx = content[max(line_start, m.start() - 120):m.start()]
         if re.search(r'(?:Audit-Zeitpunkt|zum Audit|Audit:|vor WZB|initial|historisch)', hist_ctx):
             continue
+        # Derselbe Fall, aber mit dem Vermerk HINTER der Zahl (#297): in
+        # docs/CONTRACTS.md steht "Die 234.244 sind der Stand von v1.6.2,
+        # nicht der heutige" -- der Satz erklaert die Zahl also genau so,
+        # wie das Audit es verlangt, und wurde trotzdem gemeldet, weil der
+        # Marker nachgestellt ist. Bewusst eng: nur der explizite
+        # Stand-von-Version-Vermerk und die woertliche Abgrenzung, nicht
+        # irgendein Vorkommen von "Stand".
+        line_end = content.find('\n', m.end())
+        line_end = len(content) if line_end == -1 else line_end
+        # Auf 120 Zeichen gekappt wie hist_ctx: ohne die Kappung schirmt ein
+        # nachgestellter Vermerk auf einer langen Zeile jede Zahl links von
+        # sich ab, auch die, auf die er sich nicht bezieht.
+        fwd_ctx = content[m.end():min(line_end, m.end() + 120)]
+        if re.search(r'(?:sind|ist)\s+der\s+Stand\s+von\s+v\d|nicht\s+der\s+heutige',
+                     fwd_ctx):
+            continue
         # Keyword must appear right after the number (bounded markup allowed).
         suffix = content[m.end():m.end() + 300]
         if anchor.match(suffix):
@@ -440,11 +522,16 @@ def check_anchor_coverage(counts: dict, code_counts: dict) -> list:
     einen Count schweigen — aber es darf nicht unsichtbar bleiben, sonst
     zaehlt man Targets und haelt sie fuer Abdeckung.
 
-    Gemeldet werden vier Zustaende:
+    Gemeldet werden sechs Zustaende:
       missing-file  Pfad existiert nicht (Umbenennung, Tippfehler)
       no-anchor     kein Anker-Muster fuer den Key hinterlegt
-      below-min     Ist-Wert unter NUMERIC_SCAN_MIN, Ziffern-Scan laeuft nie
+      below-min     Ist-Wert unter der Schwelle des Keys (scan_min_for),
+                    der Ziffern-Scan laeuft dort nie
       no-hit        Anker kommt im ganzen Dokument nicht vor
+      silent        wie no-hit, aber als bewusste Entscheidung hinterlegt
+                    (INTENTIONALLY_SILENT) und damit kein offener Punkt
+      silent-obsolet  als silent hinterlegt, aber der Anker trifft doch:
+                    der Eintrag gehoert entfernt
     """
     gaps = []
     scans = [(DOC_TARGETS, NEAR_KEYWORDS, counts, True),
@@ -463,13 +550,23 @@ def check_anchor_coverage(counts: dict, code_counts: dict) -> list:
                     gaps.append((doc_path, key, 'no-anchor',
                                  'kein Anker-Muster hinterlegt'))
                     continue
-                if numeric and values[key] < NUMERIC_SCAN_MIN:
+                if numeric and values[key] < scan_min_for(key):
                     gaps.append((doc_path, key, 'below-min',
-                                 f'Ist-Wert {values[key]} < {NUMERIC_SCAN_MIN}'))
+                                 f'Ist-Wert {values[key]} < {scan_min_for(key)}'))
                     continue
                 if not re.search(pattern, content):
-                    gaps.append((doc_path, key, 'no-hit',
-                                 'Anker kommt im Dokument nicht vor'))
+                    reason = INTENTIONALLY_SILENT.get((doc_path, key))
+                    gaps.append((doc_path, key,
+                                 'silent' if reason else 'no-hit',
+                                 reason or 'Anker kommt im Dokument nicht vor'))
+                elif (doc_path, key) in INTENTIONALLY_SILENT:
+                    # Der Anker trifft, der Eintrag behauptet das Gegenteil:
+                    # tote Config mit inzwischen falscher Begruendung. Ohne
+                    # diese Meldung altert INTENTIONALLY_SILENT genauso still
+                    # wie die Luecken, gegen die es gebaut wurde.
+                    gaps.append((doc_path, key, 'silent-obsolet',
+                                 'Anker trifft inzwischen, Eintrag aus '
+                                 'INTENTIONALLY_SILENT entfernen'))
     return gaps
 
 
@@ -533,18 +630,39 @@ def main():
     print('=== Anker-Abdeckung (Selbstpruefung) ===')
     print()
     gaps = check_anchor_coverage(counts, code_counts)
-    if not gaps:
-        print('  Jedes konfigurierte (Datei, Key)-Paar hat mindestens einen')
-        print('  Anker-Treffer im Dokument.')
+    # Bewusst stille Paare (#297) getrennt ausweisen: sie in dieselbe Zahl zu
+    # werfen wie echte Luecken macht die Meldung zu Rauschen, das jeder Lauf
+    # wiederholt und niemand mehr liest.
+    silent = [g for g in gaps if g[2] == 'silent']
+    # silent-obsolet gehoert in keinen der beiden Toepfe: dort TRIFFT der
+    # Anker, das Paar prueft also potenziell etwas, nur ist die hinterlegte
+    # Begruendung veraltet. Es unter "prueft derzeit nichts" zu zaehlen waere
+    # dieselbe Ungenauigkeit, gegen die die Selbstpruefung gebaut ist.
+    obsolet = [g for g in gaps if g[2] == 'silent-obsolet']
+    open_gaps = [g for g in gaps if g[2] not in ('silent', 'silent-obsolet')]
+    if not open_gaps:
+        print('  Kein konfiguriertes (Datei, Key)-Paar ohne Anker-Treffer.')
     else:
-        for doc_path, key, kind, detail in gaps:
+        for doc_path, key, kind, detail in open_gaps:
             suffix = f' — {detail}' if detail else ''
             print(f'  [{kind}] {doc_path} / {key}{suffix}')
         print()
-        print(f'  {len(gaps)} konfigurierte Paare pruefen derzeit nichts.')
+        print(f'  {len(open_gaps)} konfigurierte Paare pruefen derzeit nichts.')
         print('  Kein Fehler und kein Exit-Code: eine Datei darf ueber einen Count')
         print('  schweigen. Aber ein Target ohne Anker-Treffer ist derselbe blinde')
         print('  Fleck wie ein fehlendes Target, nur schwerer zu sehen (#276).')
+    if obsolet:
+        print()
+        print('  Veraltete Ausnahme, bitte entfernen:')
+        for doc_path, key, _kind, detail in obsolet:
+            print(f'    {doc_path} / {key}: {detail}')
+    if silent:
+        print()
+        print('  Bewusst ohne Zahl (INTENTIONALLY_SILENT, #297 Punkt 4):')
+        for doc_path, key, _kind, detail in silent:
+            print(f'    {doc_path} / {key} — {detail}')
+        print('  Das Target bleibt konfiguriert, damit eine spaeter doch')
+        print('  eingesetzte Zahl sofort gegatet ist.')
 
     if args.check and total_drift > 0:
         sys.exit(1)
