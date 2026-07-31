@@ -57,6 +57,38 @@ test.describe('Playground Authority Index Loading', () => {
         expect(authorityStats.names).toBeGreaterThan(80);
     });
 
+    test('person altNames and altNormalized are index-parallel (#307)', async ({ page }) => {
+        await page.goto('http://localhost:8080/playground/');
+        await page.waitForSelector('#statusText:has-text("Authority Files geladen")', { timeout: 15000 });
+
+        const alt = await page.evaluate(() => {
+            const persons = window.playground?.authorityData?.persons || [];
+            const withAlt = persons.filter(p => p.altNames && p.altNames.length);
+            // CONTRACTS §G.3: altNormalized[i] gehoert zu altNames[i]. Faellt das
+            // auseinander, zeigt der Explorer die falsche Trefferform an.
+            const mismatched = withAlt.filter(
+                p => !p.altNormalized || p.altNormalized.length !== p.altNames.length
+            ).map(p => p.id);
+            const rietenburg = persons.find(p => p.id === 'person_127');
+            return {
+                withAlt: withAlt.length,
+                totalForms: withAlt.reduce((n, p) => n + p.altNames.length, 0),
+                mismatched,
+                rietenburgAlt: rietenburg ? rietenburg.altNames : null,
+                rietenburgNorm: rietenburg ? rietenburg.altNormalized : null
+            };
+        });
+
+        console.log('Person alternative names:', alt);
+
+        expect(alt.mismatched).toEqual([]);
+        expect(alt.withAlt).toBeGreaterThan(70);
+        expect(alt.totalForms).toBeGreaterThan(90);
+        // Der Anlassfall aus #228: Nebenform vorhanden und normalisiert.
+        expect(alt.rietenburgAlt).toContain('Burggraf von Rietenburg');
+        expect(alt.rietenburgNorm).toContain('burggraf von rietenburg');
+    });
+
     test('authority searches work with index data', async ({ page }) => {
         await page.goto('http://localhost:8080/playground/');
         await page.waitForSelector('#statusText:has-text("Authority Files geladen")', { timeout: 15000 });

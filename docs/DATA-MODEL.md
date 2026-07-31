@@ -196,10 +196,14 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
   persons: [{
     id: "person_445",
     preferredName: "Meister Eckhart",
-    gnd: "118528696",
-    wikidata: "Q43976",
+    gnd: "118528823",
+    wikidata: "Q76548",
     works: "work_001,work_002",   // comma-separated string; normalized to an array only in the static JSON API (see API section)
-    normalized: "meister eckhart"
+    normalized: "meister eckhart",
+    // optional, only where persons.xml carries persName[@type="alternative"]
+    // (80 of 211 persons). Index-parallel: altNormalized[i] belongs to altNames[i].
+    altNames: ["Charles IV"],           // e.g. person_1768 "Karl IV."
+    altNormalized: ["charles iv"]
   }],
 
   works: [{
@@ -447,6 +451,7 @@ Build properties: deterministic on the #125 principle (no timestamps, compact JS
 | | | `./tei:note[@type="comment"]` *(relativ zum `<sense>`)* | `sense.comment` + `sense.commentResp` aus `@resp`. Kuratiert, siehe unten |
 | | persons.xml | `//tei:person` | Person records |
 | | | `.//tei:persName[@type="preferred"]` | Canonical name |
+| | | `./tei:persName[@type="alternative"]` | `person.altNames` + `person.altNormalized` (index-parallel). Deduplicated by exact text: wherever the German and English form coincide, the same string stands twice. `@xml:lang` is not indexed, and the parser does not key on it |
 | | | `.//tei:idno[@type="GND"]` | GND identifier |
 | | | `.//tei:idno[@type="wikidata"]` | Wikidata ID |
 | | | (derived from works.xml `<author @ref>`) | Work IDs (built at index time) |

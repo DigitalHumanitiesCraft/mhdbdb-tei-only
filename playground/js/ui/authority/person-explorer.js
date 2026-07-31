@@ -13,10 +13,57 @@ import {
   renderToContainer,
   escapeForJS,
   formatMetadata,
-  SearchPatterns,
 } from "../search/SearchHelpers.js";
+import { TextNormalizer } from "../../../../assets/js/lib/text-normalizer.js";
 
 import { displayResults } from "../core/ui-helpers.js";
+
+// Self-contained per module (DESIGN.md §Escaping-Konvention). generateResultItem
+// inserts the subtitle raw, because meta/title carry markup (GND links).
+function escapeHtml(s) {
+  if (s == null) return "";
+  return String(s).replace(/[&<>"']/g, (c) => (
+    { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]
+  ));
+}
+
+/**
+ * If the search term matched the person only via an alternative name form
+ * (#307), return that form for display as an "auch: …" hint. Returns null when
+ * the preferred name already matches, so a hint only ever appears where the
+ * match would otherwise look like an error.
+ *
+ * Matching runs against the precomputed `altNormalized`, whose entries are
+ * index-parallel to `altNames` (see build-authority-index.py). `altNames` is
+ * absent for 131 of 211 persons and for every index built before 1.8.0; both
+ * cases leave through the length check below.
+ *
+ * The live-normalization fallback is pure defence against a broken contract: it
+ * can only fire when `altNames` exists while `altNormalized` is missing or
+ * shorter, which the build cannot produce and the index test in
+ * playground-authority-index.spec.js catches. It is here so that such an index
+ * degrades to a slower match instead of a TypeError.
+ */
+function findAlternativeMatch(person, searchTerm) {
+  if (TextNormalizer.matchesNormalized(person.preferredName || "", searchTerm)) {
+    return null;
+  }
+  const altNames = person.altNames || [];
+  if (!altNames.length) return null;
+
+  const needle = TextNormalizer.normalizeMHG(searchTerm);
+  if (!needle) return null;
+
+  const altNormalized = person.altNormalized;
+  for (let i = 0; i < altNames.length; i++) {
+    const normalized =
+      altNormalized && altNormalized[i] !== undefined
+        ? altNormalized[i]
+        : TextNormalizer.normalizeMHG(altNames[i]);
+    if (normalized.includes(needle)) return altNames[i];
+  }
+  return null;
+}
 
 export class PersonExplorer {
   constructor(authorityData) {
@@ -74,10 +121,13 @@ export class PersonExplorer {
       return;
     }
 
-    const matches = SearchPatterns.textContainsNormalized(
-      this.authorityData.persons,
-      searchTerm,
-      (person) => person.preferredName
+    // #307: alternative name forms search alongside the preferred one. Each form
+    // is tested on its own instead of joining them into one haystack, so a term
+    // cannot match across the boundary between two forms.
+    const matches = this.authorityData.persons.filter(
+      (person) =>
+        TextNormalizer.matchesNormalized(person.preferredName || "", searchTerm) ||
+        findAlternativeMatch(person, searchTerm) !== null
     );
 
     const result = handleSearchResults(searchTerm, matches, {
@@ -93,6 +143,7 @@ export class PersonExplorer {
     const resultHTML = result.matches
       .map((author) => {
         const workCount = author.works ? author.works.split(",").length : 0;
+        const altHint = findAlternativeMatch(author, searchTerm);
 
         return generateResultItem({
           meta: formatMetadata([
@@ -108,6 +159,7 @@ export class PersonExplorer {
             workCount > 0 ? `${workCount} Werke` : null,
           ]),
           title: author.preferredName,
+          subtitle: altHint ? `auch: ${escapeHtml(altHint)}` : "",
           buttons:
             workCount > 0
               ? [

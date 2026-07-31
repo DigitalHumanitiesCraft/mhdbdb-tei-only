@@ -38,6 +38,24 @@ test.describe('Search Functions with Pre-Built Corpus', () => {
         console.log('✅ Authors search works');
     });
 
+    test('Search 1b: Autoren ueber Nebenform finden (#307)', async ({ page }) => {
+        await page.click('#showAuthorsBtn');
+        await page.waitForSelector('#authorSearch', { timeout: 5000 });
+
+        // "Rietenburg" steht nur als persName[@type="alternative"] in persons.xml,
+        // der Hauptname ist "Burggraf von Riedenburg" (d statt t). Vor #307 lieferte
+        // diese Suche null Treffer.
+        await page.fill('#authorSearch', 'Rietenburg');
+        await page.waitForTimeout(500);
+
+        const results = await page.locator('#resultsContainer').textContent();
+        expect(results).toContain('Burggraf von Riedenburg');
+        // Ohne den Hinweis sieht der Treffer wie ein Fehler aus: der Suchbegriff
+        // kommt im angezeigten Namen nicht vor.
+        expect(results).toContain('auch: Burggraf von Rietenburg');
+        console.log('✅ Author search matches alternative name forms');
+    });
+
     test('Search 2: Werke anzeigen (Works search)', async ({ page }) => {
         await page.click('#showWorksBtn');
 
