@@ -253,7 +253,7 @@ TEI P5 verlangt in `<monogr>`: `(author|editor)*, title+, editor*, (idno|imprint
 **Regeln:**
 - Verszeilen als `<l>` (line of verse) mit `@n`
 - Strophen als `<lg>` mit `@n`. Erlaubte `@type`-Werte: `stanza`
-- Optionale übergeordnete `<div>` für Buecher/Abschnitte
+- Optionale übergeordnete `<div>` für Bücher/Abschnitte
 - Bei Liedern: `<div type="song">` > `<lg type="stanza">` > `<l>`
 - Zäsuren als `<caesura/>` innerhalb von `<l>` (optional, selten)
 
