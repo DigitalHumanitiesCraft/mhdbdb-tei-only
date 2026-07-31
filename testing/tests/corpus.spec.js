@@ -15,7 +15,10 @@ test.describe('Corpus Loading and Management', () => {
     });
   });
 
-  test('IndexedDB corpus operations - schema version 2', async ({ page }) => {
+  // Seit #280 hat MHDBDB_Playground genau einen Store. Die frueheren Stores
+  // corpus_tei_files, authority_files und metadata hatten keinen Schreiber mehr
+  // und werden in DB-Version 3 auch aus bestehenden Browser-Datenbanken geloescht.
+  test('IndexedDB schema - version 3 keeps only tei_files', async ({ page }) => {
     await page.goto('/testing/test.html');
 
     const result = await page.evaluate(async () => {
@@ -24,28 +27,71 @@ test.describe('Corpus Loading and Management', () => {
 
       await dbManager.initialize();
 
-      // Verify database version
-      if (dbManager.dbVersion !== 2) {
-        throw new Error(`Expected DB version 2, got ${dbManager.dbVersion}`);
+      if (dbManager.dbVersion !== 3) {
+        throw new Error(`Expected DB version 3, got ${dbManager.dbVersion}`);
       }
 
-      // Verify corpus_tei_files store exists
       const storeNames = Array.from(dbManager.db.objectStoreNames);
-      if (!storeNames.includes('corpus_tei_files')) {
-        throw new Error('corpus_tei_files store not found');
+      if (!storeNames.includes('tei_files')) {
+        throw new Error('tei_files store not found');
       }
 
       return { success: true, version: dbManager.dbVersion, stores: storeNames };
     });
 
     expect(result.success).toBe(true);
-    expect(result.version).toBe(2);
-    expect(result.stores).toContain('corpus_tei_files');
-    expect(result.stores).toContain('tei_files');
-    expect(result.stores).toContain('authority_files');
+    expect(result.version).toBe(3);
+    expect(result.stores).toEqual(['tei_files']);
   });
 
-  test('IndexedDB corpus operations - save and load corpus file', async ({ page }) => {
+  // Migrationspfad: eine Datenbank auf dem alten Stand (Version 2, vier Stores,
+  // Daten im authority_files-Store) muss beim naechsten Oeffnen auf Version 3
+  // hochgezogen werden, die Altstores verlieren und tei_files behalten.
+  test('IndexedDB schema - v2 database is migrated to v3', async ({ page }) => {
+    await page.goto('/testing/test.html');
+
+    const result = await page.evaluate(async () => {
+      // Alte v2-Datenbank von Hand nachbauen
+      await new Promise((resolve, reject) => {
+        const request = indexedDB.open('MHDBDB_Playground', 2);
+        request.onupgradeneeded = (event) => {
+          const db = event.target.result;
+          const teiStore = db.createObjectStore('tei_files', { keyPath: 'filename' });
+          teiStore.createIndex('timestamp', 'timestamp', { unique: false });
+          db.createObjectStore('corpus_tei_files', { keyPath: 'filename' });
+          const authStore = db.createObjectStore('authority_files', { keyPath: 'filename' });
+          authStore.createIndex('expires', 'expires', { unique: false });
+          db.createObjectStore('metadata', { keyPath: 'key' });
+        };
+        request.onsuccess = () => {
+          const db = request.result;
+          const tx = db.transaction(['tei_files', 'authority_files'], 'readwrite');
+          tx.objectStore('tei_files').put({ filename: 'keep-me.xml', content: '<TEI/>', timestamp: Date.now() });
+          tx.objectStore('authority_files').put({ filename: 'lexicon.xml', content: 'stale', expires: Date.now() });
+          tx.oncomplete = () => { db.close(); resolve(); };
+          tx.onerror = () => reject(tx.error);
+        };
+        request.onerror = () => reject(request.error);
+      });
+
+      const { IndexedDBManager } = await import('../playground/js/indexed-db-manager.js');
+      const dbManager = new IndexedDBManager();
+      await dbManager.initialize();
+
+      const stores = Array.from(dbManager.db.objectStoreNames);
+      const survived = await dbManager.loadTEIFile('keep-me.xml');
+
+      return { success: true, version: dbManager.db.version, stores, survived };
+    });
+
+    expect(result.success).toBe(true);
+    expect(result.version).toBe(3);
+    expect(result.stores).toEqual(['tei_files']);
+    // User-Uploads ueberleben die Migration
+    expect(result.survived).toBe('<TEI/>');
+  });
+
+  test('IndexedDB user uploads - save, load and list', async ({ page }) => {
     await page.goto('/testing/test.html');
 
     const result = await page.evaluate(async () => {
@@ -54,7 +100,6 @@ test.describe('Corpus Loading and Management', () => {
 
       await dbManager.initialize();
 
-      // Create test TEI content
       const testFilename = 'TEST.tei.xml';
       const testContent = `<?xml version="1.0" encoding="UTF-8"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="TEST">
@@ -67,136 +112,26 @@ test.describe('Corpus Loading and Management', () => {
   <text><body><p>Test content</p></body></text>
 </TEI>`;
 
-      const testMetadata = {
-        sigle: 'TEST',
-        title: 'Test Document',
-        author: 'Test Author',
-        authorRef: '#person_1',
-        workRef: 'works.xml#work_1'
-      };
+      const saved = await dbManager.saveTEIFile(testFilename, testContent);
+      if (!saved) throw new Error('Failed to save TEI file');
 
-      // Save corpus file
-      const saved = await dbManager.saveCorpusFile(testFilename, testContent, testMetadata);
-      if (!saved) throw new Error('Failed to save corpus file');
+      const loaded = await dbManager.loadTEIFile(testFilename);
+      if (loaded !== testContent) throw new Error('Content mismatch');
 
-      // Load corpus file
-      const loaded = await dbManager.loadCorpusFile(testFilename);
-      if (!loaded) throw new Error('Failed to load corpus file');
-
-      // Verify content matches
-      if (loaded !== testContent) {
-        throw new Error('Content mismatch');
-      }
-
-      // List corpus files
-      const files = await dbManager.listCorpusFiles();
+      const files = await dbManager.listTEIFiles();
       const testFile = files.find(f => f.filename === testFilename);
-
       if (!testFile) throw new Error('Test file not in list');
-      if (testFile.sigle !== 'TEST') throw new Error('Metadata not preserved');
 
       return {
         success: true,
         fileCount: files.length,
-        metadata: testFile
+        size: testFile.size
       };
     });
 
     expect(result.success).toBe(true);
     expect(result.fileCount).toBe(1);
-    expect(result.metadata.sigle).toBe('TEST');
-    expect(result.metadata.title).toBe('Test Document');
-    expect(result.metadata.author).toBe('Test Author');
-  });
-
-  test('IndexedDB corpus operations - isCorpusLoaded check', async ({ page }) => {
-    await page.goto('/testing/test.html');
-
-    const result = await page.evaluate(async () => {
-      const { IndexedDBManager } = await import('../playground/js/indexed-db-manager.js');
-      const dbManager = new IndexedDBManager();
-
-      await dbManager.initialize();
-
-      // Initially corpus should not be loaded (0/667)
-      let isLoaded = await dbManager.isCorpusLoaded();
-      if (isLoaded) throw new Error('Corpus should not be loaded initially');
-
-      let count = await dbManager.getCorpusCount();
-      if (count !== 0) throw new Error(`Expected 0 files, got ${count}`);
-
-      // Add test files (not all 667, just a few for testing)
-      for (let i = 1; i <= 5; i++) {
-        await dbManager.saveCorpusFile(
-          `TEST${i}.tei.xml`,
-          `<TEI>Content ${i}</TEI>`,
-          { sigle: `TEST${i}`, title: `Test ${i}`, author: 'Test' }
-        );
-      }
-
-      // Should still not be loaded (5/667)
-      isLoaded = await dbManager.isCorpusLoaded();
-      if (isLoaded) throw new Error('Corpus should not be fully loaded yet');
-
-      count = await dbManager.getCorpusCount();
-      if (count !== 5) throw new Error(`Expected 5 files, got ${count}`);
-
-      return { success: true, partialCount: count };
-    });
-
-    expect(result.success).toBe(true);
-    expect(result.partialCount).toBe(5);
-  });
-
-  test('IndexedDB corpus operations - copy to playground', async ({ page }) => {
-    await page.goto('/testing/test.html');
-
-    const result = await page.evaluate(async () => {
-      const { IndexedDBManager } = await import('../playground/js/indexed-db-manager.js');
-      const dbManager = new IndexedDBManager();
-
-      await dbManager.initialize();
-
-      // Create and save corpus file
-      const filename = 'COPY_TEST.tei.xml';
-      const content = '<TEI>Copy test content</TEI>';
-      const metadata = {
-        sigle: 'COPY',
-        title: 'Copy Test',
-        author: 'Test Author',
-        authorRef: '#person_1',
-        workRef: 'works.xml#work_1'
-      };
-
-      await dbManager.saveCorpusFile(filename, content, metadata);
-
-      // Copy to playground
-      const copied = await dbManager.copyCorpusToPlayground(filename);
-      if (!copied) throw new Error('Failed to copy corpus file');
-
-      // Load from playground store
-      const loadedFromPlayground = await dbManager.loadTEIFile(filename);
-      if (!loadedFromPlayground) throw new Error('File not in playground store');
-
-      if (loadedFromPlayground !== content) {
-        throw new Error('Content mismatch after copy');
-      }
-
-      // Verify both stores have the file
-      const corpusFiles = await dbManager.listCorpusFiles();
-      const teiFiles = await dbManager.listTEIFiles();
-
-      const inCorpus = corpusFiles.some(f => f.filename === filename);
-      const inPlayground = teiFiles.some(f => f.filename === filename);
-
-      if (!inCorpus) throw new Error('File missing from corpus store');
-      if (!inPlayground) throw new Error('File missing from playground store');
-
-      return { success: true, inBothStores: true };
-    });
-
-    expect(result.success).toBe(true);
-    expect(result.inBothStores).toBe(true);
+    expect(result.size).toBeGreaterThan(0);
   });
 
   test('Corpus index structure after auto-load', async ({ page }) => {
@@ -290,7 +225,7 @@ test.describe('Corpus Loading and Management', () => {
     expect(result.lemmaCount).toBeGreaterThan(0);
   });
 
-  test('Clear corpus files operation', async ({ page }) => {
+  test('Clear TEI files operation', async ({ page }) => {
     await page.goto('/testing/test.html');
 
     const result = await page.evaluate(async () => {
@@ -299,25 +234,18 @@ test.describe('Corpus Loading and Management', () => {
 
       await dbManager.initialize();
 
-      // Add test files
       for (let i = 1; i <= 5; i++) {
-        await dbManager.saveCorpusFile(
-          `CLEAR${i}.tei.xml`,
-          `<TEI>Clear test ${i}</TEI>`,
-          { sigle: `CLR${i}`, title: `Clear ${i}`, author: 'Test' }
-        );
+        await dbManager.saveTEIFile(`CLEAR${i}.tei.xml`, `<TEI>Clear test ${i}</TEI>`);
       }
 
-      let count = await dbManager.getCorpusCount();
-      if (count !== 5) throw new Error(`Expected 5 files before clear, got ${count}`);
+      let files = await dbManager.listTEIFiles();
+      if (files.length !== 5) throw new Error(`Expected 5 files before clear, got ${files.length}`);
 
-      // Clear corpus
-      const cleared = await dbManager.clearCorpusFiles();
+      const cleared = await dbManager.clearTEIFiles();
       if (cleared !== 5) throw new Error(`Expected to clear 5 files, cleared ${cleared}`);
 
-      // Verify empty
-      count = await dbManager.getCorpusCount();
-      if (count !== 0) throw new Error(`Expected 0 files after clear, got ${count}`);
+      files = await dbManager.listTEIFiles();
+      if (files.length !== 0) throw new Error(`Expected 0 files after clear, got ${files.length}`);
 
       return { success: true, cleared };
     });

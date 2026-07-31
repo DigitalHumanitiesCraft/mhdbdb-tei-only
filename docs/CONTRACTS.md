@@ -617,6 +617,9 @@ Parse order: ?id > #hash > path segment (first match wins)
 |----------|---------|-------|-----|---------|
 | `MHDBDBMainSite` | Dexie.js | `indices` | `name` (string) | `assets/js/lib/corpus-loader.js` |
 | `MHDBDB_TEI_Cache` | Raw IndexedDB | `parsedTEI` | `filename` (string) | `assets/js/storage/tei-cache-manager.js` |
+| `MHDBDB_Playground` | Raw IndexedDB | `tei_files` | `filename` (string) | `playground/js/indexed-db-manager.js` |
+
+**`MHDBDB_Playground` hält genau einen Store:** `tei_files`, die vom Benutzer selbst hochgeladenen TEI-Dateien, ohne Ablauffrist. Korpus- und Authority-Daten liegen auch im Playground im gemeinsamen `CorpusLoader` (`MHDBDBMainSite`), nicht hier. Ein zweiter Cache-Pfad darf nicht wieder entstehen: DB-Version 3 löscht die drei schreiberlosen Altstores `corpus_tei_files`, `authority_files` und `metadata` aus bestehenden Browser-Datenbanken (#280).
 
 ### Index Cache (MHDBDBMainSite)
 
