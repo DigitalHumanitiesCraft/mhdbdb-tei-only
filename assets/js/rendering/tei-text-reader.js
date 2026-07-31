@@ -402,6 +402,9 @@ class TEITextReader {
      * Nicht-numerische @n (ALX- und NLA-Überschriftenzeilen „h_1") werden
      * übersprungen, nicht als Zählungsstart gewertet. Siehe #138 und #127.
      *
+     * Zeilen eines eingehängten Parallelzeugen zählen nicht mit, siehe
+     * isInNestedParallel().
+     *
      * @param {Element} divEl
      * @returns {boolean}
      */
@@ -411,6 +414,7 @@ class TEITextReader {
         for (const line of divEl.querySelectorAll('l[n]')) {
             const n = line.getAttribute('n');
             if (!/^\d+$/.test(n)) continue;
+            if (this.isInNestedParallel(line, divEl)) continue;
             if (first === null) first = n;
             if (n === '1') einsen += 1;
         }
@@ -426,16 +430,46 @@ class TEITextReader {
         // wieder bei 1 beginnt: ohne (b) bekäme der Text 38 zusätzliche
         // Randeinsen, also genau das unruhige Randbild, das #127 beseitigt hat,
         // nur über <div> statt über <lg> hereingekommen.
-        // Korpusweit hält (b) 1.473 divs und verwirft 1.188 strophenlokale in
-        // 84 Texten, was 1.026 unmotivierte Randeinsen verhindert.
-        //
-        // Seitenwirkung von #236: verschachtelte div[@type="parallel"] bringen
-        // eine zweite l[n=1] in den Teilbaum ihrer section, wodurch 19 der 127
-        // FR3-Sections ihren Anker verlieren und die sichtbare 1 zum
-        // Parallelzeugen wandert. Ob die Zählung nach Zeugen getrennt werden
-        // soll, ist in #250 offen; die Zahlen oben sind der Stand MIT diesem
-        // Effekt.
+        // Korpusweit hält (b) 1.492 divs und verwirft 1.169 strophenlokale in
+        // 84 Texten, was 1.007 unmotivierte Randeinsen verhindert.
         return first === '1' && einsen === 1;
+    }
+
+    /**
+     * Liegt der Knoten in einem Parallelzeugen INNERHALB von divEl? (#250)
+     *
+     * Seit #236 sitzt in FR3 eine div[@type="parallel"] innerhalb der
+     * div[@type="section"] des Basiszeugen. Deren eigene Verszählung beginnt
+     * ebenfalls bei 1; für Bedingung (b) aus divRestartsNumbering() sah der
+     * Teilbaum der section damit zwei Einsen, die section qualifizierte nicht
+     * mehr, und die sichtbare Randnummer wanderte vom Basiszeugen zum
+     * Parallelzeugen. Betroffen waren 19 der 127 FR3-Sections.
+     *
+     * Deshalb zählt jeder Zeuge nur seine eigenen Zeilen: beim Prüfen eines
+     * umgebenden div bleiben die Zeilen eingehängter Parallelzeugen außen vor.
+     * Der Parallelzeuge selbst wird davon nicht berührt, er wird beim eigenen
+     * Aufruf geprüft (divEl ist dann die parallel-div, die Schleife endet
+     * davor) und behält seine 1.
+     *
+     * Gemessen über alle 667 Texte (Variante der Render-Simulation aus
+     * scripts/audit/count-verse-numbering-resets.py): qualifizierende divs
+     * 1.473 → 1.492, ausschließlich section-divs in FR3 (137 → 156), kein
+     * einziges div verliert seine Qualifikation. Sichtbare Randnummern
+     * 1.333 → 1.352 zusätzliche in denselben 49 Texten, die Differenz liegt
+     * vollständig in FR3 (+117 → +136). DES2 und PKP haben ebenfalls
+     * verschachtelte parallel-divs und bleiben unverändert.
+     *
+     * @param {Element} node
+     * @param {Element} divEl Bezugs-div, dessen Zählung geprüft wird
+     * @returns {boolean}
+     */
+    isInNestedParallel(node, divEl) {
+        for (let a = node.parentElement; a && a !== divEl; a = a.parentElement) {
+            if (a.localName === 'div' && a.getAttribute('type') === 'parallel') {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -510,12 +544,13 @@ class TEITextReader {
                     //
                     // Reichweite (reproduzierbar per
                     // scripts/audit/count-verse-numbering-resets.py, das diese
-                    // Render-Reihenfolge nachbaut): 1.473 divs in 137 Texten
+                    // Render-Reihenfolge nachbaut): 1.492 divs in 137 Texten
                     // erfüllen das Kriterium (897 chapter, 252 song, 159 ohne
-                    // @type, 137 section, 21 parallel, 7 number); sichtbar werden
-                    // dadurch 1.333 zusätzliche Randnummern in 49 Texten. Größter
-                    // Fall ist PZ mit +826, dann FR3 +117, CHH +53, TKR +40,
-                    // HUG +39 (Stand 2026-07-30, nach #236). Texte
+                    // @type, 156 section, 21 parallel, 7 number); sichtbar werden
+                    // dadurch 1.352 zusätzliche Randnummern in 49 Texten. Größter
+                    // Fall ist PZ mit +826, dann FR3 +136, CHH +53, TKR +40,
+                    // HUG +39 (Stand 2026-07-31, nach #236 und der
+                    // Zeugentrennung aus #250). Texte
                     // mit durchlaufender Zählung sind unberührt, weil dort nur
                     // der erste div bei n="1" beginnt.
                     //
