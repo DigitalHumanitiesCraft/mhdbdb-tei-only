@@ -5,8 +5,8 @@
 
 /* Status-Icon im Authority-Files-Header.
  * Die Icons kommen per innerHTML aus ui-helpers.js (updateStatus); deren
- * Tailwind-Groessen driften vom Container weg (w-6 h-6 in einer w-3.5-Box hat
- * das Icon in den Text laufen lassen). Groesse deshalb hier erzwingen, analog
+ * Tailwind-Größen driften vom Container weg (w-6 h-6 in einer w-3.5-Box hat
+ * das Icon in den Text laufen lassen). Größe deshalb hier erzwingen, analog
  * zu .help-icon in shared.css. flex-shrink verhindert ein gequetschtes Icon,
  * wenn der Statustext bei schmalem Viewport umbricht. */
 .status-indicator {
