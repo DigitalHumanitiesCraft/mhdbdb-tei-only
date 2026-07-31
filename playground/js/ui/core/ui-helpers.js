@@ -127,6 +127,27 @@ export function updateAuthorityOverview(authorityData) {
   `;
 }
 
+// ==================== BUTTON STATE MANAGEMENT ====================
+
+export function enableAuthorityQueries() {
+  const buttonIds = [
+    'showAuthorsBtn',
+    'showWorksBtn',
+    'showLemmataBtn',
+    'showConceptsBtn',
+    'showGenresBtn',
+    'showNamesBtn',
+    'xpathExecute'
+  ];
+
+  buttonIds.forEach((id) => {
+    const button = document.getElementById(id);
+    if (button) {
+      button.disabled = false;
+    }
+  });
+}
+
 // ==================== RESULTS DISPLAY ====================
 
 export function displayResults(title, results) {
