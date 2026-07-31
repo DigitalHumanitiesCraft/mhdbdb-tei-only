@@ -166,8 +166,10 @@ DOC_TARGETS = [
                               'variants_forms', 'variants_normalized']),
     # Achtung ADR-Eigenart: ADRs nennen bewusst historische Zahlen
     # ("Am Tag der Entscheidung ... 13 Module", "192.472 -> 256.759 Formen").
-    # Die halten der Pfeil-Skip in find_stale_numbers und der
-    # HISTORICAL_MARKERS-Skip in find_stale_wordcounts frei; ohne die beiden
+    # Stumm bleiben die aus drei verschiedenen Gruenden, nicht aus einem:
+    # "256.759 Formen" haelt der Pfeil-Skip in find_stale_numbers, "13 Module"
+    # der HISTORICAL_MARKERS-Skip in find_stale_wordcounts, "64.287 Formen"
+    # allein die Fenster-Distanz zum Ist-Wert. Ohne die ersten beiden
     # produziert dieses Target Dauer-Fehlalarme und wird abgeschaltet.
     ('docs/DECISIONS.md', ['corpus_files', 'lexicon_entries',
                            'variants_forms', 'variants_normalized']),
@@ -244,6 +246,10 @@ CODE_ANCHORS = {
 # Zeilen im Modul-/Verzeichnisbaum zaehlen Unterverzeichnisse ("├── core/
 # # Core utilities (3 modules)"), nie die Gesamtzahl. Ohne diesen Skip
 # meldet der ui_modules-Anker jede Baumzeile als Drift.
+# Nebenwirkung, bewusst in Kauf genommen: die Baumzeile "13 Dateien: Router +
+# Modal + 11 Analyse-Module" in ARCHITECTURE.md wird damit auch fuer
+# pattern_modules nicht mehr geprueft. Dieselbe Angabe steht eine Zeile
+# tiefer im Fliesstext ("die elf Analyse-Module"), Drift bleibt sichtbar.
 TREE_LINE_RE = re.compile(r'^\s*[│├└]')
 
 # ADRs und Retrospektiven nennen bewusst den Stand von damals. Der
@@ -273,8 +279,10 @@ NEAR_KEYWORDS = {
     # (±2 %) und der Rundungs-/Arrow-Skip False Positives abfangen.
     'corpus_files': r'(?:TEI(?:-XML)?[-\s](?:files?|Dateien|Texte)|Korpus(?:-?[Dd]ateien)?|(?:mittelhochdeutsche\s+)?TEI-Texte|Dateien|[Ff]iles)',
     # Kleinschreibung, weil ARCHITECTURE.md die Zahl als "43.879
-    # `lemmata`-Eintraege" fuehrt (Code-Bezeichner im Fliesstext).
-    'lexicon_entries': r'[Ll]emmata',
+    # `lemmata`-Eintraege" fuehrt (Code-Bezeichner im Fliesstext); "records",
+    # weil dieselbe Zahl dort als Groesse des API-Lemmata-Bundles auftaucht
+    # ("43,879 records", ARCHITECTURE.md §Static JSON API).
+    'lexicon_entries': r'(?:[Ll]emmata|[Rr]ecords)',
     'works': r'Werke',
     'variants_entries': r'(?:Variant|Eintr[äa]ge)',
     # Satzanfang und Karten-Labels schreiben das Adjektiv gross
@@ -288,8 +296,10 @@ NEAR_KEYWORDS = {
     'variants_forms': r'(?:Formen|[Oo]rthographische\w*\s+Varianten|(?:[Vv]ariant|[Rr]aw)\s+forms)',
     # #276 Luecke 3: CONTRACTS.md fuehrt die deduplizierte Zahl als
     # "Varianten-Schluessel" (Schluessel der Runtime-Map). Ohne diese
-    # Alternative blieb die Stelle jahrelang ungeprueft.
-    'variants_normalized': r'(?:[Nn]ormalisierte\w*\s+(?:Schreibvarianten|Varianten)|[Ee]indeutige\s+Zuordnungen|[Nn]ormalized\s+entries|[Vv]arianten-Schl[üu]ssel|mappings)',
+    # Alternative blieb die Stelle jahrelang ungeprueft. "Mappings" gross,
+    # weil ARCHITECTURE.md das Wort am Satzende fett auszeichnet — sonst
+    # meldet die Anker-Selbstpruefung die Datei dauerhaft als ungedeckt.
+    'variants_normalized': r'(?:[Nn]ormalisierte\w*\s+(?:Schreibvarianten|Varianten)|[Ee]indeutige\s+Zuordnungen|[Nn]ormalized\s+entries|[Vv]arianten-Schl[üu]ssel|[Mm]appings)',
     'persons': r'Personen',
     'concepts': r'(?:Konzepte|Begriffe|Kategorien)',
     'genres': r'(?:Gattungen|Kategorien)',
