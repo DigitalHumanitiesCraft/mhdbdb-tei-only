@@ -95,8 +95,13 @@ def extract_metadata(filepath):
             sigle = sigle_nodes[0].strip()
 
         # Get title
-        title_nodes = tree.xpath('//tei:titleStmt/tei:title/text()', namespaces=ns)
-        title = title_nodes[0].strip() if title_nodes else sigle
+        # Wie beim Autor unten (#228): itertext() statt text() gegen mixed
+        # content, und ' '.join(...split()) gegen die XML-Einrueckung. Sechs
+        # Titel trugen einen Umbruch mitten im Wert, sichtbar bis in
+        # api/texts/*.json.
+        title_nodes = tree.xpath('//tei:titleStmt/tei:title', namespaces=ns)
+        title = (' '.join(''.join(title_nodes[0].itertext()).split())
+                 if title_nodes else sigle)
 
         # Get author
         author = ''

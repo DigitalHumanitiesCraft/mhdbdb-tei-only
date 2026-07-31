@@ -9,7 +9,7 @@ schema-valide (mhdbdb.rnc verlangt keinen Textinhalt).
 
 Geprueft wird das Feld, aus dem der Korpus-Index text.author speist
 (build-corpus-index.py, //tei:titleStmt/tei:author; der Index nimmt bei
-mehreren Autoren nur den ersten, das Audit prueft alle). Fuenf Klassen:
+mehreren Autoren nur den ersten, das Audit prueft alle). Sechs Klassen, die sich ueberschneiden koennen:
 
   leer        <author ref="..."/> ohne Textinhalt: Text erscheint autorlos
   toter-ref   @ref zeigt auf eine ID, die es in persons.xml nicht gibt
