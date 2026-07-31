@@ -308,9 +308,9 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
     filename: "ABG.tei.xml",
     title: "Von der Abgeschiedenheit",
     author: "Meister Eckhart",
-    authorRef: "person_445",
-    workRef: "work_001",
-    genre: "Mystik",
+    authorRef: "#person_445",        // verbatim from the TEI @ref, including the '#'
+    workRef: "works.xml#work_89",    // verbatim from msIdentifier/@corresp, with file prefix
+    genre: "",                       // empty in all 667 texts, see the XPath table below
     wordCount: 2955,                 // lemmatized tokens only (<w> with @lemmaRef), NOT all <w>
     words: ["lemma_879", ...],       // lemma IDs in document order; index = position
     lemmata: {                       // reverse map per text: lemma → positions
@@ -334,7 +334,7 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
 - Only words with `@lemmaRef` are indexed
 - `lemmata` is the per-text reverse index (lemma → positions), enables O(1) lookup of "where does lemma X appear in text Y"
 - `lemmaIndex` is the global reverse index (lemma → list of text sigles), enables fast "which texts contain lemma X" queries
-- `lineStarts[]` / `lineEnds[]` (seit 4.1.0): pro Text die Word-Indizes der `<l>`-Boundaries. Gleiche Länge wie die Anzahl `<l>` mit mindestens einem indizierten Wort. Empty arrays für Prosa-Texte ohne `<l>` (64/667 ≈ 10 % des Korpus). Enables „Lemma am Versanfang/Versende"-Lookups in O(L) statt O(W).
+- `lineStarts[]` / `lineEnds[]` (seit 4.1.0): pro Text die Word-Indizes der `<l>`-Boundaries. Gleiche Länge wie die Anzahl `<l>` mit mindestens einem indizierten Wort. Empty arrays für Prosa-Texte ohne `<l>` (67/667 ≈ 10 % des Korpus, Stand 2026-07-31; es waren 64, bis #143 drei Texte auf Prosa umstellte). Enables „Lemma am Versanfang/Versende"-Lookups in O(L) statt O(W).
 - 100% word coverage from TEI `<body>` elements (Wörter außerhalb von `<l>` wie `<head>`, `<note>`, `<fw>` zählen in `words[]`, aber matchen keine Vers-Boundary)
 - Supports accurate proximity search + Versposition-Filter
 
@@ -342,7 +342,7 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
 
 **Why v4.0.1?** WZB (Wenzelsbibel) ingested into the corpus after Phase-2 POS coverage reached 95.5% (Issue #34).
 
-**Why v4.1.0?** Per-Text `lineStarts[]` / `lineEnds[]` für #47.3 Lemmasuche nach Versposition. 1.359.789 `<l>`-Elemente über 603 Versdichtungs-Texte. Bumped `Schema-feature-add` (MINOR), nicht nur `data-add` (PATCH). Index-Größe +6 MB gz (34 → 40 MB).
+**Why v4.1.0?** Per-Text `lineStarts[]` / `lineEnds[]` für #47.3 Lemmasuche nach Versposition. 1.359.789 `<l>`-Elemente über 603 Versdichtungs-Texte (Stand v4.1.0; heute 1.356.748 über 600, siehe die Anmerkung zu 67/667 oben). Bumped `Schema-feature-add` (MINOR), nicht nur `data-add` (PATCH). Index-Größe +6 MB gz (34 → 40 MB).
 
 **Why v4.1.1?** Korpus-Rebuild nach Stanza-Insertion-Sweep (#23) – etwa 90 Texte bekamen `<lg type="stanza">`-Wrapper, was die `lineStarts`/`lineEnds`-Werte für diese Texte ändert; keine Schema-Änderung, daher PATCH.
 
@@ -456,27 +456,30 @@ Build properties: deterministic on the #125 principle (no timestamps, compact JS
 | | | `.//tei:idno[@type="wikidata"]` | Wikidata ID |
 | | | (derived from works.xml `<author @ref>`) | Work IDs (built at index time) |
 | | works.xml | `.//tei:bibl` (fallback `.//work` for non-TEI sources) | Work records |
-| | | `./tei:title` | All titles (with `@xml:lang`, `@type`) |
+| | | `./tei:title` | All titles (with `@xml:lang`, `@type`, `@ana`). All 1,147 title objects carry an `ana` key, 510 of them non-null |
 | | | `.//tei:idno[@type="sigle"]` | Sigles (may be multiple) |
 | | | `.//tei:idno[@type="GND"]` | Work GND (extract ID from URL: strip `https://d-nb.info/gnd/`) |
 | | | `.//tei:idno[@type="wikidata"]` | Work Wikidata (extract Q-ID from URL: strip `https://www.wikidata.org/entity/`) |
 | | | `.//tei:idno[@type="handschriftencensus"]` | Handschriftencensus URL |
 | | | `./tei:ptr[contains(@target,"genres.xml#")]` | Genre pointers (label from genres.xml lookup) |
 | | | `./tei:author` (direct child only, see the note below the table) | Author name + `@ref` → person ID |
-| | | `.//tei:biblStruct` | Bibliography entries (with `@type`, `@key`, `@corresp`) |
+| | | `.//tei:biblStruct` | `work.biblStructs`: `key` (`@key`), `corresp` (`@corresp`), `textContent` (flattened `itertext()`). All 681 elements carry an `@type` and an `@xml:id`; **neither is read** |
 | | concepts.xml | `//tei:category` (filter ID starts with `concept_`) | Concept entries |
 | | genres.xml | `//tei:category` (filter ID starts with `genre_`) | Genre entries |
 | | names.xml | `//tei:category` (filter ID starts with `name_`) | Name entries |
-| | (all three) | `.//tei:catDesc//tei:term` (filter `@xml:lang`) | DE/EN labels |
-| | genres.xml | `.//tei:catDesc/tei:ptr[@type="broader"]` | Genre hierarchy |
+| | (all three) | `.//tei:catDesc//tei:term` (filter `@xml:lang`) | DE/EN labels. For concepts and genres additionally `@type="alternative"` → `altDE`/`altEN`/`altNormalized` (that is what index versions 1.3.0 and 1.5.0 were for). `names.xml` has no such handling: there the last `de` term overwrites the previous one, dormant today because no name category carries more than one |
+| | genres.xml | `./tei:catDesc/tei:ptr[@type="broader"]` *(direct children throughout; the only reader is `build_performance_maps`, not `parse_genres`)* | Genre hierarchy, 3,175 pointers |
+| | genres.xml | `tei:catDesc/tei:term` *(direct child, first `de` wins)* in `_build_genre_names()` | `work.genres[].text`, the label shown for a genre pointer. Different axis **and** different selection logic from the `.//tei:catDesc//tei:term` row above |
 | | names.xml | `.//tei:ptr[contains(@target,"concepts.xml#")]` | Concept cross-references |
 | | variants.xml | `.//tei:entry` (TEI namespace hard-coded) | Variant groups |
 | | | `.//tei:form` | Orthographic forms per lemma |
+| `sync/extract-variants.py` | tei/*.tei.xml | `tei:w` with `@lemmaRef` + `@corresp`, via `iter()` over the **whole document** | Regenerates `variants.xml` from the corpus. Note the scope: `build-corpus-index.py` restricts itself to `<body>`, this one does not. Identical over the current data (all 9,431,294 `<w>` sit in `<body>`) |
+| | variants.xml | `tei:entry` + `./tei:form` | Diff against the previous state before writing |
 | `build-corpus-index.py` | tei/*.tei.xml | `//tei:idno[@type="sigle"]/text()` | Sigle (fallback: filename without `.tei.xml`) |
-| | | `//tei:titleStmt/tei:title/text()` | Title |
+| | | `//tei:titleStmt/tei:title` → `itertext()` + whitespace collapse | Title. **Not** `/text()`: that is the reading #228 removed, six titles carried a line break into `api/texts/*.json` |
 | | | `//tei:titleStmt/tei:author` | Author name + `@ref` |
 | | | `//tei:msIdentifier` | `@corresp` → work reference |
-| | | `//tei:keywords/tei:term[@type="genre"]/text()`, Fallback `//tei:term[@type="genre"]/text()` | Genre |
+| | | `//tei:keywords/tei:term[@type="genre"]/text()`, Fallback `//tei:term[@type="genre"]/text()` | `text.genre`. **Never fires: the element occurs 0 times in the corpus, so the field is empty in all 667 texts.** The interface takes the genre via `workRef` from `genres.xml` instead (`search-engine.js`). Kept so an ingest that does supply it is picked up |
 | | | `//tei:body//tei:w[@lemmaRef]` *(logical; real code: single-pass `iterwalk`)* | All words with positions (see [CONTRACTS.md](CONTRACTS.md#b-position-counting-contract)) |
 | | | `//tei:body//tei:l` *(im selben `iterwalk`)* | `lineStarts`/`lineEnds`, Wortindex des ersten und letzten indizierten `<w>` je Vers |
 

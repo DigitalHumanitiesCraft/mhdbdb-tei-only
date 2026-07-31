@@ -89,7 +89,9 @@ Zerlegte Formen entstehen beim Kopieren aus macOS-Quellen und aus manchen Editio
 
 Alle drei waren über die normalisierte Suche nicht auffindbar. Alle 43.879 Lemma-Normalisierungen und alle 234.244 Varianten-Schlüssel bleiben unverändert. Deshalb Authority-Index v1.6.2. **Die 234.244 sind der Stand von v1.6.2, nicht der heutige** (heute 234.243, siehe §C): #138 hat mit den HUG-Strophenziffern den nur dort belegten Typ `type_195524` „cxlvix" mitgenommen, gemessen am Blob vor `87b6dc941`. Die Differenz von eins ist also ein realer Datenschritt und kein Tippfehler in einer der beiden Zeilen (#277).
 
-**Nicht betroffen:** Der Korpus-Index speichert Lemma-IDs und Positionen, keine normalisierten Textformen; `build-corpus-index.py` importiert `normalize_mhg` zwar, ruft es aber nirgends auf. Zum Korpustext selbst ist die prüfbare Aussage schärfer als die ursprünglich hier notierte Stichprobe: **in `<w>` gibt es korpusweit kein einziges kombinierendes Trema und keine kombinierende Tilde.** Die 1.343 Tremata in 567 der 667 Dateien stehen sämtlich außerhalb der annotierten Tokens, größtenteils in `<note>`-Bibliographieprosa des teiHeader (Verlagsorte wie Tübingen, Zürich). In `<w>` stehen insgesamt 774 kombinierende Marken, davon 752 WZB-Breves und 22 Exoten: 11 Punkt darunter, 8 Makron, 3 U+035B (Abbreviatur-Zickzack in `cetera͛`, `her͛re`).
+**Nicht betroffen:** Der Korpus-Index speichert Lemma-IDs und Positionen, keine normalisierten Textformen; `build-corpus-index.py` importiert `normalize_mhg` zwar, ruft es aber nirgends auf. Zum Korpustext selbst ist die prüfbare Aussage schärfer als die ursprünglich hier notierte Stichprobe: **in `<w>` gibt es korpusweit kein einziges kombinierendes Trema und keine kombinierende Tilde.** Die 1.339 Tremata in 566 der 667 Dateien stehen sämtlich außerhalb der annotierten Tokens, größtenteils in `<note>`-Bibliographieprosa des teiHeader (Verlagsorte wie Tübingen, Zürich). In `<w>` stehen insgesamt 774 kombinierende Marken, davon 752 WZB-Breves und 22 Exoten: 11 Punkt darunter, 8 Makron, 3 U+035B (Abbreviatur-Zickzack in `cetera͛`, `her͛re`).
+
+**Messvorschrift** (#318, ohne sie sind die Zahlen nicht nachprüfbar). Alle Angaben über **kombinierende** Marken (1.339 Tremata, 774 Marken in `<w>`, 752 Breves, 22 Exoten) werden im Rohtext gezählt, ohne vorherige Unicode-Normalisierung. Genau **eine** Zahl in §A folgt einer anderen Regel: die **469 lemmatisierten Breve-Tokens** im Absatz „Breve statt Trema" oben zählen **nach NFD**, präkomponiertes `ŏ`/`ŭ` also mitgerechnet, weil das die Menge ist, die Schritt 0 und Schritt 3 gemeinsam behandeln. Dasselbe gilt für die daraus abgeleitete Aufteilung 405 auf o/u, die in [DECISIONS.md, ADR-016](DECISIONS.md) steht und nicht hier. Wer ohne NFD misst, bekommt 467 und 403 und hält die Angabe für veraltet; genau das ist im Health Check vom 2026-07-31 passiert. Die Zahlen **136** (Breve auf anderen Basiszeichen) und **64** (davon lemmatisiert) sind von der Normalisierung unabhängig, mit und ohne NFD identisch. Nachzurechnen mit demselben Zählcode einmal je Variante.
 
 **Kein Gewinn, aber derselbe Topf:** In `<w>` stehen acht kombinierende Makra (u 3, p 2, d 1, i 1, n 1). Schritt 0 komponiert davon vier, die drei `u` zu `ū` und das `i` zu `ī`; Schritt 2 löst beide auf. Für `d`, `n` und `p` gibt es keine präkomponierte Form. **Auffindbar werden sie dadurch trotzdem nicht: keines der acht Tokens trägt ein `@lemmaRef`** (`flūte`, `Dorūmbe`, `cap̄`, `vn̄`). Sie gehören in denselben Backfill-Topf wie die 289 Kandidaten unten, nicht in eine Gewinn-Spalte.
 
@@ -316,7 +318,7 @@ User types: **brott**
 - Flat map: `{ normalized_variant_form: lemma_id }`
 - 234,243 normalized entries (Stand 2026-07-28; 256,760 raw forms in variants.xml, deduped first-occurrence-wins), extracted from `authority-files/variants.xml`
 - **Zwei Zahlen, die verschieden bleiben müssen:** 256.760 ist die Zahl der Rohformen in `variants.xml`, 234.243 die Zahl der Mappings im Runtime-Dictionary nach der Deduplizierung. Wer „variants dictionary" schreibt, meint die kleinere. Wer 234.244 liest, liest den Stand vor #138 (§A, Schritt 0)
-- **First occurrence wins** – if two lemmata claim the same variant form, only the first one stored (source: `build-authority-index.py:643-644`, in `parse_variants()`)
+- **First occurrence wins** – if two lemmata claim the same variant form, only the first one stored (source: `parse_variants()` in `build-authority-index.py`, the `if normalized_variant not in variants` guard). Line anchors drift; look the function up by name
 - Keys are **normalized** forms (lowercase + MHG character mapping applied before storage)
 
 ---
@@ -625,7 +627,7 @@ Parse order: ?id > #hash > path segment (first match wins)
 
 **Store schema:** `{ name, version, timestamp, data }`
 
-**Version check flow** (source: `corpus-loader.js:115-158`):
+**Version check flow** (source: `getCachedData()` in `corpus-loader.js`, the `cached.version !== expectedVersion` branch; line anchors drift, look it up by name):
 
 ```
 getCachedIndex(name):
