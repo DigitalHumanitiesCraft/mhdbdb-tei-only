@@ -644,3 +644,48 @@ Last gemessen und unkritisch: fünf parallele Requests kosten 31 bis 81 ms kalt,
 **Verifikationsweg, weil er den Unterschied gemacht hat:** Nicht die Doku gegen die Doku geprüft, sondern gegen Code und Korpus. Für #187 hieß das, jede der im Issue gelisteten Anzeige-Stellen auf das `posAll[]`-Muster hin anzusehen (dabei fiel `verse-position-search.js` auf, das in der Issue-Liste fehlte); für WVV, die 489 `<lg>` selbst zu zählen. Ein Commit-Betreff ist eine Behauptung, kein Beleg.
 
 **Phase:** Betrieb, reine Doku, kein Rebuild. PR #296.
+
+## 2026-07-31 – Die gefährlichsten Doku-Sätze sind die über Abwesenheit
+
+**Summary:** `docs/CONTRACTS.md` hat mit §H Zählregeln für die Analyse-Werkzeuge bekommen, die zitierfähige Zahlen ausgeben (#281, PR #304). Der Abschnitt ging durch fünf Review-Runden, und in jeder einzelnen wurde ein Fehler im Text gefunden. Bemerkenswert ist nicht, dass es Fehler gab, sondern dass sie fast alle denselben Typ hatten: **Aussagen darüber, dass etwas nicht existiert.**
+
+Die Reihe im Einzelnen: „`sum(shareOfVerses)` liegt unter 100 %, weil unannotierte Versenden fehlen" (falsch, jeder `lineEnds`-Eintrag trägt per Konstruktion eine Lemma-ID, die Summe ist exakt 100 %). „Die übrigen Werkzeuge sind plain counts, nichts Abgeleitetes" (falsch, drei rechnen Verhältniszahlen). Nach der Korrektur: „drei Werkzeuge haben abgeleitete Größen" (falsch, es sind fünf, Begriffs-Verteilung und Versposition-Suche fehlten). Und „keine dieser Raten teilt Gleiches durch Gleiches" (zu breit, `hapaxRate` tut genau das).
+
+**Warum das hier steht:** Eine positive Aussage über Code lässt sich an einer Stelle prüfen und fällt beim Prüfen auf, wenn sie falsch ist. Eine Aussage über Abwesenheit verlangt, alle Stellen zu prüfen, an denen das Fehlende stehen könnte, und niemand tut das beiläufig. Genau deshalb steht sie am Ende eines Abschnitts, der sonst sorgfältig ist, und wirkt wie eine Zusammenfassung, obwohl sie eine unbelegte Behauptung ist. Für Promptotyping-Doku heißt das: Abgrenzungsabschnitte („was hier nicht steht") brauchen dieselbe Prüftiefe wie der Hauptteil, und sie sollten die ausgeschlossenen Fälle **namentlich** aufzählen statt sie zu charakterisieren. Eine Liste von neun Namen ist prüfbar, „die übrigen Werkzeuge" nicht.
+
+**Der wertvollste Satz des Abschnitts** kam aus derselben Prüfrunde und stand vorher nirgends: die Versposition-Suche beantwortet dieselbe Frage wie der Reim-Druck aus §H.4, liest aber beide Seiten aus `text.lemmata`, während der Reim-Druck seinen Zähler aus `text.words[]` nimmt. Nach einem Ingest mit Mehrfach-`@lemmaRef` zeigen zwei Oberflächen für dasselbe Lemma verschiedene Prozentzahlen. Heute ist das folgenlos, weil das Korpus über alle 7.532.982 annotierten Tokens **null** Mehrfach-Referenzen führt (nachgemessen, und `sum(text.wordCount)` im gebauten Index ergibt dieselbe Zahl, der Nicht-leer-Guard zieht also nichts ab).
+
+**Phase:** Betrieb, reine Doku, kein Rebuild. PR #304.
+
+---
+
+## 2026-07-31 – Ein Audit, das seine eigene Fehlalarm-Vermeidung nicht überlebt
+
+**Summary:** Sieben Texte trugen ein `<author ref="#person_N"/>` ohne Textinhalt: nicht anonym, nur namenlos (#228, PR #306). Der Fix ist trivial, interessant ist, warum es niemandem auffiel und was beim Absichern passierte.
+
+**Warum es jahrelang unsichtbar war:** Die Referenz löste sauber auf, ein leeres Element ist schema-valide, und der Cross-Ref-Audit überspringt Tokens ohne Dateinamen (`#frag`). Es gab also drei Prüfungen, an denen der Fall vorbeikam, ohne eine davon zu verletzen. Das neue `scripts/audit/check-author-refs.py` schließt die Lücke und fand dabei vier weitere Befunde, die vorher niemand hatte: einen toten `@ref` (VOR verweist auf eine Person, die es in `persons.xml` nicht gibt, der einzige tote Verweis im Korpus), einen Präfix-Ausreißer (WZB schreibt als einziger `persons.xml#person_anonym` statt `#person_anonym`) und zwei Namensabweichungen. Alle vier stehen als #308, keiner ist mitrepariert worden, weil drei davon eine fachliche Entscheidung brauchen.
+
+**Der lehrreiche Teil:** Das Audit vergleicht den TEI-Text gegen den `preferred`-Namen. Nach der ersten Review-Runde normalisierte ich beide Seiten mit `' '.join(text.split())`, weil ein Zeilenumbruch in `persons.xml` sonst einen Fehlalarm erzeugt hätte. Die nächste Runde zeigte, was diese Normalisierung kostete: `tei/LUU.tei.xml` trägt den Autornamen über zwei eingerückte Zeilen, und `"Albertanus von\n            Brescia"` stand so im Korpus-Index und in `api/texts/LUU.json`. Das Audit meldete nichts, weil beide Seiten nach der Normalisierung gleich aussahen. **Die Maßnahme gegen Fehlalarme hatte einen echten Alarm mitgenommen.**
+
+Aufgelöst mit beidem: der Build normalisiert jetzt selbst (die Einrückung ist eine Eigenschaft der XML-Formatierung, nicht der Daten, der Fix gehört also zum Leser und nicht in die Quelldatei), und das Audit meldet Whitespace als eigene Klasse statt ihn wegzuvergleichen.
+
+**Phase:** Betrieb. Voller Data-Change-Lifecycle: `variants.xml` unverändert (No-op-Lauf), Corpus-Index v4.2.0 → v4.2.1, Authority-Index unverändert (`build-authority-index.py:250` liest nur `persName[@type="preferred"]`, die neue Nebenform kann den Index gar nicht erreichen, siehe #307), API neun Dateien. PR #306.
+
+---
+
+## 2026-07-31 – Das Gate, das die eigene Regression nicht fing
+
+**Summary:** Drei Doku-Befunde aus dem Health-Check gebündelt (#293/#294/#297, PR #305): die XPath-Tabelle beschrieb drei Zeilen ungenau, die Größe des Variants-Dictionary stand an drei weiteren Stellen falsch, und `doc-count-audit.py` prüfte an fünf konfigurierten Stellen faktisch nichts.
+
+**Der Befund, der zählt:** Der PR selbst reproduzierte die Fehlerklasse, gegen die er antrat. Die neue Prosa in `docs/DATA-MODEL.md` führte eine ungegatete `584` ein, und zwar doppelt ungegatet: `works` stand gar nicht im Target der Datei, und der Anker heißt `Werke`, hätte hinter „584 `<bibl>`" also ohnehin nicht gegriffen. Behoben durch Umformulieren an den Anker heran plus Target-Eintrag, belegt mit einer Mutation (586 → Drift, 583 → Drift, 584 → still).
+
+Zweiter Befund derselben Art: die Umformulierung aus #294 ließ den Anker in `docs/DECISIONS.md` treffen, eine Zahl steht dort aber weiterhin nicht. Die Lückenmeldung verschwand, die Abdeckung blieb null. Mein erster Reparaturversuch (Eintrag in `INTENTIONALLY_SILENT`) war selbst falsch, und der im selben PR gebaute Obsoleszenz-Check hat ihn sofort als `silent-obsolet` gemeldet. Ein Gate, das den eigenen Autor korrigiert, hat den Test bestanden.
+
+**Zwei Mechanismen, die dabei herauskamen und über den Anlass hinaus gelten:**
+
+1. `NUMERIC_SCAN_MIN = 100` machte das Audit blind für jede Datenzahl darunter. Beim Absenken für `names` (90 Kategorien) zeigte die Gegenprobe, dass die Absenkung allein wirkungslos ist: das Ziffernmuster fand nur Zahlen ab **drei** Stellen. Zwei unabhängige Schwellen, von denen die eine unsichtbar war.
+2. Die Begründung „Ratsche, die greift, sobald die Zahl wieder eingesetzt wird" hielt nicht: ausgerechnet die Form, die vorher dort stand (`~257k`), fällt durch beide Filter (keine Wortgrenze zwischen `7` und `k`, dazu der Rundungs-Skip). Das ist keine Lücke im Code, sondern die Grenze des Verfahrens: eine gerundete Angabe ist erlaubt, und ob sie sich auf die richtige Bezugsgröße bezieht, kann kein Ziffern-Scan wissen. Genau daran ist #279 aufgefallen, per Hand. Der Kommentar sagt das jetzt, statt Sicherheit zu behaupten.
+
+**Nebenbei, aber mit Dauerwirkung:** `build-authority-index.py` las den Werksautor mit `.//tei:author` statt `./tei:author`. Alle 584 Werke tragen seit dem Zotero-Sync ein `<biblStruct>` mit den Autoren der **Edition**; ein Werk ohne eigenen `<author>` hätte still den Editionsautor bekommen. Heute betrifft es kein einziges, der Index bleibt byte-identisch, und die Verengung schließt den Fall aus, bevor er entsteht. Das Schema stützt sie: es erlaubt den Werk-Autor nur als direktes `<bibl>`-Kind und erlaubt zugleich null Vorkommen.
+
+**Phase:** Betrieb, Doku plus zwei Build-Skripte, kein Rebuild nötig. PR #305.
