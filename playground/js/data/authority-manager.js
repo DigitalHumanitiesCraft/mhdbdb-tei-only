@@ -251,17 +251,4 @@ export class AuthorityFilesManager {
     return [...startsWith, ...includes].slice(0, maxSuggestions);
   }
 
-  // ==================== UTILITY METHODS ====================
-
-  updateStatus(indicator, text) {
-    const statusIndicator = document.getElementById("statusIndicator");
-    const statusText = document.getElementById("statusText");
-
-    if (statusIndicator) statusIndicator.textContent = indicator;
-    if (statusText) statusText.textContent = text;
-
-    // Enhanced logging with cache information
-    console.log(`${indicator} ${text}`);
-  }
-
 }

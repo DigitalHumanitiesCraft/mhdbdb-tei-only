@@ -93,7 +93,7 @@ export function displayFileItem(data, container) {
     <div class="flex items-start justify-between gap-3">
       <div class="flex-1 min-w-0">
         <div class="file-name flex items-center gap-2">
-          <span class="${statusColor}">${statusIcon}</span>
+          <span class="inline-flex flex-shrink-0 items-center ${statusColor}">${statusIcon}</span>
           <span class="truncate">${escapeHtml(filename)}</span>
         </div>
         ${displayTitle}
