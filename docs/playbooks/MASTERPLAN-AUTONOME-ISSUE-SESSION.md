@@ -2,7 +2,7 @@
 
 **Erstellt:** 2026-07-03 (Audit-Session, Fable 5); mehrere Vorgänger-Sessions sind gelaufen und gemergt.
 **Zuletzt gelaufen:** 2026-07-29 (Opus 5, #169 + #239). Session-Inhalte geleert; Ergebnis in §7, Git-History = Archiv.
-**§2.1 zuletzt gewachsen:** 2026-07-31, Regeln 28 bis 30 (Branch-Basis, Worktree pro Session, Worktree-Abbau); Regeln 22 bis 26 am 2026-07-30 aus einer interaktiven Session (#236-Merge mit vier Review-Runden, #251). Keine Playbook-Sessions, aber dieselben Fehlerklassen.
+**§2.1 zuletzt gewachsen:** 2026-07-31, Regeln 28 bis 32 (Branch-Basis, Worktree pro Session, Worktree-Abbau, die `git checkout --`-Falle beim Mutationstesten, der Umfang des Em-Dash-Gates); Regeln 22 bis 26 am 2026-07-30 aus einer interaktiven Session (#236-Merge mit vier Review-Runden, #251). Keine Playbook-Sessions, aber dieselben Fehlerklassen.
 **Status:** WARTET AUF BEFÜLLUNG. §1, §3, §4, §5 und §6 sind leer und müssen vor dem nächsten Kickoff neu geschrieben werden; jeder von ihnen sagt selbst, was hineingehört.
 **Typ:** Playbook (wiederverwendbares Session-Verfahren, dauerhaft). Der session-spezifische Teil (§1, §3, §4, §5, §6) wird pro Session neu befüllt; der Betriebsvertrag (§2), die Verifikations-Handwerksregeln (§2.1) und das Ergebnis der letzten Session (§7) sind der bleibende Teil.
 
@@ -78,6 +78,10 @@ Diese Regeln haben in der Praxis Fehler gefangen, die alle Gates passiert hatten
     4. **Nachsehen, ob `.git/worktrees/<name>` wirklich weg ist.** Bleibt der Ordner, von Hand entfernen. Ein Worktree, der aus `git worktree list` verschwindet, ist nicht automatisch abgeräumt: der Verwaltungsordner überlebt das regelmäßig.
 
     Und die Lehre über den Vorgang hinaus: **aus dem Verschwinden eines Eintrags auf eine Ursache zu schließen, ist geraten, nicht gemessen.** Genau dieser Satz stand als „hat sich selbst aufgeräumt" schon in einem Handoff, obwohl in Wahrheit jemand vier blockierte Löschversuche von Hand aufgelöst hatte.
+
+31. **`git checkout -- <datei>` nimmt keine Mutation zurück, es setzt auf HEAD.** Wer eine Zusicherung testet, indem er sie absichtlich bricht (Regel 18), und die Mutation danach mit `git checkout -- <datei>` zurücknimmt, verliert dabei still jede uncommittete Arbeit an derselben Datei: sie landet auf dem letzten Commit, nicht auf dem Stand vor der Mutation, und `git status` meldet danach „clean". Am 2026-07-31 hat das eine Session eine fertige Datei gekostet, und die Rückmeldung des Werkzeugs sah dabei wie Erfolg aus. **Die Reihenfolge, die trägt: erst committen, dann mutieren, dann zurücknehmen.** Der Commit ist hier kein Zeremoniell, sondern der einzige Anker, den `git checkout --` kennt. Wer nicht committen will, legt vorher eine Kopie an und stellt von Hand zurück.
+
+32. **Ein grünes Em-Dash-Gate belegt nichts für `docs/`.** `scripts/audit/check-no-em-dash.py` prüft die ausgelieferten HTML-Seiten, `assets/js/`, `playground/`, `lemma/` und `assets/css/`. `docs/`, `publications/`, `tei/`, `authority-files/`, `schema/` und `testing/` sind ausdrücklich **nicht** im Umfang; es steht im Docstring des Skripts und ist an `GLOBS` ablesbar. Die Schreibregel gilt dort trotzdem. Wer Prosa in `docs/` schreibt, prüft sie von Hand (das Zeichen U+2014 selbst sowie `&mdash;`, `&#8212;`, `&#x2014;`) und schreibt „Gate grün" nicht als Beleg in den PR, denn das Gate hat die Datei nie gesehen. Gegenprobe am 2026-07-31: 8 Dateien unter `docs/` enthalten Em-Dashes, ohne dass das Gate je rot war.
 
 ---
 
