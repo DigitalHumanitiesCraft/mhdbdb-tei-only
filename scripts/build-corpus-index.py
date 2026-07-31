@@ -110,7 +110,13 @@ def extract_metadata(filepath):
             # genau die Klasse Fehler, die dieser Zweig gerade beseitigt.
             # Heute hat keine der 667 Dateien dort Kindelemente, der Index
             # bleibt also byte-identisch.
-            author = ''.join(author_el.itertext()).strip()
+            # ' '.join(...split()) statt .strip() (#228): in LUU steht der
+            # Autorname ueber zwei eingerueckte Zeilen, .strip() trimmt nur die
+            # Raender und liess den Umbruch samt Einrueckung mitten im
+            # Namen stehen, in Index und API. XML-Einrueckung ist beliebig,
+            # die Normalisierung gehoert deshalb zum Leser, nicht in die
+            # Quelldatei.
+            author = ' '.join(''.join(author_el.itertext()).split())
             authorRef = author_el.get('ref', '')
 
         # Get work reference
@@ -340,7 +346,7 @@ def build_corpus_index(jobs=1):
 
     # Build final index
     index = {
-        'version': '4.2.1',  # 4.1.5: #143 APO/HMT/HH Prosa-Konversion l→lb (lineStarts/lineEnds entfallen für die drei Texte). 4.1.6: #198 habe/hab-Disambiguierung (25 Tokens zu lemma_2593, 179 NOM-Strips). 4.1.7: #189 GWTK-Pilot — 257 nackte rot/jung-Tokens neu annotiert (rôt/rote/junc, Goldstandard-validiert). 4.1.8: #138 814 Strophenziffern aus dem HUG-Verstext entfernt (706 davon pos=DIG, 108 unannotiert; die Strophenzahl steht ab jetzt nur noch in lg/@n). 4.2.0: #236 Frauenlob-Revision — FR3 Parallelueberlieferungs-Ebene rekonstruiert (23 gleichrangige Toene zu 10 zusammengefuehrt, 36 <div type="parallel">, 1.563 Verse jetzt als Parallelueberlieferung erkennbar); 42 roemische Ordnungszahl-Tokens aus FR1/FR2/FR3 entfernt und durch <head> ersetzt. 4.2.1: #228 sieben leere <author>-Elemente im titleStmt gefuellt (ALX/BVSN/PSG/PTS Moench von Heilsbronn, BOP Boppe, MHG Herger, MRB Burggraf von Riedenburg); betrifft nur das Feld text.author, keine Token- oder Positionsdaten.
+        'version': '4.2.1',  # 4.1.5: #143 APO/HMT/HH Prosa-Konversion l→lb (lineStarts/lineEnds entfallen für die drei Texte). 4.1.6: #198 habe/hab-Disambiguierung (25 Tokens zu lemma_2593, 179 NOM-Strips). 4.1.7: #189 GWTK-Pilot — 257 nackte rot/jung-Tokens neu annotiert (rôt/rote/junc, Goldstandard-validiert). 4.1.8: #138 814 Strophenziffern aus dem HUG-Verstext entfernt (706 davon pos=DIG, 108 unannotiert; die Strophenzahl steht ab jetzt nur noch in lg/@n). 4.2.0: #236 Frauenlob-Revision — FR3 Parallelueberlieferungs-Ebene rekonstruiert (23 gleichrangige Toene zu 10 zusammengefuehrt, 36 <div type="parallel">, 1.563 Verse jetzt als Parallelueberlieferung erkennbar); 42 roemische Ordnungszahl-Tokens aus FR1/FR2/FR3 entfernt und durch <head> ersetzt. 4.2.1: #228 sieben leere <author>-Elemente im titleStmt gefuellt (ALX/BVSN/PSG/PTS Moench von Heilsbronn, BOP Boppe, MHG Herger, MRB Burggraf von Riedenburg); betrifft nur das Feld text.author, keine Token- oder Positionsdaten. Ausserdem normalisiert der Build Whitespace im Autornamen: LUU trug ihn ueber zwei eingerueckte Zeilen, der Umbruch stand so in Index und API.
         'totalTexts': len(texts),
         'totalLemmata': len(lemma_index),
         'texts': texts,

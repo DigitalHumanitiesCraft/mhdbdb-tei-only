@@ -18,6 +18,9 @@ mehreren Autoren nur den ersten, das Audit prueft alle). Fuenf Klassen:
               beides ist im Korpus die Ausnahme
   abweichend  Textinhalt != preferred-Name der referenzierten Person
   ohne-ref    <author> ganz ohne @ref (heute 0)
+  whitespace  Textinhalt enthaelt Zeilenumbrueche oder Mehrfach-Leerzeichen.
+              Nach Normalisierung passt er zum preferred-Namen, roh aber
+              nicht: genau so stand LUU bis #228 in Index und API
 
 Nur "leer" und "toter-ref" sind eindeutig Fehler. "abweichend" ist oft eine
 legitime bibliographische Variante und braucht eine fachliche Entscheidung,
@@ -60,12 +63,17 @@ def main():
     root = Path(__file__).resolve().parents[2]
     pref = preferred_names(root)
 
-    leer, tot, praefix, abweichend, ohne_ref = [], [], [], [], []
+    leer, tot, praefix, abweichend, ohne_ref, ws = [], [], [], [], [], []
     for path in corpus_files():
         sigle = path.name.replace('.tei.xml', '')
         tree = etree.parse(str(path))
         for author in tree.xpath('//tei:titleStmt/tei:author', namespaces=NS):
-            text = ''.join(author.itertext()).strip()
+            raw_text = ''.join(author.itertext()).strip()
+            text = ' '.join(raw_text.split())
+            if text != raw_text:
+                # Die Normalisierung schuetzt die abweichend-Klasse vor
+                # Fehlalarmen, wuerde den Befund sonst aber wegblenden.
+                ws.append((sigle, raw_text))
             raw = author.get('ref') or ''
             if not raw:
                 ohne_ref.append((sigle, text))
@@ -82,8 +90,8 @@ def main():
                 continue
             if not text:
                 leer.append((sigle, pid))
-            elif ' '.join(text.split()) != pref[pid]:
-                abweichend.append((sigle, pid, ' '.join(text.split()), pref[pid]))
+            elif text != pref[pid]:
+                abweichend.append((sigle, pid, text, pref[pid]))
 
     print(f'Geprueft: {len(corpus_files())} Korpusdateien')
     print()
@@ -99,6 +107,9 @@ def main():
     print(f'  ohne @ref                    {len(ohne_ref)}')
     for sigle, text in ohne_ref:
         print(f'      {sigle:6} {text!r}')
+    print(f'  Whitespace im Namen          {len(ws)}')
+    for sigle, raw in ws:
+        print(f'      {sigle:6} {raw!r}')
     print()
     print(f'  Text weicht vom preferred-Namen ab: {len(abweichend)}')
     print('      (kein Fehler an sich, aber jeder Fall ist eine Entscheidung)')
