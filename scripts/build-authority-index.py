@@ -251,7 +251,13 @@ def parse_persons():
         if not name_el:
             continue
 
-        preferred_name = name_el[0].text.strip() if name_el[0].text else ''
+        # itertext() + Whitespace-Kollaps statt .text, wie in parse_works seit
+        # #228: dort trug ein ueber zwei Zeilen eingerueckter Name den Umbruch
+        # bis in die API. In persons.xml gibt es heute weder Kindelemente noch
+        # Umbrueche in persName, der gebaute Index bleibt byte-identisch. Der
+        # Griff steht hier, damit die naechste handgepflegte Zeile nicht wieder
+        # ueber dieselbe Kante faellt.
+        preferred_name = ' '.join(''.join(name_el[0].itertext()).split())
         if not preferred_name:
             continue
 
@@ -261,11 +267,12 @@ def parse_persons():
         # is not indexed: for a person both forms name the same individual, so the
         # alternative is a search key, not a display term. That differs from concepts,
         # where termDE/termEN are distinct labels and both get shown.
-        # One entry carries no @xml:lang at all (person_127, added in #228), so the
-        # parser must not key on the attribute.
+        # The parser deliberately does not key on @xml:lang. person_127 (added in
+        # #228) carried none until #307 normalized it to "de"; keying on the
+        # attribute would have dropped that form silently.
         alt_names = []
         for alt_el in person_el.xpath('./tei:persName[@type="alternative"]', namespaces=ns):
-            alt_text = alt_el.text.strip() if alt_el.text else ''
+            alt_text = ' '.join(''.join(alt_el.itertext()).split())
             if alt_text and alt_text != preferred_name and alt_text not in alt_names:
                 alt_names.append(alt_text)
 

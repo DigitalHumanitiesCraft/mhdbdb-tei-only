@@ -34,10 +34,15 @@ function escapeHtml(s) {
  * match would otherwise look like an error.
  *
  * Matching runs against the precomputed `altNormalized`, whose entries are
- * index-parallel to `altNames` (see build-authority-index.py). Both fields are
- * optional: 131 of 211 persons carry no alternative form at all, and an index
- * built before 1.8.0 carries none anywhere, hence the live-normalization
- * fallback.
+ * index-parallel to `altNames` (see build-authority-index.py). `altNames` is
+ * absent for 131 of 211 persons and for every index built before 1.8.0; both
+ * cases leave through the length check below.
+ *
+ * The live-normalization fallback is pure defence against a broken contract: it
+ * can only fire when `altNames` exists while `altNormalized` is missing or
+ * shorter, which the build cannot produce and the index test in
+ * playground-authority-index.spec.js catches. It is here so that such an index
+ * degrades to a slower match instead of a TypeError.
  */
 function findAlternativeMatch(person, searchTerm) {
   if (TextNormalizer.matchesNormalized(person.preferredName || "", searchTerm)) {

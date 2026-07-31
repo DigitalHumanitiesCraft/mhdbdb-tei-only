@@ -16,12 +16,23 @@ der alten Version-Konstante und gibt ihn beim naechsten Load auch wieder
 heraus, weil sein Versions-Vergleich (cached.version vs. Loader-Konstante)
 match liefert. Production-User bekommen den neuen Index nie zu sehen.
 
+Seit #307 werden zusaetzlich die zwei Doku-Stellen geprueft:
+
+  4. docs/TEI-MODEL.md   Paragraph 11, Versionstabelle (Source of Truth laut eigener Ansage)
+  5. docs/INDEX.md       Project Status, Klammerzusatz mit beiden Versionen
+
+Die driften anders und unauffaelliger: sie brechen nichts, also faellt es
+niemandem auf. Belegfall: der INDEX.md-Satz stand am 2026-07-31 zwei
+Minor-Versionen zurueck (v4.2.0/v1.7.0 statt v4.2.1/v1.8.0), obwohl die
+Pflegeanweisung in TEI-MODEL.md Paragraph 11 genau diese Stelle nennt.
+Eine Doku-Notiz mehr haette das nicht verhindert, ein Gate tut es.
+
 Usage:
     python scripts/audit/check-index-versions.py            # exit non-zero bei drift, prints report
     python scripts/audit/check-index-versions.py --quiet    # exit only, no output on success
 
 Exit codes:
-    0 = alle vier Versions-Strings konsistent
+    0 = alle Versions-Strings konsistent
     1 = drift (mindestens eine Stelle aus der Reihe)
     2 = parse error (regex hat eine Stelle nicht gefunden -> nicht meine Schuld, sondern File-Format-Drift)
 """
@@ -35,6 +46,8 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 BUILD_CORPUS = PROJECT_ROOT / 'scripts' / 'build-corpus-index.py'
 BUILD_AUTHORITY = PROJECT_ROOT / 'scripts' / 'build-authority-index.py'
 LOADER = PROJECT_ROOT / 'assets' / 'js' / 'lib' / 'corpus-loader.js'
+TEI_MODEL = PROJECT_ROOT / 'docs' / 'TEI-MODEL.md'
+DOCS_INDEX = PROJECT_ROOT / 'docs' / 'INDEX.md'
 
 # Regex-Targets: jeweils die erste Fundstelle, die das interessante Pattern matched.
 TARGETS = [
@@ -62,7 +75,53 @@ TARGETS = [
         'pattern': re.compile(r"const\s+AUTHORITY_INDEX_VERSION\s*=\s*'([0-9]+\.[0-9]+\.[0-9]+)'"),
         'role': 'authority',
     },
+    # Doku-Stellen (#307). Die Regexes sind bewusst an die konkrete Formulierung
+    # gebunden: wird sie umformuliert, ist Exit 2 (Format-Drift) das richtige
+    # Signal, nicht stilles Durchwinken.
+    {
+        'key': 'tei_model_corpus',
+        'path': TEI_MODEL,
+        'pattern': re.compile(r"\|\s*Corpus Index\s*\|\s*([0-9]+\.[0-9]+\.[0-9]+)\s*\|"),
+        'role': 'corpus',
+    },
+    {
+        'key': 'tei_model_authority',
+        'path': TEI_MODEL,
+        'pattern': re.compile(r"\|\s*Authority Index\s*\|\s*([0-9]+\.[0-9]+\.[0-9]+)\s*\|"),
+        'role': 'authority',
+    },
+    {
+        'key': 'docs_index_corpus',
+        'path': DOCS_INDEX,
+        'pattern': re.compile(r"Corpus Index v([0-9]+\.[0-9]+\.[0-9]+)"),
+        'role': 'corpus',
+    },
+    {
+        'key': 'docs_index_authority',
+        'path': DOCS_INDEX,
+        'pattern': re.compile(r"Authority Index v([0-9]+\.[0-9]+\.[0-9]+)"),
+        'role': 'authority',
+    },
 ]
+
+# Menschenlesbare Namen fuer den Drift-Report.
+LABELS = {
+    'corpus_build': 'build-skript',
+    'authority_build': 'build-skript',
+    'loader_corpus': 'loader',
+    'loader_authority': 'loader',
+    'tei_model_corpus': 'TEI-MODEL.md',
+    'tei_model_authority': 'TEI-MODEL.md',
+    'docs_index_corpus': 'INDEX.md',
+    'docs_index_authority': 'INDEX.md',
+}
+
+# Welche Targets gehoeren zu welcher Rolle, in Report-Reihenfolge. Die
+# Build-Version fuehrt: sie steht im Artefakt und ist damit die Wahrheit.
+ROLE_KEYS = {
+    'corpus': ['corpus_build', 'loader_corpus', 'tei_model_corpus', 'docs_index_corpus'],
+    'authority': ['authority_build', 'loader_authority', 'tei_model_authority', 'docs_index_authority'],
+}
 
 
 def extract(target):
@@ -105,39 +164,48 @@ def main():
             'role': t['role'],
         }
 
-    corpus_build = results['corpus_build']['version']
-    loader_corpus = results['loader_corpus']['version']
-    authority_build = results['authority_build']['version']
-    loader_authority = results['loader_authority']['version']
+    # Pro Rolle fuehrt die Build-Version: sie landet im Artefakt und ist damit
+    # die einzige Angabe, die nicht behaupten, sondern sein kann.
+    drift = {}
+    for role, keys in ROLE_KEYS.items():
+        truth = results[keys[0]]['version']
+        off = [k for k in keys[1:] if results[k]['version'] != truth]
+        if off:
+            drift[role] = (truth, off)
 
-    corpus_match = corpus_build == loader_corpus
-    authority_match = authority_build == loader_authority
-
-    if corpus_match and authority_match:
+    if not drift:
         if not args.quiet:
-            print(f"Index versions consistent:")
-            print(f"  corpus    = {corpus_build}  (build-skript + loader)")
-            print(f"  authority = {authority_build}  (build-skript + loader)")
+            print("Index versions consistent:")
+            for role, keys in ROLE_KEYS.items():
+                places = ', '.join(LABELS[k] for k in keys)
+                print(f"  {role:9s} = {results[keys[0]]['version']}  ({places})")
         return 0
 
     # Drift report. Use GitHub Actions ::error annotations so the CI log
     # surfaces the exact files + lines.
     print("Index version drift detected:", file=sys.stderr)
     print("", file=sys.stderr)
-    if not corpus_match:
-        cb, lc = results['corpus_build'], results['loader_corpus']
-        print(f"  CORPUS:", file=sys.stderr)
-        print(f"    build-skript:  {cb['version']}  ({cb['path']}:{cb['lineno']})", file=sys.stderr)
-        print(f"    loader:        {lc['version']}  ({lc['path']}:{lc['lineno']})", file=sys.stderr)
-        print(f"::error file={lc['path']},line={lc['lineno']}::INDEX_VERSION ({lc['version']}) does not match build-skript version ({cb['version']}) in {cb['path']}:{cb['lineno']}. Bump the loader constant so cache-invalidate triggers for users with an old cached index.", file=sys.stderr)
-    if not authority_match:
-        ab, la = results['authority_build'], results['loader_authority']
-        print(f"  AUTHORITY:", file=sys.stderr)
-        print(f"    build-skript:  {ab['version']}  ({ab['path']}:{ab['lineno']})", file=sys.stderr)
-        print(f"    loader:        {la['version']}  ({la['path']}:{la['lineno']})", file=sys.stderr)
-        print(f"::error file={la['path']},line={la['lineno']}::AUTHORITY_INDEX_VERSION ({la['version']}) does not match build-skript version ({ab['version']}) in {ab['path']}:{ab['lineno']}. Bump the loader constant so cache-invalidate triggers for users with an old cached index.", file=sys.stderr)
+    for role, (truth, off) in drift.items():
+        head = ROLE_KEYS[role][0]
+        print(f"  {role.upper()}:", file=sys.stderr)
+        print(f"    {LABELS[head]:14s} {truth}  ({results[head]['path']}:{results[head]['lineno']})  <- fuehrend", file=sys.stderr)
+        for k in off:
+            r = results[k]
+            print(f"    {LABELS[k]:14s} {r['version']}  ({r['path']}:{r['lineno']})", file=sys.stderr)
+            if k.startswith('loader'):
+                fix = ("Bump the loader constant so cache-invalidate triggers for users "
+                       "with an old cached index.")
+            else:
+                fix = ("Doku-Stelle nachziehen. Sie bricht nichts, deshalb faellt der "
+                       "Rueckstand sonst niemandem auf.")
+            print(
+                f"::error file={r['path']},line={r['lineno']}::{role} index version "
+                f"{r['version']} does not match the build-skript version {truth} in "
+                f"{results[head]['path']}:{results[head]['lineno']}. {fix}",
+                file=sys.stderr,
+            )
     print("", file=sys.stderr)
-    print("Fix: bump the loader constant to match the build-skript version, commit, push.", file=sys.stderr)
+    print("Fix: alle Stellen auf die Build-Skript-Version ziehen, commit, push.", file=sys.stderr)
     return 1
 
 
