@@ -211,7 +211,7 @@ Corpus-wide text analysis using pre-built indexes. Zwölf Werkzeuge in zwölf Pl
 - Single Lemma + Position-Auswahl (Versanfang / Versende, Default Versende)
 - Findet Lemmata, die genau am ersten oder letzten `<w>` einer `<l>` stehen
 - Use Case: Reim-Analyse, Versende-Stilistik („wie oft reimt Wolfram auf `minne`?")
-- Trefferliste mit Anteil pro Text („54 % aller `minne`-Vorkommen in Tristan stehen am Versende")
+- Trefferliste mit Anteil pro Text („54 % aller `minne`-Vorkommen in Tristan stehen am Versende"). Zähler und Nenner kommen beide aus `text.lemmata`, die Quote ist damit auch bei Tokens mit Mehrfach-Lemmareferenz belastbar, anders als der Reim-Druck des Versendings-Profils: [CONTRACTS §H.5](CONTRACTS.md#h5-normalized-figures-in-the-remaining-tools)
 - Nur Versdichtungs-Texte (603 von 667, ca. 90 % des Korpus); Prosa wird automatisch übersprungen
 - Klick auf Treffer → Reading View mit Highlighting
 
@@ -247,7 +247,7 @@ Corpus-wide text analysis using pre-built indexes. Zwölf Werkzeuge in zwölf Pl
 **Begriffs-Verteilung (#47 R2, mit Autocomplete #113):**
 - Single Concept (deutsch, englisch, oder `concept_xxxxx`-ID) → Bar-Chart über alle Texte
 - Aggregiert alle Lemmata, deren `senses[*].conceptIds` das Concept enthält
-- Datenpfad: concept → senses → lemmata → texts (summiert Vorkommen pro Text)
+- Datenpfad: concept → senses → lemmata → texts (summiert Vorkommen pro Text); die Basis des Modus „Relativ (pro 1000)" steht in [CONTRACTS §H.5](CONTRACTS.md#h5-normalized-figures-in-the-remaining-tools)
 - Alternative Begriffs-Candidates werden angezeigt (z.B. bei „love" → Intimität + Liebe/Zuneigung)
 - Auklappbare „zugeordnete Lemmata"-Sektion zur Validierung der Concept-Selektion
 - Klick auf Treffer → Reading View

@@ -741,7 +741,7 @@ Same committed index state → byte-identical `api/` output (no timestamps, no r
 
 ## H. Analysis Tools: Counting Rules (#281)
 
-**Contract:** the four tools below emit *numbers that can be cited*. Each number's counting rule is normative and must not be changed silently. A different reference corpus, a different denominator or a different threshold produces a different published figure from the same data.
+**Contract:** the tools below emit *numbers that can be cited*. Each number's counting rule is normative and must not be changed silently. A different reference corpus, a different denominator or a different threshold produces a different published figure from the same data.
 
 **Why this section exists:** §A to §C cover the search chain, which is where wrong behavior is *visible*. Analysis output is different: a keyness value computed against the wrong reference corpus looks exactly like one computed against the right one. The rebuild test ("could I delete every `.js`/`.py` and reconstruct it from the docs?") failed for these four, while it passed for search, build pipeline and reader.
 
@@ -884,7 +884,7 @@ hapaxRate    = hapaxInText / uniqueLemmata
 avgLemmaFreq = sum(len(text.lemmata[id])) / uniqueLemmata
 ```
 
-Two properties that decide whether a comparison across texts is valid:
+Three properties that decide whether a comparison across texts is valid:
 
 1. **`diversity` is a type-token ratio and therefore length-dependent.** TTR falls systematically as texts get longer, for mathematical reasons and not stylistic ones. Sorting the column across texts of very different length ranks by length as much as by vocabulary richness. Comparisons are only safe between texts of comparable size, or after a length-normalized measure replaces it.
 2. **Most of these rates do not divide like over like**, and they fail to in three distinct ways:
