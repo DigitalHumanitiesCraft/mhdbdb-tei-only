@@ -440,8 +440,11 @@ Build properties: deterministic on the #125 principle (no timestamps, compact JS
 | | | `.//tei:form[@type="lemma"]/tei:orth` | Lemma text |
 | | | `.//tei:pos` | Part(s) of speech |
 | | | `.//tei:etym[@type="morphological"]//tei:seg[@type="component"]` | Etymology components + `@corresp` |
+| | | `.//tei:etym[@type="borrowing"]`, darin `./tei:lang` und `./tei:note[@type="attribution"]` | `lemma.origin`: Herkunftssprachen (`@norm` → `code`), optionale Attribution samt `@resp`. Kuratiert, siehe unten |
 | | | `.//tei:sense` | Senses (with `@xml:id`; concept pointers per sense) |
-| | | `.//tei:sense/tei:ptr[contains(@target,"concepts.xml#")]` | Concept pointers per sense |
+| | | `.//tei:ptr[contains(@target,"concepts.xml#")]` *(relativ zum `<sense>`)* | Concept pointers per sense |
+| | | `./tei:def` *(relativ zum `<sense>`)* | `sense.definition` + `sense.definitionResp` aus `@resp`. Kuratiert, siehe unten |
+| | | `./tei:note[@type="comment"]` *(relativ zum `<sense>`)* | `sense.comment` + `sense.commentResp` aus `@resp`. Kuratiert, siehe unten |
 | | persons.xml | `//tei:person` | Person records |
 | | | `.//tei:persName[@type="preferred"]` | Canonical name |
 | | | `.//tei:idno[@type="GND"]` | GND identifier |
@@ -471,6 +474,10 @@ Build properties: deterministic on the #125 principle (no timestamps, compact JS
 | | | `//tei:keywords/tei:term[@type="genre"]/text()`, Fallback `//tei:term[@type="genre"]/text()` | Genre |
 | | | `//tei:body//tei:w[@lemmaRef]` *(logical; real code: single-pass `iterwalk`)* | All words with positions (see [CONTRACTS.md](CONTRACTS.md#b-position-counting-contract)) |
 | | | `//tei:body//tei:l` *(im selben `iterwalk`)* | `lineStarts`/`lineEnds`, Wortindex des ersten und letzten indizierten `<w>` je Vers |
+
+#### Kuratierte Lexikon-Felder (#268, seit Authority-Index v1.7.0)
+
+Die drei mit „Kuratiert" markierten Produktionen (`etym[@type="borrowing"]`, `def`, `note[@type="comment"]`) tragen als einzige im Lexikon redaktionelle Prosa statt Klassifikation. Der Build schreibt die zugehörigen Index-Felder **nur dort, wo sie im XML tatsächlich stehen**: 43.879 Einträge mit leeren Schlüsseln würden Index und API ohne Nutzen aufblähen. Stand 2026-07-31 ist genau ein Lemma kuratiert (`lemma_37818` „Abba"), Konsumenten müssen die Felder deshalb als optional behandeln, nie als Zusage pro Datensatz. Normativ: [CONTRACTS.md §G.3](CONTRACTS.md#g3-field-schemas). Die `@resp`-Werte landen unverändert als `contributors.xml#contrib_N` im Index; auflösen lässt sich die ID nur über die XML-Datei, denn `contributors.xml` ist bewusst nicht indexiert.
 
 #### Namespace Handling
 
@@ -788,7 +795,7 @@ Die beiden Checklisten unten beschreiben den **Maximalfall**. Nicht jede Änderu
 
 - `build-corpus-index.py` liest aus `tei/` den Dateinamen und fünf Kopfangaben (Sigle aus `idno[@type="sigle"]`, Titel, Autor samt `@ref`, `msIdentifier/@corresp`, Genre-Term) sowie jedes `<w @lemmaRef>` mit nicht-leerem Text im `<body>` samt Dokumentreihenfolge und die `<l>`-Grenzen. Alles andere im TEI ist für ihn unsichtbar, insbesondere `@pos` und `@ana` sowie `<div>`, `<lg>` und `<pb>`. XPaths: [Build Script XPath Reference](#build-script-xpath-reference).
 - `extract-variants.py` liest aus `tei/` nur `<w>`, die **beides** tragen, `@lemmaRef` und ein `@corresp="variants.xml#type_N"`, und davon Lemma-ID, Type-ID und Wortlaut. Dazu die Zahl der Korpusdateien, die im Kopf von `variants.xml` steht.
-- `build-authority-index.py` liest ausschließlich `authority-files/` (die sieben indizierten Dateien inkl. `variants.xml`, ohne `contributors.xml`). `tei/` liest er nicht.
+- `build-authority-index.py` liest ausschließlich `authority-files/` (die sieben indizierten Dateien inkl. `variants.xml`, ohne `contributors.xml`). `tei/` liest er nicht. Anders als beim Korpus-Index entscheidet hier die Datei, nicht das Element: jede inhaltliche Änderung in einer der sieben Dateien verlangt den Rebuild. Welches Markup dabei im Index landet, steht in der [Build Script XPath Reference](#build-script-xpath-reference).
 - `build-api.py` liest ausschließlich die beiden gebauten `data/*.json.gz`, weder `tei/` noch `authority-files/`.
 
 **Routing nach Änderungstyp:**
