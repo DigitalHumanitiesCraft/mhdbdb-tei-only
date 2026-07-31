@@ -814,7 +814,7 @@ Both verse tools read `text.lineEnds[]` from the corpus index. Its definition is
 - The entry is the §B position of the **last indexed word** of that verse, not of the last word. If the final token of a verse is unannotated, `lineEnds[]` points at a word inside the verse, and what the rhyme tools treat as the rhyme word is not the rhyme word.
 - Every position in `lineEnds[]` is guaranteed to have an ID in `words[]`: the index appends to `words[]` and to the line frame in the same step (`build-corpus-index.py`, single-pass `iterwalk`). Guards of the form `if (!lemmaId) continue` in the consuming code are dead code against a consistent index, not a filter.
 
-**Multi-`@lemmaRef` status:** `words[pos]` stores the **first** ID only, while `lemmata` lists the position under every referenced ID. Measured 2026-07-31 over all 7,532,982 annotated tokens: **0 tokens carry more than one reference.** Every place below where the two fields are said to diverge is therefore a latent property today, not a present distortion. It becomes real the moment an ingest introduces multi-reference tokens.
+**Multi-`@lemmaRef` status:** `words[pos]` stores the **first** ID only, while `lemmata` lists the position under every referenced ID. Measured 2026-07-31: the corpus holds **7,532,982** `<w>` elements with an `@lemmaRef`, and `sum(text.wordCount)` over the built index is the same number, so the non-empty-text guard removes none of them. Of those, **0 carry more than one reference.** Every place below where the two fields are said to diverge is therefore a latent property today, not a present distortion. It becomes real the moment an ingest introduces multi-reference tokens.
 
 ### H.3 Rhyme dictionary (#106)
 
@@ -881,7 +881,7 @@ avgLemmaFreq = sum(len(text.lemmata[id])) / uniqueLemmata
 Two properties that decide whether a comparison across texts is valid:
 
 1. **`diversity` is a type-token ratio and therefore length-dependent.** TTR falls systematically as texts get longer, for mathematical reasons and not stylistic ones. Sorting the column across texts of very different length ranks by length as much as by vocabulary richness. Comparisons are only safe between texts of comparable size, or after a length-normalized measure replaces it.
-2. **`diversity` and `avgLemmaFreq` do not share a base.** The denominator of `diversity` is `wordCount`, that is `len(words)`, one slot per token and therefore the **first** `@lemmaRef` ID only. The numerator of `avgLemmaFreq` sums `len(text.lemmata[id])` over all IDs, that is **every** reference. This is the same latent asymmetry that H.4 records for rhyme pressure, one level up. With zero multi-reference tokens today (H.2a) the two agree; they would diverge the moment that changes.
+2. **None of these rates divides like over like.** Every numerator here counts over `text.lemmata`, that is **every** `@lemmaRef`; every denominator (`wordCount`, `totalTokens`) counts token slots, that is the **first** ID only. That holds for the two per-thousand rates as much as for `diversity` against `avgLemmaFreq`. It is the same latent asymmetry H.4 records for rhyme pressure, one level up: with zero multi-reference tokens today (H.2a) the two sides agree exactly, and they diverge the moment that changes.
 
 `hapaxRate` is a within-text rate over types and is unrelated to the corpus-wide hapax tool in H.2. The two answer different questions and their numbers must never be compared.
 

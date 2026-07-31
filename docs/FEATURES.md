@@ -235,13 +235,13 @@ Corpus-wide text analysis using pre-built indexes. Zwölf Werkzeuge in zwölf Pl
 **Text-Statistiken (#89, Auswahl-UI #136):**
 - Pro Text: Token-Count, Lemma-Diversität (unique / total), Hapax-Rate, durchschnittliche Lemma-Frequenz
 - Korpus-Übersicht als Tabelle, sortierbar
-- Stilistik-Indikator: hohe Lemma-Diversität bei knappen Texten = lexikalisch reich
+- Stilistik-Indikator: hohe Lemma-Diversität bei knappen Texten = lexikalisch reich. **Vorsicht beim Vergleich über Texte hinweg:** die Kennzahl ist eine Type-Token-Ratio und fällt aus rein mathematischen Gründen mit der Textlänge, die Spalte sortiert also mitunter nach Länge statt nach Wortschatzreichtum. Zählregel und Basen normativ in [CONTRACTS §H.5](CONTRACTS.md#h5-normalized-figures-in-the-remaining-tools)
 - Subset-Bildung: Checkbox je Zeile + Master-Checkbox, „Nur Auswahl anzeigen", Auswahlzähler; Auswahl übersteht Sortieren
 
 **Lemma-Verteilung (#90):**
 - Single Lemma → Bar-Chart über alle Texte
 - Top-N Bars im Chart, Rest als auklappbare Tabelle
-- Absolute oder relative Frequenz (pro 1000 Tokens)
+- Absolute oder relative Frequenz (pro 1000 Tokens; Basis der Rate in [CONTRACTS §H.5](CONTRACTS.md#h5-normalized-figures-in-the-remaining-tools))
 - Klick auf Balken oder Sigle → Reading View mit Highlighting
 
 **Begriffs-Verteilung (#47 R2, mit Autocomplete #113):**
