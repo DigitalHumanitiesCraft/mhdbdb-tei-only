@@ -46,10 +46,11 @@ Weiterhin direkt startbar: **#216 minne-Serie** (~7.000 unannotierte Tokens in 2
 Die autonome Merge-Session (08.07., [MASTERPLAN-AUTONOME-MERGE-SESSION](playbooks/MASTERPLAN-AUTONOME-MERGE-SESSION.md)) hat alle 13 PRs der Issue-Session nach main gebracht (#174–#186); 13 Issues wurden automatisch geschlossen (#163 #164 #159 #168 #158 #162 #160 #161 #134 #145 #27 #167 #170), #68/#86/#28/#171 bleiben planmäßig offen (Teilarbeit). Authority-Index v1.6.0 (posAll[]) ist live, Live-Smoke-Checks für beide Stack-Ketten und die Unabhängigen bestanden. Details: JOURNAL-Eintrag 08.07. (Merge-Session) + Abschlussreport in #44.
 
 Direkt startbar geworden:
-- **#187 posAll-Anzeige-Migration** – 11 Konsumenten-Dateien zeigen noch den POS-Erstwert; Muster + Dateiliste im Issue
 - **#92 ARITHMETIC Stage 1** – Escaping-Blocker in #185 gemerged; Metadatenfragen an Carina weiter offen
 - **WVV-Strophen-Lauf** – F35/F36-Fixes gemerged UND KZW-Entscheid da (08.07., Empfehlung b bestätigt, #110 von KZW geschlossen); der Lauf selbst steht noch aus
 - **#18 Multi-Lemma + PoS-Suche** – POS-Policy (#27) gemerged; braucht POS-Daten im Corpus-Index
+
+Korrektur 31.07.: **#187 posAll-Anzeige-Migration** stand hier bis heute als startbar, ist aber seit 10.07. erledigt (Commit `edb16dd3f`, Issue als completed geschlossen; JOURNAL-Eintrag 10.07. Vormittag). Alle im Issue gelisteten Anzeige-Stellen lesen inzwischen `posAll[]` mit Erstwert-Fallback für ältere Caches, dazu `verse-position-search.js`, das in der Issue-Liste fehlte.
 
 **#124 (prio-1)** ist technisch fertig: cookieloses Matomo ist seit 17.06. deployed (`includes/_matomo.html`, Opt-out + Datenschutz-Abschnitt im Impressum, Commit `7abbf7672`); offen nur noch DSB-Absegnung der Rechtsgrundlage + Klärung des Dashboard-Zugangs.
 
