@@ -28,9 +28,9 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = SCRIPT_DIR.parent.parent
 sys.path.insert(0, str(PROJECT_ROOT / 'scripts'))
 from mhg_normalizer import normalize_mhg  # noqa: E402
+from corpus_files import corpus_files  # noqa: E402
 
 TEI = '{http://www.tei-c.org/ns/1.0}'
-TEI_DIR = PROJECT_ROOT / 'tei'
 
 
 def main() -> int:
@@ -45,7 +45,7 @@ def main() -> int:
     unannot_examples = {}              # normalized form -> ein Original-Beispiel
     annotated_forms = set()            # normalisierte Formen MIT lemmaRef
 
-    files = sorted(TEI_DIR.glob('*.tei.xml'))
+    files = corpus_files()
     for i, fp in enumerate(files):
         if (i + 1) % 100 == 0:
             print(f'  {i + 1}/{len(files)}...', flush=True)

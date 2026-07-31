@@ -148,6 +148,11 @@ def main():
                 print(f'  MISSING: {s}')
     else:
         if not args.authority_only:
+            # Bewusst NICHT corpus_files() aus scripts/corpus_files.py (#287):
+            # dieses Skript fragt nicht "was ist der Korpus", sondern "ist jede
+            # XML-Datei in diesen beiden Verzeichnissen schema-valide". Ein
+            # versehentlich in tei/ liegender .disamb.-Zwischenstand soll hier
+            # geprueft und nicht stillschweigend uebersprungen werden.
             for f in sorted(glob.glob('tei/*.tei.xml')):
                 files.append((Path(f), mhdbdb, 'mhdbdb'))
         if not args.corpus_only:

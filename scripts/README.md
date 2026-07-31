@@ -14,6 +14,7 @@ scripts/
 ├── validate-indices.py          # Generierte Indexes validieren
 ├── mhg_normalizer.py            # MHG-Textnormalisierung (shared lib)
 ├── tei_namespaces.py            # TEI-Namespace-Erkennung für lxml-Bäume (shared lib)
+├── corpus_files.py              # welche Dateien der Korpus sind, in welcher Reihenfolge, plus Worker-Cap (shared lib, #287)
 ├── insert-pb-from-linecode.py   # <pb> aus Legacy-Linecode einfügen (#26)
 ├── insert-stanzas-from-linecode.py # Stanza-Anchors aus Legacy-Linecode (#23)
 ├── insert-div-wrappers-138.py   # Editorische <div>-Hüllen für HUG und MBS (#138)

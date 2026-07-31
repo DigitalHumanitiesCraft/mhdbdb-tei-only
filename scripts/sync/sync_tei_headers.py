@@ -42,6 +42,10 @@ from lxml import etree
 from typing import Dict, List, Set
 from abc import ABC, abstractmethod
 
+# Gemeinsame Korpusauswahl (#287).
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from corpus_files import TEI_DIR, corpus_files  # noqa: E402
+
 # Set up logging
 logging.basicConfig(
     level=logging.INFO,
@@ -51,7 +55,6 @@ logger = logging.getLogger(__name__)
 
 # File paths
 AUTHORITY_DIR = Path("authority-files")
-TEI_DIR = Path("tei")
 
 # TEI namespace
 TEI_NS = {"tei": "http://www.tei-c.org/ns/1.0"}
@@ -90,7 +93,7 @@ class AuthoritySyncer(ABC):
         logger.info(f"Loaded data for {len(authority_data)} sigles from {self.authority_file.name}")
         
         # Process TEI files
-        tei_files = sorted(self.tei_dir.glob("*.tei.xml"))
+        tei_files = corpus_files(self.tei_dir)
         logger.info(f"Processing {len(tei_files)} TEI files for {self.name}...")
         
         updated_count = 0

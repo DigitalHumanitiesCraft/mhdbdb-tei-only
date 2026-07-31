@@ -31,7 +31,9 @@ import sys
 from collections import Counter
 from pathlib import Path
 
-TEI_DIR = Path('tei')
+# Gemeinsame Korpusauswahl (#287).
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from corpus_files import TEI_DIR, corpus_files  # noqa: E402
 
 # ' corresp="variants.xml#type_-<digits>"' — leading space + whole-value match.
 PATTERN = re.compile(rb' corresp="variants\.xml#type_-\d+"')
@@ -41,11 +43,13 @@ MULTI_GUARD = re.compile(rb'corresp="[^"]*variants\.xml#type_-\d+[^"]*"')
 
 def main():
     apply = '--apply' in sys.argv
+    # Kein "run from repo root"-Guard mehr (#287): TEI_DIR haengt jetzt am
+    # PROJECT_ROOT, das Skript ist damit CWD-unabhaengig.
     if not TEI_DIR.exists():
-        print('Error: run from repo root (tei/ required)')
+        print(f'Error: {TEI_DIR} not found')
         return 1
 
-    files = sorted(f for f in TEI_DIR.glob('*.tei.xml') if '.disamb.' not in f.name)
+    files = corpus_files()
     total = 0
     touched = []
     skipped_multi = Counter()
