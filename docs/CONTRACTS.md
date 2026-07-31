@@ -222,7 +222,7 @@ function lemmaRefMatchesId(lemmaRef, lemmaId):
 | `lexicon.xml#lemma_308 lexicon.xml#lemma_5` | `lemma_5` | yes |
 | `lexicon.xml#lemma_30800` | `lemma_308` | **no** |
 
-**Applies to all highlight/match paths**, all routed through the single `lemmaRefMatchesId` since #130 (was 6 inline copies across 4 files, the duplication that made #126 possible): `tei-text-reader.js` (single + multi-lemma) and the playground (`tei-manager.js` proximity + enrichment, `ui-helpers.js` context highlight). (`text-renderer.js` was a fourth call site until its dead render path, then the whole shim, were removed — audit #42 + Carearbeit 2026-07.) Validated on real corpus data: PL1 689 → 57, OVG 369 → 26 (matches the result-card count).
+**Applies to all highlight/match paths**, all routed through the single `lemmaRefMatchesId` since #130 (was 6 inline copies across 4 files, the duplication that made #126 possible): `tei-text-reader.js` (single + multi-lemma) and the playground (`tei-manager.js` proximity + enrichment, `ui-helpers.js` context highlight). (`text-renderer.js` was a fourth call site until its dead render path, then the whole shim, were removed: audit #42 plus Carearbeit 2026-07.) Validated on real corpus data: PL1 689 → 57, OVG 369 → 26 (matches the result-card count).
 
 ### Test Coverage
 
