@@ -310,7 +310,7 @@ Nicht hash-routen – `korpus.html` ist eine separate Site. Pure-Anchor-Tags mit
 
 ### Multi-Lemma als dokumentierter Outlier
 
-`playground/js/ui/tei/multi-lemma-search.js` nutzt **Modal statt in-place Form** (`#multiLemmaModal`), weil seine vier Inputs (Lemmata-Liste, Modus, Distanz, Korpus-Auswahl-Checkbox) im Sidebar nicht reinpassen würden. Das ist die einzige zulässige Abweichung – wer ein neues Modul mit 1-3 Inputs baut, gehört in den in-place-Form-Pfad. Modal nur bei genuin grossen Input-Surfaces.
+`playground/js/ui/tei/multi-lemma-search.js` nutzt **Modal statt in-place Form** (`#multiLemmaModal`), weil seine vier Inputs (Lemmata-Liste, Modus, Distanz, Korpus-Auswahl-Checkbox) im Sidebar nicht reinpassen würden. Das ist die einzige zulässige Abweichung – wer ein neues Modul mit 1-3 Inputs baut, gehört in den in-place-Form-Pfad. Modal nur bei genuin großen Input-Surfaces.
 
 ### Performance-Map gegen O(N)-Lookups (text-comparison Lesson)
 

@@ -43,7 +43,7 @@ Wichtig für den aktiven Betrieb (siehe [INDEX.md → Current Phase](INDEX.md#cu
 
 | Datei | Herkunft (einmalig, 2025-07-22) | Aktuelle Pflege | Drift-Risiko |
 |-------|-----------|-----------|--------------|
-| `variants.xml` | korpus-extrahiert (`initial-data-wrangling`) | **korpus-abgeleitet**, regenerierbar via `scripts/sync/extract-variants.py` (#44/#115) | hoch: jede neue/geaenderte Form muss nachgezogen werden. Regenerierung verlustfrei + automatisierbar |
+| `variants.xml` | korpus-extrahiert (`initial-data-wrangling`) | **korpus-abgeleitet**, regenerierbar via `scripts/sync/extract-variants.py` (#44/#115) | hoch: jede neue/geänderte Form muss nachgezogen werden. Regenerierung verlustfrei + automatisierbar |
 | `lexicon.xml` | RDF→CSV-Snapshot (`lists/lexicon.csv`) → `tei-transformation.py::create_lexicon_tei` | **Repo = Master UND Korpus-Index** (Korpus führt, lexicon zieht nach) | mittel: ingest-erzeugte Lemma/Sense-IDs brauchen repo-internen Backfill (Kategorie A 2026-07-02 gestubbt; Rest 396 Refs / 109 IDs kuratorisch, #115). Kein Salzburg-Re-Export möglich (CSV war selbst nur Snapshot) |
 | `persons.xml` | RDF→CSV→TEI-Snapshot | repo-intern handgepflegt, **kein Re-Export** | gering (0 unresolved) |
 | `works.xml` | RDF-Snapshot + Zotero-Enrichment | `enhance_works_with_zotero.py` + manuell, repo-intern | gering (0 unresolved) |
@@ -248,10 +248,15 @@ TEI Ch. 13 (Names, Dates, People, Places).
 <body>
   <listPerson>
     <person xml:id="person_1">
-      <persName type="preferred">Konrad von Wuerzburg</persName>
-      <persName type="alternative" xml:lang="en">Conrad of Wuerzburg</persName>
+      <persName type="preferred">Konrad von Würzburg</persName>
       <idno type="GND">118565133</idno>
       <idno type="wikidata">Q77480</idno>
+    </person>
+    <person xml:id="person_1768">
+      <persName type="preferred">Karl IV.</persName>
+      <persName type="alternative" xml:lang="en">Charles IV</persName>
+      <idno type="GND">118560085</idno>
+      <idno type="wikidata">Q155669</idno>
     </person>
   </listPerson>
 </body>
@@ -392,7 +397,7 @@ Identisches Modell wie concepts.xml, mit zusätzlichen Concept-Verweisen.
   <desc>Onomastisches System der MHDBDB</desc>
   <category xml:id="name_41232000">
     <catDesc>
-      <term xml:lang="de">Staedtenamen (Urbanonyme)</term>
+      <term xml:lang="de">Städtenamen (Urbanonyme)</term>
       <term xml:lang="en">City names (Urbanonyms)</term>
       <ptr type="broader" target="#name_41230000"/>
       <ptr type="exactMatch" target="concepts.xml#concept_24212000"/>
