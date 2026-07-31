@@ -780,7 +780,7 @@ logLikelihood(a, b, c, d):
 
 Four properties that are decisions, not implementation details:
 
-1. **The reference corpus is always all 667 texts, independent of the text selection.** Deselecting texts changes which rows appear, never the value in a row. Same reference as Beutel-Thurow's naming-analysis, which is why the figures are comparable to hers.
+1. **The reference corpus is always every text in the corpus index, independent of the text selection.** Deselecting texts changes which rows appear, never the value in a row. The code comment records this as the same reference used in Beutel-Thurow's naming-analysis; that comparability is asserted there, not verified against her data here.
 2. **`c` and `d` are total token counts, not non-hit counts.** This is the Rayson/Garside form of the statistic (two-term sum over observed vs. expected), not a full four-cell table. Both are current practice; mixing them up changes every value.
 3. **`lemmaIds` is the resolution of the search term, not the set of lemmata that actually produced hits.** Taken from `resolveLemmaIds(normalized(term))`, i.e. the same three-stage resolution the search itself used (§C). Using the hit set instead would make the reference frequency depend on the selection through the back door.
 4. **Signing:** relative frequency in the text ≥ relative frequency overall → positive (overrepresented), else negative. Equality counts as overrepresented.
@@ -801,8 +801,18 @@ entry qualifies  <=>  counts[lemmaId] <= maxFreq        # 1 | 2 | 3
 - **The unit is the lemma, not the word form.** A lemma attested once, in an inflected form, is a hapax here. This is a lemmatized corpus, so lemma frequency is the only figure the index supports; a form-based hapax count would need the token layer.
 - **At most 3 occurrences are retained per lemma** during aggregation (hard cap, in text and position iteration order). The display says "Angezeigt sind die ersten N von M Vorkommen" whenever the stored count exceeds them. For `maxFreq <= 3` the cap cannot truncate; it exists so the aggregation stays bounded.
 - **Filter chain**, in this order: no authority entry (kept only when neither facet is set) → proper names (`hideNames`, default **on**, any tag `NAM`) → numerals (`hideNumerals`, default **on**, but only when `NUM` is the *sole* tag, so ADJ/NUM compounds survive) → function words (`hideFunctionWords`, default **off**, any tag in `FUNCTION_WORD_POS`, but lemmata with no tags at all are kept) → PoS facet → initial letter. An explicitly chosen PoS facet always overrides the identically named default filter.
-- **The percentage in the header uses the unfiltered count** (`rawCount / totalTypes`), and "ausgeblendet" is `rawCount - shown`. So the headline figure describes the corpus, not the current filter setting.
+- **The percentage in the header uses the unfiltered count** (`rawCount / totalTypes`), and "ausgeblendet" is `rawCount` minus the whole filtered list, not minus the visible page. So the headline figure describes the corpus, not the current filter setting.
 - **Per-text tab counts distinct lemmata, not attestations:** `abs` = number of qualifying lemma IDs occurring in that text, `rel` = `abs / text.wordCount * 1000`.
+
+### H.2a What `lineEnds[]` actually points at (prerequisite for H.3 and H.4)
+
+Both verse tools read `text.lineEnds[]` from the corpus index. Its definition is narrower than "end of verse" and is the main source of misreading:
+
+- An entry exists **only for `<l>` elements containing at least one indexed word.** A verse whose tokens carry no `@lemmaRef` is absent from `lineEnds[]` entirely, and therefore from every count derived from it.
+- The entry is the §B position of the **last indexed word** of that verse, not of the last word. If the final token of a verse is unannotated, `lineEnds[]` points at a word inside the verse, and what the rhyme tools treat as the rhyme word is not the rhyme word.
+- Every position in `lineEnds[]` is guaranteed to have an ID in `words[]`: the index appends to `words[]` and to the line frame in the same step (`build-corpus-index.py`, single-pass `iterwalk`). Guards of the form `if (!lemmaId) continue` in the consuming code are dead code against a consistent index, not a filter.
+
+**Multi-`@lemmaRef` status:** `words[pos]` stores the **first** ID only, while `lemmata` lists the position under every referenced ID. Measured 2026-07-31 over all 7,532,982 annotated tokens: **0 tokens carry more than one reference.** Every place below where the two fields are said to diverge is therefore a latent property today, not a present distortion. It becomes real the moment an ingest introduces multi-reference tokens.
 
 ### H.3 Rhyme dictionary (#106)
 
@@ -815,6 +825,7 @@ for each text with non-empty lineEnds[] and words[] and containing targetId:
         if lineEnds[k] not in targetPositions: continue
         for delta in (-1, +1):
             j = k + delta
+            if j < 0 or j >= len(lineEnds): continue     # no wrap-around
             partnerId = text.words[lineEnds[j]]
             if partnerId == targetId and delta == -1: continue   # count self-rhyme once
             if rhymesWith(normalized[targetId], normalized[partnerId]):
@@ -825,8 +836,8 @@ rhymesWith(a, b):
 ```
 
 - **"Adjacent" means adjacent index in `lineEnds[]`**, i.e. the preceding and following *verse of the same text*, not adjacency by `@n`. The pairing assumption is the rhyming couplet. Cross rhyme (distance 2) is **not** captured, and the UI says so.
-- **The two sides of a pair are read from different index fields, deliberately.** The target side uses `text.lemmata[targetId]` (all positions, so multi-`@lemmaRef` tokens count), the partner side uses `text.words[pos]` (the **first** ID only). A partner lemma that only ever appears as a second `@lemmaRef` is therefore invisible. Reading the target side the same way would silently drop target attestations, which is the worse error.
-- **The rhyme criterion is graphemic, on MHG-normalized lemma forms**, not phonetic, and not on the original token. It is a *heuristic*, explicitly a minimal variant; the full treatment (original tokens, phonetics) is parked in #109. The 2-character fallback is gated on both forms being short, otherwise high-frequency short words flood every target.
+- **The two sides of a pair are read from different index fields, deliberately.** The target side uses `text.lemmata[targetId]` (all positions, so multi-`@lemmaRef` tokens count), the partner side uses `text.words[pos]` (the **first** ID only). A partner lemma that only ever appears as a second `@lemmaRef` would therefore be invisible (see H.2a: no such token exists today). Reading the target side the same way would silently drop target attestations, which is the worse error.
+- **The rhyme criterion is graphemic, on MHG-normalized lemma forms**, not phonetic, and not on the original token. A partner without a lexicon entry has an empty normalized form and therefore never rhymes. It is a *heuristic*, explicitly a minimal variant; the full treatment (original tokens, phonetics) is parked in #109. The 2-character fallback is gated on both forms being short, otherwise high-frequency short words flood every target.
 - Retained evidence per partner is capped at 1000 pairs; the displayed list is capped at 200 partners after the `minCount` filter.
 
 ### H.4 Verse-ending profile and "Reim-Druck" (#106 points 2 and 3)
@@ -843,10 +854,10 @@ rhymePressure = endCounts[l] / (totalCounts[l] or endCounts[l]) * 100
 ```
 
 - **"Reim-Druck" is scope-local on both sides.** Numerator and denominator come from the same scope, so a value for one text answers "how often does this lemma land at the verse end *in this text*", not "compared to the corpus". At `scope = corpus` the denominator still excludes prose, because prose texts are filtered out before counting.
-- **Numerator and denominator come from different index fields**, and this asymmetry is systematic: `endCounts` reads `text.words[pos]` (first `@lemmaRef` only), `totalCounts` reads `text.lemmata` (every ID). A lemma that frequently appears as a second `@lemmaRef` therefore gets a rhyme pressure that is too *low*. The figure is safe for comparing lemmata with comparable annotation depth and unsafe as an absolute statement. Fixing it needs a position-to-all-IDs map that the index does not carry today.
+- **Numerator and denominator come from different index fields:** `endCounts` reads `text.words[pos]` (first `@lemmaRef` only), `totalCounts` reads `text.lemmata` (every ID). With multi-reference tokens present, the numerator could only ever lose attestations while the denominator stays exact, so the figure would be too *low*, never too high. Today the two fields agree (H.2a: 0 multi-reference tokens), so the value is exact. This is a property to preserve, not a defect to fix: an ingest that introduces multi-reference tokens silently biases this column downward.
 - **The `|| endCount` fallback** in the denominator turns a missing total into 100 %. It cannot trigger from consistent index data (a verse-ending attestation is also an attestation) and exists as a division guard.
-- Verses whose last annotated word has no lemma ID still count in `verseCount`. So `sum(shareOfVerses)` over all lemmata is below 100 %, by exactly the share of unannotated verse endings.
-- Sorting is by `endCount` only, then truncated to `topN`. The optional function-word filter keeps lemmata with **no** PoS tags (conservative), unlike H.2 where the same filter also keeps them but the name filter does not.
+- `sum(shareOfVerses)` over all lemmata is **exactly 100 %** (up to rounding), because `verseCount` and `endCounts` are built from the same `lineEnds[]` entries and every entry has an ID (H.2a). The share is therefore a share of *annotated* verses; verses without a single annotated token are in neither number. Do not read it as a share of all verses in the text.
+- Sorting is by `endCount` only, then truncated to `topN`. The optional function-word filter keeps lemmata with **no** PoS tags, same as in H.2. There is no facet override here: a chosen filter always applies.
 
 ### H.5 Not covered here
 

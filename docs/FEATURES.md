@@ -283,7 +283,7 @@ Corpus-wide text analysis using pre-built indexes. Zwölf Werkzeuge in zwölf Pl
 **Versendings-Profil (#106 Punkt 2):**
 - Top-N häufigste Lemmata am Versende – Scope wählbar: Gesamtkorpus, Autor*in (optgroup) oder Einzeltext
 - Datenpfad: `text.words[lineEnds[i]]` je Vers (Corpus-Index v4.1.x), kein neuer Build-Schritt
-- Spalten: Versende-Belege (absolut), Anteil an allen Versenden des Scopes, **Reim-Druck** = Anteil der Vorkommen des Lemmas am Versende vs. gesamt (#106 Punkt 3: hoher Wert = reimgetrieben, niedriger = semantisch motiviert). Zähler und Nenner sind beide scope-lokal und stammen aus verschiedenen Index-Feldern, was die Kennzahl systematisch nach unten verzerrt: [CONTRACTS §H.4](CONTRACTS.md#h4-verse-ending-profile-and-reim-druck-106-points-2-and-3)
+- Spalten: Versende-Belege (absolut), Anteil an allen Versenden des Scopes, **Reim-Druck** = Anteil der Vorkommen des Lemmas am Versende vs. gesamt (#106 Punkt 3: hoher Wert = reimgetrieben, niedriger = semantisch motiviert). Zähler und Nenner sind beide scope-lokal und stammen aus verschiedenen Index-Feldern, was die Kennzahl verzerren würde, sobald es Tokens mit Mehrfach-Lemmareferenz gibt (heute keine): [CONTRACTS §H.4](CONTRACTS.md#h4-verse-ending-profile-and-reim-druck-106-points-2-and-3)
 - Funktionswort-Filter (gleiche POS-Menge wie Wortfrequenz/Hapax), Lemma-Links auf die Lemma-Seiten
 - Nur Versdichtung (leere `lineEnds` -> übersprungen); Use Case aus dem Issue: Reim-Stil-Vergleich Wolfram/Hartmann/Gottfried
 
