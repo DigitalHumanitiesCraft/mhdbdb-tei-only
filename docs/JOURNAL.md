@@ -691,3 +691,49 @@ Zweiter Befund derselben Art: die Umformulierung aus #294 ließ den Anker in `do
 **Nebenbei, aber mit Dauerwirkung:** `build-authority-index.py` las den Werksautor mit `.//tei:author` statt `./tei:author`. Alle 584 Werke tragen seit dem Zotero-Sync ein `<biblStruct>` mit den Autoren der **Edition**; ein Werk ohne eigenen `<author>` hätte still den Editionsautor bekommen. Heute betrifft es kein einziges, der Index bleibt byte-identisch, und die Verengung schließt den Fall aus, bevor er entsteht. Das Schema stützt sie: es erlaubt den Werk-Autor nur als direktes `<bibl>`-Kind und erlaubt zugleich null Vorkommen.
 
 **Phase:** Betrieb, Doku plus zwei Build-Skripte, kein Rebuild nötig. PR #305.
+
+---
+
+## 2026-07-31 – Health-Check-Scorecard (#140, angefordert von KZW am 28.07.)
+
+**Flow (4 der 13 stabilen Docs end-to-end gelesen: CONTRACTS, DATA-MODEL, INDEX, TEI-MODEL):** Die gefundenen Defekte liegen in diesen vier durchgängig in den per PR-Nachtrag gewachsenen Abschnitten, nicht in den am Stück geschriebenen. INDEX „Recent Milestones" (41 Zeilen, endet am 10.07., ein Eintrag meldet ein offenes Issue als geshippt), CONTRACTS §A (korrigiert sich im Fließtext selbst), TEI-MODEL §10 (führt zwei geschlossene Punkte als offen und widerspricht dabei §8.1 derselben Datei). **KZWs Eindruck aus #140 hat damit eine prüfbare Ursache: nicht ein Schreibstil, sondern Absätze, die angehängt wurden, ohne den davor anzufassen.** → #315, #316
+
+**Algorithmen (3 gezogen + 2 Kurzproben):** MHG-Normalisierung in beiden Sprachen, Positionszählung samt Index-Aufbau, Nähesuche mit Fensterwahl und Dedup, dazu 3-Stufen-Auflösung und Cache-Invalidierung. **Alle fünf stimmen vollständig**, inklusive Grenzfälle, Guards und Reihenfolge. Es driften ausschließlich Messzahlen und Zeilenanker, nie die Logik. → #318
+
+**XPaths (22 von 27 Zeilen geprüft, plus Missing-Check):** zwei Zeilen beschreiben falsches Verhalten (`biblStruct/@type` wird nie gelesen, Korpus-Titel steht auf dem Vor-#228-Stand: mein Versäumnis aus PR #306), fünf Produktionen fehlen ganz, darunter `extract-variants.py` als komplettes Skript. Keine Karteileichen. Der wertvollste Fund: `text.genre` ist **in allen 667 Texten leer**, weil kein TEI-File ein `term[@type="genre"]` trägt, steht aber ohne Hinweis in Schema und Tabelle. → #318
+
+**Gates:** Em-Dash-Gate grün, und der Frontend-Bestand ist gate-unabhängig nachgeprüft wirklich sauber. KZWs Meldung vom 28.07. betraf ein mehrzeiliges Template-Literal im Hapax-Werkzeug; testweise eingebaut, vom Gate mit Datei und Zeile gemeldet, danach zurückgebaut. Zur bekannten `docs/`-Lücke (siehe Eintrag oben) kommen zwei neue: `GLOBS` enthält **überhaupt kein `*.md`-Muster** und keine Authority-Files, obwohl `works.xml`-Notizen im Reader und in der API rendern. Für ASCII-Umlaut-Substitute gibt es **gar kein Gate**, mit sichtbarer Folge: nach 252 Korrekturen am 12.07. sind in drei Wochen sieben neue dazugekommen, einer davon am Tag des Checks. → #317
+
+**Rebuild-Test:** für die geprüften Pfade ja, inzwischen einschließlich der Analyse-Werkzeuge über §H (die frühere Scorecard musste sie noch ausnehmen). Ein Nachbau träfe an zwei Rändern daneben: `authorRef` ohne `#` und ein `genre`-Feld, das er füllen wollte.
+
+**Ein gemeldeter Drift war keiner, und das ist der lehrreichste Teil.** Der Prüfdurchgang meldete die Breve-Zahlen in §A als veraltet (469 → 467, 405 → 403). Beim Nachmessen kam heraus, dass die Zahl davon abhängt, ob man vor dem Zählen Unicode-NFD anwendet: ohne Normalisierung 467, mit 469. Für die Aussage, die §A trifft (Schritt 0 komponiert das zerlegte Breve, Schritt 3 löst es auf), ist die NFD-Zählung die richtige, die Doku-Zahl also korrekt. Sechs weitere Angaben desselben Absatzes stimmen exakt, bis auf die Verteilung über zehn Basiszeichen. **Der Mangel ist nicht die Zahl, sondern dass keine Messvorschrift dabeisteht.** Wer die fehlende Vorschrift nicht bemerkt, misst anders und „korrigiert" eine richtige Angabe in eine falsche. Genau das wäre hier ohne Gegenmessung passiert.
+
+---
+
+## 2026-07-31 – Eine Kennzahl ist so gut wie der Name ihres Nenners
+
+**Summary:** #309 sah nach einer Kleinigkeit aus: zwei Spaltenbeschriftungen im Versendings-Profil an CONTRACTS §H angleichen. Beim Nachmessen, wie groß der Unterschied zwischen „Verse" und „annotierte Verse" überhaupt ist, kam die Zahl heraus, die den ganzen PR umgekrempelt hat: **20,13 % aller `<w>`-Elemente im Korpus tragen kein `@lemmaRef`**, und die Abdeckung schwankt je Text zwischen **58,4 % und 100 %** (Median 77,4 %, 358 von 667 Texten unter 80 %).
+
+Damit war es kein Beschriftungsproblem mehr. Jede „pro 1000"-Rate und jede „Wörter"-Angabe im Projekt teilt durch eine Größe, die je Text unterschiedlich weit hinter der Textlänge zurückbleibt. Die Hauptseite nannte die Spalte schlicht „Wörter", und `hilfe-korpussuche.html` erklärte sie ausdrücklich falsch: „Gesamtlänge des Textes in Wörtern".
+
+**Der lehrreiche Teil kam aus dem Review.** Mein erster Entwurf behauptete, schwächer annotierte Texte schnitten systematisch höher ab. Der Einwand: wären die Lücken zufällig über Lemmata verteilt, kürzte sich der Effekt exakt weg, und beim Hapax-Werkzeug wird auch der Zähler gedrückt, weil eine unannotierte seltene Form als Rarität unsichtbar ist. Beides stimmt. Der Bias ist `coverage(Lemma) / coverage(Text)`, er kehrt sich für Funktionswörter um, und aus der bloßen Abdeckungsdifferenz folgt gar nichts.
+
+Nachgemessen statt entschärft: Spearman −0,17 über die 345 Texte ab 1000 Tokens, Faktor 2 zwischen den Abdeckungsquartilen, und kein Längen-Artefakt (Länge korreliert mit Abdeckung, aber nicht mit der Rate). Der Nenner-Effekt überwiegt also, moderat. Der zweite Einwand traf dann die Formulierung: „der Nenner-Effekt gewinnt" ist die kausale Lesart einer Beobachtungskorrelation, und Abdeckung ist im Korpus nicht zufällig verteilt (Gattung, Ingest-Ära). Jetzt steht dort „consistent with", mit den unkontrollierten Confounds im Klartext.
+
+**Was davon bleibt:** ein Contract-Abschnitt, der eine Zahl nennt, muss sagen, womit sie nachzurechnen ist. Die Messung war als zitierfähig behauptet und existierte nur in meiner Shell. Sie liegt jetzt als `scripts/audit/coverage-bias-check.py` bei. Der Unterschied zwischen „ich habe gemessen" und „das kann jeder nachmessen" ist genau der Unterschied, den §H für alle anderen Zahlen längst einfordert.
+
+**Phase:** Betrieb, reine Beschriftung plus Doku, kein Rebuild. PR #313.
+
+---
+
+## 2026-07-31 – Die vierte Stelle, die niemand pflegt, weil sie nichts kaputt macht
+
+**Summary:** Der Authority-Index wurde für #307 auf 1.8.0 gebumpt. Die drei Stellen, die dabei immer angefasst werden (Build-Skript, `corpus-loader.js`, `TEI-MODEL.md` §11), waren alle korrekt. Die unabhängige Gegenprüfung fand eine vierte: `docs/INDEX.md` nannte „Corpus Index v4.2.0, Authority Index v1.7.0" und lag damit schon **vor** diesem Branch zwei Minor-Versionen zurück.
+
+**Warum das interessant ist:** die Pflegeanweisung existierte. `TEI-MODEL.md` §11 nennt die Stelle ausdrücklich („Pflege bei jedem Index-Bump: hier, in `corpus-loader.js`, im Build-Skript, in INDEX.md §Status"). Sie stand da, sie war richtig, und sie hat nicht geholfen. Die drei anderen Stellen werden gepflegt, weil ihr Auseinanderlaufen etwas kaputt macht: der Cache invalidiert nicht, Nutzer bekommen den neuen Index nie zu sehen, und ein Gate meldet es. Die vierte Stelle bricht nichts. Sie wird still falsch.
+
+`check-index-versions.py` prüft deshalb jetzt acht Stellen statt vier, die beiden Doku-Angaben eingeschlossen. Belegt mit zwei Mutationen (INDEX.md 1.8.0 → 1.7.0, TEI-MODEL 4.2.1 → 4.2.0, beide Exit 1, danach wieder 0). Eine Doku-Notiz mehr hätte das nicht verhindert, denn die Notiz war ja schon da.
+
+**Der übertragbare Teil ist nicht der Merksatz, sondern der Beleg:** die korrekte Pflegeanweisung existierte und hat nichts verhindert. Das entkräftet den Reflex, in solchen Fällen noch eine Doku-Notiz zu schreiben. Derselbe Schluss trägt den Umlaut-Befund desselben Tages (#317).
+
+**Phase:** Betrieb. PR #312.
