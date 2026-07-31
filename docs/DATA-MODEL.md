@@ -808,6 +808,8 @@ Umgekehrt gilt: einen Bump ohne Inhaltsänderung setzt man nicht. Er zwingt jede
 
 Einzelzeiten, gemessen am 2026-07-31 über 667 Korpusdateien auf einem Windows-Notebook: `build-corpus-index.py` 192 s, `extract-variants.py --apply` 100 s, `build-authority-index.py` 14 s, `build-api.py` 5 s. Größenordnungen für die Planung, keine Zusicherung.
 
+Ein Rebuild entfällt, eine Prüfung nicht: `<div>`, `<lg>` und `<pb>` sind für die Indexe unsichtbar, für die **Leseansicht** aber nicht (sie rendert Kapitel-`<div>`, Strophen und Seitenwechsel, siehe #17/#101). Wer daran etwas ändert, sieht sich den Text im Reader an, auch wenn die Tabelle 0 s sagt.
+
 **Zwei Eigenheiten von `variants.xml`,** die den Diff größer machen können als erwartet und beide kein Fehler sind: eine hinzugefügte oder entfernte Korpusdatei ändert die Datei auch dann, wenn sie kein einziges variantentragendes `<w>` enthält (die Dateizahl steht im Kopf). Und pro Type-ID entscheidet die häufigste Form im **gesamten** Korpus, ein Eingriff in einem Text kann also Einträge umschreiben, die nur in anderen Texten attestiert sind.
 
 **Im Zweifel bauen.** Seit #125 erzeugt ein Rebuild aus unverändertem Quellstand keinen Diff. Eine Fehleinschätzung nach oben kostet also nur Wartezeit, eine nach unten erzeugt stillen Drift. Die Tabelle spart Zeit, wo der Fall klar ist, sie ersetzt das Bauen im Grenzfall nicht.
