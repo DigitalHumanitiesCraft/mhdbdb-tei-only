@@ -73,6 +73,13 @@ def collect_counts() -> dict:
     return counts
 
 
+# Zahl unterhalb derer der Ziffern-Scan (find_stale_numbers) gar nicht erst
+# laeuft: zu viele False Positives aus Tabellen-Indizes, Prozenten,
+# Abschnitts- und Versionsnummern. Als Konstante, damit die Anker-
+# Selbstpruefung dieselbe Schwelle melden kann statt sie zu verschweigen.
+NUMERIC_SCAN_MIN = 100
+
+
 # Explizite Ausnahme-Mengen statt -1/-2-Offsets (Review PR #222): beim
 # naechsten Werkzeug-Zuwachs hier pflegen, nicht in Zaehl-Magie suchen.
 NON_TOOL_MODULES = {'tei-ui.js'}                 # Router, kein Werkzeug
@@ -94,8 +101,11 @@ def collect_code_counts() -> dict:
     - Authority-Explorer = die sechs show*Btn-Buttons der Authority-Sidebar
     - Entry Points = Explorer + Werkzeuge
     - "weitere Werkzeuge" (hilfe-playground §5) = Werkzeuge minus
-      PRE_DESCRIBED_TOOLS"""
+      PRE_DESCRIBED_TOOLS
+    - UI-Module = alle .js unter playground/js/ui/ (Gesamtzahl des
+      Modulbaums in ARCHITECTURE.md §UI Layer, #276)"""
     counts = {}
+    counts['ui_modules'] = len(glob.glob('playground/js/ui/**/*.js', recursive=True))
     module_names = {Path(m).name for m in glob.glob('playground/js/ui/tei/*.js')}
     known = NON_TOOL_MODULES | MODAL_MODULES | PRE_DESCRIBED_TOOLS
     missing = known - module_names
@@ -145,6 +155,22 @@ DOC_TARGETS = [
     # CONTRACTS.md:315 beschreibt den Ist-Aufbau des Variants-Dictionary; der
     # Datumsstempel dort macht die Zeile nicht historisch.
     ('docs/CONTRACTS.md', ['variants_forms', 'variants_normalized']),
+    # ARCHITECTURE.md und DECISIONS.md standen bis 2026-07-31 in KEINER
+    # Datenzahl-Liste (#276, Luecke 1): ARCHITECTURE.md nur in
+    # CODE_DOC_TARGETS, DECISIONS.md ueberhaupt nirgends. Dadurch konnte in
+    # ARCHITECTURE.md "~257k mappings" stehenbleiben, waehrend das Runtime-
+    # Dictionary 234.243 Eintraege hat. ARCHITECTURE.md beschreibt Stufe 2
+    # der Lemma-Aufloesung und den Woerterbuch-Registeraufbau, DECISIONS.md
+    # traegt in ADR-005/ADR-013/ADR-014 Korpus- und Varianten-Zahlen.
+    ('docs/ARCHITECTURE.md', ['corpus_files', 'lexicon_entries',
+                              'variants_forms', 'variants_normalized']),
+    # Achtung ADR-Eigenart: ADRs nennen bewusst historische Zahlen
+    # ("Am Tag der Entscheidung ... 13 Module", "192.472 -> 256.759 Formen").
+    # Die halten der Pfeil-Skip in find_stale_numbers und der
+    # HISTORICAL_MARKERS-Skip in find_stale_wordcounts frei; ohne die beiden
+    # produziert dieses Target Dauer-Fehlalarme und wird abgeschaltet.
+    ('docs/DECISIONS.md', ['corpus_files', 'lexicon_entries',
+                           'variants_forms', 'variants_normalized']),
     # CLAUDE.md is intentionally vague ("~670 TEI texts"), no exact check.
     # User-facing HTML-Seiten (#192): hartkodierte Kennzahlen driften mit
     # jedem Ingest. Konvention (erklaert auf hilfe-daten.html):
@@ -164,6 +190,7 @@ DOC_TARGETS = [
 ]
 
 CODE_LABELS = [
+    ('Playground — UI-Module gesamt (js/ui/)', 'ui_modules'),
     ('Playground — TEI-Analyse-Werkzeuge', 'tei_tools'),
     ('Playground — davon "weitere" (hilfe §5)', 'tei_tools_weitere'),
     ('Playground — Pattern-Module (DESIGN)', 'pattern_modules'),
@@ -179,8 +206,12 @@ CODE_DOC_TARGETS = [
     ('README.md', ['tei_tools', 'authority_explorers', 'entry_points']),
     ('docs/INDEX.md', ['tei_tools', 'entry_points']),
     ('docs/FEATURES.md', ['tei_tools', 'entry_points']),
-    ('docs/ARCHITECTURE.md', ['tei_tools', 'pattern_modules', 'entry_points']),
+    ('docs/ARCHITECTURE.md', ['tei_tools', 'pattern_modules', 'entry_points',
+                              'ui_modules']),
     ('docs/DESIGN.md', ['pattern_modules']),
+    # #276 Luecke 1: DECISIONS.md wurde von keinem der beiden Scans beruehrt.
+    # ADR-002 haelt die Modulzahl (historisch markiert, siehe oben).
+    ('docs/DECISIONS.md', ['ui_modules']),
     ('hilfe-playground.html', ['tei_tools', 'tei_tools_weitere', 'authority_explorers']),
 ]
 
@@ -199,8 +230,70 @@ CODE_ANCHORS = {
     'tei_tools': r'(?:TEI-Analyse-?[Ww]erkzeuge|TEI-Analysewerkzeuge|(?:TEI[- ])?analysis tools|Analyse-Werkzeuge|Werkzeuge)',
     'tei_tools_weitere': r'weitere\s+Werkzeuge',
     'pattern_modules': r'Analyse-Module',
+    # #276 Luecke 2: die Gesamtzahl der Module unter playground/js/ui/ stand
+    # an drei Stellen in drei verschiedenen falschen Auspraegungen, ohne dass
+    # es dafuer ueberhaupt einen Count gab. Der Anker greift bewusst nur das
+    # blanke "Module(n)"/"modules" — qualifizierte Komposita wie
+    # "11 Analyse-Module" gehoeren zu pattern_modules und matchen hier nicht,
+    # weil der Anker unmittelbar hinter der Zahl stehen muss.
+    'ui_modules': r'(?:UI-)?[Mm]odule[ns]?\b',
     'authority_explorers': r'(?:Authority-File-(?:Explorer|Einstiegspunkte)|Authority-Explorer)',
     'entry_points': r'(?:[Ss]earch\s+)?[Ee]ntry\s+[Pp]oints',
+}
+
+# Zeilen im Modul-/Verzeichnisbaum zaehlen Unterverzeichnisse ("├── core/
+# # Core utilities (3 modules)"), nie die Gesamtzahl. Ohne diesen Skip
+# meldet der ui_modules-Anker jede Baumzeile als Drift.
+TREE_LINE_RE = re.compile(r'^\s*[│├└]')
+
+# ADRs und Retrospektiven nennen bewusst den Stand von damals. Der
+# Chronikzeilen-Skip (Datum, Haekchen) greift dort nicht, weil ADR-Fliesstext
+# das Datum in der Ueberschrift traegt, nicht in der Zeile. Marker auf der
+# ganzen Zeile, analog zum hist_ctx-Skip in find_stale_numbers.
+HISTORICAL_MARKERS = re.compile(
+    r'Tag der Entscheidung|Entscheidungszeitpunkt|damals|seinerzeit|seither'
+    r'|historisch|urspr(?:ü|ue)nglich|zum Zeitpunkt|Stand von|at the time')
+
+
+# Was zwischen Zahl und Anker stehen darf: Whitespace-Laeufe, begrenzte
+# HTML-Tags (Stat-Karten haben Zahl und Label in getrennten <p>) und
+# Auszeichnungszeichen (Backticks, Anfuehrungszeichen, Fettschrift) —
+# "43.879 `lemmata`-Eintraege" ist dieselbe Aussage wie "43.879 Lemmata".
+ANCHOR_SEP = r'(?:\s+|[`"„“»«*_]|</?[a-zA-Z][^>]{0,80}>){0,8}'
+
+# Strong keyword anchors (must appear right after the number; in HTML
+# duerfen begrenzt Tags dazwischenliegen, z. B. Stat-Karten
+# "<p>256.759</p><p>orthographische Varianten</p>").
+# Modulweit statt lokal in find_stale_numbers, damit die Anker-
+# Selbstpruefung (#276 Luecke 4) dieselben Muster benutzt.
+NEAR_KEYWORDS = {
+    # F25 (#171): auch "NNN Dateien", "NNN TEI-Dateien" (Bindestrich) und
+    # "NNN Files" matchen — die dominanten Schreibweisen in den Docs.
+    # Bare "Dateien"/"Files" ist vertretbar, weil der Drift-Window-Check
+    # (±2 %) und der Rundungs-/Arrow-Skip False Positives abfangen.
+    'corpus_files': r'(?:TEI(?:-XML)?[-\s](?:files?|Dateien|Texte)|Korpus(?:-?[Dd]ateien)?|(?:mittelhochdeutsche\s+)?TEI-Texte|Dateien|[Ff]iles)',
+    # Kleinschreibung, weil ARCHITECTURE.md die Zahl als "43.879
+    # `lemmata`-Eintraege" fuehrt (Code-Bezeichner im Fliesstext).
+    'lexicon_entries': r'[Ll]emmata',
+    'works': r'Werke',
+    'variants_entries': r'(?:Variant|Eintr[äa]ge)',
+    # Satzanfang und Karten-Labels schreiben das Adjektiv gross
+    # ("Orthographische Varianten" im Stats-Block der Startseite); ohne
+    # die Grossschreib-Variante lief der Anker dort ins Leere und
+    # index.html blieb auf 256.761 stehen, waehrend #138 alle anderen
+    # Seiten auf 256.760 zog.
+    # DATA-MODEL.md und CONTRACTS.md schreiben die Formenzahl englisch
+    # ("variant forms", "raw forms"); ohne diese Alternativen greift dort
+    # kein Anker und der DOC_TARGETS-Eintrag bliebe wirkungslos.
+    'variants_forms': r'(?:Formen|[Oo]rthographische\w*\s+Varianten|(?:[Vv]ariant|[Rr]aw)\s+forms)',
+    # #276 Luecke 3: CONTRACTS.md fuehrt die deduplizierte Zahl als
+    # "Varianten-Schluessel" (Schluessel der Runtime-Map). Ohne diese
+    # Alternative blieb die Stelle jahrelang ungeprueft.
+    'variants_normalized': r'(?:[Nn]ormalisierte\w*\s+(?:Schreibvarianten|Varianten)|[Ee]indeutige\s+Zuordnungen|[Nn]ormalized\s+entries|[Vv]arianten-Schl[üu]ssel|mappings)',
+    'persons': r'Personen',
+    'concepts': r'(?:Konzepte|Begriffe|Kategorien)',
+    'genres': r'(?:Gattungen|Kategorien)',
+    'names': r'(?:Namen|Kategorien)',
 }
 
 
@@ -218,7 +311,7 @@ def find_stale_wordcounts(doc_path: str, current: int, key: str) -> list:
     keywords = CODE_ANCHORS.get(key)
     if not keywords:
         return []
-    anchor = re.compile(r'(?:\s+|</?[a-zA-Z][^>]{0,80}>){0,8}' + keywords)
+    anchor = re.compile(ANCHOR_SEP + keywords)
     words = '|'.join(sorted(NUMBER_WORDS, key=len, reverse=True))
     num_re = re.compile(rf'\b((?i:{words})|\d{{1,2}})\b')
     content = Path(doc_path).read_text(encoding='utf-8')
@@ -243,6 +336,13 @@ def find_stale_wordcounts(doc_path: str, current: int, key: str) -> list:
         line = content[line_start:line_end if line_end != -1 else len(content)]
         if re.search(r'\(20\d\d-|✅|✓', line):
             continue
+        # Modulbaum-Zeilen zaehlen Unterverzeichnisse, nicht Gesamtzahlen
+        # ("├── authority/  # Authority file exploration (7 modules)").
+        if TREE_LINE_RE.match(line):
+            continue
+        # ADR-Fliesstext mit explizitem Damals-Marker (#276).
+        if HISTORICAL_MARKERS.search(line):
+            continue
         line_no = content[:m.start()].count('\n') + 1
         ctx = content[max(0, m.start() - 25):m.end() + 40].replace('\n', ' ').strip()
         findings.append((line_no, raw, ctx[:80]))
@@ -258,44 +358,17 @@ def find_stale_numbers(doc_path: str, current: int, key: str) -> list:
     still says 666" without flagging arbitrary numbers near generic
     words like "TEI" or "files".
 
-    Counts below 100 are not scanned: too many false positives from
-    table indices, percentages, section numbers, version strings."""
-    if not Path(doc_path).exists() or current < 100:
+    Counts below NUMERIC_SCAN_MIN are not scanned: too many false positives
+    from table indices, percentages, section numbers, version strings."""
+    if not Path(doc_path).exists() or current < NUMERIC_SCAN_MIN:
         return []
 
-    # Strong keyword anchors (must appear right after the number; in HTML
-    # duerfen begrenzt Tags dazwischenliegen, z. B. Stat-Karten
-    # "<p>256.759</p><p>orthographische Varianten</p>").
-    near_keywords = {
-        # F25 (#171): auch "NNN Dateien", "NNN TEI-Dateien" (Bindestrich) und
-        # "NNN Files" matchen — die dominanten Schreibweisen in den Docs.
-        # Bare "Dateien"/"Files" ist vertretbar, weil der Drift-Window-Check
-        # (±2 %) und der Rundungs-/Arrow-Skip False Positives abfangen.
-        'corpus_files': r'(?:TEI(?:-XML)?[-\s](?:files?|Dateien|Texte)|Korpus(?:-?[Dd]ateien)?|(?:mittelhochdeutsche\s+)?TEI-Texte|Dateien|[Ff]iles)',
-        'lexicon_entries': r'Lemmata',
-        'works': r'Werke',
-        'variants_entries': r'(?:Variant|Eintr[äa]ge)',
-        # Satzanfang und Karten-Labels schreiben das Adjektiv gross
-        # ("Orthographische Varianten" im Stats-Block der Startseite); ohne
-        # die Grossschreib-Variante lief der Anker dort ins Leere und
-        # index.html blieb auf 256.761 stehen, waehrend #138 alle anderen
-        # Seiten auf 256.760 zog.
-        # DATA-MODEL.md und CONTRACTS.md schreiben die Formenzahl englisch
-        # ("variant forms", "raw forms"); ohne diese Alternativen greift dort
-        # kein Anker und der DOC_TARGETS-Eintrag bliebe wirkungslos.
-        'variants_forms': r'(?:Formen|[Oo]rthographische\w*\s+Varianten|(?:[Vv]ariant|[Rr]aw)\s+forms)',
-        'variants_normalized': r'(?:[Nn]ormalisierte\w*\s+(?:Schreibvarianten|Varianten)|[Ee]indeutige\s+Zuordnungen|[Nn]ormalized\s+entries|mappings)',
-        'persons': r'Personen',
-        'concepts': r'(?:Konzepte|Begriffe|Kategorien)',
-        'genres': r'(?:Gattungen|Kategorien)',
-        'names': r'(?:Namen|Kategorien)',
-    }
-    keywords = near_keywords.get(key)
+    keywords = NEAR_KEYWORDS.get(key)
     if not keywords:
         return []
     # Begrenzt HTML-Tags plus Whitespace-Läufe zwischen Zahl und Anker
     # erlauben (Stat-Karten: Zahl und Label in getrennten, eingerückten <p>).
-    anchor = re.compile(r'(?:\s+|</?[a-zA-Z][^>]{0,80}>){0,8}' + keywords)
+    anchor = re.compile(ANCHOR_SEP + keywords)
 
     # Drift window: 2 absolute or 2% relative (whichever is larger). Die
     # fruehere 50er-Kappung machte das Audit blind fuer jeden Backfill/Ingest
@@ -343,6 +416,49 @@ def find_stale_numbers(doc_path: str, current: int, key: str) -> list:
             ctx = content[ctx_start:m.end() + 30].replace('\n', ' ').strip()
             findings.append((line_no, raw, ctx[:80]))
     return findings
+
+
+def check_anchor_coverage(counts: dict, code_counts: dict) -> list:
+    """Selbstpruefung: welches konfigurierte (Datei, Key)-Paar prueft nichts?
+
+    Hintergrund (#276 Luecke 4): docs/ARCHITECTURE.md stand mit drei Keys in
+    CODE_DOC_TARGETS, und keiner der drei Anker hatte einen einzigen Treffer
+    in der Datei. Das Target war sauber konfiguriert, das Audit meldete gruen,
+    und geprueft wurde nichts. Das ist kein Fehler — eine Datei darf ueber
+    einen Count schweigen — aber es darf nicht unsichtbar bleiben, sonst
+    zaehlt man Targets und haelt sie fuer Abdeckung.
+
+    Gemeldet werden vier Zustaende:
+      missing-file  Pfad existiert nicht (Umbenennung, Tippfehler)
+      no-anchor     kein Anker-Muster fuer den Key hinterlegt
+      below-min     Ist-Wert unter NUMERIC_SCAN_MIN, Ziffern-Scan laeuft nie
+      no-hit        Anker kommt im ganzen Dokument nicht vor
+    """
+    gaps = []
+    scans = [(DOC_TARGETS, NEAR_KEYWORDS, counts, True),
+             (CODE_DOC_TARGETS, CODE_ANCHORS, code_counts, False)]
+    for targets, anchors, values, numeric in scans:
+        for doc_path, keys in targets:
+            path = Path(doc_path)
+            if not path.exists():
+                for key in keys:
+                    gaps.append((doc_path, key, 'missing-file', ''))
+                continue
+            content = path.read_text(encoding='utf-8')
+            for key in keys:
+                pattern = anchors.get(key)
+                if not pattern:
+                    gaps.append((doc_path, key, 'no-anchor',
+                                 'kein Anker-Muster hinterlegt'))
+                    continue
+                if numeric and values[key] < NUMERIC_SCAN_MIN:
+                    gaps.append((doc_path, key, 'below-min',
+                                 f'Ist-Wert {values[key]} < {NUMERIC_SCAN_MIN}'))
+                    continue
+                if not re.search(pattern, content):
+                    gaps.append((doc_path, key, 'no-hit',
+                                 'Anker kommt im Dokument nicht vor'))
+    return gaps
 
 
 def main():
@@ -400,6 +516,23 @@ def main():
         print()
         print(f'  Total potential drift hits: {total_drift}')
         print('  Note: heuristic scan; review manually before editing.')
+
+    print()
+    print('=== Anker-Abdeckung (Selbstpruefung) ===')
+    print()
+    gaps = check_anchor_coverage(counts, code_counts)
+    if not gaps:
+        print('  Jedes konfigurierte (Datei, Key)-Paar hat mindestens einen')
+        print('  Anker-Treffer im Dokument.')
+    else:
+        for doc_path, key, kind, detail in gaps:
+            suffix = f' — {detail}' if detail else ''
+            print(f'  [{kind}] {doc_path} / {key}{suffix}')
+        print()
+        print(f'  {len(gaps)} konfigurierte Paare pruefen derzeit nichts.')
+        print('  Kein Fehler und kein Exit-Code: eine Datei darf ueber einen Count')
+        print('  schweigen. Aber ein Target ohne Anker-Treffer ist derselbe blinde')
+        print('  Fleck wie ein fehlendes Target, nur schwerer zu sehen (#276).')
 
     if args.check and total_drift > 0:
         sys.exit(1)
