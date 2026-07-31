@@ -438,7 +438,7 @@ Das `<w>`-Element ist die zentrale Annotationseinheit. Im Soll-Modell stammen al
 | `@ana` | **Standard** (att.global.analytic) | nein | ~5.9M (migriert aus `@meaningRef`, Phase B1) | behalten |
 | `@corresp` | **Standard** (att.global) | nein | ~7.5M (migriert aus `@wordRef`, Phase B2; URI → `variants.xml`) | behalten |
 
-Korpus zum Audit-Zeitpunkt (#32, 2026-04, vor WZB): 9,282,982 `<w>`-Elemente in 666 Dateien; 20.4% ohne `@lemmaRef` (unannotierte Wörter – werden vom Corpus-Index übersprungen, siehe CONTRACTS.md Sec. B). Aktueller Stand: 667 Dateien, 9.432.130 `<w>` (Messung 2026-06-10 für den Code4Lib-Artikel, #142).
+Korpus zum Audit-Zeitpunkt (#32, 2026-04, vor WZB): 9,282,982 `<w>`-Elemente in 666 Dateien; 20.4% ohne `@lemmaRef` (unannotierte Wörter – werden vom Corpus-Index übersprungen, siehe CONTRACTS.md Sec. B). Aktueller Stand: 667 Dateien, 9.431.294 `<w>`, davon 7.532.982 mit `@lemmaRef` und 1.898.312 ohne (20,13 %), gemessen 2026-07-31 mit `scripts/audit/quantify-unannotated-tokens.py`. Die Angabe 9.432.130 vom 2026-06-10 (Code4Lib-Artikel, #142) liegt vor den Token-Entfernungen aus #138 und #236.
 
 > **Wichtig:** `@lemmaRef` ist seit TEI P5 3.3.0 ein Standard-Attribut der Klasse `att.linguistic` und musste **nicht** migriert werden. `@meaningRef` und `@wordRef` **waren** die Validierungsblocker (keine TEI-Standard-Attribute); sie wurden korpusweit zu `@ana` bzw. `@corresp` migriert (Phase B1/B2, abgeschlossen – 0 verbleibende Vorkommen, 667/667 Dateien mit `@ana`).
 
