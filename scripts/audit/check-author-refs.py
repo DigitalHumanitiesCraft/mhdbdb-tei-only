@@ -8,13 +8,16 @@ geprueft hat: die Referenz loest ja auf, und ein leeres Element ist
 schema-valide (mhdbdb.rnc verlangt keinen Textinhalt).
 
 Geprueft wird das Feld, aus dem der Korpus-Index text.author speist
-(build-corpus-index.py, //tei:titleStmt/tei:author). Vier Klassen:
+(build-corpus-index.py, //tei:titleStmt/tei:author; der Index nimmt bei
+mehreren Autoren nur den ersten, das Audit prueft alle). Fuenf Klassen:
 
   leer        <author ref="..."/> ohne Textinhalt: Text erscheint autorlos
   toter-ref   @ref zeigt auf eine ID, die es in persons.xml nicht gibt
-  praefix     @ref traegt den Dateinamen ("persons.xml#person_N"). Erlaubt,
-              aber im Korpus die Ausnahme; der Rest schreibt "#person_N"
+  praefix     @ref weicht von der Form "#person_N" ab, entweder mit
+              Dateinamen davor oder ganz ohne Doppelkreuz. Beides loest auf,
+              beides ist im Korpus die Ausnahme
   abweichend  Textinhalt != preferred-Name der referenzierten Person
+  ohne-ref    <author> ganz ohne @ref (heute 0)
 
 Nur "leer" und "toter-ref" sind eindeutig Fehler. "abweichend" ist oft eine
 legitime bibliographische Variante und braucht eine fachliche Entscheidung,
@@ -43,7 +46,7 @@ def preferred_names(root: Path) -> dict:
     for person in tree.xpath('//tei:person', namespaces=NS):
         pid = person.get('{http://www.w3.org/XML/1998/namespace}id')
         name = person.xpath('./tei:persName[@type="preferred"]/text()', namespaces=NS)
-        out[pid] = name[0].strip() if name else ''
+        out[pid] = ' '.join(name[0].split()) if name else ''
     return out
 
 
@@ -67,7 +70,11 @@ def main():
             if not raw:
                 ohne_ref.append((sigle, text))
                 continue
-            if '#' in raw and not raw.startswith('#'):
+            if not raw.startswith('#'):
+                # Deckt beide Abweichungen ab: den Dateinamen davor
+                # ("persons.xml#person_N") und das ganz fehlende Doppelkreuz
+                # ("person_N"). Beides loest heute im Frontend auf, beides ist
+                # eine stille Abweichung von der Konvention der uebrigen Texte.
                 praefix.append((sigle, raw))
             pid = raw.split('#')[-1]
             if pid not in pref:
@@ -86,7 +93,7 @@ def main():
     print(f'  toter @ref                   {len(tot)}')
     for sigle, raw in tot:
         print(f'      {sigle:6} {raw}')
-    print(f'  @ref ohne #-Praefixform      {len(praefix)}')
+    print(f'  @ref nicht in der Form #ID   {len(praefix)}')
     for sigle, raw in praefix:
         print(f'      {sigle:6} {raw}')
     print(f'  ohne @ref                    {len(ohne_ref)}')

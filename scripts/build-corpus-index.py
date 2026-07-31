@@ -104,7 +104,13 @@ def extract_metadata(filepath):
         author_nodes = tree.xpath('//tei:titleStmt/tei:author', namespaces=ns)
         if author_nodes:
             author_el = author_nodes[0]
-            author = author_el.text.strip() if author_el.text else ''
+            # itertext() statt .text (#228): schema/mhdbdb.rnc erlaubt in
+            # titleStmt/author <name>-Kinder. .text laese dann den leeren
+            # Textknoten davor und der Index bekaeme einen leeren Autor,
+            # genau die Klasse Fehler, die dieser Zweig gerade beseitigt.
+            # Heute hat keine der 667 Dateien dort Kindelemente, der Index
+            # bleibt also byte-identisch.
+            author = ''.join(author_el.itertext()).strip()
             authorRef = author_el.get('ref', '')
 
         # Get work reference

@@ -33,6 +33,7 @@ scripts/
 │   ├── audit-tei-corpus.py      # Element/Attribut-Inventar des Korpus
 │   ├── audit-authority-files.py # Struktur-Audit der Authority Files (authority→authority)
 │   ├── check-authority-cross-refs.py # Korpus→Authority Cross-Ref-Integrität (#44/#115)
+│   ├── check-author-refs.py     # titleStmt/author gegen persons.xml (#228)
 │   ├── check-index-version-bump.py # Inhalt geändert => Version gebumpt (#154)
 │   ├── check-index-versions.py  # Index-Versions-Konstanten konsistent
 │   ├── check-lexicon-senses.py  # jeder <entry> in lexicon.xml hat mindestens einen <sense>
@@ -103,6 +104,9 @@ Struktur-, Querverweis- und Datenqualitäts-Audit für alle 8 Authority Files. P
 
 ### `check-authority-cross-refs.py`
 Korpus→Authority Cross-Reference-Integrität (#44/#115): scannt alle `tei/*.tei.xml` nach `@lemmaRef`/`@ana`/`@corresp`/`@ref`/`@target`, die auf nicht-existente Authority-`xml:id`s zeigen. `--check` macht daraus ein CI-Gate (scheitert bei unresolved refs außerhalb `lexicon.xml`; `lexicon.xml` wird als ID-Set-Ratsche gegen die committete `lexicon-baseline.json` gegated — neue dangling IDs = rot, tolerierter Backfill-Altbestand = grün, #152). `--update-baseline` zieht die Ratsche nach gelandetem Backfill nach. Läuft in `data-integrity.yml`.
+
+### `check-author-refs.py`
+Autorangaben im `titleStmt` gegen `persons.xml` (#228): meldet leere `<author ref="..."/>` (Text erscheint autorlos), tote `@ref`, Abweichungen von der Referenzform `#person_N` und Textinhalte, die vom `preferred`-Namen abweichen. `--check` setzt den Exit-Code nur bei den ersten beiden, die Namensabweichung ist oft eine legitime bibliographische Variante. **Läuft bewusst nicht in der CI**, solange der tote `@ref` in VOR offen ist (#308); sonst wäre der Befund ein Blocker für unbeteiligte PRs.
 
 ### `check-index-version-bump.py`
 Versions-Bump-Gate (#154): hat sich der dekomprimierte Inhalt von corpus-/authority-index gegenüber `--base <rev>` geändert, muss der `version`-String mitgeändert sein — sonst invalidiert der Dexie-Cache nicht. Läuft in `data-integrity.yml` (Diff-Base = PR-Base-Tip bzw. `event.before`).
