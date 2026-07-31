@@ -15,7 +15,7 @@
 
 import { buildTextLabelDisambiguator } from '../core/ui-helpers.js';
 import { FUNCTION_WORD_POS } from './word-frequency.js';
-import { fetchWbnetzEntries, decodeHtmlEntities } from '../../../../assets/js/lib/woerterbuchnetz.js';
+import { fetchWbnetzEntries, decodeHtmlEntities, dictionaryTitle, DICTIONARIES } from '../../../../assets/js/lib/woerterbuchnetz.js';
 
 const FREQ_OPTIONS = [
   { value: 1, label: 'Hapaxlegomena (Frequenz = 1)' },
@@ -558,14 +558,25 @@ export class HapaxLegomenaAnalyzer {
     try {
       const results = await fetchWbnetzEntries(lemma.normalized || lemma.lemma);
       if (!dictEl) return;
-      const links = results.flatMap(({ sigle, entries }) =>
-        entries.slice(0, 3).map(e =>
-          `<a href="${escapeHtml(e.wbnetzlink)}" target="_blank" rel="noopener" class="text-brand-700 hover:underline">${escapeHtml(sigle)}: ${escapeHtml(decodeHtmlEntities(e.textstring || e.lemma || lemma.lemma))}</a>`
-        )
-      );
-      dictEl.innerHTML = links.length > 0
-        ? `<span class="font-medium text-slate-500">Wörterbücher:</span> ${links.join('<span class="text-slate-300"> · </span>')}`
-        : `<span class="text-slate-500">In MWB/Lexer nicht als Lemma gefunden, Kandidat für ein echtes Hapax (oder Schreibform-/Lemmatisierungsproblem).</span>`;
+      // Sigle einmal je Wörterbuch statt einmal je Eintrag (#258): bei fünf
+      // Wörterbüchern à drei Einträgen wird die Zelle sonst unlesbar. Der
+      // ausgeschriebene Titel hängt als title-Attribut an der Sigle.
+      const groups = results
+        .filter(({ entries }) => entries.length > 0)
+        .map(({ sigle, entries }) => {
+          const anchors = entries.slice(0, 3).map(e => {
+            // gram mit im Linktext: mehrere Einträge eines Wörterbuchs sind
+            // Homographen und stünden sonst als gleichlautende Links nebeneinander.
+            const gram = e.gram ? ` <span class="text-slate-500">(${escapeHtml(decodeHtmlEntities(e.gram))})</span>` : '';
+            return `<a href="${escapeHtml(e.wbnetzlink)}" target="_blank" rel="noopener" class="text-brand-700 hover:underline">${escapeHtml(decodeHtmlEntities(e.textstring || e.lemma || lemma.lemma))}${gram}</a>`;
+          }).join('<span class="text-slate-400">, </span>');
+          return `<span class="whitespace-nowrap"><span class="font-medium text-slate-500" title="${escapeHtml(dictionaryTitle(sigle))}">${escapeHtml(sigle)}:</span> ${anchors}</span>`;
+        });
+      dictEl.innerHTML = groups.length > 0
+        ? `<span class="font-medium text-slate-500">Wörterbücher:</span> ${groups.join('<span class="text-slate-300"> · </span>')}`
+        // Die Liste der Wörterbücher wird aus DICTIONARIES abgeleitet, damit
+        // dieser Satz beim nächsten Ausbau nicht still falsch wird.
+        : `<span class="text-slate-500">In den abgefragten Wörterbüchern (${escapeHtml(DICTIONARIES.join(', '))}) nicht als Lemma gefunden, Kandidat für ein echtes Hapax (oder Schreibform-/Lemmatisierungsproblem).</span>`;
     } catch (e) {
       if (dictEl) dictEl.textContent = 'Wörterbuchnetz nicht erreichbar.';
     }

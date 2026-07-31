@@ -423,10 +423,11 @@ A–Z-Einstiegsseite zu den Lemma-Seiten. Lädt nur den Authority-Index (via `Co
 
 - **Endpoint**: `https://api.woerterbuchnetz.de/open-api/dictionaries/{sigle}/lemmata/{searchpattern}`
 - **Response**: `{ result_set: [{ sigle, lemma (HTML-encoded), gram, wbnetzid, wbnetzlink }] }`
-- **Queried dictionaries**: MWB, Lexer (both via `/dictionaries/{sigle}/lemmata/{form}`; shared client `assets/js/lib/woerterbuchnetz.js`, `fetchWbnetzEntries()`)
+- **Queried dictionaries** (#258, five since 2026-07-31): MWB, Lexer, LexerN (Lexer-Nachträge), BMZ (Benecke/Müller/Zarncke), FindeB (Findebuch) – all via `/dictionaries/{sigle}/lemmata/{form}`, shared client `assets/js/lib/woerterbuchnetz.js`, `fetchWbnetzEntries()`. The list and its display order live in the exported `DICTIONARIES`, the sigle-to-title resolution in `DICTIONARY_TITLES`; the API serves 52 dictionaries but exposes no titles
 - **Search term**: Normalized lemma form (e.g., "brot" not "brôt")
 - MHDBDB is NOT a directly linkable dictionary in Wörterbuchnetz
-- **Integration**: Dynamic fetch on lemma page, results rendered in dedicated section
+- **Integration**: Dynamic fetch on the lemma page (grouped by dictionary, full titles as headings), in the korpus-search lemma panel and in the hapax detail cell (both compact: sigle plus `title` tooltip, three entries per dictionary)
+- **Load**: five parallel requests per lemma, memoized per normalized form for the session. Measured 2026-07-31 in Chrome: 31–81 ms for all five, 41 ms for the panel's worst case of three lemmata (15 requests) – no throttling observed
 
 ### MWB Online (Mittelhochdeutsches Wörterbuch, Trier)
 
@@ -434,7 +435,7 @@ A–Z-Einstiegsseite zu den Lemma-Seiten. Lädt nur den Authority-Index (via `Co
 - **Deep link**: `https://www.mhdwb-online.de/wb/{lid}` (requires numeric MWB lid)
 - **Metadata API** (HTTP only): `http://tares-neu.uni-trier.de:8080/exist/rest/db/MWB/Services/retrieve_MWB_lemma_metadata.xql?lemma={term}`
 - **API response**: XML with `<entry><MWB><id>, <lemma>, <gram>, <url></MWB><MWV><lexer>, <bmz>, <fb></MWV></entry>`
-- **Current integration**: Dynamic lookup via the Wörterbuchnetz HTTPS API (MWB is a queried dictionary there, alongside Lexer; #73, 2026-05-12). Results render as deep-links to `http://mhdwb-online.de` via `target="_blank"` (navigation to http targets from https pages is not Mixed-Content-blocked)
+- **Current integration**: Dynamic lookup via the Wörterbuchnetz HTTPS API (MWB is one of the five queried dictionaries there; #73, 2026-05-12, list extended in #258). Results render as deep-links to `http://mhdwb-online.de` via `target="_blank"` (navigation to http targets from https pages is not Mixed-Content-blocked). The MWB is still being published, so an empty MWB result for a well-attested word is normal, not a failure
 - **Note**: The Trier metadata API above remains HTTP-only and blocked, but is no longer needed; the Wörterbuchnetz route supersedes it
 
 ### Old MHDBDB

@@ -195,8 +195,9 @@ test.describe('Issue #196: Echte Hapaxlegomena', () => {
     await page.click('[data-hx-detail="0"]');
 
     const dict = page.locator('#hxDict-0');
-    // 2 Wörterbücher × 1 sicherer Eintrag; javascript: gefiltert
-    await expect(dict.locator('a')).toHaveCount(2, { timeout: 15000 });
+    // 5 Wörterbücher (MWB, Lexer, LexerN, BMZ, FindeB) × 1 sicherer Eintrag;
+    // javascript: gefiltert. Hart, damit eine Listenänderung hier auffällt (#258).
+    await expect(dict.locator('a')).toHaveCount(5, { timeout: 15000 });
 
     // Kein Breakout: der komplette bösartige Wert steht IM href-Attribut,
     // im Detail-Panel wurde kein <img> injiziert.
@@ -205,5 +206,27 @@ test.describe('Issue #196: Echte Hapaxlegomena', () => {
       expect(href).toBe(evilHref);
     }
     await expect(page.locator('#hxDetailCell-0 img')).toHaveCount(0);
+  });
+
+  test('#258: Fallback-Text nennt alle abgefragten Wörterbücher', async ({ page }) => {
+    // Ohne Treffer stand hier "In MWB/Lexer nicht als Lemma gefunden" — mit
+    // fünf Wörterbüchern wäre das eine falsche Aussage über die Beleglage,
+    // und genau daran hängt die Deutung "echtes Hapax" (#196).
+    await page.route('https://api.woerterbuchnetz.de/**', route => route.fulfill({
+      status: 404,
+      contentType: 'application/json',
+      body: JSON.stringify({ result_set: [] }),
+    }));
+
+    await page.waitForSelector('[data-hx-detail]', { state: 'visible', timeout: 60000 });
+    await page.click('[data-hx-detail="0"]');
+
+    const dict = page.locator('#hxDict-0');
+    await expect(dict).toContainText('nicht als Lemma gefunden', { timeout: 15000 });
+    // Die volle Liste am Stück prüfen, nicht Sigle für Sigle: "Lexer" ist ein
+    // Teilstring von "LexerN", eine Schleife über die Sigel wäre schon mit
+    // vier von fünf Wörterbüchern grün (Handwerksregel 2).
+    await expect(dict).toContainText('(MWB, Lexer, LexerN, BMZ, FindeB)');
+    await expect(dict.locator('a')).toHaveCount(0);
   });
 });

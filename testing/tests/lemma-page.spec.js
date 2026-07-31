@@ -94,6 +94,51 @@ test.describe('Persistent Lemma Pages', () => {
         expect(firstHref).toMatch(/(mhdwb-online|woerterbuchnetz)\.de/);
     });
 
+    test('#258: Lemma-Seite gruppiert je Wörterbuch und schreibt die Sigle aus', async ({ page }) => {
+        // Stub statt Live-API: die Beleglage der einzelnen Wörterbücher ändert
+        // sich (das MWB erscheint noch und hat "minne" heute nicht), eine
+        // Zusicherung auf echte Treffer wäre morgen falsch.
+        await page.route('https://api.woerterbuchnetz.de/**', route => {
+            const sigle = route.request().url().replace(/^.*\/dictionaries\//, '').split('/')[0];
+            route.fulfill({
+                status: 200,
+                contentType: 'application/json',
+                body: JSON.stringify({ result_set: [
+                    { sigle, lemma: 'br&ocirc;t', gram: 'stN', wbnetzid: 'E1',
+                      wbnetzlink: `https://woerterbuchnetz.de/?sigle=${sigle}&lemid=E1` },
+                ]}),
+            });
+        });
+
+        await page.goto('http://localhost:8080/lemma/?id=879');
+        await page.waitForSelector('#wbnetzSection:not(.hidden)', { timeout: 30000 });
+
+        // Eine Gruppe je Wörterbuch, in der Abfragereihenfolge aus DICTIONARIES
+        const gruppen = page.locator('#wbnetzLinks [data-wbnetz-group]');
+        await expect(gruppen).toHaveCount(5);
+        expect(await gruppen.evaluateAll(els => els.map(e => e.dataset.wbnetzGroup)))
+            .toEqual(['MWB', 'Lexer', 'LexerN', 'BMZ', 'FindeB']);
+
+        // Die Sigle wird hier ausgeschrieben, nicht nur als title-Tooltip:
+        // die Lemma-Seite ist die Vertiefungsseite (#258 Punkt 3).
+        const ueberschriften = await page.locator('#wbnetzLinks h3')
+            .evaluateAll(els => els.map(e => e.textContent.replace(/\s+/g, ' ').trim()));
+        expect(ueberschriften).toEqual([
+            'Mittelhochdeutsches Wörterbuch (MWB)',
+            'Lexer, Mittelhochdeutsches Handwörterbuch (Lexer)',
+            'Lexer, Nachträge zum Mittelhochdeutschen Handwörterbuch (LexerN)',
+            'Benecke/Müller/Zarncke, Mittelhochdeutsches Wörterbuch (BMZ)',
+            'Findebuch zum mittelhochdeutschen Wortschatz (FindeB)',
+        ]);
+
+        // Die Karte trägt das dekodierte Stichwort, die Sigle steht nur noch
+        // in der Überschrift darüber.
+        const bmzKarte = page.locator('#wbnetzLinks [data-wbnetz-group="BMZ"] a');
+        await expect(bmzKarte).toHaveCount(1);
+        await expect(bmzKarte).toContainText('brôt');
+        expect(await bmzKarte.getAttribute('href')).toBe('https://woerterbuchnetz.de/?sigle=BMZ&lemid=E1');
+    });
+
     test('invalid lemma ID shows error', async ({ page }) => {
         await page.goto('http://localhost:8080/lemma/?id=99999999');
 
