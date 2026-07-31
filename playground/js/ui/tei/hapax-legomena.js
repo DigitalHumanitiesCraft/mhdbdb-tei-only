@@ -568,9 +568,11 @@ export class HapaxLegomenaAnalyzer {
             // gram mit im Linktext: mehrere Einträge eines Wörterbuchs sind
             // Homographen und stünden sonst als gleichlautende Links nebeneinander.
             const gram = e.gram ? ` <span class="text-slate-500">(${escapeHtml(decodeHtmlEntities(e.gram))})</span>` : '';
-            return `<a href="${escapeHtml(e.wbnetzlink)}" target="_blank" rel="noopener" class="text-brand-700 hover:underline">${escapeHtml(decodeHtmlEntities(e.textstring || e.lemma || lemma.lemma))}${gram}</a>`;
+            return `<a href="${escapeHtml(e.wbnetzlink)}" target="_blank" rel="noopener" class="text-brand-700 hover:underline whitespace-nowrap">${escapeHtml(decodeHtmlEntities(e.textstring || e.lemma || lemma.lemma))}${gram}</a>`;
           }).join('<span class="text-slate-400">, </span>');
-          return `<span class="whitespace-nowrap"><span class="font-medium text-slate-500" title="${escapeHtml(dictionaryTitle(sigle))}">${escapeHtml(sigle)}:</span> ${anchors}</span>`;
+          // nowrap auf dem einzelnen Link, nicht auf der Gruppe: sonst wird eine
+          // Gruppe aus drei langen Komposita-Homographen unumbrechbar breit.
+          return `<span data-wbnetz-group="${escapeHtml(sigle)}"><span class="font-medium text-slate-500 whitespace-nowrap" title="${escapeHtml(dictionaryTitle(sigle))}">${escapeHtml(sigle)}:</span> ${anchors}</span>`;
         });
       dictEl.innerHTML = groups.length > 0
         ? `<span class="font-medium text-slate-500">Wörterbücher:</span> ${groups.join('<span class="text-slate-300"> · </span>')}`

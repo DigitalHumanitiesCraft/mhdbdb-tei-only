@@ -908,10 +908,13 @@ class MainSiteApp {
                 const anchors = entries.slice(0, 3).map(e => {
                     const gram = e.gram ? ` <span class="text-slate-500">(${this.escapeHtml(decodeHtmlEntities(e.gram))})</span>` : '';
                     return `<a href="${this.escapeHtml(e.wbnetzlink)}" target="_blank" rel="noopener"
-                        class="text-brand-700 hover:underline">${this.escapeHtml(decodeHtmlEntities(e.lemma))}${gram} ↗</a>`;
+                        class="text-brand-700 hover:underline whitespace-nowrap">${this.escapeHtml(decodeHtmlEntities(e.lemma))}${gram} ↗</a>`;
                 }).join('<span class="text-slate-400">, </span>');
-                return `<span class="whitespace-nowrap" data-wbnetz-group="${this.escapeHtml(sigle)}">
-                    <span class="font-medium text-slate-500" title="${this.escapeHtml(dictionaryTitle(sigle))}">${this.escapeHtml(sigle)}:</span>
+                // nowrap gehört auf den einzelnen Link, nicht auf die Gruppe: eine
+                // unumbrechbare Gruppe aus drei langen Komposita-Homographen plus
+                // gram verbreitert das Panel (gemessen 554 statt 510 px).
+                return `<span data-wbnetz-group="${this.escapeHtml(sigle)}">
+                    <span class="font-medium text-slate-500 whitespace-nowrap" title="${this.escapeHtml(dictionaryTitle(sigle))}">${this.escapeHtml(sigle)}:</span>
                     ${anchors}
                 </span>`;
             });
