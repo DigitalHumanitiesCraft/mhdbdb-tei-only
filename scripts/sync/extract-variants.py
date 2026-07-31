@@ -40,14 +40,20 @@ from lxml import etree
 # Korpusauswahl, -reihenfolge und Worker-Obergrenze teilen sich alle
 # Korpus-Leser (#287). scripts/ auf den Pfad, wie in classify-lexicon-backfill.
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from corpus_files import corpus_files, default_jobs  # noqa: E402
+from corpus_files import PROJECT_ROOT, corpus_files, default_jobs  # noqa: E402
 
 TEI_NS = 'http://www.tei-c.org/ns/1.0'
 TEI = f'{{{TEI_NS}}}'
 XML = '{http://www.w3.org/XML/1998/namespace}'
 
-VARIANTS = Path('authority-files/variants.xml')
-DRY_OUT = Path('authority-files/variants.regen.xml')
+# Ein- und Ausgabe an derselben Wurzel (#287). Vorher war die Eingabe
+# CWD-relativ und ein Lauf aus dem falschen Verzeichnis scheiterte sichtbar
+# (0 Dateien gefunden). Jetzt findet die Eingabe den Korpus immer, also muss
+# auch die Ausgabe dorthin zeigen: sonst laese read_existing() stillschweigend
+# keine Bestandsdatei (der Diff faellt auf "alles neu") und der Schreibvorgang
+# landete woanders.
+VARIANTS = PROJECT_ROOT / 'authority-files' / 'variants.xml'
+DRY_OUT = PROJECT_ROOT / 'authority-files' / 'variants.regen.xml'
 
 TYPE_POS_RE = re.compile(r'^type_\d+$')        # positive type id only
 TYPE_NUM_RE = re.compile(r'^type_(\d+)$')

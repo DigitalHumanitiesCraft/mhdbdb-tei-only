@@ -43,8 +43,10 @@ MULTI_GUARD = re.compile(rb'corresp="[^"]*variants\.xml#type_-\d+[^"]*"')
 
 def main():
     apply = '--apply' in sys.argv
+    # Kein "run from repo root"-Guard mehr (#287): TEI_DIR haengt jetzt am
+    # PROJECT_ROOT, das Skript ist damit CWD-unabhaengig.
     if not TEI_DIR.exists():
-        print('Error: run from repo root (tei/ required)')
+        print(f'Error: {TEI_DIR} not found')
         return 1
 
     files = corpus_files()
