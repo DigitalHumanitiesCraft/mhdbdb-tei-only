@@ -450,14 +450,14 @@ Build properties: deterministic on the #125 principle (no timestamps, compact JS
 | | | `.//tei:idno[@type="GND"]` | GND identifier |
 | | | `.//tei:idno[@type="wikidata"]` | Wikidata ID |
 | | | (derived from works.xml `<author @ref>`) | Work IDs (built at index time) |
-| | works.xml | `//tei:bibl` (children of `listBibl`) | Work records |
+| | works.xml | `.//tei:bibl` (Fallback `.//work` fuer nicht-TEI-Quellen) | Work records |
 | | | `./tei:title` | All titles (with `@xml:lang`, `@type`) |
 | | | `.//tei:idno[@type="sigle"]` | Sigles (may be multiple) |
 | | | `.//tei:idno[@type="GND"]` | Work GND (extract ID from URL: strip `https://d-nb.info/gnd/`) |
 | | | `.//tei:idno[@type="wikidata"]` | Work Wikidata (extract Q-ID from URL: strip `https://www.wikidata.org/entity/`) |
 | | | `.//tei:idno[@type="handschriftencensus"]` | Handschriftencensus URL |
 | | | `./tei:ptr[contains(@target,"genres.xml#")]` | Genre pointers (label from genres.xml lookup) |
-| | | `./tei:author` | Author name + `@ref` → person ID |
+| | | `./tei:author` (nur direktes Kind, siehe Hinweis unter der Tabelle) | Author name + `@ref` → person ID |
 | | | `.//tei:biblStruct` | Bibliography entries (with `@type`, `@key`, `@corresp`) |
 | | concepts.xml | `//tei:category` (filter ID starts with `concept_`) | Concept entries |
 | | genres.xml | `//tei:category` (filter ID starts with `genre_`) | Genre entries |
@@ -465,8 +465,8 @@ Build properties: deterministic on the #125 principle (no timestamps, compact JS
 | | (all three) | `.//tei:catDesc//tei:term` (filter `@xml:lang`) | DE/EN labels |
 | | genres.xml | `.//tei:catDesc/tei:ptr[@type="broader"]` | Genre hierarchy |
 | | names.xml | `.//tei:ptr[contains(@target,"concepts.xml#")]` | Concept cross-references |
-| | variants.xml | `//tei:entry` or `//entry` (handles both namespaced/non-namespaced) | Variant groups |
-| | | `.//tei:form` or `.//form` | Orthographic forms per lemma |
+| | variants.xml | `.//tei:entry` (TEI-Namespace fest verdrahtet) | Variant groups |
+| | | `.//tei:form` | Orthographic forms per lemma |
 | `build-corpus-index.py` | tei/*.tei.xml | `//tei:idno[@type="sigle"]/text()` | Sigle (fallback: filename without `.tei.xml`) |
 | | | `//tei:titleStmt/tei:title/text()` | Title |
 | | | `//tei:titleStmt/tei:author` | Author name + `@ref` |
@@ -488,6 +488,10 @@ Build scripts use `get_namespaces()` which handles TEI documents with or without
 3. Fallback: set `'tei'` = `'http://www.tei-c.org/ns/1.0'`
 
 Source: `scripts/tei_namespaces.py` (`get_namespaces`, seit #171 F97 geteilte Lib; von `build-authority-index.py` importiert)
+
+**Reichweite dieser Robustheit.** Sie gilt nur für XPaths, die über den `ns`-Parameter laufen. Wo der Build `findall()` mit fest eingesetztem `{http://www.tei-c.org/ns/1.0}` benutzt, gibt es keinen namespace-losen Zweig: `.//tei:entry` in `variants.xml` und `.//tei:bibl` in `works.xml` finden in einem Dokument ohne TEI-Namespace nichts. Punkt 3 der Liste oben hilft dort ebenfalls nicht, denn er setzt bei einem namespace-losen Dokument gerade den TEI-Namespace ein. Beide Dateien sind namespaced, der Fall tritt also nicht ein; die Robustheit ist aber schmaler, als die Tabelle früher auswies (#293).
+
+**Warum `./tei:author` und nicht `.//tei:author`.** Der Autor eines Werks ist ein direktes Kind des `<bibl>`. Alle 584 `<bibl>` in `works.xml` enthalten seit dem Zotero-Sync ein `<biblStruct>` mit eigenen `<author>`-Elementen, das sind die Autoren der **Edition**, nicht des Werks. Eine Descendant-Suche würde bei einem Werk ohne eigenen `<author>` still den Editionsautor als Werksautor eintragen. Gemessen am 2026-07-31: 0 der 584 Einträge sind betroffen, alle haben ein direktes `<author>`-Kind. Die Enge kostet also nichts und schließt den Fall aus, bevor er entsteht (#293).
 
 #### Variant Dictionary Deduplication
 
@@ -543,7 +547,7 @@ Search resolves user input to lemma IDs through 3 stages with early return:
 | Stage | Method | Return | Performance |
 |-------|--------|--------|-------------|
 | 1 | Exact match on normalized canonical form | 0..N (homographs) | O(n) scan |
-| 2 | Variants dictionary lookup (~257k mappings) | Exactly 1 | O(1) hash |
+| 2 | Variants dictionary lookup (normalisierte Mappings, dedupliziert aus den Rohformen; Zahlen mit Stand in [CONTRACTS §C](CONTRACTS.md#c-3-stage-lemma-resolution-algorithm)) | Exactly 1 | O(1) hash |
 | 3 | Bidirectional PREFIX fallback, sorted by length distance (#224) | 0..N (fuzzy) | O(n) scan |
 
 Stages are mutually exclusive – first match wins. **Full pseudocode with worked example:** see [CONTRACTS.md](CONTRACTS.md#c-3-stage-lemma-resolution-algorithm)

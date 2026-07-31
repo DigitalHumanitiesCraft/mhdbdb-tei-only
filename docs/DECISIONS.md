@@ -303,7 +303,7 @@ Middle High German has extensive orthographic variation:
 
 Implement 3-stage lemma resolution:
 1. **Exact match in lexicon:** Check canonical forms first (fastest)
-2. **Variants dictionary lookup:** Check ~257k attested variants (O(1))
+2. **Variants dictionary lookup:** normalisierte Mappings, dedupliziert aus den Rohformen in `variants.xml`, also deutlich weniger Mappings als Formen (O(1); Zahlen mit Stand in [CONTRACTS §C](CONTRACTS.md#c-3-stage-lemma-resolution-algorithm))
 3. **Partial match fallback:** Fuzzy search if no exact match (catches edge cases)
 
 ### Consequences
