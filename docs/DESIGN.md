@@ -320,6 +320,7 @@ Nicht hash-routen – `korpus.html` ist eine separate Site. Pure-Anchor-Tags mit
 text-comparison PZ vs JT, „Beide": 3.058 lookups × 43.754 ≈ 134 Mio. Iterationen ≈ 5962ms
                                   ↓ (lokale Map einmal pro show())
                                        1 lookup × 43.754 (build) + 3.058 × O(1) ≈ 53ms (112× schneller)
+        (43.754 = Lexikonstand dieser Messung; das Lexikon wächst, die Größenordnung bleibt)
 ```
 
 Pattern:
