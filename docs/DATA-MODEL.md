@@ -468,7 +468,9 @@ Build properties: deterministic on the #125 principle (no timestamps, compact JS
 | | | `//tei:titleStmt/tei:title/text()` | Title |
 | | | `//tei:titleStmt/tei:author` | Author name + `@ref` |
 | | | `//tei:msIdentifier` | `@corresp` → work reference |
+| | | `//tei:keywords/tei:term[@type="genre"]/text()`, Fallback `//tei:term[@type="genre"]/text()` | Genre |
 | | | `//tei:body//tei:w[@lemmaRef]` *(logical; real code: single-pass `iterwalk`)* | All words with positions (see [CONTRACTS.md](CONTRACTS.md#b-position-counting-contract)) |
+| | | `//tei:body//tei:l` *(im selben `iterwalk`)* | `lineStarts`/`lineEnds`, Wortindex des ersten und letzten indizierten `<w>` je Vers |
 
 #### Namespace Handling
 
@@ -793,19 +795,24 @@ Die beiden Checklisten unten beschreiben den **Maximalfall**. Nicht jede Änderu
 
 | Geändert | Nötige Schritte | Bauzeit |
 |---|---|---|
-| `tei/`: `@pos` oder `@ana`; `<note>` im Header, Encoding-Beschreibung, `<respStmt>`; `<div>`, `<lg>`, `<pb>`, Kommentare, Whitespace. Bedingung: die Folge der `<w>` und die `<l>`-Grenzen bleiben unverändert | kein Rebuild, damit auch kein Versions-Bump. Es bleiben Schritt 2 (Schema) und Schritt 8 (Cross-Ref-Audit), dann committen | 0 s |
+| `tei/`: `@pos` oder `@ana`; `<note>` im Header, Encoding-Beschreibung, `<respStmt>`; `<div>`, `<lg>`, `<pb>`, Kommentare, Einrückung außerhalb von `<w>`. Bedingung: die Folge der `<w>` und die `<l>`-Grenzen bleiben unverändert | kein Rebuild, damit auch kein Versions-Bump. Es bleiben Schritt 2 (Schema) und Schritt 8 (Cross-Ref-Audit), dann committen und pushen | 0 s |
 | `tei/`: `<l>`-Grenzen verschoben oder eine der fünf Kopfangaben geändert. Kein `<w>` hinzugekommen, entfallen oder in Wortlaut, `@lemmaRef` oder `@corresp` geändert | Korpus-Checkliste ohne Schritt 5 und 6 | rund 200 s |
 | `tei/`: `<w>`-Bestand, Wortlaut, `@lemmaRef` oder `@corresp` berührt; Datei hinzugefügt oder entfernt | Korpus-Checkliste vollständig | rund 310 s |
-| `authority-files/` ohne `works.xml` | Authority-Checkliste vollständig außer Schritt 1 | rund 20 s |
+| `authority-files/contributors.xml` | kein Rebuild, kein Bump (keine der Ausgaben enthält die Datei). Schema und Cross-Ref-Audit, dann committen und pushen | 0 s |
+| Eine der sieben indizierten `authority-files/` außer `works.xml` | Authority-Checkliste vollständig außer Schritt 1 | rund 20 s |
 | `authority-files/works.xml` | Authority-Checkliste vollständig | rund 20 s plus Zotero-Lauf |
 
-Der Versions-Bump (Korpus-Checkliste Schritt 3, Authority-Checkliste Schritt 2) entfällt nur in Zeile 1. Sobald ein Index neu gebaut wird, ist er Pflicht: der Browser invalidiert seinen 30-Tage-Cache ausschließlich über die Versionsnummer, und kein CI-Gate merkt den fehlenden Bump (das war #94).
+Der Versions-Bump (Korpus-Checkliste Schritt 3, Authority-Checkliste Schritt 2) entfällt nur in den Zeilen ohne Rebuild. Sobald ein Index neu gebaut wird, ist er Pflicht, denn der Browser invalidiert seinen 30-Tage-Cache ausschließlich über die Versionsnummer (#94). Seit #154 fängt `scripts/audit/check-index-version-bump.py` den vergessenen Bump ab: es vergleicht den dekomprimierten Index-Inhalt gegen die Diff-Base und läuft in `data-integrity.yml` bewusst **vor** dem Rebuild-Schritt. Zwei Restlücken bleiben: ohne bestimmbare Diff-Base (`workflow_dispatch`, Force-Push) überspringt der Workflow das Gate mit einem `notice`, und die Versionsangaben in der Doku (TEI-MODEL.md §11, INDEX.md) deckt es nicht ab.
+
+Umgekehrt gilt: einen Bump ohne Inhaltsänderung setzt man nicht. Er zwingt jede wiederkehrende Person zum Neuladen des Index, ohne dass sich etwas geändert hat, und keine CI merkt das.
 
 Einzelzeiten, gemessen am 2026-07-31 über 667 Korpusdateien auf einem Windows-Notebook: `build-corpus-index.py` 192 s, `extract-variants.py --apply` 100 s, `build-authority-index.py` 14 s, `build-api.py` 5 s. Größenordnungen für die Planung, keine Zusicherung.
 
 **Zwei Eigenheiten von `variants.xml`,** die den Diff größer machen können als erwartet und beide kein Fehler sind: eine hinzugefügte oder entfernte Korpusdatei ändert die Datei auch dann, wenn sie kein einziges variantentragendes `<w>` enthält (die Dateizahl steht im Kopf). Und pro Type-ID entscheidet die häufigste Form im **gesamten** Korpus, ein Eingriff in einem Text kann also Einträge umschreiben, die nur in anderen Texten attestiert sind.
 
-**Im Zweifel bauen.** Seit #125 erzeugt ein Rebuild aus unverändertem Quellstand keinen Diff. Eine Fehleinschätzung nach oben kostet also nur Wartezeit, eine nach unten erzeugt stillen Drift. Die Tabelle spart Zeit, wo der Fall klar ist, sie ersetzt das Bauen im Grenzfall nicht. Zeile 2 gegen Zeile 3 lässt sich zudem messen statt raten: `extract-variants.py --apply` laufen lassen und `git status` ansehen. Bleibt `variants.xml` unverändert, war es Zeile 2. Das kostet den Lauf, beantwortet die Frage aber sicher.
+**Im Zweifel bauen.** Seit #125 erzeugt ein Rebuild aus unverändertem Quellstand keinen Diff. Eine Fehleinschätzung nach oben kostet also nur Wartezeit, eine nach unten erzeugt stillen Drift. Die Tabelle spart Zeit, wo der Fall klar ist, sie ersetzt das Bauen im Grenzfall nicht.
+
+Zeile 2 gegen Zeile 3 lässt sich messen statt raten: `extract-variants.py` **ohne** `--apply` laufen lassen und die vier semantischen Zähler der Ausgabe lesen (`added`, `removed`, `form text changed`, `lemma assignment changed`). Alle vier auf 0 heißt Zeile 2. Der Dry-Run kostet denselben Scan, fasst `variants.xml` nicht an und legt sein Ergebnis als `authority-files/variants.regen.xml` ab, die nicht committet werden darf. Nicht über `--apply` plus `git status` entscheiden: das Skript warnt an dieser Stelle selbst vor dem Fehlschluss, denn ein Byte-Diff kann auch aus lxml-Serialisierungs-Drift entstehen (lokale Version gegen den Pin in `requirements.txt`), ohne dass sich inhaltlich etwas geändert hätte.
 
 ### Wenn sich `tei/` ändert (Skript-Ingest, neuer Text ODER händische Korrektur)
 
@@ -813,7 +820,7 @@ Einzelzeiten, gemessen am 2026-07-31 über 667 Korpusdateien auf einem Windows-N
 |---|---------|----------------------|--------|
 | 1 | UTF-8, Namespace `http://www.tei-c.org/ns/1.0`; positionstragende Annotation auf `<w @lemmaRef>` (nur die zählen für Positionen) | Wort unsichtbar für Suche, falsche Highlight-Positionen | manuell |
 | 2 | Schema: `python scripts/audit/validate-corpus.py --sample <SIG>` | invalides TEI; `data-integrity.yml` fängt es auf PR/Push | CI |
-| 3 | Version bumpen (`build-*-index.py` Dict-Literal `'version'` + `corpus-loader.js`), dann `python scripts/audit/check-index-versions.py` | wiederkehrende Nutzer behalten den 30-Tage-IndexedDB-Cache mit altem Index (#47.3/#94) | CI (Konsistenz) |
+| 3 | Version bumpen (`build-*-index.py` Dict-Literal `'version'` + `corpus-loader.js`), dann `python scripts/audit/check-index-versions.py` | wiederkehrende Nutzer behalten den 30-Tage-IndexedDB-Cache mit altem Index (#47.3/#94) | CI (Konsistenz + Bump-Gate #154, siehe Routing-Abschnitt) |
 | 4 | Korpus-Index: `python scripts/build-corpus-index.py` (Pre-flight bricht bei dirty tree ab, sonst `--allow-dirty`) | Suche, Trefferzahlen, Proximity, Versposition, Playground-Analysen stale; neuer Text fehlt komplett | CI (Freshness-Gate in data-integrity.yml) |
 | 5 | **Bei neuen Formen:** `python scripts/sync/extract-variants.py --apply` (`variants.xml` ist korpus-abgeleitet) | neue Wortformen lösen sich nicht zum Lemma auf (Stage-2-Resolution); Lemma-Page-Chips unvollständig | CI (Freshness-Gate) |
 | 6 | Nach Schritt 5: `python scripts/build-authority-index.py` | Variant-Map im Index bleibt stale | CI (Freshness-Gate) |
@@ -828,7 +835,7 @@ Einzelzeiten, gemessen am 2026-07-31 über 667 Korpusdateien auf einem Windows-N
 | # | Schritt | Bricht wenn vergessen | Status |
 |---|---------|----------------------|--------|
 | 1 | (nur `works.xml`) `enhance_works_with_zotero.py` + `sync_tei_headers.py --works` (erst `--dry-run`) | Editor/Bibliografie + Header stale (nur WorksSyncer implementiert, Persons/Genres/Concepts sind TODO-Stubs) | manuell |
-| 2 | Version bumpen (`build-authority-index.py` + `corpus-loader.js`) + `check-index-versions.py` | stale Cache bis 30 Tage | CI (Konsistenz) |
+| 2 | Version bumpen (`build-authority-index.py` + `corpus-loader.js`) + `check-index-versions.py` | stale Cache bis 30 Tage | CI (Konsistenz + Bump-Gate #154, siehe Routing-Abschnitt) |
 | 3 | **Authority-Index: `python scripts/build-authority-index.py`** (Frontend liest NUR den Index, nie das XML) | jede Authority-Änderung unsichtbar bis Rebuild + Commit (so blieb die lexicon/variants-Drift unbemerkt) | CI (Freshness-Gate in data-integrity.yml) |
 | 4 | API regenerieren: `python scripts/build-api.py` (nach Schritt 3; der frisch gebaute, noch uncommittete Index erfordert lokal `--allow-dirty`) | statische JSON-API unter `api/` serviert stale Authority-Records | CI (Freshness-Gate in data-integrity.yml) |
 | 5 | Cross-Ref-Audit `--check` + Schema `validate-corpus.py --fail-fast` | dangling Refs / invalides XML | CI |
