@@ -255,6 +255,20 @@ def parse_persons():
         if not preferred_name:
             continue
 
+        # Alternative name forms (#307). Deduplicated by exact text, document order.
+        # persons.xml carries the same string twice whenever the German and English
+        # forms coincide (34 of 134 entries, differing only in @xml:lang). The language
+        # is not indexed: for a person both forms name the same individual, so the
+        # alternative is a search key, not a display term. That differs from concepts,
+        # where termDE/termEN are distinct labels and both get shown.
+        # One entry carries no @xml:lang at all (person_127, added in #228), so the
+        # parser must not key on the attribute.
+        alt_names = []
+        for alt_el in person_el.xpath('./tei:persName[@type="alternative"]', namespaces=ns):
+            alt_text = alt_el.text.strip() if alt_el.text else ''
+            if alt_text and alt_text != preferred_name and alt_text not in alt_names:
+                alt_names.append(alt_text)
+
         # Extract GND identifier
         gnd_el = person_el.xpath('.//tei:idno[@type="GND"]', namespaces=ns)
         gnd = gnd_el[0].text.strip() if gnd_el and gnd_el[0].text else None
@@ -267,14 +281,22 @@ def parse_persons():
         # (populated after parse_works via _build_person_works_map)
         works = _person_works.get(person_id)
 
-        persons.append({
+        person_entry = {
             'id': person_id,
             'preferredName': preferred_name,
             'gnd': gnd,
             'wikidata': wikidata,
             'works': works,
             'normalized': normalize_mhg(preferred_name)
-        })
+        }
+        if alt_names:
+            # Index-parallel by contract: altNormalized[i] is the normalized form of
+            # altNames[i]. The person explorer matches on the normalized list and
+            # displays the readable form at the same position, so the two lists must
+            # never be deduplicated independently.
+            person_entry['altNames'] = alt_names
+            person_entry['altNormalized'] = [normalize_mhg(n) for n in alt_names]
+        persons.append(person_entry)
 
     print(f"   Found {len(persons)} persons")
     return persons
@@ -868,7 +890,7 @@ def build_index():
 
     # Build index structure
     index = {
-        'version': '1.7.1',  # 1.2.0: Authority migration (genre ptrs, person-works derivation, Frauendienst split). 1.2.1: WZB-Lemmata + Varianten + Werk-Eintrag. 1.2.2: #104 FLG/FLG1-Werk-Titel + work_571 biblStruct auf Vollmann-Profe/Neumann 1990. 1.3.0: #113-Followup — alternative-Terms in concepts.xml getrennt von Primär-Term (altDE/altEN/altNormalized) statt last-wins-Overwrite. 1.4.0: #44/#115 variants.xml aus Korpus regeneriert via scripts/sync/extract-variants.py (+64.287 Formen, 192.472→256.759). 1.4.1: #125 deterministischer Build (generatedAt entfernt, gzip mtime=0). 1.4.2: #143 HH-Genre-Korrektur (Marienleben → Geistliche Rede, work_137). 1.4.3: #143 APO-Gattungs-Metadaten nach Terrahe (work_568: Prosaroman/Antikenroman/Liebes-Abenteuerroman/Exempel/Fürstenspiegel). 1.4.4: #115 Kategorie-A-Stub-Backfill (+125 Lemma-Stubs in lexicon.xml). 1.5.0: Audit #5 — parse_genres last-wins-Fix: alternative-Terms überschreiben den Primär-Term nicht mehr (250 Kategorien korrigiert), altDE/altEN/altNormalized analog concepts. 1.6.0: #161 posAll[] — alle <pos>-Werte eines Lemmas (Multi-POS wie lemma_79188 salve NOM+VRB), pos bleibt Erstwert. 1.6.1: #189 GWTK-Pilot — variants.xml +2 Typen (rotte/rotten unter lemma_4954) + GWTK-Formen-Zuwachs aus der Neu-Annotation. 1.6.2: #224 NFC-Unicode-Komposition im Normalizer — zerlegte Umlaute (o + U+0308) werden jetzt komponiert, bevor die Umlaut-Regeln greifen; korrigiert 'hugo von mühldorf' zu 'hugo von muehldorf' in persons.xml (die Quelldatei traegt dort ein zerlegtes ue). 1.6.3: #235 kaputte Tilden in URLs (kombinierendes U+0303 hinter einem Leerzeichen statt ASCII-Tilde) in 24 works.xml-Notizen repariert; die gleichen Notizen stehen im TEI-Header, dort ohne Indexwirkung. 1.6.4: #138 814 Strophenziffern aus dem HUG-Verstext entfernt (706 davon pos=DIG, 108 unannotiert); variants.xml verliert dadurch den Typ type_195524 'cxlvix', der nur in HUG vorkam. 1.6.5: #236 FR3-Metadaten auf den Supplementband 2000 umgestellt (ISBN 3-525-82504-8, Hrsg. Haustein/Stackmann, Reihenband 232) und Zotero-Title-Case 'Teil Ii'/'Teil Iii' repariert; variants.xml unveraendert. 1.7.0: kuratierte Lemma-Angaben im Index: lemma.origin (Herkunftssprache aus <etym type="borrowing">, Schicht B von #28) sowie sense.definition und sense.comment (Prosa aus <def> bzw. <note type="comment">), jeweils nur wenn im Lexikon vorhanden. Erster Eintrag: lemma_37818 Abba (aramaeische Gottesanrede, KZW 30.07.2026). 1.7.1: #228 works.xml-Autornamen werden wie im Korpus-Index mit itertext() und Whitespace-Kollaps gelesen; work_563 trug den Umbruch der XML-Einrueckung bis in api/works/work_563.json.
+        'version': '1.8.0',  # 1.2.0: Authority migration (genre ptrs, person-works derivation, Frauendienst split). 1.2.1: WZB-Lemmata + Varianten + Werk-Eintrag. 1.2.2: #104 FLG/FLG1-Werk-Titel + work_571 biblStruct auf Vollmann-Profe/Neumann 1990. 1.3.0: #113-Followup — alternative-Terms in concepts.xml getrennt von Primär-Term (altDE/altEN/altNormalized) statt last-wins-Overwrite. 1.4.0: #44/#115 variants.xml aus Korpus regeneriert via scripts/sync/extract-variants.py (+64.287 Formen, 192.472→256.759). 1.4.1: #125 deterministischer Build (generatedAt entfernt, gzip mtime=0). 1.4.2: #143 HH-Genre-Korrektur (Marienleben → Geistliche Rede, work_137). 1.4.3: #143 APO-Gattungs-Metadaten nach Terrahe (work_568: Prosaroman/Antikenroman/Liebes-Abenteuerroman/Exempel/Fürstenspiegel). 1.4.4: #115 Kategorie-A-Stub-Backfill (+125 Lemma-Stubs in lexicon.xml). 1.5.0: Audit #5 — parse_genres last-wins-Fix: alternative-Terms überschreiben den Primär-Term nicht mehr (250 Kategorien korrigiert), altDE/altEN/altNormalized analog concepts. 1.6.0: #161 posAll[] — alle <pos>-Werte eines Lemmas (Multi-POS wie lemma_79188 salve NOM+VRB), pos bleibt Erstwert. 1.6.1: #189 GWTK-Pilot — variants.xml +2 Typen (rotte/rotten unter lemma_4954) + GWTK-Formen-Zuwachs aus der Neu-Annotation. 1.6.2: #224 NFC-Unicode-Komposition im Normalizer — zerlegte Umlaute (o + U+0308) werden jetzt komponiert, bevor die Umlaut-Regeln greifen; korrigiert 'hugo von mühldorf' zu 'hugo von muehldorf' in persons.xml (die Quelldatei traegt dort ein zerlegtes ue). 1.6.3: #235 kaputte Tilden in URLs (kombinierendes U+0303 hinter einem Leerzeichen statt ASCII-Tilde) in 24 works.xml-Notizen repariert; die gleichen Notizen stehen im TEI-Header, dort ohne Indexwirkung. 1.6.4: #138 814 Strophenziffern aus dem HUG-Verstext entfernt (706 davon pos=DIG, 108 unannotiert); variants.xml verliert dadurch den Typ type_195524 'cxlvix', der nur in HUG vorkam. 1.6.5: #236 FR3-Metadaten auf den Supplementband 2000 umgestellt (ISBN 3-525-82504-8, Hrsg. Haustein/Stackmann, Reihenband 232) und Zotero-Title-Case 'Teil Ii'/'Teil Iii' repariert; variants.xml unveraendert. 1.7.0: kuratierte Lemma-Angaben im Index: lemma.origin (Herkunftssprache aus <etym type="borrowing">, Schicht B von #28) sowie sense.definition und sense.comment (Prosa aus <def> bzw. <note type="comment">), jeweils nur wenn im Lexikon vorhanden. Erster Eintrag: lemma_37818 Abba (aramaeische Gottesanrede, KZW 30.07.2026). 1.7.1: #228 works.xml-Autornamen werden wie im Korpus-Index mit itertext() und Whitespace-Kollaps gelesen; work_563 trug den Umbruch der XML-Einrueckung bis in api/works/work_563.json. 1.8.0: #307 altNames/altNormalized je Person aus persons.xml persName[@type="alternative"] (134 Formen bei 80 Personen, nach exaktem Text auf 100 dedupliziert); die beiden Listen sind index-parallel, xml:lang wird nicht indexiert.
         'lemmata': lemmata,
         'persons': persons,
         'works': works,

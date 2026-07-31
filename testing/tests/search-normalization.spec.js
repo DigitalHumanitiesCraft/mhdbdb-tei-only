@@ -39,7 +39,10 @@ test.describe('Search Normalization Test Suite', () => {
                 const persons = window.playground.authorityManager.authorityData.persons;
                 const searchTerm = 'eckhart';
 
-                // Simulate searchAuthors() logic
+                // Bildet nur den preferredName-Pfad von searchAuthors() ab. Seit
+                // #307 sucht der Explorer zusaetzlich ueber person.altNames; dieser
+                // Zweig wird in search-with-corpus.spec.js "Search 1b" gegen die
+                // echte UI geprueft, nicht hier nachgebaut.
                 const matches = window.SearchPatterns.textContainsNormalized(
                     persons,
                     searchTerm,
