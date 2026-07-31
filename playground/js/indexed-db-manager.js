@@ -54,7 +54,13 @@ export class IndexedDBManager {
         return new Promise((resolve, reject) => {
             const request = indexedDB.open(this.dbName, this.dbVersion);
 
+            // onblocked can be followed by a late onsuccess once the blocking tab
+            // goes away. The resolve is a no-op by then, so remember that we already
+            // settled and close the connection nobody holds a reference to.
+            let settled = false;
+
             request.onerror = () => {
+                settled = true;
                 reject(new Error(`IndexedDB open failed: ${request.error}`));
             };
 
@@ -65,11 +71,17 @@ export class IndexedDBManager {
             // available" and the user can close the other tab and reload.
             request.onblocked = () => {
                 console.warn('⚠️ IndexedDB upgrade blocked by another open tab: close it and reload the page');
+                settled = true;
                 reject(new Error('IndexedDB upgrade blocked by another open tab'));
             };
 
             request.onsuccess = () => {
                 const db = request.result;
+
+                if (settled) {
+                    db.close();
+                    return;
+                }
 
                 // Do not block a future version bump made in another tab.
                 db.onversionchange = () => {
@@ -79,6 +91,7 @@ export class IndexedDBManager {
                     this.isInitialized = false;
                 };
 
+                settled = true;
                 resolve(db);
             };
 
