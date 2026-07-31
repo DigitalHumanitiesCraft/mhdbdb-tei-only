@@ -574,11 +574,22 @@ export class HapaxLegomenaAnalyzer {
           // Gruppe aus drei langen Komposita-Homographen unumbrechbar breit.
           return `<span data-wbnetz-group="${escapeHtml(sigle)}"><span class="font-medium text-slate-500 whitespace-nowrap" title="${escapeHtml(dictionaryTitle(sigle))}">${escapeHtml(sigle)}:</span> ${anchors}</span>`;
         });
+      // Gescheiterte Requests von "kein Eintrag" trennen. Ohne diese
+      // Unterscheidung gibt sich eine Netzstörung als Beleglage aus: alle fünf
+      // Wörterbücher liefern leere Listen, und die Zelle behauptete "nicht als
+      // Lemma gefunden, Kandidat für ein echtes Hapax" — genau die Aussage,
+      // für die dieses Werkzeug da ist (#258, Review-Befund 1).
+      const gescheitert = results.filter(r => r.failed).map(r => r.sigle);
+      const unvollstaendig = gescheitert.length > 0
+        ? `<div class="mt-1 text-amber-700">Unvollständig abgefragt: ${escapeHtml(gescheitert.join(', '))} nicht erreichbar.</div>`
+        : '';
       dictEl.innerHTML = groups.length > 0
-        ? `<span class="font-medium text-slate-500">Wörterbücher:</span> ${groups.join('<span class="text-slate-300"> · </span>')}`
-        // Die Liste der Wörterbücher wird aus DICTIONARIES abgeleitet, damit
-        // dieser Satz beim nächsten Ausbau nicht still falsch wird.
-        : `<span class="text-slate-500">In den abgefragten Wörterbüchern (${escapeHtml(DICTIONARIES.join(', '))}) nicht als Lemma gefunden, Kandidat für ein echtes Hapax (oder Schreibform-/Lemmatisierungsproblem).</span>`;
+        ? `<span class="font-medium text-slate-500">Wörterbücher:</span> ${groups.join('<span class="text-slate-300"> · </span>')}${unvollstaendig}`
+        : gescheitert.length > 0
+          ? `<span class="text-amber-700">Beleglage nicht prüfbar: ${escapeHtml(gescheitert.join(', '))} nicht erreichbar. Ob ein echtes Hapax vorliegt, lässt sich ohne vollständige Abfrage nicht sagen.</span>`
+          // Die Liste der Wörterbücher wird aus DICTIONARIES abgeleitet, damit
+          // dieser Satz beim nächsten Ausbau nicht still falsch wird.
+          : `<span class="text-slate-500">In den abgefragten Wörterbüchern (${escapeHtml(DICTIONARIES.join(', '))}) nicht als Lemma gefunden, Kandidat für ein echtes Hapax (oder Schreibform-/Lemmatisierungsproblem).</span>`;
     } catch (e) {
       if (dictEl) dictEl.textContent = 'Wörterbuchnetz nicht erreichbar.';
     }

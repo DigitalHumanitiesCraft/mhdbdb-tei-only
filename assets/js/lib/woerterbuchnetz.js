@@ -64,9 +64,13 @@ export function decodeHtmlEntities(str) {
  * Fetch dictionary entries for a MHG-normalized lemma form.
  *
  * @param {string} normalizedForm - lemma.normalized (â→a, ê→e, ü→ue …)
- * @returns {Promise<Array<{sigle: string, entries: Array}>>} — failures
- *   resolve to empty entry lists: the links are progressive enhancement
- *   and must never block or break the caller.
+ * @returns {Promise<Array<{sigle: string, entries: Array, failed: boolean}>>} —
+ *   failures resolve to empty entry lists: the links are progressive
+ *   enhancement and must never block or break the caller. `failed` says which
+ *   of those empty lists mean "request did not go through" rather than "no
+ *   such headword". Callers that render links can ignore it; a caller that
+ *   turns an empty result into a statement about the evidence must not, or an
+ *   outage reads as an absence of attestation (#258 review finding 1).
  */
 export function fetchWbnetzEntries(normalizedForm) {
     if (!normalizedForm) return Promise.resolve([]);
@@ -93,7 +97,7 @@ export function fetchWbnetzEntries(normalizedForm) {
                 seen.add(e.wbnetzlink);
                 entries.push(e);
             }
-            return { sigle, entries };
+            return { sigle, entries, failed: false };
         } catch (e) {
             console.warn(`[Woerterbuchnetz] ${sigle} API unavailable:`, e.message);
             return { sigle, entries: [], failed: true };
@@ -103,7 +107,7 @@ export function fetchWbnetzEntries(normalizedForm) {
         // entfernen — sonst bleibt das Wörterbuch für diese Form die ganze
         // Session leer und erholt sich nie (#167 Finding 13).
         if (results.some(r => r.failed)) entryCache.delete(normalizedForm);
-        return results.map(({ sigle, entries }) => ({ sigle, entries }));
+        return results.map(({ sigle, entries, failed }) => ({ sigle, entries, failed: !!failed }));
     });
     entryCache.set(normalizedForm, promise);
     return promise;

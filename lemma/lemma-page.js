@@ -332,7 +332,7 @@ class LemmaPage {
                 const cards = entries.map(e =>
                     `<a href="${this.escapeAttr(e.wbnetzlink)}" class="external-link" target="_blank" rel="noopener">
                         ${bookIcon}
-                        ${this.escapeAttr(decodeHtmlEntities(e.lemma))}${e.gram ? ` <span class="text-slate-400 text-xs">(${this.escapeAttr(e.gram)})</span>` : ''}
+                        ${this.escapeAttr(decodeHtmlEntities(e.lemma))}${e.gram ? ` <span class="text-slate-400 text-xs">(${this.escapeAttr(decodeHtmlEntities(e.gram))})</span>` : ''}
                     </a>`
                 ).join('');
                 return `<div data-wbnetz-group="${this.escapeAttr(sigle)}">

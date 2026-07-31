@@ -104,7 +104,10 @@ test.describe('Persistent Lemma Pages', () => {
                 status: 200,
                 contentType: 'application/json',
                 body: JSON.stringify({ result_set: [
-                    { sigle, lemma: 'br&ocirc;t', gram: 'stN', wbnetzid: 'E1',
+                    // gram trägt hier bewusst eine Entität: der Wert lief auf
+                    // dieser Seite als Einzige ohne decodeHtmlEntities durch,
+                    // während app.js und hapax-legomena.js ihn dekodieren.
+                    { sigle, lemma: 'br&ocirc;t', gram: 'st&ocirc;N', wbnetzid: 'E1',
                       wbnetzlink: `https://woerterbuchnetz.de/?sigle=${sigle}&lemid=E1` },
                 ]}),
             });
@@ -136,6 +139,10 @@ test.describe('Persistent Lemma Pages', () => {
         const bmzKarte = page.locator('#wbnetzLinks [data-wbnetz-group="BMZ"] a');
         await expect(bmzKarte).toHaveCount(1);
         await expect(bmzKarte).toContainText('brôt');
+        // Auch gram wird dekodiert, gleich wie auf den beiden anderen
+        // Oberflächen: der PR erhebt gram zum Unterscheidungsmerkmal der
+        // Homographen, dann darf es nicht auf einer Seite roh stehen.
+        await expect(bmzKarte).toContainText('(stôN)');
         expect(await bmzKarte.getAttribute('href')).toBe('https://woerterbuchnetz.de/?sigle=BMZ&lemid=E1');
     });
 

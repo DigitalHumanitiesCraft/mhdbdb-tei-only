@@ -229,4 +229,55 @@ test.describe('Issue #196: Echte Hapaxlegomena', () => {
     await expect(dict).toContainText('(MWB, Lexer, LexerN, BMZ, FindeB)');
     await expect(dict.locator('a')).toHaveCount(0);
   });
+
+  test('#258: eine API-Stoerung gibt sich NICHT als Beleglage aus (503)', async ({ page }) => {
+    // 404 heisst "kein Stichwort" und ist ein echtes Ergebnis; 503 heisst
+    // "nicht gefragt". Beides erzeugt leere entries[], und ohne Unterscheidung
+    // behauptet die Zelle bei einer Netzstoerung "nicht als Lemma gefunden,
+    // Kandidat für ein echtes Hapax" — die zentrale Aussage dieses Werkzeugs,
+    // hergeleitet aus einem Serverfehler (Review-Befund 1 zu PR #285).
+    await page.route('https://api.woerterbuchnetz.de/**', route => route.fulfill({
+      status: 503,
+      contentType: 'application/json',
+      body: JSON.stringify({ error: 'Service Unavailable' }),
+    }));
+
+    await page.waitForSelector('[data-hx-detail]', { state: 'visible', timeout: 60000 });
+    await page.click('[data-hx-detail="0"]');
+
+    const dict = page.locator('#hxDict-0');
+    await expect(dict).toContainText('Beleglage nicht prüfbar', { timeout: 15000 });
+    await expect(dict).toContainText('MWB, Lexer, LexerN, BMZ, FindeB');
+    // Der Hapax-Kandidaten-Satz darf hier gerade NICHT stehen.
+    await expect(dict).not.toContainText('nicht als Lemma gefunden');
+    await expect(dict).not.toContainText('Kandidat für ein echtes Hapax');
+  });
+
+  test('#258: Teilausfall wird benannt, statt still ein Woerterbuch wegzulassen', async ({ page }) => {
+    // Nur BMZ faellt aus, die anderen vier antworten. Ohne Hinweis zeigt die
+    // Zelle kommentarlos vier statt fuenf Woerterbuecher, und die Nutzerin
+    // haelt das fuer die Beleglage.
+    await page.route('https://api.woerterbuchnetz.de/**', route => {
+      const sigle = route.request().url().replace(/^.*\/dictionaries\//, '').split('/')[0];
+      if (sigle === 'BMZ') {
+        return route.fulfill({ status: 503, contentType: 'application/json', body: '{}' });
+      }
+      route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({ result_set: [
+          { sigle, lemma: 'minne', gram: 'stF', wbnetzid: 'E1',
+            wbnetzlink: `https://woerterbuchnetz.de/?sigle=${sigle}&lemid=E1` },
+        ]}),
+      });
+    });
+
+    await page.waitForSelector('[data-hx-detail]', { state: 'visible', timeout: 60000 });
+    await page.click('[data-hx-detail="0"]');
+
+    const dict = page.locator('#hxDict-0');
+    await expect(dict.locator('a')).toHaveCount(4, { timeout: 15000 });
+    await expect(dict).toContainText('Unvollständig abgefragt: BMZ');
+    await expect(dict.locator('[data-wbnetz-group="BMZ"]')).toHaveCount(0);
+  });
 });
