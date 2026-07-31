@@ -165,9 +165,11 @@ export class VerseEndingProfileAnalyzer {
           <span>Funktionswörter ausblenden <span class="text-xs text-slate-500">(der/die/daz, ich/er/sie, in/zuo, und/oder, niht, hân/wesen, …)</span></span>
         </label>
         <p class="mt-3 text-xs text-slate-500">
-          Zählt das Lemma am letzten Wort jedes Verses (<code>lineEnds[]</code>, Corpus-Index v4.1.0+).
-          „Reim-Druck" = Anteil der Vorkommen dieses Lemmas, die am Versende stehen; hohe Werte deuten
-          auf reimgetriebene Verwendung. Nur Versdichtung; Prosa-Texte werden übersprungen.
+          Zählt das Lemma am letzten Wort <em>mit Lemma-Zuordnung</em> jedes Verses
+          (<code>lineEnds[]</code>, Corpus-Index v4.1.0+). Verse ohne jede Zuordnung kommen gar nicht vor.
+          „Reim-Druck" = Anteil der Vorkommen dieses Lemmas <em>in der gewählten Auswahl</em>, die am
+          Versende stehen; hohe Werte deuten auf reimgetriebene Verwendung. Nur Versdichtung;
+          Prosa-Texte werden übersprungen.
         </p>
       </div>
     `;
@@ -233,7 +235,7 @@ export class VerseEndingProfileAnalyzer {
           </div>
           <div class="text-right text-xs text-slate-500">
             <div>${endCounts.size.toLocaleString('de-DE')} verschiedene Versende-Lemmata${hiddenCount > 0 ? ` <span class="text-slate-400">(–${hiddenCount.toLocaleString('de-DE')} ausgeblendet)</span>` : ''}</div>
-            <div>${verseCount.toLocaleString('de-DE')} Verse</div>
+            <div title="Gezählt werden Verse mit mindestens einem Wort, das eine Lemma-Zuordnung trägt. Verse ohne eine einzige Zuordnung fehlen in dieser Zahl.">${verseCount.toLocaleString('de-DE')} annotierte Verse</div>
           </div>
         </header>
         <table class="w-full">
@@ -241,9 +243,9 @@ export class VerseEndingProfileAnalyzer {
             <tr class="bg-white">
               <th class="w-12 px-3 py-2 text-left">#</th>
               <th class="px-3 py-2 text-left">Lemma</th>
-              <th class="px-3 py-2 text-right">Versende-Belege</th>
-              <th class="px-3 py-2 text-right">Anteil aller Versenden</th>
-              <th class="px-3 py-2 text-right">Reim-Druck</th>
+              <th class="px-3 py-2 text-right" title="Verse, deren letztes Wort mit Lemma-Zuordnung auf dieses Lemma zeigt. Trägt das Schlusswort keine Zuordnung, zählt das letzte zugeordnete Wort des Verses, auch wenn es weiter vorne steht.">Versende-Belege</th>
+              <th class="px-3 py-2 text-right" title="Anteil an den annotierten Versen der Auswahl, nicht an allen Versen des Texts. Über alle Lemmata summiert sich die Spalte auf 100 %, über die angezeigten Top-N naturgemäß nicht.">Anteil an annot. Versen</th>
+              <th class="px-3 py-2 text-right" title="Wie oft dieses Lemma innerhalb der Auswahl am Versende steht, gemessen an allen seinen Vorkommen in derselben Auswahl. Kein Vergleich mit dem Gesamtkorpus.">Reim-Druck</th>
             </tr>
           </thead>
           <tbody>${rows}</tbody>

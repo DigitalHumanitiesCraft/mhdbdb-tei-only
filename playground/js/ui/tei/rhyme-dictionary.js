@@ -305,7 +305,7 @@ export class RhymeDictionary {
       <div class="rounded-2xl border border-slate-200 bg-slate-50/70 p-4 space-y-3">
         <h3 class="text-sm font-semibold uppercase tracking-wide text-slate-500">Reim-Wörterbuch</h3>
         <p class="text-xs text-slate-600">
-          „Welche Lemmata reimen sich auf X?" Scannt alle Versenden des Korpus und sammelt
+          „Welche Lemmata reimen sich auf X?" Scannt die annotierten Versenden des Korpus und sammelt
           die Lemmata benachbarter Versenden (±1 Vers, Paarreim-Annahme), deren normalisierte
           Form im Auslaut übereinstimmt. Lemma-basiert und strukturell, keine phonetische
           Reim-Klassifikation. Nur Verstexte; Prosa wird ignoriert.
@@ -485,6 +485,9 @@ export class RhymeDictionary {
           3-Letter-Suffix der normalisierten Lemma-Form (2-Letter, wenn beide Formen kurz sind).
           Lemma-basiert: die tatsächlich reimende Flexionsform kann abweichen; phonetische
           Reim-Klassifikation (sauberer Reim vs. Assonanz) ist Folgearbeit (#106/#109).
+          Als Versende gilt das letzte Wort mit Lemma-Zuordnung: trägt das eigentliche
+          Schlusswort keine, wird ein weiter vorne stehendes Wort als Reimwort gewertet.
+          Verse ohne jede Zuordnung sind gar nicht erst im Scan.
           „→ Belege" klappt die gezählten Verspaare auf – ausschließlich Vorkommen
           an benachbarten Versenden, mit Sprung in die Leseansicht.
         </p>

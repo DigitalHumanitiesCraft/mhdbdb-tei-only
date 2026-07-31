@@ -13,7 +13,7 @@ const TOP_N_OPTIONS = [20, 50, 100, 200];
 const DEFAULT_TOP_N = 50;
 const SORT_OPTIONS = [
   { value: 'absolute', label: 'Absolute Frequenz' },
-  { value: 'relative', label: 'Relative Frequenz (pro 1000 Tokens)' }
+  { value: 'relative', label: 'Relative Frequenz (pro 1000 annotierte Tokens)' }
 ];
 
 // Funktionswort-POS-Tags. KZW (#47): hochfrequente "der/die/daz/und/..."
@@ -224,7 +224,7 @@ export class WordFrequencyAnalyzer {
           </div>
           <div class="text-right text-xs text-slate-500">
             <div>${uniqueCount.toLocaleString('de-DE')} unique Lemmata${hiddenCount > 0 ? ` <span class="text-slate-400">(–${hiddenCount.toLocaleString('de-DE')} ausgeblendet)</span>` : ''}</div>
-            <div>${totalTokens.toLocaleString('de-DE')} Tokens</div>
+            <div title="Annotierte Tokens: Wortformen mit Lemma-Zuordnung. Wortformen ohne Lemma-Zuordnung stehen im Text, aber in keiner Zahl dieser Ansicht.">${totalTokens.toLocaleString('de-DE')} annotierte Tokens</div>
           </div>
         </header>
         <table class="w-full">
@@ -233,7 +233,7 @@ export class WordFrequencyAnalyzer {
               <th class="w-12 px-3 py-2 text-left">#</th>
               <th class="px-3 py-2 text-left">Lemma</th>
               <th class="px-3 py-2 text-right">Absolut</th>
-              <th class="px-3 py-2 text-right">pro 1000</th>
+              <th class="px-3 py-2 text-right" title="Vorkommen je 1000 annotierte Tokens der Auswahl. Bezugsgröße sind nicht alle Wörter: die Annotationsabdeckung liegt je Text zwischen 58 % und 100 % (Median 77 %), Vergleiche zwischen Texten tragen deshalb nur bedingt.">pro 1000</th>
             </tr>
           </thead>
           <tbody>${rows}</tbody>

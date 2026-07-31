@@ -43,7 +43,7 @@ export function displayFileItem(data, container) {
 
     // Build metadata info line
     const metaParts = [];
-    if (data.wordCount) metaParts.push(`${data.wordCount.toLocaleString()} words`);
+    if (data.wordCount) metaParts.push(`${data.wordCount.toLocaleString('de-DE')} annot. Tokens`);
     if (data.author) metaParts.push(data.author);
     if (data.genre) metaParts.push(data.genre);
 

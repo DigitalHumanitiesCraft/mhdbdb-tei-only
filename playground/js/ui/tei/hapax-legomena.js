@@ -422,7 +422,7 @@ export class HapaxLegomenaAnalyzer {
       <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
         <header class="border-b border-slate-200 bg-slate-50/80 px-4 py-3">
           <div class="text-sm font-semibold text-slate-800">Raritäten-Beitrag pro Text (Frequenz ≤ ${this.state.maxFreq}, Filter aktiv)</div>
-          <div class="text-xs text-slate-500">Wie viele der korpusweiten Raritäten stehen in welchem Text? Normierung: pro 1.000 Tokens.</div>
+          <div class="text-xs text-slate-500">Wie viele der korpusweiten Raritäten stehen in welchem Text? Normierung: pro 1.000 annotierte Tokens, also je 1.000 Wortformen mit Lemma-Zuordnung. Die Annotationsabdeckung liegt je Text zwischen 58 % und 100 % (Median 77 %) und verzerrt diese Spalte: schwächer annotierte Texte stehen tendenziell weiter oben. Gemessen liegt der Median dieser Spalte im untersten Abdeckungsviertel rund doppelt so hoch wie im obersten.</div>
         </header>
         <table class="w-full">
           <thead class="text-xs text-slate-500">
@@ -431,7 +431,7 @@ export class HapaxLegomenaAnalyzer {
               ${th('id', 'Text', 'left')}
               ${th('abs', 'Raritäten')}
               ${th('rel', 'pro 1000')}
-              <th class="px-3 py-2 text-right font-semibold uppercase tracking-wide">Tokens</th>
+              <th class="px-3 py-2 text-right font-semibold uppercase tracking-wide" title="Annotierte Tokens des Texts: Wortformen mit Lemma-Zuordnung, nicht alle Wörter.">Annot. Tokens</th>
             </tr>
           </thead>
           <tbody>${body}</tbody>

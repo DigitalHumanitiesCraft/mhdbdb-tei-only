@@ -101,7 +101,9 @@ export class VersePositionSearch {
       <div class="rounded-2xl border border-slate-200 bg-slate-50/70 p-4 space-y-3">
         <h3 class="text-sm font-semibold uppercase tracking-wide text-slate-500">Lemmasuche nach Versposition</h3>
         <p class="text-xs text-slate-600">
-          Sucht Lemmata, die genau am Anfang oder Ende eines Verses stehen. Nützlich für Reim- und Versendanalyse
+          Sucht Lemmata am Anfang oder Ende eines Verses. Genauer: am ersten bzw. letzten Wort
+          <em>mit Lemma-Zuordnung</em>, denn nur solche Wörter sind im Index adressierbar.
+          Nützlich für Reim- und Versendanalyse
           (z.B. <code class="rounded bg-white px-1.5 py-0.5 font-mono">minne</code> am Versende).
           Nur Verstexte (mit <code class="rounded bg-white px-1.5 py-0.5 font-mono">&lt;l&gt;</code>); Prosa wird ignoriert.
         </p>

@@ -26,6 +26,8 @@ import { TEITextReader } from './rendering/tei-text-reader.js';
  * Feld-Referenz je Spalte:
  *   key          Sort-Key (data-sort-col); null = nicht sortierbar (Belege)
  *   label        Header-Beschriftung der Tabelle
+ *   headerTitle  optionales title-Attribut des <th> (#309: Bezugsgroesse der
+ *                Zahl benennen, wo die Beschriftung sie nicht hergibt)
  *   headerAlign  Alignment-Klasse des <th>
  *   cellClass    Zusatzklassen der <td> (results-table-td ist immer gesetzt)
  *   cell(r, app) HTML-INHALT der <td> (bereits escaped)
@@ -76,7 +78,8 @@ const RESULT_TABLE_COLUMNS = [
     },
     {
         key: 'frequency',
-        label: 'Freq./10k W.',
+        label: 'Freq./10k',
+        headerTitle: 'Treffer je 10.000 annotierte Tokens des Texts. Bezugsgröße sind nicht alle Wörter: der Anteil annotierter Wortformen liegt je Text zwischen 58 % und 100 % (Median 77 %), Vergleiche zwischen Texten tragen deshalb nur bedingt.',
         headerAlign: 'text-right',
         cellClass: 'text-right tabular-nums',
         cell: (r) => (r.wordCount > 0) ? ((r.matchCount / r.wordCount) * 10000).toFixed(1) : '–',
@@ -88,6 +91,7 @@ const RESULT_TABLE_COLUMNS = [
     {
         key: 'keyness',
         label: 'Keyness (LL)',
+        headerTitle: 'Log-Likelihood: übernutzt der Text dieses Lemma gegenüber dem Gesamtkorpus (positiv) oder unternutzt er es (negativ)? Ab 10,83 gilt der Unterschied als signifikant. Gerechnet wird auf annotierten Tokens, deren Anteil je Text schwankt.',
         headerAlign: 'text-right',
         // Bedingte Klassen + title-Attribut (Signifikanz ≥ 10,83) → komplette td
         tdHtml: (r, app) => app.formatKeynessCell(r.keyness),
@@ -96,12 +100,13 @@ const RESULT_TABLE_COLUMNS = [
     },
     {
         key: 'wordCount',
-        label: 'Wörter',
+        label: 'Annot. Tokens',
+        headerTitle: 'Wortformen mit Lemma-Zuordnung. Wortformen ohne Lemma-Zuordnung stehen im Text, aber nicht in dieser Zahl: korpusweit sind das rund 20 %, je Text zwischen 0 % und 42 %.',
         headerAlign: 'text-right',
         cellClass: 'text-right tabular-nums text-slate-500',
         cell: (r) => r.wordCount ? r.wordCount.toLocaleString('de-DE') : '–',
         sortValue: (r) => r.wordCount || 0,
-        exportFields: [{ label: 'Wörter', value: (r) => r.wordCount || '' }],
+        exportFields: [{ label: 'Annotierte Tokens', value: (r) => r.wordCount || '' }],
         totalClass: 'text-right tabular-nums font-semibold text-slate-600',
         totalCell: (t) => t.words.toLocaleString('de-DE'),
     },
@@ -366,7 +371,8 @@ class MainSiteApp {
             meta.className = 'text-sm text-slate-600 truncate';
             const author = text.author || 'Unbekannt';
             const wordCount = text.wordCount ? text.wordCount.toLocaleString() : '0';
-            meta.textContent = `${text.id} • ${author} • ${wordCount} Wörter`;
+            meta.textContent = `${text.id} • ${author} • ${wordCount} annot. Tokens`;
+            meta.title = 'Annotierte Tokens: Wortformen mit Lemma-Zuordnung, nicht die Gesamtlänge des Texts.';
 
             info.appendChild(titleRow);
             info.appendChild(meta);
@@ -1017,7 +1023,7 @@ class MainSiteApp {
     /**
      * Issue #114: Rendert die Tabellen-Ansicht der Suchergebnisse.
      * 6 Spalten: Titel (mit Sigle-Präfix), Autor*in, Treffer, Frequenz/10k,
-     * Keyness (LL), Wörter — plus Belege-Spalte (KWIC, #129) und eine
+     * Keyness (LL), Annot. Tokens — plus Belege-Spalte (KWIC, #129) und eine
      * Gesamtzeile (tfoot, sticky bottom) mit der Gesamttrefferzahl.
      * Header sind klickbare Sort-Buttons; Zeilen-Klick öffnet den Reader.
      */
@@ -1032,11 +1038,13 @@ class MainSiteApp {
 
         // Alles Spalten-Wissen kommt aus RESULT_TABLE_COLUMNS (#160).
         const headerCells = RESULT_TABLE_COLUMNS.map(col => {
+            // #309: title nennt die Bezugsgroesse, wo die Beschriftung sie nicht hergibt.
+            const titleAttr = col.headerTitle ? ` title="${this.escapeHtml(col.headerTitle)}"` : '';
             if (!col.key) {
-                return `<th scope="col" class="results-table-th ${col.headerAlign}" style="position: sticky; top: 0; background: #f8fafc; z-index: 10;">${this.escapeHtml(col.label)}</th>`;
+                return `<th scope="col"${titleAttr} class="results-table-th ${col.headerAlign}" style="position: sticky; top: 0; background: #f8fafc; z-index: 10;">${this.escapeHtml(col.label)}</th>`;
             }
             return `
-            <th scope="col" aria-sort="${ariaSort(col.key)}" class="results-table-th ${col.headerAlign}" style="position: sticky; top: 0; background: #f8fafc; z-index: 10;">
+            <th scope="col"${titleAttr} aria-sort="${ariaSort(col.key)}" class="results-table-th ${col.headerAlign}" style="position: sticky; top: 0; background: #f8fafc; z-index: 10;">
                 <button type="button" data-sort-col="${col.key}" class="results-table-sort-btn">
                     ${this.escapeHtml(col.label)} <span class="text-xs text-slate-400">${sortIcon(col.key)}</span>
                 </button>
@@ -1422,7 +1430,9 @@ class MainSiteApp {
     /**
      * Signierte Log-Likelihood-Ratio (Dunning 1993) für eine 2x2-Kontingenz:
      * a = Treffer im Text, b = Treffer im Restkorpus,
-     * c = Wörter im Text, d = Wörter im Restkorpus.
+     * c = annotierte Tokens im Text, d = annotierte Tokens im Restkorpus.
+     * Nie als "Woerter" lesen: beide zaehlen nur <w> mit @lemmaRef
+     * (CONTRACTS Paragraph B), korpusweit rund 80 % der Wortformen.
      */
     logLikelihood(a, b, c, d) {
         if (c <= 0 || d <= 0 || (a + b) <= 0) return 0;

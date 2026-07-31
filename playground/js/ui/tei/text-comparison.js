@@ -218,13 +218,13 @@ export class TextComparison {
             <div class="text-xs uppercase tracking-wide text-slate-500">Text A</div>
             <div class="font-semibold text-brand-700">${escapeHtml(textA.id)}-${escapeHtml(textA.title || '')}</div>
             ${textA.author ? `<div class="text-xs text-slate-500">${escapeHtml(textA.author)}</div>` : ''}
-            <div class="mt-1 text-xs text-slate-500">${(Object.keys(textA.lemmata || {}).length).toLocaleString('de-DE')} unique Lemmata · ${(textA.wordCount || 0).toLocaleString('de-DE')} Token</div>
+            <div class="mt-1 text-xs text-slate-500">${(Object.keys(textA.lemmata || {}).length).toLocaleString('de-DE')} unique Lemmata · ${(textA.wordCount || 0).toLocaleString('de-DE')} annot. Tokens</div>
           </div>
           <div>
             <div class="text-xs uppercase tracking-wide text-slate-500">Text B</div>
             <div class="font-semibold text-brand-700">${escapeHtml(textB.id)}-${escapeHtml(textB.title || '')}</div>
             ${textB.author ? `<div class="text-xs text-slate-500">${escapeHtml(textB.author)}</div>` : ''}
-            <div class="mt-1 text-xs text-slate-500">${(Object.keys(textB.lemmata || {}).length).toLocaleString('de-DE')} unique Lemmata · ${(textB.wordCount || 0).toLocaleString('de-DE')} Token</div>
+            <div class="mt-1 text-xs text-slate-500">${(Object.keys(textB.lemmata || {}).length).toLocaleString('de-DE')} unique Lemmata · ${(textB.wordCount || 0).toLocaleString('de-DE')} annot. Tokens</div>
           </div>
         </div>
       </div>
