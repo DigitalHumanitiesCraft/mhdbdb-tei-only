@@ -84,11 +84,15 @@ NUMERIC_SCAN_MIN = 100
 # Ausnahmen von NUMERIC_SCAN_MIN (#297 Punkt 1). Die 100er-Schwelle schuetzt
 # gegen Tabellenindizes, Prozente und Abschnittsnummern; sie macht das Audit
 # aber blind fuer jede Datenzahl darunter. names.xml ist die einzige
-# Authority-Datei unter der Schwelle (90 Kategorien) und stand damit still in
-# docs/TEI-MODEL.md. Zulaessig ist die Absenkung nur bei einem Key, dessen
-# Anker die Zahl eng bindet und dessen Drift-Fenster klein bleibt: bei 90 sind
-# das +-2, es werden also nur 88 bis 92 mit direkt folgendem "Kategorien" oder
-# "Namen" gemeldet.
+# doc-gepruefte Authority-Datei unter der Schwelle (90 Kategorien) und stand
+# damit still in docs/TEI-MODEL.md. Zulaessig ist die Absenkung nur bei einem
+# Key, dessen Anker die Zahl eng bindet und dessen Drift-Fenster klein bleibt:
+# bei 90 sind das +-2, es werden also nur 88 bis 92 mit direkt folgendem
+# "Kategorien" oder "Namen" gemeldet.
+#
+# Die Absenkung gilt KEY-GLOBAL, nicht pro (Datei, Key): kommt der Key spaeter
+# in einem zahlenreichen Target dazu (INDEX.md, ROADMAP.md), waechst die
+# Fehlalarmflaeche still mit. Dann pro Target entscheiden statt hier absenken.
 SCAN_MIN_OVERRIDE = {'names': 50}
 
 
@@ -461,7 +465,11 @@ def find_stale_numbers(doc_path: str, current: int, key: str) -> list:
         # Stand-von-Version-Vermerk und die woertliche Abgrenzung, nicht
         # irgendein Vorkommen von "Stand".
         line_end = content.find('\n', m.end())
-        fwd_ctx = content[m.end():line_end if line_end != -1 else len(content)]
+        line_end = len(content) if line_end == -1 else line_end
+        # Auf 120 Zeichen gekappt wie hist_ctx: ohne die Kappung schirmt ein
+        # nachgestellter Vermerk auf einer langen Zeile jede Zahl links von
+        # sich ab, auch die, auf die er sich nicht bezieht.
+        fwd_ctx = content[m.end():min(line_end, m.end() + 120)]
         if re.search(r'(?:sind|ist)\s+der\s+Stand\s+von\s+v\d|nicht\s+der\s+heutige',
                      fwd_ctx):
             continue
@@ -493,6 +501,8 @@ def check_anchor_coverage(counts: dict, code_counts: dict) -> list:
       no-hit        Anker kommt im ganzen Dokument nicht vor
       silent        wie no-hit, aber als bewusste Entscheidung hinterlegt
                     (INTENTIONALLY_SILENT) und damit kein offener Punkt
+      silent-obsolet  als silent hinterlegt, aber der Anker trifft doch:
+                    der Eintrag gehoert entfernt
     """
     gaps = []
     scans = [(DOC_TARGETS, NEAR_KEYWORDS, counts, True),
@@ -520,6 +530,14 @@ def check_anchor_coverage(counts: dict, code_counts: dict) -> list:
                     gaps.append((doc_path, key,
                                  'silent' if reason else 'no-hit',
                                  reason or 'Anker kommt im Dokument nicht vor'))
+                elif (doc_path, key) in INTENTIONALLY_SILENT:
+                    # Der Anker trifft, der Eintrag behauptet das Gegenteil:
+                    # tote Config mit inzwischen falscher Begruendung. Ohne
+                    # diese Meldung altert INTENTIONALLY_SILENT genauso still
+                    # wie die Luecken, gegen die es gebaut wurde.
+                    gaps.append((doc_path, key, 'silent-obsolet',
+                                 'Anker trifft inzwischen, Eintrag aus '
+                                 'INTENTIONALLY_SILENT entfernen'))
     return gaps
 
 
