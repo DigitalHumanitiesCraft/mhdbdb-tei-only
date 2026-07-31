@@ -47,7 +47,7 @@ Die autonome Merge-Session (08.07., [MASTERPLAN-AUTONOME-MERGE-SESSION](playbook
 
 Direkt startbar geworden:
 - **#92 ARITHMETIC Stage 1** – Escaping-Blocker in #185 gemerged; Metadatenfragen an Carina weiter offen
-- **WVV-Strophen-Lauf** – F35/F36-Fixes gemerged UND KZW-Entscheid da (08.07., Empfehlung b bestätigt, #110 von KZW geschlossen); der Lauf selbst steht noch aus
+- **WVV-Strophen-Lauf** – erledigt, Korrektur 31.07.: der Halbsatz „der Lauf selbst steht noch aus" war stale. Der Lauf ist am 10.07. gefahren (JOURNAL, Vormittag: „#110/WVV komplett"); nachgemessen an `tei/WVV.tei.xml` sind es 489 fortlaufende `<lg>`. Derselbe Fehlertyp wie beim #187-Eintrag darüber
 - **#18 Multi-Lemma + PoS-Suche** – POS-Policy (#27) gemerged; braucht POS-Daten im Corpus-Index
 
 Korrektur 31.07.: **#187 posAll-Anzeige-Migration** stand hier bis heute als startbar, ist aber seit 10.07. erledigt (Commit `edb16dd3f`, Issue als completed geschlossen; JOURNAL-Eintrag 10.07. Vormittag). Alle im Issue gelisteten Anzeige-Stellen lesen inzwischen `posAll[]` mit Erstwert-Fallback für ältere Caches, dazu `verse-position-search.js`, das in der Issue-Liste fehlte.
