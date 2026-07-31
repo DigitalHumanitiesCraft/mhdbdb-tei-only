@@ -816,7 +816,7 @@ Both verse tools read `text.lineEnds[]` from the corpus index. Its definition is
 
 ### H.3 Rhyme dictionary (#106)
 
-Source: `playground/js/ui/tei/rhyme-dictionary.js`. Scope: full corpus, optionally narrowed by a free-text filter matching sigle (exact, case-insensitive), title or author (substring).
+Source: `playground/js/ui/tei/rhyme-dictionary.js`. Scope: full corpus, optionally narrowed by a free-text filter. All three fields are lowercased before comparison: sigle must match exactly, title and author match as substrings.
 
 ```
 for each text with non-empty lineEnds[] and words[] and containing targetId:
@@ -859,8 +859,14 @@ rhymePressure = endCounts[l] / (totalCounts[l] or endCounts[l]) * 100
 - `sum(shareOfVerses)` over all lemmata is **exactly 100 %** (up to rounding), because `verseCount` and `endCounts` are built from the same `lineEnds[]` entries and every entry has an ID (H.2a). The share is therefore a share of *annotated* verses; verses without a single annotated token are in neither number. Do not read it as a share of all verses in the text.
 - Sorting is by `endCount` only, then truncated to `topN`. The optional function-word filter keeps lemmata with **no** PoS tags, same as in H.2. There is no facet override here: a chosen filter always applies.
 
-### H.5 Not covered here
+### H.5 Deliberately not here
 
-Word frequency, text statistics, lemma distribution, concept distribution, text comparison and co-occurrence ranking are either plain counts over `text.lemmata` or purely exploratory, with no derived measure to get wrong. They stay documented in prose in `docs/FEATURES.md`. If one of them ever grows a normalized or weighted figure, it belongs here.
+§H covers three of the twelve TEI analysis tools plus the main-site keyness column. The other nine are listed here by name, so that "not in §H" stays a decision rather than an oversight:
+
+- **Plain counts over `text.lemmata`, nothing derived to get wrong:** word frequency, text statistics, lemma distribution, concept distribution, text comparison, co-occurrence ranking. They stay documented in prose in `docs/FEATURES.md`.
+- **Already under contract elsewhere:** multi-lemma search (document, proximity and same-verse) is §C.2, verse-position lemma search reads `lineStarts[]`/`lineEnds[]` under the definition in H.2a.
+- **Curated external dataset, trivial counting rule:** the extended character-naming explorer (#59) reads its own prebuilt `data/naming-index.json.gz` and reports attestation counts verbatim from it. What needs documenting there is provenance, not arithmetic, and that sits with the attribution in the view itself.
+
+If any of them grows a normalized, weighted or otherwise derived figure, it belongs here.
 
 **Open dependency:** #255 asks whether parallel witnesses should count as independent texts in these evaluations. All four rules above currently count a witness like any other text. Whatever #255 decides changes H.1 (`corpusWordTotal`, `corpusMatches`), H.2 (`counts`) and H.4 (`verseCount`), and this section is where it has to be written down.
