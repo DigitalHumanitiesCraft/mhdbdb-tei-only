@@ -18,8 +18,9 @@ Index structure (v4.2.0 - DOCUMENT-LEVEL + LINE BOUNDARIES):
       "title": "Von der Abgeschiedenheit",
       "author": "Meister Eckhart",
       "authorRef": "#person_445",
-      "workRef": "#work_89",
-      "genre": "genre_x",
+      "workRef": "works.xml#work_89",   # verbatim aus msIdentifier/@corresp, mit Datei-Praefix
+      "genre": "",                      # leer in allen 667 Texten: term[@type="genre"] kommt
+                                        # im Korpus nicht vor (DATA-MODEL, XPath-Tabelle)
       "wordCount": 1500,
       "words": ["lemma_879", "lemma_123", "lemma_879", ...],  # all lemmatized <w> in <body> (only @lemmaRef-bearing)
       "lemmata": {

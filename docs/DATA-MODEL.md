@@ -468,7 +468,7 @@ Build properties: deterministic on the #125 principle (no timestamps, compact JS
 | | genres.xml | `//tei:category` (filter ID starts with `genre_`) | Genre entries |
 | | names.xml | `//tei:category` (filter ID starts with `name_`) | Name entries |
 | | (all three) | `.//tei:catDesc//tei:term` (filter `@xml:lang`) | DE/EN labels. For concepts and genres additionally `@type="alternative"` → `altDE`/`altEN`/`altNormalized` (that is what index versions 1.3.0 and 1.5.0 were for). `names.xml` has no such handling: there the last `de` term overwrites the previous one, dormant today because no name category carries more than one |
-| | genres.xml | `./tei:catDesc/tei:ptr[@type="broader"]` *(`parse_genres` uses `.//`, `build_performance_maps` the direct child; identical over the current data, 3,175 hits either way)* | Genre hierarchy |
+| | genres.xml | `./tei:catDesc/tei:ptr[@type="broader"]` *(direct children throughout; the only reader is `build_performance_maps`, not `parse_genres`)* | Genre hierarchy, 3,175 pointers |
 | | genres.xml | `tei:catDesc/tei:term` *(direct child, first `de` wins)* in `_build_genre_names()` | `work.genres[].text`, the label shown for a genre pointer. Different axis **and** different selection logic from the `.//tei:catDesc//tei:term` row above |
 | | names.xml | `.//tei:ptr[contains(@target,"concepts.xml#")]` | Concept cross-references |
 | | variants.xml | `.//tei:entry` (TEI namespace hard-coded) | Variant groups |
