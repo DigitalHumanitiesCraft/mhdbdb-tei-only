@@ -47,10 +47,14 @@ Die autonome Merge-Session (08.07., [MASTERPLAN-AUTONOME-MERGE-SESSION](playbook
 
 Direkt startbar geworden:
 - **#92 ARITHMETIC Stage 1** – Escaping-Blocker in #185 gemerged; Metadatenfragen an Carina weiter offen
-- **WVV-Strophen-Lauf** – erledigt, Korrektur 31.07.: der Halbsatz „der Lauf selbst steht noch aus" war stale. Der Lauf ist am 10.07. gefahren (JOURNAL, Vormittag: „#110/WVV komplett"); nachgemessen an `tei/WVV.tei.xml` sind es 489 fortlaufende `<lg>`. Derselbe Fehlertyp wie beim #187-Eintrag darüber
 - **#18 Multi-Lemma + PoS-Suche** – POS-Policy (#27) gemerged; braucht POS-Daten im Corpus-Index
 
-Korrektur 31.07.: **#187 posAll-Anzeige-Migration** stand hier bis heute als startbar, ist aber seit 10.07. erledigt (Commit `edb16dd3f`, Issue als completed geschlossen; JOURNAL-Eintrag 10.07. Vormittag). Alle im Issue gelisteten Anzeige-Stellen lesen inzwischen `posAll[]` mit Erstwert-Fallback für ältere Caches, dazu `verse-position-search.js`, das in der Issue-Liste fehlte.
+**Korrektur 31.07.:** Zwei Einträge standen hier als startbar, sind aber beide seit 10.07. erledigt und deshalb aus der Liste genommen.
+
+- **#187 posAll-Anzeige-Migration** (Commit `edb16dd3f`, Issue als completed geschlossen; JOURNAL 10.07. Vormittag). Alle im Issue gelisteten Anzeige-Stellen lesen inzwischen `posAll[]` mit Erstwert-Fallback für ältere Caches, dazu `verse-position-search.js`, das in der Issue-Liste fehlte.
+- **WVV-Strophen-Lauf**: der Halbsatz „der Lauf selbst steht noch aus" stammte vom 08.07. und wurde am 10.07. überholt (JOURNAL: „#110/WVV komplett"). Nachgemessen an `tei/WVV.tei.xml`: 489 fortlaufende `<lg>`.
+
+Beides derselbe Fehlertyp: die ROADMAP beschreibt den Stand eines Dokuments statt den des Projekts, sobald ein Eintrag nach seiner Erledigung nicht mitgezogen wird.
 
 **#124 (prio-1)** ist technisch fertig: cookieloses Matomo ist seit 17.06. deployed (`includes/_matomo.html`, Opt-out + Datenschutz-Abschnitt im Impressum, Commit `7abbf7672`); offen nur noch DSB-Absegnung der Rechtsgrundlage + Klärung des Dashboard-Zugangs.
 
