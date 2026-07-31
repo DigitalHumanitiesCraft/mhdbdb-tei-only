@@ -736,3 +736,120 @@ Any ingest pipeline that mints new lemma/sense IDs in the corpus MUST write them
 ### G.4 Determinism = CI Gate Basis
 
 Same committed index state → byte-identical `api/` output (no timestamps, no randomness, compact `json.dumps`, iteration in index list order – the #125 principle). This is what makes the CI check "Freshness API (#45)" in `data-integrity.yml` possible: rebuild + `git diff` (plain JSON, no decompression step). Anything non-deterministic added to `build-api.py` turns the gate into a permanent false alarm.
+
+---
+
+## H. Analysis Tools: Counting Rules (#281)
+
+**Contract:** the four tools below emit *numbers that can be cited*. Each number's counting rule is normative and must not be changed silently. A different reference corpus, a different denominator or a different threshold produces a different published figure from the same data.
+
+**Why this section exists:** §A to §C cover the search chain, which is where wrong behavior is *visible*. Analysis output is different: a keyness value computed against the wrong reference corpus looks exactly like one computed against the right one. The rebuild test ("could I delete every `.js`/`.py` and reconstruct it from the docs?") failed for these four, while it passed for search, build pipeline and reader.
+
+**Scope note that applies to all four:** none of them reads the corpus-search text selection. The main-site checkbox selection (`corpusData.includedTexts`) filters *search results*; every tool here works on the full corpus index and defines its own scope. This is intentional and is the single most misreadable property of the whole section.
+
+### H.1 Keyness (signed log-likelihood, #114)
+
+Source: `assets/js/app.js`, `computeKeyness()` and `logLikelihood()`. Rendered as a sortable column in the main-site table view, one value per result row (= per text).
+
+**Contingency values** for a row belonging to text *T*:
+
+| | Value | Source |
+|---|---|---|
+| `a` | hits in *T* | `r.matchCount`, summed over all lemma IDs that matched in *T* |
+| `b` | hits in the rest of the corpus | `corpusMatches - a` |
+| `c` | tokens in *T* | `text.wordCount` |
+| `d` | tokens in the rest of the corpus | `corpusWordTotal - c` |
+
+```
+# Reference corpus: ALL texts in the corpus index, never the user's selection.
+corpusWordTotal = sum(text.wordCount for text in corpusIndex.texts)
+corpusMatches   = sum(len(text.lemmata[id])
+                      for id in lemmaIds
+                      for text in corpusIndex.lemmaIndex[id])
+
+logLikelihood(a, b, c, d):
+    if c <= 0 or d <= 0 or (a + b) <= 0: return 0
+    e1 = c * (a + b) / (c + d)
+    e2 = d * (a + b) / (c + d)
+    ll = 0
+    if a > 0 and e1 > 0: ll += a * ln(a / e1)
+    if b > 0 and e2 > 0: ll += b * ln(b / e2)
+    ll *= 2
+    return ll if (a / c) >= ((a + b) / (c + d)) else -ll
+```
+
+Four properties that are decisions, not implementation details:
+
+1. **The reference corpus is always all 667 texts, independent of the text selection.** Deselecting texts changes which rows appear, never the value in a row. Same reference as Beutel-Thurow's naming-analysis, which is why the figures are comparable to hers.
+2. **`c` and `d` are total token counts, not non-hit counts.** This is the Rayson/Garside form of the statistic (two-term sum over observed vs. expected), not a full four-cell table. Both are current practice; mixing them up changes every value.
+3. **`lemmaIds` is the resolution of the search term, not the set of lemmata that actually produced hits.** Taken from `resolveLemmaIds(normalized(term))`, i.e. the same three-stage resolution the search itself used (§C). Using the hit set instead would make the reference frequency depend on the selection through the back door.
+4. **Signing:** relative frequency in the text ≥ relative frequency overall → positive (overrepresented), else negative. Equality counts as overrepresented.
+
+**Thresholds** (df = 1): 3.84 → p < 0.05, 10.83 → p < 0.001. Only 10.83 is used in the UI, as bold + brand color. `keyness` is `undefined` when no results or no index exist, and renders as `–`; sorting maps that to `-Infinity`.
+
+### H.2 Hapax legomena (#196)
+
+Source: `playground/js/ui/tei/hapax-legomena.js`. Scope: the full corpus, always.
+
+```
+# Corpus-wide LEMMA frequency, not word-form frequency
+counts[lemmaId] = sum over all texts of len(text.lemmata[lemmaId])
+entry qualifies  <=>  counts[lemmaId] <= maxFreq        # 1 | 2 | 3
+```
+
+- **The threshold is `<=`, not `=`.** "Hapaxlegomena (Frequenz = 1)" is the label for `maxFreq = 1`, where both readings coincide; Dis- and Trislegomena are cumulative (`<= 2`, `<= 3`), so each level contains the previous one.
+- **The unit is the lemma, not the word form.** A lemma attested once, in an inflected form, is a hapax here. This is a lemmatized corpus, so lemma frequency is the only figure the index supports; a form-based hapax count would need the token layer.
+- **At most 3 occurrences are retained per lemma** during aggregation (hard cap, in text and position iteration order). The display says "Angezeigt sind die ersten N von M Vorkommen" whenever the stored count exceeds them. For `maxFreq <= 3` the cap cannot truncate; it exists so the aggregation stays bounded.
+- **Filter chain**, in this order: no authority entry (kept only when neither facet is set) → proper names (`hideNames`, default **on**, any tag `NAM`) → numerals (`hideNumerals`, default **on**, but only when `NUM` is the *sole* tag, so ADJ/NUM compounds survive) → function words (`hideFunctionWords`, default **off**, any tag in `FUNCTION_WORD_POS`, but lemmata with no tags at all are kept) → PoS facet → initial letter. An explicitly chosen PoS facet always overrides the identically named default filter.
+- **The percentage in the header uses the unfiltered count** (`rawCount / totalTypes`), and "ausgeblendet" is `rawCount - shown`. So the headline figure describes the corpus, not the current filter setting.
+- **Per-text tab counts distinct lemmata, not attestations:** `abs` = number of qualifying lemma IDs occurring in that text, `rel` = `abs / text.wordCount * 1000`.
+
+### H.3 Rhyme dictionary (#106)
+
+Source: `playground/js/ui/tei/rhyme-dictionary.js`. Scope: full corpus, optionally narrowed by a free-text filter matching sigle (exact, case-insensitive), title or author (substring).
+
+```
+for each text with non-empty lineEnds[] and words[] and containing targetId:
+    targetPositions = set(text.lemmata[targetId])
+    for k in 0 .. len(lineEnds)-1:
+        if lineEnds[k] not in targetPositions: continue
+        for delta in (-1, +1):
+            j = k + delta
+            partnerId = text.words[lineEnds[j]]
+            if partnerId == targetId and delta == -1: continue   # count self-rhyme once
+            if rhymesWith(normalized[targetId], normalized[partnerId]):
+                record pair (k, j)
+
+rhymesWith(a, b):
+    return a[-3:] == b[-3:]  or  (len(a) <= 4 and len(b) <= 4 and a[-2:] == b[-2:])
+```
+
+- **"Adjacent" means adjacent index in `lineEnds[]`**, i.e. the preceding and following *verse of the same text*, not adjacency by `@n`. The pairing assumption is the rhyming couplet. Cross rhyme (distance 2) is **not** captured, and the UI says so.
+- **The two sides of a pair are read from different index fields, deliberately.** The target side uses `text.lemmata[targetId]` (all positions, so multi-`@lemmaRef` tokens count), the partner side uses `text.words[pos]` (the **first** ID only). A partner lemma that only ever appears as a second `@lemmaRef` is therefore invisible. Reading the target side the same way would silently drop target attestations, which is the worse error.
+- **The rhyme criterion is graphemic, on MHG-normalized lemma forms**, not phonetic, and not on the original token. It is a *heuristic*, explicitly a minimal variant; the full treatment (original tokens, phonetics) is parked in #109. The 2-character fallback is gated on both forms being short, otherwise high-frequency short words flood every target.
+- Retained evidence per partner is capped at 1000 pairs; the displayed list is capped at 200 partners after the `minCount` filter.
+
+### H.4 Verse-ending profile and "Reim-Druck" (#106 points 2 and 3)
+
+Source: `playground/js/ui/tei/verse-ending-profile.js`. Scope: verse texts only (`lineEnds[]` non-empty), then all of them, or one author, or one text.
+
+```
+verseCount  = sum(len(text.lineEnds) for text in scope)
+endCounts[l]   = count of verses whose last annotated word maps to lemma l   # from text.words[]
+totalCounts[l] = sum(len(text.lemmata[l]) for text in scope)                 # from text.lemmata
+
+shareOfVerses = endCounts[l] / verseCount * 100
+rhymePressure = endCounts[l] / (totalCounts[l] or endCounts[l]) * 100
+```
+
+- **"Reim-Druck" is scope-local on both sides.** Numerator and denominator come from the same scope, so a value for one text answers "how often does this lemma land at the verse end *in this text*", not "compared to the corpus". At `scope = corpus` the denominator still excludes prose, because prose texts are filtered out before counting.
+- **Numerator and denominator come from different index fields**, and this asymmetry is systematic: `endCounts` reads `text.words[pos]` (first `@lemmaRef` only), `totalCounts` reads `text.lemmata` (every ID). A lemma that frequently appears as a second `@lemmaRef` therefore gets a rhyme pressure that is too *low*. The figure is safe for comparing lemmata with comparable annotation depth and unsafe as an absolute statement. Fixing it needs a position-to-all-IDs map that the index does not carry today.
+- **The `|| endCount` fallback** in the denominator turns a missing total into 100 %. It cannot trigger from consistent index data (a verse-ending attestation is also an attestation) and exists as a division guard.
+- Verses whose last annotated word has no lemma ID still count in `verseCount`. So `sum(shareOfVerses)` over all lemmata is below 100 %, by exactly the share of unannotated verse endings.
+- Sorting is by `endCount` only, then truncated to `topN`. The optional function-word filter keeps lemmata with **no** PoS tags (conservative), unlike H.2 where the same filter also keeps them but the name filter does not.
+
+### H.5 Not covered here
+
+Word frequency, text statistics, lemma distribution, concept distribution, text comparison and co-occurrence ranking are either plain counts over `text.lemmata` or purely exploratory, with no derived measure to get wrong. They stay documented in prose in `docs/FEATURES.md`. If one of them ever grows a normalized or weighted figure, it belongs here.
+
+**Open dependency:** #255 asks whether parallel witnesses should count as independent texts in these evaluations. All four rules above currently count a witness like any other text. Whatever #255 decides changes H.1 (`corpusWordTotal`, `corpusMatches`), H.2 (`counts`) and H.4 (`verseCount`), and this section is where it has to be written down.

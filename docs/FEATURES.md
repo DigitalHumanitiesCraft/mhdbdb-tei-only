@@ -47,7 +47,7 @@ Umschaltbare Ergebnis-Darstellung Liste ↔ Tabelle für die Frage „wie vertei
 - Sortierbare Spalten: Titel (mit Sigle-Präfix), Autor*in, Treffer, Frequenz/10k Wörter, Keyness (LL), Wörter – plus Belege-Spalte (KWIC #129)
 - Results-Header zeigt `N von X ausgewählten Texten · M Treffer gesamt` (auch in der Listenansicht; X = Suchraum zum Suchzeitpunkt, #204)
 - **Gesamtzeile** (sticky `<tfoot>`): Summe Treffer, Gesamt-Frequenz, Summe Wörter über alle Ergebnis-Texte
-- **Keyness (LL):** signierte Log-Likelihood (Dunning 1993) der Trefferfrequenz im Text gegen den Rest des Gesamtkorpus; Werte ≥ 10,83 (p<0,001) fett/brand markiert = Schlüsselwort des Textes (Referenz: Lindas naming-analysis)
+- **Keyness (LL):** signierte Log-Likelihood (Dunning 1993) der Trefferfrequenz im Text gegen den Rest des Gesamtkorpus; Werte ≥ 10,83 (p<0,001) fett/brand markiert = Schlüsselwort des Textes (Referenz: Lindas naming-analysis). Referenzkorpus sind immer alle 667 Texte, unabhängig von der Textauswahl; Kontingenztafel und Signierung normativ in [CONTRACTS §H.1](CONTRACTS.md#h1-keyness-signed-log-likelihood-114)
 - **Types + Wörterbuch-Links:** das Lemma-Panel zeigt pro resolviertem Lemma (max. 3) die Schreibformen aus dem Variants-Dictionary (aufklappbar; MHG-normalisierte Suchformen, nicht Original-Graphien – so beschriftet) plus asynchron geladene Deep-Links in fünf Wörterbücher (MWB, Lexer, Lexer-Nachträge, Benecke/Müller/Zarncke, Findebuch) über den geteilten, session-gecachten Client `assets/js/lib/woerterbuchnetz.js` (#258, CONTRACTS §D.2). Die Sigle steht einmal je Wörterbuch und trägt den ausgeschriebenen Titel als Tooltip; je Wörterbuch werden bis zu drei Einträge verlinkt, mit grammatischer Angabe zur Unterscheidung der Homographen
 - Export: TSV-Clipboard („Kopieren") + CSV-Download (UTF-8 BOM, RFC-4180-Quoting), respektiert aktuelle Sortierung; Gesamtzeile wird bewusst nicht exportiert
 - Row-Klick öffnet den Reader (wechselt automatisch auf Listen-Layout; localStorage-Präferenz bleibt `table`)
@@ -222,7 +222,7 @@ Corpus-wide text analysis using pre-built indexes. Zwölf Werkzeuge in zwölf Pl
 - Sortierung nach Frequenz oder alphabetisch
 
 **Echte Hapaxlegomena (#196):**
-- Lemmata (nicht Wortformen) mit korpusweiter Gesamtfrequenz ≤ n (Hapax/Dis/Tris, Default 1) – abzugrenzen von der Text-Hapax-Rate der Text-Statistiken (#89)
+- Lemmata (nicht Wortformen) mit korpusweiter Gesamtfrequenz ≤ n (Hapax/Dis/Tris, Default 1) – abzugrenzen von der Text-Hapax-Rate der Text-Statistiken (#89). Zählregel und Filterreihenfolge normativ in [CONTRACTS §H.2](CONTRACTS.md#h2-hapax-legomena-196)
 - Datenpfad: ein Aggregations-Durchlauf über `text.lemmata` aller Texte (Pattern Wortfrequenz-Analyse); je Lemma werden die ersten ≤3 Fundorte (`textId` + Wortposition) mitgeführt, Versnummer via Binärsuche über `lineStarts[]`
 - **Facetten-Vorrang (einheitlich für alle drei Default-Filter):** Eine explizit in der Wortart-Facette gewählte Wortart hebt den gleichnamigen Filter auf (NAM, NUM, jede Wortart aus `FUNCTION_WORD_POS`); die betroffene Checkbox rendert dann `disabled` und gedimmt. Ohne diese Regel liefert die Facette kommentarlos eine leere Liste
 - Filter: Eigennamen ausblenden (NAM, Default an – 28 % der Hapaxe), Zahlwörter ausblenden (Default an – greift nur bei reinem NUM, nicht bei Mehrfach-Wortarten wie `zwispeltic` ADJ/NUM; betrifft 72 der 119 NUM-Hapaxe. Anlass waren die drei Ziffern-Lemmata 42/46/49, die alphabetisch auf den Rängen 1 bis 3 standen, siehe #228), Funktionswörter ausblenden (geteilte `FUNCTION_WORD_POS`-Menge aus word-frequency.js), Wortarten-Facette, Anfangsbuchstaben-Facette (auf `lemma.normalized`)
@@ -275,7 +275,7 @@ Corpus-wide text analysis using pre-built indexes. Zwölf Werkzeuge in zwölf Pl
 **Reim-Wörterbuch (#106, Minimalvariante):**
 - „Welche Lemmata reimen sich auf X?" – Eingabe-Lemma + optionaler Text/Autor-Filter (Sigle exakt oder Titel/Autor-Substring) → rangierte Tabelle der Reimpartner-Lemmata
 - Datenpfad: Scan über `text.lineEnds[]` (Corpus-Index v4.1.x); Kandidaten sind die Lemmata der unmittelbar benachbarten Versenden (±1 Vers, Paarreim-Annahme)
-- Reim-Heuristik: 3-Letter-Suffix-Match der MHG-normalisierten Lemma-Formen (2-Letter nur, wenn beide Formen ≤4 Zeichen – findet `wîp : lîp` und `tac : slac`, ohne dass Kurzwörter wie `en`/`dô` lange Ziel-Lemmata fluten); identischer Reim (Lemma auf sich selbst) wird nur einfach gezählt
+- Reim-Heuristik: 3-Letter-Suffix-Match der MHG-normalisierten Lemma-Formen (2-Letter nur, wenn beide Formen ≤4 Zeichen – findet `wîp : lîp` und `tac : slac`, ohne dass Kurzwörter wie `en`/`dô` lange Ziel-Lemmata fluten); identischer Reim (Lemma auf sich selbst) wird nur einfach gezählt. Vollständige Zählregel samt der Asymmetrie zwischen Ziel- und Partnerseite: [CONTRACTS §H.3](CONTRACTS.md#h3-rhyme-dictionary-106)
 - Pro Partner: Reimpaar-Zahl, Texte als Sigle-Chips mit Paarzahl, „→ Belege" klappt die gezählten Verspaare direkt in der Tabelle auf: beide Verse als vollständiger `<l>`-Inhalt (lazy per TEI-Fetch; Highlight-Mapping über CONTRACTS-§B-Positionszählung, damit `lineEnds[]`-Positionen auf die richtigen Wörter zeigen), markierte Reimwörter, Versangabe aus `<l n>`, Reader-Deep-Link (`position=`); paginiert zu 10, Cap 1000 gespeicherte Verspaare pro Partner. (Vorher nur Link in den Nähe-Modus der Multi-Lemma-Suche mit Distanz 15 – zeigte auch Kookkurrenzen abseits der Versenden, also keine Reime; KZW-Report 2026-07-09)
 - Async-Chunking + Abort-Token (Pattern wie #107), Prosa (leere `lineEnds`) wird übersprungen
 - Bewusste Grenzen der Minimalvariante (Issue #106): lemma- statt token-basiert (reimende Flexionsform kann abweichen), strukturell statt phonetisch, Kreuzreime (ABAB) entgehen dem ±1-Scan; Original-Token-Variante bräuchte Index-Erweiterung (`lineEndWords[]`), phonetische Klassifikation ist #109-Folgearbeit
@@ -283,7 +283,7 @@ Corpus-wide text analysis using pre-built indexes. Zwölf Werkzeuge in zwölf Pl
 **Versendings-Profil (#106 Punkt 2):**
 - Top-N häufigste Lemmata am Versende – Scope wählbar: Gesamtkorpus, Autor*in (optgroup) oder Einzeltext
 - Datenpfad: `text.words[lineEnds[i]]` je Vers (Corpus-Index v4.1.x), kein neuer Build-Schritt
-- Spalten: Versende-Belege (absolut), Anteil an allen Versenden des Scopes, **Reim-Druck** = Anteil der Vorkommen des Lemmas am Versende vs. gesamt (#106 Punkt 3: hoher Wert = reimgetrieben, niedriger = semantisch motiviert)
+- Spalten: Versende-Belege (absolut), Anteil an allen Versenden des Scopes, **Reim-Druck** = Anteil der Vorkommen des Lemmas am Versende vs. gesamt (#106 Punkt 3: hoher Wert = reimgetrieben, niedriger = semantisch motiviert). Zähler und Nenner sind beide scope-lokal und stammen aus verschiedenen Index-Feldern, was die Kennzahl systematisch nach unten verzerrt: [CONTRACTS §H.4](CONTRACTS.md#h4-verse-ending-profile-and-reim-druck-106-points-2-and-3)
 - Funktionswort-Filter (gleiche POS-Menge wie Wortfrequenz/Hapax), Lemma-Links auf die Lemma-Seiten
 - Nur Versdichtung (leere `lineEnds` -> übersprungen); Use Case aus dem Issue: Reim-Stil-Vergleich Wolfram/Hartmann/Gottfried
 
