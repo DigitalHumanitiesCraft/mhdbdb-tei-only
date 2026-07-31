@@ -645,6 +645,8 @@ Last gemessen und unkritisch: fünf parallele Requests kosten 31 bis 81 ms kalt,
 
 **Phase:** Betrieb, reine Doku, kein Rebuild. PR #296.
 
+---
+
 ## 2026-07-31 – Die gefährlichsten Doku-Sätze sind die über Abwesenheit
 
 **Summary:** `docs/CONTRACTS.md` hat mit §H Zählregeln für die Analyse-Werkzeuge bekommen, die zitierfähige Zahlen ausgeben (#281, PR #304). Der Abschnitt ging durch fünf Review-Runden, und in jeder einzelnen wurde ein Fehler im Text gefunden. Bemerkenswert ist nicht, dass es Fehler gab, sondern dass sie fast alle denselben Typ hatten: **Aussagen darüber, dass etwas nicht existiert.**
