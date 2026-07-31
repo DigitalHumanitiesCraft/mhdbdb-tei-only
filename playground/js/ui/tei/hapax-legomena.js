@@ -558,6 +558,14 @@ export class HapaxLegomenaAnalyzer {
     try {
       const results = await fetchWbnetzEntries(lemma.normalized || lemma.lemma);
       if (!dictEl) return;
+      // Leere Suchform: der Client fragt gar nicht erst und liefert ein leeres
+      // Array. Ohne diesen Zweig fiele das unten in den Negativbefund und
+      // behauptete "nicht als Lemma gefunden" über eine Abfrage, die es nie
+      // gab — dieselbe Fehlerklasse wie der Ausfall darunter.
+      if (results.length === 0) {
+        dictEl.innerHTML = '<span class="text-amber-700">Beleglage nicht prüfbar: keine normalisierte Form für die Abfrage vorhanden.</span>';
+        return;
+      }
       // Sigle einmal je Wörterbuch statt einmal je Eintrag (#258): bei fünf
       // Wörterbüchern à drei Einträgen wird die Zelle sonst unlesbar. Der
       // ausgeschriebene Titel hängt als title-Attribut an der Sigle.

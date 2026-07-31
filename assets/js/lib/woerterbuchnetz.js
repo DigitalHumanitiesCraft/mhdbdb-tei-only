@@ -43,7 +43,7 @@ export function dictionaryTitle(sigle) {
     return DICTIONARY_TITLES[sigle] || sigle;
 }
 
-const entryCache = new Map(); // normalizedForm -> Promise<[{sigle, entries}]>
+const entryCache = new Map(); // normalizedForm -> Promise<[{sigle, entries, failed}]>
 
 function isSafeLink(url) {
     return typeof url === 'string' && /^https?:\/\//i.test(url);
