@@ -459,6 +459,12 @@ class TEITextReader {
      * vollständig in FR3 (+117 → +136). DES2 und PKP haben ebenfalls
      * verschachtelte parallel-divs und bleiben unverändert.
      *
+     * Grenze der Regel: sie wirkt auf die PRÜFUNG, nicht auf die Render-
+     * Reihenfolge. In FR3 steht jeder Parallelzeuge hinter den Zeilen seines
+     * Basiszeugen, die sichtbare 1 fällt also auf den Basiszeugen. Läge ein
+     * Zeuge davor, qualifizierte die section zwar, aber die erste Zeile des
+     * Parallelzeugen verbrauchte den Anker. Heute gibt es keinen solchen Fall.
+     *
      * @param {Element} node
      * @param {Element} divEl Bezugs-div, dessen Zählung geprüft wird
      * @returns {boolean}
@@ -542,17 +548,21 @@ class TEITextReader {
                     // Ohne den Reset zeigt nur das erste Lied seine „1", alle
                     // folgenden setzen sichtbar erst bei 5 ein (#138, Julia 17.07.).
                     //
-                    // Reichweite (reproduzierbar per
-                    // scripts/audit/count-verse-numbering-resets.py, das diese
-                    // Render-Reihenfolge nachbaut): 1.492 divs in 137 Texten
-                    // erfüllen das Kriterium (897 chapter, 252 song, 159 ohne
-                    // @type, 156 section, 21 parallel, 7 number); sichtbar werden
+                    // Reichweite: 1.492 divs in 137 Texten erfüllen das
+                    // Kriterium (897 chapter, 252 song, 159 ohne @type,
+                    // 156 section, 21 parallel, 7 number); sichtbar werden
                     // dadurch 1.352 zusätzliche Randnummern in 49 Texten. Größter
                     // Fall ist PZ mit +826, dann FR3 +136, CHH +53, TKR +40,
                     // HUG +39 (Stand 2026-07-31, nach #236 und der
                     // Zeugentrennung aus #250). Texte
                     // mit durchlaufender Zählung sind unberührt, weil dort nur
                     // der erste div bei n="1" beginnt.
+                    //
+                    // scripts/audit/count-verse-numbering-resets.py baut diese
+                    // Render-Reihenfolge nach, kennt die Zeugentrennung aus #250
+                    // aber noch nicht und weist deshalb den Stand davor aus
+                    // (1.473 divs, 1.333 zusätzliche Randnummern, FR3 +117).
+                    // Nachziehen ist als Folgeschritt zu #250 vermerkt.
                     //
                     // Bewusst NUR auf div-Ebene, nie auf <lg>: NBB startet jede
                     // Strophe bei n=1: ein lg-Reset stellte in jede Strophe eine
