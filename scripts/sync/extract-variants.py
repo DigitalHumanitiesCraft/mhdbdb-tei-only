@@ -25,8 +25,11 @@ Negative type ids (legacy punctuation codes, #115) are skipped. The two
 Usage:
     python scripts/sync/extract-variants.py            # dry-run -> authority-files/variants.regen.xml
     python scripts/sync/extract-variants.py --apply    # overwrite authority-files/variants.xml
+    python scripts/sync/extract-variants.py --jobs 1   # sequentiell parsen (Default: bis 8 Prozesse)
 """
 
+import concurrent.futures
+import os
 import re
 import sys
 from collections import Counter, defaultdict
@@ -47,6 +50,11 @@ TYPE_POS_RE = re.compile(r'^type_\d+$')        # positive type id only
 TYPE_NUM_RE = re.compile(r'^type_(\d+)$')
 LEMMA_NUM_RE = re.compile(r'^lemma_(\d+)$')
 
+# Worker-Obergrenze (#284): jeder Worker haelt einen lxml-Baum im Speicher,
+# und der Elternprozess summiert alle Teilergebnisse allein. Siehe die
+# gleichlautende Konstante in scripts/build-corpus-index.py.
+DEFAULT_JOBS_CAP = 8
+
 PI_MODEL = [
     ('xml-model', 'href="../schema/mhdbdb-authority.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"'),
     ('xml-model', 'href="../schema/tei_all.rng"'),
@@ -59,33 +67,75 @@ def fragment(value):
     return tok.split('#', 1)[1] if '#' in tok else None
 
 
-def collect(base_files):
-    """type_id -> Counter(form), type_id -> Counter(lemma_id)."""
+def collect_one(fp):
+    """Eine Korpusdatei parsen (#284: Worker-Funktion, muss modullevel sein).
+
+    Rueckgabe sind zwei einfache dicts type_id -> {wert: anzahl}. Bewusst keine
+    lxml-Objekte: die ueberleben eine Prozessgrenze nicht. Counter waere
+    picklebar, plain dict ist kleiner und wird beim Mergen ohnehin in einen
+    Counter gefuettert.
+    """
     type_form = defaultdict(Counter)
     type_lemma = defaultdict(Counter)
-    for i, fp in enumerate(base_files):
-        if (i + 1) % 100 == 0:
-            print(f'  {i + 1}/{len(base_files)}...', flush=True)
-        tree = etree.parse(str(fp))
-        for w in tree.iter(f'{TEI}w'):
-            lemma_ref = w.get('lemmaRef')
-            corresp = w.get('corresp')
-            if not lemma_ref or not corresp:
+    tree = etree.parse(str(fp))
+    for w in tree.iter(f'{TEI}w'):
+        lemma_ref = w.get('lemmaRef')
+        corresp = w.get('corresp')
+        if not lemma_ref or not corresp:
+            continue
+        lemma_id = fragment(lemma_ref)
+        if not lemma_id:
+            continue
+        form = ''.join(w.itertext()).strip()
+        if not form:
+            continue
+        for token in corresp.split():
+            if not token.startswith('variants.xml#'):
                 continue
-            lemma_id = fragment(lemma_ref)
-            if not lemma_id:
-                continue
-            form = ''.join(w.itertext()).strip()
-            if not form:
-                continue
-            for token in corresp.split():
-                if not token.startswith('variants.xml#'):
-                    continue
-                type_id = token.split('#', 1)[1]
-                if not TYPE_POS_RE.match(type_id):
-                    continue  # negative/malformed -> skip (#115)
-                type_form[type_id][form] += 1
-                type_lemma[type_id][lemma_id] += 1
+            type_id = token.split('#', 1)[1]
+            if not TYPE_POS_RE.match(type_id):
+                continue  # negative/malformed -> skip (#115)
+            type_form[type_id][form] += 1
+            type_lemma[type_id][lemma_id] += 1
+    return ({t: dict(c) for t, c in type_form.items()},
+            {t: dict(c) for t, c in type_lemma.items()})
+
+
+def collect(base_files, jobs=1):
+    """type_id -> Counter(form), type_id -> Counter(lemma_id).
+
+    Parallelisiert wird nur das Parsen (#284); summiert wird im Elternprozess.
+
+    Die Summen sind ordnungsunabhaengig, und resolve() bricht seit #284 jeden
+    Gleichstand explizit (haeufigste Form, dann alphabetisch; haeufigstes
+    Lemma, dann lemma_key). Vorher tat es das nicht ganz: der Lemma-Sortkey
+    kollabierte nicht-numerische IDs auf einen konstanten Wert, womit die
+    Merge-Reihenfolge mitentschied. Das war der Grund, dieses map geordnet zu
+    halten; der Grund ist jetzt weg, die Ordnung bleibt trotzdem, weil sie die
+    Fortschrittsausgabe in Dateireihenfolge haelt und nichts kostet.
+    """
+    type_form = defaultdict(Counter)
+    type_lemma = defaultdict(Counter)
+    if jobs <= 1:
+        results = map(collect_one, base_files)
+        pool = None
+    else:
+        pool = concurrent.futures.ProcessPoolExecutor(max_workers=jobs)
+        results = pool.map(collect_one, base_files, chunksize=1)
+    try:
+        for i, (file_form, file_lemma) in enumerate(results):
+            if (i + 1) % 100 == 0:
+                print(f'  {i + 1}/{len(base_files)}...', flush=True)
+            for type_id, forms in file_form.items():
+                type_form[type_id].update(forms)
+            for type_id, lemmas in file_lemma.items():
+                type_lemma[type_id].update(lemmas)
+    finally:
+        if pool is not None:
+            # cancel_futures: map() reicht alle 667 Tasks sofort ein. Ohne das
+            # wartet ein Abbruch (z. B. XMLSyntaxError in Datei 3) erst die
+            # restlichen Dateien ab, bevor der Traceback erscheint.
+            pool.shutdown(cancel_futures=True)
     return type_form, type_lemma
 
 
@@ -108,8 +158,17 @@ def resolve(type_form, type_lemma):
         if len(lemmas) > 1:
             multi_lemma += 1
         # most frequent; ties -> alphabetical form / smallest lemma number
+        # lemma_key statt des frueheren 1<<62-Fallbacks (#284): der kollabierte
+        # ALLE nicht-numerischen Lemma-IDs auf denselben Sortkey, womit der
+        # stabile Sort entschied, also die Einfuegereihenfolge des Counters,
+        # also die Reihenfolge, in der die Korpusdateien gelesen wurden. Beim
+        # sequentiellen Lauf faellt das nicht auf; es macht die Ausgabe aber
+        # von etwas abhaengig, das sie nicht sein sollte. lemma_key bricht den
+        # Gleichstand alphabetisch und ist damit vollstaendig explizit.
+        # Der heutige Korpus hat keine solchen IDs, das Artefakt ist
+        # unveraendert (per Hash geprueft).
         form = sorted(forms.items(), key=lambda kv: (-kv[1], kv[0]))[0][0]
-        lemma = sorted(lemmas.items(), key=lambda kv: (-kv[1], int(LEMMA_NUM_RE.match(kv[0]).group(1)) if LEMMA_NUM_RE.match(kv[0]) else 1 << 62))[0][0]
+        lemma = sorted(lemmas.items(), key=lambda kv: (-kv[1], lemma_key(kv[0])))[0][0]
         type_to_form[type_id] = form
         type_to_lemma[type_id] = lemma
         lemma_to_types[lemma].append(type_id)
@@ -188,11 +247,39 @@ def read_existing():
     return out, date_text, name_text
 
 
+def parse_jobs(argv):
+    """--jobs N aus argv lesen. Default: bis DEFAULT_JOBS_CAP Prozesse.
+
+    Bewusst kein argparse: das Skript liest seine Flags seit jeher direkt aus
+    sys.argv, und ein halber Umstieg waere die schlechtere Variante.
+    """
+    eq = [a for a in argv if a.startswith('--jobs=')]
+    if eq:
+        # Sonst laeuft `--jobs=1` still mit dem Default-Parallelbetrieb, und
+        # genau diese Schreibweise nimmt man zum sequentiellen Debuggen.
+        raw = eq[0].split('=', 1)[1]
+    elif '--jobs' in argv:
+        i = argv.index('--jobs')
+        if i + 1 >= len(argv):
+            sys.exit('--jobs braucht eine Zahl')
+        raw = argv[i + 1]
+    else:
+        return min(DEFAULT_JOBS_CAP, os.cpu_count() or 1)
+    try:
+        jobs = int(raw)
+    except ValueError:
+        sys.exit(f'--jobs braucht eine Zahl, nicht {raw!r}')
+    if jobs < 1:
+        sys.exit('--jobs muss mindestens 1 sein')
+    return jobs
+
+
 def main():
     apply = '--apply' in sys.argv
+    jobs = parse_jobs(sys.argv)
     base_files = sorted(f for f in TEI_DIR.glob('*.tei.xml') if '.disamb.' not in f.name)
-    print(f'Scanning {len(base_files)} corpus files for <w @lemmaRef @corresp>...')
-    type_form, type_lemma = collect(base_files)
+    print(f'Scanning {len(base_files)} corpus files for <w @lemmaRef @corresp>... ({jobs} Prozesse)')
+    type_form, type_lemma = collect(base_files, jobs=jobs)
     lemma_to_types, type_to_form, type_to_lemma, multi_form, multi_lemma = resolve(type_form, type_lemma)
 
     n_types = len(type_to_form)

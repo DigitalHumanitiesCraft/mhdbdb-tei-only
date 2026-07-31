@@ -46,6 +46,7 @@ Notes on lineStarts/lineEnds (added in v4.1.0 for #47.3):
 """
 
 import argparse
+import concurrent.futures
 import json
 import gzip
 import subprocess
@@ -76,6 +77,24 @@ OUTPUT_FILE = DATA_DIR / 'corpus-index.json.gz'
 
 # TEI namespace
 TEI_NS = {'tei': 'http://www.tei-c.org/ns/1.0'}
+
+# Worker-Obergrenze (#284). Nicht cpu_count(): jeder Worker haelt einen
+# kompletten lxml-Baum im Speicher, und der Elternprozess muss jedes Ergebnis
+# entpicken und behalten (der fertige Index sind rund 200 MB JSON).
+#
+# Gemessen am 2026-07-31, 667 Dateien, 16 Kerne, Hash jedes Mal identisch:
+#   jobs= 1  183,5 s     jobs= 4   56,1 s     jobs=12   39,9 s
+#   jobs= 2   97,9 s     jobs= 8   45,8 s     jobs=16   42,4 s
+# Ab 8 ist die Kurve flach, ab 12 kippt sie (Ueberbuchung). Der Rest sind
+# rund 16 s Serialisieren und Gzippen, die niemand parallelisiert.
+#
+# Speicher-Peak ueber alle Python-Prozesse, gleiche Messung:
+#   jobs=1  1.344 MB       jobs=8  3.893 MB
+# Also rund 320 MB je zusaetzlichem Worker, linear. Bei 16 waeren es ueber
+# 6 GB fuer 6 gesparte Sekunden. Deshalb 8: der Grossteil des Gewinns zum
+# halben Aufschlag. Wer mehr Kerne als Sorgen hat, nimmt --jobs. Auf
+# kleineren Maschinen greift min(cap, cpu_count).
+DEFAULT_JOBS_CAP = 8
 
 
 def extract_metadata(filepath):
@@ -254,7 +273,39 @@ def process_tei_file(filepath):
     return text_data
 
 
-def build_corpus_index():
+def iter_processed(tei_files, jobs):
+    """Yield process_tei_file(f) for each f, IN INPUT ORDER (#284).
+
+    Parallelisiert wird ausschliesslich das Parsen. process_tei_file liest genau
+    eine Datei und liefert ein reines dict aus JSON-Typen zurueck; lxml-Objekte
+    ueberleben eine Prozessgrenze nicht und werden hier auch nicht gebraucht.
+
+    Die Reduktion (texts, lemma_index) bleibt im Elternprozess UND in
+    Dateireihenfolge, denn an dieser Reihenfolge haengen die Index-Bytes: die
+    Schluessel- und Wertereihenfolge von lemmaIndex ist die Reihenfolge des
+    Erstauftretens ueber die sortierte Dateiliste (#125). Deshalb executor.map
+    (geordnet) und ausdruecklich NICHT as_completed.
+
+    chunksize=1, weil die Kosten pro Datei ueber Groessenordnungen streuen:
+    zwischen wenigen KB und 66 MB (OVG). Statisches Chunking teilt Nachbarn
+    derselben sortierten Liste demselben Worker zu und kann damit mehrere
+    teure Dateien hintereinander an einem Worker aufhaengen, waehrend die
+    anderen leerlaufen. Bei rund einer Viertelsekunde Parse-Zeit pro Datei ist
+    der Dispatch-Overhead pro Task dagegen vernachlaessigbar.
+
+    Kein cancel_futures noetig, anders als in extract-variants.py: der von
+    map() zurueckgegebene Generator canceled die offenen Futures in seinem
+    eigenen finally, sobald er geschlossen wird oder eine Exception
+    durchreicht. Der with-Block danach findet nichts mehr zu warten.
+    """
+    if jobs <= 1:
+        yield from map(process_tei_file, tei_files)
+        return
+    with concurrent.futures.ProcessPoolExecutor(max_workers=jobs) as pool:
+        yield from pool.map(process_tei_file, tei_files, chunksize=1)
+
+
+def build_corpus_index(jobs=1):
     """Build complete corpus index from all TEI files."""
     print("\n🔨 Building corpus index...")
     print(f"TEI directory: {TEI_DIR}")
@@ -277,15 +328,15 @@ def build_corpus_index():
     lemma_index = defaultdict(list)  # lemma_id -> list of text IDs
 
     start_time = time.time()
+    print(f"Parsing with {jobs} worker process(es)")
 
-    for idx, filepath in enumerate(tei_files, 1):
+    for idx, text_data in enumerate(iter_processed(tei_files, jobs), 1):
         if idx % 10 == 0 or idx == total_files:
             elapsed = time.time() - start_time
             rate = idx / elapsed if elapsed > 0 else 0
             remaining = (total_files - idx) / rate if rate > 0 else 0
             print(f"   Processing {idx}/{total_files} ({rate:.1f} files/sec, ~{remaining:.0f}s remaining)...")
 
-        text_data = process_tei_file(filepath)
         if not text_data:
             continue
 
@@ -395,7 +446,14 @@ def main():
         '--allow-dirty', action='store_true',
         help="Build even if tei/ has untracked or modified files (use for local tests)."
     )
+    parser.add_argument(
+        '--jobs', type=int, default=min(DEFAULT_JOBS_CAP, os.cpu_count() or 1),
+        help="Worker-Prozesse fuer das Parsen (1 = sequentiell). Das Ergebnis ist "
+             "von diesem Wert unabhaengig und byte-identisch (#284)."
+    )
     args = parser.parse_args()
+    if args.jobs < 1:
+        parser.error('--jobs muss mindestens 1 sein')
 
     print("=" * 60)
     print("MHDBDB Corpus Index Builder")
@@ -405,7 +463,7 @@ def main():
 
     try:
         # Build index
-        index = build_corpus_index()
+        index = build_corpus_index(jobs=args.jobs)
 
         # Save index
         save_index(index)
