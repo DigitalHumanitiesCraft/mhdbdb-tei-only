@@ -208,7 +208,7 @@ console.log(person.preferredName); // "Karl IV."</code></pre>
                 <li><strong>persons:</strong> <code>id</code>, <code>preferredName</code></li>
                 <li><strong>works:</strong> <code>id</code>, <code>title</code>, <code>sigle</code></li>
                 <li><strong>concepts, genres, names:</strong> <code>id</code>, <code>termDE</code>, <code>termEN</code></li>
-                <li><strong>texts:</strong> <code>id</code>, <code>title</code>, <code>author</code>, <code>wordCount</code></li>
+                <li><strong>texts:</strong> <code>id</code>, <code>title</code>, <code>author</code>, <code>wordCount</code> (Wortformen mit Lemma-Zuordnung, nicht die Gesamtlänge des Texts: korpusweit trägt rund ein Fünftel der Wortformen keine Zuordnung, je Text zwischen 0 % und 42 %)</li>
             </ul>
         </li>
         <li>Einzeldateien (<code>{collection}/{id}.json</code>) enthalten die vollen Records; Works z.&nbsp;B. inklusive <code>gnd</code>, <code>wikidata</code> und <code>handschriftencensus</code>.</li>

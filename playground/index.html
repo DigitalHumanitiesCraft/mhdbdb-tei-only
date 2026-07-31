@@ -137,7 +137,7 @@
                         <div class="grid grid-cols-2 gap-2 text-xs">
                             <div class="flex items-center gap-1 text-slate-700">
                                 <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/></svg>
-                                <span id="totalWords">~</span> Wörter
+                                <span id="totalWords">~</span> <span title="Annotierte Tokens: Wortformen mit Lemma-Zuordnung. Korpusweit tragen rund 20 % der Wortformen keine.">annot. Tokens</span>
                             </div>
                             <div class="flex items-center gap-1 text-slate-700">
                                 <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z"/></svg>
@@ -291,7 +291,7 @@
                             </svg>
                             <span class="flex flex-col items-start leading-tight">
                                 <span>Text-Statistiken</span>
-                                <span class="text-xs font-normal text-slate-500 mt-0.5">Wörter, Lemmata und Coverage pro Text</span>
+                                <span class="text-xs font-normal text-slate-500 mt-0.5">Annotierte Tokens, Lemma-Diversität, Hapax-Rate pro Text</span>
                             </span>
                         </button>
                         <button id="showLemmaDistributionBtn" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 flex items-center gap-2.5">
@@ -477,7 +477,7 @@
                                 </div>
                                 <p class="mode-description">Findet Lemmata, die nahe beieinander stehen (Kookkurrenz)</p>
                                 <div class="proximity-controls" id="proximityControls" style="display: block;">
-                                    <label class="proximity-label">
+                                    <label class="proximity-label" title="Abstand in annotierten Tokens: Wörter ohne Lemma-Zuordnung zählen nicht mit, das Fenster ist im Text also breiter als die Zahl vermuten lässt.">
                                         Maximaler Wortabstand:
                                         <input type="number" id="proximityDistance" value="10" min="1" max="50" class="proximity-input" />
                                     </label>

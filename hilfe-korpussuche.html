@@ -274,9 +274,9 @@
                 <li><strong>Titel</strong> – Werktitel, alphabetisch</li>
                 <li><strong>Autor*in</strong> – Verfasser*in, alphabetisch</li>
                 <li><strong>Treffer</strong> – absolute Zahl der Belegstellen im Text</li>
-                <li><strong>Freq./10k Wörter</strong> – Trefferzahl normiert auf 10.000 Wörter, macht unterschiedlich lange Texte vergleichbar</li>
+                <li><strong>Freq./10k</strong> – Trefferzahl normiert auf 10.000 annotierte Tokens, macht unterschiedlich lange Texte vergleichbar. Bezugsgröße sind nicht alle Wörter des Texts, siehe „Annot. Tokens" unten</li>
                 <li><strong>Keyness (LL)</strong> – Log-Likelihood-Wert: wie stark ist das Wort in diesem Text gegenüber dem Gesamtkorpus über- oder unterrepräsentiert? Fett markierte Werte ab 10,83 gelten als signifikant überrepräsentiert (p&nbsp;&lt;&nbsp;0,001) – das Wort ist ein Schlüsselwort dieses Textes</li>
-                <li><strong>Wörter</strong> – Gesamtlänge des Textes in Wörtern</li>
+                <li><strong>Annot. Tokens</strong> – Zahl der Wortformen mit Lemma-Zuordnung. Das ist <em>nicht</em> die Gesamtlänge des Texts: Wortformen ohne zugeordnetes Lemma fehlen in dieser Zahl. Korpusweit betrifft das rund 20 % der Wortformen, je nach Text zwischen 0 % und 42 %. Alle normierten Werte dieser Tabelle beziehen sich auf diese Größe, Vergleiche zwischen Texten tragen deshalb nur bedingt</li>
             </ul>
             <p class="text-slate-700 leading-relaxed mb-3">
                 Die letzte Zeile der Tabelle ist eine <strong>Gesamtzeile</strong>: sie summiert

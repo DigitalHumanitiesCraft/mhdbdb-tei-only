@@ -15,7 +15,7 @@
 const COLUMNS = [
   { key: 'id',            label: 'Sigle',        align: 'left',  fmt: 'text' },
   { key: 'title',         label: 'Titel',        align: 'left',  fmt: 'text' },
-  { key: 'wordCount',     label: 'Tokens',       align: 'right', fmt: 'int' },
+  { key: 'wordCount',     label: 'Annot. Tokens', align: 'right', fmt: 'int' },
   { key: 'uniqueLemmata', label: 'Unique',       align: 'right', fmt: 'int' },
   { key: 'diversity',     label: 'Diversität',   align: 'right', fmt: 'pct3' },
   { key: 'hapaxRate',     label: 'Hapax-Rate',   align: 'right', fmt: 'pct3' },
@@ -115,10 +115,13 @@ export class TextStatistics {
           Mit den Häkchen lassen sich Texte auswählen und als Subset betrachten; die Auswahl bleibt beim Sortieren erhalten.
         </p>
         <dl class="mt-3 grid gap-2 text-xs text-slate-600 sm:grid-cols-3">
-          <div><dt class="font-medium text-slate-700">Diversität</dt><dd>unique Lemmata ÷ Tokens (Type-Token-Ratio)</dd></div>
-          <div><dt class="font-medium text-slate-700">Hapax-Rate</dt><dd>Anteil Lemmata mit Frequenz 1</dd></div>
-          <div><dt class="font-medium text-slate-700">Ø-Freq</dt><dd>durchschnittliche Lemmafrequenz im Text</dd></div>
+          <div><dt class="font-medium text-slate-700">Diversität</dt><dd>verschiedene Lemmata ÷ annotierte Tokens (Type-Token-Ratio). Sinkt mit der Textlänge, auch ohne stilistischen Grund: nach dieser Spalte sortiert stehen kurze Texte oben.</dd></div>
+          <div><dt class="font-medium text-slate-700">Hapax-Rate</dt><dd>Anteil der Lemmata, die im Text genau einmal vorkommen, bezogen auf alle verschiedenen Lemmata des Texts. Nicht vergleichbar mit dem Werkzeug „Hapaxlegomena", das korpusweit einmalige Lemmata sucht.</dd></div>
+          <div><dt class="font-medium text-slate-700">Ø-Freq</dt><dd>durchschnittliche Lemmafrequenz im Text: Vorkommen ÷ verschiedene Lemmata</dd></div>
         </dl>
+        <p class="mt-2 text-xs text-slate-500">
+          „Tokens" meint durchgehend die annotierten Wortformen: gezählt werden Wortformen mit Lemma-Zuordnung. Wörter ohne Zuordnung stehen im Text, aber in keiner dieser Zahlen, und ihr Anteil schwankt je Text zwischen 0 % und 42 %.
+        </p>
       </div>
     `;
   }

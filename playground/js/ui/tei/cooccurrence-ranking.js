@@ -244,7 +244,7 @@ export class CooccurrenceRanking {
 
   renderForm() {
     const windowOpts = WINDOW_OPTIONS
-      .map(w => `<option value="${w}"${this.state.window === w ? ' selected' : ''}>± ${w} Wörter</option>`).join('');
+      .map(w => `<option value="${w}"${this.state.window === w ? ' selected' : ''}>± ${w} annot. Tokens</option>`).join('');
     const topNOpts = TOP_N_OPTIONS
       .map(n => `<option value="${n}"${this.state.topN === n ? ' selected' : ''}>Top ${n}</option>`).join('');
     return `

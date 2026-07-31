@@ -126,7 +126,7 @@ export class LemmaDistribution {
             <span class="text-xs font-medium text-slate-600">Frequenz</span>
             <select id="ldFreqMode" class="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm focus:border-brand-400 focus:outline-none">
               <option value="absolute"${this.state.freqMode === 'absolute' ? ' selected' : ''}>Absolut</option>
-              <option value="relative"${this.state.freqMode === 'relative' ? ' selected' : ''}>Relativ (pro 1000)</option>
+              <option value="relative"${this.state.freqMode === 'relative' ? ' selected' : ''}>Relativ (pro 1000 annotierte Tokens)</option>
             </select>
           </label>
           <label class="block">
@@ -223,7 +223,7 @@ export class LemmaDistribution {
       const x = idx * (barWidth + barGap);
       const y = chartHeight - barH;
       const href = `../korpus.html?textId=${encodeURIComponent(h.id)}&lemmaIds=${encodeURIComponent(lemma.id)}`;
-      const tooltip = `${h.id}-${h.title}\nAbsolut: ${h.count.toLocaleString('de-DE')}\npro 1000 Tokens: ${h.rel.toFixed(2)}`;
+      const tooltip = `${h.id}-${h.title}\nAbsolut: ${h.count.toLocaleString('de-DE')}\npro 1000 annotierte Tokens: ${h.rel.toFixed(2)}`;
       return `
         <a href="${href}" target="_blank" rel="noopener">
           <title>${escapeHtml(tooltip)}</title>
@@ -262,7 +262,7 @@ export class LemmaDistribution {
           ${bars}
         </svg>
         <div class="mt-2 flex justify-between text-xs text-slate-500">
-          <span>${this.state.freqMode === 'relative' ? 'Frequenz pro 1000 Tokens' : 'Absolute Frequenz'} (Maximum: ${maxVal.toFixed(this.state.freqMode === 'relative' ? 2 : 0)})</span>
+          <span${this.state.freqMode === 'relative' ? ' title="Bezugsgröße sind die annotierten Tokens des jeweiligen Texts, nicht alle Wörter. Die Annotationsabdeckung liegt je Text zwischen 58 % und 100 % (Median 77 %), Vergleiche zwischen Texten tragen deshalb nur bedingt."' : ''}>${this.state.freqMode === 'relative' ? 'Frequenz pro 1000 annotierte Tokens' : 'Absolute Frequenz'} (Maximum: ${maxVal.toFixed(this.state.freqMode === 'relative' ? 2 : 0)})</span>
           <span>Klick auf Balken oder Sigle öffnet Text im Reader (mit Highlighting)</span>
         </div>
       </div>

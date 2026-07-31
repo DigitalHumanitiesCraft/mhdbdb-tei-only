@@ -884,8 +884,17 @@ hapaxRate    = hapaxInText / uniqueLemmata
 avgLemmaFreq = sum(len(text.lemmata[id])) / uniqueLemmata
 ```
 
-Three properties that decide whether a comparison across texts is valid:
+Four properties that decide whether a comparison across texts is valid:
 
+0. **Every denominator counts annotated tokens only, the share of annotated tokens differs per text, and what is missing is not a random sample.** `wordCount` and `totalTokens` count `<w>` elements carrying a `@lemmaRef` (§B). Measured 2026-07-31 with `scripts/audit/quantify-unannotated-tokens.py`: of **9,431,294** `<w>` elements, **1,898,312 (20.13 %) carry no `@lemmaRef`**; per-text coverage runs from **58.4 % to 100 %**, median **77.4 %**, 358 of 667 texts below 80 %.
+
+   The size of the gap alone would be harmless. If the unannotated tokens were spread evenly over lemmata, a text annotated at 60 % would lose the same fraction from numerator and denominator, and every per-thousand rate would come out unchanged. **They are not spread evenly.** Of the 1,898,312 unannotated tokens, **1,868,921 (98.5 %) are homographs of forms that *are* annotated elsewhere** in the corpus, i.e. ambiguity cases the legacy system left alone, and they cluster hard on high-frequency function words and pronouns: `in` (128,144), `ir` (111,958), `er` (101,242), `sî` (80,989), `man` (62,285).
+
+   The bias on a rate for lemma *L* in text *T* is `coverage(L) / coverage(T)`, so the direction depends on how well *L* itself is covered relative to the text average, and it **inverts** for a lemma whose own forms sit in the unannotated set (exactly the deliberately skipped homographs of #189). For the content words people usually measure, coverage(L) is above the text average and a sparsely annotated text therefore *tends to* score higher, saying nothing about its style. Do not state that as a law: for `in`, `ir`, `er`, `sî` or `man` it is simply wrong.
+
+   Where the effect was measured, it held: for the corpus-wide hapax tool's "pro 1000" column (whose numerator is also depressed by missing annotation, since an unannotated rare form is invisible as a rarity), Spearman r(coverage, rate) = **-0.17** over the 345 texts with at least 1000 tokens, and the median rate in the lowest coverage quartile is about twice that of the highest. Text length is not the driver: it correlates with coverage (+0.31) but not with the rate (+0.01), and the negative relation survives within each length tercile (-0.24 and -0.29 for the middle and long thirds; it vanishes for the short third). So the denominator effect wins over the numerator effect, moderately and not uniformly.
+
+   None of this is a defect of the formulas, which correctly answer "per thousand *indexed* tokens". It is the first thing to state when the numbers get quoted, and the reason the UI labels say "annotierte Tokens" since #309. **The same bias applies to keyness (§H.1)**, whose `c` and `d` are the same token counts; the sign there is harder to reason about because both corpus and text side are affected.
 1. **`diversity` is a type-token ratio and therefore length-dependent.** TTR falls systematically as texts get longer, for mathematical reasons and not stylistic ones. Sorting the column across texts of very different length ranks by length as much as by vocabulary richness. Comparisons are only safe between texts of comparable size, or after a length-normalized measure replaces it.
 2. **Most of these rates do not divide like over like**, and they fail to in three distinct ways:
 
