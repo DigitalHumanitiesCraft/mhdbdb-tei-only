@@ -37,12 +37,16 @@ tei/                 # 667 TEI corpus files
 data/                # Pre-built indexes (.json.gz, generated)
 api/                 # Statische JSON-API (generiert via scripts/build-api.py, #45)
 sources/             # Legacy-Ingest-Quellen (Linecode), nicht normativ, #248
-scripts/             # Python build scripts + data-wrangling
+schema/              # RELAX NG (mhdbdb.rnc/.rng, mhdbdb-authority.rnc/.rng) + Beispieldateien
+scripts/             # Python build scripts + data-wrangling (Topologie: scripts/README.md)
+ingest/              # Review-Artefakte der Ingest- und Disambiguierungs-Läufe (ari, pos-disambig, wvv, wzb)
+includes/            # Nav/Footer/Matomo-Fragmente, per build-pages.py in die Seiten injiziert
 playground/          # Research tool (self-contained sub-app)
 lemma/               # Persistent lemma pages (Issue #42)
-testing/             # Playwright tests
+testing/             # Playwright tests (Ergebnisse in testing/test-results/, gitignored)
 docs/                # Knowledge documentation
 publications/        # Blog posts, reports
+temp/                # Scratch, gitignored, nie committen
 ```
 
 ## Commands
