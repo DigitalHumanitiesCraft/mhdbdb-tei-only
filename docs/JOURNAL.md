@@ -632,3 +632,15 @@ Last gemessen und unkritisch: fünf parallele Requests kosten 31 bis 81 ms kalt,
 **Bewusst nicht angefasst:** die datierten Meilenstein-Einträge in `INDEX.md` (Z. 165, 166) und `ROADMAP.md` (Z. 107) nennen weiter „MWB/Lexer". Das ist die Beschreibung des Auslieferungsstands vom Juli, und das Projekt lässt solche Zahlen stehen (Z. 160 führt unverändert „damit 8 TEI-Analyse-Werkzeuge im Playground", inzwischen sind es zwölf). Wer sie retroaktiv umschreibt, macht aus einem Protokoll eine Momentaufnahme. Der Kommentar in `korpus.html:262` ist dagegen keine historische Aussage, sondern schlicht veraltet.
 
 **Phase:** Betrieb (frontend-only, kein Index- und kein API-Rebuild). Gepflegt: CONTRACTS §D.2, ARCHITECTURE (Wörterbuchnetz + MWB Online), FEATURES (Korpussuche, Hapax, neuer Abschnitt Lemma-Seite), `hilfe-daten.html`, `hilfe-korpussuche.html`, `hilfe-playground.html`, `impressum.html`, `lemma/index.html`, `README.md`. Issue #258 bleibt bis zur Abnahme durch KZW offen. PR #285 (vier Commits, gesquasht zu `8a6626c68`), README separat als `c3fd43b27`.
+
+---
+
+## 2026-07-31 – Die ROADMAP beschrieb den Stand eines Dokuments, nicht den des Projekts
+
+**Summary:** Zwei Einträge in `docs/ROADMAP.md` führten Arbeit als offen, die seit dem 10.07. erledigt ist: die posAll-Anzeige-Migration (#187, Commit `edb16dd3f`, Issue als completed geschlossen) und der WVV-Strophen-Lauf (nachgemessen an `tei/WVV.tei.xml`: 489 fortlaufende `<lg>`). Beide sind aus der Liste „Direkt startbar geworden" genommen und stehen als ein gemeinsamer, datierter Korrekturabsatz darunter.
+
+**Warum das hier steht und nicht nur im Diff:** Es ist an einem Tag dreimal dasselbe Muster aufgetreten. Neben #187 und WVV suggeriert die Spalte „KZW-Antwort liegt vor" bei #250, es sei entschieden; tatsächlich betrifft die Antwort vom 29.07. nur die Punkte 1 und 2, während Punkt 3 am 30.07. ergänzt und als Frage gestellt wurde und unbeantwortet ist. Die ROADMAP altert also nicht zufällig, sondern strukturell: sie wird beim Aufnehmen gepflegt und beim Erledigen nicht. Wer sie als Gegenwartsbeschreibung liest, plant gegen einen Stand, den es nicht mehr gibt.
+
+**Verifikationsweg, weil er den Unterschied gemacht hat:** Nicht die Doku gegen die Doku geprüft, sondern gegen Code und Korpus. Für #187 hieß das, jede der im Issue gelisteten Anzeige-Stellen auf das `posAll[]`-Muster hin anzusehen (dabei fiel `verse-position-search.js` auf, das in der Issue-Liste fehlte); für WVV, die 489 `<lg>` selbst zu zählen. Ein Commit-Betreff ist eine Behauptung, kein Beleg.
+
+**Phase:** Betrieb, reine Doku, kein Rebuild. PR #296.
