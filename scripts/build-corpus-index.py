@@ -95,8 +95,13 @@ def extract_metadata(filepath):
             sigle = sigle_nodes[0].strip()
 
         # Get title
-        title_nodes = tree.xpath('//tei:titleStmt/tei:title/text()', namespaces=ns)
-        title = title_nodes[0].strip() if title_nodes else sigle
+        # Wie beim Autor unten (#228): itertext() statt text() gegen mixed
+        # content, und ' '.join(...split()) gegen die XML-Einrueckung. Sechs
+        # Titel trugen einen Umbruch mitten im Wert, sichtbar bis in
+        # api/texts/*.json.
+        title_nodes = tree.xpath('//tei:titleStmt/tei:title', namespaces=ns)
+        title = (' '.join(''.join(title_nodes[0].itertext()).split())
+                 if title_nodes else sigle)
 
         # Get author
         author = ''
@@ -104,7 +109,19 @@ def extract_metadata(filepath):
         author_nodes = tree.xpath('//tei:titleStmt/tei:author', namespaces=ns)
         if author_nodes:
             author_el = author_nodes[0]
-            author = author_el.text.strip() if author_el.text else ''
+            # itertext() statt .text (#228): schema/mhdbdb.rnc erlaubt in
+            # titleStmt/author <name>-Kinder. .text laese dann den leeren
+            # Textknoten davor und der Index bekaeme einen leeren Autor,
+            # genau die Klasse Fehler, die dieser Zweig gerade beseitigt.
+            # Heute hat keine der 667 Dateien dort Kindelemente, der Index
+            # bleibt also byte-identisch.
+            # ' '.join(...split()) statt .strip() (#228): in LUU steht der
+            # Autorname ueber zwei eingerueckte Zeilen, .strip() trimmt nur die
+            # Raender und liess den Umbruch samt Einrueckung mitten im
+            # Namen stehen, in Index und API. XML-Einrueckung ist beliebig,
+            # die Normalisierung gehoert deshalb zum Leser, nicht in die
+            # Quelldatei.
+            author = ' '.join(''.join(author_el.itertext()).split())
             authorRef = author_el.get('ref', '')
 
         # Get work reference
@@ -334,7 +351,7 @@ def build_corpus_index(jobs=1):
 
     # Build final index
     index = {
-        'version': '4.2.0',  # 4.1.5: #143 APO/HMT/HH Prosa-Konversion l→lb (lineStarts/lineEnds entfallen für die drei Texte). 4.1.6: #198 habe/hab-Disambiguierung (25 Tokens zu lemma_2593, 179 NOM-Strips). 4.1.7: #189 GWTK-Pilot — 257 nackte rot/jung-Tokens neu annotiert (rôt/rote/junc, Goldstandard-validiert). 4.1.8: #138 814 Strophenziffern aus dem HUG-Verstext entfernt (706 davon pos=DIG, 108 unannotiert; die Strophenzahl steht ab jetzt nur noch in lg/@n). 4.2.0: #236 Frauenlob-Revision — FR3 Parallelueberlieferungs-Ebene rekonstruiert (23 gleichrangige Toene zu 10 zusammengefuehrt, 36 <div type="parallel">, 1.563 Verse jetzt als Parallelueberlieferung erkennbar); 42 roemische Ordnungszahl-Tokens aus FR1/FR2/FR3 entfernt und durch <head> ersetzt.
+        'version': '4.2.1',  # 4.1.5: #143 APO/HMT/HH Prosa-Konversion l→lb (lineStarts/lineEnds entfallen für die drei Texte). 4.1.6: #198 habe/hab-Disambiguierung (25 Tokens zu lemma_2593, 179 NOM-Strips). 4.1.7: #189 GWTK-Pilot — 257 nackte rot/jung-Tokens neu annotiert (rôt/rote/junc, Goldstandard-validiert). 4.1.8: #138 814 Strophenziffern aus dem HUG-Verstext entfernt (706 davon pos=DIG, 108 unannotiert; die Strophenzahl steht ab jetzt nur noch in lg/@n). 4.2.0: #236 Frauenlob-Revision — FR3 Parallelueberlieferungs-Ebene rekonstruiert (23 gleichrangige Toene zu 10 zusammengefuehrt, 36 <div type="parallel">, 1.563 Verse jetzt als Parallelueberlieferung erkennbar); 42 roemische Ordnungszahl-Tokens aus FR1/FR2/FR3 entfernt und durch <head> ersetzt. 4.2.1: #228 sieben leere <author>-Elemente im titleStmt gefuellt (ALX/BVSN/PSG/PTS Moench von Heilsbronn, BOP Boppe, MHG Herger, MRB Burggraf von Riedenburg); betrifft nur das Feld text.author, keine Token- oder Positionsdaten. Ausserdem normalisiert der Build Whitespace im Autornamen: LUU trug ihn ueber zwei eingerueckte Zeilen, der Umbruch stand so in Index und API.
         'totalTexts': len(texts),
         'totalLemmata': len(lemma_index),
         'texts': texts,
