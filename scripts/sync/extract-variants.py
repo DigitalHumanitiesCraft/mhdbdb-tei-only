@@ -106,20 +106,13 @@ def collect(base_files, jobs=1):
 
     Parallelisiert wird nur das Parsen (#284); summiert wird im Elternprozess.
 
-    Die Reihenfolge von executor.map ist hier KEINE Kosmetik fuer die
-    Fortschrittsausgabe, sondern Teil der Determinismus-Zusicherung aus #125.
-    resolve() bricht Gleichstaende fast immer explizit (haeufigste Form, dann
-    alphabetisch; haeufigstes Lemma, dann kleinste Lemma-Nummer), aber der
-    Lemma-Sortkey faellt fuer nicht-numerische Lemma-IDs auf einen konstanten
-    Wert zurueck. Zwei solche IDs mit gleicher Haeufigkeit unter derselben
-    type_id entscheidet dann der stabile Sort, also die Insertion-Order des
-    Counters, also die Merge-Reihenfolge. Geordnetes map reproduziert dafuer
-    exakt die Dateireihenfolge des sequentiellen Laufs.
-
-    Deshalb NICHT auf as_completed umstellen. Der Bruch waere unsichtbar: der
-    heutige Korpus hat keine nicht-numerischen Lemma-IDs, ein Hash-Vergleich
-    wuerde also gruen bleiben, bis ein kuenftiger Ingest eine schraege
-    @lemmaRef mitbringt.
+    Die Summen sind ordnungsunabhaengig, und resolve() bricht seit #284 jeden
+    Gleichstand explizit (haeufigste Form, dann alphabetisch; haeufigstes
+    Lemma, dann lemma_key). Vorher tat es das nicht ganz: der Lemma-Sortkey
+    kollabierte nicht-numerische IDs auf einen konstanten Wert, womit die
+    Merge-Reihenfolge mitentschied. Das war der Grund, dieses map geordnet zu
+    halten; der Grund ist jetzt weg, die Ordnung bleibt trotzdem, weil sie die
+    Fortschrittsausgabe in Dateireihenfolge haelt und nichts kostet.
     """
     type_form = defaultdict(Counter)
     type_lemma = defaultdict(Counter)
@@ -165,8 +158,17 @@ def resolve(type_form, type_lemma):
         if len(lemmas) > 1:
             multi_lemma += 1
         # most frequent; ties -> alphabetical form / smallest lemma number
+        # lemma_key statt des frueheren 1<<62-Fallbacks (#284): der kollabierte
+        # ALLE nicht-numerischen Lemma-IDs auf denselben Sortkey, womit der
+        # stabile Sort entschied, also die Einfuegereihenfolge des Counters,
+        # also die Reihenfolge, in der die Korpusdateien gelesen wurden. Beim
+        # sequentiellen Lauf faellt das nicht auf; es macht die Ausgabe aber
+        # von etwas abhaengig, das sie nicht sein sollte. lemma_key bricht den
+        # Gleichstand alphabetisch und ist damit vollstaendig explizit.
+        # Der heutige Korpus hat keine solchen IDs, das Artefakt ist
+        # unveraendert (per Hash geprueft).
         form = sorted(forms.items(), key=lambda kv: (-kv[1], kv[0]))[0][0]
-        lemma = sorted(lemmas.items(), key=lambda kv: (-kv[1], int(LEMMA_NUM_RE.match(kv[0]).group(1)) if LEMMA_NUM_RE.match(kv[0]) else 1 << 62))[0][0]
+        lemma = sorted(lemmas.items(), key=lambda kv: (-kv[1], lemma_key(kv[0])))[0][0]
         type_to_form[type_id] = form
         type_to_lemma[type_id] = lemma
         lemma_to_types[lemma].append(type_id)

@@ -86,9 +86,14 @@ TEI_NS = {'tei': 'http://www.tei-c.org/ns/1.0'}
 #   jobs= 1  183,5 s     jobs= 4   56,1 s     jobs=12   39,9 s
 #   jobs= 2   97,9 s     jobs= 8   45,8 s     jobs=16   42,4 s
 # Ab 8 ist die Kurve flach, ab 12 kippt sie (Ueberbuchung). Der Rest sind
-# rund 16 s Serialisieren und Gzippen, die niemand parallelisiert. 8 holt
-# damit den Grossteil des Gewinns bei halbem Speicherbedarf von 16; wer mehr
-# will, nimmt --jobs. Auf kleineren Maschinen greift min(cap, cpu_count).
+# rund 16 s Serialisieren und Gzippen, die niemand parallelisiert.
+#
+# Speicher-Peak ueber alle Python-Prozesse, gleiche Messung:
+#   jobs=1  1.344 MB       jobs=8  3.893 MB
+# Also rund 320 MB je zusaetzlichem Worker, linear. Bei 16 waeren es ueber
+# 6 GB fuer 6 gesparte Sekunden. Deshalb 8: der Grossteil des Gewinns zum
+# halben Aufschlag. Wer mehr Kerne als Sorgen hat, nimmt --jobs. Auf
+# kleineren Maschinen greift min(cap, cpu_count).
 DEFAULT_JOBS_CAP = 8
 
 
@@ -281,11 +286,17 @@ def iter_processed(tei_files, jobs):
     Erstauftretens ueber die sortierte Dateiliste (#125). Deshalb executor.map
     (geordnet) und ausdruecklich NICHT as_completed.
 
-    chunksize=1: die Dateiliste ist alphabetisch, und die groessten Texte des
-    Korpus (OVG, PL1, PL2) stehen darin unmittelbar nebeneinander. Groessere
-    Chunks wuerden sie demselben Worker zuteilen und die Laufzeit ans Ende
-    haengen. Bei rund einer Viertelsekunde Parse-Zeit pro Datei ist der
-    Dispatch-Overhead pro Task dagegen vernachlaessigbar.
+    chunksize=1, weil die Kosten pro Datei ueber Groessenordnungen streuen:
+    zwischen wenigen KB und 66 MB (OVG). Statisches Chunking teilt Nachbarn
+    derselben sortierten Liste demselben Worker zu und kann damit mehrere
+    teure Dateien hintereinander an einem Worker aufhaengen, waehrend die
+    anderen leerlaufen. Bei rund einer Viertelsekunde Parse-Zeit pro Datei ist
+    der Dispatch-Overhead pro Task dagegen vernachlaessigbar.
+
+    Kein cancel_futures noetig, anders als in extract-variants.py: der von
+    map() zurueckgegebene Generator canceled die offenen Futures in seinem
+    eigenen finally, sobald er geschlossen wird oder eine Exception
+    durchreicht. Der with-Block danach findet nichts mehr zu warten.
     """
     if jobs <= 1:
         yield from map(process_tei_file, tei_files)
