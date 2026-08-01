@@ -175,6 +175,6 @@ Beides derselbe Fehlertyp: die ROADMAP beschreibt den Stand eines Dokuments stat
 
 4. **FAIR data + Citability** – Static JSON API (#45) und Zenodo-DOI (#91, Stub geliefert) machen MHDBDB-Daten extern zitier- und programmierbar zugänglich. Enables external collaborations (MWB, Wörterbuchnetz, ZfdG-Einreichung).
 
-5. **Frontend refinements** – Reader (#17 ✅), UI-Polish (#20 ✅), Reading-View-Render-Policy (#101 ✅ 2026-05-12, Julia) und Lemma-Linking MWB+Lexer (#73 ✅ 2026-05-12) abgeschlossen. Upload-UI-Dead-Code-Cleanup erledigt (#314, 2026-07-31): rund 1.400 Zeilen ueber neun Dateien, zwei davon ganz.
+5. **Frontend refinements** – Reader (#17 ✅), UI-Polish (#20 ✅), Reading-View-Render-Policy (#101 ✅ 2026-05-12, Julia) und Lemma-Linking MWB+Lexer (#73 ✅ 2026-05-12) abgeschlossen. Upload-UI-Dead-Code-Cleanup erledigt (#314, 2026-07-31): rund 2.200 Zeilen über 19 Dateien, drei davon ganz.
 
 6. **Advanced search** – PoS-based search (#18) and foreign language search (#28) depend on corpus index extensions.

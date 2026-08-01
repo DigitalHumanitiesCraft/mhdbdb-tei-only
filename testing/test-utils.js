@@ -226,20 +226,6 @@ export class TestUtils {
         });
     }
 
-    simulateFileUpload(files) {
-        const fileInput = document.getElementById('fileInput');
-        const event = new Event('change', { bubbles: true });
-
-        Object.defineProperty(event, 'target', {
-            value: {
-                files: files
-            },
-            writable: false
-        });
-
-        fileInput.dispatchEvent(event);
-    }
-
     triggerClick(selector) {
         const element = document.querySelector(selector);
         if (element) {
@@ -285,21 +271,6 @@ export class TestUtils {
         content += endContent;
         return content;
     }
-
-    async waitFor(condition, timeout = 5000, interval = 100) {
-        const start = Date.now();
-
-        while (Date.now() - start < timeout) {
-            if (await condition()) {
-                return true;
-            }
-            await this.sleep(interval);
-        }
-
-        throw new Error(`Condition not met within ${timeout}ms`);
-    }
-
-    // ==================== REPORTING ====================
 
     generateReport() {
         const passed = this.testResults.filter(r => r.status === 'pass').length;

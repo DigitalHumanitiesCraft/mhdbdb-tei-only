@@ -1,12 +1,12 @@
 /**
  * MHDBDB Playground - TEI Files Manager
- * Multi-Lemma-Suche ueber den vorgebauten Korpus-Index.
+ * Multi-Lemma-Suche über den vorgebauten Korpus-Index.
  *
- * Der frueher hier liegende Upload-Pfad (Datei einlesen, XML-DOM parsen,
+ * Der früher hier liegende Upload-Pfad (Datei einlesen, XML-DOM parsen,
  * darin suchen) ist mit #314 entfernt: die Upload-UI war beim Redesign
  * weggefallen, damit war der ganze Zweig unerreichbar. Die Suche laeuft
- * ausschliesslich ueber data/corpus-index.json.gz, und Positionen sind
- * damit durchgaengig die aus CONTRACTS Paragraph B.
+ * ausschließlich über data/corpus-index.json.gz, und Positionen sind
+ * damit durchgängig die aus CONTRACTS Paragraph B.
  */
 
 import { lemmaRefMatchesId } from '../../../assets/js/lib/lemma-match.js';
@@ -19,17 +19,17 @@ export class TEIFilesManager {
     // ==================== INDEX-BASED SEARCH (FAST) ====================
 
     /**
-     * Multi-Lemma-Suche ueber den vorgebauten Korpus-Index.
+     * Multi-Lemma-Suche über den vorgebauten Korpus-Index.
      */
     async searchMultipleLemmasUsingIndex(lemmaIds, contextType = 'document', maxDistance = 10) {
         // v4.0.0: Use document-level index (no paragraph mode)
         const corpusData = window.playground?.corpusData;
         if (!corpusData || !corpusData.texts) {
-            // Frueher lief hier ein XML-Fallback fuer hochgeladene Dateien.
+            // Früher lief hier ein XML-Fallback für hochgeladene Dateien.
             // Der ist mit #314 weg; ohne Index gibt es nichts zu durchsuchen,
-            // und ein stilles [] wuerde wie "keine Treffer" aussehen.
-            console.error('Korpus-Index nicht geladen, Multi-Lemma-Suche nicht moeglich');
-            throw new Error('Korpus-Index nicht verfuegbar');
+            // und ein stilles [] würde wie "keine Treffer" aussehen.
+            console.error('Korpus-Index nicht geladen, Multi-Lemma-Suche nicht möglich');
+            throw new Error('Korpus-Index nicht verfügbar');
         }
 
         // v4.0.0: Pure index-based search (instant results!)

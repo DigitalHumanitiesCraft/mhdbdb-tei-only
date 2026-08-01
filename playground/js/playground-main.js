@@ -94,11 +94,11 @@ class MHDBDBPlayground {
         this.initializeEventListeners();
 
         // #314: Die Datenbank MHDBDB_Playground hielt einen einzigen Store
-        // (tei_files) fuer den Datei-Upload. Der ist weg, damit hat sie keinen
-        // Schreiber mehr. Bis #280 raeumte eine Schema-Migration hier noch
-        // Altstores auf; die lief ueber den IndexedDBManager, den nach dem
-        // Rueckbau niemand mehr instanziiert. Statt 397 Zeilen Schema-Pflege
-        // fuer eine leere Datenbank wird sie einmalig geloescht. Auf einer
+        // (tei_files) für den Datei-Upload. Der ist weg, damit hat sie keinen
+        // Schreiber mehr. Bis #280 räumte eine Schema-Migration hier noch
+        // Altstores auf; die lief über den IndexedDBManager, den nach dem
+        // Rückbau niemand mehr instanziiert. Statt 397 Zeilen Schema-Pflege
+        // für eine leere Datenbank wird sie einmalig gelöscht. Auf einer
         // nicht vorhandenen Datenbank ist das ein No-op, der Aufruf darf
         // also bei jedem Start laufen. Korpus und Authority-Daten liegen in
         // MHDBDBMainSite und sind nicht betroffen.
@@ -180,11 +180,12 @@ class MHDBDBPlayground {
         try {
             const req = indexedDB.deleteDatabase('MHDBDB_Playground');
             req.onsuccess = () => console.log('Alt-Datenbank MHDBDB_Playground entfernt (#314)');
-            // onblocked heisst: ein anderer Tab haelt die Datenbank noch offen.
-            // Kein Fehlerfall, der naechste Start erledigt es.
+            // onblocked heißt: ein anderer Tab hält die Datenbank noch offen.
+            // Kein Fehlerfall, der nächste Start erledigt es.
             req.onblocked = () => console.log('MHDBDB_Playground noch von einem anderen Tab belegt');
+            req.onerror = () => console.warn('MHDBDB_Playground ließ sich nicht löschen:', req.error);
         } catch (e) {
-            console.warn('MHDBDB_Playground liess sich nicht entfernen:', e);
+            console.warn('deleteDatabase auf MHDBDB_Playground hat geworfen:', e);
         }
     }
 

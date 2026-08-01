@@ -230,7 +230,9 @@
             console.log('🧪 Starting MHDBDB Playground Test Suite');
             console.log('=' .repeat(50));
 
-            let totalTests = 0;
+            // Vier Suites mit je einem Test. Die Zahl stand bis #314 hart
+            // auf 30 und stimmte nie mit den tatsächlichen Tests überein.
+            const TOTAL_TESTS = 4;
             let completedTests = 0;
 
             // Test 1: Storage Manager Tests
@@ -240,13 +242,8 @@
                     window.testUtils.assert(true, 'DOM element test skipped in test environment');
                 });
 
-                await window.testUtils.it('should handle file upload simulation', () => {
-                    // Mock file upload test
-                    window.testUtils.assert(true, 'File upload test skipped in test environment');
-                });
-
-                completedTests += 2;
-                updateProgress(completedTests, 30, 'DOM integration tests completed');
+                completedTests += 1;
+                updateProgress(completedTests, TOTAL_TESTS, 'DOM integration tests completed');
             });
 
             // Test 4: Performance Tests
@@ -260,7 +257,7 @@
                 });
 
                 completedTests += 1;
-                updateProgress(completedTests, 30, 'Performance tests completed');
+                updateProgress(completedTests, TOTAL_TESTS, 'Performance tests completed');
             });
 
             // Test 5: Error Handling Tests
@@ -271,7 +268,7 @@
                 });
 
                 completedTests += 1;
-                updateProgress(completedTests, 30, 'Error handling tests completed');
+                updateProgress(completedTests, TOTAL_TESTS, 'Error handling tests completed');
             });
 
             // Test 6: IndexedDB Storage Tests
@@ -281,12 +278,12 @@
                 });
 
                 completedTests += 1;
-                updateProgress(completedTests, 30, 'IndexedDB tests completed');
+                updateProgress(completedTests, TOTAL_TESTS, 'IndexedDB tests completed');
             });
 
             // Test 7: Large File Handling Tests
             // Final results
-            updateProgress(30, 30, '🎉 All tests completed!');
+            updateProgress(TOTAL_TESTS, TOTAL_TESTS, '🎉 All tests completed!');
 
             const spinner = document.getElementById('loading-spinner');
             spinner.style.display = 'none';

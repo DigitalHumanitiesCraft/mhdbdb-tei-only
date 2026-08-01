@@ -68,7 +68,7 @@ test.describe('MHDBDB Playground Test Suite', () => {
 
     // Check for test suites (updated for IndexedDB tests)
     // #314: von sieben Suites sind vier geblieben. TEIStorageManager,
-    // TEIFilesManager und Large File Handling pruefen den Datei-Upload,
+    // TEIFilesManager und Large File Handling prüfen den Datei-Upload,
     // den es seit dem Redesign nicht mehr gibt.
     await expect(resultsContainer.locator('.test-suite')).toHaveCount(4, { timeout: 10000 });
 
@@ -95,9 +95,13 @@ test.describe('MHDBDB Playground Test Suite', () => {
     // Test "Clear Storage" button
     await page.click('button:has-text("Clear Storage")');
 
-    // Verify console output shows cache cleared
+    // #314: Der Test suchte hier bis Juli 2026 nach "Cleared" (groß). Diesen
+    // String loggte nicht der Button, sondern clearAllCachedFiles() aus dem
+    // Upload-Pfad, angestoßen vom vorherigen "Run Tests Again". Der Test war
+    // also grün, ohne den Button je zu prüfen. Geprüft wird jetzt, was
+    // window.clearStorage() tatsächlich ausgibt.
     const consoleOutput = page.locator('#console-output');
-    await expect(consoleOutput).toContainText('Cleared', { timeout: 5000 });
+    await expect(consoleOutput).toContainText('Storage cleared', { timeout: 5000 });
   });
 
   test('should capture console output', async ({ page }) => {

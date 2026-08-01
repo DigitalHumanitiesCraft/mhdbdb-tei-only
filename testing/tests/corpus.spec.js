@@ -17,8 +17,8 @@ test.describe('Corpus Loading and Management', () => {
 
   // #314: Der Playground hat keinen Datei-Upload mehr, damit hat die Datenbank
   // MHDBDB_Playground keinen Schreiber. Statt sie per Schema-Migration zu
-  // pflegen (so lief es bis #280), loescht der Playground-Start sie einmalig.
-  // Geprueft an einer von Hand angelegten Alt-Datenbank.
+  // pflegen (so lief es bis #280), löscht der Playground-Start sie einmalig.
+  // Geprüft an einer von Hand angelegten Alt-Datenbank.
   test('Alt-Datenbank MHDBDB_Playground wird beim Start entfernt', async ({ page }) => {
     await page.goto('/testing/test.html');
 
@@ -32,7 +32,7 @@ test.describe('Corpus Loading and Management', () => {
           const db = request.result;
           const tx = db.transaction(['tei_files'], 'readwrite');
           tx.objectStore('tei_files').put({ filename: 'alt.xml', content: '<TEI/>' });
-          // Verbindung schliessen, sonst blockiert sie das spaetere deleteDatabase
+          // Verbindung schließen, sonst blockiert sie das spätere deleteDatabase
           tx.oncomplete = () => { db.close(); resolve(); };
           tx.onerror = () => reject(tx.error);
         };
@@ -108,8 +108,8 @@ test.describe('Corpus Loading and Management', () => {
 
       return {
         success: true,
-        // #314: isTEIFile und loadCorpusIntoPlayground gehoerten zum
-        // Upload-Pfad und sind entfernt. Geprueft wird jetzt der aktive
+        // #314: isTEIFile und loadCorpusIntoPlayground gehörten zum
+        // Upload-Pfad und sind entfernt. Geprüft wird jetzt der aktive
         // Einstiegspunkt der Multi-Lemma-Suche.
         hasMethods: typeof teiManager.searchMultipleLemmasUsingIndex === 'function'
       };
