@@ -73,12 +73,13 @@ export class TEIExplorer {
     // Code, der nie läuft: die Prüfung sitzt eine Schicht tiefer, wo
     // contextType echte Dispatch-Variable mit drei lebenden Zweigen ist.
     //
-    // Was mit den Zweigen verschwunden ist: getResultCount, createPreviewText
-    // und createDetailItems hatten je einen 'proximity'-Zweig plus einen
-    // Fallthrough dahinter, der im Fehlerfall eine plausibel aussehende Zahl
-    // geliefert hätte statt aufzufallen. createDetailItems schrieb dabei
-    // undefined-Einträge in die Detailliste, weil der map-Callback ohne return
-    // durchfiel.
+    // Was dabei wegfiel: in getResultCount und createPreviewText je ein
+    // 'proximity'-Zweig plus ein Fallthrough dahinter, der im Fehlerfall eine
+    // plausibel aussehende Zahl geliefert hätte statt aufzufallen. Beide
+    // Methoden gibt es weiter, nur ohne diese Zweige. createDetailItems ist
+    // ganz weg: dort schrieb der map-Callback undefined-Einträge in die
+    // Detailliste, weil er ohne return durchfiel, und übrig geblieben wäre
+    // ein return [].
     displayMultiLemmaResults(results, searchTerms) {
         if (results.length === 0) {
             displayResults(

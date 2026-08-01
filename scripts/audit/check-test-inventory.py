@@ -80,10 +80,18 @@ def tabellen_abschnitt(text: str) -> str:
     meldete das Gate nach einer Umbenennung der Überschrift jede einzelne Spec
     als fehlend, statt zu sagen, dass es die Tabelle nicht mehr findet.
 
-    Code-Blöcke werden übersprungen, weil eine Zeile wie `# python scripts/...`
-    darin sonst als Überschrift zählte und die Tabelle vorzeitig abschnitte.
-    Das Muster ist in dieser Datei üblich, und der Abschnitt trägt bereits
-    Prosa, wird also wachsen.
+    Code-Blöcke werden ganz verworfen, aus zwei Gründen in dieser Reihenfolge.
+    Der erste: eine Zeile wie `# python scripts/…` darin zählte sonst als
+    Überschrift und schnitte die Tabelle vorzeitig ab; das Muster ist in diesen
+    Docstrings üblich, und der Abschnitt trägt bereits Prosa, wird also wachsen.
+    Der zweite folgt aus dem ersten: sobald ein Code-Block im Abschnitt möglich
+    ist, kann darin eine Beispiel-Tabellenzeile stehen, und die zählte als
+    Eintrag. Eine Spec wäre dann gelistet, weil jemand sie als Beispiel
+    hingeschrieben hat. Die Zeilen nur für die Überschriftenerkennung zu
+    ignorieren und sie trotzdem zurückzugeben, wäre also ein Fail-open.
+
+    Eine nicht geschlossene Fence verwirft den Rest des Dokuments. Das ist
+    fail-closed: die Specs darunter fehlen dann im Ergebnis und werden gemeldet.
     """
     zeilen = text.splitlines()
     try:
@@ -93,16 +101,18 @@ def tabellen_abschnitt(text: str) -> str:
             f'FEHLER: Überschrift "{TABELLEN_TITEL}" steht nicht in {DOC.name}. '
             'Wurde sie umbenannt? Dann TABELLEN_TITEL hier mitziehen.'
         )
-    ende = len(zeilen)
+    behalten = []
     im_codeblock = False
-    for i in range(start + 1, len(zeilen)):
-        if zeilen[i].lstrip().startswith(('```', '~~~')):
+    for zeile in zeilen[start + 1:]:
+        if zeile.lstrip().startswith(('```', '~~~')):
             im_codeblock = not im_codeblock
             continue
-        if not im_codeblock and zeilen[i].startswith(('# ', '## ', '### ')):
-            ende = i
+        if im_codeblock:
+            continue
+        if zeile.startswith(('# ', '## ', '### ')):
             break
-    return '\n'.join(zeilen[start:ende])
+        behalten.append(zeile)
+    return '\n'.join(behalten)
 
 
 def specs_im_dateisystem() -> set:
@@ -143,6 +153,7 @@ def selbsttest() -> int:
         '\n'
         '```bash\n'
         '# python scripts/audit/check-test-inventory.py\n'
+        '| `beispiel.spec.js` | X | so sieht eine Zeile aus |\n'
         '```\n'
         '\n'
         '| `a.spec.js` | Main site | Erste |\n'
@@ -182,10 +193,18 @@ def selbsttest() -> int:
              == {'wörterbuch prüfung.spec.js'}),
         ('Nicht-Spec zählt nicht',
          not ENDUNG.search('util.js') and not ENDUNG.search('fixture.spec.xml')),
-        # Ohne Codeblock-Erkennung schnitte die Kommentarzeile darin die
-        # Tabelle ab, und a.spec.js fehlte plötzlich.
-        ('Ein Codeblock im Abschnitt beendet die Tabelle nicht',
+        # Zwei Wirkungen in einer Eingabe: ohne Codeblock-Erkennung schnitte
+        # die Kommentarzeile darin die Tabelle ab und a.spec.js fehlte; würden
+        # die Blockzeilen nur für die Überschriftensuche ignoriert und trotzdem
+        # zurückgegeben, zählte die Beispielzeile als Eintrag.
+        ('Ein Codeblock beendet die Tabelle nicht und zählt selbst nicht mit',
          specs_in_tabelle(tabellen_abschnitt(mit_codeblock)) == {'a.spec.js'}),
+        # Die gelockerte ZEILE nimmt auch Prosa in Spalte 1 an. Das ist die
+        # Kehrseite davon, Leerzeichen zuzulassen, und fail-closed: das Phantom
+        # taucht als "genannt, aber nicht vorhanden" auf und macht Exit 1.
+        ('Prosa in Spalte 1 wird als verwaister Eintrag gemeldet',
+         pruefe(set(), specs_in_tabelle('| Ersatz für a.spec.js | X | Y |'))[1]
+         == ['Ersatz für a.spec.js']),
     ]
 
     for name, ok in faelle:
