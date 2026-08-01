@@ -71,8 +71,9 @@ npm run validate:indices   # Generierte Indizes validieren
 
 ### Tests ausführen
 ```bash
-npm test                   # Alle Tests
-npm run test:quick         # Nur Kern-Specs
+npm test                   # Alle Tests, gut 5 min
+npm run test:changed       # Nur Specs seit origin/main; ersetzt NICHT das npm test vor dem Push
+npm run test:quick         # Nur Kern-Specs (29 Tests)
 npm run test:ui            # Interaktives Test-UI
 npm run test:headed        # Mit sichtbarem Browser
 npm run report             # Letzten Testreport anzeigen
