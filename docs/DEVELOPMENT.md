@@ -165,13 +165,17 @@ Positionale Argumente sind bei Playwright **Reguläre Ausdrücke gegen den Datei
 
 | Was | geprüft von | wie erreicht |
 |---|---|---|
-| `assets/js/`, `playground/js/` | fast alle Specs | Browser, `localhost:8080` |
+| `assets/js/`, `playground/js/`, `tei/`, `data/` | fast alle Specs | Browser, `localhost:8080` |
 | `scripts/mhg_normalizer.py` | `normalization-parity.spec.js` | `execSync` |
+| `scripts/build-corpus-index.py` | `position-parity.spec.js` | `importlib` aus dem Helper heraus |
 | `testing/helpers/extract_word_positions.py` | `position-parity.spec.js` | `execSync` |
+| `tei/PL1.tei.xml`, `tei/OVG.tei.xml` | `position-parity.spec.js` | Pfad (Python) und Browser |
 | `testing/fixtures/*.tei.xml` | `position-parity.spec.js` | Pfad |
 | `assets/vendor/`, alle HTML-Seiten | `vendor.spec.js` | `readdirSync`/`readFileSync` |
 
-Die beiden Python-Zeilen sind die unangenehmsten, weil man dort das Gegenteil erwartet: `scripts/mhg_normalizer.py` ist eine Hälfte der Paritäts-Zusage aus den Hard Constraints in `CLAUDE.md`, und `normalization-parity.spec.js` ist ihr Wächter. Wer die Python-Seite ändert und `test:changed` laufen lässt, bekommt null Specs, also gerade nicht den Test, der die Änderung prüft (nachgemessen). Zwei Fallstricke am Ref: `origin/main` muss existieren (in einem Shallow Clone nicht der Fall), und er muss aktuell sein. Wer länger nicht gefetcht hat, vergleicht gegen einen alten Stand und bekommt zu viele oder zu wenige Specs, deshalb vorher `git fetch origin main`. Bleibt die Auswahl leer, endet der Befehl mit Exit 0 (gemessen, Playwright 1.55.1): `--pass-with-no-tests` braucht es nicht.
+Die Python-Zeilen sind die unangenehmsten, weil man dort das Gegenteil erwartet. `scripts/mhg_normalizer.py` und `scripts/build-corpus-index.py` sind je eine Hälfte der Paritäts-Zusagen aus den Hard Constraints in `CLAUDE.md`, und die beiden `*-parity.spec.js` sind ihre Wächter. Beim Build-Skript ist der Weg zusätzlich verdeckt: `extract_word_positions.py` ist ein Shim, der die echte `extract_word_data()` per `importlib` lädt, statt sie nachzubauen. Wer die Python-Seite ändert und `test:changed` laufen lässt, bekommt null Specs, also gerade nicht den Test, der die Änderung prüft (nachgemessen für `mhg_normalizer.py`).
+
+Für dieses Repo besonders relevant sind `tei/` und `data/`: das sind bei laufendem Ingest die am häufigsten geänderten Verzeichnisse, und beide sind blind, weil sie über `localhost:8080` geladen werden. Zwei Fallstricke am Ref: `origin/main` muss existieren (in einem Shallow Clone nicht der Fall), und er muss aktuell sein. Wer länger nicht gefetcht hat, vergleicht gegen einen alten Stand und bekommt zu viele oder zu wenige Specs, deshalb vorher `git fetch origin main`. Bleibt die Auswahl leer, endet der Befehl mit Exit 0 (gemessen, Playwright 1.55.1): `--pass-with-no-tests` braucht es nicht.
 
 **Test configuration:** `testing/playwright.config.js`
 - Always use `npm test` – never `npx playwright test` from the project root (config and `baseURL` live in `testing/`)
