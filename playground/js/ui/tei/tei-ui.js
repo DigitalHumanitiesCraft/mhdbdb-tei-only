@@ -4,7 +4,6 @@
  */
 
 import { displayResults, displaySummaryResults } from '../core/ui-helpers.js';
-import { showOverlaySpinner, hideSpinner } from '../core/progress.js';
 
 export class TEIExplorer {
     constructor(teiData, authorityData) {

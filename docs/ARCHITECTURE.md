@@ -166,7 +166,7 @@ The reading view converts TEI XML elements to HTML. Source: `extractAndFormatBod
 - Initialize IndexedDB
 - Load authority index (~3 MB)
 - Initialize data managers (authority, TEI)
-- Set up modular UI components (25 modules)
+- Set up modular UI components (23 modules; 25 vor #314, das `file-display.js` und `progress.js` entfernt hat)
 
 ### Data Layer
 
@@ -180,10 +180,10 @@ The reading view converts TEI XML elements to HTML. Source: `extractAndFormatBod
 - Performance maps for fast lookups
 
 **TEIFilesManager** (`playground/js/data/tei-manager.js`)
-- Multi-lemma search over the pre-built corpus index (the file-upload path was removed in #314)
-- Single lemma search with context extraction
-- Multi-lemma document search (all lemmata anywhere in text)
-- Multi-lemma proximity search (co-occurrence within N words)
+- Multi-lemma search over the pre-built corpus index (the file-upload path was removed in #314). `searchMultipleLemmasUsingIndex()` dispatches on `contextType` into the three modes below; there is no single-lemma entry point here, the main site has its own
+- Document mode: all lemmata anywhere in the same text
+- Proximity mode: co-occurrence within N words, via `findCoveringWindow()` over sorted position lists
+- Verse mode: co-occurrence within one `<l>` (#106), via the `lineStarts[]`/`lineEnds[]` arrays
 - Uses the corpus index (aktuelle Version: [TEI-MODEL.md §11](TEI-MODEL.md#11-versionierung)) for document-level word positions plus `<l>`-boundary arrays (ab v4.1.0)
 
 ### UI Layer (Phase 7 Modular Architecture)
@@ -193,7 +193,6 @@ The reading view converts TEI XML elements to HTML. Source: `extractAndFormatBod
 playground/js/ui/
 ├── core/              # Core UI utilities
 │   ├── ui-helpers.js
-│   ├── progress.js
 │   └── router.js      # Hash-based URL routing (#48)
 ├── authority/         # Authority file exploration (7 modules)
 │   ├── authority-ui.js

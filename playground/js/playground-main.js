@@ -8,7 +8,6 @@ import { TEIFilesManager } from './data/tei-manager.js';
 
 // NEW: Import modular UI components (decomposed from UICore.js)
 import { updateAllUI } from './ui/core/ui-helpers.js';
-import { hideSpinner } from './ui/core/progress.js';
 import { initRouter, navigate, dispatchFromHash } from './ui/core/router.js';
 import { AuthorityUI } from './ui/authority/authority-ui.js';
 import { TEIExplorer } from './ui/tei/tei-ui.js';
@@ -102,6 +101,10 @@ class MHDBDBPlayground {
         // nicht vorhandenen Datenbank ist das ein No-op, der Aufruf darf
         // also bei jedem Start laufen. Korpus und Authority-Daten liegen in
         // MHDBDBMainSite und sind nicht betroffen.
+        // Entfernbar, sobald keine Profile mehr im Umlauf sind, die den
+        // Playground vor Juli 2026 geöffnet haben: realistisch ab Mitte 2027.
+        // Ohne dieses Datum wird der Aufruf selbst zu dem konservierten
+        // Zweig, den #314 gerade entfernt hat.
         this.dropLegacyPlaygroundDatabase();
 
         // Load authority files from pre-built index (UPDATED)

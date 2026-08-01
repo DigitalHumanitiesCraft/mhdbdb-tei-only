@@ -142,22 +142,6 @@ export class TestUtils {
         return content;
     }
 
-    createMockFile(filename, content = null, size = null) {
-        content = content || this.generateMockTEIContent();
-        size = size || content.length;
-
-        return {
-            name: filename,
-            size: size,
-            type: 'text/xml',
-            lastModified: Date.now()
-        };
-    }
-
-    createMockFileList(filenames) {
-        return filenames.map(filename => this.createMockFile(filename));
-    }
-
     // ==================== STORAGE UTILITIES ====================
 
     async clearTestStorage() {
@@ -241,36 +225,7 @@ export class TestUtils {
         this.assertExists(window.indexedDB, 'IndexedDB should be available');
     }
 
-    async createTestTEIContent(size = 1024) {
-        // Create a test TEI file of specified size
-        const baseContent = `<?xml version="1.0" encoding="UTF-8"?>
-<TEI xmlns="http://www.tei-c.org/ns/1.0">
-    <teiHeader>
-        <fileDesc>
-            <titleStmt>
-                <title>Test TEI Document</title>
-            </titleStmt>
-        </fileDesc>
-    </teiHeader>
-    <text>
-        <body>`;
-
-        const endContent = `
-        </body>
-    </text>
-</TEI>`;
-
-        let content = baseContent;
-        const wordPattern = '<w lemmaRef="lexicon.xml#lemma_123">testword</w> ';
-
-        // Fill to desired size
-        while (content.length + endContent.length < size) {
-            content += `<p>Test paragraph with ${wordPattern.repeat(10)}</p>\n`;
-        }
-
-        content += endContent;
-        return content;
-    }
+    // ==================== REPORTING ====================
 
     generateReport() {
         const passed = this.testResults.filter(r => r.status === 'pass').length;

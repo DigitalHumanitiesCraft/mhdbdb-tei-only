@@ -176,7 +176,6 @@
     <!-- Scripts -->
     <script type="module">
         import { TestUtils } from './test-utils.js';
-        import { TEIFilesManager } from '../playground/js/data/tei-manager.js';
         import { AuthorityFilesManager } from '../playground/js/data/authority-manager.js';
 
         // Global test utilities
@@ -235,7 +234,6 @@
             const TOTAL_TESTS = 4;
             let completedTests = 0;
 
-            // Test 1: Storage Manager Tests
             await window.testUtils.describe('DOM Integration', async () => {
                 await window.testUtils.it('should find required DOM elements', () => {
                     // We're not running in the full playground, so we'll mock this
@@ -246,7 +244,7 @@
                 updateProgress(completedTests, TOTAL_TESTS, 'DOM integration tests completed');
             });
 
-            // Test 4: Performance Tests
+            // Performance Tests
             await window.testUtils.describe('Performance Tests', async () => {
                 await window.testUtils.it('should handle large TEI content efficiently', () => {
                     const startTime = performance.now();
@@ -260,7 +258,7 @@
                 updateProgress(completedTests, TOTAL_TESTS, 'Performance tests completed');
             });
 
-            // Test 5: Error Handling Tests
+            // Error Handling Tests
             await window.testUtils.describe('Error Handling', async () => {
                 await window.testUtils.it('should handle storage errors', () => {
                     // Test storage full scenario would require filling up IndexedDB
@@ -271,7 +269,7 @@
                 updateProgress(completedTests, TOTAL_TESTS, 'Error handling tests completed');
             });
 
-            // Test 6: IndexedDB Storage Tests
+            // IndexedDB Storage Tests
             await window.testUtils.describe('IndexedDB Storage', async () => {
                 await window.testUtils.it('should support IndexedDB', async () => {
                     await window.testUtils.testIndexedDBSupport();
@@ -281,7 +279,6 @@
                 updateProgress(completedTests, TOTAL_TESTS, 'IndexedDB tests completed');
             });
 
-            // Test 7: Large File Handling Tests
             // Final results
             updateProgress(TOTAL_TESTS, TOTAL_TESTS, '🎉 All tests completed!');
 
