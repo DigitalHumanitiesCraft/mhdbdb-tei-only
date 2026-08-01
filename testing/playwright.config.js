@@ -22,33 +22,34 @@ export default defineConfig({
   // war retries: 0 stimmig: was seriell rot wird, ist reproduzierbar rot.
   // Unter Last treten Timing-Flakes einmal auf und beim nächsten Lauf nicht
   // mehr; ohne Retry ist der eine Lauf, in dem das Problem sichtbar war, schon
-  // verbraucht. Der Preis ist bekannt: ein Retry kann einen echten Fehler als
-  // flaky ausweisen. Playwright meldet flaky aber getrennt und sichtbar, das
-  // ist Information und kein Zudecken.
+  // verbraucht. Dass ein Retry einen echten Fehler als flaky ausweisen und
+  // damit grün durchwinken kann, verhindert failOnFlakyTests weiter unten.
   retries: process.env.CI ? 2 : 1,
   // Der Retry ist zur Diagnose da, nicht zum Durchwinken. Ohne diese Zeile
   // endet ein Lauf mit Exit 0, sobald ein Test im zweiten Versuch grün wird:
   // er zählt dann als flaky, nicht als failed. Genau dieser Lauf ist vor dem
   // Push Pflicht (DEVELOPMENT.md), und ein Retry darf ihn nicht schönen.
   // Seit Playwright 1.52 als Config-Option, daher die Untergrenze in
-  // package.json.
+  // package.json. Playwright ignoriert unbekannte Config-Properties still,
+  // die Wirkung ist deshalb gemessen und nicht angenommen: ein Test, der im
+  // ersten Versuch fällt und im Retry grün wird, ergibt mit dieser Zeile
+  // Exit 1 und ohne sie Exit 0, beide Male gemeldet als "1 flaky".
   failOnFlakyTests: true,
   // Sechs Worker lokal, gemessen (#323): 20,4 min bei einem Worker gegen 5,0
   // bis 5,3 min bei sechs, über dieselben 276 Tests, fünf Läufe mit dem
   // Trace-Modus unten. Die Grenze ist nicht die Kernzahl (16 verfügbar),
   // sondern der single-threaded `http-server` weiter unten und der
-  // Chromium-Heap: jeder Context, der den
-  // Korpus-Index lädt, hält ihn entpackt im Speicher (168 MB JSON, als
+  // Chromium-Heap: jeder Context, der den Korpus-Index lädt, hält ihn
+  // entpackt im Speicher (168 MB JSON, als
   // JS-Objekte grob geschätzt das Zwei- bis Dreifache). Mehr Worker verschieben
   // den Engpass auf die Auslieferung der 42 MB pro Seitenaufbau.
   //
   // In der CI zwei: Standard-Runner haben zwei bis vier vCPUs, dort würden
-  // sechs Worker plus single-threaded Server nur noch thrashen, und
-  // `retries: 2` würde die daraus entstehende, systematische Flakiness
-  // verdecken (ein Retry gegen einen gelegentlichen Timing-Flake ist etwas
-  // anderes als zwei gegen dauerhaftes Thrashing). Heute akademisch,
-  // weil kein Workflow `npm test` ruft, aber die Config verzweigt bei
-  // `retries` und `forbidOnly` ohnehin schon auf CI.
+  // sechs Worker plus single-threaded Server nur noch thrashen. Das trägt
+  // die Entscheidung allein; verdecken könnten die drei CI-Versuche nichts,
+  // dafür sorgt failOnFlakyTests. Heute ohnehin akademisch, weil kein
+  // Workflow `npm test` ruft, aber die Config verzweigt bei `retries` und
+  // `forbidOnly` schon auf CI.
   //
   // Nichts erzwingt serielle Ausführung: kein `test.describe.serial`, kein
   // `test.use()`, keine Abhängigkeit zwischen Tests, und Playwright gibt jedem
