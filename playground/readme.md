@@ -115,11 +115,10 @@ npm run report
 - **`MHDBDBPlayground`** (main.js) - Main application controller
 - **`AuthorityFilesManager`** - Authority file loading and parsing
 - **`TEIFilesManager`** - Multi-lemma search over the pre-built corpus index
-- **`AuthorityStorageManager`** - IndexedDB caching with expiration
 
 ### UI Components (Modular)
 
-- **`UICore.js`** - Progress tracking, file display
+- **`UICore.js`** - Progress tracking, file display *(historisch: beide Module, `progress.js` und `file-display.js`, sind mit #314 entfernt)*
 - **`AuthorityExplorers.js`** - Authority file search interfaces
 - **`TEIExplorer.js`** - TEI text analysis features
 - **`XPathInterface.js`** - XPath query execution
@@ -160,7 +159,7 @@ npm run report
 **Optional Features:**
 - ⏳ P1: Export functions (CSV/JSON download)
 - ⏳ P2: Visualizations (charts, networks)
-- ✅ P3: Session persistence (IndexedDB)
+- ❌ P3: Session persistence (IndexedDB) – war der Datei-Upload, entfernt mit #314
 
 **Non-Goals:**
 - ❌ Mobile/responsive design
@@ -172,7 +171,7 @@ npm run report
 ## Performance
 
 - **Normalization:** 0.003ms per operation
-- **IndexedDB:** Handles 6MB+ files efficiently
+- **IndexedDB:** Korpus- und Authority-Index über den gemeinsamen `CorpusLoader` (`MHDBDBMainSite`); der frühere Upload-Store ist mit #314 weg
 - **Caching:** 30-day expiration for authority files
 - **Test suite:** ~23 seconds for 38 tests
 
