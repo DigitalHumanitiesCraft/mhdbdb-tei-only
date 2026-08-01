@@ -21,7 +21,7 @@ Mediävist:innen haben kein flexibles, exploratives Tool, um ihre TEI-Textkorpor
 
 ### Data Management
 - **Auto-loading** of TEI corpus and authority files from the repository (no upload step — UI removed in the current redesign)
-- **IndexedDB caching** for large file persistence across sessions
+- **IndexedDB caching** of the pre-built corpus and authority indexes, via the shared `CorpusLoader` (database `MHDBDBMainSite`)
 - **Client-side processing** - all data stays in your browser
 - **Authority file integration** with 30-day cache expiration
 
@@ -36,7 +36,7 @@ Mediävist:innen haben kein flexibles, exploratives Tool, um ihre TEI-Textkorpor
 6. **Namen** - Proper names with semantic relations
 
 **TEI Text Analysis:**
-7. **Multi-Lemma-Suche** - Find one or more lemmata across the corpus (paragraph, document, or proximity mode)
+7. **Multi-Lemma-Suche** - Find one or more lemmata across the corpus (document, proximity or verse mode)
 
 ### MHG Character Normalization
 
@@ -80,7 +80,7 @@ All searches (except XPath) support automatic normalization of Middle High Germa
 2. **Data loads automatically:**
    - Authority files load automatically from `../authority-files/`
    - TEI corpus loads from the pre-built index (no drag & drop; upload UI removed in the current redesign)
-   - Large files are automatically cached in IndexedDB for subsequent visits
+   - The indexes are cached in IndexedDB for subsequent visits
 
 3. **Explore data:**
    - Use "Authority Files durchsuchen" for metadata queries
@@ -129,7 +129,7 @@ npm run report
 ### Data Flow
 
 1. Authority files loaded with 30-day IndexedDB caching
-2. TEI corpus loaded from pre-built index and parsed (large files cached automatically)
+2. TEI corpus read from the pre-built index, not parsed as XML (`playground-main.js`: "use the index directly")
 3. Cross-references resolved between TEI texts and authority data
 4. Search queries utilize normalized patterns and variant resolution
 5. Results displayed with color-coded highlighting and context

@@ -22,7 +22,8 @@ export class TEIFilesManager {
      * Multi-Lemma-Suche über den vorgebauten Korpus-Index.
      */
     async searchMultipleLemmasUsingIndex(lemmaIds, contextType = 'document', maxDistance = 10) {
-        // v4.0.0: Use document-level index (no paragraph mode)
+        // v4.0.0: Dokumentweiter Index, drei Modi. Der frühere
+        // paragraph-Modus fiel mit v4.0.0 weg.
         const corpusData = window.playground?.corpusData;
         if (!corpusData || !corpusData.texts) {
             // Früher lief hier ein XML-Fallback für hochgeladene Dateien.
@@ -43,7 +44,11 @@ export class TEIFilesManager {
             return this.searchDocumentUsingEnhancedIndex(lemmaIds, corpusData);
         }
 
-        return [];
+        // Aus demselben Grund wie oben: ein stilles [] sähe wie "keine Treffer"
+        // aus. Erreichbar ist der Zweig heute nicht (die UI hat drei Radios,
+        // und der Router ignoriert unbekannte Modi aus dem Hash), aber genau
+        // diese Konstellation hat den Upload-Pfad 1300 Zeilen lang konserviert.
+        throw new Error(`Unbekannter Suchmodus: ${contextType}`);
     }
 
     /**

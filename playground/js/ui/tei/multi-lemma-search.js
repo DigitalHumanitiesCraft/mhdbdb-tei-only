@@ -290,7 +290,7 @@ export class MultiLemmaSearchUI {
                 if (getNavigationEpoch() !== myEpoch) return;
                 this.teiExplorer.displayCooccurrenceResults(results, searchTerms, null, lemmaIds, { verseMode: true });
             } else {
-                // Use fast index-based search for paragraph/document mode
+                // Dokumentweite Suche über den Index
                 results = await teiManager.searchMultipleLemmasUsingIndex(lemmaIds, searchMode);
                 if (getNavigationEpoch() !== myEpoch) return;
                 this.teiExplorer.displayMultiLemmaResults(results, searchTerms, searchMode);
