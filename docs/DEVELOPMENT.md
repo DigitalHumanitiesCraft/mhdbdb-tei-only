@@ -161,7 +161,17 @@ npm run report        # View HTML report
 
 Positionale Argumente sind bei Playwright **Reguläre Ausdrücke gegen den Dateipfad**, keine Dateinamen. Unverankert zog der Filter `corpus.spec.js` in `test:quick` deshalb auch `playground-corpus.spec.js` und `search-with-corpus.spec.js` mit, also 47 Tests in fünf Dateien statt 29 in drei, darunter ausgerechnet die Datei mit den meisten `waitForTimeout`-Aufrufen. Seit #323 sind die Filter hinten mit `$` verankert und vorne durch das Präfix `tests.` diszipliniert. Ein `^` wäre falsch und würde nichts mehr finden: Playwright prüft gegen den **absoluten** Pfad, nachgemessen (`^main-site\.spec\.js$` und `^tests.main-site\.spec\.js$` liefern beide null Tests, `tests.main-site\.spec\.js$` liefert 14). Wer die Auswahl ändert, zählt sie mit `-- --list` nach; das startet den `webServer` nicht und kostet deshalb nur Sekunden.
 
-`test:changed` (`--only-changed=origin/main`) ist der Alltagsbefehl beim Arbeiten an einem Zweig: es läuft nur, was der Zweig angefasst hat. **Vor dem Push bleibt `npm test` Pflicht.** `--only-changed` verfolgt zwar die Node-Importe der Specs, aber unser Site-Code wird im Browser über `localhost:8080` geladen und nicht importiert: eine Änderung in `assets/js/` oder `playground/js/` zieht deshalb keine einzige Spec mit. Zwei Fallstricke am Ref: `origin/main` muss existieren (in einem Shallow Clone nicht der Fall), und er muss aktuell sein. Wer länger nicht gefetcht hat, vergleicht gegen einen alten Stand und bekommt zu viele oder zu wenige Specs, deshalb vorher `git fetch origin main`. Bleibt die Auswahl leer, endet der Befehl mit Exit 0 (gemessen, Playwright 1.55.1): `--pass-with-no-tests` braucht es nicht.
+`test:changed` (`--only-changed=origin/main`) ist der Alltagsbefehl beim Arbeiten an einem Zweig: es läuft nur, was der Zweig angefasst hat. **Vor dem Push bleibt `npm test` Pflicht.** `--only-changed` verfolgt zwar die Node-Importe der Specs, aber keine Spec importiert Projektcode über Node. Alles, was die Specs prüfen, erreichen sie zur Laufzeit: Site-Code über den Browser (`await import('/assets/js/…')` innerhalb von `page.evaluate`), Python über `execSync`, Fixtures und Vendor-Dateien über den Pfad. Blind ist der Befehl deshalb für:
+
+| Was | geprüft von | wie erreicht |
+|---|---|---|
+| `assets/js/`, `playground/js/` | fast alle Specs | Browser, `localhost:8080` |
+| `scripts/mhg_normalizer.py` | `normalization-parity.spec.js` | `execSync` |
+| `testing/helpers/extract_word_positions.py` | `position-parity.spec.js` | `execSync` |
+| `testing/fixtures/*.tei.xml` | `position-parity.spec.js` | Pfad |
+| `assets/vendor/`, alle HTML-Seiten | `vendor.spec.js` | `readdirSync`/`readFileSync` |
+
+Die beiden Python-Zeilen sind die unangenehmsten, weil man dort das Gegenteil erwartet: `scripts/mhg_normalizer.py` ist eine Hälfte der Paritäts-Zusage aus den Hard Constraints in `CLAUDE.md`, und `normalization-parity.spec.js` ist ihr Wächter. Wer die Python-Seite ändert und `test:changed` laufen lässt, bekommt null Specs, also gerade nicht den Test, der die Änderung prüft (nachgemessen). Zwei Fallstricke am Ref: `origin/main` muss existieren (in einem Shallow Clone nicht der Fall), und er muss aktuell sein. Wer länger nicht gefetcht hat, vergleicht gegen einen alten Stand und bekommt zu viele oder zu wenige Specs, deshalb vorher `git fetch origin main`. Bleibt die Auswahl leer, endet der Befehl mit Exit 0 (gemessen, Playwright 1.55.1): `--pass-with-no-tests` braucht es nicht.
 
 **Test configuration:** `testing/playwright.config.js`
 - Always use `npm test` – never `npx playwright test` from the project root (config and `baseURL` live in `testing/`)
