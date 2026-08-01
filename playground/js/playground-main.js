@@ -93,6 +93,17 @@ class MHDBDBPlayground {
     async init() {
         this.initializeEventListeners();
 
+        // #314: Die Datenbank MHDBDB_Playground hielt einen einzigen Store
+        // (tei_files) fuer den Datei-Upload. Der ist weg, damit hat sie keinen
+        // Schreiber mehr. Bis #280 raeumte eine Schema-Migration hier noch
+        // Altstores auf; die lief ueber den IndexedDBManager, den nach dem
+        // Rueckbau niemand mehr instanziiert. Statt 397 Zeilen Schema-Pflege
+        // fuer eine leere Datenbank wird sie einmalig geloescht. Auf einer
+        // nicht vorhandenen Datenbank ist das ein No-op, der Aufruf darf
+        // also bei jedem Start laufen. Korpus und Authority-Daten liegen in
+        // MHDBDBMainSite und sind nicht betroffen.
+        this.dropLegacyPlaygroundDatabase();
+
         // Load authority files from pre-built index (UPDATED)
         await this.loadAuthorityIndex();
 
@@ -161,6 +172,19 @@ class MHDBDBPlayground {
         } catch (error) {
             console.error('❌ Failed to load authority index:', error);
             alert('Failed to load authority data. Please refresh the page.');
+        }
+    }
+
+    dropLegacyPlaygroundDatabase() {
+        if (!window.indexedDB) return;
+        try {
+            const req = indexedDB.deleteDatabase('MHDBDB_Playground');
+            req.onsuccess = () => console.log('Alt-Datenbank MHDBDB_Playground entfernt (#314)');
+            // onblocked heisst: ein anderer Tab haelt die Datenbank noch offen.
+            // Kein Fehlerfall, der naechste Start erledigt es.
+            req.onblocked = () => console.log('MHDBDB_Playground noch von einem anderen Tab belegt');
+        } catch (e) {
+            console.warn('MHDBDB_Playground liess sich nicht entfernen:', e);
         }
     }
 

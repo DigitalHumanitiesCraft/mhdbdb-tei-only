@@ -379,19 +379,16 @@ A–Z-Einstiegsseite zu den Lemma-Seiten. Lädt nur den Authority-Index (via `Co
 
 ## Storage Architecture
 
-### IndexedDB Manager
+### Der Playground hat keine eigene Datenbank mehr (#314)
 
-**Component:** `playground/js/indexed-db-manager.js` (Datenbank `MHDBDB_Playground`)
+Bis Juli 2026 hielt der Playground eine zweite IndexedDB-Datenbank `MHDBDB_Playground`, verwaltet von `playground/js/indexed-db-manager.js`. Ihr einziger Store `tei_files` speicherte die vom Benutzer hochgeladenen TEI-Dateien; geschrieben wurde er aus `data/storage/tei-storage.js`. Mit dem Rückbau des toten Upload-Pfads (#314) sind Schreiber und Manager entfernt.
 
-**Object Store:** (`indexed-db-manager.js`, `onupgradeneeded`) genau einer, seit DB-Version 3.
+`playground-main.js` löscht die Datenbank beim Start einmalig per `indexedDB.deleteDatabase('MHDBDB_Playground')` (`dropLegacyPlaygroundDatabase()`). Auf einer nicht vorhandenen Datenbank ist das ein No-op, der Aufruf darf also bei jedem Start laufen. Er ersetzt die frühere Schema-Migration aus #280, die drei schreiberlose Altstores (`corpus_tei_files`, `authority_files`, `metadata`) über `deleteObjectStore` aus bestehenden Browser-Datenbanken räumte: nach #314 instanziiert kein Produktivcode mehr den Manager, die Migration liefe also nicht mehr. Das Löschen der ganzen Datenbank erledigt dasselbe gründlicher.
 
-1. **tei_files** - vormals die vom Benutzer hochgeladenen TEI-Dateien (Indizes: timestamp, size, source). Der einzige Schreiber lag in `data/storage/tei-storage.js` und ist mit #314 entfernt; der Store hat seither keinen mehr, bleibt aber vorerst angelegt (siehe unten)
+Korpus- und Authority-Daten lagen nie hier. Der Playground liest sie über denselben `CorpusLoader` wie die Hauptseite, also aus `MHDBDBMainSite`. Ein zweiter Cache-Pfad darf nicht wieder entstehen.
 
-Bis Version 2 legte der Manager zusätzlich `corpus_tei_files`, `authority_files` und `metadata` an. Diese drei stammten aus der Zeit vor dem gemeinsamen `CorpusLoader` und hatten keinen Schreiber mehr; die „24h Expiration" des Authority-Stores war deshalb nirgends wirksam. Version 3 entfernt sie und löscht sie über `deleteObjectStore` auch aus bestehenden Browser-Datenbanken (#280). Der Playground liest Korpus- und Authority-Daten über denselben `CorpusLoader` wie die Hauptseite, also aus `MHDBDBMainSite`.
-
-**Expiration Policy (ADR-004), wirksam im `CorpusLoader`, nicht hier:**
+**Expiration Policy (ADR-004), wirksam im `CorpusLoader`:**
 - Authority- und Corpus-Index: 30-Tage-Cache (`CACHE_DURATION` in `assets/js/lib/corpus-loader.js`, Datenbank `MHDBDBMainSite`) plus Versions-Invalidierung
-- `tei_files` hatte keine Ablauffrist, weil hochgeladene Dateien dem Benutzer gehörten. Seit #314 gibt es keinen Upload mehr, die Regel ist damit gegenstandslos und der Store schreiberlos
 - Balances freshness with performance
 
 ### Corpus Loader

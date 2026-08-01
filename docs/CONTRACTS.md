@@ -621,9 +621,8 @@ Parse order: ?id > #hash > path segment (first match wins)
 |----------|---------|-------|-----|---------|
 | `MHDBDBMainSite` | Dexie.js | `indices` | `name` (string) | `assets/js/lib/corpus-loader.js` |
 | `MHDBDB_TEI_Cache` | Raw IndexedDB | `parsedTEI` | `filename` (string) | `assets/js/storage/tei-cache-manager.js` |
-| `MHDBDB_Playground` | Raw IndexedDB | `tei_files` | `filename` (string) | `playground/js/indexed-db-manager.js` |
 
-**`MHDBDB_Playground` hält genau einen Store:** `tei_files`, ohne Ablauffrist. Er hatte seinen einzigen Schreiber im Datei-Upload des Playgrounds, und der ist mit #314 entfernt; der Store bleibt vorerst bestehen, weil die v3-Migration aus #280 gerade erst ausgeliefert wurde und Altstores aus bestehenden Browser-Datenbanken raeumt. Ueber seinen Verbleib entscheidet ein eigenes Followup. Korpus- und Authority-Daten liegen auch im Playground im gemeinsamen `CorpusLoader` (`MHDBDBMainSite`), nicht hier. Ein zweiter Cache-Pfad darf nicht wieder entstehen: DB-Version 3 löscht die drei schreiberlosen Altstores `corpus_tei_files`, `authority_files` und `metadata` aus bestehenden Browser-Datenbanken (#280).
+**Es gibt nur diese zwei Datenbanken.** Der Playground hielt bis #314 eine dritte, `MHDBDB_Playground`, mit einem einzigen Store `tei_files` für die hochgeladenen Dateien. Mit dem Rückbau des Upload-Pfads hat sie keinen Schreiber mehr; `playground-main.js` löscht sie beim Start einmalig (`dropLegacyPlaygroundDatabase()`, auf einer fehlenden Datenbank ein No-op). Das ersetzt die v3-Schema-Migration aus #280, die drei schreiberlose Altstores räumte und nach dem Rückbau mangels Manager-Instanz nicht mehr liefe. Korpus- und Authority-Daten lagen nie dort, sondern im gemeinsamen `CorpusLoader` (`MHDBDBMainSite`). **Ein zweiter Cache-Pfad darf nicht wieder entstehen.**
 
 ### Index Cache (MHDBDBMainSite)
 

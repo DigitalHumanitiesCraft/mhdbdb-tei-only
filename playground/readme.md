@@ -129,7 +129,6 @@ npm run report
 ### Utilities
 
 - **`TextNormalizer.js`** - Centralized MHG character normalization
-- **`IndexedDBManager.js`** - Low-level IndexedDB operations
 
 ### Data Flow
 
