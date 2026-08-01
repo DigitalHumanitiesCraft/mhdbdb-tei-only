@@ -92,16 +92,24 @@ test.describe('MHDBDB Playground Test Suite', () => {
     // Wait for tests to run again (they complete quickly, so just wait for completion)
     await expect(page.locator('#progress-text')).toContainText('completed', { timeout: 30000 });
 
-    // Test "Clear Storage" button
+    // #314: Der Test suchte hier bis Juli 2026 nach "Cleared" (groß). Diesen
+    // String loggte nicht der Knopf, sondern clearAllCachedFiles() aus dem
+    // Upload-Pfad, angestoßen vom vorherigen "Run Tests Again". Der Test war
+    // also grün, ohne den Knopf je zu prüfen.
+    //
+    // Eine Log-Zeile allein wäre wieder zu wenig: window.clearStorage() loggt
+    // unbedingt, auch wenn nichts zu löschen war. Deshalb erst einen Schlüssel
+    // setzen, den clearTestStorage() erfassen muss, und danach seine Abwesenheit
+    // prüfen.
+    await page.evaluate(() => sessionStorage.setItem('mhdbdb_probe_314', 'x'));
+
     await page.click('button:has-text("Clear Storage")');
 
-    // #314: Der Test suchte hier bis Juli 2026 nach "Cleared" (groß). Diesen
-    // String loggte nicht der Button, sondern clearAllCachedFiles() aus dem
-    // Upload-Pfad, angestoßen vom vorherigen "Run Tests Again". Der Test war
-    // also grün, ohne den Button je zu prüfen. Geprüft wird jetzt, was
-    // window.clearStorage() tatsächlich ausgibt.
     const consoleOutput = page.locator('#console-output');
     await expect(consoleOutput).toContainText('Storage cleared', { timeout: 5000 });
+
+    const probe = await page.evaluate(() => sessionStorage.getItem('mhdbdb_probe_314'));
+    expect(probe).toBeNull();
   });
 
   test('should capture console output', async ({ page }) => {

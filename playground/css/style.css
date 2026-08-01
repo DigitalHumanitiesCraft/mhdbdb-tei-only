@@ -23,7 +23,6 @@
   height: 0.875rem;
 }
 
-/* Drag & drop visual feedback */
 /* File list presentation (checkbox version) */
 .file-item {
   display: flex;
@@ -76,7 +75,6 @@
   white-space: nowrap;
 }
 
-/* Old file item styles (kept for compatibility) */
 /* Highlighting for lemma matches - Improved contrast */
 .highlight {
   background-color: #fbbf24;
@@ -284,7 +282,6 @@
   border-radius: inherit;
 }
 
-/* Upload progress */
 /* Ensure proper contrast for interactive elements */
 button:focus,
 input:focus,
@@ -542,7 +539,7 @@ textarea:focus {
   }
 }
 
-/* Collapsible file list styles */
+/* Filter box above the corpus file list */
 #fileFilter {
   background: var(--bg-primary);
   border: 1px solid var(--border-primary);

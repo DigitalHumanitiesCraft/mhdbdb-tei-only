@@ -144,21 +144,13 @@ export class TestUtils {
 
     // ==================== STORAGE UTILITIES ====================
 
-    async clearTestStorage() {
-        // Clear IndexedDB test data
+    // Räumt sessionStorage. Bis #314 stand hier zusätzlich ein
+    // deleteDatabase auf 'mhdbdb_playground' (klein geschrieben), während die
+    // Datenbank 'MHDBDB_Playground' hieß. IndexedDB-Namen sind case-sensitiv,
+    // der Zweig war also seit jeher ein No-op. Seit #314 hat der Playground
+    // ohnehin keine eigene Datenbank mehr.
+    clearTestStorage() {
         try {
-            if ('indexedDB' in window) {
-                // Clear IndexedDB database
-                const dbName = 'mhdbdb_playground';
-                await new Promise((resolve, reject) => {
-                    const deleteReq = indexedDB.deleteDatabase(dbName);
-                    deleteReq.onsuccess = () => resolve();
-                    deleteReq.onerror = () => reject(deleteReq.error);
-                });
-                console.log('🧹 Test IndexedDB cleared');
-            }
-
-            // Also clear sessionStorage for any remaining legacy data
             const keys = Object.keys(sessionStorage);
             keys.forEach(key => {
                 if (key.startsWith('mhdbdb_') || key.includes('test')) {
