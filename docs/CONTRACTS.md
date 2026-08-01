@@ -624,6 +624,8 @@ Parse order: ?id > #hash > path segment (first match wins)
 
 **Es gibt nur diese zwei Datenbanken.** Der Playground hielt bis #314 eine dritte, `MHDBDB_Playground`, mit einem einzigen Store `tei_files` für die hochgeladenen Dateien. Mit dem Rückbau des Upload-Pfads hat sie keinen Schreiber mehr; `playground-main.js` löscht sie beim Start einmalig (`dropLegacyPlaygroundDatabase()`, auf einer fehlenden Datenbank ein No-op). Das ersetzt die v3-Schema-Migration aus #280, die drei schreiberlose Altstores räumte und nach dem Rückbau mangels Manager-Instanz nicht mehr liefe. Korpus- und Authority-Daten lagen nie dort, sondern im gemeinsamen `CorpusLoader` (`MHDBDBMainSite`). **Ein zweiter Cache-Pfad darf nicht wieder entstehen.**
 
+Der Name `MHDBDB_Playground` steht deshalb an zwei Stellen weiter im Code, und beide sind Absicht: `dropLegacyPlaygroundDatabase()` greift nur, wenn jemand den Playground öffnet, und `KNOWN_DB_NAMES` in `assets/js/site-chrome.js` ist die zweite Chance über den Knopf „Site-Daten zurücksetzen" auf jeder Seite. Beide dürfen erst zusammen verschwinden, realistisch ab Mitte 2027.
+
 ### Index Cache (MHDBDBMainSite)
 
 **Store schema:** `{ name, version, timestamp, data }`
