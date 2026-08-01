@@ -460,16 +460,22 @@ Source: `playground/js/data/tei-manager.js` (document search function)
 
 ```
 function searchDocumentLevel(lemmaIds, corpusData):
+    // corpusData is window.playground.corpusData, filled by the playground's
+    // own file browser. Not the main site's identically named selection.
     results = []
     includedTexts = corpusData.includedTexts or empty set
 
     for each text in corpusData.texts:
-        // Honours the main-site checkbox selection, unlike the analysis tools
+        // Honours the playground's text selection, unlike the analysis tools
         // in section H (see the scope note there)
         if text.id not in includedTexts: continue
 
-        // Require ALL lemmata present (intersection, not union)
-        containsAll = lemmaIds.every(id => text.lemmata[id] exists)
+        // Require ALL lemmata present (intersection, not union). Each id is
+        // normalized and then tried under both spellings, because the caller
+        // hands over bare ids while the index keys carry the prefix.
+        containsAll = lemmaIds.every(id =>
+            cleanId = id without leading "lemma_"
+            text.lemmata["lemma_" + cleanId] or text.lemmata[cleanId] exists)
 
         if containsAll:
             results.push({filename, title, author, context: 'document', totalWords})
@@ -477,6 +483,8 @@ function searchDocumentLevel(lemmaIds, corpusData):
     return results
     // No dedup needed — each text can only appear once (checked via containsAll)
 ```
+
+**Why both spellings:** `resolveLemmaIds` strips the prefix (`tei-ui.js`, `matches[0].id.replace('lemma_', '')`), the index writes it (`build-corpus-index.py`, keys like `"lemma_879"`). A lookup on the bare id alone would find nothing, silently, for every query. The other two modes reach the same place differently and do **not** use this double lookup: the verse path normalizes upward to one prefixed key, the proximity path compares stripped ids against `words[]`. Three spellings of one rule, which is why this one is written out here.
 
 **Note:** No dedup needed here because the intersection check (`every`) guarantees each text appears at most once.
 
