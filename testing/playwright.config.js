@@ -43,7 +43,13 @@ export default defineConfig({
   ],
   use: {
     baseURL: 'http://localhost:8080',
-    trace: 'on-first-retry',
+    // Seit #323 laufen sechs Worker, und damit aendert sich die Fehlerklasse:
+    // Timing-Flakes unter Last treten einmal auf und beim naechsten Lauf nicht
+    // mehr. Lokal gibt es dafuer keinen zweiten Versuch (retries: 0), also
+    // waere mit 'on-first-retry' der eine Lauf, in dem das Problem sichtbar
+    // war, auch schon verbraucht. Traces landen unter test-results/artifacts/
+    // und sind gitignored.
+    trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
   },
 

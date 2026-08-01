@@ -53,7 +53,8 @@ temp/                # Scratch, gitignored, nie committen
 
 ```bash
 npm run serve                    # Dev server on :8080
-npm test                         # Playwright (auto-starts server) — NEVER use `npx playwright test` from root
+npm test                         # Playwright, rund 5 min (auto-starts server) — NEVER use `npx playwright test` from root
+npm run test:changed             # nur Specs seit origin/main; ersetzt NICHT das npm test vor dem Push
 python scripts/build-authority-index.py   # Rebuild authority index
 python scripts/build-corpus-index.py      # Rebuild corpus index
 python scripts/build-api.py               # Rebuild static JSON API
