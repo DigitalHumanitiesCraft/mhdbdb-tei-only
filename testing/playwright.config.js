@@ -18,18 +18,28 @@ export default defineConfig({
   // und das trifft genau den Engpass unten.
   fullyParallel: false,
   forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 2 : 0,
+  // Lokal ein Versuch mehr, seit sechs Worker laufen (#323). Mit einem Worker
+  // war retries: 0 stimmig: was seriell rot wird, ist reproduzierbar rot.
+  // Unter Last treten Timing-Flakes einmal auf und beim nächsten Lauf nicht
+  // mehr; ohne Retry ist der eine Lauf, in dem das Problem sichtbar war, schon
+  // verbraucht. Der Preis ist bekannt: ein Retry kann einen echten Fehler als
+  // flaky ausweisen. Playwright meldet flaky aber getrennt und sichtbar, das
+  // ist Information und kein Zudecken.
+  retries: process.env.CI ? 2 : 1,
   // Sechs Worker lokal, gemessen (#323): 20,4 min bei einem Worker gegen 5,0
-  // bis 5,1 min bei sechs, über dieselben 276 Tests, vier Läufe. Die Grenze ist
-  // nicht die Kernzahl (16 verfügbar), sondern der single-threaded
-  // `http-server` weiter unten und der Chromium-Heap: jeder Context, der den
+  // bis 5,3 min bei sechs, über dieselben 276 Tests, fünf Läufe mit dem
+  // Trace-Modus unten. Die Grenze ist nicht die Kernzahl (16 verfügbar),
+  // sondern der single-threaded `http-server` weiter unten und der
+  // Chromium-Heap: jeder Context, der den
   // Korpus-Index lädt, hält ihn entpackt im Speicher (168 MB JSON, als
   // JS-Objekte grob geschätzt das Zwei- bis Dreifache). Mehr Worker verschieben
   // den Engpass auf die Auslieferung der 42 MB pro Seitenaufbau.
   //
   // In der CI zwei: Standard-Runner haben zwei bis vier vCPUs, dort würden
   // sechs Worker plus single-threaded Server nur noch thrashen, und
-  // `retries: 2` würde die entstehende Flakiness verdecken. Heute akademisch,
+  // `retries: 2` würde die daraus entstehende, systematische Flakiness
+  // verdecken (ein Retry gegen einen gelegentlichen Timing-Flake ist etwas
+  // anderes als zwei gegen dauerhaftes Thrashing). Heute akademisch,
   // weil kein Workflow `npm test` ruft, aber die Config verzweigt bei
   // `retries` und `forbidOnly` ohnehin schon auf CI.
   //
@@ -43,13 +53,14 @@ export default defineConfig({
   ],
   use: {
     baseURL: 'http://localhost:8080',
-    // Seit #323 laufen sechs Worker, und damit aendert sich die Fehlerklasse:
-    // Timing-Flakes unter Last treten einmal auf und beim naechsten Lauf nicht
-    // mehr. Lokal gibt es dafuer keinen zweiten Versuch (retries: 0), also
-    // waere mit 'on-first-retry' der eine Lauf, in dem das Problem sichtbar
-    // war, auch schon verbraucht. Traces landen unter test-results/artifacts/
-    // und sind gitignored.
-    trace: 'retain-on-failure',
+    // Zusammen mit retries: 1 oben. 'retain-on-failure' wäre der naive Weg,
+    // kostet aber 24 Prozent: der Modus zeichnet für JEDEN Test auf und
+    // verwirft die Traces der grünen erst hinterher (gemessen 6,3 min gegen
+    // 5,0 bis 5,3 min). Bei 276 grünen Tests bezahlt man 275 Aufzeichnungen für
+    // eine, die man behält, und das auf genau dem Engpass, den der
+    // Worker-Kommentar oben beschreibt. Mit einem Retry fällt der Flake
+    // einmal, läuft mit Trace nach und wird als flaky ausgewiesen.
+    trace: 'on-first-retry',
     screenshot: 'only-on-failure',
   },
 
