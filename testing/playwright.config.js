@@ -26,6 +26,13 @@ export default defineConfig({
   // flaky ausweisen. Playwright meldet flaky aber getrennt und sichtbar, das
   // ist Information und kein Zudecken.
   retries: process.env.CI ? 2 : 1,
+  // Der Retry ist zur Diagnose da, nicht zum Durchwinken. Ohne diese Zeile
+  // endet ein Lauf mit Exit 0, sobald ein Test im zweiten Versuch grün wird:
+  // er zählt dann als flaky, nicht als failed. Genau dieser Lauf ist vor dem
+  // Push Pflicht (DEVELOPMENT.md), und ein Retry darf ihn nicht schönen.
+  // Seit Playwright 1.52 als Config-Option, daher die Untergrenze in
+  // package.json.
+  failOnFlakyTests: true,
   // Sechs Worker lokal, gemessen (#323): 20,4 min bei einem Worker gegen 5,0
   // bis 5,3 min bei sechs, über dieselben 276 Tests, fünf Läufe mit dem
   // Trace-Modus unten. Die Grenze ist nicht die Kernzahl (16 verfügbar),

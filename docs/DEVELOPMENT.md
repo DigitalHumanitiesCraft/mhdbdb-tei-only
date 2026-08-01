@@ -150,7 +150,7 @@ After significant changes, increment version in build script to force browser ca
 ### Playwright Tests
 
 ```bash
-npm test              # Run all tests (headless), 5 bis 5,5 min (6 Worker)
+npm test              # Run all tests (headless), 5,0 bis 5,3 min (6 Worker)
 npm run test:changed  # Nur Specs, die seit origin/main angefasst wurden
 npm run test:ui       # Interactive mode
 npm run test:debug    # Debug with breakpoints
@@ -166,6 +166,7 @@ npm run report        # View HTML report
 - Headless Chrome with `--disable-web-security`
 - 60-second timeout per test
 - **6 Worker lokal, 2 in der CI** (#323), auf schwächeren Geräten mit `npm test -- --workers=2` überschreibbar: 20,4 min bei einem Worker gegen 5,0 bis 5,3 min bei sechs, über dieselben 276 Tests, fünf Läufe. Die Begründung für beide Zahlen steht als Kommentar in der Config; kurz: der Engpass ist der single-threaded `http-server` und der Chromium-Heap, nicht die Kernzahl, und Standard-CI-Runner haben zu wenige vCPUs für sechs
+- **`retries: 1` lokal, 2 in der CI**, und `failOnFlakyTests: true` dazu. Der Retry existiert nur, damit ein Timing-Flake unter sechs Workern einen Trace hinterlässt; ohne `failOnFlakyTests` würde er zugleich den Lauf schönen, denn Playwright endet mit Exit 0, sobald ein Test im zweiten Versuch grün wird. Mit der Option bleibt der Lauf rot, und die Trace-Datei liegt trotzdem da
 - **`fullyParallel: false` ist Absicht.** `search-normalization.spec.js` teilt eine in `beforeAll` angelegte Seite über alle Tests der Datei, um den Index einmal statt vierzehnmal zu laden. Test-Parallelität würde die Seite nicht kaputtmachen (Playwright führt `beforeAll` pro Worker erneut aus), wohl aber den Spareffekt: der Index würde bis zu sechsmal geladen
 
 ### Test File Inventory
