@@ -118,7 +118,8 @@ npm run report
 
 ### UI Components (Modular)
 
-- **`UICore.js`** - Progress tracking, file display *(historisch: beide Module, `progress.js` und `file-display.js`, sind mit #314 entfernt)*
+*Die Namen unten sind Altbestand und stimmen mit keiner Datei im Repo überein; der aktuelle Modulbaum steht in [ARCHITECTURE.md](../docs/ARCHITECTURE.md) (23 Module unter `playground/js/ui/`). Der Eintrag `UICore.js` ist mit #314 weggefallen, weil er genau die beiden gelöschten Module benannte.*
+
 - **`AuthorityExplorers.js`** - Authority file search interfaces
 - **`TEIExplorer.js`** - TEI text analysis features
 - **`XPathInterface.js`** - XPath query execution

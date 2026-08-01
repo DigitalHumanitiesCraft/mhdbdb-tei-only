@@ -113,12 +113,12 @@ Die Vergleichs-Helfer existieren nur auf der JS-Seite (`TextNormalizer.matchesNo
 
 ### Rules
 
-1. **Only count `<w>` elements with `@lemmaRef` attribute**
-2. `<w>` elements without `@lemmaRef` are **skipped** (not counted, not stored)
+1. **Only count `<w>` elements with a non-empty `@lemmaRef` attribute**
+2. `<w>` elements without `@lemmaRef` are **skipped** (not counted, not stored). So is `lemmaRef=""`: the XPath `[@lemmaRef]` matches it, but all three counting paths test the attribute *value*, not its presence (`build-corpus-index.py` `if not lemma_ref`, `tei-text-reader.js` `hasLemmaRef`, `ui-helpers.js` `!w.getAttribute('lemmaRef')`, #184). Corpus today: **0** such elements
 3. All other elements (`<pb>`, `<lb>`, `<seg>`, `<hi>`, text nodes, etc.) are **ignored** for counting
 4. Counting starts at **0** for each document
 5. Order = **document order** (depth-first traversal of `<body>`)
-6. `<w>` elements **with** `@lemmaRef` but **empty text content** are **skipped** (Python `if not word_text: continue`, JS `hasText` guard; identical on both sides since #131, pinned by `position-parity.spec.js`). Today the corpus contains **0** such elements, so the rule is a no-op on real data and a guard against future ingests with placeholder tokens
+6. `<w>` elements **with** `@lemmaRef` but **empty text content** are **skipped** (Python `if not text_content: continue`, JS `hasText` guard; identical on both sides since #131, pinned by `position-parity.spec.js`). Today the corpus contains **0** such elements, so the rule is a no-op on real data and a guard against future ingests with placeholder tokens
 
 **Es gibt keinen zweiten Zählpfad mehr.** Bis #314 stand hier eine Ausnahme: der XML-Fallback der Nähesuche für hochgeladene Dateien (`findCooccurringLemmas`) zählte alle `<w>`, auch die ohne `@lemmaRef`, und ein `maxDistance` von 10 hieß dort „10 Tokens" statt „10 lemmatisierte Tokens". Dieser Pfad war seit dem Playground-Redesign unerreichbar (die Upload-UI war aus dem HTML gefallen, die Einstiegsfunktion hatte keinen Aufrufer mehr) und ist entfernt. Jede Position im Playground folgt jetzt ausnahmslos den sechs Regeln oben.
 
@@ -134,8 +134,8 @@ The selector below is the *logical* counting rule, not the literal implementatio
 Logical selection: //tei:body//tei:w[@lemmaRef]   (document order)
 
 For each <w lemmaRef="..."> in document order:
-    word_text = ''.join(el.itertext()).strip()
-    if not word_text: continue              → empty <w lemmaRef> is NOT counted (JS matches this since #131)
+    text_content = ''.join(el.itertext()).strip()
+    if not text_content: continue           → empty <w lemmaRef> is NOT counted (JS matches this since #131)
     # @lemmaRef may carry SEVERAL whitespace-separated references (§B.1),
     # e.g. "lexicon.xml#lemma_308 lexicon.xml#lemma_5" (#170):
     lemma_ids = [frag.split('#')[1] for frag in lemmaRef.split()]
@@ -166,7 +166,7 @@ Recursive DOM traversal of <body> children:
 
 ### Parity note – empty `<w lemmaRef>` (resolved #131)
 
-Both sides now **skip** `<w lemmaRef>` with empty text content: Python via `if not word_text: continue`, JS via the `hasText` guard in `extractAndFormatBody` (`tei-text-reader.js`, `case 'w'`). Before #131 the JS runtime incremented `wordPosition` for **every** `<w lemmaRef>` regardless of text – a latent parity gap (harmless then: **0** empty `<w lemmaRef>` across all 667 files, so the fix was a no-op on real data) that a future ingest with placeholder/gap tokens would have silently broken. The empty-`<w>` case is now pinned by `testing/tests/position-parity.spec.js`. (Because the corpus has no empty `<w lemmaRef>`, the shipped index is unchanged – no rebuild or version bump needed.)
+Both sides now **skip** `<w lemmaRef>` with empty text content: Python via `if not text_content: continue`, JS via the `hasText` guard in `extractAndFormatBody` (`tei-text-reader.js`, `case 'w'`). Before #131 the JS runtime incremented `wordPosition` for **every** `<w lemmaRef>` regardless of text – a latent parity gap (harmless then: **0** empty `<w lemmaRef>` across all 667 files, so the fix was a no-op on real data) that a future ingest with placeholder/gap tokens would have silently broken. The empty-`<w>` case is now pinned by `testing/tests/position-parity.spec.js`. (Because the corpus has no empty `<w lemmaRef>`, the shipped index is unchanged – no rebuild or version bump needed.)
 
 ### Parity note – note children, multi-`@lemmaRef`, proximity context (resolved #170)
 
