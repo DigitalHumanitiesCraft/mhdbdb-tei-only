@@ -6,7 +6,7 @@
   "scripts": {
     "test": "cd testing && playwright test",
     "test:changed": "cd testing && playwright test --only-changed=origin/main",
-    "test:quick": "cd testing && playwright test main-site.spec.js playground.spec.js corpus.spec.js",
+    "test:quick": "cd testing && playwright test \"tests.main-site\\.spec\\.js$\" \"tests.playground\\.spec\\.js$\" \"tests.corpus\\.spec\\.js$\"",
     "test:ui": "cd testing && playwright test --ui",
     "test:debug": "cd testing && playwright test --debug",
     "test:headed": "cd testing && playwright test --headed",

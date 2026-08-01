@@ -152,12 +152,14 @@ After significant changes, increment version in build script to force browser ca
 ```bash
 npm test              # Run all tests (headless), 5,0 bis 5,3 min (6 Worker)
 npm run test:changed  # Nur Specs, die seit origin/main angefasst wurden
-npm run test:quick    # Drei Specs als Rauchprobe (main-site, playground, corpus)
+npm run test:quick    # Drei Specs als Rauchprobe, 29 Tests (main-site, playground, corpus)
 npm run test:ui       # Interactive mode
 npm run test:debug    # Debug with breakpoints
 npm run test:headed   # Visible browser
 npm run report        # View HTML report
 ```
+
+Positionale Argumente sind bei Playwright **Reguläre Ausdrücke gegen den Dateipfad**, keine Dateinamen. Unverankert zog der Filter `corpus.spec.js` in `test:quick` deshalb auch `playground-corpus.spec.js` und `search-with-corpus.spec.js` mit, also 47 Tests in fünf Dateien statt 29 in drei, darunter ausgerechnet die Datei mit den meisten `waitForTimeout`-Aufrufen. Seit #323 sind die Filter verankert. Wer die Auswahl ändert, zählt sie mit `-- --list` nach.
 
 `test:changed` (`--only-changed=origin/main`) ist der Alltagsbefehl beim Arbeiten an einem Zweig: es läuft nur, was der Zweig angefasst hat. **Vor dem Push bleibt `npm test` Pflicht.** `--only-changed` verfolgt zwar die Node-Importe der Specs, aber unser Site-Code wird im Browser über `localhost:8080` geladen und nicht importiert: eine Änderung in `assets/js/` oder `playground/js/` zieht deshalb keine einzige Spec mit. Zwei Fallstricke am Ref: `origin/main` muss existieren (in einem Shallow Clone nicht der Fall), und er muss aktuell sein. Wer länger nicht gefetcht hat, vergleicht gegen einen alten Stand und bekommt zu viele oder zu wenige Specs, deshalb vorher `git fetch origin main`. Bleibt die Auswahl leer, endet der Befehl mit Exit 0 (gemessen, Playwright 1.55.1): `--pass-with-no-tests` braucht es nicht.
 

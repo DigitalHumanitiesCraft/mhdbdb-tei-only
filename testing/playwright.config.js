@@ -18,12 +18,12 @@ export default defineConfig({
   // und das trifft genau den Engpass unten.
   fullyParallel: false,
   forbidOnly: !!process.env.CI,
-  // Ein Versuch mehr, seit sechs Worker laufen (#323). Mit einem Worker war
-  // retries: 0 stimmig: was seriell rot wird, ist reproduzierbar rot. Unter
-  // Last treten Timing-Flakes einmal auf und beim nächsten Lauf nicht mehr;
-  // ohne Retry ist der eine Lauf, in dem das Problem sichtbar war, schon
-  // verbraucht. Dass ein Retry einen echten Fehler als flaky ausweisen und
-  // damit grün durchwinken kann, verhindert failOnFlakyTests weiter unten.
+  // Lokal ein Versuch mehr, seit sechs Worker laufen (#323). Mit einem
+  // Worker war retries: 0 stimmig: was seriell rot wird, ist reproduzierbar
+  // rot. Unter Last treten Timing-Flakes einmal auf und beim nächsten Lauf
+  // nicht mehr; ohne Retry ist der eine Lauf, in dem das Problem sichtbar war,
+  // schon verbraucht. Dass ein Retry einen echten Fehler als flaky ausweisen
+  // und damit grün durchwinken kann, verhindert failOnFlakyTests weiter unten.
   //
   // Überall einer, auch in der CI: der übliche Grund für mehr („CI ist
   // langsamer und flakiger, gib ihr Versuche") ist mit failOnFlakyTests
