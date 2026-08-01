@@ -163,10 +163,10 @@ The reading view converts TEI XML elements to HTML. Source: `extractAndFormatBod
 ### Application Structure
 
 **MHDBDBPlayground** (`playground/js/playground-main.js`)
-- Initialize IndexedDB
+- Alt-Datenbank `MHDBDB_Playground` löschen (`dropLegacyPlaygroundDatabase()`, #314). Der einzige IndexedDB-Kontakt des Playgrounds ist eine Löschung, keine Initialisierung: die Indexe liegen im gemeinsamen `CorpusLoader`
 - Load authority index (~3 MB)
 - Initialize data managers (authority, TEI)
-- Set up modular UI components (25 modules)
+- Set up modular UI components (23 modules; 25 vor #314, das `file-display.js` und `progress.js` entfernt hat)
 
 ### Data Layer
 
@@ -180,10 +180,10 @@ The reading view converts TEI XML elements to HTML. Source: `extractAndFormatBod
 - Performance maps for fast lookups
 
 **TEIFilesManager** (`playground/js/data/tei-manager.js`)
-- TEI document processing and analysis
-- Single lemma search with context extraction
-- Multi-lemma document search (all lemmata anywhere in text)
-- Multi-lemma proximity search (co-occurrence within N words)
+- Multi-lemma search over the pre-built corpus index (the file-upload path was removed in #314). `searchMultipleLemmasUsingIndex()` dispatches on `contextType` into the three modes below; there is no single-lemma entry point here, the main site has its own
+- Document mode: all lemmata anywhere in the same text
+- Proximity mode: co-occurrence within N words, via `findCoveringWindow()` over sorted position lists
+- Verse mode: co-occurrence within one `<l>` (#106), via the `lineStarts[]`/`lineEnds[]` arrays
 - Uses the corpus index (aktuelle Version: [TEI-MODEL.md §11](TEI-MODEL.md#11-versionierung)) for document-level word positions plus `<l>`-boundary arrays (ab v4.1.0)
 
 ### UI Layer (Phase 7 Modular Architecture)
@@ -193,8 +193,6 @@ The reading view converts TEI XML elements to HTML. Source: `extractAndFormatBod
 playground/js/ui/
 ├── core/              # Core UI utilities
 │   ├── ui-helpers.js
-│   ├── progress.js
-│   ├── file-display.js
 │   └── router.js      # Hash-based URL routing (#48)
 ├── authority/         # Authority file exploration (7 modules)
 │   ├── authority-ui.js
@@ -380,19 +378,16 @@ A–Z-Einstiegsseite zu den Lemma-Seiten. Lädt nur den Authority-Index (via `Co
 
 ## Storage Architecture
 
-### IndexedDB Manager
+### Der Playground hat keine eigene Datenbank mehr (#314)
 
-**Component:** `playground/js/indexed-db-manager.js` (Datenbank `MHDBDB_Playground`)
+Bis Juli 2026 hielt der Playground eine zweite IndexedDB-Datenbank `MHDBDB_Playground`, verwaltet von `playground/js/indexed-db-manager.js`. Ihr einziger Store `tei_files` speicherte die vom Benutzer hochgeladenen TEI-Dateien; geschrieben wurde er aus `data/storage/tei-storage.js`. Mit dem Rückbau des toten Upload-Pfads (#314) sind Schreiber und Manager entfernt.
 
-**Object Store:** (`indexed-db-manager.js`, `onupgradeneeded`) genau einer, seit DB-Version 3.
+`playground-main.js` löscht die Datenbank beim Start einmalig per `indexedDB.deleteDatabase('MHDBDB_Playground')` (`dropLegacyPlaygroundDatabase()`). Auf einer nicht vorhandenen Datenbank ist das ein No-op, der Aufruf darf also bei jedem Start laufen. Er ersetzt die frühere Schema-Migration aus #280, die drei schreiberlose Altstores (`corpus_tei_files`, `authority_files`, `metadata`) über `deleteObjectStore` aus bestehenden Browser-Datenbanken räumte: nach #314 instanziiert kein Produktivcode mehr den Manager, die Migration liefe also nicht mehr. Das Löschen der ganzen Datenbank erledigt dasselbe gründlicher.
 
-1. **tei_files** - User-uploaded TEI files (Indizes: timestamp, size, source), beschrieben über `saveTEIFile()` in `data/storage/tei-storage.js`
+Korpus- und Authority-Daten lagen nie hier. Der Playground liest sie über denselben `CorpusLoader` wie die Hauptseite, also aus `MHDBDBMainSite`. Ein zweiter Cache-Pfad darf nicht wieder entstehen.
 
-Bis Version 2 legte der Manager zusätzlich `corpus_tei_files`, `authority_files` und `metadata` an. Diese drei stammten aus der Zeit vor dem gemeinsamen `CorpusLoader` und hatten keinen Schreiber mehr; die „24h Expiration" des Authority-Stores war deshalb nirgends wirksam. Version 3 entfernt sie und löscht sie über `deleteObjectStore` auch aus bestehenden Browser-Datenbanken (#280). Der Playground liest Korpus- und Authority-Daten über denselben `CorpusLoader` wie die Hauptseite, also aus `MHDBDBMainSite`.
-
-**Expiration Policy (ADR-004), wirksam im `CorpusLoader`, nicht hier:**
+**Expiration Policy (ADR-004), wirksam im `CorpusLoader`:**
 - Authority- und Corpus-Index: 30-Tage-Cache (`CACHE_DURATION` in `assets/js/lib/corpus-loader.js`, Datenbank `MHDBDBMainSite`) plus Versions-Invalidierung
-- User TEI files persist indefinitely → no expiration
 - Balances freshness with performance
 
 ### Corpus Loader

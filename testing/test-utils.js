@@ -142,39 +142,15 @@ export class TestUtils {
         return content;
     }
 
-    createMockFile(filename, content = null, size = null) {
-        content = content || this.generateMockTEIContent();
-        size = size || content.length;
-
-        return {
-            name: filename,
-            size: size,
-            type: 'text/xml',
-            lastModified: Date.now()
-        };
-    }
-
-    createMockFileList(filenames) {
-        return filenames.map(filename => this.createMockFile(filename));
-    }
-
     // ==================== STORAGE UTILITIES ====================
 
-    async clearTestStorage() {
-        // Clear IndexedDB test data
+    // Räumt sessionStorage. Bis #314 stand hier zusätzlich ein
+    // deleteDatabase auf 'mhdbdb_playground' (klein geschrieben), während die
+    // Datenbank 'MHDBDB_Playground' hieß. IndexedDB-Namen sind case-sensitiv,
+    // der Zweig war also seit jeher ein No-op. Seit #314 hat der Playground
+    // ohnehin keine eigene Datenbank mehr.
+    clearTestStorage() {
         try {
-            if ('indexedDB' in window) {
-                // Clear IndexedDB database
-                const dbName = 'mhdbdb_playground';
-                await new Promise((resolve, reject) => {
-                    const deleteReq = indexedDB.deleteDatabase(dbName);
-                    deleteReq.onsuccess = () => resolve();
-                    deleteReq.onerror = () => reject(deleteReq.error);
-                });
-                console.log('🧹 Test IndexedDB cleared');
-            }
-
-            // Also clear sessionStorage for any remaining legacy data
             const keys = Object.keys(sessionStorage);
             keys.forEach(key => {
                 if (key.startsWith('mhdbdb_') || key.includes('test')) {
@@ -226,20 +202,6 @@ export class TestUtils {
         });
     }
 
-    simulateFileUpload(files) {
-        const fileInput = document.getElementById('fileInput');
-        const event = new Event('change', { bubbles: true });
-
-        Object.defineProperty(event, 'target', {
-            value: {
-                files: files
-            },
-            writable: false
-        });
-
-        fileInput.dispatchEvent(event);
-    }
-
     triggerClick(selector) {
         const element = document.querySelector(selector);
         if (element) {
@@ -253,133 +215,6 @@ export class TestUtils {
 
     async testIndexedDBSupport() {
         this.assertExists(window.indexedDB, 'IndexedDB should be available');
-    }
-
-    async createTestTEIContent(size = 1024) {
-        // Create a test TEI file of specified size
-        const baseContent = `<?xml version="1.0" encoding="UTF-8"?>
-<TEI xmlns="http://www.tei-c.org/ns/1.0">
-    <teiHeader>
-        <fileDesc>
-            <titleStmt>
-                <title>Test TEI Document</title>
-            </titleStmt>
-        </fileDesc>
-    </teiHeader>
-    <text>
-        <body>`;
-
-        const endContent = `
-        </body>
-    </text>
-</TEI>`;
-
-        let content = baseContent;
-        const wordPattern = '<w lemmaRef="lexicon.xml#lemma_123">testword</w> ';
-
-        // Fill to desired size
-        while (content.length + endContent.length < size) {
-            content += `<p>Test paragraph with ${wordPattern.repeat(10)}</p>\n`;
-        }
-
-        content += endContent;
-        return content;
-    }
-
-    async testStorageManager(storageManager, testName = 'Storage Manager') {
-        // Test initialization
-        await storageManager.initialize();
-
-        // Test basic operations
-        const testContent = await this.createTestTEIContent(2048);
-        const filename = `test-${Date.now()}.tei.xml`;
-
-        // Test save
-        const saved = await storageManager.saveToCache(filename, testContent);
-        this.assertTrue(saved, `${testName} should save files successfully`);
-
-        // Test load
-        const loaded = await storageManager.loadFromCache(filename);
-        this.assertEqual(loaded, testContent, `${testName} should load files correctly`);
-
-        // Test exists check
-        const exists = await storageManager.isInCache(filename);
-        this.assertTrue(exists, `${testName} should detect existing files`);
-
-        // Test remove
-        const removed = await storageManager.removeFromCache(filename);
-        this.assertTrue(removed, `${testName} should remove files successfully`);
-
-        // Verify removal
-        const notExists = await storageManager.isInCache(filename);
-        this.assertFalse(notExists, `${testName} should not find removed files`);
-
-        return true;
-    }
-
-    async testLargeFileHandling(storageManager, sizeMB = 15) {
-        const largeContent = await this.createTestTEIContent(sizeMB * 1024 * 1024);
-        const filename = `large-test-${Date.now()}.tei.xml`;
-
-        const startTime = performance.now();
-        const saved = await storageManager.saveToCache(filename, largeContent);
-        const saveTime = performance.now() - startTime;
-
-        this.assertTrue(saved, `Should save ${sizeMB}MB file`);
-        console.log(`💾 Large file save time: ${saveTime.toFixed(2)}ms`);
-
-        const loadStart = performance.now();
-        const loaded = await storageManager.loadFromCache(filename);
-        const loadTime = performance.now() - loadStart;
-
-        this.assertEqual(loaded.length, largeContent.length, `Should load ${sizeMB}MB file with correct size`);
-        console.log(`📁 Large file load time: ${loadTime.toFixed(2)}ms`);
-
-        // Clean up
-        await storageManager.removeFromCache(filename);
-
-        return { saveTime, loadTime, fileSize: largeContent.length };
-    }
-
-    async testStorageQuota(storageManager) {
-        const quota = await storageManager.getStorageQuotaInfo();
-        this.assertExists(quota, 'Storage quota info should be available');
-        this.assertExists(quota.used, 'Used storage should be reported');
-        this.assertTrue(quota.estimatedQuota > 0, 'Storage quota should be positive');
-
-        return quota;
-    }
-
-    async testAuthorityFilesCaching(authorityManager) {
-        // Test cache status
-        const cacheStatus = await authorityManager.getCacheStatus();
-        this.assertExists(cacheStatus, 'Cache status should be available');
-
-        // Test load statistics
-        const stats = authorityManager.getLoadStatistics();
-        this.assertExists(stats, 'Load statistics should be available');
-        this.assertTrue(stats.cacheHitRate >= 0 && stats.cacheHitRate <= 100, 'Cache hit rate should be 0-100%');
-
-        return { cacheStatus, stats };
-    }
-
-    // ==================== ASYNC UTILITIES ====================
-
-    sleep(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
-
-    async waitFor(condition, timeout = 5000, interval = 100) {
-        const start = Date.now();
-
-        while (Date.now() - start < timeout) {
-            if (await condition()) {
-                return true;
-            }
-            await this.sleep(interval);
-        }
-
-        throw new Error(`Condition not met within ${timeout}ms`);
     }
 
     // ==================== REPORTING ====================

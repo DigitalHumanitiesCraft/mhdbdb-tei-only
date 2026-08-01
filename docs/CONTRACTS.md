@@ -113,13 +113,16 @@ Die Vergleichs-Helfer existieren nur auf der JS-Seite (`TextNormalizer.matchesNo
 
 ### Rules
 
-1. **Only count `<w>` elements with `@lemmaRef` attribute**
-2. `<w>` elements without `@lemmaRef` are **skipped** (not counted, not stored)
+1. **Only count `<w>` elements with a non-empty `@lemmaRef` attribute**
+2. `<w>` elements without `@lemmaRef` are **skipped** (not counted, not stored). So is `lemmaRef=""`: the XPath `[@lemmaRef]` matches it, but all three counting paths test the attribute *value*, not its presence (`build-corpus-index.py` `if not lemma_ref`, `tei-text-reader.js` `hasLemmaRef`, `ui-helpers.js` `!w.getAttribute('lemmaRef')`, #184). Corpus today: **0** such elements
 3. All other elements (`<pb>`, `<lb>`, `<seg>`, `<hi>`, text nodes, etc.) are **ignored** for counting
 4. Counting starts at **0** for each document
 5. Order = **document order** (depth-first traversal of `<body>`)
+6. `<w>` elements **with** `@lemmaRef` but **empty text content** are **skipped** (Python `if not text_content: continue`, JS `hasText` guard; identical on both sides since #131, pinned by `position-parity.spec.js`). Today the corpus contains **0** such elements, so the rule is a no-op on real data and a guard against future ingests with placeholder tokens
 
-**Eine dokumentierte Ausnahme:** der XML-Fallback der Nähesuche für hochgeladene Dateien (`tei-manager.js`, `findCooccurringLemmas`) zählt alle `<w>`, auch die ohne `@lemmaRef`. Der Unterschied ist erheblich: über alle 667 Korpusdateien tragen 1.898.312 von 9.431.294 `<w>` kein `@lemmaRef`, also 20,13 % (Spitzenwerte AUP 41,6 %, REF 39,3 %, DL1 38,8 %; 145 Dateien tragen durchgehend `@lemmaRef`). Nachzurechnen mit `scripts/audit/quantify-unannotated-tokens.py` (Stand 2026-07-31). Die Gegenprobe zu §H.2a geht auf: 9.431.294 minus 1.898.312 ergibt genau die dort genannten 7.532.982 annotierten Tokens, und kein einziges `<w>` im Korpus hat leeren Text, der Nicht-leer-Guard aus §B zieht also nichts ab. Innerhalb dieses Pfades bleibt es konsistent, weil Positionen und Kontextfenster aus derselben Liste stammen; ein `maxDistance` von 10 heißt dort aber „10 Tokens" statt „10 lemmatisierte Tokens". Ergebnisse beider Pfade dürfen deshalb nicht vermischt oder verglichen werden. Nicht angeglichen, weil hochgeladene Dateien nicht lemmatisiert sein müssen und ein `[@lemmaRef]`-Filter dort im Zweifel alles verwerfen würde.
+**Es gibt keinen zweiten Zählpfad mehr.** Bis #314 stand hier eine Ausnahme: der XML-Fallback der Nähesuche für hochgeladene Dateien (`findCooccurringLemmas`) zählte alle `<w>`, auch die ohne `@lemmaRef`, und ein `maxDistance` von 10 hieß dort „10 Tokens" statt „10 lemmatisierte Tokens". Dieser Pfad war seit dem Playground-Redesign unerreichbar (die Upload-UI war aus dem HTML gefallen, die Einstiegsfunktion hatte keinen Aufrufer mehr) und ist entfernt. Jede Position im Playground folgt jetzt ausnahmslos den sechs Regeln oben.
+
+**Wie groß der Unterschied gewesen wäre, bleibt als Maßzahl wichtig**, weil sie die Bezugsgröße aller normierten Anzeigen beschreibt (§H.5 Punkt 0): über alle 667 Korpusdateien tragen 1.898.312 von 9.431.294 `<w>` kein `@lemmaRef`, also 20,13 % (Spitzenwerte AUP 41,6 %, REF 39,3 %, DL1 38,8 %; 145 Dateien tragen durchgehend `@lemmaRef`). Nachzurechnen mit `scripts/audit/quantify-unannotated-tokens.py` (Stand 2026-07-31). Die Gegenprobe zu §H.2a geht auf: 9.431.294 minus 1.898.312 ergibt genau die dort genannten 7.532.982 annotierten Tokens, und kein einziges `<w>` im Korpus hat leeren Text, der Nicht-leer-Guard aus Regel 6 zieht also nichts ab.
 
 ### Python (build-time)
 
@@ -131,8 +134,8 @@ The selector below is the *logical* counting rule, not the literal implementatio
 Logical selection: //tei:body//tei:w[@lemmaRef]   (document order)
 
 For each <w lemmaRef="..."> in document order:
-    word_text = ''.join(el.itertext()).strip()
-    if not word_text: continue              → empty <w lemmaRef> is NOT counted (JS matches this since #131)
+    text_content = ''.join(el.itertext()).strip()
+    if not text_content: continue           → empty <w lemmaRef> is NOT counted (JS matches this since #131)
     # @lemmaRef may carry SEVERAL whitespace-separated references (§B.1),
     # e.g. "lexicon.xml#lemma_308 lexicon.xml#lemma_5" (#170):
     lemma_ids = [frag.split('#')[1] for frag in lemmaRef.split()]
@@ -163,7 +166,7 @@ Recursive DOM traversal of <body> children:
 
 ### Parity note – empty `<w lemmaRef>` (resolved #131)
 
-Both sides now **skip** `<w lemmaRef>` with empty text content: Python via `if not word_text: continue`, JS via the `hasText` guard in `extractAndFormatBody` (`tei-text-reader.js`, `case 'w'`). Before #131 the JS runtime incremented `wordPosition` for **every** `<w lemmaRef>` regardless of text – a latent parity gap (harmless then: **0** empty `<w lemmaRef>` across all 667 files, so the fix was a no-op on real data) that a future ingest with placeholder/gap tokens would have silently broken. The empty-`<w>` case is now pinned by `testing/tests/position-parity.spec.js`. (Because the corpus has no empty `<w lemmaRef>`, the shipped index is unchanged – no rebuild or version bump needed.)
+Both sides now **skip** `<w lemmaRef>` with empty text content: Python via `if not text_content: continue`, JS via the `hasText` guard in `extractAndFormatBody` (`tei-text-reader.js`, `case 'w'`). Before #131 the JS runtime incremented `wordPosition` for **every** `<w lemmaRef>` regardless of text – a latent parity gap (harmless then: **0** empty `<w lemmaRef>` across all 667 files, so the fix was a no-op on real data) that a future ingest with placeholder/gap tokens would have silently broken. The empty-`<w>` case is now pinned by `testing/tests/position-parity.spec.js`. (Because the corpus has no empty `<w lemmaRef>`, the shipped index is unchanged – no rebuild or version bump needed.)
 
 ### Parity note – note children, multi-`@lemmaRef`, proximity context (resolved #170)
 
@@ -619,9 +622,10 @@ Parse order: ?id > #hash > path segment (first match wins)
 |----------|---------|-------|-----|---------|
 | `MHDBDBMainSite` | Dexie.js | `indices` | `name` (string) | `assets/js/lib/corpus-loader.js` |
 | `MHDBDB_TEI_Cache` | Raw IndexedDB | `parsedTEI` | `filename` (string) | `assets/js/storage/tei-cache-manager.js` |
-| `MHDBDB_Playground` | Raw IndexedDB | `tei_files` | `filename` (string) | `playground/js/indexed-db-manager.js` |
 
-**`MHDBDB_Playground` hält genau einen Store:** `tei_files`, die vom Benutzer selbst hochgeladenen TEI-Dateien, ohne Ablauffrist. Korpus- und Authority-Daten liegen auch im Playground im gemeinsamen `CorpusLoader` (`MHDBDBMainSite`), nicht hier. Ein zweiter Cache-Pfad darf nicht wieder entstehen: DB-Version 3 löscht die drei schreiberlosen Altstores `corpus_tei_files`, `authority_files` und `metadata` aus bestehenden Browser-Datenbanken (#280).
+**Es gibt nur diese zwei Datenbanken.** Der Playground hielt bis #314 eine dritte, `MHDBDB_Playground`, mit einem einzigen Store `tei_files` für die hochgeladenen Dateien. Mit dem Rückbau des Upload-Pfads hat sie keinen Schreiber mehr; `playground-main.js` löscht sie beim Start einmalig (`dropLegacyPlaygroundDatabase()`, auf einer fehlenden Datenbank ein No-op). Das ersetzt die v3-Schema-Migration aus #280, die drei schreiberlose Altstores räumte und nach dem Rückbau mangels Manager-Instanz nicht mehr liefe. Korpus- und Authority-Daten lagen nie dort, sondern im gemeinsamen `CorpusLoader` (`MHDBDBMainSite`). **Ein zweiter Cache-Pfad darf nicht wieder entstehen.**
+
+Der Name `MHDBDB_Playground` steht deshalb an zwei Stellen weiter im Code, und beide sind Absicht: `dropLegacyPlaygroundDatabase()` greift nur, wenn jemand den Playground öffnet, und `KNOWN_DB_NAMES` in `assets/js/site-chrome.js` ist die zweite Chance über den Knopf „Site-Daten zurücksetzen" auf jeder Seite. Beide dürfen erst zusammen verschwinden, realistisch ab Mitte 2027.
 
 ### Index Cache (MHDBDBMainSite)
 

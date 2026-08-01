@@ -15,123 +15,42 @@ test.describe('Corpus Loading and Management', () => {
     });
   });
 
-  // Seit #280 hat MHDBDB_Playground genau einen Store. Die frueheren Stores
-  // corpus_tei_files, authority_files und metadata hatten keinen Schreiber mehr
-  // und werden in DB-Version 3 auch aus bestehenden Browser-Datenbanken geloescht.
-  test('IndexedDB schema - version 3 keeps only tei_files', async ({ page }) => {
+  // #314: Der Playground hat keinen Datei-Upload mehr, damit hat die Datenbank
+  // MHDBDB_Playground keinen Schreiber. Statt sie per Schema-Migration zu
+  // pflegen (so lief es bis #280), löscht der Playground-Start sie einmalig.
+  // Geprüft an einer von Hand angelegten Alt-Datenbank.
+  test('Alt-Datenbank MHDBDB_Playground wird beim Start entfernt', async ({ page }) => {
     await page.goto('/testing/test.html');
 
-    const result = await page.evaluate(async () => {
-      const { IndexedDBManager } = await import('../playground/js/indexed-db-manager.js');
-      const dbManager = new IndexedDBManager();
-
-      await dbManager.initialize();
-
-      if (dbManager.dbVersion !== 3) {
-        throw new Error(`Expected DB version 3, got ${dbManager.dbVersion}`);
-      }
-
-      const storeNames = Array.from(dbManager.db.objectStoreNames);
-      if (!storeNames.includes('tei_files')) {
-        throw new Error('tei_files store not found');
-      }
-
-      return { success: true, version: dbManager.dbVersion, stores: storeNames };
-    });
-
-    expect(result.success).toBe(true);
-    expect(result.version).toBe(3);
-    expect(result.stores).toEqual(['tei_files']);
-  });
-
-  // Migrationspfad: eine Datenbank auf dem alten Stand (Version 2, vier Stores,
-  // Daten im authority_files-Store) muss beim naechsten Oeffnen auf Version 3
-  // hochgezogen werden, die Altstores verlieren und tei_files behalten.
-  test('IndexedDB schema - v2 database is migrated to v3', async ({ page }) => {
-    await page.goto('/testing/test.html');
-
-    const result = await page.evaluate(async () => {
-      // Alte v2-Datenbank von Hand nachbauen
+    const seeded = await page.evaluate(async () => {
       await new Promise((resolve, reject) => {
-        const request = indexedDB.open('MHDBDB_Playground', 2);
+        const request = indexedDB.open('MHDBDB_Playground', 3);
         request.onupgradeneeded = (event) => {
-          const db = event.target.result;
-          const teiStore = db.createObjectStore('tei_files', { keyPath: 'filename' });
-          teiStore.createIndex('timestamp', 'timestamp', { unique: false });
-          db.createObjectStore('corpus_tei_files', { keyPath: 'filename' });
-          const authStore = db.createObjectStore('authority_files', { keyPath: 'filename' });
-          authStore.createIndex('expires', 'expires', { unique: false });
-          db.createObjectStore('metadata', { keyPath: 'key' });
+          event.target.result.createObjectStore('tei_files', { keyPath: 'filename' });
         };
         request.onsuccess = () => {
           const db = request.result;
-          const tx = db.transaction(['tei_files', 'authority_files'], 'readwrite');
-          tx.objectStore('tei_files').put({ filename: 'keep-me.xml', content: '<TEI/>', timestamp: Date.now() });
-          tx.objectStore('authority_files').put({ filename: 'lexicon.xml', content: 'stale', expires: Date.now() });
+          const tx = db.transaction(['tei_files'], 'readwrite');
+          tx.objectStore('tei_files').put({ filename: 'alt.xml', content: '<TEI/>' });
+          // Verbindung schließen, sonst blockiert sie das spätere deleteDatabase
           tx.oncomplete = () => { db.close(); resolve(); };
           tx.onerror = () => reject(tx.error);
         };
         request.onerror = () => reject(request.error);
       });
-
-      const { IndexedDBManager } = await import('../playground/js/indexed-db-manager.js');
-      const dbManager = new IndexedDBManager();
-      await dbManager.initialize();
-
-      const stores = Array.from(dbManager.db.objectStoreNames);
-      const survived = await dbManager.loadTEIFile('keep-me.xml');
-
-      return { success: true, version: dbManager.db.version, stores, survived };
+      const dbs = await indexedDB.databases();
+      return dbs.some((d) => d.name === 'MHDBDB_Playground');
     });
+    expect(seeded).toBe(true);
 
-    expect(result.success).toBe(true);
-    expect(result.version).toBe(3);
-    expect(result.stores).toEqual(['tei_files']);
-    // User-Uploads ueberleben die Migration
-    expect(result.survived).toBe('<TEI/>');
-  });
+    await page.goto('/playground/index.html');
+    await page.waitForSelector('#fileBrowserSection', { state: 'visible', timeout: 60000 });
 
-  test('IndexedDB user uploads - save, load and list', async ({ page }) => {
-    await page.goto('/testing/test.html');
-
-    const result = await page.evaluate(async () => {
-      const { IndexedDBManager } = await import('../playground/js/indexed-db-manager.js');
-      const dbManager = new IndexedDBManager();
-
-      await dbManager.initialize();
-
-      const testFilename = 'TEST.tei.xml';
-      const testContent = `<?xml version="1.0" encoding="UTF-8"?>
-<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="TEST">
-  <teiHeader>
-    <titleStmt>
-      <title xml:lang="de">Test Document</title>
-      <author ref="#person_1">Test Author</author>
-    </titleStmt>
-  </teiHeader>
-  <text><body><p>Test content</p></body></text>
-</TEI>`;
-
-      const saved = await dbManager.saveTEIFile(testFilename, testContent);
-      if (!saved) throw new Error('Failed to save TEI file');
-
-      const loaded = await dbManager.loadTEIFile(testFilename);
-      if (loaded !== testContent) throw new Error('Content mismatch');
-
-      const files = await dbManager.listTEIFiles();
-      const testFile = files.find(f => f.filename === testFilename);
-      if (!testFile) throw new Error('Test file not in list');
-
-      return {
-        success: true,
-        fileCount: files.length,
-        size: testFile.size
-      };
+    const stillThere = await page.evaluate(async () => {
+      const dbs = await indexedDB.databases();
+      return dbs.some((d) => d.name === 'MHDBDB_Playground');
     });
-
-    expect(result.success).toBe(true);
-    expect(result.fileCount).toBe(1);
-    expect(result.size).toBeGreaterThan(0);
+    expect(stillThere).toBe(false);
   });
 
   test('Corpus index structure after auto-load', async ({ page }) => {
@@ -189,8 +108,10 @@ test.describe('Corpus Loading and Management', () => {
 
       return {
         success: true,
-        hasMethods: typeof teiManager.isTEIFile === 'function' &&
-                    typeof teiManager.loadCorpusIntoPlayground === 'function'
+        // #314: isTEIFile und loadCorpusIntoPlayground gehörten zum
+        // Upload-Pfad und sind entfernt. Geprüft wird jetzt der aktive
+        // Einstiegspunkt der Multi-Lemma-Suche.
+        hasMethods: typeof teiManager.searchMultipleLemmasUsingIndex === 'function'
       };
     });
 
@@ -225,32 +146,4 @@ test.describe('Corpus Loading and Management', () => {
     expect(result.lemmaCount).toBeGreaterThan(0);
   });
 
-  test('Clear TEI files operation', async ({ page }) => {
-    await page.goto('/testing/test.html');
-
-    const result = await page.evaluate(async () => {
-      const { IndexedDBManager } = await import('../playground/js/indexed-db-manager.js');
-      const dbManager = new IndexedDBManager();
-
-      await dbManager.initialize();
-
-      for (let i = 1; i <= 5; i++) {
-        await dbManager.saveTEIFile(`CLEAR${i}.tei.xml`, `<TEI>Clear test ${i}</TEI>`);
-      }
-
-      let files = await dbManager.listTEIFiles();
-      if (files.length !== 5) throw new Error(`Expected 5 files before clear, got ${files.length}`);
-
-      const cleared = await dbManager.clearTEIFiles();
-      if (cleared !== 5) throw new Error(`Expected to clear 5 files, cleared ${cleared}`);
-
-      files = await dbManager.listTEIFiles();
-      if (files.length !== 0) throw new Error(`Expected 0 files after clear, got ${files.length}`);
-
-      return { success: true, cleared };
-    });
-
-    expect(result.success).toBe(true);
-    expect(result.cleared).toBe(5);
-  });
 });

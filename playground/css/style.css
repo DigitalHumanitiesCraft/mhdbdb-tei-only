@@ -23,13 +23,6 @@
   height: 0.875rem;
 }
 
-/* Drag & drop visual feedback */
-#uploadZone.dragover {
-  border-color: var(--accent-primary) !important;
-  background-color: color-mix(in srgb, var(--accent-primary) 12%, transparent) !important;
-  box-shadow: 0 12px 32px color-mix(in srgb, var(--accent-primary) 12%, transparent);
-}
-
 /* File list presentation (checkbox version) */
 .file-item {
   display: flex;
@@ -80,14 +73,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-/* Old file item styles (kept for compatibility) */
-.file-name {
-  font-weight: 600;
-  color: var(--text-primary);
-  font-size: var(--text-base);
-  word-break: break-word;
 }
 
 /* Highlighting for lemma matches - Improved contrast */
@@ -297,39 +282,6 @@
   border-radius: inherit;
 }
 
-/* Upload progress */
-.upload-progress {
-  display: grid;
-  gap: var(--space-3);
-  border-radius: var(--radius-lg);
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-primary);
-  padding: var(--space-4) var(--space-5);
-}
-
-.upload-progress-text {
-  font-size: var(--text-sm);
-  font-weight: 500;
-  color: var(--text-primary);
-}
-
-.progress-bar {
-  position: relative;
-  height: 8px;
-  border-radius: 9999px;
-  background: color-mix(in srgb, var(--border-secondary) 60%, transparent);
-  overflow: hidden;
-}
-
-.progress-fill {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, var(--accent-secondary), var(--accent-primary));
-  width: 0%;
-  border-radius: 9999px;
-  transition: var(--transition-base);
-}
-
 /* Ensure proper contrast for interactive elements */
 button:focus,
 input:focus,
@@ -381,7 +333,6 @@ textarea:focus {
     --space-8: 1.75rem;
   }
 
-  .upload-progress,
   .result-summary,
   .file-group {
     padding: var(--space-3) var(--space-4);
@@ -526,12 +477,6 @@ textarea:focus {
     width: 100%;
   }
 
-  /* File upload zone */
-  #uploadZone {
-    min-height: 120px;
-    padding: var(--space-4);
-  }
-
   /* Result cards compact */
   .result-summary {
     padding: var(--space-3);
@@ -594,58 +539,7 @@ textarea:focus {
   }
 }
 
-/* Collapsible file list styles */
-#filesSummary {
-  user-select: none;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-primary);
-}
-
-#filesSummary:hover {
-  background: var(--bg-tertiary);
-  border-color: var(--border-secondary);
-}
-
-#expandIcon {
-  display: inline-block;
-  transition: var(--transition-base);
-  color: var(--text-secondary);
-  font-size: 1rem;
-}
-
-#filesSummary.expanded #expandIcon {
-  transform: rotate(90deg);
-  color: var(--accent-primary);
-}
-
-#uploadedFiles {
-  max-height: 24rem; /* 384px */
-  overflow-y: auto;
-}
-
-#uploadedFiles::-webkit-scrollbar {
-  width: 6px;
-}
-
-#uploadedFiles::-webkit-scrollbar-track {
-  background: var(--bg-tertiary);
-  border-radius: 3px;
-}
-
-#uploadedFiles::-webkit-scrollbar-thumb {
-  background: var(--border-secondary);
-  border-radius: 3px;
-  transition: var(--transition-fast);
-}
-
-#uploadedFiles::-webkit-scrollbar-thumb:hover {
-  background: var(--accent-secondary);
-}
-
-.file-item[data-hidden="true"] {
-  display: none;
-}
-
+/* Filter box above the corpus file list */
 #fileFilter {
   background: var(--bg-primary);
   border: 1px solid var(--border-primary);

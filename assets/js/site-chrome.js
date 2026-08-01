@@ -46,6 +46,12 @@
   // Firefox too — it still does not implement indexedDB.databases(), so name-based
   // deleteDatabase (supported everywhere) is the only cross-browser path. This also
   // covers the app-less help pages, which have no app object to clear through.
+  // MHDBDB_Playground steht seit #314 aus einem anderen Grund hier als die
+  // beiden ersten: die Datenbank gehört nicht mehr zum Projekt, sie ist eine
+  // Altlast aus dem entfernten Datei-Upload. Der Name bleibt trotzdem, weil
+  // playground-main.js sie nur räumt, wenn jemand den Playground öffnet;
+  // hier ist die zweite Chance für alle anderen. Entfernbar zusammen mit
+  // dropLegacyPlaygroundDatabase(), realistisch ab Mitte 2027.
   const KNOWN_DB_NAMES = ["MHDBDBMainSite", "MHDBDB_TEI_Cache", "MHDBDB_Playground"];
 
   // Close the open app handles first so the drop is not "blocked". On the main-site

@@ -67,16 +67,16 @@ test.describe('MHDBDB Playground Test Suite', () => {
     await expect(resultsContainer.locator('.test-summary')).toBeVisible();
 
     // Check for test suites (updated for IndexedDB tests)
-    await expect(resultsContainer.locator('.test-suite')).toHaveCount(7, { timeout: 10000 }); // Should have 7 test suites
+    // #314: von sieben Suites sind vier geblieben. TEIStorageManager,
+    // TEIFilesManager und Large File Handling prüfen den Datei-Upload,
+    // den es seit dem Redesign nicht mehr gibt.
+    await expect(resultsContainer.locator('.test-suite')).toHaveCount(4, { timeout: 10000 });
 
     // Verify suite names
     const suiteNames = await resultsContainer.locator('.test-suite h3').allTextContents();
-    expect(suiteNames).toContain('TEIStorageManager');
-    expect(suiteNames).toContain('TEIFilesManager');
     expect(suiteNames).toContain('DOM Integration');
     expect(suiteNames).toContain('Performance Tests');
     expect(suiteNames).toContain('IndexedDB Storage');
-    expect(suiteNames).toContain('Large File Handling');
     expect(suiteNames).toContain('Error Handling');
   });
 
@@ -92,12 +92,24 @@ test.describe('MHDBDB Playground Test Suite', () => {
     // Wait for tests to run again (they complete quickly, so just wait for completion)
     await expect(page.locator('#progress-text')).toContainText('completed', { timeout: 30000 });
 
-    // Test "Clear Storage" button
+    // #314: Der Test suchte hier bis Juli 2026 nach "Cleared" (groß). Diesen
+    // String loggte nicht der Knopf, sondern clearAllCachedFiles() aus dem
+    // Upload-Pfad, angestoßen vom vorherigen "Run Tests Again". Der Test war
+    // also grün, ohne den Knopf je zu prüfen.
+    //
+    // Eine Log-Zeile allein wäre wieder zu wenig: window.clearStorage() loggt
+    // unbedingt, auch wenn nichts zu löschen war. Deshalb erst einen Schlüssel
+    // setzen, den clearTestStorage() erfassen muss, und danach seine Abwesenheit
+    // prüfen.
+    await page.evaluate(() => sessionStorage.setItem('mhdbdb_probe_314', 'x'));
+
     await page.click('button:has-text("Clear Storage")');
 
-    // Verify console output shows cache cleared
     const consoleOutput = page.locator('#console-output');
-    await expect(consoleOutput).toContainText('Cleared', { timeout: 5000 });
+    await expect(consoleOutput).toContainText('Storage cleared', { timeout: 5000 });
+
+    const probe = await page.evaluate(() => sessionStorage.getItem('mhdbdb_probe_314'));
+    expect(probe).toBeNull();
   });
 
   test('should capture console output', async ({ page }) => {
@@ -113,7 +125,7 @@ test.describe('MHDBDB Playground Test Suite', () => {
     await expect(consoleOutput).toContainText('Test suite starting');
 
     // Should show test progress
-    await expect(consoleOutput).toContainText('TEIStorageManager', { timeout: 30000 });
+    await expect(consoleOutput).toContainText('IndexedDB Storage', { timeout: 30000 });
   });
 
   test('should handle download report functionality', async ({ page }) => {

@@ -275,11 +275,12 @@ export class MultiLemmaSearchUI {
             }
 
             // Execute search based on mode (now async)
-            // Use fast index-based search when available (corpus index)
+            // Alle drei Modi lesen den vorgebauten Korpus-Index. Den XML-Fallback
+            // gab es bis #314; faellt der Index aus, wirft die Suche jetzt und
+            // der catch unten zeigt das an.
             let results;
             if (searchMode === 'proximity') {
                 const maxDistance = parseInt(this.proximityDistance.value) || 10;
-                // Try fast index-based search first (falls back to XML if needed)
                 results = await teiManager.searchMultipleLemmasUsingIndex(lemmaIds, 'proximity', maxDistance);
                 if (getNavigationEpoch() !== myEpoch) return;
                 this.teiExplorer.displayCooccurrenceResults(results, searchTerms, maxDistance, lemmaIds);
@@ -289,7 +290,7 @@ export class MultiLemmaSearchUI {
                 if (getNavigationEpoch() !== myEpoch) return;
                 this.teiExplorer.displayCooccurrenceResults(results, searchTerms, null, lemmaIds, { verseMode: true });
             } else {
-                // Use fast index-based search for paragraph/document mode
+                // Dokumentweite Suche über den Index
                 results = await teiManager.searchMultipleLemmasUsingIndex(lemmaIds, searchMode);
                 if (getNavigationEpoch() !== myEpoch) return;
                 this.teiExplorer.displayMultiLemmaResults(results, searchTerms, searchMode);

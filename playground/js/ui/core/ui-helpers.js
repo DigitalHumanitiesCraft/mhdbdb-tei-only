@@ -127,40 +127,6 @@ export function updateAuthorityOverview(authorityData) {
   `;
 }
 
-export function updateTEIOverview(teiData) {
-  const overview = document.getElementById('teiOverview');
-  const stats = document.getElementById('teiStats');
-
-  if (teiData.files.length > 0 && overview && stats) {
-    overview.style.display = 'block';
-
-    const items = [
-      { icon: '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>', label: 'TEI-Dateien', value: teiData.files.length },
-      { icon: '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>', label: 'Wörter', value: teiData.words.length },
-      { icon: '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>', label: 'Textzeilen', value: teiData.lines.length },
-      { icon: '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path></svg>', label: 'Annotationen', value: teiData.annotations.length }
-    ];
-
-    stats.innerHTML = `
-      <dl class="space-y-2">
-        ${items
-          .map(
-            ({ icon, label, value }) => `
-              <div class="flex items-center justify-between rounded-xl bg-white/80 px-4 py-2 shadow-sm ring-1 ring-brand-100/80">
-                <dt class="flex items-center gap-3 text-sm font-medium text-slate-600">
-                  <span class="inline-flex w-4 h-4 flex-shrink-0 items-center">${icon}</span>
-                  <span>${label}</span>
-                </dt>
-                <dd class="text-base font-bold text-brand-700">${value}</dd>
-              </div>
-            `
-          )
-          .join('')}
-      </dl>
-    `;
-  }
-}
-
 // ==================== BUTTON STATE MANAGEMENT ====================
 
 export function enableAuthorityQueries() {
@@ -180,13 +146,6 @@ export function enableAuthorityQueries() {
       button.disabled = false;
     }
   });
-}
-
-export function enableTEIQueries() {
-  const teiQueriesSection = document.getElementById('teiQueries');
-  if (teiQueriesSection) {
-    teiQueriesSection.style.display = 'block';
-  }
 }
 
 // ==================== RESULTS DISPLAY ====================
@@ -545,7 +504,7 @@ export function showWelcomeMessage() {
     <div class="rounded-2xl border border-brand-100 bg-brand-50/70 p-8 text-center">
       <h3 class="text-lg font-semibold text-brand-700">MHDBDB Playground bereit!</h3>
       <p class="mt-3 text-sm text-brand-800/90">
-        Authority Files sind geladen. Laden Sie nun TEI-Textdateien oder nutzen Sie die Abfragen, um sofort mit der Forschung zu beginnen.
+        Authority Files sind geladen, der Korpus lädt im Hintergrund. Wählen Sie links eine Abfrage, um zu beginnen.
       </p>
     </div>
   `;
@@ -560,13 +519,8 @@ export function updateAllUI(authorityData, teiData) {
   updateStatus(indicator, loadedLabel);
 
   updateAuthorityOverview(authorityData);
-  updateTEIOverview(teiData);
 
   enableAuthorityQueries();
-
-  if (teiData.files.length > 0) {
-    enableTEIQueries();
-  }
 
   if (authorityData.files.length > 0 && teiData.files.length === 0) {
     showWelcomeMessage();

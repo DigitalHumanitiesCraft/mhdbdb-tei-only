@@ -134,7 +134,7 @@ test.describe('B. Position Counting parity — real corpus', () => {
 
 test.describe('B. Position Counting parity — empty <w lemmaRef> asymmetry (#131)', () => {
   // CONTRACTS §B "Parity note": Python skips <w lemmaRef> with empty text content
-  // (`if not word_text: continue`); the pre-fix JS reader incremented wordPosition
+  // (`if not text_content: continue`); the pre-fix JS reader incremented wordPosition
   // for every <w lemmaRef> regardless of text. 0 such cases in the corpus today,
   // but a future ingest with placeholder/gap tokens would silently break parity.
   // Acceptance criterion (#131): both sides skip, or neither does. We align JS to
