@@ -150,18 +150,41 @@ After significant changes, increment version in build script to force browser ca
 ### Playwright Tests
 
 ```bash
-npm test              # Run all tests (headless)
+npm test              # Run all tests (headless), 5,0 bis 5,3 min (6 Worker)
+npm run test:changed  # Nur Specs, die seit origin/main angefasst wurden
+npm run test:quick    # Drei Specs als Rauchprobe, 29 Tests (main-site, playground, corpus)
 npm run test:ui       # Interactive mode
 npm run test:debug    # Debug with breakpoints
 npm run test:headed   # Visible browser
 npm run report        # View HTML report
 ```
 
+Positionale Argumente sind bei Playwright **Reguläre Ausdrücke gegen den Dateipfad**, keine Dateinamen. Unverankert zog der Filter `corpus.spec.js` in `test:quick` deshalb auch `playground-corpus.spec.js` und `search-with-corpus.spec.js` mit, also 47 Tests in fünf Dateien statt 29 in drei, darunter ausgerechnet die Datei mit den meisten `waitForTimeout`-Aufrufen. Seit #323 sind die Filter hinten mit `$` verankert und vorne durch das Präfix `tests.` diszipliniert. Ein `^` wäre falsch und würde nichts mehr finden: Playwright prüft gegen den **absoluten** Pfad, nachgemessen (`^main-site\.spec\.js$` und `^tests.main-site\.spec\.js$` liefern beide null Tests, `tests.main-site\.spec\.js$` liefert 14). Wer die Auswahl ändert, zählt sie mit `-- --list` nach; das startet den `webServer` nicht und kostet deshalb nur Sekunden.
+
+`test:changed` (`--only-changed=origin/main`) ist der Alltagsbefehl beim Arbeiten an einem Zweig: es läuft nur, was der Zweig angefasst hat. **Vor dem Push bleibt `npm test` Pflicht.** `--only-changed` verfolgt zwar die Node-Importe der Specs, aber keine Spec importiert Projektcode über Node. Alles, was die Specs prüfen, erreichen sie zur Laufzeit: Site-Code über den Browser (`await import('/assets/js/…')` innerhalb von `page.evaluate`), Python über `execSync`, Fixtures und Vendor-Dateien über den Pfad. Blind ist der Befehl deshalb für:
+
+| Was | geprüft von | wie erreicht |
+|---|---|---|
+| `assets/js/`, `playground/js/`, `tei/`, `data/` | fast alle Specs | Browser, `localhost:8080` |
+| `scripts/mhg_normalizer.py` | `normalization-parity.spec.js` | `execSync` |
+| `scripts/build-corpus-index.py` | `position-parity.spec.js` | `importlib` aus dem Helper heraus |
+| `testing/helpers/extract_word_positions.py` | `position-parity.spec.js` | `execSync` |
+| `tei/PL1.tei.xml`, `tei/OVG.tei.xml` | `position-parity.spec.js` | Pfad (Python) und Browser |
+| `testing/fixtures/*.tei.xml` | `position-parity.spec.js` | Pfad |
+| `assets/vendor/`, alle HTML-Seiten | `vendor.spec.js` | `readdirSync`/`readFileSync` |
+
+Die Python-Zeilen sind die unangenehmsten, weil man dort das Gegenteil erwartet. `scripts/mhg_normalizer.py` und `scripts/build-corpus-index.py` sind je eine Hälfte der Paritäts-Zusagen aus den Hard Constraints in `CLAUDE.md`, und die beiden `*-parity.spec.js` sind ihre Wächter. Beim Build-Skript ist der Weg zusätzlich verdeckt: `extract_word_positions.py` ist ein Shim, der die echte `extract_word_data()` per `importlib` lädt, statt sie nachzubauen. Wer die Python-Seite ändert und `test:changed` laufen lässt, bekommt null Specs, also gerade nicht den Test, der die Änderung prüft (nachgemessen für `mhg_normalizer.py`).
+
+Für dieses Repo besonders relevant sind `tei/` und `data/`: das sind bei laufendem Ingest die am häufigsten geänderten Verzeichnisse, und beide sind blind, weil sie über `localhost:8080` geladen werden. Zwei Fallstricke am Ref: `origin/main` muss existieren (in einem Shallow Clone nicht der Fall), und er muss aktuell sein. Wer länger nicht gefetcht hat, vergleicht gegen einen alten Stand und bekommt zu viele oder zu wenige Specs, deshalb vorher `git fetch origin main`. Bleibt die Auswahl leer, endet der Befehl mit Exit 0 (gemessen, Playwright 1.55.1): `--pass-with-no-tests` braucht es nicht.
+
 **Test configuration:** `testing/playwright.config.js`
 - Always use `npm test` – never `npx playwright test` from the project root (config and `baseURL` live in `testing/`)
 - Automated web server startup (port 8080)
 - Headless Chrome with `--disable-web-security`
 - 60-second timeout per test
+- **6 Worker lokal, 2 in der CI** (#323), auf schwächeren Geräten mit `npm test -- --workers=2` überschreibbar: 20,4 min bei einem Worker gegen 5,0 bis 5,3 min bei sechs, über dieselben 276 Tests, fünf Läufe. Die Begründung für beide Zahlen steht als Kommentar in der Config; kurz: der Engpass ist der single-threaded `http-server` und der Chromium-Heap, nicht die Kernzahl, und Standard-CI-Runner haben zu wenige vCPUs für sechs
+- **`retries: 1`** (überall, auch in der CI) und `failOnFlakyTests: true` dazu. Der Retry existiert nur, damit ein Timing-Flake unter sechs Workern einen Trace hinterlässt; ohne `failOnFlakyTests` würde er zugleich den Lauf schönen, denn Playwright endet mit Exit 0, sobald ein Test im zweiten Versuch grün wird. Mit der Option bleibt der Lauf rot, und die Trace-Datei liegt trotzdem da
+- **`fullyParallel: false` ist Absicht.** `search-normalization.spec.js` teilt eine in `beforeAll` angelegte Seite über alle Tests der Datei, um den Index einmal statt vierzehnmal zu laden. Test-Parallelität würde die Seite nicht kaputtmachen (Playwright führt `beforeAll` pro Worker erneut aus), wohl aber den Spareffekt: der Index würde bis zu sechsmal geladen
 
 ### Test File Inventory
 
@@ -187,8 +210,6 @@ npm run report        # View HTML report
 | `cross-reference-test.spec.js` | Data integrity | Authority/corpus cross-reference validity |
 | `corpus.spec.js` | Data integrity | Corpus index structure validation |
 | `visual-mobile-test.spec.js` | Visual | Responsive Screenshots + Touch-Target-Größe über mehrere Viewports (iPhone-SE 375px … Desktop 1440px) |
-
-**Playwright config** (`testing/playwright.config.js`): Headless Chromium, 1 worker (sequential), 60s timeout per test, auto-starts `http-server` on port 8080. HTML + JSON reports.
 
 ### CI: Data Integrity
 
