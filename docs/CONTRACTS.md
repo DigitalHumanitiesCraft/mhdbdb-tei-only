@@ -227,7 +227,11 @@ function lemmaRefMatchesId(lemmaRef, lemmaId):
 | `lexicon.xml#lemma_308 lexicon.xml#lemma_5` | `lemma_5` | yes |
 | `lexicon.xml#lemma_30800` | `lemma_308` | **no** |
 
-**Applies to all highlight/match paths**, all routed through the single `lemmaRefMatchesId` since #130 (was 6 inline copies across 4 files, the duplication that made #126 possible): `tei-text-reader.js` (single + multi-lemma) and the playground (`tei-manager.js` proximity + enrichment, `ui-helpers.js` context highlight). (`text-renderer.js` was a fourth call site until its dead render path, then the whole shim, were removed: audit #42 plus Carearbeit 2026-07.) Validated on real corpus data: PL1 689 → 57, OVG 369 → 26 (matches the result-card count).
+**Applies to all highlight/match paths**, all routed through the single `lemmaRefMatchesId` since #130 (was 6 inline copies across 4 files, the duplication that made #126 possible). Call sites today, measured 2026-08-01: `tei-text-reader.js:770/:784` (single + multi-lemma), `kwic-service.js:93` (KWIC lines) and `ui-helpers.js:444` in the playground (context highlight).
+
+Two former call sites are gone, and both are worth naming because the rule is easy to think of as universal: `text-renderer.js` lost its dead render path and then the whole shim (audit #42 plus Carearbeit 2026-07), and `tei-manager.js` stopped calling it with #314. The latter is not a gap: the proximity search reads `words[]` from the corpus index, and that array holds exactly one lemma ID per position (`build-corpus-index.py`: `words.append(lemma_ids[0])`, #170). There is no whitespace-separated list to tokenize, so a normalized `===` is the same predicate there. The unused import stayed behind until #325.
+
+Validated on real corpus data: PL1 689 → 57, OVG 369 → 26 (matches the result-card count).
 
 ### Test Coverage
 
@@ -456,24 +460,35 @@ Source: `playground/js/data/tei-manager.js` (document search function)
 
 ```
 function searchDocumentLevel(lemmaIds, corpusData):
+    // corpusData is window.playground.corpusData, filled by the playground's
+    // own file browser. Not the main site's identically named selection.
     results = []
+    includedTexts = corpusData.includedTexts or empty set
 
     for each text in corpusData.texts:
-        // Require ALL lemmata present (intersection, not union)
-        containsAll = lemmaIds.every(id => text.lemmata[id] exists)
+        // Honours the playground's text selection, unlike the analysis tools
+        // in section H (see the scope note there)
+        if text.id not in includedTexts: continue
+
+        // Require ALL lemmata present (intersection, not union). Each id is
+        // normalized and then tried under both spellings, because the caller
+        // hands over bare ids while the index keys carry the prefix.
+        containsAll = lemmaIds.every(id =>
+            cleanId = id without leading "lemma_"
+            text.lemmata["lemma_" + cleanId] or text.lemmata[cleanId] exists)
 
         if containsAll:
-            matchingWords = {}
-            for each lemmaId in lemmaIds:
-                matchingWords[lemmaId] = text.lemmata[lemmaId].length  // count per lemma
-
-            results.push({filename, title, author, matchingWords, totalWords})
+            results.push({filename, title, author, context: 'document', totalWords})
 
     return results
     // No dedup needed — each text can only appear once (checked via containsAll)
 ```
 
+**Why both spellings:** `resolveLemmaIds` strips the prefix (`tei-ui.js`, `matches[0].id.replace('lemma_', '')`), the index writes it (`build-corpus-index.py`, keys like `"lemma_879"`). A lookup on the bare id alone would find nothing, silently, for every query. The other two modes reach the same place differently and do **not** use this double lookup: the verse path normalizes upward to one prefixed key, the proximity path compares stripped ids against `words[]`. Three spellings of one rule, which is why this one is written out here.
+
 **Note:** No dedup needed here because the intersection check (`every`) guarantees each text appears at most once.
+
+**Removed field (#327):** the pushed object used to carry a `matchingWords` map, the hit count per lemma, built in a loop over `lemmaIds` with two index lookups per matching text. Its last reader was `formatMatchingWordsOrCounts` in `tei-ui.js`, which had lost its own callers long before; when that method went, the field became write-only. What the result card shows is `totalWords`.
 
 ---
 

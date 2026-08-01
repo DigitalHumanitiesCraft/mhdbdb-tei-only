@@ -188,6 +188,8 @@ Für dieses Repo besonders relevant sind `tei/` und `data/`: das sind bei laufen
 
 ### Test File Inventory
 
+Vollständigkeit gegen `testing/tests/` gatet `scripts/audit/check-test-inventory.py` (läuft in `no-cdn-check.yml`, lokal ohne Abhängigkeiten aufrufbar). Eine neue Spec ohne Zeile hier macht die CI rot: die Tabelle ist der einzige Ort, an dem steht, wofür eine Spec da ist. Bis #329 fehlten zehn von dreißig.
+
 | File | Category | What it tests |
 |------|----------|--------------|
 | `main-site.spec.js` | Main site | Landing page, search page loading, search results, reading view |
@@ -198,15 +200,25 @@ Für dieses Repo besonders relevant sind `tei/` und `data/`: das sind bei laufen
 | `results-table.spec.js` | Main site | Corpus search results table view (#114): columns, sorting |
 | `tei-caching.spec.js` | Main site | IndexedDB TEI cache behavior |
 | `error-handling.spec.js` | Main site | Graceful error handling |
+| `woerterbuch.spec.js` | Main site | A–Z-Register über den Authority-Index, Pagination, Deep-Links (#117) |
 | `lemma-page.spec.js` | Lemma pages | URL parsing, data rendering, external links |
 | `playground.spec.js` | Playground | Authority explorers, TEI analysis, UI navigation |
 | `playground-authority-index.spec.js` | Playground | Authority index loading, data structure integrity |
 | `playground-corpus.spec.js` | Playground | Corpus index loading, search functions |
 | `concept-distribution.spec.js` | Playground | Concept distribution analysis (concept → senses → lemmata → texts) |
+| `cooccurrence-ranking.spec.js` | Playground | Kookkurrenz-Ranking und Homographen-Auflösung der Multi-Lemma-Suche (#163/#164) |
+| `proximity-and-resolution.spec.js` | Playground | Nähesuche-Fenster bei drei und mehr Lemmata, Überlappungs-Dedup, Lemma-Auflösung (#169) |
+| `multi-lemma-verse.spec.js` | Playground | Suchmodus „Im selben Vers" über `lineStarts[]`/`lineEnds[]` (#106) |
+| `rhyme-dictionary.spec.js` | Playground | Reim-Wörterbuch: Versende-Scan plus Suffix-Heuristik (#106) |
+| `verse-ending-profile.spec.js` | Playground | Versendings-Profil: Top-N Lemmata an Versenden, Scope-Selector (#106) |
+| `hapax-legomena.spec.js` | Playground | Korpusweite Hapax/Dis/Tris-Aggregation, Filter-Toolbar, Detail-Panel (#196) |
+| `word-component-search.spec.js` | Playground | Wortbestandteil-Modus im Lemmata-Explorer für Komposita-Recherche (#239) |
+| `naming-explorer.spec.js` | Playground | Figurenbezeichnungen: Route, Werk-/Figur-Auswahl, Kategorie-Tabs, Pflicht-Attribution (#59) |
 | `normalization-parity.spec.js` | Cross-cutting | Python/JS normalizer agreement (see [CONTRACTS.md](CONTRACTS.md#a-mhg-normalization-parity)) |
 | `lemma-matching.spec.js` | Cross-cutting | Lemma highlight matching exactness, #130 (see [CONTRACTS.md](CONTRACTS.md#b1-lemma-highlight-matching-contract)) |
 | `position-parity.spec.js` | Cross-cutting | Python/JS word-position agreement, #131 (see [CONTRACTS.md](CONTRACTS.md#b-position-counting-contract)) |
 | `site-chrome.spec.js` | Cross-cutting | Build-injected nav/footer + mobile-menu (`build-pages.py`) |
+| `vendor.spec.js` | Cross-cutting | Runtime-Bibliotheken kommen aus `assets/vendor/`, keine CDN-Abhängigkeit (Laufzeit-Gegenstück zu `no-cdn-check.yml`) |
 | `cross-reference-test.spec.js` | Data integrity | Authority/corpus cross-reference validity |
 | `corpus.spec.js` | Data integrity | Corpus index structure validation |
 | `visual-mobile-test.spec.js` | Visual | Responsive Screenshots + Touch-Target-Größe über mehrere Viewports (iPhone-SE 375px … Desktop 1440px) |
@@ -269,7 +281,8 @@ Diagnose- und Validierungs-Skripte in `scripts/audit/`:
 | `check-naming-index.py` | Naming-Index-Konsistenz (#152): `source.commit` vorhanden + alle `works[].sigle` existieren in `tei/`; `--print-source-commit` liefert den Pin für die Workflows (siehe oben) |
 | `audit-tei-corpus.py` | Korpus-weite Stichproben (z.B. fehlende `<l>`/`<lg>`, ungewöhnliche xml:id-Pattern, Encoding-Anomalien) |
 | `check-lexicon-senses.py` | `lexicon.xml`-Sanity: Lemmata ohne `<sense>`, Senses ohne `conceptIds` |
-| `doc-count-audit.py` | Drift-Detektor zwischen tatsächlichen Korpus-/Authority-Zahlen und den in der Doku verankerten Werten. Heuristik: Window ±2 absolut oder ±2 % relativ, strikter Keyword-Anchor unmittelbar nach der Zahl |
+| `doc-count-audit.py` | Drift-Detektor zwischen tatsächlichen Korpus-/Authority-Zahlen und den in der Doku verankerten Werten. Heuristik: Window ±2 absolut oder ±2 % relativ, strikter Keyword-Anchor unmittelbar nach der Zahl. Läuft als Health-Check-Werkzeug von Hand, kein Workflow ruft es |
+| `check-test-inventory.py` | Spec-Inventar-Gate (#329): jede Datei in `testing/tests/` steht in der Tabelle „Test File Inventory" und umgekehrt. Nur stdlib, gerufen von `no-cdn-check.yml`; `--selftest` prüft den Scanner an künstlichen Eingaben |
 
 ### Skipped Tests (Issue #43 – resolved)
 
