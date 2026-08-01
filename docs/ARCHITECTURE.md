@@ -163,7 +163,7 @@ The reading view converts TEI XML elements to HTML. Source: `extractAndFormatBod
 ### Application Structure
 
 **MHDBDBPlayground** (`playground/js/playground-main.js`)
-- Initialize IndexedDB
+- Alt-Datenbank `MHDBDB_Playground` löschen (`dropLegacyPlaygroundDatabase()`, #314). Der einzige IndexedDB-Kontakt des Playgrounds ist eine Löschung, keine Initialisierung: die Indexe liegen im gemeinsamen `CorpusLoader`
 - Load authority index (~3 MB)
 - Initialize data managers (authority, TEI)
 - Set up modular UI components (23 modules; 25 vor #314, das `file-display.js` und `progress.js` entfernt hat)

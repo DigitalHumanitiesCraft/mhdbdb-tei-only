@@ -118,13 +118,9 @@ npm run report
 
 ### UI Components (Modular)
 
-*Die Namen unten sind Altbestand und stimmen mit keiner Datei im Repo überein; der aktuelle Modulbaum steht in [ARCHITECTURE.md](../docs/ARCHITECTURE.md) (23 Module unter `playground/js/ui/`). Der Eintrag `UICore.js` ist mit #314 weggefallen, weil er genau die beiden gelöschten Module benannte.*
+- **`SearchHelpers.js`** (`playground/js/ui/search/`) - wiederverwendbare Suchmuster, exportiert `SearchPatterns`
 
-- **`AuthorityExplorers.js`** - Authority file search interfaces
-- **`TEIExplorer.js`** - TEI text analysis features
-- **`XPathInterface.js`** - XPath query execution
-- **`MultiLemmaSearch.js`** - Multi-lemma co-occurrence modal
-- **`SearchHelpers.js`** - Reusable search patterns
+*Die vier Namen `AuthorityExplorers.js`, `TEIExplorer.js`, `XPathInterface.js` und `MultiLemmaSearch.js` standen bis Juli 2026 hier und benennen keine Datei im Repo. Der aktuelle Modulbaum steht in [ARCHITECTURE.md](../docs/ARCHITECTURE.md) (23 Module unter `playground/js/ui/`). Ein fünfter Eintrag, `UICore.js`, ist mit #314 weggefallen, weil er genau die beiden gelöschten Module benannte.*
 
 ### Utilities
 
