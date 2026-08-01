@@ -9,25 +9,34 @@ const __dirname = dirname(__filename);
 export default defineConfig({
   testDir: './tests',
   outputDir: resolve(__dirname, 'test-results/artifacts'),
-  // Parallelität auf Datei-, nicht auf Testebene. Der Unterschied ist keine
-  // Vorsicht, sondern eine Anforderung: `search-normalization.spec.js` legt in
-  // `beforeAll` eine Seite an und teilt sie über alle Tests der Datei, um den
-  // Index einmal statt vierzehnmal zu laden. `fullyParallel: true` würde diese
-  // Tests auf verschiedene Worker verteilen und die geteilte Seite zerreißen.
+  // Parallelität auf Datei-, nicht auf Testebene. `search-normalization.spec.js`
+  // legt in `beforeAll` eine Seite an und teilt sie über alle Tests der Datei,
+  // um den Index einmal statt vierzehnmal zu laden. Bei `fullyParallel: true`
+  // würden diese Tests auf mehrere Worker verteilt; die Seite ginge nicht
+  // kaputt (Playwright führt `beforeAll` pro Worker erneut aus), aber der
+  // Spareffekt stirbt: der Index würde bis zu sechsmal geladen statt einmal,
+  // und das trifft genau den Engpass unten.
   fullyParallel: false,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
-  // Sechs Worker, gemessen (#323): 20,4 min bei einem Worker gegen 5,0 min bei
-  // sechs, über dieselben 276 Tests. Die Grenze ist nicht die Kernzahl (16
-  // verfügbar), sondern der single-threaded `http-server` weiter unten und der
-  // Chromium-Heap: jeder Context hält den entpackten Korpus-Index, rund 500 MB,
-  // bei sechs Workern also etwa 3 GB. Mehr Worker verschieben den Engpass auf
-  // die Auslieferung der 42 MB pro Seitenaufbau.
+  // Sechs Worker lokal, gemessen (#323): 20,4 min bei einem Worker gegen 5,0
+  // bis 5,1 min bei sechs, über dieselben 276 Tests, vier Läufe. Die Grenze ist
+  // nicht die Kernzahl (16 verfügbar), sondern der single-threaded
+  // `http-server` weiter unten und der Chromium-Heap: jeder Context, der den
+  // Korpus-Index lädt, hält ihn entpackt im Speicher (168 MB JSON, als
+  // JS-Objekte grob geschätzt das Zwei- bis Dreifache). Mehr Worker verschieben
+  // den Engpass auf die Auslieferung der 42 MB pro Seitenaufbau.
+  //
+  // In der CI zwei: Standard-Runner haben zwei bis vier vCPUs, dort würden
+  // sechs Worker plus single-threaded Server nur noch thrashen, und
+  // `retries: 2` würde die entstehende Flakiness verdecken. Heute akademisch,
+  // weil kein Workflow `npm test` ruft, aber die Config verzweigt bei
+  // `retries` und `forbidOnly` ohnehin schon auf CI.
   //
   // Nichts erzwingt serielle Ausführung: kein `test.describe.serial`, kein
   // `test.use()`, keine Abhängigkeit zwischen Tests, und Playwright gibt jedem
   // Test ohnehin einen eigenen Context mit isolierter Storage-Partition.
-  workers: 6,
+  workers: process.env.CI ? 2 : 6,
   reporter: [
     ['html', { outputFolder: resolve(__dirname, 'test-results/html-report') }],
     ['json', { outputFile: resolve(__dirname, 'test-results/report.json') }]

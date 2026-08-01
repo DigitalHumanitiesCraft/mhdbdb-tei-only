@@ -150,7 +150,7 @@ After significant changes, increment version in build script to force browser ca
 ### Playwright Tests
 
 ```bash
-npm test              # Run all tests (headless), rund 5 min
+npm test              # Run all tests (headless), rund 5 min (6 Worker)
 npm run test:changed  # Nur Specs, die seit origin/main angefasst wurden
 npm run test:ui       # Interactive mode
 npm run test:debug    # Debug with breakpoints
@@ -158,15 +158,15 @@ npm run test:headed   # Visible browser
 npm run report        # View HTML report
 ```
 
-`test:changed` (`--only-changed=origin/main`) ist der Alltagsbefehl beim Arbeiten an einem Zweig: es läuft nur, was der Zweig angefasst hat. Vor dem Push bleibt `npm test` Pflicht, weil `--only-changed` nur Spec-Dateien im Diff sieht: eine geänderte Bibliothek zieht keine Spec mit, die sie prüft.
+`test:changed` (`--only-changed=origin/main`) ist der Alltagsbefehl beim Arbeiten an einem Zweig: es läuft nur, was der Zweig angefasst hat. **Vor dem Push bleibt `npm test` Pflicht.** `--only-changed` verfolgt zwar die Node-Importe der Specs, aber unser Site-Code wird im Browser über `localhost:8080` geladen und nicht importiert: eine Änderung in `assets/js/` oder `playground/js/` zieht deshalb keine einzige Spec mit. Zweiter Fallstrick: der Befehl braucht einen `origin/main`-Ref und schlägt in einem Shallow Clone fehl.
 
 **Test configuration:** `testing/playwright.config.js`
 - Always use `npm test` – never `npx playwright test` from the project root (config and `baseURL` live in `testing/`)
 - Automated web server startup (port 8080)
 - Headless Chrome with `--disable-web-security`
 - 60-second timeout per test
-- **6 Worker** (#323): 20,4 min bei einem Worker gegen 5,0 min bei sechs, über dieselben 276 Tests. Die Begründung für genau diese Zahl steht als Kommentar in der Config; kurz: der Engpass ist der single-threaded `http-server` und der Chromium-Heap, nicht die Kernzahl
-- **`fullyParallel: false` ist Absicht, keine Vorsicht.** `search-normalization.spec.js` teilt eine in `beforeAll` angelegte Seite über alle Tests der Datei, um den Index einmal statt vierzehnmal zu laden. Test-Parallelität würde die Datei auf mehrere Worker verteilen und diese Seite zerreißen
+- **6 Worker lokal, 2 in der CI** (#323): 20,4 min bei einem Worker gegen 5,0 bis 5,1 min bei sechs, über dieselben 276 Tests. Die Begründung für beide Zahlen steht als Kommentar in der Config; kurz: der Engpass ist der single-threaded `http-server` und der Chromium-Heap, nicht die Kernzahl, und Standard-CI-Runner haben zu wenige vCPUs für sechs
+- **`fullyParallel: false` ist Absicht.** `search-normalization.spec.js` teilt eine in `beforeAll` angelegte Seite über alle Tests der Datei, um den Index einmal statt vierzehnmal zu laden. Test-Parallelität würde die Seite nicht kaputtmachen (Playwright führt `beforeAll` pro Worker erneut aus), wohl aber den Spareffekt: der Index würde bis zu sechsmal geladen
 
 ### Test File Inventory
 
