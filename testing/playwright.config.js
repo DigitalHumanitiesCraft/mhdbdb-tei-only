@@ -45,16 +45,15 @@ export default defineConfig({
   // Trace-Modus unten. Die Grenze ist nicht die Kernzahl (16 verfügbar),
   // sondern der single-threaded `http-server` weiter unten und der
   // Chromium-Heap: jeder Context, der den Korpus-Index lädt, hält ihn
-  // entpackt im Speicher (168 MB JSON, als
-  // JS-Objekte grob geschätzt das Zwei- bis Dreifache). Mehr Worker verschieben
-  // den Engpass auf die Auslieferung der 42 MB pro Seitenaufbau.
+  // entpackt im Speicher (168 MB JSON, als JS-Objekte grob geschätzt das
+  // Zwei- bis Dreifache). Mehr Worker verschieben den Engpass auf die
+  // Auslieferung der 42 MB pro Seitenaufbau.
   //
   // In der CI zwei: Standard-Runner haben zwei bis vier vCPUs, dort würden
-  // sechs Worker plus single-threaded Server nur noch thrashen. Das trägt
-  // die Entscheidung allein; verdecken könnten die drei CI-Versuche nichts,
-  // dafür sorgt failOnFlakyTests. Heute ohnehin akademisch, weil kein
-  // Workflow `npm test` ruft, aber `forbidOnly` verzweigt hier schon auf CI,
-  // und die vCPU-Zahl ist der einzige Wert, der sich dort wirklich ändert.
+  // sechs Worker plus single-threaded Server nur noch thrashen. Heute
+  // ohnehin akademisch, weil kein Workflow `npm test` ruft, aber
+  // `forbidOnly` verzweigt hier schon auf CI, und die vCPU-Zahl ist der
+  // einzige Wert, der sich dort wirklich ändert.
   //
   // Nichts erzwingt serielle Ausführung: kein `test.describe.serial`, kein
   // `test.use()`, keine Abhängigkeit zwischen Tests, und Playwright gibt jedem
@@ -69,11 +68,11 @@ export default defineConfig({
     // Zusammen mit retries: 1 oben. 'retain-on-failure' wäre der naive Weg,
     // kostet 19 bis 26 Prozent, je nach Referenzlauf: der Modus zeichnet für
     // JEDEN Test auf und verwirft die Traces der grünen erst hinterher
-    // (gemessen 6,3 min gegen 5,0 bis 5,3 min). Bei 276 grünen Tests bezahlt
-    // man 275 Aufzeichnungen für eine, die man behält, und das auf genau
-    // dem Engpass, den der
-    // Worker-Kommentar oben beschreibt. Mit einem Retry fällt der Flake
-    // einmal, läuft mit Trace nach und wird als flaky ausgewiesen.
+    // (gemessen 6,3 min gegen 5,0 bis 5,3 min). Bei 276 Tests, von denen
+    // einer fällt, bezahlt man 275 Aufzeichnungen für die eine, die man
+    // behält, und das auf genau dem Engpass, den der Worker-Kommentar oben
+    // beschreibt. Mit einem Retry fällt der Flake einmal, läuft mit Trace
+    // nach und wird als flaky ausgewiesen.
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
   },
