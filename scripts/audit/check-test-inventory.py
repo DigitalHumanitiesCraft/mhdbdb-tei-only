@@ -64,9 +64,12 @@ TABELLEN_TITEL = '### Test File Inventory'
 ENDUNG = re.compile(r'\.(?:spec|test)\.(?:[cm]?[jt]sx?)$')
 
 # Erste Spalte einer Tabellenzeile: | `name.spec.js` | Kategorie | Text |
-# Der Name darf alles außer Pipe, Backtick und Leerraum sein, aus demselben
-# Grund; die Endung entscheidet.
-ZEILE = re.compile(r'^\|\s*`?([^|`\s]+\.(?:spec|test)\.(?:[cm]?[jt]sx?))`?\s*\|')
+# Der Name darf alles außer Pipe und Backtick sein, Leerzeichen eingeschlossen.
+# Enger wäre hier zwar fail-closed und nicht fail-open, aber genauso kaputt:
+# eine Datei, die ENDUNG oben akzeptiert, muss sich auch eintragen lassen,
+# sonst bliebe das Gate rot ohne einen Weg, es grün zu bekommen. Der Match ist
+# nicht-gierig, damit er in Spalte 1 bleibt; umgebender Leerraum wird getrimmt.
+ZEILE = re.compile(r'^\|\s*`?([^|`]+?\.(?:spec|test)\.(?:[cm]?[jt]sx?))`?\s*\|')
 
 
 def tabellen_abschnitt(text: str) -> str:
@@ -76,6 +79,11 @@ def tabellen_abschnitt(text: str) -> str:
     Fehlt die Überschrift, ist das ein Fehler und kein leeres Ergebnis: sonst
     meldete das Gate nach einer Umbenennung der Überschrift jede einzelne Spec
     als fehlend, statt zu sagen, dass es die Tabelle nicht mehr findet.
+
+    Code-Blöcke werden übersprungen, weil eine Zeile wie `# python scripts/...`
+    darin sonst als Überschrift zählte und die Tabelle vorzeitig abschnitte.
+    Das Muster ist in dieser Datei üblich, und der Abschnitt trägt bereits
+    Prosa, wird also wachsen.
     """
     zeilen = text.splitlines()
     try:
@@ -86,8 +94,12 @@ def tabellen_abschnitt(text: str) -> str:
             'Wurde sie umbenannt? Dann TABELLEN_TITEL hier mitziehen.'
         )
     ende = len(zeilen)
+    im_codeblock = False
     for i in range(start + 1, len(zeilen)):
-        if zeilen[i].startswith(('# ', '## ', '### ')):
+        if zeilen[i].lstrip().startswith(('```', '~~~')):
+            im_codeblock = not im_codeblock
+            continue
+        if not im_codeblock and zeilen[i].startswith(('# ', '## ', '### ')):
             ende = i
             break
     return '\n'.join(zeilen[start:ende])
@@ -126,6 +138,20 @@ def selbsttest() -> int:
     )
     gelistet = specs_in_tabelle(tabellen_abschnitt(tabelle))
 
+    mit_codeblock = (
+        f'{TABELLEN_TITEL}\n'
+        '\n'
+        '```bash\n'
+        '# python scripts/audit/check-test-inventory.py\n'
+        '```\n'
+        '\n'
+        '| `a.spec.js` | Main site | Erste |\n'
+        '\n'
+        '### Naechster Abschnitt\n'
+        '\n'
+        '| `d.spec.js` | X | darf nicht mitzaehlen |\n'
+    )
+
     faelle = [
         ('Tabelle endet an der nächsten Überschrift',
          'c.spec.js' not in gelistet),
@@ -147,10 +173,19 @@ def selbsttest() -> int:
          bool(ENDUNG.search('x.test.js')) and specs_in_tabelle('| `x.test.js` | X | Y |') == {'x.test.js'}),
         ('TypeScript- und Modul-Varianten zählen mit',
          all(ENDUNG.search(n) for n in ('a.spec.ts', 'b.test.mjs', 'c.spec.cjs', 'd.test.tsx'))),
-        ('Name mit Umlaut oder Leerzeichen zählt mit',
-         ENDUNG.search('wörterbuch prüfung.spec.js') is not None),
+        # Beide Regexe müssen dieselben Namen durchlassen. Ließe der Dateiscan
+        # einen Namen zu, den die Tabellenzeile nicht aufnehmen kann, bliebe
+        # das Gate rot ohne einen Weg, es grün zu bekommen.
+        ('Name mit Umlaut oder Leerzeichen zählt beidseitig mit',
+         ENDUNG.search('wörterbuch prüfung.spec.js') is not None
+         and specs_in_tabelle('| `wörterbuch prüfung.spec.js` | X | Y |')
+             == {'wörterbuch prüfung.spec.js'}),
         ('Nicht-Spec zählt nicht',
          not ENDUNG.search('util.js') and not ENDUNG.search('fixture.spec.xml')),
+        # Ohne Codeblock-Erkennung schnitte die Kommentarzeile darin die
+        # Tabelle ab, und a.spec.js fehlte plötzlich.
+        ('Ein Codeblock im Abschnitt beendet die Tabelle nicht',
+         specs_in_tabelle(tabellen_abschnitt(mit_codeblock)) == {'a.spec.js'}),
     ]
 
     for name, ok in faelle:

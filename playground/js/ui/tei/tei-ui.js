@@ -131,7 +131,7 @@ export class TEIExplorer {
             return {
                 title: `${filename}`,
                 count: count,
-                preview: this.createPreviewText(fileResults),
+                preview: this.createPreviewText(count),
                 // Die Dokumentsuche hat keine Detailzeilen. createSummaryCard in
                 // ui-helpers.js rendert bei leerer Liste die statische Karte
                 // ohne Aufklapp-Symbol, genau das ist hier gewollt.
@@ -144,8 +144,10 @@ export class TEIExplorer {
         return fileResults.reduce((sum, result) => sum + (result.totalWords || 1), 0);
     }
 
-    createPreviewText(fileResults) {
-        return `${this.getResultCount(fileResults)} Wörter`;
+    // Nimmt die fertige Zahl, nicht die Liste: der Aufrufer hat getResultCount
+    // zwei Zeilen vorher schon gerufen.
+    createPreviewText(count) {
+        return `${count} Wörter`;
     }
 
     // findCooccurringLemmas() method removed - now handled by MultiLemmaSearchUI modal
