@@ -461,23 +461,26 @@ Source: `playground/js/data/tei-manager.js` (document search function)
 ```
 function searchDocumentLevel(lemmaIds, corpusData):
     results = []
+    includedTexts = corpusData.includedTexts or empty set
 
     for each text in corpusData.texts:
+        // Honours the main-site checkbox selection, unlike the analysis tools
+        // in section H (see the scope note there)
+        if text.id not in includedTexts: continue
+
         // Require ALL lemmata present (intersection, not union)
         containsAll = lemmaIds.every(id => text.lemmata[id] exists)
 
         if containsAll:
-            matchingWords = {}
-            for each lemmaId in lemmaIds:
-                matchingWords[lemmaId] = text.lemmata[lemmaId].length  // count per lemma
-
-            results.push({filename, title, author, matchingWords, totalWords})
+            results.push({filename, title, author, context: 'document', totalWords})
 
     return results
     // No dedup needed — each text can only appear once (checked via containsAll)
 ```
 
 **Note:** No dedup needed here because the intersection check (`every`) guarantees each text appears at most once.
+
+**Removed field (#327):** the pushed object used to carry a `matchingWords` map, the hit count per lemma, built in a loop over `lemmaIds` with two index lookups per matching text. Its last reader was `formatMatchingWordsOrCounts` in `tei-ui.js`, which had lost its own callers long before; when that method went, the field became write-only. What the result card shows is `totalWords`.
 
 ---
 
