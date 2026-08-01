@@ -158,14 +158,14 @@ npm run test:headed   # Visible browser
 npm run report        # View HTML report
 ```
 
-`test:changed` (`--only-changed=origin/main`) ist der Alltagsbefehl beim Arbeiten an einem Zweig: es läuft nur, was der Zweig angefasst hat. **Vor dem Push bleibt `npm test` Pflicht.** `--only-changed` verfolgt zwar die Node-Importe der Specs, aber unser Site-Code wird im Browser über `localhost:8080` geladen und nicht importiert: eine Änderung in `assets/js/` oder `playground/js/` zieht deshalb keine einzige Spec mit. Zweiter Fallstrick: der Befehl braucht einen `origin/main`-Ref und schlägt in einem Shallow Clone fehl.
+`test:changed` (`--only-changed=origin/main`) ist der Alltagsbefehl beim Arbeiten an einem Zweig: es läuft nur, was der Zweig angefasst hat. **Vor dem Push bleibt `npm test` Pflicht.** `--only-changed` verfolgt zwar die Node-Importe der Specs, aber unser Site-Code wird im Browser über `localhost:8080` geladen und nicht importiert: eine Änderung in `assets/js/` oder `playground/js/` zieht deshalb keine einzige Spec mit. Zwei Fallstricke am Ref: `origin/main` muss existieren (in einem Shallow Clone nicht der Fall), und er muss aktuell sein. Wer länger nicht gefetcht hat, vergleicht gegen einen alten Stand und bekommt zu viele oder zu wenige Specs, deshalb vorher `git fetch origin main`. Bleibt die Auswahl leer, endet der Befehl mit Exit 0 (gemessen, Playwright 1.55.1): `--pass-with-no-tests` braucht es nicht.
 
 **Test configuration:** `testing/playwright.config.js`
 - Always use `npm test` – never `npx playwright test` from the project root (config and `baseURL` live in `testing/`)
 - Automated web server startup (port 8080)
 - Headless Chrome with `--disable-web-security`
 - 60-second timeout per test
-- **6 Worker lokal, 2 in der CI** (#323): 20,4 min bei einem Worker gegen 5,0 bis 5,1 min bei sechs, über dieselben 276 Tests. Die Begründung für beide Zahlen steht als Kommentar in der Config; kurz: der Engpass ist der single-threaded `http-server` und der Chromium-Heap, nicht die Kernzahl, und Standard-CI-Runner haben zu wenige vCPUs für sechs
+- **6 Worker lokal, 2 in der CI** (#323), auf schwächeren Geräten mit `npm test -- --workers=2` überschreibbar: 20,4 min bei einem Worker gegen 5,0 bis 5,1 min bei sechs, über dieselben 276 Tests. Die Begründung für beide Zahlen steht als Kommentar in der Config; kurz: der Engpass ist der single-threaded `http-server` und der Chromium-Heap, nicht die Kernzahl, und Standard-CI-Runner haben zu wenige vCPUs für sechs
 - **`fullyParallel: false` ist Absicht.** `search-normalization.spec.js` teilt eine in `beforeAll` angelegte Seite über alle Tests der Datei, um den Index einmal statt vierzehnmal zu laden. Test-Parallelität würde die Seite nicht kaputtmachen (Playwright führt `beforeAll` pro Worker erneut aus), wohl aber den Spareffekt: der Index würde bis zu sechsmal geladen
 
 ### Test File Inventory
@@ -193,7 +193,6 @@ npm run report        # View HTML report
 | `corpus.spec.js` | Data integrity | Corpus index structure validation |
 | `visual-mobile-test.spec.js` | Visual | Responsive Screenshots + Touch-Target-Größe über mehrere Viewports (iPhone-SE 375px … Desktop 1440px) |
 
-**Playwright config** (`testing/playwright.config.js`): Headless Chromium, 1 worker (sequential), 60s timeout per test, auto-starts `http-server` on port 8080. HTML + JSON reports.
 
 ### CI: Data Integrity
 
