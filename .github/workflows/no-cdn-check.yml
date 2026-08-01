@@ -6,10 +6,24 @@
 # Lokales Gegenstück (inkl. Laufzeit-Check window.pako/Dexie):
 # testing/tests/vendor.spec.js
 #
-# Seit 28.07. laeuft hier ein zweites Gate: user-sichtbare Strings duerfen
+# Seit 28.07. läuft hier ein zweites Gate: user-sichtbare Strings dürfen
 # keine Em-Dashes tragen (#140). KZW meldet sie wiederholt aus dem Betrieb,
 # zuletzt im Hapax-Werkzeug. Kommentare bleiben ausgenommen. Der Workflow-
 # Name bleibt no-cdn-check, damit vorhandene Check-Referenzen halten.
+#
+# Seit 01.08. ein drittes: jede Spec in testing/tests/ steht in der Inventar-
+# Tabelle in docs/DEVELOPMENT.md (#329, dort fehlten zehn von dreißig). Auch
+# das ist ein reiner stdlib-Check ohne Rebuild und gehört deshalb hierher.
+# data-integrity.yml wäre der falsche Ort, aber nicht wegen seiner Trigger
+# (es horcht ohnehin auf scripts/audit/**, siehe unten), sondern wegen seiner
+# Kosten: dort hinge das Gate hinter Index-Rebuild und RelaxNG über 667
+# Dateien, und es liefe bei jedem tei/-Commit mit, während eine Änderung an
+# testing/tests/ es gar nicht auslöste.
+#
+# Nebenwirkung, bewusst in Kauf genommen: weil data-integrity.yml auf
+# 'scripts/audit/**' horcht, startet eine Änderung an check-test-inventory.py
+# selbst auch dort einen Lauf, ohne dass das Skript darin ausgeführt wird.
+# check-no-cdn.py und check-no-em-dash.py haben dieselbe Eigenschaft seit je.
 
 name: no-cdn-check
 
@@ -23,6 +37,9 @@ on:
       - 'assets/css/**'
       - 'scripts/audit/check-no-cdn.py'
       - 'scripts/audit/check-no-em-dash.py'
+      - 'testing/tests/**'
+      - 'docs/DEVELOPMENT.md'
+      - 'scripts/audit/check-test-inventory.py'
       - '.github/workflows/no-cdn-check.yml'
   push:
     branches:
@@ -35,6 +52,9 @@ on:
       - 'assets/css/**'
       - 'scripts/audit/check-no-cdn.py'
       - 'scripts/audit/check-no-em-dash.py'
+      - 'testing/tests/**'
+      - 'docs/DEVELOPMENT.md'
+      - 'scripts/audit/check-test-inventory.py'
       - '.github/workflows/no-cdn-check.yml'
   workflow_dispatch:
 
@@ -58,3 +78,9 @@ jobs:
 
       - name: Keine Em-Dashes in user-sichtbarem Text (#140)
         run: python3 scripts/audit/check-no-em-dash.py
+
+      - name: Spec-Inventar-Gate Selbsttest (#329)
+        run: python3 scripts/audit/check-test-inventory.py --selftest
+
+      - name: Jede Spec steht im Test File Inventory (#329)
+        run: python3 scripts/audit/check-test-inventory.py

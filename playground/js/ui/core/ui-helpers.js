@@ -512,7 +512,7 @@ export function showWelcomeMessage() {
 
 // ==================== UI STATE COORDINATION ====================
 
-export function updateAllUI(authorityData, teiData) {
+export function updateAllUI(authorityData) {
   const totalAuthorityFiles = 7; // persons, works, lexicon, concepts, genres, names, variants
   const loadedLabel = `${authorityData.files.length}/${totalAuthorityFiles} Authority Files geladen`;
   const indicator = authorityData.files.length === totalAuthorityFiles ? '✅' : '📥';
@@ -522,7 +522,11 @@ export function updateAllUI(authorityData, teiData) {
 
   enableAuthorityQueries();
 
-  if (authorityData.files.length > 0 && teiData.files.length === 0) {
+  // Zweiter Teil der Bedingung war bis #325 `teiData.files.length === 0` und
+  // damit dauerhaft wahr: das Feld hatte seit dem Upload-Rückbau (#314) keinen
+  // Schreiber mehr. Die Bedingung prüft also nur noch, was sie ohnehin
+  // geprüft hat.
+  if (authorityData.files.length > 0) {
     showWelcomeMessage();
   }
 }

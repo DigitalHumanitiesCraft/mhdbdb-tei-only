@@ -4,17 +4,23 @@
  *
  * Der früher hier liegende Upload-Pfad (Datei einlesen, XML-DOM parsen,
  * darin suchen) ist mit #314 entfernt: die Upload-UI war beim Redesign
- * weggefallen, damit war der ganze Zweig unerreichbar. Die Suche laeuft
+ * weggefallen, damit war der ganze Zweig unerreichbar. Die Suche läuft
  * ausschließlich über data/corpus-index.json.gz, und Positionen sind
  * damit durchgängig die aus CONTRACTS Paragraph B.
  */
 
-import { lemmaRefMatchesId } from '../../../assets/js/lib/lemma-match.js';
+// Kein Import mehr aus lemma-match.js: der einzige Nutzer von
+// lemmaRefMatchesId war hier der XML-Pfad, den #314 entfernt hat, und der
+// Import blieb danach ungenutzt stehen. Die Nähesuche unten braucht ihn nicht:
+// sie liest words[] aus dem Korpus-Index, und dort steht genau eine Lemma-ID
+// je Position (build-corpus-index.py, #170), also gibt es keine
+// whitespace-getrennte Liste zu tokenisieren. Siehe CONTRACTS §B.1.
 
 export class TEIFilesManager {
-    constructor(teiData) {
-        this.teiData = teiData;
-    }
+    // Kein Konstruktor mehr: bis #325 nahm er ein teiData-Objekt entgegen und
+    // legte es auf this.teiData, gelesen hat es hier nie jemand. Der Zustand
+    // dieser Klasse ist corpusIndex, und den setzt playground-main.js von
+    // außen, nachdem der Index geladen ist.
 
     // ==================== INDEX-BASED SEARCH (FAST) ====================
 
@@ -188,20 +194,17 @@ export class TEIFilesManager {
             });
 
             if (containsAll) {
-                // Count total matches for each lemma
-                const matchingWords = {};
-                lemmaIds.forEach(lemmaId => {
-                    const cleanId = lemmaId.toString().replace('lemma_', '');
-                    const positions = text.lemmata[`lemma_${cleanId}`] || text.lemmata[cleanId] || [];
-                    matchingWords[lemmaId] = positions.length;
-                });
-
+                // Hier stand bis #327 ein matchingWords-Objekt (Trefferzahl je
+                // Lemma, eine Schleife über lemmaIds mit zwei Lookups pro
+                // Treffertext). Sein letzter Leser war formatMatchingWordsOrCounts
+                // in tei-ui.js, und der hatte selbst keinen Aufrufer mehr; mit
+                // dessen Löschung wurde das Feld rein schreibend. Angezeigt wird
+                // totalWords.
                 results.push({
                     filename: text.filename,
                     title: text.title,
                     author: text.author || 'Unbekannt',
                     context: 'document',
-                    matchingWords: matchingWords,
                     totalWords: text.wordCount
                 });
             }

@@ -231,6 +231,45 @@ test.describe('#169 Befund #51: Fast-Path-Wörterbuch ist gestrichen', () => {
     });
 });
 
+// Dieselbe Bauart wie der Test darüber, aus demselben Grund: eine Löschung
+// festhalten statt eine Existenz. Ein `typeof x === 'function'`-Test auf eine
+// Methode ohne Aufrufer hat in corpus.spec.js zuletzt toten Code am Leben
+// gehalten; die Umkehrung kostet nichts und schlägt an, falls jemand eine der
+// sieben Methoden versehentlich wieder einführt.
+test.describe('#327: der unerreichbare proximity-Pfad im TEIExplorer ist weg', () => {
+    test('sieben Methoden ohne Aufrufer existieren nicht mehr', async ({ page }) => {
+        await page.goto('http://localhost:8080/playground/');
+        await page.waitForFunction(() => window.playground?.ui?.multiLemmaSearch !== undefined,
+            { timeout: 60000 });
+
+        const typen = await page.evaluate(() => {
+            const explorer = window.playground.ui.multiLemmaSearch.teiExplorer;
+            const namen = ['createDetailItems', 'formatMatchingPositions', 'formatParagraphLemmas',
+                           'formatMatchingWordsOrCounts', 'formatMatchingWords',
+                           'highlightLemmasInText', 'highlightCooccurrenceContext'];
+            return Object.fromEntries(namen.map(n => [n, typeof explorer[n]]));
+        });
+
+        for (const [name, typ] of Object.entries(typen)) {
+            expect(typ, `${name} sollte entfernt sein`).toBe('undefined');
+        }
+    });
+
+    test('displayMultiLemmaResults nimmt keinen contextType mehr entgegen', async ({ page }) => {
+        await page.goto('http://localhost:8080/playground/');
+        await page.waitForFunction(() => window.playground?.ui?.multiLemmaSearch !== undefined,
+            { timeout: 60000 });
+
+        // Function.length zählt die deklarierten Parameter. Zwei statt drei ist
+        // die Zusicherung, dass der Modus nicht wieder zur Verzweigungsvariable
+        // wird: entschieden wird er in tei-manager.js, eine Schicht tiefer.
+        const stelligkeit = await page.evaluate(() =>
+            window.playground.ui.multiLemmaSearch.teiExplorer.displayMultiLemmaResults.length);
+
+        expect(stelligkeit).toBe(2);
+    });
+});
+
 test.describe('Aufräumrunde: doppelte Lemma-IDs degenerieren die Kookkurrenz-Suche', () => {
     test.beforeEach(async ({ page }) => {
         await page.goto('http://localhost:8080/playground/');

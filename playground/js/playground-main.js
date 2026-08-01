@@ -43,22 +43,21 @@ class MHDBDBPlayground {
             variants: []
         };
         
-        this.teiData = {
-            files: [],
-            parsedXML: [],
-            words: [],
-            lines: [],
-            annotations: []
-        };
+        // Hier stand bis #325 ein this.teiData mit fünf Feldern (files,
+        // parsedXML, words, lines, annotations). Befüllt hat es der
+        // Datei-Upload, den #314 zurückgebaut hat; danach hatte kein Feld mehr
+        // einen Schreiber. Der Container wurde trotzdem noch durch drei
+        // Konstruktoren gereicht und hat damit einen Datenfluss suggeriert,
+        // den es nicht mehr gab.
 
         // Data managers (UNCHANGED)
         this.authorityManager = new AuthorityFilesManager(this.authorityData);
-        this.teiManager = new TEIFilesManager(this.teiData);
+        this.teiManager = new TEIFilesManager();
 
         // NEW: Modular UI instead of single UIHelpers
         this.ui = {
             authorityExplorers: new AuthorityUI(this.authorityData),
-            teiExplorer: new TEIExplorer(this.teiData, this.authorityData)
+            teiExplorer: new TEIExplorer()
         };
 
         // Initialize after teiExplorer is created
@@ -500,7 +499,7 @@ class MHDBDBPlayground {
 
     updateUI() {
         // NEW: Use centralized UI update function
-        updateAllUI(this.authorityData, this.teiData);
+        updateAllUI(this.authorityData);
     }
 }
 

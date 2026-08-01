@@ -6,10 +6,10 @@
 import { displayResults, displaySummaryResults } from '../core/ui-helpers.js';
 
 export class TEIExplorer {
-    constructor(teiData, authorityData) {
-        this.teiData = teiData;
-        this.authorityData = authorityData;
-    }
+    // Kein Konstruktor: bis #325/#327 nahm er teiData und authorityData
+    // entgegen und legte beide auf this.*, gelesen hat sie hier nie jemand.
+    // Den Authority-Manager holt sich resolveLemmaIds unten über
+    // window.playground, nicht über ein Konstruktorargument.
 
     resolveLemmaIds(searchTerms) {
         const lemmaIds = [];
@@ -63,25 +63,48 @@ export class TEIExplorer {
 
     // Context selection is now handled by the MultiLemmaSearchUI modal
 
-    displayMultiLemmaResults(results, searchTerms, contextType) {
+    // Zeigt ausschließlich Ergebnisse der Dokumentsuche an. Bis #327 nahm die
+    // Methode einen contextType entgegen und verzweigte darauf; erreichbar war
+    // davon nur 'document'. Der einzige Aufrufer ist der else-Zweig in
+    // multi-lemma-search.js, der greift, nachdem 'proximity' und 'verse'
+    // abgefangen sind, und alles außerhalb dieser drei Modi hat zwei Zeilen
+    // vorher schon `searchMultipleLemmasUsingIndex` abgewiesen (tei-manager.js,
+    // „Unbekannter Suchmodus"). Ein eigener Guard hier wäre deshalb wieder
+    // Code, der nie läuft: die Prüfung sitzt eine Schicht tiefer, wo
+    // contextType echte Dispatch-Variable mit drei lebenden Zweigen ist.
+    //
+    // Was mit den Zweigen verschwunden ist: getResultCount, createPreviewText
+    // und createDetailItems hatten je einen 'proximity'-Zweig plus einen
+    // Fallthrough dahinter, der im Fehlerfall eine plausibel aussehende Zahl
+    // geliefert hätte statt aufzufallen. createDetailItems schrieb dabei
+    // undefined-Einträge in die Detailliste, weil der map-Callback ohne return
+    // durchfiel.
+    displayMultiLemmaResults(results, searchTerms) {
         if (results.length === 0) {
             displayResults(
                 `Multi-Lemma-Suche: ${searchTerms.join(' + ')} (0 Treffer)`,
-                [{ 
-                    meta: `Keine Treffer in ${contextType}`, 
-                    snippet: 'Versuchen Sie andere Suchbegriffe oder einen anderen Kontext' 
+                [{
+                    meta: 'Keine Treffer im gesamten Dokument',
+                    snippet: 'Versuchen Sie andere Suchbegriffe oder einen anderen Kontext'
                 }]
             );
             return;
         }
 
         // Create summary data for the new display format
-        const summaryData = this.createMultiLemmaSummary(results, searchTerms, contextType);
+        const summaryData = this.createMultiLemmaSummary(results);
 
-        // Pass raw results and lemma IDs for lazy TEI loading
-        const lemmaIds = results.length > 0 && results[0].matchingPositions
-            ? [...new Set(results.flatMap(r => r.matchingPositions || []).map(p => p.lemmaRef.replace('lemma_', '')))]
-            : [];
+        // Die Dokumentsuche liefert keine matchingPositions (tei-manager.js
+        // pusht filename/title/author/context/totalWords), hier stand bis #327
+        // ein Ternär, dessen erster Zweig nie griff.
+        //
+        // Die leere Liste wird trotzdem übergeben, aber nicht aus Not: das
+        // Argument hat in displaySummaryResults den Default null, und beide
+        // Lesestellen vertragen null (die eine normalisiert mit `|| []`, die
+        // andere kehrt per Guard früh zurück). Sie steht hier, damit der Aufruf
+        // dieselbe Gestalt hat wie der der Nähe-Suche darunter, die echte IDs
+        // übergibt.
+        const lemmaIds = [];
 
         displaySummaryResults(
             `Multi-Lemma-Suche: ${searchTerms.join(' + ')}`,
@@ -91,10 +114,10 @@ export class TEIExplorer {
         );
     }
 
-    createMultiLemmaSummary(results, searchTerms, contextType) {
+    createMultiLemmaSummary(results) {
         // Group results by filename for better organization
         const fileGroups = {};
-        
+
         results.forEach(result => {
             if (!fileGroups[result.filename]) {
                 fileGroups[result.filename] = [];
@@ -103,151 +126,26 @@ export class TEIExplorer {
         });
 
         return Object.entries(fileGroups).map(([filename, fileResults]) => {
-            const count = this.getResultCount(fileResults, contextType);
-            const preview = this.createPreviewText(fileResults, contextType);
-            const details = this.createDetailItems(fileResults, contextType);
+            const count = this.getResultCount(fileResults);
 
             return {
                 title: `${filename}`,
                 count: count,
-                preview: preview,
-                details: details
+                preview: this.createPreviewText(fileResults),
+                // Die Dokumentsuche hat keine Detailzeilen. createSummaryCard in
+                // ui-helpers.js rendert bei leerer Liste die statische Karte
+                // ohne Aufklapp-Symbol, genau das ist hier gewollt.
+                details: []
             };
         });
     }
 
-    getResultCount(fileResults, contextType) {
-        // v4.0.0: Paragraph mode removed
-        if (contextType === 'document') {
-            return fileResults.reduce((sum, result) => sum + (result.totalWords || 1), 0);
-        } else if (contextType === 'proximity') {
-            return fileResults.reduce((sum, result) =>
-                sum + (result.cooccurrences ? result.cooccurrences.length : 0), 0);
-        }
-        return fileResults.length;
+    getResultCount(fileResults) {
+        return fileResults.reduce((sum, result) => sum + (result.totalWords || 1), 0);
     }
 
-    createPreviewText(fileResults, contextType) {
-        const count = this.getResultCount(fileResults, contextType);
-
-        // v4.0.0: Paragraph mode removed
-        if (contextType === 'document') {
-            // Document search: show just word count as metadata
-            return `${count} Wörter`;
-        } else if (contextType === 'proximity') {
-            return `${count} Nähe-Beziehungen gefunden`;
-        }
-        return `${count} Treffer`;
-    }
-
-    createDetailItems(fileResults, contextType) {
-        // v4.0.0: Paragraph mode removed - only document and proximity modes remain
-        if (contextType === 'document') {
-            return []; // Document search: no detail items - just show file list
-        }
-
-        return fileResults.map((result, index) => {
-            if (contextType === 'proximity') {
-                // v3.0.0: proximity results are flat, not nested in cooccurrences
-                if (result.contextText) {
-                    // Has actual text (enriched)
-                    return {
-                        meta: `Abstand: ${result.distance} Wörter`,
-                        snippet: `"${result.contextText}"`
-                    };
-                } else {
-                    // Fallback: show lemma IDs
-                    const preview = result.contextLemmas ? result.contextLemmas.slice(0, 20).join(' ') : '';
-                    return {
-                        meta: `Abstand: ${result.distance} Wörter`,
-                        snippet: `<code style="font-size: 0.85em;">${preview}...</code>`
-                    };
-                }
-            }
-        }).flat().slice(0, 50); // Limit to 50 detail items for performance
-    }
-
-    // v3.0.0 compact format helpers
-    formatMatchingPositions(matchingPositions) {
-        if (!matchingPositions || matchingPositions.length === 0) {
-            return 'Keine Positionen';
-        }
-        const lemmaRefs = matchingPositions.map(p => p.lemmaRef).filter(Boolean);
-        const uniqueLemmas = [...new Set(lemmaRefs)];
-        return `${uniqueLemmas.length} Lemmata (${matchingPositions.length} Vorkommen)`;
-    }
-
-    formatParagraphLemmas(paragraphLemmas) {
-        if (!paragraphLemmas || paragraphLemmas.length === 0) {
-            return 'Kein Text verfügbar';
-        }
-        // Show first 100 lemma IDs as placeholder
-        const preview = paragraphLemmas.slice(0, 100).join(' ');
-        const more = paragraphLemmas.length > 100 ? ` ... (+${paragraphLemmas.length - 100} weitere)` : '';
-        return `<code style="font-size: 0.85em; color: #475569;">${preview}${more}</code>`;
-    }
-
-    formatMatchingWordsOrCounts(matchingWords) {
-        // Handle both formats: array of words (paragraph) or counts (document)
-        const summaries = [];
-        for (const [lemmaId, data] of Object.entries(matchingWords)) {
-            if (typeof data === 'number') {
-                // Document search: data is a count
-                summaries.push(`lemma_${lemmaId} (${data}x)`);
-            } else if (Array.isArray(data)) {
-                // Paragraph search: data is array of word objects
-                const uniqueTexts = [...new Set(data.map(w => w.text))];
-                summaries.push(`${uniqueTexts.join(', ')} (${data.length}x)`);
-            }
-        }
-        return summaries.join(' • ');
-    }
-
-    formatMatchingWords(matchingWords) {
-        const summaries = [];
-        for (const [lemmaId, words] of Object.entries(matchingWords)) {
-            const uniqueTexts = [...new Set(words.map(w => w.text))];
-            summaries.push(`${uniqueTexts.join(', ')} (${words.length}x)`);
-        }
-        return summaries.join(' • ');
-    }
-
-    highlightLemmasInText(text, matchingWords) {
-        let highlightedText = text;
-
-        for (const [lemmaId, words] of Object.entries(matchingWords)) {
-            words.forEach(word => {
-                // Escape special regex characters in word.text
-                const escapedWord = word.text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-                // Use negative lookahead to avoid double-wrapping already highlighted text
-                const regex = new RegExp(`(?<!<[^>]*)\\b${escapedWord}\\b(?![^<]*<\\/span>)`, 'gi');
-                highlightedText = highlightedText.replace(regex,
-                    `<span class="highlight multi-lemma-${lemmaId}">${word.text}</span>`
-                );
-            });
-        }
-
-        return highlightedText;
-    }
-
-    highlightCooccurrenceContext(context, lemma1, lemma2) {
-        let highlightedContext = context;
-
-        // Highlight lemma1
-        const escapedText1 = lemma1.text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        const regex1 = new RegExp(`\\b${escapedText1}\\b`, 'gi');
-        highlightedContext = highlightedContext.replace(regex1,
-            `<span class="highlight multi-lemma-${lemma1.id}">${lemma1.text}</span>`
-        );
-
-        // Highlight lemma2 (avoid double-wrapping)
-        const escapedText2 = lemma2.text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        const regex2 = new RegExp(`(?<!<[^>]*)\\b${escapedText2}\\b(?![^<]*<\\/span>)`, 'gi');
-        highlightedContext = highlightedContext.replace(regex2,
-            `<span class="highlight multi-lemma-${lemma2.id}">${lemma2.text}</span>`
-        );
-
-        return highlightedContext;
+    createPreviewText(fileResults) {
+        return `${this.getResultCount(fileResults)} Wörter`;
     }
 
     // findCooccurringLemmas() method removed - now handled by MultiLemmaSearchUI modal
@@ -301,8 +199,9 @@ export class TEIExplorer {
                         snippet: `"${match.contextText}"`
                     };
                 } else {
-                    // No text yet - show lemma IDs preview
-                    const preview = match.contextLemmas ? match.contextLemmas.slice(0, 20).join(' ') : '';
+                    // Noch kein Text geladen. Hier stand bis #327 eine
+                    // Lemma-ID-Vorschau, die berechnet und dann verworfen wurde:
+                    // das snippet daneben ist ein fester Hinweistext.
                     return {
                         meta: meta,
                         snippet: `<em style="color: #475569;">Klicken Sie auf "KLICKEN ZUM ERWEITERN" um den vollständigen Text anzuzeigen</em>`
