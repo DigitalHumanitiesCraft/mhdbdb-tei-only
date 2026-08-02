@@ -502,19 +502,22 @@ def find_stale_numbers(doc_path: str, current: int, key: str) -> list:
         if re.search(r'(?:Audit-Zeitpunkt|zum Audit|Audit:|vor WZB|initial|historisch)', hist_ctx):
             continue
         # Derselbe Fall, aber mit dem Vermerk HINTER der Zahl (#297): in
-        # docs/CONTRACTS.md steht "Die 234.244 sind der Stand von v1.6.2,
-        # nicht der heutige" -- der Satz erklaert die Zahl also genau so,
-        # wie das Audit es verlangt, und wurde trotzdem gemeldet, weil der
-        # Marker nachgestellt ist. Bewusst eng: nur der explizite
+        # docs/CONTRACTS.md steht "234,244 is the state of v1.6.2, not
+        # today's" -- der Satz erklaert die Zahl also genau so, wie das Audit
+        # es verlangt, und wurde trotzdem gemeldet, weil der Marker
+        # nachgestellt ist. Bewusst eng: nur der explizite
         # Stand-von-Version-Vermerk und die woertliche Abgrenzung, nicht
-        # irgendein Vorkommen von "Stand".
+        # irgendein Vorkommen von "Stand"/"state".
+        # Zweisprachig seit #316: die deutsche Fassung des Satzes bleibt
+        # stehen, weil andere Docs noch nicht uebersetzt sind.
         line_end = content.find('\n', m.end())
         line_end = len(content) if line_end == -1 else line_end
         # Auf 120 Zeichen gekappt wie hist_ctx: ohne die Kappung schirmt ein
         # nachgestellter Vermerk auf einer langen Zeile jede Zahl links von
         # sich ab, auch die, auf die er sich nicht bezieht.
         fwd_ctx = content[m.end():min(line_end, m.end() + 120)]
-        if re.search(r'(?:sind|ist)\s+der\s+Stand\s+von\s+v\d|nicht\s+der\s+heutige',
+        if re.search(r"(?:sind|ist)\s+der\s+Stand\s+von\s+v\d|nicht\s+der\s+heutige"
+                     r"|(?:is|are)\s+the\s+state\s+of\s+v\d|not\s+today'?s",
                      fwd_ctx):
             continue
         # Keyword must appear right after the number (bounded markup allowed).
