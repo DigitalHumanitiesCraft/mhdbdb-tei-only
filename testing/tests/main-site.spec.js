@@ -215,7 +215,7 @@ test.describe('Issue #204: Filter vs. Auswahl', () => {
 
     test.beforeEach(async ({ page }) => {
         await page.goto('http://localhost:8080/korpus.html');
-        await page.waitForFunction(() => window._mhdbdbApp?.searchEngine !== null, null, { timeout: 30000 });
+        await page.waitForFunction(() => !!window._mhdbdbApp?.searchEngine, null, { timeout: 30000 });
     });
 
     test('Mismatch-Hinweis erscheint bei aktivem Filter + breiter Auswahl, One-Click korrigiert', async ({ page }) => {

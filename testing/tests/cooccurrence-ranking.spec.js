@@ -62,6 +62,10 @@ test.describe('Issue #164: Multi-Lemma-Suche rôt + munt', () => {
   });
 
   test('Nähe-Suche rôt+munt liefert Treffer (Route-E2E)', async ({ page }) => {
+    // Die Assertion unten räumt sich 120 s ein, das Budget aus der Config gibt
+    // aber nur 60 her: der Wert war unerreichbar. Nicht gesenkt, sondern das
+    // Budget nachgezogen, weil die Nähe-Suche den ganzen Korpus-Index lädt.
+    test.setTimeout(180000);
     await page.goto('http://localhost:8080/playground/#multi-lemma&lemmata=r%C3%B4t,munt&mode=proximity&dist=10');
 
     // 366 Kookkurrenzen in 98 Texten erwartet — auf jeden Fall nicht "(0 Treffer)"

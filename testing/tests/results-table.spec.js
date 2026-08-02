@@ -5,7 +5,12 @@ import fs from 'fs';
 test.describe('Issue #114: Tabellenansicht für Korpussuche', () => {
     test.beforeEach(async ({ page }) => {
         await page.goto('/korpus.html');
-        await page.waitForFunction(() => window._mhdbdbApp?.searchEngine !== null, null, { timeout: 30000 });
+        // 60000, nicht 30000: bis der arg-Platzhalter fehlte, war dieser Timeout
+        // wirkungslos und real band das 60-s-Testbudget. Der Hook laedt Authority-
+        // UND Korpus-Index und steht vor Tests, die selbst test.setTimeout(120000)
+        // setzen; das greift aber erst im Testkoerper und kann den Hook nicht mehr
+        // verlaengern. Die Signaturkorrektur soll hier nichts verschaerfen.
+        await page.waitForFunction(() => !!window._mhdbdbApp?.searchEngine, null, { timeout: 60000 });
         // Default-View zurücksetzen, damit Tests reproduzierbar starten
         await page.evaluate(() => localStorage.removeItem('mhdbdb-results-view'));
     });
@@ -41,7 +46,7 @@ test.describe('Issue #114: Tabellenansicht für Korpussuche', () => {
 
         // Reload und erneut suchen
         await page.reload();
-        await page.waitForFunction(() => window._mhdbdbApp?.searchEngine !== null);
+        await page.waitForFunction(() => !!window._mhdbdbApp?.searchEngine);
         await page.fill('#searchInput', 'minne');
         await page.click('#searchButton');
         await page.waitForSelector('#resultsList > *');
@@ -327,7 +332,12 @@ test.describe('Issue #114: Tabellenansicht für Korpussuche', () => {
 test.describe('Issue #203: KWIC-Belege-Export', () => {
     test.beforeEach(async ({ page }) => {
         await page.goto('/korpus.html');
-        await page.waitForFunction(() => window._mhdbdbApp?.searchEngine !== null, null, { timeout: 30000 });
+        // 60000, nicht 30000: bis der arg-Platzhalter fehlte, war dieser Timeout
+        // wirkungslos und real band das 60-s-Testbudget. Der Hook laedt Authority-
+        // UND Korpus-Index und steht vor Tests, die selbst test.setTimeout(120000)
+        // setzen; das greift aber erst im Testkoerper und kann den Hook nicht mehr
+        // verlaengern. Die Signaturkorrektur soll hier nichts verschaerfen.
+        await page.waitForFunction(() => !!window._mhdbdbApp?.searchEngine, null, { timeout: 60000 });
         await page.evaluate(() => localStorage.removeItem('mhdbdb-results-view'));
     });
 
