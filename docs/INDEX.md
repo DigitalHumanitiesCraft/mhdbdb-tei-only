@@ -101,7 +101,7 @@ This knowledge base follows a hub-and-spoke architecture with INDEX.md as the ce
 | **[ROADMAP.md](ROADMAP.md)** | Current priorities, strategic direction, what's blocked | Everyone |
 | **[JOURNAL.md](JOURNAL.md)** | Chronological development log, decisions, dead ends | Developers |
 
-Die 15 Dateien oben (13 Stable + 2 Process) sind die vollständige Menge der Promptotyping-Dokumente. (`POS-TAGSET.md` 2026-06-17 ergänzt: das `@pos`-Tagset war zuvor nur im Agent-Skill `.gemini/skills/pos-disambiguator/` sowie verstreut in TEI-MODEL.md/DATA-MODEL.md dokumentiert; als zitierfähige Single Source of Truth herausgezogen, TEI-MODEL.md §5 verweist nun darauf.) `docs/features/` enthält temporäre, ticket-gebundene Planungsartefakte und ist **nicht Teil** der Promptotyping-Dokumente – siehe `CLAUDE.md` → „Temporal Artifacts". `docs/playbooks/` enthält wiederverwendbare Session-Verfahren (autonome Issue-/Merge-/Carearbeit-Sessions): dauerhaft, aber ebenfalls **nicht Teil** der Promptotyping-Dokumente (2026-07-08 aus `docs/features/` herausgezogen, da nicht ticket-gebunden). Die Nutzer-facing Hilfe lebt als `hilfe-*.html` im Frontend, nicht in `docs/`. Zwei weitere Ablagen unter `docs/` gehören ebenfalls nicht dazu: `journal-archive.md` (Volltexte der verdichteten JOURNAL-Einträge, nur von dort verlinkt) und `docs/data/` (zwei Linecode-CSVs als Archivstand des Legacy-Exports, siehe [LINECODE.md](LINECODE.md)).
+Die 15 Dateien oben (13 Stable + 2 Process) sind die vollständige Menge der Promptotyping-Dokumente. (`POS-TAGSET.md` 2026-06-17 ergänzt: das `@pos`-Tagset war zuvor nur im Agent-Skill `.gemini/skills/pos-disambiguator/` sowie verstreut in TEI-MODEL.md/DATA-MODEL.md dokumentiert; als zitierfähige Single Source of Truth herausgezogen, TEI-MODEL.md §5 verweist nun darauf.) `docs/features/` enthält temporäre, ticket-gebundene Planungsartefakte und ist **nicht Teil** der Promptotyping-Dokumente – siehe `CLAUDE.md` → „Temporal Artifacts". `docs/playbooks/` enthält wiederverwendbare Session-Verfahren (autonome Issue-/Merge-/Carearbeit-Sessions): dauerhaft, aber ebenfalls **nicht Teil** der Promptotyping-Dokumente (2026-07-08 aus `docs/features/` herausgezogen, da nicht ticket-gebunden). Die Nutzer-facing Hilfe lebt als `hilfe-*.html` im Frontend, nicht in `docs/`. Zwei weitere Ablagen unter `docs/` gehören ebenfalls nicht dazu: `journal-archive.md` (Volltexte der verdichteten JOURNAL-Einträge) und `docs/data/` (zwei Linecode-CSVs als Archivstand des Legacy-Exports, siehe [LINECODE.md](LINECODE.md)).
 
 ### Publications (project outputs, not development docs)
 
@@ -122,15 +122,12 @@ Post-MVP und **aktiver Betrieb**. Drei Aspekte, die jede Session kennen sollte:
 
 Aktuelle Index-Versionen siehe [TEI-MODEL.md §11](TEI-MODEL.md#11-versionierung) (Stand 2026-07-31: Corpus Index v4.2.1, Authority Index v1.8.0).
 
-### Recent Milestones
+### Was zuletzt fertig wurde
 
-Diese Liste stand hier bis 2026-08-02 als 41-zeiliger Changelog und war seit dem
-2026-07-10 nicht mehr gepflegt. Abgeschlossene Arbeit lag damit an vier Stellen
-gleichzeitig, in vier Fassungen. Sie steht jetzt an zweien:
-
-- **[ROADMAP.md](ROADMAP.md) → Recently Completed** – was zuletzt fertig wurde, mit Einordnung
-- **[JOURNAL.md](JOURNAL.md)** – chronologisch, mit Begründungen und Sackgassen; die Volltexte der
-  verdichteten Einträge liegen in [journal-archive.md](journal-archive.md)
+- **[JOURNAL.md](JOURNAL.md)** – chronologisch, mit Begründungen und Sackgassen; die Volltexte
+  der verdichteten Einträge liegen in [journal-archive.md](journal-archive.md)
+- **[ROADMAP.md](ROADMAP.md) → Recently Completed** – nach Strang sortiert, mit Einordnung in
+  die laufenden Prioritäten
 
 ### Known Limitations
 - Desktop-only interface (not mobile-responsive)
