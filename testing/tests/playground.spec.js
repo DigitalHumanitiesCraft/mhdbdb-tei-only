@@ -254,11 +254,20 @@ test.describe('Playground Integration Tests', () => {
       '[CorpusLoader] Failed to read cache for',
       '[CorpusLoader] Failed to cache',
     ];
+    const MATOMO_HOST = 'https://webstatistics.sbg.ac.at/';
 
     const konsolenfehler = [];
     const seitenfehler = [];
     page.on('console', msg => {
       if (msg.type() !== 'error') return;
+      // Der Matomo-Tracker wird per Script-Injection von einem fremden Host
+      // geholt (includes/_matomo.html). Ist der nicht erreichbar, meldet
+      // Chromium einen Ressourcenfehler vom Typ error, und der Test wäre
+      // offline rot, ohne dass am Playground etwas kaputt ist. Ausgenommen
+      // wird deshalb die HERKUNFTS-URL, nicht der Meldungstext: ein Filter
+      // auf „Failed to load resource" würde auch ein fehlendes lokales
+      // Modul verschlucken, also genau den Fall, für den der Test da ist.
+      if (msg.location()?.url?.startsWith(MATOMO_HOST)) return;
       const text = msg.text();
       // startsWith, nicht includes: die Ausnahme gilt für Meldungen, die
       // aus dem Loader kommen, nicht für fremde, die seinen Text zitieren.
@@ -267,7 +276,7 @@ test.describe('Playground Integration Tests', () => {
     });
     // pageerror ist nicht dasselbe wie console.error: eine unbehandelte
     // Ausnahme aus einem Modul kommt hier an, nicht zwingend dort.
-    page.on('pageerror', err => seitenfehler.push(String(err)));
+    page.on('pageerror', err => seitenfehler.push(err.stack || String(err)));
 
     await page.goto('/playground/index.html');
 
