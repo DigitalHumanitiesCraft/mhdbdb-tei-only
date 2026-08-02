@@ -814,3 +814,32 @@ Beim Nachmessen der Verszahl kamen 1.358.973 `<l>` heraus, in der Doku standen 1
 - **#316:** die Sprachmischung in den Docs und der Feature-Katalog in INDEX.md, der FEATURES.md nacherzählt. Dazu neu: das Umleitungsziel ROADMAP → Recently Completed ist selbst nicht frisch (jüngster Eintrag 08.07.). Das Freshness-Problem ist verschoben, nicht gelöst.
 
 **Phase:** Betrieb. PRs #330, #332, #333, #334, #335, #336.
+
+---
+
+## 2026-08-02 (Abend) – Reviewer und Berater sind zwei Rollen, und der Fehler saß in den Behauptungen
+
+**Summary:** Der `fable-advisor` lief seit dem 28.07. als PR-Reviewer. Das war eine Rollenverwechslung mit messbaren Kosten, und sie ist jetzt aufgelöst: ein eigener `fable-reviewer` (Fable 5, mit Bash) prüft fertige Diffs vor dem ersten Push, der Berater bleibt für Entwurfsfragen. Dazu bekam der CI-Bot per `--append-system-prompt` ein Gedächtnis für seine Vorrunden, und `scripts/audit/review-rounds.py` macht die Wirkung messbar. Erster PR danach: #339 mit zwei Läufen.
+
+**Die Unterscheidung, um die es geht.** Der Berater beantwortet „sollen wir X so lösen?", der Reviewer „ist dieses X korrekt?". Daraus folgen gegenteilige Pflichten. Beim Berater ist Spekulation erlaubt und nötig, weil bei einer offenen Entscheidung noch nichts zu messen ist, und Alternativen zu suchen ist sein Auftrag: sein Prompt sagt wörtlich „Suche aktiv nach dem stärksten Einwand" und „Prüfe die Alternative mit". Auf einen fertigen Diff angesetzt produziert genau diese Kalibrierung Runden ohne Verhaltensänderung. Der neue Reviewer verlangt für jeden Befund einen Anker in Datei und Zeile, trennt Verhalten (blockiert) von falscher Behauptung (nur gemessen) und Kosmetik (entfällt ab Runde 2), und hat als einziger von beiden ein Abbruchkriterium: Runde 2 nur Vorrunden-Befunde plus seither geänderte Zeilen, Runde 3 nur noch Verhalten, ab Runde 4 Schluss. Dazu der Satz, der am meisten spart: eine leere Befundliste ist ein gültiges und erwünschtes Ergebnis.
+
+**Zwei Modelle, nicht drei.** Der ursprüngliche Vorschlag war je ein Reviewer auf Opus und auf Fable. Dagegen sprach die Bestandsaufnahme: der CI-Bot ist bereits Opus (`claude-code-review.yml`, `--model opus`), und die Hauptsession ebenfalls. Ein lokaler Opus-Reviewer wäre der dritte Kanal desselben Modells auf denselben Diff gewesen. Gebaut wurde deshalb genau einer, auf Fable.
+
+**Der Zeitpunkt ist wichtiger als die Gründlichkeit.** Ohne `use_sticky_comment` löst jeder Push einen Review-Lauf aus, die Rundenzahl ist also die Push-Zahl plus eins. Was der lokale Reviewer findet, kostet null Runden; was der Bot findet, kostet per Konstruktion eine und schafft eine neue Gelegenheit für den nächsten Befund. Deshalb läuft der Reviewer vor dem ersten Push, nicht vor dem Merge. Playbook-Regel 6 und Kickoff-Punkt 4 sind entsprechend umgeschrieben.
+
+**Zwei eigene Zahlen waren falsch, und beide standen in Absätzen über falsche Zahlen.** „11 Review-Runden" über #330/#332/#333 in CLAUDE.md und JOURNAL: gemessen sind es 18 Läufe (5 + 7 + 6, alle mit Ergebnis). Und in der ROADMAP stand, der 45%-passRate-Floor aus #172 habe in `testing/test.html` gelebt; die Assertion stand in `testing/tests/playground.spec.js:47`. Beide Male war der Fundort behauptet statt gemessen, das zweite Mal wenige Stunden nach dem Commit, der genau diese Regel in CLAUDE.md aufgenommen hat. Daraus die vierte Regel dort: ein Befund ist selbst eine Behauptung, und die Nachmess-Pflicht galt bis dahin nur auf der Schreibseite. Sie steht jetzt auch in Merge-Gate G2, also dort, wo ein Befund tatsächlich in Code übersetzt wird.
+
+**Was der erste Einsatz gebracht hat.** Der Reviewer fand in `review-rounds.py` einen Klasse-A-Defekt, den ich nicht gesehen hätte, weil ich die Ausgabe geprüft hatte und nicht die Auswahl: `gh pr list --limit N` sortiert nach Erstellungsdatum, nicht nach Merge-Datum (#338 steht dort vor #337, obwohl #337 zwei Stunden später gemergt wurde). Das Skript sortierte nur die Anzeige um. Jetzt wird ein Fenster geholt, nach `mergedAt` sortiert und dann zugeschnitten; ein Hinweis nennt, wie viele PRs die naive Sortierung verfehlt hätte, und feuert bei `--limit 1` nachweislich.
+
+**Und was er nicht gebracht hat.** Bei #339 hat er die falsche Ortsangabe zum 45%-Floor mitgetragen statt geprüft, und seine Zahl der gepurgten Tailwind-Selektoren war zu niedrig (16 statt gemessen 22, die `hover\:`-Varianten fehlten). Der CI-Bot fand beides. Ein zweiter Reviewer ersetzt das Nachmessen nicht, er verschiebt nur, wer die ungeprüfte Zahl weiterreicht.
+
+**Erste Messung nach der Umstellung, mit Vorbehalt.** #339 brauchte zwei Läufe, beide mit Ergebnis, vier Befunde insgesamt, davon null zum Verhalten. Der Baseline-Median liegt bei 5,5 Läufen, das Baseline-Minimum aber ebenfalls bei 2 (#334). Ein kleiner PR mit zwei Runden ist also nichts, was es vorher nicht gab; Größe und Rundenzahl hängen zusammen, und ein Datenpunkt trennt die beiden Effekte nicht. `review-rounds.py --baseline` sagt das von selbst, solange Baseline-PRs in der Auswahl stehen. Belastbar ist stattdessen das beobachtete Verhalten: Runde 2 hat keinen der drei Befunde aus Runde 1 wiederholt, hat einen Randpunkt ausdrücklich als „ohne Messung, deshalb kein Befund" liegen gelassen und führt einen eigenen Abschnitt darüber, was in der CI-Umgebung nicht messbar war.
+
+**Die Lehre des Tages.** Alle vier Befunde an #339 waren falsche Behauptungen, keine kaputte Logik. Zusammen mit der Messung vom Vormittag (13 von 27 Befunden derselben Klasse) heißt das: die teure Fehlerklasse ist nicht der Code, sondern was daneben über ihn geschrieben steht. Ein Skript fängt sie nicht, weil die Aussagen Prosa sind („in allen Skripten", „der einzige Konsument"). Deshalb hat der Reviewer Bash: Nachmessen ist die Fähigkeit, die ihn vom CI-Bot unterscheidet.
+
+### Was offen bleibt
+
+- **Der Reviewer ist nie gegen einen eingebauten Fehler getestet.** Nach der eigenen Regel 1 („ein grünes Gate ist kein wirksames Gate, Mutation ist der Beweis") fehlt der Nachweis, dass er einen echten Verhaltensdefekt findet. Bisher hat er nur an defektfreien Diffs gearbeitet.
+- **Die Wirkung auf die Rundenzahl ist unbelegt.** Sie trägt erst, wenn kein Baseline-PR mehr in `review-rounds.py --baseline` steht, also nach vier weiteren PRs.
+
+**Phase:** Betrieb. PR #339, Issue #326 geschlossen; drei Direkt-Commits auf main (`6a8d4caba`, `e5bd0adc9`, `fd6564bb4`) plus Merge `0d769c8e4`.
