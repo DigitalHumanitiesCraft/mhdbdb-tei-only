@@ -53,7 +53,7 @@ test.describe('Issue #164: Multi-Lemma-Suche rôt + munt', () => {
     await page.waitForFunction(() => {
       return window.playground?.corpusData?.texts?.length > 0 &&
              window.playground?.ui?.multiLemmaSearch;
-    }, { timeout: 60000 });
+    }, null, { timeout: 60000 });
 
     const ids = await page.evaluate(() => {
       return window.playground.ui.multiLemmaSearch.teiExplorer.resolveLemmaIds(['rôt', 'munt']);
@@ -62,6 +62,10 @@ test.describe('Issue #164: Multi-Lemma-Suche rôt + munt', () => {
   });
 
   test('Nähe-Suche rôt+munt liefert Treffer (Route-E2E)', async ({ page }) => {
+    // Die Assertion unten räumt sich 120 s ein, das Budget aus der Config gibt
+    // aber nur 60 her: der Wert war unerreichbar. Nicht gesenkt, sondern das
+    // Budget nachgezogen, weil die Nähe-Suche den ganzen Korpus-Index lädt.
+    test.setTimeout(180000);
     await page.goto('http://localhost:8080/playground/#multi-lemma&lemmata=r%C3%B4t,munt&mode=proximity&dist=10');
 
     // 366 Kookkurrenzen in 98 Texten erwartet — auf jeden Fall nicht "(0 Treffer)"
@@ -76,7 +80,7 @@ test.describe('Issue #161: Multi-POS posAll[] (Authority-Index v1.6.0)', () => {
     await page.goto('http://localhost:8080/playground/');
     await page.waitForFunction(() => {
       return window.playground?.authorityData?.lemmata?.length > 0;
-    }, { timeout: 60000 });
+    }, null, { timeout: 60000 });
 
     const rec = await page.evaluate(() => {
       const l = window.playground.authorityData.lemmata.find(x => x.id === 'lemma_79188');
@@ -90,7 +94,7 @@ test.describe('Issue #161: Multi-POS posAll[] (Authority-Index v1.6.0)', () => {
 
   test('posPasses zählt Multi-POS-Lemmata für jede ihrer Wortarten', async ({ page }) => {
     await page.goto('http://localhost:8080/playground/');
-    await page.waitForFunction(() => !!window.playground?.ui?.cooccurrenceRanking, { timeout: 60000 });
+    await page.waitForFunction(() => !!window.playground?.ui?.cooccurrenceRanking, null, { timeout: 60000 });
 
     const r = await page.evaluate(() => {
       const view = window.playground.ui.cooccurrenceRanking;

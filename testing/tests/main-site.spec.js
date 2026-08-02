@@ -215,7 +215,11 @@ test.describe('Issue #204: Filter vs. Auswahl', () => {
 
     test.beforeEach(async ({ page }) => {
         await page.goto('http://localhost:8080/korpus.html');
-        await page.waitForFunction(() => window._mhdbdbApp?.searchEngine !== null, { timeout: 30000 });
+        // 60000 aus demselben Grund wie in results-table.spec.js: es ist
+        // zeichengleich derselbe Wait auf derselben Seite. Vor der
+        // Signaturkorrektur war der Timeout wirkungslos, real band das
+        // 60-s-Testbudget; der Fix soll hier nichts verschärfen.
+        await page.waitForFunction(() => !!window._mhdbdbApp?.searchEngine, null, { timeout: 60000 });
     });
 
     test('Mismatch-Hinweis erscheint bei aktivem Filter + breiter Auswahl, One-Click korrigiert', async ({ page }) => {

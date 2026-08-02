@@ -47,7 +47,7 @@ async function runProximity(page, placements, lemmaIds, maxDistance, length = 20
 test.describe('#169 Befund #15: Nähesuche misst die Spanne, nicht den Ankerabstand', () => {
     test.beforeEach(async ({ page }) => {
         await page.goto('http://localhost:8080/playground/');
-        await page.waitForFunction(() => window.playground?.teiManager !== undefined,
+        await page.waitForFunction(() => window.playground?.teiManager !== undefined, null,
             { timeout: 60000 });
     });
 
@@ -136,7 +136,7 @@ test.describe('#169 Befund #15: Nähesuche misst die Spanne, nicht den Ankerabst
 test.describe('#169 Befund #48: Dedup behält den distanzkürzesten Treffer', () => {
     test.beforeEach(async ({ page }) => {
         await page.goto('http://localhost:8080/playground/');
-        await page.waitForFunction(() => window.playground?.teiManager !== undefined,
+        await page.waitForFunction(() => window.playground?.teiManager !== undefined, null,
             { timeout: 60000 });
     });
 
@@ -190,7 +190,7 @@ test.describe('#169 Befund #51: Fast-Path-Wörterbuch ist gestrichen', () => {
         await page.waitForFunction(() => {
             return window.playground?.corpusData?.texts?.length > 0 &&
                    window.playground?.ui?.multiLemmaSearch;
-        }, { timeout: 60000 });
+        }, null, { timeout: 60000 });
 
         const aufgeloest = await page.evaluate(() => {
             const explorer = window.playground.ui.multiLemmaSearch.teiExplorer;
@@ -219,7 +219,7 @@ test.describe('#169 Befund #51: Fast-Path-Wörterbuch ist gestrichen', () => {
 
     test('findLemmaIdByOrthography existiert nicht mehr', async ({ page }) => {
         await page.goto('http://localhost:8080/playground/');
-        await page.waitForFunction(() => window.playground?.ui?.multiLemmaSearch !== undefined,
+        await page.waitForFunction(() => window.playground?.ui?.multiLemmaSearch !== undefined, null,
             { timeout: 60000 });
 
         const vorhanden = await page.evaluate(() => {
@@ -239,7 +239,7 @@ test.describe('#169 Befund #51: Fast-Path-Wörterbuch ist gestrichen', () => {
 test.describe('#327: der unerreichbare proximity-Pfad im TEIExplorer ist weg', () => {
     test('sieben Methoden ohne Aufrufer existieren nicht mehr', async ({ page }) => {
         await page.goto('http://localhost:8080/playground/');
-        await page.waitForFunction(() => window.playground?.ui?.multiLemmaSearch !== undefined,
+        await page.waitForFunction(() => window.playground?.ui?.multiLemmaSearch !== undefined, null,
             { timeout: 60000 });
 
         const typen = await page.evaluate(() => {
@@ -257,7 +257,7 @@ test.describe('#327: der unerreichbare proximity-Pfad im TEIExplorer ist weg', (
 
     test('displayMultiLemmaResults nimmt keinen contextType mehr entgegen', async ({ page }) => {
         await page.goto('http://localhost:8080/playground/');
-        await page.waitForFunction(() => window.playground?.ui?.multiLemmaSearch !== undefined,
+        await page.waitForFunction(() => window.playground?.ui?.multiLemmaSearch !== undefined, null,
             { timeout: 60000 });
 
         // Function.length zählt die deklarierten Parameter. Zwei statt drei ist
@@ -273,7 +273,7 @@ test.describe('#327: der unerreichbare proximity-Pfad im TEIExplorer ist weg', (
 test.describe('Aufräumrunde: doppelte Lemma-IDs degenerieren die Kookkurrenz-Suche', () => {
     test.beforeEach(async ({ page }) => {
         await page.goto('http://localhost:8080/playground/');
-        await page.waitForFunction(() => window.playground?.teiManager !== undefined,
+        await page.waitForFunction(() => window.playground?.teiManager !== undefined, null,
             { timeout: 60000 });
     });
 
@@ -364,7 +364,7 @@ test.describe('Aufräumrunde: doppelte Lemma-IDs degenerieren die Kookkurrenz-Su
         // scheitern. Ohne diese Bedingung ist der Test ein Münzwurf.
         await page.waitForFunction(
             () => window.playground?.ui?.multiLemmaSearch !== undefined &&
-                  window.playground?.authorityData?.lemmata?.length > 0,
+                  window.playground?.authorityData?.lemmata?.length > 0, null,
             { timeout: 60000 }
         );
 
