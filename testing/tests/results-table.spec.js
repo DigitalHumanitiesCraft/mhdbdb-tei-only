@@ -89,13 +89,16 @@ test.describe('Issue #114: Tabellenansicht für Korpussuche', () => {
         expect(spalte, 'Treffer-Spalte im Header gefunden').toBeGreaterThan(0);
 
         // toLocaleString('de-DE') setzt Tausenderpunkte, die vor dem Parsen weg
-        // müssen. Der Finite-Test ist kein Schmuck: bei nicht-numerischem Text
-        // gäbe es lauter NaN, und ein NaN-Array ist gegen seine eigene Sortierung
-        // grün (toEqual behandelt NaN als gleich).
-        const treffer = (await page.locator(`#resultsList tbody tr td:nth-child(${spalte})`).allTextContents())
-            .map(t => Number(t.trim().replace(/\./g, '')));
-        expect(treffer.length, 'Zeilen in der Tabelle').toBeGreaterThan(1);
-        expect(treffer.every(Number.isFinite), `Treffer-Spalte numerisch: ${treffer.slice(0, 5)}`).toBe(true);
+        // müssen. Geprüft wird die Rohzelle, nicht die geparste Zahl: eine
+        // Zusicherung, die nur auf Number.isFinite schaut, hielte lauter leere
+        // Zellen für gültig, weil Number('') gleich 0 ist. Ein Array aus lauter
+        // Nullen wäre dann gegen seine eigene Sortierung grün, und der Test
+        // hinge an der falschen Spalte, ohne es zu merken.
+        const zellen = (await page.locator(`#resultsList tbody tr td:nth-child(${spalte})`).allTextContents())
+            .map(t => t.trim());
+        expect(zellen.length, 'Zeilen in der Tabelle').toBeGreaterThan(1);
+        expect(zellen.every(t => /^\d{1,3}(\.\d{3})*$/.test(t)), `Treffer-Spalte numerisch: ${zellen.slice(0, 5)}`).toBe(true);
+        const treffer = zellen.map(t => Number(t.replace(/\./g, '')));
         expect(treffer).toEqual([...treffer].sort((a, b) => b - a));
 
         // Klick Titel-Header und prüfe absteigende Sortierung.
