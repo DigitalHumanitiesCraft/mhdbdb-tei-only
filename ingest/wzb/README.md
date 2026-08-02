@@ -25,4 +25,4 @@ Alles Entfernte bleibt in der Git-History unter dem alten Pfad `Wenzelsbibel/` v
 ## Kontext
 
 - Verfahren: dreiphasige LLM-Pipeline (Lemma → POS → Sense), beschrieben im Blog-Post-Draft `publications/BLOG-POST-WZB-PIPELINE.md` und in `scripts/ingest/wzb/README.md`
-- Scope-Präzisierung „Pentateuch" (2026-05-12): siehe `docs/ROADMAP.md` → Recently Completed
+- Scope-Präzisierung „Pentateuch" (2026-05-12, `aa114bf89` + `6c4d7955c`): Titel, `works.xml` und `projectDesc` auf „Wenzelsbibel (Pentateuch: Gen–Dtn, Cod. 2759–2764)" gesetzt, danach Authority-Index-Rebuild. Kontext im JOURNAL-Eintrag zum 2026-05-12 (`docs/journal-archive.md`)
