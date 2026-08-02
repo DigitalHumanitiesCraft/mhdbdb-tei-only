@@ -17,12 +17,16 @@ test.describe('Search Normalization Test Suite', () => {
         page = await browser.newPage();
         await page.goto('http://localhost:8080/playground/');
 
-        // Wait for authority files to load
+        // Wait for authority files to load.
+        // 60000, nicht 30000: vor der Signaturkorrektur war der Timeout
+        // wirkungslos, real band das Testbudget. Das hier ist ein beforeAll,
+        // ein Fehlschlag reißt die ganze Datei mit statt eines Tests, also
+        // wird die Schwelle nicht nebenbei verschärft.
         await page.waitForFunction(() => {
             return window.playground &&
                    window.playground.authorityManager &&
                    window.playground.authorityManager.authorityData.lemmata.length > 0;
-        }, null, { timeout: 30000 });
+        }, null, { timeout: 60000 });
 
         console.log('✓ Authority files loaded');
     });

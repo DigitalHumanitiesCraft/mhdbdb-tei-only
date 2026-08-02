@@ -297,11 +297,10 @@ test.describe('Playground Integration Tests', () => {
     // landet das Options-Objekt als ARGUMENT in der Seite und der Timeout wirkt
     // nie. Genau so stand es im ersten Entwurf, und die Gegenprobe hat es
     // gezeigt: der Lauf endete nicht nach 60 s am eigenen Timeout, sondern nach
-    // 120 s am Test-Budget. Dieselbe Verwechslung steckte an 19 weiteren
-    // Stellen in sechs Specs und ist dort mitkorrigiert; bei den dreizehn
-    // 60000ern war sie folgenlos, bei den übrigen sechs (viermal 30000,
-    // einmal 15000, einmal 5000) wartete ein Aufruf, der früh mit eigener
-    // Meldung scheitern sollte, in Wahrheit bis zum Budget durch.
+    // 120 s am Test-Budget. Dieselbe Verwechslung steckte an weiteren Stellen
+    // in sechs Specs und ist dort mitkorrigiert. Wo ein Timeout unter dem
+    // Budget lag, hat der Fix ihn erstmals wirksam gemacht; dort steht die
+    // Begründung für den gewählten Wert jeweils daneben.
     try {
       await page.waitForFunction(
         () => window.playground?.corpusData?.texts?.length > 0,

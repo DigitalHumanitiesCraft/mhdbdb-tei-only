@@ -6,10 +6,10 @@ test.describe('Issue #114: Tabellenansicht für Korpussuche', () => {
     test.beforeEach(async ({ page }) => {
         await page.goto('/korpus.html');
         // 60000, nicht 30000: bis der arg-Platzhalter fehlte, war dieser Timeout
-        // wirkungslos und real band das 60-s-Testbudget. Der Hook laedt Authority-
+        // wirkungslos und real band das 60-s-Testbudget. Der Hook lädt Authority-
         // UND Korpus-Index und steht vor Tests, die selbst test.setTimeout(120000)
-        // setzen; das greift aber erst im Testkoerper und kann den Hook nicht mehr
-        // verlaengern. Die Signaturkorrektur soll hier nichts verschaerfen.
+        // setzen; das greift aber erst im Testkörper und kann den Hook nicht mehr
+        // verlängern. Die Signaturkorrektur soll hier nichts verschärfen.
         await page.waitForFunction(() => !!window._mhdbdbApp?.searchEngine, null, { timeout: 60000 });
         // Default-View zurücksetzen, damit Tests reproduzierbar starten
         await page.evaluate(() => localStorage.removeItem('mhdbdb-results-view'));
@@ -333,10 +333,10 @@ test.describe('Issue #203: KWIC-Belege-Export', () => {
     test.beforeEach(async ({ page }) => {
         await page.goto('/korpus.html');
         // 60000, nicht 30000: bis der arg-Platzhalter fehlte, war dieser Timeout
-        // wirkungslos und real band das 60-s-Testbudget. Der Hook laedt Authority-
+        // wirkungslos und real band das 60-s-Testbudget. Der Hook lädt Authority-
         // UND Korpus-Index und steht vor Tests, die selbst test.setTimeout(120000)
-        // setzen; das greift aber erst im Testkoerper und kann den Hook nicht mehr
-        // verlaengern. Die Signaturkorrektur soll hier nichts verschaerfen.
+        // setzen; das greift aber erst im Testkörper und kann den Hook nicht mehr
+        // verlängern. Die Signaturkorrektur soll hier nichts verschärfen.
         await page.waitForFunction(() => !!window._mhdbdbApp?.searchEngine, null, { timeout: 60000 });
         await page.evaluate(() => localStorage.removeItem('mhdbdb-results-view'));
     });
