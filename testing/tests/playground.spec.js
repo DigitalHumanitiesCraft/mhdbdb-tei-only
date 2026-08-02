@@ -223,15 +223,45 @@ test.describe('Playground Integration Tests', () => {
   });
 
   test('should have all required JavaScript modules', async ({ page }) => {
+    // Der Test wartet auf den vollständigen Korpus-Index, also auf dieselbe
+    // Ladung, für die reading-view und tei-caching ebenfalls 120 s ansetzen,
+    // während bis zu sechs Worker denselben single-threaded http-server
+    // bedienen. Ohne diese Zeile wäre das Test-Budget aus der Config (60 s)
+    // genau so groß wie der waitForFunction-Timeout unten, liefe aber früher
+    // los: es käme immer zuerst, und der catch-Zweig, der die eigentliche
+    // Fehlermeldung rettet, griffe nie verlässlich.
+    test.setTimeout(120000);
+
     // #331: Die Listener müssen VOR dem goto hängen. Die Auswertung der
     // ES-Module passiert während des Ladens; ein danach registrierter
     // Listener sieht sie nie. Bis August 2026 stand page.on() hinter
     // page.goto(), der Test konnte also genau die Fehlerklasse nicht sehen,
     // gegen die er schützen soll.
+    // Zwei Meldungen sind namentlich ausgenommen, nicht weggezählt. Beide
+    // stammen aus corpus-loader.js und sind dort ausdrücklich unkritisch: der
+    // Loader fängt sie ab und lädt ohne Cache weiter (Zeile 142 und 164, die
+    // zweite trägt den Kommentar „Non-critical error, continue without
+    // caching"). Realistisch werden sie, sobald der Platz knapp wird: sechs
+    // Worker schreiben je ihre eigene IndexedDB-Partition mit dem entpackten
+    // Index. Das dritte console.error derselben Datei (Zeile 32, IndexedDB
+    // lässt sich gar nicht öffnen) wirft weiter und bleibt deshalb ein Fehler.
+    //
+    // Sollte hier je weiteres legitimes Rauschen ankommen, gehört es in diese
+    // Liste, nicht in eine erhöhte Schwelle. Ein Freibetrag „höchstens einer"
+    // hätte genau einen echten Modulfehler durchgelassen, und das war der
+    // Zustand, den #331 beendet hat.
+    const unkritisch = [
+      '[CorpusLoader] Failed to read cache for',
+      '[CorpusLoader] Failed to cache',
+    ];
+
     const konsolenfehler = [];
     const seitenfehler = [];
     page.on('console', msg => {
-      if (msg.type() === 'error') konsolenfehler.push(msg.text());
+      if (msg.type() !== 'error') return;
+      const text = msg.text();
+      if (unkritisch.some(prefix => text.includes(prefix))) return;
+      konsolenfehler.push(text);
     });
     // pageerror ist nicht dasselbe wie console.error: eine unbehandelte
     // Ausnahme aus einem Modul kommt hier an, nicht zwingend dort.
@@ -250,9 +280,19 @@ test.describe('Playground Integration Tests', () => {
     // also die Folge statt der Ursache. Liegen Fehler vor, werden die zuerst
     // behauptet; hängt die Kette ohne jeden Fehler, bleibt der Timeout die
     // richtige Meldung.
+    //
+    // Das `null` ist nicht schmückend: die Signatur ist
+    // waitForFunction(pageFunction, arg, options). Ohne das Platzhalter-Argument
+    // landet das Options-Objekt als ARGUMENT in der Seite und der Timeout wirkt
+    // nie. Genau so stand es im ersten Entwurf, und die Gegenprobe hat es
+    // gezeigt: der Lauf endete nicht nach 60 s am eigenen Timeout, sondern nach
+    // 120 s am Test-Budget. Dieselbe Verwechslung steckt an zehn weiteren
+    // Stellen in testing/tests/, dort folgenlos, weil die Werte ohnehin nahe
+    // am Budget liegen.
     try {
       await page.waitForFunction(
         () => window.playground?.corpusData?.texts?.length > 0,
+        null,
         { timeout: 60000 }
       );
     } catch (timeout) {
@@ -261,12 +301,11 @@ test.describe('Playground Integration Tests', () => {
       throw timeout;
     }
 
-    // Schwelle 0, nicht „höchstens einer". Gemessen am 02.08.2026 über den
-    // ganzen Ladevorgang: 0 console.error, 0 pageerror, 0 fehlgeschlagene
-    // Requests. Es gibt also nichts zu tolerieren, und der frühere Freibetrag
-    // („Allow for some environmental issues") hätte genau einen Modulfehler
-    // durchgelassen. Kommt hier je legitimes Rauschen an, gehört es namentlich
-    // ausgenommen und nicht wieder gezählt.
+    // Schwelle 0 für alles außerhalb der Ausnahmeliste oben. Gemessen am
+    // 02.08.2026 über den ganzen Ladevorgang: 0 console.error, 0 pageerror,
+    // 0 fehlgeschlagene Requests. Die Messung lief mit Netz und mit Platz für
+    // die Caches; genau deshalb steht die Ausnahmeliste da, statt sich auf die
+    // Null zu verlassen.
     //
     // Verglichen wird das ganze Array, nicht seine Länge: im Fehlerfall steht
     // die Meldung im Assertion-Diff, statt dass nur eine Zahl nicht stimmt.
