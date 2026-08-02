@@ -31,7 +31,7 @@ The MHDBDB project follows a **client-only architecture** with no backend server
 
 **Purpose:** Public-facing corpus browser for students and general users
 **URL:** https://dhcraft.org/mhdbdb-tei-only/
-**Key Files:** `index.html`, `korpus.html`, `woerterbuch.html` + `assets/js/woerterbuch.js` (A–Z lemma register, #117), `assets/js/app.js`, `assets/js/site-chrome.js` (shared nav/footer behaviour, every page), `assets/js/search/`, `assets/js/rendering/`
+**Key Files:** `index.html`, `korpus.html`, `woerterbuch.html` + `assets/js/woerterbuch.js` (A–Z lemma register, #117), `assets/js/app.js`, `assets/js/site-chrome.js` (shared nav/footer behavior, every page), `assets/js/search/`, `assets/js/rendering/`
 
 ### Application Structure
 
@@ -163,7 +163,7 @@ The reading view converts TEI XML elements to HTML. Source: `extractAndFormatBod
 ### Application Structure
 
 **MHDBDBPlayground** (`playground/js/playground-main.js`)
-- Drop the legacy `MHDBDB_Playground` database (`dropLegacyPlaygroundDatabase()`, #314). The playground's only contact with IndexedDB is this deletion, never an initialisation: the indexes live in the shared `CorpusLoader`
+- Drop the legacy `MHDBDB_Playground` database (`dropLegacyPlaygroundDatabase()`, #314). The playground's only contact with IndexedDB is this deletion, never an initialization: the indexes live in the shared `CorpusLoader`
 - Load authority index (~3 MB)
 - Initialize data managers (authority, TEI)
 - Set up modular UI components (23 modules; 25 before #314 removed `file-display.js` and `progress.js`)
@@ -273,7 +273,7 @@ Each explorer follows consistent pattern:
 | Lemma-Verteilung | `#lemma-distribution` | Bar chart per lemma across all texts (#90) |
 | Begriffs-Verteilung | `#concept-distribution` | Bar chart per concept across all texts (#47 R2, with autocomplete dropdown #113) |
 | Textvergleich | `#text-comparison` | Set operations A only / both / B only over two texts (#108) |
-| Kookkurrenz-Ranking | `#cooccurrence-ranking` | Top-N neighbouring lemmata of one lemma, POS-filtered (#107) |
+| Kookkurrenz-Ranking | `#cooccurrence-ranking` | Top-N neighboring lemmata of one lemma, POS-filtered (#107) |
 | Reim-Wörterbuch | `#rhyme-dictionary` | Rhyme-partner lemmata at adjacent verse endings, suffix heuristic (#106) |
 | Hapaxlegomena | `#hapax-legomena` | Lemmata unique across the corpus, with location and dictionary lookup (#196) |
 | Versendings-Profil | `#verse-ending-profile` | Top-N verse-final lemmata per scope, with a "Reim-Druck" column (#106 items 2 and 3) |
@@ -521,7 +521,7 @@ npm run test:headed   # Visible browser
 ### Build-Injected Site Chrome
 
 **Problem:** Nav + footer were hand-maintained per page, drifting out of sync
-**Solution:** Single-source partials (`includes/_nav.html`, `includes/_footer.html`) injected into the marked region (`NAV:START`/`FOOTER:START`) of every registered page by `scripts/build-pages.py` (idempotent, `--check` drift gate); shared behaviour (mobile menu, current-year, cross-browser clear-site-data) in `assets/js/site-chrome.js`, loaded on every page via the footer partial
+**Solution:** Single-source partials (`includes/_nav.html`, `includes/_footer.html`) injected into the marked region (`NAV:START`/`FOOTER:START`) of every registered page by `scripts/build-pages.py` (idempotent, `--check` drift gate); shared behavior (mobile menu, current-year, cross-browser clear-site-data) in `assets/js/site-chrome.js`, loaded on every page via the footer partial
 **Result:** One nav/footer source; active page gets `aria-current="page"` automatically
 
 ---
