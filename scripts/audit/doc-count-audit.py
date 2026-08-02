@@ -356,9 +356,9 @@ NEAR_KEYWORDS = {
     # Bare "Dateien"/"Files" ist vertretbar, weil der Drift-Window-Check
     # (±2 %) und der Rundungs-/Arrow-Skip False Positives abfangen.
     'corpus_files': r'(?:TEI(?:-XML)?[-\s](?:files?|Dateien|Texte)|Korpus(?:-?[Dd]ateien)?|(?:mittelhochdeutsche\s+)?TEI-Texte|Dateien|[Ff]iles)',
-    # Kleinschreibung, weil ARCHITECTURE.md die Zahl als "43.879
-    # `lemmata`-Eintraege" fuehrt (Code-Bezeichner im Fliesstext); "records",
-    # weil dieselbe Zahl dort als Groesse des API-Lemmata-Bundles auftaucht
+    # Kleinschreibung, weil ARCHITECTURE.md die Zahl als "43,879 `lemmata`
+    # entries" fuehrt (Code-Bezeichner im Fliesstext); "records", weil
+    # dieselbe Zahl dort als Groesse des API-Lemmata-Bundles auftaucht
     # ("43,879 records", ARCHITECTURE.md §Static JSON API).
     'lexicon_entries': r'(?:[Ll]emmata|[Rr]ecords)',
     'works': r'Werke',
@@ -374,9 +374,7 @@ NEAR_KEYWORDS = {
     'variants_forms': r'(?:Formen|[Oo]rthographische\w*\s+Varianten|(?:[Vv]ariant|[Rr]aw)\s+forms)',
     # #276 Luecke 3: CONTRACTS.md fuehrt die deduplizierte Zahl als
     # "Varianten-Schluessel" (Schluessel der Runtime-Map). Ohne diese
-    # Alternative blieb die Stelle jahrelang ungeprueft. "Mappings" gross,
-    # weil ARCHITECTURE.md das Wort am Satzende fett auszeichnet — sonst
-    # meldet die Anker-Selbstpruefung die Datei dauerhaft als ungedeckt.
+    # Alternative blieb die Stelle jahrelang ungeprueft.
     # "variant mappings" ist die englische Entsprechung von
     # "Varianten-Schluessel": beim Umstellen von CONTRACTS.md auf Englisch
     # (#316) verlor CONTRACTS.md Zeile 90 sonst ihre einzige Bindung, weil

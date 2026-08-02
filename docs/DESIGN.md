@@ -296,7 +296,7 @@ Self-contained instead of a central `lib/escape.js` import: a module can be copi
 | Result heading | `text-lg font-semibold text-brand-700` |
 | Bar chart bars | `fill-brand-400 hover:fill-brand-600 transition` |
 
-The brand colour is the accent, not the base colour. Once a module has four brand-coloured buttons, the default loses its accent status.
+The brand color is the accent, not the base color. Once a module has four brand-colored buttons, the default loses its accent status.
 
 ### Cross-Module Linking
 
@@ -337,7 +337,7 @@ ensureLemmaMap() {
 // In enrich: const lemma = this._lemmaMap.get(lemmaId);
 ```
 
-Rule of thumb: if a lookup runs in the inner loop over `>500 items`, build a local map. Do NOT modify `AuthorityFilesManager` itself: it still has older consumers whose behaviour under an API change is unclear.
+Rule of thumb: if a lookup runs in the inner loop over `>500 items`, build a local map. Do NOT modify `AuthorityFilesManager` itself: it still has older consumers whose behavior under an API change is unclear.
 
 ### Abort token against race conditions (cooccurrence-ranking lesson)
 

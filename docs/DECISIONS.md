@@ -897,13 +897,13 @@ The repository began as a one-off transformation (old MHDBDB RDF → CSV → TEI
 - Who maintains the authority files (still Salzburg, or the repository)?
 - How do new senses get in?
 
-Consequence: the WZB pipeline (phase 1b, 2026-04) minted new lemma ids ≥78000 into the corpus, but no script wrote them into `lexicon.xml` (only 4 by hand, commits `8caa09627`/`649c0fe55`; many sense ids ≥78000 are structural artefacts of lemma creation). 977 refs have pointed at missing lexicon entries ever since. An earlier session wrongly read this as a "migration gap" and proposed backfilling from the archived branch, which is semantically wrong, because the repository is the master and the ids arose post-migration.
+Consequence: the WZB pipeline (phase 1b, 2026-04) minted new lemma ids ≥78000 into the corpus, but no script wrote them into `lexicon.xml` (only 4 by hand, commits `8caa09627`/`649c0fe55`; many sense ids ≥78000 are structural artifacts of lemma creation). 977 refs have pointed at missing lexicon entries ever since. An earlier session wrongly read this as a "migration gap" and proposed backfilling from the archived branch, which is semantically wrong, because the repository is the master and the ids arose post-migration.
 
 ### Decision
 
 Three binding rules, normative in [CONTRACTS.md → F. Authority Source Rules](CONTRACTS.md#f-authority-source-rules):
 
-1. **The corpus leads, the authority follows.** If an id referenced in the corpus is missing from `lexicon.xml`/`variants.xml`, the corpus annotation is authoritative and the authority file is brought in line. Exception: an obvious typo in the corpus (an id that never existed, a single occurrence, a neighbouring id existing with a fitting form) is corrected in the corpus.
+1. **The corpus leads, the authority follows.** If an id referenced in the corpus is missing from `lexicon.xml`/`variants.xml`, the corpus annotation is authoritative and the authority file is brought in line. Exception: an obvious typo in the corpus (an id that never existed, a single occurrence, a neighboring id existing with a fitting form) is corrected in the corpus.
 2. **The repository is the sole master.** Since the migration (2025-07-22) there is no Salzburg re-export and no living external source. All 8 authority files are maintained in-repo.
 3. **Ingest needs a backward sync.** Every pipeline that creates new lemma or sense ids has to write them into `lexicon.xml` atomically. Lemma stubs (form + PoS) can be generated from the corpus; the sense-to-concept assignment is **curatorial** (the team's job, not reconstructible from the corpus).
 
@@ -924,7 +924,7 @@ Three binding rules, normative in [CONTRACTS.md → F. Authority Source Rules](C
 
 ### Relation to ADR-013
 
-ADR-013 ("data before schema") and ADR-015 are complementary: ADR-013 protects existing data against schema relaxation; ADR-015 settles which data layer (the corpus) leads on authority conflicts. Both say the same thing: the data as it grew is the truth, derived artefacts follow.
+ADR-013 ("data before schema") and ADR-015 are complementary: ADR-013 protects existing data against schema relaxation; ADR-015 settles which data layer (the corpus) leads on authority conflicts. Both say the same thing: the data as it grew is the truth, derived artifacts follow.
 
 ---
 
@@ -934,7 +934,7 @@ ADR-013 ("data before schema") and ADR-015 are complementary: ADR-013 protects e
 
 **Date raised:** 2026-05-07
 **Date resolved:** 2026-05-08
-**Status:** Resolved (middle course). The five further small ARI questions (sigle, licence, author, edition, genre) are settled as well; see [`scripts/ingest/ari/README.md`](../scripts/ingest/ari/README.md).
+**Status:** Resolved (middle course). The five further small ARI questions (sigle, license, author, edition, genre) are settled as well; see [`scripts/ingest/ari/README.md`](../scripts/ingest/ari/README.md).
 **Issue:** [#92](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/92)
 
 **Complete audit finding (2026-05-08, all 6 manuscripts):** 12 element classes not contained in the current MHDBDB schema, 24 additional `<div>/@type` values, 7 additional `<hi>/@rend` tokens. All 12 elements are TEI P5 standard. RelaxNG cascade verified: stage-2 validation fails solely because of these classes.

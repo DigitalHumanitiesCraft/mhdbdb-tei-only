@@ -205,7 +205,7 @@ Corpus index stores: `lemmata: { "lemma_879": [1] }` – position 1, not 2.
 
 **Contract:** A `<w>` is highlighted iff its `@lemmaRef` contains the searched lemma id as an **exact whitespace-separated token** – never as a substring.
 
-**Why:** `@lemmaRef` may carry several space-separated values (e.g. `lexicon.xml#lemma_308 lexicon.xml#lemma_5`). A substring test (`lemmaRef.includes('#lemma_308')`) also matches neighbouring ids like `#lemma_3089` (jâmer), `#lemma_3087`, `#lemma_30800` – so a search for one lemma highlights unrelated words and inflates the in-reader hit counter. This was bug #126 (fix `8e38f25cc`).
+**Why:** `@lemmaRef` may carry several space-separated values (e.g. `lexicon.xml#lemma_308 lexicon.xml#lemma_5`). A substring test (`lemmaRef.includes('#lemma_308')`) also matches neighboring ids like `#lemma_3089` (jâmer), `#lemma_3087`, `#lemma_30800` – so a search for one lemma highlights unrelated words and inflates the in-reader hit counter. This was bug #126 (fix `8e38f25cc`).
 
 ### Rule
 
@@ -716,7 +716,7 @@ Structurally anchored: `scripts/audit/check-index-versions.py` plus the CI workf
 When a `<w>` carries a `@lemmaRef` / `@ana` / `@corresp` that does not exist in the target authority file – a **dangling ref** (detector: `scripts/audit/check-authority-cross-refs.py`):
 
 - **Default:** the corpus annotation wins. The authority must gain the missing entry (lemma stub from form + `@pos`; variant via `extract-variants.py`).
-- **Exception:** an obvious corpus typo (reference to a never-existing ID, single occurrence, a neighbouring ID exists with the right form) is fixed in the corpus instead.
+- **Exception:** an obvious corpus typo (reference to a never-existing ID, single occurrence, a neighboring ID exists with the right form) is fixed in the corpus instead.
 - `lexicon.xml` is never the master for the question "does this lemma exist?" – the corpus is.
 
 ### F.2 Sense Meanings Are Curatorial
@@ -911,7 +911,7 @@ Four properties that decide whether a comparison across texts is valid:
 
 0. **Every denominator counts annotated tokens only, the share of annotated tokens differs per text, and what is missing is not a random sample.** `wordCount` and `totalTokens` count `<w>` elements carrying a `@lemmaRef` (§B). Measured 2026-07-31 with `scripts/audit/quantify-unannotated-tokens.py`: of **9,431,294** `<w>` elements, **1,898,312 (20.13 %) carry no `@lemmaRef`**; per-text coverage runs from **58.4 % to 100 %**, median **77.4 %**, 358 of 667 texts below 80 %.
 
-   The size of the gap alone would be harmless. If the unannotated tokens were spread evenly over lemmata, a text annotated at 60 % would lose the same fraction from numerator and denominator, and every per-thousand rate would come out unchanged. **They are not spread evenly.** Of the 1,898,312 unannotated tokens, **1,868,921 (98.5 %) are homographs of forms that *are* annotated elsewhere** in the corpus, largely ambiguity cases the legacy system left alone (the audit script says "mutmasslich" and so should this: with 7.5 M annotated tokens, part of that overlap is a base-rate artefact). They cluster hard on high-frequency function words and pronouns: `in` (128,144), `ir` (111,958), `er` (101,242), `sî` (80,989), `man` (62,285).
+   The size of the gap alone would be harmless. If the unannotated tokens were spread evenly over lemmata, a text annotated at 60 % would lose the same fraction from numerator and denominator, and every per-thousand rate would come out unchanged. **They are not spread evenly.** Of the 1,898,312 unannotated tokens, **1,868,921 (98.5 %) are homographs of forms that *are* annotated elsewhere** in the corpus, largely ambiguity cases the legacy system left alone (the audit script says "mutmasslich" and so should this: with 7.5 M annotated tokens, part of that overlap is a base-rate artifact). They cluster hard on high-frequency function words and pronouns: `in` (128,144), `ir` (111,958), `er` (101,242), `sî` (80,989), `man` (62,285).
 
    The bias on a rate for lemma *L* in text *T* is `coverage(L) / coverage(T)`, so the direction depends on how well *L* itself is covered relative to the text average, and it **inverts** for a lemma whose own forms sit in the unannotated set (exactly the deliberately skipped homographs of #189). For the content words people usually measure, coverage(L) is above the text average and a sparsely annotated text therefore *tends to* score higher, saying nothing about its style. Do not state that as a law: for `in`, `ir`, `er`, `sî` or `man` it is simply wrong.
 
