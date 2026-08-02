@@ -145,6 +145,11 @@ jobs:
         # die naming-Change-Detection. Leerer sha (workflow_dispatch,
         # Force-Push-Edge) -> Bump-Gate wird uebersprungen, naming-Check
         # laeuft konservativ.
+        #
+        # Achtung, falls hier je eine Merge-Queue dazukommt: `merge_group`
+        # faellt durch beide Zweige unten durch, BASE bliebe leer, und das
+        # Bump-Gate wuerde still uebersprungen. Wer den Trigger ergaenzt,
+        # muss diesen Schritt also mitbehandeln.
         run: |
           BASE=""
           if [ "${{ github.event_name }}" = "pull_request" ]; then
@@ -159,11 +164,6 @@ jobs:
             # weiter b8b44eb). In beiden Faellen galt, was ein fremder PR
             # geaendert hatte, als Aenderung dieses PRs, hier also mit einem
             # eingeforderten Versions-Bump, den der PR nicht schuldet.
-            #
-            # Achtung, falls hier je eine Merge-Queue dazukommt: bei
-            # `merge_group` ist der erste Elternteil der vorige Eintrag der
-            # Warteschlange, nicht die Base. Der Trigger steht bewusst nicht
-            # in `on:`; wer ihn ergaenzt, muss diesen Schritt mitdenken.
             #
             # Braucht fetch-depth 2 im Checkout: mit der Voreinstellung 1
             # kappt die shallow-Grenze die Elternliste. Kein Netzzugriff,
