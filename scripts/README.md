@@ -111,7 +111,7 @@ Korpus→Authority Cross-Reference-Integrität (#44/#115): scannt alle `tei/*.te
 Autorangaben im `titleStmt` gegen `persons.xml` (#228): meldet leere `<author ref="..."/>` (Text erscheint autorlos), tote `@ref`, Abweichungen von der Referenzform `#person_N`, Textinhalte mit Zeilenumbruch (die so in Index und API landen) und Textinhalte, die vom `preferred`-Namen abweichen. `--check` setzt den Exit-Code nur bei den ersten beiden, die Namensabweichung ist oft eine legitime bibliographische Variante. **Läuft bewusst nicht in der CI**, solange der tote `@ref` in VOR offen ist (#308); sonst wäre der Befund ein Blocker für unbeteiligte PRs.
 
 ### `check-index-version-bump.py`
-Versions-Bump-Gate (#154): hat sich der dekomprimierte Inhalt von corpus-/authority-index gegenüber `--base <rev>` geändert, muss der `version`-String mitgeändert sein — sonst invalidiert der Dexie-Cache nicht. Läuft in `data-integrity.yml` (Diff-Base = PR-Base-Tip bzw. `event.before`).
+Versions-Bump-Gate (#154): hat sich der dekomprimierte Inhalt von corpus-/authority-index gegenüber `--base <rev>` geändert, muss der `version`-String mitgeändert sein: sonst invalidiert der Dexie-Cache nicht. Läuft in `data-integrity.yml` (Diff-Base = erster Elternteil des Merge-Refs bzw. `event.before` beim Push).
 
 ### `check-naming-index.py`
 Naming-Index-Konsistenz (#152): `source.commit`-Provenienz vorhanden + alle `works[].sigle` existieren als `tei/<SIG>.tei.xml`. `--print-source-commit` liefert den Quell-Pin für die Workflows. Läuft in `data-integrity.yml` und `naming-index-update.yml`.

@@ -228,7 +228,7 @@ Vollständigkeit gegen `testing/tests/` gatet `scripts/audit/check-doc-inventori
 **Workflow:** `.github/workflows/data-integrity.yml` (konsolidiert seit #125 die früheren `schema-validation.yml` + `index-version-check.yml`)
 **Triggers:** PRs + main-Pushes, die `schema/`, `tei/`, `authority-files/`, die drei Index-`.json.gz` (corpus/authority/naming), `api/**`, die Build-Skripte (`build-*-index.py`, `build-api.py`, `mhg_normalizer.py`), `scripts/sync/`, `scripts/audit/`, `scripts/ingest/naming/`, `corpus-loader.js` oder `requirements.txt` berühren. Plus `workflow_dispatch`.
 
-**Elf Checks, billig → teuer (fail fast);** vorab bestimmt ein Hilfs-Step die Diff-Base (PR: Base-Branch-Tip, Push: `event.before`) für die Checks 2 und 9:
+**Elf Checks, billig → teuer (fail fast);** vorab bestimmt ein Hilfs-Step die Diff-Base (PR: erster Elternteil des Merge-Refs, `git rev-parse HEAD^1`; Push: `event.before`) für die Checks 2 und 9:
 
 1. **Index-Versions-Konstanten** (#47.3) – Build-Skripte + `corpus-loader.js` müssen dieselben Versionen nennen, sonst greift die IndexedDB-Cache-Invalidierung nicht. Lokal: `python scripts/audit/check-index-versions.py`.
 2. **Index-Versions-Bump-Gate** (#154) – hat sich der dekomprimierte Inhalt von corpus-/authority-index gegenüber der Diff-Base geändert, muss auch der `version`-String geändert sein; sonst wurde der Drei-Stellen-Bump vergessen und der Dexie-Cache invalidiert nicht (Nutzer behalten bis zu 30 Tage den alten Index). Lokal: `python scripts/audit/check-index-version-bump.py --base origin/main`. Ohne bestimmbare Diff-Base (workflow_dispatch, Force-Push) wird der Check übersprungen.
