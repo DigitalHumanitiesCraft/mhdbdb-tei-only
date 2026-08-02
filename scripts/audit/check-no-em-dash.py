@@ -91,15 +91,51 @@ Datei blindzuschalten, um ein Zeichen zu erlauben, ist der teuerste
 denkbare Tausch. Ein nachgestelltes `// erlaubt` hilft nicht: die Ausnahme
 verlangt das `//` VOR dem Fund.
 
+## Markdown gegen den Diff (#292)
+
+Der Umfang oben liess Prosa ausserhalb des Frontends aussen vor, und in
+PR-Bodys stand trotzdem regelmaessig „Em-Dash-Gate gruen" als Beleg fuer
+eine Doku-Aenderung, die das Gate nie gesehen hatte. Ein Beleg, der nichts
+belegt, ist schlechter als keiner.
+
+Markdown wird deshalb geprueft, aber NUR in den Zeilen, die ein Diff
+gegenueber einer Base hinzufuegt (`--diff-base <rev>`). Das ist kein
+Kompromiss aus Bequemlichkeit, sondern die Regel selbst: sie gilt fuer
+neuen und ueberarbeiteten Text und schreibt bestehende Projektdokumente
+nicht rueckwirkend um. Der Bestand am 2026-08-02: 22 getrackte
+`.md`-Dateien mit zusammen 472 Fundzeilen, davon 278 allein in
+`docs/journal-archive.md`. Ein Vollscan waere also nicht die Bereinigung
+von acht Dateien gewesen, wie #292 annahm, sondern eine redaktionelle
+Umschreibung des halben Doku-Bestands.
+
+Ausgenommen sind Fenced-Code-Bloecke und Inline-Code-Spans, weil die
+Hausregel Code, Terminal-Ausgaben und Kommentare ausdruecklich freistellt
+und Doku-Fences genau das enthalten. Zwei bewusste Entscheidungen dabei:
+
+- Eingerueckte Code-Bloecke (vier Leerzeichen) werden NICHT ausgenommen.
+  Dieselbe Einrueckung traegt in diesen Docs weit haeufiger eine
+  Listenfortsetzung, also Prosa. Ausnehmen waere fail-open.
+- Ein Em-Dash in einem HTML-Kommentar innerhalb einer .md-Datei wird
+  gemeldet, obwohl er nicht rendert. Fail-closed, und die Abhilfe ist
+  umformulieren.
+
+Neue, noch nicht getrackte `.md`-Dateien gelten vollstaendig als neuer
+Text. Ohne das faende ein lokaler Lauf eine frisch angelegte Doku-Datei
+nicht, also ausgerechnet den Fall mit dem meisten neuen Text.
+
 Usage:
     python scripts/audit/check-no-em-dash.py            # Report + Exit-Code
     python scripts/audit/check-no-em-dash.py --quiet    # nur Exit-Code
+    python scripts/audit/check-no-em-dash.py --diff-base origin/main
+                                                        # zusaetzlich Markdown
 
 Exit 0 = sauber, Exit 1 = Em-Dash in user-sichtbarem Text gefunden.
 """
 
 import argparse
 import io
+import re
+import subprocess
 import sys
 from pathlib import Path
 
@@ -332,11 +368,98 @@ def scanne_css(text):
     return treffer
 
 
+def _fence_marker(zeile):
+    """(Zeichen, Laenge) eines Fence-Markers, sonst None.
+
+    Zeichen UND Laenge, nicht nur „ist ein Fence": sonst schliesst ein ```
+    einen mit ~~~ geoeffneten Block, und alles danach gilt als Prosa oder
+    als Code, je nachdem, wie oft sich der Irrtum wiederholt. Derselbe
+    Fehler steckte in check-doc-inventories.py und ist dort so behoben.
+
+    Die Einrueckung wird nicht begrenzt (CommonMark erlaubt drei Zeichen).
+    Ein staerker eingerueckter Fence ist in diesen Docs ein Codeblock in
+    einem Listenpunkt, also ebenfalls Code.
+    """
+    s = zeile.lstrip()
+    for zeichen in ('`', '~'):
+        if s.startswith(zeichen * 3):
+            return zeichen, len(s) - len(s.lstrip(zeichen))
+    return None
+
+
+def _maskiere_codespans(zeile):
+    """Backtick-Spans durch Leerzeichen ersetzen, Laenge erhalten.
+
+    Maskieren statt loeschen, damit die Fundposition weiter auf die
+    Originalzeile zeigt und der Ausschnitt in der Fundmeldung stimmt.
+    """
+    zeichen = list(zeile)
+    i = 0
+    while i < len(zeichen):
+        if zeichen[i] != '`':
+            i += 1
+            continue
+        laenge = 0
+        while i + laenge < len(zeichen) and zeichen[i + laenge] == '`':
+            laenge += 1
+        ende = zeile.find('`' * laenge, i + laenge)
+        if ende == -1:
+            # unpaariger Backtick: der Rest der Zeile bleibt Prosa
+            i += laenge
+            continue
+        for k in range(i, ende + laenge):
+            zeichen[k] = ' '
+        i = ende + laenge
+    return ''.join(zeichen)
+
+
+def scanne_md(text):
+    """Em-Dashes in Markdown-Prosa, ohne Fences und ohne Inline-Code.
+
+    Der Aufrufer entscheidet, welche der gemeldeten Zeilen zaehlen: im
+    Diff-Modus sind das nur die hinzugekommenen. Diese Funktion sieht die
+    ganze Datei, weil der Fence-Zustand aus einem Diff-Hunk nicht
+    rekonstruierbar ist.
+    """
+    treffer = []
+    fence = None
+    for nr, zeile in enumerate(text.split('\n'), 1):
+        marker = _fence_marker(zeile)
+        if fence is None:
+            if marker:
+                # Die Oeffnungszeile traegt hoechstens einen Info-String
+                # (```python) und ist nie Prosa.
+                fence = marker
+                continue
+        else:
+            zeichen, laenge = fence
+            # Geschlossen wird nur von einem Marker mit demselben Zeichen,
+            # mindestens derselben Laenge und ohne weiteren Inhalt in der
+            # Zeile. Das `zeile.strip(marker[0])` strippt bewusst mit dem
+            # Zeichen des SCHLIESSENDEN Markers: strippte es mit dem des
+            # oeffnenden, wuerde es die Zeichen-Bedingung stillschweigend
+            # miterledigen, und die waere tote Bedingung. Der Mutationstest
+            # hat genau das gezeigt: die Zeichen-Pruefung liess sich
+            # ersatzlos loeschen, ohne dass ein Fall rot wurde.
+            if (marker and marker[0] == zeichen and marker[1] >= laenge
+                    and zeile.strip().strip(marker[0]) == ''):
+                fence = None
+            continue
+        gemaskt = _maskiere_codespans(zeile)
+        pos = _fund(gemaskt)
+        if pos == -1:
+            continue
+        treffer.append((nr, _ausschnitt(zeile, pos)))
+    return treffer
+
+
 def scanner_fuer(endung):
     if endung == '.html':
         return scanne_html
     if endung == '.css':
         return scanne_css
+    if endung == '.md':
+        return scanne_md
     return scanne_js
 
 
@@ -406,6 +529,80 @@ def scanne_html(text):
             continue
         treffer.append((nr, _ausschnitt(zeile, pos)))
     return treffer
+
+
+HUNK_RE = re.compile(r'^@@ -\d+(?:,\d+)? \+(\d+)(?:,(\d+))? @@')
+
+
+def _git(args, cwd):
+    return subprocess.run(['git'] + args, cwd=str(cwd), capture_output=True,
+                          text=True, encoding='utf-8', errors='replace')
+
+
+def neue_md_zeilen(base, wurzel=None):
+    """{Pfad: Zeilennummern}, die gegenueber `base` hinzugekommen sind.
+
+    `None` als Wert heisst „ganze Datei ist neu" (noch nicht getrackt).
+
+    Verglichen wird base gegen den ARBEITSBAUM, nicht gegen HEAD: lokal
+    soll der Lauf vor dem Commit greifen, und in CI sind beide gleich.
+    """
+    wurzel = wurzel or REPO
+    zeilen = {}
+
+    res = _git(['diff', '-U0', '--no-color', '--diff-filter=d', base, '--', '*.md'],
+               wurzel)
+    if res.returncode != 0:
+        return None
+    aktuell = None
+    for zeile in res.stdout.split('\n'):
+        if zeile.startswith('+++ '):
+            ziel = zeile[4:].strip()
+            aktuell = ziel[2:] if ziel.startswith('b/') else None
+            continue
+        if aktuell is None or not zeile.startswith('@@'):
+            continue
+        m = HUNK_RE.match(zeile)
+        if not m:
+            continue
+        start = int(m.group(1))
+        anzahl = int(m.group(2)) if m.group(2) is not None else 1
+        # anzahl 0 heisst reine Loeschung an dieser Stelle: keine neue Zeile
+        zeilen.setdefault(aktuell, set()).update(range(start, start + anzahl))
+
+    res = _git(['ls-files', '--others', '--exclude-standard', '--', '*.md'], wurzel)
+    if res.returncode == 0:
+        for pfad in res.stdout.split('\n'):
+            if pfad.strip():
+                zeilen[pfad.strip()] = None
+    return zeilen
+
+
+def scanne_diff(base, wurzel=None):
+    """Em-Dashes in Markdown-Zeilen, die gegenueber `base` neu sind."""
+    wurzel = wurzel or REPO
+    neu = neue_md_zeilen(base, wurzel)
+    if neu is None:
+        return None
+    fundstellen = []
+    for rel in sorted(neu):
+        pfad = wurzel / rel
+        try:
+            text = pfad.read_text(encoding='utf-8')
+        except UnicodeDecodeError:
+            # gleiche Begruendung wie im Vollscan: melden statt schlucken
+            fundstellen.append((rel, 1, 'Datei ist nicht UTF-8 und konnte '
+                                        'nicht geprueft werden'))
+            continue
+        except OSError:
+            continue
+        if not any(f in text for f in EM_FORMEN):
+            continue
+        erlaubt = neu[rel]
+        for nr, ausschnitt in scanne_md(text):
+            if erlaubt is None or nr in erlaubt:
+                fundstellen.append((rel, nr, ausschnitt))
+    return fundstellen
 
 
 SELBSTTEST = [
@@ -481,6 +678,39 @@ SELBSTTEST = [
      '<!-- x // y --> <p>Hinweis ' + EM_DASH + ' sichtbar</p>\n', [1]),
     ('mehrzeiliger Kommentar mit // schliesst, Text danach', '.html',
      '<!--\n  x // y --> <p>Hinweis ' + EM_DASH + ' sichtbar</p>\n', [2]),
+    # Markdown (#292). Die Faelle sind auf die drei Stellen gemuenzt, an
+    # denen scanne_md fail-open werden kann: Fence-Zeichen, Fence-Laenge und
+    # die Maskierung der Inline-Spans.
+    ('Markdown-Prosa', '.md',
+     'Ein Hinweis ' + EM_DASH + ' sichtbar.\n', [1]),
+    ('Fenced Code, danach Prosa', '.md',
+     '```\nx ' + EM_DASH + ' y\n```\nProsa ' + EM_DASH + ' sichtbar\n', [4]),
+    # Ohne Mitfuehren des Fence-ZEICHENS schliesst das ``` den ~~~-Block,
+    # und die Zeilen 4 und 5 gelten faelschlich als Prosa.
+    ('Fence mit ~~~ geoeffnet, ``` schliesst nicht', '.md',
+     '~~~\nx ' + EM_DASH + ' y\n```\nz ' + EM_DASH + ' w\n~~~\nProsa ' + EM_DASH + ' sichtbar\n',
+     [6]),
+    # Ohne Mitfuehren der Fence-LAENGE schliesst das dreifache Backtick den
+    # mit vier geoeffneten Block.
+    ('Fence mit vier Backticks, drei schliessen nicht', '.md',
+     '````\n```\nx ' + EM_DASH + ' y\n````\nProsa ' + EM_DASH + ' sichtbar\n', [5]),
+    # Eine Zeile mit gleichem Zeichen und gleicher Laenge, aber Inhalt
+    # dahinter, ist eine OEFFNUNG mit Info-String und schliesst nichts. Der
+    # Fall kommt in diesen Docs vor, sobald ein Beispiel zeigt, wie ein
+    # Fence aussieht. Ohne die Inhalts-Pruefung liefe der Rest als Prosa.
+    ('Info-String im Fence schliesst nicht', '.md',
+     '````\n````json\nx ' + EM_DASH + ' y\n````\nProsa ' + EM_DASH + ' sichtbar\n', [5]),
+    ('Inline-Code-Span', '.md',
+     'Der Trenner `' + EM_DASH + '` ist verboten.\n', []),
+    # Gegenrichtung: die Maskierung darf nicht den Rest der Zeile fressen.
+    ('Prosa nach einem Code-Span', '.md',
+     'Siehe `foo` ' + EM_DASH + ' Hinweis\n', [1]),
+    # Unpaariger Backtick: ab dort bleibt die Zeile Prosa. Eine Maskierung
+    # bis Zeilenende waere hier fail-open.
+    ('unpaariger Backtick, Em-Dash danach', '.md',
+     'Ein ` einzelner Backtick ' + EM_DASH + ' sichtbar\n', [1]),
+    ('Entity im Markdown', '.md',
+     'Hinweis &mdash; sichtbar\n', [1]),
 ]
 
 # Zweite Ebene: welche DATEIEN sieht der Scanner ueberhaupt. Zwei von drei
@@ -546,6 +776,74 @@ SELBSTTEST_DATEIEN = [
 ]
 
 
+def selbsttest_diff():
+    """Die Diff-Schicht gegen ein wegwerfbares Git-Repo pruefen.
+
+    Eigene Ebene aus demselben Grund wie SELBSTTEST_DATEIEN: zwei von drei
+    Fehlern dieses Gates sassen nicht im Scanner, sondern in der Frage,
+    welche Bytes er ueberhaupt zu sehen bekommt. Im Diff-Modus ist das die
+    heikelste Schicht ueberhaupt, denn ein leeres Ergebnis sieht hier
+    genauso aus wie ein sauberer Stand.
+    """
+    import tempfile
+    fehler = 0
+    with tempfile.TemporaryDirectory() as tmp:
+        wurzel = Path(tmp)
+        cfg = ['-c', 'user.name=Gate', '-c', 'user.email=gate@example.org',
+               '-c', 'commit.gpgsign=false']
+        _git(['init', '-q', '-b', 'main'], wurzel)
+        (wurzel / 'a.md').write_text('Alt ' + EM_DASH + ' bleibt\n', encoding='utf-8')
+        (wurzel / 'b.md').write_text('sauber\n', encoding='utf-8')
+        (wurzel / 'e.md').write_text(
+            'Alt ' + EM_DASH + ' bleibt\nWeg damit\nSchluss\n', encoding='utf-8')
+        _git(['add', 'a.md', 'b.md', 'e.md'], wurzel)
+        _git(cfg + ['commit', '-qm', 'base'], wurzel)
+
+        # a.md: neue Zeile mit Em-Dash, die alte bleibt unangetastet
+        (wurzel / 'a.md').write_text(
+            'Alt ' + EM_DASH + ' bleibt\nNeu ' + EM_DASH + ' kommt\n', encoding='utf-8')
+        # b.md: neuer Fence, der Em-Dash darin ist Code
+        (wurzel / 'b.md').write_text(
+            'sauber\n```\nx ' + EM_DASH + ' y\n```\n', encoding='utf-8')
+        # c.md: ganz neu und noch nicht getrackt
+        (wurzel / 'c.md').write_text('Neue Datei ' + EM_DASH + ' Prosa\n', encoding='utf-8')
+        # d.txt: falsche Endung, geht das Gate nichts an
+        (wurzel / 'd.txt').write_text('Text ' + EM_DASH + ' egal\n', encoding='utf-8')
+        # e.md: NUR eine Loeschung. Der Hunk-Kopf lautet dann `+1,0`, also
+        # Laenge null. Wer die Laenge als „fehlend heisst eins" liest, macht
+        # daraus die bestehende Zeile 1, und die traegt einen Em-Dash: ein
+        # Fehlalarm auf Text, den der PR nicht angefasst hat.
+        (wurzel / 'e.md').write_text(
+            'Alt ' + EM_DASH + ' bleibt\nSchluss\n', encoding='utf-8')
+
+        gefunden = scanne_diff('HEAD', wurzel)
+        if gefunden is None:
+            # Kein Absturz mit TypeError, sondern eine Meldung, die sagt,
+            # was los ist: das Wegwerf-Repo ist nicht zustande gekommen
+            # (fehlende git-Identitaet, Hook, Berechtigung).
+            print('  [FAIL] Diff-Schicht: git im Wegwerf-Repo nicht benutzbar')
+            return 7, 7
+        ist = {(p, nr) for p, nr, _ in gefunden}
+        erwartet = {('a.md', 2), ('c.md', 1)}
+        faelle = [
+            ('unveraenderte Zeile mit Em-Dash bleibt stumm', ('a.md', 1) not in ist),
+            ('hinzugefuegte Zeile wird gemeldet', ('a.md', 2) in ist),
+            ('neuer Fenced Code bleibt stumm', not any(p == 'b.md' for p, _ in ist)),
+            ('ungetrackte neue Datei wird ganz geprueft', ('c.md', 1) in ist),
+            ('Nicht-Markdown bleibt aussen vor', not any(p == 'd.txt' for p, _ in ist)),
+            ('reine Loeschung erzeugt keine neue Zeile',
+             not any(p == 'e.md' for p, _ in ist)),
+            ('keine weiteren Fundstellen', ist == erwartet),
+        ]
+        for name, ok in faelle:
+            print(f'  [{"PASS" if ok else "FAIL"}] Diff-Schicht {name}')
+            if not ok:
+                fehler += 1
+        if ist != erwartet:
+            print(f'         erwartet {sorted(erwartet)}, bekommen {sorted(ist)}')
+    return fehler, 7
+
+
 def selbsttest():
     fehler = 0
     for name, endung, quelle, erwartet in SELBSTTEST:
@@ -576,7 +874,10 @@ def selbsttest():
             if not ok:
                 fehler += 1
 
-    gesamt = len(SELBSTTEST) + len(SELBSTTEST_DATEIEN)
+    diff_fehler, diff_faelle = selbsttest_diff()
+    fehler += diff_fehler
+
+    gesamt = len(SELBSTTEST) + len(SELBSTTEST_DATEIEN) + diff_faelle
     print()
     print(f'Selbsttest: {gesamt - fehler}/{gesamt} bestanden')
     return fehler
@@ -588,24 +889,52 @@ def main() -> int:
     ap.add_argument('--quiet', action='store_true', help='nur Exit-Code, keine Ausgabe')
     ap.add_argument('--selftest', action='store_true',
                     help='Scanner gegen eingebaute Faelle pruefen, Repo nicht anfassen')
+    ap.add_argument('--diff-base', metavar='REV',
+                    help='zusaetzlich Markdown pruefen, aber nur in Zeilen, die '
+                         'gegenueber REV neu sind (#292)')
     args = ap.parse_args()
 
     if args.selftest:
         return 1 if selbsttest() else 0
 
     fundstellen = scanne_verzeichnis()
+    md_fundstellen = []
 
-    if not fundstellen:
+    if args.diff_base:
+        probe = _git(['rev-parse', '--verify', f'{args.diff_base}^{{commit}}'], REPO)
+        if probe.returncode != 0:
+            # Hart scheitern statt still ueberspringen. Ein Gate, das seine
+            # Base nicht aufloesen kann, prueft nichts, und genau das soll
+            # niemand als „gruen" lesen.
+            print(f'::error title=Em-Dash-Gate::Diff-Base "{args.diff_base}" ist '
+                  f'lokal nicht aufloesbar. In CI vorher fetchen '
+                  f'(no-cdn-check.yml, Schritt „Diff-Base bestimmen").')
+            return 1
+        md_fundstellen = scanne_diff(args.diff_base)
+        if md_fundstellen is None:
+            print('::error title=Em-Dash-Gate::git diff gegen '
+                  f'"{args.diff_base}" ist fehlgeschlagen, Markdown ungeprueft.')
+            return 1
+        if not args.quiet:
+            print(f'Markdown gegen {args.diff_base}: nur hinzugefuegte Zeilen, '
+                  f'Fences und Inline-Code ausgenommen (#292).')
+
+    if not fundstellen and not md_fundstellen:
         if not args.quiet:
             print('Em-Dash-Gate: keine Em-Dashes in user-sichtbarem Text.')
         return 0
 
     if not args.quiet:
-        print(f'Em-Dash-Gate: {len(fundstellen)} Fundstelle(n) in user-sichtbarem Text.')
+        anzahl = len(fundstellen) + len(md_fundstellen)
+        print(f'Em-Dash-Gate: {anzahl} Fundstelle(n) in user-sichtbarem Text.')
         print('Hausregel: Doppelpunkt, Komma, Klammer oder eigener Satz statt Em-Dash.')
         print()
         for pfad, nr, zeile in fundstellen:
             print(f'::error file={pfad},line={nr}::Em-Dash in user-sichtbarem Text')
+            print(f'  {pfad}:{nr}')
+            print(f'    {zeile}')
+        for pfad, nr, zeile in md_fundstellen:
+            print(f'::error file={pfad},line={nr}::Em-Dash in neuer Markdown-Prosa')
             print(f'  {pfad}:{nr}')
             print(f'    {zeile}')
     return 1

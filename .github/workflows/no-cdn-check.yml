@@ -31,6 +31,13 @@
 # Nebenwirkung, bewusst in Kauf genommen: weil data-integrity.yml denselben
 # Glob trägt, startet jede Änderung in scripts/audit/ auch dort einen Lauf,
 # ohne dass die Gates von hier darin ausgeführt würden.
+#
+# Seit 02.08. prüft das Em-Dash-Gate zusätzlich Markdown, aber nur die
+# Zeilen, die ein PR hinzufügt (#292). Deshalb braucht dieser Workflow
+# eine Diff-Base, so wie data-integrity.yml sie seit #154 bestimmt. Ein
+# Vollscan über Markdown kam nicht in Frage: 22 getrackte .md-Dateien
+# tragen zusammen 472 Fundzeilen, und die Schreibregel gilt für neuen und
+# überarbeiteten Text, nicht rückwirkend.
 
 name: no-cdn-check
 
@@ -44,7 +51,7 @@ on:
       - 'assets/css/**'
       - 'scripts/audit/**'
       - 'testing/tests/**'
-      - 'docs/DEVELOPMENT.md'
+      - '**/*.md'
       - '.github/workflows/no-cdn-check.yml'
   push:
     branches:
@@ -57,7 +64,7 @@ on:
       - 'assets/css/**'
       - 'scripts/audit/**'
       - 'testing/tests/**'
-      - 'docs/DEVELOPMENT.md'
+      - '**/*.md'
       - '.github/workflows/no-cdn-check.yml'
   workflow_dispatch:
 
@@ -73,14 +80,48 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
+      - name: Diff-Base bestimmen (#292)
+        id: base
+        # Wortgleich zu data-integrity.yml (#154), damit beide Workflows
+        # dieselbe Basis meinen. Leerer sha (workflow_dispatch,
+        # Force-Push-Edge) -> Markdown wird übersprungen, der Vollscan
+        # über HTML/JS/CSS läuft unverändert.
+        run: |
+          BASE=""
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            for i in 1 2 3; do
+              git fetch --no-tags --depth=1 origin "$GITHUB_BASE_REF" && break
+              if [ "$i" = 3 ]; then
+                echo "::error title=Diff-Base::Base-Branch $GITHUB_BASE_REF nach 3 Versuchen nicht fetchbar."
+                exit 1
+              fi
+              sleep $((i * 5))
+            done
+            BASE=$(git rev-parse FETCH_HEAD)
+          elif [ "${{ github.event_name }}" = "push" ]; then
+            BASE="${{ github.event.before }}"
+            if [ "$BASE" = "0000000000000000000000000000000000000000" ] \
+               || ! git fetch --no-tags --depth=1 origin "$BASE" 2>/dev/null; then
+              BASE=""
+            fi
+          fi
+          echo "sha=$BASE" >> "$GITHUB_OUTPUT"
+          echo "Diff-Base: ${BASE:-<keine>}"
+
       - name: No external script src in committed HTML (stdlib only)
         run: python3 scripts/audit/check-no-cdn.py
 
-      - name: Em-Dash-Gate Selbsttest (#140)
+      - name: Em-Dash-Gate Selbsttest (#140/#292)
         run: python3 scripts/audit/check-no-em-dash.py --selftest
 
-      - name: Keine Em-Dashes in user-sichtbarem Text (#140)
-        run: python3 scripts/audit/check-no-em-dash.py
+      - name: Keine Em-Dashes in user-sichtbarem Text (#140/#292)
+        run: |
+          if [ -z "${{ steps.base.outputs.sha }}" ]; then
+            echo "::notice title=Em-Dash-Gate::Keine Diff-Base bestimmbar (workflow_dispatch/Force-Push), Markdown ungeprüft."
+            python3 scripts/audit/check-no-em-dash.py
+          else
+            python3 scripts/audit/check-no-em-dash.py --diff-base "${{ steps.base.outputs.sha }}"
+          fi
 
       - name: Inventar-Gate Selbsttest (#329)
         run: python3 scripts/audit/check-doc-inventories.py --selftest
