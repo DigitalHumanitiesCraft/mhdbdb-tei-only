@@ -15,7 +15,7 @@ loaded via importlib; its `if __name__ == '__main__'` guard keeps the import
 side-effect free.
 
 Usage:
-    python3.13 extract_word_positions.py <tei_file_path> [text_id]
+    python extract_word_positions.py <tei_file_path> [text_id]
 
 Output (stdout, UTF-8 JSON):
     {"wordCount": 142, "lemmata": {"lemma_1": [0, 2], ...}}

@@ -11,6 +11,8 @@ scripts/
 ├── build-corpus-index.py        # Korpus-Index generieren
 ├── build-pages.py               # Nav/Footer/Matomo aus includes/ in alle Seiten injizieren (--check Drift-Gate)
 ├── build-vendor.js              # Vendored JS-Dependencies bündeln
+├── python-bin.js                # Python-Interpreter auflösen statt raten (#318)
+├── run-python.js                # Wrapper, über den die npm-Skripte Python starten (#318)
 ├── validate-indices.py          # Generierte Indexes validieren
 ├── mhg_normalizer.py            # MHG-Textnormalisierung (shared lib)
 ├── tei_namespaces.py            # TEI-Namespace-Erkennung für lxml-Bäume (shared lib)

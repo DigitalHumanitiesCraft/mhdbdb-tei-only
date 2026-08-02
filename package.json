@@ -15,12 +15,12 @@
     "build:vendor": "node scripts/build-vendor.js",
     "serve": "http-server . -p 8080 -c-1",
     "report": "cd testing && playwright show-report",
-    "build:authority": "python3.13 scripts/build-authority-index.py",
-    "build:corpus": "python3.13 scripts/build-corpus-index.py",
-    "build:api": "python3.13 scripts/build-api.py",
-    "build:data": "npm run build:corpus && python3.13 scripts/sync/extract-variants.py --apply && npm run build:authority && python3.13 scripts/build-api.py --allow-dirty",
+    "build:authority": "node scripts/run-python.js scripts/build-authority-index.py",
+    "build:corpus": "node scripts/run-python.js scripts/build-corpus-index.py",
+    "build:api": "node scripts/run-python.js scripts/build-api.py",
+    "build:data": "npm run build:corpus && node scripts/run-python.js scripts/sync/extract-variants.py --apply && npm run build:authority && node scripts/run-python.js scripts/build-api.py --allow-dirty",
     "build": "npm run build:css && npm run build:vendor && npm run build:data",
-    "validate:indices": "python3.13 scripts/validate-indices.py"
+    "validate:indices": "node scripts/run-python.js scripts/validate-indices.py"
   },
   "devDependencies": {
     "@playwright/test": "^1.52.0",

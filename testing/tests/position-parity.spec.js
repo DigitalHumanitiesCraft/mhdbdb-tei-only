@@ -14,7 +14,7 @@
  * §B analogue of normalization-parity.spec.js: run a real TEI text through BOTH
  * counting paths and assert the position sequences are identical.
  *
- * Mechanism (mirrors §A): Python via execSync calling the REAL extract_word_data
+ * Mechanism (mirrors §A): Python via execFileSync calling the REAL extract_word_data
  * (testing/helpers/extract_word_positions.py loads it from the hyphenated build
  * script via importlib); JS via the REAL extractAndFormatBody in the browser. For
  * a probed lemma, the reader's highlights[].position array must equal Python's
@@ -33,9 +33,10 @@
  */
 
 import { test, expect } from '@playwright/test';
-import { execSync } from 'child_process';
+import { execFileSync } from 'child_process';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { resolvePython, pythonEnv } from '../../scripts/python-bin.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -59,9 +60,10 @@ test.beforeEach(async ({ page }) => {
  * lemmata dict is ~wordCount integers, so a raised maxBuffer is warranted.
  */
 function pythonData(teiAbsPath, textId) {
-  const out = execSync(
-    `python3.13 "${HELPER}" "${teiAbsPath}" ${textId}`,
-    { encoding: 'utf-8', cwd: REPO_ROOT, maxBuffer: 32 * 1024 * 1024 }
+  const out = execFileSync(
+    resolvePython(),
+    [HELPER, teiAbsPath, textId],
+    { encoding: 'utf-8', cwd: REPO_ROOT, maxBuffer: 32 * 1024 * 1024, env: pythonEnv() }
   );
   return JSON.parse(out);
 }
