@@ -71,11 +71,32 @@ test.describe('Issue #114: Tabellenansicht für Korpussuche', () => {
         await page.click('#viewToggleTable');
         await page.waitForSelector('#resultsList table');
 
-        // Default: matchCount desc, JT hat die meisten minne-Belege im Korpus.
-        // Die Zahl stand hier bis #172 daneben und war eine zweite Stelle, die
-        // mit jedem Ingest altert, ohne dass die Aussage sie braucht.
-        const firstRowSigle = await page.locator('#resultsList tbody tr').first().locator('.font-mono').textContent();
-        expect(firstRowSigle?.trim()).toMatch(/^JT$/);
+        // Default ist matchCount desc. Bis #172 stand hier die Sigle JT samt
+        // ihren 612 Treffern, also eine korpusabhängige Tatsache als
+        // Stellvertreter für die Sortierung: wächst ein anderer Text beim
+        // nächsten Ingest an minne-Belegen vorbei, wird der Test rot, ohne dass
+        // an der Sortierung etwas kaputt ist. Geprüft wird jetzt die Sortierung
+        // selbst, analog zum Titel-Block darunter.
+        //
+        // Der Spaltenindex kommt aus dem Header, nicht als Konstante: die
+        // Spalten sind seit #160 datengetrieben (RESULT_TABLE_COLUMNS in
+        // app.js), ein Umbau dort würde eine feste 3 still auf die falsche
+        // Spalte zeigen lassen.
+        const spalte = await page.evaluate(() => {
+            const ths = [...document.querySelectorAll('#resultsList table thead th')];
+            return ths.findIndex(th => th.querySelector('[data-sort-col="matchCount"]')) + 1;
+        });
+        expect(spalte, 'Treffer-Spalte im Header gefunden').toBeGreaterThan(0);
+
+        // toLocaleString('de-DE') setzt Tausenderpunkte, die vor dem Parsen weg
+        // müssen. Der Finite-Test ist kein Schmuck: bei nicht-numerischem Text
+        // gäbe es lauter NaN, und ein NaN-Array ist gegen seine eigene Sortierung
+        // grün (toEqual behandelt NaN als gleich).
+        const treffer = (await page.locator(`#resultsList tbody tr td:nth-child(${spalte})`).allTextContents())
+            .map(t => Number(t.trim().replace(/\./g, '')));
+        expect(treffer.length, 'Zeilen in der Tabelle').toBeGreaterThan(1);
+        expect(treffer.every(Number.isFinite), `Treffer-Spalte numerisch: ${treffer.slice(0, 5)}`).toBe(true);
+        expect(treffer).toEqual([...treffer].sort((a, b) => b - a));
 
         // Klick Titel-Header und prüfe absteigende Sortierung.
         // Sortierung im App-Code basiert NUR auf r.title (nicht auf textId);
