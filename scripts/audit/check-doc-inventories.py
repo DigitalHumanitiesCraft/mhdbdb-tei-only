@@ -67,9 +67,12 @@ class Inventar:
     Umlaut oder Leerzeichen still aus dem Scan fiele und trotzdem existierte.
 
     Aus demselben Fragment entsteht das Zeilenmuster, damit Dateiscan und
-    Tabellenzeile garantiert dieselben Namen durchlassen. Ließe der Scan einen
-    Namen zu, den die Tabelle nicht aufnehmen kann, bliebe das Gate rot ohne
-    einen Weg, es grün zu bekommen.
+    Tabellenzeile dieselben Namen durchlassen. Ließe der Scan einen Namen zu,
+    den die Tabelle nicht aufnehmen kann, bliebe das Gate rot ohne einen Weg,
+    es grün zu bekommen. Bis auf Backtick und Pipe: die kann eine
+    Markdown-Tabellenzelle nicht eindeutig führen, eine so benannte Datei wäre
+    also unauflösbar rot. Unter Linux ist das erlaubt, im Repo kommt es nicht
+    vor, und die Alternative wäre, solche Namen stillschweigend zu übergehen.
     """
 
     def __init__(self, titel, verzeichnis, endung, was, wozu):
@@ -77,11 +80,19 @@ class Inventar:
         self.verzeichnis = REPO / verzeichnis
         self.was = was
         self.wozu = wozu
-        self.endung = re.compile(endung + r'$')
+        # Geklammert eingesetzt, nicht roh. Die zwei heutigen Fragmente sind
+        # auf oberster Ebene alternationsfrei, ein künftiges `\.py|\.sh` wäre
+        # es nicht: `\.py|\.sh$` verankerte nur den zweiten Zweig, und
+        # "foo.python.txt" zählte als Treffer. Ein Fail-open in genau der
+        # Erweiterung, für die es diese Klasse gibt.
+        muster = f'(?:{endung})'
+        self.endung = re.compile(muster + r'$')
         # Erste Spalte einer Tabellenzeile: | `name.py` | Zweck |
         # Nicht-gierig, damit der Match in Spalte 1 bleibt; umgebender
-        # Leerraum wird getrimmt, Backticks sind optional.
-        self.zeile = re.compile(r'^\|\s*`?([^|`]+?' + endung + r')`?\s*\|')
+        # Leerraum wird getrimmt, Backticks sind optional. group(1) ist die
+        # äußere Klammer, weil sie zuerst öffnet: auch dann stabil, wenn ein
+        # künftiges Fragment eigene Gruppen mitbringt.
+        self.zeile = re.compile(r'^\|\s*`?([^|`]+?' + muster + r')`?\s*\|')
 
     def im_dateisystem(self) -> set:
         """Bezeichner ist der Pfad relativ zum Verzeichnis. Solange dieses flach
@@ -135,23 +146,34 @@ def abschnitt(text: str, titel: str) -> str:
     Eine nicht geschlossene Fence verwirft den Rest des Dokuments. Das ist
     fail-closed: die Dateien darunter fehlen dann im Ergebnis und werden
     gemeldet.
+
+    Die Code-Blöcke fallen deshalb weg, BEVOR die Überschrift gesucht wird,
+    nicht erst danach. Sonst könnte eine Überschrift, die weiter oben als
+    Beispiel in einem Block steht, den Scan an der falschen Stelle beginnen
+    lassen; der Fence-Zähler startete dann mitten im Block und der Rest des
+    Dokuments zählte als Code. Das Beispiel-Muster ist in diesen Docstrings
+    üblich, oben in dieser Datei steht es selbst.
     """
-    zeilen = text.splitlines()
-    try:
-        start = zeilen.index(titel)
-    except ValueError:
-        raise SystemExit(
-            f'FEHLER: Überschrift "{titel}" steht nicht in {DOC.name}. '
-            'Wurde sie umbenannt? Dann INVENTARE hier mitziehen.'
-        )
-    behalten = []
+    ausserhalb = []
     im_codeblock = False
-    for zeile in zeilen[start + 1:]:
+    for zeile in text.splitlines():
         if zeile.lstrip().startswith(('```', '~~~')):
             im_codeblock = not im_codeblock
             continue
-        if im_codeblock:
-            continue
+        if not im_codeblock:
+            ausserhalb.append(zeile)
+
+    try:
+        start = ausserhalb.index(titel)
+    except ValueError:
+        raise SystemExit(
+            f'FEHLER: Überschrift "{titel}" steht nicht in {DOC.name} '
+            '(außerhalb eines Codeblocks). Wurde sie umbenannt? '
+            'Dann INVENTARE hier mitziehen.'
+        )
+
+    behalten = []
+    for zeile in ausserhalb[start + 1:]:
         if zeile.startswith(('# ', '## ', '### ')):
             break
         behalten.append(zeile)
@@ -248,6 +270,27 @@ def selbsttest() -> int:
          not skript.endung.search('lexicon-baseline.json')
          and not skript.endung.search('TEXT_DATA_TABLE.xlsx')
          and not skript.endung.search('modul.pyc')),
+        # Die Überschrift wird gesucht, nachdem die Blöcke weg sind. Sonst
+        # begänne der Scan an der Beispielzeile, der Fence-Zähler stünde
+        # mitten im Block, und der Rest des Dokuments zählte als Code.
+        ('Eine Überschrift im Codeblock beginnt den Abschnitt nicht',
+         spec.in_tabelle(abschnitt(
+             '```markdown\n'
+             f'{spec.titel}\n'
+             '| `falsch.spec.js` | X | nur ein Beispiel |\n'
+             '```\n'
+             '\n'
+             f'{spec.titel}\n'
+             '\n'
+             '| `richtig.spec.js` | X | die echte Tabelle |\n',
+             spec.titel)) == {'richtig.spec.js'}),
+        # Ein alternierendes Fragment darf nicht nur seinen letzten Zweig
+        # verankern. Ungeklammert wäre "foo.python.txt" hier ein Treffer.
+        ('Alternation im Endungs-Fragment bleibt verankert',
+         (lambda i: i.endung.search('a.sh') is not None
+          and i.endung.search('a.py') is not None
+          and i.endung.search('foo.python.txt') is None
+          )(Inventar('### X', 'scripts/audit', r'\.py|\.sh', 'x', 'y'))),
     ]
 
     for name, ok in faelle:

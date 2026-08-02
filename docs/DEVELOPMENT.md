@@ -275,12 +275,12 @@ Zwei Sorten stehen hier gemischt, und der Unterschied ist der wichtigste: **Gate
 | Script | Zweck |
 |--------|-------|
 | `validate-corpus.py` | Two-stage RelaxNG-Validierung aller 667 Korpus- + 8 Authority-Files (gerufen von data-integrity.yml) |
-| `check-index-versions.py` | Versions-Konsistenz Build-Skripte ↔ Loader (siehe oben) |
-| `check-index-version-bump.py` | Versions-Bump-Gate (#154): Index-Inhalt gegenüber `--base` geändert ⇒ `version`-String muss mitgeändert sein (siehe oben) |
-| `check-release-version.py` | Release-Tag ↔ `CITATION.cff`-Version; verbietet `version`-Feld in `.zenodo.json` (siehe oben) |
+| `check-index-versions.py` | Versions-Konsistenz Build-Skripte ↔ Loader, gerufen von `data-integrity.yml` (Details oben) |
+| `check-index-version-bump.py` | Versions-Bump-Gate (#154): Index-Inhalt gegenüber `--base` geändert ⇒ `version`-String muss mitgeändert sein. Gerufen von `data-integrity.yml` (Details oben) |
+| `check-release-version.py` | Release-Tag ↔ `CITATION.cff`-Version; verbietet `version`-Feld in `.zenodo.json`. Gerufen von `release-version-check.yml` (Details oben) |
 | `audit-authority-files.py` | Struktur, Querverweise und Datenqualität **innerhalb** der 8 Authority-Files (authority→authority; ID-Muster, verwaiste Referenzen, strukturelle Konsistenz) |
 | `check-authority-cross-refs.py` | **Korpus→Authority** Cross-Ref-Integrität: dangling `@lemmaRef`/`@ana`/`@corresp`/`@ref`/`@target`. `--check` = CI-Gate in `data-integrity.yml`: unresolved refs außerhalb `lexicon.xml` = sofort rot; `lexicon.xml` als ID-Set-Ratsche gegen `lexicon-baseline.json` (#152) – neue IDs rot, Altbestand grün; `--update-baseline` zieht die Ratsche nach. Einziger Detektor der Derived-File-Drift (#44/#115) |
-| `check-naming-index.py` | Naming-Index-Konsistenz (#152): `source.commit` vorhanden + alle `works[].sigle` existieren in `tei/`; `--print-source-commit` liefert den Pin für die Workflows (siehe oben) |
+| `check-naming-index.py` | Naming-Index-Konsistenz (#152): `source.commit` vorhanden + alle `works[].sigle` existieren in `tei/`; `--print-source-commit` liefert den Pin für die Workflows. Gerufen von `data-integrity.yml` und `naming-index-update.yml` (Details oben) |
 | `audit-tei-corpus.py` | Korpus-weite Stichproben (z.B. fehlende `<l>`/`<lg>`, ungewöhnliche xml:id-Pattern, Encoding-Anomalien) |
 | `check-lexicon-senses.py` | `lexicon.xml`-Sanity: Lemmata ohne `<sense>`, Senses ohne `conceptIds` |
 | `doc-count-audit.py` | Drift-Detektor zwischen tatsächlichen Korpus-/Authority-Zahlen und den in der Doku verankerten Werten. Heuristik: Window ±2 absolut oder ±2 % relativ, strikter Keyword-Anchor unmittelbar nach der Zahl. Läuft als Health-Check-Werkzeug von Hand, kein Workflow ruft es |
