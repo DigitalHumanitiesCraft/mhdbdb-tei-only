@@ -126,8 +126,7 @@ Aktuelle Index-Versionen siehe [TEI-MODEL.md §11](TEI-MODEL.md#11-versionierung
 
 - **[JOURNAL.md](JOURNAL.md)** – chronologisch, mit Begründungen und Sackgassen; die Volltexte
   der verdichteten Einträge liegen in [journal-archive.md](journal-archive.md)
-- **[ROADMAP.md](ROADMAP.md) → Recently Completed** – nach Strang sortiert, mit Einordnung in
-  die laufenden Prioritäten
+- **[ROADMAP.md](ROADMAP.md) → Recently Completed** – mit Einordnung in die laufenden Prioritäten
 
 ### Known Limitations
 - Desktop-only interface (not mobile-responsive)

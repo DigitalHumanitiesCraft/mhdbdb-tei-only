@@ -759,3 +759,57 @@ Ein drittes Mal schnappte sie latent zu, und dieses Mal hat nur die Zweitmeinung
 **Ein Rückbau kann eine Aufräumfunktion abschalten.** `indexed-db-manager.js` verwaltete die Datenbank `MHDBDB_Playground`, die genau einen Store hatte (`tei_files`), dessen einziger Schreiber im Upload lag. Der Manager war damit gegenstandslos, aber er trug seit #280 eine Schema-Migration, die drei schreiberlose Altstores aus bestehenden Browser-Datenbanken räumt. Nach Teil 1 instanziierte kein Produktivcode mehr den Manager, also lief diese Migration nicht mehr: der Rückbau hätte still eine gerade erst ausgelieferte Aufräumfunktion deaktiviert. Statt 397 Zeilen Schema-Pflege für eine Datenbank ohne Schreiber löscht `playground-main.js` sie jetzt beim Start einmalig. Das ist gründlicher als die Migration und kostet zehn Zeilen. Die Lehre gilt über den Fall hinaus: wer den letzten Importeur eines Moduls entfernt, entfernt auch alle Nebenwirkungen, die dieses Modul beim Laden oder Initialisieren hatte, und die stehen selten im Namen der Funktion.
 
 **Phase:** Betrieb, reiner Code-Rückbau. Keine Daten-, Index- oder API-Änderung, kein Rebuild, kein Versions-Bump. Doku nachgezogen in ARCHITECTURE (Storage-Abschnitt), CONTRACTS §E, DECISIONS, ROADMAP, `playground/readme.md`. PR #324.
+---
+
+## 2026-08-02 – Autonome Aufräum-Session: fünf PRs, und die Hälfte der Review-Last war hausgemacht
+
+**Summary:** Ein Tag Restarbeit aus dem Health Check vom 31.07. und aus den Aufräumbefunden #325/#327/#329. Gemergt: #330 (drei Aufräumbefunde, eine Fehlerklasse), #332 (die zweite Inventar-Tabelle hatte denselben Zustand), #333 (der Konsolen-Fehler-Test konnte nicht sehen, wogegen er schützt), #334 (#322, acht TEI-Header), #335 (#315/#318, Doku-Restposten). #336 (#316, INDEX.md) lag am Abend als PR vor.
+
+### Die teuerste Erkenntnis kam aus einer Frage von chsteiner
+
+„Kann es sein, dass wir over-reviewen? Bewerte das mit Zahlen und kritisch." Gemessen über die drei PRs des Tages (#330, #332, #333): **11 Review-Runden, 27 Befunde. Davon 10 echte Defekte, 13 falsche Tatsachenbehauptungen in selbst geschriebenen Kommentaren, 4 Kosmetik.**
+
+Die 13 sind der eigentliche Befund. Es waren durchweg Zahlen, die ich in erklärende Kommentare geschrieben und nicht gemessen hatte: „zehn weitere Stellen" statt 19, „in allen Skripten" statt 11 von 22, „der einzige Konsument" statt zwei. Jede dieser Zahlen ist eine Angriffsfläche, die ein Review pflichtgemäß prüft und meldet, und jede erzeugt eine Runde, die nichts am Verhalten ändert. Bei #332 betrafen die Runden 3 und 4 zu 100 Prozent Kommentar-Formulierungen und kosteten je rund 20 Minuten Wanduhr (7 Minuten Review plus 13 Minuten `validate`).
+
+**Weniger reviewen ist ausdrücklich nicht die Konsequenz.** Runde 1 fand jedes Mal echte Defekte, und in #333 führte ausgerechnet ein Kommentar-Befund („zehn Stellen") zu 19 real kaputten Aufrufen. Die Konsequenz steht seither in CLAUDE.md unter „Selbst erzeugter Overhead": keine Behauptung in einen Kommentar, die nicht trägt; ab Runde 3 nur noch Verhaltensbefunde einarbeiten; kein voller CI-Lauf für reine Kommentar-Commits.
+
+Der Tag hat die Regel danach zweimal gegen sich selbst gewendet. In #336 stand nach dem Löschen von 41 Changelog-Zeilen ein Satz über `journal-archive.md`, das sei „nur von dort verlinkt": neun Zeilen weiter verlinkte dieselbe Datei es. In #335 behauptete ein Kommentar, `names.xml` sei „die einzige doc-geprüfte Authority-Datei unter der Schwelle", und die Zeile direkt darunter fügte die zweite hinzu. Beide Male war die billigste Reparatur das Streichen des Halbsatzes, nicht das Nachzählen.
+
+### `waitForFunction(fn, {timeout})` ist seit jeher wirkungslos gewesen
+
+Die Signatur ist `waitForFunction(pageFunction, arg, options)`. Ohne Platzhalter landet das Options-Objekt als **Argument in der Seite**, und der Timeout gilt nie. Der Aufruf wartet dann bis zum Testbudget. Das stand an 19 Stellen in sechs Specs so, und in sechs davon lag der deklarierte Timeout unter dem Budget: dort sollte ein Wait früh mit eigener Meldung scheitern und lief in Wahrheit stumm bis zum Budget durch.
+
+Belegt statt vermutet: mit einem eingebauten `ReferenceError` endete der Lauf vor der Korrektur nach 120 Sekunden (Test-Budget), danach nach 60 (eigener Timeout).
+
+**Der Fix war nicht verhaltensneutral, und das ist der interessantere Teil.** An vier Stellen stand 30000 unter einem 60-Sekunden-Budget. Die Korrektur hätte diese Waits erstmals wirksam gemacht und damit still verschärft, ausgerechnet in `beforeEach`- und `beforeAll`-Hooks, wo ein Fehlschlag die ganze Datei mitreißt. Sie stehen jetzt auf 60000, mit der Begründung daneben. Nebenbei: `test.setTimeout()` läuft im Testkörper und kann einen Hook nicht mehr verlängern.
+
+Dieselbe Klasse von stiller Wirkungslosigkeit an vier weiteren Stellen: `window._mhdbdbApp?.searchEngine !== null` ist auch dann wahr, wenn die App gar nicht existiert (`undefined !== null`).
+
+### Ein strenger Test darf nicht an einem fremden Host hängen
+
+#331 war, dass der Modultest seine Konsolen-Listener erst **nach** `page.goto()` registrierte und damit genau die Fehlerklasse nicht sehen konnte, gegen die er schützt. Die Reparatur (Listener davor, `pageerror` zusätzlich zu `console.error`, benannte Ausnahmen statt Freibetrag) schuf ein neues Problem, das erst die Zweitmeinung gesehen hat: der Playground zieht Matomo per Script-Injection von `webstatistics.sbg.ac.at`. Ist der Host nicht erreichbar, meldet Chromium einen Ressourcenfehler vom Typ `error`, und der Test wäre offline rot, ohne dass am Playground etwas kaputt ist.
+
+Ausgenommen wird deshalb die **Herkunfts-URL**, nicht der Meldungstext. Ein Filter auf „Failed to load resource" hätte auch ein fehlendes lokales ES-Modul verschluckt, also genau den Fall, für den der Test existiert. Die Regel dahinter trägt über den Fall hinaus: eine Ausnahme wird an der Quelle festgemacht, nicht am Wortlaut.
+
+### Zum dritten Mal fast eine richtige Zahl „korrigiert"
+
+Beim Nachmessen der Verszahl kamen 1.358.973 `<l>` heraus, in der Doku standen 1.356.748. Beides ist richtig: der Index zählt nur Verse mit mindestens einem lemmatisierten Wort, weil nur die eine Boundary erzeugen. Ohne die Messvorschrift daneben wäre die richtige Angabe in eine falsche „korrigiert" worden, wie am 31.07. schon bei den Breve-Zahlen und wie bei den zwei Variantenzahlen (#279). Die Vorschrift steht jetzt in DATA-MODEL.md neben den Zahlen, samt Datumsstempel.
+
+**Die Regel ist damit dreimal in fünf Tagen belegt: eine Zahl in der Doku ohne Angabe ihrer Zählweise ist nicht nur unprüfbar, sie zieht aktiv falsche Korrekturen an.**
+
+### Kleinere Lehren
+
+**Ein Gate, das nur eine von zwei gleichartigen Tabellen prüft, sieht aus wie Abdeckung.** `check-test-inventory.py` prüfte die Spec-Tabelle in DEVELOPMENT.md; die Audit-Skript-Tabelle daneben hatte 11 von 22 Einträgen. Das Gate ist jetzt datengetrieben (`check-doc-inventories.py`) und trägt beide, plus einen Selbsttest mit 20 Fällen als eigenen CI-Schritt. Beim Verallgemeinern fiel auf, dass der Fence-Parser `~~~` und ``` gegeneinander toggeln ließ: er merkt sich jetzt Zeichen und Länge des öffnenden Markers.
+
+**Eine dritte Inventarliste stand daneben und war ungegated.** Der Verzeichnisbaum in `scripts/README.md` listet dieselben Skripte ein weiteres Mal, und ausgerechnet im PR gegen Inventar-Drift fehlte dort das neue Gate-Skript. Gefunden hat das die Zweitmeinung, nicht das Gate.
+
+**cp1252 ist nicht ASCII.** Acht Audit-Skripte starben unter Windows an ihrer eigenen Erfolgsmeldung, weil das Häkchen U+2705 ist. Beim Messen, welche Skripte betroffen sind, war meine erste Messvorschrift (`ord(c) > 255`) selbst falsch: cp1252 ist Latin-1 plus 0x80 bis 0x9F und enthält damit Umlaute, Gedankenstriche und Anführungszeichen. Die MHG-Breven `ŏ` und `ŭ` liegen dagegen außerhalb, und Audit-Skripte drucken Korpusformen.
+
+**Der Reader zeigt seit #250 Header-Prosa, und die trug ASCII-Substitute.** Acht Dateien, darunter zwei verschluckte Silben in OVW („Streuberlieferung" statt „Streuüberlieferung"). Der erste Scan war auf die im Issue genannten Wörter gekeyt und hat deshalb nicht geprüft, was er zu prüfen behauptete; der zweite zählt alle 70 Wörter mit `ss`, `ae`, `oe` oder `ue` in der Prosa aller `editorialDecl`-Blöcke und legt die Liste offen. Zwei weitere Dateien kamen so dazu.
+
+### Was offen bleibt
+
+- **#315 Punkt 2:** im Korpus tragen sechs Dateien `role="lead-editor"` (JT, PUC, TKA, TKR, VTC, WZB), die Doku nennt an drei Stellen vier, fünf und sechs. Ob WZB dazugehört, ist eine fachliche Frage an KZW und Julia.
+- **#316:** die Sprachmischung in den Docs und der Feature-Katalog in INDEX.md, der FEATURES.md nacherzählt. Dazu neu: das Umleitungsziel ROADMAP → Recently Completed ist selbst nicht frisch (jüngster Eintrag 08.07.). Das Freshness-Problem ist verschoben, nicht gelöst.
+
+**Phase:** Betrieb. PRs #330, #332, #333, #334, #335, #336.
