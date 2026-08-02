@@ -125,6 +125,22 @@ INTENTIONALLY_SILENT = {
         'nennt die Werkzeuge einzeln in der Routing-Tabelle, nie als Summe',
     ('docs/INDEX.md', 'entry_points'):
         'verweist seit #316 auf FEATURES.md, statt den Katalog samt Zahlen zu wiederholen',
+    ('docs/INDEX.md', 'tei_tools'):
+        'verweist seit #316 auf FEATURES.md, statt den Katalog samt Zahlen zu wiederholen',
+    # Die folgenden fuenf sind mit #342 dazugekommen, nicht weil sich die
+    # Dokumente geaendert haetten, sondern weil die Selbstpruefung seither die
+    # Zahlbindung verlangt statt blossem Vorkommen des Ankerworts. Jede
+    # Begruendung ist gemessen: die Ist-Zahl kommt in der Datei nicht vor.
+    ('docs/ARCHITECTURE.md', 'corpus_files'):
+        'beschreibt Komponenten und Datenfluss, nennt die Korpusgroesse nirgends',
+    ('docs/ARCHITECTURE.md', 'variants_forms'):
+        'nennt den Varianten-Mechanismus, nie die Zahl der Formen',
+    ('docs/ARCHITECTURE.md', 'variants_normalized'):
+        'nennt den Varianten-Mechanismus, nie die Zahl der Mappings',
+    ('docs/DECISIONS.md', 'lexicon_entries'):
+        'ADRs begruenden Entscheidungen; die Lexikongroesse fuehren TEI-MODEL und DATA-MODEL',
+    ('docs/DECISIONS.md', 'variants_normalized'):
+        'ADR-015 nennt nur die historischen Formzahlen der Regenerierung, nie die Mappings',
 }
 
 
@@ -343,7 +359,13 @@ NEAR_KEYWORDS = {
     # "NNN Files" matchen — die dominanten Schreibweisen in den Docs.
     # Bare "Dateien"/"Files" ist vertretbar, weil der Drift-Window-Check
     # (±2 %) und der Rundungs-/Arrow-Skip False Positives abfangen.
-    'corpus_files': r'(?:TEI(?:-XML)?[-\s](?:files?|Dateien|Texte)|Korpus(?:-?[Dd]ateien)?|(?:mittelhochdeutsche\s+)?TEI-Texte|Dateien|[Ff]iles)',
+    # "TEI-codierte Texte" und "corpus files" sind nachgetragen (#342): beide
+    # Formulierungen stehen im Bestand unmittelbar hinter der 667 (README.md
+    # Zeile 21, ROADMAP.md Zeile 118), das alte Muster verlangte aber "TEI"
+    # direkt vor "Texte" und kannte "corpus" nur gross geschrieben. Die
+    # Selbstpruefung meldete beide Dateien deshalb als ungeprueft, obwohl sie
+    # die Zahl fuehren: es scheiterte an der Formulierung, nicht am Inhalt.
+    'corpus_files': r'(?:TEI(?:-XML)?[-\s](?:files?|Dateien|Texte)|TEI-[a-zäöüß]+e\s+Texte|Korpus(?:-?[Dd]ateien)?|(?:mittelhochdeutsche\s+)?TEI-Texte|corpus\b|Dateien|[Ff]iles)',
     # Kleinschreibung, weil ARCHITECTURE.md die Zahl als "43.879
     # `lemmata`-Eintraege" fuehrt (Code-Bezeichner im Fliesstext); "records",
     # weil dieselbe Zahl dort als Groesse des API-Lemmata-Bundles auftaucht
@@ -524,6 +546,43 @@ def find_stale_numbers(doc_path: str, current: int, key: str) -> list:
     return findings
 
 
+def number_pattern_for(key: str, numeric: bool) -> re.Pattern:
+    """Das Zahlmuster, mit dem der jeweilige Scan im Dokument sucht.
+
+    Wortgleich zu den beiden Scans, damit die Selbstpruefung unten nicht
+    grosszuegiger wird als das, was sie zusichert: find_stale_numbers sucht
+    grosse Ziffern mit Tausendertrennung, find_stale_wordcounts Zahlwoerter
+    und zweistellige Ziffern.
+    """
+    if numeric:
+        min_digits = 2 if scan_min_for(key) < 100 else 3
+        return re.compile(rf'\b(\d{{1,3}}(?:[.,]\d{{3}})+|\d{{{min_digits},7}})\b')
+    words = '|'.join(sorted(NUMBER_WORDS, key=len, reverse=True))
+    return re.compile(rf'\b((?i:{words})|\d{{1,2}})\b')
+
+
+def anchor_binds_number(content: str, pattern: str, num_re: re.Pattern) -> bool:
+    """Steht im Dokument irgendwo eine Zahl unmittelbar vor dem Anker?
+
+    Die Selbstpruefung fragte bis #342 nur, ob das Anker-Wort ueberhaupt
+    vorkommt. Beide Scans verlangen aber mehr: die Zahl muss direkt davor
+    stehen, ANCHOR_SEP laesst dazwischen nur Whitespace und etwas Markup zu.
+    Kommt das Wort nur in Prosa vor ("and the TEI analysis tools, from ..."),
+    laeuft der Scan ins Leere, waehrend die Selbstpruefung Abdeckung meldet.
+    Gemessen betraf das sechs Paare, fuenf davon seit Monaten (#342).
+
+    Die Skip-Regeln der Scans (datierte Chronik-Zeilen, Modulbaum-Zeilen,
+    historische Marker) sind hier bewusst NICHT nachgebildet. Sie nehmen
+    einzelne Fundstellen aus, nicht die Pruefbarkeit der Stelle an sich: eine
+    Datei, in der die Zahl nur in einer Chronik-Zeile steht, wuerde sonst als
+    ungeprueft gelten, obwohl der Scan dort anschlaegt, sobald jemand die
+    Zahl ausserhalb der Chronik nennt.
+    """
+    anchor = re.compile(ANCHOR_SEP + pattern)
+    return any(anchor.match(content[m.end():m.end() + 300])
+               for m in num_re.finditer(content))
+
+
 def check_anchor_coverage(counts: dict, code_counts: dict) -> list:
     """Selbstpruefung: welches konfigurierte (Datei, Key)-Paar prueft nichts?
 
@@ -534,12 +593,23 @@ def check_anchor_coverage(counts: dict, code_counts: dict) -> list:
     einen Count schweigen — aber es darf nicht unsichtbar bleiben, sonst
     zaehlt man Targets und haelt sie fuer Abdeckung.
 
+    Nachtrag #342: die Pruefung hatte selbst denselben blinden Fleck. Sie
+    fragte nur, ob das Anker-Wort im Dokument vorkommt, waehrend beide Scans
+    eine Zahl unmittelbar davor verlangen. Ein Anker in reiner Prosa erfuellte
+    also die Selbstpruefung, ohne dass der Scan je haette anschlagen koennen.
+    Betroffen waren acht Paare. Zwei davon liessen sich beheben, indem der
+    corpus_files-Anker die real verwendeten Formulierungen lernte; die
+    restlichen sechs stehen jetzt begruendet in INTENTIONALLY_SILENT.
+
     Gemeldet werden sechs Zustaende:
       missing-file  Pfad existiert nicht (Umbenennung, Tippfehler)
       no-anchor     kein Anker-Muster fuer den Key hinterlegt
       below-min     Ist-Wert unter der Schwelle des Keys (scan_min_for),
                     der Ziffern-Scan laeuft dort nie
-      no-hit        Anker kommt im ganzen Dokument nicht vor
+      no-hit        der Scan kann hier nichts finden, aus einem von zwei
+                    Gruenden: das Anker-Wort fehlt ganz, oder es steht nur
+                    in Prosa, nie hinter einer Zahl. Beides steht als
+                    Diagnose in der Meldung (#342)
       silent        wie no-hit, aber als bewusste Entscheidung hinterlegt
                     (INTENTIONALLY_SILENT) und damit kein offener Punkt
       silent-obsolet  als silent hinterlegt, aber der Anker trifft doch:
@@ -566,12 +636,24 @@ def check_anchor_coverage(counts: dict, code_counts: dict) -> list:
                     gaps.append((doc_path, key, 'below-min',
                                  f'Ist-Wert {values[key]} < {scan_min_for(key)}'))
                     continue
-                if not re.search(pattern, content):
+                num_re = number_pattern_for(key, numeric)
+                if not anchor_binds_number(content, pattern, num_re):
                     reason = INTENTIONALLY_SILENT.get((doc_path, key))
+                    # Zwei Wege in denselben Zustand, mit verschiedener
+                    # Behebung: fehlt das Wort ganz, gehoert der Count in die
+                    # Datei oder das Target weg. Steht es nur in Prosa, reicht
+                    # es, die Zahl an derselben Stelle zu nennen.
+                    diagnose = ('Anker kommt im Dokument nicht vor'
+                                if not re.search(pattern, content) else
+                                'Anker kommt nur in Prosa vor, nie hinter einer Zahl')
                     gaps.append((doc_path, key,
                                  'silent' if reason else 'no-hit',
-                                 reason or 'Anker kommt im Dokument nicht vor'))
+                                 reason or diagnose))
                 elif (doc_path, key) in INTENTIONALLY_SILENT:
+                    # Seit #342 heisst "trifft" hier: der Anker steht hinter
+                    # einer Zahl. Ein Eintrag wird also erst dann obsolet
+                    # gemeldet, wenn die Datei wirklich wieder zaehlt, und
+                    # nicht schon, wenn das Wort in einem Fliesstext auftaucht.
                     # Der Anker trifft, der Eintrag behauptet das Gegenteil:
                     # tote Config mit inzwischen falscher Begruendung. Ohne
                     # diese Meldung altert INTENTIONALLY_SILENT genauso still
