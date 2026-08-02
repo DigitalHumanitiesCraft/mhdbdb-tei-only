@@ -372,7 +372,7 @@ resolveConceptLabels(conceptIds):
 
 **Component:** `woerterbuch.html` + `assets/js/woerterbuch.js` (`WoerterbuchPage`)
 
-A–Z entry page to the lemma pages. It loads the authority index only (via `CorpusLoader('data')`), buckets the 43,879 `lemmata` entries client-side by the first letter of `normalized` (NFD strip as a fallback for `ë` and `ú`, numeric lemmata go into the `#` bucket), and renders a paginated register per letter (200 entries per page, sorted with `Intl.Collator('de')`). URL state `?buchstabe=&seite=` via `history.replaceState`. Deliberately no build artefact of its own: the existing index is enough.
+A–Z entry page to the lemma pages. It loads the authority index only (via `CorpusLoader('data')`), buckets the 43,879 `lemmata` entries client-side by the first letter of `normalized` (NFD strip as a fallback for `ë` and `ú`, numeric lemmata go into the `#` bucket), and renders a paginated register per letter (200 entries per page, sorted with `Intl.Collator('de')`). URL state `?buchstabe=&seite=` via `history.replaceState`. Deliberately no build artifact of its own: the existing index is enough.
 
 ---
 
