@@ -546,6 +546,11 @@ def scanne_html(text):
 
 HUNK_RE = re.compile(r'^@@ -\d+(?:,\d+)? \+(\d+)(?:,(\d+))? @@')
 
+# Zahl der Faelle in selbsttest_diff(). Als Konstante, weil die Funktion sie
+# auch dann melden muss, wenn sie vor dem Aufbau der Fallliste abbricht; ein
+# Fall am Ende prueft sie gegen die tatsaechliche Laenge.
+DIFF_FALLZAHL = 15
+
 
 def ausgeschlossen(rel):
     """Faellt der Pfad unter SKIP_ANYWHERE oder SKIP_DATEIEN?
@@ -563,23 +568,18 @@ def ausgeschlossen(rel):
     return any(t in SKIP_ANYWHERE for t in teile) or rel in SKIP_DATEIEN
 
 
-# Jeder git-Aufruf dieses Gates laeuft mit dieser Einstellung, damit die
-# Ausgabe nicht von der lokalen Konfiguration abhaengt. Sie ist eine
-# Fail-open-Quelle und keine Kosmetik: `core.quotepath` steht per Default auf
-# true, und dann kommt ein Pfad mit Umlaut als "docs/W\303\266rterbuch.md"
-# zurueck. Unter diesem Namen findet die Datei sich nicht mehr auf der Platte,
-# der Scan uebersaehe sie und meldete nichts. In einem deutschsprachigen
-# Projekt ist ein Umlaut im Dateinamen kein Sonderfall.
+# Hier standen nacheinander drei git-Konfigurationen, die Fail-opens des
+# Parsers abfangen sollten: `diff.noprefix` und `diff.mnemonicprefix`, solange
+# ein Header-Parser das `b/` lesen musste, und `core.quotepath=false`, solange
+# Pfade als Text mit C-Escapes kamen ("docs/W\303\266rterbuch.md" liesse sich
+# auf der Platte nicht mehr finden).
 #
-# `diff.noprefix` und `diff.mnemonicprefix` standen hier ebenfalls, solange
-# ein Header-Parser das `b/` lesen musste. Seit der Diff pro Datei laeuft und
-# nur noch `@@`-Zeilen ausgewertet werden, koennen sie nichts mehr kaputt
-# machen: eine Absicherung, die kein Fall mehr rot faerben kann, ist keine.
-GIT_KONFIG = ['-c', 'core.quotepath=false']
-
-
+# Beide Klassen sind inzwischen strukturell weg: der Diff laeuft pro Datei und
+# liest nur `@@`-Zeilen, und alle Pfade kommen NUL-getrennt (`-z`), womit git
+# gar nicht erst quotet. Die Konfigurationen faerbten danach keinen Fall mehr
+# rot, und eine Absicherung, die kein Fall widerlegen kann, ist keine.
 def _git(args, cwd):
-    return subprocess.run(['git'] + GIT_KONFIG + args, cwd=str(cwd),
+    return subprocess.run(['git'] + args, cwd=str(cwd),
                           capture_output=True, text=True, encoding='utf-8',
                           errors='replace')
 
@@ -598,14 +598,33 @@ def neue_md_zeilen(base, wurzel=None):
     # --no-ext-diff: ein konfiguriertes externes Diff-Werkzeug wuerde eine
     # Ausgabe liefern, die dieser Parser nicht liest, und der Lauf waere
     # still gruen.
-    res = _git(['diff', '--name-only', '--no-ext-diff', '--diff-filter=d',
-                base, '--', '*.md'], wurzel)
+    #
+    # -M ist nicht Feinschliff: ohne Umbenennungserkennung zaehlt eine bloss
+    # verschobene Datei komplett als neu. `git mv docs/journal-archive.md`
+    # ergaebe 278 Fehler auf Zeilen, die der PR nie angefasst hat, und die
+    # Abhilfe dagegen (278 Zeilen umschreiben) waere genau das, was die
+    # Hausregel verbietet. Doku-Umzuege sind hier real: die Playbooks sind am
+    # 2026-07-08 aus docs/features/ herausgezogen worden.
+    #
+    # -z, weil `--name-status` sonst an Tabs und Zeilenumbruechen trennt und
+    # ein Dateiname beides tragen darf.
+    res = _git(['diff', '--name-status', '-M', '-z', '--no-ext-diff',
+                '--diff-filter=d', base, '--', '*.md'], wurzel)
     if res.returncode != 0:
         return None
 
-    for rel in res.stdout.split('\n'):
-        rel = rel.strip()
-        if not rel or ausgeschlossen(rel):
+    felder = [f for f in res.stdout.split('\0') if f]
+    i = 0
+    while i < len(felder):
+        status, i = felder[i], i + 1
+        # Bei R und C folgen zwei Pfade (alt, neu), sonst einer.
+        anzahl_pfade = 2 if status[:1] in ('R', 'C') else 1
+        if i + anzahl_pfade > len(felder):
+            return None  # abgeschnittene Ausgabe, lieber laut als halb
+        pfade = felder[i:i + anzahl_pfade]
+        i += anzahl_pfade
+        rel = pfade[-1]
+        if ausgeschlossen(rel):
             continue
         # Pro Datei ein eigener diff. Der teurere Weg, aber der einzige ohne
         # Rateschritt: in einem Sammel-Diff muesste der Parser die Dateikoepfe
@@ -615,8 +634,20 @@ def neue_md_zeilen(base, wurzel=None):
         # Datei verloren und alle weiteren Hunks stumm verworfen. Hier ist die
         # Datei von vornherein bekannt, und `^@@` kann keine Inhaltszeile sein,
         # weil die immer praefigiert ist.
-        d = _git(['diff', '-U0', '--no-color', '--no-ext-diff', base, '--', rel],
-                 wurzel)
+        #
+        # Bei einer Umbenennung gehen BEIDE Pfade hinein. git filtert den
+        # Pathspec vor der Umbenennungserkennung (derselbe Grund, aus dem es
+        # `git log --follow` gibt): mit nur dem neuen Pfad faende sie nicht
+        # statt, und die Datei erschiene wieder als Neuanlage.
+        #
+        # `:(literal)` schaltet die Pathspec-Interpretation ab. Die Gefahr ist
+        # nicht, dass die Datei sich selbst verfehlt: git vergleicht zuerst
+        # literal und findet sie (nachgemessen, git 2.x). Sie ist, dass der
+        # Pathspec ZUSAETZLICH matcht. `plan[v2].md` matcht als Glob auch
+        # `plan2.md`, und deren Hunk-Nummern landeten dann unter `rel`: das
+        # Gate meldete Bestandszeilen der einen Datei als neue der anderen.
+        d = _git(['diff', '-U0', '--no-color', '--no-ext-diff', '-M', base, '--']
+                 + [f':(literal){p}' for p in pfade], wurzel)
         if d.returncode != 0:
             return None
         for zeile in d.stdout.split('\n'):
@@ -628,12 +659,17 @@ def neue_md_zeilen(base, wurzel=None):
             # anzahl 0 heisst reine Loeschung an dieser Stelle: keine neue Zeile
             zeilen.setdefault(rel, set()).update(range(start, start + anzahl))
 
-    res = _git(['ls-files', '--others', '--exclude-standard', '--', '*.md'], wurzel)
-    if res.returncode == 0:
-        for pfad in res.stdout.split('\n'):
-            pfad = pfad.strip()
-            if pfad and not ausgeschlossen(pfad):
-                zeilen[pfad] = None
+    res = _git(['ls-files', '--others', '--exclude-standard', '-z', '--', '*.md'],
+               wurzel)
+    if res.returncode != 0:
+        # Nicht still weitergehen. Faellt diese Gruppe stumm aus, meldet der
+        # Lauf „keine Em-Dashes", obwohl ausgerechnet die Dateien mit dem
+        # meisten neuen Text ungeprueft blieben. Die beiden diff-Aufrufe
+        # oben brechen in derselben Lage ebenfalls ab.
+        return None
+    for pfad in res.stdout.split('\0'):
+        if pfad and not ausgeschlossen(pfad):
+            zeilen[pfad] = None
     return zeilen
 
 
@@ -653,7 +689,13 @@ def scanne_diff(base, wurzel=None):
             fundstellen.append((rel, 1, 'Datei ist nicht UTF-8 und konnte '
                                         'nicht geprueft werden'))
             continue
-        except OSError:
+        except OSError as fehler:
+            # Im Vollscan laeuft die Liste aus einem Glob, und eine Datei kann
+            # zwischendurch verschwinden; hier kommt sie von git und existiert
+            # gerade noch. Ein Lesefehler heisst dann: nicht geprueft. Das
+            # gehoert gemeldet, nicht uebersprungen.
+            fundstellen.append(
+                (rel, 1, f'Datei nicht lesbar ({fehler.strerror or fehler})'))
             continue
         if not any(f in text for f in EM_FORMEN):
             continue
@@ -859,19 +901,36 @@ def selbsttest_diff():
         # Zeile direkt VOR einer bestehenden Em-Dash-Zeile. Ein Off-by-one
         # nach oben wuerde die bestehende mitzaehlen.
         (wurzel / 'f.md').write_text('Alt ' + EM_DASH + ' bleibt\n', encoding='utf-8')
-        # Umlaut im Dateinamen. Ohne core.quotepath=false liefert git
-        # "b/w\303\266rter.md", der Header-Parser verliert die Datei und
-        # meldet nichts.
+        # Umlaut im Dateinamen. Ohne -z quotet git den Pfad als
+        # "w\303\266rter.md"; unter diesem Namen findet er sich nicht mehr auf
+        # der Platte, und der Scan meldete nichts. In einem deutschsprachigen
+        # Projekt ist das kein Sonderfall.
         (wurzel / 'wörter.md').write_text('sauber\n', encoding='utf-8')
         # g.md muss getrackt sein: die getarnte Kopfzeile ist eine Gefahr des
         # diff-Zweigs, ungetrackte Dateien laufen an ihm vorbei.
         (wurzel / 'g.md').write_text(
             'kopf\nfuellzeile\nfuellzeile\nfuellzeile\nschluss\n', encoding='utf-8')
+        # h.md wird spaeter nur umbenannt. Ohne Umbenennungserkennung gilt die
+        # Bestandszeile mit Strich als neu, und ein reiner Umzug faerbt das
+        # Gate rot.
+        (wurzel / 'h.md').write_text(
+            'Bestand ' + EM_DASH + ' unveraendert\n', encoding='utf-8')
+        # Eckige Klammern im Dateinamen. Ohne :(literal) matcht der Pathspec
+        # `plan[v2].md` als Glob AUCH `plan2.md`; deren Hunks landeten dann
+        # unter dem falschen Pfad. Damit das auffaellt, traegt plan[v2].md
+        # einen Em-Dash in einer BESTANDSZEILE, und plan2.md bekommt genau an
+        # deren Nummer eine neue Zeile.
+        (wurzel / 'plan[v2].md').write_text(
+            'Bestand ' + EM_DASH + ' alt\n', encoding='utf-8')
+        (wurzel / 'plan2.md').write_text('sauber\n', encoding='utf-8')
         (wurzel / '.gitignore').write_text('geheim/\n', encoding='utf-8')
         (wurzel / '_archived').mkdir()
         (wurzel / '_archived' / 'alt.md').write_text('Archiv\n', encoding='utf-8')
+        # `plan[v2].md` braucht auch hier die literal-Magic: als Pathspec
+        # matcht der Name sich selbst nicht, `git add` faende nichts.
         _git(['add', 'a.md', 'b.md', 'e.md', 'f.md', 'wörter.md', 'g.md',
-              '.gitignore', '_archived/alt.md'], wurzel)
+              'h.md', ':(literal)plan[v2].md', 'plan2.md', '.gitignore',
+              '_archived/alt.md'], wurzel)
         _git(cfg + ['commit', '-qm', 'base'], wurzel)
 
         # a.md: neue Zeile mit Em-Dash, die alte bleibt unangetastet
@@ -920,6 +979,16 @@ def selbsttest_diff():
             'Archiv\nNeu ' + EM_DASH + ' trotzdem still\n', encoding='utf-8')
         (wurzel / '_archived' / 'neu.md').write_text(
             'Archiv ' + EM_DASH + ' ungetrackt\n', encoding='utf-8')
+        # Reine Umbenennung, kein Zeichen geaendert. `git mv` legt sie in den
+        # Index; der Vergleich base gegen Arbeitsbaum sieht sie dadurch.
+        _git(['mv', 'h.md', 'i.md'], wurzel)
+        # Neue Zeile 2 in der Datei mit Glob-Zeichen im Namen; Zeile 1 mit dem
+        # Strich bleibt Bestand. plan2.md bekommt seine neue Zeile an Position
+        # 1, also genau dort, wo plan[v2].md den Bestands-Strich hat.
+        (wurzel / 'plan[v2].md').write_text(
+            'Bestand ' + EM_DASH + ' alt\nNeu ' + EM_DASH + ' hier\n',
+            encoding='utf-8')
+        (wurzel / 'plan2.md').write_text('geaendert\nsauber\n', encoding='utf-8')
 
         gefunden = scanne_diff('HEAD', wurzel)
         if gefunden is None:
@@ -927,10 +996,10 @@ def selbsttest_diff():
             # was los ist: das Wegwerf-Repo ist nicht zustande gekommen
             # (fehlende git-Identitaet, Hook, Berechtigung).
             print('  [FAIL] Diff-Schicht: git im Wegwerf-Repo nicht benutzbar')
-            return 13, 13
+            return DIFF_FALLZAHL, DIFF_FALLZAHL
         ist = {(p, nr) for p, nr, _ in gefunden}
         erwartet = {('a.md', 2), ('c.md', 1), ('wörter.md', 2), ('größe.md', 1),
-                    ('g.md', 7)}
+                    ('g.md', 7), ('plan[v2].md', 2)}
         faelle = [
             ('unveraenderte Zeile mit Em-Dash bleibt stumm', ('a.md', 1) not in ist),
             ('hinzugefuegte Zeile wird gemeldet', ('a.md', 2) in ist),
@@ -949,6 +1018,10 @@ def selbsttest_diff():
              ('g.md', 7) in ist),
             ('_archived bleibt aussen vor, wie im Vollscan',
              not any(p.startswith('_archived/') for p, _ in ist)),
+            ('reine Umbenennung meldet keine Bestandszeile',
+             not any(p in ('h.md', 'i.md') for p, _ in ist)),
+            ('Glob-Zeichen im Dateinamen zieht keine Fremddatei herein',
+             ('plan[v2].md', 2) in ist and ('plan[v2].md', 1) not in ist),
             ('keine weiteren Fundstellen', ist == erwartet),
         ]
         for name, ok in faelle:
@@ -957,7 +1030,14 @@ def selbsttest_diff():
                 fehler += 1
         if ist != erwartet:
             print(f'         erwartet {sorted(erwartet)}, bekommen {sorted(ist)}')
-    return fehler, 13
+        if len(faelle) != DIFF_FALLZAHL:
+            # Die Zahl steht als Konstante da, weil der fruehe Return oben sie
+            # braucht, bevor `faelle` existiert. Damit sie nicht davondriftet,
+            # prueft dieser Fall sie gegen die Liste.
+            print(f'  [FAIL] Diff-Schicht: {len(faelle)} Faelle, aber '
+                  f'DIFF_FALLZAHL sagt {DIFF_FALLZAHL}')
+            fehler += 1
+    return fehler, DIFF_FALLZAHL
 
 
 def selbsttest():
