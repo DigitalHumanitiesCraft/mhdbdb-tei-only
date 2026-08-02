@@ -25,4 +25,4 @@ Alles Entfernte bleibt in der Git-History unter dem alten Pfad `Wenzelsbibel/` v
 ## Kontext
 
 - Verfahren: dreiphasige LLM-Pipeline (Lemma → POS → Sense), beschrieben im Blog-Post-Draft `publications/BLOG-POST-WZB-PIPELINE.md` und in `scripts/ingest/wzb/README.md`
-- Scope-Präzisierung „Pentateuch" (2026-05-12): siehe `docs/INDEX.md` → Recent Milestones
+- Scope-Präzisierung „Pentateuch" (2026-05-12): siehe `docs/ROADMAP.md` → Recently Completed
