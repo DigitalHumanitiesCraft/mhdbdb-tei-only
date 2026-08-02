@@ -163,10 +163,10 @@ The reading view converts TEI XML elements to HTML. Source: `extractAndFormatBod
 ### Application Structure
 
 **MHDBDBPlayground** (`playground/js/playground-main.js`)
-- Alt-Datenbank `MHDBDB_Playground` löschen (`dropLegacyPlaygroundDatabase()`, #314). Der einzige IndexedDB-Kontakt des Playgrounds ist eine Löschung, keine Initialisierung: die Indexe liegen im gemeinsamen `CorpusLoader`
+- Drop the legacy `MHDBDB_Playground` database (`dropLegacyPlaygroundDatabase()`, #314). The playground's only contact with IndexedDB is this deletion, never an initialisation: the indexes live in the shared `CorpusLoader`
 - Load authority index (~3 MB)
 - Initialize data managers (authority, TEI)
-- Set up modular UI components (23 modules; 25 vor #314, das `file-display.js` und `progress.js` entfernt hat)
+- Set up modular UI components (23 modules; 25 before #314 removed `file-display.js` and `progress.js`)
 
 ### Data Layer
 
@@ -174,7 +174,7 @@ The reading view converts TEI XML elements to HTML. Source: `extractAndFormatBod
 - Load and query authority data
 - 3-stage lemma resolution:
   1. Exact match in lexicon (canonical forms)
-  2. Variants dictionary lookup: normalisierte **Mappings**; der Bau dedupliziert die Rohformen aus `variants.xml` nach Normalisierung, es sind also weniger Mappings als Formen (Zahlen mit Stand in [CONTRACTS §C](CONTRACTS.md#c-3-stage-lemma-resolution-algorithm))
+  2. Variants dictionary lookup: normalized **mappings**, not raw forms. The build deduplicates the raw forms from `variants.xml` after normalization, so there are fewer mappings than forms (current figures, with a date, in [CONTRACTS §C](CONTRACTS.md#c-3-stage-lemma-resolution-algorithm))
   3. Prefix-match fallback, both directions, shared with the main site via `assets/js/lib/lemma-resolve.js` (#224; before that an unbounded substring test, one-directional here and bidirectional on the main site)
 - Direct array access (no XML DOM queries)
 - Performance maps for fast lookups
@@ -226,7 +226,7 @@ playground/js/ui/
 - Easier testing and maintenance
 - Net reduction: 5,536 lines removed
 
-**Playground TEI-Modul-Konvention:** unter `playground/js/ui/tei/` liegen dreizehn Dateien; die elf Analyse-Module folgen dem gleichen Constructor/`show()`/`render()`-Pattern (ausgenommen sind `tei-ui.js` als Router und `multi-lemma-search.js` als dokumentierter Modal-Outlier) mit Thunks statt direkter Daten-Referenzen, state-driven `renderBody()`, pro-Modul-Escape-Helpers und MessageChannel-Yield bei großen Aggregationen. Sonderfall `naming-explorer.js` (#59): hängt nicht am Corpus-Index, sondern lädt seinen eigenen kleinen Index (`data/naming-index.json.gz`) lazy per fetch+pako ohne IndexedDB-Cache. Pattern ist als Template in [DESIGN.md §Playground TEI-Analysis Module Pattern](DESIGN.md#playground-tei-analysis-module-pattern) dokumentiert.
+**Playground TEI module convention:** `playground/js/ui/tei/` holds thirteen files. The eleven analysis modules share one constructor/`show()`/`render()` pattern, with thunks instead of direct data references, a state-driven `renderBody()`, per-module escape helpers, and a MessageChannel yield for large aggregations. Two files are exempt: `tei-ui.js` is the router, and `multi-lemma-search.js` is a documented modal outlier. `naming-explorer.js` (#59) is a special case: it does not read the corpus index but lazily fetches its own small index (`data/naming-index.json.gz`) via fetch plus pako, without an IndexedDB cache. The pattern is documented as a template in [DESIGN.md §Playground TEI-Analysis Module Pattern](DESIGN.md#playground-tei-analysis-module-pattern).
 
 **Authority Explorers:**
 Each explorer follows consistent pattern:
@@ -267,17 +267,17 @@ Each explorer follows consistent pattern:
 |------|-------------|---------------|
 | Authority explorers | `#authors`, `#works`, `#lemmata`, `#concepts`, `#genres`, `#names` | Corresponding explorer tab |
 | Multi-Lemma Search | `#multi-lemma` | Co-occurrence search modal |
-| Versposition | `#verse-position` | Lemmasuche nach Versanfang/Versende (#47.3) |
-| Wortfrequenz | `#word-frequency` | Top-N Lemmata, mit Stopwort-Filter (#88) |
-| Text-Statistiken | `#text-statistics` | Token-Count, Lemma-Diversität, Hapax-Rate (#89) |
-| Lemma-Verteilung | `#lemma-distribution` | Bar-Chart pro Lemma über alle Texte (#90) |
-| Begriffs-Verteilung | `#concept-distribution` | Bar-Chart pro Konzept über alle Texte (#47 R2, mit Autocomplete-Dropdown #113) |
-| Textvergleich | `#text-comparison` | Set-Ops Nur-A / Beide / Nur-B über zwei Texte (#108) |
-| Kookkurrenz-Ranking | `#cooccurrence-ranking` | Top-N Nachbar-Lemmata eines Lemmas, POS-gefiltert (#107) |
-| Reim-Wörterbuch | `#rhyme-dictionary` | Reimpartner-Lemmata an benachbarten Versenden, Suffix-Heuristik (#106) |
-| Hapaxlegomena | `#hapax-legomena` | Korpusweit einmalige Lemmata mit Fundort und Wörterbuch-Abgleich (#196) |
-| Versendings-Profil | `#verse-ending-profile` | Top-N Versende-Lemmata je Scope, Spalte „Reim-Druck" (#106 Punkt 2/3) |
-| Erweiterte Figurenbezeichnungen | `#naming` | Kuratierte Eigennamen/Antonomasien/Epitheta je Figur in 4 Werken (#59, Beta) |
+| Versposition | `#verse-position` | Lemma search by verse-initial or verse-final position (#47.3) |
+| Wortfrequenz | `#word-frequency` | Top-N lemmata, with stopword filter (#88) |
+| Text-Statistiken | `#text-statistics` | Token count, lemma diversity, hapax rate (#89) |
+| Lemma-Verteilung | `#lemma-distribution` | Bar chart per lemma across all texts (#90) |
+| Begriffs-Verteilung | `#concept-distribution` | Bar chart per concept across all texts (#47 R2, with autocomplete dropdown #113) |
+| Textvergleich | `#text-comparison` | Set operations A only / both / B only over two texts (#108) |
+| Kookkurrenz-Ranking | `#cooccurrence-ranking` | Top-N neighbouring lemmata of one lemma, POS-filtered (#107) |
+| Reim-Wörterbuch | `#rhyme-dictionary` | Rhyme-partner lemmata at adjacent verse endings, suffix heuristic (#106) |
+| Hapaxlegomena | `#hapax-legomena` | Lemmata unique across the corpus, with location and dictionary lookup (#196) |
+| Versendings-Profil | `#verse-ending-profile` | Top-N verse-final lemmata per scope, with a „Reim-Druck" column (#106 items 2 and 3) |
+| Erweiterte Figurenbezeichnungen | `#naming` | Curated proper names, antonomasias and epithets per character in 4 works (#59, beta) |
 
 **Parameters:**
 
@@ -286,8 +286,8 @@ Each explorer follows consistent pattern:
 | `q` | All authority views | Auto-fills search input and triggers search |
 | `show` | All authority views | Expands detail panel for the given item ID |
 | `lemmata` | `multi-lemma` only | Comma-separated lemma terms |
-| `mode` | `multi-lemma` | `proximity` (Default), `document` oder `verse` (Same-Verse-Suche, #106 Punkt 8); Quelle `router.js`, `handleMultiLemmaRoute()` |
-| `mode` | `lemmata` | `component` öffnet die Wortbestandteil-Suche (#239); der Modus erzwingt das Sucheingabe-Interface auch ohne `q` |
+| `mode` | `multi-lemma` | `proximity` (default), `document` or `verse` (same-verse search, #106 item 8); source `router.js`, `handleMultiLemmaRoute()` |
+| `mode` | `lemmata` | `component` opens the word-component search (#239); the mode forces the search-input interface even without `q` |
 | `dist` | `multi-lemma` only | Max word distance (integer) |
 
 **Example:** `#multi-lemma&lemmata=minne,êre&mode=proximity&dist=10`
@@ -372,22 +372,22 @@ resolveConceptLabels(conceptIds):
 
 **Component:** `woerterbuch.html` + `assets/js/woerterbuch.js` (`WoerterbuchPage`)
 
-A–Z-Einstiegsseite zu den Lemma-Seiten. Lädt nur den Authority-Index (via `CorpusLoader('data')`), bucketet die 43.879 `lemmata`-Einträge client-seitig nach dem Anfangsbuchstaben von `normalized` (NFD-Strip als Fallback für `ë`/`ú`, Ziffern-Lemmata im `#`-Bucket) und rendert pro Buchstabe ein paginiertes Register (200 Einträge/Seite, `Intl.Collator('de')`-Sortierung). URL-State `?buchstabe=&seite=` über `history.replaceState`. Bewusst kein eigenes Build-Artefakt – der vorhandene Index reicht.
+A–Z entry page to the lemma pages. It loads the authority index only (via `CorpusLoader('data')`), buckets the 43,879 `lemmata` entries client-side by the first letter of `normalized` (NFD strip as a fallback for `ë` and `ú`, numeric lemmata go into the `#` bucket), and renders a paginated register per letter (200 entries per page, sorted with `Intl.Collator('de')`). URL state `?buchstabe=&seite=` via `history.replaceState`. Deliberately no build artefact of its own: the existing index is enough.
 
 ---
 
 ## Storage Architecture
 
-### Der Playground hat keine eigene Datenbank mehr (#314)
+### The playground no longer has a database of its own (#314)
 
-Bis Juli 2026 hielt der Playground eine zweite IndexedDB-Datenbank `MHDBDB_Playground`, verwaltet von `playground/js/indexed-db-manager.js`. Ihr einziger Store `tei_files` speicherte die vom Benutzer hochgeladenen TEI-Dateien; geschrieben wurde er aus `data/storage/tei-storage.js`. Mit dem Rückbau des toten Upload-Pfads (#314) sind Schreiber und Manager entfernt.
+Until July 2026 the playground kept a second IndexedDB database, `MHDBDB_Playground`, managed by `playground/js/indexed-db-manager.js`. Its only store, `tei_files`, held the TEI files uploaded by the user and was written from `data/storage/tei-storage.js`. With the dead upload path removed (#314), both the writer and the manager are gone.
 
-`playground-main.js` löscht die Datenbank beim Start einmalig per `indexedDB.deleteDatabase('MHDBDB_Playground')` (`dropLegacyPlaygroundDatabase()`). Auf einer nicht vorhandenen Datenbank ist das ein No-op, der Aufruf darf also bei jedem Start laufen. Er ersetzt die frühere Schema-Migration aus #280, die drei schreiberlose Altstores (`corpus_tei_files`, `authority_files`, `metadata`) über `deleteObjectStore` aus bestehenden Browser-Datenbanken räumte: nach #314 instanziiert kein Produktivcode mehr den Manager, die Migration liefe also nicht mehr. Das Löschen der ganzen Datenbank erledigt dasselbe gründlicher.
+`playground-main.js` deletes the database once at startup via `indexedDB.deleteDatabase('MHDBDB_Playground')` (`dropLegacyPlaygroundDatabase()`). On a database that does not exist this is a no-op, so the call may run on every start. It replaces the earlier schema migration from #280, which cleared three writer-less legacy stores (`corpus_tei_files`, `authority_files`, `metadata`) out of existing browser databases via `deleteObjectStore`: after #314 no production code instantiates the manager any more, so that migration would never run. Dropping the whole database does the same job more thoroughly.
 
-Korpus- und Authority-Daten lagen nie hier. Der Playground liest sie über denselben `CorpusLoader` wie die Hauptseite, also aus `MHDBDBMainSite`. Ein zweiter Cache-Pfad darf nicht wieder entstehen.
+Corpus and authority data were never stored here. The playground reads them through the same `CorpusLoader` as the main site, that is from `MHDBDBMainSite`. A second cache path must not reappear.
 
-**Expiration Policy (ADR-004), wirksam im `CorpusLoader`:**
-- Authority- und Corpus-Index: 30-Tage-Cache (`CACHE_DURATION` in `assets/js/lib/corpus-loader.js`, Datenbank `MHDBDBMainSite`) plus Versions-Invalidierung
+**Expiration policy (ADR-004), enforced in the `CorpusLoader`:**
+- Authority and corpus index: 30-day cache (`CACHE_DURATION` in `assets/js/lib/corpus-loader.js`, database `MHDBDBMainSite`) plus version invalidation
 - Balances freshness with performance
 
 ### Corpus Loader
@@ -509,7 +509,7 @@ npm run test:headed   # Visible browser
 ### Modular UI (Phase 7)
 
 **Problem:** Monolithic UI files hard to maintain
-**Solution:** specialized modules organized by feature (Modulbaum und aktuelle Zahl oben unter „UI Layer")
+**Solution:** specialized modules organized by feature (module tree and current count above, under "UI Layer")
 **Result:** 5,536 lines removed, improved maintainability
 
 ### Shared Lemma Matching (#130)
