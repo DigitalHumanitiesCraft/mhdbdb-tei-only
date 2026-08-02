@@ -302,6 +302,7 @@ Zwei Sorten stehen hier gemischt, und der Unterschied ist der wichtigste: **Gate
 | `survey-concept-distribution.py` | Spiegelt `concept-distribution.js` 1:1 in Python und misst pro Concept Lemma-Zahl, Treffer-Texte und Vorkommen (#47 R2), um Browser-Grenzfälle bei sehr großen Begriffen zu finden |
 | `count-verse-numbering-resets.py` | Reichweite der #138-Verszählung: welche `<div>` setzen die Randnummerierung zurück, und wie viele Randnummern kommen dadurch hinzu. Baut die Render-Reihenfolge nach, statt zu schätzen; zwei frühere Schätzungen per Textfenster-Heuristik waren beide falsch |
 | `count-editorial-notes-and-div-heads.py` | Messvorschrift hinter den zwei Reader-Änderungen aus #250 (editorische Eingriffe im Metadatenpanel, Label über eigener `head`-Überschrift). Beide hängen an Korpuseigenschaften, die sich mit jedem Ingest verschieben |
+| `review-rounds.py` | Wirkungsmessung für den lokalen Reviewer (02.08.): Review-Runden pro gemergtem PR, mit der Baseline vor der Umstellung. Braucht `gh`, kein Korpuszugriff. Die Messvorschrift steht im Docstring und hängt an zwei Bedingungen: `use_sticky_comment` bleibt aus (sonst ist ein Kommentar nicht mehr ein Lauf), und die CI-Action bleibt der einzige LLM-Kommentator |
 | `drop-negative-variant-corresp.py` | Einmal-Migration (#115): entfernt tote `@corresp="variants.xml#type_-N"` (Legacy-Interpunktions-Codes, in `variants.xml` nie definiert) von `<w>`. Bereits angewendet, der Korpus enthält heute 0 solche Referenzen; bleibt als Beleg der Änderung |
 
 ### Skipped Tests (Issue #43 – resolved)

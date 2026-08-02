@@ -768,7 +768,7 @@ Ein drittes Mal schnappte sie latent zu, und dieses Mal hat nur die Zweitmeinung
 
 ### Die teuerste Erkenntnis kam aus einer Frage von chsteiner
 
-„Kann es sein, dass wir over-reviewen? Bewerte das mit Zahlen und kritisch." Gemessen über die drei PRs des Tages (#330, #332, #333): **11 Review-Runden, 27 Befunde. Davon 10 echte Defekte, 13 falsche Tatsachenbehauptungen in selbst geschriebenen Kommentaren, 4 Kosmetik.**
+„Kann es sein, dass wir over-reviewen? Bewerte das mit Zahlen und kritisch." Gemessen über die drei PRs des Tages (#330, #332, #333): **18 Review-Läufe, 27 Befunde. Davon 10 echte Defekte, 13 falsche Tatsachenbehauptungen in selbst geschriebenen Kommentaren, 4 Kosmetik.**
 
 Die 13 sind der eigentliche Befund. Es waren durchweg Zahlen, die ich in erklärende Kommentare geschrieben und nicht gemessen hatte: „zehn weitere Stellen" statt 19, „in allen Skripten" statt 11 von 22, „der einzige Konsument" statt zwei. Jede dieser Zahlen ist eine Angriffsfläche, die ein Review pflichtgemäß prüft und meldet, und jede erzeugt eine Runde, die nichts am Verhalten ändert. Bei #332 betrafen die Runden 3 und 4 zu 100 Prozent Kommentar-Formulierungen und kosteten je rund 20 Minuten Wanduhr (7 Minuten Review plus 13 Minuten `validate`).
 

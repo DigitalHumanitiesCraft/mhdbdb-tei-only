@@ -60,3 +60,4 @@ jobs:
           claude_args: |
             --model opus
             --max-turns 50
+            --append-system-prompt "Dieser PR hat wahrscheinlich schon Review-Runden hinter sich. Lies zuerst die bestehenden Kommentare (gh pr view <nr> --comments) und melde nichts erneut, was dort bereits steht und behandelt wurde: weder als Wiederholung noch als Neuformulierung. Zähle die vorhandenen Review-Kommentare; ab der dritten Runde meldest du nur noch Befunde mit Verhaltenswirkung. Eine leere Befundliste ist ein gültiges und erwünschtes Ergebnis. Behauptungen in Kommentaren, Doku und PR-Body meldest du nur, wenn du die Abweichung selbst gemessen hast, und nennst das Kommando dazu."

@@ -52,6 +52,7 @@ scripts/
 │   ├── drop-negative-variant-corresp.py # tote @corresp aus <w> entfernen (#115)
 │   ├── measure-stage3-resolution.py # Wirkung von Stufe 3 der Lemma-Auflösung (#224)
 │   ├── quantify-unannotated-tokens.py # unannotierte Wortformen korpusweit zählen (#189)
+│   ├── review-rounds.py         # Review-Runden pro gemergtem PR, mit Baseline vom 02.08.
 │   ├── survey-concept-distribution.py # Concepts für die Begriffs-Verteilung (#47)
 │   ├── validate-corpus.py       # Zwei-Stufen-Schema-Validierung
 │   ├── lexicon-baseline.json    # committete Referenzmenge des #152-Gates, per !-Regel vom *.json-Ignore ausgenommen
