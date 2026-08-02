@@ -759,6 +759,7 @@ Ein drittes Mal schnappte sie latent zu, und dieses Mal hat nur die Zweitmeinung
 **Ein Rückbau kann eine Aufräumfunktion abschalten.** `indexed-db-manager.js` verwaltete die Datenbank `MHDBDB_Playground`, die genau einen Store hatte (`tei_files`), dessen einziger Schreiber im Upload lag. Der Manager war damit gegenstandslos, aber er trug seit #280 eine Schema-Migration, die drei schreiberlose Altstores aus bestehenden Browser-Datenbanken räumt. Nach Teil 1 instanziierte kein Produktivcode mehr den Manager, also lief diese Migration nicht mehr: der Rückbau hätte still eine gerade erst ausgelieferte Aufräumfunktion deaktiviert. Statt 397 Zeilen Schema-Pflege für eine Datenbank ohne Schreiber löscht `playground-main.js` sie jetzt beim Start einmalig. Das ist gründlicher als die Migration und kostet zehn Zeilen. Die Lehre gilt über den Fall hinaus: wer den letzten Importeur eines Moduls entfernt, entfernt auch alle Nebenwirkungen, die dieses Modul beim Laden oder Initialisieren hatte, und die stehen selten im Namen der Funktion.
 
 **Phase:** Betrieb, reiner Code-Rückbau. Keine Daten-, Index- oder API-Änderung, kein Rebuild, kein Versions-Bump. Doku nachgezogen in ARCHITECTURE (Storage-Abschnitt), CONTRACTS §E, DECISIONS, ROADMAP, `playground/readme.md`. PR #324.
+
 ---
 
 ## 2026-08-02 – Autonome Aufräum-Session: fünf PRs, und die Hälfte der Review-Last war hausgemacht
