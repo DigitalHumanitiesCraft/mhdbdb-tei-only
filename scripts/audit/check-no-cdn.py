@@ -27,10 +27,15 @@ from pathlib import Path
 # print() ist U+2705. In der CI fällt das nie auf (Linux, UTF-8), lokal war
 # der Check damit unbenutzbar, und zwar ausgerechnet im grünen Fall.
 #
-# Beim Nachmessen für #329 waren es sieben weitere Skripte in diesem
-# Verzeichnis mit demselben Problem; die haben die zwei Zeilen jetzt auch.
-# Wer hier ein Skript ergänzt, das Zeichen jenseits von cp1252 druckt
-# (Häkchen, Pfeile, Umlaute in der Ausgabe), braucht sie ebenfalls.
+# Die zwei Zeilen stehen seit #329 einheitlich in allen Audit-Skripten, die
+# etwas ausgeben. Der Auslöser ist nicht nur dieses Häkchen: Audit-Skripte
+# drucken Korpus- und Lexikonformen, und die MHG-Breven ŏ und ŭ liegen
+# ebenfalls außerhalb von cp1252.
+#
+# Zwei Fallen für den nächsten Leser. Erstens ist cp1252 nicht ASCII: es
+# enthält Latin-1 samt Umlauten plus 0x80 bis 0x9F, also auch — – „ " •.
+# Ein Umlaut in der Ausgabe ist deshalb kein Anlass. Zweitens tauscht der
+# Wrapper nur sys.stdout; wer über stderr meldet, braucht ihn dort ebenso.
 if sys.stdout.encoding and sys.stdout.encoding.lower() not in ('utf-8', 'utf8'):
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', line_buffering=True)
 
