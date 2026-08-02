@@ -121,7 +121,17 @@ und Doku-Fences genau das enthalten. Zwei bewusste Entscheidungen dabei:
 
 Neue, noch nicht getrackte `.md`-Dateien gelten vollstaendig als neuer
 Text. Ohne das faende ein lokaler Lauf eine frisch angelegte Doku-Datei
-nicht, also ausgerechnet den Fall mit dem meisten neuen Text.
+nicht, also ausgerechnet den Fall mit dem meisten neuen Text. Gitignorierte
+Dateien bleiben aussen vor (`--exclude-standard`), und das ist hier mehr
+als eine Umfangsfrage: unter `temp/` und `proposals/` liegt Vertrauliches,
+das nicht in ein CI-Log gehoert.
+
+Wenn eine Zeile den Strich als GEGENSTAND braucht und nicht als
+Typografie, etwa ein zitierter Werktitel oder eine bibliografische Angabe,
+dann steht der vorgesehene Weg schon bereit: das Zitat in Backticks
+setzen. Das ist die Markdown-Entsprechung zu `chr(0x2014)` weiter oben.
+Wer stattdessen das Zitat umschreibt, um das Gate zu befrieden,
+verschlimmbessert.
 
 Usage:
     python scripts/audit/check-no-em-dash.py            # Report + Exit-Code
@@ -534,9 +544,27 @@ def scanne_html(text):
 HUNK_RE = re.compile(r'^@@ -\d+(?:,\d+)? \+(\d+)(?:,(\d+))? @@')
 
 
+# Jeder git-Aufruf dieses Gates laeuft mit diesen Einstellungen, damit die
+# Ausgabe nicht von der lokalen Konfiguration abhaengt. Beide Werte sind
+# Fail-open-Quellen und keine Kosmetik:
+#
+# - `core.quotepath` steht per Default auf true, und dann kommt ein Pfad mit
+#   Umlaut als "b/docs/W\303\266rterbuch.md" zurueck. Der Header-Parser unten
+#   erkennt ihn nicht, verwirft alle Hunks der Datei und meldet nichts. In
+#   einem deutschsprachigen Projekt ist ein Umlaut im Dateinamen kein
+#   Sonderfall.
+# - `diff.noprefix` und `diff.mnemonicprefix` aendern das `b/` im Header
+#   (zu gar keinem Praefix bzw. zu `w/`). Wer eines davon gesetzt hat, bekaeme
+#   einen stillen gruenen Lauf statt einer Pruefung.
+GIT_KONFIG = ['-c', 'core.quotepath=false',
+              '-c', 'diff.noprefix=false',
+              '-c', 'diff.mnemonicprefix=false']
+
+
 def _git(args, cwd):
-    return subprocess.run(['git'] + args, cwd=str(cwd), capture_output=True,
-                          text=True, encoding='utf-8', errors='replace')
+    return subprocess.run(['git'] + GIT_KONFIG + args, cwd=str(cwd),
+                          capture_output=True, text=True, encoding='utf-8',
+                          errors='replace')
 
 
 def neue_md_zeilen(base, wurzel=None):
@@ -550,8 +578,11 @@ def neue_md_zeilen(base, wurzel=None):
     wurzel = wurzel or REPO
     zeilen = {}
 
-    res = _git(['diff', '-U0', '--no-color', '--diff-filter=d', base, '--', '*.md'],
-               wurzel)
+    # --no-ext-diff: ein konfiguriertes externes Diff-Werkzeug wuerde eine
+    # Ausgabe liefern, die dieser Parser nicht liest, und der Lauf waere
+    # still gruen.
+    res = _git(['diff', '-U0', '--no-color', '--no-ext-diff', '--diff-filter=d',
+                base, '--', '*.md'], wurzel)
     if res.returncode != 0:
         return None
     aktuell = None
@@ -796,7 +827,16 @@ def selbsttest_diff():
         (wurzel / 'b.md').write_text('sauber\n', encoding='utf-8')
         (wurzel / 'e.md').write_text(
             'Alt ' + EM_DASH + ' bleibt\nWeg damit\nSchluss\n', encoding='utf-8')
-        _git(['add', 'a.md', 'b.md', 'e.md'], wurzel)
+        # f.md prueft die Gegenrichtung zur Hunk-Laenge: eine hinzugefuegte
+        # Zeile direkt VOR einer bestehenden Em-Dash-Zeile. Ein Off-by-one
+        # nach oben wuerde die bestehende mitzaehlen.
+        (wurzel / 'f.md').write_text('Alt ' + EM_DASH + ' bleibt\n', encoding='utf-8')
+        # Umlaut im Dateinamen. Ohne core.quotepath=false liefert git
+        # "b/w\303\266rter.md", der Header-Parser verliert die Datei und
+        # meldet nichts.
+        (wurzel / 'wörter.md').write_text('sauber\n', encoding='utf-8')
+        (wurzel / '.gitignore').write_text('geheim/\n', encoding='utf-8')
+        _git(['add', 'a.md', 'b.md', 'e.md', 'f.md', 'wörter.md', '.gitignore'], wurzel)
         _git(cfg + ['commit', '-qm', 'base'], wurzel)
 
         # a.md: neue Zeile mit Em-Dash, die alte bleibt unangetastet
@@ -815,6 +855,20 @@ def selbsttest_diff():
         # Fehlalarm auf Text, den der PR nicht angefasst hat.
         (wurzel / 'e.md').write_text(
             'Alt ' + EM_DASH + ' bleibt\nSchluss\n', encoding='utf-8')
+        # f.md: neue Zeile 1 ohne Strich, die bestehende rutscht auf 2.
+        (wurzel / 'f.md').write_text(
+            'Neu ohne Strich\nAlt ' + EM_DASH + ' bleibt\n', encoding='utf-8')
+        # Umlaut-Datei: getrackt, neue Zeile mit Strich.
+        (wurzel / 'wörter.md').write_text(
+            'sauber\nNeu ' + EM_DASH + ' hier\n', encoding='utf-8')
+        # Umlaut-Datei, ungetrackt: zweiter Weg, derselbe Stolperstein.
+        (wurzel / 'größe.md').write_text('Neu ' + EM_DASH + ' hier\n', encoding='utf-8')
+        # Ignoriertes Verzeichnis. Das ist keine Feinheit: gitignoriert sind
+        # in diesem Projekt unter anderem temp/ und proposals/, und deren
+        # Inhalt darf nicht in einem CI-Log landen.
+        (wurzel / 'geheim').mkdir()
+        (wurzel / 'geheim' / 'x.md').write_text(
+            'Vertraulich ' + EM_DASH + ' nicht ins Log\n', encoding='utf-8')
 
         gefunden = scanne_diff('HEAD', wurzel)
         if gefunden is None:
@@ -822,9 +876,9 @@ def selbsttest_diff():
             # was los ist: das Wegwerf-Repo ist nicht zustande gekommen
             # (fehlende git-Identitaet, Hook, Berechtigung).
             print('  [FAIL] Diff-Schicht: git im Wegwerf-Repo nicht benutzbar')
-            return 7, 7
+            return 11, 11
         ist = {(p, nr) for p, nr, _ in gefunden}
-        erwartet = {('a.md', 2), ('c.md', 1)}
+        erwartet = {('a.md', 2), ('c.md', 1), ('wörter.md', 2), ('größe.md', 1)}
         faelle = [
             ('unveraenderte Zeile mit Em-Dash bleibt stumm', ('a.md', 1) not in ist),
             ('hinzugefuegte Zeile wird gemeldet', ('a.md', 2) in ist),
@@ -833,6 +887,12 @@ def selbsttest_diff():
             ('Nicht-Markdown bleibt aussen vor', not any(p == 'd.txt' for p, _ in ist)),
             ('reine Loeschung erzeugt keine neue Zeile',
              not any(p == 'e.md' for p, _ in ist)),
+            ('nachgerueckte Bestandszeile bleibt stumm',
+             not any(p == 'f.md' for p, _ in ist)),
+            ('Umlaut im Dateinamen, getrackt', ('wörter.md', 2) in ist),
+            ('Umlaut im Dateinamen, ungetrackt', ('größe.md', 1) in ist),
+            ('gitignoriertes Verzeichnis bleibt aussen vor',
+             not any(p.startswith('geheim/') for p, _ in ist)),
             ('keine weiteren Fundstellen', ist == erwartet),
         ]
         for name, ok in faelle:
@@ -841,7 +901,7 @@ def selbsttest_diff():
                 fehler += 1
         if ist != erwartet:
             print(f'         erwartet {sorted(erwartet)}, bekommen {sorted(ist)}')
-    return fehler, 7
+    return fehler, 11
 
 
 def selbsttest():

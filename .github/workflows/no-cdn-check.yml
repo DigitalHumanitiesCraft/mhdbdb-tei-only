@@ -51,7 +51,7 @@ on:
       - 'assets/css/**'
       - 'scripts/audit/**'
       - 'testing/tests/**'
-      - '**/*.md'
+      - '**.md'
       - '.github/workflows/no-cdn-check.yml'
   push:
     branches:
@@ -64,7 +64,7 @@ on:
       - 'assets/css/**'
       - 'scripts/audit/**'
       - 'testing/tests/**'
-      - '**/*.md'
+      - '**.md'
       - '.github/workflows/no-cdn-check.yml'
   workflow_dispatch:
 
