@@ -34,8 +34,18 @@ test.describe('Issue #114: Tabellenansicht für Korpussuche', () => {
         // Toggle auf Tabelle
         await page.click('#viewToggleTable');
         await expect(page.locator('#resultsList table')).toHaveCount(1);
-        // 140 Treffer für "minne" — passe an, falls Korpus wächst
-        await expect(page.locator('#resultsList table tbody tr')).toHaveCount(140);
+        // #172: Render-Parität statt Absolutzahl. Vorher stand hier
+        // `toHaveCount(140)`, also die Zahl der minne-Texte zum Zeitpunkt des
+        // Schreibens. Das Korpus ist nicht eingefroren (laufender Ingest plus
+        // händische Korrekturen), der Test wäre also beim nächsten Ingest mit
+        // minne-Belegen rot geworden, ohne dass am Rendering etwas kaputt ist.
+        // Geprüft wird jetzt, was der Test meint: die Tabelle zeigt jeden
+        // Treffer der Suche, keinen mehr und keinen weniger. Die Gesamtzeile
+        // liegt im tfoot und zählt hier nicht mit.
+        const trefferzahl = await page.evaluate(
+            () => window._mhdbdbApp.currentResults.length);
+        expect(trefferzahl).toBeGreaterThan(0);
+        await expect(page.locator('#resultsList table tbody tr')).toHaveCount(trefferzahl);
     });
 
     test('localStorage persistiert View-Wahl über Reload', async ({ page }) => {
@@ -61,7 +71,9 @@ test.describe('Issue #114: Tabellenansicht für Korpussuche', () => {
         await page.click('#viewToggleTable');
         await page.waitForSelector('#resultsList table');
 
-        // Default: matchCount desc; JT (612 Treffer) sollte oben sein
+        // Default: matchCount desc, JT hat die meisten minne-Belege im Korpus.
+        // Die Zahl stand hier bis #172 daneben und war eine zweite Stelle, die
+        // mit jedem Ingest altert, ohne dass die Aussage sie braucht.
         const firstRowSigle = await page.locator('#resultsList tbody tr').first().locator('.font-mono').textContent();
         expect(firstRowSigle?.trim()).toMatch(/^JT$/);
 
