@@ -108,7 +108,14 @@ export function resolvePython() {
       pfad = execFileSync(
         bin,
         ['-c', 'import sys; sys.stdout.write(sys.executable)'],
-        { encoding: 'utf-8', stdio: ['ignore', 'pipe', 'pipe'] }
+        // pythonEnv() ist hier nicht Kosmetik: bei gepiptem stdout kodiert
+        // Python unter Windows sonst mit der ANSI-Codepage, Node liest aber
+        // UTF-8. Ein Pfad mit Umlaut (python.org installiert nach
+        // C:\Users\<Name>\AppData\Local\Programs\Python\...) käme mit
+        // Ersatzzeichen zurück, und der spätere Start scheiterte mit ENOENT,
+        // obwohl der bloße Name funktioniert hätte. Das wäre der einzige
+        // Fall, in dem der aufgelöste Pfad schlechter ist als der Name.
+        { encoding: 'utf-8', stdio: ['ignore', 'pipe', 'pipe'], env: pythonEnv() }
       ).trim();
     } catch {
       // Eingebettete Fassungen können `sys.executable` leer lassen. Dann
