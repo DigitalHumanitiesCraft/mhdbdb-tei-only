@@ -97,8 +97,9 @@ Co-Authored-By: Claude <noreply@anthropic.com>
 
 ## Selbst erzeugter Overhead
 
-Gemessen am 02.08.2026 über drei PRs (#330, #332, #333): 11 Review-Runden, 27 Befunde. Davon **10 echte Defekte** in Code, Gate oder Test, **13 falsche Tatsachenbehauptungen in selbst geschriebenen Kommentaren** („zehn Stellen" statt 19, „in allen Skripten" statt 11 von 22, „der einzige Konsument" statt zwei), 4 Kosmetik. Die Hälfte der Review-Last war also hausgemacht. Daraus drei Regeln:
+Gemessen am 02.08.2026 über drei PRs (#330, #332, #333): 11 Review-Runden, 27 Befunde. Davon **10 echte Defekte** in Code, Gate oder Test, **13 falsche Tatsachenbehauptungen in selbst geschriebenen Kommentaren** („zehn Stellen" statt 19, „in allen Skripten" statt 11 von 22, „der einzige Konsument" statt zwei), 4 Kosmetik. Die Hälfte der Review-Last war also hausgemacht. Daraus vier Regeln:
 
+- **Ein Befund ist selbst eine Behauptung.** Vor der Übernahme nachmessen, egal ob er vom CI-Bot, vom `fable-reviewer` oder von einem Menschen kommt. Eine Zweitmeinung rechnete für eine gedriftete Tabelle 60 und 1.360 vor, gemessen waren 51 und 1.406: sie hatte die Altwerte fortgeschrieben, die gerade das Problem waren. Wer so etwas ungeprüft übernimmt, ändert eine richtige Angabe in eine falsche und versieht sie mit einem Beleg.
 - **Keine Behauptung in einen Kommentar, die nicht trägt.** Jede Zahl darin ist eine Angriffsfläche und muss gemessen sein. Was die Aussage nicht braucht, wird gelöscht statt belegt.
 - **Ab Review-Runde 3 nur noch Verhaltensbefunde einarbeiten.** Ein Befund, der bloß eine Formulierung verbessert, wird dann durch Kürzen des Kommentars erledigt. Bei #332 kosteten die Runden 3 und 4 je rund 20 Minuten (7 min Review + 13 min `validate`) für null Verhaltensänderung.
 - **Kein voller CI-Lauf für reine Kommentar-Commits.**
