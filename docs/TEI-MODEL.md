@@ -868,7 +868,7 @@ Frühere Fehler (alle behoben durch Migration):
 | concepts.xml | 567 Kategorien | tei_all ✓ · mhdbdb-authority ✓ |
 | genres.xml | 615 Kategorien | tei_all ✓ · mhdbdb-authority ✓ |
 | names.xml | 90 Kategorien | tei_all ✓ · mhdbdb-authority ✓ |
-| contributors.xml | 51 Personen + 2 Orgs (project-internal MHDBDB-Team-Register seit #83) | tei_all ✓ · mhdbdb-authority ✓ |
+| contributors.xml | 52 Personen + 2 Orgs (project-internal MHDBDB-Team-Register seit #83) | tei_all ✓ · mhdbdb-authority ✓ |
 
 Migrationsscripts: einmalig in den Phasen F–K ausgeführt, inzwischen in `scripts/_archived/` bzw. Git-Historie nach Abschluss von #32.
 Schema: `schema/mhdbdb-authority.rnc` (Source) → `schema/mhdbdb-authority.rng` (generiert)
@@ -890,9 +890,9 @@ Konsolidierte Liste aller bewusst nicht-normalisierten Daten-Inseln und bekannte
 | Schema-GAPs 1–11 (`schema/mhdbdb.rnc`) | 30 Korpus-Dateien (Kategorien-Tabelle oben) | Bestandsdaten; Migration unverhältnismäßig teuer oder semantisch riskant – dokumentierte Ausnahmen der Daten-vor-Schema-Regel | dauerhaft; jede GAP im Schema kommentiert |
 | ARI/PD-001 Domain-Elemente | 6 ARITHMETIC-Handschriften (noch nicht im Korpus) | 12 Nicht-Schema-Element-Klassen + 24 `div/@type`- + 7 `hi/@rend`-Werte aus Carinas Rechenbüchern; blockieren Stage-2-Validierung | entschieden 2026-05-08: Domain-Tags ins Schema (DECISIONS.md § PD-001); Schema-Erweiterung + Ingest ausstehend → #92 |
 | lexicon.xml-Backfill | Rest 396 dangling Refs / 109 IDs (Kategorie B: Sense-Kuratorik, Kategorie C: Tippfehler/Homographen) | WZB-Forward-Ingest prägte Lemma-IDs nur ins Korpus; Kategorie A (125 Entries) 2026-07-02 per `backfill-lexicon.py` gestubbt | offen → #115 (B/C kuratorisch, KZW/Julia) |
-| WVV Stanza-Anchors | WVV, 23 Stanzen | ungewöhnliches Linecode-Template, Anchors fehlen (#23-Followup) | offen → #110 (depends-on-human) |
+| WVV Stanza-Anchors | WVV, 23 Stanzen | ungewöhnliches Linecode-Template, Anchors fehlen (#23-Followup) | **gelöst** 2026-07-08 (#110) – die 4 offenen Stellen enthielten 11 header-getrennte Versblöcke, jeder ist jetzt eine eigene `<lg type="stanza">`; WVV hat 489 Strophen, Token-Strom byte-identisch |
 | Editorische `<div>`-Hülle | HUG, KLA, PL1–PL3, MBS-Serie | Follow-up aus dem manuellen TEI-Review (#30) | offen → #138 (needs-clarification) |
-| Prosa-Policy `<l>` vs. `<lb/>` | 17 l-kodierte Prosatexte | Phase C2 wandelte 18 Texte; Policy für die verbleibenden ungeklärt | offen → #143 (depends-on-human) |
+| Prosa-Policy `<l>` vs. `<lb/>` | 3 Texte (APO, HMT, HH) | Phase C2 wandelte 18 Texte, für die Restkandidaten war die Policy ungeklärt | **gelöst** 2026-07-03 (#143) – die 3 sind konvertiert, die 17 übrigen Kandidaten sind geprüfte Versdichtung und bleiben `<l>` (§8.1) |
 | WZB `@meaningRef` (historisch) | WZB | Alt-Annotation der Erstlieferung | **gelöst** – zu `@ana` migriert; es verbleibt nur ein `revisionDesc`-Logeintrag |
 
 ---
