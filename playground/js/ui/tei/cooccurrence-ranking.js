@@ -438,7 +438,7 @@ export class CooccurrenceRanking {
     `;
   }
 
-  // Autocomplete-Pattern (DESIGN.md §Live-Autocomplete-Dropdown, Port aus #113).
+  // Autocomplete-Pattern (DESIGN.md §Live autocomplete dropdown, Port aus #113).
   renderAutocomplete() {
     const dd = document.getElementById('coRkAutocomplete');
     const input = document.getElementById('coRkQuery');

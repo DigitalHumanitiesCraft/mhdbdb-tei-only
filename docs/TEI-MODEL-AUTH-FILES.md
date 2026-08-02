@@ -554,7 +554,7 @@ Nach der #32-Migration begann der aktive Ingest. Die Wenzelsbibel-Pipeline (WZB,
 - **Phase 3** (Sense-Auflösung) wählte überwiegend bestehende Senses (<78000); die fehlenden Sense-IDs ≥78000 sind großteils strukturelle Artefakte der Lemma-Erzeugung, keine neuen Bedeutungen.
 - **Notreparatur** (Commits `8caa09627`/`649c0fe55`, 2026-05): die 4 sense-losen Lemmata bekamen manuell je einen `<sense>`; `scripts/audit/check-lexicon-senses.py` entstand als Regression-Schutz.
 
-**Lesson** (→ [ADR-015](DECISIONS.md#adr-015-authority-source-modell-korpus-führt-ingest-braucht-rückwärts-sync), [CONTRACTS.md → F.3](CONTRACTS.md#f3-ingest-requires-backward-sync)): Eine Forward-Only-Ingest-Pipeline ohne `*-backfill-lexicon.py` erzeugt zwangsläufig dangling Refs. Resultat: 977 unresolved Refs (349 IDs); die automatisierbaren Lemma-Stubs (Kategorie A) wurden 2026-07-02 via `scripts/sync/backfill-lexicon.py` geschlossen, der kuratorische Rest (396 Refs / 109 IDs) ist offen. Detektor: `scripts/audit/check-authority-cross-refs.py --check` (CI-Gate in `data-integrity.yml`).
+**Lesson** (→ [ADR-015](DECISIONS.md#adr-015-authority-source-model-the-corpus-leads-ingest-needs-a-backward-sync), [CONTRACTS.md → F.3](CONTRACTS.md#f3-ingest-requires-backward-sync)): Eine Forward-Only-Ingest-Pipeline ohne `*-backfill-lexicon.py` erzeugt zwangsläufig dangling Refs. Resultat: 977 unresolved Refs (349 IDs); die automatisierbaren Lemma-Stubs (Kategorie A) wurden 2026-07-02 via `scripts/sync/backfill-lexicon.py` geschlossen, der kuratorische Rest (396 Refs / 109 IDs) ist offen. Detektor: `scripts/audit/check-authority-cross-refs.py --check` (CI-Gate in `data-integrity.yml`).
 
 ---
 

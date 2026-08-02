@@ -39,7 +39,7 @@ Technical contracts that bind Python (build-time) and JavaScript (runtime) toget
 
 ### Test Cases
 
-These 23 cases must pass in both languages (der `None`-Fall ist Python-only, die JS-Liste hat entsprechend 22). Source: `scripts/mhg_normalizer.py` → `TEST_CASES`, gespiegelt in `testing/tests/normalization-parity.spec.js`
+These 23 cases must pass in both languages (the `None` case is Python-only, so the JS list has 22). Source: `scripts/mhg_normalizer.py` → `TEST_CASES`, mirrored in `testing/tests/normalization-parity.spec.js`
 
 | Input | Expected | Why |
 |-------|----------|-----|
@@ -59,10 +59,10 @@ These 23 cases must pass in both languages (der `None`-Fall ist Python-only, die
 | `sǒne` | `sone` | ǒ → o |
 | `cæsar` | `caesar` | æ → ae |
 | `œnologie` | `oenologie` | œ → oe |
-| `bo` + U+0308 + `ses` | `boeses` | Schritt 0: zerlegtes ö komponiert vor Schritt 3 (#224) |
-| `Mu` + U+0308 + `hldorf` | `muehldorf` | dito mit ü, plus Grossbuchstabe |
-| `bo` + U+0306 + `ses` | `boeses` | Der gemeldete Fall: Breve, Schritt 0 komponiert zu ŏ, Schritt 3 löst auf (#224) |
-| `bŏses` | `boeses` | dito, schon präkomponiert |
+| `bo` + U+0308 + `ses` | `boeses` | Step 0: decomposed ö is composed before step 3 (#224) |
+| `Mu` + U+0308 + `hldorf` | `muehldorf` | same with ü, plus an uppercase letter |
+| `bo` + U+0306 + `ses` | `boeses` | The reported case: breve, step 0 composes to ŏ, step 3 resolves it (#224) |
+| `bŏses` | `boeses` | same, already precomposed |
 | `wŭnschet` | `wuenschet` | ŭ → ue |
 | `''` | `''` | Empty string |
 | `None`/`null` | `''` | Null handling |
@@ -71,35 +71,35 @@ These 23 cases must pass in both languages (der `None`-Fall ist Python-only, die
 
 `schône` (ô = circumflex) → `schone`, NOT `schoene`. The circumflex ô maps to plain `o`, while the umlaut ö maps to `oe`. Visually similar, semantically different.
 
-### Schritt 0: Unicode-Komposition (#224)
+### Step 0: Unicode composition (#224)
 
-Ein „ö" kann als ein Zeichen (U+00F6) oder als `o` + kombinierendes Trema (U+006F U+0308) kodiert sein. Beide sehen identisch aus, aber nur die komponierte Form trifft die Umlaut-Regel in Schritt 3. Ohne die Komposition fällt eine zerlegte Eingabe durch Stufe 1 **und** Stufe 2 der Lemma-Auflösung (§C) und landet im Partial-Match-Fallback. Der Bug-Report #224 ist genau dieser Fall, nur mit einem anderen Diakritikum: die gemeldete Eingabe trug `o` + kombinierendes **Breve** (U+0306), kopiert aus der WZB-Leseansicht. Schritt 0 komponiert das zu `ŏ`, und erst die Breve-Regel in Schritt 3 macht daraus `oe`. Beide Schritte zusammen sind der Fix, keiner allein.
+An „ö" can be encoded as a single character (U+00F6) or as `o` plus a combining diaeresis (U+006F U+0308). The two look identical, but only the composed form hits the umlaut rule in step 3. Without the composition a decomposed input falls through stage 1 **and** stage 2 of lemma resolution (§C) and ends up in the partial-match fallback. Bug report #224 is exactly this case, only with a different diacritic: the reported input carried `o` plus a combining **breve** (U+0306), copied out of the WZB reading view. Step 0 composes that to `ŏ`, and only the breve rule in step 3 turns it into `oe`. The two steps together are the fix, neither alone.
 
-Zerlegte Formen entstehen beim Kopieren aus macOS-Quellen und aus manchen Editionsdatenbanken, sind also normale Nutzereingaben.
+Decomposed forms arise when copying from macOS sources and from some edition databases, so they are ordinary user input.
 
-**Breve statt Trema (WZB, #224).** Die Wenzelsbibel schreibt Umlaute mit Breve: der Korpus-Token `bo` + U+0306 + `ses` trägt `lemmaRef` auf `lemma_788` (`bœse`), `scho` + U+0306 + `ne` auf `lemma_5280` (`schœne`), `wŭnschet` ist `wünschet`. Belegt an 469 lemmatisierten WZB-Tokens. Deshalb `ŏ` → `oe` und `ŭ` → `ue` in Schritt 3. Breve auf anderen Basiszeichen bleibt unangetastet: 136 weitere WZB-Tokens (w 91, n 22, y 5, a 5, v 4, r 2, m 2, i 2, e 2, z 1). Der Grund ist, dass es dort keine Umlaute sind (`hălses`, `nămen`, `geslăgen`, `schĕpfen`, `erschĭnen`), nicht eine fehlende präkomponierte Form – für `a`, `e` und `i` gibt es sie (U+0103, U+0115, U+012D), und Schritt 0 erzeugt sie auch. **Bekannte Restlücke:** 64 dieser 136 Tokens sind lemmatisiert (48 auf `w`, 16 auf `n`, etwa `few̆er` → `viur`, `wenn̆` → `wan`) und bleiben per Copy-Paste aus der Leseansicht unauffindbar. Eine Regel dafür wäre eine editorische Entscheidung über die böhmische Schreibkonvention, keine technische.
+**Breve instead of diaeresis (WZB, #224).** The Wenzelsbibel writes umlauts with a breve: the corpus token `bo` + U+0306 + `ses` carries a `lemmaRef` to `lemma_788` (`bœse`), `scho` + U+0306 + `ne` to `lemma_5280` (`schœne`), and `wŭnschet` is `wünschet`. Attested on 469 lemmatized WZB tokens. Hence `ŏ` → `oe` and `ŭ` → `ue` in step 3. Breves on other base characters stay untouched: 136 further WZB tokens (w 91, n 22, y 5, a 5, v 4, r 2, m 2, i 2, e 2, z 1). The reason is that they are not umlauts there (`hălses`, `nămen`, `geslăgen`, `schĕpfen`, `erschĭnen`), not a missing precomposed form: for `a`, `e` and `i` one exists (U+0103, U+0115, U+012D), and step 0 produces it. **Known remaining gap:** 64 of those 136 tokens are lemmatized (48 on `w`, 16 on `n`, e.g. `few̆er` → `viur`, `wenn̆` → `wan`) and stay unfindable when copy-pasted from the reading view. A rule for them would be an editorial decision about the Bohemian writing convention, not a technical one.
 
-**Wirkung auf die Build-Seite:** Der Schritt ändert die Ausgabe an genau drei Stellen, weil die Authority-Files sonst NFC sind. Betroffen sind die Datensätze mit zerlegtem ü in `persons.xml` und `works.xml`:
+**Effect on the build side:** the step changes the output in exactly three places, because the authority files are otherwise NFC. Affected are the records with a decomposed ü in `persons.xml` and `works.xml`:
 
-| Datensatz | vorher | nachher |
+| Record | before | after |
 |-----------|--------|---------|
 | `person_1052` Hugo von Mühldorf | `hugo von mühldorf` | `hugo von muehldorf` |
 | `person_1332` Wachsmut von Mühlhausen | `wachsmut von mühlhausen` | `wachsmut von muehlhausen` |
 | `work_435` Lyrik von Hugo von Mühldorf | `lyrik von hugo von mühldorf` | `lyrik von hugo von muehldorf` |
 
-Alle drei waren über die normalisierte Suche nicht auffindbar. Alle 43.879 Lemma-Normalisierungen und alle 234.244 Varianten-Schlüssel bleiben unverändert. Deshalb Authority-Index v1.6.2. **Die 234.244 sind der Stand von v1.6.2, nicht der heutige** (heute 234.243, siehe §C): #138 hat mit den HUG-Strophenziffern den nur dort belegten Typ `type_195524` „cxlvix" mitgenommen, gemessen am Blob vor `87b6dc941`. Die Differenz von eins ist also ein realer Datenschritt und kein Tippfehler in einer der beiden Zeilen (#277).
+All three were unfindable through normalized search. All 43,879 lemma normalizations and all 234,244 variant mappings remain unchanged. Hence Authority Index v1.6.2. **234,244 is the state of v1.6.2, not today's** (today 234,243, see §C): with the HUG stanza numerals, #138 also removed the type `type_195524` „cxlvix", attested only there, measured against the blob before `87b6dc941`. The difference of one is therefore a real data step and not a typo in either line (#277).
 
-**Nicht betroffen:** Der Korpus-Index speichert Lemma-IDs und Positionen, keine normalisierten Textformen; `build-corpus-index.py` importiert `normalize_mhg` zwar, ruft es aber nirgends auf. Zum Korpustext selbst ist die prüfbare Aussage schärfer als die ursprünglich hier notierte Stichprobe: **in `<w>` gibt es korpusweit kein einziges kombinierendes Trema und keine kombinierende Tilde.** Die 1.339 Tremata in 566 der 667 Dateien stehen sämtlich außerhalb der annotierten Tokens, größtenteils in `<note>`-Bibliographieprosa des teiHeader (Verlagsorte wie Tübingen, Zürich). In `<w>` stehen insgesamt 774 kombinierende Marken, davon 752 WZB-Breves und 22 Exoten: 11 Punkt darunter, 8 Makron, 3 U+035B (Abbreviatur-Zickzack in `cetera͛`, `her͛re`).
+**Not affected:** the corpus index stores lemma ids and positions, not normalized text forms; `build-corpus-index.py` does import `normalize_mhg` but never calls it. For the corpus text itself the checkable statement is sharper than the sample originally noted here: **there is not a single combining diaeresis and no combining tilde inside `<w>` anywhere in the corpus.** The 1,339 diaereses in 566 of the 667 files all sit outside the annotated tokens, mostly in the `<note>` bibliography prose of the teiHeader (places of publication such as Tübingen, Zürich). Inside `<w>` there are 774 combining marks in total, of which 752 are WZB breves and 22 are exotics: 11 dot below, 8 macron, 3 U+035B (the abbreviation zigzag in `cetera͛`, `her͛re`).
 
-**Messvorschrift** (#318, ohne sie sind die Zahlen nicht nachprüfbar). Alle Angaben über **kombinierende** Marken (1.339 Tremata, 774 Marken in `<w>`, 752 Breves, 22 Exoten) werden im Rohtext gezählt, ohne vorherige Unicode-Normalisierung. Genau **eine** Zahl in §A folgt einer anderen Regel: die **469 lemmatisierten Breve-Tokens** im Absatz „Breve statt Trema" oben zählen **nach NFD**, präkomponiertes `ŏ`/`ŭ` also mitgerechnet, weil das die Menge ist, die Schritt 0 und Schritt 3 gemeinsam behandeln. Dasselbe gilt für die daraus abgeleitete Aufteilung 405 auf o/u, die in [DECISIONS.md, ADR-016](DECISIONS.md) steht und nicht hier. Wer ohne NFD misst, bekommt 467 und 403 und hält die Angabe für veraltet; genau das ist im Health Check vom 2026-07-31 passiert. Die Zahlen **136** (Breve auf anderen Basiszeichen) und **64** (davon lemmatisiert) sind von der Normalisierung unabhängig, mit und ohne NFD identisch. Nachzurechnen mit demselben Zählcode einmal je Variante.
+**How these numbers are measured** (#318, without it they cannot be rechecked). All figures about **combining** marks (1,339 diaereses, 774 marks inside `<w>`, 752 breves, 22 exotics) are counted on the raw text, without prior Unicode normalization. Exactly **one** number in §A follows a different rule: the **469 lemmatized breve tokens** in the paragraph "Breve instead of diaeresis" above are counted **after NFD**, so precomposed `ŏ`/`ŭ` are included, because that is the set steps 0 and 3 handle together. The same holds for the derived split of 405 across o/u, which lives in [DECISIONS.md, ADR-016](DECISIONS.md) and not here. Measure without NFD and you get 467 and 403 and take the figure for stale; that is exactly what happened in the health check of 2026-07-31. The numbers **136** (breve on other base characters) and **64** (of those, lemmatized) are independent of normalization, identical with and without NFD. Recheck them with the same counting code once per variant.
 
-**Kein Gewinn, aber derselbe Topf:** In `<w>` stehen acht kombinierende Makra (u 3, p 2, d 1, i 1, n 1). Schritt 0 komponiert davon vier, die drei `u` zu `ū` und das `i` zu `ī`; Schritt 2 löst beide auf. Für `d`, `n` und `p` gibt es keine präkomponierte Form. **Auffindbar werden sie dadurch trotzdem nicht: keines der acht Tokens trägt ein `@lemmaRef`** (`flūte`, `Dorūmbe`, `cap̄`, `vn̄`). Sie gehören in denselben Backfill-Topf wie die 289 Kandidaten unten, nicht in eine Gewinn-Spalte.
+**No gain, but the same bucket:** inside `<w>` there are eight combining macrons (u 3, p 2, d 1, i 1, n 1). Step 0 composes four of them, the three `u` to `ū` and the `i` to `ī`; step 2 resolves both. For `d`, `n` and `p` there is no precomposed form. **They do not become findable through that either: none of the eight tokens carries a `@lemmaRef`** (`flūte`, `Dorūmbe`, `cap̄`, `vn̄`). They belong in the same backfill bucket as the 289 candidates below, not in a gain column.
 
-**Berührt, aber nicht in diesem PR nachgezogen:** Die WZB-Ingest-Skripte (`scripts/ingest/wzb/wzb-auto-match.py`, `-sense-assign.py`, `-sense-apply.py`) normalisieren über dieselbe Funktion. 289 WZB-`<w>` mit o/u-Breve tragen bisher kein `@lemmaRef`, weil das Breve am Matcher stehenblieb; ein Re-Run wird einen Teil davon auflösen. Siehe ADR-016.
+**Touched, but not followed up in this PR:** the WZB ingest scripts (`scripts/ingest/wzb/wzb-auto-match.py`, `-sense-assign.py`, `-sense-apply.py`) normalize through the same function. 289 WZB `<w>` with an o/u breve still carry no `@lemmaRef`, because the breve stopped the matcher; a re-run will resolve some of them. See ADR-016.
 
 ### Helper Functions
 
-Die Vergleichs-Helfer existieren nur auf der JS-Seite (`TextNormalizer.matchesNormalized` / `.exactMatchNormalized` / `.startsWithNormalized`). Die Python-Pendants wurden entfernt, weil kein Build-Skript sie je aufrief (Audit #107) – Python-Code vergleicht direkt über `normalize_mhg(a) == normalize_mhg(b)` etc. Der harte Paritäts-Vertrag gilt für `normalize_mhg()` ↔ `TextNormalizer.normalizeMHG()`; wer einen Python-Vergleichs-Helfer neu einführt, muss ihn wieder 1:1 gegen die JS-Semantik spiegeln (Substring/Exact/Prefix auf normalisierten Strings).
+The comparison helpers exist only on the JS side (`TextNormalizer.matchesNormalized` / `.exactMatchNormalized` / `.startsWithNormalized`). The Python counterparts were removed because no build script ever called them (audit #107): Python code compares directly via `normalize_mhg(a) == normalize_mhg(b)` and so on. The hard parity contract applies to `normalize_mhg()` ↔ `TextNormalizer.normalizeMHG()`; anyone introducing a new Python comparison helper has to mirror the JS semantics 1:1 again (substring/exact/prefix over normalized strings).
 
 ---
 
@@ -120,9 +120,9 @@ Die Vergleichs-Helfer existieren nur auf der JS-Seite (`TextNormalizer.matchesNo
 5. Order = **document order** (depth-first traversal of `<body>`)
 6. `<w>` elements **with** `@lemmaRef` but **empty text content** are **skipped** (Python `if not text_content: continue`, JS `hasText` guard; identical on both sides since #131, pinned by `position-parity.spec.js`). Today the corpus contains **0** such elements, so the rule is a no-op on real data and a guard against future ingests with placeholder tokens
 
-**Es gibt keinen zweiten Zählpfad mehr.** Bis #314 stand hier eine Ausnahme: der XML-Fallback der Nähesuche für hochgeladene Dateien (`findCooccurringLemmas`) zählte alle `<w>`, auch die ohne `@lemmaRef`, und ein `maxDistance` von 10 hieß dort „10 Tokens" statt „10 lemmatisierte Tokens". Dieser Pfad war seit dem Playground-Redesign unerreichbar (die Upload-UI war aus dem HTML gefallen, die Einstiegsfunktion hatte keinen Aufrufer mehr) und ist entfernt. Jede Position im Playground folgt jetzt ausnahmslos den sechs Regeln oben.
+**There is no second counting path any more.** Until #314 there was an exception here: the XML fallback of the proximity search for uploaded files (`findCooccurringLemmas`) counted every `<w>`, including those without `@lemmaRef`, so a `maxDistance` of 10 meant "10 tokens" there instead of "10 lemmatized tokens". That path had been unreachable since the playground redesign (the upload UI had dropped out of the HTML, the entry function had no caller left) and is removed. Every position in the playground now follows the six rules above without exception.
 
-**Wie groß der Unterschied gewesen wäre, bleibt als Maßzahl wichtig**, weil sie die Bezugsgröße aller normierten Anzeigen beschreibt (§H.5 Punkt 0): über alle 667 Korpusdateien tragen 1.898.312 von 9.431.294 `<w>` kein `@lemmaRef`, also 20,13 % (Spitzenwerte AUP 41,6 %, REF 39,3 %, DL1 38,8 %; 145 Dateien tragen durchgehend `@lemmaRef`). Nachzurechnen mit `scripts/audit/quantify-unannotated-tokens.py` (Stand 2026-07-31). Die Gegenprobe zu §H.2a geht auf: 9.431.294 minus 1.898.312 ergibt genau die dort genannten 7.532.982 annotierten Tokens, und kein einziges `<w>` im Korpus hat leeren Text, der Nicht-leer-Guard aus Regel 6 zieht also nichts ab.
+**How large the difference would have been still matters as a measure**, because it describes the reference size of every normalized display (§H.5, item 0): across all 667 corpus files, 1,898,312 of 9,431,294 `<w>` carry no `@lemmaRef`, that is 20.13 % (peaks AUP 41.6 %, REF 39.3 %, DL1 38.8 %; 145 files carry `@lemmaRef` throughout). Recalculate with `scripts/audit/quantify-unannotated-tokens.py` (as of 2026-07-31). The cross-check against §H.2a works out: 9,431,294 minus 1,898,312 gives exactly the 7,532,982 annotated tokens named there, and not a single `<w>` in the corpus has empty text, so the non-empty guard from rule 6 subtracts nothing.
 
 ### Python (build-time)
 
@@ -205,7 +205,7 @@ Corpus index stores: `lemmata: { "lemma_879": [1] }` – position 1, not 2.
 
 **Contract:** A `<w>` is highlighted iff its `@lemmaRef` contains the searched lemma id as an **exact whitespace-separated token** – never as a substring.
 
-**Why:** `@lemmaRef` may carry several space-separated values (e.g. `lexicon.xml#lemma_308 lexicon.xml#lemma_5`). A substring test (`lemmaRef.includes('#lemma_308')`) also matches neighbouring ids like `#lemma_3089` (jâmer), `#lemma_3087`, `#lemma_30800` – so a search for one lemma highlights unrelated words and inflates the in-reader hit counter. This was bug #126 (fix `8e38f25cc`).
+**Why:** `@lemmaRef` may carry several space-separated values (e.g. `lexicon.xml#lemma_308 lexicon.xml#lemma_5`). A substring test (`lemmaRef.includes('#lemma_308')`) also matches neighboring ids like `#lemma_3089` (jâmer), `#lemma_3087`, `#lemma_30800` – so a search for one lemma highlights unrelated words and inflates the in-reader hit counter. This was bug #126 (fix `8e38f25cc`).
 
 ### Rule
 
@@ -245,7 +245,7 @@ Validated on real corpus data: PL1 689 → 57, OVG 369 → 26 (matches the resul
 
 **Why:** MHG has extensive orthographic variation. A single lemma can appear as dozens of attested forms. The 3-stage approach balances precision (exact first) with recall (fuzzy last).
 
-Source: `assets/js/search/search-engine.js` (`resolveLemmaIds`), `playground/js/data/authority-manager.js` (`searchLemmaByOrthography`). Das Stage-3-Prädikat und sein Ranking-Abstand liegen seit #224 gemeinsam in `assets/js/lib/lemma-resolve.js`; beide Oberflächen importieren sie. Geteilt ist ausdrücklich nur Stufe 3: Stufe 1 unterscheidet sich weiterhin (die Hauptseite vergleicht gegen das vorberechnete `lemma.normalized` des Index, der Playground normalisiert zur Laufzeit und rankt Homographen zusätzlich nach Korpus-Frequenz). Den Frequenz-Tie-Break setzt der Playground seit #224 auch in **Stufe 3** ein, nach der Längendistanz und vor der Index-Reihenfolge (`authority-manager.js`, `searchLemmaByOrthography`). Der Pseudocode unten bildet die Hauptseiten-Sortierung ab; wer die Playground-Reihenfolge braucht, liest die Lehre aus #163/#164 mit: bei gleicher Distanz gewinnt das häufigere Lemma, weil `matches[0]`-Konsumenten still den ersten Treffer nehmen.
+Source: `assets/js/search/search-engine.js` (`resolveLemmaIds`), `playground/js/data/authority-manager.js` (`searchLemmaByOrthography`). Since #224 the stage-3 predicate and its ranking distance live together in `assets/js/lib/lemma-resolve.js`; both interfaces import them. Only stage 3 is explicitly shared: stage 1 still differs (the main site compares against the index's precomputed `lemma.normalized`, the playground normalizes at runtime and additionally ranks homographs by corpus frequency). Since #224 the playground applies the frequency tie-break in **stage 3** as well, after the length distance and before index order (`authority-manager.js`, `searchLemmaByOrthography`). The pseudocode below reflects the main-site ordering; anyone who needs the playground order should read the lesson from #163/#164 along with it: at equal distance the more frequent lemma wins, because consumers of `matches[0]` silently take the first hit.
 
 ### Pseudocode
 
@@ -270,11 +270,11 @@ function resolveLemmaIds(normalized):
     // Stage 3: Partial match fallback (bidirectional PREFIX, see #224)
     results = []
     for each lemma in authorityIndex.lemmata:
-        if lemma.normalized.startsWith(normalized)                  // Stamm-Eingabe
+        if lemma.normalized.startsWith(normalized)                  // stem input
            OR (lemma.normalized.length >= 3
-               AND normalized.startsWith(lemma.normalized)):        // flektierte Eingabe
+               AND normalized.startsWith(lemma.normalized)):        // inflected input
             results.push(lemma)
-    sort results by abs(len(lemma.normalized) - len(normalized))    // Nähe zuerst
+    sort results by abs(len(lemma.normalized) - len(normalized))    // closest first
     return results.map(lemma => lemma.id)                          // May be empty
 ```
 
@@ -284,32 +284,32 @@ function resolveLemmaIds(normalized):
 |-------|-----------|--------|-------------|---------|
 | 1 | Canonical or normalized form | 0..N lemma IDs (homographs) | O(n) scan | `brot` → `[lemma_879]` |
 | 2 | Attested orthographic variant | Exactly 1 lemma ID | O(1) lookup | `brott` → normalize → `brot` → variants[`brot`] → `lemma_879` |
-| 3 | Prefix match, both directions | 0..N lemma IDs, nächste zuerst | O(n) scan + Sort | `minnecl` → `minnec`, `minne`, `minneclîch`, …; `schwertkampf` → keine |
+| 3 | Prefix match, both directions | 0..N lemma IDs, closest first | O(n) scan + sort | `minnecl` → `minnec`, `minne`, `minneclîch`, …; `schwertkampf` → none |
 
-### Stufe 3: warum Präfix und nicht Substring (#224)
+### Stage 3: why prefix and not substring (#224)
 
-Bis Juli 2026 war Stufe 3 ein bidirektionaler **Substring**-Test. Die Richtung „Eingabe enthält Lemma" traf jedes Kurzlemma, das irgendwo in der Eingabe steckte. Das Lexikon hält 5 ein-, 98 zwei- und 598 dreibuchstabige normalisierte Formen; sie trafen praktisch jede Eingabe, die Stufe 3 überhaupt erreichte. Für `minnecl` kamen 16 Treffer zurück, angeführt von `i`, `unminneclîche` und `nec`; für `schwertkampf` 14, darunter `a`, `êr`, `wert`, `kamp`.
+Until July 2026 stage 3 was a bidirectional **substring** test. The direction "input contains lemma" hit every short lemma that sat anywhere inside the input. The lexicon holds 5 one-letter, 98 two-letter and 598 three-letter normalized forms; they matched practically every input that reached stage 3 at all. For `minnecl` it returned 16 hits, led by `i`, `unminneclîche` and `nec`; for `schwertkampf` 14, among them `a`, `êr`, `wert`, `kamp`.
 
-Mittelhochdeutsche Flexion ist suffixal, deshalb hält ein Präfix-Test beide nützlichen Fälle (Stamm-Eingabe findet das volle Lemma, flektierte Eingabe findet das Lemma) und lässt das Rauschen fallen. Die Mindestlänge 3 gilt nur in der Richtung „Eingabe beginnt mit Lemma"; in der anderen ist das Lemma konstruktionsbedingt länger als die Eingabe.
+Middle High German inflection is suffixal, so a prefix test keeps both useful cases (stem input finds the full lemma, inflected input finds the lemma) and drops the noise. The minimum length of 3 applies only in the direction "input begins with lemma"; in the other direction the lemma is longer than the input by construction.
 
-**Zur Genese des Bug-Reports, weil sie leicht falsch erzählt wird:** Die dort gezeigte Suche nach „böses" trug ein **zerlegtes** Umlaut-ö (`o` + U+0308 statt U+00F6). Deshalb verfehlte sie Stufe 1 und Stufe 2 (die Varianten-Map hält den Schlüssel `boeses`, nicht die zerlegte Form) und landete überhaupt erst in Stufe 3, wo der Substring-Test daraus `ês`, `ô`, `sê` machte, ohne `bœse`. Mit komponiertem ö löst Stufe 2 dieselbe Eingabe korrekt zu `bœse` auf. Der Report hatte also zwei Ursachen, und beide sind behoben: die NFC-Komposition in Contract A und die Präfix-Regel hier.
+**On how the bug report came about, because it is easily told wrong:** the search for „böses" shown there carried a **decomposed** umlaut ö (`o` + U+0308 instead of U+00F6). That is why it missed stages 1 and 2 (the variants map holds the key `boeses`, not the decomposed form) and reached stage 3 in the first place, where the substring test turned it into `ês`, `ô`, `sê`, without `bœse`. With a composed ö, stage 2 resolves the same input correctly to `bœse`. So the report had two causes, and both are fixed: the NFC composition in contract A and the prefix rule here.
 
-Gemessen über 300 mit festem Seed gezogene Varianten-Formen mit bekanntem Ziel-Lemma (`scripts/audit/measure-stage3-resolution.py`, Stufe 1 und 2 umgangen):
+Measured over 300 variant forms with a known target lemma, drawn with a fixed seed (`scripts/audit/measure-stage3-resolution.py`, stages 1 and 2 bypassed):
 
-| Metrik | alt (Substring) | alt + neues Ranking | neu (Präfix) |
+| Metric | old (substring) | old + new ranking | new (prefix) |
 |--------|----------------:|--------------------:|-------------:|
-| Recall (Ziel irgendwo in der Liste) | 11,3 % | 11,3 % | 10,7 % |
-| Top-1 nach Ranking | 0,3 % | 9,3 % | 10,0 % |
-| Median der Listengröße | 8 | 8 | 0 |
-| Größte Liste | 108 | 108 | 8 |
+| Recall (target anywhere in the list) | 11.3 % | 11.3 % | 10.7 % |
+| Top-1 after ranking | 0.3 % | 9.3 % | 10.0 % |
+| Median list size | 8 | 8 | 0 |
+| Largest list | 108 | 108 | 8 |
 
-**Die mittlere Spalte ist wichtig:** Der große Sprung bei Top-1 (0,3 % → 9,3 %) kommt von der neuen Sortierung nach Längendifferenz, nicht von der neuen Regel. Die Regel selbst trägt 9,3 % → 10,0 % bei. Ihr eigentlicher Gewinn steht in den unteren beiden Zeilen: die Ergebnisliste schrumpft von median 8 auf 0.
+**The middle column matters:** the big jump in top-1 (0.3 % → 9.3 %) comes from the new sort by length difference, not from the new rule. The rule itself contributes 9.3 % → 10.0 %. Its actual gain is in the bottom two rows: the result list shrinks from a median of 8 to 0.
 
-Der Recall-Verlust von 2 Fällen auf 300 betrifft Präfix-Brecher: `gewieren` → `wieren` (Präfix `ge-`) und die römische Zahl `ccccxli`. Beide sind im Echtbetrieb belegte Varianten und werden bereits von Stufe 2 aufgelöst; die Messung umgeht Stufe 2 absichtlich. Der Median von 0 heißt: für eine zufällige unbekannte Form liefert Stufe 3 jetzt meist nichts statt acht Falschtreffern. Das ist gewollt, die Oberfläche zeigt dann ihren Kein-Treffer-Zustand.
+The recall loss of 2 cases out of 300 concerns prefix breakers: `gewieren` → `wieren` (prefix `ge-`) and the Roman numeral `ccccxli`. Both are attested variants in real use and are already resolved by stage 2; the measurement bypasses stage 2 on purpose. A median of 0 means: for a random unknown form, stage 3 now usually returns nothing instead of eight false hits. That is intended, the interface then shows its no-hit state.
 
-**Bias der Messung:** Echte Stufe-3-Eingaben sind eher neuhochdeutsche Wörter und Tippfehler als mittelhochdeutsche Flexionsformen. Die Stichprobe misst, ob der Fix Recall kostet, nicht wie oft Stufe 3 im Alltag überhaupt das Richtige findet.
+**Bias of the measurement:** real stage-3 inputs are more often New High German words and typos than Middle High German inflected forms. The sample measures whether the fix costs recall, not how often stage 3 finds the right thing in everyday use.
 
-**Nebenwirkung auf Stufe 3 hinaus:** `resolveLemmaIds` liefert auch die Referenzmenge für die Keyness-Spalte der Tabellenansicht (#114, `app.js`). Bei Suchbegriffen, die Stufe 3 erreichen, ändern sich damit die Log-Likelihood-Werte, weil die Referenzsumme über weniger Lemmata läuft.
+**Side effect beyond stage 3:** `resolveLemmaIds` also supplies the reference set for the keyness column of the table view (#114, `app.js`). For search terms that reach stage 3, the log-likelihood values therefore change, because the reference sum runs over fewer lemmata.
 
 ### Worked Example
 
@@ -323,8 +323,8 @@ User types: **brott**
 ### Variant Dictionary Structure
 
 - Flat map: `{ normalized_variant_form: lemma_id }`
-- 234,243 normalized entries (Stand 2026-07-28; 256,760 raw forms in variants.xml, deduped first-occurrence-wins), extracted from `authority-files/variants.xml`
-- **Zwei Zahlen, die verschieden bleiben müssen:** 256.760 ist die Zahl der Rohformen in `variants.xml`, 234.243 die Zahl der Mappings im Runtime-Dictionary nach der Deduplizierung. Wer „variants dictionary" schreibt, meint die kleinere. Wer 234.244 liest, liest den Stand vor #138 (§A, Schritt 0)
+- 234,243 normalized entries (as of 2026-07-28; 256,760 raw forms in variants.xml, deduped first-occurrence-wins), extracted from `authority-files/variants.xml`
+- **Two numbers that have to stay different:** 256,760 is the count of raw forms in `variants.xml`, 234,243 the count of mappings in the runtime dictionary after deduplication. Whoever writes "variants dictionary" means the smaller one. Whoever reads 234,244 is reading the state before #138 (§A, step 0)
 - **First occurrence wins** – if two lemmata claim the same variant form, only the first one stored (source: `parse_variants()` in `build-authority-index.py`, the `if normalized_variant not in variants` guard). Line anchors drift; look the function up by name
 - Keys are **normalized** forms (lowercase + MHG character mapping applied before storage)
 
@@ -579,7 +579,7 @@ Response: {                              // illustrative shape, IDs schematic
 |--------|------------|--------|
 | Old MHDBDB | `https://mhdbdb-old.sbg.ac.at/mhdbdb/App?action=Dic&lid={numericId}` | `lemma-page.js:239` |
 | REALonline (IMAREAL) | `https://realonline.imareal.sbg.ac.at/suche#{json}` where json = `{"s":"{normalized}"}` | `lemma-page.js:244` |
-| Corpus search | `../korpus.html?search={lemma.lemma}` – ausgewertet in `app.js` `handleURLParameters()` (#144): befüllt das Suchfeld und löst die normale Suche aus | `lemma-page.js:249` |
+| Corpus search | `../korpus.html?search={lemma.lemma}` – evaluated in `app.js` `handleURLParameters()` (#144): fills the search field and triggers the normal search | `lemma-page.js:249` |
 | GND (person/work) | `https://d-nb.info/gnd/{gndId}` | `tei-text-reader.js` |
 | Wikidata (person/work) | `https://www.wikidata.org/wiki/{wikidataId}` | `tei-text-reader.js` |
 | Handschriftencensus | URL stored in authority index `work.handschriftencensus` | `tei-text-reader.js` |
@@ -638,9 +638,9 @@ Parse order: ?id > #hash > path segment (first match wins)
 | `MHDBDBMainSite` | Dexie.js | `indices` | `name` (string) | `assets/js/lib/corpus-loader.js` |
 | `MHDBDB_TEI_Cache` | Raw IndexedDB | `parsedTEI` | `filename` (string) | `assets/js/storage/tei-cache-manager.js` |
 
-**Es gibt nur diese zwei Datenbanken.** Der Playground hielt bis #314 eine dritte, `MHDBDB_Playground`, mit einem einzigen Store `tei_files` für die hochgeladenen Dateien. Mit dem Rückbau des Upload-Pfads hat sie keinen Schreiber mehr; `playground-main.js` löscht sie beim Start einmalig (`dropLegacyPlaygroundDatabase()`, auf einer fehlenden Datenbank ein No-op). Das ersetzt die v3-Schema-Migration aus #280, die drei schreiberlose Altstores räumte und nach dem Rückbau mangels Manager-Instanz nicht mehr liefe. Korpus- und Authority-Daten lagen nie dort, sondern im gemeinsamen `CorpusLoader` (`MHDBDBMainSite`). **Ein zweiter Cache-Pfad darf nicht wieder entstehen.**
+**These two databases are the only ones.** Until #314 the playground kept a third, `MHDBDB_Playground`, with a single store `tei_files` for the uploaded files. With the upload path removed it has no writer left; `playground-main.js` deletes it once at startup (`dropLegacyPlaygroundDatabase()`, a no-op on a database that does not exist). That replaces the v3 schema migration from #280, which cleared three writer-less legacy stores and, after the removal, would no longer run for lack of a manager instance. Corpus and authority data were never stored there but in the shared `CorpusLoader` (`MHDBDBMainSite`). **A second cache path must not reappear.**
 
-Der Name `MHDBDB_Playground` steht deshalb an zwei Stellen weiter im Code, und beide sind Absicht: `dropLegacyPlaygroundDatabase()` greift nur, wenn jemand den Playground öffnet, und `KNOWN_DB_NAMES` in `assets/js/site-chrome.js` ist die zweite Chance über den Knopf „Site-Daten zurücksetzen" auf jeder Seite. Beide dürfen erst zusammen verschwinden, realistisch ab Mitte 2027.
+The name `MHDBDB_Playground` therefore remains in the code in two places, and both are deliberate: `dropLegacyPlaygroundDatabase()` only takes effect if someone opens the playground, and `KNOWN_DB_NAMES` in `assets/js/site-chrome.js` is the second chance, via the „Site-Daten zurücksetzen" button on every page. The two may only disappear together, realistically from mid-2027 on.
 
 ### Index Cache (MHDBDBMainSite)
 
@@ -666,17 +666,19 @@ getCachedIndex(name):
     return cached.data
 ```
 
-**Drei-Stellen-Versions-Bump (Pflicht-Synchronizität):**
+**Five-place version bump (mandatory synchronicity):**
 
-Bei jedem Index-Schema-Bump müssen drei Stellen synchron gehalten werden, sonst greift die Cache-Invalidate-Logik nicht. Production-User mit altem Cache sehen sonst den neuen Index nie:
+On every index schema bump five places have to be kept in sync. The first three are load-bearing: if they drift, the cache invalidation logic does not fire and production users with an old cache never see the new index. The other two are documentation and break nothing, which is exactly why they drift unnoticed (#307).
 
-1. `scripts/build-corpus-index.py` → `'version': 'X.Y.Z'` im finalen Index-Dict
-2. `scripts/build-authority-index.py` → analog
-3. `assets/js/lib/corpus-loader.js` → `INDEX_VERSION` und `AUTHORITY_INDEX_VERSION`
+1. `scripts/build-corpus-index.py` → `'version': 'X.Y.Z'` in the final index dict
+2. `scripts/build-authority-index.py` → likewise
+3. `assets/js/lib/corpus-loader.js` → `INDEX_VERSION` and `AUTHORITY_INDEX_VERSION`
+4. `docs/TEI-MODEL.md` §11 → the version table (`| Corpus Index | … |`, `| Authority Index | … |`)
+5. `docs/INDEX.md` → Project Status, the parenthesis naming both versions
 
-Strukturell verankert: `scripts/audit/check-index-versions.py` plus CI-Workflow `.github/workflows/data-integrity.yml` (PR/Push für die drei Files). Lokal `python scripts/audit/check-index-versions.py` vor Commit ausführen; exit 1 bei Drift mit File:Line-Annotation.
+Structurally anchored: `scripts/audit/check-index-versions.py` plus the CI workflow `.github/workflows/data-integrity.yml`. Run `python scripts/audit/check-index-versions.py` locally before committing; exit 1 on drift, with a file:line annotation. Exit 2 means something else: a regex found no version at all, so one of the five places was reworded rather than misversioned. The two documentation regexes are deliberately bound to the exact wording, capitalization included.
 
-**Bump-Pflicht bei Inhaltsänderung (#154):** Die drei Stellen synchron zu halten reicht nicht – auch ein komplett *vergessener* Bump (alle drei Stellen einträchtig auf der alten Version, Index-Inhalt aber geändert) ließe den Cache 30 Tage stale. Gate: `scripts/audit/check-index-version-bump.py --base <rev>` (CI-Step „Index-Versions-Bump-Gate" in `data-integrity.yml`) vergleicht den dekomprimierten Index-Inhalt mit der Diff-Base und fordert bei Änderung einen geänderten `version`-String. Ein Bump ohne Inhaltsänderung bleibt erlaubt (bewusster Cache-Flush).
+**Bump required on content change (#154):** keeping the five places in sync is not enough. A completely *forgotten* bump (all places agreeing on the old version while the index content changed) would leave the cache stale for 30 days. Gate: `scripts/audit/check-index-version-bump.py --base <rev>` (CI step „Index-Versions-Bump-Gate" in `data-integrity.yml`) compares the decompressed index content against the diff base and demands a changed `version` string when it differs. A bump without a content change stays permitted (a deliberate cache flush).
 
 **How to force refetch:**
 
@@ -714,7 +716,7 @@ Strukturell verankert: `scripts/audit/check-index-versions.py` plus CI-Workflow 
 When a `<w>` carries a `@lemmaRef` / `@ana` / `@corresp` that does not exist in the target authority file – a **dangling ref** (detector: `scripts/audit/check-authority-cross-refs.py`):
 
 - **Default:** the corpus annotation wins. The authority must gain the missing entry (lemma stub from form + `@pos`; variant via `extract-variants.py`).
-- **Exception:** an obvious corpus typo (reference to a never-existing ID, single occurrence, a neighbouring ID exists with the right form) is fixed in the corpus instead.
+- **Exception:** an obvious corpus typo (reference to a never-existing ID, single occurrence, a neighboring ID exists with the right form) is fixed in the corpus instead.
 - `lexicon.xml` is never the master for the question "does this lemma exist?" – the corpus is.
 
 ### F.2 Sense Meanings Are Curatorial
@@ -723,7 +725,7 @@ A lemma *form* is generatable from the corpus (word form + `@pos`). A sense *mea
 
 ### F.3 Ingest Requires Backward Sync
 
-Any ingest pipeline that mints new lemma/sense IDs in the corpus MUST write them into `lexicon.xml` atomically. A forward-only pipeline (annotate corpus without authority sync) produces dangling refs – exactly the WZB drift (#115): Phase 1b minted lemma IDs ≥78000 into the corpus, but no script backfilled `lexicon.xml`. Detector: `scripts/audit/check-authority-cross-refs.py --check` (CI gate in `data-integrity.yml`). Since #152 the tolerated legacy set is pinned as an **ID-set ratchet** in the committed `scripts/audit/lexicon-baseline.json`: any dangling lexicon id outside that set fails CI – including compensating drift (new ids introduced while old ones are backfilled in the same PR). New ids must either be backfilled immediately or deliberately added via `--update-baseline` (KZW decision, reviewable file diff); when backfill lands, run `--update-baseline` and commit the shrunken file so the ratchet keeps gripping (CI emits a `::warning` until you do). See [DECISIONS.md → ADR-015](DECISIONS.md#adr-015-authority-source-modell-korpus-führt-ingest-braucht-rückwärts-sync). The full normative ingest procedure (Stage-0 conversion → Phases 1–3 → backfill) is documented in [DATA-MODEL.md → Ingest-Verfahren](DATA-MODEL.md#ingest-verfahren-neuaufnahme-von-texten).
+Any ingest pipeline that mints new lemma/sense IDs in the corpus MUST write them into `lexicon.xml` atomically. A forward-only pipeline (annotate corpus without authority sync) produces dangling refs – exactly the WZB drift (#115): Phase 1b minted lemma IDs ≥78000 into the corpus, but no script backfilled `lexicon.xml`. Detector: `scripts/audit/check-authority-cross-refs.py --check` (CI gate in `data-integrity.yml`). Since #152 the tolerated legacy set is pinned as an **ID-set ratchet** in the committed `scripts/audit/lexicon-baseline.json`: any dangling lexicon id outside that set fails CI – including compensating drift (new ids introduced while old ones are backfilled in the same PR). New ids must either be backfilled immediately or deliberately added via `--update-baseline` (KZW decision, reviewable file diff); when backfill lands, run `--update-baseline` and commit the shrunken file so the ratchet keeps gripping (CI emits a `::warning` until you do). See [DECISIONS.md → ADR-015](DECISIONS.md#adr-015-authority-source-model-the-corpus-leads-ingest-needs-a-backward-sync). The full normative ingest procedure (Stage-0 conversion → Phases 1–3 → backfill) is documented in [DATA-MODEL.md → Ingest-Verfahren](DATA-MODEL.md#ingest-verfahren-neuaufnahme-von-texten).
 
 **Master of record:** Since the migration (2025-07-22) this repository is the *sole* master for all 8 authority files; there is no Salzburg re-export and no live external source. See [TEI-MODEL-AUTH-FILES.md → Provenienz](TEI-MODEL-AUTH-FILES.md#provenienz-und-aktualitaet).
 
@@ -909,7 +911,7 @@ Four properties that decide whether a comparison across texts is valid:
 
 0. **Every denominator counts annotated tokens only, the share of annotated tokens differs per text, and what is missing is not a random sample.** `wordCount` and `totalTokens` count `<w>` elements carrying a `@lemmaRef` (§B). Measured 2026-07-31 with `scripts/audit/quantify-unannotated-tokens.py`: of **9,431,294** `<w>` elements, **1,898,312 (20.13 %) carry no `@lemmaRef`**; per-text coverage runs from **58.4 % to 100 %**, median **77.4 %**, 358 of 667 texts below 80 %.
 
-   The size of the gap alone would be harmless. If the unannotated tokens were spread evenly over lemmata, a text annotated at 60 % would lose the same fraction from numerator and denominator, and every per-thousand rate would come out unchanged. **They are not spread evenly.** Of the 1,898,312 unannotated tokens, **1,868,921 (98.5 %) are homographs of forms that *are* annotated elsewhere** in the corpus, largely ambiguity cases the legacy system left alone (the audit script says "mutmasslich" and so should this: with 7.5 M annotated tokens, part of that overlap is a base-rate artefact). They cluster hard on high-frequency function words and pronouns: `in` (128,144), `ir` (111,958), `er` (101,242), `sî` (80,989), `man` (62,285).
+   The size of the gap alone would be harmless. If the unannotated tokens were spread evenly over lemmata, a text annotated at 60 % would lose the same fraction from numerator and denominator, and every per-thousand rate would come out unchanged. **They are not spread evenly.** Of the 1,898,312 unannotated tokens, **1,868,921 (98.5 %) are homographs of forms that *are* annotated elsewhere** in the corpus, largely ambiguity cases the legacy system left alone (the audit script says "mutmasslich" and so should this: with 7.5 M annotated tokens, part of that overlap is a base-rate artifact). They cluster hard on high-frequency function words and pronouns: `in` (128,144), `ir` (111,958), `er` (101,242), `sî` (80,989), `man` (62,285).
 
    The bias on a rate for lemma *L* in text *T* is `coverage(L) / coverage(T)`, so the direction depends on how well *L* itself is covered relative to the text average, and it **inverts** for a lemma whose own forms sit in the unannotated set (exactly the deliberately skipped homographs of #189). For the content words people usually measure, coverage(L) is above the text average and a sparsely annotated text therefore *tends to* score higher, saying nothing about its style. Do not state that as a law: for `in`, `ir`, `er`, `sî` or `man` it is simply wrong.
 
