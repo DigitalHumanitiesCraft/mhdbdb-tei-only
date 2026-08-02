@@ -569,11 +569,14 @@ def anchor_binds_number(content: str, pattern: str, num_re: re.Pattern) -> bool:
     stehen, ANCHOR_SEP laesst dazwischen nur Whitespace und etwas Markup zu.
     Kommt das Wort nur in Prosa vor ("and the TEI analysis tools, from ..."),
     laeuft der Scan ins Leere, waehrend die Selbstpruefung Abdeckung meldet.
-    Gemessen betraf das sechs Paare, fuenf davon seit Monaten (#342).
+    Gemessen betraf das acht Paare: zwei liessen sich beheben, weil der Anker
+    die im Bestand verwendete Formulierung nicht kannte, sechs stehen seither
+    begruendet in INTENTIONALLY_SILENT (#342).
 
-    Die Skip-Regeln der Scans (datierte Chronik-Zeilen, Modulbaum-Zeilen,
-    historische Marker) sind hier bewusst NICHT nachgebildet. Sie nehmen
-    einzelne Fundstellen aus, nicht die Pruefbarkeit der Stelle an sich: eine
+    Die Skip-Regeln der Scans (z. B. datierte Chronik-Zeilen, Modulbaum-Zeilen,
+    Rundungs- und Pfeil-Praefixe, das Drift-Fenster selbst) sind hier bewusst
+    NICHT nachgebildet. Sie nehmen einzelne
+    Fundstellen aus, nicht die Pruefbarkeit der Stelle an sich: eine
     Datei, in der die Zahl nur in einer Chronik-Zeile steht, wuerde sonst als
     ungeprueft gelten, obwohl der Scan dort anschlaegt, sobald jemand die
     Zahl ausserhalb der Chronik nennt.
