@@ -83,9 +83,10 @@ NUMERIC_SCAN_MIN = 100
 
 # Ausnahmen von NUMERIC_SCAN_MIN (#297 Punkt 1). Die 100er-Schwelle schuetzt
 # gegen Tabellenindizes, Prozente und Abschnittsnummern; sie macht das Audit
-# aber blind fuer jede Datenzahl darunter. names.xml ist die einzige
+# aber blind fuer jede Datenzahl darunter. names.xml war die erste
 # doc-gepruefte Authority-Datei unter der Schwelle (90 Kategorien) und stand
-# damit still in docs/TEI-MODEL.md. Zulaessig ist die Absenkung nur bei einem
+# damit still in docs/TEI-MODEL.md; contributors.xml (52) kam 2026-08-02 aus
+# demselben Grund dazu. Zulaessig ist die Absenkung nur bei einem
 # Key, dessen Anker die Zahl eng bindet und dessen Drift-Fenster klein bleibt:
 # bei 90 sind das +-2, es werden also nur 88 bis 92 mit direkt folgendem
 # "Kategorien" oder "Namen" gemeldet.
@@ -93,7 +94,7 @@ NUMERIC_SCAN_MIN = 100
 # Die Absenkung gilt KEY-GLOBAL, nicht pro (Datei, Key): kommt der Key spaeter
 # in einem zahlenreichen Target dazu (INDEX.md, ROADMAP.md), waechst die
 # Fehlalarmflaeche still mit. Dann pro Target entscheiden statt hier absenken.
-SCAN_MIN_OVERRIDE = {'names': 50}
+SCAN_MIN_OVERRIDE = {'names': 50, 'contributors_persons': 50}
 
 # min_digits (find_stale_numbers) koppelt die Stellenzahl an diese Schwelle
 # und kennt nur zwei- oder dreistellig. Ein Override unter 10 waere still
@@ -190,14 +191,16 @@ LABELS = [
 # actual current value — when found, that means the doc is stale.
 DOC_TARGETS = [
     ('docs/TEI-MODEL.md', ['corpus_files', 'lexicon_entries', 'works', 'persons',
-                            'concepts', 'genres', 'names', 'variants_entries', 'variants_forms']),
+                            'concepts', 'genres', 'names', 'variants_entries', 'variants_forms',
+                            'contributors_persons']),
     ('docs/INDEX.md', ['corpus_files']),
     ('docs/ROADMAP.md', ['corpus_files']),
     # Beide tragen undatierte Ist-Angaben zu variants.xml und standen bis
     # 2026-07-28 nicht im Audit; sie blieben deshalb bei 256.761 stehen.
     ('docs/DATA-MODEL.md', ['variants_forms', 'variants_entries', 'variants_normalized',
                             'works']),  # works: #293 hat die 584 in Prosa gebracht
-    ('docs/TEI-MODEL-AUTH-FILES.md', ['variants_forms', 'variants_entries']),
+    ('docs/TEI-MODEL-AUTH-FILES.md', ['variants_forms', 'variants_entries',
+                                       'contributors_persons']),
     # CONTRACTS.md:315 beschreibt den Ist-Aufbau des Variants-Dictionary; der
     # Datumsstempel dort macht die Zeile nicht historisch.
     ('docs/CONTRACTS.md', ['variants_forms', 'variants_normalized']),
@@ -244,7 +247,8 @@ DOC_TARGETS = [
     # dort 256.761 stehen, waehrend #138 alle anderen Seiten auf 256.760 zog.
     ('index.html', ['corpus_files', 'lexicon_entries', 'variants_forms']),
     ('hilfe-daten.html', ['corpus_files', 'lexicon_entries',
-                          'variants_forms', 'variants_normalized']),
+                          'variants_forms', 'variants_normalized',
+                          'contributors_persons']),
     ('hilfe-korpussuche.html', ['variants_normalized']),
     ('hilfe-playground.html', ['variants_normalized']),
     ('hilfe-daten-beitragen.html', ['variants_forms']),
@@ -364,6 +368,12 @@ NEAR_KEYWORDS = {
     'concepts': r'(?:Konzepte|Begriffe|Kategorien)',
     'genres': r'(?:Gattungen|Kategorien)',
     'names': r'(?:Namen|Kategorien)',
+    # Der Wert wurde schon berechnet, war aber in keinem DOC_TARGETS-Eintrag
+    # eingetragen: docs/TEI-MODEL.md stand deshalb still auf 51, waehrend
+    # TEI-MODEL-AUTH-FILES.md 52 fuehrte (#315 Punkt 4). Kollision mit dem
+    # gleichnamigen Anker von 'persons' (211) gibt es nicht: das Drift-Fenster
+    # ist +-2 um 52.
+    'contributors_persons': r'Personen',
 }
 
 

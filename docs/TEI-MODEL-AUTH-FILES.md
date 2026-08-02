@@ -470,7 +470,7 @@ In den Korpus-Headern werden dieselben drei Fest-Slot-Personen (Schmidt, Pütz, 
 </persName>
 ```
 
-Das ist bewusst so: `contributors.xml` ist die kanonische semantische Quelle (mit `@xml:id` als Identität), der Header-Eintrag ist eine serialisierte Darstellung, die der `scripts/_archived/migrate-header-credits.py`-Migration 2026-04-15 aus einer hardcodierten `CANONICAL_AUTHORITY`-Konstante erzeugt hat. Die Konstante steht in der Script-Datei und war das einfachste Ausdrucksmittel, da die Spaltung "Vorname | Nachname" für drei Personen bekannt und stabil war. Die restlichen 48+ Editor:innen haben keinen Header-Eintrag – nur den kollektiven `mhdbdb-team`-Verweis.
+Das ist bewusst so: `contributors.xml` ist die kanonische semantische Quelle (mit `@xml:id` als Identität), der Header-Eintrag ist eine serialisierte Darstellung, die der `scripts/_archived/migrate-header-credits.py`-Migration 2026-04-15 aus einer hardcodierten `CANONICAL_AUTHORITY`-Konstante erzeugt hat. Die Konstante steht in der Script-Datei und war das einfachste Ausdrucksmittel, da die Spaltung "Vorname | Nachname" für drei Personen bekannt und stabil war. Die übrigen Editor:innen haben keinen Header-Eintrag – nur den kollektiven `mhdbdb-team`-Verweis.
 
 **Für zukünftige Tools**, die contributors.xml lesen und strukturierte Namen brauchen (z.B. eine Reader-View-Integration für Lead-Editor-Anzeige): die Plaintext-Form muss am Whitespace gesplittet werden (letztes Token = Nachname), mit Sonder-Behandlung für Präfixe wie "van", "von", etc. Die Fest-Slot-Einträge in der Script-Konstante sind keine verlässliche Quelle für nicht-feste contrib_NNN-IDs.
 

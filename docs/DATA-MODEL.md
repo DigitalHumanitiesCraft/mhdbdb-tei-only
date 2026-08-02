@@ -293,7 +293,7 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
 ### Corpus Index
 
 **File:** `data/corpus-index.json.gz`
-**Size:** ~40 MB compressed (v4.1.x; war ~34 MB in v4.0.1)
+**Size:** ~40 MB compressed (war ~34 MB, bevor `lineStarts`/`lineEnds` dazukamen)
 **Version:** Aktueller Stand in [TEI-MODEL.md §11](TEI-MODEL.md#11-versionierung). Quelle im Code: `INDEX_VERSION` in `assets/js/lib/corpus-loader.js` und `'version'` in `scripts/build-corpus-index.py` (dort steht auch der Versions-Historien-Kommentar). MAJOR/MINOR/PATCH-Semantik siehe unten.
 
 **Schema (illustrativ – konkrete Version siehe Tabelle in TEI-MODEL.md §11):**
@@ -328,31 +328,22 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
 }
 ```
 
-**Key features (v4.1.x):**
+**Key features:**
 - Document-level word indexing (removed paragraph-based indexing in 4.0.0)
 - `words[i]` = lemma ID at position `i` (sequential, 0-indexed)
 - Only words with `@lemmaRef` are indexed
 - `lemmata` is the per-text reverse index (lemma → positions), enables O(1) lookup of "where does lemma X appear in text Y"
 - `lemmaIndex` is the global reverse index (lemma → list of text sigles), enables fast "which texts contain lemma X" queries
 - `lineStarts[]` / `lineEnds[]` (seit 4.1.0): pro Text die Word-Indizes der `<l>`-Boundaries. Gleiche Länge wie die Anzahl `<l>` mit mindestens einem indizierten Wort. Empty arrays für Prosa-Texte ohne `<l>` (67/667 ≈ 10 % des Korpus, Stand 2026-07-31; es waren 64, bis #143 drei Texte auf Prosa umstellte). Enables „Lemma am Versanfang/Versende"-Lookups in O(L) statt O(W).
+  **Messvorschrift für die Verszahl (Stand 2026-08-02):** 1.356.748 Boundaries über 600 Texte, gezählt als Summe der `lineStarts`-Längen im gebauten Index. Das Korpus selbst trägt 1.358.973 `<l>`; die Differenz sind Verse ohne ein einziges lemmatisiertes Wort, die keine Boundary erzeugen. Beide Zahlen sind richtig, sie messen Verschiedenes.
 - 100% word coverage from TEI `<body>` elements (Wörter außerhalb von `<l>` wie `<head>`, `<note>`, `<fw>` zählen in `words[]`, aber matchen keine Vers-Boundary)
 - Supports accurate proximity search + Versposition-Filter
 
 **Why v4.0.0?** Removed paragraph-based indexing due to position misalignment between Python extraction and JavaScript parsing. Document-level indexing is simpler and more accurate.
 
-**Why v4.0.1?** WZB (Wenzelsbibel) ingested into the corpus after Phase-2 POS coverage reached 95.5% (Issue #34).
+**Why v4.1.0?** Per-Text `lineStarts[]` / `lineEnds[]` für #47.3 Lemmasuche nach Versposition. Bumped `Schema-feature-add` (MINOR), nicht nur `data-add` (PATCH).
 
-**Why v4.1.0?** Per-Text `lineStarts[]` / `lineEnds[]` für #47.3 Lemmasuche nach Versposition. 1.359.789 `<l>`-Elemente über 603 Versdichtungs-Texte (Stand v4.1.0; heute 1.356.748 über 600, siehe die Anmerkung zu 67/667 oben). Bumped `Schema-feature-add` (MINOR), nicht nur `data-add` (PATCH). Index-Größe +6 MB gz (34 → 40 MB).
-
-**Why v4.1.1?** Korpus-Rebuild nach Stanza-Insertion-Sweep (#23) – etwa 90 Texte bekamen `<lg type="stanza">`-Wrapper, was die `lineStarts`/`lineEnds`-Werte für diese Texte ändert; keine Schema-Änderung, daher PATCH.
-
-**Why v4.1.2?** #104 Sigle-Titel-Differenzierung (PL1-3, FLG/FLG1, FR1-3); reiner Daten-Add, PATCH.
-
-**Why v4.1.3?** #110 WVV-Rebuild – 478 zusätzliche `<lg type="stanza">`-Wraps; PATCH.
-
-**Why v4.1.4?** #125 Deterministischer Build – `generatedAt` entfernt, sortiertes glob, gzip `mtime=0`; gleicher Quellstand erzeugt byte-identische Indexe. PATCH.
-
-**Why v4.1.5?** #143 Prosa-Konversion APO/HMT/HH (`<l>` → `<lb/>`) – `lineStarts[]`/`lineEnds[]` entfallen für die drei Texte. PATCH.
+**Alles Weitere ist Changelog und steht nicht hier.** Die Begründung jedes einzelnen Bumps ab v4.1.5 hängt als Kommentar an der `'version'`-Konstante in `scripts/build-corpus-index.py`, die aktuelle Version in [TEI-MODEL.md §11](TEI-MODEL.md#11-versionierung), die älteren in der Git-Historie dieser Datei. Ein Schema-Dokument, das jeden PATCH nacherzählt, veraltet an einer Stelle, die niemand pflegt (#318).
 
 **Field name note:** the primary identifier is `id` (sigle), not `textId`. Older docs and some code paths may use `textId` – the canonical field in the index JSON is `id`.
 
