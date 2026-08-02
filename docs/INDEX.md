@@ -69,7 +69,7 @@ This knowledge base follows a hub-and-spoke architecture with INDEX.md as the ce
 | Document | Content | Target Reader |
 |----------|---------|---------------|
 | **[INDEX.md](INDEX.md)** | Project overview, navigation hub | Anyone |
-| **[DATA-MODEL.md](DATA-MODEL.md)** | Data sources, schemas, transformation pipeline, Ingest-Verfahren (normatives Phasenmuster), Data-Change-Lifecycle | Data engineers |
+| **[DATA-MODEL.md](DATA-MODEL.md)** | Data sources, schemas, transformation pipeline, ingest procedure (normative phase pattern), Data-Change-Lifecycle | Data engineers |
 | **[ARCHITECTURE.md](ARCHITECTURE.md)** | Technical components, data flow, storage patterns | Developers |
 | **[DESIGN.md](DESIGN.md)** | Visual patterns, color system, components, CSS architecture | Developers/Designers |
 | **[FEATURES.md](FEATURES.md)** | User-facing functionality descriptions | Users/Stakeholders |
@@ -77,10 +77,10 @@ This knowledge base follows a hub-and-spoke architecture with INDEX.md as the ce
 | **[RESEARCH.md](RESEARCH.md)** | Academic context, TEI/MHG standards | Researchers |
 | **[DECISIONS.md](DECISIONS.md)** | Architecture Decision Records (ADRs) | Architects |
 | **[CONTRACTS.md](CONTRACTS.md)** | Cross-language parity constraints, algorithm pseudocode, API contracts | Developers |
-| **[TEI-MODEL.md](TEI-MODEL.md)** | Normative TEI encoding (Soll-Modell), IST/SOLL-Vergleiche, Validierungsbaseline | Data engineers, Developers |
-| **[TEI-MODEL-AUTH-FILES.md](TEI-MODEL-AUTH-FILES.md)** | Authority-File-Schemas und Migrationshistorie (lexicon, persons, works, concepts, genres, names, variants) | Data engineers |
-| **[LINECODE.md](LINECODE.md)** | Legacy Linecode → TEI mapping (Letter-zu-Element-Tabelle, xml:id-Pattern-Erklärung, Diagnose-Workflows für #23) | Data engineers |
-| **[POS-TAGSET.md](POS-TAGSET.md)** | Kanonische `@pos`-Referenz (19-Tag-Zielschema, Compound-Regeln, Legacy-Mapping ART/CNJ/GRA, Korpus-Verteilung, Disambiguierungs-/Migrations-Policy §6) | Data engineers, Developers |
+| **[TEI-MODEL.md](TEI-MODEL.md)** | Normative TEI encoding (target model), actual-vs-target comparisons, validation baseline | Data engineers, Developers |
+| **[TEI-MODEL-AUTH-FILES.md](TEI-MODEL-AUTH-FILES.md)** | Authority file schemas and migration history (lexicon, persons, works, concepts, genres, names, variants) | Data engineers |
+| **[LINECODE.md](LINECODE.md)** | Legacy Linecode → TEI mapping (letter-to-element table, xml:id pattern explanation, diagnostic workflows for #23) | Data engineers |
+| **[POS-TAGSET.md](POS-TAGSET.md)** | Canonical `@pos` reference (19-tag target schema, compound rules, legacy mapping ART/CNJ/GRA, corpus distribution, disambiguation/migration policy §6) | Data engineers, Developers |
 
 ### Process (what's happening and why)
 

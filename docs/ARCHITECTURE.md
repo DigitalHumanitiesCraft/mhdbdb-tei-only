@@ -184,7 +184,7 @@ The reading view converts TEI XML elements to HTML. Source: `extractAndFormatBod
 - Document mode: all lemmata anywhere in the same text
 - Proximity mode: co-occurrence within N words, via `findCoveringWindow()` over sorted position lists
 - Verse mode: co-occurrence within one `<l>` (#106), via the `lineStarts[]`/`lineEnds[]` arrays
-- Uses the corpus index (aktuelle Version: [TEI-MODEL.md §11](TEI-MODEL.md#11-versionierung)) for document-level word positions plus `<l>`-boundary arrays (ab v4.1.0)
+- Uses the corpus index (current version: [TEI-MODEL.md §11](TEI-MODEL.md#11-versionierung)) for document-level word positions plus `<l>`-boundary arrays (since v4.1.0)
 
 ### UI Layer (Phase 7 Modular Architecture)
 
@@ -202,20 +202,20 @@ playground/js/ui/
 │   ├── concept-explorer.js
 │   ├── genre-explorer.js
 │   └── name-explorer.js
-├── tei/               # TEI text analysis (13 Dateien: Router + Modal + 11 Analyse-Module)
-│   ├── tei-ui.js                  # Router/Einstiegspunkt, kein Analyse-Werkzeug
-│   ├── multi-lemma-search.js      # Modal-Outlier (DESIGN.md §Multi-Lemma als dokumentierter Outlier)
-│   ├── word-frequency.js          # Wortfrequenz-Analyse (#88, R1)
-│   ├── text-statistics.js         # Text-Statistiken (#89, R1)
-│   ├── lemma-distribution.js      # Lemma-Verteilung (#90, R1)
-│   ├── verse-position-search.js   # Lemmasuche nach Versposition (#47.3)
-│   ├── concept-distribution.js    # Begriffs-Verteilung (#47 R2, + Autocomplete #113)
-│   ├── text-comparison.js         # Textvergleich Nur-A/Beide/Nur-B (#108)
-│   ├── cooccurrence-ranking.js    # Kookkurrenz-Ranking DWDS-Style (#107)
-│   ├── rhyme-dictionary.js        # Reim-Wörterbuch über lineEnds[] (#106, Minimalvariante)
-│   ├── hapax-legomena.js          # Korpusweite Hapaxlegomena (#196)
-│   ├── verse-ending-profile.js    # Versendings-Profil, Top-N Versende-Lemmata + Reim-Druck (#106 Punkt 2/3)
-│   └── naming-explorer.js         # Erweiterte Figurenbezeichnungen, kuratiert 4 Werke (#59, Beta)
+├── tei/               # TEI text analysis (13 files: router + modal + 11 analysis modules)
+│   ├── tei-ui.js                  # Router/entry point, not an analysis tool
+│   ├── multi-lemma-search.js      # Modal outlier (DESIGN.md §Multi-Lemma, documented as such)
+│   ├── word-frequency.js          # Word frequency analysis (#88, R1)
+│   ├── text-statistics.js         # Text statistics (#89, R1)
+│   ├── lemma-distribution.js      # Lemma distribution (#90, R1)
+│   ├── verse-position-search.js   # Lemma search by verse position (#47.3)
+│   ├── concept-distribution.js    # Concept distribution (#47 R2, + autocomplete #113)
+│   ├── text-comparison.js         # Text comparison, A only/both/B only (#108)
+│   ├── cooccurrence-ranking.js    # Co-occurrence ranking, DWDS style (#107)
+│   ├── rhyme-dictionary.js        # Rhyme dictionary over lineEnds[] (#106, minimal variant)
+│   ├── hapax-legomena.js          # Corpus-wide hapax legomena (#196)
+│   ├── verse-ending-profile.js    # Verse-ending profile, top-N verse-final lemmata + rhyme pressure (#106, items 2/3)
+│   └── naming-explorer.js         # Extended character naming, curated for 4 works (#59, Beta)
 └── search/
     └── SearchHelpers.js
 ```
@@ -276,7 +276,7 @@ Each explorer follows consistent pattern:
 | Kookkurrenz-Ranking | `#cooccurrence-ranking` | Top-N neighbouring lemmata of one lemma, POS-filtered (#107) |
 | Reim-Wörterbuch | `#rhyme-dictionary` | Rhyme-partner lemmata at adjacent verse endings, suffix heuristic (#106) |
 | Hapaxlegomena | `#hapax-legomena` | Lemmata unique across the corpus, with location and dictionary lookup (#196) |
-| Versendings-Profil | `#verse-ending-profile` | Top-N verse-final lemmata per scope, with a „Reim-Druck" column (#106 items 2 and 3) |
+| Versendings-Profil | `#verse-ending-profile` | Top-N verse-final lemmata per scope, with a "Reim-Druck" column (#106 items 2 and 3) |
 | Erweiterte Figurenbezeichnungen | `#naming` | Curated proper names, antonomasias and epithets per character in 4 works (#59, beta) |
 
 **Parameters:**
@@ -382,7 +382,7 @@ A–Z entry page to the lemma pages. It loads the authority index only (via `Cor
 
 Until July 2026 the playground kept a second IndexedDB database, `MHDBDB_Playground`, managed by `playground/js/indexed-db-manager.js`. Its only store, `tei_files`, held the TEI files uploaded by the user and was written from `data/storage/tei-storage.js`. With the dead upload path removed (#314), both the writer and the manager are gone.
 
-`playground-main.js` deletes the database once at startup via `indexedDB.deleteDatabase('MHDBDB_Playground')` (`dropLegacyPlaygroundDatabase()`). On a database that does not exist this is a no-op, so the call may run on every start. It replaces the earlier schema migration from #280, which cleared three writer-less legacy stores (`corpus_tei_files`, `authority_files`, `metadata`) out of existing browser databases via `deleteObjectStore`: after #314 no production code instantiates the manager any more, so that migration would never run. Dropping the whole database does the same job more thoroughly.
+`playground-main.js` deletes the database once at startup via `indexedDB.deleteDatabase('MHDBDB_Playground')` (`dropLegacyPlaygroundDatabase()`). On a database that does not exist this is a no-op, so the call may run on every start. It replaces the earlier schema migration from #280, which cleared three writer-less legacy stores (`corpus_tei_files`, `authority_files`, `metadata`) out of existing browser databases via `deleteObjectStore`: after #314 no production code instantiates the manager any more, so that migration would no longer run. Dropping the whole database does the same job more thoroughly.
 
 Corpus and authority data were never stored here. The playground reads them through the same `CorpusLoader` as the main site, that is from `MHDBDBMainSite`. A second cache path must not reappear.
 

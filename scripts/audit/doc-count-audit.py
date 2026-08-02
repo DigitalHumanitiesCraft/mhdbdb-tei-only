@@ -297,13 +297,17 @@ NUMBER_WORDS = {
 CODE_ANCHORS = {
     'tei_tools': r'(?:TEI-Analyse-?[Ww]erkzeuge|TEI-Analysewerkzeuge|(?:TEI[- ])?analysis tools|Analyse-Werkzeuge|Werkzeuge)',
     'tei_tools_weitere': r'weitere\s+Werkzeuge',
-    'pattern_modules': r'Analyse-Module',
+    # Beide Sprachen: die Docs stellen auf Englisch um (#316), DESIGN.md
+    # traegt den Count noch deutsch. Ohne die englische Variante ging die
+    # Bindung in ARCHITECTURE.md still verloren, als "die elf Analyse-Module"
+    # zu "The eleven analysis modules" wurde.
+    'pattern_modules': r'(?:Analyse-Module|analysis\s+modules)',
     # #276 Luecke 2: die Gesamtzahl der Module unter playground/js/ui/ stand
     # an drei Stellen in drei verschiedenen falschen Auspraegungen, ohne dass
     # es dafuer ueberhaupt einen Count gab. Der Anker greift bewusst nur das
-    # blanke "Module(n)"/"modules" — qualifizierte Komposita wie
-    # "11 Analyse-Module" gehoeren zu pattern_modules und matchen hier nicht,
-    # weil der Anker unmittelbar hinter der Zahl stehen muss.
+    # blanke "Module(n)"/"modules" — qualifizierte Fuegungen wie
+    # "11 analysis modules" gehoeren zu pattern_modules und matchen hier
+    # nicht, weil der Anker unmittelbar hinter der Zahl stehen muss.
     'ui_modules': r'(?:UI-)?[Mm]odule[ns]?\b',
     'authority_explorers': r'(?:Authority-File-(?:Explorer|Einstiegspunkte)|Authority-Explorer)',
     'entry_points': r'(?:[Ss]earch\s+)?[Ee]ntry\s+[Pp]oints',
@@ -312,10 +316,10 @@ CODE_ANCHORS = {
 # Zeilen im Modul-/Verzeichnisbaum zaehlen Unterverzeichnisse ("├── core/
 # # Core utilities (3 modules)"), nie die Gesamtzahl. Ohne diesen Skip
 # meldet der ui_modules-Anker jede Baumzeile als Drift.
-# Nebenwirkung, bewusst in Kauf genommen: die Baumzeile "13 Dateien: Router +
-# Modal + 11 Analyse-Module" in ARCHITECTURE.md wird damit auch fuer
-# pattern_modules nicht mehr geprueft. Dieselbe Angabe steht eine Zeile
-# tiefer im Fliesstext ("die elf Analyse-Module"), Drift bleibt sichtbar.
+# Nebenwirkung, bewusst in Kauf genommen: die Baumzeile "13 files: router +
+# modal + 11 analysis modules" in ARCHITECTURE.md wird damit auch fuer
+# pattern_modules nicht mehr geprueft. Dieselbe Angabe steht im Fliesstext
+# darunter ("The eleven analysis modules"), Drift bleibt sichtbar.
 TREE_LINE_RE = re.compile(r'^\s*[│├└]')
 
 # ADRs und Retrospektiven nennen bewusst den Stand von damals. Der
