@@ -18,6 +18,7 @@ Usage:
 """
 import argparse
 import csv
+import io
 import sys
 from collections import Counter, defaultdict
 from pathlib import Path
@@ -29,6 +30,16 @@ PROJECT_ROOT = SCRIPT_DIR.parent.parent
 sys.path.insert(0, str(PROJECT_ROOT / 'scripts'))
 from mhg_normalizer import normalize_mhg  # noqa: E402
 from corpus_files import corpus_files  # noqa: E402
+
+# Konvention in scripts/audit/ (#329): Windows-Konsolen laufen auf cp1252,
+# und Audit-Skripte geben Korpus- und Lexikonformen aus. Die MHG-Breven ŏ
+# und ŭ liegen ausserhalb von cp1252, ein Treffer wuerde das Skript also an
+# seiner eigenen Ausgabe toeten. Der Wrapper steht deshalb einheitlich in
+# den Skripten, die Korpus- oder Lexikonformen ausgeben, nicht in allen 22.
+# Wer eines ergaenzt, das solche Formen druckt, braucht ihn ebenfalls.
+# Er deckt nur stdout; wer ueber stderr meldet, braucht ihn dort ebenso.
+if sys.stdout.encoding and sys.stdout.encoding.lower() not in ('utf-8', 'utf8'):
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', line_buffering=True)
 
 TEI = '{http://www.tei-c.org/ns/1.0}'
 

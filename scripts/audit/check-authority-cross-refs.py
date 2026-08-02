@@ -33,6 +33,7 @@ The committed scripts/audit/lexicon-baseline.json pins the tolerated dangling
 lexicon-ID set (#152 ratchet); --check fails on any id outside it.
 """
 
+import io
 import json
 import re
 import sys
@@ -45,6 +46,16 @@ from lxml import etree
 # Gemeinsame Korpusauswahl (#287).
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from corpus_files import TEI_DIR, corpus_files  # noqa: E402
+
+# Konvention in scripts/audit/ (#329): Windows-Konsolen laufen auf cp1252,
+# und Audit-Skripte geben Korpus- und Lexikonformen aus. Die MHG-Breven ŏ
+# und ŭ liegen ausserhalb von cp1252, ein Treffer wuerde das Skript also an
+# seiner eigenen Ausgabe toeten. Der Wrapper steht deshalb einheitlich in
+# den Skripten, die Korpus- oder Lexikonformen ausgeben, nicht in allen 22.
+# Wer eines ergaenzt, das solche Formen druckt, braucht ihn ebenfalls.
+# Er deckt nur stdout; wer ueber stderr meldet, braucht ihn dort ebenso.
+if sys.stdout.encoding and sys.stdout.encoding.lower() not in ('utf-8', 'utf8'):
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', line_buffering=True)
 
 XML_NS = '{http://www.w3.org/XML/1998/namespace}'
 

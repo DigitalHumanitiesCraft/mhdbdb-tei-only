@@ -34,6 +34,7 @@ scripts/
 │   ├── audit-authority-files.py # Struktur-Audit der Authority Files (authority→authority)
 │   ├── check-authority-cross-refs.py # Korpus→Authority Cross-Ref-Integrität (#44/#115)
 │   ├── check-author-refs.py     # titleStmt/author gegen persons.xml (#228)
+│   ├── check-doc-inventories.py  # Specs und Audit-Skripte stehen in DEVELOPMENT.md (#329)
 │   ├── check-index-version-bump.py # Inhalt geändert => Version gebumpt (#154)
 │   ├── check-index-versions.py  # Index-Versions-Konstanten konsistent
 │   ├── check-lexicon-senses.py  # jeder <entry> in lexicon.xml hat mindestens einen <sense>
@@ -44,6 +45,7 @@ scripts/
 │   ├── classify-lexicon-backfill.py # Backfill-Lücken in lexicon.xml klassifizieren (#115)
 │   ├── count-editorial-notes-and-div-heads.py # Zahlen hinter den Reader-Änderungen (#250)
 │   ├── count-verse-numbering-resets.py # Reichweite der Verszählung messen (#138)
+│   ├── coverage-bias-check.py   # Coverage-Bias der pro-1000-Raten (#309)
 │   ├── doc-count-audit.py       # Zählungen aus den Daten gegen die Doku prüfen
 │   ├── drop-negative-variant-corresp.py # tote @corresp aus <w> entfernen (#115)
 │   ├── measure-stage3-resolution.py # Wirkung von Stufe 3 der Lemma-Auflösung (#224)
