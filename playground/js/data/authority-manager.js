@@ -208,7 +208,7 @@ export class AuthorityFilesManager {
    *
    * Genutzt von lemma-distribution.js, verse-position-search.js,
    * cooccurrence-ranking.js für Live-Dropdown im Lemma-Input. Siehe
-   * DESIGN.md §Live-Autocomplete-Dropdown.
+   * DESIGN.md §Live autocomplete dropdown.
    *
    * Eingabe wird mit TextNormalizer.normalizeMHG normalisiert (â→a, ê→e,
    * ü→ue, æ→ae, ō→o, …) damit „ere" auch „êre" matcht — derselbe Normalizer,

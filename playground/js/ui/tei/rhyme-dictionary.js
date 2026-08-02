@@ -678,7 +678,7 @@ export class RhymeDictionary {
     `;
   }
 
-  // Autocomplete-Pattern (DESIGN.md §Live-Autocomplete-Dropdown)
+  // Autocomplete-Pattern (DESIGN.md §Live autocomplete dropdown)
   renderAutocomplete() {
     const dd = document.getElementById('rdAutocomplete');
     const input = document.getElementById('rdQuery');

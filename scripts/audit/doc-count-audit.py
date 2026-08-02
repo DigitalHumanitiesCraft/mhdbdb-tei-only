@@ -220,8 +220,10 @@ DOC_TARGETS = [
     # variant forms"). Stumm bleiben die aus drei verschiedenen Gruenden,
     # nicht aus einem: "256,759 variant forms" haelt der Pfeil-Skip in
     # find_stale_numbers, "13 modules" der HISTORICAL_MARKERS-Skip in
-    # find_stale_wordcounts, "64,287 forms" allein die Fenster-Distanz zum
-    # Ist-Wert. Ohne die ersten beiden produziert dieses Target
+    # find_stale_wordcounts, "64,287 variant forms" allein die Fenster-
+    # Distanz zum Ist-Wert (der Fenster-Check laeuft vor dem Anker-Abgleich,
+    # die Zahl faellt also raus, obwohl ihr Anker bindet; Probe: auf 250.000
+    # gesetzt wird sie gemeldet). Ohne die ersten beiden produziert dieses Target
     # Dauer-Fehlalarme und wird abgeschaltet.
     ('docs/DECISIONS.md', ['corpus_files', 'lexicon_entries',
                            'variants_forms', 'variants_normalized']),
@@ -375,7 +377,12 @@ NEAR_KEYWORDS = {
     # Alternative blieb die Stelle jahrelang ungeprueft. "Mappings" gross,
     # weil ARCHITECTURE.md das Wort am Satzende fett auszeichnet — sonst
     # meldet die Anker-Selbstpruefung die Datei dauerhaft als ungedeckt.
-    'variants_normalized': r'(?:[Nn]ormalisierte\w*\s+(?:Schreibvarianten|Varianten)|[Ee]indeutige\s+Zuordnungen|[Nn]ormalized\s+entries|[Vv]arianten-Schl[üu]ssel|[Mm]appings)',
+    # "variant mappings" ist die englische Entsprechung von
+    # "Varianten-Schluessel": beim Umstellen von CONTRACTS.md auf Englisch
+    # (#316) verlor CONTRACTS.md Zeile 90 sonst ihre einzige Bindung, weil
+    # ANCHOR_SEP zwischen Zahl und Anker kein Wort zulaesst und "[Mm]appings"
+    # damit erst hinter "variant" beginnt.
+    'variants_normalized': r'(?:[Nn]ormalisierte\w*\s+(?:Schreibvarianten|Varianten)|[Ee]indeutige\s+Zuordnungen|[Nn]ormalized\s+entries|[Vv]arianten-Schl[üu]ssel|[Vv]ariant\s+mappings|[Mm]appings)',
     'persons': r'Personen',
     'concepts': r'(?:Konzepte|Begriffe|Kategorien)',
     'genres': r'(?:Gattungen|Kategorien)',

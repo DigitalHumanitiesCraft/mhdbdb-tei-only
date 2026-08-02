@@ -666,17 +666,19 @@ getCachedIndex(name):
     return cached.data
 ```
 
-**Three-place version bump (mandatory synchronicity):**
+**Five-place version bump (mandatory synchronicity):**
 
-On every index schema bump three places have to be kept in sync, otherwise the cache invalidation logic does not fire. Production users with an old cache would then never see the new index:
+On every index schema bump five places have to be kept in sync. The first three are load-bearing: if they drift, the cache invalidation logic does not fire and production users with an old cache never see the new index. The other two are documentation and break nothing, which is exactly why they drift unnoticed (#307).
 
 1. `scripts/build-corpus-index.py` → `'version': 'X.Y.Z'` in the final index dict
 2. `scripts/build-authority-index.py` → likewise
 3. `assets/js/lib/corpus-loader.js` → `INDEX_VERSION` and `AUTHORITY_INDEX_VERSION`
+4. `docs/TEI-MODEL.md` §11 → the version table (`| Corpus Index | … |`, `| Authority Index | … |`)
+5. `docs/INDEX.md` → Project Status, the parenthesis naming both versions
 
-Structurally anchored: `scripts/audit/check-index-versions.py` plus the CI workflow `.github/workflows/data-integrity.yml` (PR/push for the three files). Run `python scripts/audit/check-index-versions.py` locally before committing; exit 1 on drift, with a file:line annotation.
+Structurally anchored: `scripts/audit/check-index-versions.py` plus the CI workflow `.github/workflows/data-integrity.yml`. Run `python scripts/audit/check-index-versions.py` locally before committing; exit 1 on drift, with a file:line annotation. Exit 2 means something else: a regex found no version at all, so one of the five places was reworded rather than misversioned. The two documentation regexes are deliberately bound to the exact wording, capitalization included.
 
-**Bump required on content change (#154):** keeping the three places in sync is not enough. A completely *forgotten* bump (all three places agreeing on the old version while the index content changed) would leave the cache stale for 30 days. Gate: `scripts/audit/check-index-version-bump.py --base <rev>` (CI step „Index-Versions-Bump-Gate" in `data-integrity.yml`) compares the decompressed index content against the diff base and demands a changed `version` string when it differs. A bump without a content change stays permitted (a deliberate cache flush).
+**Bump required on content change (#154):** keeping the five places in sync is not enough. A completely *forgotten* bump (all places agreeing on the old version while the index content changed) would leave the cache stale for 30 days. Gate: `scripts/audit/check-index-version-bump.py --base <rev>` (CI step „Index-Versions-Bump-Gate" in `data-integrity.yml`) compares the decompressed index content against the diff base and demands a changed `version` string when it differs. A bump without a content change stays permitted (a deliberate cache flush).
 
 **How to force refetch:**
 
