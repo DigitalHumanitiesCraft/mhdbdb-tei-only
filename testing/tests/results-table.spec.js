@@ -34,8 +34,18 @@ test.describe('Issue #114: Tabellenansicht für Korpussuche', () => {
         // Toggle auf Tabelle
         await page.click('#viewToggleTable');
         await expect(page.locator('#resultsList table')).toHaveCount(1);
-        // 140 Treffer für "minne" — passe an, falls Korpus wächst
-        await expect(page.locator('#resultsList table tbody tr')).toHaveCount(140);
+        // #172: Render-Parität statt Absolutzahl. Vorher stand hier
+        // `toHaveCount(140)`, also die Zahl der minne-Texte zum Zeitpunkt des
+        // Schreibens. Das Korpus ist nicht eingefroren (laufender Ingest plus
+        // händische Korrekturen), der Test wäre also beim nächsten Ingest mit
+        // minne-Belegen rot geworden, ohne dass am Rendering etwas kaputt ist.
+        // Geprüft wird jetzt, was der Test meint: die Tabelle zeigt jeden
+        // Treffer der Suche, keinen mehr und keinen weniger. Die Gesamtzeile
+        // liegt im tfoot und zählt hier nicht mit.
+        const trefferzahl = await page.evaluate(
+            () => window._mhdbdbApp.currentResults.length);
+        expect(trefferzahl).toBeGreaterThan(0);
+        await expect(page.locator('#resultsList table tbody tr')).toHaveCount(trefferzahl);
     });
 
     test('localStorage persistiert View-Wahl über Reload', async ({ page }) => {
@@ -61,9 +71,35 @@ test.describe('Issue #114: Tabellenansicht für Korpussuche', () => {
         await page.click('#viewToggleTable');
         await page.waitForSelector('#resultsList table');
 
-        // Default: matchCount desc; JT (612 Treffer) sollte oben sein
-        const firstRowSigle = await page.locator('#resultsList tbody tr').first().locator('.font-mono').textContent();
-        expect(firstRowSigle?.trim()).toMatch(/^JT$/);
+        // Default ist matchCount desc. Bis #172 stand hier die Sigle JT samt
+        // ihren 612 Treffern, also eine korpusabhängige Tatsache als
+        // Stellvertreter für die Sortierung: wächst ein anderer Text beim
+        // nächsten Ingest an minne-Belegen vorbei, wird der Test rot, ohne dass
+        // an der Sortierung etwas kaputt ist. Geprüft wird jetzt die Sortierung
+        // selbst, analog zum Titel-Block darunter.
+        //
+        // Der Spaltenindex kommt aus dem Header, nicht als Konstante: die
+        // Spalten sind seit #160 datengetrieben (RESULT_TABLE_COLUMNS in
+        // app.js), ein Umbau dort würde eine feste 3 still auf die falsche
+        // Spalte zeigen lassen.
+        const spalte = await page.evaluate(() => {
+            const ths = [...document.querySelectorAll('#resultsList table thead th')];
+            return ths.findIndex(th => th.querySelector('[data-sort-col="matchCount"]')) + 1;
+        });
+        expect(spalte, 'Treffer-Spalte im Header gefunden').toBeGreaterThan(0);
+
+        // toLocaleString('de-DE') setzt Tausenderpunkte, die vor dem Parsen weg
+        // müssen. Geprüft wird die Rohzelle, nicht die geparste Zahl: eine
+        // Zusicherung, die nur auf Number.isFinite schaut, hielte lauter leere
+        // Zellen für gültig, weil Number('') gleich 0 ist. Ein Array aus lauter
+        // Nullen wäre dann gegen seine eigene Sortierung grün, und der Test
+        // hinge an der falschen Spalte, ohne es zu merken.
+        const zellen = (await page.locator(`#resultsList tbody tr td:nth-child(${spalte})`).allTextContents())
+            .map(t => t.trim());
+        expect(zellen.length, 'Zeilen in der Tabelle').toBeGreaterThan(1);
+        expect(zellen.every(t => /^\d{1,3}(\.\d{3})*$/.test(t)), `Treffer-Spalte numerisch: ${zellen.slice(0, 5)}`).toBe(true);
+        const treffer = zellen.map(t => Number(t.replace(/\./g, '')));
+        expect(treffer).toEqual([...treffer].sort((a, b) => b - a));
 
         // Klick Titel-Header und prüfe absteigende Sortierung.
         // Sortierung im App-Code basiert NUR auf r.title (nicht auf textId);
