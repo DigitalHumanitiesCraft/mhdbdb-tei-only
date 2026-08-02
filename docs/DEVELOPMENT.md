@@ -188,7 +188,7 @@ Für dieses Repo besonders relevant sind `tei/` und `data/`: das sind bei laufen
 
 ### Test File Inventory
 
-Vollständigkeit gegen `testing/tests/` gatet `scripts/audit/check-test-inventory.py` (läuft in `no-cdn-check.yml`, lokal ohne Abhängigkeiten aufrufbar). Eine neue Spec ohne Zeile hier macht die CI rot: die Tabelle ist der einzige Ort, an dem steht, wofür eine Spec da ist. Bis #329 fehlten zehn von dreißig.
+Vollständigkeit gegen `testing/tests/` gatet `scripts/audit/check-doc-inventories.py` (läuft in `no-cdn-check.yml`, lokal ohne Abhängigkeiten aufrufbar; dasselbe Skript prüft auch die Skript-Tabelle weiter unten). Eine neue Spec ohne Zeile hier macht die CI rot: die Tabelle ist der einzige Ort, an dem steht, wofür eine Spec da ist. Bis #329 fehlten zehn von dreißig.
 
 | File | Category | What it tests |
 |------|----------|--------------|
@@ -268,7 +268,9 @@ Vollständigkeit gegen `testing/tests/` gatet `scripts/audit/check-test-inventor
 
 ### Audit Scripts Reference
 
-Diagnose- und Validierungs-Skripte in `scripts/audit/`:
+Diagnose- und Validierungs-Skripte in `scripts/audit/`. Vollständigkeit gegen das Verzeichnis gatet `scripts/audit/check-doc-inventories.py`, dasselbe Skript wie für die Spec-Tabelle oben. Bis #329 nannte diese Tabelle 11 von 22 Skripten, darunter keines der beiden Em-Dash- und No-CDN-Gates, die in jeder CI laufen.
+
+Zwei Sorten stehen hier gemischt, und der Unterschied ist der wichtigste: **Gates** haben einen Exit-Code und werden von einem Workflow gerufen, **Diagnosen** messen etwas für einen Menschen und laufen von Hand. Wo ein Workflow ruft, steht er in der Zeile.
 
 | Script | Zweck |
 |--------|-------|
@@ -282,7 +284,18 @@ Diagnose- und Validierungs-Skripte in `scripts/audit/`:
 | `audit-tei-corpus.py` | Korpus-weite Stichproben (z.B. fehlende `<l>`/`<lg>`, ungewöhnliche xml:id-Pattern, Encoding-Anomalien) |
 | `check-lexicon-senses.py` | `lexicon.xml`-Sanity: Lemmata ohne `<sense>`, Senses ohne `conceptIds` |
 | `doc-count-audit.py` | Drift-Detektor zwischen tatsächlichen Korpus-/Authority-Zahlen und den in der Doku verankerten Werten. Heuristik: Window ±2 absolut oder ±2 % relativ, strikter Keyword-Anchor unmittelbar nach der Zahl. Läuft als Health-Check-Werkzeug von Hand, kein Workflow ruft es |
-| `check-test-inventory.py` | Spec-Inventar-Gate (#329): jede Datei in `testing/tests/` steht in der Tabelle „Test File Inventory" und umgekehrt. Nur stdlib, gerufen von `no-cdn-check.yml`; `--selftest` prüft den Scanner an künstlichen Eingaben |
+| `check-doc-inventories.py` | Inventar-Gate (#329) für beide Tabellen dieser Datei: „Test File Inventory" gegen `testing/tests/`, „Audit Scripts Reference" gegen `scripts/audit/`, je in beide Richtungen. Nur stdlib, gerufen von `no-cdn-check.yml`; `--selftest` prüft den Scanner an künstlichen Eingaben |
+| `check-no-cdn.py` | Gate in `no-cdn-check.yml`: keine externen `<script src>` in committeten HTML-Seiten, Runtime-Bibliotheken kommen aus `assets/vendor/` (#78). Laufzeit-Gegenstück ist `vendor.spec.js` |
+| `check-no-em-dash.py` | Gate in `no-cdn-check.yml` (#140): keine Em-Dashes in user-sichtbarem Text, Kommentare ausgenommen. `--selftest` sichert den Scanner gegen Mutationen ab, weil mehrere frühere Fassungen Fail-opens waren, die alle Testfälle bestanden |
+| `check-author-refs.py` | Autorangaben im `titleStmt` gegen `persons.xml` (#228), sechs sich überschneidende Fehlerklassen. Anlass waren sieben Texte mit `<author ref="#person_N"/>` **ohne** Textinhalt: schema-valide, Referenz intakt, im Frontend trotzdem autorlos |
+| `classify-lexicon-backfill.py` | Read-only-Klassifikation der offenen `lexicon.xml`-Lücken (#115/#44). Gruppiert jede unaufgelöste Referenz nach Lemma und trennt „Eintrag fehlt ganz" von „nur der Sense fehlt"; die Zuordnung Sense→Concept bleibt kuratorisch |
+| `quantify-unannotated-tokens.py` | Bestandsaufnahme der `<w>` **ohne** `@lemmaRef` (#189): Coverage je Text, korpusweit aggregierte Oberflächenformen, Homograph-Flag. CSV-Reports, keine Korpus-Änderung |
+| `coverage-bias-check.py` | Anschlussfrage zum vorigen (#309): verzerrt die ungleiche Annotationsabdeckung die pro-1000-Raten der Analyse-Werkzeuge, und in welche Richtung? Nicht trivial, weil bei Rarität auch der Zähler mitgedrückt wird |
+| `measure-stage3-resolution.py` | Wirkungsmessung für Stufe 3 der Lemma-Auflösung (#224): wie viele Kurzlemmata das frühere bidirektionale Substring-Matching in jede Suche gespült hat |
+| `survey-concept-distribution.py` | Spiegelt `concept-distribution.js` 1:1 in Python und misst pro Concept Lemma-Zahl, Treffer-Texte und Vorkommen (#47 R2), um Browser-Grenzfälle bei sehr großen Begriffen zu finden |
+| `count-verse-numbering-resets.py` | Reichweite der #138-Verszählung: welche `<div>` setzen die Randnummerierung zurück, und wie viele Randnummern kommen dadurch hinzu. Baut die Render-Reihenfolge nach, statt zu schätzen; zwei frühere Schätzungen per Textfenster-Heuristik waren beide falsch |
+| `count-editorial-notes-and-div-heads.py` | Messvorschrift hinter den zwei Reader-Änderungen aus #250 (editorische Eingriffe im Metadatenpanel, Label über eigener `head`-Überschrift). Beide hängen an Korpuseigenschaften, die sich mit jedem Ingest verschieben |
+| `drop-negative-variant-corresp.py` | Einmal-Migration (#115): entfernt tote `@corresp="variants.xml#type_-N"` (Legacy-Interpunktions-Codes, in `variants.xml` nie definiert) von `<w>`. Bereits angewendet, der Korpus enthält heute 0 solche Referenzen; bleibt als Beleg der Änderung |
 
 ### Skipped Tests (Issue #43 – resolved)
 
