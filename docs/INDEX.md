@@ -37,9 +37,10 @@ The **playground** is for analysis: explorers for the authority files (persons, 
 lemmata, concepts, genres, names) and the TEI analysis tools, from multi-lemma
 proximity search to the rhyme dictionary.
 
-The complete and maintained list, with counts, examples and issue references, is
-[FEATURES.md](FEATURES.md). It was duplicated here until 2026-08-02, and the copy was
-the one that went stale (#316).
+The complete list, with counts, examples and issue references, is
+[FEATURES.md](FEATURES.md). It was duplicated here until 2026-08-02. The copy happened
+to be accurate, but a second catalogue is a second place to keep in step with every new
+tool, and #316 asked to stop paying that twice.
 
 ## Technical Stack
 

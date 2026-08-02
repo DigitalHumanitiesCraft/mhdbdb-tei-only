@@ -109,7 +109,7 @@ Diese Datei blickt nach vorne. Was abgeschlossen ist, steht chronologisch und mi
 Begründungen im [JOURNAL.md](JOURNAL.md), ältere Einträge in
 [journal-archive.md](journal-archive.md). Bis zum 02.08.2026 stand hier
 zusätzlich eine Tabelle „Recently Completed": sie reichte bis April zurück,
-endete aber am 08.07., während seither 60 PRs gemergt wurden. Eine zweite
+endete aber am 08.07., während seither 80 PRs gemergt wurden. Eine zweite
 Chronik neben dem JOURNAL zu führen hat nicht funktioniert und wurde deshalb
 aufgegeben (#316).
 
