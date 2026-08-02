@@ -143,22 +143,33 @@ jobs:
         run: |
           BASE=""
           if [ "${{ github.event_name }}" = "pull_request" ]; then
-            # $GITHUB_BASE_REF (Env-Var statt Kontext-Interpolation ins
-            # Skript, Actions-Hardening-Guidance; Achtung: auch Kommentare
-            # im run-Block werden auf Expressions gescannt — leere
-            # Doppelklammer-Ausdruecke hier crashen den Workflow-Parse).
+            # base.sha statt des aktuellen Tips von $GITHUB_BASE_REF: der Tip
+            # laeuft weiter, waehrend der Lauf wartet. Belegt am 2026-08-02 im
+            # Lauf 30744220171 zu PR #337, wo ausgecheckt "Merge 52a83d3 into
+            # b8b44eb" war, die Base aber d835e8f, weil PR #338 98 Sekunden
+            # spaeter gemergt wurde. Alles, was der fremde PR an gemeinsamen
+            # Dateien geaendert hatte, galt dadurch als Aenderung dieses PRs.
+            # base.sha ist der Commit, auf dem der ausgecheckte Merge-Ref
+            # sitzt, und wird explizit gefetcht, wie es der push-Zweig unten
+            # mit github.event.before schon tut. Die Interpolation ins Skript
+            # ist hier unbedenklich (GitHub setzt einen Hex-Wert, keine
+            # Nutzereingabe), anders als bei einem Branch-Namen; deshalb stand
+            # $GITHUB_BASE_REF vorher als Env-Var da. Achtung: auch Kommentare
+            # im run-Block werden auf Expressions gescannt, leere
+            # Doppelklammer-Ausdruecke crashen hier den Workflow-Parse.
+            #
             # Retry gegen transiente Fetch-Fehler:
             # ein Fallback auf BASE="" wuerde das Bump-Gate still skippen,
             # ein Hard-Fail den ganzen Lauf vor allen Checks reissen.
+            BASE="${{ github.event.pull_request.base.sha }}"
             for i in 1 2 3; do
-              git fetch --no-tags --depth=1 origin "$GITHUB_BASE_REF" && break
+              git fetch --no-tags --depth=1 origin "$BASE" && break
               if [ "$i" = 3 ]; then
-                echo "::error title=Diff-Base::Base-Branch $GITHUB_BASE_REF nach 3 Versuchen nicht fetchbar."
+                echo "::error title=Diff-Base::Base-Commit $BASE nach 3 Versuchen nicht fetchbar."
                 exit 1
               fi
               sleep $((i * 5))
             done
-            BASE=$(git rev-parse FETCH_HEAD)
           elif [ "${{ github.event_name }}" = "push" ]; then
             BASE="${{ github.event.before }}"
             if [ "$BASE" = "0000000000000000000000000000000000000000" ] \

@@ -83,21 +83,37 @@ jobs:
       - name: Diff-Base bestimmen (#292)
         id: base
         # Wortgleich zu data-integrity.yml (#154), damit beide Workflows
-        # dieselbe Basis meinen. Leerer sha (workflow_dispatch,
+        # dieselbe Basis meinen. Beide nehmen die base.sha des Events und
+        # nicht den aktuellen Tip von $GITHUB_BASE_REF: der laeuft weiter,
+        # waehrend der Lauf wartet.
+        #
+        # Der Unterschied ist belegt, nicht theoretisch. Im Lauf 30744220171
+        # zu PR #337 war ausgecheckt "Merge 52a83d3 into b8b44eb", die Base
+        # aber d835e8f: PR #338 war 98 Sekunden nach dem Auslösen auf main
+        # gelandet. Alles, was #338 an gemeinsamen Dateien geändert hatte,
+        # erschien dadurch im Diff als von #337 hinzugefügt (drei Zeilen aus
+        # docs/DEVELOPMENT.md). Grün war der Lauf nur, weil keine davon einen
+        # Em-Dash trug. Die Richtung ist fail-closed, aber ein Gate, das
+        # fremde und längst gemergte Prosa anmahnt, treibt genau die
+        # rückwirkende Umschreibung, die die Hausregel verbietet.
+        #
+        # base.sha ist der Commit, auf dem der ausgecheckte Merge-Ref sitzt,
+        # und wird explizit gefetcht, wie es der push-Zweig mit
+        # github.event.before schon tut. Leerer sha (workflow_dispatch,
         # Force-Push-Edge) -> Markdown wird übersprungen, der Vollscan
         # über HTML/JS/CSS läuft unverändert.
         run: |
           BASE=""
           if [ "${{ github.event_name }}" = "pull_request" ]; then
+            BASE="${{ github.event.pull_request.base.sha }}"
             for i in 1 2 3; do
-              git fetch --no-tags --depth=1 origin "$GITHUB_BASE_REF" && break
+              git fetch --no-tags --depth=1 origin "$BASE" && break
               if [ "$i" = 3 ]; then
-                echo "::error title=Diff-Base::Base-Branch $GITHUB_BASE_REF nach 3 Versuchen nicht fetchbar."
+                echo "::error title=Diff-Base::Base-Commit $BASE nach 3 Versuchen nicht fetchbar."
                 exit 1
               fi
               sleep $((i * 5))
             done
-            BASE=$(git rev-parse FETCH_HEAD)
           elif [ "${{ github.event_name }}" = "push" ]; then
             BASE="${{ github.event.before }}"
             if [ "$BASE" = "0000000000000000000000000000000000000000" ] \
