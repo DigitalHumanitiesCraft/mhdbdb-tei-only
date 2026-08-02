@@ -137,7 +137,7 @@ All icons inherit color via `currentColor`.
 | Small action | `rounded-lg bg-brand-600 px-3 py-1 text-xs font-semibold text-white hover:bg-brand-700` |
 | Icon-only | `icon-btn`: `p-1 px-2 rounded-sm bg-secondary border-primary min-w-[2rem]` |
 | Text-only | `text-xs font-medium text-brand-600 hover:text-brand-700 transition` |
-| Floating (Leseansicht) | `.back-to-top` in `korpus.css`: runder 2,75rem-Button, `position: fixed; right: var(--space-8); bottom: 5.5rem`, `#334155` auf Weiß, Schatten wie `.reading-nav`. `z-index: 21` liegt bewusst eine Stufe über der Highlight-Navigation (`z-20`), damit sich beide bei aktivem Highlighting nicht überlagern. Sichtbar nur, wenn ein Text geladen ist und der Panelkopf aus dem Viewport gescrollt wurde (#138) |
+| Floating (reading view) | `.back-to-top` in `korpus.css`: round 2.75rem button, `position: fixed; right: var(--space-8); bottom: 5.5rem`, `#334155` on white, same shadow as `.reading-nav`. `z-index: 21` deliberately sits one step above the highlight navigation (`z-20`) so the two do not overlap while highlighting is active. Visible only once a text is loaded and the panel header has scrolled out of the viewport (#138) |
 
 ### Badges / Pills
 
@@ -158,11 +158,11 @@ Checkbox accent: `accent-color: #3b75d8`.
 
 ## Playground TEI-Analysis Module Pattern
 
-Elf Analyse-Module unter `playground/js/ui/tei/` teilen eine konsistente Struktur (der Router `tei-ui.js` und der Modal-Controller `multi-lemma-search.js` folgen dem Pattern nicht). Wer ein neues Analyse-Werkzeug ergänzt, sollte das Pattern befolgen – neue Module ohne erkennbaren Grund abweichen lassen den Playground inkonsistent wirken und brechen Konventionen, auf die der Router und die Sidebar-Buttons aufbauen.
+Eleven analysis modules under `playground/js/ui/tei/` share a consistent structure (the router `tei-ui.js` and the modal controller `multi-lemma-search.js` do not follow the pattern). Anyone adding a new analysis tool should follow it: modules that deviate for no visible reason make the playground feel inconsistent and break conventions the router and the sidebar buttons build on.
 
-**Kanonische Beispiele:** `lemma-distribution.js` (#90), `verse-position-search.js` (#47.3), `concept-distribution.js` (#47 R2 + #113 Autocomplete), `text-comparison.js` (#108), `cooccurrence-ranking.js` (#107), `rhyme-dictionary.js` (#106), `naming-explorer.js` (#59, Abweichung: eigener Lazy-Index `data/naming-index.json.gz` statt Corpus-Thunk).
+**Canonical examples:** `lemma-distribution.js` (#90), `verse-position-search.js` (#47.3), `concept-distribution.js` (#47 R2 + #113 autocomplete), `text-comparison.js` (#108), `cooccurrence-ranking.js` (#107), `rhyme-dictionary.js` (#106), `naming-explorer.js` (#59, deviation: its own lazily fetched index `data/naming-index.json.gz` instead of a corpus thunk).
 
-### Konstruktor – Thunks statt direkter Referenzen
+### Constructor: thunks instead of direct references
 
 ```js
 constructor(getCorpusTexts, authorityManager, getAuthorityData) {
@@ -173,7 +173,7 @@ constructor(getCorpusTexts, authorityManager, getAuthorityData) {
 }
 ```
 
-`getCorpusTexts`/`getAuthorityData` werden als Funktionen übergeben, nicht als fertige Arrays. Grund: nach Index-Reload (Bump v4.1.1 → v4.2.0, Cache-Invalidate) zeigen direkte Array-Referenzen auf stale Daten. Thunks ziehen jedes Mal das aktuelle Array vom `teiManager`. Lehre aus #97-#100 (Corpus-Index-Property-Drift).
+`getCorpusTexts`/`getAuthorityData` are passed as functions, not as ready-made arrays. Reason: after an index reload (bump v4.1.1 → v4.2.0, cache invalidation) direct array references point at stale data. Thunks pull the current array from `teiManager` every time. Lesson from #97-#100 (corpus index property drift).
 
 ### State – Frozen Defaults + Stateful Instance
 
@@ -191,7 +191,7 @@ const DEFAULT_STATE = Object.freeze({
 });
 ```
 
-`Object.freeze` verhindert versehentliches Mutieren des Defaults; `this.state = { ...DEFAULT_STATE }` macht ein frisches mutables Objekt pro Instanz. Bei Reset (z.B. nach Korpus-Wechsel): `this.state = { ...DEFAULT_STATE }`.
+`Object.freeze` prevents accidental mutation of the default; `this.state = { ...DEFAULT_STATE }` creates a fresh mutable object per instance. On reset (e.g. after a corpus switch): `this.state = { ...DEFAULT_STATE }`.
 
 ### Lifecycle – `show()` ➝ `render()` ➝ `renderForm() + renderBody()` ➝ `attachHandlers()`
 
@@ -216,13 +216,13 @@ render() {
 }
 ```
 
-- `show()` ist der Router-Entrypoint, mit Guard für „Korpus noch nicht geladen".
-- `render()` macht **einmal** `innerHTML = ...` und ruft danach `attachHandlers()`. Kein DOM-Diffing – jeder Render ist ein Wegwerf. Form behält den Fokus, weil `attachHandlers()` nach `innerHTML` `refocusInput()` aufrufen kann.
-- `renderForm()` / `renderBody()` geben Strings zurück, kein direktes DOM-Mutating. Halt das Template-getrieben.
+- `show()` is the router entry point, with a guard for "corpus not loaded yet".
+- `render()` assigns `innerHTML = ...` **once** and calls `attachHandlers()` afterwards. No DOM diffing: every render is throwaway. The form keeps focus because `attachHandlers()` can call `refocusInput()` after `innerHTML`.
+- `renderForm()` / `renderBody()` return strings, they never mutate the DOM directly. Keep it template-driven.
 
 ### State-Driven Body
 
-`renderBody()` ist ein Branch über `this.state`:
+`renderBody()` is a branch over `this.state`:
 
 ```js
 renderBody() {
@@ -235,11 +235,11 @@ renderBody() {
 }
 ```
 
-Order matters: Empty-State → Error-State → No-Match → Computing → Result. Wer das umstellt, liefert dem User „Keine Lemmata zugeordnet" während die Suche eigentlich noch läuft.
+Order matters: empty state → error state → no match → computing → result. Reorder it and the user is told „Keine Lemmata zugeordnet" while the search is in fact still running.
 
-### Async + Chunking (für O(L × T) Aggregationen)
+### Async + chunking (for O(L × T) aggregations)
 
-Bei Modulen, deren Aggregation den Main-Thread mehr als ~50ms blockieren kann (kritisch ab ~2000 Items), Chunking mit time-based Yield:
+For modules whose aggregation can block the main thread for more than ~50ms (critical from ~2000 items on), chunk with a time-based yield:
 
 ```js
 const CHUNK_BUDGET_MS = 30;
@@ -269,11 +269,11 @@ async computeDistribution(items, onProgress) {
 }
 ```
 
-Vermeide `setTimeout(0)` als Yield – Chrome drosselt es auf >=1000ms im Hintergrund-Tab und macht Tests unreliabel. Vermeide `requestIdleCallback` – kein Garantie über Anteil der Frame-Zeit. MessageChannel ist die robuste Wahl.
+Avoid `setTimeout(0)` as the yield: Chrome throttles it to >=1000ms in a background tab and makes tests unreliable. Avoid `requestIdleCallback`: no guarantee about the share of frame time it gets. MessageChannel is the robust choice.
 
-### Escape-Helpers – Pro-Modul, nicht importiert
+### Escape helpers: per module, not imported
 
-Jedes Modul hat am Ende:
+Every module ends with:
 
 ```js
 function escapeHtml(s) {
@@ -285,42 +285,42 @@ function escapeHtml(s) {
 function escapeAttr(s) { return escapeHtml(s); }
 ```
 
-Self-contained statt zentralem `lib/escape.js`-Import: Modul lässt sich kopieren/verschieben ohne Pfad-Anpassung, und die fünf Zeilen sind schneller geschrieben als die Import-Stelle.
+Self-contained instead of a central `lib/escape.js` import: a module can be copied or moved without adjusting paths, and the five lines are written faster than the import line.
 
-### Brand-Akzent – Nur Default-Button
+### Brand accent: default button only
 
-| Use | Klassen |
+| Use | Classes |
 |-----|---------|
-| Default-Aktion („Suchen", „Anwenden") | `rounded-lg border border-brand-200 bg-brand-50 px-4 py-1.5 text-sm font-medium text-brand-700 hover:border-brand-400 hover:bg-brand-100` |
-| Sekundär (Cancel, Reset) | `bg-white border-slate-200 hover:border-slate-400` |
-| Result-Heading | `text-lg font-semibold text-brand-700` |
-| Bar-Chart-Bars | `fill-brand-400 hover:fill-brand-600 transition` |
+| Default action („Suchen", „Anwenden") | `rounded-lg border border-brand-200 bg-brand-50 px-4 py-1.5 text-sm font-medium text-brand-700 hover:border-brand-400 hover:bg-brand-100` |
+| Secondary (cancel, reset) | `bg-white border-slate-200 hover:border-slate-400` |
+| Result heading | `text-lg font-semibold text-brand-700` |
+| Bar chart bars | `fill-brand-400 hover:fill-brand-600 transition` |
 
-Brand-Farbe ist der Akzent, nicht die Grundfarbe. Wenn ein Modul plötzlich vier brand-farbene Buttons hat, verliert der Default seinen Akzent-Status.
+The brand colour is the accent, not the base colour. Once a module has four brand-coloured buttons, the default loses its accent status.
 
 ### Cross-Module Linking
 
-Klick auf Treffer → Reading-View. Pattern:
+Click on a hit → reading view. Pattern:
 
 ```js
 const href = `../korpus.html?textId=${encodeURIComponent(h.id)}&lemmaIds=${encodeURIComponent(lemmaId)}`;
 ```
 
-Nicht hash-routen – `korpus.html` ist eine separate Site. Pure-Anchor-Tags mit `target="_blank" rel="noopener"`, damit der User die Playground-Session nicht verliert.
+Do not hash-route: `korpus.html` is a separate site. Plain anchor tags with `target="_blank" rel="noopener"`, so the user does not lose the playground session.
 
-### Multi-Lemma als dokumentierter Outlier
+### Multi-Lemma as a documented outlier
 
-`playground/js/ui/tei/multi-lemma-search.js` nutzt **Modal statt in-place Form** (`#multiLemmaModal`), weil seine vier Inputs (Lemmata-Liste, Modus, Distanz, Korpus-Auswahl-Checkbox) im Sidebar nicht reinpassen würden. Das ist die einzige zulässige Abweichung – wer ein neues Modul mit 1-3 Inputs baut, gehört in den in-place-Form-Pfad. Modal nur bei genuin großen Input-Surfaces.
+`playground/js/ui/tei/multi-lemma-search.js` uses a **modal instead of an in-place form** (`#multiLemmaModal`), because its four inputs (lemma list, mode, distance, corpus-selection checkbox) would not fit in the sidebar. This is the only permitted deviation: a new module with 1-3 inputs belongs on the in-place form path. Modals only for genuinely large input surfaces.
 
-### Performance-Map gegen O(N)-Lookups (text-comparison Lesson)
+### Performance map against O(N) lookups (text-comparison lesson)
 
-`AuthorityFilesManager.findLemmaById()` ist `Array.find()` über 43.879 Lexikon-Einträge (`authorityData.lemmata` aus dem Authority-Index) – O(N) pro Aufruf. Solange ein Modul den Lookup nur dutzendweise braucht (concept-distribution, lemma-distribution: 30-50 Treffer für TopN-Anzeige), ist das egal. Sobald aber pro `enrichment` über *tausende* Lemmata iteriert wird, multiplizieren sich die Iterationen:
+`AuthorityFilesManager.findLemmaById()` is an `Array.find()` over 43,879 lexicon entries (`authorityData.lemmata` from the authority index), so O(N) per call. As long as a module needs the lookup only dozens of times (concept-distribution, lemma-distribution: 30-50 hits for the top-N display) that does not matter. As soon as an `enrichment` iterates over *thousands* of lemmata, the iterations multiply:
 
 ```
-text-comparison PZ vs JT, „Beide": 3.058 lookups × 43.754 ≈ 134 Mio. Iterationen ≈ 5962ms
-                                  ↓ (lokale Map einmal pro show())
-                                       1 lookup × 43.754 (build) + 3.058 × O(1) ≈ 53ms (112× schneller)
-        (43.754 = Lexikonstand dieser Messung; das Lexikon wächst, die Größenordnung bleibt)
+text-comparison PZ vs JT, „Beide": 3,058 lookups × 43,754 ≈ 134 million iterations ≈ 5962ms
+                                  ↓ (local map built once per show())
+                                       1 lookup × 43,754 (build) + 3,058 × O(1) ≈ 53ms (112× faster)
+        (43,754 = lexicon size at the time of this measurement; the lexicon grows, the order of magnitude stays)
 ```
 
 Pattern:
@@ -337,11 +337,11 @@ ensureLemmaMap() {
 // In enrich: const lemma = this._lemmaMap.get(lemmaId);
 ```
 
-Faustregel: wenn ein Lookup im inneren Loop von `>500 Items` läuft, lokale Map bauen. `AuthorityFilesManager` selbst NICHT modifizieren – der hat noch ältere Konsumenten mit unklarem Verhalten bei API-Änderung.
+Rule of thumb: if a lookup runs in the inner loop over `>500 items`, build a local map. Do NOT modify `AuthorityFilesManager` itself: it still has older consumers whose behaviour under an API change is unclear.
 
-### Abort-Token gegen Race-Conditions (cooccurrence-ranking Lesson)
+### Abort token against race conditions (cooccurrence-ranking lesson)
 
-Bei async-Compute, das User durch Re-Submit, POS-Switch, Lemma-Switch unterbrechen können, schreibt sonst der späte erste Run sein Ergebnis nach dem frühen zweiten Run. State wird inkonsistent („Suchergebnis flackert kurz, springt zurück, springt wieder vor"). Pattern:
+With async compute that the user can interrupt by re-submitting, switching PoS or switching lemma, the late first run otherwise writes its result after the early second one. State becomes inconsistent (the result flickers, jumps back, jumps forward again). Pattern:
 
 ```js
 constructor() {
@@ -369,11 +369,11 @@ async computeCooccurrences(...) {
 }
 ```
 
-Token-Increment passiert SYNCHRON in `runSearch()`, bevor `await` läuft. Damit ist garantiert, dass der zweite Lauf den ersten ungültig macht, *bevor* der erste auch nur einen `yieldToMain()`-Cycle hatte. Loop-interner Check nach jedem Yield fängt es schnell ab.
+The token increment happens SYNCHRONOUSLY in `runSearch()`, before any `await`. That guarantees the second run invalidates the first *before* the first has had even one `yieldToMain()` cycle. The in-loop check after every yield catches it quickly.
 
-### Navigation-Epoch gegen Cross-View-Clobber (#159/#168)
+### Navigation epoch against cross-view clobber (#159/#168)
 
-Der per-Modul-Token oben fängt nur **Same-View-Races** (neue Suche im selben Modul). Navigiert der User während eines laufenden Scans zu einer **anderen View**, bumpt kein Modul-Token – das fertige Ergebnis würde die inzwischen angezeigte View in `#resultsContainer` überschreiben. Dagegen exportiert der Router (`playground/js/ui/core/router.js`) einen globalen, monoton steigenden Zähler:
+The per-module token above only catches **same-view races** (a new search in the same module). If the user navigates to a **different view** while a scan is running, no module token is bumped: the finished result would overwrite the view now showing in `#resultsContainer`. Against that, the router (`playground/js/ui/core/router.js`) exports a global, monotonically increasing counter:
 
 ```js
 import { getNavigationEpoch } from '../core/router.js';
@@ -389,13 +389,13 @@ async runSearch() {
 }
 ```
 
-`dispatch()` inkrementiert den Epoch bei JEDER Route-Änderung (`navigate()` wie `hashchange`/back/forward), aber erst nach dem Unknown-View-Check (unbekannte Route ändert die sichtbare View nicht). Beide Checks gehören zusammen in dieselbe Bedingung – auch in die Chunk-Loops nach jedem `yieldToMain()`, damit ein wegnavigierter Scan sofort abbricht statt CPU zu verbrennen. Der früher hier dokumentierte per-Modul-`isActiveView()`-Hash-Vergleich ist durch den Epoch ersetzt (eine Mechanik statt zwei, und er fängt auch Same-Route-Re-Dispatches mit neuen Params).
+`dispatch()` increments the epoch on EVERY route change (`navigate()` as well as `hashchange`/back/forward), but only after the unknown-view check (an unknown route does not change the visible view). Both checks belong together in the same condition, including inside the chunk loops after every `yieldToMain()`, so a navigated-away scan aborts at once instead of burning CPU. The per-module `isActiveView()` hash comparison documented here earlier has been replaced by the epoch (one mechanism instead of two, and it also catches same-route re-dispatches with new params).
 
-Umgesetzt (Stand 2026-07-07): `cooccurrence-ranking.js`, `rhyme-dictionary.js`, `concept-distribution.js` (dort zusätzlich `_searchGen` als Such-Generation-Token, weil das `computing`-Flag als Identitätskriterium versagt – bei zwei überlappenden Suchen gewann die ältere), `multi-lemma-search.js`, `naming-explorer.js` (Erst-Load). Auf der Hauptseite nutzt `tei-text-reader.js openReadingView()` denselben Gedanken als `_loadSeq`-Request-Guard (kein Router dort).
+Implemented (as of 2026-07-07): `cooccurrence-ranking.js`, `rhyme-dictionary.js`, `concept-distribution.js` (there additionally `_searchGen` as a search-generation token, because the `computing` flag fails as an identity criterion: with two overlapping searches the older one won), `multi-lemma-search.js`, `naming-explorer.js` (first load). On the main site, `tei-text-reader.js openReadingView()` uses the same idea as a `_loadSeq` request guard (there is no router there).
 
-### Live-Autocomplete-Dropdown (concept-distribution #113 Lesson)
+### Live autocomplete dropdown (concept-distribution #113 lesson)
 
-Klassisches DWDS/Google-Style-Dropdown unter Lemma-/Concept-Inputs. Direkter DOM-Update statt full `render()` bei jedem Keystroke – sonst verliert Input den Fokus und die Selection-Range, das Tippen wird unbedienbar.
+A classic DWDS/Google-style dropdown below lemma and concept inputs. Update the DOM directly instead of a full `render()` on every keystroke: otherwise the input loses focus and the selection range, and typing becomes unusable.
 
 ```js
 DEFAULT_STATE = {
@@ -433,11 +433,11 @@ dd.addEventListener('mousedown', (e) => {
 input.addEventListener('blur', () => setTimeout(() => this.closeAutocomplete(), 150));
 ```
 
-ARIA: `role="combobox" + aria-controls + aria-expanded` am Input, `role="listbox"` am Dropdown, `role="option" + aria-selected` an Buttons. Scroll-into-view des aktiven Items bei Pfeil-Nav (`activeEl.scrollIntoView({block: 'nearest'})`). Reuse `resolveQuery()` als Suggestions-Quelle – kein zweiter Resolver-Pfad.
+ARIA: `role="combobox" + aria-controls + aria-expanded` on the input, `role="listbox"` on the dropdown, `role="option" + aria-selected` on the buttons. Scroll the active item into view on arrow navigation (`activeEl.scrollIntoView({block: 'nearest'})`). Reuse `resolveQuery()` as the suggestion source: no second resolver path.
 
-Pattern ist (Stand 2026-05-16) in vier Modulen umgesetzt: `concept-distribution.js` (#113 original), `lemma-distribution.js`, `verse-position-search.js`, `cooccurrence-ranking.js` (alle drei portiert 2026-05-16; seit #106 auch `rhyme-dictionary.js`). Falls weitere Module Lemma-/Concept-Input bekommen: einfach kopieren, IDs anpassen (`xxQuery`/`xxAutocomplete`/`data-xx-ac-idx`).
+The pattern is implemented (as of 2026-05-16) in four modules: `concept-distribution.js` (#113, the original), `lemma-distribution.js`, `verse-position-search.js`, `cooccurrence-ranking.js` (all three ported on 2026-05-16; since #106 also `rhyme-dictionary.js`). If further modules gain a lemma or concept input: copy it and adjust the ids (`xxQuery`/`xxAutocomplete`/`data-xx-ac-idx`).
 
-**Auswahl-Durchreichung (#163):** Die Dropdown-Auswahl darf nicht nur `input.value` (String) setzen – bei Homographen (drei Lemmata „rôt") löst `resolveQuery()` den String sonst wieder aufs falsche Lemma auf. Regel: Auswahl (Enter mit aktivem Item, mousedown) setzt zusätzlich `this.state.selectedLemma = c` (bzw. `selectedConcept`); der `input`-Handler setzt es bei manueller Eingabe auf `null` zurück; `runSearch()` bevorzugt `selectedLemma`, solange der Query-Text noch der gewählten Form entspricht. Default-Auflösung ohne explizite Auswahl: `searchLemmaByOrthography()` liefert Stage-1-Homographen frequenz-sortiert (Korpus-Frequenz absteigend), `matches[0]` ist also das plausibelste Lemma.
+**Passing the selection through (#163):** the dropdown selection must not only set `input.value` (a string): with homographs (three lemmata „rôt") `resolveQuery()` would resolve that string back to the wrong lemma. Rule: a selection (Enter on an active item, mousedown) additionally sets `this.state.selectedLemma = c` (or `selectedConcept`); the `input` handler resets it to `null` on manual typing; `runSearch()` prefers `selectedLemma` as long as the query text still matches the chosen form. Default resolution without an explicit selection: `searchLemmaByOrthography()` returns stage-1 homographs sorted by frequency (corpus frequency descending), so `matches[0]` is the most plausible lemma.
 
 ## Layout Patterns
 
@@ -498,7 +498,7 @@ Institutional logos row + divider + copyright/clear-data row. `bg-slate-100 py-8
 | Lemma etymology | Other lemma page | `<a href="{numericId}" class="etymology-link">` |
 | Wörterbuch entry | Lemma page | `<a href="lemma/?id={numericId}">` |
 
-### Treffer-Navigation (Reading View)
+### Hit navigation (reading view)
 
 `.reading-nav` / `.reading-nav-btn` / `.reading-nav-indicator` in `korpus.css` (markup: `#readingNavigation` in `korpus.html`, logic: `tei-text-reader.js updateNavigationButtons()`): floating bar fixed bottom-right above the reading view. White/97 backdrop-blur container with `--border-secondary` border and strong shadow; dark buttons (slate-700, white text, hover slate-800) and a slate-900 semibold counter („Treffer x von y") at `--text-sm`; disabled buttons drop to opacity 0.4. Restyled 2026-07-10 after KZW feedback (previously text-xs, light-gray buttons – too small, too low-contrast).
 
