@@ -708,7 +708,7 @@ TEI P5 definiert `<l>` als "a single line of **verse**" und nutzt in Kapitel 24 
 | APO | Apollonius (Heinrich Steinhöwel, 1461) | Prosa-Übersetzung (Terrahe-Edition); Verwechslungskandidat war Heinrichs von Neustadt "Apollonius von Tyrland" (Reimquote 4,5%) |
 | HH | Himmel und Hölle | frühmhd. rhythmische Prosa in kurzen Kola, keine Versdichtung (Reimquote 1,1%) |
 
-Die 17 übrigen `<l>`-basierten Kandidaten aus der #143-Heuristik (ALX, DIO, FB, FP, GWTK, MR1, MR2, PSG, PTS, RUD, TKA, TKR, WH, WLE, WRB) wurden inhaltlich geprüft (Reimprobe 18-36%, Wortdichte) und sind Versdichtung – `<l>` bleibt dort korrekt.
+Die #143-Heuristik nannte 17 Kandidaten. Zwei davon (APO, HMT) stehen in der Tabelle darüber und sind konvertiert; die 15 übrigen (ALX, DIO, FB, FP, GWTK, MR1, MR2, PSG, PTS, RUD, TKA, TKR, WH, WLE, WRB) wurden inhaltlich geprüft (Reimprobe 18-36%, Wortdichte) und sind Versdichtung – `<l>` bleibt dort korrekt. (Die Zahl stand hier bis 2026-08-02 auf 17, also auf der Größe der Kandidatenliste statt auf der des Rests; die Siglenliste war immer 15 lang. HH kam nicht aus dieser Heuristik.)
 
 **Zu migrieren (`<l>` → `<lb/>`):** 18 Dateien
 
@@ -892,7 +892,7 @@ Konsolidierte Liste aller bewusst nicht-normalisierten Daten-Inseln und bekannte
 | lexicon.xml-Backfill | Rest 396 dangling Refs / 109 IDs (Kategorie B: Sense-Kuratorik, Kategorie C: Tippfehler/Homographen) | WZB-Forward-Ingest prägte Lemma-IDs nur ins Korpus; Kategorie A (125 Entries) 2026-07-02 per `backfill-lexicon.py` gestubbt | offen → #115 (B/C kuratorisch, KZW/Julia) |
 | WVV Stanza-Anchors | WVV, 23 Stanzen | ungewöhnliches Linecode-Template, Anchors fehlen (#23-Followup) | **gelöst** 2026-07-08 (#110) – die 4 offenen Stellen enthielten 11 header-getrennte Versblöcke, jeder ist jetzt eine eigene `<lg type="stanza">`; WVV hat 489 Strophen, Token-Strom byte-identisch |
 | Editorische `<div>`-Hülle | HUG, KLA, PL1–PL3, MBS-Serie | Follow-up aus dem manuellen TEI-Review (#30) | offen → #138 (needs-clarification) |
-| Prosa-Policy `<l>` vs. `<lb/>` | 3 Texte (APO, HMT, HH) | Phase C2 wandelte 18 Texte, für die Restkandidaten war die Policy ungeklärt | **gelöst** 2026-07-03 (#143) – die 3 sind konvertiert, die 17 übrigen Kandidaten sind geprüfte Versdichtung und bleiben `<l>` (§8.1) |
+| Prosa-Policy `<l>` vs. `<lb/>` | 3 Texte (APO, HMT, HH) | Phase C2 wandelte 18 Texte, für die Restkandidaten war die Policy ungeklärt | **gelöst** 2026-07-03 (#143) – die 3 sind konvertiert, die übrigen Kandidaten sind geprüfte Versdichtung und bleiben `<l>` (§8.1) |
 | WZB `@meaningRef` (historisch) | WZB | Alt-Annotation der Erstlieferung | **gelöst** – zu `@ana` migriert; es verbleibt nur ein `revisionDesc`-Logeintrag |
 
 ---

@@ -83,9 +83,10 @@ NUMERIC_SCAN_MIN = 100
 
 # Ausnahmen von NUMERIC_SCAN_MIN (#297 Punkt 1). Die 100er-Schwelle schuetzt
 # gegen Tabellenindizes, Prozente und Abschnittsnummern; sie macht das Audit
-# aber blind fuer jede Datenzahl darunter. names.xml ist die einzige
+# aber blind fuer jede Datenzahl darunter. names.xml war die erste
 # doc-gepruefte Authority-Datei unter der Schwelle (90 Kategorien) und stand
-# damit still in docs/TEI-MODEL.md. Zulaessig ist die Absenkung nur bei einem
+# damit still in docs/TEI-MODEL.md; contributors.xml (52) kam 2026-08-02 aus
+# demselben Grund dazu. Zulaessig ist die Absenkung nur bei einem
 # Key, dessen Anker die Zahl eng bindet und dessen Drift-Fenster klein bleibt:
 # bei 90 sind das +-2, es werden also nur 88 bis 92 mit direkt folgendem
 # "Kategorien" oder "Namen" gemeldet.
@@ -246,7 +247,8 @@ DOC_TARGETS = [
     # dort 256.761 stehen, waehrend #138 alle anderen Seiten auf 256.760 zog.
     ('index.html', ['corpus_files', 'lexicon_entries', 'variants_forms']),
     ('hilfe-daten.html', ['corpus_files', 'lexicon_entries',
-                          'variants_forms', 'variants_normalized']),
+                          'variants_forms', 'variants_normalized',
+                          'contributors_persons']),
     ('hilfe-korpussuche.html', ['variants_normalized']),
     ('hilfe-playground.html', ['variants_normalized']),
     ('hilfe-daten-beitragen.html', ['variants_forms']),

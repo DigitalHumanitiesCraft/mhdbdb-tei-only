@@ -335,7 +335,7 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
 - `lemmata` is the per-text reverse index (lemma → positions), enables O(1) lookup of "where does lemma X appear in text Y"
 - `lemmaIndex` is the global reverse index (lemma → list of text sigles), enables fast "which texts contain lemma X" queries
 - `lineStarts[]` / `lineEnds[]` (seit 4.1.0): pro Text die Word-Indizes der `<l>`-Boundaries. Gleiche Länge wie die Anzahl `<l>` mit mindestens einem indizierten Wort. Empty arrays für Prosa-Texte ohne `<l>` (67/667 ≈ 10 % des Korpus, Stand 2026-07-31; es waren 64, bis #143 drei Texte auf Prosa umstellte). Enables „Lemma am Versanfang/Versende"-Lookups in O(L) statt O(W).
-  **Messvorschrift für die Verszahl:** 1.356.748 Boundaries über 600 Texte, gezählt als Summe der `lineStarts`-Längen im gebauten Index. Das Korpus selbst trägt 1.358.973 `<l>`; die Differenz sind Verse ohne ein einziges lemmatisiertes Wort, die keine Boundary erzeugen. Beide Zahlen sind richtig, sie messen Verschiedenes.
+  **Messvorschrift für die Verszahl** (Stand 2026-08-02)**:** 1.356.748 Boundaries über 600 Texte, gezählt als Summe der `lineStarts`-Längen im gebauten Index. Das Korpus selbst trägt 1.358.973 `<l>`; die Differenz sind Verse ohne ein einziges lemmatisiertes Wort, die keine Boundary erzeugen. Beide Zahlen sind richtig, sie messen Verschiedenes.
 - 100% word coverage from TEI `<body>` elements (Wörter außerhalb von `<l>` wie `<head>`, `<note>`, `<fw>` zählen in `words[]`, aber matchen keine Vers-Boundary)
 - Supports accurate proximity search + Versposition-Filter
 
