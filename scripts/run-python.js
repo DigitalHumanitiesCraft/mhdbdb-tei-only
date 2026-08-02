@@ -9,8 +9,8 @@
  *
  * Der Wrapper reicht Argumente, Exit-Code und beide Ausgabekanäle
  * unverändert weiter; er ist nichts als der Namensauflöser davor. Signale
- * werden nicht eigens behandelt: `stdio: 'inherit'` legt das Kind in
- * dieselbe Prozessgruppe, ein Strg-C erreicht also beide.
+ * werden nicht eigens behandelt: ohne `detached` bleibt das Kind in der
+ * Prozessgruppe des Elternprozesses, ein Strg-C erreicht also beide.
  *
  * Aufruf: node scripts/run-python.js <skript.py> [argumente...]
  * Direkt geht weiterhin alles wie bisher, etwa

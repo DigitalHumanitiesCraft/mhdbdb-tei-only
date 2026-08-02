@@ -159,15 +159,16 @@ npm run test:headed   # Visible browser
 npm run report        # View HTML report
 ```
 
-**Python-Interpreter (#318).** Zwei Specs rufen Python auf (`normalization-parity`, `position-parity`), und die npm-Build-Skripte tun es auch. Der Interpreter wird gesucht, nicht geraten: `scripts/python-bin.js` probiert `python3.13`, `python3` und `python` in dieser Reihenfolge und nimmt den ersten, der 3.13 oder neuer meldet. Findet es keinen, ist das ein harter Fehler mit der Liste des Versuchten, kein stilles Überspringen. Vorher stand `python3.13` als fester String in den Aufrufen; dieser Name existiert unter Windows nur bei einer Installation aus dem Microsoft Store. Abweichende Setups (venv, Conda) setzen `MHDBDB_PYTHON`:
+**Python-Interpreter (#318).** Zwei Specs rufen Python auf (`normalization-parity`, `position-parity`), und die npm-Build-Skripte tun es auch. Der Interpreter wird gesucht, nicht geraten: `scripts/python-bin.js` probiert `python3.13`, `python3`, `python` und `py` in dieser Reihenfolge und nimmt den ersten, der 3.13 oder neuer meldet. Findet es keinen, ist das ein harter Fehler mit der Liste des Versuchten, kein stilles Überspringen. Vorher stand `python3.13` als fester String in den Aufrufen; dieser Name existiert unter Windows nur bei einer Installation aus dem Microsoft Store, während der Installer von python.org umgekehrt `python.exe` in seiner Voreinstellung gar nicht in den PATH setzt und nur `py` registriert. Abweichende Setups (venv, Conda) setzen `MHDBDB_PYTHON` auf den Pfad der echten `python.exe`, nicht auf ein `.bat`-Shim:
 
 ```bash
-MHDBDB_PYTHON=.venv/bin/python npm test
+MHDBDB_PYTHON=.venv/bin/python npm test          # Bash
+$env:MHDBDB_PYTHON = ".venv\Scripts\python.exe"  # PowerShell, dann npm test
 ```
 
 Positionale Argumente sind bei Playwright **Reguläre Ausdrücke gegen den Dateipfad**, keine Dateinamen. Unverankert zog der Filter `corpus.spec.js` in `test:quick` deshalb auch `playground-corpus.spec.js` und `search-with-corpus.spec.js` mit, also 47 Tests in fünf Dateien statt 29 in drei, darunter ausgerechnet die Datei mit den meisten `waitForTimeout`-Aufrufen. Seit #323 sind die Filter hinten mit `$` verankert und vorne durch das Präfix `tests.` diszipliniert. Ein `^` wäre falsch und würde nichts mehr finden: Playwright prüft gegen den **absoluten** Pfad, nachgemessen (`^main-site\.spec\.js$` und `^tests.main-site\.spec\.js$` liefern beide null Tests, `tests.main-site\.spec\.js$` liefert 14). Wer die Auswahl ändert, zählt sie mit `-- --list` nach; das startet den `webServer` nicht und kostet deshalb nur Sekunden.
 
-`test:changed` (`--only-changed=origin/main`) ist der Alltagsbefehl beim Arbeiten an einem Zweig: es läuft nur, was der Zweig angefasst hat. **Vor dem Push bleibt `npm test` Pflicht.** `--only-changed` verfolgt zwar die Node-Importe der Specs, aber keine Spec importiert Projektcode über Node. Alles, was die Specs prüfen, erreichen sie zur Laufzeit: Site-Code über den Browser (`await import('/assets/js/…')` innerhalb von `page.evaluate`), Python über `execSync`, Fixtures und Vendor-Dateien über den Pfad. Blind ist der Befehl deshalb für:
+`test:changed` (`--only-changed=origin/main`) ist der Alltagsbefehl beim Arbeiten an einem Zweig: es läuft nur, was der Zweig angefasst hat. **Vor dem Push bleibt `npm test` Pflicht.** `--only-changed` verfolgt zwar die Node-Importe der Specs, aber keine Spec importiert Projektcode über Node. Alles, was die Specs prüfen, erreichen sie zur Laufzeit: Site-Code über den Browser (`await import('/assets/js/…')` innerhalb von `page.evaluate`), Python über `execFileSync`, Fixtures und Vendor-Dateien über den Pfad. Blind ist der Befehl deshalb für:
 
 | Was | geprüft von | wie erreicht |
 |---|---|---|

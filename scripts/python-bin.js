@@ -8,12 +8,17 @@
  *
  * Dieser Name ist keine verlässliche Zusage. Unter Windows existiert er nur,
  * wenn Python aus dem Microsoft Store kommt; dann liegt er als
- * App-Execution-Alias in %LOCALAPPDATA%\Microsoft\WindowsApps. Eine
- * Installation von python.org liefert stattdessen `python.exe` plus den
- * Launcher `py`, und dort schlägt jeder dieser Aufrufe fehl, bevor er
- * irgendetwas tut. Auf dem Rechner, auf dem dieser Kommentar entstanden ist,
- * war es genau umgekehrt: `python3.13`, `python3` und `python` zeigen alle
- * drei in WindowsApps, `py` fehlt.
+ * App-Execution-Alias in %LOCALAPPDATA%\Microsoft\WindowsApps. Auf dem
+ * Rechner, auf dem dieser Kommentar entstanden ist, ist es genau so:
+ * `python3.13`, `python3` und `python` zeigen alle drei dorthin, `py` fehlt.
+ *
+ * Bei einer Installation von python.org ist es umgekehrt, und deshalb steht
+ * `py` mit in der Liste: der Installer setzt `python.exe` in seiner
+ * Voreinstellung NICHT in den PATH, registriert aber den Launcher `py`. Ohne
+ * ihn scheiterte die Auflösung ausgerechnet in dem Fall, für den sie gebaut
+ * ist. `py` steht zuletzt, damit eine vorhandene versionsgenaue Installation
+ * vorgeht; meldet der Launcher eine ältere Voreinstellung (`PY_PYTHON`),
+ * sortiert ihn die Versionsprüfung aus.
  *
  * Gefordert sind 3.13 oder neuer, weil das die Projektvorgabe ist
  * (DEVELOPMENT.md, Prerequisites).
@@ -27,12 +32,18 @@
  * Override für abweichende Setups (venv, Conda, mehrere Versionen
  * nebeneinander): MHDBDB_PYTHON=/pfad/zu/python npm test
  *
+ * Der Override nimmt einen Pfad, keine Kommandozeile: "py -3.13" geht nicht.
+ * Ein naives Zerlegen an Leerzeichen bräche an `C:\Program Files\...`, und
+ * mit `py` in der Kandidatenliste gibt es den Bedarf nicht. Er sollte auf
+ * die echte `python.exe` zeigen und nicht auf ein `.bat`-Shim (pyenv-win):
+ * Node lehnt seit dem CVE-Fix Shims ohne `shell: true` mit EINVAL ab.
+ *
  * Aufruf aus npm-Skripten über `node scripts/run-python.js <skript.py>`.
  */
 
 import { execFileSync } from 'child_process';
 
-const KANDIDATEN = ['python3.13', 'python3', 'python'];
+const KANDIDATEN = ['python3.13', 'python3', 'python', 'py'];
 const MIN_MAJOR = 3;
 const MIN_MINOR = 13;
 
