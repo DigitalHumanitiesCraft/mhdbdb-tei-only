@@ -19,7 +19,7 @@ The MHDBDB TEI Repository provides a comprehensive digital corpus of Middle High
 - **8 authority files** - 7 searchable controlled vocabularies (persons, works, lexicon, concepts, genres, names, variants) plus `contributors.xml` as project-internal MHDBDB team register (since 2026-04). All are RDF-derived migration snapshots now maintained in-repo (this repo is the sole master, no Salzburg re-export); `variants.xml` is corpus-derived and regenerated after corpus changes. See [TEI-MODEL-AUTH-FILES.md → Provenienz](TEI-MODEL-AUTH-FILES.md#provenienz-und-aktualitaet)
 - **Pre-built indexes** - Compressed JSON (3 MB authority + 40 MB corpus) replacing runtime XML parsing
 - **Static JSON API** - 2,742 plain JSON files under `/api/` (generated from the indexes) for programmatic access with stable, citable URLs; docs at [`api/index.html`](https://dhcraft.org/mhdbdb-tei-only/api/index.html) (#45)
-- **Legacy Linecode sources** - 306 pre-TEI ingest files under [`sources/linecode/`](../sources/README.md) covering 199 of the 667 sigles, plus a catalogue of the 9,1 GB local archive they came from. **Not normative, never indexed, never edited**: they exist to diagnose what the original Linecode-to-TEI conversion flattened (#248). The archive itself stays on KZW's OneDrive; `sources/INVENTAR-ARCHIV.md` is the access path
+- **Legacy Linecode sources** - 306 pre-TEI ingest files under [`sources/linecode/`](../sources/README.md) covering 199 of the 667 sigles, plus a catalog of the 9,1 GB local archive they came from. **Not normative, never indexed, never edited**: they exist to diagnose what the original Linecode-to-TEI conversion flattened (#248). The archive itself stays on KZW's OneDrive; `sources/INVENTAR-ARCHIV.md` is the access path
 
 ### Key Architecture Decision
 The project migrated from runtime XML parsing to pre-built JSON indexes because large XML files caused 30-second browser load times. Pre-built indexes reduce download size by 19× and eliminate parsing overhead. Trade-off: requires Python build step when XML sources change.
@@ -39,7 +39,7 @@ proximity search to the rhyme dictionary.
 
 The complete list, with counts, examples and issue references, is
 [FEATURES.md](FEATURES.md). It was duplicated here until 2026-08-02. The copy happened
-to be accurate, but a second catalogue is a second place to keep in step with every new
+to be accurate, but a second catalog is a second place to keep in step with every new
 tool, and #316 asked to stop paying that twice.
 
 ## Technical Stack
@@ -89,7 +89,7 @@ This knowledge base follows a hub-and-spoke architecture with INDEX.md as the ce
 | **[ROADMAP.md](ROADMAP.md)** | Current priorities, strategic direction, what's blocked | Everyone |
 | **[JOURNAL.md](JOURNAL.md)** | Chronological development log, decisions, dead ends | Developers |
 
-The 15 files above (13 stable plus 2 process) are the complete set of promptotyping documents. (`POS-TAGSET.md` was added on 2026-06-17: the `@pos` tagset had until then only been documented in the agent skill `.gemini/skills/pos-disambiguator/` and scattered across TEI-MODEL.md and DATA-MODEL.md; it was pulled out as a citable single source of truth, and TEI-MODEL.md §5 now points to it.) `docs/features/` holds temporary, ticket-bound planning artefacts and is **not part** of the promptotyping documents, see `CLAUDE.md` → "Temporal Artifacts". `docs/playbooks/` holds reusable session procedures (autonomous issue, merge and care-work sessions): permanent, but likewise **not part** of the promptotyping documents (pulled out of `docs/features/` on 2026-07-08 because they are not ticket-bound). The user-facing help lives as `hilfe-*.html` in the frontend, not in `docs/`. Two further stores under `docs/` are also excluded: `journal-archive.md` (full text of the condensed JOURNAL entries) and `docs/data/` (two Linecode CSVs as an archival snapshot of the legacy export, see [LINECODE.md](LINECODE.md)).
+The 15 files above (13 stable plus 2 process) are the complete set of promptotyping documents. (`POS-TAGSET.md` was added on 2026-06-17: the `@pos` tagset had until then only been documented in the agent skill `.gemini/skills/pos-disambiguator/` and scattered across TEI-MODEL.md and DATA-MODEL.md; it was pulled out as a citable single source of truth, and TEI-MODEL.md §5 now points to it.) `docs/features/` holds temporary, ticket-bound planning artifacts and is **not part** of the promptotyping documents, see `CLAUDE.md` → "Temporal Artifacts". `docs/playbooks/` holds reusable session procedures (autonomous issue, merge and care-work sessions): permanent, but likewise **not part** of the promptotyping documents (pulled out of `docs/features/` on 2026-07-08 because they are not ticket-bound). The user-facing help lives as `hilfe-*.html` in the frontend, not in `docs/`. Two further stores under `docs/` are also excluded: `journal-archive.md` (full text of the condensed JOURNAL entries) and `docs/data/` (two Linecode CSVs as an archival snapshot of the legacy export, see [LINECODE.md](LINECODE.md)).
 
 ### Publications (project outputs, not development docs)
 
