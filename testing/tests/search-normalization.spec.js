@@ -22,7 +22,7 @@ test.describe('Search Normalization Test Suite', () => {
             return window.playground &&
                    window.playground.authorityManager &&
                    window.playground.authorityManager.authorityData.lemmata.length > 0;
-        }, { timeout: 30000 });
+        }, null, { timeout: 30000 });
 
         console.log('✓ Authority files loaded');
     });
@@ -309,7 +309,7 @@ test.describe('Search Normalization Test Suite', () => {
             // lieferte 0 Treffer, weil der Eigenname "Rot" gewann).
             await page.waitForFunction(() => {
                 return window.playground?.corpusData?.texts?.length > 0;
-            }, { timeout: 60000 });
+            }, null, { timeout: 60000 });
 
             const result = await page.evaluate(() => {
                 const manager = window.playground.authorityManager;

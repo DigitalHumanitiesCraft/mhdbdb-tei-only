@@ -29,7 +29,7 @@ const KOMPONENTEN_ROUTE = 'http://localhost:8080/playground/#lemmata&mode=compon
 async function playgroundBereit(page) {
     await page.waitForFunction(
         () => window.playground?.authorityData?.lemmata?.length > 0 &&
-              window.playground?.ui?.authorityExplorers !== undefined,
+              window.playground?.ui?.authorityExplorers !== undefined, null,
         { timeout: 60000 }
     );
 }
@@ -191,7 +191,7 @@ test.describe('#239: Belegte Wortbildungen aus lemma.etymology', () => {
         await page.waitForFunction(
             () => !document.getElementById('component-group-ende')
                 || ![...document.querySelectorAll('#component-group-ende .component-pick')]
-                     .some(b => b.value === 'wiltswîn'),
+                     .some(b => b.value === 'wiltswîn'), null,
             { timeout: 15000 }
         );
 

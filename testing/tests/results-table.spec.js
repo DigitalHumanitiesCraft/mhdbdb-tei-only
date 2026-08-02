@@ -5,7 +5,7 @@ import fs from 'fs';
 test.describe('Issue #114: Tabellenansicht für Korpussuche', () => {
     test.beforeEach(async ({ page }) => {
         await page.goto('/korpus.html');
-        await page.waitForFunction(() => window._mhdbdbApp?.searchEngine !== null, { timeout: 30000 });
+        await page.waitForFunction(() => window._mhdbdbApp?.searchEngine !== null, null, { timeout: 30000 });
         // Default-View zurücksetzen, damit Tests reproduzierbar starten
         await page.evaluate(() => localStorage.removeItem('mhdbdb-results-view'));
     });
@@ -81,7 +81,7 @@ test.describe('Issue #114: Tabellenansicht für Korpussuche', () => {
         await page.click('#resultsList tbody tr:first-child');
 
         // viewMode wechselt auf list
-        await page.waitForFunction(() => window._mhdbdbApp.viewMode === 'list', { timeout: 5000 });
+        await page.waitForFunction(() => window._mhdbdbApp.viewMode === 'list', null, { timeout: 5000 });
         const viewMode = await page.evaluate(() => window._mhdbdbApp.viewMode);
         expect(viewMode).toBe('list');
 
@@ -327,7 +327,7 @@ test.describe('Issue #114: Tabellenansicht für Korpussuche', () => {
 test.describe('Issue #203: KWIC-Belege-Export', () => {
     test.beforeEach(async ({ page }) => {
         await page.goto('/korpus.html');
-        await page.waitForFunction(() => window._mhdbdbApp?.searchEngine !== null, { timeout: 30000 });
+        await page.waitForFunction(() => window._mhdbdbApp?.searchEngine !== null, null, { timeout: 30000 });
         await page.evaluate(() => localStorage.removeItem('mhdbdb-results-view'));
     });
 

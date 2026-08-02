@@ -53,7 +53,7 @@ test.describe('Issue #164: Multi-Lemma-Suche rôt + munt', () => {
     await page.waitForFunction(() => {
       return window.playground?.corpusData?.texts?.length > 0 &&
              window.playground?.ui?.multiLemmaSearch;
-    }, { timeout: 60000 });
+    }, null, { timeout: 60000 });
 
     const ids = await page.evaluate(() => {
       return window.playground.ui.multiLemmaSearch.teiExplorer.resolveLemmaIds(['rôt', 'munt']);
@@ -76,7 +76,7 @@ test.describe('Issue #161: Multi-POS posAll[] (Authority-Index v1.6.0)', () => {
     await page.goto('http://localhost:8080/playground/');
     await page.waitForFunction(() => {
       return window.playground?.authorityData?.lemmata?.length > 0;
-    }, { timeout: 60000 });
+    }, null, { timeout: 60000 });
 
     const rec = await page.evaluate(() => {
       const l = window.playground.authorityData.lemmata.find(x => x.id === 'lemma_79188');
@@ -90,7 +90,7 @@ test.describe('Issue #161: Multi-POS posAll[] (Authority-Index v1.6.0)', () => {
 
   test('posPasses zählt Multi-POS-Lemmata für jede ihrer Wortarten', async ({ page }) => {
     await page.goto('http://localhost:8080/playground/');
-    await page.waitForFunction(() => !!window.playground?.ui?.cooccurrenceRanking, { timeout: 60000 });
+    await page.waitForFunction(() => !!window.playground?.ui?.cooccurrenceRanking, null, { timeout: 60000 });
 
     const r = await page.evaluate(() => {
       const view = window.playground.ui.cooccurrenceRanking;

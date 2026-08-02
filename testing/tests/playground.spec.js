@@ -225,8 +225,8 @@ test.describe('Playground Integration Tests', () => {
   test('should have all required JavaScript modules', async ({ page }) => {
     // Der Test wartet auf den vollständigen Korpus-Index, also auf dieselbe
     // Ladung, für die reading-view und tei-caching ebenfalls 120 s ansetzen,
-    // während bis zu sechs Worker denselben single-threaded http-server
-    // bedienen. Ohne diese Zeile wäre das Test-Budget aus der Config (60 s)
+    // während lokal bis zu sechs Worker denselben single-threaded http-server
+    // bedienen (in der CI zwei). Ohne diese Zeile wäre das Budget aus der Config (60 s)
     // genau so groß wie der waitForFunction-Timeout unten, liefe aber früher
     // los: es käme immer zuerst, und der catch-Zweig, der die eigentliche
     // Fehlermeldung rettet, griffe nie verlässlich.
@@ -260,7 +260,9 @@ test.describe('Playground Integration Tests', () => {
     page.on('console', msg => {
       if (msg.type() !== 'error') return;
       const text = msg.text();
-      if (unkritisch.some(prefix => text.includes(prefix))) return;
+      // startsWith, nicht includes: die Ausnahme gilt für Meldungen, die
+      // aus dem Loader kommen, nicht für fremde, die seinen Text zitieren.
+      if (unkritisch.some(prefix => text.startsWith(prefix))) return;
       konsolenfehler.push(text);
     });
     // pageerror ist nicht dasselbe wie console.error: eine unbehandelte
@@ -286,9 +288,11 @@ test.describe('Playground Integration Tests', () => {
     // landet das Options-Objekt als ARGUMENT in der Seite und der Timeout wirkt
     // nie. Genau so stand es im ersten Entwurf, und die Gegenprobe hat es
     // gezeigt: der Lauf endete nicht nach 60 s am eigenen Timeout, sondern nach
-    // 120 s am Test-Budget. Dieselbe Verwechslung steckt an zehn weiteren
-    // Stellen in testing/tests/, dort folgenlos, weil die Werte ohnehin nahe
-    // am Budget liegen.
+    // 120 s am Test-Budget. Dieselbe Verwechslung steckte an 19 weiteren
+    // Stellen in sechs Specs und ist dort mitkorrigiert; bei den dreizehn
+    // 60000ern war sie folgenlos, bei den übrigen sechs (viermal 30000,
+    // einmal 15000, einmal 5000) wartete ein Aufruf, der früh mit eigener
+    // Meldung scheitern sollte, in Wahrheit bis zum Budget durch.
     try {
       await page.waitForFunction(
         () => window.playground?.corpusData?.texts?.length > 0,
