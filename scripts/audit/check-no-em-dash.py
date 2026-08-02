@@ -104,9 +104,13 @@ Markdown wird deshalb geprueft, aber NUR in den Zeilen, die ein Diff
 gegenueber einer Base hinzufuegt (`--diff-base <rev>`). Das ist kein
 Kompromiss aus Bequemlichkeit, sondern die Regel selbst: sie gilt fuer
 neuen und ueberarbeiteten Text und schreibt bestehende Projektdokumente
-nicht rueckwirkend um. Der Bestand am 2026-08-02, gemessen mit
-`git grep -c` ueber die getrackten `.md`-Dateien: 471 Zeilen mit
-Em-Dash, davon 278 allein in `docs/journal-archive.md`.
+nicht rueckwirkend um. Der Bestand am 2026-08-02, gezaehlt mit
+`git grep -h -P` auf U+2014 ueber die getrackten `.md`: 468 Zeilen mit
+Em-Dash, davon 278 allein in `docs/journal-archive.md`. Die Zahl ist hier
+datiert und darf altern; an den drei anderen Stellen, die diesen
+Umfang erklaeren (CLAUDE.md, no-cdn-check.yml, Playbook-Regel 32),
+steht bewusst nur „rund 470". Sie war vier Stunden alt und schon
+falsch, weil der eigene PR drei dieser Zeilen umgeschrieben hat.
 Ein Vollscan waere also nicht die Bereinigung von acht Dateien gewesen,
 wie #292 annahm, sondern eine redaktionelle Umschreibung des halben
 Doku-Bestands.

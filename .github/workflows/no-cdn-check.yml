@@ -35,9 +35,9 @@
 # Seit 02.08. prüft das Em-Dash-Gate zusätzlich Markdown, aber nur die
 # Zeilen, die ein PR hinzufügt (#292). Deshalb braucht dieser Workflow
 # eine Diff-Base, so wie data-integrity.yml sie seit #154 bestimmt. Ein
-# Vollscan über Markdown kam nicht in Frage: der Bestand trägt nach
-# `git grep -c` 471 Zeilen mit Em-Dash, und die Schreibregel gilt für
-# neuen und überarbeiteten Text, nicht rückwirkend.
+# Vollscan über Markdown kam nicht in Frage: rund 470 Zeilen im Bestand
+# tragen einen Em-Dash, und die Schreibregel gilt für neuen und
+# überarbeiteten Text, nicht rückwirkend.
 
 name: no-cdn-check
 
