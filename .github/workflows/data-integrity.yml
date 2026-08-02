@@ -132,7 +132,12 @@ jobs:
     timeout-minutes: 45
     steps:
       - name: Checkout
+        # fetch-depth: 2, damit der Diff-Base-Schritt unten den ersten
+        # Elternteil des Merge-Refs lesen kann. Mit der Voreinstellung 1
+        # kappt die shallow-Grenze die Elternliste, und `HEAD^1` scheitert.
         uses: actions/checkout@v6
+        with:
+          fetch-depth: 2
 
       - name: Diff-Base bestimmen (#154/#152)
         id: base
@@ -140,25 +145,37 @@ jobs:
         # die naming-Change-Detection. Leerer sha (workflow_dispatch,
         # Force-Push-Edge) -> Bump-Gate wird uebersprungen, naming-Check
         # laeuft konservativ.
+        #
+        # Achtung, falls hier je eine Merge-Queue dazukommt: `merge_group`
+        # faellt durch beide Zweige unten durch, BASE bliebe leer, und das
+        # Bump-Gate wuerde still uebersprungen. Wer den Trigger ergaenzt,
+        # muss diesen Schritt also mitbehandeln.
         run: |
           BASE=""
           if [ "${{ github.event_name }}" = "pull_request" ]; then
-            # $GITHUB_BASE_REF (Env-Var statt Kontext-Interpolation ins
-            # Skript, Actions-Hardening-Guidance; Achtung: auch Kommentare
-            # im run-Block werden auf Expressions gescannt — leere
-            # Doppelklammer-Ausdruecke hier crashen den Workflow-Parse).
-            # Retry gegen transiente Fetch-Fehler:
-            # ein Fallback auf BASE="" wuerde das Bump-Gate still skippen,
-            # ein Hard-Fail den ganzen Lauf vor allen Checks reissen.
-            for i in 1 2 3; do
-              git fetch --no-tags --depth=1 origin "$GITHUB_BASE_REF" && break
-              if [ "$i" = 3 ]; then
-                echo "::error title=Diff-Base::Base-Branch $GITHUB_BASE_REF nach 3 Versuchen nicht fetchbar."
-                exit 1
-              fi
-              sleep $((i * 5))
-            done
-            BASE=$(git rev-parse FETCH_HEAD)
+            # Erster Elternteil des ausgecheckten Merge-Refs, also per
+            # Konstruktion der Stand, gegen den gemergt wurde. Die zwei
+            # naheliegenden Alternativen sind beide gemessen falsch: der
+            # aktuelle Tip von $GITHUB_BASE_REF laeuft weiter, waehrend der
+            # Lauf wartet (Lauf 30744220171: ausgecheckt "Merge 52a83d3 into
+            # b8b44eb", Base d835e8f, weil PR #338 98 Sekunden spaeter
+            # gemergt wurde), und pull_request.base.sha haengt hinterher
+            # (Folgelauf 30744745366: ausgecheckt gegen d835e8f, base.sha
+            # weiter b8b44eb). In beiden Faellen galt, was ein fremder PR
+            # geaendert hatte, als Aenderung dieses PRs, hier also mit einem
+            # eingeforderten Versions-Bump, den der PR nicht schuldet.
+            #
+            # Braucht fetch-depth 2 im Checkout: mit der Voreinstellung 1
+            # kappt die shallow-Grenze die Elternliste. Kein Netzzugriff,
+            # also auch kein Retry mehr noetig (der stand hier gegen
+            # transiente Fetch-Fehler). Achtung: auch Kommentare im run-Block
+            # werden auf Expressions gescannt, leere Doppelklammer-
+            # Ausdruecke crashen hier den Workflow-Parse.
+            BASE=$(git rev-parse --verify --quiet HEAD^1) || BASE=""
+            if [ -z "$BASE" ]; then
+              echo "::error title=Diff-Base::Erster Elternteil des Merge-Refs nicht lesbar (fetch-depth zu klein?)."
+              exit 1
+            fi
           elif [ "${{ github.event_name }}" = "push" ]; then
             BASE="${{ github.event.before }}"
             if [ "$BASE" = "0000000000000000000000000000000000000000" ] \

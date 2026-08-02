@@ -31,6 +31,14 @@
 # Nebenwirkung, bewusst in Kauf genommen: weil data-integrity.yml denselben
 # Glob trägt, startet jede Änderung in scripts/audit/ auch dort einen Lauf,
 # ohne dass die Gates von hier darin ausgeführt würden.
+#
+# Seit 02.08. prüft das Em-Dash-Gate zusätzlich Markdown, aber nur die
+# Zeilen, die ein PR hinzufügt (#292). Deshalb braucht dieser Workflow
+# eine Diff-Base, die es hier wie in data-integrity.yml (#154) gibt; wie
+# sie bestimmt wird, steht am Schritt selbst. Ein
+# Vollscan über Markdown kam nicht in Frage: rund 470 Zeilen im Bestand
+# tragen einen Em-Dash, und die Schreibregel gilt für neuen und
+# überarbeiteten Text, nicht rückwirkend.
 
 name: no-cdn-check
 
@@ -44,7 +52,7 @@ on:
       - 'assets/css/**'
       - 'scripts/audit/**'
       - 'testing/tests/**'
-      - 'docs/DEVELOPMENT.md'
+      - '**.md'
       - '.github/workflows/no-cdn-check.yml'
   push:
     branches:
@@ -57,7 +65,7 @@ on:
       - 'assets/css/**'
       - 'scripts/audit/**'
       - 'testing/tests/**'
-      - 'docs/DEVELOPMENT.md'
+      - '**.md'
       - '.github/workflows/no-cdn-check.yml'
   workflow_dispatch:
 
@@ -71,16 +79,78 @@ jobs:
     timeout-minutes: 5
     steps:
       - name: Checkout
+        # fetch-depth: 2, damit der Diff-Base-Schritt unten den ersten
+        # Elternteil des Merge-Refs lesen kann. Mit der Voreinstellung 1
+        # kappt die shallow-Grenze die Elternliste, und `HEAD^1` scheitert.
         uses: actions/checkout@v6
+        with:
+          fetch-depth: 2
+
+      - name: Diff-Base bestimmen (#292)
+        id: base
+        # Wortgleich zu data-integrity.yml (#154), damit beide Workflows
+        # dieselbe Basis meinen.
+        #
+        # Bei pull_request ist die Base der erste Elternteil des
+        # ausgecheckten Merge-Refs. Die beiden naheliegenden Alternativen
+        # sind beide falsch, und zwar gemessen, nicht vermutet:
+        #
+        #  - Der aktuelle Tip von $GITHUB_BASE_REF laeuft weiter, waehrend
+        #    der Lauf wartet. Im Lauf 30744220171 zu PR #337 war ausgecheckt
+        #    "Merge 52a83d3 into b8b44eb", die Base aber d835e8f, weil #338
+        #    98 Sekunden nach dem Auslösen gemergt wurde.
+        #  - `pull_request.base.sha` haengt hinterher: im Folgelauf
+        #    30744745366 war ausgecheckt "Merge 27cf4d9 into d835e8f", die
+        #    base.sha aber weiter b8b44eb.
+        #
+        # In beiden Faellen galten Zeilen fremder, laengst gemergter PRs als
+        # von diesem hinzugefuegt (im ersten Lauf drei aus
+        # docs/DEVELOPMENT.md; gruen war er nur, weil keine davon einen
+        # Em-Dash trug). Die Richtung ist fail-closed, aber ein Gate, das
+        # fremde Prosa anmahnt, treibt genau die rueckwirkende Umschreibung,
+        # die die Hausregel verbietet.
+        #
+        # Achtung, falls hier je eine Merge-Queue dazukommt: `merge_group`
+        # faellt durch beide Zweige unten durch, BASE bliebe leer, und das
+        # Markdown-Gate wuerde still uebersprungen (::notice-Zweig). Wer den
+        # Trigger ergaenzt, muss diesen Schritt also mitbehandeln.
+        #
+        # Der erste Elternteil ist per Konstruktion der Stand, gegen den
+        # gemergt wurde, und braucht keinen Netzzugriff. Leerer sha
+        # (workflow_dispatch, Force-Push-Edge) -> Markdown wird
+        # uebersprungen, der Vollscan ueber HTML/JS/CSS laeuft unveraendert.
+        run: |
+          BASE=""
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            BASE=$(git rev-parse --verify --quiet HEAD^1) || BASE=""
+            if [ -z "$BASE" ]; then
+              echo "::error title=Diff-Base::Erster Elternteil des Merge-Refs nicht lesbar (fetch-depth zu klein?)."
+              exit 1
+            fi
+          elif [ "${{ github.event_name }}" = "push" ]; then
+            BASE="${{ github.event.before }}"
+            if [ "$BASE" = "0000000000000000000000000000000000000000" ] \
+               || ! git fetch --no-tags --depth=1 origin "$BASE" 2>/dev/null; then
+              BASE=""
+            fi
+          fi
+          echo "sha=$BASE" >> "$GITHUB_OUTPUT"
+          echo "Diff-Base: ${BASE:-<keine>}"
 
       - name: No external script src in committed HTML (stdlib only)
         run: python3 scripts/audit/check-no-cdn.py
 
-      - name: Em-Dash-Gate Selbsttest (#140)
+      - name: Em-Dash-Gate Selbsttest (#140/#292)
         run: python3 scripts/audit/check-no-em-dash.py --selftest
 
-      - name: Keine Em-Dashes in user-sichtbarem Text (#140)
-        run: python3 scripts/audit/check-no-em-dash.py
+      - name: Keine Em-Dashes in user-sichtbarem Text (#140/#292)
+        run: |
+          if [ -z "${{ steps.base.outputs.sha }}" ]; then
+            echo "::notice title=Em-Dash-Gate::Keine Diff-Base bestimmbar (workflow_dispatch/Force-Push), Markdown ungeprüft."
+            python3 scripts/audit/check-no-em-dash.py
+          else
+            python3 scripts/audit/check-no-em-dash.py --diff-base "${{ steps.base.outputs.sha }}"
+          fi
 
       - name: Inventar-Gate Selbsttest (#329)
         run: python3 scripts/audit/check-doc-inventories.py --selftest

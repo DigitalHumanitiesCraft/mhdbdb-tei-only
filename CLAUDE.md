@@ -126,7 +126,7 @@ Nach größeren Doku-Änderungen oder quartalsweise (auch ohne Änderungen, gege
 
 ## Gotchas
 
-- **Keine Em-Dashes in user-sichtbarem Text**: Gate ist `scripts/audit/check-no-em-dash.py` (CI: `no-cdn-check.yml`). Kommentare sind ausgenommen. Statt — einen Doppelpunkt, ein Komma, eine Klammer oder einen eigenen Satz setzen.
+- **Keine Em-Dashes in user-sichtbarem Text**: Gate ist `scripts/audit/check-no-em-dash.py` (CI: `no-cdn-check.yml`). Kommentare sind ausgenommen. Statt U+2014 einen Doppelpunkt, ein Komma, eine Klammer oder einen eigenen Satz setzen. Umfang seit #292 zweigeteilt: HTML, JS und CSS werden ganz geprüft, Markdown nur in den Zeilen, die ein PR hinzufügt (`--diff-base <rev>`, Fences und Inline-Code ausgenommen). Der Bestand bleibt damit unangetastet, was Absicht ist: rund 470 Zeilen darin tragen einen Em-Dash.
 - **Angle bracket entities** (`&lt;`, `&gt;`) in `<pc>` are correct XML — not bugs
 - **Nav/Footer sind build-injiziert**: Nicht in den HTML-Seiten direkt editieren. Quelle ist `includes/` + `scripts/build-pages.py` (Marker-Bereiche); `build-pages.py --check` ist das Drift-Gate. Mobile-Menü bleibt inline. Siehe DEVELOPMENT.md.
 - **Zotero cache** (`.zotero_cache.json`) is gitignored — use `--offline` for reproducible builds

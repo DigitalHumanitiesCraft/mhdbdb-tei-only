@@ -42,7 +42,7 @@ scripts/
 │   ├── check-lexicon-senses.py  # jeder <entry> in lexicon.xml hat mindestens einen <sense>
 │   ├── check-naming-index.py    # naming-index: Provenienz + Sigle-Existenz (#152)
 │   ├── check-no-cdn.py          # keine externen <script src> in committeten Seiten
-│   ├── check-no-em-dash.py      # keine Em-Dashes in user-sichtbarem Text
+│   ├── check-no-em-dash.py      # keine Em-Dashes in user-sichtbarem Text; Markdown nur im Diff (#292)
 │   ├── check-release-version.py # Release-Version gegen CITATION.cff und .zenodo.json
 │   ├── classify-lexicon-backfill.py # Backfill-Lücken in lexicon.xml klassifizieren (#115)
 │   ├── count-editorial-notes-and-div-heads.py # Zahlen hinter den Reader-Änderungen (#250)
@@ -113,7 +113,7 @@ Korpus→Authority Cross-Reference-Integrität (#44/#115): scannt alle `tei/*.te
 Autorangaben im `titleStmt` gegen `persons.xml` (#228): meldet leere `<author ref="..."/>` (Text erscheint autorlos), tote `@ref`, Abweichungen von der Referenzform `#person_N`, Textinhalte mit Zeilenumbruch (die so in Index und API landen) und Textinhalte, die vom `preferred`-Namen abweichen. `--check` setzt den Exit-Code nur bei den ersten beiden, die Namensabweichung ist oft eine legitime bibliographische Variante. **Läuft bewusst nicht in der CI**, solange der tote `@ref` in VOR offen ist (#308); sonst wäre der Befund ein Blocker für unbeteiligte PRs.
 
 ### `check-index-version-bump.py`
-Versions-Bump-Gate (#154): hat sich der dekomprimierte Inhalt von corpus-/authority-index gegenüber `--base <rev>` geändert, muss der `version`-String mitgeändert sein — sonst invalidiert der Dexie-Cache nicht. Läuft in `data-integrity.yml` (Diff-Base = PR-Base-Tip bzw. `event.before`).
+Versions-Bump-Gate (#154): hat sich der dekomprimierte Inhalt von corpus-/authority-index gegenüber `--base <rev>` geändert, muss der `version`-String mitgeändert sein: sonst invalidiert der Dexie-Cache nicht. Läuft in `data-integrity.yml` (Diff-Base = erster Elternteil des Merge-Refs bzw. `event.before` beim Push).
 
 ### `check-naming-index.py`
 Naming-Index-Konsistenz (#152): `source.commit`-Provenienz vorhanden + alle `works[].sigle` existieren als `tei/<SIG>.tei.xml`. `--print-source-commit` liefert den Quell-Pin für die Workflows. Läuft in `data-integrity.yml` und `naming-index-update.yml`.
