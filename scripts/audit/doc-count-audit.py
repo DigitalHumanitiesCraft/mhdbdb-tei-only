@@ -123,6 +123,8 @@ INTENTIONALLY_SILENT = {
         'nennt die Werkzeuge einzeln in der Routing-Tabelle, nie als Summe',
     ('docs/ARCHITECTURE.md', 'tei_tools'):
         'nennt die Werkzeuge einzeln in der Routing-Tabelle, nie als Summe',
+    ('docs/INDEX.md', 'entry_points'):
+        'verweist seit #316 auf FEATURES.md, statt den Katalog samt Zahlen zu wiederholen',
 }
 
 

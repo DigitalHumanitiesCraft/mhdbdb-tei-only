@@ -26,33 +26,21 @@ The project migrated from runtime XML parsing to pre-built JSON indexes because 
 
 ## Core Features
 
-### Main Site (Public Interface)
-Simple search and reading interface optimized for students and general users:
+Two interfaces over the same corpus.
 
-- **Single Lemma Search** - Search across corpus with Middle High German character normalization
-- **KWIC-Belege** - Pro Treffer ausklappbare Keyword-in-Context-Konkordanz mit Vers-/Zeilenangabe, Sprung zur Fundstelle (#129) und CSV-Export aller Fundstellen eines Texts (#203)
-- **Tabellenansicht** - Umschaltbare Ergebnis-Tabelle (sortierbar) mit Gesamtzeile, Keyness-Spalte (Log-Likelihood), Types + Wörterbuch-Links im Lemma-Panel sowie TSV-/CSV-Export (#114)
-- **Text Selection** - Include/exclude texts via checkbox interface with live filtering
-- **Reading View** - Full-text reader with:
-  - Multi-lemma highlighting (5 colors for concurrent searches)
-  - Rich metadata panel with Wikidata integration
-  - Context navigation (jump between occurrences)
-  - Separate work vs author identifiers (GND/Wikidata)
-- **Variant Resolution** - Automatic mapping of orthographic variants via variants.xml
-- **Wörterbuch** - A–Z-Einstiegsseite (`woerterbuch.html`) zu allen 43.879 Lemma-Seiten mit Indexleiste, Pagination und Deep-Links (#117)
+The **main site** is for search and reading: lemma search with Middle High German
+normalization, KWIC concordances per hit, a sortable results table with keyness and
+export, a reading view with multi-lemma highlighting and a metadata panel, and an
+A–Z register of all lemma pages.
 
-### Playground (Research Interface)
-Advanced exploration tools for medievalists and digital humanities researchers:
+The **playground** is for analysis: explorers for the authority files (persons, works,
+lemmata, concepts, genres, names) and the TEI analysis tools, from multi-lemma
+proximity search to the rhyme dictionary.
 
-- **18 Search Entry Points** - 6 authority file explorers + 12 TEI analysis tools
-- **Multi-Lemma Search** - Find texts containing multiple lemmata with:
-  - Document-level search (all lemmata anywhere in text)
-  - Proximity search (co-occurrence within N words)
-  - Same-verse search (co-occurrence within a single verse line, #106)
-  - 3-stage lemma resolution (exact match → variants → prefix match in both directions, #224)
-  - Color-coded results with clickable navigation to reading view
-- **Authority Exploration** - Browse and search persons, works, lemmata, concepts, genres, names; the Lemmata explorer additionally offers a word-component mode for compound research, grouped by position of the component (#239)
-- **TEI Analysis** - Twelve analysis tools over the pre-loaded MHDBDB corpus: multi-lemma search (document + proximity + same-verse), verse-position lemma search, word frequency, corpus-wide hapax legomena, text statistics, lemma distribution, concept distribution, text comparison, co-occurrence ranking, rhyme dictionary, verse-ending profile, curated character-naming explorer (4 works, Beta)
+The complete list, with counts, examples and issue references, is
+[FEATURES.md](FEATURES.md). It was duplicated here until 2026-08-02. The copy happened
+to be accurate, but a second catalogue is a second place to keep in step with every new
+tool, and #316 asked to stop paying that twice.
 
 ## Technical Stack
 
@@ -126,7 +114,8 @@ Aktuelle Index-Versionen siehe [TEI-MODEL.md §11](TEI-MODEL.md#11-versionierung
 
 - **[JOURNAL.md](JOURNAL.md)** – chronologisch, mit Begründungen und Sackgassen; die Volltexte
   der verdichteten Einträge liegen in [journal-archive.md](journal-archive.md)
-- **[ROADMAP.md](ROADMAP.md) → Recently Completed** – mit Einordnung in die laufenden Prioritäten
+- Die [ROADMAP.md](ROADMAP.md) führt seit 2026-08-02 keine eigene Chronik mehr (#316); sie sagt,
+  was ansteht, und ordnet Laufendes ein.
 
 ### Known Limitations
 - Desktop-only interface (not mobile-responsive)
