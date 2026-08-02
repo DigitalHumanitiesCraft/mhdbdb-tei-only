@@ -78,42 +78,49 @@ jobs:
     timeout-minutes: 5
     steps:
       - name: Checkout
+        # fetch-depth: 2, damit der Diff-Base-Schritt unten den ersten
+        # Elternteil des Merge-Refs lesen kann. Mit der Voreinstellung 1
+        # kappt die shallow-Grenze die Elternliste, und `HEAD^1` scheitert.
         uses: actions/checkout@v6
+        with:
+          fetch-depth: 2
 
       - name: Diff-Base bestimmen (#292)
         id: base
         # Wortgleich zu data-integrity.yml (#154), damit beide Workflows
-        # dieselbe Basis meinen. Beide nehmen die base.sha des Events und
-        # nicht den aktuellen Tip von $GITHUB_BASE_REF: der laeuft weiter,
-        # waehrend der Lauf wartet.
+        # dieselbe Basis meinen.
         #
-        # Der Unterschied ist belegt, nicht theoretisch. Im Lauf 30744220171
-        # zu PR #337 war ausgecheckt "Merge 52a83d3 into b8b44eb", die Base
-        # aber d835e8f: PR #338 war 98 Sekunden nach dem Auslösen auf main
-        # gelandet. Alles, was #338 an gemeinsamen Dateien geändert hatte,
-        # erschien dadurch im Diff als von #337 hinzugefügt (drei Zeilen aus
-        # docs/DEVELOPMENT.md). Grün war der Lauf nur, weil keine davon einen
-        # Em-Dash trug. Die Richtung ist fail-closed, aber ein Gate, das
-        # fremde und längst gemergte Prosa anmahnt, treibt genau die
-        # rückwirkende Umschreibung, die die Hausregel verbietet.
+        # Bei pull_request ist die Base der erste Elternteil des
+        # ausgecheckten Merge-Refs. Die beiden naheliegenden Alternativen
+        # sind beide falsch, und zwar gemessen, nicht vermutet:
         #
-        # base.sha ist der Commit, auf dem der ausgecheckte Merge-Ref sitzt,
-        # und wird explizit gefetcht, wie es der push-Zweig mit
-        # github.event.before schon tut. Leerer sha (workflow_dispatch,
-        # Force-Push-Edge) -> Markdown wird übersprungen, der Vollscan
-        # über HTML/JS/CSS läuft unverändert.
+        #  - Der aktuelle Tip von $GITHUB_BASE_REF laeuft weiter, waehrend
+        #    der Lauf wartet. Im Lauf 30744220171 zu PR #337 war ausgecheckt
+        #    "Merge 52a83d3 into b8b44eb", die Base aber d835e8f, weil #338
+        #    98 Sekunden nach dem Auslösen gemergt wurde.
+        #  - `pull_request.base.sha` haengt hinterher: im Folgelauf
+        #    30744745366 war ausgecheckt "Merge 27cf4d9 into d835e8f", die
+        #    base.sha aber weiter b8b44eb.
+        #
+        # In beiden Faellen galten Zeilen fremder, laengst gemergter PRs als
+        # von diesem hinzugefuegt (im ersten Lauf drei aus
+        # docs/DEVELOPMENT.md; gruen war er nur, weil keine davon einen
+        # Em-Dash trug). Die Richtung ist fail-closed, aber ein Gate, das
+        # fremde Prosa anmahnt, treibt genau die rueckwirkende Umschreibung,
+        # die die Hausregel verbietet.
+        #
+        # Der erste Elternteil ist per Konstruktion der Stand, gegen den
+        # gemergt wurde, und braucht keinen Netzzugriff. Leerer sha
+        # (workflow_dispatch, Force-Push-Edge) -> Markdown wird
+        # uebersprungen, der Vollscan ueber HTML/JS/CSS laeuft unveraendert.
         run: |
           BASE=""
           if [ "${{ github.event_name }}" = "pull_request" ]; then
-            BASE="${{ github.event.pull_request.base.sha }}"
-            for i in 1 2 3; do
-              git fetch --no-tags --depth=1 origin "$BASE" && break
-              if [ "$i" = 3 ]; then
-                echo "::error title=Diff-Base::Base-Commit $BASE nach 3 Versuchen nicht fetchbar."
-                exit 1
-              fi
-              sleep $((i * 5))
-            done
+            BASE=$(git rev-parse --verify --quiet HEAD^1) || BASE=""
+            if [ -z "$BASE" ]; then
+              echo "::error title=Diff-Base::Erster Elternteil des Merge-Refs nicht lesbar (fetch-depth zu klein?)."
+              exit 1
+            fi
           elif [ "${{ github.event_name }}" = "push" ]; then
             BASE="${{ github.event.before }}"
             if [ "$BASE" = "0000000000000000000000000000000000000000" ] \
