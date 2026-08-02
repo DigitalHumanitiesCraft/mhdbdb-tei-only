@@ -143,9 +143,11 @@ def abschnitt(text: str, titel: str) -> str:
     hingeschrieben hat. Die Zeilen nur für die Überschriftenerkennung zu
     ignorieren und sie trotzdem zurückzugeben, wäre also ein Fail-open.
 
-    Eine nicht geschlossene Fence verwirft den Rest des Dokuments. Das ist
-    fail-closed: die Dateien darunter fehlen dann im Ergebnis und werden
-    gemeldet.
+    Eine nicht geschlossene Fence verwirft alles ab ihrer Zeile. Fail-closed in
+    beiden Lagen, aber mit verschiedenen Meldungen: steht sie hinter der
+    Überschrift, fehlen die Dateien darunter im Ergebnis und werden gemeldet;
+    steht sie davor, verschwindet die Überschrift mit, und es gibt den
+    SystemExit oben statt einer Fehlenden-Liste.
 
     Die Code-Blöcke fallen deshalb weg, BEVOR die Überschrift gesucht wird,
     nicht erst danach. Sonst könnte eine Überschrift, die weiter oben als
@@ -153,14 +155,30 @@ def abschnitt(text: str, titel: str) -> str:
     lassen; der Fence-Zähler startete dann mitten im Block und der Rest des
     Dokuments zählte als Code. Das Beispiel-Muster ist in diesen Docstrings
     üblich, oben in dieser Datei steht es selbst.
+
+    Der Öffner wird gemerkt, Zeichen und Länge, statt jede Fence-Zeile als
+    Umschalter zu nehmen. Verschachtelung ist die übliche Schreibweise, um
+    Markdown in Markdown zu zeigen (~~~ außen und ``` innen, oder vier
+    Backticks außen und drei innen), und ein blinder Umschalter kippte am
+    inneren Marker heraus: die Beispielzeile dazwischen zählte dann als
+    Tabelleneintrag. Fail-open, dieselbe Klasse wie das ungeklammerte
+    Endungs-Fragment weiter oben, nur eine Ebene tiefer versteckt.
     """
+    fence = re.compile(r'^\s*(`{3,}|~{3,})')
     ausserhalb = []
-    im_codeblock = False
+    offen = None  # (Zeichen, Länge) des öffnenden Markers
+
     for zeile in text.splitlines():
-        if zeile.lstrip().startswith(('```', '~~~')):
-            im_codeblock = not im_codeblock
+        treffer = fence.match(zeile)
+        if treffer:
+            marker = treffer.group(1)
+            if offen is None:
+                offen = (marker[0], len(marker))
+            elif marker[0] == offen[0] and len(marker) >= offen[1]:
+                offen = None
+            # Ein andersartiger oder kürzerer Marker im Block ist Inhalt.
             continue
-        if not im_codeblock:
+        if offen is None:
             ausserhalb.append(zeile)
 
     try:
@@ -291,6 +309,29 @@ def selbsttest() -> int:
           and i.endung.search('a.py') is not None
           and i.endung.search('foo.python.txt') is None
           )(Inventar('### X', 'scripts/audit', r'\.py|\.sh', 'x', 'y'))),
+        # Verschachtelte Fences: mit einem blinden Umschalter schlösse der
+        # innere Marker den äußeren Block, und die Beispielzeile dazwischen
+        # zählte als Eintrag. Beide üblichen Schreibweisen geprüft.
+        ('Ein Block mit ~~~ außen und ``` innen zählt ganz als Code',
+         spec.in_tabelle(abschnitt(
+             f'{spec.titel}\n'
+             '~~~\n'
+             '```\n'
+             '| `falsch.spec.js` | X | nur ein Beispiel |\n'
+             '```\n'
+             '~~~\n'
+             '| `richtig.spec.js` | X | die echte Tabelle |\n',
+             spec.titel)) == {'richtig.spec.js'}),
+        ('Ein Block mit vier Backticks außen und drei innen ebenso',
+         spec.in_tabelle(abschnitt(
+             f'{spec.titel}\n'
+             '````markdown\n'
+             '```\n'
+             '| `falsch.spec.js` | X | nur ein Beispiel |\n'
+             '```\n'
+             '````\n'
+             '| `richtig.spec.js` | X | die echte Tabelle |\n',
+             spec.titel)) == {'richtig.spec.js'}),
     ]
 
     for name, ok in faelle:

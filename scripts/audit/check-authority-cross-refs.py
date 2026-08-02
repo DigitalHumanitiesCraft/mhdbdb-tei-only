@@ -33,6 +33,7 @@ The committed scripts/audit/lexicon-baseline.json pins the tolerated dangling
 lexicon-ID set (#152 ratchet); --check fails on any id outside it.
 """
 
+import io
 import json
 import re
 import sys
@@ -45,6 +46,11 @@ from lxml import etree
 # Gemeinsame Korpusauswahl (#287).
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from corpus_files import TEI_DIR, corpus_files  # noqa: E402
+
+# Windows-Konsolen laufen auf cp1252; dieses Skript druckt Zeichen darüber
+# hinaus und stürbe dort sonst an seiner eigenen Ausgabe (#329).
+if sys.stdout.encoding and sys.stdout.encoding.lower() not in ('utf-8', 'utf8'):
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', line_buffering=True)
 
 XML_NS = '{http://www.w3.org/XML/1998/namespace}'
 

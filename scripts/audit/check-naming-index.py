@@ -26,9 +26,15 @@ Exit codes: 0 = ok, 1 = Invariante verletzt / Index fehlt.
 """
 
 import gzip
+import io
 import json
 import sys
 from pathlib import Path
+
+# Windows-Konsolen laufen auf cp1252; dieses Skript druckt Zeichen darüber
+# hinaus und stürbe dort sonst an seiner eigenen Ausgabe (#329).
+if sys.stdout.encoding and sys.stdout.encoding.lower() not in ('utf-8', 'utf8'):
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', line_buffering=True)
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 INDEX = PROJECT_ROOT / 'data' / 'naming-index.json.gz'

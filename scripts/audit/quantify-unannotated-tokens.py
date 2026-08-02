@@ -18,6 +18,7 @@ Usage:
 """
 import argparse
 import csv
+import io
 import sys
 from collections import Counter, defaultdict
 from pathlib import Path
@@ -29,6 +30,11 @@ PROJECT_ROOT = SCRIPT_DIR.parent.parent
 sys.path.insert(0, str(PROJECT_ROOT / 'scripts'))
 from mhg_normalizer import normalize_mhg  # noqa: E402
 from corpus_files import corpus_files  # noqa: E402
+
+# Windows-Konsolen laufen auf cp1252; dieses Skript druckt Zeichen darüber
+# hinaus und stürbe dort sonst an seiner eigenen Ausgabe (#329).
+if sys.stdout.encoding and sys.stdout.encoding.lower() not in ('utf-8', 'utf8'):
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', line_buffering=True)
 
 TEI = '{http://www.tei-c.org/ns/1.0}'
 

@@ -23,10 +23,14 @@ import sys
 from pathlib import Path
 
 # Ohne diesen Wrapper stirbt das Skript unter Windows an seiner eigenen
-# Erfolgsmeldung: die Konsole laeuft dort auf cp1252, und das Haekchen im
-# print() ist U+2705. In der CI faellt das nie auf (Linux, UTF-8), lokal war
-# der Check damit unbenutzbar, und zwar ausgerechnet im gruenen Fall.
-# Dieselben zwei Zeilen stehen in den uebrigen Audit-Skripten.
+# Erfolgsmeldung: die Konsole läuft dort auf cp1252, und das Häkchen im
+# print() ist U+2705. In der CI fällt das nie auf (Linux, UTF-8), lokal war
+# der Check damit unbenutzbar, und zwar ausgerechnet im grünen Fall.
+#
+# Beim Nachmessen für #329 waren es sieben weitere Skripte in diesem
+# Verzeichnis mit demselben Problem; die haben die zwei Zeilen jetzt auch.
+# Wer hier ein Skript ergänzt, das Zeichen jenseits von cp1252 druckt
+# (Häkchen, Pfeile, Umlaute in der Ausgabe), braucht sie ebenfalls.
 if sys.stdout.encoding and sys.stdout.encoding.lower() not in ('utf-8', 'utf8'):
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', line_buffering=True)
 

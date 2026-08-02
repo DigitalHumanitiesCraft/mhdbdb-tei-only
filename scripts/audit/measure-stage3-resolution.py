@@ -65,11 +65,17 @@ Exit codes:
 """
 import argparse
 import gzip
+import io
 import json
 import random
 import statistics
 import sys
 from pathlib import Path
+
+# Windows-Konsolen laufen auf cp1252; dieses Skript druckt Zeichen darüber
+# hinaus und stürbe dort sonst an seiner eigenen Ausgabe (#329).
+if sys.stdout.encoding and sys.stdout.encoding.lower() not in ('utf-8', 'utf8'):
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', line_buffering=True)
 
 REPO = Path(__file__).resolve().parents[2]
 AUTHORITY_INDEX = REPO / "data" / "authority-index.json.gz"
