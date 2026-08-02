@@ -110,6 +110,11 @@ jobs:
         # fremde Prosa anmahnt, treibt genau die rueckwirkende Umschreibung,
         # die die Hausregel verbietet.
         #
+        # Achtung, falls hier je eine Merge-Queue dazukommt: bei
+        # `merge_group` ist der erste Elternteil der vorige Eintrag der
+        # Warteschlange, nicht die Base. Der Trigger steht bewusst nicht in
+        # `on:`; wer ihn ergaenzt, muss diesen Schritt mitdenken.
+        #
         # Der erste Elternteil ist per Konstruktion der Stand, gegen den
         # gemergt wurde, und braucht keinen Netzzugriff. Leerer sha
         # (workflow_dispatch, Force-Push-Edge) -> Markdown wird
