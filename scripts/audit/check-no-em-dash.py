@@ -110,8 +110,8 @@ Em-Dash, davon 278 allein in `docs/journal-archive.md`. Die Zahl ist hier
 datiert und darf altern; an den drei anderen Stellen, die diesen
 Umfang erklaeren (CLAUDE.md, no-cdn-check.yml, Playbook-Regel 32),
 steht bewusst nur „rund 470": die exakte Zahl war dort schon falsch,
-bevor der PR fertig war, weil er drei der gezaehlten Zeilen selbst
-umgeschrieben hat.
+bevor der PR fertig war, weil er vier der gezaehlten Zeilen selbst
+umgeschrieben hat (472 vor dem Commit, 468 danach).
 Ein Vollscan waere also nicht die Bereinigung von acht Dateien gewesen,
 wie #292 annahm, sondern eine redaktionelle Umschreibung des halben
 Doku-Bestands.

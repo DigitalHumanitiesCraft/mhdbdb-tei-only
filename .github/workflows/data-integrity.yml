@@ -5,7 +5,8 @@ name: Data Integrity
 # teuer (fail fast). Konsolidiert das fruehere index-version-check.yml
 # (Step 1) und schema-validation.yml (Steps 2-3, 7-8).
 #
-#   0. Diff-Base bestimmen (PR: origin/<base>, Push: event.before) —
+#   0. Diff-Base bestimmen (PR: erster Elternteil des Merge-Refs,
+#      Push: event.before) —
 #      Grundlage fuer Step 1b und die Change-Detection in Step 6c.
 #   1. Index-Versions-Konstanten: Build-Skripte und corpus-loader.js
 #      muessen dieselbe Version nennen, sonst greift die Cache-
