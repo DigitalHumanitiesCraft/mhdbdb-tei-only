@@ -2,9 +2,10 @@
  * Python-Interpreter auflösen, statt einen Namen zu raten (#318 Punkt 6).
  *
  * Vorher stand `python3.13` als fester String an neun Stellen: drei Aufrufe
- * in den beiden Paritätstests und sechs npm-Skripte in `package.json`,
- * darunter `build:corpus`, `build:authority` und `build:api`, also der in
- * DEVELOPMENT.md dokumentierte Build-Weg.
+ * in den beiden Paritätstests und sechs Vorkommen in fünf npm-Skripten in
+ * `package.json` (`build:data` enthält zwei), darunter `build:corpus`,
+ * `build:authority` und `build:api`, also der in DEVELOPMENT.md
+ * dokumentierte Build-Weg.
  *
  * Dieser Name ist keine verlässliche Zusage. Unter Windows existiert er nur,
  * wenn Python aus dem Microsoft Store kommt; dann liegt er als
@@ -19,6 +20,10 @@
  * ist. `py` steht zuletzt, damit eine vorhandene versionsgenaue Installation
  * vorgeht; meldet der Launcher eine ältere Voreinstellung (`PY_PYTHON`),
  * sortiert ihn die Versionsprüfung aus.
+ *
+ * Gemerkt wird nicht der Name, sondern der Pfad, den der geprüfte Interpreter
+ * selbst meldet. Der Grund steht bei der Auflösung: ein Name allein bindet
+ * nicht, sobald ein Skript mit Shebang läuft.
  *
  * Gefordert sind 3.13 oder neuer, weil das die Projektvorgabe ist
  * (DEVELOPMENT.md, Prerequisites).
@@ -84,7 +89,32 @@ export function resolvePython() {
       versuche.push(`${bin}: ${ausgabe}, gebraucht wird ${MIN_MAJOR}.${MIN_MINOR}+`);
       continue;
     }
-    aufgeloest = bin;
+    // Ab hier ist die Version geprüft, der Name aber noch nicht bindend: alle
+    // aufgerufenen Skripte tragen `#!/usr/bin/env python3`, und der Windows-
+    // Launcher nimmt genau diese Form beim Wort. Er durchsucht dann zuerst den
+    // PATH nach `python3` und greift erst danach auf seine Versionslogik
+    // (`PY_PYTHON3`) zurück. Im Mischversions-Fall, für den `py` überhaupt in
+    // der Liste steht, liefe das Skript also womöglich unter der Fassung, die
+    // die Prüfung oben gerade aussortiert hat. Bei `-c` tritt das nicht auf,
+    // weil es dort keine Shebang gibt: schon diese Inkonsistenz zwischen den
+    // beiden Aufrufformen wäre ein Fehler.
+    //
+    // Deshalb den Interpreter nach seinem eigenen Pfad fragen. Das läuft in
+    // genau der Fassung, die eben die Version gemeldet hat, und macht das
+    // Ergebnis für jede Aufrufform gleich. Ein aktiviertes venv zeigt damit
+    // ebenfalls auf sein eigenes python.
+    let pfad = '';
+    try {
+      pfad = execFileSync(
+        bin,
+        ['-c', 'import sys; sys.stdout.write(sys.executable)'],
+        { encoding: 'utf-8', stdio: ['ignore', 'pipe', 'pipe'] }
+      ).trim();
+    } catch {
+      // Eingebettete Fassungen können `sys.executable` leer lassen. Dann
+      // bleibt der Name, der eben nachweislich lief.
+    }
+    aufgeloest = pfad || bin;
     return aufgeloest;
   }
 
