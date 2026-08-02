@@ -359,13 +359,12 @@ NEAR_KEYWORDS = {
     # "NNN Files" matchen — die dominanten Schreibweisen in den Docs.
     # Bare "Dateien"/"Files" ist vertretbar, weil der Drift-Window-Check
     # (±2 %) und der Rundungs-/Arrow-Skip False Positives abfangen.
-    # "TEI-codierte Texte" und "corpus files" sind nachgetragen (#342): beide
-    # Formulierungen stehen im Bestand unmittelbar hinter der 667 (README.md
-    # Zeile 21, ROADMAP.md Zeile 118), das alte Muster verlangte aber "TEI"
-    # direkt vor "Texte" und kannte "corpus" nur gross geschrieben. Die
-    # Selbstpruefung meldete beide Dateien deshalb als ungeprueft, obwohl sie
-    # die Zahl fuehren: es scheiterte an der Formulierung, nicht am Inhalt.
-    'corpus_files': r'(?:TEI(?:-XML)?[-\s](?:files?|Dateien|Texte)|TEI-[a-zäöüß]+e\s+Texte|Korpus(?:-?[Dd]ateien)?|(?:mittelhochdeutsche\s+)?TEI-Texte|corpus\b|Dateien|[Ff]iles)',
+    # Mit #342 nachgetragen: "TEI-codierte Texte" (das alte Muster verlangte
+    # "TEI" direkt vor "Texte") und "[Cc]orpus", das gar nicht vorkam. Beide
+    # Formen stehen im Bestand unmittelbar hinter der 667, README.md Zeile 21
+    # und ROADMAP.md Zeile 118; die Selbstpruefung meldete die zwei Dateien
+    # deshalb als ungeprueft, obwohl sie die Zahl fuehren.
+    'corpus_files': r'(?:TEI(?:-XML)?[-\s](?:files?|Dateien|Texte)|TEI-[a-zäöüß]+e\s+Texte|Korpus(?:-?[Dd]ateien)?|(?:mittelhochdeutsche\s+)?TEI-Texte|[Cc]orpus\b|Dateien|[Ff]iles)',
     # Kleinschreibung, weil ARCHITECTURE.md die Zahl als "43.879
     # `lemmata`-Eintraege" fuehrt (Code-Bezeichner im Fliesstext); "records",
     # weil dieselbe Zahl dort als Groesse des API-Lemmata-Bundles auftaucht
