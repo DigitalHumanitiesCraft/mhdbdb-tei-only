@@ -51,7 +51,8 @@ from corpus_files import TEI_DIR, corpus_files  # noqa: E402
 # und Audit-Skripte geben Korpus- und Lexikonformen aus. Die MHG-Breven ŏ
 # und ŭ liegen ausserhalb von cp1252, ein Treffer wuerde das Skript also an
 # seiner eigenen Ausgabe toeten. Der Wrapper steht deshalb einheitlich in
-# allen Skripten, die etwas ausgeben, statt pro Datei abgewogen zu werden.
+# den Skripten, die Korpus- oder Lexikonformen ausgeben, nicht in allen 22.
+# Wer eines ergaenzt, das solche Formen druckt, braucht ihn ebenfalls.
 # Er deckt nur stdout; wer ueber stderr meldet, braucht ihn dort ebenso.
 if sys.stdout.encoding and sys.stdout.encoding.lower() not in ('utf-8', 'utf8'):
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', line_buffering=True)

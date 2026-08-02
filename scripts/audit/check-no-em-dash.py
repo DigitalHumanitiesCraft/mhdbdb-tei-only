@@ -99,8 +99,19 @@ Exit 0 = sauber, Exit 1 = Em-Dash in user-sichtbarem Text gefunden.
 """
 
 import argparse
+import io
 import sys
 from pathlib import Path
+
+# Konvention in scripts/audit/ (#329): Windows-Konsolen laufen auf cp1252, und
+# Audit-Skripte geben Korpusinhalte aus. Hier ist der Fall konkret: das Gate
+# druckt unten die rohe Fundzeile, und hilfe-korpussuche.html sowie
+# hilfe-playground.html führen die MHG-Breven ŏ und ŭ, die cp1252 nicht kann.
+# Käme in eine solche Zeile je ein Em-Dash, stürbe das Gate lokal an seiner
+# eigenen Fundmeldung, also ausgerechnet im roten Fall, in dem man die Ausgabe
+# braucht. Der Wrapper deckt nur stdout; dieses Skript meldet auch nur dorthin.
+if sys.stdout.encoding and sys.stdout.encoding.lower() not in ('utf-8', 'utf8'):
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', line_buffering=True)
 
 REPO = Path(__file__).resolve().parent.parent.parent
 
