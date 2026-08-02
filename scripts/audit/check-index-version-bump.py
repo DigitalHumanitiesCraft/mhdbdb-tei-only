@@ -3,7 +3,7 @@
 
 Schliesst die Luecke, die Rebuild-and-Compare (#125) und
 check-index-versions.py offen lassen: ein Daten-PR, der die Indexe
-korrekt rebuildet, aber den Drei-Stellen-Versions-Bump (CONTRACTS §E)
+korrekt rebuildet, aber den Versions-Bump (CONTRACTS §E)
 vergisst, passiert beide Gates gruen — committeter und frisch gebauter
 Index tragen dann beide die alte Version. Folge: der Dexie-Cache
 (MHDBDBMainSite) invalidiert nicht, wiederkehrende Nutzer behalten bis
@@ -121,10 +121,13 @@ def main():
             failed = True
             print(f'::error file={rel_path}::{rel_path}: Inhalt hat sich gegenueber '
                   f'{args.base} geaendert, aber der version-String ist unveraendert '
-                  f'({new_version}). Drei-Stellen-Bump vergessen (CONTRACTS §E): '
+                  f'({new_version}). Versions-Bump vergessen (CONTRACTS §E): '
                   f'Version im Build-Skript UND in assets/js/lib/corpus-loader.js '
-                  f'bumpen, Index rebuilden, mitcommitten — sonst behalten '
-                  f'wiederkehrende Nutzer bis zu 30 Tage den alten Index (#154).')
+                  f'bumpen, Index rebuilden, mitcommitten, dann '
+                  f'check-index-versions.py laufen lassen — es prueft die zwei '
+                  f'Doku-Stellen mit (TEI-MODEL.md 11, INDEX.md), die dieses '
+                  f'Gate nicht sieht. Sonst behalten wiederkehrende Nutzer bis '
+                  f'zu 30 Tage den alten Index (#154).')
 
     return 1 if failed else 0
 
