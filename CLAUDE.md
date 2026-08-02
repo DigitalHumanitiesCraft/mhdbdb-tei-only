@@ -95,6 +95,16 @@ Co-Authored-By: Claude <noreply@anthropic.com>
 - `feature/*` — active work
 - `initial-data-wrangling` — archived (`pre-main-site` wurde inzwischen gelöscht)
 
+## Selbst erzeugter Overhead
+
+Gemessen am 02.08.2026 über drei PRs (#330, #332, #333): 11 Review-Runden, 27 Befunde. Davon **10 echte Defekte** in Code, Gate oder Test, **13 falsche Tatsachenbehauptungen in selbst geschriebenen Kommentaren** („zehn Stellen" statt 19, „in allen Skripten" statt 11 von 22, „der einzige Konsument" statt zwei), 4 Kosmetik. Die Hälfte der Review-Last war also hausgemacht. Daraus drei Regeln:
+
+- **Keine Behauptung in einen Kommentar, die nicht trägt.** Jede Zahl darin ist eine Angriffsfläche und muss gemessen sein. Was die Aussage nicht braucht, wird gelöscht statt belegt.
+- **Ab Review-Runde 3 nur noch Verhaltensbefunde einarbeiten.** Ein Befund, der bloß eine Formulierung verbessert, wird dann durch Kürzen des Kommentars erledigt. Bei #332 kosteten die Runden 3 und 4 je rund 20 Minuten (7 min Review + 13 min `validate`) für null Verhaltensänderung.
+- **Kein voller CI-Lauf für reine Kommentar-Commits.**
+
+Dieselbe Disziplin bei Issues: ein Fund wird nur dann ein Ticket, wenn er eine **Entscheidung** braucht, die der Agent nicht treffen darf, einen **Menschen** braucht, oder ein **eigenes Arbeitspaket** ist (Ingest, Korpusänderung, mehr als ein halber Tag). Alles andere wird sofort repariert, wenn man ohnehin in der Datei ist, oder es fällt weg. Anlass: #331 wurde angelegt und eine Stunde später von derselben Session gefixt.
+
 ## Temporal Artifacts (Promptotyping convention)
 
 - **Feature docs** (`docs/features/`): Live while issue is open. On completion: extract critical knowledge into stable docs (CONTRACTS.md, ARCHITECTURE.md, etc.), then delete. Git history = archive.
