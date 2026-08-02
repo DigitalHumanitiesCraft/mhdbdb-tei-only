@@ -223,33 +223,54 @@ test.describe('Playground Integration Tests', () => {
   });
 
   test('should have all required JavaScript modules', async ({ page }) => {
+    // #331: Die Listener müssen VOR dem goto hängen. Die Auswertung der
+    // ES-Module passiert während des Ladens; ein danach registrierter
+    // Listener sieht sie nie. Bis August 2026 stand page.on() hinter
+    // page.goto(), der Test konnte also genau die Fehlerklasse nicht sehen,
+    // gegen die er schützen soll.
+    const konsolenfehler = [];
+    const seitenfehler = [];
+    page.on('console', msg => {
+      if (msg.type() === 'error') konsolenfehler.push(msg.text());
+    });
+    // pageerror ist nicht dasselbe wie console.error: eine unbehandelte
+    // Ausnahme aus einem Modul kommt hier an, nicht zwingend dort.
+    page.on('pageerror', err => seitenfehler.push(String(err)));
+
     await page.goto('/playground/index.html');
 
-    // Check for module loading errors in console
-    const errors = [];
-    page.on('console', msg => {
-      if (msg.type() === 'error') {
-        errors.push(msg.text());
-      }
-    });
-
-    // Wait a bit for modules to load
-    await page.waitForTimeout(3000);
-
-    // Filter out non-critical errors (like 404s for missing resources)
-    const criticalErrors = errors.filter(error =>
-      error.includes('module') ||
-      error.includes('import') ||
-      error.includes('SyntaxError') ||
-      error.includes('ReferenceError')
-    );
-
-    // Log any errors for debugging
-    if (criticalErrors.length > 0) {
-      console.log('Critical errors found:', criticalErrors);
+    // Auf die vollständige Kette warten statt auf eine feste Zeitspanne:
+    // die Module laden den Korpus-Index asynchron nach, und ein Fehler dabei
+    // fiele nach einem pauschalen waitForTimeout(3000) je nach Maschine mal
+    // auf und mal nicht.
+    //
+    // Der catch ist kein Schmuck, sondern gemessen: mit einem eingebauten
+    // ReferenceError in einem Playground-Modul läuft die Kette gar nicht erst
+    // durch, und ohne ihn meldete der Test einen waitForFunction-Timeout,
+    // also die Folge statt der Ursache. Liegen Fehler vor, werden die zuerst
+    // behauptet; hängt die Kette ohne jeden Fehler, bleibt der Timeout die
+    // richtige Meldung.
+    try {
+      await page.waitForFunction(
+        () => window.playground?.corpusData?.texts?.length > 0,
+        { timeout: 60000 }
+      );
+    } catch (timeout) {
+      expect(seitenfehler, 'Ladekette blieb stehen, dabei angefallen').toEqual([]);
+      expect(konsolenfehler, 'Ladekette blieb stehen, dabei angefallen').toEqual([]);
+      throw timeout;
     }
 
-    // Should have minimal critical errors
-    expect(criticalErrors.length).toBeLessThanOrEqual(1); // Allow for some environmental issues
+    // Schwelle 0, nicht „höchstens einer". Gemessen am 02.08.2026 über den
+    // ganzen Ladevorgang: 0 console.error, 0 pageerror, 0 fehlgeschlagene
+    // Requests. Es gibt also nichts zu tolerieren, und der frühere Freibetrag
+    // („Allow for some environmental issues") hätte genau einen Modulfehler
+    // durchgelassen. Kommt hier je legitimes Rauschen an, gehört es namentlich
+    // ausgenommen und nicht wieder gezählt.
+    //
+    // Verglichen wird das ganze Array, nicht seine Länge: im Fehlerfall steht
+    // die Meldung im Assertion-Diff, statt dass nur eine Zahl nicht stimmt.
+    expect(seitenfehler, 'unbehandelte Ausnahmen beim Laden').toEqual([]);
+    expect(konsolenfehler, 'console.error beim Laden').toEqual([]);
   });
 });
