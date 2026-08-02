@@ -216,12 +216,13 @@ DOC_TARGETS = [
     ('docs/ARCHITECTURE.md', ['corpus_files', 'lexicon_entries',
                               'variants_forms', 'variants_normalized']),
     # Achtung ADR-Eigenart: ADRs nennen bewusst historische Zahlen
-    # ("Am Tag der Entscheidung ... 13 Module", "192.472 -> 256.759 Formen").
-    # Stumm bleiben die aus drei verschiedenen Gruenden, nicht aus einem:
-    # "256.759 Formen" haelt der Pfeil-Skip in find_stale_numbers, "13 Module"
-    # der HISTORICAL_MARKERS-Skip in find_stale_wordcounts, "64.287 Formen"
-    # allein die Fenster-Distanz zum Ist-Wert. Ohne die ersten beiden
-    # produziert dieses Target Dauer-Fehlalarme und wird abgeschaltet.
+    # ("On the day of the decision ... 13 modules", "192,472 -> 256,759
+    # variant forms"). Stumm bleiben die aus drei verschiedenen Gruenden,
+    # nicht aus einem: "256,759 variant forms" haelt der Pfeil-Skip in
+    # find_stale_numbers, "13 modules" der HISTORICAL_MARKERS-Skip in
+    # find_stale_wordcounts, "64,287 forms" allein die Fenster-Distanz zum
+    # Ist-Wert. Ohne die ersten beiden produziert dieses Target
+    # Dauer-Fehlalarme und wird abgeschaltet.
     ('docs/DECISIONS.md', ['corpus_files', 'lexicon_entries',
                            'variants_forms', 'variants_normalized']),
     # CLAUDE.md is intentionally vague ("~670 TEI texts"), no exact check.
@@ -326,9 +327,14 @@ TREE_LINE_RE = re.compile(r'^\s*[│├└]')
 # Chronikzeilen-Skip (Datum, Haekchen) greift dort nicht, weil ADR-Fliesstext
 # das Datum in der Ueberschrift traegt, nicht in der Zeile. Marker auf der
 # ganzen Zeile, analog zum hist_ctx-Skip in find_stale_numbers.
+# Zweisprachig seit #316: die englischen Marker sind die woertlichen
+# Entsprechungen der deutschen daneben, keine neue Klasse. Ohne sie meldete
+# das Audit die bewusst historischen ADR-002-Zahlen ("13 modules") als Drift,
+# sobald der Absatz uebersetzt war.
 HISTORICAL_MARKERS = re.compile(
     r'Tag der Entscheidung|Entscheidungszeitpunkt|damals|seinerzeit|seither'
-    r'|historisch|urspr(?:ü|ue)nglich|zum Zeitpunkt|Stand von|at the time')
+    r'|historisch|urspr(?:ü|ue)nglich|zum Zeitpunkt|Stand von|at the time'
+    r'|day of the decision|since then|historical(?:ly)?|originally')
 
 
 # Was zwischen Zahl und Anker stehen darf: Whitespace-Laeufe, begrenzte
