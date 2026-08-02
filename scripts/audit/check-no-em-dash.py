@@ -79,9 +79,11 @@ Geprüft werden die ausgelieferten HTML-Seiten, die JS-Verzeichnisse
 `assets/js/`, `playground/` und `lemma/` sowie `assets/css/`, weil
 `content:`-Deklarationen als sichtbarer Text rendern. Ausgenommen davon
 ist `tailwind-output.css`: generiert, minifiziert, und über
-`tailwind-input.css` plus die HTML-Klassen ohnehin mitgeprüft. Nicht
-geprüft: `docs/`, `publications/`, `tei/`, `authority-files/`, `schema/`,
-`testing/` und Fremdcode unter `vendor/`.
+`tailwind-input.css` plus die HTML-Klassen ohnehin mitgeprüft. Vom
+Vollscan nicht erfasst: `docs/`, `publications/`, `tei/`,
+`authority-files/`, `schema/`, `testing/` und Fremdcode unter `vendor/`.
+Für `.md`-Dateien darin gilt seit #292 der Diff-Modus weiter unten;
+`vendor/` und `_archived/` bleiben auch dort aussen vor.
 
 Wenn ein Em-Dash einmal als DATEN gebraucht wird und nicht als Typografie
 (Normalisierungstabelle, Interpunktions-Regex, Platzhalter-Glyphe), dann ist
@@ -102,11 +104,12 @@ Markdown wird deshalb geprueft, aber NUR in den Zeilen, die ein Diff
 gegenueber einer Base hinzufuegt (`--diff-base <rev>`). Das ist kein
 Kompromiss aus Bequemlichkeit, sondern die Regel selbst: sie gilt fuer
 neuen und ueberarbeiteten Text und schreibt bestehende Projektdokumente
-nicht rueckwirkend um. Der Bestand am 2026-08-02: 22 getrackte
-`.md`-Dateien mit zusammen 472 Fundzeilen, davon 278 allein in
-`docs/journal-archive.md`. Ein Vollscan waere also nicht die Bereinigung
-von acht Dateien gewesen, wie #292 annahm, sondern eine redaktionelle
-Umschreibung des halben Doku-Bestands.
+nicht rueckwirkend um. Der Bestand am 2026-08-02, gemessen mit
+`git grep -c` ueber die getrackten `.md`-Dateien: 471 Zeilen mit
+Em-Dash, davon 278 allein in `docs/journal-archive.md`.
+Ein Vollscan waere also nicht die Bereinigung von acht Dateien gewesen,
+wie #292 annahm, sondern eine redaktionelle Umschreibung des halben
+Doku-Bestands.
 
 Ausgenommen sind Fenced-Code-Bloecke und Inline-Code-Spans, weil die
 Hausregel Code, Terminal-Ausgaben und Kommentare ausdruecklich freistellt
@@ -544,21 +547,35 @@ def scanne_html(text):
 HUNK_RE = re.compile(r'^@@ -\d+(?:,\d+)? \+(\d+)(?:,(\d+))? @@')
 
 
-# Jeder git-Aufruf dieses Gates laeuft mit diesen Einstellungen, damit die
-# Ausgabe nicht von der lokalen Konfiguration abhaengt. Beide Werte sind
-# Fail-open-Quellen und keine Kosmetik:
+def ausgeschlossen(rel):
+    """Faellt der Pfad unter SKIP_ANYWHERE oder SKIP_DATEIEN?
+
+    Der Vollscan filtert das ueber `relevante_dateien()`; der Diff-Modus
+    braucht denselben Filter, sonst gilt der Ausschluss fuer Fremd- und
+    Archivcode je nach Modus verschieden. Konkret heute: `scripts/_archived/
+    wzb/README.md` ist getrackt und liegt unter `_archived`.
+
+    `TOP_LEVEL_SKIP` gilt hier NICHT: dort stehen `docs`, `publications`,
+    `testing` und `schema`, also genau die Verzeichnisse, deren Markdown
+    dieser Modus pruefen soll.
+    """
+    teile = Path(rel).parts
+    return any(t in SKIP_ANYWHERE for t in teile) or rel in SKIP_DATEIEN
+
+
+# Jeder git-Aufruf dieses Gates laeuft mit dieser Einstellung, damit die
+# Ausgabe nicht von der lokalen Konfiguration abhaengt. Sie ist eine
+# Fail-open-Quelle und keine Kosmetik: `core.quotepath` steht per Default auf
+# true, und dann kommt ein Pfad mit Umlaut als "docs/W\303\266rterbuch.md"
+# zurueck. Unter diesem Namen findet die Datei sich nicht mehr auf der Platte,
+# der Scan uebersaehe sie und meldete nichts. In einem deutschsprachigen
+# Projekt ist ein Umlaut im Dateinamen kein Sonderfall.
 #
-# - `core.quotepath` steht per Default auf true, und dann kommt ein Pfad mit
-#   Umlaut als "b/docs/W\303\266rterbuch.md" zurueck. Der Header-Parser unten
-#   erkennt ihn nicht, verwirft alle Hunks der Datei und meldet nichts. In
-#   einem deutschsprachigen Projekt ist ein Umlaut im Dateinamen kein
-#   Sonderfall.
-# - `diff.noprefix` und `diff.mnemonicprefix` aendern das `b/` im Header
-#   (zu gar keinem Praefix bzw. zu `w/`). Wer eines davon gesetzt hat, bekaeme
-#   einen stillen gruenen Lauf statt einer Pruefung.
-GIT_KONFIG = ['-c', 'core.quotepath=false',
-              '-c', 'diff.noprefix=false',
-              '-c', 'diff.mnemonicprefix=false']
+# `diff.noprefix` und `diff.mnemonicprefix` standen hier ebenfalls, solange
+# ein Header-Parser das `b/` lesen musste. Seit der Diff pro Datei laeuft und
+# nur noch `@@`-Zeilen ausgewertet werden, koennen sie nichts mehr kaputt
+# machen: eine Absicherung, die kein Fall mehr rot faerben kann, ist keine.
+GIT_KONFIG = ['-c', 'core.quotepath=false']
 
 
 def _git(args, cwd):
@@ -581,31 +598,42 @@ def neue_md_zeilen(base, wurzel=None):
     # --no-ext-diff: ein konfiguriertes externes Diff-Werkzeug wuerde eine
     # Ausgabe liefern, die dieser Parser nicht liest, und der Lauf waere
     # still gruen.
-    res = _git(['diff', '-U0', '--no-color', '--no-ext-diff', '--diff-filter=d',
+    res = _git(['diff', '--name-only', '--no-ext-diff', '--diff-filter=d',
                 base, '--', '*.md'], wurzel)
     if res.returncode != 0:
         return None
-    aktuell = None
-    for zeile in res.stdout.split('\n'):
-        if zeile.startswith('+++ '):
-            ziel = zeile[4:].strip()
-            aktuell = ziel[2:] if ziel.startswith('b/') else None
+
+    for rel in res.stdout.split('\n'):
+        rel = rel.strip()
+        if not rel or ausgeschlossen(rel):
             continue
-        if aktuell is None or not zeile.startswith('@@'):
-            continue
-        m = HUNK_RE.match(zeile)
-        if not m:
-            continue
-        start = int(m.group(1))
-        anzahl = int(m.group(2)) if m.group(2) is not None else 1
-        # anzahl 0 heisst reine Loeschung an dieser Stelle: keine neue Zeile
-        zeilen.setdefault(aktuell, set()).update(range(start, start + anzahl))
+        # Pro Datei ein eigener diff. Der teurere Weg, aber der einzige ohne
+        # Rateschritt: in einem Sammel-Diff muesste der Parser die Dateikoepfe
+        # vom Inhalt trennen, und unter -U0 traegt jede hinzugefuegte Zeile ein
+        # fuehrendes `+`. Eine Markdown-Zeile, die mit `++ ` beginnt, erschiene
+        # dort als `+++ ` und saehe aus wie ein Dateikopf: der Parser haette die
+        # Datei verloren und alle weiteren Hunks stumm verworfen. Hier ist die
+        # Datei von vornherein bekannt, und `^@@` kann keine Inhaltszeile sein,
+        # weil die immer praefigiert ist.
+        d = _git(['diff', '-U0', '--no-color', '--no-ext-diff', base, '--', rel],
+                 wurzel)
+        if d.returncode != 0:
+            return None
+        for zeile in d.stdout.split('\n'):
+            m = HUNK_RE.match(zeile)
+            if not m:
+                continue
+            start = int(m.group(1))
+            anzahl = int(m.group(2)) if m.group(2) is not None else 1
+            # anzahl 0 heisst reine Loeschung an dieser Stelle: keine neue Zeile
+            zeilen.setdefault(rel, set()).update(range(start, start + anzahl))
 
     res = _git(['ls-files', '--others', '--exclude-standard', '--', '*.md'], wurzel)
     if res.returncode == 0:
         for pfad in res.stdout.split('\n'):
-            if pfad.strip():
-                zeilen[pfad.strip()] = None
+            pfad = pfad.strip()
+            if pfad and not ausgeschlossen(pfad):
+                zeilen[pfad] = None
     return zeilen
 
 
@@ -835,8 +863,15 @@ def selbsttest_diff():
         # "b/w\303\266rter.md", der Header-Parser verliert die Datei und
         # meldet nichts.
         (wurzel / 'wörter.md').write_text('sauber\n', encoding='utf-8')
+        # g.md muss getrackt sein: die getarnte Kopfzeile ist eine Gefahr des
+        # diff-Zweigs, ungetrackte Dateien laufen an ihm vorbei.
+        (wurzel / 'g.md').write_text(
+            'kopf\nfuellzeile\nfuellzeile\nfuellzeile\nschluss\n', encoding='utf-8')
         (wurzel / '.gitignore').write_text('geheim/\n', encoding='utf-8')
-        _git(['add', 'a.md', 'b.md', 'e.md', 'f.md', 'wörter.md', '.gitignore'], wurzel)
+        (wurzel / '_archived').mkdir()
+        (wurzel / '_archived' / 'alt.md').write_text('Archiv\n', encoding='utf-8')
+        _git(['add', 'a.md', 'b.md', 'e.md', 'f.md', 'wörter.md', 'g.md',
+              '.gitignore', '_archived/alt.md'], wurzel)
         _git(cfg + ['commit', '-qm', 'base'], wurzel)
 
         # a.md: neue Zeile mit Em-Dash, die alte bleibt unangetastet
@@ -869,6 +904,22 @@ def selbsttest_diff():
         (wurzel / 'geheim').mkdir()
         (wurzel / 'geheim' / 'x.md').write_text(
             'Vertraulich ' + EM_DASH + ' nicht ins Log\n', encoding='utf-8')
+        # Eine hinzugefuegte Zeile, die mit `++ ` beginnt, erscheint unter -U0
+        # als `+++ ` und sah frueher aus wie ein Dateikopf. Der Em-Dash steht
+        # DAHINTER, in einem zweiten Hunk: nur so faellt auf, wenn der Parser
+        # ab der getarnten Zeile den Rest der Datei verwirft. Die vier
+        # unveraenderten Zeilen dazwischen halten die beiden Hunks getrennt.
+        (wurzel / 'g.md').write_text(
+            '++ getarnter Dateikopf\nkopf\nfuellzeile\nfuellzeile\nfuellzeile\n'
+            'schluss\nNeu ' + EM_DASH + ' weit dahinter\n', encoding='utf-8')
+        # Archivierter Fremdcode: im Vollscan ausgeschlossen, also auch hier.
+        # Beide Wege einzeln, weil der Filter an zwei Stellen greifen muss:
+        # alt.md ist getrackt und geht durch den diff, neu.md ist ungetrackt
+        # und kommt aus ls-files.
+        (wurzel / '_archived' / 'alt.md').write_text(
+            'Archiv\nNeu ' + EM_DASH + ' trotzdem still\n', encoding='utf-8')
+        (wurzel / '_archived' / 'neu.md').write_text(
+            'Archiv ' + EM_DASH + ' ungetrackt\n', encoding='utf-8')
 
         gefunden = scanne_diff('HEAD', wurzel)
         if gefunden is None:
@@ -876,9 +927,10 @@ def selbsttest_diff():
             # was los ist: das Wegwerf-Repo ist nicht zustande gekommen
             # (fehlende git-Identitaet, Hook, Berechtigung).
             print('  [FAIL] Diff-Schicht: git im Wegwerf-Repo nicht benutzbar')
-            return 11, 11
+            return 13, 13
         ist = {(p, nr) for p, nr, _ in gefunden}
-        erwartet = {('a.md', 2), ('c.md', 1), ('wörter.md', 2), ('größe.md', 1)}
+        erwartet = {('a.md', 2), ('c.md', 1), ('wörter.md', 2), ('größe.md', 1),
+                    ('g.md', 7)}
         faelle = [
             ('unveraenderte Zeile mit Em-Dash bleibt stumm', ('a.md', 1) not in ist),
             ('hinzugefuegte Zeile wird gemeldet', ('a.md', 2) in ist),
@@ -893,6 +945,10 @@ def selbsttest_diff():
             ('Umlaut im Dateinamen, ungetrackt', ('größe.md', 1) in ist),
             ('gitignoriertes Verzeichnis bleibt aussen vor',
              not any(p.startswith('geheim/') for p, _ in ist)),
+            ('als Dateikopf getarnte Zeile verdeckt den Rest nicht',
+             ('g.md', 7) in ist),
+            ('_archived bleibt aussen vor, wie im Vollscan',
+             not any(p.startswith('_archived/') for p, _ in ist)),
             ('keine weiteren Fundstellen', ist == erwartet),
         ]
         for name, ok in faelle:
@@ -901,7 +957,7 @@ def selbsttest_diff():
                 fehler += 1
         if ist != erwartet:
             print(f'         erwartet {sorted(erwartet)}, bekommen {sorted(ist)}')
-    return fehler, 11
+    return fehler, 13
 
 
 def selbsttest():
