@@ -684,7 +684,7 @@ Structurally anchored: `scripts/audit/check-index-versions.py` plus the CI workf
 
 | Method | What to change | When |
 |--------|---------------|------|
-| Corpus version bump | `INDEX_VERSION` in `corpus-loader.js` + `version`-Konstante in `build-corpus-index.py` | After rebuilding corpus index with schema changes |
+| Corpus version bump | `INDEX_VERSION` in `corpus-loader.js` + `version` constant in `build-corpus-index.py` | After rebuilding corpus index with schema changes |
 | Authority version bump | `AUTHORITY_INDEX_VERSION` in `corpus-loader.js` + `version` in `build-authority-index.py` | After rebuilding authority index with schema changes |
 | User manual clear | "Alle Daten löschen" button on index.html | Clears all IndexedDB + localStorage |
 | Developer clear | Browser DevTools → Application → IndexedDB → delete databases | Debugging |

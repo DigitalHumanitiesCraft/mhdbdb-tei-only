@@ -9,7 +9,7 @@ This document records major architectural decisions for the MHDBDB TEI Repositor
 
 ### Problem
 
-The project initially loaded the 7 inhaltstragenden XML authority files (47.3 MB total; `contributors.xml` was only added later in 2026-04 and is not part of this story) directly in the browser and parsed them at runtime. This caused several issues:
+The project initially loaded the 7 content-bearing XML authority files (47.3 MB total; `contributors.xml` was only added later in 2026-04 and is not part of this story) directly in the browser and parsed them at runtime. This caused several issues:
 - 30-second initial load time
 - High memory usage (DOM trees for 7 large XML files)
 - Complex XPath queries for cross-reference resolution
