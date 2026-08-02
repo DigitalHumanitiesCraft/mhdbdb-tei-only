@@ -152,7 +152,7 @@ After significant changes, increment version in build script to force browser ca
 ```bash
 npm test              # Run all tests (headless), 5,0 bis 5,3 min (6 Worker)
 npm run test:changed  # Nur Specs, die seit origin/main angefasst wurden
-npm run test:quick    # Drei Specs als Rauchprobe, 29 Tests (main-site, playground, corpus)
+npm run test:quick    # Drei Specs als Rauchprobe, 22 Tests (main-site, playground, corpus)
 npm run test:ui       # Interactive mode
 npm run test:debug    # Debug with breakpoints
 npm run test:headed   # Visible browser

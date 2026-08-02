@@ -2,9 +2,16 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('Corpus Loading and Management', () => {
+  // #326: Beide goto zeigten bis August 2026 auf `testing/test.html`, das mit
+  // dem Eigenbau-Test-Framework entfallen ist. Gebraucht wird hier nur eine
+  // Same-Origin-Seite, die beim Laden selbst kein IndexedDB anfasst, sonst
+  // liefe sie der Seed-Datenbank unten in die Quere. `hilfe.html` lädt als
+  // einziges lokales Skript `site-chrome.js`, und das öffnet Datenbanken erst
+  // im Klick-Handler des Reset-Knopfs. Der Playground selbst taugt nicht: sein
+  // Start löscht die Alt-Datenbank, die der Test gerade anlegen will.
   test.beforeEach(async ({ page }) => {
     // Clear all IndexedDB storage before each test
-    await page.goto('/testing/test.html');
+    await page.goto('/hilfe.html');
     await page.evaluate(async () => {
       // Clear IndexedDB
       const dbs = await indexedDB.databases();
@@ -20,7 +27,7 @@ test.describe('Corpus Loading and Management', () => {
   // pflegen (so lief es bis #280), löscht der Playground-Start sie einmalig.
   // Geprüft an einer von Hand angelegten Alt-Datenbank.
   test('Alt-Datenbank MHDBDB_Playground wird beim Start entfernt', async ({ page }) => {
-    await page.goto('/testing/test.html');
+    await page.goto('/hilfe.html');
 
     const seeded = await page.evaluate(async () => {
       await new Promise((resolve, reject) => {

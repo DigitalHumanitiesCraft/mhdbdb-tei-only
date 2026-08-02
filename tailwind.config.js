@@ -7,7 +7,6 @@ module.exports = {
     './*.html',
     './playground/index.html',
     './lemma/index.html',
-    './testing/test.html',
     './assets/js/**/*.js',
     './playground/js/**/*.js',
     './lemma/**/*.js',
