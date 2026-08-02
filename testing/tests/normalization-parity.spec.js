@@ -6,9 +6,10 @@
  */
 
 import { test, expect } from '@playwright/test';
-import { execSync } from 'child_process';
+import { execFileSync } from 'child_process';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { resolvePython, pythonEnv } from '../../scripts/python-bin.js';
 
 // ES module equivalent of __dirname
 const __filename = fileURLToPath(import.meta.url);
@@ -51,8 +52,14 @@ test.describe('MHG Normalization Parity', () => {
     const scriptPath = path.join(__dirname, '../../scripts/mhg_normalizer.py');
 
     try {
-      // Run Python self-test
-      execSync(`python3.13 "${scriptPath}"`, { encoding: 'utf-8' });
+      // Run Python self-test. execFileSync statt execSync: ohne Shell gibt es
+      // kein Zitier-Problem, wenn der Interpreter oder das Skript in einem
+      // Pfad mit Leerzeichen liegt (unter Windows die Regel, nicht die
+      // Ausnahme).
+      execFileSync(resolvePython(), [scriptPath], {
+        encoding: 'utf-8',
+        env: pythonEnv(),
+      });
     } catch (error) {
       throw new Error(`Python normalizer self-test failed:\n${error.message}`);
     }
@@ -107,11 +114,17 @@ test.describe('MHG Normalization Parity', () => {
         return TextNormalizer.normalizeMHG(text);
       }, input);
 
-      // Get Python result
-      const scriptPath = path.join(__dirname, '../../scripts/mhg_normalizer.py');
-      const pythonResult = execSync(
-        `python3.13 -c "from scripts.mhg_normalizer import normalize_mhg; print(normalize_mhg('${input}'), end='')"`,
-        { encoding: 'utf-8', cwd: path.join(__dirname, '../..') }
+      // Get Python result. Der Prüfstring geht als argv-Element hinein und
+      // nicht mehr interpoliert in den Python-Quelltext: sonst zerlegt ein
+      // Apostroph im Testfall das Literal, und ein Testfall mit Apostroph
+      // ist bei mittelhochdeutschen Formen jederzeit denkbar.
+      const pythonResult = execFileSync(
+        resolvePython(),
+        ['-c',
+         'import sys; from scripts.mhg_normalizer import normalize_mhg; '
+         + 'print(normalize_mhg(sys.argv[1]), end="")',
+         input],
+        { encoding: 'utf-8', cwd: path.join(__dirname, '../..'), env: pythonEnv() }
       );
 
       console.log(`Input: "${input}" | JS: "${jsResult}" | Python: "${pythonResult}"`);

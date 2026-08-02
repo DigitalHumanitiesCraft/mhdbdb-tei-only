@@ -159,6 +159,12 @@ npm run test:headed   # Visible browser
 npm run report        # View HTML report
 ```
 
+**Python-Interpreter (#318).** Zwei Specs rufen Python auf (`normalization-parity`, `position-parity`), und die npm-Build-Skripte tun es auch. Der Interpreter wird gesucht, nicht geraten: `scripts/python-bin.js` probiert `python3.13`, `python3` und `python` in dieser Reihenfolge und nimmt den ersten, der 3.13 oder neuer meldet. Findet es keinen, ist das ein harter Fehler mit der Liste des Versuchten, kein stilles Überspringen. Vorher stand `python3.13` als fester String in den Aufrufen; dieser Name existiert unter Windows nur bei einer Installation aus dem Microsoft Store. Abweichende Setups (venv, Conda) setzen `MHDBDB_PYTHON`:
+
+```bash
+MHDBDB_PYTHON=.venv/bin/python npm test
+```
+
 Positionale Argumente sind bei Playwright **Reguläre Ausdrücke gegen den Dateipfad**, keine Dateinamen. Unverankert zog der Filter `corpus.spec.js` in `test:quick` deshalb auch `playground-corpus.spec.js` und `search-with-corpus.spec.js` mit, also 47 Tests in fünf Dateien statt 29 in drei, darunter ausgerechnet die Datei mit den meisten `waitForTimeout`-Aufrufen. Seit #323 sind die Filter hinten mit `$` verankert und vorne durch das Präfix `tests.` diszipliniert. Ein `^` wäre falsch und würde nichts mehr finden: Playwright prüft gegen den **absoluten** Pfad, nachgemessen (`^main-site\.spec\.js$` und `^tests.main-site\.spec\.js$` liefern beide null Tests, `tests.main-site\.spec\.js$` liefert 14). Wer die Auswahl ändert, zählt sie mit `-- --list` nach; das startet den `webServer` nicht und kostet deshalb nur Sekunden.
 
 `test:changed` (`--only-changed=origin/main`) ist der Alltagsbefehl beim Arbeiten an einem Zweig: es läuft nur, was der Zweig angefasst hat. **Vor dem Push bleibt `npm test` Pflicht.** `--only-changed` verfolgt zwar die Node-Importe der Specs, aber keine Spec importiert Projektcode über Node. Alles, was die Specs prüfen, erreichen sie zur Laufzeit: Site-Code über den Browser (`await import('/assets/js/…')` innerhalb von `page.evaluate`), Python über `execSync`, Fixtures und Vendor-Dateien über den Pfad. Blind ist der Befehl deshalb für:
@@ -166,9 +172,9 @@ Positionale Argumente sind bei Playwright **Reguläre Ausdrücke gegen den Datei
 | Was | geprüft von | wie erreicht |
 |---|---|---|
 | `assets/js/`, `playground/js/`, `tei/`, `data/` | fast alle Specs | Browser, `localhost:8080` |
-| `scripts/mhg_normalizer.py` | `normalization-parity.spec.js` | `execSync` |
+| `scripts/mhg_normalizer.py` | `normalization-parity.spec.js` | `execFileSync` |
 | `scripts/build-corpus-index.py` | `position-parity.spec.js` | `importlib` aus dem Helper heraus |
-| `testing/helpers/extract_word_positions.py` | `position-parity.spec.js` | `execSync` |
+| `testing/helpers/extract_word_positions.py` | `position-parity.spec.js` | `execFileSync` |
 | `tei/PL1.tei.xml`, `tei/OVG.tei.xml` | `position-parity.spec.js` | Pfad (Python) und Browser |
 | `testing/fixtures/*.tei.xml` | `position-parity.spec.js` | Pfad |
 | `assets/vendor/`, alle HTML-Seiten | `vendor.spec.js` | `readdirSync`/`readFileSync` |
