@@ -85,7 +85,7 @@ Beides derselbe Fehlertyp: die ROADMAP beschreibt den Stand eines Dokuments stat
 | #140 | Doku menschenlesbar | Bereinigung umgesetzt (PR #215, 12.07.); beide Detailfragen der Abnahme vom 27.07. erledigt (DRAFT-Kopf in TEI-MODEL.md entfernt, PR #230; „Woesner" repoweit einheitlich geschrieben, keine Variante „Wösner"/„Wosner" im Bestand, keine Änderung nötig). Offen ist nur noch die Abnahme durch KZW |
 | #58 | Begriff→Lemma→Beleg Workflow | Option A/B/C entscheiden |
 | #169 | Suchsemantik (Audit 3/6) | Alle vier Punkte umgesetzt (Punktnummern sind Audit-Befunde, keine Issue-Nummern): Punkt 45 3-Stufen-Drift in PR #227 (ADR-016), Punkte 15/48/51 nach KZW-Freigabe vom 28.07. am 29.07. Offen ist nur noch die Abnahme. Zahlen-Zäsur für 3+-Lemma-Nähesuchen im JOURNAL 2026-07-29 |
-| #172 | Test-Suite-Policy (Audit 6/6) | 45%-passRate-Floor + korpusabhängige Magic-Numbers |
+| #172 | Test-Suite-Policy (Audit 6/6) | Der 45%-passRate-Floor ist mit #326 entfallen: die Assertion stand in `testing/tests/playground.spec.js` und ist mit den Tests auf die gelöschte Testseite weggefallen. Offen bleiben die korpusabhängigen Magic-Numbers |
 | #18 | Multi-Lemma + PoS-Suche | POS-Policy (#27/#181) gemerged, spezifizierbar; braucht POS-Daten im Corpus-Index |
 
 ## Future: Needs Design / Trigger-Wait

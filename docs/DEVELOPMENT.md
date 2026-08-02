@@ -152,7 +152,7 @@ After significant changes, increment version in build script to force browser ca
 ```bash
 npm test              # Run all tests (headless), 5,0 bis 5,3 min (6 Worker)
 npm run test:changed  # Nur Specs, die seit origin/main angefasst wurden
-npm run test:quick    # Drei Specs als Rauchprobe, 29 Tests (main-site, playground, corpus)
+npm run test:quick    # Drei Specs als Rauchprobe, 22 Tests (main-site, playground, corpus)
 npm run test:ui       # Interactive mode
 npm run test:debug    # Debug with breakpoints
 npm run test:headed   # Visible browser
@@ -166,7 +166,7 @@ MHDBDB_PYTHON=.venv/bin/python npm test          # Bash
 $env:MHDBDB_PYTHON = ".venv\Scripts\python.exe"  # PowerShell, dann npm test
 ```
 
-Positionale Argumente sind bei Playwright **Reguläre Ausdrücke gegen den Dateipfad**, keine Dateinamen. Unverankert zog der Filter `corpus.spec.js` in `test:quick` deshalb auch `playground-corpus.spec.js` und `search-with-corpus.spec.js` mit, also 47 Tests in fünf Dateien statt 29 in drei, darunter ausgerechnet die Datei mit den meisten `waitForTimeout`-Aufrufen. Seit #323 sind die Filter hinten mit `$` verankert und vorne durch das Präfix `tests.` diszipliniert. Ein `^` wäre falsch und würde nichts mehr finden: Playwright prüft gegen den **absoluten** Pfad, nachgemessen (`^main-site\.spec\.js$` und `^tests.main-site\.spec\.js$` liefern beide null Tests, `tests.main-site\.spec\.js$` liefert 14). Wer die Auswahl ändert, zählt sie mit `-- --list` nach; das startet den `webServer` nicht und kostet deshalb nur Sekunden.
+Positionale Argumente sind bei Playwright **Reguläre Ausdrücke gegen den Dateipfad**, keine Dateinamen. Unverankert zog der Filter `corpus.spec.js` in `test:quick` deshalb auch `playground-corpus.spec.js` und `search-with-corpus.spec.js` mit, im Bestand vom Juli 2026 also 47 Tests in fünf Dateien statt 29 in drei (heute sind es 22 in drei, siehe oben), darunter ausgerechnet die Datei mit den meisten `waitForTimeout`-Aufrufen. Seit #323 sind die Filter hinten mit `$` verankert und vorne durch das Präfix `tests.` diszipliniert. Ein `^` wäre falsch und würde nichts mehr finden: Playwright prüft gegen den **absoluten** Pfad, nachgemessen (`^main-site\.spec\.js$` und `^tests.main-site\.spec\.js$` liefern beide null Tests, `tests.main-site\.spec\.js$` liefert 14). Wer die Auswahl ändert, zählt sie mit `-- --list` nach; das startet den `webServer` nicht und kostet deshalb nur Sekunden.
 
 `test:changed` (`--only-changed=origin/main`) ist der Alltagsbefehl beim Arbeiten an einem Zweig: es läuft nur, was der Zweig angefasst hat. **Vor dem Push bleibt `npm test` Pflicht.** `--only-changed` verfolgt die Node-Importe der Specs, und seit #318 gibt es genau einen: beide Paritäts-Specs importieren `scripts/python-bin.js`. Eine Änderung daran zieht sie also korrekt in den Lauf, im Unterschied zu allem anderen in der Tabelle unten. Der übrige Projektcode wird zur Laufzeit erreicht, nicht importiert: Site-Code über den Browser (`await import('/assets/js/…')` innerhalb von `page.evaluate`), Python über `execFileSync`, Fixtures und Vendor-Dateien über den Pfad. Blind ist der Befehl deshalb für:
 
@@ -209,7 +209,7 @@ Vollständigkeit gegen `testing/tests/` gatet `scripts/audit/check-doc-inventori
 | `error-handling.spec.js` | Main site | Graceful error handling |
 | `woerterbuch.spec.js` | Main site | A–Z-Register über den Authority-Index, Pagination, Deep-Links (#117) |
 | `lemma-page.spec.js` | Lemma pages | URL parsing, data rendering, external links |
-| `playground.spec.js` | Playground | Authority explorers, TEI analysis, UI navigation |
+| `playground.spec.js` | Playground | Startseite lädt (Titel, `#authorityOverview`), Reset-Knopf sichtbar, Module laden ohne `console.error`/`pageerror` (#331). Seit #326 nur noch diese drei Tests |
 | `playground-authority-index.spec.js` | Playground | Authority index loading, data structure integrity |
 | `playground-corpus.spec.js` | Playground | Corpus index loading, search functions |
 | `concept-distribution.spec.js` | Playground | Concept distribution analysis (concept → senses → lemmata → texts) |
