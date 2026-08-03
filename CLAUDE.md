@@ -12,12 +12,19 @@ MHDBDB TEI Repository: 667 TEI-encoded Middle High German texts with semantic an
 
 @docs/INDEX.md is imported here, so its catalog of the 15 promptotyping documents is already in context and is not repeated. Not part of that set: `docs/features/` (planning docs, alive only while their issue is open) and `docs/playbooks/` (reusable session procedures).
 
-### Language
+### Language and constraints
 
-The dividing line is the audience, not the folder.
+Two questions, kept apart: **who is the text for** (decides the language) and **what is mechanically checked** (one rule, everywhere).
 
-- **Written purely for LLMs** (this file, everything in `docs/`, `JOURNAL.md` and `journal-archive.md`): **no constraints, language included.** Pick whatever carries the thought best, mix languages where that is clearer, and never translate for its own sake. Only the content is judged: is it correct, is it measured, can an agent read it fast? The `docs/` set happens to be English since #316 and the JOURNAL happens to be German. Neither is a rule, and neither is a backlog item.
-- **Written for users** (`hilfe-*.html`, `impressum.html`, every page a reader sees in the browser): **German**, and here the house constraints do apply: no em-dashes, real umlauts.
+**Audience decides the language.**
+
+- **Users** (`hilfe-*.html`, `impressum.html`, every page a reader sees in the browser): German.
+- **The `docs/` set** (the 15 promptotyping documents): uniformly English. Not a matter of taste: the files cite each other, are read together, and are linked from seven places in the delivered help pages. #316 paid four stages for that uniformity, and one German section undoes it. German stays where it is *data*: frozen corpus header wording, Middle High German attestations, work titles, notes from `contributors.xml`. Nothing gates this, it is a writing rule.
+- **Working notes** (`CLAUDE.md`, `JOURNAL.md`, `journal-archive.md`): no language rule at all. Pick whatever carries the thought best and never translate for its own sake. This file happens to be English, the JOURNAL happens to be German, and nothing hangs on either.
+
+**One mechanical rule on top, and it holds everywhere:** no em-dashes (U+2014) in `.md` or in user-visible HTML, no exceptions by folder. Use a colon, a comma, a parenthesis or a sentence of its own. If the dash is the *subject* (a quoted title, a bibliographic entry), put it in backticks: that is the Markdown equivalent of `chr(0x2014)` in code. Real umlauts everywhere, never ASCII substitutes.
+
+The narrow version of this rule was tried on 2026-08-03 and dropped the same day: carving out "user-visible Markdown" cost 267 lines of scope machinery, produced two fresh holes of its own (`git mv docs/x.md publications/x.md` smuggled the existing dashes into the publication path), and reopened the question "is this file user-facing?" for every new file. One blunt rule is cheaper than a boundary that has to be adjudicated. Measured cost of the blunt version: 5 of the last 100 commits, 6 lines.
 
 Commit messages and the comments inside `scripts/` are German by habit; nothing hangs on it.
 
@@ -119,7 +126,7 @@ After larger documentation changes, and quarterly even without them, against cre
 
 ## Gotchas
 
-- **No em-dashes in user-visible text.** That is the whole rule: it is about what a reader sees in the browser, so it does not cover this file, `docs/` or code comments. Use a colon, a comma, a parenthesis or a sentence of its own instead of U+2014. The gate `scripts/audit/check-no-em-dash.py` (CI: `no-cdn-check.yml`) casts a wider net: HTML, JS and CSS in full, plus any Markdown line a PR adds (`--diff-base <rev>`, fences and inline code excluded, existing text untouched). A Markdown hit is therefore noise, not a defect.
+- **No em-dashes in `.md` or user-visible HTML** (see Language and constraints above). Code comments stay exempt, that is the only carve-out. The gate `scripts/audit/check-no-em-dash.py` (CI: `no-cdn-check.yml`) checks HTML, JS and CSS in full and Markdown only in the lines a PR **adds** (`--diff-base <rev>`, fences and inline code excluded). Existing text is never rewritten for it: a red gate means the line you just wrote, not the file you touched.
 - **Angle bracket entities** (`&lt;`, `&gt;`) in `<pc>` are correct XML, not bugs
 - **Nav and footer are build-injected**: do not edit them in the HTML pages. The source is `includes/` plus `scripts/build-pages.py` (marker regions); `build-pages.py --check` is the drift gate. The mobile menu stays inline. See DEVELOPMENT.md.
 - **Zotero cache** (`.zotero_cache.json`) is gitignored, use `--offline` for reproducible builds

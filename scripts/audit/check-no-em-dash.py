@@ -7,13 +7,22 @@ Em-Dashes ein Doppelpunkt, ein Komma, eine Klammer oder ein eigener Satz.
 Ein En-Dash (–) mit Leerzeichen ist erlaubt, ebenso Em-Dashes in
 Code-Kommentaren.
 
-Seit 2026-08-03 gilt die Regel ausdruecklich NUR fuer user-sichtbaren Text.
-Dateien, die rein fuer LLMs geschrieben sind (docs/, CLAUDE.md, JOURNAL),
-tragen keine Auflagen (CLAUDE.md -> Language). Der Markdown-Zweig unten ist
-damit weiter gefasst als die Regel, die er durchsetzen soll: ein Treffer in
-docs/ ist Rauschen, kein Defekt. Er bleibt vorerst drin, weil die
-Einschraenkung auf user-sichtbare Markdown-Dateien eine Entscheidung ist
-und keine Aufraeumarbeit.
+Am 2026-08-03 wurde der Markdown-Zweig auf user-sichtbare Dateien verengt
+(publications/, README.md) und noch am selben Tag wieder verworfen. Der
+Grund steht hier, damit niemand die Verengung als naheliegende Verbesserung
+neu vorschlaegt: sie kostete 267 Zeilen Umfangs-Maschinerie und erzeugte
+zwei eigene Fail-opens, beide beim Eintritt in den Umfang per Umbenennung.
+`git mv docs/entwurf.md publications/entwurf.md` trug den Em-Dash-Bestand
+von docs/ stumm in den Veroeffentlichungspfad, weil eine erkannte
+Umbenennung keine hinzugefuegten Zeilen hat; derselbe Fehler noch einmal
+fuer einen Umzug aus publications/_archived/ heraus. Dazu die Frage „ist
+diese Datei user-sichtbar?", die pro neuer Datei wiederkommt und hier zwei
+Review-Runden gekostet hat. Gemessene Kosten der stumpfen Regel dagegen:
+5 von 100 Commits der letzten zwei Wochen, zusammen 6 Zeilen.
+
+Die Regel gilt deshalb fuer JEDE `.md` im Repo, ohne Ordner-Ausnahme, und
+weiterhin nur fuer hinzugefuegte Zeilen (CLAUDE.md -> Language and
+constraints).
 
 Anlass ist wiederkehrend: KZW hat am 28.07. zum wiederholten Mal einen
 Em-Dash im Frontend gemeldet (#140, diesmal im Hapax-Werkzeug).
