@@ -144,7 +144,7 @@ jobs:
       - name: Em-Dash-Gate Selbsttest (#140/#292)
         run: python3 scripts/audit/check-no-em-dash.py --selftest
 
-      - name: Keine Em-Dashes in user-sichtbarem Text (#140/#292)
+      - name: Keine Em-Dashes in HTML/JS/CSS und neuer Markdown-Prosa (#140/#292)
         run: |
           if [ -z "${{ steps.base.outputs.sha }}" ]; then
             echo "::notice title=Em-Dash-Gate::Keine Diff-Base bestimmbar (workflow_dispatch/Force-Push), Markdown ungeprüft."

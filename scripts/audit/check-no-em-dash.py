@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 """
-Em-Dash-Gate: user-sichtbare Texte dürfen keine Em-Dashes (—) tragen.
+Em-Dash-Gate: kein Em-Dash (—) in user-sichtbarem HTML/JS/CSS und in
+neu hinzugefuegter Markdown-Prosa.
 
-Hausregel des Projekts: in Prosa, die Nutzende sehen, steht statt eines
-Em-Dashes ein Doppelpunkt, ein Komma, eine Klammer oder ein eigener Satz.
-Ein En-Dash (–) mit Leerzeichen ist erlaubt, ebenso Em-Dashes in
-Code-Kommentaren.
+Hausregel des Projekts: statt eines Em-Dashes steht ein Doppelpunkt, ein
+Komma, eine Klammer oder ein eigener Satz. Sie gilt fuer jede `.md` im Repo
+und fuer alles, was Nutzende im Browser sehen (CLAUDE.md -> Language and
+constraints). Ein En-Dash (–) mit Leerzeichen ist erlaubt, ebenso
+Em-Dashes in Code-Kommentaren: das ist die einzige Ausnahme.
 
 Am 2026-08-03 wurde der Markdown-Zweig auf user-sichtbare Dateien verengt
 (publications/, README.md) und noch am selben Tag wieder verworfen. Der
@@ -164,7 +166,7 @@ Usage:
     python scripts/audit/check-no-em-dash.py --diff-base origin/main
                                                         # zusaetzlich Markdown
 
-Exit 0 = sauber, Exit 1 = Em-Dash in user-sichtbarem Text gefunden.
+Exit 0 = sauber, Exit 1 = Em-Dash gefunden.
 """
 
 import argparse
@@ -1139,12 +1141,12 @@ def main() -> int:
 
     if not fundstellen and not md_fundstellen:
         if not args.quiet:
-            print('Em-Dash-Gate: keine Em-Dashes in user-sichtbarem Text.')
+            print('Em-Dash-Gate: keine Em-Dashes gefunden.')
         return 0
 
     if not args.quiet:
         anzahl = len(fundstellen) + len(md_fundstellen)
-        print(f'Em-Dash-Gate: {anzahl} Fundstelle(n) in user-sichtbarem Text.')
+        print(f'Em-Dash-Gate: {anzahl} Fundstelle(n).')
         print('Hausregel: Doppelpunkt, Komma, Klammer oder eigener Satz statt Em-Dash.')
         print()
         for pfad, nr, zeile in fundstellen:

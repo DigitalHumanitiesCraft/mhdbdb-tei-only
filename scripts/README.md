@@ -42,7 +42,7 @@ scripts/
 │   ├── check-lexicon-senses.py  # jeder <entry> in lexicon.xml hat mindestens einen <sense>
 │   ├── check-naming-index.py    # naming-index: Provenienz + Sigle-Existenz (#152)
 │   ├── check-no-cdn.py          # keine externen <script src> in committeten Seiten
-│   ├── check-no-em-dash.py      # keine Em-Dashes in user-sichtbarem Text; Markdown nur im Diff (#292)
+│   ├── check-no-em-dash.py      # keine Em-Dashes in HTML/JS/CSS und in jeder .md; Markdown nur im Diff (#292)
 │   ├── check-release-version.py # Release-Version gegen CITATION.cff und .zenodo.json
 │   ├── classify-lexicon-backfill.py # Backfill-Lücken in lexicon.xml klassifizieren (#115)
 │   ├── count-editorial-notes-and-div-heads.py # Zahlen hinter den Reader-Änderungen (#250)
