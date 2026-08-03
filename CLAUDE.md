@@ -16,12 +16,10 @@ MHDBDB TEI Repository: 667 TEI-encoded Middle High German texts with semantic an
 
 The dividing line is the audience, not the folder.
 
-- **Written purely for LLMs** (this file, everything in `docs/`, `JOURNAL.md` and `journal-archive.md` included): **English, and no other constraints.** No em-dash rule, no house style. Precision beats polish.
-- **Written for users** (`hilfe-*.html`, `impressum.html`, every page a reader sees in the browser): **German**, and the constraints do apply (no em-dashes, real umlauts).
+- **Written purely for LLMs** (this file, everything in `docs/`, `JOURNAL.md` and `journal-archive.md`): **no constraints, language included.** Pick whatever carries the thought best, mix languages where that is clearer, and never translate for its own sake. Only the content is judged: is it correct, is it measured, can an agent read it fast? The `docs/` set happens to be English since #316 and the JOURNAL happens to be German. Neither is a rule, and neither is a backlog item.
+- **Written for users** (`hilfe-*.html`, `impressum.html`, every page a reader sees in the browser): **German**, and here the house constraints do apply: no em-dashes, real umlauts.
 
-German still turns up inside English files wherever data is quoted: corpus headers, Middle High German attestations, work titles, names from `contributors.xml`. Commit messages and the comments inside `scripts/` stay German as well.
-
-Status: the `docs/` set and this file are English (#316). `JOURNAL.md` and `journal-archive.md` are not yet, around 2,800 lines of it.
+Commit messages and the comments inside `scripts/` are German by habit; nothing hangs on it.
 
 ## Directory Layout
 
