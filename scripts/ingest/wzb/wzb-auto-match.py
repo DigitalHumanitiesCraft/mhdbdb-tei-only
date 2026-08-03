@@ -12,7 +12,7 @@ Produces two artifacts:
 Usage: python scripts/wzb-auto-match.py
 
 This is Phase 1 of the WZB annotation pipeline (see
-`docs/DATA-MODEL.md` → Ingest-Verfahren for the normative pattern;
+`docs/DATA-MODEL.md` → Ingest procedure for the normative pattern;
 WZB-specific history: git log of `docs/features/034-wenzelsbibel-annotation.md`).
 
 The script normalizes every word form using `mhg_normalizer.normalize_mhg`

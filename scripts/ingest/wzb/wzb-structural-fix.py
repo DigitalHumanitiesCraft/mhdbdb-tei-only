@@ -23,7 +23,7 @@ WZB structural fix — two operations:
    space-tolerant roman_to_arabic() that handles "I X" → IX = 9 correctly.
 
 Decision record: git history of docs/features/034-wenzelsbibel-annotation.md
-§Structural Fix (doc deleted after #34; pattern now in docs/DATA-MODEL.md → Ingest-Verfahren)
+§Structural Fix (doc deleted after #34; pattern now in docs/DATA-MODEL.md → Ingest procedure)
 """
 
 import re

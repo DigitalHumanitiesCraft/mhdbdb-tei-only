@@ -367,7 +367,7 @@ def main():
                   f'ausserhalb der Baseline (#152), z.B. {sample}. Ein Ingest hat '
                   f'Refs auf nicht existierende lexicon-IDs eingefuehrt. Entweder '
                   f'die fehlenden Lemmata/Senses in lexicon.xml backfillen '
-                  f'(DATA-MODEL.md -> Ingest-Verfahren, Backfill-Phase) oder die '
+                  f'(DATA-MODEL.md -> Ingest procedure, Backfill-Phase) oder die '
                   f'IDs bewusst und begruendet via --update-baseline tolerieren '
                   f'(KZW-Entscheidung, reviewbarer Datei-Diff). Details: '
                   f'scripts/audit/authority-cross-refs-audit.json -> lexicon_corpses.')

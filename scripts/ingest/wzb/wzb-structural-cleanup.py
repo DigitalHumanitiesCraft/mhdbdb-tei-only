@@ -24,7 +24,7 @@ Operations performed (in order):
    - Replaces <w xml:id="...">mark</w> with <seg xml:id="..." type="pc">mark</seg>
 
 Decision record: git history of docs/features/034-wenzelsbibel-annotation.md
-§Paratext (doc deleted after #34; policy now in docs/DATA-MODEL.md → Ingest-Verfahren)
+§Paratext (doc deleted after #34; policy now in docs/DATA-MODEL.md → Ingest procedure)
 """
 
 import argparse

@@ -24,33 +24,33 @@ Search for Middle High German words across the corpus with automatic normalizati
 - Match count with lemma indicator (e.g., "2399 Treffer (2 Lemmata)")
 - Auto-scroll to results with offset for sticky header
 
-### KWIC-Belege in den Suchergebnissen (#129)
+### KWIC concordance in the search results (#129)
 
-Pro Treffer-Text ausklappbare Keyword-in-Context-Konkordanz mit Zeilenangaben (Vorschlag K.M. Schmidt).
-
-**How it works:**
-- "Belege anzeigen" in der Ergebnis-Karte (Listenansicht) bzw. Chevron-Spalte (Tabellenansicht)
-- TEI wird on-demand geladen (über den Reader-Cache), `assets/js/search/kwic-service.js` extrahiert die Belegstellen
-- Kontextfenster konfigurierbar (5/10/15/20 Wörter je Seite, Default 10)
-- Zeilenreferenz je Beleg: Vers (`<l n>`) vor Prosazeile (`<lb n>`) vor Seite (`<pb n>`)
-- Anzeige-Cap 100 Belege pro Text (Gesamtzahl wird ausgewiesen)
-- Klick auf einen Beleg öffnet die Leseansicht an genau dieser Fundstelle (`targetPosition`)
-- Positionszählung in Parität zu CONTRACTS §B (nur `<w>` mit `@lemmaRef`); Treffer-Match exakt per `lemmaRefMatchesId` (§B.1)
-- **Belege-Export (#203):** Button „Belege (CSV)" im Panel-Kopf exportiert ALLE Fundstellen des Texts (ohne Anzeige-Cap, aktuelle Kontextbreite) als CSV (UTF-8 BOM): Spalten `Vers/Zeile | Kontext davor | Keyword | Kontext danach`; Dateiname `mhdbdb-belege-<lemma>-<sigle>-<datum>.csv`
-
-### Tabellenansicht der Suchergebnisse (#114)
-
-Umschaltbare Ergebnis-Darstellung Liste ↔ Tabelle für die Frage „wie verteilt sich ein Lemma über den Korpus" (Userwunsch aus der alten MHDBDB).
+An expandable keyword-in-context concordance per matching text, with line references (suggested by K.M. Schmidt).
 
 **How it works:**
-- Toggle im Results-Header, Wahl persistiert in `localStorage` (`mhdbdb-results-view`)
-- Sortierbare Spalten: Titel (mit Sigle-Präfix), Autor*in, Treffer, Frequenz/10k Wörter, Keyness (LL), Wörter – plus Belege-Spalte (KWIC #129)
-- Results-Header zeigt `N von X ausgewählten Texten · M Treffer gesamt` (auch in der Listenansicht; X = Suchraum zum Suchzeitpunkt, #204)
-- **Gesamtzeile** (sticky `<tfoot>`): Summe Treffer, Gesamt-Frequenz, Summe Wörter über alle Ergebnis-Texte
-- **Keyness (LL):** signierte Log-Likelihood (Dunning 1993) der Trefferfrequenz im Text gegen den Rest des Gesamtkorpus; Werte ≥ 10,83 (p<0,001) fett/brand markiert = Schlüsselwort des Textes (Referenz: Lindas naming-analysis). Referenzkorpus sind immer alle Texte des Korpus-Index, unabhängig von der Textauswahl; Kontingenztafel und Signierung normativ in [CONTRACTS §H.1](CONTRACTS.md#h1-keyness-signed-log-likelihood-114)
-- **Types + Wörterbuch-Links:** das Lemma-Panel zeigt pro resolviertem Lemma (max. 3) die Schreibformen aus dem Variants-Dictionary (aufklappbar; MHG-normalisierte Suchformen, nicht Original-Graphien – so beschriftet) plus asynchron geladene Deep-Links in fünf Wörterbücher (MWB, Lexer, Lexer-Nachträge, Benecke/Müller/Zarncke, Findebuch) über den geteilten, session-gecachten Client `assets/js/lib/woerterbuchnetz.js` (#258, CONTRACTS §D.2). Die Sigle steht einmal je Wörterbuch und trägt den ausgeschriebenen Titel als Tooltip; je Wörterbuch werden bis zu drei Einträge verlinkt, mit grammatischer Angabe zur Unterscheidung der Homographen
-- Export: TSV-Clipboard („Kopieren") + CSV-Download (UTF-8 BOM, RFC-4180-Quoting), respektiert aktuelle Sortierung; Gesamtzeile wird bewusst nicht exportiert
-- Row-Klick öffnet den Reader (wechselt automatisch auf Listen-Layout; localStorage-Präferenz bleibt `table`)
+- „Belege anzeigen" in the result card (list view) or the chevron column (table view)
+- The TEI is loaded on demand (through the reader cache), `assets/js/search/kwic-service.js` extracts the citations
+- Configurable context window (5/10/15/20 words per side, default 10)
+- Line reference per citation: verse (`<l n>`) before prose line (`<lb n>`) before page (`<pb n>`)
+- Display cap of 100 citations per text (the total is stated)
+- Clicking a citation opens the reading view at exactly that occurrence (`targetPosition`)
+- Position counting in parity with CONTRACTS §B (only `<w>` with `@lemmaRef`); hit matching exact via `lemmaRefMatchesId` (§B.1)
+- **Citation export (#203):** the button „Belege (CSV)" in the panel header exports ALL occurrences of the text (no display cap, current context width) as CSV (UTF-8 BOM): columns `Vers/Zeile | Kontext davor | Keyword | Kontext danach`; file name `mhdbdb-belege-<lemma>-<sigle>-<datum>.csv`
+
+### Table view of the search results (#114)
+
+A switchable result presentation, list against table, for the question „how does a lemma spread across the corpus" (a user request carried over from the old MHDBDB).
+
+**How it works:**
+- Toggle in the results header, the choice persists in `localStorage` (`mhdbdb-results-view`)
+- Sortable columns: title (with sigle prefix), author, hits, frequency per 10k words, keyness (LL), words, plus the citation column (KWIC #129)
+- The results header shows `N von X ausgewählten Texten · M Treffer gesamt` (in the list view as well; X is the search space at the time of the search, #204)
+- **Total row** (sticky `<tfoot>`): sum of hits, overall frequency, sum of words across all result texts
+- **Keyness (LL):** signed log-likelihood (Dunning 1993) of the hit frequency in the text against the rest of the whole corpus; values ≥ 10.83 (p<0.001) are marked bold and in the brand color, meaning a keyword of that text (reference: Linda's naming-analysis). The reference corpus is always every text of the corpus index, independent of the text selection; contingency table and signing are normative in [CONTRACTS §H.1](CONTRACTS.md#h1-keyness-signed-log-likelihood-114)
+- **Types and dictionary links:** for each resolved lemma (max. 3) the lemma panel shows the spellings from the variants dictionary (expandable; MHG-normalized search forms, not original graphies, and labelled as such) plus asynchronously loaded deep links into five dictionaries (MWB, Lexer, Lexer-Nachträge, Benecke/Müller/Zarncke, Findebuch) through the shared, session-cached client `assets/js/lib/woerterbuchnetz.js` (#258, CONTRACTS §D.2). The sigle appears once per dictionary and carries the full title as a tooltip; up to three entries are linked per dictionary, with a grammatical note to tell homographs apart
+- Export: TSV to clipboard („Kopieren") plus CSV download (UTF-8 BOM, RFC 4180 quoting), respecting the current sorting; the total row is deliberately not exported
+- Clicking a row opens the reader (switching to the list layout automatically; the localStorage preference stays `table`)
 
 ### Text Selection Interface
 
@@ -60,9 +60,9 @@ Include/exclude specific texts from search corpus.
 - Click button to open selection panel
 - See all texts with checkboxes (all checked by default)
 - Filter by title, sigle, or author
-- Bulk actions: "Alle auswählen" / "Keine auswählen" / "Nur diese" (nur gefilterte)
+- Bulk actions: „Alle auswählen" / „Keine auswählen" / „Nur diese" (the filtered ones only)
 - Search respects selected texts
-- **Filter ≠ Auswahl abgesichert (#204):** Der Filter blendet nur die Liste aus, ändert die Auswahl nicht. Wenn bei aktivem Filter eine breitere Auswahl durchsucht wurde, erscheint über den Ergebnissen ein Hinweis mit One-Click-Korrektur („Nur die M gefilterten Texte durchsuchen"); die 0-Treffer-Box benennt Begriff + Suchraum („0 Treffer für ‚X' in N ausgewählten Texten")
+- **Filter is not selection, and that is now guarded (#204):** the filter only hides rows, it does not change the selection. If a wider selection was searched while a filter was active, a note appears above the results with a one-click correction („Nur die M gefilterten Texte durchsuchen"); the zero-hit box names both term and search space („0 Treffer für ‚X' in N ausgewählten Texten")
 
 **Use cases:**
 - Genre-specific search (select only mystical prose)
@@ -81,16 +81,16 @@ Full-text immersive reader with multi-lemma highlighting and rich metadata.
 - **Wikidata integration:** Automatic image fetching with attribution
 - **Dual identifiers:** Separate GND/Wikidata for work vs author
 - **Context navigation:** Prev/next buttons to jump between occurrences
-- **Zum Textanfang (#138):** Runder Sprung-Button unten rechts, sobald der Panelkopf aus dem Viewport gescrollt ist; springt zurück zu Titel und Metadaten, nicht zum Seitenanfang
-- **Verszählung pro Zählungsbereich (#138):** Die sichtbare Randnummerierung setzt bei jedem `<div>` wieder mit der 1 ein, das eine eigene **durchlaufende** Zählung bei `n="1"` beginnt. Kriterium sind zwei Bedingungen: die erste numerische `<l>` trägt `n="1"`, und die 1 kommt im `<div>` genau einmal vor. Zeilen eines eingehängten Parallelzeugen (`div[@type="parallel"]` innerhalb eines anderen `<div>`) zählen dabei nicht mit: jeder Zeuge wird nur an seinen eigenen Zeilen gemessen (#250, siehe unten). Von 6.789 `<div>`s im Korpus erfüllen 2.661 die erste Bedingung, davon qualifizieren **1.492 in 137 Texten** (897 `chapter`, 252 `song`, 159 ohne `@type`, 156 `section`, 21 `parallel`, 7 `number`). Sichtbar werden dadurch **1.352 zusätzliche Randnummern in 49 Texten**. Größter Fall ist PZ (Parzival) mit +826, gefolgt von FR3 (+136), CHH (+53), TKR (+40) und HUG (+39, Julias Ausgangsfall). Grundlage ist `python scripts/audit/count-verse-numbering-resets.py`, das die Render-Reihenfolge nachbaut und „mit Reset" gegen „ohne Reset" vergleicht; seit #302 führt es die Zeugentrennung mit, alle Zahlen dieses Absatzes sind damit reproduzierbar.
+- **Back to the start of the text (#138):** a round jump button at the bottom right, as soon as the panel header has scrolled out of the viewport; it jumps back to title and metadata, not to the top of the page
+- **Verse numbering per counting range (#138):** the visible margin numbering restarts at 1 in every `<div>` that begins its own **continuous** count at `n="1"`. Two conditions make the criterion: the first numeric `<l>` carries `n="1"`, and the 1 occurs exactly once inside the `<div>`. Lines of an embedded parallel witness (`div[@type="parallel"]` inside another `<div>`) do not count towards this: every witness is measured on its own lines only (#250, see below). Of 6,789 `<div>`s in the corpus 2,661 meet the first condition, of which **1,492 in 137 texts** qualify (897 `chapter`, 252 `song`, 159 without `@type`, 156 `section`, 21 `parallel`, 7 `number`). This makes **1,352 additional margin numbers in 49 texts** visible. The largest case is PZ (Parzival) with +826, followed by FR3 (+136), CHH (+53), TKR (+40) and HUG (+39, Julia's original case). The basis is `python scripts/audit/count-verse-numbering-resets.py`, which rebuilds the render order and compares „with reset" against „without reset"; since #302 it carries the witness separation, so every number in this paragraph is reproducible.
 
-  **Zeugentrennung (#250, Stand 2026-07-31):** Seit dem Frauenlob-Umbau (#236) sitzt in FR3 eine `div[@type="parallel"]` innerhalb der `div[@type="section"]` des Basiszeugen. Beide Zeugen beginnen bei `n="1"`, der Teilbaum der `section` enthielt damit zwei Einsen, die `section` fiel durch die zweite Bedingung, und die sichtbare 1 wanderte vom Basiszeugen zum Parallelzeugen. Betroffen waren **19 der 127** FR3-`section`s. Seit der Zeugentrennung bekommt der Basiszeuge seine 1 zurück und der Parallelzeuge behält seine eigene. Die Messung über alle 667 Texte zeigt den Effekt ausschließlich in FR3: 19 `section`s qualifizieren zusätzlich, keine einzige verliert ihre Qualifikation, die 21 qualifizierenden `parallel`-divs bleiben unverändert. DES2 und PKP haben ebenfalls verschachtelte `parallel`-divs und ändern sich nicht.
+  **Witness separation (#250, as of 2026-07-31):** since the Frauenlob rebuild (#236) FR3 carries a `div[@type="parallel"]` inside the `div[@type="section"]` of the base witness. Both witnesses start at `n="1"`, so the subtree of the `section` contained two ones, the `section` failed the second condition, and the visible 1 wandered from the base witness to the parallel one. **19 of the 127** FR3 `section`s were affected. Since the witness separation the base witness gets its 1 back and the parallel witness keeps its own. Measuring across all 667 texts shows the effect in FR3 only: 19 `section`s qualify in addition, not a single one loses its qualification, and the 21 qualifying `parallel` divs stay unchanged. DES2 and PKP also have nested `parallel` divs and do not change.
 
-  Die zweite Bedingung ist der eigentliche Schutz: Texte mit **strophenlokaler** Zählung innerhalb eines `<div>` bekommen bewusst keinen Anker. Sie verwirft korpusweit 1.169 `<div>`s in 84 Texten und verhindert damit 1.007 unmotivierte Randeinsen. NLA (Nibelungenlied Hs. A) ist der Musterfall: 38 untypisierte `<div>`s, in denen jede Strophe wieder bei 1 beginnt und die mangels `@type`/`@n` gar keine Überschrift rendern; ohne die Bedingung bekäme der Text genau 38 zusätzliche Randeinsen, also die #127-Regression über `<div>` statt über `<lg>`. NBB ist von der Änderung strukturell gar nicht berührt, weil der Text keine `<div>`-Elemente enthält
+  The second condition is the actual protection: texts with **stanza-local** counting inside a `<div>` deliberately get no anchor. It discards 1,169 `<div>`s in 84 texts corpus-wide and thereby prevents 1,007 unmotivated margin ones. NLA (Nibelungenlied ms. A) is the textbook case: 38 untyped `<div>`s in which every stanza starts at 1 again and which render no heading at all for lack of `@type`/`@n`; without the condition the text would get exactly 38 additional margin ones, that is the #127 regression through `<div>` instead of through `<lg>`. NBB is structurally untouched by the change, because the text contains no `<div>` elements
 - **URL parameters:** `?textId=ABG&lemmaIds=879,7532&position=310`
-- **Ausschnitts-Kontext (#134):** Texte mit `biblScope unit="verse"` im Header (Ausschnitte eines Gesamtwerks, z. B. AK aus der Steirischen Reimchronik) zeigen einen sichtbaren Banner über dem Text sowie eine „Ausschnitt"-Metadaten-Sektion (Ausschnitt/Gesamtwerk/Versbereich/Kontext); siehe TEI-MODEL.md §2.1
-- **Editorische Eingriffe (#250):** Aufklappbarer Metadaten-Abschnitt mit den Angaben aus `<editorialDecl>` des Texts, in Dokumentreihenfolge. Er trägt den Hinweis, dass für Zitate die gedruckte Ausgabe maßgeblich ist, wo die MHDBDB in die Textgestalt eingegriffen hat. Deutlichster Fall ist FR3: dort sind die beiden Anhänge der Edition vertauscht (Anhang I als XV. gezählt) und ein Verszählungsfehler der Herausgeber korrigiert. Nicht angezeigt wird das Repository-Boilerplate über die Auflösung lokaler Dateireferenzen, das 666 Header wortidentisch je auf Deutsch und Englisch führen; nach diesem Filter bleiben in 664 Texten 1 bis 42 Absätze, in CEFB, GWTK und KVO keiner, dort entfällt der Abschnitt. Zahlen reproduzierbar über `python scripts/audit/count-editorial-notes-and-div-heads.py`
-- **Abschnittslabel unter eigener Überschrift (#250):** Trägt ein typisiertes `<div>` einen eigenen `<head>`, wird das synthetische Label („Lied 5", „Rezept 1") zur übergeordneten Zeile der Überschrift statt zur gleichrangigen zweiten Überschrift daneben. Betroffen sind 1.097 der 4.676 typisierten `<div>`s in 35 Texten (403 `song`, 320 `chapter`, 301 `recipe`, 72 `number`, 1 `section`), angeführt von NEI und NEIC (je 124), WZB (97) und KBL4/SUB1 (je 66). Das Label bleibt sichtbar, weil in keinem dieser Fälle der `<head>` die Nummer aus `@n` mitführt (AC1: `n="1"` und „das i capitel", ABS: `n="1"` und „basteten .") und 932 der divs ein `@n` haben; es zu unterdrücken hieße, die einzige sichtbare Zählung des Abschnitts zu entfernen
+- **Excerpt context (#134):** texts with `biblScope unit="verse"` in the header (excerpts of a larger work, e.g. AK from the Steirische Reimchronik) show a visible banner above the text plus an „Ausschnitt" metadata section (excerpt, whole work, verse range, context); see TEI-MODEL.md §2.1
+- **Editorial interventions (#250):** an expandable metadata section with the statements from the `<editorialDecl>` of the text, in document order. It carries the note that where the MHDBDB intervened in the text, the printed edition is authoritative for quotation. The clearest case is FR3: there the two appendices of the edition are swapped (appendix I counted as XV) and an error in the editors' verse numbering is corrected. Not shown is the repository boilerplate about resolving local file references, which 666 headers carry word for word in German and English; after that filter 664 texts keep between 1 and 42 paragraphs, while CEFB, GWTK and KVO keep none and the section is omitted there. Numbers reproducible via `python scripts/audit/count-editorial-notes-and-div-heads.py`
+- **Section label above an own heading (#250):** if a typed `<div>` carries a `<head>` of its own, the synthetic label („Lied 5", „Rezept 1") becomes the superordinate line of that heading instead of a second heading of equal rank next to it. This affects 1,097 of the 4,676 typed `<div>`s in 35 texts (403 `song`, 320 `chapter`, 301 `recipe`, 72 `number`, 1 `section`), led by NEI and NEIC (124 each), WZB (97) and KBL4/SUB1 (66 each). The label stays visible because in none of these cases does the `<head>` carry the number from `@n` (AC1: `n="1"` and „das i capitel", ABS: `n="1"` and „basteten .") and 932 of the divs have an `@n`; suppressing it would remove the only visible count of the section
 
 **TEI elements rendered:**
 - Text structure: `<head>`, `<p>`, `<div>`, `<lg>` (stanzas), `<l>` (verse lines)
@@ -106,19 +106,19 @@ Full-text immersive reader with multi-lemma highlighting and rich metadata.
 - Fixed navigation controls (responsive positioning)
 - Distinct visual treatment for verse vs prose (indentation, line breaks)
 
-### Wörterbuch (A–Z-Register) (#117)
+### Dictionary, the A–Z register (#117)
 
-Konventionelle Wörterbuch-Einstiegsseite (`woerterbuch.html`) für alle 43.879 Lemma-Seiten.
+A conventional dictionary entry page (`woerterbuch.html`) for all 43,879 lemma pages.
 
 **How it works:**
-- Indexleiste A–Z (+ `#` für Ziffern-Lemmata) mit Eintragszahl pro Buchstabe als Tooltip
-- Bucketing über das `normalized`-Feld des Authority-Index (NFD-Fallback für `ë`/`ú`-Anfänge)
-- Pagination à 200 Einträge innerhalb des Buchstabens, alphabetisch sortiert (`Intl.Collator('de')`)
-- Jeder Eintrag (Lemma + POS-Badge) verlinkt auf die persistente Lemma-Seite `lemma/?id=N`
-- Deep-Links über URL-State: `woerterbuch.html?buchstabe=s&seite=3`
-- Erreichbar über den Header-Menüpunkt „Wörterbuch" auf allen Seiten
+- An A–Z index bar (plus `#` for numeric lemmata) with the entry count per letter as a tooltip
+- Bucketing over the `normalized` field of the authority index (NFD fallback for initial `ë`/`ú`)
+- Pagination at 200 entries within the letter, sorted alphabetically (`Intl.Collator('de')`)
+- Every entry (lemma plus POS badge) links to the persistent lemma page `lemma/?id=N`
+- Deep links through URL state: `woerterbuch.html?buchstabe=s&seite=3`
+- Reachable from the header menu item „Wörterbuch" on every page
 
-**Namensentscheidung:** „Wörterbuch" statt „Lemmata" (Playground-Fachbegriff) oder „Wortindex" (Alt-MHDBDB; wird im Untertitel der Seite als Brücke erwähnt) – begründet in Issue #117.
+**Naming decision:** „Wörterbuch" instead of „Lemmata" (the playground's technical term) or „Wortindex" (old MHDBDB; mentioned in the page subtitle as a bridge), reasoned in issue #117.
 
 ### TEI File Caching
 
@@ -184,7 +184,7 @@ Browse and search six controlled vocabularies with consistent interface patterns
 
 ### TEI Text Analysis
 
-Corpus-wide text analysis using pre-built indexes. Zwölf Werkzeuge in zwölf Playground-Einträgen (Multi-Lemma bietet Dokument-, Proximity- und Vers-Modus in einem Eintrag), alle direkt im Results-Panel als in-place Form + Body (außer Multi-Lemma als Modal).
+Corpus-wide text analysis using pre-built indexes. Twelve analysis tools in twelve playground entries (multi-lemma offers document, proximity and verse mode in one entry), all of them in place in the results panel as form plus body (except multi-lemma, which is a modal).
 
 **Multi-Lemma Document Search:**
 - Input multiple lemmata (space-separated or one per line)
@@ -200,105 +200,105 @@ Corpus-wide text analysis using pre-built indexes. Zwölf Werkzeuge in zwölf Pl
 - Results: Context snippets with color-coded highlighting
 - Click result → open main site reading view with URL parameters
 
-**Multi-Lemma-Suche „Im selben Vers" (#106 Punkt 8):**
-- Kookkurrenz auf ein gemeinsames `<l>` beschränkt (syntaktisch enger als das Wort-Fenster der Proximity-Suche)
-- Datenbasis: `lineStarts[]`/`lineEnds[]` aus dem Corpus-Index v4.1.0+, kein neuer Build-Schritt
-- Nur Versdichtung (603 von 667 Texten); Prosa wird automatisch übersprungen
-- Treffer nennen die Versnummer; Expand + Reader-Deep-Link wie in der Proximity-Suche
-- URL-Routing: `#multi-lemma&lemmata=…&mode=verse`
+**Multi-lemma search „Im selben Vers" (#106 point 8):**
+- Co-occurrence restricted to a shared `<l>` (syntactically tighter than the word window of the proximity search)
+- Data basis: `lineStarts[]`/`lineEnds[]` from corpus index v4.1.0+, no new build step
+- Verse texts only (600 of 667); prose is skipped automatically
+- Hits name the verse number; expand and reader deep link as in the proximity search
+- URL routing: `#multi-lemma&lemmata=…&mode=verse`
 
-**Lemmasuche nach Versposition (#47.3):**
-- Single Lemma + Position-Auswahl (Versanfang / Versende, Default Versende)
-- Findet Lemmata, die genau am ersten oder letzten `<w>` einer `<l>` stehen
-- Use Case: Reim-Analyse, Versende-Stilistik („wie oft reimt Wolfram auf `minne`?")
-- Trefferliste mit Anteil pro Text („54 % aller `minne`-Vorkommen in Tristan stehen am Versende"). Zähler und Nenner kommen beide aus `text.lemmata`, die Quote ist damit auch bei Tokens mit Mehrfach-Lemmareferenz belastbar, anders als der Reim-Druck des Versendings-Profils: [CONTRACTS §H.5](CONTRACTS.md#h5-normalized-figures-in-the-remaining-tools)
-- Nur Versdichtungs-Texte (603 von 667, ca. 90 % des Korpus); Prosa wird automatisch übersprungen
-- Klick auf Treffer → Reading View mit Highlighting
+**Lemma search by verse position (#47.3):**
+- A single lemma plus a position choice (verse start or verse end, verse end by default)
+- Finds lemmata sitting exactly at the first or last `<w>` of an `<l>`
+- Use case: rhyme analysis, stylistics of verse endings („how often does Wolfram rhyme on `minne`?")
+- Hit list with the share per text („54 % of all `minne` occurrences in Tristan sit at the verse end"). Numerator and denominator both come from `text.lemmata`, so the ratio holds up even for tokens with multiple lemma references, unlike the rhyme pressure of the verse-ending profile: [CONTRACTS §H.5](CONTRACTS.md#h5-normalized-figures-in-the-remaining-tools)
+- Verse texts only (600 of 667, about 90 % of the corpus); prose is skipped automatically
+- Clicking a hit opens the reading view with highlighting
 
-**Wortfrequenz-Analyse (#88):**
-- Top-N Lemmata über das gesamte Korpus oder pro Text
-- POS-basierter Stopwort-Filter (DET, ART, POS, PRO, PRP, CCNJ, SCNJ, CNJ, NEG, IPA, VEX, VEM) – entfernt häufige Funktionswörter, hebt inhaltstragende Lemmata hervor
-- Absolute oder relative Frequenz
-- Sortierung nach Frequenz oder alphabetisch
+**Word frequency analysis (#88):**
+- Top-N lemmata over the whole corpus or per text
+- POS-based stopword filter (DET, ART, POS, PRO, PRP, CCNJ, SCNJ, CNJ, NEG, IPA, VEX, VEM): removes frequent function words, brings content-bearing lemmata forward
+- Absolute or relative frequency
+- Sorting by frequency or alphabetically
 
-**Echte Hapaxlegomena (#196):**
-- Lemmata (nicht Wortformen) mit korpusweiter Gesamtfrequenz ≤ n (Hapax/Dis/Tris, Default 1) – abzugrenzen von der Text-Hapax-Rate der Text-Statistiken (#89). Zählregel und Filterreihenfolge normativ in [CONTRACTS §H.2](CONTRACTS.md#h2-hapax-legomena-196)
-- Datenpfad: ein Aggregations-Durchlauf über `text.lemmata` aller Texte (Pattern Wortfrequenz-Analyse); je Lemma werden die ersten ≤3 Fundorte (`textId` + Wortposition) mitgeführt, Versnummer via Binärsuche über `lineStarts[]`
-- **Facetten-Vorrang (einheitlich für alle drei Default-Filter):** Eine explizit in der Wortart-Facette gewählte Wortart hebt den gleichnamigen Filter auf (NAM, NUM, jede Wortart aus `FUNCTION_WORD_POS`); die betroffene Checkbox rendert dann `disabled` und gedimmt. Ohne diese Regel liefert die Facette kommentarlos eine leere Liste
-- Filter: Eigennamen ausblenden (NAM, Default an – 28 % der Hapaxe), Zahlwörter ausblenden (Default an – greift nur bei reinem NUM, nicht bei Mehrfach-Wortarten wie `zwispeltic` ADJ/NUM; betrifft 72 der 119 NUM-Hapaxe. Anlass waren die drei Ziffern-Lemmata 42/46/49, die alphabetisch auf den Rängen 1 bis 3 standen, siehe #228), Funktionswörter ausblenden (geteilte `FUNCTION_WORD_POS`-Menge aus word-frequency.js), Wortarten-Facette, Anfangsbuchstaben-Facette (auf `lemma.normalized`)
-- Pro Eintrag: Lemma-Link auf die Lemma-Seite, PoS-Badges, Fundort(e) als Reader-Deep-Link (`korpus.html?textId=&lemmaIds=&position=`), Details-Aufklapp mit Konzept-Chips und lazy Wörterbuchnetz-Abgleich (fünf Wörterbücher via geteiltem Client `assets/js/lib/woerterbuchnetz.js`, #258, CONTRACTS §D.2) – beantwortet „echtes mhd. Hapax oder nur Korpus-Hapax?". Der Negativbefund nennt die abgefragten Wörterbücher beim Namen, weil die Deutung „echtes Hapax" genau an dieser Liste hängt
-- Lemma-IDs ohne Authority-Eintrag werden mit Badge angezeigt (Kuratierungs-Funde, 99 Stück Stand 2026-07)
-- Tab „Beitrag pro Text": Raritäten je Text absolut + pro 1.000 Tokens, sortierbar
-- CSV-Export der gefilterten Liste (UTF-8-BOM, Semikolon); Pagination zu 100 Einträgen
-- Bewusste Grenze: kein frei wählbares Subkorpus (Hapax relativ zu einer Textauswahl) – Follow-up-Kandidat, siehe Issue #196
+**True hapax legomena (#196):**
+- Lemmata (not word forms) with a corpus-wide total frequency ≤ n (hapax/dis/tris, 1 by default), to be distinguished from the per-text hapax rate of the text statistics (#89). Counting rule and filter order are normative in [CONTRACTS §H.2](CONTRACTS.md#h2-hapax-legomena-196)
+- Data path: one aggregation pass over `text.lemmata` of all texts (the word frequency analysis pattern); per lemma the first ≤3 occurrences (`textId` plus word position) are carried along, the verse number via binary search over `lineStarts[]`
+- **Facet precedence (the same for all three default filters):** a part of speech chosen explicitly in the POS facet overrides the filter of the same name (NAM, NUM, any POS from `FUNCTION_WORD_POS`); the affected checkbox then renders `disabled` and dimmed. Without this rule the facet returns an empty list without comment
+- Filters: hide proper names (NAM, on by default, 28 % of the hapaxes), hide numerals (on by default, applies only to pure NUM, not to multiple parts of speech such as `zwispeltic` ADJ/NUM; affects 72 of the 119 NUM hapaxes. The trigger was the three numeral lemmata 42/46/49, which stood alphabetically at ranks 1 to 3, see #228), hide function words (the shared `FUNCTION_WORD_POS` set from word-frequency.js), POS facet, initial-letter facet (on `lemma.normalized`)
+- Per entry: lemma link to the lemma page, PoS badges, occurrence(s) as a reader deep link (`korpus.html?textId=&lemmaIds=&position=`), a details expander with concept chips and a lazy lookup against the Wörterbuchnetz (five dictionaries via the shared client `assets/js/lib/woerterbuchnetz.js`, #258, CONTRACTS §D.2), which answers „a true MHG hapax, or only a corpus hapax?". The negative finding names the dictionaries it queried, because the reading „true hapax" hangs on exactly that list
+- Lemma ids without an authority entry are shown with a badge (curation finds, 99 of them as of 2026-07)
+- Tab „Beitrag pro Text": rarities per text, absolute and per 1,000 tokens, sortable
+- CSV export of the filtered list (UTF-8 BOM, semicolon); pagination at 100 entries
+- A deliberate limit: no freely chosen subcorpus (hapax relative to a text selection), a follow-up candidate, see issue #196
 
-**Text-Statistiken (#89, Auswahl-UI #136):**
-- Pro Text: Token-Count, Lemma-Diversität (unique / total), Hapax-Rate, durchschnittliche Lemma-Frequenz
-- Korpus-Übersicht als Tabelle, sortierbar
-- Stilistik-Indikator: hohe Lemma-Diversität bei knappen Texten = lexikalisch reich. **Vorsicht beim Vergleich über Texte hinweg:** die Kennzahl ist eine Type-Token-Ratio und fällt aus rein mathematischen Gründen mit der Textlänge, die Spalte sortiert also mitunter nach Länge statt nach Wortschatzreichtum. Zählregel und Basen normativ in [CONTRACTS §H.5](CONTRACTS.md#h5-normalized-figures-in-the-remaining-tools)
-- Subset-Bildung: Checkbox je Zeile + Master-Checkbox, „Nur Auswahl anzeigen", Auswahlzähler; Auswahl übersteht Sortieren
+**Text statistics (#89, selection UI #136):**
+- Per text: token count, lemma diversity (unique / total), hapax rate, average lemma frequency
+- Corpus overview as a sortable table
+- Stylistic indicator: high lemma diversity in short texts means lexically rich. **Careful when comparing across texts:** the figure is a type-token ratio and falls with text length for purely mathematical reasons, so the column sometimes sorts by length rather than by richness of vocabulary. Counting rule and bases are normative in [CONTRACTS §H.5](CONTRACTS.md#h5-normalized-figures-in-the-remaining-tools)
+- Building a subset: a checkbox per row plus a master checkbox, „Nur Auswahl anzeigen", a selection counter; the selection survives sorting
 
-**Lemma-Verteilung (#90):**
-- Single Lemma → Bar-Chart über alle Texte
-- Top-N Bars im Chart, Rest als auklappbare Tabelle
-- Absolute oder relative Frequenz (pro 1000 Tokens; Basis der Rate in [CONTRACTS §H.5](CONTRACTS.md#h5-normalized-figures-in-the-remaining-tools))
-- Klick auf Balken oder Sigle → Reading View mit Highlighting
+**Lemma distribution (#90):**
+- A single lemma gives a bar chart across all texts
+- Top-N bars in the chart, the rest as an expandable table
+- Absolute or relative frequency (per 1000 tokens; the base of the rate is in [CONTRACTS §H.5](CONTRACTS.md#h5-normalized-figures-in-the-remaining-tools))
+- Clicking a bar or a sigle opens the reading view with highlighting
 
-**Begriffs-Verteilung (#47 R2, mit Autocomplete #113):**
-- Single Concept (deutsch, englisch, oder `concept_xxxxx`-ID) → Bar-Chart über alle Texte
-- Aggregiert alle Lemmata, deren `senses[*].conceptIds` das Concept enthält
-- Datenpfad: concept → senses → lemmata → texts (summiert Vorkommen pro Text); die Basis des Modus „Relativ (pro 1000)" steht in [CONTRACTS §H.5](CONTRACTS.md#h5-normalized-figures-in-the-remaining-tools)
-- Alternative Begriffs-Candidates werden angezeigt (z.B. bei „love" → Intimität + Liebe/Zuneigung)
-- Auklappbare „zugeordnete Lemmata"-Sektion zur Validierung der Concept-Selektion
-- Klick auf Treffer → Reading View
-- **Live-Autocomplete-Dropdown** im Begriffs-Input (max. 8 Suggestions, Pfeil-Navigation, Enter wählt + sucht, Escape schließt) – gleiches Pattern wie DWDS oder Google-Suche
+**Concept distribution (#47 R2, with autocomplete #113):**
+- A single concept (German, English, or a `concept_xxxxx` id) gives a bar chart across all texts
+- Aggregates every lemma whose `senses[*].conceptIds` contains the concept
+- Data path: concept → senses → lemmata → texts (summing occurrences per text); the base of the mode „Relativ (pro 1000)" is in [CONTRACTS §H.5](CONTRACTS.md#h5-normalized-figures-in-the-remaining-tools)
+- Alternative concept candidates are shown (e.g. „love" offers Intimität and Liebe/Zuneigung)
+- An expandable „zugeordnete Lemmata" section for validating the concept selection
+- Clicking a hit opens the reading view
+- A **live autocomplete dropdown** in the concept input (max. 8 suggestions, arrow navigation, Enter selects and searches, Escape closes), the same pattern as DWDS or Google search
 
-**Textvergleich (#108):**
-- Zwei Texte über Dropdown-Menüs auswählen (alle 667 Sigles mit Titel + Autor)
-- Drei Lemma-Mengen werden berechnet: Nur in A, in Beiden, Nur in B
-- Per Lemma: Frequenz in A, Frequenz in B, absolute Differenz |A−B|
-- Sortierung Frequenz / Differenz / Alphabetisch, Lemma-Name-Substring-Filter
-- A↔B-Swap-Button für gespiegelte Perspektive
-- Datenpfad: reine Set-Ops auf `Object.keys(text.lemmata)`, keine neuen Index-Felder
-- Use Cases: „Welche Lemmata teilt PZ mit JT?", „Lehnvers-Indizien (geteilte seltene Lemmata zwischen sonst unverbundenen Texten)", „Lemma-Profile pro Werk"
-- Klick auf Frequenz-Zahl öffnet Reading View des jeweiligen Texts mit Highlighting
+**Text comparison (#108):**
+- Choose two texts through dropdown menus (all 667 sigles with title and author)
+- Three lemma sets are computed: only in A, in both, only in B
+- Per lemma: frequency in A, frequency in B, absolute difference |A−B|
+- Sorting by frequency, difference or alphabetically, plus a substring filter on the lemma name
+- An A↔B swap button for the mirrored perspective
+- Data path: pure set operations on `Object.keys(text.lemmata)`, no new index fields
+- Use cases: „which lemmata does PZ share with JT?", „evidence for borrowed verses (shared rare lemmata between otherwise unconnected texts)", „lemma profiles per work"
+- Clicking a frequency number opens the reading view of that text with highlighting
 
-**Kookkurrenz-Ranking (#107):**
-- DWDS-Style „Welche Lemmata stehen am häufigsten bei X?"
-- Eingabe-Lemma + Kontextfenster (±3-25 Wörter, Default ±10) → rangierte Tabelle Top-N Partner-Lemmata
-- POS-Filter essentiell: Default „Inhaltswörter" (NOM/VRB/ADJ/ADV) verhindert dass Stopwords (der/und/ich/daz/er) die Liste dominieren; auch „nur Nomen", „nur Verben", „nur Adjektive", oder „alle"
-- Datenpfad: Window-Scan über `text.words[pos±w]` für jede Position in `text.lemmata[X]`
-- Async-Chunking (MessageChannel-Yield alle 30ms) hält UI responsiv auch für häufige Lemmata; POS-Filter-Switch ohne Re-Compute (rawCounts gecacht)
-- Use Cases: „Was steht typisch bei `êre`?" (→ tuon, sprechen, got, herre), „Welche Adjektive begleiten `wîp`?"
-- Klick auf Partner → Multi-Lemma-Suche mit beiden Lemmata + aktueller Distanz vorbefüllt; Klick auf Lemma → Lemma-Page
+**Co-occurrence ranking (#107):**
+- DWDS-style „which lemmata occur most often near X?"
+- An input lemma plus a context window (±3 to 25 words, ±10 by default) gives a ranked table of the top-N partner lemmata
+- The POS filter is essential: the default „Inhaltswörter" (NOM/VRB/ADJ/ADV) keeps stopwords (der/und/ich/daz/er) from dominating the list; „nur Nomen", „nur Verben", „nur Adjektive" and „alle" are available too
+- Data path: a window scan over `text.words[pos±w]` for every position in `text.lemmata[X]`
+- Async chunking (a MessageChannel yield every 30 ms) keeps the UI responsive even for frequent lemmata; switching the POS filter needs no recompute (rawCounts are cached)
+- Use cases: „what typically stands near `êre`?" (tuon, sprechen, got, herre), „which adjectives accompany `wîp`?"
+- Clicking a partner opens the multi-lemma search prefilled with both lemmata and the current distance; clicking a lemma opens the lemma page
 
-**Reim-Wörterbuch (#106, Minimalvariante):**
-- „Welche Lemmata reimen sich auf X?" – Eingabe-Lemma + optionaler Text/Autor-Filter (Sigle exakt oder Titel/Autor-Substring) → rangierte Tabelle der Reimpartner-Lemmata
-- Datenpfad: Scan über `text.lineEnds[]` (Corpus-Index v4.1.x); Kandidaten sind die Lemmata der unmittelbar benachbarten Versenden (±1 Vers, Paarreim-Annahme)
-- Reim-Heuristik: 3-Letter-Suffix-Match der MHG-normalisierten Lemma-Formen (2-Letter nur, wenn beide Formen ≤4 Zeichen – findet `wîp : lîp` und `tac : slac`, ohne dass Kurzwörter wie `en`/`dô` lange Ziel-Lemmata fluten); identischer Reim (Lemma auf sich selbst) wird nur einfach gezählt. Vollständige Zählregel samt der Asymmetrie zwischen Ziel- und Partnerseite: [CONTRACTS §H.3](CONTRACTS.md#h3-rhyme-dictionary-106)
-- Pro Partner: Reimpaar-Zahl, Texte als Sigle-Chips mit Paarzahl, „→ Belege" klappt die gezählten Verspaare direkt in der Tabelle auf: beide Verse als vollständiger `<l>`-Inhalt (lazy per TEI-Fetch; Highlight-Mapping über CONTRACTS-§B-Positionszählung, damit `lineEnds[]`-Positionen auf die richtigen Wörter zeigen), markierte Reimwörter, Versangabe aus `<l n>`, Reader-Deep-Link (`position=`); paginiert zu 10, Cap 1000 gespeicherte Verspaare pro Partner. (Vorher nur Link in den Nähe-Modus der Multi-Lemma-Suche mit Distanz 15 – zeigte auch Kookkurrenzen abseits der Versenden, also keine Reime; KZW-Report 2026-07-09)
-- Async-Chunking + Abort-Token (Pattern wie #107), Prosa (leere `lineEnds`) wird übersprungen
-- Bewusste Grenzen der Minimalvariante (Issue #106): lemma- statt token-basiert (reimende Flexionsform kann abweichen), strukturell statt phonetisch, Kreuzreime (ABAB) entgehen dem ±1-Scan; Original-Token-Variante bräuchte Index-Erweiterung (`lineEndWords[]`), phonetische Klassifikation ist #109-Folgearbeit
+**Rhyme dictionary (#106, minimal variant):**
+- „Which lemmata rhyme on X?": an input lemma plus an optional text/author filter (exact sigle or a substring of title/author) gives a ranked table of rhyme partner lemmata
+- Data path: a scan over `text.lineEnds[]` (corpus index v4.1.x); the candidates are the lemmata of the immediately neighboring verse endings (±1 verse, assuming couplet rhyme)
+- Rhyme heuristic: a three-letter suffix match on the MHG-normalized lemma forms (two letters only if both forms are ≤4 characters, which finds `wîp : lîp` and `tac : slac` without letting short words like `en`/`dô` flood long target lemmata); an identical rhyme (a lemma on itself) is counted once only. The full counting rule including the asymmetry between target and partner side: [CONTRACTS §H.3](CONTRACTS.md#h3-rhyme-dictionary-106)
+- Per partner: the number of rhyme pairs, texts as sigle chips with their pair count, and „→ Belege" expands the counted verse pairs inside the table: both verses as full `<l>` content (lazily fetched TEI; the highlight mapping runs over the CONTRACTS §B position counting, so that `lineEnds[]` positions point at the right words), marked rhyme words, the verse number from `<l n>`, a reader deep link (`position=`); paginated at 10, with a cap of 1000 stored verse pairs per partner. (Previously only a link into the proximity mode of the multi-lemma search at distance 15, which also showed co-occurrences away from the verse endings, so not rhymes; KZW report 2026-07-09)
+- Async chunking plus an abort token (the #107 pattern), prose (empty `lineEnds`) is skipped
+- Deliberate limits of the minimal variant (issue #106): lemma-based instead of token-based (the rhyming inflected form may differ), structural instead of phonetic, and alternating rhymes (ABAB) escape the ±1 scan; an original-token variant would need an index extension (`lineEndWords[]`), phonetic classification is follow-up work in #109
 
-**Versendings-Profil (#106 Punkt 2):**
-- Top-N häufigste Lemmata am Versende – Scope wählbar: Gesamtkorpus, Autor*in (optgroup) oder Einzeltext
-- Datenpfad: `text.words[lineEnds[i]]` je Vers (Corpus-Index v4.1.x), kein neuer Build-Schritt
-- Spalten: Versende-Belege (absolut), Anteil an allen Versenden des Scopes, **Reim-Druck** = Anteil der Vorkommen des Lemmas am Versende vs. gesamt (#106 Punkt 3: hoher Wert = reimgetrieben, niedriger = semantisch motiviert). Zähler und Nenner sind beide scope-lokal und stammen aus verschiedenen Index-Feldern, was die Kennzahl verzerren würde, sobald es Tokens mit Mehrfach-Lemmareferenz gibt (heute keine): [CONTRACTS §H.4](CONTRACTS.md#h4-verse-ending-profile-and-reim-druck-106-points-2-and-3)
-- Funktionswort-Filter (gleiche POS-Menge wie Wortfrequenz/Hapax), Lemma-Links auf die Lemma-Seiten
-- Nur Versdichtung (leere `lineEnds` -> übersprungen); Use Case aus dem Issue: Reim-Stil-Vergleich Wolfram/Hartmann/Gottfried
+**Verse-ending profile (#106 point 2):**
+- The top-N most frequent lemmata at the verse end, with a selectable scope: the whole corpus, an author (optgroup) or a single text
+- Data path: `text.words[lineEnds[i]]` per verse (corpus index v4.1.x), no new build step
+- Columns: verse-ending occurrences (absolute), the share of all verse endings in the scope, and **rhyme pressure**, the share of a lemma's occurrences that sit at the verse end against all of them (#106 point 3: a high value means rhyme-driven, a low one semantically motivated). Numerator and denominator are both scope-local and come from different index fields, which would skew the figure as soon as there are tokens with multiple lemma references (there are none today): [CONTRACTS §H.4](CONTRACTS.md#h4-verse-ending-profile-and-reim-druck-106-points-2-and-3)
+- Function word filter (the same POS set as word frequency and hapax), lemma links to the lemma pages
+- Verse texts only (empty `lineEnds` are skipped); the use case from the issue: comparing the rhyme style of Wolfram, Hartmann and Gottfried
 
-**Erweiterte Figurenbezeichnungen (#59, Beta):**
-- Kuratierte Bezeichnungspraktiken jenseits des Eigennamens für vier Werke (ENE, IW, ROL, TRO) aus dem Dissertationsprojekt Naming-analysis von Linda Beutel-Thurow
-- Auswahl Werk → Figur (nach Belegzahl sortiert) → Terme in drei Kategorien: Eigennamen, Antonomasien („der rîter" für Iwein), Epitheta („der küene")
-- Pro Term: Häufigkeit + aufklappbare Belegstellen mit Versangabe, Nennphrase und Sprecher (Erzähler / Figurenrede mit nennender Figur / Selbstnennung)
-- Term-Filter MHG-normalisiert („tore" findet `tôre`)
-- Reader-Deep-Links für ROL und TRO: Versangaben verlinken via `korpus.html?textId=<SIG>&verse=<n>` in die Leseansicht (Sprung zur Verszeile mit Hervorhebungs-Puls). Die Verszählung dieser beiden Werke ist mit der MHDBDB-TEI-Zählung deckungsgleich (Linda Beutel-Thurow, #59-Kommentar 2026-06-11; TRO-Stichprobe 4/4 verifiziert). ENE und IW folgen abweichenden Editionszählungen und bleiben bewusst link-los
-- Sichtbare Attribution im Modul: Beutel-Thurow, L. (2026). Naming-analysis (v0.1.0-beta), DOI 10.5281/zenodo.18770138, CC BY-NC-SA 4.0
-- Datenbasis: `data/naming-index.json.gz` (~110 KB), gebaut via `scripts/ingest/naming/01-fetch-and-build-index.py`, lazy-geladen ohne IndexedDB-Cache
+**Extended character naming (#59, beta):**
+- Curated naming practices beyond the proper name, for four works (ENE, IW, ROL, TRO), from Linda Beutel-Thurow's doctoral project Naming-analysis
+- Choose a work, then a character (sorted by number of attestations), then terms in three categories: proper names, antonomasias („der rîter" for Iwein), epithets („der küene")
+- Per term: frequency plus expandable attestations with verse number, naming phrase and speaker (narrator / character speech with the naming character / self-naming)
+- The term filter is MHG-normalized („tore" finds `tôre`)
+- Reader deep links for ROL and TRO: verse numbers link into the reading view via `korpus.html?textId=<SIG>&verse=<n>` (jumping to the verse line with a highlight pulse). The verse counting of these two works coincides with the MHDBDB TEI counting (Linda Beutel-Thurow, #59 comment of 2026-06-11; TRO spot check verified 4 of 4). ENE and IW follow different edition counts and deliberately stay without links
+- Attribution visible in the module: Beutel-Thurow, L. (2026). Naming-analysis (v0.1.0-beta), DOI 10.5281/zenodo.18770138, CC BY-NC-SA 4.0
+- Data basis: `data/naming-index.json.gz` (~110 KB), built via `scripts/ingest/naming/01-fetch-and-build-index.py`, lazily loaded without an IndexedDB cache
 
 **Cross-platform workflow:**
 1. Perform analysis in playground
-2. Find interesting result (co-occurrence, peak in distribution, top lemma at Versende, etc.)
+2. Find interesting result (co-occurrence, peak in distribution, top lemma at a verse ending, etc.)
 3. Click result
 4. Opens main site reading view with relevant lemmata highlighted
 5. Auto-scroll to exact position
@@ -320,7 +320,7 @@ Consistent search behavior across all 18 entry points via Middle High German cha
 
 **Normalization rules:**
 - Long vowels: â→a, ê→e, î→i, ô→o, û→u
-- Umlauts: ä→ae, ö→oe, ü→ue; Breve-Umlaute der Wenzelsbibel: ŏ→oe, ŭ→ue (#224)
+- Umlauts: ä→ae, ö→oe, ü→ue; the breve umlauts of the Wenzelsbibel: ŏ→oe, ŭ→ue (#224)
 - Ligatures: æ→ae, œ→oe
 
 **Implementation:**
@@ -334,9 +334,9 @@ Consistent search behavior across all 18 entry points via Middle High German cha
 
 Persistent pages for individual lemmata, accessible at `/lemma/{numericId}`. These URLs are stable external identifiers used by Wörterbuchnetz, MWB, and Wikidata (P9351).
 
-### Wörterbücher (#73, erweitert in #258)
+### Dictionaries (#73, extended in #258)
 
-Abschnitt „Wörterbücher" mit Deep-Links in fünf mittelhochdeutsche Wörterbücher des Wörterbuchnetzes: MWB, Lexer, Lexer-Nachträge, Benecke/Müller/Zarncke und Findebuch. Die Lemma-Seite ist die Vertiefungsseite und darum die einzige Oberfläche, die die Sigle ausschreibt: je Wörterbuch eine Überschrift mit vollem Titel, darunter alle Einträge als Karten mit grammatischer Angabe (ungekürzt, anders als im kompakten Suchpanel). Wörterbücher ohne Treffer erscheinen nicht.
+A section „Wörterbücher" with deep links into five Middle High German dictionaries of the Wörterbuchnetz: MWB, Lexer, Lexer-Nachträge, Benecke/Müller/Zarncke and Findebuch. The lemma page is the page for going deeper and therefore the only surface that spells the sigle out: one heading with the full title per dictionary, below it every entry as a card with its grammatical note (unabridged, unlike the compact search panel). Dictionaries without a hit do not appear.
 
 ### Similar Lemmata
 
