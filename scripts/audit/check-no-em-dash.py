@@ -572,7 +572,7 @@ HUNK_RE = re.compile(r'^@@ -\d+(?:,\d+)? \+(\d+)(?:,(\d+))? @@')
 # Zahl der Faelle in selbsttest_diff(). Als Konstante, weil die Funktion sie
 # auch dann melden muss, wenn sie vor dem Aufbau der Fallliste abbricht; ein
 # Fall am Ende prueft sie gegen die tatsaechliche Laenge.
-DIFF_FALLZAHL = 22
+DIFF_FALLZAHL = 24
 
 
 def ausgeschlossen(rel):
@@ -595,7 +595,25 @@ def ausgeschlossen(rel):
 # Markdown, das an Leser geht. Weisse Liste, nicht schwarze: eine neue
 # Doku-Datei ist im Zweifel fuer Agenten geschrieben und damit auflagenfrei,
 # eine neue Veroeffentlichung liegt unter publications/ und ist es nicht.
-MD_UMFANG_DATEIEN = {'README.md'}
+#
+# Die zwei READMEs neben README.md stehen hier, weil die ausgelieferten
+# Hilfeseiten Menschen ausdruecklich dorthin schicken (hilfe-schema.html,
+# hilfe-daten-beitragen.html). Sie sind der Grenzfall der Regel: geschrieben
+# fuer Entwickler, gelesen aber auch von jemandem, der einem Link aus dem
+# Browser gefolgt ist. Aufgenommen, weil es nichts kostet (geprueft werden
+# ohnehin nur hinzugefuegte Zeilen), nicht weil der Link das Kriterium
+# waere: siehe md_im_umfang().
+#
+# Das dritte verlinkte Ziel ausserhalb von docs/,
+# `.gemini/skills/pos-disambiguator/SKILL.md`, steht bewusst NICHT hier
+# (Entscheidung chsteiner, 2026-08-03): eine Agent-Skill-Datei ist auch
+# dann fuer den Agenten geschrieben, wenn eine Hilfeseite sie als Beispiel
+# verlinkt.
+MD_UMFANG_DATEIEN = {
+    'README.md',
+    'schema/README.md',
+    'ingest/ari/README.md',
+}
 MD_UMFANG_PRAEFIXE = ('publications/',)
 
 
@@ -609,29 +627,32 @@ def md_im_umfang(rel):
     die er durchsetzen soll: ein roter Lauf auf `docs/` verlangte, korrekte
     Prosa umzuschreiben, um ein Gate zu befrieden.
 
-    Im Umfang bleiben deshalb genau zwei Gruppen, beide mit Publikum:
+    Im Umfang bleiben deshalb drei Gruppen, alle mit Publikum:
 
     - `publications/`: Blog-Entwuerfe und Berichte, die das Repo verlassen,
       42 Em-Dash-Zeilen im Bestand verteilt auf zwei von vier Dateien. Ohne
       diesen Zweig faellt der Strich erst nach der Veroeffentlichung auf.
     - `README.md`: die Schaufensterseite des Repos, heute mit null
       Em-Dashes. Sie mitzunehmen kostet keine Aufraeumarbeit.
+    - Die zwei READMEs ausserhalb von `docs/`, auf die ausgelieferte
+      Hilfeseiten verlinken: `schema/README.md` (26 Em-Dash-Zeilen) und
+      `ingest/ari/README.md` (1).
 
     Draussen bleiben `docs/` (346 Vorkommen in 8 von 22 Dateien), CLAUDE.md,
-    das JOURNAL und die READMEs unter `scripts/`, `sources/`, `schema/` und
-    `ingest/`: Adressat ist dort ein Agent oder ein Entwickler.
+    das JOURNAL und die READMEs unter `scripts/` und `sources/`: Adressat
+    ist dort ein Agent oder ein Entwickler, und niemand wird dorthin
+    geschickt.
 
     Das Kriterium ist der ADRESSAT, nicht die Erreichbarkeit ueber einen
-    Link. Gemessen am 2026-08-03 verlinken die ausgelieferten Seiten zehn
-    `.md`-Dateien (elf hrefs, `DATA-MODEL.md` zweimal): sieben davon unter
-    `docs/`, dazu `schema/README.md` (26 Em-Dash-Zeilen),
-    `ingest/ari/README.md` und `.gemini/skills/pos-disambiguator/SKILL.md`.
-    Waere der Link das Kriterium, faellt `docs/` wieder herein, und genau
-    das ist entschieden ausgeschlossen. Ob die drei Ziele ausserhalb von
-    `docs/` dazugehoeren, weil `hilfe-schema.html` und
-    `hilfe-daten-beitragen.html` Menschen dorthin schicken, ist eine offene
-    Umfangsfrage: drei Zeilen in `MD_UMFANG_DATEIEN`, sobald sie
-    entschieden ist.
+    Link. Das ist wichtig, weil die dritte Gruppe genau danach aussieht:
+    gemessen am 2026-08-03 verlinken die ausgelieferten Seiten zehn
+    `.md`-Dateien (elf hrefs, `DATA-MODEL.md` zweimal), und SIEBEN davon
+    liegen unter `docs/`. Waere der Link das Kriterium, faellt `docs/`
+    wieder herein, und das ist entschieden ausgeschlossen. Die zwei
+    READMEs sind aufgenommen, weil sie ein Grenzfall sind und ihre
+    Aufnahme nichts kostet; das dritte verlinkte Ziel, eine
+    Agent-Skill-Datei unter `.gemini/`, ist aus demselben Grund
+    ausgeschlossen geblieben, aus dem `docs/` es ist.
 
     Ein Fund im Bestand von `publications/` bleibt trotzdem stumm, denn
     geprueft werden nur hinzugefuegte Zeilen. Das ist unveraendert und
@@ -1112,6 +1133,16 @@ def selbsttest_diff():
             'sauber\nNeu ' + EM_DASH + ' aber auflagenfrei\n', encoding='utf-8')
         (wurzel / 'andere.md').write_text(
             'sauber\nNeu ' + EM_DASH + ' aber auflagenfrei\n', encoding='utf-8')
+        # Benannte Datei in einem Unterverzeichnis. Ohne eigenen Fall liesse
+        # sich `rel in MD_UMFANG_DATEIEN` durch einen Vergleich auf den
+        # Dateinamen ersetzen (`Path(rel).name in ...`), und dann waere jede
+        # README.md im Repo im Umfang statt der drei benannten.
+        (wurzel / 'schema').mkdir()
+        (wurzel / 'schema' / 'README.md').write_text(
+            'Neu ' + EM_DASH + ' verlinkt aus hilfe-schema\n', encoding='utf-8')
+        (wurzel / 'scripts').mkdir()
+        (wurzel / 'scripts' / 'README.md').write_text(
+            'Neu ' + EM_DASH + ' aber auflagenfrei\n', encoding='utf-8')
         # Eine hinzugefuegte Zeile, die mit `++ ` beginnt, erscheint unter -U0
         # als `+++ ` und sah frueher aus wie ein Dateikopf. Der Em-Dash steht
         # DAHINTER, in einem zweiten Hunk: nur so faellt auf, wenn der Parser
@@ -1158,7 +1189,8 @@ def selbsttest_diff():
         erwartet = {(P + 'a.md', 2), (P + 'c.md', 1), (P + 'wörter.md', 2),
                     (P + 'größe.md', 1), (P + 'g.md', 7), (P + 'plan[v2].md', 2),
                     ('README.md', 2), (P + 'wandert.md', 1),
-                    (P + 'wandert.md', 2), (P + 'zurueck.md', 1)}
+                    (P + 'wandert.md', 2), (P + 'zurueck.md', 1),
+                    ('schema/README.md', 1)}
         faelle = [
             ('unveraenderte Zeile mit Em-Dash bleibt stumm',
              (P + 'a.md', 1) not in ist),
@@ -1200,6 +1232,10 @@ def selbsttest_diff():
              {(P + 'wandert.md', 1), (P + 'wandert.md', 2)} <= ist),
             ('Umbenennung aus _archived heraus wird ganz geprueft',
              (P + 'zurueck.md', 1) in ist),
+            ('benannte Datei im Unterverzeichnis ist im Umfang',
+             ('schema/README.md', 1) in ist),
+            ('gleichnamige Datei anderswo bleibt aussen vor',
+             not any(p == 'scripts/README.md' for p, _ in ist)),
             ('keine weiteren Fundstellen', ist == erwartet),
         ]
         for name, ok in faelle:
