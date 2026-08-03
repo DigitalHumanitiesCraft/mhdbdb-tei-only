@@ -203,7 +203,7 @@ Corpus-wide text analysis using pre-built indexes. Twelve analysis tools in twel
 **Multi-lemma search „Im selben Vers" (#106 point 8):**
 - Co-occurrence restricted to a shared `<l>` (syntactically tighter than the word window of the proximity search)
 - Data basis: `lineStarts[]`/`lineEnds[]` from corpus index v4.1.0+, no new build step
-- Verse texts only (603 of 667); prose is skipped automatically
+- Verse texts only (600 of 667); prose is skipped automatically
 - Hits name the verse number; expand and reader deep link as in the proximity search
 - URL routing: `#multi-lemma&lemmata=…&mode=verse`
 
@@ -212,7 +212,7 @@ Corpus-wide text analysis using pre-built indexes. Twelve analysis tools in twel
 - Finds lemmata sitting exactly at the first or last `<w>` of an `<l>`
 - Use case: rhyme analysis, stylistics of verse endings („how often does Wolfram rhyme on `minne`?")
 - Hit list with the share per text („54 % of all `minne` occurrences in Tristan sit at the verse end"). Numerator and denominator both come from `text.lemmata`, so the ratio holds up even for tokens with multiple lemma references, unlike the rhyme pressure of the verse-ending profile: [CONTRACTS §H.5](CONTRACTS.md#h5-normalized-figures-in-the-remaining-tools)
-- Verse texts only (603 of 667, about 90 % of the corpus); prose is skipped automatically
+- Verse texts only (600 of 667, about 90 % of the corpus); prose is skipped automatically
 - Clicking a hit opens the reading view with highlighting
 
 **Word frequency analysis (#88):**

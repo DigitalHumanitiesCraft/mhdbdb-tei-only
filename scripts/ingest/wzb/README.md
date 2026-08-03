@@ -55,7 +55,7 @@ Die drei **kanonischen** Skripte (`auto-match`, `pos-assign`, `sense-assign`) ze
 3. Text-spezifische Heuristiken (Schreibvarianten, Sprachstufe) ergänzen
 4. Pipeline iterativ durchlaufen, Coverage-Reports prüfen
 
-Siehe [docs/DATA-MODEL.md → Ingest-Verfahren](../../../docs/DATA-MODEL.md#ingest-procedure-taking-in-new-texts) für das normative Phasenmuster. Die historische WZB-Detail-Doku (inkl. pre-registriertem Phase-3-Evaluationsprotokoll) liegt in der Git-History unter `docs/features/034-wenzelsbibel-annotation.md` (#34, gelöscht per Temporal-Artifacts-Konvention).
+Siehe [docs/DATA-MODEL.md → Ingest procedure](../../../docs/DATA-MODEL.md#ingest-procedure-taking-in-new-texts) für das normative Phasenmuster. Die historische WZB-Detail-Doku (inkl. pre-registriertem Phase-3-Evaluationsprotokoll) liegt in der Git-History unter `docs/features/034-wenzelsbibel-annotation.md` (#34, gelöscht per Temporal-Artifacts-Konvention).
 
 ## Endzustand WZB (2026-04-15)
 
