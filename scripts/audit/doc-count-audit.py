@@ -141,6 +141,13 @@ INTENTIONALLY_SILENT = {
         'ADRs begruenden Entscheidungen; die Lexikongroesse fuehren TEI-MODEL und DATA-MODEL',
     ('docs/DECISIONS.md', 'variants_normalized'):
         'ADR-015 nennt nur die historischen Formzahlen der Regenerierung, nie die Mappings',
+    # Mit #316 dazu, und die Uebersetzung hat hier nichts kaputtgemacht,
+    # sondern etwas sichtbar: die bisherige Bindung traf "43.879 Eintraege",
+    # also die Lexikonzahl, und wurde nur vom Drift-Fenster verworfen. Von
+    # variants.xml nennt die Datei die Zahl der Formen (Zeile 169), nie die
+    # der Eintraege.
+    ('docs/DATA-MODEL.md', 'variants_entries'):
+        'nennt von variants.xml nur die Formenzahl, nie die Zahl der Eintraege',
 }
 
 
@@ -382,7 +389,10 @@ NEAR_KEYWORDS = {
     # dieselbe Zahl dort als Groesse des API-Lemmata-Bundles auftaucht
     # ("43,879 records", ARCHITECTURE.md §Static JSON API).
     'lexicon_entries': r'(?:[Ll]emmata|[Rr]ecords)',
-    'works': r'Werke',
+    # Zweisprachig seit #316: DATA-MODEL.md schreibt die 584 seit der
+    # Uebersetzung als "584 works". TEI-MODEL.md ist noch deutsch und haelt
+    # die Form "Werke", beide Zielorte brauchen ihre Variante.
+    'works': r'(?:Werke|[Ww]orks)',
     'variants_entries': r'(?:Variant|Eintr[äa]ge)',
     # Satzanfang und Karten-Labels schreiben das Adjektiv gross
     # ("Orthographische Varianten" im Stats-Block der Startseite); ohne
