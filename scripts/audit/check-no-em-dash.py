@@ -9,11 +9,11 @@ Code-Kommentaren.
 
 Seit 2026-08-03 gilt die Regel ausdruecklich NUR fuer user-sichtbaren Text.
 Dateien, die rein fuer LLMs geschrieben sind (docs/, CLAUDE.md, JOURNAL),
-tragen keine Auflagen (CLAUDE.md -> Language). Der Markdown-Zweig unten ist
-damit weiter gefasst als die Regel, die er durchsetzen soll: ein Treffer in
-docs/ ist Rauschen, kein Defekt. Er bleibt vorerst drin, weil die
-Einschraenkung auf user-sichtbare Markdown-Dateien eine Entscheidung ist
-und keine Aufraeumarbeit.
+tragen keine Auflagen (CLAUDE.md -> Language). Der Markdown-Zweig war damit
+einen Tag lang weiter gefasst als die Regel, die er durchsetzen soll, und
+ist mit dieser Fassung auf `publications/` und `README.md` verengt worden:
+siehe `md_im_umfang()`. Ein roter Lauf auf `docs/` verlangte sonst, korrekte
+Prosa umzuschreiben, um ein Gate zu befrieden.
 
 Anlass ist wiederkehrend: KZW hat am 28.07. zum wiederholten Mal einen
 Em-Dash im Frontend gemeldet (#140, diesmal im Hapax-Werkzeug).
@@ -90,8 +90,9 @@ ist `tailwind-output.css`: generiert, minifiziert, und über
 `tailwind-input.css` plus die HTML-Klassen ohnehin mitgeprüft. Vom
 Vollscan nicht erfasst: `docs/`, `publications/`, `tei/`,
 `authority-files/`, `schema/`, `testing/` und Fremdcode unter `vendor/`.
-Für `.md`-Dateien darin gilt seit #292 der Diff-Modus weiter unten;
-`vendor/` und `_archived/` bleiben auch dort aussen vor.
+Für `.md`-Dateien gilt seit #292 der Diff-Modus weiter unten, seit
+2026-08-03 nur noch für `publications/` und `README.md`; `vendor/` und
+`_archived/` bleiben auch dort aussen vor.
 
 Wenn ein Em-Dash einmal als DATEN gebraucht wird und nicht als Typografie
 (Normalisierungstabelle, Interpunktions-Regex, Platzhalter-Glyphe), dann ist
@@ -123,6 +124,15 @@ umgeschrieben hat (472 vor dem Commit, 468 danach).
 Ein Vollscan waere also nicht die Bereinigung von acht Dateien gewesen,
 wie #292 annahm, sondern eine redaktionelle Umschreibung des halben
 Doku-Bestands.
+
+Welche `.md`-Dateien ueberhaupt gemeint sind, entscheidet seit 2026-08-03
+`md_im_umfang()`: `publications/` und `README.md`, sonst nichts. Der
+Diff-Filter bleibt daneben bestehen, er beantwortet die andere Haelfte der
+Frage. Zielgruppe und Neuheit sind unabhaengig voneinander, und beide
+muessen zutreffen: ein Bestandssatz in einem Blogentwurf wird nicht
+umgeschrieben, eine neue Zeile in `docs/` traegt keine Auflagen.
+Gemessen am 2026-08-03 liegen damit 42 der 447 Em-Dash-Zeilen der
+getrackten `.md` im Umfang, alle in `publications/`.
 
 Ausgenommen sind Fenced-Code-Bloecke und Inline-Code-Spans, weil die
 Hausregel Code, Terminal-Ausgaben und Kommentare ausdruecklich freistellt
@@ -562,7 +572,7 @@ HUNK_RE = re.compile(r'^@@ -\d+(?:,\d+)? \+(\d+)(?:,(\d+))? @@')
 # Zahl der Faelle in selbsttest_diff(). Als Konstante, weil die Funktion sie
 # auch dann melden muss, wenn sie vor dem Aufbau der Fallliste abbricht; ein
 # Fall am Ende prueft sie gegen die tatsaechliche Laenge.
-DIFF_FALLZAHL = 15
+DIFF_FALLZAHL = 22
 
 
 def ausgeschlossen(rel):
@@ -574,11 +584,61 @@ def ausgeschlossen(rel):
     wzb/README.md` ist getrackt und liegt unter `_archived`.
 
     `TOP_LEVEL_SKIP` gilt hier NICHT: dort stehen `docs`, `publications`,
-    `testing` und `schema`, also genau die Verzeichnisse, deren Markdown
-    dieser Modus pruefen soll.
+    `testing` und `schema`. Welches Markdown daraus ueberhaupt gemeint ist,
+    entscheidet `md_im_umfang()`; die beiden Filter sind getrennt, weil sie
+    verschiedene Fragen beantworten (Fremdcode gegen Zielgruppe).
     """
     teile = Path(rel).parts
     return any(t in SKIP_ANYWHERE for t in teile) or rel in SKIP_DATEIEN
+
+
+# Markdown, das an Leser geht. Weisse Liste, nicht schwarze: eine neue
+# Doku-Datei ist im Zweifel fuer Agenten geschrieben und damit auflagenfrei,
+# eine neue Veroeffentlichung liegt unter publications/ und ist es nicht.
+MD_UMFANG_DATEIEN = {'README.md'}
+MD_UMFANG_PRAEFIXE = ('publications/',)
+
+
+def md_im_umfang(rel):
+    """Ist diese `.md`-Datei user-sichtbarer Text im Sinn der Hausregel?
+
+    Bis 2026-08-03 pruefte der Diff-Modus jede getrackte `.md`-Datei. Die
+    Hausregel gilt aber nur fuer Text, den Leser sehen (CLAUDE.md ->
+    Language), und rein fuer LLMs geschriebene Dateien tragen ausdruecklich
+    gar keine Auflagen. Der Zweig war damit weiter gefasst als die Regel,
+    die er durchsetzen soll: ein roter Lauf auf `docs/` verlangte, korrekte
+    Prosa umzuschreiben, um ein Gate zu befrieden.
+
+    Im Umfang bleiben deshalb genau zwei Gruppen, beide mit Publikum:
+
+    - `publications/`: Blog-Entwuerfe und Berichte, die das Repo verlassen,
+      42 Em-Dash-Zeilen im Bestand verteilt auf zwei von vier Dateien. Ohne
+      diesen Zweig faellt der Strich erst nach der Veroeffentlichung auf.
+    - `README.md`: die Schaufensterseite des Repos, heute mit null
+      Em-Dashes. Sie mitzunehmen kostet keine Aufraeumarbeit.
+
+    Draussen bleiben `docs/` (346 Vorkommen in 8 von 22 Dateien), CLAUDE.md,
+    das JOURNAL und die READMEs unter `scripts/`, `sources/`, `schema/` und
+    `ingest/`: Adressat ist dort ein Agent oder ein Entwickler.
+
+    Das Kriterium ist der ADRESSAT, nicht die Erreichbarkeit ueber einen
+    Link. Gemessen am 2026-08-03 verlinken die ausgelieferten Seiten zehn
+    `.md`-Dateien (elf hrefs, `DATA-MODEL.md` zweimal): sieben davon unter
+    `docs/`, dazu `schema/README.md` (26 Em-Dash-Zeilen),
+    `ingest/ari/README.md` und `.gemini/skills/pos-disambiguator/SKILL.md`.
+    Waere der Link das Kriterium, faellt `docs/` wieder herein, und genau
+    das ist entschieden ausgeschlossen. Ob die drei Ziele ausserhalb von
+    `docs/` dazugehoeren, weil `hilfe-schema.html` und
+    `hilfe-daten-beitragen.html` Menschen dorthin schicken, ist eine offene
+    Umfangsfrage: drei Zeilen in `MD_UMFANG_DATEIEN`, sobald sie
+    entschieden ist.
+
+    Ein Fund im Bestand von `publications/` bleibt trotzdem stumm, denn
+    geprueft werden nur hinzugefuegte Zeilen. Das ist unveraendert und
+    steht so in der Hausregel: neuer und ueberarbeiteter Text, keine
+    rueckwirkende Umschreibung.
+    """
+    return rel in MD_UMFANG_DATEIEN or rel.startswith(MD_UMFANG_PRAEFIXE)
 
 
 # Hier standen nacheinander drei git-Konfigurationen, die Fail-opens des
@@ -637,7 +697,27 @@ def neue_md_zeilen(base, wurzel=None):
         pfade = felder[i:i + anzahl_pfade]
         i += anzahl_pfade
         rel = pfade[-1]
-        if ausgeschlossen(rel):
+        if ausgeschlossen(rel) or not md_im_umfang(rel):
+            continue
+        # Eintritt in den Umfang per Umbenennung. Die Datei hat keine
+        # hinzugefuegten Zeilen (`-M` erkennt sie als Umzug), ihr Inhalt ist
+        # aber zum ersten Mal user-sichtbar: `git mv docs/entwurf.md
+        # publications/entwurf.md` trug den gesamten Em-Dash-Bestand von
+        # docs/ stumm in den Veroeffentlichungspfad, und genau davor soll
+        # dieser Zweig schuetzen. Der Text ist neu, wo er jetzt steht,
+        # deshalb gilt hier dieselbe Regel wie fuer eine ungetrackte Datei:
+        # ganz pruefen. Eine Umbenennung INNERHALB des Umfangs bleibt davon
+        # unberuehrt und meldet weiterhin keine Bestandszeile.
+        #
+        # `ausgeschlossen()` gehoert mit in die Bedingung, weil ein Pfad im
+        # Umfang liegen und trotzdem ungeprueft sein kann: `publications/
+        # _archived/alt.md` beginnt mit `publications/`, wird aber als
+        # Fremd- und Archivcode uebersprungen. Ohne den Zusatz bliebe
+        # `git mv publications/_archived/alt.md publications/alt.md` stumm,
+        # also derselbe Umzug ins Sichtbare, nur eine Ebene tiefer.
+        if anzahl_pfade == 2 and (ausgeschlossen(pfade[0])
+                                  or not md_im_umfang(pfade[0])):
+            zeilen[rel] = None
             continue
         # Pro Datei ein eigener diff. Der teurere Weg, aber der einzige ohne
         # Rateschritt: in einem Sammel-Diff muesste der Parser die Dateikoepfe
@@ -681,7 +761,7 @@ def neue_md_zeilen(base, wurzel=None):
         # oben brechen in derselben Lage ebenfalls ab.
         return None
     for pfad in res.stdout.split('\0'):
-        if pfad and not ausgeschlossen(pfad):
+        if pfad and not ausgeschlossen(pfad) and md_im_umfang(pfad):
             zeilen[pfad] = None
     return zeilen
 
@@ -906,102 +986,165 @@ def selbsttest_diff():
         cfg = ['-c', 'user.name=Gate', '-c', 'user.email=gate@example.org',
                '-c', 'commit.gpgsign=false']
         _git(['init', '-q', '-b', 'main'], wurzel)
-        (wurzel / 'a.md').write_text('Alt ' + EM_DASH + ' bleibt\n', encoding='utf-8')
-        (wurzel / 'b.md').write_text('sauber\n', encoding='utf-8')
-        (wurzel / 'e.md').write_text(
+        # Die Faelle zum Diff-Parser liegen unter publications/, weil nur das
+        # noch im Umfang ist (md_im_umfang). Ohne den Umzug pruefte diese ganze
+        # Ebene ab 2026-08-03 nichts mehr: jede Datei fiele vorher am
+        # Umfangsfilter durch, und fuenfzehn Faelle waeren gruen, weil das Gate
+        # gar nicht mehr hinsieht. Der Umfang selbst hat eigene Faelle unten.
+        (wurzel / 'publications').mkdir()
+        (wurzel / 'publications' / 'a.md').write_text(
+            'Alt ' + EM_DASH + ' bleibt\n', encoding='utf-8')
+        (wurzel / 'publications' / 'b.md').write_text('sauber\n', encoding='utf-8')
+        (wurzel / 'publications' / 'e.md').write_text(
             'Alt ' + EM_DASH + ' bleibt\nWeg damit\nSchluss\n', encoding='utf-8')
         # f.md prueft die Gegenrichtung zur Hunk-Laenge: eine hinzugefuegte
         # Zeile direkt VOR einer bestehenden Em-Dash-Zeile. Ein Off-by-one
         # nach oben wuerde die bestehende mitzaehlen.
-        (wurzel / 'f.md').write_text('Alt ' + EM_DASH + ' bleibt\n', encoding='utf-8')
+        (wurzel / 'publications' / 'f.md').write_text(
+            'Alt ' + EM_DASH + ' bleibt\n', encoding='utf-8')
         # Umlaut im Dateinamen. Ohne -z quotet git den Pfad als
         # "w\303\266rter.md"; unter diesem Namen findet er sich nicht mehr auf
         # der Platte, und der Scan meldete nichts. In einem deutschsprachigen
         # Projekt ist das kein Sonderfall.
-        (wurzel / 'wörter.md').write_text('sauber\n', encoding='utf-8')
+        (wurzel / 'publications' / 'wörter.md').write_text('sauber\n', encoding='utf-8')
         # g.md muss getrackt sein: die getarnte Kopfzeile ist eine Gefahr des
         # diff-Zweigs, ungetrackte Dateien laufen an ihm vorbei.
-        (wurzel / 'g.md').write_text(
+        (wurzel / 'publications' / 'g.md').write_text(
             'kopf\nfuellzeile\nfuellzeile\nfuellzeile\nschluss\n', encoding='utf-8')
         # h.md wird spaeter nur umbenannt. Ohne Umbenennungserkennung gilt die
         # Bestandszeile mit Strich als neu, und ein reiner Umzug faerbt das
         # Gate rot.
-        (wurzel / 'h.md').write_text(
+        (wurzel / 'publications' / 'h.md').write_text(
             'Bestand ' + EM_DASH + ' unveraendert\n', encoding='utf-8')
         # Eckige Klammern im Dateinamen. Ohne :(literal) matcht der Pathspec
         # `plan[v2].md` als Glob AUCH `plan2.md`; deren Hunks landeten dann
         # unter dem falschen Pfad. Damit das auffaellt, traegt plan[v2].md
         # einen Em-Dash in einer BESTANDSZEILE, und plan2.md bekommt genau an
         # deren Nummer eine neue Zeile.
-        (wurzel / 'plan[v2].md').write_text(
+        (wurzel / 'publications' / 'plan[v2].md').write_text(
             'Bestand ' + EM_DASH + ' alt\n', encoding='utf-8')
-        (wurzel / 'plan2.md').write_text('sauber\n', encoding='utf-8')
+        (wurzel / 'publications' / 'plan2.md').write_text('sauber\n', encoding='utf-8')
         (wurzel / '.gitignore').write_text('geheim/\n', encoding='utf-8')
-        (wurzel / '_archived').mkdir()
-        (wurzel / '_archived' / 'alt.md').write_text('Archiv\n', encoding='utf-8')
+        # Der Archiv-Fall liegt IM Umfang, damit ihn weiter SKIP_ANYWHERE
+        # stillstellt und nicht der neue Umfangsfilter. Sonst bestuende er aus
+        # dem falschen Grund und deckte einen Rueckbau von `ausgeschlossen()`
+        # nicht mehr auf.
+        (wurzel / 'publications' / '_archived').mkdir()
+        (wurzel / 'publications' / '_archived' / 'alt.md').write_text(
+            'Archiv\n', encoding='utf-8')
+        # Gegenstueck dazu: dieselbe Ausnahme, aber die Datei zieht spaeter
+        # aus dem Archiv in den sichtbaren Teil desselben Verzeichnisses.
+        # Der Pfad liegt vorher wie nachher im Umfang, geprueft wird er erst
+        # nachher: ein Fall, den `md_im_umfang` allein nicht sieht.
+        (wurzel / 'publications' / '_archived' / 'zurueck.md').write_text(
+            'Archiv ' + EM_DASH + ' Bestand\n', encoding='utf-8')
+        # Umfangsfaelle: dieselbe Prosa, verschiedene Adressaten. docs/ und
+        # CLAUDE.md sind fuer Agenten geschrieben und auflagenfrei, README.md
+        # ist die Schaufensterseite. `andere.md` haelt fest, dass der Umfang
+        # eine weisse Liste ist und nicht „alles im Wurzelverzeichnis".
+        (wurzel / 'docs').mkdir()
+        (wurzel / 'docs' / 'd1.md').write_text('sauber\n', encoding='utf-8')
+        # wandert.md zieht spaeter von docs/ nach publications/, ohne dass ein
+        # Zeichen angefasst wird. Ohne Sonderbehandlung faende das Gate nichts:
+        # eine erkannte Umbenennung hat keine hinzugefuegten Zeilen, und der
+        # Bestand von docs/ stuende ungesehen in der Veroeffentlichung.
+        (wurzel / 'docs' / 'wandert.md').write_text(
+            'Bestand ' + EM_DASH + ' aus docs\nZweite ' + EM_DASH + ' Zeile\n',
+            encoding='utf-8')
+        (wurzel / 'README.md').write_text('sauber\n', encoding='utf-8')
+        (wurzel / 'CLAUDE.md').write_text('sauber\n', encoding='utf-8')
+        (wurzel / 'andere.md').write_text('sauber\n', encoding='utf-8')
         # `plan[v2].md` braucht auch hier die literal-Magic: als Pathspec
         # matcht der Name sich selbst nicht, `git add` faende nichts.
-        _git(['add', 'a.md', 'b.md', 'e.md', 'f.md', 'wörter.md', 'g.md',
-              'h.md', ':(literal)plan[v2].md', 'plan2.md', '.gitignore',
-              '_archived/alt.md'], wurzel)
+        _git(['add', 'publications/a.md', 'publications/b.md',
+              'publications/e.md', 'publications/f.md', 'publications/wörter.md',
+              'publications/g.md', 'publications/h.md',
+              ':(literal)publications/plan[v2].md', 'publications/plan2.md',
+              '.gitignore', 'publications/_archived/alt.md',
+              'publications/_archived/zurueck.md',
+              'docs/d1.md', 'docs/wandert.md', 'README.md', 'CLAUDE.md',
+              'andere.md'], wurzel)
         _git(cfg + ['commit', '-qm', 'base'], wurzel)
 
         # a.md: neue Zeile mit Em-Dash, die alte bleibt unangetastet
-        (wurzel / 'a.md').write_text(
+        (wurzel / 'publications' / 'a.md').write_text(
             'Alt ' + EM_DASH + ' bleibt\nNeu ' + EM_DASH + ' kommt\n', encoding='utf-8')
         # b.md: neuer Fence, der Em-Dash darin ist Code
-        (wurzel / 'b.md').write_text(
+        (wurzel / 'publications' / 'b.md').write_text(
             'sauber\n```\nx ' + EM_DASH + ' y\n```\n', encoding='utf-8')
         # c.md: ganz neu und noch nicht getrackt
-        (wurzel / 'c.md').write_text('Neue Datei ' + EM_DASH + ' Prosa\n', encoding='utf-8')
+        (wurzel / 'publications' / 'c.md').write_text(
+            'Neue Datei ' + EM_DASH + ' Prosa\n', encoding='utf-8')
         # d.txt: falsche Endung, geht das Gate nichts an
-        (wurzel / 'd.txt').write_text('Text ' + EM_DASH + ' egal\n', encoding='utf-8')
+        (wurzel / 'publications' / 'd.txt').write_text(
+            'Text ' + EM_DASH + ' egal\n', encoding='utf-8')
         # e.md: NUR eine Loeschung. Der Hunk-Kopf lautet dann `+1,0`, also
         # Laenge null. Wer die Laenge als „fehlend heisst eins" liest, macht
         # daraus die bestehende Zeile 1, und die traegt einen Em-Dash: ein
         # Fehlalarm auf Text, den der PR nicht angefasst hat.
-        (wurzel / 'e.md').write_text(
+        (wurzel / 'publications' / 'e.md').write_text(
             'Alt ' + EM_DASH + ' bleibt\nSchluss\n', encoding='utf-8')
         # f.md: neue Zeile 1 ohne Strich, die bestehende rutscht auf 2.
-        (wurzel / 'f.md').write_text(
+        (wurzel / 'publications' / 'f.md').write_text(
             'Neu ohne Strich\nAlt ' + EM_DASH + ' bleibt\n', encoding='utf-8')
         # Umlaut-Datei: getrackt, neue Zeile mit Strich.
-        (wurzel / 'wörter.md').write_text(
+        (wurzel / 'publications' / 'wörter.md').write_text(
             'sauber\nNeu ' + EM_DASH + ' hier\n', encoding='utf-8')
         # Umlaut-Datei, ungetrackt: zweiter Weg, derselbe Stolperstein.
-        (wurzel / 'größe.md').write_text('Neu ' + EM_DASH + ' hier\n', encoding='utf-8')
+        (wurzel / 'publications' / 'größe.md').write_text(
+            'Neu ' + EM_DASH + ' hier\n', encoding='utf-8')
         # Ignoriertes Verzeichnis. Das ist keine Feinheit: gitignoriert sind
         # in diesem Projekt unter anderem temp/ und proposals/, und deren
         # Inhalt darf nicht in einem CI-Log landen.
-        (wurzel / 'geheim').mkdir()
-        (wurzel / 'geheim' / 'x.md').write_text(
+        (wurzel / 'publications' / 'geheim').mkdir()
+        (wurzel / 'publications' / 'geheim' / 'x.md').write_text(
             'Vertraulich ' + EM_DASH + ' nicht ins Log\n', encoding='utf-8')
+        # Umfang, beide Wege einzeln: d1.md ist getrackt und laeuft durch den
+        # diff, ungetrackt.md kommt aus ls-files. Der Filter muss an beiden
+        # Stellen greifen, sonst haengt die Zielgruppen-Frage am Track-Status.
+        (wurzel / 'docs' / 'd1.md').write_text(
+            'sauber\nNeu ' + EM_DASH + ' aber auflagenfrei\n', encoding='utf-8')
+        (wurzel / 'docs' / 'ungetrackt.md').write_text(
+            'Neu ' + EM_DASH + ' aber auflagenfrei\n', encoding='utf-8')
+        (wurzel / 'README.md').write_text(
+            'sauber\nNeu ' + EM_DASH + ' sichtbar\n', encoding='utf-8')
+        (wurzel / 'CLAUDE.md').write_text(
+            'sauber\nNeu ' + EM_DASH + ' aber auflagenfrei\n', encoding='utf-8')
+        (wurzel / 'andere.md').write_text(
+            'sauber\nNeu ' + EM_DASH + ' aber auflagenfrei\n', encoding='utf-8')
         # Eine hinzugefuegte Zeile, die mit `++ ` beginnt, erscheint unter -U0
         # als `+++ ` und sah frueher aus wie ein Dateikopf. Der Em-Dash steht
         # DAHINTER, in einem zweiten Hunk: nur so faellt auf, wenn der Parser
         # ab der getarnten Zeile den Rest der Datei verwirft. Die vier
         # unveraenderten Zeilen dazwischen halten die beiden Hunks getrennt.
-        (wurzel / 'g.md').write_text(
+        (wurzel / 'publications' / 'g.md').write_text(
             '++ getarnter Dateikopf\nkopf\nfuellzeile\nfuellzeile\nfuellzeile\n'
             'schluss\nNeu ' + EM_DASH + ' weit dahinter\n', encoding='utf-8')
         # Archivierter Fremdcode: im Vollscan ausgeschlossen, also auch hier.
         # Beide Wege einzeln, weil der Filter an zwei Stellen greifen muss:
         # alt.md ist getrackt und geht durch den diff, neu.md ist ungetrackt
         # und kommt aus ls-files.
-        (wurzel / '_archived' / 'alt.md').write_text(
+        (wurzel / 'publications' / '_archived' / 'alt.md').write_text(
             'Archiv\nNeu ' + EM_DASH + ' trotzdem still\n', encoding='utf-8')
-        (wurzel / '_archived' / 'neu.md').write_text(
+        (wurzel / 'publications' / '_archived' / 'neu.md').write_text(
             'Archiv ' + EM_DASH + ' ungetrackt\n', encoding='utf-8')
         # Reine Umbenennung, kein Zeichen geaendert. `git mv` legt sie in den
         # Index; der Vergleich base gegen Arbeitsbaum sieht sie dadurch.
-        _git(['mv', 'h.md', 'i.md'], wurzel)
+        _git(['mv', 'publications/h.md', 'publications/i.md'], wurzel)
+        # Gegenrichtung zur Umbenennung innerhalb des Umfangs: von draussen
+        # herein. Beide stehen nebeneinander, weil sie fuer denselben
+        # git-Status R entgegengesetzt ausgehen muessen.
+        _git(['mv', 'docs/wandert.md', 'publications/wandert.md'], wurzel)
+        _git(['mv', 'publications/_archived/zurueck.md',
+              'publications/zurueck.md'], wurzel)
         # Neue Zeile 2 in der Datei mit Glob-Zeichen im Namen; Zeile 1 mit dem
         # Strich bleibt Bestand. plan2.md bekommt seine neue Zeile an Position
         # 1, also genau dort, wo plan[v2].md den Bestands-Strich hat.
-        (wurzel / 'plan[v2].md').write_text(
+        (wurzel / 'publications' / 'plan[v2].md').write_text(
             'Bestand ' + EM_DASH + ' alt\nNeu ' + EM_DASH + ' hier\n',
             encoding='utf-8')
-        (wurzel / 'plan2.md').write_text('geaendert\nsauber\n', encoding='utf-8')
+        (wurzel / 'publications' / 'plan2.md').write_text(
+            'geaendert\nsauber\n', encoding='utf-8')
 
         gefunden = scanne_diff('HEAD', wurzel)
         if gefunden is None:
@@ -1011,30 +1154,52 @@ def selbsttest_diff():
             print('  [FAIL] Diff-Schicht: git im Wegwerf-Repo nicht benutzbar')
             return DIFF_FALLZAHL, DIFF_FALLZAHL
         ist = {(p, nr) for p, nr, _ in gefunden}
-        erwartet = {('a.md', 2), ('c.md', 1), ('wörter.md', 2), ('größe.md', 1),
-                    ('g.md', 7), ('plan[v2].md', 2)}
+        P = 'publications/'
+        erwartet = {(P + 'a.md', 2), (P + 'c.md', 1), (P + 'wörter.md', 2),
+                    (P + 'größe.md', 1), (P + 'g.md', 7), (P + 'plan[v2].md', 2),
+                    ('README.md', 2), (P + 'wandert.md', 1),
+                    (P + 'wandert.md', 2), (P + 'zurueck.md', 1)}
         faelle = [
-            ('unveraenderte Zeile mit Em-Dash bleibt stumm', ('a.md', 1) not in ist),
-            ('hinzugefuegte Zeile wird gemeldet', ('a.md', 2) in ist),
-            ('neuer Fenced Code bleibt stumm', not any(p == 'b.md' for p, _ in ist)),
-            ('ungetrackte neue Datei wird ganz geprueft', ('c.md', 1) in ist),
-            ('Nicht-Markdown bleibt aussen vor', not any(p == 'd.txt' for p, _ in ist)),
+            ('unveraenderte Zeile mit Em-Dash bleibt stumm',
+             (P + 'a.md', 1) not in ist),
+            ('hinzugefuegte Zeile wird gemeldet', (P + 'a.md', 2) in ist),
+            ('neuer Fenced Code bleibt stumm',
+             not any(p == P + 'b.md' for p, _ in ist)),
+            ('ungetrackte neue Datei wird ganz geprueft', (P + 'c.md', 1) in ist),
+            ('Nicht-Markdown bleibt aussen vor',
+             not any(p == P + 'd.txt' for p, _ in ist)),
             ('reine Loeschung erzeugt keine neue Zeile',
-             not any(p == 'e.md' for p, _ in ist)),
+             not any(p == P + 'e.md' for p, _ in ist)),
             ('nachgerueckte Bestandszeile bleibt stumm',
-             not any(p == 'f.md' for p, _ in ist)),
-            ('Umlaut im Dateinamen, getrackt', ('wörter.md', 2) in ist),
-            ('Umlaut im Dateinamen, ungetrackt', ('größe.md', 1) in ist),
+             not any(p == P + 'f.md' for p, _ in ist)),
+            ('Umlaut im Dateinamen, getrackt', (P + 'wörter.md', 2) in ist),
+            ('Umlaut im Dateinamen, ungetrackt', (P + 'größe.md', 1) in ist),
             ('gitignoriertes Verzeichnis bleibt aussen vor',
-             not any(p.startswith('geheim/') for p, _ in ist)),
+             not any('geheim/' in p for p, _ in ist)),
             ('als Dateikopf getarnte Zeile verdeckt den Rest nicht',
-             ('g.md', 7) in ist),
+             (P + 'g.md', 7) in ist),
             ('_archived bleibt aussen vor, wie im Vollscan',
-             not any(p.startswith('_archived/') for p, _ in ist)),
+             not any('_archived/' in p for p, _ in ist)),
             ('reine Umbenennung meldet keine Bestandszeile',
-             not any(p in ('h.md', 'i.md') for p, _ in ist)),
+             not any(p in (P + 'h.md', P + 'i.md') for p, _ in ist)),
             ('Glob-Zeichen im Dateinamen zieht keine Fremddatei herein',
-             ('plan[v2].md', 2) in ist and ('plan[v2].md', 1) not in ist),
+             (P + 'plan[v2].md', 2) in ist and (P + 'plan[v2].md', 1) not in ist),
+            # Umfang (2026-08-03). Die vier stillen Faelle tragen dieselbe
+            # Prosa wie der laute darunter: unterschieden wird allein nach
+            # Adressat, nicht nach Inhalt.
+            ('docs/ ist auflagenfrei, getrackt',
+             not any(p == 'docs/d1.md' for p, _ in ist)),
+            ('docs/ ist auflagenfrei, ungetrackt',
+             not any(p == 'docs/ungetrackt.md' for p, _ in ist)),
+            ('CLAUDE.md ist auflagenfrei',
+             not any(p == 'CLAUDE.md' for p, _ in ist)),
+            ('sonstiges Markdown im Wurzelverzeichnis bleibt aussen vor',
+             not any(p == 'andere.md' for p, _ in ist)),
+            ('README.md bleibt im Umfang', ('README.md', 2) in ist),
+            ('Umbenennung in den Umfang hinein wird ganz geprueft',
+             {(P + 'wandert.md', 1), (P + 'wandert.md', 2)} <= ist),
+            ('Umbenennung aus _archived heraus wird ganz geprueft',
+             (P + 'zurueck.md', 1) in ist),
             ('keine weiteren Fundstellen', ist == erwartet),
         ]
         for name, ok in faelle:
@@ -1125,8 +1290,14 @@ def main() -> int:
                   f'"{args.diff_base}" ist fehlgeschlagen, Markdown ungeprueft.')
             return 1
         if not args.quiet:
-            print(f'Markdown gegen {args.diff_base}: nur hinzugefuegte Zeilen, '
-                  f'Fences und Inline-Code ausgenommen (#292).')
+            # Der Umfang gehoert in die Meldung, nicht nur in den Docstring.
+            # Sonst liest sich „Gate gruen" wieder als Beleg fuer eine
+            # Doku-Aenderung, die das Gate gar nicht angesehen hat: genau der
+            # Grund, aus dem es den Markdown-Zweig ueberhaupt gibt (#292).
+            umfang = ', '.join(sorted(MD_UMFANG_DATEIEN) + list(MD_UMFANG_PRAEFIXE))
+            print(f'Markdown gegen {args.diff_base}: nur hinzugefuegte Zeilen '
+                  f'in {umfang}, Fences und Inline-Code ausgenommen '
+                  f'(#292, Umfang seit 2026-08-03).')
 
     if not fundstellen and not md_fundstellen:
         if not args.quiet:

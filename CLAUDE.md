@@ -119,7 +119,7 @@ After larger documentation changes, and quarterly even without them, against cre
 
 ## Gotchas
 
-- **No em-dashes in user-visible text.** That is the whole rule: it is about what a reader sees in the browser, so it does not cover this file, `docs/` or code comments. Use a colon, a comma, a parenthesis or a sentence of its own instead of U+2014. The gate `scripts/audit/check-no-em-dash.py` (CI: `no-cdn-check.yml`) casts a wider net: HTML, JS and CSS in full, plus any Markdown line a PR adds (`--diff-base <rev>`, fences and inline code excluded, existing text untouched). A Markdown hit is therefore noise, not a defect.
+- **No em-dashes in user-visible text.** That is the whole rule: it is about what a reader sees in the browser, so it does not cover this file, `docs/` or code comments. Use a colon, a comma, a parenthesis or a sentence of its own instead of U+2014. The gate `scripts/audit/check-no-em-dash.py` (CI: `no-cdn-check.yml`) covers HTML, JS and CSS in full, plus the Markdown a reader actually gets: `publications/` and `README.md`, and there only the lines a PR adds (`--diff-base <rev>`, fences and inline code excluded, existing text untouched). `docs/`, this file and the JOURNAL are out of scope, so a green run says nothing about them.
 - **Angle bracket entities** (`&lt;`, `&gt;`) in `<pc>` are correct XML, not bugs
 - **Nav and footer are build-injected**: do not edit them in the HTML pages. The source is `includes/` plus `scripts/build-pages.py` (marker regions); `build-pages.py --check` is the drift gate. The mobile menu stays inline. See DEVELOPMENT.md.
 - **Zotero cache** (`.zotero_cache.json`) is gitignored, use `--offline` for reproducible builds
