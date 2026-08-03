@@ -27,6 +27,14 @@ MHDBDB TEI Repository: ~667 TEI-encoded Middle High German texts with semantic a
 | `features/` | Feature-scoped planning docs (active issues only) |
 | `playbooks/` | Wiederverwendbare Session-Verfahren (autonome Issue-/Merge-/Carearbeit-Sessions) |
 
+### Sprache
+
+**User-facing (Frontend) Hilfe und Doku immer deutsch, Entwickler-Doku immer Englisch.** Die Trennlinie ist das Publikum, nicht der Ordner: `hilfe-*.html`, `impressum.html` und alles, was Nutzerinnen im Browser sehen, bleibt deutsch; die Promptotyping-Docs in `docs/` sind englisch, weil sie in erster Linie von Agenten gelesen werden (#316, umgesetzt 2026-08-03).
+
+**Ausnahme: `JOURNAL.md` und `journal-archive.md` bleiben deutsch** (Entscheidung 03.08.2026). Sie sind ebenfalls für Agenten geschrieben, aber Chronik statt Referenz, und Deutsch kostet dort nichts. Neue JOURNAL-Einträge also weiter auf Deutsch.
+
+Deutsch bleibt außerdem in Commit-Messages, in den Kommentaren der `scripts/`-Dateien und überall dort, wo in einer englischen Datei Dateninhalt zitiert wird: Korpus-Header, mittelhochdeutsche Belege, Werktitel, Namen aus `contributors.xml`.
+
 ## Directory Layout
 
 ```
