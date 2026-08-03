@@ -209,11 +209,14 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
   works: [{
     id: "work_001",
     title: "Von der Abgeschiedenheit",
-    titles: ["Von der Abgeschiedenheit", ...],
+    titles: [{text, lang, type, ana}],  // objects, not strings: 1,147 across all works,
+                                        // 510 of them carry @ana (as of 2026-08-03)
     sigle: "ABG",
     sigles: ["ABG"],
     author: "Meister Eckhart",
-    authorRef: "person_445",
+    authorRef: "persons.xml#person_445",  // with file prefix throughout, all 584 works.
+                                          // The corpus index writes the same reference
+                                          // as "#person_445", see the texts record below
     gnd: "work GND",              // Added v1.1.0
     wikidata: "work Wikidata",    // Added v1.1.0
     genres: ["genre_123"],
@@ -231,8 +234,17 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
     etymology: [{text: "brot", lemmaRef: "lemma_7779"}],
     senses: [{
       id: "lemma_879_sense_1",
-      conceptIds: ["concept_1234"]
+      conceptIds: ["concept_1234"],
+      // the three curated fields below exist only where lexicon.xml carries them
+      // (#248, authority index 1.7.0). As of 2026-08-03 that is a single sense,
+      // lemma_37818 "Abba": one <def> and one <note type="comment">, each with
+      // its @resp. Curation is ongoing, so expect this count to grow.
+      definition: "...", definitionResp: "contributors.xml#contrib_003",
+      comment: "...",    commentResp: "contributors.xml#contrib_003"
     }],
+    // likewise curated, likewise a single lemma as of 2026-08-03: the borrowing
+    // chain from <etym type="borrowing">
+    origin: {languages: [{name, code}], attribution: "...", resp: "..."},
     normalized: "brot"
   }],
 
@@ -308,7 +320,8 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
     filename: "ABG.tei.xml",
     title: "Von der Abgeschiedenheit",
     author: "Meister Eckhart",
-    authorRef: "#person_445",        // verbatim from the TEI @ref, including the '#'
+    authorRef: "#person_445",        // verbatim from the TEI @ref: 666 of 667 in this shape,
+                                     // WZB alone writes "persons.xml#person_anonym" (#308)
     workRef: "works.xml#work_89",    // verbatim from msIdentifier/@corresp, with file prefix
     genre: "",                       // empty in all 667 texts, see the XPath table below
     wordCount: 2955,                 // lemmatized tokens only (<w> with @lemmaRef), NOT all <w>
