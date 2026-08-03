@@ -232,12 +232,15 @@ DOC_TARGETS = [
     ('docs/ARCHITECTURE.md', ['corpus_files', 'lexicon_entries',
                               'variants_forms', 'variants_normalized']),
     # Achtung ADR-Eigenart: ADRs nennen bewusst historische Zahlen
-    # ("Am Tag der Entscheidung ... 13 Module", "192.472 -> 256.759 Formen").
-    # Stumm bleiben die aus drei verschiedenen Gruenden, nicht aus einem:
-    # "256.759 Formen" haelt der Pfeil-Skip in find_stale_numbers, "13 Module"
-    # der HISTORICAL_MARKERS-Skip in find_stale_wordcounts, "64.287 Formen"
-    # allein die Fenster-Distanz zum Ist-Wert. Ohne die ersten beiden
-    # produziert dieses Target Dauer-Fehlalarme und wird abgeschaltet.
+    # ("On the day of the decision ... 13 modules", "192,472 -> 256,759
+    # variant forms"). Stumm bleiben die aus drei verschiedenen Gruenden,
+    # nicht aus einem: "256,759 variant forms" haelt der Pfeil-Skip in
+    # find_stale_numbers, "13 modules" der HISTORICAL_MARKERS-Skip in
+    # find_stale_wordcounts, "64,287 variant forms" allein die Fenster-
+    # Distanz zum Ist-Wert (der Fenster-Check laeuft vor dem Anker-Abgleich,
+    # die Zahl faellt also raus, obwohl ihr Anker bindet; Probe: auf 250.000
+    # gesetzt wird sie gemeldet). Ohne die ersten beiden produziert dieses Target
+    # Dauer-Fehlalarme und wird abgeschaltet.
     ('docs/DECISIONS.md', ['corpus_files', 'lexicon_entries',
                            'variants_forms', 'variants_normalized']),
     # CLAUDE.md is intentionally vague ("~670 TEI texts"), no exact check.
@@ -313,13 +316,17 @@ NUMBER_WORDS = {
 CODE_ANCHORS = {
     'tei_tools': r'(?:TEI-Analyse-?[Ww]erkzeuge|TEI-Analysewerkzeuge|(?:TEI[- ])?analysis tools|Analyse-Werkzeuge|Werkzeuge)',
     'tei_tools_weitere': r'weitere\s+Werkzeuge',
-    'pattern_modules': r'Analyse-Module',
+    # Beide Sprachen: die Docs stellen auf Englisch um (#316), DESIGN.md
+    # traegt den Count noch deutsch. Ohne die englische Variante ging die
+    # Bindung in ARCHITECTURE.md still verloren, als "die elf Analyse-Module"
+    # zu "The eleven analysis modules" wurde.
+    'pattern_modules': r'(?:Analyse-Module|analysis\s+modules)',
     # #276 Luecke 2: die Gesamtzahl der Module unter playground/js/ui/ stand
     # an drei Stellen in drei verschiedenen falschen Auspraegungen, ohne dass
     # es dafuer ueberhaupt einen Count gab. Der Anker greift bewusst nur das
-    # blanke "Module(n)"/"modules" — qualifizierte Komposita wie
-    # "11 Analyse-Module" gehoeren zu pattern_modules und matchen hier nicht,
-    # weil der Anker unmittelbar hinter der Zahl stehen muss.
+    # blanke "Module(n)"/"modules" — qualifizierte Fuegungen wie
+    # "11 analysis modules" gehoeren zu pattern_modules und matchen hier
+    # nicht, weil der Anker unmittelbar hinter der Zahl stehen muss.
     'ui_modules': r'(?:UI-)?[Mm]odule[ns]?\b',
     'authority_explorers': r'(?:Authority-File-(?:Explorer|Einstiegspunkte)|Authority-Explorer)',
     'entry_points': r'(?:[Ss]earch\s+)?[Ee]ntry\s+[Pp]oints',
@@ -328,19 +335,24 @@ CODE_ANCHORS = {
 # Zeilen im Modul-/Verzeichnisbaum zaehlen Unterverzeichnisse ("├── core/
 # # Core utilities (3 modules)"), nie die Gesamtzahl. Ohne diesen Skip
 # meldet der ui_modules-Anker jede Baumzeile als Drift.
-# Nebenwirkung, bewusst in Kauf genommen: die Baumzeile "13 Dateien: Router +
-# Modal + 11 Analyse-Module" in ARCHITECTURE.md wird damit auch fuer
-# pattern_modules nicht mehr geprueft. Dieselbe Angabe steht eine Zeile
-# tiefer im Fliesstext ("die elf Analyse-Module"), Drift bleibt sichtbar.
+# Nebenwirkung, bewusst in Kauf genommen: die Baumzeile "13 files: router +
+# modal + 11 analysis modules" in ARCHITECTURE.md wird damit auch fuer
+# pattern_modules nicht mehr geprueft. Dieselbe Angabe steht im Fliesstext
+# darunter ("The eleven analysis modules"), Drift bleibt sichtbar.
 TREE_LINE_RE = re.compile(r'^\s*[│├└]')
 
 # ADRs und Retrospektiven nennen bewusst den Stand von damals. Der
 # Chronikzeilen-Skip (Datum, Haekchen) greift dort nicht, weil ADR-Fliesstext
 # das Datum in der Ueberschrift traegt, nicht in der Zeile. Marker auf der
 # ganzen Zeile, analog zum hist_ctx-Skip in find_stale_numbers.
+# Zweisprachig seit #316: die englischen Marker sind die woertlichen
+# Entsprechungen der deutschen daneben, keine neue Klasse. Ohne sie meldete
+# das Audit die bewusst historischen ADR-002-Zahlen ("13 modules") als Drift,
+# sobald der Absatz uebersetzt war.
 HISTORICAL_MARKERS = re.compile(
     r'Tag der Entscheidung|Entscheidungszeitpunkt|damals|seinerzeit|seither'
-    r'|historisch|urspr(?:ü|ue)nglich|zum Zeitpunkt|Stand von|at the time')
+    r'|historisch|urspr(?:ü|ue)nglich|zum Zeitpunkt|Stand von|at the time'
+    r'|day of the decision|since then|historical(?:ly)?|originally')
 
 
 # Was zwischen Zahl und Anker stehen darf: Whitespace-Laeufe, begrenzte
@@ -365,9 +377,9 @@ NEAR_KEYWORDS = {
     # und ROADMAP.md Zeile 118; die Selbstpruefung meldete die zwei Dateien
     # deshalb als ungeprueft, obwohl sie die Zahl fuehren.
     'corpus_files': r'(?:TEI(?:-XML)?[-\s](?:files?|Dateien|Texte)|TEI-[a-zäöüß]+e\s+Texte|Korpus(?:-?[Dd]ateien)?|(?:mittelhochdeutsche\s+)?TEI-Texte|[Cc]orpus\b|Dateien|[Ff]iles)',
-    # Kleinschreibung, weil ARCHITECTURE.md die Zahl als "43.879
-    # `lemmata`-Eintraege" fuehrt (Code-Bezeichner im Fliesstext); "records",
-    # weil dieselbe Zahl dort als Groesse des API-Lemmata-Bundles auftaucht
+    # Kleinschreibung, weil ARCHITECTURE.md die Zahl als "43,879 `lemmata`
+    # entries" fuehrt (Code-Bezeichner im Fliesstext); "records", weil
+    # dieselbe Zahl dort als Groesse des API-Lemmata-Bundles auftaucht
     # ("43,879 records", ARCHITECTURE.md §Static JSON API).
     'lexicon_entries': r'(?:[Ll]emmata|[Rr]ecords)',
     'works': r'Werke',
@@ -383,10 +395,13 @@ NEAR_KEYWORDS = {
     'variants_forms': r'(?:Formen|[Oo]rthographische\w*\s+Varianten|(?:[Vv]ariant|[Rr]aw)\s+forms)',
     # #276 Luecke 3: CONTRACTS.md fuehrt die deduplizierte Zahl als
     # "Varianten-Schluessel" (Schluessel der Runtime-Map). Ohne diese
-    # Alternative blieb die Stelle jahrelang ungeprueft. "Mappings" gross,
-    # weil ARCHITECTURE.md das Wort am Satzende fett auszeichnet — sonst
-    # meldet die Anker-Selbstpruefung die Datei dauerhaft als ungedeckt.
-    'variants_normalized': r'(?:[Nn]ormalisierte\w*\s+(?:Schreibvarianten|Varianten)|[Ee]indeutige\s+Zuordnungen|[Nn]ormalized\s+entries|[Vv]arianten-Schl[üu]ssel|[Mm]appings)',
+    # Alternative blieb die Stelle jahrelang ungeprueft.
+    # "variant mappings" ist die englische Entsprechung von
+    # "Varianten-Schluessel": beim Umstellen von CONTRACTS.md auf Englisch
+    # (#316) verlor CONTRACTS.md Zeile 90 sonst ihre einzige Bindung, weil
+    # ANCHOR_SEP zwischen Zahl und Anker kein Wort zulaesst und "[Mm]appings"
+    # damit erst hinter "variant" beginnt.
+    'variants_normalized': r'(?:[Nn]ormalisierte\w*\s+(?:Schreibvarianten|Varianten)|[Ee]indeutige\s+Zuordnungen|[Nn]ormalized\s+entries|[Vv]arianten-Schl[üu]ssel|[Vv]ariant\s+mappings|[Mm]appings)',
     'persons': r'Personen',
     'concepts': r'(?:Konzepte|Begriffe|Kategorien)',
     'genres': r'(?:Gattungen|Kategorien)',
@@ -519,19 +534,22 @@ def find_stale_numbers(doc_path: str, current: int, key: str) -> list:
         if re.search(r'(?:Audit-Zeitpunkt|zum Audit|Audit:|vor WZB|initial|historisch)', hist_ctx):
             continue
         # Derselbe Fall, aber mit dem Vermerk HINTER der Zahl (#297): in
-        # docs/CONTRACTS.md steht "Die 234.244 sind der Stand von v1.6.2,
-        # nicht der heutige" -- der Satz erklaert die Zahl also genau so,
-        # wie das Audit es verlangt, und wurde trotzdem gemeldet, weil der
-        # Marker nachgestellt ist. Bewusst eng: nur der explizite
+        # docs/CONTRACTS.md steht "234,244 is the state of v1.6.2, not
+        # today's" -- der Satz erklaert die Zahl also genau so, wie das Audit
+        # es verlangt, und wurde trotzdem gemeldet, weil der Marker
+        # nachgestellt ist. Bewusst eng: nur der explizite
         # Stand-von-Version-Vermerk und die woertliche Abgrenzung, nicht
-        # irgendein Vorkommen von "Stand".
+        # irgendein Vorkommen von "Stand"/"state".
+        # Zweisprachig seit #316: die deutsche Fassung des Satzes bleibt
+        # stehen, weil andere Docs noch nicht uebersetzt sind.
         line_end = content.find('\n', m.end())
         line_end = len(content) if line_end == -1 else line_end
         # Auf 120 Zeichen gekappt wie hist_ctx: ohne die Kappung schirmt ein
         # nachgestellter Vermerk auf einer langen Zeile jede Zahl links von
         # sich ab, auch die, auf die er sich nicht bezieht.
         fwd_ctx = content[m.end():min(line_end, m.end() + 120)]
-        if re.search(r'(?:sind|ist)\s+der\s+Stand\s+von\s+v\d|nicht\s+der\s+heutige',
+        if re.search(r"(?:sind|ist)\s+der\s+Stand\s+von\s+v\d|nicht\s+der\s+heutige"
+                     r"|(?:is|are)\s+the\s+state\s+of\s+v\d|not\s+today'?s",
                      fwd_ctx):
             continue
         # Keyword must appear right after the number (bounded markup allowed).
