@@ -966,7 +966,7 @@ These three building blocks are identical in all 667 existing files and were set
 - [element `<w>`](https://www.tei-c.org/release/doc/tei-p5-doc/en/html/ref-w.html) -- word element
 - [element `<pc>`](https://www.tei-c.org/release/doc/tei-p5-doc/en/html/ref-pc.html) -- punctuation element (replaces `<seg type="pc">`)
 - [element `<l>`](https://tei-c.org/release/doc/tei-p5-doc/en/html/ref-l.html) -- "a single line of verse" (not for prose)
-- [element `<lb/>`](https://www.tei-c.org/release/doc/tei-p5-doc/en/html/ref-lb.html) -- "line beginning" (for line breaks)
+- [element `<lb/>`](https://tei-c.org/release/doc/tei-p5-doc/en/html/ref-lb.html) -- "line beginning" (for line breaks)
 - [chapter 24: Conformance](https://tei-c.org/release/doc/tei-p5-doc/en/html/USE.html) -- the 5 conformance criteria
 
 ### Comparable projects
