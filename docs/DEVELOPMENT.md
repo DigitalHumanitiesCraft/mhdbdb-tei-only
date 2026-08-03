@@ -415,11 +415,10 @@ For autonomous issue work and PR merge sessions there are reusable procedures wi
 
 ### Cache Invalidation
 
-Increment version number in build scripts to force browser refetch:
-
-```python
-VERSION = "1.x.x"  # In build-authority-index.py; current state: TEI-MODEL.md §11
-```
+Increment the version number in the build scripts to force a browser refetch. The
+version sits as a dict literal in the index, not as a constant; see [Version
+Increment](#version-increment) above for the exact place and its counterpart in
+`corpus-loader.js`.
 
 ## Historical Context: Initial Data Wrangling
 
