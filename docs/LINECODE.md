@@ -205,7 +205,7 @@ The letter→TEI mapping in this document and in `docs/data/linecode-mapping.csv
 - [`docs/data/linecode-templates.csv`](data/linecode-templates.csv) – per-sigle Linecode template + full text metadata (665 rows; the lookup table for "which slots does text X encode")
 - **TEI-MODEL.md §3.5** – post-#32 `<div>/@type` enum and migration history for Linecode letters `b` (BAND/volume), `t` (TEIL/part), and `s` (STANZA)
 - **TEI-MODEL.md §8.1** – the 18 prose texts where Linecode `-` became `<l>` and was then migrated to `<lb/>`
-- **Issue #23** (closed 2026-06-11) – Fehlende Stanza-Auszeichnung (104 Fälle). Decoding durch dieses Dokument freigeschaltet; Bulk-Stanza-Sweep gelaufen (Corpus-Index v4.1.1), Rest via WVV-Rebuild (v4.1.3).
+- **Issue #23** (closed 2026-06-11) – missing stanza markup (104 cases). Unblocked by this document; the bulk stanza sweep has run (corpus index v4.1.1), the remainder via the WVV rebuild (v4.1.3).
 - **Issue #85** (closed 2026-05-12) – Umbrella for 26 texts with missing `<div>` wrappers (chapter/song/parallel + DL1 edge case). Unblocked by this document.
-- **Issue #84** (closed 2026-04-15) – HZU/HZU2 `<note type="date">` MMTT→Klartext migration (Linecode letter `x` in Urkunden-Texten); new ingests use the Klartext form directly
+- **Issue #84** (closed 2026-04-15) – HZU/HZU2 `<note type="date">` migration from MMDD to plain text (Linecode letter `x` in charter texts); new ingests use the plain-text form directly
 - **Issue #31** – Julia's original handover issue
