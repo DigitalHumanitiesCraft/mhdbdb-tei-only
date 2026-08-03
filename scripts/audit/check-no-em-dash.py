@@ -7,6 +7,14 @@ Em-Dashes ein Doppelpunkt, ein Komma, eine Klammer oder ein eigener Satz.
 Ein En-Dash (–) mit Leerzeichen ist erlaubt, ebenso Em-Dashes in
 Code-Kommentaren.
 
+Seit 2026-08-03 gilt die Regel ausdruecklich NUR fuer user-sichtbaren Text.
+Dateien, die rein fuer LLMs geschrieben sind (docs/, CLAUDE.md, JOURNAL),
+tragen keine Auflagen (CLAUDE.md -> Language). Der Markdown-Zweig unten ist
+damit weiter gefasst als die Regel, die er durchsetzen soll: ein Treffer in
+docs/ ist Rauschen, kein Defekt. Er bleibt vorerst drin, weil die
+Einschraenkung auf user-sichtbare Markdown-Dateien eine Entscheidung ist
+und keine Aufraeumarbeit.
+
 Anlass ist wiederkehrend: KZW hat am 28.07. zum wiederholten Mal einen
 Em-Dash im Frontend gemeldet (#140, diesmal im Hapax-Werkzeug).
 
