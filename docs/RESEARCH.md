@@ -189,7 +189,7 @@ An interactive chatbot answering questions on medieval history and on Middle Hig
 - GitHub: https://github.com/ssciwr/parzivAI (organization `ssciwr` = Scientific Software Center Heidelberg)
 - Video: https://unitv.org/beitrag.asp?ID=1288&Keyword=ki
 
-**Why this is relevant here:** Vlastimil Brom (lead editor of TKR/TKA/VTC/PUC, Masaryk University Brno) asked in recent correspondence about own or fine-tuned language models trained on MHDBDB data; he experiments with GHisBERT and dbmdz-bert-base-german-europeana himself and is looking for more professional approaches. ParzivAI is the closest existing answer, and an introduction between Brom and Nieser could be worthwhile for both sides. Tracked as a people task in [ROADMAP.md → Next: Menschen-Pings](ROADMAP.md#next-menschen-pings-nach-den-merges).
+**Why this is relevant here:** Vlastimil Brom (lead editor of TKR/TKA/VTC/PUC, Masaryk University Brno) asked in recent correspondence about own or fine-tuned language models trained on MHDBDB data; he experiments with GHisBERT and dbmdz-bert-base-german-europeana himself and is looking for more professional approaches. ParzivAI is the closest existing answer, and an introduction between Brom and Nieser could be worthwhile for both sides. Tracked as a people task in [ROADMAP.md → Next: pings to people](ROADMAP.md#next-pings-to-people-after-the-merges).
 
 ## Limitations & Future Directions
 

@@ -186,7 +186,7 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
 
 **File:** `data/authority-index.json.gz`
 **Size:** ~3 MB compressed
-**Version:** current state in [TEI-MODEL.md §11](TEI-MODEL.md#11-versionierung). Source in the code: `AUTHORITY_INDEX_VERSION` in `assets/js/lib/corpus-loader.js` and `'version'` in `scripts/build-authority-index.py`.
+**Version:** current state in [TEI-MODEL.md §11](TEI-MODEL.md#11-versioning). Source in the code: `AUTHORITY_INDEX_VERSION` in `assets/js/lib/corpus-loader.js` and `'version'` in `scripts/build-authority-index.py`.
 
 **Schema (illustrative; for the concrete version see the table in TEI-MODEL.md §11):**
 ```javascript
@@ -294,7 +294,7 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
 
 **File:** `data/corpus-index.json.gz`
 **Size:** ~40 MB compressed (it was ~34 MB before `lineStarts`/`lineEnds` were added)
-**Version:** current state in [TEI-MODEL.md §11](TEI-MODEL.md#11-versionierung). Source in the code: `INDEX_VERSION` in `assets/js/lib/corpus-loader.js` and `'version'` in `scripts/build-corpus-index.py` (which also carries the version history comment). For MAJOR/MINOR/PATCH semantics see below.
+**Version:** current state in [TEI-MODEL.md §11](TEI-MODEL.md#11-versioning). Source in the code: `INDEX_VERSION` in `assets/js/lib/corpus-loader.js` and `'version'` in `scripts/build-corpus-index.py` (which also carries the version history comment). For MAJOR/MINOR/PATCH semantics see below.
 
 **Schema (illustrative; for the concrete version see the table in TEI-MODEL.md §11):**
 ```javascript
@@ -343,7 +343,7 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
 
 **Why v4.1.0?** Per-text `lineStarts[]` / `lineEnds[]` for the #47.3 lemma search by verse position. Bumped as `schema-feature-add` (MINOR), not just `data-add` (PATCH).
 
-**Everything beyond that is changelog and does not belong here.** The reasoning for each individual bump from v4.1.5 on hangs as a comment on the `'version'` constant in `scripts/build-corpus-index.py`, the current version is in [TEI-MODEL.md §11](TEI-MODEL.md#11-versionierung), the older ones in the git history of this file. A schema document retelling every PATCH goes stale in a place nobody maintains (#318).
+**Everything beyond that is changelog and does not belong here.** The reasoning for each individual bump from v4.1.5 on hangs as a comment on the `'version'` constant in `scripts/build-corpus-index.py`, the current version is in [TEI-MODEL.md §11](TEI-MODEL.md#11-versioning), the older ones in the git history of this file. A schema document retelling every PATCH goes stale in a place nobody maintains (#318).
 
 **Field name note:** the primary identifier is `id` (sigle), not `textId`. Older docs and some code paths may use `textId` – the canonical field in the index JSON is `id`.
 

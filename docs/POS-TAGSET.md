@@ -1,170 +1,170 @@
-# POS-Tagset
+# POS tagset
 
-Kanonische Referenz für das Wortart-Tagset (`@pos`) der MHDBDB-TEI-Texte: das normative 19-Tag-Zielschema, die Regeln für Compound-Tags, die im Altbestand noch vorhandenen Legacy-Tags und die tatsächliche Verteilung im Korpus.
+The canonical reference for the part-of-speech tagset (`@pos`) of the MHDBDB TEI texts: the normative 19-tag target schema, the rules for compound tags, the legacy tags still present in the older stock, and the actual distribution in the corpus.
 
-Dies ist die **Single Source of Truth** für die `@pos`-Werte. Der zugehörige operative Disambiguierungs-Workflow (LLM-gestützte Auflösung von Compound- und Falsch-Tags) ist als Agent-Skill unter `.gemini/skills/pos-disambiguator/` implementiert; er nutzt dieses Tagset, definiert es aber nicht.
+This is the **single source of truth** for the `@pos` values. The operational disambiguation workflow that goes with it (LLM-assisted resolution of compound and wrong tags) is implemented as an agent skill under `.gemini/skills/pos-disambiguator/`; it uses this tagset but does not define it.
 
-> **Zielgruppe:** Diese Datei ist eine technische Referenz-Spezifikation, primär für Entwicklung und automatisierte Werkzeuge gedacht (präzise, maschinenorientiert).
+> **Audience:** this file is a technical reference specification, meant primarily for development and automated tools (precise, machine-oriented).
 
-## 1. Das 19-Tag-Zielschema
+## 1. The 19-tag target schema
 
-Jedes annotierte `<w>`-Element trägt genau einen Tag aus diesem Set (Ausnahme: dokumentierte morphologische Fusionen, siehe §2).
+Every annotated `<w>` element carries exactly one tag from this set (exception: documented morphological fusions, see §2).
 
-> **Hinweis:** `ART` ist **kein** gültiger Tag. Artikel (*der, diu, daz, ein*) werden als `DET` getaggt. `ART` im Bestand ist Legacy und wird migriert (siehe §3).
+> **Note:** `ART` is **not** a valid tag. Articles (*der, diu, daz, ein*) are tagged `DET`. `ART` in the stock is legacy and is being migrated (see §3).
 
-| Tag | Name | Beispiele |
+| Tag | Name | Examples |
 |-----|------|-----------|
-| **NOM** | Nomen | acker, zît, minne |
-| **NAM** | Eigenname | Uolrîch, Wiene, Rhîn, sant (vor Namen) |
-| **ADJ** | Adjektiv | grôz, schoene, guot, wâr |
-| **ADV** | Adverb | schône, vil, sêre, gar, als/wie (komparativ) |
-| **DET** | Determinante | der, diu, daz, ein, diser, jener, kein, dekein, dehein |
-| **POS** | Possessivpronomen | mîn, dîn, unser |
-| **PRO** | Pronomen | ich, ez, wir, Relativpronomen, swer (indefinit) |
-| **PRP** | Präposition | ûf, zuo, under, durch |
-| **NEG** | Negation | nie, niht, nit, nich, nieht, ne, en, âne |
-| **NUM** | Numeral | zwô, drî, zweinzegest |
-| **CNJ** | Konjunktion (allgemein) | Fallback bei Ambiguität (danne additiv) |
-| **SCNJ** | Subordinierende Konjunktion | daz (Nebensatz), ob, swenne, sît, als (temporal) |
-| **CCNJ** | Koordinierende Konjunktion | und, oder, aber, ouch, noch |
-| **IPA** | Interrogativpartikel | wie (Frage), war (wohin?), swer (interrogativ) |
-| **VRB** | Vollverb | liuhten, varn, machen; haben/sîn/werden (lexikalisch) |
-| **VEX** | Hilfsverb | haben/sîn/werden (mit Partizip II) |
-| **VEM** | Modalverb | müezen, suln, kunnen |
-| **INJ** | Interjektion | ahî, owê |
-| **DIG** | Zahl (römisch) | IX, XVII, III |
+| **NOM** | noun | acker, zît, minne |
+| **NAM** | proper name | Uolrîch, Wiene, Rhîn, sant (before names) |
+| **ADJ** | adjective | grôz, schoene, guot, wâr |
+| **ADV** | adverb | schône, vil, sêre, gar, als/wie (comparative) |
+| **DET** | determiner | der, diu, daz, ein, diser, jener, kein, dekein, dehein |
+| **POS** | possessive pronoun | mîn, dîn, unser |
+| **PRO** | pronoun | ich, ez, wir, relative pronouns, swer (indefinite) |
+| **PRP** | preposition | ûf, zuo, under, durch |
+| **NEG** | negation | nie, niht, nit, nich, nieht, ne, en, âne |
+| **NUM** | numeral | zwô, drî, zweinzegest |
+| **CNJ** | conjunction (general) | the fallback under ambiguity (danne additive) |
+| **SCNJ** | subordinating conjunction | daz (subordinate clause), ob, swenne, sît, als (temporal) |
+| **CCNJ** | coordinating conjunction | und, oder, aber, ouch, noch |
+| **IPA** | interrogative particle | wie (question), war (where to?), swer (interrogative) |
+| **VRB** | full verb | liuhten, varn, machen; haben/sîn/werden (lexical) |
+| **VEX** | auxiliary verb | haben/sîn/werden (with a past participle) |
+| **VEM** | modal verb | müezen, suln, kunnen |
+| **INJ** | interjection | ahî, owê |
+| **DIG** | numeral (Roman) | IX, XVII, III |
 
-Die ausführlichen linguistischen Abgrenzungen (DET vs. PRO, VRB vs. VEX, *als/wie* kontextabhängig, MHG-Negationsmuster usw.) stehen im Disambiguierungs-Skill (`.gemini/skills/pos-disambiguator/SKILL.md`).
+The detailed linguistic distinctions (DET against PRO, VRB against VEX, the context-dependent *als/wie*, MHG negation patterns and so on) live in the disambiguation skill (`.gemini/skills/pos-disambiguator/SKILL.md`).
 
-## 2. Compound-Tags
+## 2. Compound tags
 
-Im Altbestand tragen viele `<w>`-Elemente (~35–40 %) durch Leerzeichen getrennte Compound-Werte (z.B. `pos="VRB VEX"`, `pos="ADJ ADV"`), die eine ungelöste Ambiguität ausdrücken. **Standardregel:** der Disambiguierungs-Workflow löst sie kontextabhängig auf einen einzelnen Tag auf.
+In the older stock many `<w>` elements (~35 to 40 %) carry space-separated compound values (e.g. `pos="VRB VEX"`, `pos="ADJ ADV"`) expressing an unresolved ambiguity. **The standard rule:** the disambiguation workflow resolves them to a single tag depending on context.
 
-**Ausnahme:** Echte morphologische Fusionen behalten zwei Tags und erhalten ein `reason`-Attribut:
+**Exception:** genuine morphological fusions keep two tags and receive a `reason` attribute:
 
-| Fusion | Beispiel | Tags | `reason` |
+| Fusion | Example | Tags | `reason` |
 |--------|----------|------|----------|
-| Verb + enklitisches Pronomen | *wiltu* = wilt + du | `VEM PRO` | `wilt+du` |
-| Verb + enklitisches Pronomen | *färbs* = färbe + ez | `VRB PRO` | `färbe+ez` |
-| Präposition + Determinante | *zer* = ze + der | `PRP DET` | `ze+der` |
-| Präposition + Determinante | *zem* = ze + dem | `PRP DET` | `ze+dem` |
+| verb plus enclitic pronoun | *wiltu* = wilt + du | `VEM PRO` | `wilt+du` |
+| verb plus enclitic pronoun | *färbs* = färbe + ez | `VRB PRO` | `färbe+ez` |
+| preposition plus determiner | *zer* = ze + der | `PRP DET` | `ze+der` |
+| preposition plus determiner | *zem* = ze + dem | `PRP DET` | `ze+dem` |
 
-## 3. Legacy-Tags (Altbestand)
+## 3. Legacy tags (older stock)
 
-Der aus der RDF-Migration übernommene Bestand nutzt teilweise ein älteres Tagset. Diese Tags sind **nicht** Teil des 19-Tag-Schemas und werden migriert:
+The stock taken over from the RDF migration partly uses an older tagset. These tags are **not** part of the 19-tag schema and are being migrated:
 
-| Legacy | Ziel | Aktion |
+| Legacy | Target | Action |
 |--------|------|--------|
-| `ART` | `DET` | Batch-Umbenennung (Artikel sind Determinanten) |
-| `CNJ` (koordinierend) | `CCNJ` | kontextabhängig (linguistische Analyse nötig) |
-| `CNJ` (subordinierend) | `SCNJ` | kontextabhängig (linguistische Analyse nötig) |
-| `GRA` | *entfällt* | geht in `ADJ` auf (Graduierung/Superlativ = ADJ) |
+| `ART` | `DET` | batch rename (articles are determiners) |
+| `CNJ` (coordinating) | `CCNJ` | context-dependent (needs linguistic analysis) |
+| `CNJ` (subordinating) | `SCNJ` | context-dependent (needs linguistic analysis) |
+| `GRA` | *dropped* | merges into `ADJ` (gradation and superlative are ADJ) |
 
-`CNJ` bleibt als allgemeiner Fallback-Tag im 19-Set gültig, der Großteil der `CNJ`-Vorkommen im Bestand ist jedoch noch nicht in `CCNJ`/`SCNJ` differenziert.
+`CNJ` stays valid in the 19 set as a general fallback tag, but the bulk of the `CNJ` occurrences in the stock is not yet differentiated into `CCNJ`/`SCNJ`.
 
-Daneben existieren vereinzelt nicht-kanonische Rest-Artefakte aus der Migration (`-`, `KOKOM`, `FM`, `PTK`, `X` sowie der Tippfehler `SCJN` für `SCNJ`), die bei der Disambiguierung normalisiert werden.
+Besides that there are scattered non-canonical leftovers from the migration (`-`, `KOKOM`, `FM`, `PTK`, `X` and the typo `SCJN` for `SCNJ`), which are normalized during disambiguation.
 
-## 4. Verteilung im Korpus
+## 4. Distribution in the corpus
 
-`@pos` ist auf 7.406.168 `<w>`-Elementen gesetzt (79,8 % aller `<w>`; Stand und Methodik siehe [TEI-MODEL.md §10](TEI-MODEL.md)). Die folgende Tabelle zählt **atomare Tag-Vorkommen**: Compound-Werte werden an Leerzeichen aufgespalten, ein Token `pos="ADJ ADV"` zählt also je einmal bei `ADJ` und `ADV`. Die Summe übersteigt daher die Zahl der Tokens.
+`@pos` is set on 7,406,168 `<w>` elements (79.8 % of all `<w>`; for the date and the method see [TEI-MODEL.md §10](TEI-MODEL.md)). The table below counts **atomic tag occurrences**: compound values are split at the spaces, so a token `pos="ADJ ADV"` counts once under `ADJ` and once under `ADV`. The sum therefore exceeds the number of tokens.
 
-| Tag | Vorkommen (atomar) | Status |
+| Tag | Occurrences (atomic) | Status |
 |-----|-------------------:|--------|
-| VRB | 1.535.938 | 19-Set |
-| NOM | 1.508.545 | 19-Set |
-| ADV | 1.362.350 | 19-Set |
-| **ART** | 1.064.439 | Legacy → DET |
-| ADJ | 1.029.930 | 19-Set |
-| CNJ | 943.199 | 19-Set (Großteil noch nach CCNJ/SCNJ zu differenzieren) |
-| PRP | 659.793 | 19-Set |
-| PRO | 658.741 | 19-Set |
-| VEX | 223.294 | 19-Set |
-| NEG | 204.786 | 19-Set |
-| NAM | 194.319 | 19-Set |
-| POS | 150.663 | 19-Set |
-| VEM | 133.057 | 19-Set |
-| NUM | 116.966 | 19-Set |
-| **GRA** | 60.278 | Legacy → ADJ |
-| IPA | 59.061 | 19-Set |
-| DET | 53.443 | 19-Set |
-| INJ | 22.071 | 19-Set |
-| CCNJ | 13.805 | 19-Set |
-| SCNJ | 7.371 | 19-Set |
-| DIG | 4.783 | 19-Set |
-| `-`, KOKOM, FM, PTK, X, SCJN | < 100 gesamt | Rest-Artefakte → Normalisierung |
+| VRB | 1,535,938 | 19 set |
+| NOM | 1,508,545 | 19 set |
+| ADV | 1,362,350 | 19 set |
+| **ART** | 1,064,439 | legacy → DET |
+| ADJ | 1,029,930 | 19 set |
+| CNJ | 943,199 | 19 set (the bulk still to be differentiated into CCNJ/SCNJ) |
+| PRP | 659,793 | 19 set |
+| PRO | 658,741 | 19 set |
+| VEX | 223,294 | 19 set |
+| NEG | 204,786 | 19 set |
+| NAM | 194,319 | 19 set |
+| POS | 150,663 | 19 set |
+| VEM | 133,057 | 19 set |
+| NUM | 116,966 | 19 set |
+| **GRA** | 60,278 | legacy → ADJ |
+| IPA | 59,061 | 19 set |
+| DET | 53,443 | 19 set |
+| INJ | 22,071 | 19 set |
+| CCNJ | 13,805 | 19 set |
+| SCNJ | 7,371 | 19 set |
+| DIG | 4,783 | 19 set |
+| `-`, KOKOM, FM, PTK, X, SCJN | < 100 in total | leftovers → normalization |
 
-Die Dominanz von `ART` (über 1 Mio.) und der niedrige `DET`-Wert (53k) zeigen, dass die ART→DET-Migration den Großteil des Bestands noch betrifft. Die häufigsten Compound-Werte sind `ADJ ADV` (304.069), `ART CNJ` (271.352) und `VRB VEX` (206.261).
+The dominance of `ART` (over 1 million) and the low `DET` value (53k) show that the ART to DET migration still concerns the bulk of the stock. The most frequent compound values are `ADJ ADV` (304,069), `ART CNJ` (271,352) and `VRB VEX` (206,261).
 
-> **Reproduktion:** atomare Verteilung über das Korpus:
+> **Reproduction:** the atomic distribution across the corpus:
 > ```bash
 > grep -rhoE 'pos="[^"]*"' tei/ | sed 's/pos="//;s/"$//' | tr ' ' '\n' | sed '/^$/d' | sort | uniq -c | sort -rn
 > ```
-> Die Zahlen sind ein Snapshot und verschieben sich mit fortschreitender Disambiguierung und neuem Ingest.
+> The numbers are a snapshot and shift as disambiguation proceeds and new texts come in.
 
-## 5. Disambiguierung
+## 5. Disambiguation
 
-Die Auflösung von Compound-Tags, die Korrektur von Falsch-Tags und die ART/CNJ/GRA-Migration erfolgen nicht mechanisch, sondern kontextabhängig über semantisch-grammatische Analyse. Der dafür vorgesehene Workflow ist als Agent-Skill `.gemini/skills/pos-disambiguator/` implementiert (Phasen: Split → Analyse → Merge → Validierung → Refinement). Pädagogische Beispiele für Mehrdeutigkeiten (*daz*, *als*, *haben*) liegen unter `.gemini/skills/pos-disambiguator/references/examples.md`.
+Resolving compound tags, correcting wrong tags and the ART/CNJ/GRA migration do not happen mechanically but depend on context, through semantic and grammatical analysis. The workflow provided for this is implemented as the agent skill `.gemini/skills/pos-disambiguator/` (phases: split → analysis → merge → validation → refinement). Teaching examples of ambiguities (*daz*, *als*, *haben*) live under `.gemini/skills/pos-disambiguator/references/examples.md`.
 
-## 6. Disambiguierungs- und Migrations-Policy (#27)
+## 6. Disambiguation and migration policy (#27)
 
-Verbindliche Policy für die Überführung des Altbestands (Compound-Tags, Legacy-Tags, bekannte Fehlannotationen) in das 19-Tag-Schema aus §1. Sie macht den Workflow planbar: Was wird in welcher Reihenfolge migriert, was entscheidet das LLM allein, was braucht Stichproben-Review, was bleibt liegen, bis KZW entscheidet. Kein Teil dieser Policy ändert das Tagset selbst.
+The binding policy for moving the older stock (compound tags, legacy tags, known misannotations) into the 19-tag schema of §1. It makes the workflow plannable: what is migrated in which order, what the LLM decides on its own, what needs a sample review, and what stays put until KZW decides. No part of this policy changes the tagset itself.
 
-### 6.1 Verbindlichkeitsstufen
+### 6.1 Levels of obligation
 
-| Stufe | Bedeutung |
+| Level | Meaning |
 |-------|-----------|
-| **P-MUSS** | Ohne Erfüllung wird kein Batch committet |
-| **P-SOLL** | Abweichung erlaubt, im Provenienz-Log begründen |
-| **P-OFFEN** | Explizit KZW-Entscheid nötig, bis dahin Status quo |
+| **P-MUSS** | no batch is committed without it |
+| **P-SOLL** | deviation is allowed, give the reason in the provenance log |
+| **P-OFFEN** | an explicit decision by KZW is needed, until then the status quo holds |
 
-### 6.2 Migrations-Klassen und Reihenfolge
+### 6.2 Migration classes and their order
 
-Die Klassen sind nach Automatisierbarkeit absteigend sortiert und werden in dieser Reihenfolge abgearbeitet; jede Klasse ist ein eigener, unabhängig prüfbarer Batch (eigener Branch/PR, eigenes Provenienz-Log).
+The classes are sorted by how far they can be automated, in descending order, and are worked through in that order; every class is a batch of its own that can be checked independently (its own branch and PR, its own provenance log).
 
-| Klasse | Bestand (atomar, §4) | Verfahren | Stufe |
+| Class | Stock (atomic, §4) | Procedure | Level |
 |--------|---------------------:|-----------|-------|
-| K1: Rest-Artefakte (`-`, KOKOM, FM, PTK, X, SCJN) | < 100 | deterministische Tabelle (SCJN→SCNJ; Rest: Einzelfall-Liste im PR) | P-MUSS deterministisch |
-| K2: ART → DET | 1.064.439 | Batch-Umbenennung, KEIN Kontext nötig (Artikel sind DET per Definition §1) | P-MUSS deterministisch |
-| K3: GRA → ADJ | 60.278 | Batch gemäß §3 (Graduierung/Superlativ = ADJ) | P-MUSS deterministisch; Abweichung im Issue-Body („GRA→ADV/PART") ist ALT, siehe 6.5 |
-| K4: Compound-Auflösung (ADJ ADV, VRB VEX, ART CNJ, …) | ~35–40 % der Tokens | LLM kontextabhängig (Skill-Workflow), AUSSER echte Fusionen (§2: bleiben zweiwertig + `@reason`) | P-MUSS LLM + Gates 6.3 |
-| K5: CNJ → CCNJ/SCNJ | 943.199 | LLM kontextabhängig; CNJ bleibt als Fallback erlaubt bei echter Ambiguität | P-SOLL (Fallback erlaubt) |
-| K6: Bekannte Fehlannotations-Muster (Issue §2: enhaben, wiest, Morphologie-als-Zweittag, NEG-Vereinheitlichung, NAM-Übergriffe) | verstreut | LLM mit Watch-List (Skill „Known Error Patterns") | P-MUSS LLM + Gates 6.3 |
+| K1: leftovers (`-`, KOKOM, FM, PTK, X, SCJN) | < 100 | a deterministic table (SCJN→SCNJ; for the rest a case-by-case list in the PR) | P-MUSS, deterministic |
+| K2: ART → DET | 1,064,439 | batch rename, NO context needed (articles are DET by the definition in §1) | P-MUSS, deterministic |
+| K3: GRA → ADJ | 60,278 | batch according to §3 (gradation and superlative are ADJ) | P-MUSS, deterministic; the deviation in the issue body („GRA→ADV/PART") is OLD, see 6.5 |
+| K4: compound resolution (ADJ ADV, VRB VEX, ART CNJ, …) | ~35 to 40 % of the tokens | LLM, context-dependent (the skill workflow), EXCEPT genuine fusions (§2: they stay two-valued plus `@reason`) | P-MUSS, LLM plus the gates in 6.3 |
+| K5: CNJ → CCNJ/SCNJ | 943,199 | LLM, context-dependent; CNJ stays allowed as a fallback under genuine ambiguity | P-SOLL (fallback allowed) |
+| K6: known misannotation patterns (issue §2: enhaben, wiest, morphology as a second tag, unifying NEG, NAM overreach) | scattered | LLM with a watch list (the skill's „Known Error Patterns") | P-MUSS, LLM plus the gates in 6.3 |
 
-Begründung der Reihenfolge: K1–K3 sind kontextfrei und schrumpfen den Problemraum messbar (über 1,1 Mio. atomare Alt-Tags), bevor die teuren LLM-Klassen laufen; K4 vor K5, weil viele CNJ-Fälle in Compounds stecken (ART CNJ: 271k) und sonst doppelt angefasst würden.
+Why that order: K1 to K3 are context-free and shrink the problem space measurably (over 1.1 million atomic old tags) before the expensive LLM classes run; K4 before K5, because many CNJ cases sit inside compounds (ART CNJ: 271k) and would otherwise be touched twice.
 
-### 6.3 Qualitätsgates (für K4–K6, P-MUSS)
+### 6.3 Quality gates (for K4 to K6, P-MUSS)
 
-1. **Batch-Größe:** max. 1 Text pro LLM-Lauf-Einheit; Ausgabe als Diff-Liste (xml:id, alt, neu, Begründung, confidence).
-2. **Golden Set:** vor dem ersten K4-Batch 200 händisch verifizierte Fälle (KZW/Studis) über alle Klassen; jeder Modell-/Prompt-Wechsel wird erst gegen das Golden Set gemessen (Ziel ≥ 95 % Übereinstimmung), dann eingesetzt. (Gilt nur für die LLM-Klassen K4–K6; die deterministischen K1–K3 brauchen kein Golden Set.)
-3. **Stichproben-Review:** pro Batch 50 Zufallsfälle + ALLE confidence='low' an menschliche Prüfung; Fehlerquote > 5 % → Batch verworfen, Prompt/Modell nachjustieren.
-4. **Invarianten (automatisch, CI-fähig):** (a) nur Tags aus §1 (+ dokumentierte Fusionen §2), (b) Token-Text/Reihenfolge/xml:id byte-identisch (nur `@pos`, `@comp`, `@needsSplit`, `@reason` ändern sich), (c) Positionszählung unverändert (Index-Rebuild diff-leer außer erwarteten pos-Feldern), (d) kein ART/GRA/Artefakt im Output.
-5. **Provenienz:** pro Batch ein Log unter `ingest/pos-disambig/<batch>/` (Modell, Prompt-Version, Datum, Diff-Statistik, Review-Ergebnis); revisionDesc-Change-Eintrag pro Datei. (Bewusst ein dritter Pfad-Typ unter `ingest/`: `scripts/ingest/<sigle>/` trägt Pipeline-Skripte, `ingest/<sigle>/` Roh-Quellen pro Text, `ingest/pos-disambig/` Kampagnen-Review-Logs.)
+1. **Batch size:** at most 1 text per LLM run unit; the output is a diff list (xml:id, old, new, reason, confidence).
+2. **Golden set:** before the first K4 batch, 200 manually verified cases (KZW and students) across all classes; every change of model or prompt is first measured against the golden set (target ≥ 95 % agreement) and only then put to use. (This applies to the LLM classes K4 to K6 only; the deterministic K1 to K3 need no golden set.)
+3. **Sample review:** 50 random cases per batch plus ALL cases with confidence='low' go to human checking; an error rate above 5 % discards the batch and the prompt or model is readjusted.
+4. **Invariants (automatic, CI-capable):** (a) only tags from §1 (plus the documented fusions of §2), (b) token text, order and xml:id byte-identical (only `@pos`, `@comp`, `@needsSplit`, `@reason` change), (c) position counting unchanged (an index rebuild is diff-free apart from the expected pos fields), (d) no ART, GRA or leftover in the output.
+5. **Provenance:** one log per batch under `ingest/pos-disambig/<batch>/` (model, prompt version, date, diff statistics, review result); a revisionDesc change entry per file. (Deliberately a third kind of path under `ingest/`: `scripts/ingest/<sigle>/` carries pipeline scripts, `ingest/<sigle>/` raw sources per text, `ingest/pos-disambig/` campaign review logs.)
 
-### 6.4 Technische Attribute (aus KZW-Fixierung 20.11.2025)
+### 6.4 Technical attributes (from KZW's decision of 2025-11-20)
 
-- Kontraktionen/Fusionen: Token bleibt EIN `<w>`; echte morphologische Fusionen tragen zwei Tags + `@reason` (§2); zusätzlich `@comp="VRB+PRO"` und `@needsSplit="true"`, wo die Zerlegung analytisch gewünscht ist. KEINE Token-Splits in der Edition. **Caveat:** `@comp` und `@needsSplit` sind noch NICHT in `schema/mhdbdb.rnc` (die `<w>`-Produktion erlaubt sie nicht) und kommen im Korpus bisher nicht vor – vor dem ersten K4-Batch muss das Schema erweitert (oder ein GAP dokumentiert) werden, sonst bricht die CI-Schema-Validierung.
-- NEG: ausschließlich für Negationspartikeln (*niht, ne, en, n, nie* …); Negationsträger anderer Wortart bekommen NUR ihre Wortart (*dehein* → DET, *nieman* → PRO, *nie* → ADV). Bestands-Kombis wie `ADJ|NEG` werden in K6 aufgelöst.
-- Fremdsprachliches: NICHT über `@pos`, sondern über `@xml:lang` (+ optional `<foreign>`) – siehe #28-Phasenplan; für die POS-Migration out of scope.
+- Contractions and fusions: the token stays ONE `<w>`; genuine morphological fusions carry two tags plus `@reason` (§2); in addition `@comp="VRB+PRO"` and `@needsSplit="true"` where the decomposition is analytically wanted. NO token splits in the edition. **Caveat:** `@comp` and `@needsSplit` are NOT yet in `schema/mhdbdb.rnc` (the `<w>` production does not allow them) and do not occur in the corpus so far. Before the first K4 batch the schema has to be extended (or a GAP documented), otherwise the CI schema validation breaks.
+- NEG: for negation particles only (*niht, ne, en, n, nie* …); carriers of negation from another part of speech get ONLY their part of speech (*dehein* → DET, *nieman* → PRO, *nie* → ADV). Existing combinations such as `ADJ|NEG` are resolved in K6.
+- Foreign-language material: NOT through `@pos` but through `@xml:lang` (plus an optional `<foreign>`), see the phase plan in #28; out of scope for the POS migration.
 
-### 6.5 Aufgelöste Diskrepanzen und offene Punkte
+### 6.5 Resolved discrepancies and open points
 
-**Aufgelöst (Policy folgt Tagset-Fixierung vom 20.11.2025 = §1):**
-- ART ist kein Tag (Issue-§3-Tabelle war Zwischenstand) → K2.
-- PART ist NICHT im 19-Set (Issue-§5 nannte es als Kandidat; die fixierte Liste enthält es nicht). Partikeln von Partikelverben werden bis auf Weiteres ADV getaggt; siehe nächster Punkt.
-- GRA → ADJ (Issue-Body sagte an zwei Stellen ADV bzw. PART; §3 dieser Datei ist SSoT).
-- **Kein 20. Tag PART** (KZW-Entscheid 08.07.2026, #27): Partikeln von Partikelverben werden per Konvention ADV + `@ana` markiert. Technische Randbedingung vor der Umsetzung: `@ana` ist bereits als Sense-Referenz belegt (`lexicon.xml#lemma_{N}_sense_{M}`, siehe DATA-MODEL.md → Sense-Auflösung) – die POS-Markierung braucht deshalb ein eigenes, davon unterscheidbares Wert-Schema (Festlegung vor dem ersten K4-Batch, analog zum `@comp`/`@needsSplit`-Caveat in 6.4).
-- **Doppeltagging bei Kontraktionen zulässig** (KZW-Entscheid 08.07.2026, #27): Echte mhd. Kontraktionswörter – zwei Lemmata, sprachökonomisch zu einem Token zusammengezogen (*wiltu* = wilt + du) – behalten zwei Tags (§2). Ausdrücklich NICHT gemeint sind gewöhnliche Komposita (*hûsmûs* = einfach NOM). Das bestätigt die §2-Ausnahme als Policy.
+**Resolved (the policy follows the tagset decision of 2025-11-20, that is §1):**
+- ART is not a tag (the table in issue §3 was an interim state) → K2.
+- PART is NOT in the 19 set (issue §5 named it as a candidate; the fixed list does not contain it). Particles of particle verbs are tagged ADV until further notice; see the next point.
+- GRA → ADJ (the issue body said ADV in one place and PART in another; §3 of this file is the single source of truth).
+- **No 20th tag PART** (KZW's decision of 2026-07-08, #27): particles of particle verbs are marked by convention as ADV plus `@ana`. A technical constraint before implementing this: `@ana` is already taken as a sense reference (`lexicon.xml#lemma_{N}_sense_{M}`, see DATA-MODEL.md → Phase 3: sense resolution), so the POS marking needs a value schema of its own that can be told apart from it (to be fixed before the first K4 batch, in the same way as the `@comp`/`@needsSplit` caveat in 6.4).
+- **Double tagging is admissible for contractions** (KZW's decision of 2026-07-08, #27): genuine MHG contraction words, two lemmata drawn together into one token for economy of speech (*wiltu* = wilt + du), keep two tags (§2). What is expressly NOT meant are ordinary compounds (*hûsmûs* is simply NOM). This confirms the §2 exception as policy.
 
-**P-OFFEN (KZW-Entscheid nötig, blockiert die jeweilige Klasse NICHT als Ganzes):**
-1. **CNJ-Restquote:** „Undifferenziertes CNJ" = Tokens, die nach der K5-Kampagne weiterhin das unspezifische `CNJ` tragen statt `CCNJ`/`SCNJ` – also genau die Fälle, in denen auch der Kontext nicht entscheidet, ob koordinierend oder subordinierend (KZW-Rückfrage 08.07.2026 damit bejaht). Offene Frage: Wieviel davon ist als K5-Fallback akzeptabel? Vorschlag: ≤ 10 % der ursprünglichen CNJ-Menge (943.199 Tokens, also ≤ ~94.000).
-2. **Fusions-Paarliste finalisieren:** Das Prinzip ist entschieden (s.o.), offen bleibt die abschließende Liste der zulässigen Tag-Paare – insbesondere ob Modalverb-Kontraktionen wie *wiltu* als `VEM PRO` (so §2) oder generisch `VRB PRO` getaggt werden.
+**P-OFFEN (a decision by KZW is needed, but it does NOT block the class as a whole):**
+1. **The remaining CNJ share:** „undifferentiated CNJ" means tokens that still carry the unspecific `CNJ` after the K5 campaign instead of `CCNJ`/`SCNJ`, that is, exactly the cases where the context too does not decide whether they coordinate or subordinate (which answers KZW's question of 2026-07-08 in the affirmative). The open question: how much of that is acceptable as a K5 fallback? Proposal: ≤ 10 % of the original CNJ amount (943,199 tokens, so ≤ ~94,000).
+2. **Finalize the list of fusion pairs:** the principle is decided (see above), what stays open is the final list of admissible tag pairs, in particular whether modal verb contractions such as *wiltu* are tagged `VEM PRO` (as in §2) or generically `VRB PRO`.
 
-### 6.6 Ausdrücklich NICHT Teil dieser Policy
+### 6.6 Expressly NOT part of this policy
 
-Kein Pilot-Lauf, keine Korpus-Änderung, keine Token-Kampagne im Rahmen von #27 (Scope-Entscheidung chsteiner 03.07.2026). Diese Policy ist die Vorlage, nach der künftige Kampagnen-Issues (pro Klasse eines) aufgesetzt werden. #18 (Datenmigration) hängt an K1–K3.
+No pilot run, no corpus change, no token campaign within #27 (scope decision by chsteiner on 2026-07-03). This policy is the template from which future campaign issues (one per class) are set up. #18 (data migration) depends on K1 to K3.
 
-## Querverweise
+## Cross-references
 
-- [TEI-MODEL.md §5](TEI-MODEL.md) – `@pos` im normativen TEI-Soll-Modell
-- [DATA-MODEL.md](DATA-MODEL.md) – `@pos` im Annotations-Datenmodell und in der Backfill-Pipeline
-- `.gemini/skills/pos-disambiguator/SKILL.md` – operativer Disambiguierungs-Workflow und linguistische Abgrenzungsregeln
+- [TEI-MODEL.md §5](TEI-MODEL.md) – `@pos` in the normative TEI target model
+- [DATA-MODEL.md](DATA-MODEL.md) – `@pos` in the annotation data model and in the backfill pipeline
+- `.gemini/skills/pos-disambiguator/SKILL.md` – the operational disambiguation workflow and the linguistic rules for telling tags apart

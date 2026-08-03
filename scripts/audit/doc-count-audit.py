@@ -393,7 +393,12 @@ NEAR_KEYWORDS = {
     # Uebersetzung als "584 works". TEI-MODEL.md ist noch deutsch und haelt
     # die Form "Werke", beide Zielorte brauchen ihre Variante.
     'works': r'(?:Werke|[Ww]orks)',
-    'variants_entries': r'(?:Variant|Eintr[äa]ge)',
+    # "variant entries" kam mit #316 dazu und ist bewusst zusammengesetzt: ein
+    # blankes "[Ee]ntries" traefe in docs/DATA-MODEL.md die Lexikonzahl
+    # ("43,879 entries"). Das Drift-Fenster verwirft die zwar (+-852 um
+    # 42.627), die Anker-Abdeckungspruefung kennt es aber nicht und meldete
+    # den INTENTIONALLY_SILENT-Eintrag der Datei faelschlich als veraltet.
+    'variants_entries': r'(?:Variant|Eintr[äa]ge|[Vv]ariant\s+entries)',
     # Satzanfang und Karten-Labels schreiben das Adjektiv gross
     # ("Orthographische Varianten" im Stats-Block der Startseite); ohne
     # die Grossschreib-Variante lief der Anker dort ins Leere und
@@ -402,7 +407,12 @@ NEAR_KEYWORDS = {
     # DATA-MODEL.md und CONTRACTS.md schreiben die Formenzahl englisch
     # ("variant forms", "raw forms"); ohne diese Alternativen greift dort
     # kein Anker und der DOC_TARGETS-Eintrag bliebe wirkungslos.
-    'variants_forms': r'(?:Formen|[Oo]rthographische\w*\s+Varianten|(?:[Vv]ariant|[Rr]aw)\s+forms)',
+    # Das blanke "[Ff]orms" kam mit #316 dazu (die Tabellen in TEI-MODEL.md
+    # und TEI-MODEL-AUTH-FILES.md schreiben "256,760 forms" ohne Beiwort) und
+    # macht die zwei zusammengesetzten Varianten nicht ueberfluessig: ANCHOR_SEP
+    # laesst zwischen Zahl und Anker kein Wort zu, "256,760 variant forms"
+    # braucht also weiterhin seine eigene Alternative.
+    'variants_forms': r'(?:Formen|[Oo]rthographische\w*\s+Varianten|(?:[Vv]ariant|[Rr]aw)\s+forms|[Ff]orms)',
     # #276 Luecke 3: CONTRACTS.md fuehrt die deduplizierte Zahl als
     # "Varianten-Schluessel" (Schluessel der Runtime-Map). Ohne diese
     # Alternative blieb die Stelle jahrelang ungeprueft.
@@ -412,16 +422,21 @@ NEAR_KEYWORDS = {
     # ANCHOR_SEP zwischen Zahl und Anker kein Wort zulaesst und "[Mm]appings"
     # damit erst hinter "variant" beginnt.
     'variants_normalized': r'(?:[Nn]ormalisierte\w*\s+(?:Schreibvarianten|Varianten)|[Ee]indeutige\s+Zuordnungen|[Nn]ormalized\s+entries|[Vv]arianten-Schl[üu]ssel|[Vv]ariant\s+mappings|[Mm]appings)',
-    'persons': r'Personen',
-    'concepts': r'(?:Konzepte|Begriffe|Kategorien)',
-    'genres': r'(?:Gattungen|Kategorien)',
-    'names': r'(?:Namen|Kategorien)',
+    # Englische Alternativen seit #316: die Bestandstabellen in TEI-MODEL.md
+    # (Paragraph 10) und TEI-MODEL-AUTH-FILES.md (Paragraph 1) schreiben
+    # "211 persons", "567 categories", "615 categories", "90 categories".
+    # "Kategorien"/"categories" ist fuer drei Keys derselbe Anker; getrennt
+    # halten sie die Drift-Fenster (+-11 um 567, +-12 um 615, +-2 um 90).
+    'persons': r'(?:Personen|[Pp]ersons)',
+    'concepts': r'(?:Konzepte|Begriffe|Kategorien|[Cc]ategories)',
+    'genres': r'(?:Gattungen|Kategorien|[Cc]ategories)',
+    'names': r'(?:Namen|Kategorien|[Cc]ategories)',
     # Der Wert wurde schon berechnet, war aber in keinem DOC_TARGETS-Eintrag
     # eingetragen: docs/TEI-MODEL.md stand deshalb still auf 51, waehrend
     # TEI-MODEL-AUTH-FILES.md 52 fuehrte (#315 Punkt 4). Kollision mit dem
     # gleichnamigen Anker von 'persons' (211) gibt es nicht: das Drift-Fenster
     # ist +-2 um 52.
-    'contributors_persons': r'Personen',
+    'contributors_persons': r'(?:Personen|[Pp]ersons)',
 }
 
 
@@ -541,7 +556,13 @@ def find_stale_numbers(doc_path: str, current: int, key: str) -> list:
         # Nahkontext vor der Zahl (gleiche Zeile, max. 120 Zeichen) skippen.
         line_start = content.rfind('\n', 0, m.start()) + 1
         hist_ctx = content[max(line_start, m.start() - 120):m.start()]
-        if re.search(r'(?:Audit-Zeitpunkt|zum Audit|Audit:|vor WZB|initial|historisch)', hist_ctx):
+        # Zweisprachig seit #316, woertliche Entsprechungen der deutschen
+        # Marker daneben: TEI-MODEL.md fuehrt die 666 des #32-Audits jetzt als
+        # "Corpus at the time of the audit ... in 666 files". Ohne die
+        # englischen Marker meldete das Audit sie als Drift gegen 667, weil
+        # 666 im Fenster (+-13) liegt und "files" der Anker ist.
+        if re.search(r'(?:Audit-Zeitpunkt|zum Audit|Audit:|vor WZB|initial|historisch'
+                     r'|time of the audit|before WZB)', hist_ctx):
             continue
         # Derselbe Fall, aber mit dem Vermerk HINTER der Zahl (#297): in
         # docs/CONTRACTS.md steht "234,244 is the state of v1.6.2, not

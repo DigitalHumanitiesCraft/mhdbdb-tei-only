@@ -184,7 +184,7 @@ The reading view converts TEI XML elements to HTML. Source: `extractAndFormatBod
 - Document mode: all lemmata anywhere in the same text
 - Proximity mode: co-occurrence within N words, via `findCoveringWindow()` over sorted position lists
 - Verse mode: co-occurrence within one `<l>` (#106), via the `lineStarts[]`/`lineEnds[]` arrays
-- Uses the corpus index (current version: [TEI-MODEL.md §11](TEI-MODEL.md#11-versionierung)) for document-level word positions plus `<l>`-boundary arrays (since v4.1.0)
+- Uses the corpus index (current version: [TEI-MODEL.md §11](TEI-MODEL.md#11-versioning)) for document-level word positions plus `<l>`-boundary arrays (since v4.1.0)
 
 ### UI Layer (Phase 7 Modular Architecture)
 
