@@ -1,69 +1,57 @@
 # CLAUDE.md
 
-Operational briefing for Claude Code. Details live in `docs/` — this file is the concise pointer.
+Operational briefing for Claude Code. Details live in `docs/`: this file is the concise pointer.
 
 ## Project in One Paragraph
 
-MHDBDB TEI Repository: ~667 TEI-encoded Middle High German texts with semantic annotations. **Frontend-only** (GitHub Pages, no backend). Pre-built JSON indexes replace runtime XML parsing. Target audience: medievalists and DH researchers.
+MHDBDB TEI Repository: 667 TEI-encoded Middle High German texts with semantic annotations. **Frontend-only** (GitHub Pages, no backend). Pre-built JSON indexes replace runtime XML parsing. Target audience: medievalists and DH researchers.
 
 **Transformation → active project:** Started as a one-time migration (old MHDBDB + RDF export → TEI-only repo); that migration is done. It is now an **active project with ongoing ingest** (WZB, ARITHMETIC, more planned), so every data change must propagate through the derived layer (indexes, corpus-derived `variants.xml`) or it drifts silently. The mandatory step sequence lives in `docs/DATA-MODEL.md` → Data-Change-Lifecycle; the normative ingest procedure (Stage-0 → Phase 1–3 → Backfill) in `docs/DATA-MODEL.md` → Ingest procedure.
 
 ## Documentation Hub
 
-@docs/INDEX.md — gateway to all project knowledge:
+@docs/INDEX.md is imported here, so its catalog of the 15 promptotyping documents is already in context and is not repeated. Not part of that set: `docs/features/` (planning docs, alive only while their issue is open) and `docs/playbooks/` (reusable session procedures).
 
-| Doc | What's in it |
-|-----|-------------|
-| DATA-MODEL.md | Schemas, data pipeline, index structure |
-| ARCHITECTURE.md | Components, data flow, storage |
-| DESIGN.md | Visual patterns, color system, CSS architecture |
-| FEATURES.md | User-facing functionality |
-| DEVELOPMENT.md | Build commands, git workflow, deployment |
-| RESEARCH.md | Academic context, TEI/MHG standards |
-| DECISIONS.md | Architecture Decision Records |
-| CONTRACTS.md | Cross-language parity, algorithm pseudocode, API contracts |
-| ROADMAP.md | Current priorities and strategic direction |
-| JOURNAL.md | Chronological development log |
-| `features/` | Feature-scoped planning docs (active issues only) |
-| `playbooks/` | Wiederverwendbare Session-Verfahren (autonome Issue-/Merge-/Carearbeit-Sessions) |
+### Language
 
-### Sprache
+The dividing line is the audience, not the folder.
 
-**User-facing (Frontend) Hilfe und Doku immer deutsch, Entwickler-Doku immer Englisch.** Die Trennlinie ist das Publikum, nicht der Ordner: `hilfe-*.html`, `impressum.html` und alles, was Nutzerinnen im Browser sehen, bleibt deutsch; die Promptotyping-Docs in `docs/` sind englisch, weil sie in erster Linie von Agenten gelesen werden (#316, umgesetzt 2026-08-03).
+- **Written purely for LLMs** (this file, everything in `docs/`, `JOURNAL.md` and `journal-archive.md` included): **English, and no other constraints.** No em-dash rule, no house style. Precision beats polish.
+- **Written for users** (`hilfe-*.html`, `impressum.html`, every page a reader sees in the browser): **German**, and the constraints do apply (no em-dashes, real umlauts).
 
-**Ausnahme: `JOURNAL.md` und `journal-archive.md` bleiben deutsch** (Entscheidung 03.08.2026). Sie sind ebenfalls für Agenten geschrieben, aber Chronik statt Referenz, und Deutsch kostet dort nichts. Neue JOURNAL-Einträge also weiter auf Deutsch.
+German still turns up inside English files wherever data is quoted: corpus headers, Middle High German attestations, work titles, names from `contributors.xml`. Commit messages and the comments inside `scripts/` stay German as well.
 
-Deutsch bleibt außerdem in Commit-Messages, in den Kommentaren der `scripts/`-Dateien und überall dort, wo in einer englischen Datei Dateninhalt zitiert wird: Korpus-Header, mittelhochdeutsche Belege, Werktitel, Namen aus `contributors.xml`.
+Status: the `docs/` set and this file are English (#316). `JOURNAL.md` and `journal-archive.md` are not yet, around 2,800 lines of it.
 
 ## Directory Layout
 
 ```
 assets/js/           # Main site JS (app.js, search/, rendering/, storage/, lib/)
 assets/css/          # Stylesheets
-authority-files/     # 8 XML authority files (source of truth, inkl. contributors.xml seit 2026-04-14)
+authority-files/     # 8 XML authority files (source of truth, incl. contributors.xml since 2026-04-14)
 tei/                 # 667 TEI corpus files
 data/                # Pre-built indexes (.json.gz, generated)
-api/                 # Statische JSON-API (generiert via scripts/build-api.py, #45)
-sources/             # Legacy-Ingest-Quellen (Linecode), nicht normativ, #248
-schema/              # RELAX NG (mhdbdb.rnc/.rng, mhdbdb-authority.rnc/.rng) + Beispieldateien
-scripts/             # Python build scripts + data-wrangling (Topologie: scripts/README.md)
-ingest/              # Review-Artefakte der Ingest- und Disambiguierungs-Läufe (ari, pos-disambig, wvv, wzb)
-includes/            # Nav/Footer/Matomo-Fragmente, per build-pages.py in die Seiten injiziert
+api/                 # Static JSON API (generated by scripts/build-api.py, #45)
+sources/             # Legacy ingest sources (Linecode), not normative, #248
+schema/              # RELAX NG (mhdbdb.rnc/.rng, mhdbdb-authority.rnc/.rng) + examples
+scripts/             # Python build scripts + data wrangling (topology: scripts/README.md)
+ingest/              # Review artefacts of the ingest and disambiguation runs (ari, pos-disambig, wvv, wzb)
+includes/            # Nav/footer/Matomo fragments, injected into the pages by build-pages.py
 playground/          # Research tool (self-contained sub-app)
 lemma/               # Persistent lemma pages (Issue #42)
-testing/             # Playwright tests (Ergebnisse in testing/test-results/, gitignored)
+testing/             # Playwright tests (results in testing/test-results/, gitignored)
 docs/                # Knowledge documentation
 publications/        # Blog posts, reports
-temp/                # Scratch, gitignored, nie committen
+temp/                # Scratch, gitignored, never commit
 ```
 
 ## Commands
 
 ```bash
 npm run serve                    # Dev server on :8080
-npm test                         # Playwright, gut 5 min (auto-starts server) — NEVER use `npx playwright test` from root
-npm run test:changed             # nur Specs seit origin/main; ersetzt NICHT das npm test vor dem Push
-npm run test:quick               # drei Kern-Specs als Rauchprobe (22 Tests)
+npm test                         # Playwright, a good 5 min (auto-starts server). NEVER use `npx playwright test` from root
+npm run test:changed             # only specs touched since origin/main; does NOT replace npm test before a push
+npm run test:quick               # three core specs as a smoke test (22 tests)
 python scripts/build-authority-index.py   # Rebuild authority index
 python scripts/build-corpus-index.py      # Rebuild corpus index
 python scripts/build-api.py               # Rebuild static JSON API
@@ -71,19 +59,20 @@ python scripts/build-api.py               # Rebuild static JSON API
 
 ## Hard Constraints
 
-- **TEI namespace**: `http://www.tei-c.org/ns/1.0` — always
-- **UTF-8**: All files
+- **TEI namespace**: `http://www.tei-c.org/ns/1.0`, always
+- **UTF-8**: all files
 - **Desktop-only**: min 1200px width
-- **IndexedDB required**: Large indexes cached in browser
-- **Position counting**: Only `<w>` elements with `@lemmaRef` — Python and JS must match exactly
-- **Daten vor Schema**: Bei Konflikten zwischen Bestandsdaten (Korpus, Authority-Files) und dem Schema immer zuerst die Daten migrieren, nicht das Schema aufweichen. Eine Schema-Lockerung ist nur zulässig, wenn die Daten-Migration unverhältnismäßig teuer oder semantisch gefährlich wäre — und dann explizit als `GAP`-Kommentar im Schema dokumentiert (siehe `schema/mhdbdb.rnc` GAPs 1–11).
+- **IndexedDB required**: large indexes cached in browser
+- **Position counting**: only `<w>` elements with `@lemmaRef`; Python and JS must match exactly
+- **Data before schema**: when existing data (corpus, authority files) conflicts with the schema, migrate the data first, do not loosen the schema. Loosening is admissible only where the data migration would be disproportionately expensive or semantically dangerous, and then it is documented explicitly as a `GAP` comment in the schema (see `schema/mhdbdb.rnc`, GAPs 1–11).
 
 ## Git Rules
 
 - **NEVER commit or push without user testing and approval**
-- **Concurrent sessions share the working directory** — never use `git add -A` or `git add .`. Always stage specific files by name (`git add path/to/file1 path/to/file2`). Another Claude session may have staged files that do not belong in your commit. Example: commit `8b5d0e6ac` mistakenly swept router files into an unrelated #84 commit because `git add -A` captured the other session's staged playground edits.
+- **Concurrent sessions share the working directory**: never use `git add -A` or `git add .`. Always stage specific files by name (`git add path/to/file1 path/to/file2`). Another Claude session may have staged files that do not belong in your commit. Example: commit `8b5d0e6ac` swept router files into an unrelated #84 commit because `git add -A` captured another session's staged playground edits.
 - Never force push to `main`
-- **Evergreen issue (#44): NEVER close** — no `Closes #44` or `Fixes #44` in commits. Permanent tracking issue (labeled `evergreen`, pinned). (#91 Zenodo was mislabeled `evergreen` and is a normal closeable task — corrected 2026-06-09.)
+- **Small documentation changes go straight to `main`**: no branch, no PR, no waiting for CI. Branch plus PR plus review is for code, data, build scripts and anything a gate or test can catch.
+- **Evergreen issue (#44): NEVER close**, no `Closes #44` or `Fixes #44` in commits. Permanent tracking issue (labeled `evergreen`, pinned). (#91 Zenodo was mislabeled `evergreen` and is a normal closeable task, corrected 2026-06-09.)
 - Rebuild indexes after modifying XML in `authority-files/` or `tei/`
 - Run tests before pushing
 - Update `docs/` when architecture changes
@@ -99,55 +88,48 @@ Co-Authored-By: Claude <noreply@anthropic.com>
 ```
 
 ### Branches
-- `main` — production
-- `feature/*` — active work
-- `initial-data-wrangling` — archived (`pre-main-site` wurde inzwischen gelöscht)
+- `main` is production; everything else is a topic branch off it, named by whoever opens it (`claude/*` dominates, plus `docs/*`, `fix/*`, `feature/*`)
+- `initial-data-wrangling` is archived (`pre-main-site` has since been deleted)
 
-## Selbst erzeugter Overhead
+## Self-Inflicted Overhead
 
-Gemessen am 02.08.2026 über drei PRs (#330, #332, #333): 18 Review-Läufe (5 + 7 + 6, alle mit Ergebnis; nachzuzählen mit `python scripts/audit/review-rounds.py`), 27 Befunde. Davon **10 echte Defekte** in Code, Gate oder Test, **13 falsche Tatsachenbehauptungen in selbst geschriebenen Kommentaren** („zehn Stellen" statt 19, „in allen Skripten" statt 11 von 22, „der einzige Konsument" statt zwei), 4 Kosmetik. Die Hälfte der Review-Last war also hausgemacht. Daraus vier Regeln:
+Measured on 2026-08-02 across three PRs (#330, #332, #333): 27 findings in 18 review rounds, only 10 of them real defects. 13 were false claims in comments this project had written itself. Half the review load was homemade, hence:
 
-- **Ein Befund ist selbst eine Behauptung.** Vor der Übernahme nachmessen, egal ob er vom CI-Bot, vom `fable-reviewer` oder von einem Menschen kommt. Eine Zweitmeinung rechnete für eine gedriftete Tabelle 60 und 1.360 vor, gemessen waren 51 und 1.406: sie hatte die Altwerte fortgeschrieben, die gerade das Problem waren. Wer so etwas ungeprüft übernimmt, ändert eine richtige Angabe in eine falsche und versieht sie mit einem Beleg.
-- **Keine Behauptung in einen Kommentar, die nicht trägt.** Jede Zahl darin ist eine Angriffsfläche und muss gemessen sein. Was die Aussage nicht braucht, wird gelöscht statt belegt.
-- **Ab Review-Runde 3 nur noch Verhaltensbefunde einarbeiten.** Ein Befund, der bloß eine Formulierung verbessert, wird dann durch Kürzen des Kommentars erledigt. Bei #332 kosteten die Runden 3 und 4 je rund 20 Minuten (7 min Review + 13 min `validate`) für null Verhaltensänderung.
-- **Kein voller CI-Lauf für reine Kommentar-Commits.**
+- **A finding is itself a claim.** Measure before adopting it, whether it comes from the CI bot, from `fable-reviewer` or from a human. A second opinion once quoted 60 and 1,360 where the measured values were 51 and 1,406: it had carried forward the very numbers that were the problem. Adopting that turns a correct figure into a wrong one and attaches a citation to it.
+- **No claim in a comment that does not hold.** Every number in one has to be measured. What the statement does not need gets deleted rather than sourced.
+- **From review round 3 on, only act on behavioural findings.** Wording findings are settled by shortening the comment. In #332 rounds 3 and 4 cost around 20 minutes each for zero change in behaviour.
+- **No full CI run for comment-only commits.**
+- **Issue threshold:** a finding becomes a ticket only if it needs a **decision** the agent may not take, needs a **human**, or is a **work package of its own** (ingest, corpus change, more than half a day). Everything else is fixed on the spot or dropped (#331 was filed and fixed by the same session an hour later).
 
-Dieselbe Disziplin bei Issues: ein Fund wird nur dann ein Ticket, wenn er eine **Entscheidung** braucht, die der Agent nicht treffen darf, einen **Menschen** braucht, oder ein **eigenes Arbeitspaket** ist (Ingest, Korpusänderung, mehr als ein halber Tag). Alles andere wird sofort repariert, wenn man ohnehin in der Datei ist, oder es fällt weg. Anlass: #331 wurde angelegt und eine Stunde später von derselben Session gefixt.
+## Temporal Artifacts (promptotyping convention)
 
-## Temporal Artifacts (Promptotyping convention)
+- **Feature docs** (`docs/features/`): live while the issue is open. On completion, extract the critical knowledge into the stable docs (CONTRACTS.md, ARCHITECTURE.md and so on), then delete. Git history is the archive.
+- **Playbooks** (`docs/playbooks/`): a deliberate exception to the deletion rule, being reusable rather than ticket-bound. After each session: work in the lessons, refill the session-specific appendix, move the core knowledge into the JOURNAL. They authorize NOTHING by themselves and run only after an explicit kickoff by the user (operating contract in the files).
+- **Health check reports**: run via `/promptotyping check` (skill in `~/.claude/skills/promptotyping/`). Full report → scorecard in JOURNAL.md (3-4 lines, dated). Action items → separate issues. **No .md file in `docs/`**: the report is disposable once the action items are extracted.
 
-- **Feature docs** (`docs/features/`): Live while issue is open. On completion: extract critical knowledge into stable docs (CONTRACTS.md, ARCHITECTURE.md, etc.), then delete. Git history = archive.
-- **Playbooks** (`docs/playbooks/`): Bewusste Ausnahme von der Lösch-Regel — wiederverwendbare Session-Verfahren (autonome Issue-/Merge-/Carearbeit-Sessions), nicht ticket-gebunden. Nach jeder Session: Lehren einarbeiten, session-spezifischen Anhang leeren bzw. neu befüllen, Kernwissen ins JOURNAL. Autorisieren NICHTS von selbst; sie laufen nur nach explizitem User-Kickoff (Betriebsvertrag steht in den Dateien).
-- **Health check reports**: Run via `/promptotyping check` (operative Mechanik). Full report → Scorecard in JOURNAL.md (3-4 Zeilen, dated). Action items → separate Issues. **Keine .md-Datei in `docs/`** — der Report ist disposable, sobald Action Items extrahiert sind.
+### Health check list (MHDBDB-specific)
 
-### Health-Check-Checkliste (MHDBDB-spezifisch)
+After larger documentation changes, and quarterly even without them, against creeping drift.
 
-Nach größeren Doku-Änderungen oder quartalsweise (auch ohne Änderungen, gegen schleichenden Drift):
+- **Flow check:** read every modified doc end to end. Does it flow logically?
+- **Algorithm spot check:** pick 3 algorithms, compare the pseudocode in the docs against the actual code
+- **XPath spot check:** verify 3 XPaths from the docs against the build scripts
+- **Rebuild test:** ask "could I delete every `.js`/`.py` and reconstruct them from the docs?" If yes for the critical paths (search, build pipeline, reader), we are at 85%+
+- **Meta questions:** are the .md names self-explanatory? Are there too many or too few promptotyping docs (overlap vs. mixed concerns)? Always list structural doc changes with a reason.
 
-- **Flow check:** Jede modifizierte Doku end-to-end lesen — fließt sie logisch?
-- **Algorithm spot-check:** 3 Algorithmen ziehen, Pseudo-Code in Docs gegen tatsächlichen Code abgleichen
-- **XPath spot-check:** 3 XPaths in Docs gegen Build-Skripte verifizieren
-- **Rebuild test:** Frage: "Könnte ich alle `.js`/`.py` löschen und aus den Docs rekonstruieren?" — wenn ja für kritische Pfade (Suche, Build-Pipeline, Reader), sind wir bei 85%+
-
-**Trigger:** nach PRs an `docs/`, nach neuen Build-Skripten oder Algorithmen-Änderungen, nach neuen Authority-Files oder TEI-Elementen, quartalsweise.
-
-**Meta-Fragen (periodisch prüfen):** Sind die .md-Namen selbsterklärend? Gibt es zu viele oder zu wenige Promptotyping-Docs (Overlap vs. Mixed Concerns)? Strukturelle Doc-Änderungen immer mit Begründung listen.
+**Triggers:** after PRs touching `docs/`, after new build scripts or changed algorithms, after new authority files or TEI elements, quarterly.
 
 ## Gotchas
 
-- **Keine Em-Dashes in user-sichtbarem Text**: Gate ist `scripts/audit/check-no-em-dash.py` (CI: `no-cdn-check.yml`). Kommentare sind ausgenommen. Statt U+2014 einen Doppelpunkt, ein Komma, eine Klammer oder einen eigenen Satz setzen. Umfang seit #292 zweigeteilt: HTML, JS und CSS werden ganz geprüft, Markdown nur in den Zeilen, die ein PR hinzufügt (`--diff-base <rev>`, Fences und Inline-Code ausgenommen). Der Bestand bleibt damit unangetastet, was Absicht ist: rund 470 Zeilen darin tragen einen Em-Dash.
-- **Angle bracket entities** (`&lt;`, `&gt;`) in `<pc>` are correct XML — not bugs
-- **Nav/Footer sind build-injiziert**: Nicht in den HTML-Seiten direkt editieren. Quelle ist `includes/` + `scripts/build-pages.py` (Marker-Bereiche); `build-pages.py --check` ist das Drift-Gate. Mobile-Menü bleibt inline. Siehe DEVELOPMENT.md.
-- **Zotero cache** (`.zotero_cache.json`) is gitignored — use `--offline` for reproducible builds
-- **German Title Case**: Zotero sync capitalizes words except articles/prepositions (der, die, von, und...)
+- **No em-dashes in user-visible text.** That is the whole rule: it is about what a reader sees in the browser, so it does not cover this file, `docs/` or code comments. Use a colon, a comma, a parenthesis or a sentence of its own instead of U+2014. The gate `scripts/audit/check-no-em-dash.py` (CI: `no-cdn-check.yml`) casts a wider net: HTML, JS and CSS in full, plus any Markdown line a PR adds (`--diff-base <rev>`, fences and inline code excluded, existing text untouched). A Markdown hit is therefore noise, not a defect.
+- **Angle bracket entities** (`&lt;`, `&gt;`) in `<pc>` are correct XML, not bugs
+- **Nav and footer are build-injected**: do not edit them in the HTML pages. The source is `includes/` plus `scripts/build-pages.py` (marker regions); `build-pages.py --check` is the drift gate. The mobile menu stays inline. See DEVELOPMENT.md.
+- **Zotero cache** (`.zotero_cache.json`) is gitignored, use `--offline` for reproducible builds
+- **German title case**: Zotero sync capitalizes words except articles and prepositions (der, die, von, und...)
 
 ## Key Patterns
 
-- **3-stage lemma resolution**: exact match → variants dictionary → prefix-match fallback. Das Dictionary hält normalisierte **Mappings**, nicht die Rohformen aus `variants.xml`: der Bau dedupliziert nach Normalisierung, es sind also deutlich weniger Mappings als Formen (rund 234k gegen rund 257k). Beide Zahlen sind richtig, sie messen Verschiedenes; die genauen Werte mit Stand stehen in CONTRACTS.md §C und werden hier bewusst nicht dupliziert (#279). Stage 3 matches prefixes in both directions (stem input → lemma, inflected input → lemma), never unbounded substrings: that made "böses" resolve to `ês`/`ô`/`sê` (#224). Predicate shared by main site and playground in `assets/js/lib/lemma-resolve.js`. See ARCHITECTURE.md and CONTRACTS.md §C.
+- **3-stage lemma resolution**: exact match → variants dictionary → prefix-match fallback. The dictionary holds normalized **mappings**, not the raw forms from `variants.xml`, so there are markedly fewer mappings than forms; both numbers are correct and measure different things, and the values live in CONTRACTS.md §C rather than here (#279). Stage 3 matches prefixes in both directions (stem input → lemma, inflected input → lemma), never unbounded substrings: that made "böses" resolve to `ês`/`ô`/`sê` (#224). Predicate shared by main site and playground in `assets/js/lib/lemma-resolve.js`.
 - **Lemma highlight matching**: a `<w>` is highlighted only if `@lemmaRef` contains the searched id as an exact whitespace-separated token (never a substring: `#lemma_308` must not match `#lemma_3089`). Centralized in `assets/js/lib/lemma-match.js` (`lemmaRefMatchesId`). See CONTRACTS.md §B.1 (#126/#130).
 - **MHG normalization**: `â→a, ê→e, î→i, ô→o, û→u, ä→ae, ö→oe, ü→ue, ŏ→oe, ŭ→ue`. Centralized in `assets/js/lib/text-normalizer.js`.
-- **Pre-built indexes**: authority (~3 MB gz) + corpus (~40 MB gz). Aktuelle Versionen: TEI-MODEL.md §11 (Source of Truth). See DATA-MODEL.md for schemas.
-
-## License
-
-CC BY-NC-SA 4.0 | mhdbdb@plus.ac.at
+- **Pre-built indexes**: authority (~3 MB gz) + corpus (~40 MB gz). Current versions in TEI-MODEL.md §11 (source of truth). See DATA-MODEL.md for schemas.
