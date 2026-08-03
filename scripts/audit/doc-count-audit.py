@@ -556,7 +556,13 @@ def find_stale_numbers(doc_path: str, current: int, key: str) -> list:
         # Nahkontext vor der Zahl (gleiche Zeile, max. 120 Zeichen) skippen.
         line_start = content.rfind('\n', 0, m.start()) + 1
         hist_ctx = content[max(line_start, m.start() - 120):m.start()]
-        if re.search(r'(?:Audit-Zeitpunkt|zum Audit|Audit:|vor WZB|initial|historisch)', hist_ctx):
+        # Zweisprachig seit #316, woertliche Entsprechungen der deutschen
+        # Marker daneben: TEI-MODEL.md fuehrt die 666 des #32-Audits jetzt als
+        # "Corpus at the time of the audit ... in 666 files". Ohne die
+        # englischen Marker meldete das Audit sie als Drift gegen 667, weil
+        # 666 im Fenster (+-13) liegt und "files" der Anker ist.
+        if re.search(r'(?:Audit-Zeitpunkt|zum Audit|Audit:|vor WZB|initial|historisch'
+                     r'|time of the audit|before WZB)', hist_ctx):
             continue
         # Derselbe Fall, aber mit dem Vermerk HINTER der Zahl (#297): in
         # docs/CONTRACTS.md steht "234,244 is the state of v1.6.2, not
