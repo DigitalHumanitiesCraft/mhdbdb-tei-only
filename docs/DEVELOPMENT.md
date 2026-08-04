@@ -273,6 +273,19 @@ Completeness against `testing/tests/` is gated by `scripts/audit/check-doc-inven
 
 **Locally:** `python scripts/audit/check-release-version.py v1.1.0`
 
+### CI: File Size Guard
+
+**Workflow:** `.github/workflows/file-size-check.yml`
+**Triggers:** every PR and every push to `main`, plus `workflow_dispatch`. Deliberately **no** `paths:` filter, see below.
+
+**Background (#350, 2026-08-04):** GitHub blocks files larger than 100 MiB on push and warns from 50 MiB. That is the only size limit with teeth. Repository size itself has a recommendation only (under 1 GB ideal, under 5 GB strongly recommended), and the sole documented consequence of exceeding it is an email from GitHub Support. Measured on 2026-08-04, `tei/OVG.tei.xml` sits at 62.9 MiB and is the only file above the 50 MiB warning threshold; in the history it already stood at 79.7 MiB. Annotation work grows TEI files without anyone watching the file size.
+
+**Why 90 MiB and not 100:** this gate cannot prevent a rejected push. GitHub refuses the push before any workflow starts, and by then the commit already exists locally. The purpose is advance warning while the push still goes through and the file can still be split in an orderly way. A gate that warns at 100 MiB never warns. A `::warning` from 75 MiB marks the point where a splitting plan belongs on the table.
+
+**Why no path filter:** a file can grow too large in any directory. `data-integrity.yml` covers the likely candidates but not `ingest/` (which already holds a 31 MB TSV) and no newly created folder. A guard that first has to decide which folder may grow carries the same boundary problem the project dropped for the em-dash gate on 2026-08-03. The run costs seconds because `git ls-tree -l` supplies the sizes and no file is read.
+
+**Locally, and this is the actual safety net:** `python scripts/audit/check-file-sizes.py`
+
 ### Audit Scripts Reference
 
 Diagnostic and validation scripts in `scripts/audit/`. Completeness against the directory is gated by `scripts/audit/check-doc-inventories.py`, the same script as for the spec table above. Until #329 this table named 11 of 22 scripts, among them neither of the em-dash and no-CDN gates that run in every CI.
@@ -285,6 +298,7 @@ Two kinds are mixed here, and the difference is the important one: **gates** hav
 | `check-index-versions.py` | Version consistency between build scripts and loader, called by `data-integrity.yml` (details above) |
 | `check-index-version-bump.py` | Version bump gate (#154): index content changed against `--base` ⇒ the `version` string has to change with it. Called by `data-integrity.yml` (details above) |
 | `check-release-version.py` | Release tag against `CITATION.cff` version; forbids a `version` field in `.zenodo.json`. Called by `release-version-check.yml` (details above) |
+| `check-file-sizes.py` | Size guard (#350) against GitHub's hard 100 MiB per-file block: red from 90 MiB, `::warning` from 75 MiB. Called by `file-size-check.yml` (details above), stdlib only, reads no file content. `--selftest` secures parser and thresholds against synthetic input, because the gate is expected to stay green for years (27 MiB of headroom today) and a permanently green gate proves nothing |
 | `audit-authority-files.py` | Structure, cross-references and data quality **within** the 8 authority files (authority→authority; id patterns, orphaned references, structural consistency) |
 | `check-authority-cross-refs.py` | **Corpus→authority** cross-ref integrity: dangling `@lemmaRef`/`@ana`/`@corresp`/`@ref`/`@target`. `--check` is the CI gate in `data-integrity.yml`: unresolved refs outside `lexicon.xml` are red immediately; `lexicon.xml` acts as an id-set ratchet against `lexicon-baseline.json` (#152), new ids red, legacy stock green; `--update-baseline` advances the ratchet. The only detector of derived-file drift (#44/#115) |
 | `check-naming-index.py` | Naming index consistency (#152): `source.commit` present and every `works[].sigle` exists in `tei/`; `--print-source-commit` yields the pin for the workflows. Called by `data-integrity.yml` and `naming-index-update.yml` (details above) |

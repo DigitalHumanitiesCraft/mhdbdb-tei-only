@@ -1,0 +1,57 @@
+# Groessenwaechter (#350): keine committete Datei darf GitHubs harte
+# 100-MiB-Wand erreichen. Das ist die einzige Groessengrenze mit Zaehnen.
+# Die Repo-Groesse selbst kennt nur eine Empfehlung, und die einzige
+# dokumentierte Folge einer Ueberschreitung ist eine Mail vom Support.
+#
+# Warum ein eigener Workflow und nicht ein Step in einem bestehenden:
+#
+#  - data-integrity.yml traegt eine paths-Liste (tei/, authority-files/,
+#    data/*.gz und weitere) und laeuft 10 bis 18 Minuten. Sie deckt die
+#    wahrscheinlichen Kandidaten ab, aber nicht ingest/ (dort liegt heute
+#    schon eine 31-MB-TSV) und keinen neu angelegten Ordner.
+#  - no-cdn-check.yml traegt ebenfalls eine paths-Liste, und tei/ steht
+#    nicht darin.
+#
+# Deshalb hier bewusst KEIN paths-Filter: eine Datei kann in jedem
+# Verzeichnis zu gross werden, und ein Waechter, der vorher entscheiden
+# muss, welcher Ordner wachsen darf, hat dieselbe Grenzziehung am Hals,
+# die sich dieses Projekt beim Em-Dash-Gate am 03.08. abgewoehnt hat.
+# Der Lauf kostet Sekunden: `git ls-tree -l` liefert die Groessen mit,
+# keine Datei wird gelesen.
+#
+# Wichtig zur Erwartung: dieses Gate kann einen abgelehnten Push NICHT
+# verhindern. GitHub weist den Push zurueck, bevor ein Workflow startet.
+# Der Zweck ist Vorwarnung bei 90 MiB, solange der Push noch durchgeht
+# und die Datei sich noch geordnet aufteilen laesst. Der eigentliche
+# Rettungsanker ist der lokale Lauf vor dem Push:
+#     python scripts/audit/check-file-sizes.py
+
+name: file-size-check
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: file-size-check-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        # fetch-depth: 1 genuegt, `git ls-tree HEAD` braucht keine History.
+        uses: actions/checkout@v6
+
+      # Dieses Gate wird jahrelang gruen sein (Abstand zur Schwelle heute
+      # 27 MiB). Ohne Selbsttest wuesste niemand, ob es noch funktioniert.
+      - name: Groessenwaechter Selbsttest (#350)
+        run: python3 scripts/audit/check-file-sizes.py --selftest
+
+      - name: Keine committete Datei nahe GitHubs 100-MiB-Wand (#350)
+        run: python3 scripts/audit/check-file-sizes.py
