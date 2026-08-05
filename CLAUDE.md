@@ -127,7 +127,7 @@ Rules that keep the matrix from rotting, which is what happened to the old label
 ## Temporal Artifacts (promptotyping convention)
 
 - **Feature docs** (`docs/features/`): live while the issue is open. On completion, extract the critical knowledge into the stable docs (CONTRACTS.md, ARCHITECTURE.md and so on), then delete. Git history is the archive.
-- **Playbooks** (`docs/playbooks/`): a deliberate exception to the deletion rule, being reusable rather than ticket-bound. After each session: work in the lessons, refill the session-specific appendix, move the core knowledge into the JOURNAL. They authorize NOTHING by themselves and run only after an explicit kickoff by the user (operating contract in the files).
+- **Playbooks** (`docs/playbooks/`): a deliberate exception to the deletion rule, being reusable rather than ticket-bound. After each session: work in the lessons, refill the session-specific appendix, move the core knowledge into the JOURNAL. They authorize NOTHING by themselves and run only after an explicit kickoff by the user. The shared operating contract lives in `docs/playbooks/BETRIEBSVERTRAG.md` and is copied verbatim into the kickoff prompt; `docs/playbooks/README.md` is the entry point.
 - **Health check reports**: run via `/promptotyping check` (skill in `~/.claude/skills/promptotyping/`). Full report → scorecard in JOURNAL.md (3-4 lines, dated). Action items → separate issues. **No .md file in `docs/`**: the report is disposable once the action items are extracted.
 
 ### Health check list (MHDBDB-specific)
