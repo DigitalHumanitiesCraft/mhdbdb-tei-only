@@ -151,7 +151,8 @@ test.describe('Playground Authority Index Loading', () => {
         // (measured, three runs); under the full suite plus a second session it crossed
         // 10s in two of three runs, i.e. the test was measuring machine load. 20s still
         // catches what it exists for: runtime XML parsing cost around 30s before the
-        // pre-built indexes replaced it.
+        // pre-built indexes replaced it (documented in ARCHITECTURE.md, not measured
+        // here; that code path is gone).
         expect(loadTime).toBeLessThan(20000);
 
         if (loadTime < 3000) {
