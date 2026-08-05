@@ -1,0 +1,58 @@
+name: Issue Matrix
+
+# Haelt den generierten Teil der Triage-Matrix (#44) auf dem Label-Stand.
+#
+# Warum ein Zeitplan und kein PR-Gate: die Staleness von #44 kommt nicht aus
+# Code-Aenderungen, sondern aus Ticket-Bewegungen. Ein Gate am PR wuerde
+# fremde Label-Edits zu roten PRs machen und die Ursache trotzdem nicht
+# beheben. Ein Lauf, der den Body einfach nachzieht, behebt sie.
+#
+# Der Lauf schreibt ausschliesslich zwischen den MATRIX-Markern im Body von
+# #44. Alles ausserhalb bleibt handgepflegt und wird nicht angefasst.
+#
+# Rot wird der Lauf bei Label-Luecken (Ticket ohne auto:*, auto:blocked ohne
+# wait:* und so weiter). Der Body ist dann trotzdem aktualisiert: die Meldung
+# ist eine Aufforderung, das Ticket zu labeln, keine fehlgeschlagene Arbeit.
+
+on:
+  schedule:
+    - cron: '23 4 * * *'   # taeglich 04:23 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: issue-matrix
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        # Nur das Skript wird gebraucht, nicht das TEI-Korpus: ein voller
+        # Checkout zoege das 667-Dateien-Korpus und die Indexe fuer nichts
+        # mit herunter.
+        uses: actions/checkout@v6
+        with:
+          sparse-checkout: scripts/audit
+          sparse-checkout-cone-mode: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+
+      - name: Selbsttest
+        # Zaehlung und Marker-Ersatz an synthetischen Daten, ohne Netz.
+        # Laeuft vor dem Schreiben: ein kaputter Generator soll den Body
+        # nicht anfassen.
+        run: python scripts/audit/build-issue-matrix.py --selftest
+
+      - name: Matrix schreiben
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python scripts/audit/build-issue-matrix.py --apply
