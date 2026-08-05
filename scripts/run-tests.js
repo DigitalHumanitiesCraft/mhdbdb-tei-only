@@ -1,52 +1,52 @@
 #!/usr/bin/env node
 /**
- * Playwright starten und das Ergebnis aus `report.json` verkünden.
+ * Playwright starten und das Ergebnis aus `report.json` verkuenden.
  *
  * Existiert, weil die Frage "hat die Suite bestanden?" bisher drei Antworten
- * hatte, die verschieden lügen. Das Issue-Playbook hat daraus vier
+ * hatte, die verschieden luegen. Das Issue-Playbook hat daraus vier
  * Handwerksregeln destilliert (§2.1 Regeln 6, 16, 26, 27), und das
  * Merge-Playbook wies bis zum 2026-08-05 auf ausgerechnet die Quelle, die
- * zwei dieser Regeln als falsch-grün belegen. Eine Regel, die verlangt, nach
+ * zwei dieser Regeln als falsch-gruen belegen. Eine Regel, die verlangt, nach
  * dem Lauf ein anderes Werkzeug zu befragen als das, welches gerade die
  * Zusammenfassung gedruckt hat, verliert den Wettbewerb um Aufmerksamkeit
- * gegen 31 andere Regeln. Also übernimmt das hier der Aufruf selbst.
+ * gegen 31 andere Regeln. Also uebernimmt das hier der Aufruf selbst.
  *
- * Was der Wrapper prüft, und warum jeweils:
+ * Was der Wrapper prueft, und warum jeweils:
  *
  * 1. Fremder Dev-Server. `testing/playwright.config.js` setzt
- *    `reuseExistingServer: !process.env.CI`, und Playwright prüft nur, ob auf
+ *    `reuseExistingServer: !process.env.CI`, und Playwright prueft nur, ob auf
  *    Port 8080 jemand antwortet, nicht wer. Solange alle Sessions im selben
- *    Arbeitsbaum liefen, war das harmlos, und das Journal hat es fünfmal als
+ *    Arbeitsbaum liefen, war das harmlos, und das Journal hat es fuenfmal als
  *    harmlos abgehakt (`journal-archive.md:839, 954, 1021, 1080, 1127`). Seit
  *    Regel 29 jeder Session ihren eigenen Worktree gibt, serviert ein
- *    wiederverwendeter Server fremde Dateien: die Suite prüft dann einen
- *    anderen Arbeitsbaum und wird grün. Das ist kein falsch abgelesenes
+ *    wiederverwendeter Server fremde Dateien: die Suite prueft dann einen
+ *    anderen Arbeitsbaum und wird gruen. Das ist kein falsch abgelesenes
  *    Ergebnis, sondern ein korrekt abgelesenes falsches, und es trifft die
- *    Chrome-Verifikation über denselben Port gleich mit.
+ *    Chrome-Verifikation ueber denselben Port gleich mit.
  *
  * 2. Alter Report. `report.json` bleibt nach jedem Lauf liegen und ist
  *    gitignored. Bricht ein Lauf ab, bevor der Reporter schreibt, liest die
  *    Anweisung "die Zahlen kommen aus report.json" den vorigen Lauf. Am
  *    2026-08-05 lag im Arbeitsbaum ein drei Tage alter Report mit 14 Tests
- *    und `unexpected: 0`. Deshalb wird die Datei vorher gelöscht: fehlt sie
+ *    und `unexpected: 0`. Deshalb wird die Datei vorher geloescht: fehlt sie
  *    danach, ist das ein Infrastrukturfehler und kein Testergebnis.
  *
  * 3. Geschrumpfte Grundgesamtheit. Im Vorfall zu Regel 27 meldete die Konsole
- *    "41 passed", während der Lauf 57 Tests hatte, einen `unexpected` und
- *    fünfzehn `skipped`. Ein Sollwert in einer Datei wäre die falsche Abhilfe,
- *    er driftet mit jedem neuen Spec. Stattdessen werden beide Seiten zur
- *    Laufzeit gemessen: die Spec-Dateien auf der Platte gegen die Dateien im
- *    Report. Nur bei filterlosem Lauf, denn ein gefilterter Lauf hat
- *    berechtigterweise weniger, und dann sagt das Verdikt TEILLAUF statt
- *    Vollständigkeit zu behaupten.
+ *    "41 passed", waehrend der Lauf 57 Tests hatte, einen `unexpected` und
+ *    fuenfzehn `skipped`. Ein Sollwert in einer Datei waere die falsche
+ *    Abhilfe, er driftet mit jedem neuen Spec. Stattdessen werden beide
+ *    Seiten zur Laufzeit gemessen: die Spec-Dateien auf der Platte gegen die
+ *    Dateien im Report. Nur bei filterlosem Lauf, denn ein gefilterter Lauf
+ *    hat berechtigterweise weniger, und dann sagt das Verdikt TEILLAUF statt
+ *    Vollstaendigkeit zu behaupten.
  *
- * Die letzte Zeile der Ausgabe ist das Ergebnis. Sie nennt den geprüften
+ * Die letzte Zeile der Ausgabe ist das Ergebnis. Sie nennt den geprueften
  * Pfad, damit auch im Nachhinein erkennbar bleibt, welcher Arbeitsbaum
  * gemessen wurde. Der Exit-Code wird aus dem Verdikt gebildet, nicht
- * durchgereicht: 0 grün, 1 rot, 2 der Lauf ist gar nicht zustande gekommen.
+ * durchgereicht: 0 gruen, 1 rot, 2 der Lauf ist gar nicht zustande gekommen.
  *
  * Aufruf: node scripts/run-tests.js [playwright-argumente...]
- * Über npm: `npm test`, `npm run test:changed`, `npm run test:quick`,
+ * Ueber npm: `npm test`, `npm run test:changed`, `npm run test:quick`,
  * jeweils mit `--` vor eigenen Argumenten (`npm test -- --grep minne`).
  */
 
@@ -66,15 +66,22 @@ const playwrightCli = resolve(repoWurzel, 'node_modules', '@playwright', 'test',
 
 const BASIS_URL = 'http://localhost:8080';
 
+// Grosszuegig bemessen, in beide Richtungen begruendet: eine aktive Ablehnung
+// kommt sofort und wartet nie, ein gesaettigter `http-server` dagegen kann
+// unter Last mehrere Sekunden brauchen (er ist single-threaded, siehe den
+// Worker-Kommentar in testing/playwright.config.js). Ein knappes Budget
+// wuerde den eigenen Server bei Last faelschlich als fremd melden.
+const ANKLOPF_FRIST_MS = 10000;
+
 const argumente = process.argv.slice(2);
 
-// Diese Modi schreiben keinen JSON-Report: `--list` zählt nur auf, die
+// Diese Modi schreiben keinen JSON-Report: `--list` zaehlt nur auf, die
 // interaktiven laufen unter Aufsicht. Sie werden durchgereicht und ihr
-// Exit-Code unverändert weitergegeben.
+// Exit-Code unveraendert weitergegeben.
 const ohneReport = argumente.some((a) => a === '--list' || a === '--ui' || a === '--debug');
 
-// Alles, was die Auswahl einschränkt, macht den Lauf zum Teillauf. Bewusst
-// großzügig: ein positionales Argument ist bei `playwright test` immer ein
+// Alles, was die Auswahl einschraenkt, macht den Lauf zum Teillauf. Bewusst
+// grosszuegig: ein positionales Argument ist bei `playwright test` immer ein
 // Dateifilter, und im Zweifel ist "TEILLAUF" die ehrlichere Aussage.
 const FILTER_FLAGS = /^--(grep|grep-invert|only-changed|shard|last-failed|project)\b/;
 const hatFilter = argumente.some((a) => !a.startsWith('-') || FILTER_FLAGS.test(a));
@@ -86,24 +93,35 @@ function abbruch(meldung, code) {
   process.exit(code);
 }
 
+function mitFrist(url) {
+  const abbrecher = new AbortController();
+  const frist = setTimeout(() => abbrecher.abort(), ANKLOPF_FRIST_MS);
+  return fetch(url, { signal: abbrecher.signal }).finally(() => clearTimeout(frist));
+}
+
 /**
  * Antwortet auf 8080 jemand, und ist es unser Arbeitsbaum?
  *
- * Der Test läuft über eine Datei mit Zufallsnamen und Zufallsinhalt unter
+ * Der Test laeuft ueber eine Datei mit Zufallsnamen und Zufallsinhalt unter
  * `testing/test-results/`: das Verzeichnis ist gitignored, der Sentinel
- * berührt also den Index nicht, den parallele Sessions teilen. Ein fremder
- * Server liefert für diesen Pfad einen 404 oder etwas anderes.
+ * beruehrt also den Index nicht, den parallele Sessions teilen. Ein fremder
+ * Server liefert fuer diesen Pfad einen 404 oder etwas anderes.
  */
 async function serverPruefen() {
   try {
-    const abbrecher = new AbortController();
-    const frist = setTimeout(() => abbrecher.abort(), 2000);
-    await fetch(BASIS_URL, { signal: abbrecher.signal });
-    clearTimeout(frist);
-  } catch {
-    // Niemand da: Playwright startet sich seinen eigenen Server, und der
-    // bedient per Konstruktion dieses Verzeichnis.
-    return { status: 'kein-server' };
+    await mitFrist(BASIS_URL);
+  } catch (fehler) {
+    // Nur die aktive Ablehnung beweist, dass niemand horcht. Jeder andere
+    // Fehler beweist eher das Gegenteil: da ist jemand, er antwortet nur
+    // nicht (rechtzeitig). Diese Unterscheidung ist der ganze Punkt, denn
+    // der wahrscheinlichste Grund fuer ein Zeitueberschreiten ist genau der
+    // Fall, den der Check fangen soll: eine parallele Session faehrt ihren
+    // Volllauf und saettigt dabei ihren eigenen Server.
+    if (fehler.cause?.code === 'ECONNREFUSED') return { status: 'kein-server' };
+    return {
+      status: 'fremd',
+      grund: `${fehler.name} beim Anklopfen nach ${ANKLOPF_FRIST_MS / 1000} s (${fehler.cause?.code ?? 'ohne Fehlercode'})`,
+    };
   }
 
   mkdirSync(ergebnisVerzeichnis, { recursive: true });
@@ -113,13 +131,13 @@ async function serverPruefen() {
   writeFileSync(pfad, inhalt, 'utf8');
 
   try {
-    const antwort = await fetch(`${BASIS_URL}/testing/test-results/${name}`);
+    const antwort = await mitFrist(`${BASIS_URL}/testing/test-results/${name}`);
     if (!antwort.ok) return { status: 'fremd', grund: `HTTP ${antwort.status}` };
     const gelesen = (await antwort.text()).trim();
     if (gelesen !== inhalt) return { status: 'fremd', grund: 'Inhalt weicht ab' };
     return { status: 'unserer' };
   } catch (fehler) {
-    return { status: 'fremd', grund: fehler.message };
+    return { status: 'fremd', grund: `${fehler.name}: ${fehler.message}` };
   } finally {
     try {
       unlinkSync(pfad);
@@ -139,15 +157,23 @@ function dateienImReport(knoten, menge = new Set()) {
   return menge;
 }
 
-/** Übersprungene Tests mit Datei und Titel einsammeln. */
-function uebersprungene(knoten, treffer = []) {
+/**
+ * Tests eines Status mit Datei und Titel einsammeln.
+ *
+ * Fuer `skipped` und `flaky` bewusst die Titel statt einer Schwelle: ein
+ * einzelner bekannter Fall gehoert zum Normalzustand, fuenfzehn ploetzliche
+ * nicht, und die Titel unterscheiden beide. Eine Zahl kann das nicht, und ein
+ * gepflegter Sollwert dafuer waere genau die driftende Angabe, die dieses
+ * Skript vermeiden soll.
+ */
+function testsMitStatus(knoten, status, treffer = []) {
   for (const eintrag of knoten ?? []) {
     for (const spec of eintrag.specs ?? []) {
-      if ((spec.tests ?? []).some((t) => t.status === 'skipped')) {
+      if ((spec.tests ?? []).some((t) => t.status === status)) {
         treffer.push(`${eintrag.file ?? '?'} > ${spec.title}`);
       }
     }
-    if (eintrag.suites) uebersprungene(eintrag.suites, treffer);
+    if (eintrag.suites) testsMitStatus(eintrag.suites, status, treffer);
   }
   return treffer;
 }
@@ -162,9 +188,9 @@ if (!ohneReport) {
   const server = await serverPruefen();
   if (server.status === 'fremd') {
     abbruch(
-      `Port 8080 wird von einem fremden Verzeichnis bedient (${server.grund}).\n` +
-        `Playwright wuerde diesen Server wiederverwenden und die Suite gegen einen\n` +
-        `anderen Arbeitsbaum laufen lassen. Erwartet: ${repoWurzel}\n` +
+      `Port 8080 wird von einem fremden oder nicht antwortenden Server bedient (${server.grund}).\n` +
+        `Playwright wuerde ihn wiederverwenden und die Suite gegen einen anderen\n` +
+        `Arbeitsbaum laufen lassen. Erwartet: ${repoWurzel}\n` +
         `Abhilfe: den fremden Dev-Server beenden, dann erneut starten.`,
       2
     );
@@ -214,6 +240,9 @@ const dateienGelaufen = dateienImReport(bericht.suites);
 const gruende = [];
 
 if (unerwartet > 0) gruende.push(`${unerwartet} unexpected`);
+// Auch flaky ist rot, und zwar als Fortsetzung einer Entscheidung, die schon
+// in der Config steht: `failOnFlakyTests: true` haelt fest, dass ein Retry
+// zur Diagnose da ist und nicht zum Durchwinken.
 if (wacklig > 0) gruende.push(`${wacklig} flaky`);
 if (laufFehler > 0) gruende.push(`${laufFehler} Lauffehler`);
 
@@ -232,15 +261,12 @@ console.log(
     ` (${(zahlen.duration / 1000 || 0).toFixed(0)} s)`
 );
 
-if (uebersprungen > 0) {
-  // Nicht als Schwellwert: ein harter `test.skip` gehoert zum Normalzustand,
-  // fuenfzehn ploetzliche nicht. Die Titel unterscheiden beide Faelle, eine
-  // Zahl kann das nicht.
-  for (const titel of uebersprungene(bericht.suites)) {
-    console.log(`  skipped: ${titel}`);
-  }
+for (const titel of testsMitStatus(bericht.suites, 'skipped')) {
+  console.log(`  skipped: ${titel}`);
 }
-
+for (const titel of testsMitStatus(bericht.suites, 'flaky')) {
+  console.log(`  flaky:   ${titel}`);
+}
 for (const datei of fehlendeDateien) {
   console.log(`  NICHT GELAUFEN: ${datei}`);
 }
