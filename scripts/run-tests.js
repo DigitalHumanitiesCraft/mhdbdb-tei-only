@@ -89,7 +89,11 @@ const hatFilter = argumente.some((a) => !a.startsWith('-') || FILTER_FLAGS.test(
 function abbruch(meldung, code) {
   console.error('');
   console.error(meldung);
-  console.error(`VERDICT: KEIN ERGEBNIS (${meldung.split('\n')[0]})`);
+  // Der Diagnosetext geht nach stderr, die VERDICT-Zeile nach stdout. Sonst
+  // haelt die Zusage nicht, die letzte Zeile sei das Ergebnis: wer
+  // `npm test > lauf.txt` umleitet, faende im Infrastrukturfall gar kein
+  // Verdikt, sondern das letzte, was Playwright gedruckt hat.
+  console.log(`VERDICT: KEIN ERGEBNIS (${meldung.split('\n')[0]})`);
   process.exit(code);
 }
 
@@ -271,6 +275,24 @@ for (const datei of fehlendeDateien) {
   console.log(`  NICHT GELAUFEN: ${datei}`);
 }
 
+// Playwrights eigener Exit-Code ist kein Ergebnis, das ist die Lehre der
+// alten Regel 26: er darf einen roten Report nicht uebersteuern. Die
+// Gegenrichtung ist aber nicht dieselbe Aussage. Endet der Prozess ungleich
+// null oder per Signal, waehrend der Report nichts beanstandet,
+// widersprechen sich zwei Quellen, und dann ist das kein gruener Lauf,
+// sondern ein abgebrochener. Ein hart getoeteter Lauf faellt schon vorher
+// durch die Report-Pruefung (gemessen), ein sanft abgebrochener kaeme sonst
+// hier durch: die nicht gelaufenen Tests stehen als `skipped` im Report, und
+// skipped ist kein Grund.
+if (gruende.length === 0 && (lauf.status !== 0 || lauf.signal)) {
+  abbruch(
+    `Playwright endete mit ${lauf.signal ? `Signal ${lauf.signal}` : `Status ${lauf.status}`},` +
+      ` waehrend der Report nichts beanstandet (${gesamt} Tests).\n` +
+      `Das ist ein abgebrochener Lauf, kein gruenes Ergebnis.`,
+    2
+  );
+}
+
 if (gruende.length > 0) {
   // Testzahl, Dateizahl und Pfad stehen auch im roten Fall, sonst haelt die
   // Zusage der Playbooks nicht, die Zeile nenne alle drei. Bei fehlenden
@@ -280,6 +302,20 @@ if (gruende.length > 0) {
       ` Pfad: ${repoWurzel})`
   );
   process.exit(1);
+}
+
+// Null Tests sind trivialerweise gruen, und genau deshalb darf hier nicht
+// "GRUEN" stehen: die Zeile landet im Verifikations-Block eines PRs und
+// behauptete dort eine Pruefung, die nicht stattgefunden hat. Der haeufigste
+// Fall ist `test:changed` auf einem Zweig ohne Spec-Aenderungen; Playwright
+// endet dabei regulaer mit 0 (DEVELOPMENT.md), es ist also kein Fehler,
+// sondern nur kein Ergebnis.
+if (gesamt === 0) {
+  console.log(
+    `VERDICT: NICHTS GELAUFEN (0 Tests${hatFilter ? `, Filter: ${argumente.join(' ')}` : ''},` +
+      ` Pfad: ${repoWurzel}). Das belegt nichts.`
+  );
+  process.exit(0);
 }
 
 if (hatFilter) {
