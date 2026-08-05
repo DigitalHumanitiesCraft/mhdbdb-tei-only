@@ -258,16 +258,23 @@ def baue(issues):
                f'Alles zwischen den Markern ist aus den Labels erzeugt, '
                f'siehe `scripts/audit/build-issue-matrix.py`.\n')
 
-    # Ein Ticket ohne auto:* faellt aus jeder Tabelle, wird oben aber
-    # mitgezaehlt. Ohne diese Zeile sieht die Matrix vollstaendig aus und
-    # die Luecke steht nur in der Actions-Historie, also genau nicht dort,
-    # wo gelesen wird. Der Body soll seine eigene Luecke tragen.
-    ohne_stufe = [i for i in zaehlbar if not achse(i, 'auto:')]
-    if ohne_stufe:
-        nummern = ', '.join(f'#{i["number"]}' for i in ohne_stufe)
-        aus.append(f'> **Ohne `auto:*` und deshalb in keiner Tabelle unten: '
-                   f'{nummern}.** Die Kopfzahl zaehlt sie mit. Bitte labeln, '
-                   f'dann verschwindet dieser Hinweis von selbst.\n')
+    # Jede Label-Luecke verzerrt die Matrix, und zwar sichtbar erst hier
+    # unten: ein Ticket ohne auto:* faellt aus allen Tabellen, waehrend die
+    # Kopfzahl es mitzaehlt; eins mit zwei auto:* erscheint in beiden
+    # Tabellen, und die erste Fundstelle einer Sitzung ist dann womoeglich
+    # "sofort machbar" fuer etwas Blockiertes; ein auto:blocked ohne wait:*
+    # fehlt in jeder Zeile der Ping-Liste, deren Kopfzahl es mitzaehlt.
+    # Der rote Lauf allein hilft nicht: er steht in der Actions-Historie
+    # und nicht dort, wo gelesen wird. Deshalb traegt der Body dieselben
+    # Meldungen, die `pruefe()` ausgibt, statt einzelner Sonderfaelle.
+    luecken = pruefe(zaehlbar)
+    if luecken:
+        aus.append(f'> **{len(luecken)} Label-Luecke(n): solange sie stehen, '
+                   f'passen Kopfzahlen und Tabellen unten nicht zusammen.**')
+        for meldung in luecken:
+            aus.append(f'> - {meldung}')
+        aus.append('>\n> Behoben, sobald die Labels stimmen; dieser Kasten '
+                   'verschwindet dann von selbst.\n')
 
     aus.append('### Quick Stats\n')
     aus.append('| Autonomiestufe | Anzahl | Anteil | heisst |')
@@ -368,15 +375,29 @@ def selftest():
                    '`auto:pair` (0)' in block and 'Derzeit keins.' in block))
     faelle.append(('Ping-Liste nennt Person und Datum',
                    'KZW (`wachauer`)' in block and '#2 (2026-08-01)' in block))
-    faelle.append(('Ohne Luecke kein Luecken-Hinweis',
-                   'in keiner Tabelle unten' not in block))
+    faelle.append(('Ohne Luecke kein Luecken-Kasten',
+                   'Label-Luecke(n)' not in block))
 
-    # Ein Ticket ohne auto:* darf nicht spurlos aus der Matrix fallen.
-    mit_luecke = baue(sauber + [iss(99, ['area:docs', 'effort:small'])])
+    # Keine der vier Luecken-Arten darf sich still auf die Matrix auswirken.
+    # Alle drei unten verzerren sie auf verschiedene Weise, und alle drei
+    # muessen im Body stehen und nicht nur im Actions-Log.
+    ohne = baue(sauber + [iss(99, ['area:docs', 'effort:small'])])
     faelle.append(('Ticket ohne auto:* wird im Block benannt',
-                   'in keiner Tabelle unten: #99' in mit_luecke))
+                   '#99: Autonomiestufe' in ohne))
     faelle.append(('Die Kopfzahl zaehlt das ungelabelte Ticket weiter mit',
-                   '**3 offene Issues**' in mit_luecke))
+                   '**3 offene Issues**' in ohne))
+
+    doppelt = baue(sauber + [iss(98, ['auto:full', 'auto:blocked', 'area:docs',
+                                      'effort:small', 'wait:kzw'])])
+    faelle.append(('Zwei auto:*, das Ticket steht in zwei Tabellen und der '
+                   'Block sagt es', '#98: Autonomiestufe' in doppelt
+                   and doppelt.count('| #98 |') == 2))
+
+    stumm = baue(sauber + [iss(97, ['auto:blocked', 'area:docs',
+                                    'effort:small'])])
+    faelle.append(('auto:blocked ohne wait:* wird benannt, statt aus der '
+                   'Ping-Liste zu fallen', '#97: auto:blocked ohne wait' in stumm
+                   and '| #97 |' in stumm))
 
     # Die vier Fehlermodi, die dieses Gate rechtfertigen.
     faelle.append(('Fehlendes auto:* faellt auf', any(
