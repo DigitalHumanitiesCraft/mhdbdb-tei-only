@@ -258,6 +258,17 @@ def baue(issues):
                f'Alles zwischen den Markern ist aus den Labels erzeugt, '
                f'siehe `scripts/audit/build-issue-matrix.py`.\n')
 
+    # Ein Ticket ohne auto:* faellt aus jeder Tabelle, wird oben aber
+    # mitgezaehlt. Ohne diese Zeile sieht die Matrix vollstaendig aus und
+    # die Luecke steht nur in der Actions-Historie, also genau nicht dort,
+    # wo gelesen wird. Der Body soll seine eigene Luecke tragen.
+    ohne_stufe = [i for i in zaehlbar if not achse(i, 'auto:')]
+    if ohne_stufe:
+        nummern = ', '.join(f'#{i["number"]}' for i in ohne_stufe)
+        aus.append(f'> **Ohne `auto:*` und deshalb in keiner Tabelle unten: '
+                   f'{nummern}.** Die Kopfzahl zaehlt sie mit. Bitte labeln, '
+                   f'dann verschwindet dieser Hinweis von selbst.\n')
+
     aus.append('### Quick Stats\n')
     aus.append('| Autonomiestufe | Anzahl | Anteil | heisst |')
     aus.append('|---|---:|---:|---|')
@@ -357,6 +368,15 @@ def selftest():
                    '`auto:pair` (0)' in block and 'Derzeit keins.' in block))
     faelle.append(('Ping-Liste nennt Person und Datum',
                    'KZW (`wachauer`)' in block and '#2 (2026-08-01)' in block))
+    faelle.append(('Ohne Luecke kein Luecken-Hinweis',
+                   'in keiner Tabelle unten' not in block))
+
+    # Ein Ticket ohne auto:* darf nicht spurlos aus der Matrix fallen.
+    mit_luecke = baue(sauber + [iss(99, ['area:docs', 'effort:small'])])
+    faelle.append(('Ticket ohne auto:* wird im Block benannt',
+                   'in keiner Tabelle unten: #99' in mit_luecke))
+    faelle.append(('Die Kopfzahl zaehlt das ungelabelte Ticket weiter mit',
+                   '**3 offene Issues**' in mit_luecke))
 
     # Die vier Fehlermodi, die dieses Gate rechtfertigen.
     faelle.append(('Fehlendes auto:* faellt auf', any(
