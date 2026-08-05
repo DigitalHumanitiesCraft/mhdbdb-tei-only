@@ -13,6 +13,7 @@ scripts/
 ├── build-vendor.js              # Vendored JS-Dependencies bündeln
 ├── python-bin.js                # Python-Interpreter auflösen statt raten (#318)
 ├── run-python.js                # Wrapper, über den die npm-Skripte Python starten (#318)
+├── run-tests.js                 # Wrapper, über den npm test läuft; Verdikt aus report.json statt Konsolenzeile
 ├── validate-indices.py          # Generierte Indexes validieren
 ├── mhg_normalizer.py            # MHG-Textnormalisierung (shared lib)
 ├── tei_namespaces.py            # TEI-Namespace-Erkennung für lxml-Bäume (shared lib)

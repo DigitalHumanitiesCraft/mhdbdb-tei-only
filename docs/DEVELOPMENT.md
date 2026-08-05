@@ -159,6 +159,10 @@ npm run test:headed   # Visible browser
 npm run report        # View HTML report
 ```
 
+**The first three run through `scripts/run-tests.js`, and its last line is the result.** The question "did the suite pass?" used to have three answers that lie in different ways, and the issue playbook had grown four separate rules around them (§2.1, since 2026-08-05 merged into rule 6). The wrapper answers it once: it deletes the stale `report.json` before the run, refuses to start when port 8080 is served by a different working tree, sets `PW_TEST_HTML_REPORT_OPEN=never`, and builds its verdict from `testing/test-results/report.json` rather than from the console line or the exit code. On a run without filters it also compares the spec files on disk against the files that appear in the report, so a run whose population silently shrank comes out red instead of green with a smaller number. Both sides of that comparison are measured at runtime; there is no maintained expected count that could drift.
+
+The verdict line names the test count, the file count and the working tree that was measured, and belongs in the PR verification block as it stands. Exit codes: 0 green, 1 red, 2 the run never happened (no report written, or a foreign server on 8080). `test:ui`, `test:debug` and `test:headed` stay unwrapped, they run under supervision and write no usable report.
+
 **Python interpreter (#318).** Two specs call Python (`normalization-parity`, `position-parity`), and so do the npm build scripts. The interpreter is searched for, not guessed: `scripts/python-bin.js` tries `python3.13`, `python3`, `python` and `py` in that order and takes the first one reporting 3.13 or newer. If it finds none, that is a hard error listing what was tried, not a silent skip. Before that, `python3.13` was a fixed string in the calls; under Windows that name only exists for an installation from the Microsoft Store, while the python.org installer conversely does not put `python.exe` on the PATH by default and registers only `py`. Deviating setups (venv, Conda) point `MHDBDB_PYTHON` at the path of the real `python.exe`, not at a `.bat` shim:
 
 ```bash
@@ -185,7 +189,7 @@ The Python rows are the nastiest, because there one expects the opposite. `scrip
 Particularly relevant for this repository are `tei/` and `data/`: with ingest running these are the most frequently changed directories, and both are blind because they are loaded over `localhost:8080`. Two pitfalls around the ref: `origin/main` has to exist (it does not in a shallow clone), and it has to be current. Whoever has not fetched for a while compares against an old state and gets too many or too few specs, so run `git fetch origin main` first. If the selection stays empty, the command ends with exit 0 (measured, Playwright 1.55.1): `--pass-with-no-tests` is not needed.
 
 **Test configuration:** `testing/playwright.config.js`
-- Always use `npm test` – never `npx playwright test` from the project root (config and `baseURL` live in `testing/`)
+- Always use `npm test` – never `npx playwright test` from the project root (config and `baseURL` live in `testing/`, and only the npm route goes through the wrapper that forms the verdict)
 - Automated web server startup (port 8080)
 - Headless Chrome with `--disable-web-security`
 - 60-second timeout per test

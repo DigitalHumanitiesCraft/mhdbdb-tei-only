@@ -58,7 +58,7 @@ Ein PR wird nur gemerged, wenn ALLE Gates grün sind:
 | CI rot AUF MAIN (nach Merge) | STOPP der Merge-Schleife; Fix als neuer claude/*-Hotfix-Branch + PR (PR-Branch ist gelöscht, direkter main-Push nicht autorisiert); erst nach grünem main weiter |
 | Merge-Konflikt Kette B nach Kette-A-Merge | Erwartbar nur in geteilten Doku-Dateien (CONTRACTS/INDEX/TEI-MODEL, disjunkte Hunks) — rebase, lösen, npm test, `push --force-with-lease` |
 | Neues Bot-Review mit echtem Bug kurz vor Merge | Fix als Folge-Commit + npm test + Triage-Nachtrag; erst dann mergen |
-| Playwright-Report-Server hält npm test offen | `PW_TEST_HTML_REPORT_OPEN=never` setzen, Prozess auf Port 9323 killen; das Ergebnis steht in `testing/test-results/report.json`, nie in der Task-Ausgabe (Issue-Playbook §2.1 Regeln 26 und 27) |
+| Playwright-Report-Server hält npm test offen | Setzt der Wrapper seit dem 2026-08-05 selbst (`PW_TEST_HTML_REPORT_OPEN=never`). Hängt noch ein Report-Server aus einem älteren Lauf auf Port 9323, Prozess killen. Das Ergebnis ist die VERDICT-Zeile, nie die Task-Ausgabe (Issue-Playbook §2.1 Regel 6) |
 | GitHub-API 5xx | Retry; bei anhaltend: dokumentieren, nächster PR |
 | Stack-PR nach Base-Merge plötzlich CLOSED | Base-Branch wurde gelöscht, bevor der PR retargetet war → alten Head-SHA re-pushen, reopen, `--base main`, Temp-Branch löschen (siehe Phase 1 Schritt 2) |
 | Rerun nach Retarget prüft gegen die alte Base | Stale Event-Payload: Close/Reopen statt `gh run rerun` (siehe G1). Seit #292 ist das stumm, vorher war der Diff-Base-Step dabei rot |

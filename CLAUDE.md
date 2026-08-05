@@ -54,7 +54,7 @@ temp/                # Scratch, gitignored, never commit
 
 ```bash
 npm run serve                    # Dev server on :8080
-npm test                         # Playwright, a good 5 min (auto-starts server). NEVER use `npx playwright test` from root
+npm test                         # Playwright via scripts/run-tests.js. The VERDICT line is the result, not the console summary or the exit code. NEVER use `npx playwright test` from root
 npm run test:changed             # only specs touched since origin/main; does NOT replace npm test before a push
 npm run test:quick               # three core specs as a smoke test (22 tests)
 python scripts/build-authority-index.py   # Rebuild authority index
