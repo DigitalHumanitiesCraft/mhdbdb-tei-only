@@ -1,0 +1,263 @@
+#!/usr/bin/env node
+/**
+ * Playwright starten und das Ergebnis aus `report.json` verkünden.
+ *
+ * Existiert, weil die Frage "hat die Suite bestanden?" bisher drei Antworten
+ * hatte, die verschieden lügen. Das Issue-Playbook hat daraus vier
+ * Handwerksregeln destilliert (§2.1 Regeln 6, 16, 26, 27), und das
+ * Merge-Playbook wies bis zum 2026-08-05 auf ausgerechnet die Quelle, die
+ * zwei dieser Regeln als falsch-grün belegen. Eine Regel, die verlangt, nach
+ * dem Lauf ein anderes Werkzeug zu befragen als das, welches gerade die
+ * Zusammenfassung gedruckt hat, verliert den Wettbewerb um Aufmerksamkeit
+ * gegen 31 andere Regeln. Also übernimmt das hier der Aufruf selbst.
+ *
+ * Was der Wrapper prüft, und warum jeweils:
+ *
+ * 1. Fremder Dev-Server. `testing/playwright.config.js` setzt
+ *    `reuseExistingServer: !process.env.CI`, und Playwright prüft nur, ob auf
+ *    Port 8080 jemand antwortet, nicht wer. Solange alle Sessions im selben
+ *    Arbeitsbaum liefen, war das harmlos, und das Journal hat es fünfmal als
+ *    harmlos abgehakt (`journal-archive.md:839, 954, 1021, 1080, 1127`). Seit
+ *    Regel 29 jeder Session ihren eigenen Worktree gibt, serviert ein
+ *    wiederverwendeter Server fremde Dateien: die Suite prüft dann einen
+ *    anderen Arbeitsbaum und wird grün. Das ist kein falsch abgelesenes
+ *    Ergebnis, sondern ein korrekt abgelesenes falsches, und es trifft die
+ *    Chrome-Verifikation über denselben Port gleich mit.
+ *
+ * 2. Alter Report. `report.json` bleibt nach jedem Lauf liegen und ist
+ *    gitignored. Bricht ein Lauf ab, bevor der Reporter schreibt, liest die
+ *    Anweisung "die Zahlen kommen aus report.json" den vorigen Lauf. Am
+ *    2026-08-05 lag im Arbeitsbaum ein drei Tage alter Report mit 14 Tests
+ *    und `unexpected: 0`. Deshalb wird die Datei vorher gelöscht: fehlt sie
+ *    danach, ist das ein Infrastrukturfehler und kein Testergebnis.
+ *
+ * 3. Geschrumpfte Grundgesamtheit. Im Vorfall zu Regel 27 meldete die Konsole
+ *    "41 passed", während der Lauf 57 Tests hatte, einen `unexpected` und
+ *    fünfzehn `skipped`. Ein Sollwert in einer Datei wäre die falsche Abhilfe,
+ *    er driftet mit jedem neuen Spec. Stattdessen werden beide Seiten zur
+ *    Laufzeit gemessen: die Spec-Dateien auf der Platte gegen die Dateien im
+ *    Report. Nur bei filterlosem Lauf, denn ein gefilterter Lauf hat
+ *    berechtigterweise weniger, und dann sagt das Verdikt TEILLAUF statt
+ *    Vollständigkeit zu behaupten.
+ *
+ * Die letzte Zeile der Ausgabe ist das Ergebnis. Sie nennt den geprüften
+ * Pfad, damit auch im Nachhinein erkennbar bleibt, welcher Arbeitsbaum
+ * gemessen wurde. Der Exit-Code wird aus dem Verdikt gebildet, nicht
+ * durchgereicht: 0 grün, 1 rot, 2 der Lauf ist gar nicht zustande gekommen.
+ *
+ * Aufruf: node scripts/run-tests.js [playwright-argumente...]
+ * Über npm: `npm test`, `npm run test:changed`, `npm run test:quick`,
+ * jeweils mit `--` vor eigenen Argumenten (`npm test -- --grep minne`).
+ */
+
+import { spawnSync } from 'child_process';
+import { existsSync, rmSync, mkdirSync, writeFileSync, unlinkSync, readFileSync, readdirSync } from 'fs';
+import { resolve, dirname } from 'path';
+import { fileURLToPath } from 'url';
+import { randomBytes } from 'crypto';
+
+const hier = dirname(fileURLToPath(import.meta.url));
+const repoWurzel = resolve(hier, '..');
+const testVerzeichnis = resolve(repoWurzel, 'testing');
+const ergebnisVerzeichnis = resolve(testVerzeichnis, 'test-results');
+const reportPfad = resolve(ergebnisVerzeichnis, 'report.json');
+const specVerzeichnis = resolve(testVerzeichnis, 'tests');
+const playwrightCli = resolve(repoWurzel, 'node_modules', '@playwright', 'test', 'cli.js');
+
+const BASIS_URL = 'http://localhost:8080';
+
+const argumente = process.argv.slice(2);
+
+// Diese Modi schreiben keinen JSON-Report: `--list` zählt nur auf, die
+// interaktiven laufen unter Aufsicht. Sie werden durchgereicht und ihr
+// Exit-Code unverändert weitergegeben.
+const ohneReport = argumente.some((a) => a === '--list' || a === '--ui' || a === '--debug');
+
+// Alles, was die Auswahl einschränkt, macht den Lauf zum Teillauf. Bewusst
+// großzügig: ein positionales Argument ist bei `playwright test` immer ein
+// Dateifilter, und im Zweifel ist "TEILLAUF" die ehrlichere Aussage.
+const FILTER_FLAGS = /^--(grep|grep-invert|only-changed|shard|last-failed|project)\b/;
+const hatFilter = argumente.some((a) => !a.startsWith('-') || FILTER_FLAGS.test(a));
+
+function abbruch(meldung, code) {
+  console.error('');
+  console.error(meldung);
+  console.error(`VERDICT: KEIN ERGEBNIS (${meldung.split('\n')[0]})`);
+  process.exit(code);
+}
+
+/**
+ * Antwortet auf 8080 jemand, und ist es unser Arbeitsbaum?
+ *
+ * Der Test läuft über eine Datei mit Zufallsnamen und Zufallsinhalt unter
+ * `testing/test-results/`: das Verzeichnis ist gitignored, der Sentinel
+ * berührt also den Index nicht, den parallele Sessions teilen. Ein fremder
+ * Server liefert für diesen Pfad einen 404 oder etwas anderes.
+ */
+async function serverPruefen() {
+  try {
+    const abbrecher = new AbortController();
+    const frist = setTimeout(() => abbrecher.abort(), 2000);
+    await fetch(BASIS_URL, { signal: abbrecher.signal });
+    clearTimeout(frist);
+  } catch {
+    // Niemand da: Playwright startet sich seinen eigenen Server, und der
+    // bedient per Konstruktion dieses Verzeichnis.
+    return { status: 'kein-server' };
+  }
+
+  mkdirSync(ergebnisVerzeichnis, { recursive: true });
+  const name = `sentinel-${randomBytes(8).toString('hex')}.txt`;
+  const pfad = resolve(ergebnisVerzeichnis, name);
+  const inhalt = randomBytes(16).toString('hex');
+  writeFileSync(pfad, inhalt, 'utf8');
+
+  try {
+    const antwort = await fetch(`${BASIS_URL}/testing/test-results/${name}`);
+    if (!antwort.ok) return { status: 'fremd', grund: `HTTP ${antwort.status}` };
+    const gelesen = (await antwort.text()).trim();
+    if (gelesen !== inhalt) return { status: 'fremd', grund: 'Inhalt weicht ab' };
+    return { status: 'unserer' };
+  } catch (fehler) {
+    return { status: 'fremd', grund: fehler.message };
+  } finally {
+    try {
+      unlinkSync(pfad);
+    } catch {
+      // Der Sentinel liegt in einem gitignorierten Verzeichnis; bleibt er
+      // liegen, ist das kein Grund, den Lauf scheitern zu lassen.
+    }
+  }
+}
+
+/** Alle `file`-Angaben aus dem Suite-Baum einsammeln. */
+function dateienImReport(knoten, menge = new Set()) {
+  for (const eintrag of knoten ?? []) {
+    if (eintrag.file) menge.add(eintrag.file);
+    if (eintrag.suites) dateienImReport(eintrag.suites, menge);
+  }
+  return menge;
+}
+
+/** Übersprungene Tests mit Datei und Titel einsammeln. */
+function uebersprungene(knoten, treffer = []) {
+  for (const eintrag of knoten ?? []) {
+    for (const spec of eintrag.specs ?? []) {
+      if ((spec.tests ?? []).some((t) => t.status === 'skipped')) {
+        treffer.push(`${eintrag.file ?? '?'} > ${spec.title}`);
+      }
+    }
+    if (eintrag.suites) uebersprungene(eintrag.suites, treffer);
+  }
+  return treffer;
+}
+
+// --- Ablauf ---------------------------------------------------------------
+
+if (!existsSync(playwrightCli)) {
+  abbruch(`Playwright nicht gefunden unter ${playwrightCli}\nFehlt node_modules in diesem Arbeitsbaum?`, 2);
+}
+
+if (!ohneReport) {
+  const server = await serverPruefen();
+  if (server.status === 'fremd') {
+    abbruch(
+      `Port 8080 wird von einem fremden Verzeichnis bedient (${server.grund}).\n` +
+        `Playwright wuerde diesen Server wiederverwenden und die Suite gegen einen\n` +
+        `anderen Arbeitsbaum laufen lassen. Erwartet: ${repoWurzel}\n` +
+        `Abhilfe: den fremden Dev-Server beenden, dann erneut starten.`,
+      2
+    );
+  }
+  // Ein alter Report ist gefaehrlicher als gar keiner.
+  rmSync(reportPfad, { force: true });
+}
+
+const lauf = spawnSync(process.execPath, [playwrightCli, 'test', ...argumente], {
+  cwd: testVerzeichnis,
+  stdio: 'inherit',
+  env: { ...process.env, PW_TEST_HTML_REPORT_OPEN: 'never' },
+});
+
+if (lauf.error) {
+  abbruch(`Start von Playwright fehlgeschlagen: ${lauf.error.message}`, 2);
+}
+
+if (ohneReport) {
+  process.exit(lauf.status === null ? 1 : lauf.status);
+}
+
+if (!existsSync(reportPfad)) {
+  abbruch(
+    `Der Lauf hat den Reporter nie erreicht, ${reportPfad} fehlt.\n` +
+      `Kein Ergebnis ist ein besseres Ergebnis als ein altes.`,
+    2
+  );
+}
+
+let bericht;
+try {
+  bericht = JSON.parse(readFileSync(reportPfad, 'utf8'));
+} catch (fehler) {
+  abbruch(`report.json ist nicht lesbar: ${fehler.message}`, 2);
+}
+
+const zahlen = bericht.stats ?? {};
+const erwartet = zahlen.expected ?? 0;
+const unerwartet = zahlen.unexpected ?? 0;
+const wacklig = zahlen.flaky ?? 0;
+const uebersprungen = zahlen.skipped ?? 0;
+const gesamt = erwartet + unerwartet + wacklig + uebersprungen;
+const laufFehler = (bericht.errors ?? []).length;
+
+const dateienGelaufen = dateienImReport(bericht.suites);
+const gruende = [];
+
+if (unerwartet > 0) gruende.push(`${unerwartet} unexpected`);
+if (wacklig > 0) gruende.push(`${wacklig} flaky`);
+if (laufFehler > 0) gruende.push(`${laufFehler} Lauffehler`);
+
+let fehlendeDateien = [];
+if (!hatFilter) {
+  const dateienAufPlatte = readdirSync(specVerzeichnis).filter((d) => d.endsWith('.spec.js'));
+  fehlendeDateien = dateienAufPlatte.filter((d) => !dateienGelaufen.has(d));
+  if (fehlendeDateien.length > 0) {
+    gruende.push(`${fehlendeDateien.length} Spec-Datei(en) nicht gelaufen`);
+  }
+}
+
+console.log('');
+console.log(
+  `stats: ${erwartet} expected, ${unerwartet} unexpected, ${wacklig} flaky, ${uebersprungen} skipped` +
+    ` (${(zahlen.duration / 1000 || 0).toFixed(0)} s)`
+);
+
+if (uebersprungen > 0) {
+  // Nicht als Schwellwert: ein harter `test.skip` gehoert zum Normalzustand,
+  // fuenfzehn ploetzliche nicht. Die Titel unterscheiden beide Faelle, eine
+  // Zahl kann das nicht.
+  for (const titel of uebersprungene(bericht.suites)) {
+    console.log(`  skipped: ${titel}`);
+  }
+}
+
+for (const datei of fehlendeDateien) {
+  console.log(`  NICHT GELAUFEN: ${datei}`);
+}
+
+if (gruende.length > 0) {
+  console.log(`VERDICT: ROT (${gruende.join(', ')}; ${gesamt} Tests, Pfad: ${repoWurzel})`);
+  process.exit(1);
+}
+
+if (hatFilter) {
+  console.log(
+    `VERDICT: TEILLAUF GRUEN (${gesamt} Tests aus ${dateienGelaufen.size} Datei(en),` +
+      ` Filter: ${argumente.join(' ')}, Pfad: ${repoWurzel})`
+  );
+} else {
+  console.log(
+    `VERDICT: VOLLLAUF GRUEN (${gesamt} Tests, ${dateienGelaufen.size} Dateien, Pfad: ${repoWurzel})`
+  );
+}
+process.exit(0);
