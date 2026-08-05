@@ -68,8 +68,8 @@ erwarteten Person**. Die Frage dort lautet "wie lange schweigt KZW zu
 diesem Ticket" und nicht "wann hat hier zuletzt jemand geschrieben". Der
 Unterschied ist am selben 05.08. teuer geworden: sieben Tickets bekamen an
 einem Nachmittag einen Nachmess-Kommentar, und die Ping-Liste zeigte sie
-danach als frisch. #115 wartet seit dem 01.06. auf KZW und stand ploetzlich
-auf dem heutigen Datum. Das ist derselbe Fehlermodus wie `updatedAt`, nur
+danach als frisch. #115 wartet seit dem 29.05. auf eine Antwort von KZW und
+stand ploetzlich auf dem heutigen Datum. Das ist derselbe Fehlermodus wie `updatedAt`, nur
 subtiler, weil die eigene Betriebsamkeit diesmal wie Fortschritt aussieht.
 
 Ausnahme `wait:extern`: Carina, Silvan, Alan und Gloning haben keinen
@@ -78,8 +78,9 @@ Konto, dessen Schweigen man messen koennte. Gezaehlt wird deshalb der letzte
 Kommentar, der **nicht von unserer Seite** stammt (`UNSERE_SEITE`, Bots
 eingeschlossen). Ohne diese zweite Haelfte des Fixes traefe dieselbe
 Uhr-Ruecksetzung ein: #92 und #147 sprangen am 05.08. auf das Tagesdatum,
-weil sie einen Nachmess-Kommentar bekamen, obwohl Carina seit dem 16.05.
-schweigt.
+weil sie einen Nachmess-Kommentar bekamen. Gemessen steht #92 jetzt auf
+2026-05-07, dem Anlegedatum, weil dort ueberhaupt noch nie jemand ausser
+uns geschrieben hat, und #147 auf 2026-07-10.
 
 Beide Daten kommen aus demselben `gh issue list`-Aufruf, das kostet rund
 drei Sekunden fuer den ganzen Bestand.
@@ -149,7 +150,14 @@ WAIT_KONTEN = {
 
 # Wer bei `wait:extern` nicht als Antwort zaehlt. Bots stehen mit drin,
 # damit ein Review-Kommentar die Uhr ebenfalls nicht zuruecksetzt.
-UNSERE_SEITE = ('chsteiner', 'claude[bot]', 'github-actions[bot]')
+#
+# Ohne `[bot]`-Suffix, und das ist keine Nachlaessigkeit: `gh issue list
+# --json comments` laeuft ueber GraphQL und liefert Bot-Logins nackt
+# ("claude"), die REST-API dagegen mit Suffix ("claude[bot]"). `konto_von()`
+# schneidet das Suffix ab, damit beide Formate hier treffen. Die erste
+# Fassung dieser Liste trug das Suffix und war damit toter Code, inklusive
+# eines gruenen Selbsttests, der dasselbe falsche Format prueft.
+UNSERE_SEITE = ('chsteiner', 'claude', 'github-actions')
 
 
 def abbruch(meldung):
@@ -185,6 +193,16 @@ def hole_issues():
     return sorted(roh, key=lambda i: i['number'])
 
 
+def konto_von(kommentar):
+    """Login des Kommentators, ohne `[bot]`-Suffix.
+
+    GraphQL (`gh issue list --json comments`) liefert Bot-Logins nackt,
+    REST mit Suffix. Beide muessen gegen dieselbe Liste treffen.
+    """
+    login = ((kommentar.get('author') or {}).get('login') or '')
+    return login[:-5] if login.endswith('[bot]') else login
+
+
 def letzte_wortmeldung(issue, konto=None, ausser=None):
     """Datum des letzten Kommentars, ersatzweise das Anlegedatum.
 
@@ -196,8 +214,9 @@ def letzte_wortmeldung(issue, konto=None, ausser=None):
     Der Unterschied ist am 05.08.2026 teuer geworden. Sieben Tickets
     bekamen an einem Nachmittag einen Nachmess-Kommentar, und die
     Ping-Liste zeigte sie danach als frisch, obwohl sich fuer die wartende
-    Person nichts geaendert hatte: #115 wartet seit dem 01.06. auf KZW und
-    stand ploetzlich auf dem heutigen Datum. Das ist derselbe Fehlermodus
+    Person nichts geaendert hatte: KZW hat sich zu #115 zuletzt am
+    29.05. geaeussert, und das Ticket stand ploetzlich auf dem heutigen
+    Datum. Das ist derselbe Fehlermodus
     wie `updatedAt`, nur subtiler, weil die eigene Betriebsamkeit diesmal
     wie Fortschritt aussieht.
 
@@ -205,11 +224,9 @@ def letzte_wortmeldung(issue, konto=None, ausser=None):
     """
     kommentare = issue.get('comments') or []
     if konto:
-        kommentare = [k for k in kommentare
-                      if (k.get('author') or {}).get('login') == konto]
+        kommentare = [k for k in kommentare if konto_von(k) == konto]
     elif ausser:
-        kommentare = [k for k in kommentare
-                      if (k.get('author') or {}).get('login') not in ausser]
+        kommentare = [k for k in kommentare if konto_von(k) not in ausser]
     if kommentare:
         return max(k['createdAt'] for k in kommentare)[:10]
     return issue['createdAt'][:10]
@@ -462,11 +479,20 @@ def selftest():
                              ('2026-08-05', 'chsteiner')])
     faelle.append(('Bei Externen zaehlt der letzte Kommentar von aussen',
                    '#52 (2026-05-16)' in baue([extern])))
-    stumm_extern = iss(53, ['auto:blocked', 'area:data', 'effort:small',
-                            'wait:extern'], datum='2026-03-03',
-                       kommentare=[('2026-08-05', 'claude[bot]')])
-    faelle.append(('Ein Bot-Kommentar zaehlt nicht als Antwort von aussen',
-                   '#53 (2026-03-03)' in baue([stumm_extern])))
+    # gh liefert Bot-Logins nackt, REST mit Suffix: beide muessen treffen.
+    for nr, login in ((53, 'claude'), (54, 'claude[bot]')):
+        stumm = iss(nr, ['auto:blocked', 'area:data', 'effort:small',
+                         'wait:extern'], datum='2026-03-03',
+                    kommentare=[('2026-08-05', login)])
+        faelle.append((f'Bot-Kommentar als "{login}" zaehlt nicht als '
+                       f'Antwort von aussen',
+                       f'#{nr} (2026-03-03)' in baue([stumm])))
+
+    # WAIT_NAMEN und WAIT_KONTEN kodieren dieselbe Personenliste zweimal.
+    # Ein neuer Eintrag ohne Konto faellt stumm auf die Extern-Regel zurueck,
+    # womit jeder fremde Kommentar als Antwort der erwarteten Person zaehlt.
+    faelle.append(('Jede benannte Person hat ein Konto, nur Externe nicht',
+                   set(WAIT_NAMEN) - set(WAIT_KONTEN) == {'wait:extern'}))
     faelle.append(('Ohne Luecke kein Luecken-Kasten',
                    'Label-Luecke(n)' not in block))
 
