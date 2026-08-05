@@ -136,18 +136,23 @@ test.describe('Playground Authority Index Loading', () => {
         console.log('✅ Corpus auto-loaded 667 texts');
     });
 
-    test('performance: authority index loads within 10 seconds', async ({ page }) => {
+    test('performance: authority index loads within 20 seconds', async ({ page }) => {
         const startTime = Date.now();
 
         await page.goto('http://localhost:8080/playground/');
-        await page.waitForSelector('#statusText:has-text("Authority Files geladen")', { timeout: 15000 });
+        await page.waitForSelector('#statusText:has-text("Authority Files geladen")', { timeout: 30000 });
 
         const loadTime = Date.now() - startTime;
 
         console.log(`⏱️  Authority index load time: ${loadTime}ms (${(loadTime / 1000).toFixed(1)}s)`);
 
-        // Pre-built index should load in under 10 seconds
-        expect(loadTime).toBeLessThan(10000);
+        // Threshold raised from 10s to 20s on 2026-08-05, the wait from 15s to 30s so
+        // the assertion stays the deciding limit. Isolated, the load takes 5.5 to 5.9s
+        // (measured, three runs); under the full suite plus a second session it crossed
+        // 10s in two of three runs, i.e. the test was measuring machine load. 20s still
+        // catches what it exists for: runtime XML parsing cost around 30s before the
+        // pre-built indexes replaced it.
+        expect(loadTime).toBeLessThan(20000);
 
         if (loadTime < 3000) {
             console.log('✅ Excellent performance: < 3s');
