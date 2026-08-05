@@ -466,7 +466,6 @@ def selftest():
     faelle.append(('Ohne Antwort zaehlt das Anlegedatum',
                    '#51 (2026-02-02)' in baue([nie])))
 
-    # Externe haben keinen Account, dort bleibt es beim letzten Kommentar.
     # Bei Externen gibt es kein Konto zu filtern, also faellt unsere eigene
     # Seite heraus. Das eigene Nachfassen darf die Uhr auch hier nicht stellen.
     extern = iss(52, ['auto:blocked', 'area:data', 'effort:small',
