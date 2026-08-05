@@ -113,7 +113,10 @@ Rebuilt on 2026-08-05, from 28 labels down to 16. The scheme is built **for agen
 - **`auto:*`** is the one that governs a session's behaviour: `auto:full` (just do it) | `auto:brief` (1 to 3 questions up front, then run to completion) | `auto:checkin` (decision points along the way: sampling, batch size, scope) | `auto:pair` (only in a session with Chris) | `auto:blocked` (waiting on KZW, Julia, Linda, Carina, Alan or an external party). The dividing line between the last two: a missing **answer from a third party** is `blocked`, a need for **Chris's time and authority** is `pair`.
 - **`area:*`**: `data` | `frontend` | `playground` | `pipeline` | `docs` | `orga`
 - **`effort:*`**: `small` (an hour or less) | `medium` (half a day) | `large` (a day or more)
+- **`wait:*`** (`kzw`, `julia`, `linda`, `extern`): only on `auto:blocked`, and mandatory there. More than one is allowed and often right (#315 waits on KZW and Julia). This is what the ping list in #44 is built from.
 - **Flags**: `ingest` (corpus intake, its own workstream) and `evergreen` (#44 only, the sole issue exempt from the axes because it is maintained rather than worked off)
+
+**Half of #44 is generated.** `scripts/audit/build-issue-matrix.py` writes the quick stats, the ping list and one table per autonomy level between the `MATRIX` markers in the issue body; `issue-matrix.yml` runs it daily. Everything outside the markers is hand-written and carries a date, not a truth. The same run checks the axes and turns red on a gap, so a new ticket without `auto:*` shows up within a day.
 
 Rules that keep the matrix from rotting, which is what happened to the old labels:
 
