@@ -55,16 +55,35 @@ Umgekehrt gilt: `auto:blocked` ohne `wait:*` macht die Ping-Liste
 unvollstaendig, und ein `wait:*` an einem nicht blockierten Ticket macht sie
 falsch. Beides ist ein Fehler und kein Hinweis.
 
-## MESSVORSCHRIFT: "letzte Wortmeldung" ist nicht `updatedAt`
+## MESSVORSCHRIFT: zwei Daten, die verschiedene Fragen beantworten
 
-Die Spalte nennt das Datum des **letzten Kommentars**, ersatzweise das
-Anlegedatum. Nicht `updatedAt`, obwohl das billiger zu holen waere: dieses
-Feld springt bei jeder Label-Aenderung auf heute. Beim Aufbau des Schemas am
-05.08. standen dadurch schlagartig alle 52 Tickets auf demselben Datum, und
-die Sortierung "aeltestes zuerst" war wertlos. Ein Wartezeit-Mass, das sich
-beim Hinsehen zurueckstellt, misst die eigene Betriebsamkeit statt der
-Wartezeit. Die Kommentardaten kommen im selben `gh issue list`-Aufruf mit,
-das kostet rund drei Sekunden fuer den ganzen Bestand.
+**In den Tabellen** steht die letzte Wortmeldung im Ticket, gleich von wem,
+ersatzweise das Anlegedatum. Nicht `updatedAt`, obwohl das billiger zu holen
+waere: dieses Feld springt bei jeder Label-Aenderung auf heute. Beim Aufbau
+des Schemas am 05.08. standen dadurch schlagartig alle 52 Tickets auf
+demselben Datum, und die Sortierung "aeltestes zuerst" war wertlos.
+
+**In der Ping-Liste** steht das Datum der letzten Wortmeldung **der
+erwarteten Person**. Die Frage dort lautet "wie lange schweigt KZW zu
+diesem Ticket" und nicht "wann hat hier zuletzt jemand geschrieben". Der
+Unterschied ist am selben 05.08. teuer geworden: sieben Tickets bekamen an
+einem Nachmittag einen Nachmess-Kommentar, und die Ping-Liste zeigte sie
+danach als frisch. #115 wartet seit dem 29.05. auf eine Antwort von KZW und
+stand ploetzlich auf dem heutigen Datum. Das ist derselbe Fehlermodus wie `updatedAt`, nur
+subtiler, weil die eigene Betriebsamkeit diesmal wie Fortschritt aussieht.
+
+Ausnahme `wait:extern`: Carina, Silvan, Alan und Gloning haben keinen
+GitHub-Account, ihre Antworten trudeln ueber KZW ein. Es gibt dort also kein
+Konto, dessen Schweigen man messen koennte. Gezaehlt wird deshalb der letzte
+Kommentar, der **nicht von unserer Seite** stammt (`UNSERE_SEITE`, Bots
+eingeschlossen). Ohne diese zweite Haelfte des Fixes traefe dieselbe
+Uhr-Ruecksetzung ein: #92 und #147 sprangen am 05.08. auf das Tagesdatum,
+weil sie einen Nachmess-Kommentar bekamen. Gemessen steht #92 jetzt auf
+2026-05-07, dem Anlegedatum, weil dort ueberhaupt noch nie jemand ausser
+uns geschrieben hat, und #147 auf 2026-07-10.
+
+Beide Daten kommen aus demselben `gh issue list`-Aufruf, das kostet rund
+drei Sekunden fuer den ganzen Bestand.
 
 Usage:
     python scripts/audit/build-issue-matrix.py             # Vorschau auf stdout
@@ -119,6 +138,27 @@ WAIT_NAMEN = {
     'wait:extern': 'Externe',
 }
 
+# Wessen Schweigen die Wartezeit misst. Fuer `wait:extern` gibt es keinen
+# GitHub-Account: Carina, Silvan, Alan und Gloning kommentieren nicht selbst,
+# ihre Antworten trudeln ueber KZW ein. Dort zaehlt deshalb der letzte
+# Kommentar, der nicht von unserer Seite stammt.
+WAIT_KONTEN = {
+    'wait:kzw': 'wachauer',
+    'wait:julia': 'juliahin',
+    'wait:linda': 'lindabeutel',
+}
+
+# Wer bei `wait:extern` nicht als Antwort zaehlt. Bots stehen mit drin,
+# damit ein Review-Kommentar die Uhr ebenfalls nicht zuruecksetzt.
+#
+# Ohne `[bot]`-Suffix, und das ist keine Nachlaessigkeit: `gh issue list
+# --json comments` laeuft ueber GraphQL und liefert Bot-Logins nackt
+# ("claude"), die REST-API dagegen mit Suffix ("claude[bot]"). `konto_von()`
+# schneidet das Suffix ab, damit beide Formate hier treffen. Die erste
+# Fassung dieser Liste trug das Suffix und war damit toter Code, inklusive
+# eines gruenen Selbsttests, der dasselbe falsche Format prueft.
+UNSERE_SEITE = ('chsteiner', 'claude', 'github-actions')
+
 
 def abbruch(meldung):
     """Mit Exit 2 aussteigen: Werkzeug- oder Datenfehler, keine Label-Luecke.
@@ -153,13 +193,35 @@ def hole_issues():
     return sorted(roh, key=lambda i: i['number'])
 
 
-def letzte_wortmeldung(issue):
+def konto_von(kommentar):
+    """Login des Kommentators, ohne `[bot]`-Suffix.
+
+    GraphQL (`gh issue list --json comments`) liefert Bot-Logins nackt,
+    REST mit Suffix. Beide muessen gegen dieselbe Liste treffen.
+    """
+    login = ((kommentar.get('author') or {}).get('login') or '')
+    return login[:-5] if login.endswith('[bot]') else login
+
+
+def letzte_wortmeldung(issue, konto=None, ausser=None):
     """Datum des letzten Kommentars, ersatzweise das Anlegedatum.
 
-    Siehe Messvorschrift im Modul-Docstring: `updatedAt` waere hier falsch,
-    weil jede Label-Aenderung es auf heute setzt.
+    Genau einer der beiden Filter greift, nie beide: mit `konto` zaehlen
+    nur die Kommentare dieser Person, mit `ausser` alle ausser denen der
+    genannten Logins, und `konto` hat Vorrang. Die Ping-Liste braucht den
+    ersten Modus ("wie lange schweigt KZW zu diesem Ticket"), die Tabellen
+    keinen ("wann hat hier zuletzt jemand geschrieben").
+
+    Warum das nicht dasselbe ist und was die Verwechslung gekostet hat:
+    Messvorschrift im Modul-Docstring. Sie steht dort und nur dort, damit
+    das gemessene Datum darin nicht an zwei Stellen wahr gehalten werden
+    muss.
     """
     kommentare = issue.get('comments') or []
+    if konto:
+        kommentare = [k for k in kommentare if konto_von(k) == konto]
+    elif ausser:
+        kommentare = [k for k in kommentare if konto_von(k) not in ausser]
     if kommentare:
         return max(k['createdAt'] for k in kommentare)[:10]
     return issue['createdAt'][:10]
@@ -296,15 +358,19 @@ def baue(issues):
     if blockierte:
         aus.append('### Ping-Liste: worauf gewartet wird\n')
         aus.append(f'{len(blockierte)} Tickets warten auf einen Menschen. '
-                   f'Laengste Stille zuerst, das Datum ist die letzte '
-                   f'Wortmeldung im Ticket.\n')
+                   f'Laengste Stille zuerst. Das Datum ist die letzte '
+                   f'Wortmeldung **der erwarteten Person**, damit ein '
+                   f'Nachfassen von unserer Seite die Uhr nicht '
+                   f'zuruecksetzt; bei Externen ohne GitHub-Konto der '
+                   f'letzte Kommentar, der nicht von uns stammt.\n')
         for wait, name in WAIT_NAMEN.items():
-            treffer = sorted((i for i in blockierte if wait in i['labels']),
-                             key=lambda i: i['still_seit'])
+            konto = WAIT_KONTEN.get(wait)
+            treffer = [(letzte_wortmeldung(i, konto, UNSERE_SEITE), i)
+                       for i in blockierte if wait in i['labels']]
             if not treffer:
                 continue
-            liste = ', '.join(f'#{i["number"]} ({i["still_seit"]})'
-                              for i in treffer)
+            treffer.sort(key=lambda t: (t[0], t[1]['number']))
+            liste = ', '.join(f'#{i["number"]} ({seit})' for seit, i in treffer)
             aus.append(f'- **{name}**, {len(treffer)}: {liste}')
         aus.append('')
 
@@ -349,10 +415,14 @@ def hole_body():
 def selftest():
     """Zaehlung, Sortierung, Pruefung und Marker-Ersatz an erfundenen Daten."""
     def iss(nr, labels, titel='T', datum='2026-08-01', kommentare=None):
+        # kommentare: Liste aus 'JJJJ-MM-TT' oder ('JJJJ-MM-TT', 'login')
+        def komm(k):
+            datum_, konto = (k, 'chsteiner') if isinstance(k, str) else k
+            return {'createdAt': datum_ + 'T00:00:00Z',
+                    'author': {'login': konto}}
         roh = {'number': nr, 'title': titel, 'labels': sorted(labels),
                'createdAt': datum + 'T00:00:00Z',
-               'comments': [{'createdAt': k + 'T00:00:00Z'}
-                            for k in (kommentare or [])]}
+               'comments': [komm(k) for k in (kommentare or [])]}
         roh['still_seit'] = letzte_wortmeldung(roh)
         return roh
 
@@ -375,6 +445,49 @@ def selftest():
                    '`auto:pair` (0)' in block and 'Derzeit keins.' in block))
     faelle.append(('Ping-Liste nennt Person und Datum',
                    'KZW (`wachauer`)' in block and '#2 (2026-08-01)' in block))
+
+    # Der teuerste Fehlermodus dieser Liste: eigenes Nachfassen sieht aus
+    # wie Bewegung. Gemessen werden muss das Schweigen der erwarteten
+    # Person, nicht die Betriebsamkeit im Ticket.
+    nachgefasst = iss(50, ['auto:blocked', 'area:data', 'effort:small',
+                           'wait:kzw'], datum='2026-01-01',
+                      kommentare=[('2026-06-01', 'wachauer'),
+                                  ('2026-08-05', 'chsteiner')])
+    ping = baue([nachgefasst])
+    faelle.append(('Eigenes Nachfassen setzt die Ping-Uhr nicht zurueck',
+                   '#50 (2026-06-01)' in ping and '#50 (2026-08-05)' not in ping))
+    faelle.append(('In der Tabelle steht weiter die letzte Wortmeldung',
+                   '| 2026-08-05 |' in ping))
+
+    # Wer nie geantwortet hat, wartet seit dem Anlegen und nicht seit dem
+    # letzten Zuruf.
+    nie = iss(51, ['auto:blocked', 'area:data', 'effort:small', 'wait:julia'],
+              datum='2026-02-02', kommentare=[('2026-08-05', 'chsteiner')])
+    faelle.append(('Ohne Antwort zaehlt das Anlegedatum',
+                   '#51 (2026-02-02)' in baue([nie])))
+
+    # Bei Externen gibt es kein Konto zu filtern, also faellt unsere eigene
+    # Seite heraus. Das eigene Nachfassen darf die Uhr auch hier nicht stellen.
+    extern = iss(52, ['auto:blocked', 'area:data', 'effort:small',
+                      'wait:extern'], datum='2026-01-01',
+                 kommentare=[('2026-05-16', 'wachauer'),
+                             ('2026-08-05', 'chsteiner')])
+    faelle.append(('Bei Externen zaehlt der letzte Kommentar von aussen',
+                   '#52 (2026-05-16)' in baue([extern])))
+    # gh liefert Bot-Logins nackt, REST mit Suffix: beide muessen treffen.
+    for nr, login in ((53, 'claude'), (54, 'claude[bot]')):
+        stumm = iss(nr, ['auto:blocked', 'area:data', 'effort:small',
+                         'wait:extern'], datum='2026-03-03',
+                    kommentare=[('2026-08-05', login)])
+        faelle.append((f'Bot-Kommentar als "{login}" zaehlt nicht als '
+                       f'Antwort von aussen',
+                       f'#{nr} (2026-03-03)' in baue([stumm])))
+
+    # WAIT_NAMEN und WAIT_KONTEN kodieren dieselbe Personenliste zweimal.
+    # Ein neuer Eintrag ohne Konto faellt stumm auf die Extern-Regel zurueck,
+    # womit jeder fremde Kommentar als Antwort der erwarteten Person zaehlt.
+    faelle.append(('Jede benannte Person hat ein Konto, nur Externe nicht',
+                   set(WAIT_NAMEN) - set(WAIT_KONTEN) == {'wait:extern'}))
     faelle.append(('Ohne Luecke kein Luecken-Kasten',
                    'Label-Luecke(n)' not in block))
 
