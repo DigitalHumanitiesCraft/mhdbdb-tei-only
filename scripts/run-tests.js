@@ -272,7 +272,13 @@ for (const datei of fehlendeDateien) {
 }
 
 if (gruende.length > 0) {
-  console.log(`VERDICT: ROT (${gruende.join(', ')}; ${gesamt} Tests, Pfad: ${repoWurzel})`);
+  // Testzahl, Dateizahl und Pfad stehen auch im roten Fall, sonst haelt die
+  // Zusage der Playbooks nicht, die Zeile nenne alle drei. Bei fehlenden
+  // Spec-Dateien ist die Dateizahl sogar der interessantere Teil.
+  console.log(
+    `VERDICT: ROT (${gruende.join(', ')}; ${gesamt} Tests, ${dateienGelaufen.size} Dateien,` +
+      ` Pfad: ${repoWurzel})`
+  );
   process.exit(1);
 }
 
