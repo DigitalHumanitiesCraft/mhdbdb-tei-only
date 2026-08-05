@@ -3,7 +3,7 @@
 **Erstellt:** 2026-07-03 (Audit-Session, Fable 5); mehrere Vorgänger-Sessions sind gelaufen und gemergt.
 **Zuletzt gelaufen:** 2026-07-29 (Opus 5, #169 + #239). Session-Inhalte geleert; Ergebnis in §7, Git-History = Archiv.
 **§2.1 zuletzt gewachsen:** 2026-07-31, Regeln 28 bis 32 (Branch-Basis, Worktree pro Session, Worktree-Abbau, die `git checkout --`-Falle beim Mutationstesten, der Umfang des Em-Dash-Gates); Regeln 22 bis 26 am 2026-07-30 aus einer interaktiven Session (#236-Merge mit vier Review-Runden, #251). Keine Playbook-Sessions, aber dieselben Fehlerklassen.
-**§2.1 zuletzt geschrumpft:** 2026-08-05, erstmals. Die vier Regeln zur Ergebnisquelle eines Testlaufs (6, 16, 26, 27) sind eine geworden, weil `npm test` das Verdikt seither selbst bildet; 16, 26 und 27 sind deshalb leere Nummern. Das Wachstum dieser Liste ist ein Wert, ihr Umfang eine Last, und der Ausweg ist beides zugleich: was ein Skript deterministisch prüfen kann, gehört nicht in eine Merkregel.
+**§2.1 zuletzt geschrumpft:** 2026-08-05, erstmals, von 32 auf 26 Regeln. Die vier zur Ergebnisquelle eines Testlaufs (6, 16, 26, 27) sind eine geworden, weil `npm test` das Verdikt seither selbst bildet; die drei generischen Git- und Shell-Fallen (8, 9, 31) sind in die persistente Memory umgezogen. Sechs leere Nummern, alle im Kopf von §2.1 begründet. Das Wachstum dieser Liste ist ein Wert, ihr Umfang eine Last, und der Ausweg ist beides zugleich: was ein Skript deterministisch prüfen kann, gehört nicht in eine Merkregel.
 **Status:** WARTET AUF BEFÜLLUNG. §1, §3, §4, §5 und §6 sind leer und müssen vor dem nächsten Kickoff neu geschrieben werden; jeder von ihnen sagt selbst, was hineingehört.
 **Typ:** Playbook (wiederverwendbares Session-Verfahren, dauerhaft). Der session-spezifische Teil (§1, §3, §4, §5, §6) wird pro Session neu befüllt; der Betriebsvertrag (§2), die Verifikations-Handwerksregeln (§2.1) und das Ergebnis der letzten Session (§7) sind der bleibende Teil.
 
@@ -11,33 +11,37 @@
 
 ## 1. Ausgangslage (leer, vor der nächsten Session befüllen)
 
-Hier gehört hinein: Zahl der offenen Issues, was sich seit der letzten Session geändert hat, welche Entscheidungen von Menschen inzwischen vorliegen, und eine Einteilung aller offenen Issues in „autonom lösbar", „nicht in dieser Session, mit Begründung", „wartet auf Test-OK", „blockiert auf Menschen", „future/extern" und „Ingest". Die Gruppenzahlen maschinell gegen `gh issue list` prüfen, sie müssen die offenen Issues vollständig und disjunkt abdecken.
+Hier gehört hinein: was sich seit der letzten Session geändert hat, welche Entscheidungen von Menschen inzwischen vorliegen, und welche Issues diese Session anfasst.
 
-Ebenfalls hierher: die Befunde, um die es geht, **am Code verifiziert**, mit aktuellen Fundorten. Zeilennummern in Issue-Bodys altern; die in diesem Playbook auch.
+**Die Einteilung wird nicht mehr von Hand gemacht.** Bis zum 2026-08-05 verlangte dieser Abschnitt, alle offenen Issues in sechs Gruppen zu sortieren und die Gruppenzahlen gegen `gh issue list` auf Vollständigkeit und Disjunktheit zu prüfen. Beides erledigt jetzt das Label-Schema: jedes Ticket trägt genau ein `auto:*`, ein `area:*` und ein `effort:*`, und `python scripts/audit/build-issue-matrix.py --check` meldet mit Exit 1, wenn ein Label fehlt oder der #44-Body veraltet ist. Genau ein Label pro Achse erzwingt die Disjunktheit, die vorher eine Bitte war.
+
+**Was das Skript nicht ersetzt, und das ist der wichtigere Teil: ein Label erzeugt die Einteilung, nie die Freigabe.** Es ist eine Behauptung wie jede andere (Regel 21), und zwar eine, die zum Zeitpunkt des Vergebens galt. Vor jedem Issue, das die Session tatsächlich anfasst:
+
+- **Die Kommentare seit der Labelvergabe lesen.** Ein `auto:full` von letzter Woche weiß nichts von dem Einwand, den KZW gestern in den Thread geschrieben hat. Das ist der eine Weg, auf dem die Matrix stillschweigend falsch wird, ohne dass ein Gate anschlägt.
+- **`auto:blocked` nie „trotzdem" anfangen.** Die `wait:*`-Labels sagen, auf wen gewartet wird; bei mehreren wartet das Ticket auf alle.
+- **Die Befunde am Code verifizieren**, mit aktuellen Fundorten. Zeilennummern in Issue-Bodys altern; die in diesem Playbook auch.
 
 ---
 
 ## 2. Betriebsvertrag der autonomen Session
 
-Die CLAUDE.md-Regel „never commit/push without user approval" wird durch den Kickoff-Prompt explizit für `claude/*`-Branches und PR-Erstellung freigegeben. Unverändert hart:
+**Der gemeinsame Teil steht in [`BETRIEBSVERTRAG.md`](BETRIEBSVERTRAG.md)** und wird beim Kickoff in den Prompt kopiert, nicht verlinkt (siehe [`KICKOFF-VORLAGE.md`](KICKOFF-VORLAGE.md)). Bis zum 2026-08-05 stand er hier und in zwei weiteren Playbooks gleichzeitig, und Kopien driften.
 
-1. **`main` ist tabu.** Kein Merge, kein Push. Alle Ergebnisse sind PRs, die chsteiner reviewt und mergt.
-2. **Issues werden nie von der Session geschlossen**, nur per `Closes #N` im PR-Body beim Merge. #44 bekommt nie einen Close-Trailer.
-3. **Pro PR nur benannte Dateien stagen** (nie `git add -A`), Branch frisch von `origin/main`.
-4. **Daten vor Schema**; Data-Change-Lifecycle bei jeder XML-Änderung (in dieser Session nicht einschlägig, beide Deliverables sind frontend-only).
-5. **Verifikation je PR:** `npm test` aus dem Repo-Root, nie `npx playwright test` (nur der npm-Weg läuft über den Wrapper, der das Verdikt bildet, siehe §2.1 Regel 6). Gezielt pro Welle (`npm test -- <spec-fragment>`), nicht die volle Suite nebenher; ein gefilterter Lauf sagt TEILLAUF und belegt damit keine Vollständigkeit. Bei UI zusätzlich Chrome-Verifikation mit realen Belegen; bei HTML-Änderungen `python scripts/build-pages.py --check`; bei neuen Utility-Klassen `npm run build:css`.
-6. **Fable-Review vor dem ersten Push jedes PRs**, nicht erst vor dem Abschluss. Stehende Anweisung von chsteiner (28.07.), Agent seit 02.08. der `fable-reviewer` (Fable 5, mit Bash) statt des `fable-advisor`. Was der Reviewer lokal findet, kostet null CI-Runden; was der Bot findet, kostet per Konstruktion eine, weil ohne Sticky-Comment jeder Push einen Lauf auslöst. Mitgeben: Branch, Basis, Ziel in einem Satz, Nummer der Review-Runde, ab Runde 2 die Vorrunden-Befunde; Diff und Branchstand holt er sich selbst. Befunde nachmessen, nicht glauben. Der `fable-advisor` bleibt der Berater für Entwurfsfragen („sollen wir X so lösen?"), er ist kein Reviewer: auf einem fertigen Diff erzeugt seine Pflicht, Alternativen zu suchen, Runden ohne Verhaltensänderung.
-7. **Konfliktmanagement ohne Merges:** PRs starten von `main`; bei Datei-Überschneidung wird der spätere Branch auf den früheren gestackt und der PR-Body sagt „nach PR X mergen". Wenn das Playbook „gestackt" sagt, muss der Branch das auch sein.
-8. **Kommunikation:** höchstens ein sachlicher Statuskommentar pro Issue; keine Kontaktaufnahme mit Externen (Linda, Alan, Carina, Silvan, Burch, Brom). Entwürfe dafür landen als Text im Issue. Keine Emoji-Icons (Heroicons inline SVG); keine Em-Dashes in Prosa; echte Umlaute, nie ASCII-Ersatz.
-9. **Inputs selbst beschaffen.** Alles Nötige liegt im Repo und in den Issue-Threads (`gh issue view N --json comments`). Nur nachweislich Unbeschaffbares wird im Abschlussreport dokumentiert übersprungen; nicht auf chsteiner warten, nicht fragen.
+Was diese Session zusätzlich oder abweichend bindet:
+
+1. **`main` ist tabu.** Kein Merge, kein Push. Alle Ergebnisse sind PRs, die chsteiner reviewt und mergt. Die Kickoff-Freigabe gilt nur für `claude/*`-Branches und das Erstellen von PRs.
+2. **Konfliktmanagement ohne Merges:** PRs starten von `main`; bei Datei-Überschneidung wird der spätere Branch auf den früheren gestackt und der PR-Body sagt „nach PR X mergen". Wenn das Playbook „gestackt" sagt, muss der Branch das auch sein.
+3. **Verifikation gezielt pro Welle** (`npm test -- <spec-fragment>`), nicht die volle Suite nebenher. Ein gefilterter Lauf sagt TEILLAUF und belegt damit keine Vollständigkeit; vor dem Push eines Code-PRs ist der Volllauf trotzdem fällig.
 
 ### 2.1 Verifikations-Handwerk (stabiler Kern, aus mehreren Sessions destilliert)
 
 Diese Regeln haben in der Praxis Fehler gefangen, die alle Gates passiert hatten. Sie sind teurer erkauft als sie aussehen.
 
-**Die Nummern sind Anker.** Andere Stellen zitieren sie, im Wellenplan, im Merge-Playbook, in der ROADMAP und in diesem Dokument selbst. Wird eine Regel ausführbar gemacht und deshalb gekürzt, hinterlässt sie eine Lücke, statt die Liste neu durchzuzählen: eine Umnummerierung würde jeden Verweis brechen und die datierten Wachstumsangaben oben auf andere Regeln zeigen lassen. Der Preis ist, dass die gerenderte Ansicht fortlaufend zählt und deshalb von den Nummern im Quelltext abweicht; maßgeblich ist der Quelltext, den lesen die Sessions. Derzeit fehlen 16, 26 und 27, alle drei aufgegangen in Regel 6.
+**Die Nummern sind Anker.** Andere Stellen zitieren sie, im Wellenplan, im Merge-Playbook, in der ROADMAP und in diesem Dokument selbst. Wird eine Regel ausführbar gemacht und deshalb gekürzt, hinterlässt sie eine Lücke, statt die Liste neu durchzuzählen: eine Umnummerierung würde jeden Verweis brechen und die datierten Wachstumsangaben oben auf andere Regeln zeigen lassen. Der Preis ist, dass die gerenderte Ansicht fortlaufend zählt und deshalb von den Nummern im Quelltext abweicht; maßgeblich ist der Quelltext, den lesen die Sessions. Derzeit fehlen 16, 26 und 27 (aufgegangen in Regel 6) sowie 8, 9 und 31 (umgezogen, siehe unten).
 
-**Und der Weg, auf dem diese Liste kürzer wird:** eine Regel, die einen deterministischen Ablauf beschreibt, gehört auf Dauer nicht hierher, sondern in ein Skript. Was dann bleibt, ist der Aufruf und der Lehrsatz, der nur Prosa sein kann. Regel 6 ist der erste Fall, an dem das durchgezogen wurde.
+**Der erste Weg, auf dem diese Liste kürzer wird:** eine Regel, die einen deterministischen Ablauf beschreibt, gehört auf Dauer nicht hierher, sondern in ein Skript. Was dann bleibt, ist der Aufruf und der Lehrsatz, der nur Prosa sein kann. Regel 6 ist der erste Fall, an dem das durchgezogen wurde.
+
+**Der zweite Weg ist der Geltungsbereich.** Drei frühere Regeln waren keine Projekterfahrung, sondern Fallen von Git und der Windows-Shell, die in jedem Repo gelten: dass `git rebase --continue` die `#`-Zeilen aus der Commit-Message frisst (8), dass Git-Bash-`/tmp` nicht Windows-`C:\tmp` ist (9), und dass `git checkout --` aus dem Index herstellt und dabei still jede ungestagte Arbeit an derselben Datei vernichtet (31). Sie stehen seit dem 2026-08-05 in der persistenten Memory. Der Grund ist nicht Platz, sondern Reichweite: dieses Playbook wird nur nach einem Kickoff gelesen, die Fallen aber schlagen in jeder Sitzung zu, gerade in den interaktiven. Wissen, das immer gilt, gehört an einen Ort, der immer geladen ist.
 
 1. **Ein grünes Gate ist kein wirksames Gate. Mutation ist der Beweis.** Wer eine Prüfung ergänzt, baut den Fehler ein, den sie fangen soll, und lässt sie laufen. In der Session vom 29.07. sind dreimal hintereinander Audit-Einträge entstanden, die grün liefen und nichts fingen; jedes Mal deckte erst die Mutation es auf.
 2. **Substring-Suchen lügen.** `grep -c "shrink-0"` findet einen Treffer in `flex-shrink-0`, `grep "256.760"` findet Teilstrings längerer Zahlen. Auf den Selektor bzw. das Wort ankern (`\.shrink-0{`, `\b`).
@@ -46,8 +50,6 @@ Diese Regeln haben in der Praxis Fehler gefangen, die alle Gates passiert hatten
 5. **`expect(await locator).toHaveCount(n)` wartet nichts ab und besteht immer.** Richtig ist `await expect(locator)`.
 6. **`npm test` verkündet sein Ergebnis selbst. Die VERDICT-Zeile ist das Ergebnis.** Seit dem 2026-08-05 läuft der Aufruf über `scripts/run-tests.js` (auch `test:changed` und `test:quick`). Der Wrapper löscht den alten Report, bricht ab, wenn Port 8080 von einem fremden Arbeitsbaum bedient wird, setzt `PW_TEST_HTML_REPORT_OPEN=never`, vergleicht bei filterlosem Lauf die Spec-Dateien auf der Platte gegen die im Report, und bildet den Exit-Code aus `testing/test-results/report.json`: 0 grün, 1 rot, 2 der Lauf ist gar nicht zustande gekommen. Die Zeile nennt Testzahl, Dateizahl und den geprüften Pfad, gehört also unverändert in den Verifikations-Block des PRs. Zwei Dinge bleiben Handarbeit, weil kein Skript sie abnehmen kann: **die Zeile nie durch eine Pipe schicken** (`tail` liefert immer 0 und frisst den Exit-Code, `journal-archive.md:680`), und **kein Branchwechsel, solange ein Lauf läuft** (ein `git checkout` zieht Playwright die Spec-Dateien unter den Füßen weg; der Lauf meldet dann „Cannot find module …spec.js", die Konsole nennt aber nur eine niedrigere Bestanden-Zahl). Der Satz dahinter, der alle vier Vorgängerregeln getragen hat: **ein Testlauf, dessen Grundgesamtheit du nicht kennst, beweist nichts.** Deshalb steht sie jetzt in der Zeile.
 7. **Auf CI-Checks warten heißt auf ihre Existenz warten.** `grep -c pending` ist unmittelbar nach dem Push 0, weil die Checks noch nicht angelegt sind, und die Schleife fällt sofort durch. Auf die erwartete Anzahl abgeschlossener Checks warten und den `head_sha` gegenprüfen.
-8. **`git rebase --continue` frisst `#`-Zeilen** aus der Commit-Message: Betreff „#138: …" und alle `##`-Überschriften verschwinden. Nach dem Auflösen `git commit -C <original> --cleanup=verbatim`, dann erst `--continue`.
-9. **Git-Bash-`/tmp` ist nicht Windows-`C:\tmp`.** Python und `gh` sehen etwas anderes als die Shell-Umleitung; ein `cmd1 > /tmp/x || cmd2`-Fallback läuft nie an. Immer den Scratchpad-Pfad ausschreiben.
 10. **lxml-Proxy-`id()` wechselt zwischen Iterationen.** Elemente selbst festhalten und mit `is` vergleichen, nie ihre `id()`. Steht auch in `docs/DECISIONS.md:858`.
 11. **Zahlen in Doku und Code-Kommentaren altern mit den Daten.** Ein Kommentar begründete einen fehlenden Filter mit „4.755 Korpusbelege"; nach einer Datenänderung waren es 4.049. Wer Zahlen zitiert, prüft sie im selben PR nach oder hinterlegt ein Skript.
 12. **Chrome-Verifikation nicht über den JS-Bridge-Kontext, wenn es um Sichtbarkeit geht.** Dort feuern weder IntersectionObserver-Callbacks noch `scroll`-Events aus `window.scrollTo`. Die Bridge taugt für Datenabfragen und DOM-Auszählungen, nicht für Interaktionszustände.
@@ -82,8 +84,6 @@ Diese Regeln haben in der Praxis Fehler gefangen, die alle Gates passiert hatten
 
     Und die Lehre über den Vorgang hinaus: **aus dem Verschwinden eines Eintrags auf eine Ursache zu schließen, ist geraten, nicht gemessen.** Genau dieser Satz stand als „hat sich selbst aufgeräumt" schon in einem Handoff, obwohl in Wahrheit jemand vier blockierte Löschversuche von Hand aufgelöst hatte.
 
-31. **`git checkout -- <datei>` nimmt keine Mutation zurück, es stellt aus dem Index her.** Für `git restore <datei>` gilt dasselbe, die Default-Semantik ist identisch. Ist nichts gestaged, fällt der Index mit HEAD zusammen, und genau dann verliert man beim Zurücknehmen einer Test-Mutation (Regel 18) still jede ungestagte Arbeit an derselben Datei: sie landet auf dem letzten Commit, nicht auf dem Stand vor der Mutation, und `git status` meldet danach „clean". Am 2026-07-31 hat das eine Session eine fertige Datei gekostet, und die Rückmeldung des Werkzeugs sah dabei wie Erfolg aus. **Die Reihenfolge, die trägt: erst committen, dann mutieren, dann zurücknehmen.** Ein `git add` vor der Mutation würde technisch genügen, weil der Index dann den guten Stand hält, ist aber die schlechtere Empfehlung: die Sicherung ist unsichtbar, überlebt kein zweites Staging und steht in keinem Reflog. Im Worktree-pro-Session-Modell der Regeln 29 und 30 ist ein Commit billig.
-
 32. **Das Em-Dash-Gate deckt Markdown seit #292, aber nur im Diff.** Bis zum 2026-08-02 galt hier das Gegenteil, und der Satz ist es wert, stehen zu bleiben: das Gate prüfte nur HTML, JS und CSS, in PR-Bodys stand trotzdem „Gate grün" als Beleg für Doku-Änderungen, und ein Beleg, der nichts belegt, ist schlechter als keiner. Was jetzt gilt: `check-no-em-dash.py --diff-base <rev>` prüft zusätzlich jede `.md`-Zeile, die ein PR **hinzufügt**, mit Fences und Inline-Code als Ausnahme (die Hausregel stellt Code und Terminal-Ausgaben frei). In CI ist die Base der erste Elternteil des ausgecheckten Merge-Refs, in `no-cdn-check.yml` wie in `data-integrity.yml`. Der Bestand bleibt bewusst unberührt, denn die Schreibregel gilt für neuen und überarbeiteten Text: rund 470 Zeilen in den getrackten `.md` tragen einen Em-Dash, gut die Hälfte davon in `docs/journal-archive.md`. **Handarbeit bleibt nur außerhalb von `.md`**: `tei/`, `authority-files/`, `schema/` und die zwei Linecode-CSVs unter `docs/data/`, wo der Strich ohnehin Datenzeichen ist und keine Typografie.
 
     **Nachtrag 2026-08-03: die Regel gilt für jede `.md`, ohne Ausnahme nach Ordner.** Am selben Tag wurde beides ausprobiert. Zuerst hieß es, die Hausregel gelte nur für user-sichtbaren Text, ein Treffer in `docs/` sei also Rauschen; dann wurde die Einschränkung gebaut (weiße Liste, Umfangsprüfung an zwei Eintrittspunkten, neun Fixture-Fälle, 267 Zeilen) und noch vor dem Merge verworfen. Die Verengung erzeugte zwei eigene Löcher: `git mv docs/entwurf.md publications/entwurf.md` trug den Em-Dash-Bestand von `docs/` stumm in den Veröffentlichungspfad, weil eine erkannte Umbenennung keine hinzugefügten Zeilen hat, und derselbe Fehler noch einmal für einen Umzug aus `_archived/` heraus. Dazu kam die Frage „ist diese Datei user-sichtbar?", die pro neuer Datei wiederkommt. Gemessene Kosten der stumpfen Regel: 5 von 100 Commits der letzten zwei Wochen, zusammen 6 Zeilen. **Lehre über den Anlass hinaus: eine Ausnahme, die pro Fall entschieden werden muss, ist teurer als die Regel, die sie sparen soll.** Wer den Strich billig loswird, tut es; wo er Gegenstand ist (Zitat, Werktitel), setzt er Backticks.
@@ -116,17 +116,14 @@ Hier gehören die Vorab-Festlegungen von chsteiner hinein: Reihenfolge der Welle
 
 ## 6. Kickoff-Prompt (leer, vor der nächsten Session befüllen)
 
-Der Prompt wird pro Session aus §1, §3, §4 und §5 geschrieben. Diese Bestandteile haben sich bewährt und gehören immer hinein:
+**Die Bausteine stehen in [`KICKOFF-VORLAGE.md`](KICKOFF-VORLAGE.md)**, inklusive des Betriebsvertrags, der wörtlich in den Prompt kopiert wird. Hier steht nur, was diese Session in die Platzhalter einsetzt:
 
-1. **AUTORISIERUNG:** ausdrückliche Freigabe für Commits und Pushes auf `claude/*`-Branches und für das Erstellen von PRs (übersteuert die CLAUDE.md-Regel), plus „`main` bleibt absolut tabu".
-2. **Issue-Hygiene:** nie selbst schließen außer per `Closes`-Trailer im PR-Body; #44 NIE mit `Closes`; pro Issue ein frischer Branch von `origin/main`; nie `git add -A`; höchstens ein Statuskommentar pro Issue; keine Kontaktaufnahme mit Externen.
-3. **Stil:** keine Emoji-Icons (Heroicons inline SVG), keine Em-Dashes in Prosa, echte Umlaute.
-4. **Fable-Review vor dem ersten Push jedes PRs**, mit dem `fable-reviewer` (nicht dem `fable-advisor`, siehe §2 Regel 6). Mitgeben: Branch, Basis, Ziel, Rundennummer. Befunde nachmessen, nicht glauben.
-5. **Notationsfallen benennen**, falls welche im Spiel sind (etwa Befund-Nummern in einem Issue-Body, die wie Issue-Nummern aussehen).
-6. **Welle 0 als Vorflug** ausschreiben, siehe §3.
-7. **Das Verifikations-Handwerk aus §2.1** in Kurzform, mindestens die Mutations-Regel.
-8. **NICHT ANFASSEN** mit den Gruppen aus §4, inklusive der Fallen („sieht nach leichtem Einstieg aus, ist aber blockiert").
-9. **Abschluss:** „Unbeschaffbarer Input führt zum dokumentierten Überspringen, nicht zum Warten und nicht zum Nachfragen."
+1. **Autorisierung:** `claude/*`-Branches und PR-Erstellung, `main` bleibt tabu.
+2. **Umfang:** die Wellen aus §3, je eine pro PR, letzte Welle ist der Meta-PR. **Welle 0 als Vorflug ausschreiben.**
+3. **Weiche `npm test`:** ob die volle Suite freigegeben ist oder nur gezielte Läufe. Ohne diesen Satz hat die Session keinen Weg, die stehende Konvention „Tests nie ungefragt" aufzulösen, und darf zugleich nicht nachfragen. Bis zum 2026-08-05 fehlte er hier, während §2 den Volllauf vor dem Push verlangte.
+4. **Notationsfallen**, falls welche im Spiel sind (etwa Befund-Nummern in einem Issue-Body, die wie Issue-Nummern aussehen).
+5. **Das Verifikations-Handwerk aus §2.1** in Kurzform, mindestens die Mutations-Regel.
+6. **Nicht anfassen** mit den Gruppen aus §4, inklusive der Fallen („sieht nach leichtem Einstieg aus, ist aber blockiert").
 
 ---
 

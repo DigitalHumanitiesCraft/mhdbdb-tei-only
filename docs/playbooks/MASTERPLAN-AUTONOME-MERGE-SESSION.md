@@ -6,13 +6,13 @@ Gegenstück zum `MASTERPLAN-AUTONOME-ISSUE-SESSION.md`: Während die Issue-Sessi
 
 ## Betriebsvertrag (gilt nur nach explizitem User-Kickoff)
 
-Dieser Plan autorisiert NICHTS. Eine Merge-Session startet erst, wenn der User sie mit einem Kickoff-Prompt eröffnet, der ausdrücklich enthält:
+Dieser Plan autorisiert NICHTS. Eine Merge-Session startet erst mit einem Kickoff-Prompt, und dessen Bausteine stehen in [`KICKOFF-VORLAGE.md`](KICKOFF-VORLAGE.md). Der gemeinsame Teil des Vertrags steht in [`BETRIEBSVERTRAG.md`](BETRIEBSVERTRAG.md) und wird in den Prompt kopiert; bis zum 2026-08-05 stand er hier abgeschrieben, mit dem Vermerk „unverändert aus dem Issue-Session-Vertrag", was er nach einer Weile nicht mehr war.
 
-1. **Merge-Autorisierung nach main** für die benannten PRs (übersteuert CLAUDE.md „NEVER commit or push without user testing and approval" — der Kickoff IST die Approval; ohne ihn bleibt main tabu).
-2. Umfang: alle offenen claude/*-PRs oder eine explizite Teilmenge.
-3. Ob Live-Smoke-Checks nach Deploy Teil der Session sind (empfohlen: ja).
+Drei Angaben braucht der Kickoff zusätzlich, und ohne sie startet die Session nicht:
 
-Unverändert aus dem Issue-Session-Vertrag: Issues nie manuell schließen (nur via Closes-Trailer beim Merge; **#44 NIE**), nie `git add -A`, kein Force-Push auf main, max. 1 neuer Statuskommentar pro Issue (KZW-UI-Ping nach Live-Gang ist die etablierte Ausnahme laut Projektkonvention), keine Kontaktaufnahme mit Externen. Nicht fragen, nicht warten — bei Blockern dokumentiert überspringen.
+1. **Merge-Autorisierung nach main** für die benannten PRs. Sie übersteuert die CLAUDE.md-Regel „NEVER commit or push without user testing and approval": der Kickoff IST die Approval. Ohne ihn bleibt `main` tabu. Autorisiert sind Merges, keine direkten Pushes.
+2. **Umfang:** alle offenen `claude/*`-PRs oder eine explizite Teilmenge, in Merge-Reihenfolge.
+3. **Live-Smoke-Checks** nach dem Deploy: Teil der Session, ja oder nein (empfohlen: ja).
 
 ## Merge-Gates (jeder PR, keine Ausnahme)
 
@@ -30,6 +30,7 @@ Ein PR wird nur gemerged, wenn ALLE Gates grün sind:
 1. `gh pr list` + pro PR: Checks, neue Kommentare seit letzter Triage, Mergeability, Base.
 2. Merge-Reihenfolge festlegen: erst Stack-Ketten (Basis zuerst), dann Unabhängige, **Doku-/Meta-PRs zuletzt** (deren Inhalt — ROADMAP „Now", Matrix-Verweise — veraltet durch die Merges selbst; vor dem Merge per Folge-Commit auf den Endzustand bringen).
 3. Bekannte Datei-Überschneidungen zwischen Ketten notieren (Konflikt-Erwartung, siehe Anhang).
+4. **Den Piloten bestimmen: den einen PR, der die Schleife vollständig durchläuft, bevor der zweite anfängt.** Er wird gemergt, sein main-CI abgewartet und Phase 2 für ihn gefahren; erst danach läuft der Rest im Takt. Der Grund ist nicht Vorsicht vor dem einzelnen PR, sondern vor dem Verfahren: die erste Session hat 13 PRs am Stück abgearbeitet, und der Retarget-Fehler, der dabei #177 geschlossen hat, hätte jeden weiteren Stack genauso getroffen. Ein Verfahrensfehler kostet mit Pilot einen PR statt dreizehn, und der Pilot kostet nichts, weil seine Arbeit ohnehin anfällt.
 
 ### Phase 1: Merge-Schleife (pro PR)
 1. Gates G1–G5 prüfen.

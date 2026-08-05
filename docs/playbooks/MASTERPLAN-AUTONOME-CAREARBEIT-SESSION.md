@@ -21,13 +21,12 @@ Dieser Plan autorisiert NICHTS. Eine Carearbeit-Session startet erst mit einem K
 - **npm test:** einmalige Freigabe für die volle Suite (Konvention: Tests nie ungefragt).
 - **Health-Check:** als eigenes Arbeitspaket integriert ja/nein.
 
-Harte Regeln (unabhängig vom Kickoff):
+**Der gemeinsame Teil des Vertrags steht in [`BETRIEBSVERTRAG.md`](BETRIEBSVERTRAG.md)** und wird beim Kickoff in den Prompt kopiert ([`KICKOFF-VORLAGE.md`](KICKOFF-VORLAGE.md)). Dazu kommen zwei Regeln, die nur für die Pflegearbeit gelten und genau das Gegenteil dessen sagen, was ein Aufräum-Reflex nahelegt:
 
-1. **Fixes direkt umsetzen.** Ein GitHub-Issue entsteht nur, wenn eine menschliche Entscheidung oder externe Abhängigkeit nötig ist oder der Umfang die Session sprengt.
-2. **Geshippte, aber bewusst offene Issues nicht anfassen** (warten auf Test-OK von KZW/Linda). Vorab per `gh issue list` identifizieren.
-3. **Dormante Einmal-Migrations-Scripts nicht löschen** (`insert-*`, `convert-l-to-lb-*`, `fix-*`): werden seit #171 bewusst lauffähig gehalten.
-4. **Historische, datierte Chronik-Einträge nie „fixen"** (JOURNAL, DECISIONS-Korrekturnotizen, INDEX-Milestones): nur Ist-Aussagen korrigieren. Eine Zahl in einem datierten Log-Eintrag war zum damaligen Zeitpunkt korrekt.
-5. Nur benannte Dateien stagen (nie `git add -A`), kein Push ohne Freigabe, kein `Closes #44`, Doku-Fixes referenzieren #140 (`refs`, nie `Closes`).
+1. **Dormante Einmal-Migrations-Scripts nicht löschen** (`insert-*`, `convert-l-to-lb-*`, `fix-*`): sie werden seit #171 bewusst lauffähig gehalten, solange ihr Issue offen ist. Die Grenze ist der Issue-Status, nicht die Frage, ob das Skript schon gelaufen ist.
+2. **Historische, datierte Chronik-Einträge nie „fixen"** (JOURNAL, DECISIONS-Korrekturnotizen, INDEX-Milestones): nur Ist-Aussagen korrigieren. Eine Zahl in einem datierten Log-Eintrag war zum damaligen Zeitpunkt korrekt, und eine „Korrektur" macht aus einem Protokoll eine Fälschung. Diese Regel gilt auch für Verweise auf Dateien, die inzwischen anders heißen.
+
+Dazu die Ticket-Konvention dieser Session: Doku-Fixes referenzieren #140 mit `refs`, nie mit `Closes`.
 
 ## 3. Verfahren
 
@@ -39,7 +38,7 @@ Harte Regeln (unabhängig vom Kickoff):
 | Scripts/Repo | Scripts-Topologie + Referenz-Analyse (npm, CI, docs, Playbooks), Verwaiste mit Urteil, Leftovers in Root/testing/includes, CI-Workflow-Zustand |
 | Doku/Hilfe | Hilfeseiten vollständig gegen Feature-Stand lesen, Zähler-Drift-Tabelle, Versions-Konsistenz (TEI-MODEL §11 vs. Loader vs. Build-Skripte), docs/features-Bestand vs. Issue-Status |
 
-Parallel: `gh issue list` für den Regel-2-Bestand (geshippt-aber-offen).
+Parallel: `gh issue list` für den Bestand nach Betriebsvertrag Regel 17 (geshippt, aber bewusst offen).
 
 **Phase 1, mechanische Gates zuerst:** `python scripts/build-pages.py --check`, `python scripts/audit/doc-count-audit.py`, `python scripts/audit/check-index-versions.py`. Rote Gates sind die ersten Fixes (Session 1: Footer-Drift auf einer Hilfeseite, variants-Zahl). Diese drei fanden 2 von 3 Befund-Klassen mechanisch.
 
@@ -49,7 +48,7 @@ Parallel: `gh issue list` für den Regel-2-Bestand (geshippt-aber-offen).
 - **WP B Dead Code** (chirurgisch): je Kandidat Gegenprüfung nach §4; `npm test` direkt nach den Code-Edits im Hintergrund starten und parallel weiterarbeiten, aber ohne Branchwechsel (Issue-Playbook §2.1 Regel 6). Die frühere Angabe „~15 min" stammte aus der Ein-Worker-Zeit vor #323 und stand hier nur, um das Nebenherlaufen zu begründen; die Dauer misst der Lauf jetzt selbst und druckt sie.
 - **WP C Scripts-/Repo-Hygiene**: Löschungen, Verschiebungen (Pfad-Logik anpassen + Dry-Run), READMEs, .gitignore.
 - **WP D Health-Check**: `/promptotyping check` als Rahmen; 3 Algorithmen-Spot-Checks (CONTRACTS-Pseudocode vs. Code) und 3 XPath-Spot-Checks (Docs vs. Build-Skripte) als zwei parallele Explore-Agents; Scorecard (3-4 Zeilen, datiert) + Session-Eintrag mit Lehren ins JOURNAL. Kein Report als .md in `docs/`.
-- **WP E Issues** für Nicht-Fixbares (Regel 1).
+- **WP E Issues** für das, was die Issue-Schwelle des Betriebsvertrags (Regel 16) wirklich überschreitet.
 
 **Verifikation:** Gates aus Phase 1 erneut, `npm test` mit grüner VERDICT-Zeile (Issue-Playbook §2.1 Regel 6; sie nennt Testzahl, Dateizahl und geprüften Pfad und gehört so in den PR), `git diff --stat` pro Commit, PR mit Verifikations-Block. Bei neuen Utility-Klassen `npm run build:css` (in reinen Text-/Zahlen-Fixes nicht nötig).
 
