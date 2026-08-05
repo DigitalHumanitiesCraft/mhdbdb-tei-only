@@ -200,17 +200,28 @@ def pruefe(issues):
 
 
 def entschaerfe(titel):
-    """Pipes maskieren und Marker-Strings unschaedlich machen.
+    """Einen Issue-Titel in eine Tabellenzelle zwingen.
 
-    Ein Issue-Titel, der `MATRIX:END` enthaelt, waere sonst kumulativ
-    zerstoererisch: der Marker landet im generierten Block, und ab dem
-    zweiten Lauf findet `partition(END)` den inneren Marker zuerst. Der
-    Body waechst dann taeglich um einen Blockrest. Unwahrscheinlich, aber
-    der Schaden laeuft still und ohne Obergrenze.
+    Vier Dinge, jedes aus einem echten Fall im Bestand:
+
+    `MATRIX:*` im Titel waere kumulativ zerstoererisch. Der Marker landet
+    im generierten Block, und ab dem zweiten Lauf findet `partition(END)`
+    den inneren Marker zuerst; der Body waechst dann taeglich um einen
+    Blockrest, still und ohne Obergrenze.
+
+    Spitze Klammern verschluckt GitHubs HTML-Sanitizer beim Rendern. Das
+    trifft dieses Projekt haeufiger als andere, weil TEI-Elemente in
+    Ticket-Titeln stehen: #252 verloere ohne diese Zeile sein `<gap/>` und
+    damit das Subjekt des Satzes, #228 sein `<note n=...>`, und das `<div>`
+    aus #138 wuerde als Block-Element in die Zelle gerendert. Das `&` muss
+    zuerst weg, sonst maskiert der zweite Schritt die eigenen Entities.
+
+    Ein Pipe wuerde die Zelle teilen, ein Zeilenumbruch die ganze Zeile.
     """
     for marker in ('MATRIX:BEGIN', 'MATRIX:END'):
         titel = titel.replace(marker, marker.replace(':', ': '))
-    return titel.replace('|', '\\|')
+    titel = titel.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
+    return titel.replace('|', '\\|').replace('\n', ' ').replace('\r', ' ')
 
 
 def zeile(issue):
@@ -218,9 +229,13 @@ def zeile(issue):
     area = (achse(issue, 'area:') or ['?'])[0].replace('area:', '')
     eff = (achse(issue, 'effort:') or ['?'])[0].replace('effort:', '')
     flag = '`ingest`' if 'ingest' in issue['labels'] else ''
-    titel = entschaerfe(issue['title'])
+    # Erst kuerzen, dann maskieren: die 78 sollen sichtbare Zeichen zaehlen
+    # und nicht Entities, und ein Schnitt mitten in `&lt;` kann so nicht
+    # entstehen, weil es zum Zeitpunkt des Schnitts noch `<` ist.
+    titel = issue['title']
     if len(titel) > 78:
         titel = titel[:77] + '…'
+    titel = entschaerfe(titel)
     return (f'| #{issue["number"]} | {titel} | {area} | {eff} | {flag} | '
             f'{issue["still_seit"]} |')
 
@@ -372,6 +387,25 @@ def selftest():
     # Ein Pipe im Titel darf die Tabelle nicht sprengen.
     roh = zeile(iss(11, ['auto:full', 'area:docs', 'effort:small'], 'a|b'))
     faelle.append(('Pipe im Titel wird maskiert', 'a\\|b' in roh))
+
+    # TEI-Elemente stehen in diesem Projekt regelmaessig in Ticket-Titeln:
+    # ohne Maskierung frisst GitHubs Sanitizer sie aus der Anzeige.
+    tei = zeile(iss(13, ['auto:full', 'area:data', 'effort:small'],
+                    'Luecken als <gap/> statt <caesura/>'))
+    faelle.append(('Spitze Klammern bleiben sichtbar',
+                   '&lt;gap/&gt;' in tei and '<gap/>' not in tei))
+    amp = zeile(iss(14, ['auto:full', 'area:docs', 'effort:small'], 'A &amp; B'))
+    faelle.append(('Kaufmanns-Und wird vor den Klammern maskiert',
+                   '&amp;amp;' in amp))
+    umbruch = zeile(iss(15, ['auto:full', 'area:docs', 'effort:small'], 'a\nb'))
+    faelle.append(('Zeilenumbruch spaltet die Tabellenzeile nicht',
+                   umbruch.count('\n') == 0 and 'a b' in umbruch))
+
+    # Die Kuerzung zaehlt sichtbare Zeichen, nicht Entities: ein Titel aus
+    # 78 spitzen Klammern darf nicht auf sieben angezeigte schrumpfen.
+    lang = zeile(iss(16, ['auto:full', 'area:docs', 'effort:small'], '<' * 90))
+    faelle.append(('Gekuerzt wird vor dem Maskieren',
+                   lang.count('&lt;') == 77))
 
     # Marker-Ersatz: Handschrift ausserhalb bleibt, innen wird ersetzt.
     body = f'oben\n{BEGIN}\nALT\n{END}\nunten'
