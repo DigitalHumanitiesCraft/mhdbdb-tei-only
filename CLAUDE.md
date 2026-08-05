@@ -106,6 +106,21 @@ Measured on 2026-08-02 across three PRs (#330, #332, #333): 27 findings in 18 re
 - **No full CI run for comment-only commits.**
 - **Issue threshold:** a finding becomes a ticket only if it needs a **decision** the agent may not take, needs a **human**, or is a **work package of its own** (ingest, corpus change, more than half a day). Everything else is fixed on the spot or dropped (#331 was filed and fixed by the same session an hour later).
 
+## Issue Labels
+
+Rebuilt on 2026-08-05, from 28 labels down to 16. The scheme is built **for agents**: the team barely uses labels, so they exist to tell a session what it is allowed to touch. Three orthogonal axes, **exactly one label per axis**, plus two flags. Full legend, per-issue reasoning and the ping list live in the body of **#44**.
+
+- **`auto:*`** is the one that governs a session's behaviour: `auto:full` (just do it) | `auto:brief` (1 to 3 questions up front, then run to completion) | `auto:checkin` (decision points along the way: sampling, batch size, scope) | `auto:pair` (only in a session with Chris) | `auto:blocked` (waiting on KZW, Julia, Linda, Carina, Alan or an external party). The dividing line between the last two: a missing **answer from a third party** is `blocked`, a need for **Chris's time and authority** is `pair`.
+- **`area:*`**: `data` | `frontend` | `playground` | `pipeline` | `docs` | `orga`
+- **`effort:*`**: `small` (an hour or less) | `medium` (half a day) | `large` (a day or more)
+- **Flags**: `ingest` (corpus intake, its own workstream) and `evergreen` (#44 only, the sole issue exempt from the axes because it is maintained rather than worked off)
+
+Rules that keep the matrix from rotting, which is what happened to the old labels:
+
+- **Never start an `auto:blocked` issue "anyway".** Several of them have their material sitting outside the repo entirely.
+- **Re-label every issue a session touches**, in the same session. The 2026-08-05 pass had to read all 53 open issues end to end because nobody had.
+- **A `Closes #N` is not an acceptance.** Where KZW, Julia or an external reviewer still has to sign off, the issue stays open even though the code is merged and live (see `feedback_kzw_ui_final_testing`). On 2026-08-05 six issues were in exactly that state.
+
 ## Temporal Artifacts (promptotyping convention)
 
 - **Feature docs** (`docs/features/`): live while the issue is open. On completion, extract the critical knowledge into the stable docs (CONTRACTS.md, ARCHITECTURE.md and so on), then delete. Git history is the archive.
