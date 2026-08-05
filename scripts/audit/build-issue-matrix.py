@@ -206,21 +206,16 @@ def konto_von(kommentar):
 def letzte_wortmeldung(issue, konto=None, ausser=None):
     """Datum des letzten Kommentars, ersatzweise das Anlegedatum.
 
-    Mit `konto` zaehlen nur die Kommentare dieser Person. Das ist die
-    Groesse, die in der Ping-Liste gebraucht wird: dort lautet die Frage
-    "wie lange schweigt KZW zu diesem Ticket" und nicht "wann hat hier
-    zuletzt irgendjemand geschrieben".
+    Genau einer der beiden Filter greift, nie beide: mit `konto` zaehlen
+    nur die Kommentare dieser Person, mit `ausser` alle ausser denen der
+    genannten Logins, und `konto` hat Vorrang. Die Ping-Liste braucht den
+    ersten Modus ("wie lange schweigt KZW zu diesem Ticket"), die Tabellen
+    keinen ("wann hat hier zuletzt jemand geschrieben").
 
-    Der Unterschied ist am 05.08.2026 teuer geworden. Sieben Tickets
-    bekamen an einem Nachmittag einen Nachmess-Kommentar, und die
-    Ping-Liste zeigte sie danach als frisch, obwohl sich fuer die wartende
-    Person nichts geaendert hatte: KZW hat sich zu #115 zuletzt am
-    29.05. geaeussert, und das Ticket stand ploetzlich auf dem heutigen
-    Datum. Das ist derselbe Fehlermodus
-    wie `updatedAt`, nur subtiler, weil die eigene Betriebsamkeit diesmal
-    wie Fortschritt aussieht.
-
-    Siehe Messvorschrift im Modul-Docstring.
+    Warum das nicht dasselbe ist und was die Verwechslung gekostet hat:
+    Messvorschrift im Modul-Docstring. Sie steht dort und nur dort, damit
+    das gemessene Datum darin nicht an zwei Stellen wahr gehalten werden
+    muss.
     """
     kommentare = issue.get('comments') or []
     if konto:
@@ -366,8 +361,8 @@ def baue(issues):
                    f'Laengste Stille zuerst. Das Datum ist die letzte '
                    f'Wortmeldung **der erwarteten Person**, damit ein '
                    f'Nachfassen von unserer Seite die Uhr nicht '
-                   f'zuruecksetzt; bei Externen, die keinen Account haben, '
-                   f'der letzte Kommentar im Ticket.\n')
+                   f'zuruecksetzt; bei Externen ohne GitHub-Konto der '
+                   f'letzte Kommentar, der nicht von uns stammt.\n')
         for wait, name in WAIT_NAMEN.items():
             konto = WAIT_KONTEN.get(wait)
             treffer = [(letzte_wortmeldung(i, konto, UNSERE_SEITE), i)
@@ -472,7 +467,8 @@ def selftest():
                    '#51 (2026-02-02)' in baue([nie])))
 
     # Externe haben keinen Account, dort bleibt es beim letzten Kommentar.
-    # Bei Externen darf das eigene Nachfassen die Uhr ebensowenig stellen.
+    # Bei Externen gibt es kein Konto zu filtern, also faellt unsere eigene
+    # Seite heraus. Das eigene Nachfassen darf die Uhr auch hier nicht stellen.
     extern = iss(52, ['auto:blocked', 'area:data', 'effort:small',
                       'wait:extern'], datum='2026-01-01',
                  kommentare=[('2026-05-16', 'wachauer'),
