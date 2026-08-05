@@ -46,12 +46,12 @@ Parallel: `gh issue list` für den Regel-2-Bestand (geshippt-aber-offen).
 **Phase 2, Arbeitspakete in dieser Reihenfolge, je ein Commit:**
 
 - **WP A Doku-/Hilfe-Staleness** (geringstes Risiko zuerst): Zähler, Versionen, Stand-Zeilen.
-- **WP B Dead Code** (chirurgisch): je Kandidat Gegenprüfung nach §4; `npm test` direkt nach den Code-Edits im Hintergrund starten (Suite läuft ~15 min, parallel weiterarbeiten).
+- **WP B Dead Code** (chirurgisch): je Kandidat Gegenprüfung nach §4; `npm test` direkt nach den Code-Edits im Hintergrund starten und parallel weiterarbeiten, aber ohne Branchwechsel (Issue-Playbook §2.1 Regel 6). Die frühere Angabe „~15 min" stammte aus der Ein-Worker-Zeit vor #323 und stand hier nur, um das Nebenherlaufen zu begründen; die Dauer misst der Lauf jetzt selbst und druckt sie.
 - **WP C Scripts-/Repo-Hygiene**: Löschungen, Verschiebungen (Pfad-Logik anpassen + Dry-Run), READMEs, .gitignore.
 - **WP D Health-Check**: `/promptotyping check` als Rahmen; 3 Algorithmen-Spot-Checks (CONTRACTS-Pseudocode vs. Code) und 3 XPath-Spot-Checks (Docs vs. Build-Skripte) als zwei parallele Explore-Agents; Scorecard (3-4 Zeilen, datiert) + Session-Eintrag mit Lehren ins JOURNAL. Kein Report als .md in `docs/`.
 - **WP E Issues** für Nicht-Fixbares (Regel 1).
 
-**Verifikation:** Gates aus Phase 1 erneut, `npm test` grün, `git diff --stat` pro Commit, PR mit Verifikations-Block. Bei neuen Utility-Klassen `npm run build:css` (in reinen Text-/Zahlen-Fixes nicht nötig).
+**Verifikation:** Gates aus Phase 1 erneut, `npm test` mit grüner VERDICT-Zeile (Issue-Playbook §2.1 Regel 6; sie nennt Testzahl, Dateizahl und geprüften Pfad und gehört so in den PR), `git diff --stat` pro Commit, PR mit Verifikations-Block. Bei neuen Utility-Klassen `npm run build:css` (in reinen Text-/Zahlen-Fixes nicht nötig).
 
 ## 4. Dead-Code-Fallen (Gegenprüfung vor jeder Löschung)
 
