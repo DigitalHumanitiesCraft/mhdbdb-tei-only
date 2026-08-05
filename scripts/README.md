@@ -34,6 +34,7 @@ scripts/
 ├── audit/                       # Korpus- & Authority-Analyse, CI-Gates
 │   ├── audit-tei-corpus.py      # Element/Attribut-Inventar des Korpus
 │   ├── audit-authority-files.py # Struktur-Audit der Authority Files (authority→authority)
+│   ├── build-issue-matrix.py    # Triage-Matrix #44 aus den Issue-Labels bauen (#44)
 │   ├── check-authority-cross-refs.py # Korpus→Authority Cross-Ref-Integrität (#44/#115)
 │   ├── check-author-refs.py     # titleStmt/author gegen persons.xml (#228)
 │   ├── check-doc-inventories.py  # Specs und Audit-Skripte stehen in DEVELOPMENT.md (#329)
