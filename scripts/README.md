@@ -38,7 +38,8 @@ scripts/
 │   ├── build-issue-matrix.py    # Triage-Matrix #44 aus den Issue-Labels bauen (#44)
 │   ├── check-authority-cross-refs.py # Korpus→Authority Cross-Ref-Integrität (#44/#115)
 │   ├── check-author-refs.py     # titleStmt/author gegen persons.xml (#228)
-│   ├── check-doc-inventories.py  # Specs und Audit-Skripte stehen in DEVELOPMENT.md (#329)
+│   ├── check-doc-inventories.py  # Specs und Audit-Skripte stehen in DEVELOPMENT.md, Skripte auch in diesem Baum (#329)
+│   ├── check-file-sizes.py      # Einzeldateien vor GitHubs harter 100-MiB-Wand stoppen (#350)
 │   ├── check-index-version-bump.py # Inhalt geändert => Version gebumpt (#154)
 │   ├── check-index-versions.py  # Index-Versions-Konstanten konsistent
 │   ├── check-lexicon-senses.py  # jeder <entry> in lexicon.xml hat mindestens einen <sense>
@@ -78,7 +79,7 @@ scripts/
 
 Ein issue-gebundenes Einmal-Skript wandert nach `_archived/`, sobald sein Issue geschlossen ist. Die Grenze ist der Issue-Status, nicht die Frage, ob das Skript schon gelaufen ist: solange das Issue offen ist, kann eine Prüffrage einen erneuten Lauf erzwingen. Deshalb stehen die drei `*-138.py` oben, bis #138 geschlossen ist, und `convert-l-to-lb-143.py` liegt im Archiv. Die beiden `insert-*-from-linecode.py` sind keine Einmal-Skripte, sie werden für weitere Texte gebraucht.
 
-Skripte im Archiv sind Referenz und nicht lauffähig: sie berechnen die Repo-Wurzel als `Path(__file__).resolve().parent.parent`, was eine Ebene tiefer auf `scripts/` zeigt. Wer eines wieder braucht, verschiebt es zurück, statt es aus `_archived/` heraus aufzurufen.
+Skripte im Archiv sind Referenz. Der Grund, sie nicht zu starten, ist nicht technisch, sondern inhaltlich: es sind abgeschlossene Einmal-Migrationen, deren Ergebnis längst im Korpus steht, und ein zweiter Lauf schreibt auf einen anderen Ausgangsstand als der erste. Technisch scheitert genau eines von sechs, nämlich `convert-l-to-lb-143.py`, das die Repo-Wurzel als `Path(__file__).resolve().parent.parent` berechnet und aus `_archived/` heraus auf `scripts/` zeigt; die übrigen fünf arbeiten CWD-relativ (`Path('tei').glob(...)`) und liefen aus dem Repo-Root ohne Fehlermeldung durch. Wer eines wieder braucht, verschiebt es zurück und prüft den Ausgangsstand, statt es aus `_archived/` heraus aufzurufen.
 
 ## Build-Pipeline (Root)
 
@@ -88,7 +89,7 @@ Die Build-Scripts werden über `npm run` aufgerufen und dürfen nicht verschoben
 Verarbeitet die 7 inhaltstragenden Authority Files und generiert `data/authority-index.json.gz` (~3 MB). Enthält Lemmata, Personen, Werke, Konzepte, Gattungen, Namen und Varianten. `contributors.xml` (8. Authority-File seit 2026-04-14) wird bewusst **nicht** indiziert — es ist Projekt-interne Editor-Attribution, kein Suchinhalt.
 
 ### `build-corpus-index.py`
-Parst alle TEI-Dateien in `tei/` und generiert `data/corpus-index.json.gz` (~40 MB, v4.1.x). Extrahiert Lemma-Positionen, Wortzählung und Metadaten.
+Parst alle TEI-Dateien in `tei/` und generiert `data/corpus-index.json.gz` (~42 MB). Extrahiert Lemma-Positionen, Wortzählung und Metadaten. Die aktuelle Index-Version steht im `'version'`-Literal des Skripts und in `docs/TEI-MODEL.md` §11, nicht hier: zwei Stellen halten sich in Sync, drei driften.
 
 ### `build-pages.py`
 Injiziert die geteilte Navigation + Footer + Matomo-Snippet aus `includes/_nav.html` / `includes/_footer.html` / `includes/_matomo.html` in die Marker-Regionen (`NAV:START`/`FOOTER:START`/`MATOMO:START`) der Seiten. Idempotent; `{{ROOT}}`-Token wird pro Seitentiefe ersetzt; aktive Nav-Seite bekommt `aria-current="page"`. Zwei Seitenlisten: `PAGES` bekommt die volle Chrome (Nav+Footer+Matomo); `MATOMO_PAGES` (Standalone-Seiten mit eigenem Layout wie `api/index.html`, `404.html`) bekommt nur das Matomo-Snippet vor `</head>`, ohne Header/Footer anzufassen. `--check` ist ein Drift-Gate (exit 1 bei Out-of-Sync, keine Writes). Nach Änderung an `includes/` ausführen — nicht die Seiten direkt editieren.
@@ -97,7 +98,7 @@ Injiziert die geteilte Navigation + Footer + Matomo-Snippet aus `includes/_nav.h
 Validiert Struktur und Integrität der generierten Index-Dateien.
 
 ### `mhg_normalizer.py`
-Mittelhochdeutsche Textnormalisierung (â→a, ê→e, ä→a, ö→o, ü→u, ʒ→z, ſ→s). **Muss identische Ergebnisse liefern wie die JS-Version** (`assets/js/lib/text-normalizer.js`).
+Mittelhochdeutsche Textnormalisierung in fünf Schritten: NFC-Komposition (#224), Kleinschreibung, Länge zu Kürze (â→a, ê→e, î→i, ô→o, û→u samt der Makron-Varianten ā ē ī ō ū), Umlaute zu **Digraphen** (ä→ae, ö→oe, ü→ue, dazu die Breve-Umlaute der Wenzelsbibel ŏ→oe, ŭ→ue), Ligaturen (æ→ae, œ→oe) und ǒ→o. **Muss identische Ergebnisse liefern wie die JS-Version** (`assets/js/lib/text-normalizer.js`); verbindlich ist Contract A in `docs/CONTRACTS.md`, diese Zeile ist die Kurzfassung.
 
 ## audit/ — Korpus- & Authority-Analyse
 
@@ -150,15 +151,25 @@ Originales Transformationsscript aus dem `initial-data-wrangling`-Branch (~2000 
 
 ## Verwendung
 
+**Der verbindliche Ablauf nach einer Änderung in `tei/` oder `authority-files/` steht in [`docs/DATA-MODEL.md` → Data-Change-Lifecycle](../docs/DATA-MODEL.md#data-change-lifecycle)**, samt Routing-Tabelle (welche Schritte der konkrete Fall überhaupt braucht) und der Angabe, welche davon die CI abfängt. Die Zeilen hier sind die Aufrufe, nicht das Verfahren: wer nur sie liest, vergisst den Versions-Bump und `api/`, und die Suche liefert dann bis zu 30 Tage lang den alten Stand aus dem IndexedDB-Cache.
+
 ```bash
-# Indexes neu bauen (nach Änderungen an TEI/Authority Files)
-python scripts/build-authority-index.py
+# Nach Aenderung in tei/, vollstaendiger Fall, Reihenfolge zaehlt
+# 1. Version bumpen (build-*-index.py + assets/js/lib/corpus-loader.js), dann:
+python scripts/audit/check-index-versions.py
 python scripts/build-corpus-index.py
+python scripts/sync/extract-variants.py --apply     # nur bei neuen Formen
+python scripts/build-authority-index.py             # nur nach --apply
+python scripts/build-api.py
+python scripts/audit/check-authority-cross-refs.py --check
 
-# Indexes validieren
+# Nach Aenderung in authority-files/
+# 1. Version bumpen, dann:
+python scripts/build-authority-index.py
+python scripts/build-api.py
+
+# Indexe validieren, Korpus gegen Schema validieren
 python scripts/validate-indices.py
-
-# Korpus gegen Schema validieren
 python scripts/audit/validate-corpus.py
 
 # Zotero-Sync (immer erst --dry-run)
@@ -172,5 +183,6 @@ python scripts/sync/sync_tei_headers.py --works
 
 - **Immer `--dry-run` zuerst** bei sync-Scripts
 - **`git diff` prüfen** nach jeder Transformation
-- **Indexes neu bauen** nach Änderungen an TEI oder Authority Files
-- **Archived Scripts nicht ausführen** — einzelne Funktionen bei Bedarf extrahieren
+- **Den Lifecycle abarbeiten, nicht nur die Indexe neu bauen**: Bump und `api/` gehören dazu, und beide fallen ohne CI erst beim Nutzer auf
+- **Im Zweifel bauen**: seit #125 sind die Builds deterministisch, ein Lauf ohne Quelländerung erzeugt keinen Diff
+- **Archived Scripts nicht ausführen**, bei Bedarf einzelne Funktionen extrahieren

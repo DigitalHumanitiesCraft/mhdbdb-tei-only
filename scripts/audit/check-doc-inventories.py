@@ -1,18 +1,28 @@
 #!/usr/bin/env python3
 """
-Inventar-Gate für docs/DEVELOPMENT.md: jede Datei eines Verzeichnisses steht in
-der zugehörigen Tabelle, und die Tabelle nennt keine Datei, die es nicht gibt.
+Inventar-Gate: jede Datei eines Verzeichnisses steht in der zugehörigen
+Aufstellung, und die Aufstellung nennt keine Datei, die es nicht gibt.
 
-Zwei Inventare, beide in derselben Datei:
+Drei Inventare in zwei Dateien:
 
     ### Test File Inventory      <-  testing/tests/     (Playwright-Specs)
     ### Audit Scripts Reference  <-  scripts/audit/     (Diagnosen und Gates)
+    ## Verzeichnisstruktur       <-  scripts/ und die drei flachen Unterordner
+                                     audit/, sync/, _archived/ (scripts/README.md)
 
 Anlass war #329: die Spec-Tabelle listete 20 von 30 Dateien, zusammen 86 der
 276 Tests. Beim Nachziehen zeigte der Review, dass die Skript-Tabelle zwei
 Abschnitte tiefer denselben Zustand hatte, 11 von 22, darunter zwei aktive
 CI-Gates. Deshalb ist das Skript nicht auf Specs zugeschnitten: der Drift-Typ
 ist der Tabelle egal.
+
+Das dritte Inventar kam am 2026-08-06 dazu, aus genau demselben Befund eine
+Ebene weiter. `scripts/audit/check-file-sizes.py` (#350) stand in
+DEVELOPMENT.md und im Workflow, aber nicht im Verzeichnisbaum von
+scripts/README.md: 24 gelistet, 25 vorhanden. Zwei Inventare derselben Sache,
+eines gegatet und eines nicht, ist die Konstellation, aus der still ein
+falscher zweiter Katalog wird, und der ungegatete gewinnt, weil er näher am
+Code liegt und deshalb zuerst gelesen wird.
 
 Er fällt nicht auf, weil sein Veralten nichts kaputt macht. Genau das ist der
 Grund, ihn zu gaten: die Tabellen sind der einzige Ort, an dem steht, WOFÜR
@@ -56,6 +66,7 @@ if sys.stdout.encoding and sys.stdout.encoding.lower() not in ('utf-8', 'utf8'):
 
 REPO = Path(__file__).resolve().parents[2]
 DOC = REPO / 'docs' / 'DEVELOPMENT.md'
+BAUM_DOC = REPO / 'scripts' / 'README.md'
 
 
 class Inventar:
@@ -75,9 +86,10 @@ class Inventar:
     vor, und die Alternative wäre, solche Namen stillschweigend zu übergehen.
     """
 
-    def __init__(self, titel, verzeichnis, endung, was, wozu):
+    def __init__(self, titel, verzeichnis, endung, was, wozu, doc=DOC):
         self.titel = titel
         self.verzeichnis = REPO / verzeichnis
+        self.doc = doc
         self.was = was
         self.wozu = wozu
         # Geklammert eingesetzt, nicht roh. Die zwei heutigen Fragmente sind
@@ -93,6 +105,7 @@ class Inventar:
         # äußere Klammer, weil sie zuerst öffnet: auch dann stabil, wenn ein
         # künftiges Fragment eigene Gruppen mitbringt.
         self.zeile = re.compile(r'^\|\s*`?([^|`]+?' + muster + r')`?\s*\|')
+        self.muster = muster
 
     def im_dateisystem(self) -> set:
         """Bezeichner ist der Pfad relativ zum Verzeichnis. Solange dieses flach
@@ -102,10 +115,68 @@ class Inventar:
                 for p in self.verzeichnis.rglob('*')
                 if p.is_file() and self.endung.search(p.name)}
 
+    def bereich(self, text: str) -> str:
+        return abschnitt(text, self.titel, self.doc.name)
+
     def in_tabelle(self, abschnitt_text: str) -> set:
         return {m.group(1)
                 for m in (self.zeile.match(z) for z in abschnitt_text.splitlines())
                 if m}
+
+
+class BaumInventar(Inventar):
+    """Ein Verzeichnisbaum in einem Code-Block statt einer Markdown-Tabelle.
+
+    Zwei Unterschiede zur Tabellenfassung, beide erzwungen durch die Form:
+
+    Der Abschnitt ist der Code-Block selbst, nicht der Text um ihn herum. Das
+    ist das Gegenteil dessen, was `abschnitt()` tut, und aus demselben Grund
+    richtig: dort sind die Blöcke Beispiele und dürfen nicht zählen, hier IST
+    der Block das Inventar. Ein Name in der Prosa darunter zählt bewusst nicht,
+    sonst wäre eine Datei gelistet, weil sie irgendwo erwähnt wird.
+
+    Und der Baum listet mehrere flache Verzeichnisse mit blossem Dateinamen,
+    ohne Pfad. Deshalb wird nicht rekursiv gescannt: `_archived/wzb/` und die
+    sechs `ingest/`-Ordner stehen im Baum als Ordner und fuehren ihre Dateien
+    absichtlich nicht einzeln auf. Kollidieren zwei Basisnamen ueber die
+    Verzeichnisse hinweg, kann der Baum sie nicht auseinanderhalten; dann ist
+    das Gate rot, statt einen der beiden stillschweigend als abgedeckt zu
+    zaehlen. Heute kollidiert keiner, und genau deshalb faellt es sonst nie auf.
+    """
+
+    def __init__(self, titel, verzeichnisse, endung, was, wozu, doc):
+        super().__init__(titel, verzeichnisse[0], endung, was, wozu, doc)
+        self.verzeichnisse = [REPO / v for v in verzeichnisse]
+        # Alles vor dem Kommentar, am Zeilenende verankert: so zaehlt weder ein
+        # Dateiname im Kommentar noch ein Ordner-Eintrag (`ingest/`).
+        self.eintrag = re.compile(r'([^\s│├└─/]+' + self.muster + r')$')
+
+    def im_dateisystem(self) -> set:
+        namen = {}
+        for verzeichnis in self.verzeichnisse:
+            for p in sorted(verzeichnis.glob('*')):
+                if p.is_file() and self.endung.search(p.name):
+                    namen.setdefault(p.name, []).append(
+                        p.relative_to(REPO).as_posix())
+        doppelt = {n: pfade for n, pfade in namen.items() if len(pfade) > 1}
+        if doppelt:
+            raise SystemExit(
+                'FEHLER: gleicher Dateiname in mehreren Verzeichnissen, der '
+                'Baum kann sie nicht unterscheiden: '
+                + '; '.join(f'{n} ({", ".join(p)})' for n, p in sorted(doppelt.items()))
+            )
+        return set(namen)
+
+    def bereich(self, text: str) -> str:
+        return codeblock(text, self.titel, self.doc.name)
+
+    def in_tabelle(self, abschnitt_text: str) -> set:
+        namen = set()
+        for zeile in abschnitt_text.splitlines():
+            treffer = self.eintrag.search(zeile.split('#', 1)[0].rstrip())
+            if treffer:
+                namen.add(treffer.group(1))
+        return namen
 
 
 INVENTARE = [
@@ -122,10 +193,20 @@ INVENTARE = [
              r'\.py',
              'Skripte in scripts/audit/',
              'einen Satz, was das Skript tut, und ob ein Workflow es ruft'),
+    # Der Baum fuehrt Python und Node gemeinsam: `run-tests.js` und
+    # `build-corpus-index.py` stehen als Nachbarn darin, und eine Endung, die
+    # nur eines von beiden kennt, liesse die Haelfte des Wurzelverzeichnisses
+    # ungeprueft.
+    BaumInventar('## Verzeichnisstruktur',
+                 ('scripts', 'scripts/audit', 'scripts/sync', 'scripts/_archived'),
+                 r'\.py|\.js',
+                 'Skripte in scripts/ und den drei flachen Unterordnern',
+                 'die Zeile im Baum, mit einem Kommentar, wofuer das Skript da ist',
+                 BAUM_DOC),
 ]
 
 
-def abschnitt(text: str, titel: str) -> str:
+def abschnitt(text: str, titel: str, doc_name: str = DOC.name) -> str:
     """Der Bereich unter einer Überschrift bis zur nächsten derselben oder einer
     höheren Ebene.
 
@@ -185,7 +266,7 @@ def abschnitt(text: str, titel: str) -> str:
         start = ausserhalb.index(titel)
     except ValueError:
         raise SystemExit(
-            f'FEHLER: Überschrift "{titel}" steht nicht in {DOC.name} '
+            f'FEHLER: Überschrift "{titel}" steht nicht in {doc_name} '
             '(außerhalb eines Codeblocks). Wurde sie umbenannt? '
             'Dann INVENTARE hier mitziehen.'
         )
@@ -198,13 +279,109 @@ def abschnitt(text: str, titel: str) -> str:
     return '\n'.join(behalten)
 
 
+def codeblock(text: str, titel: str, doc_name: str) -> str:
+    """Der erste Code-Block unter einer Überschrift, ohne die Fence-Zeilen.
+
+    Die genaue Umkehrung von `abschnitt()`, und aus demselben Grund richtig:
+    dort sind Blöcke Beispiele und dürfen nicht zählen, hier ist der Block das
+    Inventar und alles ausserhalb ist Prosa. Beide Fassungen nebeneinander sind
+    kein Widerspruch, sondern der Unterschied zwischen einer Tabelle, die im
+    Text steht, und einem Baum, der nur als Block darstellbar ist.
+
+    Die Überschrift wird nur ausserhalb einer Fence gesucht, sonst begönne der
+    Block an einem Beispiel. Verschachtelte Marker gelten wie oben als Inhalt,
+    nicht als Umschalter.
+
+    Fail-closed in allen drei Fehlerlagen, mit unterscheidbaren Meldungen:
+    Überschrift weg, kein Block darunter, Block nicht geschlossen. Ein leeres
+    Ergebnis zurückzugeben hiesse, jede Datei des Verzeichnisses als fehlend zu
+    melden, statt zu sagen, dass die Aufstellung nicht gefunden wurde.
+    """
+    fence = re.compile(r'^\s*(`{3,}|~{3,})')
+    offen = None
+    nach_titel = False
+    inhalt = None
+
+    for zeile in text.splitlines():
+        treffer = fence.match(zeile)
+        if treffer:
+            marker = (treffer.group(1)[0], len(treffer.group(1)))
+            if offen is None:
+                offen = marker
+                if nach_titel and inhalt is None:
+                    inhalt = []
+                continue
+            if marker[0] == offen[0] and marker[1] >= offen[1]:
+                offen = None
+                if inhalt is not None:
+                    return '\n'.join(inhalt)
+                continue
+            # Ein andersartiger oder kürzerer Marker im Block ist Inhalt.
+        if offen is None:
+            if zeile == titel:
+                nach_titel = True
+        elif inhalt is not None:
+            inhalt.append(zeile)
+
+    if not nach_titel:
+        raise SystemExit(
+            f'FEHLER: Überschrift "{titel}" steht nicht in {doc_name} '
+            '(außerhalb eines Codeblocks). Wurde sie umbenannt? '
+            'Dann INVENTARE hier mitziehen.'
+        )
+    if inhalt is None:
+        raise SystemExit(
+            f'FEHLER: unter "{titel}" in {doc_name} steht kein Code-Block. '
+            'Der Verzeichnisbaum ist das Inventar und muss einer sein.'
+        )
+    raise SystemExit(
+        f'FEHLER: der Code-Block unter "{titel}" in {doc_name} ist nicht '
+        'geschlossen.'
+    )
+
+
 def pruefe(vorhanden: set, gelistet: set) -> tuple:
     """(fehlt in der Tabelle, in der Tabelle ohne Datei)"""
     return sorted(vorhanden - gelistet), sorted(gelistet - vorhanden)
 
 
+def _wirft(fn) -> bool:
+    """Wirft der Aufruf SystemExit? Die Fail-closed-Lagen werden belegt und
+    nicht zugesichert: eine Meldung, die niemand ausgelöst hat, ist eine
+    Behauptung."""
+    try:
+        fn()
+    except SystemExit:
+        return True
+    return False
+
+
 def selbsttest() -> int:
-    spec, skript = INVENTARE
+    spec, skript, baum = INVENTARE
+
+    baum_doc = (
+        'Vorspann.\n'
+        '\n'
+        f'{baum.titel}\n'
+        '\n'
+        '```\n'
+        'scripts/\n'
+        '├── build-api.py                 # Statische JSON-API (#45)\n'
+        '├── run-tests.js                 # Wrapper fuer npm test\n'
+        '│\n'
+        '├── ingest/                      # Korpus-Ingest je Vorhaben\n'
+        '│   └── wzb/                     # Wenzelsbibel\n'
+        '│\n'
+        '├── audit/\n'
+        '│   ├── check-no-cdn.py          # ein Gate\n'
+        '│   └── lexicon-baseline.json    # Referenzmenge, keine Datei mit Endung\n'
+        '│\n'
+        '└── _archived/                   # Referenz, nicht ausfuehren\n'
+        '    └── tei-transformation.py    # Original-Migration\n'
+        '```\n'
+        '\n'
+        'Prosa darunter nennt phantom.py, das zaehlt nicht als gelistet.\n'
+    )
 
     tabelle = (
         f'{spec.titel}\n'
@@ -332,6 +509,73 @@ def selbsttest() -> int:
              '````\n'
              '| `richtig.spec.js` | X | die echte Tabelle |\n',
              spec.titel)) == {'richtig.spec.js'}),
+        # --- Baum-Inventar: der Block IST das Inventar -------------------
+        ('Baum: Eintraege mit Baumglyphen werden erkannt, .py und .js',
+         baum.in_tabelle(codeblock(baum_doc, baum.titel, 'test.md'))
+         == {'build-api.py', 'run-tests.js', 'check-no-cdn.py',
+             'tei-transformation.py'}),
+        # Die Kehrseite von abschnitt(): dort ist der Block Beispiel und zaehlt
+        # nicht, hier ist alles ausserhalb Prosa und zaehlt nicht.
+        ('Baum: Nennung in der Prosa unter dem Block zaehlt nicht',
+         'phantom.py' not in baum.in_tabelle(
+             codeblock(baum_doc, baum.titel, 'test.md'))),
+        ('Baum: Ordner-Eintrag zaehlt nicht',
+         baum.in_tabelle('├── ingest/    # Korpus-Ingest') == set()),
+        ('Baum: Dateiname im Kommentar zaehlt nicht',
+         baum.in_tabelle('├── run-tests.js   # ersetzt run-old.py') == {'run-tests.js'}),
+        ('Baum: andere Endungen zaehlen nicht',
+         baum.in_tabelle('│   └── lexicon-baseline.json  # X') == set()
+         and baum.in_tabelle('│   └── TEXT_DATA_TABLE.xlsx  # X') == set()),
+        ('Baum: fehlende Datei wird gemeldet',
+         pruefe({'build-api.py', 'neu.py'},
+                baum.in_tabelle(codeblock(baum_doc, baum.titel, 'test.md')))[0]
+         == ['neu.py']),
+        ('Baum: geloeschte Datei wird als verwaist gemeldet',
+         pruefe({'build-api.py'},
+                baum.in_tabelle('├── build-api.py\n├── weg.py'))[1] == ['weg.py']),
+        ('Baum: eine Ueberschrift im Codeblock beginnt den Block nicht',
+         baum.in_tabelle(codeblock(
+             '```markdown\n'
+             f'{baum.titel}\n'
+             '├── falsch.py   # nur ein Beispiel\n'
+             '```\n'
+             '\n'
+             f'{baum.titel}\n'
+             '```\n'
+             '├── richtig.py  # der echte Baum\n'
+             '```\n',
+             baum.titel, 'test.md')) == {'richtig.py'}),
+        ('Baum: verschachtelte Fences beenden den Block nicht',
+         baum.in_tabelle(codeblock(
+             f'{baum.titel}\n'
+             '~~~\n'
+             '├── a.py\n'
+             '```\n'
+             '├── b.py\n'
+             '```\n'
+             '├── c.py\n'
+             '~~~\n'
+             '├── danach.py  # ausserhalb\n',
+             baum.titel, 'test.md')) == {'a.py', 'b.py', 'c.py'}),
+        # Fail-closed, jede Lage mit eigener Meldung: sonst meldete das Gate
+        # nach einer Umbenennung jede Datei einzeln als fehlend.
+        ('Baum: fehlende Ueberschrift ist ein Fehler, kein leeres Ergebnis',
+         _wirft(lambda: codeblock('nur Prosa\n', baum.titel, 'test.md'))),
+        ('Baum: Ueberschrift ohne Block ist ein Fehler',
+         _wirft(lambda: codeblock(f'{baum.titel}\nnur Prosa\n', baum.titel, 'test.md'))),
+        ('Baum: nicht geschlossener Block ist ein Fehler',
+         _wirft(lambda: codeblock(f'{baum.titel}\n```\n├── a.py\n', baum.titel, 'test.md'))),
+        # Der Baum fuehrt blosse Dateinamen. Zwei gleiche Namen in zwei
+        # Verzeichnissen waeren im Set eine Datei, und die zweite gaelte
+        # stillschweigend als abgedeckt: Fail-open. Dasselbe Verzeichnis
+        # zweimal ist der billigste echte Fall dieser Lage.
+        ('Baum: kollidierende Basisnamen sind ein Fehler',
+         _wirft(lambda: BaumInventar(
+             '### X', ('scripts/audit', 'scripts/audit'), r'\.py',
+             'x', 'y', BAUM_DOC).im_dateisystem())),
+        ('Baum: scannt nicht rekursiv (ingest/ und _archived/wzb/ bleiben aussen)',
+         'wzb_roman.py' not in baum.im_dateisystem()
+         and 'wzb-fix-pronoun-in.py' not in baum.im_dateisystem()),
     ]
 
     for name, ok in faelle:
@@ -354,24 +598,26 @@ def main() -> int:
     if args.selftest:
         return selbsttest()
 
-    text = DOC.read_text(encoding='utf-8')
-    drift = False
+    quelle = {}
+    drift = set()
 
     for inv in INVENTARE:
+        if inv.doc not in quelle:
+            quelle[inv.doc] = inv.doc.read_text(encoding='utf-8')
         vorhanden = inv.im_dateisystem()
-        gelistet = inv.in_tabelle(abschnitt(text, inv.titel))
+        gelistet = inv.in_tabelle(inv.bereich(quelle[inv.doc]))
         fehlen, verwaist = pruefe(vorhanden, gelistet)
 
-        print(f'{inv.titel[4:]}: {len(vorhanden)} {inv.was}, '
-              f'{len(gelistet)} in der Tabelle')
+        print(f'{inv.titel.lstrip("#").strip()}: {len(vorhanden)} {inv.was}, '
+              f'{len(gelistet)} in {inv.doc.name}')
 
         if fehlen:
-            drift = True
-            print(f'  Fehlt in der Tabelle ({len(fehlen)}):')
+            drift.add(inv.doc)
+            print(f'  Fehlt in der Aufstellung ({len(fehlen)}):')
             for name in fehlen:
                 print(f'    {name}')
         if verwaist:
-            drift = True
+            drift.add(inv.doc)
             print(f'  Genannt, aber nicht vorhanden ({len(verwaist)}):')
             for name in verwaist:
                 print(f'    {name}')
@@ -379,7 +625,8 @@ def main() -> int:
             print(f'  Nachzutragen ist: {inv.wozu}.')
 
     if drift:
-        print(f'\nBitte {DOC.relative_to(REPO).as_posix()} nachziehen.')
+        for doc in sorted(drift):
+            print(f'\nBitte {doc.relative_to(REPO).as_posix()} nachziehen.')
         return 1
 
     print('Keine Drift.')
