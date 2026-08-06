@@ -30,7 +30,7 @@ Hier in `ingest/ari/` bleiben sie als **dokumentierter Zwischenstand**: Stage-0-
 
 `ingest/<sigle>/` ist der Top-Level-Ordner für Source-Daten und Pipeline-Artefakte pro Korpus. Pipeline-Skripte leben unter `scripts/ingest/<sigle>/`. Konvention seit 2026-05-08.
 
-**Wenzelsbibel** liegt aktuell noch unter `Wenzelsbibel/` im Repo-Root (historisch gewachsen, ~20 WZB-Skripte mit hardgecodeten Pfaden). Refactor zu `ingest/wzb/` ist Folge-Task.
+**Wenzelsbibel** folgt der Konvention seit dem 2026-07-14 (#219): Rohdaten und Entscheidungs-Artefakte in [`ingest/wzb/`](../wzb/), Pipeline-Skripte in [`scripts/ingest/wzb/`](../../scripts/ingest/wzb/). Bis dahin lag beides unter `Wenzelsbibel/` im Repo-Root.
 
 ## Wann nach `tei/` umziehen
 

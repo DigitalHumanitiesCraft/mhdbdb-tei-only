@@ -153,7 +153,7 @@ Das Repository enthält vorgebaute, komprimierte Indizes für schnelles Laden:
 | **naming-index.json.gz** | Kuratierte Figurenbezeichnungen (Naming-Analysis, Beta); nur für den Figurenbezeichnungs-Explorer im Playground |
 
 **Eigenschaften:**
-- Komprimiertes JSON-Format (gzip) reduziert die Download-Größe deutlich (Authority ~3 MB, Korpus ~41 MB, Naming ~0,1 MB)
+- Komprimiertes JSON-Format (gzip) reduziert die Download-Größe deutlich (Authority ~3 MB, Korpus ~42 MB, Naming ~0,1 MB)
 - IndexedDB-Cache mit automatischem Ablauf
 - Kein XML-Parsing-Overhead im Browser
 

@@ -27,16 +27,17 @@ Mediävist:innen haben kein flexibles, exploratives Tool, um ihre TEI-Textkorpor
 
 ### Search & Analysis
 
-**Authority Files Exploration (6 search types):**
+**Authority Files Exploration (6 explorers):**
 1. **Autoren** - Search by name with MHG character normalization
 2. **Werke** - Multi-field search across title, author, sigle
-3. **Lemmata** - Lexicon search with orthographic variant support (175,910 variants)
+3. **Lemmata** - Lexicon search with orthographic variant support
 4. **Begriffe** - Semantic concept taxonomy (DE/EN)
 5. **Gattungen** - Literary genre classification
 6. **Namen** - Proper names with semantic relations
 
-**TEI Text Analysis:**
-7. **Multi-Lemma-Suche** - Find one or more lemmata across the corpus (document, proximity or verse mode)
+**TEI Text Analysis (12 tools):** from the multi-lemma search with proximity analysis to the rhyme dictionary and the verse-ending profile.
+
+The list of tools is deliberately **not repeated here**. It already lives in [FEATURES.md](../docs/FEATURES.md), with counts, examples and issue references, and every new tool would otherwise have to be entered in a fourth place. This section carried exactly one of the twelve until 2026-08-06, which is what a duplicated catalog looks like once nobody keeps it in step. The modules themselves are the ground truth: one file per tool in `playground/js/ui/tei/`, one per explorer in `playground/js/ui/authority/`.
 
 ### MHG Character Normalization
 
@@ -46,14 +47,16 @@ All searches (except XPath) support automatic normalization of Middle High Germa
 - **Umlauts:** ä→ae, ö→oe, ü→ue
 - **Ligatures:** æ→ae, œ→oe
 
-**Example:** Searching "brot" finds "brôt", "brott", "brot" and all 50 attested variants.
+**Example:** Searching "brot" also finds "brôt" and the other attested spellings of the same lemma.
 
 ### Orthographic Variants
 
-**175,910 variant forms** extracted from the corpus and indexed in `variants.xml`:
+Variant forms are extracted from the corpus and indexed in `variants.xml`:
 - Enables fuzzy orthographic matching
-- 3-stage resolution: lexicon exact → variants exact → partial fallback
+- 3-stage resolution: lexicon exact → variants exact → prefix fallback
 - Supports medieval spelling variation (e.g., "vriunt" = "vrîunt" = "vrivnt")
+
+**No count is given here on purpose.** There are two of them and they measure different things: the raw `<form>` elements in `variants.xml` and the normalized mappings in the authority index, the latter markedly fewer. Both are correct, neither may be quoted for the other, and both change with every re-annotation. The measured values live in [CONTRACTS.md §C](../docs/CONTRACTS.md) and in [DATA-MODEL.md](../docs/DATA-MODEL.md), where `doc-count-audit.py` keeps them honest. The figure that stood here until 2026-08-06 matched neither of the two.
 
 ## Research Questions Supported
 
@@ -102,17 +105,15 @@ npm run test:debug    # Debug mode
 npm run report
 ```
 
-### Test Coverage
+### Tests
 
-- **24 tests** validating core functionality
-- **14 tests** validating search normalization
-- **92.9% pass rate** (13/14 normalization tests passed)
+The suite is repo-wide, not per sub-app: `npm test` from the repository root, and the VERDICT line it prints is the result. The spec inventory with one line per file is in [DEVELOPMENT.md](../docs/DEVELOPMENT.md) and gated against `testing/tests/`, so it cannot quietly go stale the way the count that stood here did.
 
 ## Architecture
 
 ### Core Classes
 
-- **`MHDBDBPlayground`** (main.js) - Main application controller
+- **`MHDBDBPlayground`** (`playground-main.js`) - Main application controller
 - **`AuthorityFilesManager`** - Authority file loading and parsing
 - **`TEIFilesManager`** - Multi-lemma search over the pre-built corpus index
 
@@ -124,7 +125,7 @@ npm run report
 
 ### Utilities
 
-- **`TextNormalizer.js`** - Centralized MHG character normalization
+- **`text-normalizer.js`** (`assets/js/lib/`) - Centralized MHG character normalization, shared with the main site and mirrored in `scripts/mhg_normalizer.py` (CONTRACTS.md Contract A)
 
 ### Data Flow
 
@@ -148,7 +149,7 @@ npm run report
 **Must-Have Features (All Implemented):**
 - ✅ F1: TEI corpus loading from pre-built index (drag & drop upload UI was removed in the current redesign)
 - ✅ F2: Data structure overview (statistics, browsers)
-- ✅ F3: Explorative query engine (11 search types)
+- ✅ F3: Explorative query engine (6 authority explorers plus 12 TEI tools)
 - ✅ F4: Contextual results (snippets, metadata, cross-refs)
 - ✅ F5: 3-panel desktop layout
 - ✅ F6: XPath power-user interface
@@ -170,7 +171,6 @@ npm run report
 - **Normalization:** 0.003ms per operation
 - **IndexedDB:** Korpus- und Authority-Index über den gemeinsamen `CorpusLoader` (`MHDBDBMainSite`); der frühere Upload-Store ist mit #314 weg
 - **Caching:** 30-day expiration for authority files
-- **Test suite:** ~23 seconds for 38 tests
 
 ## Open Problems & Future Work
 

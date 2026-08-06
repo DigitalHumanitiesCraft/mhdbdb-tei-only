@@ -65,6 +65,35 @@ isStage3Match('minneclich', 'minnecl'); // true (Lemma beginnt mit der Eingabe)
 isStage3Match('mi', 'minnecl');         // false (zu kurz für die Rückrichtung)
 ```
 
+### `escape.js`
+HTML- und Attribut-Escaping für Hauptseite und Lemma-Seiten. Escaped auch Anführungszeichen, weil die Werte in Attribut-Kontexte interpoliert werden (`href="..."`) und der frühere textContent-Trick dort einen Attribute-Breakout offenließ (Review zu PR #157). Die Playground-TEI-Module halten nach dokumentierter Konvention eigene Kopien (DESIGN.md, Playground TEI-Analysis Module Pattern).
+
+**Exports:**
+- `escapeHtml(text)` → String (`& < > " '`, `null` und `undefined` werden zu `''`)
+
+**Usage:**
+```javascript
+import { escapeHtml } from '../../lib/escape.js';
+
+escapeHtml('Wolfram <von> "Eschenbach"');
+```
+
+### `woerterbuchnetz.js`
+Abfrage der fünf Wörterbücher des Trierer Wörterbuchnetzes für das Metadaten-Panel der Leseansicht. Vertrag und Parsing-Weg stehen in CONTRACTS.md §D.2.
+
+**Exports:**
+- `DICTIONARIES` → `['MWB', 'Lexer', 'LexerN', 'BMZ', 'FindeB']`
+- `DICTIONARY_TITLES`, `dictionaryTitle(sigle)` → Klarnamen zur Sigle
+- `decodeHtmlEntities(str)` → String
+- `fetchWbnetzEntries(normalizedForm)` → Promise mit den Treffern je Wörterbuch
+
+**Usage:**
+```javascript
+import { fetchWbnetzEntries } from '../../lib/woerterbuchnetz.js';
+
+const treffer = await fetchWbnetzEntries('brot');
+```
+
 ## Design Principles
 
 1. **DRY (Don't Repeat Yourself)**: All shared code lives here

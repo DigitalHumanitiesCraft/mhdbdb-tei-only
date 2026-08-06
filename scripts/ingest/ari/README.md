@@ -19,7 +19,10 @@ Die kleinste der sechs Handschriften (München, Universitätsbibliothek, 8 Cod.m
 | Kein xml-model PI | `mhdbdb.rng` + `tei_all.rng` PIs | Festes Pattern |
 | `<TEI xml:id>` fehlt | `<TEI xml:id="{SIGLE}">` | aus `--sigle`-Argument |
 
-### Pending Decision PD-001 (offen, blockiert Stage-2-PASS)
+### Pending Decision PD-001 (entschieden am 2026-05-08, siehe unten)
+
+> Der Befund unten ist der Stand **vor** der Entscheidung und bleibt als Begründung stehen. Seit der Schema-Erweiterung validieren alle sechs Handschriften gegen `mhdbdb.rng`; was daraus wurde, steht im Abschnitt „PD-001 entschieden" am Ende dieser Datei.
+
 
 Fünf Element-/Attributklassen in Carinas Daten sind nicht im aktuellen MHDBDB-Schema. Sie wurden bewusst **stehengelassen**, damit der Befund den Entscheidungs-Hebel für [`docs/DECISIONS.md § PD-001`](../../../docs/DECISIONS.md) liefert:
 
@@ -55,8 +58,10 @@ PYTHONIOENCODING=utf-8 python scripts/ingest/ari/01-convert-original-to-mhdbdb.p
     --sigle ARI_MUE279 \
     --title-de "Muenchen, Universitaetsbibliothek, 8 Cod.ms. 279" \
     --source-url https://gams.uni-graz.at/o:arithmetic.mue279 \
-    --output tei/ARI_MUE279.tei.xml
+    --output ingest/ari/ARI_MUE279.tei.xml
 ```
+
+Das Ziel ist `ingest/ari/`, nicht `tei/`, solange die Header Platzhalter tragen (`work_TBD`, `genre_TBD`). In `tei/` würde `build-corpus-index.py` sie mitsamt den Platzhaltern indizieren und die Cross-Ref-Prüfung ins Leere laufen lassen; die Begründung steht in [`ingest/ari/README.md`](../../../ingest/ari/README.md), dort auch die Schritte für den Umzug.
 
 ### Stage 1 — PD-001 entscheiden, dann Phase 1+2 (geplant)
 

@@ -96,7 +96,7 @@ TEI [@xml:id = Sigle]
 ```
 
 - `@lemmaRef` — Verweis auf den Lexikoneintrag (Authority File)
-- `@pos` — POS-Tag aus dem MHDBDB-Tagset (siehe `docs/TEI-MODEL.md` Abschnitt 5); zusammengesetzte Tags mit Leerzeichen getrennt (`VEM PRO`)
+- `@pos`: POS-Tag aus dem MHDBDB-Tagset (kanonisch: [`docs/POS-TAGSET.md`](../docs/POS-TAGSET.md), seit 2026-06-17 die einzige Quelle dafür); zusammengesetzte Tags mit Leerzeichen getrennt (`VEM PRO`)
 - `@ana` — Verweis auf Bedeutung/Konzept (semantische Annotation)
 - `@corresp` — Verweis auf orthographischen Variantentyp
 - `@reason` — Zerlegung bei zusammengesetzten POS-Tags (`wilt+du`)
@@ -115,7 +115,7 @@ works.xml#work_89                  — Werk
 genres.xml#genre_aaa               — Gattungskategorie
 ```
 
-†`parallel` kennzeichnet Parallelüberlieferung (derselbe Text in verschiedenen Handschriften). Verwendet in 4 Dateien: BRW, DL1, DL2, PKP.
+†`parallel` kennzeichnet Parallelüberlieferung (derselbe Text in verschiedenen Handschriften). Verwendet in 7 Dateien (Stand 2026-08-06): FR3 mit 36 Vorkommen, dazu DL2 und PKP mit je 4, BRW 3, DL1 2, DES2 und DJEM je 1. Die 36 in FR3 sind mit #236 entstanden, als die beim Ingest verlorene Ebene aus dem Legacy-Linecode rekonstruiert wurde.
 
 ## Authority-Files-Schema (`mhdbdb-authority.rnc`)
 
@@ -123,11 +123,11 @@ Für die 8 XML-Dateien in `authority-files/`, die als kontrollierte Vokabulare d
 
 | Datei | Inhalt | Body-Struktur |
 |-------|--------|---------------|
-| `lexicon.xml` | 43.750 Lemmata mit Bedeutungen | `<div>/<entry>` |
-| `variants.xml` | 192.472 Wortformen (39.282 Lemma-Gruppen) | `<div>/<entry>/<form>` |
+| `lexicon.xml` | 43.879 Lemmata mit Bedeutungen | `<div>/<entry>` |
+| `variants.xml` | 256.760 Wortformen (42.627 Lemma-Gruppen) | `<div>/<entry>/<form>` |
 | `persons.xml` | 211 Personen (Autoren, Herausgeber) | `<listPerson>/<person>` |
-| `works.xml` | 583 Werke mit bibliographischen Daten | `<listBibl>/<bibl>` |
-| `contributors.xml` | 51 MHDBDB-Mitwirkende + 2 Organisationen | `<listOrg>` + `<listPerson>` |
+| `works.xml` | 584 Werke mit bibliographischen Daten | `<listBibl>/<bibl>` |
+| `contributors.xml` | 52 MHDBDB-Mitwirkende + 2 Organisationen | `<listOrg>` + `<listPerson>` |
 | `concepts.xml` | 567 semantische Konzepte | `<taxonomy>` in `<encodingDesc>` |
 | `genres.xml` | 615 Gattungskategorien (hierarchisch) | `<taxonomy>` in `<encodingDesc>` |
 | `names.xml` | 90 mittelalterliche Namensformen | `<taxonomy>` in `<encodingDesc>` |

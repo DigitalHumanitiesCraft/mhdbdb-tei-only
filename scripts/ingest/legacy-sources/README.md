@@ -4,7 +4,7 @@ Skripte zu [Issue #248](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-onl
 Sie erzeugen [`sources/`](../../../sources/): die codierten Legacy-Ingest-Dateien plus das
 Inventar des Quellarchivs.
 
-> **Laufen nicht in CI.** Die Skripte brauchen Lesezugriff auf ein lokales, 8 GB großes Archiv,
+> **Laufen nicht in CI.** Die Skripte brauchen Lesezugriff auf ein lokales, 9,1 GB großes Archiv,
 > das bewusst nicht im Repo liegt. Sie sind hier, damit `sources/` reproduzierbar und der Weg
 > dorthin prüfbar ist, nicht als Teil eines Builds.
 
