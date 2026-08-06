@@ -33,13 +33,15 @@ Technical contracts that bind Python (build-time) and JavaScript (runtime) toget
 | 3 | | ü | ue | `/ü/g` | `.replace('ü','ue')` |
 | 3 | Breve-Umlaute (WZB, #224) | ŏ | oe | `/ŏ/g` | `.replace('ŏ','oe')` |
 | 3 | | ŭ | ue | `/ŭ/g` | `.replace('ŭ','ue')` |
+| 3 | Breve als Schreibkonvention (WZB, ADR-017) | w + U+0306 | w | `/w̆/g` | `.replace('w̆','w')` |
+| 3 | | n + U+0306 | n | `/n̆/g` | `.replace('n̆','n')` |
 | 4 | Ligatures | æ | ae | `/æ/g` | `.replace('æ','ae')` |
 | 4 | | œ | oe | `/œ/g` | `.replace('œ','oe')` |
 | 5 | Special | ǒ | o | `/ǒ/g` | `.replace('ǒ','o')` |
 
 ### Test Cases
 
-These 23 cases must pass in both languages (the `None` case is Python-only, so the JS list has 22). Source: `scripts/mhg_normalizer.py` → `TEST_CASES`, mirrored in `testing/tests/normalization-parity.spec.js`
+These 26 cases must pass in both languages (the `None` case is Python-only, so the JS list has 25). Source: `scripts/mhg_normalizer.py` → `TEST_CASES`, mirrored in `testing/tests/normalization-parity.spec.js`
 
 | Input | Expected | Why |
 |-------|----------|-----|
@@ -64,6 +66,9 @@ These 23 cases must pass in both languages (the `None` case is Python-only, so t
 | `bo` + U+0306 + `ses` | `boeses` | The reported case: breve, step 0 composes to ŏ, step 3 resolves it (#224) |
 | `bŏses` | `boeses` | same, already precomposed |
 | `wŭnschet` | `wuenschet` | ŭ → ue |
+| `few` + U+0306 + `er` | `fewer` | Breve on `w` is stripped, not expanded (ADR-017); resolves to `lemma_7108` (`viur`) |
+| `wenn` + U+0306 | `wenn` | same on `n`; resolves to `lemma_7385` (`wan`) |
+| `Ew` + U+0306 + `er` | `ewer` | same with an uppercase letter, so step 1 has to run first |
 | `''` | `''` | Empty string |
 | `None`/`null` | `''` | Null handling |
 
@@ -77,7 +82,11 @@ An „ö" can be encoded as a single character (U+00F6) or as `o` plus a combini
 
 Decomposed forms arise when copying from macOS sources and from some edition databases, so they are ordinary user input.
 
-**Breve instead of diaeresis (WZB, #224).** The Wenzelsbibel writes umlauts with a breve: the corpus token `bo` + U+0306 + `ses` carries a `lemmaRef` to `lemma_788` (`bœse`), `scho` + U+0306 + `ne` to `lemma_5280` (`schœne`), and `wŭnschet` is `wünschet`. Attested on 469 lemmatized WZB tokens. Hence `ŏ` → `oe` and `ŭ` → `ue` in step 3. Breves on other base characters stay untouched: 136 further WZB tokens (w 91, n 22, y 5, a 5, v 4, r 2, m 2, i 2, e 2, z 1). The reason is that they are not umlauts there (`hălses`, `nămen`, `geslăgen`, `schĕpfen`, `erschĭnen`), not a missing precomposed form: for `a`, `e` and `i` one exists (U+0103, U+0115, U+012D), and step 0 produces it. **Known remaining gap:** 64 of those 136 tokens are lemmatized (48 on `w`, 16 on `n`, e.g. `few̆er` → `viur`, `wenn̆` → `wan`) and stay unfindable when copy-pasted from the reading view. A rule for them would be an editorial decision about the Bohemian writing convention, not a technical one.
+**Breve instead of diaeresis (WZB, #224).** The Wenzelsbibel writes umlauts with a breve: the corpus token `bo` + U+0306 + `ses` carries a `lemmaRef` to `lemma_788` (`bœse`), `scho` + U+0306 + `ne` to `lemma_5280` (`schœne`), and `wŭnschet` is `wünschet`. Attested on 469 lemmatized WZB tokens. Hence `ŏ` → `oe` and `ŭ` → `ue` in step 3.
+
+**Breve as a writing convention on `w` and `n` (ADR-017).** On `w` (91 tokens) and `n` (22) the breve is not an umlaut sign but a Bohemian writing convention: `few̆er` stands for `viur`, `ew̆er` for `ir`, `wenn̆` for `wan`. It is therefore **stripped**, not expanded to a digraph. Julia Hintersteiner settled that as the WZB editor on 2026-08-06; until then it was open (#224) and the two rules did not exist. Since `w` + U+0306 and `n` + U+0306 have no precomposed form, step 0 leaves them standing, which is why not a single one of the 113 tokens was findable by typing the form. With the rules, 93 of them are, and for all four already lemmatized forms the resolution hits exactly the lemma the token itself carries.
+
+Breves on the remaining base characters stay untouched: 23 further WZB tokens (y 5, a 5, v 4, r 2, m 2, i 2, e 2, z 1). The reason is not a missing precomposed form (for `a`, `e` and `i` one exists, U+0103, U+0115, U+012D, and step 0 produces it) but that there are too few attestations and none of them lemmatized to derive a rule from: `hălses`, `nămen`, `geslăgen`, `schĕpfen`, `erschĭnen`.
 
 **Effect on the build side:** the step changes the output in exactly three places, because the authority files are otherwise NFC. Affected are the records with a decomposed ü in `persons.xml` and `works.xml`:
 

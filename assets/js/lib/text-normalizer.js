@@ -13,6 +13,7 @@
  * - Umlauts: ä→ae, ö→oe, ü→ue
  * - Ligatures: æ→ae, œ→oe
  * - Breve-Umlaute (Wenzelsbibel): ŏ→oe, ŭ→ue
+ * - Breve als böhmische Schreibkonvention (Wenzelsbibel): w̆→w, n̆→n
  * - Special characters: ǒ→o
  */
 export class TextNormalizer {
@@ -54,14 +55,27 @@ export class TextNormalizer {
             // schœne); von 469 lemmatisierten Breve-Tokens sitzen 405 auf
             // o/u. Steht nach .normalize('NFC'), weil das kombinierende
             // Breve dort zu U+014F/U+016D wird.
-            //
-            // Breve auf anderen Basiszeichen bleibt unangetastet (136 Tokens:
-            // w 91, n 22, y 5, a 5, v 4, r 2, m 2, i 2, e 2, z 1). Nicht weil
-            // die präkomponierte Form fehlte – für a/e/i gibt es sie –,
-            // sondern weil es dort keine Umlaute sind (hălses, nămen).
-            // Restlücke: 64 davon sind lemmatisiert, siehe ADR-016.
             .replace(/ŏ/g, 'oe')
             .replace(/ŭ/g, 'ue')
+            // Breve über w und n ist kein Umlautzeichen, sondern böhmische
+            // Schreibkonvention (few̆er = viur, ew̆er = ir, wenn̆ = wan).
+            // Es wird daher getilgt, nicht zu einem Digraphen aufgelöst
+            // (KZW/Julia 06.08., ADR-017). Betrifft 113 WZB-Tokens, davon 64
+            // lemmatisiert. Ohne die Regel war keines davon per Eingabe
+            // auffindbar, weil w+U+0306 und n+U+0306 keine präkomponierte
+            // Form haben und Schritt 0 sie deshalb stehen lässt.
+            // Steht nach ŏ/ŭ, damit die Reihenfolge der Umlautregeln
+            // unberührt bleibt; nach .toLowerCase(), damit auch W̆/N̆ greifen.
+            // Escapes statt Literale: ein kombinierendes Zeichen im Quelltext
+            // ist unsichtbar, und ein Editor mit Auto-Normalisierung könnte
+            // es still verändern.
+            .replace(/w\u0306/g, 'w')
+            .replace(/n\u0306/g, 'n')
+            // Breve auf den übrigen Basiszeichen bleibt unangetastet
+            // (23 Tokens: y 5, a 5, v 4, r 2, m 2, i 2, e 2, z 1). Nicht weil
+            // die präkomponierte Form fehlte, für a/e/i gibt es sie, sondern
+            // weil zu wenige und keine lemmatisierten Belege darunter sind,
+            // um eine Regel abzuleiten (hălses, nămen, schĕpfen).
             // Ligatures
             .replace(/æ/g, 'ae')
             .replace(/œ/g, 'oe')

@@ -44,6 +44,11 @@ const TEST_CASES = [
   { input: 'bo\u0306ses', expected: 'boeses' },   // zerlegt, NFC zieht zusammen
   { input: 'b\u014fses', expected: 'boeses' },    // praekomponiert
   { input: 'w\u016dnschet', expected: 'wuenschet' },
+  // Breve auf w/n ist böhmische Schreibkonvention, kein Umlaut: getilgt
+  // statt zu einem Digraphen aufgelöst (ADR-017, Julia 06.08.).
+  { input: 'few\u0306er', expected: 'fewer' },   // -> lemma_7108 viur
+  { input: 'wenn\u0306', expected: 'wenn' },     // -> lemma_7385 wan
+  { input: 'Ew\u0306er', expected: 'ewer' },     // Grossbuchstabe
   { input: '', expected: '' },
 ];
 

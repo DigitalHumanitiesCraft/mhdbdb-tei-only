@@ -31,6 +31,7 @@ def normalize_mhg(text):
     - Long vowels → short: â→a, ê→e, î→i, ô→o, û→u (and ā,ē,ī,ō,ū variants)
     - Umlauts → digraphs: ä→ae, ö→oe, ü→ue
     - Breve-Umlaute (WZB): ŏ→oe, ŭ→ue
+    - Breve als boehmische Schreibkonvention (WZB): w-breve→w, n-breve→n
     - Ligatures: æ→ae, œ→oe
     - Special: ǒ→o
     - Lowercase all
@@ -79,17 +80,30 @@ def normalize_mhg(text):
     # Von 469 lemmatisierten Breve-Tokens sitzen 405 auf o/u.
     # Greift nach Schritt 0, weil NFC das kombinierende Breve (U+0306) auf
     # o/u zu U+014F/U+016D zusammenzieht.
-    #
-    # Breve auf anderen Basiszeichen bleibt unangetastet (136 WZB-Tokens:
-    # w 91, n 22, y 5, a 5, v 4, r 2, m 2, i 2, e 2, z 1). Grund ist NICHT
-    # die fehlende praekomponierte Form - fuer a/e/i gibt es sie (U+0103,
-    # U+0115, U+012D) und Schritt 0 erzeugt sie auch. Grund ist, dass es
-    # dort keine Umlaute sind: halses, namen, geslagen, schepfen, erschinen.
-    # Bekannte Restluecke, siehe ADR-016: 64 dieser 136 Tokens sind
-    # lemmatisiert (48 auf w, 16 auf n) und bleiben per Copy-Paste aus der
-    # Leseansicht unauffindbar.
     normalized = normalized.replace('ŏ', 'oe')
     normalized = normalized.replace('ŭ', 'ue')
+
+    # Breve ueber w und n ist kein Umlautzeichen, sondern boehmische
+    # Schreibkonvention (few-breve-er = viur, ew-breve-er = ir,
+    # wenn-breve = wan). Es wird daher getilgt statt zu einem Digraphen
+    # aufgeloest (editorische Entscheidung Julia/KZW 06.08., ADR-017).
+    # Betrifft 113 WZB-Tokens, davon 64 lemmatisiert. Ohne die Regel war
+    # keines davon per Eingabe auffindbar: w+U+0306 und n+U+0306 haben keine
+    # praekomponierte Form, Schritt 0 laesst sie deshalb stehen.
+    # Steht nach o/u-Breve, damit die Reihenfolge der Umlautregeln unberuehrt
+    # bleibt, und nach Schritt 1, damit auch Grossbuchstaben greifen.
+    # Escapes statt Literale: ein kombinierendes Zeichen im Quelltext ist
+    # unsichtbar und ein Editor mit Auto-Normalisierung koennte es still
+    # veraendern.
+    normalized = normalized.replace('w\u0306', 'w')
+    normalized = normalized.replace('n\u0306', 'n')
+
+    # Breve auf den uebrigen Basiszeichen bleibt unangetastet (23 WZB-Tokens:
+    # y 5, a 5, v 4, r 2, m 2, i 2, e 2, z 1). Grund ist NICHT die fehlende
+    # praekomponierte Form - fuer a/e/i gibt es sie (U+0103, U+0115, U+012D)
+    # und Schritt 0 erzeugt sie auch. Grund ist, dass es zu wenige Belege sind
+    # und keiner davon lemmatisiert ist: halses, namen, geslagen, schepfen,
+    # erschinen.
 
     # Step 4: Ligatures
     normalized = normalized.replace('æ', 'ae')
@@ -131,6 +145,11 @@ TEST_CASES = [
     ('bo\u0306ses', 'boeses'),     # zerlegt: NFC zieht zu o-Breve zusammen
     ('b\u014fses', 'boeses'),      # praekomponiert
     ('w\u016dnschet', 'wuenschet'),
+    # Breve auf w/n ist boehmische Schreibkonvention, kein Umlaut: getilgt
+    # statt zu einem Digraphen aufgeloest (ADR-017).
+    ('few\u0306er', 'fewer'),    # -> lemma_7108 viur
+    ('wenn\u0306', 'wenn'),      # -> lemma_7385 wan
+    ('Ew\u0306er', 'ewer'),      # Grossbuchstabe, Schritt 1 greift zuerst
     ('', ''),
     (None, ''),
 ]
