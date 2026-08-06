@@ -270,6 +270,17 @@ DOC_TARGETS = [
     # Groesse bezieht, kann ein Ziffern-Scan nicht wissen. Genau daran ist
     # #279 aufgefallen, und zwar per Hand, nicht per Gate.
     ('README.md', ['corpus_files', 'lexicon_entries']),
+    # schema/README.md mit #356. Die Datei fuehrt die Bestandstabelle der acht
+    # Authority Files ein zweites Mal, stand aber in keiner Target-Liste: am
+    # 2026-08-06 waren fuenf ihrer Zahlen veraltet (lexicon 43.750, variants
+    # 192.472 Formen und 39.282 Gruppen, works 583, contributors 51), waehrend
+    # dieselben Werte in den gegateten Dateien stimmten. Genau der Mechanismus,
+    # den dieses Skript verhindern soll, nur eine Datei ausserhalb seiner Liste.
+    # Die 2 Organisationen bleiben ungegatet: einstellige Zahlen liegen unter
+    # der Scan-Untergrenze, und ein Override darunter waere still wirkungslos.
+    ('schema/README.md', ['corpus_files', 'lexicon_entries', 'variants_forms',
+                          'variants_entries', 'works', 'persons', 'concepts',
+                          'genres', 'names', 'contributors_persons']),
     # index.html traegt den Stats-Block der Startseite (TEI-Texte, Lemmata,
     # rohe Varianten-Formen). Fehlte bis 2026-07-28 im Audit, deshalb blieb
     # dort 256.761 stehen, waehrend #138 alle anderen Seiten auf 256.760 zog.
@@ -307,6 +318,11 @@ CODE_DOC_TARGETS = [
     # ADR-002 haelt die Modulzahl (historisch markiert, siehe oben).
     ('docs/DECISIONS.md', ['ui_modules']),
     ('hilfe-playground.html', ['tei_tools', 'tei_tools_weitere', 'authority_explorers']),
+    # playground/readme.md mit #356. Die Datei fuehrte bis dahin genau EINES
+    # der zwoelf TEI-Werkzeuge auf und nannte an dritter Stelle "11 search
+    # types"; der Katalog ist jetzt ein Verweis auf FEATURES.md, die beiden
+    # Summen bleiben und werden deshalb hier gebunden.
+    ('playground/readme.md', ['tei_tools', 'authority_explorers']),
 ]
 
 NUMBER_WORDS = {
@@ -335,7 +351,10 @@ CODE_ANCHORS = {
     # "11 analysis modules" gehoeren zu pattern_modules und matchen hier
     # nicht, weil der Anker unmittelbar hinter der Zahl stehen muss.
     'ui_modules': r'(?:UI-)?[Mm]odule[ns]?\b',
-    'authority_explorers': r'(?:Authority-File-(?:Explorer|Einstiegspunkte)|Authority-Explorer)',
+    # Englische Variante mit #356, aus demselben Grund wie bei
+    # 'pattern_modules': playground/readme.md ist englisch geschrieben und
+    # haette mit den deutschen Alternativen allein keine Bindung.
+    'authority_explorers': r'(?:Authority-File-(?:Explorer|Einstiegspunkte)|Authority-Explorer|[Aa]uthority(?:[- ][Ff]ile)?[- ][Ee]xplorers?)',
     'entry_points': r'(?:[Ss]earch\s+)?[Ee]ntry\s+[Pp]oints',
 }
 
@@ -398,7 +417,10 @@ NEAR_KEYWORDS = {
     # ("43,879 entries"). Das Drift-Fenster verwirft die zwar (+-852 um
     # 42.627), die Anker-Abdeckungspruefung kennt es aber nicht und meldete
     # den INTENTIONALLY_SILENT-Eintrag der Datei faelschlich als veraltet.
-    'variants_entries': r'(?:Variant|Eintr[äa]ge|[Vv]ariant\s+entries)',
+    # "Lemma-Gruppen" mit #356: schema/README.md nennt die Eintragszahl so,
+    # und der Anker muss unmittelbar hinter der Zahl stehen. Zusammengesetzt
+    # und deshalb kollisionsfrei zu 'lexicon_entries'.
+    'variants_entries': r'(?:Variant|Eintr[äa]ge|[Vv]ariant\s+entries|Lemma-Gruppen)',
     # Satzanfang und Karten-Labels schreiben das Adjektiv gross
     # ("Orthographische Varianten" im Stats-Block der Startseite); ohne
     # die Grossschreib-Variante lief der Anker dort ins Leere und
@@ -412,7 +434,10 @@ NEAR_KEYWORDS = {
     # macht die zwei zusammengesetzten Varianten nicht ueberfluessig: ANCHOR_SEP
     # laesst zwischen Zahl und Anker kein Wort zu, "256,760 variant forms"
     # braucht also weiterhin seine eigene Alternative.
-    'variants_forms': r'(?:Formen|[Oo]rthographische\w*\s+Varianten|(?:[Vv]ariant|[Rr]aw)\s+forms|[Ff]orms)',
+    # "Wortformen" mit #356 (schema/README.md). Das blanke "Formen" traegt
+    # es nicht: ANCHOR_SEP laesst zwischen Zahl und Anker kein Wort und auch
+    # keinen Wortbestandteil zu, der Anker beginnt also am W.
+    'variants_forms': r'(?:Formen|Wortformen|[Oo]rthographische\w*\s+Varianten|(?:[Vv]ariant|[Rr]aw)\s+forms|[Ff]orms)',
     # #276 Luecke 3: CONTRACTS.md fuehrt die deduplizierte Zahl als
     # "Varianten-Schluessel" (Schluessel der Runtime-Map). Ohne diese
     # Alternative blieb die Stelle jahrelang ungeprueft.
@@ -428,15 +453,22 @@ NEAR_KEYWORDS = {
     # "Kategorien"/"categories" ist fuer drei Keys derselbe Anker; getrennt
     # halten sie die Drift-Fenster (+-11 um 567, +-12 um 615, +-2 um 90).
     'persons': r'(?:Personen|[Pp]ersons)',
-    'concepts': r'(?:Konzepte|Begriffe|Kategorien|[Cc]ategories)',
-    'genres': r'(?:Gattungen|Kategorien|[Cc]ategories)',
-    'names': r'(?:Namen|Kategorien|[Cc]ategories)',
+    # Die drei zusammengesetzten Alternativen kamen mit #356 dazu, alle aus
+    # schema/README.md, alle so eng geschnitten, dass sie sich untereinander
+    # nicht treffen koennen: "semantische Konzepte" (567), "Gattungskategorien"
+    # (615), "Namensformen" (90). Das blanke "Kategorien" bleibt der geteilte
+    # Anker der drei Keys, auseinandergehalten von den Drift-Fenstern.
+    'concepts': r'(?:Konzepte|Begriffe|Kategorien|[Cc]ategories|semantische\s+Konzepte)',
+    'genres': r'(?:Gattungen|Kategorien|[Cc]ategories|Gattungskategorien)',
+    'names': r'(?:Namen|Kategorien|[Cc]ategories|Namensformen)',
     # Der Wert wurde schon berechnet, war aber in keinem DOC_TARGETS-Eintrag
     # eingetragen: docs/TEI-MODEL.md stand deshalb still auf 51, waehrend
     # TEI-MODEL-AUTH-FILES.md 52 fuehrte (#315 Punkt 4). Kollision mit dem
     # gleichnamigen Anker von 'persons' (211) gibt es nicht: das Drift-Fenster
     # ist +-2 um 52.
-    'contributors_persons': r'(?:Personen|[Pp]ersons)',
+    # "MHDBDB-Mitwirkende" mit #356 (schema/README.md). Praefix und Bindestrich
+    # machen die Alternative kollisionsfrei zu 'persons'.
+    'contributors_persons': r'(?:Personen|[Pp]ersons|MHDBDB-Mitwirkende)',
 }
 
 

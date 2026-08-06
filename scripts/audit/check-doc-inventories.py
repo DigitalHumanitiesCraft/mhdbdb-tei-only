@@ -67,6 +67,7 @@ if sys.stdout.encoding and sys.stdout.encoding.lower() not in ('utf-8', 'utf8'):
 REPO = Path(__file__).resolve().parents[2]
 DOC = REPO / 'docs' / 'DEVELOPMENT.md'
 BAUM_DOC = REPO / 'scripts' / 'README.md'
+LIB_DOC = REPO / 'assets' / 'js' / 'lib' / 'README.md'
 
 
 class Inventar:
@@ -179,6 +180,34 @@ class BaumInventar(Inventar):
         return namen
 
 
+class UeberschriftenInventar(Inventar):
+    """Ein flaches Verzeichnis, dessen Aufstellung aus Unterueberschriften
+    besteht statt aus Tabellenzeilen oder Baumzweigen.
+
+    So fuehrt assets/js/lib/README.md ihre Module: eine `###`-Ueberschrift je
+    Datei, darunter Exports und ein Anwendungsbeispiel. Am 2026-08-06 waren
+    vier der sechs Module beschrieben, womit die Datei ihr eigenes Design
+    Principle 4 verletzte („Each file has usage examples in this README").
+
+    Der Abschnitt ist die Prosa unter `## Files`, die Code-Bloecke darin sind
+    Beispiele und zaehlen nicht: eine `import`-Zeile nennt regelmaessig einen
+    anderen Modulnamen als die Ueberschrift, unter der sie steht.
+    """
+
+    def __init__(self, titel, verzeichnis, endung, was, wozu, doc):
+        super().__init__(titel, verzeichnis, endung, was, wozu, doc)
+        self.eintrag = re.compile(r'^#{3,}\s+`?([^\s`]+' + self.muster + r')`?\s*$')
+
+    def im_dateisystem(self) -> set:
+        return {p.name for p in self.verzeichnis.glob('*')
+                if p.is_file() and self.endung.search(p.name)}
+
+    def in_tabelle(self, abschnitt_text: str) -> set:
+        return {m.group(1)
+                for m in (self.eintrag.match(z) for z in abschnitt_text.splitlines())
+                if m}
+
+
 INVENTARE = [
     # Was Playwright tatsächlich einsammelt, nicht was heute zufällig dort
     # liegt: testing/playwright.config.js setzt nur testDir und kein testMatch,
@@ -203,6 +232,10 @@ INVENTARE = [
                  'Skripte in scripts/ und den drei flachen Unterordnern',
                  'die Zeile im Baum, mit einem Kommentar, wofuer das Skript da ist',
                  BAUM_DOC),
+    UeberschriftenInventar('## Files', 'assets/js/lib', r'\.js',
+                           'Module in assets/js/lib/',
+                           'eine ###-Ueberschrift mit Exports und Anwendungsbeispiel',
+                           LIB_DOC),
 ]
 
 
@@ -271,9 +304,18 @@ def abschnitt(text: str, titel: str, doc_name: str = DOC.name) -> str:
             'Dann INVENTARE hier mitziehen.'
         )
 
+    # Abgebrochen wird an der eigenen oder einer hoeheren Ebene, nie an einer
+    # tieferen. Fuer die beiden `###`-Inventare ist das dieselbe Menge wie die
+    # frueher feste Liste ('# ', '## ', '### '), der Selbsttest haelt das fest.
+    # Gebraucht wird der Unterschied erst von `## Files` in
+    # assets/js/lib/README.md, wo die `###`-Ueberschriften der Inhalt sind und
+    # ein Abbruch an ihnen den Abschnitt sofort nach der ersten leeren.
+    ebene = len(titel) - len(titel.lstrip('#'))
+    stopper = tuple('#' * n + ' ' for n in range(1, ebene + 1))
+
     behalten = []
     for zeile in ausserhalb[start + 1:]:
-        if zeile.startswith(('# ', '## ', '### ')):
+        if zeile.startswith(stopper):
             break
         behalten.append(zeile)
     return '\n'.join(behalten)
@@ -357,7 +399,25 @@ def _wirft(fn) -> bool:
 
 
 def selbsttest() -> int:
-    spec, skript, baum = INVENTARE
+    spec, skript, baum, lib = INVENTARE
+
+    lib_doc = (
+        f'{lib.titel}\n'
+        '\n'
+        '### `text-normalizer.js`\n'
+        'Beschreibung.\n'
+        '\n'
+        '```javascript\n'
+        "import { X } from '../../lib/anderes-modul.js';\n"
+        '```\n'
+        '\n'
+        '### `lemma-match.js`\n'
+        'Beschreibung.\n'
+        '\n'
+        '## Design Principles\n'
+        '\n'
+        '### `danach.js`\n'
+    )
 
     baum_doc = (
         'Vorspann.\n'
@@ -576,6 +636,42 @@ def selbsttest() -> int:
         ('Baum: scannt nicht rekursiv (ingest/ und _archived/wzb/ bleiben aussen)',
          'wzb_roman.py' not in baum.im_dateisystem()
          and 'wzb-fix-pronoun-in.py' not in baum.im_dateisystem()),
+        # --- Ueberschriften-Inventar: die Aufstellung sind die ### selbst ----
+        # Der Grund fuer die Ebenen-Verallgemeinerung in abschnitt(): mit der
+        # frueheren festen Stopper-Liste endete der Abschnitt an der ersten
+        # ###-Ueberschrift, also am ersten Eintrag, und das Inventar waere
+        # dauerhaft leer gewesen.
+        ('Ueberschriften: ein ##-Abschnitt behaelt seine ###-Eintraege',
+         lib.in_tabelle(abschnitt(lib_doc, lib.titel, 'test.md'))
+         == {'text-normalizer.js', 'lemma-match.js'}),
+        ('Ueberschriften: der Abschnitt endet an der naechsten ##-Ueberschrift',
+         'danach.js' not in lib.in_tabelle(abschnitt(lib_doc, lib.titel, 'test.md'))),
+        # Ein Anwendungsbeispiel nennt regelmaessig ein anderes Modul als die
+        # Ueberschrift, unter der es steht. Ohne den Codeblock-Skip zaehlte das.
+        ('Ueberschriften: ein Modulname im Beispielcode zaehlt nicht',
+         'anderes-modul.js' not in lib.in_tabelle(
+             abschnitt(lib_doc, lib.titel, 'test.md'))),
+        ('Ueberschriften: Backticks sind optional, Prosa zaehlt nicht',
+         lib.in_tabelle('### ohne-backticks.js') == {'ohne-backticks.js'}
+         and lib.in_tabelle('Siehe escape.js weiter unten.') == set()
+         and lib.in_tabelle('### `x.js` und noch etwas') == set()),
+        ('Ueberschriften: fehlende und verwaiste Module werden gemeldet',
+         pruefe({'text-normalizer.js', 'neu.js'},
+                lib.in_tabelle(abschnitt(lib_doc, lib.titel, 'test.md')))
+         == (['neu.js'], ['lemma-match.js'])),
+        # Die Ebenen-Verallgemeinerung darf an den beiden ###-Inventaren nichts
+        # aendern: dort ist die berechnete Stopper-Menge dieselbe wie die
+        # frueher fest verdrahtete, und eine ####-Zeile beendete den Abschnitt
+        # vorher wie nachher nicht.
+        ('Ebenen-Generalisierung laesst die ###-Inventare unveraendert',
+         spec.in_tabelle(abschnitt(
+             f'{spec.titel}\n'
+             '| `a.spec.js` | X | Y |\n'
+             '#### Unterabschnitt\n'
+             '| `b.spec.js` | X | Y |\n'
+             '### Naechster\n'
+             '| `c.spec.js` | X | Y |\n',
+             spec.titel)) == {'a.spec.js', 'b.spec.js'}),
     ]
 
     for name, ok in faelle:

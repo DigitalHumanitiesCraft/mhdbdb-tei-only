@@ -56,7 +56,7 @@ print('MHDBDB:', 'VALID' if mhdbdb.validate(tree) else mhdbdb.error_log)
 
 ## Korpus-Schema (`mhdbdb.rnc`)
 
-Für die 667 TEI-kodierten mittelhochdeutschen Texte in `tei/`.
+Für die 667 TEI-Texte in `tei/`, also das mittelhochdeutsche Korpus.
 
 ### Dokumentstruktur
 
@@ -130,7 +130,7 @@ Für die 8 XML-Dateien in `authority-files/`, die als kontrollierte Vokabulare d
 | `contributors.xml` | 52 MHDBDB-Mitwirkende + 2 Organisationen | `<listOrg>` + `<listPerson>` |
 | `concepts.xml` | 567 semantische Konzepte | `<taxonomy>` in `<encodingDesc>` |
 | `genres.xml` | 615 Gattungskategorien (hierarchisch) | `<taxonomy>` in `<encodingDesc>` |
-| `names.xml` | 90 mittelalterliche Namensformen | `<taxonomy>` in `<encodingDesc>` |
+| `names.xml` | 90 Namensformen des Mittelalters | `<taxonomy>` in `<encodingDesc>` |
 
 ### Identifier-Konventionen
 
