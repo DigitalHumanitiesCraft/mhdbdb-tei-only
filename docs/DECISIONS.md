@@ -1035,6 +1035,62 @@ The middle column belongs there, otherwise the top-1 jump reads as a thirtyfold 
 - **Measurement bias:** real stage-3 inputs are more often New High German words and typos than Middle High German inflected forms. The sample shows whether the fix costs recall, not how often stage 3 finds the right thing in everyday use.
 - **The authority index changes** (v1.6.1 → v1.6.2). Not because of the stage-3 rule, which is pure frontend, but because of step 0. Three records with a decomposed ü were unfindable through normalized search: `person_1052` (Hugo von Mühldorf), `person_1332` (Wachsmut von Mühlhausen) and `work_435`. Lemmata and variants are unchanged.
 - **The WZB ingest track gains as well, but has not been followed up yet.** `wzb-auto-match.py`, `wzb-sense-assign.py` and `wzb-sense-apply.py` normalize through the same function. **289 WZB `<w>` with an o/u breve still carry no `@lemmaRef`**, because the breve stopped the matcher. A re-run of the matcher under this rule will resolve some of them; that is backfill work on the data side and belongs in its own run, not in this frontend PR.
-- **The breve stays unsolved on 136 WZB tokens, 64 of them lemmatized.** The rule covers `ŏ` and `ŭ`, so 405 of the 469 lemmatized breve tokens. The rest sit on `w` (91 tokens, 48 lemmatized) and `n` (22, of those 16), plus single cases on y/a/v/r/m/i/e/z. There the breve is not an umlaut sign but a Bohemian writing convention: `few̆er` stands for `viur`, `ew̆er` for `ir`, `wenn̆` for `wan`. Anyone copying these forms out of the reading view still lands in the fallback. A rule for them would be an editorial decision about the WZB transcription, not a technical one, and therefore belongs to KZW, not in this ADR.
+- **The breve stays unsolved on 136 WZB tokens, 64 of them lemmatized.** The rule covers `ŏ` and `ŭ`, so 405 of the 469 lemmatized breve tokens. The rest sit on `w` (91 tokens, 48 lemmatized) and `n` (22, of those 16), plus single cases on y/a/v/r/m/i/e/z. There the breve is not an umlaut sign but a Bohemian writing convention: `few̆er` stands for `viur`, `ew̆er` for `ir`, `wenn̆` for `wan`. Anyone copying these forms out of the reading view still lands in the fallback. A rule for them would be an editorial decision about the WZB transcription, not a technical one, and therefore belongs to KZW, not in this ADR. (Decided on 2026-08-06 for the 113 tokens on `w` and `n`: the breve is stripped, see ADR-017. The 23 remaining tokens stay untouched.)
 - **The keyness column of the table view** (#114) uses the same `resolveLemmaIds` reference set. For stage-3 search terms the log-likelihood values therefore change, because the reference sum runs over fewer lemmata.
 - **The minimum length of 3 lets fragments through.** „heldentum" finds `hel` as its only hit, „treueschwur" finds `tre`. Consumers of `matches[0]` in the playground take that silently. It is better than the previous 14 random hits, but not a good result; raising the threshold would be the next adjustment if users complain.
+
+---
+
+## ADR-017: the breve over `w` and `n` is stripped, not expanded
+
+**Status:** Accepted (2026-08-06, in the course of #235 point 3; answers the question ADR-016 deferred)
+**Context:** editorial decision by Julia Hintersteiner as the WZB editor, measured against the built authority index.
+
+### Problem
+
+ADR-016 made the breve an umlaut sign for `ŏ` and `ŭ`, and explicitly left the remaining base characters open: „a rule for them would be an editorial decision about the WZB transcription, not a technical one, and therefore belongs to KZW, not in this ADR."
+
+The open remainder is not evenly spread. Of the 830 breve tokens in the Wenzelsbibel, 694 sit on o/u and are covered by ADR-016. Of the remaining 136, **113 sit on `w` (91) and `n` (22)**, and 64 of those carry a `@lemmaRef`. The other 23 are single cases across y/a/v/r/m/i/e/z, none of them lemmatized.
+
+On `w` and `n` the breve is not an umlaut sign. It is a Bohemian writing convention, and the annotation of the corpus says so itself: `few̆er` carries a `@lemmaRef` to `lemma_7108` (`viur`, fire), `ew̆er` to `lemma_56117` (`ir`), `wenn̆` to `lemma_7385` (`wan`). The base letter is what the word is built from; the breve says nothing about the vowel.
+
+Consequence before this decision: `w` + U+0306 and `n` + U+0306 have **no precomposed form**, so step 0 (NFC) leaves them standing and every later rule misses them. Measured against the built index with the three resolution stages of CONTRACTS §C, **11 of the 113 tokens were findable** by typing the form, all eleven only through the stage-3 fallback, and **not one of the 64 lemmatized ones**. Anyone copying such a form out of the reading view got the no-hit state for a word the corpus has annotated.
+
+### Options
+
+1. **Expand to a digraph, as with `ŏ`/`ŭ`.** Parallel to the existing rule, but wrong on the facts: there is no umlaut to resolve, and `weer`/`neer` matches nothing.
+2. **Strip the breve, keep the base letter.** Follows what the corpus annotation already assumes.
+3. **Leave the normalizer alone and fix it in the data:** write the breve forms into `variants.xml` as attested forms. Keeps the normalizer minimal.
+4. **Leave it open, and backfill `@lemmaRef` on the 49 unlemmatized tokens instead.** Helps the corpus, not the person typing the form.
+
+Chosen: **option 2.**
+
+Option 3 fails on the data: not one of the 113 tokens carries a `@corresp`, so none of them ever entered `variants.xml` (0 keys with a breve in the built map). Taking that path would mean inventing variant entries rather than deriving them from the corpus, against the rule that `variants.xml` is corpus-derived (CONTRACTS §F). Option 4 is orthogonal and stays open as backfill work in #235 point 3: it makes tokens findable **through** a lemma, this decision makes the typed form itself resolve, and 49 of the 113 tokens have no lemma to be found through.
+
+### Decision
+
+After the `ŏ`/`ŭ` rules, and after lowercasing, the normalizer removes the combining breve on `w` and `n` and keeps the base letter:
+
+```text
+w + U+0306 → w        n + U+0306 → n
+```
+
+Both places implement it with escapes rather than literals (`'w̆'`), because a combining mark in source code is invisible and an editor with automatic normalization could change it silently. The two rules stand in `assets/js/lib/text-normalizer.js` and `scripts/mhg_normalizer.py`, are contract A in CONTRACTS.md and are covered by three parity test cases (`few̆er`, `wenn̆`, and `Ew̆er` for the uppercase path).
+
+The breve on the remaining 23 tokens stays untouched. The reason is not a missing precomposed form (for a/e/i one exists and step 0 produces it), but that there are too few attestations and not one of them is lemmatized: `hălses`, `nămen`, `geslăgen`, `schĕpfen`, `erschĭnen`.
+
+### Consequences
+
+Measured with `scripts/mhg_normalizer.py` against `data/authority-index.json.gz`, over all 113 tokens, resolution through stages 1 to 3 as in CONTRACTS §C:
+
+| | findable | stage 1 | stage 2 | stage 3 | no hit |
+|---|---:|---:|---:|---:|---:|
+| before | 11 | 0 | 0 | 11 | 102 |
+| after | 100 | 0 | 93 | 7 | 13 |
+
+- **For all 64 lemmatized tokens the first hit is exactly the lemma the token itself carries.** No lemmatized token resolves to a different lemma, and none needs the ranking to get there.
+- **The resolution runs through stage 2, not stage 3**, because the same words are spelled without a breve elsewhere in the corpus and are in the variants map as `fewer`, `ewer`, `wenn`. The rule does not create a new match; it lets the WZB spelling reach one that already existed.
+- **Both indexes and the API stay byte-identical.** The rule changes the normalization of user input, and no authority record carries a breve on `w` or `n` (0 of 234,243 variant keys). Verified by a full rebuild on 2026-08-06: `build-corpus-index.py`, `build-authority-index.py`, `build-api.py`, no diff, hence no version bump (per the rule „do not set a bump without a change of content", DATA-MODEL.md).
+- **13 tokens in 10 forms still find nothing**, all of them unlemmatized and most of them compounds: `new̆komen` (4), plus `strew̆te`, `hew̆es`, `bow̆te`, `strew̆ende`, `vrew̆te`, `bow̆o`, `vngesow̆erteigtes`, `mow̆ern`, `gemaw̆erte`. They fail on the compound, not on the breve, and the word-component search (#239) is the path for them.
+- **The measuring rule matters more than the number.** „113 tokens" counts `<w>` elements whose NFD text contains `w` or `n` plus U+0306, in `tei/WZB.tei.xml`, `@lemmaRef` irrelevant. Counted after NFC, or per distinct form (40), or only for lemmatized tokens (64), the same fact yields a different number. This is the lesson of 2026-07-31: a number without its measuring rule gets falsified when someone „corrects" it.
+- **The reverse direction is not covered.** Typing `fewer` finds the lemma, and through the lemma the annotated tokens. It does not highlight the 49 unlemmatized breve tokens in the reading view; only a `@lemmaRef` does that. That is #235 point 3.
