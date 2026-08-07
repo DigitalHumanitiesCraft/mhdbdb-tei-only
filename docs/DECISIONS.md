@@ -1094,3 +1094,46 @@ Measured with `scripts/mhg_normalizer.py` against `data/authority-index.json.gz`
 - **13 tokens in 10 forms still find nothing**, all of them unlemmatized and most of them compounds: `new̆komen` (4), plus `strew̆te`, `hew̆es`, `bow̆te`, `strew̆ende`, `vrew̆te`, `bow̆o`, `vngesow̆erteigtes`, `mow̆ern`, `gemaw̆erte`. They fail on the compound, not on the breve, and the word-component search (#239) is the path for them.
 - **The measuring rule matters more than the number.** „113 tokens" counts `<w>` elements whose NFD text contains `w` or `n` plus U+0306, in `tei/WZB.tei.xml`, `@lemmaRef` irrelevant. Counted after NFC, or per distinct form (40), or only for lemmatized tokens (64), the same fact yields a different number. This is the lesson of 2026-07-31: a number without its measuring rule gets falsified when someone „corrects" it.
 - **The reverse direction is not covered.** Typing `fewer` finds the lemma, and through the lemma the annotated tokens. It does not highlight the 49 unlemmatized breve tokens in the reading view; only a `@lemmaRef` does that. That is #235 point 3.
+
+---
+
+## ADR-018: attribution of curated lemma statements stops at the data layer, for now
+
+**Status:** Accepted (2026-08-07, resolves #270 from the review of PR #268)
+**Context:** the curated productions in `lexicon.xml` carry a mandatory `@resp`, and no interface shows it.
+
+### Problem
+
+Since 2026-07-30 three optional productions in `lexicon.xml` hold curated prose: `<etym type="borrowing">`, `<def>` and `<note type="comment">` (TEI-MODEL-AUTH-FILES §3.1). All three carry `@resp` pointing at `contributors.xml#contrib_N`, required on both `<note>` types, with the stated reason that a comment without an author is not citable.
+
+The authority index transports the values (`origin.resp`, `senses[].definitionResp`, `senses[].commentResp`) and the API passes them on. Neither the lemma page nor the playground displays anything: `contributors.xml` is deliberately not part of the authority index, so the frontend cannot turn `contrib_003` into a name. The mandate therefore buys nothing a reader can see, which is the opposite of what it was written for.
+
+Measured against the built index (Authority Index v1.8.0, 2026-08-07): 43,879 lemmata, of which **1 carries `origin.resp`, 1 a `definitionResp` and 1 a `commentResp`**, all three on `lemma_37818` (`Abba`) and all three pointing at `contrib_003`. `contributors.xml` holds 52 persons and 2 organisations.
+
+### Options
+
+1. **A lean contributor map in the authority index.** ID plus display name for all 54 records. Measured: 1,719 bytes raw, **764 bytes gzipped**, against an index of 3.1 MB, so 0.02 percent. The interface can then draw the name. Costs an index bump across the five gated places, a new top-level key that becomes a promise to API consumers (CONTRACTS §G), and a renarration of the "seven of eight files are indexed" statement wherever it stands: INDEX.md, DATA-MODEL.md, CONTRACTS.md, RESEARCH.md, TEI-MODEL-AUTH-FILES.md, ADR-001 in this file, `README.md` (twice, and the table row on the index contents would become plain wrong), and `totalAuthorityFiles = 7` in `playground/js/ui/core/ui-helpers.js:516`, the counter KZW queried once in #105.
+2. **Resolve at build time and denormalize.** The build reads `contributors.xml` and writes the resolved display name next to each `*Resp`. No new collection, no scope change, no 7-against-8 renarration; the index keeps its shape and gains three optional strings, following the `altNames[]`/`altNormalized[]` pattern of index-parallel fields. Cost at scale is not measured, because the scale is set by #28 layer B and is not yet known.
+3. **Leave it on the data layer.** The status quo, documented in TEI-MODEL-AUTH-FILES §3.1 and CONTRACTS §G.3, but until now not justified there.
+
+Chosen: **option 3, for now**, with a named trigger. The choice between 1 and 2 is deliberately left open and belongs to whoever implements the trigger.
+
+### Decision
+
+The authority index stays at seven content-bearing files. Curated prose is displayed without an attribution until one of these two things happens:
+
+- **more than 25 lemmata carry a curated statement**, or
+- **#28 layer B writes origin data in bulk**, whichever comes first.
+
+**Cost is not the reason for waiting.** 764 bytes settle that, and the number stands here so nobody re-litigates it. Two other things are:
+
+- **At n=1 the display question cannot be answered honestly.** Where an attribution belongs on a scholarly lemma page, how it reads next to a source citation, and whether it appears in the playground at all, is a decision for KZW about a user-visible page, not one to derive from a single example.
+- **#28 layer B will not deliver what this issue assumes.** The phase plan (`docs/features/FREMDSPRACHEN-PHASENPLAN-28.md`, in the revision of 2026-07-29 that carries the layer A/B split) gives layer B "source language plus source of the attribution (Lexer/MWB/Kluge/LLM with a confidence value)". That source is bibliographic, not a person, and `contributors.xml` models neither dictionaries nor pipelines. So bulk origin data raises a second question, "who or what vouches for this", which `@resp` in its present form does not answer. Deciding the contributor map before that question would build the wrong resolution mechanism, and thousands of lemma pages reading "nach Katharina Zeppezauer-Wachauer" would be noise where "Lexer, accepted by the pipeline" is information.
+
+### Consequences
+
+- **The mandate on `@resp` stays, and stays without visible effect.** Accepted deliberately: the value is in the data and in the API, it is citable from there, and a required attribute is far cheaper to keep than to reintroduce later against existing entries. What is not acceptable is leaving it undated, hence the trigger.
+- **The 25-lemma threshold is a stop sign, not a target.** It is set low on purpose. Anyone who curates the 26th lemma without having settled the display question has taken the decision by omission.
+- **API consumers are unaffected.** No field is removed or changed. `*Resp` keeps carrying `contributors.xml#contrib_N` verbatim, and resolving it keeps needing the XML file. Both options 1 and 2 would be purely additive later.
+- **The audit gap stays open too.** That a `contrib_N` exists at all is checked only by `scripts/audit/audit-authority-files.py`, which does not run in CI, so a well-formed but unbacked ID validates green (TEI-MODEL-AUTH-FILES §3.1). At n=1 that is tolerable. It becomes a real gap at the same moment the trigger fires, and belongs to the same work package.
+- **The counting rule for the trigger:** entries in `lexicon.xml` carrying at least one `@resp` on `<etym type="borrowing">/<note>`, `<def>` or `<note type="comment">`. Measured on the built authority index as the number of lemma records with a non-empty `origin.resp`, `senses[].definitionResp` or `senses[].commentResp`. Today that is 1.

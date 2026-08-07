@@ -137,8 +137,12 @@ INTENTIONALLY_SILENT = {
         'nennt den Varianten-Mechanismus, nie die Zahl der Formen',
     ('docs/ARCHITECTURE.md', 'variants_normalized'):
         'nennt den Varianten-Mechanismus, nie die Zahl der Mappings',
-    ('docs/DECISIONS.md', 'lexicon_entries'):
-        'ADRs begruenden Entscheidungen; die Lexikongroesse fuehren TEI-MODEL und DATA-MODEL',
+    # ('docs/DECISIONS.md', 'lexicon_entries') stand hier bis 2026-08-07 mit der
+    # Begruendung "ADRs begruenden Entscheidungen; die Lexikongroesse fuehren
+    # TEI-MODEL und DATA-MODEL". ADR-018 nennt die Zahl jetzt selbst (als
+    # Nenner: 1 von 43.879 Lemmata ist kuratiert), also greift der Anker und
+    # die Ausnahme waere eine Luecke statt einer Feststellung. Die
+    # Selbstpruefung hat den Eintrag im selben Lauf als veraltet gemeldet.
     ('docs/DECISIONS.md', 'variants_normalized'):
         'ADR-015 nennt nur die historischen Formzahlen der Regenerierung, nie die Mappings',
     # Mit #316 dazu, und die Uebersetzung hat hier nichts kaputtgemacht,
