@@ -12,6 +12,17 @@ export class MultiLemmaSearchUI {
         this.lemmas = [];
         this.isOpen = false;
 
+        // Schreibform -> feste Lemma-ID (#58). Wer aus dem Lemmata-Explorer
+        // kommt, hat ein bestimmtes Lemma angeklickt; die Auflösung über die
+        // Schreibform nimmt dagegen matches[0]. Gemessen am 2026-08-07 über
+        // authority-files/lexicon.xml, gruppiert mit normalize_mhg() aus
+        // scripts/mhg_normalizer.py: 477 normalisierte Formen tragen mehr
+        // als einen Eintrag, zusammen 993 der 43.879 Lemmata (2,26 Prozent),
+        // darunter sin, wal, mal und de. Für die stünde hier sonst still ein
+        // anderes Lemma. Gefüllt wird die Map nur vom Router, nie von einer
+        // Handeingabe: siehe addLemmaFromInput.
+        this.lemmaIdHints = new Map();
+
         this.initializeElements();
         this.attachEventListeners();
     }
@@ -97,6 +108,7 @@ export class MultiLemmaSearchUI {
 
     reset() {
         this.lemmas = [];
+        this.lemmaIdHints.clear();
         this.lemmaInput.value = '';
         this.lemmaChips.innerHTML = '';
         this.executeBtn.disabled = true;
@@ -119,6 +131,11 @@ export class MultiLemmaSearchUI {
 
         terms.forEach(term => {
             if (term && !this.lemmas.includes(term)) {
+                // Eine Handeingabe ist eine Schreibform und sonst nichts. Trägt
+                // die Map noch einen Zeiger unter demselben Label (erst die
+                // Route, dann ein zweites Lemma von Hand), würde die Eingabe
+                // still die ID der Route erben.
+                this.lemmaIdHints.delete(term);
                 this.lemmas.push(term);
                 this.addLemmaChip(term);
             }
@@ -152,6 +169,7 @@ export class MultiLemmaSearchUI {
 
     removeLemma(lemma) {
         this.lemmas = this.lemmas.filter(l => l !== lemma);
+        this.lemmaIdHints.delete(lemma);
 
         // dataset comparison instead of a CSS selector: a lemma containing
         // quotes would throw in querySelector (#audit-66).
@@ -170,6 +188,37 @@ export class MultiLemmaSearchUI {
         this.executeBtn.disabled = this.lemmas.length === 0;
     }
 
+    /**
+     * Suchbegriffe zu Lemma-IDs auflösen, mit Vorrang für gesetzte Zeiger.
+     *
+     * Der einzige Unterschied zu `resolveLemmaIds` ist dieser Vorrang. Er muss
+     * an jeder Stelle gelten, die aus Begriffen IDs macht, auch in der
+     * Fehlerdiagnose weiter unten: sonst meldet die „kein Lemma gefunden"-Zeile
+     * einen Begriff als unauflösbar, dessen ID feststeht.
+     *
+     * `zeiger` wird ausdrücklich übergeben und nicht aus `this` gelesen.
+     * `executeSearch` schließt das Modal, bevor es auflöst, und `close()` leert
+     * über `reset()` auch diese Map: ein Zugriff auf `this.lemmaIdHints` fände
+     * hier also immer eine leere Map vor. Genau denselben Grund nennt der
+     * Kommentar an `searchTerms` schon für die Begriffsliste.
+     *
+     * Dedupliziert wie das Original, aus demselben Grund (siehe dort): zwei
+     * Eingaben auf derselben ID lassen die Nähesuche jede Fundstelle mit
+     * Abstand 0 melden.
+     *
+     * @param {string[]} terms
+     * @param {Map<string, string>} zeiger Schreibform -> feste Lemma-ID
+     * @returns {string[]} Lemma-IDs ohne `lemma_`-Präfix
+     */
+    resolveTerms(terms, zeiger) {
+        const ids = terms.flatMap(term =>
+            zeiger.has(term)
+                ? [zeiger.get(term)]
+                : this.teiExplorer.resolveLemmaIds([term])
+        );
+        return [...new Set(ids)];
+    }
+
     getSelectedSearchMode() {
         const selected = document.querySelector('input[name="searchMode"]:checked');
         return selected ? selected.value : 'proximity'; // v4.0.0: default to proximity
@@ -180,6 +229,18 @@ export class MultiLemmaSearchUI {
 
         const searchMode = this.getSelectedSearchMode();
         const searchTerms = [...this.lemmas]; // Create copy
+        // Aus demselben Grund kopiert wie die Begriffe eine Zeile darüber:
+        // close() setzt über reset() auch die Zeiger zurück (#58).
+        const zeiger = new Map(this.lemmaIdHints);
+        // Dritter Zustand mit demselben Problem, gefunden im Review zu #58 und
+        // älter als dieser PR: reset() stellt proximityDistance auf '10' zurück.
+        // Gelesen wurde der Wert bis dahin erst nach close(), also immer als 10.
+        // Wirkungslos waren dadurch der dist-Parameter der Route und der
+        // Beleg-Link des Kookkurrenz-Rankings, der die eingestellte
+        // Fenstergröße mitgibt und sie im Tooltip auch verspricht. Gemessen am
+        // 2026-08-07: dist=3, dist=10 und dist=25 lieferten denselben Kopf
+        // („max. 10 Wörter") und dieselben zwei Treffer.
+        const distanz = parseInt(this.proximityDistance.value) || 10;
 
         // Close modal first
         this.close();
@@ -229,7 +290,7 @@ export class MultiLemmaSearchUI {
 
         try {
             // Resolve lemma IDs
-            const lemmaIds = this.teiExplorer.resolveLemmaIds(searchTerms);
+            const lemmaIds = this.resolveTerms(searchTerms, zeiger);
 
             if (lemmaIds.length === 0) {
                 if (resultsContainer) {
@@ -257,7 +318,7 @@ export class MultiLemmaSearchUI {
                     // überhaupt nicht auflöst. Deshalb je Begriff einzeln
                     // nachfragen; das kostet nur in diesem Fehlerfall etwas.
                     const ohneTreffer = searchTerms.filter(
-                        t => this.teiExplorer.resolveLemmaIds([t]).length === 0
+                        t => this.resolveTerms([t], zeiger).length === 0
                     );
                     const grund = ohneTreffer.length > 0
                         ? `Kein Lemma gefunden für: ${ohneTreffer.map(t => this.escapeHtml(t)).join(', ')}.`
@@ -280,10 +341,9 @@ export class MultiLemmaSearchUI {
             // der catch unten zeigt das an.
             let results;
             if (searchMode === 'proximity') {
-                const maxDistance = parseInt(this.proximityDistance.value) || 10;
-                results = await teiManager.searchMultipleLemmasUsingIndex(lemmaIds, 'proximity', maxDistance);
+                results = await teiManager.searchMultipleLemmasUsingIndex(lemmaIds, 'proximity', distanz);
                 if (getNavigationEpoch() !== myEpoch) return;
-                this.teiExplorer.displayCooccurrenceResults(results, searchTerms, maxDistance, lemmaIds);
+                this.teiExplorer.displayCooccurrenceResults(results, searchTerms, distanz, lemmaIds);
             } else if (searchMode === 'verse') {
                 // #106 Punkt 8: Kookkurrenz auf ein gemeinsames <l> beschränkt
                 results = await teiManager.searchMultipleLemmasUsingIndex(lemmaIds, 'verse');

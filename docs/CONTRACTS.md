@@ -250,7 +250,7 @@ Validated on real corpus data: PL1 689 → 57, OVG 369 → 26 (matches the resul
 
 ## C. 3-Stage Lemma Resolution Algorithm
 
-**Contract:** Search resolves user input to lemma IDs through exactly 3 stages, in order, with early return.
+**Contract:** Search resolves user input to lemma IDs through exactly 3 stages, in order, with early return. One caller may skip all three: a component that already holds an exact lemma id can pin it (§C.1.1). That path exists in one place and nowhere else.
 
 **Why:** MHG has extensive orthographic variation. A single lemma can appear as dozens of attested forms. The 3-stage approach balances precision (exact first) with recall (fuzzy last).
 
@@ -336,6 +336,63 @@ User types: **brott**
 - **Two numbers that have to stay different:** 256,760 is the count of raw forms in `variants.xml`, 234,243 the count of mappings in the runtime dictionary after deduplication. Whoever writes "variants dictionary" means the smaller one. Whoever reads 234,244 is reading the state before #138 (§A, step 0)
 - **First occurrence wins** – if two lemmata claim the same variant form, only the first one stored (source: `parse_variants()` in `build-authority-index.py`, the `if normalized_variant not in variants` guard). Line anchors drift; look the function up by name
 - Keys are **normalized** forms (lowercase + MHG character mapping applied before storage)
+
+### C.1.1 Pinned resolution: a caller that already holds the id (#58)
+
+The three stages start from a written form. A caller coming from the lemma
+explorer has no written form to interpret, it has a lemma the user clicked.
+Handing over the label alone would send that click back through stage 1, where a
+homograph group returns `matches[0]`, which can be a different lemma than the one
+on screen.
+
+Measured on 2026-08-07 against `authority-files/lexicon.xml` (43,879 entries with a
+`form/orth`): 102 written forms carry more than one entry (216 lemmata), and after
+normalization 477 forms do (993 lemmata, 2.26 percent). `sin`, `wal`, `mal` and `de`
+are in that set. Counting rule, because the number depends on it: group by
+`normalize_mhg()` from `scripts/mhg_normalizer.py`, the canonical normalizer, not by a
+hand-written character map. A shorter map yields 475/988, and that is how the wrong
+pair got into the first draft of this section.
+
+The `ids` parameter of the `multi-lemma` route therefore pins the resolution.
+`MultiLemmaSearchUI.lemmaIdHints` maps written form to id, and `resolveTerms()`
+consults it before falling through to `resolveLemmaIds()`. Four properties keep
+this from becoming a second resolution path:
+
+- **Only the router fills the map.** `addLemmaFromInput()` deletes any pin under
+  the same label, so a hand-typed term is always a written form and nothing else.
+- **Position is the whole contract, with one limit.** `lemmata` and `ids` are paired
+  by index before empty terms are dropped, so `lemmata=a,,b&ids=1,2,3` does not shift
+  `2` onto `b`. Empty and non-numeric entries, and terms without a counterpart, fall
+  back to the three stages. The limit: the map is keyed by written form, so two
+  identical labels with different ids (`lemmata=arm,arm&ids=285,286`) collapse onto the
+  last one. No producer emits that, and the chip list would show the same word twice;
+  pinning both members of a homograph group in one query needs a different carrier.
+- **The error path uses the same predicate.** The "no lemma found" diagnosis calls
+  `resolveTerms()` too, otherwise it would report a term as unresolvable whose id
+  is fixed.
+- **The pins are copied before the modal closes.** `executeSearch()` snapshots
+  them next to `searchTerms`, because `close()` runs `reset()`, which clears the
+  map. Reading `this.lemmaIdHints` at resolution time would always find it empty:
+  the pin would be silently ignored and every hand-over would fall back to the
+  written form, which is exactly the bug the parameter exists to prevent.
+
+**The copy-before-close rule is older than the pin and covers every piece of modal
+state `executeSearch()` still needs after `close()`.** As of 2026-08-07 that is four:
+`searchMode`, `searchTerms`, `zeiger` and `distanz`. The last one was found by the
+review of #58 and had been broken for longer: `reset()` sets `proximityDistance` back
+to `'10'`, and the distance was read after `close()`. Measured before the fix, the
+route calls with `dist=3`, `dist=10` and `dist=25` all produced the same header
+("max. 10 Wörter") and the same hits, so the `dist` parameter and the "Belege" link of
+the co-occurrence ranking (which passes the selected window and names it in its
+tooltip) were both inert. Whoever adds a fifth piece of state to this modal copies it
+in the same place; the test that guards this uses a distance other than 10, because
+`dist=10` is green either way.
+
+Stages 1 to 3 are untouched (ADR-016 stands); this sits in front of them. Two
+other producers of `#multi-lemma&lemmata=...` do **not** pin yet and still resolve
+by written form: `cooccurrence-ranking.js` (the "Belege" link) and
+`sendWordComponentSelection()` in the lemma explorer. Any claim that the hand-over
+is id-exact holds for the explorer button only.
 
 ---
 

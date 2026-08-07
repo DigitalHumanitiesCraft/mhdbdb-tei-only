@@ -153,7 +153,7 @@ Browse and search six controlled vocabularies with consistent interface patterns
 - Search by lemma (normalized MHG)
 - Display: Lemma, POS, sense count, etymology, full sense definitions with concepts
 - Lemma titles link to persistent lemma pages (`/lemma/{id}`)
-- Action: Search lemma in corpus
+- Action „Belege suchen" (#58): hands that lemma to the multi-lemma search in document mode, with its id pinned via the `ids` route parameter, so a homograph group cannot swap the lemma on the way. Both render paths carry the button, which is why they share one `lemmaItemButtons()`
 
 *Wortbestandteil suchen* (#239, word-component search for compounds):
 - Searches the lemma list, not the corpus: the result is a vocabulary survey, not a concordance
@@ -312,6 +312,7 @@ All playground views are bookmarkable and shareable via hash-based URLs.
 - Search state preserved via `q` parameter (e.g., `#lemmata&q=minne`)
 - Detail drill-down via `show` parameter
 - Multi-lemma search fully serialized: `#multi-lemma&lemmata=minne,êre&mode=proximity&dist=10`
+- Optional `ids`, paired positionally with `lemmata`, pins the resolution to exact lemma ids instead of deriving them from the written forms (#58): `#multi-lemma&lemmata=minne&ids=4130&mode=document`. The lemma explorer sets it, hand-typed terms never carry one
 - Sharing a URL reproduces the exact view state
 
 ### Search Normalization

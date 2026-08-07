@@ -286,11 +286,14 @@ Each explorer follows consistent pattern:
 | `q` | All authority views | Auto-fills search input and triggers search |
 | `show` | All authority views | Expands detail panel for the given item ID |
 | `lemmata` | `multi-lemma` only | Comma-separated lemma terms |
+| `ids` | `multi-lemma` only | Optional, paired positionally with `lemmata`: the exact lemma id for that term, which pins the resolution instead of deriving it from the written form again (#58). Empty or non-numeric entries, and terms without a counterpart, fall back to the normal 3-stage resolution (CONTRACTS §C) |
 | `mode` | `multi-lemma` | `proximity` (default), `document` or `verse` (same-verse search, #106 item 8); source `router.js`, `handleMultiLemmaRoute()` |
 | `mode` | `lemmata` | `component` opens the word-component search (#239); the mode forces the search-input interface even without `q` |
 | `dist` | `multi-lemma` only | Max word distance (integer) |
 
 **Example:** `#multi-lemma&lemmata=minne,êre&mode=proximity&dist=10`
+
+**Example with a pinned id (#58):** `#multi-lemma&lemmata=minne&ids=4130&mode=document`
 
 **Core functions:**
 

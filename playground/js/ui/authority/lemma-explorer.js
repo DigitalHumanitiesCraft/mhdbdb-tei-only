@@ -12,6 +12,7 @@ import {
   showEmptySearchState,
   renderToContainer,
   formatMetadata,
+  escapeForJS,
   SearchPatterns,
 } from "../search/SearchHelpers.js";
 import { TextNormalizer } from "../../../../assets/js/lib/text-normalizer.js";
@@ -77,6 +78,58 @@ export class LemmaExplorer {
     }
   }
 
+  /**
+   * Die Knopfzeile eines Lemma-Treffers.
+   *
+   * Beide Trefferlisten (die ersten 100 ohne Suchbegriff und das Suchergebnis)
+   * bauen dieselbe Zeile. Bis #58 stand sie zweimal wörtlich da; der Knopf
+   * „Belege suchen" hätte damit an zwei Stellen ergänzt werden müssen, und
+   * genau diese Sorte Kopie ist im Playground schon einmal auseinandergelaufen
+   * (#254 Aufräumrunde, doppelte Lemma-IDs).
+   */
+  static lemmaItemButtons(lemma) {
+    const kurzId = lemma.id.replace(/^lemma_/, "");
+    return [
+      ...(lemma.senseCount > 0
+        ? [
+            {
+              text: "Bedeutungen anzeigen",
+              action: `window.playground.ui.authorityExplorers.showLemmaSenses('${lemma.id}')`,
+            },
+          ]
+        : []),
+      {
+        text: "Belege suchen",
+        action: `window.playground.ui.authorityExplorers.lemmaExplorer.sendLemmaToOccurrenceSearch('${kurzId}', '${escapeForJS(lemma.lemma || "")}')`,
+      },
+      {
+        text: "MEHR →",
+        action: `window.open('../lemma/?id=${kurzId}', '_blank')`,
+      },
+    ];
+  }
+
+  /**
+   * Ein Lemma an die Belegsuche übergeben (#58).
+   *
+   * Übergeben wird die ID, nicht die Schreibform. Der Klick hat ein bestimmtes
+   * Lemma gemeint, und für 993 der 43.879 Lemmata (477 normalisierte Formen,
+   * gemessen am 2026-08-07) würde die Auflösung über die Schreibform ein
+   * anderes treffen: `sin`, `wal`, `mal`, `de`. Die Schreibform fährt nur als
+   * Beschriftung mit, damit im Ergebnis „minne" steht und nicht „4130".
+   *
+   * Dokumentmodus, weil ein einzelnes Lemma keine Nähesuche trägt; die
+   * Multi-Lemma-Suche fängt das sonst mit einem Hinweis ab, statt Belege zu
+   * zeigen.
+   */
+  sendLemmaToOccurrenceSearch(lemmaId, lemmaLabel) {
+    const kurzId = String(lemmaId).replace(/^lemma_/, "");
+    const label = lemmaLabel || kurzId;
+    window.location.hash =
+      `multi-lemma&lemmata=${encodeURIComponent(label)}` +
+      `&ids=${encodeURIComponent(kurzId)}&mode=document`;
+  }
+
   showAllLemmata() {
     const displayCount = Math.min(100, this.authorityData.lemmata.length);
     const resultHTML = this.authorityData.lemmata
@@ -89,20 +142,7 @@ export class LemmaExplorer {
             l.senseCount ? `${l.senseCount} Bedeutungen` : null,
           ]),
           title: `<a href="../lemma/?id=${l.id.replace(/^lemma_/, '')}" target="_blank" rel="noopener" class="text-brand-700 hover:text-brand-900 hover:underline">${l.lemma}</a>`,
-          buttons: [
-            ...(l.senseCount > 0
-              ? [
-                  {
-                    text: "Bedeutungen anzeigen",
-                    action: `window.playground.ui.authorityExplorers.showLemmaSenses('${l.id}')`,
-                  },
-                ]
-              : []),
-            {
-              text: "MEHR \u2192",
-              action: `window.open('../lemma/?id=${l.id.replace(/^lemma_/, '')}', '_blank')`,
-            },
-          ],
+          buttons: LemmaExplorer.lemmaItemButtons(l),
           detailsId: `senses-${l.id}`,
         })
       )
@@ -224,20 +264,7 @@ export class LemmaExplorer {
             lemma.senseCount ? `${lemma.senseCount} Bedeutungen` : null,
           ]),
           title: `<a href="../lemma/?id=${lemma.id.replace(/^lemma_/, '')}" target="_blank" rel="noopener" class="text-brand-700 hover:text-brand-900 hover:underline">${lemma.lemma}</a>`,
-          buttons: [
-            ...(lemma.senseCount > 0
-              ? [
-                  {
-                    text: "Bedeutungen anzeigen",
-                    action: `window.playground.ui.authorityExplorers.showLemmaSenses('${lemma.id}')`,
-                  },
-                ]
-              : []),
-            {
-              text: "MEHR \u2192",
-              action: `window.open('../lemma/?id=${lemma.id.replace(/^lemma_/, '')}', '_blank')`,
-            },
-          ],
+          buttons: LemmaExplorer.lemmaItemButtons(lemma),
           detailsId: `senses-${lemma.id}`,
         })
       )
@@ -444,7 +471,7 @@ export class LemmaExplorer {
     // Wie oft kommt eine SCHREIBFORM im gleich folgenden Render vor? Das ist die
     // Bedingung, unter der `toggleComponentPick` Checkboxen gemeinsam schaltet
     // (Abgleich über `box.value`), und deshalb die einzige, die die Beschriftung
-    // behaupten darf. Die normalisierte Form taugt dafür nicht: 387 der 475
+    // behaupten darf. Die normalisierte Form taugt dafür nicht: 389 der 477
     // Norm-Gruppen mit mehreren Lemmata haben unterschiedliche Schreibformen
     // (`lît`/`lît`/`lit`, `schin`/`schîn`), dort schalten nur die gleich
     // geschriebenen mit. Gezählt wird über die tatsächlich gerenderten Einträge,

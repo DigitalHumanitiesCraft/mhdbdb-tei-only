@@ -1,7 +1,7 @@
 # Masterplan: Autonome Issue-Abarbeitungs-Session
 
 **Erstellt:** 2026-07-03 (Audit-Session, Fable 5); mehrere Vorgänger-Sessions sind gelaufen und gemergt.
-**Zuletzt gelaufen:** 2026-07-29 (Opus 5, #169 + #239). Session-Inhalte geleert; Ergebnis in §7, Git-History = Archiv.
+**Zuletzt gelaufen:** 2026-08-07 (Opus 5, #58 + #68 + #194 + #225). Session-Inhalte geleert; Ergebnis in §7, Git-History = Archiv.
 **§2.1 zuletzt gewachsen:** 2026-07-31, Regeln 28 bis 32 (Branch-Basis, Worktree pro Session, Worktree-Abbau, die `git checkout --`-Falle beim Mutationstesten, der Umfang des Em-Dash-Gates); Regeln 22 bis 26 am 2026-07-30 aus einer interaktiven Session (#236-Merge mit vier Review-Runden, #251). Keine Playbook-Sessions, aber dieselben Fehlerklassen.
 **§2.1 zuletzt geschrumpft:** 2026-08-05, erstmals, von 32 auf 26 Regeln. Die vier zur Ergebnisquelle eines Testlaufs (6, 16, 26, 27) sind eine geworden, weil `npm test` das Verdikt seither selbst bildet; die drei generischen Git- und Shell-Fallen (8, 9, 31) sind in die persistente Memory umgezogen. Sechs leere Nummern, alle im Kopf von §2.1 begründet. Das Wachstum dieser Liste ist ein Wert, ihr Umfang eine Last, und der Ausweg ist beides zugleich: was ein Skript deterministisch prüfen kann, gehört nicht in eine Merkregel.
 **Status:** WARTET AUF BEFÜLLUNG. §1, §3, §4, §5 und §6 sind leer und müssen vor dem nächsten Kickoff neu geschrieben werden; jeder von ihnen sagt selbst, was hineingehört.
@@ -127,20 +127,39 @@ Hier gehören die Vorab-Festlegungen von chsteiner hinein: Reihenfolge der Welle
 
 ---
 
-## 7. Session-Ergebnis (Anhang, Stand 2026-07-29)
+## 7. Session-Ergebnis (Anhang, Stand 2026-08-07)
 
-Zwei Code-PRs plus Meta-PR, wie geplant. Kein Issue geschlossen, drei Issue-Kommentare.
+Ein Code-PR, kein Meta-PR: ROADMAP und JOURNAL sind im selben PR mitgelaufen, weil sie
+dieselbe Sache beschreiben und ein zweiter PR nur die Kollision erzeugt hätte, vor der
+§3 warnt. Drei Issues angefasst, eines geschlossen.
 
-| PR | Issue | Inhalt |
+| Ergebnis | Issue | Inhalt |
 |----|-------|--------|
-| #245 | #169 | Die drei von KZW freigegebenen Befunde: Nähesuche misst die Spanne statt des Ankerabstands, Dedup behält den distanzkürzesten Treffer, Fast-Path-Wörterbuch gestrichen. Dazu CONTRACTS §C.2.2 neu und der datierte JOURNAL-Eintrag zur Zahlen-Zäsur |
-| #246 | #239 | Wortbestandteil-Suche als zweiter, benannter Modus im Lemmata-Explorer, nach Position des Bestandteils gruppiert, Auswahl an die Multi-Lemma-Suche übergebbar |
-| Meta | #44 | Matrix auf 40 offene Issues, ROADMAP, JOURNAL-Handoff, dieses Playbook |
+| PR | #58 | Knopf „Belege suchen" im Lemmata-Explorer, dahinter der Routen-Parameter `ids`, der die Auflösung auf eine feste Lemma-ID festnagelt. Neue Spec mit 12 Tests, CONTRACTS §C.1.1, sechs weitere Doku-Stellen |
+| geschlossen | #68 | Der Beitragsleitfaden war seit dem 29.05. vollständig, nur hatte es niemand gegen die Gliederung und KZWs MUSS-Katalog geprüft. 11 von 11 Punkten belegt, Abschlusskommentar mit Zeilennummern |
+| umgelabelt | #194 | `auto:full` war falsch: der eigene Body bindet die Umsetzung an #193, und #193 ist nicht gebaut. Jetzt `auto:checkin` |
+| Messung + Umlabelung | #225 | Burch hat die Wörterbuchnetz-Verlinkung umgestellt (auf drei Wegen nachgeprüft). Seine Gegenbitte ist ein eigenes Arbeitspaket, mit Zahlen im Ticket. `auto:blocked`/`wait:extern` aufgehoben |
 
-**Drei Dinge, die die nächste Session wissen sollte:**
+**Vier Dinge, die die nächste Session wissen sollte:**
 
-1. **Zwei Beispiele aus Ticket und Playbook hielten der Messung nicht stand.** `rôtwîn` (Leitbeispiel von #239 und Chrome-Verifikationsziel in §3) existiert gar nicht im Lexikon; und die §1.1-Tabelle führte `bîr` fälschlich als Abweichungsfall. Beides fiel nur auf, weil vor der Umsetzung gemessen wurde. Daraus ist Handwerksregel 21 geworden.
-2. **Die naheliegende Minimallösung für die Nähesuche wäre falsch gewesen.** Die alte Auswahl behalten und zu weite Treffer verwerfen erzeugt falsche Negative, weil `positions.find()` die erste Position in Ankernähe nahm, nicht die brauchbarste. Sichtbar wurde das erst am Rückbau-Test, der mit `distance: 19` rot wird.
-3. **Reviews haben vier substanzielle Befunde geliefert**, drei davon wurden umgesetzt: Mindestlänge auch auf die Brückenform, Grundwort selbst ankreuzbar, `maxDistance`-Clamp in der Datenschicht. Der vierte (fehlende Deduplizierung in `resolveLemmaIds`) ist bewusst in die Aufräumrunde verschoben.
-
-**Erledigt am selben Tag:** die vorgeschlagene Playground-Aufräumrunde. Acht Funktionen ohne Aufrufer entfernt (zwei davon verwaisten erst durch die Löschung selbst), `resolveLemmaIds` dedupliziert, beide Kookkurrenz-Modi mit einem Guard gegen die Ein-Lemma-Degeneration versehen, die abweichende Zählweise des Upload-Fallbacks in CONTRACTS §B belegt. Übrig aus dieser Ecke: #251 (Auswahl im Wortbestandteil-Modus wird aus dem DOM abgeleitet statt geführt).
+1. **Der teuerste Fehler kam von mir und wurde von einem Gegenprüfer gefunden, nicht von
+   einem Gate.** Die neue Zeiger-Map wurde in `executeSearch()` über `this` gelesen, obwohl
+   das `close()` zwei Zeilen vorher sie über `reset()` leert. Alle Gates wären grün
+   geblieben, und die Wirkung war unsichtbar: die Übergabe wäre still auf die Schreibform
+   zurückgefallen, was für 97,7 Prozent der Lemmata dasselbe Ergebnis liefert. Genau
+   davor warnte der bestehende Kommentar an `searchTerms` zwei Zeilen darüber. **Lehre:
+   wo ein Kommentar erklärt, warum etwas kopiert wird, ist das nächste Feld daneben der
+   erste Verdächtige.**
+2. **Zwei Doku-Aussagen waren nicht veraltet, sondern falsch.** `FEATURES.md` führte eine
+   „Action: Search lemma in corpus" für den Lemmata-Explorer, die es nie gab; erst dieser
+   PR macht sie wahr. `CONTRACTS.md` §C behauptete „exactly 3 stages" ohne Ausnahme. Beim
+   Doku-Nachzug lohnt es sich, die Zeilen zu lesen, die man gar nicht ändern wollte.
+3. **Ein Worktree hat kein `node_modules`.** Ohne Junction auf den Hauptbaum läuft
+   `npm test` gar nicht erst an. Anlegen mit `New-Item -ItemType Junction`, und beim
+   Abräumen zuerst `rmdir` auf die Junction (Regel 30, Punkt 2), sonst löscht ein
+   rekursives Entfernen das Original.
+4. **Parallele Agenten haben sich hier gerechnet, und zwar als Gegenprüfung, nicht als
+   Zuarbeit.** Vier unabhängige Stränge, danach zwei adversarische Prüfungen auf die zwei
+   riskantesten Ergebnisse. Der eine blockierende Befund und die eine Zeitbombe in der
+   Spec (fest verdrahtete Zeugentexte, die der nächste Ingest rot gemacht hätte) kamen
+   beide aus der Gegenprüfungsphase, nicht aus der Recherchephase.
