@@ -63,6 +63,7 @@ scripts/
 │
 ├── sync/                        # Externe Daten / Korpus → TEI/Authority
 │   ├── backfill-lexicon.py      # Kategorie-A-Stubs in lexicon.xml nachtragen (#115)
+│   ├── build-wbnetz-lemma-list.py  # MHDBDB-Verweise in der Trierer Lemmaliste auffrischen (#225)
 │   ├── enhance_works_with_zotero.py  # Zotero API → works.xml
 │   ├── extract-variants.py      # Korpus → variants.xml regenerieren (#44/#115)
 │   └── sync_tei_headers.py      # Authority Files → TEI-Header
