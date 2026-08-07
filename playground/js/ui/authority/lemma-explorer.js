@@ -12,6 +12,7 @@ import {
   showEmptySearchState,
   renderToContainer,
   formatMetadata,
+  escapeForJS,
   SearchPatterns,
 } from "../search/SearchHelpers.js";
 import { TextNormalizer } from "../../../../assets/js/lib/text-normalizer.js";
@@ -77,6 +78,58 @@ export class LemmaExplorer {
     }
   }
 
+  /**
+   * Die Knopfzeile eines Lemma-Treffers.
+   *
+   * Beide Trefferlisten (die ersten 100 ohne Suchbegriff und das Suchergebnis)
+   * bauen dieselbe Zeile. Bis #58 stand sie zweimal w\u00f6rtlich da; der Knopf
+   * \u201eBelege suchen" h\u00e4tte damit an zwei Stellen erg\u00e4nzt werden m\u00fcssen, und
+   * genau diese Sorte Kopie ist im Playground schon einmal auseinandergelaufen
+   * (#254 Aufr\u00e4umrunde, doppelte Lemma-IDs).
+   */
+  static lemmaItemButtons(lemma) {
+    const kurzId = lemma.id.replace(/^lemma_/, "");
+    return [
+      ...(lemma.senseCount > 0
+        ? [
+            {
+              text: "Bedeutungen anzeigen",
+              action: `window.playground.ui.authorityExplorers.showLemmaSenses('${lemma.id}')`,
+            },
+          ]
+        : []),
+      {
+        text: "Belege suchen",
+        action: `window.playground.ui.authorityExplorers.lemmaExplorer.sendLemmaToOccurrenceSearch('${kurzId}', '${escapeForJS(lemma.lemma || "")}')`,
+      },
+      {
+        text: "MEHR \u2192",
+        action: `window.open('../lemma/?id=${kurzId}', '_blank')`,
+      },
+    ];
+  }
+
+  /**
+   * Ein Lemma an die Belegsuche \u00fcbergeben (#58).
+   *
+   * \u00dcbergeben wird die ID, nicht die Schreibform. Der Klick hat ein bestimmtes
+   * Lemma gemeint, und f\u00fcr 988 der 43.879 Lemmata (475 normalisierte Formen,
+   * gemessen am 2026-08-07) w\u00fcrde die Aufl\u00f6sung \u00fcber die Schreibform ein
+   * anderes treffen: `sin`, `wal`, `mal`, `de`. Die Schreibform f\u00e4hrt nur als
+   * Beschriftung mit, damit im Ergebnis \u201eminne" steht und nicht \u201e4130".
+   *
+   * Dokumentmodus, weil ein einzelnes Lemma keine N\u00e4hesuche tr\u00e4gt; die
+   * Multi-Lemma-Suche f\u00e4ngt das sonst mit einem Hinweis ab, statt Belege zu
+   * zeigen.
+   */
+  sendLemmaToOccurrenceSearch(lemmaId, lemmaLabel) {
+    const kurzId = String(lemmaId).replace(/^lemma_/, "");
+    const label = lemmaLabel || kurzId;
+    window.location.hash =
+      `multi-lemma&lemmata=${encodeURIComponent(label)}` +
+      `&ids=${encodeURIComponent(kurzId)}&mode=document`;
+  }
+
   showAllLemmata() {
     const displayCount = Math.min(100, this.authorityData.lemmata.length);
     const resultHTML = this.authorityData.lemmata
@@ -89,20 +142,7 @@ export class LemmaExplorer {
             l.senseCount ? `${l.senseCount} Bedeutungen` : null,
           ]),
           title: `<a href="../lemma/?id=${l.id.replace(/^lemma_/, '')}" target="_blank" rel="noopener" class="text-brand-700 hover:text-brand-900 hover:underline">${l.lemma}</a>`,
-          buttons: [
-            ...(l.senseCount > 0
-              ? [
-                  {
-                    text: "Bedeutungen anzeigen",
-                    action: `window.playground.ui.authorityExplorers.showLemmaSenses('${l.id}')`,
-                  },
-                ]
-              : []),
-            {
-              text: "MEHR \u2192",
-              action: `window.open('../lemma/?id=${l.id.replace(/^lemma_/, '')}', '_blank')`,
-            },
-          ],
+          buttons: LemmaExplorer.lemmaItemButtons(l),
           detailsId: `senses-${l.id}`,
         })
       )
@@ -224,20 +264,7 @@ export class LemmaExplorer {
             lemma.senseCount ? `${lemma.senseCount} Bedeutungen` : null,
           ]),
           title: `<a href="../lemma/?id=${lemma.id.replace(/^lemma_/, '')}" target="_blank" rel="noopener" class="text-brand-700 hover:text-brand-900 hover:underline">${lemma.lemma}</a>`,
-          buttons: [
-            ...(lemma.senseCount > 0
-              ? [
-                  {
-                    text: "Bedeutungen anzeigen",
-                    action: `window.playground.ui.authorityExplorers.showLemmaSenses('${lemma.id}')`,
-                  },
-                ]
-              : []),
-            {
-              text: "MEHR \u2192",
-              action: `window.open('../lemma/?id=${lemma.id.replace(/^lemma_/, '')}', '_blank')`,
-            },
-          ],
+          buttons: LemmaExplorer.lemmaItemButtons(lemma),
           detailsId: `senses-${lemma.id}`,
         })
       )

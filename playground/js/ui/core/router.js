@@ -18,6 +18,8 @@
  *   playground/#concepts                         → open Begriffs-Explorer
  *   playground/#lemmata&mode=component&q=wein    → open Wortbestandteil-Suche (#239)
  *   playground/#multi-lemma                      → open Multi-Lemma-Suche modal
+ *   playground/#multi-lemma&lemmata=arm&ids=286  → same, but the resolution is pinned
+ *                                                  to that exact lemma id (#58)
  *   playground/#verse-position                   → open Lemmasuche nach Versposition
  *   playground/#word-frequency                   → open Wortfrequenz-Analyse
  *   playground/#text-statistics                  → open Text-Statistiken
@@ -139,6 +141,12 @@ export function buildHash(view, params = {}) {
  *
  * Supported params:
  *   lemmata — comma-separated list of lemma terms, e.g. "minne,êre"
+ *   ids     — optional, positionally paired with `lemmata`: the exact numeric
+ *             lemma id for that term, e.g. "308,1204" (#58). Set by callers that
+ *             already hold an id (the Lemmata-Explorer), so the search does not
+ *             re-resolve the written form and land on a homograph. An entry that
+ *             is empty or non-numeric falls back to normal resolution, and so
+ *             does a term with no counterpart in `ids` at all.
  *   mode    — "proximity" (default), "verse" (#106 Punkt 8) or "document"
  *   dist    — proximity distance (integer, default 10, only used in proximity mode)
  */
@@ -155,22 +163,32 @@ function handleMultiLemmaRoute(params) {
     return;
   }
 
-  const terms = params.lemmata.split(',').map(t => t.trim()).filter(t => t);
-  if (terms.length === 0) {
+  // Pair terms with ids BEFORE dropping empty terms: "a,,b" with ids "1,2,3"
+  // must not silently shift 2 onto "b". Position is the whole contract here.
+  const rawIds = params.ids ? params.ids.split(',').map(s => s.trim()) : [];
+  const pairs = params.lemmata
+    .split(',')
+    .map((term, i) => ({ term: term.trim(), id: rawIds[i] }))
+    .filter(p => p.term);
+
+  if (pairs.length === 0) {
     ui.open();
     return;
   }
 
   // Ensure a clean state (in case a previous route left residual chips)
   ui.lemmas = [];
+  ui.lemmaIdHints.clear();
   if (ui.lemmaChips) ui.lemmaChips.innerHTML = '';
 
   // Populate the modal's internal state + chip DOM without opening the modal.
   // executeSearch() will copy `this.lemmas` to a local `searchTerms` before
   // calling close() → reset(), so this clean-up after the search is harmless.
-  for (const term of terms) {
+  // The chip keeps showing the written form; only the resolution is pinned.
+  for (const { term, id } of pairs) {
     ui.lemmas.push(term);
     ui.addLemmaChip(term);
+    if (id && /^\d+$/.test(id)) ui.lemmaIdHints.set(term, id);
   }
 
   // Set search mode (defaults to proximity per v4.0.0 convention)
