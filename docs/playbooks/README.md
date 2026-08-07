@@ -13,6 +13,7 @@ Wiederverwendbare Session-Verfahren, dauerhaft und nicht ticket-gebunden. Sie ge
 | [`MASTERPLAN-AUTONOME-ISSUE-SESSION.md`](MASTERPLAN-AUTONOME-ISSUE-SESSION.md) | Issues abarbeiten, in Wellen, je ein PR. Enthält in §2.1 das Verifikations-Handwerk: die 26 Regeln, die in der Praxis Fehler gefangen haben, welche alle Gates passiert hatten. Die werden auch von den beiden anderen Playbooks zitiert. |
 | [`MASTERPLAN-AUTONOME-MERGE-SESSION.md`](MASTERPLAN-AUTONOME-MERGE-SESSION.md) | Offene PRs prüfen und mergen, mit Merge-Gates und Pilot-PR. |
 | [`MASTERPLAN-AUTONOME-CAREARBEIT-SESSION.md`](MASTERPLAN-AUTONOME-CAREARBEIT-SESSION.md) | Repo-Pflege statt Feature-Arbeit: toter Code, Zähler-Drift, Health-Check. |
+| [`MASTERPLAN-EINZEL-LEMMA-KURATION.md`](MASTERPLAN-EINZEL-LEMMA-KURATION.md) | Ein einzelnes Lemma kuratieren, in vier Stufen mit genau einer Stopp-Stelle. Aus #269, nach dem Fall „Abba" (PR #268, 20 Dateien für ein Wort). Welche Stufe gilt, entscheidet eine einzige Frage: passt die Annotation ins bestehende Datenmodell? |
 
 Die drei Masterpläne haben einen bleibenden und einen session-spezifischen Teil. Der session-spezifische wird pro Lauf neu befüllt und danach geleert; die Git-History ist das Archiv. Nach jeder Session: Lehren einarbeiten, Kernwissen ins `JOURNAL.md`.
 
