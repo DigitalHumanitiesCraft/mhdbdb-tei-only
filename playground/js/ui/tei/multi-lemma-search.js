@@ -15,8 +15,9 @@ export class MultiLemmaSearchUI {
         // Schreibform -> feste Lemma-ID (#58). Wer aus dem Lemmata-Explorer
         // kommt, hat ein bestimmtes Lemma angeklickt; die Auflösung über die
         // Schreibform nimmt dagegen matches[0]. Gemessen am 2026-08-07 über
-        // authority-files/lexicon.xml: 475 normalisierte Formen tragen mehr
-        // als einen Eintrag, zusammen 988 der 43.879 Lemmata (2,3 Prozent),
+        // authority-files/lexicon.xml, gruppiert mit normalize_mhg() aus
+        // scripts/mhg_normalizer.py: 477 normalisierte Formen tragen mehr
+        // als einen Eintrag, zusammen 993 der 43.879 Lemmata (2,26 Prozent),
         // darunter sin, wal, mal und de. Für die stünde hier sonst still ein
         // anderes Lemma. Gefüllt wird die Map nur vom Router, nie von einer
         // Handeingabe: siehe addLemmaFromInput.

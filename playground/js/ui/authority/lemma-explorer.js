@@ -82,10 +82,10 @@ export class LemmaExplorer {
    * Die Knopfzeile eines Lemma-Treffers.
    *
    * Beide Trefferlisten (die ersten 100 ohne Suchbegriff und das Suchergebnis)
-   * bauen dieselbe Zeile. Bis #58 stand sie zweimal w\u00f6rtlich da; der Knopf
-   * \u201eBelege suchen" h\u00e4tte damit an zwei Stellen erg\u00e4nzt werden m\u00fcssen, und
+   * bauen dieselbe Zeile. Bis #58 stand sie zweimal wörtlich da; der Knopf
+   * „Belege suchen" hätte damit an zwei Stellen ergänzt werden müssen, und
    * genau diese Sorte Kopie ist im Playground schon einmal auseinandergelaufen
-   * (#254 Aufr\u00e4umrunde, doppelte Lemma-IDs).
+   * (#254 Aufräumrunde, doppelte Lemma-IDs).
    */
   static lemmaItemButtons(lemma) {
     const kurzId = lemma.id.replace(/^lemma_/, "");
@@ -103,23 +103,23 @@ export class LemmaExplorer {
         action: `window.playground.ui.authorityExplorers.lemmaExplorer.sendLemmaToOccurrenceSearch('${kurzId}', '${escapeForJS(lemma.lemma || "")}')`,
       },
       {
-        text: "MEHR \u2192",
+        text: "MEHR →",
         action: `window.open('../lemma/?id=${kurzId}', '_blank')`,
       },
     ];
   }
 
   /**
-   * Ein Lemma an die Belegsuche \u00fcbergeben (#58).
+   * Ein Lemma an die Belegsuche übergeben (#58).
    *
-   * \u00dcbergeben wird die ID, nicht die Schreibform. Der Klick hat ein bestimmtes
-   * Lemma gemeint, und f\u00fcr 988 der 43.879 Lemmata (475 normalisierte Formen,
-   * gemessen am 2026-08-07) w\u00fcrde die Aufl\u00f6sung \u00fcber die Schreibform ein
-   * anderes treffen: `sin`, `wal`, `mal`, `de`. Die Schreibform f\u00e4hrt nur als
-   * Beschriftung mit, damit im Ergebnis \u201eminne" steht und nicht \u201e4130".
+   * Übergeben wird die ID, nicht die Schreibform. Der Klick hat ein bestimmtes
+   * Lemma gemeint, und für 993 der 43.879 Lemmata (477 normalisierte Formen,
+   * gemessen am 2026-08-07) würde die Auflösung über die Schreibform ein
+   * anderes treffen: `sin`, `wal`, `mal`, `de`. Die Schreibform fährt nur als
+   * Beschriftung mit, damit im Ergebnis „minne" steht und nicht „4130".
    *
-   * Dokumentmodus, weil ein einzelnes Lemma keine N\u00e4hesuche tr\u00e4gt; die
-   * Multi-Lemma-Suche f\u00e4ngt das sonst mit einem Hinweis ab, statt Belege zu
+   * Dokumentmodus, weil ein einzelnes Lemma keine Nähesuche trägt; die
+   * Multi-Lemma-Suche fängt das sonst mit einem Hinweis ab, statt Belege zu
    * zeigen.
    */
   sendLemmaToOccurrenceSearch(lemmaId, lemmaLabel) {
@@ -471,7 +471,7 @@ export class LemmaExplorer {
     // Wie oft kommt eine SCHREIBFORM im gleich folgenden Render vor? Das ist die
     // Bedingung, unter der `toggleComponentPick` Checkboxen gemeinsam schaltet
     // (Abgleich über `box.value`), und deshalb die einzige, die die Beschriftung
-    // behaupten darf. Die normalisierte Form taugt dafür nicht: 387 der 475
+    // behaupten darf. Die normalisierte Form taugt dafür nicht: 389 der 477
     // Norm-Gruppen mit mehreren Lemmata haben unterschiedliche Schreibformen
     // (`lît`/`lît`/`lit`, `schin`/`schîn`), dort schalten nur die gleich
     // geschriebenen mit. Gezählt wird über die tatsächlich gerenderten Einträge,

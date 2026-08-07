@@ -345,10 +345,13 @@ Handing over the label alone would send that click back through stage 1, where a
 homograph group returns `matches[0]`, which can be a different lemma than the one
 on screen.
 
-Measured on 2026-08-07 against `authority-files/lexicon.xml` (43,879 entries, two
-independent counts): 102 written forms carry more than one entry (216 lemmata),
-and after MHG normalization 475 forms do (988 lemmata, 2.3 percent). `sin`, `wal`,
-`mal` and `de` are in that set.
+Measured on 2026-08-07 against `authority-files/lexicon.xml` (43,879 entries with a
+`form/orth`): 102 written forms carry more than one entry (216 lemmata), and after
+normalization 477 forms do (993 lemmata, 2.26 percent). `sin`, `wal`, `mal` and `de`
+are in that set. Counting rule, because the number depends on it: group by
+`normalize_mhg()` from `scripts/mhg_normalizer.py`, the canonical normalizer, not by a
+hand-written character map. A shorter map yields 475/988, and that is how the wrong
+pair got into the first draft of this section.
 
 The `ids` parameter of the `multi-lemma` route therefore pins the resolution.
 `MultiLemmaSearchUI.lemmaIdHints` maps written form to id, and `resolveTerms()`
@@ -357,10 +360,13 @@ this from becoming a second resolution path:
 
 - **Only the router fills the map.** `addLemmaFromInput()` deletes any pin under
   the same label, so a hand-typed term is always a written form and nothing else.
-- **Position is the whole contract.** `lemmata` and `ids` are paired by index
-  before empty terms are dropped, so `lemmata=a,,b&ids=1,2,3` does not shift `2`
-  onto `b`. Empty and non-numeric entries, and terms without a counterpart, fall
-  back to the three stages.
+- **Position is the whole contract, with one limit.** `lemmata` and `ids` are paired
+  by index before empty terms are dropped, so `lemmata=a,,b&ids=1,2,3` does not shift
+  `2` onto `b`. Empty and non-numeric entries, and terms without a counterpart, fall
+  back to the three stages. The limit: the map is keyed by written form, so two
+  identical labels with different ids (`lemmata=arm,arm&ids=285,286`) collapse onto the
+  last one. No producer emits that, and the chip list would show the same word twice;
+  pinning both members of a homograph group in one query needs a different carrier.
 - **The error path uses the same predicate.** The "no lemma found" diagnosis calls
   `resolveTerms()` too, otherwise it would report a term as unresolvable whose id
   is fixed.
