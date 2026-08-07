@@ -376,6 +376,18 @@ this from becoming a second resolution path:
   the pin would be silently ignored and every hand-over would fall back to the
   written form, which is exactly the bug the parameter exists to prevent.
 
+**The copy-before-close rule is older than the pin and covers every piece of modal
+state `executeSearch()` still needs after `close()`.** As of 2026-08-07 that is four:
+`searchMode`, `searchTerms`, `zeiger` and `distanz`. The last one was found by the
+review of #58 and had been broken for longer: `reset()` sets `proximityDistance` back
+to `'10'`, and the distance was read after `close()`. Measured before the fix, the
+route calls with `dist=3`, `dist=10` and `dist=25` all produced the same header
+("max. 10 Wörter") and the same hits, so the `dist` parameter and the "Belege" link of
+the co-occurrence ranking (which passes the selected window and names it in its
+tooltip) were both inert. Whoever adds a fifth piece of state to this modal copies it
+in the same place; the test that guards this uses a distance other than 10, because
+`dist=10` is green either way.
+
 Stages 1 to 3 are untouched (ADR-016 stands); this sits in front of them. Two
 other producers of `#multi-lemma&lemmata=...` do **not** pin yet and still resolve
 by written form: `cooccurrence-ranking.js` (the "Belege" link) and

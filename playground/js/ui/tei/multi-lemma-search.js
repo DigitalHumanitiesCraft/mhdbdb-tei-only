@@ -232,6 +232,15 @@ export class MultiLemmaSearchUI {
         // Aus demselben Grund kopiert wie die Begriffe eine Zeile darüber:
         // close() setzt über reset() auch die Zeiger zurück (#58).
         const zeiger = new Map(this.lemmaIdHints);
+        // Dritter Zustand mit demselben Problem, gefunden im Review zu #58 und
+        // älter als dieser PR: reset() stellt proximityDistance auf '10' zurück.
+        // Gelesen wurde der Wert bis dahin erst nach close(), also immer als 10.
+        // Wirkungslos waren dadurch der dist-Parameter der Route und der
+        // Beleg-Link des Kookkurrenz-Rankings, der die eingestellte
+        // Fenstergröße mitgibt und sie im Tooltip auch verspricht. Gemessen am
+        // 2026-08-07: dist=3, dist=10 und dist=25 lieferten denselben Kopf
+        // („max. 10 Wörter") und dieselben zwei Treffer.
+        const distanz = parseInt(this.proximityDistance.value) || 10;
 
         // Close modal first
         this.close();
@@ -332,10 +341,9 @@ export class MultiLemmaSearchUI {
             // der catch unten zeigt das an.
             let results;
             if (searchMode === 'proximity') {
-                const maxDistance = parseInt(this.proximityDistance.value) || 10;
-                results = await teiManager.searchMultipleLemmasUsingIndex(lemmaIds, 'proximity', maxDistance);
+                results = await teiManager.searchMultipleLemmasUsingIndex(lemmaIds, 'proximity', distanz);
                 if (getNavigationEpoch() !== myEpoch) return;
-                this.teiExplorer.displayCooccurrenceResults(results, searchTerms, maxDistance, lemmaIds);
+                this.teiExplorer.displayCooccurrenceResults(results, searchTerms, distanz, lemmaIds);
             } else if (searchMode === 'verse') {
                 // #106 Punkt 8: Kookkurrenz auf ein gemeinsames <l> beschränkt
                 results = await teiManager.searchMultipleLemmasUsingIndex(lemmaIds, 'verse');

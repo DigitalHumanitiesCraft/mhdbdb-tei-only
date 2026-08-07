@@ -315,3 +315,36 @@ test.describe('#58: zweite Renderstelle (showAllLemmata)', () => {
     expect(params.mode).toBe('document');
   });
 });
+
+/**
+ * Nicht #58, sondern ein Fund aus dessen Review: derselbe Fehler, denselben
+ * Mechanismus, ein Feld weiter. `reset()` stellt die Nähe-Distanz auf 10
+ * zurück, und gelesen wurde sie bis dahin erst nach `close()`. Der Test steht
+ * hier statt in `cooccurrence-ranking.spec.js`, weil er die Kopier-vor-close-
+ * Zusicherung aus CONTRACTS §C.1.1 prüft, also dieselbe Sache wie der Rest
+ * dieser Datei.
+ *
+ * Der bestehende Test in `cooccurrence-ranking.spec.js` konnte das nicht
+ * sehen: er fährt mit `dist=10`, also genau dem Wert, auf den `reset()`
+ * zurückstellt.
+ */
+test.describe('Review-Fund zu #58: die Nähe-Distanz überlebt close() ebenfalls', () => {
+  /** Die im Ergebniskopf ausgewiesene Distanz. */
+  async function ausgewieseneDistanz(page, dist) {
+    await page.goto(
+      `${PLAYGROUND}#multi-lemma&lemmata=minne,herze&mode=proximity&dist=${dist}`
+    );
+    await expect(page.locator('#resultsContainer'))
+      .toContainText('Kookkurrenz-Analyse', { timeout: 90000 });
+    const text = await page.locator('#resultsContainer').innerText();
+    const treffer = text.match(/max\. (\d+) W/);
+    return treffer ? treffer[1] : null;
+  }
+
+  test('der dist-Parameter der Route kommt bei der Suche an', async ({ page }) => {
+    // Bewusst zwei Werte ungleich 10, einer darunter und einer darüber: mit
+    // dist=10 wäre der Test auch bei zurückgesetzter Distanz grün.
+    expect(await ausgewieseneDistanz(page, 3)).toBe('3');
+    expect(await ausgewieseneDistanz(page, 25)).toBe('25');
+  });
+});
