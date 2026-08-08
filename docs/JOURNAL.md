@@ -344,3 +344,21 @@ Daraus folgt die eigentliche Regel in ADR-019: die beiden Schwellen sind nicht z
 **Lifecycle:** Authority-Index v1.8.0 auf v1.8.1, fünf Stellen gebumpt, Index und die 2.742 API-Dateien neu gebaut. Geändert haben sich davon zwei, `api/index.json` (Versionsangabe) und `api/lemmata/index.json` (der Eintrag selbst). Die Konzept-Dateien unter `api/concepts/` führen nur Metadaten und keine Lemma-Listen, deshalb bleiben sie unberührt: das ist kein vergessener Rebuild, sondern die Form der API.
 
 **Phase:** Betrieb. #193 bleibt offen, Baustein 1 von dreien ist erledigt bis auf die Rückfrage zu `ingligar`; Baustein 2 (Wortlisten-Abgleich) und 3 (der Playground-Explorer) sind eigene Arbeitspakete.
+
+---
+
+## 2026-08-08 (spaeter Nachmittag) – #193 Baustein 2: was eine Quote von 76 Prozent nicht heisst
+
+**Summary:** Boreks drei hippologische Wortlisten von TUdatalib gegen unseren Wortschatz. Neu sind `scripts/ingest/horses/01-wordlist-crosscheck.py` und `ingest/horses/README.md`. Keine Datenaenderung, das ist ein Report.
+
+**Die Zahl, die man aus so einem Abgleich herausliest, ist fast immer die falsche.** 76 Prozent der Pferdebezeichnungen loesen auf, 80 Prozent der Gangarten, 97 Prozent der Koerperteile. Als „24 Prozent fehlen im Lexikon" gelesen waere das eine Arbeitsliste von 124 anzulegenden Lemmata. Tatsaechlich ist `variants.xml` korpus-abgeleitet und kennt nur Schreibungen aus unseren 667 Texten, waehrend Boreks Listen aus einem weiteren Textfeld stammen. Belegt statt behauptet: 34 der 67 nicht aufgeloesten Pferdebezeichnungen tragen ein bekanntes Grundwort in sich, fast alle `-ros`- und `-pfert`-Komposita, und die Gegenprobe zeigt `ros`, `phert`, `vole`, `zelter`, `stuot`, `schenkel` alle vorhanden. Von den geprueften fehlen nur `wallach` und `merhe` wirklich.
+
+**Zwei Zwischenbefunde haetten den Report unbrauchbar gemacht, und beide sahen erst wie Ergebnisse aus.** Borek markiert zwoelf Formen mit einem Stern; ungestrippt scheiterten alle zwoelf an der Aufloesung und erschienen als Wortschatzluecke, gestrippt loesen alle zwoelf auf (Gangarten von 74 auf 80 Prozent). Und die erste Fassung meldete 21 Klassifikationsluecken, von denen die Mehrzahl Fehlaufloesungen waren: `hors` auf `haar`, `roes` auf `rose` die Blume, `oren` auf einen Volksnamen. Die stehen jetzt als eigene Klasse „Verdacht auf Fehlannotation im Korpus", weil sie zu anderer Arbeit fuehren als eine fehlende Konzeptzuordnung.
+
+**Der Bug, den das Review gefunden hat, ist der lehrreichste Teil.** `by_norm` ist ein `defaultdict(list)` und lebt ueber alle drei Listen. Ein Lesezugriff mit eckigen Klammern, `len(by_norm[normalize(f)])`, legt fuer jede ueber Stufe 2 aufgeloeste Form einen leeren Eintrag an. Die naechste Liste nimmt dieselbe Form dann in Stufe 1 mit leerer ID-Liste: sie zaehlt als aufgeloest, faellt aber aus jeder Ergebnisklasse heraus, still. Drei Formen stehen in mehr als einer Liste, und `zeldere` ist genau so verschwunden. Ein `.get()` behebt es. Das ist die Sorte Fehler, die kein Gate faengt und keine Summe verraet, weil die Zahl, die kleiner wird, in keiner Zeile steht.
+
+**Zur Ablage:** die Listen sind CC-BY 4.0 und duerften ins Repo, liegen aber nicht drin. Das Skript holt sie in Sekunden ueber ihre Handles, und eine Kopie waere eine zweite Stelle, die altern kann. Der Attributionsvermerk steht trotzdem prominent, wie es #193 verlangt.
+
+**Als Arbeit bleiben 20 Kandidaten fuer eine Nachklassifikation und 25 Verdachtsfaelle.** Beide brauchen eine philologische Durchsicht, bevor daraus Aenderungen werden; der klarste Block sind die Koerperteile, wo mehrere Lemmata nur an `concept_21030000` (Koerper von Menschen) haengen, obwohl Borek sie fuer Pferdekoerper belegt.
+
+**Phase:** Betrieb. #193 Baustein 2 erledigt, Baustein 3 (Playground-Explorer) unberuehrt.
