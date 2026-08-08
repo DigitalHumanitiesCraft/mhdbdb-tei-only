@@ -115,15 +115,15 @@ Die Erec-Sonderzählung ist kein Sonderfall unserer Daten, sondern die übliche 
 
 Die 346 Stellenangaben entfallen auf **336 Verse**: zehn werden von zwei Pferden zitiert, vier davon mit abweichendem Wortlaut. Bewertet wird pro Vers die beste Fassung.
 
-| Werk | Verse | Versatz 0 | Versatz | ohne klare Entsprechung |
-|---|---|---|---|---|
-| `WH` | 97 | 97 | | |
-| `PZ` | 184 | 177 | 5 × (+2) | 2 |
-| `ER` | 14 | 13 | | 1 |
-| `IW` | 23 | 23 | | |
-| `TR` | 18 | 18 | | |
+| Werk | Verse | Versatz 0 | Versatz | fern | ohne Entsprechung |
+|---|---|---|---|---|---|
+| `WH` | 97 | 97 | | | |
+| `PZ` | 184 | 177 | 5 × (+2) | 2 | |
+| `ER` | 14 | 13 | | 1 | |
+| `IW` | 23 | 23 | | | |
+| `TR` | 18 | 18 | | | |
 
-**328 von 336 Versen sitzen exakt, 98 Prozent.** Alle 346 Stellenangaben lassen sich überdies auf eine existierende Wort-ID abbilden.
+**328 von 336 Versen sitzen exakt, 98 Prozent. Alle 336 sind textlich aufgelöst, keiner bleibt offen.**
 
 ### Warum die Trefferquote allein nichts beweist
 
@@ -133,7 +133,17 @@ Dass eine ID existiert, heißt nicht, dass sie auf den zitierten Vers zeigt. Der
 
 Die erste Fassung verglich normalisierte **Wortmengen** und meldete neun Verse ohne Entsprechung. Sechs davon waren derselbe Vers in anderer Schreibung: „unt hetz Lehelîn genomn" gegen „und hetez lehelîn genomen", „ans grâles" gegen „an sgrâles". Das Maß scheiterte an Orthographie und Worttrennung, nicht an Textidentität, und erzeugte damit genau die Zweifelsfälle, die es finden sollte. Verglichen wird jetzt die MHD-normalisierte Buchstabenkette ohne Trennungen (`difflib`). Die Schwelle 0.75 liegt in einer leeren Zone: schwächste akzeptierte Entsprechung 0.84, stärkster verworfener Treffer 0.42.
 
-Übrig bleiben **drei** Verse. Zwei im Parzival (604,18 und 604,19) treffen im Umkreis von vier Versen nichts, dort weicht die Textgrundlage wirklich ab. Der dritte ist Boreks Erec-Stelle **`4118`**: sie trifft nichts und steht in ihrer Liste zwischen 4714 und 4719, ist also mit hoher Wahrscheinlichkeit ein Zahlendreher für 4718.
+### Warum der Suchumkreis zweimal gemessen wurde
+
+Übrig blieben zunächst drei Verse. Der Umkreis von vier war zu eng gedacht: ein Versatz kann über die Grenze des Dreißigers gehen, und eine falsche Ziffer springt beliebig weit. Werkweit gesucht lösen sich alle drei eindeutig auf.
+
+| Boreks Angabe | steht bei uns | Übereinstimmung | zweitbester Treffer |
+|---|---|---|---|
+| `Pz. 604,18` | `PZ_60318` | 1.00 | 0.68 |
+| `Pz. 604,19` | `PZ_60319` | 0.95 | 0.62 |
+| `Er. 4118` | `ER_471800` | 1.00 | 0.62 |
+
+Die beiden Parzival-Stellen liegen also einen ganzen Dreißiger höher, bei uns unter 603. Boreks `4118` ist textlich als **4718** bestätigt und damit ein Zahlendreher in ihrer Datei, kein Editionsunterschied. Übernommen wird ein solcher Ferntreffer nur, wenn er eindeutig ist (mindestens 0.15 Vorsprung vor dem zweitbesten): ohne diese Bedingung fände die Suche im Versepos irgendeine Formelzeile.
 
 ### Welche Ausgabe eigentlich?
 
@@ -143,7 +153,7 @@ Unser Parzival folgt Leitzmann, ATB 12, 7. Auflage 1961, unser Erec Leitzmann/Wo
 
 Datenseitig ist das Feature machbar, und der Anschluss ans Korpus ist besser als erwartet. Was noch fehlt, ist die inhaltliche Ebene: 24 `<horse>`-Elemente (10 Deklarationen plus 14 Vorkommen), 52 `<horseName>` mit ihren Schreibvarianten, 49 `<event type="intro|combat|care|loss|...">`, 22 `<trait type="color|quality|marking">`, 32 `<object>` und 48 `<person>` mit Besitzer- und Reiterrollen.
 
-Offen ist eine Modellierungsfrage: wie ein Beleg im Index gespeichert wird. Boreks Zitation und unser aufgelöstes Ziel sind zwei verschiedene Angaben, und für fünf Verse fallen sie auseinander.
+Wie ein Beleg gespeichert wird, ist am 08.08.2026 entschieden: **beides**, Boreks Zitation wörtlich und unser aufgelöstes Ziel, dazu die gemessene Übereinstimmung. Für acht der 336 Verse fallen die beiden Angaben auseinander, und weil Borek keine Ausgabe nennt, ist die Differenz dokumentierbar, aber nicht auflösbar.
 
 ## Anschluss
 

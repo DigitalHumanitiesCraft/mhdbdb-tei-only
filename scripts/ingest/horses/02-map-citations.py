@@ -80,6 +80,9 @@ UMKREIS = 4
 # 0.84, staerkster verworfener Treffer 0.42, dazwischen nichts. Die Schwelle
 # entscheidet hier also nichts, was der Abstand nicht schon entscheidet.
 SCHWELLE = 0.75
+# Vorsprung, den ein werkweit gesuchter Treffer vor dem zweitbesten braucht.
+# Gemessen liegen die drei Faelle bei 1.00/0.68, 0.95/0.62 und 1.00/0.62.
+ABSTAND = 0.15
 
 
 def stellenkern(n, sigle):
@@ -140,25 +143,41 @@ def main():
             if wid and w.text:
                 unser[int(wid.split('_')[1])].append(w.text)
 
-        versatz, schwach, zeilen = Counter(), [], []
+        verskette = {k: kette(' '.join(v)) for k, v in unser.items()}
+
+        versatz, schwach, fern, zeilen = Counter(), [], [], []
         for n, fassungen in sorted(belege[werk].items()):
             k = stellenkern(n, sigle)
-            ketten = [(kette(t), pid) for t, pid in fassungen]
-            ketten = [(b, pid) for b, pid in ketten if b]
+            ketten = [(kette(t), pid) for t, pid in fassungen if kette(t)]
             if not ketten:
                 continue
             quote, _, d, pferd = max(
-                (aehnlich(b, kette(' '.join(unser.get(k + d, [])))), -abs(d), d, pid)
+                (aehnlich(b, verskette.get(k + d, '')), -abs(d), d, pid)
                 for b, pid in ketten for d in range(-UMKREIS, UMKREIS + 1))
+            treffer = k + d
             if quote >= SCHWELLE:
                 versatz[d] += 1
             else:
-                schwach.append([n, round(quote, 2)])
-            zeilen.append([n, '%s_%d' % (sigle, k), pferd, round(quote, 2), d])
+                # Der Umkreis war zu eng gedacht: ein Versatz kann ueber die
+                # Grenze des Dreissigers gehen (Pz. 604,18 steht bei uns unter
+                # 603,18) und eine falsche Ziffer springt beliebig weit
+                # (Er. 4118 ist 4718). Deshalb das ganze Werk absuchen, aber
+                # nur uebernehmen, wenn der Treffer EINDEUTIG ist: sonst
+                # findet die Suche irgendeine Formelzeile, von denen es im
+                # Versepos viele gibt.
+                rang = sorted(((aehnlich(b, t), kk) for b, _ in ketten
+                               for kk, t in verskette.items() if t), reverse=True)[:2]
+                (q1, k1), (q2, _) = rang[0], rang[1]
+                if q1 >= SCHWELLE and q1 - q2 >= ABSTAND:
+                    fern.append([n, '%s_%d' % (sigle, k1), round(q1, 2), round(q2, 2)])
+                    quote, treffer, d = q1, k1, k1 - k
+                else:
+                    schwach.append([n, round(q1, 2)])
+            zeilen.append([n, '%s_%d' % (sigle, treffer), pferd, round(quote, 2), d])
 
         ergebnis[werk] = dict(
             sigle=sigle, belege=len(belege[werk]), versatz=dict(versatz.most_common()),
-            schwach=schwach, zeilen=zeilen if args.detail else [],
+            schwach=schwach, fern=fern, zeilen=zeilen if args.detail else [],
         )
 
     if args.as_json:
@@ -169,15 +188,19 @@ def main():
     exakt = sum(d['versatz'].get(0, 0) for d in ergebnis.values())
     print('Belegstellen-Mapping #193, gemessen gegen tei/ '
           '(Umkreis %d Verse, Schwelle %.2f)\n' % (UMKREIS, SCHWELLE))
-    print('  %-5s %-6s %7s  %-26s %s' % ('Werk', 'Sigle', 'Verse', 'Versatz', 'ohne klare Entsprechung'))
+    print('  %-5s %-6s %7s  %-20s %6s %s'
+          % ('Werk', 'Sigle', 'Verse', 'Versatz', 'fern', 'ohne Entsprechung'))
     for werk, d in ergebnis.items():
-        print('  %-5s %-6s %7d  %-26s %d'
-              % (werk, d['sigle'], d['belege'], d['versatz'], len(d['schwach'])))
+        print('  %-5s %-6s %7d  %-20s %6d %d'
+              % (werk, d['sigle'], d['belege'], d['versatz'], len(d['fern']), len(d['schwach'])))
     print('\n  %d von %d Versen sitzen exakt (%.0f %%).' % (exakt, gesamt, 100 * exakt / gesamt))
     for werk, d in ergebnis.items():
         andere = {k: v for k, v in d['versatz'].items() if k != 0}
         if andere:
             print('  %s: %s Verse mit Versatz, lokal und nicht systematisch.' % (d['sigle'], andere))
+        for n, ziel, q1, q2 in d['fern']:
+            print('  %s %s liegt ausserhalb des Umkreises bei %s '
+                  '(%.2f, zweitbester %.2f).' % (d['sigle'], n, ziel, q1, q2))
         if d['schwach']:
             print('  %s ohne klare Entsprechung: %s'
                   % (d['sigle'], ', '.join('%s (%.2f)' % (n, q) for n, q in d['schwach'][:6])))
