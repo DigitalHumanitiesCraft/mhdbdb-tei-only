@@ -6,7 +6,7 @@ UI-Entscheidung zu beantworten. `arthurianHorses.xml` (TUdatalib 3695, CC0)
 traegt 346 Stellenangaben aus fuenf Werken, verteilt auf 336 Verse. Alle
 fuenf Werke liegen im Korpus.
 
-Dieses Skript berichtet, es baut nichts. Die Auflegungslogik steht in
+Dieses Skript berichtet, es baut nichts. Die Aufloesungslogik steht in
 `mapping.py` und wird vom Index-Bau (`03-build-index.py`) mitbenutzt, damit
 Bericht und Index nicht auseinanderlaufen. Warum der Wortlaut und nicht die
 Verszahl entscheidet, steht dort im Kopf.

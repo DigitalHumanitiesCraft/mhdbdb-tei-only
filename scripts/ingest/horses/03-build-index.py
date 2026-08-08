@@ -233,7 +233,7 @@ def main():
 
     pferde, belege = pferde_und_belege(etree.parse(io.BytesIO(roh)))
 
-    # Auflegen: je Werk einmal das Korpus laden, das sind grosse Dateien.
+    # Aufloesen: je Werk einmal das Korpus laden, das sind grosse Dateien.
     nach_werk = defaultdict(list)
     for b in belege:
         nach_werk[b['work']].append(b)
