@@ -17,6 +17,11 @@ name: Data Integrity
 #      Dexie-Cache nicht und wiederkehrende Nutzer behalten bis zu
 #      30 Tage den alten Index. MUSS VOR Step 6 laufen (der Rebuild
 #      dort ueberschreibt data/*.json.gz im Working Tree).
+#   1c. Index-Budget (#111, ADR-019): gz-Groesse fuer Leitung und Cache,
+#      unkomprimierte Groesse fuer den Speicher nach JSON.parse. WARNT
+#      nur und faerbt den Lauf nie rot; rot wird allein die gescheiterte
+#      Messung. Steht wie 1b vor Step 6, damit der committete Stand
+#      gemessen wird und nicht der frisch gebaute.
 #   2. RNC->RNG sync check (P2-14).
 #   3. TEI-P5-Versions-Pin fuer tei_all.rng.
 #   4. Freshness variants.xml: extract-variants.py --apply muss die
@@ -72,9 +77,11 @@ on:
       - 'schema/**'
       - 'tei/**'
       - 'authority-files/**'
-      - 'data/corpus-index.json.gz'
-      - 'data/authority-index.json.gz'
-      - 'data/naming-index.json.gz'
+      # Glob statt der drei Einzeldateien (#111): das Budget-Gate misst
+      # jede data/*.json.gz und traegt fuer unbekannte Indexe eine eigene
+      # Voreinstellung. Ein neuer kuratierter Index der #194-Rubrik waere
+      # mit einer Namensliste am Gate vorbeigelaufen.
+      - 'data/*.json.gz'
       - 'api/**'
       - '!api/index.html'
       - 'scripts/build-corpus-index.py'
@@ -98,9 +105,11 @@ on:
       - 'schema/**'
       - 'tei/**'
       - 'authority-files/**'
-      - 'data/corpus-index.json.gz'
-      - 'data/authority-index.json.gz'
-      - 'data/naming-index.json.gz'
+      # Glob statt der drei Einzeldateien (#111): das Budget-Gate misst
+      # jede data/*.json.gz und traegt fuer unbekannte Indexe eine eigene
+      # Voreinstellung. Ein neuer kuratierter Index der #194-Rubrik waere
+      # mit einer Namensliste am Gate vorbeigelaufen.
+      - 'data/*.json.gz'
       - 'api/**'
       - '!api/index.html'
       - 'scripts/build-corpus-index.py'
@@ -214,6 +223,23 @@ jobs:
           else
             python scripts/audit/check-index-version-bump.py --base "${{ steps.base.outputs.sha }}"
           fi
+
+      # Wie das Bump-Gate darueber vor dem Index-Rebuild (Step 6): der
+      # ueberschreibt data/*.json.gz im Working Tree. Gemessen werden soll
+      # der committete Stand, also das, was ausgeliefert wird.
+      - name: Index-Budget Selbsttest (#111)
+        # Dieses Gate wird auf absehbare Zeit nichts melden (Korpus-Index
+        # heute bei 84 Prozent Auslastung). Ohne Selbsttest wuesste niemand,
+        # ob es noch misst, was es messen soll.
+        run: python scripts/audit/check-index-budget.py --selftest
+
+      - name: Index-Budget (#111)
+        # Warnt nur, faerbt den Lauf nie rot (Entscheidung Chris, 08.08.2026):
+        # der Index waechst durch legitime Annotationsarbeit, und ein rotes
+        # Gate wuerde den naechsten Backfill blockieren, bis jemand ein
+        # Splitting gebaut hat. Rot wird der Schritt nur, wenn die Messung
+        # selbst scheitert.
+        run: python scripts/audit/check-index-budget.py
 
       - name: Regenerate RNG from RNC (P2-14 drift check)
         run: |

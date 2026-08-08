@@ -1137,3 +1137,65 @@ The authority index stays at seven content-bearing files. Curated prose is displ
 - **API consumers are unaffected.** No field is removed or changed. `*Resp` keeps carrying `contributors.xml#contrib_N` verbatim, and resolving it keeps needing the XML file. Both options 1 and 2 would be purely additive later.
 - **The audit gap stays open too.** That a `contrib_N` exists at all is checked only by `scripts/audit/audit-authority-files.py`, which does not run in CI, so a well-formed but unbacked ID validates green (TEI-MODEL-AUTH-FILES §3.1). At n=1 that is tolerable. It becomes a real gap at the same moment the trigger fires, and belongs to the same work package.
 - **The counting rule for the trigger:** entries in `lexicon.xml` carrying at least one `@resp` on `<etym type="borrowing">/<note>`, `<def>` or `<note type="comment">`. Measured on the built authority index as the number of lemma records with a non-empty `origin.resp`, `senses[].definitionResp` or `senses[].commentResp`. Today that is 1.
+
+---
+
+## ADR-019: the index budget warns instead of failing, and its two thresholds pull a split in opposite directions
+
+**Status:** Accepted (2026-08-08, answers the "write an ADR" half of #111. **No migration is triggered**: the corpus index sits at 84 percent of its budget.)
+**Context:** #111 has been an open trigger reminder since 2026-05-12, asking for a soft cap on index size and a splitting strategy to have ready when it fires.
+
+### Problem
+
+The pre-built indexes are the price of ADR-001 (no runtime XML parsing). They grow with every annotation pass and with every new per-word field, and nothing measured that growth: the threshold in #111 lived in the issue body, so it could only fire if a human happened to re-measure. Twice someone did (2026-08-05, 2026-08-07), which is precisely the manual labour a gate should absorb.
+
+Two things had to be settled before any splitting option could be judged: what the budget actually is, and which field spends it.
+
+### What was measured
+
+All figures are decimal MB (1 MB = 1,000,000 bytes), measured 2026-08-08 against the shipped files (Corpus Index v4.2.1, Authority Index v1.8.0).
+
+**The unit was itself the first finding.** #111 records 42 MB for `data/corpus-index.json.gz` (2026-05-12) and the comment of 2026-08-07 records 40.2 MB. Both are correct, and the gap between them is a unit, not a shrinkage. The May file (`ea7b0a507`) held 42,183,990 bytes, which is 42.18 decimal MB and 40.23 MiB; today's file holds 42,165,752 bytes, and the 40.2 of 2026-08-07 is exactly its MiB value (that comment's own measuring rule divides by 1048576 and calls the result MB). So the corpus index has been **flat since that May measurement**: 12 commits have touched the file since, never more than 19 kB apart, endpoints 18 kB, and it has been byte-identical since 2026-07-31. It did not fall by 4 percent. (Reaching one commit further back does change the picture: on 2026-05-08 the file still held 35.8 MB. The flat stretch starts at the measurement, not at the start of the month.) Since the thresholds of 50 and 200 were set in the decimal measurement, decimal MB is the unit this budget is denominated in. `check-file-sizes.py` (#350) keeps counting in MiB because GitHub's wall is stated in MiB; the two scripts therefore differ by 4.9 percent on the same file, deliberately.
+
+**Corpus index, 42.17 MB gz / 168.34 MB raw.** Per field, where the gz column is the compressed size of that field concatenated across all 667 texts (so the column is indicative and not exactly additive; it sums to 98 percent of the file):
+
+Measuring rule for the raw column: the value of that field serialised per text with `json.dumps(v, ensure_ascii=False, separators=(',',':'))` and summed over all 667 texts, so it excludes the key name, the colon and the array punctuation around it. Serialising the eight metadata fields as one array each instead adds 5,344 bytes of brackets and commas and yields 0.070 MB; that is the same data under a different rule, not a correction.
+
+| field | raw MB | gz MB | ratio | share of the wire |
+|---|---|---|---|---|
+| `texts[].lemmata` | 51.2 | 21.5 | 2.38x | **51.1 %** |
+| `texts[].words` | 97.7 | 13.0 | 7.52x | 30.8 % |
+| `texts[].lineStarts` | 7.8 | 3.1 | 2.54x | 7.3 % |
+| `texts[].lineEnds` | 7.8 | 3.1 | 2.54x | 7.3 % |
+| `lemmaIndex` | 3.7 | 0.6 | 5.92x | 1.5 % |
+| the 8 metadata fields | 0.064 | | | 0.04 % |
+
+**Authority index, 3.29 MB gz / 23.57 MB raw:** `lemmata` 52.9 percent of the wire, `variants` 27.8, `maps` 14.5, `works` 3.0, everything else together 1.8.
+
+### The finding that redirects the strategy
+
+Option A of #111 proposes to split `words` out and keep a core of "10 to 15 MB gz". Measured, that does not hold, because **compression is wildly uneven across the fields**. `words` is 58 percent of the index in memory but only 31 percent on the wire: 7.5 million tokens drawn from 42,630 distinct values compress 7.5-fold. The integer position arrays in `lemmata` compress only 2.4-fold, so they are 30 percent of the raw index and **51 percent of the download**. Moving `words` out therefore leaves a core around 29 MB gz, not 10 to 15.
+
+The consequence is that the two thresholds of this budget are not two views of one problem, they are two problems:
+
+- **The gz threshold is about the wire and the cache.** To move it, `texts[].lemmata` has to go.
+- **The raw threshold is about RAM after `JSON.parse`.** To move it, `texts[].words` has to go.
+
+Whichever is breached first decides which field moves. Deciding that in advance, as #111 attempted, would have picked the wrong field for the gz case.
+
+A second measured redundancy is worth recording for whoever implements a split: the same 7,532,982 lemma occurrences are encoded three times over, as `texts[].words`, as `texts[].lemmata` (inverted, with positions) and as `lemmaIndex` (the 513,206 text-lemma pairs, derivable from `texts[].lemmata` alone). Roughly 90 percent of the raw index is one dataset in three representations. That is a compression opportunity no splitting scheme addresses, and it may well be cheaper than splitting.
+
+### Decision
+
+1. **The budget is gated, and the gate warns.** `scripts/audit/check-index-budget.py` measures every `data/*.json.gz` on both axes and runs in `data-integrity.yml`. It exits 0 even when a budget is breached; it turns red only when the measurement itself fails. Reason: an overrun is not a defect in the commit that triggers it. The index grows through legitimate annotation work, and a red gate would block the next backfill until somebody had built a splitting scheme. What the gate owes us is that the moment is not missed, not that it is prevented.
+2. **Thresholds:** corpus index 50 MB gz / 200 MB raw, taken unchanged from #111. Authority index 8 MB gz / 60 MB raw, newly set here, from its own level with room for the #115 backfill. Curated add-on indexes of the #194 category default to 5 MB gz / 40 MB raw.
+3. **No splitting today, and no option pre-selected.** At 84 percent utilisation the cost of choosing early is real and the benefit is zero. What is fixed here is the rule for choosing: **the breached axis names the field**, per the table above.
+
+### Consequences
+
+- **`maps` is the one free win, and it is in the other index.** It is 14.5 percent of the authority download and is read by exactly one file, `playground/js/playground-main.js:147-157`, feeding two drill-downs. `korpus.html`, `woerterbuch.html` and every lemma page fetch and parse 2.5 MB of raw data they never touch. This needs no ADR and no splitting scheme, and it is not done here because it is a frontend change with its own tests, not a measurement.
+- **Utilisation is the number to watch, not headroom in MB.** The authority index has less absolute room to its threshold (4.7 MB) than the corpus index (7.8 MB), yet it sits at 41 percent against 84. The gate sorts and reports by utilisation for that reason.
+- **The next trigger is a feature, not a date.** #27 (per-word POS) is estimated at 3 to 5 MB gz and #109 (NER) at 5 to 10. POS stays inside the budget even at the top of its range (47.2 MB); NER breaches it alone at the top of its range (52.2 MB); together they breach it in **every** combination, including both estimates at their lower bound: 3 plus 5 is 8 MB against 7.83 MB of headroom. The gate will say so on the first index build that carries them.
+- **A split would blind this gate.** It measures per file against a per-file threshold, so after a split every part would sit below its threshold while the total load was unchanged. Whoever implements a split converts the gate to summing over the parts in the same work package. This is the one hard dependency the gate has on this ADR.
+- **`totalLemmata` already exists and is unused.** `playground/js/playground-main.js:319-324` walks `Object.keys(text.lemmata)` across all 667 texts at first paint purely to render a count, holding 51.2 MB in the critical path for a display number, while the index already carries a top-level `totalLemmata` that nothing reads. Any lazy-loading scheme has to defeat this line first, so it is worth fixing before, and independently of, any split.
+- **#111 asked for ADR-015.** That number went to the authority source model in 05/2026, as the comment of 2026-08-05 already warned. This is ADR-019.

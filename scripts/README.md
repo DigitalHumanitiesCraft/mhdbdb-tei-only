@@ -40,6 +40,7 @@ scripts/
 │   ├── check-author-refs.py     # titleStmt/author gegen persons.xml (#228)
 │   ├── check-doc-inventories.py  # Specs und Audit-Skripte stehen in DEVELOPMENT.md, Skripte auch in diesem Baum (#329)
 │   ├── check-file-sizes.py      # Einzeldateien vor GitHubs harter 100-MiB-Wand stoppen (#350)
+│   ├── check-index-budget.py    # Index-Größenbudget gz und roh, warnt nur (#111, ADR-019)
 │   ├── check-index-version-bump.py # Inhalt geändert => Version gebumpt (#154)
 │   ├── check-index-versions.py  # Index-Versions-Konstanten konsistent
 │   ├── check-lexicon-senses.py  # jeder <entry> in lexicon.xml hat mindestens einen <sense>
