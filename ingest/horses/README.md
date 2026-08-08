@@ -1,8 +1,8 @@
-# Arthurische Pferde: Abgleich der Wortlisten (#193 Baustein 2)
+# Arthurische Pferde (#193): Wortlisten-Abgleich und Belegstellen-Mapping
 
-Luise Boreks Fallstudie *Arthurische Pferde als Bedeutungsträger* (Hirzel 2023, ZfdA-Beihefte 43) hat drei hippologische Wortlisten auf TUdatalib hinterlegt. Dieser Ordner hält fest, was ihr Abgleich mit unserem Wortschatz ergeben hat, gemessen am 2026-08-08 gegen Authority Index v1.8.1.
+Luise Boreks Fallstudie *Arthurische Pferde als Bedeutungsträger* (Hirzel 2023, ZfdA-Beihefte 43) hat drei hippologische Wortlisten auf TUdatalib hinterlegt. Dieser Ordner hält fest, was der Abgleich mit unserem Wortschatz ergeben hat (Baustein 2) und ob ihre Belegstellen unsere Verse treffen (Vorprüfung zu Baustein 3). Gemessen am 2026-08-08 gegen Authority Index v1.8.1.
 
-**Attribution:** die drei Wortlisten stehen unter CC BY 4.0, Urheberin Luise Borek (TU Darmstadt). Zitierfähig über ihre Handles, siehe Tabelle.
+**Attribution:** die drei Wortlisten stehen unter CC BY 4.0, `arthurianHorses.xml` unter CC0, Urheberin Luise Borek (TU Darmstadt). Zitierfähig über ihre Handles, siehe Tabellen.
 
 ## Was hier liegt
 
@@ -91,6 +91,49 @@ Jeder dieser Fälle ist ein Verdacht und kein Befund: die Schreibung kann in ihr
 ## Woher die Daten kommen
 
 Download über die DSpace-REST-API von TUdatalib, mit festen Bitstream-UUIDs im Skript. Die Listen sind ISO-8859-1 kodiert, das Skript dekodiert entsprechend. Sie tragen keine Kopfzeile und keine Kommentare, eine Form je Zeile.
+
+## Baustein 3, Vorprüfung: treffen Boreks Belegstellen unsere Verse?
+
+Das ist die Frage, an der das Explorer-Feature hängt, und sie ist vor jeder UI-Entscheidung zu beantworten. `arthurianHorses.xml` ([tudatalib/3695](https://tudatalib.ulb.tu-darmstadt.de/handle/tudatalib/3695), CC0) zitiert 346 Verse aus fünf Werken, alle fünf liegen im Korpus: `WH`, `PZ`, `ER`, `IW`, `TR`.
+
+Erzeugen lässt sich die Messung mit [`scripts/ingest/horses/02-map-citations.py`](../../scripts/ingest/horses/02-map-citations.py).
+
+### Die Stellenangabe steckt nicht dort, wo das Ticket sie vermutet
+
+Unsere `<l>`-Elemente tragen **kein** `xml:id`, sondern nur ein fortlaufendes `@n`. Die zitierbare Stellenangabe steckt in den `xml:id` der **Wörter**, und zwar in drei Varianten:
+
+| Werk | Zählweise | Boreks Angabe | unsere ID |
+|---|---|---|---|
+| `WH`, `PZ` | Dreißiger | `339,24` | `PZ_33924_*` (Abschnitt × 100 + Vers) |
+| `ER` | Vers × 100 | `4714` | `ER_471400_*` |
+| `ER` | Sonderzählung | `4629,18` | `ER_462918_*` |
+| `IW`, `TR` | fortlaufend | `1108` | `IW_1108_*` |
+
+Die Erec-Sonderzählung ist kein Sonderfall unserer Daten, sondern die übliche Zählung des Einschubs nach Vers 4629. Unsere IDs bilden sie ab, `ER_462901` bis `ER_462924` existieren.
+
+### Ergebnis
+
+| Werk | Verse | Versatz 0 | Versatz | ohne klare Entsprechung |
+|---|---|---|---|---|
+| `WH` | 97 | 97 | | |
+| `PZ` | 184 | 170 | 5 × (+2), 1 × (+1) | 8 |
+| `ER` | 14 | 13 | | 1 |
+| `IW` | 23 | 23 | | |
+| `TR` | 18 | 18 | | |
+
+**321 von 336 Versen sitzen exakt, 96 Prozent.** Alle 346 Stellenangaben lassen sich überdies auf eine existierende Wort-ID abbilden.
+
+### Warum die Trefferquote allein nichts beweist
+
+Dass eine ID existiert, heißt nicht, dass sie auf den zitierten Vers zeigt. Der erste Durchlauf meldete 346 von 346 und sah nach einem glatten Ergebnis aus. Erst der Vergleich des **Wortlauts** zeigte, dass im Parzival eine Stelle um zwei Verse verschoben liegt: Boreks 339,24 („dô hiez er gürten balde") steht bei uns unter 339,26. Betroffen sind sechs Verse, lokal und nicht systematisch, also vermutlich eine abweichende Ausgabe an dieser Stelle.
+
+Die neun Verse ohne klare Entsprechung sind überwiegend Editionsvarianz (Erec 4629,19 lautet bei Borek „und kam her Walwân geriten", bei uns „kam her Walwân geriten"). Eine Ausnahme fällt auf: Boreks Erec-Stelle **`4118`** trifft nichts und steht in ihrer Liste zwischen 4714 und 4719, ist also mit hoher Wahrscheinlichkeit ein Zahlendreher für 4718.
+
+### Was das für Baustein 3 heißt
+
+Datenseitig ist das Feature machbar, und der Anschluss ans Korpus ist besser als erwartet. Was noch fehlt, ist die inhaltliche Ebene: 24 `<horse>`-Elemente (10 Deklarationen plus 14 Vorkommen), 52 `<horseName>` mit ihren Schreibvarianten, 49 `<event type="intro|combat|care|loss|...">`, 22 `<trait type="color|quality|marking">`, 32 `<object>` und 48 `<person>` mit Besitzer- und Reiterrollen.
+
+Die sechs verschobenen und neun unklaren Verse gehören vor dem Bau entschieden: auf unsere Zählung umbiegen oder Boreks Angabe mitführen und beim Sprung in den Reader auflösen.
 
 ## Anschluss
 
