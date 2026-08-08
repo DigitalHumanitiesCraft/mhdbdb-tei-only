@@ -25,9 +25,19 @@ Alle 346 Stellenangaben lassen sich auf eine existierende Wort-ID abbilden.
 Das ist noch kein Beweis: eine ID kann existieren und trotzdem auf einen
 anderen Vers zeigen, wenn die zitierte Ausgabe anders zaehlt. Das Skript
 vergleicht deshalb zusaetzlich den WORTLAUT und sucht den besten Versatz im
-Umkreis von vier Versen. Gemessen am 08.08.2026 sitzt die grosse Mehrheit
-exakt (Versatz 0); im Parzival gibt es eine lokale Stelle mit Versatz 2.
-Ohne den Textvergleich waere das unentdeckt geblieben.
+Umkreis von vier Versen. Gemessen am 08.08.2026 sitzen 328 von 336 Versen
+exakt; im Parzival liegt ein Block von fuenf Versen (339,24 bis 339,28) genau
+zwei Verse tiefer. Ohne den Textvergleich waere das unentdeckt geblieben.
+
+## Warum Zeichenkette und nicht Wortmenge
+
+Die erste Fassung verglich normalisierte WORTMENGEN und meldete neun Verse
+ohne Entsprechung. Sechs davon waren derselbe Vers in anderer Orthographie:
+'unt hetz Lehelin genomn' gegen 'und hetez lehelin genomen', 'ans grales'
+gegen 'an sgrales'. Das Maass scheiterte an Schreibung und Worttrennung, nicht
+an Textidentitaet, und produzierte damit genau die Zweifelsfaelle, die es
+finden sollte. Verglichen wird jetzt die MHD-normalisierte Buchstabenkette
+ohne Trennungen (`difflib`), Schwelle 0.75. Uebrig bleiben drei echte Faelle.
 
 Usage:
     python scripts/ingest/horses/02-map-citations.py           # Bericht
@@ -35,11 +45,11 @@ Usage:
     python scripts/ingest/horses/02-map-citations.py --detail  # je Vers eine Zeile
 """
 import argparse
+import difflib
 import io
 import json
 import re
 import sys
-import unicodedata
 import urllib.request
 from collections import Counter, defaultdict
 from pathlib import Path
@@ -51,6 +61,9 @@ from lxml import etree  # noqa: E402
 
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parents[2]
+sys.path.insert(0, str(REPO / 'scripts'))
+from mhg_normalizer import normalize_mhg as normalize  # noqa: E402
+
 TEI = '{http://www.tei-c.org/ns/1.0}'
 XML = '{http://www.w3.org/XML/1998/namespace}'
 
@@ -62,6 +75,11 @@ SIGLE = {'Wh.': 'WH', 'Pz.': 'PZ', 'Er.': 'ER', 'Iw.': 'IW', 'Tr.': 'TR'}
 # Unterzaehlung eines Einschubs). Bei IW und TR steht die Verszahl blank.
 MAL100 = {'WH', 'PZ', 'ER'}
 UMKREIS = 4
+# Ab hier gilt ein Vers als derselbe. Der Wert liegt in den gemessenen Daten
+# (08.08.2026) in einer leeren Zone: schwaechste akzeptierte Entsprechung
+# 0.84, staerkster verworfener Treffer 0.42, dazwischen nichts. Die Schwelle
+# entscheidet hier also nichts, was der Abstand nicht schon entscheidet.
+SCHWELLE = 0.75
 
 
 def stellenkern(n, sigle):
@@ -72,10 +90,15 @@ def stellenkern(n, sigle):
     return int(n) * 100 if sigle in MAL100 else int(n)
 
 
-def woerter(s):
-    s = unicodedata.normalize('NFD', s.lower())
-    s = ''.join(c for c in s if unicodedata.category(c) != 'Mn')
-    return set(re.findall(r'[a-z]+', s))
+def kette(s):
+    """Ein Vers als vergleichbare Buchstabenkette: MHD-normalisiert, ohne
+    Trennungen und Interpunktion. Die Worttrennung faellt bewusst weg, sie
+    ist zwischen Ausgaben nicht stabil ('ans grales' / 'an sgrales')."""
+    return re.sub(r'[^a-z]', '', normalize(s.lower()))
+
+
+def aehnlich(a, b):
+    return difflib.SequenceMatcher(None, a, b).ratio() if a and b else 0.0
 
 
 def lade_borek(pfad=None):
@@ -84,14 +107,19 @@ def lade_borek(pfad=None):
     else:
         with urllib.request.urlopen(QUELLE, timeout=60) as r:
             baum = etree.fromstring(r.read()).getroottree()
-    belege = defaultdict(dict)
+    # Je Vers eine LISTE. 346 Stellenangaben entfallen auf 336 Verse: zehn
+    # werden von zwei Pferden zitiert, vier davon mit abweichendem Wortlaut
+    # ('kam her Walwan geriten' / 'und kam her Walwan geriten'). Ein dict
+    # ueberschriebe die eine Fassung mit der anderen, und welche gewinnt,
+    # haengt an der Dokumentreihenfolge. Bewertet wird die beste.
+    belege = defaultdict(lambda: defaultdict(list))
     for pferd in baum.getroot().iter(TEI + 'horse'):
         pid = pferd.get(XML + 'id')
         for src in pferd.iter(TEI + 'source'):
             werk = (src.get('ref') or '').lstrip('#')
             for l in src.iter(TEI + 'l'):
-                belege[werk][l.get('n')] = (
-                    re.sub(r'\s+', ' ', ''.join(l.itertext())).strip(), pid)
+                belege[werk][l.get('n')].append(
+                    (re.sub(r'\s+', ' ', ''.join(l.itertext())).strip(), pid))
     return belege
 
 
@@ -113,15 +141,16 @@ def main():
                 unser[int(wid.split('_')[1])].append(w.text)
 
         versatz, schwach, zeilen = Counter(), [], []
-        for n, (txt, pferd) in sorted(belege[werk].items()):
+        for n, fassungen in sorted(belege[werk].items()):
             k = stellenkern(n, sigle)
-            b = woerter(txt)
-            if not b:
+            ketten = [(kette(t), pid) for t, pid in fassungen]
+            ketten = [(b, pid) for b, pid in ketten if b]
+            if not ketten:
                 continue
-            punkte = max((len(b & woerter(' '.join(unser.get(k + d, [])))) / len(b), -abs(d), d)
-                         for d in range(-UMKREIS, UMKREIS + 1))
-            quote, _, d = punkte
-            if quote >= 0.6:
+            quote, _, d, pferd = max(
+                (aehnlich(b, kette(' '.join(unser.get(k + d, [])))), -abs(d), d, pid)
+                for b, pid in ketten for d in range(-UMKREIS, UMKREIS + 1))
+            if quote >= SCHWELLE:
                 versatz[d] += 1
             else:
                 schwach.append([n, round(quote, 2)])
@@ -138,7 +167,8 @@ def main():
 
     gesamt = sum(d['belege'] for d in ergebnis.values())
     exakt = sum(d['versatz'].get(0, 0) for d in ergebnis.values())
-    print('Belegstellen-Mapping #193, gemessen gegen tei/ (Umkreis %d Verse)\n' % UMKREIS)
+    print('Belegstellen-Mapping #193, gemessen gegen tei/ '
+          '(Umkreis %d Verse, Schwelle %.2f)\n' % (UMKREIS, SCHWELLE))
     print('  %-5s %-6s %7s  %-26s %s' % ('Werk', 'Sigle', 'Verse', 'Versatz', 'ohne klare Entsprechung'))
     for werk, d in ergebnis.items():
         print('  %-5s %-6s %7d  %-26s %d'

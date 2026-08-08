@@ -113,27 +113,37 @@ Die Erec-Sonderzählung ist kein Sonderfall unserer Daten, sondern die übliche 
 
 ### Ergebnis
 
+Die 346 Stellenangaben entfallen auf **336 Verse**: zehn werden von zwei Pferden zitiert, vier davon mit abweichendem Wortlaut. Bewertet wird pro Vers die beste Fassung.
+
 | Werk | Verse | Versatz 0 | Versatz | ohne klare Entsprechung |
 |---|---|---|---|---|
 | `WH` | 97 | 97 | | |
-| `PZ` | 184 | 170 | 5 × (+2), 1 × (+1) | 8 |
+| `PZ` | 184 | 177 | 5 × (+2) | 2 |
 | `ER` | 14 | 13 | | 1 |
 | `IW` | 23 | 23 | | |
 | `TR` | 18 | 18 | | |
 
-**321 von 336 Versen sitzen exakt, 96 Prozent.** Alle 346 Stellenangaben lassen sich überdies auf eine existierende Wort-ID abbilden.
+**328 von 336 Versen sitzen exakt, 98 Prozent.** Alle 346 Stellenangaben lassen sich überdies auf eine existierende Wort-ID abbilden.
 
 ### Warum die Trefferquote allein nichts beweist
 
-Dass eine ID existiert, heißt nicht, dass sie auf den zitierten Vers zeigt. Der erste Durchlauf meldete 346 von 346 und sah nach einem glatten Ergebnis aus. Erst der Vergleich des **Wortlauts** zeigte, dass im Parzival eine Stelle um zwei Verse verschoben liegt: Boreks 339,24 („dô hiez er gürten balde") steht bei uns unter 339,26. Betroffen sind sechs Verse, lokal und nicht systematisch, also vermutlich eine abweichende Ausgabe an dieser Stelle.
+Dass eine ID existiert, heißt nicht, dass sie auf den zitierten Vers zeigt. Der erste Durchlauf meldete 346 von 346 und sah nach einem glatten Ergebnis aus. Erst der Vergleich des **Wortlauts** zeigte, dass im Parzival fünf aufeinanderfolgende Verse (339,24 bis 339,28) genau zwei Verse tiefer stehen: Boreks 339,24 („dô hiez er gürten balde") liegt bei uns unter 339,26. Vier der fünf stimmen im Wortlaut vollständig überein, es ist also derselbe Text unter anderer Nummer, lokal und nicht systematisch.
 
-Die neun Verse ohne klare Entsprechung sind überwiegend Editionsvarianz (Erec 4629,19 lautet bei Borek „und kam her Walwân geriten", bei uns „kam her Walwân geriten"). Eine Ausnahme fällt auf: Boreks Erec-Stelle **`4118`** trifft nichts und steht in ihrer Liste zwischen 4714 und 4719, ist also mit hoher Wahrscheinlichkeit ein Zahlendreher für 4718.
+### Warum das Vergleichsmaß zweimal gemessen wurde
+
+Die erste Fassung verglich normalisierte **Wortmengen** und meldete neun Verse ohne Entsprechung. Sechs davon waren derselbe Vers in anderer Schreibung: „unt hetz Lehelîn genomn" gegen „und hetez lehelîn genomen", „ans grâles" gegen „an sgrâles". Das Maß scheiterte an Orthographie und Worttrennung, nicht an Textidentität, und erzeugte damit genau die Zweifelsfälle, die es finden sollte. Verglichen wird jetzt die MHD-normalisierte Buchstabenkette ohne Trennungen (`difflib`). Die Schwelle 0.75 liegt in einer leeren Zone: schwächste akzeptierte Entsprechung 0.84, stärkster verworfener Treffer 0.42.
+
+Übrig bleiben **drei** Verse. Zwei im Parzival (604,18 und 604,19) treffen im Umkreis von vier Versen nichts, dort weicht die Textgrundlage wirklich ab. Der dritte ist Boreks Erec-Stelle **`4118`**: sie trifft nichts und steht in ihrer Liste zwischen 4714 und 4719, ist also mit hoher Wahrscheinlichkeit ein Zahlendreher für 4718.
+
+### Welche Ausgabe eigentlich?
+
+Unser Parzival folgt Leitzmann, ATB 12, 7. Auflage 1961, unser Erec Leitzmann/Wolff, ATB 39, 3. Auflage 1963. **Borek nennt keine Ausgabe**: ihr `sourceDesc` führt nur die GND des Werks, keinen Herausgeber, kein Jahr. Der Versatz ist damit kein Fehler auf einer der beiden Seiten, sondern die Differenz zwischen einer benannten und einer unbenannten Textgrundlage. Das ist der Grund, warum Boreks Angabe im Index erhalten bleiben muss und nicht stillschweigend auf unsere Zählung umgerechnet werden darf: nachprüfbar ist nur der Wortlaut, nicht die Verszahl.
 
 ### Was das für Baustein 3 heißt
 
 Datenseitig ist das Feature machbar, und der Anschluss ans Korpus ist besser als erwartet. Was noch fehlt, ist die inhaltliche Ebene: 24 `<horse>`-Elemente (10 Deklarationen plus 14 Vorkommen), 52 `<horseName>` mit ihren Schreibvarianten, 49 `<event type="intro|combat|care|loss|...">`, 22 `<trait type="color|quality|marking">`, 32 `<object>` und 48 `<person>` mit Besitzer- und Reiterrollen.
 
-Die sechs verschobenen und neun unklaren Verse gehören vor dem Bau entschieden: auf unsere Zählung umbiegen oder Boreks Angabe mitführen und beim Sprung in den Reader auflösen.
+Offen ist eine Modellierungsfrage: wie ein Beleg im Index gespeichert wird. Boreks Zitation und unser aufgelöstes Ziel sind zwei verschiedene Angaben, und für fünf Verse fallen sie auseinander.
 
 ## Anschluss
 
