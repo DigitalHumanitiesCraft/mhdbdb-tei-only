@@ -324,3 +324,23 @@ Daraus folgt die eigentliche Regel in ADR-019: die beiden Schwellen sind nicht z
 **Nummer:** #111 verlangt im Body ADR-015. Die ist seit 05/2026 vergeben (Authority-Source-Modell), worauf der Ticket-Kommentar vom 05.08. schon hingewiesen hatte. Es ist ADR-019 geworden.
 
 **Phase:** Betrieb. #111 bleibt offen und bleibt Trigger-Reminder, jetzt aber mit einem Wächter statt mit der Hoffnung, dass jemand nachmisst.
+
+---
+
+## 2026-08-08 (Nachmittag) – #193 Baustein 1: ein Pferd, das als Mann klassifiziert war
+
+**Summary:** `lemma_3036` Ingliart trägt jetzt `concept_14012100` (Haustiere/Namen) und `concept_23221000` (Pferd und Reiten/Namen) statt `concept_21012000` (Männlich/Mann) und `concept_23112500` (Personennamen). Zwei Zeilen in `lexicon.xml`, dazu die abgeleitete Schicht. Stufe 1 nach dem Playbook, in etwa der veranschlagten halben Stunde plus Bauzeit.
+
+**Die Streichung war der heikle Teil, und sie war gedeckt.** Das Playbook sagt: Zeiger setzen ist Stufe 1, Zeiger streichen ist eine Rückfrage. Hier beauftragt #193 die Umklassifizierung wörtlich und nennt die Belege. Nachgeprüft statt geglaubt, und beim ersten Versuch falsch nachgeprüft: Ingliart hat **drei** Tokens im Korpus, nicht zwei. `PZ_38926_4` und `PZ_39814_3` sind exakt Boreks Stellen Pz. 389,26 und 398,14, und dort entscheidet der Kontext die Sache ohne Sekundärliteratur: „mit den kurzen ôren ingliart" beschreibt kein Mannsbild. Eine halbe Umklassifizierung wäre außerdem schlechter als keine gewesen, weil Ingliart dann gleichzeitig Mann und Pferd wäre.
+
+**Der dritte Beleg, und wie ich ihn beinahe unterschlagen hätte.** `REN_242090_0` trägt `ingligar` und steht im Rennewart in einem Namenkatalog nach dem Muster „X von Ort": `wimiligar von kartetstere`, `ingligar von jelezie`, `rufter von themarie`. Die Nachbarn tragen alle eigene Hapax-Lemmata im 22xxx-Bereich, nur dieser eine hängt am Parzival-Pferd, allem Anschein nach wegen der Formähnlichkeit. Das ist ein **älterer** Fehler, keiner dieser Session: vorher standen zwei Pferdebelege unter „Personennamen", jetzt steht ein Ritter unter „Pferdenamen". Netto besser, sauber nicht, und ob `ingligar von jelezie` überhaupt derselbe Name ist, entscheidet KZW und nicht eine Session. Liegt als Rückfrage am Ticket.
+
+**Zwei Suchfehler auf dem Weg dahin, beide in CLAUDE.md geregelt (#126/#130).** Meine erste Zählung ergab null Tokens: `@lemmaRef` trägt `lexicon.xml#lemma_3036`, nicht `#lemma_3036`, das Dateipräfix gehört zum Token. Meine zweite Zählung lief in einen Timeout, und danach habe ich die zwei Parzival-Belege für das ganze Bild gehalten, statt die Messung zu wiederholen. Elf Dateien enthalten die Zeichenkette `lemma_3036`, neun davon nur als Präfix von `lemma_30360` bis `lemma_30369`, zwei mit echten Treffern. Gefunden hat den dritten Beleg das Review, nicht ich. Die Lehre ist weniger die Token-Regel als die banalere Hälfte: eine Messung, die in einen Timeout läuft, ist keine Messung, und ein Teilergebnis darf nicht als Gesamtzahl weitergereicht werden.
+
+**Quercheck der Rubrik**, der zweite Teil von Baustein 1: 49 Lemmata hängen jetzt unter `concept_23221000`, das sind die 48 aus dem Ticket plus Ingliart. Alle 49 tragen `pos=NAM`, alle zehn Namen von Borek sind vertreten, und bis auf einen tragen alle zusätzlich `concept_14012100`. Der eine ist Pegasus, und der gehört dort nicht hin: er führt stattdessen Fabelwesen und Mythologie, was für ein geflügeltes Pferd der griechischen Sage richtiger ist als „Haustier". Kein Befund, sondern eine begründete Ausnahme.
+
+**Was die Kuration praktisch ändert**, damit die Erwartung stimmt: in der Volltextsuche nichts, die zwei Belege waren immer schon auffindbar. Sichtbar wird es im Begriffs-Zugang: wer im Playground die Pferdenamen unter „Pferd und Reiten/Namen" aufblättert, fand dort bisher neun der zehn arthurischen Pferde und Ingliart stattdessen unter den Personennamen. Genau diese Lücke hat Borek von außen bemerkt.
+
+**Lifecycle:** Authority-Index v1.8.0 auf v1.8.1, fünf Stellen gebumpt, Index und die 2.742 API-Dateien neu gebaut. Geändert haben sich davon zwei, `api/index.json` (Versionsangabe) und `api/lemmata/index.json` (der Eintrag selbst). Die Konzept-Dateien unter `api/concepts/` führen nur Metadaten und keine Lemma-Listen, deshalb bleiben sie unberührt: das ist kein vergessener Rebuild, sondern die Form der API.
+
+**Phase:** Betrieb. #193 bleibt offen, Baustein 1 von dreien ist erledigt bis auf die Rückfrage zu `ingligar`; Baustein 2 (Wortlisten-Abgleich) und 3 (der Playground-Explorer) sind eigene Arbeitspakete.
