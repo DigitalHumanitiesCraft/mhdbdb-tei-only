@@ -1,0 +1,7 @@
+# Boreks Quelldateien werden zur Laufzeit ueber ihre Handles geholt und nicht
+# im Repo abgelegt: eine Kopie hier waere eine zweite Stelle, die altern kann.
+# Wer offline arbeitet, legt sie neben die Skripte, und dann sollen sie nicht
+# in einem Commit landen (parallele Sessions teilen den Arbeitsbaum).
+arthurianHorses.xml
+wl-*.txt
+wl-*.raw

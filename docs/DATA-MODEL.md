@@ -397,6 +397,59 @@ Category derivation at build time: `Epitheta 1-5` becomes `epi`; `Bezeichnung 1-
 
 **No version sync channel:** the index is loaded lazily through fetch plus pako, without an IndexedDB cache and without an entry in `corpus-loader.js`, so a rebuild is live with the commit (the #94 class of bugs is excluded by construction). Reason to update: new or updated data in the source repository, then a rebuild and a commit of the `.gz`.
 
+### Horses Index (#193)
+
+**File:** `data/horses-index.json.gz` (11 KB gz, 77 KB raw, v1.0.0)
+**Build:** `python scripts/ingest/horses/03-build-index.py` (fetches the source once into the script directory, which is gitignored; `--dry-run` reports without writing)
+**Consumer:** a curated playground query (in progress, together with #194)
+
+A second external curated dataset, and again not corpus-derived: Luise Borek's `arthurianHorses.xml`, an exemplary semantic encoding of the horses in five Arthurian works (hdl:tudatalib/3695, **CC0 1.0**, published 2023-01-18). Note that the file's own header still reads "Veröffentlichung unter CC-BY-SA wird angestrebt" and carries the date January 2017: that is the draft state, the repository licence governs.
+
+13 horses (10 named, 3 unnamed), 346 attestations across 336 verses in WH, PZ, ER, IW and TR, with Borek's inline annotations carried through: `event/@type` (care, intro, loss, combat, trans, communication, recognition, gift), `trait/@type` (quality, marking, color), `object/@type` (gear, armor, deco, weapon), `person/@role` (owner, claimant, rider), and the designation the horse appears under in the verse (`usg`, for instance `ors`).
+
+Three of Borek's markings sit where a naive walk misses them, and each occurs once: an `event` **inside** the `<l>` rather than around it (Pz. 549,7 carries its `care` that way), an `objectName` without an enclosing `object` (Wh. 77,14, the sword Schoyuse), and a `horseGrp` for a group of animals rather than this one horse (Pz. 474,3 compares `ein ors` with `den orsn`). All three would have vanished silently from any filter, which is why the build collects ancestors and descendants of a verse.
+
+**Both citations are stored, and that is the point.** Borek's reference and our resolved target are two different statements, and for eight of the 336 verses they diverge. Our Parzival follows Leitzmann (ATB 12, 7th ed. 1961), our Erec Leitzmann/Wolff (ATB 39, 3rd ed. 1963); **Borek names no edition at all**, her `sourceDesc` carries only the work's GND. The difference is therefore documentable but not resolvable, so a silent conversion to our counting would not be verifiable. What is verifiable is the wording, and that is what the build measures.
+
+| `match` | meaning | count |
+|---|---|---|
+| `exact` | Borek's number hits our verse | 338 |
+| `shifted` | displaced within a four-verse radius, wording proves identity (Pz. 339,24 to 339,28 sit two verses lower here) | 5 |
+| `distant` | outside the radius but unambiguous (Pz. 604,18 is our 603,18; Er. 4118 is 4718, a transposed digit in the source) | 3 |
+| `unresolved` | no candidate holding both threshold and margin: `target` is `null` and the view must not offer a jump | 0 |
+
+Counted **per attestation**. The report `02-map-citations.py` counts the same measurement **per verse** and therefore says 328 exact, not 338: ten verses are cited by two horses each. Two units, one measurement.
+
+Comparison runs on the MHG-normalized letter string without word breaks (`difflib`), threshold 0.75, and a `distant` hit is only adopted with at least 0.15 margin over the runner-up. A word-set comparison was tried first and failed on orthography and word division (`ans grâles` against `an sgrâles`), reporting six verses as doubtful that were not. The rationale sits in `scripts/ingest/horses/mapping.py`, shared by the build and the report `02-map-citations.py` so the two cannot drift apart.
+
+`target` is the **verse core** (`PZ_33926`), not the first word id: ongoing corpus corrections can change which `<w>` opens a verse, not where the verse sits. The frontend builds the anchor.
+
+This is the point where #59 decided differently. The naming index builds **no** reader deep links because its verse counting diverges, and that remains right there. Here links are defensible, but only because every single citation was checked against the wording; a `target` without that check would silently hit the wrong verse.
+
+**Deterministic build:** no build timestamp, gzip without mtime, and `source.sha256` pins the source state, so the same source plus the same corpus yields a byte-identical index. Rebuild after corpus changes to the five works: the resolution is measured against `tei/`.
+
+```json
+{
+  "version": "1.0.0",
+  "source": { "title": "...", "author": "Luise Borek", "handle": "hdl:tudatalib/3695",
+              "licence": "CC0 1.0", "published": "2023-01-18", "sha256": "<hex>" },
+  "horses": [
+    { "id": "Gringuljete", "name": "Gringuljete", "named": true,
+      "variants": ["Gringuljet", "Kringulet", "Gringalet"],
+      "works": ["PZ", "ER"], "attestations": 120 }
+  ],
+  "attestations": [
+    { "horse": "Gringuljete", "work": "PZ", "n": "339,24", "citation": "Pz. 339,24",
+      "text": "dô hiez er gürten balde", "target": "PZ_33926", "match": "shifted", "score": 0.83,
+      "events": [{ "type": "intro" }, { "type": "care" }],
+      "persons": [{ "text": "er", "role": "owner", "ref": ["Gâwân"] }],
+      "objects": [{ "type": "gear", "text": "gürten" }] }
+  ]
+}
+```
+
+**No version sync channel**, for the same reason as the naming index: lazy fetch, no IndexedDB cache, no entry in `corpus-loader.js`.
+
 ## Data Processing Pipeline
 
 ### Build Scripts

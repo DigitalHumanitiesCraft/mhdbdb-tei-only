@@ -1,43 +1,18 @@
 #!/usr/bin/env python3
 """#193 Baustein 3, Vorpruefung: treffen Boreks Belegstellen unsere Verse?
 
-Das ist die Frage, an der das ganze Feature haengt, und sie ist vor jeder
+Das ist die Frage, an der das ganze Feature haengt, und sie war vor jeder
 UI-Entscheidung zu beantworten. `arthurianHorses.xml` (TUdatalib 3695, CC0)
-zitiert 346 Verse aus fuenf Werken. Alle fuenf liegen im Korpus.
+traegt 346 Stellenangaben aus fuenf Werken, verteilt auf 336 Verse. Alle
+fuenf Werke liegen im Korpus.
 
-## Die Zaehlweisen
+Dieses Skript berichtet, es baut nichts. Die Auflegungslogik steht in
+`mapping.py` und wird vom Index-Bau (`03-build-index.py`) mitbenutzt, damit
+Bericht und Index nicht auseinanderlaufen. Warum der Wortlaut und nicht die
+Verszahl entscheidet, steht dort im Kopf.
 
-Unsere `<l>` tragen KEIN `xml:id`, nur ein fortlaufendes `@n`. Die zitierbare
-Stellenangabe steckt in den `xml:id` der WOERTER, und zwar in drei Varianten:
-
-    WH, PZ   Dreissigerzaehlung   339,24  ->  PZ_33924_*   (Abschnitt*100 + Vers)
-    ER       Vers mal 100         4714    ->  ER_471400_*
-    ER       Sonderzaehlung       4629,18 ->  ER_462918_*
-    IW, TR   fortlaufend          1108    ->  IW_1108_*
-
-Die Erec-Sonderzaehlung ist kein Sonderfall unserer Daten, sondern die
-uebliche Zaehlung des Einschubs nach Vers 4629; unsere IDs bilden sie ab
-(`ER_462901` bis `ER_462924` existieren).
-
-## Warum die Trefferquote allein nicht reicht
-
-Alle 346 Stellenangaben lassen sich auf eine existierende Wort-ID abbilden.
-Das ist noch kein Beweis: eine ID kann existieren und trotzdem auf einen
-anderen Vers zeigen, wenn die zitierte Ausgabe anders zaehlt. Das Skript
-vergleicht deshalb zusaetzlich den WORTLAUT und sucht den besten Versatz im
-Umkreis von vier Versen. Gemessen am 08.08.2026 sitzen 328 von 336 Versen
-exakt; im Parzival liegt ein Block von fuenf Versen (339,24 bis 339,28) genau
-zwei Verse tiefer. Ohne den Textvergleich waere das unentdeckt geblieben.
-
-## Warum Zeichenkette und nicht Wortmenge
-
-Die erste Fassung verglich normalisierte WORTMENGEN und meldete neun Verse
-ohne Entsprechung. Sechs davon waren derselbe Vers in anderer Orthographie:
-'unt hetz Lehelin genomn' gegen 'und hetez lehelin genomen', 'ans grales'
-gegen 'an sgrales'. Das Maass scheiterte an Schreibung und Worttrennung, nicht
-an Textidentitaet, und produzierte damit genau die Zweifelsfaelle, die es
-finden sollte. Verglichen wird jetzt die MHD-normalisierte Buchstabenkette
-ohne Trennungen (`difflib`), Schwelle 0.75. Uebrig bleiben drei echte Faelle.
+Ergebnis vom 08.08.2026, je VERS gezaehlt: 328 exact, 5 shifted, 3 distant,
+0 unresolved. Der Index zaehlt je BELEG und meldet deshalb 338 exact.
 
 Usage:
     python scripts/ingest/horses/02-map-citations.py           # Bericht
@@ -45,139 +20,57 @@ Usage:
     python scripts/ingest/horses/02-map-citations.py --detail  # je Vers eine Zeile
 """
 import argparse
-import difflib
 import io
 import json
-import re
 import sys
-import urllib.request
-from collections import Counter, defaultdict
+from collections import Counter
 from pathlib import Path
 
 if sys.stdout.encoding and sys.stdout.encoding.lower() not in ('utf-8', 'utf8'):
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', line_buffering=True)
 
-from lxml import etree  # noqa: E402
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import mapping  # noqa: E402
 
 HERE = Path(__file__).resolve().parent
-REPO = HERE.parents[2]
-sys.path.insert(0, str(REPO / 'scripts'))
-from mhg_normalizer import normalize_mhg as normalize  # noqa: E402
-
-TEI = '{http://www.tei-c.org/ns/1.0}'
-XML = '{http://www.w3.org/XML/1998/namespace}'
-
 QUELLE = ('https://tudatalib.ulb.tu-darmstadt.de/server/api/core/bitstreams/'
           'a64fd7c9-9c58-4446-97bd-885577f2b85c/content')   # hdl:tudatalib/3695
-
-SIGLE = {'Wh.': 'WH', 'Pz.': 'PZ', 'Er.': 'ER', 'Iw.': 'IW', 'Tr.': 'TR'}
-# Texte, deren Wort-IDs den Vers mit 100 multiplizieren (Platz fuer die
-# Unterzaehlung eines Einschubs). Bei IW und TR steht die Verszahl blank.
-MAL100 = {'WH', 'PZ', 'ER'}
-UMKREIS = 4
-# Ab hier gilt ein Vers als derselbe. Der Wert liegt in den gemessenen Daten
-# (08.08.2026) in einer leeren Zone: schwaechste akzeptierte Entsprechung
-# 0.84, staerkster verworfener Treffer 0.42, dazwischen nichts. Die Schwelle
-# entscheidet hier also nichts, was der Abstand nicht schon entscheidet.
-SCHWELLE = 0.75
-# Vorsprung, den ein werkweit gesuchter Treffer vor dem zweitbesten braucht.
-# Gemessen liegen die drei Faelle bei 1.00/0.68, 0.95/0.62 und 1.00/0.62.
-ABSTAND = 0.15
-
-
-def stellenkern(n, sigle):
-    """Boreks Angabe auf den Verskern unserer Wort-IDs abbilden."""
-    if ',' in n:
-        a, b = n.split(',')
-        return int('%d%02d' % (int(a), int(b)))
-    return int(n) * 100 if sigle in MAL100 else int(n)
-
-
-def kette(s):
-    """Ein Vers als vergleichbare Buchstabenkette: MHD-normalisiert, ohne
-    Trennungen und Interpunktion. Die Worttrennung faellt bewusst weg, sie
-    ist zwischen Ausgaben nicht stabil ('ans grales' / 'an sgrales')."""
-    return re.sub(r'[^a-z]', '', normalize(s.lower()))
-
-
-def aehnlich(a, b):
-    return difflib.SequenceMatcher(None, a, b).ratio() if a and b else 0.0
-
-
-def lade_borek(pfad=None):
-    if pfad and pfad.exists():
-        baum = etree.parse(str(pfad))
-    else:
-        with urllib.request.urlopen(QUELLE, timeout=60) as r:
-            baum = etree.fromstring(r.read()).getroottree()
-    # Je Vers eine LISTE. 346 Stellenangaben entfallen auf 336 Verse: zehn
-    # werden von zwei Pferden zitiert, vier davon mit abweichendem Wortlaut
-    # ('kam her Walwan geriten' / 'und kam her Walwan geriten'). Ein dict
-    # ueberschriebe die eine Fassung mit der anderen, und welche gewinnt,
-    # haengt an der Dokumentreihenfolge. Bewertet wird die beste.
-    belege = defaultdict(lambda: defaultdict(list))
-    for pferd in baum.getroot().iter(TEI + 'horse'):
-        pid = pferd.get(XML + 'id')
-        for src in pferd.iter(TEI + 'source'):
-            werk = (src.get('ref') or '').lstrip('#')
-            for l in src.iter(TEI + 'l'):
-                belege[werk][l.get('n')].append(
-                    (re.sub(r'\s+', ' ', ''.join(l.itertext())).strip(), pid))
-    return belege
 
 
 def main():
     ap = argparse.ArgumentParser(description='#193 Baustein 3: Belegstellen-Mapping.')
     ap.add_argument('--json', action='store_true', dest='as_json')
     ap.add_argument('--detail', action='store_true')
+    ap.add_argument('--quelle', type=Path, default=HERE / 'arthurianHorses.xml',
+                    help='lokale Kopie; fehlt sie, wird sie geholt (%s)' % QUELLE)
     args = ap.parse_args()
 
-    belege = lade_borek(HERE / 'arthurianHorses.xml')
+    if not args.quelle.exists():
+        import urllib.request
+        print('hole %s' % QUELLE)
+        args.quelle.write_bytes(urllib.request.urlopen(QUELLE, timeout=60).read())
+
+    belege = mapping.lade_borek(args.quelle)
     ergebnis = {}
 
-    for werk, sigle in SIGLE.items():
-        root = etree.parse(str(REPO / 'tei' / ('%s.tei.xml' % sigle))).getroot()
-        unser = defaultdict(list)
-        for w in root.iter(TEI + 'w'):
-            wid = w.get(XML + 'id')
-            if wid and w.text:
-                unser[int(wid.split('_')[1])].append(w.text)
-
-        verskette = {k: kette(' '.join(v)) for k, v in unser.items()}
-
-        versatz, schwach, fern, zeilen = Counter(), [], [], []
+    for werk, sigle in mapping.SIGLE.items():
+        _, verskette = mapping.lade_verse(sigle)
+        art, versatz, fern, offen, zeilen = Counter(), Counter(), [], [], []
         for n, fassungen in sorted(belege[werk].items()):
-            k = stellenkern(n, sigle)
-            ketten = [(kette(t), pid) for t, pid in fassungen if kette(t)]
-            if not ketten:
-                continue
-            quote, _, d, pferd = max(
-                (aehnlich(b, verskette.get(k + d, '')), -abs(d), d, pid)
-                for b, pid in ketten for d in range(-UMKREIS, UMKREIS + 1))
-            treffer = k + d
-            if quote >= SCHWELLE:
-                versatz[d] += 1
-            else:
-                # Der Umkreis war zu eng gedacht: ein Versatz kann ueber die
-                # Grenze des Dreissigers gehen (Pz. 604,18 steht bei uns unter
-                # 603,18) und eine falsche Ziffer springt beliebig weit
-                # (Er. 4118 ist 4718). Deshalb das ganze Werk absuchen, aber
-                # nur uebernehmen, wenn der Treffer EINDEUTIG ist: sonst
-                # findet die Suche irgendeine Formelzeile, von denen es im
-                # Versepos viele gibt.
-                rang = sorted(((aehnlich(b, t), kk) for b, _ in ketten
-                               for kk, t in verskette.items() if t), reverse=True)[:2]
-                (q1, k1), (q2, _) = rang[0], rang[1]
-                if q1 >= SCHWELLE and q1 - q2 >= ABSTAND:
-                    fern.append([n, '%s_%d' % (sigle, k1), round(q1, 2), round(q2, 2)])
-                    quote, treffer, d = q1, k1, k1 - k
-                else:
-                    schwach.append([n, round(q1, 2)])
-            zeilen.append([n, '%s_%d' % (sigle, treffer), pferd, round(quote, 2), d])
+            r = mapping.aufloesen(n, sigle, fassungen, verskette)
+            art[r['match']] += 1
+            if r['match'] == 'shifted':
+                versatz[r['versatz']] += 1
+            elif r['match'] == 'distant':
+                fern.append([n, r['target'], r['score']])
+            elif r['match'] == 'unresolved':
+                offen.append([n, r['score']])
+            zeilen.append([n, r['target'], r['match'], r['score'], r['versatz']])
 
         ergebnis[werk] = dict(
-            sigle=sigle, belege=len(belege[werk]), versatz=dict(versatz.most_common()),
-            schwach=schwach, fern=fern, zeilen=zeilen if args.detail else [],
+            sigle=sigle, belege=len(belege[werk]), art=dict(art),
+            versatz=dict(versatz.most_common()), fern=fern, offen=offen,
+            zeilen=zeilen if args.detail else [],
         )
 
     if args.as_json:
@@ -185,30 +78,35 @@ def main():
         return 0
 
     gesamt = sum(d['belege'] for d in ergebnis.values())
-    exakt = sum(d['versatz'].get(0, 0) for d in ergebnis.values())
+    exakt = sum(d['art'].get('exact', 0) for d in ergebnis.values())
+    offen = sum(d['art'].get('unresolved', 0) for d in ergebnis.values())
     print('Belegstellen-Mapping #193, gemessen gegen tei/ '
-          '(Umkreis %d Verse, Schwelle %.2f)\n' % (UMKREIS, SCHWELLE))
-    print('  %-5s %-6s %7s  %-20s %6s %s'
-          % ('Werk', 'Sigle', 'Verse', 'Versatz', 'fern', 'ohne Entsprechung'))
+          '(Umkreis %d Verse, Schwelle %.2f)\n' % (mapping.UMKREIS, mapping.SCHWELLE))
+    print('  %-5s %-6s %7s  %-22s %6s %s'
+          % ('Werk', 'Sigle', 'Verse', 'verschoben', 'fern', 'offen'))
     for werk, d in ergebnis.items():
-        print('  %-5s %-6s %7d  %-20s %6d %d'
-              % (werk, d['sigle'], d['belege'], d['versatz'], len(d['fern']), len(d['schwach'])))
-    print('\n  %d von %d Versen sitzen exakt (%.0f %%).' % (exakt, gesamt, 100 * exakt / gesamt))
+        print('  %-5s %-6s %7d  %-22s %6d %d'
+              % (werk, d['sigle'], d['belege'], d['versatz'] or '',
+                 len(d['fern']), len(d['offen'])))
+    print('\n  %d von %d Versen sitzen exakt (%.0f %%), %d bleiben offen.'
+          % (exakt, gesamt, 100 * exakt / gesamt, offen))
     for werk, d in ergebnis.items():
-        andere = {k: v for k, v in d['versatz'].items() if k != 0}
-        if andere:
-            print('  %s: %s Verse mit Versatz, lokal und nicht systematisch.' % (d['sigle'], andere))
-        for n, ziel, q1, q2 in d['fern']:
-            print('  %s %s liegt ausserhalb des Umkreises bei %s '
-                  '(%.2f, zweitbester %.2f).' % (d['sigle'], n, ziel, q1, q2))
-        if d['schwach']:
-            print('  %s ohne klare Entsprechung: %s'
-                  % (d['sigle'], ', '.join('%s (%.2f)' % (n, q) for n, q in d['schwach'][:6])))
+        if d['versatz']:
+            print('  %s: %s Verse verschoben, lokal und nicht systematisch.'
+                  % (d['sigle'], d['versatz']))
+        for n, ziel, q in d['fern']:
+            print('  %s %s liegt ausserhalb des Umkreises bei %s (%.2f).'
+                  % (d['sigle'], n, ziel, q))
+        for n, q in d['offen']:
+            print('  %s %s ohne Entsprechung (bester Treffer %.2f).'
+                  % (d['sigle'], n, q))
     if args.detail:
         print()
         for werk, d in ergebnis.items():
-            for n, ziel, pferd, q, dd in d['zeilen']:
-                print('  %-5s %-9s -> %-14s %-14s %.2f  Versatz %+d' % (werk, n, ziel, pferd or '', q, dd))
+            for n, ziel, art, q, dd in d['zeilen']:
+                print('  %-5s %-9s -> %-14s %-10s %.2f  %s'
+                      % (werk, n, ziel or '(keins)', art, q,
+                         'Versatz %+d' % dd if dd else ''))
     return 0
 
 

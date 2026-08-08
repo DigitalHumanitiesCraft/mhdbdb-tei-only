@@ -27,6 +27,7 @@ scripts/
 ├── ingest/                      # Korpus-Ingest je Vorhaben
 │   ├── ari/                     # ARITHMETIC, 6 Rechenbuch-Handschriften (#92)
 │   ├── frauenlob/               # Frauenlob-Revision (#236)
+│   ├── horses/                  # Arthurische Pferde (Borek), horses-index bauen (#193)
 │   ├── legacy-sources/          # Linecode-Quellen ins Repo spiegeln (#248)
 │   ├── naming/                  # Figurenbezeichnungen, naming-index bauen (#59)
 │   ├── pos-disambig/            # PoS-/Lemma-Disambiguierung in Batches (#189/#198)

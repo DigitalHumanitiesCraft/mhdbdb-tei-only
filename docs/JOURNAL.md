@@ -362,3 +362,27 @@ Daraus folgt die eigentliche Regel in ADR-019: die beiden Schwellen sind nicht z
 **Als Arbeit bleiben 20 Kandidaten fuer eine Nachklassifikation und 25 Verdachtsfaelle.** Beide brauchen eine philologische Durchsicht, bevor daraus Aenderungen werden; der klarste Block sind die Koerperteile, wo mehrere Lemmata nur an `concept_21030000` (Koerper von Menschen) haengen, obwohl Borek sie fuer Pferdekoerper belegt.
 
 **Phase:** Betrieb. #193 Baustein 2 erledigt, Baustein 3 (Playground-Explorer) unberuehrt.
+
+---
+
+## 2026-08-08 (Abend) – #193 Baustein 3: das Maß hat die Zweifelsfälle erfunden, die es finden sollte
+
+**Summary:** Boreks Belegstellen sind an unser Korpus angeschlossen und der Index `data/horses-index.json.gz` steht (11 KB gz, 346 Belege, 13 Pferde). Neu sind `scripts/ingest/horses/mapping.py` und `03-build-index.py`, `02-map-citations.py` ist auf das gemeinsame Modul umgestellt, DATA-MODEL.md hat einen Abschnitt.
+
+**Der Bericht vom Nachmittag meldete neun Verse ohne Entsprechung. Sechs davon gab es nicht.** Verglichen wurden normalisierte Wortmengen, und daran scheiterte „unt hetz Lehelîn genomn" gegen unser „und hetez lehelîn genomen", ebenso „ans grâles" gegen „an sgrâles". Das Maß hat an Orthographie und Worttrennung versagt, nicht an Textidentität, und damit genau die Zweifelsfälle produziert, deren Aufspüren seine Aufgabe war. Auf der MHD-normalisierten Buchstabenkette bleiben drei. Die Schwelle 0.75 sitzt danach in einer leeren Zone: schwächste akzeptierte Entsprechung 0.84, stärkster verworfener Treffer 0.42.
+
+**Die drei Reste waren keine Reste, sondern ein zu enger Suchradius.** Vier Verse Umkreis reichen nicht, wenn der Versatz über die Grenze des Dreißigers geht: `Pz. 604,18` steht bei uns unter 603,18, textlich zu 1.00 identisch. Und eine falsche Ziffer springt beliebig weit, `Er. 4118` ist textlich `4718`. Werkweit gesucht lösen sich alle drei eindeutig auf, mit 0.32 bis 0.38 Vorsprung vor dem jeweils zweitbesten. Damit sind **336 von 336 Versen textlich verifiziert**, kein einziger bleibt offen. Der Fallback übernimmt nur bei mindestens 0.15 Vorsprung, sonst fände er im Versepos irgendeine Formelzeile.
+
+**Der Berater hat den Fehler gefunden, und zwar nicht durch Nachrechnen, sondern durch Lesen.** Der README nannte als Beispiel für „ohne klare Entsprechung" einen Vers, der bei 0.80 lag und die eigene Schwelle von 0.60 klar überschritt. Ein Beispiel, das der Regel widerspricht, die es illustrieren soll, ist ein zuverlässigerer Indikator als jede Summe: hier hing an ihm das ganze Maß.
+
+**Die Modellierungsfrage ist entschieden, und die Begründung kam aus einer Metadatenzeile.** Gespeichert wird beides, Boreks Zitation wörtlich und unser aufgelöstes Ziel, dazu `match` und `score`. Ausschlaggebend war nicht die Abwägung Provenienz gegen Bequemlichkeit, sondern der Befund, dass **Borek gar keine Ausgabe nennt**: ihr `sourceDesc` führt nur die GND des Werks, während unser Parzival Leitzmann ATB 12 folgt. Eine stille Umrechnung wäre damit unprüfbar, denn prüfbar ist allein der Wortlaut. Der Berater hat zusätzlich den Präzedenzfall beigebracht, den ich nicht auf dem Schirm hatte: #59 hat wegen genau dieser Frage bewusst **keine** Reader-Links gebaut. Hier sind sie vertretbar, aber nur, weil jede einzelne Stelle am Text geprüft ist.
+
+**Nebenbefund mit Folgen für die Zählung:** ein `dict` hat die Mehrfachzitate überschrieben. 346 Stellenangaben entfallen auf 336 Verse, vier werden von zwei Pferden mit abweichendem Wortlaut zitiert, und welche Fassung gewann, hing an der Dokumentreihenfolge. Jetzt werden alle Fassungen bewertet und die beste genommen.
+
+**Das Review fand drei Auszeichnungen, die der Index still verschluckt hat**, alle drei Einzelfälle und deshalb in keiner Summe sichtbar: ein `event`, das innerhalb des Verses steht statt um ihn herum (Pz. 549,7 trägt sein `care` so), ein `objectName` ohne umschließendes `object` (Wh. 77,14, das Schwert Schoyuse), ein `horseGrp` für eine Gruppe statt für dieses Pferd (Pz. 474,3 stellt „ein ors" neben „den orsn"). Wer nur die Vorfahren eines Verses abläuft, verliert den ersten Fall aus jedem Ereignisfilter, ohne dass eine Zahl kleiner wird. Dazu ein latenter Fehler im werkweiten Fallback: die beiden Rangplätze waren nicht nach Vers dedupliziert, also konnte derselbe Vers beide belegen und der Abstand ihn gegen sich selbst messen. Mit dieser Quelle tritt es nicht ein, aber die Falle würde jede Wiederverwendung erben.
+
+**An KZW gemeldet** (#193): die fünf verschobenen Parzival-Verse, die drei fern aufgelösten Stellen zum Gegenlesen, und die Bitte, Luise Borek auf den Zahlendreher hinzuweisen. Eine stillschweigende lokale Korrektur einer fremden publizierten Quelle wäre nicht in Ordnung, auch bei CC0 nicht.
+
+**Zur Lizenz:** TUdatalib führt den Datensatz als CC0 1.0 (publiziert 2023-01-18), die Datei selbst trägt im Header noch „Veröffentlichung unter CC-BY-SA wird angestrebt" und Januar 2017. Das ist der Entwurfsstand, es gilt die Lizenz des Repositoriums. Steht so in DATA-MODEL.md, damit die Frage nicht ein zweites Mal gestellt wird.
+
+**Phase:** Betrieb. #193 Baustein 3 datenseitig fertig, die Playground-Ansicht steht noch aus und gehört mit #194 zusammen.
