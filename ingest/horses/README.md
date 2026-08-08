@@ -109,7 +109,7 @@ Unsere `<l>`-Elemente tragen **kein** `xml:id`, sondern nur ein fortlaufendes `@
 | `ER` | Sonderzählung | `4629,18` | `ER_462918_*` |
 | `IW`, `TR` | fortlaufend | `1108` | `IW_1108_*` |
 
-Die Erec-Sonderzählung ist kein Sonderfall unserer Daten, sondern die übliche Zählung des Einschubs nach Vers 4629. Unsere IDs bilden sie ab, `ER_462901` bis `ER_462924` existieren.
+Die Erec-Sonderzählung ist kein Sonderfall unserer Daten, sondern die übliche Zählung des Einschubs nach Vers 4629. Unsere IDs bilden sie ab: `ER_462901` bis `ER_462957` existieren, alle 57 Verse des Einschubs. Im gerenderten Text stehen sie allerdings nicht als eigene Zeilen, der Einschub liegt vollständig als `<supplied>` in einem einzigen `<l n="4629">`.
 
 ### Ergebnis
 

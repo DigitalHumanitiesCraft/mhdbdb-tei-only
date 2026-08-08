@@ -386,3 +386,21 @@ Daraus folgt die eigentliche Regel in ADR-019: die beiden Schwellen sind nicht z
 **Zur Lizenz:** TUdatalib führt den Datensatz als CC0 1.0 (publiziert 2023-01-18), die Datei selbst trägt im Header noch „Veröffentlichung unter CC-BY-SA wird angestrebt" und Januar 2017. Das ist der Entwurfsstand, es gilt die Lizenz des Repositoriums. Steht so in DATA-MODEL.md, damit die Frage nicht ein zweites Mal gestellt wird.
 
 **Phase:** Betrieb. #193 Baustein 3 datenseitig fertig, die Playground-Ansicht steht noch aus und gehört mit #194 zusammen.
+
+---
+
+## 2026-08-08 (spät) – #193/#194: die Ansicht, und ein Deep-Link, den es nicht gab
+
+**Summary:** Der Pferde-Explorer steht (`playground/js/ui/tei/horses-explorer.js`), dazu die Rubrik „Experimentelle Forschungsdaten" aus #194, ein Hilfe-Abschnitt, 7 Tests und ein neuer Reader-Parameter `?verseId=`. Voller Playwright-Lauf grün (290 Tests). Lokal committet, **nicht gepusht**: die Abnahme der Oberfläche durch Chris steht aus.
+
+**Der Reader konnte 288 der 346 Belege gar nicht anspringen, und das fiel erst beim Bauen auf.** `?verse=` sucht `<l @n>`. Im Parzival trägt das `<l>` aber nur die Verszahl innerhalb des Dreißigers, die Abschnittsnummer hängt am `<div>`; ein Link auf „26" träfe einen von 827 Versen. Im Willehalm ist es schlimmer: dort gibt es **überhaupt keine Abschnittsgliederung**, die `<l>` hängen nackt in einem `<p>`, und die Dreißiger-Nummer existiert im TEI nicht. Sie steckt einzig in den Wort-IDs. Deshalb rendert jedes `<l>` jetzt `data-core`, die Kernzahl seiner ersten Wort-ID, und `?verseId=PZ_33926` löst darüber auf: korpusweit eindeutig, unabhängig von Zählweise und Struktur. Bestehende `?verse=`-Links bleiben unberührt.
+
+**Das Review fand den Fall, den ich selbst dokumentiert und dann nicht implementiert hatte.** Der Ambraser Einschub im Erec steht vollständig als `<supplied>` in EINEM `<l n="4629">` und deckt die Kerne 462900 bis 462957 ab. Mein `data-core` trug nur den ersten. Die zehn Einschub-Belege hätten also nichts gefunden, und zwar stumm: eine Konsolenwarnung, kein Sprung, der Leser landet am Anfang eines Werks mit 10.135 Versen. Behoben über `data-core-max` und eine Spannensuche. Die Lehre ist unangenehm konkret: ich hatte den Sonderfall zwei Stunden vorher im Modulkopf beschrieben („der Sprung landet auf 4629") und beim Implementieren nicht wiedergelesen.
+
+**Und die Zahl in derselben Beschreibung war falsch.** „24 Verse" hatte ich aus Boreks höchster Zitation (4629,24) gelesen statt aus unseren Daten. Es sind 57. Genau der Fehler, gegen den die Projektregel gemacht ist: eine Zahl, die plausibel aussieht, weil sie irgendwo steht, aber nicht gemessen wurde.
+
+**Eine gemeldete Zahlendifferenz war diesmal keine.** Der Reviewer fand 335 verschiedene Sprungziele bei 336 Versen. Das ist kein Zählfehler, sondern der Zahlendreher: Boreks `4118` und ihr `4718` zeigen beide auf denselben Vers, und genau das ist die richtige Auflösung.
+
+**Zur Modellierung in der Oberfläche:** sichtbar ist immer Boreks Zitation, der Link benutzt unser aufgelöstes Ziel. Die acht auseinanderfallenden Belege tragen ein Sternchen mit dem Grund im Tooltip. Der Hinweis steht am einzelnen Beleg und nicht als Fußnote unter der Tabelle: pauschal formuliert würde er 338 korrekte Stellen mit verdächtigen.
+
+**Phase:** Betrieb. #194 ist mit erledigt und kann nach dem Push geschlossen werden. #193 bleibt offen, bis KZW die acht Stellen gegengelesen hat.

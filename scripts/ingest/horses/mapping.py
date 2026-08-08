@@ -97,7 +97,27 @@ def stellenkern(n, sigle):
 
 
 def lade_verse(sigle):
-    """Verskern -> Wortliste und Verskern -> Vergleichskette."""
+    """Verskern -> Wortliste und Verskern -> Vergleichskette.
+
+    Der Verskern ist zugleich die Referenz fuer den Sprung in die Leseansicht,
+    und zwar die einzige, die in allen fuenf Werken traegt. Das `@n` des `<l>`
+    genuegt dafuer nicht:
+
+        PZ   <div n='339'><l n='26'>   das <l> traegt nur die 26, der
+                                       Abschnitt haengt am <div>
+        WH   <l n='14'> in <p>         hier gibt es GAR KEINE Abschnitts-
+                                       gliederung, die Dreissiger-Nummer
+                                       existiert im TEI nicht und steckt
+                                       allein in den Wort-IDs
+        ER   <l n='4629'>              der Ambraser Einschub steht als
+                                       <supplied> in EINEM <l> und deckt die
+                                       Kerne 462900 bis 462957 ab; seine 57
+                                       Verse haben kein eigenes <l>
+        IW   <l n='1108'>              deckungsgleich
+
+    Deshalb rendert die Leseansicht jedes `<l>` mit `data-core`, der Kernzahl
+    seiner ersten Wort-ID, und der Deep-Link nennt `?verseId=PZ_33926`.
+    """
     root = etree.parse(str(REPO / 'tei' / ('%s.tei.xml' % sigle))).getroot()
     woerter = defaultdict(list)
     for w in root.iter(TEI + 'w'):

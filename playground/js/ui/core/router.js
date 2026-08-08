@@ -57,6 +57,7 @@ const ROUTES = {
   'hapax-legomena':     ()       => window.playground.ui.hapaxLegomena.show(),
   'verse-ending-profile': ()     => window.playground.ui.verseEndingProfile.show(),
   'naming':             ()       => window.playground.ui.namingExplorer.show(),
+  'horses':             ()       => window.playground.ui.horsesExplorer.show(),
 };
 
 /**

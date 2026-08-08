@@ -184,7 +184,7 @@ Browse and search six controlled vocabularies with consistent interface patterns
 
 ### TEI Text Analysis
 
-Corpus-wide text analysis using pre-built indexes. Twelve analysis tools in twelve playground entries (multi-lemma offers document, proximity and verse mode in one entry), all of them in place in the results panel as form plus body (except multi-lemma, which is a modal).
+Corpus-wide text analysis using pre-built indexes. Eleven analysis tools in eleven playground entries (multi-lemma offers document, proximity and verse mode in one entry), all of them in place in the results panel as form plus body (except multi-lemma, which is a modal). The two curated external datasets described at the end of this section, character naming (#59) and arthurian horses (#193), are counted separately: with #194 they moved into a group of their own, "Experimentelle Forschungsdaten".
 
 **Multi-Lemma Document Search:**
 - Input multiple lemmata (space-separated or one per line)
@@ -295,6 +295,17 @@ Corpus-wide text analysis using pre-built indexes. Twelve analysis tools in twel
 - Reader deep links for ROL and TRO: verse numbers link into the reading view via `korpus.html?textId=<SIG>&verse=<n>` (jumping to the verse line with a highlight pulse). The verse counting of these two works coincides with the MHDBDB TEI counting (Linda Beutel-Thurow, #59 comment of 2026-06-11; TRO spot check verified 4 of 4). ENE and IW follow different edition counts and deliberately stay without links
 - Attribution visible in the module: Beutel-Thurow, L. (2026). Naming-analysis (v0.1.0-beta), DOI 10.5281/zenodo.18770138, CC BY-NC-SA 4.0
 - Data basis: `data/naming-index.json.gz` (~110 KB), built via `scripts/ingest/naming/01-fetch-and-build-index.py`, lazily loaded without an IndexedDB cache
+
+**Arthurian horses (#193, beta):**
+- Curated encoding of the horses in five works (WH, PZ, ER, IW, TR) from Luise Borek's exemplary study: 13 horses (10 named, 3 unnamed), 346 attestations
+- Choose a horse; the table gives every attestation with Borek's wording and what she marked there: the event (intro, combat, care, loss, transfer, communication, recognition, gift), traits (colour, marking, quality), gear, and owner or rider. The event buttons filter the attestations
+- The summary names the works, the traits and gear attested, the characters involved, and the horse's spelling variants (Gringuljete alone has six)
+- **Both citations are shown, and Borek's is the visible one.** Her verse reference is the citable one and stays verbatim; our resolved verse only drives the link. For eight of the 346 attestations the two diverge, because our Parzival follows Leitzmann (ATB 12) while Borek names no edition at all. Those attestations carry an asterisk with the reason; the link still lands on the right verse, since every citation was matched on wording
+- Reader deep links via `korpus.html?textId=<SIG>&verseId=<wordId>`, the word-id route added for this feature (#193). `?verse=<l n>` would not do: in PZ the `@n` counts only inside the thirty-line section, in WH the section number does not exist in the TEI at all, and the Ambraser insert in ER sits as one `<l n="4629">` covering the cores 462900 to 462957, that is 57 verses in a single element. The reading view therefore renders every `<l>` with `data-core`, the numeric part of its first word id, plus `data-core-max` wherever an `<l>` spans more than one verse; the jump falls back to that range, so the ten Ambraser attestations land on the passage even though their line does not exist as its own element
+- Attribution visible in the module: Borek, L. (2023). Exemplarische Auszeichnung arthurischer Pferde, hdl:tudatalib/3695, CC0 1.0
+- Data basis: `data/horses-index.json.gz` (11 KB), built via `scripts/ingest/horses/03-build-index.py`, lazily loaded without an IndexedDB cache
+
+Both of the above sit in the playground's third group, **Experimentelle Forschungsdaten** (#194), which collects curated datasets from external research projects. Every entry there carries a beta badge, its own prebuilt index, and visible attribution naming author, origin and work coverage.
 
 **Cross-platform workflow:**
 1. Perform analysis in playground

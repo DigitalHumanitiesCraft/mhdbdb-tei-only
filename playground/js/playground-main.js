@@ -23,6 +23,7 @@ import { RhymeDictionary } from './ui/tei/rhyme-dictionary.js';
 import { HapaxLegomenaAnalyzer } from './ui/tei/hapax-legomena.js';
 import { VerseEndingProfileAnalyzer } from './ui/tei/verse-ending-profile.js';
 import { NamingExplorer } from './ui/tei/naming-explorer.js';
+import { HorsesExplorer } from './ui/tei/horses-explorer.js';
 
 // Import utilities for global exposure (needed for testing)
 import { TextNormalizer } from '../../assets/js/lib/text-normalizer.js';
@@ -84,6 +85,7 @@ class MHDBDBPlayground {
         this.ui.hapaxLegomena = new HapaxLegomenaAnalyzer(corpusTextsThunk, this.authorityData);
         this.ui.verseEndingProfile = new VerseEndingProfileAnalyzer(corpusTextsThunk, this.authorityData);
         this.ui.namingExplorer = new NamingExplorer('../data');
+        this.ui.horsesExplorer = new HorsesExplorer('../data');
 
         this.init();
     }
@@ -482,7 +484,8 @@ class MHDBDBPlayground {
             { id: 'showRhymeDictionaryBtn', handler: () => navigate('rhyme-dictionary') },
             { id: 'showHapaxLegomenaBtn', handler: () => navigate('hapax-legomena') },
             { id: 'showVerseEndingProfileBtn', handler: () => navigate('verse-ending-profile') },
-            { id: 'showNamingExplorerBtn', handler: () => navigate('naming') }
+            { id: 'showNamingExplorerBtn', handler: () => navigate('naming') },
+            { id: 'showHorsesExplorerBtn', handler: () => navigate('horses') }
         ];
 
         teiButtons.forEach(({ id, handler }) => {

@@ -56,7 +56,7 @@ class TEITextReader {
     /**
      * Open reading view modal
      * @param {string} textId - Text ID to display
-     * @param {object} options - { lemmaId: string, lemmaIds: string[], targetPosition: number, targetVerse: string } for highlighting / verse jump (optional)
+     * @param {object} options - { lemmaId: string, lemmaIds: string[], targetPosition: number, targetVerse: string, targetVerseId: string } for highlighting / verse jump (optional)
      * @param {object} elements - DOM element references
      */
     async openReadingView(textId, options = {}, elements) {
@@ -83,6 +83,7 @@ class TEITextReader {
 
         this.targetPosition = options.targetPosition || null;
         this.targetVerse = options.targetVerse || null;
+        this.targetVerseId = options.targetVerseId || null;
         this.elements = elements;
 
         const lemmaInfo = this.currentLemmaIds.length > 0
@@ -137,15 +138,18 @@ class TEITextReader {
 
                 // Scroll to target or first highlight after brief delay (wait for DOM to render)
                 // — ein expliziter Vers-Deep-Link gewinnt gegen den Highlight-Scroll.
-                if (this.targetVerse === null) {
+                if (this.targetVerse === null && this.targetVerseId === null) {
                     setTimeout(() => this.scrollToHighlight(this.currentHighlightIndex), 600);
                 }
             } else {
                 this.showNavigation(false);
             }
 
-            // Vers-Deep-Link (#59): zur Verszeile <l n="..."> scrollen
-            if (this.targetVerse !== null) {
+            // Vers-Deep-Link: über die Wort-ID (#193) oder über <l n="..."> (#59).
+            // Die Wort-ID gewinnt, sie ist die eindeutigere der beiden Angaben.
+            if (this.targetVerseId !== null) {
+                setTimeout(() => this.scrollToVerseId(this.targetVerseId), 600);
+            } else if (this.targetVerse !== null) {
                 setTimeout(() => this.scrollToVerse(this.targetVerse), 600);
             }
 
@@ -628,7 +632,23 @@ class TEITextReader {
                         (!state.firstNumericLineShown || parseInt(lineN, 10) % 5 === 0);
                     if (showNumber) state.firstNumericLineShown = true;
                     const cls = showNumber ? 'verse-line verse-line-numbered' : 'verse-line';
-                    return `<span class="${cls}" data-n="${this.escapeHtml(lineN)}">${children()}</span>`;
+                    // data-core: the numeric part of this verse's first <w xml:id>
+                    // (PZ_33926_1 -> "33926"). @n alone cannot address a verse across
+                    // the corpus — in PZ it carries only the position inside the
+                    // thirty-line section (<div n="339"><l n="26">), in WH there is no
+                    // section markup at all and the number exists nowhere but in the
+                    // word ids, and the Ambraser insert sits as one <l n="4629">
+                    // covering the cores 462900 to 462957. The word id is the one
+                    // identifier that is unique in every work, so `?verseId=PZ_33926`
+                    // resolves here. data-core-max only where an <l> spans more than
+                    // one verse, so the common case stays a single attribute.
+                    // Absent for verses without annotated words (#193).
+                    const range = this.verseCoreRange(el);
+                    const coreAttr = range
+                        ? ` data-core="${this.escapeHtml(range.first)}"`
+                          + (range.last !== range.first ? ` data-core-max="${this.escapeHtml(range.last)}"` : '')
+                        : '';
+                    return `<span class="${cls}" data-n="${this.escapeHtml(lineN)}"${coreAttr}>${children()}</span>`;
                 }
                 case 'lb': {
                     const lbN = el.getAttribute('n') || '';
@@ -1198,6 +1218,66 @@ class TEITextReader {
     }
 
     /**
+     * Kernzahlen der ersten und letzten <w xml:id> dieser Verszeile, als
+     * Strings: PZ_33926_1 -> "33926". Null, wenn der Vers keine annotierten
+     * Wörter trägt (dann gibt es kein data-core und keinen verseId-Sprung;
+     * gemessen betrifft das 4 Verse im Korpus).
+     *
+     * Warum eine Spanne und nicht nur der erste Kern: ein <l> kann mehr als
+     * einen Vers enthalten. Der Ambraser Einschub im Erec steht vollständig
+     * als <supplied> in <l n="4629"> und deckt die Kerne 462900 bis 462957
+     * ab, lückenlos. Mit nur dem ersten Kern fänden zehn Belegstellen ihr
+     * Ziel nicht und der Deep-Link liefe stumm ins Leere (#193).
+     */
+    verseCoreRange(lineEl) {
+        const XML_NS = 'http://www.w3.org/XML/1998/namespace';
+        let first = null, last = null;
+        for (const w of lineEl.getElementsByTagName('*')) {
+            if (w.localName !== 'w') continue;
+            const id = w.getAttributeNS(XML_NS, 'id') || w.getAttribute('xml:id');
+            const core = id && id.split('_')[1];
+            if (!core) continue;
+            if (first === null) first = core;
+            last = core;
+        }
+        return first === null ? null : { first, last };
+    }
+
+    /**
+     * Scroll zur Verszeile über ihre Wort-ID (?verseId=PZ_33926, #193).
+     * Anders als scrollToVerse ist das korpusweit eindeutig; die Sigle im
+     * Parameter ist redundant, aber macht den Link im Browser lesbar.
+     */
+    scrollToVerseId(verseId) {
+        const core = String(verseId).includes('_')
+            ? String(verseId).split('_')[1]
+            : String(verseId);
+        const scope = this.elements?.readingBody || document;
+        const safe = (window.CSS && CSS.escape) ? CSS.escape(core) : core.replace(/["\\]/g, '');
+
+        let line = scope.querySelector(`.verse-line[data-core="${safe}"]`);
+        if (!line) {
+            // Kein eigenes <l> für diesen Vers: er steckt in einem, das mehrere
+            // umfasst (Ambraser Einschub im Erec). Die Spanne durchsuchen. Der
+            // Sprung landet dann auf der richtigen Stelle, nur nicht zeilengenau,
+            // weil es die Zeile im gerenderten Text nicht gibt.
+            const wanted = parseInt(core, 10);
+            if (!Number.isNaN(wanted)) {
+                for (const candidate of scope.querySelectorAll('.verse-line[data-core-max]')) {
+                    const from = parseInt(candidate.getAttribute('data-core'), 10);
+                    const to = parseInt(candidate.getAttribute('data-core-max'), 10);
+                    if (wanted >= from && wanted <= to) { line = candidate; break; }
+                }
+            }
+        }
+        if (!line) {
+            console.warn(`[TEITextReader] Vers ${verseId} nicht gefunden (kein data-core="${core}")`);
+            return;
+        }
+        this.pulseLine(line, verseId);
+    }
+
+    /**
      * Scroll zur Verszeile <l n="..."> (Vers-Deep-Link, #59 Naming-Explorer)
      * oder zur Prosa-Zeile <lb n="..."> (Druckzeilen-Zählung, #143).
      * data-n stammt aus dem 'l'- bzw. 'lb'-Rendering (renderElement).
@@ -1214,7 +1294,15 @@ class TEITextReader {
             console.warn(`[TEITextReader] Vers ${verseN} nicht gefunden (kein <l n="${verseN}"> im Text)`);
             return;
         }
+        this.pulseLine(line, verseN);
+    }
 
+    /**
+     * Hinscrollen und kurz gelb hinterlegen. Von scrollToVerse und
+     * scrollToVerseId geteilt, damit die beiden Deep-Link-Wege sich gleich
+     * anfühlen und nicht auseinanderdriften.
+     */
+    pulseLine(line, label) {
         const headerOffset = 120;
         const offsetPosition = line.getBoundingClientRect().top + window.pageYOffset - headerOffset;
         // Instant statt smooth: der Vers-Deep-Link springt direkt nach dem
@@ -1223,7 +1311,7 @@ class TEITextReader {
         // Distanzen ist instant ohnehin die bessere Orientierung.
         window.scrollTo({ top: offsetPosition, behavior: 'auto' });
 
-        console.log(`[TEITextReader] Scrolled to verse ${verseN}`);
+        console.log(`[TEITextReader] Scrolled to verse ${label}`);
 
         line.style.transition = 'background-color 0.4s ease';
         line.style.backgroundColor = '#fef3c7'; // amber-100

@@ -1740,6 +1740,11 @@ class MainSiteApp {
         const lemmaIdsParam = params.get('lemmaIds');
         const positionParam = params.get('position');
         const verseParam = params.get('verse');
+        // ?verseId=PZ_33926 adressiert einen Vers ueber die Wort-ID statt ueber
+        // <l n>. Korpusweit eindeutig, anders als @n: im Parzival zaehlt @n nur
+        // innerhalb des Dreissigers, im Willehalm gibt es die Abschnittsnummer
+        // im TEI ueberhaupt nicht (#193).
+        const verseIdParam = params.get('verseId');
         const searchParam = params.get('search');
 
         if (!textId) {
@@ -1764,7 +1769,7 @@ class MainSiteApp {
             : [];
         const targetPosition = positionParam ? parseInt(positionParam) : null;
 
-        console.log('[MainSiteApp] URL parameters detected:', { textId, lemmaIds, position: positionParam, verse: verseParam });
+        console.log('[MainSiteApp] URL parameters detected:', { textId, lemmaIds, position: positionParam, verse: verseParam, verseId: verseIdParam });
 
         // Leeres options-Objekt = Text ohne Lemma-Highlights (wie der "Lesen"-Button).
         const options = {};
@@ -1776,6 +1781,9 @@ class MainSiteApp {
         }
         if (verseParam) {
             options.targetVerse = verseParam;
+        }
+        if (verseIdParam) {
+            options.targetVerseId = verseIdParam;
         }
 
         // Open reader after brief delay (ensure DOM is ready)
