@@ -11,6 +11,14 @@ Quelle: https://github.com/lindabeutel/Naming-analysis (CC BY-NC-SA 4.0)
   - data/lemma_normalization.json            (kanonischer Name → Varianten;
     Alias-Quelle für die Eigenname-Klassifikation)
 
+Dazu kommt eine werkspezifische Alias-Ergänzung auf unserer Seite:
+  - scripts/ingest/naming/alias-overrides.json
+
+lemma_normalization.json normalisiert werkübergreifend. Ein Alias, der nur in
+einem Werk gilt, wäre dort semantisch falsch, deshalb liegt er hier statt in
+Lindas Repo (Linda, #59-Kommentar 2026-07-28: „passt sehr gut"). Bisher genau
+ein Eintrag: „Alexander" als Deckname des Paris im Trojanerkrieg.
+
 Datenmodell der categorization-Records (Excel-Erbe, pandas-Export):
   - Genau eines von drei Feld-Mustern trägt die Nennphrase:
       "Erzähler" befüllt                          → Erzähler nennt
@@ -61,6 +69,7 @@ if hasattr(sys.stdout, "reconfigure"):
 
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
 OUTPUT_FILE = PROJECT_ROOT / "data" / "naming-index.json.gz"
+OVERRIDES_FILE = Path(__file__).resolve().parent / "alias-overrides.json"
 
 REPO = "lindabeutel/Naming-analysis"
 RAW_BASE = "https://raw.githubusercontent.com/" + REPO
@@ -120,6 +129,21 @@ def matches_figure_name(figure_name, lemma, aliases):
     if norm_lemma == figure_name.lower().strip():
         return True
     return norm_lemma in aliases
+
+
+def load_overrides():
+    """alias-overrides.json → {buch: {figur_lowercase: {alias, ...}}}.
+
+    Schluessel unterhalb von "_readme" sind Buchnamen wie in BOOKS. Ein
+    unbekannter Buch- oder Figurenname wuerde stumm wirkungslos bleiben,
+    deshalb prueft build_index beide gegen die Daten.
+    """
+    raw = json.loads(OVERRIDES_FILE.read_text(encoding="utf-8"))
+    return {
+        book: {name.lower(): {a.lower() for a in entry["aliases"]}
+               for name, entry in figures.items()}
+        for book, figures in raw.items() if not book.startswith("_")
+    }
 
 
 def fetch(path, ref, source_dir):
@@ -211,11 +235,18 @@ def build_index(ref, source_dir):
         for k, variants in normalization.items()
     }
 
+    overrides = load_overrides()
+    unbekannt = set(overrides) - set(BOOKS)
+    if unbekannt:
+        sys.exit(f"FEHLER: alias-overrides.json nennt unbekannte Werke: "
+                 f"{sorted(unbekannt)}. Bekannt sind {sorted(BOOKS)}.")
+
     works = []
     totals = {"records": 0, "eig": 0, "ant": 0, "epi": 0}
 
     for book_name, sigle in BOOKS.items():
         raw = json.loads(fetch(f"data/{book_name}/categorization_{book_name}.json", ref, source_dir))
+        buch_overrides = overrides.get(book_name, {})
         figures = {}
         skipped = 0
         for row in raw:
@@ -224,6 +255,9 @@ def build_index(ref, source_dir):
                 continue
             figure_name = clean_figure_name(row["Benannte Figur"])
             aliases = alias_map.get(figure_name.lower(), set())
+            extra = buch_overrides.get(figure_name.lower())
+            if extra:
+                aliases = aliases | extra
             record = build_record(row, figure_name, aliases)
             if record is None:
                 skipped += 1
@@ -232,6 +266,13 @@ def build_index(ref, source_dir):
             totals["records"] += 1
             for cat in ("eig", "ant", "epi"):
                 totals[cat] += len(record.get(cat, []))
+
+        # Ein vertippter Figurenname im Override bliebe sonst stumm wirkungslos:
+        # der Eintrag stuende in der Datei, die Klassifikation liefe unveraendert.
+        fehlend = sorted(set(buch_overrides) - {n.lower() for n in figures})
+        if fehlend:
+            sys.exit(f"FEHLER: alias-overrides.json nennt fuer {book_name} "
+                     f"Figuren, die dort nicht vorkommen: {fehlend}")
 
         works.append({
             "sigle": sigle,
