@@ -409,11 +409,11 @@ A second external curated dataset, and again not corpus-derived: Luise Borek's `
 
 Three of Borek's markings sit where a naive walk misses them, and each occurs once: an `event` **inside** the `<l>` rather than around it (Pz. 549,7 carries its `care` that way), an `objectName` without an enclosing `object` (Wh. 77,14, the sword Schoyuse), and a `horseGrp` for a group of animals rather than this one horse (Pz. 474,3 compares `ein ors` with `den orsn`). All three would have vanished silently from any filter, which is why the build collects ancestors and descendants of a verse.
 
-**Both citations are stored, and that is the point.** Borek's reference and our resolved target are two different statements, and for eight of the 336 verses they diverge. Our Parzival follows Leitzmann (ATB 12, 7th ed. 1961), our Erec Leitzmann/Wolff (ATB 39, 3rd ed. 1963); **Borek names no edition at all**, her `sourceDesc` carries only the work's GND. The difference is therefore documentable but not resolvable, so a silent conversion to our counting would not be verifiable. What is verifiable is the wording, and that is what the build measures.
+**Both citations are stored, and that is the point.** Borek's reference and our resolved target are two different statements, and for nine of the 346 attestations they diverge. Our Parzival follows Leitzmann (ATB 12, 7th ed. 1961), our Erec Leitzmann/Wolff (ATB 39, 3rd ed. 1963); **Borek names no edition at all**, her `sourceDesc` carries only the work's GND. The difference is therefore documentable but not resolvable, so a silent conversion to our counting would not be verifiable. What is verifiable is the wording, and that is what the build measures.
 
 | `match` | meaning | count |
 |---|---|---|
-| `exact` | Borek's number hits our verse | 338 |
+| `exact` | Borek's number hits our verse | 337 |
 | `shifted` | displaced within a four-verse radius, wording proves identity (Pz. 339,24 to 339,28 sit two verses lower here) | 5 |
 | `distant` | outside the radius but unambiguous (Pz. 604,18 is our 603,18; Er. 4118 is 4718, a transposed digit in the source) | 3 |
 | `unresolved` | no candidate holding both threshold and margin: `target` is `null` and the view must not offer a jump | 0 |

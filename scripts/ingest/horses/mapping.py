@@ -40,10 +40,11 @@ sechs Verse als zweifelhaft, die keine waren.
                 (Pz. 604,18 steht unter 603,18; Er. 4118 ist 4718)
     unresolved  kein Treffer, der die Schwelle und den Abstand haelt
 
-Gemessen am 08.08.2026, gezaehlt in VERSEN: 328 exact, 5 shifted, 3 distant,
-0 unresolved. Der Index zaehlt dieselbe Messung in BELEGEN und kommt auf 338
-exact, weil zehn Verse von zwei Pferden zitiert werden; 328 und 338 sind
-dieselbe Sache in zwei Einheiten.
+Gezaehlt wird je BELEG, in Bericht wie Index: 346 Stellenangaben, nicht 336
+Verse. Unter Pz. 340,29 stehen naemlich zwei verschiedene Verse, ein Reimpaar,
+und wer je Versnummer bewertet, gibt beiden dasselbe Ziel.
+
+Gemessen am 08.08.2026: 337 exact, 6 shifted, 3 distant, 0 unresolved.
 """
 import difflib
 import re
@@ -130,11 +131,14 @@ def lade_verse(sigle):
 def aufloesen(n, sigle, fassungen, verskette):
     """Eine Stellenangabe aufloesen.
 
-    `fassungen` sind Boreks Wortlaute fuer diesen Vers: 346 Stellenangaben
-    entfallen auf 336 Verse, zehn werden von zwei Pferden zitiert und vier
-    davon mit abweichendem Wortlaut ('kam her Walwan geriten' gegen 'und kam
-    her Walwan geriten'). Bewertet wird die beste Fassung, sonst haenge das
-    Ergebnis an der Dokumentreihenfolge.
+    `fassungen` ist eine Liste von Wortlauten, aus der die beste gewinnt.
+    Beide Aufrufer geben hier GENAU EINEN Wortlaut hinein, naemlich den des
+    einzelnen Belegs, und das ist der Grund fuer die Liste statt eines
+    Strings: die erste Fassung bewertete alle Zitate einer Versnummer
+    gemeinsam. Das ging gut, solange dieselbe Nummer denselben Vers meint.
+    Unter Pz. 340,29 stehen aber zwei verschiedene Verse, ein Reimpaar, und
+    gemeinsam bewertet bekam der zweite das Ziel des ersten. Der eigene
+    Wortlaut ist die genauere Auskunft, auch wenn Boreks Nummer beide traegt.
     """
     kern = stellenkern(n, sigle)
     ketten = [k for k in (kette(t) for t in fassungen) if k]

@@ -11,8 +11,12 @@ Dieses Skript berichtet, es baut nichts. Die Aufloesungslogik steht in
 Bericht und Index nicht auseinanderlaufen. Warum der Wortlaut und nicht die
 Verszahl entscheidet, steht dort im Kopf.
 
-Ergebnis vom 08.08.2026, je VERS gezaehlt: 328 exact, 5 shifted, 3 distant,
-0 unresolved. Der Index zaehlt je BELEG und meldet deshalb 338 exact.
+Gezaehlt wird je BELEG, genau wie im Index: 346 Stellenangaben, nicht 336
+Verse. Das ist keine Kosmetik. Unter Pz. 340,29 stehen zwei verschiedene
+Verse, ein Reimpaar, und wer je Versnummer bewertet, gibt beiden dasselbe
+Ziel und schickt den zweiten Link auf den falschen Vers.
+
+Ergebnis vom 08.08.2026: 337 exact, 6 shifted, 3 distant, 0 unresolved.
 
 Usage:
     python scripts/ingest/horses/02-map-citations.py           # Bericht
@@ -56,19 +60,26 @@ def main():
     for werk, sigle in mapping.SIGLE.items():
         _, verskette = mapping.lade_verse(sigle)
         art, versatz, fern, offen, zeilen = Counter(), Counter(), [], [], []
+        anzahl = 0
         for n, fassungen in sorted(belege[werk].items()):
-            r = mapping.aufloesen(n, sigle, fassungen, verskette)
-            art[r['match']] += 1
-            if r['match'] == 'shifted':
-                versatz[r['versatz']] += 1
-            elif r['match'] == 'distant':
-                fern.append([n, r['target'], r['score']])
-            elif r['match'] == 'unresolved':
-                offen.append([n, r['score']])
-            zeilen.append([n, r['target'], r['match'], r['score'], r['versatz']])
+            # Je BELEG, nicht je Versnummer: bei Pz. 340,29 stehen unter einer
+            # Nummer zwei verschiedene Verse (ein Reimpaar), und gemeinsam
+            # bewertet bekaeme der zweite das Ziel des ersten. Der Index
+            # zaehlt genauso, damit Bericht und Index dieselbe Zahl nennen.
+            for fassung in fassungen:
+                anzahl += 1
+                r = mapping.aufloesen(n, sigle, [fassung], verskette)
+                art[r['match']] += 1
+                if r['match'] == 'shifted':
+                    versatz[r['versatz']] += 1
+                elif r['match'] == 'distant':
+                    fern.append([n, r['target'], r['score']])
+                elif r['match'] == 'unresolved':
+                    offen.append([n, r['score']])
+                zeilen.append([n, r['target'], r['match'], r['score'], r['versatz']])
 
         ergebnis[werk] = dict(
-            sigle=sigle, belege=len(belege[werk]), art=dict(art),
+            sigle=sigle, belege=anzahl, verse=len(belege[werk]), art=dict(art),
             versatz=dict(versatz.most_common()), fern=fern, offen=offen,
             zeilen=zeilen if args.detail else [],
         )
@@ -82,13 +93,13 @@ def main():
     offen = sum(d['art'].get('unresolved', 0) for d in ergebnis.values())
     print('Belegstellen-Mapping #193, gemessen gegen tei/ '
           '(Umkreis %d Verse, Schwelle %.2f)\n' % (mapping.UMKREIS, mapping.SCHWELLE))
-    print('  %-5s %-6s %7s  %-22s %6s %s'
-          % ('Werk', 'Sigle', 'Verse', 'verschoben', 'fern', 'offen'))
+    print('  %-5s %-6s %7s %6s  %-22s %6s %s'
+          % ('Werk', 'Sigle', 'Belege', 'Verse', 'verschoben', 'fern', 'offen'))
     for werk, d in ergebnis.items():
-        print('  %-5s %-6s %7d  %-22s %6d %d'
-              % (werk, d['sigle'], d['belege'], d['versatz'] or '',
+        print('  %-5s %-6s %7d %6d  %-22s %6d %d'
+              % (werk, d['sigle'], d['belege'], d['verse'], d['versatz'] or '',
                  len(d['fern']), len(d['offen'])))
-    print('\n  %d von %d Versen sitzen exakt (%.0f %%), %d bleiben offen.'
+    print('\n  %d von %d Belegen sitzen exakt (%.0f %%), %d bleiben offen.'
           % (exakt, gesamt, 100 * exakt / gesamt, offen))
     for werk, d in ergebnis.items():
         if d['versatz']:

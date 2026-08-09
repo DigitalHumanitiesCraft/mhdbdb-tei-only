@@ -240,15 +240,15 @@ def main():
     art = Counter()
     for sigle, gruppe in nach_werk.items():
         _, verskette = mapping.lade_verse(sigle)
-        # Alle Fassungen desselben Verses gemeinsam bewerten, sonst haengt das
-        # Ergebnis daran, welches Pferd den Vers zuerst zitiert.
-        fassungen = defaultdict(list)
+        # Je BELEG aufloesen, nicht je Versnummer. Zehn Verse werden von zwei
+        # Pferden zitiert, und bei Pz. 340,29 sind die beiden Zitate gar nicht
+        # derselbe Vers, sondern ein Reimpaar: 'do was ouch Gringuljeten
+        # gegurt' trifft 34029, 'daz in mangen angestlichen furt' trifft
+        # 34030. Eine gemeinsame Bewertung gaebe beiden dasselbe Ziel und
+        # schickte den zweiten Link auf den falschen Vers. Der eigene Wortlaut
+        # ist die genauere Auskunft, auch wenn Boreks Nummer sie beide traegt.
         for b in gruppe:
-            fassungen[b['n']].append(b['text'])
-        aufgeloest = {n: mapping.aufloesen(n, sigle, t, verskette)
-                      for n, t in fassungen.items()}
-        for b in gruppe:
-            r = aufgeloest[b['n']]
+            r = mapping.aufloesen(b['n'], sigle, [b['text']], verskette)
             b['target'] = r['target']
             b['match'] = r['match']
             b['score'] = r['score']

@@ -55,7 +55,7 @@ const WORK_LABEL = {
 
 // Belege, deren Stellenangabe nicht deckungsgleich mit unserer Zählung ist.
 // Der Hinweis gehört an den einzelnen Beleg, nicht in eine Fußnote: er
-// betrifft acht von 346 und wäre pauschal formuliert irreführend.
+// betrifft neun von 346 und wäre pauschal formuliert irreführend.
 const MATCH_NOTE = {
   shifted: 'Die zitierte Ausgabe zählt hier abweichend; der Wortlaut belegt die Stelle.',
   distant: 'Die zitierte Ausgabe zählt hier deutlich abweichend; der Wortlaut belegt die Stelle.',
@@ -177,7 +177,7 @@ export class HorsesExplorer {
         </label>
         <p class="text-[11px] text-slate-500">
           Angegeben ist immer Boreks Stellenangabe. Sie folgt einer anderen Textgrundlage als unser Korpus:
-          bei acht der 346 Belege weicht die Verszählung ab, dort ist die Stelle über den Wortlaut zugeordnet und der Beleg entsprechend markiert.
+          bei neun der 346 Belege weicht die Verszählung ab, dort ist die Stelle über den Wortlaut zugeordnet und der Beleg entsprechend markiert.
         </p>
       </div>
     `;
