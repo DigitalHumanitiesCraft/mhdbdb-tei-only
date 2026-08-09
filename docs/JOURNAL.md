@@ -430,3 +430,25 @@ Daraus folgt die eigentliche Regel in ADR-019: die beiden Schwellen sind nicht z
 **#111 geschlossen.** Das Ticket war ausdrücklich ein Trigger-Reminder, und seit gestern prüft `check-index-budget.py` genau die Schwelle, die es aufschreiben wollte. Beim Schließen fiel auf, dass die Prognose von 05/2026 nicht eingetroffen ist: erwartet waren 60 bis 80 MB gz binnen zwölf Monaten, tatsächlich steht der Index nach drei Monaten fast unverändert bei 42,17 MB. Der Grund ist nicht, dass die Schätzung falsch gerechnet hätte, sondern dass #27 und #109 nicht ausgespielt wurden. Eine Größenprognose ist eben eine Roadmap-Prognose.
 
 **Phase:** Betrieb. #59 bleibt offen auf `auto:blocked`/`wait:linda`: Linda liest die Ansicht gegen, beantwortet die `#`-Frage und schickt später den Nutzer-Leitfaden mit DOI, den wir dann im Modul verlinken.
+
+---
+
+## 2026-08-09 (Nachmittag) – #358: die Prüfung, die den Umfang ausweiten sollte, hat ihn halbiert
+
+**Summary:** Der Willehalm hat seine 467 `<div type="chapter">`. Der Weg dahin ging über zwei eigene Messfehler und endete bei genau dem Umfang, den das Ticket von Anfang an genannt hatte.
+
+**Das Ticket verlangte selbst, erst das ganze Korpus zu prüfen, und das war richtig.** Nur hat die Prüfung nicht das ergeben, wonach sie suchte. Mein erster Lauf meldete 48 betroffene Werke, weil ich nach `<div @n>` als Vorfahr gesucht hatte und die Strophentexte ihre Nummer am `<lg @n>` tragen. FDS, VIR, NBB und siebzehn weitere sind vollständig ausgezeichnet. Nach der Korrektur blieben 18, davon zehn mit genau einem „Abschnitt": das ist kein fehlendes Kapitel, sondern der Linecode-Offset des Textes selbst. Übrig blieben sieben.
+
+**Danach hat die Messung den Umfang ein zweites Mal eingedampft, und diesmal inhaltlich.** Die sieben sind nicht dasselbe Phänomen. Entscheidend war die Länge: 465 der 467 WH-Abschnitte haben exakt 30 `<l>`. Eine Handschriftenseite mit 465 mal exakt 30 Zeilen gibt es nicht, ein Dreißiger schon. Die Gegenprobe an DIO, dessen 212 `<pb>` Commit `795670240` (#26) im Mai nachweislich aus Julias Linecode-Seitenangaben eingefügt hat, ergab 45 Verse je Einheit bei 210 von 212: echte Seiten, korrekt kodiert. Und WH steht nicht in der #26-Sigle-Liste, seine `<pb>` stammen aus der Ursprungstransformation. Damit ist belegt, was das Ticket vermutet hatte, und zugleich, dass DIO, FB, WLE, FP, RUD und WUT eben nicht mitgemeint sind.
+
+**Ich hatte dem User vorher „alle sieben, gestaffelt" empfohlen und WUT als den billigen Einstieg verkauft.** Beides war falsch, und beides hat erst die Messung gezeigt: WUTs 346 `<lg>` decken sich zwar mit den Abschnitten, aber `lg[344]` und `lg[345]` tragen beide Abschnitt 345, die Abschnitte 326 bis 343 beginnen bei Vers 3 oder 5 statt bei 1, und 316 der „Dreißiger" haben 31 Verse. Das ist eine editorische Frage. Die Staffelung umzudrehen und dann auf einen Text zusammenzustreichen war die Konsequenz aus Zahlen, die es bei der Empfehlung noch nicht gab.
+
+**Die eigentliche Invariante des Migrationsskripts ist nicht die Token-Sequenz.** Die auch, aber sie prüft nur, dass nichts kaputtging. Die inhaltliche Prüfung ist eine andere: je Abschnitt wird die Nummer am neuen `<div>` gegen die aus der ersten Wort-ID abgeleitete gehalten. Das vergleicht die beiden Quellen der Zahl miteinander, statt einer von beiden zu glauben, und es ist derselbe Gedanke wie bei #193, wo der Wortlaut und nicht die Zahl entschieden hat.
+
+**Kein Frontend-Code, und das war keine Sparsamkeit, sondern der Beleg.** Der Reader rendert für `type="chapter"` längst `<h3>Kapitel N</h3>`. Dass WH die sichtbare Abschnittsnummer allein durch die Datenkorrektur bekommt, ohne dass irgendwo ein Sonderfall dazukommt, ist das Argument dafür, dass die Daten und nicht die Anzeige falsch waren. Option 3 aus dem Ticket („nur die Anzeige") hätte denselben Effekt erzeugt und die Ursache konserviert.
+
+**Der Korpus-Index blieb byte-identisch**, bestätigt durch den Rebuild-and-Compare der CI: der Build liest im Body nur `<l>` und `<w>`, nie `div`/`pb`/`p`. Kein Version-Bump, kein Reindex. Eine Korpusänderung dieser Größe ohne jede Bewegung in der abgeleiteten Schicht ist selten genug, um sie zu notieren.
+
+**Der Reviewer fand zwei Zahlen, und beide waren mein eigener Fehler in genau der Disziplin, die dieses Projekt sich aufgeschrieben hat.** „Die beiden anderen 23 und 28" mischte zwei Messvorschriften in einer Klammer: Abschnitt 467 hat 24 `<l>`, davon 23 mit Tokens, weil sein `<l n="24">` nur eine `<caesura>` enthält. Und „DIO: 45 Verse je Einheit" war eine Idealisierung von 210 der 212. Beide Zahlen waren für sich richtig und in der Formulierung falsch.
+
+**Phase:** Betrieb. #358 steht auf `auto:blocked`/`wait:kzw` mit drei benannten Fragen: ob DIOs und FBs `<pb>` als Seiten richtig sind, wie WUTs Doppelabschnitt 345 und die bei Vers 3 beginnenden Abschnitte zu lesen sind, und was mit RUD, WLE und FP geschieht.
