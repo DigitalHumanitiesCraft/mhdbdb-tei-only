@@ -257,7 +257,15 @@ def main():
     for b in belege:
         pferde[b['horse']]['attestations'] += 1
 
-    belege.sort(key=lambda b: (b['work'], mapping.stellenkern(b['n'], b['work']), b['horse']))
+    # Nach dem AUFGELOESTEN Ziel sortieren, nicht nach Boreks Nummer: die
+    # Tabelle soll in Textreihenfolge stehen, und wo die beiden auseinander
+    # fallen, ist unser Vers die Textposition. Sichtbar an Er. 4118, das in
+    # Wahrheit 4718 ist und sonst 600 Verse zu frueh in der Liste stuende.
+    # Ohne Ziel bleibt Boreks Nummer die einzige Auskunft.
+    belege.sort(key=lambda b: (
+        b['work'],
+        int(b['target'].split('_')[1]) if b['target'] else mapping.stellenkern(b['n'], b['work']),
+        b['horse']))
     index = {
         'version': VERSION,
         'source': {**HERKUNFT, 'sha256': hashlib.sha256(roh).hexdigest()},

@@ -12,8 +12,8 @@
  * (11 KB gz), und ohne Cache entfällt der Versions-Bump-Kanal (#94).
  *
  * Zwei Angaben pro Beleg, und das ist Absicht: `citation` ist Boreks
- * Stellenangabe im Wortlaut, `target` unser aufgelöster Vers. Für acht Verse
- * fallen sie auseinander, weil unser Parzival Leitzmann (ATB 12) folgt und
+ * Stellenangabe im Wortlaut, `target` unser aufgelöster Vers. Bei neun der
+ * 346 Belege fallen sie auseinander, weil unser Parzival Leitzmann (ATB 12) folgt und
  * Borek gar keine Ausgabe nennt. Sichtbar ist immer Boreks Angabe, das ist
  * die zitierfähige Referenz; der Link benutzt `target`. Siehe
  * DATA-MODEL.md → Horses Index.
@@ -25,6 +25,7 @@
  * Issue: #193
  */
 
+import { TextNormalizer } from '../../../../assets/js/lib/text-normalizer.js';
 import { getNavigationEpoch } from '../core/router.js';
 
 const DEFAULT_STATE = Object.freeze({
@@ -209,10 +210,23 @@ export class HorsesExplorer {
     };
     const traits = distinct('traits', 'type');
     const objects = distinct('objects', 'type');
-    const persons = new Set();
+    // Boreks Figurenreferenzen sind nicht einheitlich geschrieben: '#Gâwân'
+    // steht neben '#Gâwan'. Untereinander gestellt liest sich das wie zwei
+    // Figuren. MHD-normalisiert gruppieren und die häufigste Schreibung
+    // zeigen; im Index bleiben beide Formen erhalten.
+    const byNorm = new Map();
     for (const a of attestations) {
-      for (const p of (a.persons || [])) for (const r of (p.ref || [])) persons.add(r);
+      for (const p of (a.persons || [])) {
+        for (const r of (p.ref || [])) {
+          const key = TextNormalizer.normalizeMHG(r);
+          if (!byNorm.has(key)) byNorm.set(key, new Map());
+          const forms = byNorm.get(key);
+          forms.set(r, (forms.get(r) || 0) + 1);
+        }
+      }
     }
+    const persons = [...byNorm.values()].map(forms =>
+      [...forms.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], 'de'))[0][0]);
 
     const cell = (label, value, sub) => `
       <div>
@@ -304,7 +318,13 @@ export class HorsesExplorer {
       ...(a.events || []).map(e => badge(EVENT_LABEL[e.type] || e.type, 'border-brand-200 bg-brand-50 text-brand-700')),
       ...(a.traits || []).map(t => badge(`${TRAIT_LABEL[t.type] || t.type}: ${t.text}`, 'border-rose-200 bg-rose-50 text-rose-700')),
       ...(a.objects || []).map(o => badge(`${OBJECT_LABEL[o.type] || o.type}: ${o.text}`, 'border-amber-200 bg-amber-50 text-amber-800')),
-      ...(a.persons || []).filter(p => p.role).map(p => badge(`${ROLE_LABEL[p.role] || p.role}: ${p.text}`, 'border-slate-200 bg-slate-50 text-slate-600')),
+      // Boreks Wortlaut ist hier oft nur ein Pronomen ('er'), waehrend @ref die
+      // Figur nennt. Also die Figur zeigen und den Wortlaut in den Tooltip.
+      ...(a.persons || []).filter(p => p.role).map(p => {
+        const wer = (p.ref && p.ref.length) ? p.ref.join(', ') : p.text;
+        const titel = (p.ref && p.ref.length && p.text !== wer) ? ` title="im Text: ${escapeAttr(p.text)}"` : '';
+        return `<span class="mr-1 inline-block rounded border px-1.5 py-0.5 text-[10px] border-slate-200 bg-slate-50 text-slate-600"${titel}>${escapeHtml(`${ROLE_LABEL[p.role] || p.role}: ${wer}`)}</span>`;
+      }),
       ...(a.designations || []).map(d => badge(d.text, 'border-slate-200 bg-white text-slate-500'))
     ].join('');
 
