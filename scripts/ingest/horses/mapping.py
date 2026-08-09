@@ -106,10 +106,11 @@ def lade_verse(sigle):
 
         PZ   <div n='339'><l n='26'>   das <l> traegt nur die 26, der
                                        Abschnitt haengt am <div>
-        WH   <l n='14'> in <p>         hier gibt es GAR KEINE Abschnitts-
-                                       gliederung, die Dreissiger-Nummer
-                                       existiert im TEI nicht und steckt
-                                       allein in den Wort-IDs
+        WH   <div n='77'><l n='14'>    seit #358 wie PZ. Vorher hingen alle
+                                       14.002 <l> in EINEM <p> und die
+                                       Dreissiger-Nummer steckte allein in
+                                       den Wort-IDs; genau dieser Deep-Link
+                                       hat den Befund ausgeloest
         ER   <l n='4629'>              der Ambraser Einschub steht als
                                        <supplied> in EINEM <l> und deckt die
                                        Kerne 462900 bis 462957 ab; seine 57

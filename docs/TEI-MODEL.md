@@ -391,14 +391,14 @@ Katharina: "volume and part had purely obsolete technical reasons. This can move
 | Type | Count | Examples | Status |
 |-----|-------|-----------|--------|
 | **`song`** | 1,406 | BOP, BRH | ✓ accepted |
-| **`chapter`** | 1,640 | AC1, BDK | ✓ accepted |
+| **`chapter`** | 2,107 | AC1, BDK, PZ, WH | ✓ accepted |
 | **`recipe`** | 606 | ABS, BRIX | ✓ accepted |
 | **`section`** | 460 | DL1, DL2, EHB, KVM | ✓ accepted (incl. ex-part/subsection/§) |
 | **`number`** | 498 | HZU, ADP, BDK, BOP | ✓ accepted (incl. ex-deed/sermon/sigil/paragraph) |
 | **`parallel`** | 51 | BRW, DES2, FR3 | ✓ accepted (parallel transmission) |
 | **`colophon`** | 15 | ALX, APO | ✓ accepted (TEI has `<colophon>`, but `div type` is compatible) |
 
-All numbers recounted on 2026-07-30 across all 667 corpus files (`div[@type]`, 4,676 in total, no further types). Five of the seven values had been wrong before, and only three of the deviations go back to #236: `song` −13 and `parallel` +36 (FR3 rebuilds 23 equally ranked Töne into 10 Töne with 36 `div[@type="parallel"]`), `section` −36 from the same rehanging. `chapter` 604 → 1,640, `recipe` 452 → 606 and the rest of `section` had already drifted before that, presumably since the WZB ingest; they are corrected here as well, so that the table is not half right.
+All numbers recounted on 2026-08-09 across all 667 corpus files (`div[@type]`, 5,143 in total, no further types). Against the count of 2026-07-30 only `chapter` moved, 1,640 → 2,107: #358 gave the Willehalm the 467 `<div type="chapter">` its thirty-line sections had never had. Until then all 14,002 of its `<l>` hung in a single `<p>` and the section number lived only in the word ids plus a `<pb n="77"/>`, which claimed a page beginning where 465 of the 467 units hold exactly 30 verses. The Parzival, same author and same convention, had encoded it as `<div>` from the start and carries no `<pb>` at all. Five of the seven values had been wrong before, and only three of the deviations go back to #236: `song` −13 and `parallel` +36 (FR3 rebuilds 23 equally ranked Töne into 10 Töne with 36 `div[@type="parallel"]`), `section` −36 from the same rehanging. `chapter` 604 → 1,640, `recipe` 452 → 606 and the rest of `section` had already drifted before that, presumably since the WZB ingest; they are corrected here as well, so that the table is not half right.
 
 **Stanza check (verified):** `div type="stanza"` historically existed only in LZT (1,122) and has been migrated to `lg type="stanza"` since #23/v4.1.1; currently **0** `div type="stanza"` in the corpus (LZT now uses `lg type="stanza"`).
 

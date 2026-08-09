@@ -635,10 +635,12 @@ class TEITextReader {
                     // data-core: the numeric part of this verse's first <w xml:id>
                     // (PZ_33926_1 -> "33926"). @n alone cannot address a verse across
                     // the corpus — in PZ it carries only the position inside the
-                    // thirty-line section (<div n="339"><l n="26">), in WH there is no
-                    // section markup at all and the number exists nowhere but in the
-                    // word ids, and the Ambraser insert sits as one <l n="4629">
-                    // covering the cores 462900 to 462957. The word id is the one
+                    // thirty-line section (<div n="339"><l n="26">), in WH it likewise
+                    // carries only the position inside the section (the section itself
+                    // became <div type="chapter"> in #358, before that it existed
+                    // nowhere but in the word ids), and the Ambraser insert sits as
+                    // one <l n="4629"> covering the cores 462900 to 462957.
+                    // The word id is the one
                     // identifier that is unique in every work, so `?verseId=PZ_33926`
                     // resolves here. data-core-max only where an <l> spans more than
                     // one verse, so the common case stays a single attribute.

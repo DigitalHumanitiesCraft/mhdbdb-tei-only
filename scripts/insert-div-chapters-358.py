@@ -19,14 +19,19 @@ Phaenomen war also in zwei Dateien zweimal verschieden kodiert worden.
 
 ## Warum das <pb> hier nicht bleibt
 
-Es behauptet einen Seitenanfang, und das ist es nicht. Gemessen am
-2026-08-09: 465 der 467 Abschnitte haben exakt 30 Verse (die beiden
-anderen 23 und 28). Eine Handschriftenseite mit 467 mal exakt 30 Zeilen
-gibt es nicht, ein Dreissiger schon. Zum Vergleich derselbe Test an DIO,
-dessen 212 <pb> #26 im Mai nachweislich aus Julias Linecode-Seiten-
-angaben eingefuegt hat: dort sind es 45 Verse je Einheit, und die sind
-echte Seiten. WH stand nicht in der #26-Liste, seine <pb> stammen aus
-der Ursprungstransformation.
+Es behauptet einen Seitenanfang, und das ist es nicht. Gezaehlt werden
+im Folgenden <l>-ELEMENTE: 465 der 467 Abschnitte haben exakt 30, die
+beiden anderen 28 (Abschnitt 57) und 24 (Abschnitt 467, der letzte).
+Wer stattdessen die tokentragenden Verse zaehlt, kommt beim letzten auf
+23, weil sein <l n="24"> nur eine <caesura> enthaelt: zwei richtige
+Zahlen fuer zwei Fragen. Eine Handschriftenseite mit 465 mal exakt 30
+Zeilen gibt es nicht, ein Dreissiger schon.
+
+Zum Vergleich derselbe Test an DIO, dessen 212 <pb> #26 im Mai
+nachweislich aus Julias Linecode-Seitenangaben eingefuegt hat: dort
+haben 210 der 212 Einheiten je 45 Verse (die restlichen 35 und 9), und
+das sind echte Seiten. WH stand nicht in der #26-Sigle-Liste, seine <pb>
+stammen aus der Ursprungstransformation.
 
 Die Umkodierung ist verlustfrei: das <pb> traegt nur @n, dieselbe Zahl
 steht danach am <div>, an derselben Stelle im Dokument.
@@ -163,7 +168,10 @@ def wrap_chapters(tei_path, sigle, dry_run):
     # Einrueckung: das <div> tritt an die Stelle des <p>, die <l> behalten
     # ihre eigene. So bleibt der Diff auf die Huellen beschraenkt und die
     # 14.002 Verszeilen werden nicht angefasst.
-    einzug_div = container.tail if container.tail else "\n      "
+    # body.text ist die Einrueckung VOR dem <p>, also die, auf der die neuen
+    # <div> stehen. container.tail ist die davor liegende Ebene (vor </body>)
+    # und taugt nur fuer das letzte <div>.
+    einzug_div = body.text or "\n      "
     einzug_kind = kinder[0].tail or "\n        "
 
     divs = []

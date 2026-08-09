@@ -560,4 +560,27 @@ test.describe('Issue #250: Label ueber einer eigenen head-Ueberschrift', () => {
         await expect(label).toHaveClass(/tei-div-header-above-head/);
     });
 
+    test('WH: Dreissiger sind Kapitel-divs, keine Seitenmarker (#358)', async ({ page }) => {
+        // Bis 2026-08-09 hingen alle 14.002 <l> in EINEM <p>, und die
+        // Abschnittsnummer stand nur in den Wort-IDs plus als <pb n="77"/>.
+        // Das <pb> war das falsche Element: 465 der 467 Abschnitte haben
+        // exakt 30 Verse, das ist der Dreissiger und keine Handschriftenseite.
+        await page.goto('http://localhost:8080/korpus.html?textId=WH&verseId=WH_7714');
+        await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
+        await page.waitForSelector('.verse-line', { state: 'visible', timeout: 90000 });
+
+        await expect(page.locator('#readingBody .tei-div[data-type="chapter"]')).toHaveCount(467);
+        // Die irrefuehrenden Seitenmarker [1]..[467] sind verschwunden
+        await expect(page.locator('#readingBody .page-break')).toHaveCount(0);
+
+        // Der Deep-Link aus #193 traegt weiter, und die Stelle ist jetzt
+        // ohne Nachrechnen zitierfaehig: Wh. 77,14 steht unter "Kapitel 77".
+        const ziel = page.locator('.verse-line[data-core="7714"]');
+        await expect(ziel).toHaveCount(1);
+        await expect(ziel).toHaveAttribute('data-n', '14');
+        const kapitel = page.locator('#readingBody .tei-div[data-n="77"]');
+        await expect(kapitel.locator('> h3.section-head')).toHaveText('Kapitel 77');
+        await expect(kapitel.locator('.verse-line[data-core="7714"]')).toHaveCount(1);
+    });
+
 });

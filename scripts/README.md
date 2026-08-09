@@ -23,6 +23,7 @@ scripts/
 ├── insert-div-wrappers-138.py   # Editorische <div>-Hüllen für HUG und MBS (#138)
 ├── insert-lg-stanzas-138.py     # <lg type="stanza"> in HUG-Lieder einfügen (#138)
 ├── remove-stanza-numerals-138.py # Strophenziffern aus dem Verstext entfernen (#138)
+├── insert-div-chapters-358.py   # Willehalm-Dreißiger: `<pb n>` zu `<div type="chapter" n>` (#358)
 │
 ├── ingest/                      # Korpus-Ingest je Vorhaben
 │   ├── ari/                     # ARITHMETIC, 6 Rechenbuch-Handschriften (#92)
