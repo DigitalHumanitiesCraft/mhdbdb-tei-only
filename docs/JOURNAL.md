@@ -455,6 +455,30 @@ Daraus folgt die eigentliche Regel in ADR-019: die beiden Schwellen sind nicht z
 
 ---
 
+## 2026-08-10 (Nachmittag) – #361: die Kette war keine Hierarchie, weil die Daten eine Hülle sind
+
+**Summary:** Der Gattungs-Explorer zeigt die Textreihentypologie als aufklappbaren Baum. Aus #93 herausgelöst, weil dieser Teil an nichts hängt, was auf KZW und Marco Heiles wartet. Authority-Index v1.8.1 auf v1.9.0.
+
+**Der Defekt war eine Zeile, die Ursache ein Datenmodell.** Die Ansicht verkettete die übergeordneten Gattungen mit " UND ", und bei `genre_26c0ce4c` wurden daraus gemessene 408 Zeichen aus 20 Namen. Das sah nach einem Anzeigefehler aus und war keiner: `genres.xml` speichert die volle transitive Hülle, jede Kategorie nennt **alle** ihre Vorfahren statt nur der nächsten. 615 Kategorien tragen so 3.175 Kanten. Die Zeile war also korrekt, sie gab nur wieder, was dasteht. Eine Hierarchie lässt sich daraus nicht zeichnen, weil eine Abkürzungskante (Wurzel → Blatt) von einer echten Elternkante nicht zu unterscheiden ist.
+
+**Die Reduktion gehört in den Build, nicht in die Ansicht.** `_direct_parents()` streicht jeden Elternteil, den ein anderer Elternteil bereits als Vorfahren führt: 3.175 Kanten werden 819. Danach 2 Wurzeln (*Epik, Lyrik und Dramatik*, *Wissensliteratur und Gebrauchsliteratur*), 442 Kategorien mit einem direkten Elternteil, 139 mit zwei, 29 mit drei, 3 mit vier. Der Schritt ist nur zulässig, weil die Menge wirklich eine Hülle ist, und das wurde geprüft statt angenommen: für alle 3.175 Kanten gilt die Enthaltensein-Bedingung, null Verletzungen, null tote Verweise, null Selbstbezüge.
+
+**Die Messung hat die einzige echte Designfrage entschärft, bevor sie gestellt war.** Das Ticket kam als `auto:checkin` herein, weil 171 Kategorien mehr als einen Elternteil haben und ein Baum sie entweder mehrfach zeigen muss oder einmal mit Querverweisen. Die Sorge war der Umfang: bei Tiefe 20, wie das Ticket sagte, klingt Duplizieren nach Explosion. Gemessen ist die Tiefe aber 9 (die 20 im Ticket war die Hüllengröße, nicht die Pfadlänge), und voll entfaltet belegen die 615 Kategorien 1.167 Baumplätze, Faktor 1,9. Damit kostet Duplizieren praktisch nichts, und es ist auch das Richtige: ein *Predigtmärlein* IST *Märe* und *Predigt*, `Monatsregimen` steht unter *Kalender*, *Tagewählerei* und *Text zur Diätetik* zugleich. Es unter einen Elternteil zu zwingen wäre eine Aussage über die Typologie, die die Daten nicht machen.
+
+**Aus derselben Einsicht folgt die DOM-Regel.** Die Schlüssel des Baums sind der **Pfad**, nicht die Kategorie-ID, sonst hätten die 171 mehrfach einsortierten Kategorien kollidierende Knoten und ließen sich nicht unabhängig auf- und zuklappen. Dasselbe Motiv beim Detailfeld: eines für den ganzen Baum statt eines pro Knoten. Der Test dafür ist der wichtigste der sieben.
+
+**Die alte Karte ist weg statt ergänzt.** `maps.genreHierarchy` trug Eltern-*Namen* und die volle Hülle, und ihr einziger Konsument war genau die UND-Kette. Sie durch ein Feld an den Gattungs-Einträgen zu ersetzen war billiger als beides zu pflegen; der Index ist dadurch netto 5,4 KB kleiner geworden.
+
+**Erwartungsdämpfer, der in die Ansicht gehört.** 482 der 615 Kategorien haben im ganzen Zweig unter sich kein einziges Werk unseres Korpus, benutzt werden 92 mit 874 Referenzen. Ein Baum ohne diese Angabe führt in leere Äste. Jeder Knoten nennt deshalb eigene Werke und Werke im Zweig, und was zu nichts führt, ist gedimmt und beschriftet.
+
+**Zwei Befunde aus dem Review, beide berechtigt.** Die Klapp-Pfeile waren `▸`/`▾` als Text und damit der einzige Treffer dieser Art im Repo, gegen die Konvention „Heroicons inline SVG ist der einzige Icon-Stil“. Und `FEATURES.md` beschrieb weiter nur die Suche. Beides nachgezogen. Der Reviewer hat außerdem jede Zahl nachgemessen, auch die 408 Zeichen, was die Regel bestätigt, dass eine Zahl in einem Kommentar eine Messvorschrift braucht.
+
+**Nicht Teil davon:** der Abgleich mit `Middle-High-German-Conceptual-Database/textseries` (618 Konzepte dort gegen 615 hier, 157 Kanten nur dort, 95 nur hier) und die toten `dhplus`-URIs. Das bleibt in #93 und braucht eine philologische Entscheidung darüber, welcher Stand gilt.
+
+**Phase:** Betrieb, in einem Worktree gebaut, während die Parallelsession #59 gemerged hat. Der Rebase auf den neuen `main` hatte genau einen Konflikt, die einzeilige Tailwind-Ausgabe, und der wurde durch `npm run build:css` erledigt statt von Hand.
+
+---
+
 ## 2026-08-10 – #59: das Gitter darf bleiben, weil wir jetzt wissen, was es heißt
 
 **Summary:** Lindas drei Punkte vom Morgen sind umgesetzt: „Nennende Instanz" statt „Nennende Figur", Alexander als eigene Kategorie *Deckname* statt als Eigenname, und ihr Quell-Commit `b7cc0585` zieht die Gruppierungsfunktion vom 09.08. ersatzlos zurück. 297/297 grün.
