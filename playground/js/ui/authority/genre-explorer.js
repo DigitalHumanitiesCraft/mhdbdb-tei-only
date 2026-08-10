@@ -9,7 +9,6 @@ import {
   generateResultItem,
   setupSearchInput,
   toggleDetails,
-  showEmptySearchState,
   renderToContainer,
   escapeForJS,
   formatMetadata,
@@ -152,6 +151,10 @@ export class GenreExplorer {
       resultsId: "genreResults",
       totalCount: this.authorityData.genres.length,
       extraControlsHTML: checkboxHTML,
+      // #361: kein "Geben Sie einen Suchbegriff ein" mehr. Der Ruhezustand
+      // dieses Explorers ist der Baum darunter, und die Aufforderung wuerde
+      // ueber einer vollstaendigen Ansicht stehen und ihr widersprechen.
+      helpText: "",
     });
 
     // #361: the tree is the resting state of this explorer. It sits below the
@@ -174,6 +177,7 @@ export class GenreExplorer {
     `
     );
     setupSearchInput("genreSearch", (term) => this.searchGenres(term));
+    document.getElementById("genreResults")?.classList.add("hidden");
     this.renderTree();
 
     // #119: re-run the search with the current term when the filter toggles.
@@ -339,12 +343,17 @@ export class GenreExplorer {
   }
 
   searchGenres(searchTerm) {
+    // #361: Baum und Trefferliste loesen einander ab, statt uebereinander zu
+    // stehen. Ohne Begriff ist der Baum die Ansicht, mit Begriff die Liste.
+    const treffer = document.getElementById("genreResults");
+    const baum = document.getElementById("genreTreeSection");
     if (!searchTerm.trim()) {
-      showEmptySearchState("genreResults");
-      document.getElementById("genreTreeSection")?.classList.remove("hidden");
+      treffer?.classList.add("hidden");
+      baum?.classList.remove("hidden");
       return;
     }
-    document.getElementById("genreTreeSection")?.classList.add("hidden");
+    treffer?.classList.remove("hidden");
+    baum?.classList.add("hidden");
 
     let matches = SearchPatterns.multiFieldNormalized(
       this.authorityData.genres,
