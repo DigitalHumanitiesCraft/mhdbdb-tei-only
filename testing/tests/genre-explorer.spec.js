@@ -12,7 +12,8 @@
  * legitimer Lock: die Datei ist kuratiert und aendert sich nur durch eine
  * bewusste Entscheidung, nicht durch einen Rebuild.
  *
- * Der wichtigste Test ist der letzte. 171 der 615 Kategorien haben mehr als
+ * Der wichtigste Test ist "mehrfach einsortierte Kategorien klappen
+ * unabhaengig". 171 der 615 Kategorien haben mehr als
  * einen direkten Elternteil, und das ist der Sinn der Typologie, kein Fehler:
  * ein Predigtmaerlein IST Maere und Predigt. Der Baum zeigt sie deshalb an
  * jeder dieser Stellen, und zwei Knoten derselben Kategorie muessen sich
@@ -161,6 +162,21 @@ test.describe('Gattungs-Explorer Baumansicht (#361)', () => {
 
     await page.uncheck('#genreOnlyWithWorks');
     await expect(wurzeln.first().locator('.genre-node')).toHaveCount(7);
+  });
+
+  test('die Beschriftung des Filters sagt je Ansicht, was er tut', async ({ page }) => {
+    // Ein Haken, zwei notwendig verschiedene Bedeutungen: im Baum "Werke im
+    // Zweig" (sonst waeren die Kinder eines werklosen Zwischenknotens nicht
+    // erreichbar), in der Trefferliste "eigene Werke" (sonst haette der Knopf
+    // "Werke anzeigen" nichts zu zeigen). Betrifft 41 Kategorien.
+    const label = page.locator('#genreFilterLabel');
+    await expect(label).toHaveText('Nur Zweige anzeigen, die zu Werken führen');
+
+    await page.fill('#genreSearch', 'chronik');
+    await expect(label).toHaveText('Nur Gattungen mit zugeordneten Werken anzeigen');
+
+    await page.fill('#genreSearch', '');
+    await expect(label).toHaveText('Nur Zweige anzeigen, die zu Werken führen');
   });
 
   test('der Klapp-Knopf behaelt den Tastaturfokus', async ({ page }) => {

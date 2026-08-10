@@ -180,11 +180,16 @@ Browse and search six controlled vocabularies with consistent interface patterns
 - The 171 categories with more than one parent are shown at every one of those
   positions, and each position opens and closes on its own. A *Predigtmärlein*
   is a *Märe* and a *Predigt*, and the tree says both
-- The #119 filter „Nur Gattungen mit zugeordneten Werken anzeigen" now applies to
-  the tree as well, and there it drops the empty branches rather than dimming
-  them: 1,167 tree positions become 246, behind them the 133 categories that
-  lead anywhere. Dropping cannot tear the tree apart, because a parent's work
-  set is the superset of every child branch; both roots survive
+- The #119 filter applies to the tree as well, and there it drops the empty
+  branches rather than dimming them: 1,167 tree positions become 246, behind
+  them the 133 categories that lead anywhere. Dropping cannot tear the tree
+  apart, because a parent's work set is the superset of every child branch;
+  both roots survive. One checkbox, but its meaning has to differ between the
+  views, so its label says which one is in force: in the tree „works in the
+  branch" (an intermediate node without works of its own has to survive, or its
+  children become unreachable), in the result list „works of its own" (a card
+  without them is a dead end, its „Werke anzeigen" button would have nothing to
+  show). That is 41 of the 133
 - Detail panel per category: every root-to-category path (up to 9), plus the
   works assigned to it
 - Search by genre term steps in front of the tree; a hit names its path

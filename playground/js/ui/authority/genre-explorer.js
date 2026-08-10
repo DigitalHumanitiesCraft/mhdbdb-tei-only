@@ -25,6 +25,25 @@ function escapeHtml(s) {
   ));
 }
 
+/**
+ * Ein Haken, zwei Ansichten, zwei notwendig verschiedene Bedeutungen (#361).
+ *
+ * In der Trefferliste heisst er "eigene Werke": eine Karte ohne eigene Werke
+ * ist eine Sackgasse, ihr Knopf "Werke anzeigen" haette nichts zu zeigen.
+ * Im Baum muss er "Werke im Zweig" heissen, sonst waeren die Kinder eines
+ * Zwischenknotens ohne eigene Werke nicht mehr erreichbar. Nach den 92
+ * Gattungen mit eigenen und den 133 mit Werken im Zweig sind das 41
+ * Kategorien, die im gefilterten Baum stehen und in der gefilterten Suche
+ * fehlen wuerden.
+ *
+ * Die Bedeutungen anzugleichen waere falsch, also sagt die Beschriftung je
+ * Ansicht, was der Haken dort tut.
+ */
+const FILTER_LABEL = {
+  baum: "Nur Zweige anzeigen, die zu Werken führen",
+  suche: "Nur Gattungen mit zugeordneten Werken anzeigen",
+};
+
 export class GenreExplorer {
   constructor(authorityData) {
     this.authorityData = authorityData;
@@ -140,7 +159,7 @@ export class GenreExplorer {
       <label class="flex items-center gap-2 text-sm text-slate-700 cursor-pointer">
         <input type="checkbox" id="genreOnlyWithWorks" ${this.onlyWithWorks ? "checked" : ""}
                class="w-4 h-4 rounded border-slate-300 text-brand-600 focus:ring-brand-500" />
-        <span>Nur Gattungen mit zugeordneten Werken anzeigen</span>
+        <span id="genreFilterLabel">${FILTER_LABEL.baum}</span>
       </label>
     `;
 
@@ -369,9 +388,11 @@ export class GenreExplorer {
     // stehen. Ohne Begriff ist der Baum die Ansicht, mit Begriff die Liste.
     const treffer = document.getElementById("genreResults");
     const baum = document.getElementById("genreTreeSection");
+    const beschriftung = document.getElementById("genreFilterLabel");
     if (!searchTerm.trim()) {
       treffer?.classList.add("hidden");
       baum?.classList.remove("hidden");
+      if (beschriftung) beschriftung.textContent = FILTER_LABEL.baum;
       // Neu zeichnen, weil der #119-Filter jetzt auch den Baum betrifft und
       // sein Umschalter genau hier hereinkommt.
       this.renderTree();
@@ -379,6 +400,7 @@ export class GenreExplorer {
     }
     treffer?.classList.remove("hidden");
     baum?.classList.add("hidden");
+    if (beschriftung) beschriftung.textContent = FILTER_LABEL.suche;
 
     let matches = SearchPatterns.multiFieldNormalized(
       this.authorityData.genres,
