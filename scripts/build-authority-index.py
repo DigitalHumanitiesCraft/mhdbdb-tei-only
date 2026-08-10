@@ -563,6 +563,29 @@ def parse_concepts():
     return concepts
 
 
+def _direct_parents(closure):
+    """
+    Transitive reduction of the genre polyhierarchy (#361).
+
+    genres.xml stores the full transitive closure: every <ptr type="broader">
+    set names all ancestors, not just the nearest ones. A parent p of x is
+    direct exactly when no other parent q of x already has p among its own
+    ancestors. Everything else is a shortcut edge that the tree view must not
+    draw, or the hierarchy collapses into a flat list.
+
+    Returns id -> sorted list of direct parent ids. Result is a DAG, not a
+    tree: 171 of 615 categories keep more than one direct parent, and that is
+    the point of the typology (Predigtmaerlein is both Maere and Predigt).
+    """
+    direct = {}
+    for cid, parents in closure.items():
+        direct[cid] = sorted(
+            p for p in parents
+            if not any(q != p and p in closure.get(q, ()) for q in parents)
+        )
+    return direct
+
+
 def parse_genres():
     """Parse genres.xml to extract genres from taxonomy categories."""
     print("🎭 Parsing genres.xml...")
@@ -577,6 +600,7 @@ def parse_genres():
     TEI = '{http://www.tei-c.org/ns/1.0}'
 
     genres = []
+    closure = {}  # #361: genre_id -> all ancestors, as stored in genres.xml
     # Find all category elements with genre_ prefix
     category_els = tree.findall(f'.//{TEI}category')
 
@@ -593,6 +617,14 @@ def parse_genres():
         catdesc_el = category_el.find('.//tei:catDesc', namespaces=ns)
         if catdesc_el is None:
             continue
+
+        # #361: collect the stored ancestor set before any filtering below, so
+        # the reduction sees the same graph that genres.xml describes.
+        closure[category_id] = {
+            (ptr.get('target') or '')[1:]
+            for ptr in catdesc_el.findall('tei:ptr[@type="broader"]', namespaces=ns)
+            if (ptr.get('target') or '').startswith('#')
+        }
 
         # Find German and English terms — primary vs. alternative kept separate
         # so the alternative never overwrites the primary label (same last-wins
@@ -638,7 +670,29 @@ def parse_genres():
             genre_entry['altEN'] = alt_en
         genres.append(genre_entry)
 
-    print(f"   Found {len(genres)} genres")
+    # #361: attach the direct parents. Computed over the full closure, then
+    # restricted to genres that survived the filters above, so the tree view
+    # never gets an id it cannot resolve.
+    kept = {g['id'] for g in genres}
+    direct = _direct_parents(closure)
+    verwaist = sorted(
+        p for cid in kept for p in direct.get(cid, ()) if p not in kept
+    )
+    if verwaist:
+        raise SystemExit(
+            "genres.xml: %d direct parent(s) point at categories that are not "
+            "in the index, e.g. %s. Fix the data before building."
+            % (len(verwaist), ', '.join(verwaist[:5]))
+        )
+    for genre in genres:
+        parents = direct.get(genre['id'], [])
+        if parents:
+            genre['parents'] = parents
+
+    roots = sum(1 for g in genres if not g.get('parents'))
+    edges = sum(len(g.get('parents', ())) for g in genres)
+    print(f"   Found {len(genres)} genres "
+          f"({edges} direct parent edges, {roots} roots)")
     return genres
 
 
@@ -763,14 +817,17 @@ def build_performance_maps(lemmata, works, concepts, genres):
     These Maps are used by AuthorityExplorers.js for:
     - Concept → Lemmas mapping
     - Genre → Works mapping
-    - Genre hierarchy lookup
+
+    The genre hierarchy used to live here too, as a third map holding parent
+    *names* and the full transitive closure. It was dropped in #361: the tree
+    view needs ids and direct parents, and both now sit on the genre entries
+    themselves (see parse_genres).
     """
     print("\n🗺️  Building performance Maps...")
 
     maps = {
         'conceptToLemmas': {},
-        'genreToWorks': {},
-        'genreHierarchy': {}
+        'genreToWorks': {}
     }
 
     # 1. Build conceptToLemmas map
@@ -812,62 +869,6 @@ def build_performance_maps(lemmata, works, concepts, genres):
 
     print(f"   Built genreToWorks: {len(maps['genreToWorks'])} genres mapped to works")
 
-    # 3. Build genreHierarchy map
-    # Map genre IDs to their parent genre names
-    # Parse genres.xml to extract parent relationships via <ptr type="broader">
-    try:
-        genres_file = AUTHORITY_DIR / 'genres.xml'
-        if genres_file.exists():
-            tree = etree.parse(str(genres_file))
-            ns = get_namespaces(tree)
-            TEI = '{http://www.tei-c.org/ns/1.0}'
-
-            # Build lookup: genre_id -> genre name (German)
-            genre_names = {}
-            categories = tree.findall(f'.//{TEI}category')
-            for category in categories:
-                cat_id = category.get('{http://www.w3.org/XML/1998/namespace}id')
-                if not cat_id:
-                    continue
-
-                # Get German term
-                catdesc = category.find('.//tei:catDesc', namespaces=ns)
-                if catdesc is not None:
-                    # Find all terms and filter for German
-                    terms = catdesc.findall('.//tei:term', namespaces=ns)
-                    for term in terms:
-                        lang = term.get('{http://www.w3.org/XML/1998/namespace}lang')
-                        if lang == 'de' and term.text:
-                            genre_names[cat_id] = term.text.strip()
-                            break
-
-            # Find all categories with broader relationships
-            for category in categories:
-                category_id = category.get('{http://www.w3.org/XML/1998/namespace}id')
-                if not category_id:
-                    continue
-
-                # Find <ptr type="broader"> elements
-                catdesc = category.find('tei:catDesc', namespaces=ns)
-                if catdesc is not None:
-                    broader_ptrs = catdesc.findall('tei:ptr[@type="broader"]', namespaces=ns)
-
-                    if broader_ptrs:
-                        parent_names = []
-                        for ptr in broader_ptrs:
-                            target = ptr.get('target')
-                            if target and target.startswith('#'):
-                                parent_id = target[1:]  # Remove '#' prefix
-                                if parent_id in genre_names:
-                                    parent_names.append(genre_names[parent_id])
-
-                        if parent_names:
-                            maps['genreHierarchy'][category_id] = parent_names
-
-            print(f"   Built genreHierarchy: {len(maps['genreHierarchy'])} entries")
-    except Exception as e:
-        print(f"   ⚠️  Could not build genreHierarchy: {e}")
-
     return maps
 
 
@@ -897,7 +898,7 @@ def build_index():
 
     # Build index structure
     index = {
-        'version': '1.8.1',  # 1.2.0: Authority migration (genre ptrs, person-works derivation, Frauendienst split). 1.2.1: WZB-Lemmata + Varianten + Werk-Eintrag. 1.2.2: #104 FLG/FLG1-Werk-Titel + work_571 biblStruct auf Vollmann-Profe/Neumann 1990. 1.3.0: #113-Followup — alternative-Terms in concepts.xml getrennt von Primär-Term (altDE/altEN/altNormalized) statt last-wins-Overwrite. 1.4.0: #44/#115 variants.xml aus Korpus regeneriert via scripts/sync/extract-variants.py (+64.287 Formen, 192.472→256.759). 1.4.1: #125 deterministischer Build (generatedAt entfernt, gzip mtime=0). 1.4.2: #143 HH-Genre-Korrektur (Marienleben → Geistliche Rede, work_137). 1.4.3: #143 APO-Gattungs-Metadaten nach Terrahe (work_568: Prosaroman/Antikenroman/Liebes-Abenteuerroman/Exempel/Fürstenspiegel). 1.4.4: #115 Kategorie-A-Stub-Backfill (+125 Lemma-Stubs in lexicon.xml). 1.5.0: Audit #5 — parse_genres last-wins-Fix: alternative-Terms überschreiben den Primär-Term nicht mehr (250 Kategorien korrigiert), altDE/altEN/altNormalized analog concepts. 1.6.0: #161 posAll[] — alle <pos>-Werte eines Lemmas (Multi-POS wie lemma_79188 salve NOM+VRB), pos bleibt Erstwert. 1.6.1: #189 GWTK-Pilot — variants.xml +2 Typen (rotte/rotten unter lemma_4954) + GWTK-Formen-Zuwachs aus der Neu-Annotation. 1.6.2: #224 NFC-Unicode-Komposition im Normalizer — zerlegte Umlaute (o + U+0308) werden jetzt komponiert, bevor die Umlaut-Regeln greifen; korrigiert 'hugo von mühldorf' zu 'hugo von muehldorf' in persons.xml (die Quelldatei traegt dort ein zerlegtes ue). 1.6.3: #235 kaputte Tilden in URLs (kombinierendes U+0303 hinter einem Leerzeichen statt ASCII-Tilde) in 24 works.xml-Notizen repariert; die gleichen Notizen stehen im TEI-Header, dort ohne Indexwirkung. 1.6.4: #138 814 Strophenziffern aus dem HUG-Verstext entfernt (706 davon pos=DIG, 108 unannotiert); variants.xml verliert dadurch den Typ type_195524 'cxlvix', der nur in HUG vorkam. 1.6.5: #236 FR3-Metadaten auf den Supplementband 2000 umgestellt (ISBN 3-525-82504-8, Hrsg. Haustein/Stackmann, Reihenband 232) und Zotero-Title-Case 'Teil Ii'/'Teil Iii' repariert; variants.xml unveraendert. 1.7.0: kuratierte Lemma-Angaben im Index: lemma.origin (Herkunftssprache aus <etym type="borrowing">, Schicht B von #28) sowie sense.definition und sense.comment (Prosa aus <def> bzw. <note type="comment">), jeweils nur wenn im Lexikon vorhanden. Erster Eintrag: lemma_37818 Abba (aramaeische Gottesanrede, KZW 30.07.2026). 1.7.1: #228 works.xml-Autornamen werden wie im Korpus-Index mit itertext() und Whitespace-Kollaps gelesen; work_563 trug den Umbruch der XML-Einrueckung bis in api/works/work_563.json. 1.8.0: #307 altNames/altNormalized je Person aus persons.xml persName[@type="alternative"] (134 Formen bei 80 Personen, nach exaktem Text auf 100 dedupliziert); die beiden Listen sind index-parallel, xml:lang wird nicht indexiert. 1.8.1: #193 Baustein 1 — lemma_3036 Ingliart von Personenname auf Pferdename umklassifiziert (concept_21012000 Maennlich/Mann + concept_23112500 Personennamen raus, concept_14012100 Haustiere/Namen + concept_23221000 Pferd und Reiten/Namen rein, wie bei den neun anderen arthurischen Pferden). Belegt durch Pz. 389,26 'mit den kurzen oeren ingliart' und 398,14; Quelle Borek 2023. Der dritte Korpus-Token REN_242090_0 'ingligar von jelezie' steht in einem Ritter-Katalog und haengt vermutlich falsch an diesem Lemma; das ist ein aelterer Befund, liegt bei KZW und beruehrt die Klassifikation des Lemmas nicht.
+        'version': '1.9.0',  # 1.2.0: Authority migration (genre ptrs, person-works derivation, Frauendienst split). 1.2.1: WZB-Lemmata + Varianten + Werk-Eintrag. 1.2.2: #104 FLG/FLG1-Werk-Titel + work_571 biblStruct auf Vollmann-Profe/Neumann 1990. 1.3.0: #113-Followup — alternative-Terms in concepts.xml getrennt von Primär-Term (altDE/altEN/altNormalized) statt last-wins-Overwrite. 1.4.0: #44/#115 variants.xml aus Korpus regeneriert via scripts/sync/extract-variants.py (+64.287 Formen, 192.472→256.759). 1.4.1: #125 deterministischer Build (generatedAt entfernt, gzip mtime=0). 1.4.2: #143 HH-Genre-Korrektur (Marienleben → Geistliche Rede, work_137). 1.4.3: #143 APO-Gattungs-Metadaten nach Terrahe (work_568: Prosaroman/Antikenroman/Liebes-Abenteuerroman/Exempel/Fürstenspiegel). 1.4.4: #115 Kategorie-A-Stub-Backfill (+125 Lemma-Stubs in lexicon.xml). 1.5.0: Audit #5 — parse_genres last-wins-Fix: alternative-Terms überschreiben den Primär-Term nicht mehr (250 Kategorien korrigiert), altDE/altEN/altNormalized analog concepts. 1.6.0: #161 posAll[] — alle <pos>-Werte eines Lemmas (Multi-POS wie lemma_79188 salve NOM+VRB), pos bleibt Erstwert. 1.6.1: #189 GWTK-Pilot — variants.xml +2 Typen (rotte/rotten unter lemma_4954) + GWTK-Formen-Zuwachs aus der Neu-Annotation. 1.6.2: #224 NFC-Unicode-Komposition im Normalizer — zerlegte Umlaute (o + U+0308) werden jetzt komponiert, bevor die Umlaut-Regeln greifen; korrigiert 'hugo von mühldorf' zu 'hugo von muehldorf' in persons.xml (die Quelldatei traegt dort ein zerlegtes ue). 1.6.3: #235 kaputte Tilden in URLs (kombinierendes U+0303 hinter einem Leerzeichen statt ASCII-Tilde) in 24 works.xml-Notizen repariert; die gleichen Notizen stehen im TEI-Header, dort ohne Indexwirkung. 1.6.4: #138 814 Strophenziffern aus dem HUG-Verstext entfernt (706 davon pos=DIG, 108 unannotiert); variants.xml verliert dadurch den Typ type_195524 'cxlvix', der nur in HUG vorkam. 1.6.5: #236 FR3-Metadaten auf den Supplementband 2000 umgestellt (ISBN 3-525-82504-8, Hrsg. Haustein/Stackmann, Reihenband 232) und Zotero-Title-Case 'Teil Ii'/'Teil Iii' repariert; variants.xml unveraendert. 1.7.0: kuratierte Lemma-Angaben im Index: lemma.origin (Herkunftssprache aus <etym type="borrowing">, Schicht B von #28) sowie sense.definition und sense.comment (Prosa aus <def> bzw. <note type="comment">), jeweils nur wenn im Lexikon vorhanden. Erster Eintrag: lemma_37818 Abba (aramaeische Gottesanrede, KZW 30.07.2026). 1.7.1: #228 works.xml-Autornamen werden wie im Korpus-Index mit itertext() und Whitespace-Kollaps gelesen; work_563 trug den Umbruch der XML-Einrueckung bis in api/works/work_563.json. 1.8.0: #307 altNames/altNormalized je Person aus persons.xml persName[@type="alternative"] (134 Formen bei 80 Personen, nach exaktem Text auf 100 dedupliziert); die beiden Listen sind index-parallel, xml:lang wird nicht indexiert. 1.8.1: #193 Baustein 1 — lemma_3036 Ingliart von Personenname auf Pferdename umklassifiziert (concept_21012000 Maennlich/Mann + concept_23112500 Personennamen raus, concept_14012100 Haustiere/Namen + concept_23221000 Pferd und Reiten/Namen rein, wie bei den neun anderen arthurischen Pferden). Belegt durch Pz. 389,26 'mit den kurzen oeren ingliart' und 398,14; Quelle Borek 2023. Der dritte Korpus-Token REN_242090_0 'ingligar von jelezie' steht in einem Ritter-Katalog und haengt vermutlich falsch an diesem Lemma; das ist ein aelterer Befund, liegt bei KZW und beruehrt die Klassifikation des Lemmas nicht. 1.9.0: #361 genre.parents[] — direkte Eltern als IDs, aus der transitiven Reduktion der in genres.xml gespeicherten vollen Hülle (3.175 Kanten → 615 Kategorien mit 0 bis 4 direkten Eltern, zwei Wurzeln, Baumtiefe 9). Ersetzt maps.genreHierarchy, das Eltern-*Namen* und die volle Hülle trug und dessen einziger Konsument die „UND“-Kette im Gattungs-Explorer war.
         'lemmata': lemmata,
         'persons': persons,
         'works': works,

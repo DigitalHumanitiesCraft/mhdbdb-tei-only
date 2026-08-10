@@ -262,7 +262,8 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
     id: "genre_123",
     termDE: "Mystische Prosa",
     termEN: "Mystical Prose",
-    normalized: "...",                  // parent names live in maps.genreHierarchy, not on the genre entry
+    normalized: "...",
+    parents: ["genre_456"],             // direct parents as ids, omitted on the two roots (v1.9.0, #361)
     altDE: ["Prosa der Mystik"],        // optional, only if <term type="alternative" xml:lang="de"> exists (v1.5.0)
     altEN: ["Mystic prose"],            // optional, analog (v1.5.0)
     altNormalized: ["prosa der mystik"] // optional, only if altDE exists (v1.5.0)
@@ -288,17 +289,15 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
     },
     genreToWorks: {
       "genre_123": ["work_001", ...]
-    },
-    genreHierarchy: {
-      "genre_123": ["Prosa", "Mystik"]
     }
+    // genreHierarchy was removed in v1.9.0 (#361), see genres[].parents above
   }
 }
 ```
 
 **Key features:**
 - Normalized searchable text for all entities (MHG character conversion: â→a, ô→o, ü→ue)
-- Performance maps pre-computed (conceptToLemmas, genreToWorks, genreHierarchy)
+- Performance maps pre-computed (conceptToLemmas, genreToWorks)
 - Variants dictionary enables O(1) orthographic variant lookup
 - Separate GND/Wikidata identifiers for works vs authors (added during the authority migration; current authority-index version per TEI-MODEL.md §11)
 
@@ -464,7 +463,7 @@ Three core build scripts:
 1. **`build-authority-index.py`** - Extract authority data from 7 inhaltstragende XML files (the 8th, `contributors.xml`, is deliberately not indexed – see below)
    - Parse XML with lxml
    - Extract structured data for each entity type
-   - Build performance maps (conceptToLemmas, genreToWorks, genreHierarchy)
+   - Build performance maps (conceptToLemmas, genreToWorks)
    - Normalize searchable text
    - Variants dictionary built from `authority-files/variants.xml` (see *Variants regeneration* below)
    - Output: `data/authority-index.json.gz`
@@ -641,9 +640,8 @@ Three pre-computed maps accelerate common queries:
 - Avoids scanning entire works list
 - Used in genre explorer
 
-**genreHierarchy:** Get parent genres for a genre
-- Extracted from `<ptr type="broader">` references
-- Fixed during the authority migration (was broken before)
+A third map, `genreHierarchy`, held parent *names* for a genre until v1.9.0. It was
+dropped in #361 in favour of `genres[].parents`, see the next section.
 
 ## Data Quality
 
@@ -657,9 +655,22 @@ Three pre-computed maps accelerate common queries:
 - Punctuation sometimes encoded as entities (`&lt;`, `&gt;` in `<pc>`)
 - This is correct XML encoding, not a bug
 
-**Genre Hierarchy:**
-- Migrated to `<ptr type="broader">` references during the authority migration
-- Previously extracted nested categories (incorrect approach)
+**Genre hierarchy: a closure, not a tree.** `genres.xml` stores the relation as
+`<ptr type="broader">`, and every category names *all* its ancestors, not just
+the nearest ones: 615 categories carry 3,175 edges, all resolvable. This is a
+faithful SKOS-style closure, but it cannot be displayed as a hierarchy, because
+a shortcut edge (root → leaf) is indistinguishable from a real parent edge.
+`build-authority-index.py` therefore computes the transitive reduction at build
+time (`_direct_parents()`) and writes the result to `genres[].parents` as ids
+(#361). Measured on 2026-08-10: 442 categories keep one direct parent, 139 keep
+two, 29 keep three, 3 keep four, and 2 are roots (*Epik, Lyrik und Dramatik*,
+*Wissensliteratur und Gebrauchsliteratur*). Tree depth is 9.
+
+The result is a **DAG, not a tree**, and that is the data being right rather than
+wrong: *Predigtmärlein* is both a *Märe* and a *Predigt*, *Monatsregimen* belongs
+under *Kalender*, *Tagewählerei* and *Text zur Diätetik* at once. Any consumer
+that assumes a single parent will silently drop one of the readings. Fully
+expanded, the 615 categories occupy 1,167 tree positions.
 
 ### Validation
 

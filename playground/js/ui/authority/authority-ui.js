@@ -202,6 +202,15 @@ export class AuthorityUI {
     return this.genreExplorer.getGenreHierarchy(genreId);
   }
 
+  // #361: called from the inline handlers of the genre tree
+  toggleGenreNode(key) {
+    this.genreExplorer.toggleGenreNode(key);
+  }
+
+  showGenreDetail(genreId) {
+    this.genreExplorer.showGenreDetail(genreId);
+  }
+
   // ==================== NAME METHODS ====================
 
   showNames() {

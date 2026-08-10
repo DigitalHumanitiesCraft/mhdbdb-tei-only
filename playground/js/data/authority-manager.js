@@ -16,7 +16,6 @@ export class AuthorityFilesManager {
     this.indexes = {
       genreToWorks: new Map(),
       workToGenres: new Map(),
-      genreHierarchy: new Map(),
       conceptToLemmas: new Map(),
     };
   }
