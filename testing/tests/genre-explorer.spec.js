@@ -128,15 +128,52 @@ test.describe('Gattungs-Explorer Baumansicht (#361)', () => {
       ge.expanded.add(pfade[0].join('/'));
       ge.renderTree();
 
-      const knoten = [...document.querySelectorAll('#genreTree button[aria-expanded]')]
-        .filter((b) => b.getAttribute('onclick').includes(g.id))
-        .map((b) => b.getAttribute('aria-expanded'));
-      return { pfade: pfade.length, knoten };
+      // Exakt gegen die beiden erwarteten Schluessel, nicht ueber ein
+      // Teilstueck: der Schluessel IST der Pfad, ein `includes(id)` traefe
+      // deshalb auch jeden Nachfahren der aufgeklappten Predigt. Dass das
+      // heute dasselbe Ergebnis liefert, haengt nur daran, dass ihre eine
+      // Unterkategorie selbst keine Kinder hat.
+      const stand = (pfad) =>
+        document
+          .querySelector(`#genreTree button[data-key="${pfad.join('/')}"]`)
+          ?.getAttribute('aria-expanded') ?? null;
+      return { pfade: pfade.length, erster: stand(pfade[0]), zweiter: stand(pfade[1]) };
     });
 
     expect(zustand.pfade).toBe(4);
     // dieselbe Kategorie, zwei Stellen, zwei Zustaende
-    expect(zustand.knoten).toEqual(['false', 'true']);
+    expect(zustand.erster).toBe('true');
+    expect(zustand.zweiter).toBe('false');
+  });
+
+  test('der #119-Filter laesst leere Zweige im Baum weg', async ({ page }) => {
+    const wurzeln = page.locator('#genreTree > .genre-node');
+    await wurzeln.first().locator('button[aria-expanded]').first().click();
+    await expect(wurzeln.first().locator('.genre-node')).toHaveCount(7);
+
+    // Dramatik und Reiseliteratur fuehren im ganzen Zweig zu keinem Werk
+    await page.check('#genreOnlyWithWorks');
+    await expect(wurzeln.first().locator('.genre-node')).toHaveCount(5);
+    // nicht gegen "Dramatik" pruefen: das steht schon im Namen der Wurzel
+    await expect(wurzeln.first()).not.toContainText('Reiseliteratur');
+    // beide Wurzeln ueberleben den Filter
+    await expect(wurzeln).toHaveCount(2);
+
+    await page.uncheck('#genreOnlyWithWorks');
+    await expect(wurzeln.first().locator('.genre-node')).toHaveCount(7);
+  });
+
+  test('der Klapp-Knopf behaelt den Tastaturfokus', async ({ page }) => {
+    const knopf = page.locator('#genreTree > .genre-node button[aria-expanded]').first();
+    const key = await knopf.getAttribute('data-key');
+
+    await knopf.focus();
+    await page.keyboard.press('Enter');
+
+    // renderTree() ersetzt den Knopf; ohne Re-Fokus liegt der Fokus auf body
+    await expect(page.locator(`#genreTree button[data-key="${key}"]`)).toBeFocused();
+    await expect(page.locator(`#genreTree button[data-key="${key}"]`))
+      .toHaveAttribute('aria-expanded', 'true');
   });
 
   test('Suche zeigt den Pfad und blendet den Baum aus', async ({ page }) => {

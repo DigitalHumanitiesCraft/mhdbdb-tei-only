@@ -215,11 +215,21 @@ export class GenreExplorer {
 
     const path = [...ancestors, genreId];
     const key = path.join("/");
-    const kinder = ancestors.includes(genreId) ? [] : children.get(genreId) || [];
     const offen = this.expanded.has(key);
     const eigene = this.findWorksInGenre(genreId).length;
     const imZweig = subtreeWorks.get(genreId)?.size || 0;
     const leer = imZweig === 0;
+
+    // #119-Filter, im Baum: was zu keinem Werk fuehrt, faellt ganz weg statt
+    // nur gedimmt zu sein. Das kann den Baum nicht zerreissen, weil
+    // subtreeWorks eines Elternteils die Obermenge jedes Kindzweigs ist: ein
+    // Kind mit Werken unter einem Elternteil ohne gibt es nach Konstruktion
+    // nicht. Beide Wurzeln ueberleben den Filter.
+    if (this.onlyWithWorks && leer) return "";
+    let kinder = ancestors.includes(genreId) ? [] : children.get(genreId) || [];
+    if (this.onlyWithWorks) {
+      kinder = kinder.filter((id) => (subtreeWorks.get(id)?.size || 0) > 0);
+    }
 
     // Heroicons chevron, down when open and right when closed, like the
     // metadata panel in the reading view (DESIGN.md: inline SVG is the only
@@ -228,6 +238,7 @@ export class GenreExplorer {
     const toggle = kinder.length
       ? `<button type="button"
              class="w-5 shrink-0 text-slate-400 transition hover:text-brand-600"
+             data-key="${key}"
              aria-expanded="${offen}"
              aria-label="Unterkategorien von ${escapeHtml(
                genre.termDE || genre.termEN
@@ -275,6 +286,11 @@ export class GenreExplorer {
       this.expanded.add(key);
     }
     this.renderTree();
+    // renderTree() ersetzt den ganzen Baum, also auch den eben gedrueckten
+    // Knopf. Ohne den Re-Fokus faellt die Tastaturbedienung nach jedem
+    // Klappen auf den Seitenanfang zurueck, bei bis zu 1.167 Positionen.
+    // Er meldet ausserdem erst die Zustandsaenderung an den Screenreader.
+    document.querySelector(`#genreTree button[data-key="${key}"]`)?.focus();
   }
 
   /**
@@ -342,6 +358,10 @@ export class GenreExplorer {
       </div>
     `;
     panel.classList.remove("hidden");
+    // Das Feld steht im Markup hinter dem ganzen Baum. Bei aufgeklappten
+    // Aesten landet es sonst unterhalb des Sichtfensters und der Klick sieht
+    // folgenlos aus. "nearest" springt nicht, wenn es ohnehin zu sehen ist.
+    panel.scrollIntoView({ block: "nearest" });
   }
 
   searchGenres(searchTerm) {
@@ -352,6 +372,9 @@ export class GenreExplorer {
     if (!searchTerm.trim()) {
       treffer?.classList.add("hidden");
       baum?.classList.remove("hidden");
+      // Neu zeichnen, weil der #119-Filter jetzt auch den Baum betrifft und
+      // sein Umschalter genau hier hereinkommt.
+      this.renderTree();
       return;
     }
     treffer?.classList.remove("hidden");
