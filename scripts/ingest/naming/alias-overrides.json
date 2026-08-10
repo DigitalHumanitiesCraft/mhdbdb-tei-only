@@ -1,16 +1,24 @@
 {
   "_readme": [
-    "Werkspezifische Alias-Ergaenzungen fuer die Eigennamen-Klassifikation (#59).",
+    "Werkspezifische Alias-Ergaenzungen fuer die Benennungs-Klassifikation (#59).",
     "",
     "Die Quelle dieser Aliase ist normalerweise lemma_normalization.json aus",
     "lindabeutel/Naming-analysis. Diese Datei ist WERKUEBERGREIFEND: ein Alias,",
     "der nur in einem Werk gilt, waere dort semantisch falsch. Deshalb liegen",
     "solche Faelle hier, auf MHDBDB-Seite, und Lindas Repo bleibt quellentreu.",
     "",
-    "Wirkung: der Alias wird beim Klassifizieren zur Alias-Menge GENAU DIESER",
-    "Figur in GENAU DIESEM Werk gemergt. Ein Lemma, das ihn trifft, zaehlt dann",
-    "als Eigenname statt als Antonomasie. Eine gleichnamige eigenstaendige Figur",
-    "bleibt unberuehrt, sie traegt einen anderen Figurennamen.",
+    "Wirkung: der Alias wird beim Klassifizieren der Alias-Menge GENAU DIESER",
+    "Figur in GENAU DIESEM Werk zugeschlagen. Ein Lemma, das ihn trifft, faellt",
+    "dann in die unter 'category' genannte Kategorie statt in die Antonomasie.",
+    "Eine gleichnamige eigenstaendige Figur bleibt unberuehrt, sie traegt einen",
+    "anderen Figurennamen.",
+    "",
+    "'category' ist Pflicht und kennt zwei Werte:",
+    "  deck  Deckname: benennt die Figur wie ein Name, ist aber nicht ihrer.",
+    "        Eigene vierte Kategorie im Playground, zwischen Eigenname und",
+    "        Antonomasie (Linda, Issue #59, Kommentar vom 2026-08-10).",
+    "  eig   Echter Eigenname der Figur, der nur in lemma_normalization.json",
+    "        fehlt.",
     "",
     "Jeder Eintrag nennt Grund, Datum und die Stelle, an der er abgesegnet wurde.",
     "Der woechentliche Auto-Update-Workflow nimmt die Datei bei jedem Rebuild mit."
@@ -18,9 +26,10 @@
   "Trojanerkrieg": {
     "Paris": {
       "aliases": ["alexander"],
+      "category": "deck",
       "reason": "Alexander ist der Deckname des Paris im Trojanerkrieg, kein Umschreiben: die Nennung benennt ihn, sie charakterisiert ihn nicht. Werkuebergreifend waere der Alias falsch, die eigenstaendige Figur Alexander (V. 13808, Thetis-Rede) ist eine andere Person.",
-      "approvedBy": "Linda Beutel-Thurow, Issue #59, Kommentar vom 2026-07-28",
-      "date": "2026-08-09"
+      "approvedBy": "Linda Beutel-Thurow, Issue #59, Kommentare vom 2026-07-28 (Alias) und 2026-08-10 (Kategorie 'Deckname' statt 'Eigenname')",
+      "date": "2026-08-10"
     }
   }
 }

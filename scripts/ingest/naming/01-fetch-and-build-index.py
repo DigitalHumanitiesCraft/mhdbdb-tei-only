@@ -19,6 +19,13 @@ einem Werk gilt, wäre dort semantisch falsch, deshalb liegt er hier statt in
 Lindas Repo (Linda, #59-Kommentar 2026-07-28: „passt sehr gut"). Bisher genau
 ein Eintrag: „Alexander" als Deckname des Paris im Trojanerkrieg.
 
+Jeder Override nennt seine Kategorie: "deck" (Deckname, eigene vierte
+Kategorie) oder "eig" (echter Eigenname, der nur in lemma_normalization.json
+fehlt). Linda am 2026-08-10 zu Alexander: „Der Name sollte in dem Fall nicht
+als 'Eigenname', sondern als 'Deckname' gelabelt werden." Ein Deckname
+benennt die Figur wie ein Name, ist aber nicht ihrer — die Kategorie liegt
+zwischen Eigenname und Antonomasie und darf in keiner der beiden aufgehen.
+
 Datenmodell der categorization-Records (Excel-Erbe, pandas-Export):
   - Genau eines von drei Feld-Mustern trägt die Nennphrase:
       "Erzähler" befüllt                          → Erzähler nennt
@@ -27,7 +34,8 @@ Datenmodell der categorization-Records (Excel-Erbe, pandas-Export):
   - "Bezeichnung 1-4": Einzellemmata der Nennung. Eigenname, wenn das Lemma
     den Figurennamen trifft (case-insensitiv exakt oder Alias aus
     lemma_normalization.json — repliziert Lindas match_name_to_lemma aus
-    naming_analysis/shared.py), sonst Antonomasie.
+    naming_analysis/shared.py), Deckname bei einem "deck"-Override, sonst
+    Antonomasie.
   - "Epitheta 1-5": bereits als Epitheta kategorisiert (Linda 2026-03-05).
   - "Vers": Float; Dezimalstellen sind echte Editions-Verszählungen (z.B.
     17.02 im Eneasroman). Die Zählung folgt Lindas Editionsgrundlagen und
@@ -86,6 +94,13 @@ BOOKS = {
 BEZEICHNUNG_COLS = ["Bezeichnung 1", "Bezeichnung 2", "Bezeichnung 3", "Bezeichnung 4"]
 EPITHETA_COLS = ["Epitheta 1", "Epitheta 2", "Epitheta 3", "Epitheta 4", "Epitheta 5"]
 
+# Kategorien im Index-Record, in Anzeigereihenfolge des Playgrounds.
+CATS = ["eig", "deck", "ant", "epi"]
+
+# Kategorien, die ein Override vergeben darf. "ant" waere sinnlos (das ist der
+# Default ohne Override), "epi" kommt aus eigenen Spalten der Quelle.
+OVERRIDE_CATS = {"eig", "deck"}
+
 SOURCE_META = {
     "repo": "https://github.com/" + REPO,
     "doi": "10.5281/zenodo.18770138",
@@ -123,27 +138,47 @@ def serialize_verse(value):
     return clean(value)
 
 
-def matches_figure_name(figure_name, lemma, aliases):
-    """Lindas match_name_to_lemma (shared.py): case-insensitiv exakt oder Alias."""
+def classify(figure_name, lemma, aliases, deck_aliases):
+    """Kategorie eines Bezeichnungs-Lemmas: 'eig', 'deck' oder 'ant'.
+
+    Eigenname ist Lindas match_name_to_lemma (shared.py): case-insensitiv
+    exakt oder Alias. Der Deckname wird zuerst geprueft: er ist die
+    werkspezifische, einzeln begruendete Aussage und schlaegt deshalb den
+    werkuebergreifenden Alias, falls ein Lemma beides traefe.
+    """
     norm_lemma = lemma.lower().strip()
-    if norm_lemma == figure_name.lower().strip():
-        return True
-    return norm_lemma in aliases
+    if norm_lemma in deck_aliases:
+        return "deck"
+    if norm_lemma == figure_name.lower().strip() or norm_lemma in aliases:
+        return "eig"
+    return "ant"
 
 
 def load_overrides():
-    """alias-overrides.json → {buch: {figur_lowercase: {alias, ...}}}.
+    """alias-overrides.json → {buch: {figur_lowercase: {kategorie: {alias, ...}}}}.
 
     Schluessel unterhalb von "_readme" sind Buchnamen wie in BOOKS. Ein
     unbekannter Buch- oder Figurenname wuerde stumm wirkungslos bleiben,
     deshalb prueft build_index beide gegen die Daten.
+
+    "category" ist Pflicht: der Unterschied zwischen einem Decknamen und einem
+    schlicht fehlenden Eigennamen-Alias ist eine philologische Aussage, keine
+    Voreinstellung, die ein neuer Eintrag stillschweigend erben darf.
     """
     raw = json.loads(OVERRIDES_FILE.read_text(encoding="utf-8"))
-    return {
-        book: {name.lower(): {a.lower() for a in entry["aliases"]}
-               for name, entry in figures.items()}
-        for book, figures in raw.items() if not book.startswith("_")
-    }
+    out = {}
+    for book, figures in raw.items():
+        if book.startswith("_"):
+            continue
+        out[book] = {}
+        for name, entry in figures.items():
+            cat = entry.get("category")
+            if cat not in OVERRIDE_CATS:
+                sys.exit(f"FEHLER: alias-overrides.json, {book}/{name}: "
+                         f"category={cat!r} ist nicht erlaubt. Zulaessig sind "
+                         f"{sorted(OVERRIDE_CATS)}.")
+            out[book][name.lower()] = {cat: {a.lower() for a in entry["aliases"]}}
+    return out
 
 
 def fetch(path, ref, source_dir):
@@ -187,7 +222,7 @@ def resolve_commit(ref, require=False):
         return None
 
 
-def build_record(row, figure_name, aliases):
+def build_record(row, figure_name, aliases, deck_aliases):
     """Ein categorization-Record → kompakter Index-Record (oder None)."""
     if filled(row.get("Bezeichnung")) and filled(row.get("Nennende Figur")):
         who, by = "fig", clean(row["Nennende Figur"])
@@ -205,25 +240,22 @@ def build_record(row, figure_name, aliases):
     else:
         return None
 
-    eig, ant = [], []
+    buckets = {cat: [] for cat in CATS}
     for col in BEZEICHNUNG_COLS:
         val = row.get(col)
         if not filled(val):
             continue
         lemma = clean(val)
-        (eig if matches_figure_name(figure_name, lemma, aliases) else ant).append(lemma)
+        buckets[classify(figure_name, lemma, aliases, deck_aliases)].append(lemma)
 
-    epi = [clean(row[col]) for col in EPITHETA_COLS if filled(row.get(col))]
+    buckets["epi"] = [clean(row[col]) for col in EPITHETA_COLS if filled(row.get(col))]
 
     record = {"v": serialize_verse(row.get("Vers")), "ph": phrase, "who": who}
     if by:
         record["by"] = by
-    if eig:
-        record["eig"] = eig
-    if ant:
-        record["ant"] = ant
-    if epi:
-        record["epi"] = epi
+    for cat in CATS:
+        if buckets[cat]:
+            record[cat] = buckets[cat]
     return record
 
 
@@ -242,7 +274,7 @@ def build_index(ref, source_dir):
                  f"{sorted(unbekannt)}. Bekannt sind {sorted(BOOKS)}.")
 
     works = []
-    totals = {"records": 0, "eig": 0, "ant": 0, "epi": 0}
+    totals = {"records": 0, **{cat: 0 for cat in CATS}}
 
     for book_name, sigle in BOOKS.items():
         raw = json.loads(fetch(f"data/{book_name}/categorization_{book_name}.json", ref, source_dir))
@@ -255,16 +287,15 @@ def build_index(ref, source_dir):
                 continue
             figure_name = clean_figure_name(row["Benannte Figur"])
             aliases = alias_map.get(figure_name.lower(), set())
-            extra = buch_overrides.get(figure_name.lower())
-            if extra:
-                aliases = aliases | extra
-            record = build_record(row, figure_name, aliases)
+            extra = buch_overrides.get(figure_name.lower(), {})
+            aliases = aliases | extra.get("eig", set())
+            record = build_record(row, figure_name, aliases, extra.get("deck", set()))
             if record is None:
                 skipped += 1
                 continue
             figures.setdefault(figure_name, []).append(record)
             totals["records"] += 1
-            for cat in ("eig", "ant", "epi"):
+            for cat in CATS:
                 totals[cat] += len(record.get(cat, []))
 
         # Ein vertippter Figurenname im Override bliebe sonst stumm wirkungslos:
@@ -338,6 +369,7 @@ def main():
 
     print(f"\nGesamt: {totals['records']} Records | "
           f"Eigennamen-Lemmata: {totals['eig']} | "
+          f"Decknamen-Lemmata: {totals['deck']} | "
           f"Antonomasien-Lemmata: {totals['ant']} | "
           f"Epitheta: {totals['epi']}")
 
