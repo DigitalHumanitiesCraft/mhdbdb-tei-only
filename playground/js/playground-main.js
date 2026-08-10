@@ -154,10 +154,9 @@ class MHDBDBPlayground {
                 if (authorityIndex.maps.genreToWorks) {
                     this.authorityManager.indexes.genreToWorks = new Map(Object.entries(authorityIndex.maps.genreToWorks));
                 }
-                if (authorityIndex.maps.genreHierarchy) {
-                    this.authorityManager.indexes.genreHierarchy = new Map(Object.entries(authorityIndex.maps.genreHierarchy));
-                }
-                console.log(`📊 Performance Maps loaded: concept→lemmas: ${this.authorityManager.indexes.conceptToLemmas.size}, genre→works: ${this.authorityManager.indexes.genreToWorks.size}, genreHierarchy: ${this.authorityManager.indexes.genreHierarchy.size}`);
+                // #361: maps.genreHierarchy is gone. The hierarchy now sits on
+                // the genre entries as parents[], with ids and direct parents.
+                console.log(`📊 Performance Maps loaded: concept→lemmas: ${this.authorityManager.indexes.conceptToLemmas.size}, genre→works: ${this.authorityManager.indexes.genreToWorks.size}`);
             }
 
             // Mark authority files as loaded

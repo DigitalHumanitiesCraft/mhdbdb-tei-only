@@ -227,6 +227,7 @@ Completeness against `testing/tests/` is gated by `scripts/audit/check-doc-inven
 | `lemma-occurrence-handoff.spec.js` | Playground | „Belege suchen" from the lemma explorer: the `ids` route parameter and its pinned resolution against a homograph group (#58) |
 | `naming-explorer.spec.js` | Playground | Character naming: route, work/character selection, category tabs, mandatory attribution (#59) |
 | `horses-explorer.spec.js` | Playground | Arthurian horses: route, horse selection, event filter, attribution, and the `?verseId=` deep link into the reading view (#193) |
+| `genre-explorer.spec.js` | Playground | Genre tree: `genres[].parents` as the transitive reduction, the two roots, empty branches marked, and categories with several parents opening independently at each of their positions (#361) |
 | `normalization-parity.spec.js` | Cross-cutting | Python/JS normalizer agreement (see [CONTRACTS.md](CONTRACTS.md#a-mhg-normalization-parity)) |
 | `lemma-matching.spec.js` | Cross-cutting | Lemma highlight matching exactness, #130 (see [CONTRACTS.md](CONTRACTS.md#b1-lemma-highlight-matching-contract)) |
 | `position-parity.spec.js` | Cross-cutting | Python/JS word-position agreement, #131 (see [CONTRACTS.md](CONTRACTS.md#b-position-counting-contract)) |

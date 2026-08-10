@@ -172,9 +172,20 @@ Browse and search six controlled vocabularies with consistent interface patterns
 - Note: v1.1.0 replaced inline truncation with full searchable interface
 
 **Genre Explorer:**
-- Search by genre term
-- Display: Term, hierarchy (broader genres), associated works
-- Action: View all works in genre
+- Resting state is the typology as an expandable tree, from its two roots
+  (*Epik, Lyrik und Dramatik*, *Wissensliteratur und Gebrauchsliteratur*),
+  9 levels deep. Each node names its own works and how many sit in the branch
+  below it; branches leading to no work at all are dimmed and labelled, because
+  482 of the 615 categories are in that position (#361)
+- The 171 categories with more than one parent are shown at every one of those
+  positions, and each position opens and closes on its own. A *Predigtmärlein*
+  is a *Märe* and a *Predigt*, and the tree says both
+- Detail panel per category: every root-to-category path (up to 9), plus the
+  works assigned to it
+- Search by genre term steps in front of the tree; a hit names its path
+  (`Epik, Lyrik und Dramatik › Kurzdichtung › Märe`) instead of the unordered
+  " UND " chain of all ancestors that stood there until #361
+- Action: view all works in a genre, or all authors
 - Note: v1.1.0 fixed hierarchy extraction
 
 **Name Explorer:**
