@@ -229,7 +229,9 @@ export class GenreExplorer {
       ? `<button type="button"
              class="w-5 shrink-0 text-slate-400 transition hover:text-brand-600"
              aria-expanded="${offen}"
-             aria-label="${offen ? "Zuklappen" : "Aufklappen"}"
+             aria-label="Unterkategorien von ${escapeHtml(
+               genre.termDE || genre.termEN
+             )}"
              onclick="window.playground.ui.authorityExplorers.toggleGenreNode('${key}')"
            ><svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${chevron}"/></svg></button>`
       : `<span class="w-5 shrink-0"></span>`;
