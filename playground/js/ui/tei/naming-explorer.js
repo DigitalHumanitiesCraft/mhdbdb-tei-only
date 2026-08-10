@@ -30,17 +30,22 @@
  * ## Die Notation der Quelle bleibt stehen
  *
  * Die Nennerspalte trägt eine Notation, die die Figurenspalte nicht hat: ein
- * führendes `#` (Rolandslied, zweimal im Trojanerkrieg) und eckige Klammern
- * (Trojanerkrieg). Beide meinen dasselbe: eine Instanz, die keine handelnde
- * Figur des Werks ist, also eine unbestimmbare Menge (`#haiden`, `[MENGE]`)
- * oder eine nur zitierte Person (`#David`, im Werk selbst nicht handelnd).
- * Linda, #59-Kommentar 2026-08-10.
+ * führendes `#` und eckige Klammern. Sie meinen dasselbe: eine Instanz, die
+ * keine handelnde Figur des Werks ist, also eine unbestimmbare Menge
+ * (`#haiden`, `[MENGE]`) oder eine nur zitierte Person (`#David`, im Werk
+ * selbst nicht handelnd). Linda, #59-Kommentar 2026-08-10; sie hat die
+ * Klammern für den Trojanerkrieg erklärt, die in IW und ENE stehen inhaltlich
+ * gleichartig da und sind von ihr nicht eigens bestätigt.
+ *
+ * Verteilung, gemessen über die distinkten `by`-Werte je Werk: Gitter nur in
+ * ROL (13) und TRO (2), Klammern in IW (7), ENE (7) und TRO (14).
  *
  * Bis dahin war unklar, wofür das Gitter steht, und die Ansicht schnitt es für
  * die Gruppierung ab: fünf Nenner waren durch Schreibvarianten in je zwei
  * Einträge zerfallen (`#David`/`David` und vier weitere). Linda hat die Quelle
  * am selben Tag vereinheitlicht (`b7cc0585`); daran gemessen führt der
- * Schlüssel nichts mehr zusammen (4 Werke, 33/29/48/71 Nenner, mit und ohne
+ * Schlüssel nichts mehr zusammen (distinkte `by`-Werte je Werk, also ohne
+ * Erzähler und Selbstnennungen: 33/29/48/71 in IW/ENE/ROL/TRO, mit und ohne
  * Gitter-Schnitt identisch). Damit fällt hier eine Funktion weg statt eines
  * Datenstands, und das `#` steht wieder in der Anzeige, mit einer Erklärung
  * darunter. Es abzuschneiden wäre jetzt sogar falsch: `#David` und ein
@@ -89,10 +94,15 @@ const CATEGORY_META = {
 
 const EVIDENCE_LIMIT = 50;
 
-// Schlüssel des Erzählers in der Nenner-Perspektive. NUL kann in keinem
-// Quellwert stehen, der Schlüssel ist damit unabhängig von der Notation
-// kollisionsfrei — anders als früher, als das abgeschnittene '#' ihn trug.
-const NARRATOR_KEY = '\u0000erzaehler';
+// Schlüssel des Erzählers in der Nenner-Perspektive. Großbuchstaben können in
+// keinem namerKey vorkommen, der schreibt alles klein: der Schlüssel ist damit
+// kollisionsfrei, ohne wie früher am abgeschnittenen '#' zu hängen.
+// Ein Steuerzeichen (U+0000) wäre hier falsch, auch wenn es kollisionsfreier
+// aussieht: der Schlüssel steht als `<option value>` in einem innerHTML, und
+// der HTML-Tokenizer ersetzt U+0000 im Attributwert durch U+FFFD. Der Wert, der
+// aus dem Select zurückkommt, träfe den Schlüssel dann nie, und die
+// Erzähler-Auswahl lieferte in allen vier Werken 0 Treffer (Review PR #360).
+const NARRATOR_KEY = 'ERZAEHLER';
 
 // Werke, deren Edition-Verszählung der MHDBDB-<l n>-Zählung entspricht —
 // nur dort sind Vers-Deep-Links in den Reader korrekt (siehe Header-Kommentar).

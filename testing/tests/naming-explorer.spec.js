@@ -218,6 +218,31 @@ test.describe('Naming Explorer (#59)', () => {
     await expect(page.locator('[data-ne-term] td:nth-child(2)')).toHaveText('Deckname');
   });
 
+  test('Der Erzaehler ist als Nenner auswaehlbar und liefert Terme', async ({ page }) => {
+    // Regression aus PR #360: NARRATOR_KEY lag als U+0000-Sentinel im
+    // option-value, und der HTML-Tokenizer macht daraus U+FFFD. Der Wert aus
+    // dem Select traf den Schluessel damit nie, die Auswahl lieferte in allen
+    // vier Werken 0 Treffer. Der Erzaehler ist der belegstaerkste Nenner
+    // jedes Werks, und kein Test hatte ihn je ausgewaehlt.
+    await page.click('[data-ne-persp="namer"]');
+    await page.selectOption('#neWorkSelect', 'ROL');
+    // Den Wert aus dem DOM zuruecklesen statt ihn hinzuschreiben: genau das
+    // ist die Eigenschaft, die der Sentinel braucht. Mit dem NUL-Sentinel
+    // stuende hier "�erzaehler", die Auswahl gelaenge und liefe leer.
+    const erzaehlerWert = await page.$eval('#neFigureSelect', sel =>
+      [...sel.options].find(o => o.textContent.startsWith('Erzähler'))?.value);
+    expect(erzaehlerWert).toBeTruthy();
+    await page.selectOption('#neFigureSelect', erzaehlerWert);
+    await page.waitForSelector('[data-ne-term]', { state: 'visible', timeout: 5000 });
+
+    // Tausenderpunkt zulassen: der ROL-Erzaehler hat 1.222 Belege
+    await expect(page.locator('#resultsContainer')).toContainText(/benennt [\d.]+ Figuren in [\d.]+ kuratierten Belegstellen/);
+    // Die Auswahl haelt den Re-Render aus: der Schluessel muss durch das
+    // Attribut und wieder zurueck kommen, sonst springt das Select auf leer
+    await expect(page.locator('#neFigureSelect')).not.toHaveValue('');
+    await expect(page.locator('#resultsContainer .text-lg')).toHaveText('Erzähler');
+  });
+
   test('Der Deckname-Tab bleibt weg, wo die Kategorie nicht trifft', async ({ page }) => {
     // Genau ein Beleg im ganzen Index; eine dauerhafte Null-Kategorie neben
     // drei gefuellten laese sich wie ein Erhebungsmangel.
