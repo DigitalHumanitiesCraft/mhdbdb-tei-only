@@ -1,8 +1,9 @@
 /**
  * MHDBDB Playground - Erweiterte Figurenbezeichnungen (Beta)
  *
- * Kuratierte Figurenbezeichnungen (Eigennamen, Antonomasien, Epitheta) aus
- * Linda Beutel-Thurows Naming-analysis für 4 Werke (ENE, IW, ROL, TRO).
+ * Kuratierte Figurenbezeichnungen (Eigennamen, Decknamen, Antonomasien,
+ * Epitheta) aus Linda Beutel-Thurows Naming-analysis für 4 Werke
+ * (ENE, IW, ROL, TRO).
  * Datenquelle: data/naming-index.json.gz, gebaut von
  * scripts/ingest/naming/01-fetch-and-build-index.py.
  *
@@ -26,19 +27,33 @@
  * Selbstnennungen (`who === 'self'`, kein `by`, der Nenner ist die Figur
  * selbst). Ein Nenner ohne Selbstnennungen verliert dadurch nichts.
  *
- * ## Warum Nenner gruppiert werden
+ * ## Die Notation der Quelle bleibt stehen
  *
- * Die Nennerspalte trägt im Rolandslied eine Notation, die die Figurenspalte
- * nicht hat: ein führendes `#`, Unterstriche, wechselnde Großschreibung.
- * Fünf Nenner zerfielen dadurch in je zwei Einträge (`#David`/`David`,
- * `#Engel`/`Engel`, `#Cristen`/`#cristen`, `#Fürsten`/`#fürsten`,
- * `#Karlinge`/`#karlinge`). Gruppiert wird deshalb über einen Schlüssel ohne
- * `#`, ohne Unterstrich und ohne Groß-/Kleinschreibung; gemessen am
- * 2026-08-09 führt er genau diese fünf zusammen und sonst nichts, in den
- * anderen drei Werken ändert er nichts. Die Rohschreibungen stehen im
- * title-Attribut. Bewusst in der Ansicht und nicht im Index: die Notation ist
- * Lindas, sie ist angefragt, und wenn sie in der Quelle vereinheitlicht wird,
- * fällt hier eine Funktion weg statt eines Datenstands.
+ * Die Nennerspalte trägt eine Notation, die die Figurenspalte nicht hat: ein
+ * führendes `#` und eckige Klammern. Sie meinen dasselbe: eine Instanz, die
+ * keine handelnde Figur des Werks ist, also eine unbestimmbare Menge
+ * (`#haiden`, `[MENGE]`) oder eine nur zitierte Person (`#David`, im Werk
+ * selbst nicht handelnd). Linda, #59-Kommentar 2026-08-10; sie hat die
+ * Klammern für den Trojanerkrieg erklärt, die in IW und ENE stehen inhaltlich
+ * gleichartig da und sind von ihr nicht eigens bestätigt.
+ *
+ * Verteilung, gemessen über die distinkten `by`-Werte je Werk: Gitter nur in
+ * ROL (13) und TRO (2), Klammern in IW (7), ENE (7) und TRO (14).
+ *
+ * Bis dahin war unklar, wofür das Gitter steht, und die Ansicht schnitt es für
+ * die Gruppierung ab: fünf Nenner waren durch Schreibvarianten in je zwei
+ * Einträge zerfallen (`#David`/`David` und vier weitere). Linda hat die Quelle
+ * am selben Tag vereinheitlicht (`b7cc0585`); daran gemessen führt der
+ * Schlüssel nichts mehr zusammen (distinkte `by`-Werte je Werk, also ohne
+ * Erzähler und Selbstnennungen: 33/29/48/71 in IW/ENE/ROL/TRO, mit und ohne
+ * Gitter-Schnitt identisch). Damit fällt hier eine Funktion weg statt eines
+ * Datenstands, und das `#` steht wieder in der Anzeige, mit einer Erklärung
+ * darunter. Es abzuschneiden wäre jetzt sogar falsch: `#David` und ein
+ * handelnder David wären derselbe Schlüssel und damit derselbe Nenner.
+ *
+ * Was der Schlüssel weiter tut: Unterstriche zu Leerzeichen (`#diu_stimme`)
+ * und Groß-/Kleinschreibung angleichen, damit erneut auftretende
+ * Schreibvarianten nicht wieder zerfallen.
  *
  * Die Verszählung folgt Lindas Editionsgrundlagen. Bei ROL und TRO ist sie
  * mit der MHDBDB-TEI-Zählung deckungsgleich (Linda, #59-Kommentar
@@ -53,51 +68,73 @@ import { TextNormalizer } from '../../../../assets/js/lib/text-normalizer.js';
 import { getNavigationEpoch } from '../core/router.js';
 
 const DEFAULT_STATE = Object.freeze({
-  perspective: 'named',  // 'named' = benannte Figur | 'namer' = nennende Figur
+  perspective: 'named',  // 'named' = benannte Figur | 'namer' = nennende Instanz
   workSigle: '',
   subject: '',           // gewählte Figur bzw. gewählter Nenner (dessen Schlüssel)
   speaker: '',           // nur 'named': '' | 'erz' | 'self' | 'fig' | 'fig:<key>'
   target: '',            // nur 'namer': '' | Name der genannten Figur
-  category: 'all',       // 'all' | 'eig' | 'ant' | 'epi'
+  category: 'all',       // 'all' | einer der CATS
   nameFilter: ''
 });
 
+// Kategorien in Anzeigereihenfolge, identisch mit CATS im Build-Skript.
+// `deck` (Deckname) ist die vierte, 2026-08-10 auf Lindas Präzisierung hin
+// eingeführte Kategorie: ein Term, der die Figur benennt wie ein Name, ohne
+// ihr Name zu sein. Sie kommt ausschließlich aus alias-overrides.json und
+// trägt derzeit genau einen Beleg (Alexander für Paris, TRO V. 20665) —
+// deshalb blenden Tabs und Kacheln sie aus, wo sie leer ist.
+const CATS = ['eig', 'deck', 'ant', 'epi'];
+
 const CATEGORY_META = {
-  eig: { label: 'Eigenname',   badge: 'border-brand-200 bg-brand-50 text-brand-700' },
-  ant: { label: 'Antonomasie', badge: 'border-amber-200 bg-amber-50 text-amber-800' },
-  epi: { label: 'Epitheton',   badge: 'border-rose-200 bg-rose-50 text-rose-700' }
+  eig:  { label: 'Eigenname',   plural: 'Eigennamen',   badge: 'border-brand-200 bg-brand-50 text-brand-700' },
+  deck: { label: 'Deckname',    plural: 'Decknamen',    badge: 'border-violet-200 bg-violet-50 text-violet-700' },
+  ant:  { label: 'Antonomasie', plural: 'Antonomasien', badge: 'border-amber-200 bg-amber-50 text-amber-800' },
+  epi:  { label: 'Epitheton',   plural: 'Epitheta',     badge: 'border-rose-200 bg-rose-50 text-rose-700' }
 };
 
 const EVIDENCE_LIMIT = 50;
 
-// Schlüssel des Erzählers in der Nenner-Perspektive. Kein echter Nenner kann
-// ihn treffen: namerKey schneidet das führende Gitter immer ab.
-const NARRATOR_KEY = '#erzaehler';
+// Schlüssel des Erzählers in der Nenner-Perspektive. Großbuchstaben können in
+// keinem namerKey vorkommen, der schreibt alles klein: der Schlüssel ist damit
+// kollisionsfrei, ohne wie früher am abgeschnittenen '#' zu hängen.
+// Ein Steuerzeichen (U+0000) wäre hier falsch, auch wenn es kollisionsfreier
+// aussieht: der Schlüssel steht als `<option value>` in einem innerHTML, und
+// der HTML-Tokenizer ersetzt U+0000 im Attributwert durch U+FFFD. Der Wert, der
+// aus dem Select zurückkommt, träfe den Schlüssel dann nie, und die
+// Erzähler-Auswahl lieferte in allen vier Werken 0 Treffer (Review PR #360).
+const NARRATOR_KEY = 'ERZAEHLER';
 
 // Werke, deren Edition-Verszählung der MHDBDB-<l n>-Zählung entspricht —
 // nur dort sind Vers-Deep-Links in den Reader korrekt (siehe Header-Kommentar).
 const READER_LINK_SIGLES = new Set(['ROL', 'TRO']);
 
-/** Nenner-Schlüssel: ohne führendes '#', ohne Unterstrich, kleingeschrieben. */
+// Die Notation der Quelle für „keine handelnde Figur des Werks": Gitter im
+// ROL, eckige Klammern im TRO. Steuert nur, ob der Erklärsatz erscheint.
+const NOTATION = /^[#[]/;
+
+/** Nenner-Schlüssel: Unterstriche zu Leerzeichen, kleingeschrieben. Das
+ *  führende '#' bleibt darin, es ist bedeutungstragend (siehe Header). */
 function namerKey(raw) {
-  return bloss(raw).toLowerCase().replace(/\s+/g, ' ');
+  return anzeigeform(raw).toLowerCase();
 }
 
-/** Rohschreibung eines Nenners ohne die Notation der Quelle. */
-function bloss(raw) {
-  // Erst trimmen, dann das Gitter: ein Wert mit fuehrendem Leerzeichen behielte
-  // es sonst im Schluessel, und NARRATOR_KEY waere nicht mehr kollisionsfrei.
-  return raw.trim().replace(/^#+/, '').replace(/_/g, ' ').trim();
+/** Anzeigeform eines Nenners: Unterstriche zu Leerzeichen wie in der
+ *  Figurenspalte, Whitespace kollabiert. Die Notation bleibt stehen. */
+function anzeigeform(raw) {
+  return raw.replace(/_/g, ' ').trim().replace(/\s+/g, ' ');
 }
 
 /** Anzeigeform einer Nenner-Gruppe: Großschreibung vor Häufigkeit vor Alphabet. */
 function namerLabel(variants) {
-  const forms = [...variants.entries()].map(([raw, count]) => ({ text: bloss(raw), count }));
-  forms.sort((a, b) => {
-    const lowerA = a.text[0] === a.text[0]?.toLowerCase() ? 1 : 0;
-    const lowerB = b.text[0] === b.text[0]?.toLowerCase() ? 1 : 0;
-    return lowerA - lowerB || b.count - a.count || a.text.localeCompare(b.text, 'de');
-  });
+  const forms = [...variants.entries()].map(([raw, count]) => ({ text: anzeigeform(raw), count }));
+  // Ersten Buchstaben statt erstem Zeichen prüfen: '#' und '[' sind
+  // schriftlos, sonst gälte jede Form mit Notation als kleingeschrieben.
+  const klein = (text) => {
+    const b = text.match(/\p{L}/u)?.[0] || '';
+    return b === b.toLowerCase() ? 1 : 0;
+  };
+  forms.sort((a, b) =>
+    klein(a.text) - klein(b.text) || b.count - a.count || a.text.localeCompare(b.text, 'de'));
   return forms[0]?.text || '';
 }
 
@@ -272,7 +309,7 @@ export class NamingExplorer {
     const figureTotals = new Map();
     for (const { figure, record } of pairs) {
       figureTotals.set(figure, (figureTotals.get(figure) || 0) + 1);
-      for (const cat of ['eig', 'ant', 'epi']) {
+      for (const cat of CATS) {
         for (const term of (record[cat] || [])) {
           const key = byFigure ? `${figure}|${cat}|${term}` : `${cat}|${term}`;
           if (!map.has(key)) {
@@ -322,8 +359,11 @@ export class NamingExplorer {
 
   renderPerspectiveTabs() {
     const modes = [
-      { key: 'named', label: 'Benannte Figur', hint: 'Wie wird eine Figur genannt?' },
-      { key: 'namer', label: 'Nennende Figur', hint: 'Wen benennt eine Figur wie?' }
+      // „Instanz" statt „Figur", weil der Erzähler mit in der Liste steht und
+      // keine Figur ist (Linda, #59-Kommentar 2026-08-10). Dieselbe
+      // Beschriftung trägt der Unterfilter der anderen Perspektive.
+      { key: 'named', label: 'Benannte Figur',   hint: 'Wie wird eine Figur genannt?' },
+      { key: 'namer', label: 'Nennende Instanz', hint: 'Wen benennt eine Instanz wie?' }
     ];
     const buttons = modes.map(m => {
       const active = m.key === this.state.perspective;
@@ -381,10 +421,31 @@ export class NamingExplorer {
             </select>
           </label>
         </div>
+        ${this.renderNotationHint(work)}
         <p class="text-[11px] text-slate-500">
           Versangaben folgen den Editionsgrundlagen der Naming-analysis-Erhebung. Bei ROL und TRO ist die Zählung mit der MHDBDB deckungsgleich; dort führen die Versangaben direkt in die Leseansicht. Bei ENE und IW kann die Zählung abweichen.
         </p>
       </div>
+    `;
+  }
+
+  /**
+   * Erklärt die Notation der Quelle, sobald sie im gewählten Werk vorkommt.
+   * Die Beispiele stammen aus dem Werk selbst (die zwei belegstärksten), damit
+   * der Satz auch dann stimmt, wenn Linda die eckigen Klammern im TRO noch auf
+   * das Gitter vereinheitlicht — angekündigt im #59-Kommentar 2026-08-10.
+   */
+  renderNotationHint(work) {
+    if (!work) return '';
+    const treffer = this.getNamers(work).filter(n => NOTATION.test(n.label));
+    if (treffer.length === 0) return '';
+    const beispiele = treffer.slice(0, 2)
+      .map(n => `<code class="rounded bg-white px-1">${escapeHtml(n.label)}</code>`)
+      .join(', ');
+    return `
+      <p class="text-[11px] text-slate-500">
+        <span class="font-medium">Notation der Quelle:</span> Ein vorangestelltes <code class="rounded bg-white px-1">#</code> und eckige Klammern markieren eine Instanz, die keine handelnde Figur des Werks ist: eine unbestimmbare Menge oder eine nur zitierte Person. In diesem Werk etwa ${beispiele}.
+      </p>
     `;
   }
 
@@ -406,7 +467,8 @@ export class NamingExplorer {
 
     const pairs = this.collectPairs(work);
     const terms = this.computeTerms(pairs, namerMode);
-    const counts = { all: terms.length, eig: 0, ant: 0, epi: 0 };
+    const counts = { all: terms.length };
+    for (const cat of CATS) counts[cat] = 0;
     for (const t of terms) counts[t.cat] += 1;
 
     const summary = this.renderSummary(work, pairs, terms);
@@ -426,15 +488,19 @@ export class NamingExplorer {
   }
 
   renderSummary(work, pairs, terms) {
-    const occurrences = { eig: 0, ant: 0, epi: 0 };
+    const occurrences = {};
+    for (const cat of CATS) occurrences[cat] = 0;
     for (const t of terms) occurrences[t.cat] += t.count;
 
-    const plural = { eig: 'Eigennamen', ant: 'Antonomasien', epi: 'Epitheta' };
-    const cells = ['eig', 'ant', 'epi'].map(cat => {
+    // Der Deckname bekommt nur dann eine eigene Kachel, wenn es ihn hier gibt:
+    // er ist ein einzelner kuratierter Sonderfall, und eine dauerhafte
+    // Null-Kachel neben drei gefuellten liest sich wie ein Erhebungsmangel.
+    const sichtbar = CATS.filter(cat => cat !== 'deck' || occurrences.deck > 0);
+    const cells = sichtbar.map(cat => {
       const distinct = terms.filter(t => t.cat === cat).length;
       return `
         <div>
-          <div class="text-xs uppercase tracking-wide text-slate-500">${plural[cat]}</div>
+          <div class="text-xs uppercase tracking-wide text-slate-500">${CATEGORY_META[cat].plural}</div>
           <div class="font-semibold text-brand-700">${distinct.toLocaleString('de-DE')} <span class="font-normal text-slate-500">${distinct === 1 ? 'Term' : 'Terme'}</span></div>
           <div class="text-xs text-slate-500">${occurrences[cat].toLocaleString('de-DE')} Vorkommen</div>
         </div>
@@ -466,17 +532,20 @@ export class NamingExplorer {
           <div class="text-lg font-semibold text-slate-800">${escapeHtml(heading)}</div>
           <div class="text-xs text-slate-500">${sub}</div>
         </div>
-        <div class="grid gap-2 sm:grid-cols-3 text-sm">${cells}</div>
+        <div class="grid gap-2 ${sichtbar.length === 4 ? 'sm:grid-cols-4' : 'sm:grid-cols-3'} text-sm">${cells}</div>
       </div>
     `;
   }
 
   renderCategoryTabs(counts) {
+    // Wie bei den Kacheln: der Deckname-Tab erscheint nur, wo er trifft — es
+    // sei denn, er ist gerade der gewaehlte. Sonst verschwaende ein
+    // Unterfilter, der ihn auf 0 bringt, das aktive Steuerelement, und die
+    // leere Tabelle haette keinen sichtbaren Grund mehr.
     const cats = [
       { key: 'all', label: 'Alle' },
-      { key: 'eig', label: 'Eigennamen' },
-      { key: 'ant', label: 'Antonomasien' },
-      { key: 'epi', label: 'Epitheta' }
+      ...CATS.filter(key => key !== 'deck' || counts.deck > 0 || this.state.category === 'deck')
+             .map(key => ({ key, label: CATEGORY_META[key].plural }))
     ];
     const buttons = cats.map(c => {
       const active = c.key === this.state.category;

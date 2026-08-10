@@ -181,36 +181,73 @@ test.describe('Naming Explorer (#59)', () => {
     await expect(page.locator('#resultsContainer')).toContainText('Bitte einen Nenner auswählen');
   });
 
-  test('Nenner werden ueber die Rolandslied-Notation hinweg gruppiert', async ({ page }) => {
-    // Die Nennerspalte traegt im ROL ein fuehrendes '#' und wechselnde
-    // Grossschreibung; fuenf Nenner zerfielen dadurch in je zwei Eintraege.
+  test('Die Notation der Quelle steht in der Nennerliste und wird erklaert', async ({ page }) => {
+    // Das fuehrende '#' markiert eine Instanz, die keine handelnde Figur des
+    // Werks ist (Linda, #59 2026-08-10). Es wird angezeigt statt abgeschnitten:
+    // #David (zitiert) und ein handelnder David waeren sonst derselbe Nenner.
     await page.click('[data-ne-persp="namer"]');
     await page.selectOption('#neWorkSelect', 'ROL');
 
     const nenner = await page.locator('#neFigureSelect option').allTextContents();
-    expect(nenner.some(o => o.includes('#'))).toBe(false);
-    expect(nenner.filter(o => /^Engel /.test(o)).length).toBe(1);
+    expect(nenner.some(o => o.startsWith('#'))).toBe(true);
+    // Genau ein Eintrag je Nenner, seit Linda die Schreibungen vereinheitlicht
+    // hat (Quell-Commit b7cc0585): frueher zerfiel Engel in #Engel und Engel.
+    expect(nenner.filter(o => /^#?Engel /.test(o)).length).toBe(1);
+    await expect(page.locator('#resultsContainer')).toContainText('Notation der Quelle');
 
-    await page.selectOption('#neFigureSelect', 'engel');
+    await page.selectOption('#neFigureSelect', '#engel');
     await page.waitForSelector('[data-ne-term]', { state: 'visible', timeout: 5000 });
-    // Beide Rohschreibungen sind zusammengefuehrt und im title nachweisbar
-    const hinweis = page.locator('#resultsContainer [title*="Schreibungen in der Quelle"]');
-    await expect(hinweis).toContainText('2 Schreibungen');
-    await expect(hinweis).toHaveAttribute('title', /#Engel/);
-    await expect(hinweis).toHaveAttribute('title', /(^|[^#])Engel/);
+    await expect(page.locator('#resultsContainer')).toContainText('#Engel');
   });
 
-  test('Alias-Override zaehlt Alexander bei Paris als Eigennamen', async ({ page }) => {
+  test('Alias-Override zaehlt Alexander bei Paris als Deckname', async ({ page }) => {
     // Deckname des Paris im Trojanerkrieg, werkspezifisch in
-    // scripts/ingest/naming/alias-overrides.json (Linda, #59 2026-07-28).
+    // scripts/ingest/naming/alias-overrides.json. Eigene vierte Kategorie
+    // statt Eigenname auf Lindas Praezisierung hin (#59, 2026-08-10).
     await page.selectOption('#neWorkSelect', 'TRO');
     await page.selectOption('#neFigureSelect', 'Paris');
     await page.waitForSelector('[data-ne-term]', { state: 'visible', timeout: 5000 });
+
+    // Der Deckname-Tab erscheint nur, wo die Kategorie trifft: hier ja
+    await expect(page.locator('[data-ne-cat="deck"]')).toBeVisible();
 
     await page.fill('#neNameFilter', 'Alexander');
     await page.waitForSelector('[data-ne-term]', { state: 'visible', timeout: 5000 });
     const zeilen = await page.locator('[data-ne-term]').allTextContents();
     expect(zeilen.length).toBe(1);
-    await expect(page.locator('[data-ne-term] td:nth-child(2)')).toHaveText('Eigenname');
+    await expect(page.locator('[data-ne-term] td:nth-child(2)')).toHaveText('Deckname');
+  });
+
+  test('Der Erzaehler ist als Nenner auswaehlbar und liefert Terme', async ({ page }) => {
+    // Regression aus PR #360: NARRATOR_KEY lag als U+0000-Sentinel im
+    // option-value, und der HTML-Tokenizer macht daraus U+FFFD. Der Wert aus
+    // dem Select traf den Schluessel damit nie, die Auswahl lieferte in allen
+    // vier Werken 0 Treffer. Der Erzaehler ist der belegstaerkste Nenner
+    // jedes Werks, und kein Test hatte ihn je ausgewaehlt.
+    await page.click('[data-ne-persp="namer"]');
+    await page.selectOption('#neWorkSelect', 'ROL');
+    // Den Wert aus dem DOM zuruecklesen statt ihn hinzuschreiben: genau das
+    // ist die Eigenschaft, die der Sentinel braucht. Mit dem NUL-Sentinel
+    // stuende hier "�erzaehler", die Auswahl gelaenge und liefe leer.
+    const erzaehlerWert = await page.$eval('#neFigureSelect', sel =>
+      [...sel.options].find(o => o.textContent.startsWith('Erzähler'))?.value);
+    expect(erzaehlerWert).toBeTruthy();
+    await page.selectOption('#neFigureSelect', erzaehlerWert);
+    await page.waitForSelector('[data-ne-term]', { state: 'visible', timeout: 5000 });
+
+    // Tausenderpunkt zulassen: der ROL-Erzaehler hat 1.222 Belege
+    await expect(page.locator('#resultsContainer')).toContainText(/benennt [\d.]+ Figuren in [\d.]+ kuratierten Belegstellen/);
+    // Die Auswahl haelt den Re-Render aus: der Schluessel muss durch das
+    // Attribut und wieder zurueck kommen, sonst springt das Select auf leer
+    await expect(page.locator('#neFigureSelect')).not.toHaveValue('');
+    await expect(page.locator('#resultsContainer .text-lg')).toHaveText('Erzähler');
+  });
+
+  test('Der Deckname-Tab bleibt weg, wo die Kategorie nicht trifft', async ({ page }) => {
+    // Genau ein Beleg im ganzen Index; eine dauerhafte Null-Kategorie neben
+    // drei gefuellten laese sich wie ein Erhebungsmangel.
+    await selectIwein(page);
+    await expect(page.locator('[data-ne-cat="eig"]')).toBeVisible();
+    await expect(page.locator('[data-ne-cat="deck"]')).toHaveCount(0);
   });
 });
