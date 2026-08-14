@@ -51,9 +51,12 @@
  * `analysis.strip_regex` ist für ihre eigene Auswertung gedacht und für
  * unseren Schlüssel deshalb nicht übernehmbar.
  *
- * Was der Schlüssel weiter tut: Unterstriche zu Leerzeichen (`#diu_stimme`)
- * und Groß-/Kleinschreibung angleichen, damit erneut auftretende
- * Schreibvarianten nicht wieder zerfallen.
+ * Was der Schlüssel weiter tut: Unterstriche zu Leerzeichen und Groß-/
+ * Kleinschreibung angleichen, damit erneut auftretende Schreibvarianten
+ * nicht wieder zerfallen. Am Stand 4766065c trägt kein einziger Nenner
+ * einen Unterstrich mehr (`#diu_stimme` stand hier als Beispiel und heißt
+ * jetzt `°diu stimme`); die Regel bleibt, weil die Quelle Unterstriche
+ * schon getragen hat und wieder tragen kann.
  *
  * Die Verszählung folgt Lindas Editionsgrundlagen. Bei ROL und TRO ist sie
  * mit der MHDBDB-TEI-Zählung deckungsgleich (Linda, #59-Kommentar
@@ -136,8 +139,8 @@ const MARKER_KLASSEN = [
   { id: 'Immaterial', test: /^°/, label: 'Immateriell' },
 ];
 
-/** Nenner-Schlüssel: Unterstriche zu Leerzeichen, kleingeschrieben. Das
- *  führende '#' bleibt darin, es ist bedeutungstragend (siehe Header). */
+/** Nenner-Schlüssel: Unterstriche zu Leerzeichen, kleingeschrieben. Die
+ *  Marker bleiben darin, sie sind bedeutungstragend (siehe Header). */
 function namerKey(raw) {
   return anzeigeform(raw).toLowerCase();
 }
@@ -773,17 +776,33 @@ export class NamingExplorer {
     `;
   }
 
+  /**
+   * Pflicht-Attribution (Lizenzauflage CC BY-NC-SA), gerendert aus
+   * `index.source` statt aus einer zweiten Kopie im Quelltext.
+   *
+   * Bis 2026-08-14 standen Zitation und DOI hier fest verdrahtet, und dann
+   * gab es die Angabe zweimal: einmal sichtbar hier, einmal unsichtbar in
+   * `SOURCE_META` des Build-Skripts. Bewacht war nur die unsichtbare, und
+   * die sichtbare zeigte nach dem Datenupdate die alte Version über den
+   * neuen Daten. Aus dem Index gerendert deckt der bestehende
+   * Zitations-Guard im Build (`pruefe_zitation`) beide Stellen ab, weil es
+   * nur noch eine ist.
+   *
+   * Kein Fallback für fehlende Felder: `render()` kehrt bei `loadError`
+   * vorher zurück, diese Methode läuft also nur mit geladenem Index.
+   */
   renderAttribution() {
+    const q = this.index.source;
     return `
       <div class="rounded-2xl border border-slate-200 bg-slate-50/70 p-4 text-xs text-slate-600 space-y-1">
         <div class="font-semibold text-slate-700">Naming-analysis nach Linda Beutel-Thurow</div>
         <div>
-          Beutel-Thurow, L. (2026). Naming-analysis (v0.1.0-beta).
-          <a href="https://doi.org/10.5281/zenodo.18770138" target="_blank" rel="noopener" class="text-brand-700 hover:underline">https://doi.org/10.5281/zenodo.18770138</a>
+          ${escapeHtml(q.citation)}
+          <a href="https://doi.org/${escapeHtml(q.doi)}" target="_blank" rel="noopener" class="text-brand-700 hover:underline">https://doi.org/${escapeHtml(q.doi)}</a>
         </div>
         <div>
-          Lizenz: CC BY-NC-SA 4.0 |
-          <a href="https://github.com/lindabeutel/Naming-analysis" target="_blank" rel="noopener" class="text-brand-700 hover:underline">github.com/lindabeutel/Naming-analysis</a>
+          Lizenz: ${escapeHtml(q.license)} |
+          <a href="${escapeHtml(q.repo)}" target="_blank" rel="noopener" class="text-brand-700 hover:underline">${escapeHtml(q.repo.replace(/^https:\/\//, ''))}</a>
         </div>
       </div>
     `;

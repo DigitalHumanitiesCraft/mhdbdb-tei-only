@@ -18,6 +18,15 @@
  */
 
 import { test, expect } from '@playwright/test';
+import { readFileSync } from 'node:fs';
+import { gunzipSync } from 'node:zlib';
+
+// Die Quellangaben aus dem ausgelieferten Index, in Node gelesen. Der Test
+// vergleicht die angezeigte Attribution dagegen, statt eine zweite Kopie von
+// DOI und Zitation im Testcode zu fuehren.
+const INDEX_QUELLE = JSON.parse(
+  gunzipSync(readFileSync(new URL('../../data/naming-index.json.gz', import.meta.url))).toString('utf8')
+).source;
 
 test.describe('Naming Explorer (#59)', () => {
   test.beforeEach(async ({ page }) => {
@@ -45,9 +54,17 @@ test.describe('Naming Explorer (#59)', () => {
     expect(values.join(' ')).toContain('TRO - Trojanerkrieg');
     expect(values.length).toBe(5);
 
-    // Pflicht-Attribution (Lizenzauflage) muss ohne Auswahl sichtbar sein
+    // Pflicht-Attribution (Lizenzauflage) muss ohne Auswahl sichtbar sein.
+    //
+    // Der DOI wird gegen den Index geprueft, nicht gegen eine Konstante im
+    // Test. Vorher stand hier '10.5281/zenodo.18770138' fest, und weil die
+    // Attribution ihn ebenfalls fest verdrahtet hatte, blieb der Test gruen,
+    // als die Daten auf v0.2.1-beta wechselten: die Seite zeigte die alte
+    // Zitation ueber neuen Daten, und die gruene Suite hat es zementiert.
     await expect(page.locator('#resultsContainer')).toContainText('Naming-analysis nach Linda Beutel-Thurow');
-    await expect(page.locator('#resultsContainer a[href*="doi.org/10.5281/zenodo.18770138"]')).toBeVisible();
+    expect(INDEX_QUELLE.doi).toBeTruthy();
+    await expect(page.locator(`#resultsContainer a[href="https://doi.org/${INDEX_QUELLE.doi}"]`)).toBeVisible();
+    await expect(page.locator('#resultsContainer')).toContainText(INDEX_QUELLE.citation);
   });
 
   test('Werk + Figur liefert Summary und Term-Tabelle mit drei Kategorien', async ({ page }) => {
@@ -204,15 +221,19 @@ test.describe('Naming Explorer (#59)', () => {
     // die Schreibungen vereinheitlicht hat: frueher zerfiel etwa Engel in
     // '#Engel' und 'Engel'.
     //
-    // Abgestreift wird nur die Belegzahl am Ende, NICHT jede Klammer. Ein
-    // erster Entwurf tat das und war rot, aus dem lehrreichsten Grund: im ROL
-    // sind '[fuersten] (heidnisch)' und '[fuersten] (christlich)' zwei
-    // verschiedene Instanzen (Lindas Qualifier-Regel). Die Pruefung hatte also
-    // genau die Zusammenlegung vorgenommen, die das Modul vermeidet.
-    const ohneZahl = (o) => o.replace(/\s*\([\d.]+(\s*Belege)?\)\s*$/, '').trim();
-    const namen = nenner.map(ohneZahl);
-    const ohneGitter = new Set(namen.filter(n => !n.startsWith('#')));
-    const doppelt = namen.filter(n => n.startsWith('#') && ohneGitter.has(n.slice(1)));
+    // Verglichen wird der option-value, nicht der Anzeigetext. Zwei Entwuerfe
+    // sind vorher an dieser Stelle gescheitert. Der erste streifte zum
+    // Vergleichen jede Klammer ab und legte damit '[fuersten] (heidnisch)' und
+    // '[fuersten] (christlich)' zusammen, also zwei Instanzen, die Linda
+    // ausdruecklich trennt. Der zweite streifte nur noch '(N Belege)' ab und
+    // traf damit gar nichts mehr: bei Nennern lautet das Suffix immer
+    // '(N Belege, M genannte Figuren)', der Vergleich war also gruen per
+    // Konstruktion. Der value traegt den Schluessel ohne jedes Suffix, mit
+    // Marker, und ist damit genau das, worauf es ankommt.
+    const werte = await page.locator('#neFigureSelect option')
+      .evaluateAll(els => els.map(el => el.value));
+    const ohneGitter = new Set(werte.filter(v => !v.startsWith('#')));
+    const doppelt = werte.filter(v => v.startsWith('#') && ohneGitter.has(v.slice(1)));
     expect(doppelt).toEqual([]);
     await expect(page.locator('#resultsContainer')).toContainText('Notation der Quelle');
 
@@ -221,8 +242,7 @@ test.describe('Naming Explorer (#59)', () => {
     // Quoted-Nenner im ROL, und der naechste Quelldatenstand kann das wieder
     // verschieben. Der Round-Trip ueber den echten option-value ist ausserdem
     // die Eigenschaft, an der der Erzaehler-Sentinel gescheitert war (#360).
-    const wert = await page.locator('#neFigureSelect option')
-      .evaluateAll(els => els.map(el => el.value).find(v => v.startsWith('#')));
+    const wert = werte.find(v => v.startsWith('#'));
     expect(wert).toBeTruthy();
     await page.selectOption('#neFigureSelect', wert);
     await page.waitForSelector('[data-ne-term]', { state: 'visible', timeout: 5000 });
@@ -256,11 +276,13 @@ test.describe('Naming Explorer (#59)', () => {
       await page.selectOption('#neWorkSelect', sigle);
       await page.waitForSelector('#neFigureSelect option', { state: 'attached', timeout: 5000 });
 
-      // Die Nennernamen aus dem Auswahlfeld zurueckholen, ohne die Belegzahl
-      // in Klammern am Ende: sie enthaelt selbst keine Markerzeichen, aber der
-      // Test soll auf dem Wert arbeiten, den die Ansicht als Nenner fuehrt.
-      const optionen = (await page.locator('#neFigureSelect option').allTextContents())
-        .map(t => t.replace(/\s*\([\d.]+\)\s*$/, '').trim());
+      // Gearbeitet wird auf dem option-value, also auf dem Schluessel, den die
+      // Ansicht als Nenner fuehrt. Der Anzeigetext haette hier zwar auch
+      // funktioniert, weil sein Zaehl-Suffix keines der sechs Markerzeichen
+      // enthaelt, aber das ist eine Eigenschaft des Suffix und keine, auf die
+      // der Test sich stuetzen soll.
+      const optionen = await page.locator('#neFigureSelect option')
+        .evaluateAll(els => els.map(el => el.value));
 
       const erwartet = KLASSEN
         .filter(([, rx]) => optionen.some(o => rx.test(o)))

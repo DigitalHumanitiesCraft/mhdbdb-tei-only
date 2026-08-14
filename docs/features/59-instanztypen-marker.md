@@ -182,9 +182,12 @@ wieder auf.
 
 **Ebenfalls aus Runde 1, inzwischen erledigt:** `SOURCE_META` war fest verdrahtet auf
 `10.5281/zenodo.18770138` und „Naming-analysis (v0.1.0-beta)", während Lindas Release
-vom 13.08. `10.5281/zenodo.21916576` und v0.2.1-beta trägt. Angezeigt wird die Angabe
-nirgends, sie steht nur in den Index-Metadaten, und genau deshalb wäre sie still falsch
-geblieben. Eine Notiz war die falsche Antwort darauf: der JOURNAL-Eintrag vom 31.07. hat
+vom 13.08. `10.5281/zenodo.21916576` und v0.2.1-beta trägt. Hier stand, angezeigt werde
+die Angabe nirgends, sie stehe nur in den Index-Metadaten. Das war falsch und aus einer
+abgeschnittenen Suche geschlossen (`| head -8`, und `renderAttribution()` steht in
+Zeile 781): das Modul trug eine zweite, fest verdrahtete Kopie derselben Zitation, und
+zwar die sichtbare. Sie rendert jetzt aus `this.index.source`, damit es die zweite Kopie
+nicht mehr gibt. Eine Notiz war die falsche Antwort darauf: der JOURNAL-Eintrag vom 31.07. hat
 gemessen, dass die korrekte Pflegeanweisung existierte und nichts verhindert hat. Statt
 einer Notiz gibt es jetzt `pruefe_zitation`, und die Angaben sind mitgezogen.
 
