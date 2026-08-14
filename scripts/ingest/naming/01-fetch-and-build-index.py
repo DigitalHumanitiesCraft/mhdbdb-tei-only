@@ -128,8 +128,14 @@ BEKANNTE_INSTANZTYPEN = {
 
 # Zeichen, mit denen ein markierter Wert beginnen darf. Ein Wert, der mit
 # einem anderen Sonderzeichen anfaengt, traegt einen Marker, den weder dieses
-# Skript noch das Frontend kennt.
-BEKANNTE_ANFANGSMARKER = {"[", "<", "{", "#", "°"}
+# Skript noch das Frontend kennt. Abgeleitet statt gepflegt: von Hand gefuehrt
+# waere das eine vierte Kopie der Typologie, und zwar die einzige, die an
+# keinem Gate haengt. Ein neuer verankerter Marker zieht so automatisch mit,
+# statt pruefe_figuren_markerfrei still zu entgehen. Der Gruppen-Marker ' & '
+# faellt raus, er steht nicht am Anfang.
+BEKANNTE_ANFANGSMARKER = {
+    m[0] for m in BEKANNTE_INSTANZTYPEN.values() if m and not m[0].isspace()
+}
 
 # Zitierter Quellstand. Beide Werte muessen zu dem Ref passen, aus dem gebaut
 # wird, und werden dagegen geprueft (pruefe_zitation). Getrennt von SOURCE_META

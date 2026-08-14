@@ -246,7 +246,12 @@ test.describe('Naming Explorer (#59)', () => {
     expect(wert).toBeTruthy();
     await page.selectOption('#neFigureSelect', wert);
     await page.waitForSelector('[data-ne-term]', { state: 'visible', timeout: 5000 });
-    await expect(page.locator('#resultsContainer')).toContainText('#');
+    // Auf die Ergebnis-Ueberschrift zielen, nicht auf '#resultsContainer'.
+    // Der Container enthaelt das Auswahlfeld mit, also waere ein
+    // toContainText('#') schon durch die Optionsliste erfuellt und bliebe auch
+    // dann gruen, wenn der Schluessel den Marker wieder abschneidet. Genau
+    // diesen Rueckbau gab es am 2026-08-09 schon einmal.
+    await expect(page.locator('[data-ne-heading]')).toHaveText(/^#/);
   });
 
   test('Die Legende nennt genau die Markerklassen, die im Werk vorkommen', async ({ page }) => {

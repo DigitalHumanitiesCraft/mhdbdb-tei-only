@@ -563,7 +563,7 @@ export class NamingExplorer {
       <div class="rounded-2xl border border-slate-200 bg-white p-4">
         <div class="mb-3">
           <div class="text-xs uppercase tracking-wide text-slate-500">${escapeHtml(work.sigle)} - ${escapeHtml(work.bookName)}</div>
-          <div class="text-lg font-semibold text-slate-800">${escapeHtml(heading)}</div>
+          <div data-ne-heading class="text-lg font-semibold text-slate-800">${escapeHtml(heading)}</div>
           <div class="text-xs text-slate-500">${sub}</div>
         </div>
         <div class="grid gap-2 ${sichtbar.length === 4 ? 'sm:grid-cols-4' : 'sm:grid-cols-3'} text-sm">${cells}</div>
