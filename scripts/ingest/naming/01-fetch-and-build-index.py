@@ -67,6 +67,7 @@ import gzip
 import json
 import math
 import os
+import re
 import sys
 import urllib.error
 import urllib.request
@@ -129,10 +130,18 @@ BEKANNTE_INSTANZTYPEN = {
 # Skript noch das Frontend kennt.
 BEKANNTE_ANFANGSMARKER = {"[", "<", "{", "#", "°"}
 
+# Zitierter Quellstand. Beide Werte muessen zu dem Ref passen, aus dem gebaut
+# wird, und werden dagegen geprueft (pruefe_zitation). Getrennt von SOURCE_META
+# stehen sie nur, damit die Pruefung sie nicht aus einem Satz herausparsen muss;
+# in den Index geht weiterhin ausschliesslich SOURCE_META, unveraendert im
+# Wortlaut, damit der Byte-Vergleich des Freshness-Gates gueltig bleibt.
+QUELL_VERSION = "v0.1.0-beta"
+QUELL_DOI = "10.5281/zenodo.18770138"
+
 SOURCE_META = {
     "repo": "https://github.com/" + REPO,
-    "doi": "10.5281/zenodo.18770138",
-    "citation": "Beutel-Thurow, L. (2026). Naming-analysis (v0.1.0-beta).",
+    "doi": QUELL_DOI,
+    "citation": f"Beutel-Thurow, L. (2026). Naming-analysis ({QUELL_VERSION}).",
     "license": "CC BY-NC-SA 4.0",
 }
 
@@ -207,6 +216,75 @@ def load_overrides():
                          f"{sorted(OVERRIDE_CATS)}.")
             out[book][name.lower()] = {cat: {a.lower() for a in entry["aliases"]}}
     return out
+
+
+def pruefe_zitation(ref, source_dir):
+    """Guard gegen eine Zitation, die nicht zum gebauten Quellstand passt.
+
+    Der Index traegt Version und DOI der Quelle fest verdrahtet. Laufen sie
+    auseinander, bricht nichts: die Seite laedt, die Tests laufen, die Daten
+    stimmen. Nur die Angabe, worauf sie beruhen, ist falsch, und genau das ist
+    die Klasse von Fehler, die still bleibt (JOURNAL 2026-07-31, "die vierte
+    Stelle, die niemand pflegt"). Eine Pflegenotiz reicht dagegen messbar
+    nicht, ein Abbruch schon.
+
+    Anders als pruefe_instanztypen ist die Pruefung **symmetrisch**, und das
+    ist kein Widerspruch: die Zitation muss zu ihrem Ref passen, in beide
+    Richtungen. Ein alter Ref hat eine alte CITATION.cff, und dann ist die
+    alte Angabe die richtige.
+
+    Praktische Folge, beabsichtigt: sobald Linda ein Release macht, faellt der
+    naechste Lauf gegen master, bis QUELL_VERSION und QUELL_DOI nachgezogen
+    sind. Der Auto-Update-PR vom Montag kommt damit nicht mit neuen Daten
+    unter alter Zitation durch, sondern gar nicht.
+    """
+    try:
+        cff = fetch("CITATION.cff", ref, source_dir)
+    except urllib.error.HTTPError as exc:
+        if exc.code != 404:
+            sys.exit(f"FEHLER: CITATION.cff nicht abrufbar (HTTP {exc.code}). "
+                     f"Das ist eine Stoerung, kein alter Quellstand.")
+        print("   CITATION.cff: am Quellstand nicht vorhanden (404), "
+              "Zitations-Vergleich uebersprungen")
+        return
+    except FileNotFoundError:
+        print("   CITATION.cff: in der lokalen Quellkopie nicht vorhanden, "
+              "Zitations-Vergleich uebersprungen")
+        return
+
+    def feld(name):
+        """Wert eines Top-Level-Schluessels. Kein YAML-Parser, aber tolerant
+        gegen die Schreibweisen, die CFF legal zulaesst: beide Anfuehrungs-
+        zeichen und ein Kommentar am Zeilenende.
+
+        Bewusst auf Spalte 0 verankert (`^` mit re.M): ein eingerueckter
+        `version:`-Schluessel steht in einem `preferred-citation:`-Block und
+        meint etwas anderes. Ebenso matcht `cff-version:` nicht auf `version`.
+        """
+        treffer = re.search(rf'^{name}:[ \t]*(.+?)[ \t]*$', cff, re.M)
+        if not treffer:
+            return None
+        wert = re.sub(r'\s+#.*$', '', treffer.group(1)).strip()
+        if len(wert) >= 2 and wert[0] == wert[-1] and wert[0] in "\"'":
+            wert = wert[1:-1]
+        return wert
+
+    ihre_version, ihr_doi = feld("version"), feld("doi")
+    if ihre_version is None or ihr_doi is None:
+        sys.exit(f"FEHLER: CITATION.cff hat keine version- oder doi-Zeile auf "
+                 f"oberster Ebene (version={ihre_version!r}, doi={ihr_doi!r}). "
+                 f"Stehen sie eingerueckt, etwa in einem identifiers- oder "
+                 f"preferred-citation-Block, muss diese Pruefung angepasst "
+                 f"werden; QUELL_VERSION nachzuziehen hilft dann nicht.")
+
+    if (ihre_version, ihr_doi) != (QUELL_VERSION, QUELL_DOI):
+        sys.exit(f"FEHLER: Die Zitation passt nicht zum gebauten Quellstand.\n"
+                 f"  CITATION.cff: {ihre_version} / {ihr_doi}\n"
+                 f"  hier fest:    {QUELL_VERSION} / {QUELL_DOI}\n"
+                 f"QUELL_VERSION und QUELL_DOI nachziehen. Der Index wuerde "
+                 f"sonst neue Daten unter alter Zitation ausliefern.")
+
+    print(f"   CITATION.cff: {ihre_version}, DOI passt")
 
 
 def pruefe_instanztypen(ref, source_dir):
@@ -422,6 +500,7 @@ def build_record(row, figure_name, aliases, deck_aliases):
 
 
 def build_index(ref, source_dir):
+    pruefe_zitation(ref, source_dir)
     pruefe_instanztypen(ref, source_dir)
     normalization = json.loads(fetch("data/lemma_normalization.json", ref, source_dir))
     # Alias-Lookup: kanonischer Name (lowercase) → Set lowercased Varianten
