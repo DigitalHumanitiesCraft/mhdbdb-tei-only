@@ -122,8 +122,22 @@ acht Typen gleichrangig präsentiert, richtet sich nach 2,3 Prozent der Daten.
 
 ## 4. Arbeitspakete
 
-Die Reihenfolge ist nicht beliebig. AP5 darf **nicht vor** AP1 bis AP3 landen, sonst
-zeigt die Seite Lindas neue Marker unter unserer alten Erklärung.
+**Korrektur vom 2026-08-14, und sie kippt die ursprüngliche Reihenfolge.** Hier stand,
+AP5 dürfe nicht vor AP1 bis AP3 landen, sonst zeige die Seite neue Marker unter alter
+Erklärung. Der umgekehrte Fehler ist schlimmer und war übersehen: der CI-Bot hat ihn
+gemeldet, und die Messung bestätigt ihn. Der ausgelieferte Index trägt **15 Werte mit
+Gitter** (13 im Rolandslied, 2 im Trojanerkrieg), darunter `#haiden`, `#cristen`,
+`#karlinge`, `#alle`, `#diu_stimme`. Am neuen Quellstand ist davon **genau einer übrig**,
+`#David`; alle anderen sind in andere Typen gewandert, überwiegend Kollektiv. Die neue
+Legende beschriftet aber jeden Gitter-Wert mit „Zitiert". Ohne Datenupdate stünde also
+bei 14 von 15 Werten eine falsche Typangabe.
+
+Die Aussage weiter unten, gegen den ausgelieferten Index rendere die Legende „korrekt",
+war entsprechend falsch: geprüft war, dass sie rendert und die Klassen nach Muster
+erkennt, behauptet war die Semantik.
+
+**Daraus folgt: Daten und Erklärung landen zusammen, in einem PR.** AP5 ist deshalb nicht
+mehr nachgelagert, sondern Teil desselben Zugs.
 
 | AP | Inhalt | Datei | parallel zu |
 |---|---|---|---|
@@ -131,7 +145,7 @@ zeigt die Seite Lindas neue Marker unter unserer alten Erklärung.
 | AP2 | `renderNotationHint` von einem Satz zu einer Legende: nur die vorkommenden Klassen, Lindas deutsche Labels, je ein Beispiel aus dem Werk (Mechanismus existiert). Für `<…>` ehrlich „Rollenfigur oder Kollektivmitglied, Unterscheidung analytisch" | `naming-explorer.js` | AP4, AP6 |
 | AP3 | Kopfkommentar richtigstellen (er behauptet, `#` und eckige Klammern meinten dasselbe) und **alle** Zahlen darin frisch am Index messen | `naming-explorer.js` | AP4, AP6 |
 | AP4 | Drift-Guard: `instance_types.json` mitfetchen, hart failen bei einem neunten Typ, einem neuen Marker oder einem Markerzeichen in den Werten, das keiner bekannten Klasse angehört | `01-fetch-and-build-index.py` | AP1 bis AP3 |
-| AP5 | Index gegen den neuen Quellstand bauen **und dabei `SOURCE_META` mitziehen** (siehe unten) | `data/naming-index.json.gz`, `01-fetch-and-build-index.py` | nach AP1 bis AP3 |
+| AP5 | Index gegen den neuen Quellstand bauen **und dabei die Zitation mitziehen** | `data/naming-index.json.gz`, `01-fetch-and-build-index.py` | zusammen mit AP1 bis AP3 |
 | AP6 | Antwort an Linda (Abschnitt 5) | GitHub | alles |
 
 **Stand 2026-08-14:** AP1 bis AP4 sind umgesetzt auf `claude/59-instanztypen` (kein
@@ -140,9 +154,19 @@ war beide Male sofort falsch). Der Drift-Guard ist mit sieben Fällen belegt, je
 einer eigenen Quellkopie. Fangen muss er: einen neuen Typ in der Quelle, einen geänderten
 Marker eines bekannten Typs, ein unbekanntes Markerzeichen im Nennerwert, einen Marker an
 einer benannten Figur, einen HTTP-Fehler ausser 404. Durchlassen muss er: eine fehlende
-`instance_types.json` und einen in der Quelle fehlenden bekannten Typ. Gegen den aktuell
-ausgelieferten Index geprüft rendert die Legende korrekt und fängt dort schon einen
-Ausfall der alten Regex: `Pallas & Juno` im Trojanerkrieg war unsichtbar.
+`instance_types.json` und einen in der Quelle fehlenden bekannten Typ.
+
+**AP5 ist seit dem 2026-08-14 ebenfalls drin:** der Index steht auf Quellstand
+`4766065c`, die Zitation auf v0.2.1-beta und DOI `10.5281/zenodo.21916576`. Der
+Zitations-Guard prüft beide gegen die `CITATION.cff` des gebauten Refs, symmetrisch,
+und ist mit zehn YAML-Varianten belegt.
+
+**Das Datenupdate hat drei Tests rot gemacht, alle mit hartkodierten Datenwerten:**
+Iwein 242 auf 239 Belegstellen (Lindas Dublettenauflösung), der Lunete-Unterfilter 31
+auf 29, und der fest verdrahtete Nenner `#engel`, den es nicht mehr gibt. Der
+Dateikopf des Specs hatte vorhergesagt, es müsse „nur der weiche Iwein-Lock
+mitwandern": drei Stellen sind gewandert. Wo es ging, leiten die Tests ihre Erwartung
+jetzt aus dem DOM ab; wo eine Zahl bleibt, steht der Quellstand daneben.
 
 **Aus Review-Runde 1, und der wichtigste Punkt des ganzen Umbaus:** der Guard darf nicht
 symmetrisch prüfen. Das Skript wird an zwei Stellen mit gegenläufigen Erwartungen
@@ -156,14 +180,20 @@ genügt ein Hinweis, denn ein alter Quellstand kann die Typologie naturgemäss n
 kennen. Ohne diese Asymmetrie träfe dasselbe Problem bei jeder künftigen Erweiterung
 wieder auf.
 
-**Ebenfalls aus Runde 1, noch offen:** `SOURCE_META` im Build-Skript ist fest verdrahtet
-auf `10.5281/zenodo.18770138` und „Naming-analysis (v0.1.0-beta)". Lindas Release vom
-13.08. trägt `10.5281/zenodo.21916576` und v0.2.1-beta. Angezeigt wird die Angabe
-nirgends, sie steht nur in den Index-Metadaten, wird aber mit dem Datenupdate am Montag
-eindeutig falsch: neue Daten unter alter Zitation. Gehört zu AP5 und nicht in den
-Frontend-PR, weil die Zitation zum gebauten Quellstand passen muss und nicht zum Code.
-Ob ein Guard das dauerhaft erzwingen soll (Abgleich gegen `CITATION.cff` des gebauten
-Refs), ist noch zu entscheiden.
+**Ebenfalls aus Runde 1, inzwischen erledigt:** `SOURCE_META` war fest verdrahtet auf
+`10.5281/zenodo.18770138` und „Naming-analysis (v0.1.0-beta)", während Lindas Release
+vom 13.08. `10.5281/zenodo.21916576` und v0.2.1-beta trägt. Angezeigt wird die Angabe
+nirgends, sie steht nur in den Index-Metadaten, und genau deshalb wäre sie still falsch
+geblieben. Eine Notiz war die falsche Antwort darauf: der JOURNAL-Eintrag vom 31.07. hat
+gemessen, dass die korrekte Pflegeanweisung existierte und nichts verhindert hat. Statt
+einer Notiz gibt es jetzt `pruefe_zitation`, und die Angaben sind mitgezogen.
+
+**Eine dritte Liste, die von nichts gehalten wurde:** die Typologie stand im Build, im
+JS-Modul und im Playwright-Spec, aber nur die Build-Kopie hing an einem Gate. Wer nach
+einem Abbruch nur die Python-Seite nachzieht, hat danach einen grünen Build, einen Index
+mit neuen Markern und eine Legende, die sie nicht kennt. `pruefe_frontend_paritaet` liest
+deshalb `MARKER_KLASSEN` aus dem JS und verlangt für jeden Marker eine Klasse; über die
+Marker verglichen, nicht über die Namen, weil `<` von zwei Typen geteilt wird.
 
 **Was ausdrücklich nicht passiert:** `namerKey` wird nicht gestrippt. Lindas
 Gruppierungsempfehlung `re.sub(r'[\[\]<>{}]|^[#°]', '', wert)` ist für ihre eigene

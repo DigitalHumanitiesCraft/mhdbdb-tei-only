@@ -6,8 +6,15 @@
  * Term-Filter und Pflicht-Attribution (Lizenzauflage CC BY-NC-SA).
  *
  * Datengrundlage ist data/naming-index.json.gz (extern kuratiert, lindabeutel/
- * Naming-analysis). Die Tests locken Struktur, nicht exakte Zahlen — bei einem
- * Quelldaten-Update muss nur der weiche Iwein-Lock (242 Belege) mitwandern.
+ * Naming-analysis). Die Tests locken Struktur, nicht exakte Zahlen.
+ *
+ * Der Satz "bei einem Quelldaten-Update muss nur der weiche Iwein-Lock
+ * mitwandern" stand hier bis 2026-08-14 und war zu eng: das Update auf
+ * v0.2.1-beta hat drei Tests rot gemacht (Iwein 242 auf 239, der
+ * Lunete-Unterfilter 31 auf 29, und der fest verdrahtete Nenner '#engel',
+ * den es nicht mehr gibt). Wo es ging, leiten die Tests ihre Erwartung jetzt
+ * aus dem DOM ab statt aus einer Zahl im Quelltext; wo eine Zahl bleibt,
+ * steht der Quellstand daneben, gegen den sie gemessen wurde.
  */
 
 import { test, expect } from '@playwright/test';
@@ -46,8 +53,10 @@ test.describe('Naming Explorer (#59)', () => {
   test('Werk + Figur liefert Summary und Term-Tabelle mit drei Kategorien', async ({ page }) => {
     await selectIwein(page);
 
-    // Weicher Daten-Lock: Iwein hat 242 kuratierte Belegstellen (Stand edd39cc)
-    await expect(page.locator('#resultsContainer')).toContainText('242 kuratierte Belegstellen');
+    // Weicher Daten-Lock: Iwein hat 239 kuratierte Belegstellen (Quellstand
+    // 4766065c). Vorher 242; Linda hat am 13.08. drei Iwein-Dubletten
+    // aufgeloest ("resolve Iwein duplicates").
+    await expect(page.locator('#resultsContainer')).toContainText('239 kuratierte Belegstellen');
 
     // Alle drei Kategorien kommen in der Tabelle vor
     const badges = await page.locator('[data-ne-term] td:nth-child(2)').allTextContents();
@@ -129,9 +138,9 @@ test.describe('Naming Explorer (#59)', () => {
     await selectIwein(page);
 
     // Ohne Filter die Gesamtzahl, mit Filter die Teilmenge samt Bezugsgroesse
-    await expect(page.locator('#resultsContainer')).toContainText('242 kuratierte Belegstellen');
+    await expect(page.locator('#resultsContainer')).toContainText('239 kuratierte Belegstellen');
     const optionen = await page.locator('#neSubFilter option').allTextContents();
-    expect(optionen[0]).toContain('Alle (242)');
+    expect(optionen[0]).toContain('Alle (239)');
     expect(optionen.join(' ')).toContain('Erzähler');
     expect(optionen.join(' ')).toContain('Selbstnennung');
     // Einzelne Nenner stehen unter "Figurenrede, alle"
@@ -140,7 +149,7 @@ test.describe('Naming Explorer (#59)', () => {
     // Wert statt Label: die Einzelnenner sind mit NBSP eingerueckt
     await page.selectOption('#neSubFilter', 'fig:lunete');
     await page.waitForSelector('[data-ne-term]', { state: 'visible', timeout: 5000 });
-    await expect(page.locator('#resultsContainer')).toContainText('31 von 242 kuratierte Belegstellen');
+    await expect(page.locator('#resultsContainer')).toContainText('29 von 239 kuratierte Belegstellen');
 
     // Belegstellen tragen jetzt nur noch Lunete als Sprecher
     await page.locator('[data-ne-term]').first().click();
@@ -191,14 +200,33 @@ test.describe('Naming Explorer (#59)', () => {
 
     const nenner = await page.locator('#neFigureSelect option').allTextContents();
     expect(nenner.some(o => o.startsWith('#'))).toBe(true);
-    // Genau ein Eintrag je Nenner, seit Linda die Schreibungen vereinheitlicht
-    // hat (Quell-Commit b7cc0585): frueher zerfiel Engel in #Engel und Engel.
-    expect(nenner.filter(o => /^#?Engel /.test(o)).length).toBe(1);
+    // Kein Nenner steht zugleich mit und ohne Gitter in der Liste, seit Linda
+    // die Schreibungen vereinheitlicht hat: frueher zerfiel etwa Engel in
+    // '#Engel' und 'Engel'.
+    //
+    // Abgestreift wird nur die Belegzahl am Ende, NICHT jede Klammer. Ein
+    // erster Entwurf tat das und war rot, aus dem lehrreichsten Grund: im ROL
+    // sind '[fuersten] (heidnisch)' und '[fuersten] (christlich)' zwei
+    // verschiedene Instanzen (Lindas Qualifier-Regel). Die Pruefung hatte also
+    // genau die Zusammenlegung vorgenommen, die das Modul vermeidet.
+    const ohneZahl = (o) => o.replace(/\s*\([\d.]+(\s*Belege)?\)\s*$/, '').trim();
+    const namen = nenner.map(ohneZahl);
+    const ohneGitter = new Set(namen.filter(n => !n.startsWith('#')));
+    const doppelt = namen.filter(n => n.startsWith('#') && ohneGitter.has(n.slice(1)));
+    expect(doppelt).toEqual([]);
     await expect(page.locator('#resultsContainer')).toContainText('Notation der Quelle');
 
-    await page.selectOption('#neFigureSelect', '#engel');
+    // Den Gitter-Nenner aus dem DOM holen statt ihn hinzuschreiben. Frueher
+    // stand hier '#engel' fest; seit der Umstellung ist '#David' der einzige
+    // Quoted-Nenner im ROL, und der naechste Quelldatenstand kann das wieder
+    // verschieben. Der Round-Trip ueber den echten option-value ist ausserdem
+    // die Eigenschaft, an der der Erzaehler-Sentinel gescheitert war (#360).
+    const wert = await page.locator('#neFigureSelect option')
+      .evaluateAll(els => els.map(el => el.value).find(v => v.startsWith('#')));
+    expect(wert).toBeTruthy();
+    await page.selectOption('#neFigureSelect', wert);
     await page.waitForSelector('[data-ne-term]', { state: 'visible', timeout: 5000 });
-    await expect(page.locator('#resultsContainer')).toContainText('#Engel');
+    await expect(page.locator('#resultsContainer')).toContainText('#');
   });
 
   test('Die Legende nennt genau die Markerklassen, die im Werk vorkommen', async ({ page }) => {

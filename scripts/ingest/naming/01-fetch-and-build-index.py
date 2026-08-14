@@ -80,6 +80,7 @@ if hasattr(sys.stdout, "reconfigure"):
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
 OUTPUT_FILE = PROJECT_ROOT / "data" / "naming-index.json.gz"
 OVERRIDES_FILE = Path(__file__).resolve().parent / "alias-overrides.json"
+JS_MODUL = PROJECT_ROOT / "playground" / "js" / "ui" / "tei" / "naming-explorer.js"
 
 REPO = "lindabeutel/Naming-analysis"
 RAW_BASE = "https://raw.githubusercontent.com/" + REPO
@@ -135,8 +136,8 @@ BEKANNTE_ANFANGSMARKER = {"[", "<", "{", "#", "°"}
 # stehen sie nur, damit die Pruefung sie nicht aus einem Satz herausparsen muss;
 # in den Index geht weiterhin ausschliesslich SOURCE_META, unveraendert im
 # Wortlaut, damit der Byte-Vergleich des Freshness-Gates gueltig bleibt.
-QUELL_VERSION = "v0.1.0-beta"
-QUELL_DOI = "10.5281/zenodo.18770138"
+QUELL_VERSION = "v0.2.1-beta"
+QUELL_DOI = "10.5281/zenodo.21916576"
 
 SOURCE_META = {
     "repo": "https://github.com/" + REPO,
@@ -349,9 +350,12 @@ def pruefe_instanztypen(ref, source_dir):
                  f"Ohne sie ist nicht pruefbar, ob die Marker-Legende im "
                  f"Frontend noch zur Quelle passt.")
 
-    ihre = {t["name"]: t.get("marker") for t in roh.get("types", [])}
+    ihre = {t.get("name"): t.get("marker") for t in roh.get("types", [])}
     if not ihre:
         sys.exit("FEHLER: data/instance_types.json enthaelt keine types[].")
+    if None in ihre:
+        sys.exit("FEHLER: data/instance_types.json hat einen types[]-Eintrag "
+                 "ohne 'name'. Ohne Namen ist er nicht zuordenbar.")
 
     neu = sorted(set(ihre) - set(BEKANNTE_INSTANZTYPEN))
     if neu:
@@ -380,19 +384,68 @@ def pruefe_instanztypen(ref, source_dir):
     print(f"   instance_types.json: {len(ihre)} Typen, Marker unveraendert{hinweis}")
 
 
+def pruefe_frontend_paritaet():
+    """Haelt MARKER_KLASSEN im Frontend und BEKANNTE_INSTANZTYPEN zusammen.
+
+    Ohne diese Pruefung stehen drei Listen derselben Typologie im Repo (hier,
+    im JS-Modul und im Playwright-Spec), und nur eine davon haengt an einem
+    Gate. Der Ausfall waere genau der, den der Typologie-Guard verhindern
+    soll: Linda fuehrt einen Typ ein, der Build failt und nennt beide Stellen,
+    jemand zieht nur die Python-Seite nach, und danach ist der Build gruen,
+    der Index traegt die neuen Marker und die Legende kennt sie nicht.
+
+    Verglichen wird ueber die **Marker**, nicht ueber die Namen: 'Role figure'
+    und 'Collective member' teilen sich '<' und stehen im Frontend bewusst in
+    einer Zeile, es muss also je Marker mindestens eine Klasse geben.
+    """
+    text = JS_MODUL.read_text(encoding="utf-8")
+    block = re.search(r"const MARKER_KLASSEN = \[(.*?)\];", text, re.S)
+    if not block:
+        sys.exit(f"FEHLER: MARKER_KLASSEN nicht in {JS_MODUL.name} gefunden. "
+                 f"Wurde die Konstante umbenannt, muss diese Pruefung mit.")
+    js_ids = set(re.findall(r"id:\s*'([^']+)'", block.group(1)))
+
+    unbekannt = sorted(js_ids - set(BEKANNTE_INSTANZTYPEN))
+    if unbekannt:
+        sys.exit(f"FEHLER: {JS_MODUL.name} kennt Klassen, die hier keinen Typ "
+                 f"haben: {unbekannt}.")
+
+    je_marker = {}
+    for name, marker in BEKANNTE_INSTANZTYPEN.items():
+        if marker is not None:
+            je_marker.setdefault(marker, []).append(name)
+    fehlend = sorted(m for m, typen in je_marker.items() if not set(typen) & js_ids)
+    if fehlend:
+        sys.exit(f"FEHLER: Fuer die Marker {fehlend} fuehrt "
+                 f"{JS_MODUL.name} keine Klasse. Die Legende wuerde Werte mit "
+                 f"diesem Marker nicht erklaeren. MARKER_KLASSEN nachziehen.")
+
+    print(f"   Frontend-Paritaet: {len(js_ids)} Klassen, alle Marker abgedeckt")
+
+
+def pruefe_figuren_markerfrei(werte):
+    """Lindas Invariante an der benannten Figur: dort steht nie ein Marker.
+
+    "markers qualify an entity's role as a naming instance, not the entity
+    itself" (instance_types.json), und die Legende sagt das dem Nutzer
+    woertlich zu. Eine Zusage, die die Ansicht macht, muss der Build pruefen,
+    sonst liefe ein '[X]' als eigener Figurname neben 'X' ins Auswahlfeld,
+    ohne dass etwas rot wird.
+
+    Geprueft wird gegen die **bekannten Marker**, nicht gegen jedes
+    Sonderzeichen. Ein Figurname darf mit einem Anfuehrungszeichen oder einer
+    Klammer beginnen, ohne dass das die woechentliche Pipeline anhaelt; die
+    Invariante spricht von Markern und nicht von Interpunktion.
+    """
+    verdaechtig = sorted({w for w in werte if w and w[0] in BEKANNTE_ANFANGSMARKER})
+    if verdaechtig:
+        sys.exit(f"FEHLER: {len(verdaechtig)} benannte Figuren tragen einen "
+                 f"Marker: {verdaechtig[:10]}. Mit Linda klaeren, ob die "
+                 f"Invariante noch gilt, bevor hier etwas nachgezogen wird.")
+
+
 def pruefe_marker_in_werten(werte, feld, erlaubt, hinweis):
-    """Zweite Haelfte des Guards: unbekannte Marker in den Daten selbst.
-
-    Laeuft ueber beide Spalten, und zwar mit verschiedenen erlaubten Mengen:
-
-      - Nennende Instanz: die fuenf bekannten Anfangsmarker sind zulaessig.
-      - Benannte Figur: **kein** Marker ist zulaessig. Das ist Lindas
-        Invariante ("markers qualify an entity's role as a naming instance,
-        not the entity itself"), und die Legende sagt sie dem Nutzer woertlich
-        zu. Eine Zusage, die die Ansicht macht, muss der Build pruefen, sonst
-        rutscht eine Drift dort durch beide Guard-Haelften: ein '[X]' liefe
-        als eigener Figurname neben 'X' ins Auswahlfeld, und der Erklaertext
-        waere falsch, ohne dass etwas rot wird.
+    """Unbekannte Marker in den Werten der nennenden Instanz.
 
     Die Typologie kann unveraendert sein und trotzdem ein Zeichen auftauchen,
     das keine Klasse abdeckt. Geprueft wird der Wortanfang.
@@ -502,6 +555,7 @@ def build_record(row, figure_name, aliases, deck_aliases):
 def build_index(ref, source_dir):
     pruefe_zitation(ref, source_dir)
     pruefe_instanztypen(ref, source_dir)
+    pruefe_frontend_paritaet()
     normalization = json.loads(fetch("data/lemma_normalization.json", ref, source_dir))
     # Alias-Lookup: kanonischer Name (lowercase) → Set lowercased Varianten
     alias_map = {
@@ -564,11 +618,7 @@ def build_index(ref, source_dir):
         namer_werte, "Werte der nennenden Instanz", BEKANNTE_ANFANGSMARKER,
         "Entweder ist es ein neuer Instanztyp (dann BEKANNTE_INSTANZTYPEN und "
         "MARKER_KLASSEN nachziehen) oder ein Datenfehler bei Linda.")
-    pruefe_marker_in_werten(
-        figur_werte, "benannte Figuren", frozenset(),
-        "Die benannte Figur traegt per Definition keinen Marker, und die "
-        "Legende im Playground sagt das dem Nutzer zu. Vor dem Nachziehen "
-        "mit Linda klaeren, ob die Invariante noch gilt.")
+    pruefe_figuren_markerfrei(figur_werte)
     return works, totals
 
 
