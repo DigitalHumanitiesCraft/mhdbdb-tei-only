@@ -29,27 +29,27 @@
  *
  * ## Die Notation der Quelle bleibt stehen
  *
- * Die Nennerspalte trägt eine Notation, die die Figurenspalte nicht hat: ein
- * führendes `#` und eckige Klammern. Sie meinen dasselbe: eine Instanz, die
- * keine handelnde Figur des Werks ist, also eine unbestimmbare Menge
- * (`#haiden`, `[MENGE]`) oder eine nur zitierte Person (`#David`, im Werk
- * selbst nicht handelnd). Linda, #59-Kommentar 2026-08-10; sie hat die
- * Klammern für den Trojanerkrieg erklärt, die in IW und ENE stehen inhaltlich
- * gleichartig da und sind von ihr nicht eigens bestätigt.
+ * Die Nennerspalte trägt eine Notation, die die Figurenspalte nicht hat.
+ * Bis zum 2026-08-10 war sie zweiwertig, ein führendes `#` und eckige
+ * Klammern, und beides meinte dasselbe. Seit dem 2026-08-11 ist sie eine
+ * Typologie mit acht Instanztypen und sechs Markern; die Marker und ihre
+ * deutschen Namen stehen in `MARKER_KLASSEN` weiter unten, die normative
+ * Quelle ist `data/instance_types.json` in Lindas Repo.
  *
- * Verteilung, gemessen über die distinkten `by`-Werte je Werk: Gitter nur in
- * ROL (13) und TRO (2), Klammern in IW (7), ENE (7) und TRO (14).
+ * Hier stehen keine Verteilungszahlen mehr. Sie wären dreimal im Jahr falsch,
+ * weil der wöchentliche Auto-Update-Workflow den Quellstand nachzieht, ohne
+ * diesen Kommentar zu lesen. Die Legende unter dem Auswahlfeld leitet sich
+ * stattdessen zur Laufzeit aus dem geladenen Index ab und nennt nur die
+ * Klassen, die das gewählte Werk wirklich trägt.
  *
- * Bis dahin war unklar, wofür das Gitter steht, und die Ansicht schnitt es für
- * die Gruppierung ab: fünf Nenner waren durch Schreibvarianten in je zwei
- * Einträge zerfallen (`#David`/`David` und vier weitere). Linda hat die Quelle
- * am selben Tag vereinheitlicht (`b7cc0585`); daran gemessen führt der
- * Schlüssel nichts mehr zusammen (distinkte `by`-Werte je Werk, also ohne
- * Erzähler und Selbstnennungen: 33/29/48/71 in IW/ENE/ROL/TRO, mit und ohne
- * Gitter-Schnitt identisch). Damit fällt hier eine Funktion weg statt eines
- * Datenstands, und das `#` steht wieder in der Anzeige, mit einer Erklärung
- * darunter. Es abzuschneiden wäre jetzt sogar falsch: `#David` und ein
- * handelnder David wären derselbe Schlüssel und damit derselbe Nenner.
+ * Abgeschnitten wird die Notation nicht. Die Ansicht hat das früher getan und
+ * es am 2026-08-09 zurückgebaut, weil `#David` und ein handelnder David sonst
+ * derselbe Schlüssel und damit derselbe Nenner wären. Die neue Typologie
+ * vergrößert diese Kollisionsfläche, statt sie zu verkleinern: `<hirte>`
+ * gegen einen individuellen `hirte`, und `[X]`, `<X>` und `{X}` fielen alle
+ * auf `X` zusammen, also drei Typen auf einen Schlüssel. Lindas
+ * `analysis.strip_regex` ist für ihre eigene Auswertung gedacht und für
+ * unseren Schlüssel deshalb nicht übernehmbar.
  *
  * Was der Schlüssel weiter tut: Unterstriche zu Leerzeichen (`#diu_stimme`)
  * und Groß-/Kleinschreibung angleichen, damit erneut auftretende
@@ -108,9 +108,33 @@ const NARRATOR_KEY = 'ERZAEHLER';
 // nur dort sind Vers-Deep-Links in den Reader korrekt (siehe Header-Kommentar).
 const READER_LINK_SIGLES = new Set(['ROL', 'TRO']);
 
-// Die Notation der Quelle für „keine handelnde Figur des Werks": Gitter im
-// ROL, eckige Klammern im TRO. Steuert nur, ob der Erklärsatz erscheint.
-const NOTATION = /^[#[]/;
+// Lindas Instanztypologie, übernommen aus data/instance_types.json ihres
+// Repos (schema_version 1.0, Stand 2026-08-11). Der Marker qualifiziert die
+// Rolle als Benennungsinstanz, nicht die Entität: er steht nur an der
+// nennenden Instanz, nie an der benannten Figur.
+//
+// Zwei Abweichungen von ihren pattern-Feldern, beide bewusst:
+//  - Wir führen ihre Regexe nicht aus. Sie sind Python-Syntax mit
+//    uneinheitlicher Verankerung ('^\[(.+)\]' verankert, '<([^>]+)>' nicht),
+//    und ihre eigene Notiz verlangt Suchen statt Verankern. Hier steht je
+//    Klasse ein eigener Test, gesucht statt verankert, weil Mischformen wie
+//    '[rechen] des Eneas' oder 'Medeas <meisterîn>' den Marker in die Mitte
+//    setzen. Nur '#' und '°' bleiben am Anfang verankert, wie bei ihr.
+//  - 'Role figure' und 'Collective member' teilen sich '<…>' und sind per
+//    Muster nicht unterscheidbar (ihre Aussage, nicht unsere Annahme). Sie
+//    stehen deshalb als eine Zeile mit beiden Namen, statt eine Zuordnung zu
+//    behaupten, die die Daten nicht hergeben.
+//
+// Der Build prüft gegen ihre Datei, ob diese Liste noch vollständig ist
+// (scripts/ingest/naming/01-fetch-and-build-index.py, Drift-Guard).
+const MARKER_KLASSEN = [
+  { id: 'Collective', test: /\[[^\]]*\]/, label: 'Kollektiv' },
+  { id: 'Role figure', test: /<[^>]*>/, label: 'Rollenfigur oder Kollektivmitglied' },
+  { id: 'Non-figure', test: /\{[^}]*\}/, label: 'Nicht-Figur' },
+  { id: 'Group', test: / & /, label: 'Gruppe' },
+  { id: 'Quoted', test: /^#/, label: 'Zitiert' },
+  { id: 'Immaterial', test: /^°/, label: 'Immateriell' },
+];
 
 /** Nenner-Schlüssel: Unterstriche zu Leerzeichen, kleingeschrieben. Das
  *  führende '#' bleibt darin, es ist bedeutungstragend (siehe Header). */
@@ -127,8 +151,9 @@ function anzeigeform(raw) {
 /** Anzeigeform einer Nenner-Gruppe: Großschreibung vor Häufigkeit vor Alphabet. */
 function namerLabel(variants) {
   const forms = [...variants.entries()].map(([raw, count]) => ({ text: anzeigeform(raw), count }));
-  // Ersten Buchstaben statt erstem Zeichen prüfen: '#' und '[' sind
-  // schriftlos, sonst gälte jede Form mit Notation als kleingeschrieben.
+  // Ersten Buchstaben statt erstem Zeichen prüfen: die Marker sind schriftlos
+  // ('#', '[', '<', '{', '°'), sonst gälte jede markierte Form als
+  // kleingeschrieben. `\p{L}` überspringt sie alle, auch künftige.
   const klein = (text) => {
     const b = text.match(/\p{L}/u)?.[0] || '';
     return b === b.toLowerCase() ? 1 : 0;
@@ -431,21 +456,27 @@ export class NamingExplorer {
 
   /**
    * Erklärt die Notation der Quelle, sobald sie im gewählten Werk vorkommt.
-   * Die Beispiele stammen aus dem Werk selbst (die zwei belegstärksten), damit
-   * der Satz auch dann stimmt, wenn Linda die eckigen Klammern im TRO noch auf
-   * das Gitter vereinheitlicht — angekündigt im #59-Kommentar 2026-08-10.
+   * Aufgeführt werden nur die Markerklassen, die dieses Werk wirklich trägt,
+   * und das Beispiel dazu ist der belegstärkste Nenner der Klasse aus diesem
+   * Werk. Beides zusammen hält den Kasten klein und macht ihn unabhängig
+   * davon, wie sich die Quelle weiterentwickelt: eine Klasse, die hier nicht
+   * vorkommt, wird auch nicht erklärt.
    */
   renderNotationHint(work) {
     if (!work) return '';
-    const treffer = this.getNamers(work).filter(n => NOTATION.test(n.label));
-    if (treffer.length === 0) return '';
-    const beispiele = treffer.slice(0, 2)
-      .map(n => `<code class="rounded bg-white px-1">${escapeHtml(n.label)}</code>`)
-      .join(', ');
+    const namers = this.getNamers(work);
+    const zeilen = MARKER_KLASSEN
+      .map(klasse => ({ klasse, treffer: namers.filter(n => klasse.test.test(n.label)) }))
+      .filter(({ treffer }) => treffer.length > 0)
+      .map(({ klasse, treffer }) => `
+        <li data-ne-marker="${klasse.id}"><code class="rounded bg-white px-1">${escapeHtml(treffer[0].label)}</code> <span class="text-slate-400">${escapeHtml(klasse.label)}</span></li>
+      `);
+    if (zeilen.length === 0) return '';
     return `
-      <p class="text-[11px] text-slate-500">
-        <span class="font-medium">Notation der Quelle:</span> Ein vorangestelltes <code class="rounded bg-white px-1">#</code> und eckige Klammern markieren eine Instanz, die keine handelnde Figur des Werks ist: eine unbestimmbare Menge oder eine nur zitierte Person. In diesem Werk etwa ${beispiele}.
-      </p>
+      <div class="text-[11px] text-slate-500">
+        <p><span class="font-medium">Notation der Quelle:</span> Die Schreibung der nennenden Instanz sagt, um welche Art von Instanz es sich handelt. Ohne Zeichen steht eine Einzelfigur oder der Erzähler, und die benannte Figur trägt nie ein Zeichen.</p>
+        <ul class="mt-1 space-y-1">${zeilen.join('')}</ul>
+      </div>
     `;
   }
 

@@ -182,9 +182,10 @@ test.describe('Naming Explorer (#59)', () => {
   });
 
   test('Die Notation der Quelle steht in der Nennerliste und wird erklaert', async ({ page }) => {
-    // Das fuehrende '#' markiert eine Instanz, die keine handelnde Figur des
-    // Werks ist (Linda, #59 2026-08-10). Es wird angezeigt statt abgeschnitten:
-    // #David (zitiert) und ein handelnder David waeren sonst derselbe Nenner.
+    // Das fuehrende '#' ist seit Lindas Umstellung vom 2026-08-11 der Marker
+    // genau eines Instanztyps ("Quoted"), nicht mehr das Sammelzeichen fuer
+    // "keine handelnde Figur". Es wird angezeigt statt abgeschnitten: #David
+    // und ein handelnder David waeren sonst derselbe Nenner.
     await page.click('[data-ne-persp="namer"]');
     await page.selectOption('#neWorkSelect', 'ROL');
 
@@ -198,6 +199,71 @@ test.describe('Naming Explorer (#59)', () => {
     await page.selectOption('#neFigureSelect', '#engel');
     await page.waitForSelector('[data-ne-term]', { state: 'visible', timeout: 5000 });
     await expect(page.locator('#resultsContainer')).toContainText('#Engel');
+  });
+
+  test('Die Legende nennt genau die Markerklassen, die im Werk vorkommen', async ({ page }) => {
+    // Der Vorgaenger-Test prueft nur, ob die Ueberschrift "Notation der Quelle"
+    // dasteht. Sie stand vor und nach der Umstellung auf Lindas acht
+    // Instanztypen da, er konnte den Umbau also gar nicht sehen.
+    //
+    // Erwartet wird hier deshalb keine feste Liste, sondern der Abgleich mit
+    // dem, was im Auswahlfeld tatsaechlich steht. Eine feste Liste waere schon
+    // am Montag falsch: der Auto-Update-Workflow zieht Lindas Quellstand nach,
+    // und dort verschiebt sich die Verteilung der Marker deutlich (im ROL faellt
+    // '#' von 69 Nennungen auf 3, dafuer kommen Kollektiv, Rollenfigur, Gruppe
+    // und Immateriell dazu). Der Test soll den Mechanismus halten, nicht den
+    // Datenstand einer Woche.
+    const KLASSEN = [
+      ['Collective', /\[[^\]]*\]/],
+      ['Role figure', /<[^>]*>/],
+      ['Non-figure', /\{[^}]*\}/],
+      ['Group', / & /],
+      ['Quoted', /^#/],
+      ['Immaterial', /^°/],
+    ];
+
+    await page.click('[data-ne-persp="namer"]');
+
+    for (const sigle of ['IW', 'ENE', 'ROL', 'TRO']) {
+      await page.selectOption('#neWorkSelect', sigle);
+      await page.waitForSelector('#neFigureSelect option', { state: 'attached', timeout: 5000 });
+
+      // Die Nennernamen aus dem Auswahlfeld zurueckholen, ohne die Belegzahl
+      // in Klammern am Ende: sie enthaelt selbst keine Markerzeichen, aber der
+      // Test soll auf dem Wert arbeiten, den die Ansicht als Nenner fuehrt.
+      const optionen = (await page.locator('#neFigureSelect option').allTextContents())
+        .map(t => t.replace(/\s*\([\d.]+\)\s*$/, '').trim());
+
+      const erwartet = KLASSEN
+        .filter(([, rx]) => optionen.some(o => rx.test(o)))
+        .map(([id]) => id)
+        .sort();
+      const gezeigt = (await page.locator('[data-ne-marker]')
+        .evaluateAll(els => els.map(el => el.dataset.neMarker))).sort();
+
+      expect(gezeigt, `Legende in ${sigle}`).toEqual(erwartet);
+    }
+  });
+
+  test('Die Legende beschreibt das Werk, nicht die gewaehlte Perspektive', async ({ page }) => {
+    // Erster Entwurf dieses Tests behauptete, die Legende bleibe in der
+    // Figuren-Perspektive weg. Falsch: sie leitet sich aus getNamers(work) ab
+    // und gilt fuer beide Perspektiven, denn auch in der Figurenansicht stehen
+    // die Marker im Unterfilter nach nennender Instanz. Genau diese Invariante
+    // wird hier festgehalten, weil sie beim naechsten Umbau leicht kippt.
+    const klassen = () => page.locator('[data-ne-marker]')
+      .evaluateAll(els => els.map(el => el.dataset.neMarker).sort());
+
+    await page.click('[data-ne-persp="namer"]');
+    await page.selectOption('#neWorkSelect', 'TRO');
+    await page.waitForSelector('[data-ne-marker]', { state: 'attached', timeout: 5000 });
+    const alsNenner = await klassen();
+    expect(alsNenner.length).toBeGreaterThan(0);
+
+    await page.click('[data-ne-persp="named"]');
+    await page.selectOption('#neWorkSelect', 'TRO');
+    await page.waitForSelector('[data-ne-marker]', { state: 'attached', timeout: 5000 });
+    expect(await klassen()).toEqual(alsNenner);
   });
 
   test('Alias-Override zaehlt Alexander bei Paris als Deckname', async ({ page }) => {

@@ -68,6 +68,7 @@ import json
 import math
 import os
 import sys
+import urllib.error
 import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
@@ -100,6 +101,33 @@ CATS = ["eig", "deck", "ant", "epi"]
 # Kategorien, die ein Override vergeben darf. "ant" waere sinnlos (das ist der
 # Default ohne Override), "epi" kommt aus eigenen Spalten der Quelle.
 OVERRIDE_CATS = {"eig", "deck"}
+
+# Lindas Instanztypologie, Typname -> Marker, nach data/instance_types.json
+# (schema_version 1.0). Dieselbe Liste steht als MARKER_KLASSEN im Frontend
+# (playground/js/ui/tei/naming-explorer.js) und wird dort zur Legende.
+#
+# Der Guard unten haelt beide Seiten zusammen. Er ist noetig, weil das Repo
+# woechentlich automatisch nachgezogen wird (naming-index-update.yml): ein
+# neunter Typ oder ein neuer Marker kaeme sonst stumm in den Index, und die
+# Legende erklaerte ihn nicht, ohne dass irgendetwas rot wird. Die Marker
+# stehen hier als Zeichen, nicht als Regex: Lindas pattern-Felder sind
+# Python-Syntax mit uneinheitlicher Verankerung und taugen nicht als
+# gemeinsamer Vertrag zwischen Python und JS.
+BEKANNTE_INSTANZTYPEN = {
+    "Individual": None,
+    "Collective": "[",
+    "Role figure": "<",
+    "Collective member": "<",
+    "Group": " & ",
+    "Non-figure": "{",
+    "Quoted": "#",
+    "Immaterial": "°",
+}
+
+# Zeichen, mit denen ein markierter Wert beginnen darf. Ein Wert, der mit
+# einem anderen Sonderzeichen anfaengt, traegt einen Marker, den weder dieses
+# Skript noch das Frontend kennt.
+BEKANNTE_ANFANGSMARKER = {"[", "<", "{", "#", "°"}
 
 SOURCE_META = {
     "repo": "https://github.com/" + REPO,
@@ -181,6 +209,140 @@ def load_overrides():
     return out
 
 
+def pruefe_instanztypen(ref, source_dir):
+    """Drift-Guard gegen Lindas data/instance_types.json (#59).
+
+    **Die Pruefung ist absichtlich asymmetrisch**, und das ist keine Nachlaes-
+    sigkeit, sondern die Bedingung dafuer, dass sie ueberhaupt laufen kann.
+    Dieses Skript wird an zwei Stellen mit gegenlaeufigen Erwartungen
+    aufgerufen:
+
+      - der Montags-Workflow baut mit --ref master, will also den NEUESTEN
+        Quellstand gegen den heutigen Code pruefen;
+      - das Freshness-Gate in data-integrity.yml baut mit --ref <Pin des
+        ausgelieferten Index>, will also einen HISTORISCHEN Quellstand mit
+        heutigem Code reproduzieren.
+
+    Eine symmetrische Pruefung waere im zweiten Fall garantiert rot, sobald
+    Linda die Typologie erweitert: der alte Quellstand kennt den neuen Typ
+    naturgemaess nicht. Deshalb ist nur die eine Richtung ein Fehler:
+
+      - Die Quelle kennt einen Typ, den wir nicht kennen  -> HART. Nur so
+        herum geht der Legende etwas verloren, und es kann nur bei einem
+        frischen Build passieren.
+      - Wir kennen einen Typ, den die Quelle (noch) nicht hat -> Hinweis.
+        Die Legende zeigt ihn schlicht nie, weil kein Wert seinen Marker
+        traegt.
+      - Ein Typ steht auf beiden Seiten, traegt aber einen anderen Marker
+        -> HART, in beide Richtungen. Das ist echte Drift und keine Frage
+        des Alters.
+
+    Fehlt die Datei ganz, ist der Quellstand aelter als die Typologie (sie
+    kam am 2026-08-11 dazu, der zuletzt ausgelieferte Index haengt an
+    b7cc0585 vom 2026-08-10 und liefert dort HTTP 404). Das ist ein Hinweis,
+    kein Fehler; pruefe_marker_in_werten laeuft unabhaengig davon weiter und
+    schuetzt die Daten selbst.
+
+    example_values wird bewusst nicht geprueft: Linda erklaert die Listen in
+    note_on_scope ausdruecklich als illustrativ und nicht gepflegt ("code must
+    not treat them as a closed vocabulary").
+    """
+    try:
+        roh = json.loads(fetch("data/instance_types.json", ref, source_dir))
+    except urllib.error.HTTPError as exc:
+        # NUR 404 heisst "an diesem Quellstand gibt es die Datei noch nicht".
+        # 429, 500 und 503 sind Stoerungen und duerfen den harten Teil des
+        # Guards nicht stillschweigend abschalten: die uebrigen Fetches
+        # koennen dabei gelingen, der Index waere gebaut und der Montags-PR
+        # eroeffnet, ohne dass die Typologie je verglichen wurde.
+        if exc.code != 404:
+            sys.exit(f"FEHLER: data/instance_types.json nicht abrufbar "
+                     f"(HTTP {exc.code}). Das ist kein alter Quellstand, "
+                     f"sondern eine Stoerung. Lauf wiederholen.")
+        print("   instance_types.json: am Quellstand nicht vorhanden (404), "
+              "Typologie-Vergleich uebersprungen")
+        return
+    except FileNotFoundError:
+        print("   instance_types.json: in der lokalen Quellkopie nicht "
+              "vorhanden, Typologie-Vergleich uebersprungen")
+        return
+    except Exception as exc:                      # noqa: BLE001
+        sys.exit(f"FEHLER: data/instance_types.json nicht lesbar ({exc}). "
+                 f"Ohne sie ist nicht pruefbar, ob die Marker-Legende im "
+                 f"Frontend noch zur Quelle passt.")
+
+    ihre = {t["name"]: t.get("marker") for t in roh.get("types", [])}
+    if not ihre:
+        sys.exit("FEHLER: data/instance_types.json enthaelt keine types[].")
+
+    neu = sorted(set(ihre) - set(BEKANNTE_INSTANZTYPEN))
+    if neu:
+        sys.exit(f"FEHLER: Die Quelle kennt Instanztypen, die dieser Build "
+                 f"nicht kennt: {neu}. BEKANNTE_INSTANZTYPEN hier und "
+                 f"MARKER_KLASSEN in playground/js/ui/tei/naming-explorer.js "
+                 f"nachziehen, dann die Legende pruefen.")
+
+    # Ihr Marker-Feld schreibt das Fuellzeichen mit ("[…]", "#…"); verglichen
+    # wird deshalb der Anfang, nicht der ganze String. Group traegt " & " ohne
+    # Fuellzeichen und faellt damit auf Gleichheit zurueck.
+    for name, unser in BEKANNTE_INSTANZTYPEN.items():
+        if name not in ihre:
+            continue
+        ihr = ihre[name]
+        if unser is None:
+            if ihr is not None:
+                sys.exit(f"FEHLER: Typ {name!r} traegt jetzt den Marker {ihr!r}, "
+                         f"hier gilt er als markerlos.")
+        elif ihr is None or not ihr.startswith(unser):
+            sys.exit(f"FEHLER: Typ {name!r} hat den Marker {ihr!r}, erwartet "
+                     f"wurde ein Marker beginnend mit {unser!r}.")
+
+    fehlend = sorted(set(BEKANNTE_INSTANZTYPEN) - set(ihre))
+    hinweis = f", {len(fehlend)} hier bekannte fehlen dort ({fehlend})" if fehlend else ""
+    print(f"   instance_types.json: {len(ihre)} Typen, Marker unveraendert{hinweis}")
+
+
+def pruefe_marker_in_werten(werte, feld, erlaubt, hinweis):
+    """Zweite Haelfte des Guards: unbekannte Marker in den Daten selbst.
+
+    Laeuft ueber beide Spalten, und zwar mit verschiedenen erlaubten Mengen:
+
+      - Nennende Instanz: die fuenf bekannten Anfangsmarker sind zulaessig.
+      - Benannte Figur: **kein** Marker ist zulaessig. Das ist Lindas
+        Invariante ("markers qualify an entity's role as a naming instance,
+        not the entity itself"), und die Legende sagt sie dem Nutzer woertlich
+        zu. Eine Zusage, die die Ansicht macht, muss der Build pruefen, sonst
+        rutscht eine Drift dort durch beide Guard-Haelften: ein '[X]' liefe
+        als eigener Figurname neben 'X' ins Auswahlfeld, und der Erklaertext
+        waere falsch, ohne dass etwas rot wird.
+
+    Die Typologie kann unveraendert sein und trotzdem ein Zeichen auftauchen,
+    das keine Klasse abdeckt. Geprueft wird der Wortanfang.
+
+    **Bekannte Luecke, bewusst offen gelassen:** ein Marker im Wortinneren
+    faellt hier nicht auf. Die heutigen Innen-Marker sind Klammern
+    ('[rechen] des Eneas') und damit ueber ihr oeffnendes Zeichen erfasst,
+    aber ' & ' fuer Gruppen widerlegt die bequeme Verallgemeinerung "innen
+    heisst Klammer": es steht per Konstruktion in der Mitte und ist keine.
+    Ein kuenftiger Separator-Marker nach demselben Muster rutscht also durch
+    beide Haelften des Guards.
+
+    Nicht geschlossen, weil die Alternative teurer waere als der Fall: ein
+    Test auf beliebige Sonderzeichen im Wortinneren schlaegt bei Apostrophen,
+    Bindestrichen und den Qualifier-Klammern '(heidnisch)' an, also bei
+    regulaeren Daten. Und die Luecke greift nur, wenn Linda einen solchen
+    Marker einfuehrt, OHNE ihn in instance_types.json zu deklarieren; tut sie
+    es dort, faengt ihn pruefe_instanztypen.
+    """
+    verdaechtig = sorted({
+        w for w in werte
+        if w and not w[0].isalnum() and w[0] not in erlaubt
+    })
+    if verdaechtig:
+        sys.exit(f"FEHLER: {len(verdaechtig)} {feld} beginnen mit einem "
+                 f"unbekannten Marker: {verdaechtig[:10]}. {hinweis}")
+
+
 def fetch(path, ref, source_dir):
     if source_dir:
         return (source_dir / path).read_text(encoding="utf-8")
@@ -260,6 +422,7 @@ def build_record(row, figure_name, aliases, deck_aliases):
 
 
 def build_index(ref, source_dir):
+    pruefe_instanztypen(ref, source_dir)
     normalization = json.loads(fetch("data/lemma_normalization.json", ref, source_dir))
     # Alias-Lookup: kanonischer Name (lowercase) → Set lowercased Varianten
     alias_map = {
@@ -275,6 +438,8 @@ def build_index(ref, source_dir):
 
     works = []
     totals = {"records": 0, **{cat: 0 for cat in CATS}}
+    namer_werte = set()
+    figur_werte = set()
 
     for book_name, sigle in BOOKS.items():
         raw = json.loads(fetch(f"data/{book_name}/categorization_{book_name}.json", ref, source_dir))
@@ -285,7 +450,10 @@ def build_index(ref, source_dir):
             if not filled(row.get("Benannte Figur")):
                 skipped += 1
                 continue
+            if filled(row.get("Nennende Figur")):
+                namer_werte.add(clean(row["Nennende Figur"]))
             figure_name = clean_figure_name(row["Benannte Figur"])
+            figur_werte.add(figure_name)
             aliases = alias_map.get(figure_name.lower(), set())
             extra = buch_overrides.get(figure_name.lower(), {})
             aliases = aliases | extra.get("eig", set())
@@ -313,6 +481,15 @@ def build_index(ref, source_dir):
         print(f"   {sigle:4s} ({book_name}): {sum(len(v) for v in figures.values())} Records, "
               f"{len(figures)} Figuren, {skipped} übersprungen")
 
+    pruefe_marker_in_werten(
+        namer_werte, "Werte der nennenden Instanz", BEKANNTE_ANFANGSMARKER,
+        "Entweder ist es ein neuer Instanztyp (dann BEKANNTE_INSTANZTYPEN und "
+        "MARKER_KLASSEN nachziehen) oder ein Datenfehler bei Linda.")
+    pruefe_marker_in_werten(
+        figur_werte, "benannte Figuren", frozenset(),
+        "Die benannte Figur traegt per Definition keinen Marker, und die "
+        "Legende im Playground sagt das dem Nutzer zu. Vor dem Nachziehen "
+        "mit Linda klaeren, ob die Invariante noch gilt.")
     return works, totals
 
 

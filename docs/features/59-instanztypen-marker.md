@@ -131,8 +131,39 @@ zeigt die Seite Lindas neue Marker unter unserer alten Erklärung.
 | AP2 | `renderNotationHint` von einem Satz zu einer Legende: nur die vorkommenden Klassen, Lindas deutsche Labels, je ein Beispiel aus dem Werk (Mechanismus existiert). Für `<…>` ehrlich „Rollenfigur oder Kollektivmitglied, Unterscheidung analytisch" | `naming-explorer.js` | AP4, AP6 |
 | AP3 | Kopfkommentar richtigstellen (er behauptet, `#` und eckige Klammern meinten dasselbe) und **alle** Zahlen darin frisch am Index messen | `naming-explorer.js` | AP4, AP6 |
 | AP4 | Drift-Guard: `instance_types.json` mitfetchen, hart failen bei einem neunten Typ, einem neuen Marker oder einem Markerzeichen in den Werten, das keiner bekannten Klasse angehört | `01-fetch-and-build-index.py` | AP1 bis AP3 |
-| AP5 | Index gegen den neuen Quellstand bauen | `data/naming-index.json.gz` | nach AP1 bis AP3 |
+| AP5 | Index gegen den neuen Quellstand bauen **und dabei `SOURCE_META` mitziehen** (siehe unten) | `data/naming-index.json.gz`, `01-fetch-and-build-index.py` | nach AP1 bis AP3 |
 | AP6 | Antwort an Linda (Abschnitt 5) | GitHub | alles |
+
+**Stand 2026-08-14:** AP1 bis AP4 sind umgesetzt auf `claude/59-instanztypen` (kein
+Commit-Hash hier, er hat sich beim Nacharbeiten der Review-Runden zweimal geändert und
+war beide Male sofort falsch). Der Drift-Guard ist mit sieben Fällen belegt, jeder in
+einer eigenen Quellkopie. Fangen muss er: einen neuen Typ in der Quelle, einen geänderten
+Marker eines bekannten Typs, ein unbekanntes Markerzeichen im Nennerwert, einen Marker an
+einer benannten Figur, einen HTTP-Fehler ausser 404. Durchlassen muss er: eine fehlende
+`instance_types.json` und einen in der Quelle fehlenden bekannten Typ. Gegen den aktuell
+ausgelieferten Index geprüft rendert die Legende korrekt und fängt dort schon einen
+Ausfall der alten Regex: `Pallas & Juno` im Trojanerkrieg war unsichtbar.
+
+**Aus Review-Runde 1, und der wichtigste Punkt des ganzen Umbaus:** der Guard darf nicht
+symmetrisch prüfen. Das Skript wird an zwei Stellen mit gegenläufigen Erwartungen
+aufgerufen: der Montags-Workflow baut mit `--ref master` und will den neuesten Stand
+gegen heutigen Code prüfen, das Freshness-Gate in `data-integrity.yml` baut mit dem Pin
+des ausgelieferten Index und will einen historischen Stand reproduzieren. Die erste
+Fassung hätte deshalb die CI dieses PRs selbst rot gemacht: `instance_types.json`
+existiert am Pin `b7cc0585` nicht (HTTP 404, nachgemessen). Nur eine Richtung ist jetzt
+ein Fehler, nämlich dass die Quelle einen Typ kennt, den wir nicht kennen. Umgekehrt
+genügt ein Hinweis, denn ein alter Quellstand kann die Typologie naturgemäss nicht
+kennen. Ohne diese Asymmetrie träfe dasselbe Problem bei jeder künftigen Erweiterung
+wieder auf.
+
+**Ebenfalls aus Runde 1, noch offen:** `SOURCE_META` im Build-Skript ist fest verdrahtet
+auf `10.5281/zenodo.18770138` und „Naming-analysis (v0.1.0-beta)". Lindas Release vom
+13.08. trägt `10.5281/zenodo.21916576` und v0.2.1-beta. Angezeigt wird die Angabe
+nirgends, sie steht nur in den Index-Metadaten, wird aber mit dem Datenupdate am Montag
+eindeutig falsch: neue Daten unter alter Zitation. Gehört zu AP5 und nicht in den
+Frontend-PR, weil die Zitation zum gebauten Quellstand passen muss und nicht zum Code.
+Ob ein Guard das dauerhaft erzwingen soll (Abgleich gegen `CITATION.cff` des gebauten
+Refs), ist noch zu entscheiden.
 
 **Was ausdrücklich nicht passiert:** `namerKey` wird nicht gestrippt. Lindas
 Gruppierungsempfehlung `re.sub(r'[\[\]<>{}]|^[#°]', '', wert)` ist für ihre eigene
@@ -146,15 +177,16 @@ in AP1 einen eigenen Test braucht.
 1. **Welchen Quellstand sollen wir bauen?** Der DOI-tragende Tag `v.0.2.1-beta` liegt
    zwei Commits hinter `master`, und der Unterschied ist eine Datenkorrektur. Zitierbar
    ist der Tag, aktuell ist master. Am einfachsten wäre, wenn sie den Tag nachzieht.
-2. **Ist `example_values` in `instance_types.json` erschöpfend** oder wirklich nur
-   beispielhaft? Wäre es erschöpfend, liesse sich Rollenfigur gegen Kollektivmitglied
-   doch auflösen, und die Legende könnte präziser werden. Der Feldname spricht dagegen.
-   Kein Blocker.
-3. **Hinweis zum Iwein:** drei Datensätze weniger als vor der Umstellung. Sie hat
+2. **Hinweis zum Iwein:** drei Datensätze weniger als vor der Umstellung. Sie hat
    ausdrücklich um Meldung gebeten, falls bei der Migration eine Unstimmigkeit auffällt.
    Ihr Commit vom 13.08. erklärt es vermutlich selbst.
-4. **Zum Kollokations-Tooltip:** eigenes Arbeitspaket. Die Kollokationen liegen im Blatt
+3. **Zum Kollokations-Tooltip:** eigenes Arbeitspaket. Die Kollokationen liegen im Blatt
    „Gesamt" der Excel-Dateien, unser Build liest bisher ausschliesslich die JSONs.
+
+**Nicht gefragt, weil ihre Datei es beantwortet:** ob `example_values` erschöpfend ist.
+`note_on_scope` sagt ausdrücklich „illustrative only ... code must not treat them as a
+closed vocabulary". Rollenfigur gegen Kollektivmitglied bleibt damit unauflösbar, und
+die Legende nennt beide. Der Guard prüft `example_values` deshalb nicht.
 
 ## 6. Messvorschriften
 
