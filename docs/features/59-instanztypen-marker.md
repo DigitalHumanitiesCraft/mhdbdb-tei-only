@@ -122,8 +122,22 @@ acht Typen gleichrangig präsentiert, richtet sich nach 2,3 Prozent der Daten.
 
 ## 4. Arbeitspakete
 
-Die Reihenfolge ist nicht beliebig. AP5 darf **nicht vor** AP1 bis AP3 landen, sonst
-zeigt die Seite Lindas neue Marker unter unserer alten Erklärung.
+**Korrektur vom 2026-08-14, und sie kippt die ursprüngliche Reihenfolge.** Hier stand,
+AP5 dürfe nicht vor AP1 bis AP3 landen, sonst zeige die Seite neue Marker unter alter
+Erklärung. Der umgekehrte Fehler ist schlimmer und war übersehen: der CI-Bot hat ihn
+gemeldet, und die Messung bestätigt ihn. Der ausgelieferte Index trägt **15 Werte mit
+Gitter** (13 im Rolandslied, 2 im Trojanerkrieg), darunter `#haiden`, `#cristen`,
+`#karlinge`, `#alle`, `#diu_stimme`. Am neuen Quellstand ist davon **genau einer übrig**,
+`#David`; alle anderen sind in andere Typen gewandert, überwiegend Kollektiv. Die neue
+Legende beschriftet aber jeden Gitter-Wert mit „Zitiert". Ohne Datenupdate stünde also
+bei 14 von 15 Werten eine falsche Typangabe.
+
+Die Aussage weiter unten, gegen den ausgelieferten Index rendere die Legende „korrekt",
+war entsprechend falsch: geprüft war, dass sie rendert und die Klassen nach Muster
+erkennt, behauptet war die Semantik.
+
+**Daraus folgt: Daten und Erklärung landen zusammen, in einem PR.** AP5 ist deshalb nicht
+mehr nachgelagert, sondern Teil desselben Zugs.
 
 | AP | Inhalt | Datei | parallel zu |
 |---|---|---|---|
@@ -131,8 +145,58 @@ zeigt die Seite Lindas neue Marker unter unserer alten Erklärung.
 | AP2 | `renderNotationHint` von einem Satz zu einer Legende: nur die vorkommenden Klassen, Lindas deutsche Labels, je ein Beispiel aus dem Werk (Mechanismus existiert). Für `<…>` ehrlich „Rollenfigur oder Kollektivmitglied, Unterscheidung analytisch" | `naming-explorer.js` | AP4, AP6 |
 | AP3 | Kopfkommentar richtigstellen (er behauptet, `#` und eckige Klammern meinten dasselbe) und **alle** Zahlen darin frisch am Index messen | `naming-explorer.js` | AP4, AP6 |
 | AP4 | Drift-Guard: `instance_types.json` mitfetchen, hart failen bei einem neunten Typ, einem neuen Marker oder einem Markerzeichen in den Werten, das keiner bekannten Klasse angehört | `01-fetch-and-build-index.py` | AP1 bis AP3 |
-| AP5 | Index gegen den neuen Quellstand bauen | `data/naming-index.json.gz` | nach AP1 bis AP3 |
+| AP5 | Index gegen den neuen Quellstand bauen **und dabei die Zitation mitziehen** | `data/naming-index.json.gz`, `01-fetch-and-build-index.py` | zusammen mit AP1 bis AP3 |
 | AP6 | Antwort an Linda (Abschnitt 5) | GitHub | alles |
+
+**Stand 2026-08-14:** AP1 bis AP4 sind umgesetzt auf `claude/59-instanztypen` (kein
+Commit-Hash hier, er hat sich beim Nacharbeiten der Review-Runden zweimal geändert und
+war beide Male sofort falsch). Der Drift-Guard ist mit sieben Fällen belegt, jeder in
+einer eigenen Quellkopie. Fangen muss er: einen neuen Typ in der Quelle, einen geänderten
+Marker eines bekannten Typs, ein unbekanntes Markerzeichen im Nennerwert, einen Marker an
+einer benannten Figur, einen HTTP-Fehler ausser 404. Durchlassen muss er: eine fehlende
+`instance_types.json` und einen in der Quelle fehlenden bekannten Typ.
+
+**AP5 ist seit dem 2026-08-14 ebenfalls drin:** der Index steht auf Quellstand
+`4766065c`, die Zitation auf v0.2.1-beta und DOI `10.5281/zenodo.21916576`. Der
+Zitations-Guard prüft beide gegen die `CITATION.cff` des gebauten Refs, symmetrisch,
+und ist mit zehn YAML-Varianten belegt.
+
+**Das Datenupdate hat drei Tests rot gemacht, alle mit hartkodierten Datenwerten:**
+Iwein 242 auf 239 Belegstellen (Lindas Dublettenauflösung), der Lunete-Unterfilter 31
+auf 29, und der fest verdrahtete Nenner `#engel`, den es nicht mehr gibt. Der
+Dateikopf des Specs hatte vorhergesagt, es müsse „nur der weiche Iwein-Lock
+mitwandern": drei Stellen sind gewandert. Wo es ging, leiten die Tests ihre Erwartung
+jetzt aus dem DOM ab; wo eine Zahl bleibt, steht der Quellstand daneben.
+
+**Aus Review-Runde 1, und der wichtigste Punkt des ganzen Umbaus:** der Guard darf nicht
+symmetrisch prüfen. Das Skript wird an zwei Stellen mit gegenläufigen Erwartungen
+aufgerufen: der Montags-Workflow baut mit `--ref master` und will den neuesten Stand
+gegen heutigen Code prüfen, das Freshness-Gate in `data-integrity.yml` baut mit dem Pin
+des ausgelieferten Index und will einen historischen Stand reproduzieren. Die erste
+Fassung hätte deshalb die CI dieses PRs selbst rot gemacht: `instance_types.json`
+existiert am Pin `b7cc0585` nicht (HTTP 404, nachgemessen). Nur eine Richtung ist jetzt
+ein Fehler, nämlich dass die Quelle einen Typ kennt, den wir nicht kennen. Umgekehrt
+genügt ein Hinweis, denn ein alter Quellstand kann die Typologie naturgemäss nicht
+kennen. Ohne diese Asymmetrie träfe dasselbe Problem bei jeder künftigen Erweiterung
+wieder auf.
+
+**Ebenfalls aus Runde 1, inzwischen erledigt:** `SOURCE_META` war fest verdrahtet auf
+`10.5281/zenodo.18770138` und „Naming-analysis (v0.1.0-beta)", während Lindas Release
+vom 13.08. `10.5281/zenodo.21916576` und v0.2.1-beta trägt. Hier stand, angezeigt werde
+die Angabe nirgends, sie stehe nur in den Index-Metadaten. Das war falsch und aus einer
+abgeschnittenen Suche geschlossen (`| head -8`, und `renderAttribution()` steht in
+Zeile 781): das Modul trug eine zweite, fest verdrahtete Kopie derselben Zitation, und
+zwar die sichtbare. Sie rendert jetzt aus `this.index.source`, damit es die zweite Kopie
+nicht mehr gibt. Eine Notiz war die falsche Antwort darauf: der JOURNAL-Eintrag vom 31.07. hat
+gemessen, dass die korrekte Pflegeanweisung existierte und nichts verhindert hat. Statt
+einer Notiz gibt es jetzt `pruefe_zitation`, und die Angaben sind mitgezogen.
+
+**Eine dritte Liste, die von nichts gehalten wurde:** die Typologie stand im Build, im
+JS-Modul und im Playwright-Spec, aber nur die Build-Kopie hing an einem Gate. Wer nach
+einem Abbruch nur die Python-Seite nachzieht, hat danach einen grünen Build, einen Index
+mit neuen Markern und eine Legende, die sie nicht kennt. `pruefe_frontend_paritaet` liest
+deshalb `MARKER_KLASSEN` aus dem JS und verlangt für jeden Marker eine Klasse; über die
+Marker verglichen, nicht über die Namen, weil `<` von zwei Typen geteilt wird.
 
 **Was ausdrücklich nicht passiert:** `namerKey` wird nicht gestrippt. Lindas
 Gruppierungsempfehlung `re.sub(r'[\[\]<>{}]|^[#°]', '', wert)` ist für ihre eigene
@@ -146,15 +210,16 @@ in AP1 einen eigenen Test braucht.
 1. **Welchen Quellstand sollen wir bauen?** Der DOI-tragende Tag `v.0.2.1-beta` liegt
    zwei Commits hinter `master`, und der Unterschied ist eine Datenkorrektur. Zitierbar
    ist der Tag, aktuell ist master. Am einfachsten wäre, wenn sie den Tag nachzieht.
-2. **Ist `example_values` in `instance_types.json` erschöpfend** oder wirklich nur
-   beispielhaft? Wäre es erschöpfend, liesse sich Rollenfigur gegen Kollektivmitglied
-   doch auflösen, und die Legende könnte präziser werden. Der Feldname spricht dagegen.
-   Kein Blocker.
-3. **Hinweis zum Iwein:** drei Datensätze weniger als vor der Umstellung. Sie hat
+2. **Hinweis zum Iwein:** drei Datensätze weniger als vor der Umstellung. Sie hat
    ausdrücklich um Meldung gebeten, falls bei der Migration eine Unstimmigkeit auffällt.
    Ihr Commit vom 13.08. erklärt es vermutlich selbst.
-4. **Zum Kollokations-Tooltip:** eigenes Arbeitspaket. Die Kollokationen liegen im Blatt
+3. **Zum Kollokations-Tooltip:** eigenes Arbeitspaket. Die Kollokationen liegen im Blatt
    „Gesamt" der Excel-Dateien, unser Build liest bisher ausschliesslich die JSONs.
+
+**Nicht gefragt, weil ihre Datei es beantwortet:** ob `example_values` erschöpfend ist.
+`note_on_scope` sagt ausdrücklich „illustrative only ... code must not treat them as a
+closed vocabulary". Rollenfigur gegen Kollektivmitglied bleibt damit unauflösbar, und
+die Legende nennt beide. Der Guard prüft `example_values` deshalb nicht.
 
 ## 6. Messvorschriften
 

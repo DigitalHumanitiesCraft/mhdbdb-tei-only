@@ -6,11 +6,27 @@
  * Term-Filter und Pflicht-Attribution (Lizenzauflage CC BY-NC-SA).
  *
  * Datengrundlage ist data/naming-index.json.gz (extern kuratiert, lindabeutel/
- * Naming-analysis). Die Tests locken Struktur, nicht exakte Zahlen — bei einem
- * Quelldaten-Update muss nur der weiche Iwein-Lock (242 Belege) mitwandern.
+ * Naming-analysis). Die Tests locken Struktur, nicht exakte Zahlen.
+ *
+ * Der Satz "bei einem Quelldaten-Update muss nur der weiche Iwein-Lock
+ * mitwandern" stand hier bis 2026-08-14 und war zu eng: das Update auf
+ * v0.2.1-beta hat drei Tests rot gemacht (Iwein 242 auf 239, der
+ * Lunete-Unterfilter 31 auf 29, und der fest verdrahtete Nenner '#engel',
+ * den es nicht mehr gibt). Wo es ging, leiten die Tests ihre Erwartung jetzt
+ * aus dem DOM ab statt aus einer Zahl im Quelltext; wo eine Zahl bleibt,
+ * steht der Quellstand daneben, gegen den sie gemessen wurde.
  */
 
 import { test, expect } from '@playwright/test';
+import { readFileSync } from 'node:fs';
+import { gunzipSync } from 'node:zlib';
+
+// Die Quellangaben aus dem ausgelieferten Index, in Node gelesen. Der Test
+// vergleicht die angezeigte Attribution dagegen, statt eine zweite Kopie von
+// DOI und Zitation im Testcode zu fuehren.
+const INDEX_QUELLE = JSON.parse(
+  gunzipSync(readFileSync(new URL('../../data/naming-index.json.gz', import.meta.url))).toString('utf8')
+).source;
 
 test.describe('Naming Explorer (#59)', () => {
   test.beforeEach(async ({ page }) => {
@@ -38,16 +54,26 @@ test.describe('Naming Explorer (#59)', () => {
     expect(values.join(' ')).toContain('TRO - Trojanerkrieg');
     expect(values.length).toBe(5);
 
-    // Pflicht-Attribution (Lizenzauflage) muss ohne Auswahl sichtbar sein
+    // Pflicht-Attribution (Lizenzauflage) muss ohne Auswahl sichtbar sein.
+    //
+    // Der DOI wird gegen den Index geprueft, nicht gegen eine Konstante im
+    // Test. Vorher stand hier '10.5281/zenodo.18770138' fest, und weil die
+    // Attribution ihn ebenfalls fest verdrahtet hatte, blieb der Test gruen,
+    // als die Daten auf v0.2.1-beta wechselten: die Seite zeigte die alte
+    // Zitation ueber neuen Daten, und die gruene Suite hat es zementiert.
     await expect(page.locator('#resultsContainer')).toContainText('Naming-analysis nach Linda Beutel-Thurow');
-    await expect(page.locator('#resultsContainer a[href*="doi.org/10.5281/zenodo.18770138"]')).toBeVisible();
+    expect(INDEX_QUELLE.doi).toBeTruthy();
+    await expect(page.locator(`#resultsContainer a[href="https://doi.org/${INDEX_QUELLE.doi}"]`)).toBeVisible();
+    await expect(page.locator('#resultsContainer')).toContainText(INDEX_QUELLE.citation);
   });
 
   test('Werk + Figur liefert Summary und Term-Tabelle mit drei Kategorien', async ({ page }) => {
     await selectIwein(page);
 
-    // Weicher Daten-Lock: Iwein hat 242 kuratierte Belegstellen (Stand edd39cc)
-    await expect(page.locator('#resultsContainer')).toContainText('242 kuratierte Belegstellen');
+    // Weicher Daten-Lock: Iwein hat 239 kuratierte Belegstellen (Quellstand
+    // 4766065c). Vorher 242; Linda hat am 13.08. drei Iwein-Dubletten
+    // aufgeloest ("resolve Iwein duplicates").
+    await expect(page.locator('#resultsContainer')).toContainText('239 kuratierte Belegstellen');
 
     // Alle drei Kategorien kommen in der Tabelle vor
     const badges = await page.locator('[data-ne-term] td:nth-child(2)').allTextContents();
@@ -129,9 +155,9 @@ test.describe('Naming Explorer (#59)', () => {
     await selectIwein(page);
 
     // Ohne Filter die Gesamtzahl, mit Filter die Teilmenge samt Bezugsgroesse
-    await expect(page.locator('#resultsContainer')).toContainText('242 kuratierte Belegstellen');
+    await expect(page.locator('#resultsContainer')).toContainText('239 kuratierte Belegstellen');
     const optionen = await page.locator('#neSubFilter option').allTextContents();
-    expect(optionen[0]).toContain('Alle (242)');
+    expect(optionen[0]).toContain('Alle (239)');
     expect(optionen.join(' ')).toContain('Erzähler');
     expect(optionen.join(' ')).toContain('Selbstnennung');
     // Einzelne Nenner stehen unter "Figurenrede, alle"
@@ -140,7 +166,7 @@ test.describe('Naming Explorer (#59)', () => {
     // Wert statt Label: die Einzelnenner sind mit NBSP eingerueckt
     await page.selectOption('#neSubFilter', 'fig:lunete');
     await page.waitForSelector('[data-ne-term]', { state: 'visible', timeout: 5000 });
-    await expect(page.locator('#resultsContainer')).toContainText('31 von 242 kuratierte Belegstellen');
+    await expect(page.locator('#resultsContainer')).toContainText('29 von 239 kuratierte Belegstellen');
 
     // Belegstellen tragen jetzt nur noch Lunete als Sprecher
     await page.locator('[data-ne-term]').first().click();
@@ -182,22 +208,117 @@ test.describe('Naming Explorer (#59)', () => {
   });
 
   test('Die Notation der Quelle steht in der Nennerliste und wird erklaert', async ({ page }) => {
-    // Das fuehrende '#' markiert eine Instanz, die keine handelnde Figur des
-    // Werks ist (Linda, #59 2026-08-10). Es wird angezeigt statt abgeschnitten:
-    // #David (zitiert) und ein handelnder David waeren sonst derselbe Nenner.
+    // Das fuehrende '#' ist seit Lindas Umstellung vom 2026-08-11 der Marker
+    // genau eines Instanztyps ("Quoted"), nicht mehr das Sammelzeichen fuer
+    // "keine handelnde Figur". Es wird angezeigt statt abgeschnitten: #David
+    // und ein handelnder David waeren sonst derselbe Nenner.
     await page.click('[data-ne-persp="namer"]');
     await page.selectOption('#neWorkSelect', 'ROL');
 
     const nenner = await page.locator('#neFigureSelect option').allTextContents();
     expect(nenner.some(o => o.startsWith('#'))).toBe(true);
-    // Genau ein Eintrag je Nenner, seit Linda die Schreibungen vereinheitlicht
-    // hat (Quell-Commit b7cc0585): frueher zerfiel Engel in #Engel und Engel.
-    expect(nenner.filter(o => /^#?Engel /.test(o)).length).toBe(1);
+    // Kein Nenner steht zugleich mit und ohne Gitter in der Liste, seit Linda
+    // die Schreibungen vereinheitlicht hat: frueher zerfiel etwa Engel in
+    // '#Engel' und 'Engel'.
+    //
+    // Verglichen wird der option-value, nicht der Anzeigetext. Zwei Entwuerfe
+    // sind vorher an dieser Stelle gescheitert. Der erste streifte zum
+    // Vergleichen jede Klammer ab und legte damit '[fuersten] (heidnisch)' und
+    // '[fuersten] (christlich)' zusammen, also zwei Instanzen, die Linda
+    // ausdruecklich trennt. Der zweite streifte nur noch '(N Belege)' ab und
+    // traf damit gar nichts mehr: bei Nennern lautet das Suffix immer
+    // '(N Belege, M genannte Figuren)', der Vergleich war also gruen per
+    // Konstruktion. Der value traegt den Schluessel ohne jedes Suffix, mit
+    // Marker, und ist damit genau das, worauf es ankommt.
+    const werte = await page.locator('#neFigureSelect option')
+      .evaluateAll(els => els.map(el => el.value));
+    const ohneGitter = new Set(werte.filter(v => !v.startsWith('#')));
+    const doppelt = werte.filter(v => v.startsWith('#') && ohneGitter.has(v.slice(1)));
+    expect(doppelt).toEqual([]);
     await expect(page.locator('#resultsContainer')).toContainText('Notation der Quelle');
 
-    await page.selectOption('#neFigureSelect', '#engel');
+    // Den Gitter-Nenner aus dem DOM holen statt ihn hinzuschreiben. Frueher
+    // stand hier '#engel' fest; seit der Umstellung ist '#David' der einzige
+    // Quoted-Nenner im ROL, und der naechste Quelldatenstand kann das wieder
+    // verschieben. Der Round-Trip ueber den echten option-value ist ausserdem
+    // die Eigenschaft, an der der Erzaehler-Sentinel gescheitert war (#360).
+    const wert = werte.find(v => v.startsWith('#'));
+    expect(wert).toBeTruthy();
+    await page.selectOption('#neFigureSelect', wert);
     await page.waitForSelector('[data-ne-term]', { state: 'visible', timeout: 5000 });
-    await expect(page.locator('#resultsContainer')).toContainText('#Engel');
+    // Auf die Ergebnis-Ueberschrift zielen, nicht auf '#resultsContainer'.
+    // Der Container enthaelt das Auswahlfeld mit, also waere ein
+    // toContainText('#') schon durch die Optionsliste erfuellt und bliebe auch
+    // dann gruen, wenn der Schluessel den Marker wieder abschneidet. Genau
+    // diesen Rueckbau gab es am 2026-08-09 schon einmal.
+    await expect(page.locator('[data-ne-heading]')).toHaveText(/^#/);
+  });
+
+  test('Die Legende nennt genau die Markerklassen, die im Werk vorkommen', async ({ page }) => {
+    // Der Vorgaenger-Test prueft nur, ob die Ueberschrift "Notation der Quelle"
+    // dasteht. Sie stand vor und nach der Umstellung auf Lindas acht
+    // Instanztypen da, er konnte den Umbau also gar nicht sehen.
+    //
+    // Erwartet wird hier deshalb keine feste Liste, sondern der Abgleich mit
+    // dem, was im Auswahlfeld tatsaechlich steht. Eine feste Liste waere schon
+    // am Montag falsch: der Auto-Update-Workflow zieht Lindas Quellstand nach,
+    // und dort verschiebt sich die Verteilung der Marker deutlich (im ROL faellt
+    // '#' von 69 Nennungen auf 3, dafuer kommen Kollektiv, Rollenfigur, Gruppe
+    // und Immateriell dazu). Der Test soll den Mechanismus halten, nicht den
+    // Datenstand einer Woche.
+    const KLASSEN = [
+      ['Collective', /\[[^\]]*\]/],
+      ['Role figure', /<[^>]*>/],
+      ['Non-figure', /\{[^}]*\}/],
+      ['Group', / & /],
+      ['Quoted', /^#/],
+      ['Immaterial', /^°/],
+    ];
+
+    await page.click('[data-ne-persp="namer"]');
+
+    for (const sigle of ['IW', 'ENE', 'ROL', 'TRO']) {
+      await page.selectOption('#neWorkSelect', sigle);
+      await page.waitForSelector('#neFigureSelect option', { state: 'attached', timeout: 5000 });
+
+      // Gearbeitet wird auf dem option-value, also auf dem Schluessel, den die
+      // Ansicht als Nenner fuehrt. Der Anzeigetext haette hier zwar auch
+      // funktioniert, weil sein Zaehl-Suffix keines der sechs Markerzeichen
+      // enthaelt, aber das ist eine Eigenschaft des Suffix und keine, auf die
+      // der Test sich stuetzen soll.
+      const optionen = await page.locator('#neFigureSelect option')
+        .evaluateAll(els => els.map(el => el.value));
+
+      const erwartet = KLASSEN
+        .filter(([, rx]) => optionen.some(o => rx.test(o)))
+        .map(([id]) => id)
+        .sort();
+      const gezeigt = (await page.locator('[data-ne-marker]')
+        .evaluateAll(els => els.map(el => el.dataset.neMarker))).sort();
+
+      expect(gezeigt, `Legende in ${sigle}`).toEqual(erwartet);
+    }
+  });
+
+  test('Die Legende beschreibt das Werk, nicht die gewaehlte Perspektive', async ({ page }) => {
+    // Erster Entwurf dieses Tests behauptete, die Legende bleibe in der
+    // Figuren-Perspektive weg. Falsch: sie leitet sich aus getNamers(work) ab
+    // und gilt fuer beide Perspektiven, denn auch in der Figurenansicht stehen
+    // die Marker im Unterfilter nach nennender Instanz. Genau diese Invariante
+    // wird hier festgehalten, weil sie beim naechsten Umbau leicht kippt.
+    const klassen = () => page.locator('[data-ne-marker]')
+      .evaluateAll(els => els.map(el => el.dataset.neMarker).sort());
+
+    await page.click('[data-ne-persp="namer"]');
+    await page.selectOption('#neWorkSelect', 'TRO');
+    await page.waitForSelector('[data-ne-marker]', { state: 'attached', timeout: 5000 });
+    const alsNenner = await klassen();
+    expect(alsNenner.length).toBeGreaterThan(0);
+
+    await page.click('[data-ne-persp="named"]');
+    await page.selectOption('#neWorkSelect', 'TRO');
+    await page.waitForSelector('[data-ne-marker]', { state: 'attached', timeout: 5000 });
+    expect(await klassen()).toEqual(alsNenner);
   });
 
   test('Alias-Override zaehlt Alexander bei Paris als Deckname', async ({ page }) => {
