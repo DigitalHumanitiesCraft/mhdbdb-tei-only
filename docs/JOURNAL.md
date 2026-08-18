@@ -506,3 +506,19 @@ Daraus folgt die eigentliche Regel in ADR-019: die beiden Schwellen sind nicht z
 **Zwei weitere Befunde waren meine eigenen Zahlen.** „Eckige Klammern (Trojanerkrieg)" stand im Kommentar, obwohl ich die Verteilung Stunden vorher selbst gemessen hatte: sie stehen in IW (7), ENE (7) und TRO (14), nur ROL hat keine. Und „33/29/48/71 Nenner" ist die Zählung über die distinkten `by`-Werte; die Liste, die das Modul anzeigt, hat mit Erzähler und Selbstnennungen 36/31/50/73. Beide Zahlen waren richtig und ohne Messvorschrift trotzdem irreführend, dieselbe Fehlerklasse wie am 31.07. bei den Breve-Zahlen.
 
 **Phase:** Betrieb. #59 bleibt offen auf `auto:blocked`/`wait:linda`: der Nutzer-Leitfaden mit DOI fehlt weiter, und Linda will die eckigen Klammern im Trojanerkrieg noch auf die Gitter-Notation vereinheitlichen. Der Erklärsatz im Modul nennt beide Notationen und zieht seine Beispiele aus dem jeweiligen Werk, er stimmt danach also ohne Nacharbeit.
+
+---
+
+## 2026-08-14 – #59: die Erklärung durfte nicht vor den Daten kommen
+
+**Summary:** Lindas Umstellung vom 11.08. auf acht Instanztypen mit sechs Markern ist im Naming-Explorer umgesetzt; die Ansicht kannte bis dahin nur `#` und eckige Klammern und erklärte beide als dasselbe. Gemergt als PR #365, zusammen mit Lindas Datenstand v0.2.1-beta (Quell-Commit `4766065c`, 10.502 Records). Nachtrag vom 18.08., rekonstruiert aus dem PR-Text und dem Bericht an Linda in #59; die Session selbst hatte keinen Journal-Eintrag hinterlassen.
+
+**Der Defekt in einer Zahl:** die alte Regex `/^[#[]/` erkannte 103 von 240 markierten Nennungen. Sie kannte `<`, `{`, `°` und ` & ` nicht, und ihr `^`-Anker scheiterte an Mischformen wie `Medeas <meisterîn>`.
+
+**Der Zuschnitt hat sich unter der Messung umgedreht.** Geplant war der PR ohne Datenupdate, die Erklärung sollte vor den Daten kommen. Gemessen trug der ausgelieferte Index aber 15 Gitter-Werte, von denen am neuen Quellstand genau einer übrig ist (`#David`; im Rolandslied fällt `#` von 69 Nennungen auf 3). Die neue Legende beschriftet jeden Gitter-Wert mit „Zitiert", ohne Datenupdate hätte sie also bei 14 von 15 Werten eine falsche Typangabe getragen. Der umgekehrte Fehler war der schlimmere, und er war übersehen. Mit demselben Schnitt erledigte sich der veraltete DOI: statt einer Pflegenotiz hält jetzt `pruefe_zitation` Version und DOI gegen die `CITATION.cff` des gebauten Quellstands.
+
+**Drei Guards im Build, einer bewusst asymmetrisch.** `pruefe_instanztypen` bricht nur, wenn die Quelle einen Typ kennt, den wir nicht kennen, oder ein beidseitig vorhandener Typ verschiedene Marker trägt: ein alter Quellstand kann die Typologie nicht kennen, und das Freshness-Gate baut genau solche. `pruefe_frontend_paritaet` liest `MARKER_KLASSEN` aus dem JS und verlangt für jeden bekannten Marker eine Klasse. In der Legende teilen sich Rollenfigur und Kollektivmitglied das Zeichen `<…>` und stehen als eine Zeile: welcher von beiden gemeint ist, lässt sich am Zeichen nicht entscheiden, und eine Zuordnung wäre eine Behauptung ohne Deckung.
+
+**Das Review fand zwei grüne Prüfungen ohne Haltekraft.** Vier Runden `fable-reviewer` vor den Pushes (Freshness-Blocker; ein Guard, den jeder HTTP-Fehler außer 404 still abschaltete; eine zweite Kopie der Zitation), danach der CI-Bot: eine Assertion auf `#resultsContainer`, die das Auswahlfeld mit einschloss, und `BEKANNTE_ANFANGSMARKER` als vierte, ungegatete Kopie der Typologie, jetzt abgeleitet statt gepflegt. Der Bestandstest hatte nur die Überschrift geprüft und lief deshalb vor wie nach dem Umbau grün.
+
+**Phase:** Betrieb. 310 Tests grün, Freshness-Gate grün gegen den neuen Pin. #59 bleibt offen auf `wait:linda`: Abnahme nach Deploy steht aus, dazu drei offene Fragen an Linda (Tag auf `master`, die drei Iwein-Records, Priorität des Kollokations-Tooltips).
