@@ -437,7 +437,7 @@ TEI Ch. 13 (Names/People) + Ch. 3 (Organizations). Central register of all perso
       </person>
       <person xml:id="contrib_004" role="lead-editor">
         <persName xml:lang="de">Vlastimil Brom</persName>
-        <note xml:lang="de">Haupteditor für TKR, TKA, VTC.</note>
+        <note xml:lang="de">Haupteditor für TKR, TKA, VTC, PUC.</note>
       </person>
       <!-- further contrib_NNN ... -->
     </listPerson>
@@ -449,7 +449,7 @@ TEI Ch. 13 (Names/People) + Ch. 3 (Organizations). Central register of all perso
 
 - `<titleStmt>/<respStmt>` in every corpus header points via `<orgName ref="contributors.xml#mhdbdb-team">` at the collective team attribution, so the header is not inflated by 50+ names.
 - `<publicationStmt>/<authority>` carries three `<persName ref="contributors.xml#contrib_00X">` for the founders plus the coordinator (always the same, in every file).
-- For prominent lead editors (currently TKR/TKA/VTC/PUC/JT) a second `<respStmt>` with `<name role="lead-editor" ref="contributors.xml#contrib_00X">` is added.
+- For prominent lead editors (currently TKR/TKA/VTC/PUC/JT/WZB) a second `<respStmt>` with `<name role="lead-editor" ref="contributors.xml#contrib_00X">` is added.
 
 **Name structure, a deliberate asymmetry:**
 

@@ -111,7 +111,7 @@ Attribution of the people who worked on the MHDBDB runs centrally through `autho
 |-------------|-----------------|--------|
 | collective team attribution | `<titleStmt>/<respStmt>` | `<orgName ref="contributors.xml#mhdbdb-team">` |
 | founders + coordinator (always the same, all 667 files) | `<publicationStmt>/<authority>` | `<persName role="founder\|coordinator" ref="contributors.xml#contrib_00X">` |
-| prominent lead editor (only for TKR/TKA/VTC/JT) | second `<titleStmt>/<respStmt>` | `<name role="lead-editor" ref="contributors.xml#contrib_00X">` |
+| prominent lead editor (only for TKR/TKA/VTC/PUC/JT/WZB) | second `<titleStmt>/<respStmt>` | `<name role="lead-editor" ref="contributors.xml#contrib_00X">` |
 
 **Example (ABG after the 2026-04-14 migration):**
 
@@ -141,7 +141,7 @@ Attribution of the people who worked on the MHDBDB runs centrally through `autho
 </publicationStmt>
 ```
 
-**Additional pattern for lead editors** (currently TKR/TKA/VTC with Brom, JT with Woesner):
+**Additional pattern for lead editors** (currently TKR/TKA/VTC/PUC with Brom, JT with Woesner, WZB with Hintersteiner):
 
 ```xml
 <titleStmt>
@@ -438,7 +438,7 @@ The `<w>` element is the central unit of annotation. In the target model all its
 | `@ana` | **standard** (att.global.analytic) | no | ~5.9M (migrated from `@meaningRef`, phase B1) | keep |
 | `@corresp` | **standard** (att.global) | no | ~7.5M (migrated from `@wordRef`, phase B2; URI → `variants.xml`) | keep |
 
-Corpus at the time of the audit (#32, 2026-04, before WZB): 9,282,982 `<w>` elements in 666 files; 20.4% without `@lemmaRef` (unannotated words, skipped by the corpus index, see CONTRACTS.md sec. B). Current state: 667 files, 9,431,294 `<w>`, of which 7,532,982 with `@lemmaRef` and 1,898,312 without (20.13%), measured 2026-07-31 with `scripts/audit/quantify-unannotated-tokens.py`. The figure 9,432,130 from 2026-06-10 (Code4Lib article, #142) predates the token removals from #138 and #236.
+Corpus at the time of the audit (#32, 2026-04, before WZB): 9,282,982 `<w>` elements in 666 files; 20.4% without `@lemmaRef` (unannotated words, skipped by the corpus index, see CONTRACTS.md sec. B). Current state: 667 files, 9,431,311 `<w>`, of which 7,533,010 with `@lemmaRef` and 1,898,301 without (20.13%), measured 2026-08-21 with `scripts/audit/quantify-unannotated-tokens.py`. The figure 9,432,130 from 2026-06-10 (Code4Lib article, #142) predates the token removals from #138 and #236.
 
 > **Important:** `@lemmaRef` has been a standard attribute of the class `att.linguistic` since TEI P5 3.3.0 and did **not** have to be migrated. `@meaningRef` and `@wordRef` **were** the validation blockers (not TEI standard attributes); they were migrated corpus-wide to `@ana` and `@corresp` respectively (phase B1/B2, completed, 0 remaining occurrences, 667/667 files with `@ana`).
 
@@ -906,7 +906,7 @@ A consolidated list of all deliberately non-normalized islands of data and of th
 | this document | 1.0.0 | 2026-04-10 |
 | RELAX NG schema (`schema/mhdbdb.rnc`) | 1.0.0 | 2026-04-09 |
 | POS tagset | 1.0 (19 tags) | 2026-03 |
-| Corpus Index | 4.2.1 | 2026-07-31 |
+| Corpus Index | 4.2.2 | 2026-08-21 |
 | Authority Index | 1.9.0 | 2026-08-10 |
 | authority schema (`schema/mhdbdb-authority.rnc`) | 1.1.0 | 2026-07-30 |
 
@@ -929,14 +929,14 @@ These three building blocks are identical in all 667 existing files and were set
 
 **Do not write the full contributor list into the header.** The 50+ editors who historically worked on the existing texts live in `contributors.xml` and are covered by the collective `mhdbdb-team` reference. The header stays lean.
 
-**Specific lead editors in a new ingest:** if a new text has one or more lead editors in today's sense (as Brom has for TKR/TKA/VTC or Woesner for JT), then:
+**Specific lead editors in a new ingest:** if a new text has one or more lead editors in today's sense (as Brom has for TKR/TKA/VTC/PUC, Woesner for JT or Hintersteiner for WZB), then:
 
 1. create a new `<person xml:id="contrib_NNN">` with `@role="lead-editor"` in `contributors.xml` (IDs continue from the last one assigned).
 2. add a second `<respStmt>` next to the collective one in the new corpus header:
 
    ```xml
    <respStmt>
-     <resp>Haupt-Editor dieser Ausgabe</resp>
+     <resp>Hauptbearbeitung</resp>
      <name role="lead-editor" ref="contributors.xml#contrib_NNN">Vorname Nachname</name>
    </respStmt>
    ```

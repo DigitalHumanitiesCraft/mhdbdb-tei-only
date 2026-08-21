@@ -1183,7 +1183,7 @@ The consequence is that the two thresholds of this budget are not two views of o
 
 Whichever is breached first decides which field moves. Deciding that in advance, as #111 attempted, would have picked the wrong field for the gz case.
 
-A second measured redundancy is worth recording for whoever implements a split: the same 7,532,982 lemma occurrences are encoded three times over, as `texts[].words`, as `texts[].lemmata` (inverted, with positions) and as `lemmaIndex` (the 513,206 text-lemma pairs, derivable from `texts[].lemmata` alone). Roughly 90 percent of the raw index is one dataset in three representations. That is a compression opportunity no splitting scheme addresses, and it may well be cheaper than splitting.
+A second measured redundancy is worth recording for whoever implements a split: the same 7,533,010 lemma occurrences are encoded three times over, as `texts[].words`, as `texts[].lemmata` (inverted, with positions) and as `lemmaIndex` (the 513,206 text-lemma pairs, derivable from `texts[].lemmata` alone). Roughly 90 percent of the raw index is one dataset in three representations. That is a compression opportunity no splitting scheme addresses, and it may well be cheaper than splitting.
 
 ### Decision
 
