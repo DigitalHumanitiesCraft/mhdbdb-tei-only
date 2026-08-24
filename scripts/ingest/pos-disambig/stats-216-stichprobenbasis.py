@@ -90,10 +90,15 @@ def main() -> int:
             stat["gestuetzt"] += 1
             continue
         stat["ohne_stuetze"] += 1
-        stat["ohne_stuetze:vorgaenger_ohne_pos" if not vor1
+        offen = not vor1
+        d2 = bool(vor2 and vor2 & MARKER_TAGS)
+        stat["ohne_stuetze:vorgaenger_ohne_pos" if offen
              else "ohne_stuetze:vorgaenger_anderes_pos"] += 1
-        stat["distanz2_marker" if (vor2 and vor2 & MARKER_TAGS)
-             else "distanz2_ohne"] += 1
+        stat["distanz2_marker" if d2 else "distanz2_ohne"] += 1
+        # Die beiden Kriterien ueberschneiden sich. Wer die Restmenge angeben
+        # will, muss sie so zaehlen und nicht durch Subtraktion bilden.
+        if not offen and not d2:
+            stat["weder_noch"] += 1
         r = dict(r)
         r["vorgaenger"] = text
         r["vorgaenger_pos"] = " ".join(sorted(vor1)) if vor1 else "(ohne)"
@@ -109,6 +114,8 @@ def main() -> int:
           % stat["ohne_stuetze:vorgaenger_anderes_pos"])
     print("     davon mit Marker auf Distanz 2:       %5d" % stat["distanz2_marker"])
     print("     davon auch dort ohne Marker:          %5d" % stat["distanz2_ohne"])
+    print("     davon WEDER verdeckte Stuetze (Vorgaenger ohne @pos)")
+    print("     NOCH Marker auf Distanz 2:            %5d" % stat["weder_noch"])
     print("  Verdict-Verteilung der schweren Faelle:",
           dict(Counter(r["verdict_pos"] for r in schwer)))
 

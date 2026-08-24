@@ -523,7 +523,9 @@ Daraus folgt die eigentliche Regel in ADR-019: die beiden Schwellen sind nicht z
 
 **Nebenbefund als eigenes Ticket (#367), und beim Aufschreiben ist er beinahe falsch geworden.** `wâren` ist als Verb (`wesen`) getaggt, wo das flektierte Adjektiv `wâr` steht; belegt sind 40 Fälle „der/die wâren minne". Die erste Fassung des Tickets stellte sie als „davon" unter 5.641 Vorkommen des Variantentyps `type_273621`. Das kann nicht sein: zwei der 40 schreiben `wæren` und `woren` und tragen deshalb einen anderen Typ. Über den Variantentyp gemessen sind es 38, über die Schreibfamilie unter `lemma_7505` sind es 40, und beide Zahlen sind richtig, solange die Vorschrift danebensteht. Die naheliegende Kennzahl taugt ohnehin nicht als Fehlermaß: von den 936 Vorkommen nach einem Artikel und den 168 in der Stellung ART + `wâren` + NOM ist die Mehrheit korrektes Prädikativ („daz wâren brüeder").
 
-**Phase:** Betrieb, `claude/216-minne-serie1`. Schema-Stichprobe, Cross-Ref-Audit und `validate-indices.py` grün; Playwright und Commit stehen aus.
+**Zwei Review-Runden, acht Befunde, kein einziger am Verhalten.** Alle acht betrafen Zahlen in Prosa, und drei davon zeigen dasselbe Muster: eine fremde Zahl übernommen, statt sie zu messen (8.385 Belege und 914 Vorkommen, beide aus einem Prüfer-Bericht, beide unter keiner Vorschrift reproduzierbar), eine Zahl aus einer Konsolenausgabe gelesen, in der Windows die Diakritika durch `?` ersetzt hatte (die 907 sind `waeren` mit ASCII-Digraph, nicht `wæren`), und eine Restmenge subtrahiert statt gezählt: „ohne beide Stützen 957" war arithmetisch ausgeschlossen, weil zwei überschneidende Mengen von 1.144 und 1.084 in 2.041 höchstens 897 übrig lassen können. Gezählt sind es 409. Das Skript etikettierte richtig, der Fließtext daneben nicht.
+
+**Phase:** Betrieb, `claude/216-minne-serie1`. Schema-Stichprobe, Cross-Ref-Audit und `validate-indices.py` grün, Playwright 310/310.
 
 ## 2026-08-14 – #59: die Erklärung durfte nicht vor den Daten kommen
 

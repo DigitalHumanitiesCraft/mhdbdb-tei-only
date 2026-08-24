@@ -123,11 +123,13 @@ seine Aufgliederung (646/886/503) beruhte auf einem Formkriterium, das nicht mit
 war. Nachgemessen mit `stats-216-stichprobenbasis.py` (Vorschrift im Docstring) sieht die
 Menge so aus: von den **2.041** Fällen ohne stützenden Vorgänger haben **1.144** einen
 Vorgänger ganz ohne `@pos`, über den das Korpus also nichts sagt, obwohl er stützen könnte;
-**1.084** haben einen Marker auf Distanz 2. Ohne jede der beiden Stützen bleiben **957**.
+**1.084** haben einen Marker auf Distanz 2; **957** haben keinen Marker auf Distanz 2. Die
+beiden Kriterien überschneiden sich, weshalb die Restmenge gezählt und nicht subtrahiert
+werden muss: weder eine verdeckte Stütze noch einen Marker auf Distanz 2 haben **409**.
 Ein Filter, der auf Annotationen prüft, kann in einem Korpus mit Annotationslücken nicht
 dichter sein als der Annotationsstand selbst: dieselbe Lehre wie am 2026-07-29, eine Ebene
-tiefer. Die Stichprobe fand in dieser Menge nichts; ein vollständiger Nachweis über alle
-957 ist damit nicht erbracht und wird hier auch nicht behauptet.
+tiefer. Die Stichprobe fand in dieser Menge nichts; ein vollständiger Nachweis über die 409
+ist damit nicht erbracht und wird hier auch nicht behauptet.
 
 Ein Personifikations-Fall ist nachweislich durch die Zurückhaltung gerutscht:
 `REN_45520_5` (`daz ich sagte wie minne minne / enpfienc und vil sueze gruozte`) ist als NOM
@@ -142,10 +144,12 @@ Beim dritten Durchgang fiel auf, dass `wâren` durchgehend `lemmaRef="lexicon.xm
 (*wesen*) mit `pos="VRB"` trägt, auch dort, wo es das flektierte Adjektiv *wâr* ist.
 
 Die Zahlen dazu haben zwei Zählvorschriften, und sie auseinanderzuhalten ist hier der
-ganze Punkt. **Eng** heißt: `@corresp` trägt `type_273621`, also nur die Schreibung
-`wâren`. **Breit** heißt: `@lemmaRef` trägt `lemma_7505` und die Form passt auf
-`^w.{1,2}ren$`, also die ganze Schreibfamilie (`wâren` 5.641, `wæren` 907, `waren` 501,
-`wâren` mit anderem Typ 471, `woren` 111, dazu sieben seltenere Schreibungen).
+ganze Punkt. **Eng** heißt: `@corresp` trägt `type_273621`. Das ist genau die Schreibung
+`wâren` und nichts sonst, beide Mengen decken sich Token für Token. **Breit** heißt:
+`@lemmaRef` trägt `lemma_7505` und die Form passt auf `^w.{1,2}ren$`, also die ganze
+Schreibfamilie. Gemessen sind das 16 Schreibungen: `wâren` 5.641, `waeren` 907 (mit
+ASCII-Digraph statt Ligatur), `waren` 501, `wæren` 471, `woren` 111, `weren` 50, `wären`
+39, `wêren` 37, `wairen` 13, dazu sieben Einzelschreibungen mit zusammen 12 Belegen.
 
 | | eng | breit |
 |---|---|---|
