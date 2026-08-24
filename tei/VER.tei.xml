@@ -150,6 +150,7 @@
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 1 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 4 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -1660,7 +1661,7 @@
           <w xml:id="VER_1680_2">in</w>
           <w xml:id="VER_1680_3" lemmaRef="lexicon.xml#lemma_1517" pos="POS" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_5026">sins</w>
           <w xml:id="VER_1680_4" lemmaRef="lexicon.xml#lemma_6771" pos="NOM" corresp="variants.xml#type_43158">vatir</w>
-          <w xml:id="VER_1680_5">stat</w>
+          <w xml:id="VER_1680_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="VER_1680_6" join="left">.</pc>
         </l>
         <l n="169">
@@ -4266,7 +4267,7 @@
           <w xml:id="VER_4470_3" lemmaRef="lexicon.xml#lemma_844" pos="VRB" ana="lexicon.xml#lemma_844_sense_1376" corresp="variants.xml#type_2643">predigen</w>
           <w xml:id="VER_4470_4">in</w>
           <w xml:id="VER_4470_5" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="VER_4470_6">stat</w>
+          <w xml:id="VER_4470_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="VER_4470_7" join="left">.</pc>
         </l>
         <l n="448">
@@ -4517,7 +4518,7 @@
           <w xml:id="VER_4740_2">si</w>
           <w xml:id="VER_4740_3" lemmaRef="lexicon.xml#lemma_6342" pos="ADV PRP" ana="lexicon.xml#lemma_6342_sense_9997" corresp="variants.xml#type_43070">us</w>
           <w xml:id="VER_4740_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="VER_4740_5">stat</w>
+          <w xml:id="VER_4740_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="VER_4740_6">gen</w>
         </l>
         <l n="475">
@@ -4648,7 +4649,7 @@
             <w xml:id="VER_4900_2" lemmaRef="lexicon.xml#lemma_3400" pos="VRB" ana="lexicon.xml#lemma_3400_sense_5361" corresp="variants.xml#type_42034">quemen</w>
             <w xml:id="VER_4900_3">an</w>
             <w xml:id="VER_4900_4">di</w>
-            <w xml:id="VER_4900_5">stat</w>
+            <w xml:id="VER_4900_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           </supplied>
           <pc xml:id="VER_4900_6" join="left">,</pc>
         </l>

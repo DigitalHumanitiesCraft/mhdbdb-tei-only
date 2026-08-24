@@ -128,6 +128,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 5 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -1441,7 +1442,7 @@
           <w xml:id="KC1_159_3">an</w>
           <w xml:id="KC1_159_4">sîns</w>
           <w xml:id="KC1_159_5" lemmaRef="lexicon.xml#lemma_6771" pos="NOM" corresp="variants.xml#type_23704">vater</w>
-          <w xml:id="KC1_159_6">stat</w>
+          <w xml:id="KC1_159_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="KC1_159_7" join="left">,</pc>
         </l>
         <l n="160">
@@ -4135,7 +4136,7 @@
           <w xml:id="KC1_471_1" lemmaRef="lexicon.xml#lemma_4838" pos="NAM" ana="lexicon.xml#lemma_4838_sense_7493" corresp="variants.xml#type_16631">regenspurc</w>
           <w xml:id="KC1_471_2">in</w>
           <w xml:id="KC1_471_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="KC1_471_4">stat</w>
+          <w xml:id="KC1_471_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="KC1_471_5" join="left">.</pc>
         </l>
         <l n="472">
@@ -4666,7 +4667,7 @@
           <w xml:id="KC1_535_1" lemmaRef="lexicon.xml#lemma_4970" pos="NAM" ana="lexicon.xml#lemma_4970_sense_7727" corresp="variants.xml#type_17157">rôme</w>
           <w xml:id="KC1_535_2">in</w>
           <w xml:id="KC1_535_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="KC1_535_4">stat</w>
+          <w xml:id="KC1_535_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="KC1_535_5" join="left">.</pc>
         </l>
         <l n="536">
@@ -5902,7 +5903,7 @@
         <l n="684">
           <w xml:id="KC1_684_0" lemmaRef="lexicon.xml#lemma_3273" pos="ADJ NEG" ana="lexicon.xml#lemma_3273_sense_5143" corresp="variants.xml#type_77579">chain</w>
           <w xml:id="KC1_684_1" lemmaRef="lexicon.xml#lemma_584" pos="VRB" corresp="variants.xml#type_1749">beslozzen</w>
-          <w xml:id="KC1_684_2">stat</w>
+          <w xml:id="KC1_684_2" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="KC1_684_3">er</w>
           <w xml:id="KC1_684_4">lie</w>
           <pc xml:id="KC1_684_5" join="left">,</pc>
@@ -6026,7 +6027,7 @@
           <w xml:id="KC1_699_1" lemmaRef="lexicon.xml#lemma_4838" pos="NAM" ana="lexicon.xml#lemma_4838_sense_7493" corresp="variants.xml#type_16631">regenspurc</w>
           <w xml:id="KC1_699_2">in</w>
           <w xml:id="KC1_699_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="KC1_699_4">stat</w>
+          <w xml:id="KC1_699_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="KC1_699_5" join="left">.</pc>
         </l>
         <l n="700">

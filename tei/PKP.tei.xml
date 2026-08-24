@@ -127,6 +127,7 @@
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 87 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 47 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -2563,7 +2564,7 @@
               <w xml:id="PKP_70020240_7" lemmaRef="lexicon.xml#lemma_1180" pos="ADV" ana="lexicon.xml#lemma_1180_sense_1864" corresp="variants.xml#type_3738">do</w>
               <w xml:id="PKP_70020240_8">was</w>
               <w xml:id="PKP_70020240_9" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
-              <w xml:id="PKP_70020240_10">stat</w>
+              <w xml:id="PKP_70020240_10" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
               <w xml:id="PKP_70020240_11" lemmaRef="lexicon.xml#lemma_106" pos="ADJ" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_269">elliu</w>
               <w xml:id="PKP_70020240_12" lemmaRef="lexicon.xml#lemma_152" pos="ADV" ana="lexicon.xml#lemma_152_sense_187" corresp="variants.xml#type_378">also</w>
               <w xml:id="PKP_70020240_13" lemmaRef="lexicon.xml#lemma_2766" pos="VRB" ana="lexicon.xml#lemma_2766_sense_4461" corresp="variants.xml#type_9367">beherberget</w>
@@ -6405,7 +6406,7 @@
             <w xml:id="PKP_140050060_11" lemmaRef="lexicon.xml#lemma_6359" pos="PRP" ana="lexicon.xml#lemma_6359_sense_10020" corresp="variants.xml#type_90441">úber</w>
             <lb n="7"/>
             <w xml:id="PKP_140050070_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="PKP_140050070_1">stat</w>
+            <w xml:id="PKP_140050070_1" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <w xml:id="PKP_140050070_2" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_28131">ze</w>
             <w xml:id="PKP_140050070_3" lemmaRef="lexicon.xml#lemma_3125" pos="NAM" ana="lexicon.xml#lemma_3125_sense_4955" corresp="variants.xml#type_10748">jerusalem</w>
             <w xml:id="PKP_140050070_4">unde</w>
@@ -34484,7 +34485,7 @@
               <w xml:id="PKP_670290350_6">castel</w>
               <w xml:id="PKP_670290350_7">unde</w>
               <w xml:id="PKP_670290350_8" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
-              <w xml:id="PKP_670290350_9">stat</w>
+              <w xml:id="PKP_670290350_9" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
               <w xml:id="PKP_670290350_10" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
               <w xml:id="PKP_670290350_11" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3255">da</w>
               <w xml:id="PKP_670290350_12">wider</w>
@@ -46920,7 +46921,7 @@
             <w xml:id="PKP_930400030_4" lemmaRef="lexicon.xml#lemma_7784" pos="VRB" ana="lexicon.xml#lemma_7784_sense_12759" corresp="variants.xml#type_106610">zaigten</w>
             <w xml:id="PKP_930400030_5">ir</w>
             <w xml:id="PKP_930400030_6" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="PKP_930400030_7">stat</w>
+            <w xml:id="PKP_930400030_7" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <w xml:id="PKP_930400030_8" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3255">da</w>
             <w xml:id="PKP_930400030_9">si</w>
             <w xml:id="PKP_930400030_10" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
@@ -46975,7 +46976,7 @@
             <w xml:id="PKP_930400070_0" lemmaRef="lexicon.xml#lemma_4238" pos="VRB VEM" corresp="variants.xml#type_14729">muose</w>
             <w xml:id="PKP_930400070_1">an</w>
             <w xml:id="PKP_930400070_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="PKP_930400070_3">stat</w>
+            <w xml:id="PKP_930400070_3" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <w xml:id="PKP_930400070_4" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3255">da</w>
             <w xml:id="PKP_930400070_5" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
             <w xml:id="PKP_930400070_6" lemmaRef="lexicon.xml#lemma_2708" pos="NOM ADJ" ana="lexicon.xml#lemma_2708_sense_4365" corresp="variants.xml#type_9130">heilige</w>
@@ -46984,7 +46985,7 @@
             <w xml:id="PKP_930400070_9">was</w>
             <pc xml:id="PKP_930400070_10" join="left">.</pc>
             <w xml:id="PKP_930400070_11" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
-            <w xml:id="PKP_930400070_12">stat</w>
+            <w xml:id="PKP_930400070_12" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <w xml:id="PKP_930400070_13" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
             <lb n="8"/>
             <w xml:id="PKP_930400080_0">was</w>
@@ -48510,7 +48511,7 @@
             <w xml:id="PKP_960420010_4" lemmaRef="lexicon.xml#lemma_18778" pos="NAM" ana="lexicon.xml#lemma_18778_sense_31572" corresp="variants.xml#type_82198">jericho</w>
             <pc xml:id="PKP_960420010_5" join="left">,</pc>
             <w xml:id="PKP_960420010_6" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
-            <w xml:id="PKP_960420010_7">stat</w>
+            <w xml:id="PKP_960420010_7" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <w xml:id="PKP_960420010_8" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3255">da</w>
             <w xml:id="PKP_960420010_9" lemmaRef="lexicon.xml#lemma_7643" pos="POS" ana="lexicon.xml#lemma_7643_sense_12530" corresp="variants.xml#type_193953">únser</w>
             <w xml:id="PKP_960420010_10" lemmaRef="lexicon.xml#lemma_2684" pos="NOM" corresp="variants.xml#type_9039">herre</w>
@@ -50129,7 +50130,7 @@
               <w xml:id="PKP_980441350_8" lemmaRef="lexicon.xml#lemma_5608" pos="VRB VEM" corresp="variants.xml#type_19661">solte</w>
               <w xml:id="PKP_980441350_9">an</w>
               <w xml:id="PKP_980441350_10">sine</w>
-              <w xml:id="PKP_980441350_11">stat</w>
+              <w xml:id="PKP_980441350_11" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
               <pc xml:id="PKP_980441350_12" join="left">.</pc>
               <w xml:id="PKP_980441350_13" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
               <lb n="36"/>
@@ -51049,7 +51050,7 @@
               <w xml:id="PKP_1000441190_4" lemmaRef="lexicon.xml#lemma_5608" pos="VRB VEM" corresp="variants.xml#type_19661">solte</w>
               <w xml:id="PKP_1000441190_5">an</w>
               <w xml:id="PKP_1000441190_6">sine</w>
-              <w xml:id="PKP_1000441190_7">stat</w>
+              <w xml:id="PKP_1000441190_7" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
               <pc xml:id="PKP_1000441190_8" join="left">.</pc>
               <w xml:id="PKP_1000441190_9">waz</w>
               <w xml:id="PKP_1000441190_10" lemmaRef="lexicon.xml#lemma_5743" pos="NOM" corresp="variants.xml#type_59367">staine</w>
@@ -55317,7 +55318,7 @@
             <w xml:id="PKP_1070460280_6" lemmaRef="lexicon.xml#lemma_6342" pos="ADV PRP" ana="lexicon.xml#lemma_6342_sense_9997" corresp="variants.xml#type_22503">uz</w>
             <w xml:id="PKP_1070460280_7">an</w>
             <w xml:id="PKP_1070460280_8" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="PKP_1070460280_9">stat</w>
+            <w xml:id="PKP_1070460280_9" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <w xml:id="PKP_1070460280_10" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3255">da</w>
             <w xml:id="PKP_1070460280_11">er</w>
             <w xml:id="PKP_1070460280_12" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3255">da</w>
@@ -55440,7 +55441,7 @@
             <w xml:id="PKP_1070460350_15">an</w>
             <lb n="36"/>
             <w xml:id="PKP_1070460360_0" lemmaRef="lexicon.xml#lemma_1169" pos="DET" ana="lexicon.xml#lemma_1169_sense_1850" corresp="variants.xml#type_3686">dirre</w>
-            <w xml:id="PKP_1070460360_1">stat</w>
+            <w xml:id="PKP_1070460360_1" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <w xml:id="PKP_1070460360_2" lemmaRef="lexicon.xml#lemma_4368" pos="ADV" ana="lexicon.xml#lemma_4368_sense_6825" corresp="variants.xml#type_36458">niemere</w>
             <w xml:id="PKP_1070460360_3">biten</w>
             <pc xml:id="PKP_1070460360_4" join="left">,</pc>
@@ -56953,7 +56954,7 @@
             <w xml:id="PKP_1100470130_2" lemmaRef="lexicon.xml#lemma_11503" pos="ADV PRP" ana="lexicon.xml#lemma_11503_sense_18351" corresp="variants.xml#type_245796">underwilen</w>
             <w xml:id="PKP_1100470130_3">an</w>
             <w xml:id="PKP_1100470130_4" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="PKP_1100470130_5">stat</w>
+            <w xml:id="PKP_1100470130_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <pc xml:id="PKP_1100470130_6" join="left">,</pc>
             <w xml:id="PKP_1100470130_7" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3255">da</w>
             <w xml:id="PKP_1100470130_8" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
@@ -58147,7 +58148,7 @@
               <pc xml:id="PKP_1120490160_1" join="left">,</pc>
               <w xml:id="PKP_1120490160_2" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
               <w xml:id="PKP_1120490160_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
-              <w xml:id="PKP_1120490160_4">stat</w>
+              <w xml:id="PKP_1120490160_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
               <w xml:id="PKP_1120490160_5" lemmaRef="lexicon.xml#lemma_106" pos="ADJ" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_194176">ælliu</w>
               <w xml:id="PKP_1120490160_6" lemmaRef="lexicon.xml#lemma_1532" pos="VRB" ana="lexicon.xml#lemma_1532_sense_2378" corresp="variants.xml#type_207003">erbidemt</w>
               <w xml:id="PKP_1120490160_7">unde</w>
@@ -64876,7 +64877,7 @@
               <w xml:id="PKP_1230530270_8" lemmaRef="lexicon.xml#lemma_6342" pos="ADV PRP" ana="lexicon.xml#lemma_6342_sense_9997" corresp="variants.xml#type_296480">uoz</w>
               <w xml:id="PKP_1230530270_9">in</w>
               <w xml:id="PKP_1230530270_10" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-              <w xml:id="PKP_1230530270_11">stat</w>
+              <w xml:id="PKP_1230530270_11" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
               <pc xml:id="PKP_1230530270_12" join="left">,</pc>
               <w xml:id="PKP_1230530270_13">unde</w>
               <w xml:id="PKP_1230530270_14">swer</w>
@@ -65729,7 +65730,7 @@
               <w xml:id="PKP_1250530040_7" lemmaRef="lexicon.xml#lemma_6342" pos="ADV PRP" ana="lexicon.xml#lemma_6342_sense_9997" corresp="variants.xml#type_22503">uz</w>
               <w xml:id="PKP_1250530040_8">in</w>
               <w xml:id="PKP_1250530040_9" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-              <w xml:id="PKP_1250530040_10">stat</w>
+              <w xml:id="PKP_1250530040_10" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
               <pc xml:id="PKP_1250530040_11" join="left">,</pc>
               <w xml:id="PKP_1250530040_12">unde</w>
               <w xml:id="PKP_1250530040_13" lemmaRef="lexicon.xml#lemma_106" pos="ADJ" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_258">alle</w>
@@ -65867,7 +65868,7 @@
               <lb n="13"/>
               <w xml:id="PKP_1250530130_0">in</w>
               <w xml:id="PKP_1250530130_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-              <w xml:id="PKP_1250530130_2">stat</w>
+              <w xml:id="PKP_1250530130_2" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
               <w xml:id="PKP_1250530130_3" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3255">da</w>
               <w xml:id="PKP_1250530130_4" lemmaRef="lexicon.xml#lemma_7081" pos="VRB" corresp="variants.xml#type_25036">vant</w>
               <pc xml:id="PKP_1250530130_5" join="left">,</pc>
@@ -65954,7 +65955,7 @@
               <pc xml:id="PKP_1250530180_1" join="left">.</pc>
               <pc xml:id="PKP_1250530180_2" join="left">&gt;</pc>
               <w xml:id="PKP_1250530180_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
-              <w xml:id="PKP_1250530180_4">stat</w>
+              <w xml:id="PKP_1250530180_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
               <w xml:id="PKP_1250530180_5" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3255">da</w>
               <w xml:id="PKP_1250530180_6" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
               <w xml:id="PKP_1250530180_7" lemmaRef="lexicon.xml#lemma_758" pos="NOM ADJ" ana="lexicon.xml#lemma_758_sense_1235" corresp="variants.xml#type_2356">blinden</w>
@@ -70622,7 +70623,7 @@
               <w xml:id="PKP_1330570240_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
               <w xml:id="PKP_1330570240_3" lemmaRef="lexicon.xml#lemma_7672" pos="VRB" corresp="variants.xml#type_27765">waiz</w>
               <w xml:id="PKP_1330570240_4" lemmaRef="lexicon.xml#lemma_56117" pos="POS" ana="lexicon.xml#lemma_56117_sense_90961" corresp="variants.xml#type_305239">iwer</w>
-              <w xml:id="PKP_1330570240_5">stat</w>
+              <w xml:id="PKP_1330570240_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
               <w xml:id="PKP_1330570240_6" lemmaRef="lexicon.xml#lemma_7677" pos="NOM ADV" ana="lexicon.xml#lemma_7677_sense_12586" corresp="variants.xml#type_27811">wol</w>
               <w xml:id="PKP_1330570240_7">unde</w>
               <w xml:id="PKP_1330570240_8" lemmaRef="lexicon.xml#lemma_56117" pos="POS" ana="lexicon.xml#lemma_56117_sense_90961" corresp="variants.xml#type_305239">iwer</w>
@@ -76135,7 +76136,7 @@
               <w xml:id="PKP_1420600390_7" lemmaRef="lexicon.xml#lemma_1180" pos="ADV" ana="lexicon.xml#lemma_1180_sense_1864" corresp="variants.xml#type_3738">do</w>
               <w xml:id="PKP_1420600390_8">er</w>
               <w xml:id="PKP_1420600390_9" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-              <w xml:id="PKP_1420600390_10">stat</w>
+              <w xml:id="PKP_1420600390_10" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
               <w xml:id="PKP_1420600390_11">ane</w>
               <w xml:id="PKP_1420600390_12">sach</w>
               <pc xml:id="PKP_1420600390_13" join="left">,</pc>
@@ -76158,7 +76159,7 @@
               <w xml:id="PKP_1420600400_14" lemmaRef="lexicon.xml#lemma_7075" pos="ADJ ADV" ana="lexicon.xml#lemma_7075_sense_11459" corresp="variants.xml#type_25008">vil</w>
               <lb n="41"/>
               <w xml:id="PKP_1420600410_0" lemmaRef="lexicon.xml#lemma_3765" pos="NOM ADJ" ana="lexicon.xml#lemma_3765_sense_5955" corresp="variants.xml#type_13117">liebiu</w>
-              <w xml:id="PKP_1420600410_1">stat</w>
+              <w xml:id="PKP_1420600410_1" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
               <pc xml:id="PKP_1420600410_2" join="left">,</pc>
               <w xml:id="PKP_1420600410_3">westes</w>
               <w xml:id="PKP_1420600410_4">du</w>
@@ -76299,7 +76300,7 @@
               <w xml:id="PKP_1430600090_3" lemmaRef="lexicon.xml#lemma_1180" pos="ADV" ana="lexicon.xml#lemma_1180_sense_1864" corresp="variants.xml#type_3738">do</w>
               <w xml:id="PKP_1430600090_4">in</w>
               <w xml:id="PKP_1430600090_5" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-              <w xml:id="PKP_1430600090_6">stat</w>
+              <w xml:id="PKP_1430600090_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
               <w xml:id="PKP_1430600090_7">unde</w>
               <w xml:id="PKP_1430600090_8">in</w>
               <w xml:id="PKP_1430600090_9" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
@@ -76426,7 +76427,7 @@
               <pc xml:id="PKP_1430600170_5" join="left">,</pc>
               <w xml:id="PKP_1430600170_6" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
               <w xml:id="PKP_1430600170_7" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
-              <w xml:id="PKP_1430600170_8">stat</w>
+              <w xml:id="PKP_1430600170_8" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
               <w xml:id="PKP_1430600170_9" lemmaRef="lexicon.xml#lemma_7833" pos="VRB" corresp="variants.xml#type_92253">zestoret</w>
               <w xml:id="PKP_1430600170_10">unde</w>
               <w xml:id="PKP_1430600170_11" lemmaRef="lexicon.xml#lemma_7845" pos="VRB" corresp="variants.xml#type_75446">zefuort</w>
@@ -76473,7 +76474,7 @@
               <lb n="21"/>
               <w xml:id="PKP_1430600210_0" lemmaRef="lexicon.xml#lemma_582" pos="VRB" corresp="variants.xml#type_1737">besazen</w>
               <w xml:id="PKP_1430600210_1" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-              <w xml:id="PKP_1430600210_2">stat</w>
+              <w xml:id="PKP_1430600210_2" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
               <w xml:id="PKP_1430600210_3">unde</w>
               <w xml:id="PKP_1430600210_4" lemmaRef="lexicon.xml#lemma_9870" pos="PRO VRB" corresp="variants.xml#type_34781">gewunnens</w>
               <w xml:id="PKP_1430600210_5" lemmaRef="lexicon.xml#lemma_4523" pos="CNJ" ana="lexicon.xml#lemma_4523_sense_7060" corresp="variants.xml#type_15677">ouch</w>
@@ -76549,7 +76550,7 @@
               <lb n="26"/>
               <w xml:id="PKP_1430600260_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
               <w xml:id="PKP_1430600260_1" lemmaRef="lexicon.xml#lemma_155" pos="NOM ADJ" ana="lexicon.xml#lemma_155_sense_190" corresp="variants.xml#type_401">alte</w>
-              <w xml:id="PKP_1430600260_2">stat</w>
+              <w xml:id="PKP_1430600260_2" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
               <w xml:id="PKP_1430600260_3" lemmaRef="lexicon.xml#lemma_7075" pos="ADJ ADV" ana="lexicon.xml#lemma_7075_sense_11459" corresp="variants.xml#type_25008">vil</w>
               <w xml:id="PKP_1430600260_4" lemmaRef="lexicon.xml#lemma_1913" pos="ADJ ADV" ana="lexicon.xml#lemma_1913_sense_2938" corresp="variants.xml#type_6476">gar</w>
               <w xml:id="PKP_1430600260_5" lemmaRef="lexicon.xml#lemma_7845" pos="VRB" corresp="variants.xml#type_296118">zefurt</w>
@@ -76757,7 +76758,7 @@
               <pc xml:id="PKP_1430600410_3" join="left">,</pc>
               <w xml:id="PKP_1430600410_4">waz</w>
               <w xml:id="PKP_1430600410_5" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
-              <w xml:id="PKP_1430600410_6">stat</w>
+              <w xml:id="PKP_1430600410_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
               <w xml:id="PKP_1430600410_7" lemmaRef="lexicon.xml#lemma_7505" pos="VRB" corresp="variants.xml#type_273619">wære</w>
               <pc xml:id="PKP_1430600410_8" join="left">,</pc>
               <w xml:id="PKP_1430600410_9" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
@@ -76800,7 +76801,7 @@
               <w xml:id="PKP_1440600010_13" lemmaRef="lexicon.xml#lemma_5884" pos="ADJ CNJ" corresp="variants.xml#type_20766">sunder</w>
               <lb n="2"/>
               <w xml:id="PKP_1440600020_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
-              <w xml:id="PKP_1440600020_1">stat</w>
+              <w xml:id="PKP_1440600020_1" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
               <pc xml:id="PKP_1440600020_2" join="left">,</pc>
               <w xml:id="PKP_1440600020_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
               <w xml:id="PKP_1440600020_4">er</w>
@@ -77029,7 +77030,7 @@
               <w xml:id="PKP_1440600160_4">unde</w>
               <w xml:id="PKP_1440600160_5" lemmaRef="lexicon.xml#lemma_582" pos="VRB" corresp="variants.xml#type_96624">besitzent</w>
               <w xml:id="PKP_1440600160_6" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-              <w xml:id="PKP_1440600160_7">stat</w>
+              <w xml:id="PKP_1440600160_7" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
               <w xml:id="PKP_1440600160_8">unde</w>
               <w xml:id="PKP_1440600160_9" lemmaRef="lexicon.xml#lemma_7833" pos="VRB" corresp="variants.xml#type_171238">zestorent</w>
               <w xml:id="PKP_1440600160_10" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
@@ -77042,7 +77043,7 @@
               <w xml:id="PKP_1440600170_4" lemmaRef="lexicon.xml#lemma_3313" pos="NOM" ana="lexicon.xml#lemma_3313_sense_5196" corresp="variants.xml#type_46571">chint</w>
               <pc xml:id="PKP_1440600170_5" join="left">.</pc>
               <w xml:id="PKP_1440600170_6" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
-              <w xml:id="PKP_1440600170_7">stat</w>
+              <w xml:id="PKP_1440600170_7" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
               <w xml:id="PKP_1440600170_8" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
               <w xml:id="PKP_1440600170_9" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18956">ist</w>
               <w xml:id="PKP_1440600170_10" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
@@ -77054,12 +77055,12 @@
               <lb n="18"/>
               <w xml:id="PKP_1440600180_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
               <w xml:id="PKP_1440600180_1" lemmaRef="lexicon.xml#lemma_5349" pos="NOM" ana="lexicon.xml#lemma_5349_sense_8359" corresp="variants.xml#type_18609">sele</w>
-              <w xml:id="PKP_1440600180_2">stat</w>
+              <w xml:id="PKP_1440600180_2" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
               <w xml:id="PKP_1440600180_3">unde</w>
               <w xml:id="PKP_1440600180_4" lemmaRef="lexicon.xml#lemma_2933" pos="NOM" corresp="variants.xml#type_140111">huos</w>
               <pc xml:id="PKP_1440600180_5" join="left">.</pc>
               <w xml:id="PKP_1440600180_6" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
-              <w xml:id="PKP_1440600180_7">stat</w>
+              <w xml:id="PKP_1440600180_7" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
               <w xml:id="PKP_1440600180_8" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
               <w xml:id="PKP_1440600180_9" lemmaRef="lexicon.xml#lemma_582" pos="VRB" corresp="variants.xml#type_96624">besitzent</w>
               <w xml:id="PKP_1440600180_10" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
@@ -77155,7 +77156,7 @@
               <w xml:id="PKP_1440600240_9" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
               <w xml:id="PKP_1440600240_10" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18956">ist</w>
               <w xml:id="PKP_1440600240_11" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
-              <w xml:id="PKP_1440600240_12">stat</w>
+              <w xml:id="PKP_1440600240_12" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
               <w xml:id="PKP_1440600240_13" lemmaRef="lexicon.xml#lemma_2348" pos="VRB" corresp="variants.xml#type_7940">gewunnen</w>
               <pc xml:id="PKP_1440600240_14" join="left">,</pc>
               <w xml:id="PKP_1440600240_15" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
@@ -83724,7 +83725,7 @@
               <w xml:id="PKP_1550660370_4" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
               <w xml:id="PKP_1550660370_5" lemmaRef="lexicon.xml#lemma_106" pos="ADJ" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_261">aller</w>
               <w xml:id="PKP_1550660370_6" lemmaRef="lexicon.xml#lemma_4359" pos="ADJ GRA" corresp="variants.xml#type_104233">nidersten</w>
-              <w xml:id="PKP_1550660370_7">stat</w>
+              <w xml:id="PKP_1550660370_7" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
               <w xml:id="PKP_1550660370_8" lemmaRef="lexicon.xml#lemma_5507" pos="VRB" corresp="variants.xml#type_19242">sitzen</w>
               <pc xml:id="PKP_1550660370_9" join="left">.</pc>
               <w xml:id="PKP_1550660370_10" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
@@ -83746,7 +83747,7 @@
               <w xml:id="PKP_1550660380_11" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
               <w xml:id="PKP_1550660380_12" lemmaRef="lexicon.xml#lemma_4359" pos="ADJ GRA" corresp="variants.xml#type_349625">nidirsten</w>
               <lb n="39"/>
-              <w xml:id="PKP_1550660390_0">stat</w>
+              <w xml:id="PKP_1550660390_0" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
               <pc xml:id="PKP_1550660390_1" join="left">.</pc>
               <w xml:id="PKP_1550660390_2" lemmaRef="lexicon.xml#lemma_5933" pos="ADV CNJ IPA" ana="lexicon.xml#lemma_5933_sense_9403" corresp="variants.xml#type_20919">swenne</w>
               <w xml:id="PKP_1550660390_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
@@ -86152,7 +86153,7 @@
               <w xml:id="PKP_1600680070_5" lemmaRef="lexicon.xml#lemma_6761" pos="VRB" corresp="variants.xml#type_23639">fuor</w>
               <w xml:id="PKP_1600680070_6">in</w>
               <w xml:id="PKP_1600680070_7">sine</w>
-              <w xml:id="PKP_1600680070_8">stat</w>
+              <w xml:id="PKP_1600680070_8" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
               <w xml:id="PKP_1600680070_9" lemmaRef="lexicon.xml#lemma_40309" pos="NAM" ana="lexicon.xml#lemma_40309_sense_62617" corresp="variants.xml#type_213506">kapharnaum</w>
               <pc xml:id="PKP_1600680070_10" join="left">.</pc>
               <w xml:id="PKP_1600680070_11" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
@@ -86161,7 +86162,7 @@
               <lb n="8"/>
               <w xml:id="PKP_1600680080_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
               <w xml:id="PKP_1600680080_1">sin</w>
-              <w xml:id="PKP_1600680080_2">stat</w>
+              <w xml:id="PKP_1600680080_2" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
               <pc xml:id="PKP_1600680080_3" join="left">,</pc>
               <w xml:id="PKP_1600680080_4">wan</w>
               <w xml:id="PKP_1600680080_5">er</w>
@@ -86176,7 +86177,7 @@
               <w xml:id="PKP_1600680090_0">unde</w>
               <w xml:id="PKP_1600680090_1" lemmaRef="lexicon.xml#lemma_2598" pos="VRB VEX" corresp="variants.xml#type_8768">hete</w>
               <w xml:id="PKP_1600680090_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
-              <w xml:id="PKP_1600680090_3">stat</w>
+              <w xml:id="PKP_1600680090_3" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
               <w xml:id="PKP_1600680090_4" lemmaRef="lexicon.xml#lemma_5887" pos="ADJ ADV" corresp="variants.xml#type_46807">sunderlichen</w>
               <w xml:id="PKP_1600680090_5" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3255">da</w>
               <w xml:id="PKP_1600680090_6" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
@@ -86524,7 +86525,7 @@
               <w xml:id="PKP_1600680320_2" lemmaRef="lexicon.xml#lemma_5236" pos="NOM" corresp="variants.xml#type_139220">scef</w>
               <w xml:id="PKP_1600680320_3">unde</w>
               <w xml:id="PKP_1600680320_4" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
-              <w xml:id="PKP_1600680320_5">stat</w>
+              <w xml:id="PKP_1600680320_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
               <pc xml:id="PKP_1600680320_6" join="left">,</pc>
               <w xml:id="PKP_1600680320_7" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3255">da</w>
               <w xml:id="PKP_1600680320_8">er</w>
@@ -97553,7 +97554,7 @@
             <w xml:id="PKP_1790760340_10">an</w>
             <w xml:id="PKP_1790760340_11" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
             <w xml:id="PKP_1790760340_12" lemmaRef="lexicon.xml#lemma_5385" pos="ADJ" ana="lexicon.xml#lemma_5385_sense_8406" corresp="variants.xml#type_18769">selben</w>
-            <w xml:id="PKP_1790760340_13">stat</w>
+            <w xml:id="PKP_1790760340_13" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <pc xml:id="PKP_1790760340_14" join="left">;</pc>
             <w xml:id="PKP_1790760340_15">wan</w>
             <w xml:id="PKP_1790760340_16">irn</w>
@@ -106016,7 +106017,7 @@
             <w xml:id="PKP_1940820270_6">unde</w>
             <w xml:id="PKP_1940820270_7" lemmaRef="lexicon.xml#lemma_482" pos="VRB" corresp="variants.xml#type_170080">becherten</w>
             <w xml:id="PKP_1940820270_8" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="PKP_1940820270_9">stat</w>
+            <w xml:id="PKP_1940820270_9" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <w xml:id="PKP_1940820270_10" lemmaRef="lexicon.xml#lemma_152" pos="ADV" ana="lexicon.xml#lemma_152_sense_187" corresp="variants.xml#type_378">also</w>
             <pc xml:id="PKP_1940820270_11" join="left">,</pc>
             <lb n="28"/>
@@ -116194,7 +116195,7 @@
             <w xml:id="PKP_2120920180_2" lemmaRef="lexicon.xml#lemma_2708" pos="ADJ" ana="lexicon.xml#lemma_2708_sense_4365" corresp="variants.xml#type_61489">heiligez</w>
             <w xml:id="PKP_2120920180_3">gebet</w>
             <w xml:id="PKP_2120920180_4" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="PKP_2120920180_5">stat</w>
+            <w xml:id="PKP_2120920180_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <w xml:id="PKP_2120920180_6">unde</w>
             <w xml:id="PKP_2120920180_7" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
             <w xml:id="PKP_2120920180_8" lemmaRef="lexicon.xml#lemma_11822" pos="NOM" ana="lexicon.xml#lemma_11822_sense_18695" corresp="variants.xml#type_47569">gegende</w>
@@ -118322,7 +118323,7 @@
           <w xml:id="PKP_2160940060_3">an</w>
           <w xml:id="PKP_2160940060_4" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
           <w xml:id="PKP_2160940060_5" lemmaRef="lexicon.xml#lemma_5385" pos="ADJ" ana="lexicon.xml#lemma_5385_sense_8406" corresp="variants.xml#type_18769">selben</w>
-          <w xml:id="PKP_2160940060_6">stat</w>
+          <w xml:id="PKP_2160940060_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="PKP_2160940060_7" join="left">.</pc>
           <w xml:id="PKP_2160940060_8" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
           <w xml:id="PKP_2160940060_9" lemmaRef="lexicon.xml#lemma_5385" pos="ADJ" ana="lexicon.xml#lemma_5385_sense_8406" corresp="variants.xml#type_18769">selben</w>
@@ -118368,7 +118369,7 @@
           <w xml:id="PKP_2160940090_0">an</w>
           <w xml:id="PKP_2160940090_1" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
           <w xml:id="PKP_2160940090_2" lemmaRef="lexicon.xml#lemma_5385" pos="ADJ" ana="lexicon.xml#lemma_5385_sense_8406" corresp="variants.xml#type_18769">selben</w>
-          <w xml:id="PKP_2160940090_3">stat</w>
+          <w xml:id="PKP_2160940090_3" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="PKP_2160940090_4" lemmaRef="lexicon.xml#lemma_6342" pos="ADV PRP" ana="lexicon.xml#lemma_6342_sense_9997" corresp="variants.xml#type_22503">uz</w>
           <w xml:id="PKP_2160940090_5" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3504">dem</w>
           <w xml:id="PKP_2160940090_6" lemmaRef="lexicon.xml#lemma_5385" pos="ADJ" ana="lexicon.xml#lemma_5385_sense_8406" corresp="variants.xml#type_18769">selben</w>
@@ -120576,7 +120577,7 @@
             <w xml:id="PKP_2200960010_3" lemmaRef="lexicon.xml#lemma_6761" pos="VRB" corresp="variants.xml#type_23639">fuor</w>
             <w xml:id="PKP_2200960010_4">an</w>
             <w xml:id="PKP_2200960010_5" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="PKP_2200960010_6">stat</w>
+            <w xml:id="PKP_2200960010_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <pc xml:id="PKP_2200960010_7" join="left">,</pc>
             <w xml:id="PKP_2200960010_8" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
             <w xml:id="PKP_2200960010_9" lemmaRef="lexicon.xml#lemma_1517" pos="PRO" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_32780">im</w>
@@ -121359,7 +121360,7 @@
             <w xml:id="PKP_2210960100_6" lemmaRef="lexicon.xml#lemma_521" pos="NOM" ana="lexicon.xml#lemma_521_sense_757" corresp="variants.xml#type_1526">berc</w>
             <w xml:id="PKP_2210960100_7" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3255">da</w>
             <w xml:id="PKP_2210960100_8" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
-            <w xml:id="PKP_2210960100_9">stat</w>
+            <w xml:id="PKP_2210960100_9" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <w xml:id="PKP_2210960100_10">unde</w>
             <w xml:id="PKP_2210960100_11" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
             <w xml:id="PKP_2210960100_12" lemmaRef="lexicon.xml#lemma_2465" pos="NOM" ana="lexicon.xml#lemma_2465_sense_3951" corresp="variants.xml#type_60541">gots</w>
@@ -121417,7 +121418,7 @@
             <pc xml:id="PKP_2210960140_2" join="left">,</pc>
             <w xml:id="PKP_2210960140_3">an</w>
             <w xml:id="PKP_2210960140_4" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="PKP_2210960140_5">stat</w>
+            <w xml:id="PKP_2210960140_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <pc xml:id="PKP_2210960140_6" join="left">,</pc>
             <w xml:id="PKP_2210960140_7" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3255">da</w>
             <w xml:id="PKP_2210960140_8">er</w>
@@ -125490,7 +125491,7 @@
             <w xml:id="PKP_2280990180_4">er</w>
             <w xml:id="PKP_2280990180_5">an</w>
             <w xml:id="PKP_2280990180_6" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="PKP_2280990180_7">stat</w>
+            <w xml:id="PKP_2280990180_7" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <w xml:id="PKP_2280990180_8" lemmaRef="lexicon.xml#lemma_4432" pos="ADV CNJ" ana="lexicon.xml#lemma_4432_sense_6912" corresp="variants.xml#type_15441">nu</w>
             <w xml:id="PKP_2280990180_9" lemmaRef="lexicon.xml#lemma_4368" pos="ADV" ana="lexicon.xml#lemma_4368_sense_6825" corresp="variants.xml#type_15246">niemer</w>
             <w xml:id="PKP_2280990180_10">mere</w>
@@ -144563,7 +144564,7 @@
             <w xml:id="PKP_2611130210_1">unde</w>
             <w xml:id="PKP_2611130210_2" lemmaRef="lexicon.xml#lemma_599" pos="VRB" corresp="variants.xml#type_1808">bestiften</w>
             <w xml:id="PKP_2611130210_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="PKP_2611130210_4">stat</w>
+            <w xml:id="PKP_2611130210_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <pc xml:id="PKP_2611130210_5" join="left">,</pc>
             <w xml:id="PKP_2611130210_6" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
             <w xml:id="PKP_2611130210_7" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3255">da</w>

@@ -146,6 +146,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 3 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/). 1 weitere Tokens der Form stat blieben bewusst unannotiert (Review).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -159,7 +160,7 @@
         <w xml:id="GAU_36100010_3" lemmaRef="lexicon.xml#lemma_7194" pos="ADV PRP" ana="lexicon.xml#lemma_7194_sense_11657" corresp="variants.xml#type_25545">vor</w>
         <w xml:id="GAU_36100010_4">ein</w>
         <w xml:id="GAU_36100010_5" lemmaRef="lexicon.xml#lemma_944" pos="NOM" ana="lexicon.xml#lemma_944_sense_1574" corresp="variants.xml#type_55796">burch</w>
-        <w xml:id="GAU_36100010_6">stat</w>
+        <w xml:id="GAU_36100010_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         <pc xml:id="GAU_36100010_7" join="left">;</pc>
       </l>
       <l n="2">
@@ -314,7 +315,7 @@
         <w xml:id="GAU_36100200_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
         <w xml:id="GAU_36100200_1">sich</w>
         <w xml:id="GAU_36100200_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
-        <w xml:id="GAU_36100200_3">stat</w>
+        <w xml:id="GAU_36100200_3" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         <w xml:id="GAU_36100200_4" lemmaRef="lexicon.xml#lemma_1703" pos="VRB" corresp="variants.xml#type_5812">erwert</w>
         <pc xml:id="GAU_36100200_5" join="left">,</pc>
       </l>
@@ -368,7 +369,7 @@
       </l>
       <l n="27">
         <w xml:id="GAU_36100270_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
-        <w xml:id="GAU_36100270_1">stat</w>
+        <w xml:id="GAU_36100270_1" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         <w xml:id="GAU_36100270_2" lemmaRef="lexicon.xml#lemma_3567" pos="VRB" corresp="variants.xml#type_12435">lat</w>
         <w xml:id="GAU_36100270_3" lemmaRef="lexicon.xml#lemma_56117" pos="PRO" ana="lexicon.xml#lemma_56117_sense_90961" corresp="variants.xml#type_304930">iu</w>
         <supplied>

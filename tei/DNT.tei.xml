@@ -143,6 +143,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 2 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -1810,7 +1811,7 @@
           <w xml:id="DNT_1940_2" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10226">mich</w>
           <w xml:id="DNT_1940_3">an</w>
           <w xml:id="DNT_1940_4">ein</w>
-          <w xml:id="DNT_1940_5">stat</w>
+          <w xml:id="DNT_1940_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="DNT_1940_6" lemmaRef="lexicon.xml#lemma_5423" pos="VRB" corresp="variants.xml#type_18908">gesetzet</w>
         </l>
         <l n="195">
@@ -2488,7 +2489,7 @@
           <w xml:id="DNT_2770_2">in</w>
           <w xml:id="DNT_2770_3" lemmaRef="lexicon.xml#lemma_6342" pos="ADV PRP" ana="lexicon.xml#lemma_6342_sense_9997" corresp="variants.xml#type_68026">auß</w>
           <w xml:id="DNT_2770_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="DNT_2770_5">stat</w>
+          <w xml:id="DNT_2770_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="DNT_2770_6" join="left">,</pc>
         </l>
         <l n="278">

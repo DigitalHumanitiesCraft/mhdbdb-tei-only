@@ -134,6 +134,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 6 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -4478,7 +4479,7 @@
           <w xml:id="OSW_481_1">er</w>
           <w xml:id="OSW_481_2">in</w>
           <w xml:id="OSW_481_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="OSW_481_4">stat</w>
+          <w xml:id="OSW_481_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="OSW_481_5">was</w>
           <w xml:id="OSW_481_6" lemmaRef="lexicon.xml#lemma_3400" pos="VRB" ana="lexicon.xml#lemma_3400_sense_5361" corresp="variants.xml#type_41212">chomen</w>
         </l>
@@ -15850,7 +15851,7 @@
           <pc xml:id="OSW_1722_3" join="right">&lt;</pc>
           <w xml:id="OSW_1722_4">mein</w>
           <w xml:id="OSW_1722_5">leben</w>
-          <w xml:id="OSW_1722_6">stat</w>
+          <w xml:id="OSW_1722_6" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
           <w xml:id="OSW_1722_7">in</w>
           <w xml:id="OSW_1722_8" lemmaRef="lexicon.xml#lemma_56117" pos="POS" ana="lexicon.xml#lemma_56117_sense_90961" corresp="variants.xml#type_304781">eur</w>
           <w xml:id="OSW_1722_9">hant</w>
@@ -15906,7 +15907,7 @@
         <l n="1728">
           <w xml:id="OSW_1728_0" lemmaRef="lexicon.xml#lemma_4432" pos="ADV CNJ" ana="lexicon.xml#lemma_4432_sense_6912" corresp="variants.xml#type_15441">nu</w>
           <supplied>
-            <w xml:id="OSW_1728_1">stat</w>
+            <w xml:id="OSW_1728_1" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
           </supplied>
           <w xml:id="OSW_1728_2" lemmaRef="lexicon.xml#lemma_1762" pos="PRO" ana="lexicon.xml#lemma_1762_sense_2752" corresp="variants.xml#type_6021">ez</w>
           <w xml:id="OSW_1728_3" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10237">mir</w>
@@ -16803,7 +16804,7 @@
           <w xml:id="OSW_1823_4" lemmaRef="lexicon.xml#lemma_2854" pos="NOM" ana="lexicon.xml#lemma_2854_sense_4580" corresp="variants.xml#type_199443">hirsch</w>
           <w xml:id="OSW_1823_5">an</w>
           <w xml:id="OSW_1823_6">mein</w>
-          <w xml:id="OSW_1823_7">stat</w>
+          <w xml:id="OSW_1823_7" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="OSW_1823_8" lemmaRef="lexicon.xml#lemma_4330" pos="VRB" corresp="variants.xml#type_15064">genomen</w>
           <pc xml:id="OSW_1823_9" join="left">,</pc>
         </l>
@@ -23020,7 +23021,7 @@
           <w xml:id="OSW_2495_3">her</w>
           <w xml:id="OSW_2495_4">an</w>
           <w xml:id="OSW_2495_5">meine</w>
-          <w xml:id="OSW_2495_6">stat</w>
+          <w xml:id="OSW_2495_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="OSW_2495_7" join="left">&gt;</pc>
         </l>
         <l n="2496">
@@ -29162,7 +29163,7 @@
           <w xml:id="OSW_3169_3">an</w>
           <w xml:id="OSW_3169_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
           <w xml:id="OSW_3169_5" lemmaRef="lexicon.xml#lemma_5385" pos="ADJ" ana="lexicon.xml#lemma_5385_sense_8406" corresp="variants.xml#type_18769">selben</w>
-          <w xml:id="OSW_3169_6">stat</w>
+          <w xml:id="OSW_3169_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         </l>
         <l n="3170">
           <w xml:id="OSW_3170_0">wes</w>

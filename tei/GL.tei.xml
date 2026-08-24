@@ -127,6 +127,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 5 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/). 1 weitere Tokens der Form stat blieben bewusst unannotiert (Review).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -4951,7 +4952,7 @@
         </l>
         <l n="615">
           <w xml:id="GL_615_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="GL_615_1">stat</w>
+          <w xml:id="GL_615_1" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="GL_615_2" lemmaRef="lexicon.xml#lemma_7012" pos="VRB" ana="lexicon.xml#lemma_7012_sense_11348" corresp="variants.xml#type_24767">verwandelt</w>
           <w xml:id="GL_615_3" lemmaRef="lexicon.xml#lemma_1517" pos="PRO" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_4999">er</w>
           <w xml:id="GL_615_4" lemmaRef="lexicon.xml#lemma_4365" pos="ADV NEG" ana="lexicon.xml#lemma_4365_sense_6822" corresp="variants.xml#type_15230">nie</w>
@@ -5958,7 +5959,7 @@
           <w xml:id="GL_740_3" lemmaRef="lexicon.xml#lemma_6037" pos="NOM" ana="lexicon.xml#lemma_6037_sense_9552" corresp="variants.xml#type_21265">tavelrunde</w>
         </l>
         <l n="741">
-          <w xml:id="GL_741_0">stat</w>
+          <w xml:id="GL_741_0" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="GL_741_1" lemmaRef="lexicon.xml#lemma_6837" pos="VRB" corresp="variants.xml#type_23975">verdienen</w>
           <w xml:id="GL_741_2">kunde</w>
         </l>
@@ -13368,7 +13369,7 @@
           <w xml:id="GL_1687_2" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22828">unt</w>
           <w xml:id="GL_1687_3" lemmaRef="lexicon.xml#lemma_1517" pos="POS" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_5015">sînes</w>
           <w xml:id="GL_1687_4" lemmaRef="lexicon.xml#lemma_3659" pos="NOM VRB" ana="lexicon.xml#lemma_3659_sense_5776" corresp="variants.xml#type_12708">leben</w>
-          <w xml:id="GL_1687_5">stat</w>
+          <w xml:id="GL_1687_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="GL_1687_6" join="left">,</pc>
         </l>
         <l n="1688">
@@ -16488,7 +16489,7 @@
           <w xml:id="GL_2078_1" lemmaRef="lexicon.xml#lemma_3096" pos="NOM" ana="lexicon.xml#lemma_3096_sense_4919" corresp="variants.xml#type_10633">jâr</w>
           <w xml:id="GL_2078_2" lemmaRef="lexicon.xml#lemma_9137" pos="ART PRP" ana="lexicon.xml#lemma_9137_sense_12736" corresp="variants.xml#type_30802">zer</w>
           <w xml:id="GL_2078_3" lemmaRef="lexicon.xml#lemma_6037" pos="NOM" ana="lexicon.xml#lemma_6037_sense_9552" corresp="variants.xml#type_21265">tavelrunde</w>
-          <w xml:id="GL_2078_4">stat</w>
+          <w xml:id="GL_2078_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="GL_2078_5" join="left">,</pc>
         </l>
         <l n="2079">
@@ -21801,7 +21802,7 @@
           <w xml:id="GL_2756_3">vüeren</w>
           <w xml:id="GL_2756_4">in</w>
           <w xml:id="GL_2756_5" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="GL_2756_6">stat</w>
+          <w xml:id="GL_2756_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="GL_2756_7" join="left">,</pc>
         </l>
         <l n="2757">

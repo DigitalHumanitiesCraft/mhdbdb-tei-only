@@ -135,6 +135,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 4 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -388,7 +389,7 @@
           <w xml:id="JUK_31_2">kinden</w>
           <w xml:id="JUK_31_3">in</w>
           <w xml:id="JUK_31_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="JUK_31_5">stat</w>
+          <w xml:id="JUK_31_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="JUK_31_6" join="left">.</pc>
         </l>
         <l n="32">
@@ -704,7 +705,7 @@
           <w xml:id="JUK_70_1" lemmaRef="lexicon.xml#lemma_23887" pos="NOM" ana="lexicon.xml#lemma_23887_sense_38500" corresp="variants.xml#type_111017">schuler</w>
           <w xml:id="JUK_70_2" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
           <w xml:id="JUK_70_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="JUK_70_4">stat</w>
+          <w xml:id="JUK_70_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="JUK_70_5" join="left">,</pc>
         </l>
         <l n="71">
@@ -2536,7 +2537,7 @@
           <w xml:id="JUK_305_2" lemmaRef="lexicon.xml#lemma_3867" pos="ADJ ADV" corresp="variants.xml#type_78590">lute</w>
           <w xml:id="JUK_305_3">in</w>
           <w xml:id="JUK_305_4" lemmaRef="lexicon.xml#lemma_1169" pos="DET" ana="lexicon.xml#lemma_1169_sense_1850" corresp="variants.xml#type_3686">dirre</w>
-          <w xml:id="JUK_305_5">stat</w>
+          <w xml:id="JUK_305_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="JUK_305_6" join="left">,</pc>
         </l>
         <l n="306">
@@ -4018,7 +4019,7 @@
           <pc xml:id="JUK_491_2" join="left">,</pc>
           <w xml:id="JUK_491_3" lemmaRef="lexicon.xml#lemma_7534" pos="NOM" corresp="variants.xml#type_27267">wiben</w>
           <w xml:id="JUK_491_4" lemmaRef="lexicon.xml#lemma_9265" pos="ART PRP" ana="lexicon.xml#lemma_9265_sense_9997" corresp="variants.xml#type_31491">uzer</w>
-          <w xml:id="JUK_491_5">stat</w>
+          <w xml:id="JUK_491_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="JUK_491_6" join="left">.</pc>
         </l>
         <l n="492">

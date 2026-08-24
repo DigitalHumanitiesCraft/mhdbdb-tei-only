@@ -132,6 +132,7 @@
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 1 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 7 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -3762,7 +3763,7 @@
           <w xml:id="AXV_383_1">fur</w>
           <w xml:id="AXV_383_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
           <w xml:id="AXV_383_3">grôzen</w>
-          <w xml:id="AXV_383_4">stat</w>
+          <w xml:id="AXV_383_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="AXV_383_5" join="left">.</pc>
         </l>
         <l n="384">
@@ -5810,7 +5811,7 @@
           <hi rend="initial">
             <w xml:id="AXV_601_0">ein</w>
           </hi>
-          <w xml:id="AXV_601_1">stat</w>
+          <w xml:id="AXV_601_1" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="AXV_601_2" lemmaRef="lexicon.xml#lemma_2731" pos="VRB" corresp="variants.xml#type_9207">heizet</w>
           <w xml:id="AXV_601_3" lemmaRef="lexicon.xml#lemma_28090" pos="NAM" ana="lexicon.xml#lemma_28090_sense_44509" corresp="variants.xml#type_138368">nicomedias</w>
           <pc xml:id="AXV_601_4" join="left">,</pc>
@@ -6406,7 +6407,7 @@
           <w xml:id="AXV_669_2" lemmaRef="lexicon.xml#lemma_5366" pos="VRB" ana="lexicon.xml#lemma_5366_sense_8382" corresp="variants.xml#type_18666">gesâhe</w>
           <w xml:id="AXV_669_3" lemmaRef="lexicon.xml#lemma_4368" pos="ADV" ana="lexicon.xml#lemma_4368_sense_6825" corresp="variants.xml#type_15246">niemer</w>
           <w xml:id="AXV_669_4" lemmaRef="lexicon.xml#lemma_14065" pos="ART NEG" ana="lexicon.xml#lemma_14065_sense_23291" corresp="variants.xml#type_116327">neheine</w>
-          <w xml:id="AXV_669_5">stat</w>
+          <w xml:id="AXV_669_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="AXV_669_6" join="left">,</pc>
         </l>
         <l n="670">
@@ -6702,7 +6703,7 @@
           </hi>
           <w xml:id="AXV_703_1">was</w>
           <w xml:id="AXV_703_2">ein</w>
-          <w xml:id="AXV_703_3">stat</w>
+          <w xml:id="AXV_703_3" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="AXV_703_4" lemmaRef="lexicon.xml#lemma_2534" pos="ADJ" corresp="variants.xml#type_8467">grôz</w>
           <pc xml:id="AXV_703_5" join="left">,</pc>
         </l>
@@ -7120,7 +7121,7 @@
           <w xml:id="AXV_749_4" lemmaRef="lexicon.xml#lemma_7557" pos="ADV PRP" corresp="variants.xml#type_27393">widere</w>
           <w xml:id="AXV_749_5">in</w>
           <w xml:id="AXV_749_6" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="AXV_749_7">stat</w>
+          <w xml:id="AXV_749_7" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         </l>
         <l n="750">
           <w xml:id="AXV_750_0">unde</w>
@@ -9555,7 +9556,7 @@
           <w xml:id="AXV_1015_2">noch</w>
           <w xml:id="AXV_1015_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
           <w xml:id="AXV_1015_4" lemmaRef="lexicon.xml#lemma_5385" pos="ADJ" ana="lexicon.xml#lemma_5385_sense_8406" corresp="variants.xml#type_18766">selbe</w>
-          <w xml:id="AXV_1015_5">stat</w>
+          <w xml:id="AXV_1015_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="AXV_1015_6" join="left">,</pc>
         </l>
         <l n="1016">
@@ -10699,7 +10700,7 @@
           <w xml:id="AXV_1139_2">fur</w>
           <w xml:id="AXV_1139_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
           <w xml:id="AXV_1139_4" lemmaRef="lexicon.xml#lemma_2534" pos="ADJ" corresp="variants.xml#type_8468">grôze</w>
-          <w xml:id="AXV_1139_5">stat</w>
+          <w xml:id="AXV_1139_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="AXV_1139_6" join="left">.</pc>
         </l>
         <l n="1140">

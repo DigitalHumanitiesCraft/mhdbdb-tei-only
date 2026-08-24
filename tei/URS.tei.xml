@@ -137,6 +137,7 @@
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 3 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 7 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -4639,7 +4640,7 @@
           <w xml:id="URS_5520_0">noch</w>
           <w xml:id="URS_5520_1" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
           <w xml:id="URS_5520_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="URS_5520_3">stat</w>
+          <w xml:id="URS_5520_3" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="URS_5520_4" lemmaRef="lexicon.xml#lemma_4369" pos="ADV NEG" ana="lexicon.xml#lemma_4369_sense_13755" corresp="variants.xml#type_15250">niender</w>
           <w xml:id="URS_5520_5" lemmaRef="lexicon.xml#lemma_3400" pos="VRB" ana="lexicon.xml#lemma_3400_sense_5361" corresp="variants.xml#type_41212">chomen</w>
         </l>
@@ -6484,7 +6485,7 @@
         <l n="774">
           <w xml:id="URS_7740_0">in</w>
           <w xml:id="URS_7740_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="URS_7740_2">stat</w>
+          <w xml:id="URS_7740_2" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="URS_7740_3" lemmaRef="lexicon.xml#lemma_4478" pos="ADJ ADV" ana="lexicon.xml#lemma_4478_sense_6993" corresp="variants.xml#type_31259">offenlîche</w>
           <w xml:id="URS_7740_4" lemmaRef="lexicon.xml#lemma_1844" pos="VRB" corresp="variants.xml#type_6290">gân</w>
           <pc xml:id="URS_7740_5" join="left">.</pc>
@@ -6567,7 +6568,7 @@
           <w xml:id="URS_7840_2" lemmaRef="lexicon.xml#lemma_4830" pos="VRB" ana="lexicon.xml#lemma_4830_sense_7483" corresp="variants.xml#type_36292">redende</w>
           <w xml:id="URS_7840_3">in</w>
           <w xml:id="URS_7840_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="URS_7840_5">stat</w>
+          <w xml:id="URS_7840_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="URS_7840_6" join="left">:</pc>
         </l>
         <l n="785">
@@ -8960,7 +8961,7 @@
           <w xml:id="URS_10690_2" lemmaRef="lexicon.xml#lemma_2141" pos="ADJ ADV" ana="lexicon.xml#lemma_2141_sense_3333" corresp="variants.xml#type_7273">genuoge</w>
           <w xml:id="URS_10690_3">in</w>
           <w xml:id="URS_10690_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="URS_10690_5">stat</w>
+          <w xml:id="URS_10690_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         </l>
         <l n="1070">
           <w xml:id="URS_10700_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
@@ -9868,7 +9869,7 @@
           <w xml:id="URS_11770_2">wider</w>
           <w xml:id="URS_11770_3">in</w>
           <w xml:id="URS_11770_4" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="URS_11770_5">stat</w>
+          <w xml:id="URS_11770_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         </l>
         <l n="1178">
           <w xml:id="URS_11780_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
@@ -10729,7 +10730,7 @@
           <w xml:id="URS_12890_1">man</w>
           <w xml:id="URS_12890_2">in</w>
           <w xml:id="URS_12890_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="URS_12890_4">stat</w>
+          <w xml:id="URS_12890_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="URS_12890_5" lemmaRef="lexicon.xml#lemma_6905" pos="VRB" corresp="variants.xml#type_24336">vernam</w>
         </l>
         <l n="1290">
@@ -16070,7 +16071,7 @@
         </l>
         <l n="1950">
           <w xml:id="URS_19500_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
-          <w xml:id="URS_19500_1">stat</w>
+          <w xml:id="URS_19500_1" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="URS_19500_2" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18956">ist</w>
           <w xml:id="URS_19500_3" lemmaRef="lexicon.xml#lemma_106" pos="ADJ" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_261">aller</w>
           <w xml:id="URS_19500_4" lemmaRef="lexicon.xml#lemma_5871" pos="NOM" ana="lexicon.xml#lemma_5871_sense_9298" corresp="variants.xml#type_20721">sühte</w>

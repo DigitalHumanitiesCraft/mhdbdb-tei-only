@@ -141,6 +141,7 @@
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 6 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 4 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -4537,7 +4538,7 @@
           <w xml:id="GS_580_1" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18951">bist</w>
           <w xml:id="GS_580_2">ein</w>
           <w xml:id="GS_580_3" lemmaRef="lexicon.xml#lemma_3661" pos="ADJ" ana="lexicon.xml#lemma_3661_sense_5778" corresp="variants.xml#type_176743">lebendigiu</w>
-          <w xml:id="GS_580_4">stat</w>
+          <w xml:id="GS_580_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         </l>
         <l n="581">
           <w xml:id="GS_581_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
@@ -4919,7 +4920,7 @@
           <w xml:id="GS_633_1" lemmaRef="lexicon.xml#lemma_6330" pos="ADV PRP" ana="lexicon.xml#lemma_6330_sense_9973" corresp="variants.xml#type_22477">ûffe</w>
           <w xml:id="GS_633_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
           <w xml:id="GS_633_3" lemmaRef="lexicon.xml#lemma_2075" pos="NOM VRB" corresp="variants.xml#type_6998">geloube</w>
-          <w xml:id="GS_633_4">stât</w>
+          <w xml:id="GS_633_4" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20048">stât</w>
           <pc xml:id="GS_633_5" join="left">:</pc>
         </l>
         <l n="634">
@@ -7271,7 +7272,7 @@
         <l n="940">
           <w xml:id="GS_940_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
           <w xml:id="GS_940_1">eine</w>
-          <w xml:id="GS_940_2">stat</w>
+          <w xml:id="GS_940_2" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="GS_940_3" lemmaRef="lexicon.xml#lemma_644" pos="VRB" corresp="variants.xml#type_1933">bevâhen</w>
           <pc xml:id="GS_940_4" join="left">,</pc>
         </l>
@@ -12257,7 +12258,7 @@
         <l n="1594">
           <w xml:id="GS_1594_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
           <w xml:id="GS_1594_1">eine</w>
-          <w xml:id="GS_1594_2">stat</w>
+          <w xml:id="GS_1594_2" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="GS_1594_3" lemmaRef="lexicon.xml#lemma_3115" pos="ADV" ana="lexicon.xml#lemma_3115_sense_4945" corresp="variants.xml#type_10730">jensît</w>
           <w xml:id="GS_1594_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
           <w xml:id="GS_1594_5">mers</w>

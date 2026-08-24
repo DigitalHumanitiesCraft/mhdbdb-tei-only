@@ -140,6 +140,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 1 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -1898,7 +1899,7 @@
             <w xml:id="KSA1_8108_7" lemmaRef="lexicon.xml#lemma_7100" pos="NOM" ana="lexicon.xml#lemma_7100_sense_11499" corresp="variants.xml#type_65436">fisch</w>
             <w xml:id="KSA1_8108_8" lemmaRef="lexicon.xml#lemma_1888" pos="NOM" ana="lexicon.xml#lemma_1888_sense_2911" corresp="variants.xml#type_272963">galrain</w>
             <w xml:id="KSA1_8108_9" lemmaRef="lexicon.xml#lemma_5309" pos="VRB" corresp="variants.xml#type_18468">geschriben</w>
-            <w xml:id="KSA1_8108_10">stat</w>
+            <w xml:id="KSA1_8108_10" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
             <pc xml:id="KSA1_8108_11" join="left">;</pc>
             <w xml:id="KSA1_8108_12" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
             <w xml:id="KSA1_8108_13" lemmaRef="lexicon.xml#lemma_6301" pos="VRB" ana="lexicon.xml#lemma_6301_sense_9929" corresp="variants.xml#type_22322">tuo</w>

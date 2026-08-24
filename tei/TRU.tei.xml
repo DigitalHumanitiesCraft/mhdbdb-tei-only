@@ -152,6 +152,7 @@
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 38 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/). 9 weitere Tokens der Form minne blieben bewusst unannotiert (Review).</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 18 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -3682,7 +3683,7 @@
             <w xml:id="TRU_41500_1" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18956">ist</w>
             <w xml:id="TRU_41500_2" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4319">ein</w>
             <w xml:id="TRU_41500_3" lemmaRef="lexicon.xml#lemma_2714" pos="ADJ" corresp="variants.xml#type_51494">heinlîchiu</w>
-            <w xml:id="TRU_41500_4">stat</w>
+            <w xml:id="TRU_41500_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <pc xml:id="TRU_41500_5" join="left">,</pc>
           </l>
           <l n="416">
@@ -4827,7 +4828,7 @@
             <w xml:id="TRU_54900_1">si</w>
             <w xml:id="TRU_54900_2" lemmaRef="lexicon.xml#lemma_7081" pos="VRB" corresp="variants.xml#type_25051">vunden</w>
             <w xml:id="TRU_54900_3" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4320">eine</w>
-            <w xml:id="TRU_54900_4">stat</w>
+            <w xml:id="TRU_54900_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           </l>
           <l n="550">
             <w xml:id="TRU_55000_0" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3256">dâ</w>
@@ -7543,7 +7544,7 @@
           <l n="869">
             <w xml:id="TRU_86900_0" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
             <w xml:id="TRU_86900_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-            <w xml:id="TRU_86900_2">stat</w>
+            <w xml:id="TRU_86900_2" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <w xml:id="TRU_86900_3" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_28131">ze</w>
             <w xml:id="TRU_86900_4" lemmaRef="lexicon.xml#lemma_6091" pos="NAM" ana="lexicon.xml#lemma_6091_sense_9617" corresp="variants.xml#type_51593">tintaliône</w>
             <pc xml:id="TRU_86900_5" join="left">,</pc>
@@ -7875,7 +7876,7 @@
             <w xml:id="TRU_90700_2" lemmaRef="lexicon.xml#lemma_3400" pos="VRB" ana="lexicon.xml#lemma_3400_sense_5361" corresp="variants.xml#type_11703">komen</w>
             <w xml:id="TRU_90700_3" lemmaRef="lexicon.xml#lemma_199" pos="PRP" ana="lexicon.xml#lemma_199_sense_248" corresp="variants.xml#type_522">an</w>
             <w xml:id="TRU_90700_4" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
-            <w xml:id="TRU_90700_5">stat</w>
+            <w xml:id="TRU_90700_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <pc xml:id="TRU_90700_6" join="left">:</pc>
           </l>
           <l n="908">
@@ -8202,7 +8203,7 @@
           <l n="945">
             <w xml:id="TRU_94500_0" lemmaRef="lexicon.xml#lemma_199" pos="PRP" ana="lexicon.xml#lemma_199_sense_248" corresp="variants.xml#type_522">an</w>
             <w xml:id="TRU_94500_1" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
-            <w xml:id="TRU_94500_2">stat</w>
+            <w xml:id="TRU_94500_2" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <w xml:id="TRU_94500_3" lemmaRef="lexicon.xml#lemma_5507" pos="VRB" corresp="variants.xml#type_19227">gesezzen</w>
             <pc xml:id="TRU_94500_4" join="left">.</pc>
           </l>
@@ -11531,7 +11532,7 @@
             <w xml:id="TRU_132700_4" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
             <w xml:id="TRU_132700_5" lemmaRef="lexicon.xml#lemma_199" pos="PRP" ana="lexicon.xml#lemma_199_sense_248" corresp="variants.xml#type_522">an</w>
             <w xml:id="TRU_132700_6" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-            <w xml:id="TRU_132700_7">stat</w>
+            <w xml:id="TRU_132700_7" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <pc xml:id="TRU_132700_8" join="left">,</pc>
           </l>
           <l n="1328">
@@ -17313,7 +17314,7 @@
             <w xml:id="TRU_199800_3" lemmaRef="lexicon.xml#lemma_2837" pos="ADV" corresp="variants.xml#type_9597">hin</w>
             <w xml:id="TRU_199800_4" lemmaRef="lexicon.xml#lemma_2007" pos="ADV PRP" corresp="variants.xml#type_6804">gein</w>
             <w xml:id="TRU_199800_5" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-            <w xml:id="TRU_199800_6">stat</w>
+            <w xml:id="TRU_199800_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <pc xml:id="TRU_199800_7" join="left">.</pc>
           </l>
           <l n="1999">
@@ -17712,7 +17713,7 @@
             <w xml:id="TRU_204700_3" lemmaRef="lexicon.xml#lemma_10651" pos="ADV" ana="lexicon.xml#lemma_10651_sense_28164" corresp="variants.xml#type_37862">biz</w>
             <w xml:id="TRU_204700_4">in</w>
             <w xml:id="TRU_204700_5" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="TRU_204700_6">stat</w>
+            <w xml:id="TRU_204700_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <pc xml:id="TRU_204700_7" join="left">.</pc>
             <pc xml:id="TRU_204700_8" join="left">&gt;</pc>
           </l>
@@ -18204,7 +18205,7 @@
           <l n="2104">
             <w xml:id="TRU_210400_0">in</w>
             <w xml:id="TRU_210400_1" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="TRU_210400_2">stat</w>
+            <w xml:id="TRU_210400_2" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <w xml:id="TRU_210400_3" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_28131">ze</w>
             <w xml:id="TRU_210400_4" lemmaRef="lexicon.xml#lemma_13189" pos="NAM" ana="lexicon.xml#lemma_13189_sense_20882" corresp="variants.xml#type_51674">litân</w>
             <pc xml:id="TRU_210400_5" join="left">,</pc>
@@ -19263,7 +19264,7 @@
             <w xml:id="TRU_222600_2" lemmaRef="lexicon.xml#lemma_5234" pos="ADJ ADV" ana="lexicon.xml#lemma_5234_sense_8158" corresp="variants.xml#type_18197">schiere</w>
             <w xml:id="TRU_222600_3" lemmaRef="lexicon.xml#lemma_199" pos="PRP" ana="lexicon.xml#lemma_199_sense_248" corresp="variants.xml#type_522">an</w>
             <w xml:id="TRU_222600_4">jene</w>
-            <w xml:id="TRU_222600_5">stat</w>
+            <w xml:id="TRU_222600_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           </l>
           <l n="2227">
             <w xml:id="TRU_222700_0" lemmaRef="lexicon.xml#lemma_868" pos="VRB" corresp="variants.xml#type_2720">brâht</w>
@@ -19879,7 +19880,7 @@
             <w xml:id="TRU_229900_3" lemmaRef="lexicon.xml#lemma_3732" pos="ADJ ADV" corresp="variants.xml#type_12991">lîhte</w>
             <w xml:id="TRU_229900_4">in</w>
             <w xml:id="TRU_229900_5" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-            <w xml:id="TRU_229900_6">stat</w>
+            <w xml:id="TRU_229900_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <pc xml:id="TRU_229900_7" join="left">,</pc>
           </l>
           <l n="2300">
@@ -22817,7 +22818,7 @@
           <l n="2649">
             <w xml:id="TRU_264900_0" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
             <w xml:id="TRU_264900_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-            <w xml:id="TRU_264900_2">stat</w>
+            <w xml:id="TRU_264900_2" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <w xml:id="TRU_264900_3" lemmaRef="lexicon.xml#lemma_3421" pos="VRB" corresp="variants.xml#type_11804">gekoufet</w>
             <pc xml:id="TRU_264900_4" join="left">.</pc>
           </l>
@@ -23140,7 +23141,7 @@
             <w xml:id="TRU_268900_1" lemmaRef="lexicon.xml#lemma_6113" pos="NOM" corresp="variants.xml#type_21546">tôre</w>
             <w xml:id="TRU_268900_2">in</w>
             <w xml:id="TRU_268900_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="TRU_268900_4">stat</w>
+            <w xml:id="TRU_268900_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <w xml:id="TRU_268900_5" lemmaRef="lexicon.xml#lemma_1844" pos="VRB" corresp="variants.xml#type_6313">gie</w>
             <pc xml:id="TRU_268900_6" join="left">.</pc>
           </l>
@@ -23492,7 +23493,7 @@
             <w xml:id="TRU_273300_1" lemmaRef="lexicon.xml#lemma_1844" pos="VRB" corresp="variants.xml#type_6313">gie</w>
             <w xml:id="TRU_273300_2" lemmaRef="lexicon.xml#lemma_1258" pos="PRP" ana="lexicon.xml#lemma_1258_sense_1977" corresp="variants.xml#type_4045">durh</w>
             <w xml:id="TRU_273300_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="TRU_273300_4">stat</w>
+            <w xml:id="TRU_273300_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <pc xml:id="TRU_273300_5" join="left">.</pc>
           </l>
           <l n="2734">
@@ -23788,7 +23789,7 @@
             <w xml:id="TRU_276900_3" lemmaRef="lexicon.xml#lemma_3400" pos="VRB" ana="lexicon.xml#lemma_3400_sense_5361" corresp="variants.xml#type_11703">komen</w>
             <w xml:id="TRU_276900_4" lemmaRef="lexicon.xml#lemma_199" pos="PRP" ana="lexicon.xml#lemma_199_sense_248" corresp="variants.xml#type_522">an</w>
             <w xml:id="TRU_276900_5" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
-            <w xml:id="TRU_276900_6">stat</w>
+            <w xml:id="TRU_276900_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <pc xml:id="TRU_276900_7" join="left">.</pc>
           </l>
           <l n="2770">
@@ -28172,7 +28173,7 @@
             <w xml:id="TRU_327900_0" lemmaRef="lexicon.xml#lemma_2837" pos="ADV" corresp="variants.xml#type_9597">hin</w>
             <w xml:id="TRU_327900_1">in</w>
             <w xml:id="TRU_327900_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="TRU_327900_3">stat</w>
+            <w xml:id="TRU_327900_3" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <w xml:id="TRU_327900_4" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_28131">ze</w>
             <w xml:id="TRU_327900_5" lemmaRef="lexicon.xml#lemma_10796" pos="NAM" ana="lexicon.xml#lemma_10796_sense_17277" corresp="variants.xml#type_38495">karke</w>
             <pc xml:id="TRU_327900_6" join="left">.</pc>
@@ -28422,7 +28423,7 @@
             <w xml:id="TRU_330700_2" lemmaRef="lexicon.xml#lemma_5507" pos="VRB" corresp="variants.xml#type_19227">gesezzen</w>
             <w xml:id="TRU_330700_3">in</w>
             <w xml:id="TRU_330700_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-            <w xml:id="TRU_330700_5">stat</w>
+            <w xml:id="TRU_330700_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <pc xml:id="TRU_330700_6" join="left">,</pc>
           </l>
           <l n="3308">
@@ -29896,7 +29897,7 @@
           <l n="3479">
             <w xml:id="TRU_347900_0" lemmaRef="lexicon.xml#lemma_2007" pos="ADV PRP" corresp="variants.xml#type_6804">gein</w>
             <w xml:id="TRU_347900_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-            <w xml:id="TRU_347900_2">stat</w>
+            <w xml:id="TRU_347900_2" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <w xml:id="TRU_347900_3" lemmaRef="lexicon.xml#lemma_1517" pos="PRO" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_4999">er</w>
             <w xml:id="TRU_347900_4" lemmaRef="lexicon.xml#lemma_446" pos="VRB" ana="lexicon.xml#lemma_446_sense_612" corresp="variants.xml#type_1231">begunde</w>
             <w xml:id="TRU_347900_5" lemmaRef="lexicon.xml#lemma_1842" pos="VRB" ana="lexicon.xml#lemma_1842_sense_2844" corresp="variants.xml#type_6266">gâhen</w>

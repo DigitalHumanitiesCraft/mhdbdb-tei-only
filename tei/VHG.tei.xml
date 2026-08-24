@@ -129,6 +129,7 @@
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 4 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 5 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -522,7 +523,7 @@
         <supplied>
           <w xml:id="VHG_11100450_5" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
         </supplied>
-        <w xml:id="VHG_11100450_6">stat</w>
+        <w xml:id="VHG_11100450_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         <pc xml:id="VHG_11100450_7" join="left">,</pc>
       </l>
       <l n="46">
@@ -1718,7 +1719,7 @@
         <w xml:id="VHG_11101890_1" lemmaRef="lexicon.xml#lemma_1517" pos="PRO" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_32780">im</w>
         <w xml:id="VHG_11101890_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
         <w xml:id="VHG_11101890_3" lemmaRef="lexicon.xml#lemma_5867" pos="NOM" ana="lexicon.xml#lemma_5867_sense_9294" corresp="variants.xml#type_41314">sunden</w>
-        <w xml:id="VHG_11101890_4">stat</w>
+        <w xml:id="VHG_11101890_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         <w xml:id="VHG_11101890_5">wirt</w>
         <pc xml:id="VHG_11101890_6" join="left">,</pc>
       </l>
@@ -1834,7 +1835,7 @@
         <w xml:id="VHG_11102020_2" lemmaRef="lexicon.xml#lemma_3738" pos="NOM" ana="lexicon.xml#lemma_3738_sense_5924" corresp="variants.xml#type_13017">libes</w>
         <w xml:id="VHG_11102020_3" lemmaRef="lexicon.xml#lemma_2130" pos="NOM ADJ" corresp="variants.xml#type_146969">gnist</w>
         <w xml:id="VHG_11102020_4">an</w>
-        <w xml:id="VHG_11102020_5">stat</w>
+        <w xml:id="VHG_11102020_5" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
         <pc xml:id="VHG_11102020_6" join="left">,</pc>
       </l>
       <l n="203">
@@ -4880,7 +4881,7 @@
         <supplied>
           <w xml:id="VHG_11105470_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
         </supplied>
-        <w xml:id="VHG_11105470_5">stat</w>
+        <w xml:id="VHG_11105470_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         <pc xml:id="VHG_11105470_6" join="left">,</pc>
       </l>
       <l n="548">
@@ -6066,7 +6067,7 @@
         <w xml:id="VHG_11106830_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
         <w xml:id="VHG_11106830_3" lemmaRef="lexicon.xml#lemma_5349" pos="NOM" ana="lexicon.xml#lemma_5349_sense_8359" corresp="variants.xml#type_18609">sele</w>
         <w xml:id="VHG_11106830_4" lemmaRef="lexicon.xml#lemma_1117" pos="CNJ" ana="lexicon.xml#lemma_1117_sense_1768" corresp="variants.xml#type_3500">denne</w>
-        <w xml:id="VHG_11106830_5">stat</w>
+        <w xml:id="VHG_11106830_5" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
         <pc xml:id="VHG_11106830_6" join="left">,</pc>
       </l>
       <l n="684">

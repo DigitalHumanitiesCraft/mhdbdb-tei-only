@@ -150,6 +150,7 @@
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 38 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/). 2 weitere Tokens der Form minne blieben bewusst unannotiert (Review).</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 9 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/). 1 weitere Tokens der Form stat blieben bewusst unannotiert (Review).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -4291,7 +4292,7 @@
             <w xml:id="SFE_5070_3" lemmaRef="lexicon.xml#lemma_1282" pos="NOM" ana="lexicon.xml#lemma_1282_sense_2011" corresp="variants.xml#type_75179">ere</w>
             <w xml:id="SFE_5070_4">an</w>
             <w xml:id="SFE_5070_5">in</w>
-            <w xml:id="SFE_5070_6">stat</w>
+            <w xml:id="SFE_5070_6" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
             <pc xml:id="SFE_5070_7" join="left">,</pc>
           </l>
           <l n="508">
@@ -5575,7 +5576,7 @@
             <w xml:id="SFE_6640_3" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_28131">ze</w>
             <w xml:id="SFE_6640_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
             <w xml:id="SFE_6640_5" lemmaRef="lexicon.xml#lemma_7494" pos="NOM" ana="lexicon.xml#lemma_7494_sense_12223" corresp="variants.xml#type_27109">werlde</w>
-            <w xml:id="SFE_6640_6">stat</w>
+            <w xml:id="SFE_6640_6" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
             <pc xml:id="SFE_6640_7" join="left">,</pc>
           </l>
           <l n="665">
@@ -7431,7 +7432,7 @@
             <w xml:id="SFE_8910_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
             <w xml:id="SFE_8910_3" lemmaRef="lexicon.xml#lemma_7494" pos="NOM" ana="lexicon.xml#lemma_7494_sense_12223" corresp="variants.xml#type_27109">werlde</w>
             <w xml:id="SFE_8910_4">muot</w>
-            <w xml:id="SFE_8910_5">stat</w>
+            <w xml:id="SFE_8910_5" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
             <pc xml:id="SFE_8910_6" join="left">,</pc>
           </l>
           <l n="892">
@@ -9873,7 +9874,7 @@
             <w xml:id="SFE_11910_2" lemmaRef="lexicon.xml#lemma_820" pos="NOM" corresp="variants.xml#type_2570">boum</w>
             <w xml:id="SFE_11910_3" lemmaRef="lexicon.xml#lemma_7677" pos="NOM ADV" ana="lexicon.xml#lemma_7677_sense_12586" corresp="variants.xml#type_27811">wol</w>
             <w xml:id="SFE_11910_4" lemmaRef="lexicon.xml#lemma_1976" pos="VRB" ana="lexicon.xml#lemma_1976_sense_3034" corresp="variants.xml#type_247962">geblüet</w>
-            <w xml:id="SFE_11910_5">stat</w>
+            <w xml:id="SFE_11910_5" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
           </l>
           <l n="1192">
             <w xml:id="SFE_11920_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
@@ -10276,7 +10277,7 @@
           </l>
           <l n="1240">
             <w xml:id="SFE_12400_0">er</w>
-            <w xml:id="SFE_12400_1">stat</w>
+            <w xml:id="SFE_12400_1" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
             <w xml:id="SFE_12400_2" lemmaRef="lexicon.xml#lemma_7864" pos="VRB" corresp="variants.xml#type_28540">gezieret</w>
             <w xml:id="SFE_12400_3" lemmaRef="lexicon.xml#lemma_4459" pos="ADV" corresp="variants.xml#type_15515">obene</w>
           </l>
@@ -10504,7 +10505,7 @@
           <l n="1268">
             <w xml:id="SFE_12680_0" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3255">da</w>
             <w xml:id="SFE_12680_1" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
-            <w xml:id="SFE_12680_2">stat</w>
+            <w xml:id="SFE_12680_2" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
             <w xml:id="SFE_12680_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
             <w xml:id="SFE_12680_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="SFE_12680_5" lemmaRef="lexicon.xml#lemma_678" pos="PRP" ana="lexicon.xml#lemma_678_sense_1096" corresp="variants.xml#type_2055">bi</w>
@@ -13989,7 +13990,7 @@
             <w xml:id="SFE_17050_3">an</w>
             <w xml:id="SFE_17050_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3504">dem</w>
             <w xml:id="SFE_17050_5" lemmaRef="lexicon.xml#lemma_6797" pos="NOM" corresp="variants.xml#type_23820">velde</w>
-            <w xml:id="SFE_17050_6">stat</w>
+            <w xml:id="SFE_17050_6" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
             <pc xml:id="SFE_17050_7" join="left">.</pc>
           </l>
           <l n="1706">
@@ -14040,7 +14041,7 @@
           </l>
           <l n="1711">
             <w xml:id="SFE_17110_0" lemmaRef="lexicon.xml#lemma_4432" pos="ADV CNJ" ana="lexicon.xml#lemma_4432_sense_6912" corresp="variants.xml#type_15441">nu</w>
-            <w xml:id="SFE_17110_1">stat</w>
+            <w xml:id="SFE_17110_1" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
             <w xml:id="SFE_17110_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
             <w xml:id="SFE_17110_3" lemmaRef="lexicon.xml#lemma_7252" pos="NOM" ana="lexicon.xml#lemma_7252_sense_11755" corresp="variants.xml#type_25898">vröude</w>
             <w xml:id="SFE_17110_4">in</w>
@@ -15511,7 +15512,7 @@
             <w xml:id="SFE_18900_3" lemmaRef="lexicon.xml#lemma_7494" pos="NOM" ana="lexicon.xml#lemma_7494_sense_12223" corresp="variants.xml#type_27109">werlde</w>
             <w xml:id="SFE_18900_4">nach</w>
             <w xml:id="SFE_18900_5" lemmaRef="lexicon.xml#lemma_2465" pos="NOM" ana="lexicon.xml#lemma_2465_sense_3951" corresp="variants.xml#type_8254">gote</w>
-            <w xml:id="SFE_18900_6">stat</w>
+            <w xml:id="SFE_18900_6" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
             <pc xml:id="SFE_18900_7" join="left">.</pc>
           </l>
           <l n="1891">

@@ -134,6 +134,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 6 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -187,7 +188,7 @@
             <w xml:id="DIS_30_1" lemmaRef="lexicon.xml#lemma_4363" pos="NAM" ana="lexicon.xml#lemma_4363_sense_6817" corresp="variants.xml#type_15228">niderlant</w>
             <w xml:id="DIS_30_2">in</w>
             <w xml:id="DIS_30_3" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4323">einer</w>
-            <w xml:id="DIS_30_4">stat</w>
+            <w xml:id="DIS_30_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <pc xml:id="DIS_30_5" join="left">,</pc>
           </l>
           <l n="4">
@@ -386,7 +387,7 @@
             <w xml:id="DIS_260_2" lemmaRef="lexicon.xml#lemma_7853" pos="VRB" corresp="variants.xml#type_28458">zihen</w>
             <w xml:id="DIS_260_3" lemmaRef="lexicon.xml#lemma_6342" pos="ADV PRP" ana="lexicon.xml#lemma_6342_sense_9997" corresp="variants.xml#type_68026">auß</w>
             <w xml:id="DIS_260_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-            <w xml:id="DIS_260_5">stat</w>
+            <w xml:id="DIS_260_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <pc xml:id="DIS_260_6" join="left">,</pc>
           </l>
           <l n="27">
@@ -564,7 +565,7 @@
             <w xml:id="DIS_450_2" lemmaRef="lexicon.xml#lemma_1844" pos="VRB" corresp="variants.xml#type_6306">gegangen</w>
             <w xml:id="DIS_450_3">in</w>
             <w xml:id="DIS_450_4" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="DIS_450_5">stat</w>
+            <w xml:id="DIS_450_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           </l>
           <l n="46">
             <w xml:id="DIS_460_0">ein</w>
@@ -618,7 +619,7 @@
             <w xml:id="DIS_510_1" lemmaRef="lexicon.xml#lemma_5608" pos="VRB VEM" corresp="variants.xml#type_19662">solten</w>
             <w xml:id="DIS_510_2" lemmaRef="lexicon.xml#lemma_6342" pos="ADV PRP" ana="lexicon.xml#lemma_6342_sense_9997" corresp="variants.xml#type_68026">auß</w>
             <w xml:id="DIS_510_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-            <w xml:id="DIS_510_4">stat</w>
+            <w xml:id="DIS_510_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <pc xml:id="DIS_510_5" join="left">.</pc>
           </l>
           <l n="52">
@@ -3610,7 +3611,7 @@
             <w xml:id="DIS_3690_3" lemmaRef="lexicon.xml#lemma_106" pos="ADJ" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_258">alle</w>
             <w xml:id="DIS_3690_4" lemmaRef="lexicon.xml#lemma_6342" pos="ADV PRP" ana="lexicon.xml#lemma_6342_sense_9997" corresp="variants.xml#type_68026">auß</w>
             <w xml:id="DIS_3690_5" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-            <w xml:id="DIS_3690_6">stat</w>
+            <w xml:id="DIS_3690_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           </l>
           <l n="370">
             <w xml:id="DIS_3700_0" lemmaRef="lexicon.xml#lemma_1503" pos="VRB" corresp="variants.xml#type_117251">entweichen</w>
@@ -3853,7 +3854,7 @@
             <w xml:id="DIS_3950_1">weichen</w>
             <w xml:id="DIS_3950_2" lemmaRef="lexicon.xml#lemma_6342" pos="ADV PRP" ana="lexicon.xml#lemma_6342_sense_9997" corresp="variants.xml#type_68026">auß</w>
             <w xml:id="DIS_3950_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-            <w xml:id="DIS_3950_4">stat</w>
+            <w xml:id="DIS_3950_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <pc xml:id="DIS_3950_5" join="left">.</pc>
           </l>
           <l n="396">

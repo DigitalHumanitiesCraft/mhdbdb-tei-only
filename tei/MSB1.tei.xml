@@ -135,6 +135,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 3 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -305,7 +306,7 @@
         <lb n="2"/>
         <w xml:id="MSB1_357102_0">an</w>
         <w xml:id="MSB1_357102_1" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-        <w xml:id="MSB1_357102_2">stat</w>
+        <w xml:id="MSB1_357102_2" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         <pc xml:id="MSB1_357102_3" join="left">.</pc>
         <w xml:id="MSB1_357102_4" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
         <w xml:id="MSB1_357102_5">wann</w>
@@ -413,7 +414,7 @@
         <w xml:id="MSB1_457203_4">in</w>
         <w xml:id="MSB1_457203_5">an</w>
         <w xml:id="MSB1_457203_6" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_106438">dew</w>
-        <w xml:id="MSB1_457203_7">stat</w>
+        <w xml:id="MSB1_457203_7" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         <pc xml:id="MSB1_457203_8" join="left">,</pc>
         <w xml:id="MSB1_457203_9" lemmaRef="lexicon.xml#lemma_152" pos="ADV" ana="lexicon.xml#lemma_152_sense_187" corresp="variants.xml#type_378">also</w>
         <w xml:id="MSB1_457203_10" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
@@ -909,7 +910,7 @@
         <w xml:id="MSB1_1058202_6" lemmaRef="lexicon.xml#lemma_3416" pos="ADJ GRA" ana="lexicon.xml#lemma_3416_sense_5386" corresp="variants.xml#type_270469">kostleichist</w>
         <pc xml:id="MSB1_1058202_7" join="left">,</pc>
         <w xml:id="MSB1_1058202_8" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
-        <w xml:id="MSB1_1058202_9">stat</w>
+        <w xml:id="MSB1_1058202_9" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
         <w xml:id="MSB1_1058202_10" lemmaRef="lexicon.xml#lemma_1762" pos="PRO" ana="lexicon.xml#lemma_1762_sense_2752" corresp="variants.xml#type_6021">ez</w>
         <w xml:id="MSB1_1058202_11" lemmaRef="lexicon.xml#lemma_7677" pos="NOM ADV" ana="lexicon.xml#lemma_7677_sense_12586" corresp="variants.xml#type_27811">wol</w>
         <w xml:id="MSB1_1058202_12" lemmaRef="lexicon.xml#lemma_7194" pos="ADV PRP" ana="lexicon.xml#lemma_7194_sense_11657" corresp="variants.xml#type_25545">vor</w>

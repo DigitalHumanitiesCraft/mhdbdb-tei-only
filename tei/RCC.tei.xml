@@ -139,6 +139,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 142 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -561,7 +562,7 @@
           </hi>
           <w xml:id="RCC_46000_1" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
           <w xml:id="RCC_46000_2" lemmaRef="lexicon.xml#lemma_5729" pos="ADJ" corresp="variants.xml#type_46295">starcke</w>
-          <w xml:id="RCC_46000_3">stat</w>
+          <w xml:id="RCC_46000_3" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         </l>
         <l n="47">
           <w xml:id="RCC_47000_0" lemmaRef="lexicon.xml#lemma_21717" pos="VRB" ana="lexicon.xml#lemma_21717_sense_35596" corresp="variants.xml#type_363590">aneueichten</w>
@@ -3649,7 +3650,7 @@
           <w xml:id="RCC_373000_1" lemmaRef="lexicon.xml#lemma_6180" pos="VRB" ana="lexicon.xml#lemma_6180_sense_9753" corresp="variants.xml#type_362784">treckden</w>
           <w xml:id="RCC_373000_2" lemmaRef="lexicon.xml#lemma_6342" pos="ADV PRP" ana="lexicon.xml#lemma_6342_sense_9997" corresp="variants.xml#type_363743">vys</w>
           <w xml:id="RCC_373000_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="RCC_373000_4">stat</w>
+          <w xml:id="RCC_373000_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_373000_5" lemmaRef="lexicon.xml#lemma_2097" pos="ADJ ADV" corresp="variants.xml#type_7082">gemein</w>
         </l>
         <l n="374">
@@ -4059,7 +4060,7 @@
           <w xml:id="RCC_418000_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
           <w xml:id="RCC_418000_3" lemmaRef="lexicon.xml#lemma_7494" pos="NOM" ana="lexicon.xml#lemma_7494_sense_12223" corresp="variants.xml#type_78893">werelde</w>
           <w xml:id="RCC_418000_4" lemmaRef="lexicon.xml#lemma_1334" pos="ADJ" ana="lexicon.xml#lemma_1334_sense_2071" corresp="variants.xml#type_319840">eynche</w>
-          <w xml:id="RCC_418000_5">stat</w>
+          <w xml:id="RCC_418000_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         </l>
         <l n="419">
           <w xml:id="RCC_419000_0" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
@@ -4531,7 +4532,7 @@
           <w xml:id="RCC_468000_2" lemmaRef="lexicon.xml#lemma_56117" pos="PRO" ana="lexicon.xml#lemma_56117_sense_90961" corresp="variants.xml#type_305363">uch</w>
           <w xml:id="RCC_468000_3" lemmaRef="lexicon.xml#lemma_6330" pos="ADV PRP" ana="lexicon.xml#lemma_6330_sense_9973" corresp="variants.xml#type_82296">vp</w>
           <w xml:id="RCC_468000_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="RCC_468000_5">stat</w>
+          <w xml:id="RCC_468000_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_468000_6" lemmaRef="lexicon.xml#lemma_2264" pos="ADJ" ana="lexicon.xml#lemma_2264_sense_3614" corresp="variants.xml#type_7636">gesunt</w>
           <pc xml:id="RCC_468000_7" join="left">,</pc>
         </l>
@@ -4633,7 +4634,7 @@
           <w xml:id="RCC_479000_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
           <w xml:id="RCC_479000_2">al</w>
           <w xml:id="RCC_479000_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_479000_4">stat</w>
+          <w xml:id="RCC_479000_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_479000_5">genois</w>
           <pc xml:id="RCC_479000_6" join="left">.</pc>
         </l>
@@ -4746,7 +4747,7 @@
           <w xml:id="RCC_491000_2">were</w>
           <w xml:id="RCC_491000_3">in</w>
           <w xml:id="RCC_491000_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="RCC_491000_5">stat</w>
+          <w xml:id="RCC_491000_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="RCC_491000_6" join="left">.</pc>
         </l>
         <l n="492">
@@ -5001,7 +5002,7 @@
           <w xml:id="RCC_517000_3">hie</w>
           <w xml:id="RCC_517000_4" lemmaRef="lexicon.xml#lemma_6330" pos="ADV PRP" ana="lexicon.xml#lemma_6330_sense_9973" corresp="variants.xml#type_82296">vp</w>
           <w xml:id="RCC_517000_5" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="RCC_517000_6">stat</w>
+          <w xml:id="RCC_517000_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="RCC_517000_7" join="left">.</pc>
           <pc xml:id="RCC_517000_8" join="left">&gt;</pc>
         </l>
@@ -6665,7 +6666,7 @@
           <w xml:id="RCC_699000_1">en</w>
           <w xml:id="RCC_699000_2" lemmaRef="lexicon.xml#lemma_7473" pos="VRB VEM" corresp="variants.xml#type_26927">wolde</w>
           <w xml:id="RCC_699000_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_699000_4">stat</w>
+          <w xml:id="RCC_699000_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_699000_5">neit</w>
           <w xml:id="RCC_699000_6" lemmaRef="lexicon.xml#lemma_2248" pos="VRB" ana="lexicon.xml#lemma_2248_sense_3581" corresp="variants.xml#type_141972">gestaden</w>
           <pc xml:id="RCC_699000_7" join="left">.</pc>
@@ -6830,7 +6831,7 @@
           <w xml:id="RCC_714000_6" lemmaRef="lexicon.xml#lemma_3400" pos="VRB" ana="lexicon.xml#lemma_3400_sense_5361" corresp="variants.xml#type_11712">komet</w>
           <w xml:id="RCC_714000_7">in</w>
           <w xml:id="RCC_714000_8" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_714000_9">stat</w>
+          <w xml:id="RCC_714000_9" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         </l>
         <l n="715">
           <w xml:id="RCC_715000_0" lemmaRef="lexicon.xml#lemma_6422" pos="ADV PRP" corresp="variants.xml#type_44515">vmb</w>
@@ -7068,7 +7069,7 @@
           <w xml:id="RCC_738000_0" lemmaRef="lexicon.xml#lemma_21882" pos="ART PRP" ana="lexicon.xml#lemma_21882_sense_35836" corresp="variants.xml#type_157056">ind</w>
           <w xml:id="RCC_738000_1" lemmaRef="lexicon.xml#lemma_5061" pos="VRB" ana="lexicon.xml#lemma_5061_sense_7886" corresp="variants.xml#type_288620">saichte</w>
           <w xml:id="RCC_738000_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="RCC_738000_3">stat</w>
+          <w xml:id="RCC_738000_3" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_738000_4" lemmaRef="lexicon.xml#lemma_1517" pos="POS" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_82717">syne</w>
           <w xml:id="RCC_738000_5" lemmaRef="lexicon.xml#lemma_9935" pos="NOM NEG" corresp="variants.xml#type_363910">vnhulde</w>
         </l>
@@ -7837,7 +7838,7 @@
         </l>
         <l n="817">
           <w xml:id="RCC_817000_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_817000_1">stat</w>
+          <w xml:id="RCC_817000_1" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_817000_2">van</w>
           <w xml:id="RCC_817000_3" lemmaRef="lexicon.xml#lemma_3387" pos="NAM" ana="lexicon.xml#lemma_3387_sense_5338" corresp="variants.xml#type_249512">coelne</w>
           <w xml:id="RCC_817000_4">arm</w>
@@ -7900,7 +7901,7 @@
           <w xml:id="RCC_823000_1" lemmaRef="lexicon.xml#lemma_56117" pos="PRO" ana="lexicon.xml#lemma_56117_sense_90961" corresp="variants.xml#type_305363">uch</w>
           <w xml:id="RCC_823000_2" lemmaRef="lexicon.xml#lemma_3387" pos="NAM" ana="lexicon.xml#lemma_3387_sense_5338" corresp="variants.xml#type_249512">coelne</w>
           <w xml:id="RCC_823000_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_823000_4">stat</w>
+          <w xml:id="RCC_823000_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         </l>
         <l n="824">
           <w xml:id="RCC_824000_0" lemmaRef="lexicon.xml#lemma_56070" pos="ADJ ADV" ana="lexicon.xml#lemma_56070_sense_90889" corresp="variants.xml#type_304578">truwelich</w>
@@ -8759,7 +8760,7 @@
           <hi rend="initial">
             <w xml:id="RCC_910000_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
           </hi>
-          <w xml:id="RCC_910000_1">stat</w>
+          <w xml:id="RCC_910000_1" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_910000_2" lemmaRef="lexicon.xml#lemma_1436" pos="VRB" corresp="variants.xml#type_363841">intfeinck</w>
           <w xml:id="RCC_910000_3">dit</w>
           <w xml:id="RCC_910000_4">in</w>
@@ -8985,7 +8986,7 @@
           <w xml:id="RCC_934000_0">was</w>
           <w xml:id="RCC_934000_1">do</w>
           <w xml:id="RCC_934000_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="RCC_934000_3">stat</w>
+          <w xml:id="RCC_934000_3" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_934000_4">van</w>
           <w xml:id="RCC_934000_5" lemmaRef="lexicon.xml#lemma_2795" pos="NOM" corresp="variants.xml#type_9452">hertzen</w>
           <w xml:id="RCC_934000_6" lemmaRef="lexicon.xml#lemma_2950" pos="NOM" corresp="variants.xml#type_10048">hult</w>
@@ -9037,7 +9038,7 @@
           <w xml:id="RCC_939000_0" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
           <w xml:id="RCC_939000_1" lemmaRef="lexicon.xml#lemma_6118" pos="NOM ADJ" ana="lexicon.xml#lemma_6118_sense_9650" corresp="variants.xml#type_239990">doit</w>
           <w xml:id="RCC_939000_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_939000_3">stat</w>
+          <w xml:id="RCC_939000_3" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_939000_4">syn</w>
           <w xml:id="RCC_939000_5" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
           <w xml:id="RCC_939000_6">bereit</w>
@@ -9254,7 +9255,7 @@
         </l>
         <l n="961">
           <w xml:id="RCC_961000_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_961000_1">stat</w>
+          <w xml:id="RCC_961000_1" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_961000_2" lemmaRef="lexicon.xml#lemma_7473" pos="VRB VEM" corresp="variants.xml#type_26927">wolde</w>
           <w xml:id="RCC_961000_3" lemmaRef="lexicon.xml#lemma_6342" pos="ADV PRP" ana="lexicon.xml#lemma_6342_sense_9997" corresp="variants.xml#type_43070">us</w>
           <w xml:id="RCC_961000_4">varen</w>
@@ -9994,7 +9995,7 @@
           <w xml:id="RCC_1035000_0">hie</w>
           <w xml:id="RCC_1035000_1" lemmaRef="lexicon.xml#lemma_6330" pos="ADV PRP" ana="lexicon.xml#lemma_6330_sense_9973" corresp="variants.xml#type_82296">vp</w>
           <w xml:id="RCC_1035000_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="RCC_1035000_3">stat</w>
+          <w xml:id="RCC_1035000_3" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_1035000_4">ir</w>
           <w xml:id="RCC_1035000_5" lemmaRef="lexicon.xml#lemma_7048" pos="NOM" ana="lexicon.xml#lemma_7048_sense_11428" corresp="variants.xml#type_90210">viande</w>
           <w xml:id="RCC_1035000_6" lemmaRef="lexicon.xml#lemma_3266" pos="VRB" ana="lexicon.xml#lemma_3266_sense_5134" corresp="variants.xml#type_11150">keren</w>
@@ -11011,7 +11012,7 @@
           <w xml:id="RCC_1142000_0" lemmaRef="lexicon.xml#lemma_21882" pos="ART PRP" ana="lexicon.xml#lemma_21882_sense_35836" corresp="variants.xml#type_157056">ind</w>
           <w xml:id="RCC_1142000_1" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_84166">myt</w>
           <w xml:id="RCC_1142000_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="RCC_1142000_3">stat</w>
+          <w xml:id="RCC_1142000_3" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_1142000_4">neit</w>
           <w xml:id="RCC_1142000_5" lemmaRef="lexicon.xml#lemma_4885" pos="VRB" ana="lexicon.xml#lemma_4885_sense_7583" corresp="variants.xml#type_16832">rait</w>
           <w xml:id="RCC_1142000_6">en</w>
@@ -11180,7 +11181,7 @@
           <hi rend="initial">
             <w xml:id="RCC_1159000_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
           </hi>
-          <w xml:id="RCC_1159000_1">stat</w>
+          <w xml:id="RCC_1159000_1" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_1159000_2" lemmaRef="lexicon.xml#lemma_1523" pos="VRB" ana="lexicon.xml#lemma_1523_sense_2365" corresp="variants.xml#type_5050">erbarmede</w>
           <w xml:id="RCC_1159000_3">sich</w>
           <w xml:id="RCC_1159000_4" lemmaRef="lexicon.xml#lemma_1169" pos="DET" ana="lexicon.xml#lemma_1169_sense_1850" corresp="variants.xml#type_192571">deser</w>
@@ -11398,7 +11399,7 @@
           <w xml:id="RCC_1181000_2">besten</w>
           <w xml:id="RCC_1181000_3">van</w>
           <w xml:id="RCC_1181000_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="RCC_1181000_5">stat</w>
+          <w xml:id="RCC_1181000_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="RCC_1181000_6" join="left">,</pc>
         </l>
         <l n="1182">
@@ -11491,7 +11492,7 @@
           <w xml:id="RCC_1190000_2" lemmaRef="lexicon.xml#lemma_3549" pos="NAM" corresp="variants.xml#type_295987">coinrait</w>
           <w xml:id="RCC_1190000_3">in</w>
           <w xml:id="RCC_1190000_4" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_1190000_5">stat</w>
+          <w xml:id="RCC_1190000_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         </l>
         <l n="1191">
           <w xml:id="RCC_1191000_0" lemmaRef="lexicon.xml#lemma_21882" pos="ART PRP" ana="lexicon.xml#lemma_21882_sense_35836" corresp="variants.xml#type_157056">ind</w>
@@ -11703,7 +11704,7 @@
           <w xml:id="RCC_1213000_2">besten</w>
           <w xml:id="RCC_1213000_3">van</w>
           <w xml:id="RCC_1213000_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="RCC_1213000_5">stat</w>
+          <w xml:id="RCC_1213000_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="RCC_1213000_6" join="left">,</pc>
         </l>
         <l n="1214">
@@ -11791,7 +11792,7 @@
           <w xml:id="RCC_1222000_4">scheffen</w>
           <w xml:id="RCC_1222000_5">van</w>
           <w xml:id="RCC_1222000_6" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="RCC_1222000_7">stat</w>
+          <w xml:id="RCC_1222000_7" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         </l>
         <l n="1223">
           <w xml:id="RCC_1223000_0" lemmaRef="lexicon.xml#lemma_21882" pos="ART PRP" ana="lexicon.xml#lemma_21882_sense_35836" corresp="variants.xml#type_157056">ind</w>
@@ -12005,7 +12006,7 @@
           <w xml:id="RCC_1245000_1">sy</w>
           <w xml:id="RCC_1245000_2" lemmaRef="lexicon.xml#lemma_4992" pos="VRB" ana="lexicon.xml#lemma_4992_sense_7758" corresp="variants.xml#type_364101">gerumden</w>
           <w xml:id="RCC_1245000_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_1245000_4">stat</w>
+          <w xml:id="RCC_1245000_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="RCC_1245000_5" join="left">,</pc>
         </l>
         <l n="1246">
@@ -12103,7 +12104,7 @@
           <w xml:id="RCC_1255000_2" lemmaRef="lexicon.xml#lemma_3387" pos="NAM" ana="lexicon.xml#lemma_3387_sense_5338" corresp="variants.xml#type_249512">coelne</w>
           <w xml:id="RCC_1255000_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
           <w xml:id="RCC_1255000_4" lemmaRef="lexicon.xml#lemma_2708" pos="NOM ADJ" ana="lexicon.xml#lemma_2708_sense_4365" corresp="variants.xml#type_363570">hilge</w>
-          <w xml:id="RCC_1255000_5">stat</w>
+          <w xml:id="RCC_1255000_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         </l>
         <l n="1256">
           <w xml:id="RCC_1256000_0" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
@@ -12283,7 +12284,7 @@
           <w xml:id="RCC_1275000_2" lemmaRef="lexicon.xml#lemma_3387" pos="NAM" ana="lexicon.xml#lemma_3387_sense_5338" corresp="variants.xml#type_249512">coelne</w>
           <w xml:id="RCC_1275000_3" lemmaRef="lexicon.xml#lemma_1169" pos="DET" ana="lexicon.xml#lemma_1169_sense_1850" corresp="variants.xml#type_73793">diese</w>
           <w xml:id="RCC_1275000_4" lemmaRef="lexicon.xml#lemma_2708" pos="NOM ADJ" ana="lexicon.xml#lemma_2708_sense_4365" corresp="variants.xml#type_363570">hilge</w>
-          <w xml:id="RCC_1275000_5">stat</w>
+          <w xml:id="RCC_1275000_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="RCC_1275000_6" join="left">,</pc>
         </l>
         <l n="1276">
@@ -12673,7 +12674,7 @@
           <w xml:id="RCC_1317000_4">besten</w>
           <w xml:id="RCC_1317000_5">van</w>
           <w xml:id="RCC_1317000_6" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="RCC_1317000_7">stat</w>
+          <w xml:id="RCC_1317000_7" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="RCC_1317000_8" join="left">.</pc>
         </l>
         <l n="1318">
@@ -13187,7 +13188,7 @@
           <w xml:id="RCC_1372000_1" lemmaRef="lexicon.xml#lemma_77238" pos="VRB" ana="lexicon.xml#lemma_77238_sense_115739" corresp="variants.xml#type_364138">vurrumden</w>
           <w xml:id="RCC_1372000_2" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4331">eme</w>
           <w xml:id="RCC_1372000_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_1372000_4">stat</w>
+          <w xml:id="RCC_1372000_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="RCC_1372000_5" join="left">.</pc>
         </l>
         <l n="1373">
@@ -13300,7 +13301,7 @@
           <w xml:id="RCC_1383000_3">besten</w>
           <w xml:id="RCC_1383000_4">van</w>
           <w xml:id="RCC_1383000_5" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="RCC_1383000_6">stat</w>
+          <w xml:id="RCC_1383000_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="RCC_1383000_7" join="left">,</pc>
         </l>
         <l n="1384">
@@ -13502,7 +13503,7 @@
           <w xml:id="RCC_1405000_2">besten</w>
           <w xml:id="RCC_1405000_3">van</w>
           <w xml:id="RCC_1405000_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="RCC_1405000_5">stat</w>
+          <w xml:id="RCC_1405000_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         </l>
         <l n="1406">
           <w xml:id="RCC_1406000_0" lemmaRef="lexicon.xml#lemma_3341" pos="VRB" corresp="variants.xml#type_301030">claden</w>
@@ -13522,7 +13523,7 @@
         <l n="1408">
           <w xml:id="RCC_1408000_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
           <w xml:id="RCC_1408000_1" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_1408000_2">stat</w>
+          <w xml:id="RCC_1408000_2" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_1408000_3" lemmaRef="lexicon.xml#lemma_2739" pos="VRB" ana="lexicon.xml#lemma_2739_sense_4421" corresp="variants.xml#type_292524">hulpen</w>
           <w xml:id="RCC_1408000_4" lemmaRef="lexicon.xml#lemma_1447" pos="NEG VRB" ana="lexicon.xml#lemma_1447_sense_2231" corresp="variants.xml#type_364171">interen</w>
           <pc xml:id="RCC_1408000_5" join="left">;</pc>
@@ -13727,7 +13728,7 @@
           <w xml:id="RCC_1427000_1" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_82324">synt</w>
           <w xml:id="RCC_1427000_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
           <w xml:id="RCC_1427000_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_1427000_4">stat</w>
+          <w xml:id="RCC_1427000_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_1427000_5" lemmaRef="lexicon.xml#lemma_12019" pos="VRB" corresp="variants.xml#type_364175">verdumen</w>
           <pc xml:id="RCC_1427000_6" join="left">,</pc>
         </l>
@@ -14054,7 +14055,7 @@
           <w xml:id="RCC_1460000_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_60651">dat</w>
           <w xml:id="RCC_1460000_1">sy</w>
           <w xml:id="RCC_1460000_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="RCC_1460000_3">stat</w>
+          <w xml:id="RCC_1460000_3" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_1460000_4" lemmaRef="lexicon.xml#lemma_10109" pos="ADJ ADV" corresp="variants.xml#type_364180">ruflich</w>
           <w xml:id="RCC_1460000_5">aue</w>
           <w xml:id="RCC_1460000_6">haint</w>
@@ -14130,7 +14131,7 @@
           <w xml:id="RCC_1467000_3" lemmaRef="lexicon.xml#lemma_10723" pos="NOM" corresp="variants.xml#type_38171">gemeinde</w>
           <w xml:id="RCC_1467000_4">van</w>
           <w xml:id="RCC_1467000_5" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="RCC_1467000_6">stat</w>
+          <w xml:id="RCC_1467000_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="RCC_1467000_7" join="left">,</pc>
         </l>
         <l n="1468">
@@ -14286,7 +14287,7 @@
           <w xml:id="RCC_1483000_2">besten</w>
           <w xml:id="RCC_1483000_3" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
           <w xml:id="RCC_1483000_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="RCC_1483000_5">stat</w>
+          <w xml:id="RCC_1483000_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         </l>
         <l n="1484">
           <w xml:id="RCC_1484000_0">van</w>
@@ -14398,7 +14399,7 @@
           <w xml:id="RCC_1495000_4">besten</w>
           <w xml:id="RCC_1495000_5">van</w>
           <w xml:id="RCC_1495000_6" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="RCC_1495000_7">stat</w>
+          <w xml:id="RCC_1495000_7" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="RCC_1495000_8" join="left">,</pc>
         </l>
         <l n="1496">
@@ -14871,7 +14872,7 @@
           <w xml:id="RCC_1543000_3" lemmaRef="lexicon.xml#lemma_7194" pos="ADV PRP" ana="lexicon.xml#lemma_7194_sense_11657" corresp="variants.xml#type_290986">voir</w>
           <w xml:id="RCC_1543000_4" lemmaRef="lexicon.xml#lemma_6342" pos="ADV PRP" ana="lexicon.xml#lemma_6342_sense_9997" corresp="variants.xml#type_44212">vs</w>
           <w xml:id="RCC_1543000_5" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="RCC_1543000_6">stat</w>
+          <w xml:id="RCC_1543000_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="RCC_1543000_7" join="left">.</pc>
         </l>
         <l n="1544">
@@ -15544,7 +15545,7 @@
           <w xml:id="RCC_1613000_1" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
           <w xml:id="RCC_1613000_2">sy</w>
           <w xml:id="RCC_1613000_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="RCC_1613000_4">stat</w>
+          <w xml:id="RCC_1613000_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_1613000_5">neit</w>
           <w xml:id="RCC_1613000_6">weder</w>
           <w xml:id="RCC_1613000_7" lemmaRef="lexicon.xml#lemma_1961" pos="VRB" ana="lexicon.xml#lemma_1961_sense_3008" corresp="variants.xml#type_82321">geuen</w>
@@ -16031,7 +16032,7 @@
           <w xml:id="RCC_1661000_2" lemmaRef="lexicon.xml#lemma_56117" pos="PRO" ana="lexicon.xml#lemma_56117_sense_90961" corresp="variants.xml#type_305363">uch</w>
           <w xml:id="RCC_1661000_3" lemmaRef="lexicon.xml#lemma_21882" pos="ART PRP" ana="lexicon.xml#lemma_21882_sense_35836" corresp="variants.xml#type_157056">ind</w>
           <w xml:id="RCC_1661000_4">vre</w>
-          <w xml:id="RCC_1661000_5">stat</w>
+          <w xml:id="RCC_1661000_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="RCC_1661000_6" join="left">,</pc>
         </l>
         <l n="1662">
@@ -16278,7 +16279,7 @@
           <w xml:id="RCC_1686000_1" lemmaRef="lexicon.xml#lemma_2711" pos="VRB" ana="lexicon.xml#lemma_2711_sense_4368" corresp="variants.xml#type_9144">heilten</w>
           <w xml:id="RCC_1686000_2" lemmaRef="lexicon.xml#lemma_12010" pos="NOM" corresp="variants.xml#type_296579">vryheit</w>
           <w xml:id="RCC_1686000_3">irre</w>
-          <w xml:id="RCC_1686000_4">stat</w>
+          <w xml:id="RCC_1686000_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         </l>
         <l n="1687">
           <w xml:id="RCC_1687000_0" lemmaRef="lexicon.xml#lemma_21882" pos="ART PRP" ana="lexicon.xml#lemma_21882_sense_35836" corresp="variants.xml#type_157056">ind</w>
@@ -16362,7 +16363,7 @@
           <pc xml:id="RCC_1695000_1" join="left">,</pc>
           <w xml:id="RCC_1695000_2">noch</w>
           <w xml:id="RCC_1695000_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_1695000_4">stat</w>
+          <w xml:id="RCC_1695000_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_1695000_5">weder</w>
           <w xml:id="RCC_1695000_6">lien</w>
           <pc xml:id="RCC_1695000_7" join="left">.</pc>
@@ -16518,7 +16519,7 @@
           <w xml:id="RCC_1711000_0">ir</w>
           <w xml:id="RCC_1711000_1" lemmaRef="lexicon.xml#lemma_4240" pos="VRB VEM" corresp="variants.xml#type_288632">moicht</w>
           <w xml:id="RCC_1711000_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="RCC_1711000_3">stat</w>
+          <w xml:id="RCC_1711000_3" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_1711000_4" lemmaRef="lexicon.xml#lemma_4432" pos="ADV CNJ" ana="lexicon.xml#lemma_4432_sense_6912" corresp="variants.xml#type_15441">nu</w>
           <w xml:id="RCC_1711000_5">geneissen</w>
         </l>
@@ -20668,7 +20669,7 @@
           <w xml:id="RCC_2066000_3">in</w>
           <w xml:id="RCC_2066000_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
           <w xml:id="RCC_2066000_5" lemmaRef="lexicon.xml#lemma_4872" pos="NOM ADJ" corresp="variants.xml#type_16767">riches</w>
-          <w xml:id="RCC_2066000_6">stat</w>
+          <w xml:id="RCC_2066000_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="RCC_2066000_7" join="left">,</pc>
         </l>
         <l n="2067">
@@ -20832,7 +20833,7 @@
           <w xml:id="RCC_2083000_2" lemmaRef="lexicon.xml#lemma_2573" pos="NOM ADJ ADV" corresp="variants.xml#type_292891">goit</w>
           <w xml:id="RCC_2083000_3">van</w>
           <w xml:id="RCC_2083000_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="RCC_2083000_5">stat</w>
+          <w xml:id="RCC_2083000_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         </l>
         <l n="2084">
           <w xml:id="RCC_2084000_0" lemmaRef="lexicon.xml#lemma_468" pos="ADJ" ana="lexicon.xml#lemma_468_sense_655" corresp="variants.xml#type_64096">beyde</w>
@@ -21539,7 +21540,7 @@
           <w xml:id="RCC_2154000_4">luden</w>
           <w xml:id="RCC_2154000_5">in</w>
           <w xml:id="RCC_2154000_6" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_2154000_7">stat</w>
+          <w xml:id="RCC_2154000_7" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="RCC_2154000_8" join="left">,</pc>
         </l>
         <l n="2155">
@@ -21875,7 +21876,7 @@
           <w xml:id="RCC_2189000_2">besten</w>
           <w xml:id="RCC_2189000_3">van</w>
           <w xml:id="RCC_2189000_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="RCC_2189000_5">stat</w>
+          <w xml:id="RCC_2189000_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="RCC_2189000_6" join="left">.</pc>
         </l>
         <l n="2190">
@@ -21976,7 +21977,7 @@
           <w xml:id="RCC_2201000_3">hait</w>
           <w xml:id="RCC_2201000_4">van</w>
           <w xml:id="RCC_2201000_5" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="RCC_2201000_6">stat</w>
+          <w xml:id="RCC_2201000_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="RCC_2201000_7" join="left">,</pc>
         </l>
         <l n="2202">
@@ -22040,7 +22041,7 @@
           <w xml:id="RCC_2208000_2" lemmaRef="lexicon.xml#lemma_76848" pos="NOM" ana="lexicon.xml#lemma_76848_sense_115342" corresp="variants.xml#type_364437">assyse</w>
           <w xml:id="RCC_2208000_3">van</w>
           <w xml:id="RCC_2208000_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="RCC_2208000_5">stat</w>
+          <w xml:id="RCC_2208000_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         </l>
         <l n="2209">
           <w xml:id="RCC_2209000_0" lemmaRef="lexicon.xml#lemma_4330" pos="VRB" corresp="variants.xml#type_15064">genomen</w>
@@ -22147,7 +22148,7 @@
           <w xml:id="RCC_2219000_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
           <w xml:id="RCC_2219000_3" lemmaRef="lexicon.xml#lemma_7075" pos="ADJ ADV" ana="lexicon.xml#lemma_7075_sense_11459" corresp="variants.xml#type_25008">vil</w>
           <w xml:id="RCC_2219000_4">reyne</w>
-          <w xml:id="RCC_2219000_5">stat</w>
+          <w xml:id="RCC_2219000_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         </l>
         <l n="2220">
           <w xml:id="RCC_2220000_0" lemmaRef="lexicon.xml#lemma_21882" pos="ART PRP" ana="lexicon.xml#lemma_21882_sense_35836" corresp="variants.xml#type_157056">ind</w>
@@ -22448,7 +22449,7 @@
           <w xml:id="RCC_2250000_3">luden</w>
           <w xml:id="RCC_2250000_4">van</w>
           <w xml:id="RCC_2250000_5" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="RCC_2250000_6">stat</w>
+          <w xml:id="RCC_2250000_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         </l>
         <l n="2251">
           <w xml:id="RCC_2251000_0" lemmaRef="lexicon.xml#lemma_21882" pos="ART PRP" ana="lexicon.xml#lemma_21882_sense_35836" corresp="variants.xml#type_157056">ind</w>
@@ -22496,7 +22497,7 @@
           <w xml:id="RCC_2255000_3">wegen</w>
           <w xml:id="RCC_2255000_4">van</w>
           <w xml:id="RCC_2255000_5" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="RCC_2255000_6">stat</w>
+          <w xml:id="RCC_2255000_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="RCC_2255000_7" join="left">.</pc>
         </l>
         <l n="2256">
@@ -22805,7 +22806,7 @@
           <w xml:id="RCC_2289000_1">gene</w>
           <w xml:id="RCC_2289000_2" lemmaRef="lexicon.xml#lemma_5452" pos="ADV" ana="lexicon.xml#lemma_5452_sense_8504" corresp="variants.xml#type_188551">seder</w>
           <w xml:id="RCC_2289000_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_2289000_4">stat</w>
+          <w xml:id="RCC_2289000_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_2289000_5" lemmaRef="lexicon.xml#lemma_1701" pos="VRB" ana="lexicon.xml#lemma_1701_sense_2675" corresp="variants.xml#type_324540">erworuen</w>
           <pc xml:id="RCC_2289000_6" join="left">,</pc>
         </l>
@@ -23103,7 +23104,7 @@
           <w xml:id="RCC_2318000_3">vort</w>
           <w xml:id="RCC_2318000_4">in</w>
           <w xml:id="RCC_2318000_5" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_2318000_6">stat</w>
+          <w xml:id="RCC_2318000_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         </l>
         <l n="2319">
           <w xml:id="RCC_2319000_0" lemmaRef="lexicon.xml#lemma_21882" pos="ART PRP" ana="lexicon.xml#lemma_21882_sense_35836" corresp="variants.xml#type_157056">ind</w>
@@ -23232,7 +23233,7 @@
           <w xml:id="RCC_2333000_0" lemmaRef="lexicon.xml#lemma_21882" pos="ART PRP" ana="lexicon.xml#lemma_21882_sense_35836" corresp="variants.xml#type_157056">ind</w>
           <w xml:id="RCC_2333000_1" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
           <w xml:id="RCC_2333000_2">ir</w>
-          <w xml:id="RCC_2333000_3">stat</w>
+          <w xml:id="RCC_2333000_3" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_2333000_4">kunnen</w>
           <w xml:id="RCC_2333000_5" lemmaRef="lexicon.xml#lemma_6969" pos="VRB" corresp="variants.xml#type_326038">verstain</w>
           <pc xml:id="RCC_2333000_6" join="left">;</pc>
@@ -23261,7 +23262,7 @@
           <w xml:id="RCC_2336000_2">sal</w>
           <w xml:id="RCC_2336000_3" lemmaRef="lexicon.xml#lemma_1844" pos="VRB" corresp="variants.xml#type_288634">gain</w>
           <w xml:id="RCC_2336000_4" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_2336000_5">stat</w>
+          <w xml:id="RCC_2336000_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_2336000_6" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_196205">zo</w>
           <w xml:id="RCC_2336000_7">rade</w>
         </l>
@@ -23786,7 +23787,7 @@
           <w xml:id="RCC_2391000_2" lemmaRef="lexicon.xml#lemma_3387" pos="NAM" ana="lexicon.xml#lemma_3387_sense_5338" corresp="variants.xml#type_249512">coelne</w>
           <w xml:id="RCC_2391000_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
           <w xml:id="RCC_2391000_4" lemmaRef="lexicon.xml#lemma_2708" pos="NOM ADJ" ana="lexicon.xml#lemma_2708_sense_4365" corresp="variants.xml#type_363570">hilge</w>
-          <w xml:id="RCC_2391000_5">stat</w>
+          <w xml:id="RCC_2391000_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         </l>
         <l n="2392">
           <w xml:id="RCC_2392000_0" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
@@ -24189,7 +24190,7 @@
           <w xml:id="RCC_2434000_2" lemmaRef="lexicon.xml#lemma_4706" pos="NOM" ana="lexicon.xml#lemma_4706_sense_7296" corresp="variants.xml#type_291580">portzen</w>
           <w xml:id="RCC_2434000_3">van</w>
           <w xml:id="RCC_2434000_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="RCC_2434000_5">stat</w>
+          <w xml:id="RCC_2434000_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="RCC_2434000_6" join="left">.</pc>
         </l>
         <l n="2435">
@@ -24374,7 +24375,7 @@
         <l n="2454">
           <w xml:id="RCC_2454000_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
           <w xml:id="RCC_2454000_1" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_2454000_2">stat</w>
+          <w xml:id="RCC_2454000_2" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_2454000_3" lemmaRef="lexicon.xml#lemma_5917" pos="ADV" ana="lexicon.xml#lemma_5917_sense_9370" corresp="variants.xml#type_20858">sus</w>
           <w xml:id="RCC_2454000_4" lemmaRef="lexicon.xml#lemma_7473" pos="VRB VEM" corresp="variants.xml#type_150720">willent</w>
           <w xml:id="RCC_2454000_5" lemmaRef="lexicon.xml#lemma_1449" pos="VRB" ana="lexicon.xml#lemma_1449_sense_2233" corresp="variants.xml#type_363754">enteruen</w>
@@ -24471,7 +24472,7 @@
           </hi>
           <w xml:id="RCC_2463000_1" lemmaRef="lexicon.xml#lemma_5366" pos="VRB" ana="lexicon.xml#lemma_5366_sense_8382" corresp="variants.xml#type_288893">saich</w>
           <w xml:id="RCC_2463000_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_2463000_3">stat</w>
+          <w xml:id="RCC_2463000_3" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_2463000_4" lemmaRef="lexicon.xml#lemma_6330" pos="ADV PRP" ana="lexicon.xml#lemma_6330_sense_9973" corresp="variants.xml#type_82296">vp</w>
           <w xml:id="RCC_2463000_5" lemmaRef="lexicon.xml#lemma_21882" pos="ART PRP" ana="lexicon.xml#lemma_21882_sense_35836" corresp="variants.xml#type_157056">ind</w>
           <w xml:id="RCC_2463000_6" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_196205">zo</w>
@@ -24759,7 +24760,7 @@
           <w xml:id="RCC_2494000_3">was</w>
           <w xml:id="RCC_2494000_4">al</w>
           <w xml:id="RCC_2494000_5" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="RCC_2494000_6">stat</w>
+          <w xml:id="RCC_2494000_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="RCC_2494000_7" join="left">,</pc>
         </l>
         <l n="2495">
@@ -25255,7 +25256,7 @@
           <w xml:id="RCC_2547000_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_60651">dat</w>
           <w xml:id="RCC_2547000_1">sy</w>
           <w xml:id="RCC_2547000_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_2547000_3">stat</w>
+          <w xml:id="RCC_2547000_3" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_2547000_4">in</w>
           <w xml:id="RCC_2547000_5" lemmaRef="lexicon.xml#lemma_12010" pos="NOM" corresp="variants.xml#type_296579">vryheit</w>
           <w xml:id="RCC_2547000_6" lemmaRef="lexicon.xml#lemma_868" pos="VRB" corresp="variants.xml#type_364535">breichten</w>
@@ -25358,7 +25359,7 @@
           </hi>
           <w xml:id="RCC_2558000_2">were</w>
           <w xml:id="RCC_2558000_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="RCC_2558000_4">stat</w>
+          <w xml:id="RCC_2558000_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_2558000_5">van</w>
           <w xml:id="RCC_2558000_6" lemmaRef="lexicon.xml#lemma_3387" pos="NAM" ana="lexicon.xml#lemma_3387_sense_5338" corresp="variants.xml#type_249512">coelne</w>
           <w xml:id="RCC_2558000_7">eyn</w>
@@ -25525,7 +25526,7 @@
           <w xml:id="RCC_2574000_1" lemmaRef="lexicon.xml#lemma_944" pos="NOM" ana="lexicon.xml#lemma_944_sense_1574" corresp="variants.xml#type_55796">burch</w>
           <w xml:id="RCC_2574000_2" lemmaRef="lexicon.xml#lemma_578" pos="VRB" corresp="variants.xml#type_324085">besatte</w>
           <w xml:id="RCC_2574000_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_2574000_4">stat</w>
+          <w xml:id="RCC_2574000_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_2574000_5">weder</w>
           <pc xml:id="RCC_2574000_6" join="left">.</pc>
         </l>
@@ -25954,7 +25955,7 @@
           <hi rend="initial">
             <w xml:id="RCC_2619000_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
           </hi>
-          <w xml:id="RCC_2619000_1">stat</w>
+          <w xml:id="RCC_2619000_1" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_2619000_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
           <w xml:id="RCC_2619000_3" lemmaRef="lexicon.xml#lemma_944" pos="NOM" ana="lexicon.xml#lemma_944_sense_1574" corresp="variants.xml#type_55796">burch</w>
           <w xml:id="RCC_2619000_4">sich</w>
@@ -25979,7 +25980,7 @@
         <l n="2622">
           <w xml:id="RCC_2622000_0" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_250205">eyne</w>
           <w xml:id="RCC_2622000_1">vrie</w>
-          <w xml:id="RCC_2622000_2">stat</w>
+          <w xml:id="RCC_2622000_2" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_2622000_3">in</w>
           <w xml:id="RCC_2622000_4" lemmaRef="lexicon.xml#lemma_1334" pos="ADJ" ana="lexicon.xml#lemma_1334_sense_2071" corresp="variants.xml#type_364378">eynchen</w>
           <w xml:id="RCC_2622000_5">riche</w>
@@ -25997,7 +25998,7 @@
           <w xml:id="RCC_2624000_2">was</w>
           <w xml:id="RCC_2624000_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
           <w xml:id="RCC_2624000_4" lemmaRef="lexicon.xml#lemma_2708" pos="NOM ADJ" ana="lexicon.xml#lemma_2708_sense_4365" corresp="variants.xml#type_363570">hilge</w>
-          <w xml:id="RCC_2624000_5">stat</w>
+          <w xml:id="RCC_2624000_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="RCC_2624000_6" join="left">,</pc>
         </l>
         <l n="2625">
@@ -26382,7 +26383,7 @@
           <w xml:id="RCC_2666000_1">hait</w>
           <w xml:id="RCC_2666000_2">ir</w>
           <w xml:id="RCC_2666000_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_2666000_4">stat</w>
+          <w xml:id="RCC_2666000_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_2666000_5">gewonnen</w>
           <pc xml:id="RCC_2666000_6" join="left">,</pc>
         </l>
@@ -26836,7 +26837,7 @@
           <pc xml:id="RCC_2715000_4" join="left">,</pc>
           <w xml:id="RCC_2715000_5" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_84166">myt</w>
           <w xml:id="RCC_2715000_6" lemmaRef="lexicon.xml#lemma_56117" pos="POS" ana="lexicon.xml#lemma_56117_sense_90961" corresp="variants.xml#type_305568">vrre</w>
-          <w xml:id="RCC_2715000_7">stat</w>
+          <w xml:id="RCC_2715000_7" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="RCC_2715000_8" join="left">,</pc>
         </l>
         <l n="2716">
@@ -27034,7 +27035,7 @@
           <w xml:id="RCC_2737000_0" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
           <w xml:id="RCC_2737000_1">wat</w>
           <w xml:id="RCC_2737000_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_2737000_3">stat</w>
+          <w xml:id="RCC_2737000_3" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_2737000_4">hait</w>
           <w xml:id="RCC_2737000_5" lemmaRef="lexicon.xml#lemma_4160" pos="NEG VRB" ana="lexicon.xml#lemma_4160_sense_6526" corresp="variants.xml#type_364586">misdain</w>
           <pc xml:id="RCC_2737000_6" join="left">,</pc>
@@ -27387,7 +27388,7 @@
           <w xml:id="RCC_2772000_2" lemmaRef="lexicon.xml#lemma_77369" pos="VRB" ana="lexicon.xml#lemma_77369_sense_115887" corresp="variants.xml#type_364593">bewerden</w>
           <w xml:id="RCC_2772000_3" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_84166">myt</w>
           <w xml:id="RCC_2772000_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="RCC_2772000_5">stat</w>
+          <w xml:id="RCC_2772000_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="RCC_2772000_6" join="left">,</pc>
         </l>
         <l n="2773">
@@ -27486,7 +27487,7 @@
           <w xml:id="RCC_2782000_0" lemmaRef="lexicon.xml#lemma_6330" pos="ADV PRP" ana="lexicon.xml#lemma_6330_sense_9973" corresp="variants.xml#type_90439">off</w>
           <w xml:id="RCC_2782000_1" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
           <w xml:id="RCC_2782000_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_2782000_3">stat</w>
+          <w xml:id="RCC_2782000_3" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_2782000_4">neit</w>
           <w xml:id="RCC_2782000_5">en</w>
           <w xml:id="RCC_2782000_6" lemmaRef="lexicon.xml#lemma_2348" pos="VRB" corresp="variants.xml#type_44412">gewynne</w>
@@ -27706,7 +27707,7 @@
           <w xml:id="RCC_2801000_1">sente</w>
           <w xml:id="RCC_2801000_2" lemmaRef="lexicon.xml#lemma_4605" pos="NAM" ana="lexicon.xml#lemma_4605_sense_7163" corresp="variants.xml#type_65521">peters</w>
           <w xml:id="RCC_2801000_3">vrie</w>
-          <w xml:id="RCC_2801000_4">stat</w>
+          <w xml:id="RCC_2801000_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="RCC_2801000_5" join="left">,</pc>
         </l>
         <l n="2802">
@@ -27725,7 +27726,7 @@
           <w xml:id="RCC_2803000_3" lemmaRef="lexicon.xml#lemma_5061" pos="VRB" ana="lexicon.xml#lemma_5061_sense_7886" corresp="variants.xml#type_17542">sagen</w>
           <w xml:id="RCC_2803000_4" lemmaRef="lexicon.xml#lemma_6330" pos="ADV PRP" ana="lexicon.xml#lemma_6330_sense_9973" corresp="variants.xml#type_82296">vp</w>
           <w xml:id="RCC_2803000_5" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="RCC_2803000_6">stat</w>
+          <w xml:id="RCC_2803000_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         </l>
         <l n="2804">
           <w xml:id="RCC_2804000_0" lemmaRef="lexicon.xml#lemma_26715" pos="NOM" ana="lexicon.xml#lemma_26715_sense_42515" corresp="variants.xml#type_131934">bru</w>
@@ -28138,7 +28139,7 @@
         <l n="2849">
           <w xml:id="RCC_2849000_0">weder</w>
           <w xml:id="RCC_2849000_1" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_2849000_2">stat</w>
+          <w xml:id="RCC_2849000_2" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_2849000_3">irre</w>
           <w xml:id="RCC_2849000_4" lemmaRef="lexicon.xml#lemma_106" pos="ADJ" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_76595">alre</w>
           <w xml:id="RCC_2849000_5" lemmaRef="lexicon.xml#lemma_7699" pos="NOM" ana="lexicon.xml#lemma_7699_sense_12619" corresp="variants.xml#type_27860">wort</w>
@@ -28950,7 +28951,7 @@
           <w xml:id="RCC_2937000_0" lemmaRef="lexicon.xml#lemma_21882" pos="ART PRP" ana="lexicon.xml#lemma_21882_sense_35836" corresp="variants.xml#type_157056">ind</w>
           <w xml:id="RCC_2937000_1">vort</w>
           <w xml:id="RCC_2937000_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_2937000_3">stat</w>
+          <w xml:id="RCC_2937000_3" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_2937000_4" lemmaRef="lexicon.xml#lemma_3567" pos="VRB" corresp="variants.xml#type_291542">laissen</w>
           <w xml:id="RCC_2937000_5">in</w>
           <w xml:id="RCC_2937000_6" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
@@ -28986,7 +28987,7 @@
           <w xml:id="RCC_2941000_0" lemmaRef="lexicon.xml#lemma_21882" pos="ART PRP" ana="lexicon.xml#lemma_21882_sense_35836" corresp="variants.xml#type_157056">ind</w>
           <w xml:id="RCC_2941000_1" lemmaRef="lexicon.xml#lemma_3567" pos="VRB" ana="lexicon.xml#lemma_3567_sense_5652" corresp="variants.xml#type_291475">lais</w>
           <w xml:id="RCC_2941000_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_2941000_3">stat</w>
+          <w xml:id="RCC_2941000_3" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_2941000_4">in</w>
           <w xml:id="RCC_2941000_5" lemmaRef="lexicon.xml#lemma_5607" pos="ADJ" ana="lexicon.xml#lemma_5607_sense_8770" corresp="variants.xml#type_62806">sulchem</w>
           <w xml:id="RCC_2941000_6" lemmaRef="lexicon.xml#lemma_4842" pos="VRB" corresp="variants.xml#type_16654">reichte</w>
@@ -29113,7 +29114,7 @@
         </l>
         <l n="2954">
           <w xml:id="RCC_2954000_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_2954000_1">stat</w>
+          <w xml:id="RCC_2954000_1" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_2954000_2" lemmaRef="lexicon.xml#lemma_2598" pos="VRB VEX" corresp="variants.xml#type_294781">hain</w>
           <w xml:id="RCC_2954000_3" lemmaRef="lexicon.xml#lemma_7643" pos="PRO" ana="lexicon.xml#lemma_7643_sense_12530" corresp="variants.xml#type_27647">wir</w>
           <w xml:id="RCC_2954000_4" lemmaRef="lexicon.xml#lemma_6330" pos="ADV PRP" ana="lexicon.xml#lemma_6330_sense_9973" corresp="variants.xml#type_82296">vp</w>
@@ -29147,7 +29148,7 @@
             <w xml:id="RCC_2957000_1">wes</w>
           </hi>
           <w xml:id="RCC_2957000_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_2957000_3">stat</w>
+          <w xml:id="RCC_2957000_3" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_2957000_4" lemmaRef="lexicon.xml#lemma_56117" pos="PRO" ana="lexicon.xml#lemma_56117_sense_90961" corresp="variants.xml#type_305363">uch</w>
           <w xml:id="RCC_2957000_5" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_60651">dat</w>
           <w xml:id="RCC_2957000_6" lemmaRef="lexicon.xml#lemma_6250" pos="VRB" corresp="variants.xml#type_22086">getruwen</w>
@@ -29317,7 +29318,7 @@
             <w xml:id="RCC_2975000_0">here</w>
           </hi>
           <w xml:id="RCC_2975000_1" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_2975000_2">stat</w>
+          <w xml:id="RCC_2975000_2" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_2975000_3">sy</w>
           <w xml:id="RCC_2975000_4">sal</w>
           <w xml:id="RCC_2975000_5" lemmaRef="lexicon.xml#lemma_56117" pos="PRO" ana="lexicon.xml#lemma_56117_sense_90961" corresp="variants.xml#type_305363">uch</w>
@@ -29394,7 +29395,7 @@
           <w xml:id="RCC_2983000_0" lemmaRef="lexicon.xml#lemma_1055" pos="ADV" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3258">dar</w>
           <w xml:id="RCC_2983000_1">sal</w>
           <w xml:id="RCC_2983000_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_2983000_3">stat</w>
+          <w xml:id="RCC_2983000_3" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_2983000_4">vur</w>
           <w xml:id="RCC_2983000_5" lemmaRef="lexicon.xml#lemma_56117" pos="PRO" ana="lexicon.xml#lemma_56117_sense_90961" corresp="variants.xml#type_305363">uch</w>
           <w xml:id="RCC_2983000_6" lemmaRef="lexicon.xml#lemma_2097" pos="NOM ADJ ADV" corresp="variants.xml#type_7083">gemeine</w>
@@ -29448,7 +29449,7 @@
           </hi>
           <w xml:id="RCC_2989000_1" lemmaRef="lexicon.xml#lemma_5608" pos="VRB VEM" corresp="variants.xml#type_19685">sult</w>
           <w xml:id="RCC_2989000_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_2989000_3">stat</w>
+          <w xml:id="RCC_2989000_3" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_2989000_4" lemmaRef="lexicon.xml#lemma_3567" pos="VRB" corresp="variants.xml#type_291542">laissen</w>
           <w xml:id="RCC_2989000_5">in</w>
           <w xml:id="RCC_2989000_6" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
@@ -29686,7 +29687,7 @@
           <w xml:id="RCC_3015000_0">in</w>
           <w xml:id="RCC_3015000_1" lemmaRef="lexicon.xml#lemma_6342" pos="ADV PRP" ana="lexicon.xml#lemma_6342_sense_9997" corresp="variants.xml#type_44212">vs</w>
           <w xml:id="RCC_3015000_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="RCC_3015000_3">stat</w>
+          <w xml:id="RCC_3015000_3" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_3015000_4" lemmaRef="lexicon.xml#lemma_2598" pos="VRB VEX" corresp="variants.xml#type_292997">hedden</w>
           <w xml:id="RCC_3015000_5" lemmaRef="lexicon.xml#lemma_6996" pos="VRB" corresp="variants.xml#type_292395">verdreuen</w>
           <pc xml:id="RCC_3015000_6" join="left">,</pc>
@@ -29862,7 +29863,7 @@
           <w xml:id="RCC_3034000_3" lemmaRef="lexicon.xml#lemma_863" pos="NOM" ana="lexicon.xml#lemma_863_sense_1418" corresp="variants.xml#type_220537">brieue</w>
           <w xml:id="RCC_3034000_4" lemmaRef="lexicon.xml#lemma_6330" pos="ADV PRP" ana="lexicon.xml#lemma_6330_sense_9973" corresp="variants.xml#type_82296">vp</w>
           <w xml:id="RCC_3034000_5" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_3034000_6">stat</w>
+          <w xml:id="RCC_3034000_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="RCC_3034000_7" join="left">.</pc>
         </l>
         <l n="3035">
@@ -30014,7 +30015,7 @@
           <w xml:id="RCC_3050000_1">en</w>
           <w xml:id="RCC_3050000_2" lemmaRef="lexicon.xml#lemma_7473" pos="VRB VEM" corresp="variants.xml#type_26927">wolde</w>
           <w xml:id="RCC_3050000_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_3050000_4">stat</w>
+          <w xml:id="RCC_3050000_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_3050000_5">neit</w>
           <w xml:id="RCC_3050000_6" lemmaRef="lexicon.xml#lemma_5271" pos="VRB" ana="lexicon.xml#lemma_5271_sense_8211" corresp="variants.xml#type_293120">schuwen</w>
           <pc xml:id="RCC_3050000_7" join="left">.</pc>
@@ -30045,7 +30046,7 @@
           <w xml:id="RCC_3053000_3" lemmaRef="lexicon.xml#lemma_77389" pos="NAM" ana="lexicon.xml#lemma_77389_sense_115903" corresp="variants.xml#type_364668">houolz</w>
           <w xml:id="RCC_3053000_4" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_196205">zo</w>
           <w xml:id="RCC_3053000_5" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="RCC_3053000_6">stat</w>
+          <w xml:id="RCC_3053000_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="RCC_3053000_7" join="left">,</pc>
         </l>
         <l n="3054">
@@ -30187,7 +30188,7 @@
           <w xml:id="RCC_3067000_0">wat</w>
           <w xml:id="RCC_3067000_1" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4331">eme</w>
           <w xml:id="RCC_3067000_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_3067000_3">stat</w>
+          <w xml:id="RCC_3067000_3" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_3067000_4" lemmaRef="lexicon.xml#lemma_2684" pos="NOM" corresp="variants.xml#type_9039">herre</w>
           <w xml:id="RCC_3067000_5">hait</w>
           <w xml:id="RCC_3067000_6" lemmaRef="lexicon.xml#lemma_4160" pos="NEG VRB" ana="lexicon.xml#lemma_4160_sense_6526" corresp="variants.xml#type_364586">misdain</w>
@@ -30211,7 +30212,7 @@
           <w xml:id="RCC_3070000_0">noch</w>
           <w xml:id="RCC_3070000_1">van</w>
           <w xml:id="RCC_3070000_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="RCC_3070000_3">stat</w>
+          <w xml:id="RCC_3070000_3" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_3070000_4">sich</w>
           <w xml:id="RCC_3070000_5" lemmaRef="lexicon.xml#lemma_484" pos="VRB" ana="lexicon.xml#lemma_484_sense_685" corresp="variants.xml#type_92133">beclagen</w>
           <pc xml:id="RCC_3070000_6" join="left">,</pc>
@@ -30580,7 +30581,7 @@
         </l>
         <l n="3111">
           <w xml:id="RCC_3111000_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_3111000_1">stat</w>
+          <w xml:id="RCC_3111000_1" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_3111000_2" lemmaRef="lexicon.xml#lemma_2598" pos="VRB VEX" corresp="variants.xml#type_65329">hadde</w>
           <w xml:id="RCC_3111000_3" lemmaRef="lexicon.xml#lemma_7677" pos="NOM ADV" ana="lexicon.xml#lemma_7677_sense_12586" corresp="variants.xml#type_288597">wail</w>
           <w xml:id="RCC_3111000_4" lemmaRef="lexicon.xml#lemma_6905" pos="VRB" corresp="variants.xml#type_24350">vernomen</w>
@@ -30611,7 +30612,7 @@
           <w xml:id="RCC_3114000_2" lemmaRef="lexicon.xml#lemma_6722" pos="VRB" corresp="variants.xml#type_83151">geuangen</w>
           <w xml:id="RCC_3114000_3">van</w>
           <w xml:id="RCC_3114000_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="RCC_3114000_5">stat</w>
+          <w xml:id="RCC_3114000_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="RCC_3114000_6" join="left">;</pc>
         </l>
         <l n="3115">
@@ -30861,7 +30862,7 @@
           <hi rend="initial">
             <w xml:id="RCC_3141000_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
           </hi>
-          <w xml:id="RCC_3141000_1">stat</w>
+          <w xml:id="RCC_3141000_1" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_3141000_2">sich</w>
           <w xml:id="RCC_3141000_3">hie</w>
           <w xml:id="RCC_3141000_4">en</w>
@@ -30938,7 +30939,7 @@
           <w xml:id="RCC_3149000_0" lemmaRef="lexicon.xml#lemma_5693" pos="VRB" ana="lexicon.xml#lemma_5693_sense_8912" corresp="variants.xml#type_19957">sprach</w>
           <w xml:id="RCC_3149000_1" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_196205">zo</w>
           <w xml:id="RCC_3149000_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="RCC_3149000_3">stat</w>
+          <w xml:id="RCC_3149000_3" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_3149000_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
           <w xml:id="RCC_3149000_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_82313">stede</w>
           <w xml:id="RCC_3149000_6" lemmaRef="lexicon.xml#lemma_4885" pos="VRB" ana="lexicon.xml#lemma_4885_sense_7583" corresp="variants.xml#type_16832">rait</w>
@@ -31217,7 +31218,7 @@
           <w xml:id="RCC_3179000_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_60651">dat</w>
           <w xml:id="RCC_3179000_1">hie</w>
           <w xml:id="RCC_3179000_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_3179000_3">stat</w>
+          <w xml:id="RCC_3179000_3" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_3179000_4" lemmaRef="lexicon.xml#lemma_3688" pos="NOM ADJ" corresp="variants.xml#type_12820">leis</w>
           <w xml:id="RCC_3179000_5" lemmaRef="lexicon.xml#lemma_2186" pos="VRB" corresp="variants.xml#type_364633">geroin</w>
         </l>
@@ -31300,7 +31301,7 @@
         </l>
         <l n="3188">
           <w xml:id="RCC_3188000_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_3188000_1">stat</w>
+          <w xml:id="RCC_3188000_1" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_3188000_2">en</w>
           <w xml:id="RCC_3188000_3" lemmaRef="lexicon.xml#lemma_4238" pos="VRB VEM" corresp="variants.xml#type_291324">moiste</w>
           <w xml:id="RCC_3188000_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
@@ -31395,7 +31396,7 @@
         </l>
         <l n="3198">
           <w xml:id="RCC_3198000_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_3198000_1">stat</w>
+          <w xml:id="RCC_3198000_1" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_3198000_2">sal</w>
           <w xml:id="RCC_3198000_3" lemmaRef="lexicon.xml#lemma_56117" pos="PRO" ana="lexicon.xml#lemma_56117_sense_90961" corresp="variants.xml#type_305363">uch</w>
           <w xml:id="RCC_3198000_4" lemmaRef="lexicon.xml#lemma_3567" pos="VRB" corresp="variants.xml#type_291542">laissen</w>
@@ -31532,7 +31533,7 @@
           <w xml:id="RCC_3212000_2" lemmaRef="lexicon.xml#lemma_717" pos="NOM" ana="lexicon.xml#lemma_717_sense_1171" corresp="variants.xml#type_268389">busschoue</w>
           <w xml:id="RCC_3212000_3" lemmaRef="lexicon.xml#lemma_21882" pos="ART PRP" ana="lexicon.xml#lemma_21882_sense_35836" corresp="variants.xml#type_157056">ind</w>
           <w xml:id="RCC_3212000_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="RCC_3212000_5">stat</w>
+          <w xml:id="RCC_3212000_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="RCC_3212000_6" join="left">,</pc>
         </l>
         <l n="3213">
@@ -31721,7 +31722,7 @@
         </l>
         <l n="3233">
           <w xml:id="RCC_3233000_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_3233000_1">stat</w>
+          <w xml:id="RCC_3233000_1" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_3233000_2">en</w>
           <w xml:id="RCC_3233000_3">solde</w>
           <w xml:id="RCC_3233000_4">me</w>
@@ -31756,7 +31757,7 @@
           <w xml:id="RCC_3237000_0" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4316">ain</w>
           <w xml:id="RCC_3237000_1" lemmaRef="lexicon.xml#lemma_8004" pos="PRO VRB VEX" ana="lexicon.xml#lemma_8004_sense_21816" corresp="variants.xml#type_364696">weir't</w>
           <w xml:id="RCC_3237000_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="RCC_3237000_3">stat</w>
+          <w xml:id="RCC_3237000_3" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_3237000_4">ein</w>
           <w xml:id="RCC_3237000_5" lemmaRef="lexicon.xml#lemma_6041" pos="NOM" corresp="variants.xml#type_113315">deil</w>
           <w xml:id="RCC_3237000_6" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_28131">ze</w>
@@ -31798,7 +31799,7 @@
             <w xml:id="RCC_3241000_0" lemmaRef="lexicon.xml#lemma_154" pos="ADV" ana="lexicon.xml#lemma_154_sense_189" corresp="variants.xml#type_398">alsus</w>
           </hi>
           <w xml:id="RCC_3241000_1" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_3241000_2">stat</w>
+          <w xml:id="RCC_3241000_2" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_3241000_3" lemmaRef="lexicon.xml#lemma_6978" pos="VRB" ana="lexicon.xml#lemma_6978_sense_11257" corresp="variants.xml#type_364697">versoinde</w>
           <w xml:id="RCC_3241000_4">sich</w>
           <pc xml:id="RCC_3241000_5" join="left">.</pc>
@@ -32958,7 +32959,7 @@
             <w xml:id="RCC_3364000_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_60651">dat</w>
           </hi>
           <w xml:id="RCC_3364000_1" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_3364000_2">stat</w>
+          <w xml:id="RCC_3364000_2" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_3364000_3" lemmaRef="lexicon.xml#lemma_27968" pos="ADJ ADV" corresp="variants.xml#type_363956">eindreichtich</w>
           <w xml:id="RCC_3364000_4">were</w>
           <pc xml:id="RCC_3364000_5" join="left">,</pc>
@@ -33257,7 +33258,7 @@
           <w xml:id="RCC_3395000_3" lemmaRef="lexicon.xml#lemma_953" pos="NOM" corresp="variants.xml#type_57071">burgere</w>
           <w xml:id="RCC_3395000_4">van</w>
           <w xml:id="RCC_3395000_5" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="RCC_3395000_6">stat</w>
+          <w xml:id="RCC_3395000_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         </l>
         <l n="3396">
           <w xml:id="RCC_3396000_0" lemmaRef="lexicon.xml#lemma_2598" pos="VRB VEX" corresp="variants.xml#type_65468">hadden</w>
@@ -33590,7 +33591,7 @@
           <w xml:id="RCC_3430000_1" lemmaRef="lexicon.xml#lemma_7473" pos="VRB VEM" corresp="variants.xml#type_150720">willent</w>
           <w xml:id="RCC_3430000_2" lemmaRef="lexicon.xml#lemma_6330" pos="ADV PRP" ana="lexicon.xml#lemma_6330_sense_9973" corresp="variants.xml#type_82296">vp</w>
           <w xml:id="RCC_3430000_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="RCC_3430000_4">stat</w>
+          <w xml:id="RCC_3430000_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_3430000_5">vr</w>
           <w xml:id="RCC_3430000_6" lemmaRef="lexicon.xml#lemma_1524" pos="NOM" ana="lexicon.xml#lemma_1524_sense_2366" corresp="variants.xml#type_218400">erue</w>
           <w xml:id="RCC_3430000_7" lemmaRef="lexicon.xml#lemma_843" pos="VRB" corresp="variants.xml#type_2630">brechen</w>
@@ -34509,7 +34510,7 @@
           <w xml:id="RCC_3525000_5" lemmaRef="lexicon.xml#lemma_6359" pos="PRP" ana="lexicon.xml#lemma_6359_sense_10020" corresp="variants.xml#type_288363">ouer</w>
           <w xml:id="RCC_3525000_6">al</w>
           <w xml:id="RCC_3525000_7" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_3525000_8">stat</w>
+          <w xml:id="RCC_3525000_8" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="RCC_3525000_9" join="left">.</pc>
         </l>
         <l n="3526">
@@ -36925,7 +36926,7 @@
           <w xml:id="RCC_3783000_2" lemmaRef="lexicon.xml#lemma_6487" pos="NOM ADJ PRP" corresp="variants.xml#type_363680">vnderdain</w>
           <w xml:id="RCC_3783000_3">wirt</w>
           <w xml:id="RCC_3783000_4" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_3783000_5">stat</w>
+          <w xml:id="RCC_3783000_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="RCC_3783000_6" join="left">.</pc>
         </l>
         <l n="3784">
@@ -38042,7 +38043,7 @@
           <w xml:id="RCC_3896000_3" lemmaRef="lexicon.xml#lemma_6912" pos="VRB" corresp="variants.xml#type_45716">verraden</w>
           <w xml:id="RCC_3896000_4" lemmaRef="lexicon.xml#lemma_5917" pos="ADV" ana="lexicon.xml#lemma_5917_sense_9370" corresp="variants.xml#type_20858">sus</w>
           <w xml:id="RCC_3896000_5" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_3896000_6">stat</w>
+          <w xml:id="RCC_3896000_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="RCC_3896000_7" join="left">,</pc>
         </l>
         <l n="3897">
@@ -38247,7 +38248,7 @@
           <w xml:id="RCC_3918000_2" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_84166">myt</w>
           <w xml:id="RCC_3918000_3" lemmaRef="lexicon.xml#lemma_5364" pos="VRB" ana="lexicon.xml#lemma_5364_sense_8379" corresp="variants.xml#type_364950">sainde</w>
           <w xml:id="RCC_3918000_4" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_3918000_5">stat</w>
+          <w xml:id="RCC_3918000_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="RCC_3918000_6" join="left">,</pc>
         </l>
         <l n="3919">
@@ -38372,7 +38373,7 @@
           <w xml:id="RCC_3931000_3" lemmaRef="lexicon.xml#lemma_1844" pos="VRB" corresp="variants.xml#type_363591">geingen</w>
           <w xml:id="RCC_3931000_4">in</w>
           <w xml:id="RCC_3931000_5" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_3931000_6">stat</w>
+          <w xml:id="RCC_3931000_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         </l>
         <l n="3932">
           <w xml:id="RCC_3932000_0" lemmaRef="lexicon.xml#lemma_77529" pos="ADJ ADV PRP" ana="lexicon.xml#lemma_77529_sense_116085" corresp="variants.xml#type_364955">vummer</w>
@@ -38559,7 +38560,7 @@
           <w xml:id="RCC_3950000_3" lemmaRef="lexicon.xml#lemma_21882" pos="ART PRP" ana="lexicon.xml#lemma_21882_sense_35836" corresp="variants.xml#type_157056">ind</w>
           <w xml:id="RCC_3950000_4" lemmaRef="lexicon.xml#lemma_5364" pos="VRB" ana="lexicon.xml#lemma_5364_sense_8379" corresp="variants.xml#type_364951">sainden</w>
           <w xml:id="RCC_3950000_5" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_3950000_6">stat</w>
+          <w xml:id="RCC_3950000_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="RCC_3950000_7" join="left">;</pc>
         </l>
         <l n="3951">
@@ -39015,7 +39016,7 @@
           <w xml:id="RCC_3994000_0" lemmaRef="lexicon.xml#lemma_21882" pos="ART PRP" ana="lexicon.xml#lemma_21882_sense_35836" corresp="variants.xml#type_157056">ind</w>
           <w xml:id="RCC_3994000_1" lemmaRef="lexicon.xml#lemma_5364" pos="VRB" ana="lexicon.xml#lemma_5364_sense_8379" corresp="variants.xml#type_364951">sainden</w>
           <w xml:id="RCC_3994000_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_3994000_3">stat</w>
+          <w xml:id="RCC_3994000_3" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_3994000_4" lemmaRef="lexicon.xml#lemma_29715" pos="ADV" ana="lexicon.xml#lemma_29715_sense_46587" corresp="variants.xml#type_148857">alsamen</w>
           <pc xml:id="RCC_3994000_5" join="left">.</pc>
         </l>
@@ -39744,7 +39745,7 @@
           <w xml:id="RCC_4067000_4" lemmaRef="lexicon.xml#lemma_5359" pos="NOM VRB" ana="lexicon.xml#lemma_5359_sense_8371" corresp="variants.xml#type_18645">segel</w>
           <w xml:id="RCC_4067000_5">van</w>
           <w xml:id="RCC_4067000_6" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="RCC_4067000_7">stat</w>
+          <w xml:id="RCC_4067000_7" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="RCC_4067000_8" join="left">,</pc>
         </l>
         <l n="4068">
@@ -39882,7 +39883,7 @@
           <w xml:id="RCC_4080000_3">sy</w>
           <w xml:id="RCC_4080000_4">in</w>
           <w xml:id="RCC_4080000_5" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_4080000_6">stat</w>
+          <w xml:id="RCC_4080000_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         </l>
         <l n="4081">
           <w xml:id="RCC_4081000_0" lemmaRef="lexicon.xml#lemma_21882" pos="ART PRP" ana="lexicon.xml#lemma_21882_sense_35836" corresp="variants.xml#type_157056">ind</w>
@@ -40657,7 +40658,7 @@
           </hi>
           <w xml:id="RCC_4166000_1">in</w>
           <w xml:id="RCC_4166000_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_4166000_3">stat</w>
+          <w xml:id="RCC_4166000_3" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_4166000_4" lemmaRef="lexicon.xml#lemma_3400" pos="VRB" ana="lexicon.xml#lemma_3400_sense_5361" corresp="variants.xml#type_11703">komen</w>
           <w xml:id="RCC_4166000_5" lemmaRef="lexicon.xml#lemma_7643" pos="POS" ana="lexicon.xml#lemma_7643_sense_12530" corresp="variants.xml#type_104661">vnsen</w>
           <w xml:id="RCC_4166000_6">heren</w>
@@ -40883,7 +40884,7 @@
         </l>
         <l n="4191">
           <w xml:id="RCC_4191000_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_4191000_1">stat</w>
+          <w xml:id="RCC_4191000_1" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_4191000_2" lemmaRef="lexicon.xml#lemma_6301" pos="VRB" ana="lexicon.xml#lemma_6301_sense_9929" corresp="variants.xml#type_292500">doin</w>
           <w xml:id="RCC_4191000_3" lemmaRef="lexicon.xml#lemma_4633" pos="NOM" ana="lexicon.xml#lemma_4633_sense_7198" corresp="variants.xml#type_364076">pennynge</w>
           <w xml:id="RCC_4191000_4" lemmaRef="lexicon.xml#lemma_3830" pos="VRB" corresp="variants.xml#type_365002">gelouen</w>
@@ -41570,7 +41571,7 @@
           <w xml:id="RCC_4262000_3">varen</w>
           <w xml:id="RCC_4262000_4">in</w>
           <w xml:id="RCC_4262000_5" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_4262000_6">stat</w>
+          <w xml:id="RCC_4262000_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="RCC_4262000_7" join="left">,</pc>
         </l>
         <l n="4263">
@@ -41815,7 +41816,7 @@
           <w xml:id="RCC_4287000_4">hie</w>
           <w xml:id="RCC_4287000_5">in</w>
           <w xml:id="RCC_4287000_6" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_4287000_7">stat</w>
+          <w xml:id="RCC_4287000_7" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="RCC_4287000_8" join="left">.</pc>
         </l>
         <l n="4288">
@@ -42816,7 +42817,7 @@
           <w xml:id="RCC_4392000_0" lemmaRef="lexicon.xml#lemma_6330" pos="ADV PRP" ana="lexicon.xml#lemma_6330_sense_9973" corresp="variants.xml#type_82296">vp</w>
           <w xml:id="RCC_4392000_1" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_60651">dat</w>
           <w xml:id="RCC_4392000_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_4392000_3">stat</w>
+          <w xml:id="RCC_4392000_3" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_4392000_4" lemmaRef="lexicon.xml#lemma_27968" pos="ADJ ADV" corresp="variants.xml#type_363956">eindreichtich</w>
           <w xml:id="RCC_4392000_5">were</w>
           <pc xml:id="RCC_4392000_6" join="left">,</pc>
@@ -42826,7 +42827,7 @@
           <w xml:id="RCC_4393000_1" lemmaRef="lexicon.xml#lemma_453" pos="VRB" corresp="variants.xml#type_364115">beheilden</w>
           <w xml:id="RCC_4393000_2">sy</w>
           <w xml:id="RCC_4393000_3">ir</w>
-          <w xml:id="RCC_4393000_4">stat</w>
+          <w xml:id="RCC_4393000_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_4393000_5" lemmaRef="lexicon.xml#lemma_21882" pos="ART PRP" ana="lexicon.xml#lemma_21882_sense_35836" corresp="variants.xml#type_157056">ind</w>
           <w xml:id="RCC_4393000_6">ir</w>
           <w xml:id="RCC_4393000_7">ere</w>
@@ -43263,7 +43264,7 @@
           <w xml:id="RCC_4439000_3">arm</w>
           <w xml:id="RCC_4439000_4">van</w>
           <w xml:id="RCC_4439000_5" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="RCC_4439000_6">stat</w>
+          <w xml:id="RCC_4439000_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         </l>
         <l n="4440">
           <w xml:id="RCC_4440000_0" lemmaRef="lexicon.xml#lemma_21882" pos="ART PRP" ana="lexicon.xml#lemma_21882_sense_35836" corresp="variants.xml#type_157056">ind</w>
@@ -43419,7 +43420,7 @@
           <w xml:id="RCC_4456000_3" lemmaRef="lexicon.xml#lemma_7695" pos="VRB" ana="lexicon.xml#lemma_7695_sense_12610" corresp="variants.xml#type_27849">wonent</w>
           <w xml:id="RCC_4456000_4">in</w>
           <w xml:id="RCC_4456000_5" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="RCC_4456000_6">stat</w>
+          <w xml:id="RCC_4456000_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="RCC_4456000_7" join="left">.</pc>
           <pc xml:id="RCC_4456000_8" join="left">&gt;</pc>
         </l>
@@ -44673,7 +44674,7 @@
           <w xml:id="RCC_4590000_0" lemmaRef="lexicon.xml#lemma_21882" pos="ART PRP" ana="lexicon.xml#lemma_21882_sense_35836" corresp="variants.xml#type_157056">ind</w>
           <w xml:id="RCC_4590000_1" lemmaRef="lexicon.xml#lemma_6342" pos="ADV PRP" ana="lexicon.xml#lemma_6342_sense_9997" corresp="variants.xml#type_44212">vs</w>
           <w xml:id="RCC_4590000_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="RCC_4590000_3">stat</w>
+          <w xml:id="RCC_4590000_3" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="RCC_4590000_4" join="left">,</pc>
           <w xml:id="RCC_4590000_5">wene</w>
           <w xml:id="RCC_4590000_6" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
@@ -46963,7 +46964,7 @@
         <l n="4824">
           <w xml:id="RCC_4824000_0" lemmaRef="lexicon.xml#lemma_6330" pos="ADV PRP" ana="lexicon.xml#lemma_6330_sense_9973" corresp="variants.xml#type_82296">vp</w>
           <w xml:id="RCC_4824000_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="RCC_4824000_2">stat</w>
+          <w xml:id="RCC_4824000_2" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_4824000_3">hie</w>
           <w xml:id="RCC_4824000_4">drum</w>
           <w xml:id="RCC_4824000_5" lemmaRef="lexicon.xml#lemma_1961" pos="VRB" ana="lexicon.xml#lemma_1961_sense_3008" corresp="variants.xml#type_82321">geuen</w>
@@ -50777,7 +50778,7 @@
           <w xml:id="RCC_5223000_2" lemmaRef="lexicon.xml#lemma_3387" pos="NAM" ana="lexicon.xml#lemma_3387_sense_5338" corresp="variants.xml#type_249512">coelne</w>
           <w xml:id="RCC_5223000_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
           <w xml:id="RCC_5223000_4" lemmaRef="lexicon.xml#lemma_2551" pos="NOM" ana="lexicon.xml#lemma_2551_sense_4091" corresp="variants.xml#type_204155">guede</w>
-          <w xml:id="RCC_5223000_5">stat</w>
+          <w xml:id="RCC_5223000_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="RCC_5223000_6" join="left">.</pc>
         </l>
         <l n="5224">
@@ -50974,7 +50975,7 @@
           <w xml:id="RCC_5244000_2" lemmaRef="lexicon.xml#lemma_3387" pos="NAM" ana="lexicon.xml#lemma_3387_sense_5338" corresp="variants.xml#type_249512">coelne</w>
           <w xml:id="RCC_5244000_3">vre</w>
           <w xml:id="RCC_5244000_4">vrie</w>
-          <w xml:id="RCC_5244000_5">stat</w>
+          <w xml:id="RCC_5244000_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         </l>
         <l n="5245">
           <w xml:id="RCC_5245000_0" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
@@ -51065,7 +51066,7 @@
           <w xml:id="RCC_5254000_1">ir</w>
           <w xml:id="RCC_5254000_2" lemmaRef="lexicon.xml#lemma_453" pos="VRB" corresp="variants.xml#type_1271">behalden</w>
           <w xml:id="RCC_5254000_3">vre</w>
-          <w xml:id="RCC_5254000_4">stat</w>
+          <w xml:id="RCC_5254000_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="RCC_5254000_5" join="left">,</pc>
         </l>
         <l n="5255">
@@ -51269,7 +51270,7 @@
           <w xml:id="RCC_5275000_2" lemmaRef="lexicon.xml#lemma_6342" pos="ADV PRP" ana="lexicon.xml#lemma_6342_sense_9997" corresp="variants.xml#type_44212">vs</w>
           <w xml:id="RCC_5275000_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
           <w xml:id="RCC_5275000_4" lemmaRef="lexicon.xml#lemma_2573" pos="ADJ" corresp="variants.xml#type_364116">goeder</w>
-          <w xml:id="RCC_5275000_5">stat</w>
+          <w xml:id="RCC_5275000_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_5275000_6" lemmaRef="lexicon.xml#lemma_6996" pos="VRB" corresp="variants.xml#type_292395">verdreuen</w>
           <pc xml:id="RCC_5275000_7" join="left">;</pc>
         </l>
@@ -51616,7 +51617,7 @@
           <w xml:id="RCC_5311000_1">sy</w>
           <w xml:id="RCC_5311000_2" lemmaRef="lexicon.xml#lemma_5608" pos="VRB VEM" corresp="variants.xml#type_19654">solden</w>
           <w xml:id="RCC_5311000_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_5311000_4">stat</w>
+          <w xml:id="RCC_5311000_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_5311000_5">weder</w>
           <w xml:id="RCC_5311000_6" lemmaRef="lexicon.xml#lemma_7490" pos="VRB" corresp="variants.xml#type_325083">weruen</w>
           <pc xml:id="RCC_5311000_7" join="left">;</pc>
@@ -51679,7 +51680,7 @@
           <w xml:id="RCC_5318000_1" lemmaRef="lexicon.xml#lemma_3905" pos="NOM" ana="lexicon.xml#lemma_3905_sense_6158" corresp="variants.xml#type_13627">magen</w>
           <w xml:id="RCC_5318000_2">in</w>
           <w xml:id="RCC_5318000_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_5318000_4">stat</w>
+          <w xml:id="RCC_5318000_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         </l>
         <l n="5319">
           <w xml:id="RCC_5319000_0" lemmaRef="lexicon.xml#lemma_21882" pos="ART PRP" ana="lexicon.xml#lemma_21882_sense_35836" corresp="variants.xml#type_157056">ind</w>
@@ -52061,7 +52062,7 @@
           <w xml:id="RCC_5359000_2" lemmaRef="lexicon.xml#lemma_3387" pos="NAM" ana="lexicon.xml#lemma_3387_sense_5338" corresp="variants.xml#type_249512">coelne</w>
           <w xml:id="RCC_5359000_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
           <w xml:id="RCC_5359000_4" lemmaRef="lexicon.xml#lemma_2465" pos="NOM" ana="lexicon.xml#lemma_2465_sense_3951" corresp="variants.xml#type_248145">goede</w>
-          <w xml:id="RCC_5359000_5">stat</w>
+          <w xml:id="RCC_5359000_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="RCC_5359000_6" join="left">,</pc>
         </l>
         <l n="5360">
@@ -52860,7 +52861,7 @@
           <w xml:id="RCC_5444000_4" lemmaRef="lexicon.xml#lemma_7643" pos="PRO" ana="lexicon.xml#lemma_7643_sense_12530" corresp="variants.xml#type_27647">wir</w>
           <w xml:id="RCC_5444000_5">in</w>
           <w xml:id="RCC_5444000_6" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_5444000_7">stat</w>
+          <w xml:id="RCC_5444000_7" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="RCC_5444000_8" join="left">,</pc>
         </l>
         <l n="5445">
@@ -52918,7 +52919,7 @@
           <w xml:id="RCC_5450000_3" lemmaRef="lexicon.xml#lemma_4873" pos="NOM" ana="lexicon.xml#lemma_4873_sense_7554" corresp="variants.xml#type_16775">richeit</w>
           <w xml:id="RCC_5450000_4">van</w>
           <w xml:id="RCC_5450000_5" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="RCC_5450000_6">stat</w>
+          <w xml:id="RCC_5450000_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         </l>
         <l n="5451">
           <w xml:id="RCC_5451000_0" lemmaRef="lexicon.xml#lemma_21882" pos="ART PRP" ana="lexicon.xml#lemma_21882_sense_35836" corresp="variants.xml#type_157056">ind</w>
@@ -52986,7 +52987,7 @@
           <w xml:id="RCC_5457000_1" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_196205">zo</w>
           <w xml:id="RCC_5457000_2">sal</w>
           <w xml:id="RCC_5457000_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_5457000_4">stat</w>
+          <w xml:id="RCC_5457000_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_5457000_5" lemmaRef="lexicon.xml#lemma_2097" pos="NOM ADJ ADV" corresp="variants.xml#type_7083">gemeine</w>
         </l>
         <l n="5458">
@@ -53858,7 +53859,7 @@
           <w xml:id="RCC_5545000_2" lemmaRef="lexicon.xml#lemma_5541" pos="VRB" corresp="variants.xml#type_158652">slussen</w>
           <w xml:id="RCC_5545000_3">sy</w>
           <w xml:id="RCC_5545000_4">ir</w>
-          <w xml:id="RCC_5545000_5">stat</w>
+          <w xml:id="RCC_5545000_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="RCC_5545000_6" join="left">,</pc>
         </l>
         <l n="5546">
@@ -54619,7 +54620,7 @@
           <w xml:id="RCC_5620000_3">in</w>
           <w xml:id="RCC_5620000_4">in</w>
           <w xml:id="RCC_5620000_5" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_5620000_6">stat</w>
+          <w xml:id="RCC_5620000_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         </l>
         <l n="5621">
           <w xml:id="RCC_5621000_0" lemmaRef="lexicon.xml#lemma_21882" pos="ART PRP" ana="lexicon.xml#lemma_21882_sense_35836" corresp="variants.xml#type_157056">ind</w>
@@ -55347,7 +55348,7 @@
           <w xml:id="RCC_5698000_3" lemmaRef="lexicon.xml#lemma_504" pos="VRB" ana="lexicon.xml#lemma_504_sense_722" corresp="variants.xml#type_270517">bleiff</w>
           <w xml:id="RCC_5698000_4" lemmaRef="lexicon.xml#lemma_6330" pos="ADV PRP" ana="lexicon.xml#lemma_6330_sense_9973" corresp="variants.xml#type_82296">vp</w>
           <w xml:id="RCC_5698000_5" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="RCC_5698000_6">stat</w>
+          <w xml:id="RCC_5698000_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="RCC_5698000_7" join="left">.</pc>
         </l>
         <l n="5699">
@@ -55471,7 +55472,7 @@
           <w xml:id="RCC_5711000_3">in</w>
           <w xml:id="RCC_5711000_4" lemmaRef="lexicon.xml#lemma_1169" pos="DET" ana="lexicon.xml#lemma_1169_sense_1850" corresp="variants.xml#type_192571">deser</w>
           <w xml:id="RCC_5711000_5">hilger</w>
-          <w xml:id="RCC_5711000_6">stat</w>
+          <w xml:id="RCC_5711000_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         </l>
         <l n="5712">
           <w xml:id="RCC_5712000_0" lemmaRef="lexicon.xml#lemma_6330" pos="ADV PRP" ana="lexicon.xml#lemma_6330_sense_9973" corresp="variants.xml#type_82296">vp</w>
@@ -55891,7 +55892,7 @@
           <w xml:id="RCC_5756000_1" lemmaRef="lexicon.xml#lemma_3387" pos="NAM" ana="lexicon.xml#lemma_3387_sense_5338" corresp="variants.xml#type_249512">coelne</w>
           <w xml:id="RCC_5756000_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
           <w xml:id="RCC_5756000_3" lemmaRef="lexicon.xml#lemma_2708" pos="NOM ADJ" ana="lexicon.xml#lemma_2708_sense_4365" corresp="variants.xml#type_363570">hilge</w>
-          <w xml:id="RCC_5756000_4">stat</w>
+          <w xml:id="RCC_5756000_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="RCC_5756000_5" join="left">.</pc>
         </l>
         <l n="5757">
@@ -55931,7 +55932,7 @@
           <w xml:id="RCC_5760000_3" lemmaRef="lexicon.xml#lemma_6118" pos="NOM ADJ" ana="lexicon.xml#lemma_6118_sense_9650" corresp="variants.xml#type_239990">doit</w>
           <w xml:id="RCC_5760000_4">in</w>
           <w xml:id="RCC_5760000_5" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="RCC_5760000_6">stat</w>
+          <w xml:id="RCC_5760000_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="RCC_5760000_7" join="left">,</pc>
         </l>
         <l n="5761">
@@ -56139,7 +56140,7 @@
           <w xml:id="RCC_5783000_1" lemmaRef="lexicon.xml#lemma_843" pos="VRB" corresp="variants.xml#type_2630">brechen</w>
           <w xml:id="RCC_5783000_2">in</w>
           <w xml:id="RCC_5783000_3">eine</w>
-          <w xml:id="RCC_5783000_4">stat</w>
+          <w xml:id="RCC_5783000_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="RCC_5783000_5" join="left">!</pc>
         </l>
         <l n="5784">
@@ -57141,7 +57142,7 @@
           <w xml:id="RCC_5890000_1" lemmaRef="lexicon.xml#lemma_2708" pos="NOM ADJ" ana="lexicon.xml#lemma_2708_sense_4365" corresp="variants.xml#type_363567">hilgen</w>
           <w xml:id="RCC_5890000_2" lemmaRef="lexicon.xml#lemma_21882" pos="ART PRP" ana="lexicon.xml#lemma_21882_sense_35836" corresp="variants.xml#type_157056">ind</w>
           <w xml:id="RCC_5890000_3">vre</w>
-          <w xml:id="RCC_5890000_4">stat</w>
+          <w xml:id="RCC_5890000_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_5890000_5" lemmaRef="lexicon.xml#lemma_441" pos="VRB" corresp="variants.xml#type_363736">begeuen</w>
           <pc xml:id="RCC_5890000_6" join="left">.</pc>
         </l>
@@ -57644,7 +57645,7 @@
           <w xml:id="RCC_5943000_2" lemmaRef="lexicon.xml#lemma_56117" pos="PRO" ana="lexicon.xml#lemma_56117_sense_90961" corresp="variants.xml#type_305363">uch</w>
           <w xml:id="RCC_5943000_3" lemmaRef="lexicon.xml#lemma_21882" pos="ART PRP" ana="lexicon.xml#lemma_21882_sense_35836" corresp="variants.xml#type_157056">ind</w>
           <w xml:id="RCC_5943000_4">vre</w>
-          <w xml:id="RCC_5943000_5">stat</w>
+          <w xml:id="RCC_5943000_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_5943000_6">vur</w>
           <w xml:id="RCC_5943000_7">schaden</w>
         </l>
@@ -57712,7 +57713,7 @@
           <pc xml:id="RCC_5950000_2" join="left">,</pc>
           <w xml:id="RCC_5950000_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
           <w xml:id="RCC_5950000_4">reyne</w>
-          <w xml:id="RCC_5950000_5">stat</w>
+          <w xml:id="RCC_5950000_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         </l>
         <l n="5951">
           <w xml:id="RCC_5951000_0" lemmaRef="lexicon.xml#lemma_152" pos="ADV" ana="lexicon.xml#lemma_152_sense_187" corresp="variants.xml#type_378">also</w>
@@ -58010,7 +58011,7 @@
         </l>
         <l n="5982">
           <w xml:id="RCC_5982000_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="RCC_5982000_1">stat</w>
+          <w xml:id="RCC_5982000_1" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="RCC_5982000_2" lemmaRef="lexicon.xml#lemma_5366" pos="VRB" ana="lexicon.xml#lemma_5366_sense_8382" corresp="variants.xml#type_288893">saich</w>
           <w xml:id="RCC_5982000_3" lemmaRef="lexicon.xml#lemma_6001" pos="ADJ ADV" ana="lexicon.xml#lemma_6001_sense_9506" corresp="variants.xml#type_365520">degelichs</w>
           <w xml:id="RCC_5982000_4" lemmaRef="lexicon.xml#lemma_21882" pos="ART PRP" ana="lexicon.xml#lemma_21882_sense_35836" corresp="variants.xml#type_157056">ind</w>
@@ -59804,7 +59805,7 @@
           <w xml:id="RCC_6166000_4">in</w>
           <w xml:id="RCC_6166000_5" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
           <w xml:id="RCC_6166000_6">hilger</w>
-          <w xml:id="RCC_6166000_7">stat</w>
+          <w xml:id="RCC_6166000_7" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         </l>
         <l n="6167">
           <w xml:id="RCC_6167000_0">van</w>

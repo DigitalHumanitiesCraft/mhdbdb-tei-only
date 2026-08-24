@@ -156,6 +156,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 3 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -165,7 +166,7 @@
           <w xml:id="RUT_126100010_0">in</w>
         </hi>
         <w xml:id="RUT_126100010_1" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4323">einer</w>
-        <w xml:id="RUT_126100010_2">stat</w>
+        <w xml:id="RUT_126100010_2" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         <w xml:id="RUT_126100010_3">saz</w>
         <w xml:id="RUT_126100010_4">ein</w>
         <w xml:id="RUT_126100010_5">man</w>
@@ -591,7 +592,7 @@
         <w xml:id="RUT_126100480_1">sol</w>
         <w xml:id="RUT_126100480_2">in</w>
         <w xml:id="RUT_126100480_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-        <w xml:id="RUT_126100480_4">stat</w>
+        <w xml:id="RUT_126100480_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         <w xml:id="RUT_126100480_5">gan</w>
         <pc xml:id="RUT_126100480_6" join="left">.</pc>
       </l>
@@ -1207,7 +1208,7 @@
       <l n="117">
         <w xml:id="RUT_126101170_0">in</w>
         <w xml:id="RUT_126101170_1" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-        <w xml:id="RUT_126101170_2">stat</w>
+        <w xml:id="RUT_126101170_2" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         <w xml:id="RUT_126101170_3" lemmaRef="lexicon.xml#lemma_10221" pos="PRO VRB" corresp="variants.xml#type_55054">giengens</w>
         <w xml:id="RUT_126101170_4" lemmaRef="lexicon.xml#lemma_3013" pos="ADV" ana="lexicon.xml#lemma_3013_sense_4817" corresp="variants.xml#type_115351">iesa</w>
         <pc xml:id="RUT_126101170_5" join="left">.</pc>

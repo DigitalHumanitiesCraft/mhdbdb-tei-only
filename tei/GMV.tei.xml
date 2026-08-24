@@ -160,6 +160,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 7 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -189,7 +190,7 @@
           <w xml:id="GMV_3_2" lemmaRef="lexicon.xml#lemma_4970" pos="NAM" ana="lexicon.xml#lemma_4970_sense_7727" corresp="variants.xml#type_17167">rome</w>
           <w xml:id="GMV_3_3">in</w>
           <w xml:id="GMV_3_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="GMV_3_5">stat</w>
+          <w xml:id="GMV_3_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         </l>
         <l n="4">
           <w xml:id="GMV_4_0">an</w>
@@ -287,7 +288,7 @@
           <w xml:id="GMV_15_2" lemmaRef="lexicon.xml#lemma_4970" pos="NAM" ana="lexicon.xml#lemma_4970_sense_7727" corresp="variants.xml#type_17167">rome</w>
           <w xml:id="GMV_15_3">in</w>
           <w xml:id="GMV_15_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="GMV_15_5">stat</w>
+          <w xml:id="GMV_15_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         </l>
         <l n="16">
           <w xml:id="GMV_16_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
@@ -588,7 +589,7 @@
           <w xml:id="GMV_52_3" lemmaRef="lexicon.xml#lemma_758" pos="NOM ADJ" ana="lexicon.xml#lemma_758_sense_1235" corresp="variants.xml#type_38134">blinder</w>
           <w xml:id="GMV_52_4">in</w>
           <w xml:id="GMV_52_5" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="GMV_52_6">stat</w>
+          <w xml:id="GMV_52_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="GMV_52_7" join="left">,</pc>
         </l>
         <l n="53">
@@ -1288,7 +1289,7 @@
           <w xml:id="GMV_137_2" lemmaRef="lexicon.xml#lemma_7166" pos="NOM" corresp="variants.xml#type_25442">volke</w>
           <w xml:id="GMV_137_3">in</w>
           <w xml:id="GMV_137_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="GMV_137_5">stat</w>
+          <w xml:id="GMV_137_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="GMV_137_6" join="left">.</pc>
         </l>
         <l n="138">
@@ -1386,7 +1387,7 @@
           <w xml:id="GMV_151_2" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
           <w xml:id="GMV_151_3" lemmaRef="lexicon.xml#lemma_5176" pos="NOM" ana="lexicon.xml#lemma_5176_sense_8047" corresp="variants.xml#type_17960">schanden</w>
           <w xml:id="GMV_151_4" lemmaRef="lexicon.xml#lemma_9265" pos="ART PRP" ana="lexicon.xml#lemma_9265_sense_9997" corresp="variants.xml#type_31491">uzer</w>
-          <w xml:id="GMV_151_5">stat</w>
+          <w xml:id="GMV_151_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="GMV_151_6" join="left">.</pc>
         </l>
         <l n="152">
@@ -1750,7 +1751,7 @@
           <w xml:id="GMV_199_2">alter</w>
           <w xml:id="GMV_199_3">an</w>
           <w xml:id="GMV_199_4">eine</w>
-          <w xml:id="GMV_199_5">stat</w>
+          <w xml:id="GMV_199_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="GMV_199_6" join="left">,</pc>
         </l>
         <l n="200">
@@ -2322,7 +2323,7 @@
           <w xml:id="GMV_271_5" pos="">-</w>
           <w xml:id="GMV_271_6" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
           <w xml:id="GMV_271_7" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="GMV_271_8">stat</w>
+          <w xml:id="GMV_271_8" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="GMV_271_9" join="left">.</pc>
         </l>
         <l n="272">

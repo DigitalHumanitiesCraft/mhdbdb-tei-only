@@ -133,6 +133,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 5 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -3537,7 +3538,7 @@
           <w xml:id="WDA_632_5" lemmaRef="lexicon.xml#lemma_1524" pos="NOM" ana="lexicon.xml#lemma_1524_sense_2366" corresp="variants.xml#type_5074">erbes</w>
           <w xml:id="WDA_632_6" lemmaRef="lexicon.xml#lemma_4368" pos="ADV" ana="lexicon.xml#lemma_4368_sense_6825" corresp="variants.xml#type_15249">nimmer</w>
           <w xml:id="WDA_632_7">halbe</w>
-          <w xml:id="WDA_632_8">stat</w>
+          <w xml:id="WDA_632_8" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="WDA_632_9" lemmaRef="lexicon.xml#lemma_1961" pos="VRB" ana="lexicon.xml#lemma_1961_sense_3008" corresp="variants.xml#type_6635">gegeben</w>
           <pc xml:id="WDA_632_10" join="left">.</pc>
         </l>
@@ -8129,7 +8130,7 @@
           <w xml:id="WDA_1463_2" lemmaRef="lexicon.xml#lemma_5507" pos="VRB" corresp="variants.xml#type_19225">gesaz</w>
           <w xml:id="WDA_1463_3" lemmaRef="lexicon.xml#lemma_199" pos="PRP" ana="lexicon.xml#lemma_199_sense_248" corresp="variants.xml#type_522">an</w>
           <w xml:id="WDA_1463_4" lemmaRef="lexicon.xml#lemma_1517" pos="POS" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_5011">sîne</w>
-          <w xml:id="WDA_1463_5">stat</w>
+          <w xml:id="WDA_1463_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="WDA_1463_6" join="left">,</pc>
         </l>
         <l n="4">
@@ -9269,7 +9270,7 @@
           <w xml:id="WDA_1674_5" lemmaRef="lexicon.xml#lemma_3507" pos="NOM" ana="lexicon.xml#lemma_3507_sense_5555" corresp="variants.xml#type_12143">künec</w>
           <w xml:id="WDA_1674_6" lemmaRef="lexicon.xml#lemma_199" pos="PRP" ana="lexicon.xml#lemma_199_sense_248" corresp="variants.xml#type_522">an</w>
           <w xml:id="WDA_1674_7" lemmaRef="lexicon.xml#lemma_1517" pos="POS" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_5011">sîne</w>
-          <w xml:id="WDA_1674_8">stat</w>
+          <w xml:id="WDA_1674_8" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="WDA_1674_9" join="left">.</pc>
         </l>
         </lg><lg type="stanza" n="168"><l n="1">
@@ -24770,7 +24771,7 @@
           <w xml:id="WDA_4484_8" lemmaRef="lexicon.xml#lemma_4368" pos="ADV" ana="lexicon.xml#lemma_4368_sense_6825" corresp="variants.xml#type_15249">nimmer</w>
           <w xml:id="WDA_4484_9" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
           <w xml:id="WDA_4484_10" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="WDA_4484_11">stat</w>
+          <w xml:id="WDA_4484_11" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="WDA_4484_12" join="left">.</pc>
         </l>
         </lg><lg type="stanza" n="449"><l n="1">
@@ -26433,7 +26434,7 @@
           <w xml:id="WDA_4794_3" lemmaRef="lexicon.xml#lemma_6535" pos="NOM ADJ NEG" corresp="variants.xml#type_22999">ungemache</w>
           <w xml:id="WDA_4794_4" lemmaRef="lexicon.xml#lemma_199" pos="PRP" ana="lexicon.xml#lemma_199_sense_248" corresp="variants.xml#type_522">an</w>
           <w xml:id="WDA_4794_5" lemmaRef="lexicon.xml#lemma_1169" pos="DET" ana="lexicon.xml#lemma_1169_sense_1850" corresp="variants.xml#type_3688">dise</w>
-          <w xml:id="WDA_4794_6">stat</w>
+          <w xml:id="WDA_4794_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="WDA_4794_7" lemmaRef="lexicon.xml#lemma_3573" pos="VRB" corresp="variants.xml#type_12480">geladen</w>
           <pc xml:id="WDA_4794_8" join="left">.</pc>
         </l>

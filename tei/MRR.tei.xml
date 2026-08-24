@@ -146,6 +146,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 3 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -1112,7 +1113,7 @@
           <w xml:id="MRR_120_2">grabe</w>
           <w xml:id="MRR_120_3">an</w>
           <w xml:id="MRR_120_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="MRR_120_5">stat</w>
+          <w xml:id="MRR_120_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="MRR_120_6" join="left">:</pc>
         </l>
         <l n="121">
@@ -1186,7 +1187,7 @@
         </l>
         <l n="129">
           <w xml:id="MRR_129_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3567">di</w>
-          <w xml:id="MRR_129_1">stat</w>
+          <w xml:id="MRR_129_1" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="MRR_129_2" join="left">,</pc>
           <w xml:id="MRR_129_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3567">di</w>
           <w xml:id="MRR_129_4" lemmaRef="lexicon.xml#lemma_7857" pos="NOM" ana="lexicon.xml#lemma_7857_sense_12879" corresp="variants.xml#type_28470">zit</w>
@@ -1636,7 +1637,7 @@
           <w xml:id="MRR_185_1" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_31260">zu</w>
           <w xml:id="MRR_185_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
           <w xml:id="MRR_185_3" lemmaRef="lexicon.xml#lemma_3830" pos="VRB" corresp="variants.xml#type_13359">gelobten</w>
-          <w xml:id="MRR_185_4">stat</w>
+          <w xml:id="MRR_185_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="MRR_185_5" join="left">.</pc>
         </l>
         <l n="186">

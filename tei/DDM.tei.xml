@@ -144,6 +144,7 @@
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 2 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 4 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -202,7 +203,7 @@
             <w xml:id="DDM_7_0">in</w>
           </hi>
           <w xml:id="DDM_7_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="DDM_7_2">stat</w>
+          <w xml:id="DDM_7_2" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="DDM_7_3" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_28131">ze</w>
           <w xml:id="DDM_7_4" lemmaRef="lexicon.xml#lemma_20280" pos="NAM" ana="lexicon.xml#lemma_20280_sense_33745" corresp="variants.xml#type_198373">kolmar</w>
           <w xml:id="DDM_7_5" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3256">dâ</w>
@@ -1184,7 +1185,7 @@
           <w xml:id="DDM_119_2" lemmaRef="lexicon.xml#lemma_35" pos="ADV CNJ" ana="lexicon.xml#lemma_35_sense_48" corresp="variants.xml#type_98">aber</w>
           <w xml:id="DDM_119_3" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3256">dâ</w>
           <w xml:id="DDM_119_4" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_28131">ze</w>
-          <w xml:id="DDM_119_5">stat</w>
+          <w xml:id="DDM_119_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="DDM_119_6" join="left">.</pc>
         </l>
         <l n="120">
@@ -1282,7 +1283,7 @@
           <w xml:id="DDM_129_2" lemmaRef="lexicon.xml#lemma_2933" pos="NOM" corresp="variants.xml#type_9990">hûs</w>
           <w xml:id="DDM_129_3" lemmaRef="lexicon.xml#lemma_5038" pos="ADV INJ" ana="lexicon.xml#lemma_5038_sense_7835" corresp="variants.xml#type_17448">sâ</w>
           <w xml:id="DDM_129_4" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_28131">ze</w>
-          <w xml:id="DDM_129_5">stat</w>
+          <w xml:id="DDM_129_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         </l>
         <l n="130">
           <w xml:id="DDM_130_0">in</w>
@@ -2778,7 +2779,7 @@
           <w xml:id="DDM_302_2">nam</w>
           <w xml:id="DDM_302_3" lemmaRef="lexicon.xml#lemma_5038" pos="ADV INJ" ana="lexicon.xml#lemma_5038_sense_7835" corresp="variants.xml#type_17448">sâ</w>
           <w xml:id="DDM_302_4" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_28131">ze</w>
-          <w xml:id="DDM_302_5">stat</w>
+          <w xml:id="DDM_302_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         </l>
         <l n="303">
           <w xml:id="DDM_303_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>

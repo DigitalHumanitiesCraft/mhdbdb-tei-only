@@ -131,6 +131,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 6 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -245,7 +246,7 @@
             <w xml:id="ALX_1470080_1" lemmaRef="lexicon.xml#lemma_4318" pos="NOM" corresp="variants.xml#type_65692">nature</w>
             <w xml:id="ALX_1470080_2">wâ</w>
             <w xml:id="ALX_1470080_3">si</w>
-            <w xml:id="ALX_1470080_4">stât</w>
+            <w xml:id="ALX_1470080_4" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20048">stât</w>
             <pc xml:id="ALX_1470080_5" join="left">.</pc>
           </l>
           <l n="9">
@@ -369,7 +370,7 @@
             </hi>
             <w xml:id="ALX_1470190_4">in</w>
             <w xml:id="ALX_1470190_5" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-            <w xml:id="ALX_1470190_6">stat</w>
+            <w xml:id="ALX_1470190_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           </l>
           <l n="20">
             <hi rend="initial upper_case_first_letter">
@@ -994,7 +995,7 @@
                 <w xml:id="ALX_1490810_0">in</w>
               </hi>
             <w xml:id="ALX_1490810_1">di</w>
-            <w xml:id="ALX_1490810_2">stat</w>
+            <w xml:id="ALX_1490810_2" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <hi rend="upper_case_first_letter">
               <w xml:id="ALX_1490810_3" lemmaRef="lexicon.xml#lemma_1312" pos="NAM" ana="lexicon.xml#lemma_1312_sense_2046" corresp="variants.xml#type_317510">edissen</w>
             </hi>
@@ -1411,7 +1412,7 @@
             <w xml:id="ALX_1501230_2" lemmaRef="lexicon.xml#lemma_3400" pos="VRB" ana="lexicon.xml#lemma_3400_sense_5361" corresp="variants.xml#type_41212">chomen</w>
             <w xml:id="ALX_1501230_3">in</w>
             <w xml:id="ALX_1501230_4">di</w>
-            <w xml:id="ALX_1501230_5">stat</w>
+            <w xml:id="ALX_1501230_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           </l>
           <l n="124">
             <hi rend="initial upper_case_first_letter">
@@ -1606,7 +1607,7 @@
             </hi>
             <w xml:id="ALX_1511430_3">in</w>
             <w xml:id="ALX_1511430_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-            <w xml:id="ALX_1511430_5">stat</w>
+            <w xml:id="ALX_1511430_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           </l>
           <l n="144">
             <hi rend="initial upper_case_first_letter">
@@ -1954,7 +1955,7 @@
             <w xml:id="ALX_1521780_2">sprach</w>
             <w xml:id="ALX_1521780_3">an</w>
             <w xml:id="ALX_1521780_4" lemmaRef="lexicon.xml#lemma_70734" pos="ADJ" corresp="variants.xml#type_350517">stênder</w>
-            <w xml:id="ALX_1521780_5">stat</w>
+            <w xml:id="ALX_1521780_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           </l>
           <l n="179">
             <hi rend="initial upper_case_first_letter">

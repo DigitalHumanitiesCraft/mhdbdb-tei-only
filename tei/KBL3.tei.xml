@@ -133,6 +133,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 7 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -1564,7 +1565,7 @@
             <w xml:id="KBL3_21282030_1">in</w>
             <w xml:id="KBL3_21282030_2">an</w>
             <w xml:id="KBL3_21282030_3">dy</w>
-            <w xml:id="KBL3_21282030_4">stat</w>
+            <w xml:id="KBL3_21282030_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <pc xml:id="KBL3_21282030_5" join="left">.</pc>
           </p>
         </div>
@@ -1633,7 +1634,7 @@
             <w xml:id="KBL3_23282010_5" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3397">das</w>
             <w xml:id="KBL3_23282010_6">an</w>
             <w xml:id="KBL3_23282010_7">dy</w>
-            <w xml:id="KBL3_23282010_8">stat</w>
+            <w xml:id="KBL3_23282010_8" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <pc xml:id="KBL3_23282010_9" join="left">.</pc>
             <lb n="2"/>
             <hi rend="initial">
@@ -3092,7 +3093,7 @@
             <w xml:id="KBL3_45962020_5" lemmaRef="lexicon.xml#lemma_1073" pos="ADV" ana="lexicon.xml#lemma_1073_sense_1716" corresp="variants.xml#type_3322">dann</w>
             <w xml:id="KBL3_45962020_6">an</w>
             <w xml:id="KBL3_45962020_7">dy</w>
-            <w xml:id="KBL3_45962020_8">stat</w>
+            <w xml:id="KBL3_45962020_8" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <w xml:id="KBL3_45962020_9" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
             <w xml:id="KBL3_45962020_10" lemmaRef="lexicon.xml#lemma_4330" pos="VRB" corresp="variants.xml#type_15091">nim</w>
             <w xml:id="KBL3_45962020_11">ein</w>
@@ -3305,7 +3306,7 @@
             <w xml:id="KBL3_48962050_4" lemmaRef="lexicon.xml#lemma_21151" pos="VRB" ana="lexicon.xml#lemma_21151_sense_34726" corresp="variants.xml#type_131753">pachen</w>
             <w xml:id="KBL3_48962050_5">an</w>
             <w xml:id="KBL3_48962050_6">dy</w>
-            <w xml:id="KBL3_48962050_7">stat</w>
+            <w xml:id="KBL3_48962050_7" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <w xml:id="KBL3_48962050_8" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
             <w xml:id="KBL3_48962050_9">tu</w>
             <w xml:id="KBL3_48962050_10">es</w>
@@ -3430,7 +3431,7 @@
             <w xml:id="KBL3_50962020_6">sy</w>
             <w xml:id="KBL3_50962020_7">an</w>
             <w xml:id="KBL3_50962020_8">dy</w>
-            <w xml:id="KBL3_50962020_9">stat</w>
+            <w xml:id="KBL3_50962020_9" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <w xml:id="KBL3_50962020_10" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
             <w xml:id="KBL3_50962020_11" lemmaRef="lexicon.xml#lemma_5783" pos="VRB" corresp="variants.xml#type_129412">stoss</w>
             <w xml:id="KBL3_50962020_12">in</w>
@@ -3478,7 +3479,7 @@
             <w xml:id="KBL3_50962050_10">in</w>
             <w xml:id="KBL3_50962050_11">an</w>
             <w xml:id="KBL3_50962050_12">dy</w>
-            <w xml:id="KBL3_50962050_13">stat</w>
+            <w xml:id="KBL3_50962050_13" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <w xml:id="KBL3_50962050_14" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
             <lb n="6"/>
             <w xml:id="KBL3_50962060_0" lemmaRef="lexicon.xml#lemma_445" pos="VRB" ana="lexicon.xml#lemma_445_sense_611" corresp="variants.xml#type_272169">pegews</w>
@@ -3519,7 +3520,7 @@
             <w xml:id="KBL3_51962020_3" lemmaRef="lexicon.xml#lemma_5458" pos="VRB" ana="lexicon.xml#lemma_5458_sense_8511" corresp="variants.xml#type_19060">gesoten</w>
             <w xml:id="KBL3_51962020_4">an</w>
             <w xml:id="KBL3_51962020_5">dy</w>
-            <w xml:id="KBL3_51962020_6">stat</w>
+            <w xml:id="KBL3_51962020_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <pc xml:id="KBL3_51962020_7" join="left">,</pc>
             <w xml:id="KBL3_51962020_8" lemmaRef="lexicon.xml#lemma_18120" pos="VRB" corresp="variants.xml#type_176906">treibs</w>
             <w xml:id="KBL3_51962020_9" lemmaRef="lexicon.xml#lemma_1258" pos="PRP" ana="lexicon.xml#lemma_1258_sense_1977" corresp="variants.xml#type_4044">durch</w>

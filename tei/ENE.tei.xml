@@ -130,6 +130,7 @@
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 74 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/). 60 weitere Tokens der Form minne blieben bewusst unannotiert (Review).</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 32 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/). 2 weitere Tokens der Form stat blieben bewusst unannotiert (Review).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -2471,7 +2472,7 @@
           <w xml:id="ENE_3140_3" lemmaRef="lexicon.xml#lemma_6879" pos="VRB" ana="lexicon.xml#lemma_6879_sense_10998" corresp="variants.xml#type_24201">verkoufte</w>
           <w xml:id="ENE_3140_4" lemmaRef="lexicon.xml#lemma_199" pos="PRP" ana="lexicon.xml#lemma_199_sense_248" corresp="variants.xml#type_522">an</w>
           <w xml:id="ENE_3140_5" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4323">einer</w>
-          <w xml:id="ENE_3140_6">stat</w>
+          <w xml:id="ENE_3140_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         </l>
         <l n="315">
           <w xml:id="ENE_3150_0" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4320">eine</w>
@@ -3389,7 +3390,7 @@
         <l n="439">
           <w xml:id="ENE_4390_0" lemmaRef="lexicon.xml#lemma_6359" pos="PRP" ana="lexicon.xml#lemma_6359_sense_10020" corresp="variants.xml#type_41890">uber</w>
           <w xml:id="ENE_4390_1" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="ENE_4390_2">stat</w>
+          <w xml:id="ENE_4390_2" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="ENE_4390_3" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
           <w xml:id="ENE_4390_4" lemmaRef="lexicon.xml#lemma_6359" pos="PRP" ana="lexicon.xml#lemma_6359_sense_10020" corresp="variants.xml#type_41890">uber</w>
           <w xml:id="ENE_4390_5" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
@@ -6018,7 +6019,7 @@
           <w xml:id="ENE_7830_0" lemmaRef="lexicon.xml#lemma_3011" pos="ADV" ana="lexicon.xml#lemma_3011_sense_4815" corresp="variants.xml#type_10288">iender</w>
           <w xml:id="ENE_7830_1" lemmaRef="lexicon.xml#lemma_199" pos="PRP" ana="lexicon.xml#lemma_199_sense_248" corresp="variants.xml#type_522">an</w>
           <w xml:id="ENE_7830_2" lemmaRef="lexicon.xml#lemma_1109" pos="ADJ NEG" ana="lexicon.xml#lemma_1109_sense_1759" corresp="variants.xml#type_3446">deheiner</w>
-          <w xml:id="ENE_7830_3">stat</w>
+          <w xml:id="ENE_7830_3" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="ENE_7830_4" join="left">.</pc>
         </l>
         <l n="784">
@@ -6918,7 +6919,7 @@
           <w xml:id="ENE_9050_1" lemmaRef="lexicon.xml#lemma_5507" pos="VRB" corresp="variants.xml#type_79939">gesezen</w>
           <w xml:id="ENE_9050_2" lemmaRef="lexicon.xml#lemma_199" pos="PRP" ana="lexicon.xml#lemma_199_sense_248" corresp="variants.xml#type_522">an</w>
           <w xml:id="ENE_9050_3" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4319">ein</w>
-          <w xml:id="ENE_9050_4">stat</w>
+          <w xml:id="ENE_9050_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="ENE_9050_5" join="left">.</pc>
         </l>
         <l n="906">
@@ -14133,7 +14134,7 @@
           <w xml:id="ENE_18450_1" lemmaRef="lexicon.xml#lemma_5280" pos="NOM ADJ ADV" ana="lexicon.xml#lemma_5280_sense_8229" corresp="variants.xml#type_288131">schône</w>
           <w xml:id="ENE_18450_2">was</w>
           <w xml:id="ENE_18450_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
-          <w xml:id="ENE_18450_4">stat</w>
+          <w xml:id="ENE_18450_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="ENE_18450_5" join="left">.</pc>
         </l>
         <l n="1846">
@@ -17787,7 +17788,7 @@
           <w xml:id="ENE_23070_0" lemmaRef="lexicon.xml#lemma_199" pos="PRP" ana="lexicon.xml#lemma_199_sense_248" corresp="variants.xml#type_522">an</w>
           <w xml:id="ENE_23070_1" lemmaRef="lexicon.xml#lemma_3001" pos="POS" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10222">mîner</w>
           <w xml:id="ENE_23070_2" lemmaRef="lexicon.xml#lemma_5970" pos="NOM" corresp="variants.xml#type_21055">swester</w>
-          <w xml:id="ENE_23070_3">stat</w>
+          <w xml:id="ENE_23070_3" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="ENE_23070_4" join="left">.</pc>
         </l>
         <l n="2308">
@@ -20621,7 +20622,7 @@
           <w xml:id="ENE_26770_0" lemmaRef="lexicon.xml#lemma_1586" pos="VRB" corresp="variants.xml#type_126973">irkôs</w>
           <w xml:id="ENE_26770_1">her</w>
           <w xml:id="ENE_26770_2" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4320">eine</w>
-          <w xml:id="ENE_26770_3">stat</w>
+          <w xml:id="ENE_26770_3" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="ENE_26770_4" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3256">dâ</w>
         </l>
         <l n="2678">
@@ -21634,7 +21635,7 @@
         <l n="2813">
           <w xml:id="ENE_28130_0" lemmaRef="lexicon.xml#lemma_199" pos="PRP" ana="lexicon.xml#lemma_199_sense_248" corresp="variants.xml#type_522">an</w>
           <w xml:id="ENE_28130_1" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="ENE_28130_2">stat</w>
+          <w xml:id="ENE_28130_2" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="ENE_28130_3" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3256">dâ</w>
           <w xml:id="ENE_28130_4" lemmaRef="lexicon.xml#lemma_1762" pos="PRO" ana="lexicon.xml#lemma_1762_sense_2752" corresp="variants.xml#type_6021">ez</w>
           <w xml:id="ENE_28130_5" lemmaRef="lexicon.xml#lemma_1762" pos="PRO" ana="lexicon.xml#lemma_1762_sense_2752" corresp="variants.xml#type_6024">is</w>
@@ -21686,7 +21687,7 @@
           <w xml:id="ENE_28200_0" lemmaRef="lexicon.xml#lemma_199" pos="PRP" ana="lexicon.xml#lemma_199_sense_248" corresp="variants.xml#type_522">an</w>
           <w xml:id="ENE_28200_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
           <w xml:id="ENE_28200_2" lemmaRef="lexicon.xml#lemma_5385" pos="ADJ" ana="lexicon.xml#lemma_5385_sense_8406" corresp="variants.xml#type_18769">selben</w>
-          <w xml:id="ENE_28200_3">stat</w>
+          <w xml:id="ENE_28200_3" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="ENE_28200_4" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20044">stân</w>
           <pc xml:id="ENE_28200_5" join="left">.</pc>
           <pc xml:id="ENE_28200_6" join="left">&gt;</pc>
@@ -21767,7 +21768,7 @@
           <w xml:id="ENE_28300_3">in</w>
           <w xml:id="ENE_28300_4" lemmaRef="lexicon.xml#lemma_199" pos="PRP" ana="lexicon.xml#lemma_199_sense_248" corresp="variants.xml#type_522">an</w>
           <w xml:id="ENE_28300_5" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="ENE_28300_6">stat</w>
+          <w xml:id="ENE_28300_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         </l>
         <l n="2831">
           <w xml:id="ENE_28310_0" lemmaRef="lexicon.xml#lemma_4840" pos="NOM ADJ" corresp="variants.xml#type_16638">rehte</w>
@@ -24360,7 +24361,7 @@
         </l>
         <l n="3172">
           <w xml:id="ENE_31720_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
-          <w xml:id="ENE_31720_1">stat</w>
+          <w xml:id="ENE_31720_1" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="ENE_31720_2" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3256">dâ</w>
           <w xml:id="ENE_31720_3" lemmaRef="lexicon.xml#lemma_1242" pos="PRO" ana="lexicon.xml#lemma_1242_sense_1958" corresp="variants.xml#type_3967">dû</w>
           <w xml:id="ENE_31720_4">inne</w>
@@ -25843,7 +25844,7 @@
           <w xml:id="ENE_33690_2" lemmaRef="lexicon.xml#lemma_7459" pos="VRB" ana="lexicon.xml#lemma_7459_sense_12140" corresp="variants.xml#type_26863">weinen</w>
           <w xml:id="ENE_33690_3">in</w>
           <w xml:id="ENE_33690_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="ENE_33690_5">stat</w>
+          <w xml:id="ENE_33690_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="ENE_33690_6" join="left">.</pc>
         </l>
         <l n="3370">
@@ -27310,7 +27311,7 @@
           <w xml:id="ENE_35760_2">sie</w>
           <w xml:id="ENE_35760_3" lemmaRef="lexicon.xml#lemma_199" pos="PRP" ana="lexicon.xml#lemma_199_sense_248" corresp="variants.xml#type_522">an</w>
           <w xml:id="ENE_35760_4" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4320">eine</w>
-          <w xml:id="ENE_35760_5">stat</w>
+          <w xml:id="ENE_35760_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="ENE_35760_6" join="left">,</pc>
         </l>
         <l n="3577">
@@ -27351,7 +27352,7 @@
         </l>
         <l n="3582">
           <w xml:id="ENE_35820_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
-          <w xml:id="ENE_35820_1">stat</w>
+          <w xml:id="ENE_35820_1" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="ENE_35820_2" join="left">,</pc>
           <w xml:id="ENE_35820_3" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3256">dâ</w>
           <w xml:id="ENE_35820_4">hern</w>
@@ -30872,7 +30873,7 @@
           <w xml:id="ENE_40470_1" lemmaRef="lexicon.xml#lemma_2292" pos="VRB" corresp="variants.xml#type_7740">geviel</w>
           <w xml:id="ENE_40470_2" lemmaRef="lexicon.xml#lemma_1517" pos="PRO" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_32780">im</w>
           <w xml:id="ENE_40470_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
-          <w xml:id="ENE_40470_4">stat</w>
+          <w xml:id="ENE_40470_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="ENE_40470_5" join="left">.</pc>
         </l>
         <l n="4048">
@@ -40392,7 +40393,7 @@
           <w xml:id="ENE_53210_2">sie</w>
           <w xml:id="ENE_53210_3" lemmaRef="lexicon.xml#lemma_199" pos="PRP" ana="lexicon.xml#lemma_199_sense_248" corresp="variants.xml#type_522">an</w>
           <w xml:id="ENE_53210_4" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4320">eine</w>
-          <w xml:id="ENE_53210_5">stat</w>
+          <w xml:id="ENE_53210_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         </l>
         <l n="5322">
           <w xml:id="ENE_53220_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
@@ -42442,7 +42443,7 @@
           <w xml:id="ENE_55900_2" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" ana="lexicon.xml#lemma_5710_sense_8947" corresp="variants.xml#type_85310">stunt</w>
           <w xml:id="ENE_55900_3" lemmaRef="lexicon.xml#lemma_199" pos="PRP" ana="lexicon.xml#lemma_199_sense_248" corresp="variants.xml#type_522">an</w>
           <w xml:id="ENE_55900_4" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4323">einer</w>
-          <w xml:id="ENE_55900_5">stat</w>
+          <w xml:id="ENE_55900_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         </l>
         <l n="5591">
           <w xml:id="ENE_55910_0" lemmaRef="lexicon.xml#lemma_6330" pos="ADV PRP" ana="lexicon.xml#lemma_6330_sense_9973" corresp="variants.xml#type_22474">ûf</w>
@@ -47301,7 +47302,7 @@
           <w xml:id="ENE_62430_2" lemmaRef="lexicon.xml#lemma_4970" pos="NAM" ana="lexicon.xml#lemma_4970_sense_7727" corresp="variants.xml#type_17157">rôme</w>
           <w xml:id="ENE_62430_3" lemmaRef="lexicon.xml#lemma_199" pos="PRP" ana="lexicon.xml#lemma_199_sense_248" corresp="variants.xml#type_522">an</w>
           <w xml:id="ENE_62430_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="ENE_62430_5">stat</w>
+          <w xml:id="ENE_62430_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="ENE_62430_6" join="left">.</pc>
         </l>
         <l n="6244">
@@ -48344,7 +48345,7 @@
           <w xml:id="ENE_63880_0" lemmaRef="lexicon.xml#lemma_4389" pos="ADV CNJ" ana="lexicon.xml#lemma_4389_sense_6850" corresp="variants.xml#type_15322">niewan</w>
           <w xml:id="ENE_63880_1" lemmaRef="lexicon.xml#lemma_199" pos="PRP" ana="lexicon.xml#lemma_199_sense_248" corresp="variants.xml#type_522">an</w>
           <w xml:id="ENE_63880_2" lemmaRef="lexicon.xml#lemma_1334" pos="ADJ" ana="lexicon.xml#lemma_1334_sense_2071" corresp="variants.xml#type_32751">einiger</w>
-          <w xml:id="ENE_63880_3">stat</w>
+          <w xml:id="ENE_63880_3" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="ENE_63880_4" join="left">,</pc>
         </l>
         <l n="6389">
@@ -48498,7 +48499,7 @@
         <l n="6409">
           <w xml:id="ENE_64090_0" lemmaRef="lexicon.xml#lemma_1109" pos="ADJ NEG" ana="lexicon.xml#lemma_1109_sense_1759" corresp="variants.xml#type_3442">dehein</w>
           <w xml:id="ENE_64090_1" lemmaRef="lexicon.xml#lemma_8902" pos="ADJ NEG" corresp="variants.xml#type_30487">unveste</w>
-          <w xml:id="ENE_64090_2">stat</w>
+          <w xml:id="ENE_64090_2" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="ENE_64090_3" join="left">.</pc>
         </l>
         <l n="6410">
@@ -52052,7 +52053,7 @@
           <w xml:id="ENE_68820_2">sie</w>
           <w xml:id="ENE_68820_3" lemmaRef="lexicon.xml#lemma_199" pos="PRP" ana="lexicon.xml#lemma_199_sense_248" corresp="variants.xml#type_522">an</w>
           <w xml:id="ENE_68820_4" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4320">eine</w>
-          <w xml:id="ENE_68820_5">stat</w>
+          <w xml:id="ENE_68820_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="ENE_68820_6" join="left">,</pc>
         </l>
         <l n="6883">
@@ -52806,7 +52807,7 @@
           <w xml:id="ENE_69850_2" lemmaRef="lexicon.xml#lemma_897" pos="NOM" ana="lexicon.xml#lemma_897_sense_1475" corresp="variants.xml#type_2838">brucke</w>
           <w xml:id="ENE_69850_3" lemmaRef="lexicon.xml#lemma_199" pos="PRP" ana="lexicon.xml#lemma_199_sense_248" corresp="variants.xml#type_522">an</w>
           <w xml:id="ENE_69850_4" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4320">eine</w>
-          <w xml:id="ENE_69850_5">stat</w>
+          <w xml:id="ENE_69850_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="ENE_69850_6" join="left">.</pc>
         </l>
         <l n="6986">
@@ -54521,7 +54522,7 @@
           <w xml:id="ENE_72150_2">porte</w>
           <w xml:id="ENE_72150_3" lemmaRef="lexicon.xml#lemma_199" pos="PRP" ana="lexicon.xml#lemma_199_sense_248" corresp="variants.xml#type_522">an</w>
           <w xml:id="ENE_72150_4" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4320">eine</w>
-          <w xml:id="ENE_72150_5">stat</w>
+          <w xml:id="ENE_72150_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="ENE_72150_6" join="left">.</pc>
         </l>
         <l n="7216">
@@ -63605,7 +63606,7 @@
           <w xml:id="ENE_84340_1" lemmaRef="lexicon.xml#lemma_29293" pos="NAM" ana="lexicon.xml#lemma_29293_sense_45986" corresp="variants.xml#type_145886">laurente</w>
           <w xml:id="ENE_84340_2" lemmaRef="lexicon.xml#lemma_199" pos="PRP" ana="lexicon.xml#lemma_199_sense_248" corresp="variants.xml#type_522">an</w>
           <w xml:id="ENE_84340_3" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4320">eine</w>
-          <w xml:id="ENE_84340_4">stat</w>
+          <w xml:id="ENE_84340_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="ENE_84340_5" join="left">.</pc>
         </l>
         <l n="8435">
@@ -66199,7 +66200,7 @@
         <l n="8771">
           <w xml:id="ENE_87710_0" lemmaRef="lexicon.xml#lemma_7194" pos="ADV PRP" ana="lexicon.xml#lemma_7194_sense_11657" corresp="variants.xml#type_25545">vor</w>
           <w xml:id="ENE_87710_1" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="ENE_87710_2">stat</w>
+          <w xml:id="ENE_87710_2" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="ENE_87710_3" lemmaRef="lexicon.xml#lemma_199" pos="PRP" ana="lexicon.xml#lemma_199_sense_248" corresp="variants.xml#type_522">an</w>
           <w xml:id="ENE_87710_4" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
           <w xml:id="ENE_87710_5" lemmaRef="lexicon.xml#lemma_6797" pos="NOM" corresp="variants.xml#type_23823">velt</w>
@@ -66717,7 +66718,7 @@
         <l n="8843">
           <w xml:id="ENE_88430_0" lemmaRef="lexicon.xml#lemma_199" pos="PRP" ana="lexicon.xml#lemma_199_sense_248" corresp="variants.xml#type_522">an</w>
           <w xml:id="ENE_88430_1" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4320">eine</w>
-          <w xml:id="ENE_88430_2">stat</w>
+          <w xml:id="ENE_88430_2" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="ENE_88430_3" join="left">,</pc>
           <w xml:id="ENE_88430_4" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
           <w xml:id="ENE_88430_5" lemmaRef="lexicon.xml#lemma_7672" pos="VRB" corresp="variants.xml#type_27768">weiz</w>
@@ -69511,7 +69512,7 @@
           <w xml:id="ENE_92190_1" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4320">eine</w>
           <w xml:id="ENE_92190_2" lemmaRef="lexicon.xml#lemma_7075" pos="ADJ" ana="lexicon.xml#lemma_7075_sense_11459" corresp="variants.xml#type_25009">vile</w>
           <w xml:id="ENE_92190_3" lemmaRef="lexicon.xml#lemma_5280" pos="NOM ADJ ADV" ana="lexicon.xml#lemma_5280_sense_8229" corresp="variants.xml#type_288131">schône</w>
-          <w xml:id="ENE_92190_4">stat</w>
+          <w xml:id="ENE_92190_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="ENE_92190_5" join="left">,</pc>
         </l>
         <l n="9220">
@@ -69922,7 +69923,7 @@
           <w xml:id="ENE_92750_1" lemmaRef="lexicon.xml#lemma_1517" pos="POS" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_5015">sînes</w>
           <w xml:id="ENE_92750_2" lemmaRef="lexicon.xml#lemma_3765" pos="ADJ" ana="lexicon.xml#lemma_3765_sense_5955" corresp="variants.xml#type_13111">liebes</w>
           <w xml:id="ENE_92750_3" lemmaRef="lexicon.xml#lemma_7246" pos="NOM" ana="lexicon.xml#lemma_7246_sense_15237" corresp="variants.xml#type_141966">frundes</w>
-          <w xml:id="ENE_92750_4">stat</w>
+          <w xml:id="ENE_92750_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="ENE_92750_5" join="left">.</pc>
         </l>
         <l n="9276">
@@ -70826,7 +70827,7 @@
           <w xml:id="ENE_93950_2" lemmaRef="lexicon.xml#lemma_6045" pos="NOM" ana="lexicon.xml#lemma_6045_sense_9568" corresp="variants.xml#type_218745">templô</w>
           <w xml:id="ENE_93950_3" lemmaRef="lexicon.xml#lemma_199" pos="PRP" ana="lexicon.xml#lemma_199_sense_248" corresp="variants.xml#type_522">an</w>
           <w xml:id="ENE_93950_4" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4319">ein</w>
-          <w xml:id="ENE_93950_5">stat</w>
+          <w xml:id="ENE_93950_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="ENE_93950_6" join="left">,</pc>
         </l>
         <l n="9396">
@@ -70987,7 +70988,7 @@
         <l n="9417">
           <w xml:id="ENE_94170_0" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4320">eine</w>
           <w xml:id="ENE_94170_1" lemmaRef="lexicon.xml#lemma_5498" pos="ADJ" ana="lexicon.xml#lemma_5498_sense_8568" corresp="variants.xml#type_74032">sinwelle</w>
-          <w xml:id="ENE_94170_2">stat</w>
+          <w xml:id="ENE_94170_2" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="ENE_94170_3" join="left">,</pc>
         </l>
         <l n="9418">
@@ -82793,7 +82794,7 @@
           <w xml:id="ENE_109120_2" lemmaRef="lexicon.xml#lemma_2682" pos="ADJ" corresp="variants.xml#type_9013">hêren</w>
           <w xml:id="ENE_109120_3" lemmaRef="lexicon.xml#lemma_199" pos="PRP" ana="lexicon.xml#lemma_199_sense_248" corresp="variants.xml#type_522">an</w>
           <w xml:id="ENE_109120_4" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4320">eine</w>
-          <w xml:id="ENE_109120_5">stat</w>
+          <w xml:id="ENE_109120_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="ENE_109120_6" join="left">.</pc>
         </l>
         <l n="10913">
@@ -97314,7 +97315,7 @@
           <w xml:id="ENE_127660_1" lemmaRef="lexicon.xml#lemma_29293" pos="NAM" ana="lexicon.xml#lemma_29293_sense_45986" corresp="variants.xml#type_145886">laurente</w>
           <w xml:id="ENE_127660_2" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_62925">zû</w>
           <w xml:id="ENE_127660_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="ENE_127660_4">stat</w>
+          <w xml:id="ENE_127660_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="ENE_127660_5" join="left">.</pc>
         </l>
         <l n="12767">
