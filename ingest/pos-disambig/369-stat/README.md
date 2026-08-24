@@ -209,6 +209,10 @@ schreibt.
 - Die Frage, ob das maskuline `stat` an `lemma_5712` (*stade*) angeschlossen wird oder ein
   eigenes Lemma bekommt. Ohne diese Entscheidung sind die 30 Fälle nicht annotierbar.
 - Der Fehltag `SKT_502140_4` (`stât` als Substantiv, `type_218598`), gefunden bei der
-  Sondierung und hier nur dokumentiert.
+  Sondierung. Er ist unmittelbar nach diesem Batch in einem eigenen PR korrigiert worden,
+  und zwar getrennt, weil er genau das auslöst, was der Batch nicht tut: der Beleg war
+  korpusweit der einzige seines Variantentyps, mit der Korrektur wird der Typ unbelegt,
+  `variants.xml` ändert sich und der Authority-Index braucht einen Bump. In diesem PR
+  hätte das die zentrale Aussage oben unwahr gemacht.
 - Serie 3 ff. nach der Priorisierungsliste aus PR #210 (*sere*, *not*, *nam*, *leit*,
   *rede*, *sach*, *rat* …).

@@ -549,6 +549,8 @@ Daraus folgt die eigentliche Regel in ADR-019: die beiden Schwellen sind nicht z
 
 **Sieben Skripte generisch statt serienspezifisch.** Serie 1 hinterließ `extract-216-minne.py`, `fix-216-minne.py` und `revisiondesc-216-minne.py`; Serie 2 hat daraus `extract-homograph.py`, `apply-homograph.py`, `revisiondesc-homograph.py` und vier weitere gemacht, die ihre Serienparameter aus einer `config.json` im Batch-Ordner ziehen. Serie 3 braucht damit keine Kopie mehr, sondern eine Konfigurationsdatei.
 
+**Ein einziges Token als eigener PR, und der Grund ist die Trennschärfe.** Bei der Sondierung fiel `SKT_502140_4` auf: `stât` als Substantiv annotiert, obwohl *mîn gedanc an ir vil hôhe stât* das Verb ist. Der Beleg war korpusweit der einzige seines Variantentyps `type_218598`, weshalb die Serie für das Paar `stât` plus Substantiv-Lemma gar keinen Bestands-Typ ansetzen konnte. Die Korrektur macht den Typ unbelegt und zieht damit `variants.xml`, den Authority-Index (1.9.0 auf 1.9.1) und beide Neubauten nach: genau die Schritte, die dieser Batch nachweislich nicht auslöst. **Ein Ein-Zeilen-Fix, der den abgeleiteten Layer anfasst, gehört nicht in einen PR, dessen zentrale Aussage lautet, dass er ihn nicht anfasst.** Als eigener PR unmittelbar danach kostet er zehn Minuten und lässt beide Aussagen wahr. Präzedenzfall für dieselbe Mechanik: 1.6.4, wo `variants.xml` den nur in HUG belegten Typ `type_195524` verlor.
+
 **Phase:** Betrieb, `claude/369-stat-serie2`. Schema-Stichprobe 9/10 (der eine Fail ist ADP aus der 30er-Baseline), Cross-Ref-Audit und `validate-indices.py` grün, Playwright 310/310.
 
 ## 2026-08-14 – #59: die Erklärung durfte nicht vor den Daten kommen

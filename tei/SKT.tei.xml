@@ -128,6 +128,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#369 Nachlauf: Fehltag SKT_502140_4 korrigiert. Die Form stât war als Substantiv stat (lemma_5732 NOM) annotiert, obwohl der Vers mîn gedanc an ir vil hôhe stât das Verb stân verlangt; jetzt lemma_5710 VRB mit dem Bestands-Typ type_20048. Die Sense-Referenz auf lemma_5732_sense_8998 ist ersatzlos entfallen, eine neue Zuordnung wäre kuratorisch. Der Beleg war korpusweit der einzige seines Variantentyps type_218598, der damit unbelegt wird.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -1923,7 +1924,7 @@
           <w xml:id="SKT_502140_1" lemmaRef="lexicon.xml#lemma_56116" pos="POS PRO" ana="lexicon.xml#lemma_56116_sense_90960" corresp="variants.xml#type_304869">ir</w>
           <w xml:id="SKT_502140_2" lemmaRef="lexicon.xml#lemma_7075" pos="ADJ ADV" ana="lexicon.xml#lemma_7075_sense_11459" corresp="variants.xml#type_25008">vil</w>
           <w xml:id="SKT_502140_3" lemmaRef="lexicon.xml#lemma_2866" pos="ADJ" ana="lexicon.xml#lemma_2866_sense_4596" corresp="variants.xml#type_9664">hôhe</w>
-          <w xml:id="SKT_502140_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" ana="lexicon.xml#lemma_5732_sense_8998" corresp="variants.xml#type_218598">stât</w>
+          <w xml:id="SKT_502140_4" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20048">stât</w>
           <pc xml:id="SKT_502140_5" join="left">.</pc>
         </l>
         </lg><lg type="stanza" n="21"><l n="1">
